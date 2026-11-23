@@ -36,6 +36,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/network/client_id.h"
 
 
 struct Ent_80103F68 { u8 pad[0x24]; };
@@ -111,7 +112,6 @@ void TLobby__sub_801041D8(void);
 }
 void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
 extern s32 local_client_id;
-extern s32 designated_client_id;
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off

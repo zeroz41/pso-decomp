@@ -12,6 +12,7 @@
 #include <string.h>
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 
 struct Seq_80212304 {
@@ -22,7 +23,6 @@ struct Seq_80212304 {
 
 extern "C" {
 f32 xz_distance_squared(void *, void *);
-extern s32 designated_client_id;
 extern s32 local_client_id;
 void *get_window_layout_position(s32);
 __declspec(section ".data") f32 member_name_window_pos[2] = {219.0f, 100.0f};

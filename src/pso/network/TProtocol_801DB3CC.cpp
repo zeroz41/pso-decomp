@@ -10,7 +10,6 @@ struct TRecvServerTime {
     s8 time_flags_high;
 };
 
-extern s32 lobby_state_flags;
 
 typedef void (*server_time_handler)(char *time);
 

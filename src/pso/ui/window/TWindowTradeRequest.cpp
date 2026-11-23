@@ -3,7 +3,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowTradeRequest.h"
 
-extern u8 trade_proposal_state;
 
 void TWindowTradeRequest::reset_trade() {
     if ((s32) trade_proposal_state == 2) {

@@ -73,6 +73,7 @@
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -152,7 +153,6 @@ void TLobby__sub_8029B2A4(void);
 void reset_globals(void);
 }
 void clear_floor_population();
-extern s32 designated_client_id;
 extern saddr game_protocol_instance;
 void init_scene_fog_system(void);
 void init_item_drop_tables(void);

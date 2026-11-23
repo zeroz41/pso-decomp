@@ -84,6 +84,7 @@
 #include "pso/camera/CameraHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 extern "C" {
 extern s32 local_client_id;
@@ -122,7 +123,6 @@ extern Vec *boss8_dragon_capture_points_out;
 extern s32 boss8_dragon_capture_flags;
 extern NJS_OBJECT *boss8_dragon_capture_model;
 extern TBoss8Dragon *boss8_dragon_main_instance;
-extern s32 designated_client_id;
 extern s32 boss8_dragon_breath_node;
 extern f32 boss8_dragon_visibility_distance;
 

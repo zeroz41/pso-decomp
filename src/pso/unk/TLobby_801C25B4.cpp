@@ -1,6 +1,7 @@
 #include "pso/ui/window/TWindowDuelResult.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "pso/network/client_id.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/map/TSetEvtDestroy.h"
@@ -74,7 +75,6 @@ u8 TLobby__sub_801C2614(void);
 s32 TLobby__sub_801C2678(void);
 extern s16 battle_event_second_table[];
 extern saddr local_client_id;
-extern s32 designated_client_id;
 s32 TLobby__sub_801C19D0(void *);
 u8 TLobby__sub_801D7100(void *);
 extern u8 lobby_rule_settings[];

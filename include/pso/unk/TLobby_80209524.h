@@ -23,4 +23,6 @@ s32 pick_random_slot__6TLobbyFPv(s16 *arg0);
 }
 // --- end of C functions
 
+extern s32 next_enemy_set_actor_id;
+
 #endif

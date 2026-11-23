@@ -9,6 +9,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/unk/TLobby_801461EC.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -104,7 +105,6 @@ void TLobby::apply_lobby_markers() {
     }
 }
 
-extern s32 net_session_mode;
 
 s32 TLobby::get_option_state() {
 

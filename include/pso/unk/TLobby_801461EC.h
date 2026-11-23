@@ -33,4 +33,6 @@ void get_link_state(s16 *state, s16 *reason);
 char *get_modem_phone_number(s32 idx);
 // --- end of C functions
 
+extern s32 net_session_mode;
+
 #endif

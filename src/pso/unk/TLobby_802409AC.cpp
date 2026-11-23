@@ -152,7 +152,6 @@ void TLobby__sub_80240F3C(SoundRequestVoice *);
 u32 sndFXStartParaInfo(u16, u8, u8, u8, Params_80240B64 *);
 u32 sndFXCheck(u32);
 extern s8 TLobby__data_805434A8[];
-extern s32 lobby_state_flags;
 void TLobby__sub_80241798(Sound_80241798 *arg0);
 }
 void calc_sound_spatial_params(SoundRequestVoice *);

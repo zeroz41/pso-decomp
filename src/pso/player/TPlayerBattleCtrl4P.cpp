@@ -44,6 +44,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 extern "C" s32 check_player_flag1__10TObjPlayerFv(void);
 
@@ -128,7 +129,6 @@ s64 OSGetTime(void);
 void obj_clear_flag30_20000(TObjBase *actor);
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
-extern s32 battle_ctrl_default_value;
 s32 set_player_team_id(void *, int);
 s32 fn_801D6D8C(void *, u8, int);
 s32 fn_801D726C(void *, s32);
@@ -152,7 +152,6 @@ void request_active_window_close(void);
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 extern s16 battle_event_second_table[];
 extern s32 local_client_id;
-extern s32 designated_client_id;
 void reset_cameras_to_actor(void *actor, s32 view_unused);
 s32 TPlayerBattleCtrl4P__init_flag;
 typedef struct Ctl_80310F10 Ctl_80310F10;

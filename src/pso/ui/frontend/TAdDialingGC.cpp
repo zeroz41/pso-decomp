@@ -20,13 +20,13 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/ControllerInput.h"
 #include <stdio.h>
+#include "pso/unk/TLobby_801461EC.h"
 
 struct Obj_803285C0 { u8 pad[0x20]; s32 mode; u8 pad2[0xC]; s16 state; };
 
 TAdDialingGC *TAdDialingGC__instance;
 extern "C" {
 s8 func_801A5E54__Fv();
-extern s32 net_session_mode;
 }
 
 struct Obj_80328874 { u8 pad[0x9C]; s32 state; };

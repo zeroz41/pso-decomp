@@ -150,6 +150,7 @@
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 // ---- TLobby_80104374.cpp
 
@@ -161,7 +162,6 @@ int fn_80077788(void);
 int fn_80077790(void);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 extern s32 local_client_id;
-extern s32 designated_client_id;
 s32 TItemDropSub__sub_80107B74();
 }
 

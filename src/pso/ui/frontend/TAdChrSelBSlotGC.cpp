@@ -24,6 +24,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby_801C25B4.h"
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
 // Plate positions of the four entries
@@ -42,7 +43,6 @@ extern "C" {
 s32 poll_memcard_result(saddr);
 s32 start_memcard_format(s32, s32, s32, s32, s32);
 s32 are_split_screen_battle_players_tied(void *);
-extern s32 battle_ctrl_default_value;
 extern TAdChrSelASlotGC *TAdChrSel__global_slot_data;
 }
 

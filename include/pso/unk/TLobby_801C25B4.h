@@ -90,4 +90,6 @@ extern TLobbyDuelResultTable duel_result_table;
 // Plays the result jingle and shows the duel result window for duration frames.
 void play_duel_result_stream(const char *file, saddr duration);
 
+extern s32 battle_ctrl_default_value;
+
 #endif

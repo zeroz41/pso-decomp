@@ -34,7 +34,6 @@ s32 distort_texture_wave_image(void *);
 s32 send_pso_data_long2__9TProtocolFcR17long_game_commandUl(void *, u32, void *, s32);
 }
 
-extern s32 designated_client_id;
 extern s32 TLobby__join_state_flag;
 extern void *game_protocol_instance;
 

@@ -32,6 +32,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
@@ -200,7 +201,6 @@ void play_effect_all_players__6TLobbyFPv(void*) {
 }
 
 
-extern s32 designated_client_id;
 
 u8 TLobby__sub_8029A16C(void) {
     return (u8) (local_client_id == designated_client_id);
