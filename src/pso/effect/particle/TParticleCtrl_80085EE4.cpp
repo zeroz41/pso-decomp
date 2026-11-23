@@ -137,18 +137,18 @@ void TUnk_8048E728::operator delete(void *p) {
 TUnk_8048E728::TUnk_8048E728(ParticleParam *src, TObject *parent) : TObject(parent) {
     f32 v;
     model = NULL;
-    unk_B4 = 0;
+    texlist = NULL;
     motion = NULL;
     motion_frame = 0.0f;
     unk_48 = 0.0f;
     color_base[0] = 0.0f;
     color_base[1] = 0.0f;
     color_base[2] = 0.0f;
-    unk_98 = 0;
-    m_9c = 0;
-    unk_A0 = 0;
-    m_a4 = 1.0f;
-    unk_A8 = 1.0f;
+    rot_x = 0;
+    rot_y = 0;
+    rot_z = 0;
+    scale_x = 1.0f;
+    scale_y = 1.0f;
     param = src;
     v = 0.0f;
     if (param->fade_in_end > 0.0f) {
@@ -161,8 +161,8 @@ TUnk_8048E728::TUnk_8048E728(ParticleParam *src, TObject *parent) : TObject(pare
     }
     fade_out_scale = v;
     sprite_index = find_particle_texture_index(param->sprite_id);
-    m_28 = 1.0f;
-    unk_2C = 1.0f;
+    size_x = 1.0f;
+    size_y = 1.0f;
     step.x = 0.0f;
     step.y = 0.0f;
     step.z = 0.0f;
@@ -174,13 +174,13 @@ TUnk_8048E728::TUnk_8048E728(ParticleParam *src, TObject *parent) : TObject(pare
     attach.x = 0.0f;
     attach.y = 0.0f;
     attach.z = 0.0f;
-    m_88 = 0.0f;
-    unk_8C = 0.0f;
+    draw_scale_x = 0.0f;
+    draw_scale_y = 0.0f;
     color = 0;
     frame = 0;
-    unk_95 = 0;
-    m_96 = 0;
-    unk_6C = 0;
+    screen_space = 0;
+    roll = 0;
+    draw_next = 0;
     flags = 0;
     target_id = 0xFFFF;
 }

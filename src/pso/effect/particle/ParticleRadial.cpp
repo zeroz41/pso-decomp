@@ -80,8 +80,8 @@ void TUnk_8048E7A8::run_task() {
     vec3_add_to(&pos, &step);
     fade_in = 1.0f;
     fade_out = fade_in;
-    m_28 *= param->scale_decay;
-    unk_2C *= param->scale_decay;
+    size_x *= param->scale_decay;
+    size_y *= param->scale_decay;
     age += age_rate;
     p = param;
     t[0] = age;
@@ -178,18 +178,18 @@ void TUnk_8048E7A8::render() {
         project_world_to_screen(NULL, &end, &end_screen.x);
         end_screen.x = end_screen.x - start_screen.x;
         end_screen.y = end_screen.y - start_screen.y;
-        m_96 = (s16)(10430.38043493439 * atan2_float(end_screen.y, end_screen.x));
-        m_88 = param->streak_width * len;
-        unk_8C = param->streak_height * len;
+        roll = (s16)(10430.38043493439 * atan2_float(end_screen.y, end_screen.x));
+        draw_scale_x = param->streak_width * len;
+        draw_scale_y = param->streak_height * len;
     } else {
-        m_88 = m_28;
-        unk_8C = unk_2C;
+        draw_scale_x = size_x;
+        draw_scale_y = size_y;
     }
-    m_88 = m_88 * m_a4;
-    unk_8C = unk_8C * unk_A8;
+    draw_scale_x = draw_scale_x * scale_x;
+    draw_scale_y = draw_scale_y * scale_y;
     draw_flags = flags;
     if (draw_flags & 0x200) {
-        if (((is_split_screen() == 0) || !(flags & 0x400)) && (unk_B4 != 0U) && (model != NULL)) {
+        if (((is_split_screen() == 0) || !(flags & 0x400)) && (texlist != NULL) && (model != NULL)) {
             ParticleAngles angles = radial_particle_zero_angles;
             Vec at;
             direction_to_rotation_xz((u8 *)&step, &angles.x, &angles.z);
@@ -202,7 +202,7 @@ void TUnk_8048E7A8::render() {
             }
             push_matrix();
             post_translate_matrix(&at.x);
-            scale_matrix(0, m_88, m_88, m_88);
+            scale_matrix(0, draw_scale_x, draw_scale_x, draw_scale_x);
             if (param->flags & 4) {
                 rotate_matrix_z(0, angles.z);
                 rotate_matrix_x(0, angles.x);
@@ -215,7 +215,7 @@ void TUnk_8048E7A8::render() {
             if (flags & 0x400) {
                 load_projected_texture_matrix(1.33f);
             }
-            rotate_matrix_y(0, m_96);
+            rotate_matrix_y(0, roll);
             if (flags & 0x400) {
                 setup_particle_tev(0);
             } else {
@@ -228,7 +228,7 @@ void TUnk_8048E7A8::render() {
                     apply_particle_model_fade_color(0);
                 }
             }
-            TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(unk_B4));
+            TObjFish::set_global_param(texlist);
             set_draw_list_mask(3);
             if (motion != NULL) {
                 draw_ginja_model_with_motion(model, motion, motion_frame);
@@ -249,10 +249,10 @@ void TUnk_8048E7A8::render() {
             return;
         }
         if (param->flags & 0x20) {
-            TParticleCtrl::append_node_to_tail((particle_sprites + 0x36)[sprite_index], &unk_6C);
+            TParticleCtrl::append_node_to_tail((particle_sprites + 0x36)[sprite_index], &draw_next);
             return;
         }
-        TParticleCtrl::append_node_to_tail(particle_sprites[sprite_index], &unk_6C);
+        TParticleCtrl::append_node_to_tail(particle_sprites[sprite_index], &draw_next);
     }
 }
 
@@ -273,14 +273,14 @@ TUnk_8048E7A8::TUnk_8048E7A8(u8 *entry, u8 *position, saddr parent, u16 particle
     pos.z = (src->spawn_spread.z * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->z;
     flags = particle_flags;
     if (flags & 0x80) {
-        unk_95 = 1;
+        screen_space = 1;
     }
     target_id = target;
     origin.x = at->x;
     origin.y = at->y;
     origin.z = at->z;
-    m_28 = (src->size_range * (3.0517578e-05f * (f32)rand())) + src->size_min;
-    unk_2C = m_28;
+    size_x = (src->size_range * (3.0517578e-05f * (f32)rand())) + src->size_min;
+    size_y = size_x;
     life = (s32)(((f32)src->life_range * (3.0517578e-05f * (f32)rand())) + (f32)src->life_min);
     if (src->flags & 1) {
         age_rate = 1.0f / (f32)particle_sprites[sprite_index]->definition->uv_count;
@@ -308,8 +308,8 @@ TUnk_8048E7A8::TUnk_8048E7A8(void *entry, void *position, void *parent)
     origin.x = at->x;
     origin.y = at->y;
     origin.z = at->z;
-    m_28 = (src->size_range * (3.0517578e-05f * (f32)rand())) + src->size_min;
-    unk_2C = m_28;
+    size_x = (src->size_range * (3.0517578e-05f * (f32)rand())) + src->size_min;
+    size_y = size_x;
     life = (s32)(((f32)src->life_range * (3.0517578e-05f * (f32)rand())) + (f32)src->life_min);
     if (src->flags & 1) {
         age_rate = 1.0f / (f32)particle_sprites[sprite_index]->definition->uv_count;

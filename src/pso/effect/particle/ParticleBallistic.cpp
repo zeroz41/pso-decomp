@@ -96,18 +96,18 @@ void TUnk_8048E778::run_task() {
     } else {
         if (flags & 2) {
             push_matrix_from(&identity_matrix);
-            rotate_matrix_x(0, unk_98);
-            rotate_matrix_y(0, m_9c);
-            rotate_matrix_z(0, unk_A0);
+            rotate_matrix_x(0, rot_x);
+            rotate_matrix_y(0, rot_y);
+            rotate_matrix_z(0, rot_z);
             rotate_vector_by_current_matrix(&step, &velocity);
             pop_matrix();
-        } else if (unk_98 == 0 && m_9c == 0 && unk_A0 == 0) {
+        } else if (rot_x == 0 && rot_y == 0 && rot_z == 0) {
             VecCopy(&velocity, &step);
         } else {
             push_matrix_from(&identity_matrix);
-            rotate_matrix_z(0, unk_A0);
-            rotate_matrix_x(0, unk_98);
-            rotate_matrix_y(0, m_9c);
+            rotate_matrix_z(0, rot_z);
+            rotate_matrix_x(0, rot_x);
+            rotate_matrix_y(0, rot_y);
             rotate_vector_by_current_matrix(&step, &velocity);
             pop_matrix();
         }
@@ -120,8 +120,8 @@ void TUnk_8048E778::run_task() {
     step.x *= param->speed_decay;
     step.z *= param->speed_decay;
     step.y += param->gravity;
-    m_28 *= param->scale_decay;
-    unk_2C *= param->scale_decay;
+    size_x *= param->scale_decay;
+    size_y *= param->scale_decay;
     age += age_rate;
     p = param;
     t[0] = age;
@@ -167,16 +167,16 @@ void TUnk_8048E778::run_task() {
     color = col.color;
     p = param;
     if (0.0f == p->gravity && 0.0f == p->rise_min && 0.0f == p->speed_min) {
-        m_96 += (s32)(182.04445f * p->bounce);
+        roll += (s32)(182.04445f * p->bounce);
     } else if (!(p->flags & 4)) {
         tilt = step.y * (p->tilt * step.x);
         if (fabs_float(tilt) > 20.0f) {
             tilt = 20.0f;
         }
         if (speed < 0.0f) {
-            m_96 += (s32)(182.04445f * tilt);
+            roll += (s32)(182.04445f * tilt);
         } else {
-            m_96 -= (s32)(182.04445f * tilt);
+            roll -= (s32)(182.04445f * tilt);
         }
     }
     frames = particle_sprites[sprite_index]->definition->uv_count;
@@ -243,9 +243,9 @@ void TUnk_8048E778::render() {
         project_world_to_screen(NULL, &end, &end_screen.x);
         end_screen.x -= start_screen.x;
         end_screen.y -= start_screen.y;
-        m_96 = 10430.38043493439 * atan2_float(end_screen.y, end_screen.x);
-        m_88 = param->tilt * len;
-        unk_8C = param->ballistic_streak_height * len;
+        roll = 10430.38043493439 * atan2_float(end_screen.y, end_screen.x);
+        draw_scale_x = param->tilt * len;
+        draw_scale_y = param->ballistic_streak_height * len;
     } else if (param->flags & 0x40) {
         Vec yaw_axis = ballistic_camera_yaw_axis;
         Vec pitch_axis = ballistic_camera_pitch_axis;
@@ -253,7 +253,7 @@ void TUnk_8048E778::render() {
         f32 yaw_dot;
         f32 pitch_dot;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, m_9c);
+        rotate_matrix_y(0, rot_y);
         rotate_vector_by_current_matrix(&facing, &facing);
         pop_matrix();
         push_matrix_from(identity_matrix);
@@ -274,28 +274,28 @@ void TUnk_8048E778::render() {
         }
         draw_flags = flags;
         if (draw_flags & 8) {
-            m_88 = m_28;
-            unk_8C = unk_2C * pitch_dot;
+            draw_scale_x = size_x;
+            draw_scale_y = size_y * pitch_dot;
         } else if (draw_flags & 4) {
-            m_88 = m_28 * yaw_dot;
-            unk_8C = unk_2C;
+            draw_scale_x = size_x * yaw_dot;
+            draw_scale_y = size_y;
         } else {
-            m_88 = m_28 * yaw_dot;
-            unk_8C = unk_2C * pitch_dot;
+            draw_scale_x = size_x * yaw_dot;
+            draw_scale_y = size_y * pitch_dot;
         }
     } else {
-        m_88 = m_28;
-        unk_8C = unk_2C;
+        draw_scale_x = size_x;
+        draw_scale_y = size_y;
     }
-    m_88 *= m_a4;
-    unk_8C *= unk_A8;
+    draw_scale_x *= scale_x;
+    draw_scale_y *= scale_y;
     draw_flags = flags;
     if (draw_flags & 0x200) {
         Vec at;
         if (is_split_screen() != 0 && (flags & 0x400)) {
             return;
         }
-        if (unk_B4 == 0) {
+        if (texlist == NULL) {
             return;
         }
         if (model == NULL) {
@@ -308,7 +308,7 @@ void TUnk_8048E778::render() {
         direction_to_rotation_xz((u8 *)&velocity, &angles.x, &angles.z);
         push_matrix();
         post_translate_matrix(&at.x);
-        scale_matrix(0, m_88, m_88, m_88);
+        scale_matrix(0, draw_scale_x, draw_scale_x, draw_scale_x);
         rotate_matrix_z(0, angles.z);
         rotate_matrix_x(0, angles.x);
         if (flags & 0x1000) {
@@ -317,7 +317,7 @@ void TUnk_8048E778::render() {
             }
         } else {
             rotate_matrix_y(0, angles.y);
-            rotate_matrix_y(0, m_96);
+            rotate_matrix_y(0, roll);
         }
         if (flags & 0x400) {
             load_projected_texture_matrix(1.33f);
@@ -335,7 +335,7 @@ void TUnk_8048E778::render() {
                 apply_particle_model_fade_color(0);
             }
         }
-        TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(unk_B4));
+        TObjFish::set_global_param(texlist);
         set_draw_list_mask(3);
         if (motion != NULL) {
             draw_ginja_model_with_motion(model, motion, motion_frame);
@@ -363,9 +363,9 @@ void TUnk_8048E778::render() {
         restore_saved_depth_alpha_state();
     } else if (param->flags & 0x20) {
         id = sprite_index + 0x36;
-        TParticleCtrl::append_node_to_tail(particle_sprites[id], &unk_6C);
+        TParticleCtrl::append_node_to_tail(particle_sprites[id], &draw_next);
     } else {
-        TParticleCtrl::append_node_to_tail(particle_sprites[sprite_index], &unk_6C);
+        TParticleCtrl::append_node_to_tail(particle_sprites[sprite_index], &draw_next);
     }
 }
 
@@ -385,12 +385,12 @@ TUnk_8048E778::TUnk_8048E778(void *entry, void *position, void *direction, saddr
     velocity.z = 0.0f;
     flags = particle_flags;
     if (flags & 0x80) {
-        unk_95 = 1;
+        screen_space = 1;
     }
     target_id = target;
-    unk_98 = dir->x;
-    m_9c = dir->y;
-    unk_A0 = dir->z;
+    rot_x = dir->x;
+    rot_y = dir->y;
+    rot_z = dir->z;
     pos.x = (src->spawn_spread.x * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->x;
     pos.z = (src->spawn_spread.z * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->z;
     if (src->flags & 2) {
@@ -405,8 +405,8 @@ TUnk_8048E778::TUnk_8048E778(void *entry, void *position, void *direction, saddr
     } else {
         origin.y = at->y;
     }
-    m_28 = (src->size_range * (3.0517578e-05f * (f32)rand())) + src->size_min;
-    unk_2C = m_28;
+    size_x = (src->size_range * (3.0517578e-05f * (f32)rand())) + src->size_min;
+    size_y = size_x;
     life = (s32)(((f32)src->life_range * (3.0517578e-05f * (f32)rand())) + (f32)src->life_min);
     if (src->flags & 1) {
         age_rate = 1.0f / (f32)particle_sprites[sprite_index]->definition->uv_count;
@@ -418,10 +418,10 @@ TUnk_8048E778::TUnk_8048E778(void *entry, void *position, void *direction, saddr
     step.z = 0.0f;
     rotate_vec_xz(&step, &step, (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()))));
     if (0.0f == src->gravity && 0.0f == src->rise_min && 0.0f == src->speed_min) {
-        m_96 = 0;
+        roll = 0;
         speed = 0.0f;
     } else {
-        m_96 = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
+        roll = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
         speed = (3.0517578e-05f * (f32)rand()) - 0.5f;
     }
     if (flags & 0x2000) {
@@ -454,8 +454,8 @@ TUnk_8048E778::TUnk_8048E778(void *entry, void *position, void *parent)
     } else {
         origin.y = at->y;
     }
-    m_28 = (src->size_range * (3.0517578e-05f * (f32)rand())) + src->size_min;
-    unk_2C = m_28;
+    size_x = (src->size_range * (3.0517578e-05f * (f32)rand())) + src->size_min;
+    size_y = size_x;
     life = (s32)(((f32)src->life_range * (3.0517578e-05f * (f32)rand())) + (f32)src->life_min);
     if (src->flags & 1) {
         age_rate = 1.0f / (f32)particle_sprites[sprite_index]->definition->uv_count;
@@ -467,10 +467,10 @@ TUnk_8048E778::TUnk_8048E778(void *entry, void *position, void *parent)
     step.z = 0.0f;
     rotate_vec_xz(&step, &step, (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()))));
     if (0.0f == src->gravity && 0.0f == src->rise_min && 0.0f == src->speed_min) {
-        m_96 = 0;
+        roll = 0;
         speed = 0.0f;
     } else {
-        m_96 = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
+        roll = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
         speed = (3.0517578e-05f * (f32)rand()) - 0.5f;
     }
     if (flags & 0x2000) {
