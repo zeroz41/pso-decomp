@@ -579,7 +579,7 @@ void TObjGrass::run_task() {
         }
     }
     target = this->target;
-    if ((target != NULL) && (*(s32 *)((s8 *)target + 0x30) & 0x02000800)) {
+    if ((target != NULL) && (((TObjBase *)target)->actorFlags & 0x02000800)) {
         this->timer = 0;
         this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);
         this->target = NULL;
@@ -1506,7 +1506,7 @@ void TObjGrass::run_hit_reaction() {
 
 void TObjGrass::sub_800BCE44() {
     u8 *arg0 = (u8 *)this;
-  u8 *bodies;
+  CollisionBody *bodies;
   ((TObjBase *)arg0)->clear_actor_flags((u32)(0x04040000));
   ((TObjMotion *)arg0)->advance_animation();
   this->velocity.z = (f32) (0.0f);
@@ -1521,8 +1521,8 @@ void TObjGrass::sub_800BCE44() {
   if ((this->action_flags) != 8U)
   {
     this->actorFlags = (s32) ((this->actorFlags) & 0xFFFFF9FF);
-    bodies = (u8 *)this->bodies;
-    *((s32 *) (((s8 *) bodies) + 0x18)) = (s32) ((*((s32 *) (((s8 *) bodies) + 0x18))) & 0xFBFFFFFF);
+    bodies = this->bodies;
+    bodies->flags &= 0xFBFFFFFF;
     if ((this->hp) < ((this->hpmax) * (this->parameters[0])))
     {
       this->actorFlags = (s32) ((this->actorFlags) | 0x2000);
