@@ -10,9 +10,9 @@
 #pragma readonly_strings on
 #pragma fp_contract on
 
-struct Stack_8025B660 {
-    f32 sp8;
-    f32 spC;
+struct TextDrawPos {
+    f32 x;
+    f32 y;
 };
 
 extern "C" {
@@ -71,18 +71,18 @@ void TWindowSubStatusDisp::set_text(uaddr arg1, s32 arg2) {
     *(f32 *)((s8 *)this + 8) = (208.5f) - ((0.5f) * (f32) ::calc_text_width(arg1));
 }
 void draw_label_value__20TWindowSubStatusDispFPvPv(u8 *window_sub_com_card, u8 *arg1) {
-    Stack_8025B660 stack;
+    TextDrawPos stack;
     if ((((TWindowSubComCard *)window_sub_com_card)->is_flag_4_set() != 0) && ((s32) *(s32 *)((s8 *)arg1 + 0x30) >= 0)) {
-        stack.sp8 = *(f32 *)((s8 *)arg1 + 0x10) + *(f32 *)((s8 *)window_sub_com_card + 8);
-        stack.spC = *(f32 *)((s8 *)arg1 + 0x14) + *(f32 *)((s8 *)window_sub_com_card + 0xC);
+        stack.x = *(f32 *)((s8 *)arg1 + 0x10) + *(f32 *)((s8 *)window_sub_com_card + 8);
+        stack.y = *(f32 *)((s8 *)arg1 + 0x14) + *(f32 *)((s8 *)window_sub_com_card + 0xC);
         set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 1, 1, (-1.0f) / ((0.0897f) + *(f32 *)((s8 *)arg1 + 0x38)), (1e+05f));
-        draw_window_text((f32 *)&stack.sp8, (const char *)(*(u8 **)((s8 *)window_sub_com_card + 0x1C)), (((TWindowSubComCard *)window_sub_com_card)->m_24), 1, (f32)(1e+05f));
+        draw_window_text((f32 *)&stack.x, (const char *)(*(u8 **)((s8 *)window_sub_com_card + 0x1C)), (((TWindowSubComCard *)window_sub_com_card)->m_24), 1, (f32)(1e+05f));
         if (!(*(u16 *)((s8 *)window_sub_com_card + 0) & 0x10)) {
-            stack.sp8 += (154.0f);
-            draw_window_text(&stack.sp8, (const char *)((void *)":"), ((TWindowSubComCard *)window_sub_com_card)->m_24, 0, (1e+05f));
+            stack.x += (154.0f);
+            draw_window_text(&stack.x, (const char *)((void *)":"), ((TWindowSubComCard *)window_sub_com_card)->m_24, 0, (1e+05f));
         }
-        stack.sp8 += (12.0f);
-        draw_window_text((f32 *)&stack.sp8, (const char *)(*(u8 **)((s8 *)window_sub_com_card + 0x20)), (((TWindowSubComCard *)window_sub_com_card)->m_24), 1, (f32)(1e+05f));
+        stack.x += (12.0f);
+        draw_window_text((f32 *)&stack.x, (const char *)(*(u8 **)((s8 *)window_sub_com_card + 0x20)), (((TWindowSubComCard *)window_sub_com_card)->m_24), 1, (f32)(1e+05f));
     }
 }
 void TWindowSubStatusDisp__sub_8025B760(void *p) {

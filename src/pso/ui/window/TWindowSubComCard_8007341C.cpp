@@ -17,7 +17,7 @@
 #include <string.h>
 #include "pso/ui/window/WindowLayout.h"
 
-struct RecoveredGlobal_800739BC_lbl_8048C9D8 {
+struct ChallengeModeStateRecord {
     s32 value;
     u8 remaining[0x744];
 };
@@ -38,14 +38,14 @@ struct Chal_80073428 {
     Rec_80073428 recs[4];
 };
 
-struct Slot_80073428 { s32 a; s32 slot; };
+struct ChallengeSlotRecord { s32 a; s32 slot; };
 
 struct Chal_8007369C { u8 pad[0x4C]; void *window; u8 rest[0x748 - 0x50]; };
 
 struct Chal_800738F4 { u8 pad[0x4C]; void *window; u8 rest[0x748 - 0x50]; };
 
 extern "C" {
-extern RecoveredGlobal_800739BC_lbl_8048C9D8 challenge_mode_state;
+extern ChallengeModeStateRecord challenge_mode_state;
 char *get_message_text(s32);
 s32 fn_80071A9C(void *, void *, void *);
 u8 *get_player_by_client_id(s32);
@@ -53,15 +53,15 @@ __declspec(section ".data") f32 challenge_window_extent[2] = {240.0f, 200.0f};
 char challenge_progress_text_buffer[0x100];
 const char *challenge_grade_letter_table[4] = {"", "B", "A", "S"};
 s32 *TWindowSubStatusDisp__sub_8006F0D8(void *, s32);
-Slot_80073428 *TWindowSubStatusDisp__sub_8006F134(void *, s32);
+ChallengeSlotRecord *TWindowSubStatusDisp__sub_8006F134(void *, s32);
 s32 has_window_task_root();
 int TWindowMenu::is_decided() { return (this->m_70 >> 1) & 0x1; }
-LAYOUT_ASSERT(RecoveredGlobal_800739BC_lbl_8048C9D8_size, sizeof(RecoveredGlobal_800739BC_lbl_8048C9D8) == 0x748);
+LAYOUT_ASSERT(ChallengeModeStateRecord_size, sizeof(ChallengeModeStateRecord) == 0x748);
 
 #define CHAL ((Chal_80073738 *)&challenge_mode_state)
 
 #define CHAL_80073428 ((Chal_80073428 *)&challenge_mode_state)
-void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 arg1) {
+void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 challenge_id) {
     char buf2[0x18];
     char buf1[0x10];
     s32 h1, m1, s1;
@@ -72,18 +72,18 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 arg1) 
     s32 i;
     u8 *data;
     s32 t;
-    Slot_80073428 *slot;
+    ChallengeSlotRecord *slot;
     s32 *p;
     s32 sum;
     s32 n;
     s32 j;
     s32 sl;
-    if (arg1 >= 3 && arg1 <= 0xB) {
-        idx = arg1 - 3;
+    if (challenge_id >= 3 && challenge_id <= 0xB) {
+        idx = challenge_id - 3;
         kind = 0;
-    } else if (arg1 >= 0xC && arg1 <= 0x10) {
+    } else if (challenge_id >= 0xC && challenge_id <= 0x10) {
         kind = 1;
-        idx = arg1 - 0xC;
+        idx = challenge_id - 0xC;
     }
     sprintf(challenge_progress_text_buffer, "< %s%1d >\n", get_message_text(0x53), idx + 1, 0xFF);
     for (i = 0, rec = CHAL_80073428->recs; i < 4; i++, rec++) {
@@ -121,7 +121,7 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 lobby, s32 arg1) 
     }
 }
 
-void TLobby::open_challenge_window(s32 lobby, s32 arg1) {
+void TLobby::open_challenge_window(s32 lobby, s32 challenge_id) {
     void *win;
     win = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x3B)), (const f32 *)challenge_window_extent, 1);
     (*(Chal_8007369C *)&challenge_mode_state).window = win;
@@ -132,7 +132,7 @@ void TLobby::open_challenge_window(s32 lobby, s32 arg1) {
     if (TCameraCtrl::get_camera_id() >= 2) {
         ((TWindowAddition *)((*(Chal_8007369C *)&challenge_mode_state).window))->set_position_xy(0.75f, 0.75f);
     }
-    TAdSinglePlyChrSelectGC::format_challenge_stage_times(lobby, arg1);
+    TAdSinglePlyChrSelectGC::format_challenge_stage_times(lobby, challenge_id);
     ((TWindowMessage *)((*(Chal_8007369C *)&challenge_mode_state).window))->append_line((saddr)challenge_progress_text_buffer, (int)0);
 }
 
@@ -172,20 +172,20 @@ void TLobby::open_challenge_progress_window(void *slot) {
     ((TWindowMessage *)(CHAL->window))->append_line((saddr)challenge_progress_text_buffer, (int)0);
 }
 
-void TLobby__sub_800738F4(void *lobby, s32 arg1) {
+void TLobby__sub_800738F4(void *lobby, s32 mode) {
     if (has_window_task_root() == 0) {
         ((void (*)(void *))TLobby__sub_800739BC)(lobby);
         return;
     }
     if ((*(Chal_800738F4 *)&challenge_mode_state).window != NULL) {
-        if (arg1 == 0) {
+        if (mode == 0) {
             ((TWindowBase *)((*(Chal_800738F4 *)&challenge_mode_state).window))->close();
         } else {
             ((TObject *)((*(Chal_800738F4 *)&challenge_mode_state).window))->queue_destruction();
         }
         ((void (*)(void *))TLobby__sub_800739BC)(lobby);
     }
-    switch (arg1) {
+    switch (mode) {
     case 0:
         return;
     case 1:
@@ -195,7 +195,7 @@ void TLobby__sub_800738F4(void *lobby, s32 arg1) {
         ((TLobby *)lobby)->open_challenge_progress_window((void *)1);
         break;
     default:
-        TLobby::open_challenge_window((saddr)lobby, (s32)arg1);
+        TLobby::open_challenge_window((saddr)lobby, (s32)mode);
         break;
     }
 }

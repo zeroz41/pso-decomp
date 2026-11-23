@@ -14,7 +14,7 @@
 #include <string.h>
 #pragma readonly_strings on
 
-struct Msg_8025A9C0 {
+struct MeasuredMessageText {
     u16 flags;
     u8 pad2[0x10 - 2];
     f32 width;
@@ -33,7 +33,7 @@ s32 TWindowSubStatusDisp__sub_800FC248(u8);
 s8 *parse_text_control_codes(s8 *, s32 *, s32);
 u8 get_font_char_advance(u16);
 u16 map_char_to_font_code(u16);
-void measure_message_text_width(Msg_8025A9C0 *msg, f32 maxw);
+void measure_message_text_width(MeasuredMessageText *msg, f32 maxw);
 void render_text_entry(Win_8025AD5C *arg0, Ref_8025AD5C *arg1);
 
 void *lbl_804CFA28[6] = {
@@ -65,7 +65,7 @@ extern const u32 lbl_805DCFC4 = 0x3F000000;
 
 #pragma push
 #pragma fp_contract on
-void measure_message_text_width(Msg_8025A9C0 *msg, f32 maxw) {
+void measure_message_text_width(MeasuredMessageText *msg, f32 maxw) {
     s32 sjis;
     f32 adv;
     f32 lineh;

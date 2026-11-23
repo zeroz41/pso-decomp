@@ -18,14 +18,14 @@ void TWindowSubTradeMain__sub_802448E4(void *, void *);
 // Reads this->m_28 the way TWindowSubComCard::free_windows does, and its only caller is
 // TWindowSubComCard::update_label_positions: probably a TWindowSubComCard member (inferred).
 void TChCrTagPlBack::get_position_offset(void *arg1) {
-    void *temp_r3;
-    void *temp_r5;
+    void *balloon_2;
+    void *balloon;
 
-    temp_r5 = *(void **)((s8 *)this + 0x28);
-    if (temp_r5 != NULL) {
-        *(f32 *)((s8 *)arg1 + 0) = (f32) ((*(f32 *)((s8 *)temp_r5 + 0x30) + *(f32 *)((s8 *)temp_r5 + 0x38)) - 111.0f);
-        temp_r3 = *(void **)((s8 *)this + 0x28);
-        *(f32 *)((s8 *)arg1 + 4) = (f32) ((*(f32 *)((s8 *)temp_r3 + 0x34) + *(f32 *)((s8 *)temp_r3 + 0x3C)) - 10.0f);
+    balloon = *(void **)((s8 *)this + 0x28);
+    if (balloon != NULL) {
+        *(f32 *)((s8 *)arg1 + 0) = (f32) ((*(f32 *)((s8 *)balloon + 0x30) + *(f32 *)((s8 *)balloon + 0x38)) - 111.0f);
+        balloon_2 = *(void **)((s8 *)this + 0x28);
+        *(f32 *)((s8 *)arg1 + 4) = (f32) ((*(f32 *)((s8 *)balloon_2 + 0x34) + *(f32 *)((s8 *)balloon_2 + 0x3C)) - 10.0f);
     }
 }
 

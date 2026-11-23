@@ -9,13 +9,6 @@
 #pragma dont_inline off
 struct ByteBlock_28 { u8 bytes[0x28]; };
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-
 struct S_80077840 { u32 key; s32 val; };
 
 struct S_80077814 { u32 key; s32 val; };
@@ -135,9 +128,9 @@ void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *chr_select
     }
 }
 
-u8 * copy_struct28__17TWindowSubComCardFii(saddr arg0, saddr arr) {
-    *(ByteBlock_28 *)(arg0) = *(const ByteBlock_28 *)(arr);
-    return (u8 *)arg0;
+u8 * copy_struct28__17TWindowSubComCardFii(saddr dest, saddr arr) {
+    *(ByteBlock_28 *)(dest) = *(const ByteBlock_28 *)(arr);
+    return (u8 *)dest;
 }
 void TWindowSubComCard__sub_80077980(S_80077980 *arr) {
     s32 i;
