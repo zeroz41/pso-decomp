@@ -5,7 +5,9 @@
 #include "pso/object/door/TODoorFourLightBase.h"
 
 struct TODoorLabo : public TODoorFourLightBase {
+    TODoorLabo(TObject *parent, void *set_data);
     virtual ~TODoorLabo();
+    static void *create(void *set_data);
     virtual s32 vfunc_21();
     virtual s32 vfunc_22();
     void init_model_by_type();
@@ -17,8 +19,6 @@ LAYOUT_ASSERT(TODoorLabo_size, sizeof(TODoorLabo) == 0xFC);
 
 extern "C" {
 void TLanguage__sub_8029FF0C(void);
-u8 *TODoorFourLightSeabedU__ct(u8 *arg0, void *parent, s32 arg);
-u8 *TODoorFourLightSeabed__ct(u8 *arg0, void *parent, s32 arg);
 }
 void load_labo_door_resources(void);
 

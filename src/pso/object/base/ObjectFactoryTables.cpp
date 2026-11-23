@@ -222,6 +222,10 @@
 #include "pso/object/door/TODoorFourLightSpace.h"
 #include "pso/ui/hud/TObjRaderIcon.h"
 #include "pso/object/door/TODoorFourLightRuins.h"
+#include "pso/object/door/TODoorFourLightSeabed.h"
+#include "pso/object/door/TODoorFourLightSeabedU.h"
+#include "pso/object/door/TODoorLabo.h"
+#include "pso/object/door/TODoorLaboNormal.h"
 #include "pso/object/warp/TObjWarpJung.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/object/door/TODoorJungleMain.h"
@@ -238,10 +242,6 @@
 #include "pso/effect/TEF_LensFlare.h"
 #include "pso/object/city/CityVerticalModel.h"
 extern "C" {
-void* TODoorFourLightSeabed__create(void* placement);
-void* TODoorFourLightSeabedU__create(void* placement);
-void* TODoorLabo__create(void* placement);
-void* TODoorLaboNormal__create(void* placement);
 void* create__10TObjPlayerFPv(void* placement);
 void* TObjPlayer__sub_802C28B4(void* placement);
 void* alloc_and_init__18TObjAreaWarpForestFv(void* placement);
@@ -1303,7 +1303,7 @@ ObjectFactoryEntry object_factories_floor_18[54] = {
     { 0x0055, TObjCityMainWarpChallenge::create, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor::create, 250000.0f, 0 },
-    { 0x0056, TODoorLabo__create, 250000.0f, 0 },
+    { 0x0056, TODoorLabo::create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon::create, 250000.0f, 0 },
     { 0x02B1, TObjLaboDesignBase::create, 250000.0f, 0 },
     { 0x02B2, TObjLaboDesignBase::create_state1, 250000.0f, 0 },
@@ -1313,7 +1313,7 @@ ObjectFactoryEntry object_factories_floor_18[54] = {
     { 0x02B6, TObjLaboDesignBase::create_state5, 250000.0f, 0 },
     { 0x02B7, TObjGbAdvance::create, 250000.0f, 0 },
     { 0x0057, TObjTradeCollision::create, 250000.0f, 0 },
-    { 0x02BB, TODoorLaboNormal__create, 250000.0f, 0 },
+    { 0x02BB, TODoorLaboNormal::create, 250000.0f, 0 },
     { 0x02BD, TObjLaboMapWarp::create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
@@ -1890,8 +1890,8 @@ ObjectFactoryEntry object_factories_floor_28[62] = {
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor::create, 250000.0f, 0 },
     { 0x0220, TObjFish::create, 250000.0f, 0 },
-    { 0x0221, TODoorFourLightSeabed__create, 250000.0f, 0 },
-    { 0x0222, TODoorFourLightSeabedU__create, 250000.0f, 0 },
+    { 0x0221, TODoorFourLightSeabed::create, 250000.0f, 0 },
+    { 0x0222, TODoorFourLightSeabedU::create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung::create, 250000.0f, 0 },
     { 0x0223, TObjSeabedSuiso_CH::create, 250000.0f, 0 },
     { 0x0224, TObjSeabedSuisoBrakable::create_instance, 250000.0f, 0 },
@@ -1955,8 +1955,8 @@ ObjectFactoryEntry object_factories_floor_29[62] = {
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor::create, 250000.0f, 0 },
     { 0x0220, TObjFish::create, 250000.0f, 0 },
-    { 0x0221, TODoorFourLightSeabed__create, 250000.0f, 0 },
-    { 0x0222, TODoorFourLightSeabedU__create, 250000.0f, 0 },
+    { 0x0221, TODoorFourLightSeabed::create, 250000.0f, 0 },
+    { 0x0222, TODoorFourLightSeabedU::create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung::create, 250000.0f, 0 },
     { 0x0223, TObjSeabedSuiso_CH::create, 250000.0f, 0 },
     { 0x0224, TObjSeabedSuisoBrakable::create_instance, 250000.0f, 0 },

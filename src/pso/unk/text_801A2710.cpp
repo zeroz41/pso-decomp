@@ -1,9 +1,12 @@
 #include "types.h"
 #include "pso/object/door/TODoorFourLightRuins.h"
 #include "pso/object/door/TODoorFourLightSpace.h"
+#include "pso/object/door/TODoorFourLightSeabed.h"
+#include "pso/object/door/TODoorFourLightSeabedU.h"
+#include "pso/object/door/TODoorLabo.h"
+#include "pso/object/door/TODoorLaboNormal.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/collision/TObjInfoCol.h"
-#include "pso/unk/text_801A2710.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/warp/TObjWarpLobby.h"
@@ -14,44 +17,20 @@
 #include "pso/object/warp/TObjMapForceWarp.h"
 #include "pso/system/task/TObject.h"
 
-extern "C" {
-void *TODoorFourLightSeabedU__ct(void *, void *, void *);
-void *TODoorFourLightSeabed__ct(void *, void *, void *);
-void *TODoorLaboNormal__ct(void *, void *, void *);
-void *TODoorLabo__ct(void *, void *, void *);
-
-
-}
-void *TODoorFourLightSeabed__create(void *arg0) {
-    void *o = TObject::operator new(0xFC);
-    if (o != NULL) {
-        o = TODoorFourLightSeabed__ct(o, tl_05, arg0);
-    }
-    return o;
+void *TODoorFourLightSeabed::create(void *set_data) {
+    return new TODoorFourLightSeabed(tl_05, set_data);
 }
 
-void *TODoorFourLightSeabedU__create(void *arg0) {
-    void *o = TObject::operator new(0xFC);
-    if (o != NULL) {
-        o = TODoorFourLightSeabedU__ct(o, tl_05, arg0);
-    }
-    return o;
+void *TODoorFourLightSeabedU::create(void *set_data) {
+    return new TODoorFourLightSeabedU(tl_05, set_data);
 }
 
-void *TODoorLabo__create(void *arg0) {
-    void *o = TObject::operator new(0xFC);
-    if (o != NULL) {
-        o = TODoorLabo__ct(o, tl_05, arg0);
-    }
-    return o;
+void *TODoorLabo::create(void *set_data) {
+    return new TODoorLabo(tl_05, set_data);
 }
 
-void *TODoorLaboNormal__create(void *arg0) {
-    void *o = TObject::operator new(0xFC);
-    if (o != NULL) {
-        o = TODoorLaboNormal__ct(o, tl_05, arg0);
-    }
-    return o;
+void *TODoorLaboNormal::create(void *set_data) {
+    return new TODoorLaboNormal(tl_05, set_data);
 }
 
 void *TODoorFourLightRuins::create(void *arg0) {

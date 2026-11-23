@@ -5,6 +5,7 @@
 #include "pso/object/door/TODoorBase.h"
 
 struct TODoorFourLightBase : public TODoorBase {
+    TODoorFourLightBase(TObject *parent, void *set_data);
     virtual ~TODoorFourLightBase();
     // Texture lists the derived doors return for draw_node_tree: vfunc_22 for nodes flagged 0x100000
     // (light lit by render_lights), vfunc_21 otherwise (inferred: lit/unlit light textures).
@@ -14,11 +15,11 @@ struct TODoorFourLightBase : public TODoorBase {
     virtual void update_door_switch_state();
     virtual void vfunc_6(s16 *, s32);
     virtual void render();
-    uaddr m_d4;
-    u8 unk_D8[0x4];
-    u32 m_dc;
-    u8 unk_E0[0x18];
-    u32 m_f8;
+    NJS_OBJECT *model;
+    // The four lights' nodes, then their second faces (render_lights).
+    NJS_OBJECT *light_nodes[8];
+    s32 light_count; // set_params[1], clamped to 0..4
+
     void clamp_light_index();
     void render_lights();
     void draw_node_tree(u8 *arg1);
