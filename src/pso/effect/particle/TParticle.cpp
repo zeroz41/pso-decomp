@@ -22,7 +22,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 
-#include "pso/unk/TUnk_804ED5B0.h"
+#include "pso/effect/TEffIndirectSampler.h"
 #include "pso/effect/particle/ParticleStrip.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/player/TObjPlayer_80011014.h"

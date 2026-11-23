@@ -73,7 +73,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 
 #include "pso/player/TObjPlayer_80104860.h"
-#include "pso/unk/TUnk_804ED5B0.h"
+#include "pso/effect/TEffIndirectSampler.h"
 #include "pso/unk/TLobby_80207644.h"
 
 

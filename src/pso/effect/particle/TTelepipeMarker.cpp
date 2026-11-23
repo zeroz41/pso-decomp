@@ -4,8 +4,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "types.h"
-#include "pso/unk/TUnk_804ED598.h"
-#include "pso/unk/TUnk_804ED5B0.h"
+#include "pso/effect/particle/TTelepipeMarker.h"
+#include "pso/effect/TEffIndirectSampler.h"
 
 #include "pso/effect/TEffIndirectCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -29,22 +29,22 @@
 #include "pso/camera/TCameraCtrl.h"
 #pragma defer_codegen on
 
-TUnk_804ED5B0::TUnk_804ED5B0(s32 kind, s32 sampler, TObject *parent) : TObject(parent) {
+TEffIndirectSampler::TEffIndirectSampler(s32 kind, s32 sampler, TObject *parent) : TObject(parent) {
     this->kind = kind;
     this->sampler = sampler;
     register_indirect_effect_ctrl(kind);
 }
 
-TUnk_804ED5B0::~TUnk_804ED5B0() {}
+TEffIndirectSampler::~TEffIndirectSampler() {}
 
-void TUnk_804ED5B0::play_particle(s32, s16 kind) {
+void TEffIndirectSampler::enable_indirect_tev(s32, s16 kind) {
     if (kind < 0) {
         kind = this->kind;
     }
     TObjPlayer::play_particle_at_active_slot((u8)kind, (u8)sampler, 0, 0, 0, 1);
 }
 
-void TUnk_804ED5B0::reset_ind_tev_stages() {
+void TEffIndirectSampler::disable_indirect_tev() {
     GXSetTevDirect(GX_TEVSTAGE1);
     GXSetNumIndStages(0);
     set_ginja_post_texgen_count(0);
@@ -66,7 +66,7 @@ void reset_indirect_tev(s32 second_stage) {
     set_ginja_post_texgen_count(0);
 }
 
-TUnk_804ED598::TUnk_804ED598(const Vec *position, s8 indirect_kind, s8 texture, TObject *parent, s32 depth_override,
+TTelepipeMarker::TTelepipeMarker(const Vec *position, s8 indirect_kind, s8 texture, TObject *parent, s32 depth_override,
                              s32 lifetime, f32 width, f32 height)
     : TObject(parent) {
     this->width = width;
@@ -75,12 +75,12 @@ TUnk_804ED598::TUnk_804ED598(const Vec *position, s8 indirect_kind, s8 texture, 
     this->indirect_kind = indirect_kind;
     this->texture = texture;
     this->depth_override = depth_override;
-    indirect = new TUnk_804ED5B0(0x1F, 0, tl_05);
+    indirect = new TEffIndirectSampler(0x1F, 0, tl_05);
     visible = 1;
     this->lifetime = lifetime;
 }
 
-TUnk_804ED598::~TUnk_804ED598() {
+TTelepipeMarker::~TTelepipeMarker() {
     if (indirect != NULL) {
         indirect->queue_destruction();
         indirect = NULL;
@@ -88,7 +88,7 @@ TUnk_804ED598::~TUnk_804ED598() {
     indirect = NULL;
 }
 
-void TUnk_804ED598::run_task() {
+void TTelepipeMarker::run_task() {
     if (indirect == NULL) {
         queue_destruction();
         return;
@@ -100,7 +100,7 @@ void TUnk_804ED598::run_task() {
     }
 }
 
-void TUnk_804ED598::render() {
+void TTelepipeMarker::render() {
     ParticleStripVertex v[4];
     if (indirect != NULL && visible != 0) {
         v[0].x = 10.0f * width;
@@ -138,7 +138,7 @@ void TUnk_804ED598::render() {
         TParticleCtrl::setup_particle_draw(1);
         GXSetNumTevStages(2);
         GXSetNumTexGens(2);
-        indirect->play_particle(0, -1);
+        indirect->enable_indirect_tev(0, -1);
         setup_particle_tev(0);
         if (depth_override != 0) {
             set_depth_buffer_settings_2();
@@ -149,7 +149,7 @@ void TUnk_804ED598::render() {
         }
         TParticleCtrl::reset_particles();
         reset_particle_tev();
-        indirect->reset_ind_tev_stages();
+        indirect->disable_indirect_tev();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

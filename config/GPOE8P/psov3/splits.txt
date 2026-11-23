@@ -9395,7 +9395,7 @@ pso/unk/text_803279CC.cpp:
 pso/system/scene/TScene_80327B00.cpp:
 	.text       start:0x80327B00 end:0x80327D30
 
-pso/effect/particle/TParticleCtrl_80327D30.cpp:
+pso/effect/particle/TTelepipeMarker.cpp:
 	.text       start:0x80327D30 end:0x80328210
 	.data       start:0x804ED598 end:0x804ED5C8
 	.sdata2     start:0x805DF6C8 end:0x805DF6E0

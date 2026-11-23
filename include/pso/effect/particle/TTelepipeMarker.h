@@ -1,18 +1,18 @@
-#ifndef PSO_UNK_TUNK_804ED598_H
-#define PSO_UNK_TUNK_804ED598_H
+#ifndef PSO_EFFECT_PARTICLE_TTELEPIPEMARKER_H
+#define PSO_EFFECT_PARTICLE_TTELEPIPEMARKER_H
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/system/task/TObject.h"
 
-class TUnk_804ED5B0;
+class TEffIndirectSampler;
 
 // Camera-facing distortion quad drawn through an indirect effect task (the
 // telepipe marker of TTecLuker).
-class TUnk_804ED598 : public TObject {
+class TTelepipeMarker : public TObject {
 public:
-    TUnk_804ED598(const Vec *position, s8 indirect_kind, s8 texture, TObject *parent, s32 depth_override,
+    TTelepipeMarker(const Vec *position, s8 indirect_kind, s8 texture, TObject *parent, s32 depth_override,
                   s32 lifetime, f32 width, f32 height);
-    virtual ~TUnk_804ED598();
+    virtual ~TTelepipeMarker();
     virtual void render();
     virtual void run_task();
 
@@ -25,8 +25,8 @@ public:
     s32 depth_override;
     s32 visible;
     s32 lifetime; // frames left; 0 keeps it alive
-    TUnk_804ED5B0 *indirect;
+    TEffIndirectSampler *indirect;
 };
-LAYOUT_ASSERT(TUnk_804ED598_size, sizeof(TUnk_804ED598) == 0x44);
+LAYOUT_ASSERT(TTelepipeMarker_size, sizeof(TTelepipeMarker) == 0x44);
 
 #endif

@@ -14,7 +14,7 @@ public:
     virtual ~TUnk_804CCA0C();
     virtual void run_task();
     TParticleCtrl *particles[3];
-    void *marker;  // TUnk_804ED598 marker, only outside split screen
+    void *marker;  // TTelepipeMarker marker, only outside split screen
     Vec pos;
     Vec ground_pos;  // csnVecterUnder(pos), else pos
 };

@@ -1,7 +1,6 @@
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/TUnk_8048E6A8.h"
-#include "pso/unk/TUnk_8048E6DC.h"
+#include "pso/effect/particle/LightGlare.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/effect/TEffect.h"
@@ -36,18 +35,18 @@
 
 s32 light_glare_enabled = 1;
 
-TUnk_8048E6DC::TUnk_8048E6DC(void *set_data, TObject *parent) : TObjBase(parent) {
+TLightGlare::TLightGlare(void *set_data, TObject *parent) : TObjBase(parent) {
     apply_object_set_data(set_data);
     alpha = 225.0f;
     light_glare_enabled = 1;
 }
 
-TUnk_8048E6DC::~TUnk_8048E6DC() {
+TLightGlare::~TLightGlare() {
 
 }
 
 #pragma fp_contract on
-void TUnk_8048E6DC::run_task() {
+void TLightGlare::run_task() {
     Vec forward;
     Vec to_glare;
     f32 strength;
@@ -85,7 +84,7 @@ void TUnk_8048E6DC::run_task() {
 }
 
 #pragma fp_contract reset
-void TUnk_8048E6DC::render() {
+void TLightGlare::render() {
     NJS_COLOR color;
     QuadSpriteRect quad;
     f32 limit;
@@ -168,29 +167,29 @@ void TUnk_8048E6DC::render() {
     TParticleCtrl::end_effect_render();
 }
 
-void *TUnk_8048E6DC::create(void *set_data) {
+void *TLightGlare::create(void *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    return new TUnk_8048E6DC(set_data, tl_particle);
+    return new TLightGlare(set_data, tl_particle);
 }
 
-void *TUnk_8048E6A8::create(void *set_data) {
+void *TLightGlareSwitch::create(void *set_data) {
     if (is_split_screen() != 0) {
         return NULL;
     }
-    return new TUnk_8048E6A8(set_data, tl_particle);
+    return new TLightGlareSwitch(set_data, tl_particle);
 }
 
-TUnk_8048E6A8::TUnk_8048E6A8(void *set_data, TObject *parent) : TObjBase(parent) {
+TLightGlareSwitch::TLightGlareSwitch(void *set_data, TObject *parent) : TObjBase(parent) {
     apply_object_set_data(set_data);
 }
 
-TUnk_8048E6A8::~TUnk_8048E6A8() {
+TLightGlareSwitch::~TLightGlareSwitch() {
 
 }
 
-void TUnk_8048E6A8::run_task() {
+void TLightGlareSwitch::run_task() {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL && horizontal_distance_squared(&player->position, &position) < 400.0f) {
         if (scale.x > 0.0f) {
@@ -201,7 +200,7 @@ void TUnk_8048E6A8::run_task() {
     }
 }
 
-void TUnk_8048E6A8::render() {
+void TLightGlareSwitch::render() {
     if (TObjPlayer::check_demo_mode() != 0) {
         NJS_ARGB color = { 0.5f, 0.0f, 1.0f, 1.0f };
         debug_draw_sphere(&position, &color, 40.0f);

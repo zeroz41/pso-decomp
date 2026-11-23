@@ -37,7 +37,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TUnk_804ED598.h"
+#include "pso/effect/particle/TTelepipeMarker.h"
 
 struct Stack_802340E4 {
     s32 sp8;
@@ -468,7 +468,7 @@ TUnk_804CCA0C::TUnk_804CCA0C(Vec *at, u32 id, TObject *parent) : TObject(parent)
   v2.y += 15.0f;
   if (is_split_screen() == 0)
   {
-    marker = new TUnk_804ED598(&v2, 0x1F, 4, tl_particlemodel, 0, 0, 1.9f, 1.9f);
+    marker = new TTelepipeMarker(&v2, 0x1F, 4, tl_particlemodel, 0, 0, 1.9f, 1.9f);
   }
   else
   {

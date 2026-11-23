@@ -25,7 +25,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/TUnk_804DC7C4.h"
-#include "pso/unk/TUnk_804ED5B0.h"
+#include "pso/effect/TEffIndirectSampler.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"
@@ -172,18 +172,18 @@ s32 set_reflection_scissor(void *point, s32 _w1) {
 void reset_reflection_tev_stages() {
     if (scene_sora_instance != NULL) {
         // get_state() reads the word at 0x20, which is TUnk_804DC7C4::indirect_effect.
-        TUnk_804ED5B0 *indirect = (TUnk_804ED5B0 *)((TSceneSora *)scene_sora_instance)->get_state();
+        TEffIndirectSampler *indirect = (TEffIndirectSampler *)((TSceneSora *)scene_sora_instance)->get_state();
         if (indirect != NULL) {
-            indirect->reset_ind_tev_stages();
+            indirect->disable_indirect_tev();
         }
     }
 }
 
 void play_reflection_particles(s16 effect_id) {
     if (scene_sora_instance != NULL) {
-        TUnk_804ED5B0 *indirect = (TUnk_804ED5B0 *)((TSceneSora *)scene_sora_instance)->get_state();
+        TEffIndirectSampler *indirect = (TEffIndirectSampler *)((TSceneSora *)scene_sora_instance)->get_state();
         if (indirect != NULL) {
-            indirect->play_particle(0, effect_id);
+            indirect->enable_indirect_tev(0, effect_id);
         }
     }
 }
@@ -495,7 +495,7 @@ TUnk_804DC7C4::TUnk_804DC7C4(TObject *parent) : TObject(parent) {
     }
     scene_sora_instance = this;
     recon_object = scene_sora_recon_object;
-    indirect_effect = new TUnk_804ED5B0(0x28, 1, tl_05);
+    indirect_effect = new TEffIndirectSampler(0x28, 1, tl_05);
     reflect_pos.x = 0.0f;
     reflect_pos.y = 0.0f;
     reflect_pos.z = 0.0f;

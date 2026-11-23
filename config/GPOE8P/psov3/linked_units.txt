@@ -1043,7 +1043,7 @@ pso/effect/particle/TParticle.cpp
 pso/effect/particle/TParticleCtrl_801D6B3C.cpp
 pso/effect/particle/TParticleCtrl_801E2EFC.cpp
 pso/effect/particle/ParticleDefinition.cpp
-pso/effect/particle/TParticleCtrl_80327D30.cpp
+pso/effect/particle/TTelepipeMarker.cpp
 pso/effect/photon/TPhotonConcentrate.cpp
 pso/effect/photon/TPhotonEstlla.cpp
 pso/effect/photon/TPhotonFarlla.cpp
