@@ -1246,7 +1246,6 @@ void TObjCMAssignMenu::render_assign_slots() {
 }
 
 void TObjCMAssignMenu::draw_assign_sprites() {
-    s32 off;
     s32 idx;
     u32 bit;
     s32 i;
@@ -1258,17 +1257,15 @@ void TObjCMAssignMenu::draw_assign_sprites() {
         pos.x = 113.0f;
         step = 17.0f;
         idx = 0;
-        off = 0;
         pos.y = 152.0f;
         bit = 1;
         a = a * a;
-        for (i = 0; i < item_count; bit <<= 1, off += 4, idx++, i++, pos.x += step) {
+        for (i = 0; i < item_count; bit <<= 1, idx++, i++, pos.x += step) {
             while (!(bit & item_mask)) {
                 bit <<= 1;
                 idx++;
-                off += 4;
             }
-            if (idx < 7) draw_ui_sprite(*(s32 *)((u8 *)char_creation_assign_sprite_id_table + off), &pos, -2.4375f, a);
+            if (idx < 7) draw_ui_sprite(char_creation_assign_sprite_id_table[idx], &pos, -2.4375f, a);
         }
     }
 }
@@ -1325,10 +1322,10 @@ TObjCMHairMenu *TObjCMHairMenu::create(TObject *parent) {
 }
 
 void TObjCMHairMenu::run_task() {
-    s32 temp_r0;
-    s32 temp_r0_2;
-    s16 temp_r0_4;
-    s32 temp_r3;
+    s32 next;
+    s32 prev;
+    s16 value;
+    s32 sel;
     CharacterAppearanceFields *app;
     s32 off;
 
@@ -1347,22 +1344,22 @@ void TObjCMHairMenu::run_task() {
             fade = 1.0f;
         }
         if (creation_direction_repeated(0x20) != 0) {
-            temp_r0 = selection + 1;
-            selection = temp_r0;
-            if (temp_r0 >= 4) {
+            next = selection + 1;
+            selection = next;
+            if (next >= 4) {
                 selection = 0;
             }
             play_sound_effect(0x54100, 0, 0, 0);
         } else if (creation_direction_repeated(0x10) != 0) {
-            temp_r0_2 = selection - 1;
-            selection = temp_r0_2;
-            if (temp_r0_2 < 0) {
+            prev = selection - 1;
+            selection = prev;
+            if (prev < 0) {
                 selection = 3;
             }
             play_sound_effect(0x54100, 0, 0, 0);
         }
-        temp_r3 = selection;
-        if (temp_r3 == 0) {
+        sel = selection;
+        if (sel == 0) {
             app = appearance;
             if (creation_direction_repeated(0x80) != 0) {
                 if (++app->hair >= count) {
@@ -1377,7 +1374,7 @@ void TObjCMHairMenu::run_task() {
             }
         } else {
             app = appearance;
-            off = (temp_r3 + 4) * 2 + 0x38;
+            off = (sel + 4) * 2 + 0x38;
             if (creation_buttons_pressed(0x80) != 0) {
                 *(s16 *)((s8 *)app + off) = *(s16 *)((s8 *)app + off) + 1;
             } else if (creation_buttons_pressed(0x40) != 0) {
@@ -1387,10 +1384,10 @@ void TObjCMHairMenu::run_task() {
             } else if (creation_buttons_held(0x40) != 0) {
                 *(s16 *)((s8 *)app + off) = *(s16 *)((s8 *)app + off) - 5;
             }
-            temp_r0_4 = *(s16 *)((s8 *)app + off);
-            if (temp_r0_4 > 0xFF) {
+            value = *(s16 *)((s8 *)app + off);
+            if (value > 0xFF) {
                 *(s16 *)((s8 *)app + off) = 0xFF;
-            } else if (temp_r0_4 < 0) {
+            } else if (value < 0) {
                 *(s16 *)((s8 *)app + off) = 0;
             }
         }
@@ -1601,7 +1598,7 @@ const char *TObjCMAutoMkData__name = "TObjCMAutoMkData";
 TObjCMAutoMkData::TObjCMAutoMkData(TObject *parent) : TObject(parent) {
     m_name = TObjCMAutoMkData__name;
     appearance = creation_player_character;
-    copy_vec2(&width, (u8 *)appearance + 0x48);
+    copy_vec2(&width, &appearance->width);
     fade = 0.0f;
     state = 0;
     TChCrEffTag::set_eff_tag(0xB);
@@ -1749,7 +1746,7 @@ void TObjCMAutoMkData::run_task() {
 
 #pragma pop
 void TObjCMAutoMkData::render() {
-    draw_creation_ruler_lines(*(f32 *)((s8 *)this + 0x38));
+    draw_creation_ruler_lines(fade);
 }
 
 const char *TObjCMProportion__name = "TObjCMProportion";
