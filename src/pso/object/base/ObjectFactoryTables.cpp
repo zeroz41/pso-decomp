@@ -3,6 +3,7 @@
 #include "pso/map/TObjMapCsn.h"
 #include "pso/object/fence/TOVS2Wall01.h"
 #include "pso/effect/TEffStarLight2D_Base.h"
+#include "pso/effect/TKomorebi.h"
 #include "pso/object/lab/TObjLaboDesignBase.h"
 #include "pso/object/TObjRoomId.h"
 #include "pso/object/fence/TLazerFenceSw.h"
@@ -202,7 +203,6 @@ void* TObjEnvSoundGlobal__create(void* placement);
 void* TObjEnvSoundEx__create(void* placement);
 void* TObjEnvSound__create(void* placement);
 void* TObjEvtCollision__create(void* placement);
-void* TKomorebi__create(void* placement);
 void* TObjLazerFenceExtra__create(void* placement);
 void* TObjLazerFenceNorm__create(void* placement);
 void* create__15TObjLazerFence4Fv(void* placement);
@@ -350,7 +350,7 @@ ObjectFactoryEntry object_factories_floor_01[63] = {
     { 0x0096, TObjLazerFenceExtra__create, 250000.0f, 0 },
     { 0x0083, create__15TObjLazerFence4Fv, 250000.0f, 0 },
     { 0x0084, create__13TLazerFenceSwFv, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0086, TButterfly__create, 250000.0f, 0 },
     { 0x0087, create_stage_motorcycle, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
@@ -415,7 +415,7 @@ ObjectFactoryEntry object_factories_floor_02[64] = {
     { 0x0096, TObjLazerFenceExtra__create, 250000.0f, 0 },
     { 0x0083, create__15TObjLazerFence4Fv, 250000.0f, 0 },
     { 0x0084, create__13TLazerFenceSwFv, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0086, TButterfly__create, 250000.0f, 0 },
     { 0x0087, create_stage_motorcycle, 250000.0f, 0 },
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
@@ -1434,7 +1434,7 @@ ObjectFactoryEntry object_factories_floor_23[65] = {
     { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung__create, 250000.0f, 0 },
     { 0x0202, TObjDoorJung__create, 250000.0f, 0 },
@@ -1502,7 +1502,7 @@ ObjectFactoryEntry object_factories_floor_24[67] = {
     { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung__create, 250000.0f, 0 },
     { 0x0202, TObjDoorJung__create, 250000.0f, 0 },
@@ -1572,7 +1572,7 @@ ObjectFactoryEntry object_factories_floor_25[66] = {
     { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung__create, 250000.0f, 0 },
     { 0x0202, TObjDoorJung__create, 250000.0f, 0 },
@@ -1641,7 +1641,7 @@ ObjectFactoryEntry object_factories_floor_26[63] = {
     { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung__create, 250000.0f, 0 },
     { 0x0202, TObjDoorJung__create, 250000.0f, 0 },
@@ -1707,7 +1707,7 @@ ObjectFactoryEntry object_factories_floor_27[66] = {
     { 0x008B, create_stage_computer, 250000.0f, 0 },
     { 0x0025, TOSwitchTimer::create, 250000.0f, 0 },
     { 0x0026, TOChatSensor__create, 250000.0f, 0 },
-    { 0x0085, TKomorebi__create, 250000.0f, 0 },
+    { 0x0085, TKomorebi::create, 250000.0f, 0 },
     { 0x0200, TObjContainerJung::create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung__create, 250000.0f, 0 },
     { 0x0202, TObjDoorJung__create, 250000.0f, 0 },

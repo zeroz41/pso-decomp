@@ -4,8 +4,14 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
+struct BmlResource;
+struct ObjectSetData;
+
+// Sunlight shafts through the forest canopy (komorebi): a model drawn
+// additively, its UVs scrolled once per frame by scale.x.
 struct TKomorebi : public TObjBase {
-    TKomorebi(TObject *parent, saddr set_data);
+    static void *create(void *set_data);
+    TKomorebi(TObject *parent, ObjectSetData *set_data);
     virtual ~TKomorebi();
     virtual void render();
     virtual void run_task();
@@ -14,10 +20,5 @@ struct TKomorebi : public TObjBase {
 };
 
 LAYOUT_ASSERT(TKomorebi_size, sizeof(TKomorebi) == 0x90);
-
-extern "C" {
-void *TKomorebi__create(void *set_data);
-void *__dt__9TKomorebiFv(void *arg0, s16 arg1);
-}
 
 #endif

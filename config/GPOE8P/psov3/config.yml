@@ -599,9 +599,9 @@ force_active:
   - TKeyBoardControl__sub_803F107C
   - TKeyBoardControl_key_bit_table
   - TKeyBoardControl_prev_pad_state
-  - __ct__9TKomorebiFP7TObjectl
-  - TKomorebi__resource_bundle
-  - TKomorebi__resource_descriptor
+  - __ct__9TKomorebiFP7TObjectP13ObjectSetData
+  - komorebi_bml_resource
+  - komorebi_resource_descriptor
   - TLanguage__class_name
   - TLanguage__read_cursor
   - TLazerFenceSw__class_name
