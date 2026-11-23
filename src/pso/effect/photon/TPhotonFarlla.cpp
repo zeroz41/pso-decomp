@@ -1,20 +1,9 @@
+#include "pso/effect/photon/TPhotonFarlla.h"
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/system/NinjaTypes.h"
-#include "pso/effect/photon/TPhotonFarlla.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/system/task/TObject.h"
-#include "pso/effect/photon/PhotonBlastSummon.h"
-#include "pso/system/MatrixStack.h"
-#include "pso/player/PhotonBlastResults.h"
-#include "pso/system/BmlResource.h"
 
 #include "pso/player/TObjPlayer_803E4954.h"
-#include "types.h"
-#include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/render/MaterialColorFade.h"
-#include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_800F5BC0.h"
@@ -23,13 +12,9 @@
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/vector.h"
-#include <stddef.h>
-#include "pso/enemy/panarms/TObjEnePanarms.h"
 
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/BmlResource.h"
@@ -37,9 +22,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/object/base/CollisionActorLookup.h"
 
-#include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/model_render_state.h"
@@ -146,8 +129,6 @@ TPhotonFarlla::~TPhotonFarlla() {
     free_collision_body_parts(this);
 }
 
-#pragma push
-#pragma opt_common_subs off
 void TPhotonFarlla::run_task() {
     Vec square_pos;
     Vec burst_pos;
@@ -209,7 +190,6 @@ void TPhotonFarlla::run_task() {
         play_persistent_sound(0x4002462F, (saddr)this, 0, 0, 0);
     }
 }
-#pragma pop
 
 void TPhotonFarlla::render() {
     if (visible != 0) {

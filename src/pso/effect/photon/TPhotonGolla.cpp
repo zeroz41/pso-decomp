@@ -1,52 +1,35 @@
+#include "pso/effect/photon/TPhotonGolla.h"
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/system/NinjaTypes.h"
-#include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/ChunkMaterialState.h"
-#include "types.h"
 #include <stdlib.h>
-#include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/render/MaterialColorFade.h"
-#include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/object/base/TObjMotion.h"
-#include "pso/object/base/TObjChara.h"
-#include "pso/effect/photon/PhotonBlastSummon.h"
-#include "pso/effect/photon/TPhotonGolla.h"
 #include "pso/map/FloorArea.h"
 
-#include <stddef.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/enemy/panarms/TObjEnePanarms.h"
-#include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_800F5BC0.h"
-#include "pso/player/TObjPlayer_801AC0D8.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/effect/photon/TPhotonConcentrate.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/PhotonBlastResults.h"
-#include "pso/system/BmlResource.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"
 
 // The original emits code in reverse definition order.
 #pragma defer_codegen on
+#pragma fp_contract on
 
 extern "C" s32 scroll_strip_uvs(void *, s16, int);
 
@@ -138,7 +121,7 @@ TPhotonGolla::TPhotonGolla(PhotonSummonParams *params) : TPhotonBlastSummon() {
         if (owner_object != NULL) {
             VecCopy(&pos, &owner_object->position);
         }
-        pos.y += 3e+01f;
+        pos.y += 30.0f;
         new TPhotonMagicSquare(this, 3, &pos, 0x96, 0.5f);
         spawn_photon_blast_attachment_effects(2);
         play_cue_stream_file((saddr)"goula2.adx");
@@ -167,10 +150,10 @@ void TPhotonGolla::run_task() {
         if (owner_object != NULL) {
             VecCopy(&pos, &owner_object->position);
         }
-        pos.y += 3e+01f;
+        pos.y += 30.0f;
         new TPhotonMagicSquare(this, 3, &pos, 0xFA, 0.5f);
     }
-    if ((5e+01f == (f32)frame) && (requested_action == 1)) {
+    if ((50.0f == (f32)frame) && (requested_action == 1)) {
         begin_photon_summon_camera(5);
         frame = 0;
         set_requested_action(0);
@@ -225,9 +208,6 @@ void TPhotonGolla::render() {
     }
 }
 
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_loop_invariants off
 void TPhotonGolla::collect_hit_targets() {
     s32 i;
     TObjChara *candidate;
@@ -288,11 +268,7 @@ void TPhotonGolla::collect_hit_targets() {
     }
     hit_target = target;
 }
-#pragma pop
 
-#pragma push
-#pragma fp_contract on
-#pragma opt_common_subs off
 void TPhotonGolla::spawn_concentrate() {
     Vec target_pos;
     Vec local;
@@ -306,7 +282,7 @@ void TPhotonGolla::spawn_concentrate() {
         if (owner_object != NULL) {
             local.y = owner_object->position.y;
         }
-        local.z = 1e+02f;
+        local.z = 100.0f;
         push_matrix_from(identity_matrix);
         if (owner_object != NULL) {
             rotate_matrix_y(0, owner_object->rotation_y);
@@ -322,7 +298,7 @@ void TPhotonGolla::spawn_concentrate() {
     subtract_vector(&direction, &beam_origin);
     normalize_vector(&direction);
 
-    angle = (u32)(3.6e+02f * (3.0517578e-05f * (f32)rand()) + 1.0f);
+    angle = (u32)(360.0f * (3.0517578e-05f * (f32)rand()) + 1.0f);
     PhotonConcentrateParams params = photon_golla_concentrate_packet;
     params.origin.x = beam_origin.x;
     params.origin.y = beam_origin.y;
@@ -337,7 +313,6 @@ void TPhotonGolla::spawn_concentrate() {
     params.angle = angle;
     beam = new TPhotonConcentrate(&params, this, owner_id);
 }
-#pragma pop
 
 void TPhotonGolla::reset_material_color(u8 count) {
     material_color.a = 0.0f;
