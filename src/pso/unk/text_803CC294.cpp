@@ -75,7 +75,7 @@ inline s32 check_803CC294(s32 arg0, s32 arg1) {
     }
     return 0;
 }
-s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *arg2, s32 *arg3, s32 *arg4, s32 *arg5) {
+s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *dest, s32 *arg3, s32 *arg4, s32 *arg5) {
     s32 st;
     Ent_803CC294 *e;
     u16 *arr;
@@ -94,7 +94,7 @@ s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *arg2, s32 *arg3, s32 *ar
         Chunk_803CC294 *c = (Chunk_803CC294 *)&e->f114;
         for (i = 0; i < e->fc; i++, c++) {
             if (c->id == arg1) {
-                strncpy(arg2, e->name, 0x100);
+                strncpy(dest, e->name, 0x100);
                 *arg3 = e->f110;
                 *arg4 = c->off;
                 *arg5 = c->len;
@@ -108,7 +108,7 @@ s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *arg2, s32 *arg3, s32 *ar
     for (i = 0; i < arg1; i++) {
         sum += arr[i];
     }
-    strncpy(arg2, e->name, 0x100);
+    strncpy(dest, e->name, 0x100);
     *arg3 = e->f110;
     *arg4 = sum;
     *arg5 = arr[arg1];

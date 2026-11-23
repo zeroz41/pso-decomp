@@ -25,7 +25,7 @@ struct Stack_8026C708
 };
 
 extern "C" {
-void fn_8026C664(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 arrow_offset) {
+void fn_8026C664(u8 *arg0, f32 farg0, f32 farg1, f32 depth, f32 arrow_offset) {
   f32 buffer_8[8];
   buffer_8[0] = farg0;
   buffer_8[1] = farg1;
@@ -40,10 +40,10 @@ void fn_8026C664(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 arrow_offset) {
   buffer_8[6] = 0.8359375f;
   buffer_8[7] = 0.45703125f;
   ((WindowDrawContext *)arg0)->transform_quad((TexturedQuad *)&buffer_8[0]);
-  draw_textured_quad_at_depth(&buffer_8[0], farg2);
+  draw_textured_quad_at_depth(&buffer_8[0], depth);
 }
 typedef struct Stack_8026C708 Stack_8026C708;
-void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 arrow_offset) {
+void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 depth, f32 arrow_offset) {
   float new_var;
   Stack_8026C708 stack;
   stack.sp8 = farg0;
@@ -60,7 +60,7 @@ void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 arrow_offset) {
   stack.sp20 = 0.95703125f;
   stack.sp24 = 0.45703125f;
   ((WindowDrawContext *)arg0)->transform_quad((TexturedQuad *)&stack.sp8);
-  draw_textured_quad_at_depth(&stack.sp8, farg2);
+  draw_textured_quad_at_depth(&stack.sp8, depth);
 }
 
 u32 calc_text_width(void);

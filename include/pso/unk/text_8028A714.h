@@ -4,9 +4,9 @@
 #include "types.h"
 
 extern "C" {
-u8 *fn_8028A714(s32 arg0);
-u8 *fn_8028A750(s32 arg0);
-u8 *fn_8028A78C(s32 arg0);
+u8 *fn_8028A714(s32 index);
+u8 *fn_8028A750(s32 index);
+u8 *fn_8028A78C(s32 index);
 }
 
 #endif

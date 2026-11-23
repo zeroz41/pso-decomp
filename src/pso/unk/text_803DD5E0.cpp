@@ -351,12 +351,12 @@ void replace_gvm_texture_directory(GinjaTextureList* list, s32 stride, const Gvm
 }
 #pragma pop
 
-s32 calc_gvm_entry_stride(u16 arg0) {
+s32 calc_gvm_entry_stride(u16 flags) {
     s32 r = 2;
-    if (arg0 & 1) r = 0x1E;
-    if (arg0 & 2) r += 2;
-    if (arg0 & 4) r += 2;
-    if (arg0 & 8) r += 4;
+    if (flags & 1) r = 0x1E;
+    if (flags & 2) r += 2;
+    if (flags & 4) r += 2;
+    if (flags & 8) r += 4;
     return r;
 }
 

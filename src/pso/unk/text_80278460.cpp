@@ -29,11 +29,11 @@ void mark_unequippable_items(TWindowSubEquipKind *window) {
         }
     }
 }
-void fn_80278518(void *arg0, s32 arg1) {
+void fn_80278518(void *qst_pack_select_window, s32 arg1) {
     s32 i;
     u16 *temp_r30;
-    for (i = 0; i < *(s16 *)((s8 *)arg0 + 0x76); i++) {
-        temp_r30 = (u16 *)((TWindowBase *)arg0)->get_array_entry(i);
+    for (i = 0; i < *(s16 *)((s8 *)qst_pack_select_window + 0x76); i++) {
+        temp_r30 = (u16 *)((TWindowBase *)qst_pack_select_window)->get_array_entry(i);
         if ((((TWindowLayoutEntry *)temp_r30)->is_flag_4_set() != 0) && (arg1 == ((ItemListRow *)temp_r30)->get_item())) {
             ((ItemListRow *)temp_r30)->category_style = 0xFFAAAAAA;
             ((ItemListRow *)temp_r30)->style = 0xFF909090;

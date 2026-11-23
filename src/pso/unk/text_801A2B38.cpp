@@ -20,8 +20,8 @@ void *TOContainerAncientEnemyRare::create(void *set_data) {
     return new TOContainerAncientEnemyRare(set_data);
 }
 
-void *TObjRaderCol::create(void *arg0) {
-    return new TObjRaderCol((TObject *)tl_05, arg0);
+void *TObjRaderCol::create(void *set_data) {
+    return new TObjRaderCol((TObject *)tl_05, set_data);
 }
 
 void *TObjRaderHideCol::create(void *set_data) {
@@ -36,8 +36,8 @@ void *TObjBgmCol::create(void *set) {
     return new TObjBgmCol((TObject *)tl_05, set);
 }
 
-void *TObjItemLight::create(void *arg0) {
-    return new TObjItemLight((TObject *)tl_05, (saddr)arg0);
+void *TObjItemLight::create(void *set_data) {
+    return new TObjItemLight((TObject *)tl_05, (saddr)set_data);
 }
 
 void *TObjCityMainWarpChallenge::create(void *set_data) {

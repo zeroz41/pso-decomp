@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void fn_80278518(void *arg0, s32 arg1);
+void fn_80278518(void *qst_pack_select_window, s32 arg1);
 }
 
 #endif

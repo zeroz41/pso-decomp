@@ -124,12 +124,12 @@ void rotate_matrix_x(void *, s32);
 void rotate_matrix_y(void *, s32);
 void scale_matrix(f32 (*m)[4], f32 sx, f32 sy, f32 sz);
 
-void debug_printf_at(s32 arg0, const char *fmt, ...) {
+void debug_printf_at(s32 position, const char *fmt, ...) {
     va_list ap;
     char buf[128];
     va_start(ap, fmt);
     vsprintf(buf, fmt, ap);
-    queue_debug_text(arg0, buf);
+    queue_debug_text(position, buf);
 }
 
 #pragma push
@@ -279,12 +279,12 @@ void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z) {
 }
 #pragma pop
 
-void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3) {
+void rotate_matrix_yxz(saddr matrix, s32 angle, s32 arg2, s32 arg3) {
     if (arg2 != 0) {
         rotate_matrix_y((void *)matrix, (s32)arg2);
     }
-    if (arg1 != 0) {
-        rotate_matrix_x((void *)matrix, (s32)arg1);
+    if (angle != 0) {
+        rotate_matrix_x((void *)matrix, (s32)angle);
     }
     if (arg3 != 0) {
         rotate_matrix_z((void *)matrix, (s32)arg3);

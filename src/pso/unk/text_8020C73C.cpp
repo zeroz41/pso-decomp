@@ -50,7 +50,7 @@ s32 set_flags_on_matching_entries__6TLobbyFlssl(s32, s32, s32, s32);
 saddr construct_enemy_from_set_row(u8 *row);
 extern u8 *TLobby__data_805D6144;
 
-s32 TLobby::unhide_enemies_at(s32 arg0, s32 arg1, s32 arg2) {
+s32 TLobby::unhide_enemies_at(s32 floor, s32 arg1, s32 arg2) {
     s32 n;
     s32 count;
     s32 local;
@@ -59,14 +59,14 @@ s32 TLobby::unhide_enemies_at(s32 arg0, s32 arg1, s32 arg2) {
     Obj_8020C73C *obj;
     count = 0;
     local = 0;
-    if (arg0 == get_current_floor()) {
+    if (floor == get_current_floor()) {
         local = 1;
     }
     if (local == 0) {
-        return set_flags_on_matching_entries__6TLobbyFlssl(arg0, arg1, arg2, 1);
+        return set_flags_on_matching_entries__6TLobbyFlssl(floor, arg1, arg2, 1);
     }
-    set = reinterpret_cast<Set_8020C73C *>(get_active_floor_enemy_rows(arg0));
-    n = TLobby::get_object_type(arg0);
+    set = reinterpret_cast<Set_8020C73C *>(get_active_floor_enemy_rows(floor));
+    n = TLobby::get_object_type(floor);
     for (i = 0; i < n; i++, set++) {
         if (set->flags & 8) continue;
         if (set->flags & 2) continue;
