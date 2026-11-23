@@ -25,7 +25,7 @@
 #pragma readonly_strings on
 
 
-const char *TTecAnti_name_ref = "TTecAnti";
+const char *TTecAnti::class_name = "TTecAnti";
 
 
 
@@ -73,8 +73,8 @@ void TechniqueParams::copy(TechniqueParams *src) {
 
 TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
-    m_name = TTecAnti_name_ref;
-    m_13c = 1;
+    m_name = class_name;
+    use_targets = 1;
     copy_technique_target_list(&targets, (TargetCursorList *)target_list);
     params.copy(&technique_param_table[16]);
     sub_8022AD94();
@@ -99,7 +99,7 @@ void TTecAnti::run_task() {
         queue_destruction();
         return;
     }
-    if (m_13c != 0) {
+    if (use_targets != 0) {
         if (level == 0) {
             apply_to_player((TObjPlayer *)source);
         } else {

@@ -21,7 +21,7 @@
 #pragma readonly_strings on
 
 
-const char *TTecSifta__name = "TTecSifta";
+const char *TTecSifta::class_name = "TTecSifta";
 
 
 
@@ -95,7 +95,7 @@ void TTecSifta::run_task() {
         queue_destruction();
         return;
     }
-    if (m_13c != 0) {
+    if (use_targets != 0) {
         if (level <= 1) {
             apply_to_player((TObjPlayer *)source);
         } else {
@@ -121,8 +121,8 @@ void TTecSifta::run_task() {
 #pragma opt_common_subs off
 TTecSifta::TTecSifta(void *owner, void *pos, void *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
-    m_name = TTecSifta__name;
-    m_13c = 1;
+    m_name = class_name;
+    use_targets = 1;
     copy_technique_target_list(&targets, (TargetCursorList *)target_list);
     update_effect_params();
     t = target;
@@ -141,8 +141,8 @@ TTecSifta::TTecSifta(void *owner, void *pos, void *target_list, s32 level) : TTe
 
 TTecSifta::TTecSifta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
-    m_name = TTecSifta__name;
-    m_13c = 0;
+    m_name = class_name;
+    use_targets = 0;
     update_effect_params();
     t = target;
     if (t != NULL) {

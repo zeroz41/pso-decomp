@@ -6,6 +6,7 @@
 #include "pso/player/TargetCursorList.h"
 
 struct TTecAnti : public TTecPlayerInfluence {
+    static const char *class_name;
     TTecAnti(void *owner, void *pos, void *targets, s32 level);
     virtual ~TTecAnti();
     void play_anti_cast_sound();
@@ -14,7 +15,9 @@ struct TTecAnti : public TTecPlayerInfluence {
     virtual void apply_to_player(TObjPlayer *player);
     virtual void run_task();
     TargetCursorList targets;
-    s32 m_13c;
+    // 1 when cast on a target list: run_task gives the effect to the caster and
+    // the listed players; 0 gives it to the party members in range.
+    s32 use_targets;
     static void create(void *source, void *origin, void *targets, s32 level);
     virtual void render();
 };

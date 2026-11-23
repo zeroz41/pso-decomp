@@ -1735,7 +1735,7 @@ force_active:
   - TTecAnti__self_effect_rows
   - spawn_anti_range_effect__8TTecAntiFv
   - sub_8022AD94__8TTecAntiFv
-  - TTecAnti_name_ref
+  - class_name__8TTecAnti
   - TTecBarta__class_name
   - __ct__9TTecBartaFlPUcPUcl
   - __ct__10TTecDebandFPvPvPvl
@@ -8301,8 +8301,8 @@ force_active:
   - photon_rainbow_class_name
   - class_name__13TPhotonYoulla
   - TCheckRoomSequence__name
-  - TTecResta__name
-  - TTecSifta__name
+  - class_name__9TTecResta
+  - class_name__9TTecSifta
   - TTecZarua__name
   - TWindowBreakIn__name
   - TWindowChallengeResult__name
@@ -16448,7 +16448,7 @@ force_active:
   - target_in_xz_cone
   - tcp_socket_table
   - team_matchup_message_buffer
-  - tec_deband_class_name_ptr
+  - class_name__10TTecDeband
   - tec_jelin_class_name_ptr
   - tec_kafun_class_name_ptr
   - technique_contact_query_results

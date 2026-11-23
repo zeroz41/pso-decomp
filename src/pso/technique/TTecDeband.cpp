@@ -18,7 +18,7 @@
 #pragma readonly_strings on
 
 
-const char *tec_deband_class_name_ptr = "TTecDeband";
+const char *TTecDeband::class_name = "TTecDeband";
 
 
 
@@ -46,8 +46,8 @@ void TTecDeband::apply_to_player(TObjPlayer *player) {
     }
 }
 
-void TTecDeband::create(saddr owner, saddr pos, saddr arg2, s32 level) {
-    new TTecDeband((void *)owner, (void *)pos, (void *)arg2, level);
+void TTecDeband::create(saddr owner, saddr pos, saddr targets, s32 level) {
+    new TTecDeband((void *)owner, (void *)pos, (void *)targets, level);
 }
 void TTecDeband::create(void *owner, void *pos, s32 level) {
     new TTecDeband(owner, pos, level);
@@ -70,7 +70,7 @@ void TTecDeband::run_task() {
         queue_destruction();
         return;
     }
-    if (m_13c != 0) {
+    if (use_targets != 0) {
         if (level <= 1) {
             apply_to_player((TObjPlayer *)source);
         } else {
@@ -93,11 +93,11 @@ void TTecDeband::run_task() {
 }
 
 #pragma opt_common_subs off
-TTecDeband::TTecDeband(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+TTecDeband::TTecDeband(void *owner, void *pos, void *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
-    m_name = tec_deband_class_name_ptr;
-    m_13c = 1;
-    copy_technique_target_list(&targets, (TargetCursorList *)arg3);
+    m_name = class_name;
+    use_targets = 1;
+    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
     update_effect_params();
     t = target;
     if (t != NULL) {
@@ -115,8 +115,8 @@ TTecDeband::TTecDeband(void *owner, void *pos, void *arg3, s32 level) : TTecPlay
 
 TTecDeband::TTecDeband(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
-    m_name = tec_deband_class_name_ptr;
-    m_13c = 0;
+    m_name = class_name;
+    use_targets = 0;
     update_effect_params();
     t = target;
     if (t != NULL) {

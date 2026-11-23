@@ -6,13 +6,16 @@
 #include "pso/technique/TTecPlayerInfluence.h"
 
 struct TTecDeband : public TTecPlayerInfluence {
+    static const char *class_name;
     TTecDeband(void *owner, void *pos, void *arg3, s32 level);
     TTecDeband(void *owner, void *pos, s32 level);
     virtual ~TTecDeband();
     virtual void apply_to_player(TObjPlayer *player);
     virtual void run_task();
     TargetCursorList targets;
-    s32 m_13c;
+    // 1 when cast on a target list: run_task gives the effect to the caster and
+    // the listed players; 0 gives it to the party members in range.
+    s32 use_targets;
     void init_params();
     void update_effect_params();
     static void create(saddr arg0, saddr arg1, saddr arg2, s32 arg3);

@@ -25,7 +25,7 @@
 #pragma readonly_strings on
 
 
-const char *TTecResta__name = "TTecResta";
+const char *TTecResta::class_name = "TTecResta";
 
 
 struct Row_8023967C { s32 delay; s32 duration; s32 entry; u32 flags; };
@@ -51,8 +51,8 @@ void TTecReverser::vfunc_6(void *arg) {
 
 TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
-    m_name = TTecResta__name;
-    m_13c = 0;
+    m_name = class_name;
+    use_targets = 0;
     init_parameters();
     t = target;
     if (t != NULL) {
@@ -71,8 +71,8 @@ TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(ow
 #pragma opt_common_subs off
 TTecResta::TTecResta(void *owner, void *pos, void *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
     TObjCollidable *t;
-    m_name = TTecResta__name;
-    m_13c = 1;
+    m_name = class_name;
+    use_targets = 1;
     copy_technique_target_list(&targets, (TargetCursorList *)target_list);
     init_parameters();
     t = target;
@@ -101,7 +101,7 @@ void TTecResta::run_task() {
         queue_destruction();
         return;
     }
-    if (m_13c != 0) {
+    if (use_targets != 0) {
         if (level <= 1) {
             apply_to_player((TObjPlayer *)source);
         } else {
@@ -216,16 +216,13 @@ void TTecResta::init_parameters() {
 }
 
 f32 TTecResta::calc_heal_amount(s32 level) {
-  f32 *temp_r3;
-  f32 var_f31;
-  temp_r3 = (f32 *) calc_technique_parameters(0xF, level, 0xFFFF);
-  var_f31 = *((f32 *) (((s8 *) temp_r3) + 0));
-  var_f31 = var_f31 + ((f32) (level * 5));
-  if (TTecCtrl::is_technique_ready() != 0)
-  {
-    var_f31 *= technique_scale_table[15].power;
-  }
-  return var_f31;
+    f32 amount;
+    amount = calc_technique_parameters(0xF, level, 0xFFFF)->pad_00;
+    amount = amount + (f32)(level * 5);
+    if (TTecCtrl::is_technique_ready() != 0) {
+        amount *= technique_scale_table[15].power;
+    }
+    return amount;
 }
 
 void TTecResta::init_cast() { spawn_support_tec_range_effect(); }
