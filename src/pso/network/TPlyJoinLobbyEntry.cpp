@@ -385,7 +385,6 @@ void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 
 s32 __dt__7TObjectFv(void *, int);
 extern const NJS_POINT2 lbl_8043EE00[1];
 void TQuestListOnline__sub_8013ACF4(s32);
-s32 send_lobby_arrow__9TProtocolFUc(TProtocol *, s32);
 s32 clear_lobby_flag__10TObjPlayerFPv();
 extern s32 lbl_805DB0B4;
 void set_queued_main_phase(s32);
@@ -404,7 +403,6 @@ s32 get_link_status__Fv(void);
 s32 poll_memcard_result(saddr);
 s32 TKeyBoardControl__sub_8000F828(void);
 s8 TAdSinglePlyChrSelectGC__sub_8033605C(void);
-TProtocol *__ct__9TProtocolFP7TObjectUsiPcPcPc(TProtocol *, void *, s32, s32, char *, char *, char *);
 void TLobby__sub_80134A20();
 void set_lobby_event_theme();
 void TLobby__sub_80134DC8();
@@ -430,7 +428,6 @@ void *create_remote_player_object(void *record);
 void set_floor_map_variant(s32 floor, s32 arg1);
 s32 request_story_select_state(s32 arg0);
 u32 copy_switch_table(void *destination);
-void send_register_9c(u8 *protocol);
 void buffer_reset(void);
 void bswap_telepipe_record(void *);
 
@@ -1886,7 +1883,7 @@ void TLobby::update_com_card_window() {
     if (lobby_com_card_window != NULL) {
         selected_menu_value = lobby_com_card_window->get_selected_value();
         if (lobby_com_card_window->is_decided() != 0) {
-            send_lobby_arrow__9TProtocolFUc(protocol_instance, selected_menu_value);
+            protocol_instance->send_lobby_arrow(selected_menu_value);
             TLobby::close_all_windows();
             return;
         }
@@ -2058,7 +2055,7 @@ void TLobby::handle_verify_result(unsigned int arg0) {
         protocol_instance->send_login_9e_extended((void *) (((saddr)(void *)TAdSinglePlyChrSelectGC::get_char_index((u32)(0xFFFF))) + 0x370), (int)option_state);
         return;
     case 1:
-        send_register_9c((u8 *)protocol_instance);
+        protocol_instance->send_register_9c();
         return;
     case 3:
         TLobby::dispatch_by_index(0);

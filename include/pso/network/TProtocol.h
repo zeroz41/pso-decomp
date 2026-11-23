@@ -288,7 +288,7 @@ public:
     void send_info_board_request();
     void send_disable_auto_reply();
     void send_lobby_name_request();
-    void send_lobby_arrow(u8 arrow);
+    void send_lobby_arrow(int arrow);
     void send_choice_search_options_request();
     void send_choice_search(ChoiceSearchParameters &parameters);
     void send_choice_search_parameters(ChoiceSearchParameters &parameters);
@@ -300,6 +300,8 @@ public:
     void send_text_packet_c7(char *str);
     void send_text_packet_D9(char *str);
     s32 send_login_9e_extended(void *player_name, int udp_disabled);
+    void send_keepalive();
+    void send_register_9c();
 
     void send_regist();
     int send_login2(int disable_udp);
@@ -315,7 +317,7 @@ public:
     void send_update_chara_data_v2(TPlyCharData &char_data, TPlyChallenge &challenge, TPlyChoiceSearchConfig &choice_search_config, TBlockedSenders &blocked_senders, TPlyText<512> &auto_reply, char *info_board);
     void send_pso_data(game_command &packet, u32 size);
     void send_pso_data2(u32 flags, game_command &packet, u32 size);
-    void send_pso_data_long2(char flags, long_game_command &packet, size_t size);
+    void send_pso_data_long2(u32 flags, long_game_command &packet, size_t size);
     void send_room_change(int idx);
     void send_find_user(TPlyGuildCardTag &tag, u32 gc_num);
     void send_create_game(char *name, char *password, u8 difficulty, u8 battle_mode, u8 challenge_mode, u8 episode);

@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include "types.h"
 #include "pso/ui/city/TShopWindowBase.h"
+#include "pso/network/protocol/packet_classes.h"
 
 class TWindowMenuIconLine;
 struct TWindowMenu;
@@ -26,7 +27,7 @@ struct TQuestListOnline : public TShopWindowBase {
     TWindowMessage *info_window;
     TWindowMenu *confirm_window;
     s32 selected_index;
-    u8 selected_entry[0x1C];
+    GameListEntry selected_entry;
     s32 selection_stage;
     void* sequence;
     void close_windows();
@@ -52,7 +53,7 @@ struct TQuestListOnline : public TShopWindowBase {
     static s32 get_list_state();
     static const char *get_selected_entry();
     static int get_selected_quest_id();
-    static u8 get_unlocked_tier();
+    u8 get_unlocked_tier();
     static void decompress_quest_buffer(const u8 *data, s32 size);
     static s32 init();
     static void ensure_online_quests_loaded();

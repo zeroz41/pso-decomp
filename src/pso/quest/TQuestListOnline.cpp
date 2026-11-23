@@ -103,10 +103,8 @@ struct VObj_18_80217C1C : VBase_18_80217C1C {
 extern "C" {
 saddr get_window_layout_position(int);
 
-s32 send_action__9TProtocolFR13GameListEntryUcPcPc(void *, void *, int, char *, char *);
 
 
-s32 get_unlocked_tier__16TQuestListOnlineFv(void *);
 }
 
 s32 get_guild_text(s32 index);
@@ -130,7 +128,7 @@ s32 TQuestListOnline::get_selection_stage() { return selection_stage; }
 void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, void *arg2, void *player) {
     __ct__15TShopWindowBaseFP7TObject(quest_list_online, (TObject *)parent);
     *(s32 **)((s8 *)quest_list_online + 0x18) = __vt__16TQuestListOnline;
-    __ct__13GameListEntryFv(quest_list_online->selected_entry);
+    __ct__13GameListEntryFv(&quest_list_online->selected_entry);
     quest_list_online->m_name = TQuestListOnline__class_name;
     quest_list_online->list_window = NULL;
     quest_list_online->description_window = NULL;
@@ -143,7 +141,7 @@ void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *parent, vo
     quest_list_online->callback34 = NULL;
     quest_list_online->selection_stage = 0;
     *(void **)((s8 *)quest_list_online + 0x24) = player;
-    memset(quest_list_online->selected_entry, 0, 28);
+    memset(&quest_list_online->selected_entry, 0, sizeof(quest_list_online->selected_entry));
     ((TShopWindowBase *)quest_list_online)->set_state(0);
     TQuestListOnline__instance = quest_list_online;
     return quest_list_online;
@@ -273,7 +271,7 @@ void TQuestListOnline::handle_list_selection() {
     if (list_window != NULL && list_window->is_decided() != 0) {
         if (selection_stage == 0) {
             s32 idx = list_window->get_cursor_value();
-            __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(selected_entry, &TQuestListOnline__quest_list_buffer->entries[idx].tag);
+            __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&selected_entry.tag, &TQuestListOnline__quest_list_buffer->entries[idx].tag);
             switch (TQuestListOnline__quest_list_buffer->entries[idx].tag.m_tag0) {
             case 1:
                 online_quest_list_state = 0;
@@ -285,7 +283,7 @@ void TQuestListOnline::handle_list_selection() {
                 online_quest_list_state = 0;
                 break;
             }
-            send_action__9TProtocolFR13GameListEntryUcPcPc(TLobby::protocol_instance, selected_entry, get_unlocked_tier__16TQuestListOnlineFv(this), "", "");
+            TLobby::protocol_instance->send_action(selected_entry, get_unlocked_tier(), "", "");
             if (description_window != NULL) {
                 description_window->close();
                 description_window = NULL;
@@ -297,8 +295,8 @@ void TQuestListOnline::handle_list_selection() {
             return;
         } else if (selection_stage == 1) {
             s32 idx = list_window->get_cursor_value();
-            __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(selected_entry, &TQuestListOnline__quest_list_buffer->entries[idx].tag);
-            TLobby::protocol_instance->send_info((TPlyGuildCardTag &)selected_entry);
+            __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&selected_entry.tag, &TQuestListOnline__quest_list_buffer->entries[idx].tag);
+            TLobby::protocol_instance->send_info(selected_entry.tag);
             set_state(0xC);
             selection_stage++;
             return;
@@ -351,7 +349,7 @@ void TQuestListOnline::handle_quest_confirm() {
                 if (this->sequence != NULL) {
                     (*(VObj_18_802178E4 * *)&this->sequence)->m7(0x14, 1);
                 }
-                send_action__9TProtocolFR13GameListEntryUcPcPc(TLobby::protocol_instance, selected_entry, 0, "", "");
+                TLobby::protocol_instance->send_action(selected_entry, 0, "", "");
                 this->confirm_window->queue_destruction();
                 this->confirm_window = NULL;
                 if (this->info_window != NULL) {

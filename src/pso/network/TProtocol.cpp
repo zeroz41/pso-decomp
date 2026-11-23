@@ -190,7 +190,6 @@ void TProtocol::handle_cmd_92(packet &pkt) {
 
 #include "pso/player/TPlySmth.h"
 #include "pso/ui/chat/TChatMessage_801DF918.h"
-#include "pso/unk/text_801DB998.h"
 
 struct Stack_801DB998 {
     u8 sp8;
@@ -206,20 +205,20 @@ struct Stack_801DB998 {
     char sp7C[0x30];
 };
 
-void send_register_9c(u8 *protocol) {
+void TProtocol::send_register_9c() {
     Stack_801DB998 stack;
     construct_cmd_9c_send_pso_regist((&stack.sp8));
     memset(&stack.sp8, 0, 0xA4);
     stack.sp8 = 0x9C;
     stack.spA = 0xA4;
-    __as__8TPlySmthFRC8TPlySmth((saddr)&stack.spC, (saddr)(protocol + 0x18F8));
-    stack.sp14 = (s32) ((TProtocol *)protocol)->m_sub_version;
-    stack.sp19 = (s8) *(s32 *)((s8 *)protocol + 0x1934);
-    strncpy(stack.sp1C, (char *)(protocol + 0x3EDA), 0x30);
-    strncpy(stack.sp4C, (char *)(protocol + 0x3F0A), 0x30);
-    strncpy(stack.sp7C, (char *)(protocol + 0x3F3A), 0x30);
+    __as__8TPlySmthFRC8TPlySmth((saddr)&stack.spC, (saddr)&m_smth);
+    stack.sp14 = (s32)m_sub_version;
+    stack.sp19 = (s8)m_language;
+    strncpy(stack.sp1C, m_serial_number, 0x30);
+    strncpy(stack.sp4C, m_access_key, 0x30);
+    strncpy(stack.sp7C, m_password, 0x30);
     bswap_cmd_9c_send_pso_regist((&stack.sp8));
-    ((TProtocol *)protocol)->send(&stack.sp8, 0xA4);
+    send(&stack.sp8, 0xA4);
 }
 
 // ---- pso/network/TProtocol_801DBA58
@@ -392,7 +391,7 @@ void TProtocol::send_room_change(int idx) {
 	}
 }
 
-void TProtocol::send_pso_data_long2(char flags, long_game_command &packet, size_t size) {
+void TProtocol::send_pso_data_long2(u32 flags, long_game_command &packet, size_t size) {
 	const int header_size = sizeof(packet_header);
 	const int command_size = sizeof(long_game_command);
 	if (m_connected) {
@@ -430,19 +429,6 @@ void TProtocol::send_pso_data_long2(char flags, long_game_command &packet, size_
 	}
 }
 
-struct VBase_18_801DC084 { char pad[0x18]; };
-struct VObj_18_801DC084 : VBase_18_801DC084 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8(void *, u16);
-};
-
 struct Pkt_801DC084 {
     u8 cmd;
     u8 flag;
@@ -471,19 +457,19 @@ void TProtocol::send_subcommand_to_client(s32 flag, s8 *src, s32 len) {
     }
 }
 
-void TProtocol__send_60(VObj_18_801DC084 *obj, s8 *src, u32 len) {
+void TProtocol::send_pso_data(game_command &packet, u32 size) {
     char buf[0x80];
-    sprintf(buf, TProtocol__send_pso_data_log_format, *src, len);
-    if (*(s32 *)((char *)obj + 0x1910) != 0) {
+    sprintf(buf, TProtocol__send_pso_data_log_format, packet.header.command, size);
+    if (this->m_connected != 0) {
         Pkt_801DC084 pkt;
-        int size;
+        int packet_size;
         pkt.cmd = 0x60;
         pkt.flag = 0;
-        pkt.size = len + 4;
-        size = pkt.size;
-        memcpy(pkt.data, src, len);
+        pkt.size = size + 4;
+        packet_size = pkt.size;
+        memcpy(pkt.data, &packet, size);
         bswap__12TRecvPsoDataFv(&pkt);
-        obj->m8(&pkt, size);
+        this->send((u8 *)&pkt, packet_size);
     }
 }
 

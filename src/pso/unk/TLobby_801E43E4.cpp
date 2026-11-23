@@ -24,13 +24,11 @@
 #include "pso/unk/TLobby_803DE778.h"
 
 extern "C" {
-s32 TProtocol__send_60(int, int, int);
 s32 dispatch_6x_subcommand(void *);
 s32 load_texture_list(s32 **);
 s32 append_command_to_batch_buffer(void *, s32);
 u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
 s32 distort_texture_wave_image(void *);
-s32 send_pso_data_long2__9TProtocolFcR17long_game_commandUl(void *, u32, void *, s32);
 }
 
 extern void *game_protocol_instance;
@@ -47,7 +45,7 @@ void TLobby::send_command(u32 arg1) {
         return;
     }
     if (protocol_instance != NULL) {
-        send_pso_data_long2__9TProtocolFcR17long_game_commandUl((void *)protocol_instance, arg1, this, sp8);
+        protocol_instance->send_pso_data_long2(arg1, *(long_game_command *)this, sp8);
     }
 }
 
@@ -84,27 +82,17 @@ void TLobby::send_subcommand_to_client(u32 flag) {
 void TLobby::send_60_sized() {
     int size = ((u8 *)this)[1] * 4;
     if (protocol_instance != NULL) {
-        TProtocol__send_60((saddr)protocol_instance, (saddr)this, size);
+        protocol_instance->send_pso_data(*(game_command *)this, size);
     }
 }
 
 void send_subcommand(void *cmd) {
-    u8 *arg0 = (u8 *)cmd;
-    s32 len;
-    u8 *var_r31;
-    u8 *var_r3;
-    u8 *src;
-    var_r31 = arg0;
-    src = (u8 *)TLobby::protocol_instance;
-    len = *(u8 *)((s8 *)arg0 + 1) * 4;
-    if (src != NULL) {
-        var_r3 = src;
-        src = var_r31;
-        TProtocol__send_60((saddr)var_r3, (saddr)src, (int)len);
+    s32 len = ((u8 *)cmd)[1] * 4;
+    if (TLobby::protocol_instance != NULL) {
+        TLobby::protocol_instance->send_pso_data(*(game_command *)cmd, len);
     }
-    var_r3 = var_r31;
     dispatching_own_subcommand = 1;
-    dispatch_6x_subcommand(var_r3);
+    dispatch_6x_subcommand(cmd);
     dispatching_own_subcommand = 0;
 }
 
