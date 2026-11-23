@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/effect/particle/ParticleParam.h"
 #include "pso/system/task/TObject.h"
+#include "pso/unk/TUnk_804C57F0.h"
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx.h>
 
@@ -43,15 +44,10 @@ public:
     f32 fade_in_scale;         // 0x60
     f32 fade_out_scale;        // 0x64
     f32 speed;                 // 0x68
-    void *draw_next;           // 0x6C, link in the sprite draw list (append_node_to_tail)
-    Vec pos;                   // 0x70
-    Vec attach;                // 0x7C, offset to the followed entity
-    f32 draw_scale_x;          // 0x88, quad width scale used when drawing
-    f32 draw_scale_y;          // 0x8C, quad height scale
-    u32 color;                 // 0x90, packed ARGB
-    s8 frame;                  // 0x94, sprite frame
-    s8 screen_space;           // 0x95, 1: pos is already in screen space
-    s16 roll;                  // 0x96, rotation of the drawn quad
+    // 0x6C: the particle's entry in the draw list of its sprite (append_node_to_tail); pos is where it is,
+    // offset the distance to the followed entity, scale_x/scale_y the quad size, uv_index the sprite frame,
+    // type 1 when pos is already in screen space, angle the roll of the quad.
+    QuadSpriteNode sprite;
     s32 rot_x;                 // 0x98, model rotation angles
     s32 rot_y;                 // 0x9C
     s32 rot_z;                 // 0xA0

@@ -66,15 +66,15 @@ void TQuadSpriteCol::render() {
             pos.x = n->pos.x + n->offset.x;
             pos.y = n->pos.y + n->offset.y;
             pos.z = n->pos.z + n->offset.z;
-            if ((s32)n->type != 1) {
+            if (n->type != 1) {
                 matrix_mult_vec(0, &pos, &out);
                 out.y = -out.y;
             } else {
                 VecCopy(&out, &pos);
             }
-            if (out.z >= one || (s32)n->type == 1) {
+            if (out.z >= one || n->type == 1) {
                 set_constant_material_color(n->color);
-                if ((s32)n->type != 1) {
+                if (n->type != 1) {
                     d = 1.0f / -out.z;
                     sx = sh * d;
                     sy = sw * d;

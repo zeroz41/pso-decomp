@@ -54,8 +54,6 @@ public:
     void destroy_particle();
     static void begin_effect_render();
     static void end_effect_render();
-    // Appends node to the draw list of a quad-sprite batch (list).
-    static void append_node_to_tail(void *list, void *node);
     static void reset_emitter_table();
     static void create_quad_sprites();
     static void reset_particles();

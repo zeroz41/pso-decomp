@@ -16,7 +16,7 @@ struct QuadSpriteNode {
     f32 scale_y;
     u32 color;
     s8 uv_index;
-    u8 type;  // 1: pos is already in screen space
+    s8 type;  // 1: pos is already in screen space
     s16 angle;
 };
 
@@ -33,6 +33,8 @@ class TUnk_804C57F0 : public TObject {
 public:
     TUnk_804C57F0(TObject *parent, ParticleDefinition *sprite_definition);
     virtual ~TUnk_804C57F0();
+    // Queues node at the end of the list of its uv cell.
+    void append_node_to_tail(QuadSpriteNode *node);
     void quad_sprite_reset_entries();
     virtual void render();
     QuadSpriteNode *lists;   // one head node per uv cell; lists[i].next is the first sprite

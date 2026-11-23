@@ -61,9 +61,9 @@ TUnk_8048E728 *TParticleCtrl::create_random_spread(void *param, void *pos, void 
 void TUnk_8048E778::retire_ballistic_particle_if_done() {
     Vec offset;
     if (param->flags & 8) {
-        offset.x = pos.x - origin.x;
-        offset.y = pos.y - origin.y;
-        offset.z = pos.z - origin.z;
+        offset.x = sprite.pos.x - origin.x;
+        offset.y = sprite.pos.y - origin.y;
+        offset.z = sprite.pos.z - origin.z;
         if (0.0f == vec_squared_length(&offset)) {
             queue_destruction();
             return;
@@ -80,7 +80,7 @@ void TUnk_8048E778::run_task() {
     NJS_COLOR col;
     Vec toward_camera;
     ParticleParam *p;
-    f32 t[2]; // [0] age this frame, [1] fade alpha
+    f32 t[2]; // [0] age this sprite.uv_index, [1] fade alpha
     f32 fade_in;
     f32 fade_out;
     f32 ch[3];
@@ -89,9 +89,9 @@ void TUnk_8048E778::run_task() {
 
     if (param->flags & 8) {
         if (age >= 0.5f) {
-            approach_camera_vector(&pos, &origin, fabs_float(step.y));
+            approach_camera_vector(&sprite.pos, &origin, fabs_float(step.y));
         } else {
-            vec3_add_to(&pos, &step);
+            vec3_add_to(&sprite.pos, &step);
             VecCopy(&velocity, &step);
         }
     } else {
@@ -112,10 +112,10 @@ void TUnk_8048E778::run_task() {
             rotate_vector_by_current_matrix(&step, &velocity);
             pop_matrix();
         }
-        vec3_add_to(&pos, &velocity);
+        vec3_add_to(&sprite.pos, &velocity);
     }
     p = param;
-    if ((p->flags & 2) && origin.y > pos.y) {
+    if ((p->flags & 2) && origin.y > sprite.pos.y) {
         step.y = p->bounce * (p->rise_range * (3.0517578e-05f * rand()) + p->rise_min);
     }
     step.x *= param->speed_decay;
@@ -165,28 +165,28 @@ void TUnk_8048E778::run_task() {
     col.argb.r = 254.0f * ch[0];
     col.argb.g = 254.0f * ch[1];
     col.argb.b = 254.0f * ch[2];
-    color = col.color;
+    sprite.color = col.color;
     p = param;
     if (0.0f == p->gravity && 0.0f == p->rise_min && 0.0f == p->speed_min) {
-        roll += (s32)(182.04445f * p->bounce);
+        sprite.angle += (s32)(182.04445f * p->bounce);
     } else if (!(p->flags & 4)) {
         tilt = step.y * (p->tilt * step.x);
         if (fabs_float(tilt) > 20.0f) {
             tilt = 20.0f;
         }
         if (speed < 0.0f) {
-            roll += (s32)(182.04445f * tilt);
+            sprite.angle += (s32)(182.04445f * tilt);
         } else {
-            roll -= (s32)(182.04445f * tilt);
+            sprite.angle -= (s32)(182.04445f * tilt);
         }
     }
     frames = particle_sprites[sprite_index]->definition->uv_count;
     if (param->flags & 0x10) {
-        frame = age * (frames - 1);
+        sprite.uv_index = age * (frames - 1);
     } else {
-        frame++;
-        if (frames <= frame) {
-            frame = 0;
+        sprite.uv_index++;
+        if (frames <= sprite.uv_index) {
+            sprite.uv_index = 0;
         }
     }
     if (flags & 0x10) {
@@ -199,13 +199,13 @@ void TUnk_8048E778::run_task() {
         if (center != NULL) {
             if (flags & 0x20) {
                 offset_point_toward_camera((u8 *)center, (u8 *)&toward_camera, 8.0f);
-                attach.x = toward_camera.x - origin.x;
-                attach.y = toward_camera.y - origin.y;
-                attach.z = toward_camera.z - origin.z;
+                sprite.offset.x = toward_camera.x - origin.x;
+                sprite.offset.y = toward_camera.y - origin.y;
+                sprite.offset.z = toward_camera.z - origin.z;
             } else {
-                attach.x = center->x - origin.x;
-                attach.y = center->y - origin.y;
-                attach.z = center->z - origin.z;
+                sprite.offset.x = center->x - origin.x;
+                sprite.offset.y = center->y - origin.y;
+                sprite.offset.z = center->z - origin.z;
             }
         }
     }
@@ -230,11 +230,11 @@ void TUnk_8048E778::render() {
         NJS_POINT2 end_screen;
         f32 len;
         if (flags & 0x10) {
-            start.x = pos.x + attach.x;
-            start.y = pos.y + attach.y;
-            start.z = pos.z + attach.z;
+            start.x = sprite.pos.x + sprite.offset.x;
+            start.y = sprite.pos.y + sprite.offset.y;
+            start.z = sprite.pos.z + sprite.offset.z;
         } else {
-            VecCopy(&start, &pos);
+            VecCopy(&start, &sprite.pos);
         }
         end.x = start.x + velocity.x;
         end.y = start.y + velocity.y;
@@ -244,9 +244,9 @@ void TUnk_8048E778::render() {
         project_world_to_screen(NULL, &end, &end_screen.x);
         end_screen.x -= start_screen.x;
         end_screen.y -= start_screen.y;
-        roll = 10430.38043493439 * atan2_float(end_screen.y, end_screen.x);
-        draw_scale_x = param->tilt * len;
-        draw_scale_y = param->ballistic_streak_height * len;
+        sprite.angle = 10430.38043493439 * atan2_float(end_screen.y, end_screen.x);
+        sprite.scale_x = param->tilt * len;
+        sprite.scale_y = param->ballistic_streak_height * len;
     } else if (param->flags & 0x40) {
         Vec yaw_axis = ballistic_camera_yaw_axis;
         Vec pitch_axis = ballistic_camera_pitch_axis;
@@ -275,21 +275,21 @@ void TUnk_8048E778::render() {
         }
         draw_flags = flags;
         if (draw_flags & 8) {
-            draw_scale_x = size_x;
-            draw_scale_y = size_y * pitch_dot;
+            sprite.scale_x = size_x;
+            sprite.scale_y = size_y * pitch_dot;
         } else if (draw_flags & 4) {
-            draw_scale_x = size_x * yaw_dot;
-            draw_scale_y = size_y;
+            sprite.scale_x = size_x * yaw_dot;
+            sprite.scale_y = size_y;
         } else {
-            draw_scale_x = size_x * yaw_dot;
-            draw_scale_y = size_y * pitch_dot;
+            sprite.scale_x = size_x * yaw_dot;
+            sprite.scale_y = size_y * pitch_dot;
         }
     } else {
-        draw_scale_x = size_x;
-        draw_scale_y = size_y;
+        sprite.scale_x = size_x;
+        sprite.scale_y = size_y;
     }
-    draw_scale_x *= scale_x;
-    draw_scale_y *= scale_y;
+    sprite.scale_x *= scale_x;
+    sprite.scale_y *= scale_y;
     draw_flags = flags;
     if (draw_flags & 0x200) {
         Vec at;
@@ -302,14 +302,14 @@ void TUnk_8048E778::render() {
         if (model == NULL) {
             return;
         }
-        at.x = pos.x + attach.x;
-        at.y = pos.y + attach.y;
-        at.z = pos.z + attach.z;
+        at.x = sprite.pos.x + sprite.offset.x;
+        at.y = sprite.pos.y + sprite.offset.y;
+        at.z = sprite.pos.z + sprite.offset.z;
         ParticleAngles angles = ballistic_zero_angles;
         direction_to_rotation_xz((u8 *)&velocity, &angles.x, &angles.z);
         push_matrix();
         post_translate_matrix(&at.x);
-        scale_matrix(0, draw_scale_x, draw_scale_x, draw_scale_x);
+        scale_matrix(0, sprite.scale_x, sprite.scale_x, sprite.scale_x);
         rotate_matrix_z(0, angles.z);
         rotate_matrix_x(0, angles.x);
         if (flags & 0x1000) {
@@ -318,7 +318,7 @@ void TUnk_8048E778::render() {
             }
         } else {
             rotate_matrix_y(0, angles.y);
-            rotate_matrix_y(0, roll);
+            rotate_matrix_y(0, sprite.angle);
         }
         if (flags & 0x400) {
             load_projected_texture_matrix(1.33f);
@@ -364,9 +364,9 @@ void TUnk_8048E778::render() {
         restore_saved_depth_alpha_state();
     } else if (param->flags & 0x20) {
         id = sprite_index + 0x36;
-        TParticleCtrl::append_node_to_tail(particle_sprites[id], &draw_next);
+        particle_sprites[id]->append_node_to_tail(&sprite);
     } else {
-        TParticleCtrl::append_node_to_tail(particle_sprites[sprite_index], &draw_next);
+        particle_sprites[sprite_index]->append_node_to_tail(&sprite);
     }
 }
 
@@ -383,18 +383,18 @@ TUnk_8048E778::TUnk_8048E778(ParticleParam *entry, Vec *position, ParticleAngles
     velocity.z = 0.0f;
     flags = particle_flags;
     if (flags & 0x80) {
-        screen_space = 1;
+        sprite.type = 1;
     }
     target_id = target;
     rot_x = direction->x;
     rot_y = direction->y;
     rot_z = direction->z;
-    pos.x = (entry->spawn_spread.x * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + position->x;
-    pos.z = (entry->spawn_spread.z * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + position->z;
+    sprite.pos.x = (entry->spawn_spread.x * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + position->x;
+    sprite.pos.z = (entry->spawn_spread.z * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + position->z;
     if (entry->flags & 2) {
-        pos.y = position->y + entry->spawn_spread.y;
+        sprite.pos.y = position->y + entry->spawn_spread.y;
     } else {
-        pos.y = (entry->spawn_spread.y * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + position->y;
+        sprite.pos.y = (entry->spawn_spread.y * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + position->y;
     }
     origin.x = position->x;
     origin.z = position->z;
@@ -416,10 +416,10 @@ TUnk_8048E778::TUnk_8048E778(ParticleParam *entry, Vec *position, ParticleAngles
     step.z = 0.0f;
     rotate_vec_xz(&step, &step, (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()))));
     if (0.0f == entry->gravity && 0.0f == entry->rise_min && 0.0f == entry->speed_min) {
-        roll = 0;
+        sprite.angle = 0;
         speed = 0.0f;
     } else {
-        roll = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
+        sprite.angle = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
         speed = (3.0517578e-05f * (f32)rand()) - 0.5f;
     }
     if (flags & 0x2000) {
@@ -438,12 +438,12 @@ TUnk_8048E778::TUnk_8048E778(void *entry, void *position, void *parent)
     velocity.x = 0.0f;
     velocity.y = 0.0f;
     velocity.z = 0.0f;
-    pos.x = (src->spawn_spread.x * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->x;
-    pos.z = (src->spawn_spread.z * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->z;
+    sprite.pos.x = (src->spawn_spread.x * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->x;
+    sprite.pos.z = (src->spawn_spread.z * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->z;
     if (src->flags & 2) {
-        pos.y = at->y + src->spawn_spread.y;
+        sprite.pos.y = at->y + src->spawn_spread.y;
     } else {
-        pos.y = (src->spawn_spread.y * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->y;
+        sprite.pos.y = (src->spawn_spread.y * ((3.0517578e-05f * (f32)rand()) - 0.5f)) + at->y;
     }
     origin.x = at->x;
     origin.z = at->z;
@@ -465,10 +465,10 @@ TUnk_8048E778::TUnk_8048E778(void *entry, void *position, void *parent)
     step.z = 0.0f;
     rotate_vec_xz(&step, &step, (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()))));
     if (0.0f == src->gravity && 0.0f == src->rise_min && 0.0f == src->speed_min) {
-        roll = 0;
+        sprite.angle = 0;
         speed = 0.0f;
     } else {
-        roll = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
+        sprite.angle = (s16)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
         speed = (3.0517578e-05f * (f32)rand()) - 0.5f;
     }
     if (flags & 0x2000) {

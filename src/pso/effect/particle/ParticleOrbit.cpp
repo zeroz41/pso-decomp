@@ -64,7 +64,7 @@ void TUnk_8048E790::run_task() {
     Vec ring;
     Vec lift;
     ParticleParam *p;
-    f32 t[2]; // [0] age this frame, [1] fade alpha
+    f32 t[2]; // [0] age this sprite.uv_index, [1] fade alpha
     f32 fade_in;
     f32 fade_out;
     f32 ch[3];
@@ -80,16 +80,16 @@ void TUnk_8048E790::run_task() {
         }
         Vec *center = (Vec *)target_obj->get_center();
         if (rot_x != 0 && rot_y != 0 && rot_z != 0) {
-            attach.x = orbit_center_x - origin.x;
-            attach.z = orbit_center_z - origin.z;
-            pos.x = orbit_radius * cos_table_lookup(orbit_angle) + center->x;
-            pos.z = orbit_radius * sin_table_lookup(orbit_angle) + center->z;
+            sprite.offset.x = orbit_center_x - origin.x;
+            sprite.offset.z = orbit_center_z - origin.z;
+            sprite.pos.x = orbit_radius * cos_table_lookup(orbit_angle) + center->x;
+            sprite.pos.z = orbit_radius * sin_table_lookup(orbit_angle) + center->z;
         } else {
-            attach.x = orbit_center_x - origin.x;
-            attach.z = orbit_center_z - origin.z;
-            pos.x = orbit_radius * cos_table_lookup(orbit_angle) + center->x;
-            pos.z = orbit_radius * sin_table_lookup(orbit_angle) + center->z;
-            pos.y = center->y;
+            sprite.offset.x = orbit_center_x - origin.x;
+            sprite.offset.z = orbit_center_z - origin.z;
+            sprite.pos.x = orbit_radius * cos_table_lookup(orbit_angle) + center->x;
+            sprite.pos.z = orbit_radius * sin_table_lookup(orbit_angle) + center->z;
+            sprite.pos.y = center->y;
             orbit_height += step.y;
             follow_lift.x = 0.0f;
             follow_lift.z = 0.0f;
@@ -100,13 +100,13 @@ void TUnk_8048E790::run_task() {
             rotate_matrix_z(0, rot_z);
             rotate_vector_by_current_matrix(&follow_lift, &follow_lift);
             pop_matrix();
-            pos.x += follow_lift.x;
-            pos.y += follow_lift.y;
-            pos.z += follow_lift.z;
+            sprite.pos.x += follow_lift.x;
+            sprite.pos.y += follow_lift.y;
+            sprite.pos.z += follow_lift.z;
         }
     } else if (rot_x != 0 && rot_y != 0 && rot_z != 0) {
-        pos.x = orbit_radius * cos_table_lookup(orbit_angle) + orbit_center_x;
-        pos.z = orbit_radius * sin_table_lookup(orbit_angle) + orbit_center_z;
+        sprite.pos.x = orbit_radius * cos_table_lookup(orbit_angle) + orbit_center_x;
+        sprite.pos.z = orbit_radius * sin_table_lookup(orbit_angle) + orbit_center_z;
     } else {
         ring.x = orbit_radius * cos_table_lookup(orbit_angle);
         ring.z = orbit_radius * sin_table_lookup(orbit_angle);
@@ -122,12 +122,12 @@ void TUnk_8048E790::run_task() {
         rotate_vector_by_current_matrix(&ring, &ring);
         rotate_vector_by_current_matrix(&lift, &lift);
         pop_matrix();
-        pos.x = lift.x + (orbit_center_x + ring.x);
-        pos.z = lift.z + (orbit_center_z + ring.z);
-        pos.y = lift.y + (origin.y + ring.y);
+        sprite.pos.x = lift.x + (orbit_center_x + ring.x);
+        sprite.pos.z = lift.z + (orbit_center_z + ring.z);
+        sprite.pos.y = lift.y + (origin.y + ring.y);
     }
     if (rot_x != 0 && rot_y != 0 && rot_z != 0) {
-        pos.y += step.y;
+        sprite.pos.y += step.y;
     }
     size_x *= param->scale_decay;
     size_y *= param->scale_decay;
@@ -172,7 +172,7 @@ void TUnk_8048E790::run_task() {
     col.argb.r = 254.0f * ch[0];
     col.argb.g = 254.0f * ch[1];
     col.argb.b = 254.0f * ch[2];
-    color = col.color;
+    sprite.color = col.color;
     pulse_angle += (s32)(182.04445f * param->orbit.spin_rate);
     age += age_rate;
     tilt = 8.0f * step.x * step.y;
@@ -180,17 +180,17 @@ void TUnk_8048E790::run_task() {
         tilt = 10.0f;
     }
     if (speed < 0.0f) {
-        roll += (s32)(182.04445f * tilt);
+        sprite.angle += (s32)(182.04445f * tilt);
     } else {
-        roll -= (s32)(182.04445f * tilt);
+        sprite.angle -= (s32)(182.04445f * tilt);
     }
     frames = particle_sprites[sprite_index]->definition->uv_count;
     if (param->flags & 0x10) {
-        frame = age * (frames - 1);
+        sprite.uv_index = age * (frames - 1);
     } else {
-        frame++;
-        if (frames <= frame) {
-            frame = 0;
+        sprite.uv_index++;
+        if (frames <= sprite.uv_index) {
+            sprite.uv_index = 0;
         }
     }
     size_x *= scale_x;
@@ -213,19 +213,19 @@ void TUnk_8048E790::render() {
     u16 draw_flags;
     if ((s32)all_parents_unqueued_for_destruction() != 0) {
         pulse = param->orbit.pulse * cos_table_lookup(pulse_angle);
-        draw_scale_x = size_x * (1.0f + pulse);
-        draw_scale_y = size_y * (1.0f - pulse);
-        draw_scale_x = draw_scale_x * scale_x;
-        draw_scale_y = draw_scale_y * scale_y;
+        sprite.scale_x = size_x * (1.0f + pulse);
+        sprite.scale_y = size_y * (1.0f - pulse);
+        sprite.scale_x = sprite.scale_x * scale_x;
+        sprite.scale_y = sprite.scale_y * scale_y;
         draw_flags = flags;
         if (draw_flags & 0x200) {
             if (((is_split_screen() == 0) || !(flags & 0x400)) && (texlist != NULL) && (model != NULL)) {
-                at.x = pos.x + attach.x;
-                at.y = pos.y + attach.y;
-                at.z = pos.z + attach.z;
+                at.x = sprite.pos.x + sprite.offset.x;
+                at.y = sprite.pos.y + sprite.offset.y;
+                at.z = sprite.pos.z + sprite.offset.z;
                 push_matrix();
                 post_translate_matrix(&at.x);
-                size = draw_scale_x;
+                size = sprite.scale_x;
                 scale_matrix(0, size, size, size);
                 rotate_matrix_z(0, rot_z);
                 rotate_matrix_x(0, rot_x);
@@ -235,7 +235,7 @@ void TUnk_8048E790::render() {
                     TParticleCtrl::begin_effect_render();
                     load_projected_texture_matrix(1.33f);
                 }
-                rotate_matrix_y(0, roll);
+                rotate_matrix_y(0, sprite.angle);
                 if ((flags & 0x1000) && (camera_ctrl_instance != NULL)) {
                     rotate_matrix_y(0, camera_ctrl_instance->yaw);
                 }
@@ -272,10 +272,10 @@ void TUnk_8048E790::render() {
                 return;
             }
             if (param->flags & 0x20) {
-                TParticleCtrl::append_node_to_tail((particle_sprites + 0x36)[sprite_index], &draw_next);
+                (particle_sprites + 0x36)[sprite_index]->append_node_to_tail(&sprite);
                 return;
             }
-            TParticleCtrl::append_node_to_tail(particle_sprites[sprite_index], &draw_next);
+            particle_sprites[sprite_index]->append_node_to_tail(&sprite);
         }
     }
 }
@@ -293,13 +293,13 @@ TUnk_8048E790::TUnk_8048E790(ParticleParam *entry, Vec *position, ParticleAngles
     rot_z = direction->z;
     orbit_center_x = (2.0f * entry->spawn_spread.x) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + position->x;
     orbit_center_z = (2.0f * entry->spawn_spread.z) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + position->z;
-    pos.y = (2.0f * entry->spawn_spread.y) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + position->y;
+    sprite.pos.y = (2.0f * entry->spawn_spread.y) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + position->y;
     origin.x = position->x;
     origin.z = position->z;
-    origin.y = pos.y;
+    origin.y = sprite.pos.y;
     flags = particle_flags;
     if (flags & 0x80) {
-        screen_space = 1;
+        sprite.type = 1;
     }
     target_id = target;
     size_x = entry->size_range * (3.0517578e-05f * (f32)rand()) + entry->size_min;
@@ -315,7 +315,7 @@ TUnk_8048E790::TUnk_8048E790(ParticleParam *entry, Vec *position, ParticleAngles
     orbit_angle = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
     orbit_radius = entry->orbit_radius_range * (3.0517578e-05f * (f32)rand()) + entry->orbit_radius_min;
     pulse_angle = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
-    roll = orbit_angle;
+    sprite.angle = orbit_angle;
     speed = (3.0517578e-05f * (f32)rand()) - 0.5f;
     orbit_height = 0.0f;
     if (flags & 0x2000) {
@@ -337,10 +337,10 @@ TUnk_8048E790::TUnk_8048E790(void *entry, void *position, void *direction, void 
     rot_z = dir->z;
     orbit_center_x = (2.0f * src->spawn_spread.x) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + at->x;
     orbit_center_z = (2.0f * src->spawn_spread.z) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + at->z;
-    pos.y = (2.0f * src->spawn_spread.y) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + at->y;
+    sprite.pos.y = (2.0f * src->spawn_spread.y) * ((3.0517578e-05f * (f32)rand()) - 0.5f) + at->y;
     origin.x = at->x;
     origin.z = at->z;
-    origin.y = pos.y;
+    origin.y = sprite.pos.y;
     size_x = src->size_range * (3.0517578e-05f * (f32)rand()) + src->size_min;
     size_y = size_x;
     life = (s32)((f32)src->life_range * (3.0517578e-05f * (f32)rand()) + (f32)src->life_min);
@@ -354,7 +354,7 @@ TUnk_8048E790::TUnk_8048E790(void *entry, void *position, void *direction, void 
     orbit_angle = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
     orbit_radius = src->orbit_radius_range * (3.0517578e-05f * (f32)rand()) + src->orbit_radius_min;
     pulse_angle = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
-    roll = orbit_angle;
+    sprite.angle = orbit_angle;
     speed = (3.0517578e-05f * (f32)rand()) - 0.5f;
     orbit_height = 0.0f;
     if (flags & 0x2000) {

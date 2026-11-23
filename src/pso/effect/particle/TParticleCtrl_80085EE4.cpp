@@ -123,19 +123,19 @@ TUnk_8048E728::TUnk_8048E728(ParticleParam *src, TObject *parent) : TObject(pare
     step.z = 0.0f;
     age = 0.0f;
     age_rate = 0.0f;
-    pos.x = 0.0f;
-    pos.y = 0.0f;
-    pos.z = 0.0f;
-    attach.x = 0.0f;
-    attach.y = 0.0f;
-    attach.z = 0.0f;
-    draw_scale_x = 0.0f;
-    draw_scale_y = 0.0f;
-    color = 0;
-    frame = 0;
-    screen_space = 0;
-    roll = 0;
-    draw_next = 0;
+    sprite.pos.x = 0.0f;
+    sprite.pos.y = 0.0f;
+    sprite.pos.z = 0.0f;
+    sprite.offset.x = 0.0f;
+    sprite.offset.y = 0.0f;
+    sprite.offset.z = 0.0f;
+    sprite.scale_x = 0.0f;
+    sprite.scale_y = 0.0f;
+    sprite.color = 0;
+    sprite.uv_index = 0;
+    sprite.type = 0;
+    sprite.angle = 0;
+    sprite.next = 0;
     flags = 0;
     target_id = 0xFFFF;
 }
@@ -149,7 +149,7 @@ void TUnk_8048E728::apply_particle_model_fade_color(s32 mode) {
     if (mode != 0) {
         set_color_blend_mode(1, 4, 1, 0);
         NJS_COLOR c;
-        c.color = color;
+        c.color = sprite.color;
         f.a = 0.0f;
         f.r = -(1.0f - c.argb.r / 255.0f);
         f.g = -(1.0f - c.argb.g / 255.0f);
@@ -157,7 +157,7 @@ void TUnk_8048E728::apply_particle_model_fade_color(s32 mode) {
     } else {
         set_color_blend_mode(1, 4, 5, 0);
         NJS_COLOR c;
-        c.color = color;
+        c.color = sprite.color;
         f.a = -(1.0f - c.argb.a / 255.0f);
         f.r = 0.0f;
         f.g = 0.0f;
@@ -171,19 +171,19 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
     ParticleStripVertex v[4];
     s32 cell;
     const f32 *uv;
-    cell = frame;
+    cell = sprite.uv_index;
     if (is_split_screen() != 0) {
         return;
     }
     TParticleCtrl::begin_effect_render();
     uv = particle_definitions[sprite_index].uvs[cell];
-    p.x = pos.x + attach.x;
-    p.y = pos.y + attach.y;
-    p.z = pos.z + attach.z;
-    v[0].x = 10.0f * draw_scale_x; v[0].y = 10.0f * draw_scale_y; v[0].z = 0.0f; v[0].u = uv[0]; v[0].v = uv[1]; v[0].color = color;
-    v[1].x = 10.0f * draw_scale_x; v[1].y = -10.0f * draw_scale_y; v[1].z = 0.0f; v[1].u = uv[2]; v[1].v = uv[1]; v[1].color = color;
-    v[2].x = -10.0f * draw_scale_x; v[2].y = 10.0f * draw_scale_y; v[2].z = 0.0f; v[2].u = uv[0]; v[2].v = uv[3]; v[2].color = color;
-    v[3].x = -10.0f * draw_scale_x; v[3].y = -10.0f * draw_scale_y; v[3].z = 0.0f; v[3].u = uv[2]; v[3].v = uv[3]; v[3].color = color;
+    p.x = sprite.pos.x + sprite.offset.x;
+    p.y = sprite.pos.y + sprite.offset.y;
+    p.z = sprite.pos.z + sprite.offset.z;
+    v[0].x = 10.0f * sprite.scale_x; v[0].y = 10.0f * sprite.scale_y; v[0].z = 0.0f; v[0].u = uv[0]; v[0].v = uv[1]; v[0].color = sprite.color;
+    v[1].x = 10.0f * sprite.scale_x; v[1].y = -10.0f * sprite.scale_y; v[1].z = 0.0f; v[1].u = uv[2]; v[1].v = uv[1]; v[1].color = sprite.color;
+    v[2].x = -10.0f * sprite.scale_x; v[2].y = 10.0f * sprite.scale_y; v[2].z = 0.0f; v[2].u = uv[0]; v[2].v = uv[3]; v[2].color = sprite.color;
+    v[3].x = -10.0f * sprite.scale_x; v[3].y = -10.0f * sprite.scale_y; v[3].z = 0.0f; v[3].u = uv[2]; v[3].v = uv[3]; v[3].color = sprite.color;
     push_matrix();
     post_translate_matrix(&p.x);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
@@ -253,24 +253,24 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     begin_screen_draw(1);
     TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(particle_definitions[kind].texlist));
     set_draw_texture_and_color(particle_definitions[kind].texture, particle_definitions[kind].color);
-    uv = particle_definitions[kind].uvs[frame];
+    uv = particle_definitions[kind].uvs[sprite.uv_index];
     quad.u = uv[0];
     quad.v = uv[1];
     quad.edge_a_u = uv[2] - uv[0];
     quad.edge_b_u = quad.edge_a_v = 0.0f;
     quad.edge_b_v = uv[3] - uv[1];
-    world.x = pos.x + attach.x;
-    world.y = pos.y + attach.y;
-    world.z = pos.z + attach.z;
-    if (screen_space != 1) {
+    world.x = sprite.pos.x + sprite.offset.x;
+    world.y = sprite.pos.y + sprite.offset.y;
+    world.z = sprite.pos.z + sprite.offset.z;
+    if (sprite.type != 1) {
         matrix_mult_vec(0, &world, &view);
         view.y = -view.y;
     } else {
         VecCopy(&view, &world);
     }
-    if (view.z <= -1.0f || screen_space == 1) {
-        set_constant_material_color(color);
-        if (screen_space != 1) {
+    if (view.z <= -1.0f || sprite.type == 1) {
+        set_constant_material_color(sprite.color);
+        if (sprite.type != 1) {
             z = 1.0f / -view.z;
             a = sx * z;
             b = sy * z;
@@ -287,10 +287,10 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
         }
         sx *= particle_definitions[kind].width;
         sy *= particle_definitions[kind].height;
-        sx *= draw_scale_x;
-        sy *= draw_scale_y;
-        c = cos_table_lookup(roll);
-        s = -sin_table_lookup(roll);
+        sx *= sprite.scale_x;
+        sy *= sprite.scale_y;
+        c = cos_table_lookup(sprite.angle);
+        s = -sin_table_lookup(sprite.angle);
         quad.depth = z;
         quad.x = x - (sx * c + sy * s);
         quad.y = y - (-sx * s + sy * c);
