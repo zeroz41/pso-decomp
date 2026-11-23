@@ -105,15 +105,12 @@ pso/ui/frontend/TAdSoniclogo.cpp:
 	.sbss       start:0x805D4A48 end:0x805D4A58
 	.sdata2     start:0x805D7E78 end:0x805D7E7C
 
-pso/unk/text_8001C388.cpp:
-	.text       start:0x8001C388 end:0x8001C5A0
+pso/ui/frontend/TitleBackground.cpp:
+	.text       start:0x8001C388 end:0x8001C5E8
 	.rodata     start:0x804349B8 end:0x804349C0
 	.data       start:0x80480BC8 end:0x80480C68
 	.sbss       start:0x805D4A58 end:0x805D4A78
 	.sdata2     start:0x805D7E80 end:0x805D7E8C
-
-pso/ui/frontend/TAdBackGC.cpp:
-	.text       start:0x8001C5A0 end:0x8001C5E8
 
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8001C5E8.cpp:
 	.text       start:0x8001C5E8 end:0x8001C5F8
@@ -7893,7 +7890,7 @@ pso/unk/TLobby_80299C4C.cpp:
 	.data       start:0x804DBE90 end:0x804DBEBC
 	.sdata      start:0x805D3CF8 end:0x805D3D00
 
-pso/ui/frontend/TAdBackGC_8029A6EC.cpp:
+pso/ui/frontend/TAdBackGC.cpp:
 	.text       start:0x8029A6EC end:0x8029A97C
 	.rodata     start:0x804651F8 end:0x80465298
 	.data       start:0x804DBEC0 end:0x804DBF40

@@ -1820,7 +1820,6 @@ pso/object/base/TObjCharaData.cpp
 pso/ui/frontend/TAdADXlogo.cpp
 pso/ui/frontend/TAdAgreementBaseGC.cpp
 pso/ui/frontend/TAdBackGC.cpp
-pso/ui/frontend/TAdBackGC_8029A6EC.cpp
 pso/ui/frontend/TAdBackTxtGC.cpp
 pso/ui/frontend/TAdChrMoveEffectGC.cpp
 pso/ui/frontend/TAdChrSelASlotGC.cpp
@@ -1957,7 +1956,7 @@ pso/weapon/TUnk_804A6CC8.cpp
 pso/unk/TUnk_804CC870.cpp
 pso/unk/text_8000F740.cpp
 pso/ui/frontend/DrawLine.cpp
-pso/unk/text_8001C388.cpp
+pso/ui/frontend/TitleBackground.cpp
 pso/unk/text_8004AA04.cpp
 pso/boss/darkfalz/TObjDFDemo0.cpp
 pso/unk/text_80052420.cpp

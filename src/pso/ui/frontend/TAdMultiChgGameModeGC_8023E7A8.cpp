@@ -41,7 +41,7 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/unk/TUnk_804C2298.h"
 #include "pso/ui/frontend/DrawLineResource.h"
-#include "pso/ui/frontend/TAdBackGC_8029A6EC.h"
+#include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdChrSelSlotGC.h"
 #include "pso/ui/frontend/TAdEnterPPPPassGC.h"

@@ -2,6 +2,7 @@
 #include "pso/ui/frontend/TAdSEGAlogo.h"
 #include "pso/ui/TLogo_8001C134.h"
 #include "types.h"
+#include "pso/ui/frontend/TitleBackground.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -42,7 +43,6 @@ __declspec(section ".data") NJS_TEXLIST texture_logo_e_descriptor = { lbl_80480A
 const char *TAdSEGAlogo__class_name = "TAdSEGAlogo";
 #pragma pop
 
-int render_logo_with_default(void *p, int a1, int a2, f32 a3);
 NJS_TEXLIST *logo_texture_e_handle;
 int TAdSEGAlogo__state;
 int sega_logo_done_flag;
