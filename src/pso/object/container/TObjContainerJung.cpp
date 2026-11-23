@@ -215,7 +215,6 @@ void TObjContainerJung::vfunc_6(s16 *arg1, s32 arg2) {
 #pragma push
 #pragma opt_propagation off
 void TObjContainerJung::vfunc_79() const {
-    void *o;
     if (mode != 1) {
         TObjChipParams a = container_jung_debris_desc;
         f32 pz;
@@ -245,14 +244,8 @@ void TObjContainerJung::vfunc_79() const {
         b.textures = (saddr)jungle_container_textures;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
-        o = TObject::operator new(0x234);
-        if (o != 0) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
-        }
-        o = TObject::operator new(0x234);
-        if (o != 0) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
-        }
+        new TObjChip(tl_05, &a);
+        new TObjChip(tl_05, &b);
         play_container_break_sound(this);
     }
 }
@@ -380,14 +373,8 @@ void TObjContainerJungEx::vfunc_79() const {
     b.textures = (saddr)TObjContainerJungEx::get_textures(0);
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&position, 0x46, 0x40);
-    void *o = TObject::operator new(0x234);
-    if (o != NULL) {
-        __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
-    }
-    o = TObject::operator new(0x234);
-    if (o != NULL) {
-        __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
-    }
+    new TObjChip(tl_05, &a);
+    new TObjChip(tl_05, &b);
     play_container_break_sound(this);
 }
 #pragma pop
@@ -536,14 +523,8 @@ void TObjContainerJungEnemy::vfunc_79() const {
         b.textures = texlist;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
-        void *o = TObject::operator new(0x234);
-        if (o != 0) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
-        }
-        o = TObject::operator new(0x234);
-        if (o != 0) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
-        }
+        new TObjChip(tl_05, &a);
+        new TObjChip(tl_05, &b);
         play_container_break_sound(this);
     }
 }

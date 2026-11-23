@@ -633,7 +633,6 @@ void TObjContainerItem::vfunc_81() {
 
 void TObjContainerItem::vfunc_79() const {
     const Obj_8018990C *self = (const Obj_8018990C *)this;
-    void *o;
     if (this->mode != 1) {
         TObjChipParams a = *forest_box_debris_primary;
         TObjChipParams b = *forest_box_debris_secondary;
@@ -647,14 +646,8 @@ void TObjContainerItem::vfunc_79() const {
         b.textures = (saddr)forest_box_textures;
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x46, 0x40);
-        o = TObject::operator new(0x234);
-        if (o != NULL) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
-        }
-        o = TObject::operator new(0x234);
-        if (o != NULL) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
-        }
+        new TObjChip(tl_05, &a);
+        new TObjChip(tl_05, &b);
         play_container_break_sound(this);
     }
 }
@@ -758,7 +751,6 @@ f32 TObjContainerEnemy::receive_physical_attack(void *, f32) {
 
 void TObjContainerEnemy::vfunc_79() const {
     const Obj_8018990C *self = (const Obj_8018990C *)this;
-    void *o;
     if (this->mode != 1) {
         TObjChipParams a = *forest_box_debris_primary;
         TObjChipParams b = *forest_box_debris_secondary;
@@ -772,14 +764,8 @@ void TObjContainerEnemy::vfunc_79() const {
         b.textures = (saddr)forest_box_textures;
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x46, 0x40);
-        o = TObject::operator new(0x234);
-        if (o != NULL) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
-        }
-        o = TObject::operator new(0x234);
-        if (o != NULL) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
-        }
+        new TObjChip(tl_05, &a);
+        new TObjChip(tl_05, &b);
         play_container_break_sound(this);
     }
 }
@@ -867,7 +853,6 @@ f32 TObjContainerNoItem::receive_physical_attack(void *, f32) {
 
 void TObjContainerNoItem::vfunc_79() const {
     const Obj_8018990C *self = (const Obj_8018990C *)this;
-    void *o;
     if (this->mode != 1) {
         TObjChipParams a = *forest_box_debris_primary;
         TObjChipParams b = *forest_box_debris_secondary;
@@ -881,14 +866,8 @@ void TObjContainerNoItem::vfunc_79() const {
         b.textures = (saddr)forest_box_textures;
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x46, 0x40);
-        o = TObject::operator new(0x234);
-        if (o != NULL) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
-        }
-        o = TObject::operator new(0x234);
-        if (o != NULL) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
-        }
+        new TObjChip(tl_05, &a);
+        new TObjChip(tl_05, &b);
         play_container_break_sound(this);
     }
 }
@@ -988,14 +967,8 @@ void TObjContainerBase::vfunc_79() const {
     b.textures = (saddr)container_breakup_textures;
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&position, 0x46, 0x40);
-    void *o = TObject::operator new(0x234);
-    if (o != NULL) {
-        __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
-    }
-    o = TObject::operator new(0x234);
-    if (o != NULL) {
-        __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
-    }
+    new TObjChip(tl_05, &a);
+    new TObjChip(tl_05, &b);
     play_container_break_sound(this);
 }
 
@@ -1126,14 +1099,8 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         b.textures = (saddr)container_breakup_textures;
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);
-        void *o = TObject::operator new(0x234);
-        if (o != NULL) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
-        }
-        o = TObject::operator new(0x234);
-        if (o != NULL) {
-            __ct__8TObjChipFP7TObjectPC14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
-        }
+        new TObjChip(tl_05, &a);
+        new TObjChip(tl_05, &b);
         play_container_break_sound(this);
     }
 }

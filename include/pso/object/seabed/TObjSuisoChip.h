@@ -13,7 +13,7 @@ public:
     TObjSuisoChip(TObjBase *owner, TObjChipParams *params);
     virtual ~TObjSuisoChip();
     virtual s32 vfunc_8();
-    virtual s32 vfunc_10(Vec *center);
+    virtual s32 vfunc_10(Vec *center, f32 max_depth, f32 radius);
     virtual void vfunc_12();
 
     static const char *class_name;
