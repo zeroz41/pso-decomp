@@ -67,9 +67,9 @@ TItemEffBringer::TItemEffBringer(void *owner, const Vec *pos, const Vec *dir, f3
 }
 #pragma pop
 
-void *TItemEffBringer::create(u32 owner, saddr pos, s32 dir, f32 life) {
-    if ((0.0f != life) && (owner != 0U)) {
-        return new TItemEffBringer((void *)owner, (const Vec *)pos, (const Vec *)dir, life);
+void *TItemEffBringer::create(void *owner, const Vec *pos, const Vec *dir, f32 life) {
+    if ((0.0f != life) && (owner != NULL)) {
+        return new TItemEffBringer(owner, pos, dir, life);
     }
     return NULL;
 }

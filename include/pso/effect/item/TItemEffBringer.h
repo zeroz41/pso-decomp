@@ -13,7 +13,7 @@ public:
     virtual ~TItemEffBringer();
     virtual void hook();
 
-    static void *create(u32 owner, saddr pos, s32 dir, f32 life);
+    static void *create(void *owner, const Vec *pos, const Vec *dir, f32 life);
     static const char *class_name;
 
     void *particles[10];
