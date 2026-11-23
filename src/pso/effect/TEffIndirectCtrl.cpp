@@ -16,6 +16,8 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/memory.h"
+#include <dolphin/os/OSCache.h>
+#include "pso/player/TObjPlayer_803E1A58.h"
 
 typedef void (TEffIndirectCtrl::*IndirectTask)();
 
@@ -27,11 +29,9 @@ void GXSetIndTexMtx(s32, f32 (*)[3], s32);
 void GXSetIndTexCoordScale(s32, s32, s32);
 void GXSetIndTexOrder(s32, s32, s32);
 void GXSetTevIndWarp(s32, s32, s32, s32, s32);
-void DCFlushRange(void *, u32);
 void set_texture_name(void *, void *, void *, s32);
 void load_texture_list(void *);
 }
-void load_list_texture(s32, s32, s32, s32);
 
 const char *indirect_dat_filename = "indirect.dat";
 const char *indinfo_dat_filename = "indinfo.dat";
