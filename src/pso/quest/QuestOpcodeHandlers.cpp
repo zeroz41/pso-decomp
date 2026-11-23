@@ -5019,9 +5019,9 @@ void qst_op_se(void) {
     play_sound_effect(quest_sound_effect_ids[qst_args[0]], 0, 0, 0);
 }
 
-void qst_op_fadeout(void) { TLobby::init_fadeout_state((saddr)((void*)0)); qst_suspend_reason = QST_WAIT_FADE; }
+void qst_op_fadeout(void) { TLobby::init_fadeout_state(NULL); qst_suspend_reason = QST_WAIT_FADE; }
 
-void qst_op_fadein(void) { TLobby::set_fade_params((saddr)((void*)0)); qst_suspend_reason = QST_WAIT_FADE; }
+void qst_op_fadein(void) { TLobby::set_fade_params(NULL); qst_suspend_reason = QST_WAIT_FADE; }
 
 void qst_op_list(void) {
     char *text;

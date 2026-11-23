@@ -1071,14 +1071,14 @@ void TLobby__sub_801C38E8(void *arg0) {
             }
             TLobby::stop_audio_streams();
             lbl_805D5DB4 = 0;
-            TLobby::init_fadeout_state((saddr)((void *)TLobby::init_and_set_flag));
+            TLobby::init_fadeout_state(TLobby::init_and_set_flag);
             *(s32 *)((u8 *)arg0 + 0x20) = 2;
         }
         break;
     case 2:
         if (lbl_805D5DB4 != 0) {
             TLobby::finish_chr_select_scene_init();
-            TLobby::set_fade_params((saddr)((void *)TLobby__sub_801C38A4));
+            TLobby::set_fade_params(TLobby__sub_801C38A4);
             *(s32 *)((u8 *)arg0 + 0x20) = 3;
         }
         break;

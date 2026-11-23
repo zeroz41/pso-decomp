@@ -168,7 +168,6 @@ s32 reset_players();
 char team_matchup_message_buffer[256];
 }
     extern int evt2_random_enemies_mode;
-extern s32 reset_ctrl_to_default__19TPlayerBattleCtrl4PFv[];
 struct VBase_18_26c590 { char pad[0x18]; };
 struct VObj_18_26c590 : VBase_18_26c590 {
     virtual void m0();
@@ -668,7 +667,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
         }
         TLobby::stop_audio_streams();
         TPlayerBattleCtrl4P__init_flag = 0;
-        TLobby::init_fadeout_state((saddr)(TPlayerBattleCtrl4P::init));
+        TLobby::init_fadeout_state(TPlayerBattleCtrl4P::init);
         set_score((saddr)(((void *)2)));
     }
 }
@@ -676,7 +675,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
 void TPlayerBattleCtrl4P::finish_battle_reload() {
     if ((s32) TPlayerBattleCtrl4P__init_flag != 0) {
         reset_players();
-        TLobby::set_fade_params((saddr)reset_ctrl_to_default__19TPlayerBattleCtrl4PFv);
+        TLobby::set_fade_params(TPlayerBattleCtrl4P::reset_ctrl_to_default);
         set_score((saddr)((void*)(3)));
     }
 }

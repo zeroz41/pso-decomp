@@ -613,10 +613,9 @@ struct TLobby : public TObject {
     static void send_challenge_records(u32 _w0);
     static s32 start_lobby_name_request();
     static void reset_tombstone_values();
-    static void init_fadeout_state(s32 arg0);
-    static void set_fade_params(s32 arg0);
+    static void init_fadeout_state(void (*callback)());
+    static void set_fade_params(void (*callback)());
     static s32 get_quest_thread_state();
-    void*init_entry_fields(int a1, int a2, int a3);
     u8 *pop_stack_entry(s16 arg1);
     static s32 is_stat_over_limit(s32 arg0);
     s32 write_sync_item_state();

@@ -24,6 +24,8 @@
 #include "pso/player/TObjPlayer_801D2E20.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/TUnk_804999A0.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/enemy/TObjEneHoldEffect.h"
@@ -481,7 +483,7 @@ typedef struct Tech_801CCA84 {
 
 typedef struct Player_801CCA84 {
     u8 pad0[0x10];
-    u32 list;
+    TObject *list;
 } Player_801CCA84;
 
 struct Rec_801CCEDC { u8 pad[0x10]; s16 cost; };
@@ -494,7 +496,7 @@ struct Pkt_801CCD38 { u16 hdr; u16 id; s16 tech; s16 level; };
 
 struct Rec_801CCD38 { u8 pad[0x20]; s16 state; };
 
-struct Player_801CCD38 { u8 pad[0x10]; u32 f10; u8 pad14[0x328 - 0x14]; s16 f328; u8 pad32a[0x428 - 0x32A]; u8 techs[4]; };
+struct Player_801CCD38 { u8 pad[0x10]; TObject *f10; u8 pad14[0x328 - 0x14]; s16 f328; u8 pad32a[0x428 - 0x32A]; u8 techs[4]; };
 
 struct Rec_801CD078 { u8 pad[0x10]; s16 cost; };
 
@@ -1037,7 +1039,6 @@ f32 newton_sqrtf(f32);
 s32 test_flags_any(void *, int);
 s32 TObjPlayer__sub_80082300(void *);
 s32 check_value_equals__13TUnk_804B6C24CFl(saddr, void *);
-s32 init_entry_fields__6TLobbyFiii(int, int, void *, int);
 s32 spawn_appearance_effect__10TObjPlayerFUs();
 s32 copy_attack_targets(void *, void *);
 s32 publish_actor_light_scalars(u32, f32, f32);
@@ -1352,9 +1353,7 @@ extern f32 player_feedback_light_color[];
 extern void *player_slot_table[];
 extern const char *lbl_805D3530;
 extern u8 *TObjPlayer__shared_photon_blast_state;
-extern u32 tl_03;
 extern TObject *tl_07;
-extern s32 tl_particlemodel;
 
 void handle_6xB0_turn_or_move_lobby_chair(void *command) {
     Msg_801C7430 m;
@@ -2821,17 +2820,12 @@ void TObjPlayer::update_action_render() {
 }
 
 void TObjPlayer::restart_death_pose() {
-    s32 var_r31;
     u8 *arg0 = (u8 *)this;
     this->update_action_render();
     ((void (*)(void *))zero_vec3)((void *) (arg0 + 0x5FC));
     calc_death_pose_height_offset(arg0 + 0x5FC, arg0);
     if (TObjPlayer::is_locally_controlled(this) != 0) {
-        var_r31 = ((s32 (*)(int))__nw__7TObjectFUl)(0x2C);
-        if (var_r31 != 0) {
-            var_r31 = init_entry_fields__6TLobbyFiii(var_r31, tl_particlemodel, (void *)&complete_deferred_player_death, ((TObjBase *)arg0)->get_entity_id());
-        }
-        *(s32 *)((s8 *)arg0 + 0x548) = var_r31;
+        *(TObject **)((s8 *)arg0 + 0x548) = new TUnk_804999A0(tl_particlemodel, complete_deferred_player_death, get_entity_id());
     }
 }
 
