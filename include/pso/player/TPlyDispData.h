@@ -7,6 +7,7 @@
 #include "pso/math/TMath.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/player/PlayerStats.h"
+#include "pso/player/TPlyDispConfig.h"
 
 #define bswap16(var) bswap_16(as(u16 *, var))
 #define bswap32(var) bswap_32(as(u32 *, var))
@@ -56,36 +57,18 @@ struct disp_data_part2 {
     vec2f proportions;
 };
 
-class TPlyDispConfigSmth {
-public:
-    TPlyDispConfigSmth() { m_mbr_0x0 = 0; };
-    void bswap() {
-        bswap_32(&m_mbr_0x0);
-        for (int i = 0; i < 4; ++i) {
-            m_tags[i].bswap();
-            m_tags1[i].bswap();
-        }
-    };
-public:
-    u32 m_mbr_0x0;
-    gc_tag m_tags[4];
-    gc_tag m_tags1[4];
-};
+inline void TPlyDispConfigSmth::bswap() {
+    bswap_32(&m_mbr_0x0);
+    for (int i = 0; i < 4; ++i) {
+        m_tags[i].bswap();
+        m_tags1[i].bswap();
+    }
+}
 
-class TPlyDispConfig {
-public:
-    TPlyDispConfig();
-    ~TPlyDispConfig();
-    void bswap() {
-        m_smth.bswap();
-        m_smth1.bswap();
-    };
-public:
-    TPlyDispConfigSmth m_smth;
-    TPlyDispConfigSmth m_smth1;
-public:
-    void bswap_pair();
-};
+inline void TPlyDispConfig::bswap() {
+    m_smth.bswap();
+    m_smth1.bswap();
+}
 
 class TPlyDispData {
 public:

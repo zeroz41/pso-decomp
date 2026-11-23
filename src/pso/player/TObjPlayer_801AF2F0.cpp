@@ -4255,11 +4255,11 @@ saddr TObjPlayer::refresh_effect() {
     return ref_primary_action_palette(arg0 + 0x500);
 }
 
-TObjPlayer::ActionPalette* TObjPlayer::select_action_palette(int secondary) {
+TPlyDispConfigSmth *TObjPlayer::select_action_palette(int secondary) {
     if (secondary == 1) {
-        return (ActionPalette*)ref_secondary_action_palette((saddr)action_palettes);
+        return (TPlyDispConfigSmth *)ref_secondary_action_palette((saddr)&action_palettes);
     }
-    return (ActionPalette*)ref_primary_action_palette((saddr)action_palettes);
+    return (TPlyDispConfigSmth *)ref_primary_action_palette((saddr)&action_palettes);
 }
 extern "C" {
 #pragma push

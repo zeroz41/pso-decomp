@@ -1,12 +1,10 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/player/TPlyDispConfig.h"
 #include "pso/player/TObjPlayer_801BF978.h"
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/player/TObjPlayer_80309D80.h"
 #include "pso/ui/font/TFontSmallLobby_801C013C.h"
-#include "pso/player/TPlyDispConfig_80071F1C.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/player/TObjPlayer_801BD384.h"
 #include "pso/player/TObjPlayer_801BFAD4.h"
@@ -63,7 +61,6 @@ TObjPlayer::~TObjPlayer() {
     destroy__10TObjPlayerFis((saddr)((s8 *)this + 0x754), -1);
     TObjPlayer__sub_801BFAD4((s8 *)this + 0x644, -1);
     TObjPlayer::dt((saddr)((s8 *)this + 0x550), (s16)(-1));
-    __dt__14TPlyDispConfigFv((saddr)((s8 *)this + 0x500), -1);
 }
 
 extern "C" {
@@ -77,7 +74,6 @@ extern const char *lbl_805D3530;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
-    __ct__14TPlyDispConfigFv(((char *)this + 1280));
     TObjPlayer__sub_80351974((void *)((char *)this + 1360));
     ((TObjPlayer *)((char *)this + 1456))->init_subobjects();
     ((TObjPlayer *)((char *)this + 1504))->init_sub();
@@ -114,7 +110,6 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
-    __ct__14TPlyDispConfigFv(((char *)this + 1280));
     TObjPlayer__sub_80351974((void *)((char *)this + 1360));
     ((TObjPlayer *)((char *)this + 1456))->init_subobjects();
     ((TObjPlayer *)((char *)this + 1504))->init_sub();

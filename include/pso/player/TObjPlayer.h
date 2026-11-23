@@ -6,6 +6,7 @@
 struct NJS_OBJECT;
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/player/PlayerTechniqueState.h"
+#include "pso/player/TPlyDispConfig.h"
 #include "pso/player/TObjPlayer_80337348.h"
 #include "pso/player/PlayerFollowParticles.h"
 #include "pso/player/PlayerClassFlags.h"
@@ -157,14 +158,9 @@ struct TObjPlayer : public TObjChara {
     void render_shadows();
     void render();
     void run_task();
-    struct ActionPalette {
-        s32 bank_index;
-        u8 bindings[2][4][4];
-    };
-
     void *find_revival_item();
     void request_inventory_item(TItemData* item);
-    ActionPalette* select_action_palette(int secondary);
+    TPlyDispConfigSmth *select_action_palette(int secondary);
     s32 add_meseta(s32 amount);
     void request_normal_attack_stage1();
     void show_miss_for_collider(s32 collider);
@@ -212,7 +208,7 @@ struct TObjPlayer : public TObjChara {
     TLockOnCursor *lock_on_cursor;  // created by create_lockon_cursor for local players
     PlayerTechniqueState technique_state;
     PhotonBlastGauge photon_blast_gauge;
-    ActionPalette action_palettes[2];
+    TPlyDispConfig action_palettes;
     u8 unk_548[0x4];
     saddr m_54c;
     void* m_550;
@@ -1605,8 +1601,6 @@ struct TObjPlayer : public TObjChara {
 };
 
 #include <stddef.h>
-LAYOUT_ASSERT(PlayerActionPaletteSize, sizeof(TObjPlayer::ActionPalette) == 0x24);
-LAYOUT_ASSERT(PlayerActionPaletteBanks, offsetof(TObjPlayer::ActionPalette, bindings) == 4);
 LAYOUT_ASSERT(PlayerPaletteModifierOffset, offsetof(TObjPlayer, photon_blast_gauge) == 0x4AC);
 LAYOUT_ASSERT(PlayerActionPalettesOffset, offsetof(TObjPlayer, action_palettes) == 0x500);
 LAYOUT_ASSERT(PlayerStateAfterPalettes, offsetof(TObjPlayer, m_550) == 0x550);
