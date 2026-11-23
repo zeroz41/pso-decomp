@@ -16,12 +16,12 @@ s32 TObjEnemy::mask_sub_flags(s32 mask) {
     return 0;
 }
 
-s32 TObjBase::set_event_source_flag(s32 arg1) {
+s32 TObjBase::set_event_source_flag(s32 event_source_flag) {
     void *temp_r5;
 
     temp_r5 = this->set_entry;
     if (temp_r5 != NULL) {
-        *(s16 *)((s8 *)temp_r5 + 2) = (s16) (*(s16 *)((s8 *)temp_r5 + 2) | arg1);
+        *(s16 *)((s8 *)temp_r5 + 2) = (s16) (*(s16 *)((s8 *)temp_r5 + 2) | event_source_flag);
         return 1;
     }
     return 0;
