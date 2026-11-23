@@ -34,7 +34,7 @@ EnemySetRecord *current_floor_enemy_set_rows;
 s32 current_floor_enemy_set_count;
 FloorObjectSetRow *floor_decoration_rows;
 s32 floor_decoration_row_count;
-uaddr TLobby__data_805D6124;
+void *TLobby__data_805D6124;
 s32 TLobby__data_805D6128;
 s32 item_drop_memory_pool_ar_addr;
 s32 item_drop_memory_pool_size;
@@ -91,9 +91,9 @@ void free_floor_decorations() {
         floor_decoration_rows = NULL;
         floor_decoration_row_count = 0;
     }
-    if ((u32) TLobby__data_805D6124 != 0U) {
-        mem_free((void*)TLobby__data_805D6124);
-        TLobby__data_805D6124 = 0U;
+    if (TLobby__data_805D6124 != NULL) {
+        mem_free(TLobby__data_805D6124);
+        TLobby__data_805D6124 = NULL;
         TLobby__data_805D6128 = 0;
     }
 }
@@ -146,7 +146,7 @@ void setup_floor_decorations() {
     arrive_floor_population();
     floor_decoration_rows = NULL;
     floor_set_flags &= ~8;
-    (*(saddr *)&TLobby__data_805D6124) = 0;
+    TLobby__data_805D6124 = NULL;
     floor_decoration_row_count = 0;
     TLobby__data_805D6128 = 0;
     floor_set_flags &= ~16;
@@ -217,7 +217,7 @@ void clear_floor_population(void) {
     object_condition_count = 0;
     enemy_condition_count = 0;
     floor_decoration_rows = 0;
-    TLobby__data_805D6124 = 0;
+    TLobby__data_805D6124 = NULL;
     floor_decoration_row_count = 0;
     TLobby__data_805D6128 = 0;
     lbl_805D6100 = 0;
@@ -395,7 +395,7 @@ void init_item_drop_tables(void) {
     object_condition_count = 0;
     enemy_condition_count = 0;
     floor_decoration_rows = 0;
-    TLobby__data_805D6124 = 0;
+    TLobby__data_805D6124 = NULL;
     floor_decoration_row_count = 0;
     TLobby__data_805D6128 = 0;
     lbl_805D6100 = 0;
