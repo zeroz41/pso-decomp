@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/TEF_LensFlare.h"
+#include "pso/effect/sprite/TQuadSprite.h"
 #include "pso/effect/TEF_PvrWave.h"
 #include "pso/unk/TTextureWave.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -45,8 +46,8 @@ TEF_LensFlare::~TEF_LensFlare() {
 void TEF_LensFlare::render() {
     Vec *sprite_pos;
     if (TMainTask::get_render_pass() != 0 && camera_ctrl_instance != NULL) {
-        FlareSprite sprite_storage;
-        FlareSprite *sprite = &sprite_storage;
+        QuadSpriteNode sprite_storage;
+        QuadSpriteNode *sprite = &sprite_storage;
         sprite->pos.x = 0.0f;
         sprite->pos.y = 0.0f;
         sprite->pos.z = 0.0f;
@@ -56,7 +57,7 @@ void TEF_LensFlare::render() {
         sprite->scale_x = 0.0f;
         sprite->scale_y = 0.0f;
         sprite->color = 0;
-        sprite->frame = 0;
+        sprite->uv_index = 0;
         sprite->angle = 0;
         sprite_pos = &sprite_storage.pos;
         set_additive_blend();

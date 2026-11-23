@@ -15,20 +15,6 @@ struct LensFlareElement {
     f32 pad_14;      // -10.0, -10.1, ... -10.9 in the table; render() never reads it
 };
 
-// A screen sprite node as TQuadSpriteSclColRot::render reads it; render() only
-// fills it on the stack, so the link and type byte stay unset.
-struct FlareSprite {
-    FlareSprite *next;
-    Vec pos;
-    Vec offset;
-    f32 scale_x;
-    f32 scale_y;
-    u32 color;
-    u8 frame;
-    u8 type;
-    u16 angle;
-};
-
 // The flare colour, copied into the sprite as a whole word.
 struct FlareColor {
     struct { u8 a, r, g, b; } argb;
