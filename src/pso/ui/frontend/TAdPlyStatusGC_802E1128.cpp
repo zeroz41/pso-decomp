@@ -18,8 +18,7 @@ void*TAdPlyStatusGC::get_status_sub() { return (char*)this + 0x490; }
     extern int ply_status_chcr_load_afs;
 void TAdPlyStatusGC::set_status_param(int a0, int a1) { ply_status_chcr_load_afs = a1; }
 
-    extern int ply_status_gc_instance;
-saddr TAdPlyStatusGC::get_index() {  return ply_status_gc_instance; }
+TAdPlyStatusGC *TAdPlyStatusGC::get_index() {  return ply_status_gc_instance; }
 
     extern int ply_status_index;
 void TAdPlyStatusGC::set_status_index(int a0, int a1) { ply_status_index = a1; }

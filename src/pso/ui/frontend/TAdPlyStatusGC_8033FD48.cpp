@@ -38,19 +38,9 @@ static const Vec lbl_80478554 = {-10000.0f, 0.0f, 0.0f};
 
 extern "C" {
 f32 post_translate_matrix(void *);
-u32 TAdPlyStatusGC__ct(u32, s32, s32);
-
-extern u32 ply_status_gc_instance;
-
-u32 TAdPlyStatusGC::get_instance(s32 arg0, s32 arg1) {
-    u32 var_r0;
-
-    if ((u32) ply_status_gc_instance == 0U) {
-        var_r0 = (uaddr)TObject::operator new(0x70);
-        if (var_r0 != 0U) {
-            var_r0 = TAdPlyStatusGC__ct(var_r0, arg0, arg1);
-        }
-        ply_status_gc_instance = var_r0;
+TAdPlyStatusGC *TAdPlyStatusGC::get_instance(TObject *parent, s32 window_offset_index) {
+    if (ply_status_gc_instance == NULL) {
+        ply_status_gc_instance = new TAdPlyStatusGC(parent, window_offset_index);
     }
     return ply_status_gc_instance;
 }

@@ -119,16 +119,16 @@ void create_guide_button(TObject *parent, GuideButtonSpec *spec) {
 }
 #pragma push
 #pragma readonly_strings on
-void init_guide_button_params(GuideButtonSpec *spec) {
-    spec->kind = 0;
-    spec->from.x = 0.0f;
-    spec->from.y = 0.0f;
-    spec->to.x = 0.0f;
-    spec->to.y = 0.0f;
-    spec->alpha = 0xFF;
-    spec->alpha_step = 0xFF;
-    spec->duration = 0;
-    spec->label = "";
+GuideButtonSpec::GuideButtonSpec() {
+    kind = 0;
+    from.x = 0.0f;
+    from.y = 0.0f;
+    to.x = 0.0f;
+    to.y = 0.0f;
+    alpha = 0xFF;
+    alpha_step = 0xFF;
+    duration = 0;
+    label = "";
 }
 
 #pragma pop

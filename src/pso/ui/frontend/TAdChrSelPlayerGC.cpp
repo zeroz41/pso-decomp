@@ -15,7 +15,7 @@ void TAdChrSelPlayerGC::init_selection_model(s32 arg1) {
     layout_mode = arg1;
     this->m_170 = 0;
     *(s32 *)&this->joint_matrices = (saddr)mem_alloc(0xC00);
-    TAdPlyStatusGC::get_instance((saddr)this, (s32)arg1);
+    TAdPlyStatusGC::get_instance(this, arg1);
     place_model_for_mode(layout_mode);
 }
 

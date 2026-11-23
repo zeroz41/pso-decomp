@@ -126,7 +126,7 @@ void TAdChrSelPlayerGC::place_model_for_mode(s32) {
 void TAdChrSelPlayerGC::set_index_and_close_status(s32 index) {
     layout_mode = index;
     place_model_for_mode(layout_mode);
-    TAdPlyStatusGC *status = reinterpret_cast<TAdPlyStatusGC *>(TAdPlyStatusGC::get_index());
+    TAdPlyStatusGC *status = TAdPlyStatusGC::get_index();
     if (status != NULL) {
         status->close_window(index);
     }
@@ -134,7 +134,7 @@ void TAdChrSelPlayerGC::set_index_and_close_status(s32 index) {
 
 void TAdChrSelPlayerGC::set_status_value(s32 value) {
     status_index = value;
-    TAdPlyStatusGC *status = reinterpret_cast<TAdPlyStatusGC *>(TAdPlyStatusGC::get_index());
+    TAdPlyStatusGC *status = TAdPlyStatusGC::get_index();
     if (status != NULL) {
         TAdPlyStatusGC::set_status_index(reinterpret_cast<saddr>(status), status_index);
     }

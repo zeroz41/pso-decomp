@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "types.h"
+#include "pso/ui/frontend/TAdGuideButtonGC.h"
 #include "pso/render/Draw2D.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
@@ -20,22 +21,10 @@
 #include "pso/system/ControllerInput.h"
 #include <stdio.h>
 
-struct Stack_803286AC {
-    s32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-    f32 sp18;
-    u8 pad_1C[0xC];
-    s32 sp28;
-};
-
 struct Obj_803285C0 { u8 pad[0x20]; s32 mode; u8 pad2[0xC]; s16 state; };
 
 TAdDialingGC *TAdDialingGC__instance;
 extern "C" {
-s32 create_guide_button(void *, void *, f32);
-s32 init_guide_button_params(void *);
 s8 func_801A5E54__Fv();
 extern s32 TLobby__net_session_mode;
 }
@@ -314,17 +303,15 @@ void TAdDialingGC__sub_80328730(s32 arg0) {
 }
 
 void TAdDialingGC::show_guide_button() {
-    u8 *arg0 = (u8 *)this;
-    Stack_803286AC stack;
     if (!(this->m_a4 & 2)) {
-        init_guide_button_params(&stack.sp8);
-        stack.sp8 = 1;
-        stack.sp28 = get_localized_text_entry(0xF, 0x13);
-        stack.spC = 485.0f;
-        stack.sp14 = 485.0f;
-        stack.sp10 = 421.0f;
-        stack.sp18 = 421.0f;
-        create_guide_button(arg0, &stack.sp8, 485.0f);
+        GuideButtonSpec spec;
+        spec.kind = 1;
+        spec.label = (const char *)get_localized_text_entry(0xF, 0x13);
+        spec.from.x = 485.0f;
+        spec.to.x = 485.0f;
+        spec.from.y = 421.0f;
+        spec.to.y = 421.0f;
+        create_guide_button(this, &spec);
         this->m_a4 = (s32) (this->m_a4 | 2);
     }
 }
