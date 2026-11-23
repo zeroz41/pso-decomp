@@ -10,6 +10,7 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/system/main_loop.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -83,7 +84,6 @@
 extern "C" {
 u8 *TAdSinglePlyChrSelectGC__ct(u8 *arg0, void *parent);
 void *construct_title_scene__11TTitleSceneFv(void *, TObject *);
-void *__ct__12TLevelSelectFv(void *);
 void run_load_callback_table(void *, s32);
 }
 void clear_resource_load_tasks(void);
@@ -427,11 +427,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = new TAdEp3Exist(tl_01);
         break;
     case 1:
-        p = TObject::operator new(0x28);
-        if (p != NULL) {
-            p = __ct__12TLevelSelectFv(p);
-        }
-        game_mode_scene_instance = (TObject *)p;
+        game_mode_scene_instance = new TLevelSelect();
         break;
     case 3:
         game_mode_scene_instance = new TUnk_804C2298();
