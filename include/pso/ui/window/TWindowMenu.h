@@ -6,6 +6,12 @@
 
 struct TWindowSubStatusDisp;
 
+// One menu row's state: its flag bits (0x10 = disabled) and the value it returns when chosen.
+struct TWindowMenuRow {
+    u32 flags;
+    s32 value;
+};
+
 struct TWindowMenu : public TWindowAddition {
     TWindowMenu(u32 rows, s32 client, saddr parent);
     virtual ~TWindowMenu();
@@ -33,12 +39,12 @@ struct TWindowMenu : public TWindowAddition {
     virtual void render();
     u16 m_70;
     u16 m_72;
-    u16 m_74;
-    u16 m_76;
-    u16 m_78;
+    s16 row_cursor;
+    s16 row_count;
+    s16 selected_row;
     u8 unk_7A[0x2];
     f32 layout_height;
-    u32 m_80;
+    TWindowMenuRow *rows;
     u32 m_84;
     TWindowSubStatusDisp *m_88;
     void set_active_flag();

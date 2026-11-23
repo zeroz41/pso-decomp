@@ -229,15 +229,15 @@ void TWindowSubComCard::set_entry_value_clear_flag(s32 idx, s32 val) {
 }
 
 void *TWindowMenu::get_selected_entry() {
-    s16 selected_row;
-    selected_row = *(s16 *)&this->m_78;
-    if (selected_row < 0) {
+    s16 row;
+    row = selected_row;
+    if (row < 0) {
         return 0;
     }
-    if (selected_row >= (s16) *(s16 *)&this->m_76) {
+    if (row >= row_count) {
         return 0;
     }
-    return get_array_entry(selected_row);
+    return get_array_entry(row);
 }
 
 void TWindowMenu::set_active_flag() {
@@ -254,7 +254,7 @@ void TWindowMenu::confirm_selection() {
     s32 row_flags;
     u8 *window_sub_status_disp;
     if (((int)((TWindowMenu *)arg0)->is_decided()) == 0) {
-        row_flags = *(s32 *)((s8 *)(*(saddr *)&this->m_80) + (*(s16 *)&this->m_78 * 8));
+        row_flags = rows[selected_row].flags;
         if (row_flags & 0x10) {
             if (!(row_flags & 0x20)) {
                 play_sound_effect(0x53F06, 0, 0, 0);
@@ -276,19 +276,19 @@ void TWindowMenu::select_next_item() {
     s16 var_r31;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = *(s16 *)&this->m_78;
+    var_r31 = selected_row;
 loop_1:
     var_r31 += 1;
-    if (var_r31 >= (s16) *(s16 *)&this->m_76) {
+    if (var_r31 >= row_count) {
         if (!(this->m_70 & 1)) {
             var_r31 = 0;
             goto block_4;
         }
     } else {
 block_4:
-        if (var_r31 != (s16) *(s16 *)&this->m_78) {
+        if (var_r31 != selected_row) {
             if (sub_80266B18(var_r31) != 0) {
-                *(s16 *)&this->m_78 = var_r31;
+                selected_row = var_r31;
             } else {
                 goto loop_1;
             }
@@ -300,19 +300,19 @@ void TWindowMenu::move_cursor_prev() {
     s16 var_r31;
 
     play_sound_effect(0x54100, 0, 0, 0);
-    var_r31 = *(s16 *)&this->m_78;
+    var_r31 = selected_row;
 loop_1:
     var_r31 -= 1;
     if (var_r31 < 0) {
         if (!(this->m_70 & 1)) {
-            var_r31 = *(s16 *)&this->m_76 - 1;
+            var_r31 = row_count - 1;
             goto block_4;
         }
     } else {
 block_4:
-        if (var_r31 != (s16) *(s16 *)&this->m_78) {
+        if (var_r31 != selected_row) {
             if (sub_80266B18(var_r31) != 0) {
-                *(s16 *)&this->m_78 = var_r31;
+                selected_row = var_r31;
             } else {
                 goto loop_1;
             }
@@ -407,8 +407,8 @@ s32 TWindowMenu::get_selected_value() {
 }
 
 void TWindowSubComCardList::set_selected_index(s16 index) {
-    if ((index >= 0) && (index < (s16) *(s16 *)&this->m_76)) {
-        *(s16 *)&this->m_78 = index;
+    if ((index >= 0) && (index < row_count)) {
+        selected_row = index;
     }
 }
 
@@ -418,7 +418,7 @@ void align_menu_entry_positions(TWindowMenu *self) {
     f32 left = self->target_size[0] - 8.0f;
     f32 right = 0.5f * self->target_size[0] - 4.0f;
     u32 i;
-    for (i = 0; i < *reinterpret_cast<const s16 *>(&self->m_76); i++) {
+    for (i = 0; i < self->row_count; i++) {
         Ent_80265C30 *e = (Ent_80265C30 *)self->get_array_entry(i);
         if (((TWindowSubComCard *)e)->get_field_20() != 0) {
             measure_message_text_width(e, left);
@@ -468,7 +468,7 @@ void TWindowSubComCardList::set_scroll_target(f32 width, f32 farg1) {
 void TWindowMenu::update_layout_height(f32 x) {
     f32 sum = 0.0f;
     u32 i;
-    for (i = 0; i < *reinterpret_cast<const s16 *>(&m_76); i++) {
+    for (i = 0; i < row_count; i++) {
         Ent_80265E60 *e = ((Ent_80265E60 *)this->TWindowBase::get_array_entry(i));
         if (reinterpret_cast<TWindowSubComCard *>(e)->get_field_20() != 0) {
             if (!(e->h <= lbl_8044F330)) {
@@ -492,7 +492,7 @@ void TWindowMenu::calc_window_size() {
     f32 sum = width;
     f64 minimum_entry_height = lbl_8044F330;
     u32 i;
-    for (i = 0; i < *reinterpret_cast<s16 *>(&m_76); i++) {
+    for (i = 0; i < row_count; i++) {
         Ent_80265F60 *e = static_cast<Ent_80265F60 *>(get_array_entry(i));
         if (reinterpret_cast<TWindowSubComCard *>(e)->get_field_20() != 0) {
             if (e->w > width) {
@@ -523,7 +523,7 @@ void TWindowMenu::layout_entries() {
     y = 0.0f;
     gap = 2.0f;
     zero = lbl_8044F330;
-    for (i = 0; i < *(s16 *)&this->m_76; i++) {
+    for (i = 0; i < row_count; i++) {
         e = (u8 *)get_array_entry(i);
         if (((TWindowSubComCard *)e)->get_field_20() != 0) {
             *(f32 *)(e + 0xC) = y;
@@ -691,7 +691,7 @@ void TWindowMenu::draw_selected_bar(u8 *window_key_board_soft) {
 void TWindowMenu::render_selected_entry(saddr window_key_board_soft) {
     u16 *entry;
 
-    entry = (u16 *)this->get_array_entry(*(s16 *)&this->m_78);
+    entry = (u16 *)this->get_array_entry(selected_row);
     if (*entry & 1) {
         draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)entry, is_decided());
     }
