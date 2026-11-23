@@ -11,7 +11,7 @@
 // inferred: TEneParticleCtrl__collision_body, the one body the constructor registers.
 CollisionBody TEneParticleCtrl__collision_body = {{0.0f, 0.0f, 0.0f}, 20.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-const char *TEneParticleCtrl__name = "TEneParticleCtrl";
+const char *TEneParticleCtrl::class_name = "TEneParticleCtrl";
 
 
 void *TEneParticleCtrl::get_center() { return get_field_38_ptr(); }
@@ -28,7 +28,7 @@ TEneParticleCtrl::~TEneParticleCtrl() {
 }
 
 TEneParticleCtrl::TEneParticleCtrl(TObjChara *owner, s32 effect_index) : TObjCollidable(owner) {
-    m_name = TEneParticleCtrl__name;
+    m_name = class_name;
     init_collision_body_parts(this, &TEneParticleCtrl__collision_body, 1);
     register_object_by_id();
     bodies->flags &= ~1;

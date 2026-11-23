@@ -12,6 +12,7 @@ struct TEneParticleCtrl : public TObjCollidable {
     TEneParticleCtrl(TObjChara *owner, s32 effect_index);
     virtual ~TEneParticleCtrl();
     virtual void *get_center();
+    static const char *class_name;
     u16 owner_id;  // get_entity_id(owner) in the ctor
     u8 pad_ae[0x2];
     u32 effect;  // the effect index the particle control was spawned with
