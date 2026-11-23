@@ -60,7 +60,6 @@ s32 THunterGuildSeqOffline__instance_table[4];
 THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;
 const char *lbl_805D3658 = "THunterGuildSeqOffline";
 void THunterGuildSeqOffline__sub_8021339C(void);
-extern void *tl_00;
 void THunterGuildSeqOffline__sub_80213410(void);
 s32 THunterGuildSeqOffline__sub_80213458(void);
 
