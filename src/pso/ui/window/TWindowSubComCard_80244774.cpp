@@ -983,8 +983,6 @@ TWindowBase::TWindowBase(u8 *descriptor, s16 client, u8 *parent)
 
 }
 
-struct WindowStateFlags { u8 pad[0x2c]; u32 window_flags; };
-
 extern const char lbl_8044E688[];
 extern const char hud_palette_texture_filename[];
 extern const char lbl_8044E6B0[];
@@ -1056,8 +1054,7 @@ __declspec(section ".rodata") const char lbl_8044E748[] = "f256_carsol.gvp";
 __declspec(section ".rodata") const char lbl_8044E758[] = "f256_hyouji";
 
 s32 TWindowBase::sub_80246948() {
-    WindowStateFlags *self = (WindowStateFlags *)this;
-    return (u8)(!(self->window_flags & 1));
+    return (u8)(!(window_flags & 1));
 }
 
 int TWindowFukidasi__sub_8024695C(void* p) { return (*(u32*)((char*)p + 0x2c) >> 8) & 0x1; }
