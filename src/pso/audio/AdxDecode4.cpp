@@ -17,8 +17,8 @@ extern const s32 adx_signed_nibbles[16] = {
 
 s32 lbl_805D7520;
 
-void TLobby::set_global_805D7520(s32 arg0) {
-    lbl_805D7520 = arg0;
+void TLobby::set_global_805D7520(s32 mode) {
+    lbl_805D7520 = mode;
 }
 
 void TLobby::dispatch_receive_update() {

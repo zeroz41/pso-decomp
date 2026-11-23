@@ -70,10 +70,10 @@ void TLobby::reset_client_state() {
     memset(arg0 + 0x28, 0, 8);
 }
 
-void TLobby__sub_803CB4A4(u8 *arg0) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 0xC) == 0) {
-        *(s32 *)((s8 *)arg0 + 0x10) = 0;
-        *(s32 *)((s8 *)arg0 + 0xC) = 1;
+void TLobby__sub_803CB4A4(u8 *lobby) {
+    if ((s32) *(s32 *)((s8 *)lobby + 0xC) == 0) {
+        *(s32 *)((s8 *)lobby + 0x10) = 0;
+        *(s32 *)((s8 *)lobby + 0xC) = 1;
     }
 }
 
@@ -115,11 +115,11 @@ void TLobby::clear_record_data() {
     }
 }
 
-void TLobby__sub_803CB570(u8 *arg0, u8 *arg1, s16 *arg2) {
-    *(s16 *)((s8 *)arg0 + 0x28) = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)arg0 + 0x2A) = (s16) *arg2;
-    *(s16 *)((s8 *)arg0 + 0x2C) = (s16) *(s16 *)((s8 *)arg1 + 2);
-    *(s16 *)((s8 *)arg0 + 0x2C) = (s16) *(s16 *)((s8 *)arg1 + 2);
+void TLobby__sub_803CB570(u8 *id, u8 *arg1, s16 *arg2) {
+    *(s16 *)((s8 *)id + 0x28) = (s16) *(s16 *)((s8 *)arg1 + 0);
+    *(s16 *)((s8 *)id + 0x2A) = (s16) *arg2;
+    *(s16 *)((s8 *)id + 0x2C) = (s16) *(s16 *)((s8 *)arg1 + 2);
+    *(s16 *)((s8 *)id + 0x2C) = (s16) *(s16 *)((s8 *)arg1 + 2);
 }
 
 #pragma push

@@ -591,20 +591,20 @@ void stop_audio_stream(u8 *arg0) {
 #pragma pop
 
 
-void TLobby__sub_803C9DB4(u8 *arg0) {
+void TLobby__sub_803C9DB4(u8 *player) {
     void **temp_r3;
     TLobby::init_once();
-    TLobby::dispatch_packet(*(GcrnaStream **)((s8 *)arg0 + 0xC), 0);
-    TLobby__sub_803CC030((int) (*(s32 *)((s8 *)arg0 + 0xC)), 0);
-    ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->reset_flag();
-    if ((s32) *(u8 *)((s8 *)arg0 + 2) == 2) {
-        temp_r3 = *(void ***)((s8 *)arg0 + 0x14);
+    TLobby::dispatch_packet(*(GcrnaStream **)((s8 *)player + 0xC), 0);
+    TLobby__sub_803CC030((int) (*(s32 *)((s8 *)player + 0xC)), 0);
+    ((TLobby *)(*(saddr *)((s8 *)player + 4)))->reset_flag();
+    if ((s32) *(u8 *)((s8 *)player + 2) == 2) {
+        temp_r3 = *(void ***)((s8 *)player + 0x14);
         if (temp_r3 != NULL) {
             (*(s32 (**)(void *))((s8 *)((unsigned char *) (*temp_r3)) + 0xC))(temp_r3);
         }
     }
-    *(void ***)((s8 *)arg0 + 0x14) = NULL;
-    *(s8 *)((s8 *)arg0 + 1) = 0;
+    *(void ***)((s8 *)player + 0x14) = NULL;
+    *(s8 *)((s8 *)player + 1) = 0;
     TLobby::release_ref();
 }
 

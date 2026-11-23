@@ -34,10 +34,10 @@ inline void num_to_str_803C526C(s32 v, char *out, s32 n) {
     out[i] = 0;
 }
 
-void TLobby::format_number_pair(s32 arg0, s32 arg1, char *arg2, s32 arg3) {
-    num_to_str_803C526C(arg0, arg2, arg3);
-    strncat(arg2, lbl_805E0D28, arg3 - strlen(arg2) - 1);
-    num_to_str_803C526C(arg1, arg2 + strlen(arg2), 4 - strlen(arg2));
+void TLobby::format_number_pair(s32 arg0, s32 arg1, char *dest, s32 arg3) {
+    num_to_str_803C526C(arg0, dest, arg3);
+    strncat(dest, lbl_805E0D28, arg3 - strlen(dest) - 1);
+    num_to_str_803C526C(arg1, dest + strlen(dest), 4 - strlen(dest));
 }
 
 void TLobby::report_adx_error(const char *msg, const char *arg) {
