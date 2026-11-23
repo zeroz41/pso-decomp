@@ -81,12 +81,9 @@ extern u8 lobby_rule_settings[];
 extern s32 TLobby__battle_team_table[];
 extern Ent_801C26A8 TLobby__duel_result_table[];
 s32 TLobby__sub_801C26A8(void);
-void __ct__7TObjectFP7TObject(void *);
 s32 export_character_data__10TObjPlayerFPvPv(s32, s32);
-extern u8 __vt__17TPlayerBattleCtrl[];
 extern u8 player_battle_ctrl_text_japanese[];
 extern u8 player_battle_ctrl_text_english[];
-void *TPlayerBattleCtrl__ct(void *arg0, s32 _w1);
 struct S801C295C_801C25B4 { s32 f0; s8 f4; s8 pad[0x13]; };
 
 void build_6x7D_set_battle_mode_data(void *p);
@@ -421,7 +418,6 @@ void fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
 }
 
 extern s32 lbl_805D55C0;
-void *TPlayerBattleCtrl__ct(void *player_battle_ctrl, s32 _w1);
 
 Ent_801C26A8 TLobby__duel_result_table[4];
 s32 TLobby__battle_team_table[4];
@@ -430,26 +426,23 @@ u16 battle_mode_data_table[4];
 s32 battle_intro_value_table[4];
 char battle_intro_message_buffer[0x100];
 
-void *TPlayerBattleCtrl__ct(void *player_battle_ctrl, s32 _w1) {
-    s32 temp_r3;
-    __ct__7TObjectFP7TObject(player_battle_ctrl);
-    *(u8 **)((s8 *)player_battle_ctrl + 0x18) = __vt__17TPlayerBattleCtrl;
-    *(s32 *)((s8 *)player_battle_ctrl + 0) = (saddr) TPlayerBattleCtrl__name;
-    *(s32 *)((s8 *)player_battle_ctrl + 0x28) = 0;
-    ((TPlayerBattleCtrl *)player_battle_ctrl)->state_24 = 0;
-    ((TPlayerBattleCtrl *)player_battle_ctrl)->state_20 = 0;
-    ((TPlayerBattleCtrl *)player_battle_ctrl)->state_1c = 0;
-    *(s32 *)((s8 *)player_battle_ctrl + 0x4C) = 0;
-    *(s32 *)((s8 *)player_battle_ctrl + 0x50) = 0;
-    *(s32 *)((s8 *)player_battle_ctrl + 0x54) = 0;
-    *(u8 **)((s8 *)player_battle_ctrl + 0x40) = (current_language == LANGUAGE_JAPANESE) ? player_battle_ctrl_text_japanese : player_battle_ctrl_text_english;
-    temp_r3 = (saddr)get_local_player();
-    if (temp_r3 != 0) {
-        export_character_data__10TObjPlayerFPvPv(temp_r3, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
+TPlayerBattleCtrl::TPlayerBattleCtrl(TObject *parent) : TObject(parent) {
+    s32 player;
+    m_name = TPlayerBattleCtrl__name;
+    unk_28 = 0;
+    state_24 = 0;
+    state_20 = 0;
+    state_1c = 0;
+    window_4c = NULL;
+    window_50 = NULL;
+    window_54 = NULL;
+    text = (current_language == LANGUAGE_JAPANESE) ? player_battle_ctrl_text_japanese : player_battle_ctrl_text_english;
+    player = (saddr)get_local_player();
+    if (player != 0) {
+        export_character_data__10TObjPlayerFPvPv(player, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     }
     TLobby::stop_audio_streams();
-    *(s32 *)((s8 *)player_battle_ctrl + 0x64) = 0;
-    return player_battle_ctrl;
+    unk_64 = 0;
 }
 
 TPlayerBattleCtrl::~TPlayerBattleCtrl() {
@@ -1050,10 +1043,7 @@ void TLobby__sub_801C3A40(void) {
 void TLobby::init_battle_ctrl(s32 arg0, saddr src) {
     uaddr player_battle_ctrl;
     if ((u32) (*(u32 *)&TLobby__battle_mode_data_ptr) == 0U) {
-        player_battle_ctrl = (uaddr)TObject::operator new(0x278);
-        if (player_battle_ctrl != 0U) {
-            player_battle_ctrl = ((uaddr)TPlayerBattleCtrl__ct((void *)player_battle_ctrl, (s32)tl_00));
-        }
+        player_battle_ctrl = (uaddr)new TPlayerBattleCtrl((TObject *)tl_00);
         (*(u32 *)&TLobby__battle_mode_data_ptr) = player_battle_ctrl;
     }
     if ((u32) (*(u32 *)&TLobby__battle_mode_data_ptr) != 0U) {

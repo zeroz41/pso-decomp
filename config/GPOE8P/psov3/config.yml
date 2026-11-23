@@ -1658,7 +1658,7 @@ force_active:
   - color_palette__18TPhotonMagicSquare
   - photon_magic_square_class_name
   - TPlayerBattleCtrl4P__message_table_language0
-  - TPlayerBattleCtrl__ct
+  - __ct__17TPlayerBattleCtrlFP7TObject
   - TPlyCharData__global_character_data
   - TPlyCharData__global_destructor_registration
   - class_name__22TPlyFollowParticleCtrl
