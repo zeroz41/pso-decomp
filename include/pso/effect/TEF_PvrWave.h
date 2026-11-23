@@ -4,7 +4,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/render/GinjaMaterialState.h"
 
-class TUnk_804C57E0;
+class TTextureWave;
 struct SceneMaterialRoot;
 
 // A scene texture animated by a texture wave: while it lives, entry
@@ -17,7 +17,7 @@ public:
     virtual void render();
     virtual void run_task();
 
-    TUnk_804C57E0 *wave;
+    TTextureWave *wave;
     s32 texture_index;
     GinjaTextureList texture_list;  // the wave's one-entry texture list
     GinjaTextureEntry saved_entry;  // the scene entry it replaced, put back on destruction

@@ -2,7 +2,7 @@
 #include "pso/effect/particle/ParticleDefinition.h"
 #include "pso/effect/TEF_LensFlare.h"
 #include "pso/effect/TEF_PvrWave.h"
-#include "pso/unk/TUnk_804C57E0.h"
+#include "pso/unk/TTextureWave.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/math/MatrixVector.h"

@@ -6,14 +6,14 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_801E4E4C.h"
-#include "pso/unk/TUnk_804C57E0.h"
+#include "pso/unk/TTextureWave.h"
 
 extern "C" {
 
 s32 release_texture_list(s32);
 s32 set_texture_name(void *, void *, int, int);
 
-void TUnk_804C57E0::advance_wrapped_cursor() {
+void TTextureWave::advance_wrapped_cursor() {
     s32 temp_r0;
     s32 temp_r4;
 
@@ -25,14 +25,14 @@ void TUnk_804C57E0::advance_wrapped_cursor() {
     }
 }
 
-extern s32 __vt__13TUnk_804C57E0[];
+extern s32 __vt__12TTextureWave[];
 
-TUnk_804C57E0::~TUnk_804C57E0() {
+TTextureWave::~TTextureWave() {
     release_texture_list(this->m_3c);
     TAdSinglePlyChrSelectGC::safe_free(this->m_44);
 }
 
-void TUnk_804C57E0::init_image_buffer(u8 *arg1, s32 arg2) {
+void TTextureWave::init_image_buffer(u8 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
 
@@ -54,7 +54,7 @@ void TUnk_804C57E0::init_image_buffer(u8 *arg1, s32 arg2) {
 }
 
 void construct_texture_wave(u8 *arg0, s32 arg1) {
-    *(s32 **)((s8 *)arg0 + 0x50) = __vt__13TUnk_804C57E0;
+    *(s32 **)((s8 *)arg0 + 0x50) = __vt__12TTextureWave;
     *(s32 *)((s8 *)arg0 + 0x4C) = 0;
     *(s32 *)((s8 *)arg0 + 0x40) = 0;
     *(s32 *)((s8 *)arg0 + 0x44) = 0;

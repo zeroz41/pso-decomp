@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/effect/TEF_PvrWave.h"
-#include "pso/unk/TUnk_804C57E0.h"
+#include "pso/unk/TTextureWave.h"
 #include "pso/system/scene/TSceneMaterial.h"
 
 extern "C" void *construct_texture_wave(void *wave, GinjaTextureList *texture_list);
@@ -21,11 +21,11 @@ TEF_PvrWave::TEF_PvrWave(TObject *parent, u8 *image, s32 size, s32 index) : TObj
     GinjaTextureList *list;
     m_name = class_name;
     texture_index = index;
-    memory = ::operator new(sizeof(TUnk_804C57E0));
+    memory = ::operator new(sizeof(TTextureWave));
     if (memory != NULL) {
         memory = construct_texture_wave(memory, &texture_list);
     }
-    wave = (TUnk_804C57E0 *)memory;
+    wave = (TTextureWave *)memory;
     wave->init_image_buffer(image, size);
     list = reinterpret_cast<GinjaTextureList *>(get_scene_material_root()->texlist);
     saved_entry.texture = list->entries[index].texture;

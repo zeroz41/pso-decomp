@@ -12,7 +12,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/TUnk_804C57E0.h"
+#include "pso/unk/TTextureWave.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -308,7 +308,7 @@ s32 TLanguage::read_u16_le() {
     return lo;
 }
 
-void TUnk_804C57E0::update_texture_wave_image() {
+void TTextureWave::update_texture_wave_image() {
     if ((is_split_screen() == 0) || (TCameraCtrl::get_camera_no() == 0)) {
         TObjFish::set_global_param(reinterpret_cast<GinjaTextureList *>(m_3c));
         advance_wrapped_cursor();
