@@ -1363,7 +1363,7 @@ loop_7:
     iter += 1;
     if (iter >= 4U) {
         this->move_finished = 0;
-        if ((u32) this->full_notice == NULL) {
+        if (this->full_notice == NULL) {
             this->full_notice = sub_802DBE4C(lbl_80472878);
         }
         this->state = 0xE;
@@ -1689,7 +1689,7 @@ loop_9:
     var_r30 += 1;
     if (var_r30 >= 4U) {
         player_preview->set_field_100(1);
-        if ((u32) this->full_notice == NULL) {
+        if (this->full_notice == NULL) {
             this->full_notice = sub_802DBE4C((s32*)lbl_80472888);
         }
         this->state = 0x22;
