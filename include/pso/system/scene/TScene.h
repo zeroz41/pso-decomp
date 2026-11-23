@@ -20,6 +20,7 @@ public:
     u32 m_38;
     u32 m_3c;
 
+    TScene(TObject *parent);
     void initialize_fmt2_materials();
     virtual ~TScene();
     virtual void run_task();

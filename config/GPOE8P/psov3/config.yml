@@ -1702,7 +1702,7 @@ force_active:
   - TScene__active_scene_callback
   - TScene__class_name
   - TScene__collision_file_buffer
-  - TScene__ct
+  - __ct__6TSceneFP7TObject
   - TScene__current_floor_name
   - TScene__data_805D5FE8
   - TScene__data_805D6020

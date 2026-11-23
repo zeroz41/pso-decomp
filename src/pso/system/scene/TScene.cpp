@@ -280,9 +280,7 @@ s32 release_texture_list(u32);
 extern CsnGroup **scene_collision_data;
 
 
-s32 __ct__7TObjectFP7TObject(void *, void *);
 
-extern s32 __vt__6TScene[];
 
 
 void bind_gvm_texture_list(s32 *, u32);
@@ -361,7 +359,6 @@ uaddr TScene__material_info_buffer;
 s32 scene_file_buffer_size;
 
 extern "C" {
-u8 *TScene__ct(TScene *scene, saddr arg1);
 void TScene__sub_802065E8(void);
 void TScene__sub_802065EC(void);
 s32 load_texture_sequence_frame(void *task, Cyc_80205D24 *c);
@@ -1089,28 +1086,21 @@ void TScene__sub_802065EC(void) {  }
 void TScene__sub_802065E8(void) {  }
 
 void TScene::create() {
-    void *o;
-    o = TObject::operator new(0x40);
-    if (o != NULL) {
-        TScene__ct((TScene *)((u8 *)o), (saddr)tl_02);
-    }
+    new TScene(tl_02);
 }
 
-u8 *TScene__ct(TScene *scene, saddr arg1) {
-    __ct__7TObjectFP7TObject((void *)scene, (void *)arg1);
-    *(s32 **)((s8 *)scene + 0x18) = __vt__6TScene;
-    *(s32 *)((s8 *)scene + 0) = (saddr)TScene__class_name;
-    scene->m_1c = 0;
-    scene->m_30 = 0;
-    scene->m_34 = 0;
-    scene->m_38 = 0x32;
-    scene->m_3c = 0;
-    scene->initialize_materials();
+TScene::TScene(TObject *parent) : TObject(parent) {
+    m_name = TScene__class_name;
+    m_1c = 0;
+    m_30 = 0;
+    m_34 = 0;
+    m_38 = 0x32;
+    m_3c = 0;
+    initialize_materials();
     if ((get_current_floor_area() == AREA_FOREST1) && ((u32) TScene__texture_wave_resource != 0U) && ((void *) (*(u8 * *)&scene_material_root) != NULL) && ((u32) *(u32 *)((s8 *)(*(u8 * *)&scene_material_root) + 0x14) != 0U)) {
-        TScene::create_texture_wave_tasks((saddr)scene);
+        TScene::create_texture_wave_tasks((saddr)this);
     }
-    scene->init_material_nodes();
-    return (u8 *)scene;
+    init_material_nodes();
 }
 
 TScene::~TScene() {
