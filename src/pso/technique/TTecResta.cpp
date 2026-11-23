@@ -4,7 +4,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecResta.h"
-#include "pso/unk/TUnk_804CCBC0.h"
+#include "pso/technique/TTecRestaEff.h"
 #include "pso/unk/TUnk_804CCA90.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/vector.h"
@@ -140,7 +140,7 @@ void TTecResta::apply_to_player(TObjPlayer *player) {
     player->receive_direct_attack((void *)source, hit, 0, 0xF, -1);
     if (((TObjBase *)source)->get_entity_id() == player->get_entity_id()) {
         if (show_effects != 0) {
-            new TUnk_804CCBC0(&player->body_center, source, tl_07);
+            new TTecRestaEff(&player->body_center, source, tl_07);
         }
     } else if (show_effects != 0) {
         TParticleCtrl *e = spawn_particle_effect_with_flags(&player->body_center, 0x1F6, 0x10);
@@ -168,7 +168,7 @@ void TTecResta::create(void *source, void *origin, void *targets, s32 level) {
 
 #pragma push
 #pragma opt_common_subs off
-TUnk_804CCBC0::TUnk_804CCBC0(Vec *pos, s32 owner, TObject *parent) : TObject(parent) {
+TTecRestaEff::TTecRestaEff(Vec *pos, s32 owner, TObject *parent) : TObject(parent) {
     Vec v;
     s32 i;
     Row_8023967C *row;
@@ -195,11 +195,11 @@ TUnk_804CCBC0::TUnk_804CCBC0(Vec *pos, s32 owner, TObject *parent) : TObject(par
 }
 #pragma pop
 
-TUnk_804CCBC0::~TUnk_804CCBC0() {
+TTecRestaEff::~TTecRestaEff() {
 
 }
 
-void TUnk_804CCBC0::run_task() {
+void TTecRestaEff::run_task() {
     if (m_timer++ > 180) {
         queue_destruction();
     }

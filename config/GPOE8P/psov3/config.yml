@@ -2482,14 +2482,14 @@ force_active:
   - __dt__13TUnk_804B7C1CFv
   - __dt__13TUnk_804C4498Fv
   - __dt__13TUnk_804C8678Fv
-  - __dt__13TUnk_804CC0E8Fv
+  - __dt__11TTecAntiEffFv
   - __dt__13TUnk_804CC870Fv
   - __dt__13TUnk_804CC888Fv
   - __dt__13TUnk_804CCA90Fv
   - __dt__11TActorLightFv
   - __dt__13TUnk_804CCB28Fv
-  - __dt__13TUnk_804CCBC0Fv
-  - __dt__13TUnk_804CCC28Fv
+  - __dt__12TTecRestaEffFv
+  - __dt__15TTecReverserEffFv
   - __dt__13TUnk_804CCD78Fv
   - __dt__13TUnk_804DCB64Fv
   - __dt__12TEffIndirectFv
@@ -3254,13 +3254,13 @@ force_active:
   - __vt__13TUnk_804C4498
   - __vt__11TQuadSprite
   - __vt__13TUnk_804C8678
-  - __vt__13TUnk_804CC0E8
+  - __vt__11TTecAntiEff
   - __vt__10TTecCircle
   - __vt__13TUnk_804CC870
   - __vt__11TActorLight
   - __vt__13TUnk_804CCB28
-  - __vt__13TUnk_804CCBC0
-  - __vt__13TUnk_804CCC28
+  - __vt__12TTecRestaEff
+  - __vt__15TTecReverserEff
   - __vt__13TUnk_804CCD78
   - __vt__13TUnk_804DCB64
   - __vt__12TEffIndirect
@@ -5308,8 +5308,8 @@ force_active:
   - construct_rappys_fan__13TUnk_804F0908FlPv
   - __ct__13TUnk_804A4238FP7TObjectPUc
   - __ct__13TUnk_804A4338FP7TObjectPUc
-  - __ct__13TUnk_804CC0E8FP3VecP3VecUsP7TObject
-  - __ct__13TUnk_804CCBC0FP3VeclP7TObject
+  - __ct__11TTecAntiEffFP3VecP3VecUsP7TObject
+  - __ct__12TTecRestaEffFP3VeclP7TObject
   - __ct__13TUnk_804A5C18FP7TObjectPUc
   - __ct__13TUnk_804A5B20FP7TObjectPUc
   - __ct__13TUnk_804A5838FP7TObjectPUc
@@ -14878,15 +14878,15 @@ force_active:
   - run_task__17TNpcPlayerSpawnerFv
   - run_task__13TUnk_804B7C1CFv
   - run_task__13TUnk_804C8678Fv
-  - run_task__13TUnk_804CC0E8Fv
+  - run_task__11TTecAntiEffFv
   - run_task__10TTecCircleFv
   - run_task__13TUnk_804CC870Fv
   - run_task__13TUnk_804CC888Fv
   - run_task__13TUnk_804CCA90Fv
   - run_task__11TActorLightFv
   - run_task__13TUnk_804CCB28Fv
-  - run_task__13TUnk_804CCBC0Fv
-  - run_task__13TUnk_804CCC28Fv
+  - run_task__12TTecRestaEffFv
+  - run_task__15TTecReverserEffFv
   - run_task__13TUnk_804CCD78Fv
   - run_task__22TWindowComCardFollowerFv
   - run_task__13TUnk_804DCB64Fv

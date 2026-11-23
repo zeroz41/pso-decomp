@@ -5,7 +5,7 @@
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecLuker.h"
-#include "pso/unk/TUnk_804CC0E8.h"
+#include "pso/technique/TTecAntiEff.h"
 #include "pso/unk/TUnk_804CCA90.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -143,7 +143,7 @@ void TTecAnti::apply_to_player(TObjPlayer *player) {
     }
     if (((TObjBase *)source)->get_entity_id() == player->get_entity_id()) {
         if (show_effects != 0) {
-            new TUnk_804CC0E8(&player->body_center, &player->position, player->get_entity_id(), tl_07);
+            new TTecAntiEff(&player->body_center, &player->position, player->get_entity_id(), tl_07);
         }
     } else if (show_effects != 0) {
         o = spawn_particle_effect_with_flags(&player->body_center, 0x1F8, 0x10);
@@ -160,7 +160,7 @@ void TTecAnti::apply_to_player(TObjPlayer *player) {
     }
 }
 
-TUnk_804CC0E8::TUnk_804CC0E8(Vec *body_pos, Vec *ground_pos, u16 owner_id, TObject *parent) : TObject(parent) {
+TTecAntiEff::TTecAntiEff(Vec *body_pos, Vec *ground_pos, u16 owner_id, TObject *parent) : TObject(parent) {
     s32 i;
     VecCopy(&m_body_pos, body_pos);
     VecCopy(&m_ground_pos, ground_pos);
@@ -181,11 +181,11 @@ TUnk_804CC0E8::TUnk_804CC0E8(Vec *body_pos, Vec *ground_pos, u16 owner_id, TObje
     }
 }
 
-TUnk_804CC0E8::~TUnk_804CC0E8() {
+TTecAntiEff::~TTecAntiEff() {
 
 }
 
-void TUnk_804CC0E8::run_task() { queue_destruction(); }
+void TTecAntiEff::run_task() { queue_destruction(); }
 
 void TTecAnti::setup_params() {  }
 

@@ -17,7 +17,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/TUnk_804DDD28.h"
-#include "pso/unk/TUnk_804CCC28.h"
+#include "pso/technique/TTecReverserEff.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerActionPaletteState.h"
@@ -2397,7 +2397,7 @@ void TObjPlayer::init_action() {
     this->set_action_state(0x12, (s16) ((s32 (*)(void))ret_801D26AC)());
     disable_motion_blend();
     if (is_current_area_item_enabled() != 0) {
-        new TUnk_804CCC28(this, tl_07);
+        new TTecReverserEff(this, tl_07);
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x548) != 0U) {
         ((TObject *)(*(void **)((s8 *)arg0 + 0x548)))->queue_destruction();

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/technique/TTecReverser.h"
 #include "pso/technique/TechniqueParams.h"
-#include "pso/unk/TUnk_804CCC28.h"
+#include "pso/technique/TTecReverserEff.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecCircle.h"
@@ -161,7 +161,7 @@ void TTecReverser::run_task() {
 
 void TTecReverser::render() {  }
 
-TUnk_804CCC28::TUnk_804CCC28(TObjChara *chara, TObject *parent) : TObject(parent) {
+TTecReverserEff::TTecReverserEff(TObjChara *chara, TObject *parent) : TObject(parent) {
     s32 i;
     m_timer = 0;
     VecCopy(&m_pos, &chara->body_center);
@@ -177,7 +177,7 @@ TUnk_804CCC28::TUnk_804CCC28(TObjChara *chara, TObject *parent) : TObject(parent
     }
 }
 
-void TUnk_804CCC28::run_task() {
+void TTecReverserEff::run_task() {
     m_timer = m_timer + 1;
     if (m_timer == 10) {
         spawn_particle_effect(&m_pos, 0x38);
@@ -187,6 +187,6 @@ void TUnk_804CCC28::run_task() {
     }
 }
 
-TUnk_804CCC28::~TUnk_804CCC28() {
+TTecReverserEff::~TTecReverserEff() {
 
 }
