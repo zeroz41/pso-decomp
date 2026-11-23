@@ -4,7 +4,6 @@
 #include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/effect/photon/TPhotonConcentrate.h"
 
-
 // Golla, the photon blast summon that fires concentrated beams at the nearest enemy in front of its owner.
 class TPhotonGolla : public TPhotonBlastSummon {
 public:
