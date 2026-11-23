@@ -38,10 +38,10 @@
 
 
 
-void *TItemReverseTech__texture_archive;
-saddr TItemReverseTech__entry_table;
-saddr TItemReverseTech__name_buffer;
-TItemReverseTechPart1 *TItemReverseTechPart1__instance;
+NJS_TEXLIST *TItemReverseTech::texture_list;
+NJS_TEXNAME *TItemReverseTech::texnames;
+char *TItemReverseTech::name_buffer;
+TItemReverseTechPart1 *TItemReverseTechPart1::instance;
 
 static const f32 lbl_805DAC08[1] = {0.0f};
 static const f32 lbl_805DAC0C[1] = {480.0f};
@@ -54,17 +54,6 @@ static const f32 lbl_805DAC0C[1] = {480.0f};
 const char *TItemReverseTech__name = "TItemReverseTech";
 
 
-struct Ent_8011A270 { int name; int a; int b; };
-
-struct Hdr_8011A270 { int entries; int x4; };
-
-// One load/release pair of the reverse tech scene: init_scene calls each load,
-// run_cleanup_callbacks each release, last pair first.
-struct TItemReverseTechSceneHook {
-    void (*load)(void);
-    void (*release)(void);
-};
-
 extern "C" {
 s32 prs_decompress_alloc(int, void *, int);
 void activate_fast_rotation_code(void);
@@ -75,7 +64,7 @@ void process_async_file_reads(void);
 void update_sound_request_slots(void);
 void clear_resource_load_tasks();
 void set_screen_size(f32, f32);
-TItemReverseTechSceneHook TItemReverseTech__cleanup_callback_table[7] = {
+TItemReverseTechSceneHook TItemReverseTech::cleanup_callback_table[7] = {
     {TCameraCtrl::reset_view_state, TCameraCtrl::reset},
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
@@ -105,7 +94,7 @@ void TItemReverseTech::init_scene() {
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
     clear_resource_load_tasks();
-    e = TItemReverseTech__cleanup_callback_table;
+    e = cleanup_callback_table;
     for (i = 0; i != 7; i++) {
         fn = e->load;
         e++;
@@ -132,7 +121,7 @@ void TItemReverseTech::run_cleanup_callbacks() {
     s32 i;
     main_task.delete_layer_children();
     i = 6;
-    e = &TItemReverseTech__cleanup_callback_table[6];
+    e = &cleanup_callback_table[6];
     do {
         fn = e->release;
         e--;
@@ -145,20 +134,11 @@ void TItemReverseTech::run_cleanup_callbacks() {
 }
 
 void TItemReverseTech::run_frame() {
-    s32 *var_r3;
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.begin_frame();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.run_task();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.render();
-    var_r3 = (s32 *)&main_task;
-    var_r3 = (s32 *)&main_task;
     main_task.render_screen_overlay();
     process_async_file_reads();
     update_sound_request_slots();
@@ -167,7 +147,6 @@ void TItemReverseTech::run_frame() {
         TKeyBoardControl__sub_8000F92C();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
-        var_r3 = NULL;
         request_main_phase(0);
     }
     render_tick();
@@ -177,28 +156,28 @@ void TItemReverseTech::run_frame() {
 #pragma opt_propagation off
 void TItemReverseTech::load_textures() {
     const char *name = "ItemRTT.prs";
-    Ent_8011A270 *e;
+    NJS_TEXNAME *e;
     s32 i;
-    Hdr_8011A270 *hdr;
+    NJS_TEXLIST *list;
     int file;
     void *buf;
-    TItemReverseTech__name_buffer = (saddr)mem_alloc(0x1C);
-    strncpy((char *)TItemReverseTech__name_buffer, name, 0x1B);
-    e = (Ent_8011A270 *)mem_alloc(0xCC);
-    TItemReverseTech__entry_table = (saddr)e;
+    name_buffer = (char *)mem_alloc(0x1C);
+    strncpy(name_buffer, name, 0x1B);
+    e = (NJS_TEXNAME *)mem_alloc(17 * sizeof(NJS_TEXNAME));
+    texnames = e;
     for (i = 0; i < 17; i++, e++) {
-        e->name = TItemReverseTech__name_buffer;
-        e->a = 0;
-        e->b = 0;
+        e->filename = name_buffer;
+        e->attr = 0;
+        e->texaddr = 0;
     }
-    hdr = (Hdr_8011A270 *)::operator new(8);
-    TItemReverseTech__texture_archive = hdr;
-    hdr->entries = TItemReverseTech__entry_table;
+    list = new NJS_TEXLIST;
+    texture_list = list;
+    list->textures = texnames;
     file = (saddr)load_disc_file(name);
     if (file != 0) {
         buf = mem_alloc(0x200000);
         if (buf != NULL && prs_decompress_alloc(file, buf, 0x200000) > 0) {
-            load_gvm_texture_archive(buf, (NJS_TEXLIST *)TItemReverseTech__texture_archive);
+            load_gvm_texture_archive(buf, texture_list);
         }
         mem_free(buf);
     }
@@ -206,7 +185,15 @@ void TItemReverseTech::load_textures() {
 }
 #pragma pop
 
-void TItemReverseTech::free() { free_texture_if_valid((uaddr)TItemReverseTech__texture_archive); mem_free((void *)TItemReverseTech__name_buffer); TItemReverseTech__name_buffer = 0; mem_free((void *)TItemReverseTech__entry_table); TItemReverseTech__entry_table = 0; ::operator delete((void *)TItemReverseTech__texture_archive); TItemReverseTech__texture_archive = 0; }
+void TItemReverseTech::free() {
+    free_texture_if_valid((uaddr)texture_list);
+    mem_free(name_buffer);
+    name_buffer = NULL;
+    mem_free(texnames);
+    texnames = NULL;
+    delete texture_list;
+    texture_list = NULL;
+}
 
 void TItemReverseTech::create() {
     new TItemReverseTech((TObject *)tl_01);
@@ -214,7 +201,7 @@ void TItemReverseTech::create() {
 
 TItemReverseTech::TItemReverseTech(TObject *parent) : TObject(parent) {
     m_name = TItemReverseTech__name;
-    part_one = new TItemReverseTechPart1(this, TItemReverseTech__texture_archive);
+    part_one = new TItemReverseTechPart1(this, texture_list);
     part_two = NULL;
     new TAdEndText(this);
     play_area_music("ending.adx");
@@ -232,18 +219,13 @@ void TItemReverseTech::run_task() {
     Vec eye = {0.0f, 0.0f, 0.0f};
     Vec at = {0.0f, 0.0f, -100.0f};
 
-    uaddr temp_r3;
-    uaddr temp_r3_3;
-
     activate_camera_mode(9);
     set_active_camera_pose(&eye, &at);
-    temp_r3 = (uaddr)part_one;
-    if ((temp_r3 != 0U) && (((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0)) {
+    if (part_one != NULL && part_one->all_parents_unqueued_for_destruction() == 0) {
         part_one = NULL;
-        part_two = new TItemReverseTechPart2(this, TItemReverseTech__texture_archive);
+        part_two = new TItemReverseTechPart2(this, texture_list);
     }
-    temp_r3_3 = (uaddr)part_two;
-    if ((temp_r3_3 != 0U) && (((TObject *)temp_r3_3)->all_parents_unqueued_for_destruction() == 0)) {
+    if (part_two != NULL && part_two->all_parents_unqueued_for_destruction() == 0) {
         part_two = NULL;
         queue_destruction();
     }
@@ -253,7 +235,7 @@ void TItemReverseTech::run_task() {
 const char *TItemReverseTechPart1__name = "TItemReverseTechPart1";
 
 
-TItemReverseTechPart1::TItemReverseTechPart1(TObject *parent, void *texture_archive) : TObject(parent) {
+TItemReverseTechPart1::TItemReverseTechPart1(TObject *parent, NJS_TEXLIST *texlist) : TObject(parent) {
     m_name = TItemReverseTechPart1__name;
     state = 0;
     timer = 0;
@@ -261,7 +243,7 @@ TItemReverseTechPart1::TItemReverseTechPart1(TObject *parent, void *texture_arch
     hold_time = 3900;
     fade_out_time = 150;
     ring = NULL;
-    TItemReverseTechPart1__instance = this;
+    instance = this;
     new TUnk_804999B8(tl_00, TItemReverseTechPart2::destroy_and_flag);
 }
 
@@ -316,15 +298,15 @@ void TItemReverseTechPart1::run_task() {
 
 void TItemReverseTechPart2::destroy_and_flag(TObject *fade) {
     fade->queue_destruction();
-    if (TItemReverseTechPart1__instance != NULL) {
-        TItemReverseTechPart1__instance->state = 1;
+    if (TItemReverseTechPart1::instance != NULL) {
+        TItemReverseTechPart1::instance->state = 1;
     }
 }
 
 const char *TItemReverseTechPart2__name = "TItemReverseTechPart2";
 
 
-TItemReverseTechPart2::TItemReverseTechPart2(TObject *parent, void *texlist) : TObject(parent) {
+TItemReverseTechPart2::TItemReverseTechPart2(TObject *parent, NJS_TEXLIST *texlist) : TObject(parent) {
     m_name = TItemReverseTechPart2__name;
     picture_0.hold_time = 300;
     picture_0.fade_time = 0;

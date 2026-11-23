@@ -7,7 +7,7 @@
 
 class TItemReverseTechPart2 : public TObject {
 public:
-    TItemReverseTechPart2(TObject *parent, void *texlist);
+    TItemReverseTechPart2(TObject *parent, NJS_TEXLIST *texlist);
     virtual ~TItemReverseTechPart2();
     virtual void run_task();
     virtual void render();

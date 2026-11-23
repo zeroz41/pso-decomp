@@ -3,6 +3,7 @@
 
 #include "pso/system/task/TObject.h"
 #include "pso/effect/sprite/TQuadSprite.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 
 // One picture of the reverse tech scene: TItemReverseTechPart2 keeps seven and
@@ -11,7 +12,7 @@ struct TItemReverseTech_8011A54C {
     TItemReverseTech_8011A54C();
     s32 hold_time;  // frames at full alpha
     s32 fade_time;  // frames of each fade, in and out
-    void *texlist;
+    NJS_TEXLIST *texlist;
     s32 texture;
     f32 x;
     f32 y;
@@ -33,7 +34,7 @@ public:
     s32 fade_time;
     u32 alpha;
     u32 alpha_step;
-    void *texlist;
+    NJS_TEXLIST *texlist;
     s32 texture;
     u32 color;  // alpha << 24 | white
     QuadSpriteRect quad;
