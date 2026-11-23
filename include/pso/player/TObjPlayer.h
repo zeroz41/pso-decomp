@@ -349,7 +349,7 @@ struct TObjPlayer : public TObjChara {
     int emit_grass_footstep_particle(int position);
     void emit_photon_blast_feedback_from_packet();
     int copy_vec_at_18();
-    s32 get_attacker_id();
+    u16 get_attacker_id();
     void set_attacker_id(u16 id);
     s32 is_local_player();
     void apply_velocity();

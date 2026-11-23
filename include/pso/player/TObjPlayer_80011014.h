@@ -11,7 +11,7 @@ class TObjBase;
 class TObjChara;
 
 extern "C" {
-void clear_velocity(u8 *arg0);
+void clear_velocity(void *arg0);
 s32 TObjectV8047c128_subtract_hp(u8 *owner, s16 arg1);
 void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos);
 s32 add_actor_hp(u8 *arg0, s16 amount);

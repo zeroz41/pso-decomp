@@ -56,6 +56,14 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/CapturedTargetList.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/ui/hud/TMainCursor_8013DF5C.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/player/TObjPlayer_801BFED4.h"
+#include "pso/object/trap/TOMineTrap.h"
+#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/unk/text_80354BE4.h"
 
 
 #pragma readonly_strings on
@@ -901,38 +909,27 @@ typedef struct Player_801CB1B0 {
 } Player_801CB1B0;
 extern "C" {
 
-s32 clear_velocity(void *);
-s32 add_actor_tp(u8 *owner, s32 half);
-s32 add_actor_hp(u8 *arg0, s16 arg1);
 void set_technique_id__20PlayerTechniqueStateFs(void *, s32);
-s32 get_current_floor(void);
-f32 atan2_float(f32 y, f32 x);
-f32 newton_sqrtf(f32);
 s32 test_flags_any(void *, int);
 s32 TObjPlayer__sub_80082300(void *);
 s32 check_value_equals__13TUnk_804B6C24CFl(saddr, void *);
 s32 copy_attack_targets(void *, void *);
-s32 publish_actor_light_scalars(u32, f32, f32);
 s32 canSetMenuCursorAction(void *, void *, s32, u8);
-void TMainCursor__sub_8013DFC4(u8 *arg0);
 u8 get_cursor_palette_mode(void *);
 s32 approach_angle_adaptive(s32, s32);
 s32 lerp_angle_half__Fll(s32, s32);
 void init_6x45_attack_packet(u8 *arg0);
 void init_6x44_attack_packet(u8 *arg0);
 void init_6x43_attack_packet(u8 *arg0);
-void *resolve_hittable_target(u16 actorId, s16 collider);
 s32 get_type__10TObjPlayerFPv(void *);
 s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(TObjPlayer *player, TObjChara *target, s32 damage);
-u8 * find_entity_by_id(s32);
+void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
 s32 is_on_current_floor__10TObjPlayerFi();
-s32 get_trap_type__10TOMineTrapFv(int);
 s32 accumulate_damage_stats_at_76c(s32, s32, s32);
 s32 fn_801B0480(int, void *, int);
 s32 draw_player_status(void *, void *, const char *);
 s32 reset_volopt_state__10TObjPlayerFv(void *obj);
-void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
 s16 calc_scaled_value__10TObjPlayerFii(void *, int);
 void apply_speed_scale__10TObjPlayerFif(saddr arg0, f32 farg0);
 void complete_deferred_player_death();
@@ -941,11 +938,10 @@ void enable_action_input__10TObjPlayerFPv(void *p);
 void send_code_49_1__10TObjPlayerFi(saddr player);
 u16 TObjPlayer__sub_801B5AF8(void *, s32);
 u32 resolve_move_collision__10TObjPlayerFv(void *);
+s32 is_action_id_none(int);
 s32 damp_planar_velocity();
 s32 get_vobj_state_28__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
-s32 TObjPlayer__sub_801BFFA0(void *);
-s32 is_action_id_none(int);
 u8 TObjPlayer__sub_801C010C(void *, s32);
 void bswap_g_client_id_header(void *p);
 int copy_subcommand_header(void*);
@@ -1056,7 +1052,6 @@ s32 set_technique_level_entry(void *, s32, u8);
 int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 u8 * get_character_save_record(u16);
-s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags);
 }
 int is_android_player(void* p);
 void bswap_6x45_packet(void *p);
@@ -1075,12 +1070,11 @@ void emit_heavy_attack_particles(saddr owner, u16 target_id);
 void create_technique_charge_light(u32 kind, void *owner);
 void release_photon_blast_requests(void *registry);
 extern "C" {
-void TObjPlayer__sub_80312E98(void *, s32);
-s32 append_photon_blast_request(uaddr, s32, s32);
-s32 is_palettex_activated(u16);
-s32 dispatch_weapon_special_effect(void *, int, int, int);
 s32 fn_8036B798(void *);
 s32 fn_8036B7C0(void *);
+void TObjPlayer__sub_80312E98(void *, s32);
+s32 append_photon_blast_request(uaddr, s32, s32);
+s32 dispatch_weapon_special_effect(void *, int, int, int);
 s32 validate_6x58_lobby_animation(void *);
 s32 validate_6x56_set_player_position_and_angle(void *);
 s32 validate_6x55_intra_map_warp(G_ClientIDHeader *);
@@ -2605,7 +2599,7 @@ void TObjPlayer::enter_death_state() {
     u8 *arg0 = (u8 *)this;
     u32 entity_id;
     u32 other;
-    s32 killer;
+    u16 killer;
     u8 *culprit;
     u8 *entity;
     u8 *character_save_record;
@@ -2623,7 +2617,7 @@ void TObjPlayer::enter_death_state() {
     }
     ((TObjPlayer *)arg0)->photon_blast_gauge.clear_photon_blast_state();
     if (TTecCtrl::is_technique_ready() != 0) {
-        entity = find_entity_by_id(this->get_attacker_id());
+        entity = (u8 *)find_entity_by_id(this->get_attacker_id());
         if (entity != NULL) {
             if (check_value_equals__13TUnk_804B6C24CFl((saddr)entity, (void *)lbl_805D3530) != 0) {
                 entity_id = (u16)((TObjBase *)arg0)->get_entity_id();
@@ -2634,10 +2628,10 @@ void TObjPlayer::enter_death_state() {
             }
             if (check_value_equals__13TUnk_804B6C24CFl((saddr)entity, (void *)TOMineTrap__data_805D3080) == 0) {
                 accumulate_damage_stats_at_76c((saddr)arg0, (saddr)entity, 1);
-            } else if ((u16)(killer = get_trap_type__10TOMineTrapFv((saddr)entity)) == 0xffffU) {
+            } else if ((killer = ((TOMineTrap *)entity)->get_trap_type()) == 0xffffU) {
                 accumulate_damage_stats_at_76c((saddr)arg0, (saddr)entity, 1);
             } else {
-                culprit = find_entity_by_id(killer);
+                culprit = (u8 *)find_entity_by_id(killer);
                 accumulate_damage_stats_at_76c((saddr)arg0, (saddr)culprit, 1);
             }
             draw_player_status(this, (void *) (entity), "\tC9");
