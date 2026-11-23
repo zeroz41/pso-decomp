@@ -42,6 +42,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/weapon/WeaponSpecialSelection.h"
+#include "pso/player/PhotonBlastResults.h"
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 
@@ -1321,8 +1322,6 @@ void bswap_6x44_packet(void *p);
 void bswap_6x43_packet(void *p);
 void init_6x40_walk_packet(void *cmd);
 void init_stick_escape_detector(void *arg0, void *arg1);
-struct PhotonBlastRequest;
-void admit_photon_blast_sequence(PhotonBlastRequest *requests, void *self);
 void calc_death_sink_offset(void *arg0);
 void reset_player_appearance_opacity(void *a0);
 void remove_photon_blast_participant(s32 arg0);

@@ -5,6 +5,7 @@
 #include "pso/system/data/FlagWord.h"
 
 class TUnk_804C349C;
+class TObjPlayer;
 struct BmlResource;
 
 // The models, textures and motions every photon blast summon draws from.
@@ -54,6 +55,7 @@ struct PhotonBlastRequest {
     ~PhotonBlastRequest();
     void reset();
     u16 get_client_id();
+    s16 get_kind();
     void set_kind(s16 kind);
     void set_client_id(u16 client_id);
     PhotonBlastRequest &operator=(PhotonBlastRequest &other);
@@ -61,7 +63,7 @@ struct PhotonBlastRequest {
 
 // Chains the requests whose players are in self's room into one photon blast
 // sequence (a TUnk_804C349C), unless another player's sequence is still running.
-void admit_photon_blast_sequence(PhotonBlastRequest *requests, void *self);
+void admit_photon_blast_sequence(PhotonBlastRequest *requests, TObjPlayer *self);
 void apply_photon_blast_action_hold(s32 arg0, s32 arg1, s32 owner_client_id);
 
 extern "C" {
