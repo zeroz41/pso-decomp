@@ -60,7 +60,6 @@ void *get_player_by_client_id(s32);
 void *__ct__15TWindowHelpItemFPvUs(void *, s32, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 are_status_entries_ready__13TWindowSubMagFi(void *);
-void *TWindowSubMagPhoton__ct(void *, saddr, s32, s32);
 int TWindowSubMag__sub_8027C0E8(void* p);
 }
 
@@ -325,11 +324,7 @@ void TWindowSubMag::run_task() {
             ((TWindowSubMag *)(help))->set_flag60_bit8();
             ((TWindowHelpItem *)(help))->set_flag60_bit4();
         }
-        w = TObject::operator new(0x74);
-        if (w != NULL) {
-            w = TWindowSubMagPhoton__ct(w, get_window_layout_position(0xA), mag, client_id);
-        }
-        photon = w;
+        photon = new TWindowSubMagPhoton((void *)get_window_layout_position(0xA), mag, client_id);
         ((TWindowBase *)photon)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent, 3));
         message = create();
         m_1d = -1;

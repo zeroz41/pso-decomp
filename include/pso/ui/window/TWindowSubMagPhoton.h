@@ -7,6 +7,7 @@
 struct TWindowSubMagPhoton : public TWindowBase {
     TWindowSubMagPhoton(void *position, s32 mag_state, s32 client);
     virtual ~TWindowSubMagPhoton();
+    static const char *class_name;
     void init_photon_blast_entries();
     int get_active_flag();
     virtual void render();
