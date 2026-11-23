@@ -16,22 +16,22 @@ struct TWindowSubShortMail : public TObject {
     virtual ~TWindowSubShortMail();
     virtual void run_task();
     virtual void render();
-    s32 create_list_item();
+    saddr create_list_item();
     static TKeyBoardControl *create_keyboard();
-    static s32 open_confirm_prompt(void *parent, int client_id);
-    s32 open_confirm_dialog();
-    s32 open_delete_confirm_dialog();
+    static saddr open_confirm_prompt(void *parent, int client_id);
+    saddr open_confirm_dialog();
+    saddr open_delete_confirm_dialog();
     void sub_8027E620();
     static s32 is_active();
     void close();
     void update_mail_count();
     s32 refresh_mail_list(void *list);
     void advance_line(s32 arg1);
-    s32 create_menu();
-    s32 build_menu();
-    s32 create_confirm_menu_window();
-    s32 create_window();
-    static s32 open_menu();
+    saddr create_menu();
+    saddr build_menu();
+    saddr create_confirm_menu_window();
+    saddr create_window();
+    static saddr open_menu();
 
     static const char *class_name;
 

@@ -39,7 +39,7 @@ struct TWindowSubMag : public TObject {
     void *create();
     void *create_action_menu(s32 id);
     saddr create_list();
-    s32 setup_list();
+    saddr setup_list();
     s32 get_selected_blast();
     void set_flag60_bit8();
     void clear_flag60_bit8();

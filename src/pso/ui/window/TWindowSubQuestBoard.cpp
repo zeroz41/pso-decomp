@@ -71,7 +71,7 @@ void TWindowSubQuestBoard::run_task() {
     switch (this->state) {
     case 0:
     case 1:
-        fn_8027D1E8((s32)select_window);
+        fn_8027D1E8((saddr)select_window);
         this->state = 2;
     case 2:
         if (select_window->sub_8027D1DC() != 0) {

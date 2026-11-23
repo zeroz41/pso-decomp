@@ -383,7 +383,7 @@ void TWindowSubShortMail::run_task() {
 
 void TWindowSubShortMail::render() {  }
 
-s32 TWindowSubShortMail::create_list_item() {
+saddr TWindowSubShortMail::create_list_item() {
     saddr temp_r31;
     s32 window_layout_position;
 
@@ -409,7 +409,7 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
     i = n - 1;
     while (i >= 0) {
         e = get_short_mail_entry(i);
-        ((TWindowSubStatusDisp *)arg1)->add_status_entry(e->get_flags(), (s32)e->get_sender_name(), e->get_id());
+        ((TWindowSubStatusDisp *)arg1)->add_status_entry(e->get_flags(), (saddr)e->get_sender_name(), e->get_id());
         if (id == e->get_id()) {
             sel = (n - 1) - i;
         }
@@ -433,7 +433,7 @@ s32 TWindowSubShortMail::refresh_mail_list(void *arg1) {
     return 1;
 }
 
-s32 TWindowSubShortMail::create_menu(void) {
+saddr TWindowSubShortMail::create_menu(void) {
     saddr list;
 
     list = create_titled_window_menu_default(get_window_layout_position(0x9A), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x1D));
@@ -460,7 +460,7 @@ s32 TWindowSubShortMail::create_menu(void) {
 
 #pragma push
 #pragma fp_contract on
-s32 TWindowSubShortMail::build_menu(void) {
+saddr TWindowSubShortMail::build_menu(void) {
     saddr list;
     s32 msg;
     list = create_titled_window_menu_default((s32)(get_window_layout_position(0x9D)), 3, (s32)((saddr)TWindowSubStatusDisp::get_message_10(0x1E)));
@@ -488,7 +488,7 @@ TKeyBoardControl *TWindowSubShortMail::create_keyboard() {
     return keyboard;
 }
 
-s32 TWindowSubShortMail::open_confirm_prompt(void *parent, int client_id) {
+saddr TWindowSubShortMail::open_confirm_prompt(void *parent, int client_id) {
     saddr temp_r29;
     temp_r29 = (saddr)TWindowMessageYesNo::create(parent, client_id, 0, 0);
     open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(temp_r29), (uaddr)((saddr)TWindowSubStatusDisp::get_message_10(0x20)), (saddr)((saddr)TWindowSubStatusDisp::get_message_10(0x3f)), (s32)(get_window_layout_position(0x9e)), 205.0f);
@@ -497,7 +497,7 @@ s32 TWindowSubShortMail::open_confirm_prompt(void *parent, int client_id) {
     return temp_r29;
 }
 
-s32 TWindowSubShortMail::create_confirm_menu_window(void) {
+saddr TWindowSubShortMail::create_confirm_menu_window(void) {
     saddr menu;
     menu = create_window_menu_default((saddr)((void *)(((saddr)get_window_layout_position(0xA0)))), 2);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)menu, (int)((int) ((saddr)TWindowSubStatusDisp::get_message_10(0x107))), 6, 0x16);
@@ -507,7 +507,7 @@ s32 TWindowSubShortMail::create_confirm_menu_window(void) {
     return menu;
 }
 
-s32 TWindowSubShortMail::create_window(void) {
+saddr TWindowSubShortMail::create_window(void) {
     s32 window_layout_position;
     saddr list;
 
@@ -526,7 +526,7 @@ s32 TWindowSubShortMail::create_window(void) {
     return list;
 }
 
-s32 TWindowSubShortMail::open_menu(void) {
+saddr TWindowSubShortMail::open_menu(void) {
     s32 window_layout_position;
     saddr menu;
 
@@ -542,7 +542,7 @@ s32 TWindowSubShortMail::open_menu(void) {
     return menu;
 }
 
-s32 TWindowSubShortMail::open_confirm_dialog() {
+saddr TWindowSubShortMail::open_confirm_dialog() {
     saddr temp_r29;
 
     temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
@@ -552,7 +552,7 @@ s32 TWindowSubShortMail::open_confirm_dialog() {
     return temp_r29;
 }
 
-s32 TWindowSubShortMail::open_delete_confirm_dialog() {
+saddr TWindowSubShortMail::open_delete_confirm_dialog() {
     saddr temp_r29;
 
     temp_r29 = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
@@ -572,7 +572,7 @@ void TWindowSubShortMail::update_mail_count() {
             mail_id = cursor_id;
             mail = TLobby::find_short_mail_by_id(mail_id);
             if (mail != NULL) {
-                ((TWindowMessage *)message_window)->append_line((int)mail->get_body(), 0x482);
+                ((TWindowMessage *)message_window)->append_line((saddr)mail->get_body(), 0x482);
             }
         }
     }

@@ -354,7 +354,7 @@ void TWindowSubMag::run_task() {
 
 void TWindowSubMag::render() {  }
 
-s32 TWindowSubMag::setup_list() {
+saddr TWindowSubMag::setup_list() {
     saddr equip_kind_window;
     s32 window_layout_position;
 
