@@ -565,7 +565,7 @@ force_active:
   - TItemEffNeedlePos__class_name
   - TItemEffNeedle__class_name
   - __ct__20TItemEffOrgaFlowShotFP7TObjectP18OrgaFlowShotParams
-  - TItemEffectWeapon__class_name
+  - class_name__17TItemEffectWeapon
   - remove_freeze_immunity
   - remove_slow_immunity
   - remove_shock_immunity

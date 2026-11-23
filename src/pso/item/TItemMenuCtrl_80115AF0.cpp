@@ -64,3 +64,7 @@ void advance_angle_wrap(s32 *arg0, s32 blade_speed) {
         *arg0 = temp_r4 + 0xFFFF0000;
     }
 }
+
+s32 decrement_timer(u32 *packed, s32 step) {
+    return TObjBoss2Tunnel::decrement_packed_timer(packed, step);
+}

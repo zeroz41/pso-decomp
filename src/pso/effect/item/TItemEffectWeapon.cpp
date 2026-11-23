@@ -14,23 +14,22 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/ambient/TObjLight_803DF220.h"
 #include "pso/render/model_render_state.h"
+#include "pso/item/TItemMenuCtrl_80115AF0.h"
+#include "pso/player/TObjPlayer_803E1A58.h"
 
 
 #pragma readonly_strings on
-const char *TItemEffectWeapon__class_name = "TItemEffectWeapon";
+const char *TItemEffectWeapon::class_name = "TItemEffectWeapon";
 
 extern "C" {
 
 void TItemEffectWeapon__sub_8036340C(void);
 void TItemEffectWeapon__sub_80363410(void);
 
-void decrement_timer__17TItemEffectWeaponFv(void *, s32);
-f32 xyz_distance(const f32 *a, const f32 *b);
 
 void TItemEffectWeapon__sub_8036340C(void) {  }
 void TItemEffectWeapon__sub_80363410(void) {  }
 }
-void reset_player_transform();
 
 void TItemEffectWeapon::run_task() {
     s32 offset;
@@ -40,12 +39,13 @@ void TItemEffectWeapon::run_task() {
     offset = 0;
     while (i != vertex_count / 2) {
         segment = (TrailVertex*)((u8*)vertices + offset);
-        decrement_timer__17TItemEffectWeaponFv(&segment[0].color, 0x3F);
+        decrement_timer(&segment[0].color, 0x3F);
         if ((segment[0].color & 0xFF000000) == 0) {
             vertex_count = i << 1;
             return;
         }
-        decrement_timer__17TItemEffectWeaponFv((u8*)vertices + offset + 0x1C, 0x3F);
+        segment = (TrailVertex*)((u8*)vertices + offset);
+        decrement_timer(&segment[1].color, 0x3F);
         i++;
         offset += 0x20;
     }
@@ -72,7 +72,7 @@ void TItemEffectWeapon::push_trail_interpolated(const f32 *first, const f32 *sec
             f32 base_dx = (first[0] - base_x) / 2.0f;
             f32 base_dy = (first[1] - base_y) / 2.0f;
             f32 base_dz = (first[2] - base_z) / 2.0f;
-            f32 length = xyz_distance(first, second);
+            f32 length = xyz_distance((Vec *)first, (Vec *)second);
             s32 i;
             for (i = 1; i < 2; i++) {
                 base[0] = base_dx * i + base_x;
@@ -146,15 +146,15 @@ void TItemEffectWeapon::render_trail() {
 
 
 TItemEffectWeapon::~TItemEffectWeapon() {
-    TItemEffectWeapon::release_trail_buffer((void*)*(saddr *)((s8 *)this + 0x1C));
+    release_trail_buffer(vertices);
 }
 
 TItemEffectWeapon::TItemEffectWeapon(saddr parent, s32 param) : TItemHeapObject((TObject*)parent) {
-    m_name = TItemEffectWeapon__class_name;
-    *(saddr *)((s8 *)this + 0x1C) = (saddr)TItemEffectWeapon::allocate_trail_buffer();
+    m_name = class_name;
+    vertices = allocate_trail_buffer();
     this->color = param;
     this->vertex_count = 0;
-    this->field_28 = 0;
+    this->pad_28 = 0;
 }
 
     TItemEffectWeapon::TrailVertex* item_weapon_trail_vertex_buffer;

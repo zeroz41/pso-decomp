@@ -478,7 +478,6 @@ pso/weapon/TUnk_804F0AF8.cpp
 pso/effect/item/TItemEffPG.cpp
 pso/effect/item/TItemEffShield.cpp
 pso/effect/item/TItemEffectWeapon.cpp
-pso/effect/item/TItemEffectWeapon_80115C24.cpp
 pso/item/TItemEquipBase.cpp
 pso/item/TItemEquipBase_8022F1C0.cpp
 pso/item/TItemHeapObject.cpp
