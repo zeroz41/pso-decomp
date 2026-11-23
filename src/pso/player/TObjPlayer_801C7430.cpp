@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/player/TPlayerReadyCallback.h"
 #include "pso/ui/window/TWindowReturnCity.h"
 #include "pso/object/TActorLight.h"
 #include "pso/player/PlayerSlots.h"
@@ -1077,7 +1078,6 @@ s32 damp_planar_velocity();
 s32 get_vobj_state_28__10TObjPlayerFv(void *);
 s32 check_flag_4__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
-s32 __ct__20TPlayerReadyCallbackFP7TObjectUsPFP10TObjPlayer_v(s32, s32, u16, void (*)(TObjPlayer *));
 void TObjPlayer__sub_801BF690(u8 *arg0);
 s32 set_anim_state__10TObjPlayerFs(void *, int);
 f32 TObjPlayer__sub_801BF814(void *p);
@@ -1292,7 +1292,6 @@ int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 u8 * get_character_save_record(u16);
 s32 play_persistent_sound(s32 id, saddr a1, uaddr src, s32 a3, s32 flags);
-u32 __nw__7TObjectFUl(s32);
 void capture_technique_targets__10TObjPlayerFv(int kind, void *owner);
 void launch_technique__10TObjPlayerFv(s32, s32, void *);
 Rec_801CCEDC * calc_technique_parameters(s32 tech, s32 level, u16 id);
@@ -2740,11 +2739,7 @@ void init_subobject(TObjPlayer *player) {
 extern "C" {
 
 void queue_player_injured_pose(s32 player) {
-    s32 temp_r3;
-    temp_r3 = ((s32 (*)(s32))__nw__7TObjectFUl)(0x24);
-    if (temp_r3 != 0) {
-        __ct__20TPlayerReadyCallbackFP7TObjectUsPFP10TObjPlayer_v(temp_r3, player, ((TObjBase *)(saddr)player)->get_entity_id(), init_subobject);
-    }
+    new TPlayerReadyCallback((TObject *)(saddr)player, ((TObjBase *)(saddr)player)->get_entity_id(), init_subobject);
 }
 
 void TObjPlayer::update_active_state() {

@@ -315,7 +315,6 @@ void render__13TLockOnCursorFv(saddr arg0);
 void TLockOnCursor__sub_8013EB80(void *p);
 void TLockOnCursor__sub_8013EB8C(void *p);
 void __construct_array(void *, void *, void *, int, int);
-void __ct__7TObjectFP7TObject(void *);
 }
 
 extern "C" {

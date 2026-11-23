@@ -34,7 +34,6 @@ struct TWindowHelpItem : public TWindowBase
     f32 m_ac;
     struct CallbackWords { u32 words[3]; } m_callback;
 
-    static void *operator new(unsigned long size) { return TObject::operator new(size); }
     TWindowHelpItem(void *position, s32 index);
     void set_flag0_bit2();
     static void set_help_text(saddr help, saddr client_id);

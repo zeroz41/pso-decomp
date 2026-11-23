@@ -69,14 +69,12 @@ struct Vec_80198E84;
 extern Vec_80198E84 gogo_ball_sync_state[];
 struct Sys_80198A2C;
 extern Sys_80198A2C gogo_ball_configuration;
-void __dl__7TObjectFPv(void *);
 }
 
 struct Obj_8019978C;
 struct Pair_80198F14;
 extern "C" {
 void TWindowTimer__sub_8019A6F8(void*);
-void __dl__7TObjectFPv(void*);
 extern BmlResourceDescriptor language_lobby_texture_descriptor;
 extern Pair_80198F14 gogo_ball_team_scores[];
 void TObjPlayer__sub_801994DC(saddr,void*,void*,s32,void*,f32);

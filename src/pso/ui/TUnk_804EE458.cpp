@@ -42,8 +42,6 @@ extern "C" {
 
 s32 play_sound_effect(int, int, int, int);
 
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
 
 s32 TAdTrialAgreementGC__sub_80335958(TUnk_804EE458 *controller) {
     return controller->state == 2;

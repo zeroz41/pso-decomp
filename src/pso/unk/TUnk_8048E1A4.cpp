@@ -71,7 +71,6 @@ struct VObj_80081EA4 : VBase_80081EA4 {
 
 extern "C" {
 uaddr find_active_entity_by_id(u16);
-s32 all_parents_unqueued_for_destruction__7TObjectFv();
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
@@ -137,19 +136,19 @@ void TUnk_8048E1A4::freeze_shell_grow() {
 }
 
 void TUnk_8048E1A4::run_task() {
-    u32 active_entity;
+    TObject *active_entity;
     u16 id = *(u16 *)((s8 *)this + 0x358);
     if ((id != 0xffffU) && (id < 0x4000U)) {
-        active_entity = find_active_entity_by_id(id);
+        active_entity = (TObject *)find_active_entity_by_id(id);
     } else {
-        active_entity = 0U;
+        active_entity = NULL;
     }
-    if (active_entity == 0U) {
+    if (active_entity == NULL) {
         queue_destruction();
         disallow_rendering();
         return;
     }
-    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0) {
+    if (active_entity->all_parents_unqueued_for_destruction() == 0) {
         disallow_rendering();
         queue_destruction();
         return;

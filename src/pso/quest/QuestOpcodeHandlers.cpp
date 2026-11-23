@@ -70,6 +70,7 @@ int qst_label_address(int label);
 #include "pso/item/TItem.h"
 
 #include "pso/quest/TQuestBgmCtrl.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 
@@ -898,7 +899,6 @@ void request_player_size_restore(PlayerScaleState *state);
 void request_player_shrink(PlayerScaleState *state);
 Vec * TObjPlayer__sub_801C6FDC(void *);
 s32 send_download_head_d7(TProtocol *, int, int);
-void* __ct__13TQuestBgmCtrlFP7TObject(void*, TObject *);
 }
 void play_cue_stream_file(const char *name);
 extern "C" {
@@ -935,9 +935,7 @@ void try_close__6TLobbyFPv(void *p);
 s32 play_sound_effect(int, int, int, int);
 int TLobby__sub_802272B4(void*);
 int TLobby__sub_8022733C(void*);
-void * __nw__7TObjectFUl(u32);
 void request_active_window_close(void);
-s32 __ct__15TWindowHelpItemFPvl(s32, s32, s32);
 s32 unhide_enemies_at__6TLobbyFlll(s32, s32, s32, s32);
 }
 void init_6x40_walk_packet(void *a0);
@@ -1156,15 +1154,9 @@ void qst_op_prevent_item_select(s32 reg) {
 }
 
 void qst_op_open_pack_select() {
-    saddr var_r31;
-
     qst_pack_select_window = (void *)create_equip_kind_window(get_window_layout_position(3), pack_select_window_pos, local_client_id);
     save_and_close__20TShopArmorListWindowFv();
-    var_r31 = ((s32 (*)(s32))__nw__7TObjectFUl)(0xBC);
-    if (var_r31 != 0) {
-        var_r31 = __ct__15TWindowHelpItemFPvl(var_r31, get_window_layout_position(2), local_client_id);
-    }
-    qst_pack_select_help_window = (void *)var_r31;
+    qst_pack_select_help_window = new TWindowHelpItem((void *)get_window_layout_position(2), local_client_id);
 }
 
 void qst_op_prepare_gba_rom_from_disk(void) {
@@ -3682,10 +3674,7 @@ void qst_op_get_difficulty_level_v2(s32 reg) {
 }
 
 void qst_op_create_bgmctrl() {
-    void* obj = __nw__7TObjectFUl(0x1C);
-    if (obj != 0) {
-        __ct__13TQuestBgmCtrlFP7TObject(obj, tl_05);
-    }
+    new TQuestBgmCtrl(tl_05);
 }
 
 void qst_op_update_switch_flag(s32 regs) {

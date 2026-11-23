@@ -441,7 +441,7 @@ void TObjEneBalClawBody::run_death_sequence() {
                 claw = (TObjEnemy *)find_entity_by_id(body->child_ids[i]);
                 if (claw != NULL) {
                     claw->send_entity_set_flags();
-                    queue_destruction__7TObjectFv(claw);
+                    claw->queue_destruction();
                 }
             }
         } else {
@@ -477,7 +477,7 @@ void TObjEneBalClawBody::run_death_sequence() {
         if ((&body->fade)->decay_value_toward_floor() == 1) {
             TObjPlayer::apply_effect_variant_a((saddr)&body->position, 0);
             body->send_entity_set_flags();
-            queue_destruction__7TObjectFv(body);
+            body->queue_destruction();
         }
         break;
     }
@@ -584,11 +584,11 @@ void TObjEneBalClawBody::update_attack() {
         break;
     case -1:
         if (body->effects[2] != NULL) {
-            queue_destruction__7TObjectFv(body->effects[2]);
+            body->effects[2]->queue_destruction();
             body->effects[2] = NULL;
         }
         if (body->effects[3] != NULL) {
-            queue_destruction__7TObjectFv(body->effects[3]);
+            body->effects[3]->queue_destruction();
             body->effects[3] = NULL;
         }
         body->behavior_flags |= 0x20000;
@@ -954,7 +954,7 @@ void TObjEneBalClawBody::update_combine() {
             body->effects[1]->set_position(&body->body_center);
         }
         if (body->requested_action != 0xB) {
-            queue_destruction__7TObjectFv(body->effects[0]);
+            body->effects[0]->queue_destruction();
             body->effects[0] = NULL;
             spawn_particle_effect(&body->body_center, 0x129);
             body->set_form(1);
@@ -989,11 +989,11 @@ void TObjEneBalClawBody::update_combine() {
         }
         body->behavior_flags |= 0x20000;
         if (body->effects[0] != NULL) {
-            queue_destruction__7TObjectFv(body->effects[0]);
+            body->effects[0]->queue_destruction();
             body->effects[0] = NULL;
         }
         if (body->effects[1] != NULL) {
-            queue_destruction__7TObjectFv(body->effects[1]);
+            body->effects[1]->queue_destruction();
             body->effects[1] = NULL;
         }
         break;
