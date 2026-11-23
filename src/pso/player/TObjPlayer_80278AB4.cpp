@@ -27,13 +27,13 @@ void TObjPlayer::build_shop_item_list() {
         for (i = 0; i < temp_r30; i++) {
             temp_r3_2 = (saddr)find_item_by_id(ids[i]);
             if ((temp_r3_2 != 0) && (((TItem *)temp_r3_2)->get_item_type() == 0) && (((TItem *)temp_r3_2)->check_equip_requirements((TObjPlayer *)player, (s16 *)(&sp8)) != 0) && (((TItem *)temp_r3_2)->test_item_flags(8) == 0U) && (((TItem *)temp_r3_2)->get_usable_action_flags(8, 0) != 0U)) {
-                ((TShopJudgmentItemWindow *)((u8 *)this))->add_list_entry(temp_r3_2, ids[i]);
+                ((TWindowMenuIconLine *)((u8 *)this))->add_list_entry((TItem *)temp_r3_2, ids[i]);
             }
         }
         slot_value = TObjPlayer::get_slot_value(player + 0xD04, 6);
         if (slot_value != 0) {
             item_id = ((TItem *)slot_value)->get_item_id();
-            ((TShopJudgmentItemWindow *)((u8 *)this))->add_list_entry(slot_value, item_id);
+            ((TWindowMenuIconLine *)((u8 *)this))->add_list_entry((TItem *)slot_value, item_id);
         }
         if (*(s16 *)((s8 *)((u8 *)this) + 0x72) <= 0) {
             ((TWindowSubStatusDisp *)((u8 *)this))->add_list_entry(-1);

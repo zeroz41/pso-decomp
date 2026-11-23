@@ -63,7 +63,7 @@ void build_usable_item_list(Wn_802788A8 *arg0) {
         for (i = 0; i < count; i++) {
             id = (u8 *)find_item_by_id(list[i]);
             if (id != NULL && ((TItem *)id)->get_usable_action_flags(4, 0) != 0) {
-                ((TShopJudgmentItemWindow *)arg0)->add_list_entry((saddr)id, list[i]);
+                ((TWindowMenuIconLine *)arg0)->add_list_entry((TItem *)id, list[i]);
             }
         }
         if (arg0->f72 <= 0) {

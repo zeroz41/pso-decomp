@@ -358,13 +358,13 @@ void TShopEquipmentSellWindow::add_item(saddr item, s32 arg2, s32 arg3) {
     }
 }
 
-void TShopJudgmentItemWindow::add_list_entry(saddr item, s32 arg2) {
-    int index;
-    if (item != 0) {
-        index = this->m_72;
-        if (index < (s16) this->m_76) {
-            ((ItemListRow *)(reinterpret_cast<TWindowBase *>(this)->get_array_entry(index)))->init_item_row((void *)item, (s32)arg2);
-            this->m_72 = (this->m_72 + 1);
+void TWindowMenuIconLine::add_list_entry(TItem *item, s32 index) {
+    int row;
+    if (item != NULL) {
+        row = entry_count;
+        if (row < entry_capacity) {
+            ((ItemListRow *)get_array_entry(row))->init_item_row(item, index);
+            entry_count = entry_count + 1;
         }
     }
 }

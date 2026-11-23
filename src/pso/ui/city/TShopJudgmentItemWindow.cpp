@@ -168,14 +168,14 @@ void TShopJudgmentItemWindow::build_item_list(void *arg0) {
     if (W->list == NULL) {
         W->list = create_item_list_window(get_appraisal_text(0), W->count, ((TObjBase *)((saddr)W->player))->get_entity_id());
         for (j = 0; j < W->count; j++) {
-            ((TShopJudgmentItemWindow *)(W->list))->add_list_entry(W->ents[j].item, j);
+            ((TWindowMenuIconLine *)W->list)->add_list_entry((TItem *)W->ents[j].item, j);
         }
         ((TWindowMenuIconLine *)W->list)->calc_content_extent();
         return;
     }
     ((TWindowMenuIconLine *)(W->list))->reset_list();
     for (k = 0; k < W->count; k++) {
-        ((TShopJudgmentItemWindow *)(W->list))->add_list_entry(W->ents[k].item, k);
+        ((TWindowMenuIconLine *)W->list)->add_list_entry((TItem *)W->ents[k].item, k);
     }
     ((TWindowMenuIconLine *)W->list)->calc_content_extent();
     ((TWindowMenuIconLine *)((saddr)W->list))->clear_decided();
@@ -287,7 +287,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
             TItemData__clear_unidentified_flag(((u8 *)&this->unk_28));
             this->m_34 = advance_item_id_counter(((u16) local_client_id));
             this->result_item = (uaddr)construct_item((TItemData *)(arg0 + 0x28));
-            ((TShopJudgmentItemWindow *)(this->item_list))->add_list_entry(this->result_item, 0);
+            ((TWindowMenuIconLine *)this->item_list)->add_list_entry((TItem *)this->result_item, 0);
             ((TWindowSubShortCutList *)(this->item_list))->set_flag70_bit10();
             ((TWindowSubTradeMain *)(this->item_list))->set_visible();
             ((TWindowSubTradeMain *)(this->item_list))->set_close_flag();

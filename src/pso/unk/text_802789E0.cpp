@@ -20,7 +20,7 @@ void fn_802789E0(u8 *arg0) {
         for (i = 0; i < n; i++) {
             item = find_item_by_id(ids[i]);
             if (item != NULL && ((TItem *)item)->get_usable_action_flags(2, 0) != 0 && ((TItem *)item)->get_usable_action_flags(1, 0) == 0) {
-                ((TShopJudgmentItemWindow *)arg0)->add_list_entry((saddr)item, ids[i]);
+                ((TWindowMenuIconLine *)arg0)->add_list_entry((TItem *)item, ids[i]);
             }
         }
         if (*(s16 *)(arg0 + 0x72) <= 0) {

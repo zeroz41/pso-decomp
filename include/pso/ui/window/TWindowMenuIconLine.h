@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
 
+struct TItem;
 struct WindowScrollBar;
 
 class TWindowMenuIconLine : public TWindowAddition {
@@ -29,6 +30,7 @@ public:
     void clear_decided();
     void reset_list();
     void add_list_entry(u8 icon, s32 src, s32 item);
+    void add_list_entry(TItem *item, s32 index);
     saddr get_cursor_value();
     void calc_content_extent();
     void disable_cancel();

@@ -88,7 +88,7 @@ void populate_sub_item_list(Win_8027ABFC *arg0) {
     TObjPlayer *pl;
     Quest_8027ABFC *q;
     u32 i;
-    void *it;
+    TItem *it;
 
     pl = get_player_by_client_id(arg0->id);
     if (pl != NULL) {
@@ -96,7 +96,7 @@ void populate_sub_item_list(Win_8027ABFC *arg0) {
         for (i = 0; i < arg0->n; i++) {
             it = find_item_by_id(ids[i]);
             if (it != NULL) {
-                ((TShopJudgmentItemWindow *)arg0)->add_list_entry((saddr)it, ids[i]);
+                ((TWindowMenuIconLine *)arg0)->add_list_entry(it, ids[i]);
             }
         }
         for (i = 0; i < 5; i++) {

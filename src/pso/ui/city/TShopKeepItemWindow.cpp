@@ -131,7 +131,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
     if (this->item_list_window == NULL) {
         this->item_list_window = create_item_list_window(get_shop_text(0x30), 0x40, this->player->get_entity_id());
         for (s32 j = 0; j < this->entry_count; j++) {
-            ((TShopJudgmentItemWindow *)(this->item_list_window))->add_list_entry((saddr)this->entries[j].item, j);
+            this->item_list_window->add_list_entry(this->entries[j].item, j);
         }
         this->item_list_window->calc_content_extent();
         cur = ((TShopGetItemWindow *)(this->item_list_window))->get_cursor_index();
@@ -139,7 +139,7 @@ void TShopKeepItemWindow::rebuild_item_list() {
         ((TShopArmorListWindow *)(this->item_list_window))->save_cursor_selection();
         this->item_list_window->reset_list();
         for (s32 j = 0; j < this->entry_count; j++) {
-            ((TShopJudgmentItemWindow *)(this->item_list_window))->add_list_entry((saddr)this->entries[j].item, j);
+            this->item_list_window->add_list_entry(this->entries[j].item, j);
         }
         ((TShopArmorListWindow *)(this->item_list_window))->clamp_selection_to_valid_entry();
         this->item_list_window->calc_content_extent();
