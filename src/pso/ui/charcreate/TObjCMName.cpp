@@ -20,6 +20,7 @@
 #include "pso/ui/charcreate/TObjCMProportion.h"
 #include "pso/ui/charcreate/TObjCMAutoMkData.h"
 #include "pso/ui/charcreate/CharacterCreationModels.h"
+#include "pso/ui/charcreate/CharacterAppearanceTables.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
 #include "pso/ui/charcreate/TChCrEffCtrlPl.h"
 #include "pso/ui/charcreate/TChCrEffTag.h"
@@ -120,103 +121,6 @@ s32 creation_menu_selected_entry;
 s32 TObjCMMainMenu__data_805D659C;
 void request_creation_motion(s32 arg0);
 
-struct Ent_802964B0 {
-    u8 pad0[8];
-    s16 f8;
-    u8 pad[0x2C - 0xA];
-};
-
-struct Hair_802964B0 {
-    const char *name;
-    u8 pad4[0x14];
-    void *vt;
-    saddr f1c;
-    s32 f20;
-    s32 f24;
-    s32 f28;
-    u8 pad2c[4];
-    s32 f30;
-    f32 f34;
-    s32 a38[3];
-};
-
-struct Menu_80296560 {
-    u8 pad[0x30];
-    s32 count;
-    u32 mask;
-    u8 pad2[0x8];
-    f32 timer;
-};
-
-struct Menu_80296648 {
-    u8 pad[0x30];
-    s32 count;
-    u32 mask;
-    u8 pad2[0x8];
-    f32 timer;
-};
-
-struct Chara_80297128 {
-    u8 pad0[0x34];
-    u32 flags;
-    s16 f38[4];
-};
-
-struct Menu_80297128 {
-    const char *name;
-    u8 pad4[0x18 - 0x4];
-    void *vt;
-    Chara_80297128 *chara;
-    s32 f20;
-    s32 kind;
-    s32 f28;
-    s32 count;
-    s32 n;
-    u32 mask;
-    s32 f38;
-    s32 f3C;
-    f32 f40;
-    u8 pad44[0x48 - 0x44];
-    s32 f48;
-    u8 pad4C[0x58 - 0x4C];
-    f32 f58;
-};
-
-struct Row_80297128 { s16 v[0x16]; };
-
-struct Menu_80296744 {
-    u8 pad[0x30];
-    s32 total;
-    u8 pad34[0x40 - 0x34];
-    f32 timer;
-    s32 per;
-    u8 pad48[4];
-    s32 pages;
-    u8 pad50[0x58 - 0x50];
-    f32 scroll;
-};
-
-struct Owner_80296928 {
-    u8 pad[0x34];
-    u32 flags;
-};
-
-struct Menu_80296928 {
-    u8 pad0[0x1C];
-    Owner_80296928 *owner;
-    u8 pad20[4];
-    s32 state;
-    u8 pad28[0x38 - 0x28];
-    s32 frame;
-    u8 pad3C[4];
-    f32 timer;
-    s32 level;
-    s32 page;
-    s32 pages;
-    s32 count;
-    s32 cursor;
-};
-
 struct Quad_80297DB8 {
     ColorLineVertex p[4];
 };
@@ -259,9 +163,6 @@ void __ct__7TObjectFP7TObject(void *);
 u8 calc_section_id_from_name();
 void fn_802947A8(void);
 int TObjCMName__sub_802948F4(TObjCMName *, char *);
-Hair_802964B0 * __ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1);
-void render__16TObjCMAssignMenuFv(Menu_80296928 *self);
-void * __ct__16TObjCMAssignMenuFv(void *arg0, void *parent, s32 kind);
 void fn_802972BC(void);
 void fn_802972C0(void);
 void TObjCMMainMenu__sub_80298310(void);
@@ -269,9 +170,6 @@ u8 is_not_dressing_room_mode__14TObjCMMainMenuFv(void);
 s32 * TObjCMMainMenu__sub_80298DD4(void);
 void fn_802993F0(void);
 u32 __cvt_fp2unsigned(f32);
-extern u8 __vt__14TObjCMHairMenu[];
-extern void *__vt__16TObjCMAssignMenu[];
-extern Ent_802964B0 class_appearance_table[];
 extern Cols_80297DB8 footer_divider_colors[2];
 extern Quad_80297DB8 footer_divider_vertices[2];
 extern vec2f lbl_804DBCC8[];
@@ -1012,7 +910,7 @@ void TObjCMMainMenu::open_assign_menu() {
 void TObjCMMainMenu::open_hair_menu() {
     play_sound_effect(0x52D01, 0, 0, 0);
     TObjCMMainMenu__data_805D659C = 1;
-    ((TObjCMHairMenu *)nodes)->create();
+    TObjCMHairMenu::create(nodes);
 }
 
 void TObjCMMainMenu::open_auto_mk_menu() {
@@ -1078,35 +976,33 @@ void fn_802972BC(void) {  }
 
 const char *TObjCMAssignMenu__name = "TObjCMAssignMenu";
 
-void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, s32 kind) {
+TObjCMAssignMenu::TObjCMAssignMenu(TObject *parent, s32 kind) : TObject(parent) {
     u32 bit;
     s32 i;
-    ((void (*)(void *, void *))__ct__7TObjectFP7TObject)(obj_cm_assign_menu, parent);
-    ((Menu_80297128 *)obj_cm_assign_menu)->vt = __vt__16TObjCMAssignMenu;
-    ((Menu_80297128 *)obj_cm_assign_menu)->name = TObjCMAssignMenu__name;
-    ((Menu_80297128 *)obj_cm_assign_menu)->chara = (*(Chara_80297128 * *)&creation_player_character);
-    ((Menu_80297128 *)obj_cm_assign_menu)->f20 = 0;
-    ((Menu_80297128 *)obj_cm_assign_menu)->kind = kind;
-    ((Menu_80297128 *)obj_cm_assign_menu)->count = ((Row_80297128 *)&class_appearance_table)[character_display_index(reinterpret_cast<uaddr>(((Menu_80297128 *)obj_cm_assign_menu)->chara))].v[((Menu_80297128 *)obj_cm_assign_menu)->kind];
-    ((Menu_80297128 *)obj_cm_assign_menu)->f28 = ((Menu_80297128 *)obj_cm_assign_menu)->chara->f38[((Menu_80297128 *)obj_cm_assign_menu)->kind];
-    ((Menu_80297128 *)obj_cm_assign_menu)->n = 0;
-    ((Menu_80297128 *)obj_cm_assign_menu)->mask = 0;
+    m_name = TObjCMAssignMenu__name;
+    appearance = creation_player_character;
+    enabled = 0;
+    this->kind = kind;
+    limit = class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))].counts[this->kind];
+    value = (&appearance->costume)[this->kind];
+    item_count = 0;
+    item_mask = 0;
     bit = 1;
-    for (i = 0; i < ((Menu_80297128 *)obj_cm_assign_menu)->count; i++) {
-        ((Menu_80297128 *)obj_cm_assign_menu)->n++;
-        ((Menu_80297128 *)obj_cm_assign_menu)->mask |= bit;
+    for (i = 0; i < limit; i++) {
+        item_count++;
+        item_mask |= bit;
         bit <<= 1;
     }
-    ((TObjCMAssignMenu *)obj_cm_assign_menu)->calc_grid_layout();
-    ((Menu_80297128 *)obj_cm_assign_menu)->f58 = ((Menu_80297128 *)obj_cm_assign_menu)->f48;
-    ((Menu_80297128 *)obj_cm_assign_menu)->f3C = 1;
-    ((Menu_80297128 *)obj_cm_assign_menu)->f40 = 0.0f;
-    switch (((Menu_80297128 *)obj_cm_assign_menu)->kind) {
+    calc_grid_layout();
+    scroll = page;
+    active = 1;
+    fade = 0.0f;
+    switch (this->kind) {
     case 0:
         TChCrEffTag::set_eff_tag(6);
         break;
     case 1:
-        if (((Menu_80297128 *)obj_cm_assign_menu)->chara->flags & 0x10) {
+        if (appearance->classFlags & 0x10) {
             TChCrEffTag::set_eff_tag(8);
         } else {
             TChCrEffTag::set_eff_tag(7);
@@ -1119,18 +1015,12 @@ void *__ct__16TObjCMAssignMenuFv(void *obj_cm_assign_menu, void *parent, s32 kin
         TChCrEffTag::set_eff_tag(3);
         break;
     }
-    return obj_cm_assign_menu;
 }
 
 TObjCMAssignMenu::~TObjCMAssignMenu() {}
 
-void *TObjCMAssignMenu::create(void *parent, s32 kind) {
-    void *o;
-    o = TObject::operator new(0x5C);
-    if (o != NULL) {
-        o = __ct__16TObjCMAssignMenuFv(o, parent, kind);
-    }
-    return o;
+TObjCMAssignMenu *TObjCMAssignMenu::create(TObject *parent, s32 kind) {
+    return new TObjCMAssignMenu(parent, kind);
 }
 
 #pragma push
@@ -1277,29 +1167,29 @@ void TObjCMAssignMenu::calc_grid_layout() {
     s32 var_r4;
     s32 var_r6;
 
-    temp_r0 = *(s32 *)((s8 *)this + 0x2C);
+    temp_r0 = limit;
     var_r6 = 0;
     var_r4 = 0;
     for (var_ctr = temp_r0; var_ctr > 0; var_ctr--) {
-        if (var_r4 == (s32) *(s32 *)((s8 *)this + 0x28)) {
+        if (var_r4 == value) {
             break;
         }
         var_r6 += 1;
         var_r4 += 1;
     }
-    *(s32 *)((s8 *)this + 0x44) = (s32) *(s32 *)((s8 *)this + 0x30);
-    *(s32 *)((s8 *)this + 0x48) = 0;
-    *(s32 *)((s8 *)this + 0x4C) = 1;
-    *(s32 *)((s8 *)this + 0x50) = (s32) *(s32 *)((s8 *)this + 0x30);
-    *(s32 *)((s8 *)this + 0x54) = var_r6;
-    if ((s32) *(s32 *)((s8 *)this + 0x30) > 0xA) {
-        *(s32 *)((s8 *)this + 0x44) = 9;
-        *(s32 *)((s8 *)this + 0x48) = (s32) (var_r6 / 9);
-        *(s32 *)((s8 *)this + 0x4C) = (s32) ((s32) (*(s32 *)((s8 *)this + 0x30) + 8) / 9);
-        *(s32 *)((s8 *)this + 0x54) = (s32) (var_r6 % 9);
-        *(s32 *)((s8 *)this + 0x50) = (s32) (*(s32 *)((s8 *)this + 0x30) - (*(s32 *)((s8 *)this + 0x48) * 9));
-        if ((s32) *(s32 *)((s8 *)this + 0x50) > 9) {
-            *(s32 *)((s8 *)this + 0x50) = 9;
+    columns = item_count;
+    page = 0;
+    pages = 1;
+    page_columns = item_count;
+    cursor = var_r6;
+    if (item_count > 0xA) {
+        columns = 9;
+        page = (s32) (var_r6 / 9);
+        pages = (s32) ((s32) (item_count + 8) / 9);
+        cursor = (s32) (var_r6 % 9);
+        page_columns = (s32) (item_count - (page * 9));
+        if (page_columns > 9) {
+            page_columns = 9;
         }
     }
 }
@@ -1318,7 +1208,7 @@ const s32 char_creation_assign_icon_sprite_id_table[4] = {0x29, 0x28, 0x27, 0x26
 #pragma push
 #pragma fp_contract on
 #pragma opt_loop_invariants off
-void render__16TObjCMAssignMenuFv(Menu_80296928 *self) {
+void TObjCMAssignMenu::render() {
     vec2f pos;
     vec2f scl;
     vec2f pos2;
@@ -1333,52 +1223,52 @@ void render__16TObjCMAssignMenuFv(Menu_80296928 *self) {
     s32 idx;
     s32 i;
     s32 sprite;
-    ((TObjCMAssignMenu *)self)->render_assign_slots();
-    pulse = 0.25f * sin_table_lookup(self->frame << 10) + 1.0f;
+    render_assign_slots();
+    pulse = 0.25f * sin_table_lookup(ticks << 10) + 1.0f;
     if (pulse > 1.0f) {
         pulse = 1.0f;
     }
-    idx = self->level - 1;
+    idx = columns - 1;
     if (idx < 0) {
         idx = 0;
     } else if (idx >= 10) {
         idx = 9;
     }
     base = char_creation_assign_menu_tab_positions[idx];
-    if (!(self->timer <= 0.33f)) {
-        if (self->timer >= 0.66f) {
+    if (!(fade <= 0.33f)) {
+        if (fade >= 0.66f) {
             t = 1.0f;
         } else {
-            t = (self->timer - 0.33f) / 0.33f;
+            t = (fade - 0.33f) / 0.33f;
         }
         scl.y = 1.0f;
         pos.y = 146.0f;
         w = t * (base - 75.0f) + 75.0f;
         pos.x = 75.0f;
-        pos.x = 9.0f * sin_table_lookup(self->frame << 10) + pos.x;
+        pos.x = 9.0f * sin_table_lookup(ticks << 10) + pos.x;
         scl.x = (w - pos.x) / 48.0f;
         draw_ui_sprite_opaque(8, &pos, &scl, -2.75f);
         pos.x = w;
         scl.x = 1.0f;
         draw_ui_sprite_opaque(9, &pos, &scl, -2.75f);
     }
-    if (!(self->timer <= 0.0f)) {
+    if (!(fade <= 0.0f)) {
         draw_ui_sprite(0, lbl_804DBCC8, -2.4375f,
-                       self->timer >= 0.33f ? 1.0f : self->timer / 0.33f);
+                       fade >= 0.33f ? 1.0f : fade / 0.33f);
     }
-    if (!(self->timer <= 0.66f)) {
-        a = (self->timer - 0.66f) / 0.33999997f;
+    if (!(fade <= 0.66f)) {
+        a = (fade - 0.66f) / 0.33999997f;
         pos2.x = 103.0f;
         pos2.y = 150.0f;
         step = 17.0f;
         alpha = a * a;
-        for (i = 0; i < self->count; i++) {
+        for (i = 0; i < page_columns; i++) {
             f32 s = alpha;
             sprite = 0x1F;
-            if (i == self->cursor) {
+            if (i == cursor) {
                 sprite = 0x20;
                 if (creation_resource_ready_state != 2) {
-                    s = alpha * (0.2f * fabs_float(sin_table_lookup(self->frame << 12)) + 0.2f);
+                    s = alpha * (0.2f * fabs_float(sin_table_lookup(ticks << 12)) + 0.2f);
                 } else {
                     s = alpha * pulse;
                 }
@@ -1386,8 +1276,8 @@ void render__16TObjCMAssignMenuFv(Menu_80296928 *self) {
             draw_ui_sprite(sprite, &pos2, -2.4375f, s);
             pos2.x += step;
         }
-        if (self->pages > 1) {
-            s32 n = self->page;
+        if (pages > 1) {
+            s32 n = page;
             pos2.x += 6.0f;
             pos2.y += 20.0f;
             draw_ui_sprite_scaled(n + 0x14, &pos2, &lbl_80465048, -2.4375f, alpha);
@@ -1395,23 +1285,23 @@ void render__16TObjCMAssignMenuFv(Menu_80296928 *self) {
         w = base - 347.0f;
         pos3.x = 299.0f + w;
         pos3.y = 149.0f;
-        draw_ui_sprite(self->cursor + 0x14, &pos3, -2.4375f, alpha * pulse);
+        draw_ui_sprite(cursor + 0x14, &pos3, -2.4375f, alpha * pulse);
         pos3.x = 305.0f + w;
         pos3.y = 150.0f;
         draw_ui_sprite(0x1E, &pos3, -2.4375f, alpha);
         pos3.x = 324.0f + w;
         pos3.y = 167.0f;
-        draw_ui_sprite(self->count + 0x13, &pos3, -2.4375f, alpha);
+        draw_ui_sprite(page_columns + 0x13, &pos3, -2.4375f, alpha);
     }
-    switch (self->state) {
+    switch (kind) {
     case 0:
-        ((TObjCMAssignMenu *)self)->draw_assign_sprites();
+        draw_assign_sprites();
         break;
     case 1:
-        if (self->owner->flags & 0x10) {
-            ((TObjCMAssignMenu *)self)->draw_assign_sprites();
+        if (appearance->classFlags & 0x10) {
+            draw_assign_sprites();
         } else {
-            ((TObjCMAssignMenu *)self)->draw_assign_icons();
+            draw_assign_icons();
         }
         break;
     }
@@ -1421,7 +1311,6 @@ void render__16TObjCMAssignMenuFv(Menu_80296928 *self) {
 #pragma push
 #pragma fp_contract on
 void TObjCMAssignMenu::render_assign_slots() {
-    Menu_80296744 *self = (Menu_80296744 *)this;
     f32 zero;
     f32 a;
     f32 step;
@@ -1431,16 +1320,16 @@ void TObjCMAssignMenu::render_assign_slots() {
     s32 n;
     s32 j;
     vec2f pos;
-    if (self->pages == 1) return;
-    t = self->timer;
+    if (pages == 1) return;
+    t = fade;
     a = t * (t * (0.4f * t));
     if (a <= 1e-05f) return;
     zero = 0.0f;
-    for (i = 0; i < self->pages; i++) {
-        n = self->per;
-        d = (f32)i - self->scroll;
-        if (i == self->pages - 1) {
-            n = self->total - i * self->per;
+    for (i = 0; i < pages; i++) {
+        n = columns;
+        d = (f32)i - scroll;
+        if (i == pages - 1) {
+            n = item_count - i * columns;
         }
         if (zero == d) continue;
         if (d < zero) {
@@ -1464,7 +1353,6 @@ void TObjCMAssignMenu::render_assign_slots() {
 }
 
 void TObjCMAssignMenu::draw_assign_sprites() {
-    Menu_80296648 *self = (Menu_80296648 *)this;
     s32 off;
     s32 idx;
     u32 bit;
@@ -1472,8 +1360,8 @@ void TObjCMAssignMenu::draw_assign_sprites() {
     f32 step;
     f32 a;
     vec2f pos;
-    if (!(self->timer <= 0.66f)) {
-        a = (self->timer - 0.66f) / 0.33999997f;
+    if (!(fade <= 0.66f)) {
+        a = (fade - 0.66f) / 0.33999997f;
         pos.x = 113.0f;
         step = 17.0f;
         idx = 0;
@@ -1481,8 +1369,8 @@ void TObjCMAssignMenu::draw_assign_sprites() {
         pos.y = 152.0f;
         bit = 1;
         a = a * a;
-        for (i = 0; i < self->count; bit <<= 1, off += 4, idx++, i++, pos.x += step) {
-            while (!(bit & self->mask)) {
+        for (i = 0; i < item_count; bit <<= 1, off += 4, idx++, i++, pos.x += step) {
+            while (!(bit & item_mask)) {
                 bit <<= 1;
                 idx++;
                 off += 4;
@@ -1493,23 +1381,22 @@ void TObjCMAssignMenu::draw_assign_sprites() {
 }
 
 void TObjCMAssignMenu::draw_assign_icons() {
-    Menu_80296560 *self = (Menu_80296560 *)this;
     s32 idx;
     u32 bit;
     s32 i;
     f32 step;
     f32 a;
     vec2f pos;
-    if (!(self->timer <= 0.66f)) {
-        a = (self->timer - 0.66f) / 0.33999997f;
+    if (!(fade <= 0.66f)) {
+        a = (fade - 0.66f) / 0.33999997f;
         pos.x = 113.0f;
         step = 17.0f;
         idx = 0;
         pos.y = 152.0f;
         bit = 1;
         a = a * a;
-        for (i = 0; i < self->count; i++, pos.x += step) {
-            while (!(bit & self->mask)) {
+        for (i = 0; i < item_count; i++, pos.x += step) {
+            while (!(bit & item_mask)) {
                 bit <<= 1;
                 idx++;
             }
@@ -1523,32 +1410,25 @@ void TObjCMAssignMenu::draw_assign_icons() {
 #pragma pop
 const char *TObjCMHairMenu__name = "TObjCMHairMenu";
 
-Hair_802964B0 *__ct__14TObjCMHairMenuFv(Hair_802964B0 *arg0, void *arg1) {
+TObjCMHairMenu::TObjCMHairMenu(TObject *parent) : TObject(parent) {
     s32 i;
-    ((void * (*)(void *, void *))__ct__7TObjectFP7TObject)(arg0, arg1);
-    arg0->vt = __vt__14TObjCMHairMenu;
-    arg0->name = TObjCMHairMenu__name;
-    arg0->f1c = (*(s32 *)&creation_player_character);
-    arg0->f20 = 0;
-    arg0->f24 = 0;
-    arg0->f28 = class_appearance_table[character_display_index((uaddr)arg0->f1c)].f8;
-    arg0->f30 = 1;
-    arg0->f34 = 0.0f;
+    m_name = TObjCMHairMenu__name;
+    appearance = creation_player_character;
+    initialized = 0;
+    selection = 0;
+    count = class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))].counts[4];
+    active = 1;
+    fade = 0.0f;
     for (i = 0; i < 3; i++) {
-        arg0->a38[i] = 0;
+        trailing[i] = 0;
     }
     TChCrEffTag::set_eff_tag(5);
-    return arg0;
 }
 
 TObjCMHairMenu::~TObjCMHairMenu() {}
 
-void *TObjCMHairMenu::create() {
-    void *o = TObject::operator new(0x44);
-    if (o != NULL) {
-        o = __ct__14TObjCMHairMenuFv((Hair_802964B0 *)(o), this);
-    }
-    return o;
+TObjCMHairMenu *TObjCMHairMenu::create(TObject *parent) {
+    return new TObjCMHairMenu(parent);
 }
 
 void TObjCMHairMenu::run_task() {
