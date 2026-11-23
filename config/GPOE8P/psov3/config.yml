@@ -1683,7 +1683,7 @@ force_active:
   - TQuestThreadBoard__class_name
   - TQuestThread__class_name
   - TQuestThread__floor_handler_ids
-  - TQuestVmDownLoadServer__data_804C8690
+  - quest_card_file_name
   - TQuestVmDownLoadServer__download_file_state
   - TQuestVmDownLoadServer__rng_cipher_state
   - TQuestVmDownLoadServer__sub_801F6B98
