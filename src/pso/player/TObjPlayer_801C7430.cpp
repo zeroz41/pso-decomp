@@ -46,7 +46,6 @@
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/weapon/WeaponSpecialSelection.h"
 #include "pso/player/PhotonBlastResults.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 
 #pragma readonly_strings on

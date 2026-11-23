@@ -1,3 +1,4 @@
+#include "pso/player/TargetCursorList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/technique/TechniqueParams.h"
@@ -51,7 +52,6 @@ struct VObj_802386F8 : VBase_802386F8 {
 
 extern "C" {
 s32 get_entity_id(void *);
-void copy_technique_target_list(void *, void *);
 }
 
 void TTecZarua::calc_range() {

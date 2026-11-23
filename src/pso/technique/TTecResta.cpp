@@ -115,7 +115,6 @@ void set_owner_id__13TParticleCtrlFUs(void *, s32);
 void deliver_technique_to_party_targets(void *);
 void run_task__9TTecRestaFv(Resta_802399F8 *self);
 s32 is_split_screen(void);
-s32 copy_technique_target_list(void *, void *);
 int spawn_support_tec_range_effect(void*);
 
 
@@ -132,52 +131,42 @@ void TTecReverser::vfunc_6(void *arg1_arg) {
 }
 
 TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
-#define arg0 this
-    u32 temp_r3_2;
-    u8 *temp_r3;
-    __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
-    *(s32 *)((s8 *)arg0 + 0) = (s32) ((saddr)TTecResta__name);
-    arg0->m_13c = 0;
-    arg0->init_parameters();
-    temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xDC));
-    if (temp_r3 != NULL) {
-        *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 0xA4)) + 0xC) = (f32) (5.0f + arg0->m_7c);
+    TObjCollidable *t;
+    m_name = TTecResta__name;
+    m_13c = 0;
+    init_parameters();
+    t = target;
+    if (t != NULL) {
+        t->bodies->radius = 5.0f + m_7c;
     }
-    temp_r3_2 = arg0->source;
-    if (temp_r3_2 != 0U) {
-        arg0->m_a8 = get_entity_id(temp_r3_2);
+    if (source != 0U) {
+        m_a8 = get_entity_id(source);
     }
-    if ((s32) arg0->m_ac != 0) {
-        arg0->init_cast();
-        arg0->play_launch_sound();
+    if (m_ac != 0) {
+        init_cast();
+        play_launch_sound();
     }
-#undef arg0
 }
 
 #pragma push
 #pragma opt_common_subs off
-TTecResta::TTecResta(void *owner, void *pos, void *targets, s32 level) : TTecPlayerInfluence(owner, pos, level) {
-#define arg0 this
-    u32 src;
-    u8 *p;
-    __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
-    *(s32 *)((s8 *)arg0 + 0) = ((saddr)TTecResta__name);
-    *(s32 *)&arg0->m_13c = 1;
-    copy_technique_target_list((u8 *)arg0 + 0xE0, targets);
-    arg0->init_parameters();
-    p = *(u8 **)((s8 *)arg0 + 0xDC);
-    if (p != NULL) {
-        *(f32 *)((s8 *)(*(u8 **)((s8 *)p + 0xA4)) + 0xC) = 5.0f + arg0->m_7c;
+TTecResta::TTecResta(void *owner, void *pos, void *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+    TObjCollidable *t;
+    m_name = TTecResta__name;
+    m_13c = 1;
+    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
+    init_parameters();
+    t = target;
+    if (t != NULL) {
+        t->bodies->radius = 5.0f + m_7c;
     }
-    src = arg0->source;
-    if (src != 0) {
-        *(s16 *)&arg0->m_a8 = get_entity_id(src);
+    if (source != 0U) {
+        m_a8 = get_entity_id(source);
     }
-    if (*(s32 *)&arg0->m_ac != 0) {
-        arg0->init_cast();
-        arg0->play_launch_sound();
+    if (m_ac != 0) {
+        init_cast();
+        play_launch_sound();
     }
-#undef arg0
 }
 #pragma pop
 

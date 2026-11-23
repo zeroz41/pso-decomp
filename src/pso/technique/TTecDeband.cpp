@@ -74,7 +74,6 @@ saddr get_entity_id(int);
 s32 deliver_technique_to_party_targets(void *);
 void run_task__10TTecDebandFv(Deband_8022F73C *self);
 s32 is_split_screen();
-void copy_technique_target_list(void *, void *, s32);
 int spawn_support_tec_range_effect(void*);
 
 int TTecDeband::init_params() { return spawn_support_tec_range_effect(this); }
@@ -151,49 +150,38 @@ void run_task__10TTecDebandFv(Deband_8022F73C *self) {
 
 #pragma opt_common_subs off
 TTecDeband::TTecDeband(void *owner, void *pos, void *arg3, s32 level) : TTecPlayerInfluence(owner, pos, level) {
-#define arg0 ((u8 *)this)
-    u32 temp_r3_2;
-    u8 *temp_r3;
-    __ct__16TargetCursorListFv((arg0 + 0xE0));
-    s32 g = ((saddr)tec_deband_class_name_ptr);
-    *(s32 *)((s8 *)arg0 + 0) = g;
-    *(s32 *)&((TTecDeband *)arg0)->m_13c = 1;
-    copy_technique_target_list(arg0 + 0xE0, (void *) arg3, g);
-    ((TTecDeband *)arg0)->update_effect_params();
-    temp_r3 = *(u8 **)((s8 *)arg0 + 0xDC);
-    if (temp_r3 != NULL) {
-        *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 0xA4)) + 0xC) = (f32) (5.0f + ((TTecDeband *)arg0)->m_7c);
+    TObjCollidable *t;
+    m_name = tec_deband_class_name_ptr;
+    m_13c = 1;
+    copy_technique_target_list(&targets, (TargetCursorList *)arg3);
+    update_effect_params();
+    t = target;
+    if (t != NULL) {
+        t->bodies->radius = 5.0f + m_7c;
     }
-    temp_r3_2 = ((TTecDeband *)arg0)->source;
-    if (temp_r3_2 != 0U) {
-        *(s16 *)&((TTecDeband *)arg0)->m_a8 = get_entity_id(temp_r3_2);
+    if (source != 0U) {
+        m_a8 = get_entity_id(source);
     }
-    if (*(s32 *)&((TTecDeband *)arg0)->m_ac != 0) {
-        ((TTecDeband *)arg0)->init_params();
-        ((TTecDeband *)arg0)->play_state_sound();
+    if (m_ac != 0) {
+        init_params();
+        play_state_sound();
     }
-#undef arg0
 }
 #pragma opt_common_subs reset
 
 TTecDeband::TTecDeband(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
-#define arg0 this
-    u32 temp_r3_2;
-    u8 *temp_r3;
-    __ct__16TargetCursorListFv(((u8 *)arg0 + 0xE0));
-    *(s32 *)((s8 *)arg0 + 0) = (s32) ((saddr)tec_deband_class_name_ptr);
-    arg0->m_13c = 0;
-    arg0->update_effect_params();
-    temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xDC));
-    if (temp_r3 != NULL) {
-        *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 0xA4)) + 0xC) = (f32) (5.0f + arg0->m_7c);
+    TObjCollidable *t;
+    m_name = tec_deband_class_name_ptr;
+    m_13c = 0;
+    update_effect_params();
+    t = target;
+    if (t != NULL) {
+        t->bodies->radius = 5.0f + m_7c;
     }
-    temp_r3_2 = arg0->source;
-    if (temp_r3_2 != 0U) {
-        arg0->m_a8 = get_entity_id(temp_r3_2);
+    if (source != 0U) {
+        m_a8 = get_entity_id(source);
     }
-    arg0->init_params();
-    arg0->play_state_sound();
-#undef arg0
+    init_params();
+    play_state_sound();
 }
 

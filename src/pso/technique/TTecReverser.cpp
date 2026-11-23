@@ -41,7 +41,6 @@ extern "C" {
 s32 is_active__12TTecReverserFv();
 void run_task__12TTecReverserFv(u8 *arg0);
 s32 get_entity_id(int);
-s32 copy_technique_target_list(void *, void *);
 const char *lbl_805D3818 = "TTecReverser";
 Entry_80239E44 revival_particle_table[3] = {
     {0, 0x1E, 0x35, 0},
@@ -125,16 +124,13 @@ void TTecShot::dispatch_technique_contact(s32) {
 
 #define tec_reverser ((u8 *)this)
 TTecReverser::TTecReverser(saddr arg1, saddr origin, saddr targets, saddr level) : TTecCircle(arg1, origin, level) {
-    u32 temp_r3;
-    __ct__16TargetCursorListFv((tec_reverser + 0xEC));
     ((TTecReverser *)tec_reverser)->m_name = lbl_805D3818;
     ((TechniqueParams *)(tec_reverser + 0x88))->copy(&technique_param_table[17]);
     ((TTecReverser *)tec_reverser)->apply_params((TechniqueParams *)(tec_reverser + 0x88), level);
-    copy_technique_target_list(tec_reverser + 0xEC, (void *)targets);
+    copy_technique_target_list(&((TTecReverser *)tec_reverser)->targets, (TargetCursorList *)targets);
     play_sound_effect(0x4002A812, tec_reverser + 0x20, 0, 0);
-    temp_r3 = ((TTecReverser *)tec_reverser)->source;
-    if (temp_r3 != 0U) {
-        ((TTecReverser *)tec_reverser)->sourceId = get_entity_id(temp_r3);
+    if (((TTecReverser *)tec_reverser)->source != 0U) {
+        ((TTecReverser *)tec_reverser)->sourceId = get_entity_id(((TTecReverser *)tec_reverser)->source);
     }
 }
 #undef tec_reverser
@@ -154,11 +150,11 @@ void run_task__12TTecReverserFv(u8 *tec_reverser) {
         ((TObject *)tec_reverser)->queue_destruction();
         return;
     }
-    if ((s32) ((TTecReverser *)tec_reverser)->m_ec == 0) {
+    if ((s32) ((TTecReverser *)tec_reverser)->targets.count == 0) {
         ((TObject *)tec_reverser)->queue_destruction();
         return;
     }
-    entity = (uaddr)find_entity_by_id((((TTecReverser *)tec_reverser)->m_f0));
+    entity = (uaddr)find_entity_by_id(((TTecReverser *)tec_reverser)->targets.records[0].id);
     if ((is_active__12TTecReverserFv() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
         ((TTecReverser *)(tec_reverser))->vfunc_6((void *)entity);
     }

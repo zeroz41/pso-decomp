@@ -1,3 +1,4 @@
+#include "pso/player/TargetCursorList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
 #include "types.h"
@@ -136,7 +137,6 @@ void TTecGiZonde::vfunc_8(void *arg1_arg) {
 
 extern "C" {
 s16 get_entity_id(void *);
-s32 copy_technique_target_list(void *, void *);
 
 #define UNQ(e) TTecLuker::is_parents_unqueued(e)
 s32 TTecGiZonde::find_chain_targets() {
@@ -287,7 +287,7 @@ TTecGiZonde::TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level) : TTe
     s32 h;
     m_name = TTecGiZonde_name_ref;
     init_parameters();
-    copy_technique_target_list(&this->targetList, targets);
+    copy_technique_target_list(&this->targetList, (TargetCursorList *)targets);
     switch (band) {
     case 0:
         if ((h = play_sound_effect(0x4002A509, &position, 0, 0)) >= 0) {

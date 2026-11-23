@@ -1,3 +1,4 @@
+#include "pso/player/TargetCursorList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
 #include "types.h"
@@ -98,7 +99,6 @@ void TTecZonde::vfunc_8(void *arg1_arg) {
 #include "pso/unk/TUnk_804CCD78.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
-extern "C" void *__ct__16TargetCursorListFv(void *list);
 
 struct Seg_8023C79C { f32 a[3]; f32 b[3]; f32 len; };
 struct Tgt_8023C79C { u8 pad[0x38]; f32 x, y, z; };
@@ -116,7 +116,6 @@ struct Zonde_8023C79C {
 
 extern "C" {
 u16 get_entity_id(void *);
-void copy_technique_target_list(void *, void *);
 
 TTecZonde::~TTecZonde() {
 }
@@ -248,18 +247,13 @@ void TTecZonde::run_task() {
 }
 
 #pragma pop
-#define arg0 ((u8 *)this)
-TTecZonde::TTecZonde(s32 source, u8 *arg2, u8 *targets, s32 level) : TTecShot(source, (Vec *)arg2, 0, level) {
-    u8 *temp_r3;
-    __ct__16TargetCursorListFv((arg0 + 0x130));
-    *(s32 *)((s8 *)arg0 + 0) = (saddr) lbl_805D3838;
-    ((TTecZonde *)arg0)->init_parameters();
-    copy_technique_target_list(arg0 + 0x130, targets);
-    temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x1C));
-    if (temp_r3 != NULL) {
-        ((TTecZonde *)arg0)->sourceId = get_entity_id(temp_r3);
+TTecZonde::TTecZonde(s32 source, u8 *arg2, u8 *target_list, s32 level) : TTecShot(source, (Vec *)arg2, 0, level) {
+    m_name = lbl_805D3838;
+    init_parameters();
+    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
+    if (this->source != 0) {
+        sourceId = get_entity_id((void *)this->source);
     }
 }
-#undef arg0
 
 }

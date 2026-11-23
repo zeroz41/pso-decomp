@@ -56,7 +56,6 @@ u8 * __ct__13TUnk_804CC888FPUclP7TObject(void *, s32, s32, s32);
 extern s32 tl_07;
 void run_task__10TTecGrantsFv(TTecGrants *arg0);
 s32 get_entity_id(int);
-s32 copy_technique_target_list(void *, void *);
 extern s32 tec_grants_class_name;
 
 void TTecGrants::render() {  }
@@ -83,11 +82,11 @@ void run_task__10TTecGrantsFv(TTecGrants *tec_grants) {
         tec_grants->queue_destruction();
         return;
     }
-    if ((s32) tec_grants->m_ec == 0) {
+    if ((s32) tec_grants->targets.count == 0) {
         tec_grants->queue_destruction();
         return;
     }
-    entity = (unsigned long) (find_entity_by_id(tec_grants->m_f0));
+    entity = (unsigned long) (find_entity_by_id(tec_grants->targets.records[0].id));
     if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && ((s32) tec_grants->m_148 == 0)) {
         temp_r3_2 = (u8 *)(((u8 *)TObject::operator new(0x3C)));
         if (temp_r3_2 != NULL) {
@@ -108,18 +107,13 @@ TTecGrants::~TTecGrants() {
 
 }
 
-#define tec_grants ((u8 *)this)
-TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr targets, saddr level) : TTecCircle(arg1, origin, level) {
-    u32 temp_r3;
-    __ct__16TargetCursorListFv((tec_grants + 0xEC));
-    *(s32 *)((s8 *)tec_grants + 0) = (s32) tec_grants_class_name;
-    ((TTecGrants *)tec_grants)->init_parameters();
-    copy_technique_target_list(tec_grants + 0xEC, (void *)targets);
-    ((TTecGrants *)tec_grants)->m_148 = 0;
-    temp_r3 = ((TTecGrants *)tec_grants)->source;
-    if (temp_r3 != 0U) {
-        ((TTecGrants *)tec_grants)->sourceId = get_entity_id(temp_r3);
+TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr target_list, saddr level) : TTecCircle(arg1, origin, level) {
+    *(s32 *)&m_name = tec_grants_class_name;
+    init_parameters();
+    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
+    m_148 = 0;
+    if (source != 0U) {
+        sourceId = get_entity_id(source);
     }
 }
-#undef tec_grants
 

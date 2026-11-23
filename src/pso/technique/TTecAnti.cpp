@@ -31,10 +31,6 @@ struct Obj_8022ACB4 { u8 pad[0xA6]; s16 state; };
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Sub_8022B3E8 { s32 w[22]; };
-
-struct S_8022B3E8 { s32 f0; Sub_8022B3E8 sub; };
-
 struct AntiRow_8022AE10 { s32 a; s32 b; s32 c; s32 flags; };
 
 
@@ -103,7 +99,6 @@ extern "C" {
 saddr get_entity_id(int);
 int TTecAnti__spawn_anti_range_effect(void* p);
 void TTecAnti__sub_8022AD94(void *);
-S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s);
 void set_owner_id__13TParticleCtrlFUs(void *, s32);
 AntiRow_8022AE10 TTecAnti__self_effect_rows[4] = {
     {0xF, 1, 0x30, 0},
@@ -118,9 +113,8 @@ int spawn_support_tec_range_effect(void*);
 }
 void TTecAnti::render() {  }
 
-S_8022B3E8 *copy_technique_target_list(S_8022B3E8 *d, S_8022B3E8 *s) {
-    d->f0 = s->f0;
-    d->sub = s->sub;
+TargetCursorList *copy_technique_target_list(TargetCursorList *d, TargetCursorList *s) {
+    *d = *s;
     return d;
 }
 
@@ -144,30 +138,25 @@ void TechniqueParams::copy(TechniqueParams *src) {
     pad_2A = src->pad_2A;
 }
 
-#define arg0 ((u8 *)this)
-TTecAnti::TTecAnti(void *owner, void *pos, void *targets, s32 level) : TTecPlayerInfluence(owner, pos, level) {
-    u32 temp_r3_2;
-    u8 *temp_r3;
-    __ct__16TargetCursorListFv((arg0 + 0xE0));
-    *(s32 *)((s8 *)arg0 + 0) = (s32) ((saddr)TTecAnti_name_ref);
-    ((TTecAnti *)arg0)->m_13c = 1;
-    copy_technique_target_list((S_8022B3E8 *)(arg0 + 0xE0), (S_8022B3E8 *)(targets));
-    ((TechniqueParams *)(arg0 + 0x74))->copy(&technique_param_table[16]);
-    TTecAnti__sub_8022AD94(arg0);
-    temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xDC));
-    if (temp_r3 != NULL) {
-        *(f32 *)((s8 *)(*(u8 **)((s8 *)temp_r3 + 0xA4)) + 0xC) = (f32) (5.0f + ((TTecAnti *)arg0)->m_7c);
+TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
+    TObjCollidable *t;
+    m_name = TTecAnti_name_ref;
+    m_13c = 1;
+    copy_technique_target_list(&targets, (TargetCursorList *)target_list);
+    ((TechniqueParams *)((u8 *)this + 0x74))->copy(&technique_param_table[16]);
+    TTecAnti__sub_8022AD94(this);
+    t = target;
+    if (t != NULL) {
+        t->bodies->radius = 5.0f + m_7c;
     }
-    temp_r3_2 = ((TTecAnti *)arg0)->source;
-    if (temp_r3_2 != 0U) {
-        ((TTecAnti *)arg0)->m_a8 = get_entity_id(temp_r3_2);
+    if (source != 0U) {
+        m_a8 = get_entity_id(source);
     }
-    if ((s32) ((TTecAnti *)arg0)->m_ac != 0) {
-        ((TTecAnti *)arg0)->play_anti_cast_sound();
-        TTecAnti__spawn_anti_range_effect(arg0);
+    if (m_ac != 0) {
+        play_anti_cast_sound();
+        TTecAnti__spawn_anti_range_effect(this);
     }
 }
-#undef arg0
 
 void run_task__8TTecAntiFv(Anti_8022B150 *self) {
     uaddr target;

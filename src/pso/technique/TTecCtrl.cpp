@@ -38,6 +38,7 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TargetCursorList.h"
 #include "pso/object/TUnk_804CC794.h"
 #include "pso/object/TUnk_804CC948.h"
 #include "pso/unk/TUnk_804CCD0C.h"
@@ -69,10 +70,6 @@ typedef struct Cursor_8022CDE8 {
 
 
 struct Target_8022D27C { u16 id; s16 part; };
-
-struct Entry_8022D27C { u16 id; s16 part; f32 c; };
-
-struct List_8022D27C { s32 count; Entry_8022D27C e[11]; };
 
 struct Coll_8022D27C { u8 pad0[0x1C]; Vec pos; u8 pad28[0x2C - 0x28]; };
 
@@ -197,8 +194,8 @@ GinjaTextureList *lbl_805D63B0;
         if (targets == NULL || targets->id == 0xFFFF) {                 \
             break;                                                      \
         }                                                               \
-        list.e[i].id = targets->id;                                     \
-        list.e[i].part = targets->part;                                 \
+        list.records[i].id = targets->id;                               \
+        list.records[i].flag = targets->part;                           \
         targets++;                                                      \
     }                                                                   \
     list.count = n;
@@ -474,13 +471,12 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
     Vec aim;
     Vec hand;
     Vec ofs;
-    List_8022D27C list;
+    TargetCursorList list;
     void *td;
     s32 n;
     Target_8022D27C *targets;
     s32 i;
     Ent_8022D27C *ent;
-    __ct__16TargetCursorListFv((&list));
     ofs.x = 0.0f;
     ofs.y = 0.0f;
     ofs.z = 100.0f;

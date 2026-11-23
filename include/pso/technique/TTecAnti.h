@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/technique/TTecPlayerInfluence.h"
+#include "pso/player/TargetCursorList.h"
 
 struct TTecAnti : public TTecPlayerInfluence {
     TTecAnti(void *owner, void *pos, void *targets, s32 level);
@@ -10,8 +11,7 @@ struct TTecAnti : public TTecPlayerInfluence {
     void play_anti_cast_sound();
     virtual void vfunc_7(void *);
     virtual void run_task();
-    u32 m_e0;
-    u8 _padE4[0x58];
+    TargetCursorList targets;
     u32 m_13c;
     static void create(void *source, void *origin, void *targets, s32 level);
     virtual void render();

@@ -2,6 +2,7 @@
 #define PSO_TECHNIQUE_TTECDEBAND_H
 
 #include "types.h"
+#include "pso/player/TargetCursorList.h"
 #include "pso/technique/TTecPlayerInfluence.h"
 
 struct TTecDeband : public TTecPlayerInfluence {
@@ -10,8 +11,7 @@ struct TTecDeband : public TTecPlayerInfluence {
     virtual ~TTecDeband();
     virtual void vfunc_7(void *);
     virtual void run_task();
-    u32 m_e0;
-    u8 _padE4[0x58];
+    TargetCursorList targets;
     u32 m_13c;
     int init_params();
     void update_effect_params();

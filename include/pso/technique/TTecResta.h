@@ -2,6 +2,7 @@
 #define PSO_TECHNIQUE_TTECRESTA_H
 
 #include "types.h"
+#include "pso/player/TargetCursorList.h"
 #include "pso/technique/TTecPlayerInfluence.h"
 
 struct TTecResta : public TTecPlayerInfluence {
@@ -10,8 +11,7 @@ struct TTecResta : public TTecPlayerInfluence {
     virtual ~TTecResta();
     virtual void vfunc_7(void *);
     virtual void run_task();
-    u32 m_e0;
-    u8 _padE4[0x58];
+    TargetCursorList targets;
     u32 m_13c;
     void play_launch_sound();
     int init_cast();
