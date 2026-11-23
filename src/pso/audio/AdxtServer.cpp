@@ -297,22 +297,16 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
 
 extern "C" {
 
-typedef struct Buf_803CAEB4 Buf_803CAEB4;
 typedef struct Conn_803CAEB4 Conn_803CAEB4;
 typedef struct RingVt_803CAEB4 RingVt_803CAEB4;
 typedef struct Ring_803CAEB4 Ring_803CAEB4;
-struct Buf_803CAEB4
-{
-  u8 *p;
-  s32 len;
-};
 struct Ring_803CAEB4;
 struct RingVt_803CAEB4
 {
   u8 pad0[0x18];
-  void (*m4)(Ring_803CAEB4 *, s32, s32, Buf_803CAEB4 *);
-  void (*m5)(Ring_803CAEB4 *, s32, Buf_803CAEB4 *);
-  void (*m6)(Ring_803CAEB4 *, s32, Buf_803CAEB4 *);
+  void (*m4)(Ring_803CAEB4 *, s32, s32, SjChunk *);
+  void (*m5)(Ring_803CAEB4 *, s32, SjChunk *);
+  void (*m6)(Ring_803CAEB4 *, s32, SjChunk *);
 };
 struct Ring_803CAEB4
 {
@@ -336,10 +330,10 @@ s32 process_audio_stream_input(int);
 void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
   saddr lobby = o->lobby;
   Ring_803CAEB4 *ring = o->ring;
-  Buf_803CAEB4 a;
-  Buf_803CAEB4 c;
-  Buf_803CAEB4 b;
-  Buf_803CAEB4 d;
+  SjChunk a;
+  SjChunk c;
+  SjChunk b;
+  SjChunk d;
   s16 hlen;
   s16 tlen;
   s32 r1;
@@ -351,7 +345,7 @@ void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
     tlen = 0;
     ring->vt->m4(ring, 1, 0x7FFFFFFF, &a);
     ring->vt->m4(ring, 1, 0x7FFFFFFF, &b);
-    if (((TLobby *)(a.p))->parse_packet_header_len(a.len, &hlen) != 0)
+    if (((TLobby *)(a.data))->parse_packet_header_len(a.size, &hlen) != 0)
     {
       o->active = 0;
       ring->vt->m5(ring, 1, &b);
@@ -359,14 +353,14 @@ void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
       return;
     }
     n = hlen;
-    r1 = TLobby::find_terminator_index((s16 *)(a.p + n), (s32)(a.len - n), &hlen);
+    r1 = TLobby::find_terminator_index((s16 *)(a.data + n), (s32)(a.size - n), &hlen);
     if (r1 == 0)
     {
       r2 = -1;
     }
     else
     {
-      r2 = TLobby::find_terminator_index((s16 *)b.p, (s32)b.len, &tlen);
+      r2 = TLobby::find_terminator_index((s16 *)b.data, (s32)b.size, &tlen);
     }
     n += hlen;
     m = tlen & 0xFFFFFFFFFFFFFFFFu;

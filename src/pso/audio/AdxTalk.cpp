@@ -18,16 +18,11 @@
 struct Pair_803C8678 { u32 a, b; };
 
 struct Strm_803C9104;
-struct Buf_803C9104 {
-    void *ptr;
-    s32 size;
-};
-
 struct Vt_803C9104 {
     u8 pad[0x18];
-    void (*lock)(Strm_803C9104 *, s32, s32, Buf_803C9104 *);
-    void (*unlock)(Strm_803C9104 *, s32, Buf_803C9104 *);
-    void (*write)(Strm_803C9104 *, s32, Buf_803C9104 *);
+    void (*lock)(Strm_803C9104 *, s32, s32, SjChunk *);
+    void (*unlock)(Strm_803C9104 *, s32, SjChunk *);
+    void (*write)(Strm_803C9104 *, s32, SjChunk *);
 };
 
 struct Strm_803C9104 {
@@ -52,8 +47,8 @@ s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2) {
     Strm_803C9104 *s;
     s32 n1;
     s32 n2;
-    Buf_803C9104 a;
-    Buf_803C9104 b;
+    SjChunk a;
+    SjChunk b;
     void *p = arg0->strm;
     s = (Strm_803C9104 *)p;
     if (p == NULL) {
@@ -63,14 +58,14 @@ s32 TLobby__sub_803C9104(Obj_803C9104 *arg0, s32 arg1, s32 arg2) {
     total = (arg2 / 32) * blk;
     s->vt->lock(s, 0, total, &a);
     n1 = blk * (a.size / blk);
-    memset(a.ptr, 0, n1);
+    memset(a.data, 0, n1);
     TLobby__sub_803D3130(&a, n1, &a, &b);
     s->vt->write(s, 1, &a);
     s->vt->unlock(s, 0, &b);
     total = total - n1;
     s->vt->lock(s, 0, total, &a);
     n2 = blk * (a.size / blk);
-    memset(a.ptr, 0, n2);
+    memset(a.data, 0, n2);
     TLobby__sub_803D3130(&a, n2, &a, &b);
     s->vt->write(s, 1, &a);
     s->vt->unlock(s, 0, &b);
