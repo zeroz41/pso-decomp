@@ -41,6 +41,13 @@ struct PlayerSyncRecord {
     // Item `tech`'s m_present[2] holds the technique levels above the cast level, as in TPlyCharData.
     TPlyInventoryItem items[30];
     u32 floor;
+
+    // Material usage counts, kept in the last m_present byte of items 8-12 as in TPlyCharData.
+    u8 get_luck_materials_used();
+    u8 get_def_materials_used();
+    u8 get_evade_materials_used();
+    u8 get_mind_materials_used();
+    u8 get_power_materials_used();
 };
 
 LAYOUT_ASSERT(PlayerSyncRecordHpOffset, offsetof(PlayerSyncRecord, current_hp) == 0x22);

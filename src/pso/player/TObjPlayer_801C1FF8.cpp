@@ -114,11 +114,11 @@ s32 TObjPlayer::get_slot_value_checked(s32 i) {
 }
 
 TPlyInventoryItem *TPlyInventory::get_items() { return m_items; }
-u8 get_byte_157(void* p) { return *(u8*)((char*)p + 0x157); }
-u8 get_byte_13b(void* p) { return *(u8*)((char*)p + 0x13b); }
-u8 get_byte_11f(void* p) { return *(u8*)((char*)p + 0x11f); }
-u8 get_byte_103(void* p) { return *(u8*)((char*)p + 0x103); }
-u8 get_byte_e7(void* p) { return *(u8*)((char*)p + 0xe7); }
+u8 TPlyCharData::get_luck_materials_used() { return m_inventory.m_items[12].m_present[3]; }
+u8 TPlyCharData::get_def_materials_used() { return m_inventory.m_items[11].m_present[3]; }
+u8 TPlyCharData::get_evade_materials_used() { return m_inventory.m_items[10].m_present[3]; }
+u8 TPlyCharData::get_mind_materials_used() { return m_inventory.m_items[9].m_present[3]; }
+u8 TPlyCharData::get_power_materials_used() { return m_inventory.m_items[8].m_present[3]; }
 void PhotonChairSeat::set_owner_id(u16 id) { owner_id = id; }
 PhotonChairSeat::PhotonChairSeat() { reset(); }
 

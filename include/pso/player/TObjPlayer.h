@@ -555,10 +555,10 @@ struct TObjPlayer : public TObjChara {
     void set_control_role(s32 v);
     void set_language(s32 v);
     void reset_entrance_id();
-    void set_equip_flags(u8 v);
-    void set_inventory_state(u8 v);
-    void set_field_374_state(u8 v);
-    void set_field_374(u8 v);
+    void set_def_materials_used(u8 v);
+    void set_evade_materials_used(u8 v);
+    void set_mind_materials_used(u8 v);
+    void set_power_materials_used(u8 v);
     void*reset_sub_status_disp();
     void*get_sub_object();
     s32 get_lock_timer();

@@ -26,7 +26,7 @@
 #include "pso/player/TPlyInventory.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/player/TObjPlayer_801BE778.h"
-#include "pso/player/TObjPlayer_801BEB0C.h"
+#include "pso/player/PlayerSyncRecord.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TPlyDispData.h"
@@ -352,15 +352,15 @@ u8 TObjPlayer__sub_801BEB4C(void* p) { return *(u8*)((char*)p + 0x2af); }
 void TObjPlayer::set_language(s32 v) { this->language = v; }
 void TObjPlayer::reset_entrance_id() { *(s32*)((char*)this + 0x3c8) = -1; }
 void TObjPlayer::set_luck_materials_used(u8 v) { materials.set_luck_used(v); }
-u8 TObjPlayer__sub_801BEB8C(void* p) { return *(u8*)((char*)p + 0x293); }
-void TObjPlayer::set_equip_flags(u8 v) { materials.set_def_used(v); }
-u8 TObjPlayer__sub_801BEBB8(void* p) { return *(u8*)((char*)p + 0x277); }
-void TObjPlayer::set_inventory_state(u8 v) { materials.set_evade_used(v); }
-u8 TObjPlayer__sub_801BEBE4(void* p) { return *(u8*)((char*)p + 0x25b); }
-void TObjPlayer::set_field_374_state(u8 v) { materials.set_mind_used(v); }
-u8 TObjPlayer__sub_801BEC10(void* p) { return *(u8*)((char*)p + 0x23f); }
-void TObjPlayer::set_field_374(u8 v) { materials.set_power_used(v); }
-u8 TObjPlayer__sub_801BEC3C(void* p) { return *(u8*)((char*)p + 0x223); }
+u8 PlayerSyncRecord::get_luck_materials_used() { return items[12].m_present[3]; }
+void TObjPlayer::set_def_materials_used(u8 v) { materials.set_def_used(v); }
+u8 PlayerSyncRecord::get_def_materials_used() { return items[11].m_present[3]; }
+void TObjPlayer::set_evade_materials_used(u8 v) { materials.set_evade_used(v); }
+u8 PlayerSyncRecord::get_evade_materials_used() { return items[10].m_present[3]; }
+void TObjPlayer::set_mind_materials_used(u8 v) { materials.set_mind_used(v); }
+u8 PlayerSyncRecord::get_mind_materials_used() { return items[9].m_present[3]; }
+void TObjPlayer::set_power_materials_used(u8 v) { materials.set_power_used(v); }
+u8 PlayerSyncRecord::get_power_materials_used() { return items[8].m_present[3]; }
 
 }
 

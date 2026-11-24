@@ -22,11 +22,6 @@ int TObjPlayer__sub_801BEABC(void *p);
 u8 TObjPlayer__sub_801BEB3C(void *p);
 u8 TObjPlayer__sub_801BEB44(void *p);
 u8 TObjPlayer__sub_801BEB4C(void *p);
-u8 TObjPlayer__sub_801BEB8C(void *p);
-u8 TObjPlayer__sub_801BEBB8(void *p);
-u8 TObjPlayer__sub_801BEBE4(void *p);
-u8 TObjPlayer__sub_801BEC10(void *p);
-u8 TObjPlayer__sub_801BEC3C(void *p);
 void __sinit_TObjPlayer_801BDF5C_cpp(void);
 }
 // --- end of C functions

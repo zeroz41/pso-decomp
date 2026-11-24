@@ -151,14 +151,6 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     this->hp = record->current_hp;
 }
 
-extern "C" {
-u8 get_byte_157(void *);
-u8 get_byte_13b(void *);
-u8 get_byte_11f(void *);
-u8 get_byte_103(void *);
-u8 get_byte_e7(void *);
-}
-
 TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record) : TObjChara(parent) {
     ((TObjPlayer *)(((u8 *)this) + 0x608))->set_vec4_const_wrapper();
     ((TObjPlayer *)(((u8 *)this) + 0x634))->wrap_update();
@@ -188,11 +180,11 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     update_body_parts(&record->m_disp_part2);
     sub_801BEE2C(record->m_inventory.m_hp_materials_used);
     sub_801BEE24(record->m_inventory.m_tp_materials_used);
-    this->set_field_374(get_byte_e7(record));
-    this->set_field_374_state(get_byte_103(record));
-    this->set_inventory_state(get_byte_11f(record));
-    this->set_equip_flags(get_byte_13b(record));
-    this->set_luck_materials_used(get_byte_157(record));
+    this->set_power_materials_used(record->get_power_materials_used());
+    this->set_mind_materials_used(record->get_mind_materials_used());
+    this->set_evade_materials_used(record->get_evade_materials_used());
+    this->set_def_materials_used(record->get_def_materials_used());
+    this->set_luck_materials_used(record->get_luck_materials_used());
     this->init_player_data(&record->m_stats);
     this->create_lockon_cursor();
     this->sub_801BD318();

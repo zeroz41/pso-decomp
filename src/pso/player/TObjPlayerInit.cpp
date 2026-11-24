@@ -34,11 +34,6 @@ extern "C" {
 void update_photon_chair__10TObjPlayerFv(void *player);
 s8 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, const StatusEffect *src);
-u8 TObjPlayer__sub_801BEB8C(PlayerSyncRecord *record);
-u8 TObjPlayer__sub_801BEBB8(PlayerSyncRecord *record);
-u8 TObjPlayer__sub_801BEBE4(PlayerSyncRecord *record);
-u8 TObjPlayer__sub_801BEC10(PlayerSyncRecord *record);
-u8 TObjPlayer__sub_801BEC3C(PlayerSyncRecord *record);
 // TObjPlayer.h declares the tech index as int; the callers pass it as a short.
 void set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(TObjPlayer *player, u8 level, s16 tech);
 }
@@ -198,11 +193,11 @@ void TObjPlayer::update_if_active() {
 void TObjPlayer::load_char_data(PlayerSyncRecord *record) {
     sub_801BEE2C(record->hp_material_bonus);
     sub_801BEE24(record->tp_material_bonus);
-    set_field_374(TObjPlayer__sub_801BEC3C(record));
-    set_field_374_state(TObjPlayer__sub_801BEC10(record));
-    set_inventory_state(TObjPlayer__sub_801BEBE4(record));
-    set_equip_flags(TObjPlayer__sub_801BEBB8(record));
-    set_luck_materials_used(TObjPlayer__sub_801BEB8C(record));
+    set_power_materials_used(record->get_power_materials_used());
+    set_mind_materials_used(record->get_mind_materials_used());
+    set_evade_materials_used(record->get_evade_materials_used());
+    set_def_materials_used(record->get_def_materials_used());
+    set_luck_materials_used(record->get_luck_materials_used());
     init_player_data(&record->stats);
     hp = record->current_hp;
     resend_status_effects();
