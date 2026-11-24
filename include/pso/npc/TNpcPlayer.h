@@ -107,6 +107,7 @@ struct TNpcPlayer : public TObject {
     virtual void render();
     void partner_request_physical_attack();
     void send_partner_attack_stage_request();
+    void partner_request_technique_cast(s32 kind);
     s32 in_combat;
     s32 m_20;
     s32 chatter_id;
@@ -167,9 +168,6 @@ struct TNpcPlayer : public TObject {
     void reset_move_state();
     void sync_from_lobby();
     void swap_endian();
-    void set_field2(s16 v);
-    void set_field_0(s16 v);
-    void set_state(s32 v);
     void byteswap_pos();
     void send_6x3E();
     void bswap_6x3E();

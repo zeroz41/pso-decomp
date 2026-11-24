@@ -23,6 +23,7 @@
 #include "pso/ui/window/TWindowMessageScroll.h"
 #include "pso/unk/TLobby_8026B06C.h"
 #include "pso/npc/NpcPartnerControl.h"
+#include "pso/npc/TNpcPlayer_8014DADC.h"
 #include "pso/quest/BattleRules.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/item/TObjItemNameSelect.h"
@@ -876,7 +877,6 @@ void init__9TItemDataFv(Item_801EE77C *);
 s32 advance_item_id_counter(u16);
 f32 xz_distance_squared(Vec *, Vec *);
 f32 xyz_distance_squared(u8 *point_a, u8 *point_b);
-int TNpcPlayer__sub_8014DC30(void*);
 void *find_entity_by_id(u16 id);
 void TOMineTrap__sub_80171368(f32);
 int clear_enabled_main_warps(void*);
@@ -3266,7 +3266,7 @@ void qst_op_prepare_npc_visual(saddr label) {
     }
 }
 
-int qst_op_enable_npc_visual(void* p) { return TNpcPlayer__sub_8014DC30(p); }
+void qst_op_enable_npc_visual(void *p) { enable_quest_npc_visual(); }
 
 void qst_op_set_shrink_cam2(u8 regs) {
     Vec pos;

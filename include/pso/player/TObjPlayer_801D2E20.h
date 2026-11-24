@@ -19,7 +19,6 @@ extern "C" {
 Cur_801D32A0 * TObjPlayer__sub_801B57E8(void *);
 void* get_anim_field_c__10TObjPlayerFPv(void* p);
 void VecCopy__FP3VecPC3Vec(void *, void *);
-s16 get_type_id__10TObjPlayerFv(void* p);
 void * TObjPlayer__sub_80116620(void *, s32);
 u16 get_action_palette_entry__10TObjPlayerFl(void *, s32);
 }
