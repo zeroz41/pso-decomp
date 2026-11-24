@@ -23,6 +23,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/AramPool.h"
 
 extern "C" {
 extern s32 lbl_805D669C;
@@ -33,7 +34,7 @@ extern "C" {
 u32 ARAlloc(u32);
 
     extern int snapshot_aligned_buffer_size;
-void TWindowSnapShot::init_default() { TLobby::aram_transfer_sync((saddr)((void*)1), (uaddr)((void*)shared_snapshot_capture->get_field_8()), lbl_805D669C, snapshot_aligned_buffer_size); }
+void TWindowSnapShot::init_default() { aram_transfer_sync(1, (void *)shared_snapshot_capture->get_field_8(), lbl_805D669C, snapshot_aligned_buffer_size); }
 
 void TWindowSnapShot__sub_802A7DA0(void) {  }
 

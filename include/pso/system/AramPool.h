@@ -40,8 +40,13 @@ public:
 
 LAYOUT_ASSERT(AramPool_size, sizeof(AramPool) == 0x30);
 
-// Set while the ARAM transfer started by TLobby::aram_dma_blocking and friends is in flight; their DMA
-// callback clears it.
+// Blocking ARQ copies between main memory and auxiliary RAM; owner is the ARQ owner id. The _sync
+// versions keep running frames while they wait. Lengths are rounded up to 32 bytes.
+s32 aram_dma_blocking(s32 owner, s32 aram, void *dest, s32 length);
+s32 aram_read_sync(s32 owner, s32 aram, void *dest, s32 length);
+s32 aram_transfer_sync(s32 owner, void *source, s32 aram, s32 length);
+
+// Set while a transfer started by one of the functions above is in flight; their DMA callback clears it.
 extern volatile s32 aram_dma_pending;
 
 #endif

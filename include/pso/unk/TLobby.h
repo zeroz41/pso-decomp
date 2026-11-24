@@ -522,9 +522,6 @@ struct TLobby : public TObject {
     void copy_u16_array(u16 *src, s32 n);
     static s32 calc_delta(s32 arg0, s32 arg1);
     static void reset_player_state();
-    static s32 aram_dma_blocking(s32 owner, s32 aram, saddr dest, s32 length);
-    static s32 aram_read_sync(s32 owner, s32 aram, saddr dest, s32 length);
-    static s32 aram_transfer_sync(s32 owner, uaddr source, s32 aram, s32 length);
     static void send_game_character();
     static void open_udp_socket_for_player(s32 client);
     void send_6x71_to_player();

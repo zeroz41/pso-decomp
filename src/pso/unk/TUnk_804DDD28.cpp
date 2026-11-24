@@ -20,6 +20,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/AramPool.h"
 
 struct Pair_802A7994 { s32 a; s32 b; };
 
@@ -43,7 +44,6 @@ void set_slot_size(void *p, s32 v);
 void set_slot_offset(void *p, s32 v);
 extern s32 lbl_805D669C;
 void set_slot_position__6TLobbyFii(s32 arg0, saddr arg1);
-s32 aram_dma_blocking__6TLobbyFllll(s32, s32, s32, s32, s32);
 saddr TItemDrop__sub_800F9448(saddr arg0, s32 size);
 void set_motion_variant(void* p, s32 _w1);
 int matches_loaded_motion(void* p);
@@ -176,5 +176,5 @@ void set_slot_position__6TLobbyFii(s32 arg0, saddr arg1) {
     set_slot_size((void *)arg1, ((RlcDirectoryEntry *)temp_r31)->get_size());
 }
 void TLobby::send_type2_event(s32 arg0, s32 arg1, s32 arg2) {
-    aram_dma_blocking__6TLobbyFllll(2, arg0, arg1, arg2, arg0);
+    aram_dma_blocking(2, arg0, (void *)arg1, arg2);
 }

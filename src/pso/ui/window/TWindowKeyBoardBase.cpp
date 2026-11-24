@@ -18,6 +18,7 @@
 #include "pso/ui/Language.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/memory.h"
+#include "pso/system/AramPool.h"
 #include <string.h>
 #include "pso/ui/window/WindowLayout.h"
 
@@ -960,16 +961,16 @@ TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardB
 const char lbl_8044F098[10] = "Ask_n.dic";
 
 void TLobby::load_ask_dictionary() {
-    s32 data;
+    u8 *data;
     s32 size;
     s32 aligned;
     s32 aram;
     size = TGStream::get_resource_file_size((const char *)lbl_8044F098);
     aligned = (size + 0x1F) & ~0x1F;
     aram = ARAlloc(aligned);
-    data = (saddr)load_disc_file(lbl_8044F098);
-    TLobby::aram_transfer_sync(3, data, aram, aligned);
-    safe_free(reinterpret_cast<void *>(data));
+    data = load_disc_file(lbl_8044F098);
+    aram_transfer_sync(3, data, aram, aligned);
+    safe_free(data);
     aram_dma_setup(aram, size, 3, 1, 0x2710);
     start_askdic();
 }

@@ -11,35 +11,36 @@ volatile s32 aram_dma_pending;
 
 void aram_sync_dma_done(uaddr request);
 
-s32 TLobby::aram_dma_blocking(s32 owner, s32 aram, saddr dest, s32 length) {
+s32 aram_dma_blocking(s32 owner, s32 aram, void *dest, s32 length) {
     ARQRequest request;
     s32 len;
     len = (length + 0x1F) & ~0x1F;
     aram_dma_pending = 1;
-    DCInvalidateRange((void *)dest, len);
-    ARQPostRequest(&request, owner, 1, 1, aram, dest, len, aram_sync_dma_done);
+    DCInvalidateRange(dest, len);
+    ARQPostRequest(&request, owner, 1, 1, aram, (uaddr)dest, len, aram_sync_dma_done);
     for (;;) {
         if (aram_dma_pending == 0) break;
     }
-    DCInvalidateRange((void *)dest, len);
+    DCInvalidateRange(dest, len);
     return 1;
 }
 
-s32 TLobby::aram_read_sync(s32 owner, s32 aram, saddr dest, s32 length) {
+s32 aram_read_sync(s32 owner, s32 aram, void *dest, s32 length) {
     ARQRequest request;
     s32 len;
     len = (length + 0x1F) & ~0x1F;
     aram_dma_pending = 1;
-    DCInvalidateRange((void *)dest, len);
-    ARQPostRequest(&request, owner, 1, 1, aram, dest, len, aram_sync_dma_done);
+    DCInvalidateRange(dest, len);
+    ARQPostRequest(&request, owner, 1, 1, aram, (uaddr)dest, len, aram_sync_dma_done);
     for (;;) {
         if (aram_dma_pending == 0) break;
         TLobby::run_frame();
     }
-    DCInvalidateRange((void *)dest, len);
+    DCInvalidateRange(dest, len);
     return 1;
 }
-s32 TLobby::aram_transfer_sync(s32 owner, uaddr source, s32 aram, s32 length) {
+
+s32 aram_transfer_sync(s32 owner, void *source, s32 aram, s32 length) {
     ARQRequest request;
     s32 len;
     if (aram == 0 && source == 0) {
@@ -47,8 +48,8 @@ s32 TLobby::aram_transfer_sync(s32 owner, uaddr source, s32 aram, s32 length) {
     }
     len = (length + 0x1F) & ~0x1F;
     aram_dma_pending = 1;
-    DCFlushRange((void *)source, len);
-    ARQPostRequest(&request, owner, 0, 1, source, aram, len, aram_sync_dma_done);
+    DCFlushRange(source, len);
+    ARQPostRequest(&request, owner, 0, 1, (uaddr)source, aram, len, aram_sync_dma_done);
     for (;;) {
         if (aram_dma_pending == 0) break;
         TLobby::run_frame();
@@ -58,10 +59,10 @@ s32 TLobby::aram_transfer_sync(s32 owner, uaddr source, s32 aram, s32 length) {
 
 void AramPool::transfer(void *src, void *dst, u32 size, u32 from_aram) {
     if (from_aram == 0) {
-        TLobby::aram_transfer_sync(0, (uaddr)src, ((AramBlock *)dst)->addr, size);
+        aram_transfer_sync(0, src, ((AramBlock *)dst)->addr, size);
         return;
     }
-    TLobby::aram_read_sync(0, ((AramBlock *)src)->addr, (saddr)dst, size);
+    aram_read_sync(0, ((AramBlock *)src)->addr, dst, size);
 }
 
 void AramPool::merge_free_blocks() {
