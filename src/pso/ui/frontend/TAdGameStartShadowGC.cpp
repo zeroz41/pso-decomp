@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -62,7 +63,7 @@ TAdGameStartShadowGC *__ct__20TAdGameStartShadowGCFP7TObject(TAdGameStartShadowG
     self->m_color = -1;
     self->m_alpha = 0;
     self->m_frame = -1;
-    TAdGameStartShadowGC__texture_list = TObjPlayer::get_instance();
+    TAdGameStartShadowGC__texture_list = get_multiplay_texture_list();
     for (i = 0; i < 5; i++) {
         self->m_quads[i].x0 = 128.0f * (f32)i;
         self->m_quads[i].x1 = 128.0f + self->m_quads[i].x0;

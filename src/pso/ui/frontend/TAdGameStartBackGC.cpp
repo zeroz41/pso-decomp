@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/render/render_util.h"
 
 #pragma readonly_strings on
@@ -67,7 +68,7 @@ TAdGameStartBackGC::TAdGameStartBackGC(TObject *parent) : TObject(parent) {
     m_frame = -1;
     m_scale_x = 5.0f;
     m_scale_y = 5.0f;
-    game_start_background_texture_list = TObjPlayer::get_instance();
+    game_start_background_texture_list = get_multiplay_texture_list();
     m_rest.x0 = m_origin.x;
     m_rest.y0 = m_origin.y;
     m_rest.x1 = 512.0f + m_origin.x;

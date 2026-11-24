@@ -309,7 +309,7 @@ void TBoss7BodyBreakUp::render() {
     current_scene_light->sub_801337F8();
 }
 
-saddr TObjPlayer::get_instance() { return (saddr)multiplay_texture_f512_handle; }
+saddr get_multiplay_texture_list() { return (saddr)multiplay_texture_f512_handle; }
 
 f32 lbl_805D6910 = boss7_sea_level_y;
 

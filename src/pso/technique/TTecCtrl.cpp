@@ -32,6 +32,8 @@
 #include "pso/technique/TTecReverser.h"
 #include "pso/technique/TTecSifta.h"
 #include "pso/technique/TTecZondeEff.h"
+#include "pso/technique/TTecJelin.h"
+#include "pso/technique/TTecZarua.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecDeband.h"
@@ -545,11 +547,11 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
         break;
     case 11:
         COLLECT_8022D27C()
-        TObjPlayer::create_tec_jelin(pl, &hand, &list, get_cast_technique_level(td, 11));
+        TTecJelin::create(pl, &hand, &list, get_cast_technique_level(td, 11));
         break;
     case 12:
         COLLECT_8022D27C()
-        TObjPlayer::create_tec_zarua(pl, &hand, &list, get_cast_technique_level(td, 12));
+        TTecZarua::create_instance(pl, &hand, &list, get_cast_technique_level(td, 12));
         break;
     case 13:
         COLLECT_8022D27C()

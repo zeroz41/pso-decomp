@@ -22,8 +22,8 @@
 
 const char *tec_jelin_class_name_ptr = "TTecJelin";
 
-void TObjPlayer::create_tec_jelin(void *source, void *origin, void *targets, s32 level) {
-    new TTecJelin((saddr)source, (Vec *)origin, (TargetCursorList *)targets, level);
+void TTecJelin::create(void *caster, Vec *pos, TargetCursorList *targets, s32 level) {
+    new TTecJelin((saddr)caster, pos, targets, level);
 }
 
 

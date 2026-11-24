@@ -22,8 +22,8 @@
 
 const char *TTecZarua__name = "TTecZarua";
 
-void TObjPlayer::create_tec_zarua(void *source, void *origin, void *targets, s32 level) {
-    new TTecZarua((saddr)source, (Vec *)origin, (TargetCursorList *)targets, level);
+void TTecZarua::create_instance(void *caster, Vec *pos, TargetCursorList *targets, s32 level) {
+    new TTecZarua((saddr)caster, pos, targets, level);
 }
 
 

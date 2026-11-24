@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/system/vector.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/ModelDrawContext.h"
@@ -76,7 +77,7 @@ TAdGameStartSubGC::TAdGameStartSubGC(TObject *parent, GameStartLetterLayout *lay
     m_scale_x = (3.0f);
     m_scale_y = (3.0f);
     m_alpha = 0xFF;
-    game_start_player_instance = TObjPlayer::get_instance();
+    game_start_player_instance = get_multiplay_texture_list();
     m_rest.x0 = (64.0f) * (f32)m_cell + m_origin.x;
     m_rest.y0 = m_origin.y;
     m_rest.x1 = (64.0f) * (f32)(m_cell + 1) + m_origin.x;

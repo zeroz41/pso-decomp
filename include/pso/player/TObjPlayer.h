@@ -876,10 +876,7 @@ struct TObjPlayer : public TObjChara {
     static void free_if_valid(saddr texlist);
     static void play_effect_if_v2(s32 pitch);
     static s32 get_level_tier(s32 arg0);
-    static void create_tec_jelin(void *source, void *origin, void *targets, s32 level);
     static s32 is_valid_and_active(uaddr actor);
-    static void create_tec_zarua(void *source, void *origin, void *targets, s32 level);
-    void add_status_line(u8 category_icon, uaddr item, s32 arg3);
     static void clear_state_if_flag80(s32 arg0);
     static void setup_projection_texture(Vec *pos, SceneSectionAngles *angles, u32 flags);
     void reset_lobby_subobject();
@@ -910,7 +907,6 @@ struct TObjPlayer : public TObjChara {
     void set_current_time();
     void clear_flag_80000();
     void set_flag_80000();
-    static saddr get_instance();
     // The ending movie's finish callback: TMovie::run_task calls it with the movie.
     static void disable_keyboard_control(TMovie *movie);
     static TItem *create_nug2000_bazooka(u8 *item);
