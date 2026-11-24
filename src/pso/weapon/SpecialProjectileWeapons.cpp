@@ -99,7 +99,7 @@ void TUnk_804A204C::update_weapon() {
     }
 }
 
-void TUnk_804A204C::vfunc_60() {
+void TUnk_804A204C::transform_model_node() {
     switch (((u32)TObjPlayer::get_player_list())) {
     case 1:
         rotate_matrix_y(0, swing_angle);
@@ -122,7 +122,7 @@ void TUnk_804A204C::vfunc_60() {
     }
 }
 
-void TUnk_804A204C::reserved_53() {
+void TUnk_804A204C::draw_held_model() {
     s32 joint_position;
     NJS_OBJECT *model_link;
     NJS_OBJECT *effect_model;

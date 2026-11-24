@@ -115,7 +115,7 @@ void TUnk_804A403C::emit_marker_effects() {
     }
 }
 
-void TUnk_804A403C::vfunc_60() {
+void TUnk_804A403C::transform_model_node() {
     void *p;
     Obj_80128E08 *self = (Obj_80128E08 *)this;
     switch (TObjPlayer::get_player_list()) {
@@ -136,7 +136,7 @@ void TUnk_804A403C::vfunc_60() {
 
 }
 
-void TUnk_804A403C::reserved_53() {
+void TUnk_804A403C::draw_held_model() {
     s32 temp_r31;
     u8 *arg0 = (u8 *)this;
 

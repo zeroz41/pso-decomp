@@ -13,7 +13,7 @@
 #include "pso/unk/text_80120908.h"
 #include "pso/effect/item/TItemEffCane.h"
 
-void TUnk_804A1A48::reserved_53() {
+void TUnk_804A1A48::draw_held_model() {
     Vec pos;
 
     if ((item_model != NULL) && (is_hidden() == 0)) {

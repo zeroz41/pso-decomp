@@ -9,7 +9,7 @@
 class TUnk_804A0DB0 : public TItemWeapon {
 public:
     virtual ~TUnk_804A0DB0();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void update_weapon();
     TUnk_804A0DB0(TObject *parent, u8 *item);
     virtual void emit_marker_effects();

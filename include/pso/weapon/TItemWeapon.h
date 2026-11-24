@@ -71,13 +71,17 @@ struct TItemWeapon : public TItemEquipBase {
     virtual void emit_marker_effects();
     virtual void update_attack();
     virtual void update_idle();
-    virtual void reserved_53();
+    // Every equipped render pass (render_equipped, _shadow, _deferred) runs it
+    // before the trails: weapons with their own hand models draw them here.
+    virtual void draw_held_model();
     virtual void update_weapon();
     // Run last by on_equip and on_unequip; subclasses reset their own state.
     virtual void on_equipped();
     virtual void on_unequipped();
     virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
-    virtual void vfunc_60();
+    // Run for each node of the weapon model as draw_weapon_model draws it
+    // (apply_weapon_node_material), to move or turn that node.
+    virtual void transform_model_node();
     // attack_kind 0 physical, 1 physical with knockback, 2 the weapon
     // special; body indexes the target's collision bodies.
     virtual void deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body);

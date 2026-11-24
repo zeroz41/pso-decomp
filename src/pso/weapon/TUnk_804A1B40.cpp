@@ -6,7 +6,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_80120908.h"
 
-void TUnk_804A1B40::reserved_53() {
+void TUnk_804A1B40::draw_held_model() {
     NJS_OBJECT *saved_model = item_model;
     draw_weapon_model();
     item_model = second_model;

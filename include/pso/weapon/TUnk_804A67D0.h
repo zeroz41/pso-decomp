@@ -8,7 +8,7 @@
 // idle and closes during an attack; on_equipped starts a regeneration timer.
 class TUnk_804A67D0 : public TItemWeapon {
 public:
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void on_equipped();
     virtual void update_idle();
     virtual void update_attack();

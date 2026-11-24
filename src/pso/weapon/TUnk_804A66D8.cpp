@@ -31,7 +31,7 @@ void TUnk_804A66D8::emit_marker_effects() {
     }
 }
 
-void TUnk_804A66D8::reserved_53() {
+void TUnk_804A66D8::draw_held_model() {
     sample_dual_muzzles(&gun_point, &second_gun_point);
 }
 

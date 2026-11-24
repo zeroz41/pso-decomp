@@ -22,7 +22,7 @@ void TUnk_804A0BC0::emit_marker_effects() {
     }
 }
 
-void TUnk_804A0BC0::vfunc_60() {
+void TUnk_804A0BC0::transform_model_node() {
     if (TObjPlayer::get_player_list() == 1) {
         rotate_matrix_x(NULL, open_angle);
     }

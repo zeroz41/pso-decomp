@@ -8,7 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/item/TItemEffCane.h"
 
-void TUnk_804A68C8::vfunc_60() {
+void TUnk_804A68C8::transform_model_node() {
     if (get_item_index() == 5) {
         switch (TObjPlayer::get_player_list()) {
         case 1:

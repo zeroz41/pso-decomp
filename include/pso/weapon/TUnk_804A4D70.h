@@ -11,7 +11,7 @@ class TUnk_804A4D70 : public TItemWeapon {
 public:
     virtual ~TUnk_804A4D70();
     virtual void emit_marker_effects();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void update_idle();
     virtual void update_attack();
     virtual void update_weapon();

@@ -13,7 +13,7 @@ public:
     virtual void on_equipped();
     virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
     // Draws the loaded projectile (second_model) while reload_timer is 0.
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     TItemWeaponPanzerFaust(TObject *parent, u8 *item);
     f32 pad_1f8;
     f32 pad_1fc;

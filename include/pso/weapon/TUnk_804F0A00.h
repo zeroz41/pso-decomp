@@ -6,7 +6,7 @@
 class TUnk_804F0A00 : public TItemWeapon {
 public:
     virtual ~TUnk_804F0A00();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void update_idle();
     virtual void update_attack();
     virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);

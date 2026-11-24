@@ -7,7 +7,7 @@ class TUnk_804A1C38 : public TItemWeapon {
 public:
     virtual ~TUnk_804A1C38();
     TUnk_804A1C38(TObject *parent, u8 *item);
-    virtual void reserved_53();
+    virtual void draw_held_model();
 };
 
 TItem *create_claw_weapon(u8 *item);

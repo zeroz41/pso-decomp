@@ -55,7 +55,7 @@ void TItemWeaponPanzerFaust::update_weapon() {
 
 void TItemWeaponPanzerFaust::emit_marker_effects() { reload_timer = 60; }
 
-void TItemWeaponPanzerFaust::vfunc_60() {
+void TItemWeaponPanzerFaust::transform_model_node() {
     NJS_OBJECT *child;
 
     if (TObjPlayer::get_player_list() == 1) {

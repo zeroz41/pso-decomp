@@ -85,7 +85,7 @@ void TUnk_804A4F60::emit_marker_effects() {
     ((TItemWeapon *)this)->update_active_game_effect();
 }
 
-void TUnk_804A4F60::vfunc_60() {
+void TUnk_804A4F60::transform_model_node() {
     switch (TObjPlayer::get_player_list()) {
     case 2:
         rotate_matrix_z(NULL, rotation_z);

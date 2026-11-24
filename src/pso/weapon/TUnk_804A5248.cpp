@@ -12,7 +12,7 @@
 
 
 
-void TUnk_804A5248::vfunc_60() {
+void TUnk_804A5248::transform_model_node() {
     if ((get_item_index() == 5) && (TObjPlayer::get_player_list() == 3)) {
         scale_matrix(NULL, 1.0f, barrel_scale, 1.0f);
     }

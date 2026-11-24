@@ -6,7 +6,7 @@
 class TUnk_804A0EA8 : public TItemWeapon {
 public:
     virtual ~TUnk_804A0EA8();
-    virtual void reserved_53();
+    virtual void draw_held_model();
     virtual void emit_marker_effects();
     TUnk_804A0EA8(TObject *parent, u8 *item);
     Vec gun_point;         // get_gun_point with item_model

@@ -35,7 +35,7 @@ void TUnk_804A5F18::on_equipped() {
     roll_technique();
 }
 
-void TUnk_804A5F18::vfunc_60() {
+void TUnk_804A5F18::transform_model_node() {
     if (TObjPlayer::get_player_list() == 1) {
         rotate_matrix_x(NULL, rotation_x);
     }

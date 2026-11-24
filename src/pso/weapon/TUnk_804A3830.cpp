@@ -12,7 +12,7 @@ s32 draw_weapon_at_joint(void *, int);
 }
 
 
-void TUnk_804A3830::reserved_53() {
+void TUnk_804A3830::draw_held_model() {
     s32 temp_r31;
     draw_weapon_at_joint(this, 0x31);
     update_trail_slot(0);

@@ -8,7 +8,7 @@
 class TUnk_804A4A88 : public TItemWeapon {
 public:
     virtual ~TUnk_804A4A88();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void emit_marker_effects();
     TUnk_804A4A88(TObject *parent, u8 *item);
     s32 rotation_z;  // rotate_matrix_z angle of the model hook, spun there

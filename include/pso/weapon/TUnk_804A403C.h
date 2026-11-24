@@ -8,8 +8,8 @@ class TUnk_804A403C : public TUnk_804A4948 {
 public:
     TUnk_804A403C(TObject *parent, u8 *item);
     virtual ~TUnk_804A403C();
-    virtual void vfunc_60();
-    virtual void reserved_53();
+    virtual void transform_model_node();
+    virtual void draw_held_model();
     virtual void emit_marker_effects();
     FlagWord flags;                 // 1: drawing the second barrel, 2: ring out, 4: firing
     WeaponVector shot_origins[2];   // get_joint_position(1) per barrel, launch_shot origins

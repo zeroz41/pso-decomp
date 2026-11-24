@@ -102,7 +102,7 @@ void TUnk_804A2164::emit_marker_effects() {
     }
     launch_shot((u8 *)&gun_point, 0, 0, 1);
 }
-void TUnk_804A2164::vfunc_60() {
+void TUnk_804A2164::transform_model_node() {
     s32 player_list;
     player_list = TObjPlayer::get_player_list();
     if ((player_list > 0) && (player_list < 4)) {

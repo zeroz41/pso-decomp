@@ -24,7 +24,7 @@ void TUnk_804A0EA8::emit_marker_effects() {
     }
 }
 
-void TUnk_804A0EA8::reserved_53() {
+void TUnk_804A0EA8::draw_held_model() {
     NJS_OBJECT *model;
 
     model = item_model;

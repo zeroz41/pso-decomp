@@ -9,7 +9,7 @@
 #include "pso/system/task/TMainTask.h"
 
 
-void TUnk_804A4E68::vfunc_60() {
+void TUnk_804A4E68::transform_model_node() {
     if (TObjPlayer::get_player_list() == 0) {
         rotate_matrix_z(NULL, rotation_z);
     }

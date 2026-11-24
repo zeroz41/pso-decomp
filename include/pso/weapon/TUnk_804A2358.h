@@ -8,7 +8,7 @@ public:
     TUnk_804A2358(TObject *parent, u8 *item);
     virtual ~TUnk_804A2358();
     virtual void on_equipped();
-    virtual void reserved_53();
+    virtual void draw_held_model();
     virtual void emit_marker_effects();
 };
 

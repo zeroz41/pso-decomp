@@ -3,12 +3,12 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Weapon class (old ctor name TObjPlayer__sub_80123904): reserved_53 also
+// Weapon class (old ctor name TObjPlayer__sub_80123904): draw_held_model also
 // draws the second model at joint 0x23. Made by TObjPlayer__sub_80123950.
 class TUnk_804A1B40 : public TItemWeapon {
 public:
     virtual ~TUnk_804A1B40();
-    virtual void reserved_53();
+    virtual void draw_held_model();
     TUnk_804A1B40(TObject *parent, u8 *item);
 };
 

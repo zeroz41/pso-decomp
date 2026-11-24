@@ -97,13 +97,13 @@ TUnk_804E23F0::TUnk_804E23F0(TObject *parent, u8 *item) : TItemWeapon(parent, it
     pad_200 = 4.0f;
 }
 
-void TUnk_804E23F0::reserved_53() {
+void TUnk_804E23F0::draw_held_model() {
     if (test_weapon_flags(0x01000000) == 0) {
         draw_weapon_model();
     }
 }
 
-void TUnk_804E23F0::vfunc_60() {
+void TUnk_804E23F0::transform_model_node() {
     if (TObjPlayer::get_player_list() == 0) {
         NJS_POINT3 offset = { 0.0f, 0.0f, 0.5f };
         post_translate_matrix(&offset.x);
@@ -313,7 +313,7 @@ void TUnk_804E21F8::activate_effect(s32 count) {
     }
 }
 
-void TUnk_804E21F8::reserved_53() {
+void TUnk_804E21F8::draw_held_model() {
     Vec *origin;
     s32 n;
     draw_weapon_model();

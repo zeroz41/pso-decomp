@@ -52,7 +52,7 @@ void TItemWeaponSRankCard::emit_marker_effects() {
     create_cane_if_ready(&pos);
 }
 
-void TItemWeaponSRankCard::vfunc_60() {
+void TItemWeaponSRankCard::transform_model_node() {
     if (TObjPlayer::get_player_list() == 0) {
         Vec offset = {0.0f, 0.0f, 0.5f};
         post_translate_matrix(&offset.x);
@@ -70,7 +70,7 @@ void TItemWeaponSRankCard::vfunc_60() {
     }
 }
 
-void TItemWeaponSRankCard::reserved_53() {
+void TItemWeaponSRankCard::draw_held_model() {
     if (test_weapon_flags(0x01000000U) == 0U) {
         draw_weapon_model();
     }

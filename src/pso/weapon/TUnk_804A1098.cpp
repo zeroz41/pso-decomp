@@ -22,7 +22,7 @@ void TUnk_804A1098::emit_marker_effects() {
         ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
-void TUnk_804A1098::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_x(0, this->open_angle); } }
+void TUnk_804A1098::transform_model_node() { if (TObjPlayer::get_player_list() == 1) { rotate_matrix_x(0, this->open_angle); } }
 
 
 void TUnk_804A1098::update_idle() {

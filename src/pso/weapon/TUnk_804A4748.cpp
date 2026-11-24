@@ -16,7 +16,7 @@ void TUnk_804A4748::emit_marker_effects() {
     launch_shot((u8 *)&shot_origins[1], 0, 0, 1);
 }
 
-void TUnk_804A4748::reserved_53() {
+void TUnk_804A4748::draw_held_model() {
     sample_dual_muzzles(&shot_origins[0], &shot_origins[1]);
 }
 

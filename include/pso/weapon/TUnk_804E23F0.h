@@ -10,10 +10,10 @@ public:
     TUnk_804E23F0(TObject *parent, u8 *item);
     virtual ~TUnk_804E23F0();
     virtual void emit_marker_effects();
-    virtual void reserved_53();
+    virtual void draw_held_model();
     virtual void update_weapon();
     virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     // New in this class (slot 62): emit_marker_effects calls it with the gun
     // point after its shots (inferred: the weapon's attack effect).
     virtual void vfunc_62(Vec *pos);

@@ -9,7 +9,7 @@ public:
     TItemWeaponMusashi(TObject *parent, u8 *item);
     static TItem *create(u8 *item); // weapon_factory_table entry
     virtual ~TItemWeaponMusashi();
-    virtual void reserved_53();
+    virtual void draw_held_model();
 };
 
 #endif

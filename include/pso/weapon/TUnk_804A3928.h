@@ -8,7 +8,7 @@ class TUnk_804A3928 : public TItemWeapon {
 public:
     TUnk_804A3928(TObject *parent, u8 *item);
     virtual ~TUnk_804A3928();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void update_idle();
     virtual void update_attack();
     Vec scale; // scale_current_matrix of model 0; update_idle/update_attack ease z

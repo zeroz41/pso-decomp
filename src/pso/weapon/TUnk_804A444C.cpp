@@ -14,7 +14,7 @@
 s32 s_rank_shot_marker_offsets[5] = {0, 0x888, -0x888, 0x11C7, -0x11C7};
 
 // Spins the barrels by barrel_angle (the name s_rank_shot_turn_barrels was inferred).
-void TUnk_804A444C::vfunc_60() {
+void TUnk_804A444C::transform_model_node() {
     if (TObjPlayer::get_player_list() == 1) {
         rotate_matrix_z(NULL, barrel_angle);
     }

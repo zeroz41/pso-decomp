@@ -15,7 +15,7 @@
 #include "pso/object/base/TObjBase.h"
 
 
-void TUnk_804A5B20::vfunc_60() {
+void TUnk_804A5B20::transform_model_node() {
     s32 player_list;
 
     switch (get_item_index()) {

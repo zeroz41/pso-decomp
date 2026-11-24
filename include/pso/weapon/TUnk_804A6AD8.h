@@ -4,14 +4,14 @@
 #include "pso/weapon/TItemWeapon.h"
 
 // The Yasminkov 9000M weapon class (old names
-// yasminkov_9000m_*): two guns, the second drawn at joint 35 by reserved_53.
+// yasminkov_9000m_*): two guns, the second drawn at joint 35 by draw_held_model.
 // emit_marker_effects fires a shot from each muzzle and starts the slide,
 // update_weapon moves slide.y and ejects a casing per gun; the model hook (slot 60)
 // translates model node 2 by slide. Made by create_yasminkov_9000m.
 class TUnk_804A6AD8 : public TItemWeapon {
 public:
-    virtual void reserved_53();
-    virtual void vfunc_60();
+    virtual void draw_held_model();
+    virtual void transform_model_node();
     virtual void update_weapon();
     virtual void emit_marker_effects();
     void yasminkov_9000m_eject_casing(WeaponVector *pos, s32 angle_offset);

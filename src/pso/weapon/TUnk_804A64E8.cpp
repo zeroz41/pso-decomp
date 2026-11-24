@@ -11,7 +11,7 @@
 #define SLICER_LAUNCH_STATE_OUT_OF_LINE
 #include "pso/weapon/SlicerLaunchState.h"
 
-void TUnk_804A64E8::vfunc_60() {
+void TUnk_804A64E8::transform_model_node() {
     switch (TObjPlayer::get_player_list()) {
     case 1:
         rotate_matrix_x(NULL, rotation_x);

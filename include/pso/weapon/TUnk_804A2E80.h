@@ -8,7 +8,7 @@
 // TObjPlayer::create_shot_effect_state.
 class TUnk_804A2E80 : public TItemWeapon {
 public:
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void emit_marker_effects();
     virtual void update_weapon();
     virtual ~TUnk_804A2E80();

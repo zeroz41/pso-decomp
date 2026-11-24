@@ -8,7 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
 
-void TUnk_804A1570::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { scale_current_matrix(&scale.x); } }
+void TUnk_804A1570::transform_model_node() { if (TObjPlayer::get_player_list() == 1) { scale_current_matrix(&scale.x); } }
 
 void TUnk_804A1570::update_idle() {
     if (1e-05f < scale.z) {
@@ -31,7 +31,7 @@ void TUnk_804A1570::update_attack() {
 }
 
 
-void TUnk_804A1570::reserved_53() {
+void TUnk_804A1570::draw_held_model() {
   s32 temp_r31;
   saddr new_var;
   temp_r31 = *((s32 *) (((s8 *) ((u8 *)this)) + 0xF4));

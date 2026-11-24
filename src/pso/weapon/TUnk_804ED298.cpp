@@ -6,7 +6,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804ED298::vfunc_60() {
+void TUnk_804ED298::transform_model_node() {
     switch (TObjPlayer::get_player_list()) {
     case 2: {
         NJS_ARGB color = { pad_1fc, 0.0f, 0.0f, 0.0f };

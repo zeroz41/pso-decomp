@@ -9,7 +9,7 @@ public:
     virtual ~TUnk_804E21F8();
     virtual void activate_effect(s32);
     virtual void emit_marker_effects();
-    virtual void reserved_53();
+    virtual void draw_held_model();
     virtual void update_weapon();
     virtual void on_equipped();
     virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);

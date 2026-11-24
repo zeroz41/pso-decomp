@@ -7,7 +7,7 @@
 // TUnk_804A2E80: vfunc_62 flattens the fan, update_weapon grows it back.
 class TUnk_804A3E20 : public TUnk_804A4948 {
 public:
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void vfunc_62();
     virtual void update_weapon();
     virtual ~TUnk_804A3E20();

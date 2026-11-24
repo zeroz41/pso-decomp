@@ -10,7 +10,7 @@ void TUnk_804ED1A0::update_weapon() {
     refresh_owner_stats();
 }
 
-void TUnk_804ED1A0::reserved_53() {
+void TUnk_804ED1A0::draw_held_model() {
     draw_weapon_at_joint((saddr)this, 0x30);
     update_trail_slot(0);
     update_trail_slot(1);

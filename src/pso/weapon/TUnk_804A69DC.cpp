@@ -76,13 +76,13 @@ void TUnk_804A69DC::emit_marker_effects() {
     ((TItemWeapon *)this)->update_active_game_effect();
 }
 
-void TUnk_804A69DC::vfunc_60() {
+void TUnk_804A69DC::transform_model_node() {
     if (TObjPlayer::get_player_list() == 3) {
         rotate_matrix_x(0, rotation);
     }
 }
 
-void TUnk_804A69DC::reserved_53() {
+void TUnk_804A69DC::draw_held_model() {
     s32 *temp_r31;
 
     if ((u32) *(u32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] != 0U) {

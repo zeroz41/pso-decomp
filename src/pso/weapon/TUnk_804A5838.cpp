@@ -14,7 +14,7 @@ void TUnk_804A5838::update_idle() {
     rotation_z = 0;
 }
 
-void TUnk_804A5838::vfunc_60() {
+void TUnk_804A5838::transform_model_node() {
     if (TObjPlayer::get_player_list() == 0) {
         rotate_matrix_z(NULL, rotation_z);
     }

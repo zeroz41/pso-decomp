@@ -24,7 +24,7 @@ void TUnk_804A2358::emit_marker_effects() {
         ((TItemWeapon *)this)->update_active_game_effect();
     }
 }
-void TUnk_804A2358::reserved_53() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); update_trail_slot(2); }
+void TUnk_804A2358::draw_held_model() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); update_trail_slot(2); }
 void TUnk_804A2358::on_equipped() { this->roll_technique(); this->roll_technique(); }
 
 }

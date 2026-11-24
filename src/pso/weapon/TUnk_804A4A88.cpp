@@ -17,7 +17,7 @@ void TUnk_804A4A88::emit_marker_effects() {
     ((TItemWeapon *)this)->update_active_game_effect();
 }
 
-void TUnk_804A4A88::vfunc_60() {
+void TUnk_804A4A88::transform_model_node() {
     if (TObjPlayer::get_player_list() == 2) {
         rotate_matrix_z(NULL, rotation_z);
         advance_angle_wrap(&rotation_z, 0x1999);

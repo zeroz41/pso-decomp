@@ -10,9 +10,9 @@ public:
     virtual ~TUnk_804A5648();
     virtual void emit_marker_effects();
     TUnk_804A5648(TObject *parent, u8 *item);
-    virtual void reserved_53();
+    virtual void draw_held_model();
     // The two points emit_marker_effects shoots from (launch_shot origins);
-    // reserved_53 fills them (draw_status_icons).
+    // draw_held_model fills them (draw_status_icons).
     Vec shot_origins[2];
 };
 

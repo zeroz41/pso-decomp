@@ -6,7 +6,7 @@
 #include "pso/unk/text_80120908.h"
 
 
-void TUnk_804A3C20::reserved_53() { draw_weapon_at_joint((saddr)this, (s8)49); update_trail_slot(0); update_trail_slot(1); }
+void TUnk_804A3C20::draw_held_model() { draw_weapon_at_joint((saddr)this, (s8)49); update_trail_slot(0); update_trail_slot(1); }
 
 TUnk_804A3C20::TUnk_804A3C20(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
     set_weapon_flags(1);

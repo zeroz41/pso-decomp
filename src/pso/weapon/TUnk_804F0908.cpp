@@ -121,9 +121,9 @@ TUnk_804F0810::~TUnk_804F0810() {}
 
 void TUnk_804F0810::update_attack() { add_angle_clamped(&spin_angle, -4551, 0); }
 void TUnk_804F0810::update_idle() { add_angle_clamped(&spin_angle, 1820, 13653); }
-void TUnk_804F0810::reserved_53() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); }
+void TUnk_804F0810::draw_held_model() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); }
 
-void TUnk_804F0810::vfunc_60() {
+void TUnk_804F0810::transform_model_node() {
     switch (TObjPlayer::get_player_list()) {
     case 1:
         rotate_matrix_z(0, spin_angle);

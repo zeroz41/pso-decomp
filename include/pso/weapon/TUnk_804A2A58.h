@@ -9,7 +9,7 @@ public:
     virtual ~TUnk_804A2A58();
     virtual void update_weapon();
     virtual void emit_marker_effects();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     s32 rotation_y; // rotate_matrix_y angle of the barrel, wound back by update_weapon
     s32 spin_speed; // barrel spin added per shot, decays in update_weapon
 };

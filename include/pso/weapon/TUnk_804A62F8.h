@@ -8,7 +8,7 @@
 class TUnk_804A62F8 : public TItemWeapon {
 public:
     virtual ~TUnk_804A62F8();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void update_weapon();
     TUnk_804A62F8(TObject *parent, u8 *item);
     s32 glows;  // item[2] == 5 or item[1] == 0x8F: projection-tex model pass, weapon flag 0x800 (name inferred)

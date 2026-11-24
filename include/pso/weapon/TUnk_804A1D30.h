@@ -9,7 +9,7 @@
 class TUnk_804A1D30 : public TItemWeapon {
 public:
     virtual ~TUnk_804A1D30();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void update_idle();
     virtual void update_attack();
     TUnk_804A1D30(TObject *parent, u8 *item);

@@ -11,7 +11,7 @@ extern "C" {
 
 s32 rotate_matrix_y(s32, s32);
 
-void TUnk_804A3260::vfunc_60() {
+void TUnk_804A3260::transform_model_node() {
     if ((s32) this->effectJoint == TObjPlayer::get_player_list()) {
         rotate_matrix_y(0, this->effectAngle);
     }
@@ -42,7 +42,7 @@ void TUnk_804A3260::update_weapon() {
     }
 }
 
-void TUnk_804A3260::reserved_53() {
+void TUnk_804A3260::draw_held_model() {
     u8 *arg0 = (u8 *)this;
     ((TItemWeapon *)arg0)->sample_dual_muzzles(&this->muzzle[0], &this->muzzle[1]);
 }

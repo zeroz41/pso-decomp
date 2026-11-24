@@ -3,7 +3,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_80120908.h"
 
-void TItemWeaponMusashi::reserved_53() {
+void TItemWeaponMusashi::draw_held_model() {
     NJS_OBJECT *second;
     NJS_OBJECT *model;
     saddr weapon = (saddr)this;

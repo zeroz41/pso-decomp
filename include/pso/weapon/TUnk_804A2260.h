@@ -7,7 +7,7 @@ class TUnk_804A2260 : public TItemWeapon {
 public:
     TUnk_804A2260(TObject *parent, u8 *item);
     virtual ~TUnk_804A2260();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     void sub_80124C90();
     virtual void update_weapon();
     virtual void emit_marker_effects();

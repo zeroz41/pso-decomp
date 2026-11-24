@@ -117,7 +117,7 @@ void TItemWeaponRocketPunch::emit_marker_effects() {
     }
 }
 
-void TItemWeaponRocketPunch::vfunc_60() {
+void TItemWeaponRocketPunch::transform_model_node() {
     void *model;
     switch (TObjPlayer::get_player_list()) {
     case 1:
@@ -135,7 +135,7 @@ void TItemWeaponRocketPunch::vfunc_60() {
     }
 }
 
-void TItemWeaponRocketPunch::reserved_53() {
+void TItemWeaponRocketPunch::draw_held_model() {
     NJS_OBJECT *saved_model = item_model;
     punch_flags.set(1);
     draw_weapon_model();

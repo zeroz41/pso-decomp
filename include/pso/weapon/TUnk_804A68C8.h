@@ -7,7 +7,7 @@ class TUnk_804A68C8 : public TItemWeapon {
 public:
     TUnk_804A68C8(TObject *parent, u8 *item);
     virtual ~TUnk_804A68C8();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void update_idle();
     virtual void update_attack();
     f32 scale;          // uniform model scale of item index 5, eased per state

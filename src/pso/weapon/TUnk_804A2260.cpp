@@ -112,7 +112,7 @@ void TUnk_804A2260::emit_marker_effects() {
     }
 }
 
-void TUnk_804A2260::vfunc_60() {
+void TUnk_804A2260::transform_model_node() {
     s32 player_list;
 
     player_list = TObjPlayer::get_player_list();

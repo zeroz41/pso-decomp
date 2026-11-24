@@ -24,7 +24,7 @@ void TUnk_804A3928::update_attack() {
     }
 }
 
-void TUnk_804A3928::vfunc_60() {
+void TUnk_804A3928::transform_model_node() {
     if (TObjPlayer::get_player_list() == 0) {
         scale_current_matrix(&scale.x);
     }

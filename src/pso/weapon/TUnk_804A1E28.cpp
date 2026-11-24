@@ -47,7 +47,7 @@ const RecoveredGlobal_80123CA8_lbl_8043E8D8 lbl_8043E8D8 = {
 
 LAYOUT_ASSERT(RecoveredGlobal_80123CA8_lbl_8043E878_size, sizeof(RecoveredGlobal_80123CA8_lbl_8043E878) == 0x60);
 LAYOUT_ASSERT(RecoveredGlobal_80123CA8_lbl_8043E8D8_size, sizeof(RecoveredGlobal_80123CA8_lbl_8043E8D8) == 0x60);
-void TUnk_804A1E28::vfunc_60() {
+void TUnk_804A1E28::transform_model_node() {
     s32 player_list;
     s32 scale_step;
     s32 temp_r4_2;

@@ -181,7 +181,7 @@ u8 *TItemWeapon::trace_from_owner(u8 *point) {
     return (u8 *)csnVector((const Vec *)&stack.sp8, (const Vec *)point, 0x8100);
 }
 
-void TItemWeapon::vfunc_60() {  }
+void TItemWeapon::transform_model_node() {  }
 
 void TItemWeapon::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {}
 
@@ -191,7 +191,7 @@ void TItemWeapon::on_equipped() {  }
 
 void TItemWeapon::update_weapon() {  }
 
-void TItemWeapon::reserved_53() {  }
+void TItemWeapon::draw_held_model() {  }
 
 void TItemWeapon::update_idle() {  }
 
@@ -796,14 +796,14 @@ void TItemWeapon::update_trails() {
 void TItemWeapon::render_equipped_deferred() {
     u8 *arg0 = (u8 *)this;
     if (((uaddr) this->owner != 0U) && (((TItemWeapon *)arg0)->test_weapon_flags(0xCU) == 0xCU) && (((TItemWeapon *)arg0)->test_weapon_flags(0x80U) == 0U)) {
-        this->reserved_53();
+        this->draw_held_model();
         update_trails();
     }
 }
 void TItemWeapon::render_equipped_shadow() {
     u8 *arg0 = (u8 *)this;
     if (((uaddr) this->owner != 0U) && (((TItemWeapon *)arg0)->test_weapon_flags(0xCU) == 0xCU) && (((TItemWeapon *)arg0)->test_weapon_flags(0x80U) == 0U) && (((TItemWeapon *)arg0)->test_weapon_flags(0x1000U) == 0U)) {
-        this->reserved_53();
+        this->draw_held_model();
         if (((TItemWeapon *)arg0)->test_weapon_flags(0x400U) != 0U) {
             draw_weapon_at_joint((saddr)arg0, 0x30);
             draw_weapon_at_joint((saddr)arg0, 0x23);
@@ -821,7 +821,7 @@ void TItemWeapon::render_equipped() {
             TEquippedWeaponDrawTask::queue_weapon(get_item_id());
             return;
         }
-        this->reserved_53();
+        this->draw_held_model();
         this->update_trails();
         count = 0;
         do {
@@ -924,7 +924,7 @@ void apply_weapon_node_material(NJS_OBJECT *) {
     TItem::end_effect_render();
     ((TItem *)weapon_render_callback_object)->end_particle_tev();
     ((TItem *)weapon_render_callback_object)->end_shield_tev();
-    ((TItemWeapon *)weapon_render_callback_object)->vfunc_60();
+    ((TItemWeapon *)weapon_render_callback_object)->transform_model_node();
     if(node == weapon_node_material_index) {
         WeaponArgb color = get_weapon_color__11TItemWeaponFPv((TItemWeapon *)weapon_render_callback_object);
         TItem::begin_constant_material_color((const NJS_ARGB *)&color);

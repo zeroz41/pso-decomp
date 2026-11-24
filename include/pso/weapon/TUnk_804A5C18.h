@@ -12,15 +12,15 @@
 // 7, other). Made by create_shot_weapon.
 class TUnk_804A5C18 : public TItemWeapon {
 public:
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     virtual void emit_marker_effects();
     virtual void update_idle();
     virtual void update_attack();
     TUnk_804A5C18(TObject *parent, u8 *item);
     virtual ~TUnk_804A5C18();
     s32 muzzle_joints[5];  // 0x1F8: get_joint_position joints of the shots (inferred name)
-    s32 barrel_nodes[4];   // 0x20C: rotated by +/-barrel_angle in vfunc_60 (inferred name)
-    s32 slide_node;        // 0x21C: translated by slide_offset in vfunc_60 (inferred name)
+    s32 barrel_nodes[4];   // 0x20C: rotated by +/-barrel_angle in transform_model_node (inferred name)
+    s32 slide_node;        // 0x21C: translated by slide_offset in transform_model_node (inferred name)
     s32 barrel_angle;      // 0x220 (inferred name)
     f32 slide_offset;      // 0x224 (inferred name)
     u8 pad_228[4];

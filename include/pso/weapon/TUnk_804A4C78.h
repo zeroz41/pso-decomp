@@ -8,7 +8,7 @@
 class TUnk_804A4C78 : public TItemWeapon {
 public:
     virtual ~TUnk_804A4C78();
-    virtual void reserved_53();
+    virtual void draw_held_model();
     TUnk_804A4C78(TObject *parent, u8 *item);
     s16 sub_8012B1F8();
     void sub_8012B1F0(s16);

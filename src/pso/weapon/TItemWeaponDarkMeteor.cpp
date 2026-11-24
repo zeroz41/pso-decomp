@@ -10,7 +10,7 @@
 #include "pso/system/task/TMainTask.h"
 
 // Written last-to-first: the TU was compiled with deferred codegen (its vtable comes before
-// vfunc_60's jump table in .data), which emits functions in reverse order of definition.
+// transform_model_node's jump table in .data), which emits functions in reverse order of definition.
 #pragma defer_codegen on
 
 TItem *create_dark_meteor_weapon(u8 *item) {
@@ -32,7 +32,7 @@ void TItemWeaponDarkMeteor::update_attack() { ::add_angle_clamped(&rotation_z, -
 
 void TItemWeaponDarkMeteor::update_idle() { ::add_angle_clamped(&rotation_z, 1820, 8192); }
 
-void TItemWeaponDarkMeteor::vfunc_60() {
+void TItemWeaponDarkMeteor::transform_model_node() {
     u32 player_list;
     player_list = TObjPlayer::get_player_list();
     switch (player_list) {

@@ -7,7 +7,7 @@ class TUnk_804A66D8 : public TItemWeapon {
 public:
     virtual ~TUnk_804A66D8();
     virtual void emit_marker_effects();
-    virtual void reserved_53();
+    virtual void draw_held_model();
     TUnk_804A66D8(TObject *parent, u8 *item);
     Vec gun_point;         // first gun's shot origin (as TUnk_804A0EA8)
     Vec second_gun_point;  // second gun's

@@ -15,7 +15,7 @@ public:
     virtual void update_idle();
     virtual void update_attack();
     virtual void on_equipped();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     TUnk_804A5F18(TObject *parent, u8 *item);
     virtual ~TUnk_804A5F18();
     s32 rotation_x;  // rotate_matrix_x angle of the model hook

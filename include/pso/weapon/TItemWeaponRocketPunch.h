@@ -10,8 +10,8 @@ class TItemWeaponRocketPunch : public TItemWeapon {
 public:
     TItemWeaponRocketPunch(TObject *parent, u8 *item);
     virtual ~TItemWeaponRocketPunch();
-    virtual void vfunc_60();
-    virtual void reserved_53();
+    virtual void transform_model_node();
+    virtual void draw_held_model();
     virtual void emit_marker_effects();
     // The model a shot draws: second_model while punch_flags 4 is set.
     NJS_OBJECT *get_shot_model();

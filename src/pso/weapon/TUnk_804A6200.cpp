@@ -7,7 +7,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A6200::vfunc_60() {
+void TUnk_804A6200::transform_model_node() {
     if (TObjPlayer::get_player_list() == 2) {
         scale_current_matrix(&scale.x);
     }

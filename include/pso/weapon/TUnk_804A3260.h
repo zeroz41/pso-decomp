@@ -7,8 +7,8 @@ class TUnk_804A3260 : public TItemWeapon {
 public:
     TUnk_804A3260(saddr parent, u8 *item);
     virtual ~TUnk_804A3260();
-    virtual void vfunc_60();
-    virtual void reserved_53();
+    virtual void transform_model_node();
+    virtual void draw_held_model();
     virtual void update_weapon();
     virtual void emit_marker_effects();
     Vec muzzle[2];

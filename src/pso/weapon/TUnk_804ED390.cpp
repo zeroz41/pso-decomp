@@ -6,7 +6,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804ED390::vfunc_60() {
+void TUnk_804ED390::transform_model_node() {
     switch (TObjPlayer::get_player_list()) {
     case 1:
     case 2:

@@ -13,7 +13,7 @@ void TUnk_804A5648::emit_marker_effects() {
     }
 }
 
-void TUnk_804A5648::reserved_53() {
+void TUnk_804A5648::draw_held_model() {
     sample_dual_muzzles(&shot_origins[0], &shot_origins[1]);
 }
 

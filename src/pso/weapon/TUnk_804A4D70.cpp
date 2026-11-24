@@ -33,7 +33,7 @@ void TUnk_804A4D70::emit_marker_effects() {
     }
 }
 
-void TUnk_804A4D70::vfunc_60() {
+void TUnk_804A4D70::transform_model_node() {
     switch ((s32)get_item_index()) {
     case 6:
         if (TObjPlayer::get_player_list() == 4) {

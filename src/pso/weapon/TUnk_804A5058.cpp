@@ -5,7 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A5058::vfunc_60() {
+void TUnk_804A5058::transform_model_node() {
     s32 player_list;
 
     player_list = TObjPlayer::get_player_list();

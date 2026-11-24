@@ -10,7 +10,7 @@
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A5C18::vfunc_60() {
+void TUnk_804A5C18::transform_model_node() {
     s32 node;
     s32 angle;
 

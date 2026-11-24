@@ -14553,12 +14553,12 @@ force_active:
   - request_transition__17TAdEnterPPPPassGCFPv
   - request_transition__18TAdEnterPasswordGCFPv
   - request_transition__8TFogCtrlFll
-  - reserved_53__13TUnk_804A1570Fv
-  - reserved_53__13TUnk_804A204CFv
-  - reserved_53__13TUnk_804A4C78Fv
-  - reserved_53__22TItemWeaponRocketPunchFv
-  - reserved_53__13TUnk_804A5648Fv
-  - reserved_53__13TUnk_804A66D8Fv
+  - draw_held_model__13TUnk_804A1570Fv
+  - draw_held_model__13TUnk_804A204CFv
+  - draw_held_model__13TUnk_804A4C78Fv
+  - draw_held_model__22TItemWeaponRocketPunchFv
+  - draw_held_model__13TUnk_804A5648Fv
+  - draw_held_model__13TUnk_804A66D8Fv
   - resetTechniqueContactQuery__Fv
   - reset__11TItemMagSubFv
   - reset__14TBoss2TentacleFv
@@ -17482,24 +17482,24 @@ force_active:
   - run_move_action__17TObjEneDarkGunnerFv
   - run_attack_action__12TObjEneLappyFv
   - run_attack_action__12TObjEneSaverFv
-  - vfunc_60__13TUnk_804A0DB0Fv
-  - vfunc_60__13TUnk_804A1D30Fv
-  - vfunc_60__13TUnk_804A204CFv
-  - vfunc_60__13TUnk_804A2164Fv
-  - vfunc_60__13TUnk_804A2F78Fv
-  - vfunc_60__13TUnk_804A3928Fv
-  - vfunc_60__13TUnk_804A4A88Fv
-  - vfunc_60__13TUnk_804A4E68Fv
-  - vfunc_60__13TUnk_804A5058Fv
-  - vfunc_60__13TUnk_804A5150Fv
-  - vfunc_60__13TUnk_804A5248Fv
-  - vfunc_60__22TItemWeaponRocketPunchFv
-  - vfunc_60__13TUnk_804A5740Fv
-  - vfunc_60__13TUnk_804A6108Fv
-  - vfunc_60__13TUnk_804A62F8Fv
-  - vfunc_60__13TUnk_804A64E8Fv
-  - vfunc_60__13TUnk_804A68C8Fv
-  - vfunc_60__13TUnk_804A6DC0Fv
+  - transform_model_node__13TUnk_804A0DB0Fv
+  - transform_model_node__13TUnk_804A1D30Fv
+  - transform_model_node__13TUnk_804A204CFv
+  - transform_model_node__13TUnk_804A2164Fv
+  - transform_model_node__13TUnk_804A2F78Fv
+  - transform_model_node__13TUnk_804A3928Fv
+  - transform_model_node__13TUnk_804A4A88Fv
+  - transform_model_node__13TUnk_804A4E68Fv
+  - transform_model_node__13TUnk_804A5058Fv
+  - transform_model_node__13TUnk_804A5150Fv
+  - transform_model_node__13TUnk_804A5248Fv
+  - transform_model_node__22TItemWeaponRocketPunchFv
+  - transform_model_node__13TUnk_804A5740Fv
+  - transform_model_node__13TUnk_804A6108Fv
+  - transform_model_node__13TUnk_804A62F8Fv
+  - transform_model_node__13TUnk_804A64E8Fv
+  - transform_model_node__13TUnk_804A68C8Fv
+  - transform_model_node__13TUnk_804A6DC0Fv
   - run_attack_action__14TObjEneDolmOlmFv
   - run_attack_action__14TObjEneIllGillFv
   - run_attack_action__15TObjEneMe1GiGueFv

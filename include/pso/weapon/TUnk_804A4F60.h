@@ -21,7 +21,7 @@ public:
     virtual void update_weapon();
     virtual void on_equipped();
     virtual void on_unequipped();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     void psycho_wand_roll_extra();
 
     s16 last_tp;              // 0x1F8: owner TP seen last frame, -1 after (un)equip (inferred name)

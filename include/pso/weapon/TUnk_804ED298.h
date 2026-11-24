@@ -9,7 +9,7 @@ public:
     virtual ~TUnk_804ED298();
     virtual void update_attack();
     virtual void update_idle();
-    virtual void vfunc_60();
+    virtual void transform_model_node();
     f32 pad_1f8;  // translate_matrix z offset for passes 3 and 4
     f32 pad_1fc;  // offset material colour alpha for pass 2
 };

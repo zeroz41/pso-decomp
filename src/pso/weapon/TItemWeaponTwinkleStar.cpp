@@ -5,7 +5,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/item/TItemEffCane.h"
 
-void TUnk_804A6010::vfunc_60() {
+void TUnk_804A6010::transform_model_node() {
     switch (TObjPlayer::get_player_list()) {
     case 1:
         TItem::begin_effect_render();

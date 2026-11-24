@@ -15,7 +15,7 @@ extern "C" {
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 }
 
-void TUnk_804F28E0::vfunc_60() {
+void TUnk_804F28E0::transform_model_node() {
     if (TObjPlayer::get_player_list() == 1) {
         translate_matrix(0, 0.0f, muzzle_offset, 0.0f);
     }
