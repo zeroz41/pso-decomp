@@ -207,14 +207,9 @@ s16 ppp_link_attach_protocol(s16 h, s16 v) {
     return r;
 }
 
-typedef struct NetConfigEntry_805BC238 {
-    u8 pad0[8];
-    u32 unk8;
-    u32 unkC;
-} NetConfigEntry_805BC238;
 s32 ppp_link_get_interface_id(s16 ch, u8 *dst) {
     PppFsm *fsm;
-    NetConfigEntry_805BC238 *e;
+    Ipv6cpConfig *e;
     u16 low;
     u32 a;
     u32 b;
@@ -223,12 +218,12 @@ s32 ppp_link_get_interface_id(s16 ch, u8 *dst) {
         return -0x112;
     }
     fsm = &ppp_proto_blocks.ipv6cp;
-    e = (NetConfigEntry_805BC238 *)fsm->opts;
+    e = fsm->opts;
     if (fsm->state != 5) {
         return -0x112;
     }
-    a = e->unk8;
-    b = e->unkC;
+    a = e->local.current.words[0];
+    b = e->local.current.words[1];
     p = dst + 1;
     dst[0] = a >> 24;
     low = a;
