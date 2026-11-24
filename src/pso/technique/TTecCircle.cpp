@@ -26,7 +26,7 @@ TTecCircle::TTecCircle(saddr source, Vec *pos, Vec *target, s32 level) : TEffect
     this->scale.y = 1.0f;
     this->scale.z = 1.0f;
     this->m_74 = 0;
-    this->m_b8 = 0;
+    this->contact = 0;
     this->source = source;
     if (level < 0) {
         this->level = 0;
@@ -69,7 +69,7 @@ TTecCircle::TTecCircle(saddr source, saddr pos, s32 level) : TEffect() {
     this->target.x = 0.0f;
     this->target.y = 0.0f;
     this->target.z = 0.0f;
-    this->m_b8 = 0;
+    this->contact = 0;
     this->scale.x = 1.0f;
     this->scale.y = 1.0f;
     this->scale.z = 1.0f;

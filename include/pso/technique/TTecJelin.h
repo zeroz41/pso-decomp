@@ -9,7 +9,7 @@ struct TTecJelin : public TTecCircle {
     TTecJelin(saddr source, Vec *pos, TargetCursorList *list, s32 level);
     TTecJelin(saddr source, Vec *pos, Vec *target, s32 level);
     virtual ~TTecJelin();
-    virtual void vfunc_6(void *);
+    virtual void apply_to_target(TObjChara *);
     virtual void run_task();
     void init_tech_params();
     static void create(saddr source, saddr pos, saddr target, s32 level);

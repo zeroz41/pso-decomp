@@ -27,35 +27,6 @@
 
 extern "C" {
 
-struct HitInfo_8023154C { s32 type; f32 power; };
-
-struct VBase_8023154C { char pad[0x18]; };
-
-struct VObj_8023154C : VBase_8023154C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, HitInfo_8023154C *, void *, s32, s32);
-};
-
 struct Rot_802312E4 { s32 x, y, z; };
 
 // Same layout as TTecGiBarta's Row_802304A0 {entry, flags, scale}.
@@ -194,32 +165,26 @@ TTecGiFoie::~TTecGiFoie() {
     }
 }
 
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
-#pragma opt_dead_assignments off
-void TTecGiFoie::vfunc_6(void *target) {
+void TTecGiFoie::apply_to_target(TObjChara *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (this->hitIds[i] == ((TObjBase *)target)->get_entity_id()) {
+        if (hitIds[i] == target->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        this->hitIds[this->hitCursor] = ((TObjBase *)target)->get_entity_id();
-        this->hitCursor += 1;
-        if (this->hitCursor >= 32) {
-            this->hitCursor = 31;
+        hitIds[hitCursor] = target->get_entity_id();
+        hitCursor += 1;
+        if (hitCursor >= 32) {
+            hitCursor = 31;
         }
-        HitInfo_8023154C tmp;
-        tmp.type = 1;
-        tmp.power = this->power;
-        HitInfo_8023154C info = tmp;
-        ((VObj_8023154C *)target)->m21((void *)this->source, &info, (void *)this->m_b8, 1, -1);
+        DirectAttackPayload hit;
+        hit.kind = 1;
+        hit.power = power;
+        target->receive_direct_attack((void *)source, hit, contact, 1, -1);
     }
 }
-#pragma pop
 
 void TTecGiFoie::create(void *source, void *origin, s32 level) {
     new TTecGiFoie((saddr)source, (Vec *)origin, level);
@@ -283,8 +248,10 @@ TUnk_804CC800::~TUnk_804CC800() {
     mem_free(this->pad_1C);
 }
 
+// Flame bob height per orbit slot, scaled by the sine of the bob phase.
+static const f32 flame_bob_heights[3] = {0.0f, 3.5f, 7.0f};
+
 void TUnk_804CC800::run_task() {
-    static const f32 lbl_8044D338[3] = {0.0f, 3.5f, 7.0f};
     s32 rot[3];
     s32 bob;
     switch (pad_44) {
@@ -329,7 +296,7 @@ void TUnk_804CC800::run_task() {
     } else {
         pad_38 += 0.55f;
         pad_3C += (s32)(182.04445f * (pad_44 + 9));
-        pad_2C.y = lbl_8044D338[bob] * sin_table_lookup((s32)(182.04445f * (f32)(pad_40 * 15))) + pad_20.y;
+        pad_2C.y = flame_bob_heights[bob] * sin_table_lookup((s32)(182.04445f * (f32)(pad_40 * 15))) + pad_20.y;
         pad_2C.x = pad_38 * cos_table_lookup(pad_3C) + pad_20.x;
         pad_2C.z = pad_38 * sin_table_lookup(pad_3C) + pad_20.z;
     }

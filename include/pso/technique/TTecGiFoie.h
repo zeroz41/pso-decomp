@@ -33,10 +33,10 @@ LAYOUT_ASSERT(TUnk_804CC800_size, sizeof(TUnk_804CC800) == 0x4C);
 struct TTecGiFoie : public TTecCircle {
     TTecGiFoie(saddr source, Vec *origin, s32 level);
     virtual ~TTecGiFoie();
-    virtual void vfunc_6(void *);
+    virtual void apply_to_target(TObjChara *);
     virtual void run_task();
     TUnk_804CC800 *orbits[3];  // one flame per orbit, orbit_counts[band] of them
-    u16 hitIds[32];            // entity ids vfunc_6 has already hit
+    u16 hitIds[32];            // entity ids apply_to_target has already hit
     s32 hitCursor;
     void calc_params();
     static void create(void *source, void *origin, s32 level);

@@ -61,19 +61,6 @@ struct Rec_8023402C { u16 owner; s16 floor; s32 section; Vec pos; s32 heading; }
 
 struct Pkt_802341B0 { u8 hdr[4]; Rec_8023402C rec; };
 
-struct P_802346F8 { s32 t; f32 v; };
-
-struct VBase_802346F8 { char pad[0x18]; };
-
-struct VObj_802346F8 : VBase_802346F8 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual void m5(); virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9();
-    virtual void m10(); virtual void m11(); virtual void m12(); virtual void m13(); virtual void m14();
-    virtual void m15(); virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20();
-    virtual s32 m21(s32, P_802346F8, s32, s32, s32);
-};
-
 void clear_pipe_interaction_latch(void* p);
 s32 get_pipe_interaction_latch(void* p);
 extern "C" {
@@ -407,12 +394,11 @@ void TTecLuker::create(void *pos, void *target, void *level) {
     new TTecLuker((saddr)this, (Vec *)pos, (Vec *)target, (saddr)level);
 }
 
-void TTecLuker::vfunc_6(void *o_arg) {
-    VObj_802346F8 *o = (VObj_802346F8 *)o_arg;
-    P_802346F8 d;
-    d.t = 0xE;
-    d.v = 10.0f;
-    o->m21(source, d, 0, -1, -1);
+void TTecLuker::apply_to_target(TObjChara *target) {
+    DirectAttackPayload hit;
+    hit.kind = 0xE;
+    hit.power = 10.0f;
+    target->receive_direct_attack((void *)source, hit, 0, -1, -1);
 }
 
 #pragma push

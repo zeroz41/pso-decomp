@@ -25,47 +25,16 @@ struct RecoveredFields_80238D10_arg0
   s16 field_AC;
 };
 
-struct Damage_802386F8 { s32 kind; f32 power; };
-
-struct VBase_802386F8 { char pad[0x18]; };
-
-struct VObj_802386F8 : VBase_802386F8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual s32 m21(s32, Damage_802386F8, s32, s32, s32, void *);
-};
-
 extern "C" {
 extern s32 tec_grants_class_name;
 
 void TTecGrants::render() {  }
 
-void TTecGrants::vfunc_6(void *target_arg) {
-    u8 *self = (u8 *)this;
-    u8 *target = (u8 *)target_arg;
-    Damage_802386F8 d;
-    d.kind = 0x4;
-    d.power = this->power;
-    ((VObj_802386F8 *)target)->m21((s32)this->source, d, (s32)this->attack_context, 0x9, -1, self);
+void TTecGrants::apply_to_target(TObjChara *target) {
+    DirectAttackPayload hit;
+    hit.kind = 0x4;
+    hit.power = this->power;
+    target->receive_direct_attack((void *)this->source, hit, this->contact, 0x9, -1);
 }
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
@@ -91,7 +60,7 @@ void TTecGrants::run_task() {
     m_148 = m_148 + 1;
     if (m_148 > 0x1E) {
         if ((entity != 0) && (TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
-            vfunc_6((void *)entity);
+            apply_to_target((TObjChara *)entity);
         }
         queue_destruction();
     }

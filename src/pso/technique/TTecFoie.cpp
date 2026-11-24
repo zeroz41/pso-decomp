@@ -71,24 +71,6 @@ struct RecoveredFields_8022FE84_arg0
   s16 field_F0;
 };
 
-struct Dmg_80230004 { s32 kind; f32 amount; };
-
-struct Base_80230004 { u8 pad[0x18]; };
-
-struct Target_80230004 : Base_80230004 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20();
-    virtual void receive(s32 owner, Dmg_80230004 d, s32 x, s32 y, s32 z);
-    u8 pad1c[0x38 - 0x1C];
-    f32 pos[3];
-};
-
-struct Tec_80230004 { u8 pad[0x1C]; s32 owner; u8 pad20[0xCC - 0x20]; f32 power; u8 padd0[0xF8 - 0xD0]; s32 f8; };
-
 struct Angles_8022FC94
 {
   s32 x;
@@ -211,13 +193,12 @@ void TTecFoie::vfunc_6() {
     spawn_particle_effect((const Vec *)(arg0 + 0x20), 0x1DD);
 }
 
-void TTecFoie::vfunc_8(void *target_arg) {
-    Target_80230004 *target = (Target_80230004 *)target_arg;
-    Dmg_80230004 d;
-    d.kind = 1;
-    d.amount = this->power;
-    target->receive(((Tec_80230004 *)this)->owner, d, ((Tec_80230004 *)this)->f8, 0, -1);
-    play_sound_effect(0x4002A828, reinterpret_cast<const Vec *>(target->pos), 0, 0);
+void TTecFoie::apply_to_target(TObjChara *target) {
+    DirectAttackPayload hit;
+    hit.kind = 1;
+    hit.power = this->power;
+    target->receive_direct_attack((void *)source, hit, contact, 0, -1);
+    play_sound_effect(0x4002A828, &target->position, 0, 0);
     queue_destruction();
 }
 

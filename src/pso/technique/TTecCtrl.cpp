@@ -815,4 +815,4 @@ s32 TTecCtrl::classify_distance_band(s32 technique, s32 level, u16 slot) {
 
 void TTecCircle::vfunc_9() {  }
 void TTecCircle::vfunc_8(void *) {  }
-void TTecCircle::vfunc_6(void *) {  }
+void TTecCircle::apply_to_target(TObjChara *) {  }

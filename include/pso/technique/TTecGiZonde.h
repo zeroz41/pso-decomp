@@ -8,7 +8,7 @@
 struct TTecGiZonde : public TTecShot {
     TTecGiZonde(saddr source, Vec *pos, void *targets, s32 level);
     virtual ~TTecGiZonde();
-    virtual void vfunc_8(void *);
+    virtual void apply_to_target(TObjChara *);
     s32 find_chain_targets();
     static void create(void *caster, Vec *pos, void *targets, s32 level);
     void run_task();

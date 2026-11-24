@@ -99,41 +99,11 @@ void TTecGiZonde::init_parameters() {
 }
 
 
-struct Elec_80238E14 { s32 type; f32 val; };
-
-struct VBase_18_9c98dd { char pad[0x18]; };
-
-struct VObj_18_9c98dd : VBase_18_9c98dd {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual s32 m21(s32, Elec_80238E14, s32, s32, s32);
-};
-
-void TTecGiZonde::vfunc_8(void *arg1_arg) {
-    u8 *arg1 = (u8 *)arg1_arg;
-    Elec_80238E14 d;
-    d.type = 3;
-    d.val = this->power;
-    ((VObj_18_9c98dd *)(arg1))->m21(this->source, d, 0, 0x7, -1);
+void TTecGiZonde::apply_to_target(TObjChara *target) {
+    DirectAttackPayload hit;
+    hit.kind = 3;
+    hit.power = this->power;
+    target->receive_direct_attack((void *)this->source, hit, 0, 7, -1);
 }
 
 extern "C" {
@@ -262,7 +232,7 @@ void TTecGiZonde::deliver_chain_hits() {
     for (i = 0; i < ((GChain_80232598 *)this)->count; i++) {
         actor = (uaddr)find_entity_by_id(((GChain_80232598 *)this)->targets[i].id);
         if (TTecLuker::is_parents_unqueued(actor) != 0 && TObjPlayer::is_valid_and_active(actor) != 0) {
-            this->vfunc_8((void *)actor);
+            apply_to_target((TObjChara *)actor);
         }
     }
 }

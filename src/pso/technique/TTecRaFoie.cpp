@@ -300,11 +300,11 @@ TUnk_804CCB28::TUnk_804CCB28(f32 radius, const Vec *pos, s16 band, TObject *pare
     target_scale = 1.9f;
 }
 
-void TTecRaFoie::vfunc_6(void *target) {
+void TTecRaFoie::apply_to_target(TObjChara *target) {
     DirectAttackPayload attack;
     attack.kind = 1;
     attack.power = power;
-    ((TObjChara *)target)->receive_direct_attack((void *)source, attack, (void *)m_b8, 2, -1);
+    target->receive_direct_attack((void *)source, attack, contact, 2, -1);
 }
 
 void TTecRaFoie::render() {  }

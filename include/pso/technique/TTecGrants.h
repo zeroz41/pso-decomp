@@ -8,7 +8,7 @@
 struct TTecGrants : public TTecCircle {
     TTecGrants(saddr arg1, saddr origin, saddr targets, saddr level);
     virtual ~TTecGrants();
-    virtual void vfunc_6(void *);
+    virtual void apply_to_target(TObjChara *);
     virtual void run_task();
     TargetCursorList targets;
     s32 m_148;

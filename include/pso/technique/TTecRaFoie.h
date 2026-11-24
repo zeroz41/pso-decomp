@@ -9,7 +9,7 @@
 struct TTecRaFoie : public TTecCircle {
     virtual void vfunc_9();
     virtual void vfunc_8(void *);
-    virtual void vfunc_6(void *);
+    virtual void apply_to_target(TObjChara *);
     virtual ~TTecRaFoie();
     virtual void run_task();
     TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level);

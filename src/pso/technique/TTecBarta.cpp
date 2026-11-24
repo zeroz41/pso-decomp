@@ -20,71 +20,6 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 
-struct HitInfo_8022B8F4 { s32 type; f32 power; };
-
-struct VBase_8022B8F4 { char pad[0x18]; };
-
-struct VObj_8022B8F4 : VBase_8022B8F4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, HitInfo_8022B8F4 *, void *, s32, s32);
-};
-
-struct Obj_8022B8F4 {
-    u8 pad0[0x1C];
-    void *source;
-    u8 pad20[0xCC - 0x20];
-    f32 power;
-    u8 padD0[0xF8 - 0xD0];
-    void *contact;
-    u8 padFC[0x134 - 0xFC];
-    u16 ids[32];
-    s32 cursor;
-};
-
-struct List_8022BD74 { u32 ids[16]; s32 vals[16]; s32 count; };
-
-struct VBase_8022BD74 { u8 pad[0x18]; };
-
-struct VObj_8022BD74 : VBase_8022BD74 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4(u32 target);
-};
-
-struct Tec_8022BD74 {
-    u8 pad0[0x1C];
-    void *owner;
-    u8 pad20[0xB8 - 0x20];
-    s32 fb8;
-    u8 padbc[0xE8 - 0xBC];
-    u32 fe8;
-};
-
-extern "C" {
-
-}
 
 const TechniqueEmitterSourceRow lbl_8044CC78[3] = {
     {0x190, 2, 1.0f}, {0x191, 0, 1.0f}, {0x192, 0, 1.0f},
@@ -112,7 +47,6 @@ const TechniqueEmitterSourceTable TTecBarta__emitter_bands[6] = {
 const char *TTecBarta__class_name = "TTecBarta";
 extern "C" {
 s32 get_type__10TObjPlayerFPv(void *);
-List_8022BD74 *find_area_contact__10TTecCircleFl(Tec_8022BD74 *, void *);
 
 void TTecBarta::update_technique_by_state() {
     s32 handle;
@@ -214,26 +148,24 @@ void TTecBarta::create_ex(void *source, void *origin, s32 angle, s32 level) {
     new TTecBarta((saddr)source, (Vec *)origin, angle, level);
 }
 
-void TTecBarta::vfunc_8(void *target) {
-    Obj_8022B8F4 *self = (Obj_8022B8F4 *)this;
+void TTecBarta::apply_to_target(TObjChara *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == ((TObjBase *)target)->get_entity_id()) {
+        if (hitIds[i] == target->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[this->hitCursor] = ((TObjBase *)target)->get_entity_id();
-        this->hitCursor += 1;
-        if (this->hitCursor >= 32) {
-            this->hitCursor = 31;
+        hitIds[hitCursor] = target->get_entity_id();
+        hitCursor += 1;
+        if (hitCursor >= 32) {
+            hitCursor = 31;
         }
-        HitInfo_8022B8F4 tmp;
-        tmp.type = 19;
-        tmp.power = this->power;
-        HitInfo_8022B8F4 info = tmp;
-        ((VObj_8022B8F4 *)target)->m21(self->source, &info, this->contact, 3, -1);
+        DirectAttackPayload hit;
+        hit.kind = 19;
+        hit.power = power;
+        target->receive_direct_attack((void *)source, hit, contact, 3, -1);
     }
 }
 
@@ -320,27 +252,27 @@ TTecBarta::TTecBarta(saddr source, Vec *pos, s32 angle, s32 level)
 void TTecShot::vfunc_6() {  }
 struct TechniqueParticleEmitter;
 void TTecCircle::apply_technique_to_area_targets() {
-    List_8022BD74 *list;
+    TechniqueContactList *list;
     s32 i;
-    u32 id;
-    if (((Tec_8022BD74 *)this)->fe8 == 0) {
-        ((TObject *)((TechniqueParticleEmitter *)((Tec_8022BD74 *)this)))->queue_destruction();
+    TObjChara *target;
+    if (collidable == 0) {
+        queue_destruction();
         return;
     }
-    if (((TObjBase *)(((Tec_8022BD74 *)this)->owner))->get_entity_id() < 4) {
-        if (get_type__10TObjPlayerFPv((u8 *)((Tec_8022BD74 *)this)->owner + 0x828) != 0) {
-            list = (List_8022BD74 *)collect_body_contacts_for_target((saddr)((Tec_8022BD74 *)this)->owner);
+    if (((TObjBase *)source)->get_entity_id() < 4) {
+        if (get_type__10TObjPlayerFPv((u8 *)source + 0x828) != 0) {
+            list = collect_body_contacts_for_target(source);
         } else {
-            list = find_area_contact__10TTecCircleFl(((Tec_8022BD74 *)this), ((Tec_8022BD74 *)this)->owner);
+            list = find_area_contact(source);
         }
     } else {
-        list = (List_8022BD74 *)collect_body_contacts_for_target((saddr)((Tec_8022BD74 *)this)->owner);
+        list = collect_body_contacts_for_target(source);
     }
     for (i = 0; i < list->count; i++) {
-        if (TObjPlayer::is_valid_and_active(list->ids[i]) != 0) {
-            id = list->ids[i];
-            ((Tec_8022BD74 *)this)->fb8 = list->vals[i];
-            ((VObj_8022BD74 *)((Tec_8022BD74 *)this))->m4(id);
+        if (TObjPlayer::is_valid_and_active((uaddr)list->actors[i]) != 0) {
+            target = (TObjChara *)list->actors[i];
+            contact = list->bodies[i];
+            apply_to_target(target);
         }
     }
 }

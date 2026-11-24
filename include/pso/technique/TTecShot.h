@@ -6,6 +6,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/CsnGroundCandidates.h"
 
+class TObjChara;
 struct CsnGroup;
 struct TechniqueContactBody;
 
@@ -24,7 +25,7 @@ public:
     virtual void render();
     virtual void vfunc_6();
     virtual void debug_print_tech_params();
-    virtual void vfunc_8(void *);
+    virtual void apply_to_target(TObjChara *);
     void advance_lifetime_or_destroy();
     void dispatch_all_technique_contacts();
     void dispatch_technique_contact(s32);

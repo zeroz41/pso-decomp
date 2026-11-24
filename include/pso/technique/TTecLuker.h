@@ -13,7 +13,7 @@ class TUnk_804CCA0C;
 struct TTecLuker : public TTecCircle {
     TTecLuker(saddr source, Vec *pos, Vec *target, s32 level);
     virtual ~TTecLuker();
-    virtual void vfunc_6(void *);
+    virtual void apply_to_target(TObjChara *);
     virtual void run_task();
     TUnk_804C4450 *placement;  // the placement search a local caster starts for the pipe
     TUnk_804CC9D4 *field;  // the selectable field at pipe_pos

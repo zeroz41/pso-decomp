@@ -55,36 +55,6 @@ struct RecoveredFields_802308A0_arg0
 };
 
 
-struct HitInfo_80235490 { s32 type; f32 power; };
-
-struct VBase_80235490 { char pad[0x18]; };
-
-struct VObj_80235490 : VBase_80235490 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, HitInfo_80235490 *, void *, s32, s32);
-};
-
-
 struct Row_80235740 { u32 entry; u32 flags; f32 scale; };
 
 struct Data_80235740 { Row_80235740 *rows; u32 count; };
@@ -267,29 +237,28 @@ void TTecMegid::init_parameters() {
   ((RecoveredFields_80235348_arg0 *) arg0)->field_70 = (f32) ((RecoveredFields_80235348_arg0 *) arg0)->field_D4;
 }
 
-void TTecMegid::vfunc_8(void *target) {
+void TTecMegid::apply_to_target(TObjChara *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (hitIds[i] == ((TObjBase *)(target))->get_entity_id()) {
+        if (hitIds[i] == target->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        hitIds[hitCursor] = ((TObjBase *)(target))->get_entity_id();
+        hitIds[hitCursor] = target->get_entity_id();
         hitCursor += 1;
         if (hitCursor >= 32) {
             hitCursor = 31;
         }
-        HitInfo_80235490 tmp;
-        tmp.type = 5;
-        tmp.power = power;
-        if (((TObjBase *)(target))->get_entity_id() < 4 && ((TObjChara *)target)->obj_isState3_324() != 0) {
+        DirectAttackPayload hit;
+        hit.kind = 5;
+        hit.power = power;
+        if (target->get_entity_id() < 4 && target->obj_isState3_324() != 0) {
             return;
         }
-        HitInfo_80235490 info = tmp;
-        ((VObj_80235490 *)target)->m21((void *)source, &info, contact, 0x12, -1);
-        play_sound_effect(0x4002AD29, &static_cast<TObjBase *>(target)->position, 0, 0);
+        target->receive_direct_attack((void *)source, hit, contact, 0x12, -1);
+        play_sound_effect(0x4002AD29, &target->position, 0, 0);
         if (sourceId < 12) {
             if ((get_technique_caster_flags(0x12, sourceId) & 1) == 0) {
                 queue_destruction();

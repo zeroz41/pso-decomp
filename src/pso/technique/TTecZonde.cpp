@@ -46,50 +46,18 @@ void TTecZonde::init_parameters() {
 }
 
 
-struct VBase_18_0c879f { char pad[0x18]; };
-
-struct HitInfo_8023C6B4 { s32 type; f32 power; };
-
-struct VObj_18_0c879f : VBase_18_0c879f {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, HitInfo_8023C6B4 *, void *, s32, s32);
-};
-
-struct Obj_8023C6B4 { u8 pad[0x1C]; void *source; u8 pad20[0xCC - 0x20]; f32 power; };
 
 extern "C" {
 
 void TObjPlayer::create_tec_zonde(void *source, void *origin, void *targets, s32 level) {
     new TTecZonde((saddr)source, (u8 *)origin, (u8 *)targets, level);
 }
-void TTecZonde::vfunc_8(void *arg1_arg) {
-    VObj_18_0c879f *arg1 = (VObj_18_0c879f *)arg1_arg;
-    HitInfo_8023C6B4 h;
-    h.type = 3;
-    h.power = this->power;
-    if (((TUnk_80493450 *)arg1)->test_elt_flag(0, 0x80) == 0) {
-        HitInfo_8023C6B4 c = h;
-        arg1->m21(((Obj_8023C6B4 *)this)->source, &c, 0, 6, -1);
+void TTecZonde::apply_to_target(TObjChara *target) {
+    DirectAttackPayload hit;
+    hit.kind = 3;
+    hit.power = this->power;
+    if (static_cast<TUnk_80493450 *>(target)->test_elt_flag(0, 0x80) == 0) {
+        target->receive_direct_attack((void *)source, hit, 0, 6, -1);
     }
 }
 
@@ -137,7 +105,7 @@ void TTecZonde::run_task() {
     s32 j;
     s32 k;
     s32 l;
-    TObjBase *t;
+    TObjChara *t;
     void *o;
     f32 scale;
 
@@ -150,7 +118,7 @@ void TTecZonde::run_task() {
         ((TObject *)self)->queue_destruction();
         return;
     }
-    t = static_cast<TObjBase *>(find_entity_by_id(self->f134));
+    t = static_cast<TObjChara *>(find_entity_by_id(self->f134));
     if (TTecLuker::is_parents_unqueued((uaddr)t) != 0) {
         for (i = 0; i < 14; i++) {
             s = &segs[i];
@@ -241,7 +209,7 @@ void TTecZonde::run_task() {
         }
     }
     if (t != NULL && TTecLuker::is_parents_unqueued((uaddr)t) != 0 && TObjPlayer::is_valid_and_active((uaddr)t) != 0) {
-        this->vfunc_8(t);
+        apply_to_target(t);
     }
     ((TObject *)self)->queue_destruction();
 }

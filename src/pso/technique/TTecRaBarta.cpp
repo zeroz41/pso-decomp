@@ -30,47 +30,6 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 
-struct HitInfo_80237900 { s32 type; f32 power; };
-
-struct VBase_80237900 { char pad[0x18]; };
-
-struct VObj_80237900 : VBase_80237900 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, HitInfo_80237900 *, void *, s32, s32);
-};
-
-struct Obj_80237900 {
-    u8 pad0[0x1C];
-    void *source;
-    u8 pad20[0x88 - 0x20];
-    f32 power;
-    u8 padP[0xB8 - 0x88 - 4];
-    void *contact;
-    u8 padC[0xF8 - 0xB8 - 4];
-    u16 ids[32];
-    s32 cursor;
-};
-
 struct Owner_80237310
 {
   u8 pad[0x30];
@@ -276,26 +235,24 @@ void TTecRaBarta::calc_parameters() {
     }
 }
 
-void TTecRaBarta::vfunc_6(void *target) {
-    Obj_80237900 *self = (Obj_80237900 *)this;
+void TTecRaBarta::apply_to_target(TObjChara *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == ((TObjBase *)target)->get_entity_id()) {
+        if (hit_ids[i] == target->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[*(s32 *)&this->m_138] = ((TObjBase *)target)->get_entity_id();
-        *(s32 *)&this->m_138 += 1;
-        if (*(s32 *)&this->m_138 >= 32) {
-            *(s32 *)&this->m_138 = 31;
+        hit_ids[hitCursor] = target->get_entity_id();
+        hitCursor += 1;
+        if (hitCursor >= 32) {
+            hitCursor = 31;
         }
-        HitInfo_80237900 tmp;
-        tmp.type = 2;
-        tmp.power = this->power;
-        HitInfo_80237900 info = tmp;
-        ((VObj_80237900 *)target)->m21(self->source, &info, self->contact, 5, -1);
+        DirectAttackPayload hit;
+        hit.kind = 2;
+        hit.power = power;
+        target->receive_direct_attack((void *)source, hit, contact, 5, -1);
     }
 }
 
@@ -369,7 +326,7 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecC
     for (i = 0; i < 32; i++) {
         hit_ids[i] = 0xFFFF;
     }
-    m_138 = 0;
+    hitCursor = 0;
     vfunc_8(&position);
     vfunc_9();
     if (this->source != 0) {
@@ -389,7 +346,7 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     for (i = 0; i < 32; i++) {
         hit_ids[i] = 0xFFFF;
     }
-    m_138 = 0;
+    hitCursor = 0;
     vfunc_8(0);
     vfunc_9();
     if (this->source != 0) {

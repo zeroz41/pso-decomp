@@ -82,10 +82,10 @@ void TTecShot::dispatch_all_technique_contacts() {
     }
     for (i = 0; i < list->count; i++) {
         if (TObjPlayer::is_valid_and_active((int) list->objs[i]) != 0) {
-            void *p = (void *) list->objs[i];
+            TObjChara *p = (TObjChara *) list->objs[i];
             if (p != NULL) {
                 *(s32 *)((s8 *)((u8 *)this) + 0xF8) = list->vals[i];
-                this->vfunc_8(p);
+                this->apply_to_target(p);
             }
         }
     }
@@ -112,10 +112,10 @@ void TTecShot::dispatch_technique_contact(s32) {
         return;
     }
     if (TObjPlayer::is_valid_and_active((int) (*(u32 *)((s8 *)var_r31 + 0))) != 0) {
-        void *p = *(void **)((s8 *)var_r31 + 0);
+        TObjChara *p = *(TObjChara **)((s8 *)var_r31 + 0);
         if (p != NULL) {
             *(s32 *)((s8 *)((u8 *)this) + 0xF8) = (s32) *(s32 *)((s8 *)var_r31 + 0x40);
-            this->vfunc_8(p);
+            this->apply_to_target(p);
         }
     }
 }
@@ -154,7 +154,7 @@ void TTecReverser::run_task() {
     }
     entity = (uaddr)find_entity_by_id(targets.records[0].id);
     if ((((TObjBase *)entity)->is_active() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
-        vfunc_6((void *)entity);
+        apply_to_target((TObjChara *)entity);
     }
     queue_destruction();
 }

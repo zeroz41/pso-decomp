@@ -8,7 +8,7 @@ struct TTecFoie : public TTecShot {
     TTecFoie(saddr source, u8 *pos, u8 *target, s32 level);
     TTecFoie(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecFoie();
-    virtual void vfunc_8(void *);
+    virtual void apply_to_target(TObjChara *);
     virtual void vfunc_6();
     void play_foie_cast_sound();
     void run_task();

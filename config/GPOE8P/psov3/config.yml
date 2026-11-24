@@ -17596,11 +17596,11 @@ force_active:
   - run_death_reaction__19TObjEneEpsilonGuardFv
   - run_death_reaction__9TBoss6MagFv
   - deliver_attack_hits__14TOTrapSeabed01Ff
-  - vfunc_6__10TTecGrantsFPv
-  - vfunc_6__10TTecRaFoieFPv
+  - apply_to_target__10TTecGrantsFP9TObjChara
+  - apply_to_target__10TTecRaFoieFP9TObjChara
   - vfunc_6__11TAdEp3ExistFv
-  - vfunc_6__11TTecRaBartaFPv
-  - vfunc_6__11TTecRaZondeFPv
+  - apply_to_target__11TTecRaBartaFP9TObjChara
+  - apply_to_target__11TTecRaZondeFP9TObjChara
   - on_wall_hit__12TNeedleShootFv
   - vfunc_6__12TODoorCave01FPsl
   - display_shop_message__12TQuestListVMFll
@@ -17626,8 +17626,8 @@ force_active:
   - on_wall_hit__20TObjEneMe1Gee_NEEDLEFv
   - vfunc_6__21TObjContainerAbeEnemyFPsl
   - on_wall_hit__22TObjEneMe1GiGueMissileFv
-  - vfunc_6__9TTecJelinFPv
-  - vfunc_6__9TTecZaruaFPv
+  - apply_to_target__9TTecJelinFP9TObjChara
+  - apply_to_target__9TTecZaruaFP9TObjChara
   - apply_enemy_state__15TBoss3VoloptP02FPl
   - apply_to_player__10TTecDebandFP10TObjPlayer
   - vfunc_7__13TAdVIConfigGCFv

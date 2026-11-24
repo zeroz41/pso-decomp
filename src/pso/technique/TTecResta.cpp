@@ -40,13 +40,12 @@ Row_8023967C TTecResta__self_recovery_effect_table[3] = {
     {0x14, 1, 0x2E, 0},
 };
 }
-void TTecReverser::vfunc_6(void *arg) {
-    TObjPlayer *player = (TObjPlayer *)arg;
+void TTecReverser::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 8;
     hit.power = power;
-    player->receive_direct_attack((void *)source, hit, 0, -1, -1);
-    new TUnk_804CCA90(&player->position, 0x2D, 0x4002AD13, tl_07);
+    target->receive_direct_attack((void *)source, hit, 0, -1, -1);
+    new TUnk_804CCA90(&target->position, 0x2D, 0x4002AD13, tl_07);
 }
 
 TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {

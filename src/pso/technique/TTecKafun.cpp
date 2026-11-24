@@ -10,6 +10,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/base/TObjChara.h"
 
 
 #pragma readonly_strings on
@@ -17,54 +18,22 @@
 
 const char *tec_kafun_class_name_ptr = "TTecKafun";
 
-struct Pair_802A9588 {
-    s32 id;
-    f32 val;
-};
-
-struct VBase_802A9588 { char pad[0x18]; };
-
-struct Target_802A9588 : VBase_802A9588 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(s32, Pair_802A9588, s32, s32, s32);
-};
-
-void TTecKafun::vfunc_6(void *target) {
-    Pair_802A9588 p;
-    p.val = this->hit_value;
+void TTecKafun::apply_to_target(TObjChara *target) {
+    DirectAttackPayload hit;
+    hit.power = this->hit_value;
     switch (this->hit_kind) {
     case 15:
     case 16:
     case 17:
     case 18:
-        p.id = 0;
-        ((Target_802A9588 *)target)->m21(this->source, p, 0, -1, -1);
-        p.id = this->hit_kind;
-        ((Target_802A9588 *)target)->m21(this->source, p, 0, -1, -1);
+        hit.kind = 0;
+        target->receive_direct_attack((void *)this->source, hit, 0, -1, -1);
+        hit.kind = this->hit_kind;
+        target->receive_direct_attack((void *)this->source, hit, 0, -1, -1);
         break;
     default:
-        p.id = this->hit_kind;
-        ((Target_802A9588 *)target)->m21(this->source, p, 0, -1, -1);
+        hit.kind = this->hit_kind;
+        target->receive_direct_attack((void *)this->source, hit, 0, -1, -1);
         break;
     }
 }
