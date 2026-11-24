@@ -13,14 +13,29 @@ struct GinjaTextureError {
 
 LAYOUT_ASSERT(GinjaTextureErrorPrefixSize, sizeof(GinjaTextureError) == 0x14);
 
-extern GinjaTextureError lbl_8058D470;
-// The loaded textures: one GinjaTextureState per slot, record_array_count slots.
-extern GinjaTextureState *record_array_ptr;
+// The last texture error: code, and the texture list entry it happened at.
+extern GinjaTextureError texture_error;
+// The loaded textures (texture_state_count slots) and the surfaces they share (texture_surface_count slots).
+extern GinjaTextureState *texture_states;
+extern s32 texture_state_count;
+extern GinjaSurfaceState *texture_surfaces;
+extern s32 texture_surface_count;
+
+// GinjaTextureTable.cpp
+void init_texture_tables(GinjaTextureState *states, s32 count, GinjaSurfaceState *surfaces, s32 surface_count);
+void init_texture_states(GinjaTextureState *states, s32 count);
+void init_texture_surfaces(GinjaSurfaceState *surfaces, s32 count);
+// The texture slot whose surface has this id, or -1.
+s32 find_texture_by_surface_id(u32 id);
+// The texture slot whose surface has this id and whose palette bank is tlut_name, or -1.
+s32 find_texture_by_surface_and_tlut(u32 id, u32 tlut_name);
+// A free texture slot and, when surface is not NULL, a free surface; the texture slot's index or -1.
+s32 find_free_texture_slot(GinjaTextureState **texture, GinjaSurfaceState **surface);
+// Clears the texture's surface slot once nothing references it, then the texture entry itself.
+void clear_unreferenced_texture_entry(GinjaTextureState *texture);
 
 extern "C" {
 s32 TObjPlayer__sub_803DAE98(GinjaTextureState *texture);
-// Clears the texture's surface slot once nothing references it, then the texture entry itself.
-void clear_unreferenced_texture_entry(GinjaTextureState *texture);
 // Releases every loaded texture in `texlist`; -1 if one failed, else 1.
 s32 release_texture_list(NJS_TEXLIST *texlist);
 s32 find_texture_entry_by_name(const NJS_TEXLIST *texlist, const char *name);

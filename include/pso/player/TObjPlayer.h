@@ -943,9 +943,6 @@ struct TObjPlayer : public TObjChara {
     static void copy_gauge_warn_vec();
     static void free_global_805D6FB8();
     static void alloc_and_init_object_b4();
-    void init_record_array(s32 arg1);
-    static s32 find_table_index_by_id(u32 id);
-    static s32 find_record_index(u32 arg0, u32 arg1);
     static void set_global_effect_state(s32 global_effect_state);
     static void set_global_color_rgba(u32 v, u32);
     static void set_global_color_rgba_alt_b(u32 v, u32);
@@ -1355,7 +1352,6 @@ struct TObjPlayer : public TObjChara {
     static void set_technique_level_clamped(TObjPlayer *player, u8 level, int tech);
     static void *get_element(void *, int);
     static void send_6x29_delete_item(void *, int, int);
-    static s32 find_free_slot(void *, void *);
     static s32 fill_player_record(void *, void *);
     s32 foreach_player();
     static void begin_action_state(void *);

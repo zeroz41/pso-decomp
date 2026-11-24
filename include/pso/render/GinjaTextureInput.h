@@ -20,6 +20,6 @@ LAYOUT_ASSERT(GinjaTextureInput_size, sizeof(GinjaTextureInput) == 0x24);
 LAYOUT_ASSERT(GinjaTextureInput_width_offset, offsetof(GinjaTextureInput, width) == 0x10);
 LAYOUT_ASSERT(GinjaTextureInput_height_offset, offsetof(GinjaTextureInput, height) == 0x14);
 
-extern "C" void set_texture_name(NJS_TEXNAME *entry, GinjaTextureInput *input, u32 index, u32 attributes);
+void set_texture_name(NJS_TEXNAME *entry, GinjaTextureInput *input, u32 index, u32 attributes);
 
 #endif

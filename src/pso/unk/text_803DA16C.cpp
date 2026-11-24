@@ -1,7 +1,7 @@
 #include "pso/render/GinjaTexture.h"
 
 
-extern GinjaTextureError lbl_8058D470;
+extern GinjaTextureError texture_error;
 
 #pragma push
 #pragma use_lmw_stmw off
@@ -11,7 +11,7 @@ s32 release_texture_list(NJS_TEXLIST *textures) {
     for (i = 0; i < textures->nbTexture; ++i) {
         if (textures->textures[i].texture != NULL &&
             TObjPlayer__sub_803DAE98(textures->textures[i].texture) < 0) {
-            lbl_8058D470.entry_index = i;
+            texture_error.entry_index = i;
             result = -1;
         }
         textures->textures[i].texture = NULL;

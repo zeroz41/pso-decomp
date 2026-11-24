@@ -353,7 +353,7 @@ void init_sin_cos_table(void) {
 
 
 Elem_803DD300 render_contexts[6];
-s32 lbl_8058D470[8];
+s32 texture_error[8];
 Mtx34 identity_matrix;
 NJS_ARGB model_material_color;
 f32 camera_clip_parameters[10];

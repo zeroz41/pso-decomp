@@ -11488,11 +11488,8 @@ pso/unk/text_803DA12C.cpp:
 pso/unk/text_803DA16C.cpp:
 	.text       start:0x803DA16C end:0x803DA204
 
-pso/player/TObjPlayer_803DA204.cpp:
-	.text       start:0x803DA204 end:0x803DA754
-
-pso/unk/text_803DA754.cpp:
-	.text       start:0x803DA754 end:0x803DA798
+pso/render/GinjaTextureTable.cpp:
+	.text       start:0x803DA204 end:0x803DA798
 
 pso/unk/text_803DA798.cpp:
 	.text       start:0x803DA798 end:0x803DAF30

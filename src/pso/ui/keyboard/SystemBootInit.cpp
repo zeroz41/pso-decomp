@@ -75,7 +75,7 @@
 #include "pso/unk/text_802A1154.h"
 #include "pso/unk/text_803D8030.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/unk/text_803DA754.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/unk/text_803DCDB0.h"
 #include "pso/unk/text_803DE7E0.h"
 #include "pso/render/ChunkModelDraw.h"
@@ -83,8 +83,8 @@
 GXLightObj gx_default_light_obj[4];
 MainPhaseState main_phase_state;
 
-saddr record_table_buffer;
-saddr slot_table_buffer;
+GinjaTextureState *texture_state_buffer;
+GinjaSurfaceState *texture_surface_buffer;
 saddr player_matrix_stack_buffer;
 DebugTextRecord *keyboard_input_buffer;
 u8 *resource_decompress_buffer;
@@ -146,8 +146,8 @@ void shutdown_and_reset_system(void) {
     TWindowSubStatusDisp__sub_803386F0();
     reset_display_copy_filter();
     TLobby__sub_80147978();
-    xfree((void *)record_table_buffer);
-    xfree((void *)slot_table_buffer);
+    xfree(texture_state_buffer);
+    xfree(texture_surface_buffer);
     xfree(resource_decompress_buffer);
     xfree(motion_blend_buffer);
     xfree(anim_model_matrix_array);
@@ -279,9 +279,9 @@ void init_game_systems(void) {
     init_system_heap_and_global_allocator((u8 *)start, (s32)(hi - start));
     init_video_and_gx(&cfg);
     OSSetArenaLo((void *)hi);
-    record_table_buffer = (saddr)xmalloc(0x4560);
-    slot_table_buffer = (saddr)xmalloc(0x73A0);
-    init_record_and_slot_arrays(record_table_buffer, 0x2E4, (void *)slot_table_buffer, (void *)0x2E4);
+    texture_state_buffer = (GinjaTextureState *)xmalloc(0x4560);
+    texture_surface_buffer = (GinjaSurfaceState *)xmalloc(0x73A0);
+    init_texture_tables(texture_state_buffer, 0x2E4, texture_surface_buffer, 0x2E4);
     init_light_globals(0, 0);
     set_model_render_flags(0x100000);
     resource_decompress_buffer = (u8 *)xmalloc(0x80000);

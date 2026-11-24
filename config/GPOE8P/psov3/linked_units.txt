@@ -1677,7 +1677,7 @@ pso/player/TObjPlayer_8035A778.cpp
 pso/player/TObjPlayer_8035AFD0.cpp
 pso/player/TObjPlayer_80362E60.cpp
 pso/player/TObjPlayer_80363BE0.cpp
-pso/player/TObjPlayer_803DA204.cpp
+pso/render/GinjaTextureTable.cpp
 pso/math/PointLineDistance.cpp
 pso/render/GinjaDrawUtil.cpp
 pso/render/ScreenPrimitiveDraw.cpp
@@ -2091,7 +2091,6 @@ pso/unk/text_803D9FF0.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_803DA038.cpp
 pso/unk/text_803DA12C.cpp
 pso/unk/text_803DA16C.cpp
-pso/unk/text_803DA754.cpp
 pso/unk/text_803DA798.cpp
 pso/unk/text_803DAF30.cpp
 pso/unk/text_803DAFA8.cpp
