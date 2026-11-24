@@ -357,7 +357,7 @@ s32 ppp_hangup(void) {
 s32 ppp_open_sub(void) {
     NetSession *g = &net_session;
     LobbyPkt_803FB7A4 pkt;
-    s16 r29;
+    s16 attempt;
     s16 ok;
     s16 mode;
     s32 timeout;
@@ -518,7 +518,7 @@ await_link:
             ok = 1;
             break;
         }
-        for (r29 = 0; r29 < 2; r29++) {
+        for (attempt = 0; attempt < 2; attempt++) {
             u16 st = ppp_auth_protocol;
             if (st == 0x80) {
                 rc = pap_connect((u8 *)g->user, (u8 *)g->password, st);

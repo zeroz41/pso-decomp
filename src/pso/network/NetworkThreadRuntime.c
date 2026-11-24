@@ -528,7 +528,6 @@ s16 recv_ipv6cp_config_request(PppFsm *self, PppHeader *src, PppFrame *h)
   s16 state;
   s16 res;
   Ipv6cpConfig *new_var;
-  self = self;
   new_var = self->opts;
   m = new_var;
   cnt = src->len;

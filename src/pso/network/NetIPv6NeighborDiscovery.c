@@ -919,11 +919,7 @@ extern s16 NetIPv6ParseRouterAdvertisementOptions(NetPacketFragment *self, s32 n
     n -= len;
     if (n < 0)
     {
-      do
-      {
-        return -0x10E;
-      }
-      while (0);
+      return -0x10E;
     }
     switch (p[0])
     {

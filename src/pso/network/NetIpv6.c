@@ -358,7 +358,7 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   u8 state;
   u8 *dst;
   s32 adv;
-  s16 r21;
+  s16 sent;
   l = lim;
   tot = l - 0x28;
   hop_limit = &params.hop_limit;
@@ -462,14 +462,14 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   NetMemcpy(&params.destination, self + 0x18, sizeof(params.destination));
   if ((NetIPv6IsMulticast(dst) == 0) && (NetIPv6InterfaceNeedsResolution(hit->iface) != 0))
   {
-    r21 = NetIPv6NeighborOutput(e, dst, &params, hit->iface);
+    sent = NetIPv6NeighborOutput(e, dst, &params, hit->iface);
   }
   else
   {
-    r21 = ipv6_transmit(e, &params, hit->iface, 0);
+    sent = ipv6_transmit(e, &params, hit->iface, 0);
   }
   release_entry(e);
-  return r21;
+  return sent;
 }
 #pragma pop
 s16 ipv6_process_options(u8* p, s16 n, u8* self, s16 c, s16 d) {
