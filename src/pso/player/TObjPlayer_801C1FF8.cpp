@@ -2,7 +2,6 @@
 #include "pso/player/PlayerLevelTable.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/player/TPlyCharData_8007214C.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/system/memory.h"
@@ -28,6 +27,7 @@ struct O_801C21D4 { u8 pad[0x3a1]; u8 id; u8 pad2[0x408 - 0x3a2]; u8 arr[1]; };
 
 
 extern "C" {
+s32 __ct__12TPlyCharDataFv(s32 arg0);
 u8 get_record_byte_at(O_801C21C4 *self, s32 i);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
 void __destroy_arr(void *, void *, int, int);
