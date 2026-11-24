@@ -510,7 +510,6 @@ struct Sp8Struct_801baa00 {
 
 struct Msg_801BAB1C { u16 cmd; u16 id; s32 value; u8 pad8[8]; };
 
-struct O_801BC050 { u16 a; u16 pad; s32 b; };
 
 
 typedef struct Msg_801BC068 {
@@ -577,7 +576,6 @@ s32 try_send_6x27_use_item(void *player, s32 key);
 bool is_target_in_facing_cone__10TObjPlayerFPv(void *self, Vec *target);
 void TObjPlayer__sub_801BA42C(void);
 void TObjPlayer__sub_801BBB70(void);
-void TObjPlayer__sub_801BC050(O_801BC050 *p);
 void create_player_instance__10TObjPlayerFll(u16, Rec_801B09A4 *);
 void clear_flag_4000_callback__10TObjPlayerFv(TObjPlayer *);
 void init_inventory_list__10TObjPlayerFPv(void *);
@@ -703,8 +701,6 @@ struct Unk_801B67C4 {
 };
 
 struct Pkt_801B8908 { u16 f0; u16 client; s16 a; s16 b; };
-struct Cand_801BBE54 { s16 val; TObjPlayerSet *obj; };
-struct Cmd_801BBE54 { u16 hdr; u16 client; s32 area; u8 pos[12]; };
 extern "C" {
 uaddr create_placed_trap__10TOMineTrapFUiss(u8 *, s32, s32);
 
@@ -740,24 +736,23 @@ void TObjPlayer::send_selected_spawn_position(u16 id) {
     }
 }
 
-void TObjPlayer__sub_801BC050(O_801BC050 *p) {
-    p->a = 0xFFFF;
-    p->b = 0;
+RespawnCandidate::RespawnCandidate() {
+    slot = 0xFFFF;
+    set = NULL;
 }
 
 void TObjPlayer::send_respawn_position() {
-    Cand_801BBE54 list[13];
-    Cmd_801BBE54 cmd;
-    u8 pos[12];
+    RespawnCandidate list[13];
+    G_TeleportPlayer_6x24 cmd;
+    Vec pos;
     s32 count;
     s32 i;
     s32 ok;
     TObjPlayerSet *obj;
-    Cand_801BBE54 *c;
+    RespawnCandidate *c;
     s32 area;
     TObjPlayerSet *pick;
 
-    ((void (*)(void *, void *, int, int, int))__construct_array)(list, (void *)TObjPlayer__sub_801BC050, 0, 8, 13);
     c = list;
     count = 0;
     for (obj = (TObjPlayerSet *)tl_06->m_down; obj != NULL; obj = (TObjPlayerSet *)obj->m_next) {
@@ -775,8 +770,8 @@ void TObjPlayer::send_respawn_position() {
             }
             if (ok != 0) {
                 count++;
-                c->val = obj->scale.x;
-                c->obj = obj;
+                c->slot = obj->scale.x;
+                c->set = obj;
                 c++;
             }
         }
@@ -784,20 +779,20 @@ void TObjPlayer::send_respawn_position() {
             break;
         }
     }
-    ((G_TeleportPlayer_6x24 *)&cmd)->init();
-    pick = list[(s32)((f32)count * (player_rand_pick_limit * (player_rand_unit * (f32)rand())))].obj;
+    cmd.init();
+    pick = list[(s32)((f32)count * (player_rand_pick_limit * (player_rand_unit * (f32)rand())))].set;
     if (pick == NULL || count == 0) {
         area = this->rotation_y;
-        VecCopy((Vec *)pos, &this->position);
+        VecCopy(&pos, &this->position);
     } else {
         area = pick->rotation_y;
-        VecCopy((Vec *)pos, &pick->position);
+        VecCopy(&pos, &pick->position);
     }
     if (this == NULL || ((TObjChara *)this)->obj_isState2_324() == 0) {
-        cmd.client = this->get_entity_id();
-        cmd.area = area;
-        VecCopy((Vec *)cmd.pos, (const Vec *)pos);
-        ((G_TeleportPlayer_6x24 *)&cmd)->send();
+        cmd.header.client_id = this->get_entity_id();
+        cmd.angle_y = area;
+        VecCopy((Vec *)&cmd.pos, &pos);
+        cmd.send();
     }
 }
 

@@ -13,4 +13,11 @@ struct TObjPlayerSet : public TObjBase {
 };
 
 LAYOUT_ASSERT(TObjPlayerSet_size, sizeof(TObjPlayerSet) == 0x90);
+
+// A free player set that TObjPlayer::send_respawn_position may pick, with its slot.
+struct RespawnCandidate {
+    RespawnCandidate();
+    u16 slot;
+    TObjPlayerSet *set;
+};
 #endif
