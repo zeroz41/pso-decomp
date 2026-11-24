@@ -6,8 +6,8 @@
 
 // --- C functions defined in text_803C5B50.cpp ---
 extern "C" {
-void TLobby__sub_803C5D00(AdxStreamPlayer *player);
-void TLobby__sub_803C5D24(AdxStreamPlayer *player);
+void TLobby__sub_803C5D00(AdxtPlayer *player);
+void TLobby__sub_803C5D24(AdxtPlayer *player);
 void TLobby__sub_803C5E58(void);
 void TLobby__sub_803C5E68(void);
 }

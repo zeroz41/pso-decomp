@@ -9,48 +9,15 @@ struct AudioStreamInputState;
 struct LscStream;
 struct SjRingBuffer;
 
-// One ADX stream player slot (adx_stream_player_pool).
-typedef struct AdxStreamPlayer {
-    char state;
-    s8 stat;
-    s8 play_mode;
-    u8 pad_3;
-    AudioStreamInputState *input_state;
-    AdxStreamFile *file;
-    saddr fC;
-    s32 file_buffer;
-    SjRingBuffer *input;
-    SjRingBuffer *f18[2]; // one per channel; 2 is inferred (stereo), the code only proves the index
-    u8 pad_20[0x3E - 0x20];
-    s16 min_sectors;
-    u8 pad_40[0x48 - 0x40];
-    s32 f48;
-    u8 pad_4C[0x60 - 0x4C];
-    s16 f60;
-    u8 pad_62[0x6C - 0x62];
-    s8 loop_flag;
-    u8 pad_6D[0x70 - 0x6D];
-    s8 f70;
-    u8 f71;
-    s8 f72;
-    u8 pad_73[0x94 - 0x73];
-    LscStream *lsc;
-    s8 lsc_started;
-    u8 pad_99[0x9C - 0x99];
-    s32 f9C;
-    s32 fA0;
-    u8 pad_A4[0xA8 - 0xA4];
-} AdxStreamPlayer;
-LAYOUT_ASSERT(AdxStreamPlayerSize, sizeof(AdxStreamPlayer) == 0xA8);
-LAYOUT_ASSERT(AdxStreamPlayerFileOffset, offsetof(AdxStreamPlayer, file) == 8);
+struct AdxtPlayer;
 
 extern "C" {
 AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg);
 AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg);
 AdxStreamFile *ADXSTM_OpenFnameRange(const char *name, s32 mode, s32 off, s32 nsect, s32 arg);
 AdxStreamFile *ADXSTM_OpenFnameRangeExRt(const char *name, s32 mode, s32 off, s32 nsect, saddr arg);
-void TLobby__sub_803C5D00(AdxStreamPlayer *player);
-void TLobby__sub_803C5D24(AdxStreamPlayer *player);
+void TLobby__sub_803C5D00(AdxtPlayer *player);
+void TLobby__sub_803C5D24(AdxtPlayer *player);
 void TLobby__sub_803C5E58(void);
 void TLobby__sub_803C5E68(void);
 void TLobby__sub_803C9350(u8 *arg0, s32 arg1);
@@ -86,8 +53,8 @@ void update_active_stream_reads(void);
 
 // --- C functions of the ADX stream, talk and manager files (AdxStream.cpp to AdxManager.cpp) ---
 extern "C" {
-void TLobby__sub_803C5D00(AdxStreamPlayer *player);
-void TLobby__sub_803C5D24(AdxStreamPlayer *player);
+void TLobby__sub_803C5D00(AdxtPlayer *player);
+void TLobby__sub_803C5D24(AdxtPlayer *player);
 void TLobby__sub_803C5E58(void);
 void TLobby__sub_803C5E68(void);
 void TLobby__sub_803C9350(u8 *arg0, s32 arg1);

@@ -404,9 +404,9 @@ void TLobby::set_network_result(s32 result) {
     *(s32 *)((s8 *)arg0 + 0x38) = result;
     TLobby__sub_803C1A00((u8 *)(*(saddr *)((s8 *)arg0 + 4)), result);
 }
-void TLobby::set_param_and_notify(s32 arg1) {
+void TLobby::set_param_and_notify(SjRingBuffer *sj) {
     u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 8) = arg1;
+    *(SjRingBuffer **)((s8 *)arg0 + 8) = sj;
     ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->invoke_notify_callback();
 }
 

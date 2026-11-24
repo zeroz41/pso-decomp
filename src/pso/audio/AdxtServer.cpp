@@ -3,6 +3,7 @@
 #include "pso/unk/text_803D2F1C.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
+#include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AudioStreamInput.h"
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/LscStream.h"
@@ -42,7 +43,7 @@ s32 dispatch_packet__6TLobbyFv(int, int);
 void TLobby__sub_803CB194(void *context);
 void audio_stream_start(u8 *lobby);
 s32 TLobby__sub_803CBF50(saddr, s32, s32);
-void TLobby__sub_803CA8B4(AdxStreamPlayer *);
+void TLobby__sub_803CA8B4(AdxtPlayer *);
 
 s32 trigger_sub_task__6TLobbyFv(saddr, s32);
 
@@ -98,27 +99,27 @@ s32 lbl_805D757C;
 s32 lbl_805D7580;
 
 // Inferred: CRI adxt_stat_prep (wait until every output SJ holds data, then start the RNA).
-inline void prep_803CA8B4(AdxStreamPlayer *self) {
+inline void prep_803CA8B4(AdxtPlayer *self) {
     s32 n;
     s32 i;
     if (audio_stream_get_state(reinterpret_cast<saddr>(self->input_state)) == 3) {
         n = reinterpret_cast<TLobby *>(self->input_state)->send_with_offset4();
         lbl_805D7580 = n;
         for (i = 0; i < n; i++) {
-            lbl_805D757C = self->f18[i]->interface->get_available(self->f18[i], 1);
+            lbl_805D757C = self->output_rings[i]->interface->get_available(self->output_rings[i], 1);
             if (lbl_805D757C >= 0x40) {
                 break;
             }
         }
         if (i == n) {
-            TLobby::dispatch_packet((GcrnaStream *)(self->fC), 0);
+            TLobby::dispatch_packet((GcrnaStream *)(self->rna_handle), 0);
             self->stat = 4;
         }
     }
 }
 // Inferred: CRI adxt_stat_playing (start playback once enough is decoded; pad the end with silence).
-inline void dec_803CA8B4(AdxStreamPlayer *self) {
-    saddr rna = self->fC;
+inline void dec_803CA8B4(AdxtPlayer *self) {
+    saddr rna = self->rna_handle;
     AudioStreamInputState *sjd = self->input_state;
     s32 i;
     s32 avail;
@@ -129,23 +130,23 @@ inline void dec_803CA8B4(AdxStreamPlayer *self) {
     SjChunk ck;
     avail = TLobby::query_available_size((TLobby *)rna);
     size = TLobby__sub_803CBFF0(rna);
-    if (avail >= self->f48 * 2 || size <= reinterpret_cast<TLobby *>(sjd)->notify_field_4_alt() ||
+    if (avail >= self->reserved_48 * 2 || size <= reinterpret_cast<TLobby *>(sjd)->notify_field_4_alt() ||
         audio_stream_get_state(reinterpret_cast<saddr>(self->input_state)) == 3) {
-        if (self->f70 == 0) {
-            if (self->f72 == 0) {
+        if (self->auto_start_flag == 0) {
+            if (self->pause_flag == 0) {
                 TLobby__sub_803CC030(rna, 1);
-                self->f9C = 0;
-                self->fA0 = lbl_805D7540;
+                self->base_time = 0;
+                self->base_vblank = lbl_805D7540;
             }
             self->stat = 3;
         }
-        self->f71 = 1;
+        self->started_playback = 1;
     }
     if (audio_stream_get_state(reinterpret_cast<saddr>(self->input_state)) == 3) {
         nch = TLobby__sub_803C9740((u8 *)self);
-        nbyte = self->f48 * nch * 2;
+        nbyte = self->reserved_48 * nch * 2;
         for (i = 0; i < nch; i++) {
-            sj = self->f18[i];
+            sj = self->output_rings[i];
             sj->interface->get_chunk(sj, 0, nbyte, &ck);
             memset(ck.data, 0, ck.size);
             sj->interface->put_chunk(sj, 1, &ck);
@@ -153,17 +154,17 @@ inline void dec_803CA8B4(AdxStreamPlayer *self) {
     }
 }
 // Inferred: CRI adxt_stat_playend (stop the RNA once its queue is empty).
-inline void end_803CA8B4(AdxStreamPlayer *self) {
-    lbl_805D7578 = TLobby::query_available_size((TLobby *)self->fC);
-    if (TLobby::query_available_size((TLobby *)self->fC) <= 0) {
-        TLobby__sub_803CC030(self->fC, 0);
+inline void end_803CA8B4(AdxtPlayer *self) {
+    lbl_805D7578 = TLobby::query_available_size((TLobby *)self->rna_handle);
+    if (TLobby::query_available_size((TLobby *)self->rna_handle) <= 0) {
+        TLobby__sub_803CC030(self->rna_handle, 0);
         self->stat = 5;
     }
 }
 // Inferred: CRI ADXT_ExecHndl (per-handle state step of the ADXT server).
 #pragma push
 #pragma opt_common_subs off
-void TLobby__sub_803CA8B4(AdxStreamPlayer *self) {
+void TLobby__sub_803CA8B4(AdxtPlayer *self) {
     s8 stat = self->stat;
     if (stat == 3) {
         prep_803CA8B4(self);
@@ -174,12 +175,12 @@ void TLobby__sub_803CA8B4(AdxStreamPlayer *self) {
     } else if (stat == 4) {
         end_803CA8B4(self);
     }
-    if (self->file != NULL && get_adx_stream_status(self->file) == 4) {
-        self->f60 = -1;
+    if (self->stream_file != NULL && get_adx_stream_status(self->stream_file) == 4) {
+        self->error_code = -1;
         self->stat = 6;
     }
-    if (self->lsc != NULL && lsc_get_state(self->lsc) == 3) {
-        self->f60 = -1;
+    if (self->lsc_stream != NULL && lsc_get_state(self->lsc_stream) == 3) {
+        self->error_code = -1;
         self->stat = 6;
     }
 }
@@ -389,12 +390,12 @@ void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
 }
 
 void TLobby__sub_803CB194(void *context) {
-    AdxStreamPlayer *player = static_cast<AdxStreamPlayer *>(context);
-    AdxStreamFile *file = player->file;
+    AdxtPlayer *player = static_cast<AdxtPlayer *>(context);
+    AdxStreamFile *file = player->stream_file;
     s32 loop_start_byte = player->input_state->get_loop_start_byte();
     if (player->loop_flag == 0) {
         player->input_state->set_notify_sample_count(-1);
-        set_adx_stream_end_sector(player->file, 0x7FFFFFFF);
+        set_adx_stream_end_sector(player->stream_file, 0x7FFFFFFF);
         return;
     }
     seek_adx_stream_sector(file, loop_start_byte / 2048);

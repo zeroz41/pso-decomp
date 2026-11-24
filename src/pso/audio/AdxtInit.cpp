@@ -9,6 +9,7 @@
 #include "pso/unk/TLobby_803C4698.h"
 #include "pso/unk/TLobby_803CC0B4.h"
 #include "pso/audio/AdxStreamRuntime.h"
+#include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AdxEncoder.h"
 #include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/audio/SjMemoryBuffer.h"
@@ -24,7 +25,7 @@ s32 lbl_805D7540;
 static const char *const volatile lbl_805E0D30 = "\nADXT/GC Ver.8.05 Build:Jun 13 2002 19:01:36\n";
 }
 
-AdxStreamPlayer adx_stream_player_pool[16];
+AdxtPlayer adx_stream_player_pool[16];
 
 void TLobby::dec_ref_and_shutdown() {
     s32 temp_r0;

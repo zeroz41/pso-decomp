@@ -189,8 +189,8 @@ extern s32 lbl_805D7540;
 
 extern "C" {
 s16 TLobby__sub_803C96E0(Obj_803C96E0 *self, s32 i);
-void TLobby__sub_803CA8B4(AdxStreamPlayer *);
-extern AdxStreamPlayer adx_stream_player_pool[16];
+void TLobby__sub_803CA8B4(AdxtPlayer *);
+extern AdxtPlayer adx_stream_player_pool[16];
 
 s32 TLobby__sub_803CBF10(int);
 void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1);
@@ -224,7 +224,7 @@ inline void inl_803C9608(void) {
         sub_803C0018();
         lbl_805D7564 = 2;
         for (i = 0; i < 16; i++) {
-            if (adx_stream_player_pool[i].state == 1) {
+            if (adx_stream_player_pool[i].used == 1) {
                 TLobby__sub_803CA8B4(&adx_stream_player_pool[i]);
             }
         }
@@ -299,7 +299,7 @@ void TLobby__sub_803C9608(void) {
         sub_803C0018();
         lbl_805D7564 = 2;
         for (i = 0; i < 16; i++) {
-            if (adx_stream_player_pool[i].state == 1) {
+            if (adx_stream_player_pool[i].used == 1) {
                 TLobby__sub_803CA8B4(&adx_stream_player_pool[i]);
             }
         }
@@ -477,22 +477,22 @@ void stop_audio_stream(u8 *arg0);
 #pragma push
 #pragma fp_contract on
 void stop_audio_stream(u8 *arg0) {
-    AdxStreamPlayer *player = reinterpret_cast<AdxStreamPlayer *>(arg0);
+    AdxtPlayer *player = reinterpret_cast<AdxtPlayer *>(arg0);
     void **temp_r3;
     void **temp_r3_2;
     void **temp_r3_3;
     u8 *temp_r4;
     u8 *temp_r4_2;
     u8 *temp_r4_3;
-    if (player->file != NULL) {
-        stop_adx_stream(player->file);
-        adxstm_close(player->file);
+    if (player->stream_file != NULL) {
+        stop_adx_stream(player->stream_file);
+        adxstm_close(player->stream_file);
         temp_r3 = *(void ***)((s8 *)arg0 + 0x14);
         if (temp_r3 != NULL) {
             temp_r4 = (u8 *)(*temp_r3);
             (*(s32 (**)(void *, void *))((s8 *)temp_r4 + 0x14))(temp_r3, temp_r4);
         }
-        player->file = NULL;
+        player->stream_file = NULL;
     }
     TLobby::init_once();
     if ((s32) *(u8 *)((s8 *)arg0 + 2) == 4) {
@@ -573,7 +573,7 @@ void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1) {
     for (i = 0; i < arg0->f3; i++) {
         arg0->objs[i]->vt->f14(arg0->objs[i]);
     }
-    ((TLobby *)(arg0->f4))->set_param_and_notify((saddr)arg1);
+    ((TLobby *)(arg0->f4))->set_param_and_notify((SjRingBuffer *)arg1);
     arg0->f14 = arg1;
     audio_stream_start((u8 *)arg0->f4);
     arg0->f1 = 1;
@@ -587,20 +587,20 @@ void TLobby__sub_803C9E38(Obj_803C9E38 *arg0, VObj_803C9E38 *arg1) {
 
 void configure_audio_stream_output(AdxtPlayer *player) {
     s32 i;
-    saddr sj;
+    SjRingBuffer *sj;
     AdxtPlayer *pp;
-    TLobby::set_range(player->stream_file, player->start_sectors << 11, player->total_sectors << 11);
+    TLobby::set_range(player->stream_file, player->min_sectors << 11, player->total_sectors << 11);
     set_adx_stream_end_sector(player->stream_file, 0x19);
     init_stream_position__6TLobbyFv(player->stream_file);
-    sj = (saddr)player->input_ring;
+    sj = player->input_ring;
     pp = player;
     for (i = 0; i < player->max_channels; i++) {
         pp->output_rings[0]->interface->reset(pp->output_rings[0]);
         pp = (AdxtPlayer *)((u8 *)pp + 4);
     }
-    ((TLobby *)player->decoder_handle)->set_param_and_notify(sj);
+    ((TLobby *)player->input_state)->set_param_and_notify(sj);
     player->input_sj = sj;
-    audio_stream_start((u8 *)player->decoder_handle);
+    audio_stream_start((u8 *)player->input_state);
     player->stat = 1;
     player->reserved_4C = 0;
     player->started_playback = 0;
@@ -612,14 +612,14 @@ void configure_audio_stream_output(AdxtPlayer *player) {
     player->source_type = 0;
 }
 
-void start_stream_playback(AdxtPlayer *player, saddr sj) {
+void start_stream_playback(AdxtPlayer *player, SjRingBuffer *sj) {
     s32 i;
     for (i = 0; i < player->max_channels; i++) {
         player->output_rings[i]->interface->reset(player->output_rings[i]);
     }
-    ((TLobby *)player->decoder_handle)->set_param_and_notify(sj);
+    ((TLobby *)player->input_state)->set_param_and_notify(sj);
     player->input_sj = sj;
-    audio_stream_start((u8 *)player->decoder_handle);
+    audio_stream_start((u8 *)player->input_state);
     player->stat = 1;
     player->reserved_4C = 0;
     player->started_playback = 0;
@@ -710,7 +710,7 @@ Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size) {
     s32 i;
     s32 t;
     for (i = 0; i < 16; i++) {
-        if (adx_stream_player_pool[i].state == 0) {
+        if (adx_stream_player_pool[i].used == 0) {
             break;
         }
     }

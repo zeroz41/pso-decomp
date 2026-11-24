@@ -461,7 +461,7 @@ struct TLobby : public TObject {
     s32 notify_field_4();
     void reset_flag();
     void set_network_result(s32 arg1);
-    void set_param_and_notify(s32 arg1);
+    void set_param_and_notify(SjRingBuffer *sj);
     void reset_entry();
     static void clear_session_buffer();
     static void reset_sound_buffers();

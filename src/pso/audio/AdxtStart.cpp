@@ -11,13 +11,13 @@
 #include "pso/unk/text_803D31A4.h"
 
 void ADXT_StartMemIdx(AdxtPlayer *player, u8 *table_data, s32 entry_index) {
-    saddr ring_handle;
+    SjRingBuffer *ring_handle;
     stop_audio_stream((u8 *)player);
     if (entry_index >= ((AdxtMemTableEntry *)table_data)[0].length || entry_index < 0) {
         return;
     }
     TLobby::init_once();
-    ring_handle = (saddr)sj_memory_buffer_create(table_data + *(s32 *)(table_data + (entry_index + 1) * 8), 0x40000000);
+    ring_handle = (SjRingBuffer *)sj_memory_buffer_create(table_data + *(s32 *)(table_data + (entry_index + 1) * 8), 0x40000000);
     if (ring_handle == 0) {
         TLobby::release_ref();
         TLobby::notify_error("E8101207: can't create sj (ADXT_StartMemIdx)");
