@@ -6183,11 +6183,8 @@ pso/unk/TUnk_804CC948.cpp:
 	.text       start:0x802333D4 end:0x8023355C
 	.data       start:0x804CC940 end:0x804CC960
 
-pso/player/TObjPlayer_8023355C.cpp:
-	.text       start:0x8023355C end:0x802335B4
-
 pso/technique/TTecJelin.cpp:
-	.text       start:0x802335B4 end:0x80233A90
+	.text       start:0x8023355C end:0x80233A90
 	.rodata     start:0x8044D648 end:0x8044D660
 	.data       start:0x804CC960 end:0x804CC988
 	.sdata      start:0x805D37D8 end:0x805D37E0
@@ -6295,11 +6292,8 @@ pso/technique/TechniqueChargeLight.cpp:
 	.text       start:0x8023BE9C end:0x8023C024
 	.data       start:0x804CCD00 end:0x804CCD28
 
-pso/player/TObjPlayer_8023C024.cpp:
-	.text       start:0x8023C024 end:0x8023C07C
-
 pso/technique/TTecZarua.cpp:
-	.text       start:0x8023C07C end:0x8023C558
+	.text       start:0x8023C024 end:0x8023C558
 	.rodata     start:0x8044DC88 end:0x8044DCA0
 	.data       start:0x804CCD28 end:0x804CCD50
 	.sdata      start:0x805D3830 end:0x805D3838

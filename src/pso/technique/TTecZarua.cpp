@@ -22,6 +22,10 @@
 
 const char *TTecZarua__name = "TTecZarua";
 
+void TObjPlayer::create_tec_zarua(void *source, void *origin, void *targets, s32 level) {
+    new TTecZarua((saddr)source, (Vec *)origin, (TargetCursorList *)targets, level);
+}
+
 struct Damage_802386F8 { s32 kind; f32 power; };
 
 struct VBase_802386F8 { char pad[0x18]; };
