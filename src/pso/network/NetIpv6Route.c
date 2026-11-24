@@ -671,6 +671,7 @@ s16 NetIPv6AutoconfigurePrefix(Ipv6NdPrefixEvent *pi, s16 idx)
 {
     Ipv6State *g = &ipv6_address_routing_state;
     u8 *pfx;
+    Ipv6AddrNode *slot;
     Ipv6Route *route;
     u32 v;
     s16 rem;
@@ -748,11 +749,11 @@ s16 NetIPv6AutoconfigurePrefix(Ipv6NdPrefixEvent *pi, s16 idx)
         }
     }
     pc = (s16 *)((u8 *)g + offsetof(Ipv6State, max_addrs));
-    pfx = (u8 *)g->addr_pool;
+    slot = g->addr_pool;
     r = *(s16 *)((u8 *)g + offsetof(Ipv6State, max_addrs));
-    for (i = 0; i < r; i++, pfx += sizeof(Ipv6AddrNode)) {
-        if (*(s16 *)pfx == 0) {
-            *(s16 *)pfx = 1;
+    for (i = 0; i < r; i++, slot++) {
+        if (slot->in_use == 0) {
+            slot->in_use = 1;
             break;
         }
     }
@@ -762,31 +763,31 @@ s16 NetIPv6AutoconfigurePrefix(Ipv6NdPrefixEvent *pi, s16 idx)
     }
     r = link_update_address(idx, e->handle, 1, new_addr);
     if (r < 0) {
-        *(s16 *)pfx = 0;
+        slot->in_use = 0;
         return r;
     }
-    NetMemcpy(pfx + offsetof(Ipv6AddrNode, addr), new_addr, 16);
-    *(s16 *)(pfx + offsetof(Ipv6AddrNode, prefix_len)) = pi->prefix_len;
+    NetMemcpy(slot->addr, new_addr, 16);
+    slot->prefix_len = pi->prefix_len;
     fl = 1;
-    *(s16 *)(pfx + offsetof(Ipv6AddrNode, autoconf)) = fl;
-    *(s16 *)(pfx + offsetof(Ipv6AddrNode, flags)) = 0;
-    *(u16 *)(pfx + offsetof(Ipv6AddrNode, scope)) = NetIPv6GetAddressScopeClass(new_addr);
+    slot->autoconf = fl;
+    slot->flags = 0;
+    slot->scope = NetIPv6GetAddressScopeClass(new_addr);
     if (link_does_dad(idx) != 0) {
-        *(s16 *)(pfx + offsetof(Ipv6AddrNode, state)) = fl;
+        slot->state = fl;
         fl = 0;
-        *(s16 *)(pfx + offsetof(Ipv6AddrNode, dad_count)) = g->dad_count_init;
-        *(s16 *)(pfx + offsetof(Ipv6AddrNode, dad_timer)) = g->dad_timer_init;
+        slot->dad_count = g->dad_count_init;
+        slot->dad_timer = g->dad_timer_init;
     } else {
-        *(s16 *)(pfx + offsetof(Ipv6AddrNode, state)) = 3;
+        slot->state = 3;
         fl = 1;
-        *(s16 *)(pfx + offsetof(Ipv6AddrNode, dad_count)) = 0;
-        *(s16 *)(pfx + offsetof(Ipv6AddrNode, dad_timer)) = 0;
+        slot->dad_count = 0;
+        slot->dad_timer = 0;
     }
-    *(u32 *)(pfx + offsetof(Ipv6AddrNode, valid_lifetime)) = pi->valid_lifetime;
-    *(u32 *)(pfx + offsetof(Ipv6AddrNode, preferred_lifetime)) = pi->preferred_lifetime;
-    *(u8 **)(pfx + offsetof(Ipv6AddrNode, next)) = 0;
+    slot->valid_lifetime = pi->valid_lifetime;
+    slot->preferred_lifetime = pi->preferred_lifetime;
+    slot->next = NULL;
     if (e->addrs == 0) {
-        e->addrs = (Ipv6AddrNode *)pfx;
+        e->addrs = slot;
     } else {
         cur = e->addrs;
         for (i = 0; i < *pc; i++) {
@@ -797,7 +798,7 @@ s16 NetIPv6AutoconfigurePrefix(Ipv6NdPrefixEvent *pi, s16 idx)
         }
 
         if (cur->next == 0) {
-            cur->next = (Ipv6AddrNode *)pfx;
+            cur->next = slot;
         }
     }
     found = first_iface_addr((s16 *)((u8 *)g + offsetof(Ipv6State, count)), (Ipv6Iface **)((u8 *)g + offsetof(Ipv6State, ifaces)), iface0_addr);
@@ -832,7 +833,7 @@ drop_route:
 release:
     err = link_update_address(idx, e->handle, 2, new_addr);
 
-    if (e->addrs == (Ipv6AddrNode *)pfx) {
+    if (e->addrs == slot) {
         e->addrs = 0;
     } else {
         cur->next = 0;
