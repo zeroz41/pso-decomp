@@ -84,7 +84,7 @@ static EthLink eth_link;
 static EthDriver eth_driver;
 static u8 loopback_slots[2 * 0x500];
 
-void term_dns_config(void *cfg) {
+void term_dns_config(DnsResolverState *cfg) {
 }
 
 void init_net_config(DnsResolverState *c) {
@@ -125,7 +125,7 @@ void init_params(TcpState *cfg) {
     cfg->tcbs = net_tcp_socket_storage;
 }
 
-void term_udp_config(void *cfg) {
+void term_udp_config(UdpRuntimeState *cfg) {
 }
 
 void init_udp_control_config(UdpRuntimeState *cfg) {
@@ -133,7 +133,7 @@ void init_udp_control_config(UdpRuntimeState *cfg) {
     cfg->entries = net_udp_socket_storage;
 }
 
-void term_ipv6_config(void *cfg) {
+void term_ipv6_config(Ipv6ProtocolState *cfg) {
 }
 
 void init_ipv6_interface_config(Ipv6ProtocolState *cfg) {
@@ -145,7 +145,7 @@ void init_ipv6_interface_config(Ipv6ProtocolState *cfg) {
     cfg->hdr = ipv6_interface_config;
 }
 
-void term_ipv6_routing_config(void *cfg) {
+void term_ipv6_routing_config(Ipv6State *cfg) {
 }
 
 /* Fills ipv6_address_routing_state. */
@@ -168,7 +168,7 @@ void init_udp_socket_config(Ipv6State *o) {
     o->pmtu = ipv6_pmtu_storage;
 }
 
-void term_ipv6_nd_config(void *cfg) {
+void term_ipv6_nd_config(Ipv6NdState *cfg) {
 }
 
 void init_buffer_descriptor_b(Ipv6NdState *cfg) {
@@ -182,7 +182,7 @@ void init_buffer_descriptor_b(Ipv6NdState *cfg) {
     cfg->buffers = ipv6_nd_buffers;
 }
 
-void term_ipv4_config(void *cfg) {
+void term_ipv4_config(Ipv4ProtocolState *cfg) {
 }
 
 #pragma push
@@ -195,7 +195,7 @@ void init_ipv4_raw_socket_config(Ipv4ProtocolState *cfg) {
 }
 #pragma pop
 
-void term_ipv4_routing_config(void *cfg) {
+void term_ipv4_routing_config(Ipv4RoutingState *cfg) {
 }
 
 void init_buffer_descriptor_a(Ipv4RoutingState *cfg) {
@@ -229,7 +229,7 @@ void init_buffer_desc_a(NetBufferPool *cfg) {
     cfg->data = net_buffer_pool_data;
 }
 
-void term_packet_pool_config(void *cfg) {
+void term_packet_pool_config(NetPacketPool *cfg) {
 }
 
 void init_packet_pool_config(NetPacketPool *cfg) {
@@ -237,7 +237,7 @@ void init_packet_pool_config(NetPacketPool *cfg) {
     cfg->packets = net_packets;
 }
 
-void term_arp_config(void *cfg) {
+void term_arp_config(ArpState *cfg) {
 }
 
 void init_net_buffer_config(ArpState *cfg) {
@@ -256,7 +256,7 @@ void init_net_buffer_config(ArpState *cfg) {
     cfg->packet = arp_packet;
 }
 
-void term_handler_table_config(void *cfg) {
+void term_handler_table_config(LobbyHandlerTable *cfg) {
 }
 
 void init_handler_table_config(LobbyHandlerTable *cfg) {
@@ -264,7 +264,7 @@ void init_handler_table_config(LobbyHandlerTable *cfg) {
     cfg->list = lobby_handlers;
 }
 
-void term_dix_config(void *cfg) {
+void term_dix_config(EthernetState *cfg) {
     reset_message_thread();
 }
 
@@ -286,7 +286,7 @@ void init_net_func_table(EthernetState *cfg) {
     cfg->slots = eth_slots;
 }
 
-void term_loopback_config(void *cfg) {
+void term_loopback_config(LoopbackState *cfg) {
 }
 
 void init_net_recv_desc(LoopbackState *cfg) {

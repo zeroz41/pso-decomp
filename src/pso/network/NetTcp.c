@@ -225,7 +225,7 @@ extern s32 tcp_timers(TcpTcb *tcb, s16 timer) {
             tcb->rttvar += tcb->srtt >> 3;
             tcb->srtt = 0;
         }
-        reset_slot_index((void *)tcb);
+        reset_slot_index(tcb);
         tcb->rexmit_bytes = 0;
         tcb->pipe = 0;
         tcb->recover = tcb->snd_una;

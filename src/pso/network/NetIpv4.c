@@ -36,7 +36,7 @@ extern Ipv4ProtocolState ipv4_protocol_state;
 
 s32 ipv4_term(void) {
     release_slot_by_id(0x800);
-    term_ipv4_config((void *)(&ipv4_protocol_state.nsockets));
+    term_ipv4_config(&ipv4_protocol_state);
     ipv4_protocol_state.nsockets = 0;
     return 0;
 }

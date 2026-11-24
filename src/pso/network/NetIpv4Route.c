@@ -32,7 +32,7 @@ s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, int origin, int type, int fl
 #pragma inline_depth(4)
 
 s32 shutdown_ipv4_routing(void) {
-    term_ipv4_routing_config((void *)&ipv4_address_routing_state);
+    term_ipv4_routing_config(&ipv4_address_routing_state);
     ipv4_address_routing_state.nroutes = 0;
     ipv4_address_routing_state.nifaces = 0;
     ipv4_address_routing_state.max_aliases = 0;

@@ -12,7 +12,7 @@
 UdpRuntimeState udp_runtime_state;
 
 s32 reset_stack_module(void) {
-    term_udp_config(&udp_runtime_state.count);
+    term_udp_config(&udp_runtime_state);
     udp_runtime_state.count = 0;
     return 0;
 }
