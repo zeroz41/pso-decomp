@@ -981,7 +981,7 @@ int evt2_random_enemies_mode;
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 fn_801F3480;
 extern Pair_801F1838 lbl_80449A38[];
 struct RecoveredGlobal_lbl_8050D3E0 { s32 value; u8 remaining[0x4C]; };
-extern RecoveredGlobal_lbl_8050D3E0 lbl_8050D3E0;
+extern RecoveredGlobal_lbl_8050D3E0 quest_npc_visual_record;
 extern s32 symbolchat_colli_param_table[];
 extern s16 battle_event_second_table[];
 struct QuestPlayerNameBuffer { s32 value; u8 remaining[0xC]; };
@@ -3264,7 +3264,7 @@ void qst_op_prepare_npc_visual(saddr label) {
     u32 record_addr;
     record_addr = ((u32 (*)(void *))qst_label_address)((void *)label);
     if (record_addr != 0U) {
-        copy_player_visual_record((void *) (&lbl_8050D3E0.value), record_addr);
+        copy_player_visual_record((void *) (&quest_npc_visual_record.value), record_addr);
     }
 }
 

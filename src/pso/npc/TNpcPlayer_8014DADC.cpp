@@ -65,8 +65,8 @@ void TNpcPlayer::init_equipment() {
     set_technique_seed_level(temp_r31 + 0x428, 0x10, this->ai_params.support_technique_level);
 }
 
-    extern int TNpcPlayer__data_805D5864;
-void TNpcPlayer__sub_8014DC30(void) { TNpcPlayer__data_805D5864 = 1; }
+    extern int quest_npc_visual_pending;
+void TNpcPlayer__sub_8014DC30(void) { quest_npc_visual_pending = 1; }
 
 int TNpcPlayer__sub_8014DC3C(void* p) { return request_technique_cast__10TNpcPlayerFl(p); }
 

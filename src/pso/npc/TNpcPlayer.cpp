@@ -70,7 +70,7 @@ struct Tec_80150B90 { u8 pad[0x10]; s16 f10; };
 
 struct N_80152C8C { u8 pad0[7]; s8 count; u32 pos[1]; };
 disp_data_part2 *npc_player_char_data_buffer;
-s32 TNpcPlayer__data_805D5864;
+s32 quest_npc_visual_pending;
 
 
 f32 atan2_float(f32 y, f32 x);
@@ -125,20 +125,19 @@ extern int registered_entity_count;
 extern Text_8014E250 npc_partner_dialogue_state[];
 
 void copy_player_visual_record(void *, void *);
-extern s32 TNpcPlayer__data_805D5864;
 
-disp_data_part2 lbl_8050CF68;
+disp_data_part2 npc_player_visual_record;
 u32 npc_player_ply_char_data_global[3];
-u32 lbl_8050CFC4[263];
-disp_data_part2 lbl_8050D3E0;
+u32 npc_player_char_data[263];
+disp_data_part2 quest_npc_visual_record;
 
 // Combat action ids by tier, read by TNpcPlayer::update_combat_action.
 static const s32 npc_player_combat_action_table[3][2] = {{0, 1}, {3, 4}, {6, 8}};
 
-const char *lbl_805D2E70 = "npcplayerchar.dat";
-const char *TNpcPlayer__name = "TNpcPlayer";
+const char *npc_player_char_file_name = "npcplayerchar.dat";
+const char *TNpcPlayer::name = "TNpcPlayer";
 
-// lbl_8050CFC4 is constructed by __sinit_TNpcPlayer_cpp, spelled out below because
+// npc_player_char_data is constructed by __sinit_TNpcPlayer_cpp, spelled out below because
 // the original's static initializer precedes the out-of-line helpers at the end
 // of this file, which no compiler-generated __sinit reproduces.
 void __sinit_TNpcPlayer_cpp();
@@ -160,7 +159,7 @@ void bswap_6x43_packet(void* p);
 u8 get_6x47_cast_packet_size(u8 *arg0);
 int get_registered_object_count(void);
 const char *get_partner_custom_text(s32 kind, u16 player);
-TNpcPlayer::AiParams TNpcPlayer__template_table[64] = {
+TNpcPlayer::AiParams npc_player_ai_templates[64] = {
     {0x0, 0x4, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 13.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0xf, 0x0, 50.0f},
     {0x1, 0xc, TECHNIQUE_FLAGS_BARTA_GIBARTA, 100.0f, 10.0f, 15.0f, 35.0f, 25.0f, 100.0f, 0x0, 0x9, 0x19, 0x5a, 50.0f},
     {0x2, 0x14, TECHNIQUE_FLAGS_BARTA_GIBARTA, 100.0f, 10.0f, 15.0f, 40.0f, 30.0f, 100.0f, 0x2, 0x9, 0x1e, 0x50, 50.0f},
@@ -862,7 +861,6 @@ TPlyInventoryItem *npc_player_equipment_ultimate[64] = {
 };
 
 
-extern s32 lbl_805D6EA0;
 
 
 void TUnk_804AF7B0::run_task() {
@@ -1080,7 +1078,7 @@ void set_technique_seed_level(Obj_801528A8 *self, s16 i, u8 v) {
 }
 
 void __sinit_TNpcPlayer_cpp() {
-    __register_global_object(__ct__12TPlyCharDataFv(lbl_8050CFC4), (void *)__dt__12TPlyCharDataFv, npc_player_ply_char_data_global);
+    __register_global_object(__ct__12TPlyCharDataFv(npc_player_char_data), (void *)__dt__12TPlyCharDataFv, npc_player_ply_char_data_global);
 }
 
 void TNpcPlayer::ensure_rock_singleton() {
@@ -1095,13 +1093,13 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 arg0) {
     s32 lvl;
     u16 base;
 
-    if (TNpcPlayer__data_805D5864 != 0) {
-        TNpcPlayer__data_805D5864 = 0;
-        copy_player_visual_record(&lbl_8050CF68, &lbl_8050D3E0);
+    if (quest_npc_visual_pending != 0) {
+        quest_npc_visual_pending = 0;
+        copy_player_visual_record(&npc_player_visual_record, &quest_npc_visual_record);
     } else {
-        copy_player_visual_record(&lbl_8050CF68, &npc_player_char_data_buffer[arg0]);
+        copy_player_visual_record(&npc_player_visual_record, &npc_player_char_data_buffer[arg0]);
     }
-    bswap__15disp_data_part2Fv((saddr)&lbl_8050CF68);
+    bswap__15disp_data_part2Fv((saddr)&npc_player_visual_record);
     mem_free(npc_player_char_data_buffer);
     mode = game_difficulty_selection;
     npc_player_char_data_buffer = NULL;
@@ -1110,7 +1108,7 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 arg0) {
     } else {
         diff = 2;
     }
-    base = TNpcPlayer__template_table[arg0].base_level;
+    base = npc_player_ai_templates[arg0].base_level;
     lvl = base + diff * 25;
     if (mode == 3) {
         lvl = base + 150;
@@ -1120,23 +1118,23 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 arg0) {
     }
     switch (mode) {
     case 0:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 1:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 2:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 3:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     default:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     }
-    copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(lbl_8050CFC4)->m_disp_part2, &lbl_8050CF68);
-    return reinterpret_cast<TPlyCharData *>(lbl_8050CFC4);
+    copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(npc_player_char_data)->m_disp_part2, &npc_player_visual_record);
+    return reinterpret_cast<TPlyCharData *>(npc_player_char_data);
 }
 
 TPlyCharData *load_npc_player_template(s32 index) {
@@ -1149,14 +1147,14 @@ TPlyCharData *load_npc_player_template(s32 index) {
         return NULL;
     }
     npc_player_char_data_buffer = static_cast<disp_data_part2 *>(mem_alloc(64 * sizeof(disp_data_part2)));
-    if (TNpcPlayer__data_805D5864 != 0) {
-        TNpcPlayer__data_805D5864 = 0;
-        copy_player_visual_record(&lbl_8050CF68, &lbl_8050D3E0);
+    if (quest_npc_visual_pending != 0) {
+        quest_npc_visual_pending = 0;
+        copy_player_visual_record(&npc_player_visual_record, &quest_npc_visual_record);
     } else {
-        read_disc_file(lbl_805D2E70, (void *)npc_player_char_data_buffer);
-        copy_player_visual_record(&lbl_8050CF68, &npc_player_char_data_buffer[index]);
+        read_disc_file(npc_player_char_file_name, (void *)npc_player_char_data_buffer);
+        copy_player_visual_record(&npc_player_visual_record, &npc_player_char_data_buffer[index]);
     }
-    bswap__15disp_data_part2Fv((saddr)&lbl_8050CF68);
+    bswap__15disp_data_part2Fv((saddr)&npc_player_visual_record);
     mem_free(npc_player_char_data_buffer);
     mode = game_difficulty_selection;
     npc_player_char_data_buffer = NULL;
@@ -1165,7 +1163,7 @@ TPlyCharData *load_npc_player_template(s32 index) {
     } else {
         diff = 2;
     }
-    base = TNpcPlayer__template_table[index].base_level;
+    base = npc_player_ai_templates[index].base_level;
     lvl = base + diff * 25;
     if (mode == 3) {
         lvl = base + 150;
@@ -1175,27 +1173,27 @@ TPlyCharData *load_npc_player_template(s32 index) {
     }
     switch (mode) {
     case 0:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 1:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 2:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 3:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     default:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     }
-    copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(lbl_8050CFC4)->m_disp_part2, &lbl_8050CF68);
-    return reinterpret_cast<TPlyCharData *>(lbl_8050CFC4);
+    copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(npc_player_char_data)->m_disp_part2, &npc_player_visual_record);
+    return reinterpret_cast<TPlyCharData *>(npc_player_char_data);
 }
 
 TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, TObject *parent) : TObject(parent) {
-    m_name = TNpcPlayer__name;
+    m_name = TNpcPlayer::name;
     m_24 = 0x19;
     m_1c = 0;
     m_20 = 0;
@@ -1221,7 +1219,7 @@ TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, TObject *parent) : TObject(parent
     m_8d = 0;
     m_74 = new Unk_8014F844(a);
     m_78 = new Unk_8014F844(b);
-    ai_params.copy(&TNpcPlayer__template_table[m_2c]);
+    ai_params.copy(&npc_player_ai_templates[m_2c]);
     if (m_78 != 0 && m_78->m_94 != 0) {
         VecCopy(&m_dc, &m_78->m_94->position);
         init_equipment();
@@ -1247,7 +1245,7 @@ void TNpcPlayer::AiParams::copy(AiParams *src) {
 }
 
 TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, s32 arg4, TObject *parent) : TObject(parent) {
-    m_name = TNpcPlayer__name;
+    m_name = TNpcPlayer::name;
     m_24 = 0x19;
     m_1c = 0;
     m_20 = 0;
@@ -1273,7 +1271,7 @@ TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, s32 arg4, TObject *parent) : TObj
     m_8d = 0;
     m_74 = new Unk_8014F844(a);
     m_78 = new Unk_8014F844(b);
-    ai_params.copy(&TNpcPlayer__template_table[m_2c]);
+    ai_params.copy(&npc_player_ai_templates[m_2c]);
     if (m_78 != 0 && m_78->m_94 != 0) {
         VecCopy(&m_dc, &m_78->m_94->position);
         init_equipment();
@@ -1736,7 +1734,7 @@ void TNpcPlayer::deliver_partner_action() {
     Vec d;
     f32 len;
 
-    if ((m_80 & 4) && !(lbl_805D6EA0 & 2)) {
+    if ((m_80 & 4) && !(partner_chatter_flags & 2)) {
         deliver_partner_chatter(this);
     }
     if (m_78->m_94->test_action_mask(2) == 0) {

@@ -53,6 +53,7 @@ class TPlyCharData;
 struct disp_data_part2;
 
 extern disp_data_part2 *npc_player_char_data_buffer;
+extern int partner_chatter_flags;
 
 struct TNpcPlayer : public TObject {
     struct AiParams {
@@ -86,7 +87,7 @@ struct TNpcPlayer : public TObject {
     s32 m_20;
     s32 m_24;
     s32 m_28;
-    s16 m_2c;  // row of TNpcPlayer__template_table
+    s16 m_2c;  // row of npc_player_ai_templates
     u8 _pad2E[0x2];
     AiParams ai_params;
     f32 m_58;
@@ -116,6 +117,7 @@ struct TNpcPlayer : public TObject {
     void change_ai_state(u32 arg1);
     void handle_action(s32 arg1);
     void request_chatter(u32 arg1);
+    static const char *name;
     static void quick_sort(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static bool is_small_obstacle(f32 size);
     static bool is_hp_low(f32 hp, f32 max_hp);

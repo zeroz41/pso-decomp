@@ -112,7 +112,7 @@ s32 obj_getS16_2BA(Player_8034DAA0 *);
 void set_tp__10TObjPlayerFs(Player_8034DAA0 *, s32);
 
 struct TNpcPlayerTemplateTable { s32 value; u8 remaining[0x9FC]; };
-extern TNpcPlayerTemplateTable TNpcPlayer__template_table;
+extern TNpcPlayerTemplateTable npc_player_ai_templates;
 
 typedef struct VBase_18_dac7f3 VBase_18_dac7f3;
 typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
@@ -206,7 +206,7 @@ struct Stack_8034ED58 {
     s16 sp12;
 };
 
-int lbl_805D6EA0;
+int partner_chatter_flags;
 extern "C" {
 void set_arrival_override_coords(u16, s32, f32, f32, f32);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
@@ -216,7 +216,7 @@ void handle_6x69_npc_control(Pkt_8034E814 *pkt);
 }
 void quest_remove_npc_player(u16 client);
 extern struct Slot_8034EDC4 partner_dialogue_table[];
-extern s32 TNpcPlayer__data_805D5864;
+extern s32 quest_npc_visual_pending;
 void init_partner_dialogue(void);
 void quest_player_look_at_partner(u16 src);
 void notify_partner_room_cleared(s32 arg0);
@@ -274,9 +274,9 @@ void TNpcPlayer::reset_player_lobby_model(u16 client) {
 void init_partner_dialogue(void) {
     s32 i;
     s32 j;
-    (*(s32 *)&lbl_805D6EA0) = 0;
+    (*(s32 *)&partner_chatter_flags) = 0;
     clear_partner_dialogue_flags();
-    TNpcPlayer__data_805D5864 = 0;
+    quest_npc_visual_pending = 0;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 6; j++) {
             partner_dialogue_table[i].a[j] = 0;
@@ -285,7 +285,7 @@ void init_partner_dialogue(void) {
     }
 }
 
-void TNpcPlayer__sub_8034EDB8(void) { lbl_805D6EA0 = 0; }
+void TNpcPlayer__sub_8034EDB8(void) { partner_chatter_flags = 0; }
 
 void TNpcPlayer::send_npc_create(s32 arg0, s32 arg1) {
     Stack_8034ED58 stack;
@@ -515,7 +515,7 @@ void show_partner_chatter_for_key(s16 key) {
     for (i = 0; i < 4; i++) {
         player = (saddr)get_player_by_client_id(i);
         if (player && reinterpret_cast<TObjPlayer *>(player)->obj_isState3_324() && key == ((TObjBase *)player)->get_room()
-            && !(lbl_805D6EA0 & 2) && (*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e) {
+            && !(partner_chatter_flags & 2) && (*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e) {
             TWindowCtrl::open(((TObjBase *)(player))->get_entity_id(), (saddr)(&(*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e), 0x1B);
         }
     }
@@ -528,7 +528,7 @@ void notify_partner_room_cleared(s32 arg0) {
     i = 0;
     do {
         p = (saddr)get_player_by_client_id(i);
-        if (p != 0 && reinterpret_cast<TObjPlayer *>(p)->obj_isState3_324() != 0 && arg0 == ((TObjBase *)p)->get_room() && !(lbl_805D6EA0 & 2) && *win != 0) {
+        if (p != 0 && reinterpret_cast<TObjPlayer *>(p)->obj_isState3_324() != 0 && arg0 == ((TObjBase *)p)->get_room() && !(partner_chatter_flags & 2) && *win != 0) {
             TWindowCtrl::open(((TObjBase *)(p))->get_entity_id(), (saddr)((void *)((saddr)win)), 0x1B);
         }
         i += 1;
@@ -559,9 +559,9 @@ void TNpcPlayer::enable_all_battle_ctrl() {
     } while (i < 4);
 }
 
-void TNpcPlayer::disable_partner_chatter() { lbl_805D6EA0 = (lbl_805D6EA0 | 0x2); }
+void TNpcPlayer::disable_partner_chatter() { partner_chatter_flags = (partner_chatter_flags | 0x2); }
 
-void TNpcPlayer::enable_partner_chatter() { lbl_805D6EA0 = (lbl_805D6EA0 & 0xfffffffd); }
+void TNpcPlayer::enable_partner_chatter() { partner_chatter_flags = (partner_chatter_flags & 0xfffffffd); }
 
 void TNpcPlayer::send_stop_at_position(u16 id, void *pos, s32 arg) {
     struct Pkt_8034E3A0 pkt;
@@ -743,7 +743,7 @@ void TNpcPlayer::AiParams::copy_entry_by_index(s32 arg1) {
     saddr arg0 = (saddr)this;
     s32 temp_r5;
     temp_r5 = arg1 * 0x28;
-    ((AiParams *)((u8 *)&TNpcPlayer__template_table.value + temp_r5))->copy((AiParams *)arg0);
+    ((AiParams *)((u8 *)&npc_player_ai_templates.value + temp_r5))->copy((AiParams *)arg0);
 }
 
 // Indexed by TLobby::get_instance(); the yaw tables' names are inferred from their accessors.
