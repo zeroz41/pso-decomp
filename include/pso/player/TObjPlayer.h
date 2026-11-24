@@ -906,7 +906,6 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_80000();
     void set_flag_80000();
     // The ending movie's finish callback: TMovie::run_task calls it with the movie.
-    static void disable_keyboard_control(TMovie *movie);
     static void enable_foot_stamp(saddr owner, saddr player);
     static void clear_foot_stamp(saddr owner, saddr player);
     static s32 check_hit_by_id_431(void* p, u16 target_id);

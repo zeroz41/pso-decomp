@@ -1,12 +1,13 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/player/TObjPlayer_80307618.h"
+#include "pso/weapon/TItemWeaponSBerillsHands.h"
+#include "pso/system/movie/TEndingMovie.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/weapon/TUnk_804E70A8.h"
-#include "pso/player/TUnk_804E71A0.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/text_80307964.h"
+#include "pso/ui/frontend/TAdEndText_80307A34.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TMainTask.h"
@@ -16,15 +17,10 @@
 // Built with -inline off,deferred: functions are written last to first.
 
 extern "C" {
-extern NJS_TEXLIST shared_capture_texture_list;
-void set_queued_main_phase(s32 queued_main_phase);
-void request_main_phase(s32 arg0);
 void *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void *, s32, s32, s32);
-extern s32 game_difficulty_selection;
 }
-extern s32 ending_movie_active_flag;
 
-TUnk_804E71A0::TUnk_804E71A0() : TObject(tl_04) {
+TEndingMovie::TEndingMovie() : TObject(tl_04) {
     void *p;
     ending_movie_active_flag = 0;
     switch (game_difficulty_selection) {
@@ -33,23 +29,23 @@ TUnk_804E71A0::TUnk_804E71A0() : TObject(tl_04) {
     case 2:
         p = TObject::operator new(0x4C);
         if (p != 0) {
-            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", (void *)TObjPlayer::disable_keyboard_control, 0, 1, 0);
+            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", (void *)TEndingMovie::finish_movie, 0, 1, 0);
         }
         break;
     case 3:
         p = TObject::operator new(0x4C);
         if (p != 0) {
-            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", (void *)TObjPlayer::disable_keyboard_control, 0, 0, 0);
+            __ct__6TMovieFP7TObjectPSclll(p, tl_00, "ending_normal.sfd", (void *)TEndingMovie::finish_movie, 0, 0, 0);
         }
         break;
     }
 }
 
-TUnk_804E71A0::~TUnk_804E71A0() {}
+TEndingMovie::~TEndingMovie() {}
 
-void TUnk_804E71A0::run_task() {}
+void TEndingMovie::run_task() {}
 
-void TObjPlayer::disable_keyboard_control(TMovie *movie) {
+void TEndingMovie::finish_movie(TMovie *movie) {
     movie->queue_destruction();
     if ((s32) ending_movie_active_flag != 0) {
         request_main_phase(2);
@@ -59,23 +55,22 @@ void TObjPlayer::disable_keyboard_control(TMovie *movie) {
     request_main_phase(0x12);
 }
 
-void TUnk_804E71A0::render() {}
+void TEndingMovie::render() {}
 
 NJS_TEXLIST *get_shared_capture_texture_list(void) {
     return &shared_capture_texture_list;
 }
 
-TUnk_804E70A8::~TUnk_804E70A8() {}
+TItemWeaponSBerillsHands::~TItemWeaponSBerillsHands() {}
 
-
-TItem *TObjPlayer__sub_80307800(u8 *item) {
+TItem *create_s_berills_hands_weapon(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804E70A8(tl_05, item);
+        return new TItemWeaponSBerillsHands(tl_05, item);
     }
     return NULL;
 }
 
-TUnk_804E70A8::TUnk_804E70A8(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponSBerillsHands::TItemWeaponSBerillsHands(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(1);
     if (get_item_index() == 1) {
         set_weapon_flags(0x800);
@@ -85,7 +80,7 @@ TUnk_804E70A8::TUnk_804E70A8(TObject *parent, u8 *item) : TItemWeapon(parent, it
     pad_200 = 0;
 }
 
-void TUnk_804E70A8::vfunc_60() {
+void TItemWeaponSBerillsHands::vfunc_60() {
     s32 player_list;
     if (pad_1f8 == 0) {
         player_list = TObjPlayer::get_player_list();
@@ -94,7 +89,7 @@ void TUnk_804E70A8::vfunc_60() {
     }
 }
 
-void TUnk_804E70A8::update_weapon() {
+void TItemWeaponSBerillsHands::update_weapon() {
     if (pad_1f8 > 0) {
         if (get_item_index() == 1) {
             pad_1f8--;
@@ -108,10 +103,15 @@ void TUnk_804E70A8::update_weapon() {
     }
 }
 
-void TUnk_804E70A8::reserved_53() {
+void TItemWeaponSBerillsHands::reserved_53() {
     NJS_OBJECT *model = item_model;
     draw_weapon_model();
     item_model = second_model;
     draw_weapon_at_joint((saddr)this, 0x23);
     item_model = model;
+}
+
+void TItemWeaponSBerillsHands::emit_marker_effects() {
+    pad_1f8 = 5;
+    clear_weapon_flags(0x800U);
 }

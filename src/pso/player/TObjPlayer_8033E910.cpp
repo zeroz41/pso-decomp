@@ -3,7 +3,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_8033E910.h"
-#include "pso/player/TObjPlayer_80307618.h"
+#include "pso/weapon/TItemWeaponSBerillsHands.h"
 #include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/unk/TUnk_804EFA88.h"
 #include "pso/render/render_util.h"

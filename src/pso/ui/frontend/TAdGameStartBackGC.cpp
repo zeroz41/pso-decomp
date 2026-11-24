@@ -1,8 +1,5 @@
 #include "pso/ui/frontend/TAdGameStartBackGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/weapon/TItemWeapon.h"
-#include "pso/weapon/TUnk_804E70A8.h"
-
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -81,9 +78,3 @@ TAdGameStartBackGC::TAdGameStartBackGC(TObject *parent) : TObject(parent) {
     m_quad.v1 = 0.5f;
 }
 #pragma pop
-
-void TUnk_804E70A8::emit_marker_effects() {
-    u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 0x1F8) = 5;
-    ((TItemWeapon *)arg0)->clear_weapon_flags(0x800U);
-}

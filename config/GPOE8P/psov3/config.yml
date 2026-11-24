@@ -2496,7 +2496,7 @@ force_active:
   - __dt__13TUnk_804E4788Fv
   - __dt__13TUnk_804E4BF0Fv
   - __dt__13TUnk_804E6FA8Fv
-  - __dt__13TUnk_804E71A0Fv
+  - __dt__12TEndingMovieFv
   - __dt__13TUnk_804ECDC0Fv
   - __dt__15TTelepipeMarkerFv
   - __dt__19TEffIndirectSamplerFv
@@ -14187,7 +14187,7 @@ force_active:
   - render__22TWindowComCardFollowerFv
   - render__13TUnk_804DCB64Fv
   - render__13TUnk_804E4BF0Fv
-  - render__13TUnk_804E71A0Fv
+  - render__12TEndingMovieFv
   - render__15TTelepipeMarkerFv
   - render__13TUnk_804EE470Fv
   - render__16TTitleBackgroundFv
@@ -14887,7 +14887,7 @@ force_active:
   - run_task__13TUnk_804DCB64Fv
   - run_task__13TUnk_804E4788Fv
   - run_task__13TUnk_804E4BF0Fv
-  - run_task__13TUnk_804E71A0Fv
+  - run_task__12TEndingMovieFv
   - run_task__15TTelepipeMarkerFv
   - run_task__18TGbaAramUploadTaskFv
   - run_task__13TUnk_804EE470Fv

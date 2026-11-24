@@ -8658,15 +8658,15 @@ pso/ui/frontend/TAdMultiOkGC.cpp:
 	.sdata2     start:0x805DF040 end:0x805DF074
 
 pso/ui/frontend/TAdGameStartBackGC.cpp:
-	.text       start:0x80307300 end:0x80307618
+	.text       start:0x80307300 end:0x803075EC
 	.rodata     start:0x80475428 end:0x80475448
 	.data       start:0x804E7090 end:0x804E70A8
 	.sdata      start:0x805D4088 end:0x805D4090
 	.sbss       start:0x805D6A50 end:0x805D6A54
 	.sdata2     start:0x805DF078 end:0x805DF0A4
 
-pso/player/TObjPlayer_80307618.cpp:
-	.text       start:0x80307618 end:0x80307A34
+pso/weapon/TItemWeaponSBerillsHands.cpp:
+	.text       start:0x803075EC end:0x80307A34
 	.rodata     start:0x80475448 end:0x80475468
 	.data       start:0x804E70A8 end:0x804E71B8
 	.sdata2     start:0x805DF0A8 end:0x805DF0B0

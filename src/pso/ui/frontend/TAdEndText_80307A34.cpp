@@ -8,7 +8,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TUnk_804E71A0.h"
+#include "pso/system/movie/TEndingMovie.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/unk/text_803DCDFC.h"
 #include "pso/unk/text_800FA464.h"
@@ -17,7 +17,7 @@
 
 // .sbss 0x805D6A58-0x805D6A60 is one TU's run: 0x805D6A5C is not 8-aligned, so both words belong to the TU that
 // starts at 0x805D6A58 after TAdGameStartBackGC's pad word. Between TAdGameStartBackGC and TBoss7Crawfish only this
-// unit (start_ending_sequence) and TObjPlayer_80307618 (the TUnk_804E71A0 it creates) use them.
+// unit (start_ending_sequence) and TItemWeaponSBerillsHands.cpp (the TEndingMovie it creates) use them.
 s32 ending_sequence_active;
 s32 ending_movie_active_flag;
 
@@ -49,6 +49,6 @@ void start_ending_sequence(void) {
     TAdEndText::load_ending_font();
     TLobby::update_keyboard_menu();
     TLobby::set_ending_callback();
-    new TUnk_804E71A0;
+    new TEndingMovie;
     render_tick();
 }

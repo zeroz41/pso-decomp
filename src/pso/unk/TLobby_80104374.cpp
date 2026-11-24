@@ -64,7 +64,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/player/TObjPlayer_80125780.h"
-#include "pso/player/TObjPlayer_80307618.h"
 #include "pso/player/TObjPlayer_80362E60.h"
 #include "pso/weapon/TUnk_804E24F0.h"
 #include "pso/weapon/TUnk_804F28E0.h"
@@ -79,6 +78,7 @@
 #include "pso/unk/text_8012C268.h"
 #include "pso/weapon/TItemWeaponDarkMeteor.h"
 #include "pso/weapon/TItemWeaponNug2000Bazooka.h"
+#include "pso/weapon/TItemWeaponSBerillsHands.h"
 #include "pso/weapon/TItemWeaponTsumikiri.h"
 #include "pso/unk/text_8035D444.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
@@ -314,7 +314,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TUnk_804E24F0::create,
     TObjPlayer::create_object_by_type,
     create_nug2000_bazooka,
-    TObjPlayer__sub_80307800,
+    create_s_berills_hands_weapon,
     create_sword_weapon,
     create_saber_weapon,
     TObjPlayer::create_gi_gue_bazooka,
