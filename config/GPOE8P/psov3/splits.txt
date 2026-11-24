@@ -3003,7 +3003,7 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.cpp:
 	.text       start:0x801334D4 end:0x80133568
 
 pso/object/ambient/TObjLight_80133568.cpp:
-	.text       start:0x80133568 end:0x80134A40
+	.text       start:0x80133568 end:0x801349C8
 	.rodata     start:0x8043ED80 end:0x8043ED98
 	.data       start:0x804A6F28 end:0x804A6FD8
 	.bss        start:0x80506320 end:0x80506A60
@@ -3011,19 +3011,7 @@ pso/object/ambient/TObjLight_80133568.cpp:
 	.sdata2     start:0x805DB088 end:0x805DB0A8
 
 pso/unk/TLobby.cpp:
-	.text       start:0x80134A40 end:0x80134D54
-
-pso/unk/TLobby_80134D54.cpp:
-	.text       start:0x80134D54 end:0x80134D74
-
-pso/unk/TLobby_80134D74.cpp:
-	.text       start:0x80134D74 end:0x80134DA0
-
-pso/unk/TLobby_80134DA0.cpp:
-	.text       start:0x80134DA0 end:0x80134E30
-
-pso/network/TPlyJoinLobbyEntry.cpp:
-	.text       start:0x80134E30 end:0x8013AE18
+	.text       start:0x801349C8 end:0x8013AE18
 	.ctors      start:0x80433F80 end:0x80433F84
 	.rodata     start:0x8043ED98 end:0x8043F090
 	.data       start:0x804A6FD8 end:0x804A7130

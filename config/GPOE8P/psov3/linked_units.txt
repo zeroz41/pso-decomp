@@ -770,9 +770,6 @@ pso/unk/TLobby_80104374.cpp
 pso/unk/TLobby_80131794.cpp
 pso/unk/TLobby_8013292C.cpp
 pso/unk/TLobby_80132ED0.cpp
-pso/unk/TLobby_80134D54.cpp
-pso/unk/TLobby_80134D74.cpp
-pso/unk/TLobby_80134DA0.cpp
 pso/unk/TLobby_80140FF4.cpp
 pso/unk/TLobby_80156B18.cpp
 pso/unk/TLobby_80160804.cpp
@@ -1051,7 +1048,6 @@ pso/player/TPlyGuildCardTag_801E0284.cpp
 pso/player/TPlyGuildCardTag_801E09C4.cpp
 pso/network/TPlyJoinGame.cpp
 pso/network/TPlyJoinLobby.cpp
-pso/network/TPlyJoinLobbyEntry.cpp
 pso/player/TPlyPhotonChair.cpp
 pso/network/TPlyRecvLogin.cpp
 pso/player/TPlySmth.cpp

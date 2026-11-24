@@ -62,7 +62,7 @@ void set_player_count__6TLobbyFi(int a0);
 
 extern char lobby_ship_name[0x28];
 
-// Lobby log lines, window titles and messages; defined at the end of TPlyJoinLobbyEntry.cpp,
+// Lobby log lines, window titles and messages; defined at the end of TLobby.cpp,
 // after the code that uses them.
 extern const char lobby_debug_udp_open_format[];
 extern const char lobby_debug_make_player_format[];

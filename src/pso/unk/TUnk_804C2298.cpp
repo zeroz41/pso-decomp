@@ -176,7 +176,7 @@ const s32 short_list_ctrl_interval_table[6] = {900, 1800, 2700, 3600, 0, 0};
 
 s32 TLobby::get_table_entry_by_index() {
     // The caller's client id passes through in r3: the parameter comes back with the hand-mangled
-    // callers in TPlyJoinLobbyEntry.cpp.
+    // callers in TLobby.cpp.
     return short_list_ctrl_interval_table[((s32 (*)())fn_801A51F0)()];
 }
 
