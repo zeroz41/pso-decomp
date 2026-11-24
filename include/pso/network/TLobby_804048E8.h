@@ -8,7 +8,7 @@
 
 
 /* An IPv4 header decoded by TLobby__sub_803FEA88. */
-typedef struct A_80403F4C {
+typedef struct ParsedIpHeader {
     u32 src;
     u32 dst;
     u16 len;
@@ -24,11 +24,11 @@ typedef struct A_80403F4C {
     u8 proto; /* IP protocol (VJ compression stores the slot id here) */
     u8 optlen;
     u8 opts[0x40 - 0x18];
-} A_80403F4C;
-LAYOUT_ASSERT(A_80403F4C_size_check, sizeof(A_80403F4C) == 0x40);
+} ParsedIpHeader;
+LAYOUT_ASSERT(ParsedIpHeader_size_check, sizeof(ParsedIpHeader) == 0x40);
 
 /* A TCP header decoded for VJ compression. */
-typedef struct B_80403F4C {
+typedef struct ParsedTcpHeader {
     u16 src_port;
     u16 dst_port;
     u32 seq;
@@ -46,16 +46,16 @@ typedef struct B_80403F4C {
     u8 fin;
     u8 option_len;
     u8 options[0x28];
-} B_80403F4C;
-LAYOUT_ASSERT(B_80403F4C_size_check, sizeof(B_80403F4C) == 0x44);
+} ParsedTcpHeader;
+LAYOUT_ASSERT(ParsedTcpHeader_size_check, sizeof(ParsedTcpHeader) == 0x44);
 
 /* A VJ compression connection state. */
 typedef struct PppVjConnectionState {
     u8 id;
     u8 pad1[3];
     struct PppVjConnectionState *next;
-    A_80403F4C a;
-    B_80403F4C b;
+    ParsedIpHeader a;
+    ParsedTcpHeader b;
 } PppVjConnectionState;
 LAYOUT_ASSERT(PppVjConnectionState_size, sizeof(PppVjConnectionState) == 0x8C);
 
@@ -90,10 +90,10 @@ void TLobby__sub_80405000(PppVjCompressionState *state);
 PppVjCompressionState *init_net_list(s16 count1, s16 count2);
 s16 TLobby__sub_804040E0(PppVjCompressionState *state, PppFrame **frame);
 s32 TLobby__sub_804048E8(PppVjCompressionState *state, PppFrame **frame, s16 compress_cid);
-s32 TLobby__sub_803FEA88(A_80403F4C *out, PppFrame **src);
-PppFrame *NetIPv4WriteHeader(A_80403F4C *ip, PppFrame *frame, s32 preserve_checksum);
-s32 TLobby__sub_804053B8(B_80403F4C *record, PppFrame **frame);
-PppFrame *TLobby__sub_8040555C(B_80403F4C *record, PppFrame *frame, u8 *checksum_state);
+s32 TLobby__sub_803FEA88(ParsedIpHeader *out, PppFrame **src);
+PppFrame *NetIPv4WriteHeader(ParsedIpHeader *ip, PppFrame *frame, s32 preserve_checksum);
+s32 TLobby__sub_804053B8(ParsedTcpHeader *record, PppFrame **frame);
+PppFrame *TLobby__sub_8040555C(ParsedTcpHeader *record, PppFrame *frame, u8 *checksum_state);
 #ifdef __cplusplus
 }
 #endif

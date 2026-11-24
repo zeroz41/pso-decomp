@@ -34,14 +34,14 @@ s32 TLobby__sub_804048E8(PppVjCompressionState *comp, PppFrame **m, s16 compress
     PppVjConnectionState *cs;
     PppVjConnectionState *lastcs;
     PppVjConnectionState *lcs;
-    B_80403F4C *oth;
+    ParsedTcpHeader *oth;
     u32 deltaS;
     u32 deltaA;
     s16 changes;
     u8 *cp;
     s32 hlen;
-    B_80403F4C b;
-    A_80403F4C a;
+    ParsedTcpHeader b;
+    ParsedIpHeader a;
 
     cp = (u8 *)lbl_805C1890;
     changes = 0;

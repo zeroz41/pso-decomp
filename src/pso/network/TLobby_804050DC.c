@@ -190,7 +190,7 @@ void lobby_timer_start(u8 *arg0) {
     }
 }
 
-s32 TLobby__sub_804053B8(B_80403F4C *record, PppFrame **pp)
+s32 TLobby__sub_804053B8(ParsedTcpHeader *record, PppFrame **pp)
 {
   struct Hdr_804053B8
   {
@@ -302,7 +302,7 @@ typedef struct ChecksumObj {
     u16 count;
 } ChecksumObj;
 
-PppFrame *TLobby__sub_8040555C(B_80403F4C *record, PppFrame *frame, u8 *obj) {
+PppFrame *TLobby__sub_8040555C(ParsedTcpHeader *record, PppFrame *frame, u8 *obj) {
     TcpHeaderOut hdr;
     u32 n = 0;
     PppFrame *buf;

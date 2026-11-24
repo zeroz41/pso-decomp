@@ -17,8 +17,8 @@ u8 vj_byte_buffer[1];
 u8 vj_u16_buffer[2];
 
 s16 TLobby__sub_80403F4C(PppVjCompressionState *o, PppFrame **spp) {
-    A_80403F4C a;
-    B_80403F4C b;
+    ParsedIpHeader a;
+    ParsedTcpHeader b;
     PppVjConnectionState *e;
     u8 c;
 
@@ -79,7 +79,7 @@ inline s32 vj_read_u16(PppFrame **src) {
     return read_network_u16_be(vj_u16_buffer);
 }
 s16 TLobby__sub_804040E0(PppVjCompressionState *comp, PppFrame **src) {
-    B_80403F4C *th;
+    ParsedTcpHeader *th;
     PppVjConnectionState *cs;
     s16 changes;
     s32 v;

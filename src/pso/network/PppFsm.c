@@ -683,7 +683,7 @@ u32 TLobby__sub_803FE9F8(u32 sum, PppFrame* buf, u16 count) {
     return sum;
 }
 
-s32 TLobby__sub_803FEA88(A_80403F4C *out, PppFrame **src) {
+s32 TLobby__sub_803FEA88(ParsedIpHeader *out, PppFrame **src) {
     PppFrame *e = *src;
     IPv4Header h;
     u32 hl;
@@ -732,7 +732,7 @@ s32 TLobby__sub_803FEA88(A_80403F4C *out, PppFrame **src) {
     return hl;
 }
 
-PppFrame *NetIPv4WriteHeader(A_80403F4C *ip, PppFrame *frame, s32 preserve_checksum) {
+PppFrame *NetIPv4WriteHeader(ParsedIpHeader *ip, PppFrame *frame, s32 preserve_checksum) {
     u16 n;
     u8 wire[0x40];
     IPv4Header *hdr = (IPv4Header *)wire;
