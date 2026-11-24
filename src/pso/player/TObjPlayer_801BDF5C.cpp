@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowSnapShot_802A7D68.h"
 #include "pso/ui/hud/TLockOnCursor_8013D91C.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/unk/text_80354BE4.h"
+#include "pso/player/Palettex.h"
 #include "pso/player/TPlayerFootStamp.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/window/TWindowSnapShot.h"

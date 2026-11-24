@@ -923,11 +923,6 @@ struct TObjPlayer : public TObjChara {
     static void create_network_object(s32 item_id, u32 *hit, saddr direction);
     void free_indexed_entry(s32 _w1);
     void copy_node_record(saddr arg1);
-    void set_player_index(s32 v);
-    void set_flag0_bits01();
-    int clear_lock_flag();
-    void set_flag1();
-    void reset_field4();
     static TItem *create_state_34_alt(u8 *item);
     static void update_battle_control_on_unlock(void *player, void *target, void *pos, s32 phase);
     static void create_cane_if_ready(saddr item, void *position);
@@ -1264,8 +1259,6 @@ struct TObjPlayer : public TObjChara {
     static void spawn_fire_explosion_at_item(s32 arg0, saddr arg1);
     static void spawn_fire_explosion(uaddr a0, saddr a1);
     static TItem *create_gi_gue_bazooka(u8 *item);
-    void finish_quest_thread();
-    static void destroy_static_array();
     void push_model_fade_color();
     static TItem *create_state_34(u8 *item);
     static TItem *create_state_vector_state(u8 *item);
@@ -1342,7 +1335,6 @@ struct TObjPlayer : public TObjChara {
     void spawn_item();
     static void spawn_hit_particles_at(s32 arg0, saddr hit, saddr dir);
     static void spawn_hit_particles_at_vec(s32 arg0, saddr arg1, saddr dir);
-    s32 get_quest_thread_id();
     static void heap_alloc(void* a0);
     static TPlayerLobbyMarker *create_lobby_marker(s16 client, s8 material_index);
     s32 can_guard();

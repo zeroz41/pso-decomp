@@ -1599,8 +1599,8 @@ force_active:
   - TObjPlayer__sub_80313010
   - __ct__13TUnk_804ECFB0FP7TObjectPUc
   - is_button_enabled__16PlayerPadBindingFl
-  - __sinit_TObjPlayer_80354EC8_cpp
-  - TObjPlayer__sub_80355098
+  - __sinit_Palettex_cpp
+  - __dt__13PalettexStateFv
   - __ct__21TEquippedItemDrawTaskFP7TObject
   - sample_motion_value_channel__FPv
   - sample_absent_vector_channel__FPv
@@ -5663,7 +5663,7 @@ force_active:
   - destroy_on_phase_change__10TChallengeFv
   - destroy_parts__11TBoss4Type3Fv
   - destroy_parts__13TBoss5GryphonFv
-  - destroy_static_array__10TObjPlayerFv
+  - destroy_palettex_states
   - destroy_sub_objects__15TBoss3VoloptP02Fv
   - set_core_color__13TObjEneMe1GeeFPC8NJS_ARGB
   - destroy_subobjects_recursive__9TItemListFv
@@ -7003,7 +7003,7 @@ force_active:
   - __ct__13NpcPlayerViewFl
   - init_air_turn__12TBoss1DragonFl
   - init_alpha__11TBreakUpMdlFlf
-  - init_and_reset_forward__10TObjPlayerFPv
+  - __ct__13PalettexStateFv
   - init_and_set_flag__6TLobbyFv
   - start_retreat__16TObjEneMerillLiaFv
   - init_attack_timer__11TBoss6Type1Fv
@@ -8217,7 +8217,7 @@ force_active:
   - lbl_805432A8
   - lbl_805434D0
   - morfos_attack_params
-  - lbl_80543978
+  - palettex_states_dtor_chain
   - epsilon_guard_node_origin
   - epsilon_zero_vector
   - lbl_80543A90
