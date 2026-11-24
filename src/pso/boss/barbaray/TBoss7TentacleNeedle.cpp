@@ -13,7 +13,7 @@
 #include "pso/boss/barbaray/Boss7TentacleData.h"
 #include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/boss/dragon/TBoss1Dragon.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
@@ -37,7 +37,7 @@
 // Unit-owned .bss banks (0x80541528-0x80541928), defined in address order: the tentacle's working
 // copy of its model nodes 0x310, segment_offsets +0x310 (0xA8), needle_offsets +0x3B8 (0x38).
 // Defined in this unit (as in the twin TBoss2Tentacle) so the code hoists their base into r31.
-DragonModelNode boss7_tentacle_model_nodes[14];
+NJS_OBJECT boss7_tentacle_model_nodes[14];
 Vec TBoss7Tentacle__segment_offsets[14];
 u32 TBoss7Tentacle__needle_offsets[14];
 AnimationMotion *boss7_tentacle_needle_motions[4];
@@ -47,34 +47,34 @@ NJS_OBJECT *boss7_tentacle_needle_model;
 // (the Needle vtable 0x804E4830 precedes the Tentacle one although every Needle virtual comes first).
 
 void TBoss7Tentacle::load_static_resource() {
-    DragonModelNode *src;
-    DragonModelNode *dst;
+    NJS_OBJECT *src;
+    NJS_OBJECT *dst;
     s32 i;
 
-    src = (DragonModelNode *)TBoss7DeRolLeC::get_archive_model(1);
+    src = TBoss7DeRolLeC::get_archive_model(1);
     get_boss7_motion(0x11);
     dst = boss7_tentacle_model_nodes;
     for (i = 0; i < 12; i++) {
-        copy_model_node((NJS_OBJECT *)dst, (NJS_OBJECT *)src);
+        copy_model_node(dst, src);
         dst->child = dst + 1;
         dst++;
         src = src->child;
     }
-    copy_model_node((NJS_OBJECT *)dst, (NJS_OBJECT *)src);
+    copy_model_node(dst, src);
     dst->sibling = dst + 1;
-    copy_model_node((NJS_OBJECT *)&dst[1], (NJS_OBJECT *)src->sibling);
+    copy_model_node(&dst[1], src->sibling);
     for (i = 0; i < 14; i++) {
-        boss7_tentacle_model_nodes[i].flags &= ~3;
-        TBoss7Tentacle__segment_offsets[i].x = (f64)boss7_tentacle_model_nodes[i].position.x;
-        TBoss7Tentacle__segment_offsets[i].y = boss7_tentacle_model_nodes[i].position.y;
-        TBoss7Tentacle__segment_offsets[i].z = boss7_tentacle_model_nodes[i].position.z;
-        TBoss7Tentacle__needle_offsets[i] = (u32)boss7_tentacle_model_nodes[i].rotation.z;
+        boss7_tentacle_model_nodes[i].evalflags &= ~3;
+        TBoss7Tentacle__segment_offsets[i].x = (f64)boss7_tentacle_model_nodes[i].pos[0];
+        TBoss7Tentacle__segment_offsets[i].y = boss7_tentacle_model_nodes[i].pos[1];
+        TBoss7Tentacle__segment_offsets[i].z = boss7_tentacle_model_nodes[i].pos[2];
+        TBoss7Tentacle__needle_offsets[i] = (u32)boss7_tentacle_model_nodes[i].ang[2];
     }
 }
 
 void TBoss7Tentacle::destroy_instance() {}
 
-TBoss7Tentacle::TBoss7Tentacle(TObject *parent, s32 joint, s32 index) : TObject(parent) {
+TBoss7Tentacle::TBoss7Tentacle(TObject *parent, const f32 (*joint)[4], s32 index) : TObject(parent) {
     m_name = TBoss7Tentacle__name;
     model = TBoss7DeRolLeC::get_archive_model(1);
     motion = get_boss7_motion(0x11);
@@ -114,12 +114,12 @@ void TBoss7Tentacle::raise() {
     flags &= ~HIDDEN;
 }
 
-void TBoss7Tentacle::start_attack_at_position(u8 *target, s32 hold_time) {
+void TBoss7Tentacle::start_attack_at_position(const Vec *target, s32 hold_time) {
     if ((hold_time <= 0) || (hold_time >= 0x258)) {
         hold_time = 0x78;
     }
     this->hold_time = hold_time;
-    VecCopy(&this->target, (const Vec *)target);
+    VecCopy(&this->target, target);
     request_aim();
 }
 
@@ -300,7 +300,7 @@ void TBoss7Tentacle::run_task() {
         v.z = 0.0f;
         push_matrix();
         set_matrix_identity(0);
-        TObjPlayer::concat_matrix(0, joint);
+        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(joint));
         transform_point_by_current_matrix(&v.x, &position);
         pop_matrix();
         VecCopy(&v, &target);
@@ -435,7 +435,7 @@ void TBoss7Tentacle::render() {
     switch (state) {
     case 0:
         set_motion_packed_rotation();
-        TObjPlayer::concat_matrix(0, joint);
+        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(joint));
         rotate_matrix_y(0, yaw);
         scale_current_matrix(&scale.x);
         draw_model_motion(model, motion, frame);
@@ -445,14 +445,14 @@ void TBoss7Tentacle::render() {
     case 4:
     case 5:
         set_motion_packed_rotation();
-        TObjPlayer::concat_matrix(0, joint);
+        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(joint));
         rotate_matrix_zyx(0, pitch, yaw, 0);
         scale_current_matrix(&scale.x);
         draw_model_motion(model, motion, frame);
         clear_motion_packed_rotation();
         break;
     case 2:
-        TObjPlayer::concat_matrix(0, joint);
+        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(joint));
         rotate_matrix_zyx(0, pitch, yaw, 0);
         scale_current_matrix(&scale.x);
         draw_chunk_object(model);
@@ -462,10 +462,10 @@ void TBoss7Tentacle::render() {
         scale_current_matrix(boss7_tentacle_draw_scale);
         rotate_matrix_zyx(0, 0, yaw, pitch);
         for (i = 0; i < 14; i++) {
-            boss7_tentacle_model_nodes[i].position.x = segment_pos[i].x;
-            boss7_tentacle_model_nodes[i].position.y = segment_pos[i].y;
-            boss7_tentacle_model_nodes[i].position.z = segment_pos[i].z;
-            boss7_tentacle_model_nodes[i].rotation.z = segment_ang[i];
+            boss7_tentacle_model_nodes[i].pos[0] = segment_pos[i].x;
+            boss7_tentacle_model_nodes[i].pos[1] = segment_pos[i].y;
+            boss7_tentacle_model_nodes[i].pos[2] = segment_pos[i].z;
+            boss7_tentacle_model_nodes[i].ang[2] = segment_ang[i];
         }
         scale_current_matrix(&scale.x);
         draw_chunk_object(boss7_tentacle_model_nodes);

@@ -132,7 +132,7 @@ void TBoss3VoloptCore::init_params() {
     referenceHp = hp;
     set_param(0x2E);
     update_prev_position();
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     load_entry_params_volopt(0x18);
     behavior_flags |= 0x10000;
     orbit_angle = 0;
@@ -267,7 +267,7 @@ void TBoss3VoloptCore::update_charge_state() {
     s32 angles[3];
     f32 distance;
     TObjPlayer *player;
-    target = (u8 *)get_player_by_client_id(targetId);
+    target = get_player_by_client_id(targetId);
     switch (state) {
     case 0:
         behavior_flags &= ~0x10000;
@@ -411,12 +411,12 @@ s32 TBoss3VoloptCore::check_target_collision() {
             if (object == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)object) != 0) {
+            if (obj_is_hit_receivable(object) != 0) {
                 if (object->select_melee_contact_body(this, 1.0f) != 0) {
                     object->apply_knockback_from_attacker((u8 *)this, 3.0f);
                     object->receive_physical_attack(this, 1.0f);
                 }
-                if ((u8 *)object == target) {
+                if (object == target) {
                     found = 1;
                 }
             }

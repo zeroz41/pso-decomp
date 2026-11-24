@@ -1,8 +1,11 @@
 #include "pso/math/CurvePathPoint.h"
+#include "pso/render/NinjaUtil.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/GbaDownloadRuntime.h"
+#include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/player/PlayerState.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -875,8 +878,6 @@ s32 __ct__16TPlyGuildCardTagFv(s32);
 s32 TLobby__sub_801036CC();
 void init__9TItemDataFv(Item_801EE77C *);
 s32 advance_item_id_counter(u16);
-f32 xz_distance_squared(Vec *, Vec *);
-f32 xyz_distance_squared(u8 *point_a, u8 *point_b);
 int TNpcPlayer__sub_8014DC30(void*);
 void *find_entity_by_id(u16 id);
 void TOMineTrap__sub_80171368(f32);
@@ -898,7 +899,6 @@ void send_code50_packet__10TObjPlayerFi(s32 player);
 s32 send_code_49_1__10TObjPlayerFi();
 void delete_item(void *, s32, s32);
 void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
-u32 TObjPlayer__sub_801BFFA0(void *);
 void TFontSmallLobby__sub_801C013C(void *p);
 s32 send_download_head_d7(TProtocol *, int, int);
 }
@@ -2093,7 +2093,7 @@ void qst_op_check_for_hacking(u8 out) {
         qst_registers[out] |= 8;
     }
     player = ((u8 *)get_player_by_client_id(local_client_id));
-    if (player != NULL && TObjPlayer__sub_801BFFA0(player + 0x41C) != 0) {
+    if (player != NULL && static_cast<u32>(TObjPlayer__sub_801BFFA0(player + 0x41C)) != 0) {
         qst_registers[out] |= 0x10;
     }
 }
@@ -2929,21 +2929,21 @@ void qst_op_check_rank_time(u8 src, u8 dst) {
 void qst_op_get_player_proximity(u8 regs, u8 dst) {
     s32 idx;
     f32 range;
-    u8 *self;
-    u8 *other;
+    TObjPlayer *self;
+    TObjPlayer *other;
     s32 field;
     s32 i;
     idx = qst_registers[regs++];
     range = qst_registers[regs];
     qst_registers[dst] = 0;
-    self = (u8 *)get_player_by_client_id(idx);
+    self = get_player_by_client_id(idx);
     if (self != NULL) {
-        field = ((TObjPlayer *)self)->get_floor();
+        field = self->get_floor();
         for (i = 0; i < 12; i++) {
             if (i != idx) {
-                other = (u8 *)get_player_by_client_id(i);
-                if (other != NULL && field == ((TObjPlayer *)other)->get_floor() &&
-                    xyz_distance_squared(self + 0x38, other + 0x38) < range * range) {
+                other = get_player_by_client_id(i);
+                if (other != NULL && field == other->get_floor() &&
+                    xyz_distance_squared(&self->position, &other->position) < range * range) {
                     qst_registers[dst]++;
                 }
             }
@@ -5310,10 +5310,7 @@ void qst_op_sub(s32 dst, s32 src) {
     qst_registers[(u8)dst] -= qst_registers[(u8)src];
 }
 
-#pragma push
-#pragma scheduling off
 void qst_op_addi(int a0, int a1) { qst_registers[(unsigned char)(a0)] += a1; }
-#pragma pop
 
 void qst_op_add(s32 dst, s32 src) {
     qst_registers[(u8)dst] += qst_registers[(u8)src];

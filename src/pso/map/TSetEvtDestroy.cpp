@@ -8,7 +8,6 @@
 
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TUnk_804B6C24.h"
 
 extern const char TSetEvtDestroy_class_name[] = "TSetEvtDestroy";
 const char* TSetEvtDestroy_name = TSetEvtDestroy_class_name;
@@ -19,7 +18,7 @@ void queue_destroy_event_descendants(TObject* root) {
     while (root->m_down != 0 && p != 0) {
         cur = p;
         p = p->m_next;
-        if (((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TSetEvtDestroy_name) != 0) {
+        if (cur->check_value_equals(TSetEvtDestroy_name) != 0) {
             cur->queue_destruction();
         } else {
             queue_destroy_event_descendants(cur);

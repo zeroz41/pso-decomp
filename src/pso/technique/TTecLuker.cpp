@@ -1,3 +1,4 @@
+#include "pso/player/PlayerState.h"
 #include "pso/system/PersistentSound.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/text_803D96A8.h"
@@ -33,7 +34,6 @@
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
@@ -309,7 +309,7 @@ void TTecLuker::run_task() {
             spawn_particle_effect((const Vec *)&position, 0xB3);
             player = get_player_by_client_id(traveller);
             if (player != NULL) {
-                TObjPlayer::play_effect_default((saddr)player, (int)0xA);
+                TObjPlayer::play_effect_default(player, 0xA);
                 play_sound_effect(0x40022D1A, &player->position, 0, 0);
             }
             TWindowCtrl::init_all_slots();

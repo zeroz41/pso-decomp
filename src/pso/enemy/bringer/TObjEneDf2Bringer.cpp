@@ -1,5 +1,6 @@
 #include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/StripBufferPair.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/system/BmlResource.h"
@@ -463,7 +464,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
             if (player == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)player) != 0 && attack_target_history_add(attack_history, player) != 0) {
+            if (obj_is_hit_receivable(player) != 0 && attack_target_history_add(attack_history, player) != 0) {
                 DirectAttackPayload h;
                 h.kind = 0;
                 h.power = TObjEneDf2Bringer__params->rush_power;
@@ -473,7 +474,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                         if (TObjPlayer::is_locally_controlled(player) != 0) {
                             TItem *item = (TItem *)TObjPlayer::get_equipped_weapon(player);
                             if (item != NULL) {
-                                TObjPlayer::send_6x26_unequip_item((void *)player, item->get_item_id());
+                                TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, item->get_item_id());
                             }
                         }
                     } else if (random_ratio() <= 0.3333f) {
@@ -1267,7 +1268,7 @@ void TObjEneDf2Bringer::update_death_state(s32 reason) {
     case 0:
         this->advance_animation();
         if (this->body_fade.decay_value_toward_floor() != 0) {
-            TObjPlayer::apply_effect_variant_b((saddr)&this->position, 0);
+            TObjPlayer::apply_effect_variant_b(&this->position, 0);
             this->queue_destruction();
         }
     case 3:

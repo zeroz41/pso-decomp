@@ -29,6 +29,7 @@ public:
     s32 frame;
 };
 
+LAYOUT_ASSERT(TPhotonLeilla_color_offset, offsetof(TPhotonLeilla, material_color) == 0x180);
 LAYOUT_ASSERT(TPhotonLeilla_size, sizeof(TPhotonLeilla) == 0x1B0);
 
 // TPhotonLaser's slot in the photon blast load callback table; the laser keeps no resources.

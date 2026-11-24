@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/memory.h"
 #include <string.h>
 #include "pso/system/ResourceFile.h"
@@ -355,10 +356,6 @@ void TLobby::update_and_reset(u8 *quest) {
 #include "pso/player/TObjPlayer.h"
 
 
-struct B_801F4340 { s32 a; s16 b; u8 rest[6]; };
-
-extern B_801F4340* TLobby__data_805D6144;
-
 void TLobby::open_session(const char *path) {
     u8 *quest;
     s32 size;
@@ -387,7 +384,7 @@ void TLobby::init_id_tables() {
     for (i = 0; i < 0xB50; i++) {
         s16 v = n + 0x100;
         n++;
-        TLobby__data_805D6144[i].b = v;
+        TLobby__data_805D6144[i].drop_id = v;
     }
 }
 

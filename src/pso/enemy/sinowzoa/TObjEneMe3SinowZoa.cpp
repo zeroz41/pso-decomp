@@ -1,11 +1,13 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GinjaTextureEntryCopy.h"
+#include "pso/system/memory.h"
 #include "pso/enemy/EnemyMovement.h"
+#include "pso/system/memory.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/GroundContactSound.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
@@ -84,9 +86,9 @@
 // TLobby::dispatch_shared_handler_b, TLobby::register_object and
 // TLobby::dispatch_shared_handler_a.
 Vec lbl_80542FB0;
-u8 *TObjEneMe3SinowZoa__base_params_by_variant[2];
-u8 *TObjEneMe3SinowZoa__attack_params_by_variant[2];
-u8 *TObjEneMe3SinowZoa__resistance_params_by_variant[2];
+player_stats *TObjEneMe3SinowZoa__base_params_by_variant[2];
+AttackParams *TObjEneMe3SinowZoa__attack_params_by_variant[2];
+ActorParamBlock *TObjEneMe3SinowZoa__resistance_params_by_variant[2];
 TObjEneMe3SinowZoaParams *TObjEneMe3SinowZoa__kind_param_tbls[2];
 // The model texture list with textures 0-2 swapped for 3-5 (load_resources); init_variant
 // installs it for the alternate form (named after the Stelth twin, load_shared_resources).
@@ -178,13 +180,13 @@ void TObjEneMe3SinowZoa::load_resources() {
         TObjEneMe3SinowZoa__alternate_texture_list.textures[i].texture = TObjEneMe3SinowZoa__alternate_texture_list.textures[i + 3].texture;
     }
     for (i = 0; i < 2; i++) {
-        TObjEneMe3SinowZoa__base_params_by_variant[i] = (u8 *)TLobby::register_boss(sinow_zoa_base_param_ids[i]);
+        TObjEneMe3SinowZoa__base_params_by_variant[i] = TLobby::register_boss(sinow_zoa_base_param_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        TObjEneMe3SinowZoa__attack_params_by_variant[i] = (u8 *)TLobby::dispatch_shared_handler_b(sinow_zoa_attack_param_ids[i]);
+        TObjEneMe3SinowZoa__attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(sinow_zoa_attack_param_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        TObjEneMe3SinowZoa__resistance_params_by_variant[i] = (u8 *)TLobby::register_object(sinow_zoa_resistance_param_ids[i]);
+        TObjEneMe3SinowZoa__resistance_params_by_variant[i] = TLobby::register_object(sinow_zoa_resistance_param_ids[i]);
     }
     for (i = 0; i < 2; i++) {
         TObjEneMe3SinowZoa__kind_param_tbls[i] = (TObjEneMe3SinowZoaParams *)TLobby::dispatch_shared_handler_a(sinow_zoa_kind_param_ids[i]);
@@ -276,7 +278,7 @@ void TObjEneMe3SinowZoaReal::init_enemy() {
     this->set_motion_list(TObjEneMe3SinowZoa__bml_resource->motions);
     set_animation((this->requested_action));
     kind = this->kind_index;
-    reset_hp(reinterpret_cast<player_stats *>(TObjEneMe3SinowZoa__base_params_by_variant[kind]), reinterpret_cast<AttackParams *>(TObjEneMe3SinowZoa__attack_params_by_variant[kind]), reinterpret_cast<ActorParamBlock *>(TObjEneMe3SinowZoa__resistance_params_by_variant[kind]));
+    reset_hp(TObjEneMe3SinowZoa__base_params_by_variant[kind], TObjEneMe3SinowZoa__attack_params_by_variant[kind], TObjEneMe3SinowZoa__resistance_params_by_variant[kind]);
     this->set_state_flag_4();
     movementParameters = &TObjEneMe3SinowZoa_init_params;
     this->wall_reach = 10.0f;
@@ -504,7 +506,7 @@ void TObjEneMe3SinowZoa::attack_and_unequip() {
                         pl = current_target;
                         TItem *held;
                         if (TObjPlayer::is_locally_controlled(pl) != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(pl)) != 0) {
-                            TObjPlayer::send_6x26_unequip_item(pl, held->get_item_id());
+                            TObjPlayer::send_6x26_unequip_item(static_cast<TObjPlayer *>(pl), held->get_item_id());
                             ((TObjPlayer *)pl)->get_hand_joint_position((saddr)&hand_position);
                             spawn_particle_effect(&hand_position, 0x1D0);
                         }
@@ -1560,7 +1562,8 @@ void TObjEneMe3SinowZoa::state_death(s32 mode) {
             if (this->state_timer >= 0x14) {
                 this->state_step = 2;
                 this->behavior_flags |= 2;
-                TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3SinowZoa__breakup_model, (saddr)&sinow_zoa_breakup_params, this->texlist, (saddr)&this->position, this->rotation_y);
+                TBoss3Volopt::create_breakup_mdl(TObjEneMe3SinowZoa__breakup_model, &sinow_zoa_breakup_params,
+                                   this->texlist, &this->position, this->rotation_y);
                 VecCopy(&p, &this->position);
                 p.x += 20.0f * sin_table_lookup(this->rotation_y);
                 p.z += 20.0f * cos_table_lookup(this->rotation_y);
@@ -1782,7 +1785,7 @@ s32 TObjEneMe3SinowZoa::render_model_if_visible() {
 }
 
 void TObjEneMe3SinowZoa::render_demo() {
-    GinjaTextureState *save[3];
+    s32 save[3];
     s32 flag;
     AnimationMotion *motion;
     f32 frame;
@@ -1815,10 +1818,10 @@ void TObjEneMe3SinowZoa::render_demo() {
             NJS_TEXNAME *parts = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
             s32 i;
             for (i = 0; i < 3; i++) {
-                save[i] = parts[i].texture;
+                save[i] = parts[i].texaddr;
             }
             for (i = 0; i < 3; i++) {
-                parts[i].texture = parts[i + 3].texture;
+                parts[i].texaddr = parts[i + 3].texaddr;
             }
         }
         push_matrix();
@@ -1862,7 +1865,7 @@ void TObjEneMe3SinowZoa::render_demo() {
             s32 i;
             NJS_TEXNAME *parts = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
             for (i = 0; i < 3; i++) {
-                parts[i].texture = save[i];
+                parts[i].texaddr = save[i];
             }
         }
         TParticleCtrl::end_effect_render();

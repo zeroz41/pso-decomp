@@ -1,6 +1,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/client_id.h"
 #include "pso/npc/TNpcPlayer_802C3CD0.h"
+#include "pso/system/memory.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,7 +40,6 @@
 
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/player/TUnk_804B6C24.h"
 
 
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -178,7 +178,7 @@ s64 OSGetTime(void);
 void obj_clear_flag30_20000(void *);
 void TObjEneRe4Sorcerer__sub_801E3F14(s32);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
-extern s32 TDeadSpot__class_name;
+extern const char *TDeadSpot__class_name;
 
 extern u16 battle_mode_data_table[];
 extern saddr tl_05;
@@ -820,7 +820,7 @@ s32 TLobby__sub_801C417C(void) {
 void TLobby::close_and_play_effect(int client, s32 arg1) {
     u32 temp = (uaddr)get_player_by_client_id((u16)client);
     if (temp != 0U) {
-        TObjPlayer::play_effect_default(temp, -1);
+        TObjPlayer::play_effect_default(reinterpret_cast<TObjPlayer *>(temp), -1);
     }
     if (arg1 != 0) {
         begin_player_keyboard_hold(local_client_id);
@@ -830,8 +830,8 @@ void TLobby::close_and_play_effect(int client, s32 arg1) {
 }
 
 void TLobby::handle_battle_result(int client, s32 arg1) {
-    s32 player;
-    if ((player = (saddr)get_player_by_client_id((u16)client)) != 0U) {
+    TObjPlayer *player = reinterpret_cast<TObjPlayer *>(get_player_by_client_id((u16)client));
+    if (player != NULL) {
         TObjPlayer::send_code_45_1(player);
     }
     if (arg1 != 0) {
@@ -1017,7 +1017,7 @@ void TLobby__sub_801C38E8(void *arg0) {
     case 0:
         t = (saddr)get_local_player();
         if (t != 0) {
-            TObjPlayer::play_effect_default(t, -1);
+            TObjPlayer::play_effect_default(reinterpret_cast<TObjPlayer *>(t), -1);
         }
         *(s32 *)((u8 *)arg0 + 0x2C) = 0xF;
         *(s32 *)((u8 *)arg0 + 0x20) = 1;
@@ -1397,14 +1397,14 @@ void TLobby::finish_chr_select_scene_init() {
 }
 
 void TLobby::destroy_matching_children() {
-    void *down;
+    TObject *down;
     down = this->m_down;
-while (down != NULL) {
-        if (((TUnk_804B6C24 *)down)->check_value_equals(TDeadSpot__class_name) != 0) {
-            ((TObject *)down)->queue_destruction();
+    while (down != NULL) {
+        if (down->check_value_equals(TDeadSpot__class_name) != 0) {
+            down->queue_destruction();
         }
         ((TLobby *)down)->destroy_matching_children();
-        down = *(void **)((s8 *)down + 0xC);
+        down = down->m_next;
     }
 }
 

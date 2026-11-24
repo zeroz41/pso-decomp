@@ -94,7 +94,7 @@ struct VObj_18_f15a7b : VBase_18_f15a7b {
 #pragma fp_contract on
 void frozen_shooter_freeze_hit(int arg0, u8 *arg1) {
     u8 *temp_r31;
-    if ((arg1 != NULL) && (obj_is_hit_receivable((*(u8 **)((s8 *)arg1 + 0))) != 0)) {
+    if (arg1 != NULL && obj_is_hit_receivable(*reinterpret_cast<TObjCollidable **>(arg1)) != 0) {
         temp_r31 = (u8 *)(*(u8 **)((s8 *)arg1 + 0));
         ((VObj_18_f15a7b *)(temp_r31))->m46(*(s32 *)((s8 *)temp_r31 + 0xA4) + (*(s32 *)((s8 *)arg1 + 4) * 0x2C));
         ((VObj_18_f15a7b *)(temp_r31))->m72(0);

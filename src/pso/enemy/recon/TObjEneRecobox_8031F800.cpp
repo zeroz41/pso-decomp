@@ -601,17 +601,17 @@ void TObjEneRecobox::spawn_debris_chips() {
     const TObjChipParams chip0 = {
         0.5f, 0.07f, 0.26f, {this->position.x, this->position.y, this->position.z},
         {5.0f, 5.0f, 5.0f}, {0x400, 0x100, 0x400}, 5, 50, this->position.y, 0.6f,
-        (saddr)TObjEneRecobox__static_instance->models[3].model, TObjEneRecobox__static_instance->models[3].texlist, 20,
+        TObjEneRecobox__static_instance->models[3].model, TObjEneRecobox__static_instance->models[3].texlist, 20,
     };
     const TObjChipParams chip1 = {
         0.5f, 0.07f, 0.26f, {this->position.x, this->position.y, this->position.z},
         {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, 6, 50, this->position.y, 0.5f,
-        (saddr)TObjEneRecobox__static_instance->models[4].model, TObjEneRecobox__static_instance->models[3].texlist, 20,
+        TObjEneRecobox__static_instance->models[4].model, TObjEneRecobox__static_instance->models[3].texlist, 20,
     };
     const TObjChipParams chip2 = {
         0.5f, 0.07f, 0.26f, {this->position.x, this->position.y, this->position.z},
         {4.0f, 4.5f, 4.0f}, {0x200, 0x100, 0x200}, 6, 50, this->position.y, 0.5f,
-        (saddr)TObjEneRecobox__static_instance->models[5].model, TObjEneRecobox__static_instance->models[3].texlist, 20,
+        TObjEneRecobox__static_instance->models[5].model, TObjEneRecobox__static_instance->models[3].texlist, 20,
     };
     spawn_particle_effect_with_flags(&this->position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&this->position, 0x46, 0x40);

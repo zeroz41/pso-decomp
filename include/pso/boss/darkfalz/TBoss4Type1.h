@@ -118,6 +118,8 @@ struct TBoss4Type1 : public TObjEnemy
 };
 
 LAYOUT_ASSERT(TBoss4Type1_parts, offsetof(TBoss4Type1, parts) == 0x3F8);
+LAYOUT_ASSERT(TBoss4Type1_grid_target_offset, offsetof(TBoss4Type1, grid_target) == 0x3B8);
+LAYOUT_ASSERT(TBoss4Type1_anim_offset, offsetof(TBoss4Type1, anim) == 0x3E4);
 LAYOUT_ASSERT(TBoss4Type1_size, sizeof(TBoss4Type1) == 0x49C);
 
 extern "C" {

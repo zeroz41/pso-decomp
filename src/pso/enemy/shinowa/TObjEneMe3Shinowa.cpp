@@ -1,6 +1,6 @@
-#include "pso/render/GinjaMaterialState.h"
-#include "pso/render/GinjaTextureEntryCopy.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/GinjaTextureEntryCopy.h"
+#include "pso/system/memory.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/animation/MotionContext.h"
@@ -76,8 +76,18 @@ TBreakUpMdlData * TObjEneMe3ShinowaMirage__breakup_model;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__sword_trail_a;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__sword_trail_b;
 SampledMotionPoints * TObjEneMe3ShinowaMirage__attack_trail;
-struct Tbl_800E7884 { u8 pad[0xC]; u8 *t[3][2]; };
 }
+
+struct ShinowaBattleTables {
+    Vec node_origin;
+    player_stats *base[2];
+    AttackParams *attack[2];
+    ActorParamBlock *resistance[2];
+};
+LAYOUT_ASSERT(ShinowaBattleBaseOffset, offsetof(ShinowaBattleTables, base) == 0xC);
+LAYOUT_ASSERT(ShinowaBattleAttackOffset, offsetof(ShinowaBattleTables, attack) == 0x14);
+LAYOUT_ASSERT(ShinowaBattleResistanceOffset, offsetof(ShinowaBattleTables, resistance) == 0x1C);
+
 extern "C" {
 
 // Per-variant parameter tables fetched from TLobby (TObjEneMe3Stelth names the same four
@@ -297,7 +307,7 @@ TObjEneMe3Shinowa::TObjEneMe3Shinowa(TObject *parent) : TObjEneDD_ST(parent) {
 #pragma push
 #pragma opt_propagation off
 void TObjEneMe3Shinowa::init_enemy() {
-    Tbl_800E7884 *tbl = &(*(Tbl_800E7884 *)&TObjEneMe3ShinowaMirage__node_origin);
+    ShinowaBattleTables *tables = reinterpret_cast<ShinowaBattleTables *>(&TObjEneMe3ShinowaMirage__node_origin);
     init_position_vectors();
     select_gold_or_normal_variant();
     model = (void *)TObjEneMe3ShinowaMirage__bml_resource->models->model;
@@ -309,11 +319,11 @@ void TObjEneMe3Shinowa::init_enemy() {
     set_animation(requested_action);
     set_requested_action(requested_action);
     {
-        u8 **a = tbl->t[0];
-        u8 **b = tbl->t[1];
-        u8 **c = tbl->t[2];
+        player_stats **base = tables->base;
+        AttackParams **attack = tables->attack;
+        ActorParamBlock **resistance = tables->resistance;
         s32 i = kind_index;
-        reset_hp(reinterpret_cast<player_stats *>(a[i]), reinterpret_cast<AttackParams *>(b[i]), reinterpret_cast<ActorParamBlock *>(c[i]));
+        reset_hp(base[i], attack[i], resistance[i]);
     }
     set_state_flag_4();
     movementParameters = &TObjEneMe3ShinowaMirage__init_params;
@@ -1474,7 +1484,8 @@ void TObjEneMe3Shinowa::state_break_apart(s32 reason) {
             if (state_timer >= 0x14) {
                 state_step = 2;
                 behavior_flags |= 2;
-                TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3ShinowaMirage__breakup_model, (saddr)&shinowa_mirage_breakup_params, texlist, (saddr)&position, rotation_y);
+                TBoss3Volopt::create_breakup_mdl(TObjEneMe3ShinowaMirage__breakup_model, &shinowa_mirage_breakup_params,
+                                   texlist, &position, rotation_y);
                 VecCopy(&pos, &position);
                 pos.x += 20.0f * sin_table_lookup(rotation_y);
                 pos.z += 20.0f * cos_table_lookup(rotation_y);
@@ -1595,7 +1606,7 @@ void TObjEneMe3Shinowa::render_demo() {
                 saved_texaddr[i] = textures[i + 3].texture;
             }
             for (i = 0; i < 3; i++) {
-                textures[i + 3].texture = textures[i].texture;
+                textures[i + 3].texaddr = textures[i].texaddr;
             }
         }
         push_matrix();

@@ -1,3 +1,4 @@
+#include "pso/math/ClampedStep.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A5B20.h"
 #include "pso/player/TObjPlayer_8012D8E4.h"
@@ -5,7 +6,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/item/TItem.h"
-#include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/technique/TTecSlicer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
@@ -72,17 +72,17 @@ void TUnk_804A5B20::update_idle() {
     int new_var;
     switch (get_item_index()) {
     case 5:
-        TObjPlayer::add_angle_clamped(&rotation, 0x1555, 0x8000);
+        ::add_angle_clamped(&rotation, 0x1555, 0x8000);
         new_var = 0x8000;
         if (new_var <= rotation) {
-            TItemEffOrgaFlowShot::approach_value(&scale.z, -0.1f, 0.6f);
+            ::approach_value(&scale.z, -0.1f, 0.6f);
         }
         break;
     case 6:
         break;
     case 7:
-        TItemEffOrgaFlowShot::approach_value(&scale.z, -0.7f, -2.8f);
-        TObjPlayer::add_angle_clamped(&rotation, -0x1555, -0x8000);
+        ::approach_value(&scale.z, -0.7f, -2.8f);
+        ::add_angle_clamped(&rotation, -0x1555, -0x8000);
         break;
     }
 }
@@ -90,15 +90,15 @@ void TUnk_804A5B20::update_idle() {
 void TUnk_804A5B20::update_attack() {
     switch (get_item_index()) {
     case 5:
-        TItemEffOrgaFlowShot::approach_value(&scale.z, 0.2f, 1.0f);
+        ::approach_value(&scale.z, 0.2f, 1.0f);
         if (1.0f <= scale.z) {
-            TObjPlayer::add_angle_clamped(&rotation, -0x2AAA, 0);
+            ::add_angle_clamped(&rotation, -0x2AAA, 0);
         }
     case 6:
         return;
     case 7:
-        TItemEffOrgaFlowShot::approach_value(&scale.z, 1.6f, 0.0f);
-        TObjPlayer::add_angle_clamped(&rotation, 0x2AAA, 0);
+        ::approach_value(&scale.z, 1.6f, 0.0f);
+        ::add_angle_clamped(&rotation, 0x2AAA, 0);
         break;
     }
 }

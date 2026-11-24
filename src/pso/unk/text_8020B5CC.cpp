@@ -110,9 +110,9 @@ s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
     d = t->enemy_rows;
     for (i = 0; i < n; i++) {
         if (s->type != -1) {
-            d->id = s->id;
-            d->room = s->room;
-            d->wave = s->wave;
+            d->id = s->placement.id;
+            d->room = s->placement.room;
+            d->wave = s->placement.wave;
             d++;
         }
         s++;

@@ -36,4 +36,6 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
 };
 
 LAYOUT_ASSERT(TObjEneMe3ShinowaMirage_size, sizeof(TObjEneMe3ShinowaMirage) == 0x440);
+extern "C" void load_shinowa_mirage_resources();
+
 #endif

@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
+#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/system/memory.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/SampledMotionPoints.h"
@@ -8,11 +10,11 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/gibbles/TObjEneGibbles.h"
-#include "pso/technique/TTecZonde.h"
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -64,7 +66,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 extern "C" {
-s32 spawn_dead_spot_scale15(void *, int);
 void TObjPlayer__sub_800ACA0C(void *);
 }
 extern "C" {
@@ -188,7 +189,7 @@ TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
     movementParameters = &moja_movement_params[variant];
     referenceHp = hp;
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     register_object_by_id();
     resetTimer = 0;
     timer = resetTimer;
@@ -234,7 +235,7 @@ void TObjEneMoja::load_resources() {
     second.x = -20.0f;
     second.y = 0.0f;
     second.z = 0.0f;
-    points->sample_node_offsets((NJS_OBJECT *)moja_bml_resource->models[1].model,
+    points->sample_node_offsets(moja_bml_resource->models[1].model,
         (NJS_MOTION *)moja_bml_resource->motions[moja_motion_actions[3].motion].motion, 38, &first, &second);
     moja_boss_stats_handles = static_cast<player_stats **>(mem_alloc(2 * sizeof(*moja_boss_stats_handles)));
     moja_attack_params = static_cast<AttackParams **>(mem_alloc(6 * sizeof(*moja_attack_params)));
@@ -253,7 +254,7 @@ void TObjEneMoja::load_resources() {
     moja_behavior_params[0] = TLobby::dispatch_shared_handler_a(0x48);
     moja_behavior_params[1] = TLobby::dispatch_shared_handler_a(0x49);
     s16 ids[3] = { 0x32, 0x33, 0x34 };
-    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(moja_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(moja_motion_actions), 0, 2, 9 };
+    NpcAnimationBinding binding = { moja_bml_resource->motions, moja_motion_actions, 0, 2, 9 };
     for (s32 i = 0; i < 3; i++) {
         NpcModelRegistry::register_animated_chunk(ids[i], moja_bml_resource->models[i].model, moja_bml_resource->models[i].texlist,
             &binding, moja_collision_body.radius, 0.0f);
@@ -294,17 +295,17 @@ void *TObjEneMoja::create(void *setData) {
 
 void TObjEneMoja::run_task() {
     u16 id;
-    u8 *player;
-    u8 *t;
+    TObjPlayer *player;
+    TObjChara *t;
     if (TObjPlayer::check_demo_mode() == 1) {
         TObjPlayer__sub_800ACA0C(this);
         return;
     }
     id = this->targetId;
     if (id < 0x1000U) {
-        player = (u8 *)(get_player_by_client_id(id));
+        player = get_player_by_client_id(id);
         if (player != NULL) {
-            if (((TObjPlayer *)player)->get_floor() == get_current_floor()) {
+            if (player->get_floor() == get_current_floor()) {
                 this->target = player;
                 goto done;
             }
@@ -352,7 +353,7 @@ void TObjEneMoja::run_task() {
         }
     }
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     submit_cursor_candidate(this, -1);
     t = this->target;
     if ((t != NULL) && (((TObjChara *)t)->actorFlags & 0x02000800)) {
@@ -448,7 +449,7 @@ void TObjEneMoja::refresh_target() {
     TObjPlayer *p;
     f32 best;
     f32 d;
-    u8 *q;
+    TObjPlayer *q;
     u16 tid;
     if (appearance != 1 && ((mode != 0 && target == NULL) || is_actor_cadence_frame(0x1E) != 0)) {
         if (test_actor_flags(0x10) != 0) {
@@ -482,9 +483,9 @@ void TObjEneMoja::refresh_target() {
         }
         tid = targetId;
         if (tid < 0x1000U) {
-            q = (u8 *)get_player_by_client_id(tid);
+            q = get_player_by_client_id(tid);
             if (q != NULL) {
-                if (((TObjPlayer *)q)->get_floor() == get_current_floor()) {
+                if (q->get_floor() == get_current_floor()) {
                     target = q;
                     return;
                 }
@@ -649,7 +650,7 @@ void TObjEneMoja::update_appearance_jump() {
             if ((u16)p->get_entity_id() >= 0x1000) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)p) != 0) {
+            if (obj_is_hit_receivable(p) != 0) {
                 dist = horizontal_distance_squared(&p->body_center, &body_center);
                 if (dist <= 2500.0f) {
                     DirectAttackPayload hit;
@@ -729,7 +730,7 @@ void TObjEneMoja::update_appearance_drop() {
             if ((u16)p->get_entity_id() >= 0x1000) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)p) != 0) {
+            if (obj_is_hit_receivable(p) != 0) {
                 dist = horizontal_distance_squared(&p->body_center, &body_center);
                 if (dist <= 2500.0f) {
                     DirectAttackPayload hit;
@@ -783,7 +784,7 @@ void TObjEneMoja::run_move_action() {
 
 void TObjEneMoja::update_approach_state() {
     BattleMovementParams *params;
-    u8 *t;
+    TObjChara *t;
     switch (phase) {
     case 0:
         apply_actor_gravity(this, 0, 0.0f);
@@ -795,7 +796,7 @@ void TObjEneMoja::update_approach_state() {
             set_override_speed(moja_behavior_params[variant]->values.floats[3]);
             requested_action = 2;
             {
-            Vec v = ((TObjChara *)target)->body_center;
+            Vec v = target->body_center;
             if (select_enemy_destination(this, &v, 1) != 0) {
                 Vec v2 = body_center;
                 copy_position_if_valid((saddr)this, (saddr)&v2);
@@ -810,7 +811,7 @@ void TObjEneMoja::update_approach_state() {
     default:
         t = target;
         if (t != NULL) {
-            Vec v3 = ((TObjChara *)t)->body_center;
+            Vec v3 = t->body_center;
             params = moja_behavior_params[variant];
             if (((MojaMovementParameters *)movementParameters)->target_range * ((MojaMovementParameters *)movementParameters)->target_range < enemy_pursue_point(this, ((MojaMovementParameters *)movementParameters)->turn_speed, &v3, params, params->values.floats[2], 30.0f)) {
                 target = NULL;
@@ -837,15 +838,15 @@ s32 TObjEneMoja::is_target_in_attack_range() {
     f32 sq;
     f32 dist;
     f32 radius;
-    u8 *t;
+    TObjChara *t;
     CollisionBody *c;
     Vec d;
     if (this->mode > 1 && (t = this->target) != NULL &&
-        this->attack_params != NULL && !(((TObjChara *)t)->actorFlags & 0x02000800)) {
-        dist = calc_xz_distance_sq(this, (TObjBase *)t, &d);
+        this->attack_params != NULL && !(t->actorFlags & 0x02000800)) {
+        dist = calc_xz_distance_sq(this, t, &d);
         angd = angle_difference_abs(this->rotation_y,
                                     (s32)(10430.38043493439 * atan2_float(d.x, d.z)));
-        c = ((TObjChara *)this->target)->bodies;
+        c = this->target->bodies;
         if (c != NULL) {
             radius = c->radius;
         } else {
@@ -955,7 +956,7 @@ void TObjEneMoja::update_punch_attack() {
                 if (p == NULL || p == this) {
                     break;
                 }
-                if ((obj_is_hit_receivable((u8 *)p) != 0) && !(p->actorFlags & 0x02000800) && (p->select_melee_contact_body(this, 1.0f) != 0)) {
+                if ((obj_is_hit_receivable(p) != 0) && !(p->actorFlags & 0x02000800) && (p->select_melee_contact_body(this, 1.0f) != 0)) {
                     f32 damage = p->receive_physical_attack(this, 1.0f);
                     p->apply_knockback_from_attacker((u8 *)this, damage);
                     if (0.5f < random_ratio()) {
@@ -1028,14 +1029,14 @@ void TObjEneMoja::update_technique_state() {
     MojaParticleAngles ang;
     s32 ang2;
     void *obj;
-    u8 *p;
+    TObjPlayer *p;
     s32 a;
     u16 id;
     id = targetId;
     if (id < 0x1000) {
-        p = (u8 *)get_player_by_client_id(id);
-        if (p != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor() &&
-            get_room() == ((TObjBase *)p)->get_room()) {
+        p = get_player_by_client_id(id);
+        if (p != NULL && p->get_floor() == get_current_floor() &&
+            get_room() == p->get_room()) {
             target = p;
         } else {
             target = NULL;
@@ -1055,7 +1056,7 @@ void TObjEneMoja::update_technique_state() {
             attackSequence = -1;
             actorFlags &= 0xFFDFFFFF;
         } else {
-            Vec dest = ((TObjChara *)target)->body_center;
+            Vec dest = target->body_center;
             if (select_enemy_destination(this, &dest, 1) != 0) {
                 Vec cur = body_center;
                 copy_position_if_valid((saddr)this, (saddr)&cur);
@@ -1063,7 +1064,7 @@ void TObjEneMoja::update_technique_state() {
                 enemy_set_heading_velocity(((MojaMovementParameters *)movementParameters)->move_speed, this, rotation_y);
                 move_with_wall_slide((u8 *)this);
             } else {
-                VecCopy((Vec *)&dir, (const Vec *)&((TObjChara *)target)->body_center);
+                VecCopy((Vec *)&dir, (const Vec *)&target->body_center);
                 subtract_vector(&dir, &body_center);
                 a = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, (Vec *)&dir);
             }
@@ -1086,7 +1087,7 @@ void TObjEneMoja::update_technique_state() {
             pop_matrices(1);
             vec3_add_to(&pos, &body_center);
             if (target != NULL) {
-                VecCopy((Vec *)&dir, (const Vec *)&((TObjChara *)target)->body_center);
+                VecCopy((Vec *)&dir, (const Vec *)&target->body_center);
                 subtract_vector(&dir, &body_center);
                 ang2 = turn_toward_direction(((MojaMovementParameters *)movementParameters)->turn_speed, (Vec *)&dir);
             } else {
@@ -1096,7 +1097,7 @@ void TObjEneMoja::update_technique_state() {
                 switch (variant) {
                 case 1:
                     if (ang2 < attack_params->get_attack_angle() / 2 && target != NULL) {
-                        TTecMegid::create((saddr)this, (saddr)&pos, (saddr)&((TObjChara *)target)->body_center, calc_technique_level());
+                        TTecMegid::create((saddr)this, (saddr)&pos, (saddr)&target->body_center, calc_technique_level());
                     } else {
                         TTecMegid::create_ex((saddr)this, (saddr)&pos, rotation_y, calc_technique_level());
                     }
@@ -1118,7 +1119,7 @@ void TObjEneMoja::update_technique_state() {
                             DirectAttackPayload hit;
                             hit.kind = 3;
                             hit.power = 20.0f * (f32) calc_technique_level() + 240.0f;
-                            ((TObjChara *)target)->receive_direct_attack(this, hit, 0, -1, -1);
+                            target->receive_direct_attack(this, hit, 0, -1, -1);
                         }
                     } else {
                         dir.y = dir.x = 0.0f;
@@ -1139,7 +1140,7 @@ void TObjEneMoja::update_technique_state() {
                     break;
                 default:
                     if (ang2 < attack_params->get_attack_angle() / 2 && target != NULL) {
-                        TTecFoie::create_ex(this, &pos, &((TObjChara *)target)->body_center, calc_technique_level());
+                        TTecFoie::create_ex(this, &pos, &target->body_center, calc_technique_level());
                     } else {
                         TTecFoie::create(this, &pos, rotation_y, calc_technique_level());
                     }
@@ -1198,7 +1199,7 @@ void TObjEneMoja::update_attack_jump() {
         apply_actor_gravity(this, 0, 0.0f);
         if (is_passing_frame(8.0f) != 0) {
             if (target != NULL) {
-                Vec dest = ((TObjChara *)target)->body_center;
+                Vec dest = target->body_center;
                 if (select_enemy_destination(this, &dest, 1) != 0) {
                     Vec pos = body_center;
                     copy_position_if_valid((saddr)this, (saddr)&pos);
@@ -1227,7 +1228,7 @@ void TObjEneMoja::update_attack_jump() {
                 if (p == NULL || (u16)p->get_entity_id() >= 0x1000) {
                     break;
                 }
-                if (obj_is_hit_receivable((u8 *)p) != 0) {
+                if (obj_is_hit_receivable(p) != 0) {
                     d = horizontal_distance_squared(&p->body_center, &body_center);
                     if (d <= attack_params->get_damage_radius() * attack_params->get_damage_radius()) {
                         DirectAttackPayload hit;

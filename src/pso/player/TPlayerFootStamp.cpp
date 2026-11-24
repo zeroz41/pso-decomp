@@ -16,7 +16,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D8DE0.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/camera/CameraAngles.h"

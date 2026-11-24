@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/boss/volopt/TBoss3VoloptP01.h"
+#include "pso/effect/TBreakUpMdl.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 
 // .rodata 0x8043D450-0x8043D750, defined by StelthData.cpp (the SinowZoaData.cpp shape):
@@ -12,7 +12,7 @@ extern "C" {
 // TObjEneMe3Stelth.cpp .data; both attack bindings point at it.
 extern TObjMotionAction TObjEneMe3Stelth__animation_descriptors[13];
 extern const NJS_ARGB me3_stelth_offset_vec;
-extern const TBoss3VoloptBreakupParams me3_stelth_breakup_params;
+extern const BreakUpParamRow me3_stelth_breakup_params;
 // TLobby kind ids, one list per TLobby table load_shared_resources registers them with.
 extern const s32 stelth_base_stat_ids[2];
 extern const s32 stelth_attack_stat_ids[2];

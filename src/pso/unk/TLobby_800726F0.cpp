@@ -13,6 +13,12 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
+#include "pso/unk/text_8024AB98.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/TObjChallengeRetry.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
@@ -49,8 +55,6 @@ void TLobby__sub_80072880(u8 *arg0);
 void TLobby__sub_800728FC(u8 *arg0);
 void TLobby__sub_80072AB8(void *arg0);
 s32 TLobby__sub_8006FBE4();
-saddr get_message_text(s32);
-saddr get_window_layout_position(s32);
 u8 is_challenge_lobby__6TLobbyFv(void);
 s32 TLobby__sub_80070DA8();
 void play_player_default_effect__6TLobbyFv(s32 _w0);
@@ -198,8 +202,8 @@ void TObjChallengeRetry::sub_80072BB0() {
         this->message = NULL;
     }
     this->message = reinterpret_cast<TWindowMessage *>(TWindowMessage::create(
-        reinterpret_cast<const NJS_POINT2 *>(get_window_layout_position(0x39)),
-        reinterpret_cast<const f32 *>(challenge_retry_window_pos), 1));
+        get_window_layout_position(0x39),
+        challenge_retry_window_pos, 1));
     if (this->message != NULL) {
         this->message->set_depth(70200.0f);
         this->message->append_line(get_message_text(0x5E), 1);
@@ -217,7 +221,7 @@ void TObjChallengeRetry::open_loss_menu() {
         this->menu->close();
         this->menu = NULL;
     }
-    this->menu = reinterpret_cast<TWindowSubComCardList *>(create_window_menu_default(get_window_layout_position(0x3A), 3));
+    this->menu = reinterpret_cast<TWindowSubComCardList *>(create_window_menu_default(reinterpret_cast<saddr>(get_window_layout_position(0x3A)), 3));
     if (this->menu != NULL) {
         this->menu->add_text_entry(get_message_text(0x5B), 5, 0);
         this->menu->add_text_entry(get_message_text(0x5C), 5, 1);
@@ -228,9 +232,8 @@ void TObjChallengeRetry::open_loss_menu() {
     }
 }
 void TLobby::send_45_and_close_windows(void * _w0) {
-    saddr player;
-    player = (saddr)get_player_by_client_id(local_client_id);
-    if ((player != 0) && (((TObjPlayer *)player)->check_player_flag1() != 0)) {
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if ((player != NULL) && (player->check_player_flag1() != 0)) {
         TObjPlayer::send_code_45_1(player);
     }
     TWindowCtrl::unsuppress_slot(local_client_id);
@@ -239,8 +242,8 @@ void TLobby::send_45_and_close_windows(void * _w0) {
 void TLobby::show_ctrl_and_play_effect(void* a0) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
 void TLobby::play_default_effect(void* a0) { TWindowCtrl::disable_client_main_menu(local_client_id); ((TLobby *)a0)->play_player_default_effect(); }
 void play_player_default_effect__6TLobbyFv(s32 _w0) {
-    saddr player;
-    player = (saddr)get_player_by_client_id(local_client_id);
+    TObjPlayer *player;
+    player = get_player_by_client_id(local_client_id);
     if ((player != 0) && (((TObjPlayer *)player)->check_player_flag1() == 0)) {
         TObjPlayer::play_effect_default(player, -1);
     }
@@ -336,8 +339,8 @@ void TObjChallengeRetry::sub_8007313C() {
   s32 area;
   s32 var_r31;
   int new_var;
-  u32 var_r30;
-  u8 *collidable;
+  s32 var_r30;
+  TObjPlayer *player;
   area = get_current_floor_area();
   if (area != AREA_PIONEER2_EP2)
   {
@@ -360,15 +363,15 @@ void TObjChallengeRetry::sub_8007313C() {
       var_r31 = 1;
       var_r30 = new_var;
       loop_6:
-      collidable = (u8 *)get_player_by_client_id(var_r30);
-      if ((collidable != 0) && (((TObjCollidable *)collidable)->test_actor_flags(0x02000000) != 0))
+      player = get_player_by_client_id(var_r30);
+      if (player != NULL && player->test_actor_flags(0x02000000) != 0)
       {
         var_r31 = 0;
       }
       else
       {
         var_r30 += 1;
-        if (((s32) var_r30) < 4)
+        if (var_r30 < 4)
         {
           goto loop_6;
         }

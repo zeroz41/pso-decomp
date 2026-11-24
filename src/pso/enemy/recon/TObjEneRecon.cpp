@@ -59,8 +59,8 @@
 extern "C" {
 extern TObjMotionAction TObjEneRecon__animation_entries[6];
 
-// Breakup-model parameters TObjEneRecon::state_death hands to TBoss3Volopt::create_breakup_mdl.
-extern const TBoss3VoloptBreakupParams recon_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
+// Breakup-model parameters TObjEneRecon::state_death hands to create_breakup_mdl.
+extern const BreakUpParamRow recon_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
 const char *TObjEneRecon_name_ref = "TObjEneRecon";
 extern const NpcAnimationBinding recon_anim_binding = { NULL, TObjEneRecon__animation_entries, 1, 1, 6 };
 // Scale of the ground shadow render draws under the Recon.
@@ -364,7 +364,8 @@ void TObjEneRecon::state_death(s32 reason) {
             spawn_particle_effect_with_flags(&position, 0x45, 0x40);
             spawn_particle_effect_with_flags(&position, 0x46, 0x40);
             play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80D), &position, 0, 0);
-            TBoss3Volopt::create_breakup_mdl((saddr)boss3_volopt_instance, (saddr)&recon_breakup_params, (texlist), (saddr)&body_center, (s32)(rotation_y));
+            TBoss3Volopt::create_breakup_mdl(boss3_volopt_instance, &recon_breakup_params,
+                               texlist, &body_center, rotation_y);
             break;
         }
         break;
@@ -1116,7 +1117,7 @@ void TObjEneRecon::load_resources() {
   TObjEneRecon__behavior_params = (ReconParams *)TLobby::dispatch_shared_handler_a(0x42);
   TObjEneReconBomb::load_resources();
   NpcAnimationBinding binding = recon_anim_binding;
-  binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneRecon__recobox_static_instance->motions);
+  binding.motions = TObjEneRecon__recobox_static_instance->motions;
   NpcModelRegistry::register_animated_chunk(0xC, TObjEneRecon__recobox_static_instance->models[0].model, TObjEneRecon__recobox_static_instance->models[0].texlist, &binding, TObjEneRecon__collision_body_template.radius, 15.0f);
 }
 

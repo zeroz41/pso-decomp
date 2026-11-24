@@ -6,24 +6,24 @@
 #include "pso/object/base/TObjMotion.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-struct TechniqueContactBody;
+struct TechniqueContactList;
 
 struct TNeedleShoot : public TObject {
-    TNeedleShoot(s32 owner, Vec *from, Vec *to);
+    TNeedleShoot(TObjBase *owner, Vec *from, Vec *to);
     virtual ~TNeedleShoot();
     // Called when the shot meets a wall (check_wall_hit) or check_target_hit finds no contact list.
     virtual void on_wall_hit();
     virtual void queue_destruction();
     virtual void vfunc_8();
     // Called by check_target_hit with the first receivable contact.
-    virtual void on_target_hit(void *);
-    uaddr owner;  // the shooter; run_task refreshes it from owner_id
+    virtual void on_target_hit(TObjCollidable *target);
+    TObjBase *owner;  // the shooter; run_task refreshes it from owner_id
     f32 range;     // the shot is destroyed once distance passes it
     f32 distance;  // speed summed each frame
     Vec prev_pos;
     u16 owner_id;  // get_entity_id(owner), 0xFFFF for none
     u8 _pad36[0x2];
-    TechniqueContactBody *contact_body;  // the body check_target_hit hit
+    CollisionBody *contact_body;  // the body check_target_hit hit
     CollisionBody collision_body;  // collider's only body
     TObjCollidable *collider;
     Vec pos;
@@ -41,12 +41,17 @@ struct TNeedleShoot : public TObject {
     virtual void render();
     void update_position();
     void check_wall_hit();
-    void*get_shoot_data();
+    Vec *get_shoot_data();
     void update_lifetime();
     void update_stopped();  // run_task step once active is cleared: calls queue_destruction
     // Collects the technique contacts of the shot (contact_mode picks the collector) and calls on_wall_hit or
     // on_target_hit. Defined with the KenkyuW unit, which owns its address.
     void check_target_hit(s32);
+    void clear_technique_contacts();
+    s32 is_hit_receivable_target(TObjCollidable *target);
+    TechniqueContactList *collect_technique_contacts_default(TObjBase *source);
+    TechniqueContactList *collect_technique_contacts_mode_two(TObjBase *source);
+    TechniqueContactList *collect_technique_contacts(TObjBase *source);
 };
 
 LAYOUT_ASSERT(TNeedleShoot_size, sizeof(TNeedleShoot) == 0xBC);

@@ -53,11 +53,11 @@ ModelNodePositionCapture::ModelNodePositionCapture(const ModelNodePositionEntry 
 void TObjEnePanarmsAtkColli::hit_enemy_near(Vec *point) {
     Vec saved = position;
     s32 id;
-    u8 *enemy;
+    TObjChara *enemy;
     VecCopy(&position, point);
     if ((id = find_nearest_hittable_enemy(this, NULL, radius)) != 0xFFFF) {
-        if ((enemy = get_enemy_entity(id)) != NULL && enemy != (u8 *)m_up) {
-            hit_enemy((TObjChara *)enemy);
+        if ((enemy = get_enemy_entity(id)) != NULL && enemy != m_up) {
+            hit_enemy(enemy);
         }
     }
     VecCopy(&position, &saved);

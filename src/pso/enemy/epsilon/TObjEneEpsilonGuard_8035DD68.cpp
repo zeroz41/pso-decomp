@@ -1,6 +1,7 @@
 #include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/TBreakUpMdl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 
 struct NJS_OBJECT;
@@ -40,14 +41,14 @@ struct NJS_OBJECT;
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
 
-u8 *epsilon_guard_boss_stat_handle;
-u8 *epsilon_guard_shared_handler_b;
-u8 *epsilon_guard_registered_object_handle;
+player_stats *epsilon_guard_boss_stat_handle;
+AttackParams *epsilon_guard_shared_handler_b;
+ActorParamBlock *epsilon_guard_registered_object_handle;
 TObjEneEpsilonGuardParams *TObjEneEpsilonGuard__movement_params;
 Vec epsilon_guard_node_origin;
 s32 epsilon_guard_camera_step;
 Vec *epsilon_guard_camera_ctrl_ptr;
-extern const TBoss3VoloptBreakupParams epsilon_guard_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
+extern const BreakUpParamRow epsilon_guard_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
 const char *TObjEneEpsilonGuard__class_name = "TObjEneEpsilonGuard";
 
 extern CollisionBody TObjEneEpsilonGuard__model_desc[];
@@ -300,7 +301,8 @@ void TObjEneEpsilonGuard::handle_break_state(s32 msg) {
         break_timer++;
         if (break_timer >= 0x14) {
             clear_intangible();
-            TBoss3Volopt::create_breakup_mdl((saddr)epsilon_guard_breakup_model, (saddr)&epsilon_guard_breakup_params, texlist, (saddr)&position, rotation_y);
+            TBoss3Volopt::create_breakup_mdl(epsilon_guard_breakup_model, &epsilon_guard_breakup_params,
+                               texlist, &position, rotation_y);
             play_sound_effect(0x4003AD4C, &body_center, 0, 0);
             trigger_dell_biter_events(&body_center);
             state_step = 1;
@@ -520,7 +522,7 @@ void TObjEneEpsilonGuard::update_effect_attack() {
                 if (p == NULL) {
                     break;
                 }
-                if (obj_is_hit_receivable((u8 *)p) != 0) {
+                if (obj_is_hit_receivable(p) != 0) {
                     body = (uaddr)find_entity_by_id(body_id);
                     if (body != 0 && p->has_flag_0x800() == 0) {
                         DirectAttackPayload attack;
@@ -694,7 +696,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    reset_hp(reinterpret_cast<player_stats *>(epsilon_guard_boss_stat_handle), reinterpret_cast<AttackParams *>(epsilon_guard_shared_handler_b), reinterpret_cast<ActorParamBlock *>(epsilon_guard_registered_object_handle));
+    reset_hp(epsilon_guard_boss_stat_handle, epsilon_guard_shared_handler_b, epsilon_guard_registered_object_handle);
     set_indexed_flags(0, 0x80020);
     set_state_flag_4();
     movementParameters = &epsilon_guard_params;

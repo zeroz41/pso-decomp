@@ -1,6 +1,7 @@
 #include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #include "types.h"
 #include "pso/object/jungle/TORockJungleL01.h"
@@ -23,7 +24,6 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/vector.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
@@ -85,7 +85,7 @@ void TORockJungleS01::load_resources() {
         TORockJungleS01__texture_resource = load_gvm_texture_file("o_rock_jungle_123.GVM");
         break;
     }
-    TMotorcycle::add_entry(0x3E, reinterpret_cast<NJS_OBJECT *>(get_model(0)),
+    TMotorcycle::add_entry(0x3E, get_model(0),
                            get_jungle_rock_texture_resource(0), 5.0f, 0.0f);
 }
 #pragma pool_data reset
@@ -102,9 +102,9 @@ void TORockJungleS01::free_globals() {
     }
 }
 
-saddr TORockJungleS01::get_model(s32 index) {
+NJS_OBJECT *TORockJungleS01::get_model(s32 index) {
     if (TORockJungleS01__bml_resource != NULL) {
-        return (saddr)get_bml_model((BmlResource *)TORockJungleS01__bml_resource, index);
+        return get_bml_model(TORockJungleS01__bml_resource, index);
     }
     return 0;
 }
@@ -120,7 +120,7 @@ NJS_TEXLIST *get_jungle_rock_texture_resource(s32 index) {
 TORockJungleS01::TORockJungleS01(void *set_data) {
     m_name = TORockJungleS01__name;
     apply_object_set_data(set_data);
-    model = (void *)get_model(0);
+    model = get_model(0);
     texlist = get_jungle_rock_texture_resource(0);
     m_b0 = 50.0f + ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->model)->r;
     init_collision_body_parts(this, &rock_jungle_collision_body_parts[0], 1);
@@ -158,18 +158,18 @@ void TORockJungleS01::vfunc_16() {
     Vec offset;
     s32 i;
 
-    params.pos[0] = position.x;
-    params.pos[1] = position.y;
-    params.pos[2] = position.z;
-    params.floor_y = params.pos[1];
+    params.pos.x = position.x;
+    params.pos.y = position.y;
+    params.pos.z = position.z;
+    params.floor_y = params.pos.y;
     for (i = 0; i < 1; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);
         rotate_matrix_y(NULL, rotation_y);
         rotate_vector_by_matrix(0, &offset, &offset);
         pop_matrix();
-        VecCopy((Vec *)params.pos, &position);
-        vec3_add_to((Vec *)params.pos, &offset);
+        VecCopy(&params.pos, &position);
+        vec3_add_to(&params.pos, &offset);
         params.model = get_model(1);
         params.textures = get_jungle_rock_texture_resource(1);
         new TObjChip(tl_05, &params);
@@ -213,7 +213,7 @@ void TORockJungleM01::vfunc_15() {
 TORockJungleM01::TORockJungleM01(void *set_data) {
     m_name = TORockJungleM01_name_ref;
     apply_object_set_data(set_data);
-    model = (void *)TORockJungleS01::get_model(2);
+    model = TORockJungleS01::get_model(2);
     texlist = get_jungle_rock_texture_resource(2);
     m_b0 = 50.0f + ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->model)->r;
     init_collision_body_parts(this, &rock_jungle_collision_body_parts[1], 1);
@@ -252,18 +252,18 @@ void TORockJungleM01::vfunc_16() {
     Vec offset;
     s32 i;
 
-    params.pos[0] = position.x;
-    params.pos[1] = position.y;
-    params.pos[2] = position.z;
-    params.floor_y = params.pos[1];
+    params.pos.x = position.x;
+    params.pos.y = position.y;
+    params.pos.z = position.z;
+    params.floor_y = params.pos.y;
     for (i = 0; i < 1; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);
         rotate_matrix_y(NULL, rotation_y);
         rotate_vector_by_matrix(0, &offset, &offset);
         pop_matrix();
-        VecCopy((Vec *)params.pos, &position);
-        vec3_add_to((Vec *)params.pos, &offset);
+        VecCopy(&params.pos, &position);
+        vec3_add_to(&params.pos, &offset);
         params.model = TORockJungleS01::get_model(3);
         params.textures = get_jungle_rock_texture_resource(3);
         new TObjChip(tl_05, &params);
@@ -284,7 +284,7 @@ const char *TORockJungleL01_name_ref = "TORockJungleL01";
 TORockJungleL01::TORockJungleL01(void *set_data) {
     m_name = TORockJungleL01_name_ref;
     apply_object_set_data(set_data);
-    model = (void *)TORockJungleS01::get_model(4);
+    model = TORockJungleS01::get_model(4);
     texlist = get_jungle_rock_texture_resource(4);
     m_b0 = 50.0f + ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->model)->r;
     init_collision_body_parts(this, &rock_jungle_collision_body_parts[2], 1);

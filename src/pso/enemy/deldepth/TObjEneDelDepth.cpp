@@ -10,6 +10,7 @@
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/map/CsnQuery.h"
+#include "pso/map/CsnGroundQuery.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/reflection.h"
 #include "pso/system/vector.h"
@@ -55,7 +56,6 @@
 
 
 extern "C" {
-s32 project_actor_to_ground(void *, void *, void *);
 s32 free_collision_body_parts(void *);
 saddr init_collision_body_parts(void *, void *, int);
 }
@@ -175,20 +175,20 @@ void TObjEneDelDepth::load_assets() {
 
     {
         NpcAnimationBinding info = { NULL, deldepth_motion_actions, 0, 0, 6 };
-        info.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneDelDepth__shared_resource->motions);
+        info.motions = TObjEneDelDepth__shared_resource->motions;
         NpcModelRegistry::register_animated_chunk((s16)0x47, TObjEneDelDepth__shared_resource->models[0].model, TObjEneDelDepth__shared_resource->models[0].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
     }
     {
         NpcAnimationBinding info = { NULL, deldepth_motion_actions_b, 0, 0, 1 };
-        info.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneDelDepth__shared_resource->motions);
+        info.motions = TObjEneDelDepth__shared_resource->motions;
         NpcModelRegistry::register_animated_chunk((s16)0x48, TObjEneDelDepth__shared_resource->models[1].model, TObjEneDelDepth__shared_resource->models[1].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
     }
     TObjEneDelDepth__tune_params = (DelDepthParameters *)TLobby::dispatch_shared_handler_a(0x30);
 }
 
 void TObjEneDelDepth::free_shared_data() {
-    if ((uaddr) TObjEneDelDepth__shared_resource != 0U) {
-        delete (BmlResource *)TObjEneDelDepth__shared_resource;
+    if (TObjEneDelDepth__shared_resource != NULL) {
+        delete TObjEneDelDepth__shared_resource;
         TObjEneDelDepth__shared_resource = NULL;
     }
 }
@@ -205,8 +205,8 @@ TObjEneDelDepth::TObjEneDelDepth(TObject *parent, void *setData) : TObjEnemy(par
 
 void TObjEneDelDepth::init() {
     u8 *self = (u8 *)this;
-    this->texlist = get_bml_texlist((BmlResource *)(TObjEneDelDepth__shared_resource = TObjEneDelDepth::get_data()), 0);
-    this->model = (void *)get_bml_model((BmlResource *)TObjEneDelDepth__shared_resource, 0);
+    this->texlist = get_bml_texlist(TObjEneDelDepth__shared_resource = TObjEneDelDepth::get_data(), 0);
+    this->model = get_bml_model(TObjEneDelDepth__shared_resource, 0);
     VecCopy(&this->prev_position, (const Vec *)(VecCopy(&this->home_position, (const Vec *)(VecCopy(&this->center, &this->position)))));
     this->collisionBody = (CollisionBody *)init_collision_body_parts(self, TObjEneDelDepth_collision_body_parts, 1);
     ((TObjMotion *)self)->set_action_table(deldepth_motion_actions);
@@ -220,7 +220,7 @@ void TObjEneDelDepth::init() {
     this->target = 0;
     ((TObjEnemy *)self)->bind_enemy_combat_stats(TLobby::register_boss(0x30), TLobby::dispatch_shared_handler_b(0x30), TLobby::register_object(0x30));
     this->referenceHp = (s16) this->hp;
-    ((TBoss3Volopt *)self)->reset_photon_effect();
+    register_by_id();
     this->movementParameters = 0;
     ((TObjEnemy *)self)->set_param(0x47);
     this->motionController = (new DelDepthMotion(this));
@@ -554,7 +554,7 @@ void TObjEneDelDepth::update_movement() {
             if (pl == 0) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)pl) != 0 && is_player_entity_id(pl->get_entity_id()) != 0) {
+            if (obj_is_hit_receivable(pl) != 0 && is_player_entity_id(pl->get_entity_id()) != 0) {
                 pl->select_melee_contact_body(self, 1.0f);
                 pl->receive_physical_attack(self, 1.0f);
                 pl->apply_knockback_from_attacker((u8 *)self, 5.0f);
@@ -725,7 +725,7 @@ void TObjEneDelDepth::update_look_around() {
         if (this->targetPlayer != 0xFFFF) {
             w.x = 1.0f;
     w.z = w.y = 0.0f;
-            TObjPlayer::calc_distance_to_client((saddr)ene_del_depth, (u16)((u16)this->targetPlayer), &w);
+            TObjPlayer::calc_distance_to_client(reinterpret_cast<const TObjBase *>(ene_del_depth), this->targetPlayer, &w);
             this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * atan2_float(w.x, w.z)), 0x280);
         }
         if (this->timer > lim) {
@@ -782,7 +782,7 @@ void TObjEneDelDepth::move_toward_target() {
     v.z = v.y = 0.0f;
     id = this->targetPlayer;
     if (id != 0xFFFF) {
-        TObjPlayer::calc_distance_to_client((saddr)self, (u16)((u16)id), &v);
+        TObjPlayer::calc_distance_to_client(this, static_cast<u16>(id), &v);
     }
     ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
     this->rotation_y = approach_angle_limited(this->rotation_y, ang, 0x200);
@@ -973,7 +973,7 @@ void TObjEneDelDepth::update_death_fade() {
         ((TObjEnemy *)enemy)->exchange_object_state(&record, 0);
         apply_enemy_state(&record);
         ((TObjEnemy *)enemy)->send_entity_set_flags();
-        TObjPlayer::apply_effect_variant_a((saddr)((u8 *)&this->position), 0);
+        TObjPlayer::apply_effect_variant_a(&position, 0);
         this->queue_destruction();
         break;
     }
@@ -1136,13 +1136,13 @@ void TObjEneDelDepthBomb::render() {
         this->queue_destruction();
         return;
     }
-    saddr model = (saddr)get_bml_model((BmlResource *)data, 2);
-    s32 texture = (saddr)get_bml_texlist((BmlResource *)data, 2);
+    NJS_OBJECT *model = get_bml_model(data, 2);
+    NJS_TEXLIST *texture = get_bml_texlist(data, 2);
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_zyx(0, rotation_x, rotation_y, rotation_z);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture));
-    draw_chunk_object((void *)model);
+    TObjFish::set_global_param(texture);
+    draw_chunk_object(model);
     pop_matrix();
     push_matrix();
     translate_matrix(0, position.x, 0.1f + groundHeight, position.z);

@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
@@ -144,14 +145,6 @@ static void __sinit_TObjEnePanarms_800DCEB8_cpp();
 __declspec(section ".ctors") static void *const panarms_body_global_initializer = (void *)__sinit_TObjEnePanarms_800DCEB8_cpp;
 
 
-/* The 0x40-byte set entry the constructor copies for each half it creates. */
-struct PanarmsSetEntry {
-    s16 unk_0;
-    u8 unk_2[0x4];
-    u16 unk_6;
-    u8 unk_8[0x38];
-};
-
 /* What TLobby::dispatch_shared_handler_a(49) returns for Pan Arms. */
 struct PanarmsParams {
     f32 unk_0;
@@ -229,7 +222,7 @@ ModelNodePositionEntry panarms_model_node_desc[6] = {
 };
 
 s32 TObjEnePanarms::create(saddr setData) {
-    return (saddr)new TObjEnePanarms(new TObjControl(tl_04), (void *)setData);
+    return (saddr)new TObjEnePanarms(new TObjControl(tl_04), reinterpret_cast<EnemyPlacement *>(setData));
 }
 
 void TObjEnePanarms::load_and_spawn_npc() {
@@ -251,7 +244,7 @@ void TObjEnePanarms::free_data() {
     }
 }
 
-TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(parent) {
+TObjEnePanarms::TObjEnePanarms(TObject *parent, EnemyPlacement *setData) : TObjEnemy(parent) {
     s32 i;
 
     m_name = TObjEnePanarms__name;
@@ -298,12 +291,12 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(paren
         fades[i].activate_and_dispatch();
     }
     set_state(1);
-    PanarmsSetEntry entry = *(PanarmsSetEntry *)setData;
-    entry.unk_0 = set_index + 1;
-    entry.unk_6 = entity_id + 1;
+    EnemyPlacement entry = *setData;
+    entry.enemy_index = set_index + 1;
+    entry.id = entity_id + 1;
     halves[0] = create_bara(&entry, 0);
-    entry.unk_0 = set_index + 2;
-    entry.unk_6 = entity_id + 2;
+    entry.enemy_index = set_index + 2;
+    entry.id = entity_id + 2;
     halves[1] = create_bara(&entry, 1);
     if (halves[0] == NULL || halves[1] == NULL) {
         return;
@@ -914,7 +907,7 @@ void TObjEnePanarms::update_dead() {
             spot.y = this->position.y;
             spot.z = (0.5f * this->position.z) + (0.5f * draw_positions[0].z);
             spawn_ground_effect(&spot, 0x78);
-            TObjPlayer::spawn_dead_spot_default((saddr)&spot, 6);
+            TObjPlayer::spawn_dead_spot_default(&spot, 6);
         }
         if (this->state_timer == 0x5A) {
             this->shadow_visible = 0;

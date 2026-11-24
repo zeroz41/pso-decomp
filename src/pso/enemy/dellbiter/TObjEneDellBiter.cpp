@@ -85,7 +85,7 @@ player_stats *dellbiter_boss_stat_handle;
 AttackParams *TObjEneDellBiter__shared_handler_param;
 ActorParamBlock *dellbiter_object_stat_handle;
 DelbiterMovementParameters * TObjEneDellBiter__movement_params;
-uaddr TObjEneDellBiter__shared_model_resource;
+BmlResource *TObjEneDellBiter__shared_model_resource;
 s32 TObjEneDellBiter__demo_script_step;
 s32 TObjEneDellBiter__demo_rotate_x_angle;
 Vec *TObjEneDellBiter__demo_script_cursor;
@@ -153,9 +153,9 @@ void TObjEneDellBiter::load_resources() {
     dellbiter_demo_camera_vec.y = 0.0f;
     dellbiter_demo_camera_vec.z = 0.0f;
     if (is_split_screen() != 0) {
-        TObjEneDellBiter__shared_model_resource = (uaddr)load_enemy_bml_resource(&dell_biter_low_bml_resource);
+        TObjEneDellBiter__shared_model_resource = load_enemy_bml_resource(&dell_biter_low_bml_resource);
     } else {
-        TObjEneDellBiter__shared_model_resource = (uaddr)load_enemy_bml_resource(&dell_biter_bml_resource);
+        TObjEneDellBiter__shared_model_resource = load_enemy_bml_resource(&dell_biter_bml_resource);
     }
     dellbiter_boss_stat_handle = TLobby::register_boss(0xD);
     TObjEneDellBiter__shared_handler_param = TLobby::dispatch_shared_handler_b(0xD);
@@ -167,8 +167,8 @@ void TObjEneDellBiter::load_resources() {
     TObjEneDellBiter::set_min_clamped_entry_value(4, TObjEneDellBiter__movement_params->animation_speed_4);
     TObjEneDellBiter::set_min_clamped_entry_value(5, TObjEneDellBiter__movement_params->animation_speed_5);
     {
-        BmlResource *resource = (BmlResource *)TObjEneDellBiter__shared_model_resource;
-        NJS_OBJECT *object = (NJS_OBJECT *)resource->models->model;
+        BmlResource *resource = TObjEneDellBiter__shared_model_resource;
+        NJS_OBJECT *object = resource->models->model;
         TObjEneDellBiter__scrolling_uv_polygon_list = (saddr)((NJS_CNK_MODEL *)object->child->model)->polygon_list;
         TObjEneDellBiter__last_uv_scroll_tick = 0;
         NpcAnimationBinding attack = { resource->motions, dell_biter_param_table, 0, 1, 10 };
@@ -182,9 +182,9 @@ void *TObjEneDellBiter::create(void *set_data) {
 }
 
 void TObjEneDellBiter::destroy_static_instance() {
-    if ((u32) TObjEneDellBiter__shared_model_resource != 0U) {
-        delete (BmlResource *)TObjEneDellBiter__shared_model_resource;
-        TObjEneDellBiter__shared_model_resource = 0U;
+    if (TObjEneDellBiter__shared_model_resource != NULL) {
+        delete TObjEneDellBiter__shared_model_resource;
+        TObjEneDellBiter__shared_model_resource = NULL;
     }
 }
 
@@ -205,12 +205,12 @@ TObjEneDellBiter::TObjEneDellBiter(TObject *parent, void *set_data) : TObjEneDD_
 void TObjEneDellBiter::init_params() {
     s32 i;
     init_position_vectors();
-    model = (void *)((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->model;
-    texlist = ((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->texlist;
+    model = TObjEneDellBiter__shared_model_resource->models->model;
+    texlist = TObjEneDellBiter__shared_model_resource->models->texlist;
     init_model((CollisionBody *)dell_biter_collision_bodies, 1);
     bodies->flags |= 0x400000;
     set_action_table(dell_biter_param_table);
-    set_motion_list(((BmlResource *)TObjEneDellBiter__shared_model_resource)->motions);
+    set_motion_list(TObjEneDellBiter__shared_model_resource->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);
@@ -438,7 +438,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)target) != 0 && attack_target_history_add(attack_history, target) != 0) {
+            if (obj_is_hit_receivable(target) != 0 && attack_target_history_add(attack_history, target) != 0) {
                 if (flags & 0x10) {
                     if (game_difficulty_selection == 3) {
                         attack.kind = 5;
@@ -1385,7 +1385,7 @@ void TObjEneDellBiter::state_death(s32 reason) {
             break;
         case 1:
             if (fade.decay_value_toward_floor() != 0) {
-                TObjPlayer::apply_effect_variant_b((saddr)&position, 0);
+                TObjPlayer::apply_effect_variant_b(&position, 0);
                 state_timer = 2;
                 return;
             }

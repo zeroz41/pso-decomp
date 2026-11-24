@@ -23,12 +23,13 @@
 const char *bm_ene_common_all_model_names[2] = { "ene_common_all.nj", NULL };
 const char *bm_ene_common_all_motion_names[1] = { NULL };
 BmlResourceDescriptor corpse_mark_resource_descriptor = { "bm_ene_common_all.bml", bm_ene_common_all_model_names, bm_ene_common_all_motion_names, 1, 0 };
-void *player_corpse_mark_resource;
+BmlResource *player_corpse_mark_resource;
 s32 player_particle_effect_enabled;
 
-void TBoss3Volopt::create_breakup_mdl(saddr model, saddr params, NJS_TEXLIST *texlist, saddr position, s32 rotation_y) {
-    new TBreakUpMdl(tl_05, (TBreakUpMdlData *)model, (BreakUpParamRow *)params, (NJS_TEXLIST *)texlist,
-                    (Vec *)position, rotation_y);
+void TBoss3Volopt::create_breakup_mdl(TBreakUpMdlData *model, const BreakUpParamRow *params, NJS_TEXLIST *texlist,
+                                    const Vec *position, s32 rotation_y) {
+    new TBreakUpMdl(tl_05, model, const_cast<BreakUpParamRow *>(params), texlist,
+                    const_cast<Vec *>(position), rotation_y);
 }
 void play_area_variant_sound(Vec *position) {
     s32 area;
@@ -215,81 +216,80 @@ void spawn_effect_at_ground(const Vec *pos, s32 duration) {
 // .sdata2 pools 2.5f ahead of 7.5f/15.0f and 25.0f after them (0x805DA3C4-D0),
 // which first use by the surviving code cannot give. Bodies and names inferred
 // from the family.
-void spawn_corner_dead_spot_scale2_5(s32 point, s32 delay) {
+void spawn_corner_dead_spot_scale2_5(const Vec *point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 2.5f);
 }
 extern "C" {
 
-void TObjPlayer::apply_effect_variant_a(saddr point, s32 delay) {
+void TObjPlayer::apply_effect_variant_a(const Vec *point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 7.5f);
 }
 
-void TObjPlayer::apply_effect_variant_b(s32 point, s32 delay) {
+void TObjPlayer::apply_effect_variant_b(const Vec *point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 15.0f);
 }
 
 // Dead-stripped, see spawn_corner_dead_spot_scale2_5.
 }
-void spawn_corner_dead_spot_scale25(s32 point, s32 delay) {
+void spawn_corner_dead_spot_scale25(const Vec *point, s32 delay) {
     TObjPlayer__sub_800D93F0(point, 0, delay, 25.0f);
 }
 extern "C" {
 
-void TObjPlayer__sub_800D9290(s32 point, s32 delay) {
+void TObjPlayer__sub_800D9290(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 1, delay, 2.5f);
 }
 
-void TObjPlayer__sub_800D92BC(s32 point, s32 delay) {
+void TObjPlayer__sub_800D92BC(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 1, delay, 7.5f);
 }
 
-void TObjPlayer::spawn_dead_spot_default(saddr point, s32 delay) {
+void TObjPlayer::spawn_dead_spot_default(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 1, delay, 15.0f);
 }
 
-void TObjPlayer::spawn_dead_spot_here(s32 point, s32 delay) {
+void TObjPlayer::spawn_dead_spot_here(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 1, delay, 25.0f);
 }
 }
 
-void spawn_landing_dead_spot(s32 point, s32 delay) {
+void spawn_landing_dead_spot(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 2, delay, 2.5f);
 }
 extern "C" {
 
-void TObjPlayer::spawn_dead_spot_type2(s32 point, s32 delay) {
+void TObjPlayer::spawn_dead_spot_type2(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 2, delay, 7.5f);
 }
 
-void spawn_dead_spot_scale15(s32 point, s32 delay) {
+void spawn_dead_spot_scale15(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 2, delay, 15.0f);
 }
 
-void TObjPlayer__sub_800D93C4(s32 point, s32 delay) {
+void TObjPlayer__sub_800D93C4(const Vec *point, s32 delay) {
     TObjPlayer::spawn_dead_spot(point, 2, delay, 25.0f);
 }
 
 
 
-void TObjPlayer__sub_800D93F0(saddr point, s32 selector, s32 delay, f32 maxScale) {
-    new TUnk_80494A10((TObject *)tl_05, (Vec *)point, *(void **)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, maxScale);
+void TObjPlayer__sub_800D93F0(const Vec *point, s32 selector, s32 delay, f32 maxScale) {
+    new TUnk_80494A10(tl_05, point, player_corpse_mark_resource->models[0].texlist, selector, delay, maxScale);
 }
 
-void TObjPlayer::spawn_dead_spot(saddr point, s32 selector, s32 delay, f32 maxScale) {
-    new TDeadSpot((TObject *)tl_05, (Vec *)point, *(void **)((s8 *)(*(void **)((s8 *)player_corpse_mark_resource + 0x42C)) + 0xC), selector, delay, maxScale);
+void TObjPlayer::spawn_dead_spot(const Vec *point, s32 selector, s32 delay, f32 maxScale) {
+    new TDeadSpot(tl_05, point, player_corpse_mark_resource->models[0].texlist, selector, delay, maxScale);
 }
 
 
 void TObjPlayer::destroy_static_lobby() {
-    if ((u32) (*(u32 *)&player_corpse_mark_resource) != 0U) {
-        delete (BmlResource *)(*(uaddr *)&player_corpse_mark_resource);
-        (*(u32 *)&player_corpse_mark_resource) = 0U;
+    if (player_corpse_mark_resource != NULL) {
+        delete player_corpse_mark_resource;
+        player_corpse_mark_resource = NULL;
     }
 }
 }
 
 void load_corpse_mark_resource(void) {
-    u8 *p = (u8 *)new BmlResource(1, &corpse_mark_resource_descriptor, 0, 0, NULL);
-    (*(u32 *)&player_corpse_mark_resource) = (uaddr)p;
+    player_corpse_mark_resource = new BmlResource(1, &corpse_mark_resource_descriptor, 0, 0, NULL);
     player_particle_effect_enabled = 1;
 }

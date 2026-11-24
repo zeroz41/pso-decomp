@@ -23,7 +23,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"

@@ -24,7 +24,6 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8024B1A0.h"
@@ -479,7 +478,7 @@ void TQuestThread::destroy_all_in(TObject *parent) {
     while (parent->m_down != NULL && child != NULL) {
         TObject *cur = child;
         child = child->m_next;
-        if (((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TQuestThread__class_name) != 0) {
+        if (cur->check_value_equals(TQuestThread__class_name) != 0) {
             cur->queue_destruction();
         } else {
             destroy_all_in(cur);

@@ -70,14 +70,14 @@ extern BmlResource *balclaw_bml_resource;
 // Per claw slot, the visible model nodes of that claw (NULL-terminated).
 extern NJS_OBJECT *balclaw_arm_part_models[4][11];
 // The body's combat-stat tables from TLobby, filled by TObjEneBalClaw::load_resources.
-extern u8 *balclaw_body_base_params[];
-extern u8 *balclaw_body_attack_params[];
-extern u8 *balclaw_body_resistance_params[];
+extern player_stats *balclaw_body_base_params[];
+extern AttackParams *balclaw_body_attack_params[];
+extern ActorParamBlock *balclaw_body_resistance_params[];
 extern BalClawBehaviorParams *balclaw_body_behavior_params[];
 // The same for the claws (TObjEneBalClawClaw::init binds them).
-extern u8 *balclaw_claw_base_params[];
-extern u8 *balclaw_claw_attack_params[];
-extern u8 *balclaw_claw_resistance_params[];
+extern player_stats *balclaw_claw_base_params[];
+extern AttackParams *balclaw_claw_attack_params[];
+extern ActorParamBlock *balclaw_claw_resistance_params[];
 extern BalClawBehaviorParams *balclaw_claw_behavior_params[];
 
 #endif

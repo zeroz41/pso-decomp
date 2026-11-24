@@ -37,9 +37,9 @@ const char *TObjEneRe4Bit__name = TObjEneRe4Bit__class_name_string;
 TObjEneRe4InitParams re4_bit_init_params = {225.0f, 0.0f, 0x600};
 CollisionBody re4_bit_model_node_desc = {{0.0f, 0.0f, 0.0f}, 2.0f, 0.0f, 0, 0x8003};
 
-__declspec(section ".data") u8 *TObjEneRe4Bit_boss_handles[2];
-__declspec(section ".data") u8 *TObjEneRe4Bit_attack_handles[2];
-__declspec(section ".data") u8 *TObjEneRe4Bit_resistance_handles[2];
+__declspec(section ".data") player_stats *TObjEneRe4Bit_boss_handles[2];
+__declspec(section ".data") AttackParams *TObjEneRe4Bit_attack_handles[2];
+__declspec(section ".data") ActorParamBlock *TObjEneRe4Bit_resistance_handles[2];
 __declspec(section ".data") void *TObjEneRe4Bit_behavior_params[2];
 
 void TObjEneRe4Bit::apply_defense_stat_status(void *) {  }
@@ -65,9 +65,9 @@ void TObjEneRe4Bit::load_resources() {
     TObjEneRe4Bit__model = (saddr)sorcerer_bml_resource->models[1].model;
     re4_bit_texture_list = sorcerer_bml_resource->models[0].texlist;
     for (i = 0; i < 2; i++) {
-        TObjEneRe4Bit_boss_handles[i] = (u8 *)TLobby::register_boss(re4_bit_base_param_ids[i]);
-        TObjEneRe4Bit_attack_handles[i] = (u8 *)TLobby::dispatch_shared_handler_b(re4_bit_attack_param_ids[i]);
-        TObjEneRe4Bit_resistance_handles[i] = (u8 *)TLobby::register_object(re4_bit_resistance_param_ids[i]);
+        TObjEneRe4Bit_boss_handles[i] = TLobby::register_boss(re4_bit_base_param_ids[i]);
+        TObjEneRe4Bit_attack_handles[i] = TLobby::dispatch_shared_handler_b(re4_bit_attack_param_ids[i]);
+        TObjEneRe4Bit_resistance_handles[i] = TLobby::register_object(re4_bit_resistance_param_ids[i]);
         TObjEneRe4Bit_behavior_params[i] = TLobby::dispatch_shared_handler_a(re4_bit_behavior_param_ids[i]);
     }
 }
@@ -107,7 +107,7 @@ void TObjEneRe4Bit::init() {
     texlist = re4_bit_texture_list;
     init_model(&re4_bit_model_node_desc, 1);
     i = enabled == 1 ? 0 : 1;
-    reset_hp(reinterpret_cast<player_stats *>(TObjEneRe4Bit_boss_handles[i]), reinterpret_cast<AttackParams *>(TObjEneRe4Bit_attack_handles[i]), reinterpret_cast<ActorParamBlock *>(TObjEneRe4Bit_resistance_handles[i]));
+    reset_hp(TObjEneRe4Bit_boss_handles[i], TObjEneRe4Bit_attack_handles[i], TObjEneRe4Bit_resistance_handles[i]);
     set_state_8();
     movementParameters = &re4_bit_init_params;
     if (enabled == 1) {
@@ -189,7 +189,7 @@ void TObjEneRe4Bit::update_position_flag() {
     Vec pos;
 
     VecCopy(&pos, &body_center);
-    if (move_xz_on_ground((u8 *)&pos) == 0) {
+    if (move_xz_on_ground(&pos) == 0) {
         behavior_flags &= ~0x800;
         return;
     }

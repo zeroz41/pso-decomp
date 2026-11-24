@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/unk/text_8024AB98.h"
 #include "pso/quest/challenge/TChallenge4PItemSelect.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -17,6 +18,7 @@
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/window/TWindowMessagePage.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -292,7 +294,7 @@ s32 update_challenge_result_player_locks() {
         for (s32 i = 0; i < 4; ++i) {
             TObjPlayer *player = get_player_by_client_id(i);
             if (player && ((TObjPlayer *)player)->check_player_flag1() == 0) {
-                TObjPlayer::play_effect_default((saddr)player, (int)(-1));
+                TObjPlayer::play_effect_default(player, -1);
                 obj_set_flag_20000(player);
                 get_player_result__18TChallenge4PResultFPv(player, 0);
                 get_player_result__18TChallenge4PResultFPv(player, 1);
@@ -308,7 +310,7 @@ s32 update_challenge_result_player_locks() {
         for (s32 i = 0; i < 4; ++i) {
             TObjPlayer *player = get_player_by_client_id(i);
             if (player && ((TObjPlayer *)player)->check_player_flag1() != 0) {
-                TObjPlayer::send_code_45_1((saddr)player);
+                TObjPlayer::send_code_45_1(player);
                 obj_clear_flag30_20000(player);
                 ((TChallenge4PResult *)player)->get_player_rank();
                 if (((TObjPlayer *)player)->check_flag_0x40000000()) fn_8034BE38(player);

@@ -326,7 +326,7 @@ void store_inverse_current_matrix(NJS_CAMERA *camera, CameraMatrix *view) {
 #pragma fp_contract on
 void transform_vec_by_camera(NJS_CAMERA *camera, const Vec *in, Vec *out) {
     push_matrix();
-    premultiply_matrix(0, (uaddr)TCameraCtrl::get_view_matrix());
+    premultiply_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(TCameraCtrl::get_view_matrix()));
     matrix_mult_vec(NULL, in, out);
     pop_matrix();
 }
@@ -1296,7 +1296,7 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
             break;
         }
         TLobby::wait_ready_loop();
-        if (func_801A5E54__Fv() != 0) {
+        if (static_cast<s8>(func_801A5E54()) != 0) {
             break;
         }
         render_tick();
@@ -1348,7 +1348,7 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         main_task.render();
         draw_snapshot_capture_overlay();
         TLobby::wait_ready_loop();
-        if (func_801A5E54__Fv() != 0) {
+        if (static_cast<s8>(func_801A5E54()) != 0) {
             break;
         }
         TParticleCtrl::begin_effect_render();

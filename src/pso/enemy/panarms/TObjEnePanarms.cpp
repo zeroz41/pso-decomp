@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -235,7 +236,7 @@ TObjMotionAction *panbara_motion_params_by_half[2] = { panbara_pal_motion_params
 
 s32 panarms_turn_delta_table[2] = { 0x4000, -0x4000 };
 
-TObjEnePanBARA *TObjEnePanarms::create_bara(void *setData, s32 index) {
+TObjEnePanBARA *TObjEnePanarms::create_bara(EnemyPlacement *setData, s32 index) {
     return new TObjEnePanBARA(new TObjControl(tl_04), setData, index);
 }
 
@@ -253,7 +254,7 @@ struct PanBARAObjectState {
     u8 unk_8[4];
 };
 
-TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObjEnemy(parent) {
+TObjEnePanBARA::TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 index) : TObjEnemy(parent) {
     s32 i;
 
     m_name = TObjEnePanBARA__name;
@@ -291,7 +292,7 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
         return;
     }
     referenceHp = hp;
-    ((TBoss3Volopt *)this)->reset_photon_effect(); // 0x8003F0E8: generic helper, owned under this name by 24 callers
+    register_by_id();
     movementParameters = NULL;
     if (half_index == 0) {
         set_param(23);
@@ -446,12 +447,12 @@ void TObjEnePanBARA::render() {
 void TObjEnePanBARA::draw() { push_matrix(); post_translate_matrix(&position.x); rotate_matrix_y(NULL, rotation_y); TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist)); node_capture->install(); TObjMotion::draw(); node_capture->clear(); pop_matrix(); }
 
 void TObjEnePanBARA::update_linked_effect() {
-    struct { u8 b[0x10]; } ground_normal; // project_actor_to_ground's ground record
+    Vec ground_normal;
     s32 tilt_x;
     s32 tilt_z;
 
     VecCopy(&shadow_position, &draw_callback_position);
-    if (((s32 (*)(void *, void *, void *))project_actor_to_ground)(this, &shadow_position, &ground_normal) != 0) {
+    if (project_actor_to_ground(this, &shadow_position, &ground_normal) != 0) {
         push_matrix();
         shadow_position.y += 0.2f;
         post_translate_matrix(&shadow_position.x);
@@ -1057,7 +1058,7 @@ void TObjEnePanBARA::update_dead() {
     if (this->action_timer <= 0x78) {
         if (this->action_timer == 0x78) {
             spawn_ground_effect(&shadow_position, 0x78);
-            TObjPlayer::spawn_dead_spot_default((saddr)&shadow_position, 6);
+            TObjPlayer::spawn_dead_spot_default(&shadow_position, 6);
         }
         this->position.y += -0.15625f;
         if ((s32) this->action_timer < 0) {

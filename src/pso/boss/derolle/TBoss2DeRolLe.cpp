@@ -1,5 +1,6 @@
 #include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -614,7 +615,7 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     tentacle_matrices = (GC_Mtx *)mem_alloc(4 * sizeof(GC_Mtx));
     for (i = 0; i < 4; i++) {
         set_matrix_identity((u8 *)tentacle_matrices[i]);
-        tentacles[i] = new TBoss2Tentacle(&part_group, (saddr)&tentacle_matrices[i], i);
+        tentacles[i] = new TBoss2Tentacle(&part_group, tentacle_matrices[i], i);
     }
     Vec v = {10000.0f, 10000.0f, 10000.0f};
     id = entity_id + 1;
@@ -791,7 +792,7 @@ void TBoss2DeRolLe::run_task() {
   {
     state_flags = flags & ~0x80;
     state_flags |= 0x40;
-    new TUnk_80482090(this, (uaddr)node_matrices);
+    new TUnk_80482090(this, node_matrices[0]);
   }
   if ((TObjEneDD::is_main_phase_15() != 0) && (debug_pad_active == 0))
   {
@@ -1595,8 +1596,8 @@ void TBoss2DeRolLe::spawn_offset_particle(Vec *position, f32 height, f32 distanc
 void TBoss2DeRolLe::update_projectile_spawns() {
     Vec *mid;
 
-    project_sound_origin_from_camera((saddr)&position, (u8 *)&sound_origins[0], 0.3f);
-    project_sound_origin_from_camera((saddr)&node_positions[18], (u8 *)&sound_origins[1], 0.3f);
+    project_sound_origin_from_camera(&position, &sound_origins[0], 0.3f);
+    project_sound_origin_from_camera(&node_positions[18], &sound_origins[1], 0.3f);
     mid = &sound_origins[2];
     VecCopy(mid, &sound_origins[1]);
     vec3_add_to(mid, &sound_origins[1]);
@@ -2839,7 +2840,7 @@ void TBoss2DeRolLe::handle_tentacle_volley_state(u32 reason, s32 side) {
                     v.z = r * cos_table_lookup(a);
                     TObjBoss2Tunnel::adjust_to_ground(&v, &v);
                 }
-                tentacles[state_ints[1]]->start_attack_at_target((u8 *)&v, state_ints[3]);
+                tentacles[state_ints[1]]->start_attack_at_target(&v, state_ints[3]);
                 state_ints[1]++;
                 if (state_ints[1] >= 4) {
                     state_ints[0] = 0;

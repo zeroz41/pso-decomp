@@ -277,7 +277,7 @@ void TObjEneMe1GiGue::run_task() {
         run_demo_task();
         return;
     }
-    target = (u8 *)find_active_entity_by_id(targetId);
+    target = static_cast<TObjChara *>(find_active_entity_by_id(targetId));
     release_destroyed_target();
     update_proximity_state();
     if (mode != next_action) {
@@ -608,7 +608,7 @@ void TObjEneMe1GiGue::update_missile_state() {
                     GiGueShotAngles dir = {0x4000, 0, 0};
                     particle->set_direction(&dir);
                 }
-                TObjEneMe1GiGueMissile::create((saddr)this, (saddr)&missileOrigin, (saddr)&((TObjChara *)target)->body_center, gigue_missile_speed, (f32)gigue_missile_power);
+                TObjEneMe1GiGueMissile::create(this, &missileOrigin, &((TObjChara *)target)->body_center, gigue_missile_speed, (f32)gigue_missile_power);
                 play_sound_effect(TObjEneMe1GiGue::remap_sound_id(this, 0x3A31E), &position, 0, 0);
                 state = 3;
             }
@@ -1001,7 +1001,8 @@ void TObjEneMe1GiGue::break_apart() {
     Vec pos;
     VecCopy(&pos, &position);
     pos.y += 40.0f + flightHeight;
-    TBoss3Volopt::create_breakup_mdl((saddr)gigue_breakup_model, 0, texlist, (saddr)&pos, rotation_y);
+    TBoss3Volopt::create_breakup_mdl(gigue_breakup_model, NULL,
+                       texlist, &pos, rotation_y);
     refresh_lobby_state();
     send_entity_set_flags();
     spawn_particle_effect(&pos, 0x205);

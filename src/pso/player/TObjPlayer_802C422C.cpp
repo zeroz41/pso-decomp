@@ -139,7 +139,7 @@ void*TObjPlayer::get_action_data() { return (char*)this + 0x408; }
 void TObjPlayer::set_field_157(u8 v) { *((u8 *)this + 0x157) = v; }
 void TObjPlayer::set_byte_13b(u8 v) { *((u8 *)this + 0x13B) = v; }
 void TObjPlayer::set_action_flags(u8 v) { this->m_11f = v; }
-void TObjPlayer::set_flag_103(u8 v) { this->m_103 = v; }
+void TObjPlayer::set_flag_103(u8 v) { this->credit_slot_bytes.m_103 = v; }
 void TObjPlayer::set_flag_e7(u8 v) { *((u8 *)this + 0xE7) = v; }
 void TObjPlayer::set_field_1ab(u8 v) { *((u8 *)this + 0x1AB) = v; }
 void TObjPlayer::set_field_18f(u8 v) { *((u8 *)this + 0x18F) = v; }

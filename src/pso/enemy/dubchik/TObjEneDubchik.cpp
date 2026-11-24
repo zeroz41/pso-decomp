@@ -71,7 +71,7 @@ NJS_TEXLIST *dubchik_variant_texlist;
 }
 NJS_OBJECT *lbl_805D509C;
 NJS_OBJECT *lbl_805D50A0;
-void *breakup_model_ptr;
+TBreakUpMdlData *breakup_model_ptr;
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -81,9 +81,9 @@ extern "C" {
 
 // What TLobby::register_boss / dispatch_shared_handler_b / register_object / dispatch_shared_handler_a
 // (0x1B + variant) return; the behavior table spans 0x50 bytes in the original, only [0] and [1] are read.
-__declspec(section ".data") u8 *dubchik_base_params_by_variant[2];
-__declspec(section ".data") u8 *dubchik_attack_params_by_variant[2];
-__declspec(section ".data") u8 *dubchik_resistance_params_by_variant[2];
+__declspec(section ".data") player_stats *dubchik_base_params_by_variant[2];
+__declspec(section ".data") AttackParams *dubchik_attack_params_by_variant[2];
+__declspec(section ".data") ActorParamBlock *dubchik_resistance_params_by_variant[2];
 TObjEneDubchikBehaviorParams *dubchik_behavior_params_by_variant[20];
 NJS_OBJECT *dubchik_part0_nodes[4];
 NJS_OBJECT *dubchik_part1_nodes[12];
@@ -158,7 +158,7 @@ CollisionBody dubchik_collision_body[1] = {
     { { 0.0f, 9.0f, 0.0f }, 5.0f, 0.0f, 0, 0x8003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-TBoss3VoloptBreakupParams dubchik_breakup_params = { 0x14, { 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f } };
+BreakUpParamRow dubchik_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
 
 TBoss3VoloptP01Movement dubchik_movement = { 150.0f, 0.37037036f, 0x400, 0x1E0000, 0, 1, 0 };
 
@@ -226,7 +226,7 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     set_action_table(action_table);
     init_collision_body_parts(this, dubchik_collision_body, 1);
     movementParameters = &dubchik_movement;
-    bind_enemy_combat_stats(reinterpret_cast<player_stats *>(dubchik_base_params_by_variant[variant]), reinterpret_cast<AttackParams *>(dubchik_attack_params_by_variant[variant]), reinterpret_cast<ActorParamBlock *>(dubchik_resistance_params_by_variant[variant]));
+    bind_enemy_combat_stats(dubchik_base_params_by_variant[variant], dubchik_attack_params_by_variant[variant], dubchik_resistance_params_by_variant[variant]);
     load_params();
     requested_action = 5;
     set_animation(requested_action);
@@ -291,8 +291,7 @@ void TObjEneDubchik::load_resources() {
     if (TObjEneDD::check_v2_mode() != 0) {
         dubchik_resource = load_enemy_bml_resource_named(&bm_ene_dubchik_resource_descriptor, (const char *)dubchik_bml_filename());
     } else {
-        p = new BmlResource(5, &bm_ene_dubchik_resource_descriptor, 0, 0, NULL);
-        dubchik_resource = (BmlResource *)p;
+        dubchik_resource = new BmlResource(5, &bm_ene_dubchik_resource_descriptor, 0, 0, NULL);
     }
     dubchik_texlist = dubchik_resource->models[1].texlist;
     if (TObjEneDD::check_v2_mode() != 0) {
@@ -307,7 +306,7 @@ void TObjEneDubchik::load_resources() {
     lbl_805D50A0 = find_model_node(dubchik_resource->models[0].model, 0x2A);
     find_model_node(dubchik_resource->models[1].model, 0x15)->evalflags |= NJD_EVAL_HIDE;
     p = new TBreakUpMdlData((saddr)dubchik_resource->models[0].model);
-    breakup_model_ptr = p;
+    breakup_model_ptr = static_cast<TBreakUpMdlData *>(p);
     p = new SampledMotionPoints(2, 28.0f, 35.0f, 1.0f);
     dubchik_scratch_trail0_points[0] = (SampledMotionPoints *)p;
     dubchik_scratch_trail0_points[0]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 6), 0x1C, 0x24);
@@ -323,9 +322,9 @@ void TObjEneDubchik::load_resources() {
     t[1] = (SampledMotionPoints *)p;
     t[1]->sample_two_nodes(get_bml_model(dubchik_resource, 0), (NJS_MOTION *)get_bml_motion(dubchik_resource, 7), 0x2E, 0x32);
     for (i = 0; i < 2; i++) {
-        dubchik_base_params_by_variant[i] = (u8 *)TLobby::register_boss(i + 0x1B);
-        dubchik_attack_params_by_variant[i] = (u8 *)TLobby::dispatch_shared_handler_b(i + 0x1B);
-        dubchik_resistance_params_by_variant[i] = (u8 *)TLobby::register_object(i + 0x1B);
+        dubchik_base_params_by_variant[i] = TLobby::register_boss(i + 0x1B);
+        dubchik_attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(i + 0x1B);
+        dubchik_resistance_params_by_variant[i] = TLobby::register_object(i + 0x1B);
         dubchik_behavior_params_by_variant[i] = (TObjEneDubchikBehaviorParams *)TLobby::dispatch_shared_handler_a(i + 0x1B);
     }
     mdl = dubchik_resource->models[0].model;
@@ -395,7 +394,7 @@ void TObjEneDubchik::run_task() {
         return;
     }
     load_params();
-    target = (u8 *)find_active_entity_by_id(targetId);
+    target = static_cast<TObjChara *>(find_active_entity_by_id(targetId));
     release_destroyed_target();
     update_proximity_state();
     if (mode != next_action) {
@@ -495,7 +494,7 @@ void TObjEneDubchik::run_demo_task() {}
 
 void TObjEneDubchik::update_proximity_state() {
     f32 temp_f31;
-    u8 *current_target;
+    TObjChara *current_target;
     switch (this->mode) {
     case 8:
     case 0:
@@ -517,7 +516,7 @@ void TObjEneDubchik::update_proximity_state() {
             if ((parameters[0] >= 0.0f) && (this->random_ratio() < 0.35f)) {
                 this->targetId = pick_random_nearby_player(150.0f);
                 if (this->targetId != 0xFFFF) {
-                    target = (u8 *)find_active_entity_by_id(this->targetId);
+                    target = static_cast<TObjChara *>(find_active_entity_by_id(this->targetId));
                     this->update_if_active(9);
                     return;
                 }
@@ -525,7 +524,7 @@ void TObjEneDubchik::update_proximity_state() {
                 return;
             }
         } else if (current_target != NULL) {
-            if (xz_distance_squared(&position, &((TObjChara *)target)->position) < (this->attack_params->get_attack_range() * this->attack_params->get_attack_range())) {
+            if (xz_distance_squared(&position, &target->position) < (this->attack_params->get_attack_range() * this->attack_params->get_attack_range())) {
                 this->attack_count = (this->attack_count + 1);
                 if ((s16) this->attack_count > 3) {
                     this->attack_count = 0;
@@ -1180,7 +1179,8 @@ void TObjEneDubchik::update_dying() {
         } else {
             play_sound_effect(remap_sound_for_area(0x4003AD16), &position, 0, 0);
         }
-        TBoss3Volopt::create_breakup_mdl((saddr)breakup_model_ptr, (saddr)&dubchik_breakup_params, texlist, (saddr)&body_center, rotation_y);
+        TBoss3Volopt::create_breakup_mdl(breakup_model_ptr, &dubchik_breakup_params,
+                           texlist, &body_center, rotation_y);
         refresh_lobby_state();
         send_entity_set_flags();
         trigger_dell_biter_events(&body_center);

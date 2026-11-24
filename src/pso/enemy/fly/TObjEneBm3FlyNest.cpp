@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
@@ -90,9 +91,9 @@ f32 fly_nest_vertex_table[6];
 __declspec(section ".data") s32 fly_nest_vertex_indices[2];
 Bm3FlyNestVertexList fly_nest_vertex_list;
 extern saddr debug_chunk_object;
-u8 *bm3_fly_nest_base_stats;
-u8 *bm3_fly_nest_attack_stats;
-u8 *bm3_fly_nest_resist_stats;
+player_stats *bm3_fly_nest_base_stats;
+AttackParams *bm3_fly_nest_attack_stats;
+ActorParamBlock *bm3_fly_nest_resist_stats;
 void *bm3_fly_nest_lobby_params;
 BmlResource *bm3_fly_nest_bml;
 s32 bm3_fly_nest_node_index;
@@ -241,9 +242,9 @@ void TObjEneBm3FlyNest::load_resources() {
     } else {
         bm3_fly_nest_bml = load_enemy_bml_resource(&bm3_fly_nest_resource_desc);
     }
-    bm3_fly_nest_base_stats = (u8 *)TLobby::register_boss(1);
-    bm3_fly_nest_attack_stats = (u8 *)TLobby::dispatch_shared_handler_b(1);
-    bm3_fly_nest_resist_stats = (u8 *)TLobby::register_object(1);
+    bm3_fly_nest_base_stats = TLobby::register_boss(1);
+    bm3_fly_nest_attack_stats = TLobby::dispatch_shared_handler_b(1);
+    bm3_fly_nest_resist_stats = TLobby::register_object(1);
     bm3_fly_nest_lobby_params = TLobby::dispatch_shared_handler_a(1);
     TObjEneBm3Fly::load_resources();
     TObjEneBm3FlyNest::init_vertex_table();
@@ -256,7 +257,7 @@ void TObjEneBm3FlyNest::load_resources() {
 }
 
 void *TObjEneBm3FlyNest::create(void *set_data) {
-    return new TObjEneBm3FlyNest((TObject *)tl_04, (Bm3FlyNestSetData *)set_data);
+    return new TObjEneBm3FlyNest((TObject *)tl_04, static_cast<EnemyPlacement *>(set_data));
 }
 
 void TObjEneBm3FlyNest::free_fly() {
@@ -271,7 +272,7 @@ BmlResource *TObjEneBm3FlyNest::get_bml_resource() { return bm3_fly_nest_bml; }
 
 #pragma push
 #pragma opt_loop_invariants off
-TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_data) : TObjEneDD(parent) {
+TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, EnemyPlacement *set_data) : TObjEneDD(parent) {
     s32 i;
 
     m_name = bm3_fly_nest_class_name;
@@ -287,14 +288,14 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    reset_hp(reinterpret_cast<player_stats *>(bm3_fly_nest_base_stats), reinterpret_cast<AttackParams *>(bm3_fly_nest_attack_stats), reinterpret_cast<ActorParamBlock *>(bm3_fly_nest_resist_stats));
+    reset_hp(bm3_fly_nest_base_stats, bm3_fly_nest_attack_stats, bm3_fly_nest_resist_stats);
     set_state_flag_1();
     movementParameters = &bm3_fly_nest_params;
     initialize_enemy_state(4);
     wall_reach = 10.0f;
     init_params();
-    if (total_num > set_data->unknown_02) {
-        total_num = set_data->unknown_02;
+    if (total_num > set_data->child_count) {
+        total_num = set_data->child_count;
     }
     for (i = 0; i < 4; i++) {
         pad_398[i] = 0;
@@ -870,7 +871,7 @@ void TObjEneBm3FlyNest::state_dying(s32 reason) {
                 v.z = -8.0f;
                 rotate_xz_pair_by_angle(&v.x, &v.z, rotation_y);
                 vec3_add_to(&v, &position);
-                spawn_dead_spot_scale15((saddr)&v, 0x32);
+                spawn_dead_spot_scale15(&v, 0x32);
                 create_dead_spot_e4(&v, 0x46, 10.0f);
             }
             if (frame < 25.0f) {

@@ -1,3 +1,5 @@
+#include "pso/math/MatrixTransforms.h"
+#include "pso/player/PlayerSlots.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/TActorLight.h"
@@ -9,6 +11,7 @@
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/system/MainPhaseState.h"
 #include "pso/system/MainPhaseTable.h"
+#include "pso/unk/text_8007C0CC.h"
 #include "pso/render/BlobShadow.h"
 
 #include "pso/unk/text_803D8F74.h"
@@ -26,6 +29,7 @@
 #include "pso/unk/TLobby_801E43E4.h"
 
 #include "types.h"
+#include "pso/object/base/HitEligibility.h"
 #include "pso/map/CsnGroundCandidates.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -334,19 +338,14 @@ struct Layout_80019038 {
 };
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
-void subtract_vector(void *a, void *b);
-f32 calc_xz_distance_sq(TObjBase *actor, TObjBase *other, Vec *offset);
 void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos);
 void attach_mine_trap__10TObjPlayerFiUi(saddr object, u32 arg1);
-s32 add_actor_hp(u8 *arg0, s16 arg1);
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 s32 get_type__10TObjPlayerFPv(void* p);
 void create_hit_effect__10TObjPlayerFPv(void *);
-s32 obj_is_hit_receivable(u8 *target);
 int get_player_data__10TObjPlayerFi(int a0);
 extern s32 registered_player_count;
 extern s32 registered_enemy_count;
-s32 add_actor_tp(u8 *owner, s32 half);
 s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1);
 void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3);
 s16 get_actor_tp(u8* p);
@@ -392,9 +391,6 @@ struct Pkt_80010C54 {
 struct Pkt_80010DE8 { u8 f0; u8 f1; u16 f2; u16 f4; u8 f6; u8 f7; };
 struct Obj_80010DE8 { u8 pad[0x1c]; u16 f1c; };
 
-struct O_80011274 { u8 pad[0x2be]; s16 v; };
-struct O_800112D4 { u8 pad[0x32e]; s16 v; };
-struct O_80011378 { u8 pad[0x2bc]; s16 v; };
 struct O_80011704 { u8 pad[0x1c]; u16 f1c; };
 
 typedef struct Player_800115C4 {
@@ -590,8 +586,6 @@ struct ObjFlags {
     u16 field_1c;
     u8  _pad1e[0x30 - 0x1e];
     u32 flags_30;
-    u8  _pad34[0x96 - 0x34];
-    u16 field_96;
 };
 
 struct O_80019664 { u8 f0; u8 f1; u8 pad[2]; u16 f4; u8 f6; u8 f7; };
@@ -601,15 +595,10 @@ void shutdown_and_reset_system(void);
 void init_game_systems(void);
 extern "C" {
 void clear_velocity(u8 *arg0);
-void add_id_to_slots__10TObjPlayerFiUs(s32 arg0, u16 arg1);
 void handle_6x9A_update_entity_stat(Pkt_80010C54 *pkt);
-s32 add_actor_tp_bonus(O_80011274 *self, s32 x);
-s32 add_actor_hp_bonus(O_80011378 *self, s32 x);
 s32 select_destination_away_from(TObjChara *chara, Vec point);
 s32 check_path_obstructed(TObjChara *chara, Vec *target);
 void enemy_turn_half_toward_dest(TObjChara *chara);
-void obj_setArrS16_FC(ObjArrFC* p, int i, s16 v);
-u16 obj_getArrU16_FC(ObjArrFC* p, int i);
 s16 get_actor_attack_params_atp_min__9TObjCharaFv(void* p);
 s16 get_attack_params_atp_min(void* p);
 s16 get_attack_params_atp_max(void* p);
@@ -629,7 +618,6 @@ s32 angle_difference_abs(s32, s32);
 s32 lerp_angle_half__Fll(s32, s32);
 s32 approach_angle_limited(s32, s32, s32);
 void * find_entity_by_id(s32 id);
-s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal);
 s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
 int bswap_16__FPUs(void*);
 u32 __nw__7TObjectFUl(s32);
@@ -640,7 +628,6 @@ void set_matrix_identity(s32);
 f32 vec_squared_length(void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_z(int, int);
-s32 translate_matrix(int, f32, f32, f32);
 s32 rotate_matrix_x(int, int);
 void post_translate_matrix(void *);
 extern const f64 TObjPlayer__data_804340B8;
@@ -657,7 +644,7 @@ extern s32 actor_frame_tick;
 extern s32 lobby_player_count;
 extern s32 current_floor_index;
 extern TObject *tl_07;
-void obj_setField96_1(ObjFlags* p);
+void obj_setField96_1(TObjCollidable *p);
 const f32 player_attack_stat_status_light_colors[4] = {1.0f, 0.9f, 0.5f, 0.2f};
 const f32 player_defense_stat_status_light_colors[4] = {1.0f, 0.4f, 0.8f, 1.0f};
 const f32 TObjPlayer__data_80434060[3] = {0.0f, 1.0f, 0.0f};
@@ -673,8 +660,7 @@ static const f32 lbl_805D7D3C = 65536.0f;
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 is_entity_locally_controlled(s32 id);
-void move_with_wall_slide(u8 *actor);
-void obj_clearArrS16_FC(ObjArrFC* p, int i);
+void move_with_wall_slide(u8 *arg0);
 f64 fabs_double(f64 x);
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 #pragma push
@@ -694,7 +680,6 @@ void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 #define SUB_HP(o, d) ((s32 (*)(Actor_8001311C *, s32))TObjectV8047c128_subtract_hp)(o, d)
 struct TObjPlayer;
 struct Obj_80010DE8;
-struct O_800112D4;
 
 #define VECCOPY_W24(d, s) ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((d), (s))
 #define FIELD1C_W24(p) ((TObjBase *)(p))->get_entity_id()
@@ -950,14 +935,14 @@ s32 TObjCollidable::test_actor_flags(u32 mask) {
     return p->flags_30 & mask;
 }
 
-void obj_setField96_1(ObjFlags* p) {
-    p->field_96 = 1;
+void obj_setField96_1(TObjCollidable *p) {
+    p->hit_receive_state = 1;
 }
 
 int get_player_data__10TObjPlayerFi(int a0) {  return TObjPlayer__data_8050D460[a0]; }
 
-s32 obj_is_hit_receivable(u8 *target) {
-    return (u8) (*(u16 *)((s8 *)target + 0x96) == 1);
+extern "C" s32 obj_is_hit_receivable(const TObjCollidable *target) {
+    return target->hit_receive_state == 1;
 }
 
 void TObjCollidable::interact(u16 client) { this->interactor = client; }
@@ -1068,19 +1053,19 @@ s32 TObjChara::obj_isState2_324() {
 #pragma push
 #pragma scheduling off
 #pragma scheduling on
-void obj_clearArrS16_FC(ObjArrFC* p, int i) {
-    p->arr[i] = 0xFFFF;
+void obj_clearArrS16_FC(TObjChara *actor, s32 index) {
+    actor->attack_credit_slots[index] = 0xFFFF;
 }
 
 #pragma pop
 #pragma push
 #pragma scheduling off
-u16 obj_getArrU16_FC(ObjArrFC* p, int i) {
-    return p->arr[i];
+u16 obj_getArrU16_FC(TObjChara *actor, s32 index) {
+    return actor->attack_credit_slots[index];
 }
 
-void obj_setArrS16_FC(ObjArrFC* p, int i, s16 v) {
-    p->arr[i] = v;
+void obj_setArrS16_FC(TObjChara *actor, s32 index, u16 value) {
+    actor->attack_credit_slots[index] = static_cast<u16>(value);
 }
 
 s32 TObjChara::get_status_effect_type(s32 i) {
@@ -1196,7 +1181,7 @@ TObjChara::TObjChara(TObject *parent) : TObjMotion(parent) {
     local_attacker_id = 0xFFFF;
     TObjPlayer::clear_s16_arrays(this);
     *(s32 *)((s8 *)this + 0x330) = 0;
-    obj_setField96_1((ObjFlags*)((ObjFlags *)this));
+    obj_setField96_1(this);
     clear_immunity_flags();
 }
 
@@ -1221,25 +1206,25 @@ void TObjChara::reset_motion_fields() {
 
 void *TObjChara::get_center() { return (char*)this + 0x2fc; }
 
-u8 *TObjChara::update_actor_ground_y() {
+CsnHit *TObjChara::update_actor_ground_y() {
     Vec stack;
     f32 temp_f1;
     CsnHit *hit;
-    player_stats *stat_block;
-    stack.x = *(f32 *)((s8 *)((u8 *)this) + 0x38);
-    stat_block = this->stat_block;
-    temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
-    stack.y = temp_f1 + stat_block->proportions;
-    stack.z = *(f32 *)((s8 *)((u8 *)this) + 0x40);
+    player_stats *stats;
+    stack.x = position.x;
+    stats = this->stat_block;
+    temp_f1 = position.y;
+    stack.y = temp_f1 + stats->proportions;
+    stack.z = position.z;
     hit = csnVectorUnder(&stack, ground_candidates.groups, 0x15);
     if (hit == NULL) {
         return NULL;
     }
     position.y = hit->contact->point.y;
-    return (u8 *)hit;
+    return hit;
 }
 
-u8 *TObjChara::update_actor_ground_y_at(Vec *pos) {
+CsnHit *TObjChara::update_actor_ground_y_at(Vec *pos) {
     Vec stack;
     f32 y;
     CsnHit *hit;
@@ -1254,7 +1239,7 @@ u8 *TObjChara::update_actor_ground_y_at(Vec *pos) {
         return NULL;
     }
     position.y = hit->contact->point.y;
-    return (u8 *)hit;
+    return hit;
 }
 
 #pragma push
@@ -1354,46 +1339,38 @@ s32 TObjChara::set_motion_params(player_stats *base_stats) {
 }
 
 #define VCOPY(d, s) ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)((d), (s))
-f32 TObjPlayer::calc_distance_to_client(saddr actor, u16 client, Vec *delta) {
-  Vec offset;
-  f32 var_f31;
-  s32 temp_r31;
-  saddr temp_r3;
-  var_f31 = (1e+08f);
-  if (client < 0x1000U)
-  {
-    temp_r3 = (saddr)get_player_by_client_id((u32) client);
-    if ((temp_r3 != 0) && (!((((TObjPlayer *)temp_r3)->actorFlags) & 0x800)))
-    {
-      ;
-      if (((TObjPlayer *)temp_r3)->get_floor() == get_current_floor())
-      {
-        var_f31 = calc_xz_distance_sq((TObjBase *)actor, (TObjBase *)temp_r3, &offset);
-        if (delta != NULL)
-        {
-          VecCopy__FP3VecPC3Vec((saddr)delta, (saddr)&offset);
+f32 TObjPlayer::calc_distance_to_client(const TObjBase *actor, u16 client, Vec *delta) {
+    Vec direction;
+    f32 distance = 1.0e8f;
+    if (client < 0x1000U) {
+        TObjPlayer *player = get_player_by_client_id(client);
+        if (player != NULL && !(player->actorFlags & 0x800)) {
+            if (player->get_floor() == get_current_floor()) {
+                distance = calc_xz_distance_sq(actor, player, &direction);
+                if (delta != NULL) {
+                    VecCopy(delta, &direction);
+                }
+            }
         }
-      }
     }
-  }
-  return var_f31;
+    return distance;
 }
 
-f32 calc_xz_distance_sq(TObjBase *actor, TObjBase *other, Vec *offset) {
+f32 calc_xz_distance_sq(const TObjBase *actor, const TObjBase *target, Vec *offset) {
     Vec diff;
-    f32 dist;
-    if (other != NULL) {
-        ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&diff, &other->position);
-        ((void (*)(void *, void *))subtract_vector)(&diff, &actor->position);
-        diff.y = (0.01f);
-        dist = (diff.x * diff.x) + (diff.z * diff.z);
+    f32 distance;
+    if (target != NULL) {
+        VecCopy(&diff, &target->position);
+        subtract_vector(&diff, &actor->position);
+        diff.y = 0.01f;
+        distance = (diff.x * diff.x) + (diff.z * diff.z);
         if (offset != NULL) {
-            ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(offset, &diff);
+            VecCopy(offset, &diff);
         }
     } else {
-        dist = (1e+08f);
+        distance = 1.0e8f;
     }
-    return dist;
+    return distance;
 }
 
 s32 TObjEnemy::enemy_turn_toward_dest(s32 turn) {
@@ -1740,7 +1717,7 @@ s32 TObjChara::is_target_in_attack_range() {
                     }
                 }
             } else {
-                dist = calc_xz_distance_sq((TObjBase *)p, (TObjBase *)t, &out);
+                dist = calc_xz_distance_sq(this, reinterpret_cast<const TObjBase *>(t), &out);
                 ang = ((s32)angle_difference_abs(this->rotation_y, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(out.x, out.z))));
                 if (p->target->parts != NULL) {
                     prod = (p->target->parts->radius + ((TObjChara *)p)->get_attack_range()) * (p->target->parts->radius + ((TObjChara *)p)->get_attack_range());
@@ -2158,7 +2135,7 @@ int TObjChara::calc_distance_accuracy_penalty(void *attacker, void *body_arg, vo
         VecCopy(&delta, &body->center);
         if (!((TObjChara *)attacker)->obj_testFlag_2E4(0x20)) {
             if (origin) {
-                subtract_vector(&delta, origin);
+                subtract_vector(&delta, static_cast<const Vec *>(origin));
             } else {
                 subtract_vector(&delta, &((TObjChara *)attacker)->position);
             }
@@ -2527,7 +2504,7 @@ void TObjChara::run_hit_reaction() {  }
 
 void TObjChara::run_death_reaction() {  }
 
-void TObjChara::reset_pose() { clear_actor_flags((uaddr)((void*)2048)); *(short *)&this->hp = *(short *)&this->hpmax; *(short *)&this->tp = *(short *)&this->tpmax; }
+void TObjChara::reset_pose() { clear_actor_flags((uaddr)((void*)2048)); *(short *)&this->hp = *(short *)&this->hpmax; this->tp = this->tpmax; }
 
 void TObjChara::get_anim_node_position(s32, Vec *) {  }
 
@@ -3588,7 +3565,7 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 hover_height) {
     f32 y;
     s32 temp_r31;
     ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&position.x, (u8 *)enemy + 0x38);
-    temp_r31 = ((s32 (*)(void *, void *, void *))project_actor_to_ground)(enemy, &position.x, (u8 *)enemy + 0x248);
+    temp_r31 = project_actor_to_ground(enemy, &position, &enemy->ground_normal);
     if (arg1 != NULL) {
         ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg1, &position.x);
     }
@@ -3659,8 +3636,8 @@ u16 find_nearest_hittable_enemy(TObjBase *searcher, Vec *direction, f32 range) {
         if (p == NULL) {
             break;
         }
-        if (((s32 (*)(ObjFlags *))obj_is_hit_receivable)(p) != 0) {
-            u16 id = ((TObjBase *)p)->get_entity_id();
+        if (obj_is_hit_receivable(reinterpret_cast<TObjCollidable *>(p)) != 0) {
+            u16 id = reinterpret_cast<TObjBase *>(p)->get_entity_id();
             if (id >= 0x1000 && id < 0x4000 && !(p->flags_30 & 0x02000800)) {
                 dist = ((f32 (*)(TObjBase *, ObjFlags *, void *))calc_xz_distance_sq)(searcher, p, &pos);
                 if (dist < best) {
@@ -3699,15 +3676,13 @@ s32 TObjectV8047c128_subtract_hp(u8 *owner, s16 arg1) {
 }
 #pragma push
 #pragma scheduling off
-s32 add_actor_hp(u8 *arg0, s16 amount) {
-    s16 temp_r4;
-    s16 temp_r0;
+s32 add_actor_hp(TObjChara *actor, s16 amount) {
     if (amount < 0) {
         return 0;
     }
-    *(s16 *)((s8 *)arg0 + 0x32C) = (s16) (*(s16 *)((s8 *)arg0 + 0x32C) + amount);
-    if (*(s16 *)((s8 *)arg0 + 0x32C) > *(s16 *)((s8 *)arg0 + 0x2B8)) {
-        *(s16 *)((s8 *)arg0 + 0x32C) = *(s16 *)((s8 *)arg0 + 0x2B8);
+    actor->hp = static_cast<s16>(actor->hp + amount);
+    if (actor->hp > actor->hpmax) {
+        actor->hp = actor->hpmax;
         return 0;
     }
     return 1;
@@ -3735,10 +3710,10 @@ s32 TObjPlayer::clamp_hp_value(s16 *arg1) {
     return 1;
 }
 
-s32 add_actor_hp_bonus(O_80011378 *self, s32 x) {
-    self->v += x;
-    if (self->v < 0) {
-        self->v = 0;
+s32 add_actor_hp_bonus(TObjChara *actor, s32 amount) {
+    actor->hp_bonus = static_cast<s16>(static_cast<u32>(actor->hp_bonus) + static_cast<u32>(amount));
+    if (actor->hp_bonus < 0) {
+        actor->hp_bonus = 0;
         return 0;
     }
     return 1;
@@ -3767,29 +3742,28 @@ s32 TObjChara::check_can_act(s32 dmg) {
     return subtract_actor_tp(dmg);
 }
 
-s32 TObjChara::subtract_actor_tp(s32 x) {
-    ((O_800112D4 *)this)->v -= x;
-    if (((O_800112D4 *)this)->v < 0) {
-        ((O_800112D4 *)this)->v = 0;
+s32 TObjChara::subtract_actor_tp(s32 amount) {
+    tp = static_cast<s16>(static_cast<u32>(tp) - static_cast<u32>(amount));
+    if (tp < 0) {
+        tp = 0;
         return 0;
     }
     return 1;
 }
 
-s32 add_actor_tp(u8 *owner, s32 half) {
-    s16 temp_r4;
-    *(s16 *)((s8 *)owner + 0x32E) = (s16) (*(s16 *)((s8 *)owner + 0x32E) + half);
-    if (*(s16 *)((s8 *)owner + 0x32E) > *(s16 *)((s8 *)owner + 0x2BA)) {
-        *(s16 *)((s8 *)owner + 0x32E) = *(s16 *)((s8 *)owner + 0x2BA);
+s32 add_actor_tp(TObjChara *actor, s32 amount) {
+    actor->tp = static_cast<s16>(static_cast<u32>(actor->tp) + static_cast<u32>(amount));
+    if (actor->tp > actor->tpmax) {
+        actor->tp = actor->tpmax;
         return 0;
     }
     return 1;
 }
 
-s32 add_actor_tp_bonus(O_80011274 *self, s32 x) {
-    self->v += x;
-    if (self->v < 0) {
-        self->v = 0;
+s32 add_actor_tp_bonus(TObjChara *actor, s32 amount) {
+    actor->tp_bonus = static_cast<s16>(static_cast<u32>(actor->tp_bonus) + static_cast<u32>(amount));
+    if (actor->tp_bonus < 0) {
+        actor->tp_bonus = 0;
         return 0;
     }
     return 1;
@@ -3913,7 +3887,7 @@ void TObjChara::record_attack_source(u16 id) {
             if (((s32 (*)(void))is_split_screen)() == 0) {
                 local_attacker_id = attacker_id;
             } else {
-                ((s32 (*)(void *, u16))add_id_to_slots__10TObjPlayerFiUs)(this, id);
+                add_id_to_slots__10TObjPlayerFiUs(this, id);
             }
         }
     }
@@ -3928,7 +3902,7 @@ void assign_slots_from_list(void *arg0, saddr arg1) {
         if (((s32 (*)(void))is_split_screen)() != 0) {
             i = 0;
             do {
-                ((s32 (*)(void *, s32))add_id_to_slots__10TObjPlayerFiUs)(arg0, ((s32 (*)(s32, s32))obj_getArrU16_FC)(arg1, i));
+                add_id_to_slots__10TObjPlayerFiUs(static_cast<TObjChara *>(arg0), obj_getArrU16_FC(reinterpret_cast<TObjChara *>(arg1), i));
                 i += 1;
             } while (i != 4);
             return;
@@ -3944,7 +3918,7 @@ void TObjChara::gain_photon_blast_charge(f32) {  }
 
 void TObjChara::spend_photon_blast_charge(f32) {  }
 
-void TObjChara::gain_photon_blast_chain_charge() {  }
+void TObjChara::gain_photon_blast_chain_charge(f32) {  }
 
 void TObjChara::vfunc_78(saddr) {  }
 
@@ -3981,7 +3955,7 @@ void handle_6x9A_update_entity_stat(Pkt_80010C54 *pkt) {
     if (pkt->client >= 0x1000U) {
         return;
     }
-    player = (saddr)get_player_by_client_id(pkt->client);
+    player = reinterpret_cast<saddr>(get_player_by_client_id(pkt->client));
     if (player == 0) {
         return;
     }
@@ -4086,16 +4060,20 @@ void TObjChara::recalc_stats() {}
 
 s32 TObjChara::sync_enemy_state(s32) { return 0; }
 
-void TObjPlayer::clear_s16_arrays(void* p) { { int i; for (i = 0; i < 4; i++) { ((int (*)(void*, void*))obj_clearArrS16_FC)(p, (void*)(saddr)i); } } }
+void TObjPlayer::clear_s16_arrays(void *p) {
+    for (s32 i = 0; i < 4; i++) {
+        obj_clearArrS16_FC(static_cast<TObjChara *>(p), i);
+    }
+}
 
-void add_id_to_slots__10TObjPlayerFiUs(s32 arg0, u16 arg1) {
+void add_id_to_slots__10TObjPlayerFiUs(TObjChara *actor, u16 id) {
     s32 var_r30;
 
     var_r30 = 0;
 loop_1:
-    if (arg1 != ((u16 (*)(s32, s32))obj_getArrU16_FC)(arg0, var_r30)) {
-        if (((u16 (*)(s32, s32))obj_getArrU16_FC)(arg0, var_r30) == 0xFFFF) {
-            ((s32 (*)(s32, s32, u16))obj_setArrS16_FC)(arg0, var_r30, arg1);
+    if (static_cast<u16>(id) != static_cast<u16>(obj_getArrU16_FC(actor, var_r30))) {
+        if (static_cast<u16>(obj_getArrU16_FC(actor, var_r30)) == 0xFFFF) {
+            obj_setArrS16_FC(actor, var_r30, id);
             return;
         }
         var_r30 += 1;
@@ -4191,16 +4169,16 @@ s16 TObjPlayer::clamp_tp() {
     s16 temp_r0;
     s16 temp_r4;
 
-    temp_r4 = *(s16 *)&this->tp;
+    temp_r4 = this->tp;
     if (temp_r4 < 0) {
-        *(s16 *)&this->tp = 0;
+        this->tp = 0;
     } else {
-        temp_r0 = *(s16 *)&this->tpmax;
+        temp_r0 = this->tpmax;
         if (temp_r0 < temp_r4) {
-            *(s16 *)&this->tp = temp_r0;
+            this->tp = temp_r0;
         }
     }
-    return *(s16 *)&this->tp;
+    return this->tp;
 }
 
 void TObjPlayer::apply_velocity() {

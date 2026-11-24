@@ -11,7 +11,6 @@
 #include "pso/enemy/darkgunner/TObjEneDarkGunner.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/system/vector.h"
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/PlayerSlots.h"
@@ -124,7 +123,7 @@ void TObjEneDarkGunCenter::gather_gunners() {
     gunner_count = 0;
     for (k = registered_player_count; k < registered_player_count + registered_enemy_count; k++) {
         gunner = (TObjEneDarkGunner *)TObjPlayer::get_player_data(k);
-        if (gunner != NULL && ((TUnk_804B6C24 *)gunner)->check_value_equals((saddr)TObjEneDarkGunner__class_name) != 0 &&
+        if (gunner != NULL && gunner->check_value_equals(TObjEneDarkGunner__class_name) != 0 &&
             parameters[0] == gunner->parameters[0] && room == gunner->room) {
             gunner->center_id = entity_id;
             gunner_ids[gunner_count++] = gunner->get_entity_id();
@@ -158,7 +157,7 @@ TObjEneDarkGunCenter::TObjEneDarkGunCenter(TObject *parent, void *set_data) : TO
     s32 i;
     m_name = TObjEneDarkGunCenter__name;
     apply_set_data(set_data);
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     VecCopy(&body_center, &position);
     actorFlags = actorFlags | 0x06000000 | 0x800;
     state = 0;
@@ -198,7 +197,7 @@ void TObjEneDarkGunCenter::run_task() {
         if (is_actor_cadence_frame(0x1e) != 0) {
             id = find_nearest_visible_player(this, NULL, 1000.0f);
             if (id != 0xFFFF) {
-                target = (u8 *)get_player_by_client_id(id);
+                target = get_player_by_client_id(id);
                 ang = (s32)(10430.38043493439 * atan2_float(((TObjBase *)target)->position.z - position.z,
                                                             ((TObjBase *)target)->position.x - position.x)) + 0x4000;
                 for (i = 0; i < gunner_count; i++) {

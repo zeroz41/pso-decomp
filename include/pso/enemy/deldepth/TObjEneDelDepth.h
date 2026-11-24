@@ -6,6 +6,8 @@
 #include "pso/enemy/TObjEnemy.h"
 
 struct BmlResource;
+struct NJS_TEXLIST;
+struct NJS_OBJECT;
 
 struct DelDepthMotion {
     DelDepthMotion(TObjMotion *actor);
@@ -18,16 +20,20 @@ struct DelDepthMotion {
 
     TObjMotion *actor;
     s32 motion;
-    void *model;
-    s32 texture;
+    NJS_OBJECT *model;
+    NJS_TEXLIST *texture;
     AnimationMotion *animation;
-    void *secondModel;
-    s32 secondTexture;
+    NJS_OBJECT *secondModel;
+    NJS_TEXLIST *secondTexture;
     AnimationMotion *secondAnimation;
     f32 speed;
     f32 endFrame;
     f32 frame;
 };
+
+LAYOUT_ASSERT(DelDepthMotionSize, sizeof(DelDepthMotion) == 0x2C);
+LAYOUT_ASSERT(DelDepthMotionTextureOffset, offsetof(DelDepthMotion, texture) == 0xC);
+LAYOUT_ASSERT(DelDepthMotionSecondTextureOffset, offsetof(DelDepthMotion, secondTexture) == 0x18);
 
 struct TObjEneDelDepth : public TObjEnemy {
     TObjEneDelDepth(TObject *, void *);

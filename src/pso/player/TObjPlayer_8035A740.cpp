@@ -1,4 +1,8 @@
-#include "types.h"
-#include "pso/player/TObjPlayer.h"
+#include "pso/unk/TUnk_804F1C58.h"
 
-void TObjPlayer::draw_node_tree_if_visible() { if (*(unsigned int *)&this->m_20 != 0) { *(int *)&this->actorFlags = 0; draw_node_tree(*(void**)((char*)this + 0x1c)); } }
+void TUnk_804F1C58::draw_node_tree_if_visible() {
+    if (motion != NULL) {
+        draw_cursor = 0;
+        draw_node_tree(model);
+    }
+}

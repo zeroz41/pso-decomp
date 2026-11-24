@@ -1,3 +1,4 @@
+#include "pso/math/ClampedStep.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -24,7 +25,6 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/barbaray/TObjBoss7Tunnel.h"
 #include <stddef.h>
-#include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/unk/text_802F0E24.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixStack.h"
@@ -299,18 +299,18 @@ void TObjBoss7Tunnel::update_arrival() {
             return;
         }
         if (distance < 100.0f) {
-            TItemEffOrgaFlowShot::approach_value(&scroll_speed, 0.02f, 0.1f * boss7_tunnel_max_scroll_speed);
-            TItemEffOrgaFlowShot::approach_value(&segment_x, -1.0f, -50.0f);
+            ::approach_value(&scroll_speed, 0.02f, 0.1f * boss7_tunnel_max_scroll_speed);
+            ::approach_value(&segment_x, -1.0f, -50.0f);
             return;
         }
         if (distance < 200.0f) {
-            TItemEffOrgaFlowShot::approach_value(&scroll_speed, 0.04f, 0.2f * boss7_tunnel_max_scroll_speed);
-            TItemEffOrgaFlowShot::approach_value(&segment_x, -1.0f, -30.000002f);
+            ::approach_value(&scroll_speed, 0.04f, 0.2f * boss7_tunnel_max_scroll_speed);
+            ::approach_value(&segment_x, -1.0f, -30.000002f);
             return;
         }
         if (distance < 300.0f) {
-            TItemEffOrgaFlowShot::approach_value(&scroll_speed, 0.06f, 0.3f * boss7_tunnel_max_scroll_speed);
-            TItemEffOrgaFlowShot::approach_value(&segment_x, -1.0f, -15.000001f);
+            ::approach_value(&scroll_speed, 0.06f, 0.3f * boss7_tunnel_max_scroll_speed);
+            ::approach_value(&segment_x, -1.0f, -15.000001f);
         }
     }
 }
@@ -440,7 +440,7 @@ void TUnk_804E4B24::draw_opaque_model() {
         set_draw_list_mask(1);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
         push_matrix();
-        TObjPlayer::concat_matrix(0, (saddr)matrix);
+        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrix));
         draw_ginja_object(boss7_common_bml_resource->models[model_indices[0]].model);
         pop_matrix();
         restore_draw_list_mask();
@@ -452,7 +452,7 @@ void TUnk_804E4B24::draw_translucent_models() {
         set_draw_list_mask(2);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
         push_matrix();
-        TObjPlayer::concat_matrix(0, (saddr)matrix);
+        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrix));
         draw_ginja_object(boss7_common_bml_resource->models[model_indices[1]].model);
         if (model_count == 4) {
             draw_ginja_object(boss7_common_bml_resource->models[model_indices[2]].model);
@@ -470,7 +470,7 @@ void TUnk_804E4B24::draw_tunnel_segment() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss7_common_texture_list));
         TParticleCtrl::begin_effect_render();
         push_matrix();
-        TObjPlayer::concat_matrix(0, (saddr)matrix);
+        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrix));
         draw_ginja_object(boss7_common_bml_resource->models[model_index].model);
         pop_matrix();
         TParticleCtrl::end_effect_render();

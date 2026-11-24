@@ -28,6 +28,7 @@
 #include <stddef.h>
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
+#include "pso/network/protocol/cast_packets.h"
 
 struct G_6x70_Base_DCNTE {
  u16 client_id;
@@ -857,6 +858,9 @@ struct G_SpecializableItemDropRequest_6xA2 {
  s32 param4;
  s32 param5;
  s32 param6;
+ G_SpecializableItemDropRequest_6xA2 *init();
+ void bswap();
+ void send();
 };
 
 struct G_StopAtPosition_6x3E {

@@ -170,7 +170,7 @@ TBoss4Type2::TBoss4Type2(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     target = 0;
     bind_enemy_combat_stats(TLobby::register_boss(0x37), TLobby::dispatch_shared_handler_b(0x37), TLobby::register_object(0x37));
     referenceHp = hp;
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     set_param(0x2F);
     unk_3cc = 0;
     anim = 0;
@@ -838,7 +838,8 @@ void TBoss4Type2::beam_update() {
         if (idx == 0) {
             TTecRaBarta::create(this, &p, &p, ((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->rabarta_level);
         } else {
-            ((TTecRaFoie *)this)->create(&p, &p, ((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36))->rafoie_level);
+            const TBoss4Type2Params *params = reinterpret_cast<const TBoss4Type2Params *>(TLobby::dispatch_shared_handler_a(0x36));
+            TTecRaFoie::create(this, &p, &p, params->rafoie_level);
         }
         add_radar_scaled_marker(&p, -0x5DB4, 1, 1, 2.5f);
         beam_side.x *= -1.0f;

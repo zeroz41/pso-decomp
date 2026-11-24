@@ -17,7 +17,6 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
@@ -470,7 +469,7 @@ void TObjEneLappy::run_miss_reaction() {
 }
 
 void TObjEneLappy::update_attacking() {
-    u8 *hit;
+    TObjChara *hit;
     advance_animation();
     switch (phase) {
     case 0:
@@ -491,9 +490,9 @@ void TObjEneLappy::update_attacking() {
         apply_actor_gravity(this, NULL, 0.0f);
         if (is_passing_frame(14.0f) != 0) {
             hit = target;
-            if (hit != NULL && ((TObjChara *)hit)->select_melee_contact_body(this, 1.0f) != 0) {
-                ((TObjChara *)target)->receive_physical_attack(this, 1.0f);
-                ((TObjChara *)target)->apply_knockback_from_attacker((u8 *)this, 3.0f);
+            if (hit != NULL && hit->select_melee_contact_body(this, 1.0f) != 0) {
+                target->receive_physical_attack(this, 1.0f);
+                target->apply_knockback_from_attacker((u8 *)this, 3.0f);
             }
             play_sound_effect(remap_area_sound_id(0x3BC0D, 5), &position, 0, 0);
             phase = 2;
@@ -547,7 +546,7 @@ void TObjEneLappy::update_moving() {
     f32 dist;
     s32 turn;
     u32 flags;
-    u8 *chased;
+    TObjChara *chased;
     LappyMovementParameters *params;
     advance_animation();
     if ((actorFlags & 0x1000) && !(lappy_flags & 2)) {
@@ -844,8 +843,8 @@ void TObjEneLappy::run_task() {
         sub_800BFF54();
         return;
     }
-    target = (u8 *)find_active_entity_by_id(targetId);
-    if (target != NULL && (((TObjChara *)target)->actorFlags & 0x800)) {
+    target = static_cast<TObjChara *>(find_active_entity_by_id(targetId));
+    if (target != NULL && (target->actorFlags & 0x800)) {
         target = NULL;
         targetId = 0xFFFF;
     }
@@ -909,7 +908,6 @@ void *TObjEneLappy::create(void *set) {
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/TLevelSelect.h"
@@ -1129,7 +1127,7 @@ TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) 
     tp = tpmax;
     referenceHp = hp;
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     register_object_by_id();
     scale = 6.0f * (1.0f + random_ratio());
     idle_timer = 30.0f * scale;

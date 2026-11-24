@@ -1,7 +1,7 @@
+#include "pso/player/PlayerState.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
-#include "pso/player/TObjPlayer_801BF918.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 

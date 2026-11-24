@@ -266,7 +266,7 @@ void TObjEneNanoDrago::run_task() {
         run_demo_task();
         return;
     }
-    target = (u8 *)find_active_entity_by_id(targetId);
+    target = static_cast<TObjChara *>(find_active_entity_by_id(targetId));
     release_destroyed_target();
     update_proximity_state();
     if ((s16) mode != next_action) {
@@ -484,7 +484,7 @@ void TObjEneNanoDrago::update_circling_state() {
         requested_action = 1;
         circlingAngle = 0;
         if (target != NULL) {
-            VecCopy(&move_destination, (const Vec *)(target + 0x2FC));
+            VecCopy(&move_destination, &target->body_center);
         }
         state = 1;
     case 1:
@@ -586,7 +586,7 @@ void TObjEneNanoDrago::update_single_beam_state() {
                 capture_beam_origins();
                 u32 obj = (uaddr)TObject::operator new(0x100);
                 if (obj != 0U) {
-                    construct_beam_effect__10TObjPlayerFPvPvPviPv(obj, &beamOrigins[0], target + 0x2FC, (u8) !(actorFlags & 0x01000000), this);
+                    construct_beam_effect__10TObjPlayerFPvPvPviPv(obj, &beamOrigins[0], &target->body_center, (u8) !(actorFlags & 0x01000000), this);
                 }
                 spawn_beam_particle(0);
                 play_sound_effect(0x4003A527, &position, 0, 0);
@@ -594,7 +594,7 @@ void TObjEneNanoDrago::update_single_beam_state() {
             }
             break;
         }
-        VecCopy(&move_destination, (const Vec *)(target + 0x2FC));
+        VecCopy(&move_destination, &target->body_center);
         enemy_turn_half_toward_dest(this);
         advance_animation();
         if (!(actorFlags & 0x01000000)) {
@@ -717,7 +717,7 @@ void TObjEneNanoDrago::update_flight_state() {
             find_target_in_range(((NanoDragoMovementParams *)movementParameters)->detectionRadius);
             if (target != 0) {
                 VecCopy((Vec *)&v, (const Vec *)(&position));
-                subtract_vector(&v, (Vec *)(target + 0x38));
+                subtract_vector(&v, &target->position);
                 find_open_direction(&v);
                 calc_velocity_toward_destination(this, position, moveDestination, speed);
             } else {
@@ -948,7 +948,7 @@ void TObjEneNanoDrago::update_dying_state() {
         timer = (timer - 1);
         if (timer <= 0) {
             spawn_ground_effect(&position, 0x1E);
-            TObjPlayer__sub_800D92BC((saddr)&position, 0xF);
+            TObjPlayer__sub_800D92BC(&position, 0xF);
             state = 4;
             return;
         }

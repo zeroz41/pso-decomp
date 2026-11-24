@@ -659,15 +659,13 @@ void TNpcPlayer::play_effect(int client) {
 
     player = (saddr)get_player_by_client_id((u16) client);
     if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        TObjPlayer::play_effect_default(player, -1);
+        TObjPlayer::play_effect_default(reinterpret_cast<TObjPlayer *>(player), -1);
     }
 }
 
 void TNpcPlayer::send_code_45_to_player(int client) {
-    saddr player;
-
-    player = (saddr)get_player_by_client_id((u16) client);
-    if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
+    TObjPlayer *player = get_player_by_client_id((u16) client);
+    if ((player != NULL) && (player->obj_isState2_324() == 0)) {
         TObjPlayer::send_code_45_1(player);
     }
 }

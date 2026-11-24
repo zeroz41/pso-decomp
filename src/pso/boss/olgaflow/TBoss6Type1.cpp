@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
@@ -15,6 +16,7 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -59,8 +61,6 @@
 
 
 
-// motion_set, motion_mode and part_motions as one block (copy_block).
-struct Blk_802B8624 { s32 a; s32 b; s32 rest[14]; };
 
 
 
@@ -192,7 +192,7 @@ const Boss6StripDesc boss6_type1_build_table[2] = {{3, 1, 0}, {6, 1, 0}};
 const Boss6StripDesc boss6_type1_scroll_strip_descs[1] = {{0, 0, 0}};
 const Vec boss6_type1_origin = {0.0f, 0.0f, 0.0f};
 const s32 boss6_type1_random_action_table[5] = {4, 0x16, 5, 8, 2};
-const Blk_802B8624 boss6_type1_initial_motion_set = {2, 0};
+const Boss6Type1MotionState boss6_type1_initial_motion_set = {2, 0};
 const Boss6PartMotion boss6_type1_initial_part_motion = {NULL, 0.0f, 0.5f, 0.0f, 1.0f / 15.0f, NULL, 0.0f};
 const Boss6PartPositionSource TBoss6Type1__part_position_sources[7] = {{1, 2}, {1, 1}, {0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4}};
 const f32 TBoss6Type1__sword_shot_hit_radii[4] = {15.0f, 20.0f, 25.0f, 50.0f};
@@ -238,8 +238,8 @@ void TBoss6Type1::apply_paralysis() {  }
 
 void TBoss6Type1::apply_poison_status() {  }
 
-TBoss6Type1 *TBoss6Type1::create(saddr arg2_) {
-    return new TBoss6Type1(new TObjControl(tl_04), (saddr *)arg2_);
+TBoss6Type1 *TBoss6Type1::create(Boss6BodySpawnParams *params) {
+    return new TBoss6Type1(new TObjControl(tl_04), params);
 }
 extern "C" {
 
@@ -252,14 +252,14 @@ u8 * TBoss6Type1__sub_802B96C0(saddr arg0, saddr arg1) {
 
 #pragma push
 #pragma opt_common_subs off
-TBoss6Type1::TBoss6Type1(TObject *parent, saddr *params) : TObjEnemy(parent) {
+TBoss6Type1::TBoss6Type1(TObject *parent, Boss6BodySpawnParams *params) : TObjEnemy(parent) {
     TBoss6Type1StateRecord record;
     s32 i;
 
     m_name = TBoss6Type1__name;
     add_flags_2e4(8);
-    plot_falz = (TBoss6PlotFalz *)params[0];
-    apply_set_data(params + 1);
+    plot_falz = params->owner;
+    apply_set_data(&params->set_entry);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
         record.value = 0;
@@ -279,7 +279,7 @@ TBoss6Type1::TBoss6Type1(TObject *parent, saddr *params) : TObjEnemy(parent) {
     target = 0;
     bind_enemy_combat_stats(TLobby::register_boss(0x2B), TLobby::dispatch_shared_handler_b(0x2B), TLobby::register_object(0x2B));
     referenceHp = hp;
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     set_param(0x4E);
     init_motions();
     draw_callback_lists[1] = ModelNodePositionCapture::create(boss6_type1_model_node_desc, node_points);
@@ -644,7 +644,7 @@ void TBoss6Type1::set_action_state(s32 state) {
 }
 
 
-Blk_802B8624 *TBoss6Type1::copy_block(Blk_802B8624 *d, const Blk_802B8624 *s) {
+Boss6Type1MotionState *TBoss6Type1::copy_block(Boss6Type1MotionState *d, const Boss6Type1MotionState *s) {
     *d = *s;
     return d;
 }
@@ -656,9 +656,9 @@ void Boss6PartMotion::copy_from(Boss6PartMotion *src) {
 void TBoss6Type1::init_motions() {
     s32 i;
     Boss6PartMotion *a;
-    copy_block((Blk_802B8624 *)&motion_set, &boss6_type1_initial_motion_set);
+    copy_block(&motion_state, &boss6_type1_initial_motion_set);
     for (i = 0; i < anim_count(); i++) {
-        a = &part_motions[i];
+        a = &motion_state.part_motions[i];
         a->copy_from((Boss6PartMotion *)&boss6_type1_initial_part_motion);
         a->motion = a->prev_motion = get_bml_motion(bml_resource, TBoss6Type1__motion_set_table[2].ids[i]);
     }
@@ -676,7 +676,7 @@ void TBoss6Type1::advance_animations() {
     n = anim_count();
     for (i = 0; i < n; i++) {
         if (i == cur) continue;
-        a = &part_motions[i];
+        a = &motion_state.part_motions[i];
         len = a->motion->frameCount;
         a->frame += a->speed;
         if (a->frame >= len) a->frame -= len;
@@ -684,10 +684,10 @@ void TBoss6Type1::advance_animations() {
             if ((a->blend += a->blend_step) >= 1.0f) a->blend = 0.0f;
         }
     }
-    a = &part_motions[main_anim_index()];
+    a = &motion_state.part_motions[main_anim_index()];
     len = a->motion->frameCount;
     a->frame += a->speed;
-    switch (this->motion_mode) {
+    switch (this->motion_state.motion_mode) {
     case 0:
         if (a->frame >= len) a->frame -= len;
         break;
@@ -697,7 +697,7 @@ void TBoss6Type1::advance_animations() {
         lim = len - 1.0f;
         if (a->frame >= lim) {
             a->frame = lim;
-            set_motion_set(TBoss6Type1__motion_set_table[motion_set].next_set);
+            set_motion_set(TBoss6Type1__motion_set_table[motion_state.motion_set].next_set);
         }
         break;
     }
@@ -715,14 +715,14 @@ void TBoss6Type1::set_motion_set(s32 set) {
     s32 i;
     Boss6PartMotion *a;
 
-    if (set != -1 && set != motion_set) {
-    motion_set = set;
+    if (set != -1 && set != motion_state.motion_set) {
+    motion_state.motion_set = set;
     z = 0.0f;
     n = anim_count();
     t = &TBoss6Type1__motion_set_table[set];
-    this->motion_mode = t->mode;
+    this->motion_state.motion_mode = t->mode;
     for (i = 0; i < n; i++) {
-        a = &part_motions[i];
+        a = &motion_state.part_motions[i];
         AnimationMotion *motion = get_bml_motion(this->bml_resource, t->ids[i]);
         a->blend = a->blend_step;
         a->prev_motion = a->motion;
@@ -751,7 +751,7 @@ void TBoss6Type1::draw_part_motions() {
         }
         id = (saddr)get_bml_model((BmlResource *)this->bml_resource, id);
         cb = draw_callback_lists[i];
-        a = &part_motions[i];
+        a = &motion_state.part_motions[i];
         if (cb != 0) {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(p));
             if (0.0f == a->blend) {
@@ -773,52 +773,52 @@ void TBoss6Type1::draw_part_motions() {
 }
 #pragma pop
 void TBoss6Type1::load_params_from_table() {
-    const Boss6ParamRecord *rec = (const Boss6ParamRecord *)TLobby::dispatch_shared_handler_a(0x2B);
-    this->beam_damage = (s32)rec->floats[0];
+    const BattleMovementParams *rec = TLobby::dispatch_shared_handler_a(0x2B);
+    this->beam_damage = (s32)rec->values.floats[0];
     if ((f32) this->beam_damage <= 0.0f) {
         this->beam_damage = (s32) TBoss6Type1__param_table[0];
     }
-    this->sweep_damage = (s32)rec->floats[2];
+    this->sweep_damage = (s32)rec->values.floats[2];
     if ((f32) this->sweep_damage <= 0.0f) {
         this->sweep_damage = (s32) TBoss6Type1__param_table[1];
     }
-    this->laser_damage = (s32)rec->floats[3];
+    this->laser_damage = (s32)rec->values.floats[3];
     if ((f32) this->laser_damage <= 0.0f) {
         this->laser_damage = (s32) TBoss6Type1__param_table[2];
     }
-    this->center_damage = (s32)rec->floats[4];
+    this->center_damage = (s32)rec->values.floats[4];
     if ((f32) this->center_damage <= 0.0f) {
         this->center_damage = (s32) TBoss6Type1__param_table[3];
     }
-    this->float_time = (s32)rec->floats[5];
+    this->float_time = (s32)rec->values.floats[5];
     if ((f32) this->float_time <= 0.0f) {
         this->float_time = (s32) TBoss6Type1__param_table[10];
     }
-    this->scream_threshold = rec->ints[0];
+    this->scream_threshold = rec->values.integers[0];
     if ((s32) this->scream_threshold <= 0) {
         this->scream_threshold = (s32) TBoss6Type1__param_table[4];
     }
-    this->chal_ud_threshold = rec->ints[1];
+    this->chal_ud_threshold = rec->values.integers[1];
     if ((s32) this->chal_ud_threshold <= 0) {
         this->chal_ud_threshold = (s32) TBoss6Type1__param_table[5];
     }
-    this->damage_step = rec->ints[2];
+    this->damage_step = rec->values.integers[2];
     if ((s32) this->damage_step <= 0) {
         this->damage_step = (s32) TBoss6Type1__param_table[6];
     }
-    this->delta_threshold = rec->ints[3];
+    this->delta_threshold = rec->values.integers[3];
     if ((s32) this->delta_threshold <= 0) {
         this->delta_threshold = (s32) TBoss6Type1__param_table[7];
     }
-    this->laser_charge_time = rec->ints[4];
+    this->laser_charge_time = rec->values.integers[4];
     if ((s32) this->laser_charge_time <= 0) {
         this->laser_charge_time = (s32) TBoss6Type1__param_table[8];
     }
-    this->laser_fire_time = rec->ints[5];
+    this->laser_fire_time = rec->values.integers[5];
     if (this->laser_fire_time <= 0) {
         this->laser_fire_time = (s32) TBoss6Type1__param_table[9];
     }
-    this->low_hp_float_time = (s32)((const Boss6ParamRecord *)TLobby::dispatch_shared_handler_a(0x2F))->floats[5];
+    this->low_hp_float_time = (s32)TLobby::dispatch_shared_handler_a(0x2F)->values.floats[5];
     if ((f32) this->low_hp_float_time <= 0.0f) {
         this->low_hp_float_time = (s32) TBoss6Type1__param_table[11];
     }
@@ -987,15 +987,15 @@ void TBoss6Type1::update_beam_attack() {
     Vec out;
     Vec A;
     Vec B;
-    f32 t = part_motions[1].frame;
-    AnimationMotion *motion = part_motions[1].motion;
+    f32 t = motion_state.part_motions[1].frame;
+    AnimationMotion *motion = motion_state.part_motions[1].motion;
     s32 n;
     s32 i;
 
     if (motion != get_bml_motion(bml_resource, TBoss6Type1__motion_set_table[13].ids[1])) return;
     if (t < 12.5f || t > 22.0f) return;
     {
-    f32 end = 12.5f + part_motions[1].speed;
+    f32 end = 12.5f + motion_state.part_motions[1].speed;
     if (t >= 12.5f && t < end) {
         play_sound_effect(0x40039209, &node_points[9], 0, 0);
     }
@@ -1117,8 +1117,8 @@ void TBoss6Type1::spawn_sword_shots() {
 // Swept-arm hit test: damages every player inside the triangle the arm tip (arm_node_positions[6])
 // swept since the previous frame, between frames 10.5 and 15 of motion set 14.
 void TBoss6Type1::check_sweep_hits() {
-    f32 frame = part_motions[0].frame;
-    AnimationMotion *motion = part_motions[0].motion;
+    f32 frame = motion_state.part_motions[0].frame;
+    AnimationMotion *motion = motion_state.part_motions[0].motion;
     Vec *tip = (Vec *)&arm_node_positions[6];
     s32 i;
     s32 n;
@@ -1131,7 +1131,7 @@ void TBoss6Type1::check_sweep_hits() {
 
     if (motion == get_bml_motion(bml_resource, TBoss6Type1__motion_set_table[14].ids[0]) &&
         !(frame < 10.5f || frame > 15.0f)) {
-        f32 end = 10.5f + part_motions[0].speed;
+        f32 end = 10.5f + motion_state.part_motions[0].speed;
         if (frame >= 10.5f && frame < end) {
             play_sound_effect(0x40038A0E, &arm_node_positions[5], 0, 0);
         }

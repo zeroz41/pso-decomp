@@ -2,6 +2,7 @@
 #define PSO_PLAYER_TOBJPLAYER_80011014_H
 
 #include "pso/enemy/EnemyTargeting.h"
+#include "pso/object/base/HitEligibility.h"
 #include "types.h"
 #include "pso/system/SubtractiveRng.h"
 #include "pso/unk/TLobby_800FD78C.h"
@@ -15,16 +16,12 @@ extern "C" {
 void clear_velocity(u8 *arg0);
 s32 TObjectV8047c128_subtract_hp(u8 *owner, s16 arg1);
 void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos);
-s32 add_actor_hp(u8 *arg0, s16 amount);
-s32 add_actor_tp(u8 *owner, s16 half);
-void add_id_to_slots__10TObjPlayerFiUs(s32 arg0, u16 arg1);
 }
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 hover_height);
 extern "C" {
 void assign_slots_from_list(void *arg0, saddr arg1);
 f32 atan2_float(f32 y, f32 x);
 void attach_mine_trap__10TObjPlayerFiUi(saddr object, u32 arg1);
-f32 calc_xz_distance_sq(TObjBase *actor, TObjBase *other, Vec *offset);
 s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
@@ -42,7 +39,6 @@ int obj_getPtr2B0_20(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
 s16 get_actor_hp__9TObjCharaFv(void *object);
 s16 get_actor_tp(void *object);
-s32 obj_is_hit_receivable(u8 *target);
 void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3);
 s32 update_slow_status__9TObjCharaFv(u8 *player);
 s32 update_attack_stat_status__9TObjCharaFv(u8 *player);

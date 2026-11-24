@@ -5,7 +5,6 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
-#include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -14,7 +13,7 @@ extern s32 model_render_flags;
 
 void TObjEnemy::set_param(s32 v) { *(s32 *)&this->control = v; }
 
-void initialize_enemy_photon_effect(void* p) { ((TBoss3Volopt *)p)->reset_photon_effect(); }
+void initialize_enemy_photon_effect(TObjEnemy *enemy) { enemy->register_by_id(); }
 
 void TObjEnemy::render_shadows() {
     if (test_actor_flags(0x800) == 0) {

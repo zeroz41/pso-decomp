@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
+#include <stddef.h>
 
 class TObjChara;
 
@@ -12,10 +13,13 @@ struct PhotonBlastTarget {
     PhotonBlastTarget();
     // No target: entity_id 0xFFFF, part 0.
     void reset();
+    void byteswap_pos();
 
     u16 entity_id;
     s16 index;
 };
+
+void copy_tech_params(PhotonBlastTarget *dst, PhotonBlastTarget *src);
 
 // The photon blast donation state at PhotonBlastGauge + 0x4C. draw_party_label
 // (the 6x38 donate path) sets state to 8 and adds one to count; is_ready needs
@@ -107,6 +111,9 @@ struct PhotonBlastGauge {
     PhotonBlastDonation donation;
 };
 
+LAYOUT_ASSERT(PhotonBlastGaugeFlagOffset, offsetof(PhotonBlastGauge, flags) == 0x40);
 LAYOUT_ASSERT(PhotonBlastGaugeSize, sizeof(PhotonBlastGauge) == 0x54);
+
+extern "C" void add_photon_blast_chain_charge(PhotonBlastGauge *gauge, f32 amount);
 
 #endif

@@ -22,7 +22,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
 
-void *TNeedleShoot::get_shoot_data() { return &prev_pos; }
+Vec *TNeedleShoot::get_shoot_data() { return &prev_pos; }
 
 void TObjEneMe1Gee_NEEDLE::queue_destruction() {
     s32 remaining;
@@ -42,13 +42,13 @@ void TObjEneMe1Gee_NEEDLE::on_wall_hit() {
     active = 0;
 }
 
-void TObjEneMe1Gee_NEEDLE::on_target_hit(void *arg) {
-    TObjChara *target = (TObjChara *)arg;
+void TObjEneMe1Gee_NEEDLE::on_target_hit(TObjCollidable *actor) {
+    TObjChara *target = static_cast<TObjChara *>(actor);
     DirectAttackPayload attack;
     attack.kind = 0;
     attack.power = power;
     DirectAttackPayload payload = attack;
-    target->receive_direct_attack((void *)owner, payload, contact_body, -1, -1);
+    target->receive_direct_attack(owner, payload, contact_body, -1, -1);
     TObject::queue_destruction();
 }
 
@@ -77,7 +77,7 @@ void TObjEneMe1Gee_NEEDLE::render() {
 }
 
 void TObjEneMe1Gee_NEEDLE::run_task() {
-    owner = (uaddr)find_entity_by_id(owner_id);
+    owner = find_entity_by_id(owner_id);
     if (owner == 0) {
         TObject::queue_destruction();
         return;
@@ -91,15 +91,15 @@ void TObjEneMe1Gee_NEEDLE::run_task() {
     update_stopped();
 }
 
-TObjEneMe1Gee_NEEDLE::TObjEneMe1Gee_NEEDLE(TObject *owner, Vec *from, Vec *to, f32 speed, f32 power)
-    : TNeedleShoot((saddr)owner, from, to) {
+TObjEneMe1Gee_NEEDLE::TObjEneMe1Gee_NEEDLE(TObjBase *owner, Vec *from, Vec *to, f32 speed, f32 power)
+    : TNeedleShoot(owner, from, to) {
     m_name = TObjEneMe1Gee_NEEDLE__name;
     this->power = power;
     this->speed = speed;
     linger_frames = 150;
     contact_mode = 1;
-    if ((void *)this->owner != NULL) {
-        owner_id = ((TObjBase *)this->owner)->get_entity_id();
+    if (this->owner != NULL) {
+        owner_id = this->owner->get_entity_id();
     }
 }
 

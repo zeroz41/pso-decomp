@@ -45,7 +45,7 @@ TObjBoss7RaftSplash::TObjBoss7RaftSplash(TObject *parent, const Vec *position, c
     step = speed;
 }
 
-void TObjBoss7Tunnel::create_particle(const void *position, s32 particle_index) {
+void TObjBoss7Tunnel::create_particle(const Vec *position, s32 particle_index) {
     create_particle_effect(position, particle_index, -5.0f);
 }
 
@@ -62,7 +62,7 @@ void TObjBoss7RaftSplash::spawn_splash(const Vec *position, s32 particle_index, 
     }
 }
 
-void TObjBoss7Tunnel::create_particle_effect(const void *position, s32 particle_index, f32 speed) {
+void TObjBoss7Tunnel::create_particle_effect(const Vec *position, s32 particle_index, f32 speed) {
     TParticleCtrl *particle;
 
     particle = new TParticleCtrl(static_cast<const Vec *>(position), TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, 0x40);

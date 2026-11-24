@@ -2,6 +2,7 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -21,11 +22,9 @@
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/unk/TUnk_804EDAC0.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D853C.h"
@@ -97,7 +96,7 @@ s32 seabed01_ginja_mesh_index;
 TOTrapSeabed01::TOTrapSeabed01(TObject *parent, void *set_data) : TOTrap(parent) {
     m_name = TOTrapSeabed01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)TOTrapSeabed01__bml_resource, 0);
+    model = get_bml_model(TOTrapSeabed01__bml_resource, 0);
     current_motion = (NJS_MOTION *)get_bml_motion(TOTrapSeabed01__bml_resource, 0);
     play_speed = 1.0f;
     frame = 0.0f;
@@ -345,7 +344,7 @@ void TOTrapSeabed01::check_hold_player() {
     player = find_nearest_visible_player(this, NULL, range);
     if (player != 0xFFFF) {
         held = get_player_by_client_id(player);
-        target = (u8 *)held;
+        target = held;
         if (target != NULL) {
             distance = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
             dist -= TObjPlayer__sub_8017A1A4(held, 0);
@@ -370,7 +369,7 @@ int TOTrapSeabed01::deliver_attack_hits(f32) {
     for (i = 0; i < 16; i++) {
         chara = (TObjChara *)TObjPlayer::get_battle_param(i);
         if (TObjPlayer::is_valid_and_active((uaddr)chara) != 0 &&
-            ((TUnk_804B6C24 *)chara)->check_value_equals((saddr)lbl_805D3530) != 0) {
+            chara->check_value_equals(lbl_805D3530) != 0) {
             chara->receive_direct_attack(this, payload, NULL, -1, -1);
             if (payload.kind < 5) {
                 chara->apply_knockback_from_attacker((u8 *)this, 0.0f);
@@ -389,11 +388,11 @@ void TOTrapSeabed01::play_sounds() {
     params.chip.textures = TOTrapSeabed01__texture_file;
     for (i = 0; i < 6; i++) {
         fragment = &seabed_trap_fragment_spawns[i];
-        VecCopy((Vec *)params.chip.pos, &fragment->pos);
-        params.chip.model = (saddr)get_bml_model((BmlResource *)TOTrapSeabed01__bml_resource, fragment->model);
+        VecCopy(&params.chip.pos, &fragment->pos);
+        params.chip.model = get_bml_model(TOTrapSeabed01__bml_resource, fragment->model);
         params.angle_y = fragment->angle_y;
         new TObjSuisoChip(this, &params);
-        Vec v = *(Vec *)params.chip.pos;
+        Vec v = params.chip.pos;
         v.y = 0.0f;
         set_matrix_identity((u8 *)m);
         translate_matrix_vec3((u8 *)m, (u8 *)&position);
@@ -420,7 +419,7 @@ void TOTrapSeabed01::sub_802C9D38() {
             held = get_player_by_client_id(((TObjBase *)target)->get_entity_id());
             if (held != NULL) {
                 if (held->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1((saddr)held);
+                    TObjPlayer::send_code_45_1(held);
                 }
                 obj_clear_flag30_20000(held);
             }
@@ -428,7 +427,7 @@ void TOTrapSeabed01::sub_802C9D38() {
     } else if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
         held = get_player_by_client_id(local_client_id);
         if (held != NULL && held->check_player_flag1() != 0) {
-            TObjPlayer::send_code_45_1((saddr)held);
+            TObjPlayer::send_code_45_1(held);
         }
     }
 }

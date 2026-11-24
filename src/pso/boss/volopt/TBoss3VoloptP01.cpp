@@ -77,7 +77,7 @@ static TObjMotionAction volopt_p01_action_table[6] = {
 };
 static TBoss3VoloptP01Movement volopt_p01_movement = { 150.0f, 0.5555555f, 0x400, 0x1E0000, 0, 1, 0 };
 static TBoss3VoloptP01CollisionPart volopt_p01_collision_parts = { 0, 18.0f, 0, 8.0f, 0, 0, 0x8003, 0, 0, 0, 0 };
-static TBoss3VoloptBreakupParams volopt_p01_breakup_params = { 0x14, { 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f } };
+static BreakUpParamRow volopt_p01_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
 void TObjVoloptShutter::open() {
     state = 2;
     substate = 0;
@@ -159,7 +159,7 @@ void TBoss3VoloptP01::init_params() {
     referenceHp = hp;
     set_param(0x2E);
     update_prev_position();
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     load_model(17);
     start_rise();
     ((TBoss3VoloptP01Collision *)bodies)->flags &= ~1;
@@ -226,7 +226,7 @@ void TBoss3VoloptP01::run_task() {
         y = body_center.y;
         body_center.y = y + (18.0f + y_offset);
         ((TBoss3VoloptP01Collision *)bodies)->height = 18.0f + y_offset;
-        ((TBoss3VoloptHiraisin *)this)->copy_position();
+        copy_position();
         angle = pulse_angle;
         pulse_angle = angle + 0x400;
         clear_all_status_effects();
@@ -363,7 +363,8 @@ void TBoss3VoloptP01::update_breakup() {
         advance_animation();
         timer--;
         if (timer < 0) {
-            TBoss3Volopt::create_breakup_mdl((saddr)TBoss3VoloptP01__breakup_model, (saddr)&volopt_p01_breakup_params, texlist, (saddr)&body_center, rotation_y);
+            TBoss3Volopt::create_breakup_mdl(TBoss3VoloptP01__breakup_model, &volopt_p01_breakup_params,
+                               texlist, &body_center, rotation_y);
             trigger_dell_biter_events(&body_center);
             behavior_flags |= 0x40000;
             play_sound_effect(0x4003AD07, &position, 0, 0);

@@ -1,6 +1,9 @@
+#include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/technique/TechniqueBandSound.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
@@ -114,6 +117,9 @@ extern "C" {
 s32 get_type__10TObjPlayerFPv(void *);
 List_8022BD74 *find_area_contact__10TTecCircleFl(Tec_8022BD74 *, void *);
 
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(1)
 void TTecBarta::update_technique_by_state() {
     s32 handle;
 
@@ -148,6 +154,7 @@ void TTecBarta::update_technique_by_state() {
         break;
     }
 }
+#pragma pop
 
 
 void TTecBarta::create_particle_emitters() {

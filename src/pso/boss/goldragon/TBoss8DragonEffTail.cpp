@@ -11,7 +11,6 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/dellbiter/TObjEneDellBiter.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/MatrixTransforms.h"
@@ -55,7 +54,7 @@ void TBoss8DragonEffTail::run_task() {
         body = &this->bodies[i];
         VecCopy(&body->center, node);
         matrix_mult_vec(NULL, node++, &body->offset);
-        update_collider_contact_by_height((u8 *)body, 30.0f);
+        update_collider_contact_by_height(body, 30.0f);
     }
     pop_matrix();
     if (this->sweep_side == 1) {

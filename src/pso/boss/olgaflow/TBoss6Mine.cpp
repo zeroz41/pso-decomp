@@ -24,6 +24,7 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/unk/TLobby.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/object/ambient/TObjFish.h"
 
 #include "pso/ui/hud/TNowLoading.h"
@@ -368,13 +369,13 @@ TBoss6Mine::TBoss6Mine(TObject *parent, TBoss6MineSetData *set_data) : TObjEnemy
     target = 0;
     bind_enemy_combat_stats(TLobby::register_boss(0x2D), TLobby::dispatch_shared_handler_b(0x2D), TLobby::register_object(0x2D));
     referenceHp = hp;
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     set_param(0);
     rise_delay = (s32)(136.0f * next_random_float(&seed) + 7.0f);
     spread_frames = 0x96 - rise_delay;
     arm_delay = (s32)(57.0f * next_random_float(&seed) + 3.0f);
     travel_distance = 80.0f * next_random_float(&seed) + 120.0f;
-    f = *(f32 *)TLobby::dispatch_shared_handler_a(0x2D);
+    f = TLobby::dispatch_shared_handler_a(0x2D)->values.floats[0];
     damage = f;
     if (0.0f == f) {
         damage = 0x14;

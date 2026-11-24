@@ -244,7 +244,7 @@ TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     target = 0;
     bind_enemy_combat_stats(TLobby::register_boss(0x38), TLobby::dispatch_shared_handler_b(0x38), TLobby::register_object(0x38));
     referenceHp = drained_hp = hp;
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     set_param(0x2F);
     anim = 0;
     anim_looped = 0;

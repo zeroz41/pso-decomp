@@ -1,3 +1,4 @@
+#include "pso/render/NinjaUtil.h"
 #include "pso/system/PersistentSound.h"
 #include "pso/network/FloorEventCommand.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -16,7 +17,7 @@
 
 struct Row_80190AA0 { u32 cue; s32 mode; };
 
-struct Obj_801903B4 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x90 - 0x44]; f32 param; s32 sound; s32 mode; };
+struct Obj_801903B4 { u8 pad0[0x38]; Vec pos; u8 pad44[0x90 - 0x44]; f32 param; s32 sound; s32 mode; };
 
 
 // Per-area {sound cue, mode} rows, indexed by the object's set parameter.
@@ -77,7 +78,6 @@ const Row_80190AA0 *environment_sound_tables_by_area[36] = {
     NULL, NULL, lbl_80445820, lbl_80445820,
 };
 
-f32 xz_distance_squared(void *, void *);
 
 
 #define F(o) (*(f32 *)(self + (o)))
@@ -95,7 +95,6 @@ f32 xz_distance_squared(void *, void *);
 #include "pso/ui/hud/TRaderMapCore.h"
 
 extern "C" {
-f32 xyz_distance_squared(void *, void *, void *);
 
 
 }
@@ -194,7 +193,7 @@ void *TObjEnvSound::create(void *rader_map_core) {
 }
 
 s32 fn_801908F8(saddr arg0, f32 farg0) {
-    return xyz_distance_squared(&camera_ctrl_instance->pos.x, (void *)(arg0 + 0x38), (void *)arg0) < farg0;
+    return xyz_distance_squared(&camera_ctrl_instance->pos, &reinterpret_cast<const TObjBase *>(arg0)->position) < farg0;
 }
 
 s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
@@ -221,7 +220,7 @@ TObjEnvSoundEx::~TObjEnvSoundEx() {
 }
 
 void TObjEnvSoundEx::run_task() {
-    if (xz_distance_squared(&camera_ctrl_instance->pos.x, &position) < range * range) {
+    if (xz_distance_squared(&camera_ctrl_instance->pos, &position) < range * range) {
         volume += volume_step;
         if (volume > (f32)max_volume) {
             volume = (f32)max_volume;
@@ -310,7 +309,7 @@ void TObjEnvSoundGlobal::run_task() {
     case 0:
         break;
     case 1:
-        play_persistent_sound((s32)self->sound, self, reinterpret_cast<const Vec *>(self->pos), 0, 0);
+        play_persistent_sound((s32)self->sound, self, &self->pos, 0, 0);
         break;
     case 2:
         play_persistent_sound((s32)self->sound, self, NULL, (s32)self->param, 2);

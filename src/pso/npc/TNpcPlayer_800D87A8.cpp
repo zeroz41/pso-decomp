@@ -4,8 +4,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 
-void *get_valid_target_player(int id) {
-    void *player = (void *)TObjPlayer::get_battle_param(id);
+TObjCollidable *get_valid_target_player(int id) {
+    TObjCollidable *player = reinterpret_cast<TObjCollidable *>(TObjPlayer::get_battle_param(id));
     if (TObjPlayer::is_valid_and_active((uaddr)player) != 0) {
         return player;
     }
@@ -13,8 +13,8 @@ void *get_valid_target_player(int id) {
 }
 
 extern "C" {
-void *find_active_entity_by_id(u16 id) {
-    void *entity;
+TObjCollidable *find_active_entity_by_id(u16 id) {
+    TObjCollidable *entity;
     entity = find_entity_by_id(id);
     if (TObjPlayer::is_valid_and_active((uaddr)entity) != 0) {
         return entity;

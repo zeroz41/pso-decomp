@@ -1,3 +1,4 @@
+#include "pso/render/NinjaUtil.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/PersistentSound.h"
 #include "pso/system/BmlResource.h"

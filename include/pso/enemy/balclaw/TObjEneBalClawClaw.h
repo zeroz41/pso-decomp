@@ -1,6 +1,8 @@
 #ifndef PSO_ENEMY_BALCLAW_TOBJENEBALCLAWCLAW_H
 #define PSO_ENEMY_BALCLAW_TOBJENEBALCLAWCLAW_H
 
+struct EnemyPlacement;
+
 #include "types.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 
@@ -8,7 +10,7 @@ struct TObjEneBalClawBody;
 
 struct TObjEneBalClawClaw : public TObjEneBalClaw {
     TObjEneBalClawClaw(TObject *parent, TObjEneBalClawBody *body, u16 id, s32 index, const Vec *pos, s32 rot_y, s32);
-    TObjEneBalClawClaw(TObject *parent, void *set_data);
+    TObjEneBalClawClaw(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneBalClawClaw();
     void init();
     virtual void run_task();

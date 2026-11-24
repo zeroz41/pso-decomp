@@ -367,7 +367,7 @@ TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     target = 0;
     bind_enemy_combat_stats(TLobby::register_boss(0x36), TLobby::dispatch_shared_handler_b(0x36), TLobby::register_object(0x36));
     referenceHp = hp;
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     set_param(0x2F);
     anim_speed = 0.4f;
     for (i = 0; i < 3; i++) {
@@ -1174,7 +1174,7 @@ void TBoss4Type1::update_tech_charge() {
             TTecRaBarta::create(this, &grid_target, &grid_target, params->rabarta_level);
         } else {
             TBoss4Type2Params *params = (TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36);
-            ((TTecRaFoie *)this)->create(&grid_target, &grid_target, params->rafoie_level);
+            TTecRaFoie::create(this, &grid_target, &grid_target, params->rafoie_level);
         }
         start_pad_rumble_all(0xC0, 0xF);
     }

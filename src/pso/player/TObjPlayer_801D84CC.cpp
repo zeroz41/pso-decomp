@@ -1,3 +1,5 @@
+#include "pso/unk/text_800F9B84.h"
+#include "pso/player/PlayerState.h"
 #include "types.h"
 #include "pso/unk/text_801D40D4.h"
 #include "pso/player/TObjPlayer_801D84CC.h"
@@ -47,7 +49,6 @@ struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
 };
 
 s32 advance_item_id_counter();
-void set_equip_slot_entry(saddr arg0, s32 arg1, s32 arg2);
 
 void process_trade_target__10TObjPlayerFiPv(saddr arg0, void *player) {
     void *item;
@@ -145,7 +146,6 @@ void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(reinterpr
 
 extern "C" {
 extern u8 *TObjPlayer__shared_model_buffer;
-void TObjPlayer__sub_801BFF80(u8 *arg0);
 }
 void create_player_ending_motion(void);
 void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = static_cast<BmlMotionEntry **>(create_named_object("PlyEndingMotionData.rel")); }

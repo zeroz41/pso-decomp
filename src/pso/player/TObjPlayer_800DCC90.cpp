@@ -68,7 +68,7 @@ void TUnk_80494E48::run_task() {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    obj = find_active_entity_by_id(arg0->owner);
+    obj = reinterpret_cast<Obj_800DC4B4 *>(find_active_entity_by_id(arg0->owner));
     switch ((*(int *)((u8 *)this + 0xFC))) {
     case 0:
         arg0->timer--;

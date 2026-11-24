@@ -80,7 +80,6 @@
 #include "pso/ui/chat/TWindowSubSymbolChat_80076F88.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/unk/TLobby_80228154.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
@@ -456,7 +455,7 @@ void run_offline_game_frame(void) {
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     take_snapshot();
-    if (func_801A5E54() != 0) {
+    if (static_cast<s8>(func_801A5E54()) != 0) {
         TLobby::shutdown_keyboard_control();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -490,7 +489,7 @@ void run_offline_transfer_frame(void) {
     TAdSinglePlyChrSelectGC::noop();
     take_snapshot();
     TLobby__sub_8006EF90();
-    if (func_801A5E54() != 0) {
+    if (static_cast<s8>(func_801A5E54()) != 0) {
         TLobby::reset_keyboard_input();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {

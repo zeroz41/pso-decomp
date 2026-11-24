@@ -39,7 +39,7 @@ void TLobby__sub_8020BCE4(void) {
     p = get_active_floor_enemy_rows(get_current_floor());
     n = TLobby::get_object_type(get_current_floor());
     for (i = 0; i < n; i++, p++) {
-        u32 r = (uaddr)find_entity_by_id(p->id);
+        u32 r = (uaddr)find_entity_by_id(p->placement.id);
         if (r != 0) {
             ((TObjBase *)(saddr)r)->set_actor_flags(0x800);
         }
@@ -67,7 +67,7 @@ void handle_6x76_set_entity_set_flags(Pkt_8020BD50 *pkt) {
         }
         if (pkt->area == get_current_floor()) {
             for (i = 0; i < current_floor_enemy_set_count; i++) {
-                if (pkt->id == current_floor_enemy_set_rows[i].id) {
+                if (pkt->id == current_floor_enemy_set_rows[i].placement.id) {
                     current_floor_enemy_set_rows[i].flags |= pkt->flags;
                     break;
                 }

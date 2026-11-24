@@ -393,8 +393,8 @@ void TObjEneMe1Canadin::calc_move_vector(Vec *out) {
 }
 #pragma pop
 
-u8 *TObjEneMe1Canadin::move_xz_on_ground(u8 *arg) {
-    u8 *result = TObjEneDD::move_xz_on_ground(arg);
+CsnHit *TObjEneMe1Canadin::move_xz_on_ground(const Vec *arg) {
+    CsnHit *result = TObjEneDD::move_xz_on_ground(arg);
     if (result == NULL) {
         status_flags &= ~0x1000000;
     } else {
@@ -428,7 +428,7 @@ void TObjEneMe1Canadin::hover_toward(f32 height) {
     approach_hover_y(height);
     VecCopy(&pos, &position);
     pos.y = hover_y;
-    move_xz_on_ground((u8 *)&pos);
+    move_xz_on_ground(&pos);
 }
 
 void TObjEneMe1Canadin::update_hover_height() {
@@ -1684,7 +1684,8 @@ void TObjEneMe1Canadin::state_dead(s32 msg) {
             leader = (TObjEneMe1Canadin *)find_entity_by_id(leader_id);
             leader->remove_member(this);
         }
-        TBoss3Volopt::create_breakup_mdl((saddr)canadin_breakup_model, 0, (texlist), (saddr)&body_center, (s32)(rotation_y));
+        TBoss3Volopt::create_breakup_mdl(canadin_breakup_model, NULL,
+                           texlist, &body_center, rotation_y);
         status_flags |= 0x400000;
         VecCopy(&pos, &body_center);
         pos.y -= 5.0f;
@@ -2197,7 +2198,8 @@ void TObjEneMe1CanadinLeader::state_dead(s32 mode) {
     s32 i;
     switch (mode) {
     case 4:
-        TBoss3Volopt::create_breakup_mdl((saddr)canadin_leader_breakup_model, 0, texlist, (saddr)&body_center, (s32)rotation_y);
+        TBoss3Volopt::create_breakup_mdl(canadin_leader_breakup_model, NULL,
+                           texlist, &body_center, rotation_y);
         for (i = 0; i < member_count; i++) {
             members[i]->set_flag3c8_bit20();
         }

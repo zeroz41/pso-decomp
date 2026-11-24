@@ -8,6 +8,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "types.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TUnk_804AF7B0.h"
 #include "pso/system/memory.h"
@@ -1312,7 +1313,7 @@ void set_type__10TNpcPlayerFPvs(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
 
 void set_state__10TNpcPlayerFPvs(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
 
-void TNpcPlayer::byteswap_pos() { bswap_16((u16 *)this); bswap_16((u16 *)((char*)this + 0x2)); }
+void PhotonBlastTarget::byteswap_pos() { bswap_16(&entity_id); bswap_16((u16 *)&index); }
 
 void TNpcPlayer::set_state(s32 v) { *(s32*)((char*)this + 0x0) = v; }
 
@@ -1351,24 +1352,22 @@ G_CastTechnique_6x47::G_CastTechnique_6x47() {
     header.size = sizeof(G_CastTechnique_6x47) / 4;
 }
 
-u8 get_6x47_cast_packet_size(u8 *arg0) {
-    return (u8) (0x30 - ((0xA - (s8) *(u8 *)((s8 *)arg0 + 7)) * 4));
+u8 get_6x47_cast_packet_size(G_CastTechnique_6x47 *packet) {
+    return (u8)(0x30 - ((10 - packet->params.target_count) * 4));
 }
 
-void TNpcPlayer::byteswap_positions() {
-    N_80152C8C *arg0 = (N_80152C8C *)this;
+void G_CastTechnique_6x47::byteswap_positions() {
     s32 i;
-    ((G_ClientIDHeader *)arg0)->bswap();
-    for (i = 0; i < arg0->count; i++) {
-        ((TNpcPlayer *)(&arg0->pos[i]))->byteswap_pos();
+    header.bswap();
+    for (i = 0; i < params.target_count; i++) {
+        targets[i].byteswap_pos();
     }
 }
 
-void TNpcPlayer::finalize_and_send_packet() {
-    u8 *arg0 = (u8 *)this;
-    *(s8 *)((s8 *)arg0 + 1) = (s8) ((((u32)get_6x47_cast_packet_size(arg0)) >> 2U) & 0x3F);
+void G_CastTechnique_6x47::finalize_and_send_packet() {
+    header.size = ((u32)get_6x47_cast_packet_size(this) >> 2U) & 0x3F;
     byteswap_positions();
-    send_subcommand((u8 *)(arg0));
+    send_subcommand((u8 *)this);
 }
 
 void init_6x43_attack_packet(u8 *arg0) {
@@ -2309,7 +2308,7 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
             ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, ((TNpcPlayer *)m_78)->get_npc_state());
             set_state__10TNpcPlayerFPvs(cmd.targets, TNpcPlayer__sub_801528DC(m_78));
         }
-        ((TNpcPlayer *)(&cmd))->finalize_and_send_packet();
+        cmd.finalize_and_send_packet();
     }
 }
 
@@ -2350,7 +2349,6 @@ void TNpcPlayer::update_condition_flags() {
 }
 
 #pragma push
-#pragma fp_contract on
 void partner_observe_surroundings(TNpcPlayer *npc_player) {
     f32 x;
     s32 temp_r3_2;
@@ -2581,8 +2579,6 @@ void TNpcPlayer::init_follow_target() {
 
 void TNpcPlayer::render() {  }
 
-#pragma push
-#pragma fp_contract on
 s32 TNpcPlayer::check_movement_progress() {
     s8 temp_r3;
     if (((f32 (*)(void *, void *))horizontal_distance_squared)(&m_ac, &m_d0) <= 100.0f) {
@@ -2606,7 +2602,6 @@ s32 TNpcPlayer::check_movement_progress() {
     }
     return 1;
 }
-#pragma pop
 
 s32 partner_view_check_moved(u8 *arg0) {
     Unk_8014F844 *view = (Unk_8014F844 *)arg0;
@@ -2800,8 +2795,6 @@ Unk_8014F844::Unk_8014F844(s32 id) {
     m_80 = 0xFFFF;
 }
 
-#pragma push
-#pragma fp_contract on
 s32 refresh_npc_view_actor_lost(void *arg0) {
     Unk_8014F844 *view = (Unk_8014F844 *)arg0;
     TObjPlayer *v;
@@ -2812,7 +2805,6 @@ s32 refresh_npc_view_actor_lost(void *arg0) {
     }
     return (u32)__cntlzw(v->all_parents_unqueued_for_destruction()) >> 5;
 }
-#pragma pop
 
 void *TNpcPlayer::dt(s16 arg1) {
     if (this != NULL) {
@@ -2972,7 +2964,7 @@ s32 partner_probe_obstacles(Unk_8014F844 *view) {
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + ((s32 (*)(void))get_registered_object_count)(); i++) {
         actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
         if ((actor != NULL) && !(actor->actorFlags & 0x80000000)) {
-            contact = (CollisionBody *)view->m_a8->find_actor_body_contact((u8 *)actor, 10000.0f);
+            contact = view->m_a8->find_actor_body_contact(reinterpret_cast<TObjCollidable *>(actor), 10000.0f);
             if (contact != NULL) {
                 if (actor->actorFlags & 0x40000000) {
                     if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {

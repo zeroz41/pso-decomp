@@ -652,19 +652,17 @@ void TObjWarpBoss::warp_player(s32 local_client_id) {
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        TObjPlayer::play_effect_default((saddr)player, -1);
+        TObjPlayer::play_effect_default(player, -1);
         obj_set_flag_20000(player);
         warp_effect_timer = 0x12C;
     }
 }
 
 void TObjWarpBossMulti::notify_player(void *arg0, s32 local_client_id) {
-    saddr player;
-
-    player = (saddr)get_player_by_client_id(local_client_id);
-    if (player != 0) {
-        TObjPlayer::send_code_45_1((s32)player);
-        obj_clear_flag30_20000((TObjBase *)player);
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        TObjPlayer::send_code_45_1(player);
+        obj_clear_flag30_20000(player);
     }
 }
 

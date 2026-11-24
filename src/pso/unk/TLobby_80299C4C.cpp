@@ -7,6 +7,12 @@
 #include "pso/object/TObjChallenge4PRetry.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
+#include "pso/unk/text_8024AB98.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/unk/TLobby_802268F4.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
 #include "pso/unk/TLobby.h"
@@ -111,8 +117,6 @@ extern "C" {
 const char *TObjChallenge4PRetry__class_name = "TObjChallenge4PRetry";
 
 s32 TLobby__sub_80292F5C();
-saddr get_message_text(s32);
-saddr get_window_layout_position(s32);
 
 s32 TLobby::is_multi_ready() {
     if ((TLobby::get_challenge_mode_flag() != 0) || (TLobby__sub_80292F5C() <= 1)) {
@@ -129,7 +133,7 @@ void TObjChallenge4PRetry::close_window_field30() {
 }
 
 s32 retry_selection_value_table[3] = { 1, 0, 0 };
-__declspec(section ".data") s32 message_window_position[2] = { 0x43B40000, 0x42FA0000 };
+__declspec(section ".data") f32 message_window_position[2] = { 360.0f, 125.0f };
 
 void TObjChallenge4PRetry::open_message_window() {
     if (this->message != NULL) {
@@ -137,8 +141,8 @@ void TObjChallenge4PRetry::open_message_window() {
         this->message = NULL;
     }
     this->message = reinterpret_cast<TWindowMessage *>(TWindowMessage::create(
-        reinterpret_cast<const NJS_POINT2 *>(get_window_layout_position(0x39)),
-        reinterpret_cast<const f32 *>(message_window_position), 1));
+        get_window_layout_position(0x39),
+        message_window_position, 1));
     if (this->message != NULL) {
         this->message->append_line(get_message_text(0x5E), 1);
     }
@@ -157,7 +161,7 @@ void TObjChallenge4PRetry::open_giveup_window() {
         temp->close();
         this->menu = NULL;
     }
-    this->menu = reinterpret_cast<TWindowSubComCardList *>(create_window_menu_default(get_window_layout_position(0x3A), 3));
+    this->menu = reinterpret_cast<TWindowSubComCardList *>(create_window_menu_default(reinterpret_cast<saddr>(get_window_layout_position(0x3A)), 3));
     if (this->menu != NULL) {
         this->menu->add_text_entry(get_message_text(0x5B), 5, 0);
         this->menu->add_text_entry(get_message_text(0x5C), 5, 1);
@@ -171,7 +175,7 @@ void send_giveup_to_all_players__6TLobbyFv(void) {
     s32 client;
 
     for (client = 0; client < 4; client++) {
-        saddr player = (saddr)get_player_by_client_id(client);
+        TObjPlayer *player = get_player_by_client_id(client);
         if ((player != 0) && (((TObjPlayer *)player)->check_player_flag1() != 0)) {
             TObjPlayer::send_code_45_1(player);
         }
@@ -186,11 +190,11 @@ void play_all_players_effect__6TLobbyFPv(void* a0) { TWindowCtrl::disable_client
 
 void play_effect_all_players__6TLobbyFPv(void*) {
     s32 i;
-    saddr player;
+    TObjPlayer *player;
 
     i = 0;
     do {
-        player = (saddr)get_player_by_client_id(i);
+        player = get_player_by_client_id(i);
         if (player != 0) {
             if (((TObjPlayer *)player)->check_player_flag1() == 0) {
                 TObjPlayer::play_effect_default(player, -1);
@@ -315,8 +319,8 @@ void TObjChallenge4PRetry::update_giveup() {
     TLobby::play_effect_all_players(this);
     flag = 1;
     for (i = 0; i < 4; i++) {
-        uaddr ctrl = (saddr)get_player_by_client_id(i);
-        if (ctrl != 0U && ((TObjCollidable *)ctrl)->test_actor_flags(0x02000000) != 0) {
+        TObjPlayer *player = get_player_by_client_id(i);
+        if (player != NULL && player->test_actor_flags(0x02000000) != 0) {
             flag = 0;
             break;
         }

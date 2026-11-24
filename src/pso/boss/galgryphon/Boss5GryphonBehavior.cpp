@@ -7,6 +7,7 @@
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -20,7 +21,7 @@
 #include "pso/enemy/EnemyStateEvent.h"
 #include "pso/render/MaterialColorFade.h"
 #include "types.h"
-#include "pso/camera/CameraPlayback.h"
+#include "pso/camera/CameraHelpers.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -66,7 +67,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -755,7 +755,7 @@ void TBoss5Gryphon::run_task() {
     if (temp_r31_2 == 0) {
         this->sub_tasks.run_tasks();
     }
-    project_sound_origin_from_camera((saddr)&this->position, (u8 *)&this->sound_origin, gryphon_point_four);
+    project_sound_origin_from_camera(&this->position, &this->sound_origin, gryphon_point_four);
     for (i = 0; i < 4; i++) {
         renderFadeStates[i].update();
     }
@@ -801,9 +801,9 @@ void TBoss5Gryphon::update_body_colliders() {
             bodies[i].flags |= 1;
             p = &bodies[i];
             if (p->offset.y + p->center.y >= lim) {
-                set_collider_contact_high((u8 *)p);
+                set_collider_contact_high(p);
             } else {
-                set_collider_contact_low((u8 *)p);
+                set_collider_contact_low(p);
             }
         }
     }
@@ -818,11 +818,11 @@ void TBoss5Gryphon::update_body_colliders() {
         bodies[8].flags &= ~1;
         bodies[9].flags &= ~1;
         bodies[0].radius = gryphon_one_hundred_ten;
-        set_collider_contact_low((u8 *)&bodies[0]);
-        set_collider_contact_low((u8 *)&bodies[1]);
-        set_collider_contact_low((u8 *)&bodies[2]);
-        set_collider_contact_low((u8 *)&bodies[3]);
-        set_collider_contact_low((u8 *)&bodies[2]);
+        set_collider_contact_low(&bodies[0]);
+        set_collider_contact_low(&bodies[1]);
+        set_collider_contact_low(&bodies[2]);
+        set_collider_contact_low(&bodies[3]);
+        set_collider_contact_low(&bodies[2]);
     } else {
         bodies[0].flags &= ~0x300;
         bodies[1].flags &= ~0x300;
@@ -3034,8 +3034,8 @@ void TBoss5Gryphon::apply_velocity() {
         v.y = 0.0f;
         v.z = this->move_velocity.z;
         len = normalize_vector_xz(&v);
-        this->calc_shot_position((u8 *)&shot, v.x, v.z, len);
-        this->try_move_actor_xz_on_ground((u8 *)&shot);
+        this->calc_shot_position(&shot, v.x, v.z, len);
+        this->try_move_actor_xz_on_ground(&shot);
     } else {
         this->position.x += this->move_velocity.x;
         this->position.y += this->move_velocity.y;

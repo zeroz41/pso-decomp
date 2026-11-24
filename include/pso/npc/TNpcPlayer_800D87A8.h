@@ -3,18 +3,11 @@
 
 #include "types.h"
 
-extern "C" {
-void *find_active_entity_by_id(u16 id);
-}
+class TObjCollidable;
 
-// --- C functions defined in TNpcPlayer_800D87A8.cpp ---
-extern "C" {
-void *find_active_entity_by_id(u16 id);
-}
-// --- end of C functions
-
-// The player in battle slot `id` (TObjPlayer::get_battle_param), or 0 when that
-// slot is not a valid, active player.
-void *get_valid_target_player(int id);
+// An active collision object in the entity table, or NULL.
+extern "C" TObjCollidable *find_active_entity_by_id(u16 id);
+// The active object in a battle slot, or NULL.
+TObjCollidable *get_valid_target_player(int id);
 
 #endif

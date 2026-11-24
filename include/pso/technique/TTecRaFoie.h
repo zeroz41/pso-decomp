@@ -18,8 +18,8 @@ struct TTecRaFoie : public TTecCircle {
     s32 m_148;              // 1: bursts where it was cast (the Vec constructor), 0: on its first target
     void calc_area_parameters();
     virtual void render();
-    void update_detonation(void *pos);
-    void create(void *origin, void *pos, s32 level);
+    void update_detonation(void *arg1);
+    static void create(TObject *source, Vec *origin, Vec *pos, s32 level);
     static void create_ex(void *source, void *origin, void *targets, s32 level);
 };
 

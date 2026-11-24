@@ -1,4 +1,5 @@
 #include "pso/system/memory.h"
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/text_803D96A8.h"
 #include "types.h"
@@ -17,7 +18,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/hud/TLockOnCursor.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/technique/TTecAnti.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/technique/TTecFoie.h"
@@ -72,7 +72,6 @@ s32 get_obj_id__10TObjPlayerFv(void *);
 void set_slot_type_state__10TObjPlayerFllss(void *, int, u16, s32);
 s32 is_split_screen();
 void get_hand_joint_position__10TObjPlayerFl(void *, void *);
-Target_8022D27C *get_technique_data__10TObjPlayerFPv(void *);
 u8 get_cast_technique_level(void *, int);
 }
 extern u8 identity_matrix[];
@@ -158,26 +157,26 @@ NJS_TEXLIST *technique_texture_list;
 #define COLLECT_8022D27C()                                              \
     list.count = 0;                                                     \
     for (i = 0; i < n; i++) {                                           \
-        if (targets == NULL || targets->id == 0xFFFF) {                 \
+        if (targets == NULL || targets->entity_id == 0xFFFF) {                 \
             break;                                                      \
         }                                                               \
-        list.records[i].id = targets->id;                               \
-        list.records[i].flag = targets->part;                           \
+        list.records[i].id = targets->entity_id;                               \
+        list.records[i].flag = targets->index;                           \
         targets++;                                                      \
     }                                                                   \
     list.count = n;
 #define AIM_8022D27C()                                                  \
-    if (targets->id == 0xFFFF) {                                        \
+    if (targets->entity_id == 0xFFFF) {                                        \
         return;                                                         \
     }                                                                   \
-    ent = find_entity_by_id(targets->id);                               \
+    ent = find_entity_by_id(targets->entity_id);                               \
     if (ent == NULL) {                                                  \
         return;                                                         \
     }                                                                   \
     if (ent->bodies == NULL) {                                          \
         return;                                                         \
     }                                                                   \
-    VecCopy(&aim, &ent->bodies[targets->part].center);
+    VecCopy(&aim, &ent->bodies[targets->index].center);
 
 // This unit was built with deferred inlining, which emits functions in reverse
 // order: they are defined here from the last address to the first.
@@ -439,7 +438,7 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
     TargetCursorList list;
     void *td;
     s32 n;
-    Target_8022D27C *targets;
+    PhotonBlastTarget *targets;
     s32 i;
     TObjCollidable *ent;
     ofs.x = 0.0f;
@@ -466,11 +465,11 @@ void launch_technique(s32 tech, s32 level, TObjPlayer *pl) {
         }
     }
     td = &pl->technique_state;
-    targets = get_technique_data__10TObjPlayerFPv(td);
+    targets = pl->technique_state.get_technique_data();
     if (targets == NULL) {
         return;
     }
-    n = ((TObjPlayer *)td)->get_section_clamped();
+    n = reinterpret_cast<PlayerTechniqueState *>(td)->get_section_clamped();
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, pl->rotation_y);
     matrix_mult_vec(0, &ofs, &ofs);

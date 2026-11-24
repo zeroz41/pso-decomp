@@ -60,7 +60,6 @@ extern const char dark_falz_state_name_die_type3[] = "DIE TYPE3";
 extern const char dark_falz_state_name_ol_ending[] = "OL ENDING";
 extern "C" {
 saddr VecCopy__FP3VecPC3Vec(void*, void* a1);
-s32 obj_setArrS16_FC(void *, s32, u16);
 extern Vec dark_falz_demo5_position;
     extern int dark_falz_form_index;
 

@@ -1,9 +1,11 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyPlacement.h"
 #include <stddef.h>
 #include "types.h"
 #include "dolphin/mtx.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/enemy/EnemyMovement.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/enemy/EnemyTargetCandidate.h"
@@ -45,7 +47,6 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjControl.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/unk/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -133,8 +134,8 @@ s16 gyaranzo_flagged_resource_index_table[14] = {
     2, 3, 4, 11, 12, 0, 1, 5, 6, 7, 8, 9, 10, 0,
 };
 
-TBoss3VoloptBreakupParams gyaranzo_death_breakup_params = {
-    0x14, {0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f},
+BreakUpParamRow gyaranzo_death_breakup_params = {
+    0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f,
 };
 
 player_stats *gyaranzo_boss_stats_handle;
@@ -163,7 +164,7 @@ TBreakUpMdlData *gyaranzo_breakup_model_obj;
 
 s32 gyaranzo_missile_volley_end_time;
 
-TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, void *set_data) : TObjEnemyCustom(parent) {
+TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, EnemyPlacement *set_data) : TObjEnemyCustom(parent) {
     s32 i;
 
     m_name = TObjEneGyaranzo__class_name;
@@ -196,7 +197,7 @@ TObjEneGyaranzo::TObjEneGyaranzo(TObject *parent, void *set_data) : TObjEnemyCus
     actorFlags |= 0x40000;
     model = gyaranzo_bml_resource->models[3].model;
     texlist = gyaranzo_bml_resource->models[3].texlist;
-    if (*(s16 *)((u8 *)set_data + 0xA) != 0) {
+    if (set_data->wave != 0) {
         start_appear();
     }
     for (i = 0; i < 4; i++) {
@@ -260,7 +261,7 @@ void TObjEneGyaranzo::free_static_instances() {
 
 void *TObjEneGyaranzo::create(void *set) {
     TObjControl *control = new TObjControl((TObject *)tl_04);
-    return new TObjEneGyaranzo(control, set);
+    return new TObjEneGyaranzo(control, static_cast<EnemyPlacement *>(set));
 }
 
 void TObjEneGyaranzo::run_task() {
@@ -285,7 +286,7 @@ void TObjEneGyaranzo::run_task() {
     }
     dispatch_state_update();
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     submit_cursor_candidate(this, -1);
     minimap_render_dot(&position, -0x5DB4, 1, 0);
 }
@@ -378,7 +379,6 @@ void TObjEneGyaranzo::sub_800D37F4() {
 }
 
 #pragma push
-#pragma opt_common_subs off
 void TObjEneGyaranzo::render() {
     s32 detail;
     RenderFadeState *fade;
@@ -444,7 +444,7 @@ void TObjEneGyaranzo::run_demo_task() {  }
 
 void TObjEneGyaranzo::update_chase_target() {
     Vec node;
-    target = (u8 *)find_active_entity_by_id(targetId);
+    target = static_cast<TObjChara *>(find_active_entity_by_id(targetId));
     switch ((s32)state) {
     case 0:
         bodies->flags &= ~0x380000;
@@ -461,14 +461,14 @@ void TObjEneGyaranzo::update_chase_target() {
         }
         play_sound_effect(remap_sound_for_area(remap_sound_for_area(0x4003B209)), &position, 0, 0);
         if (target != NULL) {
-            VecCopy(&move_destination, &((TObjChara *)target)->body_center);
+            VecCopy(&move_destination, &target->body_center);
         }
         state = 1;
         break;
     case 1:
         if (target != NULL) {
-            VecCopy(&chase_destination, &((TObjChara *)target)->body_center);
-            VecCopy(&move_destination, &((TObjChara *)target)->body_center);
+            VecCopy(&chase_destination, &target->body_center);
+            VecCopy(&move_destination, &target->body_center);
         } else {
             run_idle_action();
             return;
@@ -586,7 +586,8 @@ void TObjEneGyaranzo::update_death_breakup() {
         advance_animation();
         timer--;
         if (timer < 0) {
-            TBoss3Volopt::create_breakup_mdl((saddr)gyaranzo_breakup_model_obj, (saddr)&gyaranzo_death_breakup_params, texlist, (saddr)&body_center, (s32)rotation_y);
+            TBoss3Volopt::create_breakup_mdl(gyaranzo_breakup_model_obj, &gyaranzo_death_breakup_params,
+                               texlist, &body_center, rotation_y);
             send_entity_set_flags();
             trigger_dell_biter_events(&body_center);
             play_sound_effect(remap_sound_for_area(0x4003AD10), &position, 0, 0);
@@ -629,7 +630,7 @@ void TObjEneGyaranzo::update_aim_and_fire() {
             find_target_in_range(300.0f);
         }
         if (target != NULL) {
-            Vec to_target = ((TObjChara *)target)->position;
+            Vec to_target = target->position;
             subtract_vector(&to_target, &position);
             turn = turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &to_target);
             if (__abs(turn) < 0xE38) {
@@ -688,17 +689,17 @@ void TObjEneGyaranzo::spawn_hit_fragments() {
     const TObjChipParams first = {
         0.5f, 0.04f, 0.28f, {pos.x, pos.y, pos.z}, {6.0f, 7.0f, 6.0f},
         {0x400, 0x100, 0x400}, 5, 50, position.y, 1.0f,
-        (saddr)gyaranzo_bml_resource->models[0].model, gyaranzo_bml_resource->models[0].texlist, 2,
+        gyaranzo_bml_resource->models[0].model, gyaranzo_bml_resource->models[0].texlist, 2,
     };
     const TObjChipParams second = {
         0.5f, 0.04f, 0.2f, {pos.x, pos.y, pos.z}, {5.5f, 6.5f, 5.5f},
         {0x400, 0x100, 0x400}, 4, 50, position.y, 1.0f,
-        (saddr)gyaranzo_bml_resource->models[1].model, gyaranzo_bml_resource->models[1].texlist, 2,
+        gyaranzo_bml_resource->models[1].model, gyaranzo_bml_resource->models[1].texlist, 2,
     };
     const TObjChipParams third = {
         0.5f, 0.04f, 0.22f, {pos.x, pos.y, pos.z}, {5.5f, 7.0f, 5.5f},
         {0x400, 0x100, 0x400}, 5, 50, position.y, 1.0f,
-        (saddr)gyaranzo_bml_resource->models[2].model, gyaranzo_bml_resource->models[2].texlist, 2,
+        gyaranzo_bml_resource->models[2].model, gyaranzo_bml_resource->models[2].texlist, 2,
     };
 
     new TObjChip((TObject *)tl_05, &first);
@@ -736,11 +737,11 @@ void TObjEneGyaranzo::break_off_parts() {
                     0.5f, 0.03f, 0.15f, {0.0f, 0.0f, 0.0f}, {3.5f, 5.0f, 3.5f},
                     {0x400, 0x100, 0x400}, 3, 50, 0.0f, 1.0f, 0, 0, 2,
                 };
-                p.pos[0] = node.x;
-                p.pos[1] = node.y;
-                p.pos[2] = node.z;
+                p.pos.x = node.x;
+                p.pos.y = node.y;
+                p.pos.z = node.z;
                 p.floor_y = position.y;
-                p.model = (saddr)gyaranzo_resource_ptrs[part];
+                p.model = gyaranzo_resource_ptrs[part];
                 p.textures = gyaranzo_bml_resource->models[3].texlist;
                 new TObjChip(tl_05, &p);
             }

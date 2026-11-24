@@ -2,6 +2,10 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
+#include "pso/technique/TechniqueBandSound.h"
+#include "pso/system/BmlAccessors.h"
+#include "pso/unk/text_803D96A8.h"
 // ---- pso/technique/TTecMegid
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
@@ -156,8 +160,10 @@ void mem_free(void *p);
 u32 get_technique_caster_flags(s32 technique, u16 actor);
 extern "C" {
 
-void **mem_alloc(u32, s32);
 
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(1)
 void TTecMegid::update_by_state() {
     s32 handle;
 
@@ -192,6 +198,7 @@ void TTecMegid::update_by_state() {
         break;
     }
 }
+#pragma pop
 
 typedef struct RecoveredFields_80235348_arg0 RecoveredFields_80235348_arg0;
 
@@ -212,7 +219,7 @@ void TTecMegid::spawn_particle_emitters() {
   dir.a = self->f54;
   dir.b = 0;
   dir.c = self->f5c;
-  self->emitters = mem_alloc(TTecMegid__emitter_bands[this->band].count * 4, self->f54);
+  self->emitters = static_cast<void **>(mem_alloc(TTecMegid__emitter_bands[band].count * sizeof(*self->emitters)));
   for (i = 0; i < ((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].count; i++)
   {
     mode = 0;

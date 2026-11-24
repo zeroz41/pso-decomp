@@ -1,14 +1,16 @@
-#include "pso/render/GinjaMaterialState.h"
-#include "pso/render/GinjaTextureEntryCopy.h"
+#include "pso/system/memory.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/render/GinjaTextureEntryCopy.h"
 #include "pso/effect/GroundContactSound.h"
 #include <stddef.h>
 #include "pso/object/ambient/TObjFish.h"
 #include "types.h"
+#include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/item/TItem.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/map/CsnQuery.h"
@@ -85,6 +87,7 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/frontend/TAdEnterPasswordGC.h"
 
 #pragma readonly_strings on
 
@@ -494,7 +497,7 @@ void TObjEneMe3Stelth::attack_and_unequip() {
                 TObjChara *t = current_target;
                 TItem *held;
                 if (TObjPlayer::is_locally_controlled(t) != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(t)) != 0) {
-                    TObjPlayer::send_6x26_unequip_item((void *)t, held->get_item_id());
+                    TObjPlayer::send_6x26_unequip_item((TObjPlayer *)t, held->get_item_id());
                     ((TObjPlayer *)t)->get_hand_joint_position((saddr)&hand_position);
                     spawn_particle_effect(&hand_position, 0x1D0);
                 }
@@ -1454,7 +1457,8 @@ void TObjEneMe3Stelth::state_death(s32 reason) {
             if (state_timer >= 0x14) {
                 state_step = 2;
                 behavior_flags |= 2;
-                TBoss3Volopt::create_breakup_mdl((saddr)TObjEneMe3Stelth__breakup_model, (saddr)&me3_stelth_breakup_params, texlist, (saddr)&position, (s32)rotation_y);
+                TBoss3Volopt::create_breakup_mdl(TObjEneMe3Stelth__breakup_model, &me3_stelth_breakup_params,
+                                   texlist, &position, rotation_y);
                 VecCopy((Vec *)&v, (const Vec *)&position);
                 v.x += 20.0f * sin_table_lookup(rotation_y);
                 v.z += 20.0f * cos_table_lookup(rotation_y);
@@ -1723,7 +1727,7 @@ void TObjEneMe3Stelth::setup_move() {
     }
 }
 void TObjEneMe3Stelth::draw_with_debug_info() {
-    GinjaTextureState *save[3];
+    s32 save[3];
     s32 flag;
     NJS_MOTION *motion;
     f32 frame;
@@ -1756,10 +1760,10 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
             NJS_TEXNAME *textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
             s32 i;
             for (i = 0; i < 3; i++) {
-                save[i] = textures[i].texture;
+                save[i] = textures[i].texaddr;
             }
             for (i = 0; i < 3; i++) {
-                textures[i].texture = textures[i + 3].texture;
+                textures[i].texaddr = textures[i + 3].texaddr;
             }
         }
         push_matrix();
@@ -1805,7 +1809,7 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
             s32 i;
             NJS_TEXNAME *textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
             for (i = 0; i < 3; i++) {
-                textures[i].texture = save[i];
+                textures[i].texaddr = save[i];
             }
         }
         TParticleCtrl::end_effect_render();
@@ -1997,7 +2001,8 @@ void TObjEneMe3Stelth::state_cast_barta(s32 reason) {
                 }
                 if (r < this->attack_params->attack_angle / 2 && this->current_target != NULL) {
                     if (game_difficulty_selection == 3) {
-                        ((TTecRaFoie *)this)->create(&out, (u8 *)&this->destination, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->attack_tech_level));
+        TTecRaFoie::create(this, &out, &this->destination,
+                           TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->attack_tech_level));
                     } else {
                         TTecGiFoie::create(this, &out, TObjEneDD::clamp_frame_index(TObjEneMe3Stelth__behavior_params_by_variant[this->variant_index]->attack_tech_level));
                     }

@@ -34,6 +34,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/unk/TScreenFadeIn.h"
+#include "pso/system/ControllerInput.h"
 
 
 
@@ -143,7 +144,7 @@ void TItemReverseTech::run_frame() {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::noop();
-    if (func_801A5E54__Fv() != 0) {
+    if (static_cast<s8>(func_801A5E54()) != 0) {
         TKeyBoardControl__sub_8000F92C();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {

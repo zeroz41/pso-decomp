@@ -20,7 +20,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -87,7 +86,7 @@ void TObjNpcBase::setup_common() {
     init_collision_body_parts(this, &npc_base_collision_body_desc, 1);
     register_object_by_id();
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     apply_set_params(0, 1);
 }
 
@@ -118,9 +117,9 @@ void TObjNpcBase::interact(u16 client) {
                 phase = 0;
                 interactor = client;
                 targetId = client;
-                target = (u8 *) player;
+                target = player;
                 if ((s32) targetId == local_client_id) {
-                    TObjPlayer::play_effect_default((saddr) player, -1);
+                    TObjPlayer::play_effect_default(player, -1);
                 }
                 request_action(1);
                 m_2ac = 0;
@@ -174,7 +173,7 @@ void TObjNpcBase::update_conversation() {
     Vec d;
     s32 ang;
     void *m;
-    uaddr p;
+    TObjPlayer *p;
     if (interactor != local_client_id || target == 0 || m_3a8 <= 0) {
         phase = 3;
     }
@@ -276,10 +275,10 @@ void TObjNpcBase::update_conversation() {
                 end_conversation_camera();
                 break;
             }
-            if (target != 0 && local_client_id == ((TObjBase *)(target))->get_entity_id()) {
-                p = (uaddr)get_player_by_client_id(local_client_id);
-                if (p != 0 && ((TObjPlayer *)p)->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1((saddr)p);
+            if (target != 0 && local_client_id == target->get_entity_id()) {
+                p = get_player_by_client_id(local_client_id);
+                if (p != NULL && p->check_player_flag1() != 0) {
+                    TObjPlayer::send_code_45_1(p);
                 }
             }
         }
@@ -417,7 +416,7 @@ void TObjNpcBase::refresh_target() {
             {
                 u32 id = targetId;
                 if (id != 0xFFFF) {
-                    target = (u8 *)get_player_by_client_id(id);
+                    target = get_player_by_client_id(id);
                 } else {
                     target = 0;
                 }
@@ -495,7 +494,7 @@ void TObjNpcBase::run_task() {
     }
     advance_animation();
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     if (m_3a8 > 0 && TRaderMapCore::is_not_split_screen() == 0) {
         submit_cursor_candidate((void *) this, -1);
     }

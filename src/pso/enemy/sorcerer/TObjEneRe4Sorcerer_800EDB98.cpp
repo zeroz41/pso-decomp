@@ -221,11 +221,11 @@ const char *TObjEneRe4Sorcerer__name = "TObjEneRe4Sorcerer";
 const NpcAnimationBinding re4_sorcerer_spawn_descriptor = { NULL, re4_sorcerer_action_params, 0, 0, 8 };
 }
 
-u8 *TObjEneRe4Sorcerer__base_params;
+player_stats *TObjEneRe4Sorcerer__base_params;
 
-u8 *TObjEneRe4Sorcerer__attack_params;
+AttackParams *TObjEneRe4Sorcerer__attack_params;
 
-u8 *TObjEneRe4Sorcerer__resistance_params;
+ActorParamBlock *TObjEneRe4Sorcerer__resistance_params;
 
 s32 *sorcerer_behavior_params;
 
@@ -255,9 +255,9 @@ void TObjEneRe4Sorcerer::load_resources() {
     } else {
         sorcerer_bml_resource = (BmlResource *)load_enemy_bml_resource(&bm_ene_re4_sorcerer_resource_descriptor);
     }
-    TObjEneRe4Sorcerer__base_params = (u8 *)TLobby::register_boss(0xA);
-    TObjEneRe4Sorcerer__attack_params = (u8 *)TLobby::dispatch_shared_handler_b(0xA);
-    TObjEneRe4Sorcerer__resistance_params = (u8 *)TLobby::register_object(0xA);
+    TObjEneRe4Sorcerer__base_params = TLobby::register_boss(0xA);
+    TObjEneRe4Sorcerer__attack_params = TLobby::dispatch_shared_handler_b(0xA);
+    TObjEneRe4Sorcerer__resistance_params = TLobby::register_object(0xA);
     sorcerer_behavior_params = (s32 *)TLobby::dispatch_shared_handler_a(0xA);
     TObjEneRe4Sorcerer__render_node_index = 0;
     TObjEneRe4Sorcerer__saved_render_flags = 0;
@@ -313,7 +313,7 @@ void TObjEneRe4Sorcerer::init_enemy() {
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    reset_hp(reinterpret_cast<player_stats *>(TObjEneRe4Sorcerer__base_params), reinterpret_cast<AttackParams *>(TObjEneRe4Sorcerer__attack_params), reinterpret_cast<ActorParamBlock *>(TObjEneRe4Sorcerer__resistance_params));
+    reset_hp(TObjEneRe4Sorcerer__base_params, TObjEneRe4Sorcerer__attack_params, TObjEneRe4Sorcerer__resistance_params);
     set_state_8();
     movementParameters = &re4_sorcerer_init_params;
     initialize_enemy_state(0x1F);
@@ -428,8 +428,8 @@ void TObjEneRe4Sorcerer::update_body_colliders() {
 
 void TObjEneRe4Sorcerer::sub_800EFE30() {  }
 
-u8 *TObjEneRe4Sorcerer::move_xz_on_ground(u8 *dest) {
-    u8 *ground = TObjEneDD::move_xz_on_ground(dest);
+CsnHit *TObjEneRe4Sorcerer::move_xz_on_ground(const Vec *dest) {
+    CsnHit *ground = TObjEneDD::move_xz_on_ground(dest);
     if (ground == NULL) {
         this->behavior_flags &= ~0x10;
     } else {
@@ -438,8 +438,8 @@ u8 *TObjEneRe4Sorcerer::move_xz_on_ground(u8 *dest) {
     return ground;
 }
 
-u8 *TObjEneRe4Sorcerer::update_ground_contact() {
-    u8 *ground = TObjEneDD::update_ground_contact();
+CsnHit *TObjEneRe4Sorcerer::update_ground_contact() {
+    CsnHit *ground = TObjEneDD::update_ground_contact();
     if (ground == NULL) {
         this->behavior_flags &= ~0x10;
     } else {
@@ -1319,7 +1319,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 mode) {
     case 0:
         advance_animation();
         if (fade.decay_value_toward_floor() != 0) {
-            TObjPlayer::apply_effect_variant_b((saddr)&position, 0);
+            TObjPlayer::apply_effect_variant_b(&position, 0);
             queue_destruction();
         }
     case 3:

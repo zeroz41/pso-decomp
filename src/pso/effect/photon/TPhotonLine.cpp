@@ -54,7 +54,7 @@ void TPhotonLine::run_task() {
                 }
             }
             if (j == hit_count) {
-                hit_ids[hit_count++] = player->get_entity_id();
+                hit_ids[hit_count++] = player->get_entity_id(); // Retail records the ninth ID before stopping hit dispatch.
                 if ((s32)hit_count >= 9) {
                     break;
                 }

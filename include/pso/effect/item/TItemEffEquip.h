@@ -46,5 +46,7 @@ public:
     s32 next_particle_id;  // spawned by release_effect, -1 for none
 };
 LAYOUT_ASSERT(TItemEffEquip_size, sizeof(TItemEffEquip) == 0x28);
-
+LAYOUT_ASSERT(TItemEffEquip_attachment_offset, offsetof(TItemEffEquip, anchor) == 0x1c);
+LAYOUT_ASSERT(TItemEffEquip_effect_offset, offsetof(TItemEffEquip, particle) == 0x20);
+LAYOUT_ASSERT(TItemEffEquip_next_effect_id_offset, offsetof(TItemEffEquip, next_particle_id) == 0x24);
 #endif

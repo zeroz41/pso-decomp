@@ -4,7 +4,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "types.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
@@ -74,7 +73,6 @@ extern const Vec beast_zero_vector = { 0.0f, 0.0f, 0.0f };
 
 
 // TObjPlayer member defined in TObjControl.cpp with no declaration in TObjPlayer.h.
-extern "C" s32 link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
 
 void TUnk_80493450::select_move_speed() {
     if (test_actor_flags(0x100000) != 0) {
@@ -206,7 +204,7 @@ void TUnk_80493450::beast_update_attack() {
     if (targetId < 0x1000) {
         TObjPlayer *player = get_player_by_client_id(targetId);
         if (player != NULL && player->get_floor() == get_current_floor()) {
-            target = (u8 *)player;
+            target = player;
         } else {
             target = NULL;
         }
@@ -221,9 +219,9 @@ void TUnk_80493450::beast_update_attack() {
         phase = 1;
     case 1:
         if (is_passing_frame(BEAST_ATTACK_HIT_FRAME) != 0) {
-            if (target != NULL && ((TObjChara *)target)->select_melee_contact_body(this, BEAST_ATTACK_SCALE) != 0) {
-                ((TObjChara *)target)->receive_physical_attack(this, BEAST_ATTACK_SCALE);
-                ((TObjChara *)target)->apply_knockback_from_attacker((u8 *)this, BEAST_ATTACK_KNOCKBACK);
+            if (target != NULL && target->select_melee_contact_body(this, BEAST_ATTACK_SCALE) != 0) {
+                target->receive_physical_attack(this, BEAST_ATTACK_SCALE);
+                target->apply_knockback_from_attacker((u8 *)this, BEAST_ATTACK_KNOCKBACK);
             }
             play_attack_sound();
         }
@@ -327,7 +325,7 @@ void TUnk_80493450::beast_update_group_chase() {
         break;
     }
     if (target != NULL) {
-        d = enemy_backstep_from_point(this, ((TObjChara *)target)->body_center, far_move_speed);
+        d = enemy_backstep_from_point(this, target->body_center, far_move_speed);
         turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, &velocity);
         r = far_move_speed + bodies->radius;
         if (d < r * r) {
@@ -362,11 +360,11 @@ void TUnk_80493450::beast_update_approach() {
                 if (home_chase_frames++ < BEAST_HOME_CHASE_FRAME_COUNT) {
                     VecCopy(&dest, &home_position);
                 } else {
-                    VecCopy(&dest, &((TObjChara *)target)->body_center);
+                    VecCopy(&dest, &target->body_center);
                 }
             } else {
                 home_chase_frames = 0;
-                VecCopy(&dest, &((TObjChara *)target)->body_center);
+                VecCopy(&dest, &target->body_center);
             }
             update_target_near_flag();
             select_move_speed();
@@ -403,7 +401,7 @@ void TUnk_80493450::update_turn_toward_target() {
     case 1:
         if (target != NULL && is_actor_cadence_frame(0x1E) != 0) {
             Vec d;
-            VecCopy(&d, &((TObjChara *)target)->body_center);
+            VecCopy(&d, &target->body_center);
             subtract_vector(&d, &body_center);
             ang = turn_toward_direction(((BeastMovementParams *)movementParameters)->turnSpeed, &d);
             if (d.x * d.x + d.z * d.z < BEAST_GROUP_APPROACH_DISTANCE_SQ || children == 0) {
@@ -419,7 +417,7 @@ void TUnk_80493450::update_turn_toward_target() {
     case 2:
         if (target != NULL && is_actor_cadence_frame(0x1E) != 0) {
             Vec d;
-            VecCopy(&d, &((TObjChara *)target)->body_center);
+            VecCopy(&d, &target->body_center);
             subtract_vector(&d, &body_center);
             ang = angle_difference_abs(rotation_y, (s32)(BEAST_ANGLE_UNITS_PER_RADIAN * atan2_float(d.x, d.z)));
             if (d.x * d.x + d.z * d.z < BEAST_GROUP_APPROACH_DISTANCE_SQ || children == 0) {
@@ -486,18 +484,18 @@ void TUnk_80493450::beast_idle_update() {
     if (phase != 1) {
         phase = 1;
         link_into_group_chain();
-        in_group = ((TObjPlayer *)this)->is_action_available();
+        in_group = has_group();
     }
     child_count = countChildren();
     other = (TUnk_80493450 *)next;
     if (other != NULL) {
         diff = other->child_count - child_count;
         if (diff > 1) {
-            link_chain_nodes__10TObjPlayerFPvPvPv(this, other, this);
+            link_chain_nodes(other, this);
             child_count = child_count + 1;
             other->child_count = other->child_count - 1;
         } else if (diff < -1) {
-            link_chain_nodes__10TObjPlayerFPvPvPv(this, this, other);
+            link_chain_nodes(this, other);
             child_count = child_count - 1;
             other->child_count = other->child_count + 1;
         }
@@ -662,7 +660,7 @@ void TUnk_80493450::refresh_target() {
     if (targetId < 0x1000) {
         TObjPlayer *p = get_player_by_client_id(targetId);
         if (p != NULL && p->get_floor() == get_current_floor()) {
-            target = (u8 *)p;
+            target = p;
         } else {
             target = NULL;
         }
@@ -732,7 +730,7 @@ void TUnk_80493450::run_task() {
         break;
     }
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     submit_cursor_candidate(this, -1);
     frame_timer += BEAST_FRAME_INCREMENT;
 }

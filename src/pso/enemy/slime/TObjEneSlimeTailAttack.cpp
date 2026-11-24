@@ -1,16 +1,16 @@
 #include "pso/system/PersistentSound.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/npc/NpcModelRegistry.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/enemy/EnemyTargeting.h"
-#include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 
 struct NJS_OBJECT;
 #include "pso/enemy/slime/TObjEneSlime.h"
-#include "pso/npc/NpcModelRegistry.h"
 #include "pso/enemy/slime/SlimeAnimationState.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/object/base/TObjChara.h"
@@ -109,21 +109,34 @@ extern "C" {
 BmlResource *slime_bml_resource;
 int slime_tail_node_index;  // capture_slime_tail_node's count of the nodes drawn
 
-extern void *slime_model_name_ptr_table[7];
-extern void *bm4_ps_ma_body_motion_names[15];
-
-void *slime_model_name_ptr_table[7] = {
-    (void *)&slime_tail_model_name_bm4_ps_ma_body_nj, (void *)&slime_tail_model_name_bm4_ps_ma_tail_nj, (void *)&slime_tail_model_name_bm4_ps_mar_body_nj, (void *)&slime_tail_model_name_bm4_ps_mar_tail_nj,
-    (void *)&slime_tail_model_name_bm4_ps_mb_body_nj, (void *)&slime_tail_model_name_bm4_ps_mbr_body_nj, (void *)0x0,
+const char *slime_model_name_ptr_table[7] = {
+    slime_tail_model_name_bm4_ps_ma_body_nj,
+    slime_tail_model_name_bm4_ps_ma_tail_nj,
+    slime_tail_model_name_bm4_ps_mar_body_nj,
+    slime_tail_model_name_bm4_ps_mar_tail_nj,
+    slime_tail_model_name_bm4_ps_mb_body_nj,
+    slime_tail_model_name_bm4_ps_mbr_body_nj,
+    NULL,
 };
-void *bm4_ps_ma_body_motion_names[15] = {
-    (void *)&slime_tail_motion_name_apear_bm4_ps_mb_body_njm, (void *)&slime_tail_motion_name_apper_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_atack_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_damage_bm4_ps_ma_body_njm,
-    (void *)&slime_tail_motion_name_kie_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_kie_bm4_ps_mb_body_njm, (void *)&slime_tail_motion_name_move_bm4_ps_mb_body_njm, (void *)&slime_tail_motion_name_move_bm4_ps_mb_body_njs,
-    (void *)&slime_tail_motion_name_nodam_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_tlatk_bm4_ps_ma_tail_njm, (void *)&slime_tail_motion_name_wait_bm4_ps_ma_body_njm, (void *)&slime_tail_motion_name_wait_bm4_ps_mb_body_njm,
-    (void *)&slime_tail_motion_name_wait_bm4_ps_mb_body_njs, (void *)&slime_tail_motion_name_wait2_bm4_ps_ma_body_njm, (void *)0x0,
+const char *bm4_ps_ma_body_motion_names[15] = {
+    slime_tail_motion_name_apear_bm4_ps_mb_body_njm,
+    slime_tail_motion_name_apper_bm4_ps_ma_body_njm,
+    slime_tail_motion_name_atack_bm4_ps_ma_body_njm,
+    slime_tail_motion_name_damage_bm4_ps_ma_body_njm,
+    slime_tail_motion_name_kie_bm4_ps_ma_body_njm,
+    slime_tail_motion_name_kie_bm4_ps_mb_body_njm,
+    slime_tail_motion_name_move_bm4_ps_mb_body_njm,
+    slime_tail_motion_name_move_bm4_ps_mb_body_njs,
+    slime_tail_motion_name_nodam_bm4_ps_ma_body_njm,
+    slime_tail_motion_name_tlatk_bm4_ps_ma_tail_njm,
+    slime_tail_motion_name_wait_bm4_ps_ma_body_njm,
+    slime_tail_motion_name_wait_bm4_ps_mb_body_njm,
+    slime_tail_motion_name_wait_bm4_ps_mb_body_njs,
+    slime_tail_motion_name_wait2_bm4_ps_ma_body_njm,
+    NULL,
 };
-void *slime_pair_resource_descriptor[4] = {
-    (void *)&bm4_ps_ma_body_bml_filename, (void *)&slime_model_name_ptr_table, (void *)&bm4_ps_ma_body_motion_names, (void *)0x6000e,
+BmlResourceDescriptor slime_pair_resource_descriptor = {
+    bm4_ps_ma_body_bml_filename, slime_model_name_ptr_table, bm4_ps_ma_body_motion_names, 6, 14,
 };
 __declspec(section ".data") void *slime_debug_label_table[2] = {
     (void *)&slime_type_label_blue, (void *)slime_type_label_red,
@@ -258,11 +271,11 @@ s32 TObjEneSlime::create(saddr set_data) {
 }
 
 void TObjEneSlime::spawn_pair() {
-    BmlResource *resource = new BmlResource(1, (BmlResourceDescriptor *)slime_pair_resource_descriptor, 0, 0, NULL);
+    BmlResource *resource = new BmlResource(1, &slime_pair_resource_descriptor, NULL, NULL, NULL);
     slime_bml_resource = resource;
     BmlModelEntry *models = resource->models;
     NpcModelRegistry::register_chunk(0x28, models[4].model, models[4].texlist, 10.0f, 0.0f);
-    models = static_cast<BmlResource *>(slime_bml_resource)->models;
+    models = slime_bml_resource->models;
     NpcModelRegistry::register_chunk(0x29, models[5].model, models[5].texlist, 10.0f, 0.0f);
 }
 
@@ -277,7 +290,7 @@ TObjEneSlime::TObjEneSlime(TObject *parent, u8 *set_data) : TObjEnemy(parent) {
     m_name = TObjEneSlime__name;
     apply_set_data(set_data);
     clear_lobby_object_state();
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     copy_set_entry(&spawn_template, set_data);
     child_limit = *(s16 *)(set_data + 2);
     if (child_limit < 1) {
@@ -503,7 +516,7 @@ TObjEneSlimeOne::TObjEneSlimeOne(TObject *parent, TObjEneSlime *owner, void *set
 
 void TObjEneSlimeOne::initialize_slime_instance_state() {
     TObjEneSlimeOne *actor = this;
-    actor->model_archive = reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance());
+    actor->model_archive = TObjEneSlimeOne::get_instance();
     if (actor->random_ratio() < 0.002f || (actor->state36C & 1)) {
         actor->variant = 1;
     } else {
@@ -533,7 +546,7 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
                                       TLobby::register_object(0x34));
     }
     actor->referenceHp = actor->hp;
-    reinterpret_cast<TBoss3Volopt *>(actor)->reset_photon_effect();
+    actor->register_by_id();
     actor->movementParameters = NULL;
     if (*variant == 0) {
         actor->set_param(0x13);
@@ -912,7 +925,7 @@ void TObjEneSlimeOne::update_scan() {
             direction.x = 1.0f;
             direction.y = 0.0f;
             direction.z = 0.0f;
-            TObjPlayer::calc_distance_to_client((saddr)this, this->target_client_id, &direction);
+            TObjPlayer::calc_distance_to_client(this, this->target_client_id, &direction);
             this->rotation_y = approach_angle_limited(this->rotation_y, (s32)(10430.38043493439 * atan2_float(direction.x, direction.z)), 0x280);
         }
         if (this->state_timer > n) {
@@ -965,7 +978,7 @@ void TObjEneSlimeOne::update_approach() {
     v.y = 0.0f;
     v.z = 0.0f;
     if (target_client_id != 0xFFFF) {
-        TObjPlayer::calc_distance_to_client((saddr)this, (u16)target_client_id, &v);
+        TObjPlayer::calc_distance_to_client(this, static_cast<u16>(target_client_id), &v);
     }
     t = (s32) (10430.38043493439 * atan2_float(v.x, v.z));
     rotation_y = approach_angle_limited(rotation_y, t, 0x200);
@@ -1417,7 +1430,7 @@ TObjEneSlimeTailAttack::TObjEneSlimeTailAttack(TObject *parent, const Vec *posit
     : TObjEnemy(parent) {
     m_name = TObjEneSlimeTailAttack__name;
     this->owner = owner;
-    BmlResource *resource = reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance());
+    BmlResource *resource = TObjEneSlimeOne::get_instance();
     u32 id = slime_tail_model_by_target[this->owner->get_attack_target()];
     texlist = get_bml_texlist(resource, id);
     model = (void *)get_bml_model(resource, id);

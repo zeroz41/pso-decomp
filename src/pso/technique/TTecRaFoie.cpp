@@ -378,8 +378,8 @@ void TTecRaFoie::update_detonation(void *pos) {
     queue_destruction();
 }
 
-void TTecRaFoie::create(void *origin, void *pos, s32 level) {
-    new TTecRaFoie((saddr)this, (Vec *)origin, (Vec *)pos, level);
+void TTecRaFoie::create(TObject *source, Vec *origin, Vec *pos, s32 level) {
+    new TTecRaFoie((saddr)source, origin, pos, level);
 }
 
 void TTecRaFoie::create_ex(void *source, void *origin, void *targets, s32 level) {

@@ -85,7 +85,7 @@ TNeedleShoot::~TNeedleShoot() {
     if (this->collider != NULL) { free_collision_body_parts(this->collider); this->collider = 0; }
 }
 
-TNeedleShoot::TNeedleShoot(s32 owner, Vec *from, Vec *to) : TObject(tl_06) {
+TNeedleShoot::TNeedleShoot(TObjBase *owner, Vec *from, Vec *to) : TObject(tl_06) {
     f32 dx;
     f32 dz;
     f32 dy;
@@ -131,4 +131,4 @@ TNeedleShoot::TNeedleShoot(s32 owner, Vec *from, Vec *to) : TObject(tl_06) {
 
 void TNeedleShoot::on_wall_hit() { TObject::queue_destruction(); }
 void TNeedleShoot::queue_destruction() { TObject::queue_destruction(); }
-void TNeedleShoot::on_target_hit(void *) {  }
+void TNeedleShoot::on_target_hit(TObjCollidable *) {  }

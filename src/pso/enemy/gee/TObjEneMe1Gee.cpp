@@ -379,8 +379,8 @@ void TObjEneMe1Gee::calc_position(Vec *out) {
     vec3_add_to(out, &this->position);
 }
 #pragma pop
-u8 *TObjEneMe1Gee::move_xz_on_ground(u8 *dest) {
-    u8 *ground = TObjEneDD::move_xz_on_ground(dest);
+CsnHit *TObjEneMe1Gee::move_xz_on_ground(const Vec *dest) {
+    CsnHit *ground = TObjEneDD::move_xz_on_ground(dest);
     if (ground == NULL) {
         this->status_flags &= 0xFEFFFFFF;
     } else {
@@ -427,7 +427,7 @@ void TObjEneMe1Gee::hover_toward(f32 height) {
     this->approach_hover_y(height);
     VecCopy(&pos, &this->position);
     pos.y = this->hover_y;
-    this->move_xz_on_ground((u8 *)&pos);
+    this->move_xz_on_ground(&pos);
 }
 
 void TObjEneMe1Gee::update_hover_height() {
@@ -443,7 +443,7 @@ void TObjEneMe1Gee::climb_toward(f32 height) {
     this->climb_hover_y(height);
     VecCopy(&pos, &this->position);
     pos.y = this->hover_y;
-    this->move_xz_on_ground((u8 *)&pos);
+    this->move_xz_on_ground(&pos);
 }
 
 void TObjEneMe1Gee::climb_to_hover_height() {
@@ -1665,7 +1665,8 @@ void TObjEneMe1Gee::state_dead(s32 msg) {
             this->leader = (TObjEneMe1Gee *)find_entity_by_id(this->leader_id);
             this->leader->remove_member(this);
         }
-        TBoss3Volopt::create_breakup_mdl((saddr)gee_breakup_model, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);
+        TBoss3Volopt::create_breakup_mdl(gee_breakup_model, NULL,
+                           this->texlist, &this->body_center, this->rotation_y);
         play_sound_effect(this->handle_message(0x3A843), &this->position, 0, 0);
         this->status_flags |= 0x400000;
         this->actorFlags |= 0x01000000;
@@ -2153,7 +2154,8 @@ void TObjEneMe1GeeLeader::state_rise(s32 msg) {
 void TObjEneMe1GeeLeader::state_dead(s32 msg) {
     switch (msg) {
     case 4:
-        TBoss3Volopt::create_breakup_mdl((saddr)gee_leader_breakup_model, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);
+        TBoss3Volopt::create_breakup_mdl(gee_leader_breakup_model, NULL,
+                           this->texlist, &this->body_center, this->rotation_y);
         this->status_flags |= 0x400000;
         refresh_lobby_state();
         return;

@@ -1,3 +1,5 @@
+#include "pso/system/MatrixStack.h"
+#include "pso/system/memory.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -23,7 +25,7 @@
 
 struct Col_802E6CB0 { f32 a; f32 b; f32 c; f32 d; };
 
-struct Part_802E6CB0 { u8 pad0[0x18]; s32 f18; u8 pad1c[4]; s32 f20; f32 f24; s32 type; };
+struct Part_802E6CB0 { Vec pos; u8 pad0[0xC]; s32 f18; u8 pad1c[4]; s32 f20; f32 f24; s32 type; };
 
 struct Node_802E6CB0 { u8 pad0[4]; void *model; u8 pad8[0x28]; Node_802E6CB0 *next; };
 
@@ -39,7 +41,7 @@ struct Part_802E6F10 {
 
 struct Col_802E708C { f32 a; f32 b; f32 c; f32 d; };
 
-struct Part_802E708C { u8 pad0[0x18]; u8 rot[0xC]; f32 f24; s32 type; };
+struct Part_802E708C { Vec pos; u8 pad0[0xC]; s32 rot[3]; f32 f24; s32 type; };
 
 struct Node_802E708C { u8 pad0[4]; void *model; u8 pad8[0x24]; Node_802E708C *child; Node_802E708C *next; };
 
@@ -66,7 +68,6 @@ extern const f32 lbl_805DEA04;
 s32 rotate_matrix_z(int, s32);
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, s32);
-s32 post_translate_matrix(void *);
 void set_chunk_material_override_pair(s32 first, s32 second);
 f32 lerp__9TDeadSpotFff(f32, f32);
 f32 rand_signed_unit();
@@ -78,8 +79,6 @@ extern const f32 lbl_805DE9D4;
 extern const f32 lbl_805DE9D8;
 extern const f32 lbl_805DE9DC;
 extern const f32 lbl_805DE9E0;
-s32 rotate_matrix_by_node_angles(void *, int);
-s32 scale_current_matrix(Vec *);
 extern Col_802E708C lbl_80472C80;
 extern Vec lbl_80472C90;
 extern const f32 lbl_805DE9F8;
@@ -256,9 +255,9 @@ void TBoss7JointBreakUp::render() {
     TObjPlayer::draw_effect();
     for (node = node->child; node != NULL; node = node->next) {
         push_matrix();
-        post_translate_matrix(part);
+        post_translate_matrix(&part->pos.x);
         rotate_matrix_by_node_angles(part->rot, 0);
-        scale_current_matrix(&s);
+        scale_current_matrix(&s.x);
         switch (part->type) {
         case 0:
         case 1:
@@ -293,7 +292,7 @@ TBoss7BodyBreakUp::TBoss7BodyBreakUp(TObject *parent, GC_Mtx *matrices) : TBoss7
     part = (Part_802E6F10 *)pieces;
     push_matrix();
     set_matrix_identity(0);
-    TObjPlayer::concat_matrix(0, (uaddr)this->matrices);
+    concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(this->matrices));
     pivot.z = pivot.y = pivot.x = lbl_805DE9CC;
     matrix_mult_vec(0, &pivot, &pivot);
     for (i = 0; i < count; i++) {
@@ -341,11 +340,11 @@ void TBoss7BodyBreakUp::render() {
     push_matrix();
     for (i = 0; i < count; i++) {
         push_matrix();
-        post_translate_matrix(part);
+        post_translate_matrix(&part->pos.x);
         rotate_matrix_z(0, part->f20);
         rotate_matrix_x(0, part->f18);
         translate_matrix(0, -pivot.x, -pivot.y, -pivot.z);
-        TObjPlayer::concat_matrix(0, (uaddr)matrices);
+        concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrices));
         switch (part->type) {
         case 0:
         case 1:

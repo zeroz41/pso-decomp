@@ -53,8 +53,8 @@ s32 lbl_805D4BE4;
 BmlResource *boss2_common_resource;
 NJS_TEXLIST *boss2_common_texture_list;
 __declspec(section ".sdata2") const f32 boss2_tunnel_max_scroll_speed = 9.259259f;
-void *TObjBoss2CeilJunk::create(void *position) {
-    return new TObjBoss2CeilJunk(tl_05, (const Vec *)position);
+TObjBoss2CeilJunk *TObjBoss2CeilJunk::create(const Vec *position) {
+    return new TObjBoss2CeilJunk(tl_05, position);
 }
 
 

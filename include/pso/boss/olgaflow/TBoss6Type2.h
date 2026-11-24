@@ -17,6 +17,7 @@ struct CollisionBody;
 struct AnimationMotion;
 struct TBoss6Mag;
 struct TBoss6MagSpawnParams;
+class TBoss6DPB;
 struct TBoss6Type1;
 struct TBoss6EffFlowSoul;
 struct TBoss6PlotFalz;
@@ -72,10 +73,12 @@ struct Boss6PlayerLook {
 
 void copy_texlist(NJS_TEXLIST *dst, NJS_TEXLIST *src);
 
+struct Boss6BodySpawnParams;
+
 struct TBoss6Type2 : public TObjEnemy
 {
     void update_collision_bodies();
-    TBoss6Type2(TObject *parent, saddr *params);
+    TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params);
     virtual ~TBoss6Type2();
     virtual void run_task();
     virtual void render();
@@ -184,7 +187,7 @@ struct TBoss6Type2 : public TObjEnemy
     void request_player_camera_offsets(f32 a, f32 b);
     void init_parts();
     s32 turn_toward_target_position();
-    static u8 *create_dpb(saddr parent, saddr position, f32 radius);
+    static TBoss6DPB *create_dpb(TObject *parent, const Vec *position, f32 radius);
     s32 get_phase();
     static s32 is_player_in_rock_area(u16 client_id);
     void spawn_hit_effects();
@@ -253,7 +256,7 @@ struct TBoss6Type2 : public TObjEnemy
     void update_action_state();
     void send_action_packet_if_idle(s32 action, Boss6GridBytes *grid);
     void parse_action_packet(OlgaFlowType2ActionMsg *packet);
-    static TBoss6Type2 *create(saddr arg0);
+    static TBoss6Type2 *create(Boss6BodySpawnParams *params);
     void draw();
     void select_action();
     void update_zako_timer();

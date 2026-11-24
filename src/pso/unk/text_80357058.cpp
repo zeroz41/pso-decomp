@@ -1,3 +1,4 @@
+#include "pso/math/ClampedStep.h"
 #include "pso/system/TrailStrip.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/network/protocol/protocol_types.h"
@@ -208,9 +209,9 @@ void TItemEffOrgaFlowShot::run_task() {
         queue_destruction();
         disallow_rendering();
     }
-    TItemEffOrgaFlowShot::approach_value(&length, 50.0f, max_length);
+    ::approach_value(&length, 50.0f, max_length);
     if (length == max_length) {
-        TItemEffOrgaFlowShot::approach_value(&spread, 0.6f, max_spread);
+        ::approach_value(&spread, 0.6f, max_spread);
     }
     for (i = 0; i != 10; i++) {
         TObjBoss2Tunnel::decrement_packed_timer((u32 *)(&((O_8035740C *)this)->v[i].w), 2);

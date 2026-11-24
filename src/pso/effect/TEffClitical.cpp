@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/technique/TTecCtrl.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/TEffClitical.h"
 #include "pso/render/MaterialColorFade.h"
@@ -47,7 +48,7 @@ void TEffClitical::render() {
     set_constant_material(&color);
     copy_anim_frame_to_slot(&slot);
     push_matrix();
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(&clitical_texture_list));
+    TObjFish::set_global_param(&clitical_texture_list);
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     scale_matrix(0, scale.x, scale.y, scale.z);

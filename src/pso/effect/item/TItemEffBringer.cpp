@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/unk/text_803D96A8.h"
 #include "pso/effect/item/TItemEffBringer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/vector.h"
@@ -13,6 +12,9 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixStack.h"
 
 const char *TItemEffBringer::class_name = "TItemEffBringer";
 
@@ -29,8 +31,6 @@ TItemEffBringer::~TItemEffBringer() {
         TParticleCtrl::release(particles[i]);
     }
 }
-
-#include "pso/player/TObjPlayer.h"
 
 #pragma push
 #pragma fp_contract on

@@ -43,7 +43,7 @@
 #include "pso/unk/text_800FFE04.h"
 #include "pso/system/TLoadCtrl.h"
 #include "pso/unk/TLobby_803382E4.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
+#include "pso/system/ControllerInput.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -992,54 +992,43 @@ loop_1:
     }
 }
 
-typedef struct {
-    f32 *pos;
-    s32 *ids;
-    s32 a;
-    s32 n;
-} Desc_800F8FB8;
-
 s32 DVDGetDriveStatus(void);
 
-s8 func_801A5E54__Fv(void);
 s32 DVDCheckDisk(void);
 
 #define disk_error_msg_last ((Msg_800F8FB8 *)disk_error_msg_last)
 #define show_msg_800F8FB8(arr, i) draw_menu_text(arr[i].x, arr[i].y, arr[i].str, 0x8FFFFFFF)
 
-#pragma push
-#pragma dont_inline off
-#pragma inline_depth(4)
 s32 TLobby::run_disk_error_check() {
-    f32 pos[8];
-    Desc_800F8FB8 d;
-    s32 ids[4];
+    NJS_POINT2 pos[4];
+    NJS_POINT2COL d;
+    NJS_COLOR colors[4];
     s32 status;
-    Desc_800F8FB8 *pd = &d;
+    NJS_POINT2COL *pd = &d;
 
     set_color_blending_mode(0, 8);
     set_color_blending_mode(1, 6);
-    d.pos = pos;
-    d.ids = ids;
-    d.a = 0;
-    d.n = 4;
-    pd->pos[0] = (0.0f);
-    pd->pos[1] = (0.0f);
-    pd->ids[0] = -1;
-    pd->pos[2] = (6.4e+02f);
-    pd->pos[3] = (0.0f);
-    pd->ids[1] = -1;
-    pd->pos[4] = (6.4e+02f);
-    pd->pos[5] = (4.8e+02f);
-    pd->ids[2] = -1;
-    pd->pos[6] = (0.0f);
-    pd->pos[7] = (4.8e+02f);
-    pd->ids[3] = -1;
+    d.p = pos;
+    d.col = colors;
+    d.tex = NULL;
+    d.num = 4;
+    pd->p[0].x = (0.0f);
+    pd->p[0].y = (0.0f);
+    pd->col[0].color = -1;
+    pd->p[1].x = (6.4e+02f);
+    pd->p[1].y = (0.0f);
+    pd->col[1].color = -1;
+    pd->p[2].x = (6.4e+02f);
+    pd->p[2].y = (4.8e+02f);
+    pd->col[2].color = -1;
+    pd->p[3].x = (0.0f);
+    pd->p[3].y = (4.8e+02f);
+    pd->col[3].color = -1;
     set_depth_buffer_settings_1();
-    draw_polygon_2d((NJS_POINT2COL *)&d, 4, 0x12, (-0.9f));
+    draw_polygon_2d(&d, 4, 0x12, (-0.9f));
     status = DVDGetDriveStatus();
     TCameraCtrl::restore_full_screen_view();
-    if (DVDCheckDisk() == 0 && (TKeyBoardControl::check_reset_button() != 0 || func_801A5E54__Fv() != 0)) {
+    if (DVDCheckDisk() == 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0)) {
         reset_system();
     }
     switch (status) {
@@ -1054,7 +1043,7 @@ s32 TLobby::run_disk_error_check() {
         break;
     case 1:
         controller_stuff();
-        if ((*(int *)&pending_file_read_flush_requested) != 0 && (TKeyBoardControl::check_reset_button() != 0 || func_801A5E54__Fv() != 0)) {
+        if ((*(int *)&pending_file_read_flush_requested) != 0 && (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0)) {
             system_reset();
         }
         break;
@@ -1067,7 +1056,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_msg_800F8FB8(disk_error_msg_table, 1);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || func_801A5E54__Fv() != 0) {
+        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
             system_reset();
         }
         break;
@@ -1082,7 +1071,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_msg_800F8FB8(disk_error_msg_table, 2);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || func_801A5E54__Fv() != 0) {
+        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
             system_reset();
         }
         break;
@@ -1095,7 +1084,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_msg_800F8FB8(disk_error_msg_table, 3);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || func_801A5E54__Fv() != 0) {
+        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
             system_reset();
         } else {
             TLobby__sub_800F8DD8();
@@ -1109,7 +1098,7 @@ s32 TLobby::run_disk_error_check() {
         } else {
             show_msg_800F8FB8(disk_error_msg_table, 4);
         }
-        if (TKeyBoardControl::check_reset_button() != 0 || func_801A5E54__Fv() != 0) {
+        if (TKeyBoardControl::check_reset_button() != 0 || static_cast<s8>(func_801A5E54()) != 0) {
             system_reset();
         } else {
             TLobby__sub_800F8DD8();
@@ -1126,7 +1115,6 @@ s32 TLobby::run_disk_error_check() {
     }
     return 1;
 }
-#pragma pop
 
 #pragma pop
 
@@ -1158,16 +1146,16 @@ saddr TItemDrop__sub_800F9448(saddr data, s32 size) {
     return 0;
 }
 
-saddr load_relocatable_file(saddr name, saddr buffer) {
+void *load_relocatable_file(const char *name, void *buffer) {
     TUnk_8049C658 file;
-    s32 size = read_disc_file((const char *)name, (void *)buffer);
+    s32 size = read_disc_file(name, buffer);
 
     if (size > 0) {
         file.size = size;
-        file.data = (u8 *)buffer;
-        return (saddr)apply_rel_relocations(&file);
+        file.data = static_cast<u8 *>(buffer);
+        return apply_rel_relocations(&file);
     }
-    return 0;
+    return NULL;
 }
 
 void free_data_file(void *p) { safe_free(p); }
@@ -1452,7 +1440,7 @@ void TLobby::run_frame() {
         fn_801E2C50();
     }
     restore_saved_depth_alpha_state();
-    if (func_801A5E54__Fv() != 0) {
+    if (static_cast<s8>(func_801A5E54()) != 0) {
         TLobby__sub_800F8AD0();
     }
     TLobby__sub_803382E4();

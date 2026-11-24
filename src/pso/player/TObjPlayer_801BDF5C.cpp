@@ -1,3 +1,5 @@
+#include "pso/player/PhotonBlastRequests.h"
+#include "pso/player/PlayerState.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/item/TItem.h"
@@ -16,7 +18,6 @@
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/player/TObjPlayer_801BE1C0.h"
-#include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/unk/text_801BE104.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/TPlyCharData.h"
@@ -52,14 +53,14 @@ TObjPlayer *create_player_object(s32 slot, s32 role, TPlyCharData *record) {
 extern "C" {
 
 
-uaddr TObjPlayer__shared_photon_blast_state;
+PhotonBlastRegistry *TObjPlayer__shared_photon_blast_state;
 s32 lobby_player_count;
 extern uaddr TObjPlayer__shared_model_buffer;
 
 void TObjPlayer::free_shared_data() {
-    if ((u32) TObjPlayer__shared_photon_blast_state != 0U) {
-        fn_801C2308((void *)TObjPlayer__shared_photon_blast_state, 1);
-        TObjPlayer__shared_photon_blast_state = 0U;
+    if (TObjPlayer__shared_photon_blast_state != NULL) {
+        delete TObjPlayer__shared_photon_blast_state;
+        TObjPlayer__shared_photon_blast_state = NULL;
     }
     if (player_shared_buffer_base != NULL) {
         mem_free(player_shared_buffer_base);
@@ -71,23 +72,15 @@ void TObjPlayer::free_shared_data() {
     }
 }
 
-void *fn_801C2360(void *array);
 void TObjPlayer::alloc_shared_buffers() {
-    saddr temp_r3;
-    saddr var_r0;
     if ((u32) TObjPlayer__shared_model_buffer == 0U) {
         TObjPlayer__shared_model_buffer = (uaddr)mem_alloc((uaddr)(0x9000));
     }
     if (player_shared_buffer_base == NULL) {
         player_shared_buffer_base = static_cast<PlayerJointMatrixSet *>(mem_alloc(12 * sizeof(PlayerJointMatrixSet)));
     }
-    if ((u32) TObjPlayer__shared_photon_blast_state == 0U) {
-        temp_r3 = (saddr)::operator new(0x60);
-        var_r0 = temp_r3;
-        if (var_r0 != 0) {
-            var_r0 = (saddr)fn_801C2360((void *)temp_r3);
-        }
-        TObjPlayer__shared_photon_blast_state = (u32) var_r0;
+    if (TObjPlayer__shared_photon_blast_state == NULL) {
+        TObjPlayer__shared_photon_blast_state = new PhotonBlastRegistry();
     }
 }
 
@@ -132,7 +125,7 @@ __declspec(section ".ctors") static void *const __sinit_TObjPlayer_801BDF5C_cpp_
 
 extern "C" {
 
-int add_photon_blast_chain_charge(void*);
+int subtract_photon_blast_charge(void*, f32);
 
 s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1) {
     if (arg0 != 0) {
@@ -150,7 +143,7 @@ void TObjPlayer::get_pos(saddr out) {
 
 void TObjPlayer::spend_photon_blast_charge(f32 charge) { photon_blast_gauge.subtract_photon_blast_charge(charge); }
 
-void TObjPlayer::gain_photon_blast_chain_charge() { add_photon_blast_chain_charge(&photon_blast_gauge); }
+void TObjPlayer::gain_photon_blast_chain_charge(f32 amount) { add_photon_blast_chain_charge(&photon_blast_gauge, amount); }
 
 s32 TObjPlayer::vfunc_79() { return 0; }
 s32 TObjPlayer::check_camera_mode() {

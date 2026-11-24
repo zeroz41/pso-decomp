@@ -6,6 +6,7 @@
 struct NJS_SPRITE;
 struct BmlResource;
 struct AsyncFileReadRequest;
+struct EnemySetRecord;
 
 struct ShortMailEntry;
 struct player_stats;
@@ -208,7 +209,6 @@ struct TLobby : public TObject {
     static void disconnect_protocol();
     void bswap_fields();
     void bswap_header_3words();
-    void bswap_6x6B();
     static char *init_serial_access();
     void set_range(u8 *src, int size, s8 *dst);
     static s32 set_range(struct AdxStreamFile *file, s32 threshold, s32 chunk_size);
@@ -323,7 +323,7 @@ struct TLobby : public TObject {
     static s32 link_matching_objects(s16 arg0, s16 arg1);
     static s32 spawn_objects_at_pos(s16 arg0, s16 arg1);
     static void create_objects(s32 floor);
-    static void assign_display_objects(u8 *arg0, s32 enemy_count);
+    static void assign_display_objects(EnemySetRecord *rows, s32 enemy_count);
     static void attach_objects_by_id(s32 floor);
     static void assign_objects_to_slots(u8 *arg0, s32 object_count);
     static s32 get_lobby_group(s32 arg0);

@@ -1,3 +1,4 @@
+#include "pso/system/MatrixStack.h"
 #include "types.h"
 #include "pso/object/TActorLight.h"
 
@@ -73,7 +74,6 @@ f32 * get_weapon_range_record(void *, s16);
 s16 is_status_subsystem_ready__10TObjPlayerFv(s32);
 s32 rotate_matrix_y(int, void *);
 s32 subtract_vector(void *, void *);
-s32 transform_point_by_current_matrix(void *, void *);
 extern s32 identity_matrix[];
 extern const f32 lbl_805DAC94;
 extern A12_8011E3E8 lbl_8043E838[];
@@ -362,7 +362,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
                     subtract_vector(&v, ((Vec *)origin));
                     push_matrix_from(((s32 *)&identity_matrix));
                     ((void (*)(s32, s32))rotate_matrix_y)(0, angle);
-                    transform_point_by_current_matrix(&v, &atk.direction);
+                    transform_point_by_current_matrix(&v.x, &atk.direction);
                     atk.flags |= 1;
                     pop_matrix();
                 }
@@ -421,7 +421,7 @@ void TItemWeapon::launch_rare_weapon_special(void *origin, s32 enable, f32 scale
         v.x = v.y = lbl_805DAC98;
         v.z = rec[0];
         rotate_matrix_y(0, ((Owner_8011EDFC *)((Self_8011EDFC *)this)->owner)->rot);
-        transform_point_by_current_matrix(&v, &pos);
+        transform_point_by_current_matrix(&v.x, &pos);
         pop_matrix();
         vec3_add_to(&pos, origin);
     }
@@ -485,7 +485,7 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
         if (extended_state != 0) {
             var_r23 = 0;
             var_r29 = NULL;
-            ShotVector endpoint = *(ShotVector *)origin;
+            Vec endpoint = *reinterpret_cast<const Vec *>(origin);
             if (i < extended_state->get_captured_target_count()) {
                 temp_r22 = extended_state->get_captured_target_entry(i);
                 var_r29 = (u8 *)(((TObjChara *(*)(u16, s16))resolve_hittable_target)(temp_r22->get_uid(),temp_r22->get_captured_target_collider_index()));
@@ -509,7 +509,7 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
                 fallback.x = lbl_805DAC98;
                 fallback.z = *(f32 *)((s8 *)weapon_range_record + 0);
                 rotate_matrix_y(0, (void *) (*(saddr *)((s8 *)this->owner + 0x60) + angle));
-                transform_point_by_current_matrix(&fallback.x, &endpoint.x);
+                transform_point_by_current_matrix(&fallback.x, &endpoint);
                 pop_matrix();
                 vec3_add_to(&endpoint.x, origin);
             }
@@ -1181,9 +1181,9 @@ s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
         floats.spC = lbl_805DAC98;
         floats.sp8 = lbl_805DAC98;
         push_matrix();
-        TObjPlayer::copy_matrix(0, (uaddr)get_model_joint_matrix(owner, joint));
-        premultiply_matrix(0, (saddr)TCameraCtrl::get_view_matrix());
-        transform_point_by_current_matrix(&floats.sp8, out);
+        ::copy_matrix(NULL, get_model_joint_matrix(owner, joint));
+        premultiply_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(TCameraCtrl::get_view_matrix()));
+        transform_point_by_current_matrix(&floats.sp8, static_cast<Vec *>(out));
         pop_matrix();
     } else {
         player->get_anim_node_position(0x30, (Vec *)out);

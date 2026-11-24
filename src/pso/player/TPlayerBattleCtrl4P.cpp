@@ -103,7 +103,7 @@ int obj_getPtr2B0_20(u8 *p);
 f32 fn_801C19A4(void *);
 s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
 void set_split_screen_battle_phase__19TPlayerBattleCtrl4PFl(u8 *arg0, s32 arg1);
-extern s32 TDeadSpot__class_name;
+extern const char *TDeadSpot__class_name;
 void destroy_matching_children__19TPlayerBattleCtrl4PFPvPv(void *self, Par_80311304 *p);
 s32 obj_set_flag_20000();
 s64 OSGetTime(void);
@@ -613,7 +613,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload() {
     do {
         ret = (uaddr)get_player_by_client_id(i);
         if (ret != 0U) {
-            TObjPlayer::play_effect_default(ret, -1);
+            TObjPlayer::play_effect_default(reinterpret_cast<TObjPlayer *>(ret), -1);
         }
         i += 1;
     } while (i < 4);
@@ -795,7 +795,7 @@ void destroy_matching_children__19TPlayerBattleCtrl4PFPvPv(void *self, Par_80311
     while (p->head != 0 && n != 0) {
         cur = n;
         n = cur->next;
-        if (((TUnk_804B6C24 *)cur)->check_value_equals(TDeadSpot__class_name) != 0) {
+        if (reinterpret_cast<TObject *>(cur)->check_value_equals(TDeadSpot__class_name) != 0) {
             ((TObject *)cur)->queue_destruction();
         } else {
             destroy_matching_children__19TPlayerBattleCtrl4PFPvPv(self, (Par_80311304 *)cur);
@@ -930,7 +930,7 @@ void TPlayerBattleCtrl4P::remove_player(void *arg0, u16 arg1, s32 arg2) {
     id = arg1;
     temp = (uaddr)get_player_by_client_id(id);
     if (temp != 0U) {
-        TObjPlayer::play_effect_default(temp, -1);
+        TObjPlayer::play_effect_default(reinterpret_cast<TObjPlayer *>(temp), -1);
     }
     if (arg2 != 0) {
         begin_player_keyboard_hold(id);
@@ -1027,8 +1027,8 @@ void send_code_45_to_window__19TPlayerBattleCtrl4PFPvii(void *arg0, s32 arg1, s3
 
     client = (u16)arg1;
     temp_r30 = arg2;
-    s32 player;
-    if ((player = (saddr)get_player_by_client_id(client)) != 0U) {
+    TObjPlayer *player;
+    if ((player = get_player_by_client_id(client)) != NULL) {
         TObjPlayer::send_code_45_1(player);
     }
     if (temp_r30 != 0) {

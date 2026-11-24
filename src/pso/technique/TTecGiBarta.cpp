@@ -1,6 +1,9 @@
+#include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/technique/TechniqueBandSound.h"
+#include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
@@ -24,6 +27,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct RecoveredFields_802308A0_arg0
 {
@@ -101,6 +105,9 @@ struct Shot_802304A0 {
 extern "C" {
 
 
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(1)
 void TTecGiBarta::update_technique_by_phase() {
     s32 handle;
 
@@ -135,12 +142,12 @@ void TTecGiBarta::update_technique_by_phase() {
         break;
     }
 }
+#pragma pop
 
 #pragma inline_depth(1)
 #pragma auto_inline on
 #pragma dont_inline off
 }
-struct Raw_802304A0 { u8 b[12]; };
 
 const Row_802304A0 lbl_8044D180[3] = {
     {0x180, 0x4, 0.0f},
@@ -180,72 +187,79 @@ const Vec lbl_8044D288 = {0.0f, 0.0f, 3.0f};
 
 
 void TTecGiBarta::create_particles() {
-    Shot_802304A0 *shot = (Shot_802304A0 *)this;
     Angles_802304A0 angles;
     Vec pos;
     Vec off;
     Vec p2;
     Vec v;
     u32 i;
-    void *emitter;
-    u8 *src;
-    u32 flags;
+    TParticleCtrl *emitter;
+    TObjCollidable *src;
 
-    angles.a[0] = shot->f54;
+    angles.a[0] = this->angles[0];
     angles.a[1] = 0;
-    angles.a[2] = shot->f5C;
-    shot->emitters = (void **)mem_alloc(TTecGiBarta__emitter_profile_table[shot->band].count * 4);
-    for (i = 0; i < TTecGiBarta__emitter_profile_table[shot->band].count; i++) {
-        *(Raw_802304A0 *)&pos = *(Raw_802304A0 *)&shot->pos;
-        if (TTecGiBarta__emitter_profile_table[shot->band].rows[i].flags & 0x800) {
+    angles.a[2] = this->angles[2];
+    emitters = static_cast<TParticleCtrl **>(mem_alloc(TTecGiBarta__emitter_profile_table[band].count * sizeof(*emitters)));
+    for (i = 0; i < TTecGiBarta__emitter_profile_table[band].count; i++) {
+#ifdef __MWERKS__
+        __memcpy(&pos, &position, sizeof(pos));
+#else
+        pos = position;
+#endif
+        if (TTecGiBarta__emitter_profile_table[band].rows[i].flags & 0x800) {
             pos.y -= 5.0f;
         }
-        if (TTecGiBarta__emitter_profile_table[shot->band].rows[i].flags & 2) {
-            emitter = spawn_continuous_particle_with_direction(&pos, &angles, TTecGiBarta__emitter_profile_table[shot->band].rows[i].entry);
+        if (TTecGiBarta__emitter_profile_table[band].rows[i].flags & 2) {
+            emitter = static_cast<TParticleCtrl *>(spawn_continuous_particle_with_direction(
+                &pos, &angles, TTecGiBarta__emitter_profile_table[band].rows[i].entry));
         } else {
-            *(Raw_802304A0 *)&off = *(Raw_802304A0 *)&lbl_8044D288;
+#ifdef __MWERKS__
+            __memcpy(&off, &lbl_8044D288, sizeof(off));
+#else
+            off = lbl_8044D288;
+#endif
             push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, shot->angle);
+            rotate_matrix_y(0, this->angles[1]);
             matrix_mult_vec(0, &off, &off);
             pop_matrices(1);
-            p2.x = shot->pos.x + off.x;
-            p2.y = shot->pos.y + off.y;
-            p2.z = shot->pos.z + off.z;
-            if (TTecGiBarta__emitter_profile_table[shot->band].rows[i].flags & 0x800) {
+            p2.x = position.x + off.x;
+            p2.y = position.y + off.y;
+            p2.z = position.z + off.z;
+            if (TTecGiBarta__emitter_profile_table[band].rows[i].flags & 0x800) {
                 p2.y -= 5.0f;
             }
-            emitter = create_particle_emitter(&p2, TTecGiBarta__emitter_profile_table[shot->band].rows[i].entry);
+            emitter = create_particle_emitter(&p2, TTecGiBarta__emitter_profile_table[band].rows[i].entry);
         }
         if (emitter != NULL) {
-            if (TTecGiBarta__emitter_profile_table[shot->band].rows[i].flags & 0x40) {
-                ((TParticleCtrl *)emitter)->set_scale(TTecGiBarta__emitter_profile_table[shot->band].rows[i].scale, TTecGiBarta__emitter_profile_table[shot->band].rows[i].scale);
+            if (TTecGiBarta__emitter_profile_table[band].rows[i].flags & 0x40) {
+                emitter->set_scale(TTecGiBarta__emitter_profile_table[band].rows[i].scale, TTecGiBarta__emitter_profile_table[band].rows[i].scale);
             }
-            if (TTecGiBarta__emitter_profile_table[shot->band].rows[i].flags & 0x20) {
-                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, (u16)(TTecGiBarta__emitter_profile_table[shot->band].rows[i].flags >> 16)), technique_texture_list, 0, 0, 1.0f);
+            if (TTecGiBarta__emitter_profile_table[band].rows[i].flags & 0x20) {
+                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, (u16)(TTecGiBarta__emitter_profile_table[band].rows[i].flags >> 16)), technique_texture_list, 0, 0, 1.0f);
             }
         }
-        shot->emitters[i] = emitter;
+        emitters[i] = emitter;
     }
-    if (shot->band == 5) {
-        VecCopy((Vec *)&v, (const Vec *)&shot->pos);
+    if (band == 5) {
+        VecCopy(&v, &position);
         v.y -= 15.0f;
         spawn_particle_effect(&v, 0x1E0);
         spawn_particle_effect(&v, 0x1E1);
-        src = (u8 *)find_entity_by_id(shot->source);
+        src = find_entity_by_id(sourceId);
         if (src != NULL) {
-            emitter = spawn_particle_effect((const Vec *)(src + 0x38), 0x18B);
+            emitter = spawn_particle_effect(&src->position, 0x18B);
             if (emitter != NULL) {
                 attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 6), technique_texture_list, get_bml_motion(technique_effect_bml, 2), 0, 1.0f);
             }
-            emitter = create_timed_particle_emitter(src + 0x38, 0x18B, 5, 1);
+            emitter = create_timed_particle_emitter(&src->position, 0x18B, 5, 1);
             if (emitter != NULL) {
                 attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 7), technique_texture_list, get_bml_motion(technique_effect_bml, 2), 0, 1.0f);
             }
-            emitter = create_timed_particle_emitter(src + 0x38, 0x18B, 10, 1);
+            emitter = create_timed_particle_emitter(&src->position, 0x18B, 10, 1);
             if (emitter != NULL) {
                 attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 8), technique_texture_list, get_bml_motion(technique_effect_bml, 2), 0, 1.0f);
             }
-            emitter = create_timed_particle_emitter(src + 0x38, 0x18F, 20, 1);
+            emitter = create_timed_particle_emitter(&src->position, 0x18F, 20, 1);
             if (emitter != NULL) {
                 attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
             }
@@ -298,18 +312,18 @@ void TTecGiBarta::vfunc_8(void *target) {
     }
 }
 
-void TTecGiBarta::create(void *source, void *origin, void *aim, s32 level) {
-    new TTecGiBarta((saddr)source, (u8 *)origin, (u8 *)aim, level);
+void TTecGiBarta::create(void *owner, Vec *position, Vec *target, s32 level) {
+    new TTecGiBarta((saddr)owner, (u8 *)position, (u8 *)target, level);
 }
 
-void TTecGiBarta::create_ex(void *source, void *origin, s32 angle, s32 level) {
-    new TTecGiBarta((saddr)source, (Vec *)origin, angle, level);
+void TTecGiBarta::create_ex(void *owner, Vec *position, s32 angle, s32 level) {
+    new TTecGiBarta((saddr)owner, position, angle, level);
 }
 
 TTecGiBarta::~TTecGiBarta() {
     for (u32 i = 0; i < TTecGiBarta__emitter_profile_table[band].count; ++i) {
         if (emitters[i]) {
-            ((TObject *)emitters[i])->queue_destruction();
+            emitters[i]->queue_destruction();
         }
     }
     mem_free(emitters);

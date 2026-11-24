@@ -266,7 +266,7 @@ void depart_floor_population() {
         FloorSavedSetRow *d = area->enemy_rows;
         s32 i;
         for (i = 0; i < area->enemy_count; i++, s++, d++) {
-            if (s->id == d->id) {
+            if (s->placement.id == d->id) {
                 d->flags = s->flags;
             }
         }
@@ -351,7 +351,7 @@ void arrive_floor_population() {
         e = current_floor_enemy_set_rows;
         r2 = floor->enemy_rows;
         for (j = 0; j < floor->enemy_count; j++, e++, r2++) {
-            if (e->id == r2->id) {
+            if (e->placement.id == r2->id) {
                 e->flags = r2->flags;
             }
         }

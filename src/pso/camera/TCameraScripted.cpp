@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/ResourceFile.h"
 #include "pso/camera/TCameraScripted.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"
@@ -151,7 +152,7 @@ void load_camera_banks() {
         camera_banks[j].buffer = xmalloc(size);
     }
     for (k = 0; k < count; k++) {
-        camera_banks[k].directory = (CameraMotionDirectory *)load_relocatable_file((saddr)list->files[k].filename, (saddr)camera_banks[k].buffer);
+        camera_banks[k].directory = (CameraMotionDirectory *)load_relocatable_file(list->files[k].filename, camera_banks[k].buffer);
     }
 }
 

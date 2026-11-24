@@ -287,7 +287,7 @@ TItemShootGun::TItemShootGun(void *owner, const Vec *pos, const Vec *endpoint, f
     params.color.channels.r = (u8)(255.0f * color.red);
     params.color.channels.g = (u8)(255.0f * color.green);
     params.color.channels.b = (u8)(255.0f * color.blue);
-    m_50 = (TObject *)spawn_star_light_2d((saddr)&m_pos, (saddr)&params, (saddr)tl_07);
+    m_50 = spawn_star_light_2d(&m_pos, &params, tl_07);
     TItemLoad::get_item_model(0, &model);
     TItemLoad::get_item_texture_list(0, &texture_list);
     m_6C = 0;

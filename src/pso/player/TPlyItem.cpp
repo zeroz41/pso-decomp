@@ -36,7 +36,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TPlyDispData.h"
 
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -213,7 +212,7 @@ void TItemList::unequip_invalid_items_recursive() {
             o = n->get_owner_if_alive();
             if ((o != NULL) && (is_item_equipped(o) != 0) && (o->is_unit() == 0) &&
                 (TObjPlayer::get_slot_value(reinterpret_cast<s32 *>(item_reduce_target_player->equipped_items), o->get_attach_slot()) != 0U)) {
-                unequip_item__10TObjPlayerFiPv(item_reduce_target_player, o);
+                item_reduce_target_player->unequip_item(o);
             }
         }
         n->unequip_invalid_items_recursive();
@@ -475,7 +474,7 @@ void TPlyItem::reduce_item_amount(TObjPlayer *player, TItemList *slot, s32 arg3)
             return;
         }
         if (is_item_equipped(item) != 0) {
-            unequip_item__10TObjPlayerFiPv(player, item);
+            player->unequip_item(item);
         }
         count = pad_1C;
         pad_1C = (count - 1);
@@ -491,7 +490,7 @@ void TPlyItem::remove_equipped_item(TObjPlayer *player, TItemList *slot) {
     item = slot->get_owner_if_alive();
     if (item != NULL) {
         if (is_item_equipped(item) != 0) {
-            unequip_item__10TObjPlayerFiPv(player, item);
+            player->unequip_item(item);
         }
         count = pad_1C;
         pad_1C = (count - 1);
@@ -534,7 +533,7 @@ s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, 
         return 1;
     }
     if (is_item_equipped(item) != 0) {
-        unequip_item__10TObjPlayerFiPv(player, item);
+        player->unequip_item(item);
     }
     *(s16 *)((s8 *)item + 0x28) = ((TObjBase *)player)->get_room();
     item->place_on_ground(client, position, 0);
@@ -988,15 +987,15 @@ void TUnk_804C4468::run_task() {
                 if (r->source_id == -1) {
                     drop_stacked_item(&r->item, get_client_id(), (f32 *)get_ptr_0x44__9TItemListFPv(this));
                     TObjPlayer::send_6x29_delete_item(player, r->source_id, r->item.data2.data_u32);
-                    TObjPlayer::send_code_45_1((saddr)player);
+                    TObjPlayer::send_code_45_1(player);
                 } else {
                     drop_stacked_item(&r->item, get_client_id(), (f32 *)get_ptr_0x44__9TItemListFPv(this));
                     TObjPlayer::send_6x29_delete_item(player, r->source_id, r->item.get_stack_count());
-                    TObjPlayer::send_code_45_1((saddr)player);
+                    TObjPlayer::send_code_45_1(player);
                 }
             } else {
                 TObjPlayer::send_6x2A_drop_item(player, r->source_id, get_ptr_0x44__9TItemListFPv(this), r->item.get_stack_count());
-                TObjPlayer::send_code_45_1((saddr)player);
+                TObjPlayer::send_code_45_1(player);
             }
         }
         break;
@@ -1089,7 +1088,7 @@ s32 TItemList::is_item_valid(TItemList *arg0) {
     u8 valid;
 
     valid = 0;
-    if ((((TUnk_804B6C24 *)arg0)->check_value_equals((saddr)TItemList__name) != 0) && (((TObject *)arg0)->all_parents_unqueued_for_destruction() != 0)) {
+    if ((reinterpret_cast<TObject *>(arg0)->check_value_equals(TItemList__name) != 0) && (((TObject *)arg0)->all_parents_unqueued_for_destruction() != 0)) {
         valid = 1;
     }
     return valid;

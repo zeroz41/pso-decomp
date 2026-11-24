@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"

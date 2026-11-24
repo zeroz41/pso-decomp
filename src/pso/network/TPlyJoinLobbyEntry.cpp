@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -132,7 +133,6 @@ struct Row_80135208 { u8 pad[8]; union { u32 ip; u32 ip_addr; }; s32 client_id; 
 struct Pkt_8013574C { u8 pad[4]; s32 len; u8 data[1]; };
 struct Pkt_801357F8 { u8 pad[4]; s32 len; u8 data[1]; };
 struct Pkt_801358B4 { u8 pad[4]; s32 len; u8 data[1]; };
-struct S12_801358B4 { u32 a[3]; };
 struct Disp_801354AC { u16 id; };
 struct Pkt_801354AC { u8 pad[8]; Disp_801354AC disp; };
 struct Pkt_801359C4 { u8 cmd; u8 flag; u16 f2; s32 len; u8 data[1]; };
@@ -258,7 +258,6 @@ void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void
 u8 * get_character_save_record(u32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 TLobby__data_805D4E30;
-extern S12_801358B4 *TLobby__data_805D6144;
 extern const char TLobby__data_805DB0B0[4];
 extern const Pair_80135E7C lbl_8043EE18[1];
 extern const Pair_80135E7C lbl_8043EE20[1];
@@ -679,21 +678,21 @@ void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0) {
 
 void handle_6x6B_sync_game_state(Pkt_801358B4 *arg0) {
     u32 r;
-    S12_801358B4 *p;
+    EnemyStateRecord *p;
     s32 n;
     s32 i;
     if (TLobby__data_805D5CE8 == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         n = arg0->len - 8;
         lobby_debug_printf_stub(lobby_debug_rcv_enemy_condition_format, arg0->len);
-        p = (S12_801358B4 *)::operator new(0x7230);
+        p = (EnemyStateRecord *)::operator new(0x7230);
         if (p != NULL) {
             r = ((u32)TLobby__sub_8013F810(p, arg0->data, n, TLobby__data_805D6144));
             ::operator delete(p);
-            n = r / 12;
+            n = r / sizeof(EnemyStateRecord);
             p = TLobby__data_805D6144;
             enemy_condition_count = n;
             for (i = 0; i < n; i++) {
-                ((TLobby *)(&p[i]))->bswap_6x6B();
+                p[i].bswap();
             }
         }
     }
@@ -810,13 +809,13 @@ void TLobby::send_compressed_packet_6c() {
 }
 
 void TLobby::send_cmd_6B() {
-    S12_801358B4 *src;
+    EnemyStateRecord *src;
     s32 len;
     u32 size;
     Pkt_80135CD8 *buf;
     void *tmp;
     u32 n;
-    S12_801358B4 *p;
+    EnemyStateRecord *p;
     u32 i;
     saddr arg0 = (saddr)this;
     buf = (Pkt_80135CD8 *)mem_alloc(0x8000);
@@ -825,12 +824,12 @@ void TLobby::send_cmd_6B() {
         tmp = ::operator new(0x7230);
         if (tmp != NULL) {
             src = TLobby__data_805D6144;
-            size = enemy_condition_count * sizeof(S12_801358B4);
-            n = size / sizeof(S12_801358B4);
-            p = (S12_801358B4 *)mem_alloc((s32)(n * sizeof(S12_801358B4)));
+            size = enemy_condition_count * sizeof(EnemyStateRecord);
+            n = size / sizeof(EnemyStateRecord);
+            p = (EnemyStateRecord *)mem_alloc((s32)(n * sizeof(EnemyStateRecord)));
             memcpy(p, src, size);
             for (i = 0; i < n; i++) {
-                ((TLobby *)(&p[i]))->bswap_6x6B();
+                p[i].bswap();
             }
             len = ((TLobby *)tmp)->lz_compress_packet((void *)p, (s32)size, (s32 *)buf->data);
             mem_free(p);
@@ -2900,7 +2899,11 @@ void TLobby__sub_8013A9C0(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*
 
 void bswap_object_source_record(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); }
 
-void TLobby::bswap_6x6B() { bswap_32((u32 *)this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
+void EnemyStateRecord::bswap() {
+    bswap_32(reinterpret_cast<u32 *>(&flags));
+    bswap_16(&drop_id);
+    bswap_16(reinterpret_cast<u16 *>(&damage));
+}
 u8 *TLobby__sub_8013AA64(u8 *dst, u8 *src) {
     __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(dst, src);
     *(s32 *)((s8 *)dst + 8) = (s32) *(s32 *)((s8 *)src + 8);
