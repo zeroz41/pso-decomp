@@ -525,7 +525,7 @@ static inline void bba_reset(void) {
     bba_out8(0x00, 0);
 }
 
-s32 init_bba_exi_adapter(void *arg) {
+s32 init_bba_exi_adapter(s32 nego_mode) {
     s32 level;
     u32 cid;
     u8 val;

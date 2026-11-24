@@ -243,7 +243,7 @@ void init_net_buffer_desc(PppBuffers *bufs) {
 
 void stop_network_thread(void) {
     lock_mutex(net_thread_state.mutex);
-    AT_TerminateTask((void *)net_thread_state.thread);
+    AT_TerminateTask(net_thread_state.thread);
     AT_DeleteTask(net_thread_state.thread);
     unlock_mutex(net_thread_state.mutex);
     NetReleaseMutex(net_thread_state.mutex);
@@ -558,8 +558,8 @@ retry_close:
             goto after_close;
         }
     } else {
-        AT_TerminateTask((void *)queue_thread_handle);
-        AT_DeleteTask((u32) queue_thread_handle);
+        AT_TerminateTask(queue_thread_handle);
+        AT_DeleteTask(queue_thread_handle);
         NetReleaseMutex(send_ring_mutex);
 after_close:
         if ((u32) (copy_default_and_get_state(NULL) - 2) <= 1U) {

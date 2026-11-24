@@ -68,8 +68,8 @@ void unlock_mutex(NetMutexHandle mutex);
 void lock_mutex(NetMutexHandle mutex);
 void signal_alarm_queue(void* alarm);
 void resume_thread(saddr thread);
-void AT_TerminateTask(void* thread);
-void AT_DeleteTask(u32 key);
+void AT_TerminateTask(NetThreadHandle thread);
+void AT_DeleteTask(NetThreadHandle thread);
 /* The thread key is the original native address word stored by the pool. */
 s16 AT_CreateTask(NetThreadEntry entry, NetThreadHandle *out_key);
 void *run_current_thread_callback(void *unused);
@@ -82,7 +82,7 @@ void NetYieldThread(void);
 void NetStoreTick(s32* tick);
 void NetStoreCurrentThread(s32* thread);
 void NetSuspendCurrentThread(void);
-void AT_StartTask(uaddr thread);
+void AT_StartTask(NetThreadHandle thread);
 void NetReceiveMessage(u32 handle, void* destination, s32 size);
 void NetReleaseMutex(NetMutexHandle handle);
 

@@ -27,7 +27,7 @@ s32 poll_exi_status(s32 *status);
 u32 exi_read_status_byte(void);
 void enable_network_multicast_address(void *address);
 
-s32 init_bba_exi_adapter(void *arg);
+s32 init_bba_exi_adapter(s32 nego_mode);
 
 #ifdef __cplusplus
 }

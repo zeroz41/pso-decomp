@@ -94,25 +94,24 @@ void NetSuspendCurrentThread(void) {
 }
 
 /* Cancels the thread unless it already terminated. */
-void AT_TerminateTask(void *thread) {
-    saddr handle = (saddr)thread;
-    if (OSIsThreadTerminated((OSThread*)thread) == 0) {
-        OSCancelThread((OSThread*)handle);
+void AT_TerminateTask(NetThreadHandle thread) {
+    if (OSIsThreadTerminated((OSThread *)thread) == 0) {
+        OSCancelThread((OSThread *)thread);
     }
 }
 
-void AT_StartTask(uaddr thread) {
+void AT_StartTask(NetThreadHandle thread) {
     OSResumeThread((OSThread*)thread);
 }
 
-void AT_DeleteTask(u32 key) {
+void AT_DeleteTask(NetThreadHandle thread) {
     NetworkThreadSlot *p;
     u16 n = lobby_thread_pool_count;
     NetworkThreadSlot *base = lobby_thread_pool_base;
     s32 i;
     p = base;
     for (i = 0; i < n; i++) {
-        if (key == p->key) break;
+        if (thread == p->key) break;
         p++;
     }
     if (i < n) {

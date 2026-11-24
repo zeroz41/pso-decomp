@@ -35,8 +35,8 @@ s16 rtos_init(void) {
 
 s32 dispatcher_term(void) {
     lock_mutex(network_dispatch_state.lock_handle);
-    AT_TerminateTask((void *)network_dispatch_state.thread_ids[1]);
-    AT_TerminateTask((void *)network_dispatch_state.thread_ids[0]);
+    AT_TerminateTask(network_dispatch_state.thread_ids[1]);
+    AT_TerminateTask(network_dispatch_state.thread_ids[0]);
     AT_DeleteTask(network_dispatch_state.thread_ids[1]);
     AT_DeleteTask(network_dispatch_state.thread_ids[0]);
     clear_slot_for_handle(network_dispatch_state.queue_handle);

@@ -34,18 +34,18 @@ LAYOUT_ASSERT(TransportMessageQueue10Size, sizeof(TransportMessageQueue10) == 0x
 LAYOUT_ASSERT(TransportMessageQueue32Messages, offsetof(TransportMessageQueue32, messages) == 0x20);
 LAYOUT_ASSERT(TransportMessageQueue10Messages, offsetof(TransportMessageQueue10, messages) == 0x20);
 
-static TransportMessageQueue32 lbl_805CF240;
+static TransportMessageQueue32 exi_send_queue;
 static TransportMessageQueue32 pppoe_message_queue;
 static TransportMessageQueue10 transport_message_queue;
 /* The thread, link-status and Ethernet negotiation-mode state. */
 s32 network_message_pending_count;
 saddr ether_nego_mode;
-uaddr lbl_805D7BC4;
+u8 *ether_mac_address_override;
 u32 lobby_exi_stable_target;
 u32 lobby_exi_stable_count;
 s32 lobby_exi_prev_status;
 NetThreadHandle lobby_message_thread_handle;
-s32 lbl_805D7BB0;
+s32 ether_adapter_open;
 s16 network_link_status_cache = -1;
 void apply_receive_filter(EthernetReceiveFilter *);
 s16 add_receive_protocol(EthernetReceiveFilter *o, u16 kind, u16 ether_type);
@@ -59,35 +59,35 @@ static struct {
 } lobby_net_channel_table;
 
 void reset_message_thread(void) {
-    if ((u32)lobby_message_thread_handle != 0) {
-        AT_TerminateTask((void *)lobby_message_thread_handle);
-        AT_DeleteTask((uaddr)((void *)lobby_message_thread_handle));
+    if (lobby_message_thread_handle != 0) {
+        AT_TerminateTask(lobby_message_thread_handle);
+        AT_DeleteTask(lobby_message_thread_handle);
         lobby_message_thread_handle = 0;
     }
     NetUnregisterTimer(update_exi_status);
     network_link_status_cache = -1;
     lobby_exi_prev_status = 0;
     lobby_exi_stable_count = 0;
-    lbl_805D7BB0 = 0;
+    ether_adapter_open = 0;
 }
 
 void update_exi_status(void) {
     s32 status;
     if (poll_exi_status(&status) == 1) {
-        if (status != (s32) lobby_exi_prev_status) {
+        if (status != lobby_exi_prev_status) {
             lobby_exi_prev_status = status;
-            lobby_exi_stable_count = 1U;
-        } else if ((u32) lobby_exi_stable_count != 0U) {
+            lobby_exi_stable_count = 1;
+        } else if (lobby_exi_stable_count != 0) {
             lobby_exi_stable_count += 1;
         }
-        if ((u32) lobby_exi_stable_count >= (u32) lobby_exi_stable_target) {
-            if ((s32) lobby_exi_prev_status == 1) {
+        if (lobby_exi_stable_count >= lobby_exi_stable_target) {
+            if (lobby_exi_prev_status == 1) {
                 network_link_status_cache = 1;
             } else {
                 network_link_status_cache = 0;
             }
-            lobby_exi_stable_count = 0U;
-            lobby_exi_stable_target = 0xAU;
+            lobby_exi_stable_count = 0;
+            lobby_exi_stable_target = 10;
         }
     }
 }
@@ -115,16 +115,16 @@ s32 post_message(OSMessageQueue *queue, u8 *packet, s32 length, s32 by_address) 
 
 void message_thread_loop(void) {
     NetworkPacketBufferDescriptor *msg;
-    OSMessage sp8;
+    OSMessage done;
     u8 *packet;
     s32 n;
     for (;;) {
-        OSReceiveMessage(&lbl_805CF240.queue, (OSMessage *)&msg, OS_MESSAGE_BLOCK);
+        OSReceiveMessage(&exi_send_queue.queue, (OSMessage *)&msg, OS_MESSAGE_BLOCK);
         n = msg->queued_length;
         packet = msg->data;
         if (n > 0) {
             start_exi_send(packet, n, signal_network_message);
-            OSReceiveMessage(&transport_message_queue.queue, &sp8, OS_MESSAGE_BLOCK);
+            OSReceiveMessage(&transport_message_queue.queue, &done, OS_MESSAGE_BLOCK);
             network_message_pending_count -= 1;
         }
         clear_message_entry(packet);
@@ -140,7 +140,7 @@ void signal_network_message(u8 v) {
 void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, void *b) {
     s32 i;
     EthernetMulticastEntry *e;
-    u8 *mq = (u8 *)&lbl_805CF240;
+    u8 *mq = (u8 *)&exi_send_queue;
     EthernetProtocolRegistration *r = filter->protocols;
     u16 *key = &pkt->ether_type;
     u8 *src = pkt->source;
@@ -274,15 +274,15 @@ s16 open_bba_receive_filter(EthernetReceiveFilter *config) {
     s16 status;
     s32 i;
 
-    if ((s32) lbl_805D7BB0 == 1) {
+    if (ether_adapter_open == 1) {
         return 0;
     }
     NetMemset(config, 0, sizeof(EthernetReceiveFilter));
-    if (init_bba_exi_adapter((void *)ether_nego_mode) != 1) {
+    if (init_bba_exi_adapter(ether_nego_mode) != 1) {
         status = -1;
     } else {
-        if ((u32) lbl_805D7BC4 != 0U) {
-            copy_mac_address((void *)lbl_805D7BC4);
+        if (ether_mac_address_override != NULL) {
+            copy_mac_address(ether_mac_address_override);
         }
         copy_6_byte_config(config->local_address);
         i = 0;
@@ -300,14 +300,14 @@ s16 open_bba_receive_filter(EthernetReceiveFilter *config) {
     if (status < 0) {
         return -1;
     }
-    OSInitMessageQueue(&lbl_805CF240.queue, lbl_805CF240.messages, 32);
+    OSInitMessageQueue(&exi_send_queue.queue, exi_send_queue.messages, 32);
     OSInitMessageQueue(&pppoe_message_queue.queue, pppoe_message_queue.messages, 32);
     OSInitMessageQueue(&transport_message_queue.queue, transport_message_queue.messages, 10);
     if (AT_CreateTask(message_thread_loop, &lobby_message_thread_handle) < 0) {
         return -1;
     }
-    AT_StartTask((u32)lobby_message_thread_handle);
-    lbl_805D7BB0 = 1;
+    AT_StartTask(lobby_message_thread_handle);
+    ether_adapter_open = 1;
     network_link_status_cache = -1;
     lobby_exi_prev_status = 0;
     lobby_exi_stable_count = 1;
@@ -333,7 +333,7 @@ s16 post_send_message(void *data, u16 len) {
     msg = find_packet_buffer_locked(buf);
     if (msg != NULL) {
         msg->queued_length = (s32)len;
-        OSSendMessage(&lbl_805CF240.queue, msg, OS_MESSAGE_NOBLOCK);
+        OSSendMessage(&exi_send_queue.queue, msg, OS_MESSAGE_NOBLOCK);
     }
     return 0;
 }
@@ -422,7 +422,7 @@ s32 queue_timeout_message(s16 dev, u8 *packet, s16 timeout) {
     msg = find_packet_buffer_locked(packet);
     if (msg != NULL) {
         msg->queued_length = clamped;
-        OSSendMessage(&lbl_805CF240.queue, msg, OS_MESSAGE_NOBLOCK);
+        OSSendMessage(&exi_send_queue.queue, msg, OS_MESSAGE_NOBLOCK);
     }
     return 0;
 }
@@ -434,7 +434,7 @@ s32 get_local_address(s16 dev, void *out) {
         return -0x113;
     }
     src = lobby_net_channel_table.filter.local_address;
-    if (lbl_805D7BB0 == 0) {
+    if (ether_adapter_open == 0) {
         return -0x113;
     }
     NetMemcpy(out, src, 6);
@@ -570,7 +570,7 @@ s32 open_ethernet_device(s16 dev) {
 /* Cached link status: 1 up, 0 down, -1 unknown. */
 s16 query_link_status(void) {
     s32 status;
-    if ((s16) network_link_status_cache != -1) {
+    if (network_link_status_cache != -1) {
         return network_link_status_cache;
     }
     if (poll_exi_status(&status) == 1) {

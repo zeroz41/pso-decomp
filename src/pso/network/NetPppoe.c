@@ -50,14 +50,7 @@ typedef struct PppoeTable {
 } PppoeTable;
 LAYOUT_ASSERT(PppoeTable_size_check, sizeof(PppoeTable) == 0xE20);
 
-extern u8 lbl_805CF240[0xA0];
-extern u8 pppoe_message_queue[0xA0];
-extern u8 transport_message_queue[0x48];
 PppoeTable lobby_pppoe_slot_table;
-extern u8 transport_message_queue[];
-extern u8 pppoe_message_queue[];
-
-extern u8 lbl_805CF240[];
 
 PppoeSlot *find_pppoe_slot_by_session_id(u8 *frame, u16 frame_len);
 s16 pppoe_parse_pads_tags(PppoeSlot *e, u8 *p, u16 len);
