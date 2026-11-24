@@ -232,16 +232,16 @@ struct G_ClearNegativeStatusEffects_6x0E {
 
 struct G_ClearPhotonBlastReadyFlag_6x3A {
  struct G_ClientIDHeader header;
- void *clear_photon_blast_ready_flag(void *src);
- void init_6x3A_packet();
- void draw_and_send();
+ G_ClearPhotonBlastReadyFlag_6x3A &operator=(const G_ClearPhotonBlastReadyFlag_6x3A &src);
+ void init();
+ void send();
 };
 
 struct G_ClearTemporaryPhotonBlastStateFlags_6x3B {
  struct G_ClientIDHeader header;
- void *load_subcommand_header(void *src);
- void init_pkt_cmd_3B();
- void update_and_send();
+ G_ClearTemporaryPhotonBlastStateFlags_6x3B &operator=(const G_ClearTemporaryPhotonBlastStateFlags_6x3B &src);
+ void init();
+ void send();
 };
 
 struct G_CreateInventoryItem_DC_6x2B {
@@ -943,9 +943,9 @@ struct G_SetOrClearPlayerFlags_6x2E {
 
 struct G_SetPhotonBlastReadyFlag_6x39 {
  struct G_ClientIDHeader header;
- void *handle_photon_blast_ready(void *src);
- void init_6x39_packet();
- void update_and_send_60();
+ G_SetPhotonBlastReadyFlag_6x39 &operator=(const G_SetPhotonBlastReadyFlag_6x39 &src);
+ void init();
+ void send();
 };
 
 struct G_SetPlayerAngle_6x51 {

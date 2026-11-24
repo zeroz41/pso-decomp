@@ -5201,7 +5201,7 @@ void G_Unknown_6x57::init() {
 }
 
 void G_Unknown_6x57::send() {
-    bswap_g_client_id_header(this);
+    bswap_g_client_id_header(&header);
     send_subcommand(this);
 }
 
@@ -5269,7 +5269,7 @@ void G_Unknown_6x53::init() {
 }
 
 void G_Unknown_6x53::send() {
-    bswap_g_client_id_header(this);
+    bswap_g_client_id_header(&header);
     send_subcommand(this);
 }
 
@@ -5307,7 +5307,7 @@ void G_PlayerRevived_6x4F::init() {
 }
 
 void G_PlayerRevived_6x4F::send() {
-    bswap_g_client_id_header(this);
+    bswap_g_client_id_header(&header);
     send_subcommand(this);
 }
 
@@ -5337,7 +5337,7 @@ void G_PlayerRevivable_6x4E::init() {
 }
 
 void G_PlayerRevivable_6x4E::send() {
-    bswap_g_client_id_header(this);
+    bswap_g_client_id_header(&header);
     send_subcommand(this);
 }
 
@@ -5428,7 +5428,7 @@ void G_ShieldAttack_6x4A::init() {
 }
 
 void G_ShieldAttack_6x4A::send() {
-    bswap_g_client_id_header(this);
+    bswap_g_client_id_header(&header);
     send_subcommand(this);
 }
 
