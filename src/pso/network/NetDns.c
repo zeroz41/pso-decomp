@@ -450,32 +450,32 @@ s32 dns_clear_server(void) {
     return cnt;
 }
 
-inline s32 addr_compare(u32 family, u8 *a, u8 *b) {
+inline s32 addr_compare(u32 family, NetworkAddress *a, NetworkAddress *b) {
     switch (family) {
     case 4:
-        if (*(u32 *)b != 4) {
+        if (b->family != 4) {
             return -1;
         }
-        return NetMemcmp(a + 4, b + 4, 4);
+        return NetMemcmp(a->address, b->address, 4);
     case 6:
-        if (*(u32 *)b != 6) {
+        if (b->family != 6) {
             return -1;
         }
-        return NetMemcmp(a + 4, b + 4, 0x10);
+        return NetMemcmp(a->address, b->address, 0x10);
     default:
     case 0:
         return -1;
     }
 }
-extern s16 dns_set_server(u8 *self) {
+s16 dns_set_server(NetworkAddress *self) {
     DnsResolverState *g;
     s16 ret;
     s16 i;
-    u8 *p;
-    u8 *slot;
+    NetworkAddress *p;
+    NetworkAddress *slot;
     u32 family;
 
-    switch (*(u32 *)self) {
+    switch (self->family) {
     case 4:
     case 6:
         break;
@@ -485,18 +485,18 @@ extern s16 dns_set_server(u8 *self) {
     }
     lock_at_sem();
     g = &dns_resolver_state;
-    p = (u8 *)g->servers;
+    p = g->servers;
     slot = NULL;
-    for (i = 0; i < g->nservers; i++, p += 0x14) {
-        if (*(u32 *)p == 0) {
+    for (i = 0; i < g->nservers; i++, p++) {
+        if (p->family == 0) {
             if (slot == NULL) {
                 ret = i;
                 slot = p;
             }
             continue;
         }
-        family = *(u32 *)self;
-        if (family != *(u32 *)p) {
+        family = self->family;
+        if (family != p->family) {
             continue;
         }
         if (addr_compare(family, self, p) == 0) {
@@ -506,7 +506,7 @@ extern s16 dns_set_server(u8 *self) {
         }
     }
     if (slot != NULL) {
-        NetMemcpy(slot, self, 0x14);
+        NetMemcpy(slot, self, sizeof(NetworkAddress));
     } else {
         ret = -2;
     }

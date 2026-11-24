@@ -141,6 +141,7 @@ s32 ipv6_input(u8 *ip, int len, s16 id) {
     NetPacket *pkt;
     s16 reassembled;
     Ipv6RawSocket *sock;
+    Ipv6Header *header = (Ipv6Header *)ip;
 
     if (((s16) len) < (s32) sizeof(Ipv6Header)) {
         goto ret;
@@ -152,10 +153,10 @@ s32 ipv6_input(u8 *ip, int len, s16 id) {
     if ((ip[0] & 0xF0) != 0x60) {
         return -1;
     }
-    total_len = min_s32(((Ipv6Header *) ip)->payload_length + sizeof(Ipv6Header), (s16) len);
+    total_len = min_s32(header->payload_length + sizeof(Ipv6Header), (s16) len);
     if (NetIPv6IsLoopbackInterface(iface) == 0) {
-        if (ipv6_iface_for_address(((Ipv6Header *) ip)->dst.bytes) < 0) {
-            if (NetIPv6IsMulticast(((Ipv6Header *) ip)->dst.bytes) == 0) {
+        if (ipv6_iface_for_address(header->dst.bytes) < 0) {
+            if (NetIPv6IsMulticast(header->dst.bytes) == 0) {
                 if (ipv6_forward(ip, ip, total_len, iface) == 0) {
                     return 0;
                 }
@@ -165,11 +166,11 @@ s32 ipv6_input(u8 *ip, int len, s16 id) {
     }
     src_addr.family = 6;
     src = src_addr.address;
-    NetMemcpy(src, ((Ipv6Header *) ip)->src.bytes, 16);
+    NetMemcpy(src, header->src.bytes, 16);
     dst_addr.family = 6;
     dst = dst_addr.address;
-    NetMemcpy(dst, ((Ipv6Header *) ip)->dst.bytes, 16);
-    next_header = ((Ipv6Header *) ip)->next_header;
+    NetMemcpy(dst, header->dst.bytes, 16);
+    next_header = header->next_header;
     remaining = total_len - sizeof(Ipv6Header);
     hdr = ip;
     ext = hdr + sizeof(Ipv6Header);
