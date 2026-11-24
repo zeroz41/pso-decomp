@@ -95,7 +95,7 @@ struct G_AttackFinished_Header_6x46 {
 struct G_Attack_6x43_6x44_6x45 {
  struct G_ClientIDHeader header;
  u16 angle_y;
- u16 unknown_a2;
+ u16 action_type; // the receiver passes it to the attack state's set_action_type
 };
 
 // 6xA9/6xAA: Barba Ray (TBoss7DeRolLeC) action changes. The client swaps

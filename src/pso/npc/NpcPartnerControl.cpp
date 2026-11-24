@@ -21,6 +21,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/PlayerTaskEffects.h"
 
 // One TU: apply_player_slot_status (jumptable after the TNpcPartnerSpawner vtable in .data),
 // TNpcPartnerSpawner, TObjBase::is_active, the 4-player notifiers and the
@@ -33,7 +34,6 @@ PartnerRemark npc_partner_dialogue_state[25] = { 0 };
 PartnerDialogueSet partner_dialogue_table[4];
 int partner_chatter_flags;
 extern "C" {
-void set_arrival_override_coords(u16, s32, f32, f32, f32);
 void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading);
 }
 
@@ -120,7 +120,7 @@ void send_npc_create(s32 controller_id, s32 npc_type) {
 }
 
 void send_npc_control_notify_players(s32 controller_id, s32 npc_client_id, s32 npc_type) {
-    s32 client;
+    TObjPlayer *player;
     G_NPCControl_6x69 cmd;
     s32 i;
     cmd.init();
@@ -131,8 +131,8 @@ void send_npc_control_notify_players(s32 controller_id, s32 npc_client_id, s32 n
     cmd.npc_type = npc_type;
     cmd.npc_client_id = npc_client_id;
     for (; i < 4; i++) {
-        if ((client = (saddr)get_player_by_client_id(i)) != 0U) {
-            TObjPlayer::notify_field1c(client);
+        if ((player = get_player_by_client_id(i)) != NULL) {
+            TObjPlayer::send_enable_pk_mode(player);
             break;
         }
     }
@@ -166,7 +166,7 @@ void create_companion(u16 leader, u16 slot, s32 appearance, Vec *pos, s32 headin
 }
 
 void send_npc_control_create(u16 controller_id, u16 npc_client_id, s32 npc_type, Vec *pos, s32 heading) {
-    s32 client;
+    TObjPlayer *player;
     G_NPCControl_6x69 cmd;
     s32 i;
     cmd.init();
@@ -176,8 +176,8 @@ void send_npc_control_create(u16 controller_id, u16 npc_client_id, s32 npc_type,
     cmd.command = 3;
     cmd.npc_type = npc_type;
     for (; i < 4; i++) {
-        if ((client = (saddr)get_player_by_client_id(i)) != 0U) {
-            TObjPlayer::notify_field1c(client);
+        if ((player = get_player_by_client_id(i)) != NULL) {
+            TObjPlayer::send_enable_pk_mode(player);
             break;
         }
     }
@@ -258,7 +258,7 @@ void handle_6x69_npc_control(G_NPCControl_6x69 *cmd) {
             if (p == NULL) {
                 return;
             }
-            TObjPlayer::notify_field1c((saddr)p);
+            TObjPlayer::send_enable_pk_mode(p);
             p->reset_motion_fields();
             p->set_npc_controller((u16)local_client_id);
             p->set_npc_control_state(cmd->npc_type);
@@ -267,7 +267,7 @@ void handle_6x69_npc_control(G_NPCControl_6x69 *cmd) {
             p = create_player_object(cmd->npc_client_id, 4, load_npc_player_template(cmd->npc_type));
             if (p != NULL) {
                 p->reset_motion_fields();
-                TObjPlayer::notify_field1c((saddr)p);
+                TObjPlayer::send_enable_pk_mode(p);
             }
         }
         break;
@@ -357,7 +357,7 @@ void quest_remove_npc_player(u16 client) {
     }
 }
 
-void enable_all_battle_ctrl() {
+void delete_npc_players() {
     s32 i;
     TObjPlayer *player;
     i = 0;
@@ -512,7 +512,7 @@ void set_partner_common_remark(s32 kind, const char *text) {
     }
 }
 
-void TObjPlayer::update_4p_battle_ctrls() {
+void disable_pk_mode_for_all_players() {
     s32 i;
     TObjPlayer *player;
 
@@ -525,14 +525,14 @@ void TObjPlayer::update_4p_battle_ctrls() {
     } while (i < 4);
 }
 
-void TObjPlayer::notify_all_battle_players() {
+void enable_pk_mode_for_all_players() {
     TObjPlayer *player;
     s32 i;
 
     i = 0;
     do {
         if ((player = get_player_by_client_id(i)) != NULL) {
-            TObjPlayer::notify_field1c((saddr)player);
+            TObjPlayer::send_enable_pk_mode(player);
         }
         i += 1;
     } while (i < 4);

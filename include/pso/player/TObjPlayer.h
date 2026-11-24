@@ -969,8 +969,6 @@ struct TObjPlayer : public TObjChara {
     static void create_network_object(s32 item_id, u32 *hit, saddr direction);
     void free_indexed_entry(s32 _w1);
     void copy_node_record(saddr arg1);
-    static void notify_all_battle_players();
-    static void update_4p_battle_ctrls();
     void set_player_index(s32 v);
     void set_flag0_bits01();
     int clear_lock_flag();
@@ -1137,7 +1135,7 @@ struct TObjPlayer : public TObjChara {
     static s32 update_small_font(saddr arg0, void * command);
     static void send_item_pickup_request(saddr player);
     void set_state_flag_6043();
-    static void notify_field1c(saddr arg0);
+    static void send_enable_pk_mode(TObjPlayer *player);
     int get_field_828();
     static void play_phase_transition_sound(saddr child);
     int check_flag_40000();

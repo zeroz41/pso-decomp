@@ -74,7 +74,12 @@ void reset_player_lobby_model(u16 client);
 void send_inter_level_warp_all(s32 value);
 void apply_to_players(s32 value, const Vec *pos, s32 heading);
 void send_6x3e_to_all_players(const Vec *pos, s32 angle);
-void enable_all_battle_ctrl();
+// Deletes every NPC player (control state 3) when the quest or the floor's
+// objects are torn down.
+void delete_npc_players();
+// quest opcodes pl_pkon / pl_pkoff: send 6x1B / 6x1C for every player present.
+void enable_pk_mode_for_all_players();
+void disable_pk_mode_for_all_players();
 void disable_partner_chatter();
 void enable_partner_chatter();
 void send_stop_at_position(u16 id, const Vec *pos, s32 angle);

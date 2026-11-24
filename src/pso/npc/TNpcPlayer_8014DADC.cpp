@@ -62,7 +62,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
         init_6x43_attack_packet(&cmd43);
         if (self_view != NULL) {
             cmd43.header.client_id = self_view->get_client_id();
-            cmd43.unknown_a2 = 0;
+            cmd43.action_type = 0;
             target = find_active_entity_by_id(self_view->get_target_id());
             if (target != NULL) {
                 cmd43.angle_y = calc_angle_to(&self_view->player->position, &target->position);
@@ -79,7 +79,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
         init_6x44_attack_packet(&cmd44);
         if (self_view != NULL) {
             cmd44.header.client_id = self_view->get_client_id();
-            cmd44.unknown_a2 = 1;
+            cmd44.action_type = 1;
             target = find_active_entity_by_id(self_view->get_target_id());
             if (target != NULL) {
                 cmd44.angle_y = calc_angle_to(&self_view->player->position, &target->position);
@@ -96,7 +96,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
         init_6x45_attack_packet(&cmd45);
         if (self_view != NULL) {
             cmd45.header.client_id = self_view->get_client_id();
-            cmd45.unknown_a2 = 1;
+            cmd45.action_type = 1;
             target = find_active_entity_by_id(self_view->get_target_id());
             if (target != NULL) {
                 cmd45.angle_y = calc_angle_to(&self_view->player->position, &target->position);
