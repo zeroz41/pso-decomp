@@ -61,12 +61,26 @@ class TPlayerLobbyMarker;
 // The frames a player stays protected from hits (after getting up, being
 // hurt, or a mag's invincibility).
 struct ProtectionTimer {
+    s32 frames;
+
+    ProtectionTimer();
+    virtual ~ProtectionTimer();
     s32 get_frames();
     void set_frames(s32 frames);
     void reset_type();
     void reset_lobby_model();
+};
 
-    s32 frames;
+LAYOUT_ASSERT(ProtectionTimer_size, sizeof(ProtectionTimer) == 0x8);
+
+// Three factors that start at 1.0; init_action_provider resets them.
+struct UnitScale {
+    f32 x;
+    f32 y;
+    f32 z;
+
+    UnitScale();
+    void reset();
 };
 
 struct PlayerNpcControl {
@@ -74,7 +88,7 @@ struct PlayerNpcControl {
     u16 reserved;
     s32 state;
 
-    void reset();
+    PlayerNpcControl();
 };
 
 LAYOUT_ASSERT(PlayerNpcControl_size, sizeof(PlayerNpcControl) == 0x8);
@@ -86,8 +100,8 @@ struct StickEscapeDetector {
     s32 last_turn_frame;
     const ControllerInputContext *input;
 
+    StickEscapeDetector();
     s32 check_input_angle();
-    void reset_fields();
 };
 
 LAYOUT_ASSERT(StickEscapeDetector_size, sizeof(StickEscapeDetector) == 0xC);
@@ -249,11 +263,9 @@ struct TObjPlayer : public TObjChara {
     PlayerAppearFade appear_fade;
     BattleMusicState battle_music;
     ProtectionTimer protection;  // frames the player cannot be hurt
-    u8 _pad648[0x4];
     StickEscapeDetector stick_escape_detector;
     PlayerIntraMapWarp intra_map_warp;
-    void* m_66c;
-    u8 _pad670[0x8];
+    UnitScale unit_scale;
     PlayerNpcControl npc_control;
     CollisionBody collision_body;
     MovementHistory movement_history;
@@ -508,11 +520,8 @@ struct TObjPlayer : public TObjChara {
     void set_mind_materials_used(u8 v);
     void set_power_materials_used(u8 v);
     void*reset_sub_status_disp();
-    void set_vec3_const();
     static s32 reset_and_return(saddr p);
     void clear_base();
-    void*set_vec3_const_wrapper();
-    u8 *construct_hurt_timer();
     int sub_802a7290_fwd();
     int is_handle_valid();
     static u8 get_item_count_max();
@@ -1320,7 +1329,10 @@ LAYOUT_ASSERT(PlayerAttackStatsOffset, offsetof(TObjPlayer, attack_stats) == 0xD
 LAYOUT_ASSERT(PlayerResistanceStatsOffset, offsetof(TObjPlayer, resistance_stats) == 0xD8C);
 
 LAYOUT_ASSERT(TObjPlayer_area_offset, offsetof(TObjPlayer, current_area) == 0x3E0);
+LAYOUT_ASSERT(TObjPlayer_render_material_state_offset, offsetof(TObjPlayer, render_material_state) == 0x608);
 LAYOUT_ASSERT(TObjPlayer_appear_fade_offset, offsetof(TObjPlayer, appear_fade) == 0x634);
+LAYOUT_ASSERT(TObjPlayer_protection_offset, offsetof(TObjPlayer, protection) == 0x644);
+LAYOUT_ASSERT(TObjPlayer_unit_scale_offset, offsetof(TObjPlayer, unit_scale) == 0x66C);
 LAYOUT_ASSERT(TObjPlayer_intra_map_warp_offset, offsetof(TObjPlayer, intra_map_warp) == 0x658);
 LAYOUT_ASSERT(TObjPlayer_npc_control_offset, offsetof(TObjPlayer, npc_control) == 0x678);
 LAYOUT_ASSERT(TObjPlayer_movement_history_offset, offsetof(TObjPlayer, movement_history) == 0x6AC);

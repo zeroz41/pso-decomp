@@ -14,7 +14,7 @@ struct MovementHistory {
     s32 index;
     MovementHistoryEntry entries[16];
 
-    MovementHistory *init();
+    MovementHistory();
 };
 
 extern "C" void clear_movement_history(MovementHistory *history);

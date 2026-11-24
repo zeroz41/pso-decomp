@@ -400,7 +400,7 @@ void PhotonBlastAim::reset() {
     position.x = position.y = position.z = player_zero;
 }
 
-void PlayerNpcControl::reset() {
+PlayerNpcControl::PlayerNpcControl() {
     controller_client_id = 0xFFFF;
     state = 0;
 }
@@ -466,7 +466,11 @@ void PlayerDeathSink::set_progress(f32 v) { progress = v; }
 
 void PlayerAppearFade::set_client_id(u16 id) { client_id = id; }
 
-void TObjPlayer::set_vec3_const() { *(float*)((char*)this + 0x0) = player_one; *(float*)((char*)this + 0x4) = player_one; *(float*)((char*)this + 0x8) = player_one; }
+void UnitScale::reset() {
+    x = player_one;
+    y = player_one;
+    z = player_one;
+}
 
 void BattleMusicState::reset_counter_field4() {
     timer = 0;
@@ -846,18 +850,7 @@ void TObjPlayer::set_shared_flag(int flag) { shared_flag = flag; }
 #pragma push
 #pragma dont_inline on
 
-struct RecoveredGlobal_lbl_804C3E38 { s32 value; s32 pad_4; void *(*dtor)(void *, s16); };
-RecoveredGlobal_lbl_804C3E38 lbl_804C3E38 = {0, 0, TObjPlayer__sub_801BFAD4};
-
-void *TObjPlayer__sub_801BFAD4(void *timer, s16 flags) {
-    if (timer != NULL) {
-        *(s32 **)((s8 *)timer + 4) = &lbl_804C3E38.value;
-        if (flags > 0) {
-            ::operator delete(timer);
-        }
-    }
-    return timer;
-}
+ProtectionTimer::~ProtectionTimer() {}
 #pragma pop
 
 extern "C" {
@@ -874,8 +867,8 @@ void clear_marker_position(Vec *position) {
 }
 
 void TObjPlayer::clear_base() { *(s32*)((char*)this + 0x0) = 0; }
-MovementHistory *MovementHistory::init() { clear_movement_history(this); return this; }
-void*TObjPlayer::set_vec3_const_wrapper() { set_vec3_const(); return this; }
+MovementHistory::MovementHistory() { clear_movement_history(this); }
+UnitScale::UnitScale() { reset(); }
 
 }
 
@@ -884,7 +877,7 @@ extern "C" {
 extern const f32 player_scale_initial;
 
 
-void PlayerIntraMapWarp::reset() {
+PlayerIntraMapWarp::PlayerIntraMapWarp() {
     destination.z = player_zero;
     destination.y = player_zero;
     destination.x = player_zero;
@@ -892,15 +885,10 @@ void PlayerIntraMapWarp::reset() {
     timer = 0;
 }
 
-u8 *TObjPlayer::construct_hurt_timer() {
-    u8 *arg0 = (u8 *)this;
-    *(s32 **)((s8 *)arg0 + 4) = &lbl_804C3E38.value;
-    ((ProtectionTimer *)this)->reset_type();
-    return arg0;
-}
+ProtectionTimer::ProtectionTimer() { reset_type(); }
 
-BattleMusicState *BattleMusicState::reset_and_clear() { __ct__8FlagWordFv(&flags); reset_counter_field4(); return this; }
-PlayerAppearFade *PlayerAppearFade::init() { reset(); return this; }
+BattleMusicState::BattleMusicState() { __ct__8FlagWordFv(&flags); reset_counter_field4(); }
+PlayerAppearFade::PlayerAppearFade() { reset(); }
 
 void PlayerAppearFade::reset() {
     state = WAITING;

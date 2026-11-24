@@ -187,7 +187,7 @@ void TObjPlayer::init_action_provider() {
     m_36c = 0;
     regen_timer = 0;
     reset_entrance_id();
-    ((TObjPlayer *)((u8 *)this + 0x66C))->set_vec3_const();
+    unit_scale.reset();
     frame_timer = player_zero;
     state_flags = 0;
     set_input_mode(0);
@@ -520,7 +520,6 @@ TObjPlayer::~TObjPlayer() {
     unregister();
     TObjPlayer::free_owned_buffer_b((saddr)&this->attack_state, (s16)(-1));
     destroy__10TObjPlayerFis((saddr)((s8 *)this + 0x754), -1);
-    TObjPlayer__sub_801BFAD4(&this->protection, -1);
 }
 
 extern "C" {
@@ -530,14 +529,6 @@ extern const char *TObjPlayer_name;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
-    appear_fade.init();
-    battle_music.reset_and_clear();
-    ((TObjPlayer *)((char *)this + 1604))->construct_hurt_timer();
-    stick_escape_detector.reset_fields();
-    intra_map_warp.reset();
-    ((TObjPlayer *)((char *)this + 1644))->set_vec3_const_wrapper();
-    npc_control.reset();
-    movement_history.init();
     movement_hold.init();
     photon_blast_aim.reset();
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
@@ -560,14 +551,6 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(parent) {
-    appear_fade.init();
-    battle_music.reset_and_clear();
-    ((TObjPlayer *)((char *)this + 1604))->construct_hurt_timer();
-    stick_escape_detector.reset_fields();
-    intra_map_warp.reset();
-    ((TObjPlayer *)((char *)this + 1644))->set_vec3_const_wrapper();
-    npc_control.reset();
-    movement_history.init();
     movement_hold.init();
     photon_blast_aim.reset();
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
@@ -600,14 +583,6 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record) : TObjChara(parent) {
-    appear_fade.init();
-    battle_music.reset_and_clear();
-    ((TObjPlayer *)(((u8 *)this) + 0x644))->construct_hurt_timer();
-    stick_escape_detector.reset_fields();
-    intra_map_warp.reset();
-    ((TObjPlayer *)(((u8 *)this) + 0x66C))->set_vec3_const_wrapper();
-    npc_control.reset();
-    movement_history.init();
     movement_hold.init();
     photon_blast_aim.reset();
     ((TObjPlayer *)(((u8 *)this) + 0x754))->init_sub_objects();

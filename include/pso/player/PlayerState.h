@@ -7,7 +7,6 @@ struct Vec;
 
 extern "C" {
 void set_equip_slot_entry(saddr slots, s32 slot, s32 item);
-void *TObjPlayer__sub_801BFAD4(void *timer, s16 flags);
 }
 
 // Empties the 13 equip slots.

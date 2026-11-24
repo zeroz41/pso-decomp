@@ -17,7 +17,7 @@ struct PlayerAppearFade {
     s16 delay;
     s32 state;
 
-    PlayerAppearFade *init();
+    PlayerAppearFade();
     void reset();
     void set_client_id(u16 id);
     s32 is_shown();

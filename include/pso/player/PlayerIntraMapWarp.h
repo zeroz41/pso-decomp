@@ -12,7 +12,7 @@ struct PlayerIntraMapWarp {
     s32 yaw;
     Vec destination;
 
-    void reset();
+    PlayerIntraMapWarp();
 };
 
 LAYOUT_ASSERT(PlayerIntraMapWarp_size, sizeof(PlayerIntraMapWarp) == 0x14);

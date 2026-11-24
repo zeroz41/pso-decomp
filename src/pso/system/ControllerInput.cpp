@@ -138,7 +138,7 @@ void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerI
     }
 }
 
-void StickEscapeDetector::reset_fields() {
+StickEscapeDetector::StickEscapeDetector() {
     last_stick_angle = 0;
     last_turn_frame = 0;
     input = NULL;
