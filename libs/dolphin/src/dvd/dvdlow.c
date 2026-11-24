@@ -236,11 +236,11 @@ static BOOL AudioBufferOn(void)
 
 static BOOL HitCache(DVDBuffer* cur, DVDBuffer* prev)
 {
-	u32 uVar1 = (prev->offset + prev->length - 1) >> 15;
-	u32 uVar2 = (cur->offset >> 15);
-	u32 iVar3 = AudioBufferOn() ? 5 : 15;
+	u32 blockNumOfPrevEnd = (prev->offset + prev->length - 1) >> 15;
+	u32 blockNumOfCurStart = (cur->offset >> 15);
+	u32 cacheBlockSize = AudioBufferOn() ? 5 : 15;
 
-	if ((uVar2 > uVar1 - 2) || (uVar2 < uVar1 + iVar3 + 3)) {
+	if ((blockNumOfCurStart > blockNumOfPrevEnd - 2) || (blockNumOfCurStart < blockNumOfPrevEnd + cacheBlockSize + 3)) {
 		return TRUE;
 	}
 	return FALSE;

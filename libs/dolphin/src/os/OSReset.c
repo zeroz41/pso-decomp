@@ -93,22 +93,22 @@ static asm void Reset(unsigned long resetCode) {
 #include "orig_asm/os/OSReset/Reset.inc"
 }
 
-void __OSDoHotReset(s32 arg0)
+void __OSDoHotReset(s32 resetCode)
 {
 	OSDisableInterrupts();
 	__VIRegs[1] = 0;
 	ICFlashInvalidate();
-	Reset(arg0 * 8);
+	Reset(resetCode * 8);
 }
 
-inline BOOL __OSCallResetFunctions(BOOL arg0)
+inline BOOL __OSCallResetFunctions(BOOL final)
 {
 	OSResetFunctionInfo* iter;
 	s32 retCode = 0;
 	s32 temp;
 
 	for (iter = ResetFunctionQueue.head; iter != NULL;) {
-		temp = !iter->func(arg0);
+		temp = !iter->func(final);
 		iter = iter->next;
 		retCode |= temp;
 	}

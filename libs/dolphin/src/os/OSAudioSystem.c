@@ -78,18 +78,18 @@ void __OSInitAudioSystem(void) {
 }
 
 void __OSStopAudioSystem(void) {
-    u32 r28;
+    u32 reg;
 
     __DSPRegs[5] = 0x804;
 
-    r28 = __DSPRegs[27];
-    __DSPRegs[27] = r28 & ~0x8000;
+    reg = __DSPRegs[27];
+    __DSPRegs[27] = reg & ~0x8000;
 
-    for (r28 = __DSPRegs[5]; r28 & 0x400;)
-        r28 = __DSPRegs[5];
+    for (reg = __DSPRegs[5]; reg & 0x400;)
+        reg = __DSPRegs[5];
 
-    for (r28 = __DSPRegs[5]; r28 & 0x200;)
-        r28 = __DSPRegs[5];
+    for (reg = __DSPRegs[5]; reg & 0x200;)
+        reg = __DSPRegs[5];
 
     __DSPRegs[5] = 0x8AC;
     __DSPRegs[0] = 0;
@@ -98,10 +98,10 @@ void __OSStopAudioSystem(void) {
         continue;
     }
 
-    for (r28 = OSGetTick(); (s32)(OSGetTick() - r28) < 44;)
+    for (reg = OSGetTick(); (s32)(OSGetTick() - reg) < 44;)
         continue;
 
     __DSPRegs[5] |= 1;
-    for (r28 = __DSPRegs[5]; r28 & 1;)
-        r28 = __DSPRegs[5];
+    for (reg = __DSPRegs[5]; reg & 1;)
+        reg = __DSPRegs[5];
 }

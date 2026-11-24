@@ -482,7 +482,7 @@ static char* longlong2str(signed long long num, char* pBuf, print_format fmt) {
 static char * double2hex(long double num, char * buff, print_format format)  {
     char *p;
     unsigned char *q;
-    unsigned char temp_r7;
+    unsigned char byte;
     char working_byte;
     long double ld;
     long exp;
@@ -549,11 +549,11 @@ static char * double2hex(long double num, char * buff, print_format format)  {
     q = (unsigned char*) &num;
 
     for (hex_precision = format.precision; hex_precision >= 1; hex_precision--) {
-        temp_r7 = *(q + (hex_precision / 2 + 1));
+        byte = *(q + (hex_precision / 2 + 1));
         if (hex_precision % 2) {
-            working_byte = temp_r7 & 0xF;
+            working_byte = byte & 0xF;
         } else {
-            working_byte = (temp_r7 >> 4);
+            working_byte = (byte >> 4);
         }
 
         if (working_byte < 10) {
