@@ -186,7 +186,6 @@ struct Self_801B96BC {
 };
 
 extern "C" {
-s32 calc_stat_threshold__10TObjPlayerFPv(void *player);
 s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming);
 s32 is_item_equipped(TItem *item);
 s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out, s32 key);
@@ -812,7 +811,6 @@ s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
 saddr TObjPlayer__sub_80116620(void *, int);
 void TObjPlayer__sub_801AF554(void *arg0, s8 arg1);
-void play_voice_pair__10TObjPlayerFPv(TObjPlayer *player);
 bool TObjPlayer__sub_801AF694(TObjPlayer *player, s32 kind);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
@@ -1049,7 +1047,6 @@ uaddr create_placed_trap__10TOMineTrapFUiss(u8 *, s32, s32);
 extern const f32 lbl_805DC2D8;
 
 // Called ahead of its definition: the functions run from the highest address down.
-s32 is_action_available__10TObjPlayerFi(saddr arg0);
 
 void TObjPlayer::update_position(PlayerSyncRecord *record) {
     set_position_from(&record->position);
@@ -2514,7 +2511,7 @@ s32 TObjPlayer::send_trap_packet(int arg1_) {
     if (TWindowCtrl__sub_8024A228((u16)((TObjBase *)this)->get_entity_id()) == 0) {
         return 0;
     }
-    if (((s32 (*)(void *))is_action_available__10TObjPlayerFi)((u8 *)this) == 0) {
+    if (is_action_available() == 0) {
         return 0;
     }
     if ((s8)((TObjPlayer *)trap_counts)->clamp_char_at(arg1) <= 0) {
@@ -4333,7 +4330,7 @@ void handle_6x31_use_medical_center(G_UseMedicalCenter_6x31 *command) {
 
 
 void TObjPlayer::recover_full(void *player) {
-    ((s32 (*)(void))play_voice_pair__10TObjPlayerFPv)();
+    ((TObjPlayer *)player)->restore_hp_and_tp();
     ((TObjPlayer *)player)->clear_all_status_effects();
     ((TObjBase *)player)->clear_actor_flags((u32)0xE00);
     ((TObjPlayer *)player)->clear_state_flags(1);
@@ -6498,14 +6495,14 @@ s32 TObjPlayer::are_traps_full() {
     return are_trap_counts_full(trap_counts, get_actor_level_index(), get_class_index()) != 0 ? 1 : 0;
 }
 
-s32 is_action_available__10TObjPlayerFi(saddr arg0) {
+s32 TObjPlayer::is_action_available() {
     if ((is_current_area_item_enabled() == 0) || (is_boss_area() != 0)) {
         return 0;
     }
-    if (TObjPlayer::is_camera_ready() != 0) {
-        return (u32)__cntlzw(((TObjCollidable *)arg0)->test_actor_flags(0x20000)) >> 5;
+    if (is_camera_ready() != 0) {
+        return (u32)__cntlzw(test_actor_flags(0x20000)) >> 5;
     }
-    return ((TObjPlayer *)arg0)->is_android() != 0 ? 1 : 0;
+    return is_android() != 0 ? 1 : 0;
 }
 
 bool TObjPlayer__sub_801AF694(TObjPlayer *player, s32 kind) { return fn_801C543C(player->trap_counts, kind); }
@@ -6527,9 +6524,9 @@ u32 TObjPlayer::set_lobby_marker(s32 arg1) {
 
 void TObjPlayer::reset_pose() { this->clear_actor_flags((uaddr)((void*)2048)); update_rotation(); }
 
-void play_voice_pair__10TObjPlayerFPv(TObjPlayer *player) {
-    ((TObjPlayer *)player)->set_hp_clamped(player->hpmax);
-    ((TObjPlayer *)player)->set_tp(player->tpmax);
+void TObjPlayer::restore_hp_and_tp() {
+    set_hp_clamped(hpmax);
+    set_tp(tpmax);
 }
 
 void TObjPlayer__sub_801AF554(void *chara, s8 arg1) {
@@ -6579,34 +6576,34 @@ void TObjPlayer::update_facing_from_lock() {
     set_motion_list(reinterpret_cast<BmlMotionEntry *>(action_provider->get_state_table(0)));
 }
 
-s32 calc_stat_threshold__10TObjPlayerFPv(void *player) {
-    s32 var_r31;
-    var_r31 = ((TObjPlayer *)player)->get_actor_level_index();
-    if (var_r31 > 0x63) {
-        var_r31 = 0x63;
+s32 TObjPlayer::get_regen_interval(s32 timer) {
+    s32 level;
+    level = get_actor_level_index();
+    if (level > 99) {
+        level = 99;
     }
-    if (((TObjPlayer *)player)->is_newman() != 0) {
-        var_r31 *= 0.8;
-        return 0x5A - var_r31;
+    if (is_newman() != 0) {
+        level *= 0.8;
+        return 90 - level;
     }
-    var_r31 *= 0.55;
-    return 0x3C - var_r31;
+    level *= 0.55;
+    return 60 - level;
 }
 
 s32 TObjPlayer::tick_regen_timer() {
-    s32 v;
+    s32 next;
     TObjPlayer *target;
-    s32 r = 0;
+    s32 ticked = 0;
     TObjPlayer *player;
-    s32 cur = get_regen_timer();
-    target = player = (TObjPlayer *)this;
-    v = cur + 1;
-    if (v >= ((s32 (*)(void *, s32))calc_stat_threshold__10TObjPlayerFPv)(target, cur)) {
-        v = 0;
-        r = 1;
+    s32 timer = get_regen_timer();
+    target = player = this;
+    next = timer + 1;
+    if (next >= target->get_regen_interval(timer)) {
+        next = 0;
+        ticked = 1;
     }
-    player->set_regen_timer(v);
-    return r;
+    player->set_regen_timer(next);
+    return ticked;
 }
 
 int TObjPlayer::get_max_level() { return 199; }
