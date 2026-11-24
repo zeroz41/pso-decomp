@@ -1589,7 +1589,7 @@ pso/enemy/flower/TObjEneRe2Flower.cpp:
 	.sdata      start:0x805D2A48 end:0x805D2A50
 	.sbss       start:0x805D5170 end:0x805D5188
 
-pso/player/TObjPlayer_800C4714.cpp:
+pso/enemy/flower/TObjEneRe2Flower_Bomb.cpp:
 	.text       start:0x800C45AC end:0x800C4B78
 	.rodata     start:0x8043BC10 end:0x8043BC48
 	.data       start:0x804933D8 end:0x80493438

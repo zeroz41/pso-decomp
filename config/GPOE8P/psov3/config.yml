@@ -5643,7 +5643,7 @@ force_active:
   - destroy__21TShopDeleteItemWindowFv
   - destroy__22TQuestVmDownLoadServerFv
   - destroy_all_objects__6TLobbyFv
-  - destroy_and_free__21TObjEneRe2Flower_BombFs
+  - __dt__21TObjEneRe2Flower_BombFv
   - destroy_and_mark_done__11TAdSEGAlogoFP7TObject
   - __dt__18TPlyDispConfigSmthFv
   - destroy_char_data_array__10TObjPlayerFv
@@ -7480,8 +7480,7 @@ force_active:
   - shark_motion_name_walk_bm1_s_wala_body_njm
   - bm_ene_bm1_shark_bml_filename
   - bm_ene_bm1_shark_a_bml_filename
-  - lbl_8043BC10
-  - lbl_8043BC24
+  - flower_bomb_attack
   - TObjEneRe2Flower_EffCurse3__class_name_string
   - lbl_8043C920
   - slime_tail_model_name_bm4_ps_ma_body_nj
@@ -7791,7 +7790,7 @@ force_active:
   - lappy_ap_xs_model_names
   - lappy_ap_xs_motion_names
   - __vt__12TObjEneLappy
-  - lbl_804933D8
+  - __vt__21TObjEneRe2Flower_Bomb
   - bm_ene_bm5_gibon_u_model_names
   - bm_ene_bm5_gibon_u_resource_descriptor
   - bm_ene_bm5_gibon_u_low_model_names
@@ -8271,7 +8270,7 @@ force_active:
   - TBoss5GryphonSnarl__name
   - camera_ctrl_class_name
   - TObjEneRe7BeruraPunch__name
-  - lbl_805D2A50
+  - TObjEneRe2Flower_Bomb__class_name
   - TObjEneRe2Flower_EffCurse3__name
   - TObjEneSlime__name
   - TObjEneSlimeWaterBomb__name
