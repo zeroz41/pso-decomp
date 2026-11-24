@@ -510,9 +510,9 @@ u8 aramAllocateStreamBuffer(u32 len);
 void aramFreeStreamBuffer(u8 id);
 u32 aramGetZeroBuffer(void);
 
-extern f32 lbl_804F6358[128];
-extern f32 lbl_804F6558[128];
-extern u16 lbl_804F6758[194];
+extern f32 toneup_tab[128];
+extern f32 tonedown_tab[128];
+extern u16 dspAttenuationTab[194];
 s32 salChangeADSRState(ADSR_VARS *adsr);
 u32 adsrStartRelease(ADSR_VARS *adsr, u32 rtime);
 u32 adsrHandle(ADSR_VARS *adsr, u16 *adsr_start, u16 *adsr_delta);

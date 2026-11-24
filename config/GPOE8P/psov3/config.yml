@@ -8144,12 +8144,10 @@ force_active:
   - lbl_804F2BF0
   - lbl_804F2BF8
   - lbl_804F3A18
-  - lbl_804F6358
-  - lbl_804F6558
+  - toneup_tab
+  - tonedown_tab
   - lbl_804F6EE0
-  - lbl_804F7120
-  - lbl_804F7130
-  - lbl_804F7168
+  - sndSintab
   - lbl_804F9E60
   - boss1_dragon_node_origin
   - boss1_dragon_breath_local_points
@@ -8322,10 +8320,10 @@ force_active:
   - lbl_805D42D8
   - class_name__10TItemEffPG
   - TBoss5GryphonLightningWing__name
-  - lbl_805D4630
-  - lbl_805D4638
-  - lbl_805D4640
   - video_black_pending
+  - last_rnd
+  - dspSRCType
+  - dspCoefSel
   - record_table_buffer
   - slot_table_buffer
   - boss1_dragon_lift_accel
@@ -8436,17 +8434,8 @@ force_active:
   - lbl_805D73D6
   - lbl_805D73D8
   - lbl_805D73DA
-  - lbl_805D73DC
-  - lbl_805D73E0
-  - lbl_805D73E4
-  - lbl_805D73EC
   - lbl_805D73F0
   - lbl_805D73F4
-  - lbl_805D73F8
-  - lbl_805D7400
-  - lbl_805D7404
-  - lbl_805D740C
-  - lbl_805D7410
   - lbl_805D7418
   - macActiveList
   - macTimeQueue

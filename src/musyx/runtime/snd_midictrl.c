@@ -591,15 +591,14 @@ static inline u16 GetGlobalInputValue(CtrlDest *inp, u32 dirtyMask, u8 midi, u8 
     return _GetInputValue(0, inp, midi, midiSet);
 }
 
-u32 lbl_804F7120[4] = {0x80000001, 0x80000002, 0x80000004, 0x80000008};
-u32 lbl_804F7130[4] = {0x80000010, 0x80000020, 0x80000040, 0x80000080};
-
 u16 inpGetAuxA(u8 studio, u8 index, u8 midi, u8 midiSet) {
-    return GetGlobalInputValue(&inpAuxA[studio][index], lbl_804F7120[index], midi, midiSet);
+    static u32 dirtyMask[4] = {0x80000001, 0x80000002, 0x80000004, 0x80000008};
+    return GetGlobalInputValue(&inpAuxA[studio][index], dirtyMask[index], midi, midiSet);
 }
 
 u16 inpGetAuxB(u8 studio, u8 index, u8 midi, u8 midiSet) {
-    return GetGlobalInputValue(&inpAuxB[studio][index], lbl_804F7130[index], midi, midiSet);
+    static u32 dirtyMask[4] = {0x80000010, 0x80000020, 0x80000040, 0x80000080};
+    return GetGlobalInputValue(&inpAuxB[studio][index], dirtyMask[index], midi, midiSet);
 }
 #pragma pop
 

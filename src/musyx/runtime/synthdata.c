@@ -55,17 +55,6 @@ u16 dataKeymapNum;
 u16 dataLayerNum;
 u16 dataMacTotal;
 u16 dataFXGroupNum;
-s32 lbl_805D73DC;
-s32 lbl_805D73E0;
-SynthMacSubTab lbl_805D73E4;
-s32 *lbl_805D73EC;
-SynthSDirData *dgs_result;
-SynthSampleHeader *dgs_sheader;
-SynthDataTab lbl_805D73F8;
-s32 *lbl_805D7400;
-SynthDataTab lbl_805D7404;
-SynthDataTab *lbl_805D740C;
-SynthLayerTab *lbl_805D7410;
 
 #pragma push
 #pragma opt_common_subs on
@@ -639,14 +628,19 @@ s32 maccmp(void *key, void *entry) {
 #pragma inline_depth(4)
 
 uaddr dataGetMacro(u16 mid) {
-    lbl_805D73E0 = (mid >> 6) & 0x3fff;
+    static s32 base;
+    static s32 i;
+    static SynthMacSubTab key;
+    static s32 *result;
 
-    if (dataMacMainTab[lbl_805D73E0].num != 0) {
-        lbl_805D73DC = dataMacMainTab[lbl_805D73E0].subTabIndex;
-        lbl_805D73E4.id = mid;
-        if ((lbl_805D73EC = (s32 *)sndBSearch(&lbl_805D73E4, &dataMacSubTabmem[lbl_805D73DC], dataMacMainTab[lbl_805D73E0].num,
+    i = (mid >> 6) & 0x3fff;
+
+    if (dataMacMainTab[i].num != 0) {
+        base = dataMacMainTab[i].subTabIndex;
+        key.id = mid;
+        if ((result = (s32 *)sndBSearch(&key, &dataMacSubTabmem[base], dataMacMainTab[i].num,
                                               sizeof(SynthMacSubTab), maccmp)) != NULL) {
-            return *lbl_805D73EC;
+            return *result;
         }
     }
 
@@ -666,25 +660,27 @@ s32 smpcmp(void *key, void *entry) {
 #pragma inline_depth(4)
 s32 dataGetSample(s16 sid, SAMPLE_INFO *newsmp) {
     static SynthSDirData key;
+    static SynthSDirData *result;
+    static SynthSampleHeader *sheader;
     long i;
 
     key.id = sid;
 
     for (i = 0; i < dataSmpSDirNum; ++i) {
-        if ((dgs_result = (SynthSDirData *)sndBSearch(&key, dataSmpSDirs[i].data, dataSmpSDirs[i].numSmp, sizeof(SynthSDirData),
+        if ((result = (SynthSDirData *)sndBSearch(&key, dataSmpSDirs[i].data, dataSmpSDirs[i].numSmp, sizeof(SynthSDirData),
                                                       smpcmp)) != NULL) {
-            if (dgs_result->ref_cnt != 0xFFFF) {
-                dgs_sheader = &dgs_result->header;
-                newsmp->info = dgs_sheader->info;
-                newsmp->addr = (void *)dgs_result->addr;
+            if (result->ref_cnt != 0xFFFF) {
+                sheader = &result->header;
+                newsmp->info = sheader->info;
+                newsmp->addr = (void *)result->addr;
                 newsmp->offset = 0;
-                newsmp->loop = dgs_sheader->loopOffset;
-                newsmp->length = dgs_sheader->length & 0xffffff;
-                newsmp->loopLength = dgs_sheader->loopLength;
-                newsmp->compType = dgs_sheader->length >> 24;
+                newsmp->loop = sheader->loopOffset;
+                newsmp->length = sheader->length & 0xffffff;
+                newsmp->loopLength = sheader->loopLength;
+                newsmp->compType = sheader->length >> 24;
 
-                if (dgs_result->extraData) {
-                    newsmp->extraData = (void *)((uaddr)&(dataSmpSDirs[i].data)->id + dgs_result->extraData);
+                if (result->extraData) {
+                    newsmp->extraData = (void *)((uaddr)&(dataSmpSDirs[i].data)->id + result->extraData);
                 }
                 return 0;
             }
@@ -701,17 +697,23 @@ s32 curvecmp(void *key, void *entry) {
 }
 
 saddr dataGetCurve(s16 cid) {
-    lbl_805D73F8.id = cid;
-    if ((lbl_805D7400 = (s32 *)sndBSearch(&lbl_805D73F8, dataCurveTab, dataCurveNum, sizeof(SynthDataTab), curvecmp)) != NULL) {
-        return *lbl_805D7400;
+    static SynthDataTab key;
+    static s32 *result;
+
+    key.id = cid;
+    if ((result = (s32 *)sndBSearch(&key, dataCurveTab, dataCurveNum, sizeof(SynthDataTab), curvecmp)) != NULL) {
+        return *result;
     }
     return 0;
 }
 
 SynthKeymap *dataGetKeymap(u16 cid) {
-    lbl_805D7404.id = cid;
-    if ((lbl_805D740C = (SynthDataTab *)sndBSearch(&lbl_805D7404, dataKeymapTab, dataKeymapNum, sizeof(SynthDataTab), curvecmp)) != NULL) {
-        return (SynthKeymap *)lbl_805D740C->data;
+    static SynthDataTab key;
+    static SynthDataTab *result;
+
+    key.id = cid;
+    if ((result = (SynthDataTab *)sndBSearch(&key, dataKeymapTab, dataKeymapNum, sizeof(SynthDataTab), curvecmp)) != NULL) {
+        return (SynthKeymap *)result->data;
     }
     return NULL;
 }
@@ -727,12 +729,13 @@ s32 layercmp(void *key, void *entry) {
 #pragma inline_depth(4)
 SynthLayer *dataGetLayer(u16 cid, u16 *n) {
     static SynthLayerTab key;
+    static SynthLayerTab *result;
 
     key.id = cid;
-    if ((lbl_805D7410 = (SynthLayerTab *)sndBSearch(&key, dataLayerTab, dataLayerNum, sizeof(SynthLayerTab),
+    if ((result = (SynthLayerTab *)sndBSearch(&key, dataLayerTab, dataLayerNum, sizeof(SynthLayerTab),
                                                     layercmp)) != NULL) {
-        *n = lbl_805D7410->num;
-        return (SynthLayer *)lbl_805D7410->data;
+        *n = result->num;
+        return (SynthLayer *)result->data;
     }
     return NULL;
 }

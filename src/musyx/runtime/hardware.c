@@ -11,10 +11,10 @@ u8 salNumVoices;
 u8 salAuxFrame;
 u8 salFrame;
 
-u16 lbl_805D4638[3] = {0, 1, 2};
-u16 lbl_805D4640[3] = {0, 1, 2};
+u16 dspSRCType[3] = {0, 1, 2};
+u16 dspCoefSel[3] = {0, 1, 2};
 
-const u16 lbl_8047C420[128] = {
+const u16 itdOffTab[128] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
     1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4,
     5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9, 10,
@@ -220,12 +220,12 @@ void hwSetPitch(s32 v, u16 speed) {
 
 void hwSetSRCType(s32 v, u8 salSRCType) {
     DSPvoice *dsp_vptr = &dspVoice[v];
-    dsp_vptr->srcTypeSelect = lbl_805D4638[salSRCType];
+    dsp_vptr->srcTypeSelect = dspSRCType[salSRCType];
     dsp_vptr->changed[0] |= 0x100;
 }
 void hwSetPolyPhaseFilter(s32 v, u8 salCoefSel) {
     DSPvoice *dsp_vptr = &dspVoice[v];
-    dsp_vptr->srcCoefSelect = lbl_805D4640[salCoefSel];
+    dsp_vptr->srcCoefSelect = dspCoefSel[salCoefSel];
     dsp_vptr->changed[0] |= 0x80;
 }
 
@@ -279,7 +279,7 @@ void hwSetVolume(s32 v, u8 table, f32 vol, u32 pan, s32 span, f32 auxa, f32 auxb
         dsp_vptr->lastUpdate.volB = 0;
     }
     if (dsp_vptr->flags & 0x80000000) {
-        const u16 *itd = &lbl_8047C420[(u8)(pan >> 16)];
+        const u16 *itd = &itdOffTab[(u8)(pan >> 16)];
         dsp_vptr->itdShiftL = *itd;
         dsp_vptr->itdShiftR = 0x20 - *itd;
         dsp_vptr->changed[0] |= 0x200;

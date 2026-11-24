@@ -87,7 +87,7 @@ s32 salChangeADSRState(ADSR_VARS *adsr) {
                         if (index < 0) {
                             index = 0;
                         }
-                        adsr->currentVolume = (s32) (lbl_804F6758[index] << 0x10);
+                        adsr->currentVolume = (s32) (dspAttenuationTab[index] << 0x10);
                         adsr->currentDelta = 0U;
                     } else {
                     case 4:
@@ -189,7 +189,7 @@ u32 adsrHandle(ADSR_VARS *adsr, u16 *adsr_start, u16 *adsr_delta) {
                 if (v < 0) {
                     v = 0;
                 }
-                adsr->currentVolume = lbl_804F6758[v] << 16;
+                adsr->currentVolume = dspAttenuationTab[v] << 16;
             }
             *adsr_start = old >> 16;
             d = adsr->currentVolume - old;
