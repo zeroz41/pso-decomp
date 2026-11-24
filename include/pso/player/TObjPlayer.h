@@ -555,7 +555,6 @@ struct TObjPlayer : public TObjChara {
     int sub_802a7290_fwd();
     int is_handle_valid();
     static void forward_801C210C(void *provider, int id);
-    static int get_hold_effect_count();
     static u8 get_item_count_max();
     u8 get_field_5();
     u8 get_byte_4();

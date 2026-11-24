@@ -396,12 +396,7 @@ struct TLobby : public TObject {
     static void free_dialing_gc();
     s32 get_valid_child();
     static s32 validate_handle(s32 *arg0);
-    s32 calc_cell_offset(s32 arg1, s32 arg2);
-    static void alloc_boss4rock_buffer();
-    static void enable_and_refresh();
-    static void set_photon_chair_flag(int photon_chair_flag);
     void set_field_4(s32 v);
-    static s32 get_hold_effect_size_by_type();
     static void *create_mist_ctrl(void *parent, void *arg1);
     void set_trade_field_4(s32 arg1);
     void update_both_halves();
@@ -767,11 +762,6 @@ struct TLobby : public TObject {
     static s32 is_multi_ready();
     s32 add_trade_item(u32 arg1, s32 cnt);
     static void update_game_modes();
-    s32 get_cell_address(s32 arg1, s32 arg2);
-    s32 *get_state_table(s32 _w1);
-    static void free_singleton_805D6C80();
-    static void update_photon_chairs();
-    static void update_photon_chair();
     static void init_player_forward();
     static void release_indexed_entry(s32 arg0);
     static s32 destroy_ep3_exist(saddr arg0, s16 arg1);
@@ -904,7 +894,6 @@ struct TLobby : public TObject {
     static void *adxstm_open_fname_range(void *, int, int, int, int);
     static void *adxstm_open_fname_range_ex_rt(void *, int, int, int, int);
     static void adxt_trap_entry_update(void *);
-    static void alloc_work_buffer();
     static void broadcast_to_players(int, int);
     static void *bsearch_record(void *, int, int);
     static void bswap_6x6E_sync_game_state(void*);

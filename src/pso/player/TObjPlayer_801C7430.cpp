@@ -1273,7 +1273,7 @@ s16 TObjPlayer::select_idle_action() {
     if ((void *) *(u8 **)((s8 *)arg0 + 0x380) == NULL) {
         return -1;
     }
-    if ((TObjPlayer::get_hold_effect_count() == 0) && (TFontSmallLobby::is_lobby_floor_15() != 0)) {
+    if ((get_player_action_provider_selector() == 0) && (TFontSmallLobby::is_lobby_floor_15() != 0)) {
         if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x24) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(4) != 0))) {
             return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m65();
         }

@@ -9,6 +9,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/PlayerActionProvider.h"
 
 extern "C" {
 
@@ -335,7 +336,7 @@ s32 validate_6xAE_set_animation_state(LobbyAnimationState *arg0) {
     if (((G_ClientIDHeader *)arg0)->is_local(arg0->header.client_id) != 0) {
         return 0;
     }
-    if (((is_action_id_none(arg0->animation_number) == 0) && (arg0->animation_number < 0)) || (arg0->animation_number >= TLobby::get_hold_effect_size_by_type())) {
+    if (((is_action_id_none(arg0->animation_number) == 0) && (arg0->animation_number < 0)) || (arg0->animation_number >= get_player_action_motion_count())) {
         return 0;
     }
     if ((arg0->animation_timer < 0.0f) || (arg0->animation_timer >= ((TObjPlayer *)player)->get_action_frame_count(arg0->animation_number))) {

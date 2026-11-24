@@ -697,7 +697,7 @@ force_active:
   - refresh_challenge_windows__12TChallenge4PFv
   - __dt__12TChallenge4PFv
   - TLobby__sub_8029A16C
-  - TLobby__sub_802A7640
+  - free_game_action_motion_buffer__Fv
   - clear__21PlayerMotionAramEntryFv
   - stamp_joyboot_image
   - probe_gba_device
@@ -3848,7 +3848,7 @@ force_active:
   - aim_toward_point__11TBoss6Type2FPC3Vec
   - alerted_state__14TObjEneBm5WolfFl
   - all_children_gone__18TObjEneEpsilonBodyFv
-  - alloc_boss4rock_buffer__6TLobbyFv
+  - alloc_game_action_motion_buffer__Fv
   - alloc_boss_target_slot__16TBoss3VoloptCoreFv
   - alloc_breakup_model__13TBoss7BreakUpFP10NJS_OBJECT
   - alloc_breakup_piece_records__15TBreakUpMdlDataFP10NJS_OBJECT
@@ -3857,7 +3857,7 @@ force_active:
   - alloc_download_quest__6TLobbyFlPl
   - alloc_global_buffer
   - allocate_bml_chunk
-  - alloc_work_buffer__6TLobbyFv
+  - alloc_lobby_action_motion_buffer__Fv
   - allocate_network_info_cipher_key__Fl
   - allocate_trail_buffer__17TItemEffectWeaponFv
   - allow_rendering_shadows__7TObjectFv
@@ -6481,7 +6481,7 @@ force_active:
   - free_objects__6TLobbyFv
   - free_parts__13TBoss5GryphonFv
   - free_resources__14TObjEneIllGillFv
-  - free_singleton_805D6C80__6TLobbyFv
+  - free_lobby_action_motion_buffer__Fv
   - free_team_buffers__6TLobbyFv
   - freeze_shell_grow__13TUnk_8048E1A4Fv
   - freeze_shell_hold__13TUnk_8048E1A4Fv
@@ -8408,7 +8408,7 @@ force_active:
   - lbl_805D6AB0
   - recobox_attack_params
   - recobox_behavior_params
-  - lbl_805D6C80
+  - lobby_action_motion_buffer
   - lbl_805D6D80
   - lbl_805D6D84
   - lbl_805D6D88
@@ -9408,7 +9408,7 @@ force_active:
   - play_voice__12TObjNpcARW00Fv
   - play_voice__20TObjNpcCloakroomBaseFv
   - play_walk_sound__12TObjEneLappyFv
-  - player_action_motion_buffer
+  - game_action_motion_buffer
   - player_anim_table_pointers
   - player_asset_PLATEX_AFS
   - player_asset_PLBTEX_AFS

@@ -1,7 +1,7 @@
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/render/render_util.h"
 #include "pso/network/protocol/subcommand_validation_actions.h"
-#include "pso/unk/TLobby.h"
+#include "pso/player/PlayerActionProvider.h"
 
 extern "C" {
 s32 is_action_id_none(s16);
@@ -11,7 +11,7 @@ s32 validate_6xAB(G_ClientIDHeader *packet) {
     if (validate_subcommand_client(packet) == 0) {
         return 0;
     }
-    if (((is_action_id_none(*(s16 *)((s8 *)packet + 4)) == 0) && (*(s16 *)((s8 *)packet + 4) < 0)) || (*(s16 *)((s8 *)packet + 4) >= TLobby::get_hold_effect_size_by_type())) {
+    if (((is_action_id_none(*(s16 *)((s8 *)packet + 4)) == 0) && (*(s16 *)((s8 *)packet + 4) < 0)) || (*(s16 *)((s8 *)packet + 4) >= get_player_action_motion_count())) {
         return 0;
     }
     return 1;
@@ -21,7 +21,7 @@ s32 validate_6x58_lobby_animation(G_ClientIDHeader *packet) {
     if (validate_subcommand_client(packet) == 0) {
         return 0;
     }
-    if (((is_action_id_none(*(s16 *)((s8 *)packet + 4)) == 0) && (*(s16 *)((s8 *)packet + 4) < 0)) || (*(s16 *)((s8 *)packet + 4) >= TLobby::get_hold_effect_size_by_type())) {
+    if (((is_action_id_none(*(s16 *)((s8 *)packet + 4)) == 0) && (*(s16 *)((s8 *)packet + 4) < 0)) || (*(s16 *)((s8 *)packet + 4) >= get_player_action_motion_count())) {
         return 0;
     }
     return 1;
@@ -56,7 +56,7 @@ s32 validate_6x52_set_animation_state(G_ClientIDHeader *packet) {
     if (validate_subcommand_client(packet) == 0) {
         return 0;
     }
-    if (((is_action_id_none(*(s16 *)((s8 *)packet + 4)) == 0) && (*(s16 *)((s8 *)packet + 4) < 0)) || (*(s16 *)((s8 *)packet + 4) >= TLobby::get_hold_effect_size_by_type())) {
+    if (((is_action_id_none(*(s16 *)((s8 *)packet + 4)) == 0) && (*(s16 *)((s8 *)packet + 4) < 0)) || (*(s16 *)((s8 *)packet + 4) >= get_player_action_motion_count())) {
         return 0;
     }
     return 1;

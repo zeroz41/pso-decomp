@@ -40,13 +40,14 @@ int match_coordinate_pair(void*);
 
 void set_motion_variant(void* p, s32 _w1) { ((TLobby *)p)->set_field_4(_w1); }
 int matches_loaded_motion(void* p) { return match_coordinate_pair(p); }
+}
 
-void TLobby::set_photon_chair_flag(int photon_chair_flag) { player_action_provider_selector = photon_chair_flag; }
+void set_player_action_provider_selector(int selector) { player_action_provider_selector = selector; }
 void TLobby::set_field_4(s32 v) { *(s32 *)&this->m_flags = v; }
-s32 TLobby::get_hold_effect_size_by_type() {
-    s32 hold_effect_count;
-    hold_effect_count = TObjPlayer::get_hold_effect_count();
-    switch (hold_effect_count) {
+s32 get_player_action_motion_count() {
+    s32 selector;
+    selector = get_player_action_provider_selector();
+    switch (selector) {
     case 0:
         return 0x38;
     case 1:
@@ -55,6 +56,8 @@ s32 TLobby::get_hold_effect_size_by_type() {
         return 0;
     }
 }
+
+extern "C" {
 s32 PlayerActionProvider::load_motion(s32 set, s32 index, s32 size, s32 aram_addr) {
     s32 result;
     s32 aligned;

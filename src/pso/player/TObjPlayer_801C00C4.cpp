@@ -8,13 +8,15 @@ void set_field_0_s32(void*, s32);
 
 void TObjPlayer::forward_801C210C(void *provider, int id) { set_field_0_s32(provider, id); }
 
-extern int player_action_provider_selector;
-
 u8 is_action_id_none(s32 animation_number) {
     return (u8) (animation_number == -1);
 }
 
-int TObjPlayer::get_hold_effect_count() { return player_action_provider_selector; }
+}
+
+int get_player_action_provider_selector() { return player_action_provider_selector; }
+
+extern "C" {
 
 int PlayerActionProvider::vfunc_7(s32, s32) { return 0; }
 BmlMotionEntry *PlayerActionProvider::vfunc_76() { return NULL; }

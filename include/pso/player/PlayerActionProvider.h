@@ -4,8 +4,8 @@
 
 struct BmlMotionEntry;
 
-// The two-word record PlayerActionProvider starts with: its constructor 0x802A7318
-// clears both words, its destructor is 0x801D3518.
+// The two-word record PlayerActionProvider starts with: its constructor clears
+// both words.
 class TUnk_802A7318 {
 public:
     TUnk_802A7318();
@@ -14,8 +14,9 @@ public:
     u32 m_4;
 };
 
-// Base of the player action providers (GamePlayerActionProvider, LobbyPlayerActionProvider) that
-// TObjPlayer::init_action_provider creates; allocated from obj_heap.
+// Base of the player action providers (GamePlayerActionProvider,
+// LobbyPlayerActionProvider) that TObjPlayer::init_action_provider creates;
+// allocated from obj_heap.
 class PlayerActionProvider {
 public:
     TUnk_802A7318 unk_0;
@@ -104,5 +105,24 @@ public:
 };
 
 extern const char *player_motion_data_filename_ptr;
+
+// player_action_provider_selector picks the class TObjPlayer::init_action_provider
+// creates: 1 = GamePlayerActionProvider, 0 = LobbyPlayerActionProvider. Each scene's
+// load hook selects one and allocates its motion buffer (the lobby hook selects the
+// game provider when its allocation fails); the release hook frees it and selects 0.
+// New-game setup also selects the game provider (select_game_player_actions).
+extern int player_action_provider_selector;
+int get_player_action_provider_selector();
+void set_player_action_provider_selector(int selector);
+void select_game_player_actions();
+s32 get_player_action_motion_count();
+void alloc_game_action_motion_buffer();
+void free_game_action_motion_buffer();
+void init_game_player_actions();
+void release_game_player_actions();
+s32 alloc_lobby_action_motion_buffer();
+void free_lobby_action_motion_buffer();
+void init_lobby_player_actions();
+void release_lobby_player_actions();
 
 #endif

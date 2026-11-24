@@ -1,5 +1,4 @@
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TLobby_802A7290.h"
 #include "pso/system/scene/TEndingC.h"
 #include "types.h"
 #include "pso/unk/text_8008C4F4.h"
@@ -29,6 +28,7 @@
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/map/area/AreaScene.h"
+#include "pso/player/PlayerActionProvider.h"
 
 extern "C" {
 extern const char TEnding__class_name_string[] = "TEnding";
@@ -51,7 +51,7 @@ void (*ending_scene_callbacks[26])(void) = {
     alloc_quest_download_buffer, TLobby::free_chr_select_singleton,
     init_item_system, free_item_system,
     create_player_ending_motion, TObjPlayer::free_shared_lobby_data,
-    TLobby::enable_and_refresh, disable_and_free_boss4rock_buffer,
+    init_game_player_actions, release_game_player_actions,
     TAdEndText::load_ending_font, TAdEndText::free_resources,
     TAdRicoRingCtrl::load_static_resource, TAdRicoRingCtrl::release_global_805D4A00,
 };

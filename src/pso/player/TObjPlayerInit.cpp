@@ -65,9 +65,9 @@ void TObjPlayer::release_child_object() {
 }
 
 void TObjPlayer::init_action_provider() {
-    if (TObjPlayer::get_hold_effect_count() == 1) {
+    if (get_player_action_provider_selector() == 1) {
         action_provider = new GamePlayerActionProvider;
-    } else if (TObjPlayer::get_hold_effect_count() == 0) {
+    } else if (get_player_action_provider_selector() == 0) {
         action_provider = new LobbyPlayerActionProvider;
     }
     m_33b = 0;
