@@ -181,7 +181,7 @@ PlayerFollowParticles::PlayerFollowParticles() {
     pad_2 = 0xFFFF;
     owner_id = 0xFFFF;
     for (i = 0; i < 3; i++) {
-        p = &pad_C[i];
+        p = &contact_points[i];
         p->z = 0.0f;
         p->y = 0.0f;
         p->x = 0.0f;

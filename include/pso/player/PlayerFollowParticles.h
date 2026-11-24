@@ -36,7 +36,7 @@ struct PlayerFollowParticles {
     u16 owner_id; // get_entity_id of the player that owns the followers
     u16 pad_2;
     PlayerHandParticles hands;
-    Vec pad_C[3];
+    Vec contact_points[3]; // hit contact points the followers start from
 
     PlayerFollowParticles();
     ~PlayerFollowParticles();

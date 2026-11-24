@@ -517,7 +517,7 @@ void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 void TObjPlayer__sub_801BEEE0(void *, void *);
 void TObjPlayer__sub_801BEF30(void *, void *);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
-s32 TObjPlayer__sub_801BF3A0(void *, void *);
+void TObjPlayer__sub_801BF3A0(PlayerFollowParticles *particles, const Vec *point);
 s32 copy_vec_at_18__10TObjPlayerFv(void *, void *);
 s32 set_material_index__18TPlayerLobbyMarkerFUc(u32 a0 = 0, s32 a1 = 0);
 u8 TObjPlayer__sub_801BF460(s32 *bits, s32 bit);
@@ -2522,11 +2522,11 @@ CsnHit *TObjPlayer::update_actor_ground_y_at(Vec *pos) {
     }
     if ((mask & 4) && (player_auxiliary_surfaces_enabled() != 0)) {
         contact_surface.set_flag_4();
-        TObjPlayer__sub_801BF3A0((u8 *)&follow_particles, &hit->contact[2].point);
+        TObjPlayer__sub_801BF3A0(&follow_particles, &hit->contact[2].point);
     }
     if ((mask & 2) && (player_auxiliary_surfaces_enabled() != 0)) {
         contact_surface.set_sand();
-        TObjPlayer__sub_801BF3A0((u8 *)&follow_particles, &hit->contact[3].point);
+        TObjPlayer__sub_801BF3A0(&follow_particles, &hit->contact[3].point);
     }
     if (mask & 8) {
         this->contact_surface.test_flag_16();

@@ -59,6 +59,7 @@
 #include "pso/item/InventoryEntryCopy.h"
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/item/TItemList.h"
+#include "pso/system/vector.h"
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/PlayerLevelTable.h"
@@ -421,7 +422,7 @@ void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
 int create_attached_oneshot_emitter(void*, u16, int);
 int emit_player_particle(void*, int, int);
 void* TObjPlayer__sub_801BF31C(void* p);
-int TObjPlayer__sub_801BF3A0(void* p);
+void TObjPlayer__sub_801BF3A0(PlayerFollowParticles *particles, const Vec *point);
 int VecCopy__FP3VecPC3Vec(void*);
 u8 TObjPlayer__sub_801BF460(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF488(s32 *arg0, s32 arg1);
@@ -649,7 +650,7 @@ int ContactSurfaceState::has_water_ground_flag() { return test_flags_any(&word.b
 
 int TObjPlayer::copy_vec_at_18() { return VecCopy__FP3VecPC3Vec((char*)this + 0x18); }
 
-int TObjPlayer__sub_801BF3A0(void* p) { return VecCopy__FP3VecPC3Vec((char*)p + 0x24); }
+void TObjPlayer__sub_801BF3A0(PlayerFollowParticles *particles, const Vec *point) { VecCopy(&particles->contact_points[2], point); }
 
 void emit_photon_blast_feedback_effects(saddr owner, u16 target_id) {
     TObjPlayer::check_hit_by_id(owner, target_id, 5);
