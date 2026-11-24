@@ -9,6 +9,7 @@
 #include "pso/network/NetworkInfoCodec.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/save/McFsGc.h"
+#include "pso/unk/text_803F3BF8.h"
 
 typedef struct Ent_803F47BC {
     char name[0x20];
@@ -66,7 +67,6 @@ extern char lbl_804FCEE4[];
 extern char default_network_entry_name[];
 extern char lbl_804FCF04[];
 extern char lbl_804FCF18[];
-extern u32 lobby_net_config_mode;
 }
 
 extern u8 TAdPlayerLoadGC__network_info_payload_buffer[];
@@ -280,7 +280,7 @@ s32 request_network_info_exists(s32 channel) {
 
 #pragma push
 #pragma scheduling off
-s32 take_network_info_exists_result(s32 *arg0, s32 *arg1) {
+s32 take_network_info_exists_result(s32 *card_result, s32 *card_detail) {
     NetworkInfoLoadState *s;
     s32 r;
     s32 res;
@@ -289,8 +289,8 @@ s32 take_network_info_exists_result(s32 *arg0, s32 *arg1) {
     }
     s = &network_info_load_state;
     if (s->request_kind == 1) {
-        *arg0 = s->card_result;
-        *arg1 = s->card_detail;
+        *card_result = s->card_result;
+        *card_detail = s->card_detail;
         res = s->result;
         r = res;
         if (res != 200) {
@@ -298,8 +298,8 @@ s32 take_network_info_exists_result(s32 *arg0, s32 *arg1) {
             s->phase = 0;
         }
     } else {
-        *arg0 = 0;
-        *arg1 = 0;
+        *card_result = 0;
+        *card_detail = 0;
         r = -4;
     }
     return r;

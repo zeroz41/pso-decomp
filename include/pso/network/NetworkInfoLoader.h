@@ -53,7 +53,7 @@ s32 get_or_set_network_config_mode(s32 mode);
 void init_network_config_defaults(void);
 s32 request_network_info_exists(s32 channel);
 void set_network_config_card_channel(s32 channel);
-s32 take_network_info_exists_result(s32 *arg0, s32 *arg1);
+s32 take_network_info_exists_result(s32 *card_result, s32 *card_detail);
 void update_network_info_exists(void);
 void update_network_info_load(void);
 
