@@ -138,6 +138,7 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/player/PlayerSyncRecord.h"
 #include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/player/TObjPlayer_801D6C4C.h"
 
 #pragma readonly_strings on
 
@@ -536,7 +537,6 @@ s16 TObjPlayer__sub_801CFBFC(u8 *arg0);
 
 s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *attacker, s32 amount);
 s8 get_validated_array_value(s32 *, s32);
-s32 TObjPlayer__sub_801D6D28(s32 *);
 s8 TLobby__sub_801D6DDC(s32 *);
 u8 fn_801D6DB0(s32 *);
 u8 TLobby__sub_801D6F94(s32 *);

@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s8 TObjPlayer__sub_801D6D28(void *record);
+s32 TObjPlayer__sub_801D6D28(void *record);
 s32 destroy__10TObjPlayerFis(saddr ctrl, s16 flags);
 }
 
