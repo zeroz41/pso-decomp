@@ -3816,7 +3816,7 @@ void handle_6x48_cast_technique_complete(void *arg) {
     ((void (*)(void *))init_6x48_cast_complete_packet)(&pkt);
     ((TObjPlayer *)(&pkt))->copy_6x48_cast_technique_complete_packet(arg);
     ((TObjPlayer *)(&pkt))->swap_header();
-    if (validate_6x48_cast_technique_complete(reinterpret_cast<G_ClientIDHeader *>(&pkt)) == 0) {
+    if (validate_6x48_cast_technique_complete(reinterpret_cast<G_CastTechniqueComplete_6x48 *>(&pkt)) == 0) {
         return;
     }
     p = (Player_801CCD38 *)get_player_by_client_id((u16)pkt.id);
@@ -4056,7 +4056,7 @@ void handle_6x8D_set_technique_level_override(G_SetTechniqueLevelOverride_6x8D *
     ((void (*)(void *))init_6x8D_technique_level_packet)(&m);
     ((TObjPlayer *)(&m))->copy_6x8d_technique_level_packet(command);
     ((TObjPlayer *)(&m))->swap_field6();
-    if (validate_6x8D_set_technique_level_override(reinterpret_cast<G_ClientIDHeader *>(&m)) != 0) {
+    if (validate_6x8D_set_technique_level_override(reinterpret_cast<G_SetTechniqueLevelOverride_6x8D *>(&m)) != 0) {
         p = get_player_by_client_id(m.id);
         if (p != NULL) {
             p->technique_state.set_tech_override(m.level);

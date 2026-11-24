@@ -1,24 +1,25 @@
 #include "pso/network/protocol/subcommand_validation.h"
+#include "pso/network/protocol/cast_packets.h"
 #include "pso/player/PlayerTechniqueState.h"
 
 
-s32 validate_technique_parameters(void *parameters) {
-    s8 b3;
-    if (PlayerTechniqueState::is_valid_technique_id((s16)(*(s8 *)((s8 *)parameters + 0))) == 0) {
+s32 validate_technique_parameters(G_CastTechniqueParams_6x47 *params) {
+    s8 target_count;
+    if (PlayerTechniqueState::is_valid_technique_id(params->technique_number) == 0) {
         return 0;
     }
-    if (*(s8 *)((s8 *)parameters + 1) < 0) {
+    if (params->unused < 0) {
         return 0;
     }
-    b3 = *(s8 *)((s8 *)parameters + 3);
-    if ((b3 < 0) || (b3 > 0xA)) {
+    target_count = params->target_count;
+    if ((target_count < 0) || (target_count > 0xA)) {
         return 0;
     }
     return 1;
 }
 
-s32 validate_cast_target_entry(void *parameters) {
-    return ((u32) *(s16 *)((s8 *)parameters + 2) >> 0x1FU) ^ 1;
+s32 validate_cast_target_entry(PhotonBlastTarget *target) {
+    return target->index < 0 ? 0 : 1;
 }
 
 s32 validate_6x46_attack_finished(G_ClientIDHeader *packet) {

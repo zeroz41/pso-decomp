@@ -157,7 +157,7 @@ struct G_CardCounts_Ep3NTE_6xBC {
 
 struct G_CastTechniqueComplete_6x48 {
  struct G_ClientIDHeader header;
- u16 technique_number;
+ s16 technique_number;
  u16 level;
 };
 
