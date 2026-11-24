@@ -49,12 +49,7 @@ s32 is_flag30_8_set__10TObjPlayerFi(saddr);
 
 extern "C" {
 extern s32 local_client_id;
-void *TObjPlayer__sub_801C7360(void *arg0, void *arg1);
-int validate_6x87_shrink_player(PlayerShrinkPacket*);
 void handle_6x87_shrink_player(const PlayerShrinkPacket* input);
-void restore_shrunken_font__10TObjPlayerFv(PlayerRestoreSizePacket*, const PlayerRestoreSizePacket*);
-void bswap_g_client_id_header(void *p);
-int validate_6x88_restore_shrunken_player(PlayerRestoreSizePacket*);
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 }
 
@@ -97,7 +92,8 @@ s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
-#include "pso/player/TObjPlayer_801C721C.h"
+#include "pso/ui/font/TFontSmallLobby_801C013C.h"
+#include "pso/network/protocol/subcommand_validation_player.h"
 #include "pso/unk/text_8020C354.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -119,7 +115,6 @@ s32 get_current_floor();
 s16 obj_getS16_2BA(u8 *p);
 extern Arrival_801C5F84 TObjPlayer__arrival_override_table[12];
 void set_arrival_override_pos(u16 idx, s32 yaw, void *pos);
-int copy_subcommand_header(void *);
 }
 void update_player_appear_fade(u8 *arg0);
 void reset_player_appearance_opacity(void *a0);
@@ -311,10 +306,9 @@ void PlayerScaleState::request_shrink() {
         if (local_client_id == get_actor_id())
             update_camera();
         PlayerShrinkPacket packet;
-        ((TObjPlayer *)(&packet))->init_shrink_effect();
-        packet.actor_id = get_actor_id();
+        packet.header.client_id = get_actor_id();
         packet.scalar = scalar;
-        ((TObjPlayer *)(&packet))->update_and_send_60();
+        packet.send();
     }
 }
 
@@ -333,11 +327,10 @@ void PlayerScaleState::shrink(f32 scalar) {
 extern "C" {
 void handle_6x87_shrink_player(const PlayerShrinkPacket* input) {
     PlayerShrinkPacket packet;
-    ((TObjPlayer *)(&packet))->init_shrink_effect();
-    TObjPlayer__sub_801C7360((void *)&packet, (void *)input);
-    ((TObjPlayer *)(&packet))->bswap_shrink();
-    if (validate_6x87_shrink_player(&packet)) {
-        TObjPlayer* player = get_player_by_client_id(packet.actor_id);
+    packet.copy_from(input);
+    packet.bswap();
+    if (validate_6x87_shrink_player(&packet.header)) {
+        TObjPlayer* player = get_player_by_client_id(packet.header.client_id);
         if (player && TObjPlayer::check_camera_mode())
             player->scale_state.shrink(packet.scalar);
     }
@@ -351,9 +344,8 @@ void PlayerScaleState::request_size_restore() {
     TObjPlayer* player = get_player_by_client_id(get_actor_id());
     if (!player || !((TObjChara *)player)->obj_isState2_324()) {
         PlayerRestoreSizePacket packet;
-        ((TObjPlayer *)(&packet))->init_6x88_packet();
-        packet.actor_id = get_actor_id();
-        ((TObjPlayer *)(&packet))->send_font_update_60();
+        packet.header.client_id = get_actor_id();
+        packet.send();
     }
 }
 
@@ -369,11 +361,10 @@ void PlayerScaleState::clear_shrink_flag() { flags.clear(1); }
 extern "C" {
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input) {
     PlayerRestoreSizePacket packet;
-    ((TObjPlayer *)(&packet))->init_6x88_packet();
-    restore_shrunken_font__10TObjPlayerFv(&packet, input);
-    bswap_g_client_id_header(&packet);
-    if (validate_6x88_restore_shrunken_player(&packet)) {
-        TObjPlayer* player = get_player_by_client_id(packet.actor_id);
+    packet.copy_from(input);
+    bswap_g_client_id_header(&packet.header);
+    if (validate_6x88_restore_shrunken_player(&packet.header)) {
+        TObjPlayer* player = get_player_by_client_id(packet.header.client_id);
         if (player && TObjPlayer::check_camera_mode())
             player->scale_state.clear_shrink_flag();
     }
@@ -848,17 +839,42 @@ void TObjPlayer::set_visible_flag() { set_state_flags(0x200000); }
 s32 TObjPlayer::check_flag_04000000() { return check_flag((saddr)((void*)4194304)); }
 void TObjPlayer::clear_flag_8000() { clear_state_flags((saddr)((void*)32768)); }
 s32 TObjPlayer::check_flag_0x8000() { return check_flag(0x8000); }
-void*TObjPlayer::restore_shrunken_font() { copy_subcommand_header(this); return this; }
-void TObjPlayer::init_6x88_packet() { *(u8*)((char*)this + 0x0) = 136; *(u8*)((char*)this + 0x1) = 1; }
-void TObjPlayer::send_font_update_60() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
-void TObjPlayer::bswap_shrink() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
-void *TObjPlayer__sub_801C7360(void *arg0, void *input) {
-    copy_subcommand_header(arg0);
-    *(f32 *)((s8 *)arg0 + 0x4) = *(f32 *)((s8 *)input + 0x4);
-    return arg0;
+PlayerRestoreSizePacket *PlayerRestoreSizePacket::copy_from(const PlayerRestoreSizePacket *src) {
+    copy_subcommand_header(this, (void *)src);
+    return this;
 }
-void TObjPlayer::init_shrink_effect() { *(float*)((char*)this + 0x4) = 1.0f; *(unsigned char*)((char*)this + 0x0) = 135; *(unsigned char*)((char*)this + 0x1) = 2; }
-void TObjPlayer::update_and_send_60() { bswap_shrink(); send_subcommand((u8 *)this); }
+
+PlayerRestoreSizePacket::PlayerRestoreSizePacket() {
+    header.subcommand = 0x88;
+    header.size = 1;
+}
+
+void PlayerRestoreSizePacket::send() {
+    bswap_g_client_id_header(this);
+    send_subcommand(this);
+}
+
+void PlayerShrinkPacket::bswap() {
+    header.bswap();
+    bswap_32((u32 *)&scalar);
+}
+
+PlayerShrinkPacket *PlayerShrinkPacket::copy_from(const PlayerShrinkPacket *src) {
+    copy_subcommand_header(this, (void *)src);
+    scalar = src->scalar;
+    return this;
+}
+
+PlayerShrinkPacket::PlayerShrinkPacket() {
+    scalar = 1.0f;
+    header.subcommand = 0x87;
+    header.size = 2;
+}
+
+void PlayerShrinkPacket::send() {
+    bswap();
+    send_subcommand(this);
+}
 u16 TObjPlayer::interpolate_angle(void *arg0, u16 arg1, u16 arg2, s32 *arg3) {
     s16 temp_r0;
     s32 var_r3;

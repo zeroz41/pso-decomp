@@ -596,12 +596,6 @@ struct TObjPlayer : public TObjChara {
     s32 check_flag_04000000();
     void clear_flag_8000();
     s32 check_flag_0x8000();
-    void*restore_shrunken_font();
-    void init_6x88_packet();
-    void send_font_update_60();
-    void bswap_shrink();
-    void init_shrink_effect();
-    void update_and_send_60();
     static u16 interpolate_angle(void *arg0, u16 arg1, u16 arg2, s32 *arg3);
     void update_state_group();
     void start_action_18();

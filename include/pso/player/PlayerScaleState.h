@@ -4,6 +4,7 @@
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/system/data/FlagWord.h"
+#include "pso/network/protocol/protocol_types.h"
 
 // One of the follow-camera offsets a shrunken player's camera uses.
 struct PlayerCameraOffset : Vec {
@@ -47,17 +48,24 @@ struct PlayerScaleState {
 
 LAYOUT_ASSERT(PlayerScaleState_size, sizeof(PlayerScaleState) == 0x30);
 
+// 6x87: shrink a player (client_id) to scalar times its size.
 struct PlayerShrinkPacket {
-    u8 command;
-    u8 size;
-    u16 actor_id;
+    PlayerShrinkPacket();
+    PlayerShrinkPacket *copy_from(const PlayerShrinkPacket *src);
+    void bswap();
+    void send();
+
+    G_ClientIDHeader header;
     f32 scalar;
 };
 
+// 6x88: restore a shrunken player (client_id) to its size.
 struct PlayerRestoreSizePacket {
-    u8 command;
-    u8 size;
-    u16 actor_id;
+    PlayerRestoreSizePacket();
+    PlayerRestoreSizePacket *copy_from(const PlayerRestoreSizePacket *src);
+    void send();
+
+    G_ClientIDHeader header;
 };
 
 #endif
