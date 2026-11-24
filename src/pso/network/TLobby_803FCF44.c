@@ -39,15 +39,15 @@ PppFrame *build_avetcp_net_buffer(PppFsm *c)
   }
   p = buf->data;
   NetStoreTick(&tick);
-  lbl_805D7A9A = (tick & 0x1F) + 0x10;
-  *p++ = lbl_805D7A9A;
+  chap_challenge_length = (tick & 0x1F) + 0x10;
+  *p++ = chap_challenge_length;
   NetStoreTick(&tick);
-  for (i = 0; i < lbl_805D7A9A; i++)
+  for (i = 0; i < chap_challenge_length; i++)
   {
     *p++ = tick;
   }
   NetCopyString((char *)p, name);
-  buf->len += lbl_805D7A9A + (u16)NetStringLength(name) + 1;
+  buf->len += chap_challenge_length + (u16)NetStringLength(name) + 1;
   len = buf->len;
   lim = chap_state.size8;
   n = len;

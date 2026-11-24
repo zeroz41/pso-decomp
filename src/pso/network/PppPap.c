@@ -342,7 +342,7 @@ s16 pap_recv_auth_request(PppFsm *fsm, PppHeader *header, PppFrame *val) {
         *out = 0;
     }
 
-    if (lbl_805D7A90 & 2) {
+    if (lobby_session_flags & 2) {
         secret = TLobby__sub_803F7684((const char *)p1);
         if (secret == NULL) {
             res = -1;

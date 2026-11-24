@@ -40,7 +40,7 @@ s16 PP_chap_monitor(PppFsm *c, s32 timeout) {
 
     sub = c->sub;
     auth = (PppChap *)c->opts;
-    if (lbl_805D7A90 & 2) {
+    if (lobby_session_flags & 2) {
         auth->active = 1;
         TLobby__sub_803FE820((saddr)c);
         ppp_fsm_send_packet(c, 1, 0, build_avetcp_net_buffer(c));
@@ -77,7 +77,7 @@ struct N_80405298;
 PppChapAuthenticationState ppp_chap_authentication_state;
 PppAuthState chap_state;
 /* The challenge length and the response reader's scratch byte (.sbss 805D7A98), in reverse definition order. */
-u16 lbl_805D7A9A;
+u16 chap_challenge_length;
 u8 chap_read_byte_buffer;
 void TLobby__sub_803FC318(PppProtoBlocks *connection) {
     PppFsm *fsm = &connection->chap;
@@ -159,7 +159,7 @@ void chap_input(PppFsm *self, PppFrame *source) {
             return;
         case 2:
             if (chap_recv_response(self, &hdr, source) == 0) {
-                if (lbl_805D7A90 & 2) {
+                if (lobby_session_flags & 2) {
                     temp_r30 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
                     lobby_timer_stop((void *) (arg0 + 0x10));
                     temp_r0 = *(u8 *)((s8 *)arg0 + 2) & 0xFFFFFFEF;
@@ -329,7 +329,7 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
         }
         *q = 0;
     }
-    if (lbl_805D7A90 & 2) {
+    if (lobby_session_flags & 2) {
         secret = TLobby__sub_803F7684((const char *)name);
         if (secret == NULL) {
             NetCopyString(chap_state.p20, chap_failure_message);
@@ -339,25 +339,25 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
         }
     }
     *chap_state.p18 = hdr->id;
-    if (lbl_805D7A90 & 2) {
+    if (lobby_session_flags & 2) {
         NetCopyString((char *)chap_state.p18 + 1, secret);
     } else {
         NetCopyString((char *)chap_state.p18 + 1, chap->secret);
     }
-    if (lbl_805D7A90 & 2) {
+    if (lobby_session_flags & 2) {
         len = NetStringLength(secret);
     } else {
         len = NetStringLength(chap->secret);
     }
     init_md5_state(&ctx);
     MD5Update(&ctx, chap_state.p18, len + 1);
-    MD5Update(&ctx, chap_state.p8 + 1, lbl_805D7A9A);
+    MD5Update(&ctx, chap_state.p8 + 1, chap_challenge_length);
     MD5Final((u8 *)chap_state.p20, &ctx);
     if (NetMemcmp(chap_state.p20, value, 0x10) == 0) {
         NetCopyString(chap_state.p20, "Wellcome!!");
         code = 3;
         ret = 0;
-    } else if (lbl_805D7A90 & 2) {
+    } else if (lobby_session_flags & 2) {
         NetCopyString(chap_state.p20, chap_failure_message);
         code = 4;
         ret = -1;

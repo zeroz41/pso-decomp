@@ -15,7 +15,7 @@ s16 TLobby__sub_803FB358(NetLinkStatus *status);
 /* The session's small state (.sbss 805D7A78-805D7A98), in reverse definition order: this compiler lays .sbss out
  * last-defined first. */
 s32 lbl_805D7A94;
-s32 lbl_805D7A90;
+s32 lobby_session_flags;
 saddr lobby_modem_callback;
 s16 lobby_modem_connect_state;
 s16 lbl_805D7A88;
@@ -305,7 +305,7 @@ s16 NetApplyConnectionConfig(NetConnectCfg *cfg) {
     lobby_modem_error = 0;
     lobby_modem_connect_state = 1;
     lbl_805D7A88 = 1;
-    lbl_805D7A90 = g->flags;
+    lobby_session_flags = g->flags;
     lobby_modem_callback = (saddr)g->cb;
     if (g->flags & 4)
     {
@@ -500,7 +500,7 @@ L242:
         ipv6cp_set_interface_identifiers(0, g->bufC0, g->bufC8);
     }
     ipcp_configure_all_options(mode, g->wA8, g->wAC, g->wB0, g->wB4, g->wB8, g->wBC);
-    lbl_805D7AA0 = 0;
+    ppp_opened_count = 0;
     ok = 0;
     switch (g->h98 & 0x7f) {
     default:

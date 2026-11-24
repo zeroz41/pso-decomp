@@ -105,13 +105,13 @@ s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s
 s16 negotiate_ipcp_and_ipv6cp(void);
 void MD5Transform(u32 *state, u8 *block);
 u8 *write_network_u32_be(u8 *p, u32 v);
-extern u8 lbl_805D7AC0[2];
-extern u8 lbl_805D7AC4[1];
+extern u8 vj_u16_buffer[2];
+extern u8 vj_byte_buffer[1];
 extern s16 lbl_805D7A7A;
 extern s16 lbl_805D7A7E;
 extern void *lobby_timer_list_head;
 extern s16 lbl_805D7A7C;
-extern s32 lbl_805D7A90;
+extern s32 lobby_session_flags;
 extern u8 lcp_read_value_buffer[4];
 extern u8 lobby_read_byte_buffer[1];
 extern u8 lcp_read_byte_buffer;
@@ -121,8 +121,8 @@ extern s16 lobby_modem_error;
 extern PppChapAuthenticationState ppp_chap_authentication_state;
 extern const char chap_protocol_name[5];
 extern const char chap_failure_message[7];
-extern s32 lbl_805D7AA0; /* PppFsm.c */
-extern u16 lbl_805D7A9A;
+extern s32 ppp_opened_count; /* PppFsm.c */
+extern u16 chap_challenge_length;
 extern u8 chap_read_byte_buffer;
 s16 PP_chap_monitor(PppFsm *c, s32 timeout);
 s32 TLobby__sub_803FC684(u8 *source, u8 *chap_secret, PppFsm *fsm);

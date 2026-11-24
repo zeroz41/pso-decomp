@@ -272,16 +272,16 @@ typedef struct Ipv6cpProtocolState {
 } Ipv6cpProtocolState;
 LAYOUT_ASSERT(Ipv6cpProtocolState_size, sizeof(Ipv6cpProtocolState) == 0xA8);
 extern Ipv6cpProtocolState ppp_ipv6cp_protocol_state;
-Ipv6cpOptionSet lbl_804FD380 = {0};
+Ipv6cpOptionSet ipv6cp_default_options = {0};
 /* inferred: the default option mask of both IPv6CP option blocks, one bit per option type (6: types 1 and 2, the
- * types lbl_804FD398 gives lengths 10 and 6, Interface-Identifier and IPv6-Compression-Protocol). */
+ * types ipv6cp_option_lengths gives lengths 10 and 6, Interface-Identifier and IPv6-Compression-Protocol). */
 s16 ipv6cp_default_option_flags = 6;
 PppFrame *TLobby__sub_803FABDC(PppFsm *self);
 s16 TLobby__sub_803FA4A4(PppFsm *self, PppHeader *src, PppFrame *h);
 s16 TLobby__sub_803FA7B0(PppFsm *self, PppHeader *src, PppFrame *h);
 s16 TLobby__sub_803FA318(PppFsm *self, PppHeader *src, PppFrame *h);
 void TLobby__sub_803F9FAC(PppProtoBlocks *connection) {
-    Ipv6cpOptionSet *src = &lbl_804FD380;
+    Ipv6cpOptionSet *src = &ipv6cp_default_options;
     PppFsmProtocol *base = &ppp_ipv6cp_protocol_state.proto;
     PppFsm *sub;
     Ipv6cpConfig *blk;
@@ -662,7 +662,7 @@ s16 NetIPv6CPParseConfigureOption(PppFrame **self, Ipv6cpConfig *out, Ipv6cpOpti
 }
 
 /* Option lengths indexed by IPv6CP option number. */
-u8 lbl_804FD398[16] = {0x00, 0x0A, 0x06, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x00, 0x06, 0x00, 0x00, 0x00, 0x00};
+u8 ipv6cp_option_lengths[16] = {0x00, 0x0A, 0x06, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x00, 0x06, 0x00, 0x00, 0x00, 0x00};
 PppFrame *TLobby__sub_803FABDC(PppFsm *self) {
     s16 i;
     s16 bits;
@@ -683,7 +683,7 @@ PppFrame *TLobby__sub_803FABDC(PppFsm *self) {
             goto done;
         }
     }
-    s = lbl_804FD398 + 1;
+    s = ipv6cp_option_lengths + 1;
     for (i = 1; i < 0x20; i++) {
         if (bits & (1 << i)) {
             TLobby__sub_803FADA0(&obj, (A_803FADA0 *)&p->local.requested, (i < 8) ? i : ((i < 0x20) ? i + 0x78 : 0), *s, NULL);
@@ -725,7 +725,7 @@ void TLobby__sub_803FACD8(uaddr *self, void *src, s32 mask)
   {
     if (m & (1 << i))
     {
-      TLobby__sub_803FADA0((PppFrame **) self, (A_803FADA0 *) src, optnum_803FACD8(i), lbl_804FD398[i], 0);
+      TLobby__sub_803FADA0((PppFrame **) self, (A_803FADA0 *) src, optnum_803FACD8(i), ipv6cp_option_lengths[i], 0);
     }
   }
 

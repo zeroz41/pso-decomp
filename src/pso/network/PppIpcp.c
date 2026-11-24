@@ -29,13 +29,13 @@ void net_sleep_ms(int);
 #include "pso/network/TLobby_803FAEA0.h"
 
 /* The empty option set each IPCP side starts from (.rodata 8047FE18). */
-const IpcpOptions lbl_8047FE18 = {0};
+const IpcpOptions ipcp_default_options = {0};
 /* Each option's length by flag bit: option 1 (two addresses) 10, options 2 and 3 6, options 0x81 and 0x83
  * (RFC 1877 name servers, bits 9 and 11) 6. */
-const u8 lbl_8047FE3C[20] = {0, 10, 6, 6, 0, 0, 0, 0, 0, 6, 0, 6};
+const u8 ipcp_option_lengths[20] = {0, 10, 6, 6, 0, 0, 0, 0, 0, 6, 0, 6};
 /* The option readers' scratch bytes (.sbss 805D7AA8), in reverse definition order. */
 u8 lcp_read_byte_buffer;
-u8 lbl_805D7AA8[4];
+u8 ipcp_option_value[4];
 s16 TLobby__sub_803FED78(PppFsm *self) {
     PppFsm *p;
     void *ipv6cp_state;
@@ -68,7 +68,7 @@ s16 TLobby__sub_803FED78(PppFsm *self) {
         lock_mutex(pd->mutex);
 test:
         if (self->state == 5) goto after;
-        if (lbl_805D7AA0 >= 2) goto after;
+        if (ppp_opened_count >= 2) goto after;
     }
 after:
     if (lbl_805D7A7C != 6 && (s16)(s32)lbl_805D7A7C) {
@@ -114,7 +114,7 @@ s16 TLobby__sub_803FF698(PppFsm *self, PppHeader *item, PppFrame *arg);
 s16 TLobby__sub_803FF9A4(PppFsm *self, PppHeader *src, PppFrame *bits);
 PppFrame *build_ipcp_config_request(PppFsm *self);
 void TLobby__sub_803FEF4C(PppProtoBlocks *connection) {
-    const IpcpOptions *src = &lbl_8047FE18;
+    const IpcpOptions *src = &ipcp_default_options;
     void *state_address = &ipcp_state;
     IpcpState *state = (IpcpState *)state_address;
     PppFsmProtocol *protocol = (PppFsmProtocol *)state_address;
@@ -500,8 +500,8 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
     len = hdr[1] - 2;
     switch (hdr[0]) {
     case 1:
-        side->got.our_addr = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
-        side->got.his_addr = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.our_addr = (ppp_buffer_read(cursor, ipcp_option_value, 4) != 4) ? 0 : TLobby__sub_80402AFC(ipcp_option_value);
+        side->got.his_addr = (ppp_buffer_read(cursor, ipcp_option_value, 4) != 4) ? 0 : TLobby__sub_80402AFC(ipcp_option_value);
         len -= 8;
         if (c == 0) {
             if (cfg->peer.want.our_addr != 0) {
@@ -545,7 +545,7 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
         break;
 
     case 2:
-        side->got.vj_protocol = (s16)((ppp_buffer_read(cursor, lbl_805D7AA8, 2) != 2) ? -1 : read_network_u16_be(lbl_805D7AA8));
+        side->got.vj_protocol = (s16)((ppp_buffer_read(cursor, ipcp_option_value, 2) != 2) ? -1 : read_network_u16_be(ipcp_option_value));
         len -= 2;
         if (!(side->flags & 4)) {
             if (side->got.vj_protocol == 0x2d) {
@@ -604,7 +604,7 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
         break;
 
     case 3:
-        side->got.our_addr = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.our_addr = (ppp_buffer_read(cursor, ipcp_option_value, 4) != 4) ? 0 : TLobby__sub_80402AFC(ipcp_option_value);
         len -= 4;
         if (c == 0) {
             cfg->local.want.our_addr = side->got.our_addr;
@@ -619,7 +619,7 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
         break;
 
     case 0x81:
-        side->got.dns[0] = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.dns[0] = (ppp_buffer_read(cursor, ipcp_option_value, 4) != 4) ? 0 : TLobby__sub_80402AFC(ipcp_option_value);
         len -= 4;
         if (c == 0) {
             cfg->local.want.dns[0] = side->got.dns[0];
@@ -634,7 +634,7 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
         break;
 
     case 0x83:
-        side->got.dns[1] = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.dns[1] = (ppp_buffer_read(cursor, ipcp_option_value, 4) != 4) ? 0 : TLobby__sub_80402AFC(ipcp_option_value);
         len -= 4;
         if (c == 0) {
             cfg->local.want.dns[1] = side->got.dns[1];
@@ -691,7 +691,7 @@ PppFrame *build_ipcp_config_request(PppFsm *self) {
             goto done;
         }
     }
-    p = lbl_8047FE3C + 1;
+    p = ipcp_option_lengths + 1;
     for (i = 1; i < 0x20; i++) {
         if (flags & (1 << i)) {
             append_ipcp_option(&blk, &base->local.got, (i < 8) ? i : ((i < 0x20) ? i + 0x78 : 0), *p, 0);
@@ -728,7 +728,7 @@ void append_masked_ipcp_options(uaddr *self, void *opt, s32 mask) {
     m = (new_var = (s16)mask);
     for (i = 1; i < 0x20; i++) {
         if (m & (1 << i)) {
-            append_ipcp_option((PppFrame **)self, (IpcpOptions *)opt, optnum_80400270(i), lbl_8047FE3C[i], 0);
+            append_ipcp_option((PppFrame **)self, (IpcpOptions *)opt, optnum_80400270(i), ipcp_option_lengths[i], 0);
         }
     }
 }

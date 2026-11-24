@@ -799,7 +799,7 @@ s16 TLobby__sub_80406328(saddr self, s16 type) {
     }
     {
         IpcpConfig *e = G->ipcp.opts;
-        if (lbl_805D7A90 & 2) {
+        if (lobby_session_flags & 2) {
             s16 r;
             if (!(e->local.got.flags & 4)) goto skip;
             r = TLobby__sub_804048E8(e->net_list, &sv, e->peer.got.vj_comp_slot);

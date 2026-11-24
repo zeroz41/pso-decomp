@@ -56,7 +56,7 @@ u16 ppp_fcs16_table[256] = {
 };
 
 /* How many PPP protocols have reached the opened state (5); IPCP's wait stops at 2 (.sbss 805D7AA0). */
-s32 lbl_805D7AA0;
+s32 ppp_opened_count;
 
 void TLobby__sub_803FD694(PppFsm *fsm) {
     PppFsmTimer *timer;
@@ -98,7 +98,7 @@ void update_connection_state(void *arg0) {
         fsm->state = 6;
         break;
     case 1:
-        if (lbl_805D7A90 & 2) {
+        if (lobby_session_flags & 2) {
             if (fsm->retries != 0) {
                 fsm->retries--;
                 lobby_timer_start((u8 *)&fsm->timer);
@@ -272,7 +272,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, PppFrame *payload)
                 lobby_timer_stop(&fsm->timer);
                 fsm->proto->link_opened(fsm);
                 fsm->state = 5;
-                lbl_805D7AA0++;
+                ppp_opened_count++;
             } else {
                 lobby_timer_start((u8 *)&fsm->timer);
             }
@@ -296,7 +296,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, PppFrame *payload)
                 lobby_timer_stop(&fsm->timer);
                 fsm->proto->link_opened(fsm);
                 fsm->state = 5;
-                lbl_805D7AA0++;
+                ppp_opened_count++;
             }
             break;
         case 5:

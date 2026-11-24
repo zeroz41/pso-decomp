@@ -165,7 +165,7 @@ s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
     u8 *c = g + 0x38;
     s16 r;
     s16 st;
-    if (lbl_805D7A90 & 1) {
+    if (lobby_session_flags & 1) {
         TLobby__sub_80403168(peer_id, pap_password, c);
         TLobby__sub_803FE658((PppFsm *)c);
     }
@@ -201,7 +201,7 @@ s16 lcp_connect(LcpConfig *cfg) {
         auth_side = conn->opts;
         local_side = auth_side;
         auth_side += 1;
-        if (lbl_805D7A90 & 2) {
+        if (lobby_session_flags & 2) {
             auth_side = local_side;
         }
         if (auth_side->got.auth_proto == 0xC023) {

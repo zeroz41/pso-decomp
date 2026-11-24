@@ -8226,7 +8226,7 @@ force_active:
   - aix_player_pool
   - lbl_8058DC00
   - quest_convert_string
-  - lbl_805A9008
+  - ppp_auth_buffers
   - lbl_805A9A90
   - lbl_805A9AF0
   - lbl_805A9B70

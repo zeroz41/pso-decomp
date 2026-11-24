@@ -16,31 +16,24 @@
 
 #pragma dont_inline off
 
-/* Adapter state: the receive message queue and the interrupt statistics counters (one counter per BBA
- * interrupt cause, bumped by TLobby__sub_80429B8C). */
-typedef struct EthState_805D0AA0 {
+/* Adapter state: the receive message queue and the interrupt statistics, one counter per cause of the NIC's
+ * interrupt register (0x09) as TLobby__sub_80429B8C services them. */
+typedef struct BbaState {
     OSMessageQueue queue;
     OSMessage queue_msgs[10];
-    s32 pad_48; /* receive interrupts */
-    s32 pad_4C; /* receive error interrupts */
-    u16 pad_50;
-    u16 pad_52; /* transmit error interrupts */
-    u16 pad_54; /* transmit interrupts */
-    u16 pad_56;
-    u16 pad_58;
-    u16 pad_5A;
-    u16 pad_5C;
-    u16 pad_5E;
-    u16 pad_60;
-    u16 pad_62;
-    u16 pad_64;
-    u16 pad_66;
-    u16 pad_68;
-    u16 pad_6A;
+    s32 rx_count;          /* receive interrupts (0x02) */
+    s32 tx_count;          /* transmit-complete interrupts (0x04) */
+    u16 frag_count;        /* 0x01 */
+    u16 rx_error_count;    /* 0x08; the causes below come from the last-received-packet status (0x05) */
+    u16 tx_error_count;    /* 0x10; the causes below come from the last-transmitted-packet status (0x04) */
+    u16 fifo_error_count;  /* 0x20 */
+    u16 rx_full_count;     /* 0x80: receive buffer full */
+    u16 rx_status_counts[6]; /* status bits 0x01, 0x02, 0x04, 0x08, 0x10 and 0x40 */
+    u16 tx_status_counts[3]; /* status bits 0x10, 0x20 and 0x40 */
     u8 pad_6C[0x14];
-} EthState_805D0AA0;
+} BbaState;
 
-static EthState_805D0AA0 lbl_805D0AA0;
+static BbaState bba_state;
 static u8 exi_dma_buffer[0x600];
 static u8 exi_dma_write_buffer[0xC00];
 
@@ -358,7 +351,7 @@ void TLobby__sub_80429AC8(void) {
     TLobby__sub_80429648();
 }
 static inline void bba_recv(void) {
-    lbl_805D0AA0.pad_48++;
+    bba_state.rx_count++;
     exi_receive_write_page = bba_in16(0x16);
     exi_receive_read_page = bba_in16(0x18);
     TLobby__sub_80429648();
@@ -412,57 +405,57 @@ void TLobby__sub_80429B8C(s32 chan, OSContext *ctx) {
     }
     switch (__cntlzw(ir)) {
     case 24:
-        lbl_805D0AA0.pad_58++;
+        bba_state.rx_full_count++;
         bba_out8(0x09, 0x80);
         break;
     case 25:
         bba_out8(0x09, 0x40);
         break;
     case 26:
-        lbl_805D0AA0.pad_56++;
+        bba_state.fifo_error_count++;
         bba_out8(0x09, 0x20);
         break;
     case 27:
-        lbl_805D0AA0.pad_54++;
+        bba_state.tx_error_count++;
         exi_send_started_flag = 0;
         status = bba_in8(0x04);
         if (status & 0x10) {
-            lbl_805D0AA0.pad_66++;
+            bba_state.tx_status_counts[0]++;
         }
         if (status & 0x20) {
-            lbl_805D0AA0.pad_68++;
+            bba_state.tx_status_counts[1]++;
         }
         if (status & 0x40) {
-            lbl_805D0AA0.pad_6A++;
+            bba_state.tx_status_counts[2]++;
         }
         notify = 1;
         bba_out8(0x09, 0x10);
         break;
     case 28:
-        lbl_805D0AA0.pad_52++;
+        bba_state.rx_error_count++;
         err = bba_in8(0x05);
         if (err & 0x01) {
-            lbl_805D0AA0.pad_5A++;
+            bba_state.rx_status_counts[0]++;
         }
         if (err & 0x02) {
-            lbl_805D0AA0.pad_5C++;
+            bba_state.rx_status_counts[1]++;
         }
         if (err & 0x04) {
-            lbl_805D0AA0.pad_5E++;
+            bba_state.rx_status_counts[2]++;
         }
         if (err & 0x08) {
-            lbl_805D0AA0.pad_60++;
+            bba_state.rx_status_counts[3]++;
         }
         if (err & 0x10) {
-            lbl_805D0AA0.pad_62++;
+            bba_state.rx_status_counts[4]++;
         }
         if (err & 0x40) {
-            lbl_805D0AA0.pad_64++;
+            bba_state.rx_status_counts[5]++;
         }
         bba_out8(0x09, 0x08);
         break;
     case 29:
-        lbl_805D0AA0.pad_4C++;
+        bba_state.tx_count++;
         notify = 1;
         exi_send_started_flag = 0;
         status = bba_in8(0x04);
@@ -472,7 +465,7 @@ void TLobby__sub_80429B8C(s32 chan, OSContext *ctx) {
         bba_recv();
         return;
     case 31:
-        lbl_805D0AA0.pad_50++;
+        bba_state.frag_count++;
         bba_out8(0x09, 0x01);
         break;
     }
@@ -538,7 +531,7 @@ s32 init_bba_exi_adapter(void *arg) {
     u8 val;
 
     OSInitThreadQueue(&network_thread_queue);
-    OSInitMessageQueue(&lbl_805D0AA0.queue, lbl_805D0AA0.queue_msgs, 10);
+    OSInitMessageQueue(&bba_state.queue, bba_state.queue_msgs, 10);
     __SIRegs[15] &= ~0x80000000;
     level = OSDisableInterrupts();
     for (;;) {
@@ -550,7 +543,7 @@ s32 init_bba_exi_adapter(void *arg) {
         OSRestoreInterrupts(level);
     }
     exi_send_started_flag = 0;
-    memset(&lbl_805D0AA0.pad_48, 0, 0x24);
+    memset(&bba_state.rx_count, 0, 0x24);
     exi_accepted_types = 0;
     exi_accepted_type_count = 0;
     exi_receive_alloc_callback = 0;

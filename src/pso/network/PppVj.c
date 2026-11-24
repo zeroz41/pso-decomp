@@ -13,8 +13,8 @@
 
 #include "pso/network/PppBuffer.h"
 
-u8 lbl_805D7AC4[1];
-u8 lbl_805D7AC0[2];
+u8 vj_byte_buffer[1];
+u8 vj_u16_buffer[2];
 
 s16 TLobby__sub_80403F4C(PppVjCompressionState *o, PppFrame **spp) {
     A_80403F4C a;
@@ -56,10 +56,10 @@ inline s32 vj_buffer_valid(PppFrame **src) {
     return valid;
 }
 inline s32 vj_read_byte(PppFrame **src) {
-    if (ppp_buffer_read(src, lbl_805D7AC4, 1) != 1) {
+    if (ppp_buffer_read(src, vj_byte_buffer, 1) != 1) {
         return -1;
     }
-    return (s16)lbl_805D7AC4[0];
+    return (s16)vj_byte_buffer[0];
 }
 inline s32 vj_next_byte(PppFrame **src) {
     s32 fast = 0;
@@ -73,10 +73,10 @@ inline s32 vj_next_byte(PppFrame **src) {
     return vj_read_byte(src);
 }
 inline s32 vj_read_u16(PppFrame **src) {
-    if (ppp_buffer_read(src, lbl_805D7AC0, 2) != 2) {
+    if (ppp_buffer_read(src, vj_u16_buffer, 2) != 2) {
         return -1;
     }
-    return read_network_u16_be(lbl_805D7AC0);
+    return read_network_u16_be(vj_u16_buffer);
 }
 s16 TLobby__sub_804040E0(PppVjCompressionState *comp, PppFrame **src) {
     B_80403F4C *th;

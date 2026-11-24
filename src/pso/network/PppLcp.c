@@ -23,9 +23,9 @@ void net_sleep_ms(s32 ms);
 #include "pso/network/PppBuffer.h"
 
 /* The option values both sides start from: MRU 1500 and a full async control-character map (.rodata 8047FE50). */
-const LcpVals lbl_8047FE50 = {0, 1500, 0xFFFFFFFF};
+const LcpVals lcp_default_values = {0, 1500, 0xFFFFFFFF};
 /* Each option's length, by option type (.rodata 8047FE68). */
-const u8 lbl_8047FE68[16] = {4, 4, 6, 4, 4, 6, 6, 2, 2};
+const u8 lcp_option_lengths[16] = {4, 4, 6, 4, 4, 6, 6, 2, 2};
 /* The option readers' scratch bytes (.sbss 805D7AB0), in reverse definition order. */
 u8 lobby_read_byte_buffer[1];
 u8 lcp_read_value_buffer[4];
@@ -63,7 +63,7 @@ void init_lcp_protocol(u8 *conn)
   PppFsmProtocol *proto = &lcp_state.proto;
   PppFsm *e = (PppFsm *)(conn + 4);
   LcpOpts *area = &lcp_state.opts;
-  const LcpVals *tbl = &lbl_8047FE50;
+  const LcpVals *tbl = &lcp_default_values;
   proto->name = "Lcp";
   proto->proto = 0xC021;
   proto->h6 = 0xFFE;
@@ -132,7 +132,7 @@ s16 apply_lcp_config_to_sides(PppFsm *state, LcpConfig *config) {
         m6 = msg->auth_mode;
         if ((m6 & 0x80) || m6 == 4) {
             configure_mode_by_type(p + 1, m6 & 0x7f);
-            if (lbl_805D7A90 & 2) {
+            if (lobby_session_flags & 2) {
                 configure_mode_by_type(p, msg->auth_mode & 0x7f);
             }
         } else {
@@ -343,7 +343,7 @@ inline void loop_8040172C(uaddr *self, void *src, s16 mask) {
     i = 1;
     while (i <= 8) {
         if (mask & (1 << i)) {
-            TLobby__sub_804017D8(self, src, i, lbl_8047FE68[i], 0);
+            TLobby__sub_804017D8(self, src, i, lcp_option_lengths[i], 0);
         }
         i++;
     }
@@ -404,7 +404,7 @@ inline void add_lcp_options(PppFrame **pbuf, s16 *vals, s16 mask) {
 
     for (i = 1; i <= 8; i++) {
         if (mask & (1 << i)) {
-            TLobby__sub_804017D8((uaddr *)pbuf, vals, i, lbl_8047FE68[i], NULL);
+            TLobby__sub_804017D8((uaddr *)pbuf, vals, i, lcp_option_lengths[i], NULL);
         }
     }
 }

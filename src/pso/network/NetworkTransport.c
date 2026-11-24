@@ -120,7 +120,7 @@ __declspec(section ".sdata2") const char modem_delayed_response[] = "DELAYED";
 __declspec(section ".sdata2") const char modem_ring_response[] = "RING";
 __declspec(section ".sdata2") const char modem_default_connect_argument[] = "00";
 
-static PppAuthBuffers lbl_805A9008;
+static PppAuthBuffers ppp_auth_buffers;
 static u8 lbl_805A9A90[0x60];
 static u8 lbl_805A9AF0[0x80];
 static u8 lbl_805A9B70[0x80];
@@ -144,15 +144,15 @@ void TLobby__sub_803F76F0(void) {
 }
 
 void init_net_buffer_table(PppAuthState *auth) {
-    auth->p0 = lbl_805A9008.auth0;
-    auth->p4 = lbl_805A9008.auth4;
-    auth->p8 = lbl_805A9008.auth8;
-    auth->pC = lbl_805A9008.authC;
-    auth->p10 = lbl_805A9008.auth10;
-    auth->p14 = lbl_805A9008.auth14;
-    auth->p18 = lbl_805A9008.auth18;
-    auth->p1C = lbl_805A9008.auth1C;
-    auth->p20 = (char *)lbl_805A9008.auth20;
+    auth->p0 = ppp_auth_buffers.auth0;
+    auth->p4 = ppp_auth_buffers.auth4;
+    auth->p8 = ppp_auth_buffers.auth8;
+    auth->pC = ppp_auth_buffers.authC;
+    auth->p10 = ppp_auth_buffers.auth10;
+    auth->p14 = ppp_auth_buffers.auth14;
+    auth->p18 = ppp_auth_buffers.auth18;
+    auth->p1C = ppp_auth_buffers.auth1C;
+    auth->p20 = (char *)ppp_auth_buffers.auth20;
     auth->size0 = 0x80;
     auth->size4 = 0x80;
     auth->size8 = 0x80;
@@ -172,9 +172,9 @@ void TLobby__sub_803F778C(void) {
 }
 
 void init_net_block_620_params(PppPapState *pap) {
-    pap->peer_id = lbl_805A9008.pap_peer_id;
-    pap->password = lbl_805A9008.pap_password;
-    pap->message = lbl_805A9008.pap_message;
+    pap->peer_id = ppp_auth_buffers.pap_peer_id;
+    pap->password = ppp_auth_buffers.pap_password;
+    pap->message = ppp_auth_buffers.pap_message;
     pap->peer_id_size = 0x80;
     pap->password_size = 0x80;
     pap->message_size = 0x100;
