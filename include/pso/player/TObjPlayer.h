@@ -409,9 +409,6 @@ struct TObjPlayer : public TObjChara {
     static void push_material_color_override(f32 alpha, f32 farg1, f32 farg2, f32 farg3);
     // attack_state.get_validated_attack_stage(): the pending stage, 0 when it is not valid.
     s16 get_attack_stage();
-    static void update_lights();
-    static void clear_alt_model_flag();
-    static void set_alt_model_flag();
     void *create_hairmove(void *arg1, void *arg2);
     void set_tp(s16 tp);
     s32 get_tp_bonus();
@@ -1270,8 +1267,6 @@ struct TObjPlayer : public TObjChara {
     static void clear_shadow_pass_request();
     static void load_capture_texture();
     static void end_screen_quad();
-    static void begin_alt_model_draw();
-    static void init_alt_model();
     s32 get_language();
     void record_meseta_pickup(s32 arg1);
     static void send_local_player_visible();
