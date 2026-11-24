@@ -1015,13 +1015,7 @@ pso/ui/window/TWindowSubComCard_8007A810.cpp:
 	.sbss       start:0x805D4E80 end:0x805D4E84
 
 pso/ui/window/TWindowSubComCard_8007B6D8.cpp:
-	.text       start:0x8007B6D8 end:0x8007B7E4
-
-pso/ui/frontend/TAdSinglePlyChrSelectGC_8007B7E4.cpp:
-	.text       start:0x8007B7E4 end:0x8007B7EC
-
-pso/player/TPlyGuildCardTag_8007B7EC.cpp:
-	.text       start:0x8007B7EC end:0x8007B858
+	.text       start:0x8007B6D8 end:0x8007B858
 
 pso/unk/TLobby_8007B858.cpp:
 	.text       start:0x8007B858 end:0x8007BD24

@@ -13,7 +13,6 @@ struct TPlyPhotonChair : public TObjBase {
     TPlyPhotonChair(s32 owner_id, TObject *parent);
     virtual ~TPlyPhotonChair();
     u16 get_owner_id();
-    s32 get_actor_section_id();
     u16 owner_id;  // client id of the seated player
     u16 m_92;
     u32 owner_dismounted;  // set once the owner stands up; the seat then folds away

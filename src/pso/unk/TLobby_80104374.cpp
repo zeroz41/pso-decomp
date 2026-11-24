@@ -815,7 +815,7 @@ saddr find_eligible_combination_recipe(saddr arg0, u8 *item) {
         }
         v = rec->bC;
         if (v != 0xFF) {
-            if (v != (s32)((TPlyPhotonChair *)(o))->get_actor_section_id()) {
+            if (v != (s32)((TObjPlayer *)o)->get_section_id()) {
                 return 0;
             }
         }

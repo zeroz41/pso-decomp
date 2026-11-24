@@ -1043,7 +1043,6 @@ pso/player/TPlyDispConfigSmth.cpp
 pso/effect/particle/TPlyFollowParticleCtrl.cpp
 pso/player/TPlyGuildCardTag.cpp
 pso/player/TPlyGuildCardTag_80077BBC.cpp
-pso/player/TPlyGuildCardTag_8007B7EC.cpp
 pso/player/TPlyGuildCardTag_801E0284.cpp
 pso/player/TPlyGuildCardTag_801E09C4.cpp
 pso/network/TPlyJoinGame.cpp
@@ -1751,7 +1750,6 @@ pso/ui/frontend/TAdSelectGameModeGC.cpp
 pso/ui/frontend/TAdSelectTxtGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_8001ED80.cpp
-pso/ui/frontend/TAdSinglePlyChrSelectGC_8007B7E4.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_80145778.cpp
 pso/ui/frontend/TAdSinglePlyChrSelectGC_801C50A8.cpp

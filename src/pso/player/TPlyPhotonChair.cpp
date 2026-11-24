@@ -149,7 +149,7 @@ TPlyPhotonChair::TPlyPhotonChair(s32 owner_id, TObject *parent) : TObjBase(paren
         queue_destruction();
         return;
     }
-    get_rader_map__11TMainCursorFv(&marker, (void *)&TPlyPhotonChair__section_id_color_table[(s32)((TPlyPhotonChair *)player)->get_actor_section_id()]);
+    get_rader_map__11TMainCursorFv(&marker, (void *)&TPlyPhotonChair__section_id_color_table[(s32)player->get_section_id()]);
     texlist = get_bml_texlist(TPlyPhotonChair__shared_model_resource, 1);
     lobby_seat.set_model(get_bml_model(TPlyPhotonChair__shared_model_resource, 1));
     lobby_seat.set_motion(reinterpret_cast<NJS_MOTION *>(get_bml_motion(TPlyPhotonChair__shared_model_resource, 1)));

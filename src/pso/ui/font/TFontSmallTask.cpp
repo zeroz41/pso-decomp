@@ -246,7 +246,7 @@ void LeaderSelection::find_leader_section_id(s32 client_id) {
         player = TObjPlayer::get_player_data(i);
         if (player != NULL && client_id == player->get_entity_id()) {
             level = player->get_actor_level_index();
-            section_id = ((TPlyPhotonChair *)player)->get_actor_section_id();
+            section_id = player->get_section_id();
         }
     }
 }

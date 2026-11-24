@@ -46,7 +46,7 @@ class TChCrTagPlBack;
 
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/player/TPlyGuildCardTag_8007B7EC.h"
+#include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/unk/text_802754EC.h"

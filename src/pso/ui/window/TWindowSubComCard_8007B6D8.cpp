@@ -6,6 +6,12 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/protocol/packet_classes.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TPlyGuildCardTag.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/ui/chat/ShortMail.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/chat/TWindowSubShortMail_80246CB8.h"
 
 struct O_8007B6F4 { u8 pad[0x8c]; u8 flags; };
 
@@ -39,3 +45,25 @@ void *TWindowSubComCard::init_guild_card() {
 }
 
 }
+
+int TAdSinglePlyChrSelectGC::get_state() {  return guild_card_save_payload; }
+
+void TPlyGuildCardTag::bswap() {
+    bswap_32(&m_guildcard_number);
+    bswap_16(&m_tag2);
+}
+
+void set_guild_card_receive_active() {
+    lbl_805D63FC |= 2;
+}
+
+s32 ShortMailEntry::get_sender_card_id() { return sender_card_id; }
+
+char *ShortMailEntry::get_sender_name() { return sender_name; }
+
+s32 TObjPlayer::get_section_id() {
+    s8 id = *((s8 *)this + 0x88C);
+    return id;
+}
+
+const char *TObjPlayer::get_name() { return name; }

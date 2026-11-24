@@ -1272,7 +1272,7 @@ void qst_op_get_section_id() {
   temp_r31 = (u8) qst_args[1];
   if (player != 0U)
   {
-    qst_registers[(u8)temp_r31] = (volatile unsigned long)((TPlyPhotonChair *)player)->get_actor_section_id();
+    qst_registers[(u8)temp_r31] = (volatile unsigned long)((TObjPlayer *)player)->get_section_id();
     return;
   }
   qst_registers[(u8)temp_r31] = -1;

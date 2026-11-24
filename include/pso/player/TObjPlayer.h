@@ -796,6 +796,7 @@ struct TObjPlayer : public TObjChara {
     int get_floor_surface_type();
     s32 get_falz_phase();
     s16 get_section_clamped();
+    s32 get_section_id();
     static void split_capped_value(u8 level, u8 *capped, u8 *overflow);
     void level_up_all_techniques(s32 add);
     static s32 validate_and_clear_slot(void *techs, s16 tech);
