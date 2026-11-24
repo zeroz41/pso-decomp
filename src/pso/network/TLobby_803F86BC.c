@@ -44,7 +44,7 @@ u16 lobby_thread_pool_count;
 LobbyBufferSlot *lobby_buffer_slots;
 u16 lobby_buffer_slot_count;
 s32 lbl_805D7A5C;
-s32 lbl_805D7A58;
+s16 loopback_slot_used[2];
 s16 dns_resolver_timeouts[3];
 u32 net_param_word_i;
 u32 net_param_word_h;
@@ -55,17 +55,17 @@ extern u8 *lobby_second_buffer_pool_base;
 static u32 lobby_net_config_block[4722];
 static Ipv6Header ipv6_interface_config;
 static Ipv6RawSocket ipv6_raw_sockets[1];
-static u32 lbl_805B38D4[50];
-static u32 lbl_805B399C[99];
-static u32 lbl_805B3B28[36];
-static u32 lbl_805B3BB8[1267];
-static s32 lbl_805B4F84[212];
+static u32 ipv6_pmtu_storage[50];
+static Ipv6AddrNode ipv6_addr_pool_storage[9];
+static Ipv6Iface ipv6_iface_storage[3];
+static u32 ipv6_route_storage[1267];
+static s32 ipv4_raw_socket_storage[212];
 static NetFragment ip_fragments[0x10];
 static NetFragPacket ip_frag_packets[2];
-static u8 lbl_805B54BC[0x4000] ATTRIBUTE_ALIGN(4);
+static u8 net_buffer_pool_data[0x4000] ATTRIBUTE_ALIGN(4);
 static NetBufferPoolEntry net_buffer_pool_entries[2];
-static s32 lbl_805B9534[1059];
-static s32 lbl_805BA5C0[3115];
+static s32 net_packet_storage[1059];
+static s32 lobby_handler_storage[3115];
 static s32 lobby_net_recv_desc[641];
 
 void term_dns_config(void *cfg) {
@@ -147,10 +147,10 @@ void init_udp_socket_config(Ipv6State *o) {
     o->rs_count_init = 2;
     o->pmtu_lifetime = 0x1E;
     o->min_mtu = 0x500;
-    o->routes = (Ipv6Route *)lbl_805B3BB8;
-    o->ifaces = (Ipv6Iface *)lbl_805B3B28;
-    o->addr_pool = (Ipv6AddrNode *)lbl_805B399C;
-    o->pmtu = (Ipv6PmtuEntry *)lbl_805B38D4;
+    o->routes = (Ipv6Route *)ipv6_route_storage;
+    o->ifaces = ipv6_iface_storage;
+    o->addr_pool = ipv6_addr_pool_storage;
+    o->pmtu = (Ipv6PmtuEntry *)ipv6_pmtu_storage;
 }
 
 void term_ipv6_nd_config(void *cfg) {
@@ -178,7 +178,7 @@ void init_ipv4_raw_socket_config(Ipv4ProtocolState *cfg) {
     cfg->nsockets = 1;
     cfg->def_tos = 0;
     cfg->def_ttl = 0x78;
-    cfg->sockets = (Ipv4RawSocket *)lbl_805B4F84;
+    cfg->sockets = (Ipv4RawSocket *)ipv4_raw_socket_storage;
 }
 #pragma pop
 
@@ -213,7 +213,7 @@ void init_buffer_desc_a(NetBufferPool *cfg) {
     cfg->count = 2;
     cfg->size = 0x2000;
     cfg->ents = net_buffer_pool_entries;
-    cfg->data = lbl_805B54BC;
+    cfg->data = net_buffer_pool_data;
 }
 
 void term_packet_pool_config(void *cfg) {
@@ -221,7 +221,7 @@ void term_packet_pool_config(void *cfg) {
 
 void init_packet_pool_config(NetPacketPool *cfg) {
     cfg->count = 5;
-    cfg->packets = (NetPacket *)lbl_805B9534;
+    cfg->packets = (NetPacket *)net_packet_storage;
 }
 
 void term_arp_config(void *cfg) {
@@ -248,7 +248,7 @@ void term_handler_table_config(void *cfg) {
 
 void init_handler_table_config(LobbyHandlerTable *cfg) {
     cfg->count = 3;
-    cfg->list = (struct LobbyHandler *)lbl_805BA5C0;
+    cfg->list = (struct LobbyHandler *)lobby_handler_storage;
 }
 
 void term_dix_config(void *cfg) {
@@ -280,7 +280,7 @@ void term_loopback_config(void *cfg) {
 void init_net_recv_desc(LoopbackState *cfg) {
     cfg->slot_size = 0x500;
     cfg->slot_count = 2;
-    cfg->slot_used = (s16 *)&lbl_805D7A58;
+    cfg->slot_used = loopback_slot_used;
     cfg->slots = (u8 *)lobby_net_recv_desc;
 }
 
