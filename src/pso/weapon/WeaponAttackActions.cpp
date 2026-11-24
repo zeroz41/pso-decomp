@@ -4,7 +4,7 @@
 struct NJS_OBJECT;
 #include <string.h>
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/weapon/TUnk_804F1320.h"
+#include "pso/weapon/TItemWeaponTsumikiri.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/weapon/TUnk_804A69DC.h"
@@ -307,7 +307,7 @@ u32 pack_weapon_trail_color(void *weapon) {
     return (__cvt_fp2unsigned(255.0f * w.alpha) << 24 | __cvt_fp2unsigned(255.0f * w.red) << 16 | __cvt_fp2unsigned(255.0f * w.green) << 8) | __cvt_fp2unsigned(255.0f * w.blue);
 }
 
-void TUnk_804F1320::spawn_pg_effect(const Vec *origin, saddr item, f32 radius) {
+void TItemWeaponTsumikiri::spawn_pg_effect(const Vec *origin, saddr item, f32 radius) {
     ItemEffPGParams prm;
     if (item < 0 || item >= 200) {
         return;

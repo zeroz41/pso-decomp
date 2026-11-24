@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/weapon/TUnk_804F1320.h"
+#include "pso/weapon/TItemWeaponTsumikiri.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
 #include "pso/item/mag/TItemMag.h"
@@ -13,7 +14,7 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TUnk_804F1320::activate_effect(s32 item) {
+void TItemWeaponTsumikiri::activate_effect(s32 item) {
     if (owner != NULL && is_current_area_item_enabled() != 0) {
         s32 owner_floor = owner->get_floor();
         s32 floor = get_current_floor();
@@ -25,7 +26,7 @@ void TUnk_804F1320::activate_effect(s32 item) {
 
 #pragma pop
 
-void TUnk_804F1320::emit_marker_effects() {
+void TItemWeaponTsumikiri::emit_marker_effects() {
     s32 temp_r3;
     if (is_mode_two_and_ready() != 0) {
         temp_r3 = owner->get_photon_blast_charge();
@@ -39,9 +40,9 @@ void TUnk_804F1320::emit_marker_effects() {
     update_active_game_effect();
 }
 
-TUnk_804F1320::~TUnk_804F1320() {}
+TItemWeaponTsumikiri::~TItemWeaponTsumikiri() {}
 
-TUnk_804F1320::TUnk_804F1320(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponTsumikiri::TItemWeaponTsumikiri(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(0x22);
     if (get_item_group() == 0x3D) {
         effect_radius = 70.0f;
@@ -49,4 +50,11 @@ TUnk_804F1320::TUnk_804F1320(TObject *parent, u8 *item) : TItemWeapon(parent, it
     } else {
         effect_radius = 100.0f;
     }
+}
+
+TItem *create_photon_field_weapon(u8 *item) {
+    if (item != NULL) {
+        return new TItemWeaponTsumikiri(tl_05, item);
+    }
+    return NULL;
 }

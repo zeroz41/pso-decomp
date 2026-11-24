@@ -77,7 +77,7 @@
 #include "pso/unk/text_80129D18.h"
 #include "pso/unk/text_8012AE50.h"
 #include "pso/unk/text_8012C268.h"
-#include "pso/unk/text_80355C1C.h"
+#include "pso/weapon/TItemWeaponTsumikiri.h"
 #include "pso/unk/text_8035D444.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
 #include "pso/weapon/TUnk_804A204C.h"

@@ -2510,7 +2510,7 @@ force_active:
   - __dt__13TUnk_804F0D34Fv
   - __dt__13TUnk_804F0FF0Fv
   - __dt__13TUnk_804F1280Fv
-  - __dt__13TUnk_804F1320Fv
+  - __dt__20TItemWeaponTsumikiriFv
   - __dt__13TUnk_804F1C88Fv
   - __dt__21TEquippedItemDrawTaskFv
   - __dt__23TEquippedWeaponDrawTaskFv
@@ -3278,7 +3278,7 @@ force_active:
   - __vt__13TUnk_804F0D34
   - __vt__13TUnk_804F0FF0
   - __vt__13TUnk_804F1280
-  - __vt__13TUnk_804F1320
+  - __vt__20TItemWeaponTsumikiri
   - __vt__21TEquippedItemDrawTask
   - __vt__23TEquippedWeaponDrawTask
   - __vt__13TBoss6MagMine
@@ -3751,7 +3751,7 @@ force_active:
   - action__18TObjEneEpsilonBodyFl
   - action_destroy__19TObjEneEpsilonGuardFl
   - activate_effect__13TUnk_804A4B80Fl
-  - activate_effect__13TUnk_804F1320Fl
+  - activate_effect__20TItemWeaponTsumikiriFl
   - activate_effect__8TItemMagFl
   - activate_switch_attacks__10TObjPlayerFii
   - ad_game_start_name_ptr
@@ -5973,7 +5973,7 @@ force_active:
   - emit_marker_effects__13TUnk_804A66D8Fv
   - emit_marker_effects__13TUnk_804A6DC0Fv
   - emit_marker_effects__13TUnk_804ECDC0Fv
-  - emit_marker_effects__13TUnk_804F1320Fv
+  - emit_marker_effects__20TItemWeaponTsumikiriFv
   - emit_part_attack_effect__13TBoss5GryphonFi
   - emit_photon_blast_feedback_effects__FlUs
   - emit_player_model_particle__Fllll

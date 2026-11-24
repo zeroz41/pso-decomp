@@ -9799,13 +9799,10 @@ pso/boss/galgryphon/TBoss5GryphonTornado.cpp:
 	.sbss       start:0x805D6F10 end:0x805D6F14
 	.sdata2     start:0x805DFFA8 end:0x805DFFBC
 
-pso/player/TObjPlayer_80355A58.cpp:
-	.text       start:0x80355A58 end:0x80355C1C
+pso/weapon/TItemWeaponTsumikiri.cpp:
+	.text       start:0x80355A58 end:0x80355C74
 	.data       start:0x804F1320 end:0x804F1418
 	.sdata2     start:0x805DFFC0 end:0x805DFFC8
-
-pso/unk/text_80355C1C.cpp:
-	.text       start:0x80355C1C end:0x80355C74
 
 pso/ui/frontend/TAdPlyPltAnimGC.cpp:
 	.text       start:0x80355C74 end:0x803561C4
