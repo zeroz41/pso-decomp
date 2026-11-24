@@ -7,6 +7,8 @@
 #include "pso/ui/window/ActionPaletteTag.h"
 #include "pso/unk/TUnk_804A7254.h"
 
+struct NJS_OBJECT;
+
 // TMainCursor +0x24.
 class TUnk_8013E800 {
 public:
@@ -65,14 +67,13 @@ struct TMainCursor : public TObject {
     static void sort_list(s32 arg0, s32 arg1);
     s32 is_channel_active();
     int check_visible();
-    saddr get_state();
     void set_target_index(s16 v);
     void update_cursor_pos();
     void*copy_from(void* a1);
     saddr get_index();
     void reset_slot();
     void set_type(s32 v);
-    static int get_cursor_state();
+    static NJS_OBJECT *get_cursor_model();
     saddr check_field_24();
     u16 get_id();
     void*get_list();

@@ -85,7 +85,6 @@ extern "C" {
 
 u8 *__dt__14TLOC_ListClearFv(u8 *arg0, s16 arg1);
 void TObjPlayer__sub_8013DEF8(u8 *arg0);
-s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 
 extern void *lbl_804A71C4[6];
 
@@ -107,7 +106,7 @@ struct State_8013AF50 {
 
 extern "C" {
 void publish_target_list__11TMainCursorFPvi(struct Self_8013D4A0 *, s32);
-State_8013AF50 *get_state__11TMainCursorFv(s32);
+State_8013AF50 *get_player__13TUnk_8013E020Fv(s32);
 
 extern const char *lockon_list_clear_task_name;
 
@@ -299,7 +298,7 @@ s32 lock_on_cursor_model;
 s32 TLockOnCursor__target_cursor_model;
 
 }
-s32 main_cursor_model;
+NJS_OBJECT *main_cursor_model;
 void load_target_cursor_models(void);
 extern "C" {
 void __destroy_arr(void *, void *, int, int);
@@ -352,8 +351,8 @@ u8 fn_8013F24C(Obj_8013F24C *self, s16 i);
 
 void TLOC_ListClear::run_task() {
     saddr arg0 = (saddr)this;
-    if ((TObjPlayer__sub_801C6DAC((u8 *)(arg0 + 0x1C)) != 0) && ((u32) *(u32 *)((s8 *)(((TMainCursor *)(arg0 + 0x1C))->get_state()) + 0x424) != 0U)) {
-        TObjPlayer__sub_8013DEF8((u8 *)(*(saddr *)((s8 *)(((TMainCursor *)(arg0 + 0x1C))->get_state()) + 0x424) + 0x520));
+    if ((((TUnk_8013E020 *)(arg0 + 0x1C))->resolve_player() != 0) && ((u32) *(u32 *)((s8 *)(((TUnk_8013E020 *)(arg0 + 0x1C))->get_player()) + 0x424) != 0U)) {
+        TObjPlayer__sub_8013DEF8((u8 *)(*(saddr *)((s8 *)(((TUnk_8013E020 *)(arg0 + 0x1C))->get_player()) + 0x424) + 0x520));
     }
 }
 
@@ -362,8 +361,8 @@ extern "C" {
 u8 *__dt__14TLOC_ListClearFv(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void ***)((s8 *)arg0 + 0x18) = lbl_804A71C4;
-        if ((TObjPlayer__sub_801C6DAC(arg0 + 0x1C) != 0) &&((u32) *(u32 *)((s8 *)(((TMainCursor *)(arg0 + 0x1C))->get_state()) + 0x424) != 0U)) {
-            ((TLockOnCursor *)(*(saddr *)((s8 *)(((TMainCursor *)(arg0 + 0x1C))->get_state()) + 0x424)))->set_list_clear_task(NULL);
+        if ((((TUnk_8013E020 *)(arg0 + 0x1C))->resolve_player() != 0) &&((u32) *(u32 *)((s8 *)(((TUnk_8013E020 *)(arg0 + 0x1C))->get_player()) + 0x424) != 0U)) {
+            ((TLockOnCursor *)(*(saddr *)((s8 *)(((TUnk_8013E020 *)(arg0 + 0x1C))->get_player()) + 0x424)))->set_list_clear_task(NULL);
         }
         __dt__13TUnk_804A7260Fv(arg0, 0);
         if (arg1 > 0) {
@@ -385,19 +384,19 @@ void *TLOC_ListClear::init_lockon(TObject *parent, u16 id) {
 void TLOC_End::run_task() {
     saddr arg0 = (saddr)this;
     s32 i;
-    if (TObjPlayer__sub_801C6DAC((u8 *)(arg0 + 0x1C)) == 0) {
+    if (((TUnk_8013E020 *)(arg0 + 0x1C))->resolve_player() == 0) {
         return;
     }
-    if (get_state__11TMainCursorFv(arg0 + 0x1C)->cur == NULL) {
+    if (get_player__13TUnk_8013E020Fv(arg0 + 0x1C)->cur == NULL) {
         return;
     }
     for (i = 0; i < 4; i++) {
-        TMainCursor::sort_list((saddr)(get_state__11TMainCursorFv(arg0 + 0x1C)->cur), (s32)i);
-        publish_target_list__11TMainCursorFPvi((Self_8013D4A0 *)get_state__11TMainCursorFv(arg0 + 0x1C)->cur, i);
+        TMainCursor::sort_list((saddr)(get_player__13TUnk_8013E020Fv(arg0 + 0x1C)->cur), (s32)i);
+        publish_target_list__11TMainCursorFPvi((Self_8013D4A0 *)get_player__13TUnk_8013E020Fv(arg0 + 0x1C)->cur, i);
     }
-    get_state__11TMainCursorFv(arg0 + 0x1C)->cur->nearest_target.publish();
+    get_player__13TUnk_8013E020Fv(arg0 + 0x1C)->cur->nearest_target.publish();
     for (i = 0; i < 4; i++) {
-        ((TMainCursor *)(&get_state__11TMainCursorFv(arg0 + 0x1C)->cur->parts[i]))->reset_cursor_parts();
+        ((TMainCursor *)(&get_player__13TUnk_8013E020Fv(arg0 + 0x1C)->cur->parts[i]))->reset_cursor_parts();
     }
 }
 
@@ -435,7 +434,7 @@ void load_target_cursor_models(void) {
         if ((u32) resource != 0U) {
             lock_on_cursor_model = (saddr)get_bml_model((BmlResource *)(void *) resource, 0);
             TLockOnCursor__target_cursor_model = (saddr)get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 0);
-            main_cursor_model = (saddr)get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 2);
+            main_cursor_model = get_bml_model((BmlResource *)lock_on_cursor_bml_resource, 2);
         }
     }
 }
@@ -549,7 +548,7 @@ void TLockOnCursor::renderSecondaryCursor(u8 *body, s32 type, s32 action) {
                 translate_matrix(0, TMainCursor__data_805DB0C0, y, TMainCursor__data_805DB0C0);
                 save_model_draw_state((void *)(arg0 + 0x48));
                 begin_constant_color_draw((void *)(arg0 + 0x48), (const NJS_ARGB *)((void *)target_cursor_color_table[5]));
-                TMainCursor::get_cursor_state();
+                TMainCursor::get_cursor_model();
                 draw_chunk_object();
                 begin_constant_color_draw((void *)(arg0 + 0x48), (const NJS_ARGB *)((void *)target_cursor_color_table[temp_r3_2]));
                 TLockOnCursor__sub_8013EB34();
@@ -1530,7 +1529,7 @@ void TMainCursor::update_photon_chair() {
     if (((TMainCursor *)(arg0 + 0x4C))->get_pos() > 0.99999f) {
         save_model_draw_state((void*)(arg0 + 0x4C));
         begin_constant_color_draw_argb((void *)(arg0 + 0x4C), 1.0f, TMainCursor__data_805DB0C0, TMainCursor__data_805DB0C0, TMainCursor__data_805DB0C0);
-        TMainCursor::get_cursor_state();
+        TMainCursor::get_cursor_model();
         draw_chunk_object();
         restore_model_draw_state((void*)(arg0 + 0x4C));
     }
@@ -1620,8 +1619,8 @@ TObjPlayer *resolve_player_by_client_id(u16 *client_id) {
 TLOC_Start::TLOC_Start(TObject *parent, u16 id) : TUnk_804A7260(parent, id) { m_name = TLOC_Start__name; }
 
 TLOC_Start::~TLOC_Start() {
-    if ((TObjPlayer__sub_801C6DAC((u8 *)&m_target) != 0) && (*(u32 *)((s8 *)((TMainCursor *)&m_target)->get_state() + 0x424) != 0U)) {
-        ((TLockOnCursor *)*(saddr *)((s8 *)((TMainCursor *)&m_target)->get_state() + 0x424))->set_start_task(NULL);
+    if ((m_target.resolve_player() != 0) && (*(u32 *)((s8 *)m_target.get_player() + 0x424) != 0U)) {
+        ((TLockOnCursor *)*(saddr *)((s8 *)m_target.get_player() + 0x424))->set_start_task(NULL);
     }
 }
 
@@ -1658,8 +1657,8 @@ void TLOC_Start::run_task() {
 TLOC_End::TLOC_End(TObject *parent, u16 id) : TUnk_804A7260(parent, id) { m_name = TLOC_End__name; }
 
 TLOC_End::~TLOC_End() {
-    if ((TObjPlayer__sub_801C6DAC((u8 *)&m_target) != 0) && (*(u32 *)((s8 *)((TMainCursor *)&m_target)->get_state() + 0x424) != 0U)) {
-        ((TLockOnCursor *)*(saddr *)((s8 *)((TMainCursor *)&m_target)->get_state() + 0x424))->set_end_task(NULL);
+    if ((m_target.resolve_player() != 0) && (*(u32 *)((s8 *)m_target.get_player() + 0x424) != 0U)) {
+        ((TLockOnCursor *)*(saddr *)((s8 *)m_target.get_player() + 0x424))->set_end_task(NULL);
     }
 }
 
@@ -1705,7 +1704,7 @@ void TMainCursor__sub_8013DFC4(u8 *arg0) {
 
 }
 
-saddr TMainCursor::get_state() { return *(saddr *)&this->m_flags; }
+TObjPlayer *TUnk_8013E020::get_player() { return player; }
 
 TUnk_8013E020::~TUnk_8013E020() {}
 
@@ -1713,7 +1712,7 @@ void TUnk_8013E020::set_field_0(u16 v) { a = v; }
 
 TUnk_8013E020::TUnk_8013E020() {
     a = b = 0xffff;
-    c = 0;
+    player = 0;
 }
 
 extern "C" {
@@ -1784,7 +1783,7 @@ void TMainCursor::reset_slot() { this->m_name = 0; }
 
 void TMainCursor::set_type(s32 v) { *(s32 *)&this->m_flags = v; }
 
-int TMainCursor::get_cursor_state() {  return main_cursor_model; }
+NJS_OBJECT *TMainCursor::get_cursor_model() { return main_cursor_model; }
 
 extern "C" {
 

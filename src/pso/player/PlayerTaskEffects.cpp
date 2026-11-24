@@ -33,6 +33,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/effect/TEffect.h"
 #include "pso/render/model_render_state.h"
+#include "pso/render/ChunkModelDraw.h"
 
 
 
@@ -60,10 +61,6 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 }
 
 
-extern "C" {
-s32 draw_chunk_object();
-s32 TObjPlayer__sub_801C6DAC(u8 *target);
-}
 
 
 #include "pso/system/THeap.h"
@@ -97,6 +94,7 @@ s32 TObjPlayer__sub_801C6DAC(u8 *target);
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/PlayerTaskEffects.h"
 #include "pso/render/model_render_state.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/effect/TEffect.h"
@@ -209,9 +207,9 @@ void *PlayerActionProvider::operator new(size_t size) { return obj_heap->heap_al
 void PlayerActionProvider::operator delete(void *p) { obj_heap->heap_free(p); }
 
 
-s32 TObjPlayer__sub_801C6DAC(u8 *target) {
-    *(u8 **)((s8 *)target + 4) = (u8 *)get_player_by_client_id(get_client_id(target));
-    if (*(u8 **)((s8 *)target + 4) != NULL) {
+BOOL TUnk_8013E020::resolve_player() {
+    player = get_player_by_client_id(get_client_id(this));
+    if (player != NULL) {
         return 1;
     }
     return 0;
@@ -243,8 +241,7 @@ void TPlayerLobbyMarker::render() {
         rotate_matrix_y(NULL, camera_ctrl_instance->yaw + rotation);
         scale_matrix(NULL, 1.3f, 1.3f, 1.3f);
         set_constant_material(&player_lobby_marker_color_table[get_material_index()]);
-        TMainCursor::get_cursor_state();
-        draw_chunk_object();
+        draw_chunk_object(TMainCursor::get_cursor_model());
         copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();
@@ -742,8 +739,8 @@ void TForceOperate::run_task() {
     TObjPlayer *player;
     TObjCollidable *entity;
 
-    if (TObjPlayer__sub_801C6DAC((u8 *)&m_1c) != 0) {
-        player = (TObjPlayer *)((TMainCursor *)(&m_1c))->get_state();
+    if (m_1c.resolve_player() != 0) {
+        player = m_1c.get_player();
         if ((player->is_target_valid() != 0) && (player->has_action_palette_entry() != 0)) {
             entity = find_entity_by_id(((TMainCursor *)&player->lock_on_cursor->selection.target)->get_id());
             if (entity != NULL) {
