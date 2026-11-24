@@ -11,8 +11,6 @@
 #include <string.h>
 
 extern "C" {
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, saddr src, s8 arg3, s8 arg4, s8 arg5, s8 arg6, s8 arg7, s32 arg_sp8) {
     saddr num;
     if (arg1 != 0) {

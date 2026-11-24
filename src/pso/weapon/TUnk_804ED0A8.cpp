@@ -1,3 +1,4 @@
+#include "pso/math/ClampedStep.h"
 #include "types.h"
 #include <stddef.h>
 #include "pso/weapon/TUnk_804ED0A8.h"
@@ -17,16 +18,16 @@ void TUnk_804ED0A8::vfunc_60() {
 }
 
 void TUnk_804ED0A8::update_idle() {
-    TObjPlayer::add_angle_clamped(&pad_1f8, 0x71C, 0x4000);
+    ::add_angle_clamped(&pad_1f8, 0x71C, 0x4000);
     if (pad_1f8 == 0x4000) {
-        TObjPlayer::add_angle_clamped(&pad_1fc, 0x71C, 0x4000);
+        ::add_angle_clamped(&pad_1fc, 0x71C, 0x4000);
     }
 }
 
 void TUnk_804ED0A8::update_attack() {
-    TObjPlayer::add_angle_clamped(&pad_1fc, -0xAAA, 0);
+    ::add_angle_clamped(&pad_1fc, -0xAAA, 0);
     if (pad_1fc == 0) {
-        TObjPlayer::add_angle_clamped(&pad_1f8, -0xAAA, 0);
+        ::add_angle_clamped(&pad_1f8, -0xAAA, 0);
     }
 }
 

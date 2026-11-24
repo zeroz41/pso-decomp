@@ -32,14 +32,9 @@ public:
 
 LAYOUT_ASSERT(TObjVoloptCage_size, sizeof(TObjVoloptCage) == 0x394);
 
-// Combat stats and the attack parameter table of the cage (TLobby slot 0x26).
-struct VoloptBreakUpParams {
-    s32 count;
-    f32 pad_4[6];
-};
-
-extern VoloptBreakUpParams volopt_cage_breakup_params;
-extern void *volopt_cage_combat_stats;
+struct BreakUpParamRow;
+extern BreakUpParamRow volopt_cage_breakup_params;
+extern player_stats *volopt_cage_combat_stats;
 // Same layout as the P02 table (VoloptP02Params): floats first, ints at 0x18.
 struct VoloptCageParams {
     f32 float_params[6];

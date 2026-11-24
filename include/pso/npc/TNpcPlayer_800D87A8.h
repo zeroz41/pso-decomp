@@ -7,7 +7,7 @@ class TObjCollidable;
 
 // The player in battle slot `id` (TObjPlayer::get_battle_param), or 0 when that
 // slot is not a valid, active player.
-void *get_valid_target_player(int id);
+TObjCollidable *get_valid_target_player(int id);
 
 // The entity with id `id` (find_entity_by_id), or NULL when there is none or it
 // is not valid and active.

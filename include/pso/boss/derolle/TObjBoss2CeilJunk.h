@@ -1,6 +1,8 @@
 #ifndef PSO_BOSS_DEROLLE_TOBJBOSS2CEILJUNK_H
 #define PSO_BOSS_DEROLLE_TOBJBOSS2CEILJUNK_H
 
+#include <stddef.h>
+
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -13,8 +15,8 @@ struct TObjBoss2CeilJunk : public TObjBase {
     virtual ~TObjBoss2CeilJunk();
     virtual void run_task();
     virtual void render();
-    static void *create(void *position);
-    static void create_particle(const void *position, s32 particle_index);
+    static TObjBoss2CeilJunk *create(const Vec *position);
+    static void create_particle(const Vec *position, s32 particle_index);
 
     // prev_position holds the ground point under it and home_position.y its resting height.
     Vec velocity;
@@ -26,5 +28,7 @@ struct TObjBoss2CeilJunk : public TObjBase {
 };
 
 LAYOUT_ASSERT(TObjBoss2CeilJunk_size, sizeof(TObjBoss2CeilJunk) == 0xB8);
+LAYOUT_ASSERT(TObjBoss2CeilJunk_velocity_offset, offsetof(TObjBoss2CeilJunk, velocity) == 0x90);
+LAYOUT_ASSERT(TObjBoss2CeilJunk_ground_normal_offset, offsetof(TObjBoss2CeilJunk, ground_normal) == 0x9C);
 
 #endif

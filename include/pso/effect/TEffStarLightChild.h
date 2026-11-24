@@ -2,7 +2,7 @@
 #define PSO_TEFFSTARLIGHTCHILD_H
 #include "pso/system/task/TObject.h"
 #include "types.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ColorLineList.h"
 
 // One segment of a star light's trail: a screen-space edge across the path
 // that shrinks to its middle, then disappears.

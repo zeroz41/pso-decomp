@@ -1,3 +1,5 @@
+#include "pso/system/ControllerInput.h"
+#include "pso/system/memory.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/text_802A1020.h"
@@ -27,7 +29,6 @@ extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
 s32 request_queued_main_phase();
 void request_main_phase(s32 arg0);
-s8 func_801A5E54__Fv();
 s32 init_fresh_character_card();
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
 void set_queued_main_phase(s32 queued_main_phase);
@@ -79,7 +80,7 @@ s32 verify_game_file_integrity(void) {
         if (file_integrity_table[i].size <= 1000000) {
             buf = load_disc_file(file_integrity_table[i].file);
             if (buf == NULL) {
-                TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                safe_free(buf);
                 game_files_modified_flag = 0;
                 return 0;
             }
@@ -94,7 +95,7 @@ s32 verify_game_file_integrity(void) {
                     }
                 }
             }
-            TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+            safe_free(buf);
             if (~crc != file_integrity_table[i].crc) {
                 game_files_modified_flag = 1;
                 return 1;
@@ -128,7 +129,7 @@ void update_movie_phase(void) {
     if ((s32) (*(u8 *)&movie_finished_flag) == 1) {
         request_queued_main_phase();
     }
-    if (func_801A5E54__Fv() != 0) {
+    if (static_cast<s8>(func_801A5E54()) != 0) {
         TKeyBoardControl__sub_8000F92C();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {

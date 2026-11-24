@@ -1,6 +1,6 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TUnk_804CCB28.h"
 #include "types.h"
 #include <stdlib.h>
@@ -341,29 +341,29 @@ void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, 
 }
 
 void spawn_effect_by_type(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
-    saddr temp_a;
+    TParticleCtrl *temp_a;
 
     if (phase == 0) {
         spawn_particle_effect(&player->body_center, 0xBD);
     }
     if (phase == 1) {
-        temp_a = (saddr)create_timed_particle_emitter(pos, 0xBF, 0, 0xF);
+        temp_a = create_timed_particle_emitter(pos, 0xBF, 0, 0xF);
         if (temp_a != 0) {
-            attach_particle_model((u8 *)temp_a, get_bml_model(technique_effect_bml, 0), technique_texture_list, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
+            attach_particle_model(temp_a, get_bml_model(technique_effect_bml, 0), technique_texture_list, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
         }
     }
 }
 
 void spawn_hit_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
-    saddr timed_particle_emitter;
+    TParticleCtrl *timed_particle_emitter;
 
     if (phase == 0) {
         spawn_particle_effect(&player->body_center, 0xBD);
     }
     if (phase == 1) {
-        timed_particle_emitter = (saddr)create_timed_particle_emitter(pos, 0x9A, 0, 0xF);
+        timed_particle_emitter = create_timed_particle_emitter(pos, 0x9A, 0, 0xF);
         if (timed_particle_emitter != 0) {
-            attach_particle_model((u8 *)timed_particle_emitter, get_bml_model(technique_effect_bml, 0), technique_texture_list, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
+            attach_particle_model(timed_particle_emitter, get_bml_model(technique_effect_bml, 0), technique_texture_list, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
         }
     }
 }

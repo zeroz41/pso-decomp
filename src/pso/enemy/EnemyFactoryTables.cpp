@@ -450,7 +450,7 @@ EnemyFactoryEntry enemy_factories_floor_35[11] = {
 
 EnemyFactoryEntry enemy_factories_floors_28_29[9] = {
     { 0x00DD, TObjEneDolmOlm::create, 250000.0f, 0 },
-    { 0x00DE, create__13TObjEneMorfosFv, 250000.0f, 0 },
+    { 0x00DE, TObjEneMorfos::create, 250000.0f, 0 },
     { 0x00DF, TObjEneRecobox::create, 250000.0f, 0 },
     { 0x00E0, TObjEneMe3SinowZoaReal__create, 250000.0f, 0 },
     { 0x00DB, create__15TObjEneDelDepthFPv, 250000.0f, 0 },

@@ -13,7 +13,6 @@
 typedef struct GXColor_803DF268 { u8 r, g, b, a; } GXColor_803DF268;
 
 
-#pragma scheduling off
 
 typedef union WGPipe_803DF5E4 {
     u8 u8;
@@ -75,8 +74,6 @@ void submit_light0(s32 arg0, s32 arg1) {
 }
 
 
-#pragma push
-#pragma scheduling off
 void set_gx_light_color(s32 idx, f32 r, f32 g, f32 b) {
     GXColor_803DF268 c;
     TObjLight::assert_light_id(idx);
@@ -86,11 +83,8 @@ void set_gx_light_color(s32 idx, f32 r, f32 g, f32 b) {
     c.a = 0xFF;
     GXInitLightColor((u8 *)&gx_light_objects + (idx << 6), c);
 }
-#pragma pop
 
 
-#pragma push
-#pragma scheduling off
 void init_distant_light(s32 idx, f32 x, f32 y, f32 z) {
     TObjLight::assert_light_id(idx);
     if (idx == 0) {
@@ -99,7 +93,6 @@ void init_distant_light(s32 idx, f32 x, f32 y, f32 z) {
         GXInitLightDir((u8 *)&gx_light_objects + (idx << 6), x, y, z);
     }
 }
-#pragma pop
 
 void load_gx_light_slot(s32 arg0) {
     TObjLight::assert_light_id((s32)arg0);

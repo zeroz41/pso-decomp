@@ -4,7 +4,7 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/boss/volopt/TBoss3VoloptP01.h"
+#include "pso/effect/TBreakUpMdl.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 
 // .rodata 0x80475DF0-0x80476098, defined by SinowZoaData.cpp (the DelDepthData.cpp
@@ -12,7 +12,7 @@
 extern "C" {
 // TObjEneMe3SinowZoa.cpp .data; both animation bindings point at it.
 extern TObjMotionAction TObjEneMe3SinowZoa__animation_descriptors[13];
-extern const TBoss3VoloptBreakupParams sinow_zoa_breakup_params;
+extern const BreakUpParamRow sinow_zoa_breakup_params;
 // TLobby kind ids for the two Sinow Zoa kinds, one list per TLobby table
 // load_resources registers them with.
 extern const s32 sinow_zoa_base_param_ids[2];

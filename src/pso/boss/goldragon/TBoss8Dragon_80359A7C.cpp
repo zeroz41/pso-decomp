@@ -89,7 +89,7 @@ void TUnk_804F1A78::run_task() {
     if (teammate_state == 0) {
         this->sub_tasks.run_tasks();
     }
-    project_sound_origin_from_camera((saddr)&this->position, (u8 *)&this->sound_origin, 0.4f);
+    project_sound_origin_from_camera(&this->position, &this->sound_origin, 0.4f);
 }
 
 TUnk_804F1A78::~TUnk_804F1A78() {}

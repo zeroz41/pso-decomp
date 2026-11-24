@@ -1,3 +1,4 @@
+#include "pso/effect/TBreakUpMdl.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "types.h"
 #include "pso/system/vector.h"
@@ -13,7 +14,7 @@
 
 
 extern const NJS_ARGB me3_stelth_offset_vec = {-0.8f, 0.0f, 0.0f, 0.0f};
-extern const TBoss3VoloptBreakupParams me3_stelth_breakup_params = { 0x14, { 0.07f, 2.0f, 0.97f, 0.2f, 2.0f, 1.5f } };
+extern const BreakUpParamRow me3_stelth_breakup_params = { 0x14, 0.07f, 2.0f, 0.97f, 0.2f, 2.0f, 1.5f };
 // TLobby kind ids, one list per TLobby table
 // TObjEneMe3Stelth::load_shared_resources registers them with.
 extern const s32 stelth_base_stat_ids[2] = { 6, 19 };

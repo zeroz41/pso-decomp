@@ -1,27 +1,18 @@
+#include "pso/render/GinjaRenderTarget.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaTextureInput.h"
-#include "types.h"
-#include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803DD5E0.h"
 
-extern "C" {
-
-s32 release_texture_list(void *);
-s32 load_texture_list(void *);
-
-void TObjPlayer::reset_lobby_subobject() {
-    this->texlist = 0;
-    release_texture_list((u8 *)&this->entity_id);
+void GinjaRenderTarget::release_texture() {
+    load_result = 0;
+    release_texture_list(&texture_list);
 }
 
-void TObjPlayer::init_render_target() {
-    u8 *arg0 = (u8 *)this;
-    s32 input[12];
-
-    *(s32 *)((s8 *)arg0 + 0x1C) = (saddr)(arg0 + 0x10);
-    (this->m_20) = 1;
-    reinterpret_cast<GinjaTextureInput *>(input)->set_render_rect(NULL, 4, 0x280, 0x1E0);
-    set_texture_name(*reinterpret_cast<NJS_TEXNAME **>(arg0 + 0x1C),
-        reinterpret_cast<GinjaTextureInput *>(input), 0x901, 0x08800000);
-    this->texlist = (NJS_TEXLIST *)load_texture_list((u8 *)&this->entity_id);
-}
-
+void GinjaRenderTarget::init_render_target() {
+    GinjaTextureInput input;
+    texture_list.textures = &texture_entry;
+    texture_list.nbTexture = 1;
+    input.set_render_rect(NULL, 4, 0x280, 0x1E0);
+    set_texture_name(texture_list.textures, &input, 0x901, 0x08800000);
+    load_result = load_texture_list(&texture_list);
 }

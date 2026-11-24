@@ -617,7 +617,7 @@ void TWindowKeyBoardBase::export_text(char *out) {
     u32 c = 0;
     u16 code;
     u16 *in = base->m_text.buffer;
-    if (!(base->m_b4 & 0x10) && (s32)*in != 0) {
+    if (!(base->composition_flags & 0x10) && (s32)*in != 0) {
         out[0] = 9;
         if (current_language == LANGUAGE_JAPANESE) {
             out[1] = 'J';
@@ -656,7 +656,7 @@ s32 TWindowKeyBoardBase::measure_text_overflow() {
         }
     }
     c += 1;
-    if (!(arg0->m_b4 & 0x10)) {
+    if (!(arg0->composition_flags & 0x10)) {
         c += 2;
     }
     return c;

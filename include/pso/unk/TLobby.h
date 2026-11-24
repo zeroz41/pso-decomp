@@ -6,6 +6,7 @@
 struct NJS_SPRITE;
 struct BmlResource;
 struct AsyncFileReadRequest;
+struct EnemySetRecord;
 
 struct ShortMailEntry;
 struct player_stats;
@@ -20,6 +21,7 @@ union BattleMovementParams;
 struct NJS_TEXLIST;
 class TObjPlayer;
 class TProtocol;
+class TUserAns;
 class TWindowMenuIconLine;
 struct TWindowMessage;
 struct TPlyChallenge;
@@ -58,8 +60,8 @@ struct TLobby : public TObject {
     virtual ~TLobby();
     virtual void run_task();
     void try_close(void *);
+    static void handle_user_search_answer(TUserAns &response);
     static void on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int disable_udp);
-    static void forward_8024273C(void *p);
     void close_window();
     static s32 get_filtered_event_theme();
     static void load_dimedian_resources();
@@ -124,7 +126,6 @@ struct TLobby : public TObject {
     static void free_chr_select_data();
     static void init_download_buffers();
     static s32 get_game_mode();
-    void copy_header(void *arg1);
     static void free_char_select();
     static void update_boss1_objects();
     static void forward_floor_2CB44();
@@ -208,7 +209,6 @@ struct TLobby : public TObject {
     static void disconnect_protocol();
     void bswap_fields();
     void bswap_header_3words();
-    void bswap_6x6B();
     static char *init_serial_access();
     void set_range(u8 *src, int size, s8 *dst);
     static s32 set_range(struct AdxStreamFile *file, s32 threshold, s32 chunk_size);
@@ -323,7 +323,7 @@ struct TLobby : public TObject {
     static s32 link_matching_objects(s16 arg0, s16 arg1);
     static s32 spawn_objects_at_pos(s16 arg0, s16 arg1);
     static void create_objects(s32 floor);
-    static void assign_display_objects(u8 *arg0, s32 enemy_count);
+    static void assign_display_objects(EnemySetRecord *rows, s32 enemy_count);
     static void attach_objects_by_id(s32 floor);
     static void assign_objects_to_slots(u8 *arg0, s32 object_count);
     static s32 get_lobby_group(s32 arg0);
@@ -361,7 +361,6 @@ struct TLobby : public TObject {
     static void set_menu_index_main(u8 *arg0);
     static void refresh_render_state();
     static void wait_for_sound_init();
-    void trim_whitespace();
     s32 get_id();
     static void clear_flag_bit2();
     static int get_com_card_data();
@@ -723,7 +722,7 @@ struct TLobby : public TObject {
     void update_battle_sync(s32 t);
     static void send_battle_mode_data(void * _w0);
     void bswap_switch_activate_token();
-    static s32 load_texture_pvm_file(const char *name, saddr arg1);
+    static s32 load_texture_pvm_file(const char *name, NJS_TEXLIST *texlist);
     static unsigned char read_packet_byte();
     static void close_windows();
     static void clear_quest_vm_flag();

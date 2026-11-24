@@ -26,74 +26,49 @@ s32 TObjCollidable::set_flag8() {
 
 #include "pso/unk/TLobby.h"
 
-struct VBase { char pad[0x18]; };
-struct VObj : VBase {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63();
-    virtual void m64(); virtual void m65(); virtual void m66(); virtual void m67();
-    virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71();
-    virtual void m72(); virtual void m73(); virtual void m74(); virtual void m75();
-    virtual void m76(); virtual void m77(s32);
-};
-
 extern "C" {
 
 s32 append_wave_member(s32, void *);
 
-extern s32 TLobby__data_805D6144;
 
-s32 TLobby::spawn_matching_objects(s16 arg0, s16 arg1, saddr arg2) {
-    s16 temp_r0;
-    s16 temp_r3;
-    s32 object_type;
-    s32 var_r30;
-    u8 *row;
-    s32 k;
-    u8 *item;
+s32 TLobby::spawn_matching_objects(s16 room, s16 wave, saddr wave_members) {
+    s16 set_index;
+    s16 flags;
+    s32 row_count;
+    s32 spawned;
+    EnemySetRecord *row;
+    s32 row_index;
+    TObjEnemy *enemy;
 
-    var_r30 = 0;
+    spawned = 0;
     if ((s32) active_set_floor < 0) {
         return 0;
     }
-    row = reinterpret_cast<u8 *>(get_active_floor_enemy_rows(active_set_floor));
-    object_type = TLobby::get_object_type(active_set_floor);
-    for (k = 0; k < object_type; k += 1, row += 0x48) {
-        temp_r3 = *(s16 *)((s8 *)row + 2);
-        if (!(temp_r3 & 8) && !(temp_r3 & 2) && ((s16) *(s16 *)((s8 *)row + 0xC) == arg0) && ((s16) *(s16 *)((s8 *)row + 0xE) == arg1)) {
-            item = (u8 *)construct_enemy_from_set_row(row);
-            if (item != NULL) {
-                *(void **)((s8 *)row + 0x44) = item;
-                *(s16 *)((s8 *)row + 2) = (s16) (*(s16 *)((s8 *)row + 2) | 2);
-                *(s16 *)((s8 *)item + 0x28) = (s16) *(s16 *)((s8 *)row + 0xC);
-                *(s16 *)((s8 *)item + 0x2A) = (s16) *(s16 *)((s8 *)row + 0xE);
-                *(s16 *)((s8 *)item + 0x2C) = (s16) *(s16 *)((s8 *)row + 4);
-                *(void **)((s8 *)item + 0x80) = row;
-                temp_r0 = *(s16 *)((s8 *)item + 0x2C);
-                if (temp_r0 != -1) {
-                    ((VObj *)item)->m77(TLobby__data_805D6144 + (temp_r0 * 0xC));
+    row = get_active_floor_enemy_rows(active_set_floor);
+    row_count = TLobby::get_object_type(active_set_floor);
+    for (row_index = 0; row_index < row_count; row_index += 1, row++) {
+        flags = row->flags;
+        if (!(flags & 8) && !(flags & 2) && (row->placement.room == room) && (row->placement.wave == wave)) {
+            enemy = construct_enemy_from_set_row(row);
+            if (enemy != NULL) {
+                row->enemy = enemy;
+                row->flags |= 2;
+                enemy->room = row->placement.room;
+                enemy->set_group = row->placement.wave;
+                enemy->set_index = row->placement.enemy_index;
+                enemy->set_entry = row;
+                set_index = enemy->set_index;
+                if (set_index != -1) {
+                    enemy->apply_enemy_state(&TLobby__data_805D6144[set_index].flags);
                 }
-                append_wave_member(arg2, item);
-                var_r30 += 1;
+                append_wave_member(wave_members, enemy);
+                spawned += 1;
             } else {
-                *(void **)((s8 *)row + 0x44) = NULL;
+                row->enemy = NULL;
             }
         }
     }
-    return var_r30;
+    return spawned;
 }
 
 }

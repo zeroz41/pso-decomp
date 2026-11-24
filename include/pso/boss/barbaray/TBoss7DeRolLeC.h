@@ -198,6 +198,12 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     static void *create(void *set_data);
 };
 
+LAYOUT_ASSERT(TBoss7DeRolLeCCollisionBody, offsetof(TBoss7DeRolLeC, collision_body) == 0x3C0);
+LAYOUT_ASSERT(TBoss7DeRolLeCPartGroup, offsetof(TBoss7DeRolLeC, part_group) == 0x690);
+LAYOUT_ASSERT(TBoss7DeRolLeCActionIndex, offsetof(TBoss7DeRolLeC, action_index) == 0x6B4);
+LAYOUT_ASSERT(TBoss7DeRolLeCTentacleMatrices, offsetof(TBoss7DeRolLeC, tentacle_matrices) == 0x6D8);
+LAYOUT_ASSERT(TBoss7DeRolLeCTentacles, offsetof(TBoss7DeRolLeC, tentacles) == 0x6DC);
+LAYOUT_ASSERT(TBoss7DeRolLeCNodeRecorder, offsetof(TBoss7DeRolLeC, node_recorder) == 0x7AC);
 LAYOUT_ASSERT(TBoss7DeRolLeC_size, sizeof(TBoss7DeRolLeC) == 0x7D4);
 
 // Globals of the De Rol Le C translation unit (802E7888-802EE814; .sbss/.bss).

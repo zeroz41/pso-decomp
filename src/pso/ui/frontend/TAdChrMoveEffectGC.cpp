@@ -3,7 +3,6 @@
 #include "types.h"
 #include "pso/render/ColorCopy.h"
 #include "pso/render/Draw2D.h"
-#include "pso/render/ColorLineList.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 #include "pso/render/ModelDrawContext.h"
@@ -44,16 +43,10 @@ extern "C" {
 void copy_effect_data__18TAdChrMoveEffectGCFPvPv(S_803491F8 *arg0, S_803491F8 *arg1);
 #pragma push
 #pragma fp_contract on
-typedef struct {
-    f32 *pos;
-    u8 *col;
-    s32 a;
-    s32 n;
-} Desc_80348E34;
 void TAdChrMoveEffectGC::sub_80348E34() {
-    ColorLineVertex pos[4];
-    ColorLineList desc;
-    u32 col[4];
+    NJS_POINT2 pos[4];
+    NJS_POINT2COL desc;
+    NJS_COLOR col[4];
     u8 *e;
     s32 i;
     u8 *src;
@@ -61,27 +54,27 @@ void TAdChrMoveEffectGC::sub_80348E34() {
         for (i = 0; i < 16; i++) {
             e = ((u8 *)this) + i * 0x38;
             if (*(u32 *)((s8 *)e + 0x54) & 1) {
-                desc.verts = pos;
-                desc.colors = col;
+                desc.p = pos;
+                desc.col = col;
                 desc.tex = NULL;
-                desc.count = 4;
+                desc.num = 4;
                 copy_vec2(pos, e + 0x44);
                 src = e + 0x4C;
-                copy4(&desc.colors[0], src);
-                reinterpret_cast<u8 *>(&desc.colors[0])[3] = *(u8 *)((s8 *)e + 0x50);
-                desc.verts[1].x = *(f32 *)((s8 *)e + 0x44);
-                desc.verts[1].y = *(f32 *)((s8 *)e + 0x48) + *(f32 *)((s8 *)e + 0x40);
-                copy4(&desc.colors[1], src);
-                reinterpret_cast<u8 *>(&desc.colors[1])[3] = *(u8 *)((s8 *)e + 0x50);
-                desc.verts[2].x = *(f32 *)((s8 *)e + 0x44) + *(f32 *)((s8 *)e + 0x3C);
-                desc.verts[2].y = *(f32 *)((s8 *)e + 0x48) + *(f32 *)((s8 *)e + 0x40);
-                copy4(&desc.colors[2], src);
-                reinterpret_cast<u8 *>(&desc.colors[2])[3] = *(u8 *)((s8 *)e + 0x50);
-                desc.verts[3].x = *(f32 *)((s8 *)e + 0x44) + *(f32 *)((s8 *)e + 0x3C);
-                desc.verts[3].y = *(f32 *)((s8 *)e + 0x48);
-                copy4(&desc.colors[3], src);
-                reinterpret_cast<u8 *>(&desc.colors[3])[3] = *(u8 *)((s8 *)e + 0x50);
-                draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&desc), 4, 7, 1e-05f * (f32)i + (-1.01f));
+                copy4(&desc.col[0].color, src);
+                reinterpret_cast<u8 *>(&desc.col[0].color)[3] = *(u8 *)((s8 *)e + 0x50);
+                desc.p[1].x = *(f32 *)((s8 *)e + 0x44);
+                desc.p[1].y = *(f32 *)((s8 *)e + 0x48) + *(f32 *)((s8 *)e + 0x40);
+                copy4(&desc.col[1].color, src);
+                reinterpret_cast<u8 *>(&desc.col[1].color)[3] = *(u8 *)((s8 *)e + 0x50);
+                desc.p[2].x = *(f32 *)((s8 *)e + 0x44) + *(f32 *)((s8 *)e + 0x3C);
+                desc.p[2].y = *(f32 *)((s8 *)e + 0x48) + *(f32 *)((s8 *)e + 0x40);
+                copy4(&desc.col[2].color, src);
+                reinterpret_cast<u8 *>(&desc.col[2].color)[3] = *(u8 *)((s8 *)e + 0x50);
+                desc.p[3].x = *(f32 *)((s8 *)e + 0x44) + *(f32 *)((s8 *)e + 0x3C);
+                desc.p[3].y = *(f32 *)((s8 *)e + 0x48);
+                copy4(&desc.col[3].color, src);
+                reinterpret_cast<u8 *>(&desc.col[3].color)[3] = *(u8 *)((s8 *)e + 0x50);
+                draw_polygon_2d(&desc, 4, 7, 1e-05f * (f32)i + (-1.01f));
             }
         }
     }

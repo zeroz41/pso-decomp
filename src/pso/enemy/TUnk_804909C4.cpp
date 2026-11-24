@@ -43,7 +43,7 @@ s32 TUnk_804909C4::check_player_hits(u16 id) {
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)target) != 0 && target != owner) {
+            if (obj_is_hit_receivable(target) != 0 && target != owner) {
                 DirectAttackPayload hit = {0, 0.0f};
                 hit.power = TObjEneDarkGunner::get_int_parameter(3);
                 target->receive_direct_attack(owner, hit, NULL, -1, -1);

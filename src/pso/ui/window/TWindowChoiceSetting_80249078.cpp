@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowScrollBar.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
@@ -79,28 +80,27 @@ void TWindowSubComCard__sub_80249220(const NJS_POINT2 *extent, s32 rows) {
     fn_80268C5C(extent, rows);
 }
 
-s32 draw_window_scrollbar(s32, s32, void *);
 }
 
 void TWindowChoiceSetting::render() {
-    saddr context = reinterpret_cast<saddr>(get_draw_context());
-    draw_window_frame((void *)context);
+    WindowDrawContext *context = get_draw_context();
+    draw_window_frame(context);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
-        reinterpret_cast<WindowDrawContext *>(context));
+        context);
     draw_setting(context);
     if (heading != 0) {
-        ((TWindowSubStatusDisp *)((saddr)heading))->forward_render((void *)(context));
+        ((TWindowSubStatusDisp *)((saddr)heading))->forward_render(context);
     }
-    if (*(u32 *)((u8 *)this + 0x7C) != 0U) {
-        draw_window_scrollbar(*(u32 *)((u8 *)this + 0x7C), context, (u8 *)this + 0x68);
+    if (scroll_bar != NULL) {
+        draw_window_scrollbar(scroll_bar, context, scroll_offset);
     }
 }
 
 void TWindowChoiceSetting::run_task() {
     u8 *arg0 = (u8 *)this;
-    uaddr temp_r3_2;
+    WindowScrollBar *temp_r3_2;
     ControllerInputContext *input;
     ControllerInputContext *temp_r30_2;
     ControllerInputContext *context;
@@ -134,9 +134,9 @@ void TWindowChoiceSetting::run_task() {
         if (this->heading != 0) {
             this->heading->update_subwindow();
         }
-        temp_r3_2 = *(u32 *)&this->unk_7C;
-        if (temp_r3_2 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r3_2)->increment_counter();
+        temp_r3_2 = scroll_bar;
+        if (temp_r3_2 != NULL) {
+            temp_r3_2->increment_counter();
         }
     }
     ((TWindowDD *)arg0)->initialize_subwindow();

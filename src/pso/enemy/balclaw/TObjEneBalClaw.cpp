@@ -179,15 +179,15 @@ void TObjEneBalClaw::load_resources() {
         e->plist = ((NJS_CNK_MODEL *)(find_model_node(get_bml_model((BmlResource *)balclaw_bml_resource, e->model_index), e->part_index))->model)->polygon_list;
     }
     for (n = 0; n < 2; n++) {
-        balclaw_body_base_params[n] = (u8 *)TLobby::register_boss(31);
-        balclaw_body_attack_params[n] = (u8 *)TLobby::dispatch_shared_handler_b(31);
-        balclaw_body_resistance_params[n] = (u8 *)TLobby::register_object(31);
+        balclaw_body_base_params[n] = TLobby::register_boss(31);
+        balclaw_body_attack_params[n] = TLobby::dispatch_shared_handler_b(31);
+        balclaw_body_resistance_params[n] = TLobby::register_object(31);
         balclaw_body_behavior_params[n] = (BalClawBehaviorParams *)TLobby::dispatch_shared_handler_a(31);
     }
     for (n = 0; n < 1; n++) {
-        balclaw_claw_base_params[n] = (u8 *)TLobby::register_boss(32);
-        balclaw_claw_attack_params[n] = (u8 *)TLobby::dispatch_shared_handler_b(32);
-        balclaw_claw_resistance_params[n] = (u8 *)TLobby::register_object(32);
+        balclaw_claw_base_params[n] = TLobby::register_boss(32);
+        balclaw_claw_attack_params[n] = TLobby::dispatch_shared_handler_b(32);
+        balclaw_claw_resistance_params[n] = TLobby::register_object(32);
         balclaw_claw_behavior_params[n] = (BalClawBehaviorParams *)TLobby::dispatch_shared_handler_a(32);
     }
 }

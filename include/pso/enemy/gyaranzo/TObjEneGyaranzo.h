@@ -11,8 +11,10 @@ struct BmlResource;
 
 // Modes (TObjChara::mode): 0 idle, 1 chase, 2 aim and fire, 4 damaged, 5 death,
 // 7 fade in, 8 walk home, 9 chase dropping mines.
+struct EnemyPlacement;
+
 struct TObjEneGyaranzo : public TObjEnemyCustom {
-    TObjEneGyaranzo(TObject *parent, void *set_data);
+    TObjEneGyaranzo(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneGyaranzo();
     // Throws three chips of the hahen01-03 fragment models from above the body.
     void spawn_hit_fragments();

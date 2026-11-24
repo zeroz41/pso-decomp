@@ -7,7 +7,8 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/dragon/TBoss1Dragon.h"
+#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
@@ -31,36 +32,36 @@ const char *TBoss2Tentacle__name = "TBoss2Tentacle";
 
 // Shared by the four tentacles, set up by load_shared_model.
 NJS_OBJECT *boss2_tentacle_model;
-DragonMotion *TBoss2Tentacle__motion_data;
-saddr boss2_tentacle_texlist;
+AnimationMotion *TBoss2Tentacle__motion_data;
+NJS_TEXLIST *boss2_tentacle_texlist;
 
 // The working copy of the model nodes drawn while striking, and the rest pose read from the model;
 // defined below with load_shared_model.
-extern DragonModelNode tentacle_model_nodes[];
+extern NJS_OBJECT tentacle_model_nodes[];
 extern Vec TBoss2Tentacle__segment_points[];
 extern s32 TBoss2Tentacle__segment_point_defaults[];
 
 void TBoss2Tentacle::render() {
     s32 i;
     set_motion_packed_rotation();
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss2_tentacle_texlist));
+    TObjFish::set_global_param(boss2_tentacle_texlist);
     push_matrix();
     switch (state) {
     case 0:
-        TObjPlayer::concat_matrix(0, joint);
+        ::concat_matrix(NULL, joint);
         rotate_matrix_y(0, yaw);
         draw_model_motion(boss2_tentacle_model, TBoss2Tentacle__motion_data, frame);
         break;
     case 1:
     case 4:
     case 5:
-        TObjPlayer::concat_matrix(0, joint);
+        ::concat_matrix(NULL, joint);
         rotate_matrix_x(0, pitch);
         rotate_matrix_y(0, yaw);
         draw_model_motion(boss2_tentacle_model, TBoss2Tentacle__motion_data, frame);
         break;
     case 2:
-        TObjPlayer::concat_matrix(0, joint);
+        ::concat_matrix(NULL, joint);
         rotate_matrix_x(0, pitch);
         rotate_matrix_y(0, yaw);
         draw_chunk_object(boss2_tentacle_model);
@@ -71,10 +72,10 @@ void TBoss2Tentacle::render() {
         rotate_matrix_y(0, yaw);
         rotate_matrix_z(0, pitch);
         for (i = 0; i < 14; i++) {
-            tentacle_model_nodes[i].position.x = segment_pos[i].x;
-            tentacle_model_nodes[i].position.y = segment_pos[i].y;
-            tentacle_model_nodes[i].position.z = segment_pos[i].z;
-            tentacle_model_nodes[i].rotation.z = segment_ang[i];
+            tentacle_model_nodes[i].pos[0] = segment_pos[i].x;
+            tentacle_model_nodes[i].pos[1] = segment_pos[i].y;
+            tentacle_model_nodes[i].pos[2] = segment_pos[i].z;
+            tentacle_model_nodes[i].ang[2] = segment_ang[i];
         }
         draw_chunk_object(tentacle_model_nodes);
         break;
@@ -134,7 +135,7 @@ void TBoss2Tentacle::run_task() {
         v.z = v.y = v.x = 0.0f;
         push_matrix();
         set_matrix_identity(0);
-        TObjPlayer::concat_matrix(0, joint);
+        ::concat_matrix(NULL, joint);
         matrix_mult_vec(0, &v, &position);
         pop_matrix();
         VecCopy(&v, &target);
@@ -353,12 +354,12 @@ void TBoss2Tentacle::speed_up_sway() {
 
 void TBoss2Tentacle::drop_back() { request_drop_back(); }
 
-void TBoss2Tentacle::start_attack_at_target(u8 *target_pos, s32 hold_time) {
+void TBoss2Tentacle::start_attack_at_target(const Vec *target_pos, s32 hold_time) {
     if ((hold_time <= 0) || (hold_time >= 0x258)) {
         hold_time = 0x78;
     }
     this->hold_time = hold_time;
-    VecCopy(&target, (const Vec *)target_pos);
+    VecCopy(&target, target_pos);
     request_aim();
 }
 
@@ -366,7 +367,7 @@ void TBoss2Tentacle::raise() { request_raise(); }
 
 TBoss2Tentacle::~TBoss2Tentacle() {}
 
-TBoss2Tentacle::TBoss2Tentacle(TObject *parent, saddr joint, s32 index) : TObject(parent) {
+TBoss2Tentacle::TBoss2Tentacle(TObject *parent, const f32 (*joint)[4], s32 index) : TObject(parent) {
     s32 i;
     m_name = TBoss2Tentacle__name;
     this->joint = joint;
@@ -396,33 +397,33 @@ TBoss2Tentacle::TBoss2Tentacle(TObject *parent, saddr joint, s32 index) : TObjec
 void TBoss2Tentacle::release_shared_model() {  }
 
 
-DragonModelNode tentacle_model_nodes[14];
+NJS_OBJECT tentacle_model_nodes[14];
 Vec TBoss2Tentacle__segment_points[14];
 s32 TBoss2Tentacle__segment_point_defaults[14];
 
 void TBoss2Tentacle::load_shared_model() {
-    DragonModelNode *src;
-    DragonModelNode *dst;
+    NJS_OBJECT *src;
+    NJS_OBJECT *dst;
     s32 i;
     dst = tentacle_model_nodes;
     boss2_tentacle_model = boss2_derolle_resource->models[4].model;
-    src = (DragonModelNode *)boss2_tentacle_model;
-    TBoss2Tentacle__motion_data = ((DragonMotionEntry *)boss2_derolle_resource->motions)[17].motion;
-    boss2_tentacle_texlist = (saddr)boss2_derolle_resource->models[2].texlist;
+    src = boss2_tentacle_model;
+    TBoss2Tentacle__motion_data = boss2_derolle_resource->motions[17].motion;
+    boss2_tentacle_texlist = boss2_derolle_resource->models[2].texlist;
     for (i = 0; i < 12; i++) {
-        copy_model_node((NJS_OBJECT *)dst, (NJS_OBJECT *)src);
+        copy_model_node(dst, src);
         dst->child = dst + 1;
         dst++;
         src = src->child;
     }
-    copy_model_node((NJS_OBJECT *)dst, (NJS_OBJECT *)src);
+    copy_model_node(dst, src);
     dst->sibling = dst + 1;
-    copy_model_node((NJS_OBJECT *)&dst[1], (NJS_OBJECT *)src->sibling);
+    copy_model_node(&dst[1], src->sibling);
     for (i = 0; i < 14; i++) {
-        tentacle_model_nodes[i].flags &= ~3;
-        TBoss2Tentacle__segment_points[i].x = (f64)tentacle_model_nodes[i].position.x;
-        TBoss2Tentacle__segment_points[i].y = tentacle_model_nodes[i].position.y;
-        TBoss2Tentacle__segment_points[i].z = tentacle_model_nodes[i].position.z;
-        TBoss2Tentacle__segment_point_defaults[i] = tentacle_model_nodes[i].rotation.z;
+        tentacle_model_nodes[i].evalflags &= ~3;
+        TBoss2Tentacle__segment_points[i].x = (f64)tentacle_model_nodes[i].pos[0];
+        TBoss2Tentacle__segment_points[i].y = tentacle_model_nodes[i].pos[1];
+        TBoss2Tentacle__segment_points[i].z = tentacle_model_nodes[i].pos[2];
+        TBoss2Tentacle__segment_point_defaults[i] = tentacle_model_nodes[i].ang[2];
     }
 }

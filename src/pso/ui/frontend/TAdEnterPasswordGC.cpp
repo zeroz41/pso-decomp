@@ -1,4 +1,6 @@
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
@@ -45,9 +47,7 @@ extern "C" {
 extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 extern s32 password_entry_dispatch_state;
 void request_main_phase(s32 arg0);
-void mem_free(void *p);
 s32 get_field_118__22TAdEnterSerialAccessGCFv(void);
-s32 play_sound_effect(int, int, int, int);
 void update_password_input__18TAdEnterPasswordGCFPv(Pw_8032B6A0 *self);
 void __dl__7TObjectFPv(void *);
 

@@ -1,6 +1,8 @@
 #ifndef PSO_ENEMY_PANARMS_TOBJENEPANARMS_H
 #define PSO_ENEMY_PANARMS_TOBJENEPANARMS_H
 
+struct EnemyPlacement;
+
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/render/RenderFadeState.h"
@@ -11,7 +13,7 @@ struct BmlResource;
 class TParticleCtrl;
 
 struct TObjEnePanarms : public TObjEnemy {
-    TObjEnePanarms(TObject *parent, void *setData);
+    TObjEnePanarms(TObject *parent, EnemyPlacement *setData);
     virtual ~TObjEnePanarms();
     virtual void run_task();
     virtual void render();
@@ -43,7 +45,7 @@ struct TObjEnePanarms : public TObjEnemy {
     s32 wait_frames; // state timer start value of the hidden wait
     int find_nearest_enemy_with_flag(Vec *direction, f32 range);
     static void spawn_npc_pair();
-    static TObjEnePanBARA *create_bara(void *setData, s32 index);
+    static TObjEnePanBARA *create_bara(EnemyPlacement *setData, s32 index);
     static s32 create(saddr setData);
     int get_state_flag();
     // State table (enter, update), named after the action each state plays (panarms_motion_param_table):

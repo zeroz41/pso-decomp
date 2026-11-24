@@ -1,5 +1,7 @@
+#include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcARM00.h"
 #include "pso/system/TLanguage_801E4874.h"
@@ -25,23 +27,23 @@ void *TObjNpcARM00::create(void *set_data) {
 }
 
 const char *TObjNpcARM00::name = "TObjNpcARM00";
-uaddr TObjNpcARM00::model_resource;
+void **TObjNpcARM00::model_resource;
 NJS_TEXLIST *TObjNpcARM00::texture_list;
 
 void TObjNpcARM00::free_resources() {
     if (texture_list != NULL) {
         release_texture_list(texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)texture_list);
+        safe_free(texture_list);
         texture_list = NULL;
     }
-    if ((u32) model_resource != 0U) {
-        TLobby::free_nodes_with_id((uaddr)((void*)model_resource));
-        model_resource = 0U;
+    if (model_resource != NULL) {
+        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(model_resource));
+        model_resource = NULL;
     }
 }
 
 void TObjNpcARM00::load_resources() {
-    model_resource = (u32)create_named_object("npc_e00_data.rel");
+    model_resource = static_cast<void **>(create_named_object("npc_e00_data.rel"));
     texture_list = load_gvm_texture_file("n_e00_w_body.gvm");
 }
 
@@ -51,7 +53,7 @@ TObjNpcARM00::TObjNpcARM00(TObject *parent, void *set_data) : TObjNpcMale(parent
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = *(void **)model_resource;
+    this->model = *model_resource;
     this->texlist = texture_list;
     this->setup_common();
 }

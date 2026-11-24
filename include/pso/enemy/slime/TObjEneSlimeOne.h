@@ -48,7 +48,7 @@ struct TObjEneSlimeOne : public TObjEnemy {
     s32 variant;
     s32 get_attack_target();
     s32 is_in_water_bomb_states();
-    static saddr get_instance();
+    static BmlResource *get_instance();
     int is_timer_active();
     int find_nearest_enemy_with_flag(Vec *direction, f32 range);
     void copy_position();

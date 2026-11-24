@@ -27,7 +27,7 @@ const char *TOMonitorMachine01__class_name = "TOMonitorMachine01";
 BmlResource *TOMonitorMachine01__bml_resource;
 s32 TOMonitorMachine01__last_update_tick;
 // The two screen meshes whose UVs scroll once per frame.
-void *TOMonitorMachine01__scroll_meshes[2];
+GinjaModel *TOMonitorMachine01__scroll_meshes[2];
 
 void TOMonitorMachine01::run_task() {
     if (TOMonitorMachine01__last_update_tick != actor_frame_tick) {
@@ -149,8 +149,8 @@ void TOMonitorMachine01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_monitor_resource_descriptor, 0, 0, NULL);
     TOMonitorMachine01__bml_resource = resource;
     screen = ((NJS_OBJECT *)resource->models[0].model)->child->sibling->sibling;
-    TOMonitorMachine01__scroll_meshes[1] = screen->model;
-    TOMonitorMachine01__scroll_meshes[0] = screen->sibling->sibling->model;
+    TOMonitorMachine01__scroll_meshes[1] = static_cast<GinjaModel *>(screen->model);
+    TOMonitorMachine01__scroll_meshes[0] = static_cast<GinjaModel *>(screen->sibling->sibling->model);
     TOMonitorMachine01__last_update_tick = 0;
 }
 

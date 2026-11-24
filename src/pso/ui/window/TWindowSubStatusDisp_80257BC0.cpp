@@ -37,8 +37,6 @@ struct Desc_80257D44 {
 };
 
 
-void mem_free(void *);
-saddr mem_alloc(s32);
 void * TWindowHelpItem__sub_8025A594(void *, void *, s32);
 void * TWindowHelpItem__sub_8025A95C(void *, void *, s32);
 }
@@ -125,18 +123,12 @@ void init_window_layout_entries(WindowLayoutEntries *entries, const void *layout
                 rec += 0x14 / 4;
                 break;
             case 1:
-                o = ::operator new(sizeof(TWindowStatusGauge));
-                if (o != NULL) {
-                    o = static_cast<TWindowStatusGauge *>(o)->init_from(reinterpret_cast<StatusGaugeLayout *>(rec), client);
-                }
+                o = new TWindowStatusGauge(reinterpret_cast<StatusGaugeLayout *>(rec), client);
                 *out = o;
                 rec += sizeof(StatusGaugeLayout) / 4;
                 break;
             case 2:
-                o = ::operator new(sizeof(TWindowStatusGaugeFeedback));
-                if (o != NULL) {
-                    o = static_cast<TWindowStatusGaugeFeedback *>(o)->init_layout_entry_copy(reinterpret_cast<LayoutEntryCopyRecord *>(rec), client);
-                }
+                o = new TWindowStatusGaugeFeedback(reinterpret_cast<LayoutEntryCopyRecord *>(rec), client);
                 *out = o;
                 rec += sizeof(LayoutEntryCopyRecord) / 4;
                 break;

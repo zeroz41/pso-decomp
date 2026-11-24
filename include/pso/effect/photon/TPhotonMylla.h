@@ -29,6 +29,7 @@ public:
     s32 frame;
 };
 
+LAYOUT_ASSERT(TPhotonMylla_color_offset, offsetof(TPhotonMylla, material_color) == 0x184);
 LAYOUT_ASSERT(TPhotonMylla_size, sizeof(TPhotonMylla) == 0x1A8);
 
 void destroy_mylla_photon_blast_model(void);

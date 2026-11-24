@@ -4,6 +4,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 
 class TWindowSubStatusDisp;
+struct WindowScrollBar;
 
 class TWindowMenuInfomation : public TWindowAddition {
 public:
@@ -12,7 +13,7 @@ public:
     virtual void run_task();
     virtual void render();
     void draw();
-    void draw_setting(saddr);
+    void draw_setting(WindowDrawContext *context);
     void clamp_scroll();
     void update_scroll_offset();
     void move_cursor_prev();
@@ -35,7 +36,7 @@ public:
     s16 index;
     s16 entry_capacity;
     TWindowSubStatusDisp *heading;  // type-1 heading made by create_sub_window
-    u8 unk_7C[0x4];
+    WindowScrollBar *scroll_bar;
 };
 LAYOUT_ASSERT(TWindowMenuInfomation_size, sizeof(TWindowMenuInfomation) == 0x80);
 

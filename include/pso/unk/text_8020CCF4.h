@@ -3,6 +3,9 @@
 
 #include "types.h"
 
-saddr construct_enemy_from_set_row(u8 *row);
+struct EnemySetRecord;
+struct TObjEnemy;
+
+TObjEnemy *construct_enemy_from_set_row(EnemySetRecord *row);
 
 #endif

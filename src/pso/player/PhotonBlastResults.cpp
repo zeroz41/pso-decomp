@@ -1,6 +1,9 @@
+#include "pso/player/PhotonBlastRequests.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/system/BmlResource.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/PlayerSlots.h"
 #include "pso/effect/particle/ParticleFactory.h"
+#include "pso/system/BmlResource.h"
 #include "pso/item/mag/TItemMag.h"
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
@@ -30,14 +33,12 @@
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer_801AC0D8.h"
-#include "pso/effect/photon/TPhotonFarlla.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/effect/photon/TPhotonMylla.h"
 #include "pso/player/TObjPlayer_801AD47C.h"
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonLeilla.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -173,7 +174,7 @@ s32 is_photon_blast_presentation_admitted(u32 owner_id, PhotonBlastRequest *requ
     return 0;
 }
 
-void apply_photon_blast_action_hold(s32 unused, s32 duration, s32 owner_client_id) {
+void apply_photon_blast_action_hold(TUnk_804C349C *unused, s32 duration, s32 owner_client_id) {
     TObjPlayer *player;
     TObjCollidable *owner;
     s32 i;
@@ -661,7 +662,7 @@ TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, PhotonBlastRequest *requests, 
         requests++;
     }
     owner = get_player_by_client_id(owner_client_id);
-    apply_photon_blast_action_hold((saddr)this, summon_count * 150 + 100, owner_client_id);
+    apply_photon_blast_action_hold(this, summon_count * 150 + 100, owner_client_id);
     if (this->animated != 0) {
         TLobby::send_neg30();
         TWindowCtrl::disable_client_main_menu(local_client_id);
@@ -692,7 +693,7 @@ TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, PhotonBlastRequest *requests, 
         recipients[k] = 0xFFFF;
     }
     if (owner != NULL && get_player_by_client_id(local_client_id) != NULL) {
-        donor = (PhotonBlastRequestSlot *)TObjPlayer::find_photon_blast_by_section_id(owner->get_entity_id());
+        donor = TObjPlayer::find_photon_blast_by_section_id(owner->get_entity_id());
         if (donor != NULL) {
             for (i = 0; i < 4; i++) {
                 if (donor->get_client_id() != 0xFFFF

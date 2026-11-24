@@ -22,7 +22,7 @@ void free_ply_level_tbl(void);
 
 extern "C" {
 stats *get_class_base_stats(s32 class_index);
-player_stats *get_class_stat_caps(s32 class_index);
+const player_stats *get_class_stat_caps(s32 class_index);
 void apply_class_level_growth(s32 class_index, s32 level, stats *out);
 void copy_stats__10TObjPlayerFPv(stats *out, const stats *source);
 s32 get_level_row_exp_threshold(const PlayerLevelTableRow *row);

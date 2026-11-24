@@ -4,37 +4,32 @@
 #include "pso/unk/text_800F9B84.h"
 #include "pso/item/TItemData.h"
 
-struct Pair_802156E0 { s8 key; u8 val; };
+struct AppraisalScoreEntry {
+    s8 roll;
+    u8 score;
+};
 
-struct G_802156E0 { u8 pad[0xc]; Pair_802156E0 *tbl; };
+struct AppraisalRollEntry {
+    u8 adjustment;
+    u8 weight;
+    u8 favored_weight;
+};
 
-struct Pair_802156A0 { s8 key; u8 val; };
+struct AppraisalRollTable {
+    AppraisalRollEntry *entries;
+    s32 count;
+};
 
-struct G_802156A0 { u8 pad[0x10]; Pair_802156A0 *tbl; };
-
-struct Ent_8021587C { u8 id; u8 n1; u8 n2; };
-
-struct Tbl_8021587C { Ent_8021587C *base; s32 count; };
-
-struct G_8021587C { u8 pad[4]; Tbl_8021587C *t; };
+struct ItemAppraisalRules {
+    AppraisalRollTable *special_rolls;
+    AppraisalRollTable *grind_rolls;
+    AppraisalRollTable *percentage_rolls;
+    AppraisalScoreEntry *special_and_percentage_scores;
+    AppraisalScoreEntry *grind_scores;
+};
 
 struct Item_8021587C { u8 pad[3]; u8 f3; };
-
-struct Ent_8021599C { u8 id; u8 n1; u8 n2; };
-
-struct Tbl_8021599C { Ent_8021599C *base; s32 count; };
-
-struct G_8021599C { Tbl_8021599C *t; };
-
 struct Obj_8021599C { u8 pad[4]; u8 slot; };
-
-struct G_802156E0;
-struct Ent_80215720 { u8 id; u8 n1; u8 n2; };
-
-struct Tbl_80215720 { Ent_80215720 *base; s32 count; };
-
-struct G_80215720 { u8 pad[8]; Tbl_80215720 *t; };
-
 struct Obj_80215720 { u8 pad[7]; s8 a; u8 p8; s8 b; u8 pa; s8 c; };
 
 struct Ctr_80215720 { u8 buf[0x68]; };
@@ -42,7 +37,7 @@ struct Ctr_80215720 { u8 buf[0x68]; };
 // Grind/percentage steps picked by the JudgeItem appraisal rolls (name inferred from its users).
 static const s8 item_appraisal_adjust_table[] = {-10, -5, -3, -2, -1, 0, 1, 2, 3, 5, 10, 0};
 
-G_802156E0 *item_appraisal_rules;
+ItemAppraisalRules *item_appraisal_rules;
 s32 item_appraisal_favored_weapon;
 s32 item_appraisal_score;
 extern "C" {
@@ -56,10 +51,10 @@ void adjust_appraisal_special(Obj_8021599C *obj);
 void adjust_appraisal_percentages(Obj_80215720 *arg0);
 
 u8 TLobby::lookup_table_value(s8 x) {
-    Pair_802156A0 *p = (*(G_802156A0 * *)&item_appraisal_rules)->tbl;
-    while (p->key != -1) {
-        if (p->key == x) {
-            return p->val;
+    const AppraisalScoreEntry *p = item_appraisal_rules->grind_scores;
+    while (p->roll != -1) {
+        if (p->roll == x) {
+            return p->score;
         }
         p++;
     }
@@ -67,35 +62,33 @@ u8 TLobby::lookup_table_value(s8 x) {
 }
 
 u8 lookup_key_value__6TLobbyFc(s8 x) {
-    Pair_802156E0 *p = item_appraisal_rules->tbl;
-    while (p->key != -1) {
-        if (p->key == x) {
-            return p->val;
+    const AppraisalScoreEntry *p = item_appraisal_rules->special_and_percentage_scores;
+    while (p->roll != -1) {
+        if (p->roll == x) {
+            return p->score;
         }
         p++;
     }
     return 0;
 }
 
-struct G_802156E0;
-
 void adjust_appraisal_percentages(Obj_80215720 *arg0) {
     Ctr_80215720 ctr;
-    Ent_80215720 *e;
+    const AppraisalRollEntry *e;
     s32 count;
     s32 n;
     s32 r;
     ((TLobby *)(&ctr))->reset_counter_64();
-    count = ((G_80215720 *)item_appraisal_rules)->t->count;
-    e = &((G_80215720 *)item_appraisal_rules)->t->base[count * lbl_805D6238];
+    count = item_appraisal_rules->percentage_rolls->count;
+    e = &item_appraisal_rules->percentage_rolls->entries[count * lbl_805D6238];
     while (count-- > 0) {
         if (item_appraisal_favored_weapon != 0) {
-            n = e->n2;
+            n = e->favored_weight;
         } else {
-            n = e->n1;
+            n = e->weight;
         }
         while (n-- != 0) {
-            push_shop_pool_entry(&ctr, e->id);
+            push_shop_pool_entry(&ctr, e->adjustment);
         }
         e++;
     }
@@ -125,23 +118,23 @@ void adjust_appraisal_percentages(Obj_80215720 *arg0) {
 
 void TLobby::roll_item_grind_bonus() {
     u8 buf[0x68];
-    Ent_8021587C *e;
+    const AppraisalRollEntry *e;
     s32 n;
     s32 c;
     s32 r;
     if (TItemData::is_rare_item(this) == 0) {
         ((TLobby *)buf)->reset_counter_64();
-        Tbl_8021587C *t = (*(G_8021587C **)&item_appraisal_rules)->t;
+        const AppraisalRollTable *t = item_appraisal_rules->grind_rolls;
         n = t->count;
-        e = &t->base[n * lbl_805D6238];
+        e = &t->entries[n * lbl_805D6238];
         while (n-- > 0) {
             if (item_appraisal_favored_weapon != 0) {
-                c = e->n2;
+                c = e->favored_weight;
             } else {
-                c = e->n1;
+                c = e->weight;
             }
             while (c-- != 0) {
-                push_shop_pool_entry(buf, e->id);
+                push_shop_pool_entry(buf, e->adjustment);
             }
             e++;
         }
@@ -164,22 +157,22 @@ void TLobby::roll_item_grind_bonus() {
 
 void adjust_appraisal_special(Obj_8021599C *obj) {
     u8 buf[0x68];
-    Ent_8021599C *e;
+    AppraisalRollEntry *e;
     s32 n;
     s32 c;
     s32 r;
     ((TLobby *)buf)->reset_counter_64();
-    Tbl_8021599C *t = (*(G_8021599C **)&item_appraisal_rules)->t;
+    AppraisalRollTable *t = item_appraisal_rules->special_rolls;
     n = t->count;
-    e = &t->base[n * lbl_805D6238];
+    e = &t->entries[n * lbl_805D6238];
     while (n-- > 0) {
         if (item_appraisal_favored_weapon != 0) {
-            c = e->n2;
+            c = e->favored_weight;
         } else {
-            c = e->n1;
+            c = e->weight;
         }
         while (c-- != 0) {
-            push_shop_pool_entry(buf, e->id);
+            push_shop_pool_entry(buf, e->adjustment);
         }
         e++;
     }
@@ -222,4 +215,4 @@ void TLobby::free_window() {
     }
 }
 }
-void load_judge_item(void) { (*(int *)&item_appraisal_rules) = create_named_object("JudgeItem.rel"); }
+void load_judge_item(void) { item_appraisal_rules = static_cast<ItemAppraisalRules *>(create_named_object("JudgeItem.rel")); }

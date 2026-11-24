@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -27,7 +28,6 @@ struct I_8034CDE0 { u8 pad[0x10]; s8 f10; u8 pad11[0xBC - 0x11]; };
 struct L_8034CDE0 { u8 f0; u8 n; u8 pad2[2]; I_8034CDE0 items[1]; };
 
 extern "C" {
-s32 play_sound_effect(int, int, int, int);
 s32 set_info_board_text__6TLobbyFv();
 saddr get_window_layout_position(s32);
 void *create_titled_window_menu_default(s32, s32, void *);

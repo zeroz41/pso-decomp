@@ -64,7 +64,7 @@ TChCrLoadReq::TChCrLoadReq(TObjPlayer *player) : TObject(player) {
     inputs.load_slot = player->get_entity_id();
     inputs.body_model = (s32 *)&player->model;
     inputs.part_models = (s32 *)&player->hair_model;
-    inputs.body_textures = (NJS_TEXLIST *)player->body_textures;
+    inputs.body_textures = &player->body_textures;
     inputs.other_textures = (NJS_TEXLIST *)player->attachment_textures;
     inputs.head_textures = (NJS_TEXLIST *)player->head_textures;
     reset_request();

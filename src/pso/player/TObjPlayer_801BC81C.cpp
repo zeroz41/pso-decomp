@@ -1,3 +1,4 @@
+#include "pso/player/PlayerState.h"
 #include "pso/player/PlayerRequirementStats.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -13,7 +14,6 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
-#include "pso/player/TObjPlayer_801BF978.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
 
 

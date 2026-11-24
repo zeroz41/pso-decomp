@@ -1,4 +1,6 @@
+#include "pso/system/memory.h"
 #include "types.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcHFW00.h"
 #include "pso/system/TLanguage_801E4874.h"
@@ -15,7 +17,7 @@
 #pragma readonly_strings on
 
 const char *TObjNpcHFW00::name = "TObjNpcHFW00";
-uaddr TObjNpcHFW00::shared_resource_obj;
+void **TObjNpcHFW00::shared_resource_obj;
 NJS_TEXLIST *TObjNpcHFW00::texture_handle;
 
 void *TObjNpcHFW00::create(void *set_data) {
@@ -26,17 +28,17 @@ void *TObjNpcHFW00::create(void *set_data) {
 void TObjNpcHFW00::free_resources() {
     if (texture_handle != NULL) {
         release_texture_list(texture_handle);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)texture_handle);
+        safe_free(texture_handle);
         texture_handle = NULL;
     }
-    if ((u32) shared_resource_obj != 0U) {
-        TLobby::free_nodes_with_id((uaddr)((void*)shared_resource_obj));
-        shared_resource_obj = 0U;
+    if (shared_resource_obj != NULL) {
+        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(shared_resource_obj));
+        shared_resource_obj = NULL;
     }
 }
 
 void TObjNpcHFW00::load_resources() {
-    shared_resource_obj = (u32)create_named_object("npc_g00_data.rel");
+    shared_resource_obj = static_cast<void **>(create_named_object("npc_g00_data.rel"));
     texture_handle = load_gvm_texture_file("n_g00_body.gvm");
 }
 
@@ -46,7 +48,7 @@ TObjNpcHFW00::TObjNpcHFW00(TObject *parent, void *set_data) : TObjNpcFomarl(pare
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = *(void **)shared_resource_obj;
+    this->model = *shared_resource_obj;
     this->texlist = texture_handle;
     this->setup_common();
 }

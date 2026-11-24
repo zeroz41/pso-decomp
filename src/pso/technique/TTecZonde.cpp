@@ -1,6 +1,7 @@
 #include "pso/player/TargetCursorList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
+#include "pso/math/MatrixVector.h"
 #include "types.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include <stdlib.h>
@@ -102,7 +103,7 @@ void TTecZonde::vfunc_8(void *arg1_arg) {
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/CollisionActorLookup.h"
 
-struct Seg_8023C79C { f32 a[3]; f32 b[3]; f32 len; };
+struct Seg_8023C79C { Vec a; Vec b; f32 len; };
 struct Zonde_8023C79C {
     u8 pad0[0x18];
     void *vt;
@@ -125,14 +126,13 @@ void TTecZonde::render() {  }
 #pragma push
 #pragma fp_contract on
 
-f32 vector_length(void *);
 extern u8 *tl_07;
 
 void TTecZonde::run_task() {
     Zonde_8023C79C *self = (Zonde_8023C79C *)this;
     Seg_8023C79C segs[14];
     Seg_8023C79C *s;
-    f32 *pb;
+    Vec *pb;
     s32 i;
     s32 j;
     s32 k;
@@ -154,57 +154,57 @@ void TTecZonde::run_task() {
     if (TTecLuker::is_parents_unqueued((uaddr)t) != 0) {
         for (i = 0; i < 14; i++) {
             s = &segs[i];
-            s->a[1] = 100.0f + t->position.y;
+            s->a.y = 100.0f + t->position.y;
             if (self->level == 5 && i == 0) {
-                s->a[1] = 500.0f + t->position.y;
+                s->a.y = 500.0f + t->position.y;
             }
-            s->a[0] = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->position.x;
-            s->a[2] = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->position.z;
-            s->b[0] = t->position.x - s->a[0];
-            s->b[1] = t->position.y - s->a[1];
-            pb = s->b;
-            s->b[2] = t->position.z - s->a[2];
+            s->a.x = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->position.x;
+            s->a.z = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->position.z;
+            s->b.x = t->position.x - s->a.x;
+            s->b.y = t->position.y - s->a.y;
+            pb = &s->b;
+            s->b.z = t->position.z - s->a.z;
             s->len = vector_length(pb);
             if (0.0f != s->len) {
-                normalize_vector((Vec *)pb);
+                normalize_vector(pb);
             }
         }
         scale = 0.5f;
         switch (self->level) {
         case 0:
-            new TTecZondeEff((TObject *)tl_07, (Vec *)segs[0].a, (Vec *)segs[0].b, 0x14000000, 0x14, segs[0].len, 0.5f);
+            new TTecZondeEff((TObject *)tl_07, &segs[0].a, &segs[0].b, 0x14000000, 0x14, segs[0].len, 0.5f);
             break;
         case 1:
             scale *= 1.2f;
-            new TTecZondeEff((TObject *)tl_07, (Vec *)segs[0].a, (Vec *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
+            new TTecZondeEff((TObject *)tl_07, &segs[0].a, &segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
             break;
         case 2:
             scale *= 1.4f;
-            new TTecZondeEff((TObject *)tl_07, (Vec *)segs[0].a, (Vec *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
+            new TTecZondeEff((TObject *)tl_07, &segs[0].a, &segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
             break;
         case 3:
             for (j = 0; j < 3; j++) {
-                new TTecZondeEff((TObject *)tl_07, (Vec *)segs[j].a, (Vec *)segs[j].b, 0x14000000, 0x14, segs[j].len, 0.5f);
+                new TTecZondeEff((TObject *)tl_07, &segs[j].a, &segs[j].b, 0x14000000, 0x14, segs[j].len, 0.5f);
             }
             break;
         case 4:
             scale *= 1.4f;
             for (k = 0; k < 3; k++) {
-                new TTecZondeEff((TObject *)tl_07, (Vec *)segs[k].a, (Vec *)segs[k].b, 0x14000000, 0x14, segs[k].len, scale);
+                new TTecZondeEff((TObject *)tl_07, &segs[k].a, &segs[k].b, 0x14000000, 0x14, segs[k].len, scale);
             }
             break;
         case 5:
             for (l = 0; l < 14; l++) {
                 if (l == 0) {
-                    new TTecZondeEff((TObject *)tl_07, (Vec *)segs[l].a, (Vec *)segs[l].b, 0x14000000, 0x14, segs[l].len, 5.0f);
+                    new TTecZondeEff((TObject *)tl_07, &segs[l].a, &segs[l].b, 0x14000000, 0x14, segs[l].len, 5.0f);
                 } else {
-                    new TTecZondeEff((TObject *)tl_07, (Vec *)segs[l].a, (Vec *)segs[l].b, 0x14000000, 0x14, segs[l].len, 0.5f);
+                    new TTecZondeEff((TObject *)tl_07, &segs[l].a, &segs[l].b, 0x14000000, 0x14, segs[l].len, 0.5f);
                 }
             }
             break;
         }
         if (self->level != 5) {
-            new TUnk_804CCD78((Vec *)segs[0].a, &t->position, (TObject *)tl_07, 0x19F);
+            new TUnk_804CCD78(&segs[0].a, &t->position, (TObject *)tl_07, 0x19F);
         }
         {
             s32 h;

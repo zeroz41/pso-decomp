@@ -1,11 +1,12 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
+#include "pso/system/memory.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecRaZonde.h"
 #include "pso/system/vector.h"
-#include "pso/technique/TTecZonde.h"
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/unk/TUnk_804CCB28.h"
 #include "pso/technique/TTecCircle.h"
 #include "pso/system/task/TObject.h"

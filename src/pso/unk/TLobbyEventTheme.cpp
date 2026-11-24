@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
 #include "types.h"
 #include "pso/unk/TLobbyEventTheme.h"
 #include "pso/system/task/TMainTask.h"
@@ -74,7 +75,7 @@ TLobbyEventTheme::TLobbyEventTheme() : TObject(tl_00) {
 void free_obj_lobby_main() {
     if (lobby_main_texture_gvm != NULL) {
         release_texture_list(lobby_main_texture_gvm);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)lobby_main_texture_gvm);
+        safe_free(lobby_main_texture_gvm);
         lobby_main_texture_gvm = NULL;
     }
 }

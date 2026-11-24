@@ -1,8 +1,8 @@
+#include "pso/system/memory.h"
 #include "libc/ctype.h"
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/player/TObjPlayer.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/map/TMapCsnCtrl.h"
 #include "pso/object/lobby/TObjButterflyLobby.h"
@@ -16,16 +16,17 @@
 #include "pso/unk/text_803D853C.h"
 
 #pragma inline_depth(1)
-#pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_C { u8 bytes[0xc]; };
-
 // A wall polygon prepare_wall_query_polygons copies into the scene buffer,
 // with the vertex array of its model (name inferred).
 struct WallPolygon {
     CsnFace face;
     Vec *vertices;
+
+    void copy_wall_polygon(const CsnFace *source);
 };
+
+LAYOUT_ASSERT(WallPolygonSize, sizeof(WallPolygon) == 0x28);
 
 CsnGroup **scene_collision_data;
 WallPolygon *wall_query_scene_buffer;
@@ -33,7 +34,7 @@ s32 csn_query_hit_count;
 f32 csn_query_nearest_hit_t;
 CsnHit *csn_query_hit_buffer;
 CsnContact *wall_query_hit_result;
-u8 lbl_804FF9C0[0x380];
+CsnContact lbl_804FF9C0[0x20];
 CsnGroup *csn_query_groups[0x100];
 __declspec(section ".data") CsnHit lbl_80500140;
 WallRayResult csn_query_map_object;
@@ -53,8 +54,8 @@ void csn_debug_hook_group_list(CsnGroup *const *groups) {  }
 // inferred: name - every caller passes its own function name ("csnLookAt()", ...)
 void csn_debug_hook_query_name(const char *name) {  }
 void TObjPlayer__sub_8007911C(void) {  }
-void csn_debug_hook_origin_vector(saddr _w0) {  }
-void csn_debug_hook_segment(void * _w0, void * _w1) {  }
+void csn_debug_hook_origin_vector(const Vec *) {  }
+void csn_debug_hook_segment(const Vec *, const Vec *) {  }
 
 #pragma push
 #pragma fp_contract on
@@ -312,11 +313,11 @@ s32 select_deepest_wall_ray(WallRayQuery *q, WallRayResult *r) {
     CsnContact *hit;
     f32 d;
     i = 0;
-    r->hit = 0;
+    r->header.hit_mask = 0;
     r->index = -1;
     r->depth = -1.0f;
     off = q->rays;
-    hit = r->hits;
+    hit = r->header.contact;
     n = q->count;
     for (; i < n; off++, hit++, i++) {
         end.x = q->origin.x + off->x;
@@ -327,13 +328,13 @@ s32 select_deepest_wall_ray(WallRayQuery *q, WallRayResult *r) {
             f32 dx = end.x - hit->point.x;
             d = fabs_float(dx * hit->normal.x + dz * hit->normal.z);
             if (r->depth < d) {
-                r->hit = 1;
+                r->header.hit_mask = 1;
                 r->depth = d;
                 r->index = i;
             }
         }
     }
-    return r->hit;
+    return r->header.hit_mask;
 }
 #pragma pop
 
@@ -600,8 +601,8 @@ CsnGroup *TObjPlayer__sub_80079DE0(Vec *a, Vec *b) {
 
 #pragma push
 #pragma fp_contract on
-s32 prepare_wall_query_polygons(void *origin, f32 r, s32 mask) {
-    Vec *pos = (Vec *)origin;
+s32 prepare_wall_query_polygons(const Vec *origin, f32 r, u32 mask) {
+    const volatile Vec *pos = origin;
     s32 i;
     s32 count;
     s32 cnt;
@@ -621,7 +622,9 @@ s32 prepare_wall_query_polygons(void *origin, f32 r, s32 mask) {
     while ((g = *src++) != NULL) {
         if (g->flags & mask) {
             f32 b;
-            f32 dz = g->center.z - pos->z;
+            const volatile f32 &center_z = g->center.z;
+            f32 z = center_z;
+            f32 dz = z - pos->z;
             f32 dx = g->center.x - pos->x;
             b = r + g->radius;
             b *= b;
@@ -642,7 +645,9 @@ s32 prepare_wall_query_polygons(void *origin, f32 r, s32 mask) {
         count = model->face_count;
         face = model->faces;
         for (i = 0; i < count; face++, i++) {
-            f32 dz = face->center.z - pos->z;
+            const volatile f32 &center_z = face->center.z;
+            f32 z = center_z;
+            f32 dz = z - pos->z;
             f32 dx = face->center.x - pos->x;
             f32 b = r + face->radius;
             b *= b;
@@ -650,7 +655,7 @@ s32 prepare_wall_query_polygons(void *origin, f32 r, s32 mask) {
                 if (++cnt >= 0x200) {
                     break;
                 }
-                ((TObjPlayer *)out)->copy_wall_polygon((u8 *)face);
+                out->copy_wall_polygon(face);
                 out->vertices = model->vertices;
                 out++;
             }
@@ -661,15 +666,20 @@ s32 prepare_wall_query_polygons(void *origin, f32 r, s32 mask) {
 }
 #pragma pop
 
-void TObjPlayer::copy_wall_polygon(u8 *arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) *(s32 *)((s8 *)arg1 + 0);
-    this->m_flags = (u16) *(u16 *)((s8 *)arg1 + 4);
-    this->m_id = (u16) *(u16 *)((s8 *)arg1 + 6);
-    *(ByteBlock_C *)((saddr) (u8 *)&this->m_prev) = *(const ByteBlock_C *)((saddr) arg1 + 8);
-    *(ByteBlock_C *)((saddr) (u8 *)&this->m_down) = *(const ByteBlock_C *)((saddr) arg1 + 0x14);
-    *(f32 *)&this->m_20 = (f32) *(f32 *)((s8 *)arg1 + 0x20);
+struct VecWords { u32 words[3]; };
+
+#pragma push
+#pragma scheduling off
+void WallPolygon::copy_wall_polygon(const CsnFace *source) {
+    // The first two indices are one aligned word in each record.
+    *reinterpret_cast<u32 *>(face.vertex) = *reinterpret_cast<const u32 *>(source->vertex);
+    face.vertex[2] = source->vertex[2];
+    face.flags = source->flags;
+    *reinterpret_cast<VecWords *>(&face.normal) = *reinterpret_cast<const VecWords *>(&source->normal);
+    *reinterpret_cast<VecWords *>(&face.center) = *reinterpret_cast<const VecWords *>(&source->center);
+    face.radius = source->radius;
 }
+#pragma pop
 
 CsnGroup *query_collision_segment_groups(Vec *a, Vec *b, u32 mask) {
     Vec d;
@@ -695,13 +705,13 @@ CsnGroup *query_collision_segment_groups(Vec *a, Vec *b, u32 mask) {
     newton_sqrtf(lenSq);
     while ((w = *src++) != NULL) {
         if (w->flags & mask) {
-            (*(Vec *)&scratch_vec).x = w->center.x - a->x;
-            (*(Vec *)&scratch_vec).z = w->center.z - a->z;
-            dsq = (*(Vec *)&scratch_vec).x * (*(Vec *)&scratch_vec).x + (*(Vec *)&scratch_vec).z * (*(Vec *)&scratch_vec).z;
+            scratch_vec.x = w->center.x - a->x;
+            scratch_vec.z = w->center.z - a->z;
+            dsq = scratch_vec.x * scratch_vec.x + scratch_vec.z * scratch_vec.z;
             r = len + w->radius;
             r *= r;
             if (dsq <= r) {
-                if (calc_segment_xz_distance_sq((Vec *)(&w->center), (Vec *)(a), (Vec *)(b), (Vec *)(&d), w->radius, lenSq, inv) != 0) {
+                if (calc_segment_xz_distance_sq(&w->center, a, b, &d, w->radius, lenSq, inv) != 0) {
                     if (++n >= 0x100) {
                         break;
                     }
@@ -715,11 +725,11 @@ CsnGroup *query_collision_segment_groups(Vec *a, Vec *b, u32 mask) {
     return csn_query_groups[0];
 }
 
-void *query_prepared_wall_polygons(void *self) {
-    void *r;
+WallRayResult *query_prepared_wall_polygons(WallRayQuery *query) {
+    WallRayResult *r;
     TObjPlayer__sub_8007911C();
     r = &csn_query_map_object;
-    if (select_deepest_wall_ray((WallRayQuery *)self, (WallRayResult *)r) == 0) {
+    if (select_deepest_wall_ray(query, r) == 0) {
         r = 0;
     }
     csn_debug_hook_query_name("csnCheckPluralVectorPolyBuff()");
@@ -743,7 +753,7 @@ CsnHit *csnLookAt(const Vec *from, const Vec *to) {
     CsnHit *hit;
     TObjPlayer__sub_8007911C();
     hit = &lbl_80500140;
-    csn_debug_hook_segment((void *)from, (void *)to);
+    csn_debug_hook_segment(from, to);
     if (TObjPlayer__sub_80079DE0((Vec *)from, (Vec *)to) == NULL) {
         hit = NULL;
     } else if (check_line_hits_walls((Vec *)from, (Vec *)to, 0x8000, csn_query_groups) == 0) {
@@ -757,7 +767,7 @@ CsnHit *csnVectorUnder(Vec *origin, CsnGroup **cached_groups, u32 mask) {
     CsnHit *hit;
     TObjPlayer__sub_80079108();
     TObjPlayer__sub_8007911C();
-    csn_debug_hook_origin_vector((saddr)origin);
+    csn_debug_hook_origin_vector(origin);
     hit = &lbl_80500140;
     if (*cached_groups == NULL) {
         if (refill_csn_candidate_cache(origin, cached_groups, mask) == NULL) {
@@ -783,7 +793,7 @@ CsnHit *csnVecterUnder(Vec *origin, u32 mask) {
     CsnHit *hit;
     TObjPlayer__sub_80079108();
     TObjPlayer__sub_8007911C();
-    csn_debug_hook_origin_vector((saddr)origin);
+    csn_debug_hook_origin_vector(origin);
     hit = &lbl_80500140;
     if (select_ground_query_groups(origin, mask) == NULL) {
         hit = NULL;
@@ -815,7 +825,7 @@ void TObjButterflyLobby::free_singleton_805D4E6C() {
     }
 }
 
-void TObjButterflyLobby::alloc_scene_buffer() { wall_query_scene_buffer = (WallPolygon *)mem_alloc(0x5000); }
+void TObjButterflyLobby::alloc_scene_buffer() { wall_query_scene_buffer = (WallPolygon *)mem_alloc(0x200 * sizeof(WallPolygon)); }
 
 extern "C" {
 void __construct_array(void *, void *, s32, s32, s32);
@@ -823,9 +833,9 @@ void __construct_array(void *, void *, s32, s32, s32);
 extern "C" {
 
 void __sinit_CsnQuery_cpp(void) {
-    __construct_array(lbl_804FF9C0, (void *)init_csn_contact, 0, 0x1C, 0x20);
-    TObjMapCsn::init_and_return((saddr)&lbl_80500140);
-    ((TObjMapCsn *)&csn_query_map_object)->init();
+    __construct_array(lbl_804FF9C0, (void *)init_csn_contact, 0, sizeof(CsnContact), 0x20);
+    lbl_80500140.init_and_return();
+    csn_query_map_object.init();
 }
 
 }
@@ -840,23 +850,34 @@ extern TMapCsnCtrl *map_csn_ctrl_instance;
 TMapCsnCtrl *TObjMapCsn::get_collision_controller() {
     return map_csn_ctrl_instance;
 }
-void*TObjMapCsn::init() { TObjMapCsn::init_and_return((saddr)this); *(int *)&this->m_prev = -1; *(float *)&this->m_next = -1.0f; return this; }
-saddr TObjMapCsn::init_and_return(saddr arg0) {
-    init_csn_hit((u8 *)arg0);
-    return arg0;
+WallRayResult *WallRayResult::init() {
+    header.init_and_return();
+    index = -1;
+    depth = -1.0f;
+    return this;
 }
 
-
-void init_csn_hit(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0) = 0;
-    *(u8 **)((s8 *)arg0 + 4) = lbl_804FF9C0;
+CsnHit *CsnHit::init_and_return() {
+    init_csn_hit(this);
+    return this;
 }
 
-
-s32 init_csn_contact(saddr player) {
-    ((TObjPlayer *)player)->clear_velocity_vectors();
-    return player;
+void init_csn_hit(CsnHit *hit) {
+    hit->hit_mask = 0;
+    hit->contact = lbl_804FF9C0;
 }
 
+CsnContact *init_csn_contact(CsnContact *contact) {
+    contact->reset();
+    return contact;
+}
 
-void TObjPlayer::clear_velocity_vectors() { *(float*)((char*)this + 0x8) = 0.0f; *(float*)((char*)this + 0x4) = 0.0f; *(float*)((char*)this + 0x0) = 0.0f; *(float*)((char*)this + 0x14) = 0.0f; *(float*)((char*)this + 0x10) = 0.0f; *(float*)((char*)this + 0xc) = 0.0f; *(int*)((char*)this + 0x18) = 0; }
+void CsnContact::reset() {
+    point.z = 0.0f;
+    point.y = 0.0f;
+    point.x = 0.0f;
+    normal.z = 0.0f;
+    normal.y = 0.0f;
+    normal.x = 0.0f;
+    flags = 0;
+}

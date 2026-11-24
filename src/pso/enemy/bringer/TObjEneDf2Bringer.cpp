@@ -1,10 +1,13 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/StripBufferPair.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -461,7 +464,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
             if (player == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)player) != 0 && attack_target_history_add(attack_history, player) != 0) {
+            if (obj_is_hit_receivable(player) != 0 && attack_target_history_add(attack_history, player) != 0) {
                 DirectAttackPayload h;
                 h.kind = 0;
                 h.power = TObjEneDf2Bringer__params->rush_power;
@@ -471,7 +474,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                         if (TObjPlayer::is_locally_controlled(player) != 0) {
                             TItem *item = (TItem *)TObjPlayer::get_equipped_weapon(player);
                             if (item != NULL) {
-                                TObjPlayer::send_6x26_unequip_item((void *)player, item->get_item_id());
+                                TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, item->get_item_id());
                             }
                         }
                     } else if (random_ratio() <= 0.3333f) {
@@ -1265,7 +1268,7 @@ void TObjEneDf2Bringer::update_death_state(s32 reason) {
     case 0:
         this->advance_animation();
         if (this->body_fade.decay_value_toward_floor() != 0) {
-            TObjPlayer::apply_effect_variant_b((saddr)&this->position, 0);
+            TObjPlayer::apply_effect_variant_b(&this->position, 0);
             this->queue_destruction();
         }
     case 3:
@@ -1300,7 +1303,7 @@ void TObjEneDf2Bringer::render() {
     s32 fading;
     RenderFadeState *fade;
     s32 show;
-    uaddr saved_texture;
+    GinjaTextureState *saved_texture;
     s32 view;
     s32 i;
     if (TObjPlayer::check_demo_mode() != 0) {
@@ -1350,9 +1353,9 @@ void TObjEneDf2Bringer::render() {
         TObjEneDf2Bringer__uv_scroll_buffer->scroll_uvs(texture_scroll, 0);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         {
-            NJS_TEXNAME *textures = ((NJS_TEXLIST *)texlist)->textures;
-            saved_texture = textures[1].texaddr;
-            textures[1].texaddr = textures[face_texture].texaddr;
+            NJS_TEXNAME *textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
+            saved_texture = textures[1].texture;
+            textures[1].texture = textures[face_texture].texture;
         }
         if (show != 0) {
             push_matrix();
@@ -1377,7 +1380,7 @@ void TObjEneDf2Bringer::render() {
         TParticleCtrl::end_effect_render();
         model_render_flags = saved_model_render_flags;
         update_primary_light();
-        ((NJS_TEXLIST *)texlist)->textures[1].texaddr = saved_texture;
+        reinterpret_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = saved_texture;
         return;
     }
     for (i = 0; i < 4; i++) {

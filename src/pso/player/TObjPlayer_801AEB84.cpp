@@ -1,11 +1,10 @@
+#include "pso/object/base/TObjChara.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_801AEB84.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
 
-s32 add_actor_tp_bonus(void *, int);
-s32 add_actor_hp_bonus(void *, int);
 s32 get_class_index__10TObjPlayerFv(void *);
 
 extern "C" {

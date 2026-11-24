@@ -1,3 +1,5 @@
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/HitEligibility.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"

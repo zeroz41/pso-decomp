@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/TMapCsnCtrl.h"
@@ -571,7 +572,7 @@ void load_city_common_resources(void) {
 void TLobby::free_map_resources() {
     if (city_common_texture_list != NULL) {
         release_texture_list(city_common_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)city_common_texture_list);
+        safe_free(city_common_texture_list);
         city_common_texture_list = NULL;
     }
     delete (BmlResource *)city_common_model_archive;

@@ -48,7 +48,7 @@ void TWindowSubShortCutList::refresh_entries() {
             draw_entry(index, 0x12, temp_r0, index);
             break;
         case 2:
-            TWindowDD::format_message(chat_shortcut + 1, (void *)get_shared_text_buffer(), (u16) local_client_id);
+            TWindowDD::format_message(reinterpret_cast<WordSelectMessage *>(chat_shortcut + 1), reinterpret_cast<char *>(get_shared_text_buffer()), (u16)local_client_id);
             draw_entry(index, 0x10, (saddr)get_shared_text_buffer(), index);
             break;
         case 3: {
@@ -64,26 +64,21 @@ void TWindowSubShortCutList::refresh_entries() {
     clamp_selection_to_valid_entry();
 }
 
-void *TWindowSubShortCutList::create(void *index) {
+TWindowSubShortCutList *TWindowSubShortCutList::create(const NJS_POINT2 *position, s32 index) {
     TShopJudgmentItemWindow__sub_80267F9C(&lbl_8044FAA8, 4);
-    return new TWindowSubShortCutList((u8 *)this, (saddr)index);
+    return new TWindowSubShortCutList(reinterpret_cast<u8 *>(const_cast<NJS_POINT2 *>(position)), index);
 }
 
 void TWindowSubShortCutList::render() {
-    saddr context;
-
-    context = reinterpret_cast<saddr>(get_draw_context());
-    draw_window_frame((void *)context);
-    draw_visible_window_entries(
-        this,
-        reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
-        reinterpret_cast<WindowDrawContext *>(context));
+    WindowDrawContext *context = get_draw_context();
+    draw_window_frame(context);
+    draw_visible_window_entries(this, &entry_list, context);
     draw_selected_list_entry(context);
     if (status_display != NULL) {
         ((TWindowSubStatusDisp *)((void *)(status_display)))->forward_render((void *)(context));
     }
     if (storage != NULL) {
-        draw_list_page_indicator(storage, reinterpret_cast<WindowDrawContext *>(context));
+        draw_list_page_indicator(storage, context);
     }
 }
 

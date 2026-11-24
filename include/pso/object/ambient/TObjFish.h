@@ -27,7 +27,7 @@ struct TObjFishEntry {
 struct TObjFish : public TObjBase {
     TObjFish(TObject *parent, void *set_data);
     virtual ~TObjFish();
-    s32 init_fish_school(void *, s32, s32);
+    s32 init_fish_school(Vec *bounds, s32, s32);
     s32 update_state();
     virtual void render();
     virtual void run_task();

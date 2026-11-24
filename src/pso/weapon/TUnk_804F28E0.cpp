@@ -1,3 +1,4 @@
+#include "pso/math/ClampedStep.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
@@ -7,7 +8,6 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804F28E0.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
@@ -41,11 +41,11 @@ void TUnk_804F28E0::emit_marker_effects() {
 }
 
 void TUnk_804F28E0::update_idle() {
-    TItemEffOrgaFlowShot::approach_value(&muzzle_offset, 0.5f, 4.0f);
+    ::approach_value(&muzzle_offset, 0.5f, 4.0f);
 }
 
 void TUnk_804F28E0::update_attack() {
-    TItemEffOrgaFlowShot::approach_value(&muzzle_offset, -1.0f, 0.0f);
+    ::approach_value(&muzzle_offset, -1.0f, 0.0f);
 }
 
 

@@ -3,8 +3,7 @@
 #include "pso/ui/charcreate/CharacterPreview.h"
 
 extern "C" {
-s32 copy_player_visual_record(void *, void *);
-s32 TCharaMaking__bind_appearance_texture_lists(void *, void *, void *, void *);
+void copy_player_visual_record(void *, const void *);
 }
 
 CharacterPreview::CharacterPreview(TObject *parent, void *visual, s32 load_slot) {

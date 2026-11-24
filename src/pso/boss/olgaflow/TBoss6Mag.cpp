@@ -145,7 +145,7 @@ TBoss6Mag::TBoss6Mag(TObject *parent, TBoss6MagSpawnParams *params) : TObjEnemy(
     bind_enemy_combat_stats(TLobby::register_boss(0x2E), TLobby::dispatch_shared_handler_b(0x2E), TLobby::register_object(0x2E));
     referenceHp = hp;
     initial_hp = hp;
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     param_index = 0x55;
     if (index == 1) {
         param_index = 0x56;

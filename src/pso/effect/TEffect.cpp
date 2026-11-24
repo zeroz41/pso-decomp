@@ -10,7 +10,7 @@
 static const EffectTextureFile effect_texture_file = {&shared_effect_texture_list, "effect_nt.gvm"};
 const char *TEffect::class_name = "TEffect";
 
-saddr effect_rel;
+NJS_OBJECT **effect_rel;
 s32 particle_texture_id_table[54];
 
 void approach_vector_in_place(Vec *current, const Vec *target, f32 step) {
@@ -86,13 +86,13 @@ void copy_anim_frame_to_slot(TextureFrameSlot *slot) {
 
 void free_effect_resources() {
     release_texture_list(effect_texture_file.texlist);
-    TLobby::free_nodes_with_id(effect_rel);
-    effect_rel = 0;
+    TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(effect_rel));
+    effect_rel = NULL;
 }
 
 void load_effect_resources() {
     s32 i;
-    effect_rel = create_named_object("EFFECT_NT.REL");
+    effect_rel = static_cast<NJS_OBJECT **>(create_named_object("EFFECT_NT.REL"));
     bind_gvm_texture_list(effect_texture_file.filename, effect_texture_file.texlist);
     for (i = 0; i < 54; i++) {
         particle_texture_id_table[i] = shared_effect_texture_list.textures[i].texture->surface->id;

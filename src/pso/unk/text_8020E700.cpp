@@ -319,7 +319,7 @@ s32 draw_shop_pool_index(s32 count) {
 
 void load_armor_random_table(void) {
     s32 i;
-    lbl_805D6158 = (Tbl_8020E934 **)create_named_object("ArmorRandom.rel");
+    lbl_805D6158 = static_cast<Tbl_8020E934 **>(create_named_object("ArmorRandom.rel"));
     for (i = 0; i < 4; i++) {
         lbl_80513D78[i] = 0;
     }

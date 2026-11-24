@@ -12,7 +12,6 @@
 
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/vector.h"
 

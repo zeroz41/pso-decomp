@@ -47,7 +47,7 @@ struct TextureFrameSlot {
 // The particle textures from effect_nt.gvm, bound by load_effect_resources.
 __declspec(section ".data") extern NJS_TEXLIST shared_effect_texture_list;
 // EFFECT_NT.REL, the effect models.
-extern saddr effect_rel;
+extern NJS_OBJECT **effect_rel;
 
 void approach_vector_in_place(Vec *current, const Vec *target, f32 step);
 s32 approach_alpha_clamped(f32 *current, const f32 *target, f32 step);

@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
@@ -127,7 +128,6 @@ s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
 }
 extern "C" {
 s32 try_equip_item__10TObjPlayerFii(saddr, s32);
-void play_sound_effect(s32, s32, s32, s32);
 }
 void text_builder_reset(void);
 

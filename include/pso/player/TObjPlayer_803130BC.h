@@ -3,18 +3,15 @@
 
 #include "types.h"
 
-extern "C" {
-int TObjPlayer__sub_803131AC(void);
-int TObjPlayer__sub_80313218(void *p);
-void TObjPlayer__sub_80313250(void *arg0, s32 arg1);
-}
+struct PhotonBlastRequest;
+struct PhotonBlastRegistry;
+struct PhotonBlastRequestSlot;
 
-// --- C functions defined in TObjPlayer_803130BC.cpp ---
 extern "C" {
-int TObjPlayer__sub_803131AC(void);
-int TObjPlayer__sub_80313218(void *p);
-void TObjPlayer__sub_80313250(void *arg0, s32 arg1);
+int TObjPlayer__sub_803131AC(const PhotonBlastRegistry *registry);
+PhotonBlastRequestSlot *TObjPlayer__sub_803131B4(PhotonBlastRequest *slot, s32 index);
+int TObjPlayer__sub_80313218(PhotonBlastRequest *slot);
+void TObjPlayer__sub_80313250(PhotonBlastRequestSlot *entry, s32 amount);
 }
-// --- end of C functions
 
 #endif

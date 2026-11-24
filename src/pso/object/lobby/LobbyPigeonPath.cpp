@@ -1,3 +1,7 @@
+#include "pso/animation/ActorAnimationState.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/system/TLanguage_801E4874.h"
+#include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/animation/MotionContext.h"
@@ -54,15 +58,14 @@ const char *bm_obj_lobby_pigeon_model_names[3] = { "lobby_obj_hato.nj", "lobby_o
 const char *bm_obj_lobby_pigeon_motion_names[5] = { "lobby_obj_hato.njm", "path01_h_pigeon.njm", "path02_h_pigeon.njm", "path03_h_pigeon.njm", NULL };
 BmlResourceDescriptor bm_obj_lobby_pigeon_resource_descriptor = { "bm_obj_lobby_pigeon.bml", bm_obj_lobby_pigeon_model_names, bm_obj_lobby_pigeon_motion_names, 2, 4 };
 
-uaddr seabed_dolphin_bml_archive;
+BmlResource *seabed_dolphin_bml_archive;
 NJS_TEXLIST *seabed_dolphin_texture_handle;
-uaddr jungle_ebi_model_resource;
+BmlResource *jungle_ebi_model_resource;
 NJS_TEXLIST *jungle_ebi_texture_gvm_handle;
-uaddr jungle_bird_bml_resource;
+BmlResource *jungle_bird_bml_resource;
 NJS_TEXLIST *lobby_pigeon_texture_gvm;
-uaddr lobby_kamome_model_resource;
+BmlResource *lobby_kamome_model_resource;
 NJS_TEXLIST *lobby_kamome_texture_gvm_handle;
-struct BmlResource;
 BmlResource *lobby_pigeon_bml_archive;
 NJS_TEXLIST *lobby_pigeon_lobby_type;
 
@@ -113,7 +116,6 @@ extern const f64 lbl_80471960[1] = {10430.38043493439};
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/render_util.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/animation/ActorAnimationState.h"
 
 extern "C" {
 
@@ -123,8 +125,6 @@ s32 post_translate_matrix(void *);
 struct Ent_802C1FD0 { s32 a; f32 b; f32 c; s32 d; s32 e; };
 struct Ent_802C26E4 { s32 a; f32 b; f32 c; s32 d; s32 e; s32 f; };
 
-struct Obj_802C2958 { u8 pad[0x430]; s32 f430; };
-
 struct Mtx_802C0F3C { f32 m[3][4]; };
 
 typedef struct { f32 m[3][4]; } Mtx_802C17FC;
@@ -133,13 +133,11 @@ typedef struct { f32 m[3][4]; } Mtx_802C17FC;
 
 void matrix_mult_vec(void *, void *, void *);
 
-s32 release_texture_list(void*);
 }
 
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/system/TLanguage_801E4874.h"
 
 
 #pragma push
@@ -217,8 +215,8 @@ void TObjPathObj::draw_line_strip(NJS_OBJECT *node, AnimationMotion *motion, f32
 TObjSeabedDolphin::TObjSeabedDolphin(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
   s32 var_r0;
   s32 temp_r3;
-  model = get_bml_model((BmlResource *)seabed_dolphin_bml_archive, 0);
-  motion = get_bml_motion((BmlResource *)seabed_dolphin_bml_archive, 5);
+  model = get_bml_model(seabed_dolphin_bml_archive, 0);
+  motion = get_bml_motion(seabed_dolphin_bml_archive, 5);
   temp_r3 = set_params[0];
   if (temp_r3 < 0)
   {
@@ -233,7 +231,7 @@ TObjSeabedDolphin::TObjSeabedDolphin(TObject *parent, void *set_data) : TObjPath
     }
   }
   profile = var_r0;
-  path = get_bml_motion((BmlResource *)seabed_dolphin_bml_archive, seabed_dolphin_path_profiles[profile].a);
+  path = get_bml_motion(seabed_dolphin_bml_archive, seabed_dolphin_path_profiles[profile].a);
   path_frame = 0.0f;
   motion_frame = 0.0f;
   initialize_path();
@@ -351,13 +349,12 @@ s32 TObjSeabedDolphin::update_path_steering() {
 }
 
 void TObjSeabedDolphin::load_static_resource() {
-    Obj_802C2958 *o = (Obj_802C2958 *)new BmlResource(5, &bm_obj_seabed_dolphin_resource_descriptor, 0, 0, NULL);
-    (*(Obj_802C2958 * *)&seabed_dolphin_bml_archive) = o;
+    seabed_dolphin_bml_archive = new BmlResource(5, &bm_obj_seabed_dolphin_resource_descriptor, 0, 0, NULL);
     seabed_dolphin_texture_handle = load_gvm_texture_file("obj_seabed_dolphin.gvm");
     NpcAnimationBinding binding = seabed_dolphin_anim_binding;
-    binding.motions = reinterpret_cast<BmlMotionEntry *>((*(Obj_802C2958 * *)&seabed_dolphin_bml_archive)->f430);
+    binding.motions = seabed_dolphin_bml_archive->motions;
     TObjNpcEnemy::register_animated_chunk(0x40,
-        get_bml_model((BmlResource *)reinterpret_cast<void *>(seabed_dolphin_bml_archive), 0),
+        get_bml_model(seabed_dolphin_bml_archive, 0),
         seabed_dolphin_texture_handle, &binding, 16.0f, 10.0f);
 }
 #pragma pop
@@ -368,12 +365,12 @@ void TObjSeabedDolphin::load_static_resource() {
 void TObjSeabedDolphin::destroy_instance() {
     if (seabed_dolphin_texture_handle != NULL) {
         release_texture_list(seabed_dolphin_texture_handle);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)seabed_dolphin_texture_handle);
+        safe_free(seabed_dolphin_texture_handle);
         seabed_dolphin_texture_handle = NULL;
     }
-    if ((u32) seabed_dolphin_bml_archive != 0U) {
-        delete (BmlResource *)seabed_dolphin_bml_archive;
-        seabed_dolphin_bml_archive = 0U;
+    if (seabed_dolphin_bml_archive != NULL) {
+        delete seabed_dolphin_bml_archive;
+        seabed_dolphin_bml_archive = NULL;
     }
 }
 
@@ -387,8 +384,8 @@ void *TObjSeabedDolphin::create(void *set_data) {
 TObjJungleEbi::TObjJungleEbi(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
   s32 var_r0;
   s32 temp_r3;
-  model = get_bml_model((BmlResource *)jungle_ebi_model_resource, 0);
-  motion = get_bml_motion((BmlResource *)jungle_ebi_model_resource, 0);
+  model = get_bml_model(jungle_ebi_model_resource, 0);
+  motion = get_bml_motion(jungle_ebi_model_resource, 0);
   temp_r3 = set_params[0];
   if (temp_r3 < 0)
   {
@@ -403,7 +400,7 @@ TObjJungleEbi::TObjJungleEbi(TObject *parent, void *set_data) : TObjPathObj(pare
     }
   }
   profile = var_r0;
-  path = get_bml_motion((BmlResource *)jungle_ebi_model_resource, jungle_ebi_path_profiles[profile].a);
+  path = get_bml_motion(jungle_ebi_model_resource, jungle_ebi_path_profiles[profile].a);
   path_frame = 0.0f;
   motion_frame = 0.0f;
   initialize_path();
@@ -539,21 +536,19 @@ s32 TObjJungleEbi::update_path_follow_rotation(void *, f32) {
 }
 
 void TObjJungleEbi::load_static_resource() {
-    saddr var_r0;
-    var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_ebi_resource_descriptor, 0, 0, NULL);
-    (*(saddr *)&jungle_ebi_model_resource) = var_r0;
+    jungle_ebi_model_resource = new BmlResource(5, &bm_obj_jungle_ebi_resource_descriptor, 0, 0, NULL);
     jungle_ebi_texture_gvm_handle = load_gvm_texture_file("obj_jungle_ebi.gvm");
 }
 
 void TObjJungleEbi::destroy_instance() {
     if (jungle_ebi_texture_gvm_handle != NULL) {
         release_texture_list(jungle_ebi_texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)jungle_ebi_texture_gvm_handle);
+        safe_free(jungle_ebi_texture_gvm_handle);
         jungle_ebi_texture_gvm_handle = NULL;
     }
-    if ((u32) jungle_ebi_model_resource != 0U) {
-        delete (BmlResource *)jungle_ebi_model_resource;
-        jungle_ebi_model_resource = 0U;
+    if (jungle_ebi_model_resource != NULL) {
+        delete jungle_ebi_model_resource;
+        jungle_ebi_model_resource = NULL;
     }
 }
 
@@ -564,8 +559,8 @@ void *TObjJungleEbi::create(void *set_data) {
 TObjJungleBird::TObjJungleBird(TObject *parent, void *set_data) : TObjPathObj(parent, set_data) {
   s32 var_r0;
   s32 temp_r3;
-  model = get_bml_model((BmlResource *)jungle_bird_bml_resource, 0);
-  motion = get_bml_motion((BmlResource *)jungle_bird_bml_resource, 0);
+  model = get_bml_model(jungle_bird_bml_resource, 0);
+  motion = get_bml_motion(jungle_bird_bml_resource, 0);
   temp_r3 = set_params[0];
   if (temp_r3 < 0)
   {
@@ -580,7 +575,7 @@ TObjJungleBird::TObjJungleBird(TObject *parent, void *set_data) : TObjPathObj(pa
     }
   }
   profile = var_r0;
-  path = get_bml_motion((BmlResource *)jungle_bird_bml_resource, lobby_pigeon_path_parameters[profile].a);
+  path = get_bml_motion(jungle_bird_bml_resource, lobby_pigeon_path_parameters[profile].a);
   path_frame = 0.0f;
   motion_frame = 0.0f;
   initialize_path();
@@ -696,21 +691,19 @@ s32 TObjJungleBird::update_path_steering() {
 }
 
 void TObjJungleBird::load_static_resource() {
-    saddr var_r0;
-    var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_bird_resource_descriptor, 0, 0, NULL);
-    (*(saddr *)&jungle_bird_bml_resource) = var_r0;
+    jungle_bird_bml_resource = new BmlResource(5, &bm_obj_jungle_bird_resource_descriptor, 0, 0, NULL);
     lobby_pigeon_texture_gvm = load_gvm_texture_file("obj_jungle_bird.gvm");
 }
 
 void TObjJungleBird::destroy_instance() {
     if (lobby_pigeon_texture_gvm != NULL) {
         release_texture_list(lobby_pigeon_texture_gvm);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)lobby_pigeon_texture_gvm);
+        safe_free(lobby_pigeon_texture_gvm);
         lobby_pigeon_texture_gvm = NULL;
     }
-    if ((u32) jungle_bird_bml_resource != 0U) {
-        delete (BmlResource *)jungle_bird_bml_resource;
-        jungle_bird_bml_resource = 0U;
+    if (jungle_bird_bml_resource != NULL) {
+        delete jungle_bird_bml_resource;
+        jungle_bird_bml_resource = NULL;
     }
 }
 #pragma pop
@@ -729,12 +722,12 @@ TObjJungleKamome::TObjJungleKamome(TObject *parent, void *set_data) : TObjPathOb
     s32 temp_r3;
     s32 var_r0;
 
-    model = get_bml_model((BmlResource *)lobby_kamome_model_resource, 0);
-    motion = get_bml_motion((BmlResource *)lobby_kamome_model_resource, 0);
+    model = get_bml_model(lobby_kamome_model_resource, 0);
+    motion = get_bml_motion(lobby_kamome_model_resource, 0);
     temp_r3 = set_params[0];
     var_r0 = (temp_r3 < 0) ? 0 : (temp_r3 > 2) ? 2 : temp_r3;
     profile = var_r0;
-    path = get_bml_motion((BmlResource *)lobby_kamome_model_resource, jungle_seagull_path_profiles[profile].a);
+    path = get_bml_motion(lobby_kamome_model_resource, jungle_seagull_path_profiles[profile].a);
     path_frame = 0.0f;
     motion_frame = 0.0f;
     initialize_path();
@@ -863,22 +856,19 @@ s32 TObjJungleKamome::update_path_steering() {
 }
 
 void TObjJungleKamome::load_static_resource() {
-    saddr temp_r3;
-    s32 var_r0;
-    var_r0 = (saddr)new BmlResource(5, &bm_obj_jungle_kamome_resource_descriptor, 0, 0, NULL);
-    (*(saddr *)&lobby_kamome_model_resource) = var_r0;
+    lobby_kamome_model_resource = new BmlResource(5, &bm_obj_jungle_kamome_resource_descriptor, 0, 0, NULL);
     lobby_kamome_texture_gvm_handle = load_gvm_texture_file("obj_jungle_kamome.gvm");
 }
 
 void TObjJungleKamome::destroy_instance() {
     if (lobby_kamome_texture_gvm_handle != NULL) {
         release_texture_list(lobby_kamome_texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)lobby_kamome_texture_gvm_handle);
+        safe_free(lobby_kamome_texture_gvm_handle);
         lobby_kamome_texture_gvm_handle = NULL;
     }
-    if ((u32) lobby_kamome_model_resource != 0U) {
-        delete (BmlResource *)lobby_kamome_model_resource;
-        lobby_kamome_model_resource = 0U;
+    if (lobby_kamome_model_resource != NULL) {
+        delete lobby_kamome_model_resource;
+        lobby_kamome_model_resource = NULL;
     }
 }
 

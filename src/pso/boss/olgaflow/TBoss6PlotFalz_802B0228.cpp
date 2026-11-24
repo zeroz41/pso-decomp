@@ -26,9 +26,6 @@
 // code generation, so the actions below are written in table order and come
 // out in reverse.
 
-extern "C" {
-s32 obj_setArrS16_FC(void *, int, u16);
-}
 
 
 // --- FALL_ELEV ---

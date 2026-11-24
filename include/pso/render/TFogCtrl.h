@@ -2,6 +2,8 @@
 #define PSO_RENDER_TFOGCTRL_H
 
 #include "types.h"
+
+struct FogParam_800FBC5C;
 #include "pso/system/task/TObject.h"
 
 // One fogentry.dat record.

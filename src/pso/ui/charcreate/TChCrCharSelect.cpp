@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/charcreate/TChCrCharSelect_802937D4.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"
@@ -77,7 +78,6 @@ void TChCrCharSelect::tick_and_apply_selection() {
 
 extern "C" {
 
-s32 play_sound_effect(s32, s32, s32, s32);
 
 
 void TChCrCharSelect::handle_menu_input() {

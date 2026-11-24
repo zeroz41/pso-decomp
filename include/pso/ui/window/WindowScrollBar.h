@@ -2,22 +2,27 @@
 #define PSO_UI_WINDOW_WINDOWSCROLLBAR_H
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include <stddef.h>
 
-// A window list scroll bar (0xC bytes): created with the list extent, positioned by
-// copy_position, clamped by clamp_list_scroll_offset and drawn by draw_window_scrollbar.
-// The position input carries two floats.
+// A window list scroll bar. The extent gives the width and height of the
+// list contents. The scroll offset is bounded by the visible height.
+struct WindowDrawContext;
+
 struct WindowScrollBar {
-    f32 m_0;
-    f32 height;
+    NJS_POINT2 extent;
     s32 frame;
 
-    WindowScrollBar(void *pair);
-    void copy_position(void *pair);
+    WindowScrollBar(const NJS_POINT2 *extent);
+    void set_extent(const NJS_POINT2 *size);
+    s32 clamp_offset(f32 *offset, const NJS_POINT2 *visible) const;
+    void increment_counter();
 };
 
+extern "C" void draw_window_scrollbar(const WindowScrollBar *scroll, WindowDrawContext *context, const f32 *offset);
+
 LAYOUT_ASSERT(WindowScrollBar_size, sizeof(WindowScrollBar) == 0xC);
-LAYOUT_ASSERT(WindowScrollBar_height, offsetof(WindowScrollBar, height) == 4);
+LAYOUT_ASSERT(WindowScrollBar_extent, offsetof(WindowScrollBar, extent) == 0);
 LAYOUT_ASSERT(WindowScrollBar_frame, offsetof(WindowScrollBar, frame) == 8);
 
 #endif

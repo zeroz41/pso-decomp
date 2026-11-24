@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "types.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/TLanguage.h"
@@ -52,7 +53,7 @@ void TLanguage::free_alphabet_textures() {
         if (inner->f8 != 0U) {
             release_texture_list(localized_alphabet_list);
         }
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)localized_alphabet_list);
+        safe_free(localized_alphabet_list);
         localized_alphabet_list = NULL;
     }
 }

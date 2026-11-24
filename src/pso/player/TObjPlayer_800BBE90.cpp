@@ -1,3 +1,4 @@
+#include "pso/object/base/HitEligibility.h"
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
@@ -5,7 +6,6 @@
 #include "pso/enemy/AreaAttackContact.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/object/base/TObjChara.h"
 
@@ -80,7 +80,7 @@ s32 TUnk_804928CC::area_attack_deliver_physical(void *arg1, void *object, f32 ra
             if (t == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable(reinterpret_cast<u8 *>(t)) != 0 && t != owner && is_area_attack_target_eligible(this, t->actorFlags) != 0) {
+            if (obj_is_hit_receivable(t) != 0 && t != owner && is_area_attack_target_eligible(this, t->actorFlags) != 0) {
                 ok = 1;
                 if (object != NULL && attack_target_history_add((AreaAttackHistory *)object, t) == 0) {
                     ok = 0;
@@ -135,7 +135,7 @@ s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr arg2, void *ob
             if (t == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable(reinterpret_cast<u8 *>(t)) != 0 && t != owner && is_area_attack_target_eligible(this, t->actorFlags) != 0) {
+            if (obj_is_hit_receivable(t) != 0 && t != owner && is_area_attack_target_eligible(this, t->actorFlags) != 0) {
                 ok = 1;
                 if (object != NULL && attack_target_history_add((AreaAttackHistory *)object, t) == 0) {
                     ok = 0;

@@ -10,7 +10,7 @@
 // one requested, entered at the top of run_task().
 class TBoss2Tentacle : public TObject {
 public:
-    TBoss2Tentacle(TObject *parent, saddr joint, s32 index);
+    TBoss2Tentacle(TObject *parent, const f32 (*joint)[4], s32 index);
     virtual ~TBoss2Tentacle();
     void request_strike();
     void enter_sway();
@@ -38,7 +38,7 @@ public:
     void reset_segment_points();
     void speed_up_sway();
     void drop_back();
-    void start_attack_at_target(u8 *target_pos, s32 hold_time);
+    void start_attack_at_target(const Vec *target_pos, s32 hold_time);
     void raise();
     // state == 4 (turning to its rest angle). Name inferred from the body.
     s32 is_turning_to_rest();
@@ -50,7 +50,7 @@ public:
     s32 index;                 // which of the four tentacles; picks its angle-table entries
     Vec segment_pos[14];
     s32 segment_ang[14];
-    saddr joint;               // the boss matrix the tentacle hangs from
+    const f32 (*joint)[4];      // the boss matrix the tentacle hangs from
     f32 frame;
     f32 frame_speed;
     s32 yaw;
@@ -67,6 +67,11 @@ public:
 };
 
 LAYOUT_ASSERT(TBoss2TentacleSegmentPos, offsetof(TBoss2Tentacle, segment_pos) == 0x30);
+LAYOUT_ASSERT(TBoss2TentacleSegmentAngles, offsetof(TBoss2Tentacle, segment_ang) == 0xD8);
+LAYOUT_ASSERT(TBoss2TentacleJoint, offsetof(TBoss2Tentacle, joint) == 0x110);
+LAYOUT_ASSERT(TBoss2TentacleTarget, offsetof(TBoss2Tentacle, target) == 0x12C);
+LAYOUT_ASSERT(TBoss2TentaclePosition, offsetof(TBoss2Tentacle, position) == 0x140);
+LAYOUT_ASSERT(TBoss2TentacleHoldTime, offsetof(TBoss2Tentacle, hold_time) == 0x154);
 LAYOUT_ASSERT(TBoss2TentacleReach, offsetof(TBoss2Tentacle, reach) == 0x138);
 LAYOUT_ASSERT(TBoss2Tentacle_size, sizeof(TBoss2Tentacle) == 0x158);
 

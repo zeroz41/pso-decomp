@@ -82,7 +82,7 @@ s32 is_room_enemy_set_cleared(s32 floor, s16 room) {
         if (current_floor_enemy_set_rows != NULL) {
             for (i = 0; i < current_floor_enemy_set_count; i++) {
                 EnemySetRecord *row = &current_floor_enemy_set_rows[i];
-                if (room == row->room && !(row->flags & 8)) {
+                if (room == row->placement.room && !(row->flags & 8)) {
                     return 0;
                 }
             }

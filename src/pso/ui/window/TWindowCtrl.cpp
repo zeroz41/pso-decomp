@@ -1383,7 +1383,7 @@ void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, s32 *name) {
     u8 *obj;
     player_stats *q;
     entity = find_entity_by_id(id);
-    if (entity != NULL && obj_is_hit_receivable(entity) == 1) {
+    if (entity != NULL && obj_is_hit_receivable(reinterpret_cast<TObjCollidable *>(entity)) == 1) {
         obj = entity;
     } else {
         obj = NULL;

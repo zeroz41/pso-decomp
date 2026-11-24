@@ -1,3 +1,4 @@
+#include "pso/effect/TBreakUpMdl.h"
 #include "types.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/vector.h"
@@ -12,7 +13,7 @@
 // addresses each object on its own, so it did not compile them itself.
 
 
-extern const TBoss3VoloptBreakupParams sinow_zoa_breakup_params = { 0x14, { 0.07f, 2.0f, 0.97f, 0.2f, 2.0f, 1.5f } };
+extern const BreakUpParamRow sinow_zoa_breakup_params = { 0x14, 0.07f, 2.0f, 0.97f, 0.2f, 2.0f, 1.5f };
 // TLobby kind ids for the two Sinow Zoa kinds, one list per TLobby table
 // TObjEneMe3SinowZoa::load_resources registers them with.
 extern const s32 sinow_zoa_base_param_ids[2] = { 0x43, 0x44 };

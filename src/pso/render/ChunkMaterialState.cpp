@@ -153,13 +153,9 @@ s32 TKeyBoardControl::map_pad_buttons(u16 released) {
     return r;
 }
 
-#pragma push
-#pragma scheduling off
-#pragma optimize_for_size off
 s16 TKeyBoardControl::scale_axis_value(s16 x) {
     return (x * 128) / 89;
 }
-#pragma pop
 
 void TKeyBoardControl::clamp_axes() {
     u8 *arg0 = (u8 *)this;
@@ -209,7 +205,6 @@ void set_model_render_flags(u32 flags) {
 }
 
 #pragma inline_depth(1)
-#pragma auto_inline off
 #pragma dont_inline off
 
 void set_chunk_material_override_pair(s32 first, s32 second) {
@@ -217,10 +212,6 @@ void set_chunk_material_override_pair(s32 first, s32 second) {
     chunk_polygon_flags_or_mask = second;
 }
 
-#pragma push
-#pragma peephole off
-#pragma opt_common_subs off
-#pragma scheduling off
 inline f32 clampMaterialChannel(f32 value, f32 lower, f32 upper) {
     if (value < lower) return lower;
     if (value < upper) return value;
@@ -233,7 +224,6 @@ void set_constant_material(const NJS_ARGB *color) {
     model_material_color.green = clampMaterialChannel(color->g, (-1.0f), 1.0f);
     model_material_color.blue = clampMaterialChannel(color->b, (-1.0f), 1.0f);
 }
-#pragma pop
 
 s32 keyboard_pad_status_buffer[12];
 Pad_803DEA18 TKeyBoardControl_prev_pad_state[4];

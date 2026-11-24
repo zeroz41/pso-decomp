@@ -1,24 +1,11 @@
 #ifndef PSO_ENEMY_TOBJENEMY_H
 #define PSO_ENEMY_TOBJENEMY_H
 #include "types.h"
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/object/base/TObjChara.h"
 
 struct player_stats;
 
-// One set entry's enemy state as the lobby keeps it (TSetManager allocates 0xB50 of them): what
-// TObjEnemy::exchange_object_state copies out (mode 1) or stores (mode 0), what send_6x0A_enemy_state
-// sends and what apply_enemy_state applies.
-struct EnemyStateRecord {
-    s32 flags;  // the enemy's actorFlags
-    u16 drop_id;  // TLobby::init_id_tables numbers the entries; 0xFFFF once the drop is taken
-    s16 damage;  // hpmax - hp
-    u8 attack_status;  // 9 or 11, applied by apply_attack_stat_status
-    u8 attack_status_level;
-    u8 defense_status;  // 10 or 12, applied by apply_defense_stat_status
-    u8 defense_status_level;
-};
-
-LAYOUT_ASSERT(EnemyStateRecord_size, sizeof(EnemyStateRecord) == 0xC);
 struct TObjEnemy : public TObjChara {
     TObjEnemy(TObject *parent);
     void refresh_and_send_entity_flags();
@@ -35,6 +22,7 @@ struct TObjEnemy : public TObjChara {
     virtual void render_shadows();
     s32 send_entity_set_flags();
     void update_prev_position();
+    void register_by_id();
     s32 turn_toward_direction(s32 max_step, Vec *direction);
     void award_enemy_experience(s32);
     void distribute_experience();
@@ -52,6 +40,8 @@ struct TObjEnemy : public TObjChara {
     s32 exchange_object_state(void *record, s16 mode);
     virtual const char *get_name();
     TObjEnemy* groupRoot();
+    s32 has_group();
+    void link_chain_nodes(TObjEnemy *source, TObjEnemy *destination);
     u32 subtype;
     u16 targetId;
     s16 resetTimer;
@@ -66,7 +56,7 @@ struct TObjEnemy : public TObjChara {
     s32 variant;
     u32 state36C;
     void* control;
-    static s32 apply_by_index(s16 index);
+    static s32 apply_by_index(s16 index, const EnemyStateRecord *record);
     int apply_player_54a00();
     s32 mask_sub_flags(s32 mask);
 };

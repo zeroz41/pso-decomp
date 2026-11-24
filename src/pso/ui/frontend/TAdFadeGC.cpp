@@ -15,14 +15,12 @@
 
 extern "C" {
 f32 xz_distance_squared(void *, void *);
-s32 draw_polygon_2d__FP13NJS_POINT2COLlUlf(void *, int, int, f32, f32, f32);
 f32 lbl_805D6800;
 s8 lbl_805D6804;
 extern const char TAdFadeGC__class_name_string[] = "TAdFadeGC";
 const char *TAdFadeGC__name = TAdFadeGC__class_name_string;
 
 void TAdFadeGC::draw_fade() {
-    u8 *arg0 = (u8 *)this;
     ColorLineVertex pos[4];
     ColorLineList d;
     u32 col[4];
@@ -35,7 +33,7 @@ void TAdFadeGC::draw_fade() {
     d.colors = col;
     d.tex = NULL;
     d.count = 4;
-    switch (*(s32 *)((s8 *)arg0 + 0x28)) {
+    switch (fade_mode) {
     case 0:
         set_color_blending_mode(0, 0xB);
         set_color_blending_mode(1, 4);
@@ -44,14 +42,14 @@ void TAdFadeGC::draw_fade() {
             y = (8.0f) * (f32) i;
             d.verts[0].y = y;
             d.colors[0] = 0x0FFFFFFF;
-            d.verts[1].x = *(f32 *)((s8 *)arg0 + 0x20);
+            d.verts[1].x = wipe_width;
             d.verts[1].y = y;
             d.colors[1] = 0xFFFFFFFF;
             d.verts[2].x = (6.4e+02f);
             y2 = (4.0f) + y;
             d.verts[2].y = y2;
             d.colors[2] = 0xFFFFFFFF;
-            d.verts[3].x = (6.4e+02f) - *(f32 *)((s8 *)arg0 + 0x20);
+            d.verts[3].x = (6.4e+02f) - wipe_width;
             d.verts[3].y = y2;
             d.colors[3] = 0xFFFFFFFF;
             if (lbl_805D6804 == 0) {
@@ -67,19 +65,19 @@ void TAdFadeGC::draw_fade() {
     case 2:
         d.verts[0].x = (0.0f);
         d.verts[0].y = (0.0f);
-        c = *(u32 *)((s8 *)arg0 + 0x30);
+        c = fade_color;
         d.colors[0] = (c << 8) | (c >> 24);
         d.verts[1].x = (0.0f);
         d.verts[1].y = (4.8e+02f);
-        c = *(u32 *)((s8 *)arg0 + 0x30);
+        c = fade_color;
         d.colors[1] = (c << 8) | (c >> 24);
         d.verts[2].x = (6.4e+02f);
         d.verts[2].y = (4.8e+02f);
-        c = *(u32 *)((s8 *)arg0 + 0x30);
+        c = fade_color;
         d.colors[2] = (c << 8) | (c >> 24);
         d.verts[3].x = (6.4e+02f);
         d.verts[3].y = (0.0f);
-        c = *(u32 *)((s8 *)arg0 + 0x30);
+        c = fade_color;
         d.colors[3] = (c << 8) | (c >> 24);
         draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&d), 4, 7, -1.0f);
         break;
@@ -93,31 +91,31 @@ void TAdFadeGC::run_task() {
     f32 temp_f1_2;
     f32 var_f2;
     if (((s32)all_parents_unqueued_for_destruction()) != 0) {
-        *(s32 *)((s8 *)this + 0x1C) = (s32) (*(s32 *)((s8 *)this + 0x1C) + 1);
-        switch (*(s32 *)((s8 *)this + 0x28)) {
+        elapsed_frames = (s32) (elapsed_frames + 1);
+        switch (fade_mode) {
         case 0:
-            *(f32 *)((s8 *)this + 0x20) += 60.0f;
-            *(f32 *)((s8 *)this + 0x20) = (*(f32 *)((s8 *)this + 0x20) > (6.4e+02f)) ? (6.4e+02f) : *(f32 *)((s8 *)this + 0x20);
+            wipe_width += 60.0f;
+            wipe_width = (wipe_width > (6.4e+02f)) ? (6.4e+02f) : wipe_width;
             return;
         case 1: {
-            *(f32 *)((s8 *)this + 0x2C) = (f32) (*(f32 *)((s8 *)this + 0x2C) + *(f32 *)((s8 *)this + 0x34));
-            if (*(f32 *)((s8 *)this + 0x2C) > 1.0f) {
-                *(f32 *)((s8 *)this + 0x2C) = 1.0f;
+            opacity = (f32) (opacity + opacity_step);
+            if (opacity > 1.0f) {
+                opacity = 1.0f;
                 queue_destruction();
                 return;
             }
-            *(s32 *)((s8 *)this + 0x30) = (s32) (((s32) ((255.0f) * (*(f32 *)((s8 *)this + 0x2C))) << 0x18) | 0xFF0000 | 0xFFFF);
+            fade_color = (s32) (((s32) ((255.0f) * (opacity)) << 0x18) | 0xFF0000 | 0xFFFF);
             return;
         }
         case 2: {
-            *(f32 *)((s8 *)this + 0x2C) = (f32) (*(f32 *)((s8 *)this + 0x2C) + *(f32 *)((s8 *)this + 0x34));
-            temp_f1_2 = *(f32 *)((s8 *)this + 0x2C);
+            opacity = (f32) (opacity + opacity_step);
+            temp_f1_2 = opacity;
             if (temp_f1_2 < 0.0f) {
-                *(f32 *)((s8 *)this + 0x2C) = 0.0f;
+                opacity = 0.0f;
                 queue_destruction();
                 return;
             }
-            *(s32 *)((s8 *)this + 0x30) = (s32) ((s32) ((255.0f) * temp_f1_2) << 0x18);
+            fade_color = (s32) ((s32) ((255.0f) * temp_f1_2) << 0x18);
             break;
         }
         }
@@ -129,14 +127,14 @@ void TAdFadeGC::start_fade(void *arg1) {
     case 0:
         break;
     case 1:
-        *(f32 *)((s8 *)this + 0x2C) = (0.0f);
-        *(s32 *)((s8 *)this + 0x30) = 0;
-        *(f32 *)((s8 *)this + 0x34) = (0.025f);
+        opacity = (0.0f);
+        fade_color = 0;
+        opacity_step = (0.025f);
         break;
     case 2:
-        *(f32 *)((s8 *)this + 0x2C) = (1.0f);
-        *(s32 *)((s8 *)this + 0x30) = 0;
-        *(f32 *)((s8 *)this + 0x34) = -0.06666667f;
+        opacity = (1.0f);
+        fade_color = 0;
+        opacity_step = -0.06666667f;
         break;
     }
 }
@@ -144,11 +142,11 @@ void TAdFadeGC::start_fade(void *arg1) {
 TAdFadeGC::~TAdFadeGC() {}
 }
 TAdFadeGC::TAdFadeGC(TObject *object, void *arg2) : TObject(object) {
-    *(void * *)&this->m_name = (*(void **)&TAdFadeGC__name);
-    *(u32 *)((s8 *)this + 0x1C) = -1;
-    *(f32 *)((s8 *)this + 0x20) = (0.0f);
-    *(void **)((s8 *)this + 0x28) = arg2;
-    this->start_fade((void *)(*(void **)((s8 *)this + 0x28)));
+    m_name = TAdFadeGC__name;
+    elapsed_frames = -1;
+    wipe_width = (0.0f);
+    fade_mode = reinterpret_cast<saddr>(arg2);
+    start_fade(reinterpret_cast<void *>(fade_mode));
 }
 
 #pragma push

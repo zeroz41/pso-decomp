@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -113,7 +114,7 @@ TQuestListVM::~TQuestListVM() {
         list_window = NULL;
     }
     if (card_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)card_buffer);
+        safe_free(card_buffer);
         card_buffer = NULL;
     }
     quest_list_vm_instance = NULL;

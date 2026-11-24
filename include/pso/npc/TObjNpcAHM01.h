@@ -12,7 +12,7 @@ struct TObjNpcAHM01 : public TObjNpcMale {
     static void load_resources();
     static void *create(void *set_data);
     static const char *name;
-    static uaddr shared_object;
+    static void **shared_object;
     static NJS_TEXLIST *texture_handle;
 };
 

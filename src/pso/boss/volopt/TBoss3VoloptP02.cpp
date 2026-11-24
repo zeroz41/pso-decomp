@@ -13,7 +13,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/boss/volopt/TBoss3VoloptP02.h"
 #include "pso/boss/TUnk_80484A94.h"
 #include "pso/boss/TUnk_80484AFC.h"
@@ -51,6 +50,7 @@
 #include "pso/camera/CameraHelpers.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixOps.h"
@@ -76,11 +76,6 @@ struct VoloptMovementParams {
     u32 pad_18;
 };
 
-
-struct VoloptBreakupParams {
-    s32 count;
-    f32 values[6];
-};
 
 
 const char *TBoss3VoloptP02_name = "TBoss3VoloptP02";
@@ -111,8 +106,8 @@ static CollisionBody collision_bodies[5] = {
 static f32 pulse_color_start[3] = {0.0f, 178.0f, 255.0f};
 static f32 pulse_color_end[3] = {255.0f, 0.0f, 0.0f};
 static s32 pulse_speeds[2] = {0x300, 0x2000};
-static VoloptBreakupParams death_breakup_params = {0x14, {0.06f, 3.0f, 0.9f, 0.2f, 0.55f, 0.8f}};
-static VoloptBreakupParams part_breakup_params = {0x14, {0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f}};
+static BreakUpParamRow death_breakup_params = {0x14, 0.06f, 3.0f, 0.9f, 0.2f, 0.55f, 0.8f};
+static BreakUpParamRow part_breakup_params = {0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f};
 static s16 part_breakup_node_ids[5] = {2, 0x12, 0x32, 0x22, 0x29};
 
 static inline f32 max_f32(f32 a, f32 b) { return (a > b) ? a : b; }
@@ -214,7 +209,7 @@ void TBoss3VoloptP02::init_params() {
     referenceHp = hp;
     set_param(0x2E);
     update_prev_position();
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     load_params_from_table(0x13);
     for (i = 0; i < 4; i++) {
         arc_lines[i] = NULL;
@@ -267,7 +262,7 @@ void TBoss3VoloptP02::load_resources() {
     s32 n;
 
     volopt_p02_resources = boss3_volopt_resources;
-    model = new TBreakUpMdlData((saddr)volopt_p02_resources->models[19].model);
+    model = new TBreakUpMdlData(volopt_p02_resources->models[19].model);
     breakup_model = model;
     NJS_OBJECT *const root = volopt_p02_resources->models[20].model;
     find_model_node(root, 0x44)->evalflags |= 8;
@@ -280,7 +275,7 @@ void TBoss3VoloptP02::load_resources() {
     }
     for (j = 0; j < 5; j++) {
         nodes[j]->sibling = NULL;
-        model = new TBreakUpMdlData((saddr)nodes[j]);
+        model = new TBreakUpMdlData(nodes[j]);
         breakup_models[j] = model;
     }
     NJS_OBJECT *const render_root = volopt_p02_resources->models[19].model;
@@ -369,7 +364,7 @@ void TBoss3VoloptP02::run_task() {
             }
             run_state();
             update_prev_position();
-            ((TBoss3VoloptHiraisin *)this)->copy_position();
+            copy_position();
             submit_cursor_candidate(this, -1);
             minimap_render_dot(&position, -0x5DB4, 1, 0);
             fade.update();
@@ -518,7 +513,7 @@ void TBoss3VoloptP02::update_attack() {
     if (behavior_flags & 0x20000) {
         next_action = 0;
     }
-    target = (u8 *)get_player_by_client_id(targetId);
+    target = get_player_by_client_id(targetId);
     switch ((s32)state) {
     case 0:
         this->requested_action = 0;
@@ -533,7 +528,7 @@ void TBoss3VoloptP02::update_attack() {
             break;
         }
         play_persistent_sound(0x4003C616, this, &position, 0, 0);
-        turn_toward_point((Vec *)(target + 0x38), 0x566, -0x4000);
+        turn_toward_point(&target->position, 0x566, -0x4000);
         play_persistent_sound(0x4003A60E, this, &position, 0, 0);
         advance_animation();
         render_anim_model_at_pos();
@@ -552,7 +547,7 @@ void TBoss3VoloptP02::update_attack() {
             break;
         }
         play_persistent_sound(0x4003C616, this, &position, 0, 0);
-        turn_toward_point((Vec *)(target + 0x38), 0x566, -0x4000);
+        turn_toward_point(&target->position, 0x566, -0x4000);
         play_persistent_sound(0x4003A60E, this, &position, 0, 0);
         advance_animation();
         render_anim_model_at_pos();
@@ -575,7 +570,7 @@ void TBoss3VoloptP02::update_attack() {
             run_idle_action();
             break;
         }
-        turn_toward_point((Vec *)(target + 0x38), 0x566, -0x4000);
+        turn_toward_point(&target->position, 0x566, -0x4000);
         play_persistent_sound(0x4003C616, this, &position, 0, 0);
         render_anim_model_at_pos();
         get_anim_node_position(0x3C, &line_origin);
@@ -672,7 +667,7 @@ void TBoss3VoloptP02::update_front_attack() {
         next_action = 0;
     }
     duration = max_s32(TBoss3VoloptP02::get_int_param(4) + 120, 10);
-    target = (u8 *)get_player_by_client_id(targetId);
+    target = get_player_by_client_id(targetId);
     switch ((s32)state) {
     case 0:
         this->requested_action = 0;
@@ -693,7 +688,7 @@ void TBoss3VoloptP02::update_front_attack() {
             s32 turn;
             advance_animation();
             push_players_out_of_radius();
-            turn = turn_toward_point((Vec *)(target + 0x38), 0x566, 0);
+            turn = turn_toward_point(&target->position, 0x566, 0);
             play_persistent_sound(0x4003A60E, this, &position, 0, 0);
             if ((turn < 0 ? -turn : turn) <= 0x566) {
                 timer = 45;
@@ -745,7 +740,7 @@ void TBoss3VoloptP02::update_front_attack() {
     case 5: {
         f32 blend;
         f32 inverse;
-        turn_toward_point((Vec *)(target + 0x38), 0x566, 0);
+        turn_toward_point(&target->position, 0x566, 0);
         play_persistent_sound(0x4003A30C, this, &position, 0, 0);
         for (i = 0; i < 5; i++) {
             if (timer < (duration / 6) * (5 - i)) {
@@ -842,7 +837,7 @@ void TBoss3VoloptP02::update_back_attack() {
     if (behavior_flags & 0x80000) {
         next_action = 0;
     }
-    target = (u8 *)get_player_by_client_id(targetId);
+    target = get_player_by_client_id(targetId);
     switch ((s32)state) {
     case 0:
         timer = 0x3C;
@@ -850,7 +845,7 @@ void TBoss3VoloptP02::update_back_attack() {
         state = 1;
     case 1:
         if (target != NULL) {
-            Vec v = *(Vec *)(target + 0x38);
+            Vec v = *&target->position;
             subtract_vector(&v, &position);
             rotation_y = approach_angle_limited(rotation_y, (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(v.x, v.z)) + 0x8000, 0x566);
         }
@@ -1093,7 +1088,8 @@ void TBoss3VoloptP02::update_death_sequence() {
         spawn_ambient_particles();
         position.y = 0.5319149f * this->frame;
         if (this->frame >= 47.0f) {
-            TBoss3Volopt::create_breakup_mdl((saddr)breakup_model, (saddr)&death_breakup_params, texlist, (saddr)&body_center, rotation_y);
+            TBoss3Volopt::create_breakup_mdl(breakup_model, &death_breakup_params,
+                               texlist, &body_center, rotation_y);
             trigger_dell_biter_events(&body_center);
             refresh_lobby_state();
             volopt_death_active = 1;
@@ -1141,7 +1137,7 @@ void TBoss3VoloptP02::spawn_ambient_particles() {
 
 void TBoss3Volopt::create_cage(u16 target_id) {
     targetId = target_id;
-    target = (u8 *)get_player_by_client_id(targetId);
+    target = get_player_by_client_id(targetId);
     if (target != 0) {
         new TObjVoloptCage(this, target_id, volopt_cage_id, volopt_cage_group);
         behavior_flags |= 0x200000;
@@ -1170,9 +1166,11 @@ void TBoss3VoloptP02::spawn_breakup_models() {
         behavior_flags = flags | 0x10000;
         render_anim_model_at_pos();
         get_anim_node_position(2, &pos);
-        TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[0], (saddr)&part_breakup_params, texlist, (saddr)&pos, rotation_y);
+        TBoss3Volopt::create_breakup_mdl(breakup_models[0], &part_breakup_params,
+                           texlist, &pos, rotation_y);
         get_anim_node_position(0x12, &pos);
-        TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[1], (saddr)&part_breakup_params, texlist, (saddr)&pos, rotation_y);
+        TBoss3Volopt::create_breakup_mdl(breakup_models[1], &part_breakup_params,
+                           texlist, &pos, rotation_y);
         hide_model_nodes(breakup_flags_a);
     }
 }
@@ -1190,7 +1188,8 @@ void TBoss3VoloptP02::break_off_part_b() {
         bodies[1].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x32, &pos);
-        TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[2], (saddr)&part_breakup_params, texlist, (saddr)&pos, rotation_y);
+        TBoss3Volopt::create_breakup_mdl(breakup_models[2], &part_breakup_params,
+                           texlist, &pos, rotation_y);
         hide_model_nodes(breakup_flags_b);
         play_sound_effect(0x4003A80F, &position, 0, 1);
     }
@@ -1209,7 +1208,8 @@ void TBoss3VoloptP02::break_off_part_c() {
         bodies[2].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x22, &pos);
-        TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[3], (saddr)&part_breakup_params, texlist, (saddr)&pos, rotation_y);
+        TBoss3Volopt::create_breakup_mdl(breakup_models[3], &part_breakup_params,
+                           texlist, &pos, rotation_y);
         hide_model_nodes(breakup_flags_c);
         play_sound_effect(0x4003A80F, &position, 0, 1);
     }
@@ -1224,7 +1224,8 @@ void TBoss3VoloptP02::trigger_breakup() {
         bodies[3].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x29, &pos);
-        TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[4], (saddr)&part_breakup_params, texlist, (saddr)&body_center, rotation_y);
+        TBoss3Volopt::create_breakup_mdl(breakup_models[4], &part_breakup_params,
+                           texlist, &body_center, rotation_y);
         hide_model_nodes(breakup_flags_d);
         play_sound_effect(0x4003A80F, &position, 0, 1);
     }
@@ -1608,10 +1609,10 @@ void TBoss3VoloptP02::update_ring_attack() {
         if (ring_timer <= 0) {
             if (wave_index == 0) {
                 for (i = 0; i < 4; i++) {
-                    u8 *player = (u8 *)get_player_by_client_id(i);
+                    TObjPlayer *player = get_player_by_client_id(i);
                     if (player != NULL) {
                         for (j = 0; j < 4; j++) {
-                            if (xz_distance_squared((Vec *)(player + 0x38), &ring_positions[j]) <= 100.0f) {
+                            if (xz_distance_squared(&player->position, &ring_positions[j]) <= 100.0f) {
                                 i = 4;
                                 state = 5;
                                 break;

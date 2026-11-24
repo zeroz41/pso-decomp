@@ -1,4 +1,6 @@
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSelectCurGC.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
@@ -32,8 +34,6 @@ s32 load_network_info(void);
 s32 TLobby__sub_80145DB4(int);
 s8 *TLobby__sub_80146D14(void);
 s8 *TLobby__sub_80146D44(void);
-void mem_free(void *);
-void play_sound_effect(int, int, int, int);
 
 void TAdEnterPPPPassGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;

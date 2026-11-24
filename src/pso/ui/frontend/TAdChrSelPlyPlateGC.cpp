@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -25,7 +26,6 @@ extern "C" {
 s32 get_field_20__22TAdMultiPlyChrSelectGCFv();
 s32 lbl_805D67D0;
 s32 lbl_805D67D4;
-s32 play_sound_effect(int, void *, int, int);
 }
 
 s32 multi_ply_chr_select_player_slot[4] = {

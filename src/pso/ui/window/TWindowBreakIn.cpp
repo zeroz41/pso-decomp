@@ -22,7 +22,6 @@ struct BreakInWindowLayout {
     SpritePartLayoutRecord rec[8];
 };
 
-extern s32 hud_texlist;
 
 BreakInWindowLayout window_break_in_layout_entries = {
     8, 1,

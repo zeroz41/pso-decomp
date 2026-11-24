@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include <string.h>
 #include "pso/network/TGameProtocol.h"
 #include "pso/render/GinjaMaterialState.h"
@@ -24,10 +25,10 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/TLobby_803DE778.h"
+#include "pso/unk/text_803DD5E0.h"
 
 extern "C" {
 s32 dispatch_6x_subcommand(void *);
-s32 load_texture_list(s32 **);
 s32 append_command_to_batch_buffer(void *, void *);
 u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
 s32 distort_texture_wave_image(void *);
@@ -119,9 +120,9 @@ void broadcast_subcommand(void *cmd) {
 
 void TLobby::bswap_switch_activate_token() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 
-s32 TLobby::load_texture_pvm_file(const char *name, saddr arg1) {
+s32 TLobby::load_texture_pvm_file(const char *name, NJS_TEXLIST *texlist) {
     char path[0x40];
-    uaddr buf;
+    u8 *buf;
     s32 allocated;
     s32 size;
     s32 ret;
@@ -138,18 +139,18 @@ s32 TLobby::load_texture_pvm_file(const char *name, saddr arg1) {
     allocated = 0;
     size = ((size + 0x7FF) / 2048) * 2048;
     if (size > 0x40000) {
-        buf = (uaddr)TQuestVmDownLoadServer::alloc(size);
+        buf = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(size));
         if (buf == 0) {
             return -1;
         }
         allocated = 1;
     } else {
-        buf = (saddr)TLobby::tmp_buf_use_req("LoadTexturePvm");
+        buf = (u8 *)TLobby::tmp_buf_use_req("LoadTexturePvm");
     }
-    TGStream::load_sct_file((const char *)path, (u8 *)buf);
-    ret = load_gvm_texture_archive((void *)buf, (NJS_TEXLIST *)arg1);
+    TGStream::load_sct_file((const char *)path, buf);
+    ret = load_gvm_texture_archive(buf, texlist);
     if (allocated != 0) {
-        TAdSinglePlyChrSelectGC::safe_free(buf);
+        safe_free(buf);
     } else {
         TLobby::tmp_buf_release("LoadTexturePvm");
     }
@@ -164,14 +165,14 @@ s32 pso_load_texture(NJS_TEXLIST *texlist) {
     s32 ret;
     TLobby::pump_frames();
     while (1) {
-        r = load_texture_list((s32 **)texlist);
+        r = load_texture_list(texlist);
         if (r == 1) {
             ret = 1;
             break;
         }
         if (r == -1) {
             ret = -1;
-            TLobby::debug_print("psoLoadTexture:%s load error.", **(s32 **)texlist);
+            TLobby::debug_print("psoLoadTexture:%s load error.", texlist->textures->filename);
             break;
         }
         TLobby::run_frame();
@@ -182,7 +183,7 @@ s32 pso_load_texture(NJS_TEXLIST *texlist) {
 void TObjPlayer::free_if_valid(saddr texlist) {
     if (texlist != 0) {
         release_texture_list((NJS_TEXLIST *)texlist);
-        TAdSinglePlyChrSelectGC::safe_free(texlist);
+        safe_free(reinterpret_cast<void *>(texlist));
     }
 }
 
@@ -224,7 +225,7 @@ NJS_TEXLIST *load_gvm_texture_file(const char *name) {
     count = TLanguage::read_file_header(buf, &hdr);
     if (count == 0) {
         if (big != NULL) {
-            TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(big));
+            safe_free(big);
         } else {
             TLobby::tmp_buf_release("LoadPvmFileTls");
         }
@@ -255,7 +256,7 @@ NJS_TEXLIST *load_gvm_texture_file(const char *name) {
     }
     load_gvm_texture_archive(buf, res);
     if (big != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(big));
+        safe_free(big);
     } else {
         TLobby::tmp_buf_release("LoadPvmFileTls");
     }
