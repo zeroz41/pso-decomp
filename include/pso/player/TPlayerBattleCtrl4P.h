@@ -2,11 +2,39 @@
 #define PSO_PLAYER_TPLAYERBATTLECTRL4P_H
 #include "pso/system/task/TObject.h"
 
+class TObjPlayer;
+
+// One row of the split-screen battle ranking: place 0 is first.
+struct BattleRanking {
+    u16 client_id;
+    s16 place;
+    s32 score;
+};
+
+extern BattleRanking split_screen_battle_rankings[4];
+
+extern "C" {
+s32 are_split_screen_battle_players_tied(void);
+s32 *get_split_screen_battle_rankings(void);
+}
+
 class TPlayerBattleCtrl4P : public TObject {
 private:
     TPlayerBattleCtrl4P(TObject *parent);
     virtual ~TPlayerBattleCtrl4P();
     void set_split_screen_battle_phase(s32);
+    void reset_phase();
+    void clear_player_windows();
+    s32 get_time_limit();
+    void request_timed_event();
+    void refresh_alive_flags();
+    s32 calculate_rankings();
+    void record_results();
+    s32 calc_battle_score(TObjPlayer *player);
+    void hold_player(u16 client_id, s32 hold_input);
+    void release_player(u16 client_id, s32 release_input);
+    void destroy_dead_spots(TObject *parent);
+    void set_phase_state(s32 state);
 public:
     void sub_80311800();
     void sub_80311804();
@@ -49,7 +77,7 @@ public:
     void* menu_window;
     void* player_windows[4];
     char intro_text[0x200];
-    u8 timed_event_flags[8];
+    s8 timed_event_flags[8];
     s32 frame_timer;
     s32 battle_duration;
     s32 player_refresh_timer;
@@ -61,7 +89,7 @@ public:
     s32 player_active[4];
     s32 player_teams[4];
     u8 unknown_284[4];
-    s16 player_order[4];
+    u16 player_order[4];
     u8 unknown_290[4];
     const char** message_table;
     s32 phase;
@@ -75,7 +103,6 @@ public:
     static u8 is_battle_mode_active();
     static void reset_ctrl_to_default();
     static void init();
-    static int init_ctrl_default(void* p);
     // Plays the result jingle and shows the duel result window for duration frames.
     void notify_lobby(const char *file, saddr duration);
     void reset_score_counters();
@@ -85,12 +112,11 @@ public:
     s32 is_battle_decided();
     s32 check_all_players_flag();
     static s32 fn_80211B10(s32 client_id);
-    static void remove_player(void *arg0, u16 arg1, s32 arg2);
     void apply_rule_configuration(s32 arg1);
-    void set_score(s32 v);
-    static void update_all_players();
+    void update_all_players();
     void shuffle_order();
-    static void update();
+    void update();
+
     static void reset_random_enemies_mode(TObject *fade);
     static void init_instance_with_text(saddr arg0, saddr arg1);
 public:

@@ -4741,7 +4741,7 @@ force_active:
   - calc_anim_speed__16TObjEneBm5GibonUFPvf
   - calc_area_parameters__10TTecRaFoieFv
   - calc_attack_params__13TBoss5GryphonFP23Boss5GryphonMotionEntryP22Boss5GryphonActionStep
-  - calc_battle_score__19TPlayerBattleCtrl4PFPvPv
+  - calc_battle_score__19TPlayerBattleCtrl4PFP10TObjPlayer
   - calc_bone_offsets_recursive__19TObjEZBoneRotPlayerFPvll
   - calc_box_escape_axis__10TNpcPlayerFP3VecP3VecP3VecP3VecP3VecP3VecPf
   - calc_burrow_speed__12TBoss1DragonFPv
@@ -5658,7 +5658,7 @@ force_active:
   - __dt__17TItemFollowEffectFv
   - destroy_join_entries__6TLobbyFv
   - destroy_lobby_ui__6TLobbyFv
-  - destroy_matching_children__19TPlayerBattleCtrl4PFPvPv
+  - destroy_dead_spots__19TPlayerBattleCtrl4PFP7TObject
   - destroy_matching_children__6TLobbyFv
   - destroy_on_collision__10TTecSlicerFv
   - destroy_on_phase_change__10TChallengeFv
@@ -6723,7 +6723,7 @@ force_active:
   - get_slot_index__15TAdPlayerLoadGCFv
   - get_sock_status_name__Fs
   - get_speaker_balloon_anchor__11TWindowCtrlFUsPfPl
-  - get_split_screen_battle_timer_limit__FPUc
+  - get_time_limit__19TPlayerBattleCtrl4PFv
   - get_split_screen_character_save_record
   - get_state__17TOSymbolchatColliFv
   - clear_attack_history__19TBoss8DragonEffTailFv
@@ -7036,7 +7036,7 @@ force_active:
   - __ct__19TBoss8DragonColli_CFP7TObjectlP3Vecf
   - init_control_mode__12TBoss1DragonFv
   - __ct__19TCameraConversationFllP7TObject
-  - init_ctrl_default__19TPlayerBattleCtrl4PFPv
+  - reset_phase__19TPlayerBattleCtrl4PFv
   - init_cursor_record__18TargetCursorRecordFv
   - init_depth__15TObjEneDelDepthFv
   - init_dialog__12TAdDialingGCFv
@@ -14039,7 +14039,7 @@ force_active:
   - is_player_lost__13NpcPlayerViewFv
   - refresh_palette_slots__21TWindowSubCustomEquipFv
   - refresh_quest_list__6TLobbyFPCc
-  - refresh_split_screen_battle_alive_flags__FPv
+  - refresh_alive_flags__19TPlayerBattleCtrl4PFv
   - refresh_submenu__15TWindowMainMenuFPv
   - refresh_target_marker__11TMainCursorFv
   - refresh_target_periodically__13TBoss5GryphonFv
@@ -14563,7 +14563,7 @@ force_active:
   - request_player_camera_offsets__11TBoss6Type2Fff
   - request_scene_change__11TAdEp3ExistFv
   - request_scene_change_vt__21TAdMultiChgGameModeGCFv
-  - request_split_screen_battle_event__FPv
+  - request_timed_event__19TPlayerBattleCtrl4PFv
   - request_stand_action__14TObjEneDolmOlmFv
   - request_state_change__12TBoss1DragonFUl
   - request_transition__17TAdEnterPPPPassGCFPv
