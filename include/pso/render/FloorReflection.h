@@ -9,8 +9,8 @@ struct GinjaRenderTarget;
 class TEffIndirectSampler;
 
 // Renders the scene mirrored in the reflective floor under the player into a
-// texture each frame (the Sora reflection pass). Its vtable
-// 0x804DC7C4 is emitted by pso/render/reflection.cpp.
+// texture each frame (the Sora reflection pass). Defined in
+// pso/render/reflection.cpp, which emits its vtable.
 class TFloorReflection : public TObject {
 public:
     TFloorReflection(TObject *parent = NULL);

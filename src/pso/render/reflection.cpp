@@ -1,9 +1,8 @@
 // Sora (sky) reflection: the reflected-scene task (TFloorReflection), its
 // floor-ray helpers and the recon render hooks. One TU: one .sdata2 pool
-// 0x805DDD88-0x805DDDB8 in first-use order across 0x8029E7BC-0x8029F5B0
-// (35.0 at 0x8029E7BC, 0.0/1.0 at push_reflection_matrix, 480.0, 80.0/300.0
-// at 0x8029EC3C, then the projection literals), and the task's vtable
-// 0x804DC7C4 names functions of both ends.
+// in first-use order from the floor ray's 35.0 through push_reflection_matrix's
+// 0.0/1.0 to the projection literals, and the task's vtable names functions of
+// both ends.
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/map/CsnQuery.h"
@@ -287,8 +286,8 @@ const f64 reflection_angle_to_degrees = 0.0054931640625;
 
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
 
-void TObjPlayer::clear_state_if_flag80(s32 arg0) {
-    if (arg0 & 0x80) {
+void end_projection_texture(s32 flags) {
+    if (flags & 0x80) {
         set_ginja_post_tev_stage_count(0);
         set_ginja_post_texgen_count(0);
         set_global_effect_state(0);
@@ -296,7 +295,7 @@ void TObjPlayer::clear_state_if_flag80(s32 arg0) {
     }
 }
 
-void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags) {
+void setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags) {
     GinjaMatrix mtx;
     f32 x;
     f32 y;
@@ -455,8 +454,8 @@ void TFloorReflection::render_shadows() {
 
 void TFloorReflection::render() {  }
 void TFloorReflection::run_task() {
-    TScene::set_id(TObjPlayer::setup_projection_texture);
-    TScene::set_active_scene(TObjPlayer::clear_state_if_flag80);
+    TScene::set_id(setup_projection_texture);
+    TScene::set_active_scene(end_projection_texture);
     TScene::set_instance(load_reflection_texture);
 }
 

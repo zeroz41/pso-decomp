@@ -5184,7 +5184,7 @@ force_active:
   - clear_segment_flags__19TBoss8DragonColli_CFv
   - clear_shrink_flag__10TObjPlayerFPv
   - clear_state_flags_when_done__13TObjEneRe4BitFv
-  - clear_state_if_flag80__10TObjPlayerFl
+  - end_projection_texture__Fl
   - clear_thread_state__12TQuestThreadFv
   - start_rumble__12TBoss1DragonFv
   - cloneModelHierarchy__12TBoss1DragonFP10NJS_OBJECTP10NJS_OBJECTPv
@@ -15622,7 +15622,7 @@ force_active:
   - setup_list__13TWindowSubMagFv
   - setup_mode_menu__21TAdMultiChgGameModeGCFPvl
   - setup_projection_tex_matrix__10TObjPlayerFv
-  - setup_projection_texture__10TObjPlayerFlll
+  - setup_projection_texture__FP3VecP18SceneSectionAnglesUl
   - setup_sound__18TObjEnvSoundGlobalFv
   - setup_state__14TBoss7TentacleFv
   - reset__19ContactSurfaceFlagsFv

@@ -866,8 +866,6 @@ struct TObjPlayer : public TObjChara {
     static void play_effect_if_v2(s32 pitch);
     static s32 get_level_tier(s32 arg0);
     static s32 is_valid_and_active(uaddr actor);
-    static void clear_state_if_flag80(s32 arg0);
-    static void setup_projection_texture(Vec *pos, SceneSectionAngles *angles, u32 flags);
     void init_select_txt();
     void copy_lobby_header(saddr player);
     void initialize_player_data();

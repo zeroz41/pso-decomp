@@ -5,6 +5,7 @@
 
 struct ReflectionPlane;
 struct NJS_TEXLIST;
+struct SceneSectionAngles;
 
 s32 push_reflection_matrix(Vec *point);
 s32 push_player_reflection_matrix(u16 client_id, s32 clip);
@@ -20,6 +21,11 @@ void request_reflection_render();
 // Finds a reflective floor (collision flag 0x4000) below pos; writes its point and normal to plane.
 s32 find_reflective_floor(const Vec *pos, ReflectionPlane *plane);
 void load_reflection_texture(void);
+// Map section callback while the reflection is up: projects the reflection
+// texture onto sections drawn with flag 0x80.
+void setup_projection_texture(Vec *pos, SceneSectionAngles *angles, u32 flags);
+// Undoes setup_projection_texture after a section drawn with flag 0x80.
+void end_projection_texture(s32 flags);
 // Points the reflected scene's texture list at texture_list.
 void set_reflection_texture_list(NJS_TEXLIST *texture_list);
 // Sets the direction find_reflective_floor casts its ray along.
