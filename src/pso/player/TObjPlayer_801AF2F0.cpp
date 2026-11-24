@@ -697,11 +697,6 @@ struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
 
 LAYOUT_ASSERT(RecoveredGlobal_8000F7FC_lbl_80515F48_size, sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28);
 
-struct Base_801BA6BC { u8 pad[0x18]; };
-
-struct Ctrl_801BA6BC : Base_801BA6BC {
-    virtual ~Ctrl_801BA6BC();
-};
 
 typedef struct Msg_801BA838 {
     u8 pad0[2];
@@ -790,60 +785,6 @@ struct Stack_801BAD60 {
 };
 
 struct Player_801BB524 { u8 pad[0x30]; u32 flags; u8 pad34[0x324 - 0x34]; s16 control; };
-
-struct VBase_18_9c7036
-{
-  char pad[0x18];
-};
-
-struct VObj_18_9c7036 : VBase_18_9c7036 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual u8 m41();
-};
-
-typedef struct VBase_18_9c7036 VBase_18_9c7036;
-
-typedef struct VObj_18_9c7036 VObj_18_9c7036;
 
 struct O_801BC050 { u16 a; u16 pad; s32 b; };
 
@@ -1329,14 +1270,13 @@ void TObjPlayer::setup_fresh_player_state(u8 *arg1) {
 
 void TObjPlayer::sub_801BB950() {
   u32 temp_r3_2;
-  u8 *equipped_weapon;
-    u8 *arg0 = (u8 *)this;
+  TItem *equipped_weapon;
   if (is_current_area_item_enabled() != 0)
   {
-    equipped_weapon = (u8 *)TObjPlayer::get_equipped_weapon(arg0);
+    equipped_weapon = TObjPlayer::get_equipped_weapon(this);
     if (equipped_weapon != 0)
     {
-      this->set_action_provider_variant((s16)((VObj_18_9c7036 *)(equipped_weapon))->m41());
+      this->set_action_provider_variant(equipped_weapon->get_motion_type());
     }
   }
   if ((TObjPlayer::is_locally_controlled(this) != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0))
@@ -1889,9 +1829,9 @@ TObjPlayer *get_player_by_client_id(s32 i) {
 }
 
 s32 TObjPlayer::register_player_slot() {
-    Ctrl_801BA6BC *c = (Ctrl_801BA6BC *)get_player_by_client_id((u16)this->get_entity_id());
-    if (c != 0) {
-        delete c;
+    TObjPlayer *previous = get_player_by_client_id((u16)this->get_entity_id());
+    if (previous != 0) {
+        delete previous;
     }
     player_slot_table[(u16)this->get_entity_id()] = this;
     return register_entity_by_id(this) == (u16)0xFFFF ? 1 : 0;
