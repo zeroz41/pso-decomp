@@ -738,6 +738,12 @@ struct G_SetBossWarpFlags_6x6A {
  u16 unused;
 };
 
+struct G_SetChallengeTime_6x95 {
+ struct G_UnusedHeader header;
+ s32 client_id;
+ s32 time;
+};
+
 struct G_SetChallengeDeadFlag_6x9D {
  struct G_UnusedHeader header;
  u32 client_id;
@@ -869,7 +875,7 @@ struct G_ShieldAttack_6x4A {
 
 struct G_ShowChallengeTimeRecordsWindow_6x8A {
  struct G_ClientIDHeader header;
- u32 which;
+ s32 which;
 };
 
 struct G_ShrinkPlayer_6x87 {

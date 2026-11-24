@@ -14,6 +14,7 @@ struct Stack_800724F0 {
 };
 
 #include "pso/network/protocol/subcmd_6x.h"
+#include "pso/network/protocol/SubcommandHandlers.h"
 
 struct Stack_80072448 {
     s32 sp8;
@@ -31,11 +32,7 @@ struct Stack_80072308 {
 
 struct Pkt_800725E0 { u8 pad[4]; u16 f4; u8 pad2[0x102]; };
 
-struct Pkt_80072494 { u32 hdr; s32 idx; };
-
 struct Stack_800722AC { s32 sp8; s32 spC; s32 sp10; s32 sp14; };
-
-struct Pkt_80072230 { u32 hdr; s32 idx; s32 val; };
 
 struct Pkt7C_80072230 { u32 hdr; u16 id; u8 pad6[2]; ChallengeRecord recs; };
 
@@ -43,23 +40,21 @@ extern "C" {
 void TLobby__sub_800728FC(u8 *arg0);
 void TLobby__sub_80072880(u8 *arg0);
 void TLobby__sub_800727EC(u8 *arg0);
-void handle_6x8A_show_challenge_time_records_window(Pkt_80072494 *pkt);
 void TLobby__sub_80072758(u8 *arg0);
 void TLobby__sub_80072724(TLobby *lobby);
 void TLobby__sub_800722AC(s32 arg0);
 void TLobby__sub_80072618(void);
 void handle_6x7C_set_challenge_records(Pkt7C_80072230 *pkt);
-void handle_6x9D_set_challenge_dead_flag(Pkt_80072230 *pkt);
-void handle_6x95_set_challenge_time(Pkt_80072230 *pkt);
 void TLobby__sub_800727A0(void *player);
 
-void handle_6x9D_set_challenge_dead_flag(Pkt_80072230 *pkt) {
+}
+void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {
     s32 idx;
     if (TLobby::is_flag_set() == 0) {
         return;
     }
-    ((TLobby *)pkt)->bswap_challenge_dead_flag();
-    idx = pkt->idx;
+    ((TLobby *)command)->bswap_challenge_dead_flag();
+    idx = command->client_id;
     if (idx < 0 || idx >= 4) {
         return;
     }
@@ -67,6 +62,7 @@ void handle_6x9D_set_challenge_dead_flag(Pkt_80072230 *pkt) {
         challenge_mode_state.client_died[idx] = 1;
     }
 }
+extern "C" {
 
 void TLobby__sub_800722AC(s32 arg0) {
     Stack_800722AC stack;
@@ -108,16 +104,16 @@ void handle_6x97_select_challenge_mode_failure_option(void *player) {
     }
 }
 
-void handle_6x95_set_challenge_time(Pkt_80072230 *pkt) {
+void handle_6x95_set_challenge_time(G_SetChallengeTime_6x95 *command) {
     s32 idx;
     s32 t;
     s32 r;
     if (TLobby::is_flag_set() == 0) {
         return;
     }
-    ((TLobby *)pkt)->byteswap_challenge_time_packet();
-    t = pkt->val;
-    idx = pkt->idx;
+    ((TLobby *)command)->byteswap_challenge_time_packet();
+    t = command->time;
+    idx = command->client_id;
     r = TLobby::get_valid_slot(t);
     if (idx < 0 || idx >= 4) {
         return;
@@ -140,15 +136,15 @@ void TLobby::send_seed_state() {
     ((TLobby *)(&stack.sp8))->send_state();
 }
 
-void handle_6x8A_show_challenge_time_records_window(Pkt_80072494 *pkt) {
+void handle_6x8A_show_challenge_time_records_window(G_ShowChallengeTimeRecordsWindow_6x8A *command) {
     if (TLobby::is_flag_set() == 0) {
         return;
     }
-    ((TLobby *)pkt)->byteswap_challenge_packet();
-    if (pkt->idx < 0 || pkt->idx >= 0x11) {
+    ((TLobby *)command)->byteswap_challenge_packet();
+    if (command->which < 0 || command->which >= 0x11) {
         return;
     }
-    challenge_task->set_challenge_record_page(pkt->idx);
+    challenge_task->set_challenge_record_page(command->which);
 }
 
 void TLobby::send_challenge_with_value(s32 arg0, s32 arg1) {

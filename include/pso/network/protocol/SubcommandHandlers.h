@@ -5,18 +5,24 @@
 
 struct G_OlgaFlowSubordinateBossActions_6xAD;
 struct G_PickUpItemRequest_6x5A;
+struct G_SetChallengeDeadFlag_6x9D;
+struct G_SetChallengeTime_6x95;
 struct G_SetEnemyLowGameFlagsUltimate_6x9C;
 struct G_SetEntitySetFlags_6x76;
 struct G_SetSwitchFlagFromTimer_6x93;
+struct G_ShowChallengeTimeRecordsWindow_6x8A;
 struct G_UpdateAttackableColState_6x91;
 struct G_UpdateEnemyState_6x0A;
 
 void handle_6x0A_update_enemy_state(G_UpdateEnemyState_6x0A *command);
 void handle_6x5A_pick_up_item_request(G_PickUpItemRequest_6x5A *command);
 void handle_6x76_set_entity_set_flags(G_SetEntitySetFlags_6x76 *command);
+void handle_6x8A_show_challenge_time_records_window(G_ShowChallengeTimeRecordsWindow_6x8A *command);
 void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *command);
 void handle_6x93_set_switch_flag_from_timer(G_SetSwitchFlagFromTimer_6x93 *command);
+void handle_6x95_set_challenge_time(G_SetChallengeTime_6x95 *command);
 void handle_6x9C_set_enemy_low_game_flags_ultimate(G_SetEnemyLowGameFlagsUltimate_6x9C *command);
+void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command);
 void handle_6xAD_olga_flow_subordinate_boss_actions(G_OlgaFlowSubordinateBossActions_6xAD *command);
 
 #endif
