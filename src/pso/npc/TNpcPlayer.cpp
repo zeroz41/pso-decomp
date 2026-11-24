@@ -60,6 +60,8 @@ extern "C" {
 
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void * __ct__12TPlyCharDataFv(void *self);
+s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range);
+s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 id);
 void set_technique_seed_level(PlayerTechniqueState *techniques, s16 technique, u8 level);
 void reset_partner_counter(PartnerCounters *counters, s32 index);
 void increment_partner_counter(PartnerCounters *counters, s32 index);
@@ -1922,7 +1924,7 @@ void TNpcPlayer::partner_observe_surroundings() {
     leader = leader_view->player;
     leader_distance_sq = horizontal_distance_squared(&leader->position, &self_view->player->position);
     if (escort_leader != 0) {
-        self_view->try_update_target_flag(leader_view->get_client_id(), ai_params.enemy_lock_on_range);
+        ((s32 (*)(void *, s32, f32))try_update_target_flag__10TNpcPlayerFPvi)(self_view, leader_view->get_client_id(), ai_params.enemy_lock_on_range);
     } else {
         self_view->scan_targets(ai_params.enemy_lock_on_range);
     }
@@ -2233,9 +2235,13 @@ s32 NpcPlayerView::scan_targets(f32 range) {
     return 0;
 }
 
-s32 NpcPlayerView::try_update_target_flag(s32 id, f32 range) {
-    if (find_parts_in_range(&player->position, id, range) != 0) {
-        status = status | 2;
+s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 id) {
+    NpcPlayerView *view = (NpcPlayerView *)arg0;
+    TObjPlayer *obj_player;
+
+    obj_player = view->player;
+    if (((s32 (*)(void *, void *, s32, TObjPlayer *))find_parts_in_range__10TNpcPlayerFPvPvif)(view, &obj_player->position, id, obj_player) != 0) {
+        view->status = view->status | 2;
         return 1;
     }
     return 0;
@@ -2432,22 +2438,20 @@ s32 NpcPlayerView::scan_nearby_enemies(Vec *pos, f32 range) {
     return found;
 }
 
-s32 NpcPlayerView::find_parts_in_range(Vec *pos, s32 id, f32 range) {
+s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range) {
     TObjCollidable *actor;
     s32 found;
     s32 i;
     f32 d;
     s32 j;
 
-    target_count = 0;
+    view->target_count = 0;
     found = 0;
     for (j = 0; j < 10; j++) {
-        targets[j].entity_id = 0xFFFF;
-        targets[j].distance_sq = 0.0f;
+        view->targets[j].entity_id = 0xFFFF;
+        view->targets[j].distance_sq = 0.0f;
     }
-    // The lookup receives the full 32-bit id here (no clrlwi); this unit saw a wider parameter than
-    // CollisionActorLookup.h's u16.
-    actor = ((TObjCollidable *(*)(s32))find_entity_by_id)(id);
+    actor = find_entity_by_id(id);
     if (((TObjBase *)actor)->is_alive() != 0) {
         range = range * range;
         for (i = 0; i < actor->body_count; i++) {
@@ -2457,17 +2461,17 @@ s32 NpcPlayerView::find_parts_in_range(Vec *pos, s32 id, f32 range) {
             d = horizontal_distance_squared(pos, &actor->bodies[i].center);
             if (d < range) {
                 found = 1;
-                targets[target_count].entity_id = actor->get_entity_id();
-                targets[target_count].distance_sq = d;
-                targets[target_count].collider = i;
-                if (target_count >= 9) {
+                view->targets[view->target_count].entity_id = actor->get_entity_id();
+                view->targets[view->target_count].distance_sq = d;
+                view->targets[view->target_count].collider = i;
+                if (view->target_count >= 9) {
                     break;
                 }
-                target_count++;
+                view->target_count++;
             }
         }
     }
-    sort_targets(&targets[0], 0, target_count - 1);
+    view->sort_targets(&view->targets[0], 0, view->target_count - 1);
     return found;
 }
 

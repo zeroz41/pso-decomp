@@ -6207,7 +6207,7 @@ force_active:
   - find_open_direction__16TObjEneNanoDragoFP3Vec
   - find_or_alloc_slot__10TObjPlayerFUl
   - find_pack_leader__14TObjEneBm5WolfFi
-  - find_parts_in_range__13NpcPlayerViewFP3Veclf
+  - find_parts_in_range__10TNpcPlayerFPvPvif
   - find_placement_obstruction
   - find_player_on_floor__12TBoss1DragonFv
   - find_player_texture_name_ordinal__FPUc
@@ -16601,7 +16601,7 @@ force_active:
   - try_start_action__19TContainerAncient01Fll
   - try_start_action__20TContainerAncient01RFll
   - try_trigger_action__17TObjEneMe1CanadinFv
-  - try_update_target_flag__13NpcPlayerViewFlf
+  - try_update_target_flag__10TNpcPlayerFPvi
   - turiten_singo_key_model_index
   - turiten_singo_resource_descriptor
   - turiten_singo_texture_lists

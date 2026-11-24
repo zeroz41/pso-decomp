@@ -28,10 +28,8 @@ struct NpcPlayerView {
     s32 can_recover(s32 kind, s32 allow_item);
     s32 scan_targets(f32 range);
     s32 check_moved();
-    s32 try_update_target_flag(s32 id, f32 range);
     s32 is_target_line_clear(u32 id);
     s32 scan_nearby_enemies(Vec *pos, f32 range);
-    s32 find_parts_in_range(Vec *pos, s32 id, f32 range);
     void sort_targets(NpcPlayerViewTarget *entries, s32 lo, s32 hi);
     s32 partition_targets(NpcPlayerViewTarget *a, int lo, int hi);
     s32 probe_obstacles();
