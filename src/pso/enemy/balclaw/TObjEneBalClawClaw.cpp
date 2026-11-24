@@ -2,7 +2,7 @@
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/AreaSound.h"
 #include "pso/object/base/TObjMotion.h"
@@ -718,7 +718,7 @@ void TObjEneBalClawClaw::load_resources() {
     NpcAnimationBinding binding = { balclaw_bml_resource->motions, balclaw_claw_actions, 0, 1, 7 };
     BmlModelEntry *models;
     models = balclaw_bml_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x14, models[2].model, models[2].texlist, &binding,
+    TObjNpcEnemy::register_animated_chunk(0x14, models[2].model, models[2].texlist, &binding,
                             TObjEneBalClawClaw__collision_body_template.radius, 15.0f);
 }
 

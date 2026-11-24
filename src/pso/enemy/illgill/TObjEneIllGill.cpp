@@ -1,7 +1,7 @@
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/player/PlayerAttackParams.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
@@ -139,7 +139,7 @@ void TObjEneIllGill::load_shared_resources() {
         NpcAnimationBinding pos = illGillAnimBinding;
         resource = illGillResource;
         pos.motions = resource->motions;
-        NpcModelRegistry::register_animated_chunk((s16)0x43, resource->models->model, resource->models->texlist, &pos, illGillCollisionBody.radius, 0.0f);
+        TObjNpcEnemy::register_animated_chunk((s16)0x43, resource->models->model, resource->models->texlist, &pos, illGillCollisionBody.radius, 0.0f);
     }
 }
 

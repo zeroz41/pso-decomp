@@ -3,7 +3,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/GroundContactSound.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -171,7 +171,7 @@ void TObjEneDellBiter::load_resources() {
         TObjEneDellBiter__scrolling_uv_polygon_list = (saddr)((NJS_CNK_MODEL *)object->child->model)->polygon_list;
         TObjEneDellBiter__last_uv_scroll_tick = 0;
         NpcAnimationBinding attack = { resource->motions, dell_biter_param_table, 0, 1, 10 };
-        NpcModelRegistry::register_animated_chunk((s16)0x46, resource->models->model, resource->models->texlist,
+        TObjNpcEnemy::register_animated_chunk((s16)0x46, resource->models->model, resource->models->texlist,
             &attack, dell_biter_collision_bodies[0].radius, 0.0f);
     }
 }

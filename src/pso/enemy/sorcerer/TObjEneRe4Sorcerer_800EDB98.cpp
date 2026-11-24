@@ -4,7 +4,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/system/EnemyBmlResource.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 
@@ -266,7 +266,7 @@ void TObjEneRe4Sorcerer::load_resources() {
     TObjEneRe4Sorcerer__uv_scroll_buffer = new StripBufferPair(sorcerer_bml_resource->models->model, 2);
     NpcAnimationBinding p = re4_sorcerer_spawn_descriptor;
     p.motions = sorcerer_bml_resource->motions;
-    NpcModelRegistry::register_animated_chunk((s16)0x2A, sorcerer_bml_resource->models->model, sorcerer_bml_resource->models->texlist, &p, re4_sorcerer_collision_body_part_table[0].radius, 15.0f);
+    TObjNpcEnemy::register_animated_chunk((s16)0x2A, sorcerer_bml_resource->models->model, sorcerer_bml_resource->models->texlist, &p, re4_sorcerer_collision_body_part_table[0].radius, 15.0f);
 }
 
 TObjEneRe4Sorcerer *TObjEneRe4Sorcerer::create() {

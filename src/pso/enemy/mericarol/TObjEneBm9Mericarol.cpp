@@ -1,6 +1,6 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -162,7 +162,7 @@ void TObjEneBm9Mericarol::load_resources() {
     clear_motion_packed_rotation();
     {
         NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(mericarol_bml->motions), reinterpret_cast<TObjMotionAction *>(mericarol_motion_actions), 3, 1, 9 };
-        NpcModelRegistry::register_animated_chunk(0x42, mericarol_bml->models[0].model, mericarol_bml->models[0].texlist, &params,
+        TObjNpcEnemy::register_animated_chunk(0x42, mericarol_bml->models[0].model, mericarol_bml->models[0].texlist, &params,
             mericarol_collision_bodies[0].radius, 0.0f);
     }
 }

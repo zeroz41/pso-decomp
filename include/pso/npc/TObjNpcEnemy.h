@@ -37,6 +37,12 @@ struct TObjNpcEnemy : public TObjNpcBase {
     TObjNpcEnemyEntry *entry; // 0x3B8: the slot set_npc_data shows
     static TObjNpcEnemyEntry *get_entry_by_index(s16 index);
     static TObjNpcEnemyEntry *insert_slot_by_id(s16 id);
+    static void register_chunk(s16 id, NJS_OBJECT *model, NJS_TEXLIST *texlist, f32 radius, f32 y_offset);
+    static void register_animated_chunk(s16 id, NJS_OBJECT *model, NJS_TEXLIST *texlist,
+                                        const NpcAnimationBinding *animation, f32 radius, f32 y_offset);
+    static void register_ginja(s16 id, NJS_OBJECT *model, NJS_TEXLIST *texlist, f32 radius, f32 y_offset);
+    static void register_animated_ginja(s16 id, NJS_OBJECT *model, NJS_TEXLIST *texlist,
+                                        const NpcAnimationBinding *animation, f32 radius, f32 y_offset);
     static void reset_all_anim_fields();
     void set_npc_data(TObjNpcEnemyEntry *data);
     void update_state();

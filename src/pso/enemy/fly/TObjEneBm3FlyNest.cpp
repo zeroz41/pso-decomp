@@ -3,7 +3,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -250,7 +250,7 @@ void TObjEneBm3FlyNest::load_resources() {
         NpcAnimationBinding anim = { NULL, bm3_flynest_hit_action_table, 0, 8, 10 };
         anim.motions = bm3_fly_nest_bml->motions;
         models = bm3_fly_nest_bml->models;
-        NpcModelRegistry::register_animated_chunk(8, models[1].model, models[0].texlist, &anim, bm3_flynest_collider_params[0].radius, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(8, models[1].model, models[0].texlist, &anim, bm3_flynest_collider_params[0].radius, 0.0f);
     }
 }
 

@@ -4,7 +4,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/unk/SampledMotionPoints.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/RenderFadeState.h"
@@ -481,7 +481,7 @@ void TLobby::load_shark_resources() {
         s16 ids[3] = { 0x2F, 0x30, 0x31 };
         NpcAnimationBinding anim = { shark_bml_resource->motions, TObjEneShark__action_table, 0, 2, 12 };
         for (i = 0; i < 3; i++) {
-            NpcModelRegistry::register_animated_chunk(ids[i], shark_bml_resource->models[i].model, shark_bml_resource->models[i].texlist, &anim,
+            TObjNpcEnemy::register_animated_chunk(ids[i], shark_bml_resource->models[i].model, shark_bml_resource->models[i].texlist, &anim,
                 7.5f, 0.0f);
         }
     }

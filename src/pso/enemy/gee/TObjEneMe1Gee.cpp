@@ -4,7 +4,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include <stddef.h>
 #include <stdlib.h>
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/math/FloatRounding.h"
@@ -161,7 +161,7 @@ void TObjEneMe1Gee::load_resources() {
     {
         NpcAnimationBinding params = { NULL, TObjEneMe1Gee__motion_parameters, 0, 0, 4 };
         params.motions = TObjEneMe1Gee__resource_bundle->motions;
-        NpcModelRegistry::register_animated_chunk((s16)0x10, TObjEneMe1Gee__resource_bundle->models->model, TObjEneMe1Gee__resource_bundle->models->texlist, &params, 8.0f, 15.0f);
+        TObjNpcEnemy::register_animated_chunk((s16)0x10, TObjEneMe1Gee__resource_bundle->models->model, TObjEneMe1Gee__resource_bundle->models->texlist, &params, 8.0f, 15.0f);
     }
 }
 

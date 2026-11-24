@@ -16,7 +16,6 @@ struct TMotorcycle : public TObjMesBase {
     virtual void render();
     static void free_statics();
     static void load_resources();
-    static void add_entry(s16 id, NJS_OBJECT *model, NJS_TEXLIST *textures, f32 radius, f32 y_offset);
 };
 
 LAYOUT_ASSERT(TMotorcycle_size, sizeof(TMotorcycle) == 0xC0);

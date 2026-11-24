@@ -4,7 +4,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/animation/MotionContext.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/shinowa/TObjEneMe3Shinowa.h"
 #include "pso/enemy/shinowa/ShinowaData.h"
@@ -249,8 +249,8 @@ void load_shinowa_mirage_resources() {
     {
         NpcAnimationBinding binding = shinowa_mirage_spawn_binding;
         binding.motions = TObjEneMe3ShinowaMirage__bml_resource->motions;
-        NpcModelRegistry::register_animated_chunk(0x26, TObjEneMe3ShinowaMirage__bml_resource->models->model, TObjEneMe3ShinowaMirage__bml_resource->models->texlist, &binding, 8.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x27, TObjEneMe3ShinowaMirage__bml_resource->models->model, &TObjEneMe3ShinowaMirage__alternate_texture_list, &binding, 8.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(0x26, TObjEneMe3ShinowaMirage__bml_resource->models->model, TObjEneMe3ShinowaMirage__bml_resource->models->texlist, &binding, 8.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(0x27, TObjEneMe3ShinowaMirage__bml_resource->models->model, &TObjEneMe3ShinowaMirage__alternate_texture_list, &binding, 8.0f, 0.0f);
     }
 }
 

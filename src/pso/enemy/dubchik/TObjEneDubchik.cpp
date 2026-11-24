@@ -5,7 +5,7 @@
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/render/TUnk_80494938.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -340,7 +340,7 @@ void TObjEneDubchik::load_resources() {
         d.motions = dubchik_resource->motions;
         for (j = 0; j < 2; j++) {
             BmlModelEntry *e = &dubchik_resource->models[j];
-            NpcModelRegistry::register_animated_chunk(ids[j], e->model, e->texlist, &d, 5.0f, 0.0f);
+            TObjNpcEnemy::register_animated_chunk(ids[j], e->model, e->texlist, &d, 5.0f, 0.0f);
         }
     }
 }

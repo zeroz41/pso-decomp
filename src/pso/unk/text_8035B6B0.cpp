@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/text_8035B6B0.h"
 
@@ -32,5 +32,5 @@ void load_and_spawn_chao_npc(void) {
     chao_npc_instance_handle = resource;
     NpcAnimationBinding binding = chao_npc_spawn_descriptor;
     binding.motions = reinterpret_cast<BmlMotionEntry *>(resource->motions);
-    NpcModelRegistry::register_animated_chunk(11, resource->models->model, resource->models->texlist, &binding, 5.0f, 0.0f);
+    TObjNpcEnemy::register_animated_chunk(11, resource->models->model, resource->models->texlist, &binding, 5.0f, 0.0f);
 }

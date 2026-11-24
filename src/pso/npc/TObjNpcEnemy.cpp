@@ -1,6 +1,5 @@
 #include "types.h"
 #include <string.h>
-#include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
@@ -17,7 +16,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/enemy/stelth/TObjEneMe3Stelth.h"
-#include "pso/object/TMotorcycle.h"
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/object/TObjControl.h"
@@ -47,15 +45,15 @@ void TObjNpcEnemyEntry::reset() {
     animation.debug_action_limit = 0;
 }
 
-void NpcModelRegistry::register_animated_ginja(s16 id, NJS_OBJECT *model, NJS_TEXLIST *textures,
+void TObjNpcEnemy::register_animated_ginja(s16 id, NJS_OBJECT *model, NJS_TEXLIST *texlist,
                                               const NpcAnimationBinding *animation, f32 radius, f32 y_offset) {
-    TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
+    TObjNpcEnemyEntry *entry = insert_slot_by_id(id);
     if (entry != NULL) {
         entry->id = id;
         entry->kind = 3;
         entry->y_offset = y_offset;
         entry->model = model;
-        entry->texlist = textures;
+        entry->texlist = texlist;
         entry->radius = radius;
         entry->animation = *animation;
     }
@@ -73,14 +71,14 @@ NpcAnimationBinding &NpcAnimationBinding::operator=(const NpcAnimationBinding &o
 }
 #pragma pop
 
-void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, NJS_TEXLIST *textures, f32 radius, f32 y_offset) {
-    TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
+void TObjNpcEnemy::register_ginja(s16 id, NJS_OBJECT *model, NJS_TEXLIST *texlist, f32 radius, f32 y_offset) {
+    TObjNpcEnemyEntry *entry = insert_slot_by_id(id);
     if (entry != NULL) {
         entry->id = id;
         entry->kind = 2;
         entry->y_offset = y_offset;
         entry->model = model;
-        entry->texlist = textures;
+        entry->texlist = texlist;
         entry->radius = radius;
         entry->animation.motions = 0;
         entry->animation.actions = 0;
@@ -90,9 +88,9 @@ void TMotorcycle::add_entry(s16 id, NJS_OBJECT *model, NJS_TEXLIST *textures, f3
     }
 }
 
-void NpcModelRegistry::register_animated_chunk(s16 id, NJS_OBJECT *model, NJS_TEXLIST *texlist,
+void TObjNpcEnemy::register_animated_chunk(s16 id, NJS_OBJECT *model, NJS_TEXLIST *texlist,
                                                const NpcAnimationBinding *animation, f32 radius, f32 y_offset) {
-    TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
+    TObjNpcEnemyEntry *entry = insert_slot_by_id(id);
     if (entry != NULL) {
         entry->id = id;
         entry->kind = 1;
@@ -104,8 +102,8 @@ void NpcModelRegistry::register_animated_chunk(s16 id, NJS_OBJECT *model, NJS_TE
     }
 }
 
-void NpcModelRegistry::register_chunk(s16 id, NJS_OBJECT *model, NJS_TEXLIST *texlist, f32 radius, f32 y_offset) {
-    TObjNpcEnemyEntry *entry = TObjNpcEnemy::insert_slot_by_id(id);
+void TObjNpcEnemy::register_chunk(s16 id, NJS_OBJECT *model, NJS_TEXLIST *texlist, f32 radius, f32 y_offset) {
+    TObjNpcEnemyEntry *entry = insert_slot_by_id(id);
     if (entry != NULL) {
         entry->id = id;
         entry->kind = 0;

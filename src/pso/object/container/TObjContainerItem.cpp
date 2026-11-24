@@ -43,7 +43,6 @@
 #include "pso/unk/text_8018A3E0.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/TMotorcycle.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
 #include "pso/object/container/TContainerAncient01.h"
@@ -371,7 +370,7 @@ void load_forest_box_resources(void) {
         forest_box_debris_secondary = &forest_box_break_params[1];
         break;
     }
-    TMotorcycle::add_entry(1, get_forest_box_model(1), forest_box_textures, lbl_805DBD0C, lbl_805DBCF4);
+    TObjNpcEnemy::register_ginja(1, get_forest_box_model(1), forest_box_textures, lbl_805DBD0C, lbl_805DBCF4);
 }
 
 void free_forest_box_resources() {

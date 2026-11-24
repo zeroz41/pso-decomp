@@ -1,7 +1,7 @@
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/AreaSound.h"
 #include "pso/object/base/TObjChara.h"
@@ -1161,7 +1161,7 @@ void TObjEneBalClawBody::load_params() {
 // Registers the combined body's model (bcbody) and action table with the NPC model registry.
 void TObjEneBalClawBody::load_resources() {
     NpcAnimationBinding params = { balclaw_bml_resource->motions, balclaw_body_actions, 0, 1, 12 };
-    NpcModelRegistry::register_animated_chunk(0x13, balclaw_bml_resource->models[1].model, balclaw_bml_resource->models[1].texlist, &params,
+    TObjNpcEnemy::register_animated_chunk(0x13, balclaw_bml_resource->models[1].model, balclaw_bml_resource->models[1].texlist, &params,
                             balclaw_body_collision.radius, 15.0f);
 }
 

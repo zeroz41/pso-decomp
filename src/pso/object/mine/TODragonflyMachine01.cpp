@@ -12,7 +12,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/key/TODummyKeyCave01Sound.h"
 #include "pso/map/FloorArea.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -165,7 +165,7 @@ void TODragonflyMachine01::load_resources() {
     node_yaw = 0;
     NpcAnimationBinding setup = dragonfly_machine_attack_effect_params;
     setup.motions = resource->motions;
-    NpcModelRegistry::register_animated_ginja(0x38, reinterpret_cast<NJS_OBJECT *>(resource->models->model),
+    TObjNpcEnemy::register_animated_ginja(0x38, reinterpret_cast<NJS_OBJECT *>(resource->models->model),
                                              reinterpret_cast<NJS_TEXLIST *>(resource->models->texlist), &setup, 3.0f, 15.0f);
 }
 

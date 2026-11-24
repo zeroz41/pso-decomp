@@ -5,7 +5,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -1005,11 +1005,11 @@ void TObjEneLappy::load_resources() {
         BmlResource *res = rappy_bml_resource;
         NpcAnimationBinding d = lappy_resource_binding_desc;
         d.motions = res->motions;
-        NpcModelRegistry::register_animated_chunk(5, rappy_bml_resource->models[0].model, rappy_bml_resource->models[0].texlist, &d, 10.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(5, rappy_bml_resource->models[0].model, rappy_bml_resource->models[0].texlist, &d, 10.0f, 0.0f);
         if (TLobby::get_instance() == 0) {
-            NpcModelRegistry::register_animated_chunk(6, rappy_bml_resource->models[0].model, rappy_alternate_texture_list, &d, 10.0f, 0.0f);
+            TObjNpcEnemy::register_animated_chunk(6, rappy_bml_resource->models[0].model, rappy_alternate_texture_list, &d, 10.0f, 0.0f);
         } else {
-            NpcModelRegistry::register_animated_chunk(6, rappy_bml_resource->models[1].model, rappy_bml_resource->models[1].texlist, &d, 10.0f, 0.0f);
+            TObjNpcEnemy::register_animated_chunk(6, rappy_bml_resource->models[1].model, rappy_bml_resource->models[1].texlist, &d, 10.0f, 0.0f);
         }
     }
 }

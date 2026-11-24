@@ -5,7 +5,7 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -259,7 +259,7 @@ void TObjEneDf2Bringer::load_resources() {
   init_bringer_effect_tables();
   {
     NpcAnimationBinding sp = { TObjEneDf2Bringer::resource_bundle->motions, bringer_motion_actions, 0, 1, 11 };
-    NpcModelRegistry::register_animated_chunk((s16)0x16, TObjEneDf2Bringer::resource_bundle->models[0].model, TObjEneDf2Bringer::resource_bundle->models[0].texlist, &sp, 7.0f, 0.0f);
+    TObjNpcEnemy::register_animated_chunk((s16)0x16, TObjEneDf2Bringer::resource_bundle->models[0].model, TObjEneDf2Bringer::resource_bundle->models[0].texlist, &sp, 7.0f, 0.0f);
   }
 }
 

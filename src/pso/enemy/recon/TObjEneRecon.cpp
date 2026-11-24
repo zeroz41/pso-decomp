@@ -4,7 +4,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D8F74.h"
@@ -1116,7 +1116,7 @@ void TObjEneRecon::load_resources() {
   TObjEneReconBomb::load_resources();
   NpcAnimationBinding binding = recon_anim_binding;
   binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneRecon__recobox_static_instance->motions);
-  NpcModelRegistry::register_animated_chunk(0xC, TObjEneRecon__recobox_static_instance->models[0].model, TObjEneRecon__recobox_static_instance->models[0].texlist, &binding, TObjEneRecon__collision_body_template.radius, 15.0f);
+  TObjNpcEnemy::register_animated_chunk(0xC, TObjEneRecon__recobox_static_instance->models[0].model, TObjEneRecon__recobox_static_instance->models[0].texlist, &binding, TObjEneRecon__collision_body_template.radius, 15.0f);
 }
 
 

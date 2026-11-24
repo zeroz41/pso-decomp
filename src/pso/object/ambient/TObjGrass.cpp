@@ -2,7 +2,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/system/SoundEffect.h"
@@ -487,7 +487,7 @@ void TObjGrass::load_resources() {
     {
         NpcAnimationBinding binding = grass_spawn_descriptor;
         binding.motions = TObjGrass__resource_bundle->motions;
-        NpcModelRegistry::register_animated_chunk(0x35, TObjGrass__resource_bundle->models[0].model,
+        TObjNpcEnemy::register_animated_chunk(0x35, TObjGrass__resource_bundle->models[0].model,
             TObjGrass__resource_bundle->models[0].texlist, &binding, 10.0f, 0.0f);
     }
 }

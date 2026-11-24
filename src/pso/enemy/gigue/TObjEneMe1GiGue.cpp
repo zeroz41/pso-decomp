@@ -5,7 +5,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/AreaSound.h"
 #include "pso/player/PlayerAttackParams.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/technique/TTecZarua.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
@@ -248,7 +248,7 @@ void TObjEneMe1GiGue::load_resources() {
     TObjEneMe1GiGueBarrier::init_global();
     {
     NpcAnimationBinding binding = { gigue_resource->motions, gigue_enemy_param_table, 0, 1, 9 };
-    NpcModelRegistry::register_animated_chunk(0x41, gigue_resource->models->model, gigue_resource->models->texlist, &binding, gigue_collision_bodies[0].radius, 15.0f);
+    TObjNpcEnemy::register_animated_chunk(0x41, gigue_resource->models->model, gigue_resource->models->texlist, &binding, gigue_collision_bodies[0].radius, 15.0f);
     }
 }
 

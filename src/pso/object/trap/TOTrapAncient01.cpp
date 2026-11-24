@@ -11,7 +11,7 @@
 #include "pso/object/trap/TOTrapAncient01.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/object/TMotorcycle.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -132,7 +132,7 @@ TOTrapAncient01::~TOTrapAncient01() {
 void TOTrapAncient01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_o_trap_ancient01_resource_descriptor, 0, 0, NULL);
     TOTrapAncient01__bml_resource = resource;
-    TMotorcycle::add_entry(0x39, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 3)),
+    TObjNpcEnemy::register_ginja(0x39, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 3)),
                            reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)resource, 3)), 20.0f, 0.0f);
 }
 
