@@ -11,6 +11,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_80120908.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 void TUnk_804A1A48::reserved_53() {
     Vec pos;
@@ -54,7 +55,7 @@ void TUnk_804A1A48::reserved_53() {
 
 void TUnk_804A1A48::emit_marker_effects() {
     if (get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effect(this, 4);
+        TItemEffCane::spawn(tl_05, this, 4);
     }
 }
 

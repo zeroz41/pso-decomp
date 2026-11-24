@@ -36,6 +36,7 @@
 #include "pso/weapon/TUnk_804E22F4.h"
 #include "pso/weapon/TUnk_804E23F0.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 struct W_802D5B78 { s32 a; s32 b; s32 c; };
 
@@ -135,7 +136,7 @@ void TUnk_804E23F0::emit_marker_effects() {
 
 void TUnk_804E23F0::vfunc_62(Vec *pos) {
     if (get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->create_item_eff_cane(this, -1, effect_id);
+        TItemEffCane::create(tl_05, this, -1, effect_id);
     }
 }
 

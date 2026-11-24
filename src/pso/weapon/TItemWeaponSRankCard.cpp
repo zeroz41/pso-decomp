@@ -10,6 +10,7 @@
 #include "pso/item/TItem.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/item/TItemWpnCardEffect.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 extern "C" void get_weapon_color__11TItemWeaponFPv(void *, void *);
 
@@ -34,7 +35,7 @@ void TItemWeaponSRankCard::update_weapon() {
 
 void TItemWeaponSRankCard::create_cane_if_ready(Vec *pos) {
     if (get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->create_item_eff_cane(this, -1, 0x1BD);
+        TItemEffCane::create(tl_05, this, -1, 0x1BD);
     }
 }
 

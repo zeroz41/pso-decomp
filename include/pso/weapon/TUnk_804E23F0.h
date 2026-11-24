@@ -18,7 +18,7 @@ public:
     // point after its shots (inferred: the weapon's attack effect).
     virtual void vfunc_62(Vec *pos);
     u32 pad_1f8;    // bit 0 while the attack stage is 2; the draw then adds two rotated copies
-    s32 effect_id;  // create_item_eff_cane's effect: 445, 341 or 447
+    s32 effect_id;  // TItemEffCane::create's effect: 445, 341 or 447
     f32 pad_200;    // the descriptor's pad_4c
     void *pad_204;  // the descriptor's pad_70
     void *pad_208;  // the descriptor's pad_74

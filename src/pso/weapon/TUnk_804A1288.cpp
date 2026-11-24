@@ -4,11 +4,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 void TUnk_804A1288::emit_marker_effects() {
     saddr item = (saddr)this;
     if (this->get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effect((TItem*)item, 1);
+        TItemEffCane::spawn(tl_05, (TItem*)item, 1);
     }
 }
 

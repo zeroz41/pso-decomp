@@ -12,6 +12,25 @@
 
 const char *TItemEffCane::class_name = "TItemEffCane";
 
+void TItemEffCane::create(TObject *parent, TItem *item, s32 attachment, s32 effect_id) {
+    if (parent != NULL && item != NULL && item->all_parents_unqueued_for_destruction() != 0) {
+        new TItemEffCane(parent, item, attachment, effect_id);
+    }
+}
+
+void TItemEffCane::spawn(TObject *parent, TItem *item, s32 attachment) {
+    if (parent != NULL && item != NULL && item->all_parents_unqueued_for_destruction() != 0) {
+        new TItemEffCane(parent, item, attachment, 0x1BD);
+    }
+}
+
+void TItemEffCane::spawn_pair(TObject *parent, TItem *item, s32 first_attachment, s32 second_attachment) {
+    if (parent != NULL && item != NULL && item->all_parents_unqueued_for_destruction() != 0) {
+        new TItemEffCane(parent, item, first_attachment, 0x1BD);
+        new TItemEffCane(parent, item, second_attachment, 0x1BD);
+    }
+}
+
 void TItemEffCane::run_task() {
     f32 position[3];
     TItem* item = (TItem *)find_item_by_id(item_id);
@@ -46,3 +65,5 @@ TItemEffCane::TItemEffCane(TObject* parent, TItem* item, s32 attachment, s32 eff
     }
     disallow_rendering();
 }
+
+u32 TItemWeapon::test_weapon_flags(u32 mask) { return weapon_flags & mask; }

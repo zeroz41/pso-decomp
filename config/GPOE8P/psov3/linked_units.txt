@@ -1578,8 +1578,6 @@ pso/enemy/nanodrago/TObjNanoDragoTargetedBeam.cpp
 pso/render/GinjaTextureEntryCopy.cpp
 pso/player/TObjPlayer_800F0810.cpp
 pso/object/TObjHMS_EZRope_Player.cpp
-pso/player/TObjPlayer_8010853C.cpp
-pso/player/TObjPlayer_80108854.cpp
 pso/player/TObjPlayer_80109344.cpp
 pso/player/TObjPlayer_8010ECD0.cpp
 pso/player/TObjPlayer_80116578.cpp

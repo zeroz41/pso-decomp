@@ -7,10 +7,11 @@
 #include "pso/effect/item/TItemEffFlame.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 void TUnk_804A2770::emit_marker_effects() {
     if (get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effect(this, 1);
+        TItemEffCane::spawn(tl_05, this, 1);
     }
 }
 

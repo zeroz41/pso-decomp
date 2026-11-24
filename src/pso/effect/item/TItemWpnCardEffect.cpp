@@ -28,6 +28,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 const char *TItemWpnCardEffect::class_name = "TItemWpnCardEffect";
 
@@ -285,7 +286,7 @@ void TItemWeaponGuardianna::emit_marker_effects() {
         fire_shot_at_target(&origin, item_model, 0);
     }
     if (get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effect(this, 4);
+        TItemEffCane::spawn(tl_05, this, 4);
     }
 }
 void TItemWeaponGuardianna::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {

@@ -16,6 +16,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/CapturedTargetList.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 extern "C" {
 }
@@ -76,7 +77,7 @@ void TUnk_804A4F60::update_weapon() {
 
 void TUnk_804A4F60::emit_marker_effects() {
     if (get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effect(this, 4);
+        TItemEffCane::spawn(tl_05, this, 4);
     }
     if (is_mode_two_and_ready() != 0) {
         psycho_wand_roll_extra();

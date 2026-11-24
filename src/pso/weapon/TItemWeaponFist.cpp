@@ -12,6 +12,7 @@
 #include "pso/unk/text_80126A34.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerAttackController.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 // ---- pso/unk/text_80126740
 
@@ -87,7 +88,7 @@ void TUnk_804A2B98::emit_marker_effects() {
   {
     if (get_attack_stage() == 0)
     {
-      ((TObjPlayer *)tl_05)->spawn_cane_effects(this, -1, -2);
+      TItemEffCane::spawn_pair(tl_05, this, -1, -2);
     }
   }
   else

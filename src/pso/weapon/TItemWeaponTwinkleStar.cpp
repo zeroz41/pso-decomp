@@ -3,6 +3,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/item/TItemEffCane.h"
 
 void TUnk_804A6010::vfunc_60() {
     switch (TObjPlayer::get_player_list()) {
@@ -24,7 +25,7 @@ void TUnk_804A6010::update_weapon() {
 
 void TUnk_804A6010::emit_marker_effects() {
     if (get_attack_stage() == 0) {
-        ((TObjPlayer *)tl_05)->spawn_cane_effects(this, 2, 4);
+        TItemEffCane::spawn_pair(tl_05, this, 2, 4);
     }
 }
 
