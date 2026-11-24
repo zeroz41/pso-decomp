@@ -9988,21 +9988,15 @@ pso/player/TObjPlayer_80357B2C.cpp:
 	.data       start:0x804F15C8 end:0x804F1688
 	.sdata2     start:0x805E0048 end:0x805E0094
 
-pso/npc/TObjNpcNgcBase_80358AE8.cpp:
-	.text       start:0x80358AE8 end:0x803593C8
-	.rodata     start:0x804793F8 end:0x80479638
-	.data       start:0x804F1688 end:0x804F1878
-	.bss        start:0x805439A8 end:0x805439E0
-	.sdata      start:0x805D43B8 end:0x805D43F0
-
 pso/npc/TObjNpcNgcBase.cpp:
-	.text       start:0x803593C8 end:0x803594EC
-	.rodata     start:0x80479638 end:0x80479648
-	.data       start:0x804F1878 end:0x804F19F0
-	.sdata      start:0x805D43F0 end:0x805D43F8
+	.text       start:0x80358AE8 end:0x803594B4
+	.rodata     start:0x804793F8 end:0x80479648
+	.data       start:0x804F1688 end:0x804F19F0
+	.bss        start:0x805439A8 end:0x805439E0
+	.sdata      start:0x805D43B8 end:0x805D43F8
 
 pso/boss/darkfalz/TBoss4Fade.cpp:
-	.text       start:0x803594EC end:0x803596C0
+	.text       start:0x803594B4 end:0x803596C0
 	.rodata     start:0x80479648 end:0x80479658
 	.data       start:0x804F19F0 end:0x804F1A28
 	.sdata      start:0x805D43F8 end:0x805D4400

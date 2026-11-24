@@ -1472,7 +1472,7 @@ force_active:
   - TObjNpcNHW01__model_object
   - TObjNpcNHW01__name
   - TObjNpcNHW01__texture_handle
-  - TObjNpcNgcBase__data_805439A8
+  - body_resources__14TObjNpcNgcBase
   - TObjNpcNurseBase__name
   - TObjNpcNurseBase__shared_model_resource
   - TObjNpcSecretaryBase__name
