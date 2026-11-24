@@ -102,81 +102,9 @@ typedef struct Player_801C7430 {
     u8 vec[12];
 } Player_801C7430;
 
-struct VBase8_801c7630 { char pad[8]; };
 
-struct VObj8_801c7630 : VBase8_801c7630 {
-    virtual void vpad0();
-    virtual void vpad1();
-    virtual void vpad2();
-    virtual void vpad3();
-    virtual void vpad4();
-    virtual void vpad5();
-    virtual void vpad6();
-    virtual void vpad7();
-    virtual void vpad8();
-    virtual void vpad9();
-    virtual void vpad10();
-    virtual void vpad11();
-    virtual void vpad12();
-    virtual void vpad13();
-    virtual void vpad14();
-    virtual void vpad15();
-    virtual void vpad16();
-    virtual void vpad17();
-    virtual void vpad18();
-    virtual void vpad19();
-    virtual void vpad20();
-    virtual void vpad21();
-    virtual void vpad22();
-    virtual void vpad23();
-    virtual void vpad24();
-    virtual void vpad25();
-    virtual void vpad26();
-    virtual void vpad27();
-    virtual void vpad28();
-    virtual void vpad29();
-    virtual void vpad30();
-    virtual void vpad31();
-    virtual void vpad32();
-    virtual void vpad33();
-    virtual void vpad34();
-    virtual void vpad35();
-    virtual void vpad36();
-    virtual void vpad37();
-    virtual void vpad38();
-    virtual void vpad39();
-    virtual void vpad40();
-    virtual void vpad41();
-    virtual void vpad42();
-    virtual void vpad43();
-    virtual void vpad44();
-    virtual void vpad45();
-    virtual void vpad46();
-    virtual void vpad47();
-    virtual void vpad48();
-    virtual void vpad49();
-    virtual void vpad50();
-    virtual void vpad51();
-    virtual void vpad52();
-    virtual void vpad53();
-    virtual void vpad54();
-    virtual void vpad55();
-    virtual void vpad56();
-    virtual void vpad57();
-    virtual void vpad58();
-    virtual void vpad59();
-    virtual void vpad60();
-    virtual void vpad61();
-    virtual void vpad62();
-    virtual void vpad63();
-    virtual void vpad64();
-    virtual int vf10C();
-    virtual int vf110();
-};
 
-struct VBase_inner_801c77c8 { char pad[8]; };
 
-struct VBase_380_801c77c8 : VBase_inner_801c77c8 { virtual s32 m0(); virtual s32 m1(); virtual s32 m2(); virtual s32 m3(); virtual s32 m4(); virtual s32 m5(); virtual s32 m6(); virtual s32 m7(); virtual s32 m8(); virtual s32 m9(); virtual s32 m10(); virtual s32 m11(); virtual s32 m12(); virtual s32 m13(); virtual s32 m14(); virtual s32 m15(); virtual s32 m16(); virtual s32 m17(); virtual s32 m18(); virtual s32 m19(); virtual s32 m20(); virtual s32 m21(); virtual s32 m22(); virtual s32 m23(); virtual s32 m24(); virtual s32 m25(); virtual s32 m26(); virtual s32 m27(); virtual s32 m28(); virtual s32 m29(); virtual s32 m30(); virtual s32 m31(); virtual s32 m32(); virtual s32 m33(); virtual s32 m34(); virtual s32 m35(); virtual s32 m36(); virtual s32 m37(); virtual s32 m38(); virtual s32 m39(); virtual s32 m40(); virtual s32 m41(); virtual s32 m42(); virtual s32 m43(); virtual s32 m44(); virtual s32 m45(); virtual s32 m46(); virtual s32 m47(); virtual s32 m48(); virtual s32 m49(); virtual s32 m50(); virtual s32 m51(); virtual s32 m52(); virtual s32 m53(); virtual s32 m54(); virtual s32 m55(); virtual s32 m56(); virtual s32 m57(); virtual s32 m58(); virtual s32 m59(); virtual s32 m60(); virtual s32 m61(); virtual s32 m62(); virtual s32 m63(); virtual s32 m64(); virtual s32 m65(); virtual s32 m66(); };
 
 struct Pkt_801C7874 { s16 hdr; s16 id; s32 val; };
 
@@ -185,81 +113,7 @@ struct Player_801C7874 {
     s16 f328;
 };
 
-struct VBase_8_1cc697 { char pad[0x8]; };
 
-struct VObj_8_1cc697 : VBase_8_1cc697 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual s32 m18();
-    virtual s32 m19();
-    virtual void m20();
-    virtual void m21();
-    virtual s32 m22();
-    virtual void m23();
-    virtual s32 m24();
-    virtual s32 m25();
-    virtual s32 m26();
-    virtual void m27();
-    virtual void m28();
-    virtual s32 m29();
-    virtual s32 m30();
-    virtual s32 m31();
-    virtual s32 m32();
-    virtual s32 m33();
-    virtual s32 m34();
-    virtual s32 m35();
-    virtual s32 m36();
-    virtual s32 m37();
-    virtual s32 m38();
-    virtual s32 m39();
-    virtual s32 m40();
-    virtual s32 m41();
-    virtual s32 m42();
-    virtual s32 m43();
-    virtual s32 m44();
-    virtual s32 m45();
-    virtual s32 m46();
-    virtual s32 m47();
-    virtual s32 m48();
-    virtual s32 m49();
-    virtual s32 m50();
-    virtual s32 m51();
-    virtual s32 m52();
-    virtual s32 m53();
-    virtual s32 m54();
-    virtual s32 m55();
-    virtual s32 m56();
-    virtual s32 m57();
-    virtual s32 m58();
-    virtual s32 m59();
-    virtual s32 m60();
-    virtual s32 m61();
-    virtual s32 m62();
-    virtual s32 m63();
-    virtual s32 m64();
-    virtual s32 m65();
-    virtual s32 m66();
-    virtual s32 m67();
-    virtual s32 m68();
-    virtual s32 m69();
-    virtual s32 m70();
-};
 
 typedef struct Msg_801C851C {
     u8 pad0[2];
@@ -477,76 +331,7 @@ typedef struct Player_801CE068 {
     u8 act[4];
 } Player_801CE068;
 
-struct VBase_801CE928 { u8 pad[0x18]; };
 
-struct Player_801CE928 : VBase_801CE928 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual void v45();
-    virtual void v46();
-    virtual void v47();
-    virtual void v48();
-    virtual void v49();
-    virtual void v50();
-    virtual void v51();
-    virtual void v52();
-    virtual void v53();
-    virtual void v54();
-    virtual void v55();
-    virtual void v56();
-    virtual void v57();
-    virtual void v58();
-    virtual void v59();
-    virtual void v60();
-    virtual void v61();
-    virtual void v62();
-    virtual void v63();
-    virtual void v64();
-    virtual s32 v65(f32);
-};
 
 struct Pkt_801CF128 { u8 cmd; u8 size; u16 player; s16 heading; s16 kind; };
 
@@ -646,32 +431,7 @@ typedef struct Npc_801D00B0 {
     u8 sub[4];
 } Npc_801D00B0;
 
-struct VBase_8_e57d67 { char pad[0x8]; };
 
-struct VObj_8_e57d67 : VBase_8_e57d67 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual s32 m18();
-    virtual void m19();
-    virtual void m20();
-    virtual s32 m21();
-};
 
 typedef struct Msg_801D0634 {
     u8 pad0[2];
@@ -722,111 +482,14 @@ typedef struct Player_801D094C {
     s32 f60;
 } Player_801D094C;
 
-struct VBase_8_684c72 { char pad[0x8]; };
 
-struct VObj_8_684c72 : VBase_8_684c72 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual s32 m65();
-    virtual s32 m66();
-};
 
 #pragma push
 #pragma inline_depth(1)
 #pragma dont_inline off
 struct ByteBlock_C { u8 bytes[0xc]; };
 #pragma pop
-struct Base_801D0F0C { char pad[0x8]; };
 
-struct VObj_801D0F0C : Base_801D0F0C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual int m23();
-};
 
 struct Pkt_801D1888 { u8 cmd; u8 size; u8 pad[2]; u16 a; u16 b; };
 
@@ -1101,9 +764,9 @@ void TObjPlayer::start_action_18() {
     this->action_state = 0x18;
     run_action_state_phase(this->mode, 6);
     if (is_action_flag_28() != 0) {
-        var_r4 = ((VObj8_801c7630 *) *(void **)((s8 *)this + 0x380))->vf110();
+        var_r4 = action_provider->vfunc_68();
     } else {
-        var_r4 = ((VObj8_801c7630 *) *(void **)((s8 *)this + 0x380))->vf10C();
+        var_r4 = action_provider->vfunc_67();
     }
     forward_1D1044_at_34c(var_r4);
     if (get_action_flag() != 0) {
@@ -1154,7 +817,7 @@ void TObjPlayer::send_state_sync() {
     if (this == NULL || ((TObjChara *)this)->obj_isState2_324() == 0) {
         ((s32 (*)(s32 *))TObjPlayer__sub_801D1284)(sp8);
         *(s16 *)((s8 *)sp8 + 2) = this->get_entity_id();
-        if (this->lobby_animation == (((VBase_380_801c77c8*)(*(void **)((s8 *)this + 0x380)))->m66())) {
+        if (this->lobby_animation == action_provider->vfunc_68()) {
             ((s32 (*)(s32 *))TObjPlayer__sub_801D12E8)(sp8);
         }
         if (TKeyBoardControl__sub_801A58D8() != 0) {
@@ -1259,149 +922,149 @@ s16 TObjPlayer::select_idle_action() {
     }
     if ((get_player_action_provider_selector() == 0) && (TFontSmallLobby::is_lobby_floor_15() != 0)) {
         if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x24) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(4) != 0))) {
-            return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m65();
+            return action_provider->vfunc_67();
         }
         if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x18) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(2) != 0))) {
-            return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m66();
+            return action_provider->vfunc_68();
         }
         if (TKeyBoardControl__sub_801A58B0() != 0) {
             if (TKeyBoardControl::is_key_down(0x40) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m22();
+                return action_provider->get_knockdown_action();
             }
             if (TKeyBoardControl::is_key_down(0x41) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m24();
+                return action_provider->get_hurt_action();
             }
             if (TKeyBoardControl::is_key_down(0x42) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m26();
+                return action_provider->get_interact_action();
             }
             if (TKeyBoardControl::is_key_down(0x43) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m19();
+                return action_provider->get_use_item_action();
             }
             if (TKeyBoardControl::is_key_down(0x44) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m29();
+                return action_provider->vfunc_31();
             }
             if (TKeyBoardControl::is_key_down(0x45) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m30();
+                return action_provider->vfunc_32();
             }
             if (TKeyBoardControl::is_key_down(0x46) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m31();
+                return action_provider->vfunc_33();
             }
             if (TKeyBoardControl::is_key_down(0x47) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m32();
+                return action_provider->vfunc_34();
             }
             if (TKeyBoardControl::is_key_down(0x48) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m33();
+                return action_provider->vfunc_35();
             }
             if (TKeyBoardControl::is_key_down(0x49) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m34();
+                return action_provider->vfunc_36();
             }
             if (TKeyBoardControl::is_key_down(0x4A) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m35();
+                return action_provider->vfunc_37();
             }
             if (TKeyBoardControl::is_key_down(0x4B) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m36();
+                return action_provider->vfunc_38();
             }
             if (TKeyBoardControl::is_key_down(0x1C) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m25();
+                return action_provider->get_death_action();
             }
             if (TKeyBoardControl::is_key_down(0x2E) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m18();
+                return action_provider->vfunc_20();
             }
             if (TKeyBoardControl::is_key_down(0x2F) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m37();
+                return action_provider->vfunc_39();
             }
             if (TKeyBoardControl::is_key_down(0x30) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m38();
+                return action_provider->vfunc_40();
             }
             if (TKeyBoardControl::is_key_down(0x31) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m39();
+                return action_provider->vfunc_41();
             }
             if (TKeyBoardControl::is_key_down(0x32) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m40();
+                return action_provider->vfunc_42();
             }
             if (TKeyBoardControl::is_key_down(0x33) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m41();
+                return action_provider->vfunc_43();
             }
             if (TKeyBoardControl::is_key_down(0x17) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m42();
+                return action_provider->vfunc_44();
             }
             if (TKeyBoardControl::is_key_down(0x11) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m43();
+                return action_provider->vfunc_45();
             }
             if (TKeyBoardControl::is_key_down(0x1E) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m44();
+                return action_provider->vfunc_46();
             }
             if (TKeyBoardControl::is_key_down(0x1D) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m45();
+                return action_provider->vfunc_47();
             }
             if (TKeyBoardControl::is_key_down(0x20) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m46();
+                return action_provider->vfunc_48();
             }
             if (TKeyBoardControl::is_key_down(0x19) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m47();
+                return action_provider->vfunc_49();
             }
             if (TKeyBoardControl::is_key_down(0x21) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m48();
+                return action_provider->vfunc_50();
             }
             if (TKeyBoardControl::is_key_down(0x1A) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m49();
+                return action_provider->vfunc_51();
             }
             if (TKeyBoardControl::is_key_down(0x26) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m50();
+                return action_provider->vfunc_52();
             }
             if (TKeyBoardControl::is_key_down(0x22) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m51();
+                return action_provider->vfunc_53();
             }
             if (TKeyBoardControl::is_key_down(0x23) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m52();
+                return action_provider->vfunc_54();
             }
             if (TKeyBoardControl::is_key_down(0x12) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m53();
+                return action_provider->vfunc_55();
             }
             if (TKeyBoardControl::is_key_down(0x13) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m54();
+                return action_provider->vfunc_56();
             }
             if (TKeyBoardControl::is_key_down(0x15) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m55();
+                return action_provider->vfunc_57();
             }
             if (TKeyBoardControl::is_key_down(0x16) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m56();
+                return action_provider->vfunc_58();
             }
             if (TKeyBoardControl::is_key_down(0x28) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m57();
+                return action_provider->vfunc_59();
             }
             if (TKeyBoardControl::is_key_down(0x1F) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m58();
+                return action_provider->vfunc_60();
             }
             if (TKeyBoardControl::is_key_down(0x10) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m59();
+                return action_provider->vfunc_61();
             }
             if (TKeyBoardControl::is_key_down(0x14) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m60();
+                return action_provider->vfunc_62();
             }
             if (TKeyBoardControl::is_key_down(0x29) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m61();
+                return action_provider->vfunc_63();
             }
             if (TKeyBoardControl::is_key_down(0x27) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m62();
+                return action_provider->vfunc_64();
             }
             if (TKeyBoardControl::is_key_down(0x25) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m63();
+                return action_provider->vfunc_65();
             }
             if (TKeyBoardControl::is_key_down(0x1B) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m64();
+                return action_provider->vfunc_66();
             }
             if (TKeyBoardControl::is_key_down(0x2A) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m67();
+                return action_provider->vfunc_69();
             }
             if (TKeyBoardControl::is_key_down(0x2B) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m68();
+                return action_provider->vfunc_70();
             }
             if (TKeyBoardControl::is_key_down(0x2C) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m69();
+                return action_provider->vfunc_71();
             }
             if (TKeyBoardControl::is_key_down(0x2D) != 0) {
-                return ((VObj_8_1cc697 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x380))))->m70();
+                return action_provider->vfunc_72();
             }
             goto block_109;
         }
@@ -4476,13 +4139,6 @@ struct TargetCollider {
     u8 pad1C[0x10];
 };
 
-struct KnockbackReceiver : VBase_801CE928 {
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5();
-    virtual void v6(); virtual void v7(); virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11();
-    virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15(); virtual void v16(); virtual void v17();
-    virtual void v18(); virtual void v19(); virtual void v20(); virtual void v21(); virtual void v22();
-    virtual void apply_knockback(TObjPlayer *attacker, f32 force);
-};
 
 struct WeaponHitSound {
     s8 kind;
@@ -4540,7 +4196,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                 damage = dealt;
                 gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
                 apply_camera_shake__10TObjPlayerFiii(this, target, damage);
-                ((KnockbackReceiver *)target)->apply_knockback(this, 0.1f * dealt);
+                target->apply_knockback_from_attacker((u8 *)this, 0.1f * dealt);
                 break;
             case 2:
                 target->receive_weapon_special_attack(this, &((TargetCollider *)target->bodies)[collider]);
@@ -4606,22 +4262,21 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
 }
 void handle_6x46_attack_finished(G_AttackFinished_Header_6x46 *command) {
     u16 packet[0x18];
-    Player_801CE928 *pl;
+    TObjPlayer *pl;
     TItem *it;
     ((TObjPlayer *)packet)->build_packet_header();
     TObjPlayer__sub_801D2BB8((u8 *)packet, (u8 *)command);
     ((TObjPlayer *)packet)->bswap_field4_sub();
-    if (validate_6x46_attack_finished((G_ClientIDHeader *)packet) != 0 && (pl = ((Player_801CE928 *)get_player_by_client_id((u16)packet[1]))) != NULL) {
-        TObjPlayer *tp = (TObjPlayer *)pl;
-        if (tp->is_in_tl03_state() != 0 && tp->reset_volopt_state() != 0) {
+    if (validate_6x46_attack_finished((G_ClientIDHeader *)packet) != 0 && (pl = get_player_by_client_id((u16)packet[1])) != NULL) {
+        if (pl->is_in_tl03_state() != 0 && pl->reset_volopt_state() != 0) {
             ((s32 (*)(void *, void *))on_attack_finished__10TObjPlayerFPv)((u8 *)pl + 0x7CC, &packet[2]);
             it = TObjPlayer::get_equipped_weapon(pl);
             if (it != NULL) {
                 it->perform_action();
                 return;
             }
-            if (pl->v65(1.0f) == 0) {
-                tp->play_sound_if_on_floor(0x4001A80C);
+            if (pl->deliver_attack_hits(1.0f) == 0) {
+                pl->play_sound_if_on_floor(0x4001A80C);
             }
         }
     }
@@ -5377,9 +5032,9 @@ void TObjPlayer::run_walk_state_phase(s16 phase) {
 
 s16 TObjPlayer::get_idle_animation() {
     if (this->actorFlags & 0x100000) {
-        return ((VObj_8_e57d67 *)((u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x380))))->m18();
+        return action_provider->vfunc_20();
     }
-    return ((VObj_8_e57d67 *)((u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x380))))->m21();
+    return action_provider->vfunc_23();
 }
 
 void TObjPlayer::cleanup_idle_entry() { clear_actor_flags((uaddr)((void*)3840)); clear_state_flags((s32)(128)); move_speed.set_run_counter(0); ((int (*)(void*))clear_status_bit6__10TObjPlayerFPv)(this); ((int (*)(void*))clear_velocity)(this); death_sink.reset(); }
@@ -5529,8 +5184,8 @@ void TObjPlayer::check_idle_movement_request() {
     if ((this->handle_palette_button_input() == 0) || (this->check_flag_48() == 0)) {
         *(s16 *)((s8 *)arg0 + 0x3C0) = this->select_idle_action();
         if (is_action_id_none((int) (*(s16 *)((s8 *)arg0 + 0x3C0))) == 0) {
-            if (*(s16 *)((s8 *)arg0 + 0x3C0) == (*(VObj_8_684c72 **)(arg0 + 0x380))->m65() ||
-                *(s16 *)((s8 *)arg0 + 0x3C0) == (*(VObj_8_684c72 **)(arg0 + 0x380))->m66()) {
+            if (*(s16 *)((s8 *)arg0 + 0x3C0) == action_provider->vfunc_67() ||
+                *(s16 *)((s8 *)arg0 + 0x3C0) == action_provider->vfunc_68()) {
                 run_action_state_phase(0x18, 5);
             } else {
                 run_action_state_phase(0x17, 5);
@@ -5703,8 +5358,7 @@ extern int fold_flush_8;
 #pragma pop
 
 short TObjPlayer::query_child_state2() {
-    struct VObj_801D0F0C *o = (struct VObj_801D0F0C *)this->action_provider;
-    return o->m23();
+    return action_provider->vfunc_25();
 }
 
 void TObjPlayer::release_control_lock(void* p) { ((TObjPlayer *)p)->clear_flag_200(); }
