@@ -538,7 +538,6 @@ void handle_6xAF_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *comm
         }
     }
 }
-extern "C" {
 
 void TObjPlayer::update_state_group() {
 
@@ -587,7 +586,6 @@ void TObjPlayer::start_action_18() {
 }
 
 
-}
 void handle_6xAB(G_CreateLobbyChair_6xAB *command) {
     G_CreateLobbyChair_6xAB m;
     TObjPlayer *p;
