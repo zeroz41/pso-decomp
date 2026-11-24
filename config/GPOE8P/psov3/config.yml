@@ -164,8 +164,8 @@ force_active:
   - TAdEnterSerialAccessGC_serial_buffer
   - TAdEp3Exist__name
   - TAdEp3Exist__sub_8036F0AC
-  - TAdEp3Exist__sub_8036F590
-  - TAdEp3Exist__sub_8036F5A4
+  - sub_8036F590__13TUnk_8036F574Fv
+  - sub_8036F5A4__13TUnk_8036F868Fv
   - TAdFadeGC__name
   - TAdFloorLoadPrtGC__class_name
   - TAdFloorLoadPrtGC__emitter_angles
@@ -13834,7 +13834,7 @@ force_active:
   - profanity_word_table
   - project_step_to_ground__14TObjEneIllGillFl
   - project_to_screen__13TObjTombstoneFPC13TObjTombstoneP10NJS_POINT2PC3Vec
-  - prs_read_control_bit
+  - prs_read_control_bit__13TUnk_8036F574Fv
   - prune_weapon_attributes__9TItemDropFPvPv
   - __ct__13TUnk_804A4F60FP7TObjectPUc
   - psycho_wand_roll_extra__13TUnk_804A4F60Fv

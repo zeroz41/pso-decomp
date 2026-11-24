@@ -453,7 +453,6 @@ struct TLobby : public TObject {
     static NJS_TEXLIST *get_lobby_texlist();
     static void *create_dialing_message_window(void *arg0, void *delay);
     static void free_singleton_805D7018();
-    void *reset_counters();
     s32 get_offset_58();
     s32 send_packet_by_id();
     s32 notify_field_4_alt();
@@ -780,7 +779,6 @@ struct TLobby : public TObject {
     static void update_photon_chair();
     static void init_player_forward();
     static void release_indexed_entry(s32 arg0);
-    static s32 destroy_ep3_exist(saddr arg0, s16 arg1);
     static void free_global_buffers();
     void fill_guild_card_from_char(s32 index);
     void roll_item_grind_bonus();

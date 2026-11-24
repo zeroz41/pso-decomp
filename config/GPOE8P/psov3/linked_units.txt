@@ -857,7 +857,6 @@ pso/unk/TLobby_8035D540.cpp
 pso/unk/TLobby_8036A37C.cpp
 pso/unk/TLobby_8036B204.cpp
 pso/ui/window/TWindowSubStatusDisp_8036D774.cpp
-pso/unk/TLobby_8036F81C.cpp
 pso/audio/AdxAiff.cpp
 pso/audio/AdxAu.cpp
 pso/audio/AdxSpsd.cpp
@@ -2029,7 +2028,6 @@ pso/network/PSOV3Encryption_8036AE2C.cpp
 pso/unk/text_8036B748.cpp
 pso/unk/text_8036BDA0.cpp
 pso/unk/text_8036BF10.cpp
-pso/unk/text_8036F764.cpp
 PowerPC_EABI_Support/MSL/MSL_C/PPC_EABI/Src/GCN_Mem_Alloc.c
 pso/audio/GcrnaBridgeTeardown.cpp
 pso/unk/text_803CC134.cpp
@@ -2211,3 +2209,4 @@ pso/network/TPlyJoinLobbyEntryData.cpp
 pso/player/TObjPlayer_801AF2F0Data.cpp
 pso/ui/window/TWindowHelpItem_802540ACData.cpp
 pso/ui/window/TWindowMainMenuData.cpp
+pso/system/prs.cpp
