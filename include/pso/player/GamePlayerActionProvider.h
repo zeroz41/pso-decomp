@@ -18,7 +18,7 @@ public:
     virtual int get_attack3_action();
     virtual int get_attack2_action();
     virtual int get_technique_action();
-    virtual int vfunc_15();
+    virtual int get_slow_walk_action();
     virtual void mark_attack_motions();
     virtual int get_motion_count();
     virtual int get_run_action();
@@ -26,16 +26,16 @@ public:
     virtual int get_interact_action();
     virtual int get_death_action();
     virtual int get_hurt_action();
-    virtual int vfunc_25();
+    virtual int get_stand_up_action();
     virtual int get_knockdown_action();
-    virtual int vfunc_23();
-    virtual int vfunc_22();
+    virtual int get_idle_action();
+    virtual int get_walk_action();
     virtual int get_use_item_action();
-    virtual int vfunc_20();
+    virtual int get_lock_on_idle_action();
     virtual int get_attack1_action();
     virtual int get_motion_buffer();
     virtual BmlMotionEntry *get_motion_list(s32 body_type);
-    virtual BmlMotionEntry *vfunc_76();
+    virtual BmlMotionEntry *get_current_motion_list();
 };
 LAYOUT_ASSERT(GamePlayerActionProvider_size, sizeof(GamePlayerActionProvider) == 0x8C);
 

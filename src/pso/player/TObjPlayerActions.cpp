@@ -635,7 +635,7 @@ void TObjPlayer::update_state_group() {
     clear_anim_flag();
     clear_chair_seated();
     leave_chair_seat();
-    set_motion_list(action_provider->vfunc_76());
+    set_motion_list(action_provider->get_current_motion_list());
 }
 
 void TObjPlayer__sub_801C75A4(u8 *player) {
@@ -659,9 +659,9 @@ void TObjPlayer::start_action_18() {
     this->action_state = 0x18;
     run_action_state_phase(this->mode, 6);
     if (is_action_flag_28() != 0) {
-        var_r4 = action_provider->vfunc_68();
+        var_r4 = action_provider->get_alt_chair_sit_action();
     } else {
-        var_r4 = action_provider->vfunc_67();
+        var_r4 = action_provider->get_chair_sit_action();
     }
     forward_1D1044_at_34c(var_r4);
     if (get_action_flag() != 0) {
@@ -706,7 +706,7 @@ void TObjPlayer::send_state_sync() {
     if (this == NULL || obj_isState2_324() == 0) {
         pkt.init();
         pkt.header.client_id = get_entity_id();
-        if (lobby_animation == action_provider->vfunc_68()) {
+        if (lobby_animation == action_provider->get_alt_chair_sit_action()) {
             pkt.set_alt_chair();
         }
         if (TKeyBoardControl__sub_801A58D8() != 0) {
@@ -810,10 +810,10 @@ s16 TObjPlayer::select_idle_action() {
     }
     if ((get_player_action_provider_selector() == 0) && (TFontSmallLobby::is_lobby_floor_15() != 0)) {
         if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x24) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(4) != 0))) {
-            return action_provider->vfunc_67();
+            return action_provider->get_chair_sit_action();
         }
         if (((TKeyBoardControl__sub_801A58B0() != 0) && (TKeyBoardControl::is_key_down(0x18) != 0)) || ((is_controls_locked() == 0) && (pad_binding.is_button_held(0x400) != 0) && (pad_binding.is_button_pressed(2) != 0))) {
-            return action_provider->vfunc_68();
+            return action_provider->get_alt_chair_sit_action();
         }
         if (TKeyBoardControl__sub_801A58B0() != 0) {
             if (TKeyBoardControl::is_key_down(0x40) != 0) {
@@ -829,130 +829,130 @@ s16 TObjPlayer::select_idle_action() {
                 return action_provider->get_use_item_action();
             }
             if (TKeyBoardControl::is_key_down(0x44) != 0) {
-                return action_provider->vfunc_31();
+                return action_provider->get_key_f5_action();
             }
             if (TKeyBoardControl::is_key_down(0x45) != 0) {
-                return action_provider->vfunc_32();
+                return action_provider->get_key_f6_action();
             }
             if (TKeyBoardControl::is_key_down(0x46) != 0) {
-                return action_provider->vfunc_33();
+                return action_provider->get_key_f7_action();
             }
             if (TKeyBoardControl::is_key_down(0x47) != 0) {
-                return action_provider->vfunc_34();
+                return action_provider->get_key_f8_action();
             }
             if (TKeyBoardControl::is_key_down(0x48) != 0) {
-                return action_provider->vfunc_35();
+                return action_provider->get_key_f9_action();
             }
             if (TKeyBoardControl::is_key_down(0x49) != 0) {
-                return action_provider->vfunc_36();
+                return action_provider->get_key_f10_action();
             }
             if (TKeyBoardControl::is_key_down(0x4A) != 0) {
-                return action_provider->vfunc_37();
+                return action_provider->get_key_f11_action();
             }
             if (TKeyBoardControl::is_key_down(0x4B) != 0) {
-                return action_provider->vfunc_38();
+                return action_provider->get_key_f12_action();
             }
             if (TKeyBoardControl::is_key_down(0x1C) != 0) {
                 return action_provider->get_death_action();
             }
             if (TKeyBoardControl::is_key_down(0x2E) != 0) {
-                return action_provider->vfunc_20();
+                return action_provider->get_lock_on_idle_action();
             }
             if (TKeyBoardControl::is_key_down(0x2F) != 0) {
-                return action_provider->vfunc_39();
+                return action_provider->get_key_6_action();
             }
             if (TKeyBoardControl::is_key_down(0x30) != 0) {
-                return action_provider->vfunc_40();
+                return action_provider->get_key_7_action();
             }
             if (TKeyBoardControl::is_key_down(0x31) != 0) {
-                return action_provider->vfunc_41();
+                return action_provider->get_key_8_action();
             }
             if (TKeyBoardControl::is_key_down(0x32) != 0) {
-                return action_provider->vfunc_42();
+                return action_provider->get_key_9_action();
             }
             if (TKeyBoardControl::is_key_down(0x33) != 0) {
-                return action_provider->vfunc_43();
+                return action_provider->get_key_0_action();
             }
             if (TKeyBoardControl::is_key_down(0x17) != 0) {
-                return action_provider->vfunc_44();
+                return action_provider->get_key_h_action();
             }
             if (TKeyBoardControl::is_key_down(0x11) != 0) {
-                return action_provider->vfunc_45();
+                return action_provider->get_key_b_action();
             }
             if (TKeyBoardControl::is_key_down(0x1E) != 0) {
-                return action_provider->vfunc_46();
+                return action_provider->get_key_o_action();
             }
             if (TKeyBoardControl::is_key_down(0x1D) != 0) {
-                return action_provider->vfunc_47();
+                return action_provider->get_key_n_action();
             }
             if (TKeyBoardControl::is_key_down(0x20) != 0) {
-                return action_provider->vfunc_48();
+                return action_provider->get_key_q_action();
             }
             if (TKeyBoardControl::is_key_down(0x19) != 0) {
-                return action_provider->vfunc_49();
+                return action_provider->get_key_j_action();
             }
             if (TKeyBoardControl::is_key_down(0x21) != 0) {
-                return action_provider->vfunc_50();
+                return action_provider->get_key_r_action();
             }
             if (TKeyBoardControl::is_key_down(0x1A) != 0) {
-                return action_provider->vfunc_51();
+                return action_provider->get_key_k_action();
             }
             if (TKeyBoardControl::is_key_down(0x26) != 0) {
-                return action_provider->vfunc_52();
+                return action_provider->get_key_w_action();
             }
             if (TKeyBoardControl::is_key_down(0x22) != 0) {
-                return action_provider->vfunc_53();
+                return action_provider->get_key_s_action();
             }
             if (TKeyBoardControl::is_key_down(0x23) != 0) {
-                return action_provider->vfunc_54();
+                return action_provider->get_key_t_action();
             }
             if (TKeyBoardControl::is_key_down(0x12) != 0) {
-                return action_provider->vfunc_55();
+                return action_provider->get_key_c_action();
             }
             if (TKeyBoardControl::is_key_down(0x13) != 0) {
-                return action_provider->vfunc_56();
+                return action_provider->get_key_d_action();
             }
             if (TKeyBoardControl::is_key_down(0x15) != 0) {
-                return action_provider->vfunc_57();
+                return action_provider->get_key_f_action();
             }
             if (TKeyBoardControl::is_key_down(0x16) != 0) {
-                return action_provider->vfunc_58();
+                return action_provider->get_key_g_action();
             }
             if (TKeyBoardControl::is_key_down(0x28) != 0) {
-                return action_provider->vfunc_59();
+                return action_provider->get_key_y_action();
             }
             if (TKeyBoardControl::is_key_down(0x1F) != 0) {
-                return action_provider->vfunc_60();
+                return action_provider->get_key_p_action();
             }
             if (TKeyBoardControl::is_key_down(0x10) != 0) {
-                return action_provider->vfunc_61();
+                return action_provider->get_key_a_action();
             }
             if (TKeyBoardControl::is_key_down(0x14) != 0) {
-                return action_provider->vfunc_62();
+                return action_provider->get_key_e_action();
             }
             if (TKeyBoardControl::is_key_down(0x29) != 0) {
-                return action_provider->vfunc_63();
+                return action_provider->get_key_z_action();
             }
             if (TKeyBoardControl::is_key_down(0x27) != 0) {
-                return action_provider->vfunc_64();
+                return action_provider->get_key_x_action();
             }
             if (TKeyBoardControl::is_key_down(0x25) != 0) {
-                return action_provider->vfunc_65();
+                return action_provider->get_key_v_action();
             }
             if (TKeyBoardControl::is_key_down(0x1B) != 0) {
-                return action_provider->vfunc_66();
+                return action_provider->get_key_l_action();
             }
             if (TKeyBoardControl::is_key_down(0x2A) != 0) {
-                return action_provider->vfunc_69();
+                return action_provider->get_key_1_action();
             }
             if (TKeyBoardControl::is_key_down(0x2B) != 0) {
-                return action_provider->vfunc_70();
+                return action_provider->get_key_2_action();
             }
             if (TKeyBoardControl::is_key_down(0x2C) != 0) {
-                return action_provider->vfunc_71();
+                return action_provider->get_key_3_action();
             }
             if (TKeyBoardControl::is_key_down(0x2D) != 0) {
-                return action_provider->vfunc_72();
+                return action_provider->get_key_4_action();
             }
             goto block_109;
         }
@@ -969,7 +969,7 @@ void TObjPlayer::update_dispatch_v76() {
     ((s32 (*)(void))clear_velocity)();
     clear_anim_flag();
     clear_lobby_pose_hold();
-    set_motion_list(action_provider->vfunc_76());
+    set_motion_list(action_provider->get_current_motion_list());
 }
 
 void TObjPlayer::lobby_animation_phase1_nop() {  }
@@ -4862,9 +4862,9 @@ void TObjPlayer::run_walk_state_phase(s16 phase) {
 
 s16 TObjPlayer::get_idle_animation() {
     if (this->actorFlags & 0x100000) {
-        return action_provider->vfunc_20();
+        return action_provider->get_lock_on_idle_action();
     }
-    return action_provider->vfunc_23();
+    return action_provider->get_idle_action();
 }
 
 void TObjPlayer::cleanup_idle_entry() { clear_actor_flags((uaddr)((void*)3840)); clear_state_flags((s32)(128)); move_speed.set_run_counter(0); this->resume_motion(); ((int (*)(void*))clear_velocity)(this); death_sink.reset(); }
@@ -5013,8 +5013,8 @@ void TObjPlayer::check_idle_movement_request() {
     if ((this->handle_palette_button_input() == 0) || (this->check_flag_48() == 0)) {
         this->lobby_animation = this->select_idle_action();
         if (is_action_id_none((int) (this->lobby_animation)) == 0) {
-            if (this->lobby_animation == action_provider->vfunc_67() ||
-                this->lobby_animation == action_provider->vfunc_68()) {
+            if (this->lobby_animation == action_provider->get_chair_sit_action() ||
+                this->lobby_animation == action_provider->get_alt_chair_sit_action()) {
                 run_action_state_phase(0x18, 5);
             } else {
                 run_action_state_phase(0x17, 5);
@@ -5187,7 +5187,7 @@ extern int fold_flush_8;
 #pragma pop
 
 short TObjPlayer::query_child_state2() {
-    return action_provider->vfunc_25();
+    return action_provider->get_stand_up_action();
 }
 
 void TObjPlayer::release_control_lock(void* p) { ((TObjPlayer *)p)->clear_flag_200(); }
@@ -5883,101 +5883,101 @@ void TObjPlayer::set_action_flag() {
     this->motion_flags |= 0x80;
 }
 
-int PlayerActionProvider::vfunc_68() { return -1; }
+int PlayerActionProvider::get_alt_chair_sit_action() { return -1; }
 
-int PlayerActionProvider::vfunc_67() { return -1; }
+int PlayerActionProvider::get_chair_sit_action() { return -1; }
 
 int ret_801D26AC(void) { return -1; }
 
-int PlayerActionProvider::vfunc_72() { return -1; }
+int PlayerActionProvider::get_key_4_action() { return -1; }
 
-int PlayerActionProvider::vfunc_71() { return -1; }
+int PlayerActionProvider::get_key_3_action() { return -1; }
 
-int PlayerActionProvider::vfunc_70() { return -1; }
+int PlayerActionProvider::get_key_2_action() { return -1; }
 
-int PlayerActionProvider::vfunc_69() { return -1; }
+int PlayerActionProvider::get_key_1_action() { return -1; }
 
-int PlayerActionProvider::vfunc_66() { return -1; }
+int PlayerActionProvider::get_key_l_action() { return -1; }
 
-int PlayerActionProvider::vfunc_65() { return -1; }
+int PlayerActionProvider::get_key_v_action() { return -1; }
 
-int PlayerActionProvider::vfunc_64() { return -1; }
+int PlayerActionProvider::get_key_x_action() { return -1; }
 
-int PlayerActionProvider::vfunc_63() { return -1; }
+int PlayerActionProvider::get_key_z_action() { return -1; }
 
-int PlayerActionProvider::vfunc_62() { return -1; }
+int PlayerActionProvider::get_key_e_action() { return -1; }
 
-int PlayerActionProvider::vfunc_61() { return -1; }
+int PlayerActionProvider::get_key_a_action() { return -1; }
 
-int PlayerActionProvider::vfunc_60() { return -1; }
+int PlayerActionProvider::get_key_p_action() { return -1; }
 
-int PlayerActionProvider::vfunc_59() { return -1; }
+int PlayerActionProvider::get_key_y_action() { return -1; }
 
-int PlayerActionProvider::vfunc_58() { return -1; }
+int PlayerActionProvider::get_key_g_action() { return -1; }
 
-int PlayerActionProvider::vfunc_57() { return -1; }
+int PlayerActionProvider::get_key_f_action() { return -1; }
 
-int PlayerActionProvider::vfunc_56() { return -1; }
+int PlayerActionProvider::get_key_d_action() { return -1; }
 
-int PlayerActionProvider::vfunc_55() { return -1; }
+int PlayerActionProvider::get_key_c_action() { return -1; }
 
-int PlayerActionProvider::vfunc_54() { return -1; }
+int PlayerActionProvider::get_key_t_action() { return -1; }
 
-int PlayerActionProvider::vfunc_53() { return -1; }
+int PlayerActionProvider::get_key_s_action() { return -1; }
 
-int PlayerActionProvider::vfunc_52() { return -1; }
+int PlayerActionProvider::get_key_w_action() { return -1; }
 
-int PlayerActionProvider::vfunc_51() { return -1; }
+int PlayerActionProvider::get_key_k_action() { return -1; }
 
-int PlayerActionProvider::vfunc_50() { return -1; }
+int PlayerActionProvider::get_key_r_action() { return -1; }
 
-int PlayerActionProvider::vfunc_49() { return -1; }
+int PlayerActionProvider::get_key_j_action() { return -1; }
 
-int PlayerActionProvider::vfunc_48() { return -1; }
+int PlayerActionProvider::get_key_q_action() { return -1; }
 
-int PlayerActionProvider::vfunc_47() { return -1; }
+int PlayerActionProvider::get_key_n_action() { return -1; }
 
-int PlayerActionProvider::vfunc_46() { return -1; }
+int PlayerActionProvider::get_key_o_action() { return -1; }
 
-int PlayerActionProvider::vfunc_45() { return -1; }
+int PlayerActionProvider::get_key_b_action() { return -1; }
 
-int PlayerActionProvider::vfunc_44() { return -1; }
+int PlayerActionProvider::get_key_h_action() { return -1; }
 
-int PlayerActionProvider::vfunc_43() { return -1; }
+int PlayerActionProvider::get_key_0_action() { return -1; }
 
-int PlayerActionProvider::vfunc_42() { return -1; }
+int PlayerActionProvider::get_key_9_action() { return -1; }
 
-int PlayerActionProvider::vfunc_41() { return -1; }
+int PlayerActionProvider::get_key_8_action() { return -1; }
 
-int PlayerActionProvider::vfunc_40() { return -1; }
+int PlayerActionProvider::get_key_7_action() { return -1; }
 
-int PlayerActionProvider::vfunc_39() { return -1; }
+int PlayerActionProvider::get_key_6_action() { return -1; }
 
-int PlayerActionProvider::vfunc_20() { return -1; }
+int PlayerActionProvider::get_lock_on_idle_action() { return -1; }
 
-int PlayerActionProvider::vfunc_38() { return -1; }
+int PlayerActionProvider::get_key_f12_action() { return -1; }
 
-int PlayerActionProvider::vfunc_37() { return -1; }
+int PlayerActionProvider::get_key_f11_action() { return -1; }
 
-int PlayerActionProvider::vfunc_36() { return -1; }
+int PlayerActionProvider::get_key_f10_action() { return -1; }
 
-int PlayerActionProvider::vfunc_35() { return -1; }
+int PlayerActionProvider::get_key_f9_action() { return -1; }
 
-int PlayerActionProvider::vfunc_34() { return -1; }
+int PlayerActionProvider::get_key_f8_action() { return -1; }
 
-int PlayerActionProvider::vfunc_33() { return -1; }
+int PlayerActionProvider::get_key_f7_action() { return -1; }
 
-int PlayerActionProvider::vfunc_32() { return -1; }
+int PlayerActionProvider::get_key_f6_action() { return -1; }
 
-int PlayerActionProvider::vfunc_31() { return -1; }
+int PlayerActionProvider::get_key_f5_action() { return -1; }
 
-int PlayerActionProvider::vfunc_25() { return -1; }
+int PlayerActionProvider::get_stand_up_action() { return -1; }
 
-int PlayerActionProvider::vfunc_22() { return -1; }
+int PlayerActionProvider::get_walk_action() { return -1; }
 
-int PlayerActionProvider::vfunc_15() { return -1; }
+int PlayerActionProvider::get_slow_walk_action() { return -1; }
 
-int PlayerActionProvider::vfunc_23() { return -1; }
+int PlayerActionProvider::get_idle_action() { return -1; }
 
 #pragma push
 #pragma inline_depth(1)

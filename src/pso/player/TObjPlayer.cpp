@@ -1043,7 +1043,7 @@ int get_player_action_provider_selector() { return player_action_provider_select
 extern "C" {
 
 const TObjMotionAction *PlayerActionProvider::get_motion_actions(s32, s32) { return 0; }
-BmlMotionEntry *PlayerActionProvider::vfunc_76() { return NULL; }
+BmlMotionEntry *PlayerActionProvider::get_current_motion_list() { return NULL; }
 
 u8 TObjPlayer__sub_801C010C(const PlayerTechniqueState *techs, s16 technique) {
     return techs->levels[technique];

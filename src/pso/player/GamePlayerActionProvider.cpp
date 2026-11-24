@@ -2720,20 +2720,20 @@ void init_game_player_actions() { set_player_action_provider_selector(1); alloc_
 GamePlayerActionProvider::~GamePlayerActionProvider() {}
 GamePlayerActionProvider::GamePlayerActionProvider() {}
 BmlMotionEntry *GamePlayerActionProvider::get_motion_list(s32) { return motions; }
-BmlMotionEntry *GamePlayerActionProvider::vfunc_76() { return motions; }
+BmlMotionEntry *GamePlayerActionProvider::get_current_motion_list() { return motions; }
 int GamePlayerActionProvider::get_motion_buffer() { return game_action_motion_buffer; }
 
-int GamePlayerActionProvider::vfunc_15() { return 0; }
+int GamePlayerActionProvider::get_slow_walk_action() { return 0; }
 int GamePlayerActionProvider::get_technique_action() { return 1; }
 int GamePlayerActionProvider::get_attack1_action() { return 2; }
 int GamePlayerActionProvider::get_attack2_action() { return 3; }
 int GamePlayerActionProvider::get_attack3_action() { return 4; }
-int GamePlayerActionProvider::vfunc_20() { return 5; }
+int GamePlayerActionProvider::get_lock_on_idle_action() { return 5; }
 int GamePlayerActionProvider::get_use_item_action() { return 6; }
-int GamePlayerActionProvider::vfunc_22() { return 7; }
-int GamePlayerActionProvider::vfunc_23() { return 8; }
+int GamePlayerActionProvider::get_walk_action() { return 7; }
+int GamePlayerActionProvider::get_idle_action() { return 8; }
 int GamePlayerActionProvider::get_knockdown_action() { return 9; }
-int GamePlayerActionProvider::vfunc_25() { return 10; }
+int GamePlayerActionProvider::get_stand_up_action() { return 10; }
 int GamePlayerActionProvider::get_hurt_action() { return 11; }
 int GamePlayerActionProvider::get_death_action() { return 12; }
 int GamePlayerActionProvider::get_interact_action() { return 13; }

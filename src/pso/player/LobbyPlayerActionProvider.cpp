@@ -194,7 +194,7 @@ int LobbyPlayerActionProvider::get_run_action() {
     return r;
 }
 
-int LobbyPlayerActionProvider::vfunc_22() {
+int LobbyPlayerActionProvider::get_walk_action() {
     s32 t = ((TObjPlayer *)this)->is_handle_valid();
     s32 r = 1;
     if (t == 2) {
@@ -203,7 +203,7 @@ int LobbyPlayerActionProvider::vfunc_22() {
     return r;
 }
 
-int LobbyPlayerActionProvider::vfunc_23() {
+int LobbyPlayerActionProvider::get_idle_action() {
     return ((((TObjPlayer *)this)->is_handle_valid() - 2) == 0) ? 3 : 0;
 }
 
@@ -230,7 +230,7 @@ int LobbyPlayerActionProvider::get_gender() {
     return get_gender(((TObjPlayer *)this)->is_handle_valid());
 }
 
-BmlMotionEntry *LobbyPlayerActionProvider::vfunc_76() {
+BmlMotionEntry *LobbyPlayerActionProvider::get_current_motion_list() {
     return get_motion_list(((TObjPlayer *)this)->is_handle_valid());
 }
 
