@@ -3280,7 +3280,7 @@ void TObjPlayer::apply_battle_level_reset(s32 level) {
         }
     }
     stat_block->level = level;
-    stat_block->mbr_0xe = 40;
+    stat_block->esp = 40;
     stat_block->exp = get_current_state_field(cls, level);
     stat_block->meseta = 300;
     f32 tp_factor = get_tp_class_factor();
@@ -6190,15 +6190,15 @@ void TObjPlayer::clamp_stats(player_stats *out, player_stats *class_stats) {
     } else {
         out->stats.lck = stats->stats.lck;
     }
-    extra = stats->mbr_0xe;
+    extra = stats->esp;
     if (extra < 0) {
-        out->mbr_0xe = 1;
+        out->esp = 1;
         clamp_stat_41c();
     } else {
-        out->mbr_0xe = extra;
+        out->esp = extra;
     }
     out->proportions = stats->proportions;
-    out->mbr_0x14 = stats->mbr_0x14;
+    out->knockback_resist = stats->knockback_resist;
     value = stats->level;
     max_level = TObjPlayer::get_max_level();
     if (value < 0) {

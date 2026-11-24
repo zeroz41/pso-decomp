@@ -2616,7 +2616,7 @@ void TObjChara::apply_knockback_from_attacker(u8 *arg1, f32) {
         this->velocity.z = (0.0f);
         return;
     }
-    scale = 10.0f + (10.0f - this->stat_block->mbr_0x14);
+    scale = 10.0f + (10.0f - this->stat_block->knockback_resist);
     if (scale < 0.0f) {
         scale = 0.0f;
     }

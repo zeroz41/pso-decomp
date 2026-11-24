@@ -78,8 +78,8 @@ void init_character_stats_for_level(s32 cls, TPlyCharData *c, s32 level) {
     c->m_stats.stats.dfp = st.dfp;
     c->m_stats.stats.ata = st.ata;
     c->m_stats.stats.lck = st.lck;
-    c->m_stats.mbr_0xe = 0x28;
-    c->m_stats.mbr_0x14 = 10.0f;
+    c->m_stats.esp = 0x28;
+    c->m_stats.knockback_resist = 10.0f;
     c->m_stats.level = level;
     c->m_stats.exp = TObjPlayer::get_current_state_field(cls, level);
     c->m_stats.meseta = 300;
