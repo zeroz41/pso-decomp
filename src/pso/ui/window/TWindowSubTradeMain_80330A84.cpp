@@ -607,7 +607,7 @@ void TWindowSubTradeMain::run_task() {
         if (o->timer > 0) {
             o->timer--;
         } else {
-            reset__6TLobbyFv();
+            reset_trade_session();
             o->state = 0x22;
         }
         break;

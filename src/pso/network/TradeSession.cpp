@@ -421,7 +421,7 @@ void TLobby::cancel_trade() {
         break;
     case 1: case 2: case 3: case 4: case 5: case 6:
         TLobby::send_trade_proposal_result(5, 4);
-        TLobby::reset();
+        reset_trade_session();
         break;
     case 7:
     case 8:
@@ -458,10 +458,10 @@ s32 format_trade_out_of_range_message(s32 client_id) {
     return get_shared_text_buffer();
 }
 
-s32 TLobby::show_event_message(s32 client_id, s32 arg1, s32 code) {
+s32 TLobby::show_event_message(s32 client_id, s32 result, s32 item_id) {
     void *item;
 
-    switch (arg1) {
+    switch (result) {
     case 0:
         return 0;
     case 1:
@@ -474,7 +474,7 @@ s32 TLobby::show_event_message(s32 client_id, s32 arg1, s32 code) {
         text_builder_append();
         return get_shared_text_buffer();
     case 2:
-        item = find_item_by_id(code);
+        item = find_item_by_id(item_id);
         if (item == NULL) {
             return 0;
         }
@@ -509,7 +509,7 @@ s32 TLobby::show_event_message(s32 client_id, s32 arg1, s32 code) {
 }
 
 
-void reset__6TLobbyFv(void) {
+void reset_trade_session() {
     if (is_trade_active() == 0) {
         trade_partner_client_id = 4;
         trade_proposal_state = 0;
@@ -573,7 +573,7 @@ void cancel_trade_for_member_out_of_range(s32 client_id) {
     packet.prepare_and_send(new_var);
     if ((s8)trade_proposal_state == 2) {
         TWindowTradeRequest::close_request_window();
-        TLobby::reset();
+        reset_trade_session();
         return;
     }
     TLobby::reset(format_trade_out_of_range_message(client_id));
@@ -782,7 +782,7 @@ void handle_trade_request_state_a(G_ModifyTradeProposal_6xA6 *proposal) {
     switch (proposal->result) {
     case 0:
         TWindowTradeRequest::close_request_window();
-        TLobby::reset();
+        reset_trade_session();
         break;
     case 1:
     case 2:
@@ -796,7 +796,7 @@ void handle_trade_request_state_b(G_ModifyTradeProposal_6xA6 *proposal) {
         break;
     case 4:
         TWindowTradeRequest::close_request_window();
-        TLobby::reset();
+        reset_trade_session();
         break;
     }
 }

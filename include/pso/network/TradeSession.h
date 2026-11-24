@@ -32,9 +32,9 @@ void handle_trade_partner_cancel(void *packet);
 void handle_trade_request_reply(void *packet);
 void handle_trade_state_cancel(G_ModifyTradeProposal_6xA6 *proposal);
 void ignore_trade_proposal_event(void);
+void reset_trade_session(void);
 extern "C" {
 void reset__6TLobbyFi(saddr text_handle);
-void reset__6TLobbyFv(void);
 void send_6xA6_modify_trade_proposal(saddr client_id);
 }
 void send_trade_busy_reply(saddr client_id);

@@ -789,7 +789,7 @@ struct TLobby : public TObject {
     static void clear_flag400();
     static void check_flags_and_proceed();
     static void cancel_trade();
-    static s32 show_event_message(s32 client_id, s32 arg1, s32 code);
+    static s32 show_event_message(s32 client_id, s32 result, s32 item_id);
     void build_trade_item_list();
     static void send_modify_trade_proposal(s8 what, s32 item_id, s32 amount);
     static void send_trade_proposal_result(s8 what, s8 result);
@@ -998,7 +998,6 @@ struct TLobby : public TObject {
     static s32 replace_file_extension(void *, void *, void *);
     static void request_game_list();
     static void reset(int);
-    static void reset();
     static void reset_camera_if_fullscreen(void*);
     static void reset_random_enemies_mode(TObject *fade);
     static void reset_state(int msg);
