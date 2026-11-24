@@ -626,7 +626,6 @@ struct TLobby : public TObject {
     static s32 count_members();
     static void apply_battle_rules_to_players();
     void player_flag_1();
-    int check_player_state_flag_2();
     static void handle_reset_choice(s32 choice);
     static void clear_flag400();
     static void check_flags_and_proceed();

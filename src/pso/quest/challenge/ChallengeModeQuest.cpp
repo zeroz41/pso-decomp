@@ -13,6 +13,7 @@
 #include "pso/unk/text_8026A328.h"
 #include "pso/object/TObjTombstone.h"
 #include "pso/object/TObjChallengeRetry.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/PlayerSlots.h"
@@ -190,7 +191,7 @@ s32 challenge_any_player_dead() {
     }
     for (i = 0; i < 4; i++) {
         player = (TObjPlayer *)get_player_by_client_id(i);
-        if ((player != NULL) && (((TLobby *)player)->check_player_state_flag_2() != 0)) {
+        if ((player != NULL) && (player->check_player_state_flag_2() != 0)) {
             challenge_mode_state.failed = 1;
             return 1;
         }
@@ -207,7 +208,7 @@ s32 challenge_all_players_dead() {
     }
     for (i = 0; i < 4; i++) {
         player = (TObjPlayer *)get_player_by_client_id(i);
-        if ((player != NULL) && (((TLobby *)player)->check_player_state_flag_2() == 0)) {
+        if ((player != NULL) && (player->check_player_state_flag_2() == 0)) {
             return 0;
         }
     }

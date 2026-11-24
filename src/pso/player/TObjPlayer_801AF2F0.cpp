@@ -5130,7 +5130,7 @@ void TObjPlayer::prepare_hospital_return() {
 
 void handle_6x34(void) {  }
 
-int TLobby::check_player_state_flag_2() { return test_flags_any((s32 *)((char*)this + 0x858), 2); }
+int TObjPlayer::check_player_state_flag_2() { return test_flags_any((s32 *)((char*)this + 0x858), 2); }
 
 void TLobby::player_flag_1() { ((TObjPlayer *)this)->set_battle_flag(1); }
 

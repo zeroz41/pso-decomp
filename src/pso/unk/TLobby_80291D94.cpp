@@ -447,7 +447,7 @@ s32 TLobby__sub_8029299C(void) {
     i = 0;
     do {
         player = (u8 *)(((saddr)get_player_by_client_id(i)));
-        if ((player != NULL) && (((int)((TLobby *)player)->check_player_state_flag_2()) != 0)) {
+        if ((player != NULL) && (((int)((TObjPlayer *)player)->check_player_state_flag_2()) != 0)) {
             TLobby__sub_80293218((s32) i);
             var_r31 = 1;
         }
@@ -468,7 +468,7 @@ s32 TLobby__sub_80292A34(void) {
     var_r31 = 0;
 loop_3:
     player = (u8 *)(((u8 *)get_player_by_client_id(var_r31)));
-    if ((player != NULL) && (((int)((TLobby *)player)->check_player_state_flag_2()) == 0)) {
+    if ((player != NULL) && (((int)((TObjPlayer *)player)->check_player_state_flag_2()) == 0)) {
         return 0;
     }
     var_r31 += 1;

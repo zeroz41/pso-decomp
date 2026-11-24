@@ -1358,6 +1358,7 @@ struct TObjPlayer : public TObjChara {
     void set_regen_timer(s32 v);
     void* get_position_history_entry(int index, void* x, void* z);
     s32 get_state_flags();
+    int check_player_state_flag_2();
     static int default_action_provider_variant();
     void lobby_chair_phase8_nop();
     void finish_chair_sit_down();

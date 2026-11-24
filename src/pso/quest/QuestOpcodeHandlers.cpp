@@ -4390,7 +4390,7 @@ void qst_op_p_dead(void) {
             }
             goto block_7;
         }
-        if (((TLobby *)lobby)->check_player_state_flag_2() != 0) {
+        if (((TObjPlayer *)lobby)->check_player_state_flag_2() != 0) {
             qst_registers[dest_reg] = 1;
             return;
         }
