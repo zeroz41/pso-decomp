@@ -117,6 +117,7 @@
 #include "pso/math/ScratchVectors.h"
 #include "pso/system/MainPhaseState.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
+#include "pso/player/TObjPlayerSet.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/object/base/ActorCollision.h"
@@ -521,23 +522,6 @@ typedef struct Msg_801BC068 {
     u8 vec[12];
 } Msg_801BC068;
 
-typedef struct Obj_801BC068 {
-    u8 pad0[0xC];
-    struct Obj_801BC068 *next;
-    u8 pad10[0x38 - 0x10];
-    u8 pos[12];
-    u8 pad44[0x60 - 0x44];
-    s32 ang;
-    u8 pad64[0x68 - 0x64];
-    f32 f68;
-    u8 pad6c[0x84 - 0x6C];
-    s32 f84;
-} Obj_801BC068;
-
-typedef struct List_801BC068 {
-    u8 pad0[0x14];
-    Obj_801BC068 *head;
-} List_801BC068;
 
 void mark_player_killed(TObjPlayer *player);
 
@@ -719,7 +703,7 @@ struct Unk_801B67C4 {
 };
 
 struct Pkt_801B8908 { u16 f0; u16 client; s16 a; s16 b; };
-struct Cand_801BBE54 { s16 val; Obj_801BC068 *obj; };
+struct Cand_801BBE54 { s16 val; TObjPlayerSet *obj; };
 struct Cmd_801BBE54 { u16 hdr; u16 client; s32 area; u8 pos[12]; };
 extern "C" {
 uaddr create_placed_trap__10TOMineTrapFUiss(u8 *, s32, s32);
@@ -738,11 +722,11 @@ void TObjPlayer::update_position(PlayerSyncRecord *record) {
 void TObjPlayer::send_selected_spawn_position(u16 id) {
     Msg_801BC068 m;
     saddr found;
-    Obj_801BC068 *o;
+    TObjPlayerSet *o;
     found = 0;
-    for (o = ((List_801BC068 *)tl_06)->head; o != NULL; o = o->next) {
-        if (reinterpret_cast<TObject *>(o)->check_value_equals(TObjPlayer__player_set_class_name) != 0 && o->f84 == 0 &&
-            (s32)o->f68 == id) {
+    for (o = (TObjPlayerSet *)tl_06->m_down; o != NULL; o = (TObjPlayerSet *)o->m_next) {
+        if (o->check_value_equals(TObjPlayer__player_set_class_name) != 0 && o->set_params[0] == 0 &&
+            (s32)o->scale.x == id) {
             found = 1;
             break;
         }
@@ -750,8 +734,8 @@ void TObjPlayer::send_selected_spawn_position(u16 id) {
     if (found != 0 && (this == NULL || this->obj_isState2_324() == 0)) {
         ((G_SetPosition_6x3F *)&m)->init();
         m.id = ((TObjBase *)(this))->get_entity_id();
-        m.ang = o->ang;
-        VecCopy((Vec *)m.vec, (const Vec *)o->pos);
+        m.ang = o->rotation_y;
+        VecCopy((Vec *)m.vec, &o->position);
         ((G_SetPosition_6x3F *)&m)->send();
     }
 }
@@ -768,22 +752,22 @@ void TObjPlayer::send_respawn_position() {
     s32 count;
     s32 i;
     s32 ok;
-    Obj_801BC068 *obj;
+    TObjPlayerSet *obj;
     Cand_801BBE54 *c;
     s32 area;
-    Obj_801BC068 *pick;
+    TObjPlayerSet *pick;
 
     ((void (*)(void *, void *, int, int, int))__construct_array)(list, (void *)TObjPlayer__sub_801BC050, 0, 8, 13);
     c = list;
     count = 0;
-    for (obj = ((List_801BC068 *)tl_06)->head; obj != NULL; obj = obj->next) {
-        if (reinterpret_cast<TObject *>(obj)->check_value_equals(TObjPlayer__player_set_class_name) != 0 && obj->f84 == 0) {
+    for (obj = (TObjPlayerSet *)tl_06->m_down; obj != NULL; obj = (TObjPlayerSet *)obj->m_next) {
+        if (obj->check_value_equals(TObjPlayer__player_set_class_name) != 0 && obj->set_params[0] == 0) {
             f32 range = player_lock_range_sq;
             ok = 1;
             for (i = 0; i < 12; i++) {
                 if (i != (u16)this->get_entity_id()) {
-                    u8 *p = (u8 *)get_player_by_client_id(i);
-                    if (p != NULL && horizontal_distance_squared((const Vec *)obj->pos, (const Vec *)(p + 0x38)) < range) {
+                    TObjPlayer *p = get_player_by_client_id(i);
+                    if (p != NULL && horizontal_distance_squared(&obj->position, &p->position) < range) {
                         ok = 0;
                         break;
                     }
@@ -791,7 +775,7 @@ void TObjPlayer::send_respawn_position() {
             }
             if (ok != 0) {
                 count++;
-                c->val = obj->f68;
+                c->val = obj->scale.x;
                 c->obj = obj;
                 c++;
             }
@@ -806,8 +790,8 @@ void TObjPlayer::send_respawn_position() {
         area = this->rotation_y;
         VecCopy((Vec *)pos, &this->position);
     } else {
-        area = pick->ang;
-        VecCopy((Vec *)pos, (const Vec *)pick->pos);
+        area = pick->rotation_y;
+        VecCopy((Vec *)pos, &pick->position);
     }
     if (this == NULL || ((TObjChara *)this)->obj_isState2_324() == 0) {
         cmd.client = this->get_entity_id();
