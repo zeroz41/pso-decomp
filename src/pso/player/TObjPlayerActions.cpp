@@ -500,14 +500,14 @@ s32 fn_8036B798(void *);
 s32 fn_8036B7C0(void *);
 
 extern const char *TOMineTrap__data_805D3080;
-const f64 lbl_80447128 = 0.1;
+const f64 freeze_escape_timer_scale = 0.1;
 const f64 lbl_80447148 = 10430.38043493439;
 extern f32 player_feedback_light_color[];
 extern void *player_slot_table[];
-extern const char *TObjPlayer_name;
 extern const char *TWindowReturnCity__class_name;
 
 }
+extern const char *TObjPlayer_name;
 void handle_6xB0_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *command) {
     G_MoveLobbyChair_6xB0 m;
     TObjPlayer *p;
@@ -571,7 +571,7 @@ void TObjPlayer::start_action_18() {
     } else {
         sit_action = action_provider->get_chair_sit_action();
     }
-    forward_1D1044_at_34c(sit_action);
+    set_chair_seat_animation(sit_action);
     if (get_action_flag() != 0) {
         update_facing_from_lock();
     }
@@ -1384,7 +1384,7 @@ void TObjPlayer::enter_freeze_action() {
         this->phase = 1;
     } else {
         this->phase = 0;
-        this->freeze_escape_step = (s32) -(lbl_80447128 * (f64) this->get_status_effect_timer(1));
+        this->freeze_escape_step = (s32) -(freeze_escape_timer_scale * (f64) this->get_status_effect_timer(1));
     }
     this->set_action_state(0x13, (s16) ((s16 (*)(void))ret_801D26AC)());
 }
@@ -3105,7 +3105,6 @@ void handle_6x33_revive_player(G_RevivePlayer_6x33 *command) {
         }
     }
 }
-extern "C" {
 
 void send_6x33_revive_player(u16 client_id, u16 target_id) {
     struct Pkt_801CCB58 pkt;
@@ -3117,6 +3116,8 @@ void send_6x33_revive_player(u16 client_id, u16 target_id) {
         ((TObjPlayer *)(&pkt))->send_coords();
     }
 }
+
+extern "C" {
 
 void TObjPlayer::set_technique_level_clamped(TObjPlayer *player, u8 level, int tech) {
     if (player->obj_isState3_324() != 0 && TObjPlayer::is_invalid_slot(level) == 0 &&
@@ -5012,7 +5013,7 @@ void TObjPlayer::set_chair_seated() { this->state_flags |= 0x4000000; }
 
 int TObjPlayer::get_action_flag() { return (this->state_flags >> 27) & 0x1; }
 
-void TObjPlayer::forward_1D1044_at_34c(s16 value) { chair_seat.set_animation(value); }
+void TObjPlayer::set_chair_seat_animation(s16 value) { chair_seat.set_animation(value); }
 
 int TObjPlayer::is_action_flag_28() { return (this->state_flags >> 28) & 0x1; }
 
