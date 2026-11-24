@@ -12,7 +12,7 @@ class TObjPlayer;
 // player it passes within 7 units of.
 class TDubchikShot : public TObject {
 public:
-    TDubchikShot(void *start, s32 angle, s32 source, s32 power);
+    TDubchikShot(Vec *start, s32 angle, s32 source, s32 power);
     virtual ~TDubchikShot();
     virtual void run_task();
     void try_hit_target(TObjPlayer *player);

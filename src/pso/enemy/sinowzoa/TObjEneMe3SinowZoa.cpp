@@ -1712,7 +1712,7 @@ void TObjEneMe3SinowZoa::render() {
             this->vfunc_108();
             TObjEneDD::clear_global_flag_400();
         }
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         for (i = 0; i < 3; i++) {
             if (TObjEneMe3SinowZoa__material_color_pointers[i] != NULL) {
@@ -1811,7 +1811,7 @@ void TObjEneMe3SinowZoa::render_demo() {
     flag = is_alternate_variant();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         if (flag != 0) {
             NJS_TEXNAME *parts = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
             s32 i;

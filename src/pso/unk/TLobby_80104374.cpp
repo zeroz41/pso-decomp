@@ -727,26 +727,6 @@ void TMainTask::cleanup_game_objects() {
 
 // ---- TItemData_80104D0C.cpp
 
-struct ObjBase_80104DAC { u8 pad[0x18]; };
-
-struct Obj_80104DAC : ObjBase_80104DAC {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual s32 v14();
-};
-
 struct ItemData_80104DAC { u8 b[0x14]; };
 
 struct MagData_80104DAC { u8 b[0x10]; };
@@ -769,7 +749,7 @@ s32 TItemData::is_item_usable(saddr arg0, u8 *item) {
     }
     return (u8)((u8) (find_eligible_combination_recipe(arg0, item) != 0));
 }
-#define o ((Obj_80104DAC *)arg0)
+#define o ((TObjPlayer *)arg0)
 saddr find_eligible_combination_recipe(saddr arg0, u8 *item) {
     ItemData_80104DAC d;
     ItemData_80104DAC d2;
@@ -780,7 +760,7 @@ saddr find_eligible_combination_recipe(saddr arg0, u8 *item) {
     u8 v;
     rec = NULL;
     if (o != NULL && item != NULL) {
-        it = find_unique_combination_target((TObjPlayer *)o, (TItemData *)item);
+        it = find_unique_combination_target(o, (TItemData *)item);
         if (it != NULL) {
             ((TItemData *)(&d))->init();
             ((TItem *)it)->copy_to_item_data((TItemData *)&d);
@@ -809,13 +789,13 @@ saddr find_eligible_combination_recipe(saddr arg0, u8 *item) {
         }
         v = rec->bB;
         if (v != 0xFF) {
-            if (o->v14() < v - 1) {
+            if (o->get_actor_level_index() < v - 1) {
                 return 0;
             }
         }
         v = rec->bC;
         if (v != 0xFF) {
-            if (v != (s32)((TObjPlayer *)o)->get_section_id()) {
+            if (v != o->get_section_id()) {
                 return 0;
             }
         }

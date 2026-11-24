@@ -1794,7 +1794,7 @@ void TObjEneMe1Canadin::render() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         apply_model_color();
         push_matrix();
         post_translate_matrix(&position.x);
@@ -1864,7 +1864,7 @@ void TObjEneMe1Canadin::render_demo() {
     }
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         draw_ground_shadow(0, 0);
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);

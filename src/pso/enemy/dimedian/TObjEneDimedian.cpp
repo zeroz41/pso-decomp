@@ -244,7 +244,7 @@ void TObjEneDimedian::render() {
             break;
         }
         }
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         if (appearing == 1) {
             if (body_fade.has_visible_opacity() != 0) {
                 saved_model_render_flags = model_render_flags;

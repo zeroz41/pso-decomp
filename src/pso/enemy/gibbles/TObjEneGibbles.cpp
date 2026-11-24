@@ -356,7 +356,7 @@ void TObjEneGibbles::render() {
         TObjEneGibbles__render_node_index = 0;
         TObjEneGibbles__render_rotation_x = this->head_angle;
         set_chunk_model_node_callback(gibbles_render_node_callback);
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         switch (this->mode) {
         case 0:
             break;

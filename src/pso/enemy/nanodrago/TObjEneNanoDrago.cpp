@@ -372,7 +372,7 @@ void TObjEneNanoDrago::render() {
         }
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         select_actor_lighting(this);
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         rendered = 1;
         push_matrix();
         translate_matrix(0, position.x, (f32) (flightHeight + (position.y + sinkingOffset)), position.z);

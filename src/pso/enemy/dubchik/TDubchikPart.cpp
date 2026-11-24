@@ -81,7 +81,7 @@ void TDubchikPart::run_task() {
         v.x += velocity.x;
         v.z += velocity.z;
         v.y += 5.0f;
-        if (project_actor_to_ground((TObjChara *)this, &v, 0) == 1) {
+        if (project_actor_to_ground(this, &v, 0) == 1) {
             pos.x = v.x;
             pos.z = v.z;
             if (pos.y < v.y) {

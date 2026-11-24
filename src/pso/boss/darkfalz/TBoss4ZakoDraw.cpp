@@ -47,7 +47,7 @@ extern u32 model_render_flags;
 
 
 
-void TBoss4ZakoDraw::render() { TObjPlayer::toggle_particle_effect(); TBoss4ZakoDraw::draw_queued(); TParticleCtrl::end_effect_render(); }
+void TBoss4ZakoDraw::render() { TParticleCtrl::toggle_particle_effect(); TBoss4ZakoDraw::draw_queued(); TParticleCtrl::end_effect_render(); }
 void TBoss4ZakoDraw::run_task() {
     s32 old;
     if (dark_falz_controller_instance == NULL) {

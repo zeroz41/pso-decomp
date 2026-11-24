@@ -435,7 +435,7 @@ void TObjEneDubchik::render() {
         detail = classify_actor_view_detail(120.0f, 400.0f, 20.0f);
         if (detail != 0) {
             select_actor_lighting(this);
-            TObjPlayer::toggle_particle_effect();
+            TParticleCtrl::toggle_particle_effect();
             if (collapsed != 0) {
                 TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(dubchik_texlist));
             } else {

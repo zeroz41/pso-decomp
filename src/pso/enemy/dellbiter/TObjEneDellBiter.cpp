@@ -1480,7 +1480,7 @@ void TObjEneDellBiter::render() {
         TObjEneDellBiter__demo_script_cursor = part_positions;
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         draw = 1;
         camera_fade = &camera_fades[cam];
         camera_fade->update();
@@ -1545,7 +1545,7 @@ void TObjEneDellBiter::render_demo() {
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         Vec v = { 1.0f, 1.0f, 3.0f };
         TObjEneDD::draw_ground_shadow(&v, 0);
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);

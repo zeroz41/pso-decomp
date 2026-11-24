@@ -1107,7 +1107,7 @@ void TObjEneBm3Fly::render() {
         translate_matrix(0, this->position.x, this->flightY, this->position.z);
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         set_alpha_ref_override(0x8F);
         if (kind == 1) {
             this->draw();
@@ -1129,7 +1129,7 @@ void TObjEneBm3Fly::render_demo() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         draw_chunk_object(model);
         TParticleCtrl::end_effect_render();
         pop_matrix();

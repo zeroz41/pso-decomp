@@ -831,7 +831,7 @@ void TObjEneSaver::render() {
         saver_render_node_index = 0;
         saver_render_rotation_x = facing_angle;
         set_chunk_model_node_callback(TObjPlayer::step_cutscene_frame);
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         switch (mode) {
         case 11:
             if (phase == 1) {

@@ -604,7 +604,7 @@ void TObjGrass::render() {
     if (TObjPlayer::check_demo_mode() == 1) {
         draw_chunk_object(*(void **)((s8 *)arg0 + 0x34));
     } else {
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         TObjGrass__render_node_index = 0;
         set_chunk_model_node_callback(TObjGrass::update_camera_vec_by_stage);
         if (*(s32 *)((s8 *)arg0 + 0x3AC) == 1) {

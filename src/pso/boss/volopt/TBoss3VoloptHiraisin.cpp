@@ -217,7 +217,7 @@ void TBoss3VoloptHiraisin::render() {
         saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x01000000;
         select_actor_lighting(this);
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);

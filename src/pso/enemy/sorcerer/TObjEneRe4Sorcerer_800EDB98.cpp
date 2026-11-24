@@ -1349,7 +1349,7 @@ void TObjEneRe4Sorcerer::step_effect_sequence(NJS_OBJECT *) {
     }
     case 0x37:
         model_render_flags = TObjEneRe4Sorcerer__saved_render_flags;
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         break;
     }
     TObjEneRe4Sorcerer__render_node_index += 1;
@@ -1395,7 +1395,7 @@ void TObjEneRe4Sorcerer::render() {
         TObjEneRe4Sorcerer__uv_scroll_buffer->scroll_uvs(strip_scroll, 0);
         model_render_flags |= 0x20000;
         TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         draw_model = 1;
         if (behavior_flags & 4) {
             fade.set_flags_and_apply_damage_color();
@@ -1461,7 +1461,7 @@ void TObjEneRe4Sorcerer::render_demo() {
         texture_scroll += 0.01f;
         model_render_flags |= 0x20000;
         TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, texture_scroll);
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         draw_chunk_object(model);
         TParticleCtrl::end_effect_render();
         model_render_flags &= 0xFFFDFFFF;

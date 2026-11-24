@@ -1163,7 +1163,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     part->update();
     vis = part->updateFromCamera((const f32 *)&body_center);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
-    TObjPlayer::toggle_particle_effect();
+    TParticleCtrl::toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, this->rotation_y);
@@ -1346,7 +1346,7 @@ void TObjEneMorfos::render_demo() {
             Vec v = morfos_vfunc_106_shadow_scale;
             draw_ground_shadow(&v, 0);
         }
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);

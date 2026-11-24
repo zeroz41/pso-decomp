@@ -387,7 +387,7 @@ void TObjEneMe1GiGue::render() {
     }
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     select_actor_lighting(this);
-    TObjPlayer::toggle_particle_effect();
+    TParticleCtrl::toggle_particle_effect();
     ok = 1;
     push_matrix();
     translate_matrix(0, position.x, flightHeight + (position.y + sinkingOffset), position.z);

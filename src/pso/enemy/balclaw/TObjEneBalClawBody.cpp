@@ -830,7 +830,7 @@ void TObjEneBalClawBody::render() {
             shadow = 1;
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             select_actor_lighting(this);
-            TObjPlayer::toggle_particle_effect();
+            TParticleCtrl::toggle_particle_effect();
             push_matrix();
             model_render_flags &= 0xFFFFFBFF;
             if (TObjPlayer::check_demo_mode() == 1) {

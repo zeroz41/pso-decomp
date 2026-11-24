@@ -807,7 +807,7 @@ block_23:
                     break;
                 }
                 TObjEneDD::clear_global_flag_400();
-                TObjPlayer::toggle_particle_effect();
+                TParticleCtrl::toggle_particle_effect();
                 if (view_detail == 1) {
                     draw();
                 } else {
@@ -870,7 +870,7 @@ void TObjEneRecobox::draw_with_debug_info() {
             break;
         }
         TObjEneDD::clear_global_flag_400();
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         draw_chunk_object(this->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();

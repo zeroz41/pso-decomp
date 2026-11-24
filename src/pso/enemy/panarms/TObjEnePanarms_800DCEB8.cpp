@@ -365,7 +365,7 @@ void TObjEnePanarms::render() {
     if (this->visible == 0) {
         return;
     }
-    TObjPlayer::toggle_particle_effect();
+    TParticleCtrl::toggle_particle_effect();
     saved_model_render_flags = model_render_flags;
     fade = &this->fades[cam];
     fade->update();

@@ -242,7 +242,7 @@ void TBoss6Mag::render_body_effects() {
     f32 flash;
     f32 fade_amount;
     s32 tinted;
-    TObjPlayer::toggle_particle_effect();
+    TParticleCtrl::toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);

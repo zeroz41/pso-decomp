@@ -203,7 +203,7 @@ void TObjEneEpsilonGuard::render_with_fade(s32 detail) {
     this->effect_anchor.y = 0.0f;
     this->effect_anchor.z = 0.0f;
     set_chunk_model_node_callback(TObjEneEpsilonGuard::advance_camera_ctrl_step);
-    TObjPlayer::toggle_particle_effect();
+    TParticleCtrl::toggle_particle_effect();
     if (detail == 1) {
         this->TObjMotion::draw();
     } else {

@@ -55,6 +55,7 @@ public:
     void destroy_particle();
     static void begin_effect_render();
     static void end_effect_render();
+    static void toggle_particle_effect();
     static void reset_emitter_table();
     static void create_quad_sprites();
     static void reset_particles();

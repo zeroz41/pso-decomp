@@ -479,7 +479,7 @@ void TBoss4Type1::snapshot_position() {
 }
 
 void TBoss4Type1::render_effects() {
-    TObjPlayer::toggle_particle_effect();
+    TParticleCtrl::toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);

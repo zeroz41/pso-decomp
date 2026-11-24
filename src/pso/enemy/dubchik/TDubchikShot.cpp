@@ -19,9 +19,9 @@
 // functions in reverse definition order.
 #pragma defer_codegen on
 
-TDubchikShot::TDubchikShot(void *start, s32 angle, s32 source, s32 power) : TObject(tl_06) {
-    VecCopy(&pos, (Vec *)start);
-    VecCopy(&prev_pos, (Vec *)start);
+TDubchikShot::TDubchikShot(Vec *start, s32 angle, s32 source, s32 power) : TObject(tl_06) {
+    VecCopy(&pos, start);
+    VecCopy(&prev_pos, start);
     distance = 0.0f;
     push_matrix_from(&identity_matrix);
     Vec step = {0.0f, 0.0f, 7.0f};

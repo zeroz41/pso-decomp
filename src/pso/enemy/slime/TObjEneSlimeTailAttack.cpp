@@ -329,7 +329,7 @@ void TObjEneSlime::render() {
     if (TObjPlayer::check_demo_mode() != 0) {
         type_offset = (this->state36C * 4) & 4;
         debug_printf_at(0x130020, "TYPE [0/1] : %s", (int) (*(s32 *)((s8 *)((u8 *)slime_debug_label_table + type_offset) + 0)));
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         push_matrix();
         model_index = *(s32 *)((s8 *)((u8 *)slime_model_index_by_type + type_offset) + 0);
         post_translate_matrix(&position.x);
@@ -602,7 +602,7 @@ void TObjEneSlimeOne::render() {
         if (ene_slime_one->alpha < 1.0f) {
             push_material_fade(ene_slime_one->alpha);
         }
-        TObjPlayer::toggle_particle_effect();
+        TParticleCtrl::toggle_particle_effect();
         push_matrix();
         {
             Vec v = ene_slime_one->position;

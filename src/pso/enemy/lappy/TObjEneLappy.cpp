@@ -317,7 +317,7 @@ void TObjEneLappy::render() {
             set_speed_params(this->variant);
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             select_actor_lighting(this);
-            TObjPlayer::toggle_particle_effect();
+            TParticleCtrl::toggle_particle_effect();
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, this->rotation_y);
