@@ -8,7 +8,6 @@
 #include "pso/technique/TTecFoie.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"

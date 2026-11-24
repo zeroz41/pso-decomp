@@ -5,7 +5,6 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_801211F0.h"
 #include "pso/unk/text_80120150.h"
 #include "pso/unk/text_803DC86C.h"
 #include "pso/object/base/TObjMotion.h"
@@ -21,13 +20,10 @@
 #include "pso/unk/text_8011B620.h"
 #include "pso/item/TItemData.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_80120FC4.h"
-#include "pso/player/TObjPlayer_80121010.h"
-#include "pso/player/TObjPlayer_8012105C.h"
-#include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/CapturedTargetList.h"
+#include "pso/effect/item/TItemEffectWeapon.h"
 
 
 // ---- pso/unk/text_80120908
@@ -295,8 +291,8 @@ TItem *create_weapon_for_item(u8 *item) {
 
 // ---- pso/player/TObjPlayer_8012105C
 
-void TObjPlayer__sub_8012105C(void) {  }
-void TObjPlayer__sub_80121060(void) {  }
+void TItemWeapon::free() {}
+void TItemWeapon::load_data() {}
 u8 TItemWeapon::get_motion_type() { return motion_type; }
 void TItemWeapon::set_weapon_flags(u32 mask) { weapon_flags |= mask; }
 void TItemWeapon::clear_weapon_flags(u32 mask) { weapon_flags &= ~mask; }
@@ -345,7 +341,7 @@ void reset_model_node_counter(void) { model_node_counter = 0; }
 // ---- pso/player/TObjPlayer_8012121C
 
 int TObjPlayer::is_flag_b0_4() { return this->motion_flags & 0x4; }
-void TObjPlayer__sub_80121228(void* p, u32 v) { *(u32*)((char*)p + 0x28) |= v; }
+void TItemEffectWeapon::set_flags(u32 mask) { flags |= mask; }
 s16 CapturedTarget::get_captured_target_collider_index() { return collider_index; }
 u16 CapturedTarget::get_uid() { return uid; }
 

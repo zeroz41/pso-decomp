@@ -6,7 +6,6 @@
 #include "pso/item/TItem.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_8012105C.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/item/TUnk_804A0628.h"
 #include "pso/item/TUnk_804A0648.h"

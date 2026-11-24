@@ -33,11 +33,9 @@ struct NJS_OBJECT;
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/item/item_param.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/player/TObjPlayer_801211F0.h"
 #include "pso/unk/text_80120150.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/effect/item/TItemEffEquip.h"
-#include "pso/player/TObjPlayer_8012105C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include <stdlib.h>
@@ -47,7 +45,6 @@ struct NJS_OBJECT;
 #include "pso/item/TItemHeapObject.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/technique/TechniqueContact.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
@@ -296,7 +293,7 @@ void TItemWeapon::create_weapon_trail_effects() {
                 ((Pl_8011E950 *)this)->eff[i] = p;
             }
             if (((Pl_8011E950 *)this)->eff[i] != NULL && ((TObjCollidable *)((Pl_8011E950 *)this))->test_actor_flags(0x2000) != 0) {
-                TObjPlayer__sub_80121228(((Pl_8011E950 *)this)->eff[i], 1);
+                ((TItemEffectWeapon *)((Pl_8011E950 *)this)->eff[i])->set_flags(1);
             }
         }
     }

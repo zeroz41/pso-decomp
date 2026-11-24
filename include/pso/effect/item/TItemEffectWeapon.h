@@ -20,10 +20,11 @@ public:
     static void release_trail_buffer(void* buffer);
     static void free_static_effects();
     static void initialize_static_effects();
+    void set_flags(u32 mask);
     TrailVertex* vertices;
     s32 vertex_count;
     u32 color;
-    s32 pad_28;
+    u32 flags;
 
     static const char *class_name;
 };

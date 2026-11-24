@@ -148,7 +148,7 @@ TItemEffectWeapon::TItemEffectWeapon(saddr parent, s32 param) : TItemHeapObject(
     vertices = allocate_trail_buffer();
     this->color = param;
     this->vertex_count = 0;
-    this->pad_28 = 0;
+    this->flags = 0;
 }
 
     TItemEffectWeapon::TrailVertex* item_weapon_trail_vertex_buffer;

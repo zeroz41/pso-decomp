@@ -50,7 +50,7 @@
 #include "pso/technique/TTecReverser.h"
 #include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_8012121C.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/math/AngleLookup.h"

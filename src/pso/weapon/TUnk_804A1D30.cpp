@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TUnk_804A1D30.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_8012105C.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TItem.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"

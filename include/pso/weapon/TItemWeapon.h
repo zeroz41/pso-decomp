@@ -4,11 +4,13 @@
 #include <stddef.h>
 #include "pso/item/TItemEquipBase.h"
 #include "pso/weapon/WeaponEffectDescriptor.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 struct TItem;
 struct TItemData;
 class TItemEffectWeapon;
 class TObjChara;
+struct TObjPlayer;
 struct WeaponVector { f32 x,y,z; };
 
 struct WeaponMotionRecord { u32 unknown; u32 frame_count; };
@@ -90,6 +92,9 @@ struct TItemWeapon : public TItemEquipBase {
     void remap_extra_attack_type();
     void draw_weapon_model();
     void create_weapon_trail_effects();
+    // The weapon row of item_class_load_unload_table.
+    static void load_data();
+    static void free();
     void apply_model_params();
     void spawn_light_task();
     void set_weapon_category_flags();
@@ -176,5 +181,10 @@ void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s3
 // TItemWeapon's destructor under its own symbol, for the derived classes
 // still written as C functions.
 void *__dt__11TItemWeaponFv(void *item, s16 deleting);
+void increment_model_node_counter(void);
 }
+// weapon_factory_table's entry for weapons without a class of their own.
+TItem *create_common_weapon(u8 *item);
+MtxP get_model_joint_matrix(TObjPlayer *player, int joint);
+void reset_model_node_counter(void);
 #endif

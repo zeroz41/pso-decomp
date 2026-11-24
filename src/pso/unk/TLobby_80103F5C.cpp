@@ -4,7 +4,7 @@
 #include <string.h>
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_80120FC4.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/item/TItemObject.h"

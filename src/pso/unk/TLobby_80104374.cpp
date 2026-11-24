@@ -5,7 +5,7 @@
 #include "pso/item/TItemIdCounters.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_80120FC4.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/item/ItemCreateFunction.h"
@@ -61,7 +61,6 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/item/armor/TItemProUnit.h"
 #include "pso/item/mag/TItemMag.h"
-#include "pso/player/TObjPlayer_80121010.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/player/TObjPlayer_80125780.h"
@@ -141,7 +140,6 @@
 #include "pso/item/TItemBuff.h"
 #include "pso/unk/TLobby_80105A2C.h"
 #include "pso/item/item_pmt.h"
-#include "pso/player/TObjPlayer_8012105C.h"
 #include "pso/item/TItemDisconnectCtrl_80105BE8.h"
 #include "pso/item/TItemLockCountCtrl.h"
 #include "pso/item/TItemTimerEvent.h"
@@ -857,7 +855,7 @@ TItem *find_unique_combination_target(TObjPlayer *player, TItemData *item) {
 // init_game_resources hands the table to create_load_unload_set.
 ItemClassLoadUnloadEntry item_class_load_unload_table[15] = {
     { load_items, unload_items },
-    { TObjPlayer__sub_80121060, TObjPlayer__sub_8012105C },
+    { TItemWeapon::load_data, TItemWeapon::free },
     { TItemMag::load_data_files, TItemMag::cleanup },
     { TItemProArmor::load_data, TItemProArmor::free },
     { TItemProShield::load_data, TItemProShield::free },
