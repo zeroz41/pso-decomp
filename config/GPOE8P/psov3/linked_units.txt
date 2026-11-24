@@ -1865,7 +1865,6 @@ pso/ui/window/TWindowSubTradeMessage.cpp
 pso/weapon/TUnk_804A5248.cpp
 pso/weapon/TUnk_804A5C18.cpp
 pso/weapon/TUnk_804A6CC8.cpp
-pso/unk/TUnk_804CC870.cpp
 pso/unk/text_8000F740.cpp
 pso/ui/frontend/DrawLine.cpp
 pso/ui/frontend/TitleBackground.cpp

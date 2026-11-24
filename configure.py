@@ -822,7 +822,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/system/movie/TMovie.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/unk/TUnk_8048E1A4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # -sdata 4: the 8-byte texture lists (lbl_804CC868, technique_ringwave_texture_list) are outside small data.
-    "pso/unk/TUnk_804CC870.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    "pso/technique/TTecGrants.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/ui/window/TWindowSubStatusDisp_80288030.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # -inline off,deferred: the named float constants 0x805DE9C8-0x805DEA04 sit in .sdata2, are loaded
     # by address (not folded), and precede the TU's own literal pool (76.0/-75.0): written last to first.

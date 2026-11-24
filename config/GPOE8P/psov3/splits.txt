@@ -6096,23 +6096,19 @@ pso/technique/TTecGiZonde.cpp:
 	.sdata      start:0x805D37C8 end:0x805D37D0
 	.sdata2     start:0x805DC828 end:0x805DC83C
 
-pso/unk/TUnk_804CC870.cpp:
-	.text       start:0x80232830 end:0x80233120
+pso/technique/TTecGrants.cpp:
+	.text       start:0x80232830 end:0x802333D4
 	.rodata     start:0x8044D380 end:0x8044D5D0
-	.data       start:0x804CC868 end:0x804CC8A0
+	.data       start:0x804CC868 end:0x804CC8C8
 	.bss        start:0x80516140 end:0x80516150
 	.sdata      start:0x805D37D0 end:0x805D37D8
 	.sdata2     start:0x805DC840 end:0x805DC858
 
-pso/technique/TechniqueRingwaveNames.cpp:
-	.rodata     start:0x8044D5D0 end:0x8044D644
-
-pso/technique/TTecGrants.cpp:
-	.text       start:0x80233120 end:0x802333D4
-	.data       start:0x804CC8A0 end:0x804CC8C8
-
 pso/technique/TechniqueRingwaveList.cpp:
 	.data       start:0x804CC8C8 end:0x804CC940
+
+pso/technique/TechniqueRingwaveNames.cpp:
+	.rodata     start:0x8044D5D0 end:0x8044D644
 
 pso/unk/TUnk_804CC948.cpp:
 	.text       start:0x802333D4 end:0x8023355C
