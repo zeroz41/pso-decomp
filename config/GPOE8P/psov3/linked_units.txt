@@ -1904,7 +1904,7 @@ pso/unk/text_800C2CE0.cpp
 pso/enemy/TUnk_80493450_800C69E8.cpp
 pso/unk/text_800C7FEC.cpp
 pso/enemy/nanodrago/TObjEneNanoDrago_800D9BBC.cpp
-pso/unk/text_800DC420.cpp
+pso/enemy/nanodrago/TUnk_80494E10.cpp
 pso/unk/text_800F5BC0.cpp
 pso/unk/text_800F7D30.cpp
 pso/unk/text_800F7DAC.cpp

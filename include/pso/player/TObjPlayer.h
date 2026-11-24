@@ -1392,7 +1392,6 @@ struct TObjPlayer : public TObjChara {
     // Calls callback with each occupied entry of the player table.
     static void for_each_player_slot(void (*callback)(void *));
     static void send_code50_packet(int);
-    static void hit_object_in_radius(void *, void *, void *);
     static void draw_strip_pos_normal(void *, void *, unsigned int);
     static void draw_strip_list_pos_nrm(void *, void *, unsigned int);
     static void draw_triangle_strips(void *, void *, unsigned int);

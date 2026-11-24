@@ -1756,7 +1756,7 @@ pso/enemy/nanodrago/TObjEneNanoDrago.cpp:
 	.sbss       start:0x805D5248 end:0x805D5278
 	.sdata2     start:0x805DA3F8 end:0x805DA478
 
-pso/unk/text_800DC420.cpp:
+pso/enemy/nanodrago/TUnk_80494E10.cpp:
 	.text       start:0x800DC420 end:0x800DC9EC
 	.rodata     start:0x8043C908 end:0x8043C920
 	.data       start:0x80494E10 end:0x80494E48

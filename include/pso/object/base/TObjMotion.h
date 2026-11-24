@@ -101,6 +101,8 @@ public:
     int is_motion_held();
     // True on the frame the motion passes `frame` (not while blending).
     int is_passing_frame(f32 at_frame);
+    // True on the frame the requested action's motion passes `at_frame`.
+    int is_action_passing_frame(s32 action, f32 at_frame);
     // frame, or 0 while blending.
     // How far the root node moves forward between this frame and the next,
     // split along the actor's facing into *dx and *dz.

@@ -7,7 +7,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/AreaSound.h"
-#include "pso/unk/text_800DC420.h"
+#include "pso/enemy/nanodrago/TUnk_80494E10.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -83,7 +83,6 @@ LAYOUT_ASSERT(NanoDrago_toggle_offset, offsetof(TObjEneNanoDrago, alternateBeam)
 struct BeamRotation { s32 x, y, z; };
 
 
-extern "C" s32 construct_beam_effect__10TObjPlayerFPvPvPviPv(u32, void *, void *, u8, void *);
 
 #pragma push
 #pragma dont_inline off
@@ -123,14 +122,14 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 player_stats *nano_drago_base_params;
 AttackParams *nano_drago_attack_params;
 ActorParamBlock *nano_drago_resistance_params;
-s32 lbl_805D5254;
+NanoDragoBehaviorParams *nano_drago_behavior_params;
 BmlResource *nano_drago_entry_params_resource;
 // Filled by update_attack_parameters, read by the NanoDrago projectiles.
-f32 lbl_805D525C;
+f32 nano_drago_single_beam_speed;
 f32 nano_drago_beam_speed;
 f32 nano_drago_beam_homing;
 f32 nano_drago_beam_homing_gain;
-s32 lbl_805D526C;
+s32 nano_drago_single_beam_power;
 s32 nano_drago_beam_power;
 
 __declspec(section ".data") const char *bm_ene_nanodrago_model_names[2] = {
@@ -238,7 +237,7 @@ void TObjEneNanoDrago::load_resources() {
     nano_drago_base_params = TLobby::register_boss(0x1A);
     nano_drago_attack_params = TLobby::dispatch_shared_handler_b(0x1A);
     nano_drago_resistance_params = TLobby::register_object(0x1A);
-    lbl_805D5254 = (saddr)TLobby::dispatch_shared_handler_a(0x1A);
+    nano_drago_behavior_params = (NanoDragoBehaviorParams *)TLobby::dispatch_shared_handler_a(0x1A);
     NpcAnimationBinding binding = { nano_drago_entry_params_resource->motions, nanodrago_action_table, 0, 1, 12 };
     modelEntries = nano_drago_entry_params_resource->models;
     TObjNpcEnemy::register_animated_chunk((s16)(0x22), modelEntries[0].model, modelEntries[0].texlist, &binding, (f32)(15.0f), (f32)(0.0f));
@@ -317,7 +316,7 @@ void TObjEneNanoDrago::dispatch_action_state() {
         update_circling_state();
         return;
       case 2:
-        TObjPlayer__sub_800DC444();
+        update_attack();
         return;
       case 3:
         update_state_machine();
@@ -582,10 +581,7 @@ void TObjEneNanoDrago::update_single_beam_state() {
             play_persistent_sound(0x4003AD1E, this, &position, 0, 0);
             if (frame >= 20.0f) {
                 capture_beam_origins();
-                u32 obj = (uaddr)TObject::operator new(0x100);
-                if (obj != 0U) {
-                    construct_beam_effect__10TObjPlayerFPvPvPviPv(obj, &beamOrigins[0], target + 0x2FC, (u8) !(actorFlags & 0x01000000), this);
-                }
+                new TUnk_80494E10(&beamOrigins[0], &((TObjChara *)target)->body_center, !(actorFlags & 0x01000000), this);
                 spawn_beam_particle(0);
                 play_sound_effect(0x4003A527, &position, 0, 0);
                 state = 3;
@@ -726,7 +722,7 @@ void TObjEneNanoDrago::update_flight_state() {
         break;
     case 1:
         advance_animation();
-        calc_velocity_toward_destination(this, position, moveDestination, TObjPlayer__sub_800DC434((saddr)this, 0));
+        calc_velocity_toward_destination(this, position, moveDestination, get_float_parameter(0));
         if (flightHeight < 50.0f) {
             s32 ok = 1;
             if (requested_action == 6 && frame < 22.0f) {
@@ -736,7 +732,7 @@ void TObjEneNanoDrago::update_flight_state() {
                 flightHeight += 2.2f;
             }
             update_collisions();
-            if (TObjPlayer__sub_800DC478(((u8 *)this), 6, 22.0f) != 0) {
+            if (is_action_passing_frame(6, 22.0f) != 0) {
                 spawn_particle_effect(&position, 0xF0);
                 play_sound_effect(0x4003AD20, &position, 0, 0);
             }
@@ -782,7 +778,7 @@ void TObjEneNanoDrago::update_flight_state() {
                 spawn_particle_effect(&position, 0xF0);
             }
         }
-        if (TObjPlayer__sub_800DC478(((u8 *)this), 8, 42.0f) != 0) {
+        if (is_action_passing_frame(8, 42.0f) != 0) {
             play_sound_effect(0x4003AD23, &position, 0, 0);
         }
         check_object_collisions();
@@ -1129,13 +1125,12 @@ void TObjEneNanoDrago::capture_beam_origins() {
     get_anim_node_position(0x54, &beamOrigins[1]);
 }
 void TObjEneNanoDrago::update_attack_parameters() {
-    saddr self = (saddr)this;
-    lbl_805D525C = TObjPlayer__sub_800DC434((self), 1);
-    nano_drago_beam_speed = TObjPlayer__sub_800DC434((self), 2);
-    nano_drago_beam_homing = TObjPlayer__sub_800DC434((self), 3);
-    nano_drago_beam_homing_gain = TObjPlayer__sub_800DC434((self), 4);
-    lbl_805D526C = TObjPlayer__sub_800DC420((void *)self, 0);
-    nano_drago_beam_power = TObjPlayer__sub_800DC420((void *)self, 1);
+    nano_drago_single_beam_speed = get_float_parameter(1);
+    nano_drago_beam_speed = get_float_parameter(2);
+    nano_drago_beam_homing = get_float_parameter(3);
+    nano_drago_beam_homing_gain = get_float_parameter(4);
+    nano_drago_single_beam_power = get_int_parameter(0);
+    nano_drago_beam_power = get_int_parameter(1);
 }
 
 #pragma push
