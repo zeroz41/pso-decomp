@@ -153,7 +153,7 @@ struct TLobby : public TObject {
     static void destroy_game_heap();
     static void init_download_state();
     static void set_ending_callback();
-    // inferred: empty free half of set_ending_callback in the scene load/free tables
+    // Empty free half of set_ending_callback in the scene load/free tables
     static void free_ending_callback();
     static void clear_object_count();
     static void reset_floor_items();

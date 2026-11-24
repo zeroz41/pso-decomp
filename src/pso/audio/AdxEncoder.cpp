@@ -40,7 +40,7 @@ inline void set_coef_5ED4(AdxEncCoef *d, s16 coef1, s16 coef2) {
     d->coef2 = coef2;
 }
 
-/* Reads each input's first sample as the start history; returns the channels read (inferred). */
+/* Reads each input's first sample as the start history; returns the channels read. */
 inline s32 read_start_history_5ED4(AdxEncoder *enc) {
     SjChunk b;
     s32 i;
@@ -60,7 +60,7 @@ inline SjRingBuffer *adxenc_get_output(AdxEncoder *enc) {
     return enc->output;
 }
 
-/* Encoder step: state 1 primes the history and writes the ADX header, state 2 encodes (inferred). */
+/* Encoder step: state 1 primes the history and writes the ADX header, state 2 encodes. */
 void adx_encoder_step_context(AdxEncoder *enc) {
     s16 coef2;
     s16 coef1;
@@ -188,7 +188,7 @@ inline AdxEncChannel *alloc_channel_61C4(s32 block_samples) {
     return c;
 }
 
-/* Creates an encoder reading nch PCM inputs and writing ADX to dst (inferred: CRI ADX encoder create). */
+/* Creates an encoder reading nch PCM inputs and writing ADX to dst (CRI ADX encoder create). */
 AdxEncoder *TLobby__sub_803C61C4(s32 nch, SjRingBuffer **src, SjRingBuffer *dst) {
     AdxEncoder *enc;
     s32 len;
@@ -492,7 +492,7 @@ s32 adx_write_zero_padded_block(AdxEncoder *enc) {
 }
 #pragma pop
 
-/* Pulls n samples per channel from the input streams into pcm (inferred). */
+/* Pulls n samples per channel from the input streams into pcm. */
 inline s32 read_input_samples_7978(AdxEncoder *enc, s16 **pcm, s32 n) {
     SjRingBuffer **in;
     SjChunk b;
@@ -518,13 +518,13 @@ inline s32 read_input_samples_7978(AdxEncoder *enc, s16 **pcm, s32 n) {
     return got;
 }
 
-/* Stores a channel's predictor history into the encoder (inferred). */
+/* Stores a channel's predictor history into the encoder. */
 inline void set_history_7978(AdxEncoder *enc, s32 ch, s16 hist1, s16 hist2) {
     enc->hist1[ch] = hist1;
     enc->hist2[ch] = hist2;
 }
 
-/* Scales and quantizes one block of every channel (inferred). */
+/* Scales and quantizes one block of every channel. */
 inline void encode_channels_7978(AdxEncoder *enc) {
     s32 ch;
     AdxEncChannel *c;
@@ -565,7 +565,7 @@ inline s32 encode_block_7978(AdxEncoder *enc) {
     return enc->block_samples;
 }
 
-// Encodes every complete block of the input (inferred: CRI adxsje_encode_data).
+// Encodes every complete block of the input (CRI adxsje_encode_data).
 s32 adx_encode_available_blocks(AdxEncoder *enc) {
     s32 total;
     SjRingBuffer *out;
@@ -613,7 +613,7 @@ s32 adx_write_encoded_blocks(AdxEncoder *enc) {
     return total;
 }
 
-// Quantizes one block of channel ch to ADX nibbles (inferred: the ADX encoder's block step).
+// Quantizes one block of channel ch to ADX nibbles (the ADX encoder's block step).
 void adx_encoder_finish_block(AdxEncoder *enc, s32 ch) {
     s32 i;
     s32 k;
@@ -661,7 +661,7 @@ void adx_encoder_finish_block(AdxEncoder *enc, s32 ch) {
 }
 
 
-/* Predicts sample i from the channel history and records the residual (inferred). */
+/* Predicts sample i from the channel history and records the residual. */
 inline void predict_sample_8020(AdxEncChannel *c, s32 i, s16 smp) {
     s32 j;
     if (i == 0) {
@@ -694,7 +694,7 @@ inline void set_history_8020(AdxEncHistory *h, s16 hist1, s16 hist2) {
     h->hist2 = hist2;
 }
 
-/* Runs the decoder's predictor on a quantized value to track what the decoder will see (inferred). */
+/* Runs the decoder's predictor on a quantized value to track what the decoder will see. */
 inline void decode_sample_8020(AdxEncChannel *c, s16 v) {
     AdxEncHistory *dec = c->history;
     if (dec != NULL) {
@@ -705,7 +705,7 @@ inline void decode_sample_8020(AdxEncChannel *c, s16 v) {
     }
 }
 
-/* Computes the block scale of channel ch, then quantizes it against the decoder's history (inferred). */
+/* Computes the block scale of channel ch, then quantizes it against the decoder's history. */
 s32 adx_encoder_process_step(AdxEncoder *enc, s32 ch) {
     s16 *smp = enc->pcm[ch];
     s32 i;

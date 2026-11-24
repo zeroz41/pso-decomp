@@ -215,7 +215,7 @@ struct Tbl_801EDC98 { u32 w[18]; };
 const Tbl_801EDC98 lobby_sub_801edc98_id_table = { { 16, 17, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 } };
 
 // inferred names: each qst_op_ba_* setter maps its argument through its own table into the battle_rules field
-// the name gives (trap_count_slots maps qst_op_ba_set_trap_count's slot to the battle_rules.trap_counts index).
+// The name gives (trap_count_slots maps qst_op_ba_set_trap_count's slot to the battle_rules.trap_counts index).
 const s32 tech_disk_mode_values[3] = { 1, 0, 2 };
 const s32 lobby_menu_byte_1_map[4] = { 2, 0, 1, 3 };
 const s32 mag_mode_values[2] = { 1, 0 };
@@ -230,12 +230,12 @@ const s32 trap_count_slots[4] = { 0, 2, 3, 1 };
 const s32 meseta_mode_values[3] = { 0, 1, 2 };
 const s32 enable_sonar_values[2] = { 0, 1 };
 
-// inferred: qst_op_ba_forbid_scape_dolls maps its 0/1 argument through it
+// qst_op_ba_forbid_scape_dolls maps its 0/1 argument through it
 const s32 forbid_scape_dolls_values[2] = { 0, 1 };
 
 const Tbl_801E9AF8 lobby_index_identity_table_a = { { 0, 1, 2, 3, 4 } };
 
-// inferred: the position qst_op_open_pack_select opens the equip kind window at
+// The position qst_op_open_pack_select opens the equip kind window at
 const f32 pack_select_window_pos[2] = { 308.0f, 184.0f };
 
 const Tbl_801E6CA4 lobby_index_identity_table_b = {
@@ -332,7 +332,7 @@ void TLobby::append_unit_list_name() {
     append_string(s);
 }
 
-// inferred: the "team_name" tag handler of message_substitution_handlers
+// The "team_name" tag handler of message_substitution_handlers
 void append_team_name(void) {
     char *s;
     s = get_lobby_name();

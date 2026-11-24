@@ -153,13 +153,13 @@ const s32 city_warp_floor_destination_table[16] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
 };
 
-// inferred: the lobby counterpart of city_warp_floor_destination_table; TObjCityMainWarp::is_choice_confirmed reads it
+// The lobby counterpart of city_warp_floor_destination_table; TObjCityMainWarp::is_choice_confirmed reads it
 // when TLobby::get_instance() != 0, indexed by the f10C list the lobby branch of __vt13 fills.
 const s32 city_warp_floor_destination_table_b[17] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
 };
 
-// inferred: group-9 text ids of the three map warp destinations ("GOVERNOR", "CITY", "LABO" in the debug
+// Group-9 text ids of the three map warp destinations ("GOVERNOR", "CITY", "LABO" in the debug
 // name tables), indexed by set_params[2] in TObjLaboMapWarp__vt13 and TObjCityMapWarp__vt13.
 const s32 map_warp_dest_text_ids[3] = {0x22, 0x23, 0x10};
 

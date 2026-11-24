@@ -313,7 +313,7 @@ s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 }
 void init_adx_audio_system(void);
 
-// inferred: the four .acx streams TLoadCtrl__sub_80226DA0 starts by index.
+// The four .acx streams TLoadCtrl__sub_80226DA0 starts by index.
 // MusyX allocation hooks; init_adx_audio_system hands a copy to sndSetHooks (name inferred from that use).
 extern const SndHooks snd_hooks = { TLobby__sub_80227A4C, TLobby::free };
 const char *bgm_stream_files[] = {"bass.acx", "map1.acx", "map2.acx", "quest.acx", NULL};
@@ -479,7 +479,7 @@ static Passage_80226FA0 ruin_mode1_passages[7] = {
 };
 static Program_80226FA0 ruin_music = {"slbgm_ruin.afs", 7, 171, 206, {ruin_mode0_passages, ruin_mode1_passages}};
 
-// inferred: the area music programs init_music_sequencer selects by index.
+// The area music programs init_music_sequencer selects by index.
 Program_80226FA0 *music_programs[] = {
     &forest_music, &cave_music, &machine_music, &ancient_music, &dark_music,
     &jungle_music, &seabed_music, &ruin_music, &space_music,

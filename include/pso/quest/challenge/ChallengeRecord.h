@@ -31,8 +31,8 @@ struct ChallengeRecord {
     u16 title_color;
     s16 pad_2;
     s32 stage_times[9 + 5 + 9];          // EP1, EP2 and EP1 split-screen stages in turn, obfuscated
-    TObjTombstoneRecord tombstone;       // where the character last died (inferred)
-    TObjTombstoneSpot tombstone_spot;    // the split-screen challenge's grave (inferred)
+    TObjTombstoneRecord tombstone;       // where the character last died
+    TObjTombstoneSpot tombstone_spot;    // the split-screen challenge's grave
     ChallengeStageRank ranks[3];         // EP1, EP2 and EP1 split-screen
     char rank_title[0xC];                // obfuscated
     ChallengeStageRank ep2_split_rank;

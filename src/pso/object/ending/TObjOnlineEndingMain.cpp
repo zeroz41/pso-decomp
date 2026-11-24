@@ -69,7 +69,7 @@ const char *onlineending_dat_motion_names[26] = {
     "ending_blue_oya.njm",
     NULL,
 };
-// inferred: onlineending_dat_resource_descriptor, named after its archive.
+// onlineending_dat_resource_descriptor, named after its archive.
 BmlResourceDescriptor onlineending_dat_resource_descriptor = {
     "onlineending_dat.bml", onlineending_dat_model_names, onlineending_dat_motion_names, 1, 25,
 };
@@ -136,7 +136,7 @@ NJS_POINT2 online_ending_quad_vertices[4] = {
 };
 
 const char *online_ending_class_name = "TObjOnlineEnding";
-// inferred: the camera position and target run_task gives the ending scene.
+// The camera position and target run_task gives the ending scene.
 static const Vec online_ending_camera_eye = {20000.0f, 0.0f, 0.0f};
 static const Vec online_ending_camera_target = {20000.0f, 0.0f, -100.0f};
 f32 online_ending_scene_scale = 0.88f;

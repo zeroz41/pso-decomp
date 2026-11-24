@@ -29,7 +29,7 @@ void adxb_exec_handle(AdxbDecoder *adxb) {
     }
 }
 
-// One step of the stream decoder, including the decode request (inferred: ADXB_ExecOneAdx and ADXB_EvokeDecode).
+// One step of the stream decoder, including the decode request (ADXB_ExecOneAdx and ADXB_EvokeDecode).
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_lifetimes off

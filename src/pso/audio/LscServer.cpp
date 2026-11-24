@@ -11,7 +11,7 @@ static char lsc_repeat_filename[0x28];
 
 extern "C" {
 
-// The three per-status steps are separate functions inlined into lsc_poll (inferred: CRI lsc_svr shape).
+// The three per-status steps are separate functions inlined into lsc_poll (CRI lsc_svr shape).
 // Entry being read (status 1): follow the stream until it ends.
 inline void read_803D1D28(LscStream *lsc_stream) {
     LscQueueEntry *entry;

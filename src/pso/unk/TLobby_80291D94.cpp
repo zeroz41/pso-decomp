@@ -171,7 +171,7 @@ s32 TLobby__sub_8029204C(void) {
             arr[i] = v;
         }
     }
-    static s32 time_limit_floor = TLobby::get_clamped_time_limit() - 1; // inferred: only card values above it count
+    static s32 time_limit_floor = TLobby::get_clamped_time_limit() - 1; // only card values above it count
     best = time_limit_floor;
     for (i = 0; i < 4; i++) {
         if (arr[i] != 0 && best < arr[i]) {
@@ -184,8 +184,10 @@ s32 TLobby__sub_8029204C(void) {
     return best;
 }
 
+}
 TChallenge4P *challenge_retry_object;
-s32 split_screen_challenge_created; // inferred: setup_split_screen sets it once it has created the TChallenge4P
+extern "C" {
+s32 split_screen_challenge_created; // setup_split_screen sets it once it has created the TChallenge4P
 s32 split_screen_flag;
 s32 challenge_mode_active_flag;
 
@@ -300,10 +302,12 @@ s32 TLobby__sub_802924B4(s32 arg0, u16 slot_index) {
   arg0 = arg0;
 }
 
+}
 void set_challenge4p_rank_result(const char *title, s32 color) {
     encode_obfuscated_string(challenge4p_mode_state.rank_result_title, title, 0xC);
     challenge4p_mode_state.rank_result_color = color | 0xFF000000;
 }
+extern "C" {
 void TLobby::set_split_screen_name() {
     saddr arg0 = (saddr)this;
     strncpy(split_screen_player_name, (const char *)arg0, 0x20);

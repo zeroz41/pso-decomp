@@ -645,7 +645,7 @@ void TObjTombstoneDropRates::copy_matrix(const TObjTombstoneDropRates *src) {
     out->kind[5] = in->kind[5];
 }
 
-// Sets the drop rates (inferred: called by qst_op_set_cmode_grave_rates), unless
+// Sets the drop rates (called by qst_op_set_cmode_grave_rates), unless
 // a weight is negative or a group adds up to more than 1.
 extern "C" void set_tombstone_drop_rates(TObjTombstoneDropRates *rates) {
     const f32 *count = rates->count;

@@ -41,12 +41,12 @@ struct WindowSize {
     f32 height;
 };
 
-// inferred: owner token for TLobby::tmp_buf_use_req/tmp_buf_release_if_owner, like TQuestListVM's tmp_buf_owner_name
+// Owner token for TLobby::tmp_buf_use_req/tmp_buf_release_if_owner, like TQuestListVM's tmp_buf_owner_name
 static const char online_tmp_buf_owner_name[] = "quest_online";
 const char *TQuestListOnline__class_name = "TQuestListOnline";
-// inferred: size of the description window build_list_window creates (TQuestListVM's description window uses the same size)
+// Size of the description window build_list_window creates (TQuestListVM's description window uses the same size)
 static const WindowSize online_description_window_size = {228.0f, 184.0f};
-// inferred: size of the info window show_info_window creates (TQuestListVM's detail window uses the same size)
+// Size of the info window show_info_window creates (TQuestListVM's detail window uses the same size)
 static const WindowSize online_info_window_size = {332.0f, 210.0f};
 
 TQuestListOnline *TQuestListOnline__instance;

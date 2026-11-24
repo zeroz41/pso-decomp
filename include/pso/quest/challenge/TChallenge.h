@@ -14,7 +14,7 @@ struct TChallenge : public TObject {
     s32 frame_count;
     s32 missing_records_timer;
     s32 records_save_pending;
-    s32 quest_send_timer; // frames until the selected quest is resent (inferred name)
+    s32 quest_send_timer; // frames until the selected quest is resent
 
     virtual void run_task();
     void update_active();
