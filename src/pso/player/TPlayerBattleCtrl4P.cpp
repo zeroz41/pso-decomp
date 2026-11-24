@@ -23,6 +23,7 @@
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
@@ -50,20 +51,6 @@
 
 extern "C" s32 check_player_flag1__10TObjPlayerFv(void);
 
-struct Base_803107D0_8031058C { char pad[0x18]; };
-struct VObj_803107D0_8031058C : Base_803107D0_8031058C {
-    virtual void v0();
-#define VV(n) virtual void v##n();
-VV(1)VV(2)VV(3)VV(4)VV(5)VV(6)VV(7)VV(8)VV(9)VV(10)
-VV(11)VV(12)VV(13)VV(14)VV(15)VV(16)VV(17)VV(18)VV(19)VV(20)
-VV(21)VV(22)VV(23)VV(24)VV(25)VV(26)VV(27)VV(28)VV(29)VV(30)
-VV(31)VV(32)VV(33)VV(34)VV(35)VV(36)VV(37)VV(38)VV(39)VV(40)
-VV(41)VV(42)VV(43)VV(44)VV(45)VV(46)VV(47)VV(48)VV(49)VV(50)
-VV(51)VV(52)VV(53)VV(54)VV(55)VV(56)VV(57)VV(58)VV(59)VV(60)
-VV(61)
-#undef VV
-    virtual void v64();
-};
 struct T_803102A4 { u8 pad[0x28]; s32 arr[4]; };
 struct T_803102C8 { u8 pad[0x298]; s32 mode; };
 struct Ctl_803101D4 { u8 pad[0x28]; void *win[4]; };
@@ -71,13 +58,6 @@ struct Ctl_80310230 { u8 pad[0x28]; void *win[4]; };
 struct Ctl_8031012C { u8 pad[0x28]; void *win[4]; };
 struct Ent_803104CC { u8 pad0[0x30]; u32 flags; u8 pad1[0x754 - 0x34]; u8 sub[4]; };
 struct Ctl_803104CC { u8 pad[0x264]; s32 ok[4]; };
-struct VBase_80310830 { char pad[0x18]; };
-struct VObj_80310830 : VBase_80310830 {
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
-    virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-    virtual void v8(); virtual void v9();
-    virtual char *v10();
-};
 struct Ent_80310830 { u16 id; s16 idx; u32 pad; };
 struct Ctl_80310910 {
     u8 pad0[0x238];
@@ -168,20 +148,6 @@ s32 reset_players();
 char team_matchup_message_buffer[256];
 }
     extern int evt2_random_enemies_mode;
-struct VBase_18_26c590 { char pad[0x18]; };
-struct VObj_18_26c590 : VBase_18_26c590 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual char *m10();
-};
 struct Cnt_8031224C { s32 n[2]; };
 struct Strs_8031224C { u8 pad[0x18]; char *fmt; };
 struct O_8031224C { u8 pad[0x20]; void *w0; u8 pad2[0x240 - 0x24]; s32 timer; u8 pad3[0x274 - 0x244]; s32 team[4]; u8 pad4[0x294 - 0x284]; Strs_8031224C *strs; };
@@ -334,16 +300,16 @@ void TPlayerBattleCtrl4P::show_team_matchup() {
     char names[4][16];
     s32 i;
     s32 team;
-    VObj_18_26c590 *p;
+    TObjPlayer *p;
     for (i = 0; i < 4; i++) {
         names[i][0] = 0;
     }
     for (i = 0; i < 4; i++) {
-        p = (VObj_18_26c590 *)get_player_by_client_id(i);
+        p = get_player_by_client_id(i);
         if (p != NULL) {
             team = ((O_8031224C *)this)->team[i] != 1 ? 1 : 0;
             if (cnt.n[team] < 2) {
-                strncpy(names[team * 2 + cnt.n[team]], p->m10(), 16);
+                strncpy(names[team * 2 + cnt.n[team]], p->get_name(), 16);
                 cnt.n[team]++;
             }
         }
@@ -436,7 +402,7 @@ void TPlayerBattleCtrl4P::update_battle_time_and_rankings() {
 
 void TPlayerBattleCtrl4P::begin_battle_results() {
     s32 i;
-    VObj_18_26c590 *p;
+    TObjPlayer *p;
     update();
     {
         void *temp = TObject::operator new(0x28);
@@ -450,9 +416,9 @@ void TPlayerBattleCtrl4P::begin_battle_results() {
         TPlayerBattleCtrl4P::remove_player(this, i, 1);
     }
     for (i = 0; i < 4; i++) {
-        p = (VObj_18_26c590 *)get_player_by_client_id(i);
+        p = get_player_by_client_id(i);
         if (p != 0) {
-            ((ProtectionTimer *)((u8 *)p + 0x644))->set_frames(0xE10);
+            p->protection.set_frames(0xE10);
         }
     }
     ((s32 (*)(void *))update_all_players__19TPlayerBattleCtrl4PFv)(this);
@@ -810,10 +776,10 @@ void TPlayerBattleCtrl4P::shuffle_order() {
 
 void TPlayerBattleCtrl4P::reset_players() {
     s32 i;
-    void *p;
+    TObjPlayer *p;
     TLobby::init_scene_objects();
     for (i = 0; i < 4; i++) {
-        p = (void *)get_player_by_client_id(i);
+        p = reinterpret_cast<TObjPlayer *>(get_player_by_client_id(i));
         if (p != 0) {
             ((TObjPlayer *)p)->send_selected_spawn_position(((Ctl_80311380 *)this)->tbl[((TObjBase *)(p))->get_entity_id()]);
             reset_cameras_to_actor(p, 0);
@@ -1142,15 +1108,15 @@ void TPlayerBattleCtrl4P::start_match() {
     char buf[0x40];
     Ent_80310830 *e;
     s32 i;
-    VObj_80310830 *p;
+    TObjPlayer *p;
     reset_score_counters();
     calculate_split_screen_battle_rankings(this);
     TWindowCtrl::init_all((void*)"SCORE", (void*)0x200);
     for (i = 0; i < 4; i++) {
         e = &((Ent_80310830 *)&split_screen_battle_rankings)[i];
-        p = (VObj_80310830 *)get_player_by_client_id(e->id);
+        p = get_player_by_client_id(e->id);
         if (p != 0) {
-            sprintf(buf, "%s %s", TPlayerBattleCtrl4P_player_name_formats[e->idx], p->v10());
+            sprintf(buf, "%s %s", TPlayerBattleCtrl4P_player_name_formats[e->idx], p->get_name());
             TWindowCtrl::init_all((void*)buf, (void*)0x200);
         }
     }
@@ -1160,13 +1126,13 @@ void TPlayerBattleCtrl4P::start_match() {
 
 void TPlayerBattleCtrl4P::update_players() {
     s32 i;
-    void *player;
+    TObjPlayer *player;
 
     i = 0;
     do {
         player = get_player_by_client_id(i);
-        if ((player != NULL) && (*(s32 *)((s8 *)player + 0x30) & 0x800)) {
-            ((VObj_803107D0_8031058C *)player)->v64();
+        if ((player != NULL) && (player->actorFlags & 0x800)) {
+            player->reset_pose();
         }
         i += 1;
     } while (i < 4);

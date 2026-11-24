@@ -247,10 +247,10 @@ void TObjEneBm3FlyNest::load_resources() {
     TObjEneBm3Fly::load_resources();
     TObjEneBm3FlyNest::init_vertex_table();
     {
-        NpcAnimationBinding anim = { NULL, reinterpret_cast<TObjMotionAction *>(bm3_flynest_hit_action_table), 0, 8, 10 };
-        anim.motions = reinterpret_cast<BmlMotionEntry *>(bm3_fly_nest_bml->motions);
+        NpcAnimationBinding anim = { NULL, bm3_flynest_hit_action_table, 0, 8, 10 };
+        anim.motions = bm3_fly_nest_bml->motions;
         models = bm3_fly_nest_bml->models;
-        NpcModelRegistry::register_animated_chunk(8, reinterpret_cast<void *>(models[1].model), models[0].texlist, &anim, bm3_flynest_collider_params[0].radius, 0.0f);
+        NpcModelRegistry::register_animated_chunk(8, models[1].model, models[0].texlist, &anim, bm3_flynest_collider_params[0].radius, 0.0f);
     }
 }
 
@@ -281,12 +281,12 @@ TObjEneBm3FlyNest::TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_dat
     init_model(bm3_flynest_collider_params, 1);
     body_center.y = 20.0f + position.y;
     update_body_colliders();
-    set_action_table((saddr)bm3_flynest_hit_action_table);
-    set_motion_list((saddr)bm3_fly_nest_bml->motions);
+    set_action_table(bm3_flynest_hit_action_table);
+    set_motion_list(bm3_fly_nest_bml->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    reset_hp(bm3_fly_nest_base_stats, bm3_fly_nest_attack_stats, bm3_fly_nest_resist_stats);
+    reset_hp(reinterpret_cast<player_stats *>(bm3_fly_nest_base_stats), reinterpret_cast<AttackParams *>(bm3_fly_nest_attack_stats), reinterpret_cast<ActorParamBlock *>(bm3_fly_nest_resist_stats));
     set_state_flag_1();
     movementParameters = &bm3_fly_nest_params;
     initialize_enemy_state(4);

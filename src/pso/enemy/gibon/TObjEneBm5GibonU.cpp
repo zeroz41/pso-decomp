@@ -129,7 +129,7 @@ TObjMotionAction gibon_u_action_table[17] = {
     { MOTION_MODE_ONCE, 0, 6, 1.0f, 0 },
 };
 const char *TObjEneBm5GibonU__class_name = "TObjEneBm5GibonU";
-const NpcAnimationBinding TObjEneBm5GibonU__spawn_params = { NULL, reinterpret_cast<TObjMotionAction *>(gibon_u_action_table), 0, 1, 17 };
+const NpcAnimationBinding TObjEneBm5GibonU__spawn_params = { NULL, gibon_u_action_table, 0, 1, 17 };
 __declspec(section ".data") u8 *TObjEneBm5GibonU__stat_params[2];
 __declspec(section ".data") u8 *gibon_stat_handle_a_table[2];
 __declspec(section ".data") u8 *gibon_stat_handle_b_table[2];
@@ -1978,9 +1978,9 @@ void TObjEneBm5GibonU::load_resources() {
     }
     NpcAnimationBinding sp = TObjEneBm5GibonU__spawn_params;
     m = TObjEneBm5GibonU__model_archive;
-    sp.motions = reinterpret_cast<BmlMotionEntry *>(m->motions);
-    NpcModelRegistry::register_animated_chunk(0xE, reinterpret_cast<void *>(m->models[0].model), m->models[0].texlist, &sp, gibon_collision_body_templates[0].radius, 0.0f);
-    NpcModelRegistry::register_animated_chunk(0xF, reinterpret_cast<void *>(TObjEneBm5GibonU__model_archive->models[1].model), TObjEneBm5GibonU__model_archive->models[1].texlist, &sp, gibon_collision_body_templates[1].radius, 0.0f);
+    sp.motions = m->motions;
+    NpcModelRegistry::register_animated_chunk(0xE, m->models[0].model, m->models[0].texlist, &sp, gibon_collision_body_templates[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0xF, TObjEneBm5GibonU__model_archive->models[1].model, TObjEneBm5GibonU__model_archive->models[1].texlist, &sp, gibon_collision_body_templates[1].radius, 0.0f);
 }
 
 void *TObjEneBm5GibonU::create(void *set_data) {
@@ -2033,13 +2033,13 @@ TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_
     } else {
         this->init_model(&gibon_collision_body_templates[0], 1);
     }
-    this->set_action_table((saddr)gibon_u_action_table);
-    this->set_motion_list((saddr)TObjEneBm5GibonU__model_archive->motions);
+    this->set_action_table(gibon_u_action_table);
+    this->set_motion_list(TObjEneBm5GibonU__model_archive->motions);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
     this->set_requested_action(this->requested_action);
     b = this->is_leader ? 1 : 0;
-    this->reset_hp(TObjEneBm5GibonU__stat_params[b], gibon_stat_handle_a_table[b], gibon_stat_handle_b_table[b]);
+    this->reset_hp(reinterpret_cast<player_stats *>(TObjEneBm5GibonU__stat_params[b]), reinterpret_cast<AttackParams *>(gibon_stat_handle_a_table[b]), reinterpret_cast<ActorParamBlock *>(gibon_stat_handle_b_table[b]));
     this->set_state_flag_1();
     this->movementParameters = &TObjEneBm5GibonU__movement_parameters;
     if (this->is_leader != 0) {

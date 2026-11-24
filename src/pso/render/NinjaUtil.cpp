@@ -93,16 +93,15 @@ static void find_model_node_walk(NJS_OBJECT *node) {
     }
 }
 
-saddr find_model_node(uaddr root, s32 index) {
-    NJS_OBJECT *node = (NJS_OBJECT *)root;
-    if (node == NULL) {
+NJS_OBJECT *find_model_node(NJS_OBJECT *root, s32 index) {
+    if (root == NULL) {
         return NULL;
     }
     model_node_search_target = index;
     model_node_search_index = 0;
     model_node_search_result = NULL;
-    find_model_node_walk(node);
-    return (saddr)model_node_search_result;
+    find_model_node_walk(root);
+    return model_node_search_result;
 }
 
 void debug_printf_nop(const char *format, ...) {}

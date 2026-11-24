@@ -10,13 +10,12 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 
-struct Obj_8035B788;
-Obj_8035B788 * lbl_805D6F50;
+BmlResource *lbl_805D6F50;
 
 void fn_8035B750(void) {
-    if ((uaddr) lbl_805D6F50 != 0U) {
-        delete (BmlResource *)lbl_805D6F50;
-        lbl_805D6F50 = 0U;
+    if (lbl_805D6F50 != NULL) {
+        delete lbl_805D6F50;
+        lbl_805D6F50 = NULL;
     }
 }
 
@@ -31,26 +30,20 @@ static TObjMotionAction nights_npc_actions[2] = {
 };
 
 
-struct Inner_8035B788 { u8 pad[8]; s32 x8; NJS_TEXLIST *texlist; };
-
-struct Obj_8035B788 { u8 pad[0x42C]; Inner_8035B788 *x42c; s32 x430; };
-
-
 // inferred: spawn bindings of the two nights NPCs (TLobby::spawn_npc_enemy 0x11 and 0x12)
 const NpcAnimationBinding lbl_804798CC = { NULL, reinterpret_cast<TObjMotionAction *>(nights_npc_actions), 1, 1, 2 };
 const NpcAnimationBinding lbl_804798DC = { NULL, reinterpret_cast<TObjMotionAction *>(nights_npc_actions), 0, 0, 2 };
 void fn_8035B788(void) {
-    Obj_8035B788 *o = (Obj_8035B788 *)new BmlResource(1, &nights_npc_resource_descriptor, 0, 0, NULL);
-    lbl_805D6F50 = o;
+    BmlResource *resource = new BmlResource(1, &nights_npc_resource_descriptor, 0, 0, NULL);
+    lbl_805D6F50 = resource;
     {
         NpcAnimationBinding r = lbl_804798CC;
-        r.motions = reinterpret_cast<BmlMotionEntry *>(o->x430);
-        NpcModelRegistry::register_animated_chunk((s16)0x11, reinterpret_cast<void *>(o->x42c->x8), o->x42c->texlist, &r, 10.0f, 0.0f);
+        r.motions = resource->motions;
+        NpcModelRegistry::register_animated_chunk((s16)0x11, resource->models->model, resource->models->texlist, &r, 10.0f, 0.0f);
     }
     {
         NpcAnimationBinding r = lbl_804798DC;
-        r.motions = reinterpret_cast<BmlMotionEntry *>(lbl_805D6F50->x430);
-        NpcModelRegistry::register_animated_chunk((s16)0x12, reinterpret_cast<void *>(lbl_805D6F50->x42c->x8), lbl_805D6F50->x42c->texlist, &r, 10.0f, 0.0f);
+        r.motions = lbl_805D6F50->motions;
+        NpcModelRegistry::register_animated_chunk((s16)0x12, lbl_805D6F50->models->model, lbl_805D6F50->models->texlist, &r, 10.0f, 0.0f);
     }
 }
-

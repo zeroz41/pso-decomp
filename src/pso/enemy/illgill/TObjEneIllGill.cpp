@@ -60,8 +60,8 @@ struct IllGillEffectRotation { s32 x, y, z; };
 extern int enable_v2_features;
 extern "C" {
 BmlResource * illGillResource;
-saddr TObjEneIllGill__boss_registration_id;
-saddr TObjEneIllGill__resistance_params;
+player_stats *TObjEneIllGill__boss_registration_id;
+ActorParamBlock *TObjEneIllGill__resistance_params;
 IllGillAttackBehavior * illGillAttackBehavior;
 s32 illGillModelNodeIndex;
 }
@@ -106,7 +106,7 @@ CollisionBody illGillCollisionBody = {
 };
 AttackParams *ill_gill_combat_parameter_variants[4] = {0, 0, 0, 0};
 const char *TObjEneIllGill_class_name = "TObjEneIllGill";
-const NpcAnimationBinding illGillAnimBinding = { NULL, reinterpret_cast<TObjMotionAction *>(illGillActions), 0, 1, 10 };
+const NpcAnimationBinding illGillAnimBinding = { NULL, illGillActions, 0, 1, 10 };
 const Vec lbl_8047A328 = {0.0f, 0.0f, 0.0f};
 const char *TObjIllGillKage__class_name = "TObjIllGillKage";
 }
@@ -119,12 +119,12 @@ void TObjEneIllGill::load_shared_resources() {
 
     p = new BmlResource(1, &illGillResourceDescriptor, 0, 0, NULL);
     illGillResource = (BmlResource *)p;
-    TObjEneIllGill__boss_registration_id = (saddr)TLobby::register_boss(0x26);
+    TObjEneIllGill__boss_registration_id = TLobby::register_boss(0x26);
     ill_gill_combat_parameter_variants[0] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x26);
     ill_gill_combat_parameter_variants[1] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x27);
     ill_gill_combat_parameter_variants[2] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x28);
     ill_gill_combat_parameter_variants[3] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x29);
-    TObjEneIllGill__resistance_params = (saddr)TLobby::register_object(0x26);
+    TObjEneIllGill__resistance_params = TLobby::register_object(0x26);
     illGillAttackBehavior = (IllGillAttackBehavior *)TLobby::dispatch_shared_handler_a(0x26);
     illGillModelNodeIndex = 0;
     q = &illGillWeaponEffectPosition;
@@ -138,8 +138,8 @@ void TObjEneIllGill::load_shared_resources() {
     {
         NpcAnimationBinding pos = illGillAnimBinding;
         resource = illGillResource;
-        pos.motions = reinterpret_cast<BmlMotionEntry *>(resource->motions);
-        NpcModelRegistry::register_animated_chunk((s16)0x43, reinterpret_cast<void *>(resource->models->model), resource->models->texlist, &pos, illGillCollisionBody.radius, 0.0f);
+        pos.motions = resource->motions;
+        NpcModelRegistry::register_animated_chunk((s16)0x43, resource->models->model, resource->models->texlist, &pos, illGillCollisionBody.radius, 0.0f);
     }
 }
 
@@ -160,7 +160,7 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     texlist = illGillResource->models->texlist;
     motion_list = illGillResource->motions;
     action_table = illGillActions;
-    this->set_action_table((saddr)action_table);
+    this->set_action_table(action_table);
     requested_action = 0;
     this->set_animation(requested_action);
     this->set_requested_action(requested_action);
@@ -175,7 +175,7 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     register_object_by_id();
     movementParameters = &illGillMovement;
     attackType = 0;
-    this->bind_enemy_combat_stats((u8 *)TObjEneIllGill__boss_registration_id, (u8 *)ill_gill_combat_parameter_variants[attackType], (u8 *)TObjEneIllGill__resistance_params);
+    this->bind_enemy_combat_stats(TObjEneIllGill__boss_registration_id, ill_gill_combat_parameter_variants[attackType], TObjEneIllGill__resistance_params);
     deathTimer = 0;
     mode = 0;
     phase = 0;
@@ -648,7 +648,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
     if (this->target != NULL && this->attack_params != NULL && !(((TObjChara *)this->target)->actorFlags & 0x02000800)) {
         if (test_actor_flags(0x2000) != 0) {
             this->attackType = 3;
-            bind_enemy_combat_stats((u8 *)0, (u8 *)ill_gill_combat_parameter_variants[this->attackType], (u8 *)0);
+            bind_enemy_combat_stats(NULL, ill_gill_combat_parameter_variants[this->attackType], NULL);
             return 1;
         }
         dist = calc_xz_distance_sq(this, (TObjBase *)this->target, &v);
@@ -668,7 +668,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
                 if (dist <= (rad + this->attack_params->get_attack_range()) * (rad + this->attack_params->get_attack_range()) &&
                     ang <= this->attack_params->get_attack_angle()) {
                     this->attackType = 0;
-                    bind_enemy_combat_stats((u8 *)0, (u8 *)ill_gill_combat_parameter_variants[this->attackType], (u8 *)0);
+                    bind_enemy_combat_stats(NULL, ill_gill_combat_parameter_variants[this->attackType], NULL);
                     return 1;
                 }
                 return 0;
@@ -681,7 +681,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
                 m = this->attack_params->get_attack_angle();
                 if (dist <= r2 && ang <= m) {
                     this->attackType = i;
-                    bind_enemy_combat_stats((u8 *)0, (u8 *)ill_gill_combat_parameter_variants[this->attackType], (u8 *)0);
+                    bind_enemy_combat_stats(NULL, ill_gill_combat_parameter_variants[this->attackType], NULL);
                     return 1;
                 }
             }
@@ -690,7 +690,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
             if (dist <= (rad + this->attack_params->get_attack_range()) * (rad + this->attack_params->get_attack_range()) &&
                 ang <= this->attack_params->get_attack_angle()) {
                 this->attackType = 0;
-                bind_enemy_combat_stats((u8 *)0, (u8 *)ill_gill_combat_parameter_variants[this->attackType], (u8 *)0);
+                bind_enemy_combat_stats(NULL, ill_gill_combat_parameter_variants[this->attackType], NULL);
                 return 1;
             }
         }

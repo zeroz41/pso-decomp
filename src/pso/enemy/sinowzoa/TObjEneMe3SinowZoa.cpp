@@ -1,3 +1,5 @@
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/render/GinjaTextureEntryCopy.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
@@ -146,23 +148,13 @@ TObjMotionAction TObjEneMe3SinowZoa__animation_descriptors[13] = {
     { 3, 0, 8, 1.0f, 0x0 },
 };
 
-struct ChunkModel {
-    void *vlist;
-    u32 *plist;
-};
-
-struct ModelNode {
-    u32 evalflags;
-    ChunkModel *model;
-};
-
 // load_resources (inferred): floor_resource_callbacks pairs it with free_resources.
 void TObjEneMe3SinowZoa::load_resources() {
     s32 i;
-    NJS_TEXLIST *src;
+    const NJS_TEXLIST *src;
     s32 count;
-    u32 model;
-    ModelNode *node;
+    NJS_OBJECT *model;
+    NJS_CNK_MODEL *chunk;
     AnimationMotion *motion;
     TBreakUpMdlData *breakup;
     TObjEneMe3SinowZoaParams *params;
@@ -180,10 +172,10 @@ void TObjEneMe3SinowZoa::load_resources() {
     TObjEneMe3SinowZoa__alternate_texture_list.nbTexture = count;
     TObjEneMe3SinowZoa__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(count * sizeof(NJS_TEXNAME));
     for (i = 0; i < count; i++) {
-        ((TObjPlayer *)&TObjEneMe3SinowZoa__alternate_texture_list.textures[i])->copy_vec3(&src->textures[i]);
+        copy_ginja_texture_entry(&TObjEneMe3SinowZoa__alternate_texture_list.textures[i], &src->textures[i]);
     }
     for (i = 0; i < 3; i++) {
-        TObjEneMe3SinowZoa__alternate_texture_list.textures[i].texaddr = TObjEneMe3SinowZoa__alternate_texture_list.textures[i + 3].texaddr;
+        TObjEneMe3SinowZoa__alternate_texture_list.textures[i].texture = TObjEneMe3SinowZoa__alternate_texture_list.textures[i + 3].texture;
     }
     for (i = 0; i < 2; i++) {
         TObjEneMe3SinowZoa__base_params_by_variant[i] = (u8 *)TLobby::register_boss(sinow_zoa_base_param_ids[i]);
@@ -204,22 +196,22 @@ void TObjEneMe3SinowZoa::load_resources() {
     lbl_80542FE4.x = 0.0f;
     lbl_80542FE4.y = 0.0f;
     lbl_80542FE4.z = 0.0f;
-    model = (saddr)TObjEneMe3SinowZoa__bml_resource->models->model;
-    node = (ModelNode *)find_model_node(model, 9);
-    if (node->model != NULL) {
-        TObjEneMe3SinowZoa__material_color_pointers[0] = node->model->plist + 1;
+    model = TObjEneMe3SinowZoa__bml_resource->models->model;
+    chunk = static_cast<NJS_CNK_MODEL *>(find_model_node(model, 9)->model);
+    if (chunk != NULL) {
+        TObjEneMe3SinowZoa__material_color_pointers[0] = reinterpret_cast<u32 *>(chunk->polygon_list + 2);
     } else {
         TObjEneMe3SinowZoa__material_color_pointers[0] = NULL;
     }
-    node = (ModelNode *)find_model_node(model, 13);
-    if (node->model != NULL) {
-        TObjEneMe3SinowZoa__material_color_pointers[1] = node->model->plist + 1;
+    chunk = static_cast<NJS_CNK_MODEL *>(find_model_node(model, 13)->model);
+    if (chunk != NULL) {
+        TObjEneMe3SinowZoa__material_color_pointers[1] = reinterpret_cast<u32 *>(chunk->polygon_list + 2);
     } else {
         TObjEneMe3SinowZoa__material_color_pointers[1] = NULL;
     }
-    node = (ModelNode *)find_model_node(model, 38);
-    if (node->model != NULL) {
-        TObjEneMe3SinowZoa__material_color_pointers[2] = node->model->plist + 1;
+    chunk = static_cast<NJS_CNK_MODEL *>(find_model_node(model, 38)->model);
+    if (chunk != NULL) {
+        TObjEneMe3SinowZoa__material_color_pointers[2] = reinterpret_cast<u32 *>(chunk->polygon_list + 2);
     } else {
         TObjEneMe3SinowZoa__material_color_pointers[2] = NULL;
     }
@@ -228,13 +220,13 @@ void TObjEneMe3SinowZoa::load_resources() {
     TObjEneMe3SinowZoa__breakup_model = breakup;
     {
         NpcAnimationBinding info = sinow_zoa_attack_binding_desc_a;
-        info.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3SinowZoa__bml_resource->motions);
+        info.motions = TObjEneMe3SinowZoa__bml_resource->motions;
         NpcAnimationBinding info_b = sinow_zoa_attack_binding_desc_b;
-        info_b.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3SinowZoa__bml_resource->motions);
-        NpcModelRegistry::register_animated_chunk(0x49, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), TObjEneMe3SinowZoa__bml_resource->models->texlist, &info, 12.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x4A, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), &TObjEneMe3SinowZoa__alternate_texture_list, &info, 12.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x4B, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), TObjEneMe3SinowZoa__bml_resource->models->texlist, &info_b, 12.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x4C, reinterpret_cast<void *>(TObjEneMe3SinowZoa__bml_resource->models->model), &TObjEneMe3SinowZoa__alternate_texture_list, &info_b, 12.0f, 0.0f);
+        info_b.motions = TObjEneMe3SinowZoa__bml_resource->motions;
+        NpcModelRegistry::register_animated_chunk(0x49, TObjEneMe3SinowZoa__bml_resource->models->model, TObjEneMe3SinowZoa__bml_resource->models->texlist, &info, 12.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x4A, TObjEneMe3SinowZoa__bml_resource->models->model, &TObjEneMe3SinowZoa__alternate_texture_list, &info, 12.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x4B, TObjEneMe3SinowZoa__bml_resource->models->model, TObjEneMe3SinowZoa__bml_resource->models->texlist, &info_b, 12.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x4C, TObjEneMe3SinowZoa__bml_resource->models->model, &TObjEneMe3SinowZoa__alternate_texture_list, &info_b, 12.0f, 0.0f);
     }
 }
 
@@ -280,11 +272,11 @@ void TObjEneMe3SinowZoaReal::init_enemy() {
     model = (void *)TObjEneMe3SinowZoa__bml_resource->models->model;
     init_model(&sinow_zoa_collision_parts, 1);
     motion_flags = 0;
-    this->set_action_table((saddr)TObjEneMe3SinowZoa__animation_descriptors);
-    this->set_motion_list((saddr)TObjEneMe3SinowZoa__bml_resource->motions);
+    this->set_action_table(TObjEneMe3SinowZoa__animation_descriptors);
+    this->set_motion_list(TObjEneMe3SinowZoa__bml_resource->motions);
     set_animation((this->requested_action));
     kind = this->kind_index;
-    reset_hp(TObjEneMe3SinowZoa__base_params_by_variant[kind], TObjEneMe3SinowZoa__attack_params_by_variant[kind], TObjEneMe3SinowZoa__resistance_params_by_variant[kind]);
+    reset_hp(reinterpret_cast<player_stats *>(TObjEneMe3SinowZoa__base_params_by_variant[kind]), reinterpret_cast<AttackParams *>(TObjEneMe3SinowZoa__attack_params_by_variant[kind]), reinterpret_cast<ActorParamBlock *>(TObjEneMe3SinowZoa__resistance_params_by_variant[kind]));
     this->set_state_flag_4();
     movementParameters = &TObjEneMe3SinowZoa_init_params;
     this->wall_reach = 10.0f;
@@ -1790,7 +1782,7 @@ s32 TObjEneMe3SinowZoa::render_model_if_visible() {
 }
 
 void TObjEneMe3SinowZoa::render_demo() {
-    s32 save[3];
+    GinjaTextureState *save[3];
     s32 flag;
     AnimationMotion *motion;
     f32 frame;
@@ -1820,13 +1812,13 @@ void TObjEneMe3SinowZoa::render_demo() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         TObjPlayer::toggle_particle_effect();
         if (flag != 0) {
-            NJS_TEXNAME *parts = ((NJS_TEXLIST *)texlist)->textures;
+            NJS_TEXNAME *parts = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
             s32 i;
             for (i = 0; i < 3; i++) {
-                save[i] = parts[i].texaddr;
+                save[i] = parts[i].texture;
             }
             for (i = 0; i < 3; i++) {
-                parts[i].texaddr = parts[i + 3].texaddr;
+                parts[i].texture = parts[i + 3].texture;
             }
         }
         push_matrix();
@@ -1868,9 +1860,9 @@ void TObjEneMe3SinowZoa::render_demo() {
         pop_matrix();
         if (flag != 0) {
             s32 i;
-            NJS_TEXNAME *parts = ((NJS_TEXLIST *)texlist)->textures;
+            NJS_TEXNAME *parts = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
             for (i = 0; i < 3; i++) {
-                parts[i].texaddr = save[i];
+                parts[i].texture = save[i];
             }
         }
         TParticleCtrl::end_effect_render();

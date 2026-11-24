@@ -9,7 +9,6 @@ extern "C" {
 
 s32 is_lobby_floor_15__15TFontSmallLobbyFv();
 
-extern s32 player_shared_buffer_base;
 extern s32 shared_state_flags;
 
 void TObjPlayer::load_character_state(TPlyCharData *record) {
@@ -26,7 +25,7 @@ void TObjPlayer::load_character_state(TPlyCharData *record) {
         }
         bind_saved_inventory_equipment(this, records, count);
     }
-    this->m_db4 = (s32) (player_shared_buffer_base + (this->get_entity_id() * 0x600));
+    this->item_node_matrices = player_shared_buffer_base[get_entity_id()];
 }
 
 }

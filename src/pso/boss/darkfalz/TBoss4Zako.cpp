@@ -88,7 +88,7 @@ TBoss4Zako::TBoss4Zako(TObject *parent, TBoss4ZakoSetData *set_data) : TObjEnemy
     TObjChara::velocity.y = 0.0f;
     TObjChara::velocity.x = 0.0f;
     target = 0;
-    bind_enemy_combat_stats((u8 *)TLobby::register_boss(0x35), (u8 *)TLobby::dispatch_shared_handler_b(0x35), (u8 *)TLobby::register_object(0x35));
+    bind_enemy_combat_stats(TLobby::register_boss(0x35), TLobby::dispatch_shared_handler_b(0x35), TLobby::register_object(0x35));
     referenceHp = hp;
     ((TBoss3Volopt *)this)->reset_photon_effect();
     set_param(0);

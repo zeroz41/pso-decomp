@@ -129,8 +129,8 @@ public:
     void draw();
     virtual void reset_motion_fields();
     void set_animation(s16 action);
-    void set_action_table(saddr);
-    void set_motion_list(saddr);
+    void set_action_table(TObjMotionAction *actions);
+    void set_motion_list(BmlMotionEntry *motions);
     void set_requested_action(s16);
     // Clears MOTION_NO_BLEND.
     void enable_motion_blend();

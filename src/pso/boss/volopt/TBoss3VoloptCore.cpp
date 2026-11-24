@@ -119,7 +119,7 @@ void TBoss3VoloptCore::init_params() {
     m_name = TBoss3VoloptCore_name;
     motion_list = core_resources->motions;
     action_table = core_motions;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     init_collision_body_parts(this, core_body_parts, 1);
     variant = 0;
     movementParameters = &core_movement;

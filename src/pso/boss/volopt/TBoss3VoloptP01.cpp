@@ -63,7 +63,7 @@ static void *volopt_p01_object_handle;
 static TBoss3VoloptP01Params *volopt_p01_shared_handler_handle;
 static BmlResource *TBoss3VoloptP01__resource_bundle;
 static TBreakUpMdlData *TBoss3VoloptP01__breakup_model;
-static TBoss3VoloptChunkList *volopt_p01_chunk_list;
+static NJS_OBJECT *volopt_p01_chunk_list;
 static u8 *volopt_p01_breakup_color_ptr;
 
 static TObjMotionAction volopt_p01_action_table[6] = {
@@ -145,7 +145,7 @@ TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 gr
 void TBoss3VoloptP01::init_params() {
     motion_list = TBoss3VoloptP01__resource_bundle->motions;
     action_table = volopt_p01_action_table;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     init_collision_body_parts(this, &volopt_p01_collision_parts, 1);
     variant = 0;
     movementParameters = &volopt_p01_movement;
@@ -180,12 +180,12 @@ void *TBoss3VoloptP01::create(void *set_data) {
 void TBoss3VoloptP01::init_breakup_effect() {
     TBoss3VoloptP01__resource_bundle = boss3_volopt_resources;
     TBoss3VoloptP01__breakup_model = new TBreakUpMdlData((saddr)TBoss3VoloptP01__resource_bundle->models[17].model);
-    volopt_p01_chunk_list = (TBoss3VoloptChunkList *)find_model_node((saddr)TBoss3VoloptP01__resource_bundle->models[17].model, 0xD);
+    volopt_p01_chunk_list = find_model_node(TBoss3VoloptP01__resource_bundle->models[17].model, 0xD);
     volopt_p01_boss_stat_handle_a = TLobby::register_boss(0x22);
     volopt_p01_shared_handler_b = TLobby::dispatch_shared_handler_b(0x22);
     volopt_p01_object_handle = TLobby::register_object(0x22);
     volopt_p01_shared_handler_handle = (TBoss3VoloptP01Params *)TLobby::dispatch_shared_handler_a(0x22);
-    volopt_p01_breakup_color_ptr = volopt_p01_chunk_list->first->color;
+    volopt_p01_breakup_color_ptr = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(volopt_p01_chunk_list->model)->polygon_list);
 }
 
 void TBoss3VoloptP01::destroy() {

@@ -119,9 +119,9 @@ void print_float_padded(s32 arg0, s32 prec, f32 val) {
 }
 
 extern "C" {
-void rotate_matrix_z(void *, s32);
-void rotate_matrix_x(void *, s32);
-void rotate_matrix_y(void *, s32);
+void rotate_matrix_z(MtxP, s32);
+void rotate_matrix_x(MtxP, s32);
+void rotate_matrix_y(MtxP, s32);
 void scale_matrix(f32 (*m)[4], f32 sx, f32 sy, f32 sz);
 
 void debug_printf_at(s32 position, const char *fmt, ...) {
@@ -233,12 +233,12 @@ void matrix_mult_vec_array(f32 (*m)[4], const Vec *src, Vec *dst, u32 count) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void get_current_matrix(void *m) {
-    void *src = current_matrix;
-    if (m == 0) {
-        m = src;
+void get_current_matrix(GC_Mtx *dest) {
+    GC_Mtx *src = current_matrix;
+    if (dest == NULL) {
+        dest = src;
     }
-    PSMTXCopy((MtxP)src, (MtxP)m);
+    PSMTXCopy(*src, *dest);
 }
 #pragma pop
 
@@ -249,13 +249,11 @@ asm f32 vec3_dot(const Vec *a, const Vec *b) {
 #pragma push
 #pragma scheduling off
 
-void TObjPlayer::invert_matrix_in_place(uaddr arg0) {
-    uaddr var_r3;
-    var_r3 = arg0;
-    if (var_r3 == 0U) {
-        var_r3 = (*(uaddr *)&current_matrix);
+void TObjPlayer::invert_matrix_in_place(MtxP matrix) {
+    if (matrix == NULL) {
+        matrix = *current_matrix;
     }
-    PSMTXInverse((MtxP)var_r3, (MtxP)var_r3);
+    PSMTXInverse(matrix, matrix);
 }
 #pragma pop
 
@@ -266,7 +264,7 @@ asm f32 vec3_cross(const Vec *a, const Vec *b, Vec *out) {
 #pragma push
 #pragma scheduling off
 #pragma optimize_for_size off
-void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z) {
+void rotate_matrix_zyx(MtxP m, s32 x, s32 y, s32 z) {
     if (z != 0) {
         rotate_matrix_z(m, z);
     }
@@ -279,15 +277,15 @@ void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z) {
 }
 #pragma pop
 
-void rotate_matrix_yxz(saddr matrix, s32 angle, s32 arg2, s32 arg3) {
-    if (arg2 != 0) {
-        rotate_matrix_y((void *)matrix, (s32)arg2);
+void rotate_matrix_yxz(MtxP matrix, s32 x, s32 y, s32 z) {
+    if (y != 0) {
+        rotate_matrix_y(matrix, y);
     }
-    if (angle != 0) {
-        rotate_matrix_x((void *)matrix, (s32)angle);
+    if (x != 0) {
+        rotate_matrix_x(matrix, x);
     }
-    if (arg3 != 0) {
-        rotate_matrix_z((void *)matrix, (s32)arg3);
+    if (z != 0) {
+        rotate_matrix_z(matrix, z);
     }
 }
 typedef f32 Mtx_803D8B5C[3][4];

@@ -151,7 +151,7 @@ void TObjEneBalClaw::free_resources() {
 void TObjEneBalClaw::load_resources() {
     BalClawPartEntry *e;
     NJS_OBJECT *part;
-    u32 model;
+    NJS_OBJECT *model;
     s32 k;
     s32 base;
     s32 count;
@@ -161,12 +161,12 @@ void TObjEneBalClaw::load_resources() {
     s32 n;
     p = new BmlResource(1, &balclaw_resource_descriptor, 0, 0, NULL);
     balclaw_bml_resource = p;
-    model = (saddr)p->models[1].model;
+    model = p->models[1].model;
     for (k = 0; k < 4; k++) {
         base = balclaw_part_base[k];
         count = 0;
         for (j = 0; j < 10; j++) {
-            part = (NJS_OBJECT *)find_model_node(model, base + j);
+            part = find_model_node(model, base + j);
             if (part != NULL && !(part->evalflags & NJD_EVAL_HIDE)) {
                 balclaw_arm_part_models[k][count] = part;
                 count++;
@@ -176,7 +176,7 @@ void TObjEneBalClaw::load_resources() {
     }
     for (m = 0; m < 7; m++) {
         e = &balclaw_parts[m];
-        e->plist = ((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((saddr)get_bml_model((BmlResource *)balclaw_bml_resource, e->model_index), e->part_index))->model)->polygon_list;
+        e->plist = ((NJS_CNK_MODEL *)(find_model_node(get_bml_model((BmlResource *)balclaw_bml_resource, e->model_index), e->part_index))->model)->polygon_list;
     }
     for (n = 0; n < 2; n++) {
         balclaw_body_base_params[n] = (u8 *)TLobby::register_boss(31);

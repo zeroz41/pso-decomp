@@ -2,6 +2,7 @@
 #define PSO_ENEMY_MERICAROL_TOBJENEBM9MERICAROL_BOMB_H
 #include <stddef.h>
 #include "types.h"
+#include "pso/enemy/AreaAttackContact.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
@@ -20,8 +21,7 @@ public:
     Vec velocity;
     Vec look_ahead;            // pos + look_ahead is the segment tested against walls
     Vec ground_normal;        // ground surface orientation used by the shadow
-    f32 recoil;                // &recoil is area_attack_deliver_direct's first argument: {recoil, contact_flags}
-    s32 contact_flags;         // 1: player bodies (DragonAttackParams' contact_flags)
+    AreaAttackContact contact;
     s32 m_ec;
     s32 attack_type;           // 5 in v2 mode, else by phase; 0x12 for the final blast
     f32 power;                 // {attack_type, power} is the DirectAttackPayload &attack_type passes
@@ -34,6 +34,7 @@ public:
     TParticleCtrl *effect;     // particle 0x207, follows pos
     TParticleCtrl *phase_effect;
 };
+LAYOUT_ASSERT(MericarolBombContactOffset, offsetof(TObjEneBm9Mericarol_Bomb, contact) == 0xE4);
 LAYOUT_ASSERT(TObjEneBm9Mericarol_Bomb_size, sizeof(TObjEneBm9Mericarol_Bomb) == 0x118);
 
 LAYOUT_ASSERT(TObjEneBm9Mericarol_Bomb_ground_normal_offset, offsetof(TObjEneBm9Mericarol_Bomb, ground_normal) == 0xD8);

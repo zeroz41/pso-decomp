@@ -24,6 +24,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
@@ -131,15 +132,6 @@ typedef struct Player_801C29F0 {
     u8 pad34[0x754 - 0x34];
     u8 ctrl[4];
 } Player_801C29F0;
-
-struct VBase_801C2B04 { char pad[0x18]; };
-
-struct VObj_801C2B04 : VBase_801C2B04 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9();
-    virtual char *m10();
-};
 
 typedef struct Entry_801C2B04 {
     u16 id;
@@ -270,25 +262,6 @@ struct Cfg_801C3D50 {
     s32 v20;
     s32 v24;
     s16 v28;
-};
-
-struct VBase_801C4214 { char pad[0x18]; };
-
-struct VObj_801C4214 : VBase_801C4214 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual void m5(); virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9();
-    virtual void m10(); virtual void m11(); virtual void m12(); virtual void m13(); virtual void m14();
-    virtual void m15(); virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23(); virtual void m24();
-    virtual void m25(); virtual void m26(); virtual void m27(); virtual void m28(); virtual void m29();
-    virtual void m30(); virtual void m31(); virtual void m32(); virtual void m33(); virtual void m34();
-    virtual void m35(); virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43(); virtual void m44();
-    virtual void m45(); virtual void m46(); virtual void m47(); virtual void m48(); virtual void m49();
-    virtual void m50(); virtual void m51(); virtual void m52(); virtual void m53(); virtual void m54();
-    virtual void m55(); virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61();
-    virtual void m62();
 };
 
 struct Pair_801C49B8 { s32 a, b; };
@@ -706,8 +679,8 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
             *(void **)((s8 *)arg0 + 0x54) = NULL;
             *(s32 *)((s8 *)arg0 + 0x20) = 6;
             p = (void *)(saddr)get_local_player();
-            if (p != NULL && (*(s32 *)((s8 *)p + 0x30) & 0x800)) {
-                ((VObj_801C4214 *)p)->m62();
+            if (p != NULL && (static_cast<TObjPlayer *>(p)->actorFlags & 0x800)) {
+                static_cast<TObjPlayer *>(p)->reset_pose();
             }
         }
         break;
@@ -1413,12 +1386,11 @@ void send_6x7D_set_battle_mode_data(void *) {
 }
 
 void TLobby::finish_chr_select_scene_init() {
-    saddr temp_r3;
     TLobby::init_scene_objects();
-    temp_r3 = (saddr)get_local_player();
-    if (temp_r3 != 0) {
-        ((TObjPlayer *)temp_r3)->send_selected_spawn_position(battle_mode_data_table[(u16)((TObjBase *)temp_r3)->get_entity_id()]);
-        reset_cameras_to_actor((void *)temp_r3, 0);
+    TObjPlayer *player = get_local_player();
+    if (player != NULL) {
+        player->send_selected_spawn_position(battle_mode_data_table[(u16)player->get_entity_id()]);
+        reset_cameras_to_actor(player, 0);
     }
     ((TLobby *)tl_05)->destroy_matching_children();
     TAdSinglePlyChrSelectGC::destroy();
@@ -1476,15 +1448,15 @@ void TLobby::show_score_results() {
     char buf[0x48];
     Entry_801C2B04 *e;
     s32 i;
-    VObj_801C2B04 *p;
+    TObjPlayer *p;
     TLobby::clear_counter(this);
     TLobby::calc_player_rankings((Lobby_801C484C *)this);
     ((TWindowCtrl *)"SCORE")->init_all_default();
     for (i = 0; i < 4; i++) {
         e = (Entry_801C2B04 *)&duel_result_table[i];
-        p = (VObj_801C2B04 *)get_player_by_client_id(e->id);
+        p = get_player_by_client_id(e->id);
         if (p != NULL) {
-            sprintf(buf, "%s %s", lobby_rank_ordinal_text_table[e->name], p->m10());
+            sprintf(buf, "%s %s", lobby_rank_ordinal_text_table[e->name], p->get_name());
             ((TWindowCtrl *)buf)->init_all_default();
         }
     }

@@ -145,7 +145,7 @@ const Vec TBoss2DeRolLe__position_point_table[4] = {
     {0.0f, 7.0f, -250.0f},
 };
 
-const DragonAttackParams derolle_effect_params = {0, 0.0f, 8.0f, 5.0f, 1};
+const DragonAttackParams derolle_effect_params = {0, 0.0f, 8.0f, {5.0f, 1}};
 
 // inferred: the five mine positions load_resources grounds into TBoss2DeRolLe__mine_ground_targets
 const Vec derolle_mine_offsets[5] = {
@@ -157,7 +157,7 @@ const Vec derolle_mine_offsets[5] = {
 };
 
 // inferred: the effect handle_laser_attack_state spawns where the laser hits
-const DragonAttackParams derolle_laser_hit_effect_params = {0, 120.0f, 16.0f, 20.0f, 1};
+const DragonAttackParams derolle_laser_hit_effect_params = {0, 120.0f, 16.0f, {20.0f, 1}};
 
 s32 de_rol_le_base_param_ids[1] = {0xF};
 
@@ -276,8 +276,8 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/TUnk_804A6F78.h"
 
-void *TBoss2DeRolLe__base_params[1];
-void *TBoss2DeRolLe__resistance_params[1];
+player_stats *TBoss2DeRolLe__base_params[1];
+ActorParamBlock *TBoss2DeRolLe__resistance_params[1];
 TBoss2DeRolLeParams *derolle_params[1];
 BmlResource *boss2_derolle_resource;
 // derolle_capture_node_points's state while the body draws (derolle_begin_node_capture sets it up).
@@ -302,7 +302,7 @@ uaddr derolle_segment_joint_node_offsets[10];
 
 u32 *boss2_derolle_segment_color_targets[10];
 
-void *TBoss2DeRolLe__attack_params_table[3];
+AttackParams *TBoss2DeRolLe__attack_params_table[3];
 NJS_ARGB derolle_capture_color;  // the body colour while it draws (derolle_begin_node_capture)
 Vec derolle_capture_origin;      // the node-local point derolle_capture_node_points places
 
@@ -505,7 +505,7 @@ void TBoss2DeRolLe::load_resources() {
     m = n->sibling;
     boss2_derolle_primary_color_targets[1] = (u32 *)(((NJS_CNK_MODEL *)m->model)->polygon_list + 4);
     boss2_derolle_primary_color_targets[2] = (u32 *)(((NJS_CNK_MODEL *)m->sibling->model)->polygon_list + 4);
-    derolle_breakup_node = (NJS_OBJECT *)find_model_node((uaddr)res->models[2].model, 0x4D);
+    derolle_breakup_node = find_model_node(res->models[2].model, 0x4D);
     derolle_breakup_node_child = derolle_breakup_node->child;
     for (m2 = 0; m2 < 11; m2++) {
         p = &derolle_breakup_stub_nodes[m2];
@@ -585,12 +585,12 @@ TBoss2DeRolLe::TBoss2DeRolLe(TObject *parent, void *set_data) : TObjEneDD_ST(par
     texlist = boss2_derolle_resource->models[2].texlist;
     init_model(boss2_derolle_collision_bodies, 3);
     motion_flags = 0;
-    set_action_table((saddr)boss2_derolle_action_table);
-    set_motion_list((saddr)boss2_derolle_resource->motions);
+    set_action_table(boss2_derolle_action_table);
+    set_motion_list(boss2_derolle_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    reset_hp((u8 *)TBoss2DeRolLe__base_params[0], (u8 *)TBoss2DeRolLe__attack_params_table[0], (u8 *)TBoss2DeRolLe__resistance_params[0]);
+    reset_hp(TBoss2DeRolLe__base_params[0], TBoss2DeRolLe__attack_params_table[0], TBoss2DeRolLe__resistance_params[0]);
     set_state_flag_2();
     movementParameters = &boss2_derolle_movement;
     initialize_enemy_state(0x2D);
@@ -981,7 +981,7 @@ void TBoss2DeRolLe::reload_stats_for_phase(s32 kind) {
         b = 0;
         break;
     }
-    reload_stats_keep_hp_tp((u8 *)TBoss2DeRolLe__base_params[a], (u8 *)TBoss2DeRolLe__attack_params_table[i], (u8 *)TBoss2DeRolLe__resistance_params[b]);
+    reload_stats_keep_hp_tp(TBoss2DeRolLe__base_params[a], TBoss2DeRolLe__attack_params_table[i], TBoss2DeRolLe__resistance_params[b]);
 }
 
 extern "C" {
@@ -1006,7 +1006,7 @@ void TBoss2DeRolLe::switch_phase_stats(TObjChara *victim) {
 // A tentacle's strike (TBoss2Tentacle) emits its effect at pos with the phase-2 stats.
 void TBoss2DeRolLe::emit_effect_and_step(Vec *pos) {
     reload_stats_for_phase(2);
-    TObjEneDD::emit_effect(this, (saddr)pos, (saddr)&derolle_effect_params);
+    TObjEneDD::emit_effect(this, pos, &derolle_effect_params);
     reload_stats_for_phase(stat_phase);
 }
 

@@ -1,3 +1,4 @@
+#include "pso/enemy/BattleParameters.h"
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -63,64 +64,6 @@ struct Obj_800F641C { u8 pad[0x1c]; u16 id; };
 struct Msg_800F6464 { u8 pad0[2]; u16 f2; u16 f4; s16 f6; u32 f8; };
 
 struct Msg_800F62E0 { u8 pad0[2]; u16 id; s32 flags; };
-
-struct Pair_800F673C { s32 a; f32 b; };
-
-struct VBase_800F673C { char pad[0x18]; };
-
-struct VObj_800F673C : VBase_800F673C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46(s32);
-    virtual void m47();
-    virtual void m48();
-    virtual void m49(Pair_800F673C);
-    virtual void m50(Pair_800F673C);
-};
 
 typedef struct TObjPlayer_800F6B68 {
     u8 pad[0x2D6];
@@ -287,10 +230,7 @@ void TLobby::clear_flag_on_phase_e() {
 
 void TLobby__sub_800F7744(void) {  }
 
-s32 TObjEnemy::bind_enemy_combat_stats(u8 *base_record, u8 *attack_record, u8 *resistance_record) {
-    player_stats *base_stats = reinterpret_cast<player_stats *>(base_record);
-    AttackParams *attack_stats = reinterpret_cast<AttackParams *>(attack_record);
-    ActorParamBlock *resistance_stats = reinterpret_cast<ActorParamBlock *>(resistance_record);
+s32 TObjEnemy::bind_enemy_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
     f32 temp_f31;
     f32 temp_f31_2;
     f32 temp_f31_3;
@@ -752,7 +692,7 @@ void TObjEnemy::apply_enemy_state(s32 *state) {
 void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
     EnemyStateRecord *arg1 = (EnemyStateRecord *)arg1_arg;
     s32 flags;
-    Pair_800F673C p;
+    StatStatusReceipt p;
     this->hp = this->hpmax - arg1->damage;
     if (game_difficulty_selection == 3) {
         flags = arg1->flags & ~0x3F;
@@ -772,25 +712,29 @@ void TObjEnemy::apply_hit_message_flags(void *arg1_arg) {
         }
     }
     set_actor_flags(flags);
-    p.a = arg1->attack_status;
-    p.b = arg1->attack_status_level;
+    p.kind = arg1->attack_status;
+    p.power = arg1->attack_status_level;
     arg1->attack_status = 0;
     arg1->attack_status_level = 0;
-    switch (p.a) {
+    switch (p.kind) {
     case 9:
-    case 11:
-        ((VObj_800F673C *)this)->m49(p);
+    case 11: {
+        StatStatusReceipt status = p;
+        apply_attack_stat_status(&status);
         break;
     }
-    p.a = arg1->defense_status;
-    p.b = arg1->defense_status_level;
+    }
+    p.kind = arg1->defense_status;
+    p.power = arg1->defense_status_level;
     arg1->defense_status = 0;
     arg1->defense_status_level = 0;
-    switch (p.a) {
+    switch (p.kind) {
     case 10:
-    case 12:
-        ((VObj_800F673C *)this)->m50(p);
+    case 12: {
+        StatStatusReceipt status = p;
+        apply_defense_stat_status(&status);
         break;
+    }
     }
 }
 

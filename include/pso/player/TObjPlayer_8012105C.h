@@ -2,13 +2,16 @@
 #define PSO_PLAYER_TOBJPLAYER_8012105C_H
 
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
+
+struct TObjPlayer;
 
 extern "C" {
 u8 get_motion_type__11TItemWeaponFv(void *p);
 void TObjPlayer__sub_8012105C(void);
 void TObjPlayer__sub_80121060(void);
 }
-void *get_model_joint_matrix(void *owner, int joint);
+MtxP get_model_joint_matrix(TObjPlayer *player, int joint);
 extern "C" {
 void set_weapon_trail_joints(saddr weapon, s32 trail, s32 start_joint, s32 end_joint);
 }

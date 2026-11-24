@@ -238,7 +238,7 @@ void TObjEnePanarms::load_and_spawn_npc() {
     if (resource != NULL) {
         NpcAnimationBinding binding = panarms_npc_spawn_descriptor;
         binding.motions = resource->motions;
-        NpcModelRegistry::register_animated_chunk(0x23, reinterpret_cast<void *>(resource->models[0].model),
+        NpcModelRegistry::register_animated_chunk(0x23, resource->models[0].model,
             resource->models[0].texlist, &binding, 12.5f, 0.0f);
         TObjEnePanarms::spawn_npc_pair();
     }
@@ -262,16 +262,16 @@ TObjEnePanarms::TObjEnePanarms(TObject *parent, void *setData) : TObjEnemy(paren
     model = (void *)get_bml_model((BmlResource *)TObjEnePanarms__entry_params_resource, 0);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, panarms_collision_body, 1);
-    set_action_table((saddr)panarms_motion_param_table);
-    set_motion_list((saddr)TObjEnePanarms__entry_params_resource->motions);
+    set_action_table(panarms_motion_param_table);
+    set_motion_list(TObjEnePanarms__entry_params_resource->motions);
     set_animation(0);
     set_requested_action(0);
     VecCopy(&body_center, &position);
     velocity.x = velocity.y = velocity.z = 0.0f;
     move_velocity.x = move_velocity.y = move_velocity.z = 0.0f;
     target = NULL;
-    bind_enemy_combat_stats((u8 *)TLobby::register_boss(49), (u8 *)TLobby::dispatch_shared_handler_b(49),
-                            (u8 *)TLobby::register_object(49));
+    bind_enemy_combat_stats(TLobby::register_boss(49), TLobby::dispatch_shared_handler_b(49),
+                            TLobby::register_object(49));
     referenceHp = hp;
     register_entity_by_id(this);
     set_param(21);

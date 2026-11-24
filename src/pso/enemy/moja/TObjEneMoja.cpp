@@ -175,15 +175,15 @@ TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
     select_rare_variant();
     subtype = 1;
     action_table = moja_motion_actions;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     motion_list = moja_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
     init_collision_body_parts(this, &moja_collision_body, 1);
     attack = 0;
-    bind_enemy_combat_stats((u8 *)moja_boss_stats_handles[variant], (u8 *)moja_attack_params[attack + variant * 3],
-        (u8 *)moja_object_handles[variant]);
+    bind_enemy_combat_stats(reinterpret_cast<player_stats *>(moja_boss_stats_handles[variant]), reinterpret_cast<AttackParams *>(moja_attack_params[attack + variant * 3]),
+        reinterpret_cast<ActorParamBlock *>(moja_object_handles[variant]));
     movementParameters = &moja_movement_params[variant];
     referenceHp = hp;
     update_prev_position();
@@ -254,7 +254,7 @@ void TObjEneMoja::load_resources() {
     s16 ids[3] = { 0x32, 0x33, 0x34 };
     NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(moja_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(moja_motion_actions), 0, 2, 9 };
     for (s32 i = 0; i < 3; i++) {
-        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(moja_bml_resource->models[i].model), moja_bml_resource->models[i].texlist,
+        NpcModelRegistry::register_animated_chunk(ids[i], moja_bml_resource->models[i].model, moja_bml_resource->models[i].texlist,
             &binding, moja_collision_body.radius, 0.0f);
     }
 }

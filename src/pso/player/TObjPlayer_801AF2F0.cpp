@@ -5794,7 +5794,7 @@ void handle_6x24_teleport_player(saddr command) {
     ((TObjPlayer *)player)->refresh_equipment_slot();
     TPlyOnCountOver::create(((TObjBase *)player)->get_entity_id(), 2, clear_flag_4000_callback__10TObjPlayerFv);
     if (TObjPlayer::is_locally_controlled((void *)(player)) != 0) {
-        reset_cameras_to_actor((void *)player, 0);
+        reset_cameras_to_actor(reinterpret_cast<TObjPlayer *>(player), 0);
     }
 }
 
@@ -7080,10 +7080,10 @@ void TObjPlayer::sub_801AF454(s32 x) {
 
 void TObjPlayer::update_facing_from_lock() {
     if (((VObj_801AF3C4 *)*(void **)((s8 *)this + 0x380))->m8() != 0) {
-        this->set_motion_list(((VObj_801AF3C4 *)*(void **)((s8 *)this + 0x380))->m75(1));
+        this->set_motion_list(reinterpret_cast<BmlMotionEntry *>(((VObj_801AF3C4 *)*(void **)((s8 *)this + 0x380))->m75(1)));
         return;
     }
-    this->set_motion_list(((VObj_801AF3C4 *)*(void **)((s8 *)this + 0x380))->m75(0));
+    this->set_motion_list(reinterpret_cast<BmlMotionEntry *>(((VObj_801AF3C4 *)*(void **)((s8 *)this + 0x380))->m75(0)));
 }
 
 s32 calc_stat_threshold__10TObjPlayerFPv(void *player) {

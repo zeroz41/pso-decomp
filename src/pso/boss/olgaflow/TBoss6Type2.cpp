@@ -201,7 +201,7 @@ TBoss6Type2::TBoss6Type2(TObject *parent, saddr *params) : TObjEnemy(parent) {
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = 0;
-    bind_enemy_combat_stats((u8 *)(TLobby::register_boss(0x2C)), (u8 *)(TLobby::dispatch_shared_handler_b(0x2C)), (u8 *)(TLobby::register_object(0x2C)));
+    bind_enemy_combat_stats(TLobby::register_boss(0x2C), TLobby::dispatch_shared_handler_b(0x2C), TLobby::register_object(0x2C));
     referenceHp = prev_hp = hp;
     ((TBoss3Volopt *)this)->reset_photon_effect();
     set_param(0x4E);
@@ -215,8 +215,8 @@ TBoss6Type2::TBoss6Type2(TObject *parent, saddr *params) : TObjEnemy(parent) {
     for (k = 0; k < 2; k++) {
         TBoss6Type2Model *e = &body_models[k];
         id = lbl_8047128C[k];
-        e->texlist = (saddr)get_bml_texlist(archive, id);
-        e->model = (saddr)get_bml_model(archive, id);
+        e->texlist = get_bml_texlist(archive, id);
+        e->model = get_bml_model(archive, id);
     }
     }
     init_motion_entries();
@@ -696,7 +696,8 @@ void TBoss6Type2::run_task() {
     update_camera();
     decay_glow_and_calc_hp_ratio();
     scroll_strips.scroll_strips_uv(8, 0);
-    TObjPlayer__sub_8023DEE0((s16 *)(*(saddr *)((s8 *)(*(u8 **)((s8 *)(find_model_node((uaddr)get_bml_model(archive, 1), 1)) + 4)) + 4)), 8, 0, 0);
+    NJS_CNK_MODEL *scroll_model = static_cast<NJS_CNK_MODEL *>(find_model_node(get_bml_model(archive, 1), 1)->model);
+    TObjPlayer__sub_8023DEE0(scroll_model->polygon_list, 8, 0, 0);
     update_head_aim();
     copy_vec_array();
     if ((s32) this->berserk != 0) {
@@ -825,8 +826,8 @@ void TBoss6Type2::draw_body_models() {
     s32 done;
     s32 i;
     TBoss6Type2Model *e;
-    saddr texlist;
-    saddr model;
+    NJS_TEXLIST *texlist;
+    NJS_OBJECT *model;
     set_motion_packed_rotation();
     capture = node_capture[0];
     done = 0;
@@ -849,13 +850,13 @@ void TBoss6Type2::draw_body_models() {
                 if (a < 1.0f) {
                     TBoss6PlotFalz::set_fade_material_color(a);
                 }
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
+                TObjFish::set_global_param(texlist);
                 if (0.0f == motion_tracks[0].blend) {
                     if (done != 0) {
-                        draw_model_motion((void *)model, motion_tracks[0].motion, motion_tracks[0].frame);
+                        draw_model_motion(model, motion_tracks[0].motion, motion_tracks[0].frame);
                     } else {
                         capture->install();
-                        draw_model_motion((void *)model, motion_tracks[0].motion, motion_tracks[0].frame);
+                        draw_model_motion(model, motion_tracks[0].motion, motion_tracks[0].frame);
                         capture->clear();
                         done = 1;
                     }
@@ -865,10 +866,10 @@ void TBoss6Type2::draw_body_models() {
                     link.motion[1] = (NJS_MOTION *)motion_tracks[0].motion;
                     link.frame[1] = motion_tracks[0].frame;
                     if (done != 0) {
-                        draw_model_blend_motion((void *)model, &link, motion_tracks[0].blend);
+                        draw_model_blend_motion(model, &link, motion_tracks[0].blend);
                     } else {
                         capture->install();
-                        draw_model_blend_motion((void *)model, &link, motion_tracks[0].blend);
+                        draw_model_blend_motion(model, &link, motion_tracks[0].blend);
                         capture->clear();
                         done = 1;
                     }
@@ -2083,7 +2084,7 @@ void TBoss6Type2::damage_possessed_player() {
 void TBoss6Type2::init_collected_entries() {
     s32 i;
     for (i = 0; i < 2; i++) {
-        this->aim_joints[i].node_angle = (s32 *)((u8 *)find_model_node(this->body_models[i].model, 0x28) + 0x18);
+        this->aim_joints[i].node_angle = &find_model_node(this->body_models[i].model, 0x28)->ang[1];
         this->aim_joints[i].rest_angle = *this->aim_joints[i].node_angle;
         this->aim_joints[i].aim_angle = 0;
     }

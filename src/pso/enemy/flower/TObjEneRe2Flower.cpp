@@ -38,9 +38,6 @@
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
-s32 TObjPlayer__sub_800C4A5C(int, void *, void *, int);
-}
 // Flower literals the split parts share (TObjEneRe2Flower_800C20D0.cpp, text_800C2CE0.cpp define them).
 extern const f32 lbl_805D9FD8;
 extern const f32 lbl_805D9FDC;
@@ -157,7 +154,7 @@ void load_re2_flower_resources(void) {
     __memcpy(&binding, &re2_flower_animation_binding, sizeof(binding));
     binding.motions = re2_flower_bml_resource->motions;
     models = re2_flower_bml_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x37, reinterpret_cast<void *>(models->model), models->texlist, &binding, lbl_805D9FBC, lbl_805D9FAC);
+    NpcModelRegistry::register_animated_chunk(0x37, models->model, models->texlist, &binding, lbl_805D9FBC, lbl_805D9FAC);
 }
 
 void *TObjEneRe2Flower::create(void *setData) {
@@ -192,8 +189,8 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     } else {
         init_model(re2_flower_collision_bodies, 2);
     }
-    set_action_table((saddr)TObjEneRe2Flower__animation_descriptors);
-    set_motion_list((saddr)re2_flower_bml_resource->motions);
+    set_action_table(TObjEneRe2Flower__animation_descriptors);
+    set_motion_list(re2_flower_bml_resource->motions);
     requested_action = 1;
     set_animation(requested_action);
     set_requested_action(requested_action);
@@ -205,9 +202,9 @@ TObjEneRe2Flower::TObjEneRe2Flower(TObject *parent, void *setData) : TObjEneDD_S
     } else {
         variant = 0;
     }
-    reset_hp((u8 *)TLobby::register_boss(re2_flower_base_stat_ids[variant]),
-             (u8 *)TLobby::dispatch_shared_handler_b(re2_flower_attack_stat_ids[variant]),
-             (u8 *)TLobby::register_object(re2_flower_resist_stat_ids[variant]));
+    reset_hp(TLobby::register_boss(re2_flower_base_stat_ids[variant]),
+             TLobby::dispatch_shared_handler_b(re2_flower_attack_stat_ids[variant]),
+             TLobby::register_object(re2_flower_resist_stat_ids[variant]));
     re2_flower_movement_params = TLobby::dispatch_shared_handler_a(re2_flower_param_ids[variant]);
     if (is_tower_variant()) {
         set_state_8();
@@ -629,8 +626,9 @@ void TObjEneRe2Flower::state_shoot(s32 reason) {
             if (is_tower_variant() != 0 || TObjEneDD::check_v2_mode() != 0) {
                 TTecMegid::create_ex((saddr)this, (saddr)&pos, rotation_y, TObjEneDD::clamp_frame_index(*(s32 *)((s8 *)re2_flower_movement_params + 0x18)));
             } else {
-                u32 bomb = (uaddr)TObject::operator new(0x104);
-                if (bomb != 0U) {
+                TObjEneRe2Flower_Bomb *bomb = static_cast<TObjEneRe2Flower_Bomb *>(
+                    TObject::operator new(sizeof(TObjEneRe2Flower_Bomb)));
+                if (bomb != NULL) {
                     TObjPlayer__sub_800C4A5C(bomb, this, &pos, rotation_y);
                 }
             }

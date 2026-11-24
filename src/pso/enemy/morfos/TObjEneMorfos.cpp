@@ -170,7 +170,7 @@ void TObjEneMorfos::load_static_data() {
     }
     TObjEneMorfosArm::init_global();
     {
-        NpcAnimationBinding desc = { TObjEneMorfos__instance->motions, reinterpret_cast<TObjMotionAction *>(morfos_motion_param_table), 0, 0, 6 };
+        NpcAnimationBinding desc = { TObjEneMorfos__instance->motions, morfos_motion_param_table, 0, 0, 6 };
         NpcModelRegistry::register_animated_chunk(0x4D, TObjEneMorfos__instance->models[1].model,
                                 TObjEneMorfos__instance->models[1].texlist, &desc,
                                 8.0f, 0.0f);
@@ -202,12 +202,12 @@ void TObjEneMorfos::init_instance() {
     model = TObjEneMorfos__instance->models[1].model;
     this->texlist = TObjEneMorfos__instance->models[1].texlist;
     init_model(morfos_collision_bodies, 1);
-    set_action_table((saddr)morfos_motion_param_table);
-    set_motion_list((saddr)TObjEneMorfos__instance->motions);
+    set_action_table(morfos_motion_param_table);
+    set_motion_list(TObjEneMorfos__instance->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);
-    reset_hp((u8 *)(morfos_base_params[morfos_base_params_index[0]]), (u8 *)(morfos_attack_params[morfos_attack_params_index[0]]), (u8 *)(morfos_resistance_params[morfos_resistance_params_index[0]]));
+    reset_hp(reinterpret_cast<player_stats *>(morfos_base_params[morfos_base_params_index[0]]), reinterpret_cast<AttackParams *>(morfos_attack_params[morfos_attack_params_index[0]]), reinterpret_cast<ActorParamBlock *>(morfos_resistance_params[morfos_resistance_params_index[0]]));
     load_params();
     set_state_8();
     this->movementParameters = lbl_804EE0C0;

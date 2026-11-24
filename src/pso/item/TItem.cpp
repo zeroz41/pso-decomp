@@ -111,7 +111,7 @@ TItem **item_registry_sorted_entries;
 void (*model_node_draw_callback)(void *model);
 void (*model_node_visit_callback)(NJS_OBJECT *object);
 TItemIdCounters *item_id_counters;
-u8 *model_node_matrix_output_cursor;
+GC_Mtx *model_node_matrix_output_cursor;
 
 const char *TItem__name = "TItem";
 
@@ -804,7 +804,7 @@ void TItem::set_owner_client(u16 client) {
     owner = get_player_by_client_id(client);
 }
 
-void TItem::visit_model_nodes(u8 *matrices) {
+void TItem::visit_model_nodes(GC_Mtx *matrices) {
     model_node_visit_callback = model_node_callback;
     model_node_matrix_output_cursor = matrices;
     model_node_draw_callback = NULL;
@@ -815,7 +815,7 @@ void TItem::visit_model_nodes(u8 *matrices) {
     set_default_alpha_blend();
 }
 
-void TItem::apply_sign_effect(u8 *matrices) {
+void TItem::apply_sign_effect(GC_Mtx *matrices) {
     model_node_visit_callback = model_node_callback;
     model_node_matrix_output_cursor = matrices;
     model_node_draw_callback = ::draw_ginja_model;
@@ -826,7 +826,7 @@ void TItem::apply_sign_effect(u8 *matrices) {
     set_default_alpha_blend();
 }
 
-void TItem::draw_model_nodes(u8 *matrices) {
+void TItem::draw_model_nodes(GC_Mtx *matrices) {
     model_node_visit_callback = model_node_callback;
     model_node_matrix_output_cursor = matrices;
     model_node_draw_callback = ::draw_ginja_model;
@@ -861,7 +861,7 @@ void draw_model_node_tree(NJS_OBJECT *object) {
             push_matrix();
             if (model_node_matrix_output_cursor != NULL) {
                 get_current_matrix(model_node_matrix_output_cursor);
-                model_node_matrix_output_cursor += 0x30;
+                ++model_node_matrix_output_cursor;
             }
             if (model_node_visit_callback != NULL) {
                 model_node_visit_callback(object);
@@ -889,7 +889,7 @@ void draw_model_node_tree(NJS_OBJECT *object) {
             }
             if (model_node_matrix_output_cursor != NULL) {
                 get_current_matrix(model_node_matrix_output_cursor);
-                model_node_matrix_output_cursor += 0x30;
+                ++model_node_matrix_output_cursor;
             }
             if (!(flags & NJD_EVAL_HIDE) && model_node_draw_callback != NULL) {
                 model_node_draw_callback(object->model);

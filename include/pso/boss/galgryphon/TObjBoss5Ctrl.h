@@ -4,12 +4,13 @@
 #include "pso/system/task/TObject.h"
 
 class TObjBoss5PillarDemo;
+class TObjBoss5PillarCtrl;
 
 class TObjBoss5Ctrl : public TObject {
 public:
     TObject *floor_grass;
     TObject *floor_stone;
-    TObject *pillar_controller;
+    TObjBoss5PillarCtrl *pillar_controller;
     TObjBoss5PillarDemo *pillar_demo;
     s16 sound_countdown;
 

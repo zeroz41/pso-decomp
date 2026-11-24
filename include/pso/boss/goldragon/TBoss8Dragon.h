@@ -8,6 +8,7 @@
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/boss/derolle/AccelerationCurve.h"
 
+struct CurvePathPoint;
 class AreaAttackHistory;
 struct DragonAttackParams;
 struct TBoss8DragonEffTail;
@@ -154,8 +155,8 @@ public:
     static void sync_target_pos(void *p);
     static s32 restore_target_pos(void *p);
     static s32 copy_pos_to_field688(void *p);
-    void spawn_switch_attack();
-    void spawn_attack_effect();
+    static void spawn_switch_attack(const Vec *pos);
+    static void spawn_attack_effect(const Vec *pos);
     static void capture_node_points(NJS_OBJECT *);
     void calc_velocity_from_angle();
     f32 clamp_step_in_radius(f32 a, f32 b, f32 s);
@@ -166,8 +167,8 @@ public:
     void apply_pillar_attack(Vec *pos, f32 radius);  // pillar area attack at pos (boss8_dragon_pillar_attack_params); TObjBoss8Piller::run_task
     void apply_fireball_impact_damage(Vec *pos, u32 kind);  // fireball impact attack at pos (boss8_dragon_fireball_impact_params); TBoss8DragonEffBullet::run_task
     void setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history);
-    void emit_effect(void *pos, void *params, AreaAttackHistory *history);
-    void get_state_flags(void *params);
+    void emit_effect(const Vec *pos, const DragonAttackParams *params, AreaAttackHistory *history);
+    void get_state_flags(const DragonAttackParams *params);
     void apply_ground_impact_attack();
     // As TBoss1Dragon::apply_foot_step_attack: the step attack at foot nodes 5/6 (side 0) or 3/4 (side 1).
     void apply_foot_step_attack(int side);
@@ -225,8 +226,8 @@ public:
     static void clear_player_control();
     static NJS_OBJECT *clone_node_tree(NJS_OBJECT *src, NJS_OBJECT *dst, NJS_CNK_MODEL *model);
     static void *create(void *set_data);
-    s32 is_within_xz_distance(u8 *arg1, f32 off);
-    f32 calc_sq_offset(f32 farg0);
+    static s32 is_within_xz_distance(const Vec *pos, const NJS_OBJECT *node, f32 range_squared);
+    static f32 calc_sq_offset(const DragonAttackParams *params, f32 padding);
     void noop();
     // The parts are numbered from boss8_dragon_leader_part's set entry; part 0 is the leader.
     static TBoss8Dragon *get_part(s32 index);
@@ -242,9 +243,9 @@ public:
     void sweep_head_fall_spheres_early();
     void render_nodes_flagged();
     void copy_vectors();
-    static void trigger_switches_in_range(void *floor_stone, void *pos, void *prm);
+    static void trigger_switches_in_range(TObject *floor_stone, const Vec *pos, const DragonAttackParams *params);
     static s32 calc_binomial_coefficient(s32 n, s32 k);
-    static s32 eval_bezier_curve(void *points, int count, int closed, void *out, f32 t);
+    static s32 eval_bezier_curve(CurvePathPoint *points, int count, int closed, Vec *out, f32 t);
     static void get_camera_offsets(Vec *target_offset, Vec *eye_offset);
     void render_body_model();
     void select_freeze_target();

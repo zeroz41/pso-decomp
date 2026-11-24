@@ -146,9 +146,9 @@ TObjMotionAction bringer_motion_actions[11] = {
 
 
 
-saddr bringer_boss_stats_handle;
-saddr bringer_boss_stats_ptr_b;
-saddr bringer_object_handle;
+player_stats *bringer_boss_stats_handle;
+AttackParams *bringer_boss_stats_ptr_b;
+ActorParamBlock *bringer_object_handle;
 BringerParameters *TObjEneDf2Bringer__params;
 BmlResource *TObjEneDf2Bringer__resource_bundle;
 s32 TObjEneDf2Bringer__render_node_index;
@@ -209,9 +209,9 @@ void TObjEneDf2Bringer::load_resources() {
   {
     TObjEneDf2Bringer__resource_bundle = load_enemy_bml_resource(&bm_ene_df2_bringer_resource_descriptor);
   }
-  bringer_boss_stats_handle = (saddr)TLobby::register_boss(0xD);
-  bringer_boss_stats_ptr_b = (saddr)TLobby::dispatch_shared_handler_b(0xD);
-  bringer_object_handle = (saddr)TLobby::register_object(0xD);
+  bringer_boss_stats_handle = TLobby::register_boss(0xD);
+  bringer_boss_stats_ptr_b = TLobby::dispatch_shared_handler_b(0xD);
+  bringer_object_handle = TLobby::register_object(0xD);
   TObjEneDf2Bringer__params = (BringerParameters *)TLobby::dispatch_shared_handler_a(0xD);
   TObjEneDf2Bringer__render_node_index = 0;
   TObjEneDf2Bringer__render_rotation_x = 0;
@@ -307,12 +307,12 @@ void TObjEneDf2Bringer::init_enemy() {
     this->model = TObjEneDf2Bringer__resource_bundle->models[0].model;
     this->texlist = TObjEneDf2Bringer__resource_bundle->models[0].texlist;
     init_model(bringer_collision_bodies, 1);
-    set_action_table((saddr)bringer_motion_actions);
-    set_motion_list((saddr)TObjEneDf2Bringer__resource_bundle->motions);
+    set_action_table(bringer_motion_actions);
+    set_motion_list(TObjEneDf2Bringer__resource_bundle->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);
-    reset_hp((u8 *)bringer_boss_stats_handle, (u8 *)bringer_boss_stats_ptr_b, (u8 *)bringer_object_handle);
+    reset_hp(bringer_boss_stats_handle, bringer_boss_stats_ptr_b, bringer_object_handle);
     set_state_8();
     this->movementParameters = bringer_init_params;
     initialize_enemy_state(0x24);

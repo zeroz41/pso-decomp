@@ -23,6 +23,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/goldragon/TBoss8Dragon_80067034.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/boss/galgryphon/TBoss5GryphonSnarl.h"
@@ -102,9 +103,7 @@ f64 atan2_float(f32, f32);
 f32 newton_sqrtf(f32);
 s32 is_split_screen();
 f32 fabs_float(f32);
-s32 TBoss8Dragon__sub_800670E0(int, void *);
 f32 calc_random_ratio__10TObjPlayerFv(void *);
-void TBoss8Dragon__sub_80067074(saddr pos, saddr prm);
 }
 const char *bm_modelparticle_gryphon_model_names[4] = {
     "boss_rock.gj", "fe_obj001_iwaware_01.gj", "fe_obj001_iwaware_02.gj", NULL,
@@ -159,7 +158,7 @@ void *boss5_gryphon_collision_body_parts[110] = {
     (void *)0x0, (void *)0x0,
 };
 extern const Vec boss5_gryphon_arena_center = { 0.0f, 0.0f, 0.0f };
-extern const DragonAttackParams boss5_gryphon_params_b = { 0, 0.0f, 30.0f, 7.0f, 1 };
+extern const DragonAttackParams boss5_gryphon_params_b = { 0, 0.0f, 30.0f, {7.0f, 1} };
 extern const s32 boss5_gryphon_effect_ids[9] = { 0x220, 0x221, 0x222, 0x202, 0x200, 0x207, 0x223, 0x224, 0x225 };
 extern const s32 boss5_gryphon_bone_capture_node_indices[16] = {
     4, 11, 27, 43, 46, 47, 48, 66, 69, 70, 71, 95, 128, 144, 159, 999,
@@ -183,17 +182,17 @@ BmlResourceDescriptor boss5_gryphon_body_bml_desc = {
 };
 extern const char boss5_gryphon_type_name[] = "TBoss5Gryphon";
 extern const s32 gryphon_part_attack_index_table[4] = { 1, 2, 12, 13 };
-extern const DragonAttackParams gryphon_part_attack_params = { 0, 10.0f, 15.0f, 8.0f, 1 };
-extern const DragonAttackParams gryphon_collider_desc = { 0, 0.0f, 80.0f, 0.0f, 1 };
+extern const DragonAttackParams gryphon_part_attack_params = { 0, 10.0f, 15.0f, {8.0f, 1} };
+extern const DragonAttackParams gryphon_collider_desc = { 0, 0.0f, 80.0f, {0.0f, 1} };
 extern const f32 gryphon_effect_scale_table[5] = { 20.0f, 30.0f, 50.0f, 30.0f, 20.0f };
-extern const DragonAttackParams gryphon_effect_param_block = { 0, 0.0f, 0.0f, 7.0f, 1 };
-extern const DragonAttackParams boss8_dragon_attack_params = { 0, 0.0f, 0.0f, 7.0f, 1 };
-extern const DragonAttackParams gryphon_run_body_attack_params = { 0, 10.0f, 35.0f, 10.0f, 1 };
-extern const DragonAttackParams gryphon_ground_contact_attack_params = { 0, 10.0f, 5.0f, 10.0f, 1 };
-extern const DragonAttackParams gryphon_shockwave_hit_params = { 0, 10.0f, 15.0f, 10.0f, 1 };
-extern const DragonAttackParams gryphon_tornado_hit_params = { 0, 10.0f, 15.0f, 10.0f, 1 };
-extern const DragonAttackParams gryphon_snarl_hit_params = { 0, 10.0f, 10.0f, 10.0f, 1 };
-extern const DragonAttackParams gryphon_lightning_hit_params = { 3, 10.0f, 10.0f, 20.0f, 1 };
+extern const DragonAttackParams gryphon_effect_param_block = { 0, 0.0f, 0.0f, {7.0f, 1} };
+extern const DragonAttackParams boss8_dragon_attack_params = { 0, 0.0f, 0.0f, {7.0f, 1} };
+extern const DragonAttackParams gryphon_run_body_attack_params = { 0, 10.0f, 35.0f, {10.0f, 1} };
+extern const DragonAttackParams gryphon_ground_contact_attack_params = { 0, 10.0f, 5.0f, {10.0f, 1} };
+extern const DragonAttackParams gryphon_shockwave_hit_params = { 0, 10.0f, 15.0f, {10.0f, 1} };
+extern const DragonAttackParams gryphon_tornado_hit_params = { 0, 10.0f, 15.0f, {10.0f, 1} };
+extern const DragonAttackParams gryphon_snarl_hit_params = { 0, 10.0f, 10.0f, {10.0f, 1} };
+extern const DragonAttackParams gryphon_lightning_hit_params = { 3, 10.0f, 10.0f, {20.0f, 1} };
 // update_death_state's leave position and update_demo_state's start pose.
 extern const Vec boss5_gryphon_death_position = { 0.0f, 2.0f, 0.0f };
 extern const Vec boss5_gryphon_demo_position = { 23.0f, 180.0f, 991.0f };
@@ -206,7 +205,7 @@ extern const f32 gryphon_action_probability_table_a[9] = { 0.0f, 0.0f, 0.0f, 0.0
 const f32 gryphon_action_probability_table_b[9] = { 0.0f, 0.0f, 0.1f, 0.2f, 0.2f, 0.3f, 0.4f, 0.4f, 0.5f };
 const s32 gryphon_bone_copy_index_table[10] = { 0, 1, 2, 12, 13, 11, 3, 5, 7, 9 };
 const s32 boss5_gryphon_point_index_table[5] = { 1, 2, 12, 13, 0 };
-saddr boss5_gryphon_attack_params[5];
+AttackParams *boss5_gryphon_attack_params[5];
 Boss5GryphonParams *boss5_gryphon_behavior_params[3];
 Vec boss5_gryphon_bone_capture_origin;
 Vec boss5_gryphon_camera_pos_vec;
@@ -216,8 +215,8 @@ extern const f32 lbl_805D9E80;
 // per-frame gravity (TObjEneDD's -0.1f), the pair TBoss1Dragon names lift and gravity accel.
 f32 boss5_gryphon_lift_accel = gryphon_three * lbl_805D9E80;
 f32 boss5_gryphon_gravity_accel = 2.0f * lbl_805D9E80;
-saddr boss5_gryphon_base_params[1];
-saddr boss5_gryphon_resistance_params[1];
+player_stats *boss5_gryphon_base_params[1];
+ActorParamBlock *boss5_gryphon_resistance_params[1];
 BmlResource *boss5_gryphon_body_bml_resource;
 BmlResource *boss5_gryphon_bml_resource;
 NJS_TEXLIST *boss5_gryphon_texture_list;
@@ -228,39 +227,39 @@ s32 boss5_gryphon_render_flags;
 TBoss5Gryphon *boss5_gryphon_instance;
 f32 boss5_gryphon_camera_player_distance;  // blocks_camera_view: camera to player, xz
 extern "C" {
-void *boss5_gryphon_action_table[108] = {
-    (void *)0x10000, (void *)0x9, (void *)0x3f4ccccd, (void *)0x0,
-    (void *)0x10000, (void *)0xb, (void *)0x3f000000, (void *)0x0,
-    (void *)0x30000, (void *)0x1, (void *)0x3edc28f6, (void *)0x0,
-    (void *)0x30000, (void *)0xa, (void *)0x3f000000, (void *)0x0,
-    (void *)0x10000, (void *)0x0, (void *)0x3f451eb8, (void *)0x0,
-    (void *)0x30000, (void *)0x6, (void *)0x3ef5c28f, (void *)0x0,
-    (void *)0x20007, (void *)0x2, (void *)0x3f333333, (void *)0x6,
-    (void *)0x10000, (void *)0x5, (void *)0x3f666666, (void *)0x7,
-    (void *)0x30000, (void *)0x4, (void *)0x3f11eb85, (void *)0x0,
-    (void *)0x30000, (void *)0x3, (void *)0x3f333333, (void *)0x0,
-    (void *)0x2000b, (void *)0x16, (void *)0x3f800000, (void *)0xa,
-    (void *)0x10000, (void *)0x15, (void *)0x3f800000, (void *)0xb,
-    (void *)0x30000, (void *)0x17, (void *)0x3f800000, (void *)0x0,
-    (void *)0x2000e, (void *)0xf, (void *)0x3ecccccd, (void *)0xd,
-    (void *)0x10000, (void *)0xe, (void *)0x3eb33333, (void *)0xe,
-    (void *)0x30000, (void *)0xc, (void *)0x3ecccccd, (void *)0x0,
-    (void *)0x20011, (void *)0x19, (void *)0x3f400000, (void *)0x10,
-    (void *)0x10000, (void *)0x18, (void *)0x3eb33333, (void *)0x11,
-    (void *)0x30000, (void *)0x1a, (void *)0x3f19999a, (void *)0x0,
-    (void *)0x20014, (void *)0x13, (void *)0x3f000000, (void *)0x13,
-    (void *)0x10000, (void *)0x11, (void *)0x3f800000, (void *)0x14,
-    (void *)0x30000, (void *)0x14, (void *)0x3f000000, (void *)0x15,
-    (void *)0x30000, (void *)0x12, (void *)0x3ecccccd, (void *)0x16,
-    (void *)0x30000, (void *)0xd, (void *)0x3eb33333, (void *)0x0,
-    (void *)0x30000, (void *)0x8, (void *)0x3f266666, (void *)0x0,
-    (void *)0x30000, (void *)0x7, (void *)0x3f800000, (void *)0x80000000,
-    (void *)0x30000, (void *)0x10, (void *)0x3f000000, (void *)0x0,
+TObjMotionAction boss5_gryphon_action_table[27] = {
+    { MOTION_MODE_LOOP, 0, 9, 0.8f, 0 },
+    { MOTION_MODE_LOOP, 0, 11, 0.5f, 0 },
+    { MOTION_MODE_ONCE, 0, 1, 0.43f, 0 },
+    { MOTION_MODE_ONCE, 0, 10, 0.5f, 0 },
+    { MOTION_MODE_LOOP, 0, 0, 0.77f, 0 },
+    { MOTION_MODE_ONCE, 0, 6, 0.48f, 0 },
+    { MOTION_MODE_CHAIN, 7, 2, 0.7f, 0x6 },
+    { MOTION_MODE_LOOP, 0, 5, 0.9f, 0x7 },
+    { MOTION_MODE_ONCE, 0, 4, 0.57f, 0 },
+    { MOTION_MODE_ONCE, 0, 3, 0.7f, 0 },
+    { MOTION_MODE_CHAIN, 11, 22, 1.0f, 0xa },
+    { MOTION_MODE_LOOP, 0, 21, 1.0f, 0xb },
+    { MOTION_MODE_ONCE, 0, 23, 1.0f, 0 },
+    { MOTION_MODE_CHAIN, 14, 15, 0.4f, 0xd },
+    { MOTION_MODE_LOOP, 0, 14, 0.35f, 0xe },
+    { MOTION_MODE_ONCE, 0, 12, 0.4f, 0 },
+    { MOTION_MODE_CHAIN, 17, 25, 0.75f, 0x10 },
+    { MOTION_MODE_LOOP, 0, 24, 0.35f, 0x11 },
+    { MOTION_MODE_ONCE, 0, 26, 0.6f, 0 },
+    { MOTION_MODE_CHAIN, 20, 19, 0.5f, 0x13 },
+    { MOTION_MODE_LOOP, 0, 17, 1.0f, 0x14 },
+    { MOTION_MODE_ONCE, 0, 20, 0.5f, 0x15 },
+    { MOTION_MODE_ONCE, 0, 18, 0.4f, 0x16 },
+    { MOTION_MODE_ONCE, 0, 13, 0.35f, 0 },
+    { MOTION_MODE_ONCE, 0, 8, 0.65f, 0 },
+    { MOTION_MODE_ONCE, 0, 7, 1.0f, 0x80000000 },
+    { MOTION_MODE_ONCE, 0, 16, 0.5f, 0 },
 };
 Vec boss5_gryphon_follow_camera_target_offset = {0.0f, 19.8f, -5.0f};
 Vec boss5_gryphon_follow_camera_eye_offset = {0.0f, 25.43f, 45.42f};
-extern void *boss5_gryphon_landing_bezier_points[16];
-extern void *boss5_gryphon_descend_bezier_points[16];
+extern CurvePathPoint boss5_gryphon_landing_bezier_points[4];
+extern CurvePathPoint boss5_gryphon_descend_bezier_points[4];
 extern Vec gryphon_left_horn_lightning_offset;
 extern Vec gryphon_right_horn_lightning_offset;
 extern void *gryphon_particle_enable_pos[3];
@@ -317,19 +316,19 @@ static StateAction actions[35] = {
 }
 #pragma pop
 extern "C" {
-void *boss5_gryphon_landing_bezier_points[16] = {
-    (void *)0x0, (void *)0x42860000, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x42d60000, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x43130000, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x42820000, (void *)0x0, (void *)0x0,
+CurvePathPoint boss5_gryphon_landing_bezier_points[4] = {
+    {{0.0f, 67.0f, 0.0f}, 0.0f},
+    {{0.0f, 107.0f, 0.0f}, 0.0f},
+    {{0.0f, 147.0f, 0.0f}, 0.0f},
+    {{0.0f, 65.0f, 0.0f}, 0.0f},
 };
 #undef gryphon_particle_enable_pos
 #undef gryphon_particle_position_vec
-void *boss5_gryphon_descend_bezier_points[16] = {
-    (void *)0x0, (void *)0x42860000, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x431d0000, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x43998000, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0x42820000, (void *)0x0, (void *)0x0,
+CurvePathPoint boss5_gryphon_descend_bezier_points[4] = {
+    {{0.0f, 67.0f, 0.0f}, 0.0f},
+    {{0.0f, 157.0f, 0.0f}, 0.0f},
+    {{0.0f, 307.0f, 0.0f}, 0.0f},
+    {{0.0f, 65.0f, 0.0f}, 0.0f},
 };
 Vec gryphon_left_horn_lightning_offset = { -25.0f, 0.0f, 69.0f };
 Vec gryphon_right_horn_lightning_offset = { 19.0f, 0.0f, 69.0f };
@@ -519,13 +518,13 @@ void load_boss5_gryphon_resources(void) {
     boss5_gryphon_render_flags = 0;
     boss5_gryphon_instance = NULL;
     for (s32 i = 0; i < 1; i++) {
-        boss5_gryphon_base_params[i] = (saddr)TLobby::register_boss(boss5_gryphon_base_param_ids[i]);
+        boss5_gryphon_base_params[i] = TLobby::register_boss(boss5_gryphon_base_param_ids[i]);
     }
     for (s32 i = 0; i < 5; i++) {
-        boss5_gryphon_attack_params[i] = (saddr)TLobby::dispatch_shared_handler_b(boss5_gryphon_attack_param_ids[i]);
+        boss5_gryphon_attack_params[i] = TLobby::dispatch_shared_handler_b(boss5_gryphon_attack_param_ids[i]);
     }
     for (s32 i = 0; i < 1; i++) {
-        boss5_gryphon_resistance_params[i] = (saddr)TLobby::register_object(boss5_gryphon_resistance_param_ids[i]);
+        boss5_gryphon_resistance_params[i] = TLobby::register_object(boss5_gryphon_resistance_param_ids[i]);
     }
     for (s32 i = 0; i < 3; i++) {
         boss5_gryphon_behavior_params[i] = (Boss5GryphonParams *)TLobby::dispatch_shared_handler_a(boss5_gryphon_behavior_param_ids[i]);
@@ -585,12 +584,12 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
     this->texlist = boss5_gryphon_body_bml_resource->models[0].texlist;
     ((TObjEneDD *)this)->init_model((CollisionBody *)boss5_gryphon_collision_body_parts, (s32)10);
     this->motion_flags = 0;
-    this->set_action_table((saddr)boss5_gryphon_action_table);
-    this->set_motion_list((saddr)boss5_gryphon_body_bml_resource->motions);
+    this->set_action_table(boss5_gryphon_action_table);
+    this->set_motion_list(boss5_gryphon_body_bml_resource->motions);
     this->requested_action = 0;
     this->set_animation(this->requested_action);
     this->set_requested_action(this->requested_action);
-    ((TObjEneDD *)this)->reset_hp((u8 *)(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[0]]), (u8 *)(boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[0]]), (u8 *)(boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[0]]));
+    ((TObjEneDD *)this)->reset_hp(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[0]], boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[0]], boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[0]]);
     this->set_state_flag_2();
     this->movementParameters = &boss5_gryphon_movement_params;
     ((TObjEneDD *)this)->initialize_enemy_state(77);
@@ -889,11 +888,11 @@ void TBoss5Gryphon::set_offscreen_height() { this->position.y = gryphon_offscree
 
 void TBoss5Gryphon::reload_stats_for_type() {
     saddr self = (saddr)this;
-    ((TObjEneDD *)self)->reload_stats_keep_hp_tp((u8 *)(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[0]]), (u8 *)(boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[0]]), (u8 *)(boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[0]]));
+    ((TObjEneDD *)self)->reload_stats_keep_hp_tp(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[0]], boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[0]], boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[0]]);
 }
 
 void TBoss5Gryphon::reload_stats_for_phase(void *) {
-    this->reload_stats_keep_hp_tp((u8 *)(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[2]]), (u8 *)(boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[2]]), (u8 *)(boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[2]]));
+    this->reload_stats_keep_hp_tp(boss5_gryphon_base_params[boss5_gryphon_base_stat_indices[2]], boss5_gryphon_attack_params[boss5_gryphon_attack_stat_indices[2]], boss5_gryphon_resistance_params[boss5_gryphon_resistance_stat_indices[2]]);
 }
 
 void handle_6x9F_gal_gryphon_boss_actions(void *data) {
@@ -962,12 +961,12 @@ void TBoss5Gryphon::emit_part_attack_effect(int part) {
     Vec *p;
     fill_value_array(attack_history);
     p = &bone_positions[gryphon_part_attack_index_table[part]];
-    reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
-    TBoss8Dragon__sub_80067074((saddr)p, (saddr)&prm);
-    TObjEneDD::emit_enemy_effect(this, (void *)p, (u8 *)&prm, attack_history);
-    reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
+    reset_hp(NULL, boss5_gryphon_attack_params[0], NULL);
+    TBoss8Dragon__sub_80067074(p, &prm);
+    TObjEneDD::emit_enemy_effect(this, p, &prm, attack_history);
+    reset_hp(NULL, boss5_gryphon_attack_params[0], NULL);
     spawn_particle_effect_with_flags(p, effect_ids[2], 0x40);
-    ((TBoss8Dragon *)p)->spawn_attack_effect();
+    TBoss8Dragon::spawn_attack_effect(p);
 }
 
 void TBoss5Gryphon::emit_walk_foot_attacks() {
@@ -1021,15 +1020,14 @@ void TBoss5Gryphon::emit_landing_impact() {
     TBoss1Dragon__sub_80027A80(&stack, &boss5_gryphon_params_b);
     stack.radius = boss5_gryphon_behavior_params[2]->attack.landing_radius;
     reload_stats_for_phase(boss5_gryphon_behavior_params[2]);
-    TBoss8Dragon__sub_80067074((saddr)&position, (saddr)&stack);
+    TBoss8Dragon__sub_80067074(&position, &stack);
     emit_effect_at_position(&stack);
     reload_stats_for_type();
 }
 
 void TBoss5Gryphon::update_collider_from_table() {
-    s32 self = (saddr)this;
     DragonAttackParams desc = gryphon_collider_desc;
-    TBoss8Dragon__sub_800670E0((int)(self + 0x3C0), &desc);
+    TBoss8Dragon__sub_800670E0(&bone_positions[0], &desc);
 }
 
 void TBoss5Gryphon::emit_wing_attacks() {
@@ -1063,16 +1061,16 @@ void TBoss5Gryphon::emit_wing_attacks() {
     p += 7;
     VecCopy(p++, &bone_positions[6]);
     VecCopy(p, &bone_positions[10]);
-    reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[3], NULL);
+    reset_hp(NULL, boss5_gryphon_attack_params[3], NULL);
     p = pts;
     for (i = 0; i < 5; i++) {
         fx.radius = gryphon_effect_scale_table[i];
-        TBoss8Dragon__sub_800670E0((saddr)p, &fx);
-        TObjEneDD::emit_enemy_effect(this, (void *)p++, (u8 *)&fx, attack_history);
-        TBoss8Dragon__sub_800670E0((saddr)p, &fx);
-        TObjEneDD::emit_enemy_effect(this, (void *)p++, (u8 *)&fx, attack_history);
+        TBoss8Dragon__sub_800670E0(p, &fx);
+        TObjEneDD::emit_enemy_effect(this, p++, &fx, attack_history);
+        TBoss8Dragon__sub_800670E0(p, &fx);
+        TObjEneDD::emit_enemy_effect(this, p++, &fx, attack_history);
     }
-    reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[0], NULL);
+    reset_hp(NULL, boss5_gryphon_attack_params[0], NULL);
 }
 
 void TBoss5Gryphon::emit_flight_body_attacks() {
@@ -1080,16 +1078,16 @@ void TBoss5Gryphon::emit_flight_body_attacks() {
     Vec *point;
     TBoss1Dragon__sub_80027A80(&prm, &boss8_dragon_attack_params);
     fill_value_array(attack_history);
-    reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[3], NULL);
+    reset_hp(NULL, boss5_gryphon_attack_params[3], NULL);
     point = &bone_positions[11];
     prm.radius = gryphon_thirty;
-    TBoss8Dragon__sub_800670E0((saddr)point, &prm);
-    TObjEneDD::emit_enemy_effect(this, point, (u8 *)&prm, attack_history);
+    TBoss8Dragon__sub_800670E0(point, &prm);
+    TObjEneDD::emit_enemy_effect(this, point, &prm, attack_history);
     point = &bone_positions[0];
     prm.radius = gryphon_fifty;
-    TBoss8Dragon__sub_800670E0((saddr)point, &prm);
-    TObjEneDD::emit_enemy_effect(this, point, (u8 *)&prm, attack_history);
-    reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[0], NULL);
+    TBoss8Dragon__sub_800670E0(point, &prm);
+    TObjEneDD::emit_enemy_effect(this, point, &prm, attack_history);
+    reset_hp(NULL, boss5_gryphon_attack_params[0], NULL);
 }
 
 #pragma push
@@ -1104,9 +1102,9 @@ void TBoss5Gryphon::emit_run_body_attack() {
     f32 bz = bone_positions[11].z;
     mid.z = 0.5f * (bone_positions[0].z - bz) + bz;
     fill_value_array(attack_history);
-    reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[4], NULL);
-    TObjEneDD::emit_enemy_effect(this, &mid, (u8 *)&prm, attack_history);
-    reset_hp(NULL, (u8 *)boss5_gryphon_attack_params[0], NULL);
+    reset_hp(NULL, boss5_gryphon_attack_params[4], NULL);
+    TObjEneDD::emit_enemy_effect(this, &mid, &prm, attack_history);
+    reset_hp(NULL, boss5_gryphon_attack_params[0], NULL);
 }
 
 #pragma pop
@@ -1116,16 +1114,16 @@ void TBoss5Gryphon::emit_ground_contact_attack() {
     pos = &bone_positions[14];
     if (!(bone_positions[14].y > gryphon_fifteen)) {
         fill_value_array(attack_history);
-        reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[1]), (u8 *)0);
-        TObjEneDD::emit_enemy_effect(this, (void *)pos, (u8 *)&desc, attack_history);
-        reset_hp((u8 *)0, (u8 *)(boss5_gryphon_attack_params[0]), (u8 *)0);
+        reset_hp(NULL, boss5_gryphon_attack_params[1], NULL);
+        TObjEneDD::emit_enemy_effect(this, pos, &desc, attack_history);
+        reset_hp(NULL, boss5_gryphon_attack_params[0], NULL);
     }
 }
 
 void TBoss5Gryphon::apply_shockwave_hit(TBoss5Gryphon *owner, Vec *pos) {
     DragonAttackParams desc = gryphon_shockwave_hit_params;
     desc.power = boss5_gryphon_behavior_params[2]->attack.shockwave_power;
-    TBoss8Dragon__sub_80067074((saddr)pos, (saddr)&desc);
+    TBoss8Dragon__sub_80067074(pos, &desc);
     TObjEneDD::setup_instance(owner, pos, &desc, NULL);
 }
 
@@ -1173,7 +1171,7 @@ void TBoss5Gryphon::spawn_flight_splash() {
 #pragma push
 #pragma fp_contract on
 void TBoss5Gryphon::spawn_lightning_effect() {
-    TBoss5GryphonLightningSegment segs[3];
+    CurvePathPoint segs[3];
     s32 a;
     s32 b;
     TBoss5GryphonLightningEff *eff;
@@ -1183,11 +1181,11 @@ void TBoss5Gryphon::spawn_lightning_effect() {
     segs[0].pos.x = gryphon_seventy * sin_table_lookup(a) + this->position.x;
     segs[0].pos.y = 0.0f;
     segs[0].pos.z = gryphon_seventy * cos_table_lookup(a) + this->position.z;
-    segs[0].w = 0.0f;
+    segs[0].length = 0.0f;
     segs[2].pos.x = gryphon_seventy * sin_table_lookup(b) + this->position.x;
     segs[2].pos.y = 0.0f;
     segs[2].pos.z = gryphon_seventy * cos_table_lookup(b) + this->position.z;
-    segs[2].w = 0.0f;
+    segs[2].length = 0.0f;
     a = (s32)(0.5f * (f32)(a + b));
     if (gryphon_random_unit_scale * (f32)rand() > 0.5f) {
         a += 0x8000;
@@ -1195,25 +1193,25 @@ void TBoss5Gryphon::spawn_lightning_effect() {
     segs[1].pos.x = gryphon_seventy * sin_table_lookup(a) + this->position.x;
     segs[1].pos.y = gryphon_ten;
     segs[1].pos.z = gryphon_seventy * cos_table_lookup(a) + this->position.z;
-    segs[1].w = 0.0f;
+    segs[1].length = 0.0f;
     eff = new TBoss5GryphonLightningEff(this, segs, 3, 0.0f, gryphon_one, 8.0f);
     eff->set_two_sided();
 }
 
 #pragma pop
-void TBoss8Dragon::spawn_attack_effect() {
+void TBoss8Dragon::spawn_attack_effect(const Vec *pos) {
     TParticleCtrl *particle;
 
-    particle = spawn_particle_effect_with_flags((const Vec *)this, 0x210, 0x40);
+    particle = spawn_particle_effect_with_flags(pos, 0x210, 0x40);
     if (particle != 0) {
         attach_particle_model((u8 *)particle, get_bml_model(boss5_gryphon_bml_resource, 1), boss5_gryphon_texture_list, 0, 0, (f32)gryphon_one);
     }
 }
 
-void TBoss8Dragon::spawn_switch_attack() {
+void TBoss8Dragon::spawn_switch_attack(const Vec *pos) {
     TParticleCtrl *particle;
 
-    particle = spawn_particle_effect_with_flags((const Vec *)this, 0x211, 0x40);
+    particle = spawn_particle_effect_with_flags(pos, 0x211, 0x40);
     if (particle != 0) {
         attach_particle_model((u8 *)particle, get_bml_model(boss5_gryphon_bml_resource, 2), boss5_gryphon_texture_list, 0, 0, (f32)gryphon_one);
     }

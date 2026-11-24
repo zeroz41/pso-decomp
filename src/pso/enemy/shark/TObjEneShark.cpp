@@ -547,13 +547,13 @@ TObjEneShark::TObjEneShark(TObject *parent, void *setData) : TUnk_80493450(paren
     apply_clamped_mode_param();
     sub_800AC9DC(variant);
     action_table = TObjEneShark__action_table;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     motion_list = shark_bml_resource->motions;
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
     init_collision_body_parts(this, &shark_collision_body_table[subtype], 1);
-    bind_enemy_combat_stats((u8 *)TObjEneShark__resource_node[subtype], (u8 *)TObjEneShark__resource_buf[subtype], (u8 *)shark_resource_data[subtype]);
+    bind_enemy_combat_stats(reinterpret_cast<player_stats *>(TObjEneShark__resource_node[subtype]), reinterpret_cast<AttackParams *>(TObjEneShark__resource_buf[subtype]), reinterpret_cast<ActorParamBlock *>(shark_resource_data[subtype]));
     movementParameters = &shark_movement_params[subtype];
     referenceHp = hp;
     update_prev_position();

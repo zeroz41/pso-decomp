@@ -178,8 +178,8 @@ void TObjMotion::set_animation(s16 action) {
 }
 
 void TObjMotion::init_motion(TObjMotionAction *actions, BmlMotionEntry *motions, s16 action) {
-    set_action_table((saddr)actions);
-    set_motion_list((saddr)motions);
+    set_action_table(actions);
+    set_motion_list(motions);
     set_animation(action);
 }
 

@@ -70,7 +70,7 @@ TObjMotionAction bm3_fly_action_table[5] = {
     { 3, 4, 0x3, 1.0f, 0x0 },
 };
 
-const NpcAnimationBinding bm3_fly_resource_binding_desc = { NULL, reinterpret_cast<TObjMotionAction *>(bm3_fly_action_table), 0, 1, 5 };
+const NpcAnimationBinding bm3_fly_resource_binding_desc = { NULL, bm3_fly_action_table, 0, 1, 5 };
 
 void TObjEneBm3Fly::load_resources() {
     TBreakUpMdlData *model;
@@ -83,8 +83,8 @@ void TObjEneBm3Fly::load_resources() {
     bm3_fly_lobby_params = (Bm3FlyParameters *)TLobby::dispatch_shared_handler_a(0);
     {
         NpcAnimationBinding binding = bm3_fly_resource_binding_desc;
-        binding.motions = reinterpret_cast<BmlMotionEntry *>(bm3_fly_nest_resources->motions);
-        NpcModelRegistry::register_animated_chunk(7, reinterpret_cast<void *>(bm3_fly_nest_resources->models[0].model), bm3_fly_nest_resources->models[0].texlist, &binding, bm3_fly_collider_params[0].radius, 15.0f);
+        binding.motions = bm3_fly_nest_resources->motions;
+        NpcModelRegistry::register_animated_chunk(7, bm3_fly_nest_resources->models[0].model, bm3_fly_nest_resources->models[0].texlist, &binding, bm3_fly_collider_params[0].radius, 15.0f);
     }
 }
 
@@ -118,12 +118,12 @@ void TObjEneBm3Fly::init_child_params() {
     this->model = (void *)bm3_fly_nest_resources->models[0].model;
     this->texlist = bm3_fly_nest_resources->models[0].texlist;
     this->init_model(bm3_fly_collider_params, 1);
-    set_action_table((saddr)bm3_fly_action_table);
-    set_motion_list((saddr)bm3_fly_nest_resources->motions);
+    set_action_table(bm3_fly_action_table);
+    set_motion_list(bm3_fly_nest_resources->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);
-    this->reset_hp(bm3_fly_boss_stat_handle, (u8 *)TObjEneBm3Fly__attack_params, bm3_fly_resist_stats);
+    this->reset_hp(reinterpret_cast<player_stats *>(bm3_fly_boss_stat_handle), TObjEneBm3Fly__attack_params, reinterpret_cast<ActorParamBlock *>(bm3_fly_resist_stats));
     set_state_flag_1();
     this->movementParameters = &bm3_fly_decision_row;
     this->initialize_enemy_state(3);

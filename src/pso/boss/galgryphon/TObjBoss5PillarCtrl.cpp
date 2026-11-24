@@ -1,3 +1,4 @@
+#include "pso/unk/text_80066F10.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
@@ -17,7 +18,6 @@ const char *TObjBoss5PillarCtrl__name = "TObjBoss5PillarCtrl";
 
 
 extern "C" {
-extern BmlResource *lbl_805D4DD8;
 int TObjBoss5Pillar__sub_8028B70C(void*);
 int TObjBoss5Pillar__sub_8028B710(void*);
 

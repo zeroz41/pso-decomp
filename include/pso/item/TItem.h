@@ -145,9 +145,9 @@ struct TItem : public TObjCollidable {
     // the requirement it falls short on.
     s32 check_equip_requirements(TObjPlayer *player, s16 *result);
     void draw_model();
-    void draw_model_nodes(u8 *matrices);
-    void apply_sign_effect(u8 *matrices);
-    void visit_model_nodes(u8 *matrices);
+    void draw_model_nodes(GC_Mtx *matrices);
+    void apply_sign_effect(GC_Mtx *matrices);
+    void visit_model_nodes(GC_Mtx *matrices);
     s32 get_max_stack_size();
     void set_owner_client(u16 client);
     s32 unregister_item();
@@ -218,7 +218,7 @@ extern int item_system_generation;
 // is set each node's matrix is stored there.
 extern void (*model_node_draw_callback)(void *model);
 extern void (*model_node_visit_callback)(NJS_OBJECT *object);
-extern u8 *model_node_matrix_output_cursor;
+extern GC_Mtx *model_node_matrix_output_cursor;
 extern s32 model_node_counter;
 
 // Empty in this build: the inventory of a player record is decoded when

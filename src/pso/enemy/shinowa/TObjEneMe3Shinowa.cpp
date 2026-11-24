@@ -1,3 +1,5 @@
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/render/GinjaTextureEntryCopy.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -81,9 +83,9 @@ extern "C" {
 // Per-variant parameter tables fetched from TLobby (TObjEneMe3Stelth names the same four
 // base/attack/resistance/behavior_params_by_variant).
 Vec TObjEneMe3ShinowaMirage__node_origin;
-__declspec(section ".data") s32 TObjEneMe3ShinowaMirage__base_params_by_variant[2];
-__declspec(section ".data") s32 TObjEneMe3ShinowaMirage__attack_params_by_variant[2];
-__declspec(section ".data") s32 TObjEneMe3ShinowaMirage__resistance_params_by_variant[2];
+__declspec(section ".data") player_stats *TObjEneMe3ShinowaMirage__base_params_by_variant[2];
+__declspec(section ".data") AttackParams *TObjEneMe3ShinowaMirage__attack_params_by_variant[2];
+__declspec(section ".data") ActorParamBlock *TObjEneMe3ShinowaMirage__resistance_params_by_variant[2];
 __declspec(section ".data") TObjEneMe3ShinowaParams *TObjEneMe3ShinowaMirage__mirage_info_table[2];
 
 // Copy of the model's texture list (the mirage swaps the first three texture addresses).
@@ -132,7 +134,7 @@ const char *TObjEneMe3ShinowaReal_class_name = "TObjEneMe3ShinowaReal";
 // inferred: TObjEneMe3ShinowaMirage__class_name (was lbl_805D2AD0; the mirage ctor stores it to m_name)
 const char *TObjEneMe3ShinowaMirage__class_name = "TObjEneMe3ShinowaMirage";
 // inferred: motion binding load_shinowa_mirage_resources hands to TLobby::spawn_npc_enemy
-const NpcAnimationBinding shinowa_mirage_spawn_binding = { NULL, reinterpret_cast<TObjMotionAction *>(shinowa_mirage_motion_param_table), 8, 9, 11 };
+const NpcAnimationBinding shinowa_mirage_spawn_binding = { NULL, shinowa_mirage_motion_param_table, 8, 9, 11 };
 // inferred: shadow scale handed to draw_ground_shadow by update_player_state_default
 const Vec shinowa_shadow_scale = { 2.5f, 1.0f, 1.5f };
 
@@ -141,11 +143,11 @@ const Vec shinowa_shadow_scale = { 2.5f, 1.0f, 1.5f };
 // loads the shared Shinowa BML, a texture-list copy for the mirage, the per-variant parameter tables,
 // the breakup model and the sampled claw-trail points.
 void load_shinowa_mirage_resources() {
-    NJS_TEXLIST *src;
+    const NJS_TEXLIST *src;
     s32 n;
     s32 i;
     TObjEneMe3ShinowaParams *info;
-    u32 root;
+    NJS_OBJECT *root;
     NJS_CNK_MODEL *cnk;
     AnimationMotion *motion;
     NJS_OBJECT *model;
@@ -165,19 +167,19 @@ void load_shinowa_mirage_resources() {
     TObjEneMe3ShinowaMirage__alternate_texture_list.nbTexture = n;
     TObjEneMe3ShinowaMirage__alternate_texture_list.textures = (NJS_TEXNAME *)mem_alloc(n * sizeof(NJS_TEXNAME));
     for (i = 0; i < n; i++) {
-        ((TObjPlayer *)&TObjEneMe3ShinowaMirage__alternate_texture_list.textures[i])->copy_vec3(&src->textures[i]);
+        copy_ginja_texture_entry(&TObjEneMe3ShinowaMirage__alternate_texture_list.textures[i], &src->textures[i]);
     }
     for (i = 0; i < 3; i++) {
-        TObjEneMe3ShinowaMirage__alternate_texture_list.textures[i + 3].texaddr = TObjEneMe3ShinowaMirage__alternate_texture_list.textures[i].texaddr;
+        TObjEneMe3ShinowaMirage__alternate_texture_list.textures[i + 3].texture = TObjEneMe3ShinowaMirage__alternate_texture_list.textures[i].texture;
     }
     for (s32 j = 0; j < 2; j++) {
-        TObjEneMe3ShinowaMirage__base_params_by_variant[j] = (saddr)TLobby::register_boss(shinowa_mirage_base_param_ids[j]);
+        TObjEneMe3ShinowaMirage__base_params_by_variant[j] = TLobby::register_boss(shinowa_mirage_base_param_ids[j]);
     }
     for (s32 j = 0; j < 2; j++) {
-        TObjEneMe3ShinowaMirage__attack_params_by_variant[j] = (saddr)TLobby::dispatch_shared_handler_b(shinowa_mirage_attack_param_ids[j]);
+        TObjEneMe3ShinowaMirage__attack_params_by_variant[j] = TLobby::dispatch_shared_handler_b(shinowa_mirage_attack_param_ids[j]);
     }
     for (s32 j = 0; j < 2; j++) {
-        TObjEneMe3ShinowaMirage__resistance_params_by_variant[j] = (saddr)TLobby::register_object(shinowa_mirage_resistance_param_ids[j]);
+        TObjEneMe3ShinowaMirage__resistance_params_by_variant[j] = TLobby::register_object(shinowa_mirage_resistance_param_ids[j]);
     }
     for (s32 j = 0; j < 2; j++) {
         TObjEneMe3ShinowaMirage__mirage_info_table[j] = (TObjEneMe3ShinowaParams *)TLobby::dispatch_shared_handler_a(shinowa_mirage_behavior_param_ids[j]);
@@ -189,20 +191,20 @@ void load_shinowa_mirage_resources() {
     TObjEneMe3ShinowaMirage__body_node_position.x = 0.0f;
     TObjEneMe3ShinowaMirage__body_node_position.y = 0.0f;
     TObjEneMe3ShinowaMirage__body_node_position.z = 0.0f;
-    root = (saddr)TObjEneMe3ShinowaMirage__bml_resource->models->model;
-    cnk = (NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(root, 9))->model;
+    root = TObjEneMe3ShinowaMirage__bml_resource->models->model;
+    cnk = (NJS_CNK_MODEL *)find_model_node(root, 9)->model;
     if (cnk != NULL) {
         TObjEneMe3ShinowaMirage__material_color_pointers[0] = (s32 *)(cnk->polygon_list + 2);
     } else {
         TObjEneMe3ShinowaMirage__material_color_pointers[0] = NULL;
     }
-    cnk = (NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(root, 13))->model;
+    cnk = (NJS_CNK_MODEL *)find_model_node(root, 13)->model;
     if (cnk != NULL) {
         TObjEneMe3ShinowaMirage__material_color_pointers[1] = (s32 *)(cnk->polygon_list + 2);
     } else {
         TObjEneMe3ShinowaMirage__material_color_pointers[1] = NULL;
     }
-    cnk = (NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(root, 38))->model;
+    cnk = (NJS_CNK_MODEL *)find_model_node(root, 38)->model;
     if (cnk != NULL) {
         TObjEneMe3ShinowaMirage__material_color_pointers[2] = (s32 *)(cnk->polygon_list + 2);
     } else {
@@ -247,9 +249,9 @@ void load_shinowa_mirage_resources() {
     }
     {
         NpcAnimationBinding binding = shinowa_mirage_spawn_binding;
-        binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe3ShinowaMirage__bml_resource->motions);
-        NpcModelRegistry::register_animated_chunk(0x26, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), TObjEneMe3ShinowaMirage__bml_resource->models->texlist, &binding, 8.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x27, reinterpret_cast<void *>(TObjEneMe3ShinowaMirage__bml_resource->models->model), &TObjEneMe3ShinowaMirage__alternate_texture_list, &binding, 8.0f, 0.0f);
+        binding.motions = TObjEneMe3ShinowaMirage__bml_resource->motions;
+        NpcModelRegistry::register_animated_chunk(0x26, TObjEneMe3ShinowaMirage__bml_resource->models->model, TObjEneMe3ShinowaMirage__bml_resource->models->texlist, &binding, 8.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x27, TObjEneMe3ShinowaMirage__bml_resource->models->model, &TObjEneMe3ShinowaMirage__alternate_texture_list, &binding, 8.0f, 0.0f);
     }
 }
 
@@ -301,8 +303,8 @@ void TObjEneMe3Shinowa::init_enemy() {
     model = (void *)TObjEneMe3ShinowaMirage__bml_resource->models->model;
     init_model(shinowa_mirage_model_init_data, 1);
     motion_flags = 0;
-    set_action_table((saddr)shinowa_mirage_motion_param_table);
-    set_motion_list((saddr)TObjEneMe3ShinowaMirage__bml_resource->motions);
+    set_action_table(shinowa_mirage_motion_param_table);
+    set_motion_list(TObjEneMe3ShinowaMirage__bml_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
@@ -311,7 +313,7 @@ void TObjEneMe3Shinowa::init_enemy() {
         u8 **b = tbl->t[1];
         u8 **c = tbl->t[2];
         s32 i = kind_index;
-        reset_hp(a[i], b[i], c[i]);
+        reset_hp(reinterpret_cast<player_stats *>(a[i]), reinterpret_cast<AttackParams *>(b[i]), reinterpret_cast<ActorParamBlock *>(c[i]));
     }
     set_state_flag_4();
     movementParameters = &TObjEneMe3ShinowaMirage__init_params;
@@ -1569,7 +1571,7 @@ void TObjEneMe3Shinowa::update_mirage() { if (get_target_info() != 0) { fn_800E7
 void TObjEneMe3Shinowa::render_demo() {
     s32 gold;
     NJS_TEXNAME *textures;
-    u32 saved_texaddr[3];
+    GinjaTextureState *saved_texaddr[3];
     s32 i;
     if (get_target_info() != 0) {
         if (is_mirage_enabled() != 0) {
@@ -1588,12 +1590,12 @@ void TObjEneMe3Shinowa::render_demo() {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         TObjPlayer::toggle_particle_effect();
         if (gold != 0) {
-            textures = ((NJS_TEXLIST *)texlist)->textures;
+            textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
             for (i = 0; i < 3; i++) {
-                saved_texaddr[i] = textures[i + 3].texaddr;
+                saved_texaddr[i] = textures[i + 3].texture;
             }
             for (i = 0; i < 3; i++) {
-                textures[i + 3].texaddr = textures[i].texaddr;
+                textures[i + 3].texture = textures[i].texture;
             }
         }
         push_matrix();
@@ -1634,9 +1636,9 @@ void TObjEneMe3Shinowa::render_demo() {
         }
         pop_matrix();
         if (gold != 0) {
-            textures = ((NJS_TEXLIST *)texlist)->textures;
+            textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
             for (i = 0; i < 3; i++) {
-                textures[i + 3].texaddr = saved_texaddr[i];
+                textures[i + 3].texture = saved_texaddr[i];
             }
         }
         TParticleCtrl::end_effect_render();

@@ -20,6 +20,7 @@
 #include "pso/technique/TTecReverserEff.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/TObjPlayer_801C7430.h"
 #include "pso/player/TObjPlayer_801D2E20.h"
@@ -73,86 +74,6 @@ typedef struct Player_801C7430 {
     u8 pad64[0x308 - 0x64];
     u8 vec[12];
 } Player_801C7430;
-
-struct Base_801C7538 { char pad[8]; };
-
-struct VObj_801C7538 : Base_801C7538 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual int m74();
-};
 
 struct VBase8_801c7630 { char pad[8]; };
 
@@ -311,23 +232,6 @@ struct VObj_8_1cc697 : VBase_8_1cc697 {
     virtual s32 m68();
     virtual s32 m69();
     virtual s32 m70();
-};
-
-struct Base_801C841C { char pad[0x8]; };
-
-struct VObj_801C841C : Base_801C841C {
-    virtual void v0();
-#define VV(n) virtual void v##n();
-VV(1)VV(2)VV(3)VV(4)VV(5)VV(6)VV(7)VV(8)VV(9)VV(10)
-VV(11)VV(12)VV(13)VV(14)VV(15)VV(16)VV(17)VV(18)VV(19)VV(20)
-VV(21)VV(22)VV(23)VV(24)VV(25)VV(26)VV(27)VV(28)VV(29)VV(30)
-VV(31)VV(32)VV(33)VV(34)VV(35)VV(36)VV(37)VV(38)VV(39)VV(40)
-VV(41)VV(42)VV(43)VV(44)VV(45)VV(46)VV(47)VV(48)VV(49)VV(50)
-VV(51)VV(52)VV(53)VV(54)VV(55)VV(56)VV(57)VV(58)VV(59)VV(60)
-VV(61)VV(62)VV(63)VV(64)VV(65)VV(66)VV(67)VV(68)VV(69)VV(70)
-VV(71)VV(72)VV(73)
-#undef VV
-    virtual s32 v76();
 };
 
 typedef struct Msg_801C851C {
@@ -1235,7 +1139,7 @@ void TObjPlayer::update_state_group() {
     clear_anim_flag();
     clear_chair_seated();
     leave_chair_seat();
-    set_motion_list(((VObj_801C7538 *)(*(void **)((s8 *)this + 0x380)))->m74());
+    set_motion_list(action_provider->vfunc_76());
 }
 
 void TObjPlayer__sub_801C75A4(u8 *player) {
@@ -1575,7 +1479,7 @@ void TObjPlayer::update_dispatch_v76() {
     ((s32 (*)(void))clear_velocity)();
     clear_anim_flag();
     clear_lobby_pose_hold();
-    set_motion_list(((VObj_801C841C *)(*(void **)((s8 *)this + 0x380)))->v76());
+    set_motion_list(action_provider->vfunc_76());
 }
 
 void TObjPlayer::lobby_animation_phase1_nop() {  }

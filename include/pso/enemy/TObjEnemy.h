@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 
+struct player_stats;
+
 // One set entry's enemy state as the lobby keeps it (TSetManager allocates 0xB50 of them): what
 // TObjEnemy::exchange_object_state copies out (mode 1) or stores (mode 0), what send_6x0A_enemy_state
 // sends and what apply_enemy_state applies.
@@ -26,7 +28,7 @@ struct TObjEnemy : public TObjChara {
     s32 calc_joint_matrices(f32);
     s32 enemy_turn_toward_dest(s32);
     void send_6x0A_enemy_state(void *);
-    s32 bind_enemy_combat_stats(u8 *, u8 *, u8 *);
+    s32 bind_enemy_combat_stats(player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats);
     void set_param(s32);
     s32 remap_sound_for_area(s32 sound_id);
     f32 enemy_wander_home(f32 speed, f32 range_x, f32 range_z, s32 turn_speed);

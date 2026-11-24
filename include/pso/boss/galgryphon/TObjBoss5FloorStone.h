@@ -3,6 +3,9 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+struct NJS_TEXLIST;
+struct NJS_OBJECT;
+
 class TObjBoss5FloorStone : public TObject {
 public:
     TObjBoss5FloorStone(TObject *parent);

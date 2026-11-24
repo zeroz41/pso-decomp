@@ -5,15 +5,17 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/npc/TObjNpcBase.h"
 
+struct NJS_OBJECT;
+struct NJS_TEXLIST;
+
 // One slot of TObjNpcEnemy__entry_table (0x24 B), filled by the spawners
-// (TObjEneSlime::spawn_child, TLobby::spawn_npc_enemy, TMotorcycle::add_entry,
-// NpcModelRegistry::register_animated_ginja) and read by TObjNpcEnemy::set_npc_data.
+// (NpcModelRegistry and TMotorcycle::add_entry) and read by TObjNpcEnemy::set_npc_data.
 // Field names are inferred from where set_npc_data copies them.
 struct TObjNpcEnemyEntry {
     s16 id;            // 0 marks a free slot; slots are sorted by id
     u16 kind;          // 0 slime, 1 lobby, 2 motorcycle, 3 stelth, 4 empty
     f32 y_offset;      // render height above the object (translate_matrix y)
-    saddr model;
+    NJS_OBJECT *model;
     NJS_TEXLIST *texlist;
     f32 radius;        // copied to the first collision body radius
     NpcAnimationBinding animation;
@@ -22,6 +24,8 @@ struct TObjNpcEnemyEntry {
 };
 
 LAYOUT_ASSERT(NpcEnemyEntrySize, sizeof(TObjNpcEnemyEntry) == 0x24);
+LAYOUT_ASSERT(NpcEnemyEntryModelOffset, offsetof(TObjNpcEnemyEntry, model) == 0x8);
+LAYOUT_ASSERT(NpcEnemyEntryTextureOffset, offsetof(TObjNpcEnemyEntry, texlist) == 0xC);
 LAYOUT_ASSERT(NpcEnemyEntryAnimationOffset, offsetof(TObjNpcEnemyEntry, animation) == 0x14);
 
 struct TObjNpcEnemy : public TObjNpcBase {

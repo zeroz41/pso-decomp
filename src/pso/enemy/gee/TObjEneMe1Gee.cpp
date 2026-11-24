@@ -120,9 +120,9 @@ const char *TObjEneMe1Gee__fade_command_streams[5] = {
 
 const char *TObjEneMe1Gee__class_name = "TObjEneMe1Gee";
 
-static saddr gee_boss_stat_handle_table[3];
-static saddr gee_shared_handler_b_table[3];
-static saddr gee_object_handle_table[3];
+static player_stats *gee_boss_stat_handle_table[3];
+static AttackParams *gee_shared_handler_b_table[3];
+static ActorParamBlock *gee_object_handle_table[3];
 static TObjEneMe1GeeParams *gee_shared_handler_a_table[3];
 static f32 gee_camera_ctrl_vec[4];
 
@@ -144,11 +144,11 @@ void TObjEneMe1Gee::load_resources() {
         TObjEneMe1Gee__resource_bundle = load_enemy_bml_resource(&bm_ene_me1_gee_resource_descriptor);
     }
     TObjEneMe1Gee_NEEDLE::init_global();
-    gee_model_node7 = (u8 *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 7);
+    gee_model_node7 = (u8 *)find_model_node(TObjEneMe1Gee__resource_bundle->models->model, 7);
     for (i = 0; i < 3; i++) {
-        gee_boss_stat_handle_table[i] = (saddr)TLobby::register_boss(gee_base_stat_ids[i]);
-        gee_shared_handler_b_table[i] = (saddr)TLobby::dispatch_shared_handler_b(gee_attack_stat_ids[i]);
-        gee_object_handle_table[i] = (saddr)TLobby::register_object(gee_resist_stat_ids[i]);
+        gee_boss_stat_handle_table[i] = TLobby::register_boss(gee_base_stat_ids[i]);
+        gee_shared_handler_b_table[i] = TLobby::dispatch_shared_handler_b(gee_attack_stat_ids[i]);
+        gee_object_handle_table[i] = TLobby::register_object(gee_resist_stat_ids[i]);
         gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(gee_param_ids[i]);
     }
     TObjEneMe1Gee__render_node_index = 0;
@@ -156,12 +156,12 @@ void TObjEneMe1Gee::load_resources() {
     gee_leader_breakup_model = p;
     p = new TBreakUpMdlData((saddr)TObjEneMe1Gee__resource_bundle->models->model);
     gee_breakup_model = p;
-    gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node((saddr)TObjEneMe1Gee__resource_bundle->models->model, 4))->model)->polygon_list + 2);
+    gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(TObjEneMe1Gee__resource_bundle->models->model, 4)->model)->polygon_list + 2);
     TObjPlayer::init_alt_model();
     {
-        NpcAnimationBinding params = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneMe1Gee__motion_parameters), 0, 0, 4 };
-        params.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneMe1Gee__resource_bundle->motions);
-        NpcModelRegistry::register_animated_chunk((s16)0x10, reinterpret_cast<void *>(TObjEneMe1Gee__resource_bundle->models->model), TObjEneMe1Gee__resource_bundle->models->texlist, &params, 8.0f, 15.0f);
+        NpcAnimationBinding params = { NULL, TObjEneMe1Gee__motion_parameters, 0, 0, 4 };
+        params.motions = TObjEneMe1Gee__resource_bundle->motions;
+        NpcModelRegistry::register_animated_chunk((s16)0x10, TObjEneMe1Gee__resource_bundle->models->model, TObjEneMe1Gee__resource_bundle->models->texlist, &params, 8.0f, 15.0f);
     }
 }
 
@@ -221,12 +221,12 @@ void TObjEneMe1Gee::init_state() {
     this->init_position_vectors();
     this->select_model();
     this->init_model(&gee_collision_body, 1);
-    this->set_action_table((saddr)TObjEneMe1Gee__motion_parameters);
-    this->set_motion_list((saddr)TObjEneMe1Gee__resource_bundle->motions);
+    this->set_action_table(TObjEneMe1Gee__motion_parameters);
+    this->set_motion_list(TObjEneMe1Gee__resource_bundle->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
     this->set_requested_action(this->requested_action);
-    this->reset_hp((u8 *)gee_boss_stat_handle_table[this->kind], (u8 *)gee_shared_handler_b_table[this->kind], (u8 *)gee_object_handle_table[this->kind]);
+    this->reset_hp(gee_boss_stat_handle_table[this->kind], gee_shared_handler_b_table[this->kind], gee_object_handle_table[this->kind]);
     this->set_state_flag_1();
     this->movementParameters = &me1_gee_init_params;
     this->initialize_enemy_state(0x36);

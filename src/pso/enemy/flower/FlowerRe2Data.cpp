@@ -11,7 +11,7 @@ extern TObjMotionAction TObjEneRe2Flower__animation_descriptors[8];
 
 // The normal and rare variants' self-destruct blast (state_self_destruct hands it to TObjEneDD__sub_800BA5A4).
 __declspec(section ".rodata") extern const DragonAttackParams enemy_dd_attack_param_block ATTRIBUTE_ALIGN(4) = {
-    0x10, 0.0f, 30.0f, 0.0f, 1,
+    0x10, 0.0f, 30.0f, {0.0f, 1},
 };
 
 // Per variant (0 normal, 1 rare, 2 the tower's), as Gibon's twins: the reset_hp blocks and the param block.
@@ -48,7 +48,7 @@ __declspec(section ".rodata") extern const NpcAnimationBinding re2_flower_animat
 
 // The tower variant's self-destruct blast; state_self_destruct sets power and recoil from its param block.
 __declspec(section ".rodata") extern const DragonAttackParams re2_flower_tower_attack_params ATTRIBUTE_ALIGN(4) = {
-    0, 0.0f, 30.0f, 0.0f, 1,
+    0, 0.0f, 30.0f, {0.0f, 1},
 };
 
 // draw_ground_shadow scales: render, then render_demo.

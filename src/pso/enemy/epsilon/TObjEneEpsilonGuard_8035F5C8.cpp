@@ -114,11 +114,11 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     flags |= 2;
     set_guard_state();
     texlist = get_bml_texlist(epsilon_bml_resource, 0);
-    set_action_table((saddr)epsilon_body_action_table);
-    set_motion_list((saddr)epsilon_bml_resource->motions);
+    set_action_table(epsilon_body_action_table);
+    set_motion_list(epsilon_bml_resource->motions);
     set_animation(requested_action);
     set_requested_action(requested_action);
-    reset_hp(epsilon_body_boss_stat_handle, epsilon_body_shared_handler_b, epsilon_body_registered_object_handle);
+    reset_hp(reinterpret_cast<player_stats *>(epsilon_body_boss_stat_handle), reinterpret_cast<AttackParams *>(epsilon_body_shared_handler_b), reinterpret_cast<ActorParamBlock *>(epsilon_body_registered_object_handle));
     set_state_flag_4();
     movementParameters = &epsilon_body_movement_params;
     wall_reach = 10.0f;

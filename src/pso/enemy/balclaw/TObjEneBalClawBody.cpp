@@ -97,7 +97,7 @@ TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEn
     VecCopy(&move_origin, (const Vec *)(VecCopy(&move_destination, (const Vec *)(&position))));
     motion_list = balclaw_bml_resource->motions;
     action_table = balclaw_body_actions;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     init_collision_body_parts(this, &balclaw_body_collision, 1);
     requested_action = 0;
     set_animation(requested_action);
@@ -121,7 +121,7 @@ TObjEneBalClawBody::TObjEneBalClawBody(TObject *parent, void *set_data) : TObjEn
         child_ids[i] = 0xFFFF;
     }
     this->set_form(1);
-    bind_enemy_combat_stats(balclaw_body_base_params[0], balclaw_body_attack_params[0], balclaw_body_resistance_params[0]);
+    bind_enemy_combat_stats(reinterpret_cast<player_stats *>(balclaw_body_base_params[0]), reinterpret_cast<AttackParams *>(balclaw_body_attack_params[0]), reinterpret_cast<ActorParamBlock *>(balclaw_body_resistance_params[0]));
     effects[0] = NULL;
     effects[1] = NULL;
     effects[2] = NULL;
@@ -1160,8 +1160,8 @@ void TObjEneBalClawBody::load_params() {
 
 // Registers the combined body's model (bcbody) and action table with the NPC model registry.
 void TObjEneBalClawBody::load_resources() {
-    NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(balclaw_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(balclaw_body_actions), 0, 1, 12 };
-    NpcModelRegistry::register_animated_chunk(0x13, reinterpret_cast<void *>(balclaw_bml_resource->models[1].model), balclaw_bml_resource->models[1].texlist, &params,
+    NpcAnimationBinding params = { balclaw_bml_resource->motions, balclaw_body_actions, 0, 1, 12 };
+    NpcModelRegistry::register_animated_chunk(0x13, balclaw_bml_resource->models[1].model, balclaw_bml_resource->models[1].texlist, &params,
                             balclaw_body_collision.radius, 15.0f);
 }
 
