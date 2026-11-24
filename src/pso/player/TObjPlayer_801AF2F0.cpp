@@ -1170,7 +1170,6 @@ void handle_6x24_teleport_player(saddr command);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 s32 is_flag30_10_set__10TObjPlayerFi(saddr actor);
 s32 is_flag30_8_set__10TObjPlayerFi(saddr actor);
-void remove_status_effect__10TObjPlayerFUiPv(uaddr, Pair_801B2C04 *);
 void dispatch_status_effect_msg__10TObjPlayerFUiPv(uaddr player, Pair_801B2AE8 *msg);
 void handle_6x0D_add_or_remove_status_effect(void *command);
 void send_code_13_3__10TObjPlayerFii(saddr arg0, saddr arg1);
@@ -1190,7 +1189,6 @@ int get_field_340__18TChallenge4PResultFPv(void* p);
 int get_player_result__18TChallenge4PResultFPv(void* p);
 void TObjPlayer__sub_801B3FD8(void* p);
 void TObjPlayer__sub_801B4044(void* p);
-s32 test_ordered_anim_markers__10TObjPlayerFPvff(u8 *arg0, f32 at_frame, f32 farg1);
 void handle_6xA1_revive_player_v3(void *command);
 void handle_6x32_medical_center_revive_all_players(void);
 void recover_player_full(void *player);
@@ -1224,7 +1222,6 @@ void handle_6x2B_create_inventory_item(saddr command);
 void handle_6x2A_drop_item(void *command);
 void dispatch_input__10TObjPlayerFPvii(TObjPlayer *player, s32 *keys, s32 count);
 void handle_6xAC(void *command);
-void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
 void unequip_item__10TObjPlayerFiPv(TObjPlayer *player, TItem *item);
 void handle_6x29_delete_inventory_item(void *command);
 bool is_target_in_facing_cone__10TObjPlayerFPv(void *self, Vec *target);
@@ -2800,7 +2797,7 @@ u32 TObjPlayer::pickup_item(TItem *item) {
     return 0;
 }
 
-void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b) {
+void TObjPlayer::send_6x29_delete_item(void *obj, int a, int b) {
     Cmd_801B8DE8 cmd;
     if (((s32 (*)(void))is_volopt_phase_final__10TObjPlayerFv)() != 0) {
         return;
@@ -3031,12 +3028,12 @@ s32 TObjPlayer::try_add_sale_meseta(s32 arg1, s32 amount, s32 count) {
         return 0;
     }
     ((TObjPlayer *)((Player_801B855C *)this))->add_meseta((s32)amount);
-    ((void (*)(void *, s32, s32))send_6x29_delete_item__10TObjPlayerFPvii)(((Player_801B855C *)this), arg1, count);
+    TObjPlayer::send_6x29_delete_item(this, arg1, count);
     return 1;
 }
 #pragma pop
 
-void delete_item(void *player, s32 id, s32 count) { send_6x29_delete_item__10TObjPlayerFPvii(player, id, count); }
+void delete_item(void *player, s32 id, s32 count) { TObjPlayer::send_6x29_delete_item(player, id, count); }
 }
 
 void TObjPlayer::request_inventory_item(TItemData* item) {
@@ -3086,12 +3083,12 @@ void handle_6x2B_create_inventory_item(saddr command) {
     }
 }
 
-s32 query_state_if_present__10TObjPlayerFPv(TObjPlayer *player, TPlyInventoryItem *out) {
-    TPlyItem *inventory = player->inventory_objects;
+s32 TObjPlayer::query_state_if_present(void *out) {
+    TPlyItem *inventory = this->inventory_objects;
     if (inventory == NULL) {
         return 0;
     }
-    return inventory->run_state_query(out);
+    return inventory->run_state_query((TPlyInventoryItem *)out);
 }
 
 void TObjPlayer::create_inventory() {
@@ -3153,7 +3150,7 @@ void rebuild_player_inventory(TObjPlayer *player) {
     Buf_801B802C buffer;
     if (player->inventory_objects != NULL) {
         init_inventory_list__10TObjPlayerFPv(&buffer);
-        buffer.n = query_state_if_present__10TObjPlayerFPv(player, buffer.items);
+        buffer.n = player->query_state_if_present(buffer.items);
         player->inventory_objects->destroy_subobjects(player);
         player->inventory_objects->queue_destruction();
         player->inventory_objects = NULL;
@@ -3210,7 +3207,7 @@ void handle_6x27_use_item(saddr command) {
     }
 }
 
-void TWindowSubMag::feed_mag(void* p, void* a1, void* a2) { ((int (*)(void*))send_6x28_feed_mag)(p); ((int (*)(void*, void*, void*))send_6x29_delete_item__10TObjPlayerFPvii)(p, a2, (void*)1); }
+void TWindowSubMag::feed_mag(void* p, void* a1, void* a2) { ((int (*)(void*))send_6x28_feed_mag)(p); TObjPlayer::send_6x29_delete_item(p, (int)a2, 1); }
 
 void send_6x28_feed_mag(void *arg0, s32 arg1, s32 arg2) {
     L_801B7E14 sp8;
@@ -4804,7 +4801,7 @@ void TObjPlayer::update_rotation() {
 }
 
 void TObjPlayer::play_footstep_sound(f32 at_frame, f32 farg1) {
-    if (test_ordered_anim_markers__10TObjPlayerFPvff((u8 *)this, at_frame, farg1) != 0) {
+    if (TObjPlayer::test_ordered_anim_markers(this, at_frame, farg1) != 0) {
         this->play_sound_if_on_floor(this->get_footstep_floor_index());
     }
 }
@@ -4813,7 +4810,7 @@ void TObjPlayer::emit_footstep_effect(f32 at_frame, f32 farg1) {
     s32 temp_r3;
     s32 contact_surface_type;
     saddr arg0 = (saddr)this;
-    if ((this->is_body_collision_inactive() == 0) && (temp_r3 = ((s32)test_ordered_anim_markers__10TObjPlayerFPvff((u8 *)arg0, at_frame, farg1)), ((temp_r3 == 0) == 0))) {
+    if ((this->is_body_collision_inactive() == 0) && (temp_r3 = ((s32)TObjPlayer::test_ordered_anim_markers((void *)arg0, at_frame, farg1)), ((temp_r3 == 0) == 0))) {
         contact_surface_type = this->contact_surface.get_contact_surface_type();
         switch (contact_surface_type) {
         case 1:
@@ -4837,7 +4834,7 @@ void TObjPlayer::emit_footstep_effect(f32 at_frame, f32 farg1) {
     }
 }
 
-s32 test_ordered_anim_markers__10TObjPlayerFPvff(u8 *motion, f32 at_frame, f32 farg1) {
+s32 TObjPlayer::test_ordered_anim_markers(void *motion, f32 at_frame, f32 farg1) {
     if (((TObjMotion *)motion)->is_passing_frame((f32)at_frame) != 0) {
         return 1;
     }
@@ -5392,7 +5389,7 @@ void handle_6x0D_add_or_remove_status_effect(void *command) {
             Pair_801B2C04 q;
             q.a = e.f4;
             q.b = e.f8;
-            remove_status_effect__10TObjPlayerFUiPv(p, &q);
+            TObjPlayer::remove_status_effect(p, &q);
         }
     }
 }
@@ -5437,7 +5434,7 @@ void dispatch_status_effect_msg__10TObjPlayerFUiPv(uaddr player, Pair_801B2AE8 *
     }
 }
 
-void remove_status_effect__10TObjPlayerFUiPv(uaddr arg0_, Pair_801B2C04 *arg1_) {
+void TObjPlayer::remove_status_effect(unsigned int arg0_, void *arg1_) {
     u8 *arg0 = (u8 *)arg0_;
     s32 *arg1 = (s32 *)arg1_;
     f32 temp_f31;
@@ -6031,7 +6028,7 @@ s32 TObjPlayer::try_pickup_item() {
         }
         TObjPlayer::recover_full((void *)this);
         ((FlagWord *)((saddr)this + 0x858))->set(4);
-        ((s32 (*)(s32, s32, s32))send_6x29_delete_item__10TObjPlayerFPvii)((saddr)this, ((TItem *)owner_if_alive)->get_item_id(), 1);
+        TObjPlayer::send_6x29_delete_item(this, ((TItem *)owner_if_alive)->get_item_id(), 1);
         return 1;
     }
     return 0;

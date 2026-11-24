@@ -77,7 +77,7 @@ void export_character_data__10TObjPlayerFPvPv(TObjPlayer *player, TPlyCharData *
     s32 j;
     s32 k;
     player->set_flag_80000();
-    character->m_inventory.m_num_items = query_state_if_present__10TObjPlayerFPv(reinterpret_cast<TObjPlayer *>(arg0), character->m_inventory.get_items());
+    character->m_inventory.m_num_items = player->query_state_if_present(character->m_inventory.get_items());
     hp = ((TObjChara *)arg0)->get_actor_hp();
     facing = get_actor_tp(arg0);
     for (i = 0; i != 0xD; i++) {
@@ -132,7 +132,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1) {
     saddr a;
     s32 m;
     ((TObjPlayer *)player)->set_flag_80000();
-    arg1[0] = query_state_if_present__10TObjPlayerFPv((TObjPlayer *)player, reinterpret_cast<TPlyCharData *>(arg1)->m_inventory.get_items());
+    arg1[0] = ((TObjPlayer *)player)->query_state_if_present(reinterpret_cast<TPlyCharData *>(arg1)->m_inventory.get_items());
     hp = ((TObjChara *)player)->get_actor_hp();
     facing = get_actor_tp(player);
     p = items;

@@ -1452,6 +1452,9 @@ struct TObjPlayer : public TObjChara {
     static s32 is_key_machine_ready();
     static void recover_full(void *);
     static void apply_speed_scale(int, f32);
+    static s32 test_ordered_anim_markers(void *, f32, f32);
+    static void remove_status_effect(unsigned int, void *);
+    s32 query_state_if_present(void *);
 
     // Placeholder-named members defined in the player units.
     static void create_derolle_breakup_model();

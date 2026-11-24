@@ -86,7 +86,6 @@ LAYOUT_ASSERT(PlayerInventoryListOffset, offsetof(TPlyItem, pad_1C4) == 0x1C4);
 LAYOUT_ASSERT(PlayerPlacementPoolOffset, offsetof(TPlyItem, list) == 0x20);
 
 extern "C" {
-s32 query_state_if_present__10TObjPlayerFPv(TObjPlayer *player, TPlyInventoryItem *out);
 void TLobby__sub_801D4C28(TPlyItem *inventory, TObjPlayer *player, int item_type, int item_group);
 void TItemList__sub_801D5804(TUnk_804C4444 *pool);
 PendingItemDrop *TItemList__sub_801D5854(TUnk_804C445C *pool, s32 index);
