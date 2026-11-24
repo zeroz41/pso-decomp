@@ -2016,7 +2016,7 @@ void TObjPlayer::update_action_render() {
     }
     this->set_animation((int) (this->requested_action));
     this->frame = (f32) (this->frame_count - 1.0f);
-    TObjPlayer::draw(this, (f32) (this->frame));
+    draw(this->frame);
     pause_motion();
     this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFDF);
 }
