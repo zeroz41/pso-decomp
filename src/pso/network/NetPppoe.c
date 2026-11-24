@@ -64,11 +64,11 @@ s16 build_ethernet_frame_header(void *frame, void *dst_mac, void *src_mac, u16 t
   EthernetFrameHeader *eth;
   u16 l;
   s16 r;
-  eth = (EthernetFrameHeader *)frame;
+  eth = frame;
   NetMemcpy(eth->destination, dst_mac, 6);
   NetMemcpy(eth->source, src_mac, 6);
   t = type;
-  NetMemcpy(&((EthernetFrameHeader *)frame)->ether_type, &t, 2);
+  NetMemcpy(&eth->ether_type, &t, 2);
   p = (u8 *)(eth + 1);
   c = 0x11;
   NetMemcpy(p, &c, 1);
