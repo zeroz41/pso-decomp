@@ -37,7 +37,7 @@ void NetIPv6ShutdownNeighborDiscovery(void) {
 }
 
 
-s32 NetIPv6InitNeighborDiscovery(void) {
+s16 NetIPv6InitNeighborDiscovery(void) {
     s16 n;
     u8 *buf;
     Ipv6NdPending *a;

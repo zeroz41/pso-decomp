@@ -48,7 +48,6 @@ s32 tcp_timers(TcpTcb *tcb, s16 timer);
 s16 tcp_respond(NetworkAddress *dst, NetworkAddress *src_addr, u16 sport, u16 dport, s32 seq, s32 ack, u8 flags);
 void tcp_init_tcb(s16 idx);
 void tcp_sack_doack(TcpTcb *tcb, TcpHdr *th, TcpSeqRange *blocks, s16 n);
-s32 NetTCPInit(void);
 
 
 
@@ -69,7 +68,7 @@ s32 tcp_term(void) {
 
 #pragma push
 #pragma opt_common_subs on
-s32 NetTCPInit(void) {
+s16 NetTCPInit(void) {
     s16 n;
     s16 i;
     TcpTcb *e;

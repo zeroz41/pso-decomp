@@ -25,7 +25,6 @@ s16 NetIPv4AddRoute(u32, u32, u32, s16, u8, u16);
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 
-s32 init_ipv4_routing(void);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -38,7 +37,7 @@ s32 shutdown_ipv4_routing(void) {
     ipv4_address_routing_state.max_aliases = 0;
     return 0;
 }
-s32 init_ipv4_routing(void) {
+s16 init_ipv4_routing(void) {
     init_buffer_descriptor_a(&ipv4_address_routing_state);
     NetMemset(ipv4_address_routing_state.routes, 0, ipv4_address_routing_state.nroutes * sizeof(Ipv4Route));
     /* Sized with Ipv4Route (0x14 bytes), not Ipv4Iface (0x1C): the last 8 bytes of each entry are not cleared. */

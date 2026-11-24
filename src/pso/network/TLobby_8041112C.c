@@ -44,7 +44,7 @@ s32 NetIPv6ShutdownRouting(void) {
     return 0;
 }
 
-s32 NetIPv6InitRouting(void) {
+s16 NetIPv6InitRouting(void) {
     init_udp_socket_config(&ipv6_address_routing_state);
     NetMemset(ipv6_address_routing_state.routes, 0, ipv6_address_routing_state.route_count * sizeof(Ipv6Route));
     /* Clears count * sizeof(Ipv6Route) bytes of the interface table, not count * sizeof(Ipv6Iface). */

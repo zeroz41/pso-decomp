@@ -39,7 +39,7 @@ s32 NetIPv6Shutdown(void) {
 }
 
 s32 ipv6_input(u8 *ip, int len, s16 id);
-s32 NetIPv6Init(void) {
+s16 NetIPv6Init(void) {
     s16 i;
     Ipv6RawSocket *e;
     Ipv6ProtocolState *g = &ipv6_protocol_state;

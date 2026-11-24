@@ -43,10 +43,6 @@ typedef struct IpAddr_80422B8C { u32 family; u8 a[0xC]; } IpAddr_80422B8C;
 
 
 
-s32 NetIPv6ShutdownRouting(void);
-void NetIPv6ShutdownNeighborDiscovery(void);
-s32 fragment_term(void);
-s32 tcp_term(void);
 void deliver_to_receive_callback(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *pkt);
 s32 route4_del(saddr dst, saddr mask, saddr gateway);
 s32 NetIPv4AddRoute(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
@@ -60,15 +56,6 @@ s32 tcp_stat(s32 a, s16 *b, s16 *c, u32 *d, u32 *e);
 s16 tcp_get_socket_handle(int);
 s32 abort_tcp_connection(int);
 void OSReport(const char *, ...);
-s16 reset_socket_table();
-s16 handler_table_init();
-s16 init_ipv4_interfaces();
-s16 init_ipv4_routing();
-s16 NetIPv6Init();
-s16 NetIPv6InitRouting();
-s16 NetIPv6InitNeighborDiscovery();
-s16 init_packet_fragment_pools();
-s16 NetTCPInit();
 /* inferred: the avetcp.a version strings (names from their contents); avetcp_init checks the banner's
    leading '\n' through avetcp_version_banner_ptr */
 const u8 avetcp_version_banner[] =
@@ -118,7 +105,6 @@ s32 avetcp_term(void) {
 
 /* Brings up the network stack subsystems in order, stopping at the first failure (result < 0). */
 s16 avetcp_init(void) {
-    s16 init_ucb_entries(void);
     s16 result;
     if ((s32) *avetcp_version_banner_ptr != 0xA) {
         return -1;

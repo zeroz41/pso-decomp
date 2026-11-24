@@ -7,7 +7,6 @@
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 
-s32 init_packet_fragment_pools(void);
 
 
 NetFragPacket *fragment_alloc_packet(NetworkAddress *src, s32 ident, u8 ttl);
@@ -29,7 +28,7 @@ s32 fragment_term(void) {
     return 0;
 }
 
-s32 init_packet_fragment_pools(void) {
+s16 init_packet_fragment_pools(void) {
     s16 i;
     NetFragPacket *a;
     NetFragment *b;

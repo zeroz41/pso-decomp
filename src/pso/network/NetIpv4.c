@@ -19,7 +19,6 @@
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
 u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, NetPacket *pkt, s16 flag);
-s32 init_ipv4_interfaces(void);
 
 #include <stddef.h>
 
@@ -42,7 +41,7 @@ s32 ipv4_term(void) {
 }
 
 s16 ipv4_input(u8 *ip, s16 len, s16 iface);
-s32 init_ipv4_interfaces(void) {
+s16 init_ipv4_interfaces(void) {
     s16 i;
     Ipv4RawSocket *e;
     Ipv4ProtocolState *g = &ipv4_protocol_state;

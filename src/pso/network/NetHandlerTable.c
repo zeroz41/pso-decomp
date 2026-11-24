@@ -48,7 +48,6 @@ extern LobbyHandlerTable lobby_handler_table_desc; /* defined at the end of the 
 #include "pso/network/NetStackTypes.h"
 
 s16 insert_link_handler(NetLinkDriverFn *fns, s16 kind);
-s32 handler_table_init(void);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -143,7 +142,7 @@ s32 handler_table_term(void) {
     return 0;
 }
 
-s32 handler_table_init(void) {
+s16 handler_table_init(void) {
     s16 i;
     LobbyHandler *e;
     init_handler_table_config(&lobby_handler_table_desc);

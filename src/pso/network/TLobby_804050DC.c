@@ -19,7 +19,6 @@
 #include "pso/network/PppBuffer.h"
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
-s32 reset_socket_table(void);
 void run_net_thread_loop(void);
 void ppp_input_packet(PppFrame *frame);
 
@@ -992,7 +991,7 @@ s32 shutdown_network_handle(void) {
 
 #pragma push
 #pragma optimization_level 3
-s32 reset_socket_table(void) {
+s16 reset_socket_table(void) {
     s16 n;
     s16 i;
     NetPacket *p;
