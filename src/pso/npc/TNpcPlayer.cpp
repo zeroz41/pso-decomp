@@ -1194,37 +1194,37 @@ TPlyCharData *load_npc_player_template(s32 index) {
 
 TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, TObject *parent) : TObject(parent) {
     m_name = TNpcPlayer::name;
-    m_24 = 0x19;
-    m_1c = 0;
+    chatter_id = 0x19;
+    in_combat = 0;
     m_20 = 0;
-    m_ac.x = 0.0f;
-    m_ac.y = 0.0f;
-    m_ac.z = 0.0f;
-    m_d0.x = 0.0f;
-    m_d0.y = 0.0f;
-    m_d0.z = 0.0f;
-    m_dc.x = 0.0f;
-    m_dc.y = 0.0f;
-    m_dc.z = 0.0f;
+    move_target.x = 0.0f;
+    move_target.y = 0.0f;
+    move_target.z = 0.0f;
+    steer_point.x = 0.0f;
+    steer_point.y = 0.0f;
+    steer_point.z = 0.0f;
+    goal.x = 0.0f;
+    goal.y = 0.0f;
+    goal.z = 0.0f;
     m_c4 = 0;
     m_c8 = 0;
     m_cc = 0;
-    m_2c = kind;
-    m_80 = 0;
-    m_7c = 0;
-    m_88 = 0.0f;
-    m_58 = 0.0f;
-    m_8c = 0;
-    m_8e = 0;
-    m_8d = 0;
-    m_74 = new Unk_8014F844(a);
-    m_78 = new Unk_8014F844(b);
-    ai_params.copy(&npc_player_ai_templates[m_2c]);
-    if (m_78 != 0 && m_78->m_94 != 0) {
-        VecCopy(&m_dc, &m_78->m_94->position);
+    template_index = kind;
+    ai_flags = 0;
+    ai_state = 0;
+    escort_distance_sq = 0.0f;
+    leader_distance_sq = 0.0f;
+    stuck_frames = 0;
+    attack_delay = 0;
+    still_frames = 0;
+    leader_view = new Unk_8014F844(a);
+    self_view = new Unk_8014F844(b);
+    ai_params.copy(&npc_player_ai_templates[template_index]);
+    if (self_view != 0 && self_view->player != 0) {
+        VecCopy(&goal, &self_view->player->position);
         init_equipment();
     }
-    m_84 = 0;
+    escort_leader = 0;
 }
 
 void TNpcPlayer::AiParams::copy(AiParams *src) {
@@ -1246,77 +1246,77 @@ void TNpcPlayer::AiParams::copy(AiParams *src) {
 
 TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, s32 arg4, TObject *parent) : TObject(parent) {
     m_name = TNpcPlayer::name;
-    m_24 = 0x19;
-    m_1c = 0;
+    chatter_id = 0x19;
+    in_combat = 0;
     m_20 = 0;
-    m_ac.x = 0.0f;
-    m_ac.y = 0.0f;
-    m_ac.z = 0.0f;
-    m_d0.x = 0.0f;
-    m_d0.y = 0.0f;
-    m_d0.z = 0.0f;
-    m_dc.x = 0.0f;
-    m_dc.y = 0.0f;
-    m_dc.z = 0.0f;
+    move_target.x = 0.0f;
+    move_target.y = 0.0f;
+    move_target.z = 0.0f;
+    steer_point.x = 0.0f;
+    steer_point.y = 0.0f;
+    steer_point.z = 0.0f;
+    goal.x = 0.0f;
+    goal.y = 0.0f;
+    goal.z = 0.0f;
     m_c4 = 0;
     m_c8 = 0;
     m_cc = 0;
-    m_2c = kind;
-    m_80 = 0;
-    m_7c = 0;
-    m_88 = 0.0f;
-    m_58 = 0.0f;
-    m_8c = 0;
-    m_8e = 0;
-    m_8d = 0;
-    m_74 = new Unk_8014F844(a);
-    m_78 = new Unk_8014F844(b);
-    ai_params.copy(&npc_player_ai_templates[m_2c]);
-    if (m_78 != 0 && m_78->m_94 != 0) {
-        VecCopy(&m_dc, &m_78->m_94->position);
+    template_index = kind;
+    ai_flags = 0;
+    ai_state = 0;
+    escort_distance_sq = 0.0f;
+    leader_distance_sq = 0.0f;
+    stuck_frames = 0;
+    attack_delay = 0;
+    still_frames = 0;
+    leader_view = new Unk_8014F844(a);
+    self_view = new Unk_8014F844(b);
+    ai_params.copy(&npc_player_ai_templates[template_index]);
+    if (self_view != 0 && self_view->player != 0) {
+        VecCopy(&goal, &self_view->player->position);
         init_equipment();
     }
-    m_84 = arg4;
+    escort_leader = arg4;
 }
 
 TNpcPlayer::~TNpcPlayer() {
     uaddr player;
     Unk_8014F844 *view;
     Unk_8014F844 *partner;
-    view = m_74;
+    view = leader_view;
     if (view != NULL) {
         ((TNpcPlayer *)view)->dt(1);
-        m_74 = NULL;
+        leader_view = NULL;
     }
-    partner = m_78;
+    partner = self_view;
     if (partner != NULL) {
         player = (uaddr)get_player_by_client_id(get_npc_type__10TNpcPlayerFPv(partner));
         if (player != 0U) {
             TObjPlayer::send_item_pickup_request((saddr)player);
         }
-        ((TNpcPlayer *)m_78)->dt(1);
-        m_78 = NULL;
+        ((TNpcPlayer *)self_view)->dt(1);
+        self_view = NULL;
     }
 }
 
 void TNpcPlayer::run_task() {
     Unk_8014F844 *owner;
-    owner = m_74;
-    if (owner == NULL || m_78 == NULL) {
+    owner = leader_view;
+    if (owner == NULL || self_view == NULL) {
         return;
     }
     if (refresh_npc_view_actor_lost(owner) != 0) {
         queue_destruction();
         return;
     }
-    if (refresh_npc_view_actor_lost(m_78) != 0) {
+    if (refresh_npc_view_actor_lost(self_view) != 0) {
         queue_destruction();
         return;
     }
-    if ((m_78->m_94->is_inactive() != 0) && ((m_78->m_94 == NULL) || (((TObjPlayer *)m_78->m_94)->get_npc_controller() != 0xFFFF))) {
+    if ((self_view->player->is_inactive() != 0) && ((self_view->player == NULL) || (((TObjPlayer *)self_view->player)->get_npc_controller() != 0xFFFF))) {
         init_state();
-        if (!(m_74->m_94->actorFlags & 0x800)) {
-            if (m_78->m_94->actorFlags & 0x800) {
+        if (!(leader_view->player->actorFlags & 0x800)) {
+            if (self_view->player->actorFlags & 0x800) {
                 if (((s32 (*)(void *, int, int))clamp_partner_counter)(partner_counters.count, 3, 0x400) != 0) {
                     request_chatter(5);
                 } else if (((s32 (*)(void *, int, int))is_partner_counter_reached)(partner_counters.count, 3, 0) != 0) {
@@ -1349,23 +1349,23 @@ void TNpcPlayer::decide_action() {
         change_ai_state(1);
         return;
     }
-    switch (m_1c) {
+    switch (in_combat) {
     case 0:
-        if (((TNpcPlayer *)m_78)->get_action_state() & 2) {
-            m_1c = 1;
+        if (((TNpcPlayer *)self_view)->get_action_state() & 2) {
+            in_combat = 1;
             change_ai_state(0);
             return;
         }
-        m_80 = m_80 & 0xFFFFFEFF;
+        ai_flags = ai_flags & 0xFFFFFEFF;
         if (select_recovery_action(1) != 0) {
-            temp_r3 = m_80;
+            temp_r3 = ai_flags;
             if (temp_r3 & 0x200) {
                 request_chatter(0x13);
                 change_ai_state(8);
                 return;
             }
-            m_80 = temp_r3 & 0xFFFFFDFF;
-            if (((f32 (*)(void *, void *))horizontal_distance_squared)(&m_dc, &m_78->m_94->position) < 900.0f) {
+            ai_flags = temp_r3 & 0xFFFFFDFF;
+            if (((f32 (*)(void *, void *))horizontal_distance_squared)(&goal, &self_view->player->position) < 900.0f) {
                 change_ai_state(8);
                 return;
             }
@@ -1375,37 +1375,37 @@ void TNpcPlayer::decide_action() {
         }
         calc_follow_goal();
         change_ai_state(1);
-        m_8e = 0;
+        attack_delay = 0;
         return;
     case 1:
         var_f31 = 1.0f;
-        if (m_80 & 0x8000) {
+        if (ai_flags & 0x8000) {
             var_f31 = 2.0f;
         }
-        if ((m_78->m_94->can_perform_physical_action() != 0) && (m_8e == 0)) {
+        if ((self_view->player->can_perform_physical_action() != 0) && (attack_delay == 0)) {
             temp_f1 = fabs_float(10.0f * (3.0517578125e-05f * (f32) rand()));
             temp_f0 = 0.1f * (f32) ai_params.attack_probability;
             temp_f0 *= var_f31;
             if (temp_f1 < temp_f0) {
-                m_8e = 0;
+                attack_delay = 0;
             } else {
-                m_8e = (s16) (10.0f * (temp_f1 - temp_f0));
+                attack_delay = (s16) (10.0f * (temp_f1 - temp_f0));
             }
         }
-        m_8e = (s16) (m_8e - 1);
-        if (m_8e < 0) {
-            m_8e = 0;
+        attack_delay = (s16) (attack_delay - 1);
+        if (attack_delay < 0) {
+            attack_delay = 0;
         }
-        if ((check_return_to_leader() != 0) && (m_84 == 0)) {
+        if ((check_return_to_leader() != 0) && (escort_leader == 0)) {
             if (select_recovery_action(0) != 0) {
                 request_chatter(0x13);
                 change_ai_state(8);
-                m_80 = m_80 & 0xFFFFFF7F;
+                ai_flags = ai_flags & 0xFFFFFF7F;
             } else {
-                temp_r3_2 = m_80;
+                temp_r3_2 = ai_flags;
                 if (temp_r3_2 & 0x80) {
-                    m_80 = temp_r3_2 & 0xFFFFFF7F;
-                    if (m_8e == 0) {
+                    ai_flags = temp_r3_2 & 0xFFFFFF7F;
+                    if (attack_delay == 0) {
                         change_ai_state(2);
                     }
                 } else {
@@ -1415,21 +1415,21 @@ void TNpcPlayer::decide_action() {
             }
         } else if (select_recovery_action(1) != 0) {
             ((s32 (*)(void *, int))reset_partner_counter)((void *) (partner_counters.count), 8);
-            temp_r3_3 = m_80;
+            temp_r3_3 = ai_flags;
             if (temp_r3_3 & 0x200) {
                 request_chatter(0x13);
                 change_ai_state(8);
             } else if (temp_r3_3 & 0x80) {
-                m_80 = temp_r3_3 & ~0x280;
-                if (m_8e == 0) {
+                ai_flags = temp_r3_3 & ~0x280;
+                if (attack_delay == 0) {
                     change_ai_state(2);
                 }
             } else {
-                m_80 = temp_r3_3 & 0xFFFFFDFF;
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&m_dc, &m_78->m_94->position) < 900.0f) {
+                ai_flags = temp_r3_3 & 0xFFFFFDFF;
+                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&goal, &self_view->player->position) < 900.0f) {
                     change_ai_state(8);
-                } else if (m_84 != 0) {
-                    if (m_8e == 0) {
+                } else if (escort_leader != 0) {
+                    if (attack_delay == 0) {
                         change_ai_state(2);
                     }
                 } else {
@@ -1437,24 +1437,24 @@ void TNpcPlayer::decide_action() {
                     change_ai_state(1);
                 }
             }
-        } else if ((choose_attack_target() != 0) && (m_8e == 0)) {
-            if (m_80 & 0x1000) {
+        } else if ((choose_attack_target() != 0) && (attack_delay == 0)) {
+            if (ai_flags & 0x1000) {
                 change_ai_state(2);
-                m_80 = m_80 & 0xFFFFEFFF;
+                ai_flags = ai_flags & 0xFFFFEFFF;
             } else {
                 change_ai_state(1);
             }
-            m_80 = m_80 & 0xFFFFEFFF;
+            ai_flags = ai_flags & 0xFFFFEFFF;
         } else {
-            if (m_84 != 0) {
+            if (escort_leader != 0) {
                 calc_follow_goal();
             } else {
-                VecCopy(&m_dc, &m_78->m_94->position);
+                VecCopy(&goal, &self_view->player->position);
             }
             change_ai_state(1);
         }
-        if (!(((TNpcPlayer *)m_78)->get_action_state() & 2)) {
-            m_1c = 0;
+        if (!(((TNpcPlayer *)self_view)->get_action_state() & 2)) {
+            in_combat = 0;
         }
         return;
     }
@@ -1464,16 +1464,16 @@ s32 TNpcPlayer::update_follow_target() {
     if (((s32 (*)())needs_movement__10TNpcPlayerFPvPvi)() != 0) {
         ((s32 (*)(void *))select_path_waypoint__10TNpcPlayerFv)(this);
         if (check_movement_progress() != 0) {
-            VecCopy(&m_ac, &m_d0);
-            if ((u32) m_7c != 2U) {
+            VecCopy(&move_target, &steer_point);
+            if ((u32) ai_state != 2U) {
                 change_ai_state(1);
             }
         } else {
-            VecCopy(&m_ac, &m_78->m_94->position);
+            VecCopy(&move_target, &self_view->player->position);
         }
         return 1;
     }
-    if ((m_80 & 0x20) && ((u32) m_7c != 8U)) {
+    if ((ai_flags & 0x20) && ((u32) ai_state != 8U)) {
         change_ai_state(0);
     }
     return 0;
@@ -1484,36 +1484,36 @@ s32 TNpcPlayer::check_return_to_leader() {
     u8 *o;
     f32 r2;
 
-    t = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(m_78);
+    t = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(self_view);
     r2 = ai_params.enemy_unlock_range * ai_params.enemy_unlock_range;
-    if (((TNpcPlayer *)m_74)->get_action_state() & 2) {
-        m_80 &= ~0x100;
+    if (((TNpcPlayer *)leader_view)->get_action_state() & 2) {
+        ai_flags &= ~0x100;
         return 0;
     }
-    if (((TNpcPlayer *)m_78)->get_condition() & 8) {
-        m_80 |= 0x100;
+    if (((TNpcPlayer *)self_view)->get_condition() & 8) {
+        ai_flags |= 0x100;
         return 1;
     }
-    if (m_58 >= r2) {
-        m_80 |= 0x100;
+    if (leader_distance_sq >= r2) {
+        ai_flags |= 0x100;
         if (t->target_count != 0) {
             ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 5);
             if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 5, 3) != 0) {
                 o = (u8 *)find_active_entity_by_id(t->targets[0].entity_id);
-                m_80 &= ~0x8000;
+                ai_flags &= ~0x8000;
                 if (o != 0) {
-                    if (((f32 (*)(void *, void *))horizontal_distance_squared)(o + 0x38, &m_78->m_94->position) < ai_params.block_range * ai_params.block_range) {
-                        m_80 |= 0x8080;
+                    if (((f32 (*)(void *, void *))horizontal_distance_squared)(o + 0x38, &self_view->player->position) < ai_params.block_range * ai_params.block_range) {
+                        ai_flags |= 0x8080;
                     }
                 }
             }
         }
         return 1;
     }
-    if (m_80 & 0x100) {
+    if (ai_flags & 0x100) {
         return 1;
     }
-    m_80 &= ~0x100;
+    ai_flags &= ~0x100;
     return 0;
 }
 
@@ -1521,37 +1521,37 @@ s32 TNpcPlayer::choose_attack_target() {
     s32 i;
     Unk_8014F844 *view;
     TObjBase *tgt;
-    view = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(m_78);
+    view = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(self_view);
     if (view->target_count >= 3) {
-        m_80 |= 0x2000;
+        ai_flags |= 0x2000;
         ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 6);
         if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 6, 100) != 0) {
-            if (((TNpcPlayer *)m_78)->get_condition() & 8) {
+            if (((TNpcPlayer *)self_view)->get_condition() & 8) {
                 request_chatter(1);
             } else {
                 request_chatter(0);
             }
         }
     } else {
-        m_80 &= ~0x2000;
+        ai_flags &= ~0x2000;
     }
     if (view->target_count != 0) {
         for (i = 0; i < view->target_count; i++) {
-            if (((s32 (*)(void *, u32))is_target_line_clear__10TNpcPlayerFPvUs)(m_78, view->targets[i].entity_id) != 0) {
+            if (((s32 (*)(void *, u32))is_target_line_clear__10TNpcPlayerFPvUs)(self_view, view->targets[i].entity_id) != 0) {
                 tgt = (TObjBase *)find_active_entity_by_id(view->targets[0].entity_id);
-                ((void (*)(void *, u32, s32))TNpcPlayer__sub_80152A34)(m_78, view->targets[i].entity_id, view->targets[i].collider);
-                m_dc.x = tgt->position.x;
-                m_dc.y = m_78->m_94->body_center.y;
-                m_dc.z = tgt->position.z;
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&m_dc, &m_78->m_94->position) < (10.0f + ai_params.attack_range) * (10.0f + ai_params.attack_range)) {
-                    m_80 |= 0x1000;
+                ((void (*)(void *, u32, s32))TNpcPlayer__sub_80152A34)(self_view, view->targets[i].entity_id, view->targets[i].collider);
+                goal.x = tgt->position.x;
+                goal.y = self_view->player->body_center.y;
+                goal.z = tgt->position.z;
+                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&goal, &self_view->player->position) < (10.0f + ai_params.attack_range) * (10.0f + ai_params.attack_range)) {
+                    ai_flags |= 0x1000;
                 }
-                m_80 &= ~0x40;
+                ai_flags &= ~0x40;
                 return 1;
             }
         }
         request_chatter(8);
-        m_80 |= 0x40;
+        ai_flags |= 0x40;
     }
     return 0;
 }
@@ -1564,30 +1564,30 @@ s32 TNpcPlayer::calc_follow_goal() {
     f32 z;
     f32 temp_f2;
     TObjPlayer *obj_player;
-    if (m_84 != 0) {
+    if (escort_leader != 0) {
         if (ai_params.technique_flags & 0x80) {
             temp_f0 = ai_params.unknown_24;
-            if (m_88 <= (temp_f0 * temp_f0)) {
-                obj_player = m_78->m_94;
-                dir.x = m_dc.x - obj_player->position.x;
-                temp_f2 = m_dc.z;
+            if (escort_distance_sq <= (temp_f0 * temp_f0)) {
+                obj_player = self_view->player;
+                dir.x = goal.x - obj_player->position.x;
+                temp_f2 = goal.z;
                 z = temp_f2 - obj_player->position.z;
                 dir.y = 0.0f;
                 dir.z = z;
                 if (0.0f != vector_length(&dir)) {
                     normalize_vector(&dir);
                 }
-                m_dc.x = -((ai_params.unknown_24 * dir.x) - m_dc.x);
-                m_dc.z = -((ai_params.unknown_24 * dir.z) - m_dc.z);
-                m_dc.y = m_78->m_94->body_center.y;
+                goal.x = -((ai_params.unknown_24 * dir.x) - goal.x);
+                goal.z = -((ai_params.unknown_24 * dir.z) - goal.z);
+                goal.y = self_view->player->body_center.y;
             } else {
-                VecCopy(&m_dc, &m_74->m_94->body_center);
+                VecCopy(&goal, &leader_view->player->body_center);
             }
         } else {
-            VecCopy(&m_dc, &m_74->m_94->body_center);
+            VecCopy(&goal, &leader_view->player->body_center);
         }
     } else {
-        VecCopy(&m_dc, &m_74->m_94->body_center);
+        VecCopy(&goal, &leader_view->player->body_center);
     }
     return 1;
 }
@@ -1598,48 +1598,48 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
     u8 flags = 0;
     Unk_8014F844 *tgt;
     TObjBase *ent;
-    if (((TNpcPlayer *)self->m_78)->get_action_state() & 4) {
+    if (((TNpcPlayer *)self->self_view)->get_action_state() & 4) {
         flags |= 1;
     }
-    if (arg1 != 0 && (((TNpcPlayer *)self->m_74)->get_action_state() & 4) && self->m_84 == 0) {
+    if (arg1 != 0 && (((TNpcPlayer *)self->leader_view)->get_action_state() & 4) && self->escort_leader == 0) {
         flags |= 2;
     }
-    tgt = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(self->m_78);
+    tgt = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(self->self_view);
     if (arg1 != 0 && tgt->target_count != 0 && (flags & 2)) {
         ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 5);
         if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 5, 0x1E) != 0) {
             ent = (TObjBase *)find_active_entity_by_id(tgt->targets[0].entity_id);
-            self->m_80 &= ~0x8000;
+            self->ai_flags &= ~0x8000;
             if (ent != NULL) {
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&ent->position, &self->m_78->m_94->position) < self->ai_params.block_range * self->ai_params.block_range) {
-                    VecCopy(&self->m_dc, &ent->position);
-                    self->m_80 |= 0x8080;
+                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&ent->position, &self->self_view->player->position) < self->ai_params.block_range * self->ai_params.block_range) {
+                    VecCopy(&self->goal, &ent->position);
+                    self->ai_flags |= 0x8080;
                     return 1;
                 }
             }
         }
     }
     if (flags == 3) {
-        self->m_80 |= 0x200;
-        if (((TNpcPlayer *)self->m_78)->get_condition() & 2) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(2, 1) != 0) {
-                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
-                    self->m_92 = 2;
+        self->ai_flags |= 0x200;
+        if (((TNpcPlayer *)self->self_view)->get_condition() & 2) {
+            if (((TNpcPlayer *)self->self_view)->try_attack(2, 1) != 0) {
+                if (((TNpcPlayer *)self->self_view)->get_condition() & 0x20) {
+                    self->recovery_action = 2;
                     return 1;
                 }
                 if (!(self->ai_params.technique_flags & 0x40)) {
-                    self->m_92 = 2;
+                    self->recovery_action = 2;
                     return 1;
                 }
             }
-        } else if (((TNpcPlayer *)self->m_78)->get_condition() & 8) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(0, 1) != 0) {
-                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
-                    self->m_92 = 0;
+        } else if (((TNpcPlayer *)self->self_view)->get_condition() & 8) {
+            if (((TNpcPlayer *)self->self_view)->try_attack(0, 1) != 0) {
+                if (((TNpcPlayer *)self->self_view)->get_condition() & 0x20) {
+                    self->recovery_action = 0;
                     return 1;
                 }
                 if (!(self->ai_params.technique_flags & 0x40)) {
-                    self->m_92 = 0;
+                    self->recovery_action = 0;
                     return 1;
                 }
             } else {
@@ -1649,9 +1649,9 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
                 ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 8);
                 ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 8, 0x5DC);
             }
-        } else if (((TNpcPlayer *)self->m_78)->get_condition() & 0x10) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(1, 1) != 0) {
-                self->m_92 = 1;
+        } else if (((TNpcPlayer *)self->self_view)->get_condition() & 0x10) {
+            if (((TNpcPlayer *)self->self_view)->try_attack(1, 1) != 0) {
+                self->recovery_action = 1;
                 return 1;
             }
         } else {
@@ -1659,56 +1659,56 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
         }
     }
     if (flags == 2) {
-        if (((TNpcPlayer *)self->m_78)->get_action_state() & 2) {
+        if (((TNpcPlayer *)self->self_view)->get_action_state() & 2) {
             return 0;
         }
-        VecCopy(&self->m_dc, &self->m_74->m_94->body_center);
-        self->m_80 |= 0x20;
-        if (((TNpcPlayer *)self->m_74)->get_condition() & 2) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(2, 0) != 0) {
-                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
-                    self->m_92 = 2;
+        VecCopy(&self->goal, &self->leader_view->player->body_center);
+        self->ai_flags |= 0x20;
+        if (((TNpcPlayer *)self->leader_view)->get_condition() & 2) {
+            if (((TNpcPlayer *)self->self_view)->try_attack(2, 0) != 0) {
+                if (((TNpcPlayer *)self->self_view)->get_condition() & 0x20) {
+                    self->recovery_action = 2;
                     return 1;
                 }
                 if (!(self->ai_params.technique_flags & 0x40)) {
-                    self->m_92 = 2;
+                    self->recovery_action = 2;
                     return 1;
                 }
             }
-        } else if (((TNpcPlayer *)self->m_74)->get_condition() & 0x800) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(0, 0) != 0) {
-                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
-                    self->m_92 = 0;
+        } else if (((TNpcPlayer *)self->leader_view)->get_condition() & 0x800) {
+            if (((TNpcPlayer *)self->self_view)->try_attack(0, 0) != 0) {
+                if (((TNpcPlayer *)self->self_view)->get_condition() & 0x20) {
+                    self->recovery_action = 0;
                     return 1;
                 }
                 if (!(self->ai_params.technique_flags & 0x40)) {
-                    self->m_92 = 0;
+                    self->recovery_action = 0;
                     return 1;
                 }
             }
         }
     }
     if (flags == 1) {
-        self->m_80 |= 0x200;
-        if (((TNpcPlayer *)self->m_78)->get_condition() & 2) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(2, 1) != 0) {
-                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
-                    self->m_92 = 2;
+        self->ai_flags |= 0x200;
+        if (((TNpcPlayer *)self->self_view)->get_condition() & 2) {
+            if (((TNpcPlayer *)self->self_view)->try_attack(2, 1) != 0) {
+                if (((TNpcPlayer *)self->self_view)->get_condition() & 0x20) {
+                    self->recovery_action = 2;
                     return 1;
                 }
                 if (!(self->ai_params.technique_flags & 0x40)) {
-                    self->m_92 = 2;
+                    self->recovery_action = 2;
                     return 1;
                 }
             }
-        } else if (((TNpcPlayer *)self->m_78)->get_condition() & 8) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(0, 1) != 0) {
-                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
-                    self->m_92 = 0;
+        } else if (((TNpcPlayer *)self->self_view)->get_condition() & 8) {
+            if (((TNpcPlayer *)self->self_view)->try_attack(0, 1) != 0) {
+                if (((TNpcPlayer *)self->self_view)->get_condition() & 0x20) {
+                    self->recovery_action = 0;
                     return 1;
                 }
                 if (!(self->ai_params.technique_flags & 0x40)) {
-                    self->m_92 = 0;
+                    self->recovery_action = 0;
                     return 1;
                 }
             } else {
@@ -1718,9 +1718,9 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
                 ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 8);
                 ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 8, 0x5DC);
             }
-        } else if (((TNpcPlayer *)self->m_78)->get_condition() & 0x10) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(1, 1) != 0) {
-                self->m_92 = 1;
+        } else if (((TNpcPlayer *)self->self_view)->get_condition() & 0x10) {
+            if (((TNpcPlayer *)self->self_view)->try_attack(1, 1) != 0) {
+                self->recovery_action = 1;
                 return 1;
             }
         }
@@ -1734,19 +1734,19 @@ void TNpcPlayer::deliver_partner_action() {
     Vec d;
     f32 len;
 
-    if ((m_80 & 4) && !(partner_chatter_flags & 2)) {
+    if ((ai_flags & 4) && !(partner_chatter_flags & 2)) {
         deliver_partner_chatter(this);
     }
-    if (m_78->m_94->test_action_mask(2) == 0) {
+    if (self_view->player->test_action_mask(2) == 0) {
         return;
     }
-    switch (m_7c) {
+    switch (ai_state) {
     case 0:
-        VecCopy(&m_ac, VecCopy(&m_d0, &m_dc));
+        VecCopy(&move_target, VecCopy(&steer_point, &goal));
         increment_partner_counter((saddr)partner_counters.count, 4);
         if ((s16)get_partner_counter((saddr)partner_counters.count, 4) == 5401) {
-            m_80 &= ~4;
-            m_24 = 25;
+            ai_flags &= ~4;
+            chatter_id = 25;
             set_partner_counter((saddr)partner_counters.count, 4, 0);
         }
         if (clamp_partner_counter((saddr)partner_counters.count, 4, 5400) != 0) {
@@ -1754,23 +1754,23 @@ void TNpcPlayer::deliver_partner_action() {
         }
         break;
     case 1:
-        d.x = m_ac.x - m_78->m_94->position.x;
+        d.x = move_target.x - self_view->player->position.x;
         d.y = 0.0f;
-        d.z = m_ac.z - m_78->m_94->position.z;
+        d.z = move_target.z - self_view->player->position.z;
         len = vector_length(&d);
         if (len <= 1.0f) {
             return;
         }
-        if (m_78->m_94->actorFlags & 0x100000) {
+        if (self_view->player->actorFlags & 0x100000) {
             send_walk_request();
         } else if (len <= ai_params.max_distance_from_player) {
-            if (!(m_80 & 8)) {
+            if (!(ai_flags & 8)) {
                 send_walk_request();
             } else {
                 send_run_request();
             }
         } else {
-            m_80 |= 8;
+            ai_flags |= 8;
             send_run_request();
         }
         break;
@@ -1780,18 +1780,18 @@ void TNpcPlayer::deliver_partner_action() {
     case 4:
         break;
     case 8:
-        dispatch_action(m_92);
+        dispatch_action(recovery_action);
         break;
     }
-    if (m_7c != 2) {
+    if (ai_state != 2) {
         reset_partner_counter((saddr)partner_counters.count, 1);
         reset_partner_counter((saddr)partner_counters.count, 5);
-        m_80 &= ~0x8000;
+        ai_flags &= ~0x8000;
     }
-    if (m_7c != 1) {
-        m_80 &= ~8;
+    if (ai_state != 1) {
+        ai_flags &= ~8;
     }
-    if (m_7c != 0) {
+    if (ai_state != 0) {
         reset_partner_counter((saddr)partner_counters.count, 4);
     }
 }
@@ -1800,12 +1800,12 @@ void TNpcPlayer::deliver_partner_action() {
 void TNpcPlayer::send_walk_request() {
     Msg_80150E44 m;
     init_6x40_walk_packet(&m);
-    if (m_78 != 0) {
-        m.type = get_npc_type__10TNpcPlayerFPv(m_78);
-        m.x = m_ac.x;
-        m.z = m_ac.z;
+    if (self_view != 0) {
+        m.type = get_npc_type__10TNpcPlayerFPv(self_view);
+        m.x = move_target.x;
+        m.z = move_target.z;
         m.flags = 0;
-        if (m_78->m_94->actorFlags & 0x100000) {
+        if (self_view->player->actorFlags & 0x100000) {
             m.flags |= 8;
         }
         ((TNpcPlayer *)(&m))->sync_from_lobby();
@@ -1815,10 +1815,10 @@ void TNpcPlayer::send_walk_request() {
 void TNpcPlayer::send_run_request() {
     Msg_80150DE8 m;
     ((TNpcPlayer *)(&m))->reset_move_state();
-    if (m_78 != 0) {
-        m.type = get_npc_type__10TNpcPlayerFPv(m_78);
-        m.x = m_ac.x;
-        m.z = m_ac.z;
+    if (self_view != 0) {
+        m.type = get_npc_type__10TNpcPlayerFPv(self_view);
+        m.x = move_target.x;
+        m.z = move_target.z;
         ((TNpcPlayer *)(&m))->reset_model();
     }
 }
@@ -1832,13 +1832,13 @@ void TNpcPlayer::update_combat_action() {
     f32 diff;
     f32 mx;
 
-    if (((u32 (*)(void *))TNpcPlayer__sub_80152978)(m_78) == 0xFFFF) {
+    if (((u32 (*)(void *))TNpcPlayer__sub_80152978)(self_view) == 0xFFFF) {
         return;
     }
-    if (m_78->m_94->can_perform_physical_action() == 0) {
+    if (self_view->player->can_perform_physical_action() == 0) {
         return;
     }
-    if (!(ai_params.technique_flags & 0x40) && !(((TNpcPlayer *)m_78)->get_condition() & 0x10)) {
+    if (!(ai_params.technique_flags & 0x40) && !(((TNpcPlayer *)self_view)->get_condition() & 0x10)) {
         fl = ai_params.technique_flags;
         if (fl & 4) {
             tier = 0;
@@ -1849,7 +1849,7 @@ void TNpcPlayer::update_combat_action() {
         } else {
             tier = 0;
         }
-        if ((m_80 & 0x2000) && (((TNpcPlayer *)m_78)->get_condition() & 0x1000)) {
+        if ((ai_flags & 0x2000) && (((TNpcPlayer *)self_view)->get_condition() & 0x1000)) {
             alt = 1;
         } else {
             alt = 0;
@@ -1863,13 +1863,13 @@ void TNpcPlayer::update_combat_action() {
         }
         id = npc_player_combat_action_table[tier][alt];
         tec = calc_technique_parameters(id, *(s8 *)&ai_params.attack_technique_level, 0xFFFF);
-        diff = (f32)(get_actor_tp((u8 *)m_78->m_94) - tec->f10);
-        mx = (f32)obj_getS16_2BA((u8 *)m_78->m_94);
+        diff = (f32)(get_actor_tp((u8 *)self_view->player) - tec->f10);
+        mx = (f32)obj_getS16_2BA((u8 *)self_view->player);
         if (diff / mx <= 0.2f && 0.0f != mx) {
             request_chatter(3);
         }
-        m_80 &= ~0x2000;
-        if (TObjPlayer::try_camera_action((saddr)m_78->m_94, (s32)id) != 0) {
+        ai_flags &= ~0x2000;
+        if (TObjPlayer::try_camera_action((saddr)self_view->player, (s32)id) != 0) {
             TNpcPlayer__sub_8014DC3C(this, id);
             return;
         }
@@ -1881,7 +1881,7 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
     G_CastTechnique_6x47 cmd;
     u8 *actor;
 
-    actor = (u8 *)m_78->m_94;
+    actor = (u8 *)self_view->player;
     if (kind == 15 || kind == 16) {
         request_chatter(0x16);
     } else if (kind == 0 || kind == 3 || kind == 6) {
@@ -1890,41 +1890,41 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
         request_chatter(2);
     }
     if (TObjPlayer::try_camera_action((saddr)actor, (s32)kind) != 0) {
-        cmd.header.client_id = get_npc_type__10TNpcPlayerFPv(m_78);
+        cmd.header.client_id = get_npc_type__10TNpcPlayerFPv(self_view);
         cmd.params.technique_number = kind;
         cmd.params.target_count = 1;
         if (kind == 15 || kind == 16) {
             if (kind == 15) {
-                m_80 |= 0x10000;
+                ai_flags |= 0x10000;
             }
             cmd.params.level = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, ((s32 (*)(void *))get_npc_type__10TNpcPlayerFPv)(m_74));
+            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, ((s32 (*)(void *))get_npc_type__10TNpcPlayerFPv)(leader_view));
             set_state__10TNpcPlayerFPvs(cmd.targets, 0);
         } else {
             cmd.params.level = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, ((TNpcPlayer *)m_78)->get_npc_state());
-            set_state__10TNpcPlayerFPvs(cmd.targets, TNpcPlayer__sub_801528DC(m_78));
+            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, ((TNpcPlayer *)self_view)->get_npc_state());
+            set_state__10TNpcPlayerFPvs(cmd.targets, TNpcPlayer__sub_801528DC(self_view));
         }
         ((TNpcPlayer *)(&cmd))->finalize_and_send_packet();
     }
 }
 
 void TNpcPlayer::init_state() {
-    ((TNpcPlayer *)m_74)->reset_fields_8c();
-    ((TNpcPlayer *)m_78)->reset_fields_8c();
-    switch (m_28) {
+    ((TNpcPlayer *)leader_view)->reset_fields_8c();
+    ((TNpcPlayer *)self_view)->reset_fields_8c();
+    switch (init_step) {
     case 0:
         init_follow_target();
-        m_28 = 1;
+        init_step = 1;
     case 1:
         return;
     }
 }
 
 void TNpcPlayer::update_condition_flags() {
-    ((s32 (*)(s32))partner_view_check_moved)((saddr)m_74);
-    ((s32 (*)(s32))partner_view_update_conditions)((saddr)m_74);
-    if (((TNpcPlayer *)m_74)->get_condition() & 2) {
+    ((s32 (*)(s32))partner_view_check_moved)((saddr)leader_view);
+    ((s32 (*)(s32))partner_view_update_conditions)((saddr)leader_view);
+    if (((TNpcPlayer *)leader_view)->get_condition() & 2) {
         if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 0xA) == 0) {
             request_chatter(9);
         }
@@ -1932,8 +1932,8 @@ void TNpcPlayer::update_condition_flags() {
     } else {
         ((s32 (*)(void *, s32))reset_partner_counter)(partner_counters.count, 0xA);
     }
-    if (((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)m_74, 30.0f) != 0) {
-        if (((TNpcPlayer *)m_74)->get_condition() & 8) {
+    if (((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)leader_view, 30.0f) != 0) {
+        if (((TNpcPlayer *)leader_view)->get_condition() & 8) {
             if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 9) == 0) {
                 request_chatter(0xC);
             }
@@ -1953,28 +1953,28 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
     TObjPlayer *obj_player;
     TObjPlayer *temp_r3;
     Unk_8014F844 *temp_r3_3;
-    obj_player = npc_player->m_74->m_94;
-    npc_player->m_58 = horizontal_distance_squared(&obj_player->position, &npc_player->m_78->m_94->position);
-    if (npc_player->m_84 != 0) {
-        ((s32 (*)(void *, s32, f32))try_update_target_flag__10TNpcPlayerFPvi)(npc_player->m_78, get_npc_type__10TNpcPlayerFPv(npc_player->m_74), npc_player->ai_params.enemy_lock_on_range);
+    obj_player = npc_player->leader_view->player;
+    npc_player->leader_distance_sq = horizontal_distance_squared(&obj_player->position, &npc_player->self_view->player->position);
+    if (npc_player->escort_leader != 0) {
+        ((s32 (*)(void *, s32, f32))try_update_target_flag__10TNpcPlayerFPvi)(npc_player->self_view, get_npc_type__10TNpcPlayerFPv(npc_player->leader_view), npc_player->ai_params.enemy_lock_on_range);
     } else {
-        ((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)npc_player->m_78, npc_player->ai_params.enemy_lock_on_range);
+        ((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)npc_player->self_view, npc_player->ai_params.enemy_lock_on_range);
     }
-    ((s32 (*)(s32))partner_view_update_conditions)((saddr)npc_player->m_78);
-    x = npc_player->m_dc.x;
-    temp_r3 = npc_player->m_78->m_94;
-    npc_player->m_78->m_98 = (s32)(10430.38043493439 * atan2_float(x - temp_r3->position.x, npc_player->m_dc.z - temp_r3->position.z));
-    ((s32 (*)(void *))partner_probe_obstacles)(npc_player->m_78);
-    if (partner_view_update_hp_change(npc_player->m_78) != 0) {
-        if (((TNpcPlayer *)npc_player->m_78)->get_condition() & 0x40) {
+    ((s32 (*)(s32))partner_view_update_conditions)((saddr)npc_player->self_view);
+    x = npc_player->goal.x;
+    temp_r3 = npc_player->self_view->player;
+    npc_player->self_view->goal_angle = (s32)(10430.38043493439 * atan2_float(x - temp_r3->position.x, npc_player->goal.z - temp_r3->position.z));
+    ((s32 (*)(void *))partner_probe_obstacles)(npc_player->self_view);
+    if (partner_view_update_hp_change(npc_player->self_view) != 0) {
+        if (((TNpcPlayer *)npc_player->self_view)->get_condition() & 0x40) {
             npc_player->request_chatter(0xE);
-        } else if (((TNpcPlayer *)npc_player->m_78)->get_condition() & 0x80) {
+        } else if (((TNpcPlayer *)npc_player->self_view)->get_condition() & 0x80) {
             npc_player->request_chatter(0xF);
-        } else if (((TNpcPlayer *)npc_player->m_78)->get_condition() & 0x200) {
-            if (npc_player->m_7c != 8U) {
-                temp_r3_2 = npc_player->m_80;
+        } else if (((TNpcPlayer *)npc_player->self_view)->get_condition() & 0x200) {
+            if (npc_player->ai_state != 8U) {
+                temp_r3_2 = npc_player->ai_flags;
                 if (temp_r3_2 & 0x10000) {
-                    npc_player->m_80 = temp_r3_2 & 0xFFFEFFFF;
+                    npc_player->ai_flags = temp_r3_2 & 0xFFFEFFFF;
                 } else {
                     npc_player->request_chatter(0x11);
                 }
@@ -1983,24 +1983,24 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
             npc_player->request_chatter(0x10);
         }
     }
-    if (((s32 (*)(s32))partner_view_check_moved)((saddr)npc_player->m_78) == 0) {
-        if (npc_player->m_7c == 1U) {
-            if (((TNpcPlayer *)npc_player->m_78)->get_action_state() & 0x80) {
-                npc_player->m_8c = 0;
-                npc_player->m_8d = 0;
+    if (((s32 (*)(s32))partner_view_check_moved)((saddr)npc_player->self_view) == 0) {
+        if (npc_player->ai_state == 1U) {
+            if (((TNpcPlayer *)npc_player->self_view)->get_action_state() & 0x80) {
+                npc_player->stuck_frames = 0;
+                npc_player->still_frames = 0;
                 return;
             }
-            npc_player->m_8d = (s8)(npc_player->m_8d + 1);
-            if (npc_player->m_8d > 0x1E) {
-                npc_player->m_8d = 0x1E;
+            npc_player->still_frames = (s8)(npc_player->still_frames + 1);
+            if (npc_player->still_frames > 0x1E) {
+                npc_player->still_frames = 0x1E;
             }
-            npc_player->m_8c = (s8)(npc_player->m_8c + 1);
+            npc_player->stuck_frames = (s8)(npc_player->stuck_frames + 1);
         }
     } else {
-        temp_r3_3 = npc_player->m_78;
-        VecCopy(&temp_r3_3->m_9c, &temp_r3_3->m_94->prev_position);
-        npc_player->m_8c = 0;
-        npc_player->m_8d = 0;
+        temp_r3_3 = npc_player->self_view;
+        VecCopy(&temp_r3_3->last_position, &temp_r3_3->player->prev_position);
+        npc_player->stuck_frames = 0;
+        npc_player->still_frames = 0;
     }
 }
 #pragma pop
@@ -2018,126 +2018,126 @@ void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
     f32 half;
     s32 clear;
 
-    actor = self->m_78->m_94;
-    dir.x = self->m_dc.x - actor->body_center.x;
-    dir.y = self->m_dc.y - actor->body_center.y;
-    dir.z = self->m_dc.z - actor->body_center.z;
+    actor = self->self_view->player;
+    dir.x = self->goal.x - actor->body_center.x;
+    dir.y = self->goal.y - actor->body_center.y;
+    dir.z = self->goal.z - actor->body_center.z;
     len = ((f32 (*)(void *))vector_length)(&dir);
     if (0.0f != len) {
         normalize_vector(&dir);
     }
-    actor = self->m_78->m_94;
+    actor = self->self_view->player;
     half = len / 2.0f;
     midpoint.x = half * dir.x + actor->body_center.x;
     midpoint.y = half * dir.y + actor->body_center.y;
     midpoint.z = half * dir.z + actor->body_center.z;
-    if (((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_find_wall_segment)(self, &actor->body_center, &self->m_dc, &hit, &normal) != 0) {
+    if (((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_find_wall_segment)(self, &actor->body_center, &self->goal, &hit, &normal) != 0) {
         Vec shortcut = {0.0f, 0.0f, 0.0f};
-        clear = ((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *, Vec *))partner_route_around_wall)(self, &self->m_78->m_94->body_center, &hit, &normal, &route, &shortcut);
-        if (!(self->m_80 & 1)) {
+        clear = ((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *, Vec *))partner_route_around_wall)(self, &self->self_view->player->body_center, &hit, &normal, &route, &shortcut);
+        if (!(self->ai_flags & 1)) {
             if (clear != 0) {
-                VecCopy(&self->m_a0, &shortcut);
+                VecCopy(&self->waypoint, &shortcut);
             } else {
-                VecCopy(&self->m_a0, &route);
-                self->m_a0.y = self->m_dc.y;
+                VecCopy(&self->waypoint, &route);
+                self->waypoint.y = self->goal.y;
                 Vec clipped;
-                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->m_dc, &self->m_a0, &clipped) != 0) {
-                    VecCopy(&self->m_a0, &clipped);
+                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->goal, &self->waypoint, &clipped) != 0) {
+                    VecCopy(&self->waypoint, &clipped);
                 }
             }
-            self->m_94.x = self->m_dc.x - self->m_a0.x;
-            self->m_94.y = 0.0f;
-            self->m_94.z = self->m_dc.z - self->m_a0.z;
-            if (0.0f != ((f32 (*)(void *))vector_length)(&self->m_94)) {
-                normalize_vector(&self->m_94);
+            self->waypoint_dir.x = self->goal.x - self->waypoint.x;
+            self->waypoint_dir.y = 0.0f;
+            self->waypoint_dir.z = self->goal.z - self->waypoint.z;
+            if (0.0f != ((f32 (*)(void *))vector_length)(&self->waypoint_dir)) {
+                normalize_vector(&self->waypoint_dir);
             }
-            self->m_80 |= 1;
+            self->ai_flags |= 1;
         }
         if (clear != 0) {
-            self->m_90 = 0;
-            if (self->m_80 & 2) {
+            self->detour_frames = 0;
+            if (self->ai_flags & 2) {
                 Vec d1;
-                actor = self->m_78->m_94;
-                d1.x = self->m_d0.x - actor->position.x;
+                actor = self->self_view->player;
+                d1.x = self->steer_point.x - actor->position.x;
                 d1.y = 0.0f;
-                d1.z = self->m_d0.z - actor->position.z;
+                d1.z = self->steer_point.z - actor->position.z;
                 if (((f32 (*)(void *))vector_length)(&d1) <= 1.5f) {
-                    VecCopy(&self->m_d0, &shortcut);
-                    self->m_80 &= ~2;
+                    VecCopy(&self->steer_point, &shortcut);
+                    self->ai_flags &= ~2;
                 }
             } else {
-                VecCopy(&self->m_d0, &shortcut);
+                VecCopy(&self->steer_point, &shortcut);
             }
-        } else if (self->m_80 & 2) {
+        } else if (self->ai_flags & 2) {
             Vec d2;
-            actor = self->m_78->m_94;
-            d2.x = self->m_d0.x - actor->position.x;
+            actor = self->self_view->player;
+            d2.x = self->steer_point.x - actor->position.x;
             d2.y = 0.0f;
-            d2.z = self->m_d0.z - actor->position.z;
+            d2.z = self->steer_point.z - actor->position.z;
             if (((f32 (*)(void *))vector_length)(&d2) <= 5.0f) {
                 Vec clipped2;
-                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->m_78->m_94->body_center, &route, &clipped2) != 0) {
-                    VecCopy(&self->m_d0, &clipped2);
+                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->self_view->player->body_center, &route, &clipped2) != 0) {
+                    VecCopy(&self->steer_point, &clipped2);
                 } else {
-                    VecCopy(&self->m_d0, &route);
+                    VecCopy(&self->steer_point, &route);
                 }
-                self->m_80 &= ~2;
-                self->m_90 = 0;
+                self->ai_flags &= ~2;
+                self->detour_frames = 0;
             }
-            self->m_90++;
-            if (self->m_90 >= 100) {
-                self->m_90 = 100;
+            self->detour_frames++;
+            if (self->detour_frames >= 100) {
+                self->detour_frames = 100;
             }
         } else {
             Vec d3;
-            self->m_90 = 0;
-            actor = self->m_78->m_94;
-            d3.x = self->m_d0.x - actor->position.x;
+            self->detour_frames = 0;
+            actor = self->self_view->player;
+            d3.x = self->steer_point.x - actor->position.x;
             d3.y = 0.0f;
-            d3.z = self->m_d0.z - actor->position.z;
-            self->m_d0.x = self->m_a0.x;
-            self->m_d0.y = self->m_a0.y;
-            self->m_d0.z = self->m_a0.z;
+            d3.z = self->steer_point.z - actor->position.z;
+            self->steer_point.x = self->waypoint.x;
+            self->steer_point.y = self->waypoint.y;
+            self->steer_point.z = self->waypoint.z;
             if (((f32 (*)(void *))vector_length)(&d3) < 1.0f) {
-                self->m_90 = 0;
-                self->m_d0.x = 40.0f * self->m_94.x + self->m_a0.x;
-                self->m_d0.y = 40.0f * self->m_94.y + self->m_a0.y;
-                self->m_d0.z = 40.0f * self->m_94.z + self->m_a0.z;
-                self->m_80 |= 2;
-                self->m_80 &= ~1;
+                self->detour_frames = 0;
+                self->steer_point.x = 40.0f * self->waypoint_dir.x + self->waypoint.x;
+                self->steer_point.y = 40.0f * self->waypoint_dir.y + self->waypoint.y;
+                self->steer_point.z = 40.0f * self->waypoint_dir.z + self->waypoint.z;
+                self->ai_flags |= 2;
+                self->ai_flags &= ~1;
             }
         }
         return;
     }
-    if (((TNpcPlayer *)self->m_78)->get_action_state() & 0x20) {
-        if (self->route_around_object((Vec *)(&route)) != 0 && self->m_8c < 30) {
-            VecCopy(&self->m_d0, &route);
+    if (((TNpcPlayer *)self->self_view)->get_action_state() & 0x20) {
+        if (self->route_around_object((Vec *)(&route)) != 0 && self->stuck_frames < 30) {
+            VecCopy(&self->steer_point, &route);
         } else {
-            if (self->m_8d > 15) {
-                self->m_8c = 0;
+            if (self->still_frames > 15) {
+                self->stuck_frames = 0;
             }
-            VecCopy(&self->m_d0, &midpoint);
+            VecCopy(&self->steer_point, &midpoint);
         }
-    } else if (((TNpcPlayer *)self->m_78)->get_action_state() & 0x80) {
-        VecCopy(&self->m_d0, &midpoint);
-    } else if (self->m_8c >= 15 && self->m_8c < 30) {
+    } else if (((TNpcPlayer *)self->self_view)->get_action_state() & 0x80) {
+        VecCopy(&self->steer_point, &midpoint);
+    } else if (self->stuck_frames >= 15 && self->stuck_frames < 30) {
         Vec d4;
         Vec detour;
-        Unk_8014F844 *view = self->m_78;
-        actor = view->m_94;
-        d4.x = actor->position.x - view->m_9c.x;
-        d4.y = actor->position.y - view->m_9c.y;
-        d4.z = actor->position.z - view->m_9c.z;
-        ((void (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_compute_stalled_detour)(self, &actor->position, &self->m_dc, &d4, &detour);
-        VecCopy(&self->m_d0, &detour);
+        Unk_8014F844 *view = self->self_view;
+        actor = view->player;
+        d4.x = actor->position.x - view->last_position.x;
+        d4.y = actor->position.y - view->last_position.y;
+        d4.z = actor->position.z - view->last_position.z;
+        ((void (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_compute_stalled_detour)(self, &actor->position, &self->goal, &d4, &detour);
+        VecCopy(&self->steer_point, &detour);
     } else {
-        if (self->m_8d > 15) {
-            self->m_8c = 0;
+        if (self->still_frames > 15) {
+            self->stuck_frames = 0;
         }
-        VecCopy(&self->m_d0, &midpoint);
+        VecCopy(&self->steer_point, &midpoint);
     }
-    self->m_80 &= ~1;
-    self->m_90 = 0;
+    self->ai_flags &= ~1;
+    self->detour_frames = 0;
 }
 #pragma pop
 
@@ -2147,31 +2147,31 @@ void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
 s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2) {
     f32 temp_f1;
     f32 var_f31;
-    if (self->m_80 & 0x10) {
+    if (self->ai_flags & 0x10) {
         return 1;
     }
     var_f31 = 12.0f + self->ai_params.max_distance_from_player;
     if (var_f31 >= 40.0f) {
         var_f31 = 40.0f;
     }
-    temp_f1 = ((f32 (*)(void *, void *, int))horizontal_distance_squared)(&self->m_dc, &self->m_78->m_94->position, _w2);
-    self->m_88 = temp_f1;
+    temp_f1 = ((f32 (*)(void *, void *, int))horizontal_distance_squared)(&self->goal, &self->self_view->player->position, _w2);
+    self->escort_distance_sq = temp_f1;
     if (temp_f1 >= (var_f31 * var_f31)) {
         return 1;
     }
-    self->m_80 = self->m_80 & 0xFFFFFEFF;
+    self->ai_flags = self->ai_flags & 0xFFFFFEFF;
     return 0;
 }
 #pragma pop
 
 void TNpcPlayer::init_follow_target() {
-    TObjPlayer *t = m_74->m_94;
+    TObjPlayer *t = leader_view->player;
     Vec off = {0.0f, 0.0f, 18.0f};
     if (t != NULL) {
-        m_d0.x = m_74->m_94->position.x + off.x;
-        m_d0.y = m_74->m_94->position.y + off.y;
-        m_d0.z = m_74->m_94->position.z + off.z;
-        VecCopy(&m_ac, &m_74->m_94->position);
+        steer_point.x = leader_view->player->position.x + off.x;
+        steer_point.y = leader_view->player->position.y + off.y;
+        steer_point.z = leader_view->player->position.z + off.z;
+        VecCopy(&move_target, &leader_view->player->position);
     }
 }
 
@@ -2181,13 +2181,13 @@ void TNpcPlayer::render() {  }
 #pragma fp_contract on
 s32 TNpcPlayer::check_movement_progress() {
     s8 temp_r3;
-    if (((f32 (*)(void *, void *))horizontal_distance_squared)(&m_ac, &m_d0) <= 100.0f) {
+    if (((f32 (*)(void *, void *))horizontal_distance_squared)(&move_target, &steer_point) <= 100.0f) {
         return 0;
     }
-    temp_r3 = m_8c;
+    temp_r3 = stuck_frames;
     if (temp_r3 > 0x1E) {
-        m_8c = 0x1EU;
-        m_80 = m_80 | 0x4000;
+        stuck_frames = 0x1EU;
+        ai_flags = ai_flags | 0x4000;
         if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 7) == 0) {
             request_chatter(7);
         }
@@ -2195,10 +2195,10 @@ s32 TNpcPlayer::check_movement_progress() {
         ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 7, 0x12C);
         return 0;
     }
-    if ((temp_r3 == 0) && (m_80 & 0x4000)) {
+    if ((temp_r3 == 0) && (ai_flags & 0x4000)) {
         ((s32 (*)(void *, int))reset_partner_counter)(partner_counters.count, 7);
         request_chatter(0x18);
-        m_80 = m_80 & 0xFFFFBFFF;
+        ai_flags = ai_flags & 0xFFFFBFFF;
     }
     return 1;
 }
@@ -2210,8 +2210,8 @@ s32 partner_view_check_moved(u8 *arg0) {
     f32 temp_f1;
     f32 *prev_position_ptr;
     f32 *position_ptr;
-    prev_position_ptr = (f32 *)view->m_94->get_prev_position_ptr();
-    position_ptr = (f32 *)view->m_94->get_position_ptr();
+    prev_position_ptr = (f32 *)view->player->get_prev_position_ptr();
+    position_ptr = (f32 *)view->player->get_position_ptr();
     if ((prev_position_ptr == NULL) || (position_ptr == NULL)) {
         return 0;
     }
@@ -2220,7 +2220,7 @@ s32 partner_view_check_moved(u8 *arg0) {
     temp_f1 = position_ptr[2];
     d.z = temp_f1 - prev_position_ptr[2];
     if (((f32 (*)(void *, f32))vector_length)(&d, temp_f1) > 0.4f) {
-        view->m_8c = view->m_8c | 1;
+        view->status = view->status | 1;
         return 1;
     }
     return 0;
@@ -2229,31 +2229,31 @@ s32 partner_view_check_moved(u8 *arg0) {
 s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
     switch (arg1) {
     case 0:
-        if ((arg2 != 0) && (((Unk_8014F844 *)this)->m_94->find_inventory_item_id(3, 0) != -1)) {
-            ((Unk_8014F844 *)this)->m_90 = ((Unk_8014F844 *)this)->m_90 | 0x20;
+        if ((arg2 != 0) && (((Unk_8014F844 *)this)->player->find_inventory_item_id(3, 0) != -1)) {
+            ((Unk_8014F844 *)this)->condition = ((Unk_8014F844 *)this)->condition | 0x20;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->m_94, 0xF) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->player, 0xF) != 0) {
             return 1;
         }
         break;
     case 1:
-        if (((Unk_8014F844 *)this)->m_94->find_inventory_item_id(3, 1) != -1) {
-            ((Unk_8014F844 *)this)->m_90 = ((Unk_8014F844 *)this)->m_90 | 0x20;
+        if (((Unk_8014F844 *)this)->player->find_inventory_item_id(3, 1) != -1) {
+            ((Unk_8014F844 *)this)->condition = ((Unk_8014F844 *)this)->condition | 0x20;
             return 1;
         }
         break;
     case 2:
-        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->m_94, 0x10) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->player, 0x10) != 0) {
             return 1;
         }
         break;
     case 3:
-        if (((Unk_8014F844 *)this)->m_94->find_inventory_item_id(3, 6) != -1) {
-            ((Unk_8014F844 *)this)->m_90 = ((Unk_8014F844 *)this)->m_90 | 0x20;
+        if (((Unk_8014F844 *)this)->player->find_inventory_item_id(3, 6) != -1) {
+            ((Unk_8014F844 *)this)->condition = ((Unk_8014F844 *)this)->condition | 0x20;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->m_94, 0x11) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->player, 0x11) != 0) {
             return 1;
         }
         break;
@@ -2263,8 +2263,8 @@ s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
 
 s32 check_and_set_reached__10TNpcPlayerFPv(void *arg0) {
     Unk_8014F844 *view = (Unk_8014F844 *)arg0;
-    if (((s32 (*)(void *, void *))scan_nearby_enemies__10TNpcPlayerFPvPvf)(view, &view->m_94->position) != 0) {
-        view->m_8c = view->m_8c | 2;
+    if (((s32 (*)(void *, void *))scan_nearby_enemies__10TNpcPlayerFPvPvf)(view, &view->player->position) != 0) {
+        view->status = view->status | 2;
         return 1;
     }
     return 0;
@@ -2274,9 +2274,9 @@ s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1) {
     Unk_8014F844 *view = (Unk_8014F844 *)arg0;
     TObjPlayer *obj_player;
 
-    obj_player = view->m_94;
+    obj_player = view->player;
     if (((s32 (*)(void *, void *, s32, TObjPlayer *))find_parts_in_range__10TNpcPlayerFPvPvif)(view, &obj_player->position, arg1, obj_player) != 0) {
-        view->m_8c = view->m_8c | 2;
+        view->status = view->status | 2;
         return 1;
     }
     return 0;
@@ -2291,39 +2291,39 @@ s32 partner_view_update_conditions(u8 *arg0) {
     s32 actorFlags;
     s32 var_r31;
     var_r31 = 0;
-    actor_hp = (f32)((TObjChara *)view->m_94)->get_actor_hp();
-    temp_f1 = actor_hp / (f32)((TObjChara *)view->m_94)->get_hpmax();
-    if (view->m_8c & 2) {
+    actor_hp = (f32)((TObjChara *)view->player)->get_actor_hp();
+    temp_f1 = actor_hp / (f32)((TObjChara *)view->player)->get_hpmax();
+    if (view->status & 2) {
         if (temp_f1 <= 0.25f) {
             var_r31 = 1;
-            view->m_90 = view->m_90 | 8;
-            view->m_8c = view->m_8c | 4;
+            view->condition = view->condition | 8;
+            view->status = view->status | 4;
         }
         if (temp_f1 <= 0.75f) {
             var_r31 = 1;
-            view->m_90 = view->m_90 | 0x1000;
+            view->condition = view->condition | 0x1000;
         }
     } else if (temp_f1 <= 0.75f) {
         var_r31 = 1;
-        view->m_90 = view->m_90 | 8;
-        view->m_8c = view->m_8c | 4;
+        view->condition = view->condition | 8;
+        view->status = view->status | 4;
     }
     if (temp_f1 <= 0.1f) {
         var_r31 = 1;
-        view->m_90 = view->m_90 | 0x800;
-        view->m_8c = view->m_8c | 4;
+        view->condition = view->condition | 0x800;
+        view->status = view->status | 4;
     }
-    actorFlags = view->m_94->actorFlags;
+    actorFlags = view->player->actorFlags;
     if ((actorFlags & 1) || (actorFlags & 2) || (actorFlags & 0x10)) {
         var_r31 = 1;
-        view->m_90 = view->m_90 | 2;
-        view->m_8c = view->m_8c | 4;
+        view->condition = view->condition | 2;
+        view->status = view->status | 4;
     }
-    actor_tp = (f32)get_actor_tp((u8 *)view->m_94);
-    temp_f2 = (f32)obj_getS16_2BA((u8 *)view->m_94);
+    actor_tp = (f32)get_actor_tp((u8 *)view->player);
+    temp_f2 = (f32)obj_getS16_2BA((u8 *)view->player);
     if (((actor_tp / temp_f2) <= 0.2f) && (0.0f != temp_f2)) {
-        view->m_8c = view->m_8c | 4;
-        view->m_90 = view->m_90 | 0x10;
+        view->status = view->status | 4;
+        view->condition = view->condition | 0x10;
     }
     return var_r31;
 }
@@ -2333,26 +2333,26 @@ s32 partner_view_update_hp_change(void *arg0) {
     s16 actor_hp;
     s16 hpmax;
     s16 temp_r4;
-    actor_hp = ((TObjChara *)((Unk_8014F844 *)arg0)->m_94)->get_actor_hp();
-    hpmax = ((TObjChara *)((Unk_8014F844 *)arg0)->m_94)->get_hpmax();
-    if (((Unk_8014F844 *)arg0)->m_88 <= 0) {
-        ((Unk_8014F844 *)arg0)->m_88 = actor_hp;
+    actor_hp = ((TObjChara *)((Unk_8014F844 *)arg0)->player)->get_actor_hp();
+    hpmax = ((TObjChara *)((Unk_8014F844 *)arg0)->player)->get_hpmax();
+    if (((Unk_8014F844 *)arg0)->last_hp <= 0) {
+        ((Unk_8014F844 *)arg0)->last_hp = actor_hp;
         return 0;
     }
-    temp_r4 = ((Unk_8014F844 *)arg0)->m_88;
+    temp_r4 = ((Unk_8014F844 *)arg0)->last_hp;
     temp_r0 = (s16)(temp_r4 - actor_hp);
     if (temp_r4 >= (s32)(actor_hp - 1)) {
         if ((f32)temp_r0 > (0.3f * (f32)hpmax)) {
-            ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x40;
+            ((Unk_8014F844 *)arg0)->condition = ((Unk_8014F844 *)arg0)->condition | 0x40;
         } else if ((f32)temp_r0 > (0.2f * (f32)hpmax)) {
-            ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x80;
+            ((Unk_8014F844 *)arg0)->condition = ((Unk_8014F844 *)arg0)->condition | 0x80;
         } else if ((f32)temp_r0 > (0.01f * (f32)hpmax)) {
-            ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x100;
+            ((Unk_8014F844 *)arg0)->condition = ((Unk_8014F844 *)arg0)->condition | 0x100;
         }
     } else {
-        ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x200;
+        ((Unk_8014F844 *)arg0)->condition = ((Unk_8014F844 *)arg0)->condition | 0x200;
     }
-    ((Unk_8014F844 *)arg0)->m_88 = actor_hp;
+    ((Unk_8014F844 *)arg0)->last_hp = actor_hp;
     return temp_r0 ? 1 : 0;
 }
 
@@ -2366,34 +2366,34 @@ bool TNpcPlayer::is_hp_low(f32 hp, f32 max_hp) {
 
 Unk_8014F844::Unk_8014F844(s32 id) {
     s32 i;
-    m_94 = (TObjPlayer *)find_entity_by_id(id);
-    m_9c.x = 0.0f;
-    m_9c.y = 0.0f;
-    m_9c.z = 0.0f;
-    m_8c = 0;
-    m_90 = 0;
-    m_8a = id;
-    m_88 = -1;
-    m_84 = 0;
+    player = (TObjPlayer *)find_entity_by_id(id);
+    last_position.x = 0.0f;
+    last_position.y = 0.0f;
+    last_position.z = 0.0f;
+    status = 0;
+    condition = 0;
+    client_id = id;
+    last_hp = -1;
+    target_collider = 0;
     target_count = 0;
     for (i = 0; i < 10; i++) {
         targets[i].entity_id = 0xFFFF;
         targets[i].distance_sq = 0.0f;
     }
-    m_104 = 0;
-    m_ac.offset.x = 0.0f;
-    m_ac.offset.y = 0.0f;
-    m_ac.offset.z = 5.0f;
-    m_ac.radius = 19.0f;
-    m_ac.half_width = 5.0f;
-    m_ac.shape = 0;
-    m_ac.flags = 0x1103;
-    m_a8 = new TObjCollidable(tl_05);
-    if (m_a8 != 0) {
-        init_collision_body_parts(m_a8, &m_ac, 1);
+    obstacle_angle = 0;
+    probe_body.offset.x = 0.0f;
+    probe_body.offset.y = 0.0f;
+    probe_body.offset.z = 5.0f;
+    probe_body.radius = 19.0f;
+    probe_body.half_width = 5.0f;
+    probe_body.shape = 0;
+    probe_body.flags = 0x1103;
+    probe = new TObjCollidable(tl_05);
+    if (probe != 0) {
+        init_collision_body_parts(probe, &probe_body, 1);
     }
-    m_7c = 0xFFFF;
-    m_80 = 0xFFFF;
+    target_id = 0xFFFF;
+    prev_target_id = 0xFFFF;
 }
 
 #pragma push
@@ -2401,8 +2401,8 @@ Unk_8014F844::Unk_8014F844(s32 id) {
 s32 refresh_npc_view_actor_lost(void *arg0) {
     Unk_8014F844 *view = (Unk_8014F844 *)arg0;
     TObjPlayer *v;
-    view->m_94 = get_player_by_client_id(view->m_8a);
-    v = view->m_94;
+    view->player = get_player_by_client_id(view->client_id);
+    v = view->player;
     if (v == NULL) {
         return 1;
     }
@@ -2412,10 +2412,10 @@ s32 refresh_npc_view_actor_lost(void *arg0) {
 
 void *TNpcPlayer::dt(s16 arg1) {
     if (this != NULL) {
-        if (((Unk_8014F844 *)this)->m_a8 != NULL) {
-            free_collision_body_parts((uaddr)((Unk_8014F844 *)this)->m_a8);
-            ((TObject *)((Unk_8014F844 *)this)->m_a8)->queue_destruction();
-            ((Unk_8014F844 *)this)->m_a8 = NULL;
+        if (((Unk_8014F844 *)this)->probe != NULL) {
+            free_collision_body_parts((uaddr)((Unk_8014F844 *)this)->probe);
+            ((TObject *)((Unk_8014F844 *)this)->probe)->queue_destruction();
+            ((Unk_8014F844 *)this)->probe = NULL;
         }
         if (arg1 > 0) {
             ::operator delete(this);
@@ -2428,7 +2428,7 @@ bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 id) {
     Vec target;
     TObjPlayer *obj_player;
     VecCopy(&target, &((TObjChara *)find_active_entity_by_id(id))->body_center);
-    obj_player = ((Unk_8014F844 *)arg0)->m_94;
+    obj_player = ((Unk_8014F844 *)arg0)->player;
     target.y = obj_player->body_center.y;
     return csnVector(&obj_player->body_center, &target, 0x2100) == NULL;
 }
@@ -2442,7 +2442,7 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 r
     s32 j;
     f32 d;
     found = 0;
-    ((TObjBase *)(view->m_94))->get_room();
+    ((TObjBase *)(view->player))->get_room();
     VecCopy(&origin, (const Vec *)pos);
     view->target_count = 0;
     for (j = 0; j < 10; j++) {
@@ -2559,27 +2559,27 @@ s32 partner_probe_obstacles(Unk_8014F844 *view) {
     TObjCollidable *actor;
     CollisionBody *contact;
     TObjCollidable *probe;
-    probe = view->m_a8;
+    probe = view->probe;
     if (probe == NULL) {
         return 0;
     }
-    VecCopy(&probe->position, &view->m_94->position);
-    view->m_a8->rotation_y = view->m_98;
+    VecCopy(&probe->position, &view->player->position);
+    view->probe->rotation_y = view->goal_angle;
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + ((s32 (*)(void))get_registered_object_count)(); i++) {
         actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
         if ((actor != NULL) && !(actor->actorFlags & 0x80000000)) {
-            contact = (CollisionBody *)view->m_a8->find_actor_body_contact((u8 *)actor, 10000.0f);
+            contact = (CollisionBody *)view->probe->find_actor_body_contact((u8 *)actor, 10000.0f);
             if (contact != NULL) {
                 if (actor->actorFlags & 0x40000000) {
                     if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {
-                        copy_collision_body(&view->m_d8, contact);
-                        view->m_104 = actor->rotation_y;
-                        view->m_8c |= 0x20;
+                        copy_collision_body(&view->obstacle_body, contact);
+                        view->obstacle_angle = actor->rotation_y;
+                        view->status |= 0x20;
                         return 1;
                     }
                 } else if (actor->actorFlags & 0x20000000) {
                     if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {
-                        view->m_8c |= 0x80;
+                        view->status |= 0x80;
                         return 1;
                     }
                 }
@@ -2626,13 +2626,13 @@ s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec 
         perp.x = -perp.x;
         perp.z = -perp.z;
     }
-    line.p.x = self->m_78->m_94->body_center.x;
-    line.p.y = self->m_78->m_94->body_center.y;
-    line.p.z = self->m_78->m_94->body_center.z;
+    line.p.x = self->self_view->player->body_center.x;
+    line.p.y = self->self_view->player->body_center.y;
+    line.p.z = self->self_view->player->body_center.z;
     line.d.x = perp.x;
     line.d.y = 0.0f;
     line.d.z = perp.z;
-    project_point_onto_line(&self->m_dc, &line, &hit);
+    project_point_onto_line(&self->goal, &line, &hit);
     s = 1.5f * len;
     if (s <= 20.0f) {
         s = 20.0f;
@@ -2640,14 +2640,14 @@ s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec 
     out->x = perp.x * s + from->x;
     out->y = from->y;
     out->z = perp.z * s + from->z;
-    VecCopy(&tmp, &self->m_74->m_94->body_center);
+    VecCopy(&tmp, &self->leader_view->player->body_center);
     if (csnVector(&tmp, &hit, 0x2100) != NULL) {
         hit.x = 5.0f * perp.x + hit.x;
         hit.z = 5.0f * perp.z + hit.z;
         return 0;
     }
-    v.x = self->m_74->m_94->body_center.x - hit.x;
-    v.z = self->m_74->m_94->body_center.z - hit.z;
+    v.x = self->leader_view->player->body_center.x - hit.x;
+    v.z = self->leader_view->player->body_center.z - hit.z;
     v.y = 0.0f;
     if (0.0f != vector_length(&v)) {
         normalize_vector(&v);
@@ -2693,7 +2693,7 @@ void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d
     } else {
         VecCopy(&dir, &a);
     }
-    if (self->m_8c >= 0x14) {
+    if (self->stuck_frames >= 0x14) {
         out->x = -((20.0f * dir.x) - from->x);
         out->y = from->y;
         out->z = -((20.0f * dir.z) - from->z);
@@ -2714,10 +2714,10 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
     Vec to;
     Vec toSelf;
     f32 r;
-    copy_collision_body(&info, &self->m_78->m_d8);
+    copy_collision_body(&info, &self->self_view->obstacle_body);
     if (info.shape == 0 || info.shape == 0 ||
         (info.half_width <= 12.0f && info.shape == 1 && info.half_width == info.radius)) {
-        TObjPlayer *t = self->m_78->m_94;
+        TObjPlayer *t = self->self_view->player;
         r = 20.0f + info.radius;
         to.x = t->position.x - info.center.x;
         to.y = 0.0f;
@@ -2728,9 +2728,9 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
         if (0.0f != vector_length(&perp)) {
             normalize_vector(&perp);
         }
-        toSelf.x = self->m_dc.x - info.center.x;
+        toSelf.x = self->goal.x - info.center.x;
         toSelf.y = 0.0f;
-        toSelf.z = self->m_dc.z - info.center.z;
+        toSelf.z = self->goal.z - info.center.z;
         if (0.0f != vector_length(&toSelf)) {
             normalize_vector(&toSelf);
         }
@@ -2750,7 +2750,7 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
         out->x = r * perp.x + info.center.x;
         out->y = r * perp.y + info.center.y;
         out->z = r * perp.z + info.center.z;
-        if (self->m_8c > 10) {
+        if (self->stuck_frames > 10) {
             out->x = info.center.x - r * perp.x;
             out->y = info.center.y - r * perp.y;
             out->z = info.center.z - r * perp.z;
@@ -2771,7 +2771,7 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
         a.x *= info.radius;
         b.z *= info.half_width;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, self->m_78->m_104 + 0x4000);
+        rotate_matrix_y(0, self->self_view->obstacle_angle + 0x4000);
         matrix_mult_vec(0, &a, &a);
         matrix_mult_vec(0, &b, &b);
         pop_matrices(1);
@@ -2787,28 +2787,28 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
         c3.x = info.center.x - b.x;
         c3.y = info.center.y - b.y;
         c3.z = info.center.z - b.z;
-        dir.x = self->m_74->m_94->position.x - info.center.x;
-        dir.y = self->m_74->m_94->position.y - info.center.y;
-        dir.z = self->m_74->m_94->position.z - info.center.z;
+        dir.x = self->leader_view->player->position.x - info.center.x;
+        dir.y = self->leader_view->player->position.y - info.center.y;
+        dir.z = self->leader_view->player->position.z - info.center.z;
         if (0.0f != vector_length(&dir)) {
             normalize_vector(&dir);
         }
-        self->calc_box_escape_axis(&c0, &c1, &c2, &c3, &self->m_78->m_94->position, &axis, &dist);
+        self->calc_box_escape_axis(&c0, &c1, &c2, &c3, &self->self_view->player->position, &axis, &dist);
         VecCopy(&esc, &axis);
         if (vec3_dot(&dir, &esc) < 0.0f) {
             esc.x = -esc.x;
             esc.z = -esc.z;
         }
         r = dist;
-        out->x = r * esc.x + self->m_78->m_94->position.x;
-        out->y = r * esc.y + self->m_78->m_94->body_center.y;
-        out->z = r * esc.z + self->m_78->m_94->position.z;
-        if (partner_clip_path_point(self, &self->m_78->m_94->body_center.x, &out->x, &clip.x) != 0) {
+        out->x = r * esc.x + self->self_view->player->position.x;
+        out->y = r * esc.y + self->self_view->player->body_center.y;
+        out->z = r * esc.z + self->self_view->player->position.z;
+        if (partner_clip_path_point(self, &self->self_view->player->body_center.x, &out->x, &clip.x) != 0) {
             out->x = clip.x;
             out->y = clip.y;
             out->z = clip.z;
         }
-        if (self->m_8c > 15) {
+        if (self->stuck_frames > 15) {
             alt.x = esc.z;
             alt.y = 0.0f;
             alt.z = esc.x;
@@ -2816,9 +2816,9 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
                 alt.x = -alt.x;
                 alt.z = -alt.z;
             }
-            out->x = r * alt.x + self->m_78->m_94->position.x;
-            out->y = self->m_78->m_94->body_center.y;
-            out->z = r * alt.z + self->m_78->m_94->position.z;
+            out->x = r * alt.x + self->self_view->player->position.x;
+            out->y = self->self_view->player->body_center.y;
+            out->z = r * alt.z + self->self_view->player->position.z;
         }
     }
     return 1;
@@ -2961,29 +2961,29 @@ void TNpcPlayer::request_chatter(u32 arg1) {
 void deliver_partner_chatter(TNpcPlayer *self) {
     u32 id;
     char *text;
-    if (self->m_24 >= 0x19) {
-        self->m_80 &= ~4;
-        self->m_24 = 0x19;
+    if (self->chatter_id >= 0x19) {
+        self->ai_flags &= ~4;
+        self->chatter_id = 0x19;
         return;
     }
     if (TObjPlayer::is_any_teammate_in_state() != 0) {
         return;
     }
-    id = self->m_78->m_94->get_entity_id();
+    id = self->self_view->player->get_entity_id();
     if (id != 0xFFFF) {
-        text = (char *)get_partner_custom_text(self->m_24, id);
+        text = (char *)get_partner_custom_text(self->chatter_id, id);
         if (text != 0) {
             TWindowCtrl::open(id, (saddr)text, 0x1B);
         } else {
-            text = npc_partner_dialogue_state[self->m_24].text;
+            text = npc_partner_dialogue_state[self->chatter_id].text;
             if (text[0] != 0) {
                 TWindowCtrl::open(id, (saddr)text, 0x1B);
             }
         }
     }
-    self->m_80 &= ~4;
+    self->ai_flags &= ~4;
     if (((s32 (*)(void *, s32, s32))npc_counter_reset_if_reached)(self->partner_counters.count, 0, 0x190) != 0) {
-        self->m_24 = 0x19;
+        self->chatter_id = 0x19;
     }
 }
 
@@ -2997,53 +2997,53 @@ void TNpcPlayer::handle_action(s32 arg1) {
 
     switch (arg1) {
     case 0:
-        player = m_78->m_94->find_inventory_item_id(3, 0);
+        player = self_view->player->find_inventory_item_id(3, 0);
         if (player != -1) {
-            temp_r5 = m_78;
-            try_send_6x27_use_item((saddr)temp_r5->m_94, player, temp_r5);
-            m_80 = m_80 | 0x10000;
+            temp_r5 = self_view;
+            try_send_6x27_use_item((saddr)temp_r5->player, player, temp_r5);
+            ai_flags = ai_flags | 0x10000;
         }
         break;
     case 1:
-        temp_r3_2 = m_78->m_94->find_inventory_item_id(3, 1);
+        temp_r3_2 = self_view->player->find_inventory_item_id(3, 1);
         if (temp_r3_2 != -1) {
-            temp_r5_2 = m_78;
-            try_send_6x27_use_item((saddr)temp_r5_2->m_94, temp_r3_2, temp_r5_2);
+            temp_r5_2 = self_view;
+            try_send_6x27_use_item((saddr)temp_r5_2->player, temp_r3_2, temp_r5_2);
             return;
         }
         break;
     case 2:
-        temp_r3_3 = m_78->m_94->find_inventory_item_id(3, 6);
+        temp_r3_3 = self_view->player->find_inventory_item_id(3, 6);
         if (temp_r3_3 != -1) {
-            temp_r5_3 = m_78;
-            try_send_6x27_use_item((saddr)temp_r5_3->m_94, temp_r3_3, temp_r5_3);
+            temp_r5_3 = self_view;
+            try_send_6x27_use_item((saddr)temp_r5_3->player, temp_r3_3, temp_r5_3);
         }
         break;
     }
 }
 
 void TNpcPlayer::change_ai_state(u32 arg1) {
-    m_7c = arg1;
-    m_80 = m_80 & 0xFFFFEFFF;
+    ai_state = arg1;
+    ai_flags = ai_flags & 0xFFFFEFFF;
     switch (arg1) {
     case 0:
-        m_80 = m_80 & 0xFFFFFFCF;
-        VecCopy(&m_dc, &m_78->m_94->body_center);
+        ai_flags = ai_flags & 0xFFFFFFCF;
+        VecCopy(&goal, &self_view->player->body_center);
         return;
     case 1:
-        m_80 = m_80 & 0xFFFFFFEF;
-        m_80 = m_80 | 0x20;
+        ai_flags = ai_flags & 0xFFFFFFEF;
+        ai_flags = ai_flags | 0x20;
         return;
     case 2:
-        m_80 = m_80 & 0xFFFFFFDF;
-        m_80 = m_80 | 0x10;
+        ai_flags = ai_flags & 0xFFFFFFDF;
+        ai_flags = ai_flags | 0x10;
         return;
     case 8:
-        VecCopy(&m_dc, &m_78->m_94->body_center);
+        VecCopy(&goal, &self_view->player->body_center);
         return;
     case 16:
-        m_80 = m_80 & 0xFFFFFFEF;
-        m_80 = m_80 | 0x20;
+        ai_flags = ai_flags & 0xFFFFFFEF;
+        ai_flags = ai_flags | 0x20;
     default:
         return;
     }
@@ -3052,30 +3052,30 @@ void TNpcPlayer::change_ai_state(u32 arg1) {
 void TNpcPlayer::dispatch_action(s32 arg1) {
     switch (arg1) {
     case 0:
-        if (((TNpcPlayer *)m_78)->get_condition() & 0x20) {
+        if (((TNpcPlayer *)self_view)->get_condition() & 0x20) {
             handle_action(arg1);
         } else {
             request_technique_cast(0xF);
         }
-        if (m_80 & 0x200) {
+        if (ai_flags & 0x200) {
             request_chatter(0x13);
         }
         return;
     case 1:
-        if (((TNpcPlayer *)m_78)->get_condition() & 0x20) {
+        if (((TNpcPlayer *)self_view)->get_condition() & 0x20) {
             handle_action(arg1);
             return;
         }
         break;
     case 2:
-        if (((TNpcPlayer *)m_78)->get_condition() & 0x20) {
+        if (((TNpcPlayer *)self_view)->get_condition() & 0x20) {
             handle_action(arg1);
             return;
         }
         request_technique_cast(0x10);
         return;
     case 3:
-        if (((TNpcPlayer *)m_78)->get_condition() & 0x20) {
+        if (((TNpcPlayer *)self_view)->get_condition() & 0x20) {
             handle_action(arg1);
             return;
         }

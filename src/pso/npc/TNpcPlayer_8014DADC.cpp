@@ -42,7 +42,7 @@ void TNpcPlayer::init_equipment() {
     s32 flags;
 
     flags = this->ai_params.technique_flags;
-    temp_r31 = (saddr)this->m_78->m_94;
+    temp_r31 = (saddr)this->self_view->player;
     if (flags & TECHNIQUE_FLAGS_FOIE_GIFOIE) {
         TObjPlayer::clamp_and_set_unit_value(temp_r31, this->ai_params.attack_technique_level, 0);
         TObjPlayer::clamp_and_set_unit_value(temp_r31, this->ai_params.attack_technique_level, 1);
@@ -140,8 +140,8 @@ void TNpcPlayer::partner_request_physical_attack() {
     u8 *arg0 = (u8 *)this;
     u32 temp_r31;
     u32 npc_state;
-    temp_r31 = TNpcPlayer__sub_80152978((void *)this->m_78);
-    npc_state = ((TNpcPlayer *)(this->m_78))->get_npc_state();
+    temp_r31 = TNpcPlayer__sub_80152978((void *)this->self_view);
+    npc_state = ((TNpcPlayer *)(this->self_view))->get_npc_state();
     if (npc_state != temp_r31) {
         set_partner_counter((saddr)&this->partner_counters, 1, 0);
     }
