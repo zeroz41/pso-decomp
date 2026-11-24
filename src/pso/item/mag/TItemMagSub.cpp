@@ -14,7 +14,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"

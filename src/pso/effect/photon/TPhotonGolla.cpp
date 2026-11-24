@@ -2,7 +2,7 @@
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/render/ChunkMaterialState.h"
 #include <stdlib.h>
 #include "pso/system/vector.h"

@@ -55,7 +55,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_803E1A58.h"

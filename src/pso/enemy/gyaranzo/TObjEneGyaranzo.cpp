@@ -34,7 +34,7 @@
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"

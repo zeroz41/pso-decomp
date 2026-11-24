@@ -6,7 +6,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/enemy/fly/TObjEneBm3FlyNest_CarryFly.h"

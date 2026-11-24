@@ -19,7 +19,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoaReal.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"

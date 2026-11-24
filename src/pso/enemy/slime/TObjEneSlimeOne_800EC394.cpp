@@ -6,7 +6,7 @@
 #include "types.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/render_util.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/slime/TObjEneSlimeOne_800EC394.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"

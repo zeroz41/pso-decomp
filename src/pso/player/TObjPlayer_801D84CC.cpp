@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_801D40D4.h"
 #include "pso/player/TObjPlayer_801D84CC.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TUnk_804C4540.h"

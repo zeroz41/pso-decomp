@@ -19,7 +19,7 @@
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/unk/ModelNodeTables.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/PadRumble.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/boss/darkfalz/TBoss4Zanzo.h"

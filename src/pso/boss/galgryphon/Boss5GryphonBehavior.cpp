@@ -11,7 +11,7 @@
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/EnemyStateEvent.h"

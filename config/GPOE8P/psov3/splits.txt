@@ -11639,14 +11639,14 @@ pso/unk/text_803E2D70.cpp:
 	.text       start:0x803E2D70 end:0x803E2F28
 	.sdata2     start:0x805E1088 end:0x805E1090
 
-pso/unk/text_803E2F28.cpp:
+pso/render/ChunkModelDraw.cpp:
 	.text       start:0x803E2F28 end:0x803E4954
 	.data       start:0x804FC810 end:0x804FC828
 	.bss        start:0x8058DBD0 end:0x8058DC00
 	.sbss       start:0x805D77D0 end:0x805D7808
 	.sdata2     start:0x805E1090 end:0x805E10B0
 
-pso/player/TObjPlayer_803E4954.cpp:
+pso/render/ChunkMotionDraw.cpp:
 	.text       start:0x803E4954 end:0x803E4CE0
 	.sbss       start:0x805D7808 end:0x805D7810
 

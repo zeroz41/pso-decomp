@@ -120,7 +120,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/object/base/TObjChara.h"
 
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"

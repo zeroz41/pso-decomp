@@ -1682,7 +1682,6 @@ pso/player/TObjPlayer_803E18C0.cpp
 pso/player/TObjPlayer_803E1A58.cpp
 pso/player/TObjPlayer_803E21B8.cpp
 pso/player/TObjPlayer_803E2810.cpp
-pso/player/TObjPlayer_803E4954.cpp
 pso/player/TObjPlayer_803E5470.cpp
 pso/player/TPlyItem.cpp
 pso/render/TUnk_80490470.cpp
@@ -2107,7 +2106,8 @@ pso/unk/text_803DF204.cpp
 pso/unk/text_803E2070.cpp
 pso/player/TObjPlayer_803E20B0.cpp
 pso/unk/text_803E2D70.cpp
-pso/unk/text_803E2F28.cpp
+pso/render/ChunkModelDraw.cpp
+pso/render/ChunkMotionDraw.cpp
 pso/unk/text_803E4CE8.cpp
 pso/unk/text_803F1804.cpp
 pso/unk/text_803F4D84.cpp

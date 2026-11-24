@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "types.h"
 #include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"

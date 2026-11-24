@@ -8,7 +8,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/object/base/TMotionModel.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/ModelDrawContext.h"

@@ -21,7 +21,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 
 // The model node each joint index breaks off.
 static const s32 joint_breakup_nodes[6] = { 1, 6, 12, 18, 24, 29 };

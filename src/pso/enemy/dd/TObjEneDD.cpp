@@ -80,7 +80,7 @@ TUnk_804928CC *obj_ene_dd_instance;
 
 
 
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
 #include "pso/math/MatrixVector.h"

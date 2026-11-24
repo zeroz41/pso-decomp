@@ -38,7 +38,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby.h"

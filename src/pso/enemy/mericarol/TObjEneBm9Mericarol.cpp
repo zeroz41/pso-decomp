@@ -16,7 +16,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/RenderFadeState.h"
@@ -31,7 +31,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2F28.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/AngleUnits.h"
 #include "pso/unk/SampledMotionPoints.h"

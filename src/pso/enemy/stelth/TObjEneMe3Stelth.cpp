@@ -25,7 +25,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/stelth/TObjEneMe3StelthReal.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/TObjEnemy.h"

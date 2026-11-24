@@ -78,7 +78,7 @@
 #include "pso/unk/text_803DA754.h"
 #include "pso/unk/text_803DCDB0.h"
 #include "pso/unk/text_803DE7E0.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 
 GXLightObj gx_default_light_obj[4];
 MainPhaseState main_phase_state;
@@ -287,7 +287,7 @@ void init_game_systems(void) {
     resource_decompress_buffer = (u8 *)xmalloc(0x80000);
     motion_blend_buffer = (void *)xmalloc(0x6000);
     anim_model_matrix_array = (Mtx34 *)xmalloc(0x14A0);
-    TObjPlayer__sub_803E492C((saddr)resource_decompress_buffer, 0x2000);
+    init_chunk_draw((saddr)resource_decompress_buffer, 0x2000);
     TKeyBoardControl::set_key_state((saddr)poll_input_devices_frame);
     player_matrix_stack_buffer = (saddr)xmalloc(0x600);
     TObjPlayer::init_matrix_stack(player_matrix_stack_buffer, 0x20);

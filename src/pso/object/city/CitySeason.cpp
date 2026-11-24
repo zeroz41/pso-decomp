@@ -9,7 +9,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/object/city/CitySeason.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/vector.h"

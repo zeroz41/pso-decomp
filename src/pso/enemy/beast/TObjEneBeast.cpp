@@ -44,7 +44,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 
 #include <stddef.h>
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/dd/TObjEneDD.h"

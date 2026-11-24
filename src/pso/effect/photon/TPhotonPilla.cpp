@@ -1,7 +1,7 @@
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "types.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/ui/hud/TRaderMapCore.h"

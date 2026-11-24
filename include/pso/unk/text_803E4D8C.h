@@ -2,7 +2,7 @@
 #define PSO_UNK_TEXT_803E4D8C_H
 
 #include "types.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 
 struct RenderCounterState {
     s32 base;

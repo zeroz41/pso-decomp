@@ -28,7 +28,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/TObjBase.h"
 
 void TObjEneGyaranzo::run_miss_reaction() {  }

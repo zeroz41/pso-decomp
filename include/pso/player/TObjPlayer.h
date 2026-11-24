@@ -21,7 +21,6 @@ struct NJS_OBJECT;
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/player/PlayerTelepipe.h"
-#include "pso/player/PlayerStats.h"
 #include "pso/player/BattleMusicState.h"
 #include "pso/player/ContactSurfaceState.h"
 #include "pso/player/MovementHold.h"
@@ -97,7 +96,6 @@ struct TObjPlayer : public TObjChara {
     virtual const char *get_name();
     void update_swim_flag(void *);
     void draw_weapon_if_not_hidden(void *);
-    static s32 draw_chunk_vertices_cached(void *model);
     void draw_actor_model(void *);
     s32 destroy_char_data(int, s16);
     void *apply_wall_response();
@@ -960,8 +958,6 @@ struct TObjPlayer : public TObjChara {
     static void set_tev_passclr();
     static s32 set_num_tex_gens_zero();
     static void setup_tex_gen();
-    static void clear_move_state_bits();
-    static void set_global_state(saddr arg0);
     static void set_global_7778(saddr arg0);
     static void update_render_state();
     static void set_global_color_rgba(u32 v, u32);
@@ -1033,11 +1029,6 @@ struct TObjPlayer : public TObjChara {
     void concat_quaternion_rotation();
     static s32 is_gvm_load_ok();
     static void load_screen_space_matrix();
-    static void copy_matrix3x3_for_chunk_tree(const GC_Mtx *source);
-    void transform_vertex_list();
-    static void setup_tev_passclr();
-    static void setup_model_draw_state(void *);
-    static void end_chunk_draw();
     void draw_motion_node_list();
     static void resolve_render_keys(u32 **src, u32 **dst);
     static void advance_render_counters();
@@ -1388,9 +1379,6 @@ struct TObjPlayer : public TObjChara {
     // Calls callback with each occupied entry of the player table.
     static void for_each_player_slot(void (*callback)(void *));
     static void send_code50_packet(int);
-    static void draw_strip_pos_normal(void *, void *, unsigned int);
-    static void draw_strip_list_pos_nrm(void *, void *, unsigned int);
-    static void draw_triangle_strips(void *, void *, unsigned int);
     static int draw_textured_vertices(void *, int, int);
 
     // Placeholder-named members defined in the player units.

@@ -2,7 +2,7 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/model_render_state.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 
 s32 MaterialColorFade::has_visible_opacity() {
     return color.a > -1.0f;

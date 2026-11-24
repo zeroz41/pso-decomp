@@ -3,7 +3,7 @@
 #include "pso/player/PlayerLevelTable.h"
 #include "pso/item/InventoryEntryCopy.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TUnk_804C4540.h"

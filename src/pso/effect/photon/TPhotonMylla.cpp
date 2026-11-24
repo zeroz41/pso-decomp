@@ -3,7 +3,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/system/BmlResource.h"

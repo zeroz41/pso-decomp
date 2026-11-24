@@ -6,7 +6,7 @@
 #include "pso/object/lobby/LobbyPigeonPath.h"
 
 #include "types.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby.h"

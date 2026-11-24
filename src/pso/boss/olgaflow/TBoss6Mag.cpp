@@ -4,7 +4,7 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/TLobby.h"
 #include "pso/boss/olgaflow/TBoss6Mag.h"
 #include "pso/boss/olgaflow/TBoss6MagMine.h"

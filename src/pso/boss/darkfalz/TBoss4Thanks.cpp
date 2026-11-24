@@ -5,7 +5,7 @@
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_801F43B4.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/darkfalz/TBoss4Thanks.h"

@@ -7,7 +7,7 @@
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/PadRumble.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"

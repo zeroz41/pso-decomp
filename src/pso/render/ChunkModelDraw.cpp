@@ -9,19 +9,21 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/unk/text_803E2008.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/memory.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include <dolphin/mtx.h>
+#include "pso/animation/MotionContext.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/NinjaTypes.h"
+#include <dolphin/gx/GXStruct.h>
 
 #pragma scheduling off
 
-struct FloatColor { f32 a, r, g, b; };
-
-struct ByteColor { u8 r, g, b, a; };
 
 struct ChunkNode_803E2F78 {
     u32 flags;
@@ -56,19 +58,17 @@ void GXSetNumTexGens(u8);
 s32 GXSetTevOp(int, int);
 s32 GXSetTevOrder(int, int, int, int);
 s32 GXSetNumTevStages(int);
-extern s32 model_render_flags;
 extern u8 lbl_805D77D8;
 extern u8 lbl_805D77D9;
 s32 GXSetZMode(int, int, int);
 s32 GXSetZCompLoc(int);
 extern s32 ginja_draw_flags;
-extern s32 (*player_chunk_draw_end_callback)();
+extern void (*player_chunk_draw_end_callback)();
 extern s32 chunk_texture_record_index;
-void GXSetChanMatColor(s32, ByteColor);
-void convert_color_f32_to_u8(const FloatColor*,ByteColor*);
-void convert_color_u8_to_f32(const ByteColor*,FloatColor*);
-extern FloatColor model_material_color;
-extern s32 model_render_flags,ginja_draw_flags;
+void GXSetChanMatColor(s32, GXColor);
+extern NJS_ARGB model_material_color;
+extern s32 model_render_flags;
+
 extern u32 chunk_blend_header_bits;
 extern u32 chunk_strip_dirty_flags;
 void GXSetAlphaCompare(int comp0, int ref0, int op, int comp1, int ref1);
@@ -77,21 +77,16 @@ extern s32 lbl_805D77FC;
 extern s32 chunk_render_flags;
 void transform_chunk_object_tree(void *, void (*)(void *));
 s32 __cvt_fp2unsigned(f32);
-void rotate_matrix_by_node_angles(void *, int);
-void scale_current_matrix(void *);
-void post_translate_matrix(void *);
 extern GC_Mtx chunk_object_current_matrix;
-void transform_point_by_current_matrix(u8 *, u8 *);
-void rotate_vector_by_current_matrix(u8 *, u8 *);
 void GXBegin(int, int, u16);
 void GXSetVtxDesc(int, int);
 void GXClearVtxDesc(void);
-void draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info);
+void draw_strip_list_pos_nrm(s16 *list, Vtx_803E36C4 *verts, u32 info);
 void GXSetChanCtrl(s32 chan, u8 enable, s32 ambSrc, s32 matSrc, u32 lightMask, s32 diffFn, s32 attnFn);
 extern u32 gx_chan_ctrl_light_mask;
 extern u32 chunk_has_vertex_colors;
-void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info);
-void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info);
+void draw_strip_pos_normal(s16 *list, Vtx_803E36C4 *verts, u32 info);
+void draw_triangle_strips(s16 *list, Vtx_803E36C4 *verts, u32 info);
 s32 GXSetBlendMode(int, int, int, int);
 void GXSetVtxAttrFmt(int, int, int, int, u8);
 void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 large);
@@ -114,7 +109,7 @@ extern s32 chunk_previous_strip_flags;
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-void TObjPlayer::copy_matrix3x3_for_chunk_tree(const GC_Mtx *src) {
+void copy_matrix3x3_for_chunk_tree(const GC_Mtx *src) {
     GC_Mtx *dst = current_matrix;
     (*dst)[0][0] = (*src)[0][0];
     (*dst)[0][1] = (*src)[0][1];
@@ -153,7 +148,7 @@ void transform_chunk_object_tree(void *arg0, void (*cb)(void *)) {
             }
             if (!(flags & 2)) {
                 if (flags & 0x1000) {
-                    TObjPlayer::copy_matrix3x3_for_chunk_tree(&chunk_object_current_matrix);
+                    copy_matrix3x3_for_chunk_tree(&chunk_object_current_matrix);
                 } else if (flags & 0x400) {
                     apply_quat_rotation(node->f34, (f32 *)node->ang);
                 } else {
@@ -205,7 +200,7 @@ LAYOUT_ASSERT(VtxOut_803E3390_size, sizeof(VtxOut_803E3390) == 0x20);
 // This chunk command transforms indexed positions and normals with signed 8.8 weights.
 #ifdef __MWERKS__
 asm void transform_chunk_vertices_weighted(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
-#include "orig_asm/pso/unk/text_803E2F28/transform_chunk_vertices_weighted.inc"
+#include "orig_asm/pso/render/ChunkModelDraw/transform_chunk_vertices_weighted.inc"
 }
 #else
 static void transform_chunk_vertex(const VtxIn_803E3390 *src, const ReorderedMatrix_803E3390 *matrix, VtxOut_803E3390 *dst) {
@@ -349,18 +344,31 @@ void transform_chunk_vertices_pos_normal(ChunkVertexJob *job, ReorderedMatrix_80
 #endif
 }
 
-void TObjPlayer::transform_vertex_list() {
-    ChunkVertexJob *arg0 = (ChunkVertexJob *)this;
-    s32 n = arg0->count;
-    u8 *src = arg0->src;
-    u8 *dst = arg0->dst;
+// NJD_CV_VN_D8 records: position, normal and a diffuse colour.
+struct ChunkVertexNormalColor {
+    Vec pos;
+    Vec normal;
+    f32 color;
+};
+
+struct ChunkCachedVertex {
+    Vec pos;
+    Vec normal;
+    u32 color;
+    u32 pad;
+};
+
+void transform_chunk_vertices_pos_normal_color(ChunkVertexJob *job, GC_Mtx *matrix) {
+    s32 n = job->count;
+    ChunkVertexNormalColor *src = (ChunkVertexNormalColor *)job->src;
+    ChunkCachedVertex *dst = (ChunkCachedVertex *)job->dst;
     while (n-- > 0) {
-        transform_point_by_current_matrix(src, dst);
-        rotate_vector_by_current_matrix(src + 0xC, dst + 0xC);
-        f32 t = *(f32 *)(src + 0x18);
-        src += 0x1C;
-        *(s32 *)(dst + 0x18) = __cvt_fp2unsigned(t);
-        dst += 0x20;
+        transform_point_by_current_matrix(&src->pos.x, &dst->pos);
+        rotate_vector_by_current_matrix(&src->normal, &dst->normal);
+        f32 color = src->color;
+        src++;
+        dst->color = color;
+        dst++;
     }
 }
 
@@ -396,17 +404,17 @@ void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 la
     if ((u32)chunk_render_flags != 0) {
         if ((u32)chunk_render_flags & 1) {
             if ((u32)chunk_render_flags & 0x200) {
-                TObjPlayer::clear_move_state_bits();
+                clear_chunk_strip_blend_flags();
                 draw = 0;
             }
         } else if ((u32)chunk_render_flags & 2) {
             if ((u32)chunk_render_flags & 0x400) {
-                TObjPlayer::clear_move_state_bits();
+                clear_chunk_strip_blend_flags();
                 draw = 0;
             }
         }
     }
-    TObjPlayer::clear_move_state_bits();
+    clear_chunk_strip_blend_flags();
     GXSetVtxAttrFmt(0, 0xD, 1, 3, large ? 0xC : 8);
     GXClearVtxDesc();
     GXSetVtxDesc(9, 1);
@@ -434,7 +442,7 @@ void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 la
     } while (--count != 0);
 }
 
-void draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info) {
+void draw_strip_list_pos_nrm(s16 *list, Vtx_803E36C4 *verts, u32 info) {
     s32 skip;
     s32 n;
     u32 count;
@@ -466,11 +474,11 @@ s32 dispatch_chunk_vertex_list(u32*, saddr);
 #pragma scheduling off
 #pragma peephole off
 void submit_chunk_material_color(s32 type, s16* data) {
-    FloatColor add;
-    ByteColor color;
-    ByteColor fallback = {0, 0, 0, 0x7F};
-    ByteColor converted;
-    ByteColor convertedAdd;
+    NJS_ARGB add;
+    GXColor color;
+    GXColor fallback = {0, 0, 0, 0x7F};
+    GXColor converted;
+    GXColor convertedAdd;
     if ((u32)(((u8)type-0x10)&1)!=0U) {
         s16 gb=data[0],ar=data[1];
         color.a=(ar>>8)&255;
@@ -534,7 +542,7 @@ void apply_chunk_texture_command(s32 header, s32 arg1) {
 }
 #pragma pop
 
-void TObjPlayer::setup_tev_passclr() {
+void setup_tev_passclr() {
     GXSetNumTevStages(1);
     GXSetNumTexGens(0U);
     GXSetTevOp(0, 4);
@@ -582,8 +590,7 @@ void set_chunk_alpha_compare_ref(int ref) {
 #pragma pop
 
 void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
-    // Inferred names: the two reasons the blended pass may keep depth writes,
-    // loaded from .sdata2 like the original's static constants.
+    // The two reasons the blended pass may keep depth writes.
     static const u32 texture_alpha_reason = 1;
     static const u32 model_alpha_reason = 2;
     s32 var_r31;
@@ -602,7 +609,7 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
     temp_r30 = (u32) (chunk_blend_header_bits & 0x3800) >> 0xBU;
     temp_r29 = (u32) (chunk_blend_header_bits & 0x700) >> 8U;
     if ((u32) chunk_render_flags != 0) {
-        TObjPlayer::clear_move_state_bits();
+        clear_chunk_strip_blend_flags();
     }
     if (arg1 == 0) {
         GXSetBlendMode(var_r31, temp_r30, temp_r29, 0);
@@ -757,11 +764,11 @@ void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
                     set_chunk_blend_depth_mode(state.header, 1);
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
-                    TObjPlayer::draw_strip_pos_normal(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
+                    draw_strip_pos_normal(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
                 } else {
                     set_chunk_blend_depth_mode(state.header, 0);
-                    TObjPlayer::setup_tev_passclr();
-                    TObjPlayer::draw_strip_list_pos_nrm(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
+                    setup_tev_passclr();
+                    draw_strip_list_pos_nrm(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
                 }
                 break;
             case NJD_CS_UVN:
@@ -770,7 +777,7 @@ void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
                 if (state.header & (NJD_FST_ENV >> NJD_FST_SHIFT)) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 0, 1, 0x2A, 0, 0x7D);
-                    TObjPlayer::draw_triangle_strips(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
+                    draw_triangle_strips(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
                 } else if (chunk_has_vertex_colors != 0) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(0, 1, 4, 0x3C, 0, 0x7D);
@@ -790,7 +797,6 @@ void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
 
 extern "C" {
 void push_reordered_matrix_ps(void);
-void transform_vertex_list__10TObjPlayerFv(ChunkVertexJob *job, GC_Mtx *matrix);
 }
 
 s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
@@ -815,7 +821,7 @@ s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
         } else if ((type & 0xFF) == 0x2C) {
             transform_chunk_vertices_weighted(&job, (ReorderedMatrix_803E3390 *)current_matrix, ((type & ~0x8000) >> 8) & 0xFF);
         } else if ((type & 0xFF) == 0x2A) {
-            transform_vertex_list__10TObjPlayerFv(&job, current_matrix);
+            transform_chunk_vertices_pos_normal_color(&job, current_matrix);
         } else if ((type & 0xFF) == 0x23) {
             pop_matrix();
             chunk_has_vertex_colors = 1;
@@ -828,7 +834,7 @@ s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
     return total;
 }
 
-void TObjPlayer::setup_model_draw_state(void *) {
+void setup_model_draw_state(void *) {
     Mtx34 scale;
     Mtx34 trans;
     Mtx34 m;
@@ -856,7 +862,7 @@ void TObjPlayer::setup_model_draw_state(void *) {
 
 #pragma push
 #pragma peephole off
-void TObjPlayer::end_chunk_draw() {
+void end_chunk_draw() {
     if ((u32) (ginja_draw_flags & 2) != 0) {
         TObjPlayer::set_effect_active();
         apply_scene_fog();
@@ -865,13 +871,13 @@ void TObjPlayer::end_chunk_draw() {
     GXSetZCompLoc(1);
     GXSetZMode(1, 1, 1);
     set_chunk_alpha_compare_ref(0);
-    if (((s32 (*)()) player_chunk_draw_end_callback) != NULL) {
+    if (player_chunk_draw_end_callback != NULL) {
         player_chunk_draw_end_callback();
     }
 }
 #pragma pop
 
-s32 TObjPlayer::draw_chunk_vertices_cached(void* arg) {
+s32 draw_chunk_vertices_cached(void* arg) {
     ChunkModel_803E44D4* model = (ChunkModel_803E44D4*)arg;
     saddr cache;
     s32 count = 0;
@@ -909,25 +915,25 @@ s32 TObjPlayer::draw_chunk_vertices_cached(void* arg) {
 }
 
 void draw_chunk_model(void *model) {
-    TObjPlayer::setup_model_draw_state(model);
-    TObjPlayer::draw_chunk_vertices_cached(model);
-    TObjPlayer::end_chunk_draw();
+    setup_model_draw_state(model);
+    draw_chunk_vertices_cached(model);
+    end_chunk_draw();
 }
 
 #pragma push
 #pragma scheduling off
 
 void draw_chunk_object(void *child) {
-    TObjPlayer::setup_model_draw_state(child);
-    transform_chunk_object_tree(child, (void (*)(void *))TObjPlayer::draw_chunk_vertices_cached);
-    TObjPlayer::end_chunk_draw();
+    setup_model_draw_state(child);
+    transform_chunk_object_tree(child, (void (*)(void *))draw_chunk_vertices_cached);
+    end_chunk_draw();
 }
 #pragma pop
 
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info) {
+void draw_strip_pos_normal(s16 *list, Vtx_803E36C4 *verts, u32 info) {
     s32 skip;
     s32 n;
     u32 count;
@@ -957,7 +963,7 @@ void draw_strip_pos_normal__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, 
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma optimization_level 4
-void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info) {
+void draw_triangle_strips(s16 *list, Vtx_803E36C4 *verts, u32 info) {
     s32 skip;
     s32 n;
     s32 draw;
@@ -969,17 +975,17 @@ void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u
     if ((u32)chunk_render_flags != 0) {
         if ((u32)chunk_render_flags & 1) {
             if ((u32)chunk_render_flags & 0x200) {
-                TObjPlayer::clear_move_state_bits();
+                clear_chunk_strip_blend_flags();
                 draw = 0;
             }
         } else if ((u32)chunk_render_flags & 2) {
             if ((u32)chunk_render_flags & 0x400) {
-                TObjPlayer::clear_move_state_bits();
+                clear_chunk_strip_blend_flags();
                 draw = 0;
             }
         }
     }
-    TObjPlayer::clear_move_state_bits();
+    clear_chunk_strip_blend_flags();
     GXClearVtxDesc();
     GXSetVtxDesc(9, 1);
     GXSetVtxDesc(0xA, 1);
@@ -1005,9 +1011,9 @@ void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u
 
 #pragma push
 #pragma scheduling off
-void TObjPlayer__sub_803E492C(s32 a, s32 b) {
-    chunk_vertex_cache_buffer = a;
-    lbl_805D77FC = b;
+void init_chunk_draw(saddr vertex_buffer, s32 vertex_buffer_size) {
+    chunk_vertex_cache_buffer = vertex_buffer;
+    lbl_805D77FC = vertex_buffer_size;
     chunk_render_flags = 0;
 }
 #pragma pop
@@ -1028,7 +1034,7 @@ s32 chunk_previous_strip_flags;
 u32 chunk_strip_dirty_flags;
 u8 lbl_805D77D8;
 u8 lbl_805D77D9;
-s32 (*player_chunk_draw_end_callback)();
+void (*player_chunk_draw_end_callback)();
 u32 chunk_has_vertex_colors;
 u32 lbl_805D77E4;
 ChunkRecording_803E44D4* chunk_vertex_cache_state;

@@ -2,8 +2,7 @@
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/animation/MotionContext.h"
 #include "types.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/MatrixStack.h"
 
@@ -15,22 +14,16 @@ struct Node_803E49FC {
     struct Node_803E49FC *next;
 };
 
-void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDrawCallback draw_model);
-void draw_chunk_model_with_shape_motion(void *child, void *motion, NJS_MOTION *shape, f32 frame);
-void compose_motion_node_matrix(void *arg0);
-void draw_model_blend_motion(void *model, void *motion, f32 blend_factor);
-void draw_object_tree_recursive(void *arg);
-void traverse_animated_node_tree(void *arg);
 extern s32 chunk_render_flags;
 
-void TObjPlayer::clear_move_state_bits() {
+void clear_chunk_strip_blend_flags() {
     chunk_render_flags &= 0xFFFFF9FF;
 }
 
-extern s32 (*player_chunk_draw_end_callback)();
+extern void (*player_chunk_draw_end_callback)();
 
-void TObjPlayer::set_global_state(saddr arg0) {
-    player_chunk_draw_end_callback = (s32 (*)())arg0;
+void set_chunk_draw_end_callback(void (*callback)()) {
+    player_chunk_draw_end_callback = callback;
 }
 
 s32 motion_packed_rotation_mode;
@@ -69,21 +62,21 @@ void draw_object_tree_recursive(void *arg) {
 }
 
 void draw_model_blend_motion(void *model, void *motion, f32 blend_factor) {
-    TObjPlayer::setup_model_draw_state(model);
-    draw_blend_motion_tree((NJS_OBJECT *)model, (NJS_MOTION_LINK *)motion, blend_factor, TObjPlayer::draw_chunk_vertices_cached);
-    TObjPlayer::end_chunk_draw();
+    setup_model_draw_state(model);
+    draw_blend_motion_tree((NJS_OBJECT *)model, (NJS_MOTION_LINK *)motion, blend_factor, draw_chunk_vertices_cached);
+    end_chunk_draw();
 }
 
 void draw_model_motion(void *model, void *motion, f32 frame) {
-    TObjPlayer::setup_model_draw_state(model);
-    draw_motion_tree((NJS_OBJECT *)model, (NJS_MOTION *)motion, frame, TObjPlayer::draw_chunk_vertices_cached);
-    TObjPlayer::end_chunk_draw();
+    setup_model_draw_state(model);
+    draw_motion_tree((NJS_OBJECT *)model, (NJS_MOTION *)motion, frame, draw_chunk_vertices_cached);
+    end_chunk_draw();
 }
 
 void draw_chunk_model_with_shape_motion(void *child, void *motion, NJS_MOTION *shape, f32 frame) {
-    TObjPlayer::setup_model_draw_state(child);
-    draw_shape_motion_tree((NJS_OBJECT *)child, (NJS_MOTION *)motion, shape, frame, TObjPlayer::draw_chunk_vertices_cached);
-    TObjPlayer::end_chunk_draw();
+    setup_model_draw_state(child);
+    draw_shape_motion_tree((NJS_OBJECT *)child, (NJS_MOTION *)motion, shape, frame, draw_chunk_vertices_cached);
+    end_chunk_draw();
 }
 
 void set_motion_packed_rotation() {

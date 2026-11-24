@@ -11,7 +11,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/system/MatrixStack.h"

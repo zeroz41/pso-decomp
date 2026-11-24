@@ -14,7 +14,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/model_render_state.h"

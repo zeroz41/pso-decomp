@@ -342,15 +342,15 @@ void draw_chunk_color_tex_strips(s16 *p, ChunkColorVertex *verts, u32 flags, s32
     if (chunk_render_flags != 0) {
         if (chunk_render_flags & 1) {
             if (chunk_render_flags & 0x200) {
-                TObjPlayer::clear_move_state_bits();
+                clear_chunk_strip_blend_flags();
                 draw = 0;
             }
         } else if ((chunk_render_flags & 2) && (chunk_render_flags & 0x400)) {
-            TObjPlayer::clear_move_state_bits();
+            clear_chunk_strip_blend_flags();
             draw = 0;
         }
     }
-    TObjPlayer::clear_move_state_bits();
+    clear_chunk_strip_blend_flags();
     GXClearVtxDesc();
     GXSetVtxAttrFmt(0, 9, 1, 4, 0);
     GXSetVtxAttrFmt(0, 0xB, 1, 5, 0);

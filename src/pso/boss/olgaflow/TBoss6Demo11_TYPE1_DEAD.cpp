@@ -10,7 +10,7 @@
 #include "pso/system/vector.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/boss/olgaflow/TBoss6Demo11_TYPE1_DEAD.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"

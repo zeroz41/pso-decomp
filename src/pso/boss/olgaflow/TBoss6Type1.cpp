@@ -4,7 +4,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/boss/olgaflow/TBoss6SwordShot.h"
 #include "types.h"

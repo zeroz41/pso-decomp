@@ -10,7 +10,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/ModelNodeTables.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"

@@ -3,7 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include <dolphin/mtx.h>
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TObject_80019A50.h"

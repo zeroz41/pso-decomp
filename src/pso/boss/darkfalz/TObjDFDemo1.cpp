@@ -13,7 +13,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"

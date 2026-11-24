@@ -12,7 +12,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/ChunkMaterialState.h"
 
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/data/FlagWord.h"

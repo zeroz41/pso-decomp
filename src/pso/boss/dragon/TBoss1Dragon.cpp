@@ -82,7 +82,7 @@ struct NJS_OBJECT;
 #pragma dont_inline off
 #include <dolphin/mtx.h>
 #include <stddef.h>
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/network/client_id.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/object/TObjControl.h"

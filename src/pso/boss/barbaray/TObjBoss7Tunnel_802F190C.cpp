@@ -4,7 +4,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/TUnk_804E4AD4.h"

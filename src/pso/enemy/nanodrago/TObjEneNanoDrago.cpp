@@ -38,7 +38,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/render/model_render_state.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"

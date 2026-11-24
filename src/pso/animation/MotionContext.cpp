@@ -5,7 +5,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 
 extern "C" void blend_quaternions_nlerp(const f32 *a, const f32 *b, f32 rate, f32 *out);
 

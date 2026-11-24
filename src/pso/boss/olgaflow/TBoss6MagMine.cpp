@@ -8,7 +8,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include "pso/object/TObjControl.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/unk/TLobby.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"

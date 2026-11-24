@@ -8,7 +8,7 @@
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/boss/darkfalz/TObjBs4CutAtk.h"
 #include "pso/effect/TAttackTrace.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/unk/ModelNodeTables.h"

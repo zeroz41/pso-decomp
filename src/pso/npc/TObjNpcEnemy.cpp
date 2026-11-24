@@ -1,7 +1,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
