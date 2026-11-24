@@ -156,7 +156,7 @@ s32 TObjPlayer::tick_countdown_timer() {
 void apply_anim_action__10TObjPlayerFPvi(u8 *controller, saddr player) {
     ((FlagWord *)((void *) (controller + 0xC)))->set(2);
     *(s32 *)((s8 *)controller + 0x1C) = (s32) ((TObjPlayer *)player)->get_attack_recovery_count();
-    TObjPlayer::clear_flag_128((void*)((void *) (player)));
+    ((TObjPlayer *)player)->clear_flag_128();
 }
 
 void begin_player_attack(u8 *controller, s32 arg1, s16 stage, s32 arg3) {
@@ -246,7 +246,7 @@ void TObjPlayer::set_action_palette_state_mode(u8 mode) {
     set_player_action_palette_mode(&action_palette_state, mode);
 }
 
-void TObjPlayer::clear_flag_128(void* p) { ((TObjPlayer *)p)->clear_state_flags(128); }
+void TObjPlayer::clear_flag_128() { this->clear_state_flags(128); }
 
 void handle_6x54(void) {  }
 

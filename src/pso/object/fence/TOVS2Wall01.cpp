@@ -234,7 +234,7 @@ f32 TOVS2Wall01::take_hit(TObjBase *attacker) {
     if (attacker->get_entity_id() < 4U) {
         player = (TObjPlayer *)attacker;
     }
-    if ((player != NULL) && (TObjPlayer::is_locally_controlled(player) == 1)) {
+    if ((player != NULL) && (player->is_locally_controlled() == 1)) {
         m_33c--;
         if ((s32)m_33c <= 0) {
             m_33c = 0;

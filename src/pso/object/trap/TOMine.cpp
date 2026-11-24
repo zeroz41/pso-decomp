@@ -490,7 +490,7 @@ f32 TOMine::receive_direct_attack(void *player, DirectAttackPayload payload, voi
     return 0.0f;
   }
   var_r31 = 0;
-  if ((((TObjBase *)player)->get_entity_id() < 4U) && (TObjPlayer::is_locally_controlled((void *) player) != 0))
+  if ((((TObjBase *)player)->get_entity_id() < 4U) && (((TObjChara *)player)->is_locally_controlled() != 0))
   {
     var_r31 = 1;
   }
@@ -525,7 +525,7 @@ f32 TOMine::receive_weapon_special_attack(void *player, void *) {
     if (is_target_in_list(player) == 1) {
         return 0.0f;
     }
-    if ((TObjPlayer::is_locally_controlled((void *)player) != 0) && (((TObjPlayer *)player)->obj_getS16_116() != 0)) {
+    if ((((TObjChara *)player)->is_locally_controlled() != 0) && (((TObjPlayer *)player)->obj_getS16_116() != 0)) {
         this->receive_physical_attack(0, 1.0f);
     }
     return 0.0f;
@@ -646,7 +646,7 @@ s32 TOMine::select_melee_contact_body(void *attacker, f32) {
     if (((s32) this->m_344 == 2) && (attacker == this->target)) {
         return 0;
     }
-    if (TObjPlayer::is_locally_controlled(attacker) != 0) {
+    if (((TObjChara *)attacker)->is_locally_controlled() != 0) {
         return 1;
     }
     return 0;
@@ -659,7 +659,7 @@ int TOMine::calc_distance_accuracy_penalty(void *attacker, void *, void *, float
     if (((s32) this->m_344 == 2) && (attacker == this->target)) {
         return 0;
     }
-    if (TObjPlayer::is_locally_controlled(attacker) != 0) {
+    if (((TObjChara *)attacker)->is_locally_controlled() != 0) {
         return 1;
     }
     return 0;
@@ -1154,7 +1154,7 @@ void TOMineDisp::run_task() {
     switch (this->m_a4) {
     case 0:
         player = get_player_by_client_id(this->m_a8);
-        if (player != NULL && TObjPlayer::is_locally_controlled(player) != 0 && fn_80171314(player) != 0) {
+        if (player != NULL && player->is_locally_controlled() != 0 && fn_80171314(player) != 0) {
             if (horizontal_distance_squared(&position, &player->position) <= 40000.0f ||
                 player->get_room() == this->get_room()) {
                 this->m_a4 = 2;
@@ -1222,7 +1222,7 @@ void TOMineTrapDisp::run_task() {
         if (TOMineTrap__sub_80171350() == 1) {
             for (i = 0; i < 4; i++) {
                 pl = get_player_by_client_id(i);
-                if (pl != 0 && TObjPlayer::is_locally_controlled(pl) != 0) {
+                if (pl != 0 && pl->is_locally_controlled() != 0) {
                     if (fn_80171314(pl) != 0 ||
                         (TTecCtrl::is_technique_ready() != 0 && m_ac == (u16)pl->get_entity_id())) {
                         if (!(horizontal_distance_squared(&position, &pl->position) <= 40000.0f)) {

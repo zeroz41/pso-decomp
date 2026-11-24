@@ -126,7 +126,7 @@ void TObjVoloptCage::update_capture() {
     case 0:
         player = get_player_by_client_id(targetId);
         if (player != NULL) {
-            if (TObjPlayer::is_locally_controlled(player) != 0) {
+            if (player->is_locally_controlled() != 0) {
                 send_6x2C_impose_hold(player, &position, -1, 0, 10.0f);
                 obj_set_flag_20000(player);
             }
@@ -233,7 +233,7 @@ void TObjVoloptCage::run_task() {
 
 TObjVoloptCage::~TObjVoloptCage() {
     TObjPlayer *player = get_player_by_client_id(targetId);
-    if (player != NULL && TObjPlayer::is_locally_controlled(player) != 0) {
+    if (player != NULL && player->is_locally_controlled() != 0) {
         if (player->check_player_flag1() != 0) {
             send_release_hold(player);
         }

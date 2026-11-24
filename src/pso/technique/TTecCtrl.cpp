@@ -674,7 +674,7 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
         Vec v = {0.0f, -1.0f, 0.0f};                                                             \
         new TActorLight(0.1f, 0.35f, scene_light_state.intensity, &c, &v, base,          \
                           (TObjBase *)owner, tl_07);                                             \
-        if (TObjPlayer::is_locally_controlled(owner) != 0) {                                \
+        if (((TObjChara *)owner)->is_locally_controlled() != 0) {                                \
             new INIT((TObjPlayer *)owner, tl_07);                                                \
         }                                                                                        \
     }

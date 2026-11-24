@@ -71,7 +71,7 @@ void TObjPlayer::place_on_area_entry() {
     TObjPlayerSet *other;
 
     if (get_main_phase() == 0xE && TObjPlayer::is_single_screen() == 0 &&
-        TObjPlayer::is_locally_controlled(arg0) != 0 && this->has_active_camera_event() == 0 &&
+        ((TObjChara *)arg0)->is_locally_controlled() != 0 && this->has_active_camera_event() == 0 &&
         this->check_flag(0x100000) == 0 && TObjPlayer::is_key_machine_ready() != 0) {
         this->set_state_flags(0x100000);
         this->set_position_from(this->get_lobby_entry_ptr());
@@ -109,7 +109,7 @@ void TObjPlayer::place_on_area_entry() {
         reset_cameras_to_actor(this, 0);
     } else if (this->sub_801A1DDC() != 0) {
         TObjPlayer *player;
-        if (TObjPlayer::is_locally_controlled(arg0) == 0 && (player = get_player_by_client_id(local_client_id)) != NULL) {
+        if (((TObjChara *)arg0)->is_locally_controlled() == 0 && (player = get_player_by_client_id(local_client_id)) != NULL) {
             reset_cameras_to_actor(player, 0);
         } else {
             reset_cameras_to_actor(this, 0);
@@ -229,7 +229,7 @@ void TObjPlayer::init_battle(void *record) {
 void TObjPlayer::reset_area_entry_state() {
     follow_particles.create_hand_particles(this);
     ((TObjPlayer *)((u8 *)this + 0x634))->enter_battle_state();
-    if (TObjPlayer::is_locally_controlled(this) != 0) {
+    if (this->is_locally_controlled() != 0) {
         TObjPlayer::for_each_player_slot(update_photon_chair__10TObjPlayerFv);
     }
 }
@@ -347,7 +347,7 @@ void TObjPlayer::reset_pad_binding() {}
 void TObjPlayer::release_pad_binding() {}
 
 void TObjPlayer::init_control_mode(s32 role) {
-    if (TObjPlayer::is_locally_controlled(this) != 0) {
+    if (this->is_locally_controlled() != 0) {
         controller_port = role & 3;
         pad_binding.init(get_entity_id(), controller_port);
         return;
@@ -850,7 +850,7 @@ void TObjPlayer::refresh_player_lobby_headers() {
         ((TObjPlayer *)entry)->init_select_txt();
         player = get_player_by_client_id(client);
         if (player != NULL) {
-            if (TObjPlayer::is_locally_controlled(player) != 0) {
+            if (player->is_locally_controlled() != 0) {
                 ((TObjPlayer *)entry)->copy_lobby_header((saddr)player);
             }
             delete player;

@@ -828,7 +828,7 @@ void TObjWarpBossMulti::run_task() {
 
     for (i = 0; i < 4; i++) {
         pl = player_slot_table[i];
-        if (pl != 0U && TObjPlayer::is_locally_controlled((void *)pl) != 0) {
+        if (pl != 0U && ((TObjChara *)pl)->is_locally_controlled() != 0) {
             if (((TObjPlayer *)pl)->get_floor() == get_current_floor()) {
                 if (xz_distance_squared(&((TObjPlayer *)pl)->position, &position) <= (r = 25.0f + warp_range) * r) {
                     if (TObjWarpBossMulti::is_flag_clear((void*)pl) != 0) {

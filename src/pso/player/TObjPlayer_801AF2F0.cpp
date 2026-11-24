@@ -925,7 +925,7 @@ void TObjPlayer::create_lockon_cursor() {
         if (this->lock_on_cursor == NULL) {
             this->lock_on_cursor = new TLockOnCursor(this, this->get_entity_id());
         }
-    } else if (((TObjPlayer::is_locally_controlled(this) != 0) || (obj_isState3_324() != 0)) && (this->lock_on_cursor == NULL)) {
+    } else if (((this->is_locally_controlled() != 0) || (obj_isState3_324() != 0)) && (this->lock_on_cursor == NULL)) {
         this->lock_on_cursor = new TLockOnCursor(this, this->get_entity_id());
     }
 }
@@ -984,7 +984,7 @@ void TObjPlayer::sub_801BB950() {
       this->set_action_provider_variant(equipped_weapon->get_motion_type());
     }
   }
-  if ((TObjPlayer::is_locally_controlled(this) != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0))
+  if ((this->is_locally_controlled() != 0) && (TFontSmallLobby::is_lobby_floor_15() == 0))
   {
     if (is_current_area_item_enabled() == 0)
     {
@@ -1004,7 +1004,7 @@ void TObjPlayer::sub_801BB950() {
     this->m_54c = (uaddr)TFontSmallLobby::create(this->get_entity_id() & 0xFFFFu);
   }
   obj_clear_flag30_20000(this);
-  if (TObjPlayer::is_locally_controlled(this) != 0)
+  if (this->is_locally_controlled() != 0)
   {
     if (check_flag_800000() != 0)
     {
@@ -1075,7 +1075,7 @@ void TObjPlayer::reset_motion_fields() {
     reset_action_input();
     this->sub_801BB950();
     reset_pending_action();
-    if ((TObjPlayer::is_locally_controlled(this) != 0) && (TObjPlayer::is_key_machine_ready() != 0) && (this->check_flag(0x800) == 0) && ((this->test_actor_flags(0x800) != 0) || (this->get_actor_hp() <= 0))) {
+    if ((this->is_locally_controlled() != 0) && (TObjPlayer::is_key_machine_ready() != 0) && (this->check_flag(0x800) == 0) && ((this->test_actor_flags(0x800) != 0) || (this->get_actor_hp() <= 0))) {
         this->clear_actor_flags((u32)(0x800));
         if (TObjPlayer::check_camera_mode() != 0) {
             ((s32 (*)(void *))send_code_49_1__10TObjPlayerFi)(this);
@@ -1088,7 +1088,7 @@ void TObjPlayer::reset_motion_fields() {
             this->set_battle_flag(0);
         }
     }
-    if ((TObjPlayer::is_locally_controlled(this) != 0) && (this->check_flag(0x800) != 0)) {
+    if ((this->is_locally_controlled() != 0) && (this->check_flag(0x800) != 0)) {
         this->clear_state_flags(0x800);
         TWindowCtrl::enable_client_main_menu(this->get_entity_id());
         send_impose_hold(this, 0xF);
@@ -2276,7 +2276,7 @@ void handle_6x83_place_trap(G_PlaceTrap_6x83 *command) {
         u8 *p = (u8 *)get_player_by_client_id(pkt.client);
         if (p != NULL && create_placed_trap__10TOMineTrapFUiss(p, pkt.a, pkt.b) != 0) {
             ((TObjPlayer *)(p + 0x7C4))->consume_trap_count(1, pkt.a);
-            if (TObjPlayer::is_locally_controlled(p) != 0) {
+            if (((TObjChara *)p)->is_locally_controlled() != 0) {
                 TWindowCtrl::call_window_method_with_default_vec((u16)((TObjBase *)(p))->get_entity_id());
             }
         }
@@ -2635,7 +2635,7 @@ s32 can_destroy_with_parents__10TObjPlayerFUi(uaddr obj) {
 }
 
 void TObjPlayer::swap_inventory_items(s32 first_id, s32 second_id) {
-    if (TObjPlayer::is_locally_controlled(this) == 0) {
+    if (this->is_locally_controlled() == 0) {
         return;
     }
     if (first_id == -1 || second_id == -1) {
@@ -2650,7 +2650,7 @@ void handle_6x98(void) {  }
 
 void TObjPlayer::close_sub_window() {
     void *p;
-    if (TObjPlayer::is_locally_controlled(this) != 0) {
+    if (this->is_locally_controlled() != 0) {
         p = this->inventory_objects;
         if (p != 0) {
             TObjPlayer__sub_801D4368((TPlyItem *)p);
@@ -2957,7 +2957,7 @@ void TObjPlayer::check_level_up() {
     s32 j;
     s32 lvl;
     u8 *added_item;
-    if ((TObjPlayer::is_locally_controlled(this) != 0) && (is_current_area_item_enabled() != 0)) {
+    if ((this->is_locally_controlled() != 0) && (is_current_area_item_enabled() != 0)) {
         lvl = this->clamp_nested_index() + 1;
         if (lvl <= TObjPlayer::get_max_level()) {
             if (TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(this), lvl) <= (s32) this->stat_block->exp) {
@@ -3107,7 +3107,7 @@ void TObjPlayer::spawn_level_change_feedback(const char *message) {
     publish_actor_light_scalars(get_entity_id(), player_one, player_half);
 }
 
-void TObjPlayer::notify_volopt_if_ready(void* p) { if (TObjPlayer::is_locally_controlled(p) != 0) { ((int (*)(void*, void*, void*, void*))play_sound_effect)((void*)335646, (void*)0, (void*)0, (void*)0); } }
+void TObjPlayer::notify_volopt_if_ready(void* p) { if (((TObjChara *)p)->is_locally_controlled() != 0) { ((int (*)(void*, void*, void*, void*))play_sound_effect)((void*)335646, (void*)0, (void*)0, (void*)0); } }
 
 #pragma push
 #pragma scheduling off
@@ -3383,7 +3383,7 @@ s32 TObjPlayer::check_actor_blocking_move() {
 }
 
 void TObjPlayer::update_ground_contact() {
-    if (TObjPlayer::is_locally_controlled(this) != 0) {
+    if (this->is_locally_controlled() != 0) {
         if (pad_binding.is_button_held(fn_8002AE08(this->get_entity_id())) != 0) {
             set_primary_action_palette_bank(&this->action_palettes);
             if (this->photon_blast_gauge.has_ready_flag() != 0) {
@@ -3954,7 +3954,7 @@ s32 TObjPlayer::get_battle_ctrl_id(u16 client) {
 }
 
 void TObjPlayer::update_subsystems() {
-    if (TObjPlayer::is_locally_controlled(this) != 0) {
+    if (this->is_locally_controlled() != 0) {
         this->check_level_up();
         sync_status_effect_flags();
         clear_action_flag();
@@ -4241,7 +4241,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
         }
         break;
     case 3:
-        if (TObjPlayer::try_camera_action((saddr)this, (s32)act) != 0) {
+        if (this->try_camera_action((s32)act) != 0) {
             technique_state.set_technique_id(act);
             run_action_state_phase(8, 5);
             return 1;
@@ -4489,7 +4489,7 @@ void TObjPlayer::clear_flag_4096() { this->clear_state_flags(4096); }
 int TObjWarpBossMulti::is_flag_clear(void* p) { return (((TObjPlayer *)p)->check_flag(4096)) == 0; }
 
 s32 TObjPlayer::create_return_city_window() {
-    if ((TObjPlayer::is_locally_controlled(this) != 0) && ((u32) this->m_36c == 0U) && (this->death_fade != NULL)) {
+    if ((this->is_locally_controlled() != 0) && ((u32) this->m_36c == 0U) && (this->death_fade != NULL)) {
         this->m_36c = (saddr)new TWindowReturnCity(tl_07, (u16)this->get_entity_id());
         return 1;
     }
@@ -4513,11 +4513,11 @@ void complete_deferred_player_death(void) {
     }
     if (TTecCtrl::is_technique_ready() != 0) {
         if (((u8 (*)(void *))TLobby__sub_801D7100)(lobby_rule_settings) == 1) {
-            TObjPlayer::send_6x4E_player_revivable((saddr)p);
+            p->send_6x4E_player_revivable();
             return;
         }
         if (((u8 (*)(void *))TLobby__sub_801D7100)(lobby_rule_settings) == 2 && TObjPlayer::decrement_timer((s32 *)((u8 *)p + 0x754)) == 0) {
-            TObjPlayer::send_6x4E_player_revivable((saddr)p);
+            p->send_6x4E_player_revivable();
             return;
         }
         ((TObjPlayer *)p)->send_respawn_position();
@@ -4533,7 +4533,7 @@ void complete_deferred_player_death(void) {
         return;
     }
     if (TObjPlayer::is_camera_mode_active() != 0) {
-        TObjPlayer::send_6x4E_player_revivable((saddr)p);
+        p->send_6x4E_player_revivable();
         return;
     }
     if (get_main_phase() == 0xE) {
@@ -4549,11 +4549,11 @@ void complete_deferred_player_death(void) {
             return;
         }
         ((TObjPlayer *)p)->create_return_city_window();
-        TObjPlayer::send_6x4E_player_revivable((saddr)p);
+        p->send_6x4E_player_revivable();
         return;
     }
     ((TObjPlayer *)p)->create_return_city_window();
-    TObjPlayer::send_6x4E_player_revivable((saddr)p);
+    p->send_6x4E_player_revivable();
 }
 
 void TObjPlayer::prepare_hospital_return() {
@@ -5026,7 +5026,7 @@ void handle_6x24_teleport_player(G_TeleportPlayer_6x24 *command) {
     ((TObjPlayer *)player)->set_flag_4000();
     ((TObjPlayer *)player)->refresh_equipment_slot();
     TPlyOnCountOver::create(((TObjBase *)player)->get_entity_id(), 2, clear_flag_4000_callback__10TObjPlayerFv);
-    if (TObjPlayer::is_locally_controlled((void *)player) != 0) {
+    if (((TObjChara *)player)->is_locally_controlled() != 0) {
         reset_cameras_to_actor(reinterpret_cast<TObjPlayer *>(player), 0);
     }
 }
@@ -5036,7 +5036,8 @@ void send_6x2F_change_player_hp(s32 id, s32 client, s32 hp) {
     Msg_801B1E54 m;
 
     TObjChara *chara = (TObjChara *)get_player_by_client_id(id & 0xFFFF);
-    if (((chara == NULL) || (chara->obj_isState2_324() == 0)) && ((get_player_by_client_id(client & 0xFFFF) == NULL) || (((s32 (*)(void))TObjPlayer::is_locally_controlled)() != 0))) {
+    TObjPlayer *sender;
+    if (((chara == NULL) || (chara->obj_isState2_324() == 0)) && (((sender = get_player_by_client_id(client & 0xFFFF)) == NULL) || (sender->is_locally_controlled() != 0))) {
         ((TObjPlayer *)(&m))->init_6x2F_packet_header();
         m.a = id;
         m.b = 0;
@@ -5175,7 +5176,7 @@ void foreach_player__10TObjPlayerFv(s32 (*callback)(u32)) {
     slot = 0;
     do {
         player = slots[slot];
-        if ((player != 0U) && (TObjPlayer::is_locally_controlled((void *)player) != 0)) {
+        if ((player != 0U) && (((TObjChara *)player)->is_locally_controlled() != 0)) {
             fn(player);
         }
         i += 1;
@@ -5357,7 +5358,7 @@ void TObjPlayer::draw(f32 at_frame) {
 }
 
 void TObjPlayer::spawn_effect(saddr player) {
-    if (TObjPlayer::is_locally_controlled((void *)player) != 0) {
+    if (((TObjChara *)player)->is_locally_controlled() != 0) {
         start_pad_rumble_client(0xC0, 0xF, ((TObjBase *)(player))->get_entity_id());
     }
 }
@@ -5522,7 +5523,7 @@ void TLobby::apply_battle_rules_to_players() {
         ((TLobby *)&p->m_754)->update_all_children();
         if (((TLobby *)q)->get_rule_field_0() == 1) {
             p->set_state_flag_6043();
-            if (TObjPlayer::is_locally_controlled(p) != 0) {
+            if (((TObjChara *)p)->is_locally_controlled() != 0) {
                 lobby_player_count = 1;
             }
         } else {
@@ -5584,7 +5585,7 @@ void TLobby::apply_battle_rules_to_players() {
             TObjPlayer::disable_drop_weapon_on_death(p);
             break;
         }
-        if (((TLobby *)q)->normalize_battle_rule_value() == 1 && TObjPlayer::is_locally_controlled(p) != 0) {
+        if (((TLobby *)q)->normalize_battle_rule_value() == 1 && ((TObjChara *)p)->is_locally_controlled() != 0) {
             ((TObjPlayer *)p->lock_on_cursor)->set_flags_bit2();
         }
         if (TLobby__sub_801D6FFC(q) != 0) {
@@ -5829,13 +5830,13 @@ void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damag
     }
     if (((TObjCollidable *)obj)->test_actor_flags(0x10000000) == 0)
     {
-      if (TObjPlayer::is_locally_controlled((void *)mine_trap) != 0)
+      if (((TObjChara *)mine_trap)->is_locally_controlled() != 0)
       {
         ((int (*)(u32, u32, s16)) accumulate_damage_stats)(mine_trap + 0x77C, obj, damage);
       }
     }
     else
-      if ((TObjPlayer::is_locally_controlled((void *)mine_trap) != 0) && ((mine_trap == 0U) || (((TObjChara *)mine_trap)->obj_isState2_324() == 0)))
+      if ((((TObjChara *)mine_trap)->is_locally_controlled() != 0) && ((mine_trap == 0U) || (((TObjChara *)mine_trap)->obj_isState2_324() == 0)))
     {
       ((int (*)(u32, u32, s16)) accumulate_damage_stats)(mine_trap + 0x77C, obj, damage);
       if (((TObjBase *)(obj))->get_entity_id() != ((TObjBase *)(mine_trap))->get_entity_id())
@@ -5861,7 +5862,7 @@ void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damag
 void handle_6x8E(void) {  }
 
 void apply_camera_shake__10TObjPlayerFiii(saddr player, saddr target, s32 damage) {
-    if ((TTecCtrl::is_technique_ready() != 0) && (((TObjCollidable *)target)->test_actor_flags(0x10000000) == 0) && (TObjPlayer::is_locally_controlled((void *)player) != 0)) {
+    if ((TTecCtrl::is_technique_ready() != 0) && (((TObjCollidable *)target)->test_actor_flags(0x10000000) == 0) && (((TObjChara *)player)->is_locally_controlled() != 0)) {
         accumulate_damage_stats(player + 0x78C, target, damage);
     }
 }
@@ -5900,7 +5901,7 @@ void handle_6x8F_add_battle_damage_scores(G_AddBattleDamageScores_6x8F *command)
 extern "C" {
 
 void TObjPlayer::record_meseta_pickup(s32 amount) {
-    if (TObjPlayer::is_locally_controlled((void *)this) == 0 || ((u8 (*)(void *))TLobby__sub_801D6FFC)(lobby_rule_settings) != 2 || TTecCtrl::is_technique_ready() == 0) {
+    if (this->is_locally_controlled() == 0 || ((u8 (*)(void *))TLobby__sub_801D6FFC)(lobby_rule_settings) != 2 || TTecCtrl::is_technique_ready() == 0) {
         return;
     }
     TObjPlayer__sub_801C19C8(((u8 *)this) + 0x79C, (f32) amount);
@@ -6352,13 +6353,13 @@ void TObjPlayer::update_battle_control_if_unlocked() {
 }
 
 void TObjPlayer::stop_force_if_alive() {
-    if (TObjPlayer::is_locally_controlled(this) != 0) {
+    if (this->is_locally_controlled() != 0) {
         pad_binding.set_controller(NULL);
     }
 }
 
 void TObjPlayer::init_local_pad_binding() {
-    if (TObjPlayer::is_locally_controlled(this) != 0) {
+    if (this->is_locally_controlled() != 0) {
         pad_binding.init(get_entity_id(), controller_port);
     }
 }

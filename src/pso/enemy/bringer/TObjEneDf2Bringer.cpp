@@ -470,7 +470,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
                 player->receive_direct_attack(this, h, 0, -1, -1);
                 if (is_player_entity_id(player->get_entity_id()) != 0) {
                     if (TObjEneDD::check_v2_mode() != 0) {
-                        if (TObjPlayer::is_locally_controlled(player) != 0) {
+                        if (player->is_locally_controlled() != 0) {
                             TItem *item = (TItem *)TObjPlayer::get_equipped_weapon(player);
                             if (item != NULL) {
                                 TObjPlayer::send_6x26_unequip_item((TObjPlayer *)player, item->get_item_id());

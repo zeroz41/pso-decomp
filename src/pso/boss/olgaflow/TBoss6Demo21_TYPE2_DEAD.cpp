@@ -250,7 +250,7 @@ void TBoss6Demo21_TYPE2_DEAD::run_task() {
         vec3_add_to(&c, &boss6_type2_dead_final_offset);
         for (i = 0; i < n; i++) {
             TObjPlayer *p = TObjPlayer::get_player_data(i);
-            if (TObjPlayer::is_locally_controlled(p) != 0 && TBoss6PlotFalz::is_state_1f(p) != 0) {
+            if (p->is_locally_controlled() != 0 && TBoss6PlotFalz::is_state_1f(p) != 0) {
                 Vec d;
                 VecCopy(&d, &p->position);
                 subtract_vector(&d, &c);

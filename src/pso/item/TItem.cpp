@@ -613,7 +613,7 @@ void handle_6x5D_drop_stacked_item(G_DropStackedItem_PC_V3_BB_6x5D *cmd) {
 }
 
 void buy_item_for_client(TItemData *data, u16 client) {
-    if (TObjPlayer::is_locally_controlled(get_player_by_client_id(client)) != 0) {
+    if (get_player_by_client_id(client)->is_locally_controlled() != 0) {
         if ((s32)data->id == -1) {
             data->id = advance_item_id_counter(client);
         }
@@ -1304,7 +1304,7 @@ s32 consume_item_by_id(s32 id) {
     s32 count = item->get_amount();
     s32 item_id = item->get_item_id();
     owner->dispatch_action(id, 1);
-    if (TObjPlayer::is_locally_controlled(owner) != 0) {
+    if (owner->is_locally_controlled() != 0) {
         owner->send_unequip_held_item();
     }
     if (find_item_by_id(item_id) != NULL && count < 2) {

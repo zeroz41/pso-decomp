@@ -880,7 +880,7 @@ s32 TMainCursor::get_action_cursor_priority(void *arg0, saddr player, s32 index)
         }
         break;
     case 3:
-        if (TObjPlayer::try_camera_action(player, sub) != 0) {
+        if (((TObjPlayer *)player)->try_camera_action(sub) != 0) {
             return cursor_action_priority_table[sub];
         }
         break;

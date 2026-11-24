@@ -26,7 +26,7 @@ void TUnk_804F112C::fn_803530A0() {
 }
 
 void TUnk_804F112C::update_player_object() {
-    if (TObjPlayer::is_locally_controlled(owner) != 0) {
+    if (owner->is_locally_controlled() != 0) {
         owner->apply_shock_status();
     }
 }

@@ -37,7 +37,7 @@ void run_task__13TObjItemLightFv(Light_80191F90 *arg0) {
     for (i = 0; i < 4; i++) {
         p = (Ply_80191F90 *)get_player_by_client_id(i);
         if (p != 0 && ((TObjPlayer *)p)->get_floor() == get_current_floor()
-            && TObjPlayer::is_locally_controlled(p) != 0
+            && ((TObjChara *)p)->is_locally_controlled() != 0
             && xz_distance_squared((const Vec *)p->pos, (const Vec *)arg0->pos) < arg0->f90 * arg0->f90) {
             ((TObjBase *)arg0)->set_event_source_flag(8);
             ((TObject *)arg0)->queue_destruction();

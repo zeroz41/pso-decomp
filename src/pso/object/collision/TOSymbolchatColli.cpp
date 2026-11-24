@@ -117,7 +117,7 @@ void TOSymbolchatColli::run_task() {
     TObjCollidable *player;
     for (i = 0; i != 4; i++) {
         player = find_entity_by_id(i);
-        if (player != NULL && TObjPlayer::is_locally_controlled(player) != 0) {
+        if (player != NULL && ((TObjChara *)player)->is_locally_controlled() != 0) {
             if (horizontal_distance_squared(&player->position, &position) < radius_sq) {
                 if (player_inside[i] == 0) {
                     player_inside[i] = 1;

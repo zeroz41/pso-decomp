@@ -38,7 +38,7 @@ s32 TWindowMessageLog::get_active_photon_object() {
     if (entity == 0) {
         return 0;
     }
-    if ((((TObjChara *)entity)->obj_isState2_324() == 0) && (TObjPlayer::is_locally_controlled((void *)entity) == 0)) {
+    if ((((TObjChara *)entity)->obj_isState2_324() == 0) && (((TObjChara *)entity)->is_locally_controlled() == 0)) {
         return 0;
     }
     var_r3 = entity + 0x85C;

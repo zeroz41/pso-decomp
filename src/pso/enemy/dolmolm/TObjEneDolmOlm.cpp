@@ -650,7 +650,7 @@ void TObjEneDolmOlm::update_special_attack() {
                 u16 id = ((TObjBase *)target)->get_entity_id();
                 if (((TObjCollidable *)target)->test_actor_flags(0x4000000) == 0) {
                     TObjPlayer *pl = get_player_by_client_id(id);
-                    if (pl != 0 && TObjPlayer::is_locally_controlled(pl) != 0 &&
+                    if (pl != 0 && pl->is_locally_controlled() != 0 &&
                         pl->all_parents_unqueued_for_destruction() != 0 &&
                         pl->test_actor_flags(0x800) == 0 && pl->check_player_flag1() == 0) {
                         TObjPlayer::play_effect(pl, (s32)(30.0f * (f32)TObjEneDolmOlm__behavior_params_by_variant[variant]->special_power), 2);

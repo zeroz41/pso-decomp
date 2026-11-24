@@ -1382,7 +1382,7 @@ void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, s32 *name) {
     } else {
         *height = 0.92f * q->proportions;
     }
-    if (((TObjChara *)obj)->obj_isState2_324() != 0 || TObjPlayer::is_locally_controlled(obj) != 0) {
+    if (((TObjChara *)obj)->obj_isState2_324() != 0 || ((TObjChara *)obj)->is_locally_controlled() != 0) {
         u8 *p = obj + 0x85C;
         if (p == NULL) {
             *name = 0;

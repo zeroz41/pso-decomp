@@ -105,7 +105,7 @@ s32 is_local_client(u16 client_index) {
     if (player == NULL) {
         return 0;
     }
-    if (TObjPlayer::is_locally_controlled(player) != 0) {
+    if (player->is_locally_controlled() != 0) {
         return 1;
     }
     return 0;

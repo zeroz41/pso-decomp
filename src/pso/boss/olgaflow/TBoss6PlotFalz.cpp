@@ -614,7 +614,7 @@ void TBoss6PlotFalz::apply_radial_effect_to_players(void *pos, s16 amount, s16 k
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         p = (saddr)TObjPlayer::get_player_data(i);
-        if (TBoss6PlotFalz::is_state_1f((TObjPlayer *)p) != 0 && TObjPlayer::is_locally_controlled((void *)p) != 0) {
+        if (TBoss6PlotFalz::is_state_1f((TObjPlayer *)p) != 0 && ((TObjChara *)p)->is_locally_controlled() != 0) {
             d = xyz_distance((void *)(p + 0x38), pos);
             if (!(d >= range)) {
                 start_pad_rumble_client((s16)((f32)amount * (1.0f - d / range)), kind, (s16)((TObjBase *)(p))->get_entity_id());
@@ -809,7 +809,7 @@ void place_players_in_warp_circle(void) {
             p->save_previous_position();
             *(s32 *)((u8 *)p->get_rotation() + 4) = ang + 0x8000;
             p->refresh_equipment_slot();
-            if (TObjPlayer::is_locally_controlled(p) != 0) {
+            if (p->is_locally_controlled() != 0) {
                 reset_cameras_to_actor(p, 0);
             }
             ang += step;

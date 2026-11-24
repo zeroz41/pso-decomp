@@ -323,7 +323,7 @@ void TItemWeaponTsumikiri::spawn_pg_effect(const Vec *origin, saddr item, f32 ra
     prm.max_radius = radius;
     prm.model = this->second_model;
     prm.texture_list = (NJS_TEXLIST *)this->texlist;
-    if (TObjPlayer::is_locally_controlled(owner) != 0) {
+    if (owner->is_locally_controlled() != 0) {
         TItemEffPG::create(tl_05, &prm);
     } else {
         TItemEffPG::create(tl_05, &prm, item);

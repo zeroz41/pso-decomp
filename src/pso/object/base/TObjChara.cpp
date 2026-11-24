@@ -624,7 +624,7 @@ void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 #define FIELD1C(o) ((TObjBase *)(o))->get_entity_id()
 #define STATE2(o) (((TObjChara *)(o))->obj_isState2_324())
 #define STATE3(o) ((TObjChara *)o)->obj_isState3_324()
-#define LOCAL(o) TObjPlayer::is_locally_controlled(o)
+#define LOCAL(o) ((TObjChara *)(o))->is_locally_controlled()
 #define VECCOPY(d, s) ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(d, s)
 #define HIT(o, p) (((TObjChara *)(o))->try_apply_damage(p, 0))
 #define DAMAGE(o, p, d) (((TObjChara *)(o))->try_apply_damage(p, d))
@@ -637,7 +637,7 @@ struct Obj_80010DE8;
 #define FIELD1C_W24(p) ((TObjBase *)(p))->get_entity_id()
 #define TESTF30_W24(p, m) ((TObjCollidable *)((p)))->test_actor_flags((m))
 #define ISSTATE2_W24(p) (((TObjChara *)(p))->obj_isState2_324())
-#define ISLOCAL_W24(p) TObjPlayer::is_locally_controlled(p)
+#define ISLOCAL_W24(p) ((TObjChara *)(p))->is_locally_controlled()
 #define MISS_W24(s, v) (((TObjChara *)(s))->show_miss_popup((const float *)(v)))
 #define APPLYDMG_W24(s, v, d) (((TObjChara *)(s))->try_apply_damage((const Vec *)(v), (d)))
 #define DISPATCH_W24(a, s, v) dispatch_weapon_special_effect((a), (s), (v), 1)
@@ -1057,8 +1057,8 @@ s16 TObjPlayer::get_class_id() { return *(s16*)((char*)this + 0x2f6); }
 
 #pragma push
 #pragma scheduling off
-s32 TObjPlayer::is_locally_controlled(void *chara) {
-    return (u8) (((TObjChara *)chara)->control_state == 1);
+s32 TObjChara::is_locally_controlled() {
+    return (u8) (this->control_state == 1);
 }
 
 Vec *VecCopy(Vec* dst, const Vec* src) {
@@ -1882,13 +1882,13 @@ s32 TObjChara::update_attack_stat_status() {
                     break;
                 case 9:
                     ((TObjChara *)((u8 *)this))->apply_switch_attack();
-                    if ((((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x10000000) == 0) || (TObjPlayer::is_locally_controlled(((u8 *)this)) != 0)) {
+                    if ((((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x10000000) == 0) || (this->is_locally_controlled() != 0)) {
                         ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x4002462A, ((u8 *)this) + 0x38, 0, 0);
                     }
                     break;
                 case 11:
                     ((TObjChara *)((u8 *)this))->enemy_spawn_jellen_effect();
-                    if ((((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x10000000) == 0) || (TObjPlayer::is_locally_controlled(((u8 *)this)) != 0)) {
+                    if ((((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x10000000) == 0) || (this->is_locally_controlled() != 0)) {
                         ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x4002442B, ((u8 *)this) + 0x38, 0, 0);
                     }
                     break;
@@ -1920,13 +1920,13 @@ s32 TObjChara::update_defense_stat_status() {
                     break;
                 case 10:
                     this->trigger_switch_attack();
-                    if ((((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x10000000) == 0) || (TObjPlayer::is_locally_controlled(((u8 *)this)) != 0)) {
+                    if ((((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x10000000) == 0) || (this->is_locally_controlled() != 0)) {
                         ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x40022C2C, ((u8 *)this) + 0x38, 0, 0);
                     }
                     break;
                 case 12:
                     this->enemy_spawn_zalure_effect();
-                    if ((((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x10000000) == 0) || (TObjPlayer::is_locally_controlled(((u8 *)this)) != 0)) {
+                    if ((((TObjCollidable *)(((u8 *)this)))->test_actor_flags(0x10000000) == 0) || (this->is_locally_controlled() != 0)) {
                         ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(0x4002362D, ((u8 *)this) + 0x38, 0, 0);
                     }
                     break;
@@ -2029,7 +2029,7 @@ void TObjPlayer::show_miss_for_collider(s32 collider) {
 }
 
 void TObjChara::show_miss_popup(const float *pos) {
-    if (this->test_actor_flags(0x02000000) == 0 && TObjPlayer::is_locally_controlled((void *)(this)) == 0 && pos != NULL) {
+    if (this->test_actor_flags(0x02000000) == 0 && this->is_locally_controlled() == 0 && pos != NULL) {
         if (TObjPlayer::get_player_count() == 0 || this->entity_id >= 0x1000) {
             TOCtrlDubchik::create_font((saddr)pos, 0xFFFF0000, 0x14, lbl_804340B0);
         }
@@ -2037,19 +2037,19 @@ void TObjChara::show_miss_popup(const float *pos) {
 }
 
 void TObjChara::try_apply_damage(const Vec *pos, s32 damage) {
-    if ((this->test_actor_flags(0x02000000) == 0) && (TObjPlayer::is_locally_controlled((void *)(this)) == 0) && (pos != NULL) && ((s16) damage >= 0) && ((TObjPlayer::get_player_count() == 0) || ((u16) this->entity_id >= 0x1000U))) {
+    if ((this->test_actor_flags(0x02000000) == 0) && (this->is_locally_controlled() == 0) && (pos != NULL) && ((s16) damage >= 0) && ((TObjPlayer::get_player_count() == 0) || ((u16) this->entity_id >= 0x1000U))) {
         create_damage_font__19TObjEneEpsilonGuardFllll((uaddr)pos, -1, 0x14, (s16) damage);
     }
 }
 
 void draw_hp_label(void *player, u32 pos, s32 delay, s16 arg3) {
-    if ((((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0) && (TObjPlayer::is_locally_controlled((void *)(player)) == 0) && (pos != 0U)) {
+    if ((((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0) && (((TObjChara *)player)->is_locally_controlled() == 0) && (pos != 0U)) {
         create_font_small_task_default_color(pos, 0xFF00FF00, 0x14, delay, (s32 *)"HP", (s16)arg3);
     }
 }
 
 void show_tp_font(saddr player, u32 pos, s32 delay, s32 arg3) {
-    if ((((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0) && (TObjPlayer::is_locally_controlled((void *)(player)) == 0) && (pos != 0U)) {
+    if ((((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0) && (((TObjChara *)player)->is_locally_controlled() == 0) && (pos != 0U)) {
         create_font_small_task_default_color(pos, 0xFF00B2FF, 0x14, delay, (s32 *)"TP", arg3);
     }
 }
@@ -2058,7 +2058,7 @@ void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3) {
     s32 size;
     if (((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0 && arg1 != 0) {
         size = 0x14;
-        if (TObjPlayer::is_locally_controlled((void *)(player)) != 0) {
+        if (((TObjChara *)player)->is_locally_controlled() != 0) {
             size <<= 1;
         }
         create_font_small_task(arg1, -0x100, size, arg2, (s32 *)lbl_804340A8, arg3, ((TObjBase *)(player))->get_entity_id());
@@ -2066,7 +2066,7 @@ void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3) {
 }
 
 void display_exp_gain(saddr player, u32 pos, s32 delay, s32 arg3) {
-    if ((((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0) && (TObjPlayer::is_locally_controlled((void *)(player)) == 0) && (pos != 0U)) {
+    if ((((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0) && (((TObjChara *)player)->is_locally_controlled() == 0) && (pos != 0U)) {
         create_font_small_task(pos, 0xFFFF00FF, 0x14, delay, (s32 *)"EXP", arg3, ((TObjBase *)(player))->get_entity_id());
     }
 }
@@ -2495,7 +2495,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
     if (((TObjChara *)this)->obj_isState2_324() != 0) {
         immune = 1;
     } else if (((TObjChara *)att)->obj_isState2_324() != 0) {
-        if (TObjPlayer::is_locally_controlled(((Obj_80014108 *)this)) != 0 && get_type__10TObjPlayerFPv((u8 *)((Obj_80014108 *)att) + 0x828) != 0) {
+        if (((TObjChara *)((Obj_80014108 *)this))->is_locally_controlled() != 0 && get_type__10TObjPlayerFPv((u8 *)((Obj_80014108 *)att) + 0x828) != 0) {
             immune = 0;
         } else {
             immune = 1;
@@ -2587,7 +2587,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
     if (immune == 0) {
         ((TObjChara *)((Obj_80014108 *)this))->sync_enemy_state(0);
     }
-    if (TObjPlayer::is_locally_controlled(((Obj_80014108 *)this)) != 0) {
+    if (((TObjChara *)((Obj_80014108 *)this))->is_locally_controlled() != 0) {
         TObjPlayer::calc_photon_blast_charge(((Obj_80014108 *)this), (s32)(20.0f * total));
         ((VObj_18_d805cd *)((Obj_80014108 *)this))->m73();
     }
@@ -2632,7 +2632,7 @@ void TObjChara::apply_knockback_from_attacker(u8 *arg1, f32) {
 #define FIELD1C(o) ((TObjBase *)(o))->get_entity_id()
 #define STATE2(o) (((TObjChara *)(o))->obj_isState2_324())
 #define STATE3(o) ((TObjChara *)o)->obj_isState3_324()
-#define LOCAL(o) TObjPlayer::is_locally_controlled(o)
+#define LOCAL(o) ((TObjChara *)(o))->is_locally_controlled()
 #define VECCOPY(d, s) ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(d, s)
 #define HIT(o, p) (((TObjChara *)(o))->try_apply_damage(p, 0))
 #define DAMAGE(o, p, d) (((TObjChara *)(o))->try_apply_damage(p, d))
@@ -2981,7 +2981,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
 #define FIELD1C_W24(p) ((TObjBase *)(p))->get_entity_id()
 #define TESTF30_W24(p, m) ((TObjCollidable *)((p)))->test_actor_flags((m))
 #define ISSTATE2_W24(p) (((TObjChara *)(p))->obj_isState2_324())
-#define ISLOCAL_W24(p) TObjPlayer::is_locally_controlled(p)
+#define ISLOCAL_W24(p) ((TObjChara *)(p))->is_locally_controlled()
 #define MISS_W24(s, v) (((TObjChara *)(s))->show_miss_popup((const float *)(v)))
 #define APPLYDMG_W24(s, v, d) (((TObjChara *)(s))->try_apply_damage((const Vec *)(v), (d)))
 #define DISPATCH_W24(a, s, v) dispatch_weapon_special_effect((a), (s), (v), 1)
@@ -3871,7 +3871,7 @@ void TObjChara::send_status_effect_add(StatStatusReceipt) {  }
 #pragma push
 #pragma opt_pointer_analysis on
 void record_local_damage_if_enabled(void *mine_trap, void *att, saddr damage) {
-  if ((((((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) && (TObjPlayer::is_locally_controlled(mine_trap) != 0)) && (damage > 0)) && (att != NULL))
+  if ((((((TLobby *)lobby_rule_settings)->get_rule_field_0() == 1) && (((TObjChara *)mine_trap)->is_locally_controlled() != 0)) && (damage > 0)) && (att != NULL))
   {
     record_damage_stats__10TOMineTrapFUiUis((void *) mine_trap, (void *) att, (void *) damage);
   }
@@ -3957,7 +3957,7 @@ s32 is_entity_locally_controlled(s32 id) {
     if (p == 0) {
         return 0;
     }
-    return TObjPlayer::is_locally_controlled(p);
+    return ((TObjChara *)p)->is_locally_controlled();
 }
 
 void TObjChara::apply_switch_attack() {
@@ -4264,7 +4264,7 @@ void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos) {
 
 s32 TObjPlayer::is_local_player() {
     if (this->get_entity_id() < 0x1000U) {
-        return TObjPlayer::is_locally_controlled(this);
+        return this->is_locally_controlled();
     }
     return 0;
 }

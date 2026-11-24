@@ -495,7 +495,7 @@ void TObjEneMe3Stelth::attack_and_unequip() {
             if (is_alternate_variant() != 0) {
                 TObjChara *t = current_target;
                 TItem *held;
-                if (TObjPlayer::is_locally_controlled(t) != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(t)) != 0) {
+                if (t->is_locally_controlled() != 0 && (held = (TItem *)TObjPlayer::get_equipped_weapon(t)) != 0) {
                     TObjPlayer::send_6x26_unequip_item((TObjPlayer *)t, held->get_item_id());
                     ((TObjPlayer *)t)->get_hand_joint_position((saddr)&hand_position);
                     spawn_particle_effect(&hand_position, 0x1D0);

@@ -245,7 +245,7 @@ void TOTrapAncient01::vfunc_81() {
                 dist = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
                 this->dist -= TObjPlayer__sub_8017A1A4(player, 0);
                 if (dist < this->dist * this->dist) {
-                    if (TObjPlayer::is_locally_controlled(target) != 0) {
+                    if (target->is_locally_controlled() != 0) {
                         send_6x2C_impose_hold(player, &position, -1, 0, this->dist);
                         obj_set_flag_20000(player);
                     }

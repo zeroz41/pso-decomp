@@ -56,7 +56,7 @@ void handle_6x3B_clear_temporary_photon_blast_state_flags(saddr src) {
         player = get_player_by_client_id(pkt.header.client_id);
         if (player != NULL) {
             player->photon_blast_gauge.clear_photon_blast_state();
-            if (TObjPlayer::is_locally_controlled(player) != 0) {
+            if (player->is_locally_controlled() != 0) {
                 TObjPlayer::update_photon_blast_state();
             }
         }

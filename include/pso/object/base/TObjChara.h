@@ -45,6 +45,8 @@ public:
     s16 get_hpmax();
     s32 obj_isState3_324();
     s32 obj_isState2_324();
+    // control_state 1: this machine drives it.
+    s32 is_locally_controlled();
     // control_state 7: the owner holds a fixed pose its mag aligns to.
     s32 is_in_fixed_pose();
     void calc_attach_pos();
