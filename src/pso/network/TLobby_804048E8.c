@@ -8,9 +8,9 @@
 
 #pragma push
 #pragma cplusplus on
-PppVjCompressionState lbl_805C06D8;
-PppVjConnectionState lbl_805C0710[16];
-PppVjConnectionState lbl_805C0FD0[16];
+PppVjCompressionState vj_comp;
+PppVjConnectionState vj_rstate[16];
+PppVjConnectionState vj_tstate[16];
 u32 lbl_805C1890[4];
 #pragma pop
 
@@ -195,14 +195,14 @@ void TLobby__sub_80405000(PppVjCompressionState *state) {
 PppVjCompressionState *init_net_list(s16 count1, s16 count2) {
     PppVjConnectionState *base;
     s16 i;
-    PppVjCompressionState *p = &lbl_805C06D8;
+    PppVjCompressionState *p = &vj_comp;
 
     if (count1 > 0 && count1 <= 0x10) {
-        p->ents = lbl_805C0710;
+        p->rstate = vj_rstate;
         p->max = count1 - 1;
     }
     if (count2 > 0 && count2 <= 0x10) {
-        p->tstate = lbl_805C0FD0;
+        p->tstate = vj_tstate;
         p->max_tx = count2 - 1;
     }
     p->last_cs = 0;
@@ -220,4 +220,4 @@ PppVjCompressionState *init_net_list(s16 count1, s16 count2) {
     return p;
 }
 
-NetThreadState lbl_805C18A0;
+NetThreadState net_thread_state;

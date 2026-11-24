@@ -1,6 +1,6 @@
 #ifndef PSO_NETWORK_NETETHERNET_H
 #define PSO_NETWORK_NETETHERNET_H
-/* The Ethernet layer (lbl_805C1AD8, src/pso/network/TLobby_804050DC.c): its drivers, one link per driver (registered
+/* The Ethernet layer (ethernet_state, src/pso/network/TLobby_804050DC.c): its drivers, one link per driver (registered
  * with the dispatcher by init_net_sockets), the EtherTypes bound on the links and the received-frame buffers.
  * init_net_func_table sets the counts and the arrays. */
 #include "types.h"
@@ -67,7 +67,7 @@ LAYOUT_ASSERT(EthSocket_size_check, sizeof(EthSocket) == 0x10);
 LAYOUT_ASSERT(EthFrameSlot_size_check, sizeof(EthFrameSlot) == 0x5F8);
 LAYOUT_ASSERT(EthernetState_size_check, sizeof(EthernetState) == 0x18);
 
-extern EthernetState lbl_805C1AD8;
+extern EthernetState ethernet_state;
 
 #ifdef __cplusplus
 }

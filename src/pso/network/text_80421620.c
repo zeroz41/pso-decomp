@@ -83,7 +83,7 @@ const char avetcp_module_list[] =
     "The AVE-TCPv6.0 contains loopback dix arp ppp ipv4 ipv4_forward ipv6 ipv6_forward tcp_fast_recovery "
     "tcp_keep_ooo_segment tcp_sack tcp_large_window dns module(s).";
 const u8 *const avetcp_version_banner_ptr = avetcp_version_banner;
-const char lbl_804800F0[] = "<< Network SDK - avetcp.a  Ver.1.16.1 build:Oct 23 2002 17:47:54>>\n";
+const char avetcp_version[] = "<< Network SDK - avetcp.a  Ver.1.16.1 build:Oct 23 2002 17:47:54>>\n";
 u32 network_stack_init_count;
 /* This C library caller passes a full register for the handle and a signed halfword length. */
 s16 TLobby__sub_8041DBD4(s32 handle, NetBufferRef *destination, s16 len, TcpCompletion callback);
@@ -126,7 +126,7 @@ s16 avetcp_init(void) {
         return -1;
     }
     if ((u32) network_stack_init_count == 0U) {
-        OSReport(lbl_804800F0);
+        OSReport(avetcp_version);
     }
     ++network_stack_init_count;
     result = TLobby__sub_80419A34();

@@ -76,7 +76,7 @@ OSThreadQueue network_thread_queue;
 u8 lbl_805D7C36; /* adapter revision id */
 u8 exi_mac_address[6];
 
-u8 lbl_805D4830[6] = {255, 255, 255, 255, 255, 255};
+u8 ethernet_broadcast_address[6] = {255, 255, 255, 255, 255, 255};
 u16 lbl_805D4836 = 53511;
 u8 lbl_805D4838 = 78;
 u32 TLobby__sub_8042BA8C(void *);
@@ -563,7 +563,7 @@ s32 init_bba_exi_adapter(void *arg) {
     }
     bba_reset();
     bba_ins(0x20, exi_mac_address, 6);
-    if (memcmp(exi_mac_address, lbl_805D4830, 6) == 0) {
+    if (memcmp(exi_mac_address, ethernet_broadcast_address, 6) == 0) {
         OSReport("MAC ADDRESS is 0xffffff\n");
         return -2;
     }
@@ -831,7 +831,7 @@ void enable_network_multicast_address(void *address) {
   s32 isDefault;
   int filter_bits;
   isDefault = 0;
-  if (memcmp(address, lbl_805D4830, 6) == 0)
+  if (memcmp(address, ethernet_broadcast_address, 6) == 0)
   {
     isDefault = 1;
   }

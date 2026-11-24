@@ -1,6 +1,6 @@
 #ifndef PSO_NETWORK_NETARP_H
 #define PSO_NETWORK_NETARP_H
-/* ARP (lbl_805C1AB0, src/pso/network/TLobby_804050DC.c): the address cache, the interfaces ARP runs on, the packets
+/* ARP (arp_state, src/pso/network/TLobby_804050DC.c): the address cache, the interfaces ARP runs on, the packets
  * held until their next hop's address is known and the other protocol addresses an interface answers for.
  * init_net_buffer_config sets the counts and the arrays; age_arp_cache ages the cache once a minute. */
 #include "types.h"
@@ -101,7 +101,7 @@ LAYOUT_ASSERT(ArpAlias_size_check, sizeof(ArpAlias) == 0xC);
 LAYOUT_ASSERT(ArpIface_size_check, sizeof(ArpIface) == 0x20);
 LAYOUT_ASSERT(ArpState_size_check, sizeof(ArpState) == 0x28);
 
-extern ArpState lbl_805C1AB0;
+extern ArpState arp_state;
 
 #ifdef __cplusplus
 }

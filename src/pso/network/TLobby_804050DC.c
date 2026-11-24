@@ -62,13 +62,13 @@ s32 TLobby__sub_804060B8(u8 *, int, int);
 struct N_80405298;
 
 void TLobby__sub_804050DC(s16 arg0) {
-    lbl_805C18A0.poll_ms = arg0;
+    net_thread_state.poll_ms = arg0;
 }
 void init_net_block_18A0(void) {
-    TLobby__sub_803F79AC(&lbl_805C18A0);
+    TLobby__sub_803F79AC(&net_thread_state);
 }
 s32 run_net_init_step(void) {
-    TLobby__sub_803F79B0(&lbl_805C18A0);
+    TLobby__sub_803F79B0(&net_thread_state);
     return 0;
 }
 
@@ -78,7 +78,7 @@ s16 reset_network_timer_list(void) {
 }
 
 void run_net_thread_loop(void) {
-    NetThreadState *g = &lbl_805C18A0;
+    NetThreadState *g = &net_thread_state;
     for (;;) {
         if (lobby_modem_abort_flag != 0) {
             lock_mutex(g->mutex);
@@ -115,7 +115,7 @@ void process_expired_timers(void) {
     s32 now;
     Timer_804051CC *t;
 
-    lock_mutex(lbl_805C18A0.mutex);
+    lock_mutex(net_thread_state.mutex);
     ppp_poll_input();
     get_time_ms(&now);
     t = (Timer_804051CC *)lobby_timer_list_head;
@@ -132,7 +132,7 @@ void process_expired_timers(void) {
         }
         t = t->next;
     }
-    unlock_mutex(lbl_805C18A0.mutex);
+    unlock_mutex(net_thread_state.mutex);
 }
 
 void lobby_timer_add(N_80405298 *o, s32 v) {
@@ -388,7 +388,7 @@ s32 ppp_poll_input(void)
   }
   if (lbl_805D7A7A != 0)
   {
-    base = &lbl_805C04A8;
+    base = &ppp_buffers;
     for (;;)
     {
       ppp_rx_frame_ptr = (frame = base->frame_in);
@@ -427,7 +427,7 @@ s32 ppp_poll_input(void)
     ppp_rx_escape_pending = 0;
     ppp_rx_end_ptr = ppp_rx_buffer;
   }
-  base = &lbl_805C04A8;
+  base = &ppp_buffers;
   for (;;)
   {
     if (ppp_rx_read_ptr == ppp_rx_end_ptr)
@@ -485,9 +485,9 @@ s32 ppp_poll_input(void)
   {
     if ((((u32) lbl_805D7A8C) != 0) && (lobby_modem_connect_state == 4))
     {
-      unlock_mutex(lbl_805C18A0.mutex);
+      unlock_mutex(net_thread_state.mutex);
       ((void (*)(s32, s32)) lbl_805D7A8C)(-1, 0);
-      lock_mutex(lbl_805C18A0.mutex);
+      lock_mutex(net_thread_state.mutex);
     }
     lobby_modem_connect_state = 5;
   }
@@ -958,7 +958,7 @@ s16 ppp_output_frame(PppFrame *p) {
         *hdr++ = proto >> 8;
     }
     *hdr++ = proto;
-    bufs = &lbl_805C04A8;
+    bufs = &ppp_buffers;
     frame = bufs->frame_out;
     frame->data = (u8 *)frame + ((bufs->headroom + 3) & ~3);
     out = frame->data;

@@ -25,11 +25,11 @@ void net_sleep_ms(int);
 s16 ppp_buffer_read(void *self, void *dst, u16 n);
 
 void init_net_state_a(void) {
-    TLobby__sub_803F76F0((void *)&lbl_805C02D0);
+    TLobby__sub_803F76F0((void *)&chap_state);
 }
 
 s32 init_net_state_b(void) {
-    init_net_buffer_table(&lbl_805C02D0);
+    init_net_buffer_table(&chap_state);
     return 0;
 }
 
@@ -47,7 +47,7 @@ s16 PP_chap_monitor(PppFsm *c, s32 timeout) {
     } else {
         auth->active = 0;
     }
-    g = &lbl_805C18A0;
+    g = &net_thread_state;
     c->abort = 0;
     while (c->state != 5) {
         if (is_timed_out() != 0 || c->abort != 0 || *sub == 4) {
@@ -75,7 +75,7 @@ s16 PP_chap_monitor(PppFsm *c, s32 timeout) {
 struct PppChapAuthenticationState;
 struct N_80405298;
 PppChapAuthenticationState ppp_chap_authentication_state;
-PppAuthState lbl_805C02D0;
+PppAuthState chap_state;
 /* The challenge length and the response reader's scratch byte (.sbss 805D7A98), in reverse definition order. */
 u16 lbl_805D7A9A;
 u8 chap_read_byte_buffer;
@@ -90,9 +90,9 @@ void TLobby__sub_803FC318(PppProtoBlocks *connection) {
         ppp_chap_authentication_state.proto.h6 = 0x70;
         ppp_chap_authentication_state.proto.tx_counter_index = 3;
         ppp_chap_authentication_state.proto.max_terminate_attempts = 0;
-        ppp_chap_authentication_state.proto.max_request_attempts = lbl_805C02D0.f36;
-        ppp_chap_authentication_state.proto.max_peer_attempts = lbl_805C02D0.f37;
-        ppp_chap_authentication_state.proto.timeout = lbl_805C02D0.f38 * 1000;
+        ppp_chap_authentication_state.proto.max_request_attempts = chap_state.f36;
+        ppp_chap_authentication_state.proto.max_peer_attempts = chap_state.f37;
+        ppp_chap_authentication_state.proto.timeout = chap_state.f38 * 1000;
         ppp_chap_authentication_state.proto.release_resources = TLobby__sub_803FE84C;
         ppp_chap_authentication_state.proto.reset_options = TLobby__sub_803FE84C;
         ppp_chap_authentication_state.proto.start_negotiation = TLobby__sub_803FE84C;
@@ -244,7 +244,7 @@ void TLobby__sub_803FC728(PppFsm *c) {
         return;
     }
     if (c->retries != 0) {
-        buf = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
+        buf = TLobby__sub_80401B20(chap_state.p1C, chap->len);
         ppp_fsm_send_packet(c, 2, chap->id, buf);
         lobby_timer_start((u8 *)&c->timer);
         c->retries--;
@@ -310,7 +310,7 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
     total = hdr->len;
     n = chap_read_byte_slow(&v);
     if (n != -1) {
-        p = value = lbl_805C02D0.p10;
+        p = value = chap_state.p10;
         for (i = 0; i < n; i++) {
             *p++ = chap_read_byte(&v);
         }
@@ -323,7 +323,7 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
         m = 0x7F;
     }
     if (m != 0) {
-        q = name = lbl_805C02D0.p4;
+        q = name = chap_state.p4;
         for (j = 0; j < m; j++) {
             *q++ = chap_read_byte(&v);
         }
@@ -332,17 +332,17 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
     if (lbl_805D7A90 & 2) {
         secret = TLobby__sub_803F7684((const char *)name);
         if (secret == NULL) {
-            NetCopyString(lbl_805C02D0.p20, chap_failure_message);
-            reply = TLobby__sub_80401B20(lbl_805C02D0.p20, NetStringLength(lbl_805C02D0.p20));
+            NetCopyString(chap_state.p20, chap_failure_message);
+            reply = TLobby__sub_80401B20(chap_state.p20, NetStringLength(chap_state.p20));
             ppp_fsm_send_packet(c, 4, hdr->id, reply);
             return -1;
         }
     }
-    *lbl_805C02D0.p18 = hdr->id;
+    *chap_state.p18 = hdr->id;
     if (lbl_805D7A90 & 2) {
-        NetCopyString((char *)lbl_805C02D0.p18 + 1, secret);
+        NetCopyString((char *)chap_state.p18 + 1, secret);
     } else {
-        NetCopyString((char *)lbl_805C02D0.p18 + 1, chap->secret);
+        NetCopyString((char *)chap_state.p18 + 1, chap->secret);
     }
     if (lbl_805D7A90 & 2) {
         len = NetStringLength(secret);
@@ -350,23 +350,23 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
         len = NetStringLength(chap->secret);
     }
     init_md5_state(&ctx);
-    MD5Update(&ctx, lbl_805C02D0.p18, len + 1);
-    MD5Update(&ctx, lbl_805C02D0.p8 + 1, lbl_805D7A9A);
-    MD5Final((u8 *)lbl_805C02D0.p20, &ctx);
-    if (NetMemcmp(lbl_805C02D0.p20, value, 0x10) == 0) {
-        NetCopyString(lbl_805C02D0.p20, "Wellcome!!");
+    MD5Update(&ctx, chap_state.p18, len + 1);
+    MD5Update(&ctx, chap_state.p8 + 1, lbl_805D7A9A);
+    MD5Final((u8 *)chap_state.p20, &ctx);
+    if (NetMemcmp(chap_state.p20, value, 0x10) == 0) {
+        NetCopyString(chap_state.p20, "Wellcome!!");
         code = 3;
         ret = 0;
     } else if (lbl_805D7A90 & 2) {
-        NetCopyString(lbl_805C02D0.p20, chap_failure_message);
+        NetCopyString(chap_state.p20, chap_failure_message);
         code = 4;
         ret = -1;
     } else {
-        NetCopyString(lbl_805C02D0.p20, "Wellcome!!");
+        NetCopyString(chap_state.p20, "Wellcome!!");
         code = 3;
         ret = 0;
     }
-    reply = TLobby__sub_80401B20(lbl_805C02D0.p20, NetStringLength(lbl_805C02D0.p20));
+    reply = TLobby__sub_80401B20(chap_state.p20, NetStringLength(chap_state.p20));
     ppp_fsm_send_packet(c, code, hdr->id, reply);
     return ret;
 }
@@ -406,7 +406,7 @@ void chap_recv_challenge(PppFsm *connection, PppHeader *header, PppFrame *source
     chap = chap_options(connection);
     challenge_length = chap_read_byte_slow(&source);
     if (challenge_length != -1) {
-        challenge_cursor = (challenge_slot.value = lbl_805C02D0.pC);
+        challenge_cursor = (challenge_slot.value = chap_state.pC);
         for (challenge_index = 0; challenge_index < challenge_length; challenge_index++) {
             *challenge_cursor++ = chap_read_byte(&source);
         }
@@ -417,31 +417,31 @@ void chap_recv_challenge(PppFsm *connection, PppHeader *header, PppFrame *source
         peer_name_length = 0x7f;
     }
     if (peer_name_length != 0) {
-        peer_name = lbl_805C02D0.p0;
+        peer_name = chap_state.p0;
         for (peer_name_index = 0; peer_name_index < peer_name_length; peer_name_index++) {
             *peer_name++ = chap_read_byte(&source);
         }
         *peer_name = 0;
     }
-    *lbl_805C02D0.p14 = header->id;
-    NetCopyString((char *)lbl_805C02D0.p14 + 1, chap->secret);
+    *chap_state.p14 = header->id;
+    NetCopyString((char *)chap_state.p14 + 1, chap->secret);
     string_length = NetStringLength(chap->secret);
     raw_name_length = NetStringLength(chap->name);
     challenge_offset = string_length + 1;
     string_length = raw_name_length;
-    NetMemcpy(lbl_805C02D0.p14 + challenge_offset, challenge_slot.value, challenge_length);
-    NetMemset(lbl_805C02D0.p1C, 0, lbl_805C02D0.size1C);
-    *lbl_805C02D0.p1C = 0x10;
+    NetMemcpy(chap_state.p14 + challenge_offset, challenge_slot.value, challenge_length);
+    NetMemset(chap_state.p1C, 0, chap_state.size1C);
+    *chap_state.p1C = 0x10;
     init_md5_state(&context);
-    MD5Update(&context, lbl_805C02D0.p14, challenge_offset + challenge_length);
-    MD5Final(lbl_805C02D0.p1C + 1, &context);
+    MD5Update(&context, chap_state.p14, challenge_offset + challenge_length);
+    MD5Final(chap_state.p1C + 1, &context);
     {
         u32 response_name_length = string_length;
-        NetMemcpy(lbl_805C02D0.p1C + 0x11, (void *)chap->name, response_name_length);
+        NetMemcpy(chap_state.p1C + 0x11, (void *)chap->name, response_name_length);
     }
     chap->id = header->id;
     chap->len = string_length + 0x11;
-    reply = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
+    reply = TLobby__sub_80401B20(chap_state.p1C, chap->len);
     ppp_fsm_send_packet(connection, 2, chap->id, reply);
     lobby_timer_start((u8 *)&connection->timer);
     connection->retries--;

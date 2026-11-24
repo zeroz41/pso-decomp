@@ -33,7 +33,7 @@ typedef struct LcpSide {
 } LcpSide;
 LAYOUT_ASSERT(LcpSide_size_check, sizeof(LcpSide) == 0x34);
 
-/* The LCP options object (fsm->p30, lbl_805C0400's opts). */
+/* The LCP options object (fsm->p30, lcp_state's opts). */
 typedef struct LcpOpts {
     LcpSide local;
     LcpSide remote;
@@ -59,13 +59,13 @@ typedef struct LcpConfig {
 } LcpConfig;
 LAYOUT_ASSERT(LcpConfig_size_check, sizeof(LcpConfig) == 0x10);
 
-/* lbl_805C0400: the LCP protocol header and its options. */
+/* lcp_state: the LCP protocol header and its options. */
 typedef struct LcpState {
     PppFsmProtocol proto;
     LcpOpts opts;
     u8 padA4[4];
 } LcpState;
 LAYOUT_ASSERT(LcpState_size_check, sizeof(LcpState) == 0xA8);
-extern LcpState lbl_805C0400;
+extern LcpState lcp_state;
 
 #endif

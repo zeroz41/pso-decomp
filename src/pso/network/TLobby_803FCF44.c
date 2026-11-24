@@ -1,6 +1,6 @@
 /* The AVE-TCP net buffer setup (build_avetcp_net_buffer, which logs under the name "avetcp") and
  * PP_doppp_active (a C library, built with GC/1.2.5n). A file of its own: CHAP (TLobby_803FC178.c) defines
- * the .bss object lbl_805C02D0 before the functions that use it, while this code loads that address afresh at
+ * the .bss object chap_state before the functions that use it, while this code loads that address afresh at
  * each use. No name evidence for the module, so the file keeps its address name. */
 #include "types.h"
 #include "pso/network/TLobby_803FC178.h"
@@ -49,13 +49,13 @@ PppFrame *build_avetcp_net_buffer(PppFsm *c)
   NetCopyString((char *)p, name);
   buf->len += lbl_805D7A9A + (u16)NetStringLength(name) + 1;
   len = buf->len;
-  lim = lbl_805C02D0.size8;
+  lim = chap_state.size8;
   n = len;
   if ((s16)len > lim)
   {
     n = lim;
   }
-  NetMemcpy(lbl_805C02D0.p8, buf->data, n);
+  NetMemcpy(chap_state.p8, buf->data, n);
   return buf;
 }
 

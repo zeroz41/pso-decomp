@@ -53,16 +53,16 @@ extern u8 *lobby_second_buffer_pool_base;
 
 static u32 lobby_net_config_block[4722];
 static Ipv6Header ipv6_interface_config;
-static Ipv6RawSocket lbl_805B38A0[1];
+static Ipv6RawSocket ipv6_raw_sockets[1];
 static u32 lbl_805B38D4[50];
 static u32 lbl_805B399C[99];
 static u32 lbl_805B3B28[36];
 static u32 lbl_805B3BB8[1267];
 static s32 lbl_805B4F84[212];
-static NetFragment lbl_805B52D4[0x10];
-static NetFragPacket lbl_805B5454[2];
+static NetFragment ip_fragments[0x10];
+static NetFragPacket ip_frag_packets[2];
 static u8 lbl_805B54BC[0x4000] ATTRIBUTE_ALIGN(4);
-static NetBufferPoolEntry lbl_805B94BC[2];
+static NetBufferPoolEntry net_buffer_pool_entries[2];
 static s32 lbl_805B9534[1059];
 static s32 lbl_805BA5C0[3115];
 static s32 lobby_net_recv_desc[641];
@@ -125,7 +125,7 @@ void init_ipv6_interface_config(Ipv6ProtocolState *cfg) {
     cfg->traffic_class = 0;
     cfg->flow_label = 0;
     cfg->hop_limit = 0x40;
-    cfg->sockets = lbl_805B38A0;
+    cfg->sockets = ipv6_raw_sockets;
     cfg->hdr = ipv6_interface_config;
 }
 
@@ -201,8 +201,8 @@ void TLobby__sub_803F89A4(NetFragPool *cfg) {
     cfg->npackets = 2;
     cfg->nfrags = 0x10;
     cfg->max_frags = 8;
-    cfg->packets = lbl_805B5454;
-    cfg->frags = lbl_805B52D4;
+    cfg->packets = ip_frag_packets;
+    cfg->frags = ip_fragments;
 }
 
 void TLobby__sub_803F89D8(NetBufferPool *cfg) {
@@ -211,7 +211,7 @@ void TLobby__sub_803F89D8(NetBufferPool *cfg) {
 void init_buffer_desc_a(NetBufferPool *cfg) {
     cfg->count = 2;
     cfg->size = 0x2000;
-    cfg->ents = lbl_805B94BC;
+    cfg->ents = net_buffer_pool_entries;
     cfg->data = lbl_805B54BC;
 }
 

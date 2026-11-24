@@ -26,7 +26,7 @@ struct Ipv6AddrNode {
     s16 prefix_len;
     s16 state;
     s16 f16;
-    s16 flags; /* bit 0 tested like Ipv6Iface.flags; TLobby__sub_80412058 reports it in the same slot */
+    s16 flags; /* bit 0 tested like Ipv6Iface.flags, and reported where an interface reports its flags */
     s16 scope;
     s16 dad_count;
     s16 dad_timer;

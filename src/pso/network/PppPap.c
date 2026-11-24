@@ -18,11 +18,11 @@ void net_sleep_ms(int);
 
 
 void init_net_block_620(void) {
-    TLobby__sub_803F778C(&lbl_805C0620);
+    TLobby__sub_803F778C(&pap_state);
 }
 
 s32 init_net_block_620_secondary(void) {
-    init_net_block_620_params(&lbl_805C0620);
+    init_net_block_620_params(&pap_state);
     return 0;
 }
 
@@ -32,7 +32,7 @@ s16 PP_pap_monitor(void *arg0, u32 timeout) {
     u8 *sub;
 
     sub = c->sub;
-    g = &lbl_805C18A0;
+    g = &net_thread_state;
     c->abort = 0;
     while (c->state != 5) {
         if (is_timed_out() != 0 || c->abort != 0 || *sub == 4) {
@@ -138,7 +138,7 @@ static inline PapOptions *pap_options(PppFsm *connection) {
 }
 
 static inline u8 **pap_message_buffer(void) {
-    u8 **value = (u8 **)&lbl_805C0620.message;
+    u8 **value = (u8 **)&pap_state.message;
     return value;
 }
 static inline s16 pap_read_reply_message(PapOptions *options, u8 actual_id, u8 expected_id, PppFrame *source) {
@@ -322,7 +322,7 @@ s16 pap_recv_auth_request(PppFsm *fsm, PppHeader *header, PppFrame *val) {
     if (ch != -1) {
         s16 cnt;
         u8 *out;
-        p1 = lbl_805C0620.peer_id;
+        p1 = pap_state.peer_id;
         out = p1;
         for (cnt = ch; cnt-- > 0;) {
             *out++ = get_80403308(&val);
@@ -334,7 +334,7 @@ s16 pap_recv_auth_request(PppFsm *fsm, PppHeader *header, PppFrame *val) {
     if (ch != -1) {
         s16 cnt;
         u8 *out;
-        p2 = lbl_805C0620.password;
+        p2 = pap_state.password;
         out = p2;
         for (cnt = ch; cnt-- > 0;) {
             *out++ = get_80403308(&val);
@@ -417,5 +417,5 @@ PppFrame *TLobby__sub_80403634(PppFsm *fsm) {
 }
 #pragma pop
 
-PppPapState lbl_805C0620;
+PppPapState pap_state;
 PppPapAuthenticationState ppp_pap_authentication_state;

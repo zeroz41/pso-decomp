@@ -141,9 +141,9 @@ static inline s16 modem_wait_connect(void) {
             ret = 4;
             break;
         }
-        unlock_mutex(lbl_805C18A0.mutex);
+        unlock_mutex(net_thread_state.mutex);
         net_sleep_ms(100);
-        lock_mutex(lbl_805C18A0.mutex);
+        lock_mutex(net_thread_state.mutex);
     }
     return ret;
 }
@@ -241,9 +241,9 @@ s16 wait_timeout_loop(ModemRequest *request) {
         if ((u32)(now - start) > limit) {
             break;
         }
-        unlock_mutex(lbl_805C18A0.mutex);
+        unlock_mutex(net_thread_state.mutex);
         net_sleep_ms(100);
-        lock_mutex(lbl_805C18A0.mutex);
+        lock_mutex(net_thread_state.mutex);
     }
     return ret;
 }
@@ -663,9 +663,9 @@ s16 WaitNstrRecv(u8 *buf, s16 len) {
             lobby_modem_wait_timeout_ms = 0;
             return -1;
         }
-        unlock_mutex(lbl_805C18A0.mutex);
+        unlock_mutex(net_thread_state.mutex);
         net_sleep_ms(100);
-        lock_mutex(lbl_805C18A0.mutex);
+        lock_mutex(net_thread_state.mutex);
     }
     return 0;
 }

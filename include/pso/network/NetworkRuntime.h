@@ -57,7 +57,7 @@ typedef struct Ipv6cpConfig {
 LAYOUT_ASSERT(Ipv6cpConfig_peer_offset, offsetof(Ipv6cpConfig, peer) == 0x34);
 struct PppFsm;
 struct PppHeader;
-/* The network stack's thread (lbl_805C18A0, TLobby_804048E8.c): the mutex the stack's callers hold, the thread running
+/* The network stack's thread (net_thread_state, TLobby_804048E8.c): the mutex the stack's callers hold, the thread running
  * run_net_thread_loop (start_network_thread) and how long that loop sleeps between polls. */
 typedef struct NetThreadState {
     s32 mutex;
@@ -69,7 +69,7 @@ LAYOUT_ASSERT(NetThreadState_size_check, sizeof(NetThreadState) == 0x10);
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern NetThreadState lbl_805C18A0;
+extern NetThreadState net_thread_state;
 s16 TLobby__sub_803F8E9C(void);
 /* NetworkRuntime.c: the stack's OS layer (time, mutexes, threads, alarms, message queues) and string helpers. */
 s32 cancel_pending_alarms(void);

@@ -39,7 +39,7 @@ s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, saddr f, s16 g, sa
 
 void age_arp_cache(void);
 s32 TLobby__sub_80407358(void) {
-    ArpState *g = &lbl_805C1AB0;
+    ArpState *g = &arp_state;
     s32 tmp[2];
     release_slot_by_id(0x806);
     NetUnregisterTimer(age_arp_cache);
@@ -64,7 +64,7 @@ s32 dispatch_slot_b(s16 id, s32 pkey) {
 }
 
 s32 TLobby__sub_80407418(s16 id) {
-    ArpState *t = &lbl_805C1AB0;
+    ArpState *t = &arp_state;
     ArpIface *e;
     s16 ok;
     s32 tmp[2];
@@ -102,7 +102,7 @@ s16 forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 a
 extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c);
 s32 arp_init(void)
 {
-    ArpState *tbl = &lbl_805C1AB0;
+    ArpState *tbl = &arp_state;
     s16 *step;
     ArpEntry *p;
     s16 j;
@@ -113,7 +113,7 @@ s32 arp_init(void)
     ArpAlias *p4;
     long sum;
 
-    init_net_buffer_config(&lbl_805C1AB0);
+    init_net_buffer_config(&arp_state);
     i = tbl->nentries;
     p = tbl->entries;
     for (; i > 0; i--) {
@@ -187,7 +187,7 @@ inline ArpEntry *FindPeer_80407640(ArpEntry *peer, s16 n, u8 ff, u8 *p2) {
 }
 extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
 {
-  ArpState *t = &lbl_805C1AB0;
+  ArpState *t = &arp_state;
   ArpHeader *pp;
   ArpIface *hit;
   ArpEntry *peer;
@@ -244,8 +244,8 @@ extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
 void age_arp_cache(void) {
     ArpEntry* p;
     s16 n;
-    n = lbl_805C1AB0.nentries;
-    p = lbl_805C1AB0.entries;
+    n = arp_state.nentries;
+    p = arp_state.entries;
     for (; n > 0; n--, p++) {
         if (p->state != 0) {
             if (p->timer != 0) {
@@ -321,7 +321,7 @@ inline void Send_8040799C(ArpIface *e, void *name) {
 }
 
 s16 arp_resolve_and_send(s16 idx, void *name, void *pkt) {
-    ArpState *t = &lbl_805C1AB0;
+    ArpState *t = &arp_state;
     ArpIface *e;
     ArpEntry *p;
     s16 ret;
@@ -358,7 +358,7 @@ s16 arp_resolve_and_send(s16 idx, void *name, void *pkt) {
 }
 
 s32 arp_remove_alias(s16 id, saddr key) {
-    ArpState *tbl = &lbl_805C1AB0;
+    ArpState *tbl = &arp_state;
     ArpIface *base = tbl->ifaces;
     s16 ok;
     ArpIface *e;
@@ -441,7 +441,7 @@ s32 arp_add_alias(s16 id, saddr pkey) {
     ArpIface *e;
     ArpAlias *node;
     s16 *max;
-    ArpState *t = &lbl_805C1AB0;
+    ArpState *t = &arp_state;
     s16 k;
 
     e = lookup2_80407D98(t, id);
@@ -480,7 +480,7 @@ inline ArpIface *findfree_80407F20(ArpIface *base) {
     ArpIface *p;
     s16 i;
     p = base;
-    for (i = 0; i < lbl_805C1AB0.nifaces; i++, p++) {
+    for (i = 0; i < arp_state.nifaces; i++, p++) {
         if (p->used == 0) {
             return p;
         }
@@ -502,7 +502,7 @@ s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, saddr f, s16 g, sa
     if (res < 0) {
         return res;
     }
-    base = lbl_805C1AB0.ifaces;
+    base = arp_state.ifaces;
     slot = findfree_80407F20(base);
     if (slot == NULL) {
         call_entry_callback(a, res);
@@ -529,8 +529,8 @@ NetBufferRef tmp;
 ArpHold *found;
 s16 sum = 0;
 ArpHold *best = NULL;
-ArpHold *e = lbl_805C1AB0.holds;
-s16 n = lbl_805C1AB0.nholds;
+ArpHold *e = arp_state.holds;
+s16 n = arp_state.nholds;
 found = NULL;
 while (n > 0)
 {
@@ -608,7 +608,7 @@ NetPacket *alloc_packet_with_header(ArpFields *f, ArpIface *iface) {
     }
     pkt->fragment_count = 1;
     pkt->total_bytes = len;
-    buf = (u8 *)&lbl_805C1AB0.packet;
+    buf = (u8 *)&arp_state.packet;
     pkt->fragments[0].length = t;
     set_value_and_enable(&pkt->fragments[0].buffer, (saddr)*(u8 **)buf);
     buf = *(u8 **)buf;
@@ -639,7 +639,7 @@ s16 TLobby__sub_804082AC(ArpIface *iface, ArpFields *f, void *haddr) {
         i = 0;
         while (p != NULL) {
             i++;
-            if (lbl_805C1AB0.naliases <= i) {
+            if (arp_state.naliases <= i) {
                 return -1;
             }
             if (NetMemcmp(p->addr, f->tpa, iface->plen) == 0) {
@@ -653,7 +653,7 @@ s16 TLobby__sub_804082AC(ArpIface *iface, ArpFields *f, void *haddr) {
 }
 
 s32 TLobby__sub_80408388(s16 id) {
-    ArpState *t = &lbl_805C1AB0;
+    ArpState *t = &arp_state;
     ArpIface *e;
     ArpAlias *n;
     ArpAlias *next;
@@ -701,7 +701,7 @@ inline void detach_80408428(ArpEntry *e) {
 }
 
 ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, u8 hlen, void *haddr, s16 state) {
-    ArpState *t = &lbl_805C1AB0;
+    ArpState *t = &arp_state;
     ArpEntry *e;
     NetPacket *p;
 
@@ -767,9 +767,9 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
 ArpEntry *find_oldest_peer_entry(s16 state) {
     ArpEntry *best = 0;
     ArpEntry *p;
-    s16 n = lbl_805C1AB0.nentries;
+    s16 n = arp_state.nentries;
     s32 v;
-    p = lbl_805C1AB0.entries;
+    p = arp_state.entries;
     for (; n > 0; n--, p++) {
         v = p->state;
         if ((s16)v != 0 && v != state) {
@@ -784,8 +784,8 @@ ArpEntry *find_oldest_peer_entry(s16 state) {
 }
 
 ArpEntry *find_free_peer_entry(void) {
-    s16 n = lbl_805C1AB0.nentries;
-    ArpEntry *e = lbl_805C1AB0.entries;
+    s16 n = arp_state.nentries;
+    ArpEntry *e = arp_state.entries;
     while (n > 0) {
         if (e->state == 0) {
             return e;
@@ -796,4 +796,4 @@ ArpEntry *find_free_peer_entry(void) {
     return NULL;
 }
 
-ArpState lbl_805C1AB0;
+ArpState arp_state;

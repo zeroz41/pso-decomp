@@ -37,7 +37,7 @@ LAYOUT_ASSERT(TransportMessageQueue10Messages, offsetof(TransportMessageQueue10,
 
 static TransportMessageQueue32 lbl_805CF240;
 static TransportMessageQueue32 pppoe_message_queue;
-static TransportMessageQueue10 lbl_805CF380;
+static TransportMessageQueue10 transport_message_queue;
 /* The thread, link-status and Ethernet negotiation-mode state. */
 s32 network_message_pending_count;
 saddr ether_nego_mode;
@@ -50,7 +50,7 @@ s32 lbl_805D7BB0;
 s16 network_link_status_cache = -1;
 void TLobby__sub_80426190(EthernetReceiveFilter *);
 s16 TLobby__sub_80426110(EthernetReceiveFilter *o, u16 kind, u16 ether_type);
-extern const u8 lbl_805E1190[8] = { 255, 255, 255, 255, 255, 255, 0, 0 };
+extern const u8 transport_broadcast_address[8] = { 255, 255, 255, 255, 255, 255, 0, 0 };
 saddr TLobby__sub_804089A8(s16, s16, void *, void *); /* declared here with other parameter types; the definition is s32 (s16, s16, s16, void *) */
 saddr TLobby__sub_80426AAC(u16 key, saddr len);
 
@@ -125,7 +125,7 @@ void message_thread_loop(void) {
         packet = msg->data;
         if (n > 0) {
             start_exi_send(packet, n, TLobby__sub_80425D88);
-            OSReceiveMessage(&lbl_805CF380.queue, &sp8, OS_MESSAGE_BLOCK);
+            OSReceiveMessage(&transport_message_queue.queue, &sp8, OS_MESSAGE_BLOCK);
             network_message_pending_count -= 1;
         }
         clear_message_entry(packet);
@@ -134,7 +134,7 @@ void message_thread_loop(void) {
 
 void TLobby__sub_80425D88(u8 v) {
     network_message_pending_count++;
-    OSSendMessage(&lbl_805CF380.queue, (OSMessage)v, OS_MESSAGE_NOBLOCK);
+    OSSendMessage(&transport_message_queue.queue, (OSMessage)v, OS_MESSAGE_NOBLOCK);
 }
 
 #define pkt ((EthernetFrameHeader *)a)
@@ -170,7 +170,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
         return;
     }
     if (pkt->destination[0] & 1) {
-        if (NetMemcmp(a, lbl_805E1190, 6) == 0) {
+        if (NetMemcmp(a, transport_broadcast_address, 6) == 0) {
             switch (type) {
             case 1:
                 TLobby__sub_804089A8(0, 1, (u8 *)b - 4, a);
@@ -303,7 +303,7 @@ s16 TLobby__sub_804262CC(EthernetReceiveFilter *config) {
     }
     OSInitMessageQueue(&lbl_805CF240.queue, lbl_805CF240.messages, 32);
     OSInitMessageQueue(&pppoe_message_queue.queue, pppoe_message_queue.messages, 32);
-    OSInitMessageQueue(&lbl_805CF380.queue, lbl_805CF380.messages, 10);
+    OSInitMessageQueue(&transport_message_queue.queue, transport_message_queue.messages, 10);
     if (TLobby__sub_803F9B94(message_thread_loop, &lobby_message_thread_handle) < 0) {
         return -1;
     }
@@ -401,7 +401,7 @@ s16 TLobby__sub_80426660(u8 *out) {
     TLobby__sub_80426110(chan, 2, 0x8863);
     TLobby__sub_80426110(chan, 2, 0x8864);
     NetMemcpy(out, chan->local_address, 6);
-    NetMemcpy(out + 6, lbl_805E1190, 6);
+    NetMemcpy(out + 6, transport_broadcast_address, 6);
     return 0;
 }
 

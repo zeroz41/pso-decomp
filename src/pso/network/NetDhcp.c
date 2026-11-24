@@ -30,7 +30,7 @@ typedef struct P_8042315C { s32 type; s32 a; s32 b; s32 c; s32 pad10; s16 n; s16
 
 s16 TLobby__sub_80422F70(s16 iface, void *hdr_src, s32 len, void *buf);
 s16 if_config(s16 iface, void *req);
-DhcpClientBuffers lbl_805C1E00;
+DhcpClientBuffers dhcp_buffers;
 extern u8 dhcp_domain_name[0x100]; /* defined at the end of the file */
 extern u8 dhcp_hostname[0x2C]; /* defined at the end of the file */
 volatile s32 dhcp_error;
@@ -405,7 +405,7 @@ s32 dhcp_release_step(void) {
         } else if (now - lbl_805D7B98 < 300) {
             break;
         }
-        len = build_dhcp_release(&lbl_805C1E00.outgoing);
+        len = build_dhcp_release(&dhcp_buffers.outgoing);
         src.family = 4;
         dst.family = 4;
         src.ipv4 = 0;
@@ -413,7 +413,7 @@ s32 dhcp_release_step(void) {
         sock = dhcp_socket;
         len = len > 300 ? len : 300;
         buf.len = len;
-        buf.buff = (u8 *)&lbl_805C1E00.outgoing;
+        buf.buff = (u8 *)&dhcp_buffers.outgoing;
         if (udp_send(sock, &src, &dst, 0x43, NULL, 1, &buf) < 0) {
             udp_close(dhcp_socket);
             dhcp_socket = -1;
@@ -468,7 +468,7 @@ s32 dhcp_request_step(void) {
         }
         dhcp_step = 1;
     case 1:
-        len = dhcp_build_packet(&lbl_805C1E00.outgoing);
+        len = dhcp_build_packet(&dhcp_buffers.outgoing);
         dhcp_reply_received = 0;
         if (dhcp_state == 4) {
             id = *(s32 *)dhcp_server_id;
@@ -482,7 +482,7 @@ s32 dhcp_request_step(void) {
         dst.ipv4 = id;
         len = len > 300 ? len : 300;
         buf.len = len;
-        buf.buff = (u8 *)&lbl_805C1E00.outgoing;
+        buf.buff = (u8 *)&dhcp_buffers.outgoing;
         if (udp_send(sock, &src, &dst, 0x43, NULL, 1, &buf) < 0) {
             udp_close(dhcp_socket);
             dhcp_socket = -1;
@@ -515,7 +515,7 @@ s32 dhcp_request_step(void) {
     case 2:
         if (dhcp_reply_received != 0) {
             if (dhcp_state == 4 || dhcp_state == 5) {
-                parse_dhcp_lease_times((u8 *)&lbl_805C1E00.reply.hdr.cookie);
+                parse_dhcp_lease_times((u8 *)&dhcp_buffers.reply.hdr.cookie);
                 dhcp_lease_elapsed = 0;
             }
             udp_close(dhcp_socket);
@@ -523,7 +523,7 @@ s32 dhcp_request_step(void) {
             if (dhcp_state == 1 || dhcp_state == 2 || dhcp_state == 6) {
                 lbl_805D7B14 = dhcp_set_interface_mode(0);
             }
-            TLobby__sub_80423440(&lbl_805C1E00.reply.hdr);
+            TLobby__sub_80423440(&dhcp_buffers.reply.hdr);
             dhcp_step = 0;
             dhcp_state = 3;
         } else if (dhcp_state == 2) {
@@ -617,7 +617,7 @@ s32 dhcp_discover_step(void) {
         dhcp_retries_left = dhcp_max_retries;
         dhcp_step = 1;
     case 1:
-        len = build_dhcp_discover_packet(&lbl_805C1E00.outgoing);
+        len = build_dhcp_discover_packet(&dhcp_buffers.outgoing);
         dhcp_reply_received = 0;
         src.family = 4;
         dst.family = 4;
@@ -626,7 +626,7 @@ s32 dhcp_discover_step(void) {
         sock = dhcp_socket;
         len = len > 300 ? len : 300;
         rd.len = len;
-        rd.buff = (u8 *)&lbl_805C1E00.outgoing;
+        rd.buff = (u8 *)&dhcp_buffers.outgoing;
         if (udp_send(sock, &src, &dst, 0x43, NULL, 1, &rd) < 0) {
             udp_close(dhcp_socket);
             dhcp_socket = -1;
@@ -825,7 +825,7 @@ s16 DHCP_get_dns(void *arg0, char *domain, s32 *dns1, s32 *dns2) {
 #pragma push
 #pragma opt_propagation off
 s16 dhcp_handle_reply(s16 arg0, NetworkReceivePrefix *arg1) {
-    DhcpClientBuffers *g = &lbl_805C1E00;
+    DhcpClientBuffers *g = &dhcp_buffers;
     BootpPacket *pk;
     u8 *q;
     u8 *p;

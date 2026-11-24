@@ -77,7 +77,7 @@ typedef struct ModemConfig {
     char *init_command; /* "AT+MS=V34\r" by default (connect_modem) */
 } ModemConfig;
 
-/* The session (lbl_805BFF68, TLobby_803FAEA0.c): NetApplyConnectionConfig copies the connection request (NetConnectCfg)
+/* The session (net_session, TLobby_803FAEA0.c): NetApplyConnectionConfig copies the connection request (NetConnectCfg)
  * into it and ppp_open_sub connects with it. A dial script substitutes %t, %u and %p with phone_number, user and
  * password. */
 typedef struct NetSession {

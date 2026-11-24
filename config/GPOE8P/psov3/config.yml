@@ -8238,24 +8238,24 @@ force_active:
   - lbl_805A9E70
   - lbl_805A9E80
   - lbl_805AA080
-  - lbl_805B38A0
+  - ipv6_raw_sockets
   - lbl_805B38D4
   - lbl_805B399C
   - lbl_805B3B28
   - lbl_805B3BB8
   - lbl_805B4F84
-  - lbl_805B52D4
-  - lbl_805B5454
+  - ip_fragments
+  - ip_frag_packets
   - lbl_805B54BC
-  - lbl_805B94BC
+  - net_buffer_pool_entries
   - lbl_805B9534
   - lbl_805BA5C0
-  - lbl_805C06D8
-  - lbl_805C0710
-  - lbl_805C0FD0
+  - vj_comp
+  - vj_rstate
+  - vj_tstate
   - lbl_805C1890
   - lbl_805CF240
-  - lbl_805CF380
+  - transport_message_queue
   - TObjDFDemo1__name
   - TObjDFDemo5__name
   - TBoss4Zako__name

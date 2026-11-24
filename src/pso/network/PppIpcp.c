@@ -18,7 +18,7 @@ u8 *write_network_u32_be(u8 *p, u32 v);
 extern s32 is_timed_out(void);
 #include "pso/network/NetworkTransport.h"
 
-extern IpcpState lbl_805C0328;
+extern IpcpState ipcp_state;
 
 
 #include <stddef.h>
@@ -51,7 +51,7 @@ s16 TLobby__sub_803FED78(PppFsm *self) {
     ipv6cp = (PppFsm *)ipv6cp_state;
     ipv6cp->abort = 0;
     p = (PppFsm *)ipv6cp_state;
-    pd = &lbl_805C18A0;
+    pd = &net_thread_state;
     goto test;
     while (1) {
         if (is_timed_out() != 0 || obj[0] == 4) {
@@ -81,7 +81,7 @@ after:
         self->abort = 0;
         return 0;
     }
-    pd = &lbl_805C18A0;
+    pd = &net_thread_state;
     while (st > 0) {
         st = check_connection_status(p);
         unlock_mutex(pd->mutex);
@@ -115,7 +115,7 @@ s16 TLobby__sub_803FF9A4(PppFsm *self, PppHeader *src, PppFrame *bits);
 PppFrame *build_ipcp_config_request(PppFsm *self);
 void TLobby__sub_803FEF4C(PppProtoBlocks *connection) {
     const IpcpOptions *src = &lbl_8047FE18;
-    void *state_address = &lbl_805C0328;
+    void *state_address = &ipcp_state;
     IpcpState *state = (IpcpState *)state_address;
     PppFsmProtocol *protocol = (PppFsmProtocol *)state_address;
     PppFsm *fsm;
@@ -787,4 +787,4 @@ void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, vo
     buf->len += len;
 }
 
-IpcpState lbl_805C0328;
+IpcpState ipcp_state;

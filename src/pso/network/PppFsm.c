@@ -547,8 +547,8 @@ s16 ppp_fsm_send_packet(PppFsm *self, u8 code, int reply_identifier, PppFrame *p
     u8 *write_network_u16_be(u8 *p, u32 v); /* declared here with other parameter types; the definition is u8 *(u8 *, u16) */
 
     if (payload == NULL) {
-        PppFrame *empty = lbl_805C04A8.reply;
-        empty->data = (u8 *)empty + ((*(buffers = &lbl_805C04A8)).headroom + 0x83 & ~3);
+        PppFrame *empty = ppp_buffers.reply;
+        empty->data = (u8 *)empty + ((*(buffers = &ppp_buffers)).headroom + 0x83 & ~3);
         payload = ppp_frame_clear_length(empty);
     }
     switch (command = (u8)code) {

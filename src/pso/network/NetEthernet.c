@@ -35,7 +35,7 @@ s16 run_connect_step(void) {
 }
 
 s32 TLobby__sub_8040878C(void) {
-    EthernetState *tbl = (0, (void *)&lbl_805C1AD8);
+    EthernetState *tbl = (0, (void *)&ethernet_state);
     s16 n;
     s16 i;
     EthLink *ent;
@@ -67,11 +67,11 @@ s16 init_net_sockets(void) {
     EthDriver *d;
     EthLink **pe;
 
-    init_net_func_table(&lbl_805C1AD8);
-    pe = &lbl_805C1AD8.links;
-    NetMemset(*pe, 0, lbl_805C1AD8.nlinks * sizeof(EthLink));
-    NetMemset(lbl_805C1AD8.sockets, 0, lbl_805C1AD8.nsockets * sizeof(EthSocket));
-    NetMemset(lbl_805C1AD8.slots, 0, lbl_805C1AD8.nslots * sizeof(EthFrameSlot));
+    init_net_func_table(&ethernet_state);
+    pe = &ethernet_state.links;
+    NetMemset(*pe, 0, ethernet_state.nlinks * sizeof(EthLink));
+    NetMemset(ethernet_state.sockets, 0, ethernet_state.nsockets * sizeof(EthSocket));
+    NetMemset(ethernet_state.slots, 0, ethernet_state.nslots * sizeof(EthFrameSlot));
     fns[0] = (Fn_8040881C)TLobby__sub_8040970C;
     fns[1] = (Fn_8040881C)TLobby__sub_804094B8;
     fns[2] = (Fn_8040881C)TLobby__sub_804093EC;
@@ -84,8 +84,8 @@ s16 init_net_sockets(void) {
     fns[9] = (Fn_8040881C)forward_socket_op_by_handle;
     fns[10] = (Fn_8040881C)send_ethernet_frame;
     first = -1;
-    cnt = lbl_805C1AD8.ndrivers;
-    d = lbl_805C1AD8.drivers;
+    cnt = ethernet_state.ndrivers;
+    d = ethernet_state.drivers;
     e = *pe;
     i = 0;
     while (i < cnt) {
@@ -123,7 +123,7 @@ inline EthSocket *find_socket(EthSocket *ent, s16 n, s16 dev, u16 type) {
     return 0;
 }
 saddr TLobby__sub_804089A8(s16 dev, s16 mode, s16 b, EthernetFrameHeader *frame) {
-    EthernetState *tbl = &lbl_805C1AD8;
+    EthernetState *tbl = &ethernet_state;
     EthSocket *ent;
     EthSocket *base;
     EthFrameSlot *slot;
@@ -214,7 +214,7 @@ s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     EthSocket *e;
     s16 len;
     s32 (*fn)(s16, u8 *, s16);
-    g = &lbl_805C1AD8;
+    g = &ethernet_state;
 
     if (idx < 0 || idx >= g->nsockets) {
         return -0x111;
@@ -287,10 +287,10 @@ s16 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b) {
     EthSocket *e;
     s32 sock;
 
-    if (id < 0 || id >= lbl_805C1AD8.nsockets) {
+    if (id < 0 || id >= ethernet_state.nsockets) {
         return -0x111;
     }
-    e = lbl_805C1AD8.sockets;
+    e = ethernet_state.sockets;
     e += id;
     if (e->used == 0) {
         return -2;
@@ -308,7 +308,7 @@ s16 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b) {
 }
 
 s32 TLobby__sub_80408F2C(s16 id, u8 *pkt) {
-    EthernetState *t = &lbl_805C1AD8;
+    EthernetState *t = &ethernet_state;
     EthFrameSlot *b;
     u8 *data;
     s16 n;
@@ -339,7 +339,7 @@ s32 TLobby__sub_80408F2C(s16 id, u8 *pkt) {
 }
 
 s32 TLobby__sub_80408FD8(s16 idx, s16 mode, u8 *data) {
-    EthernetState *tbl = &lbl_805C1AD8;
+    EthernetState *tbl = &ethernet_state;
     EthSocket *e;
     EthDriver *fn;
     u8 buf[6];
@@ -390,10 +390,10 @@ s32 TLobby__sub_80409130(s16 arg0, s16 arg1, s32 arg2) {
     s32 h;
     EthSocket *e;
 
-    if (arg0 < 0 || arg0 >= lbl_805C1AD8.nsockets) {
+    if (arg0 < 0 || arg0 >= ethernet_state.nsockets) {
         return -0x111;
     }
-    e = lbl_805C1AD8.sockets;
+    e = ethernet_state.sockets;
     e += arg0;
     if (e->used == 0) {
         return -2;
@@ -419,7 +419,7 @@ s32 TLobby__sub_80409130(s16 arg0, s16 arg1, s32 arg2) {
 }
 
 s32 TLobby__sub_8040920C(s16 id, u8 *dst) {
-    EthernetState *t = &lbl_805C1AD8;
+    EthernetState *t = &ethernet_state;
     EthLink *p;
     EthSocket *e;
     EthDriver *r;
@@ -446,7 +446,7 @@ s32 TLobby__sub_8040920C(s16 id, u8 *dst) {
     return 0;
 }
 s32 TLobby__sub_804092FC(s16 idx) {
-    EthernetState *tbl = &lbl_805C1AD8;
+    EthernetState *tbl = &ethernet_state;
     EthSocket *e;
     EthLink *p;
     s16 n;
@@ -481,10 +481,10 @@ found:
 
 s32 TLobby__sub_8040939C(s16 idx) {
     EthSocket *e;
-    if (idx < 0 || idx >= lbl_805C1AD8.nsockets) {
+    if (idx < 0 || idx >= ethernet_state.nsockets) {
         return -0x111;
     }
-    e = lbl_805C1AD8.sockets;
+    e = ethernet_state.sockets;
     e += idx;
     if (e->used == 0) {
         return -2;
@@ -493,7 +493,7 @@ s32 TLobby__sub_8040939C(s16 idx) {
 }
 
 s32 TLobby__sub_804093EC(s16 idx) {
-    EthernetState *tbl = &lbl_805C1AD8;
+    EthernetState *tbl = &ethernet_state;
     EthSocket *e;
     EthDriver *ent;
     s32 (*cb)(s16, u16);
@@ -528,7 +528,7 @@ s32 TLobby__sub_804093EC(s16 idx) {
 #pragma push
 #pragma opt_propagation off
 s16 TLobby__sub_804094B8(s16 a, u16 b, s16 c, void *k) {
-    EthernetState *g = &lbl_805C1AD8;
+    EthernetState *g = &ethernet_state;
     EthLink *p1;
     EthSocket *p3;
     s16 result;
@@ -623,7 +623,7 @@ s32 TLobby__sub_8040970C(s16 idx, u8 *dst) {
     s16 ret;
     s16 (*fn)(s16, void *);
 
-    tbl = &lbl_805C1AD8;
+    tbl = &ethernet_state;
     p = find_link(tbl, idx);
     if (p == NULL) {
         return -0x111;
@@ -648,4 +648,4 @@ s32 TLobby__sub_8040970C(s16 idx, u8 *dst) {
     return 0;
 }
 
-EthernetState lbl_805C1AD8;
+EthernetState ethernet_state;

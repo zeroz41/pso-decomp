@@ -33,7 +33,7 @@ s16 TLobby__sub_80403F4C(PppVjCompressionState *o, PppFrame **spp) {
         o->flags |= 1;
         return 0;
     }
-    e = &o->ents[c];
+    e = &o->rstate[c];
     o->cur = c;
     o->flags &= ~1;
     a.proto = 6;
@@ -106,7 +106,7 @@ s16 TLobby__sub_804040E0(PppVjCompressionState *comp, PppFrame **src) {
         comp->n34++;
         return 0;
     }
-    th = &(cs = &comp->ents[comp->cur])->b;
+    th = &(cs = &comp->rstate[comp->cur])->b;
     v = vj_read_u16(src);
     if (v == -1) {
         goto bad;

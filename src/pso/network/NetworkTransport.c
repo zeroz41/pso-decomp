@@ -277,18 +277,18 @@ void init_net_buffer_desc(PppBuffers *bufs) {
 }
 
 void stop_network_thread(void) {
-    lock_mutex(lbl_805C18A0.mutex);
-    cancel_thread_if_running((void *)lbl_805C18A0.thread);
-    deactivate_entry_by_key(lbl_805C18A0.thread);
-    unlock_mutex(lbl_805C18A0.mutex);
-    NetReleaseMutex(lbl_805C18A0.mutex);
+    lock_mutex(net_thread_state.mutex);
+    cancel_thread_if_running((void *)net_thread_state.thread);
+    deactivate_entry_by_key(net_thread_state.thread);
+    unlock_mutex(net_thread_state.mutex);
+    NetReleaseMutex(net_thread_state.mutex);
 }
 
 void start_network_thread(void) {
-    if (TLobby__sub_803F96AC(&lbl_805C18A0.mutex) < 0 || TLobby__sub_803F9B94(run_net_thread_loop, &lbl_805C18A0.thread) < 0) {
+    if (TLobby__sub_803F96AC(&net_thread_state.mutex) < 0 || TLobby__sub_803F9B94(run_net_thread_loop, &net_thread_state.thread) < 0) {
         return;
     }
-    NetResumeThread(lbl_805C18A0.thread);
+    NetResumeThread(net_thread_state.thread);
 }
 
 /* Send thread: takes chunks from the send ring and hands them to the modem, waiting for each to drain. */
@@ -625,9 +625,9 @@ s32 open_network_transport(A_803F8314 *cfg) {
         } else {
             name = (char *)modem_default_connect_argument;
         }
-        unlock_mutex(lbl_805C18A0.mutex);
+        unlock_mutex(net_thread_state.mutex);
         ret = modem_init(name);
-        lock_mutex(lbl_805C18A0.mutex);
+        lock_mutex(net_thread_state.mutex);
         if (ret == 1) {
             TAdSinglePlyChrSelectGC__sub_8042E488(5);
             if (TLobby__sub_803F96AC(&send_ring_mutex) < 0) {

@@ -5,7 +5,7 @@
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/PppFsm.h"
 
-/* Connection request of ppp_start (copied field by field into the lbl_805BFF68 request by
+/* Connection request of ppp_start (copied field by field into the net_session request by
    NetApplyConnectionConfig). */
 typedef struct NetConnectCfg {
     u16 flags;

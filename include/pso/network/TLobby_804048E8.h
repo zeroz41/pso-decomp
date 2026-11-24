@@ -62,7 +62,7 @@ LAYOUT_ASSERT(PppVjConnectionState_size, sizeof(PppVjConnectionState) == 0x8C);
 /* The VJ compression state. */
 typedef struct PppVjCompressionState {
     PppVjConnectionState *tstate;
-    PppVjConnectionState *ents;
+    PppVjConnectionState *rstate; /* receive slots, indexed by connection id (cur) */
     u8 max_tx;
     u8 max;
     u8 last_cs;

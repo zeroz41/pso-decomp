@@ -35,7 +35,7 @@ s16 wait_for_connection(PppFsm *c) {
     NetThreadState *g;
     u8 *sub;
     sub = c->sub;
-    g = &lbl_805C18A0;
+    g = &net_thread_state;
     c->abort = 0;
     while (c->state != 5) {
         if (is_timed_out() != 0 || c->abort != 0 || *sub == 4) {
@@ -60,9 +60,9 @@ s16 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected);
 
 void init_lcp_protocol(u8 *conn)
 {
-  PppFsmProtocol *proto = &lbl_805C0400.proto;
+  PppFsmProtocol *proto = &lcp_state.proto;
   PppFsm *e = (PppFsm *)(conn + 4);
-  LcpOpts *area = &lbl_805C0400.opts;
+  LcpOpts *area = &lcp_state.opts;
   const LcpVals *tbl = &lbl_8047FE50;
   proto->name = "Lcp";
   proto->proto = 0xC021;
@@ -713,4 +713,4 @@ s32 configure_mode_by_type(void *self, s16 type) {
     return 0;
 }
 
-LcpState lbl_805C0400;
+LcpState lcp_state;
