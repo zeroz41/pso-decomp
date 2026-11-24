@@ -1362,11 +1362,11 @@ f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredField
 extern "C" {
 
 void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, s32 *name) {
-    u8 *entity;
-    u8 *obj;
+    TObjPlayer *entity;
+    TObjPlayer *obj;
     player_stats *q;
-    entity = reinterpret_cast<u8 *>(find_entity_by_id(id));
-    if (entity != NULL && obj_is_hit_receivable(reinterpret_cast<TObjCollidable *>(entity)) == 1) {
+    entity = reinterpret_cast<TObjPlayer *>(find_entity_by_id(id));
+    if (entity != NULL && obj_is_hit_receivable(entity) == 1) {
         obj = entity;
     } else {
         obj = NULL;
@@ -1376,14 +1376,14 @@ void TWindowCtrl::get_speaker_balloon_anchor(u16 id, f32 *height, s32 *name) {
         *name = 0;
         return;
     }
-    q = reinterpret_cast<player_stats *>(((TObjChara *)obj)->get_stats());
+    q = reinterpret_cast<player_stats *>(obj->get_stats());
     if (q == NULL) {
         *height = 0.0f;
     } else {
         *height = 0.92f * q->proportions;
     }
-    if (((TObjChara *)obj)->obj_isState2_324() != 0 || ((TObjChara *)obj)->is_locally_controlled() != 0) {
-        u8 *p = obj + 0x85C;
+    if (obj->obj_isState2_324() != 0 || obj->is_locally_controlled() != 0) {
+        char *p = obj->name;
         if (p == NULL) {
             *name = 0;
             return;

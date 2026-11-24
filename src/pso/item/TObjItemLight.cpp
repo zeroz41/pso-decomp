@@ -17,8 +17,6 @@
 
 struct Light_80191F90 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x18]; f32 rot[3]; u8 pad68[0x28]; f32 f90; void *f94; };
 
-struct Ply_80191F90 { u8 pad0[0x38]; f32 pos[3]; };
-
 extern "C" {
 s32 is_item_light_interaction_blocked();
 void run_task__13TObjItemLightFv(Light_80191F90 *arg0);
@@ -26,7 +24,7 @@ void run_task__13TObjItemLightFv(Light_80191F90 *arg0);
 
 void run_task__13TObjItemLightFv(Light_80191F90 *arg0) {
     s32 i;
-    Ply_80191F90 *p;
+    TObjPlayer *p;
     if (arg0->f94 != 0) {
         ((TParticleCtrl *)arg0->f94)->set_position(arg0->pos);
         ((TParticleCtrl *)(arg0->f94))->set_direction(arg0->rot);
@@ -35,10 +33,10 @@ void run_task__13TObjItemLightFv(Light_80191F90 *arg0) {
         return;
     }
     for (i = 0; i < 4; i++) {
-        p = (Ply_80191F90 *)get_player_by_client_id(i);
-        if (p != 0 && ((TObjPlayer *)p)->get_floor() == get_current_floor()
-            && ((TObjChara *)p)->is_locally_controlled() != 0
-            && xz_distance_squared((const Vec *)p->pos, (const Vec *)arg0->pos) < arg0->f90 * arg0->f90) {
+        p = get_player_by_client_id(i);
+        if (p != 0 && p->get_floor() == get_current_floor()
+            && p->is_locally_controlled() != 0
+            && xz_distance_squared(&p->position, (const Vec *)arg0->pos) < arg0->f90 * arg0->f90) {
             ((TObjBase *)arg0)->set_event_source_flag(8);
             ((TObject *)arg0)->queue_destruction();
             return;

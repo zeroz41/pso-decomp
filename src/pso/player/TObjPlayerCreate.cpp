@@ -71,7 +71,7 @@ void TObjPlayer::place_on_area_entry() {
     TObjPlayerSet *other;
 
     if (get_main_phase() == 0xE && TObjPlayer::is_single_screen() == 0 &&
-        ((TObjChara *)arg0)->is_locally_controlled() != 0 && this->has_active_camera_event() == 0 &&
+        this->is_locally_controlled() != 0 && this->has_active_camera_event() == 0 &&
         this->check_flag(0x100000) == 0 && TObjPlayer::is_key_machine_ready() != 0) {
         this->set_state_flags(0x100000);
         this->set_position_from(this->get_lobby_entry_ptr());
@@ -109,7 +109,7 @@ void TObjPlayer::place_on_area_entry() {
         reset_cameras_to_actor(this, 0);
     } else if (this->sub_801A1DDC() != 0) {
         TObjPlayer *player;
-        if (((TObjChara *)arg0)->is_locally_controlled() == 0 && (player = get_player_by_client_id(local_client_id)) != NULL) {
+        if (this->is_locally_controlled() == 0 && (player = get_player_by_client_id(local_client_id)) != NULL) {
             reset_cameras_to_actor(player, 0);
         } else {
             reset_cameras_to_actor(this, 0);
