@@ -113,7 +113,7 @@ void TUnk_804C4540::render() {
         rotate_matrix_y(0, rotation_y);
         save_render_material_state((u8 *)&render_material_state);
         apply_material_color_override();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((u8 *)this + 0xCF4));
+        TObjFish::set_global_param(&body_textures);
         set_motion_packed_rotation();
         draw_saving_joints_checked();
         clear_motion_packed_rotation();
@@ -138,7 +138,6 @@ void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(reinterpr
 
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/player/TPlyInventory.h"
-#include "pso/unk/text_800F9B84.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

@@ -1,3 +1,4 @@
+#include "pso/ui/font/TNECFontEORFunction.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TUnk_804CF9C8.h"
@@ -8,19 +9,12 @@
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 
-struct Pos_80259A84
-{
-  f32 x;
-  f32 y;
-  u8 pad[0x18];
-};
-
 extern "C" {
 u8 get_small_font_glyph_width();
 s32 TWindowSubStatusDisp__sub_800FC248(s32);
-s32 build_small_font_glyph_quad(s32, Pos_80259A84 *);
+s32 build_small_font_glyph_quad(s32, TexturedQuad *);
 void begin_screen_draw(s32 mode);
-s32 draw_textured_quad_at_depth(Pos_80259A84 *, f32);
+s32 draw_textured_quad_at_depth(TexturedQuad *, f32);
 void set_draw_texture_and_color(s32 idx, s32 color);
 
 void draw_right_aligned_number(void *arg0) {
@@ -54,7 +48,7 @@ void draw_right_aligned_number(void *arg0) {
 #pragma fp_contract on
 void TUnk_804CF9C8::render(WindowDrawContext *context) {
   f32 t;
-  Pos_80259A84 pos;
+  TexturedQuad pos;
   f32 x;
   f32 y;
   f32 scale;
@@ -104,21 +98,21 @@ void TUnk_804CF9C8::render(WindowDrawContext *context) {
       {
         case 0:
           r = calc_gauge_scale__20TWindowSubStatusDispFUsPvl(((u8 (*)(u16)) map_char_to_font_code)(d + 0x30), &pos, this->style);
-          pos.y = y;
+          pos.y0 = y;
           x -= (u8) r;
-          pos.x = x;
-          set_glyph_quad_extents(r, (u8 *)&pos);
+          pos.x0 = x;
+          set_glyph_quad_extents(r, &pos);
           break;
       }
       case 1:
         g = TWindowSubStatusDisp__sub_800FC248(d + 0x30);
         x -= get_small_font_glyph_width();
-        pos.y = y;
-        pos.x = x;
+        pos.y0 = y;
+        pos.x0 = x;
         build_small_font_glyph_quad(g, &pos);
         break;
     }
-    if (context->clip_and_transform_quad((TexturedQuad *)&pos) != 0)
+    if (context->clip_and_transform_quad(&pos) != 0)
     {
       draw_textured_quad_at_depth(&pos, scale);
     }

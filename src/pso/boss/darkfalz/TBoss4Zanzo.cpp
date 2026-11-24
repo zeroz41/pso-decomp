@@ -11,6 +11,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/base/TObjBase.h"
 #pragma readonly_strings on
@@ -188,18 +189,18 @@ TBoss4Type2::TBoss4Type2(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     angle = 0;
     move_count = 0;
     target_player = 0xFFFF;
-    move_frames = floor_to_float(*(f32 *)TLobby::dispatch_shared_handler_a(0x37));
+    move_frames = floor_to_float(TLobby::dispatch_shared_handler_a(0x37)->values.floats[0]);
     if (move_frames < 1 || move_frames > 25) {
         move_frames = 4;
     }
     move_frames *= 75;
     move_turn_frames = move_frames - 7;
-    v = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x37)) + 0x18);
+    v = TLobby::dispatch_shared_handler_a(0x37)->values.integers[0];
     if (v < 1 || v > 4) {
         v = 1;
     }
     stop_action = v + 8;
-    resta_level = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x37)) + 0x1C);
+    resta_level = TLobby::dispatch_shared_handler_a(0x37)->values.integers[1];
     if (resta_level < 0 || resta_level > 14) {
         resta_level = 0;
     }
@@ -231,7 +232,7 @@ void TBoss4Type2::run_hit_reaction() {
     hit = 1;
     hit_flash = 1.0f;
     actorFlags &= ~0x200;
-    ((s32 (*)(int, void *, int, int, void *))play_sound_effect)(0x4003B723, &position, 0, 1, this);
+    play_sound_effect(0x4003B723, &position, 0, 1);
 }
 
 void TBoss4Type2::run_death_reaction() {
@@ -621,7 +622,8 @@ void TBoss4Type2::choose_action_after_move() {
 
 void TBoss4Type2::apply_resta_heal() {
     s16 power = stat_block->stats.mst;
-    drain_player_hp(target_player, (power / 5) + (s32)TTecResta::calc_heal_amount(*(s32 *)((s8 *)TLobby::dispatch_shared_handler_a(0x37) + 0x1C)));
+    drain_player_hp(target_player, (power / 5) + (s32)TTecResta::calc_heal_amount(
+        TLobby::dispatch_shared_handler_a(0x37)->values.integers[1]));
 }
 
 void TBoss4Type2::spawn_bishi_around_players() {
@@ -657,9 +659,9 @@ void TBoss4Type2::spawn_afterimages() {
     z.fade_end = 0.0f;
     z.lifetime = 10;
     for (i = 0; i < 2; i++) {
-        z.texlist = (saddr)get_bml_texlist(archive, boss4_zanzo_bml_index_table[i]);
-        z.model = (void *)get_bml_model(archive, boss4_zanzo_bml_index_table[i]);
-        z.motion = (void *)get_bml_motion(archive, TBoss4Type2__attack_pattern_table[anim].motions[i]);
+        z.texlist = get_bml_texlist(archive, boss4_zanzo_bml_index_table[i]);
+        z.model = get_bml_model(archive, boss4_zanzo_bml_index_table[i]);
+        z.motion = get_bml_motion(archive, TBoss4Type2__attack_pattern_table[anim].motions[i]);
         create_zanzo(this, &z);
     }
 }
@@ -1104,7 +1106,7 @@ void TBoss4Zanzo::render() {
         set_motion_packed_rotation();
         post_translate_matrix(&params.pos.x);
         rotate_matrix_y(0, params.rotation_y);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(params.texlist));
+        TObjFish::set_global_param(params.texlist);
         TObjPlayer::begin_alpha_blend(value);
         draw_model_motion(params.model, params.motion, params.frame);
         TObjPlayer::sync_player_globals();

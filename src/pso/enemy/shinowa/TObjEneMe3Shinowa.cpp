@@ -1883,7 +1883,7 @@ TObjEneMe3ShinowaMirage::TObjEneMe3ShinowaMirage(TObject *parent, TObjEneMe3Shin
 
     m_name = TObjEneMe3ShinowaMirage__class_name;
     owner_id = owner->get_entity_id();
-    init_common_from((u8 *)owner);
+    init_common_from(owner);
     parameters[1] = owner->parameters[1];
     fn_800E762C();
     this->entity_id = entity_id;

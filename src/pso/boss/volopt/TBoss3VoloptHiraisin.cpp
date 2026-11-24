@@ -307,7 +307,7 @@ void TBoss3VoloptHiraisin::init_models() {
     volopt_hiraisin_resources = boss3_volopt_resources;
     volopt_hiraisin_spin_node = find_model_node(get_bml_model((BmlResource *)boss3_volopt_resources, 0x10), 0xB);
     volopt_hiraisin_spin_node->evalflags &= ~NJD_EVAL_UNIT_ANG;
-    breakup = new TBreakUpMdlData((saddr)get_bml_model((BmlResource *)volopt_hiraisin_resources, 0x10));
+    breakup = new TBreakUpMdlData(get_bml_model((BmlResource *)volopt_hiraisin_resources, 0x10));
     volopt_hiraisin_breakup_model = breakup;
     volopt_hiraisin_stats = TLobby::register_boss(0x24);
     volopt_hiraisin_stats_b = TLobby::dispatch_shared_handler_b(0x24);

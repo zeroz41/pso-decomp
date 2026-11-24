@@ -1062,7 +1062,7 @@ void TObjEneMoja::update_technique_state() {
                 copy_position_if_valid((saddr)this, (saddr)&cur);
                 a = enemy_turn_toward_dest(((MojaMovementParameters *)movementParameters)->turn_speed);
                 enemy_set_heading_velocity(((MojaMovementParameters *)movementParameters)->move_speed, this, rotation_y);
-                move_with_wall_slide((u8 *)this);
+                move_with_wall_slide(this);
             } else {
                 VecCopy((Vec *)&dir, (const Vec *)&target->body_center);
                 subtract_vector(&dir, &body_center);
@@ -1220,7 +1220,7 @@ void TObjEneMoja::update_attack_jump() {
         break;
     case 1:
         calc_velocity_toward_destination(this, move_origin, move_destination, jumpSpeed);
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         if (is_passing_frame(20.0f) != 0) {
             phase = 2;
             for (i = 0; i < lbl_805D5868; i++) {
@@ -1369,7 +1369,7 @@ void TObjEneMoja::update_death_state() {
         spawn_effect_at_ground(&v, 0x32);
     }
     if (this->frame < 0.5f * (30.0f * this->play_speed)) {
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         velocity.x *= 0.5f;
         this->velocity.z *= 0.5f;
     } else if (!((this->actorFlags) & 0x800000)) {

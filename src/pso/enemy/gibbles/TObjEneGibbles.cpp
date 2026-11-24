@@ -1176,7 +1176,7 @@ void TObjEneGibbles::state_attack() {
         break;
     case 3:
         requested_action = 2;
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         if (is_passing_frame(19.0f) != 0) {
             phase = 4;
             play_sound_effect(resolve_sound_id(0x3AD34), &position, 0, 0);
@@ -1198,7 +1198,7 @@ void TObjEneGibbles::state_attack() {
         break;
     case 5:
         requested_action = 2;
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         if (is_passing_frame(38.0f) != 0) {
             phase = 6;
             play_sound_effect(resolve_sound_id(0x3AD34), &position, 0, 0);
@@ -1375,7 +1375,7 @@ void TObjEneGibbles::state_jump_attack() {
         break;
     case 1:
         if (frame >= 8.0f) {
-            move_with_wall_slide((u8 *)this);
+            move_with_wall_slide(this);
             jump_height += jump_speed;
             if (frame >= 25.0f) {
                 jump_speed -= 1.0989012f;
@@ -1787,7 +1787,7 @@ s32 TObjEneGibbles::spawn_ground_impact_effects(const Vec *pos, f32 scale) {
     if (hit != NULL && (hit->hit_mask & 4) != 0) {
         TParticleCtrl *spray = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0x49);
         if (spray != NULL) {
-            attach_particle_model((u8 *)spray, TParticleCtrl::get_particle_model(2),
+            attach_particle_model(spray, TParticleCtrl::get_particle_model(2),
                                   TParticleCtrl::get_instance(), 0, 1, 1.0f);
             spray->set_scale(scale, 1.0f);
         }

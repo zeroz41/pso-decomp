@@ -263,7 +263,7 @@ void TBoss3VoloptP02::load_resources() {
     s32 n;
 
     volopt_p02_resources = boss3_volopt_resources;
-    model = new TBreakUpMdlData((saddr)volopt_p02_resources->models[19].model);
+    model = new TBreakUpMdlData(volopt_p02_resources->models[19].model);
     breakup_model = model;
     NJS_OBJECT *const root = volopt_p02_resources->models[20].model;
     find_model_node(root, 0x44)->evalflags |= 8;
@@ -276,7 +276,7 @@ void TBoss3VoloptP02::load_resources() {
     }
     for (j = 0; j < 5; j++) {
         nodes[j]->sibling = NULL;
-        model = new TBreakUpMdlData((saddr)nodes[j]);
+        model = new TBreakUpMdlData(nodes[j]);
         breakup_models[j] = model;
     }
     NJS_OBJECT *const render_root = volopt_p02_resources->models[19].model;

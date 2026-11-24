@@ -113,17 +113,15 @@ const char *TObjIllGillKage__class_name = "TObjIllGillKage";
 
 #pragma defer_codegen on
 void TObjEneIllGill::load_shared_resources() {
-    void *p;
     BmlResource *resource;
     Vec *q;
 
-    p = new BmlResource(1, &illGillResourceDescriptor, 0, 0, NULL);
-    illGillResource = (BmlResource *)p;
+    illGillResource = new BmlResource(1, &illGillResourceDescriptor, 0, 0, NULL);
     TObjEneIllGill__boss_registration_id = TLobby::register_boss(0x26);
-    ill_gill_combat_parameter_variants[0] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x26);
-    ill_gill_combat_parameter_variants[1] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x27);
-    ill_gill_combat_parameter_variants[2] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x28);
-    ill_gill_combat_parameter_variants[3] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x29);
+    ill_gill_combat_parameter_variants[0] = TLobby::dispatch_shared_handler_b(0x26);
+    ill_gill_combat_parameter_variants[1] = TLobby::dispatch_shared_handler_b(0x27);
+    ill_gill_combat_parameter_variants[2] = TLobby::dispatch_shared_handler_b(0x28);
+    ill_gill_combat_parameter_variants[3] = TLobby::dispatch_shared_handler_b(0x29);
     TObjEneIllGill__resistance_params = TLobby::register_object(0x26);
     illGillAttackBehavior = (IllGillAttackBehavior *)TLobby::dispatch_shared_handler_a(0x26);
     illGillModelNodeIndex = 0;
@@ -491,7 +489,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
     ((TObjEnemy *)o)->enemy_turn_toward_dest(((IllGillMovementParameters *)o->movementParameters)->turn);
     enemy_set_heading_velocity(((IllGillMovementParameters *)o->movementParameters)->speed, (TObjEnemy *)(o), o->rotation_y);
     (*(&o->body_center)).y += 5.0f;
-    move_with_wall_slide((u8 *)o);
+    move_with_wall_slide(o);
 }
 
 void TObjEneIllGill::update_idle() {
@@ -1003,14 +1001,14 @@ void TObjEneIllGill::update_death_fall() {
       apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
       if (((TObjMotion *)self)->is_passing_frame((f32)(10.0f)) != 0)
     {
-      play_sound_effect(0x4003A351, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
+      play_sound_effect(0x4003A351, &position, 0, 0);
       this->phase = 2;
     }
       return;
     return;
     case 2:
       this->body_center.y += 5.0f;
-      move_with_wall_slide(self);
+      move_with_wall_slide(this);
       velocity.x *= 0.5f;
       this->velocity.z *= 0.5f;
       if (((TObjMotion *)self)->is_passing_frame((f32)(30.0f)) != 0)
@@ -1023,7 +1021,7 @@ void TObjEneIllGill::update_death_fall() {
     case 3:
       if (((TObjMotion *)self)->is_passing_frame((f32)(52.0f)) != 0)
     {
-      play_sound_effect(0x4003A358, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
+      play_sound_effect(0x4003A358, &position, 0, 0);
       TObjPlayer::apply_effect_variant_b(&position, 0xA);
       fn_800D911C(&position);
       this->phase = 4;
@@ -1340,7 +1338,7 @@ void TObjEneIllGill::update_charge_attack() {
             }
             ((TObjEnemy *)o)->enemy_turn_toward_dest((s32)(4.5f * (f32)prm->turn));
             enemy_set_heading_velocity(spd, (TObjEnemy *)(o), o->rotation_y);
-            move_with_wall_slide((u8 *)o);
+            move_with_wall_slide(o);
             d2 = horizontal_distance_squared(&o->move_destination, &o->body_center);
             t = spd + o->bodies->radius;
             if (d2 < t * t || ((IllGillMovementParameters *)o->movementParameters)->range * ((IllGillMovementParameters *)o->movementParameters)->range < d2 || 120.0f < (f32)(c = o->chargeFrames)) {

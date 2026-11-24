@@ -42,6 +42,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/player/PlayerStats.h"
 #include "pso/ui/hud/TMainCursor.h"
 
 #include <stddef.h>
@@ -486,7 +487,6 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     u32 record[4];
     s32 i;
     s32 j;
-    u8 *q;
     Boss8DragonParams *cfg;
 
     __ct__14SubtractiveRngFv(this->randomState);
@@ -552,8 +552,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->hpThreshold = 0;
     cfg = boss8_dragon_behavior_params[2];
     this->finalHpThreshold = cfg->values[2] * this->hpmax / 100.0f;
-    q = *(u8 **)((s8 *)this + 0x2B0);
-    *(f32 *)((s8 *)q + 0x10) = 10.0f;
+    stat_block->proportions = 10.0f;
     update_damage_threshold();
     this->tail = new TBoss8DragonEffTail(this, &this->node_positions[15]);
     this->attack_history = new AreaAttackHistory(4);

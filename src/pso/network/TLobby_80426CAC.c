@@ -4,6 +4,7 @@
 #include "pso/network/NetworkMessageTransport.h"
 #include "pso/network/NetworkRuntime.h"
 #include "types.h"
+#include <stddef.h>
 #include "pso/network/NetStackTypes.h"
 
 #pragma inline_depth(1)
@@ -15,7 +16,7 @@ typedef struct PppoeNames {
     u8 service[0x100];
 } PppoeNames;
 
-typedef struct PppoeSlot {
+struct PppoeSlot {
     s16 state;
     u16 id;
     s16 m_4;
@@ -39,7 +40,12 @@ typedef struct PppoeSlot {
     u8 rx_frame[0x5EA];
     u16 rx_frame_len;
     u8 padE12[0xE14 - 0xE12];
-} PppoeSlot;
+};
+LAYOUT_ASSERT(PppoeSlot_size, sizeof(PppoeSlot) == 0xE14);
+LAYOUT_ASSERT(PppoeSlot_frame_offset, offsetof(PppoeSlot, frame) == 0x23A);
+LAYOUT_ASSERT(PppoeSlot_frame_length_offset, offsetof(PppoeSlot, frame_len) == 0x824);
+LAYOUT_ASSERT(PppoeSlot_rx_frame_offset, offsetof(PppoeSlot, rx_frame) == 0x826);
+LAYOUT_ASSERT(PppoeSlot_rx_length_offset, offsetof(PppoeSlot, rx_frame_len) == 0xE10);
 
 /* lobby_pppoe_slot_table: the client's one session and the address received frames must be sent to. */
 typedef struct PppoeTable {
@@ -63,7 +69,7 @@ s16 TLobby__sub_8042787C(PppoeSlot *e, u8 *p, u16 len);
 s16 TLobby__sub_80426D80(PppoeSlot *e);
 s32 TLobby__sub_80426574(s32);
 s16 TLobby__sub_80426EB8(PppoeSlot *e);
-s16 TLobby__sub_804270C0(u8 *self);
+s16 TLobby__sub_804270C0(PppoeSlot *self);
 PppoeSlot *TLobby__sub_80427B6C(u8 *p, u16 len);
 void TLobby__sub_80427378(PppoeSlot *e);
 s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len);
@@ -73,7 +79,6 @@ s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len);
 #undef arg0
 
 s16 build_ethernet_frame_header(void *frame, void *src, void *mac, u16 type, u8 flag, u16 a, u16 len);
-s16 write_pppoe_ac_name_tag(u8 **cursor, u8 *slot);
 s32 skip_pppoe_tags(s32 arg0, u8 *arg1, u16 arg2);
 s16 get_pppoe_session_id(s16 slot);
 s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen);
@@ -224,7 +229,7 @@ s16 TLobby__sub_80426D80(PppoeSlot *e) {
     switch (e->state) {
     case 0:
     case 1:
-        n = TLobby__sub_804270C0((u8 *)e);
+        n = TLobby__sub_804270C0(e);
         if (n >= 0) {
             src = e->m_16;
             type = 0x8863;
@@ -296,8 +301,7 @@ s16 TLobby__sub_80426EB8(PppoeSlot *e) {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_lifetimes off
-s16 TLobby__sub_804270C0(u8 *self) {
-    s16 write_pppoe_ac_name_tag(u8 **, u8 *);
+s16 TLobby__sub_804270C0(PppoeSlot *self) {
     u8 pad1[4];
     u8 *p;
     u16 w[8];
@@ -306,15 +310,15 @@ s16 TLobby__sub_804270C0(u8 *self) {
     s16 n;
     s16 r;
 
-    p = self + 0x24e;
+    p = self->frame + 0x14;
     w[6] = 0x101;
     NetMemcpy(p, &w[6], 2);
     p += 2;
-    n = NetStringLength((const char *)(self + 0x13a));
+    n = NetStringLength((const char *)(self->names.service));
     w[7] = n;
     NetMemcpy(p, &w[7], 2);
     p += 2;
-    NetMemcpy(p, self + 0x13a, n);
+    NetMemcpy(p, self->names.service, n);
     p += n;
     len = n + 4;
     if (len < 0) {
@@ -331,7 +335,7 @@ s16 TLobby__sub_804270C0(u8 *self) {
     w[4] = 8;
     NetMemcpy(p, &w[4], 2);
     p += 2;
-    NetMemcpy(p, self + 0x32, 8);
+    NetMemcpy(p, self->m_32, 8);
     p += 8;
     w[0] = 0;
     NetMemcpy(p, &w[0], 2);
@@ -358,22 +362,21 @@ s16 write_empty_tlv_header(u8 **p, PppoeSlot *e) {
 
 #pragma push
 #pragma opt_common_subs off
-s16 write_pppoe_ac_name_tag(u8 **cursor, u8 *slot) {
-typedef struct Fields_arg1 { u8 pad_0[58]; char name[1]; } Fields_arg1;
+s16 write_pppoe_ac_name_tag(u8 **cursor, PppoeSlot *slot) {
     s16 sp12;
     s16 sp10;
     s16 temp_r3;
-    if ((u8) ((Fields_arg1*)slot)->name[0] == 0) {
+    if (slot->names.name[0] == 0) {
         return 0;
     }
     sp12 = 0x102;
     NetMemcpy(*cursor, (&sp12), 2);
     *cursor += 2;
-    temp_r3 = NetStringLength(((Fields_arg1*)slot)->name);
+    temp_r3 = NetStringLength((char *)slot->names.name);
     sp10 = temp_r3;
     NetMemcpy(*cursor, (&sp10), 2);
     *cursor += 2;
-    NetMemcpy(*cursor, ((Fields_arg1*)slot)->name, (temp_r3));
+    NetMemcpy(*cursor, (char *)slot->names.name, (temp_r3));
     *cursor += temp_r3;
     return temp_r3 + 4;
 }
@@ -787,7 +790,6 @@ s16 get_pppoe_session_id(s16 slot) {
 }
 
 #pragma push
-#pragma dont_inline off
 #pragma inline_depth(4)
 static inline void check_80427D40(void) {
     s32 now;

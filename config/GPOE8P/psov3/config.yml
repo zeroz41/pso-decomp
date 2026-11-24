@@ -3846,12 +3846,12 @@ force_active:
   - adventure_map_variation_count_table
   - adx_error_message_buffer
   - adxf_open_file_buffer
-  - aim_toward_point__11TBoss6Type2FPv
+  - aim_toward_point__11TBoss6Type2FPC3Vec
   - alerted_state__14TObjEneBm5WolfFl
   - all_children_gone__18TObjEneEpsilonBodyFv
   - alloc_boss4rock_buffer__6TLobbyFv
   - alloc_boss_target_slot__16TBoss3VoloptCoreFv
-  - alloc_breakup_model__13TBoss7BreakUpFl
+  - alloc_breakup_model__13TBoss7BreakUpFP10NJS_OBJECT
   - alloc_breakup_piece_records__15TBreakUpMdlDataFP10NJS_OBJECT
   - alloc_char_records__23TAdSinglePlyChrSelectGCFPv
   - alloc_download_buffer__17TCharSaveSequenceFv
@@ -9058,7 +9058,7 @@ force_active:
   - motorcycle_resource_descriptor
   - state_formation__17TObjEneMe1CanadinFl
   - move_along_angle__13TBoss5GryphonFfl
-  - move_around_center__15TObjEneMe1GiGueFPvPvf
+  - move_around_center__15TObjEneMe1GiGueFPC3Vecf
   - move_cursor_prev__11TWindowMenuFv
   - move_enter__11TBoss4Type2Fv
   - move_idle__11TBoss4Type2Fv
@@ -9253,7 +9253,7 @@ force_active:
   - open_armor_list_window__26TShopEquipmentGearSequenceFv
   - open_bank__18TCheckRoomSequenceFv
   - open_buy_window__22TShopEquipmentSequenceFv
-  - open_challenge_progress_window__6TLobbyFPv
+  - open_challenge_progress_window__10TChallengeFPv
   - open_challenge_window__6TLobbyFll
   - open_city_warp_menu__6TLobbyFv
   - open_com_card_list__18TWindowSubShortCutFv
@@ -13864,7 +13864,7 @@ force_active:
   - push_material_fade
   - push_model_fade_color__10TObjPlayerFv
   - push_nearby_players__15TBoss3VoloptP01Fv
-  - push_players_away__11TBoss6Type2FPvf
+  - push_players_away__11TBoss6Type2FPC3Vecf
   - push_players_out_of_radius__15TBoss3VoloptP02Fv
   - push_trail_entry__17TItemEffectWeaponFPCfPCf
   - qst_call_stack_pop__Fv
@@ -14067,7 +14067,7 @@ force_active:
   - reload_stats_for_phase__13TBoss5GryphonFPv
   - reload_stats_for_type__13TBoss5GryphonFv
   - remap_sequence_after_recovery__12TBoss1DragonFv
-  - remap_sound_id__15TObjEneMe1GiGueFPvl
+  - remap_sound_id__15TObjEneMe1GiGueFl
   - remove_duplicate_bindings__21TWindowSubCustomEquipFPv
   - remove_entry_at__6TLobbyFi
   - remove_equip_effects__14TItemEquipBaseFv

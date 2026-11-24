@@ -739,7 +739,7 @@ void TBoss6Type1::draw_part_motions() {
     Boss6BlendMotion b;
     s32 i;
     saddr id;
-    s32 p;
+    NJS_TEXLIST *textures;
     Boss6PartMotion *a;
     ModelNodePositionCapture *cb;
     set_motion_packed_rotation();
@@ -747,13 +747,13 @@ void TBoss6Type1::draw_part_motions() {
         {
             s32 t = boss6_type1_part_model_ids[i];
             id = t;
-            p = (saddr)get_bml_texlist((BmlResource *)this->bml_resource, t);
+            textures = get_bml_texlist(bml_resource, t);
         }
-        id = (saddr)get_bml_model((BmlResource *)this->bml_resource, id);
+        id = (saddr)get_bml_model(bml_resource, id);
         cb = draw_callback_lists[i];
         a = &motion_state.part_motions[i];
         if (cb != 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(p));
+            TObjFish::set_global_param(textures);
             if (0.0f == a->blend) {
                 cb->install();
                 draw_model_motion((void *)id, a->motion, a->frame);
@@ -1504,8 +1504,8 @@ void TBoss6Type1::reset_param() {
 // Draws bml model 0 at node_points[7], turned to face the viewing player and scaled by laser_scale.
 void TBoss6Type1::render_laser() {
     if (this->laser_scale != 0.0f) {
-        saddr fish = (saddr)get_bml_texlist((BmlResource *)this->bml_resource, 0);
-        saddr model = (saddr)get_bml_model((BmlResource *)this->bml_resource, 0);
+        NJS_TEXLIST *textures = get_bml_texlist(bml_resource, 0);
+        NJS_OBJECT *model = get_bml_model(bml_resource, 0);
         s32 pitch = 0;
         Vec pos = this->node_points[7];
         s32 yaw = this->rotation_y + 0x8000;
@@ -1542,8 +1542,8 @@ void TBoss6Type1::render_laser() {
         rotate_matrix_x(0, pitch);
         rotate_matrix_z(0, 0);
         scale_matrix(0, width, 1.0f, height);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(fish));
-        draw_chunk_object((void *)model);
+        TObjFish::set_global_param(textures);
+        draw_chunk_object(model);
         pop_matrix();
     }
 }

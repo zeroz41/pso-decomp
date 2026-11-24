@@ -1,10 +1,10 @@
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/unk/ModelNodeTables.h"
 #include "pso/render/StripBufferPair.h"
 
 extern "C" {
-extern s32 dark_falz_controller_instance;
 
 s32 TBoss4Type2::is_active() {
     return (u8)((u8) (dark_falz_controller_instance != 0));

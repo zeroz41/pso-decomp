@@ -7,7 +7,7 @@
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 
-#include "pso/map/CsnGroundQuery.h"
+#include "pso/map/CsnQuery.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/system/MainPhaseState.h"
 #include "pso/system/MainPhaseTable.h"
@@ -63,7 +63,6 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
 #include "pso/unk/TLobby.h"
-#include "pso/unk/text_8007C0CC.h"
 #include "pso/system/SubtractiveRng.h"
 
 #include "pso/enemy/dubchik/TOCtrlDubchik.h"
@@ -105,9 +104,7 @@
 
 #include "pso/item/TItemReverseTech.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/player/PlayerSlots.h"
 
 
 struct VBase_800172CC { u8 pad[0x18]; };
@@ -479,30 +476,6 @@ struct Obj_800182A0 {
 
 struct Obj_800182A0;
 
-struct Plane_80017E6C
-{
-  u8 pad0[0xC];
-  f32 fC;
-  f32 f10;
-  f32 f14;
-};
-
-struct Hit_80017E6C
-{
-  s32 f0;
-  Plane_80017E6C *plane;
-};
-
-struct Obj_80017E6C
-{
-  u8 pad0[0x38];
-  Vec pos;
-  Vec prev;
-  u8 pad50[0x2FC - 0x50];
-  Vec cur;
-  Vec vel;
-};
-
 struct Body_80016454 {
     Vec local;
     f32 radius;
@@ -565,9 +538,6 @@ struct Player_8001745C {
 
 typedef s32 (*VecCopyFn_80016454)(void *, void *);
 struct Obj_80018660;
-typedef struct Hit_80017E6C Hit_80017E6C;
-typedef struct Obj_80017E6C Obj_80017E6C;
-typedef struct Plane_80017E6C Plane_80017E6C;
 
 struct Obj_80018F64 {
     u8 pad0[0x104]; Vec v104;
@@ -607,8 +577,6 @@ s32 get_current_floor(void);
 f32 fabs_float(f32 x);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32 x);
-u32 csnLookAt(void *, void *);
-uaddr csnVector(void *, void *, s32);
 void create__10TObjPlayerFUiii(uaddr, s32, s32);
 s32 create_font_small_task(u32, s32, s32, s32, s32 *, s16, u16);
 s32 create_font_small_task_default_color(u32, s32, s32, s32, s32 *, s16);
@@ -660,7 +628,6 @@ static const f32 lbl_805D7D3C = 65536.0f;
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 is_entity_locally_controlled(s32 id);
-void move_with_wall_slide(u8 *arg0);
 f64 fabs_double(f64 x);
 void direction_to_rotation_xz(u8 *dir, s32 *rot_a, s32 *rot_b);
 #pragma push
@@ -1519,62 +1486,56 @@ void enemy_set_heading_velocity(f32 farg0, TObjEnemy *enemy, s32 heading) {
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-void move_with_wall_slide(u8 *actor) {
-  Obj_80017E6C *self = (Obj_80017E6C *) actor;
-  Vec next;
-  Vec dir;
-  Vec nrm;
-  Hit_80017E6C *hit;
-  Plane_80017E6C *pl;
-  f32 len;
-  f32 new_var;
-  f32 xx;
-  f32 zz;
-  VecCopy__FP3VecPC3Vec((saddr)&self->prev, (saddr)&self->pos);
-  VecCopy__FP3VecPC3Vec((saddr)&next, (saddr)&self->cur);
-  vec3_add_to(&next, &self->vel);
-  VecCopy__FP3VecPC3Vec((saddr)&dir, (saddr)&self->vel);
-  normalize_vector_xz((Vec *)(&dir));
-  next.x = ((5.0f) * dir.x) + next.x;
-  next.z = ((5.0f) * dir.z) + next.z;
-  hit = (Hit_80017E6C *) csnVector(&self->cur, &next, 0x8FE0);
-  if (hit != 0)
-  {
-    pl = hit->plane;
-    nrm.x = pl->f14;
-    nrm.z = -pl->fC;
-    normalize_vector_xz((Vec *)(&nrm));
-    xx = self->vel.x * self->vel.x;
-    zz = self->vel.z * self->vel.z;
-    len = newton_sqrtf(xx + zz);
-    if (((self->vel.x * (new_var = nrm.x)) + (self->vel.z * nrm.z)) >= (0.0f))
-    {
-      self->vel.x = new_var * len;
-      self->vel.z = nrm.z * len;
+void move_with_wall_slide(TObjChara *actor) {
+    Vec next;
+    Vec direction;
+    Vec tangent;
+    CsnHit *hit;
+    CsnContact *contact;
+    f32 speed;
+    f32 tangent_x;
+    f32 velocity_x_squared;
+    f32 velocity_z_squared;
+
+    VecCopy(&actor->prev_position, &actor->position);
+    VecCopy(&next, &actor->body_center);
+    vec3_add_to(&next, &actor->velocity);
+    VecCopy(&direction, &actor->velocity);
+    normalize_vector_xz(&direction);
+    next.x = 5.0f * direction.x + next.x;
+    next.z = 5.0f * direction.z + next.z;
+    hit = csnVector(&actor->body_center, &next, 0x8FE0);
+    if (hit != NULL) {
+        contact = hit->contact;
+        tangent.x = contact->normal.z;
+        tangent.z = -contact->normal.x;
+        normalize_vector_xz(&tangent);
+        velocity_x_squared = actor->velocity.x * actor->velocity.x;
+        velocity_z_squared = actor->velocity.z * actor->velocity.z;
+        speed = newton_sqrtf(velocity_x_squared + velocity_z_squared);
+        if ((actor->velocity.x * (tangent_x = tangent.x) + actor->velocity.z * tangent.z) >= 0.0f) {
+            actor->velocity.x = tangent_x * speed;
+            actor->velocity.z = tangent.z * speed;
+        } else {
+            actor->velocity.x = -tangent_x * speed;
+            actor->velocity.z = -tangent.z * speed;
+        }
+        VecCopy(&next, &actor->body_center);
+        vec3_add_to(&next, &actor->velocity);
+        VecCopy(&direction, &actor->velocity);
+        normalize_vector_xz(&direction);
+        next.x = 5.0f * direction.x + next.x;
+        next.z = 5.0f * direction.z + next.z;
+        if (csnVector(&actor->body_center, &next, 0x8FE0) != NULL) {
+            return;
+        }
     }
-    else
-    {
-      self->vel.x = (-new_var) * len;
-      self->vel.z = (-nrm.z) * len;
+    VecCopy(&next, &actor->body_center);
+    vec3_add_to(&next, &actor->velocity);
+    next.y += 10.0f;
+    if (csnVecterUnder(&next, 0xE0) == NULL && project_actor_to_ground(actor, &next, NULL) != 0) {
+        VecCopy(&actor->position, &next);
     }
-    VecCopy__FP3VecPC3Vec((saddr)&next, (saddr)&self->cur);
-    vec3_add_to(&next, &self->vel);
-    VecCopy__FP3VecPC3Vec((saddr)&dir, (saddr)&self->vel);
-    normalize_vector_xz((Vec *)(&dir));
-    next.x = ((5.0f) * dir.x) + next.x;
-    next.z = ((5.0f) * dir.z) + next.z;
-    if (csnVector(&self->cur, &next, 0x8FE0) != 0)
-    {
-      return;
-    }
-  }
-  VecCopy__FP3VecPC3Vec((saddr)&next, (saddr)&self->cur);
-  vec3_add_to(&next, &self->vel);
-  next.y += (1e+01f);
-  if ((csnVecterUnder(&next, 0xE0) == 0) && (project_actor_to_ground((TObjChara *)actor, &next, 0) != 0))
-  {
-    VecCopy__FP3VecPC3Vec((saddr)&self->pos, (saddr)&next);
-  }
 }
 
 #pragma pop
@@ -1586,7 +1547,7 @@ f32 update_enemy_wander_move(TObjEnemy *enemy, Vec dest, s32 flags, f32 speed) {
         }
     }
     calc_velocity_toward_destination(enemy, enemy->move_origin, enemy->move_destination, speed);
-    move_with_wall_slide((u8 *)enemy);
+    move_with_wall_slide(enemy);
     return horizontal_distance_squared(&dest, &enemy->position);
 }
 
@@ -1613,7 +1574,7 @@ f32 TObjEnemy::enemy_wander_home(f32 farg0, f32 range_x, f32 range_z, s32 turn) 
     } else {
         ((TObjEnemy *)arg0)->enemy_turn_toward_dest(turn);
         enemy_set_heading_velocity(farg0, (TObjEnemy *)arg0, ((TObjEnemy *)arg0)->rotation_y);
-        move_with_wall_slide(arg0);
+        move_with_wall_slide(this);
         var_f31 = horizontal_distance_squared((u8 *)&this->move_destination, (u8 *)&this->body_center);
         ((TObjEnemy *)arg0)->m_2ac = ((TObjEnemy *)arg0)->m_2ac + 1;
     }
@@ -1624,7 +1585,7 @@ f32 enemy_backstep_from_point(TObjEnemy *enemy, Vec point, f32 speed) {
     if (select_destination_away_from(enemy, point) != 0) {
         copy_position_if_valid(enemy, enemy->body_center);
         calc_velocity_toward_destination(enemy, enemy->move_origin, enemy->move_destination, speed);
-        move_with_wall_slide((u8 *)enemy);
+        move_with_wall_slide(enemy);
         return horizontal_distance_squared(&point, &enemy->position);
     }
     return (0.0f);
@@ -1656,7 +1617,7 @@ f32 enemy_pursue_point(TObjEnemy *enemy, s32 turn_speed, Vec point, f32 speed, f
     }
     enemy->enemy_turn_toward_dest(turn_speed);
     enemy_set_heading_velocity(speed, enemy, enemy->rotation_y);
-    move_with_wall_slide((u8 *)enemy);
+    move_with_wall_slide(enemy);
     return horizontal_distance_squared(&point, &enemy->body_center);
 }
 
@@ -1677,7 +1638,7 @@ f32 enemy_move_toward(TObjEnemy *enemy, s32 turn_speed, Vec dest, s32 flags, f32
     }
     enemy->enemy_turn_toward_dest(turn_speed);
     enemy_set_heading_velocity(speed, enemy, enemy->rotation_y);
-    move_with_wall_slide((u8 *)enemy);
+    move_with_wall_slide(enemy);
     return horizontal_distance_squared(&dest, &enemy->position);
 }
 

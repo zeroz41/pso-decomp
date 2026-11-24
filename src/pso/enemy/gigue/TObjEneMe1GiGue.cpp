@@ -243,7 +243,7 @@ void TObjEneMe1GiGue::load_resources() {
     gigue_attack_params = TLobby::dispatch_shared_handler_b(0x1A);
     gigue_resistance_params = TLobby::register_object(0x1A);
     TObjEneMe1GiGue__param_table = (GiGueParameters *)TLobby::dispatch_shared_handler_a(0x1A);
-    o = new TBreakUpMdlData((saddr)gigue_resource->models->model);
+    o = new TBreakUpMdlData(gigue_resource->models->model);
     gigue_breakup_model = (TBreakUpMdlData *)o;
     TObjEneMe1GiGueMissile::init_global();
     TObjEneMe1GiGueBarrier::init_global();
@@ -535,7 +535,7 @@ void TObjEneMe1GiGue::update_circling_state() {
         }
         rotation_y += ((EnemyMoveParams *)movementParameters)->turn_speed / 2;
         enemy_set_heading_velocity(moveSpeed, this, rotation_y);
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         circlingAngle += ((EnemyMoveParams *)movementParameters)->turn_speed / 2;
         if (circlingAngle > 0x10000) {
             wanderDistance = 0.0f;
@@ -601,7 +601,7 @@ void TObjEneMe1GiGue::update_missile_state() {
             }
             break;
         case 2:
-            play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A81D)), this, &position, (s32)(0), (s32)(0));
+            play_persistent_sound((s32)(remap_sound_id(0x3A81D)), this, &position, (s32)(0), (s32)(0));
             if (frame >= 20.0f) {
                 capture_shot_origins();
                 if ((particle = spawn_particle_effect(&missileOrigin, 0x203)) != NULL) {
@@ -609,7 +609,7 @@ void TObjEneMe1GiGue::update_missile_state() {
                     particle->set_direction(&dir);
                 }
                 TObjEneMe1GiGueMissile::create(this, &missileOrigin, &((TObjChara *)target)->body_center, gigue_missile_speed, (f32)gigue_missile_power);
-                play_sound_effect(TObjEneMe1GiGue::remap_sound_id(this, 0x3A31E), &position, 0, 0);
+                play_sound_effect(remap_sound_id(0x3A31E), &position, 0, 0);
                 state = 3;
             }
             break;
@@ -680,7 +680,7 @@ void TObjEneMe1GiGue::update_multi_shot_state() {
             }
             break;
         case 2:
-            play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A820)), this, &position, (s32)(0), (s32)(0));
+            play_persistent_sound((s32)(remap_sound_id(0x3A820)), this, &position, (s32)(0), (s32)(0));
             if (frame >= 10.0f) {
                 capture_shot_origins();
                 n = targetCount;
@@ -755,7 +755,7 @@ void TObjEneMe1GiGue::update_technique_state() {
             }
             break;
         case 2:
-            play_sound_effect(TObjEneMe1GiGue::remap_sound_id(this, 0x3A344), &position, 0, 0);
+            play_sound_effect(remap_sound_id(0x3A344), &position, 0, 0);
             if (frame >= 10.0f) {
                 capture_shot_origins();
                 state = 3;
@@ -822,7 +822,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
         this->rushDelay--;
         if (this->rushDelay <= 0) {
             this->state = 2;
-            play_sound_effect(TObjEneMe1GiGue::remap_sound_id(this, 0x3A818), &this->position, 0, 0);
+            play_sound_effect(remap_sound_id(0x3A818), &this->position, 0, 0);
             this->actorFlags |= 0x1000000;
             this->actorFlags &= ~0x800000;
             this->find_target_in_range(((EnemyMoveParams *)this->movementParameters)->max_distance);
@@ -860,7 +860,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
         if (this->flightHeight >= 50.0f) {
             this->state = 3;
         }
-        play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A819)), this, &this->position, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(remap_sound_id(0x3A819)), this, &this->position, (s32)(0), (s32)(0));
         break;
     }
     case 3:
@@ -886,7 +886,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
         if (this->flightHeight > 15.0f) {
             this->turn_toward_direction(((EnemyMoveParams *)this->movementParameters)->turn_speed * 2, &this->velocity);
         }
-        play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A819)), this, &this->position, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(remap_sound_id(0x3A819)), this, &this->position, (s32)(0), (s32)(0));
         project_actor_to_ground(this, &this->position, 0);
         break;
     case 4:
@@ -916,7 +916,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
                 spawn_particle_effect(&this->position, 0xF0);
             }
         }
-        play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A819)), this, &this->position, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(remap_sound_id(0x3A819)), this, &this->position, (s32)(0), (s32)(0));
         this->check_object_collisions();
         check_enemy_body_collisions(this);
         this->update_enemy_collision_flags();
@@ -955,7 +955,7 @@ void TObjEneMe1GiGue::update_hit_reaction() {
             v.x += velocity.x;
             v.z += velocity.z;
             if (check_path_obstructed(this, &v) == 0) {
-                move_with_wall_slide((u8 *)this);
+                move_with_wall_slide(this);
             } else {
                 velocity.x = velocity.z = 0.0f;
             }
@@ -1007,21 +1007,21 @@ void TObjEneMe1GiGue::break_apart() {
     send_entity_set_flags();
     spawn_particle_effect(&pos, 0x205);
     spawn_particle_effect(&pos, 0x206);
-    play_sound_effect(remap_sound_id(this, 0x3AF1C), &pos, 0, 0);
+    play_sound_effect(remap_sound_id(0x3AF1C), &pos, 0, 0);
     queue_destruction();
 }
 
-void TObjEneMe1GiGue::move_around_center(void *center, f32 radius) {
+void TObjEneMe1GiGue::move_around_center(const Vec *center, f32 radius) {
     if (xz_distance_squared(&this->position, &this->moveDestination) < 400.0f) {
         s32 angle = (s32)(182.04445f * (360.0f * this->random_ratio()));
         f32 d = 0.4f * (radius * (1.0f + this->random_ratio()));
-        this->moveDestination.x = d * cos_table_lookup(angle) + ((Vec *)center)->x;
-        this->moveDestination.z = d * sin_table_lookup(angle) + ((Vec *)center)->z;
+        this->moveDestination.x = d * cos_table_lookup(angle) + center->x;
+        this->moveDestination.z = d * sin_table_lookup(angle) + center->z;
     }
     VecCopy(&this->move_destination, &this->moveDestination);
     enemy_turn_toward_dest(((EnemyMoveParams *)this->movementParameters)->turn_speed);
     enemy_set_heading_velocity(this->moveSpeed, this, this->rotation_y);
-    move_with_wall_slide((u8 *)this);
+    move_with_wall_slide(this);
 }
 
 void TObjEneMe1GiGue::spawn_targeted_shot(s32 index) {
@@ -1082,11 +1082,11 @@ void TObjEneMe1GiGue::apply_hit_shake(TObjChara *player) {
     }
 }
 
-s32 TObjEneMe1GiGue::remap_sound_id(void *obj, s32 id) {
+s32 TObjEneMe1GiGue::remap_sound_id(s32 id) {
     s32 area = get_current_floor_area();
     if (id == 0x3A344) return area == AREA_TOWER ? 0x40039E14 : id;
     if (id == 0x3A345) return area == AREA_TOWER ? 0x40039415 : id;
-    return ((TObjEnemy *)obj)->remap_sound_for_area(id);
+    return remap_sound_for_area(id);
 }
 
 
@@ -1114,7 +1114,7 @@ void TObjEneMe1GiGue::update_landing_state() {
             velocity.y = 0.0f;
             if (requested_action != 8) {
                 state = -1;
-                play_sound_effect(TObjEneMe1GiGue::remap_sound_id(this, 0x3A345), &position, 0, 0);
+                play_sound_effect(remap_sound_id(0x3A345), &position, 0, 0);
             }
         } else if (requested_action == 7) {
             if (height <= 2.3f * (40.0f + 1.0f / blend_speed)) {
@@ -1126,7 +1126,7 @@ void TObjEneMe1GiGue::update_landing_state() {
                 spawn_particle_effect(&position, 0xF0);
             }
         }
-        play_persistent_sound((s32)(TObjEneMe1GiGue::remap_sound_id(this, 0x3A819)), this, &position, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(remap_sound_id(0x3A819)), this, &position, (s32)(0), (s32)(0));
         update_collisions();
         break;
     case -1:
@@ -1152,7 +1152,7 @@ void TObjEneMe1GiGue::init() {
         advance_animation();
         if (appearFade.advance_toward_max() == 1) {
             state = -1;
-            play_sound_effect(TObjEneMe1GiGue::remap_sound_id(this, 0x3A345), &position, 0, 0);
+            play_sound_effect(remap_sound_id(0x3A345), &position, 0, 0);
         }
         update_collisions();
         return;

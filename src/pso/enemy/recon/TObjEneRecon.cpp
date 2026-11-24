@@ -51,7 +51,6 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
@@ -1108,7 +1107,7 @@ f32 TObjEneRecobox::get_recon_rotate_rad() { return recon_rotate_rad; }
 extern "C" {
 void TObjEneRecon::load_resources() {
   TObjEneRecon__recobox_static_instance = TObjEneRecobox::get_bml_resource();
-  boss3_volopt_instance = new TBreakUpMdlData((long)(saddr)TObjEneRecon__recobox_static_instance->models->model);
+  boss3_volopt_instance = new TBreakUpMdlData(TObjEneRecon__recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
   TObjEneRecon__base_params = TLobby::register_boss(0x42);
@@ -1139,7 +1138,7 @@ void TObjEneRecon::release_static_instance() {
 TObjEneRecon::TObjEneRecon(TObject *parent, TObjEneRecobox *owner, u16 id, s32 index, Vec *pos, Vec *dir) : TObjEneDD_ST(parent) {
     m_name = TObjEneRecon_name_ref;
     owner_id = owner->get_entity_id();
-    init_common_from((u8 *)owner);
+    init_common_from(owner);
     entity_id = id;
     set_index = index;
     VecCopy(&position, pos);

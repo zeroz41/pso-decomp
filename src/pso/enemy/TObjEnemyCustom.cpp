@@ -233,7 +233,7 @@ void TObjEnemyCustom::update_knockback_state() {
         state = 1;
     case 1:
         advance_animation();
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         velocity.x *= 0.5f;
         velocity.z *= 0.5f;
         apply_actor_gravity(this, NULL, 0.0f);
@@ -273,7 +273,7 @@ void TObjEnemyCustom::update_dying_state() {
         apply_actor_gravity(this, NULL, 0.0f);
         update_collisions();
         if (this->frame < 0.5f * (30.0f * this->play_speed)) {
-            move_with_wall_slide((u8 *)this);
+            move_with_wall_slide(this);
             velocity.x *= 0.5f;
             velocity.z *= 0.5f;
         }

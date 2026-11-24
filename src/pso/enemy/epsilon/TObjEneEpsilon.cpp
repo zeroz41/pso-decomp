@@ -62,8 +62,8 @@ void TObjEneEpsilonGuard::load_assets() {
     epsilon_zero_vector.y = 0.0f;
     epsilon_zero_vector.z = 0.0f;
     epsilon_bml_resource = new BmlResource(1, &TObjEneEpsilonGuard__resource_descriptor, 0, 0, NULL);
-    epsilon_body_breakup_model = new TBreakUpMdlData((saddr)get_bml_model(epsilon_bml_resource, 5));
-    epsilon_guard_breakup_model = new TBreakUpMdlData((saddr)get_bml_model(epsilon_bml_resource, 6));
+    epsilon_body_breakup_model = new TBreakUpMdlData(get_bml_model(epsilon_bml_resource, 5));
+    epsilon_guard_breakup_model = new TBreakUpMdlData(get_bml_model(epsilon_bml_resource, 6));
     epsilon_body_boss_stat_handle = TLobby::register_boss(0x23);
     epsilon_body_shared_handler_b = TLobby::dispatch_shared_handler_b(0x23);
     epsilon_body_registered_object_handle = TLobby::register_object(0x23);

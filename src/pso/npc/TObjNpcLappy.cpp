@@ -52,7 +52,7 @@ TObjNpcLappy::TObjNpcLappy(TObject *parent, void *set_data) : TObjNpcBase(parent
     init_collision_body_parts(this, lbl_804A9DA8, 1);
     ((TObjPlayer *)this)->register_object_by_id();
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
 }
 
 TObjNpcLappy::~TObjNpcLappy() {}

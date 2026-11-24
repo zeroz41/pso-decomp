@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/system/ResourceFile.h"
 #include "pso/camera/TCameraScripted.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"

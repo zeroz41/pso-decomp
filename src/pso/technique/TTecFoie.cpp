@@ -178,7 +178,7 @@ void TTecFoie::create_particle_emitters() {
     {
       if (TTecFoie__emitter_profile_table[self->band].parts[i].flags & 0x20)
       {
-        attach_particle_model((u8 *)self->emitters[i], TParticleCtrl::get_particle_model(0), technique_texture_list, 0, 1, 1.0f);
+        attach_particle_model(static_cast<TParticleCtrl *>(self->emitters[i]), TParticleCtrl::get_particle_model(0), technique_texture_list, 0, 1, 1.0f);
       }
       ((TParticleCtrl *)(self->emitters[i]))->set_scale(TTecFoie__emitter_profile_table[self->band].parts[i].scale, TTecFoie__emitter_profile_table[self->band].parts[i].scale);
     }

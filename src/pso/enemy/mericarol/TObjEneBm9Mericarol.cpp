@@ -582,7 +582,7 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
                     target = enemy_nearest_visible_enemy(this, destination_distance - 30.0f);
                 }
                 if (target == 0xFFFF) {
-                    target = enemy_find_nearest_player_in_range((u8 *)this, (f32)(destination_distance - 30.0f));
+                    target = enemy_find_nearest_player_in_range(this, (f32)(destination_distance - 30.0f));
                 }
                 if (target != 0xFFFF) {
                     enemy_set_target_id(this, target);
@@ -1349,7 +1349,7 @@ void TObjEneBm9Mericarol::play_step_effect() {
             if (surface_mask != 0) {
                 TParticleCtrl *spray = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0x49);
                 if (spray != NULL) {
-                    attach_particle_model((u8 *)spray, TParticleCtrl::get_particle_model(2),
+                    attach_particle_model(spray, TParticleCtrl::get_particle_model(2),
                                           TParticleCtrl::get_instance(), 0, 1, 1.0f);
                     spray->set_scale(5.0f, 1.0f);
                 }

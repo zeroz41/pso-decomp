@@ -1182,7 +1182,7 @@ s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
         floats.sp8 = lbl_805DAC98;
         push_matrix();
         ::copy_matrix(NULL, get_model_joint_matrix(owner, joint));
-        premultiply_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(TCameraCtrl::get_view_matrix()));
+        premultiply_matrix(NULL, TCameraCtrl::get_view_matrix());
         transform_point_by_current_matrix(&floats.sp8, static_cast<Vec *>(out));
         pop_matrix();
     } else {

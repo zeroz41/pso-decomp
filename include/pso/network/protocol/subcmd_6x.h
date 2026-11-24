@@ -276,9 +276,15 @@ struct G_DoneLoadingIntoGame_6x72 {
 
 struct G_DragonBossActions_6x10_6x11 {
  struct G_EntityIDHeader header;
- u16 unknown_a2;
- u16 unknown_a3;
- u32 unknown_a4;
+ s16 state;
+ s16 action_index;
+ u32 target_id;
+};
+
+struct G_DragonBossActions_6x12 {
+ G_DragonBossActions_6x10_6x11 action;
+ f32 x;
+ f32 z;
 };
 
 struct G_DropItem_6x2A {

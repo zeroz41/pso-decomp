@@ -300,7 +300,7 @@ void TBoss7Tentacle::run_task() {
         v.z = 0.0f;
         push_matrix();
         set_matrix_identity(0);
-        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(joint));
+        ::concat_matrix(NULL, joint);
         transform_point_by_current_matrix(&v.x, &position);
         pop_matrix();
         VecCopy(&v, &target);
@@ -435,7 +435,7 @@ void TBoss7Tentacle::render() {
     switch (state) {
     case 0:
         set_motion_packed_rotation();
-        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(joint));
+        ::concat_matrix(NULL, joint);
         rotate_matrix_y(0, yaw);
         scale_current_matrix(&scale.x);
         draw_model_motion(model, motion, frame);
@@ -445,14 +445,14 @@ void TBoss7Tentacle::render() {
     case 4:
     case 5:
         set_motion_packed_rotation();
-        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(joint));
+        ::concat_matrix(NULL, joint);
         rotate_matrix_zyx(0, pitch, yaw, 0);
         scale_current_matrix(&scale.x);
         draw_model_motion(model, motion, frame);
         clear_motion_packed_rotation();
         break;
     case 2:
-        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(joint));
+        ::concat_matrix(NULL, joint);
         rotate_matrix_zyx(0, pitch, yaw, 0);
         scale_current_matrix(&scale.x);
         draw_chunk_object(model);
@@ -638,7 +638,7 @@ void TBoss7TentacleNeedle::restart_particle_effect() {
     }
     effect = spawn_particle_effect(&position, 0x215);
     if (effect != NULL) {
-        attach_particle_model((u8 *)effect, TBoss7DeRolLeC::get_archive_model(4), TBoss7DeRolLeC::get_archive_textures(), 0, 0, 1.0f);
+        attach_particle_model(effect, TBoss7DeRolLeC::get_archive_model(4), TBoss7DeRolLeC::get_archive_textures(), 0, 0, 1.0f);
     }
     play_sound_effect(0x3A809, &position, 0, 0);
 }

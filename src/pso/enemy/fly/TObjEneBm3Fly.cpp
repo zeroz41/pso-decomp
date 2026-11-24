@@ -27,7 +27,6 @@
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/moja/TObjEneMoja.h"
-#include "pso/enemy/moja/TObjEneMoja.h"
 #include "pso/unk/TLobby.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/system/MatrixOps.h"
@@ -77,7 +76,7 @@ const NpcAnimationBinding bm3_fly_resource_binding_desc = { NULL, bm3_fly_action
 void TObjEneBm3Fly::load_resources() {
     TBreakUpMdlData *model;
     bm3_fly_nest_resources = TObjEneBm3FlyNest::get_bml_resource();
-    model = new TBreakUpMdlData((saddr)bm3_fly_nest_resources->models[0].model);
+    model = new TBreakUpMdlData(bm3_fly_nest_resources->models[0].model);
     TObjEneBm3Fly__breakup_model = model;
     bm3_fly_boss_stat_handle = TLobby::register_boss(0);
     TObjEneBm3Fly__attack_params = (AttackParams *)TLobby::dispatch_shared_handler_b(0);
@@ -104,7 +103,7 @@ void TObjEneBm3Fly::release_shared_data() {
 TObjEneBm3Fly::TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entity_id, s32 set_index, const Vec *position, const Vec *velocity) : TObjEneDD_ST(parent) {
     m_name = TObjEneBm3Fly__name;
     owner_id = nest->get_entity_id();
-    init_common_from((u8 *)nest);
+    init_common_from(nest);
     this->entity_id = entity_id;
     this->set_index = set_index;
     VecCopy(&this->position, position);

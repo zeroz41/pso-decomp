@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -16,6 +17,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/technique/TTecCtrl.h"
+#include "pso/effect/enemy/TeneFakeTecThunderEff.h"
 #include "pso/system/AreaSound.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -62,7 +64,6 @@
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/technique/TechniqueRingwaveList.h"
-#include "pso/effect/enemy/TeneFakeTecThunderEff.h"
 #include "pso/render/GinjaMaterialState.h"
 
 extern "C" {
@@ -73,8 +74,8 @@ s32 copy_position_if_valid(TObjChara *chara, Vec pos);
 }
 
 extern "C" {
-extern void *bm_ene_df1_saver_model_names[2];
-extern void *bm_ene_df1_saver_motion_names[12];
+extern const char *bm_ene_df1_saver_model_names[2];
+extern const char *bm_ene_df1_saver_motion_names[12];
 }
 // Where render's node callback last placed the particle node (node 0x1A), in world space. 16 bytes in the
 // original; only the first 12 are used, as a point.
@@ -97,16 +98,17 @@ SampledMotionPoints *saver_nail_trail_points;
 
 
 extern "C" {
-__declspec(section ".data") void *bm_ene_df1_saver_model_names[2] = {
-    (void *)"df1_s_kil_body.nj", (void *)0x0,
+__declspec(section ".data") const char *bm_ene_df1_saver_model_names[2] = {
+    "df1_s_kil_body.nj", NULL,
 };
-void *bm_ene_df1_saver_motion_names[12] = {
-    (void *)"aseri_df1_s_kil_body.njm", (void *)"atack_df1_s_kil_body.njm", (void *)"damage_df1_s_kil_body.njm", (void *)"deadb_df1_s_kil_body.njm",
-    (void *)"dead_df1_s_kil_body.njm", (void *)"defdam_df1_s_kil_body.njm", (void *)"defence_df1_s_kil_body.njm", (void *)"jump_df1_s_kil_body.njm",
-    (void *)"nail_df1_s_kil_body.njm", (void *)"wait_df1_s_kil_body.njm", (void *)"walk_df1_s_kil_body.njm", (void *)0x0,
+const char *bm_ene_df1_saver_motion_names[12] = {
+    "aseri_df1_s_kil_body.njm", "atack_df1_s_kil_body.njm", "damage_df1_s_kil_body.njm", "deadb_df1_s_kil_body.njm",
+    "dead_df1_s_kil_body.njm", "defdam_df1_s_kil_body.njm", "defence_df1_s_kil_body.njm", "jump_df1_s_kil_body.njm",
+    "nail_df1_s_kil_body.njm", "wait_df1_s_kil_body.njm", "walk_df1_s_kil_body.njm", NULL,
 };
-void *bm_ene_df1_saver_resource_descriptor[4] = {
-    (void *)"bm_ene_df1_saver.bml", (void *)&bm_ene_df1_saver_model_names, (void *)&bm_ene_df1_saver_motion_names, (void *)0x1000b,
+BmlResourceDescriptor bm_ene_df1_saver_resource_descriptor = {
+    "bm_ene_df1_saver.bml",
+    bm_ene_df1_saver_model_names, bm_ene_df1_saver_motion_names, 1, 11,
 };
 TObjMotionAction saver_action_table[11] = {
     {1, 0, 9, 1.0f, 1},
@@ -219,7 +221,7 @@ void TObjEneSaver::update_collapse_and_destroy() {
         return;
     case 1:
         step_angle_clamped(0);
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         velocity.x *= 0.5f;
         velocity.z *= 0.5f;
         if (body_fade.decay_value_toward_floor() == 1) {
@@ -290,7 +292,7 @@ void TObjEneSaver::update_knockback_state() {
         apply_actor_gravity(this, NULL, 0.0f);
         break;
     case 1:
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         velocity.x *= 0.5f;
         velocity.z *= 0.5f;
         if (action_flags != 8) {
@@ -499,7 +501,7 @@ void TObjEneSaver::state_jump_attack() {
         }
         break;
     case 1:
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         if (11.0f <= frame && frame <= 27.0f) {
             if ((e = saver_jump_trail_points->lookup(frame)) != NULL) {
                 push_matrix();
@@ -696,9 +698,10 @@ void initialize_saver_resources(void) {
     Vec pos;
     Vec dir;
     BmlResource *r;
-    r = new BmlResource(1, (BmlResourceDescriptor *)bm_ene_df1_saver_resource_descriptor, 0, 0, NULL);
+    r = new BmlResource(1, &bm_ene_df1_saver_resource_descriptor, 0, 0, NULL);
     saver_bml_resource = r;
-    saver_scroll_polygons = *(s16 **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)r->models[0].model + 0x2C)) + 0x30)) + 4)) + 4);
+    NJS_OBJECT *scroll_node = r->models[0].model->child->sibling;
+    saver_scroll_polygons = static_cast<NJS_CNK_MODEL *>(scroll_node->model)->polygon_list;
     saver_scroll_tick = 0;
     saver_render_node_index = 0;
     saver_render_rotation_x = 0;
@@ -713,7 +716,7 @@ void initialize_saver_resources(void) {
     pos.x = pos.y = pos.z = 0.0f;
     dir.x = (-10.0f);
     dir.y = dir.z = 0.0f;
-    saver_nail_trail_points->sample_node_offsets(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[3].motion].motion), 0x19, (const Vec *)&pos, (const Vec *)&dir);
+    saver_nail_trail_points->sample_node_offsets(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[3].motion].motion), 0x19, &pos, &dir);
     player_object_ptr_array = static_cast<AttackParams **>(mem_alloc(3 * sizeof(*player_object_ptr_array)));
     saver_boss_stat_handle = TLobby::register_boss(0x52);
     player_object_ptr_array[0] = TLobby::dispatch_shared_handler_b(0x57);
@@ -1472,7 +1475,7 @@ void TObjEneSaver::state_attack() {
         break;
     case 3:
         requested_action = 2;
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         if (is_passing_frame(32.0f) != 0) {
             phase = 4;
             play_sound_effect(remap_sound_for_area(0x4003A801), &position, 0, 0);
@@ -1492,7 +1495,7 @@ void TObjEneSaver::state_attack() {
         break;
     case 5:
         requested_action = 2;
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         if (is_passing_frame(52.0f) != 0) {
             phase = 6;
             play_sound_effect(remap_sound_for_area(0x4003A801), &position, 0, 0);

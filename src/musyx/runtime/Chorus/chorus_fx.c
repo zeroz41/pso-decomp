@@ -190,10 +190,7 @@ void sndAuxCallbackChorus(u8 reason, SND_AUX_INFO *info, void *user) {
 #pragma pop
 
 #pragma push
-#pragma peephole off
 #pragma dont_inline off
-#pragma inline_depth(4)
-#pragma auto_inline on
 
 static inline u32 sndAuxCallbackUpdateSettingsChorus_803BFBF0(AuxChorus_803BFBF0 *ch) {
     ch->work.currentPosHi = 0x140 - ((ch->baseDelay - 5) << 5);

@@ -28,9 +28,7 @@
 #include "pso/object/base/TObjBase.h"
 #pragma defer_codegen on
 
-// Re4BitData.cpp defines it as 16 bytes (the shadow scale and a zero word), a Vec is 12.
-extern const Vec re4_bit_render_vec;
-saddr TObjEneRe4Bit__model;
+NJS_OBJECT *TObjEneRe4Bit__model;
 NJS_TEXLIST *re4_bit_texture_list;
 const char *TObjEneRe4Bit__name = TObjEneRe4Bit__class_name_string;
 
@@ -62,7 +60,7 @@ void TObjEneRe4Bit::apply_poison_status() {  }
 
 void TObjEneRe4Bit::load_resources() {
     s32 i;
-    TObjEneRe4Bit__model = (saddr)sorcerer_bml_resource->models[1].model;
+    TObjEneRe4Bit__model = sorcerer_bml_resource->models[1].model;
     re4_bit_texture_list = sorcerer_bml_resource->models[0].texlist;
     for (i = 0; i < 2; i++) {
         TObjEneRe4Bit_boss_handles[i] = TLobby::register_boss(re4_bit_base_param_ids[i]);
@@ -89,7 +87,7 @@ void TObjEneRe4Sorcerer::create_enabled(Vec *anchor, u16 id, s32 set_index) {
 TObjEneRe4Bit::TObjEneRe4Bit(TObject *parent, TObjEneRe4Sorcerer *owner, Vec *anchor, s32 enabled, u16 id, s32 set_index)
     : TObjEneDD_ST(parent) {
     m_name = TObjEneRe4Bit__name;
-    init_common_from((u8 *)owner);
+    init_common_from(owner);
     owner_id = ((TObjBase *)owner)->get_entity_id();
     entity_id = id;
     this->set_index = set_index;
@@ -103,7 +101,7 @@ void TObjEneRe4Bit::init() {
     s32 i;
 
     init_position_vectors();
-    model = (void *)TObjEneRe4Bit__model;
+    model = TObjEneRe4Bit__model;
     texlist = re4_bit_texture_list;
     init_model(&re4_bit_model_node_desc, 1);
     i = enabled == 1 ? 0 : 1;
@@ -530,7 +528,7 @@ void TObjEneRe4Bit::render() {
         return;
     }
     if (behavior_flags & 0x800) {
-        Vec v = re4_bit_render_vec;
+        Vec v = re4_bit_render_vec.scale;
         TObjEnemy::draw_ground_shadow(&v, 0);
     }
     update_secondary_light();

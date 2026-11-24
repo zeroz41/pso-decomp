@@ -5,6 +5,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -144,20 +145,21 @@ ActorParamBlock *TObjEneDarkGunner__resistance_params_by_variant[1];
 
 
 
-void *bm_ene_darkgunner_model_names[5] = {
-    (void *)"re5_b_cly_cy_line.nj", (void *)"re5_b_gunner_body.nj", (void *)"re5_b_rcly_cy_line.nj", (void *)"shockwave.nj",
-    (void *)0x0,
+const char *bm_ene_darkgunner_model_names[5] = {
+    "re5_b_cly_cy_line.nj", "re5_b_gunner_body.nj", "re5_b_rcly_cy_line.nj", "shockwave.nj",
+    NULL,
 };
 
-void *bm_ene_darkgunner_motion_names[15] = {
-    (void *)"attack_re5_b_body.njm", (void *)"await_re5_b_body.njm", (void *)"damage2_re5_b_body.njm", (void *)"damage_re5_b_body.njm",
-    (void *)"die_re5_b_body.njm", (void *)"drop_re5_b_body.njm", (void *)"duckdame_re5_b_body.njm", (void *)"duckdie_re5_b_body.njm",
-    (void *)"duckroop_re5_b_body.njm", (void *)"duckwake_re5_b_body.njm", (void *)"duck_re5_b_body.njm", (void *)"move_re5_b_body.njm",
-    (void *)"pullback_re5_b_body.njm", (void *)"wait_re5_b_body.njm", (void *)0x0,
+const char *bm_ene_darkgunner_motion_names[15] = {
+    "attack_re5_b_body.njm", "await_re5_b_body.njm", "damage2_re5_b_body.njm", "damage_re5_b_body.njm",
+    "die_re5_b_body.njm", "drop_re5_b_body.njm", "duckdame_re5_b_body.njm", "duckdie_re5_b_body.njm",
+    "duckroop_re5_b_body.njm", "duckwake_re5_b_body.njm", "duck_re5_b_body.njm", "move_re5_b_body.njm",
+    "pullback_re5_b_body.njm", "wait_re5_b_body.njm", NULL,
 };
 
-void *bm_ene_darkgunner_resource_descriptor[4] = {
-    (void *)"bm_ene_darkgunner.bml", (void *)&bm_ene_darkgunner_model_names, (void *)&bm_ene_darkgunner_motion_names, (void *)0x4000e,
+BmlResourceDescriptor bm_ene_darkgunner_resource_descriptor = {
+    "bm_ene_darkgunner.bml",
+    bm_ene_darkgunner_model_names, bm_ene_darkgunner_motion_names, 4, 14,
 };
 
 // By action: 0 wait, 1 move, 2 drop, 3 attack, 4 await, 5 damage, 6 damage2, 7 die,
@@ -181,16 +183,9 @@ TObjMotionAction dark_gunner_action_table[14] = {
 
 const char *TObjEneDarkGunner__class_name = "TObjEneDarkGunner";
 
-struct MaterialColor {
-    u32 argb;
-    f32 r;
-    f32 g;
-    f32 b;
-};
-
 const NpcAnimationBinding dark_gunner_attack_binding_desc = { NULL, dark_gunner_action_table, 0, 1, 14 };
 
-const MaterialColor dark_gunner_pulse_color = {0, 0.0f, 0.0f, 0.0f};
+const NJS_ARGB dark_gunner_pulse_color = {0.0f, 0.0f, 0.0f, 0.0f};
 
 const Vec dark_gunner_shadow_scale = {1.5f, 1.5f, 1.5f};
 
@@ -209,9 +204,7 @@ CollisionBody dark_gunner_collision_bodies[1] = {
     {{0.0f, 3.5f, 0.0f}, 10.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
-void *dark_gunner_constant_material[4] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
-};
+__declspec(section ".data") NJS_ARGB dark_gunner_constant_material = {0.0f, 0.0f, 0.0f, 0.0f};
 
 Vec dark_gunner_child_local_offsets[4] = {
     {0.0f, 10.0f, 2.0f}, {0.0f, 10.0f, -2.0f}, {2.0f, 10.0f, 0.0f}, {-2.0f, 10.0f, 0.0f},
@@ -221,9 +214,9 @@ TObjEneDarkGunnerBehaviorParams *TObjEneDarkGunner__behavior_params;
 
 extern NJS_TEXLIST *TObjEneDarkGunner__effect_resource;
 
-extern s32 TObjEneDarkGunner__cly_line_texlist;
+extern NJS_TEXLIST *TObjEneDarkGunner__cly_line_texlist;
 
-extern s32 TObjEneDarkGunner__rcly_line_texlist;
+extern NJS_TEXLIST *TObjEneDarkGunner__rcly_line_texlist;
 
 extern NJS_OBJECT *TObjEneDarkGunner__shadow_chunk_object;
 
@@ -278,9 +271,9 @@ extern "C" {
 
 NJS_TEXLIST *TObjEneDarkGunner__effect_resource;
 
-s32 TObjEneDarkGunner__cly_line_texlist;
+NJS_TEXLIST *TObjEneDarkGunner__cly_line_texlist;
 
-s32 TObjEneDarkGunner__rcly_line_texlist;
+NJS_TEXLIST *TObjEneDarkGunner__rcly_line_texlist;
 
 NJS_OBJECT *TObjEneDarkGunner__shadow_chunk_object;
 
@@ -389,11 +382,11 @@ TObjEneDarkGunner::~TObjEneDarkGunner() {
 
 void load_darkgunner_effect_resources() {
     s32 i;
-    BmlResource *res = new BmlResource(1, (BmlResourceDescriptor *)bm_ene_darkgunner_resource_descriptor, 0, 0, NULL);
+    BmlResource *res = new BmlResource(1, &bm_ene_darkgunner_resource_descriptor, 0, 0, NULL);
     TObjEneDarkGunner::bml_resource = res;
     TObjEneDarkGunner__shadow_chunk_object = get_bml_model(TObjEneDarkGunner::bml_resource, 0);
-    TObjEneDarkGunner__cly_line_texlist = (saddr)get_bml_texlist(TObjEneDarkGunner::bml_resource, 0);
-    TObjEneDarkGunner__rcly_line_texlist = (saddr)get_bml_texlist(TObjEneDarkGunner::bml_resource, 2);
+    TObjEneDarkGunner__cly_line_texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, 0);
+    TObjEneDarkGunner__rcly_line_texlist = get_bml_texlist(TObjEneDarkGunner::bml_resource, 2);
     TObjEneDarkGunner__body_child_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 1)->child->model)->polygon_list;
     TObjEneDarkGunner__cly_line_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 0)->model)->polygon_list;
     init_fake_tec_texlist();
@@ -820,7 +813,7 @@ void TObjEneDarkGunner::update_damage() {
         v.x = v.x + velocity.x;
         v.z = v.z + velocity.z;
         if (check_path_obstructed(this, &v) == 0) {
-            move_with_wall_slide((u8 *)this);
+            move_with_wall_slide(this);
         } else {
             velocity.z = 0.0f;
             velocity.x = 0.0f;
@@ -893,11 +886,11 @@ void TObjEneDarkGunner::render() {
                 model_render_flags |= 0x820;
                 set_chunk_material_override_pair(0xFF00, 0x800);
                 s = -0.25f * fabs_float(sin_table_lookup(material_phase));
-                MaterialColor color = dark_gunner_pulse_color;
+                NJS_ARGB color = dark_gunner_pulse_color;
                 color.r = s;
                 color.g = s;
                 color.b = s;
-                set_constant_material((const NJS_ARGB *)&color);
+                set_constant_material(&color);
                 TObjFish::set_global_param(TObjEneDarkGunner__effect_resource);
             } else {
                 TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
@@ -926,7 +919,7 @@ void TObjEneDarkGunner::render() {
                 draw_motion_model();
             }
             if (behavior_flags & 0x400000) {
-                set_constant_material((const NJS_ARGB *)dark_gunner_constant_material);
+                set_constant_material(&dark_gunner_constant_material);
                 set_chunk_material_override_pair(0xFF00, 0);
             }
             model_render_flags = saved_model_render_flags;
@@ -957,9 +950,9 @@ void TObjEneDarkGunner::run_demo_task() {  }
 void TObjEneDarkGunner::render_shadow() {
     if (test_actor_flags(0x800) == 0) {
         if (is_death_gunner() == 0) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjEneDarkGunner__cly_line_texlist));
+            TObjFish::set_global_param(TObjEneDarkGunner__cly_line_texlist);
         } else {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjEneDarkGunner__rcly_line_texlist));
+            TObjFish::set_global_param(TObjEneDarkGunner__rcly_line_texlist);
         }
         push_matrix();
         post_translate_matrix(&shadow_pos.x);
@@ -993,7 +986,7 @@ void TObjEneDarkGunner::run_miss_reaction() {
     u8 *self = (u8 *)this;
     ((TObjBase *)self)->clear_actor_flags((s32)(0x100U));
     spawn_particle_effect(&body_center, 0xD7);
-    play_sound_effect(0x4003B22D, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
+    play_sound_effect(0x4003B22D, &position, 0, 0);
 }
 
 void TObjEneDarkGunner::update_state_machine() {
@@ -1129,7 +1122,7 @@ void TObjEneDarkGunner::update_return_home() {
             apply_actor_gravity(this, (s32 *)(0), 0.0f);
         }
         calc_velocity_toward_destination(this, position, home_position, get_float_parameter(0));
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         if (xz_distance_squared(&position, &home_position) <= 100.0f) {
             behavior_flags &= ~0x80000;
             return_home_or_wait();

@@ -1,5 +1,7 @@
 #include "pso/system/PersistentSound.h"
 #include "pso/system/memory.h"
+#include "pso/system/memory.h"
+#include "pso/system/PersistentSound.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
@@ -1364,7 +1366,7 @@ void TBoss6Type2::apply_rock_hits_to_players() {
     }
 }
 
-s32 TBoss6Type2::push_players_away(void *target, f32 range) {
+s32 TBoss6Type2::push_players_away(const Vec *target, f32 range) {
     Vec dir;
     Vec pos;
     Vec off;
@@ -1382,7 +1384,7 @@ s32 TBoss6Type2::push_players_away(void *target, f32 range) {
             continue;
         }
         VecCopy(&dir, &pl->position);
-        subtract_vector(&dir, (Vec *)target);
+        subtract_vector(&dir, target);
         dir.y = 0.0f;
         dist = vector_length(&dir);
         if (dist >= range) {
@@ -1396,7 +1398,7 @@ s32 TBoss6Type2::push_players_away(void *target, f32 range) {
             off.x = dir.x * t;
             off.y = 10.0f;
             off.z = dir.z * t;
-            VecCopy(&pos, (Vec *)target);
+            VecCopy(&pos, target);
             vec3_add_to(&pos, &off);
             if (project_actor_to_ground(this, &pos, 0) != 0) {
                 TBoss6PlotFalz::move_player_to(pl, &pos);
@@ -2013,14 +2015,14 @@ s32 TBoss6Type2::grab_player(u16 client_id) {
     }
     possessed_client = client_id;
     grab_appearance = player->name;
-    copy_texlist(&saved_look.body_textures, (NJS_TEXLIST *)player->body_textures);
+    copy_texlist(&saved_look.body_textures, &player->body_textures);
     copy_texlist(&saved_look.head_textures, (NJS_TEXLIST *)player->head_textures);
     copy_texlist(&saved_look.attachment_textures, (NJS_TEXLIST *)player->attachment_textures);
     saved_look.model = player->model;
     saved_look.head_model = player->head_model;
     saved_look.hair_model = player->hair_model;
     saved_look.attachment_model = player->attachment_model;
-    copy_texlist((NJS_TEXLIST *)player->body_textures, grab_texlists[0]);
+    copy_texlist(&player->body_textures, grab_texlists[0]);
     copy_texlist((NJS_TEXLIST *)player->attachment_textures, grab_texlists[1]);
     player->model = grab_models[0];
     player->head_model = NULL;
@@ -2040,7 +2042,7 @@ void TBoss6Type2::restore_target_player_state() {
             reset_fish_fields();
             return;
         }
-        copy_texlist((NJS_TEXLIST *)player->body_textures, &saved_look.body_textures);
+        copy_texlist(&player->body_textures, &saved_look.body_textures);
         copy_texlist((NJS_TEXLIST *)player->attachment_textures, &saved_look.attachment_textures);
         player->model = saved_look.model;
         player->head_model = saved_look.head_model;
@@ -2092,8 +2094,7 @@ void TBoss6Type2::init_collected_entries() {
     }
 }
 
-void TBoss6Type2::aim_toward_point(void *target) {
-    Vec *point = (Vec *)target;
+void TBoss6Type2::aim_toward_point(const Vec *point) {
     Vec v;
     s32 ang;
     s32 i;

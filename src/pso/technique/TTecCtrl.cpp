@@ -50,7 +50,6 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/system/TLanguage_801E4874.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/technique/TechniqueRingwaveList.h"

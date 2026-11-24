@@ -7,6 +7,7 @@
 // seed. The constructor seeds it with 0.
 struct SubtractiveRng {
     SubtractiveRng();
+    SubtractiveRng *reseed(u32 seed);
     u32 state[58];
 };
 LAYOUT_ASSERT(SubtractiveRng_size, sizeof(SubtractiveRng) == 0xE8);

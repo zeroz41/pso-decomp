@@ -1,6 +1,7 @@
 #include "pso/render/ColorLineList.h"
-#include "pso/system/SoundEffect.h"
+#include "pso/ui/font/TNECFontEORFunction.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/ControllerInputState.h"
@@ -581,7 +582,7 @@ void TWindowKeyBoardSoft::sub_802616BC(WindowDrawContext *ctx) {
                 q.y0 = 1.0f + (26.0f + (ctx->y + 19.0f * (f32)row));
                 width = TWindowSubStatusDisp::calc_gauge_scale(code, &q, color);
                 q.x0 = 0.5f * (f32)(18 - width) + q.x0;
-                set_glyph_quad_extents(width, (u8 *)&q);
+                set_glyph_quad_extents(width, &q);
                 if (hit_test_relative((u8 *)ctx, (u8 *)&q) != 0) {
                     ctx->transform_quad(&q);
                     draw_textured_quad_at_depth((f32 *)&q, depth);

@@ -140,7 +140,7 @@ TUnk_804820C0::~TUnk_804820C0() {
 }
 
 void TObjPlayer::create_breakup_model() {
-    TBreakUpMdlData *model = new TBreakUpMdlData((saddr)boss2_derolle_resource->models[6].model);
+    TBreakUpMdlData *model = new TBreakUpMdlData(boss2_derolle_resource->models[6].model);
     shared_breakup_model = model;
     TObjPlayer__sub_8002ED48(model, 0x13);
     TObjPlayer__sub_8002ECC4(shared_breakup_model, 0x13);
@@ -240,7 +240,7 @@ void TUnk_804820A8::render() {
 }
 
 void TObjPlayer::create_derolle_breakup_model() {
-    TBreakUpMdlData *model = new TBreakUpMdlData((saddr)boss2_derolle_resource->models[5].model);
+    TBreakUpMdlData *model = new TBreakUpMdlData(boss2_derolle_resource->models[5].model);
     lbl_805D4B8C = model;
     TObjPlayer__sub_8002ECC4(model, 0x1C);
 }

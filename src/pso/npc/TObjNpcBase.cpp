@@ -102,7 +102,6 @@ extern u8 identity_matrix[];
 f32 atan2_float(f32 y, f32 x);
 }
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
-void move_with_wall_slide(u8 *actor);
 extern "C" {
 s32 angle_difference_abs(s32, s32);
 
@@ -324,7 +323,7 @@ void TObjNpcBase::update_wandering() {
         f32 r;
         enemy_turn_toward_dest(((NpcMovementParameters *)movementParameters)->turn_speed);
         enemy_set_heading_velocity(((NpcMovementParameters *)movementParameters)->speed, this, rotation_y);
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         if (is_passing_frame(1.0f) != 0 || is_passing_frame(15.0f) != 0) {
             play_voice();
         }

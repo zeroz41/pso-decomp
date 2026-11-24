@@ -15,6 +15,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/unk/text_802097B0.h"
 #include "pso/item/drop/TItemDrop_80105D0C.h"
+#include "pso/system/SubtractiveRng.h"
 #include "pso/unk/TLobby_8020A350.h"
 #include "pso/unk/TLobby_8020A568.h"
 #include "pso/system/EventShuffleTable.h"
@@ -67,7 +68,7 @@ EventShuffleTable *destroy_event_shuffle_table(EventShuffleTable *table, s16 del
 struct Ent_802098AC;
 struct SpawnRecord_8020A9C4;
 
-saddr item_drop_rng;
+SubtractiveRng *item_drop_rng;
 EventShuffleTable *challenge_event_shuffle;
 u8 *challenge_event_source;
 u8 *lbl_805D60AC;
@@ -558,12 +559,11 @@ void TLobby::init_buffers(int id, u8 *quest) {
 void TLobby::free_boss4rock() {
     destroy_event_shuffle_table(challenge_event_shuffle, 1);
     challenge_event_shuffle = NULL;
-    ::operator delete(reinterpret_cast<void *>(item_drop_rng));
+    ::operator delete(item_drop_rng);
     item_drop_rng = 0;
 }
 
 // ---- pso/unk/text_8020A2AC
-s32 run_step__9TItemDropFl(int, void *);
 s32 __cvt_fp2unsigned(f32);
 saddr item_drop_server_seed;
 s32 lbl_805D60D4;
@@ -576,17 +576,17 @@ s32 map_set_enemy_id_counter;
 u8 *map_set_file_buffer;
 s32 map_set_file_buffer_size;
 void TLobby__sub_8020A2AC(void) {
-    s32 temp_r3;
-    s32 var_r0;
+    SubtractiveRng *temp_r3;
+    SubtractiveRng *var_r0;
     static const f32 seed_scale = 4294967296.0f;
     static const f32 rand_reciprocal = 3.0517578e-05f;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         item_drop_server_seed = __cvt_fp2unsigned(seed_scale * (rand_reciprocal * (f32)rand()));
     }
-    temp_r3 = (saddr)::operator new(0xE8);
+    temp_r3 = static_cast<SubtractiveRng *>(::operator new(sizeof(SubtractiveRng)));
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = run_step__9TItemDropFl((int)temp_r3, (void *)item_drop_server_seed);
+        var_r0 = temp_r3->reseed(item_drop_server_seed);
     }
     item_drop_rng = var_r0;
     EventShuffleTable *table = static_cast<EventShuffleTable *>(::operator new(sizeof(EventShuffleTable)));

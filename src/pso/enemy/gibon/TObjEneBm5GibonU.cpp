@@ -202,21 +202,21 @@ void TObjEneBm5GibonU::get_attack_state(void *pos) { spawn_landing_effect((Vec *
 void TObjEneBm5GibonU::spawn_landing_effect(Vec *pos) {
     Vec v;
     CsnHit *hit;
-    void *p;
+    TParticleCtrl *p;
     VecCopy(&v, pos);
     v.y += 15.0f;
     hit = csnVectorUnder(&v, ground_candidates.groups, 5);
     if (hit != NULL && (hit->hit_mask & 4)) {
         p = spawn_particle_effect(&hit->contact[2].point, 0x49);
         if (p != NULL) {
-            attach_particle_model((u8 *)p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
+            attach_particle_model(p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
             if (is_leader == 1) {
-                ((TParticleCtrl *)p)->set_scale(1.5f, 1.0f);
+                p->set_scale(1.5f, 1.0f);
             }
         }
         p = spawn_particle_effect(&hit->contact[2].point, 0xA4);
         if (p != NULL && is_leader == 1) {
-            ((TParticleCtrl *)p)->set_scale(1.5f, 1.0f);
+            p->set_scale(1.5f, 1.0f);
         }
         play_ground_landing_sound(&position);
         return;
@@ -462,7 +462,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                     copy_position_if_valid(this, body_center);
                     r = enemy_turn_toward_dest(((TObjEneBm5GibonUMovementParameters *)movementParameters)->turn);
                     enemy_set_heading_velocity(((TObjEneBm5GibonUMovementParameters *)movementParameters)->speed, this, rotation_y);
-                    move_with_wall_slide((u8 *)this);
+                    move_with_wall_slide(this);
                 } else {
                     VecCopy(&v, &destination);
                     subtract_vector(&v, &body_center);

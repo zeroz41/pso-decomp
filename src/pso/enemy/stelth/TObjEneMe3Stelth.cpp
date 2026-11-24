@@ -1959,7 +1959,7 @@ void TObjEneMe3Stelth::state_cast_barta(s32 reason) {
                     this->body_center.y += 5.0f;
                     r = ((TObjEnemy *)this)->enemy_turn_toward_dest(((StelthMovementParams *)this->movementParameters)->turn);
                     enemy_set_heading_velocity(((StelthMovementParams *)this->movementParameters)->speed, this, this->rotation_y);
-                    move_with_wall_slide((u8 *)this);
+                    move_with_wall_slide(this);
                 } else {
                     VecCopy(&d, &this->destination);
                     subtract_vector(&d, &this->body_center);
@@ -2111,7 +2111,7 @@ void TObjEneMe3Stelth::play_hit_effect() {
 
 s32 TObjEneMe3Stelth::try_spawn_ground_effect(const Vec *origin) {
     Vec pos;
-    void *effect;
+    TParticleCtrl *effect;
     CsnHit *hit;
     VecCopy(&pos, origin);
     pos.y += 15.0f;
@@ -2119,7 +2119,7 @@ s32 TObjEneMe3Stelth::try_spawn_ground_effect(const Vec *origin) {
     if (hit != NULL && (hit->hit_mask & 4)) {
         effect = spawn_particle_effect(&hit->contact[2].point, 0x49);
         if (effect != NULL) {
-            attach_particle_model((u8 *)effect, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
+            attach_particle_model(effect, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
         }
         spawn_particle_effect(&hit->contact[2].point, 0xA4);
         play_ground_contact_sound(&position);

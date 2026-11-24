@@ -7,7 +7,6 @@
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -47,6 +46,7 @@
 #include <stddef.h>
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/player/PlayerStats.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -55,7 +55,6 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/CameraHelpers.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -87,14 +86,11 @@
 #pragma auto_inline off
 #pragma dont_inline off
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/render/MaterialAlphaCompare.h"
-#include "pso/render/ChunkMaterialState.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/unk/TLobby_8007C550.h"
@@ -388,15 +384,15 @@ const char *boss5_gryphon_type_name_pointer = boss5_gryphon_type_name;
 }
 
 extern "C" {
-void attach_particle_model(void *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist, AnimationMotion *motion, s32 arg4,
-                           f32 farg0) {
-    *(NJS_OBJECT **)((s8 *)particle + 0x4C) = model;
-    *(NJS_TEXLIST **)((s8 *)particle + 0x50) = texlist;
-    *(AnimationMotion **)((s8 *)particle + 0x54) = motion;
-    *(u16 *)((s8 *)particle + 0x2C) = (u16) (*(u16 *)((s8 *)particle + 0x2C) | 0x200);
-    *(f32 *)((s8 *)particle + 0x5C) = farg0;
-    if (arg4 != 0) {
-        *(u16 *)((s8 *)particle + 0x2C) = (u16) (*(u16 *)((s8 *)particle + 0x2C) | 0x400);
+void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist,
+                           AnimationMotion *motion, s32 loop, f32 frame) {
+    particle->model = model;
+    particle->texlist = texlist;
+    particle->motion = reinterpret_cast<NJS_MOTION *>(motion);
+    particle->emit_flags |= 0x200;
+    particle->motion_frame = frame;
+    if (loop != 0) {
+        particle->emit_flags |= 0x400;
     }
 }
 
@@ -624,7 +620,7 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
     this->action_scripts = boss5_gryphon_action_scripts;
     VecCopy(&this->sound_origin, &this->position);
     VecCopy(&this->pad_56C, &this->position);
-    *(f32 *)(*(u8 **)((u8 *)this + 0x2B0) + 0x10) = gryphon_ten;
+    stat_block->proportions = gryphon_ten;
     this->attack_history = new AreaAttackHistory(4);
     this->collider = new TBoss5GryphonColli(&this->sub_tasks);
     for (i = 0; i < 4; i++) {
@@ -1206,7 +1202,7 @@ void TBoss8Dragon::spawn_attack_effect(const Vec *pos) {
 
     particle = spawn_particle_effect_with_flags(pos, 0x210, 0x40);
     if (particle != 0) {
-        attach_particle_model((u8 *)particle, get_bml_model(boss5_gryphon_bml_resource, 1), boss5_gryphon_texture_list, 0, 0, (f32)gryphon_one);
+        attach_particle_model(particle, get_bml_model(boss5_gryphon_bml_resource, 1), boss5_gryphon_texture_list, 0, 0, (f32)gryphon_one);
     }
 }
 
@@ -1215,7 +1211,7 @@ void TBoss8Dragon::spawn_switch_attack(const Vec *pos) {
 
     particle = spawn_particle_effect_with_flags(pos, 0x211, 0x40);
     if (particle != 0) {
-        attach_particle_model((u8 *)particle, get_bml_model(boss5_gryphon_bml_resource, 2), boss5_gryphon_texture_list, 0, 0, (f32)gryphon_one);
+        attach_particle_model(particle, get_bml_model(boss5_gryphon_bml_resource, 2), boss5_gryphon_texture_list, 0, 0, (f32)gryphon_one);
     }
 }
 

@@ -131,7 +131,7 @@ void TUnk_80493450::beast_update_dead() {
         spawn_death_effect();
     }
     if (frame < (BEAST_DEATH_SLIDE_FRAME_SCALE * (BEAST_DEATH_SLIDE_FRAME_COUNT * play_speed))) {
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         velocity.x *= BEAST_HORIZONTAL_SPEED_DAMPING;
         velocity.z *= BEAST_HORIZONTAL_SPEED_DAMPING;
     } else if (test_actor_flags(0x800000) == 0) {
@@ -167,7 +167,7 @@ void TUnk_80493450::beast_update_hurt() {
     v.x += velocity.x;
     v.z += velocity.z;
     if (check_path_obstructed(this, &v) == 0) {
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         velocity.x *= BEAST_HORIZONTAL_SPEED_DAMPING;
         velocity.z *= BEAST_HORIZONTAL_SPEED_DAMPING;
     } else {

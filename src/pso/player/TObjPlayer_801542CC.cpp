@@ -71,7 +71,6 @@ struct P_8015610C { u8 pad[0xA4]; Flg_8015610C *f; };
 
 
 struct Obj_80154B60 { u8 pad[0x1C]; u16 id; };
-struct Obj_801559D0 { u8 pad38[0x38]; Vec pos; u8 pad44[0x60 - 0x44]; s32 f60; u8 pad64[0xA4 - 0x64]; CollisionBody *a4; s32 a8; };
 struct Obj_80156268 { u8 pad0[0x30]; u32 flags; u8 pad34[4]; Vec pos; u8 pad44[0x60 - 0x44]; s32 f60; u8 pad64[0xA4 - 0x64]; CollisionBody *a4; s32 a8; };
 
 struct Ent_80154E3C { u8 pad0[0x1C]; Vec v; u8 pad[0x2C - 0x28]; };
@@ -113,7 +112,6 @@ struct StateObject_801548A8 : ObjectBase_801548A8 {
 };
 
 extern "C" {
-s32 test_player_overlap_with_players(void *arg0, Obj_801559D0 *self, Vec *pos, void *out);
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 s32 vec3_add_to(void *, void *);
 s32 rotate_matrix_y(int, int);
@@ -832,30 +830,30 @@ s32 TObjPlayer::check_flags(s32 flags, s32 arg1) {
     }
     return 1;
 }
-s32 test_player_overlap_with_players(void *arg0, Obj_801559D0 *self, Vec *pos, void *out) {
+s32 test_player_overlap_with_players(TObjCollidable *, TObjCollidable *self, Vec *pos, CollisionBody *out) {
     CollisionBodySet a;
     CollisionBodySet b;
     s32 i;
-    Obj_801559D0 *o;
-    void *r;
+    TObjCollidable *o;
+    CollisionBody *r;
 
-    if (self != 0 && self->a4 != 0) {
-        a.colliders = self->a4;
-        a.count = self->a8;
+    if (self != 0 && self->bodies != 0) {
+        a.colliders = self->bodies;
+        a.count = self->body_count;
         VecCopy__FP3VecPC3Vec(&a.position, pos);
-        a.facing = self->f60;
+        a.facing = self->rotation_y;
         for (i = registered_player_count; i < lbl_805D5868; i++) {
-            o = (Obj_801559D0 *)TObjPlayer::get_player_data(i);
-            if (o != 0 && o != self && ((TObjCollidable *)o)->test_actor_flags(0x80000800) == 0 && o->a4 != 0 &&
-                horizontal_distance_squared(&self->pos, &o->pos) < 10000.0f) {
-                b.colliders = o->a4;
-                b.count = o->a8;
-                VecCopy__FP3VecPC3Vec(&b.position, &o->pos);
-                b.facing = o->f60;
+            o = TObjPlayer::get_player_data(i);
+            if (o != 0 && o != self && o->test_actor_flags(0x80000800) == 0 && o->bodies != 0 &&
+                horizontal_distance_squared(&self->position, &o->position) < 10000.0f) {
+                b.colliders = o->bodies;
+                b.count = o->body_count;
+                VecCopy__FP3VecPC3Vec(&b.position, &o->position);
+                b.facing = o->rotation_y;
                 r = refresh_actor_body_spheres(a, b);
                 if (r != 0) {
                     if (out != 0) {
-                        copy_collision_body((CollisionBody *)out, (const CollisionBody *)r);
+                        copy_collision_body(out, r);
                     }
                     return 1;
                 }

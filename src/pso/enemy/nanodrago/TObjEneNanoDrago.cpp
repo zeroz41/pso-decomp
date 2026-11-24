@@ -515,7 +515,7 @@ void TObjEneNanoDrago::update_circling_state() {
         }
         rotation_y += ((NanoDragoMovementParams *)movementParameters)->turnSpeed / 2;
         enemy_set_heading_velocity(speed, this, rotation_y);
-        move_with_wall_slide(((u8 *)this));
+        move_with_wall_slide(this);
         circlingAngle += ((NanoDragoMovementParams *)movementParameters)->turnSpeed / 2;
         if (circlingAngle > 0x10000) {
             wanderDistance = 0.0f;
@@ -860,7 +860,7 @@ void TObjEneNanoDrago::update_knockback_state() {
             v.x += velocity.x;
             v.z += velocity.z;
             if (check_path_obstructed(this, &v) == 0) {
-                move_with_wall_slide(((u8 *)this));
+                move_with_wall_slide(this);
             } else {
                 velocity.x = velocity.z = 0.0f;
             }
@@ -978,7 +978,7 @@ void TObjEneNanoDrago::wander_around(Vec *center, f32 radius) {
     VecCopy(&actor->move_destination, (const Vec *)&actor->moveDestination);
     ((TObjEnemy *)actor)->enemy_turn_toward_dest(((NanoDragoMovementParams *)actor->movementParameters)->turnSpeed);
     enemy_set_heading_velocity(actor->speed, actor, actor->rotation_y);
-    move_with_wall_slide((u8 *)actor);
+    move_with_wall_slide(actor);
 }
 #pragma pop
 void TObjEneNanoDrago::spawn_beam_particle(s32 i) {

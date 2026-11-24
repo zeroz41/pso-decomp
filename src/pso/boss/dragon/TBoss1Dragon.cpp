@@ -1,5 +1,6 @@
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/system/SubtractiveRng.h"
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -20,6 +21,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/enemy/EnemyStateEvent.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
@@ -111,15 +113,6 @@ struct Boss1DragonParams {
     s32 defense[3];            // update_body_colliders: [0] body 5, [1] bodies 1 and 2, [2] bodies 0, 3, 4, 6
 };
 struct DragonModelState { s32 state[2]; f32 params[4]; };
-struct pkt_80028530 {
-    u8 hdr[2];
-    u16 target_id;
-    s16 state;
-    s16 cursor;
-    s32 extra;
-    f32 x;
-    f32 z;
-};
 struct DragonEffectRotation { s32 x, y, z; };
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
@@ -282,9 +275,6 @@ void handle_6x11_dragon_boss_actions(void *packet);
 void handle_6x10_dragon_boss_actions(void *packet);
 extern s32 enable_v2_features;
 static const f64 boss1_dragon_angle_units_per_radian = 10430.38043493439;
-struct Pkt_800284B4 {
-    u16 hdr; u16 owner; s16 state; s16 cursor; s32 target; f32 x; f32 z;
-};
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/camera/CameraHelpers.h"
@@ -686,7 +676,7 @@ void *TBoss1Dragon::create(void *set_data) {
 
 void TBoss1Dragon::free_resources() {
     if ((u32) boss1_dragon_capture_model != 0U) {
-        safe_free(reinterpret_cast<void *>(boss1_dragon_capture_model));
+        safe_free(boss1_dragon_capture_model);
         boss1_dragon_capture_model = 0U;
     }
     if (boss1_dragon_resource != NULL) {
@@ -1442,78 +1432,82 @@ void TBoss1Dragon::reload_impact_stats() {
 void handle_6x10_dragon_boss_actions(void *packet) {
     void *x;
     ((TObjPlayer *)packet)->bswap_stats();
-    x = get_enemy_entity(*(u16 *)((s8 *)packet + 0x2));
+    x = get_enemy_entity(static_cast<const G_DragonBossActions_6x10_6x11 *>(packet)->header.entity_id);
     if (x != NULL) {
         ((TBoss1Dragon *)x)->copy_params(packet);
     }
 }
 
 void TBoss1Dragon::copy_params(void *packet) {
-    enemy_set_target_id(this, (u16) *(s32 *)((s8 *)packet + 8));
-    this->sequenceCursor = (s32) *(s16 *)((s8 *)packet + 6);
-    transition_enemy_state(*(s16 *)((s8 *)packet + 4));
+    const G_DragonBossActions_6x10_6x11 *action = static_cast<const G_DragonBossActions_6x10_6x11 *>(packet);
+    enemy_set_target_id(this, (u16)action->target_id);
+    this->sequenceCursor = action->action_index;
+    transition_enemy_state(action->state);
 }
 
 void handle_6x11_dragon_boss_actions(void *packet) {
     void *x;
     ((TObjPlayer *)packet)->bswap_dragon_boss_fields();
-    x = get_enemy_entity(*(u16 *)((s8 *)packet + 0x2));
+    x = get_enemy_entity(static_cast<const G_DragonBossActions_6x10_6x11 *>(packet)->header.entity_id);
     if (x != NULL) {
         ((TBoss1Dragon *)x)->set_params(packet);
     }
 }
 
 void TBoss1Dragon::set_params(void *packet) {
-    enemy_set_target_id(this, (u16) *(s32 *)((s8 *)packet + 8));
-    this->sequenceCursor = (s32) *(s16 *)((s8 *)packet + 6);
-    if ((s16) this->mode != (s16) *(s16 *)((s8 *)packet + 4)) {
-        transition_enemy_state(*(s16 *)((s8 *)packet + 4));
+    const G_DragonBossActions_6x10_6x11 *action = static_cast<const G_DragonBossActions_6x10_6x11 *>(packet);
+    enemy_set_target_id(this, (u16)action->target_id);
+    this->sequenceCursor = action->action_index;
+    if ((s16) this->mode != (s16) action->state) {
+        transition_enemy_state(action->state);
     }
 }
 
 void handle_6x12_dragon_boss_actions(TObjPlayer *packet) {
     void *x;
     packet->bswap_6x12_packet();
-    x = get_enemy_entity(*(u16 *)((s8 *)packet + 0x2));
+    x = get_enemy_entity(reinterpret_cast<const G_DragonBossActions_6x12 *>(packet)->action.header.entity_id);
     if (x != NULL) {
         ((TBoss1Dragon *)x)->receive_state_request((u8 *)packet);
     }
 }
 
 void TBoss1Dragon::receive_state_request(u8 *packet) {
-    s16 state;
-    enemy_set_target_id(this, (u16) *(s32 *)((s8 *)packet + 8));
-    this->sequenceCursor = (s32) *(s16 *)((s8 *)packet + 6);
-    this->savedX = (f32) *(f32 *)((s8 *)packet + 0xC);
-    this->savedZ = (f32) *(f32 *)((s8 *)packet + 0x10);
-    this->dispatch_action(*(s16 *)((s8 *)packet + 4), 7);
-    state = *(s16 *)((s8 *)packet + 4);
+    const G_DragonBossActions_6x12 *sync = reinterpret_cast<const G_DragonBossActions_6x12 *>(packet);
+    const G_DragonBossActions_6x10_6x11 *action = &sync->action;
+    s32 state;
+    enemy_set_target_id(this, (u16)action->target_id);
+    this->sequenceCursor = action->action_index;
+    this->savedX = sync->x;
+    this->savedZ = sync->z;
+    this->dispatch_action(action->state, 7);
+    state = action->state;
     if ((s16) this->mode != state) {
         transition_enemy_state(state);
     }
 }
 
 void TBoss1Dragon::send_state_sync() {
-    struct pkt_80028530 pkt;
+    G_DragonBossActions_6x12 pkt;
     ((TObjPlayer *)(&pkt))->set_type_dragon();
-    pkt.target_id = this->entity_id;
-    pkt.state = this->mode;
-    pkt.cursor = (s16) this->sequenceCursor;
-    pkt.extra = this->target_id;
+    pkt.action.header.entity_id = this->entity_id;
+    pkt.action.state = this->mode;
+    pkt.action.action_index = (s16) this->sequenceCursor;
+    pkt.action.target_id = this->target_id;
     pkt.x = this->destinationX;
     pkt.z = this->destinationZ;
     ((TObjPlayer *)(&pkt))->send_6x12_packet();
 }
 
 void TBoss1Dragon::request_state_change(u32 state32) {
-    struct Pkt_800284B4 pkt;
+    G_DragonBossActions_6x12 pkt;
 
     dispatch_action(state32, 6);
     ((TObjPlayer *)(&pkt))->set_type_dragon();
-    pkt.owner = entity_id;
-    pkt.state = state32;
-    pkt.cursor = sequenceCursor;
-    pkt.target = target_id;
+    pkt.action.header.entity_id = entity_id;
+    pkt.action.state = state32;
+    pkt.action.action_index = sequenceCursor;
+    pkt.action.target_id = target_id;
     pkt.x = destinationX;
     pkt.z = destinationZ;
     ((TObjPlayer *)(&pkt))->send_6x12_packet();

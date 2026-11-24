@@ -526,7 +526,7 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
     s32 *variant = &actor->variant;
     s32 id = ((s32 *)slime_one_model_by_variant)[*variant];
     actor->texlist = get_bml_texlist(actor->model_archive, id);
-    actor->model = reinterpret_cast<void *>(get_bml_model(actor->model_archive, id));
+    actor->model = get_bml_model(actor->model_archive, id);
     VecCopy(&actor->prev_position, VecCopy(&actor->home_position, VecCopy(&actor->center, &actor->position)));
     actor->collision_body_parts = init_collision_body_parts(actor, slime_one_collision_body, 1);
     actor->set_action_table(slime_motion_action_table);
@@ -1270,7 +1270,7 @@ void TObjEneSlimeOne::render_trail() {
     scale_matrix_vec3((u8 *)(0), (u8 *)&b);
     t = slime_tail_attack_id_pair[self->variant];
     TObjFish::set_global_param(get_bml_texlist(self->model_archive, t));
-    draw_chunk_object((void *)(get_bml_model(self->model_archive, t)));
+    draw_chunk_object(get_bml_model(self->model_archive, t));
     pop_matrix();
     TObjPlayer::init_render_globals();
 }

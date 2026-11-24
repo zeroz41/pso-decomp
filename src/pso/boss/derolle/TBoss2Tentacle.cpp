@@ -48,20 +48,20 @@ void TBoss2Tentacle::render() {
     push_matrix();
     switch (state) {
     case 0:
-        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(joint));
+        ::concat_matrix(NULL, joint);
         rotate_matrix_y(0, yaw);
         draw_model_motion(boss2_tentacle_model, TBoss2Tentacle__motion_data, frame);
         break;
     case 1:
     case 4:
     case 5:
-        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(joint));
+        ::concat_matrix(NULL, joint);
         rotate_matrix_x(0, pitch);
         rotate_matrix_y(0, yaw);
         draw_model_motion(boss2_tentacle_model, TBoss2Tentacle__motion_data, frame);
         break;
     case 2:
-        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(joint));
+        ::concat_matrix(NULL, joint);
         rotate_matrix_x(0, pitch);
         rotate_matrix_y(0, yaw);
         draw_chunk_object(boss2_tentacle_model);
@@ -135,7 +135,7 @@ void TBoss2Tentacle::run_task() {
         v.z = v.y = v.x = 0.0f;
         push_matrix();
         set_matrix_identity(0);
-        ::concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(joint));
+        ::concat_matrix(NULL, joint);
         matrix_mult_vec(0, &v, &position);
         pop_matrix();
         VecCopy(&v, &target);

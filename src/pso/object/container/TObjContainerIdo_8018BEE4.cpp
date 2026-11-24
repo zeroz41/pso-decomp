@@ -1,5 +1,5 @@
-#include "pso/system/memory.h"
 #include "pso/system/TLanguage_801E4874.h"
+#include "pso/system/memory.h"
 #include "pso/system/PersistentSound.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"

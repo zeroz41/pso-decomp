@@ -1,3 +1,4 @@
+#include "pso/system/ControllerInput.h"
 #include "pso/system/task/TMainTask.h"
 #include "types.h"
 #include "pso/unk/text_80290BEC.h"
@@ -10,7 +11,6 @@
 extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
 void request_main_phase(s32 arg0);
-s8 func_801A5E54__Fv();
 }
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
@@ -46,7 +46,7 @@ void run_main_frame(void) {
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
-    if (func_801A5E54__Fv() != 0) {
+    if (static_cast<s8>(func_801A5E54()) != 0) {
         TKeyBoardControl__sub_8000F92C();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {

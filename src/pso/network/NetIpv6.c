@@ -327,12 +327,12 @@ ret:
 #pragma pop
 
 static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u8 *prev) {
-    u8 err4[8];
+    NetIcmpv6Header error;
     if (l != rem + 0x28) {
-        err4[0] = ICMP6_PARAM_PROB;
-        err4[1] = ICMP6_PARAMPROB_NEXTHEADER;
-        *(s32 *)(err4 + 4) = prev - p;
-        icmp6_send_error(err4, p, lim, ctx);
+        error.type = ICMP6_PARAM_PROB;
+        error.code = ICMP6_PARAMPROB_NEXTHEADER;
+        error.reserved = prev - p;
+        icmp6_send_error(&error, p, lim, ctx);
         return -1;
     }
     return process_options_header(q, rem, p, lim, ctx);
@@ -342,16 +342,14 @@ static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u
 #pragma opt_propagation off
 extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
 {
-  u8 loc[8];
-  u8 out2[0x10];
-  u8 out1[0x10];
-  u8 err[8];
+  NetIPv6SendParameters params;
+  NetIcmpv6Header error;
   s32 tot;
   NetPacket *e;
   s16 rem;
   u8 *q;
   Ipv6Route *hit;
-  u8 *new_var;
+  u8 *hop_limit;
   u8 *prev;
   s16 l;
   s16 flag;
@@ -363,16 +361,16 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   s16 r21;
   l = lim;
   tot = l - 0x28;
-  new_var = &loc[6];
+  hop_limit = &params.hop_limit;
   rem = tot;
   q = p + 0x28;
   prev = p + 6;
   flag = 0;
-  *((s32 *) loc) = *((s32 *) self);
-  *((u16 *) (loc + 4)) = *((u16 *) self);
-  loc[7] = self[6];
+  params.flow_label = *((u32 *) self);
+  params.traffic_class_bits = *((u16 *) self);
+  params.next_header = self[6];
   state = self[7];
-  loc[6] = state;
+  params.hop_limit = state;
   state = self[6];
   while (rem >= 8)
   {
@@ -402,14 +400,14 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
 
   }
 
-  if (((*new_var) == 0) || ((--loc[6]) == 0))
+  if (((*hop_limit) == 0) || ((--params.hop_limit) == 0))
   {
     if ((flag == 0) || (flags == 0))
     {
-      err[0] = ICMP6_TIME_EXCEEDED;
-      err[1] = ICMP6_TIME_EXCEED_TRANSIT;
-      *((s32 *) (err + 4)) = 0;
-      icmp6_send_error(err, p, lim, ctx);
+      error.type = ICMP6_TIME_EXCEEDED;
+      error.code = ICMP6_TIME_EXCEED_TRANSIT;
+      error.reserved = 0;
+      icmp6_send_error(&error, p, lim, ctx);
     }
     return -1;
   }
@@ -418,10 +416,10 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   {
     if ((flag == 0) || (flags == 0))
     {
-      err[0] = ICMP6_DST_UNREACH;
-      err[1] = ICMP6_DST_UNREACH_NOROUTE;
-      *((s32 *) (err + 4)) = 0;
-      icmp6_send_error(err, p, lim, ctx);
+      error.type = ICMP6_DST_UNREACH;
+      error.code = ICMP6_DST_UNREACH_NOROUTE;
+      error.reserved = 0;
+      icmp6_send_error(&error, p, lim, ctx);
     }
     return -1;
   }
@@ -443,10 +441,10 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   {
     if ((flag == 0) || (flags == 0))
     {
-      err[0] = ICMP6_PACKET_TOO_BIG;
-      err[1] = 0;
-      *((s32 *) (err + 4)) = h6;
-      icmp6_send_error(err, p, lim, ctx);
+      error.type = ICMP6_PACKET_TOO_BIG;
+      error.code = 0;
+      error.reserved = h6;
+      icmp6_send_error(&error, p, lim, ctx);
     }
     return -1;
   }
@@ -460,15 +458,15 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   e->fragments[e->fragment_count].length = (s16) tot;
   set_value_and_enable(&e->fragments[e->fragment_count].buffer, (saddr) (p + 0x28));
   e->fragment_count = e->fragment_count + 1;
-  NetMemcpy(out1, self + 8, 0x10);
-  NetMemcpy(out2, self + 0x18, 0x10);
+  NetMemcpy(&params.source, self + 8, sizeof(params.source));
+  NetMemcpy(&params.destination, self + 0x18, sizeof(params.destination));
   if ((NetIPv6IsMulticast(dst) == 0) && (TLobby__sub_804136AC(hit->iface) != 0))
   {
-    r21 = TLobby__sub_80415D0C(e, dst, (NetIPv6SendParameters *)out1, hit->iface);
+    r21 = TLobby__sub_80415D0C(e, dst, &params, hit->iface);
   }
   else
   {
-    r21 = TLobby__sub_80410BA8(e, out1, hit->iface, 0);
+    r21 = TLobby__sub_80410BA8(e, &params, hit->iface, 0);
   }
   release_entry(e);
   return r21;
@@ -557,15 +555,14 @@ s16 TLobby__sub_80410A98(NetPacket *pkt, void *dst, void *src, NetIPv6SendOption
     return TLobby__sub_80410BA8(pkt, &params, route->iface, NULL);
 }
 
-s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 first, u32 len);
-s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
+s16 TLobby__sub_80410D6C(NetPacket *packet, Ipv6Header *hdr, s16 iface, u8 *link_address, u32 room);
+s16 TLobby__sub_80410BA8(NetPacket *packet, NetIPv6SendParameters *params, s16 iface, u8 *link_address)
 {
   Ipv6ProtocolState *base = &ipv6_protocol_state;
   s32 new_var;
-  u32 used = ((NetPacket *) self)->total_bytes;
+  u32 used = packet->total_bytes;
   Ipv6Header *slot = &base->hdr;
   s32 n;
-  s32 off;
   s16 ret;
   s32 pad2[2];
   if (used == 0)
@@ -573,17 +570,17 @@ s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
     return 0;
   }
   slot->version_class_flow = 0;
-  if (((NetIPv6SendParameters *) a)->flow_label)
+  if (params->flow_label)
   {
-    slot->version_class_flow = (((NetIPv6SendParameters *) a)->flow_label) & 0xFFFFF;
+    slot->version_class_flow = (params->flow_label) & 0xFFFFF;
   }
   else
   {
     slot->version_class_flow = base->flow_label;
   }
-  if (((NetIPv6SendParameters *) a)->traffic_class_bits)
+  if (params->traffic_class_bits)
   {
-    *((u16 *) slot) |= (((NetIPv6SendParameters *) a)->traffic_class_bits) & 0xFF0;
+    *((u16 *) slot) |= (params->traffic_class_bits) & 0xFF0;
   }
   else
   {
@@ -591,18 +588,18 @@ s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
   }
   *((u8 *) slot) = 0x60;
   slot->payload_length = used;
-  slot->next_header = ((NetIPv6SendParameters *) a)->next_header;
-  if (((NetIPv6SendParameters *) a)->hop_limit)
+  slot->next_header = params->next_header;
+  if (params->hop_limit)
   {
-    slot->hop_limit = ((NetIPv6SendParameters *) a)->hop_limit;
+    slot->hop_limit = params->hop_limit;
   }
   else
   {
     slot->hop_limit = base->hop_limit;
   }
-  NetMemcpy(&slot->src, &((NetIPv6SendParameters *) a)->source, sizeof(IPv6Address));
-  NetMemcpy(&slot->dst, &((NetIPv6SendParameters *) a)->destination, sizeof(IPv6Address));
-  ret = TLobby__sub_80411C44(((NetIPv6SendParameters *) a)->destination.bytes, c);
+  NetMemcpy(&slot->src, &params->source, sizeof(IPv6Address));
+  NetMemcpy(&slot->dst, &params->destination, sizeof(IPv6Address));
+  ret = TLobby__sub_80411C44(params->destination.bytes, iface);
   if (ret < 0)
   {
     return ret;
@@ -612,23 +609,22 @@ s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d)
   new_var = n;
   if (used > ((u32) n))
   {
-    return TLobby__sub_80410D6C((u8 *) self, (u8 *) slot, c, (saddr) d, new_var);
+    return TLobby__sub_80410D6C(packet, slot, iface, link_address, new_var);
   }
-  ((NetPacket *) self)->total_bytes += sizeof(Ipv6Header);
-  ((NetPacketFragment *) (((u8 *) self) + offsetof(NetPacket, fragments)))[((NetPacket *) self)->fragment_count].length = sizeof(Ipv6Header);
-  off = ((NetPacket *) self)->fragment_count * (s32)sizeof(NetPacketFragment);
-  set_value_and_enable((NetBufferRef *)(((u8 *)self) + off + offsetof(NetPacket, fragments[0].buffer)), (saddr) slot);
-  ((NetPacket *) self)->fragment_count += 1;
-  if (NetIPv6IsMulticast(((NetIPv6SendParameters *) a)->destination.bytes))
+  packet->total_bytes += sizeof(Ipv6Header);
+  packet->fragments[packet->fragment_count].length = sizeof(Ipv6Header);
+  set_value_and_enable(&packet->fragments[packet->fragment_count].buffer, (saddr) slot);
+  packet->fragment_count += 1;
+  if (NetIPv6IsMulticast(params->destination.bytes))
   {
-    return TLobby__sub_804112B8((saddr) self, (saddr) &((NetIPv6SendParameters *) a)->destination, c);
+    return TLobby__sub_804112B8(packet, &params->destination, iface);
   }
-  return TLobby__sub_8041123C((saddr) self, (saddr) d, c);
+  return TLobby__sub_8041123C(packet, link_address, iface);
 }
 
 #pragma push
 #pragma opt_common_subs on
-extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 first, u32 len)
+s16 TLobby__sub_80410D6C(NetPacket *packet, Ipv6Header *hdr, s16 iface, u8 *link_address, u32 room)
 {
     NetPacket iov;
     Ipv6FragmentHeader fh;
@@ -639,29 +635,27 @@ extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 first, u32 len)
     s16 rem;
     NetPacket *iovp;
     u32 limit;
-    NetPacket *pc;
     s32 flen;
     s16 r;
 
-    pc = (NetPacket *)ctx;
-    if (len < 8) {
+    if (room < sizeof(Ipv6FragmentHeader)) {
         return -6;
     }
-    fh.next_header = hdr[offsetof(Ipv6Header, next_header)];
+    fh.next_header = hdr->next_header;
     fh.reserved = 0;
     fh.offset_flags = 0;
     fh.ident = ipv6_protocol_state.ident;
-    hdr[offsetof(Ipv6Header, next_header)] = 0x2c;
-    limit = len - 8;
+    hdr->next_header = 0x2c;
+    limit = room - sizeof(Ipv6FragmentHeader);
     limit &= 0xFFF8;
     iovp = &iov;
     off = 0;
-    while (pc->total_bytes != 0) {
+    while (packet->total_bytes != 0) {
         iov.total_bytes = 0;
         iov.fragment_count = 0;
-        for (i = pc->fragment_count - 1; i >= 0; i--) {
-            if (iov.total_bytes + (flen = pc->fragments[i].length) < limit) {
-                iov.total_bytes += pc->fragments[i].length;
+        for (i = packet->fragment_count - 1; i >= 0; i--) {
+            if (iov.total_bytes + (flen = packet->fragments[i].length) < limit) {
+                iov.total_bytes += packet->fragments[i].length;
                 iov.fragment_count++;
             } else {
                 iov.total_bytes = limit;
@@ -670,27 +664,27 @@ extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 first, u32 len)
             }
         }
         k = iov.fragment_count - 1;
-        j = pc->fragment_count - 1;
+        j = packet->fragment_count - 1;
         rem = iov.total_bytes;
         while (k >= 0 && rem > 0) {
-            NetMemcpy(&iovp->fragments[k].buffer, &pc->fragments[j].buffer, sizeof(NetBufferRef));
-            if (rem < pc->fragments[j].length) {
+            NetMemcpy(&iovp->fragments[k].buffer, &packet->fragments[j].buffer, sizeof(NetBufferRef));
+            if (rem < packet->fragments[j].length) {
                 iovp->fragments[k].length = rem;
-                pc->total_bytes -= rem;
-                pc->fragments[j].length -= rem;
-                netbuf_ref_advance(&pc->fragments[j].buffer, rem);
+                packet->total_bytes -= rem;
+                packet->fragments[j].length -= rem;
+                netbuf_ref_advance(&packet->fragments[j].buffer, rem);
                 break;
             }
-            iovp->fragments[k].length = pc->fragments[j].length;
-            rem -= pc->fragments[j].length;
-            pc->total_bytes -= pc->fragments[j].length;
-            pc->fragments[j].length = 0;
-            pc->fragment_count--;
+            iovp->fragments[k].length = packet->fragments[j].length;
+            rem -= packet->fragments[j].length;
+            packet->total_bytes -= packet->fragments[j].length;
+            packet->fragments[j].length = 0;
+            packet->fragment_count--;
             k--;
             j--;
         }
         fh.offset_flags = off & 0xFFF8;
-        if (pc->total_bytes != 0) {
+        if (packet->total_bytes != 0) {
             fh.offset_flags |= 1;
         }
         off += (s16)iov.total_bytes;
@@ -698,15 +692,15 @@ extern s16 TLobby__sub_80410D6C(u8 *ctx, u8 *hdr, s16 a5, s32 first, u32 len)
         iovp->fragments[iov.fragment_count].length = 8;
         set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, (saddr)&fh);
         iov.fragment_count++;
-        *(u16 *)(hdr + offsetof(Ipv6Header, payload_length)) = iov.total_bytes;
+        hdr->payload_length = iov.total_bytes;
         iov.total_bytes += 40;
         iovp->fragments[iov.fragment_count].length = 40;
         set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, (saddr)hdr);
         iov.fragment_count++;
-        if (NetIPv6IsMulticast(hdr + offsetof(Ipv6Header, dst))) {
-            r = TLobby__sub_804112B8((saddr)iovp, (saddr)(hdr + offsetof(Ipv6Header, dst)), a5);
+        if (NetIPv6IsMulticast(hdr->dst.bytes)) {
+            r = TLobby__sub_804112B8(iovp, &hdr->dst, iface);
         } else {
-            r = TLobby__sub_8041123C((saddr)iovp, first, a5);
+            r = TLobby__sub_8041123C(iovp, link_address, iface);
         }
         if (r < 0) {
             break;

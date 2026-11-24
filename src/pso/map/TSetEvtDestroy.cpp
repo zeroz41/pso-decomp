@@ -112,7 +112,7 @@ void shuffle_event_entries(EventShuffleTable *event_shuffle_table) {
     EventShuffleTable *s = event_shuffle_table;
     s32 i = 0;
     for (; i < s->count; i++) {
-        s32 k = item_drop_rng_below(reinterpret_cast<saddr>(s->rngState), s->count);
+        s32 k = item_drop_rng_below(s->rngState, s->count);
         s32 t = s->entries[i];
         s->entries[i] = s->entries[k];
         s->entries[k] = t;

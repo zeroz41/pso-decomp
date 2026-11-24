@@ -59,7 +59,6 @@ extern const char dark_falz_state_name_type3[] = "TYPE3";
 extern const char dark_falz_state_name_die_type3[] = "DIE TYPE3";
 extern const char dark_falz_state_name_ol_ending[] = "OL ENDING";
 extern "C" {
-saddr VecCopy__FP3VecPC3Vec(void*, void* a1);
 extern Vec dark_falz_demo5_position;
     extern int dark_falz_form_index;
 
@@ -83,7 +82,9 @@ void TObjBase::save_previous_position() {
     VecCopy(&prev_position, &position);
 }
 
-int TObjBase::set_position_from(void *pos) { return VecCopy__FP3VecPC3Vec(&this->position, pos); }
+int TObjBase::set_position_from(void *pos) {
+    return reinterpret_cast<saddr>(VecCopy(&position, static_cast<const Vec *>(pos)));
+}
 
 void G_DarkFalzActions_6x19::send() { bswap(); send_subcommand(this); }
 void G_DarkFalzActions_6x19::bswap() { header.bswap(); bswap_16((u16 *)&state); bswap_16(&unknown_a3); bswap_32((u32 *)&form_action); bswap_32(&unused); }

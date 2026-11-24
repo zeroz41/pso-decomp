@@ -28,7 +28,6 @@ s8 pad_recalibration_hold_frames[4];
 extern "C" {
 BOOL DVDCheckDisk();
 extern s32 lbl_805D49B4;
-s32 func_801A5E54__Fv(void);
 }
 
 // Stands in for a port with no controller: nothing held.
@@ -259,7 +258,7 @@ void update_pad_recalibration(void) {
     }
 }
 
-s32 func_801A5E54__Fv(void) {
+s32 func_801A5E54(void) {
     if ((DVDCheckDisk() == 0) && (TKeyBoardControl::check_reset_button() != 0)) {
         reset_system();
     }

@@ -19,4 +19,3 @@ TItemMenuCtrl::TItemMenuCtrl(TObject *parent) : TObject(parent) {
     TItemMenuCtrl__instance = this;
     m_name = lbl_805D2C18;
 }
-#undef item_menu_ctrl

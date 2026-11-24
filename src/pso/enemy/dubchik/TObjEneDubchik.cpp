@@ -305,7 +305,7 @@ void TObjEneDubchik::load_resources() {
     lbl_805D509C = find_model_node(dubchik_resource->models[0].model, 0x15);
     lbl_805D50A0 = find_model_node(dubchik_resource->models[0].model, 0x2A);
     find_model_node(dubchik_resource->models[1].model, 0x15)->evalflags |= NJD_EVAL_HIDE;
-    p = new TBreakUpMdlData((saddr)dubchik_resource->models[0].model);
+    p = new TBreakUpMdlData(dubchik_resource->models[0].model);
     breakup_model_ptr = static_cast<TBreakUpMdlData *>(p);
     p = new SampledMotionPoints(2, 28.0f, 35.0f, 1.0f);
     dubchik_scratch_trail0_points[0] = (SampledMotionPoints *)p;
@@ -634,7 +634,7 @@ void TObjEneDubchik::update_knockback() {
         pos.x += velocity.x;
         pos.z += velocity.z;
         if (check_path_obstructed(this, &pos) == 0) {
-            move_with_wall_slide((u8 *)this);
+            move_with_wall_slide(this);
         } else {
             velocity.x = velocity.z = 0.0f;
         }
@@ -708,7 +708,7 @@ void TObjEneDubchik::update_fall_apart() {
         pos.x += velocity.x;
         pos.z += velocity.z;
         if (check_path_obstructed(this, &pos) == 0) {
-            move_with_wall_slide((u8 *)this);
+            move_with_wall_slide(this);
         } else {
             velocity.x = velocity.z = 0.0f;
         }
@@ -1088,7 +1088,7 @@ void TObjEneDubchik::update_return_home() {
         VecCopy(&move_origin, &body_center);
         calc_velocity_toward_destination(this, move_origin, move_destination, speed);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         if (xz_distance_squared(&position, &home_position) < 100.0f) {
             requested_action = 5;
             advance_animation();

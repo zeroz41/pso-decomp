@@ -2,7 +2,6 @@
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/PlayerLevelTable.h"
-#include "pso/system/save/CardFileInfo.h"
 #include "pso/unk/text_8024AB98.h"
 #include "pso/player/PlayerState.h"
 #include "pso/player/PlayerHoldPacket.h"
@@ -83,13 +82,13 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/CsnQuery.h"
+#include "pso/object/base/CollisionBodySet.h"
 #include "pso/object/trap/TOTrap.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/item/TItemList.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/unk/text_801D40D4.h"
-#include "pso/player/TObjPlayer_801D3554.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -601,13 +600,6 @@ typedef struct Player_801B6110 {
     s32 flags;
 } Player_801B6110;
 
-struct Hit_801B5DDC {
-    u8 pad0[0x18];
-    u32 flags;
-    Vec pos;
-    u8 pad28[0x38 - 0x28];
-};
-
 struct P_801B5FB0 { u8 pad[0x308]; f32 a; f32 pad30c; f32 b; };
 
 struct Pkt_801B6A5C {
@@ -1108,8 +1100,7 @@ s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
 u16 register_entity_by_id(void *obj);
 u8 * find_entity_by_id(u16);
-s32 test_player_overlap_with_players(void *, void *, Vec *, Hit_801B5DDC *);
-void check_enemy_body_collisions(void *actor);
+void check_enemy_body_collisions(void *arg0);
 int clear_collision_bodies__14TObjCollidableFv(void*);
 u16 TObjRoomId__sub_801A1DB8(s32);
 void handle_6x9B_level_up_all_techniques(void *command);
@@ -3472,7 +3463,7 @@ void calc_move(const Vec *movement, const Vec *direction, Vec *out) {
 // Pushes the move in velocity off the walls it runs into: slides it along a
 // wall it meets at a shallow angle, steps around a corner. Returns the wall
 // contact that stops it, NULL when the move may go on.
-void *TObjPlayer::apply_wall_response() {
+CsnHit *TObjPlayer::apply_wall_response() {
     if (is_single_screen()) {
         s32 angle;
         f32 dx;
@@ -3620,7 +3611,7 @@ void *TObjPlayer::apply_wall_response() {
             }
         }
     }
-    return blocked;
+    return reinterpret_cast<CsnHit *>(blocked);
 }
 
 void TObjPlayer::get_hand_joint_position(saddr arg1) {
@@ -4111,7 +4102,7 @@ saddr TObjPlayer::resolve_move_collision() {
 s32 TObjPlayer::check_actor_blocking_move() {
     Vec pos;
     Vec diff;
-    Hit_801B5DDC hit;
+    CollisionBody hit;
     pos.x = position.x + velocity.x;
     pos.y = TObjPlayer__data_805DC278;
     pos.z = position.z + velocity.z;
@@ -4119,9 +4110,9 @@ s32 TObjPlayer::check_actor_blocking_move() {
         if (hit.flags & 0x100) {
             return 0;
         }
-        diff.x = pos.x - hit.pos.x;
+        diff.x = pos.x - hit.center.x;
         diff.y = TObjPlayer__data_805DC278;
-        diff.z = pos.z - hit.pos.z;
+        diff.z = pos.z - hit.center.z;
         if (vec3_dot(&diff, &velocity) < TObjPlayer__data_805DC278) {
             return 1;
         }
@@ -5848,7 +5839,7 @@ s32 TObjPlayer::is_in_tl03_state() {
 
 void TObjPlayer::play_sound_if_on_floor(s32 sound_id) {
     if (((s32 (*)(void))is_on_current_floor__10TObjPlayerFi)() != 0) {
-        play_sound_effect(sound_id, static_cast<Vec *>(get_position_ptr()), 0, 0);
+        play_sound_effect(sound_id, static_cast<const Vec *>(get_position_ptr()), 0, 0);
     }
 }
 
@@ -6807,7 +6798,7 @@ void clamp_stats__10TObjPlayerFiPv(saddr player, void *arg1) {
     s32 temp_r28_3;
     s32 temp_r3_8;
     s32 temp_r4_2;
-    void *class_stat_caps;
+    const player_stats *class_stat_caps;
     void *temp_r31;
 
     temp_r31 = ((TObjPlayer *)player)->get_stats();

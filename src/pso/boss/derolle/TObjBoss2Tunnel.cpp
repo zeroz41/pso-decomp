@@ -234,7 +234,7 @@ void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32
 
 u8 boss2_tunnel_state_flag;
 u16 TObjBoss2Tunnel__snapshot_state;
-s32 *boss2_tunnel_snapshot_buffer;
+ScreenSnapshot *boss2_tunnel_snapshot_buffer;
 void *TObjBoss2Tunnel__snapshot_buffer;
 s32 TObjBoss2Tunnel__snapshot_saved_flag;
 
@@ -326,7 +326,7 @@ void store_inverse_current_matrix(NJS_CAMERA *camera, CameraMatrix *view) {
 #pragma fp_contract on
 void transform_vec_by_camera(NJS_CAMERA *camera, const Vec *in, Vec *out) {
     push_matrix();
-    premultiply_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(TCameraCtrl::get_view_matrix()));
+    premultiply_matrix(NULL, TCameraCtrl::get_view_matrix());
     matrix_mult_vec(NULL, in, out);
     pop_matrix();
 }
@@ -913,8 +913,8 @@ s32 take_snapshot(void) {
         frame->snapshot.width = 0x100;
         frame->snapshot.height = 0xC0;
         p += 8;
-        move_data((void *)(p), (const void *)((void *)get_capture_texture_pixels()), 0x18000);
-        p += 0x18000;
+        move_data((void *)(p), (const void *)((void *)get_capture_texture_pixels()), sizeof(snap->pixels));
+        p += sizeof(snap->pixels);
         *p++ = 0x18;
         *p++ = 2;
         countp = (u16 *)p;
@@ -922,7 +922,7 @@ s32 take_snapshot(void) {
         flags = (u32 *)p;
         levels = (u32 *)(p + 0x30);
         name = (char *)(p + 0x60);
-        memset(name, 0, 0x120);
+        memset(name, 0, sizeof(snap->names));
         count = TLobby::get_game_mode();
         me = (TObjPlayer *)find_entity_by_id(local_client_id);
         if (me != NULL) {
@@ -930,8 +930,8 @@ s32 take_snapshot(void) {
             if (me->get_stats() != NULL) {
                 *levels++ = me->get_actor_level_index();
             }
-            strncpy(name, me->name, 0x18);
-            name += 0x18;
+            strncpy(name, me->name, sizeof(snap->names[0]));
+            name += sizeof(snap->names[0]);
         }
         for (i = 0; i < count; i++) {
             if (i != local_client_id) {
@@ -941,8 +941,8 @@ s32 take_snapshot(void) {
                     if (player->get_stats() != NULL) {
                         *levels++ = player->get_actor_level_index();
                     }
-                    strncpy(name, player->name, 0x18);
-                    name += 0x18;
+                    strncpy(name, player->name, sizeof(snap->names[0]));
+                    name += sizeof(snap->names[0]);
                 }
             }
         }
@@ -1097,26 +1097,26 @@ s32 memcard_check_snapshot(s32 for_save, s32 *error) {
 
 void load_data_buffers(void) {
     s32 size;
-    saddr file;
-    s32 *buf;
+    u8 *file;
+    ScreenSnapshot *buf;
 
     TObjBoss2Tunnel__snapshot_saved_flag = 0;
     TObjBoss2Tunnel__snapshot_buffer = xmalloc(0x1E000);
     TObjBoss2Tunnel__snapshot_state = 0;
     init_capture_texture(0);
-    buf = (s32 *)xmalloc(0x1818C);
+    buf = static_cast<ScreenSnapshot *>(xmalloc(sizeof(ScreenSnapshot)));
     boss2_tunnel_snapshot_buffer = buf;
     if (buf != NULL) {
         memset(buf, 0, 0x1818C);
     }
     size = get_resource_file_size(screen_binary_filename);
-    if (size <= 0x1818C) {
-        file = (saddr)load_disc_file(screen_binary_filename);
+    if (size <= (s32)sizeof(ScreenSnapshot)) {
+        file = load_disc_file(screen_binary_filename);
         if (file != 0) {
             if (boss2_tunnel_snapshot_buffer != NULL) {
-                memmove(boss2_tunnel_snapshot_buffer, (void *)file, size);
+                memmove(boss2_tunnel_snapshot_buffer, file, size);
             }
-            safe_free(reinterpret_cast<void *>(file));
+            safe_free(file);
         }
     }
 }
@@ -1164,7 +1164,7 @@ block_9:
 
 s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     CardSaveDescriptor c;
-    s32 *p;
+    u32 *checksum;
     if (memcard_check_snapshot(1, 0) == 0) {
         return 0;
     }
@@ -1178,14 +1178,14 @@ s32 TObjBoss2Tunnel::save_snapshot_to_card() {
     memcpy(c.key, snapshot_card_icon, 0x10);
     set_card_banner_and_icon(&c, 4);
     c.field_4c = 1;
-    p = boss2_tunnel_snapshot_buffer;
+    checksum = &boss2_tunnel_snapshot_buffer->checksum;
     c.field_4e = 1;
     c.field_50 = 0;
     c.omit_title_space = 0;
-    *p = 0;
-    *p = calc_crc32_bitwise((u8 *)boss2_tunnel_snapshot_buffer, 0x1818C);
+    *checksum = 0;
+    *checksum = calc_crc32_bitwise(reinterpret_cast<u8 *>(boss2_tunnel_snapshot_buffer), sizeof(ScreenSnapshot));
     c.data = (u8 *)boss2_tunnel_snapshot_buffer;
-    c.size = 0x1818C;
+    c.size = sizeof(ScreenSnapshot);
     TAdPlayerLoadGC::build_save_file_image(TObjBoss2Tunnel__snapshot_buffer, &c);
     release_card_banner_and_icon(&c);
     if (TAdSinglePlyChrSelectGC::load_player(1, (saddr)snapshot_card_filename, (saddr)TObjBoss2Tunnel__snapshot_buffer, 0xF) != 0) {
@@ -1226,17 +1226,17 @@ s32 TObjBoss2Tunnel::load_snapshot() {
 
 BOOL TObjBoss2Tunnel::verify_snapshot_checksum() {
     CardSaveDescriptor ld;
-    s32 *p;
-    s32 saved;
-    s32 sum;
+    ScreenSnapshot *snapshot;
+    u32 saved;
+    u32 sum;
     if ((u32)verify_card_save_header(&ld, TObjBoss2Tunnel__snapshot_buffer) == 0xFFFFFF20) {
         return FALSE;
     }
-    p = (s32 *)ld.data;
-    saved = *p;
-    *p = 0;
-    sum = calc_crc32_bitwise(ld.data, 0x1818C);
-    *p = saved;
+    snapshot = reinterpret_cast<ScreenSnapshot *>(ld.data);
+    saved = snapshot->checksum;
+    snapshot->checksum = 0;
+    sum = calc_crc32_bitwise(ld.data, sizeof(ScreenSnapshot));
+    snapshot->checksum = saved;
     return sum == saved ? TRUE : FALSE;
 }
 

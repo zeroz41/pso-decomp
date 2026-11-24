@@ -534,7 +534,7 @@ void TObjEneDolmOlm::update_retreat() {
             if (check_path_ahead(rotation_y + 0x8000, f) == 0) {
                 enemy_turn_toward_dest(((BeastMovementParams *)movementParameters)->turnSpeed);
                 enemy_set_heading_velocity(f, this, rotation_y + 0x8000);
-                move_with_wall_slide((u8 *)this);
+                move_with_wall_slide(this);
                 retreat_distance += f;
                 if (retreat_distance >= 50.0f) {
                     phase = 2;

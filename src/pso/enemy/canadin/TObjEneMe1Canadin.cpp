@@ -165,9 +165,9 @@ void TObjEneMe1Canadin::load_resources() {
         canadin_shared_handler_a_table[i] = (TObjEneMe1CanadinParams *)TLobby::dispatch_shared_handler_a(canadin_param_ids[i]);
     }
     TObjEneMe1Canadin__render_node_index = 0;
-    p = new TBreakUpMdlData((saddr)bm_ene_me1_mb_resource->models[1].model);
+    p = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[1].model);
     canadin_leader_breakup_model = (TBreakUpMdlData *)p;
-    p = new TBreakUpMdlData((saddr)bm_ene_me1_mb_resource->models[0].model);
+    p = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[0].model);
     canadin_breakup_model = (TBreakUpMdlData *)p;
     model = bm_ene_me1_mb_resource->models[1].model;
     canadin_leader_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model, 3)->model)->polygon_list + 2);
@@ -220,7 +220,7 @@ TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind) 
 TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, TObjEneMe1Canadin *leader, Vec *pos, s32 id, s32 sub_id) : TObjEneDD_ST(parent) {
     m_name = TObjEneMe1Canadin__class_name;
     this->leader = leader;
-    init_common_from((u8 *)this->leader);
+    init_common_from(this->leader);
     entity_id = id;
     set_index = sub_id;
     this->leader->calc_move_vector(&position);

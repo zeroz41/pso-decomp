@@ -1,3 +1,6 @@
+#include "pso/animation/ActorAnimationState.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
@@ -113,7 +116,6 @@ extern const f64 lbl_80471960[1] = {10430.38043493439};
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/render_util.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/animation/ActorAnimationState.h"
 
 extern "C" {
 
@@ -131,13 +133,11 @@ typedef struct { f32 m[3][4]; } Mtx_802C17FC;
 
 void matrix_mult_vec(void *, void *, void *);
 
-s32 release_texture_list(void*);
 }
 
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/system/TLanguage_801E4874.h"
 
 
 #pragma push

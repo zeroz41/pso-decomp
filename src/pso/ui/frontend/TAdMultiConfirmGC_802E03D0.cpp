@@ -1,5 +1,4 @@
 #include "pso/player/TPlyCharData.h"
-#include "pso/system/BmlResource.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer.h"

@@ -171,7 +171,7 @@ void TObjVoloptCage::destroy() {
 
 void TObjVoloptCage::init_break_model() {
     volopt_cage_model = boss3_volopt_resources->models[0x12].model;
-    volopt_cage_breakup_model = new TBreakUpMdlData(reinterpret_cast<saddr>(volopt_cage_model));
+    volopt_cage_breakup_model = new TBreakUpMdlData(volopt_cage_model);
     volopt_cage_combat_stats = TLobby::register_boss(0x26);
     volopt_cage_params = (VoloptCageParams *)TLobby::dispatch_shared_handler_a(0x26);
 }

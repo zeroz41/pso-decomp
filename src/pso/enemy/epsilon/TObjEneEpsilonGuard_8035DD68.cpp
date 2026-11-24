@@ -12,7 +12,6 @@ struct NJS_OBJECT;
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
-#include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
@@ -726,7 +725,7 @@ TObjEneEpsilonGuard::TObjEneEpsilonGuard(TObject *parent, TObjEneEpsilonBody *bo
     s32 i;
     m_name = TObjEneEpsilonGuard__class_name;
     body_id = body->get_entity_id();
-    init_common_from((u8 *)body);
+    init_common_from(body);
     this->entity_id = entity_id;
     this->set_index = set_index;
     room = body->room;

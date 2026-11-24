@@ -1374,9 +1374,9 @@ void TObjEnePanBARA::update_action_timer() {
 void TObjEnePanarms::spawn_npc_pair() {
     NpcAnimationBinding binding_a = { NULL, panbara_pal_motion_params, 0, 1, 10 };
     BmlMotionEntry *motions = TObjEnePanarms__entry_params_resource->motions;
-    binding_a.motions = reinterpret_cast<BmlMotionEntry *>(motions);
+    binding_a.motions = motions;
     NpcAnimationBinding binding_b = { NULL, panbara_par_motion_params, 0, 1, 10 };
-    binding_b.motions = reinterpret_cast<BmlMotionEntry *>(motions);
+    binding_b.motions = motions;
     BmlModelEntry *models = TObjEnePanarms__entry_params_resource->models;
     NpcModelRegistry::register_animated_chunk(0x24, models[1].model, models[1].texlist, &binding_a, 7.5f, 0.0f);
     models = TObjEnePanarms__entry_params_resource->models;

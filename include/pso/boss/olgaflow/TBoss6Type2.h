@@ -101,7 +101,7 @@ struct TBoss6Type2 : public TObjEnemy
     void restore_target_player_state();
     void reset_fish_fields();
     void damage_possessed_player();
-    void aim_toward_point(void *target);
+    void aim_toward_point(const Vec *point);
     void render_body_effects();
     s32 action_state;  // row of boss6_type2_battle_actions (set_action_state)
     s32 action_history[32];  // set_action_state shifts the last 32 states in
@@ -213,7 +213,7 @@ struct TBoss6Type2 : public TObjEnemy
     static void request_default_follow_camera();
     void init_range();
     void update_target();
-    s32 push_players_away(void *target, f32 range);
+    s32 push_players_away(const Vec *target, f32 range);
     void set_owner_flag_bit0();
     void set_child_flags();
     void clear_part_flags();

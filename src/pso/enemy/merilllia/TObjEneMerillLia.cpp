@@ -703,7 +703,7 @@ void TObjEneMerillLia::beast_update_hurt() {
     pos.x = pos.x + velocity.x;
     pos.z = pos.z + velocity.z;
     if (check_path_obstructed(this, &pos) == 0) {
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         velocity.x *= 0.5f;
         velocity.z *= 0.5f;
     } else {

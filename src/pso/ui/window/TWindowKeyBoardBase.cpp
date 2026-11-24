@@ -1,3 +1,4 @@
+#include "pso/ui/font/TNECFontEORFunction.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/system/ResourceFile.h"
@@ -48,7 +49,6 @@ struct KbRec_8025D264 {
 };
 
 extern "C" {
-void set_glyph_quad_extents(u8, void *);
 s32 map_char_to_font_code(u16);
 u8 get_font_char_advance(s32);
 struct Stack_8025E6DC {

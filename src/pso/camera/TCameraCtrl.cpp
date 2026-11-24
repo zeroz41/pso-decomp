@@ -583,7 +583,7 @@ void TCameraCtrl::reset() {
     TCameraCtrl::view_state.flags = 0;
 }
 void TCameraCtrl::cycle_spectate_target() {
-    void *pad;
+    ControllerInputContext *pad;
     TObjPlayer *candidate;
     TObjPlayer *local;
     s8 tries;

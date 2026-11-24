@@ -87,7 +87,7 @@ s16 TLobby__sub_80409A3C(Fn_8040881C *fns, s16 kind);
 void lobby_timer_stop(void *arg0);
 s16 AT_IP_GetMssFromDstSrc(u8 *remote, u8 *local);
 void netbuf_copy_by_ref(void *a, void *b, s32 v);
-s16 TLobby__sub_80410BA8(void *self, void *a, s16 c, void *d);
+s16 TLobby__sub_80410BA8(NetPacket *packet, NetIPv6SendParameters *params, s16 iface, u8 *link_address);
 u16 calc_ipv6_pseudo_header_checksum(const struct IPv6Address *src, const struct IPv6Address *dst, u8 next_header, const struct NetPacket *pkt, s16 flag);
 void lobby_timer_add(N_80405298 *o, s32 v);
 void TLobby__sub_80409818(s32 msg, s16 len, s16 idx, s16 second, u16 type);

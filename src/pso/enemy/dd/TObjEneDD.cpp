@@ -49,7 +49,6 @@ extern const f32 view_detail_near_depth = 155.0f;
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/TLevelSelect.h"
 extern "C" {
 int is_local_client_floor_leader(void*);
@@ -95,7 +94,6 @@ f32 newton_sqrtf(f32);
 #include <dolphin/mtx.h>
 
 
-#include <stddef.h>
 extern "C" {
 f32 fabs_float(f32);
 s32 VecCopy__FP3VecPC3Vec(void *, void *, s32);
@@ -291,11 +289,11 @@ s32 pack_debug_text_position(s32 x, s32 y) {
 
 int TObjEneDD::get_target_info() { return fn_800FD8A0(this); }
 
-void TObjEneDD::init_common_from(u8 *source) {
+void TObjEneDD::init_common_from(TObjBase *source) {
     reset_state_fields();
-    this->room = (s16) *(s16 *)((s8 *)source + 0x28);
-    this->set_group = (s16) *(s16 *)((s8 *)source + 0x2A);
-    subtractive_rng_seed(&this->rng, (int) (this->entity_id + area_random_seed));
+    room = source->room;
+    set_group = source->set_group;
+    subtractive_rng_seed(&rng, (int) (this->entity_id + area_random_seed));
 }
 
 
@@ -347,8 +345,8 @@ u16 enemy_nearest_visible_player_sq(TObjChara *self, f32 range) {
 }
 
 
-u16 enemy_find_nearest_player_in_range(u8 *self, f32 range) {
-    return enemy_nearest_visible_player_sq((TObjChara *)self, range * range);
+u16 enemy_find_nearest_player_in_range(TObjChara *self, f32 range) {
+    return enemy_nearest_visible_player_sq(self, range * range);
 }
 
 void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src) {
@@ -1141,17 +1139,17 @@ s32 TObjEneDD_ST::select_and_apply_target(f32 range) {
         enemy = enemy_nearest_visible_enemy(this, range);
         target = enemy;
         if (enemy == 0xFFFF) {
-            target = enemy_find_nearest_player_in_range((u8 *)this, range);
+            target = enemy_find_nearest_player_in_range(this, range);
         }
     } else {
-        target = enemy_find_nearest_player_in_range((u8 *)this, range);
+        target = enemy_find_nearest_player_in_range(this, range);
     }
     return enemy_bind_or_clear_target(this, target);
 }
 
 
 s32 TObjEneDD_ST::select_nearest_target(f32 distance) {
-    u16 target = enemy_find_nearest_player_in_range((u8 *)this, distance);
+    u16 target = enemy_find_nearest_player_in_range(this, distance);
     return enemy_bind_or_clear_target(this, target);
 }
 

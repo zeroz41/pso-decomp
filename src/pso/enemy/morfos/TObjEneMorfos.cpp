@@ -236,7 +236,7 @@ void TObjEneMorfos::init_instance() {
     this->target_angle = 0;
     burst_start_angle = 0;
     this->accum = 0.0f;
-    *(f32 *)((s8 *)this + 0x4C8) = 0.0f;
+    unk_4C8 = 0.0f;
     this->walk_dir.x = 0.0f;
     walk_dir.y = 0.0f;
     this->walk_dir.z = 0.0f;

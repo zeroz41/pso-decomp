@@ -547,7 +547,7 @@ void TObjEneGyaranzo::update_damaged() {
         next.x += velocity.x;
         next.z += velocity.z;
         if (check_path_obstructed(this, &next) == 0) {
-            move_with_wall_slide((u8 *)this);
+            move_with_wall_slide(this);
         } else {
             velocity.x = velocity.z = 0.0f;
         }
@@ -934,7 +934,7 @@ void TObjEneGyaranzo::update_walk_to_target() {
         VecCopy(&move_origin, &body_center);
         calc_velocity_toward_destination(this, move_origin, move_destination, ((EnemyMoveParams *)movementParameters)->min_distance);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         update_collisions();
         if (xz_distance_squared(&position, &home_position) <= 100.0f) {
             update_if_active(0);

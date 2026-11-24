@@ -1,9 +1,8 @@
-#include "pso/system/memory.h"
 #include "pso/system/TLanguage_801E4874.h"
+#include "pso/system/memory.h"
 #include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"

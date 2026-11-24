@@ -23,7 +23,6 @@ struct PhotonBlastRequestSlot;
 #include "pso/player/RenderMaterialState.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/PlayerAttackController.h"
-#include "pso/player/PlayerStats.h"
 #include "pso/player/BattleMusicState.h"
 #include "pso/player/ContactSurfaceState.h"
 #include "pso/player/MovementHold.h"
@@ -98,7 +97,7 @@ struct TObjPlayer : public TObjChara {
     static s32 draw_chunk_vertices_cached(void *model);
     void draw_actor_model(void *);
     s32 destroy_char_data(int, s16);
-    void *apply_wall_response();
+    CsnHit *apply_wall_response();
     void apply_battle_level_reset(s32 level);
     void set_action_provider_variant(s16);
     void update_position_from_target();
@@ -284,7 +283,7 @@ struct TObjPlayer : public TObjChara {
     // Texture lists TChCrLoadReq fills for the head/hair, the attachment and the body.
     u8 head_textures[0x16C];
     u8 attachment_textures[0x16C];
-    u8 body_textures[0x8];
+    NJS_TEXLIST body_textures;
     s32 model_load_flags;  // nonzero while the models load (update_body_parts sets 255); not drawn until 0
     TPlyItem *inventory_objects;  // created by create_inventory
     void *equipped_items[13];  // by equip slot; read through get_equipped_item

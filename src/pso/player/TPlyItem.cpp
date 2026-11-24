@@ -515,7 +515,7 @@ s32 TObjPlayer__sub_801D49F4(TPlyItem *inventory, TObjPlayer *player, s32 *item_
 s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, s32 arg4, s32 client) {
     s16 count;
     TItem *item;
-    void *node;
+    TItemList *node;
 
     if (arg4 < 0) {
         return 0;
@@ -524,7 +524,7 @@ s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, 
     if (node == NULL) {
         return 0;
     }
-    item = ((TItemList *)node)->get_owner_if_alive();
+    item = node->get_owner_if_alive();
     if (item == NULL) {
         return 0;
     }
@@ -535,11 +535,11 @@ s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, 
     if (is_item_equipped(item) != 0) {
         player->unequip_item(item);
     }
-    *(s16 *)((s8 *)item + 0x28) = ((TObjBase *)player)->get_room();
+    item->room = player->get_room();
     item->place_on_ground(client, position, 0);
     count = pad_1C;
     pad_1C = (count - 1);
-    ((TObject *)node)->queue_destruction();
+    node->queue_destruction();
     return 1;
 }
 
@@ -1088,7 +1088,7 @@ s32 TItemList::is_item_valid(TItemList *arg0) {
     u8 valid;
 
     valid = 0;
-    if ((reinterpret_cast<TObject *>(arg0)->check_value_equals(TItemList__name) != 0) && (((TObject *)arg0)->all_parents_unqueued_for_destruction() != 0)) {
+    if ((arg0->check_value_equals(TItemList__name) != 0) && (arg0->all_parents_unqueued_for_destruction() != 0)) {
         valid = 1;
     }
     return valid;

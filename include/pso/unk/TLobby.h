@@ -21,6 +21,7 @@ union BattleMovementParams;
 struct NJS_TEXLIST;
 class TObjPlayer;
 class TProtocol;
+class TUserAns;
 class TWindowMenuIconLine;
 struct TWindowMessage;
 struct TPlyChallenge;
@@ -59,8 +60,8 @@ struct TLobby : public TObject {
     virtual ~TLobby();
     virtual void run_task();
     void try_close(void *);
+    static void handle_user_search_answer(TUserAns &response);
     static void on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int disable_udp);
-    static void forward_8024273C(void *p);
     void close_window();
     static s32 get_filtered_event_theme();
     static void load_dimedian_resources();
@@ -125,7 +126,6 @@ struct TLobby : public TObject {
     static void free_chr_select_data();
     static void init_download_buffers();
     static s32 get_game_mode();
-    void copy_header(void *arg1);
     static void free_char_select();
     static void update_boss1_objects();
     static void forward_floor_2CB44();
@@ -361,7 +361,6 @@ struct TLobby : public TObject {
     static void set_menu_index_main(u8 *arg0);
     static void refresh_render_state();
     static void wait_for_sound_init();
-    void trim_whitespace();
     s32 get_id();
     static void clear_flag_bit2();
     static int get_com_card_data();

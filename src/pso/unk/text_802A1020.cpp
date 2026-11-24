@@ -1,3 +1,4 @@
+#include "pso/system/ControllerInput.h"
 #include "pso/system/memory.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
@@ -28,7 +29,6 @@ extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
 s32 request_queued_main_phase();
 void request_main_phase(s32 arg0);
-s8 func_801A5E54__Fv();
 s32 init_fresh_character_card();
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
 void set_queued_main_phase(s32 queued_main_phase);
@@ -129,7 +129,7 @@ void update_movie_phase(void) {
     if ((s32) (*(u8 *)&movie_finished_flag) == 1) {
         request_queued_main_phase();
     }
-    if (func_801A5E54__Fv() != 0) {
+    if (static_cast<s8>(func_801A5E54()) != 0) {
         TKeyBoardControl__sub_8000F92C();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {

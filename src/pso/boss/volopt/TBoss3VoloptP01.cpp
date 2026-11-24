@@ -180,7 +180,7 @@ void *TBoss3VoloptP01::create(void *set_data) {
 
 void TBoss3VoloptP01::init_breakup_effect() {
     TBoss3VoloptP01__resource_bundle = boss3_volopt_resources;
-    TBoss3VoloptP01__breakup_model = new TBreakUpMdlData((saddr)TBoss3VoloptP01__resource_bundle->models[17].model);
+    TBoss3VoloptP01__breakup_model = new TBreakUpMdlData(TBoss3VoloptP01__resource_bundle->models[17].model);
     volopt_p01_chunk_list = find_model_node(TBoss3VoloptP01__resource_bundle->models[17].model, 0xD);
     volopt_p01_boss_stat_handle_a = TLobby::register_boss(0x22);
     volopt_p01_shared_handler_b = TLobby::dispatch_shared_handler_b(0x22);

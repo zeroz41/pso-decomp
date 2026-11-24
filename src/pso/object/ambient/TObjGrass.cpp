@@ -1,6 +1,6 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/system/memory.h"
+#include "pso/system/PersistentSound.h"
 #include "pso/object/base/HitEligibility.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/system/EnemyBmlResource.h"
@@ -290,7 +290,6 @@ f32 horizontal_distance_squared(void *, void *);
 s32 angle_difference_abs(s32, s32);
 f32 newton_sqrtf(f32);
 }
-void move_with_wall_slide(u8 *actor);
 extern s32 game_difficulty_selection;
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
@@ -883,7 +882,7 @@ void TObjGrass::update_ai(void *arg0) {
                 }
                 ((TObjEnemy *)o)->enemy_turn_toward_dest(o->param->turn);
                 enemy_set_heading_velocity(o->param->speed, (TObjEnemy *)(o), o->angle);
-                move_with_wall_slide((u8 *)o);
+                move_with_wall_slide(reinterpret_cast<TObjChara *>(o));
             } else {
                 ((TObjEnemy *)(o))->enemy_wander_home((0.25f) * o->param->speed, (1e+02f), (5e+01f), o->param->turn);
             }
@@ -1324,7 +1323,7 @@ void TObjGrass::sub_800BD4D8() {
             }
             ((TObjEnemy *)o)->enemy_turn_toward_dest((s32)((2.0f) * (f32)prm->turn));
             enemy_set_heading_velocity(spd, (TObjEnemy *)(o), o->angle);
-            move_with_wall_slide((u8 *)o);
+            move_with_wall_slide(reinterpret_cast<TObjChara *>(o));
             d2 = horizontal_distance_squared(&o->f29c, &o->p2fc);
             if (o->client == 0xFFFF) {
                 o->f3a4++;
@@ -1609,7 +1608,7 @@ void TObjGrass::update_dying() {
         }
         break;
     case 1:
-        move_with_wall_slide(arg0);
+        move_with_wall_slide(this);
         *(f32 *)((s8 *)arg0 + 0x308) *= (0.5f);
         ((TObjEnePanarms *)arg0)->velocity.z *= (0.5f);
         if (((TObjMotion *)arg0)->is_passing_frame((f32)(23.0f)) != 0) {

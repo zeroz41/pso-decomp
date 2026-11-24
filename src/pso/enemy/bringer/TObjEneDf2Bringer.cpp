@@ -7,6 +7,7 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/npc/NpcModelRegistry.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -1303,7 +1304,7 @@ void TObjEneDf2Bringer::render() {
     s32 fading;
     RenderFadeState *fade;
     s32 show;
-    uaddr saved_texture;
+    GinjaTextureState *saved_texture;
     s32 view;
     s32 i;
     if (TObjPlayer::check_demo_mode() != 0) {
@@ -1353,9 +1354,9 @@ void TObjEneDf2Bringer::render() {
         TObjEneDf2Bringer__uv_scroll_buffer->scroll_uvs(texture_scroll, 0);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         {
-            NJS_TEXNAME *textures = ((NJS_TEXLIST *)texlist)->textures;
-            saved_texture = textures[1].texaddr;
-            textures[1].texaddr = textures[face_texture].texaddr;
+            NJS_TEXNAME *textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
+            saved_texture = textures[1].texture;
+            textures[1].texture = textures[face_texture].texture;
         }
         if (show != 0) {
             push_matrix();
@@ -1380,7 +1381,7 @@ void TObjEneDf2Bringer::render() {
         TParticleCtrl::end_effect_render();
         model_render_flags = saved_model_render_flags;
         update_primary_light();
-        ((NJS_TEXLIST *)texlist)->textures[1].texaddr = saved_texture;
+        reinterpret_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = saved_texture;
         return;
     }
     for (i = 0; i < 4; i++) {

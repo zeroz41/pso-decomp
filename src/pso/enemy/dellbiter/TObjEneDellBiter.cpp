@@ -485,7 +485,7 @@ void TObjEneDellBiter::spawn_front_particle() {
 s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
     Vec pos;
     CsnHit *hit;
-    void *e;
+    TParticleCtrl *e;
     VecCopy(&pos, origin);
     pos.y += 15.0f;
     hit = csnVectorUnder(&pos, ground_candidates.groups, 0x4007);
@@ -497,26 +497,26 @@ s32 TObjEneDellBiter::fn_803059BC(const Vec *origin) {
             VecCopy(&reflection_position, &position);
         }
         if (hit->hit_mask & 4) {
-            e = (void *)spawn_particle_effect(&hit->contact[2].point, 0x49);
+            e = spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (e != NULL) {
-                attach_particle_model((u8 *)e, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
-                ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
+                attach_particle_model(e, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
+                e->set_scale(3.0f, 3.0f);
             }
-            e = (void *)spawn_particle_effect(&hit->contact[2].point, 0xA4);
+            e = spawn_particle_effect(&hit->contact[2].point, 0xA4);
             if (e != NULL) {
-                ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
+                e->set_scale(3.0f, 3.0f);
             }
             return 1;
         }
         if (hit->hit_mask & 2) {
-            e = (void *)spawn_particle_effect(&hit->contact[3].point, 0x49);
+            e = spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (e != NULL) {
-                attach_particle_model((u8 *)e, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
-                ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
+                attach_particle_model(e, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
+                e->set_scale(3.0f, 3.0f);
             }
-            e = (void *)spawn_particle_effect(&hit->contact[3].point, 0xA4);
+            e = spawn_particle_effect(&hit->contact[3].point, 0xA4);
             if (e != NULL) {
-                ((TParticleCtrl *)e)->set_scale(3.0f, 3.0f);
+                e->set_scale(3.0f, 3.0f);
             }
             return 1;
         }
@@ -748,7 +748,7 @@ void TObjEneDellBiter::update_emerge_walk_state(s32 reason) {
         step = 0;
         VecCopy(&position, &home_position);
         VecCopy(&prev_position, &position);
-        VecCopy((Vec *)(&body_center), &position);
+        VecCopy(&body_center, &position);
         combo_count = 0;
         rush_count = 0;
         play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039E12)), &position, 0, 0);
@@ -808,7 +808,7 @@ void TObjEneDellBiter::update_emerge_run_state(s32 reason) {
         play_sound_effect(this->remap_sound_for_area((saddr)((void *)0x40039E12)), &position, 0, 0);
         VecCopy(&position, &home_position);
         VecCopy(&prev_position, &position);
-        VecCopy((Vec *)(&body_center), &position);
+        VecCopy(&body_center, &position);
         position.x -= 100.0f * sin_table_lookup(rotation_y);
         position.z -= 100.0f * cos_table_lookup(rotation_y);
         state_timer = (s32)(100.0f / TObjEneDellBiter__movement_params->rush_speed);
@@ -1377,7 +1377,7 @@ void TObjEneDellBiter::state_death(s32 reason) {
         switch (state_timer) {
         case 0:
             if (this->get_flag_b4() != 0) {
-                fn_800D911C((Vec *)(&body_center));
+                fn_800D911C(&body_center);
                 play_sound_effect(0x4003A830, &body_center, 0, 0);
                 state_timer = 1;
                 return;

@@ -271,6 +271,9 @@ LAYOUT_ASSERT(TObjCharaGroundNormalOffset, offsetof(TObjChara, ground_normal) ==
 
 LAYOUT_ASSERT(TObjCharaAttackCreditSlotsOffset, offsetof(TObjChara, attack_credit_slots) == 0xFC);
 
+// Advances position through the wall and ground probes.
+void move_with_wall_slide(TObjChara *actor);
+
 void obj_clearArrS16_FC(TObjChara *actor, s32 index);
 extern "C" {
 s32 add_actor_hp(TObjChara *actor, s16 amount);

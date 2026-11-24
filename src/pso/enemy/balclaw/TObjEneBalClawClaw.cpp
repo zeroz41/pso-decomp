@@ -343,7 +343,7 @@ void TObjEneBalClawClaw::update_damage() {
         next.x += velocity.x;
         next.z += velocity.z;
         if (check_path_obstructed(this, &next) == 0) {
-            move_with_wall_slide((u8 *)this);
+            move_with_wall_slide(this);
         } else {
             velocity.x = velocity.z = 0.0f;
         }
@@ -620,7 +620,7 @@ void TObjEneBalClawClaw::update_return_home() {
         calc_velocity_toward_destination(this, move_origin, move_destination,
                                          ((EnemyMoveParams *)movementParameters)->min_distance);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         break;

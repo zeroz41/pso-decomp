@@ -395,7 +395,7 @@ void TObjEneBalClawBody::update_damage() {
         v.x += body->velocity.x;
         v.z += body->velocity.z;
         if (check_path_obstructed(body, &v) == 0) {
-            move_with_wall_slide((u8 *)body);
+            move_with_wall_slide(body);
         } else {
             body->velocity.x = body->velocity.z = 0.0f;
         }
@@ -522,7 +522,7 @@ void TObjEneBalClawBody::update_attack() {
                 n1.x += body->velocity.x;
                 n1.z += body->velocity.z;
                 if (check_path_obstructed(body, &n1) == 0) {
-                    move_with_wall_slide((u8 *)body);
+                    move_with_wall_slide(body);
                 }
             }
             body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
@@ -566,7 +566,7 @@ void TObjEneBalClawBody::update_attack() {
             n2.x += body->velocity.x;
             n2.z += body->velocity.z;
             if (check_path_obstructed(body, &n2) == 0) {
-                move_with_wall_slide((u8 *)body);
+                move_with_wall_slide(body);
             }
         }
         body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
@@ -632,7 +632,7 @@ void TObjEneBalClawBody::update_combined_attack() {
                 n1.x += body->velocity.x;
                 n1.z += body->velocity.z;
                 if (check_path_obstructed(body, &n1) == 0) {
-                    move_with_wall_slide((u8 *)body);
+                    move_with_wall_slide(body);
                 }
             }
             body->turn_toward_direction(((EnemyMoveParams *)body->movementParameters)->turn_speed, &body->velocity);
@@ -650,13 +650,13 @@ void TObjEneBalClawBody::update_combined_attack() {
         } else {
             body->velocity.y = 0.0f;
             calc_velocity_toward_destination(body, body->body_center, ((TObjChara *)body->target)->body_center, 0.7f);
-            move_with_wall_slide((u8 *)body);
+            move_with_wall_slide(body);
             {
                 Vec n2 = body->body_center;
                 n2.x += body->velocity.x;
                 n2.z += body->velocity.z;
                 if (check_path_obstructed(body, &n2) == 0) {
-                    move_with_wall_slide((u8 *)body);
+                    move_with_wall_slide(body);
                 }
             }
             if (body->is_passing_frame(10.0f) != 0) {
@@ -1098,7 +1098,7 @@ void TObjEneBalClawBody::update_retreat() {
         v.x += self->velocity.x;
         v.z += self->velocity.z;
         if (check_path_obstructed(self, &v) == 0) {
-            move_with_wall_slide((u8 *)self);
+            move_with_wall_slide(self);
         }
         self->advance_animation();
         apply_actor_gravity(self, NULL, 0.0f);
@@ -1131,7 +1131,7 @@ void TObjEneBalClawBody::update_return_home() {
         v.x += self->velocity.x;
         v.z += self->velocity.z;
         if (check_path_obstructed(self, &v) == 0) {
-            move_with_wall_slide((u8 *)self);
+            move_with_wall_slide(self);
         }
         if (xz_distance_squared(&self->position, &self->home_position) < 100.0f) {
             self->reset_enemy_state();

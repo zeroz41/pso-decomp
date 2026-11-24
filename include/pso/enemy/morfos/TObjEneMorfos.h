@@ -94,7 +94,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     s32 target_angle;
     s32 burst_start_angle;    // rotation_y when the burst turn started
     f32 accum;                // walk timer, then the dying texture scroll
-    u8 unk_4C8[0x4];
+    f32 unk_4C8;
     Vec walk_dir;             // sin, 0, cos of rotation_y when the walk starts
     void render_part(s32 idx, s32 mode);
     void state_rotating_projectile_burst(s32 ev);

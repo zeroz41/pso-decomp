@@ -3,7 +3,6 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TechniqueBandSound.h"
-#include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
@@ -235,7 +234,7 @@ void TTecGiBarta::create_particles() {
                 emitter->set_scale(TTecGiBarta__emitter_profile_table[band].rows[i].scale, TTecGiBarta__emitter_profile_table[band].rows[i].scale);
             }
             if (TTecGiBarta__emitter_profile_table[band].rows[i].flags & 0x20) {
-                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, (u16)(TTecGiBarta__emitter_profile_table[band].rows[i].flags >> 16)), technique_texture_list, 0, 0, 1.0f);
+                attach_particle_model(emitter, get_bml_model(technique_effect_bml, (u16)(TTecGiBarta__emitter_profile_table[band].rows[i].flags >> 16)), technique_texture_list, 0, 0, 1.0f);
             }
         }
         emitters[i] = emitter;
@@ -249,19 +248,19 @@ void TTecGiBarta::create_particles() {
         if (src != NULL) {
             emitter = spawn_particle_effect(&src->position, 0x18B);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 6), technique_texture_list, get_bml_motion(technique_effect_bml, 2), 0, 1.0f);
+                attach_particle_model(emitter, get_bml_model(technique_effect_bml, 6), technique_texture_list, get_bml_motion(technique_effect_bml, 2), 0, 1.0f);
             }
             emitter = create_timed_particle_emitter(&src->position, 0x18B, 5, 1);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 7), technique_texture_list, get_bml_motion(technique_effect_bml, 2), 0, 1.0f);
+                attach_particle_model(emitter, get_bml_model(technique_effect_bml, 7), technique_texture_list, get_bml_motion(technique_effect_bml, 2), 0, 1.0f);
             }
             emitter = create_timed_particle_emitter(&src->position, 0x18B, 10, 1);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 8), technique_texture_list, get_bml_motion(technique_effect_bml, 2), 0, 1.0f);
+                attach_particle_model(emitter, get_bml_model(technique_effect_bml, 8), technique_texture_list, get_bml_motion(technique_effect_bml, 2), 0, 1.0f);
             }
             emitter = create_timed_particle_emitter(&src->position, 0x18F, 20, 1);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
+                attach_particle_model(emitter, get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
             }
         }
     }

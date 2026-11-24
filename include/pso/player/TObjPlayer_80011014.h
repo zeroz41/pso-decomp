@@ -50,6 +50,4 @@ void enemy_turn_half_toward_dest(TObjChara *chara);
 s32 enemy_turn_toward_dest__9TObjEnemyFl(TObjEnemy *enemy, s32 turn_speed);
 }
 
-void move_with_wall_slide(u8 *actor);
-
 #endif

@@ -185,7 +185,6 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 // give get_entity_id a u16 and is_item_light_interaction_blocked a bool
 // return, and these callers zero-extend an int result.
 void apply_actor_gravity(TObjEnemy *enemy, s32 *, f32 hover_height);
-void move_with_wall_slide(u8 *actor);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 is_item_light_interaction_blocked();
@@ -376,7 +375,7 @@ void TObjEneLappy::update_dying() {
     }
     refresh_collision_body_centers();
     if (this->frame < (0.5f * (30.0f * this->play_speed))) {
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         this->velocity.x *= 0.5f;
         this->velocity.z *= 0.5f;
     }
@@ -410,7 +409,7 @@ void TObjEneLappy::update_hurt() {
     v.x += velocity.x;
     v.z += velocity.z;
     if (check_path_obstructed(this, &v) == 0) {
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
     } else {
         velocity.x = velocity.z = 0.0f;
     }

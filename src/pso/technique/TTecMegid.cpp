@@ -1,7 +1,5 @@
-#include "pso/system/BmlAccessors.h"
-#include "pso/system/SoundEffect.h"
-#include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/SoundEffect.h"
 #include "pso/system/memory.h"
 #include "pso/technique/TechniqueBandSound.h"
 #include "pso/system/BmlAccessors.h"
@@ -247,7 +245,7 @@ void TTecMegid::spawn_particle_emitters() {
       if (((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags & 0x20)
       {
         new_var = ((Data_802351B4 *) TTecMegid__emitter_bands)[this->band].rows[i].flags >> 16;
-        attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, new_var), technique_texture_list, 0, 1, 1.0f);
+        attach_particle_model(static_cast<TParticleCtrl *>(self->emitters[i]), get_bml_model(technique_effect_bml, new_var), technique_texture_list, 0, 1, 1.0f);
       }
     }
   }

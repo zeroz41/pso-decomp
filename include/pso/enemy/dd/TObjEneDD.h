@@ -18,7 +18,7 @@ struct TObjEneDD : public TObjEnemy {
     void sub_800BBA0C();
     void invoke_initialization_hook(void *set_data);
     void reset_state_fields();
-    void init_common_from(u8 *);
+    void init_common_from(TObjBase *source);
     void clear_attack_receipts();
     virtual void apply_enemy_state(s32 *);
     virtual s32 update_status_effects();
@@ -132,7 +132,7 @@ void forward_split_screen_view_matrix();
 void forward_transform_to_view(const Vec *in, Vec *out);
 s32 is_target_unobstructed_from(TObjEneDD *self, TObjChara *target);
 u16 enemy_nearest_visible_enemy(void *self, f32 range);
-u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
+u16 enemy_find_nearest_player_in_range(TObjChara *self, f32 range);
 s32 is_player_entity_id(u16 id);
 // 1 for an enemy's entity id (0x1000-0x3FFF).
 int is_enemy_entity_id(u16 id);

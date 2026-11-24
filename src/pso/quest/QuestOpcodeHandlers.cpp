@@ -2537,7 +2537,7 @@ void qst_op_send_mail(void) {
     ((TLobby *)((saddr)&tag))->init_guild_card_tag();
     fields = new TTokenList(NULL, 0, 0);
     strncpy(buf, (const char *)src, 0x3FF);
-    ((TLobby *)buf)->trim_whitespace();
+    trim_whitespace(buf);
     fields->tokenize_args(buf);
     if (fields->count > 2) {
         delete fields;
@@ -2838,7 +2838,7 @@ void qst_op_set_cmode_rank_override(void) {
     char *src = *(char **)&qst_args[1];
     fields = new TTokenList(NULL, 0, 0);
     strncpy(buf, (const char *)src, 0x1FF);
-    ((TLobby *)buf)->trim_whitespace();
+    trim_whitespace(buf);
     fields->tokenize_args(buf);
     if (fields->count == 2) {
         if (is_split_screen() == 1) {
@@ -4205,7 +4205,7 @@ void qst_op_nop_A0_debug(void) {
     fields = new TTokenList(NULL, 0, 0);
     buf[0x1FF] = 0;
     ((void (*)(void *, void *, int))strncpy)(buf, s, 0x1FF);
-    ((TLobby *)buf)->trim_whitespace();
+    trim_whitespace(buf);
     fields->parse_csv_line(buf);
     if (fields->count != 2) {
         while (1) {}
@@ -4216,9 +4216,9 @@ void qst_op_cine_disable(void) { TCineCtrl::begin_letterbox_hide(NULL); }
 
 void qst_op_cine_enable(void) { TCineCtrl::begin_letterbox_show(NULL); }
 
-void qst_op_hud_show(void) { TWindowCtrl::unsuppress_slot(*(int *)&local_client_id); TRaderMapCore::show_radar(); }
+void qst_op_hud_show(void) { TWindowCtrl::unsuppress_slot(local_client_id); TRaderMapCore::show_radar(); }
 
-void qst_op_hud_hide(void) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); TRaderMapCore::hide_radar(); }
+void qst_op_hud_hide(void) { TWindowCtrl::suppress_slot(local_client_id); TRaderMapCore::hide_radar(); }
 int qst_op_pl_pkon(void* p) { return notify_all_battle_players__10TObjPlayerFv(p); }
 
 int qst_op_pl_pkoff(void* p) { return update_4p_battle_ctrls__10TObjPlayerFv(p); }
@@ -5003,7 +5003,7 @@ void qst_op_list(void) {
     text = *(char **)&qst_args[1];
     list = new TTokenList(NULL, 0, 0);
     ((char * (*)(char *, const char *, u32))strncpy)(buf, text, 0x1FF);
-    ((TLobby *)buf)->trim_whitespace();
+    trim_whitespace(buf);
     list->tokenize_args(buf);
     qst_list_window = (void *)(saddr)create_window_menu_default(get_window_layout_position(0x37), list->count);
     for (i = 0; i < list->count; i++) {

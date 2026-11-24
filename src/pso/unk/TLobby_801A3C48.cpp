@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/system/save/CardFileInfo.h"
+#include "pso/system/ControllerInput.h"
 #include <string.h>
+#include "pso/system/save/CardFileInfo.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/unk/TUnk_804C8678.h"
@@ -120,7 +121,7 @@ s32 is_keyboard_active();
 s32 clear_keyboard_key_state();
 int request_main_phase(int);
 s32 TLobby__sub_8006EF90();
-s8 func_801A5E54__Fv();
+
 s32 func_803DCDFC__Fv();
 s32 cleanup__6TLobbyFv();
 s32 PPCSync();
@@ -615,7 +616,7 @@ void TLobby::run_lobby_frame() {
         }
     }
     TLobby::update_periodic_tick();
-    if ((func_801A5E54__Fv() != 0) || ((s32) idle_timeout_active == 1)) {
+    if ((static_cast<s8>(func_801A5E54()) != 0) || ((s32) idle_timeout_active == 1)) {
         TLobby::reset_to_chr_select();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -680,7 +681,7 @@ void TLobby::run_main_frame() {
     if ((s16) TLobby__data_805D5CE8 == 1) {
         reload_lobby_floor_scene();
     }
-    if ((func_801A5E54__Fv() != 0) || ((s32) idle_timeout_active == 1)) {
+    if ((static_cast<s8>(func_801A5E54()) != 0) || ((s32) idle_timeout_active == 1)) {
         TLobby::init_chr_select();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {
@@ -742,7 +743,7 @@ void run_online_lobby_scene(void) {
         process_async_file_reads();
         update_sound_request_slots();
         TAdSinglePlyChrSelectGC::run_save_load_sequence();
-        if (func_801A5E54__Fv() != 0) {
+        if (static_cast<s8>(func_801A5E54()) != 0) {
             break;
         }
         render_tick();

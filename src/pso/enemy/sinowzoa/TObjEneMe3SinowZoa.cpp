@@ -1949,7 +1949,7 @@ inline s32 seek_80316C3C(TObjEneMe3SinowZoa *self, Vec *diff) {
     if (select_enemy_destination(self, self->destination, 1) != 0) {
         angle = approach_80316C3C(self);
         enemy_set_heading_velocity(((TObjEneMe3SinowZoaMoveParams *)self->movementParameters)->speed, self, self->rotation_y);
-        move_with_wall_slide((u8 *)self);
+        move_with_wall_slide(self);
     } else {
         VecCopy(diff, &self->destination);
         subtract_vector(diff, &self->body_center);
@@ -2169,7 +2169,7 @@ void TObjEneMe3SinowZoa::check_and_notify() {
 s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
     Vec v;
     CsnHit *hit;
-    void *p;
+    TParticleCtrl *p;
     VecCopy(&v, origin);
     v.y += 15.0f;
     hit = csnVectorUnder(&v, this->ground_candidates.groups, 0x4007);
@@ -2184,7 +2184,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
             play_ground_contact_sound(&this->position);
             p = spawn_particle_effect(&hit->contact[2].point, 0x49);
             if (p != 0) {
-                attach_particle_model((u8 *)p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
+                attach_particle_model(p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
             }
             spawn_particle_effect(&hit->contact[2].point, 0xA4);
             return 1;
@@ -2193,7 +2193,7 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
             play_ground_contact_sound(&this->position);
             p = spawn_particle_effect(&hit->contact[3].point, 0x49);
             if (p != 0) {
-                attach_particle_model((u8 *)p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
+                attach_particle_model(p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
             }
             spawn_particle_effect(&hit->contact[3].point, 0xA4);
             return 1;

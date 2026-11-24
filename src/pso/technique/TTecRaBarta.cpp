@@ -2,7 +2,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
@@ -195,7 +194,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
       if (self && self)
       {
       }
-      attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, mid), technique_texture_list, 0, 0, (f32)(1.0f));
+      attach_particle_model(static_cast<TParticleCtrl *>(self->emitters[i]), get_bml_model(technique_effect_bml, mid), technique_texture_list, 0, 0, (f32)(1.0f));
     }
   }
   if (self->band == 5)
@@ -218,7 +217,7 @@ void TTecRaBarta::vfunc_8(void *pos) {
     id = b2->flags >> 16;
     if (emitter != 0)
     {
-      attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, id), technique_texture_list, get_bml_motion(technique_effect_bml, 1), 0, (f32)(1.0f));
+      attach_particle_model(static_cast<TParticleCtrl *>(emitter), get_bml_model(technique_effect_bml, id), technique_texture_list, get_bml_motion(technique_effect_bml, 1), 0, (f32)(1.0f));
     }
   }
 }

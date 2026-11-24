@@ -1,8 +1,8 @@
 #include "pso/enemy/EnemyStateRecord.h"
+#include "pso/network/TUserAns.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/unk/TLobby_801E43E4.h"
-#include "pso/unk/TLobby_800FD78C.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
 #include "pso/network/TProtocol.h"
@@ -2705,7 +2705,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_68_recv_burst_lobby = TLobby::on_lobby_player_add;
     protocol_instance->m_recv_handlers.handle_69_recv_exit_lobby = TLobby::retire_lobby_player;
     protocol_instance->m_recv_handlers.handle_81_recv_chat_message = (recv_packet_handler_handle_81_recv_chat_message)try_close__6TLobbyFPv;
-    protocol_instance->m_recv_handlers.handle_41_recv_user_ans = (recv_packet_handler_handle_41_recv_user_ans)TLobby::forward_8024273C;
+    protocol_instance->m_recv_handlers.handle_41_recv_user_ans = TLobby::handle_user_search_answer;
     protocol_instance->m_recv_handlers.handle_18_90_9A_recv_pso_regist_check = (recv_packet_handler_handle_18_90_9A_recv_pso_regist_check)TLobby::handle_verify_result;
     protocol_instance->m_recv_handlers.handle_92_9C_register_response_packet = (recv_packet_handler_handle_92_9C_register_response_packet)TLobby::handle_register_result;
     protocol_instance->m_recv_handlers.handle_95_request_character_data_packet = TLobby::send_selected_character;
