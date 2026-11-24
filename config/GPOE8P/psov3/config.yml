@@ -14566,7 +14566,7 @@ force_active:
   - reset__18TObjEneBm5WolfListFv
   - reset__20TObjEneBm5GibonUListFv
   - reset__21TObjEneRe7BeruraPunchFv
-  - reset__6TLobbyFi
+  - reset_trade_session__FPCc
   - reset__8TGStreamFv
   - start_kafun_attack__16TObjEneMerillLiaFv
   - reset_active_state__18TObjEneBalClawClawFv

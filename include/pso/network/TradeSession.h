@@ -18,7 +18,7 @@ typedef void (*TradeProposalHandler)(void* packet);
 extern "C" TradeProposalHandler trade_proposal_state_handlers[10][8];
 
 void cancel_trade_for_member_out_of_range(s32 client_id);
-s32 format_trade_out_of_range_message(s32 client_id);
+const char *format_trade_out_of_range_message(s32 client_id);
 void handle_6xA6_modify_trade_proposal(u8 *message_window);
 void handle_6xA7(void);
 void handle_state_init(G_ModifyTradeProposal_6xA6 *proposal);
@@ -33,8 +33,9 @@ void handle_trade_request_reply(void *packet);
 void handle_trade_state_cancel(G_ModifyTradeProposal_6xA6 *proposal);
 void ignore_trade_proposal_event(void);
 void reset_trade_session(void);
+// Resets the trade state and shows message in the trade message window.
+void reset_trade_session(const char *message);
 extern "C" {
-void reset__6TLobbyFi(saddr text_handle);
 void send_6xA6_modify_trade_proposal(saddr client_id);
 }
 void send_trade_busy_reply(saddr client_id);
@@ -42,7 +43,6 @@ void update_status_message(G_ModifyTradeProposal_6xA6 *proposal);
 
 // --- C functions defined in TradeSession.cpp ---
 extern "C" {
-void reset__6TLobbyFi(saddr text_handle);
 saddr build_trade_partner_status_text(void);
 }
 // --- end of C functions
