@@ -4827,14 +4827,11 @@ pso/effect/photon/TPhotonLine.cpp:
 	.sdata2     start:0x805DC1D8 end:0x805DC1DC
 
 pso/effect/photon/TPhotonMagicSquare.cpp:
-	.text       start:0x801ACE1C end:0x801AD47C
+	.text       start:0x801ACE1C end:0x801AD4A8
 	.rodata     start:0x80446E20 end:0x80446E40
 	.data       start:0x804C3940 end:0x804C39D4
 	.sdata      start:0x805D3508 end:0x805D3510
 	.sdata2     start:0x805DC1E0 end:0x805DC1F8
-
-pso/player/TObjPlayer_801AD47C.cpp:
-	.text       start:0x801AD47C end:0x801AD4A8
 
 pso/effect/photon/TPhotonMylla.cpp:
 	.text       start:0x801AD4A8 end:0x801ADC7C
@@ -4872,13 +4869,13 @@ pso/player/TObjPlayer_801AF2F0Data.cpp:
 pso/player/PlayerSdata2Block1.cpp:
 	.sdata2     start:0x805DC280 end:0x805DC2E0
 
-pso/player/TObjPlayer_801AEB84.cpp:
+pso/player/TObjPlayerMaterials.cpp:
 	.text       start:0x801AEB84 end:0x801AEE10
 
 pso/player/TObjPlayer_801AEE10.cpp:
 	.text       start:0x801AEE10 end:0x801AEF80
 
-pso/player/TObjPlayer_801AEFFC.cpp:
+pso/player/TObjPlayerSupportEffects.cpp:
 	.text       start:0x801AEF80 end:0x801AF290
 
 pso/player/TObjPlayer_801AF2F0.cpp:

@@ -29,11 +29,9 @@
 #include "pso/network/client_id.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/player/TObjPlayer_801AC0D8.h"
 #include "pso/effect/photon/TPhotonFarlla.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/effect/photon/TPhotonMylla.h"
-#include "pso/player/TObjPlayer_801AD47C.h"
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonLeilla.h"
 #include "pso/object/base/TObjMotion.h"
@@ -783,7 +781,7 @@ PhotonBlastLoadCallback photon_blast_load_callback_table[10] = {
     { create_estlla_photon_blast_model, destroy_estlla_photon_blast_model },
     { create_youlla_photon_blast_model, destroy_youlla_photon_blast_model },
     { create_mylla_photon_blast_model, destroy_mylla_photon_blast_model },
-    { TObjPlayer__sub_801AD480, TObjPlayer__sub_801AD47C },
+    { create_magic_square_photon_blast_model, destroy_magic_square_photon_blast_model },
     { load_photon_rainbow_resources, release_photon_rainbow_resources },
     { load_photon_laser_resources, release_photon_laser_resources },
 };

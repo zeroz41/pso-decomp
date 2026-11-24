@@ -1633,10 +1633,9 @@ pso/player/TObjPlayer_8011CEC0.cpp
 pso/player/TObjPlayer_8011E214.cpp
 pso/player/TObjPlayer_801542CC.cpp
 pso/player/TObjPlayer_80178150.cpp
-pso/player/TObjPlayer_801AD47C.cpp
-pso/player/TObjPlayer_801AEB84.cpp
+pso/player/TObjPlayerMaterials.cpp
 pso/player/TObjPlayer_801AEE10.cpp
-pso/player/TObjPlayer_801AEFFC.cpp
+pso/player/TObjPlayerSupportEffects.cpp
 pso/player/TObjPlayer_801AF2F0.cpp
 pso/player/TObjPlayer_801BC140.cpp
 pso/player/TObjPlayer_801BC194.cpp

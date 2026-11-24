@@ -33,4 +33,7 @@ struct TPhotonMagicSquare : public TObjBase {
 };
 
 LAYOUT_ASSERT(TPhotonMagicSquare_size, sizeof(TPhotonMagicSquare) == 0xD0);
+
+void destroy_magic_square_photon_blast_model(void);
+void create_magic_square_photon_blast_model(void);
 #endif
