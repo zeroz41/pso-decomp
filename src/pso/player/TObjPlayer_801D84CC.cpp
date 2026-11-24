@@ -144,7 +144,7 @@ TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(p
     joint_matrices = TObjPlayer__shared_model_buffer + this->get_entity_id() * 0xC00;
     init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), *player_ending_motion_object, 1);
     frame = src->frame;
-    set_action_flag_40();
+    pause_motion();
     push_matrix();
     translate_matrix_vec3(0, (u8 *)&position);
     rotate_matrix_y(0, rotation_y);

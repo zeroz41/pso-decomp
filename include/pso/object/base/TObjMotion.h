@@ -76,6 +76,9 @@ public:
     // Whether MOTION_BLENDING is set (a blend from previous_action is running).
     int is_motion_blending();
     void clear_motion_flags(s32 flags);
+    void pause_motion();
+    void resume_motion();
+    void set_frame(f32 frame);
     // The motion an action plays.
     NJS_MOTION *get_action_motion(s16 action);
     f32 get_action_frame_count(s16 action);
