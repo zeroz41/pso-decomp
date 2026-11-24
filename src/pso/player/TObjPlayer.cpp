@@ -1736,7 +1736,7 @@ struct O_801C21D4 { u8 pad[0x3a1]; u8 id; u8 pad2[0x408 - 0x3a2]; u8 arr[1]; };
 
 extern "C" {
 s32 __ct__12TPlyCharDataFv(s32 arg0);
-u8 get_record_byte_at(TPlyCharData *data, s32 tech);
+s32 get_record_byte_at(TPlyCharData *data, s32 tech);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
 
 
@@ -1806,8 +1806,8 @@ u8 TPlyCharData::get_class_flag_2() { return m_inventory.m_items[15].m_present[3
 u8 TPlyCharData::get_class_flag_1() { return m_inventory.m_items[14].m_present[3]; }
 u8 TPlyCharData::get_class_flag_0() { return m_inventory.m_items[13].m_present[3]; }
 
-u8 get_record_byte_at(TPlyCharData *data, s32 tech) {
-    return data->m_inventory.m_items[tech].m_present[2];
+s32 get_record_byte_at(TPlyCharData *data, s32 tech) {
+    return (u8)data->m_inventory.m_items[tech].m_present[2];
 }
 
 s32 TObjPlayer::get_slot_value_checked(s32 i) {

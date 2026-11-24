@@ -58,6 +58,7 @@
 #include "pso/ui/font/TFontSmallHelp.h"
 #include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TMainTask.h"
 #include <stddef.h>
 #include "pso/player/PlayerRequirementStats.h"
@@ -461,7 +462,6 @@ struct Msg_801BAB1C { u16 cmd; u16 id; s32 value; u8 pad8[8]; };
 
 
 
-void mark_player_killed(TObjPlayer *player);
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
@@ -473,7 +473,7 @@ bool TObjPlayer__sub_801AF694(TObjPlayer *player, s32 kind);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 s8 TObjPlayer__sub_801AFDBC(s8 cls);
-u8 is_on_current_floor__10TObjPlayerFi(saddr player);
+s32 is_on_current_floor__10TObjPlayerFi(TObjPlayer *player);
 void apply_camera_shake__10TObjPlayerFiii(saddr player, saddr target, s32 damage);
 void handle_6x8E(void);
 void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damage);
@@ -484,7 +484,6 @@ void TLobby__sub_801B09A4(void);
 
 void foreach_player__10TObjPlayerFv(s32 (*callback)(u32));
 void *handle_set_visible__10TObjPlayerFi(void *dst, void *src);
-void send_6x2F_change_player_hp(s32 id, s32 client, s32 hp);
 s32 calc_scaled_value__10TObjPlayerFii(TObjPlayer *player, s32 value);
 s32 build_player_class_stat_template(TObjPlayer *player, PlayerRequirementStats *out);
 void prepare_guild_return__10TObjPlayerFPv(void *player);
@@ -495,11 +494,9 @@ int get_result_entry__18TChallenge4PResultFPv(void* p);
 int get_field_340__18TChallenge4PResultFPv(void* p);
 int get_player_result__18TChallenge4PResultFPv(void* p);
 void handle_6x32_medical_center_revive_all_players(void);
-void recover_player_full(void *player);
 void submit_target_to_player_cursor(void *target, s32 id);
 void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst);
 Obj_801B4FD8 * init_player_join_record(Obj_801B4FD8 *self);
-void submit_cursor_candidate(void *self);
 void TObjPlayer__sub_801B5A44(saddr player, s32 secondary, s32 i, s32 action, s32 param);
 void TObjPlayer__sub_801B5AF8(saddr player, s32 index);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
@@ -511,7 +508,7 @@ void send_6x28_feed_mag(void *chara, s32 mag_id, s32 fed_item_id);
 s32 try_send_6x27_use_item(void *player, s32 key);
 bool is_target_in_facing_cone__10TObjPlayerFPv(void *self, Vec *target);
 void TObjPlayer__sub_801BA42C(void);
-void TObjPlayer__sub_801BBB70(void);
+void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 void clear_flag_4000_callback__10TObjPlayerFv(TObjPlayer *);
 InventoryItemList *__ct__17InventoryItemListFv(void *list);
 s32 TObjPlayer__sub_801BE8F4(void *, s32, s32);
@@ -596,7 +593,6 @@ extern const f32 player_shadow_range;
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 start_freeze_self__10TObjPlayerFv;
 }
 
-void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading);
 
 s16 item_equip_attach_equip_flag_table[10] = {0x3E, 0x3F, 0x18, 0x24, 0x32, 0x23, 0x30, 0x0A, 0x13, 0x00};
 
@@ -791,7 +787,7 @@ void TObjPlayer::release_action_palettes() {  }
 
 int TObjPlayer::reset_action_input() { return ((int (*)(void*))enable_action_input__10TObjPlayerFPv)(this); }
 
-void TObjPlayer__sub_801BBB70(void) {  }
+void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record) {}
 
 void TObjPlayer::setup_fresh_player_state(u8 *char_data) {
     this->hp = (s16) this->hpmax;
@@ -1490,7 +1486,7 @@ call3:
         run_action_state_phase(this->mode, 3);
         break;
     case 2:
-        if ((((s32 (*)(void *))is_on_current_floor__10TObjPlayerFi)(this) == 0) && (this->check_flag_4() == 0)) {
+        if ((is_on_current_floor__10TObjPlayerFi(this) == 0) && (this->check_flag_4() == 0)) {
             run_action_state_phase(0x16, 0);
             return;
         }
@@ -3555,7 +3551,7 @@ void handle_6x2C_impose_hold(G_ImposeHold_6x2C *command) {
     player->movement_hold.set_center(pkt.f8, pkt.fC);
     player->movement_hold.set_radius_sq(pkt.f10);
     player->set_state_flags(1);
-    if (player->check_flag_4() == 0 && ((s32 (*)(TObjPlayer *))is_on_current_floor__10TObjPlayerFi)(player) != 0) {
+    if (player->check_flag_4() == 0 && is_on_current_floor__10TObjPlayerFi(player) != 0) {
         TObjEneHoldEffect::create(player, pkt.f6, pkt.f4);
     }
 }
@@ -3761,7 +3757,7 @@ void submit_target_to_player_cursor(void *target, s32 id) {
     }
 }
 
-void submit_cursor_candidate(void *self) {
+void submit_cursor_candidate(void *self, s32) {
     s32 j;
     s32 i;
     TObjPlayer *o;
@@ -4864,7 +4860,7 @@ void handle_6x24_teleport_player(G_TeleportPlayer_6x24 *command) {
 }
 
 
-void send_6x2F_change_player_hp(s32 id, s32 client, s32 hp) {
+void send_6x2F_change_player_hp(s32 id, s32 client, s16 hp) {
     Msg_801B1E54 m;
 
     TObjChara *chara = (TObjChara *)get_player_by_client_id(id & 0xFFFF);
@@ -5766,11 +5762,11 @@ void TObjPlayer::sync_current_floor() {
     this->current_floor = get_current_floor();
 }
 
-u8 is_on_current_floor__10TObjPlayerFi(saddr player) {
+s32 is_on_current_floor__10TObjPlayerFi(TObjPlayer *player) {
     s32 current_floor;
     s32 player_floor;
     current_floor = get_current_floor();
-    player_floor = ((TObjPlayer *)player)->get_floor();
+    player_floor = player->get_floor();
     return (u8) (player_floor == current_floor);
 }
 

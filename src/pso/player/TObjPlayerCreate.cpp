@@ -35,6 +35,7 @@
 #include "pso/player/TPlyDispConfig.h"
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/player/TObjPlayer_80309D80.h"
+#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/player/TUnk_804C4540.h"
@@ -254,7 +255,7 @@ void TObjPlayer::reset_technique_caps() {}
 
 void TObjPlayer::release_technique_caps() {}
 
-extern "C" s32 get_record_byte_at(void *record, s32 index);
+extern "C" s32 get_record_byte_at(TPlyCharData *data, s32 tech);
 
 // A saved character's technique levels.
 void TObjPlayer::init_saved_technique_caps(TPlyCharData *record) {
@@ -395,8 +396,7 @@ void TObjPlayer::load_character_state(TPlyCharData *record) {
 
 extern "C" {
 
-s32 test_flags_any(void *, s32);
-s32 is_on_current_floor__10TObjPlayerFi(void *);
+s32 is_on_current_floor__10TObjPlayerFi(TObjPlayer *player);
 
 
 void TObjPlayer::update_action_animation() {
@@ -405,11 +405,11 @@ void TObjPlayer::update_action_animation() {
         this->update_position_from_target();
         return;
     }
-    if (is_on_current_floor__10TObjPlayerFi(arg0) != 0) {
+    if (is_on_current_floor__10TObjPlayerFi(this) != 0) {
         this->clear_state_flags(4);
         if (this->test_actor_flags(0x800) != 0) {
             run_action_state_phase(0xF, 0);
-            if (test_flags_any((u8 *)&this->death_flags, 1) != 0) {
+            if (test_flags_any((s32 *)&this->death_flags, 1) != 0) {
                 this->requested_action = this->get_action_animation();
             } else {
                 this->restart_death_pose();
@@ -516,7 +516,7 @@ TObjPlayer::~TObjPlayer() {
 
 extern "C" {
 void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record);
-void TObjPlayer__sub_801BBB70(void *, void *);
+void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 extern const char *TObjPlayer_name;
 }
 
