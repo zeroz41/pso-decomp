@@ -107,6 +107,8 @@ struct TObjPlayer : public TObjChara {
     void set_action_provider_variant(s16);
     void update_position_from_target();
     s16 get_idle_animation();
+    s16 get_mode_animation(u32 mode);
+    s16 get_current_mode_animation();
     void sub_801BB950();
     void handle_state2_transitions();
     void clear_state_flags(s32);

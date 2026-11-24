@@ -680,8 +680,6 @@ void draw_small_label__15TFontSmallLobbyFi(saddr player);
 void *TFontSmallLobby__sub_801B1224(void *dst, void *src);
 void TLobby__sub_801B1254(saddr player);
 void* draw_font__10TObjPlayerFPv(void* p);
-void TObjPlayer__sub_801B18C0(saddr player, u32 mode);
-void unequip_by_field326__10TObjPlayerFPv(void *player);
 void foreach_player__10TObjPlayerFv(s32 (*callback)(u32));
 void *handle_set_visible__10TObjPlayerFi(void *dst, void *src);
 void send_6x2F_change_player_hp(s32 id, s32 client, s32 hp);
@@ -774,7 +772,7 @@ s32 set_arrival_override_pos(u16, int, int);
 u32 create_lobby_marker__10TObjPlayerFsSc(u16 a0 = 0, s32 a1 = 0);
 void release_all_players_control_lock(void);
 s32 check_conditions__10TObjPlayerFv(void *, s16);
-u8 *TObjPlayer__sub_801CFBFC(u8 *arg0);
+s16 TObjPlayer__sub_801CFBFC(u8 *arg0);
 s32 TObjPlayer__sub_801D4368(TPlyItem *inventory);
 
 
@@ -1812,7 +1810,7 @@ void TObjPlayer::equip_item_to_slot(TItem *item, s32 slot) {
         item->equip();
     }
     if (test_action_mask(2) != 0) {
-        set_animation(((s16 (*)(void *))unequip_by_field326__10TObjPlayerFPv)(this));
+        set_animation(this->get_current_mode_animation());
     }
 }
 
@@ -1859,7 +1857,7 @@ void TObjPlayer::unequip_item(TItem *item) {
         unequip_all_units();
     }
     if (test_action_mask(2) != 0) {
-        set_animation(((s16 (*)(void *))unequip_by_field326__10TObjPlayerFPv)(this));
+        set_animation(this->get_current_mode_animation());
     }
 }
 
@@ -5293,55 +5291,41 @@ void TObjPlayer::play_phase_transition_sound(saddr child) {
     draw_chunk_object((void *)child);
 }
 
-void unequip_by_field326__10TObjPlayerFPv(void *player) {
-    TObjPlayer__sub_801B18C0((saddr)player, (u32)((TObjPlayer *)player)->mode);
+s16 TObjPlayer::get_current_mode_animation() {
+    return this->get_mode_animation(this->mode);
 }
 
-void TObjPlayer__sub_801B18C0(saddr player, u32 mode) {
+s16 TObjPlayer::get_mode_animation(u32 mode) {
     switch (mode) {
     default:
-        ((TObjPlayer *)player)->get_idle_animation();
-        return;
+        return this->get_idle_animation();
     case 2:
     case 3:
-        TObjPlayer__sub_801CFBFC((u8 *)player);
-        return;
+        return TObjPlayer__sub_801CFBFC((u8 *)this);
     case 4:
-        ((TObjPlayer *)player)->get_vobj_state_28();
-        return;
+        return this->get_vobj_state_28();
     case 5:
-        ((TObjPlayer *)player)->call_subobject_m15();
-        return;
+        return this->call_subobject_m15();
     case 6:
-        ((TObjPlayer *)player)->get_state();
-        return;
+        return this->get_state();
     case 7:
-        ((TObjPlayer *)player)->get_model_state();
-        return;
+        return this->get_model_state();
     case 8:
-        ((TObjPlayer *)player)->get_status();
-        return;
+        return this->get_status();
     case 9:
-        ((TObjPlayer *)player)->query_equip();
-        return;
+        return this->query_equip();
     case 10:
-        ((TObjPlayer *)player)->query_child_state();
-        return;
+        return this->query_child_state();
     case 11:
-        ((TObjPlayer *)player)->call_obj_vt26();
-        return;
+        return this->call_obj_vt26();
     case 12:
-        ((TObjPlayer *)player)->get_weapon_stat_c();
-        return;
+        return this->get_weapon_stat_c();
     case 13:
-        ((TObjPlayer *)player)->call_model_m24();
-        return;
+        return this->call_model_m24();
     case 14:
-        ((TObjPlayer *)player)->get_action_animation();
-        return;
+        return this->get_action_animation();
     case 15:
-        ((TObjPlayer *)player)->get_model_field_m25();
-        return;
+        return this->get_model_field_m25();
     }
 }
 
