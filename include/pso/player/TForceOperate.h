@@ -12,6 +12,7 @@ struct TForceOperate : public TObject {
     TForceOperate(TObject *parent, u16 id);
     virtual ~TForceOperate();
     TUnk_8013E020 m_1c;
+    static const char *class_name;
 };
 
 LAYOUT_ASSERT(TForceOperate_size, sizeof(TForceOperate) == 0x24);

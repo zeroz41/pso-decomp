@@ -127,13 +127,10 @@ extern const NJS_ARGB player_lobby_marker_color_table[13] = {
     { 1.0f, 0.0f, 0.0f, 0.0f },
 };
 
-extern const char TPlyOnCreated__class_name_string[] = "TPlyOnCreated";
-extern const char TPlyOnCountOver__class_name_string[] = "TPlyOnCountOver";
-extern const char TForceOperate__class_name_string[] = "TForceOperate";
-
-const char *TPlyOnCreated__name = TPlyOnCreated__class_name_string;
-const char *TPlyOnCountOver__name = TPlyOnCountOver__class_name_string;
-const char *TForceOperate__name = TForceOperate__class_name_string;
+#pragma readonly_strings on
+const char *TPlyOnCreated::class_name = "TPlyOnCreated";
+const char *TPlyOnCountOver::class_name = "TPlyOnCountOver";
+const char *TForceOperate::class_name = "TForceOperate";
 
 #pragma defer_codegen on
 
@@ -486,7 +483,7 @@ void *TPlyOnCreated::create(s32 client, int (*callback)(void *)) {
 }
 
 TPlyOnCreated::TPlyOnCreated(s32 client, int (*callback)(void *)) : TObject(tl_06) {
-    m_name = TPlyOnCreated__name;
+    m_name = class_name;
     player_id = client;
     this->callback = callback;
 }
@@ -507,7 +504,7 @@ void *TPlyOnCountOver::create(u16 player_id, s16 count, void (*callback)(TObjPla
 }
 
 TPlyOnCountOver::TPlyOnCountOver(u16 player_id, s16 count, void (*callback)(TObjPlayer *)) : TObject(tl_06) {
-    m_name = TPlyOnCountOver__name;
+    m_name = class_name;
     this->player_id = player_id;
     this->count = count;
     this->callback = callback;
@@ -731,7 +728,7 @@ void PlayerDeathSink::calc_height(TObjPlayer *player) {
 #pragma pop
 
 TForceOperate::TForceOperate(TObject *parent, u16 id) : TObject(parent) {
-    m_name = TForceOperate__name;
+    m_name = class_name;
     m_1c.set_field_0(id);
 }
 
