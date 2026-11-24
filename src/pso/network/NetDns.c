@@ -37,10 +37,10 @@ typedef struct DnsQueryHeader {
     u16 id;
     u8 flags_high;
     u8 flags_low;
-    s16 qd;
-    s16 an;
-    s16 ns;
-    s16 ar;
+    u16 qd;
+    u16 an;
+    u16 ns;
+    u16 ar;
 } DnsQueryHeader;
 
 typedef struct DnsQuestion {
@@ -894,7 +894,7 @@ s16 dns_parse_reply(DnsQuery *self)
   s32 len;
   DnsQuery *s;
   DnsBuffer *p;
-  u8 *hdr;
+  DnsQueryHeader *hdr;
   u8 *qname;
   u16 cnt;
   s16 n;
@@ -904,17 +904,17 @@ s16 dns_parse_reply(DnsQuery *self)
   s32 r;
   s = self;
   p = s->reply;
-  hdr = p->data;
+  hdr = (DnsQueryHeader *)p->data;
   len = p->len;
-  if ((*((u16 *) hdr)) != (u16) s->id)
+  if (hdr->id != (u16) s->id)
   {
     return -1;
   }
-  if (!(hdr[2] & 0x80))
+  if (!(hdr->flags_high & 0x80))
   {
     return -1;
   }
-  rcode = hdr[3] & 0xF;
+  rcode = hdr->flags_low & 0xF;
   switch (rcode)
   {
     case 1:
@@ -936,7 +936,7 @@ s16 dns_parse_reply(DnsQuery *self)
       return -1;
 
     case 0:
-      if ((*((u16 *)(hdr + 6))) == 0)
+      if (hdr->an == 0)
     {
       s->timer = 1;
       return -1;
@@ -945,9 +945,9 @@ s16 dns_parse_reply(DnsQuery *self)
 
   }
 
-  cur = hdr + DNS_HEADER_SIZE;
+  cur = (u8 *)hdr + DNS_HEADER_SIZE;
   len -= DNS_HEADER_SIZE;
-  t = *((u16 *)(hdr + 4));
+  t = hdr->qd;
   if (t != 0)
   {
     n = t;
@@ -961,7 +961,7 @@ s16 dns_parse_reply(DnsQuery *self)
     }
 
   }
-  cnt = *((u16 *)(hdr + 6));
+  cnt = hdr->an;
   if (cnt != 0)
   {
     while (((s16) cnt) > 0)
