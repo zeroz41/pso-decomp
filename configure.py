@@ -761,7 +761,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TLobby__sub_8034DAA0 addresses its four .rodata parameter records with a lis/addi each (no shared
     # .rodata base): built -pool off.
     "pso/npc/NpcPartnerControl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-pool off")},
-    "pso/npc/TNpcPlayer_80190E64.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/npc/TNpcTalkTrigger.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/panarms/TObjEnePanarmsAtkColli.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/seabed/TObjSeabedSuisoBrakable.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # The TLevelSelect ctor reaches each .rodata object with its own lis/addi (no shared base): -pool off.

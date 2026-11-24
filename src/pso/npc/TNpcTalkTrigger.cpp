@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/unk/TUnk_804B7C1C.h"
+#include "pso/npc/TNpcTalkTrigger.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/npc/TNpcPlayerSpawner.h"
@@ -8,8 +8,6 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/npc/TNpcPlayer_80190E64.h"
-#include "pso/unk/TLobby_80191218.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
@@ -19,36 +17,38 @@
 
 CollisionBody npc_player_collision_body_part = {{0.0f, 5.0f, 0.0f}, 7.0f, 50.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-extern "C" {
 int npc_proximity_target_id = -1;
-void TLobby__sub_80190FD0(int a0);
+
+extern "C" {
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 s32 queue_player_injured_pose();
 }
-void set_player_quest_control_flag(TObjPlayer *player);
 
 #pragma defer_codegen on
 int hashi_versus2_flag;
 
 
-void TObjHashiVersus2__sub_801912B0(void) { hashi_versus2_flag = 0; }
+// The quest opcodes p_noncol and p_col.
+extern "C" {
+void clear_hashi_versus2_flag(void) { hashi_versus2_flag = 0; }
 
-void TObjHashiVersus2__sub_801912A4(void) { hashi_versus2_flag = 1; }
+void set_hashi_versus2_flag(void) { hashi_versus2_flag = 1; }
+}
 
 void set_player_quest_control_flag(TObjPlayer *player) {
     player->set_state_flags(0x8000);
 }
 
 
-void TLobby__sub_80191270(void) { npc_proximity_target_id = -1; }
+void reset_npc_proximity_target_on_floor_load(void) { npc_proximity_target_id = -1; }
 
-void TLobby__sub_80191264(void) { npc_proximity_target_id = -1; }
+void reset_npc_proximity_target_on_floor_free(void) { npc_proximity_target_id = -1; }
 
 void *TLobby::create_npc(void *set_data) {
-    return new TUnk_804B7C1C(tl_05, set_data);
+    return new TNpcTalkTrigger(tl_05, set_data);
 }
 
-TUnk_804B7C1C::TUnk_804B7C1C(TObject *parent, void *set_data) : TObjCollidable(parent) {
+TNpcTalkTrigger::TNpcTalkTrigger(TObject *parent, void *set_data) : TObjCollidable(parent) {
     apply_object_set_data(set_data);
     npc_slot = 3;
     record = set_params[0];
@@ -57,7 +57,7 @@ TUnk_804B7C1C::TUnk_804B7C1C(TObject *parent, void *set_data) : TObjCollidable(p
     register_object_by_id();
 }
 
-TUnk_804B7C1C::~TUnk_804B7C1C() {
+TNpcTalkTrigger::~TNpcTalkTrigger() {
     unregister_object_by_id();
     free_collision_body_parts(this);
     if (npc_slot != 0xFFFF) {
@@ -68,7 +68,7 @@ TUnk_804B7C1C::~TUnk_804B7C1C() {
     }
 }
 
-void TUnk_804B7C1C::run_task() {
+void TNpcTalkTrigger::run_task() {
     TObjPlayer *player;
     if (npc_proximity_target_id == set_params[2]) {
         queue_destruction();
@@ -97,9 +97,9 @@ void TUnk_804B7C1C::run_task() {
     }
 }
 
-void TUnk_804B7C1C::render() {  }
+void TNpcTalkTrigger::render() {  }
 
-void TLobby__sub_80190FD0(int a0) { npc_proximity_target_id = a0; }
+void set_npc_proximity_target_id(int id) { npc_proximity_target_id = id; }
 
 
 TNpcPlayerSpawner::TNpcPlayerSpawner(const Vec *position, s32 heading, s32 slot, s32 record, s32 mode, TObject *parent)

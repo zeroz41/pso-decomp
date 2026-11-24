@@ -4,7 +4,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 
-// Made by TUnk_804B7C1C when the local player comes near: waits for
+// Made by TNpcTalkTrigger when the local player comes near: waits for
 // npcplayerchar.dat to load, then its destructor creates the NPC player in
 // slot and teleports it to position.
 class TNpcPlayerSpawner : public TObject {

@@ -83,6 +83,7 @@ int qst_label_address(int label);
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 
 #include "pso/npc/TNpcPlayer.h"
+#include "pso/npc/TNpcTalkTrigger.h"
 #include "pso/camera/TCineCtrl.h"
 #include "pso/object/switch/TOChatSensor.h"
 #include "pso/object/collision/TOSymbolchatColli.h"
@@ -880,9 +881,8 @@ f32 xyz_distance_squared(u8 *point_a, u8 *point_b);
 void *find_entity_by_id(u16 id);
 void TOMineTrap__sub_80171368(f32);
 int clear_enabled_main_warps(void*);
-void TLobby__sub_80190FD0(int a0);
-int TObjHashiVersus2__sub_801912A4(void*);
-int TObjHashiVersus2__sub_801912B0(void*);
+int set_hashi_versus2_flag(void*);
+int clear_hashi_versus2_flag(void*);
 s32 TObjPlayer__sub_801AF904();
 void draw_small_label__15TFontSmallLobbyFi(saddr player);
 void TLobby__sub_801B1254(saddr player);
@@ -4153,7 +4153,7 @@ void qst_op_switch_on(void) {
 }
 
 void qst_op_npc_talk_kill(void) {
-    TLobby__sub_80190FD0((qst_args[0]));
+    set_npc_proximity_target_id((qst_args[0]));
 }
 void qst_op_npc_talk_pl(u8 regs) {
     s32 i;
@@ -4622,9 +4622,9 @@ void qst_op_pl_walk(u8 regs) {
 void qst_op_p_look(void) {
     quest_player_look_at_partner((u16) qst_args[0]);
 }
-int qst_op_p_col(void* p) { return TObjHashiVersus2__sub_801912A4(p); }
+int qst_op_p_col(void* p) { return set_hashi_versus2_flag(p); }
 
-int qst_op_p_noncol(void* p) { return TObjHashiVersus2__sub_801912B0(p); }
+int qst_op_p_noncol(void* p) { return clear_hashi_versus2_flag(p); }
 
 void qst_op_enable_movement1(void) {
     send_code_45_to_player((u16) qst_args[0]);
@@ -4713,7 +4713,6 @@ extern "C" {
 void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z);
 void queue_player_injured_pose(s32 player);
 }
-void set_player_quest_control_flag(TObjPlayer *player);
 
 void qst_op_npc_crptalk_id(u8 first) {
     f32 pos[3];

@@ -33,7 +33,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/TFogCtrl.h"
 #include "pso/npc/NpcPartnerControl.h"
-#include "pso/unk/TLobby_80191218.h"
+#include "pso/npc/TNpcTalkTrigger.h"
 #include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/effect/TEffIndirectCtrl.h"
 #include "pso/unk/TLobby_802D3970.h"
@@ -87,7 +87,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {load_particle_entry_resources, TParticleCtrl::free_all},
     {TFogCtrl::update_fog_entries, TFogCtrl::release_fog_entries},
     {init_partner_dialogue, release_partner_dialogue},
-    {TLobby__sub_80191270, TLobby__sub_80191264},
+    {reset_npc_proximity_target_on_floor_load, reset_npc_proximity_target_on_floor_free},
     {TLobby__sub_8007BBEC, TLobby__sub_8007BBF8},
     {reset_and_init_capture_texture, reset_and_release_capture_texture},
     {TObjPlayer__sub_80083F38, (FloorResourceCallback)TObjPlayer__sub_80083F04},

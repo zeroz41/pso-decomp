@@ -930,7 +930,7 @@ pso/ui/hud/TNowLoading.cpp
 pso/npc/TNpcPlayer.cpp
 pso/npc/TNpcPlayer_800D87A8.cpp
 pso/npc/TNpcPlayer_8014DADC.cpp
-pso/npc/TNpcPlayer_80190E64.cpp
+pso/npc/TNpcTalkTrigger.cpp
 pso/npc/TNpcPlayer_802C3CD0.cpp
 pso/npc/NpcPartnerControl.cpp
 pso/object/cave/TOAirconCave01.cpp

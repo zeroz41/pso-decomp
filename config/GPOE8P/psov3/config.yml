@@ -2479,7 +2479,7 @@ force_active:
   - __dt__13TUnk_804A6DC0Fv
   - __dt__13TUnk_804AF7B0Fv
   - __dt__17TNpcPlayerSpawnerFv
-  - __dt__13TUnk_804B7C1CFv
+  - __dt__15TNpcTalkTriggerFv
   - __dt__13TUnk_804C4498Fv
   - __dt__13TUnk_804C8678Fv
   - __dt__11TTecAntiEffFv
@@ -3249,7 +3249,7 @@ force_active:
   - __vt__13TObjNpcFemale
   - __vt__13TUnk_804AF7B0
   - __vt__17TNpcPlayerSpawner
-  - __vt__13TUnk_804B7C1C
+  - __vt__15TNpcTalkTrigger
   - __vt__13TUnk_804B97C0
   - __vt__13TUnk_804C4498
   - __vt__11TQuadSprite
@@ -14186,7 +14186,7 @@ force_active:
   - render__21TItemShootRocketPunchFv
   - render__13TWeaponCasingFv
   - render__13TUnk_804B5C08Fv
-  - render__13TUnk_804B7C1CFv
+  - render__15TNpcTalkTriggerFv
   - render__13TUnk_804CC870Fv
   - render__13TUnk_804CCB28Fv
   - render__22TWindowComCardFollowerFv
@@ -14876,7 +14876,7 @@ force_active:
   - run_task__13TWeaponCasingFv
   - run_task__13TUnk_804B5C08Fv
   - run_task__17TNpcPlayerSpawnerFv
-  - run_task__13TUnk_804B7C1CFv
+  - run_task__15TNpcTalkTriggerFv
   - run_task__13TUnk_804C8678Fv
   - run_task__11TTecAntiEffFv
   - run_task__10TTecCircleFv
