@@ -27,8 +27,8 @@ void GXLoadTlut(GXTlutObj* obj, u32 idx);
 void GXSetTexCoordScaleManually(GXTexCoordID coord, GXBool enable, u16 ss, u16 ts);
 void GXInitTexCacheRegion(GXTexRegion* region, GXBool is_32b_mipmap, u32 tmem_even, GXTexCacheSize size_even,
                           u32 tmem_odd, GXTexCacheSize size_odd);
-GXTexRegionCallback GXSetTexRegionCallback(GXTexRegionCallback callback);
-GXTlutRegionCallback GXSetTlutRegionCallback(GXTlutRegionCallback callback);
+GXTexRegionCallback GXSetTexRegionCallback(GXTexRegionCallback f);
+GXTlutRegionCallback GXSetTlutRegionCallback(GXTlutRegionCallback f);
 void GXInvalidateTexRegion(GXTexRegion* region);
 void GXInitTlutRegion(GXTlutRegion* region, u32 tmem_addr, GXTlutSize tlut_size);
 void GXSetTexCoordBias(GXTexCoordID coord, u8 s_enable, u8 t_enable);
