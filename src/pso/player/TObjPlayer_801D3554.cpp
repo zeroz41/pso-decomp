@@ -5,10 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyItem.h"
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-struct ByteBlock_14 { u8 bytes[0x14]; };
+#pragma dont_inline on
 
 void TObjPlayer::insert_item_node(TUnk_804C445C *pool, Vec *position, TObjPlayer *owner, TItemData *item, s32 id) {
     Unk_801C2098 *slot = TItemList__sub_801D5868(pool, 0);
@@ -34,7 +31,7 @@ void create_drop_nodes__9TItemListFPvPvPvPvi(TUnk_804C445C *pool, Vec *position,
     for (i = 0; i < count; i++) {
         if (TItemList__sub_801D5844(slot) != 0) {
             TItemList__sub_801D5838(slot);
-            copy_drop_node(reinterpret_cast<u8 *>(entry), reinterpret_cast<u8 *>(records));
+            *entry = *records;
             reinterpret_cast<void (*)(void *, void *, void *, s32)>(&TItemList::create_node)(pool, owner, position, i);
             TItemList__sub_801D5804(pool);
             ++slot;
@@ -45,18 +42,11 @@ void create_drop_nodes__9TItemListFPvPvPvPvi(TUnk_804C445C *pool, Vec *position,
 }
 }
 
-u8 *copy_drop_node(u8 *dst, u8 *src) {
-    u8 *src_tail;
-    u8 *dst_tail;
-    fn_801D371C(dst, src);
-    dst_tail = (dst + 4);
-    src_tail = (src + 4);
-    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
-    *(ByteBlock_14 *)((saddr) dst_tail + 4) = *(const ByteBlock_14 *)((saddr) src_tail + 4);
-    return dst;
+Unk_801C2098 &Unk_801C2098::operator=(const Unk_801C2098 &other) {
+    state = other.state;
+    return *this;
 }
 
-void fn_801D371C(void* dst, void* src) { *(u32*)((char*)dst + 0x0) = *(u32*)((char*)src + 0x0); }
 void start_placement_search(TUnk_804C4450 *pool, Vec *pos, TObjBase *source) {
     TItemList__sub_801D5838(TItemList__sub_801D5868(pool, 0));
     TItemList__sub_801D3B00(pool, source, pos, 0);

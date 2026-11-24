@@ -17,6 +17,7 @@ class TPlyInventoryItem;
 struct Unk_801C2098 {
     s32 state;
     Unk_801C2098();
+    Unk_801C2098 &operator=(const Unk_801C2098 &other);
 };
 struct Unk_801D5CB8 {
     Unk_801C2098 head;
