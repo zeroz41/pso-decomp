@@ -8,7 +8,7 @@ struct NJS_OBJECT;
 #include "pso/player/PlayerTechniqueState.h"
 #include "pso/player/PlayerPadBinding.h"
 #include "pso/player/TPlyDispConfig.h"
-#include "pso/player/TObjPlayer_80337348.h"
+#include "pso/player/MaterialUsage.h"
 #include "pso/player/PlayerFollowParticles.h"
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/player/PlayerScaleState.h"

@@ -1,8 +1,6 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_80337348.h"
-#include "pso/player/TObjPlayer.h"
+#include "pso/player/MaterialUsage.h"
 
-extern "C" {
 s32 MaterialUsage::try_add_item_count(s32 class_index, s32 index, u8 amount) {
     u8 total_materials_used;
 
@@ -20,7 +18,6 @@ s32 MaterialUsage::can_use_more_materials(s32 class_index) {
         return 1;
     }
     return 0;
-}
 }
 
 u8 MaterialUsage::get_total_materials_used() {
@@ -59,4 +56,12 @@ MaterialUsage::MaterialUsage() {
     for (i = 0; i < 8; i++) {
         counts[i] = 0;
     }
+}
+
+void MaterialUsage::set_count(s32 index, u8 count) {
+    counts[index] = count;
+}
+
+u8 MaterialUsage::get_count(s32 index) {
+    return counts[index];
 }
