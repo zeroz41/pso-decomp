@@ -432,7 +432,7 @@ s32 TLobby__sub_800712D8(s32 idx, s32 value, s32 arg) {
 s32 *TLobby__sub_800713C8(void) {
     CharacterSaveRecord *character_save_record;
     character_save_record = (CharacterSaveRecord *)get_character_save_record(0xFFFFU);
-    decode_obfuscated_string((char *)&lbl_804FF82C.value, character_save_record->name, 0xC);
+    decode_obfuscated_string((char *)&lbl_804FF82C.value, character_save_record->challenge.rank_title, 0xC);
     return &lbl_804FF82C.value;
 }
 #define challenge_mode_state (*(s8 (*)[1])challenge_mode_state)

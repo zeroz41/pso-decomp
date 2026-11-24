@@ -202,7 +202,7 @@ s32 dispatch_chat_message_to_children__12TOChatSensorFl();
 }
 void append_episode_progress_string(void);
 void append_entered_item_name_pair(void);
-void append_split_screen_hero_name(void);
+void append_challenge_title(void);
 s32 parse_f_index(const char *a0);
 void append_hero_name(void);
 void append_hero_class_name(void);
@@ -248,7 +248,7 @@ const CmdTable_801E6604 message_substitution_handlers = { {
     { "hero job", append_hero_class_name },
     { "time", append_episode_progress_string },
     { "award item", append_entered_item_name_pair },
-    { "challenge title", append_split_screen_hero_name },
+    { "challenge title", append_challenge_title },
     { "pl_name", append_player_name },
     { "pl_job", TLobby::append_default_string },
     { "last_word", TLobby::append_card_window_text },
@@ -431,10 +431,10 @@ s32 parse_r_index(const char *text) {
 
 u8 *quest_script_read_ptr;
 
-void append_split_screen_hero_name(void) {
+void append_challenge_title(void) {
     char buf[0x40];
     if (is_split_screen() == 1) {
-        sprintf(buf, "%s", get_active_character_name());
+        sprintf(buf, "%s", get_active_challenge_title());
     } else {
         sprintf(buf, "%s", TLobby__sub_800713C8());
     }
