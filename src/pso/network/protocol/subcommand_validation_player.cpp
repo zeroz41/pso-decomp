@@ -9,14 +9,14 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/PlayerScaleState.h"
 
 extern "C" {
-
 u16 TObjRoomId__sub_801A1DB8(u16);
+}
 
 s32 validate_attack_target_entry(void *parameters) {
     return ((u32) *(s16 *)((s8 *)parameters + 2) >> 0x1FU) ^ 1;
-}
 }
 
 s32 validate_6x45_attack(G_ClientIDHeader *packet) {
@@ -98,23 +98,20 @@ s32 validate_6x3E_stop_at_position(G_ClientIDHeader *packet) {
     }
     return vec_has_nonfinite((Vec *)((u8 *)packet + 0xC)) ? 0 : 1;
 }
-extern "C" {
-
 s32 validate_6x88_restore_shrunken_player(G_ClientIDHeader *packet) {
     return validate_subcommand_client(packet) ? 1 : 0;
 }
 
-s32 validate_6x87_shrink_player(G_ClientIDHeader *packet) {
-    f32 temp_f1;
-    if (validate_subcommand_client(packet) == 0) {
+s32 validate_6x87_shrink_player(PlayerShrinkPacket *packet) {
+    f32 scalar;
+    if (validate_subcommand_client(&packet->header) == 0) {
         return 0;
     }
-    temp_f1 = *(f32 *)((s8 *)packet + 4);
-    if ((temp_f1 < 0.0f) || (temp_f1 > 1e+01f)) {
+    scalar = packet->scalar;
+    if ((scalar < 0.0f) || (scalar > 1e+01f)) {
         return 0;
     }
     return 1;
-}
 }
 
 s32 validate_6x83_place_trap(G_ClientIDHeader *packet) {
@@ -141,11 +138,11 @@ s32 validate_6x39_set_photon_blast_ready_flag(G_ClientIDHeader *packet) {
     return validate_subcommand_client(packet) ? 1 : 0;
 }
 
-s32 validate_6x38_donate_to_photon_blast(G_ClientIDHeader *packet) {
-    if (validate_subcommand_client(packet) == 0) {
+s32 validate_6x38_donate_to_photon_blast(G_DonateToPhotonBlast_6x38 *packet) {
+    if (validate_subcommand_client(&packet->header) == 0) {
         return 0;
     }
-    return (u32) __cntlzw(TObjRoomId__sub_801A1DB8(*(u16 *)((s8 *)packet + 4))) >> 5;
+    return (u32) __cntlzw(TObjRoomId__sub_801A1DB8(packet->target_client_id)) >> 5;
 }
 
 s32 validate_6x37_photon_blast(G_ClientIDHeader *packet) {
@@ -155,11 +152,11 @@ s32 validate_6x37_photon_blast(G_ClientIDHeader *packet) {
     return ((u32) *(s16 *)((s8 *)packet + 4) >> 0x1FU) ^ 1;
 }
 
-s32 validate_6x33_revive_player(G_ClientIDHeader *packet) {
-    if (validate_subcommand_client(packet) == 0) {
+s32 validate_6x33_revive_player(G_RevivePlayer_6x33 *packet) {
+    if (validate_subcommand_client(&packet->header) == 0) {
         return 0;
     }
-    return (u32) __cntlzw(TObjRoomId__sub_801A1DB8(*(u16 *)((s8 *)packet + 4))) >> 5;
+    return (u32) __cntlzw(TObjRoomId__sub_801A1DB8(packet->client_id2)) >> 5;
 }
 
 s32 validate_6xA1_revive_player_v3(G_ClientIDHeader *packet) {
@@ -226,15 +223,15 @@ s32 validate_6x2D_release_hold(G_ClientIDHeader *packet) {
     return validate_subcommand_client(packet) ? 1 : 0;
 }
 
-s32 validate_6x2C_impose_hold(G_ClientIDHeader *packet) {
+s32 validate_6x2C_impose_hold(G_ImposeHold_6x2C *packet) {
     u32 cond;
-    if (validate_subcommand_client(packet) == 0) {
+    if (validate_subcommand_client(&packet->header) == 0) {
         return 0;
     }
-    if (has_nonfinite_position((f32 *)((u8 *)packet + 8)) != 0) {
+    if (has_nonfinite_position(&packet->x) != 0) {
         return 0;
     }
-    cond = (*(f32 *)((s8 *)((u8*)packet) + 0x10) < 0.0f);
+    cond = (packet->trigger_radius2 < 0.0f);
     return (u32)__cntlzw(cond) >> 5;
 }
 

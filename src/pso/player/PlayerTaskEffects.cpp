@@ -294,7 +294,7 @@ void handle_6x87_shrink_player(const PlayerShrinkPacket* input) {
     packet.initialize();
     packet.copy_from(*input);
     packet.byte_swap();
-    if (validate_6x87_shrink_player(&packet.header)) {
+    if (validate_6x87_shrink_player(&packet)) {
         TObjPlayer* player = get_player_by_client_id(packet.header.client_id);
         if (player && TObjPlayer::check_camera_mode())
             player->scale_state.shrink(packet.scalar);

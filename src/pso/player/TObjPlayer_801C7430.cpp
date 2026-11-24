@@ -3721,7 +3721,7 @@ void handle_6x33_revive_player(G_RevivePlayer_6x33 *command) {
     ((TObjPlayer *)(&m))->init_6x33_packet();
     ((void (*)(void *, void *))TObjPlayer__sub_801D2058)(&m, command);
     ((TObjPlayer *)(&m))->bswap_coords();
-    if (validate_6x33_revive_player((G_ClientIDHeader *)&m) != 0) {
+    if (validate_6x33_revive_player((G_RevivePlayer_6x33 *)&m) != 0) {
         p = (Player_801CCA84 *)get_player_by_client_id(m.id);
         if (p != NULL) {
             q = (Player_801CCA84 *)get_player_by_client_id(m.target);

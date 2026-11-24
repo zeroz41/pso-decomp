@@ -4285,7 +4285,7 @@ void handle_6x2C_impose_hold(G_ImposeHold_6x2C *command) {
     ((TObjPlayer *)(&pkt))->build_6x2C_impose_hold_packet();
     ((TObjPlayer *)(&pkt))->copy_hold_params((u8 *)command);
     bswap_pkt_u16x2_u32__10TObjPlayerFPv(&pkt);
-    if (validate_6x2C_impose_hold((G_ClientIDHeader *)&pkt) == 0) {
+    if (validate_6x2C_impose_hold((G_ImposeHold_6x2C *)&pkt) == 0) {
         return;
     }
     player = get_player_by_client_id(pkt.client);
