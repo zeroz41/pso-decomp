@@ -1,4 +1,5 @@
 /* Ninja's texture reload: only textures already in memory can be reloaded. */
+#define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
 #include "types.h"
 #include "pso/render/nuReLoadTexture.h"

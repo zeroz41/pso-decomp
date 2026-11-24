@@ -1,4 +1,5 @@
 /* Ginja's lights: the ambient colour, the colour channel's light mask and the five GX light objects. */
+#define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
 #include <dolphin/gx.h>
 #include "types.h"
