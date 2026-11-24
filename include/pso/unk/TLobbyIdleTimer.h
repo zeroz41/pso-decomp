@@ -16,4 +16,7 @@ public:
 };
 LAYOUT_ASSERT(TLobbyIdleTimer_size, sizeof(TLobbyIdleTimer) == 0x2C);
 
+// The idle time allowed for the client, from its character's idle timeout setting.
+s32 get_idle_timeout_limit(u32 client_id);
+
 #endif

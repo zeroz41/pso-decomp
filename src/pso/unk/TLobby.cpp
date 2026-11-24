@@ -465,7 +465,7 @@ void TLobby::update_idle_timeout(void *object) {
             lobby_idle_timeout_window = 0;
         }
     }
-    t->limit = ((TLobby *)(saddr)local_client_id)->get_table_entry_by_index();
+    t->limit = get_idle_timeout_limit(local_client_id);
     elapsed = t->now - t->start;
     switch (t->state) {
     case 0:
@@ -502,7 +502,7 @@ u8 *init_idle_timeout_timer(u8 *timer, saddr parent) {
     getDateStamp(&date);
     DateToSeconds(&date, (int *)(timer + 0x1C));
     t->start = t->now;
-    t->limit = ((TLobby *)(saddr)local_client_id)->get_table_entry_by_index();
+    t->limit = get_idle_timeout_limit(local_client_id);
     t->state = 0;
     lobby_idle_timeout_window = 0;
     return timer;
