@@ -611,8 +611,6 @@ void handle_6x6F_set_quest_flags_v2(saddr pkt) {
 #pragma pop
 
 void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
-  u8 *new_var;
-  u8 *new_var2;
   void *tmp;
   GameStateSyncScratch *buf;
   s32 n;
@@ -625,12 +623,10 @@ void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
       tmp = ::operator new(0x7230);
       if (tmp != 0)
       {
-        new_var2 = buf->payload;
-        new_var = new_var2;
         TLobby__sub_8013F810(tmp, pkt->data, pkt->total_size, buf);
         ::operator delete(tmp);
         TLobby::bswap_6x6E_sync_game_state(buf);
-        apply_floor_set_flags_packet(reinterpret_cast<FloorSetFlagsHeader *>(new_var), buf->floor_flags_size);
+        apply_floor_set_flags_packet(reinterpret_cast<FloorSetFlagsHeader *>(buf->payload), buf->floor_flags_size);
         n = buf->floor_flags_size;
         import_sync_records__6TLobbyFPs(&buf->payload[n], buf->sync_records_size);
 
@@ -1684,8 +1680,7 @@ void TLobby::close_and_send_text_list() {
     protocol_instance->send_text_list();
 }
 void TLobby::open_keyboard_window() {
-    saddr var_r0;
-    s32 tmp_r3;
+    s32 window_layout_position;
 
     if (current_dialog_window != 0U) {
         current_dialog_window->close();
@@ -1693,8 +1688,8 @@ void TLobby::open_keyboard_window() {
     }
     if (lobby_keyboard_prompt_window == NULL) {
         static const char *blank_entry = " ";
-        tmp_r3 = (saddr)get_window_layout_position(0xC3);
-        lobby_keyboard_prompt_window = (TWindowMenu *)create_window_menu_default(tmp_r3, 2);
+        window_layout_position = (saddr)get_window_layout_position(0xC3);
+        lobby_keyboard_prompt_window = (TWindowMenu *)create_window_menu_default(window_layout_position, 2);
         lobby_keyboard_prompt_window->add_text_entry(TLobby::get_seq_phase(0x44), 2, 0);
         lobby_keyboard_prompt_window->add_text_entry((saddr)blank_entry, 2, 1);
         lobby_keyboard_prompt_window->calc_window_size();
@@ -2066,19 +2061,16 @@ void TLobby::queue_static_object_destruction() {
 }
 void TLobby::send_position_update() {
     s32 event_counter;
-    s32 temp_r4;
+    s32 player_count;
 
     event_counter = TAdSinglePlyChrSelectGC::increment_frame();
-    temp_r4 = TAdSinglePlyChrSelectGC::get_player_count();
-    protocol_instance->send_character_save_info(temp_r4, event_counter);
+    player_count = TAdSinglePlyChrSelectGC::get_player_count();
+    protocol_instance->send_character_save_info(player_count, event_counter);
 }
 void TLobby::handle_state(int checksum_ok) {
-    s32 temp_r3;
-
     if (checksum_ok != 0) {
         TAdSinglePlyChrSelectGC::save_online_character();
-        temp_r3 = TLobby__sub_80146740();
-        switch (temp_r3) {
+        switch (TLobby__sub_80146740()) {
         case 0:
             protocol_instance->send_server_time_request();
             return;
