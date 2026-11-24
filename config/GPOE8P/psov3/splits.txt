@@ -4964,20 +4964,8 @@ pso/ui/frontend/TAdSinglePlyChrSelectGC_801C50A8.cpp:
 	.sbss       start:0x805D5DD0 end:0x805D5DD8
 	.sdata2     start:0x805DC308 end:0x805DC320
 
-pso/unk/text_801C53D4.cpp:
-	.text       start:0x801C53D4 end:0x801C543C
-
-pso/unk/text_801C543C.cpp:
-	.text       start:0x801C543C end:0x801C5454
-
-pso/unk/text_801C5454.cpp:
-	.text       start:0x801C5454 end:0x801C5470
-
-pso/unk/text_801C5470.cpp:
-	.text       start:0x801C5470 end:0x801C5558
-
-pso/player/TObjPlayer_801C5558.cpp:
-	.text       start:0x801C5558 end:0x801C57D0
+pso/player/PlayerTrapCounts.cpp:
+	.text       start:0x801C53D4 end:0x801C57D0
 
 pso/player/PlayerTaskEffects.cpp:
 	.text       start:0x801C57D0 end:0x801C7430

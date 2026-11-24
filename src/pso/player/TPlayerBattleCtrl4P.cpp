@@ -10,7 +10,7 @@
 #include "pso/unk/text_801C23A8.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_801C4F80.h"
-#include "pso/unk/text_801C5454.h"
+#include "pso/player/PlayerTrapCounts.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItem.h"
 #include "types.h"

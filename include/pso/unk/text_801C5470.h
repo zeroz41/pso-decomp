@@ -4,13 +4,7 @@
 #include "types.h"
 
 extern "C" {
-s32 are_trap_counts_full(s8 *counts, s32 level, s8 classId);
+s32 are_trap_counts_full(s8 *counts, s32 level, s8 char_class);
 }
-
-// --- C functions defined in text_801C5470.cpp ---
-extern "C" {
-s32 are_trap_counts_full(s8 *counts, s32 level, s8 classId);
-}
-// --- end of C functions
 
 #endif

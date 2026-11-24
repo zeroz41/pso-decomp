@@ -1646,7 +1646,7 @@ pso/player/TObjPlayer_801BDF5C.cpp
 pso/player/TObjPlayer_801C00C4.cpp
 pso/player/TObjPlayer_801C0808.cpp
 pso/player/TObjPlayer_801C1FF8.cpp
-pso/player/TObjPlayer_801C5558.cpp
+pso/player/PlayerTrapCounts.cpp
 pso/player/TObjPlayer_801C7430.cpp
 pso/player/TObjPlayer_801D2E20.cpp
 pso/player/PlayerItemDrops.cpp
@@ -1930,10 +1930,6 @@ pso/unk/text_801A2B38.cpp
 pso/unk/TUnk_804C2298.cpp
 pso/ui/frontend/TAdDialingGC_801A4C90.cpp
 pso/unk/text_801A5778.cpp
-pso/unk/text_801C53D4.cpp
-pso/unk/text_801C543C.cpp
-pso/unk/text_801C5454.cpp
-pso/unk/text_801C5470.cpp
 pso/unk/text_801D34E0.cpp
 pso/unk/text_801D6D60.cpp
 pso/unk/text_801D6D8C.cpp

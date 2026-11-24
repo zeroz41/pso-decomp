@@ -48,6 +48,7 @@
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
+#include "pso/player/PlayerTrapCounts.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -188,7 +189,6 @@ s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
 void init__6TLobbyFPv(void *arg0);
 void TLobby__sub_8020BB18(void);
 void TLobby__sub_8020BCE4(void);
-void clear_trap_counts(s8 *arg0);
 
 extern saddr tl_00;
 extern saddr tl_01;
