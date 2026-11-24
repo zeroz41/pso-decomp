@@ -140,7 +140,7 @@ void TAdPlyPltAnimCtrlGC::render() {
     }
 }
 
-u8 fn_8035510C(s32 *arg0, s32 arg1) {
+s32 fn_8035510C(s32 *arg0, s32 arg1) {
     return (u8) (arg1 == (arg1 & *arg0));
 }
 }

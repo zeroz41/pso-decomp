@@ -9,7 +9,7 @@ extern "C" {
 void run_palettex_callback(u16 client_index);
 void set_palettex_callback(u16 client_index, s32 label);
 // is_palettex_enabled.
-u8 TObjPlayer__sub_80354C7C(u16 client_index);
+s32 TObjPlayer__sub_80354C7C(u16 client_index);
 // disable_palettex.
 void TObjPlayer__sub_80354CCC(u16 client_index);
 // enable_palettex.

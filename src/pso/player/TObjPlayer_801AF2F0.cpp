@@ -139,6 +139,7 @@
 #include "pso/player/PlayerSyncRecord.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/player/TObjPlayer_801D6C4C.h"
+#include "pso/player/Palettex.h"
 
 #pragma readonly_strings on
 
@@ -557,7 +558,6 @@ s32 validate_6xAE_set_animation_state(void *);
 s32 fn_8000F740(void *);
 void run_palettex_callback(u16);
 s32 is_palettex_activated(u16);
-s32 TObjPlayer__sub_80354C7C(u16 client_index);
 s32 is_local_client(u16 client_index);
 void reset_client_quest_slot_table(void);
 s32 fn_8036B748(void *);

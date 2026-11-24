@@ -29,7 +29,7 @@ LAYOUT_ASSERT(TAdPlyPltAnimCtrlGC_size, sizeof(TAdPlyPltAnimCtrlGC) == 0x2C);
 
 extern "C" {
 void TAdPlyPltAnimCtrlGC__sub_80355168(u8 *arg0);
-u8 fn_8035510C(s32 *arg0, s32 arg1);
+s32 fn_8035510C(s32 *arg0, s32 arg1);
 }
 
 #endif

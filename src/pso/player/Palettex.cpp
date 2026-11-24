@@ -17,7 +17,7 @@ struct PalettexState {
     void run_callback();
     s32 get_callback_label();
     void set_callback_label(s32 label);
-    u8 is_enabled();
+    s32 is_enabled();
     void disable();
     void enable();
     s32 is_activated();
@@ -62,7 +62,7 @@ void set_palettex_callback(u16 client_index, s32 label) {
     }
 }
 
-u8 TObjPlayer__sub_80354C7C(u16 client_index) {
+s32 TObjPlayer__sub_80354C7C(u16 client_index) {
     if (is_local_client(client_index) != 0) {
         return palettex_states[client_index].is_enabled();
     }
@@ -133,7 +133,7 @@ static void destroy_palettex_states() {
 
 inline s32 PalettexState::get_callback_label() { return callback_label; }
 inline void PalettexState::set_callback_label(s32 label) { callback_label = label; }
-inline u8 PalettexState::is_enabled() { return fn_8035510C(&flags.bits, 3); }
+inline s32 PalettexState::is_enabled() { return fn_8035510C(&flags.bits, 3); }
 inline void PalettexState::disable() { flags.clear(2); }
 inline void PalettexState::enable() { flags.set(3); }
 inline s32 PalettexState::is_activated() { return test_flags_any(&flags.bits, 1); }
