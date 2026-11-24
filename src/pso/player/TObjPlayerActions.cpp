@@ -2276,37 +2276,32 @@ void TObjPlayer::fall_reaction_phase2_nop() {  }
 void TObjPlayer::check_and_trigger_19_5() { if (check_flag30_bit20() != 0) { run_action_state_phase(19, 5); } }
 
 void TObjPlayer::run_fall_reaction_phase(s16 phase) {
-  void *new_var;
-  {
-    switch (phase)
-    {
-      case 7:
-        this->check_and_trigger_19_5();
+    switch (phase) {
+    case 7:
+        check_and_trigger_19_5();
         return;
-      case 2:
+    case 2:
         fall_reaction_phase2_nop();
         return;
-      case 3:
-        ((TObjPlayer *)(new_var = this))->complete_fall_reaction();
+    case 3:
+        complete_fall_reaction();
         return;
-      case 8:
+    case 8:
         fall_reaction_phase8_nop();
         return;
-      case 5:
-        this->begin_fall_reaction();
+    case 5:
+        begin_fall_reaction();
         return;
-      new_var = this;
-      case 0:
-        ((TObjPlayer *)new_var)->start_action_0e();
+    case 0:
+        start_action_0e();
         return;
-      case 1:
-        ((TObjPlayer *)new_var)->update_fall_reaction();
+    case 1:
+        update_fall_reaction();
         return;
-      case 6:
-        TObjPlayer::exit_fall_reaction(new_var);
+    case 6:
+        TObjPlayer::exit_fall_reaction(this);
         break;
     }
-  }
 }
 
 void TObjPlayer::set_flag_100000() { ((int (*)(void*))clear_velocity)((void*)(this)); set_actor_flags(0x100000); }
@@ -3792,39 +3787,32 @@ void TObjPlayer::check_attack_stage2_input() {
 int TObjPlayer::apply_status_action() { return TObjPlayer::try_apply_status_action(this); }
 
 void TObjPlayer::run_attack_stage2_phase(s16 phase) {
-  uaddr new_var2;
-  void *new_var;
-  new_var2 = ((u32) phase) <= 8U;
-  {
-    new_var = this;
-    switch (phase)
-    {
-      case 7:
-        this->apply_status_action();
+    switch (phase) {
+    case 7:
+        apply_status_action();
         return;
-      case 2:
+    case 2:
         check_attack_stage2_input();
         return;
-      case 3:
-        ((TObjPlayer *)new_var)->finish_attack_stage2();
+    case 3:
+        finish_attack_stage2();
         return;
-      case 8:
+    case 8:
         attack_stage2_phase8_nop();
         return;
-      case 5:
-        this->send_attack_stage2_request();
+    case 5:
+        send_attack_stage2_request();
         return;
-      case 0:
-        ((TObjPlayer *)new_var)->enter_attack_stage2();
+    case 0:
+        enter_attack_stage2();
         return;
-      case 1:
-        ((TObjPlayer *)new_var)->update_attack_stage2();
+    case 1:
+        update_attack_stage2();
         return;
-      case 6:
-        ((TObjPlayer *)new_var)->reset_target_link();
+    case 6:
+        reset_target_link();
         break;
     }
-  }
 }
 
 void TObjPlayer::start_attack_preparation() {
