@@ -2,6 +2,7 @@
 #include "pso/object/TObjRoomId.h"
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/player/PlayerCharDataEntry.h"
 #include "pso/player/PlayerLevelTable.h"
 #include "pso/unk/text_8024AB98.h"
 #include "pso/player/PlayerState.h"
@@ -198,8 +199,6 @@ typedef struct Pkt_801B0300
 
 typedef struct Pkt_801B0300 Pkt_801B0300;
 
-
-struct Rec_801B09A4 { u8 bytes[0x42C]; };
 
 struct pkt_801B1FA4 {
     u8 hdr[2];
@@ -520,7 +519,6 @@ s32 try_send_6x27_use_item(void *player, s32 key);
 bool is_target_in_facing_cone__10TObjPlayerFPv(void *self, Vec *target);
 void TObjPlayer__sub_801BA42C(void);
 void TObjPlayer__sub_801BBB70(void);
-void create_player_instance__10TObjPlayerFll(u16, Rec_801B09A4 *);
 void clear_flag_4000_callback__10TObjPlayerFv(TObjPlayer *);
 void init_inventory_list__10TObjPlayerFPv(void *);
 s32 TObjPlayer__sub_801BE8F4(void *, s32, s32);
@@ -585,7 +583,7 @@ extern TObjPlayer *player_slot_table[];
 const char *TObjPlayer_name = "TObjPlayer";
 extern s32 lbl_805D55C0;
 extern s32 lobby_player_count;
-extern Rec_801B09A4 *lobby_char_slot_array;
+extern PlayerCharDataEntry *lobby_char_slot_array;
 extern const char status_line_break[];
 extern f32 player_angle_per_degree;
 extern f32 player_degrees_per_turn;
@@ -5503,7 +5501,7 @@ void TLobby__sub_801B09A4(void) {
     }
     for (i = 0; i < 12; i++) {
         if (players[i] != NULL) {
-            create_player_instance__10TObjPlayerFll(i, &lobby_char_slot_array[i]);
+            TObjPlayer::create_player_instance((u16)i, &lobby_char_slot_array[i]);
             TWindowCtrl::enable_client_main_menu(i);
         }
     }

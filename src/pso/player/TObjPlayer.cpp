@@ -67,10 +67,10 @@
 #include "pso/player/CapturedTargetList.h"
 #include "pso/player/PlayerTelepipe.h"
 
-u8 *TObjPlayer::create_player_instance(s32 slot, saddr player) {
+u8 *TObjPlayer::create_player_instance(s32 slot, PlayerCharDataEntry *player) {
     u8 *p;
-    p = (u8 *)new TObjPlayer(tl_03, slot & 0xFFFF, ((PlayerCharDataEntry *)player)->get_role(), ((PlayerCharDataEntry *)player)->get_char_data());
-    ((TLobby *)(p + 0xDAC))->copy_header_struct(((PlayerCharDataEntry *)player)->get_lobby_header());
+    p = (u8 *)new TObjPlayer(tl_03, slot & 0xFFFF, player->get_role(), player->get_char_data());
+    ((TLobby *)(p + 0xDAC))->copy_header_struct(player->get_lobby_header());
     ((TObjPlayer *)p)->reset_motion_fields();
     return p;
 }

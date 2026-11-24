@@ -881,7 +881,7 @@ struct TObjPlayer : public TObjChara {
     void init_idle_animation();
     static void create_active_players();
     static void refresh_player_lobby_headers();
-    static u8 *create_player_instance(s32 slot, saddr player);
+    static u8 *create_player_instance(s32 slot, PlayerCharDataEntry *player);
     static void alloc_shared_buffers();
     static void destroy_char_data_array();
     static s8 get_rule_field_0();
