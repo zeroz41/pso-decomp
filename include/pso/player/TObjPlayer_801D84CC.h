@@ -3,11 +3,13 @@
 
 #include "types.h"
 
+struct TItemData;
+
 // --- C functions defined in TObjPlayer_801D84CC.cpp ---
 extern "C" {
-void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2);
-void TObjPlayer__sub_801D8A38(void *a0);
-void process_trade_target__10TObjPlayerFiPv(saddr arg0, void *player);
+void TObjPlayer__sub_801D8664(s32 player, s8 group, s8 kind);
+void TObjPlayer__sub_801D8A38(void *entry);
+void process_trade_target__10TObjPlayerFiPv(saddr player, TItemData *item_data);
 }
 // --- end of C functions
 

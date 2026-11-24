@@ -80,9 +80,9 @@ struct InventorySortBuffer {
 };
 extern "C" {
 void *__construct_new_array(void *block, void (*ctor)(void *), void (*dtor)(void *), u32 size, u32 n);
-s32 item_identity_matches(u8 *arg0, u8 *arg1);
+s32 item_identity_matches(u8 *item, u8 *other);
 }
-s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2);
+s32 compare_item_data_masked(void *item, void *other, s32 mode);
 
 const char *TItemList__name = "TItemList";
 const char *TPlyItem_name_ref = "TPlyItem";
@@ -187,7 +187,7 @@ TItemList *TItemList::find_inventory_item_matching_data() {
 }
 
 void TItemList::count_items_recursive() {
-    s32 sp8[7];
+    s32 item_data[7];
     TItemList *down;
 
     TItem *temp;
@@ -195,8 +195,8 @@ void TItemList::count_items_recursive() {
     down = (TItemList *)m_down;
     while (down != NULL) {
         if ((TItemList::is_item_valid(down) != 0) && ((temp = down->get_owner_if_alive()) != NULL)) {
-            temp->copy_to_item_data((TItemData *)&sp8[0]);
-            if (item_identity_matches((u8 *)&sp8[0], (u8 *)inventory_search_item_data) != 0) {
+            temp->copy_to_item_data((TItemData *)&item_data[0]);
+            if (item_identity_matches((u8 *)&item_data[0], (u8 *)inventory_search_item_data) != 0) {
                 inventory_walk_visit_count += 1;
             }
         }
@@ -449,29 +449,29 @@ void TLobby__sub_801D4C28(TPlyItem *inventory, TObjPlayer *player, int item_type
     inventory->pad_1C4->reduce_owner_matched_items();
 }
 
-s32 TPlyItem::use_item(TObjPlayer *player, s32 key, s32 arg3) {
+s32 TPlyItem::use_item(TObjPlayer *player, s32 key, s32 amount) {
     TItemList *node;
 
     if (key == -1) {
-        try_spend_actor_meseta(player, arg3);
+        try_spend_actor_meseta(player, amount);
         return 1;
     }
     node = start_inventory_update(key);
     if (node == NULL) {
         return 0;
     }
-    reduce_item_amount(player, node, arg3);
+    reduce_item_amount(player, node, amount);
     return 1;
 }
 
-void TPlyItem::reduce_item_amount(TObjPlayer *player, TItemList *slot, s32 arg3) {
+void TPlyItem::reduce_item_amount(TObjPlayer *player, TItemList *slot, s32 amount) {
     s16 count;
     TItem *item;
 
     item = slot->get_owner_if_alive();
-    if ((item != NULL) && (arg3 >= 0)) {
-        if ((item->get_amount() - arg3) > 0) {
-            item->remove_amount(arg3);
+    if ((item != NULL) && (amount >= 0)) {
+        if ((item->get_amount() - amount) > 0) {
+            item->remove_amount(amount);
             return;
         }
         if (is_item_equipped(item) != 0) {
@@ -513,12 +513,12 @@ s32 TObjPlayer__sub_801D49F4(TPlyItem *inventory, TObjPlayer *player, s32 *item_
     return 1;
 }
 
-s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, s32 arg4, s32 client) {
+s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, s32 amount, s32 client) {
     s16 count;
     TItem *item;
     void *node;
 
-    if (arg4 < 0) {
+    if (amount < 0) {
         return 0;
     }
     node = start_inventory_update(key);
@@ -529,8 +529,8 @@ s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, 
     if (item == NULL) {
         return 0;
     }
-    if ((item->get_amount() - arg4) > 0) {
-        item->remove_amount(arg4);
+    if ((item->get_amount() - amount) > 0) {
+        item->remove_amount(amount);
         return 1;
     }
     if (is_item_equipped(item) != 0) {
@@ -558,7 +558,7 @@ int TPlyItem::run_and_get_result(s32 *out) {
     return inventory_walk_visit_count;
 }
 
-s32 TObjPlayer__sub_801D47EC(TPlyItem *ply_item, s32 key, s32 arg2) {
+s32 TObjPlayer__sub_801D47EC(TPlyItem *ply_item, s32 key, s32 other_key) {
     TItemList *node_a;
     TItemList *node_b;
     TItem *item_a;
@@ -567,7 +567,7 @@ s32 TObjPlayer__sub_801D47EC(TPlyItem *ply_item, s32 key, s32 arg2) {
     if (node_a == NULL) {
         return 0;
     }
-    node_b = ply_item->start_inventory_update(arg2);
+    node_b = ply_item->start_inventory_update(other_key);
     if (node_b == NULL) {
         return 0;
     }
@@ -634,10 +634,10 @@ InventorySortBuffer::~InventorySortBuffer() {
 }
 
 void TObjPlayer__sub_801D45B0(s32 *rec, saddr item) {
-    s32 temp_r4;
+    s32 type_bits;
     *rec = 0;
-    temp_r4 = ((TItem *)item)->get_item_type() << 0x19;
-    *rec |= temp_r4;
+    type_bits = ((TItem *)item)->get_item_type() << 0x19;
+    *rec |= type_bits;
     if (((TItem *)item)->get_item_type() == 1) {
         *rec |= (((TItem *)item)->get_item_group() << 0x11) & 0x01FE0000;
     } else {
@@ -761,7 +761,7 @@ s32 fn_801D4270(s32 id) {
     return 0;
 }
 
-void remove_list_entry_by_id(s32 arg0) {
+void remove_list_entry_by_id(s32 id) {
     TPlyInventory *selected;
     s32 i;
     s32 n;
@@ -772,7 +772,7 @@ void remove_list_entry_by_id(s32 arg0) {
         p = selected->get_items();
         n = selected->m_num_items;
         for (i = 0; i < n; p++, i++) {
-            if (static_cast<s32>(p->m_data.id) == arg0) {
+            if (static_cast<s32>(p->m_data.id) == id) {
                 if ((reinterpret_cast<TAdSinglePlyChrSelectGC *>(&p->m_data))->is_both_confirmed() != 0) {
                     TAdSinglePlyChrSelectGC::remove_matching_entries(reinterpret_cast<saddr>(selected));
                 }
@@ -1064,14 +1064,14 @@ void TItemList__sub_801D59A0(TItemList *item_list, saddr list) {
 
 void TItemList__sub_801D59DC(void* p) { *(s32*)((char*)p + 0x0) = 2; }
 
-void decrement_placement_search_pending(void* p, void* a1) { TItemList__sub_801D5A0C((s32 *)a1); }
+void decrement_placement_search_pending(void* p, void* counter) { TItemList__sub_801D5A0C((s32 *)counter); }
 
-void TItemList__sub_801D5A0C(s32 *arg0) {
-    s32 temp_r0;
-    temp_r0 = *arg0 - 1;
-    *arg0 = temp_r0;
-    if (temp_r0 < 0) {
-        *arg0 = 0;
+void TItemList__sub_801D5A0C(s32 *count) {
+    s32 value;
+    value = *count - 1;
+    *count = value;
+    if (value < 0) {
+        *count = 0;
     }
 }
 
@@ -1085,11 +1085,11 @@ void TUnk_804C4480::sub_801D5A70() {
     copy_position__9TItemListFPv((void *)TItemList__sub_801D598C((TUnk_804C4450 *)this->unk_54, (s8)((TItemList *)this)->get_item_count()), (const Vec *)get_ptr_0x44__9TItemListFPv(this));
 }
 
-s32 TItemList::is_item_valid(TItemList *arg0) {
+s32 TItemList::is_item_valid(TItemList *list) {
     u8 valid;
 
     valid = 0;
-    if ((((TUnk_804B6C24 *)arg0)->check_value_equals((saddr)TItemList__name) != 0) && (((TObject *)arg0)->all_parents_unqueued_for_destruction() != 0)) {
+    if ((((TUnk_804B6C24 *)list)->check_value_equals((saddr)TItemList__name) != 0) && (((TObject *)list)->all_parents_unqueued_for_destruction() != 0)) {
         valid = 1;
     }
     return valid;
