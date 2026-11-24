@@ -1443,6 +1443,11 @@ struct TObjPlayer : public TObjChara {
     static void draw_strip_list_pos_nrm(void *, void *, unsigned int);
     static void draw_triangle_strips(void *, void *, unsigned int);
     static int draw_textured_vertices(void *, int, int);
+    static void send_object_id_packet(int);
+    static void copy_tech_params(void *, void *);
+    void update_action_state();
+    static void release_control_lock(void *);
+    static void *copy_font(void *, void *);
 
     // Placeholder-named members defined in the player units.
     static void create_derolle_breakup_model();
