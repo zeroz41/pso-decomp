@@ -58,7 +58,7 @@ BOOL fn_801C6F2C(u8 *arg0);
 s32 TObjPlayer__sub_801BF914(s32);
 s32 translate_matrix_vec3(s32, s32);
 s32 draw_chunk_object();
-s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
+s32 TObjPlayer__sub_801C6DAC(u8 *target);
 }
 
 
@@ -212,9 +212,9 @@ void *TUnk_804DDD28::operator new(size_t size) { return obj_heap->heap_alloc(siz
 void TUnk_804DDD28::operator delete(void *p) { obj_heap->heap_free(p); }
 
 
-s32 TObjPlayer__sub_801C6DAC(u8 *arg0) {
-    *(u8 **)((s8 *)arg0 + 4) = (u8 *)get_player_by_client_id(get_client_id(arg0));
-    if (*(u8 **)((s8 *)arg0 + 4) != NULL) {
+s32 TObjPlayer__sub_801C6DAC(u8 *target) {
+    *(u8 **)((s8 *)target + 4) = (u8 *)get_player_by_client_id(get_client_id(target));
+    if (*(u8 **)((s8 *)target + 4) != NULL) {
         return 1;
     }
     return 0;

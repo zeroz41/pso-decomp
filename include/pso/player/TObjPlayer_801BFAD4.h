@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void *TObjPlayer__sub_801BFAD4(void *arg0, s16 arg1);
+void *TObjPlayer__sub_801BFAD4(void *timer, s16 flags);
 }
 
 #endif

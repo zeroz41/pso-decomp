@@ -575,7 +575,7 @@ struct TObjPlayer : public TObjChara {
     void*set_vec4_const_wrapper();
     int sub_802a7290_fwd();
     int is_handle_valid();
-    static void forward_801C210C(void *p, int v);
+    static void forward_801C210C(void *provider, int id);
     static int get_hold_effect_count();
     static u8 get_item_count_max();
     u8 get_field_5();
@@ -586,9 +586,9 @@ struct TObjPlayer : public TObjChara {
     u32 unpack_u32_lo();
     s32 get_slot_value_checked(s32 i);
     s8 calc_class_stat_boost_index(s8 arg1, s32 arg2);
-    s32 consume_trap_count(s32 arg1, s32 arg2);
-    s32 clamp_char_at(s32 arg1);
-    static s32 init_partial(saddr arg0);
+    s32 consume_trap_count(s32 amount, s32 kind);
+    s32 clamp_char_at(s32 kind);
+    static s32 init_partial(saddr trap_counts);
     static s32 decrement_clamp(s32 *value, s32 amount);
     void copy_offset_position(void *chara);
     void calc_pos_delta(void *other, void *delta);
