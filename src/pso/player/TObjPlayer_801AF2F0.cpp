@@ -181,7 +181,6 @@ typedef struct Msg_801CD6BC {
     u8 pad5[3];
 } Msg_801CD6BC;
 
-struct L_801AF554 { u8 f0[2]; s16 f2; s8 f4; };
 
 struct Pkt_801B01AC {
     u8 hdr[2];
@@ -248,9 +247,7 @@ struct Eff_801B2D88 { u16 f0; u16 f2; StatStatusReceipt effect; };
 
 struct S801B4430_801b4430_801B3FD8 { s8 b[2]; s16 h; };
 
-struct S801B44EC_801b44ec_801B3FD8 { s8 b[2]; s16 h; };
 
-struct S801B4630_801B3FD8 { s8 b[2]; s16 h; };
 
 struct Pkt_801B5328 {
     u8 hdr[2];
@@ -549,7 +546,7 @@ void copy_player_visual_record(void *, void *);
 u16 get_id__11TMainCursorFv(void* p);
 s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
-void TObjPlayer__sub_801AF554(void *chara, s8 level);
+saddr TObjPlayer__sub_80116620(void *, int);
 bool TObjPlayer__sub_801AF694(TObjPlayer *player, s32 kind);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
@@ -565,8 +562,6 @@ void draw_status_line(void *window, s32 *str, s32 *name, s32 value);
 int TObjPlayer__sub_801B066C(void* p);
 void TLobby__sub_801B09A4(void);
 
-void draw_small_label__15TFontSmallLobbyFi(saddr player);
-void TLobby__sub_801B1254(saddr player);
 void foreach_player__10TObjPlayerFv(s32 (*callback)(u32));
 void *handle_set_visible__10TObjPlayerFi(void *dst, void *src);
 void send_6x2F_change_player_hp(s32 id, s32 client, s32 hp);
@@ -581,7 +576,6 @@ int get_field_340__18TChallenge4PResultFPv(void* p);
 int get_player_result__18TChallenge4PResultFPv(void* p);
 void handle_6x32_medical_center_revive_all_players(void);
 void recover_player_full(void *player);
-void send_code_49_1__10TObjPlayerFi(saddr player);
 void submit_target_to_player_cursor(void *target, s32 id);
 void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst);
 Obj_801B4FD8 * init_player_join_record(Obj_801B4FD8 *self);
@@ -947,7 +941,7 @@ void TObjPlayer::sub_801BB950() {
   {
     if (check_flag_800000() != 0)
     {
-      ((s32 (*)(void *))draw_small_label__15TFontSmallLobbyFi)(this);
+      send_disable_stealth_suit_effect();
     }
     if (scale_state.is_scaled() != 0)
     {
@@ -1017,7 +1011,7 @@ void TObjPlayer::reset_motion_fields() {
     if ((this->is_locally_controlled() != 0) && (TObjPlayer::is_key_machine_ready() != 0) && (this->check_flag(0x800) == 0) && ((this->test_actor_flags(0x800) != 0) || (this->get_actor_hp() <= 0))) {
         this->clear_actor_flags((u32)(0x800));
         if (TObjPlayer::check_camera_mode() != 0) {
-            ((s32 (*)(void *))send_code_49_1__10TObjPlayerFi)(this);
+            send_use_medical_center();
         } else {
             if (is_single_screen() == 0) {
                 this->set_meseta(0);
@@ -1032,8 +1026,8 @@ void TObjPlayer::reset_motion_fields() {
         TWindowCtrl::enable_client_main_menu(this->get_entity_id());
         send_impose_hold(this, 0xF);
         this->update_position_from_target();
-        ((s32 (*)(void *))send_code_49_1__10TObjPlayerFi)(this);
-        TObjPlayer::send_code50_packet((saddr)this);
+        send_use_medical_center();
+        send_medical_center_revive_all_players();
         if (this->is_alive_and_ready() != 0) {
             this->refill_traps();
         }
@@ -3972,13 +3966,13 @@ s32 TObjPlayer::get_recovery_need_flags() {
     return flags;
 }
 
-void send_code_49_1__10TObjPlayerFi(saddr player) {
-    struct S801B4630_801B3FD8 pkt;
+void TObjPlayer::send_use_medical_center() {
+    G_UseMedicalCenter_6x31 pkt;
 
-    if ((player == 0) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        ((G_UseMedicalCenter_6x31 *)&pkt)->init();
-        pkt.h = ((TObjBase *)(player))->get_entity_id();
-        ((G_UseMedicalCenter_6x31 *)&pkt)->send();
+    if (this == NULL || obj_isState2_324() == 0) {
+        pkt.init();
+        pkt.header.client_id = get_entity_id();
+        pkt.send();
     }
 }
 
@@ -4008,13 +4002,13 @@ void TObjPlayer::recover_full() {
     this->clear_state_flags(1);
 }
 
-void TObjPlayer::send_code50_packet(int player) {
-    struct S801B44EC_801b44ec_801B3FD8 pkt;
+void TObjPlayer::send_medical_center_revive_all_players() {
+    G_MedicalCenterReviveAllPlayers_6x32 pkt;
 
-    if ((player == 0) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        ((G_MedicalCenterReviveAllPlayers_6x32 *)&pkt)->init();
-        pkt.h = ((TObjBase *)(player))->get_entity_id();
-        ((G_MedicalCenterReviveAllPlayers_6x32 *)&pkt)->send();
+    if (this == NULL || obj_isState2_324() == 0) {
+        pkt.init();
+        pkt.header.unused = get_entity_id();
+        pkt.send();
     }
 }
 
@@ -4466,7 +4460,7 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
             ((TObjPlayer *)p)->update_aim_angle(aim);
         }
         if ((lvl = (u8)((TLobby *)lobby_rule_settings)->get_clamped_level()) != 0 && (room == 0 || room == 0x1000)) {
-            ((s32 (*)(void *, u8))TObjPlayer__sub_801AF554)(p, lvl);
+            p->send_level_up_all_techniques(lvl);
         }
         p->reset_pose();
         return;
@@ -5330,13 +5324,13 @@ s32 TObjPlayer::is_body_collision_inactive() {
     return test_actor_flags(0x02000000);
 }
 
-void TLobby__sub_801B1254(saddr player) {
-    s8 pkt[8];
+void TObjPlayer::send_enable_stealth_suit_effect() {
+    G_EnableStealthSuitEffect_6x7A pkt;
 
-    if ((player == 0) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        ((G_EnableStealthSuitEffect_6x7A *)&pkt)->init();
-        *(s16 *)((s8 *)&pkt + 2) = ((TObjBase *)player)->get_entity_id();
-        ((G_EnableStealthSuitEffect_6x7A *)&pkt)->send();
+    if (this == NULL || obj_isState2_324() == 0) {
+        pkt.init();
+        pkt.header.client_id = get_entity_id();
+        pkt.send();
     }
 }
 
@@ -5364,13 +5358,13 @@ void TObjPlayer::set_stealth_suit_flags() {
     set_indexed_flags(0, 0x08000000);
 }
 
-void draw_small_label__15TFontSmallLobbyFi(saddr player) {
-    s8 pkt[8];
+void TObjPlayer::send_disable_stealth_suit_effect() {
+    G_DisableStealthSuitEffect_6x7B pkt;
 
-    if ((player == 0) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        ((G_DisableStealthSuitEffect_6x7B *)&pkt)->init();
-        *(s16 *)((s8 *)&pkt + 2) = ((TObjBase *)player)->get_entity_id();
-        ((G_DisableStealthSuitEffect_6x7B *)&pkt)->send();
+    if (this == NULL || obj_isState2_324() == 0) {
+        pkt.init();
+        pkt.header.client_id = get_entity_id();
+        pkt.send();
     }
 }
 
@@ -5620,13 +5614,13 @@ s32 TLobby::count_members() {
     return n;
 }
 
-void TLobby::send_font_state(saddr player) {
-    s8 pkt[8];
+void TObjPlayer::send_disable_drop_weapon_on_death() {
+    G_DisableDropWeaponOnDeath_6x81 pkt;
 
-    if ((player == 0) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        ((G_DisableDropWeaponOnDeath_6x81 *)&pkt)->init();
-        *(s16 *)((s8 *)&pkt + 2) = ((TObjBase *)player)->get_entity_id();
-        ((G_DisableDropWeaponOnDeath_6x81 *)&pkt)->send();
+    if (this == NULL || obj_isState2_324() == 0) {
+        pkt.init();
+        pkt.header.client_id = get_entity_id();
+        pkt.send();
     }
 }
 
@@ -5653,13 +5647,13 @@ void TObjPlayer::disable_drop_weapon_on_death(void *player) {
     ((TObjPlayer *)player)->set_state_flags(0x01000000);
 }
 
-void TLobby::send_field1c_packet(saddr player) {
-    s8 pkt[8];
+void TObjPlayer::send_enable_drop_weapon_on_death() {
+    G_EnableDropWeaponOnDeath_6x82 pkt;
 
-    if ((player == 0) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        ((G_EnableDropWeaponOnDeath_6x82 *)&pkt)->init();
-        *(s16 *)((s8 *)&pkt + 2) = ((TObjBase *)player)->get_entity_id();
-        ((G_EnableDropWeaponOnDeath_6x82 *)&pkt)->send();
+    if (this == NULL || obj_isState2_324() == 0) {
+        pkt.init();
+        pkt.header.client_id = get_entity_id();
+        pkt.send();
     }
 }
 
@@ -6169,13 +6163,13 @@ void TObjPlayer::restore_hp_and_tp() {
     set_tp(tpmax);
 }
 
-void TObjPlayer__sub_801AF554(void *chara, s8 level) {
-    L_801AF554 pkt;
-    if (chara == 0 || ((TObjChara *)chara)->obj_isState2_324() == 0) {
-        ((G_LevelUpAllTechniques_6x9B *)&pkt)->init();
-        pkt.f2 = ((TObjBase *)(chara))->get_entity_id();
-        pkt.f4 = level;
-        ((G_LevelUpAllTechniques_6x9B *)&pkt)->send();
+void TObjPlayer::send_level_up_all_techniques(u8 num_levels) {
+    G_LevelUpAllTechniques_6x9B pkt;
+    if (this == NULL || obj_isState2_324() == 0) {
+        pkt.init();
+        pkt.header.client_id = get_entity_id();
+        pkt.num_levels = num_levels;
+        pkt.send();
     }
 }
 }

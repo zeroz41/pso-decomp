@@ -524,7 +524,6 @@ s32 draw_player_status(void *, void *, const char *);
 s16 calc_scaled_value__10TObjPlayerFii(void *, int);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 void enable_action_input__10TObjPlayerFPv(void *p);
-void send_code_49_1__10TObjPlayerFi(saddr player);
 u16 TObjPlayer__sub_801B5AF8(void *, s32);
 s32 is_action_id_none(int);
 s32 get_vobj_state_28__10TObjPlayerFv(void *);
@@ -1809,7 +1808,7 @@ void TObjPlayer::send_6x4F_revived() {
     G_PlayerRevived_6x4F sp8;
 
     if (((s32 (*)(s32, s32))test_flags_any)(arg0 + 0x858, 4) != 0) {
-        send_code_49_1__10TObjPlayerFi(arg0);
+        send_use_medical_center();
         if (this->is_alive_and_ready() != 0) {
             this->refill_traps();
         }

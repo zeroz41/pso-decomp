@@ -888,13 +888,10 @@ void TOMineTrap__sub_80171368(f32);
 int clear_enabled_main_warps(void*);
 int set_hashi_versus2_flag(void*);
 int clear_hashi_versus2_flag(void*);
-void draw_small_label__15TFontSmallLobbyFi(saddr player);
-void TLobby__sub_801B1254(saddr player);
 s32 foreach_player__10TObjPlayerFv(s32 *);
 s32 prepare_guild_return__10TObjPlayerFPv(void *player, s32);
 s32 player_flag_1__6TLobbyFv();
 s32 enable_action_input__10TObjPlayerFPv();
-s32 send_code_49_1__10TObjPlayerFi();
 void delete_item(void *, s32, s32);
 }
 void play_cue_stream_file(const char *name);
@@ -2277,11 +2274,11 @@ void qst_op_disable_bosswarp_option() {
 }
 
 void qst_op_player_recovery(s32 reg) {
-    s32 player;
-    player = (saddr)get_player_by_client_id(qst_registers[(u8)reg]);
-    if (player != 0) {
-        send_code_49_1__10TObjPlayerFi();
-        TObjPlayer::send_code50_packet((player));
+    TObjPlayer *player;
+    player = get_player_by_client_id(qst_registers[(u8)reg]);
+    if (player != NULL) {
+        player->send_use_medical_center();
+        player->send_medical_center_revive_all_players();
     }
 }
 
@@ -2808,18 +2805,18 @@ void qst_op_enable_techs(s32 slot_reg) {
 }
 
 void qst_op_disable_stealth_suit_effect(s32 slot_reg) {
-    saddr player;
-    player = ((saddr)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
-    if ((player != 0) && (((TObjPlayer *)player)->sub_801A1DDC() != 0)) {
-        draw_small_label__15TFontSmallLobbyFi((player));
+    TObjPlayer *player;
+    player = get_player_by_client_id((int)(qst_registers[(u8)slot_reg]));
+    if ((player != NULL) && (player->sub_801A1DDC() != 0)) {
+        player->send_disable_stealth_suit_effect();
     }
 }
 
 void qst_op_enable_stealth_suit_effect(s32 slot_reg) {
-    saddr player;
-    player = ((saddr)((uaddr)get_player_by_client_id((int)(qst_registers[(u8)slot_reg]))));
-    if ((player != 0) && (((TObjPlayer *)player)->sub_801A1DDC() != 0)) {
-        TLobby__sub_801B1254((player));
+    TObjPlayer *player;
+    player = get_player_by_client_id((int)(qst_registers[(u8)slot_reg]));
+    if ((player != NULL) && (player->sub_801A1DDC() != 0)) {
+        player->send_enable_stealth_suit_effect();
     }
 }
 
@@ -3599,16 +3596,16 @@ void qst_op_ba_initial_floor(void) {
 }
 
 void qst_op_enable_weapon_drop(int _w0, int _w1) {
-    u32 pl = ((uaddr)get_player_by_client_id((int)(qst_args[0])));
-    if (pl != 0U) {
-        TLobby::send_field1c_packet((s32)pl);
+    TObjPlayer *pl = get_player_by_client_id((int)(qst_args[0]));
+    if (pl != NULL) {
+        pl->send_enable_drop_weapon_on_death();
     }
 }
 
 void qst_op_disable_weapon_drop(int _w0, int _w1) {
-    u32 pl = ((uaddr)get_player_by_client_id((int)(qst_args[0])));
-    if (pl != 0U) {
-        TLobby::send_font_state((s32)pl);
+    TObjPlayer *pl = get_player_by_client_id((int)(qst_args[0]));
+    if (pl != NULL) {
+        pl->send_disable_drop_weapon_on_death();
     }
 }
 

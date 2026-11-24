@@ -919,6 +919,13 @@ struct TObjPlayer : public TObjChara {
     static void send_disable_pk_mode(TObjPlayer *player);
     void set_state_flag_6043();
     static void send_enable_pk_mode(TObjPlayer *player);
+    void send_use_medical_center();
+    void send_medical_center_revive_all_players();
+    void send_enable_stealth_suit_effect();
+    void send_disable_stealth_suit_effect();
+    void send_enable_drop_weapon_on_death();
+    void send_disable_drop_weapon_on_death();
+    void send_level_up_all_techniques(u8 num_levels);
     int get_field_828();
     static void play_phase_transition_sound(saddr child);
     int check_flag_40000();
@@ -1147,7 +1154,6 @@ struct TObjPlayer : public TObjChara {
     static void begin_action_state(void *);
     // Calls callback with each occupied entry of the player table.
     static void for_each_player_slot(void (*callback)(void *));
-    static void send_code50_packet(int);
     void send_object_id_packet();
     void update_action_state();
     s32 reset_volopt_state();
