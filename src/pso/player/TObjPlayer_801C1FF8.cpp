@@ -40,11 +40,11 @@ s32 test_flags_any(s32 *flags, s32 mask);
 
 extern const f32 TObjPlayer__data_805DC294;
 
-void *TObjPlayer::init() {
-    __ct__8FlagWordFv(((char *)this + 12));
-    TObjPlayer__sub_8012AF00((CapturedTargetList *)((char *)this + 48));
-    *(f32 *)((s8 *)this + 0x8) = TObjPlayer__data_805DC294;
-    reset_movement_state();
+PlayerAttackController *PlayerAttackController::init() {
+    __ct__8FlagWordFv(&flags);
+    TObjPlayer__sub_8012AF00(&lockon_targets);
+    evp_scale = TObjPlayer__data_805DC294;
+    reset();
     return this;
 }
 

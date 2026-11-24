@@ -94,7 +94,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
     TObjPlayer::init_partial((saddr)(((char *)this + 1988)));
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
-    ((TObjPlayer *)((char *)this + 1996))->init();
+    attack_state.init();
     TObjPlayer__sub_801C1A00(((char *)this + 2088));
     init_player_telepipe_record((void *)((char *)this + 2096));
     TObjPlayer__sub_801BFB4C((u8 *)((char *)this + 2124));
@@ -125,7 +125,7 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
     TObjPlayer::init_partial((saddr)(((char *)this + 1988)));
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
-    ((TObjPlayer *)((char *)this + 1996))->init();
+    attack_state.init();
     TObjPlayer__sub_801C1A00(((char *)this + 2088));
     init_player_telepipe_record((void *)((char *)this + 2096));
     TObjPlayer__sub_801BFB4C((u8 *)((char *)this + 2124));
@@ -174,7 +174,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     ((TObjPlayer *)(((u8 *)this) + 0x754))->init_sub_objects();
     TObjPlayer::init_partial((saddr)((((u8 *)this) + 0x7C4)));
     ((TObjPlayer *)(((u8 *)this) + 0x7C8))->clear_base();
-    ((TObjPlayer *)(((u8 *)this) + 0x7CC))->init();
+    attack_state.init();
     TObjPlayer__sub_801C1A00((void *) (((u8 *)this) + 0x828));
     init_player_telepipe_record((void *) (((u8 *)this) + 0x830));
     TObjPlayer__sub_801BFB4C(((u8 *)this) + 0x84C);

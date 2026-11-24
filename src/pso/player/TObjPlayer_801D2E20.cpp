@@ -210,20 +210,20 @@ void *capture_lockon_targets(Self_801D32A0 *self, Pl_801D32A0 *player) {
     return &self->targets;
 }
 
-void TObjPlayer::reset_movement_state() {
-    *(s16 *)((s8 *)((u8 *)this) + 2) = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 0) = 0;
-    *(f32 *)((s8 *)((u8 *)this) + 4) = 1.0f;
-    *(s16 *)((s8 *)((u8 *)this) + 0x12) = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 0x10) = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x14) = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x18) = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 0x1C) = 0;
-    *(f32 *)((s8 *)((u8 *)this) + 0x20) = 20.0f;
-    *(f32 *)((s8 *)((u8 *)this) + 0x24) = 1.0f;
-    *(f32 *)((s8 *)((u8 *)this) + 0x28) = 1.0f;
-    *(f32 *)((s8 *)((u8 *)this) + 0x2C) = 0.0f;
-    ((CapturedTargetList *)((u8 *)this + 0x30))->clear_lockon_list();
+void PlayerAttackController::reset() {
+    queued_kind = 0;
+    attack_kind = 0;
+    pad_4 = 1.0f;
+    hit_count = 0;
+    pending_stage = 0;
+    pad_14[0] = 0;
+    pad_14[1] = 0;
+    pad_14[2] = 0;
+    pad_20[0] = 20.0f;
+    pad_20[1] = 1.0f;
+    pad_20[2] = 1.0f;
+    pad_20[3] = 0.0f;
+    lockon_targets.clear_lockon_list();
 }
 
 s16 TObjPlayer::get_obj_id() { return *(s16*)((char*)this + 0x2); }

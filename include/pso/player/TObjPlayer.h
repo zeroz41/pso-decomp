@@ -256,7 +256,6 @@ struct TObjPlayer : public TObjChara {
     s8 trap_counts[4];  // per trap kind, refilled from the class table (refill_trap_counts)
     void* m_7c8;
     PlayerAttackController attack_state;  // the attack accuracy/damage-scale block
-    u8 _pad7EC[0x3C];
     void* m_828;
     u8 _pad82C[0x4];
     void* telepipe;  // the player's telepipe record (TTecLuker::init_fields, send_telepipe_packet)
@@ -578,7 +577,6 @@ struct TObjPlayer : public TObjChara {
     static void forward_801C210C(void *p, int v);
     static int get_hold_effect_count();
     static u8 get_item_count_max();
-    void *init();
     u8 get_field_5();
     u8 get_byte_4();
     u8 get_team_id();
@@ -1294,7 +1292,6 @@ struct TObjPlayer : public TObjChara {
     void update_warp_relocation();
     static s32 try_camera_action(saddr player, s32 arg1);
     void bswap_entry_list();
-    void reset_movement_state();
     static void update_party_cursors(saddr cursors, s32 result);
     void init_action_config();
     s32 can_use_palette_action_for_entry(u32 obj);

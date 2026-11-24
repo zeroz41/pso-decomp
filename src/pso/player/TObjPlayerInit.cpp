@@ -48,7 +48,7 @@ void TObjPlayer::reset_state() {
     ((FlagWord *)((u8 *)this + 0x858))->clear(2);
     battle_music.reset_counter_field4();
     protection.reset_type();
-    ((TObjPlayer *)((u8 *)this + 0x7CC))->reset_movement_state();
+    attack_state.reset();
     movement_hold.reset();
     ((TObjPlayer *)((u8 *)this + 0x608))->set_vec4_const();
     death_fade = NULL;
