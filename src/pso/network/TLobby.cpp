@@ -2836,7 +2836,7 @@ TPlyDispConfig *copy_disp_config(TPlyDispConfig *dst, TPlyDispConfig *src) {
 }
 
 TPlyDispConfigSmth *copy_disp_config_palette(TPlyDispConfigSmth *dst, TPlyDispConfigSmth *src) {
-    dst->m_mbr_0x0 = src->m_mbr_0x0;
+    dst->bank = src->bank;
     copy_gc_tag(&dst->m_tags[0], &src->m_tags[0]);
     copy_gc_tag(&dst->m_tags[1], &src->m_tags[1]);
     copy_gc_tag(&dst->m_tags[2], &src->m_tags[2]);
