@@ -531,7 +531,7 @@ void TItemMag::on_unequip() {
     s32 blast;
 
     if (owner->obj_isState2_324() == 0) {
-        assign_default_photon_blast_palette_slots((u8 *)&owner->action_palettes);
+        assign_default_photon_blast_palette_slots(&owner->action_palettes);
         slot = 0;
         do {
             blast = stats.get_photon_blast(slot);
@@ -1744,13 +1744,13 @@ void TItemMag::register_photon_blasts() {
     s32 blast;
     s32 slot;
 
-    assign_default_photon_blast_palette_slots((u8 *)&owner->action_palettes);
+    assign_default_photon_blast_palette_slots(&owner->action_palettes);
     slot = 0;
     do {
         blast = stats.get_photon_blast(slot);
         if (blast != -1) {
             owner->photon_blast_gauge.set_blast_level(blast, get_item_index());
-            assign_photon_blast_palette_slot((u8 *)&owner->action_palettes, (s16)blast);
+            assign_photon_blast_palette_slot(&owner->action_palettes, (s16)blast);
         }
         slot += 1;
     } while (slot != 3);

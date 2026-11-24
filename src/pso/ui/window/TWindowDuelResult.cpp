@@ -116,7 +116,7 @@ void TWindowDuelResult::sub_8024EF3C() {  }
 
 void TWindowDuelResult::sub_8024EF40() {
     s32 vals[4];
-    u8 *pl;
+    TObjPlayer *pl;
     s32 i;
     u8 *a;
     u8 *b;
@@ -126,13 +126,13 @@ void TWindowDuelResult::sub_8024EF40() {
     set_default_status(a, get_localized_text_entry(0x10, 0));
     c = (u8 *)get_array_entry(0xF);
     set_default_status(c, get_localized_text_entry(0x10, 5));
-    pl = (u8 *)get_player_by_client_id(client_index);
+    pl = get_player_by_client_id(client_index);
     if (pl != 0) {
-        set_text_entry_string((u8 *)(get_array_entry(1)), (uaddr)(pl + 0x85C), 0x20);
-        vals[0] = ((TObjPlayer *)pl)->battle_score.damage_stats[0].get_total();
-        vals[1] = ((TObjPlayer *)pl)->battle_score.damage_stats[1].get_total();
-        vals[2] = ((TObjPlayer *)pl)->battle_score.damage_stats[3].get_total();
-        vals[3] = ((TObjPlayer *)pl)->battle_score.damage_stats[2].get_total();
+        set_text_entry_string((u8 *)(get_array_entry(1)), (uaddr)pl->name, 0x20);
+        vals[0] = pl->battle_score.damage_stats[0].get_total();
+        vals[1] = pl->battle_score.damage_stats[1].get_total();
+        vals[2] = pl->battle_score.damage_stats[3].get_total();
+        vals[3] = pl->battle_score.damage_stats[2].get_total();
         for (i = 0; i < 4; i++) {
             a = (u8 *)get_array_entry(i * 3 + 2);
             b = (u8 *)get_array_entry(i * 3 + 4);

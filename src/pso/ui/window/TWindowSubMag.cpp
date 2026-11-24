@@ -152,7 +152,7 @@ TWindowSubMag::~TWindowSubMag() {
 }
 
 void TWindowSubMag::run_task() {
-    void *player;
+    TObjPlayer *player;
     s32 port;
     player = get_player_by_client_id(client_id);
     if (player == NULL) {
@@ -246,7 +246,7 @@ void TWindowSubMag::run_task() {
             test_controller_flag_4c_color(&controller_input_state.keyboard, 2) != 0) {
             play_sound_effect(0x52F16, 0, 0, 0);
             state = 5;
-        } else if (TWindowSubItem::is_usable((saddr)player) != 0) {
+        } else if (TWindowSubItem::is_usable(player) != 0) {
             slots = count_slots();
             TWindowSubMag::feed_mag((void*)player, (void*)(((TWindowMenuIconLine *)list)->get_cursor_value()), (void*)(((TWindowMenuIconLine *)list2)->get_cursor_value()));
             state = 8;
@@ -325,7 +325,7 @@ void TWindowSubMag::run_task() {
         }
         break;
     case 16:
-        if ((u32)((TObjPlayer *)player)->is_action_active() == 0) {
+        if ((u32)player->is_action_active() == 0) {
             state = 1;
         }
         break;

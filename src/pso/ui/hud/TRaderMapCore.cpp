@@ -172,7 +172,7 @@ typedef struct Player_801F9E9C {
     u8 pad44[0x1C];
     s32 unk60;
     u8 pad64[0x828 - 0x64];
-    u8 sub828[4];
+    PlayerPkState pk_state;
 } Player_801F9E9C;
 
 extern "C" {
@@ -967,7 +967,7 @@ void TRaderMapCore::gather_player_markers() {
     p = (Player_801F9E9C *)get_player_by_client_id(local_client_id);
     me = &((Core_801F9E9C *)this)->e[0];
     if (p != NULL) {
-        team = ((PlayerPkState *)p->sub828)->get_team();
+        team = p->pk_state.get_team();
         if (((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
             VecCopy((Vec *)me, (const Vec *)p->pos);
             me->y = 10.0f;
@@ -1011,7 +1011,7 @@ void TRaderMapCore::gather_player_markers() {
         } else if (team != 0) {
             p = (Player_801F9E9C *)get_player_by_client_id(i);
             if (p != NULL && floor == ((TObjPlayer *)p)->get_floor() &&
-                team == ((PlayerPkState *)p->sub828)->get_team() &&
+                team == p->pk_state.get_team() &&
                 ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
                 VecCopy((Vec *)e, (const Vec *)p->pos);
                 e->y = 10.0f;

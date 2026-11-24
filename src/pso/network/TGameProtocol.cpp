@@ -69,7 +69,7 @@ void handle_6x3B_clear_temporary_photon_blast_state_flags(saddr arg0);
 extern "C" void handle_6x41_move_to_position();
 extern "C" void handle_6x48_cast_technique_complete(void *arg);
 extern "C" void handle_6x54();
-extern "C" void handle_6x57(G_Unknown_6x57 *arg0);
+extern "C" void handle_6x57(G_Unknown_6x57 *command);
 extern "C" void handle_6x5F_drop_item();
 void handle_6x62();
 extern "C" void handle_6x64();

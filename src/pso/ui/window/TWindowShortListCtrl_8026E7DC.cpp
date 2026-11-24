@@ -178,7 +178,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (TWindowSubItem::is_usable((saddr)player) == 0) {
+        if (TWindowSubItem::is_usable(player) == 0) {
             break;
         }
         assign_shortcut(6, ((TWindowMenuIconLine *)list_window)->get_cursor_value(), client_id);
@@ -210,7 +210,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (TWindowSubItem::is_usable((saddr)player) == 0) {
+        if (TWindowSubItem::is_usable(player) == 0) {
             break;
         }
         sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();
@@ -245,7 +245,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (TWindowSubItem::is_usable((saddr)player) == 0) {
+        if (TWindowSubItem::is_usable(player) == 0) {
             return;
         }
         sel = ((TWindowMenuIconLine *)list_window)->get_cursor_value();

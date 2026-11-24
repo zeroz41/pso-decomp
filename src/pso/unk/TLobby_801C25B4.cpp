@@ -1552,7 +1552,7 @@ s32 TLobby::check_battle_end(void *) {
             if (ok != 0) {
                 cnt++;
                 if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
-                    idx = ((PlayerPkState *)(p + 0x828))->get_team() - 1;
+                    idx = ((TObjPlayer *)p)->pk_state.get_team() - 1;
                     if (idx >= 0 && idx < 2) {
                         seen[idx] = 1;
                     }

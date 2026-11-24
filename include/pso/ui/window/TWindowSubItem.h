@@ -7,6 +7,7 @@
 struct TWindowMainMenu;
 struct TWindowHelpItem;
 struct TWindowSubItemList;
+struct TObjPlayer;
 
 struct TWindowSubItem : public TObject {
     TWindowSubItem(TWindowMainMenu *parent, s32 client);
@@ -38,7 +39,7 @@ struct TWindowSubItem : public TObject {
     void set_flag60_bit10();
     void clear_flag_and_release();
     s32 open_purpose_window(s32 arg1);
-    static s32 is_usable(saddr player);
+    static s32 is_usable(TObjPlayer *player);
 };
 
 LAYOUT_ASSERT(TWindowSubItem_size, sizeof(TWindowSubItem) == 0x44);

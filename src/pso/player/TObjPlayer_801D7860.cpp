@@ -8,10 +8,11 @@ s32 TObjPlayer::init_sub_object(saddr lobby) {
     return lobby;
 }
 void TObjPlayer::init_sub_object_vectors(saddr lobby) {
-    ((DamageStatSlot *)lobby)->set_total(0.0f);
-    ((DamageStatSlot *)lobby)->set_accumulated(0.0f);
-    ((DamageStatSlot *)lobby)->set_normal_weight(1.0f);
-    ((DamageStatSlot *)lobby)->set_bonus_weight(1.0f);
+    DamageStatSlot *slot = (DamageStatSlot *)lobby;
+    slot->set_total(0.0f);
+    slot->set_accumulated(0.0f);
+    slot->set_normal_weight(1.0f);
+    slot->set_bonus_weight(1.0f);
 }
 
 }

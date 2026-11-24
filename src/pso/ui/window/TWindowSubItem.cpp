@@ -190,9 +190,9 @@ TWindowSubItem::~TWindowSubItem() {
 }
 
 void TWindowSubItem::run_task() {
-    saddr p;
+    TObjPlayer *p;
     s32 idx;
-    p = (saddr)get_player_by_client_id(this->client_id);
+    p = get_player_by_client_id(this->client_id);
     if (p != 0) {
         idx = is_player_input_active(this->client_id);
         switch (this->state) {
@@ -354,7 +354,7 @@ void TWindowSubItem::run_task() {
                 this->state = 3;
             }
             if (TWindowSubItem::is_usable(p) != 0) {
-                ((TObjPlayer *)p)->request_item_drop(item_list->get_cursor_value(), this->amount);
+                p->request_item_drop(item_list->get_cursor_value(), this->amount);
                 this->state = 0x16;
                 return;
             }
@@ -366,9 +366,9 @@ void TWindowSubItem::run_task() {
                 play_sound_effect(0x52F16, 0, 0, 0);
                 this->state = 1;
             }
-            p = (saddr)get_player_by_client_id(this->client_id);
+            p = get_player_by_client_id(this->client_id);
             if (p != 0 && TWindowSubItem::is_usable(p) != 0 && TWindowCtrl__sub_8024A228(this->client_id) != 0) {
-                ((TObjPlayer *)p)->send_trap_packet(item_list->get_cursor_value() & 0xF);
+                p->send_trap_packet(item_list->get_cursor_value() & 0xF);
                 this->state = 1;
                 return;
             }
@@ -380,15 +380,15 @@ void TWindowSubItem::run_task() {
                 play_sound_effect(0x52F16, 0, 0, 0);
                 this->state = 1;
             }
-            p = (saddr)get_player_by_client_id(this->client_id);
+            p = get_player_by_client_id(this->client_id);
             if (p != 0 && TWindowSubItem::is_usable(p) != 0 && TAdSinglePlyChrSelectGC::create_if_key_pressed() != 0) {
-                ((TObjPlayer *)p)->sonar_stock.consume(1);
+                p->sonar_stock.consume(1);
                 this->state = 1;
                 return;
             }
             break;
         case 19: {
-            player_stats *stats = ((TObjPlayer *)p)->get_stats();
+            player_stats *stats = p->get_stats();
             s32 n;
             if (stats == NULL) {
                 this->state = 0x16;
@@ -427,13 +427,13 @@ void TWindowSubItem::run_task() {
                 this->state = 3;
             }
             if (TWindowSubItem::is_usable(p) != 0) {
-                ((TObjPlayer *)p)->request_meseta_drop(this->amount);
+                p->request_meseta_drop(this->amount);
                 this->state = 0x16;
                 return;
             }
             break;
         case 22:
-            if ((u32)((TObjPlayer *)p)->is_action_active() == 0) {
+            if ((u32)p->is_action_active() == 0) {
                 this->state = 1;
             }
             break;

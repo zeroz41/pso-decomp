@@ -2477,8 +2477,8 @@ s32 TObjPlayer::find_inventory_item_id(s8 kind, s8 group) {
     return owner->get_item_id();
 }
 
-s32 TWindowSubItem::is_usable(saddr player) {
-    if ((((TObjPlayer *)player)->is_action_active() != 0U) || (((TObjPlayer *)player)->test_action_mask(0x43001E) == 0) || (((TObjCollidable *)player)->test_actor_flags(0x20) != 0) || (((TObjPlayer *)player)->check_player_flag1() != 0)) {
+s32 TWindowSubItem::is_usable(TObjPlayer *player) {
+    if ((player->is_action_active() != 0U) || (player->test_action_mask(0x43001E) == 0) || (player->test_actor_flags(0x20) != 0) || (player->check_player_flag1() != 0)) {
         return 0;
     }
     return 1;

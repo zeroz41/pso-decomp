@@ -160,14 +160,14 @@ TWindowActionPalette::~TWindowActionPalette() {}
 
 void TWindowActionPalette::run_task() {
     TObjPlayer *player;
-    saddr effect;
+    TPlyDispConfigSmth *palette;
     s32 slot;
     u16 v;
     u16 target;
     u8 cnt;
     u8 *help;
     player = get_player_by_client_id(client_index);
-    if (player == NULL || (effect = player->refresh_effect()) == 0) {
+    if (player == NULL || (palette = (TPlyDispConfigSmth *)player->refresh_effect()) == NULL) {
         return;
     }
     if (!(this->window_flags & 2)) {
@@ -188,19 +188,19 @@ void TWindowActionPalette::run_task() {
     }
     v = select_action_palette_and_apply__10TObjPlayerFlll(player, 0, 0, 0);
     if (v == 0) {
-        v = ((TPlyDispConfigSmth *)effect)->get_current_tag_slot(1);
-        update_slot_sprites(0, ((TPlyDispConfigSmth *)effect)->get_current_tag_mode(1), v);
+        v = palette->get_current_tag_slot(1);
+        update_slot_sprites(0, palette->get_current_tag_mode(1), v);
     } else {
         update_slot_sprites(0, 7, v);
     }
     if (is_palettex_activated((u16)client_index) != 0 && ((TPlyDispConfig *)((u8 *)player + 0x500))->is_primary_first_bank() != 0) {
         update_slot_icon(1, 7, 7);
     } else {
-        v = ((TPlyDispConfigSmth *)effect)->get_current_tag_slot(2);
-        update_slot_sprites(1, ((TPlyDispConfigSmth *)effect)->get_current_tag_mode(2), v);
+        v = palette->get_current_tag_slot(2);
+        update_slot_sprites(1, palette->get_current_tag_mode(2), v);
     }
-    v = ((TPlyDispConfigSmth *)effect)->get_current_tag_slot(3);
-    update_slot_sprites(2, ((TPlyDispConfigSmth *)effect)->get_current_tag_mode(3), v);
+    v = palette->get_current_tag_slot(3);
+    update_slot_sprites(2, palette->get_current_tag_mode(3), v);
     target = TObjPlayer::get_current_target_id();
     if (target == 0xFFFF || target == client_index || player->get_photon_blast_charge() <= 0) {
         if (((TPlyDispConfig *)((u8 *)player + 0x500))->is_primary_first_bank() != 0) {

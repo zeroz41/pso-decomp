@@ -251,7 +251,7 @@ void TWindowSubTechnique::run_task() {
             play_sound_effect(0x52F16, 0, 0, 0);
             rebuildTechniqueList((saddr)technique_menu, (s32)(category_menu->get_selected_value()));
             state = 1;
-        } else if (((TObjPlayer *)player)->try_equip_item((s16)technique_menu->get_selected_value()) != 0) {
+        } else if (player->try_equip_item((s16)technique_menu->get_selected_value()) != 0) {
             state = 1;
         }
         break;

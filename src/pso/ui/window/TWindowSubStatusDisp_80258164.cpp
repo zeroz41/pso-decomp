@@ -522,14 +522,14 @@ struct V_80258F34 : Base_80258F34 {
 };
 
 extern "C" {
-void ItemListRow::set_inventory_item(void *item, s32 count, s32 sid) {
+void ItemListRow::set_inventory_item(TItem *item, s32 count, s32 sid) {
     s32 item_data;
 
     this->x = (f32) lbl_805DCF08;
-    item_data = ((TItem *)item)->get_icon_index();
-    select_item_icon(item_data, ((TItem *)item)->get_item_type(), ((TItem *)item)->get_item_group(), ((TItem *)item)->is_wrapped());
-    this->label = (char *)replace_owned_string((saddr)((TItem *)item)->get_name(), (saddr)this->label, 8, 1);
-    if (((TItem *)item)->is_stackable() != 0) {
+    item_data = item->get_icon_index();
+    select_item_icon(item_data, item->get_item_type(), item->get_item_group(), item->is_wrapped());
+    this->label = (char *)replace_owned_string((saddr)item->get_name(), (saddr)this->label, 8, 1);
+    if (item->is_stackable() != 0) {
         update_stat_line_if_positive(count);
     }
     update_item_icon_colors(item);
@@ -556,13 +556,13 @@ void ItemListRow::update_from_player(void *item, s32 price, s32 index) {
     this->item = index;
     this->flags |= 0x45;
 }
-void ItemListRow::init_item_row(void *item, s32 arg2) {
+void ItemListRow::init_item_row(TItem *item, s32 arg2) {
     s32 item_data;
     this->x = (f32) lbl_805DCF08;
-    item_data = ((TItem *)item)->get_icon_index();
-    select_item_icon(item_data, ((TItem *)item)->get_item_type(), ((TItem *)item)->get_item_group(), ((TItem *)item)->is_wrapped());
-    this->label = (char *)replace_owned_string((saddr)((TItem *)item)->get_name(), (saddr)this->label, 8, 1);
-    if (((TItem *)item)->is_stackable() != 0) {
+    item_data = item->get_icon_index();
+    select_item_icon(item_data, item->get_item_type(), item->get_item_group(), item->is_wrapped());
+    this->label = (char *)replace_owned_string((saddr)item->get_name(), (saddr)this->label, 8, 1);
+    if (item->is_stackable() != 0) {
         s32 v = ((V_80258F34 *) item)->m34();
         update_stat_line_if_positive(v);
     }

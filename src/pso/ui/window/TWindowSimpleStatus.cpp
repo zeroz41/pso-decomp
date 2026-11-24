@@ -420,7 +420,7 @@ void update_photon_blast_player_marker(saddr help, s32 arg1) {
     u32 key;
     s32 r;
     s32 i;
-    u8 *p;
+    TObjPlayer *p;
     key = arg1;
     type = -1;
     if (key != 0xFFFF) {
@@ -454,8 +454,8 @@ void update_photon_blast_player_marker(saddr help, s32 arg1) {
             set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 170.0f, 173.0f);
             break;
         default:
-            if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1 && (p = (u8 *)get_player_by_client_id(key)) != 0) {
-                key = ((PlayerPkState *)(p + 0x828))->get_team() - 1;
+            if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1 && (p = get_player_by_client_id(key)) != 0) {
+                key = p->pk_state.get_team() - 1;
             }
             set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 34.0f * key, 202.0f);
             break;
