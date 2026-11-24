@@ -2217,7 +2217,7 @@ void TObjPlayer::request_meseta_drop(s32 amount) {
     if (amount > 0) {
         send_impose_hold(this, 0x384);
         set_action_flag_2();
-        ((TObjPlayer *)(&stack.sp8))->init_item_data(amount);
+        ((TItemData *)(&stack.sp8))->init_meseta(amount);
         stack.sp14 = -1;
         insert_item_node(&inventory_objects->list, (Vec *)TObjPlayer__sub_801BF914(&marker_position), this, (TItemData *)&stack.sp8, -1);
     }
@@ -2311,7 +2311,7 @@ void TObjPlayer::drop_items_on_death() {
             record=&records[count];
             record->set_source_id(-1);
             item=get_ptr_8(reinterpret_cast<TPlyInventoryItem *>(record));
-            ((TObjPlayer *)item)->init_item_data(obj_getPtr2B0_20((u8 *)this));
+            item->init_meseta(obj_getPtr2B0_20((u8 *)this));
             count+=1;
             item->id=-1;
         }

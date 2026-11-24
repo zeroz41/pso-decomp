@@ -18,6 +18,8 @@ struct EquipStats { s16 s0; s16 s2; s16 s4; s16 s6; s16 s8; s16 sA; s16 sC; };
 struct TItemData {
     int isValidGroundDrop();
     void init();
+    // Makes this item a meseta drop of `amount`.
+    void init_meseta(s32 amount);
     void bswap();
     static s32 is_usable(void *data);
     static s32 lookup_item_def(void *data);

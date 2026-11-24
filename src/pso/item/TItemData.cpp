@@ -1892,3 +1892,9 @@ s32 TItemData::check_item_flags() {
 #undef add_shield_stat_contribution__9TItemDataFPviiPv
 #undef apply_unit_stat_bonus__9TItemDataFPviiPvPvPv
 #undef apply_bonuses
+
+void TItemData::init_meseta(s32 amount) {
+    init();
+    data1.data_u8[0] = 4;
+    data2.data_u32 = amount;
+}
