@@ -614,11 +614,11 @@ void clear_shop_weapon_flags(void) {
 #pragma push
 #pragma optimization_level 1
 
-void TLobby::clear_slot_field_f10(s32 a, s32 b) {
-    E_802255CC *arr = (E_802255CC *)shop_weapon_stock_buffers[b];
-    if (a >= 0 && a <= 0xf) {
-        if (arr[a].f10 != -1) {
-            arr[a].f10 = -1;
+void TLobby::mark_shop_weapon_sold_out(s32 index, s32 slot) {
+    E_802255CC *arr = (E_802255CC *)shop_weapon_stock_buffers[slot];
+    if (index >= 0 && index <= 0xf) {
+        if (arr[index].f10 != -1) {
+            arr[index].f10 = -1;
         }
     }
 }

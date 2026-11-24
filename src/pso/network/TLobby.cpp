@@ -193,7 +193,6 @@ void handle_6x70_sync_player_disp_and_inventory(PlayerSyncPacket *pkt);
 void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt);
 void handle_6x6C_sync_game_state(CompressedSyncPacket *pkt);
 void handle_6x6B_sync_game_state(CompressedSyncPacket *pkt);
-void import_sync_records__6TLobbyFPs(void *, u16);
 s32 TLobby__sub_801A3E8C();
 s32 init_player_join_record(void *);
 void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
@@ -627,7 +626,7 @@ void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
         TLobby::bswap_6x6E_sync_game_state(buf);
         apply_floor_set_flags_packet(reinterpret_cast<FloorSetFlagsHeader *>(buf->payload), buf->floor_flags_size);
         n = buf->floor_flags_size;
-        import_sync_records__6TLobbyFPs(&buf->payload[n], buf->sync_records_size);
+        TLobby::import_sync_records(reinterpret_cast<s16 *>(&buf->payload[n]), buf->sync_records_size);
 
         if ((buf->sync_records_size && buf->sync_records_size) && buf->sync_records_size)
         {

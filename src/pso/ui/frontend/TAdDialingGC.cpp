@@ -34,7 +34,6 @@ struct Obj_80328874 { u8 pad[0x9C]; s32 state; };
 
 extern "C" {
 BOOL fn_80145A44(char *dst);
-s32 call_146CA0_with_5708__6TLobbyFv();
 }
 
 extern "C" {
@@ -145,7 +144,7 @@ void TAdDialingGC::draw_dialing_status() {
     if (fn_80145A44(a) == 0) {
         a[0] = 0;
     }
-    sprintf(b, lbl_804767C8, a, call_146CA0_with_5708__6TLobbyFv());
+    sprintf(b, lbl_804767C8, a, TLobby::get_dialing_phone_number());
     sprintf(c, (char *)get_connection_message_text(1), b);
     draw_menu_font_string_white((const char *)c, 23.0f, 351.0f);
 }

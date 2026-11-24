@@ -96,7 +96,7 @@ void TLobby__sub_8001DBD8(s32 _w0) {
     auto_reply_flags = 0;
 }
 
-void TLobby::forward_8001DBD8(void* p) { TLobby__sub_8001DBD8((saddr)p); }
+void TLobby::clear_auto_reply_flags(void* p) { TLobby__sub_8001DBD8((saddr)p); }
 void TLobby__sub_8001DC04(void* p) { TLobby__sub_8001DBD8((saddr)p); }
 
 

@@ -35,11 +35,11 @@ s32 LoadBmlExec(BmlResource *bml, const char *name);
 
 struct TLobbyFloorItemEntry {
     u8 n;
-    u8 m_1;
-    s16 m_2;
-    f32 m_4;
-    f32 m_8;
-    s16 m_c;
+    u8 source_type;
+    s16 entity_index;
+    f32 x;
+    f32 z;
+    s16 room_id;
     u16 key;
     TItemData item_data;
 };
@@ -71,7 +71,7 @@ struct TLobby : public TObject {
     static s32 clear_record_flags_a();
     static s32 clear_record_flags_b();
     static void free_nodes_with_id(uaddr root);
-    static void set_6264_and_call_2244B0(int a0, int a1);
+    static void generate_shop_inventory_at_level(int slot, int level);
     static void generate_shop_inventory(s32 idx);
     static void free_all_rocks();
     static s32 classify_level_bracket_wide(s32 shop_weapon_stock_level);
@@ -79,7 +79,7 @@ struct TLobby : public TObject {
     static s32 classify_level_bracket_narrow(s32 shop_weapon_stock_level);
     static s32 get_level_tier(s32 level);
     static s32 level_to_reward(s32 shop_weapon_stock_level);
-    static void clear_slot_field_f10(s32 a, s32 b);
+    static void mark_shop_weapon_sold_out(s32 index, s32 slot);
     static void free_lobby_resources();
     void cleanup_small_font();
     static void stop_audio_streams();
@@ -96,7 +96,7 @@ struct TLobby : public TObject {
     void set_short_mail_text();
     static s32 set_flag_bit0(s32 enabled);
     static s32 is_active();
-    static void forward_8001DBD8(void* p);
+    static void clear_auto_reply_flags(void* p);
     static void broadcast(void* a0);
     static void copy_all_entries(void* a0);
     static void copy_data(void* a0);
@@ -413,7 +413,7 @@ struct TLobby : public TObject {
     void set_info_board_text();
     static void reset_info_board();
     static void *create_dialing_message_window(void *message, void *delay);
-    static void free_singleton_805D7018();
+    static void release_bg_multi_textures();
     static void clear_session_buffer();
     static void reset_sound_buffers();
     static void run_sequence();
@@ -543,7 +543,7 @@ struct TLobby : public TObject {
     void cleanup();
     static void flush_pending_flags();
     static s32 run_connect_sequence();
-    static void call_146CA0_with_5708();
+    static char *get_dialing_phone_number();
     static void set_ppp_password(const char *src);
     static void load_network_configs();
     static void teardown_boss2();
@@ -587,7 +587,7 @@ struct TLobby : public TObject {
     static void invoke_command(u8 opcode);
     static void free(void *p);
     static s32 count_sync_record_bytes();
-    static void import_sync_records(s16 *records);
+    static void import_sync_records(s16 *records, u16 size);
     static s32 export_sync_records(s16 *dest);
     static u8 *alloc_heap_slot(s32 floor, s32 size);
     static s32 add_player(s32 floor, saddr data, s32 size);

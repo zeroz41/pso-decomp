@@ -538,7 +538,7 @@ s32 TLobby::run_connect_sequence() {
     return 0xE;
 }
 
-void TLobby::call_146CA0_with_5708() { get_modem_phone_number(lbl_805D5708); }
+char *TLobby::get_dialing_phone_number() { return get_modem_phone_number(lbl_805D5708); }
 
 char *get_modem_phone_number(s32 idx) {
     return lobby_account_entries[2].phone[idx].number;

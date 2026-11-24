@@ -113,7 +113,7 @@ s32 TLobby::count_sync_record_bytes() {
     return sum * 2;
 }
 
-void TLobby::import_sync_records(s16 *records) {
+void TLobby::import_sync_records(s16 *records, u16 size) {
     FloorEventSet **t;
     s16 *src;
     s32 i;

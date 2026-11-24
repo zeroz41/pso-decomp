@@ -77,7 +77,7 @@ TShopItemListWindow::TShopItemListWindow(TObject *parent, TShopWindowBase *seque
     this->purchase_step = 0;
     this->last_cursor = 0;
     calc_item_count((TObjPlayer *)this->player, &count);
-    TLobby::set_6264_and_call_2244B0(get_split_screen_slot(), count);
+    TLobby::generate_shop_inventory_at_level(get_split_screen_slot(), count);
 }
 
 TShopItemListWindow::~TShopItemListWindow() {

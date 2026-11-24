@@ -408,7 +408,7 @@ void mark_shop_tool_sold_out(s32 a, s32 b) {
 }
 
 
-void TLobby::set_6264_and_call_2244B0(int a0, int a1) { shop_tool_stock_level = a1; TLobby::generate_shop_inventory(a0); }
+void TLobby::generate_shop_inventory_at_level(int slot, int level) { shop_tool_stock_level = level; TLobby::generate_shop_inventory(slot); }
 
 void TLobby::generate_shop_inventory(s32 idx) {
     if (lobby_tool_random_rel != NULL) {

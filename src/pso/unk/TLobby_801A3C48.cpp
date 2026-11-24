@@ -186,7 +186,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TQuestThread::clear_all_floor_handlers, TQuestThread__sub_801F5D88},
     {TObjCityMainWarp::reset, TObjCityMainWarp__sub_80186AB8},
     {(FloorResourceCallback)TLobby__sub_80225C64, (FloorResourceCallback)TLobby__sub_80225C44},
-    {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::forward_8001DBD8},
+    {(FloorResourceCallback)TLobby__sub_8001DC04, (FloorResourceCallback)TLobby::clear_auto_reply_flags},
     {(FloorResourceCallback)TLobby__sub_8034C3A4, (FloorResourceCallback)TLobby__sub_8034C384},
     {(FloorResourceCallback)TWindowGetComCard__sub_8007B67C, (FloorResourceCallback)TWindowGetComCard__sub_8007B65C},
     {TLobby__sub_8024285C, TLobby::reset_state},
