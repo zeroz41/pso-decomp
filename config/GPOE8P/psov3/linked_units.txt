@@ -928,7 +928,7 @@ pso/enemy/TNeedleShoot.cpp
 pso/enemy/gee/TObjEneMe1Gee_NEEDLE_802A4A44.cpp
 pso/ui/hud/TNowLoading.cpp
 pso/npc/TNpcPlayer.cpp
-pso/npc/EntityLookup.cpp
+pso/npc/TNpcPlayer_800D87A8.cpp
 pso/npc/TNpcTalkTrigger.cpp
 pso/npc/TNpcPlayer_802C3CD0.cpp
 pso/npc/NpcPartnerControl.cpp
