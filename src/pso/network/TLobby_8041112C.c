@@ -532,7 +532,7 @@ s16 TLobby__sub_80411F1C(void *out, void *dst, s16 idx) {
     return 0;
 }
 
-extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
+extern s32 TLobby__sub_80412058(s16 id, NetBufferRef *self, s32 len, u8 *out) {
     struct AddrRec_80412058 {
         u32 kind;
         u8 addr[0x10];
@@ -544,7 +544,7 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
     s32 i;
     struct AddrRec_80412058 rec;
     u8 *ent;
-    u8 ref[8];
+    NetBufferRef ref;
     Ipv6AddrNode *cur;
     u8 *st;
 
@@ -565,9 +565,9 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
     rec.a = *(s16 *)(ent + offsetof(Ipv6Iface, prefix_len));
     rec.b = *(s16 *)(ent + offsetof(Ipv6Iface, flags));
     rec.c = *(u32 *)(ent + offsetof(Ipv6Iface, callback));
-    set_value_and_enable((NetBufferRef *)ref, (saddr)&rec);
-    netbuf_copy_by_ref(self, ref, 0x1C);
-    netbuf_ref_advance((NetBufferRef *)self, 0x1C);
+    set_value_and_enable(&ref, (saddr)&rec);
+    netbuf_copy_by_ref(self, &ref, 0x1C);
+    netbuf_ref_advance(self, 0x1C);
     cur = *(Ipv6AddrNode **)(ent + offsetof(Ipv6Iface, addrs));
     i = 1;
     n = 0;
@@ -578,9 +578,9 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
         rec.a = cur->prefix_len;
         rec.b = cur->f18;
         rec.c = 0;
-        set_value_and_enable((NetBufferRef *)ref, (saddr)&rec);
-        netbuf_copy_by_ref(self, ref, 0x1C);
-        netbuf_ref_advance((NetBufferRef *)self, 0x1C);
+        set_value_and_enable(&ref, (saddr)&rec);
+        netbuf_copy_by_ref(self, &ref, 0x1C);
+        netbuf_ref_advance(self, 0x1C);
         cur = cur->next;
         i++;
         n++;

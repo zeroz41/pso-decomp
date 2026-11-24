@@ -155,7 +155,7 @@ static inline s16 pap_read_reply_message(PapOptions *options, u8 actual_id, u8 e
         if (requested != 0) {
             available = get_field_4(source);
             destination = pap_message_buffer();
-            copied = (s16)TLobby__sub_80401ABC((u8 *)source, *destination, requested);
+            copied = (s16)TLobby__sub_80401ABC(source, *destination, requested);
             (*destination)[copied] = 0;
             options->message = *destination;
             result = 1;

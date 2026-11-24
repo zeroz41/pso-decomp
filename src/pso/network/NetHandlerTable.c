@@ -88,27 +88,26 @@ s16 TLobby__sub_804098B4(void *pkt) {
     return packet_length_804098B4(pkt);
 }
 
-inline s32 calc_80409908(void *self, u8 *arr) {
+inline s32 calc_80409908(void *self, NetPacket *pkt) {
     u8 tmp[0x10];
-    u8 *p;
-    s32 *meta = (s32 *)arr;
+    NetPacketFragment *p;
     saddr acc;
     s16 n;
     s32 sum;
     sum = 0;
-    n = (s16)meta[1];
+    n = (s16)pkt->fragment_count;
     acc = (saddr)self;
-    p = arr + n * 12;
+    p = pkt->fragments + n - 1;
     while (n > 0) {
         set_value_and_enable((NetBufferRef *)tmp, acc);
-        netbuf_copy_by_ref(tmp, arr + (n - 1) * 12 + 0x10, *(s16 *)p);
-        acc += *(s16 *)p;
-        sum += *(s16 *)p;
-        p -= 12;
+        netbuf_copy_by_ref((NetBufferRef *)tmp, &pkt->fragments[n - 1].buffer, p->length);
+        acc += p->length;
+        sum += p->length;
+        p--;
         n--;
     }
-    if ((s16)sum != (s16)meta[2]) return sum;
-    return (s16)meta[2];
+    if ((s16)sum != (s16)pkt->total_bytes) return sum;
+    return (s16)pkt->total_bytes;
 }
 
 s32 TLobby__sub_80409908(void *self, void *arr_) {

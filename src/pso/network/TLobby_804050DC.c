@@ -1197,7 +1197,7 @@ void netbuf_ref_advance(NetBufferRef *ref, s32 n) {
     }
 }
 
-u8 *netbuf_ref_data(void *self)
+u8 *netbuf_ref_data(NetBufferRef *self)
 {
     u32 w;
     s16 k;
@@ -1205,12 +1205,12 @@ u8 *netbuf_ref_data(void *self)
     u8 *rec;
     u8 *sub;
 
-    switch (((NetBufferRef *)self)->kind) {
+    switch (self->kind) {
     case 1:
     case 4:
-        return (u8 *)((NetBufferRef *)self)->value;
+        return (u8 *)(self)->value;
     case 2:
-        w = ((NetBufferRef *)self)->value;
+        w = self->value;
         k = (s16)(w >> 24);
         if (network_buffer_pool_state.count < k) {
             return 0;
@@ -1221,7 +1221,7 @@ u8 *netbuf_ref_data(void *self)
         sub = rec + j * (s32)sizeof(NetBufferSegment);
         return (u8 *)(*(u16 *)(sub + offsetof(NetBufferPoolEntry, segs[0].offset)) + (w & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf)));
     case 3:
-        return (u8 *)((NetBufferRef *)self)->value;
+        return (u8 *)(self)->value;
     default:
         return 0;
     }
@@ -1245,18 +1245,18 @@ void set_value_and_enable(NetBufferRef *ref, s32 value) {
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation off
-void netbuf_copy_by_ref(void *a, void *b, s32 v) {
+void netbuf_copy_by_ref(NetBufferRef *a, void *b, s32 v) {
     switch (((NetBufferRef *)b)->kind) {
     case 1:
     case 4:
-        switch (((NetBufferRef *)a)->kind) {
+        switch (a->kind) {
         case 1:
         case 4:
-            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
+            NetMemcpy((void *)(a)->value, (void *)((NetBufferRef *)b)->value, v);
             break;
         case 2:
             {
-        u32 word = ((NetBufferRef *)a)->value;
+        u32 word = a->value;
         s16 id = (s16)(word >> 24);
         u32 hi;
         u8 *rec;
@@ -1274,12 +1274,12 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         break;
     }
         case 3:
-            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
+            NetMemcpy((void *)(a)->value, (void *)((NetBufferRef *)b)->value, v);
             break;
         }
         break;
     case 2:
-        switch (((NetBufferRef *)a)->kind) {
+        switch (a->kind) {
         case 1:
         case 4:
             {
@@ -1297,7 +1297,7 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         rec += id * (s32)sizeof(NetBufferPoolEntry);
         ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
         t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)t, v);
+        NetMemcpy((void *)(a)->value, (void *)t, v);
         break;
     }
         case 2:
@@ -1318,7 +1318,7 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
             return;
         }
         hi = word >> 16;
-        word2 = ((NetBufferRef *)a)->value;
+        word2 = a->value;
         ents = network_buffer_pool_state.ents;
         rec = (u8 *)&ents[id];
         raw = word2 >> 24;
@@ -1351,20 +1351,20 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         rec += id * (s32)sizeof(NetBufferPoolEntry);
         ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
         t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)t, v);
+        NetMemcpy((void *)(a)->value, (void *)t, v);
         break;
     }
         }
         break;
     case 3:
-        switch (((NetBufferRef *)a)->kind) {
+        switch (a->kind) {
         case 1:
         case 4:
-            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
+            NetMemcpy((void *)(a)->value, (void *)((NetBufferRef *)b)->value, v);
             break;
         case 2:
             {
-        u32 word = ((NetBufferRef *)a)->value;
+        u32 word = a->value;
         s16 id = (s16)(word >> 24);
         u32 hi;
         u8 *rec;
@@ -1382,7 +1382,7 @@ void netbuf_copy_by_ref(void *a, void *b, s32 v) {
         break;
     }
         case 3:
-            NetMemcpy((void *)((NetBufferRef *)a)->value, (void *)((NetBufferRef *)b)->value, v);
+            NetMemcpy((void *)(a)->value, (void *)((NetBufferRef *)b)->value, v);
             break;
         }
         break;

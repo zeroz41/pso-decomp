@@ -212,7 +212,7 @@ s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *arg0, u8 *addr);
 s32 loopback_shutdown(void);
 s32 init_ipv6_all_routers_multicast_address(u8 *address, s8 scope);
 u8 init_ipv6_all_nodes_multicast_address(u8 *address, s8 scope);
-s16 TLobby__sub_80416F58(u8 *self, s32 n, void *out, s16 iface);
+s16 TLobby__sub_80416F58(NetPacketFragment *self, s32 n, void *out, s16 iface);
 s16 TLobby__sub_80417028(void *self, void *a, void *b, s16 iface);
 s16 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *addr, s16 id);
 s16 NetIPv6GetInterfaceLinkLayerAddress(s32 arg0, s16 arg1, s16 id);

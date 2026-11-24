@@ -55,12 +55,12 @@ s16 TLobby__sub_803F8E9C(void)
   NetworkMutexSlot *fourth_mutex;
   NetworkThreadSlot *slot;
   NetworkMessageQueueSlot *message_queue;
-  u8 *alarm_base;
+  NetworkAlarmSlot *alarm_base;
   enum {
     MUTEX_SLOTS_OFFSET = sizeof(lobby_alarm_slot_table),
     MESSAGE_QUEUE_SLOTS_OFFSET = MUTEX_SLOTS_OFFSET + sizeof(network_mutex_slot_table)
   };
-  alarm_base = (u8 *) lobby_alarm_slot_table;
+  alarm_base = lobby_alarm_slot_table;
   /* These three tables occupy consecutive BSS ranges. Retail addresses them from the alarm table base. */
   message_queue_base = (uaddr)alarm_base;
   message_queue_base = message_queue_base + MESSAGE_QUEUE_SLOTS_OFFSET;
@@ -77,7 +77,7 @@ s16 TLobby__sub_803F8E9C(void)
 
   for (i = 0; i < 0x40; i++)
   {
-    alarm = &((NetworkAlarmSlot *)alarm_base)[i];
+    alarm = &alarm_base[i];
     alarm->active = 0;
     OSInitMessageQueue(&alarm->queue, &alarm->message, 1);
   }

@@ -525,7 +525,7 @@ s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, saddr f, s16 g, sa
     return idx;
 }
 extern void arp_hold_packet(ArpEntry *entry, NetPacket *pkt) {
-u8 tmp[0x8];
+NetBufferRef tmp;
 ArpHold *found;
 s16 sum = 0;
 ArpHold *best = NULL;
@@ -577,8 +577,8 @@ src = found->data;
 p = pkt->fragments + k - 1;
 while (k > 0)
 {
-set_value_and_enable((NetBufferRef *)tmp, src);
-netbuf_copy_by_ref(tmp, (void *)&pkt->fragments[k - 1].buffer, (s32)p->length);
+set_value_and_enable(&tmp, src);
+netbuf_copy_by_ref(&tmp, &pkt->fragments[k - 1].buffer, (s32)p->length);
 src += p->length;
 sum += p->length;
 p--;

@@ -773,7 +773,7 @@ s16 NetIPv6HandleNeighborSolicitation(NetPacket *pkt, u8 *arg1, u8 *dst, s16 ifa
     len -= 0x18;
     if (len >= 8) {
         netbuf_ref_advance(&hdr->buffer, 24);
-        r = TLobby__sub_80416F58((u8 *)hdr, len, arg1, iface);
+        r = TLobby__sub_80416F58(hdr, len, arg1, iface);
         if (r < 0) {
             return r;
         }
@@ -781,7 +781,7 @@ s16 NetIPv6HandleNeighborSolicitation(NetPacket *pkt, u8 *arg1, u8 *dst, s16 ifa
     return TLobby__sub_80417028(&sp18, arg1, dst, iface);
 }
 
-extern s16 TLobby__sub_80416F58(u8 *self, s32 n, void *out, s16 iface)
+extern s16 TLobby__sub_80416F58(NetPacketFragment *self, s32 n, void *out, s16 iface)
 {
   u8 *p;
   s16 step;
@@ -789,7 +789,7 @@ extern s16 TLobby__sub_80416F58(u8 *self, s32 n, void *out, s16 iface)
   u8 *q;
   while (n >= 8)
   {
-    p = netbuf_ref_data(self + 4);
+    p = netbuf_ref_data(&self->buffer);
     if (p[1] == 0)
     {
       return -0x10E;
@@ -801,7 +801,7 @@ extern s16 TLobby__sub_80416F58(u8 *self, s32 n, void *out, s16 iface)
     }
     if (((s32) p[0]) != 1)
     {
-      netbuf_ref_advance((NetBufferRef *)(self + 4), step);
+      netbuf_ref_advance(&self->buffer, step);
       continue;
     }
     if (NetIPv6IsUnspecified(out))
@@ -810,7 +810,7 @@ extern s16 TLobby__sub_80416F58(u8 *self, s32 n, void *out, s16 iface)
     }
     q = p + 2;
     TLobby__sub_804182DC(out, q, new_var = step - 2, iface);
-    netbuf_ref_advance((NetBufferRef *)(self + 4), step);
+    netbuf_ref_advance(&self->buffer, step);
   }
 
   return 0;
@@ -901,7 +901,7 @@ s16 NetIPv6HandleRouterAdvertisement(NetPacket *pkt, u8 *arg1, u8 *dst, s16 ifac
 #pragma opt_loop_invariants off
 extern s16 TLobby__sub_80417294(NetPacketFragment *self, s32 n, u8 *dst, s16 iface)
 {
-  u8 buf58[8];
+  NetBufferRef ref;
   u8 *new_var3;
   Ipv6NdPrefixInfoOption prefix_opt;
   Ipv6NdPrefixEvent prefix_event;
@@ -944,9 +944,9 @@ extern s16 TLobby__sub_80417294(NetPacketFragment *self, s32 n, u8 *dst, s16 ifa
       case 3:
         if (len == 0x20U)
       {
-        set_value_and_enable((NetBufferRef *) buf58, (saddr) &prefix_opt);
+        set_value_and_enable(&ref, (saddr) &prefix_opt);
         new_var3 = prefix_opt.prefix.bytes;
-        netbuf_copy_by_ref(buf58, &self->buffer, 0x20);
+        netbuf_copy_by_ref(&ref, &self->buffer, 0x20);
         prefix_event.prefix = (new_var2 = new_var3);
         prefix_event.prefix_len = prefix_opt.prefix_len;
         prefix_event.preferred_lifetime = prefix_opt.preferred_lifetime;
@@ -959,8 +959,8 @@ extern s16 TLobby__sub_80417294(NetPacketFragment *self, s32 n, u8 *dst, s16 ifa
       case 5:
         if (len == 8U)
       {
-        set_value_and_enable((NetBufferRef *) buf58, (saddr) &mtu_opt);
-        netbuf_copy_by_ref(buf58, &self->buffer, 8);
+        set_value_and_enable(&ref, (saddr) &mtu_opt);
+        netbuf_copy_by_ref(&ref, &self->buffer, 8);
         mtu_event.router = dst;
         mtu_event.mtu = mtu_opt.mtu;
         TLobby__sub_80411604(iface, 4, &mtu_event);
