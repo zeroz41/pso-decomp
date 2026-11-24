@@ -77,27 +77,27 @@ LAYOUT_ASSERT(PppChap_len_check, offsetof(PppChap, len) == 0x10);
 /* chap_state: the CHAP buffers and settings (TLobby_803FC178.c).  init_net_buffer_table (NetworkTransport.c) points
  * the buffers into that file's static block and sets their sizes. */
 typedef struct PppAuthState {
-    u8 *p0;                     /* 0x00: the name in a challenge received */
-    u8 *p4;                     /* 0x04: the name received */
-    u8 *p8;                     /* 0x08: the challenge sent */
-    u8 *pC;                     /* 0x0C: the challenge received */
-    u8 *p10;                    /* 0x10: the value received */
-    u8 *p14;                    /* 0x14: the response's hash input (identifier, secret, challenge) */
-    u8 *p18;                    /* 0x18: the hash input (identifier, secret, challenge) */
-    u8 *p1C;                    /* 0x1C: the response sent (value size, digest, name) */
-    char *p20;                  /* 0x20: the digest, then the message sent */
-    s16 size0;                  /* 0x24: the sizes of p0 .. p20 */
-    s16 size4;
-    s16 size8;
-    s16 sizeC;
-    s16 size10;
-    s16 size14;
-    s16 size18;
-    s16 size1C;
-    s16 size20;
-    u8 f36;                     /* 0x36: copied to the FSM's proto.b9 */
-    u8 f37;                     /* 0x37: proto.bA */
-    u16 f38;                    /* 0x38: the FSM's timeout, in seconds */
+    u8 *rx_challenge_name;                     /* 0x00: the name in a challenge received */
+    u8 *rx_name;                     /* 0x04: the name received */
+    u8 *tx_challenge;                     /* 0x08: the challenge sent */
+    u8 *rx_challenge;                     /* 0x0C: the challenge received */
+    u8 *rx_value;                    /* 0x10: the value received */
+    u8 *response_input;                    /* 0x14: the response's hash input (identifier, secret, challenge) */
+    u8 *hash_input;                    /* 0x18: the hash input (identifier, secret, challenge) */
+    u8 *response;                    /* 0x1C: the response sent (value size, digest, name) */
+    char *message;                  /* 0x20: the digest, then the message sent */
+    s16 rx_challenge_name_size;                  /* 0x24: the sizes of the buffers above */
+    s16 rx_name_size;
+    s16 tx_challenge_size;
+    s16 rx_challenge_size;
+    s16 rx_value_size;
+    s16 response_input_size;
+    s16 hash_input_size;
+    s16 response_size;
+    s16 message_size;
+    u8 max_request_attempts;                     /* 0x36: copied to the FSM protocol's limits */
+    u8 max_peer_attempts;                     /* 0x37 */
+    u16 timeout_secs;                    /* 0x38: the FSM's timeout, in seconds */
     u8 pad3A[6];
 } PppAuthState;
 LAYOUT_ASSERT(PppAuthState_size_check, sizeof(PppAuthState) == 0x40);
@@ -110,9 +110,9 @@ typedef struct PppPapState {
     s16 peer_id_size;           /* 0x0C */
     s16 password_size;          /* 0x0E */
     s16 message_size;           /* 0x10 */
-    u8 f12;                     /* 0x12 .. 0x14: as PppAuthState.f36 .. f38 */
-    u8 f13;
-    s16 f14;
+    u8 max_request_attempts;                     /* 0x12 .. 0x14: as PppAuthState.max_request_attempts .. timeout_secs */
+    u8 max_peer_attempts;
+    s16 timeout_secs;
     u8 pad16[2];
 } PppPapState;
 LAYOUT_ASSERT(PppPapState_size_check, sizeof(PppPapState) == 0x18);

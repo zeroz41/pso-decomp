@@ -79,9 +79,9 @@ void pap_init(PppProtoBlocks *blocks) {
         p->tx_counter_index = 1;
         p->max_terminate_attempts = 0;
         /* The settings follow the options and name buffers in BSS. */
-        p->max_request_attempts = *(u8 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, f12)));
-        p->max_peer_attempts = *(u8 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, f13)));
-        p->timeout = *(u16 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, f14))) * 1000;
+        p->max_request_attempts = *(u8 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, max_request_attempts)));
+        p->max_peer_attempts = *(u8 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, max_peer_attempts)));
+        p->timeout = *(u16 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, timeout_secs))) * 1000;
         p->release_resources = TLobby__sub_803FE84C;
         p->reset_options = TLobby__sub_803FE84C;
         p->start_negotiation = TLobby__sub_803FE84C;

@@ -15,15 +15,15 @@
 
 /* The CHAP and PAP buffers init_net_buffer_table and init_net_block_620_params hand out (PppAuthState, PppPapState). */
 typedef struct PppAuthBuffers {
-    u8 auth20[0x100];
-    u8 auth1C[0x100];
-    u8 auth18[0x184];           /* 0x181 used */
-    u8 auth14[0x184];           /* 0x181 used */
-    u8 auth10[0x100];
-    u8 authC[0x100];
-    u8 auth8[0x80];
-    u8 auth4[0x80];
-    u8 auth0[0x80];
+    u8 chap_message[0x100];
+    u8 chap_response[0x100];
+    u8 chap_hash_input[0x184];           /* 0x181 used */
+    u8 chap_response_input[0x184];           /* 0x181 used */
+    u8 chap_rx_value[0x100];
+    u8 chap_rx_challenge[0x100];
+    u8 chap_tx_challenge[0x80];
+    u8 chap_rx_name[0x80];
+    u8 chap_rx_challenge_name[0x80];
     u8 pap_message[0x100];
     u8 pap_password[0x80];
     u8 pap_peer_id[0x80];
@@ -119,27 +119,27 @@ void TLobby__sub_803F76F0(void) {
 }
 
 void init_net_buffer_table(PppAuthState *auth) {
-    auth->p0 = ppp_auth_buffers.auth0;
-    auth->p4 = ppp_auth_buffers.auth4;
-    auth->p8 = ppp_auth_buffers.auth8;
-    auth->pC = ppp_auth_buffers.authC;
-    auth->p10 = ppp_auth_buffers.auth10;
-    auth->p14 = ppp_auth_buffers.auth14;
-    auth->p18 = ppp_auth_buffers.auth18;
-    auth->p1C = ppp_auth_buffers.auth1C;
-    auth->p20 = (char *)ppp_auth_buffers.auth20;
-    auth->size0 = 0x80;
-    auth->size4 = 0x80;
-    auth->size8 = 0x80;
-    auth->sizeC = 0x100;
-    auth->size10 = 0x100;
-    auth->size14 = 0x181;
-    auth->size18 = 0x181;
-    auth->size1C = 0x100;
-    auth->size20 = 0x100;
-    auth->f36 = 0xA;
-    auth->f37 = 5;
-    auth->f38 = 3;
+    auth->rx_challenge_name = ppp_auth_buffers.chap_rx_challenge_name;
+    auth->rx_name = ppp_auth_buffers.chap_rx_name;
+    auth->tx_challenge = ppp_auth_buffers.chap_tx_challenge;
+    auth->rx_challenge = ppp_auth_buffers.chap_rx_challenge;
+    auth->rx_value = ppp_auth_buffers.chap_rx_value;
+    auth->response_input = ppp_auth_buffers.chap_response_input;
+    auth->hash_input = ppp_auth_buffers.chap_hash_input;
+    auth->response = ppp_auth_buffers.chap_response;
+    auth->message = (char *)ppp_auth_buffers.chap_message;
+    auth->rx_challenge_name_size = 0x80;
+    auth->rx_name_size = 0x80;
+    auth->tx_challenge_size = 0x80;
+    auth->rx_challenge_size = 0x100;
+    auth->rx_value_size = 0x100;
+    auth->response_input_size = 0x181;
+    auth->hash_input_size = 0x181;
+    auth->response_size = 0x100;
+    auth->message_size = 0x100;
+    auth->max_request_attempts = 0xA;
+    auth->max_peer_attempts = 5;
+    auth->timeout_secs = 3;
 }
 
 void TLobby__sub_803F778C(void) {
@@ -153,9 +153,9 @@ void init_net_block_620_params(PppPapState *pap) {
     pap->peer_id_size = 0x80;
     pap->password_size = 0x80;
     pap->message_size = 0x100;
-    pap->f12 = 0xA;
-    pap->f13 = 5;
-    pap->f14 = 3;
+    pap->max_request_attempts = 0xA;
+    pap->max_peer_attempts = 5;
+    pap->timeout_secs = 3;
 }
 
 void TLobby__sub_803F77E0(void) {

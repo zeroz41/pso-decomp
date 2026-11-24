@@ -49,13 +49,13 @@ PppFrame *build_avetcp_net_buffer(PppFsm *c)
   NetCopyString((char *)p, name);
   buf->len += chap_challenge_length + (u16)NetStringLength(name) + 1;
   len = buf->len;
-  lim = chap_state.size8;
+  lim = chap_state.tx_challenge_size;
   n = len;
   if ((s16)len > lim)
   {
     n = lim;
   }
-  NetMemcpy(chap_state.p8, buf->data, n);
+  NetMemcpy(chap_state.tx_challenge, buf->data, n);
   return buf;
 }
 
