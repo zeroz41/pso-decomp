@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/PppFsm.h"
+#include "pso/network/ModemSession.h"
 
 /* Connection request of ppp_start (copied field by field into the net_session request by
    NetApplyConnectionConfig). */
@@ -15,7 +16,7 @@ typedef struct NetConnectCfg {
     char *user;
     char *password;
     char *phone_number;
-    void *callback;
+    NetStatusCallback callback;
     s16 h18;
     s16 h1A;
     s16 h1C;
@@ -132,7 +133,8 @@ s32 ppp_open_sub(void);
 void ppp_set_auth(u16 protocol);
 extern s16 ppp_session_active;
 extern s16 ppp_open_requested;
-extern saddr lobby_modem_callback;
+extern NetStatusCallback lobby_modem_callback;
+extern s32 ppp_last_io_ms;
 void PP_chap_init(PppProtoBlocks *connection);
 void init_ipv6cp_protocol(PppProtoBlocks *connection);
 extern PppProtoBlocks ppp_proto_blocks;

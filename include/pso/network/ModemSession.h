@@ -92,6 +92,9 @@ typedef struct ModemConfig {
 /* The session (net_session, PppApi.c): NetApplyConnectionConfig copies the connection request (NetConnectCfg)
  * into it and ppp_open_sub connects with it. A dial script substitutes %t, %u and %p with phone_number, user and
  * password. */
+/* The connection status callback: the status (lobby_modem_error, -1 when the link drops) and a value. */
+typedef void (*NetStatusCallback)(s16 status, s32 value);
+
 typedef struct NetSession {
     u16 flags;                  /* NetConnectCfg.flags; bit 2: no modem */
     s16 ip_mode;                /* 0x02: NetConnectCfg.ip_mode */
@@ -101,7 +104,7 @@ typedef struct NetSession {
     char *user;                 /* 0x0C */
     char *password;             /* 0x10 */
     char *phone_number;         /* 0x14 */
-    void (*cb)(s16, s32);       /* 0x18: status callback */
+    NetStatusCallback cb;       /* 0x18 */
     ModemConfig modem;          /* 0x1C: a copy of the default (ppp_init, ppp_set_modem_property) */
     s16 h7C;                    /* 0x7C: NetConnectCfg.h18 .. h20 */
     s16 h7E;

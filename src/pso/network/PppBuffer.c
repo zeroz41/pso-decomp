@@ -99,7 +99,7 @@ void ppp_buffer_truncate(PppFrame **o, u16 v) {
     (*o)->len = v;
 }
 
-u32 get_field_4(PppFrame *frame) {
+u32 ppp_frame_length(PppFrame *frame) {
     return frame->len;
 }
 

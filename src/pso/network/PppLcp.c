@@ -373,7 +373,7 @@ s16 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
     }
     {
         PppFrame *cur = build_requested_options(fsm);
-        if (msg->len != (u16)get_field_4(cur)) {
+        if (msg->len != (u16)ppp_frame_length(cur)) {
             err = 1;
         } else {
             while ((a = read_option_byte(&cur)) != -1) {

@@ -405,7 +405,7 @@ s16 verify_ipcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
         return -1;
     }
     cur = build_requested_options((IpcpConfig *)fsm->opts);
-    if (msg->len != (u16)get_field_4((PppFrame *)cur)) {
+    if (msg->len != (u16)ppp_frame_length((PppFrame *)cur)) {
         err = 1;
     } else {
         while ((a = read_option_byte(&cur)) != -1) {

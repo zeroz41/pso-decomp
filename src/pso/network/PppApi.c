@@ -17,7 +17,7 @@ s16 ppp_get_link_status(NetLinkStatus *status);
  * last-defined first. */
 s32 ppp_last_io_ms;
 s32 lobby_session_flags;
-saddr lobby_modem_callback;
+NetStatusCallback lobby_modem_callback;
 s16 lobby_modem_connect_state;
 s16 ppp_open_requested;
 s16 lobby_modem_abort_flag;
@@ -158,7 +158,7 @@ s32 ppp_stop(NetWaitParam *param) {
     s32 t;
 
     lock_mutex(net_thread_state.mutex);
-    lobby_modem_callback = 0;
+    lobby_modem_callback = NULL;
     if (ppp_session_active != 0) {
         lobby_modem_abort_flag = 1;
         lobby_modem_connect_state = 6;
@@ -281,7 +281,7 @@ s16 NetApplyConnectionConfig(NetConnectCfg *cfg) {
     g->user = cfg->user;
     g->password = cfg->password;
     g->phone_number = cfg->phone_number;
-    g->cb = (void (*)(s16, s32))cfg->callback;
+    g->cb = cfg->callback;
     NetMemcpy(&g->h7C, &cfg->h18, 0xA);
     NetMemcpy(&g->req, &cfg->h24, sizeof(ModemRequest));
     NetMemcpy(&g->auth_mode, &cfg->auth_mode, 0x10);
@@ -301,7 +301,7 @@ s16 NetApplyConnectionConfig(NetConnectCfg *cfg) {
     lobby_modem_connect_state = 1;
     ppp_open_requested = 1;
     lobby_session_flags = g->flags;
-    lobby_modem_callback = (saddr)g->cb;
+    lobby_modem_callback = g->cb;
     if (g->flags & 4)
     {
       ppp_use_pppoe = 1;

@@ -18,17 +18,12 @@
 #include "pso/network/ModemSession.h"
 #include "pso/network/PppBuffer.h"
 #include "pso/network/NetApi.h"
-/* The object header the stack's records share (laid out like TObject's fields). */
-void run_net_thread_loop(void);
-void ppp_input_packet(PppFrame *frame);
+#include "pso/network/PppFsm.h"
 
-extern s32 ppp_last_io_ms;
-/* inferred: the PPP FCS-16 lookup table (RFC 1662 fcstab); the receive path checks the FCS against 0xF0B8. */
-extern u16 ppp_fcs16_table[];
 u8 ppp_rx_buffer[0x200];
 NetPacketPool lobby_udp_socket_table;
 s32 lbl_805D7AEC;
-/* inferred: the receive path's running FCS: reset to 0xFFFF, folded per byte, good at 0xF0B8. */
+/* The receive path's running FCS: reset to 0xFFFF, folded per byte, good at 0xF0B8. */
 u16 ppp_rx_fcs;
 u32 ppp_rx_escape_pending;
 u8 *ppp_rx_end_ptr;
@@ -221,7 +216,7 @@ s32 NetTcpReadHeader(ParsedTcpHeader *record, PppFrame **pp)
   {
     return cb;
   }
-  if (record->option_len > (u16)get_field_4(*pp))
+  if (record->option_len > (u16)ppp_frame_length(*pp))
   {
     return 0;
   }
@@ -424,7 +419,7 @@ s32 ppp_poll_input(void)
     {
       if (((ppp_rx_frame_ptr != 0) && (ppp_rx_frame_ptr->len < 0x800)) && (ppp_rx_fcs == 0xf0b8))
       {
-        n = get_field_4(ppp_rx_frame_ptr) - 2;
+        n = ppp_frame_length(ppp_rx_frame_ptr) - 2;
         ppp_buffer_truncate(&ppp_rx_frame_ptr, n);
         get_time_ms(&ppp_last_io_ms);
         ppp_input_packet(ppp_rx_frame_ptr);
@@ -463,10 +458,10 @@ s32 ppp_poll_input(void)
   tail:
   if ((((u16) (lobby_modem_connect_state - 3)) <= 1) && (is_transport_connected() == 0))
   {
-    if ((((u32) lobby_modem_callback) != 0) && (lobby_modem_connect_state == 4))
+    if (lobby_modem_callback != NULL && lobby_modem_connect_state == 4)
     {
       unlock_mutex(net_thread_state.mutex);
-      ((void (*)(s32, s32)) lobby_modem_callback)(-1, 0);
+      lobby_modem_callback(-1, 0);
       lock_mutex(net_thread_state.mutex);
     }
     lobby_modem_connect_state = 5;
@@ -526,6 +521,7 @@ void ppp_input_packet(PppFrame *frame) {
     PppFrame *t;
     u8 *p;
     PppFrame *u;
+    IpcpConfig *ipcp;
     u8 pad[0x24];
     if (frame == NULL) {
         return;
@@ -559,11 +555,12 @@ void ppp_input_packet(PppFrame *frame) {
             G->rx_err_drops++;
             return;
         }
-        if (!(((IpcpConfig *)G->ipcp.opts)->local.got.flags & 4)) {
+        ipcp = G->ipcp.opts;
+        if (!(ipcp->local.got.flags & 4)) {
             G->rx_err_drops++;
             return;
         }
-        if (sl_uncompress_tcp(((IpcpConfig *)G->ipcp.opts)->net_list, &frame) <= 0) {
+        if (sl_uncompress_tcp(ipcp->net_list, &frame) <= 0) {
             G->rx_err_drops++;
             return;
         }
@@ -574,11 +571,12 @@ void ppp_input_packet(PppFrame *frame) {
             G->rx_err_drops++;
             return;
         }
-        if (!(((IpcpConfig *)G->ipcp.opts)->local.got.flags & 4)) {
+        ipcp = G->ipcp.opts;
+        if (!(ipcp->local.got.flags & 4)) {
             G->rx_err_drops++;
             return;
         }
-        if (vj_remember_uncompressed(((IpcpConfig *)G->ipcp.opts)->net_list, &frame) <= 0) {
+        if (vj_remember_uncompressed(ipcp->net_list, &frame) <= 0) {
             G->rx_err_drops++;
             return;
         }
@@ -675,29 +673,27 @@ s32 ppp_link_input(u8 *src, int len, int id) {
 #pragma pop
 s32 ppp_init_protocols(void)
 {
-  u8 *p;
-  s32 z;
-  u8 *new_var;
-  u8 *q;
-  z = 0;
-  ppp_rx_read_ptr = (u8 *) z;
-  /* CodeWarrior keeps the original register order when using the first member. */
-  p = &ppp_proto_blocks.phase;
-  q = p;
-  new_var = q;
-  NetMemset((PppProtoBlocks *)q, 0, 0x144);
-  p[0] = z;
-  init_lcp_protocol((PppProtoBlocks *)new_var);
-  PP_pap_init((PppProtoBlocks *)new_var);
-  PP_chap_init((PppProtoBlocks *)new_var);
-  init_ipcp_protocol((PppProtoBlocks *)new_var);
-  init_ipv6cp_protocol((PppProtoBlocks *)new_var);
-  if (p[0] == 0)
-  {
-    p[0] = 1;
-  }
-  fsm_open(&((PppProtoBlocks *)p)->lcp);
-  return 0;
+    PppProtoBlocks *G;
+    s32 z;
+    PppProtoBlocks *blocks;
+    PppProtoBlocks *q;
+    z = 0;
+    ppp_rx_read_ptr = (u8 *)z;
+    G = &ppp_proto_blocks;
+    q = G;
+    blocks = q;
+    NetMemset(q, 0, 0x144);
+    G->phase = z;
+    init_lcp_protocol(blocks);
+    PP_pap_init(blocks);
+    PP_chap_init(blocks);
+    init_ipcp_protocol(blocks);
+    init_ipv6cp_protocol(blocks);
+    if (G->phase == 0) {
+        G->phase = 1;
+    }
+    fsm_open(&G->lcp);
+    return 0;
 }
 
 s32 ppp_link_event(s16 command) {
@@ -825,8 +821,8 @@ skip:
 
 s16 ppp_output_protocol(s32 a, s32 b, u16 code, PppFrame *self) {
     s32 pad[4];
-    u16 r30;
-    PppFrame *r29;
+    u16 proto;
+    PppFrame *frame;
     u8 *p;
     PppFrame *ret;
 
@@ -834,14 +830,14 @@ s16 ppp_output_protocol(s32 a, s32 b, u16 code, PppFrame *self) {
         ppp_proto_blocks.tx_drops = ppp_proto_blocks.tx_drops + 1;
         return -1;
     }
-    r30 = code;
-    r29 = alloc_from_buffer(self, 4);
-    p = r29->data;
+    proto = code;
+    frame = alloc_from_buffer(self, 4);
+    p = frame->data;
     *p++ = 0xff;
     *p++ = 3;
-    write_network_u16_be(p, r30);
-    ret = r29;
-    if (r29 == 0) {
+    write_network_u16_be(p, proto);
+    ret = frame;
+    if (frame == 0) {
         ppp_proto_blocks.tx_alloc_drops = ppp_proto_blocks.tx_alloc_drops + 1;
         return -1;
     }
@@ -894,7 +890,7 @@ s16 ppp_output_frame(PppFrame *p) {
 
     ppp = &ppp_proto_blocks;
     opts = ppp->lcp.opts;
-    ppp->tx_bytes += (u16)get_field_4(p) + 2;
+    ppp->tx_bytes += (u16)ppp_frame_length(p) + 2;
     if (p == NULL || p->len < 4) {
         ppp->tx_drops += 1;
         return -1;
@@ -1029,12 +1025,15 @@ u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
     s32 count;
     s32 i;
     s16 carry;
-    u8 hdr[2];
+    union {
+        u16 word;
+        u8 bytes[2];
+    } hdr;
 
     count = pkt->fragment_count;
     sum = 0;
     carry = 0;
-    *(u16 *)hdr = 0;
+    hdr.word = 0;
     if (flag == 1) {
         e = pkt->fragments + count - 1;
         while (count != 0) {
@@ -1068,29 +1067,29 @@ u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
                 break;
             }
             case 3:
-                ptr = (u8 *)e[1].buffer.value;
+                ptr = e[1].buffer.data;
                 break;
             }
             len = e[1].length;
             if (carry) {
-                hdr[1] = *ptr++;
-                sum += *(u16 *)hdr;
+                hdr.bytes[1] = *ptr++;
+                sum += hdr.word;
                 len--;
             }
             if (len & 1) {
-                hdr[0] = ptr[len - 1];
-                hdr[1] = 0;
+                hdr.bytes[0] = ptr[len - 1];
+                hdr.bytes[1] = 0;
                 carry = 1;
                 len--;
             } else {
-                *(u16 *)hdr = 0;
+                hdr.word = 0;
                 carry = 0;
             }
             len = len >> 1;
             sum += ones_complement_sum(ptr, len);
         }
         if (carry) {
-            sum += *(u16 *)hdr;
+            sum += hdr.word;
         }
     } else {
         e = pkt->fragments;
@@ -1122,29 +1121,29 @@ u16 packet_ones_complement_sum(NetPacket *pkt, s16 flag)
                 break;
             }
             case 3:
-                ptr = (u8 *)e[1].buffer.value;
+                ptr = e[1].buffer.data;
                 break;
             }
             len = e[1].length;
             if (carry) {
-                hdr[1] = *ptr++;
-                sum += *(u16 *)hdr;
+                hdr.bytes[1] = *ptr++;
+                sum += hdr.word;
                 len--;
             }
             if (len & 1) {
-                hdr[0] = ptr[len - 1];
-                hdr[1] = 0;
+                hdr.bytes[0] = ptr[len - 1];
+                hdr.bytes[1] = 0;
                 carry = 1;
                 len--;
             } else {
-                *(u16 *)hdr = 0;
+                hdr.word = 0;
                 carry = 0;
             }
             len = len >> 1;
             sum += ones_complement_sum(ptr, len);
         }
         if (carry) {
-            sum += *(u16 *)hdr;
+            sum += hdr.word;
         }
     }
     if (sum & 0xffff0000) {
@@ -1182,7 +1181,7 @@ u8 *netbuf_ref_data(NetBufferRef *self)
     switch (self->kind) {
     case 1:
     case 4:
-        return (u8 *)(self)->value;
+        return self->data;
     case 2:
         w = self->value;
         k = (s16)(w >> 24);
@@ -1195,7 +1194,7 @@ u8 *netbuf_ref_data(NetBufferRef *self)
         sub = rec + j * (s32)sizeof(NetBufferSegment);
         return (u8 *)(*(u16 *)(sub + offsetof(NetBufferPoolEntry, segs[0].offset)) + (w & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf)));
     case 3:
-        return (u8 *)(self)->value;
+        return self->data;
     default:
         return 0;
     }
@@ -1219,18 +1218,18 @@ void set_value_and_enable(NetBufferRef *ref, void *data) {
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation off
-void netbuf_copy_by_ref(NetBufferRef *a, void *b, s32 v) {
-    switch (((NetBufferRef *)b)->kind) {
+void netbuf_copy_by_ref(NetBufferRef *dst, NetBufferRef *src, s32 len) {
+    switch (src->kind) {
     case 1:
     case 4:
-        switch (a->kind) {
+        switch (dst->kind) {
         case 1:
         case 4:
-            NetMemcpy((void *)(a)->value, (void *)((NetBufferRef *)b)->value, v);
+            NetMemcpy(dst->data, src->data, len);
             break;
         case 2:
             {
-        u32 word = a->value;
+        u32 word = dst->value;
         s16 id = (s16)(word >> 24);
         u32 hi;
         u8 *rec;
@@ -1244,20 +1243,20 @@ void netbuf_copy_by_ref(NetBufferRef *a, void *b, s32 v) {
         rec += id * (s32)sizeof(NetBufferPoolEntry);
         ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
         t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        NetMemcpy((void *)t, (void *)((NetBufferRef *)b)->value, v);
+        NetMemcpy((void *)t, src->data, len);
         break;
     }
         case 3:
-            NetMemcpy((void *)(a)->value, (void *)((NetBufferRef *)b)->value, v);
+            NetMemcpy(dst->data, src->data, len);
             break;
         }
         break;
     case 2:
-        switch (a->kind) {
+        switch (dst->kind) {
         case 1:
         case 4:
             {
-        u32 word = ((NetBufferRef *)b)->value;
+        u32 word = src->value;
         s16 id = (s16)(word >> 24);
         u32 hi;
         u8 *rec;
@@ -1271,12 +1270,12 @@ void netbuf_copy_by_ref(NetBufferRef *a, void *b, s32 v) {
         rec += id * (s32)sizeof(NetBufferPoolEntry);
         ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
         t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        NetMemcpy((void *)(a)->value, (void *)t, v);
+        NetMemcpy(dst->data, (void *)t, len);
         break;
     }
         case 2:
             {
-        u32 word = ((NetBufferRef *)b)->value;
+        u32 word = src->value;
         u32 word2;
         s16 id = (s16)(word >> 24);
         s16 cnt = network_buffer_pool_state.count;
@@ -1292,7 +1291,7 @@ void netbuf_copy_by_ref(NetBufferRef *a, void *b, s32 v) {
             return;
         }
         hi = word >> 16;
-        word2 = a->value;
+        word2 = dst->value;
         ents = network_buffer_pool_state.ents;
         rec = (u8 *)&ents[id];
         raw = word2 >> 24;
@@ -1306,12 +1305,12 @@ void netbuf_copy_by_ref(NetBufferRef *a, void *b, s32 v) {
         rec = (u8 *)&ents[id2];
         ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
         t2 = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word2 & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        NetMemcpy((void *)t2, (void *)t, v);
+        NetMemcpy((void *)t2, (void *)t, len);
         break;
     }
         case 3:
             {
-        u32 word = ((NetBufferRef *)b)->value;
+        u32 word = src->value;
         s16 id = (s16)(word >> 24);
         u32 hi;
         u8 *rec;
@@ -1325,20 +1324,20 @@ void netbuf_copy_by_ref(NetBufferRef *a, void *b, s32 v) {
         rec += id * (s32)sizeof(NetBufferPoolEntry);
         ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
         t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        NetMemcpy((void *)(a)->value, (void *)t, v);
+        NetMemcpy(dst->data, (void *)t, len);
         break;
     }
         }
         break;
     case 3:
-        switch (a->kind) {
+        switch (dst->kind) {
         case 1:
         case 4:
-            NetMemcpy((void *)(a)->value, (void *)((NetBufferRef *)b)->value, v);
+            NetMemcpy(dst->data, src->data, len);
             break;
         case 2:
             {
-        u32 word = a->value;
+        u32 word = dst->value;
         s16 id = (s16)(word >> 24);
         u32 hi;
         u8 *rec;
@@ -1352,11 +1351,11 @@ void netbuf_copy_by_ref(NetBufferRef *a, void *b, s32 v) {
         rec += id * (s32)sizeof(NetBufferPoolEntry);
         ent = rec + (s16)(hi & 0xff) * (s32)sizeof(NetBufferSegment);
         t = *(u16 *)(ent + offsetof(NetBufferPoolEntry, segs[0].offset)) + (word & 0xffff) + *(u32 *)(rec + offsetof(NetBufferPoolEntry, buf));
-        NetMemcpy((void *)t, (void *)((NetBufferRef *)b)->value, v);
+        NetMemcpy((void *)t, src->data, len);
         break;
     }
         case 3:
-            NetMemcpy((void *)(a)->value, (void *)((NetBufferRef *)b)->value, v);
+            NetMemcpy(dst->data, src->data, len);
             break;
         }
         break;

@@ -496,7 +496,7 @@ s16 verify_message_sequence(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
         return -1;
     }
     cur = build_requested_options((Ipv6cpOptions *)fsm->opts);
-    if (msg->len != (u16)get_field_4((PppFrame *)cur)) {
+    if (msg->len != (u16)ppp_frame_length((PppFrame *)cur)) {
         err = 1;
     } else {
         while ((a = read_option_byte(&cur)) != -1) {

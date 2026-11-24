@@ -42,7 +42,7 @@ s16 vj_remember_uncompressed(PppVjCompressionState *o, PppFrame **spp) {
     *spp = NetTcpWriteHeader(&b, *spp, NULL);
     *spp = NetIPv4WriteHeader(&a, *spp, 1);
     o->in_uncompressed++;
-    return (s16)(s64)get_field_4(*spp);
+    return (s16)(s64)ppp_frame_length(*spp);
 }
 
 #pragma push
@@ -86,7 +86,7 @@ s16 sl_uncompress_tcp(PppVjCompressionState *comp, PppFrame **src) {
     s16 len;
 
     comp->in_compressed++;
-    if ((u16)get_field_4(*src) < 3) {
+    if ((u16)ppp_frame_length(*src) < 3) {
         comp->in_errors++;
         return 0;
     }
@@ -182,7 +182,7 @@ s16 sl_uncompress_tcp(PppVjCompressionState *comp, PppFrame **src) {
     } else {
         cs->a.id++;
     }
-    len = get_field_4(*src) + 40 + cs->a.optlen;
+    len = ppp_frame_length(*src) + 40 + cs->a.optlen;
     cs->a.len = len;
     *src = NetTcpWriteHeader(th, *src, NULL);
     *src = NetIPv4WriteHeader(&cs->a, *src, 0);

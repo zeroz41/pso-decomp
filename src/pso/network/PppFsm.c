@@ -569,7 +569,7 @@ s16 ppp_fsm_send_packet(PppFsm *self, u8 code, int reply_identifier, PppFrame *p
         write_network_u32_be(payload->data, ((LcpOpts *)fsm->opts)->local.got.magic);
         break;
     }
-    payload_length = get_field_4(payload);
+    payload_length = ppp_frame_length(payload);
     {
         PppFrame *saved_frame = payload;
         /* Reuse the payload register for the length before restoring the frame. */
