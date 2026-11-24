@@ -292,7 +292,7 @@ unsigned long strtoul(const char* str, char** end, int base) {
     isc.NextChar = (char*)str;
     isc.NullCharDetected = 0;
 
-    value = __strtoul(base, 0x7FFFFFFF, &__StringRead, (void*)&isc, &count, &negative, &overflow);
+    value = __strtoul(base, 0x7FFFFFFF, &__StringRead, &isc, &count, &negative, &overflow);
 
     if (end) {
         *end = (char*)str + count;
@@ -317,7 +317,7 @@ static inline long strtol(const char* str, char** end, int base) {
     isc.NextChar = (char*)str;
     isc.NullCharDetected = 0;
 
-    uvalue = __strtoul(base, 0x7FFFFFFF, &__StringRead, (void*)&isc, &count, &negative, &overflow);
+    uvalue = __strtoul(base, 0x7FFFFFFF, &__StringRead, &isc, &count, &negative, &overflow);
 
     if (end) {
         *end = (char*)str + count;

@@ -1146,7 +1146,7 @@ void TLobby__sub_8024285C(void) { TLobby::reset_com_card_list(); }
 
 
 GuildCardRecord *__ct__15GuildCardRecordFv(void *p);
-void *__construct_array(void *array, GuildCardRecord *(*ctor)(void *), void *dtor, u32 size, u32 count);
+void *__construct_array(void *ptr, GuildCardRecord *(*ctor)(void *), void *dtor, u32 size, u32 n);
 static void __sinit_TLobby_802409AC_cpp();
 }
 __declspec(section ".ctors") static void *const com_card_global_initializer = (void *)__sinit_TLobby_802409AC_cpp;

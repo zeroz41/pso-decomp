@@ -105,7 +105,7 @@ saddr floor_item_free_id_stack;
 int floor_item_free_id_count;
 u16 *floor_item_next_sort_keys;
 FlagWord lbl_805D5430;
-void *__construct_new_array(void *block, void *ctor, void *dtor, size_t size, size_t count);
+void *__construct_new_array(void *block, void *ctor, void *dtor, size_t size, size_t n);
 void __ct__9FloorItemFv(FloorItem *item, s32 mode);
 void TLobby__sub_801041BC(void *arg0);
 void TLobby__sub_801041D8(void);

@@ -36,7 +36,7 @@
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/map/FloorPopulation.h"
 
-extern "C" void *__construct_new_array(void *block, void *ctor, void *dtor, u32 size, u32 count);
+extern "C" void *__construct_new_array(void *block, void *ctor, void *dtor, u32 size, u32 n);
 extern "C" u16 TObjRoomId__sub_801A1DB8(u16 entity_id);
 
 // The entity table, sorted by entity id (CollisionActorLookup.h).

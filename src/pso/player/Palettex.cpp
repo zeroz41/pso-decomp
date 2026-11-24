@@ -38,8 +38,8 @@ static void __sinit_Palettex_cpp();
 static void destroy_palettex_states();
 PalettexState *__ct__13PalettexStateFv(PalettexState *self);
 void __dt__13PalettexStateFv(PalettexState *self, s16 mode);
-void __construct_array(void *array, void *ctor, void *dtor, u32 size, u32 count);
-void __destroy_arr(void *array, void *dtor, u32 size, u32 count);
+void __construct_array(void *ptr, void *ctor, void *dtor, u32 size, u32 n);
+void __destroy_arr(void *block, void *dtor, u32 size, u32 n);
 void *__register_global_object(void *object, void *destructor, void *chain);
 }
 #pragma push

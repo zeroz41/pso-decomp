@@ -1177,7 +1177,7 @@ int printf(const char* format, ...) {
     {
         va_list args;
         va_start(args, format);
-        res = __pformatter(&__FileWrite, (void*)stdout, format, args);
+        res = __pformatter(&__FileWrite, stdout, format, args);
     }
 
     return res;
@@ -1190,7 +1190,7 @@ int vprintf(const char* format, va_list arg) {
         return -1;
     }
 
-    ret = __pformatter(&__FileWrite, (void*)stdout, format, arg);
+    ret = __pformatter(&__FileWrite, stdout, format, arg);
     return ret;
 }
 

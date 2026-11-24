@@ -600,7 +600,7 @@ int vsscanf(const char* s, const char* format, va_list arg) {
 
     isc.NullCharDetected = 0;
 
-    return __sformatter(&__StringRead, (void*)&isc, format, arg);
+    return __sformatter(&__StringRead, &isc, format, arg);
 }
 
 int sscanf(const char* s, const char* pFormat, ...) {

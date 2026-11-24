@@ -275,7 +275,7 @@ void begin_file_download__22TQuestVmDownLoadServerFv();
 void handle_trade_received_items(TTradeList *trade_list);
 void __register_global_object(int, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
-void __destroy_arr(void *arr, void *dtor, u32 size, u32 count);
+void __destroy_arr(void *block, void *dtor, u32 size, u32 n);
 extern int lobby_player_count;
 extern int item_drop_server_seed;
 extern int area_random_seed;
