@@ -44,6 +44,7 @@ struct PlayerCharDataEntry;
 struct TLockOnCursor;
 struct TMovie;
 struct CapturedTargetList;
+class TPlayerLobbyMarker;
 
 // The frames a player stays protected from hits (after getting up, being
 // hurt, or a mag's invincibility).
@@ -1396,7 +1397,7 @@ struct TObjPlayer : public TObjChara {
     static void spawn_hit_particles_at_vec(s32 arg0, saddr arg1, saddr dir);
     s32 get_quest_thread_id();
     static void heap_alloc(void* a0);
-    static u8 *create_lobby_marker(s16 client, s8 arg1);
+    static TPlayerLobbyMarker *create_lobby_marker(s16 client, s8 material_index);
     s32 can_guard();
     // Sets the player's cast level of technique `tech`, capped at the level it has learned.
     static void set_technique_level_clamped(TObjPlayer *player, u8 level, int tech);

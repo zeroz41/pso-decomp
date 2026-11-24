@@ -13,7 +13,6 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/TPlyOnCreated.h"
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerSoul.h"
 #include "pso/player/TPlayerReadyCallback.h"
 #include "pso/player/TPlayerLevelFeedback.h"
@@ -27,65 +26,16 @@
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/object/base/TObjBase.h"
 
+
+
 extern "C" {
-
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
-
-}
-extern "C" {
-
-extern s32 __vt__20TPlayerLevelFeedback[];
-
-}
-extern "C" {
-
-extern s32 __vt__20TPlayerLevelFeedback[];
+s32 is_on_current_floor__10TObjPlayerFi(TObjPlayer *player);
 
 }
 
-struct VB_801C6408 { u8 pad[0x18]; };
 
-struct VO_801C6408 : VB_801C6408 {
-    virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5(); virtual void v6(); virtual void v7();
-    virtual void v8(); virtual void v9(); virtual void v10(); virtual void v11(); virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15();
-    virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19(); virtual void v20(); virtual void v21(); virtual void v22(); virtual void v23();
-    virtual void v24(); virtual void v25(); virtual void v26(); virtual void v27(); virtual void v28(); virtual void v29(); virtual void v30(); virtual void v31();
-    virtual void v32(); virtual void v33(); virtual void v34(); virtual void v35(); virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39();
-    virtual void v40(); virtual void v41(); virtual void v42(); virtual void v43(); virtual void v44(); virtual void v45(); virtual void v46(); virtual void v47();
-    virtual void v48(); virtual void v49(); virtual void v50(); virtual void v51(); virtual void v52(); virtual void v53(); virtual void v54(); virtual void v55();
-    virtual void v56(); virtual void v57(); virtual void v58(); virtual void v59(); virtual void v60(); virtual void v61(); virtual void v62();
-    virtual void get_pos(s32, Vec *);
-};
-
-extern "C" {
-s32 is_on_current_floor__10TObjPlayerFi(VO_801C6408*);
-
-}
-
-extern "C" {
-
-
-
-
-
-}
-
-#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerParticleOwner.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-
-
-#define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/player/TPlayerParticleOwner.h"
-
-#include "types.h"
-
-#include "pso/player/TObjPlayer.h"
-
-extern "C" {
-s32 test_flags_any(s32 *flags, s32 mask);
-}
 
 
 extern "C" {
@@ -109,17 +59,8 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 }
 
 
-
-struct RecoveredGlobal_801C6FF8_lbl_804C4008 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
 BOOL fn_801C6F2C(u8 *arg0);
-void __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_801C6FF8_lbl_804C4008 __vt__18TPlayerLobbyMarker;
-u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg3);
 s32 TObjPlayer__sub_801BF914(s32);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 translate_matrix_vec3(s32, s32);
@@ -130,25 +71,11 @@ extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
-u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg3);
 s32 get_client_id(void);
 s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 }
 
-extern "C" {
 
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
-
-}
-
-
-LAYOUT_ASSERT(RecoveredGlobal_801C6FF8_lbl_804C4008_size, sizeof(RecoveredGlobal_801C6FF8_lbl_804C4008) == 0x18);
-#include "pso/network/TPlyOnCountOver.h"
-
-#include "pso/network/TPlyOnCreated.h"
-
-#include "types.h"
 #include "pso/system/THeap.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TForceOperate.h"
@@ -158,60 +85,9 @@ LAYOUT_ASSERT(RecoveredGlobal_801C6FF8_lbl_804C4008_size, sizeof(RecoveredGlobal
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/map/FloorArea.h"
 
-extern "C" {
-
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
-
-}
 
 #undef get_player_by_client_id
-
-
-
-
-
-
-
-
-
-extern "C" {
-void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
-}
-
-
-
-extern "C" {
-void handle_6x87_shrink_player(const PlayerShrinkPacket* input);
-}
-
-
-
-extern "C" {
-s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
-}
-
-
-
-
-extern "C" {
-BOOL fn_801C6F2C(u8 *arg0);
-}
-
-
-
-
-
-
-
-
-extern "C" {
-u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg3);
-}
-
-
 
 
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
@@ -223,7 +99,6 @@ u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg
 #include "pso/system/byteswap.h"
 #include "pso/player/TObjPlayer_801C721C.h"
 #include "pso/unk/text_8020C354.h"
-#include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/camera/TCameraFollow.h"
@@ -231,8 +106,6 @@ u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg
 #include "pso/player/PlayerTaskEffects.h"
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 chunk_polygon_flags_or_mask;
-
-
 
 
 struct Arrival_801C5F84 {
@@ -280,16 +153,18 @@ const char *TForceOperate__name = TForceOperate__class_name_string;
 #pragma defer_codegen on
 
 extern "C" {
-u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *player_lobby_marker, u8 *parent, s16 arg2, s8 arg3) {
-    __ct__7TObjectFP7TObject(player_lobby_marker, parent);
-    *(s32 **)((s8 *)player_lobby_marker + 0x18) = &__vt__18TPlayerLobbyMarker.value;
-    *(s8 *)&((TPlayerLobbyMarker *)player_lobby_marker)->material_index = arg3;
-    *(s8 *)&((TPlayerLobbyMarker *)player_lobby_marker)->flags = 0;
-    *(s16 *)&((TPlayerLobbyMarker *)player_lobby_marker)->player_id = arg2;
-    ((TPlayerLobbyMarker *)player_lobby_marker)->rotation = 0;
-    return player_lobby_marker;
-}
+extern void *__vt__18TPlayerLobbyMarker[6];
+void __ct__7TObjectFP7TObject(TObject *object, TObject *parent);
 
+TPlayerLobbyMarker *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(TPlayerLobbyMarker *marker, TObject *parent, s16 player_id, s8 material_index) {
+    __ct__7TObjectFP7TObject(marker, parent);
+    *(void ***)((u8 *)marker + 0x18) = __vt__18TPlayerLobbyMarker;
+    *(s8 *)&marker->material_index = material_index;
+    *(s8 *)&marker->flags = 0;
+    *(s16 *)&marker->player_id = player_id;
+    marker->rotation = 0;
+    return marker;
+}
 }
 
 
@@ -387,18 +262,12 @@ s32 TObjPlayer__sub_801C6DAC(u8 *arg0) {
 
 
 extern "C" {
-u8 *TObjPlayer::create_lobby_marker(s16 client, s8 arg1) {
-    u8 *e;
-    u8 *p;
-    e = (u8 *)get_player_by_client_id((u16)client);
-    if (e == NULL) {
+TPlayerLobbyMarker *TObjPlayer::create_lobby_marker(s16 client, s8 material_index) {
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player == NULL) {
         return NULL;
     }
-    p = (u8 *)TObject::operator new(0x24);
-    if (p != NULL) {
-        p = __ct__18TPlayerLobbyMarkerFP7TObjectsSc(p, e, client, arg1);
-    }
-    return p;
+    return new TPlayerLobbyMarker(player, client, material_index);
 }
 
 }
@@ -616,17 +485,17 @@ TPlayerSoul::TPlayerSoul(TObject* parent, u16 id) : TPlayerParticleOwner(parent)
 TPlayerSoul::~TPlayerSoul() {}
 
 void TPlayerSoul::run_task() {
-    VO_801C6408* p;
-    TParticleCtrl* h;
-    Vec v;
-    p = (VO_801C6408*)get_player();
-    if (p != NULL && ((TObjPlayer *)p)->test_action_mask(0x8000) != 0 && is_current_area_item_enabled() != 0 &&
-        is_on_current_floor__10TObjPlayerFi(p) != 0) {
-        h = get_particle();
-        if (h != 0) {
-            p->get_pos(1, &v);
-            v.y += 10.0f;
-            ((TParticleCtrl *)h)->set_position(&v);
+    TObjPlayer *player;
+    TParticleCtrl *particle;
+    Vec pos;
+    player = get_player();
+    if (player != NULL && player->test_action_mask(0x8000) != 0 && is_current_area_item_enabled() != 0 &&
+        is_on_current_floor__10TObjPlayerFi(player) != 0) {
+        particle = get_particle();
+        if (particle != 0) {
+            player->get_anim_node_position(1, &pos);
+            pos.y += 10.0f;
+            particle->set_position(&pos);
         }
     } else {
         queue_destruction();
@@ -881,7 +750,7 @@ void update_player_appear_fade(u8 *arg0) {
         default:
             break;
         case 0:
-            if ((((TObjPlayer *)player)->is_inactive() != 0) && (((TObjPlayer *)player)->check_flag_40000() == 0) && (((TObjPlayer *)player)->check_flag_04000000() != 0) && (is_on_current_floor__10TObjPlayerFi((VO_801C6408 *)player) != 0)) {
+            if ((((TObjPlayer *)player)->is_inactive() != 0) && (((TObjPlayer *)player)->check_flag_40000() == 0) && (((TObjPlayer *)player)->check_flag_04000000() != 0) && (is_on_current_floor__10TObjPlayerFi((TObjPlayer *)player) != 0)) {
                 if (--*(s16 *)((s8 *)arg0 + 2) < 0) {
                     if (TCameraCtrl::get_mode() != 0) {
                         ((TObjPlayer *)player)->render_material_state.alpha = 1.0f;

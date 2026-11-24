@@ -4,7 +4,7 @@
 struct TObjPlayer;
 class TPlayerLobbyMarker : public TObject {
 public:
-    TPlayerLobbyMarker(TObject*, s16, s8);
+    TPlayerLobbyMarker(TObject *parent, s16 player_id, s8 material_index);
     virtual void run_task();
     virtual void render();
     virtual ~TPlayerLobbyMarker();
