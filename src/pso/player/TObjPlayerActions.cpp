@@ -527,7 +527,6 @@ void enable_action_input__10TObjPlayerFPv(void *p);
 void send_code_49_1__10TObjPlayerFi(saddr player);
 u16 TObjPlayer__sub_801B5AF8(void *, s32);
 s32 is_action_id_none(int);
-s32 interpolate_angle__10TObjPlayerFPvUsUsPl(void *, int, int, s32 *);
 s32 get_vobj_state_28__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 u8 TObjPlayer__sub_801C010C(const PlayerTechniqueState *state, s32 technique);
@@ -635,7 +634,7 @@ void TObjPlayer::update_state_group() {
 void TObjPlayer__sub_801C75A4(u8 *player) {
     s32 sp8;
     f32 length;
-    ((TObjPlayer *)player)->rotation_y = interpolate_angle__10TObjPlayerFPvUsUsPl(player, ((TObjPlayer *)player)->rotation_y, TObjPlayer__sub_801D0DAC(player), &sp8);
+    ((TObjPlayer *)player)->rotation_y = ((TObjPlayer *)player)->interpolate_angle(((TObjPlayer *)player)->rotation_y, TObjPlayer__sub_801D0DAC(player), &sp8);
     length = normalize_vector_safe((Vec *)(player + 0x308)) - 0.04f;
     if (length < 0.04f) {
         clear_velocity((void *) (player));

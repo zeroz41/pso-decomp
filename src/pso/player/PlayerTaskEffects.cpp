@@ -812,10 +812,12 @@ void PlayerShrinkPacket::send() {
     send_subcommand((u8 *)this);
 }
 
-u16 TObjPlayer::interpolate_angle(void *unused, u16 from, u16 to, s32 *step) {
+s32 TObjPlayer::interpolate_angle(s32 from_angle, s32 to_angle, s32 *step) {
+    u16 from = from_angle;
+    u16 to = to_angle;
     s16 diff;
     s32 turn;
-    diff = (s16)((u16)to - from);
+    diff = (s16)(to - from);
     if (diff > -0x3000 && diff < 0x3000) {
         turn = (diff >> 4) - (diff >> 5);
     } else {
