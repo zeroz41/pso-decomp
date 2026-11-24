@@ -511,12 +511,6 @@ struct Dst_801B4CE4 {
 
 struct S801B5200_801B3FD8 { s8 b[2]; s16 h; };
 
-struct Stack_801B6024 {
-    s32 sp8;
-    f32 spC;
-    s32 sp10;
-};
-
 typedef struct Player_801B6110 {
     u8 pad0[0x30];
     s32 flags;
@@ -3152,18 +3146,17 @@ void TObjPlayer::clear_lobby_flag(void *base) {
 }
 
 void TObjPlayer::update_position_history() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r0;
+    s32 index;
 
-    if ((*(f32 *)((s8 *)arg0 + 0x44) != *(f32 *)((s8 *)arg0 + 0x38)) || (*(f32 *)((s8 *)arg0 + 0x4C) != *(f32 *)((s8 *)arg0 + 0x40))) {
-        temp_r0 = *(s32 *)((s8 *)arg0 + 0x6AC) + 1;
-        *(s32 *)((s8 *)arg0 + 0x6AC) = temp_r0;
-        if (temp_r0 >= 0x10) {
-            *(s32 *)((s8 *)arg0 + 0x6AC) = 0;
+    if ((this->prev_position.x != this->position.x) || (this->prev_position.z != this->position.z)) {
+        index = *(s32 *)((s8 *)this + 0x6AC) + 1;
+        *(s32 *)((s8 *)this + 0x6AC) = index;
+        if (index >= 0x10) {
+            *(s32 *)((s8 *)this + 0x6AC) = 0;
         }
-        this->set_position_history_entry(*(s32 *)((s8 *)arg0 + 0x6AC), *(f32 *)((s8 *)arg0 + 0x38), *(f32 *)((s8 *)arg0 + 0x40));
+        this->set_position_history_entry(*(s32 *)((s8 *)this + 0x6AC), this->position.x, this->position.z);
     }
-    VecCopy((Vec *)(arg0 + 0x44), (const Vec *)&this->position);
+    VecCopy(&this->prev_position, &this->position);
     this->contact_surface.update_field8();
 }
 
@@ -3565,21 +3558,21 @@ s32 TObjPlayer::is_matching_id(s16 arg1) {
 }
 
 void TObjPlayer::rewind_position_history() {
-    Stack_801B6024 stack;
-    s32 temp_r0;
-    u8 *temp_r3;
-    temp_r0 = *(s32 *)((s8 *)((u8 *)this) + 0x6AC) - 1;
-    *(s32 *)((s8 *)((u8 *)this) + 0x6AC) = temp_r0;
-    if (temp_r0 < 0) {
-        *(s32 *)((s8 *)((u8 *)this) + 0x6AC) = 0xF;
+    Vec pos;
+    s32 index;
+    CsnHit *hit;
+    index = *(s32 *)((s8 *)this + 0x6AC) - 1;
+    *(s32 *)((s8 *)this + 0x6AC) = index;
+    if (index < 0) {
+        *(s32 *)((s8 *)this + 0x6AC) = 0xF;
     }
-    get_position_history_entry(*(s32 *)((s8 *)((u8 *)this) + 0x6AC), &stack.sp8, &stack.sp10);
-    stack.spC = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
-    temp_r3 = (u8 *)csnVectorUnder((Vec *)&stack.sp8, this->ground_candidates.groups, 0x41);
-    if (temp_r3 != NULL) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x38) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 0);
-        *(f32 *)((s8 *)((u8 *)this) + 0x3C) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 4);
-        *(f32 *)((s8 *)((u8 *)this) + 0x40) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 4)) + 8);
+    get_position_history_entry(*(s32 *)((s8 *)this + 0x6AC), &pos.x, &pos.z);
+    pos.y = this->position.y;
+    hit = csnVectorUnder(&pos, this->ground_candidates.groups, 0x41);
+    if (hit != NULL) {
+        this->position.x = hit->contact->point.x;
+        this->position.y = hit->contact->point.y;
+        this->position.z = hit->contact->point.z;
     }
 }
 
