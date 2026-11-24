@@ -311,7 +311,7 @@ public:
     struct recv_packet_handlers m_recv_handlers;
 public:
     static void *operator new(size_t size);
-    static void operator delete(void *ptr) { obj_heap->heap_free(ptr); };
+    static void operator delete(void *ptr);
     TProtocol(TObject *parent, u16 sub_version, int language, char *serial_number, char *access_key, char *password);
     virtual ~TProtocol();
     const u8 next();

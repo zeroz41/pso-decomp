@@ -151,12 +151,7 @@ public:
     char name[16];
     TPlyCharData char_data;
 public:
-    void bswap() {
-        tag.bswap();
-        bswap_32(&ip_addr);
-        bswap_32(&client_id);
-        char_data.bswap();
-    };
+    void bswap();
 };
 
 class TGenGuildCardTag {
