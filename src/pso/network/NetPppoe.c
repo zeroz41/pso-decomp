@@ -6,6 +6,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/EthernetReceiveFilter.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -60,15 +61,15 @@ s16 build_ethernet_frame_header(void *frame, void *dst_mac, void *src_mac, u16 t
   u8 c;
   u16 t;
   u16 x;
-  u8 *eth;
+  EthernetFrameHeader *eth;
   u16 l;
   s16 r;
-  eth = ((u8 *)frame);
-  NetMemcpy(eth, dst_mac, 6);
-  NetMemcpy(eth + 6, src_mac, 6);
+  eth = (EthernetFrameHeader *)frame;
+  NetMemcpy(eth->destination, dst_mac, 6);
+  NetMemcpy(eth->source, src_mac, 6);
   t = type;
-  NetMemcpy(((u8 *)frame) + 0xC, &t, 2);
-  p = eth + 0xE;
+  NetMemcpy(&((EthernetFrameHeader *)frame)->ether_type, &t, 2);
+  p = (u8 *)(eth + 1);
   c = 0x11;
   NetMemcpy(p, &c, 1);
   NetMemcpy(p + 1, &code, 1);
