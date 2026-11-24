@@ -58,17 +58,17 @@ void TechniqueParams::copy(TechniqueParams *src) {
     pad_0C = src->pad_0C;
     tp_cost = src->tp_cost;
     pad_12 = src->pad_12;
-    pad_14 = src->pad_14;
+    mental = src->mental;
     pad_16 = src->pad_16;
-    pad_18 = src->pad_18;
+    angle = src->angle;
     pad_1C = src->pad_1C;
     pad_20 = src->pad_20;
     pad_22 = src->pad_22;
     tp_cost_percent = src->tp_cost_percent;
     power_per_level = src->power_per_level;
     range_step = src->range_step;
-    pad_28 = src->pad_28;
-    pad_2A = src->pad_2A;
+    mental_per_level = src->mental_per_level;
+    angle_step = src->angle_step;
 }
 
 TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
