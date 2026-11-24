@@ -22,5 +22,8 @@ void recover_player_full(void *player);
 
 // 6x24: moves player `slot` to pos, facing heading.
 void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading);
+// The TPlayerReadyCallback that queue_player_kill queues: flags the player as killed.
+void mark_player_killed(TObjPlayer *player);
+void queue_player_kill(TObjPlayer *player);
 
 #endif

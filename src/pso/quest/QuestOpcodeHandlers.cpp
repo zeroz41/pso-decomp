@@ -887,7 +887,6 @@ void TOMineTrap__sub_80171368(f32);
 int clear_enabled_main_warps(void*);
 int set_hashi_versus2_flag(void*);
 int clear_hashi_versus2_flag(void*);
-s32 TObjPlayer__sub_801AF904();
 void draw_small_label__15TFontSmallLobbyFi(saddr player);
 void TLobby__sub_801B1254(saddr player);
 s32 foreach_player__10TObjPlayerFv(s32 *);
@@ -2717,8 +2716,9 @@ void qst_op_get_serial_number(u8 reg) {
     }
 }
 void qst_op_kill_player(s32 slot_reg) {
-    if (get_player_by_client_id(qst_registers[(u8)slot_reg]) != NULL) {
-        TObjPlayer__sub_801AF904();
+    TObjPlayer *player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
+    if (player != NULL) {
+        queue_player_kill(player);
     }
 }
 

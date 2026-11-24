@@ -42,6 +42,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/TEffGuard.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/player/TPlayerReadyCallback.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/player/TUnk_804B6C24.h"
@@ -802,6 +803,8 @@ typedef struct List_801BC068 {
     Obj_801BC068 *head;
 } List_801BC068;
 
+void mark_player_killed(TObjPlayer *player);
+
 extern "C" {
 void copy_player_visual_record(void *, void *);
 u16 get_id__11TMainCursorFv(void* p);
@@ -811,8 +814,6 @@ saddr TObjPlayer__sub_80116620(void *, int);
 void TObjPlayer__sub_801AF554(void *arg0, s8 arg1);
 void play_voice_pair__10TObjPlayerFPv(TObjPlayer *player);
 bool TObjPlayer__sub_801AF694(TObjPlayer *player, s32 kind);
-void set_flags_a00__10TObjPlayerFPv(void *object);
-void TObjPlayer__sub_801AF904(s32 arg0);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 s8 TObjPlayer__sub_801AFDBC(s8 cls);
@@ -892,7 +893,6 @@ void TObjPlayer__sub_801BEF44(void *, void *);
 s32 TObjPlayer__sub_801BF3A0(void *, void *);
 s32 copy_vec_at_18__10TObjPlayerFv(void *, void *);
 s32 set_material_index__18TPlayerLobbyMarkerFUc(u32 a0 = 0, s32 a1 = 0);
-s32 __ct__20TPlayerReadyCallbackFP7TObjectUsPFP10TObjPlayer_v(s32, s32, u16, void (*)(int));
 int TObjPlayer__sub_801BF460(void*);
 int TObjPlayer__sub_801BF47C(void*);
 int TObjPlayer__sub_801BF488(void*);
@@ -6443,19 +6443,19 @@ void TObjPlayer::clamp_stats(player_stats *out, player_stats *class_stats) {
     out->meseta = meseta;
 }
 
-void TObjPlayer__sub_801AF904(s32 arg0) {
-    s32 temp_r3;
-    temp_r3 = ((s32 (*)(s32))__nw__7TObjectFUl)(0x24);
-    if (temp_r3 != 0) {
-        __ct__20TPlayerReadyCallbackFP7TObjectUsPFP10TObjPlayer_v(temp_r3, arg0, ((TObjBase *)(saddr)(arg0))->get_entity_id(), (void (*)(int))set_flags_a00__10TObjPlayerFPv);
+}
+
+void queue_player_kill(TObjPlayer *player) {
+    new TPlayerReadyCallback(player, player->get_entity_id(), mark_player_killed);
+}
+
+void mark_player_killed(TObjPlayer *player) {
+    if (player != NULL) {
+        player->set_actor_flags(0xA00);
     }
 }
 
-void set_flags_a00__10TObjPlayerFPv(void *object) {
-    if (object != NULL) {
-        ((TObjBase *)object)->set_actor_flags(0xA00);
-    }
-}
+extern "C" {
 
 s32 TObjPlayer__sub_801AF868(void *player) {
     u16 id;
