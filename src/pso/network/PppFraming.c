@@ -671,7 +671,7 @@ s32 ppp_link_input(u8 *src, int len, int id) {
     return 0;
 }
 #pragma pop
-s32 ppp_init_protocols(void)
+s32 ppp_init_protocols(s32 ignored)
 {
     PppProtoBlocks *G;
     s32 z;
