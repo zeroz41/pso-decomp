@@ -22,19 +22,19 @@ typedef struct LobbyHandler LobbyHandler;
 
 /* A link-layer driver, registered by TLobby__sub_8040A2BC from 11 functions: loopback (register_loopback_handlers,
    always entry 0), PPP (TLobby__sub_803FD10C) and Ethernet (init_net_sockets).  Each function is called by one
-   dispatcher (named after the slot); op14..op20 only when flags & 4. */
+   dispatcher (named after the slot); get_lladdr_len..multicast_ctl only when flags & 4. */
 struct LobbyHandler {
     s16 active;
     s16 flags;                                     /* 0x02: as registered: 1 loopback, 2 PPP, 0x7C Ethernet */
     s16 (*get_interface_id)(s16 idx, void *dst);   /* 0x04: TLobby__sub_8040A0C0 */
-    s16 (*op08)(s16 idx, u32 a, s16 b, u32 *c);    /* 0x08: TLobby__sub_8040A044 */
-    s32 (*op0C)(s16);                              /* 0x0C: call_entry_callback */
-    s16 (*op10)(s32);                              /* 0x10: invoke_socket_callback */
-    s16 (*op14)(s32);                              /* 0x14: TLobby__sub_80409EB0 */
-    s32 (*op18)(s32, s32);                         /* 0x18: TLobby__sub_80409E18 */
-    s16 (*op1C)(s32, s32, void *);                 /* 0x1C: TLobby__sub_80409D7C */
-    s16 (*op20)(s32, s32, void *);                 /* 0x20: TLobby__sub_80409CE0 */
-    s32 (*op24)(s32, s32);                         /* 0x24: dispatch_handler_by_id; TLobby__sub_80409818 calls it
+    s16 (*open)(s16 idx, u32 a, s16 b, u32 *c);    /* 0x08: TLobby__sub_8040A044; opens a channel for an EtherType */
+    s32 (*close)(s16);                             /* 0x0C: call_entry_callback; frees the channel */
+    s16 (*get_mtu)(s32);                           /* 0x10: invoke_socket_callback; Ethernet 1500 */
+    s16 (*get_lladdr_len)(s32);                    /* 0x14: TLobby__sub_80409EB0; Ethernet 6 */
+    s32 (*get_lladdr)(s32, s32);                   /* 0x18: TLobby__sub_80409E18; copies the MAC */
+    s16 (*alias_ctl)(s32, s32, void *);            /* 0x1C: TLobby__sub_80409D7C; 1 adds, 2 removes an ARP alias */
+    s16 (*multicast_ctl)(s32, s32, void *);        /* 0x20: TLobby__sub_80409CE0; 1 joins, 2 leaves a multicast group */
+    s32 (*release_frame)(s32, s32);                /* 0x24: dispatch_handler_by_id; frees a received frame; TLobby__sub_80409818 calls it
                                                       as void (s16, s32) */
     s16 (*op28)(s32, s32, s32);                    /* 0x28: dispatch_handler_by_index */
     s16 (*output)(s32, s32, s32, s32);             /* 0x2C: call_handler_by_index */
@@ -59,7 +59,7 @@ void TLobby__sub_80409818(s32 msg, s16 len, s16 idx, s16 second, u16 type) {
     }
     switch (type) {
     default:
-        ((void (*)(s16, s32))lobby_handler_table_desc.list[idx].op24)(second, msg);
+        ((void (*)(s16, s32))lobby_handler_table_desc.list[idx].release_frame)(second, msg);
         break;
     case 0x800:
     case 0x806:
@@ -204,7 +204,7 @@ s32 dispatch_handler_by_id(s16 first, s32 second, s32 payload) {
     if (e->active == 0) {
         return -2;
     }
-    fn = e->op24;
+    fn = e->release_frame;
     if (fn == NULL) {
         return -2;
     }
@@ -226,7 +226,7 @@ s16 TLobby__sub_80409CE0(s16 idx, s32 def, s32 op, void *tex) {
     if (!(e->flags & 4)) {
         return 0;
     }
-    fn = e->op20;
+    fn = e->multicast_ctl;
     if (fn == NULL) {
         return -2;
     }
@@ -248,7 +248,7 @@ s16 TLobby__sub_80409D7C(s16 idx, s32 def, s32 op, void *tex) {
     if (!(e->flags & 4)) {
         return 0;
     }
-    fn = e->op1C;
+    fn = e->alias_ctl;
     if (fn == NULL) {
         return -2;
     }
@@ -270,7 +270,7 @@ s32 TLobby__sub_80409E18(s16 idx, s32 handle, s32 dst) {
     if (!(e->flags & 4)) {
         return 0;
     }
-    fn = e->op18;
+    fn = e->get_lladdr;
     if (fn == NULL) {
         return -2;
     }
@@ -292,7 +292,7 @@ s16 TLobby__sub_80409EB0(s16 idx, s32 handle) {
     if (!(e->flags & 4)) {
         return 0;
     }
-    fn = e->op14;
+    fn = e->get_lladdr_len;
     if (fn == NULL) {
         return -2;
     }
@@ -310,10 +310,10 @@ s16 invoke_socket_callback(s16 i, s32 arg) {
     if (e->active == 0) {
         return -2;
     }
-    if (e->op10 == 0) {
+    if (e->get_mtu == 0) {
         return -2;
     }
-    return e->op10(arg);
+    return e->get_mtu(arg);
 }
 #pragma pop
 
@@ -328,10 +328,10 @@ s32 call_entry_callback(s16 i, s16 arg) {
     if (e->active == 0) {
         return -2;
     }
-    if (e->op0C == 0) {
+    if (e->close == 0) {
         return -2;
     }
-    return e->op0C(arg);
+    return e->close(arg);
 }
 #pragma pop
 
@@ -345,10 +345,10 @@ s16 TLobby__sub_8040A044(s16 idx, u32 a, s16 b, u32 *c) {
     if (e->active == 0) {
         return -2;
     }
-    if (e->op08 == 0) {
+    if (e->open == 0) {
         return -2;
     }
-    return e->op08(idx, a, b, c);
+    return e->open(idx, a, b, c);
 }
 
 s16 TLobby__sub_8040A0C0(s16 idx, void *a)
