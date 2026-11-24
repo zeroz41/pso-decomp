@@ -17,7 +17,7 @@
 #include "pso/network/NetIpv6Route.h"
 #include "pso/network/NetApi.h"
 
-s16 NetIPv4AddRoute(u32, u32, u32, s16, u8, u16);
+s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, int origin, int type, int flags);
 
 #include <stddef.h>
 
@@ -435,7 +435,6 @@ s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
   s16 i;
   s16 found = 0;
   Ipv4Route *e;
-  s16 NetIPv4AddRoute(u32, u32, u32, int, int, int); /* declared here with promoted parameter types; the definition is s16 (u32, u32, u32, s16, u8, u16) */
   for (i = 0, e = tbl->routes; i < tbl->nroutes; i++, e++)
   {
     if (!(e->flags & 1))
@@ -562,7 +561,14 @@ inline Ipv4Iface *ipv4_ifaces(Ipv4RoutingState *g) {
 }
 #pragma push
 #pragma opt_common_subs on
-s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 origin, u8 type, u16 flags) {
+s16 NetIPv4AddRoute(dst, mask, gateway, origin, type, flags)
+u32 dst;
+u32 mask;
+u32 gateway;
+s16 origin;
+u8 type;
+u16 flags;
+{
     Ipv4RoutingState *g = &ipv4_address_routing_state;
     Ipv4Iface *ifaces;
     s16 m;

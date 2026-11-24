@@ -14,6 +14,7 @@
 #include "pso/network/NetIpv6Route.h"
 
 #include <stddef.h>
+#include <dolphin/os/OSInterrupt.h>
 #include "pso/network/BufferRef.h"
 #include "pso/network/NetIpv4.h"
 enum SocketHandleTag {
@@ -50,17 +51,10 @@ typedef struct NetIpOption {
 
 void deliver_to_receive_callback(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *pkt);
 s32 route4_del(saddr dst, saddr mask, saddr gateway);
-s32 NetIPv4AddRoute(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
 s32 route4_add(saddr dst, saddr mask, saddr gateway);
-s32 mark_connection_closed(s32);
-s32 get_tcp_stat(int, void *, void *, void *, void *);
-s16 validate_tcp_handle(int);
 s32 tcp_stat(s32 a, s16 *b, s16 *c, u32 *d, u32 *e);
-s16 tcp_get_socket_handle(int);
-s32 abort_tcp_connection(int);
 void OSReport(const char *, ...);
-/* inferred: the avetcp.a version strings (names from their contents); avetcp_init checks the banner's
-   leading '\n' through avetcp_version_banner_ptr */
+/* The avetcp.a version strings; avetcp_init checks the banner's leading '\n' through avetcp_version_banner_ptr. */
 const u8 avetcp_version_banner[] =
     "\nAVE-TCPv6.0 for GC Ver 1.16.1 Build:Oct 23 2002 17:47:54 SDKVER 12Dec2001Patch3\n";
 const char avetcp_sdk_release[] = "AVE-TCPv6.0 SDK Release 2.0";
@@ -74,16 +68,17 @@ const char avetcp_module_list[] =
 const u8 *const avetcp_version_banner_ptr = avetcp_version_banner;
 const char avetcp_version[] = "<< Network SDK - avetcp.a  Ver.1.16.1 build:Oct 23 2002 17:47:54>>\n";
 u32 network_stack_init_count;
-/* This C library caller passes a full register for the handle and a signed halfword length. */
-s16 tcp_start_receive(s32 handle, NetBufferRef *destination, s16 len, TcpCompletion callback);
-void tcp_set_ip_options(int, void *, void *); /* declared here with an s32 1st argument; the definition takes s16 */
-s32 AT_TCP_Connect(int, void *, s16); /* declared here with an s32 return and 1st argument; the definition is s16 (s16, void *, s16) */
+/* How this API file calls into the TCP, UDP and route modules. These prototypes differ from the definitions
+ * (handle width, halfword arguments, result width), and the code here is built against them, so they cannot
+ * share a header with the definitions. */
+s16 tcp_start_receive(s32 nh, NetBufferRef *destination, s16 len, TcpCompletion callback);
+s32 AT_TCP_Connect(s32 nh, NetworkAddress *addr, s16 port);
+s32 tcp_pcbbind(s32 nh, NetworkAddress *addr, u16 port);
+s16 AT_UDP_Send(s32 nh, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt);
+s32 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 origin, u8 type, u16 flags);
+s16 copy_ipv4_interface_addresses(s16 iface, NetBufferRef *out, s32 len, void *buf);
+s16 copy_ipv6_interface_addresses(s16 iface, NetBufferRef *out, s32 len, void *buf);
 s32 tcp_connect(s32 a, NetworkAddress *addr, u16 port, NetIpOption *opt);
-s32 tcp_pcbbind(int, void *, u16);
-s16 copy_ipv4_interface_addresses(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, void *) */
-s16 copy_ipv6_interface_addresses(s16, void *, int, void *);
-s32 OSDisableInterrupts();
-s32 OSRestoreInterrupts(int);
 s32 avetcp_term(void) {
     dispatcher_term();
     handler_table_term();
@@ -104,89 +99,89 @@ s32 avetcp_term(void) {
 /* Brings up the network stack subsystems in order, stopping at the first failure (result < 0). */
 s16 avetcp_init(void) {
     s16 result;
-    if ((s32) *avetcp_version_banner_ptr != 0xA) {
+    if ((s32) *avetcp_version_banner_ptr != '\n') {
         return -1;
     }
-    if ((u32) network_stack_init_count == 0U) {
+    if (network_stack_init_count == 0) {
         OSReport(avetcp_version);
     }
     ++network_stack_init_count;
     result = rtos_init();
-    if (result >= 0) {
-        result = buffer_pool_init();
-        if (result >= 0) {
-            result = reset_socket_table();
-            if (result >= 0) {
-                result = NetTCPInit();
-                if (result >= 0) {
-                    result = init_ucb_entries();
-                    if (result >= 0) {
-                        result = init_packet_fragment_pools();
-                        if (result >= 0) {
-                            result = init_ipv4_interfaces();
-                            if (result >= 0) {
-                                result = NetIPv6Init();
-                                if (result >= 0) {
-                                    result = init_ipv4_routing();
-                                    if (result >= 0) {
-                                        result = NetIPv6InitRouting();
-                                        if (result >= 0) {
-                                            result = NetIPv6InitNeighborDiscovery();
-                                            if (result >= 0) {
-                                                result = handler_table_init();
-                                                if (result >= 0) {
-                                                    result = NetInitializeDispatcher();
-                                                    if (result >= 0) {
-                                                        return 0;
-                                                    }
-                                                    handler_table_term();
-                                                    goto block_19;
-                                                }
-block_19:
-                                                NetIPv6ShutdownNeighborDiscovery();
-                                                goto block_20;
-                                            }
-block_20:
-                                            NetIPv6ShutdownRouting();
-                                            goto block_21;
-                                        }
-block_21:
-                                        shutdown_ipv4_routing();
-                                        goto block_22;
-                                    }
-block_22:
-                                    NetIPv6Shutdown();
-                                    goto block_23;
-                                }
-block_23:
-                                ipv4_term();
-                                goto block_24;
-                            }
-block_24:
-                            fragment_term();
-                            goto block_25;
-                        }
-block_25:
-                        reset_stack_module();
-                        goto block_26;
-                    }
-block_26:
-                    tcp_term();
-                    goto block_27;
-                }
-block_27:
-                shutdown_network_handle();
-                goto block_28;
-            }
-block_28:
-            reset_net_value();
-            goto block_29;
-        }
-block_29:
-        rtos_term();
-        goto block_30;
+    if (result < 0) {
+        goto done;
     }
-block_30:
+    result = buffer_pool_init();
+    if (result < 0) {
+        goto undo_rtos;
+    }
+    result = reset_socket_table();
+    if (result < 0) {
+        goto undo_buffer_pool;
+    }
+    result = NetTCPInit();
+    if (result < 0) {
+        goto undo_socket_table;
+    }
+    result = init_ucb_entries();
+    if (result < 0) {
+        goto undo_tcp;
+    }
+    result = init_packet_fragment_pools();
+    if (result < 0) {
+        goto undo_ucb;
+    }
+    result = init_ipv4_interfaces();
+    if (result < 0) {
+        goto undo_fragments;
+    }
+    result = NetIPv6Init();
+    if (result < 0) {
+        goto undo_ipv4;
+    }
+    result = init_ipv4_routing();
+    if (result < 0) {
+        goto undo_ipv6;
+    }
+    result = NetIPv6InitRouting();
+    if (result < 0) {
+        goto undo_ipv4_routing;
+    }
+    result = NetIPv6InitNeighborDiscovery();
+    if (result < 0) {
+        goto undo_ipv6_routing;
+    }
+    result = handler_table_init();
+    if (result < 0) {
+        goto undo_neighbor_discovery;
+    }
+    result = NetInitializeDispatcher();
+    if (result >= 0) {
+        return 0;
+    }
+    handler_table_term();
+undo_neighbor_discovery:
+    NetIPv6ShutdownNeighborDiscovery();
+undo_ipv6_routing:
+    NetIPv6ShutdownRouting();
+undo_ipv4_routing:
+    shutdown_ipv4_routing();
+undo_ipv6:
+    NetIPv6Shutdown();
+undo_ipv4:
+    ipv4_term();
+undo_fragments:
+    fragment_term();
+undo_ucb:
+    reset_stack_module();
+undo_tcp:
+    tcp_term();
+undo_socket_table:
+    shutdown_network_handle();
+undo_buffer_pool:
+    reset_net_value();
+undo_rtos:
+    rtos_term();
+done:
     return result;
 }
 
@@ -247,7 +242,7 @@ s32 route4_del(saddr dst, saddr mask, saddr gateway) {
 s32 route4_add(saddr dst, saddr mask, saddr gateway) {
     s32 result;
     lock_mutex(network_dispatch_state.lock_handle);
-    result = NetIPv4AddRoute((void *)dst, (void *)mask, (void *)gateway, 1, (int) (0U), (int) (0U));
+    result = NetIPv4AddRoute(dst, mask, gateway, 1, 0, 0);
     unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
@@ -282,7 +277,6 @@ s32 udp_close(s32 a) {
     return r;
 }
 
-s16 AT_UDP_Send(s32 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt); /* declared here with an s32 handle; the definition takes s16 */
 
 s16 udp_send(s32 h, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt, s8 n, send_buffs *bufs) {
     NetworkAddress any_addr;
@@ -547,7 +541,6 @@ s16 tcp_send(s32 a, TcpCompletion notify, char bufnum, struct send_buffs *sb) {
     s16 r;
     s16 n;
     s16 ret;
-    s16 tcp_start_send(s32, NetPacket *, void (*)(s16, s16), u8); /* declared here with an s32 handle; the definition takes an s16 handle */
     if (bufnum > 3) {
         return -2;
     }
@@ -637,12 +630,12 @@ s16 tcp_send(s32 a, TcpCompletion notify, char bufnum, struct send_buffs *sb) {
 
 s32 set_thread_state_and_resume(s32 idx, TcpCompletion cb, s16 state) {
   TcpTcb *s = tcp_protocol_state.tcbs;
-  s16 new_var;
+  s16 nh;
   s += (s16) idx;
   if ((cb != 0) && (!(s->waits[2].flags & 8)))
   {
-    new_var = (s16) idx;
-    cb(state, new_var);
+    nh = (s16) idx;
+    cb(state, nh);
     s->waits[2].status = state;
     s->waits[2].flags &= ~1;
     s->waits[2].flags |= 4;
@@ -860,7 +853,7 @@ void NetDispatchSocketEvent(s16 v, NetSocketEventCallback cb, s32 type, s16 code
             return;
         }
         s = tcp_protocol_state.tcbs;
-        s += (s16)v;
+        s += v;
         if ((u16)(code - 10) <= 1 || code == 4) {
             if (s->waits[2].flags & 2) {
                 s->waits[2].status = -5;
@@ -893,12 +886,12 @@ s16 if_get(s16 iface, void *hdr_src, s32 len, void *buf) {
     total = 0;
     lock_mutex(network_dispatch_state.lock_handle);
     init_packet_header(&ref, hdr_src);
-    first = copy_ipv4_interface_addresses(iface, &ref, (int)len, buf);
+    first = copy_ipv4_interface_addresses(iface, &ref, len, buf);
     if (first > 0) {
         total = first;
         len -= first * 0x1C;
     }
-    second = copy_ipv6_interface_addresses(iface, &ref, (int)len, buf);
+    second = copy_ipv6_interface_addresses(iface, &ref, len, buf);
     if (second > 0) {
         total += second;
     }

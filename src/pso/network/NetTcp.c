@@ -21,20 +21,14 @@
 #include "pso/network/NetApi.h"
 
 /* This file's functions. */
-s32 abort_tcp_connection(s16 id);
 void clear_position(TcpTcb *tcb);
 s32 close_if_open(TcpTcb *tcb);
 s32 get_rcv_bufsize(TcpTcb *tcb);
 s32 get_rcv_count(TcpTcb *tcb);
 s32 get_rcv_space(TcpTcb *tcb);
 s32 get_snd_queued(TcpTcb *tcb);
-s32 get_tcp_stat(s16 id, s16 *state, s16 *pending, s32 *snd_space, s32 *rcv_count);
 void insert_item_at(TcpTcb *tcb, s16 idx, s32 a, s32 b);
-s32 mark_connection_closed(s16 id);
 void reset_slot_index(TcpTcb *tcb);
-s16 AT_TCP_Connect(s16 handle, NetworkAddress *addr, s16 port);
-s16 tcp_get_socket_handle(s16 i);
-s16 validate_tcp_handle(s16 i);
 
 s16 tcp_sack_empty(TcpTcb *tcb);
 s32 get_snd_space(TcpTcb *tcb);
@@ -1915,7 +1909,9 @@ void tcp_sack_doack(TcpTcb *tcb, TcpHdr *th, TcpSeqRange *blocks, s16 n) {
 
 #pragma push
 #pragma pool_data off
-s16 tcp_get_socket_handle(s16 i) {
+s16 tcp_get_socket_handle(i)
+s16 i;
+{
     s16 r;
     if (i < 0 || i >= tcp_protocol_state.count) {
         r = -4;
@@ -1961,7 +1957,12 @@ s32 tcp_start_receive(s16 handle, NetBufferRef *destination, s32 len, TcpComplet
 
 #pragma push
 #pragma pool_data off
-s16 tcp_start_send(s16 id, NetPacket *req, TcpCompletion completion, u8 urgent) {
+s16 tcp_start_send(id, req, completion, urgent)
+s16 id;
+NetPacket *req;
+TcpCompletion completion;
+u8 urgent;
+{
     s16 r;
     s16 v;
     s16 ret;
@@ -2087,7 +2088,13 @@ s16 tcp_set_option(s16 i, s16 opt, u32 *val) {
 
 #pragma push
 #pragma pool_data off
-s32 get_tcp_stat(s16 id, s16 *state, s16 *pending, s32 *snd_space, s32 *rcv_count) {
+s32 get_tcp_stat(id, state, pending, snd_space, rcv_count)
+s16 id;
+s16 *state;
+s16 *pending;
+u32 *snd_space;
+u32 *rcv_count;
+{
     s16 r;
     TcpTcb *e;
 
@@ -2125,7 +2132,9 @@ s32 get_tcp_stat(s16 id, s16 *state, s16 *pending, s32 *snd_space, s32 *rcv_coun
 
 #pragma push
 #pragma pool_data off
-s32 mark_connection_closed(s16 id) {
+s32 mark_connection_closed(id)
+s16 id;
+{
     s16 r;
     TcpTcb *e;
 
@@ -2150,7 +2159,9 @@ s32 mark_connection_closed(s16 id) {
 
 #pragma push
 #pragma pool_data off
-s32 abort_tcp_connection(s16 id) {
+s32 abort_tcp_connection(id)
+s16 id;
+{
     s16 r;
     TcpTcb *e;
 
@@ -2177,7 +2188,11 @@ s32 abort_tcp_connection(s16 id) {
 }
 #pragma pop
 
-extern void tcp_set_ip_options(s16 idx, void *a, void *b) {
+void tcp_set_ip_options(idx, a, b)
+s16 idx;
+void *a;
+void *b;
+{
     TcpTcb *e;
 
     e = tcp_protocol_state.tcbs;
@@ -2271,7 +2286,7 @@ extern s32 tcp_unlink_listener(s16 idx) {
     return 0;
 }
 
-extern s32 tcp_pcbbind(s16 idx, NetworkAddress *a, u16 id) {
+s32 tcp_pcbbind(s16 idx, NetworkAddress *a, u16 id) {
     s16 i;
     TcpTcb *e;
     TcpState *g;
@@ -2476,7 +2491,9 @@ u16 tcp_next_ephemeral_port(void)
     return cur;
 }
 
-s16 validate_tcp_handle(s16 i) {
+s16 validate_tcp_handle(i)
+s16 i;
+{
     if (i < 0 || i >= tcp_protocol_state.count) { return -4; }
     if (tcp_protocol_state.tcbs[i].state != 1) { return -4; }
     return 0;

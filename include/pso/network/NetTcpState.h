@@ -194,12 +194,20 @@ extern "C" {
 extern TcpState tcp_protocol_state;
 
 s16 AT_TCP_Rawsend(TcpTcb *tcb);
+/* NetTcp.c's socket calls behind the TCP API (NetApi.c). They are K&R definitions, so callers pass promoted
+ * arguments. */
+s16 validate_tcp_handle(int nh);
+s16 tcp_get_socket_handle(int nh);
+s32 get_tcp_stat(int nh, s16 *stat, s16 *backlog, u32 *sendwin, u32 *recvwin);
+s32 mark_connection_closed(int nh);
+s32 abort_tcp_connection(int nh);
+void tcp_set_ip_options(int nh, void *ip4_opts, void *ip6_opts);
 /* NetTcp.c: claim a free TCB, else the state-10 one with the smallest timers[3]; returns its index or -0x103. */
 s16 tcp_alloc_tcb(void);
 /* NetTcp.c: account the resent range [first, last) against the retransmit scoreboard (segs[]). */
 void tcp_sack_mark_rexmit(TcpTcb *tp, s32 first, s32 last);
 /* NetTcp.c: start sending a queued packet on connection arg0. */
-s16 tcp_start_send(s16 id, NetPacket *req, TcpCompletion completion, u8 urgent);
+s16 tcp_start_send(int nh, NetPacket *req, TcpCompletion completion, int urgent);
 
 /* SocketProtocolRuntime.c: the TCP send and receive queues. */
 s32 tcp_user_receive(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCompletion callback);
