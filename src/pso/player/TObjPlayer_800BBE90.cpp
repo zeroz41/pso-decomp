@@ -5,58 +5,13 @@
 #include "pso/enemy/AreaAttackContact.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/object/base/TObjChara.h"
 
 
-struct VBase { char pad[0x18]; };
-
-struct VObj : VBase { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11(); virtual void m12(); virtual void m13(f32); virtual void m14(); virtual void m15(); virtual void m16(f32); };
-
-struct Obj_800BBFD0 { u8 pad[0x38]; Vec pos; u8 pad2[0x308 - 0x44]; f32 f308; f32 f30c; f32 f310; };
-
-struct Rec_800BC080 { u8 pad0[0x18]; s32 flags; u8 pad1C[0x2C - 0x1C]; };
-
-struct Tgt_800BC080 { u8 pad[0x30]; s32 x30; u8 pad2[0xA4 - 0x34]; Rec_800BC080 *recs; s32 nrecs; };
-
-struct Info_800BC080 { u8 pad[0x18]; s32 mask; };
-
-struct VB_800BC080 { char pad[0x18]; };
-
-struct P_800BC080 : VB_800BC080 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    u8 pad1c[0xA4 - 0x1C];
-    Info_800BC080 *info;
-    u8 padA8[4];
-    Tgt_800BC080 *self_tgt;
-};
-
-struct Tgt_800BC250 { u8 pad[0x30]; s32 x30; };
-
-
-struct Info_800BC250 { u8 pad[0x18]; s32 mask; };
-
-struct VB_800BC250 { char pad[0x18]; };
-
-struct P_800BC250 : VB_800BC250 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18();
-    u8 pad1c[0xA4 - 0x1C];
-    Info_800BC250 *info;
-    u8 padA8[4];
-    Tgt_800BC250 *self_tgt;
-};
-
 extern "C" {
 void subtract_vector(Vec *a, Vec *b);
-s32 obj_is_hit_receivable();
 s32 is_area_attack_target_eligible(void *, int);
 
 
@@ -85,14 +40,13 @@ void TUnk_804928CC::area_attack_receive_direct(void *dst, f32 *recoil, void *des
 #pragma push
 #pragma fp_contract on
 void TUnk_804928CC::area_attack_apply_recoil(void *b_arg, f32 s) {
-    Obj_800BBFD0 *a = (Obj_800BBFD0 *)this;
-    Obj_800BBFD0 *b = (Obj_800BBFD0 *)b_arg;
+    TObjChara *target = static_cast<TObjChara *>(b_arg);
     Vec v;
-    VecCopy((Vec *)&v, (const Vec *)&b->pos);
-    subtract_vector(&v, &a->pos);
-    normalize_vector_xz((Vec *)(&v));
-    b->f308 = v.x * s + b->f308;
-    b->f310 = v.z * s + b->f310;
+    VecCopy(&v, &target->position);
+    subtract_vector(&v, &position);
+    normalize_vector_xz(&v);
+    target->velocity.x = v.x * s + target->velocity.x;
+    target->velocity.z = v.z * s + target->velocity.z;
 }
 #pragma pop
 
@@ -103,41 +57,41 @@ void TUnk_804928CC::vfunc_19(void *arg1) {
 s32 TUnk_804928CC::area_attack_deliver_physical(void *arg1, void *object, f32 range) {
     s32 hit = 0;
     s32 mask = 0;
-    Tgt_800BC080 *t;
+    TObjChara *t;
     s32 i;
     s32 ok;
     s32 j;
     s32 n;
-    if (((P_800BC080 *)this)->self_tgt == NULL) {
+    if (owner == NULL) {
         return 0;
     }
     TObjPlayer::init_all_slots();
     if (static_cast<AreaAttackContact *>(arg1)->contact_flags & 1) {
-        ((TUnk_804928CC *)((P_800BC080 *)this))->update_body_contact_flag(range);
+        update_body_contact_flag(range);
         mask |= 0x80000;
     }
     if (static_cast<AreaAttackContact *>(arg1)->contact_flags & 2) {
-        ((TObjCollidable *)((P_800BC080 *)this))->mark_enemy_body_contacts();
+        mark_enemy_body_contacts();
         mask |= 0x100000;
     }
-    if (((P_800BC080 *)this)->info->mask & mask) {
+    if (bodies->flags & mask) {
         for (i = 0; i < 0x10; i++) {
-            t = (Tgt_800BC080 *)TObjPlayer::get_battle_param(i);
+            t = reinterpret_cast<TObjChara *>(TObjPlayer::get_battle_param(i));
             if (t == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable() != 0 && t != ((P_800BC080 *)this)->self_tgt && is_area_attack_target_eligible(((P_800BC080 *)this), t->x30) != 0) {
+            if (obj_is_hit_receivable(reinterpret_cast<u8 *>(t)) != 0 && t != owner && is_area_attack_target_eligible(this, t->actorFlags) != 0) {
                 ok = 1;
-                if (object != NULL && attack_target_history_add((AreaAttackHistory *)object, (TObjChara *)t) == 0) {
+                if (object != NULL && attack_target_history_add((AreaAttackHistory *)object, t) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {
                     this->apply_hit_if_active(t, (f32 *)((AreaAttackContact *)arg1));
                     hit = 1;
                 } else {
-                    n = t->nrecs;
+                    n = t->body_count;
                     for (j = 0; j < n; j++) {
-                        t->recs[j].flags &= ~0x04000000;
+                        t->bodies[j].flags &= ~0x04000000;
                     }
                 }
             }
@@ -148,9 +102,8 @@ s32 TUnk_804928CC::area_attack_deliver_physical(void *arg1, void *object, f32 ra
 
 #pragma push
 #pragma fp_contract on
-void TUnk_804928CC::call_vt16_with_default(void *, void *) {
-    u8 *arg0 = (u8 *)this;
-    ((VObj *)arg0)->m16(100.0f);
+void TUnk_804928CC::call_vt16_with_default(void *contact, void *history) {
+    area_attack_deliver_physical(contact, history, 100.0f);
 }
 #pragma pop
 
@@ -161,30 +114,30 @@ s32 TUnk_804928CC::vfunc_16(void *recoil, void *attack) {
 s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr arg2, void *object, f32 range) {
     s32 hit = 0;
     s32 mask = 0;
-    Tgt_800BC250 *t;
+    TObjChara *t;
     s32 i;
     s32 ok;
-    if (((P_800BC250 *)this)->self_tgt == NULL) {
+    if (owner == NULL) {
         return 0;
     }
     TObjPlayer::init_all_slots();
     if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 1) {
-        ((TUnk_804928CC *)((P_800BC250 *)this))->update_body_contact_flag(range);
+        update_body_contact_flag(range);
         mask |= 0x80000;
     }
     if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 2) {
-        ((TObjCollidable *)((P_800BC250 *)this))->mark_enemy_body_contacts();
+        mark_enemy_body_contacts();
         mask |= 0x100000;
     }
-    if (((P_800BC250 *)this)->info->mask & mask) {
+    if (bodies->flags & mask) {
         for (i = 0; i < 0x10; i++) {
-            t = ((Tgt_800BC250 *)TObjPlayer::get_battle_param(i));
+            t = reinterpret_cast<TObjChara *>(TObjPlayer::get_battle_param(i));
             if (t == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable() != 0 && t != ((P_800BC250 *)this)->self_tgt && is_area_attack_target_eligible(((P_800BC250 *)this), t->x30) != 0) {
+            if (obj_is_hit_receivable(reinterpret_cast<u8 *>(t)) != 0 && t != owner && is_area_attack_target_eligible(this, t->actorFlags) != 0) {
                 ok = 1;
-                if (object != NULL && attack_target_history_add((AreaAttackHistory *)object, (TObjChara *)t) == 0) {
+                if (object != NULL && attack_target_history_add((AreaAttackHistory *)object, t) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {

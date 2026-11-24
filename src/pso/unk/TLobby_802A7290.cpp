@@ -1,50 +1,12 @@
 #include "types.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
 #include "pso/unk/TUnk_804DDBF0.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-
-struct Base_802A7328_802A7290 { char pad[0x8]; };
-struct VObj_802A7328_802A7290 : Base_802A7328_802A7290 {
-    virtual void m0();   virtual void m1();   virtual void m2();   virtual void m3();
-    virtual void m4();   virtual void m5();   virtual void m6();   virtual void m7();
-    virtual void m8();   virtual void m9();   virtual void m10();  virtual void m11();
-    virtual void m12();  virtual void m13();  virtual void m14();  virtual void m15();
-    virtual void m16();  virtual void m17();  virtual void m18();  virtual void m19();
-    virtual void m20();  virtual void m21();  virtual void m22();  virtual void m23();
-    virtual void m24();  virtual void m25();  virtual void m26();  virtual void m27();
-    virtual void m28();  virtual void m29();  virtual void m30();  virtual void m31();
-    virtual void m32();  virtual void m33();  virtual void m34();  virtual void m35();
-    virtual void m36();  virtual void m37();  virtual void m38();  virtual void m39();
-    virtual void m40();  virtual void m41();  virtual void m42();  virtual void m43();
-    virtual void m44();  virtual void m45();  virtual void m46();  virtual void m47();
-    virtual void m48();  virtual void m49();  virtual void m50();  virtual void m51();
-    virtual void m52();  virtual void m53();  virtual void m54();  virtual void m55();
-    virtual void m56();  virtual void m57();  virtual void m58();  virtual void m59();
-    virtual void m60();  virtual void m61();  virtual void m62();  virtual void m63();
-    virtual void m64();  virtual void m65();  virtual void m66();  virtual void m67();
-    virtual void m68();  virtual void m69();  virtual void m70();  virtual void m71();
-    virtual void m72();  virtual s32 m73();
-};
-
-struct Node_802A7378 { u8 pad0[0xA]; u16 flags; };
-
-struct Slot_802A7378 { Node_802A7378 *node; u32 x4; };
-
-struct PBase_802A7378 { char pad[0x8]; };
-
-struct VObj_802A7378 : PBase_802A7378 {
-    virtual void m0();   virtual void m1();   virtual void m2();   virtual void m3();
-    virtual void m4();   virtual void m5();   virtual void m6();   virtual void m7();
-    virtual void m8();   virtual void m9();   virtual void m10();  virtual void m11();
-    virtual void m12();  virtual void m13();  virtual void m14();
-    virtual s32 m15();   virtual s32 m16();   virtual s32 m17();
-    u32 xC;
-    Slot_802A7378 slots[1];
-};
 
 struct PlayerMotionEntry {
     u32 unk0;
@@ -2680,16 +2642,13 @@ s32 TLobby::validate_handle(s32 *arg0) {
 TUnk_802A7318::TUnk_802A7318() { m_0 = 0; m_4 = 0; }
 
 s32 TUnk_804DDBF0::get_cell_address(s32 arg1, s32 arg2) {
-    struct VObj_802A7328_802A7290 *o = (struct VObj_802A7328_802A7290 *)this;
-    return player_action_motion_buffer + ((arg2 + (arg1 * o->m73())) << 0xE);
+    return player_action_motion_buffer + ((arg2 + (arg1 * vfunc_75())) << 0xE);
 }
 
 void TUnk_804DDBF0::vfunc_14() {
-    u8 *arg0 = (u8 *)this;
-    VObj_802A7378 *o = (VObj_802A7378 *)arg0;
-    o->slots[o->m15()].node->flags |= 0x80;
-    o->slots[o->m16()].node->flags |= 0x80;
-    o->slots[o->m17()].node->flags |= 0x80;
+    reinterpret_cast<NJS_MOTION *>(motions[vfunc_17()].motion)->inp_fn |= 0x80;
+    reinterpret_cast<NJS_MOTION *>(motions[vfunc_18()].motion)->inp_fn |= 0x80;
+    reinterpret_cast<NJS_MOTION *>(motions[vfunc_19()].motion)->inp_fn |= 0x80;
 }
 
 int TUnk_804DDBF0::vfunc_9(s32 a, s32 b, s32 c) {
@@ -2755,6 +2714,6 @@ void TLobby::enable_and_refresh() { TLobby::set_photon_chair_flag(1); TLobby::al
 
 TUnk_804DDBF0::~TUnk_804DDBF0() {}
 TUnk_804DDBF0::TUnk_804DDBF0() {}
-s32 *TUnk_804DDBF0::get_state_table(s32) { return (s32 *)pad_C; }
-BmlMotionEntry *TUnk_804DDBF0::vfunc_76() { return reinterpret_cast<BmlMotionEntry *>(pad_C); }
+s32 *TUnk_804DDBF0::get_state_table(s32) { return reinterpret_cast<s32 *>(motions); }
+BmlMotionEntry *TUnk_804DDBF0::vfunc_76() { return motions; }
 int TUnk_804DDBF0::vfunc_4() {  return (*(int *)&player_action_motion_buffer); }

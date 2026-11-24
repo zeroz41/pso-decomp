@@ -23,6 +23,12 @@ struct StatusEffect {
     s32 timer;  // frames left
 };
 
+// The Shifta/Jellen or Deband/Zalure effect taken by the stat-status virtuals.
+struct StatStatusReceipt {
+    s32 kind;
+    f32 power;
+};
+
 struct DirectAttackPayload {
     s32 kind;
     f32 power;
