@@ -221,6 +221,6 @@ TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TOb
 }
 #pragma pop
 
-void *TObjBoss2CeilJunk::create(const Vec *position) {
+TObjBoss2CeilJunk *TObjBoss2CeilJunk::create(const Vec *position) {
     return new TObjBoss2CeilJunk(tl_05, position);
 }

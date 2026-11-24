@@ -1,7 +1,9 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
 
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -40,8 +42,6 @@ struct AltChunkObject {
 #include "pso/object/ambient/TObjLight_80133568.h"
 
 extern "C" {
-void set_chunk_material_override_pair(s32 first, s32 second);
-extern s32 model_render_flags;
 
 void TObjPlayer::update_lights() { current_scene_light->init_directional_light(); current_scene_light->sub_801337F8(); }
 

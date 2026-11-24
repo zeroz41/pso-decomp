@@ -304,7 +304,7 @@ void load_light_entry_file(void) {
 
 void TObjLight::free_shared_data() {
     if (light_entry_data != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)light_entry_data);
+        safe_free(light_entry_data);
         light_entry_data = NULL;
     }
 }

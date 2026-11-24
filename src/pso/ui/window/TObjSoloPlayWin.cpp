@@ -13,9 +13,9 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 extern "C" {
-extern s32 local_client_id;
 extern const char TObjSoloPlayWin_class_name[] = "TObjSoloPlayWin";
 const char* TObjSoloPlayWin_name = TObjSoloPlayWin_class_name;
 __declspec(section ".data") float solo_play_result_window_extent[2] = {240.0f, 180.0f};

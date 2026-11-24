@@ -247,7 +247,7 @@ void bind_motion_context(NJS_MOTION *motion, f32 frame) {
 #pragma pop
 
 // Selects the motion and the channel samplers its type has keys for.
-void bind_motion_channel_samplers(NJS_MOTION *motion, f32 frame) {
+void bind_motion_channel_samplers(const NJS_MOTION *motion, f32 frame) {
     u32 type;
     select_motion_sampler(motion, frame);
     type = current_motion_context->type;

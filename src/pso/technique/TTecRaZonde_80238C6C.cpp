@@ -1,12 +1,13 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/technique/TTecZondeEff.h"
+#include "pso/system/memory.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecRaZonde.h"
 #include "pso/technique/TechniqueEmitter.h"
 #include "pso/system/vector.h"
-#include "pso/technique/TTecZonde.h"
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/technique/TFireExplosion.h"
 #include "pso/technique/TTecCircle.h"
 #include "pso/system/task/TObject.h"
@@ -26,6 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/AngleLookup.h"
+#include "pso/math/MatrixVector.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
@@ -36,7 +38,6 @@
 #pragma fp_contract on
 
 extern "C" {
-f32 vector_length(void *);
 }
 
 // Per band: the particle emitters spawn_effects places along the bolt points.

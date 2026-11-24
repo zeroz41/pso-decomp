@@ -1207,7 +1207,6 @@ inline s32 select_download_length(s32 start, s32 end) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(3)
-#pragma opt_common_subs off
 #pragma opt_lifetimes off
 #pragma opt_propagation off
 void TQuestVmDownLoadServer__sub_803EA9E8(s32 start, s32 inputEnd, s32 mode, s32 selectedLength) {

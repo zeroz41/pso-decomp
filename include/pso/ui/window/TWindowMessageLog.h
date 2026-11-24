@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 
+struct WindowScrollBar;
+
 struct TWindowMessageLog : public TWindowMessage {
     TWindowMessageLog(s32 parent, s32 client);
     virtual ~TWindowMessageLog();
@@ -12,7 +14,7 @@ struct TWindowMessageLog : public TWindowMessage {
     void clamp_scroll_offset();
     virtual void run_task();
     virtual void render();
-    u8 unk_90[0x4];
+    WindowScrollBar *scroll_bar;
     f32 m_94;
     s32 get_active_photon_object();
     void update_scroll_position();

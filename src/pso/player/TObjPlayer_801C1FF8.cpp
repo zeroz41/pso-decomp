@@ -1,5 +1,6 @@
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/PlayerLevelTable.h"
+#include "pso/player/PhotonBlastRequests.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
@@ -114,6 +115,6 @@ PlayerCharDataEntry *PlayerCharDataEntry::construct() { ((TObjPlayer *)lobby_hea
 
 }
 
-PhotonBlastRequestTable::~PhotonBlastRequestTable() {}
+PhotonBlastRegistry::~PhotonBlastRegistry() {}
 
-PhotonBlastRequestTable::PhotonBlastRequestTable() {}
+PhotonBlastRegistry::PhotonBlastRegistry() {}

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/SoundEffect.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
 #include "pso/ui/frontend/TAdRayGC.h"
@@ -24,6 +25,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/system/SoundEffect.h"
 
 struct B_802C3400 { NJS_POINT2 e[2]; };
 
@@ -34,7 +36,6 @@ const char *TAdStorySelectGC__class_name = TAdStorySelectGC__class_name_string;
 
 s32 story_select_cursor;
 extern "C" {
-void play_sound_effect(s32, s32, s32, s32);
 void TAdStorySelectGC::render() {  }
 void TAdStorySelectGC::run_task() {
     TAdMultiChgGameModeGC::set_default_camera();

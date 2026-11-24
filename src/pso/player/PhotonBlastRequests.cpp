@@ -2,31 +2,18 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PhotonBlastResults.h"
+#include "pso/player/PhotonBlastRequests.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 
-// TObjPlayer seen through vtable slot 75 (gain_photon_blast_chain_charge),
-// which takes the charge in f1 but TObjChara declares without parameters.
-struct B_80312D4C { char pad[0x18]; };
-
-struct Ply_80312D4C : B_80312D4C {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11(); virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15(); virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19(); virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23(); virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27(); virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31(); virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35(); virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39(); virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43(); virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47(); virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51(); virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55(); virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59(); virtual void m60(); virtual void m61(); virtual void m62(); virtual void m63(); virtual void m64(); virtual void m65(); virtual void m66(); virtual void m67(); virtual void m68(); virtual void m69(); virtual void m70(); virtual void m71(); virtual void m72(); virtual void m73(); virtual void m74();
-    virtual void m75(f32);
-};
-
-extern "C" {
-void append_photon_blast_request(void *requests, u16 client_id, s16 kind);
-void TObjPlayer__sub_80312E98(void *requests, u16 client_id);
-}
-
-void release_photon_blast_requests(void *requests) {
+void release_photon_blast_requests(PhotonBlastRegistry *registry) {
     s32 count;
     saddr i;
     TObjPlayer *owner;
     count = get_photon_blast_request_count();
     for (i = 0; i < count; i++) {
-        u16 client_id = TObjPlayer::get_element(requests, i)->get_client_id();
+        u16 client_id = registry->get_element(i)->get_client_id();
         if (client_id != 0xFFFF) {
             owner = get_player_by_client_id(client_id);
             if (owner != NULL) {
@@ -37,13 +24,13 @@ void release_photon_blast_requests(void *requests) {
     }
 }
 
-void *TObjPlayer::find_by_section_id(u16 section) {
+PhotonBlastRequestSlot *PhotonBlastRegistry::find_by_section_id(u16 section) {
     s32 n;
     saddr i;
     PhotonBlastRequest *request;
     n = get_photon_blast_request_count();
     for (i = 0; i < n; i++) {
-        request = TObjPlayer::get_element(this, i);
+        request = get_element(i);
         if (section == request->get_client_id()) {
             return request->get_slot(0);
         }
@@ -51,33 +38,33 @@ void *TObjPlayer::find_by_section_id(u16 section) {
     return 0;
 }
 
-void TObjPlayer::create_party_effects(u16 id) {
+void PhotonBlastRegistry::create_party_effects(u16 id) {
     s32 n;
     saddr i;
     u16 client_id;
-    Ply_80312D4C *player;
+    TObjPlayer *player;
     PhotonBlastRequest *request;
     n = get_photon_blast_request_count();
     for (i = 0; i < n; i++) {
-        request = TObjPlayer::get_element(this, i);
+        request = get_element(i);
         client_id = request->get_client_id();
-        player = (Ply_80312D4C *)get_player_by_client_id(client_id);
-        if (player != NULL && id != client_id && ((TObjPlayer *)player)->photon_blast_gauge.is_blast_requested() != 0) {
+        player = get_player_by_client_id(client_id);
+        if (player != NULL && id != client_id && player->photon_blast_gauge.is_blast_requested() != 0) {
             TWindowCtrl::create_party_effect(id, client_id);
             request->add_donor(id);
-            player->m75(10.0f);
+            player->gain_photon_blast_chain_charge(10.0f);
         }
     }
 }
 
-u16 TObjPlayer::find_first_valid_target_id() {
+u16 PhotonBlastRegistry::find_first_valid_target_id() {
     s32 n;
     saddr i;
     PhotonBlastRequest *request;
     TObjPlayer *player;
     n = get_photon_blast_request_count();
     for (i = 0; i < n; i++) {
-        request = TObjPlayer::get_element(this, i);
+        request = get_element(i);
         player = get_player_by_client_id(request->get_client_id());
         if (player != NULL && player->photon_blast_gauge.is_blast_requested() != 0) {
             return request->get_client_id();
@@ -86,26 +73,26 @@ u16 TObjPlayer::find_first_valid_target_id() {
     return 0xFFFF;
 }
 
-void TObjPlayer__sub_80312E98(void *requests, u16 client_id) {
+void TObjPlayer__sub_80312E98(PhotonBlastRegistry *registry, s32 client_id) {
     s32 n = get_photon_blast_request_count();
     saddr i;
     for (i = 0; i < n; i++) {
-        if (client_id == TObjPlayer::get_element(requests, i)->get_client_id()) {
-            reset_photon_blast_request(requests, i);
+        if ((u16)client_id == registry->get_element(i)->get_client_id()) {
+            registry->reset_request(i);
         }
     }
 }
 
-void TObjPlayer::process_all_elements() {
+void PhotonBlastRegistry::process_all_elements() {
     int n = get_photon_blast_request_count();
     int i;
     for (i = 0; i < n; i++) {
-        reset_photon_blast_request(this, i);
+        reset_request(i);
     }
 }
 
-void append_photon_blast_request(void *requests, u16 client_id, s16 kind) {
-    PhotonBlastRequest *request = find_free_photon_blast_request(requests);
+void append_photon_blast_request(PhotonBlastRegistry *registry, u16 client_id, s16 kind) {
+    PhotonBlastRequest *request = find_free_photon_blast_request(registry);
     if (request != NULL) {
         request->mark_in_use();
         request->set_client_id(client_id);
@@ -113,20 +100,14 @@ void append_photon_blast_request(void *requests, u16 client_id, s16 kind) {
     }
 }
 
-PhotonBlastRequest *find_free_photon_blast_request(void *requests) {
-    s32 i;
-    PhotonBlastRequest *request;
-    i = 0;
-loop:
-    request = TObjPlayer::get_element(requests, i);
-    if (request->is_free() != 0) {
-        return request;
+PhotonBlastRequest *find_free_photon_blast_request(PhotonBlastRegistry *registry) {
+    for (s32 index = 0; index < 4; index++) {
+        PhotonBlastRequest *request = registry->get_element(index);
+        if (request->is_free() != 0) {
+            return request;
+        }
     }
-    i += 1;
-    if (i >= 4) {
-        return NULL;
-    }
-    goto loop;
+    return NULL;
 }
 
 void PhotonBlastRequest::add_donor(u16 client_id) {
@@ -176,9 +157,7 @@ int get_photon_blast_request_count() { return 4; }
 
 PhotonBlastRequestSlot *PhotonBlastRequest::get_slot(s32 i) { return &slots[i]; }
 
-void reset_photon_blast_request(void *requests, s32 index) {
-    static_cast<PhotonBlastRequest *>(requests)[index].reset();
-}
+void PhotonBlastRegistry::reset_request(s32 index) { slots[index].reset(); }
 
 void PhotonBlastRequest::mark_in_use() { flags.set(1); }
 

@@ -1,6 +1,7 @@
 #ifndef PSO_SYSTEM_NINJATYPES_H
 #define PSO_SYSTEM_NINJATYPES_H
 
+#include <stddef.h>
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
 
@@ -142,6 +143,9 @@ struct NJS_OBJECT {
 };
 
 LAYOUT_ASSERT(NJS_OBJECT_size, sizeof(NJS_OBJECT) == 0x38);
+LAYOUT_ASSERT(NJS_OBJECT_child_offset, offsetof(NJS_OBJECT, child) == 0x2C);
+
+extern "C" void copy_model_node(NJS_OBJECT *dst, const NJS_OBJECT *src);
 
 // Ninja byte colour; on this big-endian target the bytes of the ARGB word are a, r, g, b.
 struct NJS_BGRA {
@@ -202,6 +206,9 @@ struct NJS_MKEY_F {
     u32 keyframe;
     f32 key[3];
 };
+
+LAYOUT_ASSERT(NinjaFloatKeySize, sizeof(NJS_MKEY_F) == 0x10);
+
 
 // An angle key: three angles at a frame.
 struct NJS_MKEY_A {

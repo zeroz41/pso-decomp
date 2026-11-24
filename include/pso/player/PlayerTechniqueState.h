@@ -19,6 +19,11 @@ public:
     s16 get_or_init_field_4();
     void set_tech_level(s16 lim);
     void reset_slots();
+    s16 get_section_clamped();
+    u8 get_valid_technique();
+    u8 get_castable_technique_level();
+    s32 check_technique_level(s32 technique, u8 level);
+    PhotonBlastTarget *get_technique_data();
     void set_technique_state(s32 v);
     void set_field18(f32 v);
     void set_field_1c(f32 v);
@@ -53,6 +58,7 @@ public:
 extern "C" void TObjPlayer__sub_801D9E10(PlayerTechniqueState *techs, s16 value);
 
 LAYOUT_ASSERT(PlayerTechniqueStateSize, sizeof(PlayerTechniqueState) == 0x84);
+LAYOUT_ASSERT(PlayerTechniqueStateLearnedLevels, offsetof(PlayerTechniqueState, learned_levels) == 0x48);
 LAYOUT_ASSERT(PlayerTechniqueStateLevels, offsetof(PlayerTechniqueState, levels) == 0x5C);
 
 #endif

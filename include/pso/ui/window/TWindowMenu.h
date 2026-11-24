@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowAddition.h"
 
 struct TWindowSubStatusDisp;
+struct WindowScrollBar;
 
 // One menu row's state: its flag bits (0x10 = disabled) and the value it returns when chosen.
 struct TWindowMenuRow {
@@ -24,8 +25,8 @@ struct TWindowMenu : public TWindowAddition {
     void set_loss_flag();
     int sub_80266BB8();
     s32 test_menu_flag(s32 buttons);
-    void render_selected_entry(saddr);
-    void draw_selected_bar(u8 *);
+    void render_selected_entry(WindowDrawContext *context);
+    void draw_selected_bar(WindowDrawContext *context);
     void layout_entries();
     void update_scroll_value();
     void advance_past_disabled_menu_rows();
@@ -49,7 +50,7 @@ struct TWindowMenu : public TWindowAddition {
     u8 unk_7A[0x2];
     f32 layout_height;
     TWindowMenuRow *rows;
-    u32 scroll_bar;  // the list scroll bar, made on demand by sub_8026556C
+    WindowScrollBar *scroll_bar;  // the list scroll bar, made on demand by sub_8026556C
     TWindowSubStatusDisp *heading;  // type-1 heading made by create_titled_window_menu
     void set_active_flag();
     void confirm_selection();

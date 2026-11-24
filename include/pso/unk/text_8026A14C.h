@@ -10,7 +10,7 @@ extern char *chat_last_line_buffer;
 
 extern "C" {
 void fn_8026A14C(void);
-void fn_8026A1C4(char *dst, char *src, s32 size);
+void fn_8026A1C4(char *dst, const char *src, s32 size);
 }
 
 #endif

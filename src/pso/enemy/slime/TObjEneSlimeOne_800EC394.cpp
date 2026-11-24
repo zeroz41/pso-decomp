@@ -40,14 +40,14 @@ extern "C" {
 
 s32 TObjEneSlimeOne::get_attack_target() { return variant; }
 
-    extern int slime_bml_resource;
+extern BmlResource *slime_bml_resource;
 
 s32 TObjEneSlimeOne::is_in_water_bomb_states() {
     O_800EC39C *self = (O_800EC39C *)this;
     return self->state == 11 || self->state == 12 || self->state == 13;
 }
 
-saddr TObjEneSlimeOne::get_instance() {  return slime_bml_resource; }
+BmlResource *TObjEneSlimeOne::get_instance() { return slime_bml_resource; }
 
 int TObjEneSlimeWaterBomb::find_nearest_enemy_masked(f32 range) {
     s32 target_id;
@@ -80,7 +80,7 @@ void SlimeAnimationState::draw(s32 deferred) {
         return;
     }
     if (state < 7) {
-        TObjFish::set_global_param(get_bml_texlist(reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance()), slime_one_part_texture_index_table[owner->get_attack_target()]));
+        TObjFish::set_global_param(get_bml_texlist(TObjEneSlimeOne::get_instance(), slime_one_part_texture_index_table[owner->get_attack_target()]));
         if (deferred != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
@@ -227,7 +227,7 @@ void SlimeAnimationState::set_state(s32 next_state) {
         return;
     }
     if (state < 9) {
-        BmlResource *resource = reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance());
+        BmlResource *resource = TObjEneSlimeOne::get_instance();
         SlimeShapeMotion *entry = slime_one_motion_state_table + state - 7;
         u32 id = slime_one_attack_target_id_table[owner->get_attack_target()];
         model = (NJS_OBJECT *)get_bml_model(resource, id);
@@ -240,7 +240,7 @@ void SlimeAnimationState::set_state(s32 next_state) {
         return;
     }
     s32 index = state - 9;
-    BmlResource *resource = reinterpret_cast<BmlResource *>(TObjEneSlimeOne::get_instance());
+    BmlResource *resource = TObjEneSlimeOne::get_instance();
     SlimePairedMotion *entry = &lbl_80496CB8[owner->get_attack_target()][index];
     model = (NJS_OBJECT *)get_bml_model(resource, entry->model);
     texture_list = reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist(resource, entry->model));

@@ -1,3 +1,5 @@
+#include "pso/player/PlayerState.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -32,7 +34,6 @@
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
@@ -40,7 +41,9 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TTelepipeMarker.h"
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
 
 struct Stack_802340E4 {
@@ -119,9 +122,7 @@ s32 get_current_floor(void);
 void restore_floor_telepipes(void);
 s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused);
 s32 is_split_screen();
-u8 *find_entity_by_id(u16);
 void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt);
-f32 horizontal_distance_squared(void *, void *);
 s32 free_collision_body_parts(void *);
 s32 submit_cursor_candidate(void *, s32);
 }
@@ -492,7 +493,7 @@ void TTelepipeEffect::run_task() {
       pl = (uaddr)get_player_by_client_id(j);
       if (pl != 0)
       {
-        d = horizontal_distance_squared(&pos, (void *)(pl + 0x38));
+        d = horizontal_distance_squared(&pos, &((TObjBase *)pl)->position);
         if (d <= best)
         {
           best = d;
@@ -564,7 +565,7 @@ void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt) {
     if (pkt->rec.owner == 0xffff) {
         return;
     }
-    player = find_entity_by_id(pkt->rec.owner);
+    player = (u8 *)find_entity_by_id(pkt->rec.owner);
     if (player == 0) {
         return;
     }

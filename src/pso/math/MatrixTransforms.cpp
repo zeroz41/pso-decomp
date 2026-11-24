@@ -1,15 +1,13 @@
+#include "pso/system/MatrixStack.h"
 #include "types.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D9650.h"
 #include "dolphin/mtx.h"
-#include "pso/player/TObjPlayer.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/system/MatrixOps.h"
 
 extern "C" {
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
-
 void rotate_matrix_z(MtxP matrix, s32 angle) {
     // Game angles have 65536 units per turn. The original uses a single-precision pi.
     const f64 radians_per_angle_unit = 2.0 * 3.141592f / 65536.0;
@@ -25,20 +23,21 @@ void rotate_matrix_z(MtxP matrix, s32 angle) {
 
 #pragma push
 #pragma peephole off
-void TObjPlayer::copy_matrix(uaddr arg0, uaddr arg1) {
+void copy_matrix(MtxP dest, const f32 (*source)[4]) {
     MtxP dst;
-    MtxP src;
-    if (arg0 == 0U) {
+    uaddr source_address;
+    if (dest == NULL) {
         dst = *current_matrix;
     } else {
-        dst = (MtxP)arg0;
+        dst = dest;
     }
-    if (arg1 == 0U) {
-        src = *current_matrix;
+    // Keep the source address in the original register across the null fallback.
+    if (source == NULL) {
+        source_address = reinterpret_cast<uaddr>(*current_matrix);
     } else {
-        src = (MtxP)arg1;
+        source_address = reinterpret_cast<uaddr>(source);
     }
-    PSMTXCopy(src, dst);
+    PSMTXCopy(reinterpret_cast<const f32 (*)[4]>(source_address), dst);
 }
 }
 #pragma pop
@@ -86,7 +85,6 @@ void euler_yxz_to_quaternion(u8 *arg0, u8 *arg1) {
 }
 
 #pragma push
-#pragma scheduling off
 
 void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z) {
     MtxP m = (MtxP)arg0;

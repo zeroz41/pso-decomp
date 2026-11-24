@@ -1,3 +1,4 @@
+#include "pso/math/ClampedStep.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
@@ -7,7 +8,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
@@ -41,11 +41,11 @@ void TUnk_804E24F0::emit_marker_effects() {
 }
 
 void TUnk_804E24F0::update_idle() {
-    TItemEffOrgaFlowShot::approach_value(&muzzle_offset, 0.5f, 4.0f);
+    ::approach_value(&muzzle_offset, 0.5f, 4.0f);
 }
 
 void TUnk_804E24F0::update_attack() {
-    TItemEffOrgaFlowShot::approach_value(&muzzle_offset, -1.0f, 0.0f);
+    ::approach_value(&muzzle_offset, -1.0f, 0.0f);
 }
 
 TUnk_804E24F0::TUnk_804E24F0(TObject *parent, u8 *item) : TItemWeapon(parent, item) {

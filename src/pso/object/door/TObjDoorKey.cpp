@@ -8,8 +8,12 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/object/ambient/TObjEnvSoundGlobal.h"
 #include "pso/system/task/TObject_80019A50.h"
+#include <dolphin/base/PPCArch.h>
+#include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/object/door/TObjDoorJung.h"
@@ -30,7 +34,6 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/key/TOKey.h"
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/TLanguage_801E4874.h"
 
@@ -75,7 +78,7 @@ Obj_8018FA6C *fn_8018FA6C(u16 id) {
     while (tl_05->children != 0 && next != 0) {
         cur = next;
         next = cur->next;
-        if (((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjDoorKey__class_name) != 0 && cur->id == id) {
+        if (reinterpret_cast<TObject *>(cur)->check_value_equals(TObjDoorKey__class_name) != 0 && cur->id == id) {
             return cur;
         }
     }
@@ -116,18 +119,13 @@ struct Key_8018FD9C { u8 pad0[0x38]; f32 f38[3]; u8 pad44[0x30]; f32 f74; f32 f7
 
 struct Node_8018FBB8 { s32 pad0; void *model; };
 
-struct Key_8018FBB8 { u8 pad0[0x38]; u8 f38[0x28]; s32 f60; u8 pad64[0x28]; s32 slot; u8 pad90[0x60]; s32 fF0; };
+struct Key_8018FBB8 { u8 pad0[0x38]; f32 f38[3]; u8 pad44[0x28 - 0xC]; s32 f60; u8 pad64[0x28]; s32 slot; u8 pad90[0x60]; s32 fF0; };
 
 struct Node_8018FCD8 { s32 pad0; void *model; };
 
-struct Key_8018FCD8 { u8 pad0[0x38]; u8 f38[0x28]; s32 angle; u8 pad64[0x28]; s32 slot; u8 pad90[0x60]; s32 fF0; };
+struct Key_8018FCD8 { u8 pad0[0x38]; f32 f38[3]; u8 pad44[0x28 - 0xC]; s32 angle; u8 pad64[0x28]; s32 slot; u8 pad90[0x60]; s32 fF0; };
 
 extern "C" {
-void PPCSync();
-void post_translate_matrix(void *);
-extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 
 void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
     Obj_8018FA6C *temp_r3;
@@ -164,7 +162,7 @@ void TObjDoorKey::render() {
 void TObjDoorKey::draw_active_beam() {
     Key_8018FBB8 *arg0 = (Key_8018FBB8 *)this;
     if (TObjDoorKey__data_805D5C04 != actor_frame_tick) {
-        scroll_ginja_mesh_uvs(((Node_8018FBB8 *)TObjDoorKey__ginja_model_table[1])->model, 0, 0x14, 0xE, 1);
+        scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(((Node_8018FBB8 *)TObjDoorKey__ginja_model_table[1])->model), 0, 0x14, 0xE, 1);
         PPCSync();
         TObjDoorKey__data_805D5C04 = actor_frame_tick;
     }
@@ -182,7 +180,7 @@ void TObjDoorKey::draw_active_beam() {
     saddr *g = TObjDoorKey__ginja_model_table;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((((Node_8018FBB8 *)g[2])->model)), ((u16)arg0->slot));
     draw_ginja_object((void *)g[2]);
-    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+    set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     pop_matrix();
@@ -202,7 +200,7 @@ void TObjDoorKey::draw_inactive_badge() {
     saddr *g = TObjDoorKey__ginja_model_table;
     set_ginja_model_texture_slot(reinterpret_cast<void *>((((Node_8018FCD8 *)g[2])->model)), ((u16)arg0->slot));
     draw_ginja_object((void *)g[2]);
-    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+    set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     pop_matrix();

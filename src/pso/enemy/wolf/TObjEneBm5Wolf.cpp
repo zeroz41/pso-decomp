@@ -103,9 +103,9 @@ const char *bm5_wolf_class_name = "TObjEneBm5Wolf";
 
 static const NpcAnimationBinding bm5_wolf_spawn_descriptor = { NULL, wolf_action_table, 0, 1, 19 };
 
-__declspec(section ".data") u8 *TObjEneBm5Wolf__stat_params[2];
-__declspec(section ".data") u8 *wolf_stat_handle_a_table[2];
-__declspec(section ".data") u8 *wolf_stat_handle_b_table[2];
+__declspec(section ".data") player_stats *TObjEneBm5Wolf__stat_params[2];
+__declspec(section ".data") AttackParams *wolf_stat_handle_a_table[2];
+__declspec(section ".data") ActorParamBlock *wolf_stat_handle_b_table[2];
 __declspec(section ".data") s32 wolf_param_table[2];
 s32 TObjEneBm5Wolf__render_node_index;
 s32 TObjEneBm5Wolf__render_joint_y_rotation;
@@ -222,9 +222,9 @@ void TObjEneBm5Wolf::load_resources() {
     lbl_80500B60.y = 0.0f;
     lbl_80500B60.z = 0.0f;
     for (i = 0; i < 2; i++) {
-        TObjEneBm5Wolf__stat_params[i] = (u8 *)TLobby::register_boss(wolf_base_stat_ids[i]);
-        wolf_stat_handle_a_table[i] = (u8 *)TLobby::dispatch_shared_handler_b(wolf_attack_stat_ids[i]);
-        wolf_stat_handle_b_table[i] = (u8 *)TLobby::register_object(wolf_resist_stat_ids[i]);
+        TObjEneBm5Wolf__stat_params[i] = TLobby::register_boss(wolf_base_stat_ids[i]);
+        wolf_stat_handle_a_table[i] = TLobby::dispatch_shared_handler_b(wolf_attack_stat_ids[i]);
+        wolf_stat_handle_b_table[i] = TLobby::register_object(wolf_resist_stat_ids[i]);
         wolf_param_table[i] = (saddr)TLobby::dispatch_shared_handler_a(wolf_param_ids[i]);
     }
     {
@@ -294,7 +294,7 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     set_animation(requested_action);
     set_requested_action(requested_action);
     n = is_leader;
-    reset_hp(reinterpret_cast<player_stats *>(TObjEneBm5Wolf__stat_params[n != 0]), reinterpret_cast<AttackParams *>(wolf_stat_handle_a_table[n != 0]), reinterpret_cast<ActorParamBlock *>(wolf_stat_handle_b_table[n != 0]));
+    reset_hp(TObjEneBm5Wolf__stat_params[n != 0], wolf_stat_handle_a_table[n != 0], wolf_stat_handle_b_table[n != 0]);
     set_state_flag_1();
     movementParameters = bm5_wolf_decision_row;
     if (is_leader != 0) {
@@ -1789,7 +1789,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 event) {
                 }
                 rotate_xz_pair_by_angle(&pos.x, &pos.z, this->rotation_y);
                 vec3_add_to(&pos, &this->position);
-                TObjPlayer::spawn_dead_spot_type2((saddr)&pos, 0x32);
+                TObjPlayer::spawn_dead_spot_type2(&pos, 0x32);
                 spawn_effect_at_ground(&pos, 0x46);
             }
             this->rotation_y = approach_angle_limited(this->rotation_y, *tgt, 0x300);

@@ -1,20 +1,16 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/render_util.h"
-#include "pso/render/ColorLineList.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/TEffStarLight2D_Base.h"
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/effect/TEffStarLightChild.h"
-#include "types.h"
-#include "pso/ui/window/TWindowCtrlMain.h"
-
 #include "pso/system/vector.h"
-#include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
 
 extern const char TEffStarLightChild_class_name[] = "TEffStarLightChild";
@@ -164,8 +160,6 @@ void TEffStarLight2D::queue_child_destruction() {
     }
 }
 
-#pragma push
-#pragma opt_propagation off
 void TEffStarLight2D::render() {
     s32 index = 0;
     TEffStarLightChild *next;
@@ -182,7 +176,6 @@ void TEffStarLight2D::render() {
     }
     set_default_alpha_blend();
 }
-#pragma pop
 
 #pragma push
 #pragma fp_contract on

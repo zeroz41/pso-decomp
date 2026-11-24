@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -33,7 +34,6 @@
 
 #include "pso/render/TUnk_80494938.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt.h"
@@ -45,7 +45,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
@@ -167,11 +166,11 @@ TObjEneDolmOlm::TObjEneDolmOlm(TObject *parent, void *set_data) : TUnk_80493450(
     set_animation(requested_action);
     set_requested_action(requested_action);
     init_collision_body_parts(this, &dolmolm_collision_bodies[variant], 1);
-    bind_enemy_combat_stats(reinterpret_cast<player_stats *>(dolm_olm_combat_stat_id_pair[variant]), reinterpret_cast<AttackParams *>(TObjEneDolmOlm__shared_handler_ids[variant]), reinterpret_cast<ActorParamBlock *>(TObjEneDolmOlm__registered_object_ids[variant]));
+    bind_enemy_combat_stats(dolm_olm_combat_stat_id_pair[variant], TObjEneDolmOlm__shared_handler_ids[variant], TObjEneDolmOlm__registered_object_ids[variant]);
     movementParameters = &dolmolm_movement_params[variant];
     referenceHp = hp;
     advance_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     initialize_enemy_photon_effect(this);
     m_2ac = (s32)(182.04445f * (360.0f * random_ratio()));
     resetTimer = 0xF;
@@ -234,16 +233,16 @@ void TObjEneDolmOlm::load_shared_resources() {
     TObjEneDolmOlm__left_attack_samples->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models->model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[3].motion].motion, 0x1C, 0x1D);
     TObjEneDolmOlm__right_attack_samples->sample_two_nodes(TObjEneDolmOlm__resource_bundle->models->model, (NJS_MOTION *)TObjEneDolmOlm__resource_bundle->motions[TObjEneDolmOlm__param_table[4].motion].motion, 0x14, 0x15);
     clear_motion_packed_rotation();
-    dolm_olm_combat_stat_id_pair = (u8 **)mem_alloc(8);
-    TObjEneDolmOlm__shared_handler_ids = (u8 **)mem_alloc(8);
-    TObjEneDolmOlm__registered_object_ids = (u8 **)mem_alloc(8);
+    dolm_olm_combat_stat_id_pair = static_cast<player_stats **>(mem_alloc(8));
+    TObjEneDolmOlm__shared_handler_ids = static_cast<AttackParams **>(mem_alloc(8));
+    TObjEneDolmOlm__registered_object_ids = static_cast<ActorParamBlock **>(mem_alloc(8));
     TObjEneDolmOlm__behavior_params_by_variant = (DolmOlmBehaviorParams **)mem_alloc(8);
-    dolm_olm_combat_stat_id_pair[0] = (u8 *)TLobby::register_boss(0x4F);
-    dolm_olm_combat_stat_id_pair[1] = (u8 *)TLobby::register_boss(0x50);
-    TObjEneDolmOlm__shared_handler_ids[0] = (u8 *)TLobby::dispatch_shared_handler_b(0x54);
-    TObjEneDolmOlm__shared_handler_ids[1] = (u8 *)TLobby::dispatch_shared_handler_b(0x55);
-    TObjEneDolmOlm__registered_object_ids[0] = (u8 *)TLobby::register_object(0x4E);
-    TObjEneDolmOlm__registered_object_ids[1] = (u8 *)TLobby::register_object(0x4F);
+    dolm_olm_combat_stat_id_pair[0] = TLobby::register_boss(0x4F);
+    dolm_olm_combat_stat_id_pair[1] = TLobby::register_boss(0x50);
+    TObjEneDolmOlm__shared_handler_ids[0] = TLobby::dispatch_shared_handler_b(0x54);
+    TObjEneDolmOlm__shared_handler_ids[1] = TLobby::dispatch_shared_handler_b(0x55);
+    TObjEneDolmOlm__registered_object_ids[0] = TLobby::register_object(0x4E);
+    TObjEneDolmOlm__registered_object_ids[1] = TLobby::register_object(0x4F);
     TObjEneDolmOlm__behavior_params_by_variant[0] = (DolmOlmBehaviorParams *)TLobby::dispatch_shared_handler_a(0x4E);
     TObjEneDolmOlm__behavior_params_by_variant[1] = (DolmOlmBehaviorParams *)TLobby::dispatch_shared_handler_a(0x4F);
     TObjEneDolmOlm__effect_render_state = 0;
@@ -338,7 +337,7 @@ void TObjEneDolmOlm::run_task() {
         break;
     }
     advance_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     submit_cursor_candidate(this, -1);
     if (floor_flags & 0x4000) {
         request_reflection_render();
@@ -535,7 +534,7 @@ void TObjEneDolmOlm::update_retreat() {
             if (check_path_ahead(rotation_y + 0x8000, f) == 0) {
                 enemy_turn_toward_dest(((BeastMovementParams *)movementParameters)->turnSpeed);
                 enemy_set_heading_velocity(f, this, rotation_y + 0x8000);
-                move_with_wall_slide((u8 *)this);
+                move_with_wall_slide(this);
                 retreat_distance += f;
                 if (retreat_distance >= 50.0f) {
                     phase = 2;
@@ -578,7 +577,7 @@ void TObjEneDolmOlm::update_special_attack() {
         f32 d = horizontal_distance_squared(&tgt->position, &position);
         if (tgt != 0 && tgt->get_floor() == get_current_floor() &&
             d < TObjEneDolmOlm__behavior_params_by_variant[variant]->special_range * TObjEneDolmOlm__behavior_params_by_variant[variant]->special_range) {
-            target = (u8 *)tgt;
+            target = tgt;
         } else {
             target = 0;
         }
@@ -654,7 +653,7 @@ void TObjEneDolmOlm::update_special_attack() {
                     if (pl != 0 && TObjPlayer::is_locally_controlled(pl) != 0 &&
                         pl->all_parents_unqueued_for_destruction() != 0 &&
                         pl->test_actor_flags(0x800) == 0 && pl->check_player_flag1() == 0) {
-                        TObjPlayer::play_effect((saddr)pl, (s32)(30.0f * (f32)TObjEneDolmOlm__behavior_params_by_variant[variant]->special_power), 2);
+                        TObjPlayer::play_effect(pl, (s32)(30.0f * (f32)TObjEneDolmOlm__behavior_params_by_variant[variant]->special_power), 2);
                     }
                 }
             }
@@ -898,7 +897,7 @@ void TObjEneDolmOlm::spawn_death_effect() {
     pop_matrix();
     vec3_add_to(&stack, &position);
     spawn_ground_effect(&stack, 0x23);
-    TObjPlayer__sub_800D92BC((saddr)&stack.x, 0xF);
+    TObjPlayer__sub_800D92BC(&stack, 0xF);
 }
 void TObjEneDolmOlm::play_alert_sound() {
     play_sound_effect(remap_sound_for_area(0x4003AD00), &position, 0, 0);
@@ -960,9 +959,9 @@ __declspec(section ".rodata") const f64 dolmolm_radians_to_angle[] = {10430.3804
 const char *obj_ene_dolm_olm_class_name = TObjEneDolmOlm__class_name_string;
 
 
-u8 **dolm_olm_combat_stat_id_pair;
-u8 **TObjEneDolmOlm__shared_handler_ids;
-u8 **TObjEneDolmOlm__registered_object_ids;
+player_stats **dolm_olm_combat_stat_id_pair;
+AttackParams **TObjEneDolmOlm__shared_handler_ids;
+ActorParamBlock **TObjEneDolmOlm__registered_object_ids;
 DolmOlmBehaviorParams **TObjEneDolmOlm__behavior_params_by_variant;
 BmlResource *TObjEneDolmOlm__resource_bundle;
 SampledMotionPoints *TObjEneDolmOlm__left_attack_samples;

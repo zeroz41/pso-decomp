@@ -12,8 +12,11 @@
 #include "pso/system/BmlResource.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/MaterialColorFade.h"
+#include "pso/render/ChunkMaterialColor.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
@@ -66,14 +69,6 @@ struct Obj_80165C84 {
     s32 fC8;
     s32 fCC;
 };
-
-extern "C" {
-s32 scale_current_matrix(void *);
-s32 post_translate_matrix(void *);
-extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-}
 
 #define dummy_key_cave01 this
 TODummyKeyCave01::TODummyKeyCave01(TObject *parent, void *set_data) : TObjBase(parent) {
@@ -171,9 +166,9 @@ void TODummyKeyCave01::render() {
         (v = this->texlist) != NULL) {
         set_texlist(v);
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_zyx(0, this->rotation_x, this->rotation_y, this->rotation_z);
-        scale_current_matrix((u8 *)&this->scale);
+        scale_current_matrix(&this->scale.x);
         node = *(u8 **)(arg0 + 0x34);
         draw_ginja_model(*(void **)(node + 4));
         if (*(u16 *)(arg0 + 0x9A) == 0) {
@@ -187,15 +182,15 @@ void TODummyKeyCave01::render() {
         if (*(s32 *)(arg0 + 0xD0) != 0) {
             rotate_matrix_y(0, *(s32 *)(arg0 + 0xCC));
         } else {
-            post_translate_matrix((u8 *)&this->m_ac);
+            post_translate_matrix((const f32 *)&this->m_ac);
         }
-        post_translate_matrix(node + 8);
+        post_translate_matrix((const f32 *)(node + 8));
         draw_ginja_model(*(void **)(node + 4));
         node = *(u8 **)(node + 0x2C);
-        post_translate_matrix(node + 8);
+        post_translate_matrix((const f32 *)(node + 8));
         draw_ginja_model(*(void **)(node + 4));
         if (*(u16 *)(arg0 + 0x9A) == 0) {
-            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+            set_constant_material(&chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
         }
         TParticleCtrl::end_effect_render();

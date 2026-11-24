@@ -27,18 +27,7 @@
 
 #pragma readonly_strings on
 
-struct Stack_8026A434 {
-    f32 sp8;
-    f32 spC;
-};
-
-struct Stack_8026A494 {
-    f32 sp8;
-    f32 spC;
-};
-
 extern "C" {
-s32 clamp_list_scroll_offset(int, void *, void *, f32);
 s32 find_entity_by_id();
 
 s32 TWindowMessageLog::get_active_photon_object() {
@@ -59,17 +48,17 @@ s32 TWindowMessageLog::get_active_photon_object() {
     return var_r3;
 }
 void TWindowMessageLog::clamp_scroll_offset() {
-    Stack_8026A434 stack;
+    NJS_POINT2 range;
     f32 temp_f1;
-    stack.sp8 = 0.0f;
+    range.x = 0.0f;
     temp_f1 = this->frame_size[1];
-    stack.spC = temp_f1 - 20.0f;
-    if (clamp_list_scroll_offset((int) (*(s32 *)((s8 *)((u8 *)this) + 0x90)), (void *) (((u8 *)this) + 0x68), &stack.sp8, temp_f1) != 0) {
-        this->m_84 = (f32) this->scroll_offset[1];
+    range.y = temp_f1 - 20.0f;
+    if (scroll_bar->clamp_offset(scroll_offset, &range) != 0) {
+        this->target_scroll_y = (f32) this->scroll_offset[1];
     }
 }
 void TWindowMessageLog::update_scroll_position() {
-    Stack_8026A494 stack;
+    NJS_POINT2 extent;
     saddr temp_r31;
     saddr array_entry;
     s32 temp_r4;
@@ -81,9 +70,9 @@ void TWindowMessageLog::update_scroll_position() {
     }
     temp_r31 = reinterpret_cast<saddr>(this->get_array_entry(temp_r4));
     array_entry = reinterpret_cast<saddr>(this->get_array_entry(var_r30));
-    stack.sp8 = (this->frame_size[0] - 4.0f) - 9.0f;
-    stack.spC = (*(f32 *)((s8 *)array_entry + 0xC) + *(f32 *)((s8 *)array_entry + 0x14)) - *(f32 *)((s8 *)temp_r31 + 0xC);
-    ((WindowScrollBar *)(*(u8 **)((s8 *)((u8 *)this) + 0x90)))->copy_position(&stack.sp8);
+    extent.x = (this->frame_size[0] - 4.0f) - 9.0f;
+    extent.y = (*(f32 *)((s8 *)array_entry + 0xC) + *(f32 *)((s8 *)array_entry + 0x14)) - *(f32 *)((s8 *)temp_r31 + 0xC);
+    scroll_bar->set_extent(&extent);
     this->clamp_scroll_offset();
 }
 
@@ -96,7 +85,7 @@ void TWindowMessageLog::update_fade_offset() {
     update_fade();
     temp_f1 = this->frame_size[1] - temp_f31;
     if (0.0f != temp_f1) {
-        this->m_84 = (f32) (this->m_84 - temp_f1);
+        this->target_scroll_y = (f32) (this->target_scroll_y - temp_f1);
         this->scroll_offset[1] = (f32) (this->scroll_offset[1] - temp_f1);
         clamp_scroll_offset();
     }
@@ -108,7 +97,7 @@ void TWindowMessageLog::update_scroll_animation() {
 
     temp_f1 = this->m_94;
     if (0.0f != temp_f1) {
-        this->m_84 = (f32) (this->m_84 + temp_f1);
+        this->target_scroll_y = (f32) (this->target_scroll_y + temp_f1);
         this->scroll_offset[1] = (f32) (this->scroll_offset[1] + this->m_94);
         this->m_94 *= 0.0f;
         clamp_scroll_offset();
@@ -281,29 +270,23 @@ u8 *create_message_log_window(s32 parent, saddr extent, s32 client) {
 
 const char *TWindowMessageLog__name = "TWindowMessageLog";
 
-struct Stack_8026ABA8 {
-    f32 sp8;
-    f32 spC;
-};
-
 extern "C" {
-s32 draw_window_scrollbar(int, int, void *);
 void TWindowMessageLog::render() {
-    saddr draw_context;
-    draw_context = reinterpret_cast<saddr>(get_draw_context());
-    draw_window_frame((void *)draw_context);
+    WindowDrawContext *draw_context;
+    draw_context = get_draw_context();
+    draw_window_frame(draw_context);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>((void *) (((u8 *)this) + 0x24)),
-        reinterpret_cast<WindowDrawContext *>(draw_context));
-    draw_window_scrollbar((int) (*(s32 *)((s8 *)((u8 *)this) + 0x90)), draw_context, (void *) (((u8 *)this) + 0x68));
+        draw_context);
+    draw_window_scrollbar(scroll_bar, draw_context, scroll_offset);
 }
 void TWindowMessageLog::run_task() {
     if (!(*(s32 *)&this->window_flags & 2)) {
         *(s32 *)&this->open_tick = 0x01000000;
     }
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        ((TWindowSubStatusDisp *)(*(u8 **)((s8 *)((u8 *)this) + 0x90)))->increment_counter();
+        scroll_bar->increment_counter();
     }
     update_scroll_animation();
     update_scroll();
@@ -312,21 +295,19 @@ void TWindowMessageLog::run_task() {
     update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24));
 }
 TWindowMessageLog::~TWindowMessageLog() {
-    TWindowSubStatusDisp::destroy_allocation(*(s32 *)((s8 *)this + 0x90), 1);
+    TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), 1);
     TWindowCtrl__sub_8026AD60();
 }
 TWindowMessageLog::TWindowMessageLog(s32 parent, s32 client) : TWindowMessage(parent, 0x1E, client) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_8026ABA8, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_8026ABA8, spC) == 0x4);
-    Stack_8026ABA8 stack;
+    NJS_POINT2 extent;
     f32 temp_f1;
     s32 temp_r3;
     *(s32 *)((s8 *)this + 0) = (s32) ((saddr)TWindowMessageLog__name);
     TWindowCtrl__sub_8026AD78(this);
     temp_f1 = this->target_size[0] - 8.0f;
-    stack.spC = 0.0f;
-    stack.sp8 = temp_f1;
-    *(s32 *)((s8 *)this + 0x90) = reinterpret_cast<saddr>(new WindowScrollBar(&stack.sp8));
+    extent.y = 0.0f;
+    extent.x = temp_f1;
+    scroll_bar = new WindowScrollBar(&extent);
     this->window_flags = (s32) (this->window_flags | 0x80);
     this->m_94 = (f32) 0.0f;
     this->load_chat_history();

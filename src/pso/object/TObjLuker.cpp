@@ -33,7 +33,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
 #pragma readonly_strings on
@@ -93,8 +93,7 @@ struct Luker_801A1260
 extern "C" {
 void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 s32 is_split_screen(void);
-void *get_window_layout_position(s32 a);
-void *create_window_menu_default(void *p, s32 a);
+void *create_window_menu_default(const void *p, s32 a);
 f32 horizontal_distance_squared(void *, void *);
 s32 TTecLuker__sub_8023401C(void *);
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
@@ -151,7 +150,7 @@ void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self) {
     for (i = 0; i < 4; i++) {
         if (self->wins[i] != 0) {
             if (!(self->wins[i]->flags & 4)) {
-                play_sound_effect(0x53704, 0, 0, 0);
+                play_sound_effect(0x53704, NULL, 0, 0);
             }
             ((TObject *)(self->wins[i]))->suspend_update();
             ((TObject *)self->wins[i])->disallow_rendering();
@@ -367,7 +366,7 @@ void TObjLuker::render() {  }
 void TObjLuker::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
-    u8 position[0xC];
+    Vec effect_position;
     TObjPlayer *p;
     s32 flag;
     p = get_player_by_client_id(this->m_a8);
@@ -411,8 +410,8 @@ void TObjLuker::run_task() {
                     }
                     if (flag != 0) {
                         this->m_b0 = 1;
-                        offset_point_toward_camera(&this->position, (Vec *)position, 10.0f);
-                        spawn_particle_effect((const Vec *)position, 0xB3);
+                        offset_point_toward_camera(&this->position, &effect_position, 10.0f);
+                        spawn_particle_effect(&effect_position, 0xB3);
                         p = get_player_by_client_id(local_client_id);
                         if (p != NULL) {
                             send_impose_hold(p, 0xA);

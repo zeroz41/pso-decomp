@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
@@ -131,12 +132,12 @@ s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     }
     if (res != 0) {
         lbl_805D49B4 = 0;
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+        safe_free(buf);
         return (u8)(0);
     }
     if (TAdSinglePlyChrSelectGC::load_system_file(0, &sum) == 0) {
         lbl_805D49B4 = 0;
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+        safe_free(buf);
         return (u8)(0);
     }
     lbl_805D49B4 = 0;
@@ -149,8 +150,8 @@ s32 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     res = calc_crc32_bitwise(data, 0x194B0);
     strncpy(((char *)this), (char *)(data + 0x193F0), 0x10);
     strncpy(desc, (char *)(data + 0x19400), 0x10);
-    TAdSinglePlyChrSelectGC::safe_free((uaddr)data);
-    TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+    safe_free(data);
+    safe_free(buf);
     return (u8)(saved == res);
 }
 

@@ -24,6 +24,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 
 const char *bm_butterfly_lobby_model_names[3] = {"lobby_chou00_bule.gj", "lobby_chou01_red.gj", NULL};
 const char *bm_butterfly_lobby_motion_names[2] = {"lobby_chou00_bule.njm", NULL};
@@ -55,7 +56,6 @@ struct Butterfly_80350BC4 {
 };
 
 extern "C" {
-s32 post_translate_matrix(void *);
 
 BmlResource *lobby_butterfly_bml_resource;
 
@@ -63,7 +63,7 @@ void render__18TObjButterflyLobbyFPv(TObjButterflyLobby *butterfly_lobby) {
     f32 temp_f1;
 
     push_matrix();
-    post_translate_matrix((u8 *)butterfly_lobby + 0x38);
+    post_translate_matrix(&butterfly_lobby->position.x);
     rotate_matrix_y(0, butterfly_lobby->rotation_y);
     rotate_matrix_x(0, -0x2000);
     if ((s32) butterfly_lobby->m_90 != 3) {

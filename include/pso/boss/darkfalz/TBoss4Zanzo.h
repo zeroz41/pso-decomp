@@ -5,14 +5,18 @@
 #include "types.h"
 #include "dolphin/mtx.h"
 
+struct AnimationMotion;
+struct NJS_TEXLIST;
+struct NJS_OBJECT;
+
 // The block TBoss4Type2::spawn_afterimages fills for each afterimage it spawns; TBoss4Zanzo
 // keeps a copy (copy_zanzo_params) and draws model/motion at pos until lifetime frames have passed.
 struct TBoss4ZanzoParams {
     Vec pos;
     s32 rotation_y;
-    saddr texlist;   // get_bml_texlist(bml, index); render passes it to TObjFish::set_global_param
-    void *model;     // get_bml_model
-    void *motion;    // get_bml_motion
+    NJS_TEXLIST *texlist;
+    NJS_OBJECT *model;
+    AnimationMotion *motion;
     f32 frame;       // draw_model_motion's frame argument
     f32 fade_start;  // render's value at age 0, moving to fade_end at lifetime; drawn while above 0.01
     f32 fade_end;

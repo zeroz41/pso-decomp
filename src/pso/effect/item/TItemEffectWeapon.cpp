@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/TrailStrip.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include <string.h>

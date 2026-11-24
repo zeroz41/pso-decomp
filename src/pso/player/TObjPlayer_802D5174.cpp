@@ -40,16 +40,6 @@
 
 struct W_802D5B78 { s32 a; s32 b; s32 c; };
 
-struct S_802D5B78 {
-    u8 pad0[0xC];
-    f32 scale;
-    u8 pad10[0xC];
-    f32 f1C;
-    f32 f20;
-    f32 f24;
-    u8 pad28[4];
-};
-
 extern "C" {
 void spawn_hit_particles__10TObjPlayerFiPv(saddr pos, const Vec *dir);
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
@@ -172,13 +162,14 @@ void TUnk_804E23F0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
 #pragma push
 #pragma fp_contract on
 
-void TObjPlayer__sub_802D5B78(void *hit, void *arg1, void *arg2) {
+void TObjPlayer__sub_802D5B78(const ActorBodyHit *hit, Vec *out, Vec *direction) {
     s32 *wsrc;
     s32 a;
     s32 b;
     s32 c;
     W_802D5B78 w;
-    wsrc = (s32 *)arg2;
+    // Copy the input words before normalization so the output may alias it.
+    wsrc = (s32 *)direction;
     c = wsrc[0];
     a = c;
     b = wsrc[1];
@@ -187,13 +178,11 @@ void TObjPlayer__sub_802D5B78(void *hit, void *arg1, void *arg2) {
     w.b = b;
     w.c = c;
     normalize_vector((Vec *)&w);
-    S_802D5B78 *tab = *(S_802D5B78 **)((s8 *)*(void **)hit + 0xA4);
-    S_802D5B78 *e = (S_802D5B78 *)((s8 *)tab + *(s32 *)((s8 *)hit + 4) * 0x2C);
-    f32 s = e->scale;
-    f32 *out = (f32 *)arg1;
-    out[0] = e->f1C - (*(f32 *)&w.a) * s;
-    out[1] = e->f20 - (*(f32 *)&w.b) * s;
-    out[2] = e->f24 - (*(f32 *)&w.c) * s;
+    const CollisionBody *body = &hit->target->bodies[hit->body];
+    const f32 radius = body->radius;
+    out->x = body->center.x - (*(f32 *)&w.a) * radius;
+    out->y = body->center.y - (*(f32 *)&w.b) * radius;
+    out->z = body->center.z - (*(f32 *)&w.c) * radius;
 }
 
 #pragma pop
@@ -207,7 +196,7 @@ void TObjPlayer::spawn_item() {
     if (particle != NULL) {
         TItemLoad::get_item_model(0xD, &model);
         TItemLoad::get_item_texture_list(0xD, &texture);
-        attach_particle_model((u8 *)particle, model, texture, 0, 0, 1.0f);
+        attach_particle_model(particle, model, texture, 0, 0, 1.0f);
         particle->set_scale(10.0f, 10.0f);
     }
 }
@@ -380,7 +369,7 @@ TUnk_804E2000::TUnk_804E2000(TObject *parent, u8 *item) : TUnk_804E23F0(parent, 
 
 void TObjPlayer::spawn_hit_particles_at(s32 arg0, saddr hit, saddr dir) {
     Vec pos;
-    TObjPlayer__sub_802D5B78((void *)hit, &pos, (void *)dir);
+    TObjPlayer__sub_802D5B78(reinterpret_cast<const ActorBodyHit *>(hit), &pos, reinterpret_cast<Vec *>(dir));
     spawn_hit_particles__10TObjPlayerFiPv((saddr)&pos, (const Vec *)dir);
 }
 
@@ -435,7 +424,7 @@ void TUnk_804E1CA8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
 
 void TObjPlayer::do_action_447_from_packet(void *item, void *hit, void *dir) {
     Vec pos;
-    TObjPlayer__sub_802D5B78(hit, &pos, dir);
+    TObjPlayer__sub_802D5B78(static_cast<const ActorBodyHit *>(hit), &pos, static_cast<Vec *>(dir));
     ((TObjPlayer *)&pos)->do_action_447();
 }
 

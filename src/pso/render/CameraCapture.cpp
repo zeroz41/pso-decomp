@@ -97,7 +97,6 @@ NJS_TEXLIST shadow_map_texture_list = {&shadow_map_texture_entry, 1};
 // Where the shadow-map pass looks from: 102.4 units ahead of the camera, at its height.
 Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 
-extern NJS_TEXLIST *hud_texlist;
 extern GXRenderModeObj *active_gx_render_mode;
 
 #include "pso/system/task/TMainTask.h"
@@ -129,12 +128,13 @@ extern GXRenderModeObj *active_gx_render_mode;
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 
 u8 camera_capture_overlay_alpha = 143;
 
 int shadow_pass_requested;
 u8 camera_capture_flags;
-CameraRenderTarget *camera_render_target_singleton;
+GinjaRenderTarget *camera_render_target_singleton;
 
 int TObjPlayer::is_inactive() { return this->model_load_flags == 0; }
 
@@ -663,20 +663,20 @@ void TCameraCapturePass::render() {
 }
 
 void init_camera_render_target() {
-    CameraRenderTarget *target;
+    GinjaRenderTarget *target;
     camera_render_target_singleton = NULL;
     if (get_current_floor_area() == AREA_GOL_DRAGON) {
-        target = (CameraRenderTarget *)::operator new(sizeof(CameraRenderTarget));
+        target = static_cast<GinjaRenderTarget *>(::operator new(sizeof(GinjaRenderTarget)));
         camera_render_target_singleton = target;
         if (target != NULL) {
-            ((TObjPlayer *)target)->init_render_target();
+            target->init_render_target();
         }
     }
 }
 
 void free_camera_render_target() {
     if (camera_render_target_singleton != NULL) {
-        ((TObjPlayer *)camera_render_target_singleton)->reset_lobby_subobject();
+        camera_render_target_singleton->release_texture();
     }
     if (camera_render_target_singleton != NULL) {
         ::operator delete(camera_render_target_singleton);
@@ -723,7 +723,7 @@ void TLiveCameraView::render_shadows() {
             GXSetZMode(GX_TRUE, GX_ALWAYS, GX_TRUE);
             GXSetTexCopySrc(0, 0, 640, 480);
             GXSetTexCopyDst(640, 480, GX_TF_RGB565, GX_FALSE);
-            GXCopyTex(camera_render_target_singleton->list.textures->texture->surface->header.pixels, GX_TRUE);
+            GXCopyTex(camera_render_target_singleton->texture_list.textures->texture->surface->header.pixels, GX_TRUE);
             GXPixModeSync();
         }
         GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
@@ -741,7 +741,7 @@ void TLiveCameraView::render() {}
 
 void TLiveCameraView::bind_texture() {
     if ((is_split_screen() == 0) && (camera_render_target_singleton != NULL)) {
-        TObjFish::set_global_param(&camera_render_target_singleton->list);
+        TObjFish::set_global_param(&camera_render_target_singleton->texture_list);
         load_list_texture(0, 0, 0, 0);
     }
 }

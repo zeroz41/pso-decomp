@@ -33,21 +33,21 @@ extern "C" {
 s32 count_leading_active__17TWindowSubComCardFPvi(s32, s32);
 
 void TWindowSubComCardList::render() {
-    saddr ctx;
+    WindowDrawContext *ctx;
 
-    ctx = reinterpret_cast<saddr>(this->get_draw_context());
-    draw_window_frame((void *)ctx);
+    ctx = this->get_draw_context();
+    draw_window_frame(ctx);
     draw_visible_window_entries(
         this,
         &this->entry_list,
-        reinterpret_cast<WindowDrawContext *>(ctx));
+        ctx);
     ((TWindowMenu *)this)->render_selected_entry(ctx);
     this->draw_card_list_selection((u8 *)ctx);
     if (this->heading != 0) {
-        this->heading->forward_render((void *)(ctx));
+        this->heading->forward_render(ctx);
     }
     if (this->storage != 0) {
-        draw_list_page_indicator(this->storage, reinterpret_cast<WindowDrawContext *>(ctx));
+        draw_list_page_indicator(this->storage, ctx);
     }
 }
 

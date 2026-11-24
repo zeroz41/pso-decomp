@@ -4,7 +4,13 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
-extern "C" s16 *menu_font_palette;
+struct TexturedQuad;
+
+extern "C" {
+extern s16 *menu_font_palette;
+const char *parse_text_control_codes(const char *p, s32 *shift_jis, s32 *color);
+void set_glyph_quad_extents(u8 advance, TexturedQuad *quad);
+}
 
 class TNECFontEORFunction : public TObject {
 public:

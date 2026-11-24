@@ -1,3 +1,4 @@
+#include "pso/object/base/TObjChara.h"
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
@@ -5,6 +6,7 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixStack.h"
 
 // Eight x/y/z scales, indexed by scale_step.
 struct RecoveredGlobal_80123CA8_lbl_8043E878 {
@@ -18,9 +20,6 @@ struct RecoveredGlobal_80123CA8_lbl_8043E8D8 {
     Vec remaining[7];
 };
 
-extern "C" {
-s32 scale_current_matrix(void *, int);
-}
 const RecoveredGlobal_80123CA8_lbl_8043E878 lbl_8043E878 = {
     {1.0f, 1.0f, 1.0f},
     {
@@ -57,12 +56,12 @@ void TUnk_804A1E28::vfunc_60() {
     case 1:
         TItem::begin_effect_render();
         scale_step = this->scale_step;
-        scale_current_matrix((void *) ((u8 *)&lbl_8043E878.value + (scale_step * 0xC)), scale_step);
+        scale_current_matrix((const f32 *)((u8 *)&lbl_8043E878.value + (scale_step * 0xC)));
         return;
     case 4:
         TItem::begin_effect_render();
         temp_r4_2 = this->scale_step;
-        scale_current_matrix((void *) ((u8 *)&lbl_8043E8D8.value + (temp_r4_2 * 0xC)), temp_r4_2);
+        scale_current_matrix((const f32 *)((u8 *)&lbl_8043E8D8.value + (temp_r4_2 * 0xC)));
         return;
     case 7:
         TItem::begin_effect_render();
@@ -98,7 +97,7 @@ void TUnk_804A1E28::update_weapon() {
         return;
     }
     if (temp_r0 > 0) {
-        add_actor_tp(*(u8 * *)&this->owner, (0.1f * (f32) temp_r0));
+        add_actor_tp(this->owner, static_cast<s32>(0.1f * (f32) temp_r0));
         this->cached_tp = get_actor_tp(this->owner);
     }
 }

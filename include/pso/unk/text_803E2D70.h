@@ -5,7 +5,16 @@
 // The chunk-model renderer that follows this TU (text_803E2F28) is still reached through this header by its callers.
 #include "pso/render/ChunkModelDraw.h"
 
+struct ProjectedStripVertex {
+    f32 x, y, w;
+    f32 u, v;
+    u32 color;
+};
+
+LAYOUT_ASSERT(ProjectedStripVertex_size, sizeof(ProjectedStripVertex) == 0x18);
+
 extern "C" {
+void draw_projected_textured_strip(ProjectedStripVertex *vertices, s32 count);
 void TLobby__sub_803E2EE4(s32 blended);
 }
 

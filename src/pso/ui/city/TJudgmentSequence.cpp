@@ -11,9 +11,9 @@
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_8022350C.h"
+#include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-saddr get_window_layout_position(int, f32);
 s32 TJudgmentSequence__slot_flags[4];
 TJudgmentSequence *judgment_sequence_instance;
 }
@@ -77,7 +77,7 @@ void TJudgmentSequence::setup_counter_camera() {
     pos[0] = 332.0f;
     pos[1] = 80.0f;
     x = 332.0f;
-    create_message_window(get_window_layout_position(0x2C, x), (saddr)pos);
+    create_message_window((saddr)get_window_layout_position(0x2C), (saddr)pos);
     send_message(1, 1);
     m_2c = (TWindowBase *)create_meseta_window(((s32)get_player_entity_id()) & 0xFFFF);
     set_state(2);

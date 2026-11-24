@@ -1,3 +1,5 @@
+#include "pso/unk/text_800F9B84.h"
+#include "pso/player/PlayerState.h"
 #include "types.h"
 #include "pso/unk/text_801D40D4.h"
 #include "pso/player/TObjPlayer_801D84CC.h"
@@ -40,7 +42,6 @@ struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
 };
 
 s32 advance_item_id_counter();
-void set_equip_slot_entry(saddr slots, s32 slot, s32 item);
 
 void process_trade_target__10TObjPlayerFiPv(saddr player, TItemData *item_data) {
     void *item;
@@ -74,7 +75,7 @@ void TObjPlayer__sub_801D8664(s32 player, s8 group, s8 kind) {
 
 s32 TObjPlayer__sub_801BAC48(void *);
 }
-saddr player_ending_motion_object;
+BmlMotionEntry **player_ending_motion_object;
 void save_render_material_state(u8 *state);
 extern "C" {
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
@@ -101,7 +102,7 @@ void TUnk_804C4540::render() {
         rotate_matrix_y(0, rotation_y);
         save_render_material_state((u8 *)&render_material_state);
         apply_material_color_override();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((u8 *)this + 0xCF4));
+        TObjFish::set_global_param(&body_textures);
         set_motion_packed_rotation();
         draw_saving_joints_checked();
         clear_motion_packed_rotation();
@@ -121,20 +122,18 @@ void TUnk_804C4540::render() {
 
 void TUnk_804C4540::run_task() {}
 
-void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(player_ending_motion_object); player_ending_motion_object = 0; TObjPlayer::free_shared_data(); }
+void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(player_ending_motion_object)); player_ending_motion_object = NULL; TObjPlayer::free_shared_data(); }
 }
 
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/player/TPlyInventory.h"
-#include "pso/unk/text_800F9B84.h"
 
 
 extern "C" {
 extern u8 *TObjPlayer__shared_model_buffer;
-void TObjPlayer__sub_801BFF80(u8 *record);
 }
 void create_player_ending_motion(void);
-void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = create_named_object("PlyEndingMotionData.rel"); }
+void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = static_cast<BmlMotionEntry **>(create_named_object("PlyEndingMotionData.rel")); }
 
 TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(parent, src) {
     set_floor_index(1);
@@ -143,7 +142,7 @@ TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(p
     rotation_y = ((TObjPlayer *)src->pose)->get_lock_timer();
     select_class_action_provider();
     joint_matrices = TObjPlayer__shared_model_buffer + this->get_entity_id() * 0xC00;
-    init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), (BmlMotionEntry *)*(saddr *)player_ending_motion_object, 1);
+    init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), *player_ending_motion_object, 1);
     frame = src->frame;
     set_action_flag_40();
     push_matrix();

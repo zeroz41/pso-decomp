@@ -36,7 +36,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TPlyDispData.h"
 
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/technique/TTecCtrl.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -213,7 +212,7 @@ void TItemList::unequip_invalid_items_recursive() {
             o = n->get_owner_if_alive();
             if ((o != NULL) && (is_item_equipped(o) != 0) && (o->is_unit() == 0) &&
                 (TObjPlayer::get_slot_value(reinterpret_cast<s32 *>(item_reduce_target_player->equipped_items), o->get_attach_slot()) != 0U)) {
-                unequip_item__10TObjPlayerFiPv(item_reduce_target_player, o);
+                item_reduce_target_player->unequip_item(o);
             }
         }
         n->unequip_invalid_items_recursive();
@@ -475,7 +474,7 @@ void TPlyItem::reduce_item_amount(TObjPlayer *player, TItemList *slot, s32 amoun
             return;
         }
         if (is_item_equipped(item) != 0) {
-            unequip_item__10TObjPlayerFiPv(player, item);
+            player->unequip_item(item);
         }
         count = pad_1C;
         pad_1C = (count - 1);
@@ -491,7 +490,7 @@ void TPlyItem::remove_equipped_item(TObjPlayer *player, TItemList *slot) {
     item = slot->get_owner_if_alive();
     if (item != NULL) {
         if (is_item_equipped(item) != 0) {
-            unequip_item__10TObjPlayerFiPv(player, item);
+            player->unequip_item(item);
         }
         count = pad_1C;
         pad_1C = (count - 1);
@@ -516,7 +515,7 @@ s32 TObjPlayer__sub_801D49F4(TPlyItem *inventory, TObjPlayer *player, s32 *item_
 s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, s32 amount, s32 client) {
     s16 count;
     TItem *item;
-    void *node;
+    TItemList *node;
 
     if (amount < 0) {
         return 0;
@@ -525,7 +524,7 @@ s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, 
     if (node == NULL) {
         return 0;
     }
-    item = ((TItemList *)node)->get_owner_if_alive();
+    item = node->get_owner_if_alive();
     if (item == NULL) {
         return 0;
     }
@@ -534,13 +533,13 @@ s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, 
         return 1;
     }
     if (is_item_equipped(item) != 0) {
-        unequip_item__10TObjPlayerFiPv(player, item);
+        player->unequip_item(item);
     }
-    *(s16 *)((s8 *)item + 0x28) = ((TObjBase *)player)->get_room();
+    item->room = player->get_room();
     item->place_on_ground(client, position, 0);
     count = pad_1C;
     pad_1C = (count - 1);
-    ((TObject *)node)->queue_destruction();
+    node->queue_destruction();
     return 1;
 }
 
@@ -1089,7 +1088,7 @@ s32 TItemList::is_item_valid(TItemList *list) {
     u8 valid;
 
     valid = 0;
-    if ((((TUnk_804B6C24 *)list)->check_value_equals((saddr)TItemList__name) != 0) && (((TObject *)list)->all_parents_unqueued_for_destruction() != 0)) {
+    if ((list->check_value_equals(TItemList__name) != 0) && (list->all_parents_unqueued_for_destruction() != 0)) {
         valid = 1;
     }
     return valid;

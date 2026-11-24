@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
@@ -117,7 +118,7 @@ void load_computer_resources(void) {
 void TObjComputer::free_resources() {
     if (TObjComputer__texture_gvm_handle != NULL) {
         release_texture_list(TObjComputer__texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TObjComputer__texture_gvm_handle);
+        safe_free(TObjComputer__texture_gvm_handle);
         TObjComputer__texture_gvm_handle = NULL;
     }
     if (TObjComputer__model_archive != NULL) {
@@ -161,7 +162,7 @@ void TObjComputer::draw_model() {
         u32 tick = actor_frame_tick;
         if (tick != m_c4 && uv_scroll_time >= 1.0f) {
             m_c4 = tick;
-            scroll_ginja_mesh_uvs(screen_model->child->model, 0, (s32)uv_scroll_time, computer_uv_scroll_phase, 1);
+            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(screen_model->child->model), 0, (s32)uv_scroll_time, computer_uv_scroll_phase, 1);
             PPCSync();
             f32 time = uv_scroll_time;
             uv_scroll_time = time - (f32)(s32)time;

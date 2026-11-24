@@ -138,6 +138,7 @@ LAYOUT_ASSERT(TBoss4DarkFalzState_leader_offset, offsetof(TBoss4DarkFalzState, u
 LAYOUT_ASSERT(TBoss4DarkFalzState_update_offset, offsetof(TBoss4DarkFalzState, update) == 0x28);
 
 extern TBoss4DarkFalzState dark_falz_state_table[16];
+extern "C" TBoss4DarkFalz *dark_falz_controller_instance;
 
 /* The 0x40-byte enemy set entry the constructor was given (kind 0x200), kept with kind
  * cleared; the spawners copy it (copy_set_entry) and renumber it with

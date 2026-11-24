@@ -6,19 +6,19 @@
 #include "pso/system/task/TObject.h"
 
 class TBreakUpMdlData;
+struct NJS_OBJECT;
 
 // One flying piece of a De Rol Le breakup.
-struct TBoss7BreakUpPiece {
-    Vec pos;
-    Vec vel;
-    s32 angle[3];   // x, y, z; angle[1] is also the spin added to x (and twice to z) every frame
-    f32 alpha;      // fades out after the piece lands on the deck
+struct BarbaRayBreakupPiece {
+    Vec position;
+    Vec velocity;
+    s32 angles[3];  // x, y, z; angles[1] is also the spin added to x (and twice to z) every frame
+    f32 opacity;    // fades out after the piece lands on the deck
     s32 state;      // 0 flying, 1 sinking into the sea, 2 fading on the deck, 3 faded
 
     s32 update();
 };
-
-LAYOUT_ASSERT(TBoss7BreakUpPiece_size, sizeof(TBoss7BreakUpPiece) == 0x2C);
+LAYOUT_ASSERT(BarbaRayBreakupPiece_size, sizeof(BarbaRayBreakupPiece) == 0x2C);
 
 // Base of the De Rol Le breakup effects: a TBreakUpMdlData and one piece per node.
 class TBoss7BreakUp : public TObject {
@@ -26,12 +26,12 @@ public:
     TBoss7BreakUp(TObject *parent);
     virtual ~TBoss7BreakUp();
     void scale_node_velocities_xz();
-    void alloc_breakup_model(s32);
+    void alloc_breakup_model(NJS_OBJECT *root);
 
     TBreakUpMdlData *model;
     s32 age;        // frames alive; run_task destroys the effect at 0xA0
     s32 count;      // node count, copied from model->m_count
-    TBoss7BreakUpPiece *pieces;
+    BarbaRayBreakupPiece *pieces;
 };
 
 // The breakup's tuning values, and the deck bounds and sea level the pieces (and the photon bullets,

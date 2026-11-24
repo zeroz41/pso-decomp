@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -7,6 +8,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/unk/text_8026C7AC.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
@@ -64,14 +66,10 @@ void fn_8026C708(u8 *arg0, f32 farg0, f32 farg1, f32 depth, f32 arrow_offset) {
   draw_textured_quad_at_depth(&stack.sp8, depth);
 }
 
-u32 calc_text_width(void);
-u8 get_font_char_advance(void);
-u16 map_char_to_font_code(u16 c);
 void text_builder_append_int(s32);
 void text_builder_append(u8 *str);
 }
 void text_builder_reset(void);
-extern s32 hud_texlist;
 
 
 s32 fn_8026C7AC(void *arg0, s8 arg1) {
@@ -108,7 +106,7 @@ void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
     pos.y = (r->y + r->h) - 22.0f;
     scale = (-1.0f) / (0.1495f + r->depth);
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(0, -1);
     fn_8026C708((u8 *)r, (f32)(4e+01f + pos.x), (f32)(2.0f + pos.y), (f32)scale, (f32)self->arrow_offset);
     fn_8026C664((u8 *)r, (f32)(pos.x - 69.0f), (f32)(2.0f + pos.y), (f32)scale, (f32)self->arrow_offset);
@@ -116,10 +114,9 @@ void draw_list_page_indicator(PageIndicator *self, WindowDrawContext *r) {
     set_text_draw_params(reinterpret_cast<WindowDrawContext *>(r), 0, 1, (f32)scale, (f32)1e+05f);
     text_builder_reset();
     text_builder_append_int(self->page + 1);
-    get_shared_text_buffer();
-    pos.x -= (f32)calc_text_width();
-    map_char_to_font_code(0x2F);
-    { u32 adv = get_font_char_advance(); pos.x -= 0.5f * (f32)adv; }
+    pos.x -= (f32)calc_text_width(reinterpret_cast<char *>(get_shared_text_buffer()));
+    u8 advance = get_font_char_advance(map_char_to_font_code('/'));
+    pos.x -= 0.5f * (f32)advance;
     text_builder_append((u8 *)"/");
     text_builder_append_int(self->count);
     draw_window_text((f32 *)&pos, (const char *)(get_shared_text_buffer()), -1, 0, (f32)1e+05f);

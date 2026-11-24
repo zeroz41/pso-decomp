@@ -1,3 +1,5 @@
+#include "pso/system/memory.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 
@@ -490,7 +492,6 @@ struct Boss7CrawfishSetData {
 // already alive.
 struct CrawfishSlotOffset { s16 value; };
 #pragma push
-#pragma inline_depth(4)
 static inline void add_crawfish_slot_base(CrawfishSlotOffset &offset) {
     offset.value += 11;
     offset.value = (s16)offset.value;
@@ -638,7 +639,7 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
     tentacle_matrices = (GC_Mtx *)mem_alloc(4 * sizeof(GC_Mtx));
     for (s32 i = 0; i < 4; i++) {
         set_matrix_identity((u8 *)tentacle_matrices[i]);
-        tentacles[i] = new TBoss7Tentacle(&part_group, (saddr)tentacle_matrices[i], i);
+        tentacles[i] = new TBoss7Tentacle(&part_group, tentacle_matrices[i], i);
     }
     Vec v = boss7_derolle_c_joint_start_position;
     u16 id = entity_id + 1;
@@ -1515,8 +1516,8 @@ void TBoss7DeRolLeC::spawn_offset_particle(const Vec *pos, f32 lift, f32 back) {
 void TBoss7DeRolLeC::update_projectile_spawns() {
     Vec *mid;
 
-    project_sound_origin_from_camera((saddr)&position, (u8 *)&sound_origins[0], 0.3f);
-    project_sound_origin_from_camera((saddr)&node_positions[18], (u8 *)&sound_origins[1], 0.3f);
+    project_sound_origin_from_camera(&position, &sound_origins[0], 0.3f);
+    project_sound_origin_from_camera(&node_positions[18], &sound_origins[1], 0.3f);
     mid = &sound_origins[2];
     VecCopy(mid, &sound_origins[1]);
     vec3_add_to(mid, &sound_origins[1]);
@@ -2781,7 +2782,7 @@ void TBoss7DeRolLeC::handle_tentacle_attack_state(u32 event, s32 position_index)
                     v.z = r * cos_table_lookup(ang);
                     TObjBoss2Tunnel::adjust_to_ground(&v, &v);
                 }
-                tentacles[state_ints[1]]->start_attack_at_position((u8 *)&v, state_ints[3]);
+                tentacles[state_ints[1]]->start_attack_at_position(&v, state_ints[3]);
                 state_ints[1]++;
                 if (state_ints[1] >= 4) {
                     state_ints[0] = 0;
@@ -3485,7 +3486,7 @@ void TBoss7DeRolLeC::handle_tentacle_volley_state(u32 event, s32 position_index)
                         TObjBoss2Tunnel::adjust_to_ground(&v, &v);
                     }
                     for (j = 0; j != 4; j++) {
-                        tentacles[j]->start_attack_at_position((u8 *)&v, state_ints[3]);
+                        tentacles[j]->start_attack_at_position(&v, state_ints[3]);
                     }
                     state_ints[1] = 1;
                     state_ints[0] = 0;

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/SoundEffect.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/ui/frontend/TAdFadeGC.h"
 #include "pso/ui/frontend/TAdTitleGC.h"
@@ -48,6 +49,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/system/SoundEffect.h"
 
 
 extern "C" {
@@ -62,7 +64,6 @@ s32 is_multiplayer_character_slot_selected(s32 arg0);
 
 u8 player_number_text_buffer[0x80];
 extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
 extern s8 lbl_80472880[];
 extern s8 lbl_80472888[];
 }

@@ -130,8 +130,8 @@ struct TItemDrop : public TObject {
     static ItemDropRareTable *rare_item_table_file;
     static u8 *unit_star_classes;
     static u8 *unit_star_bucket_counts;
-    static saddr relocatable_load_buffer;
-    static saddr second_relocatable_load_buffer;
+    static void *relocatable_load_buffer;
+    static void *second_relocatable_load_buffer;
 };
 
 LAYOUT_ASSERT(TItemDrop_size, sizeof(TItemDrop) == 0x24);

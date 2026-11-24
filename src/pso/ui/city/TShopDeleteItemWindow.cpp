@@ -27,10 +27,10 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
 
-void *get_window_layout_position(int);
 s16 get_player_entity_id__15TShopWindowBaseFv(void *);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(void *, void *, int, s32, int, int);
 }
@@ -161,7 +161,7 @@ void TShopDeleteItemWindow::sub_80337E2C() {
     }
     if (help_window == NULL) {
         if (TCheckRoomSequence::copy_item_record(cursor, &displayed_item_colored, base) != 0) {
-            help_window = new TWindowHelpItem(get_window_layout_position(0x27), ((TObjBase *)(player))->get_entity_id());
+            help_window = new TWindowHelpItem((void *)get_window_layout_position(0x27), ((TObjBase *)(player))->get_entity_id());
             if (help_window != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 help_window->set_scale(0.75f, 0.75f);
             }
@@ -206,7 +206,7 @@ void TShopDeleteItemWindow::update_item_select(void *arg0) {
                 p = (TWindowInputNumber *)TObject::operator new(0x7C);
                 if (p != NULL) {
                     id = get_player_entity_id__15TShopWindowBaseFv(self);
-                    p = __ct__18TWindowInputNumberFPvllls(p, get_window_layout_position(0x2B), 1, count, 1, id);
+                    p = __ct__18TWindowInputNumberFPvllls(p, (void *)get_window_layout_position(0x2B), 1, count, 1, id);
                 }
                 self->number_input = p;
                 if (self->number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {

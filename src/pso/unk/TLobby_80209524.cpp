@@ -548,10 +548,10 @@ void TLobby::init_buffers(int id, u8 *quest) {
         challenge_action_buffer = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(ChallengeCommandBufferSize));
         challenge_action_size = 0;
         build_challenge_enemy_set(id);
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(challenge_action_buffer));
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(challenge_event_buffer));
+        safe_free(challenge_action_buffer);
+        safe_free(challenge_event_buffer);
         challenge_event_buffer = NULL;
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(challenge_enemy_buffer));
+        safe_free(challenge_enemy_buffer);
         challenge_enemy_buffer = NULL;
     }
 }
@@ -1000,7 +1000,7 @@ block_6:
 
 void TLobby::free_data_60F0() {
     if (map_set_file_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)map_set_file_buffer);
+        safe_free(map_set_file_buffer);
         map_set_file_buffer = NULL;
         map_set_file_buffer_size = 0;
     }

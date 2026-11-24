@@ -10,6 +10,7 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/technique/TechniqueId.h"
 #include "types.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
@@ -2095,8 +2096,6 @@ void TNpcPlayer::init_follow_target() {
 
 void TNpcPlayer::render() {  }
 
-#pragma push
-#pragma fp_contract on
 s32 TNpcPlayer::check_movement_progress() {
     s8 stuck;
     if (horizontal_distance_squared(&move_target, &steer_point) <= 100.0f) {
@@ -2120,7 +2119,6 @@ s32 TNpcPlayer::check_movement_progress() {
     }
     return 1;
 }
-#pragma pop
 
 s32 NpcPlayerView::check_moved() {
     Vec d;
@@ -2319,7 +2317,6 @@ s32 NpcPlayerView::is_player_lost() {
     }
     return (u32)__cntlzw(v->all_parents_unqueued_for_destruction()) >> 5;
 }
-#pragma pop
 
 NpcPlayerView::~NpcPlayerView() {
     if (probe != NULL) {
@@ -2474,7 +2471,7 @@ s32 NpcPlayerView::probe_obstacles() {
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + get_registered_object_count(); i++) {
         actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
         if ((actor != NULL) && !(actor->actorFlags & 0x80000000)) {
-            contact = (CollisionBody *)probe->find_actor_body_contact((u8 *)actor, 10000.0f);
+            contact = (CollisionBody *)probe->find_actor_body_contact(reinterpret_cast<TObjCollidable *>(actor), 10000.0f);
             if (contact != NULL) {
                 if (actor->actorFlags & 0x40000000) {
                     if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {

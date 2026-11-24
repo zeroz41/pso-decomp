@@ -4,6 +4,10 @@
 #include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx.h>
+#include <dolphin/os/OSTime.h>
+#undef PSO_SDK_COMPACT_MATH
 
 #pragma scheduling off
 
@@ -14,8 +18,6 @@ union Pipe_803DF00C { u8 u8v; u16 u16v; u32 u32v; s32 s32v; f32 f32v; };
 
 s32 constant_material_color;
 extern "C" {
-void GXBegin(u32, u32, u16);
-s64 OSGetTime(void);
 
 void begin_screen_draw(s32 mode) {
     load_screen_space_matrix();
@@ -46,7 +48,7 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth) {
     f32 x1 = q[2] * z;
     f32 y0 = q[1] * z;
     f32 y1 = q[3] * z;
-    GXBegin(0x80, 4, 4);
+    GXBegin((GXPrimitive)0x80, (GXVtxFmt)4, 4);
     GXPosition3f32_803DEECC(x0, y0, z);
     GXColor1u32_803DEECC(color);
     GXTexCoord2f32_803DEECC(q[4], q[5]);
@@ -70,7 +72,7 @@ void DVDConvertEntrynumToPath(f32 *q) {
     f32 y0, x0, u0, v0;
     f32 x1, y1, u1, v1;
     f32 x3, y3, u3, v3;
-    GXBegin(0x80, 4, 4);
+    GXBegin((GXPrimitive)0x80, (GXVtxFmt)4, 4);
     x0 = q[0] * z;
     y0 = q[1] * z;
     u0 = q[8];

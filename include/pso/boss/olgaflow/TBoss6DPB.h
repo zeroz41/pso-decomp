@@ -10,7 +10,7 @@ struct TBoss6Type2;
 // Olga Flow's photon blast: hits every player within radius of position on its sixth frame.
 class TBoss6DPB : public TObject {
 public:
-    TBoss6DPB(TObject *parent, saddr position, f32 radius);
+    TBoss6DPB(TObject *parent, const Vec *position, f32 radius);
     virtual ~TBoss6DPB();
     void apply_shower_damage_to_players();
     void sub_8035D8B0();

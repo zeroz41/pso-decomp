@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS

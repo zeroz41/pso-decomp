@@ -15,6 +15,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaUvScroll.h"
+#include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
@@ -30,7 +31,6 @@
 #pragma readonly_strings on
 
 extern "C" {
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern s32 actor_frame_tick;
 }
 
@@ -72,8 +72,8 @@ extern const s32 lobby_main_model_motions[18] = { 5, 5, 5, 5, 5, 5, 5, 0, 1, 2, 
 const char *obj_lobby_main_class_name = "TObjLobbyMain";
 BmlResource *TObjLobbyMain::model_resource;
 NJS_TEXLIST *TObjLobbyMain::lobby_texlist;
-NJS_CNK_MODEL *TObjLobbyMain::computer_screen_model;
-NJS_CNK_MODEL *TObjLobbyMain::computer_screen_model_b;
+GinjaModel *TObjLobbyMain::computer_screen_model;
+GinjaModel *TObjLobbyMain::computer_screen_model_b;
 s32 TObjLobbyMain::computer_last_frame_tick;
 
 TObjLobbyMain::TObjLobbyMain(TObject *parent, void *set_data) : TObjMapObject(parent) {
@@ -115,19 +115,18 @@ TObjLobbyMain::~TObjLobbyMain() {
 }
 
 void TObjLobbyMain::load_resources() {
-    void *resource = new BmlResource(5, &bm_obj_lobby_main_resource_descriptor, 0, 0, NULL);
-    model_resource = (BmlResource *)resource;
+    model_resource = new BmlResource(5, &bm_obj_lobby_main_resource_descriptor, 0, 0, NULL);
     lobby_texlist = TLobby::get_lobby_texlist();
-    computer_screen_model = (NJS_CNK_MODEL *)((NJS_OBJECT *)get_bml_model((BmlResource *)model_resource, 6))
-        ->child->sibling->sibling->sibling->sibling->sibling->sibling->model;
-    computer_screen_model_b = (NJS_CNK_MODEL *)((NJS_OBJECT *)get_bml_model((BmlResource *)model_resource, 2))
-        ->child->sibling->sibling->sibling->model;
+    computer_screen_model = static_cast<GinjaModel *>(get_bml_model(model_resource, 6)
+        ->child->sibling->sibling->sibling->sibling->sibling->sibling->model);
+    computer_screen_model_b = static_cast<GinjaModel *>(get_bml_model(model_resource, 2)
+        ->child->sibling->sibling->sibling->model);
     computer_last_frame_tick = 0;
 }
 
 void TObjLobbyMain::free_resources() {
     if (model_resource != NULL) {
-        delete (BmlResource *)model_resource;
+        delete model_resource;
         model_resource = NULL;
     }
 }

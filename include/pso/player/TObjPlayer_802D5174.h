@@ -4,8 +4,11 @@
 #include "types.h"
 
 // --- C functions defined in TObjPlayer_802D5174.cpp ---
+struct ActorBodyHit;
+struct Vec;
+
 extern "C" {
-void TObjPlayer__sub_802D5B78(void *hit, void *arg1, void *arg2);
+void TObjPlayer__sub_802D5B78(const ActorBodyHit *hit, Vec *out, Vec *direction);
 }
 // --- end of C functions
 

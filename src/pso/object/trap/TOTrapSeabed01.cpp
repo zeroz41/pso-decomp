@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -20,11 +21,9 @@
 #include "pso/render/CameraCapture.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/ui/frontend/TAdEnterPasswordGC.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D853C.h"
@@ -96,7 +95,7 @@ s32 seabed01_ginja_mesh_index;
 TOTrapSeabed01::TOTrapSeabed01(TObject *parent, void *set_data) : TOTrap(parent) {
     m_name = TOTrapSeabed01_class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)TOTrapSeabed01__bml_resource, 0);
+    model = get_bml_model(TOTrapSeabed01__bml_resource, 0);
     current_motion = (NJS_MOTION *)get_bml_motion(TOTrapSeabed01__bml_resource, 0);
     play_speed = 1.0f;
     frame = 0.0f;
@@ -144,7 +143,7 @@ void TOTrapSeabed01::load_resources() {
 void TOTrapSeabed01::free_static_resources() {
     if (TOTrapSeabed01__texture_file != NULL) {
         release_texture_list(TOTrapSeabed01__texture_file);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TOTrapSeabed01__texture_file);
+        safe_free(TOTrapSeabed01__texture_file);
         TOTrapSeabed01__texture_file = NULL;
     }
     if (TOTrapSeabed01__bml_resource != NULL) {
@@ -208,7 +207,7 @@ void TOTrapSeabed01::vfunc_84() {}
 
 void TOTrapSeabed01::render() {
     if (TMainTask::get_render_pass() != 1 &&
-        (projected == 0 || is_split_screen() != 0 || dispatch_input_to_instance__18TAdEnterPasswordGCFi((saddr)this) == 0) &&
+        (projected == 0 || is_split_screen() != 0 || TUnk_804EDAC0::dispatch_input_to_instance(this) == 0) &&
         m_340 == 1) {
         switch (mode) {
         case 0:
@@ -277,7 +276,7 @@ void TOTrapSeabed01::render_effect_layers() {
     TObjFish::set_global_param(TOTrapSeabed01__texture_file);
     if (actor_frame_tick != lbl_805D681C) {
         if (TOTrapSeabed01__ginja_model != NULL && seabed01_ginja_mesh_index != -1) {
-            scroll_ginja_mesh_uvs(TOTrapSeabed01__ginja_model->model, 0, -20, seabed01_ginja_mesh_index, 1);
+            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(TOTrapSeabed01__ginja_model->model), 0, -20, seabed01_ginja_mesh_index, 1);
             PPCSync();
         }
         lbl_805D681C = actor_frame_tick;
@@ -344,7 +343,7 @@ void TOTrapSeabed01::check_hold_player() {
     player = find_nearest_visible_player(this, NULL, range);
     if (player != 0xFFFF) {
         held = get_player_by_client_id(player);
-        target = (u8 *)held;
+        target = held;
         if (target != NULL) {
             distance = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
             dist -= TObjPlayer__sub_8017A1A4(held, 0);
@@ -369,7 +368,7 @@ int TOTrapSeabed01::deliver_attack_hits(f32) {
     for (i = 0; i < 16; i++) {
         chara = (TObjChara *)TObjPlayer::get_battle_param(i);
         if (TObjPlayer::is_valid_and_active((uaddr)chara) != 0 &&
-            ((TUnk_804B6C24 *)chara)->check_value_equals((saddr)lbl_805D3530) != 0) {
+            chara->check_value_equals(lbl_805D3530) != 0) {
             chara->receive_direct_attack(this, payload, NULL, -1, -1);
             if (payload.kind < 5) {
                 chara->apply_knockback_from_attacker((u8 *)this, 0.0f);
@@ -388,11 +387,11 @@ void TOTrapSeabed01::play_sounds() {
     params.chip.textures = TOTrapSeabed01__texture_file;
     for (i = 0; i < 6; i++) {
         fragment = &seabed_trap_fragment_spawns[i];
-        VecCopy((Vec *)params.chip.pos, &fragment->pos);
-        params.chip.model = (saddr)get_bml_model((BmlResource *)TOTrapSeabed01__bml_resource, fragment->model);
+        VecCopy(&params.chip.pos, &fragment->pos);
+        params.chip.model = get_bml_model(TOTrapSeabed01__bml_resource, fragment->model);
         params.angle_y = fragment->angle_y;
         new TObjSuisoChip(this, &params);
-        Vec v = *(Vec *)params.chip.pos;
+        Vec v = params.chip.pos;
         v.y = 0.0f;
         set_matrix_identity((u8 *)m);
         translate_matrix_vec3((u8 *)m, (u8 *)&position);

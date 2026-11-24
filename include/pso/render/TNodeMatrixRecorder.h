@@ -22,8 +22,8 @@ public:
     f32 frame;
     GC_Mtx *node_matrices; // One matrix per model node
     s32 node_count;      // count_tree_nodes() of the model
-    s32 draw_node_index;
-    ChunkModelNodeCallback draw_node_callback;
+    s32 draw_cursor;
+    ChunkModelNodeCallback draw_callback;
     ChunkModelNodeCallback node_callback;   // called for every node record_pose draws
 
 };

@@ -26,9 +26,9 @@ struct TWindowKeyBoardSoft : public TWindowBase
     virtual void render();
     void set_flag60_bit1();
     u32 m_60;
-    s8 m_64;
-    s8 m_65;
-    s8 m_66;
+    s8 layout_page;
+    s8 cursor_column;
+    s8 cursor_row;
     f32 page_slide;  // page-change slide, set to +-10 when the page index at 0x64 steps, decays 15% a frame
     TWindowKeyBoardBase *m_control;
     f32 calc_key_coord(s32 count);

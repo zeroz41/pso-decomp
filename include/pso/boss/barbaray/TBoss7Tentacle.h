@@ -15,7 +15,7 @@ public:
     // flags bit: the tentacle shrinks out of sight (update_extend_amount) while set.
     enum { HIDDEN = 2 };
 
-    TBoss7Tentacle(TObject *parent, s32 joint, s32 index);
+    TBoss7Tentacle(TObject *parent, const f32 (*joint)[4], s32 index);
     virtual ~TBoss7Tentacle();
     void request_strike();
     void enter_sway();
@@ -35,7 +35,7 @@ public:
     void request_turn_to_rest();
     void request_sway();
     void init_segments();
-    void start_attack_at_position(u8 *target, s32 hold_time);
+    void start_attack_at_position(const Vec *target, s32 hold_time);
     s32 is_attack_finished();
     void speed_up_sway();
     void drop_back();
@@ -58,7 +58,7 @@ public:
     s32 index;                 // which of the four tentacles; picks its angle-table entries
     Vec segment_pos[14];
     s32 segment_ang[14];
-    s32 joint;                 // the boss matrix the tentacle hangs from
+    const f32 (*joint)[4];      // the boss matrix the tentacle hangs from
     f32 frame;
     f32 frame_speed;
     s32 yaw;
@@ -74,6 +74,7 @@ public:
 };
 
 LAYOUT_ASSERT(TBoss7TentacleSegmentPos, offsetof(TBoss7Tentacle, segment_pos) == 0x50);
+LAYOUT_ASSERT(TBoss7TentacleJoint, offsetof(TBoss7Tentacle, joint) == 0x130);
 LAYOUT_ASSERT(TBoss7TentacleReach, offsetof(TBoss7Tentacle, reach) == 0x158);
 LAYOUT_ASSERT(TBoss7Tentacle_size, sizeof(TBoss7Tentacle) == 0x16C);
 

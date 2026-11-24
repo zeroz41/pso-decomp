@@ -1,6 +1,10 @@
+#include "pso/system/memory.h"
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/network/client_id.h"
+#include "pso/ui/TLevelSelect.h"
 #include "types.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/ProgressMessageWindow.h"
@@ -23,7 +27,6 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowCtrl_8024B1A0.h"
@@ -63,7 +66,6 @@ struct ByteBlock_20 { u8 bytes[0x20]; };
 struct ByteBlock_100 { u8 bytes[0x100]; };
 
 extern "C" {
-void *get_window_layout_position(s32);
 void TQuestThread__sub_801F5D88(void);
 void __dt__16TObjItemOKWindowFv();
 void __dt__18TObjItemNameSelectFv();
@@ -76,8 +78,6 @@ void run_task__7TObjectFv();
 void render__7TObjectFv();
 void render_shadows__7TObjectFv();
 
-extern s32 local_client_id;
-extern s32 game_difficulty_selection;
 extern s32 evt2_random_enemies_mode;
 extern int quest_bin_decompressed_size;
 extern u8 *online_quest_bin_data;
@@ -152,7 +152,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     s32 name;
 
     m_name = TObjItemOKWindow__class_name;
-    m_60 = init_shop_judgment_window(get_window_layout_position(0x57));
+    m_60 = init_shop_judgment_window((void *)get_window_layout_position(0x57));
     if (m_60 != NULL) {
         ((TWindowSubComCardList *)m_60)->set_scroll_target(104.0f, 74.0f);
         align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(m_60));
@@ -478,7 +478,7 @@ void TQuestThread::destroy_all_in(TObject *parent) {
     while (parent->m_down != NULL && child != NULL) {
         TObject *cur = child;
         child = child->m_next;
-        if (((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TQuestThread__class_name) != 0) {
+        if (cur->check_value_equals(TQuestThread__class_name) != 0) {
             cur->queue_destruction();
         } else {
             destroy_all_in(cur);
@@ -712,7 +712,7 @@ TUnk_804C8678::~TUnk_804C8678() {
     } else {
         quest_area_manager = NULL;
     }
-    TAdSinglePlyChrSelectGC::safe_free((uaddr)script);
+    safe_free(script);
 }
 
 void TQuestThread::destroy_quest_obj() {

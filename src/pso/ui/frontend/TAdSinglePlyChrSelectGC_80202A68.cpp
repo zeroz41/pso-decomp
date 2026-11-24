@@ -81,7 +81,6 @@ struct P_801FDFB8 { u8 pad[0x41C]; u8 a[0x39A8 - 0x41C]; B8_801FDFB8 f278C; s32 
 extern "C" {
 s32 *TAdSinglePlyChrSelectGC__sub_80202B38(Obj_80202B38 *self, s32 i);
 Ent_80202B1C *TAdSinglePlyChrSelectGC__sub_80202B1C(Obj_80202B1C *self, s32 i);
-void __construct_array(void *, void *, void *, int, int);
 Pso3CharacterFile *copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(Pso3CharacterFile *arg0, Pso3CharacterFile *arg1);
 void copy_player_data__9TProtocolFPvPv();
 

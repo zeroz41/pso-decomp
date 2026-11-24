@@ -4,8 +4,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 
-void *get_valid_target_player(int id) {
-    void *player = (void *)TObjPlayer::get_battle_param(id);
+TObjCollidable *get_valid_target_player(int id) {
+    TObjCollidable *player = reinterpret_cast<TObjCollidable *>(TObjPlayer::get_battle_param(id));
     if (TObjPlayer::is_valid_and_active((uaddr)player) != 0) {
         return player;
     }

@@ -19,6 +19,7 @@
 #include <string.h>
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/network/client_id.h"
 
 const char *TWindowMakeTeam__name = "TWindowMakeTeam";
 const char *lbl_805D395C = "";
@@ -28,7 +29,6 @@ extern const f32 lbl_8044F308[2] = {389.0f, 251.0f};
 extern "C" {
 const char *TWindowMakeTeam__sub_80264B38(TWindowMakeTeam *o);
 const char *TWindowMakeTeam__sub_80264B24(TWindowMakeTeam *o);
-extern s32 local_client_id;
 char *get_shared_text_buffer(void);
 }
 

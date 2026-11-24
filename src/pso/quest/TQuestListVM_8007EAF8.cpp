@@ -38,9 +38,9 @@ void operator delete(void *p) {
 
 void *operator new(size_t size) { return xmalloc(size); }
 
-void TAdSinglePlyChrSelectGC::safe_free(uaddr emitter) {
-    if (emitter != 0U) {
-        xfree((void *)emitter);
+void safe_free(void *allocation) {
+    if (allocation != NULL) {
+        xfree(allocation);
     }
 }
 

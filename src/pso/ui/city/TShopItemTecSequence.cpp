@@ -23,9 +23,9 @@
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_8022350C.h"
+#include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-saddr get_window_layout_position(int, f32);
 s32 TShopItemTecSequence__slot_table[4];
 extern const char *TShopItemTecSequence__class_name;
 s32 lbl_805D6248;
@@ -140,7 +140,7 @@ void TShopItemTecSequence::open_greeting() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
-    create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
+    create_message_window((saddr)get_window_layout_position(0x2C), (saddr)pos);
     display_shop_message(0x2E, 1);
     meseta_window = (TWindowBase *)create_meseta_window((u16)get_player_entity_id());
     set_state(2);

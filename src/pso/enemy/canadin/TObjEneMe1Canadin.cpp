@@ -163,9 +163,9 @@ void TObjEneMe1Canadin::load_resources() {
         canadin_shared_handler_a_table[i] = (TObjEneMe1CanadinParams *)TLobby::dispatch_shared_handler_a(canadin_param_ids[i]);
     }
     TObjEneMe1Canadin__render_node_index = 0;
-    p = new TBreakUpMdlData((saddr)bm_ene_me1_mb_resource->models[1].model);
+    p = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[1].model);
     canadin_leader_breakup_model = (TBreakUpMdlData *)p;
-    p = new TBreakUpMdlData((saddr)bm_ene_me1_mb_resource->models[0].model);
+    p = new TBreakUpMdlData(bm_ene_me1_mb_resource->models[0].model);
     canadin_breakup_model = (TBreakUpMdlData *)p;
     model = bm_ene_me1_mb_resource->models[1].model;
     canadin_leader_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model, 3)->model)->polygon_list + 2);
@@ -218,7 +218,7 @@ TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind) 
 TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, TObjEneMe1Canadin *leader, Vec *pos, s32 id, s32 sub_id) : TObjEneDD_ST(parent) {
     m_name = TObjEneMe1Canadin__class_name;
     this->leader = leader;
-    init_common_from((u8 *)this->leader);
+    init_common_from(this->leader);
     entity_id = id;
     set_index = sub_id;
     this->leader->calc_move_vector(&position);
@@ -391,8 +391,8 @@ void TObjEneMe1Canadin::calc_move_vector(Vec *out) {
 }
 #pragma pop
 
-u8 *TObjEneMe1Canadin::move_xz_on_ground(u8 *arg) {
-    u8 *result = TObjEneDD::move_xz_on_ground(arg);
+CsnHit *TObjEneMe1Canadin::move_xz_on_ground(const Vec *arg) {
+    CsnHit *result = TObjEneDD::move_xz_on_ground(arg);
     if (result == NULL) {
         status_flags &= ~0x1000000;
     } else {
@@ -426,7 +426,7 @@ void TObjEneMe1Canadin::hover_toward(f32 height) {
     approach_hover_y(height);
     VecCopy(&pos, &position);
     pos.y = hover_y;
-    move_xz_on_ground((u8 *)&pos);
+    move_xz_on_ground(&pos);
 }
 
 void TObjEneMe1Canadin::update_hover_height() {
@@ -1682,7 +1682,8 @@ void TObjEneMe1Canadin::state_dead(s32 msg) {
             leader = (TObjEneMe1Canadin *)find_entity_by_id(leader_id);
             leader->remove_member(this);
         }
-        TBoss3Volopt::create_breakup_mdl((saddr)canadin_breakup_model, 0, (texlist), (saddr)&body_center, (s32)(rotation_y));
+        TBoss3Volopt::create_breakup_mdl(canadin_breakup_model, NULL,
+                           texlist, &body_center, rotation_y);
         status_flags |= 0x400000;
         VecCopy(&pos, &body_center);
         pos.y -= 5.0f;
@@ -2195,7 +2196,8 @@ void TObjEneMe1CanadinLeader::state_dead(s32 mode) {
     s32 i;
     switch (mode) {
     case 4:
-        TBoss3Volopt::create_breakup_mdl((saddr)canadin_leader_breakup_model, 0, texlist, (saddr)&body_center, (s32)rotation_y);
+        TBoss3Volopt::create_breakup_mdl(canadin_leader_breakup_model, NULL,
+                           texlist, &body_center, rotation_y);
         for (i = 0; i < member_count; i++) {
             members[i]->set_flag3c8_bit20();
         }

@@ -252,9 +252,9 @@ NJS_TEXLIST *TObjSeabedSuisoBrakable::texture_list;
 s32 TObjSeabedSuiso_CH::last_uv_scroll_tick;
 s32 TObjSeabedSuisoBrakable::last_uv_scroll_tick;
 
-void *TObjSeabedSuisoBrakable::get_model(int index) {
+NJS_OBJECT *TObjSeabedSuisoBrakable::get_model(int index) {
     if (bml_resource != NULL) {
-        return (void *)get_bml_model((BmlResource *)bml_resource, index);
+        return get_bml_model(bml_resource, index);
     }
     return NULL;
 }
@@ -367,7 +367,7 @@ void TObjSeabedSuiso_CH::scroll_kind2_uvs() {
         if (node != NULL && node->model != NULL) {
             entry = TObjSeabedSuisoBrakable::get_texture_entry(0);
             if (entry != -1) {
-                scroll_ginja_mesh_uvs(node->model, 1, 0, entry, 1);
+                scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 1, 0, entry, 1);
             }
         }
         last_uv_scroll_tick = actor_frame_tick;
@@ -407,12 +407,12 @@ void TObjSeabedSuiso_CH::update_switch_lock() {
         entry = TObjSeabedSuisoBrakable::get_texture_entry(4);
         node = TObjSeabedSuisoBrakable::get_model13_node(2);
         if (node != NULL && entry != -1) {
-            scroll_ginja_mesh_uvs(node->model, 0, 1, entry, 1);
+            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 0, 1, entry, 1);
         }
         entry = TObjSeabedSuisoBrakable::get_texture_entry(3);
         node = TObjSeabedSuisoBrakable::get_model13_node(0);
         if (node != NULL && entry != -1) {
-            scroll_ginja_mesh_uvs(node->model, 0, 3, entry, 1);
+            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 0, 3, entry, 1);
         }
         last_uv_scroll_tick = actor_frame_tick;
     }
@@ -472,10 +472,10 @@ void TObjSeabedSuisoBrakable::vfunc_16() {
     params.bounce = 0.35f;
     params.drag = 0.07f;
     params.gravity = 0.54f;
-    VecCopy((Vec *)params.pos, &position);
-    params.velocity_range[0] = 2.5f;
-    params.velocity_range[1] = 4.0f;
-    params.velocity_range[2] = 2.5f;
+    VecCopy(&params.pos, &position);
+    params.velocity_range.x = 2.5f;
+    params.velocity_range.y = 4.0f;
+    params.velocity_range.z = 2.5f;
     params.spin_range[0] = 0x200;
     params.spin_range[1] = 0x150;
     params.spin_range[2] = 0x200;
@@ -489,10 +489,10 @@ void TObjSeabedSuisoBrakable::vfunc_16() {
     piece = seabed_suiso_break_sets[kind].chips;
     for (i = 0; i < 17; i++, piece++) {
         if (piece->model >= 0) {
-            params.model = (saddr)get_model(piece->model);
-            params.pos[0] = piece->pos.x;
-            params.pos[1] = piece->pos.y;
-            params.pos[2] = piece->pos.z;
+            params.model = get_model(piece->model);
+            params.pos.x = piece->pos.x;
+            params.pos.y = piece->pos.y;
+            params.pos.z = piece->pos.z;
             new TObjSuisoChip(this, &params);
         }
     }
@@ -519,7 +519,7 @@ void TObjSeabedSuisoBrakable::vfunc_14() {
             if (node != NULL && node->model != NULL) {
                 entry = get_texture_entry(1);
                 if (entry != -1) {
-                    scroll_ginja_mesh_uvs(node->model, 0, 1, entry, 1);
+                    scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 0, 1, entry, 1);
                 }
             }
             last_uv_scroll_tick = actor_frame_tick;
@@ -531,7 +531,7 @@ void TObjSeabedSuisoBrakable::vfunc_14() {
             if (node != NULL && node->model != NULL) {
                 entry = get_texture_entry(2);
                 if (entry != -1) {
-                    scroll_ginja_mesh_uvs(node->model, 0, 1, entry, 1);
+                    scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 0, 1, entry, 1);
                 }
             }
             last_uv_scroll_tick = actor_frame_tick;

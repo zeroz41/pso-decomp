@@ -26,11 +26,11 @@
 #include "pso/unk/text_803DCDFC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/system/ControllerInput.h"
 
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F90C(int);
-s32 reset_controller_input_state();
 s32 __ct__15TWindowCtrlMainFv(u32);
 void request_main_phase(s32 arg0);
 u32 __ct__10TAdADXlogoFP7TObject(void *, void *);

@@ -18,6 +18,7 @@
 #include "pso/ui/window/TWindowDD_80347F34.h"
 #include "pso/unk/text_8020C354.h"
 #include "pso/ui/window/TWindowDD_80340EA8.h"
+#include "pso/network/client_id.h"
 
 struct TWindowDD_803431C0 {
     u8 pad0[0x20];
@@ -219,8 +220,6 @@ saddr TWindowDD__sub_80342384(s32 element_list, s32 rows);
 s32 TWindowDD__sub_8034146C(NJS_POINT2 *pos, NJS_POINT2 *size, s32 arg2, s32 style, f32 width);
 void TWindowDD__sub_803412A0(TWindowDD_WS_String *self);
 const char *word_select_type_name_pointer = "TWindowDD";
-
-extern s32 local_client_id;
 
 
 
@@ -553,7 +552,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
       TWindowDD__sub_803412A0((TWindowDD_WS_String *)q);
     }
   }
-  TWindowDD::format_message(self->fC4, (void *)TWindowDD__work_buffer, local_client_id);
+  TWindowDD::format_message(reinterpret_cast<WordSelectMessage *>(self->fC4), reinterpret_cast<char *>(TWindowDD__work_buffer), local_client_id);
   {
     a.x = lbl_805DFBF0;
     a.y = lbl_805DFBF4;

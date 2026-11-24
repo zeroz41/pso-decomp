@@ -1,3 +1,4 @@
+#include "pso/ui/font/TNECFontEORFunction.h"
 // ---- pso/ui/window/TWindowSubStatusDisp_80228CC0
 #include "types.h"
 #include <string.h>
@@ -110,7 +111,7 @@ void text_builder_append_int(s32 arg0) {
 }
 
 s8 *TWindowSubStatusDisp::copy_message_page_text() {
-    s8 *s = (s8 *)this;
+    const s8 *s = reinterpret_cast<const s8 *>(this);
     s32 sjis;
     s8 *d;
     sjis = 0;
@@ -122,7 +123,7 @@ s8 *TWindowSubStatusDisp::copy_message_page_text() {
         if (*s == 9 && ((u8 *)s)[1] == 'P') {
             break;
         }
-        s = (s8 *)parse_text_control_codes((char *)s, &sjis, (s32 *)(0));
+        s = reinterpret_cast<const s8 *>(parse_text_control_codes(reinterpret_cast<const char *>(s), &sjis, NULL));
         s32 t = *(u8 *)s;
         if (t == 9 && ((u8 *)s)[1] == 'P') {
             continue;
@@ -144,7 +145,7 @@ s8 *TWindowSubStatusDisp::copy_message_page_text() {
     if (*s == 0) {
         return 0;
     }
-    return s + 2;
+    return const_cast<s8 *>(s + 2);
 }
 
 void text_builder_append(u8 *str) {

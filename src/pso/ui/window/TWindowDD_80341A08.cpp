@@ -1,6 +1,8 @@
 // Emit the native Word Select methods in their original order.
 #pragma defer_codegen on
 
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/ui/window/WindowVertexBufferAbi.h"
@@ -31,7 +33,6 @@ extern const f32 TWindowDD__data_805DFB18;
 extern const f32 TWindowDD__data_805DFB20;
 extern const f32 lbl_805DFB40;
 extern const f32 lbl_805DFB44;
-extern void *hud_texlist;
 
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -118,10 +119,9 @@ void TWindowDD_WS_Word::add_scroll_offset(int offset) {
 
 s32 TWindowDD::get_field_68() { return this->m_64[1]; }
 
-void TWindowDD::get_cursor_pos(u8 *arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg1 + 0) = (f32) *(f32 *)((s8 *)arg0 + 0x40);
-    *(f32 *)((s8 *)arg1 + 4) = (f32) (((f32) *(s32 *)((s8 *)arg0 + 0x6C) * TWindowDD__data_805DFB20) + *(f32 *)((s8 *)arg0 + 0x44));
+void TWindowDD_WS_Word::get_cursor_pos(NJS_POINT2 *position) {
+    position->x = frame_position[0];
+    position->y = (f32)selected_row * TWindowDD__data_805DFB20 + frame_position[1];
 }
 
 s32 TWindowDD::update_if_field28_set() {
@@ -384,7 +384,7 @@ void TWindowDD__sub_80341674(TWindowDD_WS_Word *self, WindowDrawContext *rect) {
     f32 step;
 
     // TWindowDD::get_draw_count(hud_texlist), read inline here (0x80348AE8 is the same load chain)
-    tex = **(s32 **)((s8 *)(*(void **)((s8 *)(*(void **)hud_texlist) + 0x20)) + 0xC);
+    tex = hud_texlist->textures[2].texture->surface->id;
     if (rect->open_tick < 0) {
         return;
     }

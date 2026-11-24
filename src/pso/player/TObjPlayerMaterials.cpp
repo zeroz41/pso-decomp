@@ -1,10 +1,8 @@
+#include "pso/object/base/TObjChara.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 
-// Defined with TObjChara: raise the HP/TP item bonus, floored at 0.
 extern "C" {
-s32 add_actor_tp_bonus(TObjChara *actor, s32 amount);
-s32 add_actor_hp_bonus(TObjChara *actor, s32 amount);
 // TObjPlayer::get_class_index as its callers see it: the whole return register.
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 }

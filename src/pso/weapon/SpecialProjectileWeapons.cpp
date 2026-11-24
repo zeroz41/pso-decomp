@@ -1,3 +1,4 @@
+#include "pso/item/TItemMenuCtrl_80115AF0.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/weapon/SpecialProjectileWeapons_80124760.h"
@@ -35,6 +36,9 @@ struct TItemEquipBase;
 #include "pso/camera/TObjCamera.h"
 #include "pso/player/TObjPlayer_80363BE0.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/scene/TScene.h"
 
 struct RecoilWeaponView : TItemWeapon {
     s32 projectileVisible;
@@ -53,10 +57,7 @@ LAYOUT_ASSERT(RecoilWeaponExtent, sizeof(RecoilWeaponView) == 0x208);
 
 extern "C" {
 
-s32 post_translate_matrix(void *);
 s32 draw_weapon_at_joint(void *, s32, void *);
-extern s32 model_render_flags;
-s32 is_item_area_enabled();
 }
 
 
@@ -92,7 +93,7 @@ void TUnk_804A204C::update_weapon() {
     floor = get_current_floor();
     if (floor_area != floor && item_model != NULL) {
         floor_area = floor;
-        if (is_item_area_enabled() != 0) {
+        if (is_item_area_enabled(floor) != 0) {
             spawn_item_follow_star_light(tl_05, get_item_id(), 5);
         }
     }
@@ -136,7 +137,7 @@ void TUnk_804A204C::reserved_53() {
             TObjPlayer::save_model_render_state();
             model_render_flags &= 0xFFFFFFEF;
             TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
-            post_translate_matrix(&joint_position);
+            post_translate_matrix((const f32 *)&joint_position);
             rotate_matrix_y(0, (int)(*(s32 *)((s8 *)this->owner + 0x60)));
             effect_model->evalflags |= 0x11;
             draw_ginja_object(effect_model);

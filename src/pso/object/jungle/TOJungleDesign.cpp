@@ -6,6 +6,7 @@
 #include "pso/object/jungle/TOJungleDesign.h"
 #include "pso/object/jungle/TOJungleDesign_802FEEB4.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
@@ -51,21 +52,15 @@ CollisionBody TOJungleDesign__collision_desc_table[3] = {
     { { 0.0f, 0.0f, 0.0f }, 5.0f, 3.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 
-extern "C" {
-s32 post_translate_matrix(void *);
-
-
 void TOJungleDesign::render() {
     if (this->update_object_view_visibility(400.0f, 40.0f) == 1) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_yxz(0, (this->rotation_x), (this->rotation_y), (this->rotation_z));
         draw_ginja_object((void *)this->m_ac);
         pop_matrix();
     }
-}
-
 }
 TOJungleDesign::~TOJungleDesign() {
     this->unregister_object_by_id();

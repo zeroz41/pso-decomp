@@ -55,11 +55,11 @@ s32 are_trap_counts_full(s8 *counts, s32 level, s8 char_class) {
     return 1;
 }
 
-void refill_trap_counts(s32 trap_counts, s32 level, s32 char_class) {
+void refill_trap_counts(s8 *counts, s32 level, s32 char_class) {
     s32 kind;
     for (kind = 0; kind < 4; kind++) {
         s8 capacity = ((s8 (*)(s32, s32, s32))calc_trap_capacity)(level, char_class, kind);
-        TObjPlayer__sub_801C5780(trap_counts, capacity, kind);
+        TObjPlayer__sub_801C5780(counts, capacity, kind);
     }
 }
 
@@ -158,11 +158,11 @@ s32 TObjPlayer::clamp_char_at(s32 kind) {
     return (u8)(counts[kind]);
 }
 
-void TObjPlayer__sub_801C5780(saddr trap_counts, s8 count, s32 kind) {
+void TObjPlayer__sub_801C5780(s8 *counts, s8 count, s32 kind) {
     if ((count < 0) || (count > 20)) {
         count = 20;
     }
-    *(s8 *)(trap_counts + kind) = count;
+    counts[kind] = count;
 }
 
 s32 TObjPlayer::init_partial(saddr trap_counts) {

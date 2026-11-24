@@ -48,6 +48,7 @@
 #include "pso/network/client_id.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/map/area/AreaScene.h"
+#include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
@@ -69,9 +70,7 @@ struct BattleTeamTotals { s32 team[2]; };
 extern "C" {
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
 u8 TLobby__sub_801D7100(void *);
-extern s32 TDeadSpot__class_name;
-s32 obj_set_flag_20000();
-void obj_clear_flag30_20000(TObjBase *actor);
+extern const char *TDeadSpot__class_name;
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 s32 fn_801D6D8C(void *, u8, int);
@@ -338,7 +337,7 @@ void TPlayerBattleCtrl4P::begin_battle_results() {
     }
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
-        if (p != 0) {
+        if (p != NULL) {
             p->protection.set_frames(0xE10);
         }
     }
@@ -574,7 +573,7 @@ void TPlayerBattleCtrl4P::init_battle() {
         hold_player(i, 1);
         p = (u8 *)get_player_by_client_id(i);
         if (p != 0) {
-            obj_set_flag_20000();
+            obj_set_flag_20000((TObjBase *)p);
             ((TLobby *)(p + 0x78C))->update_child_player();
             ((TLobby *)(p + 0x77C))->update_child_player();
             ((TLobby *)(p + 0x75C))->update_child_player();
@@ -615,19 +614,20 @@ void TPlayerBattleCtrl4P::start_duel() {
             timed_event_flags[j] = 0;
         }
     }
-    win_effects_enabled = battle_ctrl_default_value;
+    battle_ctrl_default = battle_ctrl_default_value;
 }
 
 void TPlayerBattleCtrl4P::update() {
     s32 i;
     s32 j;
-    uaddr player;
+    TObjPlayer *player;
 
     refresh_alive_flags();
     i = 0;
     do {
-        if (get_player_by_client_id(i) != NULL) {
-            obj_set_flag_20000();
+        void *p = get_player_by_client_id(i);
+        if (p != NULL) {
+            obj_set_flag_20000((TObjBase *)p);
         }
         i += 1;
     } while (i < 4);
@@ -637,9 +637,9 @@ void TPlayerBattleCtrl4P::update() {
     TLobby__sub_8020BB18();
     j = 0;
     do {
-        player = (uaddr)get_player_by_client_id(j);
-        if (player != 0U) {
-            clear_trap_counts(((TObjPlayer *)player)->trap_counts);
+        player = get_player_by_client_id(j);
+        if (player != NULL) {
+            clear_trap_counts(player->trap_counts);
         }
         j += 1;
     } while (j < 4);
@@ -685,7 +685,7 @@ void TPlayerBattleCtrl4P::reset_players() {
     for (i = 0; i < 4; i++) {
         p = reinterpret_cast<TObjPlayer *>(get_player_by_client_id(i));
         if (p != 0) {
-            p->send_selected_spawn_position(player_order[((TObjBase *)p)->get_entity_id()]);
+            p->send_selected_spawn_position(player_order[p->get_entity_id()]);
             reset_cameras_to_actor(p, 0);
         }
     }
@@ -699,7 +699,7 @@ void TPlayerBattleCtrl4P::destroy_dead_spots(TObject *parent) {
     while (parent->m_down != NULL && child != NULL) {
         cur = child;
         child = cur->m_next;
-        if (((TUnk_804B6C24 *)cur)->check_value_equals(TDeadSpot__class_name) != 0) {
+        if (reinterpret_cast<TObject *>(cur)->check_value_equals(TDeadSpot__class_name) != 0) {
             cur->queue_destruction();
         } else {
             destroy_dead_spots(cur);
@@ -1203,7 +1203,7 @@ void TPlayerBattleCtrl4P::close_player_windows() {
     s32 i;
     for (i = 0; i < 4; i++) {
         if (player_windows[i] != 0) {
-            ((TWindowBase *)player_windows[i])->close();
+            player_windows[i]->close();
             player_windows[i] = 0;
         }
     }
@@ -1212,14 +1212,13 @@ void TPlayerBattleCtrl4P::close_player_windows() {
 s32 TPlayerBattleCtrl4P::close_windows_on_button() {
     s32 r = 1;
     s32 i;
-    void *p;
+    TObjPlayer *p;
     for (i = 0; i < 4; i++) {
         if ((p = get_player_by_client_id(i)) != NULL) {
             if (player_windows[i] != NULL) {
-                if (test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 2) != 0) {
-                    ((TWindowBase *)player_windows[i])->close();
+                if (test_pressed_buttons_packed(&controller_input_state.controllers[p->get_controller_port()], 2) != 0) {
+                    player_windows[i]->close();
                     player_windows[i] = 0;
-
                 } else {
                     r = 0;
                 }

@@ -2,7 +2,6 @@
 #include "pso/render/TNodeMatrixRecorder.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/player/TObjPlayer.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
@@ -31,10 +30,10 @@ void TNodeMatrixRecorder::draw_node_tree(NJS_OBJECT *node) {
     do {
         flags = node->evalflags;
         push_matrix();
-        TObjPlayer::concat_matrix(0, reinterpret_cast<uaddr>(recorded_node_matrices[draw_node_index]));
-        draw_node_index = draw_node_index + 1;
-        if (draw_node_callback != NULL) {
-            draw_node_callback(node);
+        concat_matrix(NULL, recorded_node_matrices[draw_cursor]);
+        draw_cursor++;
+        if (draw_callback != NULL) {
+            draw_callback(node);
         }
         if (!(flags & NJD_EVAL_HIDE)) {
             draw_chunk_model(node->model);
@@ -49,7 +48,7 @@ void TNodeMatrixRecorder::draw_node_tree(NJS_OBJECT *node) {
 
 void TNodeMatrixRecorder::draw_recorded_pose() {
     if (motion != NULL) {
-        draw_node_index = 0;
+        draw_cursor = 0;
         draw_node_tree(model);
     }
 }
@@ -74,9 +73,9 @@ TNodeMatrixRecorder::TNodeMatrixRecorder(TObject *parent, NJS_OBJECT *model) : T
     this->model = model;
     motion = NULL;
     frame = 0.0f;
-    draw_node_index = 0;
+    draw_cursor = 0;
     node_count = count_tree_nodes(model);
-    node_matrices = static_cast<GC_Mtx *>(mem_alloc(node_count * sizeof(GC_Mtx)));
-    draw_node_callback = NULL;
+    node_matrices = static_cast<GC_Mtx *>(mem_alloc(node_count * sizeof(*node_matrices)));
+    draw_callback = NULL;
     node_callback = 0;
 }

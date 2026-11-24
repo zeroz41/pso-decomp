@@ -1,9 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "types.h"
-#include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
@@ -33,8 +33,6 @@ void *youlla_photon_blast_buffer_pair;
 
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/PhotonBlastResults.h"
-#include "pso/system/BmlResource.h"
 
 TObjMotionAction photon_blast_youlla_params[2] = {
     {MOTION_MODE_ONCE, 0, 7, 1.0f, 0},

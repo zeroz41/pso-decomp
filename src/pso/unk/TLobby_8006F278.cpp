@@ -8,6 +8,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TObjResultWin.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 
 struct RecoveredGlobal_8006F5B0_lbl_8048C9D8 { s32 value; u8 remaining[0x744]; };
@@ -177,7 +178,6 @@ block_12:
     *(s32 *)((s8 *)temp_r3_2 + temp_r30) = ((s32 (*)(void *))mix_seed_checked__6TLobbyFi)((void *)clear_time);
     return 1;
 }
-extern s32 local_client_id;
 s32 mix_seed__6TLobbyFUs(u16);
 
 s32 TLobby__sub_8006F6B0(s32 clear_time) {

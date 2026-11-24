@@ -16,8 +16,7 @@
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
-// Defined in TItemData.cpp and text_801D9870.cpp, which have no headers yet.
-void *lookup_item_pmt_record(u8 *item);
+// Defined in text_801D9870.cpp, which has no header yet.
 u8 get_cast_technique_level(void *levels, s16 technique);
 }
 

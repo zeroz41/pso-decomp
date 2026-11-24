@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include <stddef.h>
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
@@ -51,7 +52,7 @@ void draw_blob_shadow(s32 forceDraw) {
 void release_blob_shadow_texture(void) {
     if (blob_shadow_texture_list != NULL) {
         release_texture_list(blob_shadow_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)blob_shadow_texture_list);
+        safe_free(blob_shadow_texture_list);
         blob_shadow_texture_list = NULL;
     }
 }

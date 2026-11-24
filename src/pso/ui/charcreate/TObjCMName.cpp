@@ -143,10 +143,6 @@ union HairBarColor {
 };
 
 
-extern "C" {
-void restore_saved_depth_alpha_state();
-}
-
 s32 *TObjCMMainMenu::get_name_buffer() {
     return (s32 *)character_creation_name_buffer;
 }
@@ -1413,9 +1409,9 @@ const HairBarColor hair_bar_colors[4] = {{0xFF000000}, {0x00FF0000}, {0x0000FF00
 // render reaches each of the four hair arrays with its own lis/addi (no shared base): pool_data off
 #pragma pool_data off
 void TObjCMHairMenu::render() {
-    ColorLineVertex pts[4];
-    u32 cols[4];
-    ColorLineList list;
+    NJS_POINT2 pts[4];
+    NJS_COLOR cols[4];
+    NJS_POINT2COL list;
     vec2f pos;
     vec2f scl;
     vec2f pos2;
@@ -1547,9 +1543,9 @@ void TObjCMHairMenu::render() {
         TCameraCtrl::restore_full_screen_view();
         scale = TObjCMMainMenu::get_scale();
         step = 44.0f * scale;
-        list.verts = pts;
-        list.colors = cols;
-        list.tex = 0;
+        list.p = pts;
+        list.col = cols;
+        list.tex = NULL;
         pts[0].x = 0.1f * (hair_bar_corners[1].x - hair_bar_corners[0].x) + hair_bar_corners[0].x;
         pts[1].x = 1.1f * (hair_bar_corners[1].x - hair_bar_corners[0].x) + hair_bar_corners[0].x;
         pts[2].x = 1.1f * (hair_bar_corners[2].x - hair_bar_corners[3].x) + hair_bar_corners[3].x;
@@ -1562,10 +1558,10 @@ void TObjCMHairMenu::render() {
         pts[2].y *= scale;
         pts[3].y *= scale;
         color.c[3] = 255.0f * t;
-        TObjCMHairMenu__sub_801E3F54(&cols[0], TObjCMHairMenu__sub_801E3F54(&cols[1],
-            TObjCMHairMenu__sub_801E3F54(&cols[2], TObjCMHairMenu__sub_801E3F54(&cols[3], &color.rgba))));
+        TObjCMHairMenu__sub_801E3F54(&cols[0].color, TObjCMHairMenu__sub_801E3F54(&cols[1].color,
+            TObjCMHairMenu__sub_801E3F54(&cols[2].color, TObjCMHairMenu__sub_801E3F54(&cols[3].color, &color.rgba))));
         for (s32 i = 0; i < 3; i++) {
-            draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&list), 4, 6, -2.75f);
+            draw_polygon_2d(&list, 4, 6, -2.75f);
             pts[0].y += step;
             pts[1].y += step;
             pts[2].y += step;
@@ -1583,9 +1579,9 @@ void TObjCMHairMenu::render() {
                 }
                 HairBarColor bar_color = hair_bar_colors[i];
                 bar_color.c[3] = 255.0f * t;
-                TObjCMHairMenu__sub_801E3F54(&cols[0], TObjCMHairMenu__sub_801E3F54(&cols[1],
-                    TObjCMHairMenu__sub_801E3F54(&cols[2], TObjCMHairMenu__sub_801E3F54(&cols[3], &bar_color.rgba))));
-                draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&list), 4, 6, -2.4375f);
+                TObjCMHairMenu__sub_801E3F54(&cols[0].color, TObjCMHairMenu__sub_801E3F54(&cols[1].color,
+                    TObjCMHairMenu__sub_801E3F54(&cols[2].color, TObjCMHairMenu__sub_801E3F54(&cols[3].color, &bar_color.rgba))));
+                draw_polygon_2d(&list, 4, 6, -2.4375f);
             }
         }
         TCameraCtrl::restore_saved_view();

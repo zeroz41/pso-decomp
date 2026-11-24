@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -46,6 +47,7 @@
 #include "pso/ui/window/TWindowCtrl_8024A1A8.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/WindowLayout.h"
 const char *TWindowCtrlMain__name = "TWindowCtrlMain";
 const char *TWindowCtrlScreen__name = "TWindowCtrlScreen";
 const char *TWindowCtrlSub__name = "TWindowCtrlSub";
@@ -80,7 +82,6 @@ struct Poly_8024CE68 {
     s32 count;
 };
 struct Quad_8024CE68 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
-extern void *hud_texlist;
 void TWindowCtrlMain__sub_8024CB7C();
 void TWindowCtrlMain__sub_8024CB8C();
 s32 TWindowMainMenu__sub_8024E3D4(void *);
@@ -106,7 +107,6 @@ u32 create_for_target__13TWindowLockOnFlUs(int, s32);
 s32 fn_8002AE08(void *p);
 int TWindowMainMenu__sub_8024E3F4(void *p);
 s32 TWindowMainMenu__sub_8024E3E0(void *);
-saddr get_window_layout_position(s32);
 }
 struct Ctl_8024E2A8 {
     s32 f0;
@@ -625,7 +625,7 @@ void draw_menu_backdrop_gradients(s32 viewport_index) {
     reinterpret_cast<ColorLineList *>(&poly)->draw_strip_swap_color(4, 22, -10.0f);
 
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     a = (s32)(255.0f * alpha) << 24;
     set_draw_texture_and_color(11, a | 0xFFFFFF);
 

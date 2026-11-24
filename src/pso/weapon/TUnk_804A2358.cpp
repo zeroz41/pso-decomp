@@ -33,7 +33,7 @@ void TUnk_804A2358::on_equipped() { this->roll_technique(); this->roll_technique
 TUnk_804A2358::~TUnk_804A2358() {}
 
 TUnk_804A2358::TUnk_804A2358(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    set_weapon_trail_joints((saddr)this, 2, 6, 5);
+    set_weapon_trail_joints(this, 2, 6, 5);
     set_weapon_flags(35);
     set_technique_roll_range(13);
 }

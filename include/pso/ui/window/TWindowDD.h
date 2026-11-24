@@ -10,6 +10,8 @@ s32 TWindowDD_is_id_in_range_5AC_5F9(s32 value);
 }
 
 class TWindowDD_WS_Word;
+struct NJS_TEXLIST;
+struct WordSelectMessage;
 
 struct TWindowDDValueList {
     s16 *values;
@@ -70,7 +72,6 @@ struct TWindowDD : public TObject
     s32 get_field_0x74();
     s32 get_cursor_index();
     s32 update_if_field28_set();
-    void get_cursor_pos(u8 *arg1);
     s32 get_field_68();
     void enter_state_19();
     void enter_state_18();
@@ -114,7 +115,7 @@ struct TWindowDD : public TObject
     void set_state();
     void close_all_windows();
     static s32 can_append_chars(s32 arg0, s32 *pos);
-    static void format_message(void *src, void *dst, u16 player);
+    static void format_message(WordSelectMessage *message, char *text, u16 player);
     void append_prompt_newline(s32 *pos);
     static s32 clamp_range_5FA_682(s16 id);
     static s32 clamp_range_2C9_552(s16 id);
@@ -124,7 +125,7 @@ struct TWindowDD : public TObject
     static void append_char(s8 c, char *buf, s32 *pos);
     static void append_string(const char *str, char *buf, s32 *pos);
     void copy_point_table(s32 idx);
-    static s32 get_draw_count(void **hud_texlist);
+    static s32 get_draw_count(const NJS_TEXLIST *textures);
     static saddr get_entry(s32 arg0);
     int handle_word_select();
     static void send_chat_packet(void *data);

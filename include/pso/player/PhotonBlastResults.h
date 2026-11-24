@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 
+class TObjBase;
 class TPhotonBlastSequence;
 class TObjPlayer;
 struct BmlResource;
@@ -73,23 +74,6 @@ struct PhotonBlastRequest {
     void add_donor(u16 client_id);
 };
 
-// Every player's pending photon blast, one request per client; TObjPlayer::alloc_shared_buffers
-// creates it and TObjPlayer::free_shared_data deletes it.
-struct PhotonBlastRequestTable {
-    PhotonBlastRequest requests[4];
-
-    PhotonBlastRequestTable();
-    ~PhotonBlastRequestTable();
-};
-
-// PhotonBlastRequests.cpp: the four requests (TObjPlayer__shared_photon_blast_state).
-int get_photon_blast_request_count();
-// The first request not in use, NULL when all four are.
-PhotonBlastRequest *find_free_photon_blast_request(void *requests);
-void reset_photon_blast_request(void *requests, s32 index);
-// Clears flag 4 and sets flag 8 on the photon blast gauge of each requesting player.
-void release_photon_blast_requests(void *requests);
-
 // How many more donors share each chained kind; admit_photon_blast_sequence
 // hands count to TPhotonBlastSequence.
 struct PhotonBlastChainCounts { s32 count[4]; };
@@ -126,7 +110,7 @@ struct PhotonBlastLoadCallback {
 // Chains the requests whose players are in owner's room into one photon blast
 // sequence (a TPhotonBlastSequence), unless another player's sequence is still running.
 void admit_photon_blast_sequence(PhotonBlastRequest *requests, TObjPlayer *owner);
-void apply_photon_blast_action_hold(s32 unused, s32 duration, s32 owner_client_id);
+void apply_photon_blast_action_hold(TPhotonBlastSequence *unused, s32 duration, s32 owner_client_id);
 
 // The photon blast entry of the scene load callback table.
 void load_photon_blast_resources(void);

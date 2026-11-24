@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/ui/window/TWindowMainMenu_80263AB0.h"
@@ -27,11 +28,8 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowHelpItem_80255AB4.h"
 #include "pso/unk/text_80263A20.h"
-
-
-extern "C" {
-saddr get_window_layout_position(int);
-}
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/system/SoundEffect.h"
 
 const char *TWindowSubTechnique::class_name = "TWindowSubTechnique";
 static const f32 technique_help_window_size[2] = { 242.0f, 161.0f };
@@ -110,7 +108,7 @@ void TWindowSubTechnique::rebuildTechniqueList(saddr list, s32 category) {
 
 s32 TWindowSubTechnique::create_title_window(s32 category) {
   saddr titled_window_menu;
-  titled_window_menu = create_titled_window_menu(get_window_layout_position(0x13), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x30), playerIndex);
+  titled_window_menu = create_titled_window_menu((saddr)get_window_layout_position(0x13), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x30), playerIndex);
   ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent_menu, 1));
   ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
   ((TWindowMenu *)titled_window_menu)->set_flag70_bit10();
@@ -127,7 +125,6 @@ s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
 }
 extern "C" {
 s32 try_equip_item__10TObjPlayerFii(saddr, s32);
-void play_sound_effect(s32, s32, s32, s32);
 }
 void text_builder_reset(void);
 
@@ -135,7 +132,7 @@ void text_builder_reset(void);
 s32 TWindowSubTechnique::open_menu() {
     saddr titled_window_menu;
 
-    titled_window_menu = create_titled_window_menu(get_window_layout_position(0x12), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x2F), this->playerIndex);
+    titled_window_menu = create_titled_window_menu((saddr)get_window_layout_position(0x12), 5, (saddr)TWindowSubStatusDisp::get_message_10(0x2F), this->playerIndex);
     ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent_menu, 0));
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit100();
     ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x9C)), 6, 0);
@@ -227,7 +224,7 @@ void TWindowSubTechnique::run_task() {
         break;
     }
     case 3:
-        help_window = (TWindowMessage *)TWindowMessage::create((s32)(get_window_layout_position(0x14)), (const f32 *)technique_help_window_size, 1, (s32)playerIndex);
+        help_window = (TWindowMessage *)TWindowMessage::create((s32)((saddr)get_window_layout_position(0x14)), (const f32 *)technique_help_window_size, 1, (s32)playerIndex);
         ((TWindowBase *)help_window)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent_menu, 2));
         call_if_split_screen((uaddr)help_window, playerIndex);
         ((TWindowSubTradeMain *)technique_menu)->clear_trade_flag();

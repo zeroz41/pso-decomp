@@ -9,7 +9,7 @@ struct NJS_TEXLIST;
 
 class TDeadSpot : public TObject {
 public:
-    TDeadSpot(TObject *parent, Vec *point, void *texture, s32 selector, s32 delay, f32 maxScale);
+    TDeadSpot(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s32 selector, s32 delay, f32 maxScale);
     virtual ~TDeadSpot();
     virtual void run_task();
     virtual void render();
@@ -24,7 +24,7 @@ public:
 
 class TUnk_80494A10 : public TDeadSpot {
 public:
-    TUnk_80494A10(TObject *parent, Vec *point, void *texture, s32 selector, s32 delay, f32 maxScale);
+    TUnk_80494A10(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s32 selector, s32 delay, f32 maxScale);
     virtual ~TUnk_80494A10();
     virtual void run_task();
     u8 m_C8[0x4];

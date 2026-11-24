@@ -7,7 +7,6 @@
 
 class TObjChara;
 struct TechniqueContactList;
-struct TechniqueContactBody;
 
 // Base of the area techniques: TTecGrants, TTecJelin, TTecZarua, TTecReverser, TTecRaBarta,
 // TTecRaFoie, TTecRaZonde, TTecGiFoie, TTecLuker and TTecKafun derive from it.
@@ -36,7 +35,7 @@ public:
     TechniqueParams params;  // calc_technique_parameters for the cast's level; range is the radius the area grows to
     u16 sourceId;
     u8 pad_B6[0x2];
-    TechniqueContactBody *contact;  // the body of the target being hit
+    CollisionBody *contact;  // the body of the target being hit
     CollisionBody collisionBody;
     TObjCollidable *collidable;
 };

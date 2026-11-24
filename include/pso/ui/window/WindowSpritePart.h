@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+struct NJS_TEXLIST;
+
 #include "pso/unk/TWindowLayoutEntry.h"
 #include <stddef.h>
 
@@ -21,7 +23,7 @@ public:
     f32 u1;
     f32 v1;
     s32 color;
-    s32 *texture_list_slot;
+    NJS_TEXLIST **texture_list_slot;
     s32 kind;
 
     WindowSpritePart *init_part_scaled(SpritePartLayoutRecord *source, s32 client);

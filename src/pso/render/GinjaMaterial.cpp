@@ -23,7 +23,6 @@
 #include "pso/render/GinjaView.h"
 
 #pragma scheduling off
-#pragma scheduling off
 typedef void (*GinjaPreCallback)(s32 first);
 typedef void (*GinjaPostCallback)(u8 first);
 
@@ -71,13 +70,10 @@ void draw_ginja_object(void *child) {
 }
 void apply_ginja_material_params(const GinjaDrawRecord *);
 GinjaMaterialCache *invalidate_ginja_inherited_state();
-#pragma push
-#pragma scheduling off
 s32 queue_model_draw_current_matrix(void *model) {
     queue_model_draw_matrix(model, *current_matrix);
     return 1;
 }
-#pragma pop
 
 void draw_ginja_model(void *model) {
     load_ginja_model_matrices(0);
@@ -90,9 +86,6 @@ s32 get_ginja_vertex_descriptor_type(u32 value, s32 arg1) {
     return (value >> (arg1 * 2)) & 3;
 }
 
-#pragma push
-#pragma scheduling off
-#pragma peephole off
 u32 update_ginja_cached_parameter(s32 i, u32 v) {
   u32 r = v ^ ginja_material_cache.parameters[i];
   r |= ginja_material_cache.dirty[i];
@@ -100,7 +93,6 @@ u32 update_ginja_cached_parameter(s32 i, u32 v) {
   ginja_material_cache.dirty[i] = 0;
   return r;
 }
-#pragma pop
 
 void set_ginja_indexed_vtx_desc(u32 value, u32) {
     GXClearVtxDesc();
@@ -459,9 +451,6 @@ void set_ginja_vertex_arrays(GinjaVertexArray *array) {
     }
 }
 
-#pragma push
-#pragma scheduling off
-#pragma peephole off
 GinjaMaterialCache *invalidate_ginja_inherited_state() {
   GinjaMaterialCache *state = &ginja_material_cache;
   if ((state->inherited_flags ^ model_render_flags) & 0x80000) {
@@ -472,17 +461,13 @@ GinjaMaterialCache *invalidate_ginja_inherited_state() {
   }
   return state;
 }
-#pragma pop
 
-#pragma push
-#pragma scheduling off
-#pragma peephole off
 
 s32 draw_ginja_model_lists(void *model_data) {
-  GinjaModel *model = (GinjaModel *)model_data;
+  const GinjaModel *model = static_cast<const GinjaModel *>(model_data);
   s32 secondaryCount;
-  GinjaDrawRecord *secondary;
-  GinjaDrawRecord *primary;
+  const GinjaDrawRecord *secondary;
+  const GinjaDrawRecord *primary;
   s32 primaryCount;
   invalidate_ginja_inherited_state();
   if (model->vertices) {
@@ -524,11 +509,7 @@ s32 draw_ginja_model_lists(void *model_data) {
     return 0;
   }
 }
-#pragma pop
 
-#pragma push
-#pragma scheduling off
-#pragma peephole off
 void prepare_ginja_model(void) {
     if (ginja_draw_flags & 2) {
         disable_scene_fog();
@@ -543,10 +524,7 @@ void prepare_ginja_model(void) {
     ginja_material_cache.inherited_flags = model_render_flags;
     ginja_material_cache.blend_valid = 0;
 }
-#pragma pop
 
-#pragma push
-#pragma peephole off
 void end_ginja_model_draw(void) {
     if ((u32) (ginja_draw_flags & 2) != 0) {
         enable_scene_fog();
@@ -561,7 +539,6 @@ void end_ginja_model_draw(void) {
         }
     }
 }
-#pragma pop
 
 void load_ginja_model_matrices(int matrix_id) {
     GC_Mtx s;

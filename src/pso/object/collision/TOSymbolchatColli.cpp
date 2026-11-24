@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/render/render_util.h"
 #include "pso/object/collision/TOSymbolchatColli.h"
@@ -146,7 +147,7 @@ void TOSymbolchatColli::load_symbol_chat_data() {
     if (h != 0) {
         prs_decompress_buffer(h, symbol_chat_colli_entries);
     }
-    TAdSinglePlyChrSelectGC::safe_free(h);
+    safe_free(reinterpret_cast<void *>(h));
     for (i = 0; i < 0x18; i++) {
         ((TWindowSubSymbolChat *)((u8 *)symbol_chat_colli_entries + i * 0x58))->bswap_entry();
     }

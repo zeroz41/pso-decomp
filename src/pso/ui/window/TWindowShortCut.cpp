@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -25,7 +26,6 @@
 
 const char *TWindowShortCut__name = "TWindowShortCut";
 
-extern s32 hud_texlist;
 
 // The shortcut window's entries: three rows of label, ":" and icons or text, filled by
 // show_shortcut (entries 0, 2, 3, 4, 6, 7, 8 and 10).
@@ -146,7 +146,7 @@ void TWindowShortCut::show_shortcut(s32 index, s32 *shortcut) {
     case 2: {
         s32 *buffer = get_shared_text_buffer();
         u16 player = (u16)local_client_id;
-        TWindowDD::format_message(shortcut + 1, buffer, player);
+        TWindowDD::format_message(reinterpret_cast<WordSelectMessage *>(shortcut + 1), reinterpret_cast<char *>(buffer), player);
         set_text_entry_string((u8 *)preview, (uaddr)get_shared_text_buffer(), 0);
         measure_message_text_width_default(preview);
         preview->flags |= 2;

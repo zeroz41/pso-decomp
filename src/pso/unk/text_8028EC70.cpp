@@ -3,6 +3,8 @@
 #include "pso/unk/text_8028EC70.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/charcreate/CharacterCreationModels.h"
+#include "pso/ui/charcreate/CharacterAppearanceTables.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline on
@@ -18,8 +20,6 @@ struct Src_8028ED24 { u8 pad[0x30]; u8 b; u8 pad2[7]; s16 a[5]; };
 #pragma dont_inline off
 struct Chr_8028EE20 { u8 pad[0x38]; s16 sel[5]; u8 pad2[0x50 - 0x42]; };
 
-struct Row_8028EE20 { s16 max[0x16]; };
-
 struct A_8028EC70 { u8 pad0[4]; s16 v[5]; s8 e; };
 
 struct B_8028EC70 { u8 pad0[0x30]; s8 e; u8 pad31[7]; s16 v[5]; };
@@ -30,10 +30,8 @@ struct B_8028ECCC { u8 pad0[0x30]; s8 e; u8 pad31[7]; s16 v[5]; };
 
 extern "C" {
 void TAdSinglePlyChrSelectGC__sub_8028F084(CreationTextureCacheEntry *entry, TCharaMaking *appearance);
-extern saddr creation_player_character;
 void copy_slot_data__23TAdSinglePlyChrSelectGCFPvPv(Dst_8028ED24 *d, Src_8028ED24 *s);
 void copy_player_visual_record(void *, void *);
-extern Row_8028EE20 class_appearance_table[];
 s32 is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(A_8028EC70 *a, B_8028EC70 *b);
 s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(A_8028ECCC *a, B_8028ECCC *b);
 
@@ -104,7 +102,7 @@ s32 TAdSinglePlyChrSelectGC__sub_8028EE20(void *arg0, void *arg1_) {
     s32 max;
     s32 cur;
     s32 v;
-    max = class_appearance_table[character_display_index(reinterpret_cast<uaddr>(&c))].max[arg1];
+    max = class_appearance_table[character_display_index(reinterpret_cast<uaddr>(&c))].counts[arg1];
     cur = c.sel[arg1];
     v = cur;
     do {

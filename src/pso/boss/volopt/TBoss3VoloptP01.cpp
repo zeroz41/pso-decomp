@@ -37,16 +37,13 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 extern "C" {
-s32 post_translate_matrix(const void *pos);
-void *find_entity_by_id(u16 id);
 void init_collision_body_parts(void *obj, void *parts, s32 count);
 void free_collision_body_parts(void *obj);
-s32 minimap_render_dot(void *pos, s32 color, s32 a2, s32 a3);
-void *__construct_array(void *array, void *ctor, void *dtor, u32 size, u32 count);
-extern Mtx34 identity_matrix;
-extern s32 registered_player_count;
 
 // TBoss3Volopt.cpp defines these; its header does not declare them yet.
 }
@@ -75,7 +72,7 @@ static TObjMotionAction volopt_p01_action_table[6] = {
 };
 static TBoss3VoloptP01Movement volopt_p01_movement = { 150.0f, 0.5555555f, 0x400, 0x1E0000, 0, 1, 0 };
 static TBoss3VoloptP01CollisionPart volopt_p01_collision_parts = { 0, 18.0f, 0, 8.0f, 0, 0, 0x8003, 0, 0, 0, 0 };
-static TBoss3VoloptBreakupParams volopt_p01_breakup_params = { 0x14, { 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f } };
+static BreakUpParamRow volopt_p01_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
 void TObjVoloptShutter::open() {
     state = 2;
     substate = 0;
@@ -157,7 +154,7 @@ void TBoss3VoloptP01::init_params() {
     referenceHp = hp;
     set_param(0x2E);
     update_prev_position();
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     load_model(17);
     start_rise();
     ((TBoss3VoloptP01Collision *)bodies)->flags &= ~1;
@@ -178,7 +175,7 @@ void *TBoss3VoloptP01::create(void *set_data) {
 
 void TBoss3VoloptP01::init_breakup_effect() {
     TBoss3VoloptP01__resource_bundle = boss3_volopt_resources;
-    TBoss3VoloptP01__breakup_model = new TBreakUpMdlData((saddr)TBoss3VoloptP01__resource_bundle->models[17].model);
+    TBoss3VoloptP01__breakup_model = new TBreakUpMdlData(TBoss3VoloptP01__resource_bundle->models[17].model);
     volopt_p01_chunk_list = find_model_node(TBoss3VoloptP01__resource_bundle->models[17].model, 0xD);
     volopt_p01_boss_stat_handle_a = TLobby::register_boss(0x22);
     volopt_p01_shared_handler_b = TLobby::dispatch_shared_handler_b(0x22);
@@ -224,7 +221,7 @@ void TBoss3VoloptP01::run_task() {
         y = body_center.y;
         body_center.y = y + (18.0f + y_offset);
         ((TBoss3VoloptP01Collision *)bodies)->height = 18.0f + y_offset;
-        ((TBoss3VoloptHiraisin *)this)->copy_position();
+        copy_position();
         angle = pulse_angle;
         pulse_angle = angle + 0x400;
         clear_all_status_effects();
@@ -252,7 +249,7 @@ void TBoss3VoloptP01::render() {
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         if (TObjPlayer::check_demo_mode() == 1) {
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             draw_chunk_object(model);
         } else {
@@ -361,7 +358,8 @@ void TBoss3VoloptP01::update_breakup() {
         advance_animation();
         timer--;
         if (timer < 0) {
-            TBoss3Volopt::create_breakup_mdl((saddr)TBoss3VoloptP01__breakup_model, (saddr)&volopt_p01_breakup_params, texlist, (saddr)&body_center, rotation_y);
+            TBoss3Volopt::create_breakup_mdl(TBoss3VoloptP01__breakup_model, &volopt_p01_breakup_params,
+                               texlist, &body_center, rotation_y);
             trigger_dell_biter_events(&body_center);
             behavior_flags |= 0x40000;
             play_sound_effect(0x4003AD07, &position, 0, 0);

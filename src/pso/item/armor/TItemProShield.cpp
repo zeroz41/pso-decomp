@@ -1,3 +1,4 @@
+#include "pso/object/base/TObjChara.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "types.h"
 #include "pso/item/armor/TItemProShield.h"
@@ -34,8 +35,6 @@ struct ShieldSoundCue {
 extern "C" {
 // Defined in files that have no headers yet.
 s32 play_shield_sound_cue(ShieldSoundCue *cue);
-s32 add_actor_hp(u8 *arg0, s16 arg1);
-s32 add_actor_tp(u8 *owner, s32 half);
 s16 obj_getS16_2BA(u8 *p);
 // The item file helpers (TItemDrop_800F93F0.cpp).
 // The class name and the effect table's file name. This object starts at
@@ -120,11 +119,11 @@ void TItemProShield::perform_action() {
         if (shield_flags & SHIELD_FLAG_BLOCK_RECOVERY) {
             switch (get_item_index()) {
             case 34:
-                add_actor_hp((u8 *)owner, 0.05f * (f32)((TObjChara *)owner)->get_hpmax());
+                add_actor_hp(owner, 0.05f * (f32)owner->get_hpmax());
                 break;
             case 35:
-                add_actor_hp((u8 *)owner, 0.05f * (f32)((TObjChara *)owner)->get_hpmax());
-                add_actor_tp((u8 *)owner, (s32)(0.05f * (f32)obj_getS16_2BA((u8 *)owner)));
+                add_actor_hp(owner, 0.05f * (f32)owner->get_hpmax());
+                add_actor_tp(owner, (s32)(0.05f * (f32)obj_getS16_2BA((u8 *)owner)));
                 break;
             }
         }

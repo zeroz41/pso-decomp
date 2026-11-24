@@ -583,7 +583,7 @@ void TCameraCtrl::reset() {
     TCameraCtrl::view_state.flags = 0;
 }
 void TCameraCtrl::cycle_spectate_target() {
-    void *pad;
+    ControllerInputContext *pad;
     TObjPlayer *candidate;
     TObjPlayer *local;
     s8 tries;
@@ -1083,33 +1083,33 @@ s32 TCameraCtrl::is_view_override_active() {
 void TCameraCtrl::create() {
     new TCameraCtrl(tl_camera);
 }
-s32 *TCameraCtrl::get_view_matrix() {
+const f32 (*TCameraCtrl::get_view_matrix())[4] {
     if (is_split_screen() != 0) {
         if (main_task.get_task_flags() & 1) {
-            return (s32 *)&TCameraCtrl::view_matrices[TCameraCtrl::get_view_count() - 1];
+            return TCameraCtrl::view_matrices[TCameraCtrl::get_view_count() - 1].m;
         }
-        return (s32 *)&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()];
+        return TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()].m;
     }
-    return (s32 *)&TCameraCtrl::view_matrix;
+    return TCameraCtrl::view_matrix.m;
 }
 
 void TCameraCtrl::apply_split_screen_view_matrix() {
     if (is_split_screen() != 0) {
         if (main_task.get_task_flags() & 1) {
-            premultiply_matrix(0, (uaddr)&TCameraCtrl::view_matrices[TCameraCtrl::get_view_count() - 1]);
+            premultiply_matrix(NULL, TCameraCtrl::view_matrices[TCameraCtrl::get_view_count() - 1].m);
             return;
         }
-        premultiply_matrix(0, (uaddr)&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
+        premultiply_matrix(NULL, TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()].m);
         return;
     }
-    premultiply_matrix(0, (uaddr)&TCameraCtrl::view_matrix);
+    premultiply_matrix(NULL, TCameraCtrl::view_matrix.m);
 }
 void TCameraCtrl::transform_to_view(const Vec *src, Vec *dst) {
     push_matrix();
     if (is_split_screen() != 0) {
-        premultiply_matrix(0, (uaddr)&TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()]);
+        premultiply_matrix(NULL, TCameraCtrl::view_matrices[TCameraCtrl::get_camera_no()].m);
     } else {
-        premultiply_matrix(0, (uaddr)&TCameraCtrl::view_matrix);
+        premultiply_matrix(NULL, TCameraCtrl::view_matrix.m);
     }
     matrix_mult_vec(NULL, src, dst);
     pop_matrix();

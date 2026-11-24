@@ -1,4 +1,6 @@
+#include "pso/system/SubtractiveRng.h"
 #include "pso/item/MagStats.h"
+#include "pso/system/ResourceFile.h"
 #include "types.h"
 #include <stdio.h>
 #include <string.h>
@@ -16,7 +18,6 @@
 #include "pso/render/render_util.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
-#include "pso/system/SubtractiveRng.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_8010F168.h"
 #include "pso/unk/TLobby_8030A6A8.h"
@@ -27,8 +28,8 @@
 
 struct DifficultyLetters { char *n[4]; };
 
-saddr TItemDrop::relocatable_load_buffer;
-saddr TItemDrop::second_relocatable_load_buffer;
+void *TItemDrop::relocatable_load_buffer;
+void *TItemDrop::second_relocatable_load_buffer;
 ItemDropTable *TItemDrop::common_probability_table;
 ItemDropRareTable *TItemDrop::rare_item_table_file;
 u8 *TItemDrop::unit_star_classes;
@@ -48,8 +49,6 @@ u8 fn_801D71D0(void *);
 u8 fn_801D7204(void *);
 u32 subtractive_rng_next(void *);
 s32 __cvt_fp2unsigned(f32);
-void *load_relocatable_file(char *, saddr);
-f32 calc_random_ratio__10TObjPlayerFv(void *);
 }
 
 extern const f32 item_drop_u16_scale;
@@ -864,9 +863,9 @@ TItemDrop::~TItemDrop() {
     s32 i;
     TItemDrop__sub_8010F168((void *)load_unload_set, 1);
     load_unload_set = 0;
-    TAdSinglePlyChrSelectGC::safe_free(relocatable_load_buffer);
+    safe_free(relocatable_load_buffer);
     relocatable_load_buffer = 0;
-    TAdSinglePlyChrSelectGC::safe_free(second_relocatable_load_buffer);
+    safe_free(second_relocatable_load_buffer);
     second_relocatable_load_buffer = 0;
     for (i = 0; i != 0x11; i++) {
         delete rngs[i];
@@ -895,8 +894,8 @@ TItemDrop::TItemDrop(TObject *parent, s8 section) : TObject(parent) {
         b = __cvt_fp2unsigned(item_drop_u16_scale * (item_drop_rand_reciprocal * (f32)rand()));
         rngs[i] = new SubtractiveRng(a | b);
     }
-    second_relocatable_load_buffer = (saddr)TQuestVmDownLoadServer::alloc(0xC00);
-    relocatable_load_buffer = (saddr)TQuestVmDownLoadServer::alloc(0xC00);
+    second_relocatable_load_buffer = TQuestVmDownLoadServer::alloc(0xC00);
+    relocatable_load_buffer = TQuestVmDownLoadServer::alloc(0xC00);
     load_unload_set = create_load_unload_set(item_drop_load_unload_table);
 }
 

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include <stdio.h>
 #include <string.h>
@@ -25,10 +26,10 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/system/SoundEffect.h"
 
 extern "C" {
 void fn_8025DE10(void *context, NJS_POINT2 *cursor);
-s32 play_sound_effect(int, int, int, int);
 }
 
 char lbl_80543010[0x40];

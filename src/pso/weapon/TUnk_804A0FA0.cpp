@@ -1,14 +1,11 @@
+#include "pso/math/ClampedStep.h"
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TUnk_804A0FA0.h"
-#include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
-
-extern "C" {
-void scale_matrix(s32, f32, f32, f32);
-}
+#include "pso/system/MatrixOps.h"
 
 void TUnk_804A0FA0::vfunc_60() {
     if (get_item_index() == 5) {
@@ -24,13 +21,13 @@ void TUnk_804A0FA0::vfunc_60() {
 
 void TUnk_804A0FA0::update_idle() {
     if (get_item_index() == 5) {
-        TItemEffOrgaFlowShot::approach_value(&blade_scale, 0.2f, 0.0f);
+        ::approach_value(&blade_scale, 0.2f, 0.0f);
     }
 }
 
 void TUnk_804A0FA0::update_attack() {
     if (get_item_index() == 5) {
-        TItemEffOrgaFlowShot::approach_value(&blade_scale, 0.5f, 1.0f);
+        ::approach_value(&blade_scale, 0.5f, 1.0f);
     }
 }
 

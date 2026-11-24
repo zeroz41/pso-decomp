@@ -1,9 +1,11 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "types.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/render/GinjaMaterial.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/door/TObjDoorJung.h"
 #include "pso/object/fence/TObjLazerFenceExtra.h"
@@ -71,10 +73,8 @@ CollisionBody laser_fence_collision_body_parts[2][3] = {
 NJS_TEXLIST *lazer_fence_norm_texture_list;
 BmlResource *lazer_fence_norm_bml_resource;
 
-struct Obj_80192554 { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; saddr model; s32 fC4; saddr fC8[4]; };
+struct Obj_80192554 { u8 pad0[0x38]; f32 f38[3]; u8 pad44[0x24 - 0xC]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; saddr model; s32 fC4; saddr fC8[4]; };
 extern "C" {
-
-void post_translate_matrix(void *);
 
 struct Motion_801926D0 { u8 pad[4]; u32 frames; };
 struct TObjLazerFenceExtra_801926D0 {
@@ -93,7 +93,7 @@ struct Node_80192A3C { u32 flags; void *model; u8 pad8[0x24]; Node_80192A3C *chi
 
 struct Fish_80192A3C { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80192A3C *fBC; Node_80192A3C *bml_model; s32 fC4; void *fC8[4]; };
 
-struct Obj_80192B5C { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 angle; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 frame; saddr fBC; saddr model; saddr motion; saddr fC8[4]; };
+struct Obj_80192B5C { u8 pad0[0x38]; f32 f38[3]; u8 pad44[0x24 - 0xC]; s32 f5C; s32 angle; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 frame; saddr fBC; saddr model; saddr motion; saddr fC8[4]; };
 
 
 struct Motion_80192CCC { u8 pad[4]; u32 frames; };
@@ -141,7 +141,7 @@ void TObjLazerFenceNorm::free_resources() {
     }
     if (lazer_fence_norm_texture_list != NULL) {
         release_texture_list(lazer_fence_norm_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)lazer_fence_norm_texture_list);
+        safe_free(lazer_fence_norm_texture_list);
         lazer_fence_norm_texture_list = NULL;
     }
 }
@@ -223,7 +223,7 @@ void TObjLazerFenceNorm::render() {
 void TObjLazerFenceNorm::draw_model() {
     TObjFish::set_global_param(lazer_fence_norm_texture_list);
     push_matrix();
-    post_translate_matrix((void *)((char *)this + 56));
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(NULL, this->rotation_y);
     draw_ginja_object(this->m_bc);
     pop_matrix();
@@ -363,7 +363,7 @@ void TObjLazerFenceExtra::render() {
 void TObjLazerFenceExtra::render_lazer_fence_model() {
     TObjFish::set_global_param(lazer_fence_norm_texture_list);
     push_matrix();
-    post_translate_matrix((void *)((char *)this + 56));
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(NULL, this->rotation_y);
     draw_ginja_object(*(void * *)&this->base_model);
     pop_matrix();

@@ -40,7 +40,7 @@ TObjBoss2RaftSplash::TObjBoss2RaftSplash(TObject *parent, const Vec *position, c
 // The particle helpers below share this TU's .sdata2 pool: -5.0f (0x805D85D8, before the pad that
 // ends the pool) is used by TObjBoss2CeilJunk::create_particle and TObjBoss2Tunnel::release_splash_children,
 // and the .text runs on without a pool of its own (twin: TObjBoss7RaftSplash.cpp).
-void TObjBoss2CeilJunk::create_particle(const void *position, s32 particle_index) {
+void TObjBoss2CeilJunk::create_particle(const Vec *position, s32 particle_index) {
     TObjBoss2Tunnel::create_particle_effect(position, particle_index, -5.0f);
 }
 
@@ -54,7 +54,7 @@ void TObjBoss2RaftSplash::spawn_splash(const Vec *position, s32 particle_index, 
     }
 }
 
-void TObjBoss2Tunnel::create_particle_effect(const void *position, s32 particle_index, f32 speed) {
+void TObjBoss2Tunnel::create_particle_effect(const Vec *position, s32 particle_index, f32 speed) {
     TParticleCtrl *particle;
 
     particle = new TParticleCtrl(static_cast<const Vec *>(position), TParticleCtrl::get_particle_by_index(particle_index), 1, 0, 0, 1, 0x40);

@@ -1,42 +1,30 @@
+#include <dolphin/os/OSCache.h>
+#include "pso/ui/UISprite.h"
 #include "types.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/render/GinjaModel.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/math/AngleLookup.h"
 
-struct Ent_8023DD0C { u8 type; u8 pad[3]; u32 f4; };
-
-struct Tbl_8023DD0C { Ent_8023DD0C *entries; u32 count; };
-
-struct Ent_8023DD60 { u8 type; u8 pad[3]; u32 f4; };
-
-struct Tbl_8023DD60 { Ent_8023DD60 *entries; u32 count; };
-
 struct UV_8023DDC8 { s16 u; s16 v; };
-
-struct Spr_8023E0FC { s16 x0, y0, cx, cy, u0, v0, u1, v1; u8 pad[4]; };
-
-struct Self_8023E0FC { f32 x, y; u8 pad8[4]; f32 sx, sy; s32 rot; u8 pad18[4]; Spr_8023E0FC *sprs; };
 
 struct Vtx_8023E0FC { f32 x, y, z, u, v; s32 color; };
 
 struct Info_8023E0FC { f32 x, y, z; f32 dx1, dy1, dx2, dy2; f32 pad; f32 u, v, du1, dv1, du2, dv2; u8 pad2[8]; };
 
 extern "C" {
-s32 has_texture_scroll_entry(Tbl_8023DD0C *t, u16 id);
-void set_ginja_texture_wrap_repeat(Tbl_8023DD60 *t);
-void DCFlushRangeNoSync(void *, u32);
 
-s32 has_texture_scroll_entry(Tbl_8023DD0C *t, u16 id) {
+s32 has_texture_scroll_entry(const GinjaDrawRecord *record, u16 id) {
     s32 found = 0;
-    if (t != 0) {
-        Ent_8023DD0C *e = t->entries;
+    if (record != NULL) {
+        const GinjaParameter *e = record->parameters;
         u32 i;
-        for (i = 0; i < t->count; i++) {
-            if (e->type == 8 && id == (e->f4 & 0x1FFF)) {
+        for (i = 0; i < record->parameter_count; i++) {
+            if (e->kind == 8 && id == (e->value & 0x1FFF)) {
                 found = 1;
             }
             e++;
@@ -45,35 +33,34 @@ s32 has_texture_scroll_entry(Tbl_8023DD0C *t, u16 id) {
     return found;
 }
 
-void set_ginja_texture_wrap_repeat(Tbl_8023DD60 *t) {
-    if (t != 0) {
-        Ent_8023DD60 *e = t->entries;
+void set_ginja_texture_wrap_repeat(GinjaDrawRecord *record) {
+    if (record != NULL) {
+        GinjaParameter *e = record->parameters;
         u32 i;
-        for (i = 0; i < t->count; i++, e++) {
-            if (e->type == 8) {
-                e->f4 &= ~0xC0000;
-                e->f4 |= 0x40000;
-                e->f4 &= ~0x30000;
-                e->f4 |= 0x10000;
+        for (i = 0; i < record->parameter_count; i++, e++) {
+            if (e->kind == 8) {
+                e->value &= ~0xC0000;
+                e->value |= 0x40000;
+                e->value &= ~0x30000;
+                e->value |= 0x10000;
             }
         }
     }
 }
 
-void scroll_ginja_mesh_uvs(void *model, s32 du, s32 dv, u16 cmd, s32 rewrite) {
-    GinjaModel *self = static_cast<GinjaModel *>(model);
+void scroll_ginja_mesh_uvs(GinjaModel *self, s32 du, s32 dv, u16 cmd, s32 rewrite) {
     s32 found = 0;
     GinjaVertexArray *a;
-    if (self->primary != 0 && has_texture_scroll_entry((Tbl_8023DD0C *)(self->primary), cmd) == 1) {
+    if (self->primary != 0 && has_texture_scroll_entry(self->primary, cmd) == 1) {
         found = 1;
         if (rewrite != 0) {
-            set_ginja_texture_wrap_repeat((Tbl_8023DD60 *)(self->primary));
+            set_ginja_texture_wrap_repeat(self->primary);
         }
     }
-    if (self->secondary != 0 && has_texture_scroll_entry((Tbl_8023DD0C *)(self->secondary), cmd) == 1) {
+    if (self->secondary != 0 && has_texture_scroll_entry(self->secondary, cmd) == 1) {
         found = 1;
         if (rewrite != 0) {
-            set_ginja_texture_wrap_repeat((Tbl_8023DD60 *)(self->secondary));
+            set_ginja_texture_wrap_repeat(self->secondary);
         }
     }
     if (found != 0) {
@@ -169,12 +156,11 @@ void TObjPlayer__sub_8023E034(void **arg0) {
 }
 #pragma push
 #pragma fp_contract on
-void TObjPlayer::draw_compass_sprite(s32 idx, s32 color, s32 flags, f32 z) {
-    Self_8023E0FC *self = (Self_8023E0FC *)this;
+void draw_compass_sprite(const NJS_SPRITE *sprite, s32 idx, s32 color, s32 flags, f32 depth) {
     Vtx_8023E0FC v[4];
     Info_8023E0FC info;
     s32 i;
-    Spr_8023E0FC *s;
+    const NJS_TEXANIM *s;
     f32 x;
     f32 y;
     f32 l;
@@ -186,21 +172,21 @@ void TObjPlayer::draw_compass_sprite(s32 idx, s32 color, s32 flags, f32 z) {
     f32 u0, v0, u1, v1;
     f32 cx, cy;
     for (i = 0; i < 4; i++) {
-        v[i].z = 1.0f / -z;
+        v[i].z = 1.0f / -depth;
         v[i].color = color;
     }
-    s = &self->sprs[idx];
+    s = &sprite->tanim[idx];
     cx = s->cx;
     cy = s->cy;
-    l = -cx * self->sx;
-    t = -cy * self->sy;
-    r = self->sx * (s->x0 - cx);
-    b = self->sy * (s->y0 - cy);
-    x = self->x;
-    y = self->y;
+    l = -cx * sprite->sx;
+    t = -cy * sprite->sy;
+    r = sprite->sx * (s->sx - cx);
+    b = sprite->sy * (s->sy - cy);
+    x = sprite->p.x;
+    y = sprite->p.y;
     if (flags & 1) {
-        sn = sin_table_lookup(self->rot);
-        cs = cos_table_lookup(self->rot);
+        sn = sin_table_lookup(sprite->ang);
+        cs = cos_table_lookup(sprite->ang);
         v[0].x = (cs * l + x) + sn * t;
         v[1].x = (cs * l + x) + sn * b;
         v[2].x = (cs * r + x) + sn * t;
@@ -219,10 +205,10 @@ void TObjPlayer::draw_compass_sprite(s32 idx, s32 color, s32 flags, f32 z) {
         v[3].x = x + r;
         v[3].y = y + b;
     }
-    u0 = (f32)s->u0 / 255.0f;
-    v0 = (f32)s->v0 / 255.0f;
-    u1 = (f32)s->u1 / 255.0f;
-    v1 = (f32)s->v1 / 255.0f;
+    u0 = (f32)s->u1 / 255.0f;
+    v0 = (f32)s->v1 / 255.0f;
+    u1 = (f32)s->u2 / 255.0f;
+    v1 = (f32)s->v2 / 255.0f;
     v[0].u = u0;
     v[0].v = v0;
     v[1].u = u0;
@@ -233,7 +219,7 @@ void TObjPlayer::draw_compass_sprite(s32 idx, s32 color, s32 flags, f32 z) {
     v[3].v = v1;
     info.x = v[0].x;
     info.y = v[0].y;
-    info.z = z;
+    info.z = depth;
     info.dx1 = v[1].x - v[0].x;
     info.dy1 = v[1].y - v[0].y;
     info.dx2 = v[2].x - v[0].x;

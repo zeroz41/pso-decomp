@@ -22,6 +22,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/render/GinjaTexture.h"
 
 
 typedef struct Coll_800C4A5C {
@@ -67,7 +68,6 @@ typedef struct Obj_800C55E0 {
 extern "C" {
 
 void * player_render_texture_buffer;
-void release_texture_list(void *);
 
 extern const char TObjEneRe2Flower_EffCurse3__class_name_string[0x1C] = "TObjEneRe2Flower_EffCurse3";
 const char *TObjEneRe2Flower_EffCurse3__name = TObjEneRe2Flower_EffCurse3__class_name_string;
@@ -121,7 +121,7 @@ __declspec(section ".data") Node_800C4D88 lbl_80500C30;
 void TObjPlayer__sub_800C4D44(void) {
     void *p = &lbl_80500C30;
     if (p != 0) {
-        release_texture_list(p);
+        release_texture_list((NJS_TEXLIST *)p);
     }
     if (player_render_texture_buffer != 0) {
         mem_free(player_render_texture_buffer);

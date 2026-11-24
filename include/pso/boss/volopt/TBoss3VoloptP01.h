@@ -57,11 +57,6 @@ struct TBoss3VoloptP01CollisionPart {
     s32 pad_28;
 };
 
-struct TBoss3VoloptBreakupParams {
-    s32 pad_0;
-    f32 pad_4[6];
-};
-
 struct TBoss3VoloptP01 : public TObjEnemyCustom {
     TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 group);
     TBoss3VoloptP01(TObject *parent, void *set_data);

@@ -27,7 +27,13 @@ struct Boss6PartMotion {
     void copy_from(Boss6PartMotion *src);
 };
 struct TBoss6GravBall;
-struct Blk_802B8624;
+struct Boss6Type1MotionState {
+    s32 motion_set;
+    s32 motion_mode;
+    Boss6PartMotion part_motions[2];
+};
+
+LAYOUT_ASSERT(Boss6Type1MotionStateSize, sizeof(Boss6Type1MotionState) == 0x40);
 
 // The three bytes an attack choice fills (init_attack_params / randomize_attack) and send_6xA4_action
 // sends as the action's Boss6PolarBytes: heading byte, radius and height in units of ten.
@@ -41,8 +47,10 @@ struct Boss6Point {
     Vec v;
 };
 
+struct Boss6BodySpawnParams;
+
 struct TBoss6Type1 : public TObjEnemy {
-    TBoss6Type1(TObject *parent, saddr *params);
+    TBoss6Type1(TObject *parent, Boss6BodySpawnParams *params);
     virtual ~TBoss6Type1();
     void render_laser();
     void set_action_state(s32);
@@ -77,9 +85,7 @@ struct TBoss6Type1 : public TObjEnemy {
     Boss6Point target_position;  // OlgaFlowActionMsg's decoded target
     Boss6Point pad_42C;  // set to boss6_type1_origin by the constructor
     s32 attack_mode;   // OlgaFlowActionMsg::attack_mode
-    s32 motion_set;    // row of TBoss6Type1__motion_set_table
-    s32 motion_mode;   // that row's mode: 0 loops, 2 holds the last frame and goes on to the row's next set
-    Boss6PartMotion part_motions[2];
+    Boss6Type1MotionState motion_state;
     s32 beam_damage;   // base damage of update_beam_attack's hit, name inferred
     s32 sweep_damage; // base damage of the swept-arm hit test (TBoss6Type1__sub_802B715C), name inferred
     s32 laser_damage;  // base damage of check_laser_hits (FLLSR_MV), name inferred
@@ -162,13 +168,13 @@ struct TBoss6Type1 : public TObjEnemy {
     void draw_part_motions();
     void set_motion_set(s32 set);
     void advance_animations();
-    static Blk_802B8624 *copy_block(Blk_802B8624 *d, const Blk_802B8624 *s);
+    static Boss6Type1MotionState *copy_block(Boss6Type1MotionState *d, const Boss6Type1MotionState *s);
     void render_shadows();
     void do_attack();
     void send_6xA4_action(s32 t, const Boss6Type1AttackTarget *src);
     void load_params(const OlgaFlowActionMsg *message);
     void set_sync_data(OlgaFlowActionMsg *message);
-    static TBoss6Type1 *create(saddr arg0);
+    static TBoss6Type1 *create(Boss6BodySpawnParams *params);
     void enter_flag800_state();
     void update_attack_countdown();
     void update_countdown_state();

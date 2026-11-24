@@ -1,3 +1,4 @@
+#include "pso/system/SubtractiveRng.h"
 #include "types.h"
 #include "pso/boss/TUnk_804E4BF0.h"
 #include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
@@ -9,13 +10,12 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/SubtractiveRng.h"
 #include "pso/object/base/TObjBase.h"
 
 extern "C" {
 // TObjPlayer_80011014.h declares these, but its calc_random_ratio prototype takes no rng.
 BOOL is_split_screen(void);
-f32 calc_random_ratio__10TObjPlayerFv(void *);
-void subtractive_rng_seed(void *, s32);
 }
 
 TUnk_804E4BF0 *boss8_dragon_leader_part;
@@ -44,7 +44,7 @@ void TBoss8Dragon::place_parts_in_ring(s32 n, s32 hp, s32 seed) {
     __ct__14SubtractiveRngFv(buf);
     if (n <= 5 && boss8_dragon_leader_part != NULL) {
         subtractive_rng_seed(buf, seed);
-        ang = (s32)(65535.0f * calc_random_ratio__10TObjPlayerFv(buf));
+        ang = (s32)(65535.0f * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(buf)));
         step = 0x10000 / (n + 1);
         leader = (TBoss8Dragon *)get_enemy_entity(boss8_dragon_leader_part->get_part_entity_id(0));
         leader->position.x = 320.0f * sin_table_lookup(ang);

@@ -27,6 +27,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/weapon/WeaponSpecialSelection.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/technique/TechniqueParams.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
 struct Win_802758C8 {
@@ -65,14 +67,12 @@ s32 *get_shared_text_buffer(void);
 u8 get_cast_technique_level(void *, s16);
 void text_builder_append_int(s32);
 void text_builder_append();
-u8 *calc_technique_parameters(u16, u8, s32);
 }
 
 void text_builder_reset();
 s32 get_palette_consumable_count(u16, s32);
 
 extern "C" {
-void *get_window_layout_position(s32);
 extern const f32 lbl_8044F718[2] = {190.0f, 168.0f};
 }
 
@@ -198,7 +198,7 @@ void TCustomizeMenuCtrl::update_customize_help_text(void *ev_arg) {
         }
         get_help_text_string(0x2E);
         text_builder_append();
-        text_builder_append_int(*(s16 *)(calc_technique_parameters(ev->id, lvl, 0xFFFF) + 0x10));
+        text_builder_append_int(calc_technique_parameters(ev->id, lvl, 0xFFFF)->tp_cost);
         get_help_text_string(ev->id);
         text_builder_append();
         break;

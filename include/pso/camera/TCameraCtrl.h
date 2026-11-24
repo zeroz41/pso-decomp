@@ -153,7 +153,7 @@ public:
     static void restore_saved_view();
     static u16 get_camera_target_id(s32 view);
     static void apply_split_screen_view_matrix();
-    static s32 *get_view_matrix();
+    static const f32 (*get_view_matrix())[4];
     static void create();
     static void reset_default_view();
     static void init_default_view();

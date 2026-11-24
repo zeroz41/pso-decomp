@@ -11,12 +11,12 @@
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/unk/TLobby_801461EC.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
 
 void clear_state(void);
 extern "C" {
 
 extern u8 lobby_scroll_text_buffer[];
-extern void *lobby_scroll_text_window;
 
 
 void TLobby::dispatch_by_index(s32 arg0) {

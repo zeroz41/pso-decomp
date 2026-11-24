@@ -19,7 +19,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -38,6 +37,11 @@
 #include "pso/network/client_id.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/render/render_util.h"
+#include "pso/render/model_render_state.h"
+#include "pso/enemy/EnemyTargeting.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/render_util.h"
@@ -92,7 +96,7 @@ void TObjNpcBase::setup_common() {
     init_collision_body_parts(this, &npc_base_collision_body_desc, 1);
     register_object_by_id();
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     apply_set_params(0, 1);
 }
 
@@ -107,7 +111,7 @@ void TObjNpcBase::interact(u16 client) {
                 phase = 0;
                 interactor = client;
                 targetId = client;
-                target = (u8 *) player;
+                target = player;
                 if ((s32) targetId == local_client_id) {
                     send_impose_hold(player, -1);
                 }
@@ -310,7 +314,7 @@ void TObjNpcBase::update_wandering() {
         f32 r;
         enemy_turn_toward_dest(((NpcMovementParameters *)movementParameters)->turn_speed);
         enemy_set_heading_velocity(((NpcMovementParameters *)movementParameters)->speed, this, rotation_y);
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         if (is_passing_frame(1.0f) != 0 || is_passing_frame(15.0f) != 0) {
             play_voice();
         }
@@ -393,7 +397,7 @@ void TObjNpcBase::refresh_target() {
             {
                 u32 id = targetId;
                 if (id != 0xFFFF) {
-                    target = (u8 *)get_player_by_client_id(id);
+                    target = get_player_by_client_id(id);
                 } else {
                     target = 0;
                 }
@@ -469,7 +473,7 @@ void TObjNpcBase::run_task() {
     }
     advance_animation();
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     if (message_label > 0 && TRaderMapCore::is_not_split_screen() == 0) {
         submit_cursor_candidate(this, -1);
     }

@@ -11,6 +11,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/switch/TSwitch.h"
@@ -56,7 +57,6 @@ struct Sw_801778A8 {
 
 extern "C" {
 extern const char *TOSwitchAttack__name;
-f32 horizontal_distance_squared(void *, void *);
 
 void TOSwitchAttack::render() {  }
 
@@ -102,7 +102,7 @@ void TOSwitchAttack::run_task() {
             p = (VObj_801778A8 *)resolve_hittable_target(i, 0);
             if (p != NULL) {
                 if (((TObjPlayer *)p)->get_floor() == get_current_floor() &&
-                    horizontal_distance_squared((u8 *)p + 0x38, &o->pos) < o->f94) {
+                    horizontal_distance_squared(&((TObjPlayer *)p)->position, &o->pos) < o->f94) {
                     Atk_801778A8 b;
                     b.a = 0;
                     b.v = o->f98;

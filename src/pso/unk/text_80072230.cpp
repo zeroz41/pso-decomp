@@ -4,6 +4,7 @@
 #include "pso/quest/challenge/TChallenge.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 
 #include <stddef.h>
 
@@ -40,7 +41,6 @@ struct Pkt7C_80072230 { u32 hdr; u16 id; u8 pad6[2]; ChallengeRecord recs; };
 
 extern "C" {
 void TLobby__sub_800728FC(u8 *arg0);
-extern s32 local_client_id;
 void TLobby__sub_80072880(u8 *arg0);
 void TLobby__sub_800727EC(u8 *arg0);
 void handle_6x8A_show_challenge_time_records_window(Pkt_80072494 *pkt);

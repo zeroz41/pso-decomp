@@ -10,6 +10,9 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/player/PlayerSlots.h"
+#define PSO_SDK_COMPACT_MATH
+#include "pso/render/NinjaUtil.h"
+#undef PSO_SDK_COMPACT_MATH
 
 extern "C" {
     extern int duel_result_window;
@@ -61,7 +64,6 @@ struct Ply_801C51D4 { u8 pad[0x30]; u32 flags; u8 pad34[4]; f32 pos[3]; };
 struct Self_801C51D4 { u8 pad[0x1C]; s32 life; s32 timer; Ply_801C51D4 *owner; };
 
 extern "C" {
-f32 xz_distance_squared(void *, void *);
 void *play_sound_effect(s32, s32, s32, s32, f32);
 
 #pragma push
@@ -83,7 +85,7 @@ void TUnk_804C3F48::run_task() {
             for (i = 0; i < 4; i++) {
                 p = (Ply_801C51D4 *)get_player_by_client_id(i);
                 if (p != NULL && p != self->owner && !(p->flags & 0x800)) {
-                    d = xz_distance_squared(self->owner->pos, p->pos);
+                    d = xz_distance_squared((const Vec *)self->owner->pos, (const Vec *)p->pos);
                     min = min < d ? min : d;
                 }
             }

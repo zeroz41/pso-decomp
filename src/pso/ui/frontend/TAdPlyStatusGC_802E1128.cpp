@@ -8,12 +8,12 @@
 #pragma dont_inline off
 
 s32 CharacterPreview::get_hair_model() { return part_models[0]; }
-NJS_TEXLIST *CharacterPreview::get_head_texlist() { return &head_textures.list; }
-s32 CharacterPreview::get_cap_model() { return part_models[1]; }
-s32 CharacterPreview::get_head_model() { return part_models[2]; }
-NJS_TEXLIST *CharacterPreview::get_other_texlist() { return &other_textures.list; }
-s32 CharacterPreview::get_body_model() { return body_model; }
-NJS_TEXLIST *CharacterPreview::get_body_texlist() { return &body_textures.list; }
+NJS_TEXLIST *CharacterPreview::get_chara_making_data() { return &head_textures.list; }
+s32 CharacterPreview::get_head_model() { return part_models[1]; }
+s32 CharacterPreview::get_attachment_model() { return part_models[2]; }
+NJS_TEXLIST *CharacterPreview::get_status_data() { return &other_textures.list; }
+saddr CharacterPreview::get_body_model() { return body_model; }
+NJS_TEXLIST *CharacterPreview::get_status_sub() { return &body_textures.list; }
 
 void TAdPlyStatusGC::set_status_param(CharacterPreview *preview) { ply_status_preview = preview; }
 

@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "types.h"
@@ -28,6 +29,8 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/window/WindowLayout.h"
+#include <stdlib.h>
+#include "pso/map/area/AreaScene.h"
 
 struct Disp_8026F9F4 { u8 p0[0x20]; s16 id; u8 p1[0x42]; void *windows[5]; };
 
@@ -47,7 +50,6 @@ const u32 photon_blast_gauge_ring_color_table[7] = {
     0xFF3C3C3C, 0xFFD8CF00, 0xFFD88A00, 0xFFD84500, 0xFFD80000, 0xFFFFFFFF, 0,
 };
 
-extern s32 hud_texlist;
 
 // inferred: simple_status_window_layout_entries, the layout table simple_status_window_layout
 // points at (frame sprite, two text/value entries, the HP and TP gauges, three icon sprites).
@@ -79,10 +81,9 @@ WindowDescriptor simple_status_window_layout = {
 };
 
 extern "C" {
-void TWindowComCard__set_column(u8 *arg0, s32 arg1);
-void *TWindowComCard__sub_80249ED8(void *, void *, void *, s32, s32, s32);
 void draw_photon_blast_fan(saddr, NJS_POINT2 *, Params_80270244 *, u32, f32, s32, s32, f32);
 void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const NJS_POINT2 *arg2, f32 farg0, f32 farg1);
+}
 struct VtBase4_8026f71c_more_8026f8cc_0 { void *vtable; };
 
 struct VObj3_8026f71c_more_8026f8cc_0 : VtBase4_8026f71c_more_8026f8cc_0 { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); };
@@ -139,6 +140,7 @@ struct Slots_80270060 { s32 type[4]; u32 id[4]; };
 
 struct Rect_80270394 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
 
+extern "C" {
 s32 get_photon_blast_chain(Slots_80270060 *);
 s32 TLobby__sub_801C19D0(void *);
 s32 TWindowSubComCard__sub_802452DC(s32);
@@ -150,12 +152,9 @@ s32 get_status_effect_icon_index(u32 arg0);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 extern "C" {
 void update_lockon_window(u8 *arg0);
-s32 rand(void);
 void begin_screen_draw(s32 mode);
 s32 draw_textured_quad_at_depth(Rect_80270394 *, f32);
 void set_draw_texture_and_color(s32 idx, s32 color);
-
-extern s32 lobby_rule_settings[];
 
 void TWindowSubStatusDisp::start_hp_text_color_transition() {
     u8 *arg0 = (u8 *)this;
@@ -313,9 +312,9 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
 #pragma push
 #pragma fp_contract on
 void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *arg1, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
-    ColorLineVertex verts[3];
-    ColorLineList prim;
-    u32 colors[3];
+    NJS_POINT2 verts[3];
+    NJS_POINT2COL prim;
+    NJS_COLOR colors[3];
     s32 end = arg5;
     s32 angle = arg4;
     f32 amp_x;
@@ -325,11 +324,11 @@ void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *arg1, Params_
     depth = ((TWindowSimpleStatus *)window_simple_status)->draw_depth + 0.299f * arg6;
     amp_x = arg7 * arg2->f28;
     amp_y = arg7 * arg2->f2c;
-    prim.verts = verts;
-    prim.colors = colors;
+    prim.p = verts;
+    prim.col = colors;
     prim.tex = NULL;
-    prim.count = 1;
-    colors[2] = colors[1] = colors[0] = (arg3 << 8) | (arg3 >> 24);
+    prim.num = 1;
+    colors[2].color = colors[1].color = colors[0].color = (arg3 << 8) | (arg3 >> 24);
     verts[0].x = arg2->f20 + arg2->f28 * (arg1->x - arg2->f20);
     verts[0].y = arg2->f24 + arg2->f2c * (arg1->y - arg2->f24);
     verts[2].x = amp_x * cos_table_lookup(angle) + verts[0].x;
@@ -343,7 +342,7 @@ void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *arg1, Params_
         }
         verts[2].x = amp_x * cos_table_lookup(angle) + verts[0].x;
         verts[2].y = amp_y * sin_table_lookup(angle) + verts[0].y;
-        draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&prim), 3, 2, depth);
+        draw_polygon_2d(&prim, 3, 2, depth);
     }
 }
 #pragma pop
@@ -518,7 +517,7 @@ void TWindowSimpleStatus::draw_background(u8 *ctx) {
     size.y = 35.0f;
     scale = -1.0f / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(0xB, *(s32 *)((s8 *)ctx + 0x34));
     r.x0 = pos.x;
     r.y0 = pos.y;
@@ -539,7 +538,6 @@ void TWindowSimpleStatus::draw_background(u8 *ctx) {
 }
 
 extern "C" {
-extern u8 __vt__19TWindowSimpleStatus[];
 s32 update_hp_tp_level__20TWindowSubStatusDispFv();
 
 void TWindowSimpleStatus::render() {

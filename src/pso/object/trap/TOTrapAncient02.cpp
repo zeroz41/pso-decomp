@@ -18,13 +18,13 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/technique/TTecZonde.h"
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecGiFoie.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/ui/frontend/TAdEnterPasswordGC.h"
+#include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
@@ -75,7 +75,7 @@ const char *TOTrapAncient02R__name = "TOTrapAncient02R";
 
 BmlResource *TOTrapAncient02__shared_resource;
 s32 lbl_805D5ADC;   // the actor_frame_tick the uv scroll last ran on
-void *lbl_805D5AE0; // the model vfunc_84 scrolls the uvs of
+GinjaModel *lbl_805D5AE0; // the model vfunc_84 scrolls the uvs of
 s32 lbl_805D5AE4;   // the mesh of it that scrolls
 
 void TOTrapAncient02R::init_trap_object_id() {
@@ -140,7 +140,7 @@ TOTrapAncient02::TOTrapAncient02(TObject *parent, void *set_data) : TOTrap(paren
     apply_object_set_data(set_data);
     init_position_vectors();
     calc_attach_pos();
-    model = (void *)TOTrapAncient02__shared_resource->models->model;
+    model = TOTrapAncient02__shared_resource->models->model;
     texlist = TOTrapAncient02__shared_resource->models->texlist;
     mode = 0;
     phase = 0;
@@ -177,9 +177,9 @@ void TOTrapAncient02::load_resources() {
     switch (get_current_floor_area()) {
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        resource = new BmlResource(1, (BmlResourceDescriptor *)(&records[1].descriptor), 0, 0, NULL);
+        resource = new BmlResource(1, &records[1].descriptor, 0, 0, NULL);
         TOTrapAncient02__shared_resource = resource;
-        lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0), 2)->model;
+        lbl_805D5AE0 = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
         lbl_805D5AE4 = 2;
         lbl_805D5ADC = 0;
         break;
@@ -192,16 +192,16 @@ void TOTrapAncient02::load_resources() {
     case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
-        resource = new BmlResource(1, (BmlResourceDescriptor *)(&records[2].descriptor), 0, 0, NULL);
+        resource = new BmlResource(1, &records[2].descriptor, 0, 0, NULL);
         TOTrapAncient02__shared_resource = resource;
-        lbl_805D5AE0 = find_object_node((NJS_OBJECT *)get_bml_model((BmlResource *)resource, 0), 2)->model;
+        lbl_805D5AE0 = static_cast<GinjaModel *>(find_object_node(get_bml_model(resource, 0), 2)->model);
         lbl_805D5AE4 = 1;
         lbl_805D5ADC = 0;
         break;
     default:
-        resource = new BmlResource(1, (BmlResourceDescriptor *)(&records[0].descriptor), 0, 0, NULL);
+        resource = new BmlResource(1, &records[0].descriptor, 0, 0, NULL);
         TOTrapAncient02__shared_resource = resource;
-        lbl_805D5AE0 = ((NJS_OBJECT *)resource->models->model)->child->child->model;
+        lbl_805D5AE0 = static_cast<GinjaModel *>(resource->models->model->child->child->model);
         lbl_805D5AE4 = 1;
         lbl_805D5ADC = 0;
         break;
@@ -222,7 +222,7 @@ void *TOTrapAncient02::create(void *set_data) {
 void TOTrapAncient02::render() {
     if (TMainTask::get_render_pass() != 1) {
         m_340 = update_object_view_visibility(400.0f, 20.0f);
-        if (m_340 == 1 && (particle_tev == 0 || is_split_screen() != 0 || dispatch_input_to_instance__18TAdEnterPasswordGCFi((saddr)this) == 0)) {
+        if (m_340 == 1 && (particle_tev == 0 || is_split_screen() != 0 || TUnk_804EDAC0::dispatch_input_to_instance(this) == 0)) {
             set_draw_list_mask(3);
             if (particle_tev != 0) {
                 render_particle_chain();
@@ -333,7 +333,7 @@ void TOTrapAncient02::vfunc_81() {
         player = find_nearest_visible_player(this, NULL, range);
         if (player != 0xFFFF) {
             p = get_player_by_client_id(player);
-            target = (u8 *)p;
+            target = p;
             if (target != NULL) {
                 d = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
                 dist = range - TObjPlayer__sub_8017A1A4(p, 0);
@@ -495,7 +495,7 @@ TOTrapAncient02R::TOTrapAncient02R(TObject *parent, void *set_data) : TOTrapAnci
     apply_object_set_data(set_data);
     init_position_vectors();
     calc_attach_pos();
-    model = (void *)TOTrapAncient02__shared_resource->models->model;
+    model = TOTrapAncient02__shared_resource->models->model;
     texlist = TOTrapAncient02__shared_resource->models->texlist;
     mode = 0;
     phase = 0;
@@ -555,7 +555,7 @@ void TOTrapAncient02R::find_target_player() {
     if (switch_id == -1 || is_current_floor_switch_set((u16)switch_id) == 1) {
         player = find_nearest_visible_player(this, NULL, range);
         if (player != 0xFFFF) {
-            target = (u8 *)get_player_by_client_id(player);
+            target = get_player_by_client_id(player);
             if (target != NULL) {
                 if (horizontal_distance_squared(&((TObjBase *)target)->position, &position) < range * range) {
                     mode = 2;
@@ -595,7 +595,7 @@ void TOTrapAncient02R::vfunc_81() {
         player = find_nearest_visible_player(this, NULL, range);
         if (player != 0xFFFF) {
             TObjPlayer *p = get_player_by_client_id(player);
-            target = (u8 *)p;
+            target = p;
             if (target != NULL && p->get_floor() == get_current_floor() &&
                 (((TObjBase *)target)->alt_room == alt_room || ((TObjBase *)target)->room == room ||
                  ((TObjBase *)target)->room == alt_room)) {

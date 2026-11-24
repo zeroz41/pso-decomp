@@ -150,7 +150,7 @@ s32 TObjPlayer::is_valid_and_active(uaddr actor) {
     if (actor == 0U) {
         return 0;
     }
-    if (obj_is_hit_receivable((u8 *)actor)) {
+    if (obj_is_hit_receivable(reinterpret_cast<const TObjCollidable *>(actor))) {
         return 1;
     }
     return 0;
@@ -183,10 +183,10 @@ TechniqueContactList *find_support_technique_contact(TTecPlayerInfluence *self, 
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
         pd = TObjPlayer::get_player_data(i);
         if (pd != 0 && (pd->actorFlags & 0x20000000)) {
-            c = (CollisionBody *)target->find_actor_body_contact((u8 *)pd, range);
+            c = (CollisionBody *)target->find_actor_body_contact(pd, range);
             if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
-                technique_contact_query_results.bodies[technique_contact_query_results.count] = (TechniqueContactBody *)c;
-                technique_contact_query_results.actors[technique_contact_query_results.count] = (TechniqueContactActor *)pd;
+                technique_contact_query_results.bodies[technique_contact_query_results.count] = c;
+                technique_contact_query_results.actors[technique_contact_query_results.count] = pd;
                 if (++technique_contact_query_results.count >= 16) {
                     technique_contact_query_results.count = 15;
                     break;
@@ -211,10 +211,10 @@ TechniqueContactList *TTecPlayerInfluence::gather_player_contacts(TObjCollidable
     for (i = 0; i < 4; i++) {
         pl = get_player_by_client_id(i);
         if (pl != NULL) {
-            c = (CollisionBody *)target->find_actor_body_contact((u8 *)pl, 1e+04f);
+            c = (CollisionBody *)target->find_actor_body_contact(pl, 1e+04f);
             if (c != NULL) {
-                technique_contact_query_results.bodies[technique_contact_query_results.count] = (TechniqueContactBody *)c;
-                technique_contact_query_results.actors[technique_contact_query_results.count] = (TechniqueContactActor *)pl;
+                technique_contact_query_results.bodies[technique_contact_query_results.count] = c;
+                technique_contact_query_results.actors[technique_contact_query_results.count] = pl;
                 if (++technique_contact_query_results.count >= 16) {
                     technique_contact_query_results.count = 15;
                     break;
@@ -245,10 +245,10 @@ TechniqueContactList *find_area_technique_contact(TTecCircle *self, TObjCollidab
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
         pd = TObjPlayer::get_player_data(i);
         if (pd != 0 && (pd->actorFlags & 0x20000000) && pd->get_entity_id() != ((TObjBase *)player)->get_entity_id()) {
-            c = (CollisionBody *)target->find_actor_body_contact((u8 *)pd, range);
+            c = (CollisionBody *)target->find_actor_body_contact(pd, range);
             if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
-                technique_contact_query_results.bodies[technique_contact_query_results.count] = (TechniqueContactBody *)c;
-                technique_contact_query_results.actors[technique_contact_query_results.count] = (TechniqueContactActor *)pd;
+                technique_contact_query_results.bodies[technique_contact_query_results.count] = c;
+                technique_contact_query_results.actors[technique_contact_query_results.count] = pd;
                 if (++technique_contact_query_results.count >= 16) {
                     technique_contact_query_results.count = 15;
                     break;
@@ -288,10 +288,10 @@ TechniqueContactList *TTecCircle::collect_body_contacts(TObjCollidable *target, 
                     }
                 }
                 if (ok != 0 && ((pd->actorFlags & 0x20000000) || (pd->actorFlags & 0x10000000))) {
-                    c = (CollisionBody *)target->find_actor_body_contact((u8 *)pd, 1e+04f);
+                    c = (CollisionBody *)target->find_actor_body_contact(pd, 1e+04f);
                     if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
-                        technique_contact_query_results.bodies[technique_contact_query_results.count] = (TechniqueContactBody *)c;
-                        technique_contact_query_results.actors[technique_contact_query_results.count] = (TechniqueContactActor *)pd;
+                        technique_contact_query_results.bodies[technique_contact_query_results.count] = c;
+                        technique_contact_query_results.actors[technique_contact_query_results.count] = pd;
                         if (++technique_contact_query_results.count >= 16) {
                             technique_contact_query_results.count = 15;
                             break;
@@ -304,10 +304,10 @@ TechniqueContactList *TTecCircle::collect_body_contacts(TObjCollidable *target, 
         for (j = 0; j < 4; j++) {
             e = find_entity_by_id(j);
             if (e != 0 && e->get_entity_id() != ((TObjBase *)player)->get_entity_id() && (e->actorFlags & 0x10000000)) {
-                c = (CollisionBody *)target->find_actor_body_contact((u8 *)e, 1e+04f);
+                c = (CollisionBody *)target->find_actor_body_contact((TObjCollidable *)e, 1e+04f);
                 if (c != 0) {
-                    technique_contact_query_results.bodies[technique_contact_query_results.count] = (TechniqueContactBody *)c;
-                    technique_contact_query_results.actors[technique_contact_query_results.count] = (TechniqueContactActor *)e;
+                    technique_contact_query_results.bodies[technique_contact_query_results.count] = c;
+                    technique_contact_query_results.actors[technique_contact_query_results.count] = e;
                     if (++technique_contact_query_results.count >= 16) {
                         technique_contact_query_results.count = 15;
                         break;
@@ -372,17 +372,17 @@ u8 *TTecShot::query_technique_enemy_contacts(saddr source) {
         if (pd == 0) continue;
         if (pd->actorFlags & 0x20000000) {
             if (pd->get_entity_id() == ((TObjBase *)source)->get_entity_id()) continue;
-            c = (CollisionBody *)collidable->find_actor_body_contact((u8 *)pd, (f32)range);
+            c = (CollisionBody *)collidable->find_actor_body_contact(pd, (f32)range);
             if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
-                technique_contact_query_results.bodies[technique_contact_query_results.count] = (TechniqueContactBody *)c;
-                technique_contact_query_results.actors[technique_contact_query_results.count] = (TechniqueContactActor *)pd;
+                technique_contact_query_results.bodies[technique_contact_query_results.count] = c;
+                technique_contact_query_results.actors[technique_contact_query_results.count] = pd;
                 if (++technique_contact_query_results.count >= 16) {
                     technique_contact_query_results.count = 15;
                     break;
                 }
             }
         } else if ((pd->actorFlags & 0x40000000) && !(pd->actorFlags & 0x80000000)) {
-            if (collidable->find_actor_body_contact((u8 *)pd, (f32)1e+04f) != 0) {
+            if (collidable->find_actor_body_contact(pd, (f32)1e+04f) != 0) {
                 return 0;
             }
         }
@@ -431,10 +431,10 @@ u8 *TTecShot::query_technique_player_contacts(saddr source) {
             pd = TObjPlayer::get_player_data(i);
             if (pd == 0) continue;
             if (pd->get_entity_id() == ((TObjBase *)source)->get_entity_id()) continue;
-            c = (CollisionBody *)collidable->find_actor_body_contact((u8 *)pd, (f32)range);
+            c = (CollisionBody *)collidable->find_actor_body_contact(pd, (f32)range);
             if (c != 0 && ((pd->actorFlags & 0x20000000) || (pd->actorFlags & 0x10000000)) && ((c->flags & 1) || !(c->flags & 0x02000000))) {
-                technique_contact_query_results.bodies[technique_contact_query_results.count] = (TechniqueContactBody *)c;
-                technique_contact_query_results.actors[technique_contact_query_results.count] = (TechniqueContactActor *)pd;
+                technique_contact_query_results.bodies[technique_contact_query_results.count] = c;
+                technique_contact_query_results.actors[technique_contact_query_results.count] = pd;
                 if (++technique_contact_query_results.count >= 16) {
                     technique_contact_query_results.count = 15;
                     break;
@@ -446,10 +446,10 @@ u8 *TTecShot::query_technique_player_contacts(saddr source) {
             e = find_entity_by_id(j);
             if (e == 0) continue;
             if (e->get_entity_id() == ((TObjBase *)source)->get_entity_id()) continue;
-            c = (CollisionBody *)collidable->find_actor_body_contact((u8 *)e, (f32)1e+04f);
+            c = (CollisionBody *)collidable->find_actor_body_contact((TObjCollidable *)e, (f32)1e+04f);
             if (c != 0 && (e->actorFlags & 0x10000000)) {
-                technique_contact_query_results.bodies[technique_contact_query_results.count] = (TechniqueContactBody *)c;
-                technique_contact_query_results.actors[technique_contact_query_results.count] = (TechniqueContactActor *)e;
+                technique_contact_query_results.bodies[technique_contact_query_results.count] = c;
+                technique_contact_query_results.actors[technique_contact_query_results.count] = e;
                 if (++technique_contact_query_results.count >= 16) {
                     technique_contact_query_results.count = 15;
                     break;

@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/map/MapSetArchive.h"
 #include "pso/map/FloorPopulation.h"
@@ -265,28 +266,28 @@ void depart_floor_population() {
         FloorSavedSetRow *d = area->enemy_rows;
         s32 i;
         for (i = 0; i < area->enemy_count; i++, s++, d++) {
-            if (s->id == d->id) {
+            if (s->placement.id == d->id) {
                 d->flags = s->flags;
             }
         }
     }
     if (current_floor_enemy_set_rows != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)current_floor_enemy_set_rows);
+        safe_free(current_floor_enemy_set_rows);
         current_floor_enemy_set_rows = 0;
     }
     if (current_floor_object_set_rows != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)current_floor_object_set_rows);
+        safe_free(current_floor_object_set_rows);
         current_floor_object_set_rows = 0;
     }
 }
 
 void free_item_drop_tables() {
     if (TLobby__data_805D6144 != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TLobby__data_805D6144);
+        safe_free(TLobby__data_805D6144);
         TLobby__data_805D6144 = NULL;
     }
     if (quest_object_entries != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)quest_object_entries);
+        safe_free(quest_object_entries);
         quest_object_entries = NULL;
     }
     if (floor_saved_row_heap != NULL) {
@@ -298,11 +299,11 @@ void free_item_drop_tables() {
         floor_set_archive_pool = NULL;
     }
     if (enemy_set_row_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)enemy_set_row_buffer);
+        safe_free(enemy_set_row_buffer);
         enemy_set_row_buffer = NULL;
     }
     if (object_set_row_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)object_set_row_buffer);
+        safe_free(object_set_row_buffer);
         object_set_row_buffer = NULL;
     }
 }
@@ -350,7 +351,7 @@ void arrive_floor_population() {
         e = current_floor_enemy_set_rows;
         r2 = floor->enemy_rows;
         for (j = 0; j < floor->enemy_count; j++, e++, r2++) {
-            if (e->id == r2->id) {
+            if (e->placement.id == r2->id) {
                 e->flags = r2->flags;
             }
         }

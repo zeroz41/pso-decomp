@@ -1,8 +1,11 @@
 #include "pso/math/CurvePathPoint.h"
+#include "pso/render/NinjaUtil.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/GbaDownloadRuntime.h"
+#include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/player/PlayerState.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -36,6 +39,7 @@
 #include "pso/item/TObjItemOKWindow.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
@@ -879,8 +883,6 @@ s32 __ct__16TPlyGuildCardTagFv(s32);
 s32 TLobby__sub_801036CC();
 void init__9TItemDataFv(Item_801EE77C *);
 s32 advance_item_id_counter(u16);
-f32 xz_distance_squared(Vec *, Vec *);
-f32 xyz_distance_squared(u8 *point_a, u8 *point_b);
 void *find_entity_by_id(u16 id);
 void TOMineTrap__sub_80171368(f32);
 int clear_enabled_main_warps(void*);
@@ -895,11 +897,8 @@ s32 player_flag_1__6TLobbyFv();
 s32 enable_action_input__10TObjPlayerFPv();
 s32 TObjPlayer__sub_801B3FD8();
 s32 TObjPlayer__sub_801B4044();
-void send_code50_packet__10TObjPlayerFi(s32 player);
 s32 send_code_49_1__10TObjPlayerFi();
 void delete_item(void *, s32, s32);
-void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
-u32 TObjPlayer__sub_801BFFA0(void *);
 void TFontSmallLobby__sub_801C013C(void *p);
 s32 send_download_head_d7(TProtocol *, int, int);
 }
@@ -1345,7 +1344,7 @@ void qst_op_wrap_item_with_color() {
     }
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        send_6x29_delete_item__10TObjPlayerFPvii(player, (s32)id, 1);
+        TObjPlayer::send_6x29_delete_item(player, (int)id, 1);
         ((TItemData *)(&item))->set_wrapped();
         ((TItemData *)(&item))->set_present_color(n);
         if (player->can_inventory_accept_item((u8 *)((Item_801EEE68 *)&item)) > 0) {
@@ -1368,7 +1367,7 @@ void qst_op_wrap_item() {
     }
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        send_6x29_delete_item__10TObjPlayerFPvii(player, (s32)id, 1);
+        TObjPlayer::send_6x29_delete_item(player, (int)id, 1);
         ((TItemData *)(&item))->set_wrapped();
         if (player->can_inventory_accept_item((u8 *)((Item_801EEE68 *)&item)) > 0) {
             player->request_inventory_item((TItemData*)((Item_801EEE68 *)&item));
@@ -1408,7 +1407,7 @@ void qst_op_item_delete_noreturn() {
     item_index = qst_args[0];
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        send_6x29_delete_item__10TObjPlayerFPvii(player, (s32)item_index, 1);
+        TObjPlayer::send_6x29_delete_item(player, (int)item_index, 1);
     }
 }
 
@@ -2090,7 +2089,7 @@ void qst_op_check_for_hacking(u8 out) {
         qst_registers[out] |= 8;
     }
     player = ((u8 *)get_player_by_client_id(local_client_id));
-    if (player != NULL && TObjPlayer__sub_801BFFA0(player + 0x41C) != 0) {
+    if (player != NULL && static_cast<u32>(TObjPlayer__sub_801BFFA0(player + 0x41C)) != 0) {
         qst_registers[out] |= 0x10;
     }
 }
@@ -2287,7 +2286,7 @@ void qst_op_player_recovery(s32 reg) {
     player = (saddr)get_player_by_client_id(qst_registers[(u8)reg]);
     if (player != 0) {
         send_code_49_1__10TObjPlayerFi();
-        send_code50_packet__10TObjPlayerFi((player));
+        TObjPlayer::send_code50_packet((player));
     }
 }
 
@@ -2534,7 +2533,7 @@ void qst_op_send_mail(void) {
     ((TLobby *)((saddr)&tag))->init_guild_card_tag();
     fields = new TTokenList(NULL, 0, 0);
     strncpy(buf, (const char *)src, 0x3FF);
-    ((TLobby *)buf)->trim_whitespace();
+    trim_whitespace(buf);
     fields->tokenize_args(buf);
     if (fields->count > 2) {
         delete fields;
@@ -2835,7 +2834,7 @@ void qst_op_set_cmode_rank_override(void) {
     char *src = *(char **)&qst_args[1];
     fields = new TTokenList(NULL, 0, 0);
     strncpy(buf, (const char *)src, 0x1FF);
-    ((TLobby *)buf)->trim_whitespace();
+    trim_whitespace(buf);
     fields->tokenize_args(buf);
     if (fields->count == 2) {
         if (is_split_screen() == 1) {
@@ -2926,21 +2925,21 @@ void qst_op_check_rank_time(u8 src, u8 dst) {
 void qst_op_get_player_proximity(u8 regs, u8 dst) {
     s32 idx;
     f32 range;
-    u8 *self;
-    u8 *other;
+    TObjPlayer *self;
+    TObjPlayer *other;
     s32 field;
     s32 i;
     idx = qst_registers[regs++];
     range = qst_registers[regs];
     qst_registers[dst] = 0;
-    self = (u8 *)get_player_by_client_id(idx);
+    self = get_player_by_client_id(idx);
     if (self != NULL) {
-        field = ((TObjPlayer *)self)->get_floor();
+        field = self->get_floor();
         for (i = 0; i < 12; i++) {
             if (i != idx) {
-                other = (u8 *)get_player_by_client_id(i);
-                if (other != NULL && field == ((TObjPlayer *)other)->get_floor() &&
-                    xyz_distance_squared(self + 0x38, other + 0x38) < range * range) {
+                other = get_player_by_client_id(i);
+                if (other != NULL && field == other->get_floor() &&
+                    xyz_distance_squared(&self->position, &other->position) < range * range) {
                     qst_registers[dst]++;
                 }
             }
@@ -4202,7 +4201,7 @@ void qst_op_nop_A0_debug(void) {
     fields = new TTokenList(NULL, 0, 0);
     buf[0x1FF] = 0;
     ((void (*)(void *, void *, int))strncpy)(buf, s, 0x1FF);
-    ((TLobby *)buf)->trim_whitespace();
+    trim_whitespace(buf);
     fields->parse_csv_line(buf);
     if (fields->count != 2) {
         while (1) {}
@@ -4213,9 +4212,9 @@ void qst_op_cine_disable(void) { TCineCtrl::begin_letterbox_hide(NULL); }
 
 void qst_op_cine_enable(void) { TCineCtrl::begin_letterbox_show(NULL); }
 
-void qst_op_hud_show(void) { TWindowCtrl::unsuppress_slot(*(int *)&local_client_id); TRaderMapCore::show_radar(); }
+void qst_op_hud_show(void) { TWindowCtrl::unsuppress_slot(local_client_id); TRaderMapCore::show_radar(); }
 
-void qst_op_hud_hide(void) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); TRaderMapCore::hide_radar(); }
+void qst_op_hud_hide(void) { TWindowCtrl::suppress_slot(local_client_id); TRaderMapCore::hide_radar(); }
 void qst_op_pl_pkon(void *p) { enable_pk_mode_for_all_players(); }
 
 void qst_op_pl_pkoff(void *p) { disable_pk_mode_for_all_players(); }
@@ -4994,7 +4993,7 @@ void qst_op_list(void) {
     text = *(char **)&qst_args[1];
     list = new TTokenList(NULL, 0, 0);
     ((char * (*)(char *, const char *, u32))strncpy)(buf, text, 0x1FF);
-    ((TLobby *)buf)->trim_whitespace();
+    trim_whitespace(buf);
     list->tokenize_args(buf);
     qst_list_window = (void *)(saddr)create_window_menu_default(get_window_layout_position(0x37), list->count);
     for (i = 0; i < list->count; i++) {
@@ -5301,10 +5300,7 @@ void qst_op_sub(s32 dst, s32 src) {
     qst_registers[(u8)dst] -= qst_registers[(u8)src];
 }
 
-#pragma push
-#pragma scheduling off
 void qst_op_addi(int a0, int a1) { qst_registers[(unsigned char)(a0)] += a1; }
-#pragma pop
 
 void qst_op_add(s32 dst, s32 src) {
     qst_registers[(u8)dst] += qst_registers[(u8)src];

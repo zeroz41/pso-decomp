@@ -11,18 +11,13 @@ struct NJS_OBJECT;
 struct BmlResource;
 struct TObjEneBm3Fly;
 
-// The set entry TObjEneBm3FlyNest::create passes to the constructor; the constructor caps
-// total_num with the s16 at +2.
-struct Bm3FlyNestSetData {
-    u16 unknown_00;
-    s16 unknown_02;
-};
+struct EnemyPlacement;
 
 // The nest of the Bm3 flies: it keeps up to six TObjEneBm3Fly children alive (start_num at
 // first, total_num in all, both from its set parameters) and sends TObjEneBm3FlyNest_CarryFly
 // effects out when it is hit.
 struct TObjEneBm3FlyNest : public TObjEneDD {
-    TObjEneBm3FlyNest(TObject *parent, Bm3FlyNestSetData *set_data);
+    TObjEneBm3FlyNest(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneBm3FlyNest();
     virtual void run_task();
     virtual void render();

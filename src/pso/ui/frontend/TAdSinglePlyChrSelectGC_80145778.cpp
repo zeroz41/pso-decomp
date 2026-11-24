@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/render/GinjaTextureInput.h"
 #pragma readonly_strings on
 
@@ -32,7 +33,7 @@ typedef struct Glyph_80145804 {
 
 extern "C" {
 extern NJS_TEXLIST menu_font_texture_list[];
-s32 menu_font_glyph_data;
+u8 *menu_font_glyph_data;
 s16 *menu_font_palette;
 s32 menu_font_upload_flags;
 Glyph_80145804 *menu_font_glyph_table;
@@ -50,7 +51,7 @@ void TAdSinglePlyChrSelectGC::free_resources() {
     release_texture_list(menu_font_texture_list);
     mem_free((void *)menu_font_glyph_table);
     mem_free((void *)menu_font_palette);
-    TAdSinglePlyChrSelectGC::safe_free(menu_font_glyph_data);
+    safe_free(menu_font_glyph_data);
 }
 #pragma pop
 
@@ -94,7 +95,7 @@ void load_menu_font(void) {
     u32 u;
     u32 v;
     TLobby::load_font_texture();
-    menu_font_glyph_data = (saddr)load_disc_file("S18all04.fon");
+    menu_font_glyph_data = load_disc_file("S18all04.fon");
     TLobby::release_menu_font();
     for (i = 0; i < 2; i++) {
         menu_font_render_rects[i].set_render_rect(NULL, 0x208, 0x100, 0x100);

@@ -71,6 +71,13 @@
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/object/base/CollisionActorLookup.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/math/ScratchVectors.h"
+#define PSO_SDK_COMPACT_MATH
+#include "pso/effect/TEffect.h"
+#undef PSO_SDK_COMPACT_MATH
 extern "C" void *__ct__16TargetCursorListFv(void *list);
 extern "C" void *__ct__18TargetCursorRecordFv(void *p);
 
@@ -146,11 +153,9 @@ void draw_chunk_object(void);
 
 struct VOff_8013B524_arg0_8013B524 { char pad_0[0x4C]; char f_4C[1]; };
 
-s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_y(s32, s32);
 
 s32 check_visible__11TMainCursorFv(void *, void *, s32, s32);
-void *find_entity_by_id(u16 id);
 u8 get_cast_technique_level(void *, s32);
 s16 TObjPlayer__sub_801B5AF8(TObjPlayer *player, s32 index);
 void set_cursor_id__11TMainCursorFs(void *, u16);
@@ -165,7 +170,6 @@ struct Target_8013B70C {
 };
 
 extern "C" {
-extern u8 shared_effect_texture_list[];
 
 extern "C" void render__7TObjectFv();
 extern "C" void render_shadows__7TObjectFv();
@@ -210,10 +214,8 @@ s32 get_rader_map__11TMainCursorFv(void *, void *);
 struct Coll_8013C288 { u8 pad0[0xC]; f32 radius; u8 pad10[0x18 - 0x10]; u32 flags; u8 pos[0x2C - 0x1C]; };
 
 extern "C" {
-u8 * csnVector(s32, s32, s32);
 f32 vec3_dot(void *, void *);
 s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist);
-extern Vec scratch_vec;
 s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist);
 s32 TMainCursor__sub_8013F168(void *);
 s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 *target, TUnk_8013EF0C *best);
@@ -222,7 +224,6 @@ s32 quick_sort_partition__11TMainCursorFiPvii(saddr self, Ent_8013C678 *a, s32 l
 void TMainCursor__sub_8013F170(void *p, s32 v);
 void clear_target_cursor_list(void *p);
 
-s32 is_key_machine_ready__10TObjPlayerFv();
 s32 TMainCursor__sub_8013E2A0(void *list);
 s16 TMainCursor__sub_8013E298(void *entry);
 s16 get_action_entry_index(void *entry);
@@ -540,7 +541,7 @@ void TLockOnCursor::renderSecondaryCursor(u8 *body, s32 type, s32 action) {
         if (player != 0U) {
             temp_r3_2 = check_visible__11TMainCursorFv((void *)(player + 0x500), (void *)player, type, action);
             if (temp_r3_2 != -1) {
-                TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(&shared_effect_texture_list));
+                TObjFish::set_global_param(&shared_effect_texture_list);
                 y = *(f32 *)((s8 *)body + 0xC);
                 push_matrix();
                 offset_point_toward_camera((Vec *)(body + 0x1C), (Vec *)&sp8, (f32)y);
@@ -927,7 +928,7 @@ void TMainCursor::bind_action_channels() {
         type = get_action_palette_tag_mode(&self->channel);
         enabled = get_action_palette_tag_slot(&self->channel);
         if (is_current_area_item_enabled() == 0) {
-            if (is_key_machine_ready__10TObjPlayerFv() == 0) {
+            if (TObjPlayer::is_key_machine_ready() == 0) {
                 return;
             }
             if (type != 4) {
@@ -1149,7 +1150,7 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
 }
 
 void init_target_vector__11TMainCursorFiii(s32 arg0, s32 to, s32 from) {
-    csnVector(from, to, 0x28A0);
+    csnVector((const Vec *)from, (const Vec *)to, 0x28A0);
 }
 
 }
@@ -1377,7 +1378,7 @@ void TMainCursor::render() {
     default:
         return;
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(shared_effect_texture_list));
+    TObjFish::set_global_param(&shared_effect_texture_list);
     render__11TMainCursorFPv((TMainCursor *)arg0);
 }
 

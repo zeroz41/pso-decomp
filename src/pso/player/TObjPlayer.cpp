@@ -1,3 +1,4 @@
+#include "pso/player/PlayerState.h"
 #include "pso/player/TPlayerReadyCallback.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/memory.h"
@@ -7,18 +8,11 @@
 #include "pso/player/TPlayerLobbyMarker.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/ui/window/TWindowActionPalette.h"
-#include "pso/player/TObjPlayer_801BF8EC.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/player/TObjPlayer_801BF918.h"
 #include "pso/player/TPlyDispData.h"
-#include "pso/player/TObjPlayer_801BF978.h"
 #include "pso/unk/text_80072004.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
-#include "pso/player/TObjPlayer_801BFAD4.h"
-#include "pso/player/TObjPlayer_801BFB1C.h"
-#include "pso/player/TObjPlayer_801BFE50.h"
-#include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/unk/TLobby.h"
@@ -129,11 +123,11 @@ Vec *PlayerScaleState::get_scale() { return &scale; }
 
 s16 PlayerAnimationState::get_action_id() { return action_id; }
 
-u8 TObjPlayer__sub_801BF918(u8 *record) {
+s32 TObjPlayer__sub_801BF918(u8 *record) {
     return (u8) (*(s32 *)((s8 *)record + 4) == 2);
 }
 
-void TObjPlayer__sub_801BF914(void) {  }
+Vec *TObjPlayer__sub_801BF914(Vec *position) { return position; }
 
 void TObjPlayer__sub_801BF8F8(s32 *p) {
     s32 i;
@@ -574,9 +568,7 @@ void PlayerScaleState::set_scale(f32 scale) {
     this->scale.x = scale;
 }
 
-
 PlayerCameraOffsets::PlayerCameraOffsets() {}
-
 
 PlayerCameraOffset::PlayerCameraOffset() {
     z = TObjPlayer__data_805DC278;

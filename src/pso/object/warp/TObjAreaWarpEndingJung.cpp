@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/unk/TLobby_800FD78C.h"
@@ -211,7 +212,7 @@ void load_forest_warp_resources(void) {
 void TObjWarpBase::free_globals() {
     if (forest_warp_texture_list != NULL) {
         release_texture_list(forest_warp_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)forest_warp_texture_list);
+        safe_free(forest_warp_texture_list);
         forest_warp_texture_list = NULL;
     }
     delete forest_warp_bml_resource;

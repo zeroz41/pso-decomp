@@ -28,6 +28,7 @@ struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/darkfalz/TOBoss4.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "dolphin/mtx.h"
@@ -177,7 +178,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     uaddr attachment;
     s32 attachment_textures;
     void *body;
-    s32 body_textures;
+    NJS_TEXLIST *body_textures;
 
     if (0.0f == alpha) {
         return;
@@ -195,12 +196,12 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     attachment_textures = (saddr)player->attachment_textures;
     hair = player->hair_model;
     attachment = player->attachment_model;
-    body_textures = (saddr)player->body_textures;
+    body_textures = &player->body_textures;
     TObjDFTenchuFuru::draw_node_tree((NJS_OBJECT *)body);
     if (alpha < 1.0f) {
         TObjPlayer::begin_alpha_blend(alpha);
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(body_textures));
+    TObjFish::set_global_param(body_textures);
     draw_chunk_object(body);
     if (attachment != 0U) {
         push_matrix();
@@ -280,7 +281,7 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     uaddr attachment;
     s32 attachment_textures;
     void *body;
-    s32 body_textures;
+    NJS_TEXLIST *body_textures;
     if (0.0f == alpha) {
         return;
     }
@@ -296,12 +297,12 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     attachment_textures = (saddr)player->attachment_textures;
     hair = player->hair_model;
     attachment = player->attachment_model;
-    body_textures = (saddr)player->body_textures;
+    body_textures = &player->body_textures;
     body = player->model;
     if (alpha < 1.0f) {
         TObjPlayer::begin_alpha_blend(alpha);
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(body_textures));
+    TObjFish::set_global_param(body_textures);
     TObjDFTenchuFuru::register_callback();
     draw_model_motion(body, (void *)motion, frame);
     TObjDFTenchuFuru::unregister_callback();
@@ -678,8 +679,8 @@ TObjDFHorming::TObjDFHorming(TObject *parent, const Vec *position, u16 target_id
     velocity.z = 1.2f * cos_table_lookup(ang) / scale;
     velocity.y = -6.0f / scale;
     speed = 6.0f;
-    damage = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0x28);
-    homing_rate = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0);
+    damage = TLobby::dispatch_shared_handler_a(0x38)->values.integers[4];
+    homing_rate = TLobby::dispatch_shared_handler_a(0x38)->values.floats[0];
     if (homing_rate < 0.0f || homing_rate > 1.0f) {
         homing_rate = 0.5f;
     }

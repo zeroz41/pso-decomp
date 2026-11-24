@@ -6,6 +6,7 @@
 
 class TParticleCtrl;
 struct BmlResource;
+struct GinjaModel;
 struct NJS_CNK_MODEL;
 
 // The lobby's centre piece: one model per event theme (the set data picks the
@@ -41,8 +42,8 @@ struct TObjLobbyMain : public TObjMapObject {
     static BmlResource *model_resource;
     static NJS_TEXLIST *lobby_texlist;  // the lobby's shared texture list
     // The two computer-screen meshes whose UVs scroll once per frame.
-    static NJS_CNK_MODEL *computer_screen_model;
-    static NJS_CNK_MODEL *computer_screen_model_b;
+    static GinjaModel *computer_screen_model;
+    static GinjaModel *computer_screen_model_b;
     static s32 computer_last_frame_tick;
 };
 

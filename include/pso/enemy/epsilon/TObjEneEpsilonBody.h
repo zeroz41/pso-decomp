@@ -115,9 +115,9 @@ public:
 LAYOUT_ASSERT(TObjEneEpsilonBody_size, sizeof(TObjEneEpsilonBody) == 0x514);
 
 // Stat handles and shared parameters the resource loader registers with TLobby for the body.
-extern u8 *epsilon_body_boss_stat_handle;
-extern u8 *epsilon_body_shared_handler_b;
-extern u8 *epsilon_body_registered_object_handle;
+extern player_stats *epsilon_body_boss_stat_handle;
+extern AttackParams *epsilon_body_shared_handler_b;
+extern ActorParamBlock *epsilon_body_registered_object_handle;
 extern EpsilonBodySharedParams *epsilon_body_shared_params;
 
 #endif

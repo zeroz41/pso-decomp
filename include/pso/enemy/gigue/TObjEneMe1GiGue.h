@@ -19,7 +19,7 @@ class TObjChara;
 struct TObjEneMe1GiGue : public TObjEnemyCustom {
     TObjEneMe1GiGue(TObject *parent, void *set_data);
     virtual ~TObjEneMe1GiGue();
-    void move_around_center(void *, f32);
+    void move_around_center(const Vec *center, f32 radius);
     void clear_state7_flag(); // update_action_hold_status's hook, as TObjEneNanoDrago's
     virtual void run_task();
     virtual void render();
@@ -78,7 +78,7 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     static BmlResource *get_resource();
     void apply_hit_shake(TObjChara *player);
     s32 check_vector_bit(Vec *pos);
-    static s32 remap_sound_id(void *obj, s32 id);
+    s32 remap_sound_id(s32 id);
     void break_apart();
     void update_hit_reaction();
     void update_rush_attack();

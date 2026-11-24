@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/SoundEffect.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/unk/text_80222C28.h"
@@ -16,14 +17,15 @@
 #include "types.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/network/client_id.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-saddr get_window_layout_position(int, f32);
 void TMedicalCenterMes__sub_80216260(void);
 
 extern const char *TMedicalCenterMes__class_name;
 extern s32 TMedicalCenterMes__slot_flags[4];
-extern s32 local_client_id;
 }
 
 
@@ -42,9 +44,7 @@ s32 TMedicalCenterMes__slot_flags[4];
 extern "C" {
 extern const char *TMedicalCenterSequence__class_name;
 
-s32 play_sound_effect(s32, s32, s32, s32);
 int obj_getPtr2B0_20(TObjPlayer *player);
-void send_code50_packet__10TObjPlayerFi(TObjPlayer *player);
 void send_code_49_1__10TObjPlayerFi(TObjPlayer *player);
 }
 
@@ -153,7 +153,7 @@ void TMedicalCenterSequence::open_greeting_window() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
-    create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
+    create_message_window((saddr)get_window_layout_position(0x2C), (saddr)pos);
     display_shop_message(0x1F, 1);
     m_2c = (TWindowBase *)create_meseta_window((u16)get_player_entity_id());
     set_state(2);
@@ -203,7 +203,7 @@ void TMedicalCenterSequence::exec_heal() {
     }
     play_sound_effect(0x42D08, 0, 0, 0);
     send_code_49_1__10TObjPlayerFi(player);
-    send_code50_packet__10TObjPlayerFi(player);
+    TObjPlayer::send_code50_packet((saddr)player);
     if (player->is_alive_and_ready() != 0) {
         player->refill_traps();
     }

@@ -25,6 +25,7 @@
 #include "pso/unk/text_8011085C.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/scene/TScene.h"
 
 extern const char TItemTimerEvent__class_name_string[] = "TItemTimerEvent";
 const char *TItemTimerEvent__class_name = TItemTimerEvent__class_name_string;
@@ -67,7 +68,6 @@ struct Timer_8011D5B4 { u8 pad[0x28]; VObj_8011D5B4 *obj; f32 f2c; };
 
 extern "C" {
 TItemLockCountCtrl * item_timer_event_instance;
-s32 is_item_area_enabled(s32 area);
 
 void TObjPlayer::clear_state_flags(s32 arg1) {
   s32 *new_var;
@@ -194,13 +194,13 @@ void TUnk_804A0668::vfunc_6() {
 
 void TUnk_804A0648::vfunc_6() {
     if (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0) {
-        add_actor_hp((u8 *)this->m_28, 1);
+        add_actor_hp((TObjChara *)this->m_28, 1);
     }
 }
 
 void TUnk_804A0628::vfunc_6() {
     if (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0) {
-        add_actor_tp((u8 *)this->m_28, 1);
+        add_actor_tp((TObjChara *)this->m_28, 1);
     }
 }
 

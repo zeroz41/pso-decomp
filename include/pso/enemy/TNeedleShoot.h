@@ -6,13 +6,11 @@
 #include "pso/object/base/TObjMotion.h"
 #include <dolphin/mtx/GeoTypes.h>
 
-struct TechniqueContactBody;
-struct TechniqueContactActor;
 struct TechniqueContactList;
 class TObjBase;
 
 struct TNeedleShoot : public TObject {
-    TNeedleShoot(s32 owner, Vec *from, Vec *to);
+    TNeedleShoot(TObjBase *owner, Vec *from, Vec *to);
     static const char *class_name;
     virtual ~TNeedleShoot();
     // Called when the shot meets a wall (check_wall_hit) or check_target_hit finds no contact list.
@@ -20,14 +18,14 @@ struct TNeedleShoot : public TObject {
     virtual void queue_destruction();
     virtual void vfunc_8();
     // Called by check_target_hit with the first receivable contact.
-    virtual void on_target_hit(void *);
+    virtual void on_target_hit(TObjCollidable *target);
     TObjBase *owner;  // the shooter; run_task refreshes it from owner_id
     f32 range;     // the shot is destroyed once distance passes it
     f32 distance;  // speed summed each frame
     Vec prev_pos;
     u16 owner_id;  // get_entity_id(owner), 0xFFFF for none
     u8 _pad36[0x2];
-    TechniqueContactBody *contact_body;  // the body check_target_hit hit
+    CollisionBody *contact_body;  // the body check_target_hit hit
     CollisionBody collision_body;  // collider's only body
     TObjCollidable *collider;
     Vec pos;
@@ -45,12 +43,12 @@ struct TNeedleShoot : public TObject {
     virtual void render();
     void update_position();
     void check_wall_hit();
-    void*get_shoot_data();
+    Vec *get_shoot_data();
     void update_lifetime();
     void update_stopped();  // run_task step once active is cleared: calls queue_destruction
     // Empties technique_contact_list.
     void clear_technique_contacts();
-    s32 is_hit_receivable_target(TechniqueContactActor *target);
+    s32 is_hit_receivable_target(TObjCollidable *target);
     // The contact collectors check_target_hit picks by contact_mode: players the collider touches, skipping the
     // shooter, into technique_contact_list; NULL when it touches a blocking object first.
     TechniqueContactList *collect_contacts(TObjBase *src);

@@ -5,9 +5,9 @@
 
 extern "C" {
 u8 get_cast_technique_level(void *techs, s16 technique);
-u8 TObjPlayer__sub_801C010C(void *techs, s32 technique);
+u8 TObjPlayer__sub_801C010C(const PlayerTechniqueState *state, s32 technique);
 u8 get_class_technique_cap(s32 cls, s32 technique);
-u8 get_effective_technique_level__10TObjPlayerFPvs(void *techs, s32 technique);
+u8 get_effective_technique_level__10TObjPlayerFPvs(PlayerTechniqueState *state, s32 technique);
 }
 
 u8 PlayerTechniqueState::clamp_to_max(u8 level, u8 max) {
@@ -52,14 +52,14 @@ s32 TObjPlayer::is_valid_technique_slot(u8 slot) {
     return (u8)((u8)(slot <= 0xFU));
 }
 
-s32 TObjPlayer::check_technique_level(saddr techs, s32 idx, u8 level) {
+s32 PlayerTechniqueState::check_technique_level(s32 technique, u8 level) {
     if (TObjPlayer::is_invalid_slot(level) != 0) {
         return 1;
     }
-    if (level > TObjPlayer__sub_801C010C((void *)techs, idx)) {
+    if (level > TObjPlayer__sub_801C010C(this, technique)) {
         return 0;
     }
-    return level <= get_effective_technique_level__10TObjPlayerFPvs((void *)techs, idx) ? 1 : 0;
+    return level <= get_effective_technique_level__10TObjPlayerFPvs(this, technique) ? 1 : 0;
 }
 
 void PlayerTechniqueState::set_target(s32 slot, s32 entity_id, s16 index) {

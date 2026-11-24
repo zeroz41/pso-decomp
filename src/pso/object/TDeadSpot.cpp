@@ -15,6 +15,7 @@
 #include "pso/unk/TUnk_804949F4.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
@@ -47,21 +48,18 @@ struct Mark_800D8314 {
     Vtx_800D8314 vtx[4];
     Vec center;
     Vec corners[4];
-    void *texture;
+    NJS_TEXLIST *texture;
     s32 selector;
     f32 maxScale;
     f32 scale;
 };
 extern "C" {
-f32 vec3_add_to(void *, void *);
 extern const f32 lbl_805DA380;
 u32 __cvt_fp2unsigned(f32);
-s32 rotate_matrix_z(int, int);
-s32 rotate_matrix_x(int, int);
 
 #pragma push
 #pragma readonly_strings on
-s32 TDeadSpot__class_name = (saddr)"TDeadSpot";
+const char *TDeadSpot__class_name = "TDeadSpot";
 }
 #pragma pop
 
@@ -73,7 +71,7 @@ extern s32 model_render_flags;
 #pragma fp_contract on
 #pragma opt_common_subs off
 
-TDeadSpot::TDeadSpot(TObject *parent, Vec *point, void *texture, s32 selector, s32 delay, f32 maxScale) : TObject(parent) {
+TDeadSpot::TDeadSpot(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s32 selector, s32 delay, f32 maxScale) : TObject(parent) {
     Mark_800D8314 *self = (Mark_800D8314 *)this;
     Vec basis[2];
     Vec probe;
@@ -88,7 +86,7 @@ TDeadSpot::TDeadSpot(TObject *parent, Vec *point, void *texture, s32 selector, s
     f32 b0x, b0y, b0z, b1x, b1y, b1z;
     s32 bad;
     s32 i;
-    self->name = TDeadSpot__class_name;
+    m_name = TDeadSpot__class_name;
     self->texture = texture;
     self->selector = selector;
     self->maxScale = maxScale;
@@ -105,7 +103,7 @@ TDeadSpot::TDeadSpot(TObject *parent, Vec *point, void *texture, s32 selector, s
     self->vtx[3].u = 1.0f;
     self->vtx[3].v = 1.0f;
     self->vtx[3].color = -1;
-    VecCopy((Vec *)&probe, (const Vec *)point);
+    VecCopy(&probe, point);
     probe.y += 5.0f;
     ground = csnVecterUnder(&probe, 0x16EF);
     if (ground == NULL) {
@@ -227,7 +225,7 @@ void TDeadSpot::render() {
 }
 #pragma push
 #pragma fp_contract on
-TUnk_80494A10::TUnk_80494A10(TObject *parent, Vec *point, void *texture, s32 selector, s32 delay, f32 maxScale) : TDeadSpot(parent, point, texture, selector, delay, maxScale) {
+TUnk_80494A10::TUnk_80494A10(TObject *parent, const Vec *point, NJS_TEXLIST *texture, s32 selector, s32 delay, f32 maxScale) : TDeadSpot(parent, point, texture, selector, delay, maxScale) {
     Obj_800D80E4 *arg0 = (Obj_800D80E4 *)this;
     E_800D80E4 *p;
     s32 i;
@@ -294,7 +292,7 @@ void TUnk_804949F4::vfunc_6() {
   stack.y = lbl_805DA380;
   stack.x = x;
   stack.z = radius * cos_table_lookup((int) angle);
-  vec3_add_to(&stack.x, (u8 *)&position);
+  vec3_add_to(&stack, &position);
   emitter->set_position(&stack.x);
 }
 
@@ -326,7 +324,7 @@ void TUnk_804949D8::vfunc_6() {
     stack.y = lbl_805DA380;
     stack.x = x;
     stack.z = radius * cos_table_lookup(angle);
-    vec3_add_to(&stack.x, (u8 *)&position);
+    vec3_add_to(&stack, &position);
     TObjBoss2Tunnel::adjust_to_ground(&stack, &stack);
     emitter->set_position(&stack.x);
 }

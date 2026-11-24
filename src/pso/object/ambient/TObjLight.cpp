@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
+#include "pso/render/NinjaUtil.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -27,6 +28,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/render/NinjaUtil.h"
 
 typedef struct Actor_80193FE8 {
     u8 pad0[0x28];
@@ -66,7 +68,6 @@ typedef struct Light_80193FE8 {
 
 extern "C" {
 s32 is_split_screen(void);
-f32 xyz_distance_squared(void *, void *);
 
 const char *TObjLight__class_name = "TObjLight";
 
@@ -80,7 +81,7 @@ void TObjLight::render() {  }
 void TObjLight::run_task() {
     Light_80193FE8 *self = (Light_80193FE8 *)this;
     s32 hi;
-    if (xyz_distance_squared(&self->pos, &camera_ctrl_instance->pos.x) > 160000.0f) {
+    if (xyz_distance_squared(&self->pos, &camera_ctrl_instance->pos) > 160000.0f) {
         ((TObject *)self)->queue_destruction();
         return;
     }

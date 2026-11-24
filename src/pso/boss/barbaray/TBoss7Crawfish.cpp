@@ -101,7 +101,7 @@ void TBoss7Crawfish::register_attack_hits() {
                     break;
                 }
             }
-            if (j == hit_count && obj_is_hit_receivable((u8 *)entry->target) != 0) {
+            if (j == hit_count && obj_is_hit_receivable(entry->target) != 0) {
                 hits[hit_count].target = entry->target;
                 hits[hit_count].body = entry->body;
                 hit_count++;

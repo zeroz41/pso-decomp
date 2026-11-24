@@ -17,6 +17,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/animation/ActorAnimationState.h"
 
 const char *bm_obj_boss8_piller_model_names[5] = {
@@ -31,7 +32,6 @@ const char *TObjBoss8Piller__class_name = "TObjBoss8Piller";
 extern "C" {
 
 BmlResource *TObjBoss8Piller__shared_resource;
-s32 post_translate_matrix(void *);
 
 
 void TObjBoss8Piller::render() {
@@ -45,7 +45,7 @@ void TObjBoss8Piller::render() {
         }
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(TObjBoss8Piller__shared_resource->models[0].texlist));
         push_matrix();
-        post_translate_matrix(&this->position);
+        post_translate_matrix(&this->position.x);
         scale_matrix(0, 1.0f, 1.0f, 1.0f);
         draw_model_motion(model, this->motion, this->frame);
         pop_matrix();

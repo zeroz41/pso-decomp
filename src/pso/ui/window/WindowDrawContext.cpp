@@ -23,7 +23,6 @@ extern const NJS_POINT2 window_viewport_offset_table_4p[4] = {
 };
 
 extern "C" {
-s32 __cvt_fp2unsigned(f32);
 NJS_POINT2 *get_zero_vec2();
 }
 

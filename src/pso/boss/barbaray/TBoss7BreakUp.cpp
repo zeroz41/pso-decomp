@@ -31,7 +31,7 @@ static const s32 joint_breakup_nodes[6] = { 1, 6, 12, 18, 24, 29 };
 #pragma opt_propagation off
 #pragma fp_contract on
 // Returns 1 on the frame the piece falls past the deck into the sea.
-s32 TBoss7BreakUpPiece::update() {
+s32 BarbaRayBreakupPiece::update() {
     f32 vy;
     f32 y;
     f32 x;
@@ -41,19 +41,19 @@ s32 TBoss7BreakUpPiece::update() {
     s32 sank;
     sank = 0;
     cur_state = state;
-    spin = angle[1];
+    spin = angles[1];
     switch (cur_state) {
     case 0:
-        vel.y = vel.y - boss7_breakup_gravity;
-        vec3_add_to(&pos, &vel);
-        vy = vel.y;
+        velocity.y = velocity.y - boss7_breakup_gravity;
+        vec3_add_to(&position, &velocity);
+        vy = velocity.y;
         if (vy < boss7_breakup_zero) {
-            y = pos.y;
+            y = position.y;
             if (y < boss7_deck_y) {
-                x = pos.x;
-                z = pos.z;
+                x = position.x;
+                z = position.z;
                 if (x <= boss7_deck_max_x && x >= boss7_deck_min_x && z <= 76.0f && z >= -75.0f) {
-                    vel.y = vy * boss7_breakup_bounce;
+                    velocity.y = vy * boss7_breakup_bounce;
                     state = 2;
                 } else if (y < boss7_sea_level_y) {
                     sank = 1;
@@ -61,23 +61,23 @@ s32 TBoss7BreakUpPiece::update() {
                 }
             }
         }
-        angle[0] = angle[0] + spin;
-        angle[2] = angle[2] + spin * 2;
+        angles[0] = angles[0] + spin;
+        angles[2] = angles[2] + spin * 2;
         break;
     case 2:
-        vel.y = vel.y - boss7_breakup_gravity;
-        vec3_add_to(&pos, &vel);
-        alpha = alpha - boss7_breakup_fade_step;
-        if (alpha < boss7_breakup_zero) {
-            alpha = boss7_breakup_zero;
+        velocity.y = velocity.y - boss7_breakup_gravity;
+        vec3_add_to(&position, &velocity);
+        opacity = opacity - boss7_breakup_fade_step;
+        if (opacity < boss7_breakup_zero) {
+            opacity = boss7_breakup_zero;
             state = 3;
         }
-        angle[0] = angle[0] + spin;
-        angle[2] = angle[2] + spin * 2;
+        angles[0] = angles[0] + spin;
+        angles[2] = angles[2] + spin * 2;
         break;
     case 1:
-        pos.y = boss7_breakup_gravity * vel.y + pos.y;
-        pos.z = pos.z + vel.z;
+        position.y = boss7_breakup_gravity * velocity.y + position.y;
+        position.z = position.z + velocity.z;
         break;
     }
     return sank;
@@ -118,11 +118,11 @@ TBoss7BreakUp::~TBoss7BreakUp() {
     delete model;
 }
 
-void TBoss7BreakUp::alloc_breakup_model(s32 model) {
-    this->model = new TBreakUpMdlData(model);
+void TBoss7BreakUp::alloc_breakup_model(NJS_OBJECT *root) {
+    this->model = new TBreakUpMdlData(root);
     count = this->model->m_count;
     scale_node_velocities_xz();
-    pieces = (TBoss7BreakUpPiece *)mem_alloc(count * sizeof(TBoss7BreakUpPiece));
+    pieces = (BarbaRayBreakupPiece *)mem_alloc(count * sizeof(BarbaRayBreakupPiece));
 }
 
 void TBoss7JointBreakUp::load_static_resource() {
@@ -133,7 +133,7 @@ void TBoss7BodyBreakUp::destroy_instance() {
 
 TBoss7JointBreakUp::TBoss7JointBreakUp(TObject *parent, Vec *position, s32 index) : TBoss7BreakUp(parent) {
     s32 node;
-    TBoss7BreakUpPiece *piece;
+    BarbaRayBreakupPiece *piece;
     Vec *vel;
     s32 i;
     if (index >= 0 && (u32)index < 6) {
@@ -142,21 +142,21 @@ TBoss7JointBreakUp::TBoss7JointBreakUp(TObject *parent, Vec *position, s32 index
         node = -1;
     }
     if (node > 0) {
-        alloc_breakup_model((s32)find_model_node(TBoss7DeRolLeC::get_archive_model(3), node));
+        alloc_breakup_model(find_model_node(TBoss7DeRolLeC::get_archive_model(3), node));
         scale_node_positions();
         piece = pieces;
         for (i = 0; i < count; i++, piece++) {
-            VecCopy(&piece->pos, position);
-            vec3_add_to(&piece->pos, &model->m_records[i].pos);
-            vel = &piece->vel;
+            VecCopy(&piece->position, position);
+            vec3_add_to(&piece->position, &model->m_records[i].pos);
+            vel = &piece->velocity;
             VecCopy(vel, &model->m_records[i].vel);
             vel->y = lerp__9TDeadSpotFff(boss7_breakup_rise_min, boss7_breakup_rise_max);
             vel->z -= lerp__9TDeadSpotFff(boss7_breakup_one, boss7_breakup_drift_max);
-            piece->angle[0] = TObjPlayer::calc_random_scaled();
-            piece->angle[1] = boss7_breakup_spin_scale * rand_signed_unit();
-            piece->angle[2] = TObjPlayer::calc_random_scaled();
+            piece->angles[0] = TObjPlayer::calc_random_scaled();
+            piece->angles[1] = boss7_breakup_spin_scale * rand_signed_unit();
+            piece->angles[2] = TObjPlayer::calc_random_scaled();
             piece->state = 0;
-            piece->alpha = boss7_breakup_one;
+            piece->opacity = boss7_breakup_one;
         }
     } else {
         queue_destruction();
@@ -175,14 +175,14 @@ void TBoss7JointBreakUp::run_task() {
     }
     for (i = 0; i < count; i++) {
         if (pieces[i].update() != 0 && i % 2 == 0) {
-            spawn_particle_effect(&pieces[i].pos, 0x200);
+            spawn_particle_effect(&pieces[i].position, 0x200);
         }
     }
 }
 
 void TBoss7JointBreakUp::render() {
     NJS_OBJECT *node;
-    TBoss7BreakUpPiece *piece;
+    BarbaRayBreakupPiece *piece;
     NJS_OBJECT *root = TBoss7DeRolLeC::get_archive_model(3);
     NJS_ARGB color = { 1.0f, 1.0f, 1.0f, 1.0f };
     node = root->child;
@@ -192,8 +192,8 @@ void TBoss7JointBreakUp::render() {
     TObjPlayer::draw_effect();
     for (node = node->child; node != NULL; node = node->sibling) {
         push_matrix();
-        post_translate_matrix(&piece->pos.x);
-        rotate_matrix_by_node_angles(piece->angle, 0);
+        post_translate_matrix(&piece->position.x);
+        rotate_matrix_by_node_angles(piece->angles, 0);
         scale_current_matrix(&scale.x);
         switch (piece->state) {
         case 0:
@@ -203,7 +203,7 @@ void TBoss7JointBreakUp::render() {
         case 2:
             saved_model_render_flags = model_render_flags;
             model_render_flags = saved_model_render_flags | 0x8810;
-            color.a = piece->alpha;
+            color.a = piece->opacity;
             set_constant_material(&color);
             set_chunk_material_override_pair(0xFF00, 0x800);
             set_chunk_blend(0x2500);
@@ -225,26 +225,26 @@ void TBoss7JointBreakUp::destroy_instance() {
 }
 
 TBoss7BodyBreakUp::TBoss7BodyBreakUp(TObject *parent, GC_Mtx *matrices) : TBoss7BreakUp(parent) {
-    TBoss7BreakUpPiece *piece;
+    BarbaRayBreakupPiece *piece;
     s32 i;
-    alloc_breakup_model((s32)TBoss7DeRolLeC::get_archive_model(2));
+    alloc_breakup_model(TBoss7DeRolLeC::get_archive_model(2));
     this->matrices = matrices;
     piece = pieces;
     push_matrix();
     set_matrix_identity(NULL);
-    TObjPlayer::concat_matrix(0, (uaddr)this->matrices);
+    concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(this->matrices));
     pivot.z = pivot.y = pivot.x = boss7_breakup_zero;
     matrix_mult_vec(NULL, &pivot, &pivot);
     for (i = 0; i < count; i++) {
-        matrix_mult_vec(NULL, &model->m_records[i].pos, &piece->pos);
-        rotate_vector_by_matrix(0, &model->m_records[i].vel, &piece->vel);
-        piece->vel.y = lerp__9TDeadSpotFff(boss7_breakup_rise_min, boss7_breakup_rise_max);
-        piece->vel.z -= lerp__9TDeadSpotFff(boss7_breakup_one, boss7_breakup_drift_max);
-        piece->angle[0] = 0;
-        piece->angle[1] = boss7_breakup_spin_scale * rand_signed_unit();
-        piece->angle[2] = 0;
+        matrix_mult_vec(NULL, &model->m_records[i].pos, &piece->position);
+        rotate_vector_by_matrix(0, &model->m_records[i].vel, &piece->velocity);
+        piece->velocity.y = lerp__9TDeadSpotFff(boss7_breakup_rise_min, boss7_breakup_rise_max);
+        piece->velocity.z -= lerp__9TDeadSpotFff(boss7_breakup_one, boss7_breakup_drift_max);
+        piece->angles[0] = 0;
+        piece->angles[1] = boss7_breakup_spin_scale * rand_signed_unit();
+        piece->angles[2] = 0;
         piece->state = 0;
-        piece->alpha = boss7_breakup_one;
+        piece->opacity = boss7_breakup_one;
         piece++;
     }
     pop_matrix();
@@ -262,14 +262,14 @@ void TBoss7BodyBreakUp::run_task() {
     }
     for (i = 0; i < count; i++) {
         if (pieces[i].update() != 0 && i % 2 == 0) {
-            spawn_particle_effect(&pieces[i].pos, 0x200);
+            spawn_particle_effect(&pieces[i].position, 0x200);
         }
     }
 }
 
 void TBoss7BodyBreakUp::render() {
     NJS_OBJECT *node;
-    TBoss7BreakUpPiece *piece;
+    BarbaRayBreakupPiece *piece;
     s32 i;
     NJS_OBJECT *root = TBoss7DeRolLeC::get_archive_model(2);
     NJS_ARGB color = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -279,11 +279,11 @@ void TBoss7BodyBreakUp::render() {
     push_matrix();
     for (i = 0; i < count; i++) {
         push_matrix();
-        post_translate_matrix(&piece->pos.x);
-        rotate_matrix_z(NULL, piece->angle[2]);
-        rotate_matrix_x(NULL, piece->angle[0]);
+        post_translate_matrix(&piece->position.x);
+        rotate_matrix_z(NULL, piece->angles[2]);
+        rotate_matrix_x(NULL, piece->angles[0]);
         translate_matrix(0, -pivot.x, -pivot.y, -pivot.z);
-        TObjPlayer::concat_matrix(0, (uaddr)matrices);
+        concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(matrices));
         switch (piece->state) {
         case 0:
         case 1:
@@ -292,7 +292,7 @@ void TBoss7BodyBreakUp::render() {
         case 2:
             saved_model_render_flags = model_render_flags;
             model_render_flags = saved_model_render_flags | 0x8810;
-            color.a = piece->alpha;
+            color.a = piece->opacity;
             set_constant_material(&color);
             set_chunk_material_override_pair(0xFF00, 0x800);
             set_chunk_blend(0x2500);

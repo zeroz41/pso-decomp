@@ -83,7 +83,7 @@ void TUnk_8049442C::explode() {
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)target) != 0 && target != owner) {
+            if (obj_is_hit_receivable(target) != 0 && target != owner) {
                 DirectAttackPayload hit = {0, 0.0f};
                 hit.power = get_gyaranzo_missile_int_parameter(3);
                 target->receive_direct_attack(owner, hit, NULL, -1, -1);

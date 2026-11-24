@@ -1,5 +1,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/client_id.h"
+#include "pso/system/memory.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,7 +39,6 @@
 
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/player/TUnk_804B6C24.h"
 
 
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -49,6 +49,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/player/PlayerTrapCounts.h"
+#include <dolphin/os/OSTime.h>
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -174,11 +175,10 @@ typedef struct Msg_801C2D54 {
 extern "C" {
 void TLobby__sub_801C2C34(void *);
 void clear_battle_player_ready_flags(void);
-s64 OSGetTime(void);
 void obj_clear_flag30_20000(void *);
 void TObjEneRe4Sorcerer__sub_801E3F14(s32);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
-extern s32 TDeadSpot__class_name;
+extern const char *TDeadSpot__class_name;
 
 extern u16 battle_mode_data_table[];
 extern saddr tl_05;
@@ -315,7 +315,6 @@ void TLobby__sub_801C3AF4(Lobby_801C3AF4 *self);
 
 
 void handle_6x7D_set_battle_mode_data(Pkt_801C374C *pkt);
-s64 OSGetTime();
 
 s32 set_player_team_id(void *, int);
 s32 fn_801D6D8C(void *, int, int);
@@ -1396,14 +1395,14 @@ void TLobby::finish_chr_select_scene_init() {
 }
 
 void TLobby::destroy_matching_children() {
-    void *down;
+    TObject *down;
     down = this->m_down;
-while (down != NULL) {
-        if (((TUnk_804B6C24 *)down)->check_value_equals(TDeadSpot__class_name) != 0) {
-            ((TObject *)down)->queue_destruction();
+    while (down != NULL) {
+        if (down->check_value_equals(TDeadSpot__class_name) != 0) {
+            down->queue_destruction();
         }
         ((TLobby *)down)->destroy_matching_children();
-        down = *(void **)((s8 *)down + 0xC);
+        down = down->m_next;
     }
 }
 

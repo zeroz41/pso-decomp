@@ -1,40 +1,27 @@
+#include "pso/effect/item/TItemEffOrgaFlowShot.h"
+#include "pso/math/ClampedStep.h"
 #include "types.h"
-#include "pso/system/data/FlagWord.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/item/TItemMenuCtrl.h"
-#include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/item/TItemEffectWeapon.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/system/task/TObject.h"
+#include "pso/effect/TEffStarLight2D.h"
 
 extern "C" {
-u8 * __ct__15TEffStarLight2DFP3VecP19StarLightParametersP7TObject(void *, s32, s32, s32);
-int set__8FlagWordFUl(void*);
 
-int TItemMenuCtrl::set_menu_flags() { return set__8FlagWordFUl((char*)this + 0x1c); }
+void TItemMenuCtrl::set_menu_flags(u32 mask) { menu_flags.set(mask); }
 }
 
-
-#pragma push
-#pragma scheduling off
-u8 *spawn_star_light_2d(s32 arg0, s32 arg1, s32 arg2) {
-    u8 *eff_star_light2_d;
-    u8 *var_r0;
+TEffStarLight2D *spawn_star_light_2d(const Vec *position, const StarLightParameters *parameters, TObject *parent) {
     if (is_split_screen() == 0) {
-        eff_star_light2_d = (u8 *)(TObject::operator new(0x4C));
-        var_r0 = eff_star_light2_d;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(__ct__15TEffStarLight2DFP3VecP19StarLightParametersP7TObject(eff_star_light2_d, arg0, arg1, arg2));
-        }
-        return var_r0;
+        return new TEffStarLight2D(const_cast<Vec *>(position), const_cast<StarLightParameters *>(parameters), parent);
     }
     return NULL;
 }
-#pragma pop
 
-void TItemEffOrgaFlowShot::approach_value(f32 *value, f32 step, f32 target) {
+void approach_value(f32 *value, f32 step, f32 target) {
     *value += step;
     if (step > 0.0f) {
         if (*value > target) {
@@ -45,14 +32,14 @@ void TItemEffOrgaFlowShot::approach_value(f32 *value, f32 step, f32 target) {
     }
 }
 
-void TObjPlayer::add_angle_clamped(s32 *arg0, s32 arg1, s32 arg2) {
-    *arg0 += arg1;
-    if (arg1 > 0) {
-        if ((s32) *arg0 > arg2) {
-            *arg0 = arg2;
+void add_angle_clamped(s32 *value, s32 step, s32 limit) {
+    *value += step;
+    if (step > 0) {
+        if (*value > limit) {
+            *value = limit;
         }
-    } else if ((s32) *arg0 < arg2) {
-        *arg0 = arg2;
+    } else if (*value < limit) {
+        *value = limit;
     }
 }
 

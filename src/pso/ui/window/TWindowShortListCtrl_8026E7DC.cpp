@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
@@ -37,15 +38,15 @@
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/charcreate/PaletteCursorAction.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
 extern "C" {
-s32 canSetMenuCursorAction(s32, s32, u8, u8);
 s32 try_send_6x27_use_item(void *player, s32 key);
 s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
-void play_sound_effect(int, int, int, int);
 s32 TWindowCtrl__sub_8024A228(saddr);
-saddr get_window_layout_position(int);
 s32 end_player_keyboard_hold(saddr);
 s32 TWindowCtrl__sub_8024A1A8();
 }
@@ -144,7 +145,7 @@ void TWindowShortListCtrl::run_task() {
     switch (state) {
     case 0:
         if (list_window == NULL) {
-            list_window = create_equip_kind_window(get_window_layout_position(1), &short_list_window_pos, client_id);
+            list_window = create_equip_kind_window((saddr)get_window_layout_position(1), &short_list_window_pos, client_id);
             ((TWindowSubShortCutList *)list_window)->set_flag70_bit10();
             ((TWindowMenuIconLine *)list_window)->refresh_weapon_shortcut_list();
             ((TWindowSubComCardList *)list_window)->open_tick = 0x01000000;
@@ -186,7 +187,7 @@ void TWindowShortListCtrl::run_task() {
         return;
     case 3:
         if (list_window == NULL) {
-            list_window = create_equip_kind_window(get_window_layout_position(1), &short_list_window_pos, client_id);
+            list_window = create_equip_kind_window((saddr)get_window_layout_position(1), &short_list_window_pos, client_id);
             ((TWindowSubShortCutList *)list_window)->set_flag70_bit10();
             ((TWindowMenuIconLine *)list_window)->refresh_item_shortcut_list();
             ((TWindowSubComCardList *)list_window)->open_tick = 0x01000000;
@@ -222,7 +223,7 @@ void TWindowShortListCtrl::run_task() {
         return;
     case 6:
         if (list_window == NULL) {
-            list_window = create_equip_kind_window(get_window_layout_position(1), &short_list_window_pos, client_id);
+            list_window = create_equip_kind_window((saddr)get_window_layout_position(1), &short_list_window_pos, client_id);
             ((TWindowSubShortCutList *)list_window)->set_flag70_bit10();
             ((TWindowMenuIconLine *)list_window)->refresh_battle_stat_list();
             ((TWindowSubComCardList *)list_window)->open_tick = 0x01000000;
@@ -266,7 +267,7 @@ void TWindowShortListCtrl::run_task() {
     case 9:
         if (tech_window == NULL) {
             TWindowSubTechnique::get_current_selection((s16 *)&m_20, (s32 *)&m_28, client_id);
-            tech_window = create_window(get_window_layout_position(1), (saddr)&short_list_window_pos);
+            tech_window = create_window((saddr)get_window_layout_position(1), (saddr)&short_list_window_pos);
         }
         ((TWindowMenu *)tech_window)->clear_flag_and_release();
         state = 10;
@@ -403,7 +404,7 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 item_id, u32 client_id) {
             if (item != NULL && item->get_item_type() == 3) {
                 s32 slot = get_tool_palette_index(item);
                 if (slot != -1) {
-                    if (canSetMenuCursorAction((saddr)&cursor->palette_override, (saddr)player, 4, slot) != 0) {
+                    if (canSetMenuCursorAction((PaletteCursorOverride *)&cursor->palette_override, player, 4, slot) != 0) {
                         set_action_palette_tag_mode(&cursor->palette_override, 4);
                         set_action_palette_tag_slot(&cursor->palette_override, slot);
                         TMainCursor__sub_8013DFC4((u8 *)&cursor->palette_override);

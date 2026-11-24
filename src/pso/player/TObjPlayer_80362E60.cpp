@@ -5,6 +5,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804F27E0.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 
 struct VBase_18_f1aa6a { char pad[0x18]; };
 
@@ -94,8 +96,6 @@ void TUnk_804F27E0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
 }
 
 extern "C" {
-s32 rotate_matrix_x(int, int);
-f32 post_translate_matrix(void *);
 
 void TUnk_804F27E0::update_weapon() {
     if (this->get_attack_stage() == 2) {
@@ -129,7 +129,7 @@ void TUnk_804F27E0::emit_marker_effects() {
 void TUnk_804F27E0::vfunc_60() {
     if (TObjPlayer::get_player_list() == 0) {
         Vec offset = {0.0f, 0.0f, 0.5f};
-        post_translate_matrix(&offset);
+        post_translate_matrix(&offset.x);
         rotate_matrix_x(0, 0x18E3);
         if (*(s32 *)((s8 *)((u8 *)this) + 0x1FC) & 1) {
             push_matrix();

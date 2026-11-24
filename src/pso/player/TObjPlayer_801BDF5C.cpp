@@ -1,3 +1,5 @@
+#include "pso/player/PhotonBlastRequests.h"
+#include "pso/player/PlayerState.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/item/TItem.h"
@@ -15,7 +17,6 @@
 #include "pso/player/TPlayerFootStamp.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/window/TWindowSnapShot.h"
-#include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/unk/text_801BE104.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/TPlyCharData.h"
@@ -48,7 +49,7 @@ TObjPlayer *create_player_object(s32 slot, s32 role, TPlyCharData *record) {
 extern "C" {
 
 
-PhotonBlastRequestTable *TObjPlayer__shared_photon_blast_state;
+PhotonBlastRegistry *TObjPlayer__shared_photon_blast_state;
 s32 lobby_player_count;
 extern uaddr TObjPlayer__shared_model_buffer;
 
@@ -75,7 +76,7 @@ void TObjPlayer::alloc_shared_buffers() {
         player_shared_buffer_base = static_cast<PlayerJointMatrixSet *>(mem_alloc(12 * sizeof(PlayerJointMatrixSet)));
     }
     if (TObjPlayer__shared_photon_blast_state == NULL) {
-        TObjPlayer__shared_photon_blast_state = new PhotonBlastRequestTable;
+        TObjPlayer__shared_photon_blast_state = new PhotonBlastRegistry();
     }
 }
 
@@ -121,7 +122,7 @@ __declspec(section ".ctors") static void *const __sinit_TObjPlayer_801BDF5C_cpp_
 
 extern "C" {
 
-int add_photon_blast_chain_charge(void*);
+int subtract_photon_blast_charge(void*, f32);
 
 PlayerCharDataEntry::~PlayerCharDataEntry() {}
 
@@ -131,7 +132,7 @@ void TObjPlayer::get_pos(saddr out) {
 
 void TObjPlayer::spend_photon_blast_charge(f32 charge) { photon_blast_gauge.subtract_photon_blast_charge(charge); }
 
-void TObjPlayer::gain_photon_blast_chain_charge() { add_photon_blast_chain_charge(&photon_blast_gauge); }
+void TObjPlayer::gain_photon_blast_chain_charge(f32 amount) { add_photon_blast_chain_charge(&photon_blast_gauge, amount); }
 
 s32 TObjPlayer::vfunc_79() { return 0; }
 s32 TObjPlayer::check_camera_mode() {

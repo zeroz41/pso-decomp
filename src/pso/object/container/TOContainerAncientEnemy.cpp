@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/network/FloorEventCommand.h"
 #include "pso/object/container/ContainerBreakEffects.h"
@@ -67,15 +68,12 @@ static __declspec(section ".rodata") const char ep2_box_model[] ATTRIBUTE_ALIGN(
 static __declspec(section ".rodata") const char ep2_box_fragment1_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_ex_box1_hahen01.gj";
 static __declspec(section ".rodata") const char ep2_box_fragment2_model[] ATTRIBUTE_ALIGN(4) = "fe_obj_ex_box1_hahen02.gj";
 
-struct BmlResourceBlock_804B0068 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
-LAYOUT_ASSERT(BmlResourceBlock_804B0068_size, sizeof(BmlResourceBlock_804B0068) == 0x20);
-LAYOUT_ASSERT(BmlResourceBlock_804B0068_descriptor_offset, offsetof(BmlResourceBlock_804B0068, descriptor) == 0x10);
-struct BmlResourceBlock_804B0088 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
-LAYOUT_ASSERT(BmlResourceBlock_804B0088_size, sizeof(BmlResourceBlock_804B0088) == 0x20);
-LAYOUT_ASSERT(BmlResourceBlock_804B0088_descriptor_offset, offsetof(BmlResourceBlock_804B0088, descriptor) == 0x10);
-struct BmlResourceBlock_804B00A8 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
-LAYOUT_ASSERT(BmlResourceBlock_804B00A8_size, sizeof(BmlResourceBlock_804B00A8) == 0x20);
-LAYOUT_ASSERT(BmlResourceBlock_804B00A8_descriptor_offset, offsetof(BmlResourceBlock_804B00A8, descriptor) == 0x10);
+struct AncientContainerBml {
+    const char *model_filenames[4];
+    BmlResourceDescriptor descriptor;
+};
+LAYOUT_ASSERT(AncientContainerBmlSize, sizeof(AncientContainerBml) == 0x20);
+LAYOUT_ASSERT(AncientContainerBmlDescriptorOffset, offsetof(AncientContainerBml, descriptor) == 0x10);
 
 // The 6x67 packet receive_physical_attack sends (its fields are not named yet).
 extern const f32 lbl_805DB398;
@@ -85,9 +83,9 @@ extern const f32 lbl_805DB3A0;
 const char *bm_o_container_ancient_motion_names[1] = { NULL };
 const char *fe_obj_o_vs2container_motion_names[1] = { NULL };
 const char *fe_obj_ex_box1_motion_names[1] = { NULL };
-BmlResourceBlock_804B0068 bm_o_container_ancient_resource_bundle = { { ancient_container_model, ancient_container_fragment1_model, ancient_container_fragment2_model, NULL }, { ancient_container_bml, bm_o_container_ancient_resource_bundle.model_filenames, bm_o_container_ancient_motion_names, 3, 0 } };
-BmlResourceBlock_804B0088 fe_obj_o_vs2container_resource_bundle = { { vs2_container_fragment1_model, vs2_container_fragment2_model, vs2_container_model, NULL }, { vs2_container_bml, fe_obj_o_vs2container_resource_bundle.model_filenames, fe_obj_o_vs2container_motion_names, 3, 0 } };
-BmlResourceBlock_804B00A8 fe_obj_ex_box1_resource_bundle = { { ep2_box_model, ep2_box_fragment1_model, ep2_box_fragment2_model, NULL }, { "fe_obj_ex_box1.bml", fe_obj_ex_box1_resource_bundle.model_filenames, fe_obj_ex_box1_motion_names, 3, 0 } };
+AncientContainerBml bm_o_container_ancient_resource_bundle = { { ancient_container_model, ancient_container_fragment1_model, ancient_container_fragment2_model, NULL }, { ancient_container_bml, bm_o_container_ancient_resource_bundle.model_filenames, bm_o_container_ancient_motion_names, 3, 0 } };
+AncientContainerBml fe_obj_o_vs2container_resource_bundle = { { vs2_container_fragment1_model, vs2_container_fragment2_model, vs2_container_model, NULL }, { vs2_container_bml, fe_obj_o_vs2container_resource_bundle.model_filenames, fe_obj_o_vs2container_motion_names, 3, 0 } };
+AncientContainerBml fe_obj_ex_box1_resource_bundle = { { ep2_box_model, ep2_box_fragment1_model, ep2_box_fragment2_model, NULL }, { "fe_obj_ex_box1.bml", fe_obj_ex_box1_resource_bundle.model_filenames, fe_obj_ex_box1_motion_names, 3, 0 } };
 CollisionBody TOContainerAncientEnemy__collision_body_params = { { 0.0f, 6.5f, 0.0f }, 7.5f, 7.5f, 0, 0x38003, { 0.0f, 0.0f, 0.0f }, 0.0f };
 
 const char *TOContainerAncientItemCommon__name = "TOContainerAncientItemCommon";
@@ -167,31 +165,36 @@ f32 TUnk_804B6C24::receive_weapon_special_attack(void *, void *) {
 
 int TUnk_804B6C24::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
+extern BmlResource *ancient_container_resource_bundle;
+
 void TLanguage::load_container_fragment_textures() {
-    extern BmlResource *ancient_container_resource_bundle;
-    u8 *tbl = (u8 *)&bm_o_container_ancient_resource_bundle;
+    // The archive bundles occupy three consecutive linker records in base, VS2,
+    // and Episode II order. Use the record layout to reach their descriptors.
+    const uaddr table = reinterpret_cast<uaddr>(&bm_o_container_ancient_resource_bundle);
+    const size_t stride = sizeof(AncientContainerBml);
+    const size_t descriptor_offset = offsetof(AncientContainerBml, descriptor);
     s32 area = get_current_floor_area();
-    void *p;
+    BmlResource *p;
     if (enable_v2_features == 1 &&
         (area == AREA_BATTLE1 || area == AREA_VR_SPACESHIP_ALPHA || area == AREA_VR_SPACESHIP_BETA || area == AREA_GOL_DRAGON)) {
-        p = new BmlResource(1, (BmlResourceDescriptor *)(tbl + 0x50), 0, 0, NULL);
-        ancient_container_resource_bundle = (BmlResource *)p;
-        ancient_container_fragment_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
+        p = new BmlResource(1, reinterpret_cast<BmlResourceDescriptor *>(table + 2 * stride + descriptor_offset), 0, 0, NULL);
+        ancient_container_resource_bundle = p;
+        ancient_container_fragment_texture_lists = static_cast<NJS_TEXLIST **>(mem_alloc(3 * sizeof(NJS_TEXLIST *)));
         ancient_container_fragment_texture_lists[0] = load_gvm_texture_file(fs_obj_ex_box2_texture);
         ancient_container_fragment_texture_lists[1] = load_gvm_texture_file(fe_obj_ex_box2_hahen01_texture);
         ancient_container_fragment_texture_lists[2] = load_gvm_texture_file(fe_obj_ex_box2_hahen02_texture);
     } else if (enable_v2_features == 1 &&
                (area == AREA_BATTLE2 || area == AREA_VR_TEMPLE_ALPHA || area == AREA_VR_TEMPLE_BETA || area == AREA_BARBA_RAY)) {
-        p = new BmlResource(1, (BmlResourceDescriptor *)(tbl + 0x30), 0, 0, NULL);
-        ancient_container_resource_bundle = (BmlResource *)p;
-        ancient_container_fragment_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
+        p = new BmlResource(1, reinterpret_cast<BmlResourceDescriptor *>(table + stride + descriptor_offset), 0, 0, NULL);
+        ancient_container_resource_bundle = p;
+        ancient_container_fragment_texture_lists = static_cast<NJS_TEXLIST **>(mem_alloc(3 * sizeof(NJS_TEXLIST *)));
         ancient_container_fragment_texture_lists[0] = load_gvm_texture_file(fs_obj_o_vs2container_r_texture);
         ancient_container_fragment_texture_lists[1] = load_gvm_texture_file(fe_obj_o_vs2cont_hahen1_r_texture);
         ancient_container_fragment_texture_lists[2] = load_gvm_texture_file(fe_obj_o_vs2cont_hahen2_r_texture);
     } else {
-        p = new BmlResource(1, (BmlResourceDescriptor *)(tbl + 0x10), 0, 0, NULL);
-        ancient_container_resource_bundle = (BmlResource *)p;
-        ancient_container_fragment_texture_lists = (NJS_TEXLIST **)mem_alloc(3 * sizeof(NJS_TEXLIST *));
+        p = new BmlResource(1, reinterpret_cast<BmlResourceDescriptor *>(table + descriptor_offset), 0, 0, NULL);
+        ancient_container_resource_bundle = p;
+        ancient_container_fragment_texture_lists = static_cast<NJS_TEXLIST **>(mem_alloc(3 * sizeof(NJS_TEXLIST *)));
         ancient_container_fragment_texture_lists[0] = load_gvm_texture_file(fe_obj_o_container_r_texture);
         ancient_container_fragment_texture_lists[1] = load_gvm_texture_file(fe_obj_o_container_hahen01r_texture);
         ancient_container_fragment_texture_lists[2] = load_gvm_texture_file(fe_obj_o_container_hahen02r_texture);
@@ -216,9 +219,9 @@ void free_ancient_container_resources(void) {
             ancient_container_fragment_texture_lists = NULL;
         }
     }
-    p = ancient_container_resource_bundle;
-    if (p != NULL) {
-        delete (BmlResource *)p;
+    BmlResource *resource = ancient_container_resource_bundle;
+    if (resource != NULL) {
+        delete resource;
         ancient_container_resource_bundle = NULL;
     }
 }
@@ -226,7 +229,6 @@ void free_ancient_container_resources(void) {
 #pragma pop
 
 TUnk_804B08BC::TUnk_804B08BC(void *set_data) : TUnk_804B6C24(tl_05, set_data) {
-    extern BmlResource *ancient_container_resource_bundle;
     mode = 0;
     actorFlags |= 0x60000000U;
     init_collision_body_parts(this, &TOContainerAncientEnemy__collision_body_params, 1);
@@ -254,7 +256,6 @@ void TUnk_804B08BC::vfunc_80() {
 }
 
 void TUnk_804B08BC::vfunc_81() {
-    extern BmlResource *ancient_container_resource_bundle;
     NJS_OBJECT *obj;
     NJS_OBJECT *child;
     NJS_OBJECT *sibling;
@@ -289,25 +290,24 @@ void TUnk_804B08BC::vfunc_81() {
 }
 
 void TUnk_804B08BC::vfunc_79() const {
-    extern BmlResource *ancient_container_resource_bundle;
     if (this->mode == 1) {
         return;
     }
     TObjChipParams a = fish_break_debris_desc;
-    a.pos[0] = this->position.x;
-    a.pos[1] = this->position.y;
-    a.pos[2] = this->position.z;
-    a.floor_y = a.pos[1];
-    a.model = (saddr)get_bml_model((BmlResource *)ancient_container_resource_bundle, 1);
-    a.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 1);
+    a.pos.x = this->position.x;
+    a.pos.y = this->position.y;
+    a.pos.z = this->position.z;
+    a.floor_y = a.pos.y;
+    a.model = get_bml_model(ancient_container_resource_bundle, 1);
+    a.textures = get_bml_texlist(ancient_container_resource_bundle, 1);
     TObjChipParams b = fish_break_debris_desc_b;
-    b.pos[0] = this->position.x;
-    b.pos[1] = this->position.y;
-    b.pos[2] = this->position.z;
-    b.floor_y = b.pos[1];
-    b.model = (saddr)get_bml_model((BmlResource *)ancient_container_resource_bundle, 2);
-    b.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 2);
-    if (check_value_equals((saddr)TOContainerAncientItemRare__name) != 0) {
+    b.pos.x = this->position.x;
+    b.pos.y = this->position.y;
+    b.pos.z = this->position.z;
+    b.floor_y = b.pos.y;
+    b.model = get_bml_model(ancient_container_resource_bundle, 2);
+    b.textures = get_bml_texlist(ancient_container_resource_bundle, 2);
+    if (check_value_equals(TOContainerAncientItemRare__name) != 0) {
         a.textures = ancient_container_fragment_texture_lists[1];
         b.textures = ancient_container_fragment_texture_lists[2];
     }
@@ -387,7 +387,6 @@ void TOContainerAncientItemNone::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 TOContainerAncientEnemy::TOContainerAncientEnemy(void *set_data) : TUnk_804B6C24(tl_05, set_data) {
-    extern BmlResource *ancient_container_resource_bundle;
     m_name = TOContainerAncientEnemy__name;
     mode = 0;
     actorFlags |= 0x60000000U;
@@ -416,7 +415,6 @@ void TOContainerAncientEnemy::vfunc_80() {
 }
 
 void TOContainerAncientEnemy::vfunc_81() {
-    extern BmlResource *ancient_container_resource_bundle;
     NJS_OBJECT *obj;
     NJS_OBJECT *child;
     NJS_OBJECT *sibling;
@@ -475,23 +473,22 @@ f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
 }
 
 void TOContainerAncientEnemy::vfunc_79() const {
-    extern BmlResource *ancient_container_resource_bundle;
     if (this->mode != 1) {
         TObjChipParams a = ancient_enemy_break_debris_desc;
-        a.pos[0] = this->position.x;
-        a.pos[1] = this->position.y;
-        a.pos[2] = this->position.z;
+        a.pos.x = this->position.x;
+        a.pos.y = this->position.y;
+        a.pos.z = this->position.z;
         a.floor_y = this->position.y;
-        a.model = (saddr)get_bml_model((BmlResource *)ancient_container_resource_bundle, 1);
-        a.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 1);
+        a.model = get_bml_model(ancient_container_resource_bundle, 1);
+        a.textures = get_bml_texlist(ancient_container_resource_bundle, 1);
         TObjChipParams b = ancient_enemy_break_debris_desc_b;
-        b.pos[0] = this->position.x;
-        b.pos[1] = this->position.y;
-        b.pos[2] = this->position.z;
+        b.pos.x = this->position.x;
+        b.pos.y = this->position.y;
+        b.pos.z = this->position.z;
         b.floor_y = this->position.y;
-        b.model = (saddr)get_bml_model((BmlResource *)ancient_container_resource_bundle, 2);
-        b.textures = get_bml_texlist((BmlResource *)ancient_container_resource_bundle, 2);
-        if (check_value_equals((saddr)lbl_805D2F10) != 0) {
+        b.model = get_bml_model(ancient_container_resource_bundle, 2);
+        b.textures = get_bml_texlist(ancient_container_resource_bundle, 2);
+        if (check_value_equals(lbl_805D2F10) != 0) {
             a.textures = ancient_container_fragment_texture_lists[1];
             b.textures = ancient_container_fragment_texture_lists[2];
         }

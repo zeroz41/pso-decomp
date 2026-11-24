@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/object/container/ContainerResources.h"
@@ -18,7 +19,6 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
@@ -43,6 +43,8 @@
 #include "pso/unk/text_8018A3E0.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/object/TMotorcycle.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
 #include "pso/object/container/TContainerAncient01.h"
@@ -57,7 +59,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaTexture.h"
 
-struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
+struct Obj_80188884 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x28 - 0xC]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
 struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 struct Obj_8018860C {
     u8 pad[0x38];
@@ -65,14 +67,15 @@ struct Obj_8018860C {
     u8 pad44[0x326 - 0x44];
     s16 state;
 };
-struct Obj_80188C8C { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
+struct Obj_80188C8C { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x28 - 0xC]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
 struct Obj_8018990C { u8 pad[0x38]; f32 x, y, z; u8 pad44[0x326 - 0x44]; s16 f326; };
 struct Obj_801895A4 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
-struct CE_80189614 { u8 pad[0x34]; saddr f34; u8 f38[0x28]; s32 angle; u8 pad2[0x326 - 0x64]; s16 mode; };
+struct CE_80189614 { u8 pad[0x34]; saddr f34; f32 f38[3]; u8 pad44[0x28 - 0xC]; s32 angle; u8 pad2[0x326 - 0x64]; s16 mode; };
 struct Box_80189A50 {
     u8 pad00[0x34];
     saddr model;
-    u8 pos[0x28];
+    f32 pos[3];
+    u8 pad44[0x28 - 0xC];
     s32 rot;
     u8 pad64[0x326 - 0x64];
     s16 state;
@@ -306,7 +309,6 @@ TObjChipParams *forest_box_debris_secondary;
 BmlResource *container_breakup_model_archive;
 NJS_TEXLIST *container_breakup_textures;
 extern "C" {
-void post_translate_matrix(const void *);
 extern const f32 lbl_805DBCF8;
 u32 init_collision_body_parts(void *, void *, s32);
 s32 free_collision_body_parts(void *);
@@ -376,7 +378,7 @@ void load_forest_box_resources(void) {
 void free_forest_box_resources() {
     if (forest_box_textures != NULL) {
         release_texture_list(forest_box_textures);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)forest_box_textures);
+        safe_free(forest_box_textures);
         forest_box_textures = NULL;
     }
     if ((uaddr) forest_box_model_archive != 0U) {
@@ -410,7 +412,7 @@ void load_container_breakup_resources() {
 void free_container_breakup_resources() {
     if (container_breakup_textures != NULL) {
         release_texture_list(container_breakup_textures);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)container_breakup_textures);
+        safe_free(container_breakup_textures);
         container_breakup_textures = NULL;
     }
     if ((uaddr) container_breakup_model_archive != 0U) {
@@ -634,13 +636,13 @@ void TObjContainerItem::vfunc_79() const {
     if (this->mode != 1) {
         TObjChipParams a = *forest_box_debris_primary;
         TObjChipParams b = *forest_box_debris_secondary;
-        VecCopy((Vec *)a.pos, (const Vec *)&self->x);
+        VecCopy(&a.pos, (const Vec *)&self->x);
         a.floor_y = self->y;
-        a.model = (saddr)get_forest_box_model(2);
+        a.model = get_forest_box_model(2);
         a.textures = forest_box_textures;
-        VecCopy((Vec *)b.pos, (const Vec *)&self->x);
+        VecCopy(&b.pos, (const Vec *)&self->x);
         b.floor_y = self->y;
-        b.model = (saddr)get_forest_box_model(0);
+        b.model = get_forest_box_model(0);
         b.textures = forest_box_textures;
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x46, 0x40);
@@ -752,13 +754,13 @@ void TObjContainerEnemy::vfunc_79() const {
     if (this->mode != 1) {
         TObjChipParams a = *forest_box_debris_primary;
         TObjChipParams b = *forest_box_debris_secondary;
-        VecCopy((Vec *)a.pos, (const Vec *)&self->x);
+        VecCopy(&a.pos, (const Vec *)&self->x);
         a.floor_y = self->y;
-        a.model = (saddr)get_forest_box_model(2);
+        a.model = get_forest_box_model(2);
         a.textures = forest_box_textures;
-        VecCopy((Vec *)b.pos, (const Vec *)&self->x);
+        VecCopy(&b.pos, (const Vec *)&self->x);
         b.floor_y = self->y;
-        b.model = (saddr)get_forest_box_model(0);
+        b.model = get_forest_box_model(0);
         b.textures = forest_box_textures;
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x46, 0x40);
@@ -828,7 +830,7 @@ void TObjContainerNoItem::vfunc_81() {
         case 0:
         TObjFish::set_global_param(forest_box_textures);
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
         draw_ginja_box_tree((u8 *)(*(saddr *)((s8 *)arg0 + 0x34)));
@@ -854,13 +856,13 @@ void TObjContainerNoItem::vfunc_79() const {
     if (this->mode != 1) {
         TObjChipParams a = *forest_box_debris_primary;
         TObjChipParams b = *forest_box_debris_secondary;
-        VecCopy((Vec *)a.pos, (const Vec *)&self->x);
+        VecCopy(&a.pos, (const Vec *)&self->x);
         a.floor_y = self->y;
-        a.model = (saddr)get_forest_box_model(2);
+        a.model = get_forest_box_model(2);
         a.textures = forest_box_textures;
-        VecCopy((Vec *)b.pos, (const Vec *)&self->x);
+        VecCopy(&b.pos, (const Vec *)&self->x);
         b.floor_y = self->y;
-        b.model = (saddr)get_forest_box_model(0);
+        b.model = get_forest_box_model(0);
         b.textures = forest_box_textures;
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x45, 0x40);
         spawn_particle_effect_with_flags((const Vec *)&self->x, 0x46, 0x40);
@@ -944,11 +946,11 @@ void TObjContainerBase::vfunc_79() const {
     xa = position.x;
     ya = position.y;
     za = position.z;
-    a.pos[0] = xa;
-    a.pos[1] = ya;
-    a.pos[2] = za;
+    a.pos.x = xa;
+    a.pos.y = ya;
+    a.pos.z = za;
     a.floor_y = ya;
-    a.model = (saddr)get_container_breakup_model(0);
+    a.model = get_container_breakup_model(0);
     a.textures = container_breakup_textures;
     TObjChipParams b = container_break_small_debris_parameters;
     f32 zb;
@@ -957,11 +959,11 @@ void TObjContainerBase::vfunc_79() const {
     xb = position.x;
     yb = position.y;
     zb = position.z;
-    b.pos[0] = xb;
-    b.pos[1] = yb;
-    b.pos[2] = zb;
+    b.pos.x = xb;
+    b.pos.y = yb;
+    b.pos.z = zb;
     b.floor_y = yb;
-    b.model = (saddr)get_container_breakup_model(1);
+    b.model = get_container_breakup_model(1);
     b.textures = container_breakup_textures;
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&position, 0x46, 0x40);
@@ -1076,11 +1078,11 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         xa = self->pos.x;
         ya = self->pos.y;
         za = self->pos.z;
-        a.pos[0] = xa;
-        a.pos[1] = ya;
-        a.pos[2] = za;
+        a.pos.x = xa;
+        a.pos.y = ya;
+        a.pos.z = za;
         a.floor_y = ya;
-        a.model = (saddr)get_container_breakup_model(0);
+        a.model = get_container_breakup_model(0);
         a.textures = container_breakup_textures;
         TObjChipParams b = lbl_80444EA8;
         f32 zb;
@@ -1089,11 +1091,11 @@ void TObjContainerAbeEnemy::vfunc_79() const {
         xb = self->pos.x;
         yb = self->pos.y;
         zb = self->pos.z;
-        b.pos[0] = xb;
-        b.pos[1] = yb;
-        b.pos[2] = zb;
+        b.pos.x = xb;
+        b.pos.y = yb;
+        b.pos.z = zb;
         b.floor_y = yb;
-        b.model = (saddr)get_container_breakup_model(1);
+        b.model = get_container_breakup_model(1);
         b.textures = container_breakup_textures;
         spawn_particle_effect_with_flags(&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags(&self->pos, 0x46, 0x40);

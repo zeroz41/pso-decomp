@@ -3,6 +3,7 @@
 #include "pso/system/task/TObject.h"
 
 class TObjPlayer;
+class TWindowBase;
 
 // One row of the split-screen battle ranking: place 0 is first.
 struct BattleRanking {
@@ -75,7 +76,7 @@ public:
     u8* rule_data;
     void* intro_window;
     void* menu_window;
-    void* player_windows[4];
+    TWindowBase *player_windows[4];
     char intro_text[0x200];
     s8 timed_event_flags[8];
     s32 frame_timer;
@@ -88,7 +89,7 @@ public:
     s32 timed_event_state;
     s32 player_active[4];
     s32 player_teams[4];
-    s32 win_effects_enabled;  // quest opcodes enable_win_pfx / disable_win_pfx
+    s32 battle_ctrl_default;  // quest opcodes enable_win_pfx / disable_win_pfx
     u16 player_order[4];
     s32 unknown_290;
     const char** message_table;

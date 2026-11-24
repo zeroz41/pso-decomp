@@ -4,9 +4,12 @@
 
 struct TechniqueContactActor;
 struct TechniqueContactBody;
+class TObjCollidable;
+struct CollisionBody;
+
 struct TechniqueContactList {
-    TechniqueContactActor* actors[16];
-    TechniqueContactBody* bodies[16];
+    TObjCollidable *actors[16];
+    CollisionBody *bodies[16];
     s32 count;
     u32 reserved84;
 };

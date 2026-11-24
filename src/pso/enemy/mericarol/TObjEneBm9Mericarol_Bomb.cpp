@@ -28,7 +28,7 @@ extern "C" s32 is_area_attack_target_eligible(void *, u32);
 s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr desc, void *object, f32 range) {
     s32 hit;
     u32 mask;
-    saddr obj;
+    TObjChara *obj;
     s32 i;
     s32 ok;
     hit = 0;
@@ -47,19 +47,19 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr des
     }
     if (this->bodies->flags & mask) {
         for (i = 0; i < 0x10; i++) {
-            obj = TObjPlayer::get_battle_param(i);
+            obj = reinterpret_cast<TObjChara *>(TObjPlayer::get_battle_param(i));
             if (obj == 0) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)obj) != 0 && (TObjBase *)obj != this->owner &&
-                is_area_attack_target_eligible(this, ((TObjBase *)obj)->actorFlags) != 0 &&
-                !(fabs_float(pos.y - ((TObjChara *)obj)->body_center.y) > 3e+01f)) {
+            if (obj_is_hit_receivable(obj) != 0 && obj != this->owner &&
+                is_area_attack_target_eligible(this, obj->actorFlags) != 0 &&
+                !(fabs_float(pos.y - obj->body_center.y) > 3e+01f)) {
                 ok = 1;
-                if (object != 0 && attack_target_history_add((AreaAttackHistory *)object, (TObjChara *)obj) == 0) {
+                if (object != 0 && attack_target_history_add((AreaAttackHistory *)object, obj) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {
-                    area_attack_receive_direct((void *)obj, (f32 *)recoil, (void *)desc);
+                    area_attack_receive_direct(obj, (f32 *)recoil, (void *)desc);
                     hit = 1;
                 }
             }

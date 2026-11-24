@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/math/ClampedStep.h"
 #include "types.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/player/TObjPlayer_8012E760.h"
@@ -12,7 +13,6 @@
 #include "pso/item/TItem.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/weapon/TUnk_804A5D28.h"
-#include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItemEquipVariant_8012E7D8.h"
@@ -23,15 +23,10 @@
 #include "pso/unk/text_8011BE50.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
 
 // Built with -inline off,deferred: functions are written last to first.
-
-extern "C" {
-s32 post_translate_matrix(void *);
-s32 rotate_matrix_z(s32, s32);
-s32 rotate_matrix_x(s32, s32);
-s32 vec3_add_to(void *, void *);
-}
 
 void TUnk_804A5D28::emit_marker_effects() { m_1fc = 1; }
 
@@ -64,7 +59,7 @@ void TUnk_804A5D28::update_weapon() {
     Vec v;
     Ang_8012E5A0 a;
     if (this->m_1fc == 1) {
-        TItemEffOrgaFlowShot::approach_value(&barrel_offset, (-0.5f), (-2.0f));
+        ::approach_value(&barrel_offset, (-0.5f), (-2.0f));
         if ((-2.0f) == barrel_offset) {
             this->m_1fc = 2;
             ang = owner->rotation_y + 0x4000;
@@ -77,7 +72,7 @@ void TUnk_804A5D28::update_weapon() {
             TObjPlayer::launch_weapon_casing((saddr)tl_05, (uaddr)this, 3, (uaddr)&v, (uaddr)&a);
         }
     } else if (this->m_1fc == 2) {
-        TItemEffOrgaFlowShot::approach_value(&barrel_offset, 0.2f, 0.0f);
+        ::approach_value(&barrel_offset, 0.2f, 0.0f);
         if (0.0f == barrel_offset) {
             this->m_1fc = 0;
         }
@@ -125,7 +120,7 @@ void TWeaponCasing::render() {
         if (child != 0U) {
             set_texlist(((TItem *)equipped_item)->get_texlist());
             push_matrix();
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             rotate_matrix_x(0, rotation_x);
             rotate_matrix_z(0, rotation_z);

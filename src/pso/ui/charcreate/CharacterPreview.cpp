@@ -4,12 +4,11 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 
 extern "C" {
-s32 copy_player_visual_record(void *, void *);
-s32 TCharaMaking__bind_appearance_texture_lists(void *, void *, void *, void *);
+void copy_player_visual_record(void *, const void *);
 }
 
 CharacterPreview::~CharacterPreview() {
-    if (request != NULL && is_loaded() == 0) {
+    if (request != NULL && is_unloaded() == 0) {
         delete request;
         request = NULL;
     }
@@ -49,4 +48,4 @@ CharacterPreview::CharacterPreview(TObject *parent, void *visual, s32 load_slot)
     request = create_ch_cr_load_req(parent, &args);
 }
 
-int CharacterPreview::is_loaded() { return completion_flags == 0; }
+int CharacterPreview::is_unloaded() { return completion_flags == 0; }

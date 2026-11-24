@@ -26,67 +26,67 @@ extern u8 lbl_804CF30C[];
 extern PM_80253D10 TWindowHelpItem__mag_growth_update_callback;
 extern const f32 lbl_805DCDF4;
 extern const f32 lbl_805DCDF8;
-s32 TItemData::update_mag_status_gauges() {
-    s32 mag[4];
+s32 TWindowHelpItem::update_mag_status_gauges() {
+    MagStats mag;
     saddr a;
     saddr b;
     saddr c;
     saddr d;
     s32 var_r31;
-    ((MagStats *)mag)->init();
+    mag.init();
     var_r31 = 0;
-    TItemData::deserialize_mag((void *)(*(saddr *)((s8 *)((u8 *)this) + 0x68)), (void *)mag);
-    a = reinterpret_cast<saddr>(((TWindowBase *)((u8 *)this))->get_array_entry(0));
-    b = reinterpret_cast<saddr>(((TWindowBase *)((u8 *)this))->get_array_entry(1));
-    c = reinterpret_cast<saddr>(((TWindowBase *)((u8 *)this))->get_array_entry(2));
-    d = reinterpret_cast<saddr>(((TWindowBase *)((u8 *)this))->get_array_entry(0xF));
+    TItemData::deserialize_mag(active_item, &mag);
+    a = reinterpret_cast<saddr>(get_array_entry(0));
+    b = reinterpret_cast<saddr>(get_array_entry(1));
+    c = reinterpret_cast<saddr>(get_array_entry(2));
+    d = reinterpret_cast<saddr>(get_array_entry(0xF));
     ((TWindowSubStatusDisp *)a)->clear_visible_flag();
     ((TWindowHelpItem *)d)->set_flag0_bit2();
-    ((TWindowHelpItem *)b)->set_compare_color((s32) ((MagStats *)mag)->get_synchro());
-    ((TWindowHelpItem *)c)->set_compare_color((s32) ((MagStats *)mag)->get_iq());
-    b = reinterpret_cast<saddr>(((TWindowBase *)((u8 *)this))->get_array_entry(4));
-    a = reinterpret_cast<saddr>(((TWindowBase *)((u8 *)this))->get_array_entry(5));
-    if ((s32) *(s32 *)((s8 *)b + 0x20) < ((MagStats *)mag)->get_def_level()) {
+    ((TWindowHelpItem *)b)->set_compare_color((s32) mag.get_synchro());
+    ((TWindowHelpItem *)c)->set_compare_color((s32) mag.get_iq());
+    b = reinterpret_cast<saddr>(get_array_entry(4));
+    a = reinterpret_cast<saddr>(get_array_entry(5));
+    if ((s32) *(s32 *)((s8 *)b + 0x20) < mag.get_def_level()) {
         var_r31 = 1;
         *(f32 *)((s8 *)a + 0x24) = (f32) lbl_805DCDF0;
     } else {
-        if (*(f32 *)((s8 *)a + 0x24) != (f32) ((MagStats *)(mag))->get_def_progress()) {
+        if (*(f32 *)((s8 *)a + 0x24) != (f32) mag.get_def_progress()) {
             var_r31 = 1;
         }
-        *(f32 *)((s8 *)a + 0x24) = (f32) ((MagStats *)(mag))->get_def_progress();
+        *(f32 *)((s8 *)a + 0x24) = (f32) mag.get_def_progress();
     }
-    b = reinterpret_cast<saddr>(((TWindowBase *)((u8 *)this))->get_array_entry(7));
-    a = reinterpret_cast<saddr>(((TWindowBase *)((u8 *)this))->get_array_entry(8));
-    if ((s32) *(s32 *)((s8 *)b + 0x20) < ((MagStats *)mag)->get_pow_level()) {
+    b = reinterpret_cast<saddr>(get_array_entry(7));
+    a = reinterpret_cast<saddr>(get_array_entry(8));
+    if ((s32) *(s32 *)((s8 *)b + 0x20) < mag.get_pow_level()) {
         var_r31 = 1;
         *(f32 *)((s8 *)a + 0x24) = (f32) lbl_805DCDF0;
     } else {
-        if (*(f32 *)((s8 *)a + 0x24) != (f32) ((MagStats *)(mag))->get_pow_progress()) {
+        if (*(f32 *)((s8 *)a + 0x24) != (f32) mag.get_pow_progress()) {
             var_r31 = 1;
         }
-        *(f32 *)((s8 *)a + 0x24) = (f32) ((MagStats *)(mag))->get_pow_progress();
+        *(f32 *)((s8 *)a + 0x24) = (f32) mag.get_pow_progress();
     }
-    a = reinterpret_cast<saddr>(((TWindowBase *)((u8 *)this))->get_array_entry(0xA));
-    b = reinterpret_cast<saddr>(((TWindowBase *)((u8 *)this))->get_array_entry(0xB));
-    if ((s32) *(s32 *)((s8 *)a + 0x20) < ((MagStats *)mag)->get_dex_level()) {
+    a = reinterpret_cast<saddr>(get_array_entry(0xA));
+    b = reinterpret_cast<saddr>(get_array_entry(0xB));
+    if ((s32) *(s32 *)((s8 *)a + 0x20) < mag.get_dex_level()) {
         var_r31 = 1;
         *(f32 *)((s8 *)b + 0x24) = (f32) lbl_805DCDF0;
     } else {
-        if (*(f32 *)((s8 *)b + 0x24) != (f32) ((MagStats *)(mag))->get_dex_progress()) {
+        if (*(f32 *)((s8 *)b + 0x24) != (f32) mag.get_dex_progress()) {
             var_r31 = 1;
         }
-        *(f32 *)((s8 *)b + 0x24) = (f32) ((MagStats *)(mag))->get_dex_progress();
+        *(f32 *)((s8 *)b + 0x24) = (f32) mag.get_dex_progress();
     }
-    b = reinterpret_cast<saddr>(((TWindowBase *)((u8 *)this))->get_array_entry(0xD));
-    a = reinterpret_cast<saddr>(((TWindowBase *)((u8 *)this))->get_array_entry(0xE));
-    if ((s32) *(s32 *)((s8 *)b + 0x20) < ((MagStats *)mag)->get_mind_level()) {
+    b = reinterpret_cast<saddr>(get_array_entry(0xD));
+    a = reinterpret_cast<saddr>(get_array_entry(0xE));
+    if ((s32) *(s32 *)((s8 *)b + 0x20) < mag.get_mind_level()) {
         var_r31 = 1;
         *(f32 *)((s8 *)a + 0x24) = (f32) lbl_805DCDF0;
     } else {
-        if (*(f32 *)((s8 *)a + 0x24) != (f32) ((MagStats *)(mag))->get_mind_progress()) {
+        if (*(f32 *)((s8 *)a + 0x24) != (f32) mag.get_mind_progress()) {
             var_r31 = 1;
         }
-        *(f32 *)((s8 *)a + 0x24) = (f32) ((MagStats *)(mag))->get_mind_progress();
+        *(f32 *)((s8 *)a + 0x24) = (f32) mag.get_mind_progress();
     }
     return var_r31;
 }

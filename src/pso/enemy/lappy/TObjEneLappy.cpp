@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/TLanguage_801E4874.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyMovement.h"
@@ -15,7 +16,6 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
@@ -182,7 +182,6 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 // give get_entity_id a u16 and is_item_light_interaction_blocked a bool
 // return, and these callers zero-extend an int result.
 void apply_actor_gravity(TObjEnemy *enemy, s32 *, f32 hover_height);
-void move_with_wall_slide(u8 *actor);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 extern "C" {
 s32 is_item_light_interaction_blocked();
@@ -375,7 +374,7 @@ void TObjEneLappy::update_dying() {
     }
     refresh_collision_body_centers();
     if (this->frame < (0.5f * (30.0f * this->play_speed))) {
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         this->velocity.x *= 0.5f;
         this->velocity.z *= 0.5f;
     }
@@ -409,7 +408,7 @@ void TObjEneLappy::update_hurt() {
     v.x += velocity.x;
     v.z += velocity.z;
     if (check_path_obstructed(this, &v) == 0) {
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
     } else {
         velocity.x = velocity.z = 0.0f;
     }
@@ -468,7 +467,7 @@ void TObjEneLappy::run_miss_reaction() {
 }
 
 void TObjEneLappy::update_attacking() {
-    u8 *hit;
+    TObjChara *hit;
     advance_animation();
     switch (phase) {
     case 0:
@@ -489,9 +488,9 @@ void TObjEneLappy::update_attacking() {
         apply_actor_gravity(this, NULL, 0.0f);
         if (is_passing_frame(14.0f) != 0) {
             hit = target;
-            if (hit != NULL && ((TObjChara *)hit)->select_melee_contact_body(this, 1.0f) != 0) {
-                ((TObjChara *)target)->receive_physical_attack(this, 1.0f);
-                ((TObjChara *)target)->apply_knockback_from_attacker((u8 *)this, 3.0f);
+            if (hit != NULL && hit->select_melee_contact_body(this, 1.0f) != 0) {
+                target->receive_physical_attack(this, 1.0f);
+                target->apply_knockback_from_attacker((u8 *)this, 3.0f);
             }
             play_sound_effect(remap_area_sound_id(0x3BC0D, 5), &position, 0, 0);
             phase = 2;
@@ -545,7 +544,7 @@ void TObjEneLappy::update_moving() {
     f32 dist;
     s32 turn;
     u32 flags;
-    u8 *chased;
+    TObjChara *chased;
     LappyMovementParameters *params;
     advance_animation();
     if ((actorFlags & 0x1000) && !(lappy_flags & 2)) {
@@ -842,8 +841,8 @@ void TObjEneLappy::run_task() {
         sub_800BFF54();
         return;
     }
-    target = (u8 *)find_active_entity_by_id(targetId);
-    if (target != NULL && (((TObjChara *)target)->actorFlags & 0x800)) {
+    target = static_cast<TObjChara *>(find_active_entity_by_id(targetId));
+    if (target != NULL && (target->actorFlags & 0x800)) {
         target = NULL;
         targetId = 0xFFFF;
     }
@@ -907,7 +906,6 @@ void *TObjEneLappy::create(void *set) {
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/TLevelSelect.h"
@@ -925,7 +923,7 @@ void TObjEneLappy::free_resources() {
     if (TLobby::get_instance() == 0) {
         if (rappy_alternate_texture_list != 0) {
             release_texture_list(rappy_alternate_texture_list);
-            TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<saddr>(rappy_alternate_texture_list));
+            safe_free(rappy_alternate_texture_list);
             rappy_alternate_texture_list = 0;
         }
     } else {
@@ -1127,7 +1125,7 @@ TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) 
     tp = tpmax;
     referenceHp = hp;
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     register_object_by_id();
     scale = 6.0f * (1.0f + random_ratio());
     idle_timer = 30.0f * scale;

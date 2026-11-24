@@ -172,6 +172,7 @@ LAYOUT_ASSERT(WeaponHitCallbackOffset, offsetof(TItemWeapon,hit_callback)==0x1F4
 LAYOUT_ASSERT(WeaponBaseSize, sizeof(TItemWeapon)==0x1F8);
 LAYOUT_ASSERT(WeaponMarkerPacketSize, sizeof(WeaponMarkerPacket)==0x14);
 extern "C" {
+void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s32 end_joint);
 // TItemWeapon's destructor under its own symbol, for the derived classes
 // still written as C functions.
 void *__dt__11TItemWeaponFv(void *item, s16 deleting);

@@ -11,7 +11,8 @@ class TObjEneMorfos;
 // dies after 500 units or on a wall (made by TObjEneMorfos; the vtable at 0x804EF130 overrides the dtor and run_task).
 class TUnk_804EF130 : public TObjCollidable {
 public:
-    TUnk_804EF130(Vec *start, s32 angle, TObjEneMorfos *owner);
+    TUnk_804EF130(const Vec *start, s32 angle, TObjChara *owner);
+    s32 snap_to_ground(Vec *position);
     virtual ~TUnk_804EF130();
     virtual void run_task();
     void hit_target_in_range(TObjChara *target, TObjCollidable *owner);

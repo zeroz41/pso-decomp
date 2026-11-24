@@ -4,6 +4,8 @@
 #include <dolphin/mtx.h>
 #include "pso/system/task/TObject.h"
 
+struct GinjaRenderTarget;
+
 // The Sora reflected-scene task (TSceneSora's reflection pass). Its vtable
 // 0x804DC7C4 is emitted by pso/render/reflection.cpp.
 class TUnk_804DC7C4 : public TObject {
@@ -14,7 +16,7 @@ public:
     virtual void render();
     virtual void render_shadows();
     // scene_sora_recon_object when the task was made (name inferred).
-    uaddr recon_object;
+    GinjaRenderTarget *recon_object;
     // The TEffIndirectSampler(0x28, 1, tl_05) indirect effect task (name inferred).
     TObject *indirect_effect;
     // Floor point the reflection ray hits and the plane normal (0,1,0)

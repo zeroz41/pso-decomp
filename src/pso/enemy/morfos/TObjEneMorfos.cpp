@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/EnemyPlacement.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -134,7 +135,7 @@ TObjMotionAction morfos_motion_param_table[5] = {
 const char *morfos_class_name = "TObjEneMorfos";
 
 f32 lbl_805434D0[3];
-saddr morfos_attack_params[3];
+AttackParams *morfos_attack_params[3];
 
 void TObjEneMorfos::load_static_data() {
     BmlResource *mgr;
@@ -156,13 +157,13 @@ void TObjEneMorfos::load_static_data() {
     morfos_body_scroll_tick = 0;
     morfos_wall_scroll_tick = 0;
     for (i = 0; i < 1; i++) {
-        morfos_base_params[i] = (saddr)TLobby::register_boss(morfos_boss_ids[i]);
+        morfos_base_params[i] = TLobby::register_boss(morfos_boss_ids[i]);
     }
     for (i = 0; i < 2; i++) {
-        morfos_attack_params[i] = (saddr)TLobby::dispatch_shared_handler_b(morfos_attack_param_ids[i]);
+        morfos_attack_params[i] = TLobby::dispatch_shared_handler_b(morfos_attack_param_ids[i]);
     }
     for (i = 0; i < 1; i++) {
-        morfos_resistance_params[i] = (saddr)TLobby::register_object(morfos_object_ids[i]);
+        morfos_resistance_params[i] = TLobby::register_object(morfos_object_ids[i]);
     }
     for (i = 0; i < 1; i++) {
         (&TObjEneMorfos__param_table)[i] = (MorfosParams *)TLobby::dispatch_shared_handler_a(morfos_handler_a_ids[i]);
@@ -176,8 +177,8 @@ void TObjEneMorfos::load_static_data() {
     }
 }
 
-void *TObjEneMorfos::create() {
-    return new TObjEneMorfos((TObject *)tl_04, this);
+void *TObjEneMorfos::create(void *set_data) {
+    return new TObjEneMorfos((TObject *)tl_04, static_cast<EnemyPlacement *>(set_data));
 }
 
 void TObjEneMorfos::unload_static_data() {
@@ -187,7 +188,7 @@ void TObjEneMorfos::unload_static_data() {
         TObjEneMorfos__instance = NULL;
     }
 }
-TObjEneMorfos::TObjEneMorfos(TObject *parent, void *set_data) : TObjEneDD_ST(parent) {
+TObjEneMorfos::TObjEneMorfos(TObject *parent, EnemyPlacement *set_data) : TObjEneDD_ST(parent) {
     m_name = morfos_class_name;
     invoke_initialization_hook(set_data);
     init_target_offsets();
@@ -206,7 +207,7 @@ void TObjEneMorfos::init_instance() {
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);
-    reset_hp(reinterpret_cast<player_stats *>(morfos_base_params[morfos_base_params_index[0]]), reinterpret_cast<AttackParams *>(morfos_attack_params[morfos_attack_params_index[0]]), reinterpret_cast<ActorParamBlock *>(morfos_resistance_params[morfos_resistance_params_index[0]]));
+    reset_hp(morfos_base_params[morfos_base_params_index[0]], morfos_attack_params[morfos_attack_params_index[0]], morfos_resistance_params[morfos_resistance_params_index[0]]);
     load_params();
     set_state_8();
     this->movementParameters = lbl_804EE0C0;
@@ -234,7 +235,7 @@ void TObjEneMorfos::init_instance() {
     this->target_angle = 0;
     burst_start_angle = 0;
     this->accum = 0.0f;
-    *(f32 *)((s8 *)this + 0x4C8) = 0.0f;
+    unk_4C8 = 0.0f;
     this->walk_dir.x = 0.0f;
     walk_dir.y = 0.0f;
     this->walk_dir.z = 0.0f;
@@ -985,7 +986,7 @@ void TObjEneMorfos::state_attack(s32 ev) {
                     step = 1;
                     this->requested_action = 1;
                     play_sound_effect(0x4003A725, &position, 0, 0);
-                    TObjEneMorfosArm::create((void *)this, (void *)this);
+                    TObjEneMorfosArm::create(this, this);
                 } else if (destination_distance >= 30.0f) {
                     step = 3;
                 }
@@ -1128,7 +1129,7 @@ void TObjEneMorfos::state_death(s32 ev) {
             if (body_fade.decay_value_toward_floor() != 0) {
                 this->counter = 2;
                 morfos_flags = (s32) (morfos_flags | 1);
-                TObjPlayer::apply_effect_variant_b((saddr)&position, 0);
+                TObjPlayer::apply_effect_variant_b(&position, 0);
                 return;
             }
             break;
@@ -1371,8 +1372,8 @@ void TObjEneMorfos::render_demo() {
     }
 }
 
-saddr morfos_base_params[1];
-saddr morfos_resistance_params[1];
+player_stats *morfos_base_params[1];
+ActorParamBlock *morfos_resistance_params[1];
 MorfosParams *TObjEneMorfos__param_table;
 BmlResource *TObjEneMorfos__instance;
 s32 TObjEneMorfos__phase;

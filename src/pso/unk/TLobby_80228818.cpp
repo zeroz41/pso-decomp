@@ -115,18 +115,17 @@ TTokenList::TTokenList(TObject *parent, s32 x, s32 y) : TObject(parent) {
     memset(tokens, 0, sizeof(tokens));
     count = 0;
 }
-void TLobby::trim_whitespace() {
-    char *s = (char *)this;
-    s32 len = strlen(s);
+void trim_whitespace(char *text) {
+    s32 len = strlen(text);
     s32 i;
-    for (i = 0; i <= len && ((u8 *)s)[i] <= ' '; i++) {
+    for (i = 0; i <= len && ((u8 *)text)[i] <= ' '; i++) {
     }
     if (i > len) {
-        strcpy(s, "");
+        strcpy(text, "");
     } else {
-        for (; ((u8 *)s)[len] <= ' '; len--) {
-            s[len] = 0;
+        for (; ((u8 *)text)[len] <= ' '; len--) {
+            text[len] = 0;
         }
-        strcpy(s, s + i);
+        strcpy(text, text + i);
     }
 }

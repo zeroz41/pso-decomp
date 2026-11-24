@@ -12,10 +12,10 @@ void fn_801C5420(s32 *value, s32 count);
 bool fn_801C543C(s8 *counts, s32 kind);
 void clear_trap_counts(s8 *counts);
 s32 are_trap_counts_full(s8 *counts, s32 level, s8 char_class);
-void TObjPlayer__sub_801C5780(saddr trap_counts, s8 count, s32 kind);
+void TObjPlayer__sub_801C5780(s8 *counts, s8 count, s32 kind);
 }
 
-void refill_trap_counts(s32 trap_counts, s32 level, s32 char_class);
+void refill_trap_counts(s8 *counts, s32 level, s32 char_class);
 s8 calc_trap_capacity(s32 level, s8 char_class, s32 kind);
 
 #endif

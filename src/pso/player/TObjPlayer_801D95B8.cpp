@@ -12,14 +12,14 @@ u8 get_effective_technique_level__10TObjPlayerFPvs(void *, int);
 s32 TObjPlayer__sub_801C010C(void *, s16);
 s32 clamp_to_max__20PlayerTechniqueStateFUcUc(void *, s32, s32);
 
-s16 TObjPlayer::get_section_clamped() {
+s16 PlayerTechniqueState::get_section_clamped() {
     s16 section;
 
-    section = *(s16 *)&this->m_id;
+    section = this->target_count;
     if ((section < 0) || (section > 0xA)) {
-        *(s16 *)&this->m_id = 0;
+        this->target_count = 0;
     }
-    return *(s16 *)&this->m_id;
+    return this->target_count;
 }
 
 s16 PlayerTechniqueState::get_or_init_field_4() {
@@ -39,26 +39,26 @@ void TObjPlayer::split_capped_value(u8 level, u8 *capped, u8 *overflow) {
     *overflow = level - 0xE;
 }
 
-u8 TObjPlayer::get_valid_technique() {
+u8 PlayerTechniqueState::get_valid_technique() {
     u8 technique;
 
-    technique = *(u8 *)((s8 *)this + 1);
+    technique = this->level_override;
     if (TObjPlayer::is_valid_technique_slot(technique) == 0) {
         technique = 0;
     }
     return technique;
 }
 
-u8 TObjPlayer::get_castable_technique_level() {
-    u8 level = ((PlayerTechniqueState *)this)->level;
+u8 PlayerTechniqueState::get_castable_technique_level() {
+    u8 level = this->level;
     u8 cap;
-    if (TObjPlayer::check_technique_level((saddr)(((PlayerTechniqueState *)this)), (s32)(((PlayerTechniqueState *)this)->technique), (u8)level) == 0) {
+    if (check_technique_level(technique, level) == 0) {
         level = 0x1D;
     }
     if (TObjPlayer::is_invalid_slot(level) != 0) {
         return level;
     }
-    cap = get_effective_technique_level__10TObjPlayerFPvs(((PlayerTechniqueState *)this), ((PlayerTechniqueState *)this)->technique);
+    cap = get_effective_technique_level__10TObjPlayerFPvs(this, technique);
     if (TObjPlayer::is_invalid_slot(cap) != 0) {
         return TObjPlayer::get_item_count_max();
     }

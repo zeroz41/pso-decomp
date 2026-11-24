@@ -49,7 +49,6 @@ extern const f32 view_detail_near_depth = 155.0f;
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 
 
-#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/TLevelSelect.h"
 extern "C" {
 int is_local_client_floor_leader(void*);
@@ -95,7 +94,6 @@ f32 newton_sqrtf(f32);
 #include <dolphin/mtx.h>
 
 
-#include <stddef.h>
 extern "C" {
 f32 fabs_float(f32);
 s32 VecCopy__FP3VecPC3Vec(void *, void *, s32);
@@ -173,7 +171,7 @@ void TObjEneDD::init_position_vectors() {
     VecCopy(&this->prev_position, (const Vec *)&this->position);
     VecCopy(&this->home_position, (const Vec *)&this->position);
     VecCopy(&this->center, (const Vec *)&this->position);
-    ((TBoss3Volopt *)self)->reset_photon_effect();
+    register_by_id();
     VecCopy(&this->body_center, (const Vec *)&this->position);
     *(f32 *)((s8 *)self + 0x308) = 0.0f;
     this->velocity.y = 0.0f;
@@ -291,11 +289,11 @@ s32 pack_debug_text_position(s32 x, s32 y) {
 
 int TObjEneDD::get_target_info() { return fn_800FD8A0(this); }
 
-void TObjEneDD::init_common_from(u8 *source) {
+void TObjEneDD::init_common_from(TObjBase *source) {
     reset_state_fields();
-    this->room = (s16) *(s16 *)((s8 *)source + 0x28);
-    this->set_group = (s16) *(s16 *)((s8 *)source + 0x2A);
-    subtractive_rng_seed(&this->rng, (int) (this->entity_id + area_random_seed));
+    room = source->room;
+    set_group = source->set_group;
+    subtractive_rng_seed(&rng, (int) (this->entity_id + area_random_seed));
 }
 
 
@@ -347,8 +345,8 @@ u16 enemy_nearest_visible_player_sq(TObjChara *self, f32 range) {
 }
 
 
-u16 enemy_find_nearest_player_in_range(u8 *self, f32 range) {
-    return enemy_nearest_visible_player_sq((TObjChara *)self, range * range);
+u16 enemy_find_nearest_player_in_range(TObjChara *self, f32 range) {
+    return enemy_nearest_visible_player_sq(self, range * range);
 }
 
 void TBoss8Dragon__sub_800BB650(TargetCandidate *dst, TargetCandidate *src) {
@@ -444,8 +442,8 @@ u16 enemy_nearest_visible_enemy(void *self, f32 range) {
     return enemy_nearest_visible_enemy_sq((TObjChara *)self, range * range);
 }
 
-u8 *TObjEneDD::snap_to_ground_at(u8 *dest) {
-    const Vec *target = (const Vec *)dest;
+CsnHit *TObjEneDD::snap_to_ground_at(u8 *dest) {
+    const Vec *target = reinterpret_cast<const Vec *>(dest);
     Vec probe;
     CsnHit *hit;
     probe.x = target->x;
@@ -459,7 +457,7 @@ u8 *TObjEneDD::snap_to_ground_at(u8 *dest) {
         return NULL;
     }
     this->position.y = hit->contact->point.y;
-    return (u8 *)hit;
+    return hit;
 }
 
 CsnHit *TObjEneDD::enemy_probe_wall_ahead(f32 dx, f32 dz, f32 dist) {
@@ -477,8 +475,8 @@ CsnHit *TObjEneDD::enemy_probe_wall_ahead(f32 dx, f32 dz, f32 dist) {
     return csnVector(&body_center, &ahead, 0x88E0);
 }
 
-void TObjEneDD::calc_shot_position(u8 *shot, f32 dx, f32 dz, f32 dist) {
-    Vec *out = (Vec *)shot;
+void TObjEneDD::calc_shot_position(Vec *shot, f32 dx, f32 dz, f32 dist) {
+    Vec *out = shot;
     s32 failures;
 
     f32 reach = dist + wall_reach;
@@ -553,93 +551,98 @@ void calc_wall_clamped_destination(TObjEneDD *e, Vec *out, f32 dx, f32 dz, f32 d
 }
 #pragma pop
 
-u8 *TObjEneDD::try_move_actor_xz_on_ground(u8 *shot) {
-    const Vec *target = (const Vec *)shot;
+// Keep coordinate reads and writes in order if the target aliases position.
+CsnHit *TObjEneDD::try_move_actor_xz_on_ground(const Vec *shot) {
+    volatile Vec &current = position;
+    volatile Vec &previous = prev_position;
+    const volatile Vec &target = *shot;
     f32 y;
     CsnHit *hit;
     y = position.y;
-    hit = (CsnHit *)snap_to_ground_at(shot);
+    hit = snap_to_ground_at(reinterpret_cast<u8 *>(const_cast<Vec *>(shot)));
     if (hit != NULL) {
-        prev_position.x = position.x;
-        prev_position.y = y;
-        prev_position.z = position.z;
-        position.x = target->x;
-        position.z = target->z;
+        previous.x = current.x;
+        previous.y = y;
+        previous.z = current.z;
+        current.x = target.x;
+        current.z = target.z;
         VecCopy(&ground_normal, &hit->contact->normal);
         ground_probe_failures = 0;
     } else {
         ground_probe_failures = ground_probe_failures + 1;
     }
-    return (u8 *)hit;
+    return hit;
 }
 
-u8 *TObjEneDD::move_xz_on_ground(u8 *dest) {
-    const Vec *target = (const Vec *)dest;
+CsnHit *TObjEneDD::move_xz_on_ground(const Vec *dest) {
+    volatile Vec &current = position;
+    volatile Vec &previous = prev_position;
+    const volatile Vec &target = *dest;
     f32 y;
     CsnHit *hit;
     y = position.y;
-    hit = (CsnHit *)snap_to_ground_at(dest);
+    hit = snap_to_ground_at(reinterpret_cast<u8 *>(const_cast<Vec *>(dest)));
+    if (hit != NULL) {
+        VecCopy(&ground_normal, &hit->contact->normal);
+    }
+    previous.x = current.x;
+    previous.y = y;
+    previous.z = current.z;
+    current.x = target.x;
+    current.z = target.z;
+    ground_probe_failures = 0;
+    return hit;
+}
+
+CsnHit *TObjEneDD::update_ground_contact() {
+    f32 y;
+    CsnHit *hit;
+    y = position.y;
+    hit = update_actor_ground_y();
     if (hit != NULL) {
         VecCopy(&ground_normal, &hit->contact->normal);
     }
     prev_position.x = position.x;
     prev_position.y = y;
     prev_position.z = position.z;
-    position.x = target->x;
-    position.z = target->z;
     ground_probe_failures = 0;
-    return (u8 *)hit;
-}
-
-u8 *TObjEneDD::update_ground_contact() {
-    f32 y;
-    CsnHit *hit;
-    y = position.y;
-    hit = (CsnHit *)update_actor_ground_y();
-    if (hit != NULL) {
-        VecCopy(&ground_normal, &hit->contact->normal);
-    }
-    prev_position.x = position.x;
-    prev_position.y = y;
-    prev_position.z = position.z;
-    ground_probe_failures = 0;
-    return (u8 *)hit;
+    return hit;
 }
 
 void TObjEneDD::move_to_shot_position(f32 dx, f32 dz, f32 dist) {
     Vec dest;
-    calc_shot_position((u8 *)&dest, dx, dz, dist);
-    try_move_actor_xz_on_ground((u8 *)&dest);
+    calc_shot_position(&dest, dx, dz, dist);
+    try_move_actor_xz_on_ground(&dest);
 }
 
 void TObjEneDD::move_with_wall_slide_on_ground(f32 dx, f32 dz, f32 dist) {
     Vec dest;
-    calc_wall_slide_destination(this, (Vec *)&dest, dx, dz, dist);
-    try_move_actor_xz_on_ground((u8 *)&dest);
+    calc_wall_slide_destination(this, &dest, dx, dz, dist);
+    try_move_actor_xz_on_ground(&dest);
 }
 
 void TObjEneDD::move_clamped_on_ground(f32 dx, f32 dz, f32 dist) {
     Vec dest;
-    calc_wall_clamped_destination(this, (Vec *)&dest, dx, dz, dist);
-    try_move_actor_xz_on_ground((u8 *)&dest);
+    calc_wall_clamped_destination(this, &dest, dx, dz, dist);
+    try_move_actor_xz_on_ground(&dest);
 }
 
 void TObjEneDD::move_with_wall_stop(f32 dx, f32 dz, f32 dist) {
     Vec dest;
-    calc_shot_position((u8 *)&dest, dx, dz, dist);
-    move_xz_on_ground((u8 *)&dest);
+    calc_shot_position(&dest, dx, dz, dist);
+    move_xz_on_ground(&dest);
 }
 
-u8 *TObjEneDD::move_with_wall_slide_commit(f32 dx, f32 dz, f32 dist) {
+CsnHit *TObjEneDD::move_with_wall_slide_commit(f32 dx, f32 dz, f32 dist) {
     Vec dest;
-    calc_wall_slide_destination(this, (Vec *)&dest, dx, dz, dist);
-    return move_xz_on_ground((u8 *)&dest);
+    calc_wall_slide_destination(this, &dest, dx, dz, dist);
+    return move_xz_on_ground(&dest);
 }
 
 void TObjEneDD::move_to_wall_clamped_destination(f32 dx, f32 dz, f32 dist) {
     Vec dest;
-    calc_wall_clamped_destination(this, (Vec *)&dest, dx, dz, dist);
-    move_xz_on_ground((u8 *)&dest);
+    calc_wall_clamped_destination(this, &dest, dx, dz, dist);
+    move_xz_on_ground(&dest);
 }
 
 int TObjEneDD::has_move_failures(s32 limit) {
@@ -726,18 +729,18 @@ s32 TObjEneDD::vfunc_90() {
     return 0;
 }
 
-void set_collider_contact_high(u8 *body) {
-    *(s32 *)((s8 *)body + 0x18) = (s32) (*(s32 *)((s8 *)body + 0x18) | 4);
-    *(s32 *)((s8 *)body + 0x18) = (s32) (*(s32 *)((s8 *)body + 0x18) & 0xFFFFFFFD);
+void set_collider_contact_high(CollisionBody *body) {
+    body->flags |= 4;
+    body->flags &= ~2U;
 }
 
-void set_collider_contact_low(u8 *body) {
-    *(s32 *)((s8 *)body + 0x18) = (s32) (*(s32 *)((s8 *)body + 0x18) & 0xFFFFFFFB);
-    *(s32 *)((s8 *)body + 0x18) = (s32) (*(s32 *)((s8 *)body + 0x18) | 2);
+void set_collider_contact_low(CollisionBody *body) {
+    body->flags &= ~4U;
+    body->flags |= 2;
 }
 
-void update_collider_contact_by_height(u8 *body, f32 height) {
-    if (*(f32 *)((s8 *)body + 4) >= height) {
+void update_collider_contact_by_height(CollisionBody *body, f32 height) {
+    if (body->offset.y >= height) {
         set_collider_contact_high(body);
         return;
     }
@@ -906,14 +909,14 @@ void TObjEneDD::clear_intangible() {
 void TObjEneDD::set_colliders_contact_high() {
     s32 i;
     for (i = 0; i < this->body_count; i++) {
-        set_collider_contact_high((u8 *)&bodies[i]);
+        set_collider_contact_high(&bodies[i]);
     }
 }
 
 void TObjEneDD::set_colliders_contact_low() {
     s32 i;
     for (i = 0; i < this->body_count; i++) {
-        set_collider_contact_low((u8 *)&bodies[i]);
+        set_collider_contact_low(&bodies[i]);
     }
 }
 
@@ -950,12 +953,12 @@ void TObjEneDD::reload_stats_keep_hp_tp(player_stats *base_stats, AttackParams *
     s16 a = this->hpmax;
     s16 c = this->hp;
     s16 b = this->tpmax;
-    s16 d = *(s16 *)&this->tp;
+    s16 d = this->tp;
     bind_enemy_combat_stats(base_stats, attack_stats, resistance_stats);
     this->hpmax = a;
     this->hp = c;
     this->tpmax = b;
-    *(s16 *)&this->tp = d;
+    this->tp = d;
 }
 
 void TObjEneDD::update_secondary_light() { select_actor_lighting(this); }
@@ -1003,15 +1006,15 @@ int TObjEneDD::update_lobby_state() { return is_local_client_floor_leader(this);
 
 int TObjEneDD::query_teammate_state() { return TObjPlayer::is_any_teammate_in_state(); }
 
-void project_sound_origin_from_camera(saddr source, u8 *out, f32 distance) {
+void project_sound_origin_from_camera(const Vec *source, Vec *out, f32 distance) {
     f32 scale;
-    VecCopy((Vec *)(out), (const Vec *)(source));
-    subtract_vector((Vec *)out, &camera_ctrl_instance->pos);
-    { f32 s = normalize_vector_safe((Vec *)out); scale = s * distance; }
-    ((Vec *)out)->x *= scale;
-    ((Vec *)out)->y *= scale;
-    ((Vec *)out)->z *= scale;
-    vec3_add_to((Vec *)out, &camera_ctrl_instance->pos);
+    VecCopy(out, source);
+    subtract_vector(out, &camera_ctrl_instance->pos);
+    { f32 s = normalize_vector_safe(out); scale = s * distance; }
+    out->x *= scale;
+    out->y *= scale;
+    out->z *= scale;
+    vec3_add_to(out, &camera_ctrl_instance->pos);
 }
 
 int TObjEneDD::get_target_state_b() { return freeze_all_players__10TObjPlayerFv(this); }
@@ -1136,17 +1139,17 @@ s32 TObjEneDD_ST::select_and_apply_target(f32 range) {
         enemy = enemy_nearest_visible_enemy(this, range);
         target = enemy;
         if (enemy == 0xFFFF) {
-            target = enemy_find_nearest_player_in_range((u8 *)this, range);
+            target = enemy_find_nearest_player_in_range(this, range);
         }
     } else {
-        target = enemy_find_nearest_player_in_range((u8 *)this, range);
+        target = enemy_find_nearest_player_in_range(this, range);
     }
     return enemy_bind_or_clear_target(this, target);
 }
 
 
 s32 TObjEneDD_ST::select_nearest_target(f32 distance) {
-    u16 target = enemy_find_nearest_player_in_range((u8 *)this, distance);
+    u16 target = enemy_find_nearest_player_in_range(this, distance);
     return enemy_bind_or_clear_target(this, target);
 }
 
@@ -1208,55 +1211,55 @@ void TObjEneDD_ST::turn_toward_target_direction(s32 max_step) {
     this->rotation_y = (s16) approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(destination_direction.x, destination_direction.z)), max_step);
 }
 
-void TObjEneDD_ST::fire_attack_c(saddr shot_pos, s32 iscale, f32 scale) {
+void TObjEneDD_ST::fire_attack_c(Vec *shot_pos, s32 iscale, f32 scale) {
     f32 dist;
 
     dist = scale;
     turn_toward_target_direction(iscale);
-    this->calc_shot_position((u8 *)shot_pos, (f32)(sin_table_lookup(this->rotation_y)), (f32)(cos_table_lookup(this->rotation_y)), (f32)dist);
+    this->calc_shot_position(shot_pos, (f32)(sin_table_lookup(this->rotation_y)), (f32)(cos_table_lookup(this->rotation_y)), (f32)dist);
 }
 
-void TObjEneDD_ST::fire_attack_b(saddr out, s32 max_step, f32 distance) {
+void TObjEneDD_ST::fire_attack_b(Vec *out, s32 max_step, f32 distance) {
     f32 dz;
     f32 dist;
 
     dist = distance;
     turn_toward_target_direction(max_step);
     dz = cos_table_lookup(this->rotation_y);
-    calc_wall_slide_destination(this, (Vec *)out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)dz), (f32)((f32)dist));
+    calc_wall_slide_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)dz), (f32)((f32)dist));
 }
 
-void TObjEneDD_ST::fire_attack_a(saddr out, s32 max_step, f32 distance) {
+void TObjEneDD_ST::fire_attack_a(Vec *out, s32 max_step, f32 distance) {
     f32 dist;
 
     dist = distance;
     turn_toward_target_direction(max_step);
-    calc_wall_clamped_destination(this, (Vec *)out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (f32)((f32)dist));
+    calc_wall_clamped_destination(this, out, (f32)(sin_table_lookup(this->rotation_y)), (f32)((f32)cos_table_lookup(this->rotation_y)), (f32)((f32)dist));
 }
 
-u8 *TObjEneEpsilon__sub_800B9384(TObjEneDD_ST *self, s32 iscale, f32 scale) {
+CsnHit *TObjEneEpsilon__sub_800B9384(TObjEneDD_ST *self, s32 iscale, f32 scale) {
     Vec dest;
-    self->fire_attack_c((saddr) &dest, iscale, scale);
-    return self->try_move_actor_xz_on_ground((u8 *)&dest);
+    self->fire_attack_c(&dest, iscale, scale);
+    return self->try_move_actor_xz_on_ground(&dest);
 }
 
-u8 *enemy_turn_and_move_on_ground(TObjEneDD_ST *self, s32 max_step, f32 currentSpeed) {
+CsnHit *enemy_turn_and_move_on_ground(TObjEneDD_ST *self, s32 max_step, f32 currentSpeed) {
     Vec dest;
-    self->fire_attack_b((saddr) &dest, max_step, currentSpeed);
-    return self->try_move_actor_xz_on_ground((u8 *)&dest);
+    self->fire_attack_b(&dest, max_step, currentSpeed);
+    return self->try_move_actor_xz_on_ground(&dest);
 }
 
 
-u8 *TObjEneEpsilon__sub_800B92F8(TObjEneDD_ST *self, s32 max_step, f32 distance) {
+CsnHit *TObjEneEpsilon__sub_800B92F8(TObjEneDD_ST *self, s32 max_step, f32 distance) {
     Vec dest;
-    self->fire_attack_b((saddr) &dest, max_step, distance);
-    return self->move_xz_on_ground((u8 *)&dest);
+    self->fire_attack_b(&dest, max_step, distance);
+    return self->move_xz_on_ground(&dest);
 }
 
-u8 *TObjEneEpsilon__sub_800B92AC(TObjEneDD_ST *self, s32 max_step, f32 distance) {
+CsnHit *TObjEneEpsilon__sub_800B92AC(TObjEneDD_ST *self, s32 max_step, f32 distance) {
     Vec dest;
-    self->fire_attack_a((saddr) &dest, max_step, distance);
-    return self->move_xz_on_ground((u8 *)&dest);
+    self->fire_attack_a(&dest, max_step, distance);
+    return self->move_xz_on_ground(&dest);
 }
 
 s32 TObjEneDD_ST::update_status_effects() {

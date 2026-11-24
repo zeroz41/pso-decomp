@@ -1,5 +1,6 @@
 #include "pso/network/protocol/ItemDropPacket.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
 #include <string.h>
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
@@ -97,7 +98,6 @@ struct Save_801039BC {
 };
 
 extern "C" {
-void mem_free(void *p);
 uaddr floor_item_entry_pool;
 Ent_801037A0 **floor_item_row_table;
 saddr floor_item_counts_by_floor;
@@ -105,9 +105,8 @@ saddr floor_item_free_id_stack;
 int floor_item_free_id_count;
 u16 *floor_item_next_sort_keys;
 FlagWord lbl_805D5430;
-s32 __construct_new_array(s32, s32 *, s32, s32, s32);
-saddr mem_alloc(s32);
-extern s32 __ct__9FloorItemFv[];
+void *__construct_new_array(void *block, void *ctor, void *dtor, size_t size, size_t count);
+void __ct__9FloorItemFv(FloorItem *item, s32 mode);
 void TLobby__sub_801041BC(void *arg0);
 void TLobby__sub_801041D8(void);
 }
@@ -459,12 +458,13 @@ void TLobby::free_boss_rocks() {
     lbl_805D5430.reset();
 }
 void TLobby::alloc_objects() {
-    (*(s32 *)&floor_item_entry_pool) = __construct_new_array(mem_alloc(0x1E610), __ct__9FloorItemFv, 0, 0x24, 0xD80);
-    floor_item_row_table = (Ent_801037A0 **)mem_alloc(0x48);
-    floor_item_counts_by_floor = mem_alloc(0x48);
-    floor_item_free_id_stack = mem_alloc(0x40);
-    (*(s32 *)&floor_item_free_id_count) = 0;
-    floor_item_next_sort_keys = (u16 *)mem_alloc(0x24);
+    floor_item_entry_pool = reinterpret_cast<uaddr>(
+        __construct_new_array(mem_alloc(0x1E610), reinterpret_cast<void *>(__ct__9FloorItemFv), NULL, 0x24, 0xD80));
+    floor_item_row_table = static_cast<Ent_801037A0 **>(mem_alloc(0x48));
+    floor_item_counts_by_floor = reinterpret_cast<saddr>(mem_alloc(0x48));
+    floor_item_free_id_stack = reinterpret_cast<saddr>(mem_alloc(0x40));
+    floor_item_free_id_count = 0;
+    floor_item_next_sort_keys = static_cast<u16 *>(mem_alloc(0x24));
     lbl_805D5430.reset();
     TLobby::reset_floor_items();
 }

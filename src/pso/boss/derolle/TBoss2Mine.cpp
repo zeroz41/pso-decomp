@@ -97,7 +97,7 @@ TBoss2Mine::TBoss2Mine(TObject *parent, u16 entity_id, s32 set_index, s32 varian
     m_name = TBoss2Mine__name;
     boss = TBoss2DeRolLe::get_instance();
     if (boss != 0) {
-        init_common_from((u8 *)boss);
+        init_common_from(boss);
     }
     this->entity_id = entity_id;
     this->set_index = set_index;

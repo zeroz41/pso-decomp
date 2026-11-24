@@ -1,3 +1,6 @@
+#include "pso/system/SubtractiveRng.h"
+#include "pso/system/memory.h"
+#include "pso/system/SoundEffect.h"
 #pragma defer_codegen on
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlAccessors.h"
@@ -17,7 +20,7 @@
 #include "pso/enemy/EnemyStateEvent.h"
 #include "pso/render/MaterialColorFade.h"
 #include "types.h"
-#include "pso/camera/CameraPlayback.h"
+#include "pso/camera/CameraHelpers.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
@@ -43,6 +46,7 @@
 #include <stddef.h>
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/player/PlayerStats.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
@@ -51,7 +55,6 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/camera/CameraHelpers.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -63,7 +66,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -84,13 +86,10 @@
 #pragma auto_inline off
 #pragma dont_inline off
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/object/TObjControl.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/render/MaterialAlphaCompare.h"
-#include "pso/render/ChunkMaterialState.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/unk/TLobby_8007C550.h"
@@ -102,7 +101,6 @@ f64 atan2_float(f32, f32);
 f32 newton_sqrtf(f32);
 s32 is_split_screen();
 f32 fabs_float(f32);
-f32 calc_random_ratio__10TObjPlayerFv(void *);
 }
 const char *bm_modelparticle_gryphon_model_names[4] = {
     "boss_rock.gj", "fe_obj001_iwaware_01.gj", "fe_obj001_iwaware_02.gj", NULL,
@@ -385,15 +383,15 @@ const char *boss5_gryphon_type_name_pointer = boss5_gryphon_type_name;
 }
 
 extern "C" {
-void attach_particle_model(void *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist, AnimationMotion *motion, s32 arg4,
-                           f32 farg0) {
-    *(NJS_OBJECT **)((s8 *)particle + 0x4C) = model;
-    *(NJS_TEXLIST **)((s8 *)particle + 0x50) = texlist;
-    *(AnimationMotion **)((s8 *)particle + 0x54) = motion;
-    *(u16 *)((s8 *)particle + 0x2C) = (u16) (*(u16 *)((s8 *)particle + 0x2C) | 0x200);
-    *(f32 *)((s8 *)particle + 0x5C) = farg0;
-    if (arg4 != 0) {
-        *(u16 *)((s8 *)particle + 0x2C) = (u16) (*(u16 *)((s8 *)particle + 0x2C) | 0x400);
+void attach_particle_model(TParticleCtrl *particle, NJS_OBJECT *model, NJS_TEXLIST *texlist,
+                           AnimationMotion *motion, s32 loop, f32 frame) {
+    particle->model = model;
+    particle->texlist = texlist;
+    particle->motion = reinterpret_cast<NJS_MOTION *>(motion);
+    particle->emit_flags |= 0x200;
+    particle->motion_frame = frame;
+    if (loop != 0) {
+        particle->emit_flags |= 0x400;
     }
 }
 
@@ -547,7 +545,7 @@ void TBoss5Gryphon::cleanup() {
     TBoss5GryphonShockWave::release_particle_table();
     if (boss5_gryphon_texture_list != NULL) {
         release_texture_list(boss5_gryphon_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)boss5_gryphon_texture_list);
+        safe_free(boss5_gryphon_texture_list);
         boss5_gryphon_texture_list = NULL;
     }
     if (boss5_gryphon_bml_resource != NULL) {
@@ -621,7 +619,7 @@ TBoss5Gryphon::TBoss5Gryphon(TObject *parent, void *data) : TObjEneDD_ST(parent)
     this->action_scripts = boss5_gryphon_action_scripts;
     VecCopy(&this->sound_origin, &this->position);
     VecCopy(&this->pad_56C, &this->position);
-    *(f32 *)(*(u8 **)((u8 *)this + 0x2B0) + 0x10) = gryphon_ten;
+    stat_block->proportions = gryphon_ten;
     this->attack_history = new AreaAttackHistory(4);
     this->collider = new TBoss5GryphonColli(&this->sub_tasks);
     for (i = 0; i < 4; i++) {
@@ -752,7 +750,7 @@ void TBoss5Gryphon::run_task() {
     if (temp_r31_2 == 0) {
         this->sub_tasks.run_tasks();
     }
-    project_sound_origin_from_camera((saddr)&this->position, (u8 *)&this->sound_origin, gryphon_point_four);
+    project_sound_origin_from_camera(&this->position, &this->sound_origin, gryphon_point_four);
     for (i = 0; i < 4; i++) {
         renderFadeStates[i].update();
     }
@@ -798,9 +796,9 @@ void TBoss5Gryphon::update_body_colliders() {
             bodies[i].flags |= 1;
             p = &bodies[i];
             if (p->offset.y + p->center.y >= lim) {
-                set_collider_contact_high((u8 *)p);
+                set_collider_contact_high(p);
             } else {
-                set_collider_contact_low((u8 *)p);
+                set_collider_contact_low(p);
             }
         }
     }
@@ -815,11 +813,11 @@ void TBoss5Gryphon::update_body_colliders() {
         bodies[8].flags &= ~1;
         bodies[9].flags &= ~1;
         bodies[0].radius = gryphon_one_hundred_ten;
-        set_collider_contact_low((u8 *)&bodies[0]);
-        set_collider_contact_low((u8 *)&bodies[1]);
-        set_collider_contact_low((u8 *)&bodies[2]);
-        set_collider_contact_low((u8 *)&bodies[3]);
-        set_collider_contact_low((u8 *)&bodies[2]);
+        set_collider_contact_low(&bodies[0]);
+        set_collider_contact_low(&bodies[1]);
+        set_collider_contact_low(&bodies[2]);
+        set_collider_contact_low(&bodies[3]);
+        set_collider_contact_low(&bodies[2]);
     } else {
         bodies[0].flags &= ~0x300;
         bodies[1].flags &= ~0x300;
@@ -1203,7 +1201,7 @@ void TBoss5Gryphon::spawn_attack_effect(const Vec *pos) {
 
     particle = spawn_particle_effect_with_flags(pos, 0x210, 0x40);
     if (particle != 0) {
-        attach_particle_model((u8 *)particle, get_bml_model(boss5_gryphon_bml_resource, 1), boss5_gryphon_texture_list, 0, 0, (f32)gryphon_one);
+        attach_particle_model(particle, get_bml_model(boss5_gryphon_bml_resource, 1), boss5_gryphon_texture_list, 0, 0, (f32)gryphon_one);
     }
 }
 
@@ -1212,7 +1210,7 @@ void TBoss5Gryphon::spawn_switch_attack(const Vec *pos) {
 
     particle = spawn_particle_effect_with_flags(pos, 0x211, 0x40);
     if (particle != 0) {
-        attach_particle_model((u8 *)particle, get_bml_model(boss5_gryphon_bml_resource, 2), boss5_gryphon_texture_list, 0, 0, (f32)gryphon_one);
+        attach_particle_model(particle, get_bml_model(boss5_gryphon_bml_resource, 2), boss5_gryphon_texture_list, 0, 0, (f32)gryphon_one);
     }
 }
 
@@ -2647,7 +2645,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
             apply_lightning_hit(self, &self->position, gryphon_sixty);
         }
         if (boss5_gryphon_behavior_params[2]->attack.action_level >= 4 && self->lightning.frame % 20 == 0) {
-            self->fire_horn_lightning((self->lightning.frame / 20) & 1 ? 0 : 1, gryphon_four * calc_random_ratio__10TObjPlayerFv(self->rng));
+            self->fire_horn_lightning((self->lightning.frame / 20) & 1 ? 0 : 1, gryphon_four * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng)));
         }
         self->spawn_ancient_trap(0x40032D11);
         self->lightning.frame++;
@@ -2799,10 +2797,10 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
                 self->dive.step = 1;
             }
             found = 0;
-            ang = 65536.0f * calc_random_ratio__10TObjPlayerFv(self->rng);
-            r = calc_random_ratio__10TObjPlayerFv(self->rng);
-            if (calc_random_ratio__10TObjPlayerFv(self->rng) > 0.5f) {
-                pl = get_player_by_client_id((u16)((s32)(gryphon_four * calc_random_ratio__10TObjPlayerFv(self->rng))));
+            ang = 65536.0f * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng));
+            r = calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng));
+            if (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng)) > 0.5f) {
+                pl = get_player_by_client_id((u16)((s32)(gryphon_four * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng)))));
                 if (pl->is_alive() != 0) {
                     CsnHit *hit;
                     r *= gryphon_fifty;
@@ -3031,8 +3029,8 @@ void TBoss5Gryphon::apply_velocity() {
         v.y = 0.0f;
         v.z = this->move_velocity.z;
         len = normalize_vector_xz(&v);
-        this->calc_shot_position((u8 *)&shot, v.x, v.z, len);
-        this->try_move_actor_xz_on_ground((u8 *)&shot);
+        this->calc_shot_position(&shot, v.x, v.z, len);
+        this->try_move_actor_xz_on_ground(&shot);
     } else {
         this->position.x += this->move_velocity.x;
         this->position.y += this->move_velocity.y;
@@ -3782,9 +3780,9 @@ void TBoss5Gryphon::fire_horn_lightning(s32 left, s32 client_id) {
     s32 ang;
     CsnHit *hit;
 
-    r = calc_random_ratio__10TObjPlayerFv(this->rng);
+    r = calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->rng));
     r = 100.0f * r + 100.0f;
-    ang = (s32)(45056.0f * calc_random_ratio__10TObjPlayerFv(this->rng) + (f32)this->rotation_y);
+    ang = (s32)(45056.0f * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->rng)) + (f32)this->rotation_y);
     if (left != 0) {
         if (this->lightning.horns[0] == NULL) return;
         this->lightning.horns[0]->get_start_position(&pos);

@@ -9,10 +9,6 @@
 #include "pso/effect/item/TItemEffLavis.h"
 #include "pso/system/task/TMainTask.h"
 
-extern "C" {
-
-
-
 void TUnk_804A3070::emit_marker_effects() {
     if (get_item_index() == 0) {
         if (is_mode_two_and_ready() != 0) {
@@ -25,8 +21,6 @@ void TUnk_804A3070::emit_marker_effects() {
         return;
     }
     ((TItemWeapon *)this)->update_active_game_effect();
-}
-
 }
 
 TUnk_804A3070::~TUnk_804A3070() {

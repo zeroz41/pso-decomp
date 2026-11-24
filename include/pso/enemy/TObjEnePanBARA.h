@@ -1,5 +1,7 @@
 #ifndef PSO_ENEMY_TOBJENEPANBARA_H
 #define PSO_ENEMY_TOBJENEPANBARA_H
+
+struct EnemyPlacement;
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
@@ -12,7 +14,7 @@ class TObjEnePanarms;
 
 class TObjEnePanBARA : public TObjEnemy {
 public:
-    TObjEnePanBARA(TObject *parent, void *setData, s32 index);
+    TObjEnePanBARA(TObject *parent, EnemyPlacement *setData, s32 index);
     virtual ~TObjEnePanBARA();
     void set_state(s32 next);
     // Links the half to the body and to the other half (the body's constructor).

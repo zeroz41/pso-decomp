@@ -21,13 +21,13 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/Draw2D.h"
 
 extern "C" {
-void post_translate_matrix(void *);
 f32 xyz_distance(void *, void *);
 void TObjPlayer__sub_8030A9B0();
 }
@@ -45,12 +45,11 @@ extern s32 chunk_polygon_flags_and_mask;
 extern u32 model_render_flags;
 
 
-extern u32 dark_falz_controller_instance;
 
 void TBoss4ZakoDraw::render() { TObjPlayer::toggle_particle_effect(); TBoss4ZakoDraw::draw_queued(); TParticleCtrl::end_effect_render(); }
 void TBoss4ZakoDraw::run_task() {
     s32 old;
-    if (dark_falz_controller_instance == 0U) {
+    if (dark_falz_controller_instance == NULL) {
         queue_destruction();
         return;
     }

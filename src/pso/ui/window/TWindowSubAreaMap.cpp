@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowSubAreaMap.h"
@@ -7,11 +8,11 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 
 extern "C" {
-s32 play_sound_effect(int, int, int, int);
 
 void TWindowSubAreaMap::render() {  }
 

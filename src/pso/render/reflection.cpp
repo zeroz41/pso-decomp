@@ -30,6 +30,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/render/GinjaRenderTarget.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/CameraCapture.h"
@@ -43,7 +44,7 @@ s32 lbl_805D65F0;
 void *scene_sora_instance;
 u16 scene_sora_reflect_active;
 u8 scene_sora_recon_active_flag;
-uaddr scene_sora_recon_object;
+GinjaRenderTarget *scene_sora_recon_object;
 
 // The direction the reflection ray is cast along (straight up until
 // TSceneSora::copy_reflection_vec replaces it).
@@ -192,27 +193,27 @@ void play_reflection_particles(s16 effect_id) {
 void destroy_reflection_target() {
     scene_sora_instance = 0;
     if (is_central_control_area() != 0) {
-        if ((u32) scene_sora_recon_object != 0U) {
-            ((TObjPlayer *)scene_sora_recon_object)->reset_lobby_subobject();
+        if (scene_sora_recon_object != NULL) {
+            scene_sora_recon_object->release_texture();
         }
-        if ((u32) scene_sora_recon_object != 0U) {
-            ::operator delete((void *)scene_sora_recon_object);
-            scene_sora_recon_object = 0U;
+        if (scene_sora_recon_object != NULL) {
+            ::operator delete(scene_sora_recon_object);
+            scene_sora_recon_object = NULL;
         }
     }
 }
 
 
 void create_reflection_target() {
-    uaddr temp_r3;
+    GinjaRenderTarget *target;
 
     if (is_central_control_area() != 0) {
         scene_sora_instance = 0;
-        temp_r3 = (uaddr)::operator new(0x28);
-        scene_sora_recon_object = temp_r3;
-        if (temp_r3 != 0U) {
-            ((TObjPlayer *)temp_r3)->init_render_target();
-            lbl_805D65F0 = scene_sora_recon_object + 0x1C;
+        target = static_cast<GinjaRenderTarget *>(::operator new(sizeof(GinjaRenderTarget)));
+        scene_sora_recon_object = target;
+        if (target != NULL) {
+            target->init_render_target();
+            lbl_805D65F0 = reinterpret_cast<saddr>(&scene_sora_recon_object->texture_list);
         }
     }
 }
@@ -464,8 +465,8 @@ void TUnk_804DC7C4::render_shadows() {
     if (TSceneSora::instance != 0) {
         TSceneSora::sky_active_flag = 1;
     }
-    ((TObjPlayer *)recon_object)->copy_efb_to_texture();
-    TSceneSora::set_scene_flag(recon_object + 0x1C);
+    recon_object->copy_efb_to_texture();
+    TSceneSora::set_scene_flag(reinterpret_cast<saddr>(&recon_object->texture_list));
 }
 
 void TUnk_804DC7C4::render() {  }

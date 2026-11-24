@@ -1,3 +1,4 @@
+#include "pso/math/ClampedStep.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeapon.h"
@@ -27,9 +28,9 @@ TItemWeaponDarkMeteor::TItemWeaponDarkMeteor(TObject *parent, u8 *item) : TItemW
 
 TItemWeaponDarkMeteor::~TItemWeaponDarkMeteor() {}
 
-void TItemWeaponDarkMeteor::update_attack() { TObjPlayer::add_angle_clamped(&rotation_z, -3640, 0); }
+void TItemWeaponDarkMeteor::update_attack() { ::add_angle_clamped(&rotation_z, -3640, 0); }
 
-void TItemWeaponDarkMeteor::update_idle() { TObjPlayer::add_angle_clamped(&rotation_z, 1820, 8192); }
+void TItemWeaponDarkMeteor::update_idle() { ::add_angle_clamped(&rotation_z, 1820, 8192); }
 
 void TItemWeaponDarkMeteor::vfunc_60() {
     u32 player_list;

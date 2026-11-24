@@ -31,6 +31,9 @@ public:
     s32 is_window_reveal_complete();
     s32 sub_80244994();
     void save_position();
+    f32 get_transition_progress();
+    f32 get_close_progress();
+    f32 get_normalized_progress();
     f32 get_scale();
     s32 is_closed();
     void *get_array_entry(int index);
@@ -75,7 +78,6 @@ struct TWindowSubComCard;
 class TWindowFukidasi;
 extern "C" {
 int TWindowSubComCard__sub_80244774(void);
-f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *window_sub_com_card);
 BOOL TWindowSubComCard__sub_80245558(void *ctx, void *position, void *size);
 void fn_802449E0(u8 *object);
 }

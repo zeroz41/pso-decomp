@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/render/GinjaMaterialState.h"
+#include "pso/render/GinjaRenderTarget.h"
 
 struct Vec;
 
@@ -25,15 +26,8 @@ extern NJS_TEXLIST shared_capture_texture_list;
 extern NJS_TEXLIST shadow_map_texture_list;
 
 // The Gol Dragon floor's live-camera render target: a 640x480 texture TLiveCameraView
-// renders into (made by TObjPlayer::init_render_target, released by reset_lobby_subobject).
-struct CameraRenderTarget {
-    u8 pad_00[0x10];
-    NJS_TEXNAME texture;
-    NJS_TEXLIST list;
-    NJS_TEXLIST *loaded;
-};
-
-extern CameraRenderTarget *camera_render_target_singleton;
+// renders into.
+extern GinjaRenderTarget *camera_render_target_singleton;
 
 u8 get_camera_capture_flags();
 s32 is_capture_overlay_ready();

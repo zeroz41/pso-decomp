@@ -565,7 +565,7 @@ void TObjEneRe2Flower::state_chase_target(s32 reason) {
                     idx = enemy_nearest_visible_enemy(this, destination_distance - re2_flower_retarget_margin);
                 }
                 if (idx == 0xFFFF) {
-                    idx = enemy_find_nearest_player_in_range((u8 *)this, destination_distance - re2_flower_retarget_margin);
+                    idx = enemy_find_nearest_player_in_range(this, destination_distance - re2_flower_retarget_margin);
                 }
                 if (idx != 0xFFFF) {
                     enemy_set_target_id(this, idx);

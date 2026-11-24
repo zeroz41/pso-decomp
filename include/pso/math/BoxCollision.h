@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
+#include <stddef.h>
 
 // One row per box face: its four corner indices, or (the adjacent-face table) the face across each of its edges.
 struct BoxFaces { s32 v[6][4]; };
@@ -21,6 +22,9 @@ struct CollisionBox { Vec corners[8]; };
 
 // Any other collision body: a sphere (the body's centre on the y = 0 plane and its radius).
 struct CollisionSphere { Vec center; f32 radius; };
+
+LAYOUT_ASSERT(CollisionSphereSize, sizeof(CollisionSphere) == 0x10);
+LAYOUT_ASSERT(CollisionSphereRadiusOffset, offsetof(CollisionSphere, radius) == 0xC);
 
 struct Line { Vec origin; Vec direction; };
 

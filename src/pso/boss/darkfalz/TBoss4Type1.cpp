@@ -15,6 +15,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
 #include "pso/unk/ModelNodeTables.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"
@@ -365,7 +366,7 @@ TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     target = 0;
     bind_enemy_combat_stats(TLobby::register_boss(0x36), TLobby::dispatch_shared_handler_b(0x36), TLobby::register_object(0x36));
     referenceHp = hp;
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     set_param(0x2F);
     anim_speed = 0.4f;
     for (i = 0; i < 3; i++) {
@@ -388,7 +389,7 @@ TBoss4Type1::TBoss4Type1(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
         move_frames = 25;
     }
     move_frames *= 30.0f;
-    uro_limit = ((TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x39))->rafoie_level;
+    uro_limit = TLobby::dispatch_shared_handler_a(0x39)->values.integers[0];
     if (uro_limit < 1) {
         uro_limit = 1;
     } else if (uro_limit > 6) {
@@ -549,17 +550,17 @@ void TBoss4Type1::draw_parts() {
             head = i - 2;
             node_captures[head]->install();
             body_model = get_bml_model(archive, boss4_type1_model_ids[i]);
-            draw_model_motion((void *)body_model, (void *)get_bml_motion(archive, boss4_type1_motion_states[anim].motions[i]), anim_frame);
+            draw_model_motion(body_model, get_bml_motion(archive, boss4_type1_motion_states[anim].motions[i]), anim_frame);
             node_captures[head]->clear();
             TBoss6PlotFalz::update_camera_target();
             break;
         case 5:
             core_capture->install();
-            draw_model_motion((void *)get_bml_model(archive, boss4_type1_model_ids[i]), (void *)get_bml_motion(archive, boss4_type1_motion_states[anim].motions[i]), anim_frame);
+            draw_model_motion(get_bml_model(archive, boss4_type1_model_ids[i]), get_bml_motion(archive, boss4_type1_motion_states[anim].motions[i]), anim_frame);
             core_capture->clear();
             break;
         default:
-            draw_model_motion((void *)get_bml_model(archive, boss4_type1_model_ids[i]), (void *)get_bml_motion(archive, boss4_type1_motion_states[anim].motions[i]), anim_frame);
+            draw_model_motion(get_bml_model(archive, boss4_type1_model_ids[i]), get_bml_motion(archive, boss4_type1_motion_states[anim].motions[i]), anim_frame);
             break;
         }
     }
@@ -865,12 +866,14 @@ void TBoss4Type1::update_radar_markers() {
 void TBoss4Type1::choose_next_attack() {
     Vec target;
     s32 r;
-    u8 *tbl = (u8 *)lbl_80485AE0;
+    // The original code addresses the tables relative to the first Type 1 data object.
+    TBoss4Type1AttackTables *tables = reinterpret_cast<TBoss4Type1AttackTables *>(
+        reinterpret_cast<u8 *>(lbl_80485AE0) + 0x67C);
     if (turn == 1) {
         if (hp <= half_hp) {
-            r = TBoss4Type2::pick_weighted_random(3, (f32 *)(tbl + 0x68C), (s32 *)(tbl + 0x698));
+            r = TBoss4Type2::pick_weighted_random(3, tables->low_hp_weights, tables->low_hp_attacks);
         } else {
-            r = TBoss4Type2::pick_weighted_random(2, (f32 *)(tbl + 0x6A4), (s32 *)(tbl + 0x6AC));
+            r = TBoss4Type2::pick_weighted_random(2, tables->weights, tables->attacks);
         }
         switch (r) {
         case 8:
@@ -1172,7 +1175,7 @@ void TBoss4Type1::update_tech_charge() {
             TTecRaBarta::create(this, &grid_target, &grid_target, params->rabarta_level);
         } else {
             TBoss4Type2Params *params = (TBoss4Type2Params *)TLobby::dispatch_shared_handler_a(0x36);
-            ((TTecRaFoie *)this)->create(&grid_target, &grid_target, params->rafoie_level);
+            TTecRaFoie::create(this, &grid_target, &grid_target, params->rafoie_level);
         }
         start_pad_rumble_all(0xC0, 0xF);
     }

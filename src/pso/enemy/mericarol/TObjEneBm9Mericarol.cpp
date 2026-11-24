@@ -46,6 +46,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_802D1C84.h"
 #include "pso/ui/TLevelSelect.h"
@@ -63,6 +64,20 @@
 // inferred: the per-phase colour the constructor gives its two TAttackTraceStrip effects.
 static const u32 mericarol_phase_effect_colors[3] = { 0xFFFD42E3, 0xFF39374B, 0xFFDEFB46 };
 
+static const char mericarol_body_model_name[] = "bm9_s_meri_body.nj";
+static const char mericarol_attack_motion_name[] = "atack_bm9_s_meri_body.njm";
+static const char mericarol_damage_motion_name[] = "damage_bm9_s_meri_body.njm";
+static const char mericarol_dead_motion_name[] = "dead_bm9_s_meri_body.njm";
+static const char mericarol_fire_motion_name[] = "fire_bm9_s_meri_body.njm";
+static const char mericarol_laugh_motion_name[] = "laugh_bm9_s_meri_body.njm";
+static const char mericarol_wait_motion_name[] = "wait_bm9_s_meri_body.njm";
+static const char mericarol_wait2_motion_name[] = "wait2_bm9_s_meri_body.njm";
+static const char mericarol_wake_motion_name[] = "wake_bm9_s_meri_body.njm";
+static const char mericarol_archive_name[] = "bm_ene_bm9_s_mericarol.bml";
+static const char mericarol_low_detail_body_model_name[] = "lo_bm9_s_meri_body.nj";
+static const char mericarol_low_detail_archive_name[] = "bm_ene_bm9_s_mericarol_low.bml";
+static const char TObjEneBm9Mericarol__class_name_string[] = "TObjEneBm9Mericarol";
+
 TObjEneBm9MericarolMovementParameters mericarol_movement_params = {
     { 225.0f, 0.0f, 0x200 }, { 0, 0, 0, 0 },
 };
@@ -73,31 +88,31 @@ CollisionBody mericarol_collision_bodies[2] = {
 };
 
 __declspec(section ".data") const char *mericarol_model_names[2] = {
-    "bm9_s_meri_body.nj", NULL,
+    mericarol_body_model_name, NULL,
 };
 
 const char *mericarol_motion_names[9] = {
-    "atack_bm9_s_meri_body.njm", "damage_bm9_s_meri_body.njm", "dead_bm9_s_meri_body.njm", "fire_bm9_s_meri_body.njm",
-    "laugh_bm9_s_meri_body.njm", "wait_bm9_s_meri_body.njm", "wait2_bm9_s_meri_body.njm", "wake_bm9_s_meri_body.njm",
+    mericarol_attack_motion_name, mericarol_damage_motion_name, mericarol_dead_motion_name, mericarol_fire_motion_name,
+    mericarol_laugh_motion_name, mericarol_wait_motion_name, mericarol_wait2_motion_name, mericarol_wake_motion_name,
     NULL,
 };
 
 BmlResourceDescriptor mericarol_bml_descriptor = {
-    "bm_ene_bm9_s_mericarol.bml", mericarol_model_names, mericarol_motion_names, 1, 8,
+    mericarol_archive_name, mericarol_model_names, mericarol_motion_names, 1, 8,
 };
 
 __declspec(section ".data") const char *mericarol_low_model_names[2] = {
-    "lo_bm9_s_meri_body.nj", NULL,
+    mericarol_low_detail_body_model_name, NULL,
 };
 
 const char *mericarol_low_motion_names[9] = {
-    "atack_bm9_s_meri_body.njm", "damage_bm9_s_meri_body.njm", "dead_bm9_s_meri_body.njm", "fire_bm9_s_meri_body.njm",
-    "laugh_bm9_s_meri_body.njm", "wait_bm9_s_meri_body.njm", "wait2_bm9_s_meri_body.njm", "wake_bm9_s_meri_body.njm",
+    mericarol_attack_motion_name, mericarol_damage_motion_name, mericarol_dead_motion_name, mericarol_fire_motion_name,
+    mericarol_laugh_motion_name, mericarol_wait_motion_name, mericarol_wait2_motion_name, mericarol_wake_motion_name,
     NULL,
 };
 
 BmlResourceDescriptor mericarol_low_bml_descriptor = {
-    "bm_ene_bm9_s_mericarol_low.bml", mericarol_low_model_names, mericarol_low_motion_names, 1, 8,
+    mericarol_low_detail_archive_name, mericarol_low_model_names, mericarol_low_motion_names, 1, 8,
 };
 
 TObjMotionAction mericarol_motion_actions[9] = {
@@ -112,12 +127,17 @@ TObjMotionAction mericarol_motion_actions[9] = {
     { 1, 0, 0, 0.7f, 0 },
 };
 
-u8 *bm9_mericarol_phase_hp_table[3];
-u8 *bm9_mericarol_phase_attack_table[3];
-u8 *bm9_mericarol_phase_resist_table[3];
+static const NpcAnimationBinding mericarol_animation_binding = { NULL, mericarol_motion_actions, 3, 1, 9 };
+static const Vec lbl_80472490 = { 2.0f, 1.0f, 2.0f };
+static const Vec lbl_8047249C = { 2.0f, 1.0f, 2.0f };
+static const Vec player_sub_802ce68c_zero_vec = { 0.0f, 0.0f, 0.0f };
+
+player_stats *bm9_mericarol_phase_hp_table[3];
+AttackParams *bm9_mericarol_phase_attack_table[3];
+ActorParamBlock *bm9_mericarol_phase_resist_table[3];
 TObjEneBm9MericarolParams *mericarol_phase_param_table[3];
 f32 lbl_80540B88[4];
-const char *TObjEneBm9Mericarol__class_name = "TObjEneBm9Mericarol";
+const char *TObjEneBm9Mericarol__class_name = TObjEneBm9Mericarol__class_name_string;
 SampledMotionPoints *mericarol_trail0_points;
 SampledMotionPoints *mericarol_trail1_points;
 BmlResource *mericarol_bml;
@@ -146,19 +166,20 @@ void TObjEneBm9Mericarol::load_resources() {
     fn_802D1CC8();
     TObjPlayer::init_alt_model();
     for (i = 0; i < 3; i++) {
-        bm9_mericarol_phase_hp_table[i] = (u8 *)TLobby::register_boss(mericarol_phase_hp_ids[i]);
-        bm9_mericarol_phase_attack_table[i] = (u8 *)TLobby::dispatch_shared_handler_b(mericarol_phase_attack_ids[i]);
-        bm9_mericarol_phase_resist_table[i] = (u8 *)TLobby::register_object(mericarol_phase_resist_ids[i]);
+        bm9_mericarol_phase_hp_table[i] = TLobby::register_boss(mericarol_phase_hp_ids[i]);
+        bm9_mericarol_phase_attack_table[i] = TLobby::dispatch_shared_handler_b(mericarol_phase_attack_ids[i]);
+        bm9_mericarol_phase_resist_table[i] = TLobby::register_object(mericarol_phase_resist_ids[i]);
         mericarol_phase_param_table[i] = (TObjEneBm9MericarolParams *)TLobby::dispatch_shared_handler_a(mericarol_phase_param_ids[i]);
     }
     mericarol_trail0_points = new SampledMotionPoints(2, 0.0f, 20.0f, 0.7f);
     mericarol_trail1_points = new SampledMotionPoints(2, 0.0f, 20.0f, 0.7f);
     set_motion_packed_rotation();
-    mericarol_trail0_points->sample_two_nodes((NJS_OBJECT *)mericarol_bml->models[0].model, (NJS_MOTION *)mericarol_bml->motions[mericarol_motion_actions[8].motion].motion, 0x20, 0x21);
-    mericarol_trail1_points->sample_two_nodes((NJS_OBJECT *)mericarol_bml->models[0].model, (NJS_MOTION *)mericarol_bml->motions[mericarol_motion_actions[8].motion].motion, 0x2A, 0x2B);
+    mericarol_trail0_points->sample_two_nodes(mericarol_bml->models[0].model, (NJS_MOTION *)mericarol_bml->motions[mericarol_motion_actions[8].motion].motion, 0x20, 0x21);
+    mericarol_trail1_points->sample_two_nodes(mericarol_bml->models[0].model, (NJS_MOTION *)mericarol_bml->motions[mericarol_motion_actions[8].motion].motion, 0x2A, 0x2B);
     clear_motion_packed_rotation();
     {
-        NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(mericarol_bml->motions), reinterpret_cast<TObjMotionAction *>(mericarol_motion_actions), 3, 1, 9 };
+        NpcAnimationBinding params = mericarol_animation_binding;
+        params.motions = mericarol_bml->motions;
         TObjNpcEnemy::register_animated_chunk(0x42, mericarol_bml->models[0].model, mericarol_bml->models[0].texlist, &params,
             mericarol_collision_bodies[0].radius, 0.0f);
     }
@@ -205,7 +226,7 @@ TObjEneBm9Mericarol::TObjEneBm9Mericarol(TObject *parent, void *set_data) : TObj
     set_animation(requested_action);
     set_requested_action(requested_action);
     ph = get_phase();
-    reset_hp(reinterpret_cast<player_stats *>(bm9_mericarol_phase_hp_table[ph]), reinterpret_cast<AttackParams *>(bm9_mericarol_phase_attack_table[ph]), reinterpret_cast<ActorParamBlock *>(bm9_mericarol_phase_resist_table[ph]));
+    reset_hp(bm9_mericarol_phase_hp_table[ph], bm9_mericarol_phase_attack_table[ph], bm9_mericarol_phase_resist_table[ph]);
     trails[0] = TAttackTraceStrip::create(0xA0303030, mericarol_phase_effect_colors[ph]);
     trails[1] = TAttackTraceStrip::create(0xA0303030, mericarol_phase_effect_colors[ph]);
     add_flags_2e4(0x12);
@@ -557,7 +578,7 @@ void TObjEneBm9Mericarol::state_chase_target(s32 reason) {
                     target = enemy_nearest_visible_enemy(this, destination_distance - 30.0f);
                 }
                 if (target == 0xFFFF) {
-                    target = enemy_find_nearest_player_in_range((u8 *)this, (f32)(destination_distance - 30.0f));
+                    target = enemy_find_nearest_player_in_range(this, (f32)(destination_distance - 30.0f));
                 }
                 if (target != 0xFFFF) {
                     enemy_set_target_id(this, target);
@@ -673,7 +694,7 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
                             if (p == NULL) {
                                 break;
                             }
-                            if (obj_is_hit_receivable((u8 *)p) != 0 && p->select_melee_contact_body(this, 1.0f) != 0) {
+                            if (obj_is_hit_receivable(p) != 0 && p->select_melee_contact_body(this, 1.0f) != 0) {
                                 p->apply_knockback_from_attacker((u8 *)this, 1.0f);
                                 p->receive_physical_attack(this, 1.0f);
                             }
@@ -836,7 +857,7 @@ s32 TObjEneBm9Mericarol::check_attack_hits() {
             if (p == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)p) != 0 && attack_target_history_add(attack_history, p) != 0) {
+            if (obj_is_hit_receivable(p) != 0 && attack_target_history_add(attack_history, p) != 0) {
                 DirectAttackPayload t;
                 t.kind = 0;
                 t.power = mericarol_phase_param_table[get_phase()]->attack_power;
@@ -968,7 +989,7 @@ void TObjEneBm9Mericarol::state_die(s32 reason) {
                 pos.x = x;
                 pos.z = 10.0f * cos_table_lookup(rotation_y);
                 vec3_add_to(&pos, &position);
-                TObjPlayer::spawn_dead_spot_here((saddr)&pos, 0x32);
+                TObjPlayer::spawn_dead_spot_here(&pos, 0x32);
                 spawn_ground_effect(&pos, 0x46);
             }
             update_ground_contact();
@@ -1136,9 +1157,9 @@ void TObjEneBm9Mericarol::render() {
     s16 saved;
     s32 detail;
     s32 cam;
-    u32 s0;
-    u32 s1;
-    u32 s2;
+    GinjaTextureState *s0;
+    GinjaTextureState *s1;
+    GinjaTextureState *s2;
     s16 *plist;
     if (TObjPlayer::check_demo_mode() != 0) {
         draw_color_variant();
@@ -1169,26 +1190,26 @@ void TObjEneBm9Mericarol::render() {
         return;
     }
     if (this->mode != 0xB) {
-        Vec v = { 2.0f, 1.0f, 2.0f };
+        Vec v = lbl_80472490;
         draw_ground_shadow(&v, 0);
     }
     update_secondary_light();
     switch (get_phase()) {
     case 1:
-        s0 = ((NJS_TEXLIST *)texlist)->textures[0].texaddr;
-        s1 = ((NJS_TEXLIST *)texlist)->textures[1].texaddr;
-        s2 = ((NJS_TEXLIST *)texlist)->textures[2].texaddr;
-        ((NJS_TEXLIST *)texlist)->textures[0].texaddr = ((NJS_TEXLIST *)texlist)->textures[3].texaddr;
-        ((NJS_TEXLIST *)texlist)->textures[1].texaddr = ((NJS_TEXLIST *)texlist)->textures[4].texaddr;
-        ((NJS_TEXLIST *)texlist)->textures[2].texaddr = ((NJS_TEXLIST *)texlist)->textures[5].texaddr;
+        s0 = static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture;
+        s1 = static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture;
+        s2 = static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture;
+        static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[3].texture;
+        static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[4].texture;
+        static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[5].texture;
         break;
     case 2:
-        s0 = ((NJS_TEXLIST *)texlist)->textures[0].texaddr;
-        s1 = ((NJS_TEXLIST *)texlist)->textures[1].texaddr;
-        s2 = ((NJS_TEXLIST *)texlist)->textures[2].texaddr;
-        ((NJS_TEXLIST *)texlist)->textures[0].texaddr = ((NJS_TEXLIST *)texlist)->textures[6].texaddr;
-        ((NJS_TEXLIST *)texlist)->textures[1].texaddr = ((NJS_TEXLIST *)texlist)->textures[7].texaddr;
-        ((NJS_TEXLIST *)texlist)->textures[2].texaddr = ((NJS_TEXLIST *)texlist)->textures[8].texaddr;
+        s0 = static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture;
+        s1 = static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture;
+        s2 = static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture;
+        static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[6].texture;
+        static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[7].texture;
+        static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[8].texture;
         break;
     }
     saved_model_render_flags = model_render_flags;
@@ -1240,35 +1261,35 @@ void TObjEneBm9Mericarol::render() {
     model_render_flags = saved_model_render_flags;
     update_primary_light();
     if (get_phase() != 0) {
-        ((NJS_TEXLIST *)texlist)->textures[0].texaddr = s0;
-        ((NJS_TEXLIST *)texlist)->textures[1].texaddr = s1;
-        ((NJS_TEXLIST *)texlist)->textures[2].texaddr = s2;
+        static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture = s0;
+        static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = s1;
+        static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture = s2;
     }
 }
 
 void TObjEneBm9Mericarol::draw_color_variant() {
-    u32 s0;
-    u32 s1;
-    u32 s2;
+    GinjaTextureState *s0;
+    GinjaTextureState *s1;
+    GinjaTextureState *s2;
     if (update_object_view_visibility(400.0f, 20.0f) != 0) {
-        Vec v = { 2.0f, 1.0f, 2.0f };
+        Vec v = lbl_8047249C;
         draw_ground_shadow(&v, 0);
         switch (variant) {
         case 1:
-            s0 = ((NJS_TEXLIST *)texlist)->textures[0].texaddr;
-            s1 = ((NJS_TEXLIST *)texlist)->textures[1].texaddr;
-            s2 = ((NJS_TEXLIST *)texlist)->textures[2].texaddr;
-            ((NJS_TEXLIST *)texlist)->textures[0].texaddr = ((NJS_TEXLIST *)texlist)->textures[3].texaddr;
-            ((NJS_TEXLIST *)texlist)->textures[1].texaddr = ((NJS_TEXLIST *)texlist)->textures[4].texaddr;
-            ((NJS_TEXLIST *)texlist)->textures[2].texaddr = ((NJS_TEXLIST *)texlist)->textures[5].texaddr;
+            s0 = static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture;
+            s1 = static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture;
+            s2 = static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture;
+            static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[3].texture;
+            static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[4].texture;
+            static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[5].texture;
             break;
         case 2:
-            s0 = ((NJS_TEXLIST *)texlist)->textures[0].texaddr;
-            s1 = ((NJS_TEXLIST *)texlist)->textures[1].texaddr;
-            s2 = ((NJS_TEXLIST *)texlist)->textures[2].texaddr;
-            ((NJS_TEXLIST *)texlist)->textures[0].texaddr = ((NJS_TEXLIST *)texlist)->textures[6].texaddr;
-            ((NJS_TEXLIST *)texlist)->textures[1].texaddr = ((NJS_TEXLIST *)texlist)->textures[7].texaddr;
-            ((NJS_TEXLIST *)texlist)->textures[2].texaddr = ((NJS_TEXLIST *)texlist)->textures[8].texaddr;
+            s0 = static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture;
+            s1 = static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture;
+            s2 = static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture;
+            static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[6].texture;
+            static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[7].texture;
+            static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture = static_cast<NJS_TEXLIST *>(texlist)->textures[8].texture;
             break;
         }
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
@@ -1283,9 +1304,9 @@ void TObjEneBm9Mericarol::draw_color_variant() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         if (variant == 1 || variant == 2) {
-            ((NJS_TEXLIST *)texlist)->textures[0].texaddr = s0;
-            ((NJS_TEXLIST *)texlist)->textures[1].texaddr = s1;
-            ((NJS_TEXLIST *)texlist)->textures[2].texaddr = s2;
+            static_cast<NJS_TEXLIST *>(texlist)->textures[0].texture = s0;
+            static_cast<NJS_TEXLIST *>(texlist)->textures[1].texture = s1;
+            static_cast<NJS_TEXLIST *>(texlist)->textures[2].texture = s2;
         }
     }
 }
@@ -1300,7 +1321,7 @@ void TObjEneBm9Mericarol::get_node_position(Vec *out, s32 node) {
     clear_motion_packed_rotation();
     pop_matrix();
     push_matrix_from(anim_model_matrix_array[node]);
-    Vec v = { 0.0f, 0.0f, 0.0f };
+    Vec v = player_sub_802ce68c_zero_vec;
     matrix_mult_vec(0, &v, out);
     pop_matrix();
     clear_motion_packed_rotation();
@@ -1324,7 +1345,7 @@ void TObjEneBm9Mericarol::play_step_effect() {
             if (surface_mask != 0) {
                 TParticleCtrl *spray = (TParticleCtrl *)spawn_particle_effect(&hit->contact[2].point, 0x49);
                 if (spray != NULL) {
-                    attach_particle_model((u8 *)spray, TParticleCtrl::get_particle_model(2),
+                    attach_particle_model(spray, TParticleCtrl::get_particle_model(2),
                                           TParticleCtrl::get_instance(), 0, 1, 1.0f);
                     spray->set_scale(5.0f, 1.0f);
                 }

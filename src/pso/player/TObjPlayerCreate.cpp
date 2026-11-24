@@ -1,14 +1,13 @@
+#include "pso/system/task/TObject.h"
+#include "pso/player/PlayerState.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/player/TObjPlayer_801BF978.h"
+#include "pso/player/TPlyDispConfig.h"
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/player/TObjPlayer_80309D80.h"
 #include "pso/ui/font/TFontSmallLobby_801C013C.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
-#include "pso/player/TObjPlayer_801BFAD4.h"
-#include "pso/player/TObjPlayer_801BFB1C.h"
-#include "pso/player/TObjPlayer_801BFE50.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
@@ -18,7 +17,6 @@
 #include "pso/player/TPlyCharData.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/player/TObjPlayerSet.h"
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/unk/TLobby_80227A2C.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -225,7 +223,7 @@ extern "C" TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) 
         }
     }
     for (set = (TObjPlayerSet *)tl_06->m_down; set != NULL; set = (TObjPlayerSet *)set->m_next) {
-        if (((TUnk_804B6C24 *)set)->check_value_equals((saddr)TObjPlayer__player_set_class_name) != 0 &&
+        if (set->check_value_equals(TObjPlayer__player_set_class_name) != 0 &&
             slot == (s32)set->scale.x && set->set_params[0] == side) {
             return set;
         }

@@ -1,3 +1,7 @@
+#include "pso/system/memory.h"
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/ui/UISprite.h"
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/system/ResourceFile.h"
@@ -21,110 +25,83 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/GinjaTexture.h"
 
 
-struct G_80338534 { u8 p0[0x2C]; ProjectedVertex a[4]; u8 b[0x60]; u8 c[0x40]; };
-
-struct Fx_803382E4 {
-    u8 pad0[0x14];
-    s32 angle;
+// These records are consecutive in the overlay data, beginning at lbl_804EF1B8.
+struct LobbyOverlayVertices {
+    NJS_TEXNAME texture_names[3];
+    NJS_TEXLIST texture_list;
+    ProjectedVertex title[4];
+    ProjectedStripVertex info_icon[4];
+    ProjectedStripVertex hud_icon[4];
 };
-
-struct A_80338608 { u8 pad[0x14]; u32 col; };
-
-struct B_80338608 { u8 pad[0xC]; u32 col; };
 
 extern "C" {
 s32 lobby_request_flags;
-void draw_projected_textured_strip(void *, s32);
-extern s32 hud_texlist;
 int info_icon_texture;
 s32 lobby_pulse_color_phase;
 u32 __cvt_fp2unsigned(f32);
-s32 release_texture_list(s32 *);
 
 NJS_TEXNAME lbl_804EF1B8[3] = {
     { "f256_nowloading", 0, 0 },
     { "f256_nowloading_b", 0, 0 },
     { "f064_mahourot", 0, 0 },
 };
-__declspec(section ".data") void *lbl_804EF1DC[2] = {
-    (void *)&lbl_804EF1B8, (void *)0x3,
+__declspec(section ".data") NJS_TEXLIST lbl_804EF1DC = {lbl_804EF1B8, 3};
+ProjectedVertex title_pulse_color_table[4] = {
+    { 528.0f, 289.0f, 0.5f, 0xB4000000 },
+    { 592.0f, 289.0f, 0.5f, 0xB4000000 },
+    { 528.0f, 353.0f, 0.5f, 0xB4000000 },
+    { 592.0f, 353.0f, 0.5f, 0xB4000000 },
 };
-void *title_pulse_color_table[16] = {
-    (void *)0x44040000, (void *)0x43908000, (void *)0x3f000000, (void *)0xb4000000,
-    (void *)0x44140000, (void *)0x43908000, (void *)0x3f000000, (void *)0xb4000000,
-    (void *)0x44040000, (void *)0x43b08000, (void *)0x3f000000, (void *)0xb4000000,
-    (void *)0x44140000, (void *)0x43b08000, (void *)0x3f000000, (void *)0xb4000000,
+ProjectedStripVertex lobby_pulse_color_table[8] = {
+    { 528.0f, 289.0f, 0.5f, 0.0f, 0.0f, 0xFFFFFFFF },
+    { 592.0f, 289.0f, 0.5f, 1.0f, 0.0f, 0xFFFFFFFF },
+    { 528.0f, 353.0f, 0.5f, 0.0f, 1.0f, 0xFFFFFFFF },
+    { 592.0f, 353.0f, 0.5f, 1.0f, 1.0f, 0xFFFFFFFF },
+    { 496.0f, 355.0f, 0.5f, 0.390625f, 0.0f, 0xFFFFFFFF },
+    { 624.0f, 355.0f, 0.5f, 0.890625f, 0.0f, 0xFFFFFFFF },
+    { 496.0f, 411.0f, 0.5f, 0.390625f, 0.21875f, 0xFFFFFFFF },
+    { 624.0f, 411.0f, 0.5f, 0.890625f, 0.21875f, 0xFFFFFFFF },
 };
-void *lobby_pulse_color_table[48] = {
-    (void *)0x44040000, (void *)0x43908000, (void *)0x3f000000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x44140000, (void *)0x43908000,
-    (void *)0x3f000000, (void *)0x3f800000, (void *)0x0, (void *)0xffffffff,
-    (void *)0x44040000, (void *)0x43b08000, (void *)0x3f000000, (void *)0x0,
-    (void *)0x3f800000, (void *)0xffffffff, (void *)0x44140000, (void *)0x43b08000,
-    (void *)0x3f000000, (void *)0x3f800000, (void *)0x3f800000, (void *)0xffffffff,
-    (void *)0x43f80000, (void *)0x43b18000, (void *)0x3f000000, (void *)0x3ec80000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x441c0000, (void *)0x43b18000,
-    (void *)0x3f000000, (void *)0x3f640000, (void *)0x0, (void *)0xffffffff,
-    (void *)0x43f80000, (void *)0x43cd8000, (void *)0x3f000000, (void *)0x3ec80000,
-    (void *)0x3e600000, (void *)0xffffffff, (void *)0x441c0000, (void *)0x43cd8000,
-    (void *)0x3f000000, (void *)0x3f640000, (void *)0x3e600000, (void *)0xffffffff,
+ProjectedStripVertex lbl_804EF2E4[4] = {
+    { 368.0f, 352.0f, 0.5f, 0.0f, 0.0f, 0xFFFFFFFF },
+    { 368.0f, 480.0f, 0.5f, 0.0f, 1.0f, 0xFFFFFFFF },
+    { 497.0f, 352.0f, 0.5f, 1.0f, 0.0f, 0xFFFFFFFF },
+    { 497.0f, 480.0f, 0.5f, 1.0f, 1.0f, 0xFFFFFFFF },
 };
-void *lbl_804EF2E4[24] = {
-    (void *)0x43b80000, (void *)0x43b00000, (void *)0x3f000000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x43b80000, (void *)0x43f00000,
-    (void *)0x3f000000, (void *)0x0, (void *)0x3f800000, (void *)0xffffffff,
-    (void *)0x43f88000, (void *)0x43b00000, (void *)0x3f000000, (void *)0x3f800000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x43f88000, (void *)0x43f00000,
-    (void *)0x3f000000, (void *)0x3f800000, (void *)0x3f800000, (void *)0xffffffff,
+ProjectedStripVertex lbl_804EF344[4] = {
+    { 496.0f, 352.0f, 0.5f, 0.0f, 0.0f, 0xFFFFFFFF },
+    { 496.0f, 480.0f, 0.5f, 0.0f, 1.0f, 0xFFFFFFFF },
+    { 624.0f, 352.0f, 0.5f, 1.0f, 0.0f, 0xFFFFFFFF },
+    { 624.0f, 480.0f, 0.5f, 1.0f, 1.0f, 0xFFFFFFFF },
 };
-void *lbl_804EF344[24] = {
-    (void *)0x43f80000, (void *)0x43b00000, (void *)0x3f000000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x43f80000, (void *)0x43f00000,
-    (void *)0x3f000000, (void *)0x0, (void *)0x3f800000, (void *)0xffffffff,
-    (void *)0x441c0000, (void *)0x43b00000, (void *)0x3f000000, (void *)0x3f800000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x441c0000, (void *)0x43f00000,
-    (void *)0x3f000000, (void *)0x3f800000, (void *)0x3f800000, (void *)0xffffffff,
+NJS_TEXANIM lbl_804EF3A4[3] = {
+    { 64, 64, 32, 32, 0, 0, 256, 256, 2, 0 },
+    { 64, 64, 32, 32, 0, 0, 256, 256, 2, 0 },
+    { 64, 64, 32, 32, 0, 0, 256, 256, 2, 0 },
 };
-void *lbl_804EF3A4[15] = {
-    (void *)0x400040, (void *)0x200020, (void *)0x0, (void *)0x1000100,
-    (void *)0x20000, (void *)0x400040, (void *)0x200020, (void *)0x0,
-    (void *)0x1000100, (void *)0x20000, (void *)0x400040, (void *)0x200020,
-    (void *)0x0, (void *)0x1000100, (void *)0x20000,
+NJS_SPRITE lbl_804EF3E0 = {
+    { 496.0f, 416.0f, 0.0f }, 1.0f, 1.0f, 0, &lbl_804EF1DC, lbl_804EF3A4,
 };
-void *lbl_804EF3E0[8] = {
-    (void *)0x43f80000, (void *)0x43d00000, (void *)0x0, (void *)0x3f800000,
-    (void *)0x3f800000, (void *)0x0, (void *)&lbl_804EF1DC, (void *)&lbl_804EF3A4,
-};
-
-#define lbl_804EF1B8 (*(G_80338534 *)lbl_804EF1B8)
-#define lbl_804EF1DC ((s32 *)lbl_804EF1DC)
-#define title_pulse_color_table ((B_80338608 *)title_pulse_color_table)
-#define lobby_pulse_color_table ((A_80338608 *)lobby_pulse_color_table)
 
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-static inline s32 step_803382E4(Fx_803382E4 *fx) {
-    fx->angle += 0x16C;
-    return fx->angle;
-}
 #pragma fp_contract on
 void TLobby__sub_803382E4(void) {
-    Fx_803382E4 *fx;
     f32 alpha;
 
     if (lobby_request_flags & 2) {
-        fx = (Fx_803382E4 *)(lbl_804EF3E0);
-        fx->angle += 0x16C;
-        alpha = 0.5f + (1.0f + cos_table_lookup(fx->angle)) / 4.0f;
+        lbl_804EF3E0.ang += 0x16C;
+        alpha = 0.5f + (1.0f + cos_table_lookup(lbl_804EF3E0.ang)) / 4.0f;
         set_perspective_projection_from_fov(0x3555, 1.1333334f, 1.0f, 21000.0f);
         set_depth_buffer_settings_2();
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         set_default_alpha_blend();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_804EF1DC));
+        TObjFish::set_global_param(&lbl_804EF1DC);
         set_texture_num(0);
         TLobby__sub_803E2EE4(0);
         draw_projected_textured_strip(lbl_804EF2E4, 4);
@@ -134,7 +111,7 @@ void TLobby__sub_803382E4(void) {
         draw_projected_textured_strip(lbl_804EF344, 4);
         TLobby::reset_player_state();
         set_additive_blend();
-        ((TObjPlayer *)lbl_804EF3E0)->draw_compass_sprite(2, (__cvt_fp2unsigned(255.0f * alpha) << 24) | 0xFFFFFF, 0x21, 0.5f);
+        draw_compass_sprite(&lbl_804EF3E0, 2, (__cvt_fp2unsigned(255.0f * alpha) << 24) | 0xFFFFFF, 0x21, 0.5f);
         set_default_alpha_blend();
         TCameraCtrl::restore_saved_view();
         TParticleCtrl::end_effect_render();
@@ -146,22 +123,22 @@ void TLobby__sub_803382E4(void) {
 
 void TLobby::handle_flag2_request() {
     if (lobby_request_flags & 2) {
-        release_texture_list(lbl_804EF1DC);
+        release_texture_list(&lbl_804EF1DC);
         lobby_request_flags &= 0xFFFFFFFD;
     }
 }
 
 void TLobby::load_now_loading_texture() {
-    saddr archive;
-    saddr packed;
+    void *archive;
+    void *packed;
     if (!(lobby_request_flags & 2)) {
-        archive = (saddr)TQuestVmDownLoadServer::alloc(0x11000);
-        packed = (saddr)TQuestVmDownLoadServer::alloc(0x2000);
-        read_disc_file_sectors("NowLoading.prs", (void *)packed);
-        prs_decompress_buffer(packed, archive);
-        load_gvm_texture_archive((void *)archive, (NJS_TEXLIST *)lbl_804EF1DC);
-        TAdSinglePlyChrSelectGC::safe_free(packed);
-        TAdSinglePlyChrSelectGC::safe_free(archive);
+        archive = TQuestVmDownLoadServer::alloc(0x11000);
+        packed = TQuestVmDownLoadServer::alloc(0x2000);
+        read_disc_file_sectors("NowLoading.prs", packed);
+        prs_decompress_buffer(reinterpret_cast<saddr>(packed), reinterpret_cast<saddr>(archive));
+        load_gvm_texture_archive(archive, &lbl_804EF1DC);
+        safe_free(packed);
+        safe_free(archive);
         lobby_request_flags |= 2;
     }
 }
@@ -191,12 +168,12 @@ void render_info_icon_overlay(void) {
 #pragma opt_propagation off
 
 void TLobby__sub_80338534(void) {
-    G_80338534 *t = &lbl_804EF1B8;
+    LobbyOverlayVertices *overlay = reinterpret_cast<LobbyOverlayVertices *>(lbl_804EF1B8);
     TCameraCtrl::restore_full_screen_view();
     set_default_alpha_blend();
     TParticleCtrl::begin_effect_render();
     TObjBoss2Tunnel::setup_projected_color_draw(1);
-    TObjBoss2Tunnel::draw_projected_quads(t->a, 4);
+    TObjBoss2Tunnel::draw_projected_quads(overlay->title, 4);
     TObjBoss2Tunnel::reset_player_state();
     if ((u32)info_icon_texture != 0) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(info_icon_texture));
@@ -207,13 +184,13 @@ void TLobby__sub_80338534(void) {
         }
         set_additive_blend();
         TLobby__sub_803E2EE4(1);
-        draw_projected_textured_strip(t->b, 4);
+        draw_projected_textured_strip(overlay->info_icon, 4);
         TLobby::reset_player_state();
         set_default_alpha_blend();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+        TObjFish::set_global_param(hud_texlist);
         set_texture_num(5);
         TLobby__sub_803E2EE4(1);
-        draw_projected_textured_strip(t->c, 4);
+        draw_projected_textured_strip(overlay->hud_icon, 4);
         TLobby::reset_player_state();
     }
     set_default_alpha_blend();
@@ -229,8 +206,8 @@ void TLobby::update_pulse_colors(s32 arg0) {
     u32 c0;
     u32 c1;
     s32 i;
-    B_80338608 *b;
-    A_80338608 *a;
+    ProjectedVertex *b;
+    ProjectedStripVertex *a;
     t = 0.5f + (1.0f + cos_table_lookup(lobby_pulse_color_phase)) / 4.0f;
     lobby_pulse_color_phase += 0xCCC;
     c0 = ((u32)(255.0f * t) << 24) | 0xFFFFFF;
@@ -238,9 +215,9 @@ void TLobby::update_pulse_colors(s32 arg0) {
     a = lobby_pulse_color_table;
     b = title_pulse_color_table;
     for (i = 0; i < 4; i++) {
-        a->col = c0;
+        a->color = c0;
         a++;
-        b->col = c1;
+        b->color = c1;
         b++;
     }
     switch (arg0) {

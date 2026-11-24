@@ -25,6 +25,7 @@ struct UISpriteTint {
 };
 
 extern "C" {
+void draw_compass_sprite(const NJS_SPRITE *sprite, s32 index, s32 color, s32 flags, f32 depth);
 void draw_creation_sprite_offset(s32 sprite_id, const vec2f* position, const vec2f* scale,
                                  f32 depth, f32 alpha);
 void draw_ui_sprite_tinted(s32 sprite_id, vec2f* position, vec2f* scale, UISpriteTint* tint,

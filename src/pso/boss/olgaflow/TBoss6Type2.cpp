@@ -1,3 +1,7 @@
+#include "pso/system/SoundEffect.h"
+#include "pso/system/memory.h"
+#include "pso/system/memory.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
@@ -23,6 +27,7 @@
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/TLobby.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"
@@ -116,7 +121,6 @@ struct Boss6Type2LegEffect { s32 node; s32 particle_slot; f32 ground_height; };
 struct ByteBlock_C { u8 bytes[0xc]; };
 
 
-u16 obj_getArrU16_FC(void *obj, s32 i);
 
 // Read by the TBoss6Type2_802BE588/_802BF558 units and TBoss6Rock; emitted ahead of the literal pool.
 extern const f32 boss6_arena_radius = 400.0f;
@@ -165,8 +169,8 @@ void TBoss6Type2::apply_paralysis() {}
 
 void TBoss6Type2::apply_poison_status() {}
 
-TBoss6Type2 *TBoss6Type2::create(saddr arg2_) {
-    return new TBoss6Type2(new TObjControl(tl_04), (saddr *)arg2_);
+TBoss6Type2 *TBoss6Type2::create(Boss6BodySpawnParams *params) {
+    return new TBoss6Type2(new TObjControl(tl_04), params);
 }
 
 void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec) {
@@ -176,13 +180,13 @@ void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *boss6_type2_zero_vec) {
 
 #pragma push
 #pragma opt_common_subs off
-TBoss6Type2::TBoss6Type2(TObject *parent, saddr *params) : TObjEnemy(parent) {
+TBoss6Type2::TBoss6Type2(TObject *parent, Boss6BodySpawnParams *params) : TObjEnemy(parent) {
     TBoss6Type2StateRecord record;
     s32 i;
     s32 id;
     m_name = TBoss6Type2__name;
-    plot_falz = (TBoss6PlotFalz *)params[0];
-    apply_set_data(params + 1);
+    plot_falz = params->owner;
+    apply_set_data(&params->set_entry);
     if (exchange_object_state(&record, 1) != 0) {
         record.flags = 0;
         record.value = 0;
@@ -202,12 +206,12 @@ TBoss6Type2::TBoss6Type2(TObject *parent, saddr *params) : TObjEnemy(parent) {
     target = 0;
     bind_enemy_combat_stats(TLobby::register_boss(0x2C), TLobby::dispatch_shared_handler_b(0x2C), TLobby::register_object(0x2C));
     referenceHp = prev_hp = hp;
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     set_param(0x4E);
-    id = ((s8 *)params)[0x44] % 4;
+    id = static_cast<s8>(params->variant) % 4;
     add_flags_2e4(TBoss6Type2__initial_actor_flag_masks[id]);
     target_mode = id;
-    variant = target_state = boss6_type2_variant_id_table[(((s8 *)params)[0x44] >> 2) % 4];
+    variant = target_state = boss6_type2_variant_id_table[(static_cast<s8>(params->variant) >> 2) % 4];
     init_segment_range();
     {
     s32 k;
@@ -883,68 +887,68 @@ void TBoss6Type2::draw_body_models() {
 }
 
 void TBoss6Type2::load_battle_params() {
-    const Boss6ParamRecord *rec;
+    const BattleMovementParams *rec;
     s32 first;
     s32 second;
-    rec = (const Boss6ParamRecord *)TLobby::dispatch_shared_handler_a(0x2C);
-    rock_damage = (s32)rec->floats[1];
+    rec = TLobby::dispatch_shared_handler_a(0x2C);
+    rock_damage = (s32)rec->values.floats[1];
     if ((f32)rock_damage <= 0.0f) {
         rock_damage = TBoss6Type2__default_battle_parameters.int_params[0];
     }
-    possessed_damage = (s32)rec->floats[4];
+    possessed_damage = (s32)rec->values.floats[4];
     if ((f32)possessed_damage <= 0.0f) {
         possessed_damage = TBoss6Type2__default_battle_parameters.int_params[1];
     }
-    bj_wait_duration = (s32)rec->floats[5];
+    bj_wait_duration = (s32)rec->values.floats[5];
     if ((f32)bj_wait_duration <= 0.0f) {
         bj_wait_duration = TBoss6Type2__default_battle_parameters.int_params[8];
     }
-    dpb_damage_threshold = rec->ints[0];
+    dpb_damage_threshold = rec->values.integers[0];
     if (dpb_damage_threshold <= 0) {
         dpb_damage_threshold = TBoss6Type2__default_battle_parameters.int_params[2];
     }
-    berserk_damage = rec->ints[1];
+    berserk_damage = rec->values.integers[1];
     if (berserk_damage <= 0) {
         berserk_damage = TBoss6Type2__default_battle_parameters.int_params[3];
     }
-    release_damage = rec->ints[2];
+    release_damage = rec->values.integers[2];
     if (release_damage <= 0) {
         release_damage = TBoss6Type2__default_battle_parameters.int_params[4];
     }
-    kamae_duration = rec->ints[3];
+    kamae_duration = rec->values.integers[3];
     if (kamae_duration <= 0) {
         kamae_duration = TBoss6Type2__default_battle_parameters.int_params[5];
     }
-    iai_x2_percent = rec->ints[4];
-    iai_x3_percent = rec->ints[5];
+    iai_x2_percent = rec->values.integers[4];
+    iai_x3_percent = rec->values.integers[5];
     first = iai_x2_percent;
     if ((first < 0) || (first > 100) || ((second = iai_x3_percent) < 0) || (second > 100) || (first + second > 100)) {
         iai_x2_percent = TBoss6Type2__default_battle_parameters.int_params[6];
         iai_x3_percent = TBoss6Type2__default_battle_parameters.int_params[7];
     }
-    rec = (const Boss6ParamRecord *)TLobby::dispatch_shared_handler_a(0x2F);
-    base_walk_speed = rec->floats[0];
+    rec = TLobby::dispatch_shared_handler_a(0x2F);
+    base_walk_speed = rec->values.floats[0];
     if (base_walk_speed <= 0.0f) {
         base_walk_speed = TBoss6Type2__default_battle_parameters.float_params[0];
     }
-    base_turn_speed = rec->floats[1];
+    base_turn_speed = rec->values.floats[1];
     if (base_turn_speed <= 0.0f) {
         base_turn_speed = TBoss6Type2__default_battle_parameters.float_params[1];
     }
-    berserk_damage_scale = rec->floats[2];
+    berserk_damage_scale = rec->values.floats[2];
     if (berserk_damage_scale <= 0.0f) {
         berserk_damage_scale = TBoss6Type2__default_battle_parameters.float_params[4];
     }
-    info_stat_duration = (s32)rec->floats[3];
+    info_stat_duration = (s32)rec->values.floats[3];
     if ((f32)info_stat_duration <= 0.0f) {
         info_stat_duration = TBoss6Type2__default_battle_parameters.last_param;
     }
-    rec = (const Boss6ParamRecord *)TLobby::dispatch_shared_handler_a(0x2E);
-    low_hp_walk_speed = rec->floats[2];
+    rec = TLobby::dispatch_shared_handler_a(0x2E);
+    low_hp_walk_speed = rec->values.floats[2];
     if (low_hp_walk_speed <= 0.0f) {
         low_hp_walk_speed = TBoss6Type2__default_battle_parameters.float_params[2];
     }
-    low_hp_turn_speed = rec->floats[3];
+    low_hp_turn_speed = rec->values.floats[3];
     if (low_hp_turn_speed <= 0.0f) {
         low_hp_turn_speed = TBoss6Type2__default_battle_parameters.float_params[3];
     }
@@ -1361,7 +1365,7 @@ void TBoss6Type2::apply_rock_hits_to_players() {
     }
 }
 
-s32 TBoss6Type2::push_players_away(void *target, f32 range) {
+s32 TBoss6Type2::push_players_away(const Vec *target, f32 range) {
     Vec dir;
     Vec pos;
     Vec off;
@@ -1379,7 +1383,7 @@ s32 TBoss6Type2::push_players_away(void *target, f32 range) {
             continue;
         }
         VecCopy(&dir, &pl->position);
-        subtract_vector(&dir, (Vec *)target);
+        subtract_vector(&dir, target);
         dir.y = 0.0f;
         dist = vector_length(&dir);
         if (dist >= range) {
@@ -1393,7 +1397,7 @@ s32 TBoss6Type2::push_players_away(void *target, f32 range) {
             off.x = dir.x * t;
             off.y = 10.0f;
             off.z = dir.z * t;
-            VecCopy(&pos, (Vec *)target);
+            VecCopy(&pos, target);
             vec3_add_to(&pos, &off);
             if (project_actor_to_ground(this, &pos, 0) != 0) {
                 TBoss6PlotFalz::move_player_to(pl, &pos);
@@ -1729,12 +1733,12 @@ void TBoss6Type2::spawn_rocks_around_players() {
 }
 
 void TBoss6Type2::create_dpbs() {
-    create_dpb((saddr)this, (saddr)&position, 150.0f);
+    create_dpb(this, &position, 150.0f);
     if (mags[0] != NULL && mags[0]->is_phase_active() != 0) {
-        create_dpb((saddr)this, (saddr)&mags[0]->position, 100.0f);
+        create_dpb(this, &mags[0]->position, 100.0f);
     }
     if (mags[1] != NULL && mags[1]->is_phase_active() != 0) {
-        create_dpb((saddr)this, (saddr)&mags[1]->position, 100.0f);
+        create_dpb(this, &mags[1]->position, 100.0f);
     }
 }
 
@@ -2010,14 +2014,14 @@ s32 TBoss6Type2::grab_player(u16 client_id) {
     }
     possessed_client = client_id;
     grab_appearance = player->name;
-    copy_texlist(&saved_look.body_textures, (NJS_TEXLIST *)player->body_textures);
+    copy_texlist(&saved_look.body_textures, &player->body_textures);
     copy_texlist(&saved_look.head_textures, (NJS_TEXLIST *)player->head_textures);
     copy_texlist(&saved_look.attachment_textures, (NJS_TEXLIST *)player->attachment_textures);
     saved_look.model = player->model;
     saved_look.head_model = player->head_model;
     saved_look.hair_model = player->hair_model;
     saved_look.attachment_model = player->attachment_model;
-    copy_texlist((NJS_TEXLIST *)player->body_textures, grab_texlists[0]);
+    copy_texlist(&player->body_textures, grab_texlists[0]);
     copy_texlist((NJS_TEXLIST *)player->attachment_textures, grab_texlists[1]);
     player->model = grab_models[0];
     player->head_model = NULL;
@@ -2037,7 +2041,7 @@ void TBoss6Type2::restore_target_player_state() {
             reset_fish_fields();
             return;
         }
-        copy_texlist((NJS_TEXLIST *)player->body_textures, &saved_look.body_textures);
+        copy_texlist(&player->body_textures, &saved_look.body_textures);
         copy_texlist((NJS_TEXLIST *)player->attachment_textures, &saved_look.attachment_textures);
         player->model = saved_look.model;
         player->head_model = saved_look.head_model;
@@ -2089,8 +2093,7 @@ void TBoss6Type2::init_collected_entries() {
     }
 }
 
-void TBoss6Type2::aim_toward_point(void *target) {
-    Vec *point = (Vec *)target;
+void TBoss6Type2::aim_toward_point(const Vec *point) {
     Vec v;
     s32 ang;
     s32 i;

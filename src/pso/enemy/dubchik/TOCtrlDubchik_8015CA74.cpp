@@ -29,7 +29,6 @@
 #include "pso/system/task/TObject.h"
 
 
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TMainTask.h"
@@ -227,7 +226,7 @@ void TOCtrlDubchik::update_waiting() {
     for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (TObjEnemy *)TObjPlayer::get_player_data(i);
         if (p != NULL && p != this && p->test_actor_flags(0x800) != 0 &&
-            ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
+            reinterpret_cast<TObject *>(p)->check_value_equals(TObjEneDubchik__class_name) != 0 &&
             p->variant == 0 && room == p->room) {
             mode = 1;
         }
@@ -308,7 +307,7 @@ void TOCtrlDubchik::kill_room_dubchiks() {
     }
     for (i = registered_player_count; i < registered_player_count + registered_enemy_count; i++) {
         p = (TObjEnemy *)TObjPlayer::get_player_data(i);
-        if (p != NULL && p != this && ((TUnk_804B6C24 *)p)->check_value_equals((saddr)TObjEneDubchik__class_name) != 0 &&
+        if (p != NULL && p != this && p->check_value_equals(TObjEneDubchik__class_name) != 0 &&
             p->variant == 0 && room == p->room) {
             ((TObjEneDubchik *)p)->start_dying();
         }

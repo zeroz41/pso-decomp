@@ -5,7 +5,6 @@
 
 extern "C" {
 s32 TObjPlayer__sub_801AF868(TObjPlayer *player);
-s32 check_flag_800000__10TObjPlayerFPv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 }
 
@@ -33,28 +32,28 @@ void TObjPlayer::update_battle_control_if_unlocked() {
 
 // The support-technique effects: none while the body is inactive or flag 0x800000 is set.
 void TObjPlayer::enemy_spawn_zalure_effect() {
-    if (is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv(this) != 0) {
+    if (is_body_collision_inactive() != 0 || check_flag_800000(this) != 0) {
         return;
     }
     follow_particles.emit_zalure_support();
 }
 
 void TObjPlayer::trigger_switch_attack() {
-    if (is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv(this) != 0) {
+    if (is_body_collision_inactive() != 0 || check_flag_800000(this) != 0) {
         return;
     }
     follow_particles.emit_deband_support();
 }
 
 void TObjPlayer::enemy_spawn_jellen_effect() {
-    if (is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv(this) != 0) {
+    if (is_body_collision_inactive() != 0 || check_flag_800000(this) != 0) {
         return;
     }
     follow_particles.emit_jellen_support_effect_default();
 }
 
 void TObjPlayer::apply_switch_attack() {
-    if (is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv(this) != 0) {
+    if (is_body_collision_inactive() != 0 || check_flag_800000(this) != 0) {
         return;
     }
     follow_particles.emit_shifta_support();
@@ -63,7 +62,7 @@ void TObjPlayer::apply_switch_attack() {
 void TObjPlayer::update_movement_effects() {
     if (TTecCtrl::is_technique_ready() != 0 && TObjPlayer__sub_801AF868(this) == 0 && update_movement_by_screen() != 0 &&
         test_action_mask(0x408000) == 0 && is_body_collision_inactive() == 0 &&
-        check_flag_800000__10TObjPlayerFPv(this) == 0) {
+        check_flag_800000(this) == 0) {
         follow_particles.emit_movement_effect();
     }
     if (is_body_collision_inactive() == 0 && test_action_mask(2) != 0 && contact_surface.has_water_ground_flag() != 0) {

@@ -52,14 +52,16 @@
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCineCtrl.h"
 #include "pso/unk/TLobby_800F8AA8.h"
+#include "pso/ui/frontend/TAdTitleTexGC.h"
+#include "pso/map/area/AreaScene.h"
+#include "pso/system/TGStream.h"
+#include "pso/system/GslArchive.h"
 
 void load_particle_entry_resources(void);
 void load_technique_resources(void);
 
 
 extern "C" {
-void TLobby__sub_802A5154(void);
-s32 run_load_callback_table(void *, int);
 void TSceneSora__sub_80207430(void);
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
@@ -183,9 +185,6 @@ s32 TLobby::run_lobby_load_tables() {
     }
     return 1;
 }
-
-s32 load_area_gsl();
-s32 close_gsl_archive();
 
 
 s32 TLobby::check_disconnect_conditions() {

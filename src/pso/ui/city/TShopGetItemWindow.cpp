@@ -23,10 +23,10 @@
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
 
-saddr get_window_layout_position(s32);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 }
 
@@ -186,7 +186,7 @@ void TShopGetItemWindow::handle_withdraw_list_input() {
                 TWindowInputNumber *obj = (TWindowInputNumber *)TObject::operator new(0x7C);
                 if (obj != NULL) {
                     sel = (s16)get_player_entity_id();
-                    obj = __ct__18TWindowInputNumberFPvllls(obj, get_window_layout_position(0x2B), 1, count, 1, sel);
+                    obj = __ct__18TWindowInputNumberFPvllls(obj, (s32)get_window_layout_position(0x2B), 1, count, 1, sel);
                 }
                 number_input = obj;
                 if (number_input != NULL && TLobby::is_camera_ctrl_active() > 2) {

@@ -42,7 +42,7 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
             DirectAttackPayload hit;
             hit.kind = 0;
             hit.power = power;
-            if (p->receive_direct_attack((void *)owner, hit, NULL, -1, -1) > 0.0f) {
+            if (p->receive_direct_attack(owner, hit, NULL, -1, -1) > 0.0f) {
                 p->set_actor_flags(0x600);
             }
             if (get_current_floor_area() == AREA_TOWER) {
@@ -56,10 +56,10 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
 
 void TObjEneMe1GiGueMissile::on_wall_hit() { explode(&pos); TObject::queue_destruction(); }
 
-void TObjEneMe1GiGueMissile::on_target_hit(void *a1) { explode(&((TObjBase *)a1)->position); TObject::queue_destruction(); }
+void TObjEneMe1GiGueMissile::on_target_hit(TObjCollidable *target) { explode(&target->position); TObject::queue_destruction(); }
 
-void TObjEneMe1GiGueMissile::create(s32 owner, saddr from, saddr to, f32 speed, f32 power) {
-    new TObjEneMe1GiGueMissile(owner, (Vec *)from, (Vec *)to, speed, power);
+void TObjEneMe1GiGueMissile::create(TObjBase *owner, Vec *from, Vec *to, f32 speed, f32 power) {
+    new TObjEneMe1GiGueMissile(owner, from, to, speed, power);
 }
 
 TObjEneMe1GiGueMissile::~TObjEneMe1GiGueMissile() {
@@ -104,14 +104,14 @@ void TObjEneMe1GiGueMissile::run_task() {
 }
 #pragma pop
 
-TObjEneMe1GiGueMissile::TObjEneMe1GiGueMissile(s32 owner, Vec *from, Vec *to, f32 speed, f32 power)
+TObjEneMe1GiGueMissile::TObjEneMe1GiGueMissile(TObjBase *owner, Vec *from, Vec *to, f32 speed, f32 power)
     : TNeedleShoot(owner, from, to) {
     m_name = TObjEneMe1GiGueMissile__name;
     this->power = power;
     this->speed = speed;
     play_sound_effect(0x4002A600, &pos, 0, 0);
-    if ((void *)this->owner != NULL) {
-        owner_id = ((TObjBase *)this->owner)->get_entity_id();
+    if (this->owner != NULL) {
+        owner_id = this->owner->get_entity_id();
     }
     if (collider != NULL) {
         collider->bodies->radius = 1.0f;

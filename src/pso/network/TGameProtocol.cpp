@@ -24,6 +24,7 @@
 #include "pso/object/fence/WallHitPacket.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdio.h>
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
@@ -60,7 +61,6 @@ extern "C" void handle_6x0C_add_or_remove_status_effect(void *arg0);
 extern "C" void handle_6x0D_add_or_remove_status_effect(void *arg0);
 extern "C" void handle_6x0E_clear_negative_status_effects(s32 arg0);
 extern "C" void handle_6x18_vol_opt2_boss_actions();
-extern "C" void handle_6x19_dark_falz_actions();
 extern "C" void handle_6x1B_enable_pk_mode_for_player(void *arg0);
 extern "C" void handle_6x1C_disable_pk_mode_for_player(void *arg0);
 extern "C" void handle_6x1F_set_player_floor(void *arg0);
@@ -109,7 +109,7 @@ extern "C" void handle_6x4C_hit_by_enemy(void *arg0);
 extern "C" void handle_6x4D_player_died(void *arg0);
 extern "C" void handle_6x4E_player_revivable(void *arg0);
 extern "C" void handle_6x4F_player_revived(void *arg0);
-extern "C" void handle_6x50_switch_interaction(const void *source);
+extern "C" void handle_6x50_switch_interaction(void *source);
 extern "C" void handle_6x52_set_animation_state(saddr arg0);
 extern "C" void handle_6x53(void *arg0);
 extern "C" void handle_6x54();

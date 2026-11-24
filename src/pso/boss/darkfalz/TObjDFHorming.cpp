@@ -16,6 +16,7 @@
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/enemy/TObjEnemy.h"
 #include <stddef.h>
+#include "pso/enemy/BattleParameters.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/boss/darkfalz/TBoss4Type1.h"
@@ -40,7 +41,9 @@
 #include "pso/unk/TLobby_8030A834.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/network/client_id.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
@@ -191,7 +194,6 @@ DarkFalzPushZone dark_falz_push_zone_table[3] = {
 
 
 extern "C" {
-s32 subtract_vector(void *, void *);
 f32 xyz_distance(void *, void *);
 
 void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
@@ -221,7 +223,7 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
             other_radius = dark_falz_push_zone_table[j].radius;
             if (j != zone && !(xyz_distance(&player->position, other) > other_radius)) {
                 VecCopy(&v, &player->position);
-                subtract_vector(&v, other);
+                subtract_vector(&v, &other->center);
                 v.y = 0.0f;
                 if (vector_length(&v) <= 0.01f) {
                     v.x = 0.0f;
@@ -311,8 +313,6 @@ u16 TBoss4Type3::pick_random_target_player() {
 TBoss4DarkFalzSetEntry dark_falz_set_entry;
 
 extern "C" {
-extern s32 local_client_id;
-
 void release_all_players_control_lock(void);
 }
 
@@ -429,7 +429,7 @@ s32 TBoss4DarkFalz::calc_rate_from_field() {
 s32 TBoss4DarkFalz::is_timer_expired() {
     s32 losses_per_player;
 
-    losses_per_player = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x35)) + 0x18);
+    losses_per_player = TLobby::dispatch_shared_handler_a(0x35)->values.integers[0];
     if ((losses_per_player < 1) || (losses_per_player > 0x13)) {
         losses_per_player = 2;
     }
@@ -585,12 +585,12 @@ void TBoss4DarkFalz::set_fade(s32 color, f32 alpha) {
 }
 void TBoss4DarkFalz::refresh_player_equipment() {
     s32 i;
-    void *p;
+    TObjPlayer *p;
     for (i = 0; i < registered_player_count; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != 0) {
-            if (((TObjPlayer *)p)->get_area() == 0xE) {
-                ((TObjPlayer *)p)->refresh_equipment_slot();
+            if (p->get_area() == 0xE) {
+                p->refresh_equipment_slot();
             }
         }
     }
@@ -713,8 +713,6 @@ void TBoss4DarkFalz::update_roar_sound_timer() {
 #pragma fp_contract off
 
 
-extern "C" {
-
 void TBoss4DarkFalz::render() {  }
 
 void TBoss4DarkFalz::run_task() {
@@ -732,7 +730,6 @@ void TBoss4DarkFalz::run_task() {
 }
 
 void TBoss4DarkFalz::run_death_reaction() {  }
-}
 void init_music_sequencer(s32 program);
 BmlResource *darkfalz_dat_resource;
 TBoss4Type1 *TBoss4DarkFalz__type1_instance;
@@ -741,7 +738,7 @@ TBoss4Type3 *TBoss4DarkFalz__type3_instance;
 s32 dark_falz_form_index;
 s32 boss4_type2_rafoie_level;
 s32 boss4_type2_rabarta_level;
-s32 dark_falz_controller_instance;
+TBoss4DarkFalz *dark_falz_controller_instance;
 TBoss4DarkFalz::~TBoss4DarkFalz() {
     TBoss4Fade *object;
     switch (state_index) {
@@ -783,7 +780,7 @@ TBoss4DarkFalz::TBoss4DarkFalz(TObject *parent, TBoss4DarkFalzSetEntry *set_data
     if (set_data->kind != 0x200) {
         return;
     }
-    dark_falz_controller_instance = (saddr)this;
+    dark_falz_controller_instance = this;
     apply_set_data(set_data);
     copy_set_entry(&dark_falz_set_entry, set_data);
     dark_falz_set_entry.kind = 0;

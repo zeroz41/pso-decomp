@@ -66,7 +66,7 @@ extern "C" {
 
 
 BmlResource * TObjEneMe1Gee__resource_bundle;
-u8 * gee_model_node7;
+NJS_OBJECT *gee_model_node7;
 s32 TObjEneMe1Gee__render_node_index;
 Vec *gee_camera_ctrl_step_ptr;
 TBreakUpMdlData * gee_leader_breakup_model;
@@ -143,7 +143,7 @@ void TObjEneMe1Gee::load_resources() {
         TObjEneMe1Gee__resource_bundle = load_enemy_bml_resource(&bm_ene_me1_gee_resource_descriptor);
     }
     TObjEneMe1Gee_NEEDLE::init_global();
-    gee_model_node7 = (u8 *)find_model_node(TObjEneMe1Gee__resource_bundle->models->model, 7);
+    gee_model_node7 = find_model_node(TObjEneMe1Gee__resource_bundle->models->model, 7);
     for (i = 0; i < 3; i++) {
         gee_boss_stat_handle_table[i] = TLobby::register_boss(gee_base_stat_ids[i]);
         gee_shared_handler_b_table[i] = TLobby::dispatch_shared_handler_b(gee_attack_stat_ids[i]);
@@ -151,9 +151,9 @@ void TObjEneMe1Gee::load_resources() {
         gee_shared_handler_a_table[i] = (TObjEneMe1GeeParams *)TLobby::dispatch_shared_handler_a(gee_param_ids[i]);
     }
     TObjEneMe1Gee__render_node_index = 0;
-    p = new TBreakUpMdlData((saddr)TObjEneMe1Gee__resource_bundle->models->model);
+    p = new TBreakUpMdlData(TObjEneMe1Gee__resource_bundle->models->model);
     gee_leader_breakup_model = p;
-    p = new TBreakUpMdlData((saddr)TObjEneMe1Gee__resource_bundle->models->model);
+    p = new TBreakUpMdlData(TObjEneMe1Gee__resource_bundle->models->model);
     gee_breakup_model = p;
     gee_node4_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(TObjEneMe1Gee__resource_bundle->models->model, 4)->model)->polygon_list + 2);
     TObjPlayer::init_alt_model();
@@ -202,7 +202,7 @@ TObjEneMe1Gee::TObjEneMe1Gee(TObject *parent, TObjEneMe1Gee *leader, Vec *pos, u
     : TObjEneDD_ST(parent) {
     m_name = TObjEneMe1Gee__class_name;
     this->leader = leader;
-    init_common_from((u8 *)this->leader);
+    init_common_from(this->leader);
     entity_id = id;
     set_index = index;
     this->leader->calc_position(&position);
@@ -377,8 +377,8 @@ void TObjEneMe1Gee::calc_position(Vec *out) {
     vec3_add_to(out, &this->position);
 }
 #pragma pop
-u8 *TObjEneMe1Gee::move_xz_on_ground(u8 *dest) {
-    u8 *ground = TObjEneDD::move_xz_on_ground(dest);
+CsnHit *TObjEneMe1Gee::move_xz_on_ground(const Vec *dest) {
+    CsnHit *ground = TObjEneDD::move_xz_on_ground(dest);
     if (ground == NULL) {
         this->status_flags &= 0xFEFFFFFF;
     } else {
@@ -425,7 +425,7 @@ void TObjEneMe1Gee::hover_toward(f32 height) {
     this->approach_hover_y(height);
     VecCopy(&pos, &this->position);
     pos.y = this->hover_y;
-    this->move_xz_on_ground((u8 *)&pos);
+    this->move_xz_on_ground(&pos);
 }
 
 void TObjEneMe1Gee::update_hover_height() {
@@ -441,7 +441,7 @@ void TObjEneMe1Gee::climb_toward(f32 height) {
     this->climb_hover_y(height);
     VecCopy(&pos, &this->position);
     pos.y = this->hover_y;
-    this->move_xz_on_ground((u8 *)&pos);
+    this->move_xz_on_ground(&pos);
 }
 
 void TObjEneMe1Gee::climb_to_hover_height() {
@@ -1663,7 +1663,8 @@ void TObjEneMe1Gee::state_dead(s32 msg) {
             this->leader = (TObjEneMe1Gee *)find_entity_by_id(this->leader_id);
             this->leader->remove_member(this);
         }
-        TBoss3Volopt::create_breakup_mdl((saddr)gee_breakup_model, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);
+        TBoss3Volopt::create_breakup_mdl(gee_breakup_model, NULL,
+                           this->texlist, &this->body_center, this->rotation_y);
         play_sound_effect(this->handle_message(0x3A843), &this->position, 0, 0);
         this->status_flags |= 0x400000;
         this->actorFlags |= 0x01000000;
@@ -2151,7 +2152,8 @@ void TObjEneMe1GeeLeader::state_rise(s32 msg) {
 void TObjEneMe1GeeLeader::state_dead(s32 msg) {
     switch (msg) {
     case 4:
-        TBoss3Volopt::create_breakup_mdl((saddr)gee_leader_breakup_model, 0, this->texlist, (saddr)&this->body_center, this->rotation_y);
+        TBoss3Volopt::create_breakup_mdl(gee_leader_breakup_model, NULL,
+                           this->texlist, &this->body_center, this->rotation_y);
         this->status_flags |= 0x400000;
         refresh_lobby_state();
         return;

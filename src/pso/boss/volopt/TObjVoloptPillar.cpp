@@ -25,6 +25,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
@@ -41,17 +42,13 @@ void TObjVoloptPillar::spawn_debris_chips() {
         {0x400, 0x100, 0x400},
         4, 60,
         0.0f, 1.0f,
-        (saddr)boss3_volopt_resources->models[0xE].model,
+        boss3_volopt_resources->models[0xE].model,
         boss3_volopt_resources->models[0xE].texlist,
         2,
     };
     new TObjChip(tl_05, (TObjChipParams *)&params);
     new TObjChip(tl_05, (TObjChipParams *)&params);
     new TObjChip(tl_05, (TObjChipParams *)&params);
-}
-
-extern "C" {
-void post_translate_matrix(const Vec *v);
 }
 
 
@@ -70,7 +67,7 @@ void TObjVoloptPillar::render() {
         select_actor_lighting(this);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(volopt_pillar_textures));
         draw_chunk_object((void *)volopt_pillar_model);
         pop_matrix();
@@ -120,7 +117,7 @@ void TObjVoloptPillar::run_task() {
                     if (target == NULL) {
                         break;
                     }
-                    if (obj_is_hit_receivable((u8 *)target) != 0) {
+                    if (obj_is_hit_receivable(target) != 0) {
                         DirectAttackPayload attack = volopt_pillar_attack;
                         attack.power = TBoss3VoloptP02::get_int_param(1);
                         target->receive_direct_attack(owner, attack, NULL, -1, -1);

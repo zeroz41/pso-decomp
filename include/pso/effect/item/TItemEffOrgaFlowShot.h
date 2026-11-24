@@ -20,7 +20,6 @@ public:
     virtual ~TItemEffOrgaFlowShot();
     virtual void run_task();
     virtual void render();
-    static void approach_value(f32 *value, f32 step, f32 target);
     void bswap_6xAD_subordinate_action();
     void update_segments();
     void update_position_from_velocity();

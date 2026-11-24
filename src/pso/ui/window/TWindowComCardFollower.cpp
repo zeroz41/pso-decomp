@@ -1,6 +1,7 @@
 // Emit the follower vtable before the status-icon jump table.
 #pragma defer_codegen on
 
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
@@ -13,7 +14,6 @@
 #include "pso/ui/window/TWindowTradeRequest.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 
-extern s32 hud_texlist;
 
 ComCardFollowerLayout com_card_follower_layout_entries = {
     1, 1,

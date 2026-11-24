@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "types.h"
 #include "pso/render/GinjaModelQueue.h"
 #include "pso/unk/text_803D96A8.h"
@@ -42,49 +43,37 @@ void rotate_matrix_x(Matrix34* matrix, s32 angle) {
 }
 }
 
-#pragma push
-#pragma scheduling off
-void TObjPlayer::concat_matrix(uaddr arg0, uaddr arg1) {
-    MtxP elements;
-    MtxP var_r4;
-    elements = (MtxP)arg0;
-    var_r4 = (MtxP)arg1;
+extern "C" void concat_matrix(MtxP dest, const f32 (*source)[4]) {
+    MtxP elements = dest;
+    const f32 (*selected_source)[4] = source;
     if (elements == NULL) {
         elements = *current_matrix;
     }
-    if (var_r4 == NULL) {
-        var_r4 = *current_matrix;
+    if (selected_source == NULL) {
+        selected_source = *current_matrix;
     }
-    PSMTXConcat(elements, var_r4, elements);
+    PSMTXConcat(elements, selected_source, elements);
 }
-#pragma pop
 
-#pragma push
-#pragma peephole off
-#pragma fp_contract on
-void premultiply_matrix(uaddr dst, uaddr src) {
-    MtxP s;
-    MtxP d;
-    s = (MtxP)src;
-    if (dst == 0U) {
-        d = *current_matrix;
+void premultiply_matrix(MtxP dest, const f32 (*source)[4]) {
+    const f32 (*selected_source)[4] = source;
+    MtxP elements;
+    if (dest == NULL) {
+        elements = *current_matrix;
     } else {
-        d = (MtxP)dst;
+        elements = dest;
     }
-    if (s == NULL) {
-        s = *current_matrix;
+    if (selected_source == NULL) {
+        selected_source = *current_matrix;
     }
-    PSMTXConcat(s, d, d);
+    PSMTXConcat(selected_source, elements, elements);
 }
-#pragma pop
 
 extern "C" {
 asm f32 normalize_vector(Vec *v) {
 #include "orig_asm/pso/unk/text_803D96A8/normalize_vector.inc"
 }
 
-#pragma push
-#pragma scheduling off
 s32 push_matrix_from(void *src) {
     GC_Mtx *next = current_matrix + 1;
     if (next > matrix_stack_limit) {
@@ -95,10 +84,7 @@ s32 push_matrix_from(void *src) {
     return 1;
 }
 }
-#pragma pop
 
-#pragma push
-#pragma scheduling off
 s32 pop_matrices(s32 arg0) {
     GC_Mtx *temp_r3;
     temp_r3 = current_matrix - arg0;
@@ -108,7 +94,6 @@ s32 pop_matrices(s32 arg0) {
     current_matrix = temp_r3;
     return 1;
 }
-#pragma pop
 extern "C" {
 
 asm void transform_point_by_current_matrix(const f32 *src, Vec *dst) {
@@ -157,8 +142,6 @@ asm s32 push_matrix(void) {
 #include "orig_asm/pso/unk/text_803D96A8/push_matrix.inc"
 }
 
-#pragma push
-#pragma scheduling off
 s32 pop_matrix(void) {
     GC_Mtx *temp_r3;
     temp_r3 = current_matrix - 1;
@@ -168,7 +151,6 @@ s32 pop_matrix(void) {
     current_matrix = temp_r3;
     return 1;
 }
-#pragma pop
 
 asm void scale_current_matrix(const f32 *v) {
 #include "orig_asm/pso/unk/text_803D96A8/scale_current_matrix.inc"
@@ -178,15 +160,11 @@ asm void post_translate_matrix(const f32 *v) {
 #include "orig_asm/pso/unk/text_803D96A8/post_translate_matrix.inc"
 }
 
-#pragma push
-#pragma scheduling off
-#pragma peephole off
 void TObjPlayer__sub_803D9C60(u32 *p) {
     u32 v = *p;
     *p = ((v & 0xFF000000) >> 24) | ((v & 0xFF0000) >> 8) | ((v & 0xFF00) << 8) | ((v & 0xFF) << 24);
 }
 }
-#pragma pop
 
 u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *arg1, u32 *arg2) {
     u32 tag;
@@ -228,15 +206,12 @@ s32 TObjPlayer__sub_803D9DA8(A_803D9DA8 *texture, B_803D9DA8 *desc) {
     return 1;
 }
 
-#pragma push
-#pragma peephole off
 s32 TObjPlayer::is_gvm_load_ok() {
     if (TObjPlayer__sub_803DB244() == 0) {
         return 1;
     }
     return -1;
 }
-#pragma pop
 
 s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 idx, s32 *arg2, u32 *arg3) {
     saddr sp8;

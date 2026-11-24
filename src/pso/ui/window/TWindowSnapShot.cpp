@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/TGStream.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -21,6 +22,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/SoundEffect.h"
 
 extern "C" {
 extern s32 lbl_805D669C;
@@ -62,7 +64,6 @@ struct SnapShotWindowLayout {
     TextLayoutRecord rec_1;
 };
 
-extern s32 hud_texlist;
 
 SnapShotWindowLayout window_snapshot_layout_entries = {
     2, 1,
@@ -76,7 +77,6 @@ WindowDescriptor window_snapshot_layout = {
 
 extern "C" {
 s32 draw_screen_snapshot(f32 *, f32);
-s32 play_sound_effect(s32, s32, s32, s32);
 
 void TWindowSnapShot::free_shared_instance() {
     shared_snapshot_capture->update_both();

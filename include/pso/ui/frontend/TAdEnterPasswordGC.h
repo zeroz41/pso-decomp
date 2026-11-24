@@ -14,7 +14,6 @@ struct TAdEnterPasswordGC : public TAdEnterBaseGC {
     void request_transition(void *);
     void set_multi_chg_game_mode_0x14(void *);
     void close_window_and_destroy(void *);
-    static s32 dispatch_input_to_instance(int);
     u8 pad_38[0x8];
     s32 len; // strlen of the keyboard buffer (update_password_input)
 };
@@ -24,7 +23,6 @@ LAYOUT_ASSERT(TAdEnterPasswordGC_size, sizeof(TAdEnterPasswordGC) == 0x44);
 // --- C functions defined in TAdEnterPasswordGC.cpp ---
 extern "C" {
 void close_window_and_destroy__18TAdEnterPasswordGCFPv(u8 *arg0);
-s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(saddr object);
 void open_keyboard_window__18TAdEnterPasswordGCFPv(saddr arg0);
 void request_transition__18TAdEnterPasswordGCFPv(void *p);
 void set_multi_chg_game_mode_0x14__18TAdEnterPasswordGCFPv(void *p);

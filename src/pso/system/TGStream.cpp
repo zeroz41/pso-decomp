@@ -175,7 +175,7 @@ s32 TGStream::load_sct_file(const char *name, u8 *dst) {
         }
         stream.read_sectors_sync(sectors, buf);
         prs_decompress_buffer((saddr)buf, (saddr)dst);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+        safe_free(buf);
         return stream.archive_entry->decoded_size;
     }
     stream.read_sectors_sync(sectors, dst);

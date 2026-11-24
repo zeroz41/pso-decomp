@@ -1,19 +1,23 @@
 #include "pso/unk/text_803D853C.h"
+#include "pso/system/memory.h"
 #include "pso/camera/RadarMapViewState.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/GinjaMaterial.h"
+#include "pso/render/GinjaModel.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/GinjaView.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/render/Draw2D.h"
 #include "pso/render/MaterialColorFade.h"
+#include "pso/render/NinjaUtil.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/ui/UISprite.h"
 #include "pso/system/BmlResource.h"
 #include "pso/map/FloorArea.h"
 #include "pso/render/render_util.h"
@@ -30,6 +34,7 @@
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSlots.h"
 #include "pso/ui/hud/TRaderMapCore_801FB2B8.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/base/TObjMotion.h"
@@ -55,6 +60,12 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_80207DA8.h"
+#include "pso/render/NinjaUtil.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/render/model_render_state.h"
+#include "pso/network/client_id.h"
 
 typedef struct RadarInitPiece_801F9474 {
     s16 id, flags;
@@ -102,20 +113,6 @@ struct Map_801F9630 {
     s32 count;
 };
 
-struct Rect_801F9228 {
-    f32 x0;
-    f32 y0;
-    f32 x1;
-    f32 y1;
-};
-
-struct Radar_801FADF0 {
-    u8 pad0[0x90];
-    s32 f90;
-    u8 pad94[0x184 - 0x94];
-    uaddr f184;
-};
-
 struct Dot_801F9B8C { f32 x, z, w; s16 c; s16 type; s32 color; };
 
 struct Model_801F9D84 { u8 pad[8]; Vec a; Vec b; };
@@ -129,11 +126,9 @@ struct Region_801F9D84 {
 
 struct Map_801F9D84 { Region_801F9D84 *regions; void *textures; s32 count; };
 
-struct Cam_801F9314 { Vec dir; Vec pos; s32 rot; };
-
 struct Color_801FAAEC { f32 r, g, b, a; };
 
-struct Model_801FAAEC { u8 pad[4]; void *obj; };
+struct Model_801FAAEC { u8 pad[4]; GinjaModel *mesh; };
 
 struct Rec_801FAAEC {
     s16 id; s16 flags;
@@ -144,7 +139,7 @@ struct Rec_801FAAEC {
     Model_801FAAEC *model;
 };
 
-struct Map_801FAAEC { Rec_801FAAEC *recs; u32 tex; s32 count; };
+struct Map_801FAAEC { Rec_801FAAEC *recs; NJS_TEXLIST *tex; s32 count; };
 
 struct Gate_801FA1E0 { f32 x; f32 z; f32 scale; u16 rot; s16 kind; s32 color; };
 
@@ -180,65 +175,6 @@ typedef struct Player_801F9E9C {
     u8 sub828[4];
 } Player_801F9E9C;
 
-struct Glob_801F97C4 {
-    u8 pad0[0x28];
-    f32 f28;
-    u8 pad2c[0x4];
-    f32 f30;
-    u8 rest[0x44];
-};
-
-struct Glob_801F986C {
-    u8 pad0[0x28];
-    f32 f28;
-    u8 pad2c[0x4];
-    f32 f30;
-    u8 rest[0x44];
-};
-
-struct Glob_801F9770 {
-    u8 pad0[0x28];
-    f32 f28;
-    u8 pad2c[0x4];
-    f32 f30;
-    u8 rest[0x44];
-};
-
-struct Radar_801FAF24 {
-    u8 pad0[0x184];
-    uaddr f184;
-    f32 f188;
-    f32 f18C;
-    f32 f190;
-};
-
-struct RadarSpriteFrame_801FA6CC {
-    s16 width;
-    s16 height;
-    s16 x;
-    s16 y;
-    s16 u0;
-    s16 v0;
-    s16 u1;
-    s16 v1;
-    s16 unk10;
-    s16 unk12;
-};
-
-struct RadarViewRect_801FA9D8 {
-    f32 center_x;
-    f32 center_y;
-    f32 screen_width;
-    f32 screen_height;
-    f32 depth;
-};
-
-struct RadarFanDesc_801FA880 {
-    f32 *pos;
-    u32 *col;
-    s32 a;
-    s32 n;
-};
 extern "C" {
 
 // View distance limits: default (and the follow view's cap), zoom minimum, zoom maximum; then the ctor's f170.
@@ -252,49 +188,32 @@ s32 lbl_805D5F2C;
 s32 TRaderMapCore__data_805D5F30;
 s8 lbl_805D5F34;
 s32 lbl_805D5F38;
-saddr TRaderMapCore__view_mode;
+s32 TRaderMapCore__view_mode;
 void *TRaderMapCore__instance;
 s32 TRaderMapCore__render_mode;
-uaddr TRaderMapCore__frame_model_resource;
+BmlResource *TRaderMapCore__frame_model_resource;
 NJS_TEXLIST *TRaderMapCore__data_805D5F4C;
 saddr TRaderMapCore__map_heap;
 
-extern RadarSpriteFrame_801FA6CC lbl_804C87E4[];
+extern NJS_TEXANIM lbl_804C87E4[];
 extern f32 lbl_804C87B4[][4];
-extern Rect_801F9228 radar_map_view_scissor_table[3];
-extern RadarViewRect_801FA9D8 radar_map_view_rect_table[3];
-void begin_map_view__13TRaderMapCoreFii(saddr arg0, s32 arg1);
+extern RadarScissorRect radar_map_view_scissor_table[3];
+extern RadarViewportRect radar_map_view_rect_table[3];
 extern s16 *TRaderMapCore__floor_discovery_table[];
 s32 init_radar_floor_flags(s32 floor, RadarInitMap_801F9474 *map);
 void* __ct__5THeapFUli(void*, u32, s32);
 void TRaderMapCore__sub_801F95CC(void);
-f32 xz_distance_squared(void *, void *);
 extern Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
 s32 minimap_render_dot(Vec *arg0, s32 arg1, s16 arg2, s32 arg3);
-s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags);
-s32 add_radar_scaled_gate(Vec *pos, s32 color, u16 rot, s16 kind, s32 flags, f32 scale);
 }
 void update_radar_auto_discovery(TRaderMapCore *core, s32 arg1, void *arg2);
 extern "C" {
-void rotate_vector_by_matrix(void *, Vec *, Vec *);
 void rotate_matrix_y(void *, s32);
-extern u8 identity_matrix[];
-void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1);
 }
 extern "C" {
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 
 extern Color_801FAAEC radar_map_backdrop_color;
-extern u8 saved_model_draw_color[];
-extern u8 model_material_color[];
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 void TRaderMapCore__sub_801F967C(TRaderMapCore *self, u32 color);
-void scale_matrix(s32, f32, f32, f32);
 s32 get_current_floor(void);
 s32 TLobby__sub_801C19D0(void *);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
@@ -304,9 +223,7 @@ static const Vec4_801F9E9C radar_player_slot_color_table[4] = {
     { 1.0f, 1.0f, 1.0f, 0.0f },
     { 1.0f, 0.0f, 0.0f, 1.0f },
 };
-extern s32 local_client_id;
 NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *self);
-void GXSetViewport(f32, f32, f32, f32, f32, f32);
 
 int __dt__5THeapFv(void*, void*);
 s32 is_card_flag_set__19TWindowKeyBoardHardFv(s32);
@@ -321,22 +238,13 @@ s32 is_card_flag_set__19TWindowKeyBoardHardFv(s32);
 
 #define SHOW(t) ((s32 (*)(void *))TRaderMapCore::should_show_map)(t)
 
-struct RadarView_801FA46C {
-    f32 x;
-    f32 distance;
-    f32 z;
-    u8 padC[0xC];
-    s32 rot;
-    u8 pad1C[0xC];
-};
-
 Color_801FAAEC radar_map_backdrop_color = { 1.0f, 0.3f, 0.3f, 0.3f };
-RadarViewRect_801FA9D8 radar_map_view_rect_table[3] = {
+RadarViewportRect radar_map_view_rect_table[3] = {
     { 544.0f, 128.0f, 640.0f, 480.0f, 500.0f },
     { 256.0f, 352.0f, 640.0f, 480.0f, 500.0f },
     { 320.0f, 240.0f, 640.0f, 480.0f, 500.0f },
 };
-Rect_801F9228 radar_map_view_scissor_table[3] = {
+RadarScissorRect radar_map_view_scissor_table[3] = {
     { 15.0f, 2.0f, 19.0f, 6.0f },
     { 1.0f, 9.0f, 15.0f, 13.0f },
     { 1.0f, 9.0f, 15.0f, 13.0f },
@@ -346,22 +254,9 @@ f32 lbl_804C87B4[3][4] = {
     { 450.0f, 373.0f, 450.0f, 383.0f },
     { 450.0f, 373.0f, 450.0f, 383.0f },
 };
-RadarSpriteFrame_801FA6CC lbl_804C87E4[2] = {
+NJS_TEXANIM lbl_804C87E4[2] = {
     { 32, 32, 16, 27, 0, 0, 256, 256, 0, 0 },
     { 32, 32, 16, 16, 0, 0, 256, 256, 1, 0 },
-};
-
-// The sprite block draw_compass_sprite reads: screen position, depth, scale,
-// rotation, the texture list and the frame table.
-struct RadarCompassSprite_801FA6CC {
-    f32 x;
-    f32 y;
-    f32 z;
-    f32 scale_x;
-    f32 scale_y;
-    s32 rotation;
-    NJS_TEXLIST *texlist;
-    RadarSpriteFrame_801FA6CC *frames;
 };
 
 static NJS_POINT2 radar_backdrop_origin[3] = { { 480.0f, 64.0f }, { 32.0f, 288.0f }, { 96.0f, 176.0f } };
@@ -409,27 +304,26 @@ extern "C" {
 
 TUnk_804C88A8::~TUnk_804C88A8() {}
 
-void *TRaderMapCore::init_map_ptr(s32 *counter, s32 index) {
-    return get_bml_model((BmlResource *)TRaderMapCore__frame_model_resource, index);
+NJS_OBJECT *TRaderMapCore::init_map_ptr(const s32 *, s32 index) {
+    return get_bml_model(TRaderMapCore__frame_model_resource, index);
 }
 
 void TRaderMapCore::reset() { *(float *)&this->m_prev = 0.0f; *(float *)&this->m_flags = 0.0f; *(float *)&this->m_name = 0.0f; *(int *)&this->m_next = 0; *(float *)&this->m_up = 1.0f; *(short *)&this->m_down = 0; *(short*)((char*)this + 0x16) = -1; *(float *)&this->texlist = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->entity_id = 1.0f; *(float*)((char*)this + 0x18) = 1.0f; }
 
 void TRaderMapCore::load_frame_texture() {
-    saddr temp_r3;
-    (*(s32 *)&TRaderMapCore__frame_model_resource) = (saddr)new BmlResource(5, &obj_f_enemy_resource_descriptor, 0, 0, NULL);
+    TRaderMapCore__frame_model_resource = new BmlResource(5, &obj_f_enemy_resource_descriptor, 0, 0, NULL);
     TRaderMapCore__data_805D5F4C = load_gvm_texture_file("RaderMapFrame.gvm");
 }
 
 void TRaderMapCore::free_statics() {
     if (TRaderMapCore__data_805D5F4C != NULL) {
         release_texture_list(TRaderMapCore__data_805D5F4C);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TRaderMapCore__data_805D5F4C);
+        safe_free(TRaderMapCore__data_805D5F4C);
         TRaderMapCore__data_805D5F4C = NULL;
     }
-    if ((u32) TRaderMapCore__frame_model_resource != 0U) {
-        delete (BmlResource *)TRaderMapCore__frame_model_resource;
-        TRaderMapCore__frame_model_resource = 0U;
+    if (TRaderMapCore__frame_model_resource != NULL) {
+        delete TRaderMapCore__frame_model_resource;
+        TRaderMapCore__frame_model_resource = NULL;
     }
 }
 }
@@ -451,7 +345,7 @@ void TRaderMapCore::load_map_resources() {
     status = TScene::get_status();
     e = (Ent_801FB798 *)get_floor_scene_table(area);
     replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)e[status].name, (char *)"r.rel");
-    TRaderMapCore__floor_map_resource = (u8 *)create_named_object(buf);
+    TRaderMapCore__floor_map_resource = static_cast<u8 *>(create_named_object(buf));
     if (TRaderMapCore__floor_map_resource != NULL && *(u32 *)(TRaderMapCore__floor_map_resource + 4) != 0) {
         replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)e[status].name, "r");
         bind_gvm_texture_list(buf, *(u8 **)(TRaderMapCore__floor_map_resource + 4));
@@ -508,9 +402,9 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     s32 i;
     u32 j;
     m_name = rader_map_core_name_ptr;
-    m_178 = static_cast<NJS_OBJECT *>(init_map_ptr(&m_90, 2));
-    m_17c = static_cast<NJS_OBJECT *>(init_map_ptr(&m_90, 0));
-    m_180 = static_cast<NJS_OBJECT *>(init_map_ptr(&m_90, 1));
+    m_178 = init_map_ptr(&m_90, 2);
+    m_17c = init_map_ptr(&m_90, 0);
+    m_180 = init_map_ptr(&m_90, 1);
     for (i = 0; i < 3; i++) {
         g = &TRaderMapCore__map_view_state[i].camera;
         init_ninja_camera(g);
@@ -542,10 +436,10 @@ TRaderMapCore::TRaderMapCore(TObject *parent) : TObjBase(parent) {
     m_90 = 0x3C;
     angle = 0;
     m_19c = 0.0f;
-    m_184 = 0;
-    m_188 = 0.0f;
-    m_18c = 0.0f;
-    m_190 = 0.0f;
+    target_player = 0;
+    pan_x_speed = 0.0f;
+    pan_z_speed = 0.0f;
+    zoom_speed = 0.0f;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         m_194 = 0x800810;
         TRaderMapCore__view_mode = 2;
@@ -590,10 +484,10 @@ void TRaderMapCore::run_task() {
             break;
         }
         gather_player_markers();
-        if ((TRaderMapCore::is_not_split_screen() == 1) && ((u32) *(u32 *)((s8 *)this + 0x184) != 0U)) {
-            m_134 = ((TObjBase *)(m_184))->get_entity_id();
+        if ((TRaderMapCore::is_not_split_screen() == 1) && (target_player != NULL)) {
+            m_134 = (u16)target_player->get_entity_id();
         }
-        update_follow_projection((saddr)((void *)TRaderMapCore__view_mode));
+        update_follow_projection(TRaderMapCore__view_mode);
         if (TRaderMapCore::is_not_split_screen() == 1) {
             i = 0;
             do {
@@ -622,14 +516,12 @@ void TRaderMapCore::advance_scroll() {
 static const u32 lbl_805DC56C = 1;
 
 void TRaderMapCore::update_target() {
-    u32 player;
-
-    player = (uaddr)get_player_by_client_id(local_client_id);
-    if (player != 0U) {
-        *(u32 *)&this->m_184 = player;
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        target_player = player;
     }
-    if ((uaddr) this->m_184 != 0U) {
-        if (is_card_flag_set__19TWindowKeyBoardHardFv(((TObjBase *)this->m_184)->get_entity_id()) != 0) {
+    if (target_player != NULL) {
+        if (is_card_flag_set__19TWindowKeyBoardHardFv(target_player->get_entity_id()) != 0) {
             this->m_168 |= lbl_805DC56C;
             return;
         }
@@ -638,63 +530,61 @@ void TRaderMapCore::update_target() {
 }
 
 void TRaderMapCore::update_pan_zoom_input() {
-    u8 *arg0 = (u8 *)this;
-    Radar_801FAF24 *self = (Radar_801FAF24 *)arg0;
-    uaddr p;
+    TObjPlayer *p;
     s32 i;
     s32 j;
     s32 k;
     for (i = 0; i < 4; i++) {
-        p = (uaddr)get_player_by_client_id(i);
-        if (p != 0 && ((TObjPlayer *)p)->is_controls_locked() != 0) {
+        p = get_player_by_client_id(i);
+        if (p != NULL && p->is_controls_locked() != 0) {
             return;
         }
     }
-    if (self->f184 != 0) {
+    if (target_player != NULL) {
         for (j = 0; j < 4; j++) {
-            p = (uaddr)get_player_by_client_id(j);
-            if (p != 0 && test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 0x200) != 0) {
-                self->f184 = 0;
+            p = get_player_by_client_id(j);
+            if (p != NULL && test_pressed_buttons_packed(&controller_input_state.controllers[p->get_controller_port()], 0x200) != 0) {
+                target_player = NULL;
                 return;
             }
         }
-        if (test_previous_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)(self->f184))->get_controller_port()], 0x10) != 0) {
-            self->f18C += 6.0f;
+        if (test_previous_buttons_packed(&controller_input_state.controllers[target_player->get_controller_port()], 0x10) != 0) {
+            pan_z_speed += 6.0f;
         }
-        if (test_previous_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)(self->f184))->get_controller_port()], 0x20) != 0) {
-            self->f18C -= 6.0f;
+        if (test_previous_buttons_packed(&controller_input_state.controllers[target_player->get_controller_port()], 0x20) != 0) {
+            pan_z_speed -= 6.0f;
         }
-        if (test_previous_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)(self->f184))->get_controller_port()], 0x40) != 0) {
-            self->f188 += 6.0f;
+        if (test_previous_buttons_packed(&controller_input_state.controllers[target_player->get_controller_port()], 0x40) != 0) {
+            pan_x_speed += 6.0f;
         }
-        if (test_previous_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)(self->f184))->get_controller_port()], 0x80) != 0) {
-            self->f188 -= 6.0f;
+        if (test_previous_buttons_packed(&controller_input_state.controllers[target_player->get_controller_port()], 0x80) != 0) {
+            pan_x_speed -= 6.0f;
         }
-        if (TRaderMapCore::apply_packed_flags((saddr)&controller_input_state.controllers[((TObjPlayer *)(self->f184))->get_controller_port()], 0x20000, 0x27, 1) != 0) {
-            self->f190 -= 6.0f;
+        if (TRaderMapCore::apply_packed_flags((saddr)&controller_input_state.controllers[target_player->get_controller_port()], 0x20000, 0x27, 1) != 0) {
+            zoom_speed -= 6.0f;
         }
-        if (TRaderMapCore::apply_packed_flags((saddr)&controller_input_state.controllers[((TObjPlayer *)(self->f184))->get_controller_port()], 0x10000, 0x27, 1) != 0) {
-            self->f190 += 6.0f;
+        if (TRaderMapCore::apply_packed_flags((saddr)&controller_input_state.controllers[target_player->get_controller_port()], 0x10000, 0x27, 1) != 0) {
+            zoom_speed += 6.0f;
         }
-        TRaderMapCore::pan_horizontal(self->f188);
-        TRaderMapCore::pan_vertical(self->f18C);
-        TRaderMapCore::add_zoom_distance(self->f190);
-        self->f188 *= 0.8f;
-        self->f18C *= 0.8f;
-        self->f190 *= 0.8f;
+        TRaderMapCore::pan_horizontal(pan_x_speed);
+        TRaderMapCore::pan_vertical(pan_z_speed);
+        TRaderMapCore::add_zoom_distance(zoom_speed);
+        pan_x_speed *= 0.8f;
+        pan_z_speed *= 0.8f;
+        zoom_speed *= 0.8f;
         return;
     }
     for (k = 0; k < 4; k++) {
-        p = (uaddr)get_player_by_client_id(k);
-        if (p != 0 && test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 0x200) != 0 &&
-            test_flags_04_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 0x10000) != 0) {
-            self->f184 = p;
-            u8 *cam = (u8 *)&TRaderMapCore__map_view_state;
-            *(f32 *)((s8 *)cam + 0x28) = *(f32 *)((s8 *)self->f184 + 0x38);
-            *(f32 *)((s8 *)cam + 0x30) = *(f32 *)((s8 *)self->f184 + 0x40);
-            self->f188 = 0.0f;
-            self->f18C = 0.0f;
-            self->f190 = 0.0f;
+        p = get_player_by_client_id(k);
+        if (p != NULL && test_pressed_buttons_packed(&controller_input_state.controllers[p->get_controller_port()], 0x200) != 0 &&
+            test_flags_04_packed(&controller_input_state.controllers[p->get_controller_port()], 0x10000) != 0) {
+            target_player = p;
+            NJS_CAMERA *camera = &TRaderMapCore__map_view_state[1].camera;
+            camera->px = target_player->position.x;
+            camera->pz = target_player->position.z;
+            pan_x_speed = 0.0f;
+            pan_z_speed = 0.0f;
+            zoom_speed = 0.0f;
             return;
         }
     }
@@ -709,17 +599,17 @@ void TRaderMapCore::set_default_view_size() {
     viewport_height = 480.0f;
 }
 
-s32 TRaderMapCore::is_render_admitted(void *arg1) {
+s32 TRaderMapCore::is_render_admitted(s32 mode) {
     s32 i;
-    uaddr p;
+    TObjPlayer *p;
     if (TRaderMapCore__render_mode == 0) {
         return 0;
     }
-    if (((Radar_801FADF0 *)this)->f184 != 0) {
-        if (((TObjPlayer *)(((Radar_801FADF0 *)this)->f184))->is_body_collision_inactive() != 0) {
+    if (target_player != NULL) {
+        if (target_player->is_body_collision_inactive() != 0) {
             return 0;
         }
-        if (((TObjPlayer *)(((Radar_801FADF0 *)this)->f184))->is_controls_locked() != 0 && TRaderMapCore__view_mode != 1) {
+        if (target_player->is_controls_locked() != 0 && TRaderMapCore__view_mode != 1) {
             return 0;
         }
     } else {
@@ -729,15 +619,15 @@ s32 TRaderMapCore::is_render_admitted(void *arg1) {
         return 0;
     }
     if (TCameraCtrl::view_state.controller == 5 || TCameraCtrl::view_state.controller == 9) {
-        ((Radar_801FADF0 *)this)->f184 = 0;
+        target_player = NULL;
         return 0;
     }
-    if (((Radar_801FADF0 *)this)->f90 > 0) {
+    if (m_90 > 0) {
         return 0;
     }
     for (i = 0; i < 4; i++) {
-        p = (uaddr)get_player_by_client_id(i);
-        if (p != 0 && ((TObjPlayer *)p)->is_controls_locked() != 0 && (saddr)arg1 == 2) {
+        p = get_player_by_client_id(i);
+        if (p != NULL && p->is_controls_locked() != 0 && mode == 2) {
             return 0;
         }
     }
@@ -745,30 +635,29 @@ s32 TRaderMapCore::is_render_admitted(void *arg1) {
 }
 
 void TRaderMapCore::render() {
-    u8 *arg0 = (u8 *)this;
-    if ((uaddr) TRaderMapCore__floor_map_resource != 0U) {
-        if (is_render_admitted((void *)TRaderMapCore__view_mode) == 0) {
+    if (TRaderMapCore__floor_map_resource != NULL) {
+        if (is_render_admitted(TRaderMapCore__view_mode) == 0) {
             lbl_805D5F2C = 0;
             TRaderMapCore__data_805D5F30 = 0;
             return;
         }
         switch ((s32) TRaderMapCore__view_mode) {
         case 0:
-            TRaderMapCore::draw_backdrop((TRaderMapCore *)arg0, TRaderMapCore__view_mode);
-            begin_map_view__13TRaderMapCoreFii((saddr)arg0, (s32)TRaderMapCore__view_mode);
+            draw_backdrop(this, TRaderMapCore__view_mode);
+            begin_map_view(TRaderMapCore__view_mode);
             render_region_records(TRaderMapCore__view_mode);
-            ((TRaderMapCore *)arg0)->draw_enemy_gate_markers();
+            draw_enemy_gate_markers();
             draw_player_markers();
             setup_view(TRaderMapCore__view_mode);
             draw_compass(TRaderMapCore__view_mode);
             break;
         case 1:
             TCameraCtrl::restore_full_screen_view();
-            TRaderMapCore::draw_backdrop((TRaderMapCore *)arg0, TRaderMapCore__view_mode);
+            draw_backdrop(this, TRaderMapCore__view_mode);
             TCameraCtrl::restore_saved_view();
-            begin_map_view__13TRaderMapCoreFii((saddr)arg0, (s32)TRaderMapCore__view_mode);
+            begin_map_view(TRaderMapCore__view_mode);
             render_region_records(TRaderMapCore__view_mode);
-            ((TRaderMapCore *)arg0)->draw_enemy_gate_markers();
+            draw_enemy_gate_markers();
             draw_player_markers();
             setup_view(TRaderMapCore__view_mode);
             TCameraCtrl::restore_full_screen_view();
@@ -777,10 +666,10 @@ void TRaderMapCore::render() {
             TCameraCtrl::restore_saved_view();
             break;
         case 2:
-            TRaderMapCore::draw_backdrop((TRaderMapCore *)arg0, TRaderMapCore__view_mode);
-            begin_map_view__13TRaderMapCoreFii((saddr)arg0, (s32)TRaderMapCore__view_mode);
+            draw_backdrop(this, TRaderMapCore__view_mode);
+            begin_map_view(TRaderMapCore__view_mode);
             render_region_records(TRaderMapCore__view_mode);
-            ((TRaderMapCore *)arg0)->draw_enemy_gate_markers();
+            draw_enemy_gate_markers();
             draw_player_markers();
             setup_view(TRaderMapCore__view_mode);
             break;
@@ -795,13 +684,13 @@ void TRaderMapCore::render_region_records(s32 mode) {
     Rec_801FAAEC *r;
     s32 i;
     saved_model_render_flags = model_render_flags;
-    copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
+    copy_argb(&saved_model_draw_color, &model_material_color);
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags |= arg0->m_194;
     set_chunk_material_override_pair(-0xFF01, 0x900);
-    if (MAP_801FAAEC->tex != 0) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(MAP_801FAAEC->tex));
+    if (MAP_801FAAEC->tex != NULL) {
+        TObjFish::set_global_param(MAP_801FAAEC->tex);
     }
     i = 0;
     {
@@ -818,7 +707,7 @@ void TRaderMapCore::render_region_records(s32 mode) {
             push_matrix();
             translate_matrix(0, r->x, r->y, r->z);
             rotate_matrix_zyx(0, r->rx, r->ry, r->rz);
-            draw_ginja_model(r->model->obj);
+            draw_ginja_model(r->model->mesh);
             pop_matrix();
             set_constant_material(&chunk_material_color_half_alpha_f32);
         }
@@ -826,26 +715,25 @@ void TRaderMapCore::render_region_records(s32 mode) {
     }
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-    copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
+    copy_argb(&model_material_color, &saved_model_draw_color);
     model_render_flags = saved_model_render_flags;
 }
 
 #pragma push
 #pragma opt_common_subs off
-void begin_map_view__13TRaderMapCoreFii(saddr rader_map_core, s32 arg1) {
+void TRaderMapCore::begin_map_view(int mode) {
     RadarViewportParameters viewport;
-    u8 *temp_r5;
     TCameraCtrl::restore_full_screen_view();
     memset(&viewport, 0, sizeof(viewport));
-    temp_r5 = (u8 *)&radar_map_view_rect_table + (arg1 * 0x14);
-    viewport.center_x = *(f32 *)((s8 *)temp_r5 + 0);
-    viewport.center_y = *(f32 *)((s8 *)temp_r5 + 4);
-    viewport.screen_width = *(f32 *)((s8 *)temp_r5 + 8);
-    viewport.screen_height = *(f32 *)((s8 *)temp_r5 + 0xC);
-    viewport.value18 = *(f32 *)((s8 *)temp_r5 + 0x10);
-    ((TRaderMapCore*)rader_map_core)->configure_viewport(&viewport);
-    TRaderMapCore::set_view_scissor((void *)rader_map_core, 2, (void *)((void *) ((u8 *)&radar_map_view_scissor_table + (arg1 * 0x10))));
-    setup_overhead_projection__13TRaderMapCoreFv((s32)rader_map_core, (Cam_801F9314 *)((void *) ((u8 *)TRaderMapCore__map_view_state + (arg1 * 0x28))));
+    const RadarViewportRect *rect = &radar_map_view_rect_table[mode];
+    viewport.center_x = rect->center_x;
+    viewport.center_y = rect->center_y;
+    viewport.screen_width = rect->screen_width;
+    viewport.screen_height = rect->screen_height;
+    viewport.value18 = rect->depth;
+    configure_viewport(&viewport);
+    set_view_scissor(2, &radar_map_view_scissor_table[mode]);
+    setup_overhead_projection(&TRaderMapCore__map_view_state[mode]);
     Vec dir = { 0.0f, -1.0f, 0.0f };
     NJS_ARGB color = { 1.0f, 1.0f, 1.0f, 1.0f };
     set_light(&dir, &color, 1.0f);
@@ -853,77 +741,76 @@ void begin_map_view__13TRaderMapCoreFii(saddr rader_map_core, s32 arg1) {
 }
 #pragma pop
 
-void TRaderMapCore::setup_view(s32 arg1) {
-    saddr arg0 = (saddr)this;
+void TRaderMapCore::setup_view(s32 mode) {
     GXSetScissorBoxOffset(0, 0);
     set_screen_center(320.0f, 240.0f);
     camera_ctrl_instance->setup_default_view(0);
-    TRaderMapCore::set_view_scissor((void *)arg0, 0, (void *)((void *) ((u8 *)&radar_map_view_scissor_table + (arg1 * 0x10))));
+    set_view_scissor(0, &radar_map_view_scissor_table[mode]);
     TObjLight::apply_distant_light();
     TParticleCtrl::end_effect_render();
 }
 
 void TRaderMapCore::draw_backdrop(TRaderMapCore *self, s32 mode) {
-    f32 pos[8];
-    RadarFanDesc_801FA880 desc;
-    u32 colors[4];
+    NJS_POINT2 pos[4];
+    NJS_POINT2COL desc;
+    NJS_COLOR colors[4];
     u32 color;
     NJS_POINT2 *origin;
     NJS_POINT2 *size;
-    desc.pos = pos;
+    desc.p = pos;
     desc.col = colors;
-    desc.a = 0;
-    desc.n = 4;
+    desc.tex = NULL;
+    desc.num = 4;
     color = 0;
     ((u8 *)&color)[3] = (u8)radar_backdrop_alpha[mode];
     origin = &radar_backdrop_origin[mode];
     size = &radar_backdrop_size[mode];
-    pos[0] = origin->x;
-    pos[1] = origin->y;
-    pos[2] = origin->x + size->x;
-    pos[3] = origin->y;
-    pos[4] = origin->x + size->x;
-    pos[5] = origin->y + size->y;
-    pos[6] = origin->x;
-    pos[7] = origin->y + size->y;
-    colors[0] = color;
-    colors[1] = color;
-    colors[2] = color;
-    colors[3] = color;
+    pos[0].x = origin->x;
+    pos[0].y = origin->y;
+    pos[1].x = origin->x + size->x;
+    pos[1].y = origin->y;
+    pos[2].x = origin->x + size->x;
+    pos[2].y = origin->y + size->y;
+    pos[3].x = origin->x;
+    pos[3].y = origin->y + size->y;
+    colors[0].color = color;
+    colors[1].color = color;
+    colors[2].color = color;
+    colors[3].color = color;
     set_default_alpha_blend();
     TParticleCtrl::begin_effect_render();
-    draw_polygon_2d((NJS_POINT2COL *)&desc, 4, 0x16, -10.0f);
+    draw_polygon_2d(&desc, 4, 0x16, -10.0f);
     TParticleCtrl::end_effect_render();
 }
 
 void TRaderMapCore::draw_compass(s32 mode) {
-    RadarCompassSprite_801FA6CC sprite;
+    NJS_SPRITE sprite;
     u32 color;
     f32 *compass_xy;
     f32 *marker_xy;
     if (apply_compass_param(&m_90) != 0) {
-        sprite.x = 0.0f;
-        sprite.y = 0.0f;
-        sprite.z = 0.0f;
-        sprite.scale_x = 1.0f;
-        sprite.scale_y = 1.0f;
-        sprite.rotation = 0;
-        sprite.texlist = TRaderMapCore__data_805D5F4C;
-        sprite.frames = lbl_804C87E4;
+        sprite.p.x = 0.0f;
+        sprite.p.y = 0.0f;
+        sprite.p.z = 0.0f;
+        sprite.sx = 1.0f;
+        sprite.sy = 1.0f;
+        sprite.ang = 0;
+        sprite.tlist = TRaderMapCore__data_805D5F4C;
+        sprite.tanim = lbl_804C87E4;
         color = 0xFFFFFFFF;
         TParticleCtrl::begin_effect_render();
         compass_xy = &lbl_804C87B4[mode][0];
         marker_xy = compass_xy + 2;
-        sprite.x = marker_xy[0] + lbl_804C87E4[1].x;
-        sprite.y = marker_xy[1] + lbl_804C87E4[1].y;
+        sprite.p.x = marker_xy[0] + lbl_804C87E4[1].cx;
+        sprite.p.y = marker_xy[1] + lbl_804C87E4[1].cy;
         set_default_alpha_blend();
         ((u8 *)&color)[3] = (u8)m_19c;
-        ((TObjPlayer *)&sprite)->draw_compass_sprite(1, ((color & 0xFF00) << 16) | (color >> 16) | ((color & 0xFF) << 16), 0x21, 0.8f);
-        sprite.x = compass_xy[0] + lbl_804C87E4[0].x;
-        sprite.y = compass_xy[1] + lbl_804C87E4[0].y;
-        sprite.rotation = m_174;
+        draw_compass_sprite(&sprite, 1, ((color & 0xFF00) << 16) | (color >> 16) | ((color & 0xFF) << 16), 0x21, 0.8f);
+        sprite.p.x = compass_xy[0] + lbl_804C87E4[0].cx;
+        sprite.p.y = compass_xy[1] + lbl_804C87E4[0].cy;
+        sprite.ang = m_174;
         set_additive_blend();
-        ((TObjPlayer *)&sprite)->draw_compass_sprite(0, -1, 0x21, 0.8f);
+        draw_compass_sprite(&sprite, 0, -1, 0x21, 0.8f);
         TParticleCtrl::end_effect_render();
     }
 }
@@ -945,62 +832,62 @@ void RadarMapViewState::copy_transform(const RadarMapViewState *source) {
 #pragma pop
 
 void TRaderMapCore::update_follow_projection(s32 mode) {
-    RadarView_801FA46C *view = (RadarView_801FA46C *)&TRaderMapCore__map_view_state;
-    RadarView_801FA46C *free_view = view + 1;
-    RadarView_801FA46C *out = view + 2;
+    RadarMapViewState *view = &TRaderMapCore__map_view_state[0];
+    RadarMapViewState *free_view = view + 1;
+    RadarMapViewState *out = view + 2;
     if (this->m_134 >= 0) {
-        view->x = this->player_marker_records[this->m_134].x;
-        view->z = this->player_marker_records[this->m_134].z;
+        view->camera.px = this->player_marker_records[this->m_134].x;
+        view->camera.pz = this->player_marker_records[this->m_134].z;
     }
     if (this->m_168 & 1) {
-        view->rot = 0x8000 - camera_ctrl_instance->yaw;
+        view->camera.roll = 0x8000 - camera_ctrl_instance->yaw;
         if (get_current_floor_area() == AREA_DE_ROL_LE) {
-            free_view->rot = 0;
+            free_view->camera.roll = 0;
             this->m_174 = 0x8000 - camera_ctrl_instance->yaw;
         } else {
-            free_view->rot = 0x8000;
+            free_view->camera.roll = 0x8000;
             this->m_174 = -camera_ctrl_instance->yaw;
         }
     } else if (get_current_floor_area() == AREA_DE_ROL_LE) {
-        view->rot = 0;
-        free_view->rot = 0;
+        view->camera.roll = 0;
+        free_view->camera.roll = 0;
         this->m_174 = 0;
     } else {
-        view->rot = 0x8000;
-        free_view->rot = 0x8000;
+        view->camera.roll = 0x8000;
+        free_view->camera.roll = 0x8000;
         this->m_174 = 0;
     }
     if (this->m_168 & 2) {
         switch (this->m_16c) {
         case 0:
             this->m_170 *= 1.2f;
-            view->distance += this->m_170;
-            if (view->distance > lbl_805D35F0) {
-                view->distance = lbl_805D35F0;
+            view->camera.py += this->m_170;
+            if (view->camera.py > lbl_805D35F0) {
+                view->camera.py = lbl_805D35F0;
             }
             break;
         case 1:
             this->m_170 *= 1.2f;
-            view->distance += this->m_170;
-            if (view->distance > lbl_805D35F8) {
-                view->distance = lbl_805D35F8;
+            view->camera.py += this->m_170;
+            if (view->camera.py > lbl_805D35F8) {
+                view->camera.py = lbl_805D35F8;
             }
             break;
         case 2:
             this->m_170 *= 1.2f;
-            view->distance -= this->m_170;
-            if (view->distance < lbl_805D35F4) {
-                view->distance = lbl_805D35F4;
+            view->camera.py -= this->m_170;
+            if (view->camera.py < lbl_805D35F4) {
+                view->camera.py = lbl_805D35F4;
             }
             break;
         }
     } else {
-        view->distance = lbl_805D35F0;
+        view->camera.py = lbl_805D35F0;
     }
     if (mode == 2) {
-        reinterpret_cast<RadarMapViewState *>(out)->copy_transform(reinterpret_cast<const RadarMapViewState *>(free_view));
+        out->copy_transform(free_view);
     } else {
-        reinterpret_cast<RadarMapViewState *>(out)->copy_transform(reinterpret_cast<const RadarMapViewState *>(view));
+        out->copy_transform(view);
     }
 }
 
@@ -1198,7 +1085,7 @@ void update_radar_auto_discovery(TRaderMapCore *core, s32 arg1, void *pos) {
                     v.y = r->y + r->model->m->a.y;
                     v.z = r->z + r->model->m->a.z;
                 }
-                if (xz_distance_squared(&v, pos) < r->radius * r->radius) {
+                if (xz_distance_squared(&v, static_cast<Vec *>(pos)) < r->radius * r->radius) {
                     r->flags &= ~1;
                     r->fade = -1.0f;
                 }
@@ -1246,7 +1133,7 @@ s32 TRaderMapCore::block_region_by_id(s16 id) {
 }
 
 s32 minimap_render_dot(Vec *pos, s32 arg1, s16 arg2, s32 arg3) {
-    Vec *cam = (Vec *)&TRaderMapCore__map_view_state;
+    const NJS_CAMERA *cam = &TRaderMapCore__map_view_state[0].camera;
     Vec v;
     u8 pad[0x10];
     Dot_801F9B8C *d;
@@ -1254,8 +1141,8 @@ s32 minimap_render_dot(Vec *pos, s32 arg1, s16 arg2, s32 arg3) {
         return 0;
     }
     if (!(arg3 & 1)) {
-        v.x = cam->x;
-        v.z = cam->z;
+        v.x = cam->px;
+        v.z = cam->pz;
         if (xz_distance_squared(pos, &v) > 90000.0f) {
             return 0;
         }
@@ -1272,15 +1159,15 @@ s32 minimap_render_dot(Vec *pos, s32 arg1, s16 arg2, s32 arg3) {
 }
 
 s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags) {
-    Vec *cam = (Vec *)&TRaderMapCore__map_view_state;
+    const NJS_CAMERA *cam = &TRaderMapCore__map_view_state[0].camera;
     Vec v;
     u8 pad[0x10];
     if (TRaderMapCore__data_805D5F30 > 0x7F) {
         return 0;
     }
     if (!(flags & 1)) {
-        v.x = cam->x;
-        v.z = cam->z;
+        v.x = cam->px;
+        v.z = cam->pz;
         if (xz_distance_squared(pos, &v) > 90000.0f) {
             return 0;
         }
@@ -1296,7 +1183,7 @@ s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags) {
 }
 
 s32 add_radar_scaled_marker(Vec *pos, s32 color, s16 kind, s32 flags, f32 scale) {
-    Vec *cam = (Vec *)&TRaderMapCore__map_view_state;
+    const NJS_CAMERA *cam = &TRaderMapCore__map_view_state[0].camera;
     Vec v;
     u8 pad[0x10];
     Dot_801F9B8C *d;
@@ -1304,8 +1191,8 @@ s32 add_radar_scaled_marker(Vec *pos, s32 color, s16 kind, s32 flags, f32 scale)
         return 0;
     }
     if (!(flags & 1)) {
-        v.x = cam->x;
-        v.z = cam->z;
+        v.x = cam->px;
+        v.z = cam->pz;
         if (xz_distance_squared(pos, &v) > 90000.0f) {
             return 0;
         }
@@ -1321,15 +1208,15 @@ s32 add_radar_scaled_marker(Vec *pos, s32 color, s16 kind, s32 flags, f32 scale)
     return 1;
 }
 
-s32 add_radar_scaled_gate(Vec *pos, s32 color, u16 rot, s16 kind, s32 flags, f32 scale) {
-    Vec *cam = (Vec *)&TRaderMapCore__map_view_state;
+s32 add_radar_scaled_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags, f32 scale) {
+    const NJS_CAMERA *cam = &TRaderMapCore__map_view_state[0].camera;
     Vec v;
     if (TRaderMapCore__data_805D5F30 > 0x7F) {
         return 0;
     }
     if (!(flags & 1)) {
-        v.x = cam->x;
-        v.z = cam->z;
+        v.x = cam->px;
+        v.z = cam->pz;
         if (xz_distance_squared(pos, &v) > 90000.0f) {
             return 0;
         }
@@ -1355,8 +1242,8 @@ void TRaderMapCore::reset_marker_scale() {
 
 void TRaderMapCore::pan_horizontal(f32 farg0) {
     if (TRaderMapCore__view_mode == 1 || TRaderMapCore__view_mode == 2) {
-        Glob_801F986C *g = (Glob_801F986C *)&TRaderMapCore__map_view_state;
-        g->f28 -= farg0;
+        NJS_CAMERA *camera = &TRaderMapCore__map_view_state[1].camera;
+        camera->px -= farg0;
         switch (get_current_floor_area()) {
         case AREA_VOL_OPT:
         case AREA_DARK_FALZ:
@@ -1364,11 +1251,11 @@ void TRaderMapCore::pan_horizontal(f32 farg0) {
         case AREA_TOWER:
             return;
         default:
-            if (g->f28 < -6000.0f) {
-                g->f28 = -6000.0f;
+            if (camera->px < -6000.0f) {
+                camera->px = -6000.0f;
             }
-            if (g->f28 > 6000.0f) {
-                g->f28 = 6000.0f;
+            if (camera->px > 6000.0f) {
+                camera->px = 6000.0f;
             }
             break;
         }
@@ -1377,8 +1264,8 @@ void TRaderMapCore::pan_horizontal(f32 farg0) {
 
 void TRaderMapCore::pan_vertical(f32 farg0) {
     if (TRaderMapCore__view_mode == 1 || TRaderMapCore__view_mode == 2) {
-        Glob_801F97C4 *g = (Glob_801F97C4 *)&TRaderMapCore__map_view_state;
-        g->f30 -= farg0;
+        NJS_CAMERA *camera = &TRaderMapCore__map_view_state[1].camera;
+        camera->pz -= farg0;
         switch (get_current_floor_area()) {
         case AREA_VOL_OPT:
         case AREA_DARK_FALZ:
@@ -1386,11 +1273,11 @@ void TRaderMapCore::pan_vertical(f32 farg0) {
         case AREA_TOWER:
             return;
         default:
-            if (g->f30 < -6000.0f) {
-                g->f30 = -6000.0f;
+            if (camera->pz < -6000.0f) {
+                camera->pz = -6000.0f;
             }
-            if (g->f30 > 6000.0f) {
-                g->f30 = 6000.0f;
+            if (camera->pz > 6000.0f) {
+                camera->pz = 6000.0f;
             }
             break;
         }
@@ -1398,12 +1285,12 @@ void TRaderMapCore::pan_vertical(f32 farg0) {
 }
 
 void TRaderMapCore::open_free_map_view() {
-    saddr g = (saddr)&TRaderMapCore__map_view_state;
+    NJS_CAMERA *camera = &TRaderMapCore__map_view_state[1].camera;
     TRaderMapCore__view_mode = 1;
     {
         NJS_POINT2 p = TRaderMapCore__sub_801F9D38((TRaderMapCore *)TRaderMapCore__instance);
-        ((Glob_801F9770 *)g)->f28 = p.x;
-        ((Glob_801F9770 *)g)->f30 = p.y;
+        camera->px = p.x;
+        camera->pz = p.y;
     }
 }
 
@@ -1507,18 +1394,18 @@ s32 TRaderMapCore::save_floor_discovery(int floor, void *map_data) {
     return 1;
 }
 
-void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1) {
+void TRaderMapCore::setup_overhead_projection(RadarMapViewState *view) {
     Vec up = { 0.0f, 0.0f, -1.0f };
     Vec eye;
     Vec at;
-    eye.x = arg1->dir.x * lbl_805D3608;
-    eye.y = arg1->dir.y * lbl_805D3608;
-    eye.z = arg1->dir.z * lbl_805D3608;
-    at.x = arg1->pos.x + eye.x;
-    at.y = arg1->pos.y + eye.y;
-    at.z = arg1->pos.z + eye.z;
+    eye.x = view->camera.px * lbl_805D3608;
+    eye.y = view->camera.py * lbl_805D3608;
+    eye.z = view->camera.pz * lbl_805D3608;
+    at.x = view->camera.vx + eye.x;
+    at.y = view->camera.vy + eye.y;
+    at.z = view->camera.vz + eye.z;
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(0, 0x8000 - arg1->rot);
+    rotate_matrix_y(0, 0x8000 - view->camera.roll);
     rotate_vector_by_matrix(0, &up, &up);
     pop_matrix();
     set_perspective_projection_from_fov((182.04445f * radar_overhead_projection_scale), 1.1333334f, 1.0f, 10000.0f);
@@ -1526,8 +1413,7 @@ void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1) 
 }
 #pragma fp_contract on
 
-void TRaderMapCore::set_view_scissor(void *self, int mode, void *arg2) {
-    Rect_801F9228 *rect = (Rect_801F9228 *)arg2;
+void TRaderMapCore::set_view_scissor(int mode, const RadarScissorRect *rect) {
     u32 w;
     u32 h;
     u32 y;
@@ -1567,7 +1453,7 @@ void TRaderMapCore::hide_radar() {
     }
 }
 
-void TRaderMapCore::reset_counter() { this->m_184 = 0; }
+void TRaderMapCore::reset_counter() { this->target_player = 0; }
 extern "C" {
 
 s32 TRaderMapCore::should_show_map(void) {
@@ -1588,6 +1474,6 @@ s32 TRaderMapCore::is_active() {
 }
 
 s32 TRaderMapCore::is_render_admitted_default() {
-    return is_render_admitted((void *)TRaderMapCore__view_mode);
+    return is_render_admitted(TRaderMapCore__view_mode);
 }
 }

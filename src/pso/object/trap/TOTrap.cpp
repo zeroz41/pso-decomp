@@ -13,6 +13,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/MatrixStack.h"
 
 const char *lbl_805D3198 = "TOTrap";
 
@@ -67,12 +68,12 @@ void TOTrap::vfunc_81() {
     this->player = find_nearest_visible_player(this, 0, this->range);
     if (this->player != 0xFFFF) {
         pl = get_player_by_client_id(this->player);
-        this->target = (u8 *)pl;
+        this->target = pl;
         if (this->target != 0) {
             if (horizontal_distance_squared(&((TObjChara *)this->target)->position, &position) < this->dist * this->dist) {
                 this->mode = 3;
                 if (TObjPlayer::is_locally_controlled(pl) != 0) {
-                    ((void (*)(f32, TObjPlayer *, const Vec *, s32, s32))send_6x2C_impose_hold)(
+                    ((void (*)(f32, TObjPlayer *, Vec *, s32, s32))send_6x2C_impose_hold)(
                         this->dist, pl, &position, this->set_params[0], 0);
                 }
             } else {
@@ -94,7 +95,7 @@ void TOTrap::find_target_player() {
     calc_attach_pos();
     this->player = find_nearest_visible_player(this, 0, this->range);
     if (this->player != (u16)0xFFFF) {
-        this->target = (u8 *)get_player_by_client_id(this->player);
+        this->target = get_player_by_client_id(this->player);
         if (this->target != 0) {
             if (horizontal_distance_squared(&((TObjChara *)this->target)->position, &position) < this->range * this->range) {
                 this->mode = 2;
@@ -184,7 +185,6 @@ void TOTrap::run_task() {
 
 extern "C" {
 
-s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 
 #pragma explicit_unused_unused_members on
@@ -193,7 +193,7 @@ void TOTrap::render() {
         this->m_340 = this->update_object_view_visibility(4e+02f, 2e+01f);
         if (this->m_340 == 1) {
             push_matrix();
-            post_translate_matrix((u8 *)&this->position);
+            post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
             if (TObjPlayer::check_demo_mode() == 1) {

@@ -15,6 +15,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/vector.h"
+#include "pso/ui/window/WindowLayout.h"
 
 // The functions are generated last to first.
 #pragma defer_codegen on
@@ -22,14 +23,10 @@
 s32 TWindowSubStatusDisp__count_ratio_value;
 const char *TWindowArea__name = "TWindowArea";
 
-extern "C" {
-u8 *get_window_layout_position(s32);
-}
-
 TWindowArea::TWindowArea() : TWindowRoom(NULL) {
     this->m_name = TWindowArea__name;
-    u8 *position = get_window_layout_position(0x25);
-    copy_vec2(frame_position, position);
+    const NJS_POINT2 *position = get_window_layout_position(0x25);
+    copy_vec2(frame_position, (void *)position);
     this->tabParameter = 0.0f;
 }
 

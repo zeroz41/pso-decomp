@@ -8,10 +8,8 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/network/client_id.h"
 
-
-extern "C" {
-extern s32 local_client_id;
 
 void TUnk_804F1A78::run_task() {
     s16 mode;
@@ -89,7 +87,7 @@ void TUnk_804F1A78::run_task() {
     if (teammate_state == 0) {
         this->sub_tasks.run_tasks();
     }
-    project_sound_origin_from_camera((saddr)&this->position, (u8 *)&this->sound_origin, 0.4f);
+    project_sound_origin_from_camera(&this->position, &this->sound_origin, 0.4f);
 }
 
 TUnk_804F1A78::~TUnk_804F1A78() {}
@@ -99,6 +97,4 @@ TUnk_804F1A78::TUnk_804F1A78(TObject *parent, void *set_data, s32 hp) : TBoss8Dr
     this->finalHpThreshold = -1;
     this->hp = hp;
     this->hpmax = hp;
-}
-
 }

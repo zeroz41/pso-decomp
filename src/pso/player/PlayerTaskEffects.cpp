@@ -1,3 +1,4 @@
+#include "pso/math/MatrixVector.h"
 #include "pso/player/PlayerRequirementStats.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -25,6 +26,13 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/network/client_id.h"
+#include "pso/network/protocol/protocol_types.h"
+#include "pso/network/protocol/subcommand_validation_player.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/effect/TEffect.h"
+#include "pso/render/model_render_state.h"
 
 
 
@@ -55,8 +63,6 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 
 extern "C" {
 BOOL fn_801C6F2C(u8 *arg0);
-s32 TObjPlayer__sub_801BF914(s32);
-s32 translate_matrix_vec3(s32, s32);
 s32 draw_chunk_object();
 s32 TObjPlayer__sub_801C6DAC(u8 *target);
 }
@@ -67,6 +73,8 @@ s32 TObjPlayer__sub_801C6DAC(u8 *target);
 #include "pso/player/TForceOperate.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/MovementHistory.h"
+#include "pso/player/PlayerState.h"
+#include "pso/math/MatrixVector.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/hud/TNowLoading.h"
@@ -242,7 +250,7 @@ void TPlayerLobbyMarker::render() {
         copy_argb(&saved_model_draw_color, &model_material_color);
         TObjFish::set_global_param(&shared_effect_texture_list);
         model_render_flags |= 0x11;
-        translate_matrix_vec3(0, TObjPlayer__sub_801BF914(player + 0x84C));
+        translate_matrix_vec3(0, reinterpret_cast<u8 *>(TObjPlayer__sub_801BF914(&reinterpret_cast<TObjPlayer *>(player)->marker_position)));
         rotate_matrix_y(NULL, camera_ctrl_instance->yaw + rotation);
         scale_matrix(NULL, 1.3f, 1.3f, 1.3f);
         set_constant_material(&player_lobby_marker_color_table[get_material_index()]);
@@ -263,10 +271,11 @@ u8 TPlayerLobbyMarker::get_material_index() {
 
 void PlayerScaleState::request_shrink() {
     TObjPlayer* player = get_player_by_client_id(get_actor_id());
-    if (!player || !((TObjChara *)player)->obj_isState2_324()) {
+    if (!player || !player->obj_isState2_324()) {
         if (local_client_id == get_actor_id())
             update_camera();
         PlayerShrinkPacket packet;
+        packet.initialize();
         packet.header.client_id = get_actor_id();
         packet.scalar = scalar;
         packet.send();
@@ -282,8 +291,9 @@ void PlayerScaleState::shrink(f32 scalar) {
 
 void handle_6x87_shrink_player(const PlayerShrinkPacket* input) {
     PlayerShrinkPacket packet;
-    packet.copy_from(input);
-    packet.bswap();
+    packet.initialize();
+    packet.copy_from(*input);
+    packet.byte_swap();
     if (validate_6x87_shrink_player(&packet.header)) {
         TObjPlayer* player = get_player_by_client_id(packet.header.client_id);
         if (player && TObjPlayer::check_camera_mode())
@@ -294,8 +304,9 @@ void handle_6x87_shrink_player(const PlayerShrinkPacket* input) {
 
 void PlayerScaleState::request_size_restore() {
     TObjPlayer* player = get_player_by_client_id(get_actor_id());
-    if (!player || !((TObjChara *)player)->obj_isState2_324()) {
+    if (!player || !player->obj_isState2_324()) {
         PlayerRestoreSizePacket packet;
+        packet.initialize();
         packet.header.client_id = get_actor_id();
         packet.send();
     }
@@ -307,7 +318,8 @@ void PlayerScaleState::clear_shrink_flag() { flags.clear(1); }
 
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input) {
     PlayerRestoreSizePacket packet;
-    packet.copy_from(input);
+    packet.initialize();
+    packet.copy_from(*input);
     bswap_g_client_id_header(&packet.header);
     if (validate_6x88_restore_shrunken_player(&packet.header)) {
         TObjPlayer* player = get_player_by_client_id(packet.header.client_id);
@@ -376,7 +388,7 @@ TPlayerParticleOwner::~TPlayerParticleOwner() {
 }
 
 TParticleCtrl* TPlayerParticleOwner::get_particle() {
-    if (particle != 0 && ((TUnk_804B6C24 *)particle)->check_value_equals((saddr)TParticleCtrl::class_name) == 0) {
+    if (particle != 0 && reinterpret_cast<TObject *>(particle)->check_value_equals(TParticleCtrl::class_name) == 0) {
         particle = 0;
     }
     return particle;
@@ -769,42 +781,43 @@ void TObjPlayer::set_visible_flag() { set_state_flags(0x200000); }
 s32 TObjPlayer::check_flag_04000000() { return check_flag((saddr)((void*)4194304)); }
 void TObjPlayer::clear_flag_8000() { clear_state_flags((saddr)((void*)32768)); }
 s32 TObjPlayer::check_flag_0x8000() { return check_flag(0x8000); }
-PlayerRestoreSizePacket *PlayerRestoreSizePacket::copy_from(const PlayerRestoreSizePacket *src) {
-    copy_subcommand_header(this, (void *)src);
+PlayerRestoreSizePacket *PlayerRestoreSizePacket::copy_from(const PlayerRestoreSizePacket &source) {
+    copy_subcommand_header(this, const_cast<PlayerRestoreSizePacket *>(&source));
     return this;
 }
 
-PlayerRestoreSizePacket::PlayerRestoreSizePacket() {
+void PlayerRestoreSizePacket::initialize() {
     header.subcommand = 0x88;
     header.size = 1;
 }
 
 void PlayerRestoreSizePacket::send() {
-    bswap_g_client_id_header(this);
-    send_subcommand(this);
+    bswap_g_client_id_header(&header);
+    send_subcommand((u8 *)this);
 }
 
-void PlayerShrinkPacket::bswap() {
+void PlayerShrinkPacket::byte_swap() {
     header.bswap();
     bswap_32((u32 *)&scalar);
 }
 
-PlayerShrinkPacket *PlayerShrinkPacket::copy_from(const PlayerShrinkPacket *src) {
-    copy_subcommand_header(this, (void *)src);
-    scalar = src->scalar;
+PlayerShrinkPacket *PlayerShrinkPacket::copy_from(const PlayerShrinkPacket &source) {
+    copy_subcommand_header(this, const_cast<PlayerShrinkPacket *>(&source));
+    scalar = source.scalar;
     return this;
 }
 
-PlayerShrinkPacket::PlayerShrinkPacket() {
+void PlayerShrinkPacket::initialize() {
     scalar = 1.0f;
     header.subcommand = 0x87;
     header.size = 2;
 }
 
 void PlayerShrinkPacket::send() {
-    bswap();
-    send_subcommand(this);
+    byte_swap();
+    send_subcommand((u8 *)this);
 }
+
 u16 TObjPlayer::interpolate_angle(void *unused, u16 from, u16 to, s32 *step) {
     s16 diff;
     s32 turn;

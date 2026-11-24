@@ -3,7 +3,10 @@
 
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+#include <dolphin/mtx.h>
+#include <stddef.h>
 
+struct BmlResource;
 struct NJS_OBJECT;
 class TParticleCtrl;
 
@@ -112,7 +115,6 @@ public:
     u32 summon_flags;   // bit 0: another summon follows, leave the scene state alone
 };
 
-#include <stddef.h>
 LAYOUT_ASSERT(TPhotonBlastSummon_camera_state, offsetof(TPhotonBlastSummon, camera_state) == 0xFC);
 LAYOUT_ASSERT(TPhotonBlastSummon_camera_target, offsetof(TPhotonBlastSummon, camera_target) == 0x104);
 LAYOUT_ASSERT(TPhotonBlastSummon_camera_position_goal, offsetof(TPhotonBlastSummon, camera_position_goal) == 0x128);

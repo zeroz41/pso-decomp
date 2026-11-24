@@ -6,6 +6,9 @@
 #include "pso/enemy/TObjEnemyCustom.h"
 
 struct BmlResource;
+class TBreakUpMdlData;
+struct BreakUpParamRow;
+struct GinjaTextureList;
 class TBoss3VoloptCore;
 struct TObjPlayer;
 struct VoloptPhase2Message;
@@ -109,11 +112,11 @@ struct TBoss3Volopt : public TObjEnemyCustom {
     s32 get_part_group(s32 index);
     u16 get_part_id(s32 index);
     u16 find_attack_target();
-    void reset_photon_effect();
 
     // Defined in other units; most are helpers of other classes filed under
     // TBoss3Volopt.
-    static void create_breakup_mdl(saddr model, saddr params, NJS_TEXLIST *texlist, saddr position, s32 rotation_y);
+    static void create_breakup_mdl(TBreakUpMdlData *model, const BreakUpParamRow *params, NJS_TEXLIST *texlist,
+                                    const Vec *position, s32 rotation_y);
     static s32 remap_area_sound_id(s32 sound_id);
     void create_cage(u16 target_id);
 

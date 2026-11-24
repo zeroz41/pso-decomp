@@ -71,8 +71,6 @@ f32 vec_squared_length(const Vec *v) {
 }
 #pragma pop
 
-#pragma push
-#pragma scheduling off
 void project_world_to_screen(u8 *mtx, Vec *pos, f32 *out) {
     f32 proj[7];
     f32 vp[6];
@@ -91,7 +89,6 @@ void project_world_to_screen(u8 *mtx, Vec *pos, f32 *out) {
     out[0] = sx;
     out[1] = sy;
 }
-#pragma pop
 
 #pragma push
 #pragma scheduling off

@@ -12,6 +12,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/network/client_id.h"
 
 
 
@@ -19,7 +20,6 @@ struct Pos_8024FAD8 { s32 a, b, c; };
 extern "C" {
 extern const f64 lbl_8044ECF0;
 void *__ct__18TWindowEffectPartyFP7TObjectScScPv(void *, void *, u16, u16, s32);
-extern s32 local_client_id;
 f32 get_scale__15TWindowCtrlMainFv(s32);
 extern const char *TWindowEffectParty__name;
 }

@@ -20,7 +20,7 @@ void queue_destroy_event_descendants(TObject* root) {
     while (root->m_down != 0 && p != 0) {
         cur = p;
         p = p->m_next;
-        if (((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TSetEvtDestroy_name) != 0) {
+        if (cur->check_value_equals(TSetEvtDestroy_name) != 0) {
             cur->queue_destruction();
         } else {
             queue_destroy_event_descendants(cur);

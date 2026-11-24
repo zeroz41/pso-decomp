@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubAreaMapDisp.h"
@@ -23,6 +24,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/network/client_id.h"
 
 #pragma readonly_strings on
 
@@ -64,14 +66,10 @@ WindowDescriptor TWindowSubAreaMapDisp__window_parameters = {
     {610.0f, 188.0f}, 50150.0f, NULL, 3,
 };
 
-extern "C" {
-extern RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp __vt__21TWindowSubAreaMapDisp;
-}
 void text_builder_reset(void);
 extern "C" {
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
 extern s32 local_client_id;
-extern s32 hud_texlist;
 
 
 struct Rect_80271848 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
@@ -88,7 +86,7 @@ void fn_80271848(s32 arg0, u8 *arg1) {
         color = -1;
     }
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(0, color);
     r.x0 = 16.0f;
     r.y0 = 346.0f;
@@ -149,14 +147,12 @@ void TWindowSubStatusDisp__sub_80271A6C(s32 arg0, u8 *arg1) {
 }
 
 void TWindowSubAreaMapDisp::render() {
-    saddr ctx;
-
-    ctx = reinterpret_cast<saddr>(draw_default_entry());
-    draw_window_frame((void *)ctx);
-    ((TWindowSubStatusDisp *)((void *)(this->m_70)))->forward_render((void *)(ctx));
+    WindowDrawContext *context = draw_default_entry();
+    draw_window_frame(context);
+    heading->forward_render(context);
     if ((s32) this->m_6c != 0) {
-        ((s32 (*)(void *, s32))TWindowSubStatusDisp__sub_80271A6C)(this, ctx);
-        ((s32 (*)(void *, s32))fn_80271848)(this, ctx);
+        ((s32 (*)(void *, s32))TWindowSubStatusDisp__sub_80271A6C)(this, reinterpret_cast<saddr>(context));
+        ((s32 (*)(void *, s32))fn_80271848)(this, reinterpret_cast<saddr>(context));
     }
 }
 
@@ -166,25 +162,26 @@ void TWindowSubAreaMapDisp::run_task() {
     ((TWindowSubAreaMapDisp *)arg0)->update_visibility();
     ((TWindowSubAreaMapDisp *)arg0)->update_manual_scroll();
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
-        ((TWindowSubStatusDisp *)(*(u8 * *)&this->m_70))->update_subwindow();
+        heading->update_subwindow();
     }
 }
 TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
-    if ((u32) this->title != 0U) {
-        mem_free(*(void **)((s8 *)this + 0x74));
-        this->title = 0U;
+    if (title != NULL) {
+        mem_free(title);
+        title = NULL;
     }
     if ((s32) this->m_6c != 0) {
         TWindowCtrl::clear_active_flag();
         TRaderMapCore::clear();
     }
-    TWindowSubStatusDisp::destroy_status_display(this->m_70, 1);
+    TWindowSubStatusDisp::destroy_status_display(reinterpret_cast<saddr>(heading), 1);
+}
 }
 LAYOUT_ASSERT(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp_size, sizeof(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp) == 0x1C);
+extern "C" {
 TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((s16) local_client_id), (u8 *)(get_window_layout_position(0x59))) {
     s32 temp_r3;
-    saddr temp_r3_2;
-    saddr var_r0;
+    TWindowSubStatusDisp *display;
     u8 *str;
 
     ((TWindowSubAreaMapDisp *)this)->m_name = TWindowSubAreaMapDisp__name;
@@ -198,14 +195,14 @@ TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAr
         str = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }
     temp_r3 = (s32)measure_string_len((const char *)str);
-    this->title = (saddr)mem_alloc((temp_r3 + 1));
-    strncpy((char *)this->title, (const char *)str, (u32)temp_r3 + 1);
-    temp_r3_2 = (saddr)::operator new(0x24);
-    var_r0 = temp_r3_2;
-    if (var_r0 != 0) {
-        var_r0 = (saddr)((TWindowSubStatusDisp *)temp_r3_2)->construct_type1_heading(this->title, (int) ((s32) this->client_index));
+    title = static_cast<char *>(mem_alloc(temp_r3 + 1));
+    strncpy(title, (const char *)str, (u32)temp_r3 + 1);
+    display = static_cast<TWindowSubStatusDisp *>(::operator new(0x24));
+    if (display != NULL) {
+        display = reinterpret_cast<TWindowSubStatusDisp *>(
+            display->construct_type1_heading(reinterpret_cast<saddr>(title), client_index));
     }
-    this->m_70 = var_r0;
+    heading = display;
     this->m_6c = 0;
 }
 

@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
@@ -30,6 +31,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/TLanguage_801E4874.h"
+#include "pso/system/MatrixStack.h"
 
 struct BmlResource;
 struct NJS_TEXLIST;
@@ -72,7 +74,8 @@ NJS_TEXLIST *TODoorLaboNormal__green_texture_list;
 NJS_TEXLIST *TODoorLaboNormal__red_texture_list;
 struct Door_802A0670 {
     u8 pad0[0x38];
-    u8 f38[0x60 - 0x38];
+    f32 f38[3];
+    u8 pad44[0x60 - 0x44];
     s32 angle;
     u8 pad64[0xC8 - 0x64];
     s32 fC8;
@@ -83,11 +86,6 @@ struct Door_802A0670 {
     u32 *b[4];
     s32 fF8;
 };
-extern "C" {
-f32 rotate_matrix_by_node_angles(void *, void *);
-s32 scale_current_matrix(void *);
-f32 post_translate_matrix(void *);
-}
 
 const char *TODoorFourLightBase__class_name = "TODoorFourLightBase";
 
@@ -117,7 +115,7 @@ void TODoorFourLightBase::render() {
     case 3:
         push_matrix();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_model_with_motion((void *)model, (void *)motion, (f32)animation_frame);
         pop_matrix();
@@ -125,7 +123,7 @@ void TODoorFourLightBase::render() {
     case 2:
         push_matrix();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_model_with_motion((void *)model, (void *)motion, (f32)animation_end_frame);
         pop_matrix();
@@ -137,7 +135,7 @@ void TODoorFourLightBase::render() {
         }
         push_matrix();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_object((void *)model);
         pop_matrix();
@@ -187,42 +185,42 @@ void TODoorFourLightBase::render_lights() {
 
 void TODoorFourLightBase::draw_node_tree(u8 *arg1) {
     saddr temp_r31;
-    u8 *node;
-    u8 *var_r30;
-    var_r30 = arg1;
+    NJS_OBJECT *node;
+    NJS_OBJECT *var_r30;
+    var_r30 = (NJS_OBJECT *)arg1;
     do {
-        temp_r31 = *(s32 *)((s8 *)var_r30 + 0);
+        temp_r31 = var_r30->evalflags;
         if (temp_r31 & 0x100000) {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         } else {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_unlit_textures()));
         }
-        if (*(s32 *)((s8 *)var_r30 + 0) & 0x200000) {
+        if (var_r30->evalflags & 0x200000) {
             TParticleCtrl::begin_effect_render();
         } else {
             TParticleCtrl::end_effect_render();
         }
         push_matrix();
         if (!(temp_r31 & 1)) {
-            post_translate_matrix(var_r30 + 8);
+            post_translate_matrix(var_r30->pos);
         }
         if (!(temp_r31 & 2)) {
-            rotate_matrix_by_node_angles(var_r30 + 0x14, (void *) (temp_r31 & 0x20));
+            rotate_matrix_by_node_angles(var_r30->ang, temp_r31 & 0x20);
         }
         if (!(temp_r31 & 4)) {
-            scale_current_matrix(var_r30 + 0x20);
+            scale_current_matrix(var_r30->scl);
         }
         if (!(temp_r31 & 8)) {
-            draw_ginja_model(*(void **)((s8 *)var_r30 + 4));
+            draw_ginja_model(var_r30->model);
         }
         if (!(temp_r31 & 0x10)) {
-            node = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x2C));
+            node = var_r30->child;
             if (node != NULL) {
-                draw_node_tree(node);
+                draw_node_tree((u8 *)node);
             }
         }
         pop_matrix();
-        var_r30 = (u8 *)(*(u8 **)((s8 *)var_r30 + 0x30));
+        var_r30 = var_r30->sibling;
     } while (var_r30 != NULL);
 }
 
@@ -342,12 +340,12 @@ void TLanguage__sub_802A0204(void) {
 void TLobby::free_chr_select_slots() {
     if (lbl_805D6608 != NULL) {
         release_texture_list(lbl_805D6608);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)lbl_805D6608);
+        safe_free(lbl_805D6608);
         lbl_805D6608 = NULL;
     }
     if (lbl_805D6604 != NULL) {
         release_texture_list(lbl_805D6604);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)lbl_805D6604);
+        safe_free(lbl_805D6604);
         lbl_805D6604 = NULL;
     }
     if (door_labo_bml_resource != NULL) {
@@ -417,12 +415,12 @@ void TLanguage__sub_8029FF0C(void) {
 void TLobby::free_global_buffers() {
     if (TODoorFourLightSeabedU__texture_list != NULL) {
         release_texture_list(TODoorFourLightSeabedU__texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TODoorFourLightSeabedU__texture_list);
+        safe_free(TODoorFourLightSeabedU__texture_list);
         TODoorFourLightSeabedU__texture_list = NULL;
     }
     if (seabed_four_light_door_textures != NULL) {
         release_texture_list(seabed_four_light_door_textures);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)seabed_four_light_door_textures);
+        safe_free(seabed_four_light_door_textures);
         seabed_four_light_door_textures = NULL;
     }
     if (seabed_four_light_door_bml_resource != NULL) {
@@ -481,12 +479,12 @@ const FourLightNodeTable door_labo_link_table = {{1, -1, -1, -1, 4, -1, -1, -1}}
 void TAdSinglePlyChrSelectGC::free_all_resources() {
     if (labo_door_red_textures != NULL) {
         release_texture_list(labo_door_red_textures);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)labo_door_red_textures);
+        safe_free(labo_door_red_textures);
         labo_door_red_textures = NULL;
     }
     if (TODoorLabo__green_texture_list != NULL) {
         release_texture_list(TODoorLabo__green_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TODoorLabo__green_texture_list);
+        safe_free(TODoorLabo__green_texture_list);
         TODoorLabo__green_texture_list = NULL;
     }
     if (TODoorLabo__bml_resource != NULL) {
@@ -551,12 +549,12 @@ void TODoorLabo::load_resources() {
 void TODoorLabo::free_resources() {
     if (TODoorLaboNormal__red_texture_list != NULL) {
         release_texture_list(TODoorLaboNormal__red_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TODoorLaboNormal__red_texture_list);
+        safe_free(TODoorLaboNormal__red_texture_list);
         TODoorLaboNormal__red_texture_list = NULL;
     }
     if (TODoorLaboNormal__green_texture_list != NULL) {
         release_texture_list(TODoorLaboNormal__green_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TODoorLaboNormal__green_texture_list);
+        safe_free(TODoorLaboNormal__green_texture_list);
         TODoorLaboNormal__green_texture_list = NULL;
     }
     if (TODoorLabo__model_archive != NULL) {

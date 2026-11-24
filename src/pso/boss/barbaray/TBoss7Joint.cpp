@@ -123,7 +123,7 @@ s32 TBoss7Joint::init_params() {
 
 TBoss7Joint::TBoss7Joint(TObject *parent, u16 id, s16 set_index, Vec *position, s32 index) : TObjEneDD(parent) {
     m_name = TBoss7Joint__name;
-    init_common_from((u8 *)parent);
+    init_common_from(static_cast<TObjBase *>(parent));
     entity_id = id;
     this->set_index = set_index;
     source_position = position;

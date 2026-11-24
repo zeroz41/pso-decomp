@@ -12,8 +12,5 @@ void TObjPlayer__sub_8012105C(void);
 void TObjPlayer__sub_80121060(void);
 }
 MtxP get_model_joint_matrix(TObjPlayer *player, int joint);
-extern "C" {
-void set_weapon_trail_joints(saddr weapon, s32 trail, s32 start_joint, s32 end_joint);
-}
 
 #endif

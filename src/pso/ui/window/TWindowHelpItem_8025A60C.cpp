@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TWindowLayoutEntry.h"
@@ -22,7 +23,6 @@ struct Ctx_8025A650 { u8 p0[0x10]; f32 x; f32 y; u8 p18[0x18]; s32 f30; u8 p34[4
 
 f32 get_item_star_row_width(u8 *arg0);
 extern "C" {
-extern s32 hud_texlist;
 void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx);
 }
 
@@ -61,7 +61,7 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
     }
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(1, -1);
     x = ctx->x + item->x;
     y = ctx->y + item->y;

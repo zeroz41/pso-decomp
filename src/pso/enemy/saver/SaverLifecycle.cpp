@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -14,6 +16,8 @@
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/technique/TTecCtrl.h"
+#include "pso/effect/enemy/TeneFakeTecThunderEff.h"
 #include "pso/system/AreaSound.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -43,7 +47,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/object/TObjControl.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -61,7 +64,6 @@
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/technique/TechniqueRingwaveList.h"
-#include "pso/effect/enemy/TeneFakeTecThunderEff.h"
 #include "pso/render/GinjaMaterialState.h"
 
 extern "C" {
@@ -72,8 +74,8 @@ s32 copy_position_if_valid(TObjChara *chara, Vec pos);
 }
 
 extern "C" {
-extern void *bm_ene_df1_saver_model_names[2];
-extern void *bm_ene_df1_saver_motion_names[12];
+extern const char *bm_ene_df1_saver_model_names[2];
+extern const char *bm_ene_df1_saver_motion_names[12];
 }
 // Where render's node callback last placed the particle node (node 0x1A), in world space. 16 bytes in the
 // original; only the first 12 are used, as a point.
@@ -96,16 +98,17 @@ SampledMotionPoints *saver_nail_trail_points;
 
 
 extern "C" {
-__declspec(section ".data") void *bm_ene_df1_saver_model_names[2] = {
-    (void *)"df1_s_kil_body.nj", (void *)0x0,
+__declspec(section ".data") const char *bm_ene_df1_saver_model_names[2] = {
+    "df1_s_kil_body.nj", NULL,
 };
-void *bm_ene_df1_saver_motion_names[12] = {
-    (void *)"aseri_df1_s_kil_body.njm", (void *)"atack_df1_s_kil_body.njm", (void *)"damage_df1_s_kil_body.njm", (void *)"deadb_df1_s_kil_body.njm",
-    (void *)"dead_df1_s_kil_body.njm", (void *)"defdam_df1_s_kil_body.njm", (void *)"defence_df1_s_kil_body.njm", (void *)"jump_df1_s_kil_body.njm",
-    (void *)"nail_df1_s_kil_body.njm", (void *)"wait_df1_s_kil_body.njm", (void *)"walk_df1_s_kil_body.njm", (void *)0x0,
+const char *bm_ene_df1_saver_motion_names[12] = {
+    "aseri_df1_s_kil_body.njm", "atack_df1_s_kil_body.njm", "damage_df1_s_kil_body.njm", "deadb_df1_s_kil_body.njm",
+    "dead_df1_s_kil_body.njm", "defdam_df1_s_kil_body.njm", "defence_df1_s_kil_body.njm", "jump_df1_s_kil_body.njm",
+    "nail_df1_s_kil_body.njm", "wait_df1_s_kil_body.njm", "walk_df1_s_kil_body.njm", NULL,
 };
-void *bm_ene_df1_saver_resource_descriptor[4] = {
-    (void *)"bm_ene_df1_saver.bml", (void *)&bm_ene_df1_saver_model_names, (void *)&bm_ene_df1_saver_motion_names, (void *)0x1000b,
+BmlResourceDescriptor bm_ene_df1_saver_resource_descriptor = {
+    "bm_ene_df1_saver.bml",
+    bm_ene_df1_saver_model_names, bm_ene_df1_saver_motion_names, 1, 11,
 };
 TObjMotionAction saver_action_table[11] = {
     {1, 0, 9, 1.0f, 1},
@@ -218,11 +221,11 @@ void TObjEneSaver::update_collapse_and_destroy() {
         return;
     case 1:
         step_angle_clamped(0);
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         velocity.x *= 0.5f;
         velocity.z *= 0.5f;
         if (body_fade.decay_value_toward_floor() == 1) {
-            TObjPlayer::apply_effect_variant_a((saddr)&position, 0);
+            TObjPlayer::apply_effect_variant_a(&position, 0);
             phase = 2;
         }
         return;
@@ -289,7 +292,7 @@ void TObjEneSaver::update_knockback_state() {
         apply_actor_gravity(this, NULL, 0.0f);
         break;
     case 1:
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         velocity.x *= 0.5f;
         velocity.z *= 0.5f;
         if (action_flags != 8) {
@@ -422,7 +425,7 @@ int TObjEneSaver::test_flag_256() {
             if (p == NULL || (p->actorFlags & 0x800)) {
                 continue;
             }
-            if (!(TObjPlayer::calc_distance_to_client((saddr)this, i, &v) < 900.0f)) {
+            if (!(TObjPlayer::calc_distance_to_client(this, i, &v) < 900.0f)) {
                 continue;
             }
             if (angle_difference_abs(rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z))) >= 0x2AAA) {
@@ -446,13 +449,13 @@ int TObjEneSaver::test_flag_256() {
 void TObjEneSaver::state_jump_attack() {
     Vec edge[2];
     Vec d;
-    u8 *p;
+    TObjPlayer *p;
     Vec *e;
     u16 id;
     id = targetId;
     if (id < 0x1000) {
-        p = (u8 *)get_player_by_client_id(id);
-        if (p != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
+        p = get_player_by_client_id(id);
+        if (p != NULL && p->get_floor() == get_current_floor()) {
             target = p;
         } else {
             target = NULL;
@@ -473,7 +476,7 @@ void TObjEneSaver::state_jump_attack() {
             apply_actor_gravity(this, NULL, 0.0f);
         }
         if (is_passing_frame(11.0f) != 0) {
-            u8 *t = target;
+            TObjChara *t = target;
             if (t == NULL) {
                 goto fail;
             }
@@ -498,7 +501,7 @@ void TObjEneSaver::state_jump_attack() {
         }
         break;
     case 1:
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         if (11.0f <= frame && frame <= 27.0f) {
             if ((e = saver_jump_trail_points->lookup(frame)) != NULL) {
                 push_matrix();
@@ -544,8 +547,8 @@ void TObjEneSaver::state_nail() {
 
     id = targetId;
     if (id < 0x1000) {
-        u8 *p = (u8 *)get_player_by_client_id(id);
-        if (p != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
+        TObjPlayer *p = get_player_by_client_id(id);
+        if (p != NULL && p->get_floor() == get_current_floor()) {
             target = p;
         } else {
             target = NULL;
@@ -571,9 +574,9 @@ void TObjEneSaver::state_nail() {
             apply_actor_gravity(this, NULL, 0.0f);
         }
         if (is_passing_frame(7.0f) != 0) {
-            if (target != NULL && ((TObjChara *)target)->select_melee_contact_body(this, 1.0f) != 0) {
-                f32 damage = ((TObjChara *)target)->receive_physical_attack(this, 1.0f);
-                ((TObjChara *)target)->apply_knockback_from_attacker((u8 *)this, damage);
+            if (target != NULL && target->select_melee_contact_body(this, 1.0f) != 0) {
+                f32 damage = target->receive_physical_attack(this, 1.0f);
+                target->apply_knockback_from_attacker((u8 *)this, damage);
                 guard_hp = guard_hp + damage;
                 particle_type = 0x10E;
                 if (guard_hp_max < guard_hp) {
@@ -663,7 +666,7 @@ TObjEneSaver::TObjEneSaver(TObject *parent, void *set_data) : TObjEnemy(parent) 
     movementParameters = &saver_move_params;
     referenceHp = hp;
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     initialize_enemy_photon_effect(this);
     state_flags = 1;
     last_attacker = NULL;
@@ -695,9 +698,10 @@ void initialize_saver_resources(void) {
     Vec pos;
     Vec dir;
     BmlResource *r;
-    r = new BmlResource(1, (BmlResourceDescriptor *)bm_ene_df1_saver_resource_descriptor, 0, 0, NULL);
+    r = new BmlResource(1, &bm_ene_df1_saver_resource_descriptor, 0, 0, NULL);
     saver_bml_resource = r;
-    saver_scroll_polygons = *(s16 **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)r->models[0].model + 0x2C)) + 0x30)) + 4)) + 4);
+    NJS_OBJECT *scroll_node = r->models[0].model->child->sibling;
+    saver_scroll_polygons = static_cast<NJS_CNK_MODEL *>(scroll_node->model)->polygon_list;
     saver_scroll_tick = 0;
     saver_render_node_index = 0;
     saver_render_rotation_x = 0;
@@ -712,7 +716,7 @@ void initialize_saver_resources(void) {
     pos.x = pos.y = pos.z = 0.0f;
     dir.x = (-10.0f);
     dir.y = dir.z = 0.0f;
-    saver_nail_trail_points->sample_node_offsets(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[3].motion].motion), 0x19, (const Vec *)&pos, (const Vec *)&dir);
+    saver_nail_trail_points->sample_node_offsets(saver_bml_resource->models[0].model, (NJS_MOTION *)(saver_bml_resource->motions[saver_action_table[3].motion].motion), 0x19, &pos, &dir);
     player_object_ptr_array = static_cast<AttackParams **>(mem_alloc(3 * sizeof(*player_object_ptr_array)));
     saver_boss_stat_handle = TLobby::register_boss(0x52);
     player_object_ptr_array[0] = TLobby::dispatch_shared_handler_b(0x57);
@@ -802,7 +806,7 @@ void TObjEneSaver::run_task() {
             break;
         }
     }
-    if (target != NULL && (((TObjChara *)target)->actorFlags & 0x02000800)) {
+    if (target != NULL && (target->actorFlags & 0x02000800)) {
         step_counter = 0;
         actorFlags &= ~0x200000;
         state_flags &= 0xFFFF0000;
@@ -810,7 +814,7 @@ void TObjEneSaver::run_task() {
         target = NULL;
     }
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     update_particle_effect();
     frame_timer += 1.0f;
 }
@@ -917,7 +921,7 @@ void TObjEneSaver::step_angle_clamped(s32 angle) {
 
 void TObjEneSaver::turn_toward_target() {
     Vec d;
-    VecCopy(&d, &((TObjChara *)target)->body_center);
+    VecCopy(&d, &target->body_center);
     subtract_vector(&d, &body_center);
     step_angle_clamped(angle_diff_s16(rotation_y, (s32)(10430.38043493439 * atan2_float(d.x, d.z))));
 }
@@ -964,7 +968,7 @@ void TObjEneSaver::refresh_target() {
             TObjPlayer *q = get_player_by_client_id(tid);
             if (q != NULL) {
                 if (q->get_floor() == get_current_floor()) {
-                    target = (u8 *)q;
+                    target = q;
                     return;
                 }
             }
@@ -1017,17 +1021,17 @@ void TObjEneSaver::refresh_target() {
         }
         if (best2 < 900.0f && best_p2 != NULL) {
             targetId = best_id2;
-            target = (u8 *)best_p2;
+            target = best_p2;
             return;
         }
         if (best_p != NULL) {
             targetId = best_id;
-            target = (u8 *)best_p;
+            target = best_p;
             return;
         }
         if (best_p2 != NULL) {
             targetId = best_id2;
-            target = (u8 *)best_p2;
+            target = best_p2;
             return;
         }
         targetId = 0xFFFF;
@@ -1220,7 +1224,7 @@ void TObjEneSaver::advance_motion_state() {
         apply_actor_gravity(this, NULL, 0.0f);
         return;
     case 1:
-        if (horizontal_distance_squared(&((TObjChara *)target)->body_center, &body_center) < 40000.0f) {
+        if (horizontal_distance_squared(&target->body_center, &body_center) < 40000.0f) {
             phase = 2;
         }
         return;
@@ -1260,14 +1264,14 @@ void TObjEneSaver::state_appear() {
 void TObjEneSaver::update_move_toward_target() {
     f32 reach;
     f32 dist;
-    u8 *t;
+    TObjChara *t;
     bodies->flags |= 1;
     actorFlags &= 0xF9DBFFFF;
     t = target;
     if (t != NULL) {
         switch (phase) {
         case 0: {
-            if (select_enemy_destination(this, ((TObjChara *)t)->body_center, 1) != 0) {
+            if (select_enemy_destination(this, t->body_center, 1) != 0) {
                 set_override_speed(saver_ai_params[3]);
                 phase = 1;
                 copy_position_if_valid(this, body_center);
@@ -1276,7 +1280,7 @@ void TObjEneSaver::update_move_toward_target() {
             break;
         }
         case 1: {
-            enemy_move_toward(this, ((SaverMoveParams *)movementParameters)->turn_speed, ((TObjChara *)t)->body_center, 0, saver_ai_params, saver_ai_params[2]);
+            enemy_move_toward(this, ((SaverMoveParams *)movementParameters)->turn_speed, t->body_center, 0, saver_ai_params, saver_ai_params[2]);
             dist = horizontal_distance_squared(&move_destination, &position);
             if (dist < 22500.0f) {
                 state_flags &= ~0x10;
@@ -1310,14 +1314,14 @@ s32 TObjEneSaver::is_target_in_attack_range() {
     f32 dist;
     s32 ang;
     s32 flags;
-    u8 *tgt;
+    TObjChara *tgt;
     CollisionBody *body;
     if (mode >= 3) {
         tgt = target;
-        if (tgt != NULL && attack_params != NULL && !(((TObjChara *)tgt)->actorFlags & 0x02000800)) {
-            dist = calc_xz_distance_sq(this, (TObjBase *)tgt, &v);
+        if (tgt != NULL && attack_params != NULL && !(tgt->actorFlags & 0x02000800)) {
+            dist = calc_xz_distance_sq(this, tgt, &v);
             ang = angle_difference_abs(rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
-            body = ((TObjChara *)target)->bodies;
+            body = target->bodies;
             if (body != NULL) {
                 radius = body->radius;
             } else {
@@ -1351,7 +1355,7 @@ void TObjEneSaver::run_attack_action() {
     switch (attack_index) {
     case 0:
     default: {
-        VecCopy(&v, &((TObjChara *)target)->body_center);
+        VecCopy(&v, &target->body_center);
         subtract_vector(&v, &body_center);
         f32 a = atan2_float(v.x, v.z);
         mode = 4;
@@ -1411,8 +1415,8 @@ void TObjEneSaver::state_attack() {
     bodies->flags |= 1;
     actorFlags &= 0xF9FBFFFF;
     if (targetId < 0x1000) {
-        u8 *p = (u8 *)get_player_by_client_id(targetId);
-        if (p != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
+        TObjPlayer *p = get_player_by_client_id(targetId);
+        if (p != NULL && p->get_floor() == get_current_floor()) {
             target = p;
         } else {
             target = NULL;
@@ -1432,7 +1436,7 @@ void TObjEneSaver::state_attack() {
         } else {
             Vec d;
             s32 a;
-            VecCopy(&d, &((TObjChara *)target)->body_center);
+            VecCopy(&d, &target->body_center);
             subtract_vector(&d, &body_center);
             a = turn_toward_direction(((SaverMoveParams *)movementParameters)->turn_speed, &d);
             if (!(actorFlags & 0x800000)) {
@@ -1442,10 +1446,10 @@ void TObjEneSaver::state_attack() {
                 phase = 1;
                 requested_action = 2;
                 set_override_speed(saver_ai_params[0]);
-                if (check_path_obstructed(this, &((TObjChara *)target)->body_center) == 1) {
+                if (check_path_obstructed(this, &target->body_center) == 1) {
                     velocity.x = velocity.y = velocity.z = 0.0f;
                 } else {
-                    calc_velocity_toward_destination(this, body_center, ((TObjChara *)target)->body_center, ((SaverMoveParams *)movementParameters)->speed);
+                    calc_velocity_toward_destination(this, body_center, target->body_center, ((SaverMoveParams *)movementParameters)->speed);
                 }
             }
         }
@@ -1471,7 +1475,7 @@ void TObjEneSaver::state_attack() {
         break;
     case 3:
         requested_action = 2;
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         if (is_passing_frame(32.0f) != 0) {
             phase = 4;
             play_sound_effect(remap_sound_for_area(0x4003A801), &position, 0, 0);
@@ -1491,7 +1495,7 @@ void TObjEneSaver::state_attack() {
         break;
     case 5:
         requested_action = 2;
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         if (is_passing_frame(52.0f) != 0) {
             phase = 6;
             play_sound_effect(remap_sound_for_area(0x4003A801), &position, 0, 0);

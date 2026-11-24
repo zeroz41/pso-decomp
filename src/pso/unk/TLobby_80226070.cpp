@@ -15,6 +15,10 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerSlots.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/os/OSRtc.h>
+#undef PSO_SDK_COMPACT_MATH
+#include "pso/render/NinjaUtil.h"
 
 
 s8 sound_mode_value = 1;
@@ -86,9 +90,7 @@ void TLobby::init_layout_positions() {
     TLobby::close_option_window();
     TLobby::reset_global();
 }
-s32 OSSetSoundMode(int);
 void stop_sound_request(s32 idx);
-u32 OSGetSoundMode();
 int TLobby__sub_80227D38(void);
 void TLobby__sub_8022644C(void);
 void set_menu_index_main__6TLobbyFPUc(void);
@@ -352,7 +354,6 @@ void clear_sound_listener_position(void) {
     lbl_80514C50[0] = 0.0f;
 }
 
-f32 xz_distance_squared(const Vec *a, const Vec *b);
 }
 s32 check_sound_admission_range(const Vec *pos) {
     if (pos == NULL) {

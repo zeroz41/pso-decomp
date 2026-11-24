@@ -14,7 +14,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/system/task/TObject.h"
-#include "pso/npc/TNpcPlayer.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -22,11 +21,11 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/ui/window/WindowLayout.h"
 #include "pso/npc/NpcPartnerControl.h"
 
 extern "C" {
 s32 prepare_hospital_return__10TObjPlayerFv();
-saddr get_window_layout_position(int);
 void TWindowCtrl__sub_8026D4E8(void);
 }
 
@@ -115,7 +114,7 @@ TWindowReturnCity::TWindowReturnCity(TObject *parent, s32 client) : TObject(pare
     m_name = class_name;
     this->client = client;
     yes_no_window = TWindowMessageYesNo::create(this, this->client, 0, 0);
-    yes_no_window->open_yes_no_prompt_with_text((saddr)TWindowSubStatusDisp::get_message_10(0x43), get_window_layout_position(0x23), 206.0f);
+    yes_no_window->open_yes_no_prompt_with_text((saddr)TWindowSubStatusDisp::get_message_10(0x43), (saddr)get_window_layout_position(0x23), 206.0f);
     yes_no_window->set_menu_selected_index(1);
     fn_8024AC64(this->client);
     TWindowCtrl::set_close_flag();

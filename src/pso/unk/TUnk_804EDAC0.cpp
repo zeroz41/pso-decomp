@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/unk/TUnk_804EDAC0.h"
-#include "pso/ui/frontend/TAdEnterPasswordGC.h"
 
 // Own TU: the .data vtable at 0x804EDAC0 starts 8-aligned after TAdEnterPasswordGC's vtable and its 4-byte pad,
 // the .sbss instance pointer starts 8-aligned after TAdEnterPasswordGC's PMF guard, and every function from
@@ -32,12 +31,12 @@ void TUnk_804EDAC0::sub_8032BC94(TObject *object) {
     }
 }
 
-s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(saddr object) {
+s32 TUnk_804EDAC0::dispatch_input_to_instance(TObject *object) {
     if (TUnk_804EDAC0::instance != NULL) {
         if (TUnk_804EDAC0::instance->get_confirm_state() != 0) {
             return 0;
         }
-        TUnk_804EDAC0::instance->sub_8032BC94((TObject *)object);
+        TUnk_804EDAC0::instance->sub_8032BC94(object);
         return 1;
     }
     return 0;

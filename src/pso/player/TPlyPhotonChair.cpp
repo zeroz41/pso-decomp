@@ -1,5 +1,5 @@
-#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TPlyPhotonChair.h"
@@ -23,6 +23,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/PlayerSlots.h"
 

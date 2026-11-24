@@ -54,7 +54,7 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     virtual void dispatch_action(u32 state, s32 reason);
     void init_state();
     virtual void update_body_colliders();
-    virtual u8 *move_xz_on_ground(u8 *);
+    virtual CsnHit *move_xz_on_ground(const Vec *);
     virtual void check_collisions();
     virtual void select_next_attack_state();
     virtual void select_model();

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/BattleParameters.h"
 #include "types.h"
 #include "pso/boss/darkfalz/TBoss4Zako.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
@@ -90,7 +91,7 @@ TBoss4Zako::TBoss4Zako(TObject *parent, TBoss4ZakoSetData *set_data) : TObjEnemy
     target = 0;
     bind_enemy_combat_stats(TLobby::register_boss(0x35), TLobby::dispatch_shared_handler_b(0x35), TLobby::register_object(0x35));
     referenceHp = hp;
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     set_param(0);
     target_id = 0;
     if ((emitter = create_particle_emitter(&position, 0x103)) != 0) {
@@ -109,11 +110,11 @@ TBoss4Zako::TBoss4Zako(TObject *parent, TBoss4ZakoSetData *set_data) : TObjEnemy
     spin_ratio = 0.0f;
     bob_angle = 65536.0f * random_ratio();
     bob_angle_step = 2184.0f * random_ratio() + 1092.0f;
-    max_speed = *(f32 *)TLobby::dispatch_shared_handler_a(0x35);
+    max_speed = TLobby::dispatch_shared_handler_a(0x35)->values.floats[0];
     if (max_speed <= one_third || max_speed > 5.833333f) {
         max_speed = 0.5833333f;
     }
-    max_speed_alt = *(f32 *)TLobby::dispatch_shared_handler_a(0x39);
+    max_speed_alt = TLobby::dispatch_shared_handler_a(0x39)->values.floats[0];
     if (max_speed_alt <= one_third || max_speed_alt > 10.208332f) {
         max_speed_alt = 1.0208333f;
     }

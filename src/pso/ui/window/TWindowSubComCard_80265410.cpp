@@ -29,6 +29,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/system/SoundEffect.h"
 
 
 #pragma readonly_strings on
@@ -66,7 +67,6 @@ struct Card_80265AA4 {
 
 struct Ent_80265C30;
 
-s32 play_sound_effect(s32, s32, s32, s32);
 void measure_message_text_width(Ent_80265C30 *e, f32 x);
 void TWindowSubComCard__sub_80265500(TWindowMenu *menu);
 s32 TWindowSubComCard__sub_80265660(TWindowMenu *menu, s16 row);
@@ -76,8 +76,6 @@ void fn_80266378(s32 rows);
 u8 * init_shop_judgment_window(void* p);
 saddr create_window_menu_default(saddr pos, s32 entries);
 saddr create_titled_window_menu_default(saddr pos, s32 entries, saddr title);
-s32 clamp_list_scroll_offset(int, void *, void *);
-s32 draw_window_scrollbar(s32, s32, void *);
 }
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 saddr create_titled_window_menu(saddr position, s32 count, saddr title, s32 client_id);
@@ -111,38 +109,37 @@ void TWindowMenuInfomation::clear_flag_and_release2() {
 }
 
 void TWindowSubComCardList::update_scroll_target_position() {
-    f32 position[2];
-    u8 *window_menu;
-    window_menu = (u8 *)(*(u8 * *)&this->scroll_bar);
-    if (window_menu != NULL) {
-        position[0] = ((this->frame_size[0]) - 4.0f) - 9.0f;
-        position[1] = (f32) ((entry_count * 0x14) - 2);
-        ((WindowScrollBar *)window_menu)->copy_position(position);
+    NJS_POINT2 extent;
+    WindowScrollBar *scroll = scroll_bar;
+    if (scroll != NULL) {
+        extent.x = (frame_size[0] - 4.0f) - 9.0f;
+        extent.y = (f32) ((entry_count * 0x14) - 2);
+        scroll->set_extent(&extent);
     }
 }
 
 void TWindowSubComCard__sub_80265500(TWindowMenu *menu) {
-    f32 scroll_range[2];
+    NJS_POINT2 scroll_range;
     f32 max_scroll_y;
-    if (menu->scroll_bar != 0U) {
-        scroll_range[0] = 0.0f;
+    if (menu->scroll_bar != NULL) {
+        scroll_range.x = 0.0f;
         max_scroll_y = menu->frame_size[1] - 20.0f;
-        scroll_range[1] = max_scroll_y;
+        scroll_range.y = max_scroll_y;
         if (menu->heading != NULL) {
-            scroll_range[1] = max_scroll_y - 6.0f;
+            scroll_range.y = max_scroll_y - 6.0f;
         }
-        clamp_list_scroll_offset(menu->scroll_bar, menu->scroll_offset, scroll_range);
+        menu->scroll_bar->clamp_offset(menu->scroll_offset, &scroll_range);
     }
 }
 
 void TWindowSubComCardList::sub_8026556C() {
-    f32 extent[2];
+    NJS_POINT2 extent;
     f32 extent_x;
-    if ((u32) this->scroll_bar == 0U) {
+    if (scroll_bar == NULL) {
         extent_x = this->target_size[0] - 8.0f;
-        extent[1] = 0.0f;
-        extent[0] = extent_x;
-        this->scroll_bar = reinterpret_cast<uaddr>(new WindowScrollBar(extent));
+        extent.y = 0.0f;
+        extent.x = extent_x;
+        scroll_bar = new WindowScrollBar(&extent);
         this->window_flags = (s32) (this->window_flags | 0x80);
     }
 }
@@ -294,16 +291,16 @@ void TWindowMenu::update_target_y() {
 #pragma pop
 
 void TWindowMenu::clamp_menu_choice_scroll() {
-    f32 scroll_range[2];
+    NJS_POINT2 scroll_range;
     f32 max_scroll_y;
-    if ((u32) this->scroll_bar != 0U) {
-        scroll_range[0] = 0.0f;
+    if (scroll_bar != NULL) {
+        scroll_range.x = 0.0f;
         max_scroll_y = this->frame_size[1] - 20.0f;
-        scroll_range[1] = max_scroll_y;
+        scroll_range.y = max_scroll_y;
         if (this->heading != 0) {
-            scroll_range[1] = max_scroll_y - 6.0f;
+            scroll_range.y = max_scroll_y - 6.0f;
         }
-        clamp_list_scroll_offset(this->scroll_bar, scroll_offset, scroll_range);
+        this->scroll_bar->clamp_offset(scroll_offset, &scroll_range);
     }
 }
 
@@ -628,7 +625,7 @@ saddr create_titled_window_menu_default(saddr pos, s32 entries, saddr title) {
     return create_titled_window_menu(pos, entries, title, 4);
 }
 
-void TWindowMenu::draw_selected_bar(u8 *window_key_board_soft) {
+void TWindowMenu::draw_selected_bar(WindowDrawContext *context) {
     s16 selected_row;
     u16 *entry;
     if (!(actor_frame_tick & 0x10)) {
@@ -636,39 +633,39 @@ void TWindowMenu::draw_selected_bar(u8 *window_key_board_soft) {
         if (selected_row >= 0) {
             entry = (u16 *)(((saddr)get_array_entry((s32) selected_row)));
             if (*entry & 1) {
-                draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)entry, 1);
+                draw_selection_bar(context, (u8 *)entry, 1);
             }
         }
     }
 }
 
-void TWindowMenu::render_selected_entry(saddr window_key_board_soft) {
+void TWindowMenu::render_selected_entry(WindowDrawContext *context) {
     u16 *entry;
 
     entry = (u16 *)this->get_array_entry(selected_row);
     if (*entry & 1) {
-        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)entry, is_decided());
+        draw_selection_bar(context, (u8 *)entry, is_decided());
     }
 }
 
 void TWindowMenu::render() {
-    saddr ctx;
+    WindowDrawContext *ctx;
 
-    ctx = reinterpret_cast<saddr>(this->get_draw_context());
-    draw_window_frame((void *)ctx);
+    ctx = this->get_draw_context();
+    draw_window_frame(ctx);
     draw_visible_window_entries(
         this,
         &this->entry_list,
-        reinterpret_cast<WindowDrawContext *>(ctx));
+        ctx);
     if (!(this->m_70 & 0x80)) {
         this->render_selected_entry(ctx);
-        this->draw_selected_bar((u8 *)ctx);
+        this->draw_selected_bar(ctx);
     }
     if (this->heading != 0) {
-        this->heading->forward_render((void *)(ctx));
+        this->heading->forward_render(ctx);
     }
-    if ((u32) this->scroll_bar != 0U) {
-        draw_window_scrollbar(this->scroll_bar, ctx, (u8 *)this + 0x68);
+    if (scroll_bar != NULL) {
+        draw_window_scrollbar(scroll_bar, ctx, scroll_offset);
     }
 }
 
@@ -714,8 +711,8 @@ void TWindowMenu::run_task() {
         if (this->heading != 0) {
             this->heading->update_subwindow();
         }
-        if ((u32) this->scroll_bar != 0U) {
-            ((TWindowSubStatusDisp *)(*(void * *)&this->scroll_bar))->increment_counter();
+        if (scroll_bar != NULL) {
+            scroll_bar->increment_counter();
         }
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
@@ -757,11 +754,13 @@ TWindowMenu::TWindowMenu(u32 count, s32 client, saddr parent) : TWindowAddition(
     #undef window_menu
 }
 
-void WindowScrollBar::copy_position(void *pair) {
-    f32 *point = static_cast<f32 *>(pair);
-    m_0 = point[0];
-    height = point[1];
+#pragma push
+#pragma scheduling off
+void WindowScrollBar::set_extent(const NJS_POINT2 *size) {
+    extent.x = size->x;
+    extent.y = size->y;
 }
+#pragma pop
 
 s32 TWindowAddition::sub_80266B18(s32 index) {
     return *(u16 *)((s8 *)(*(u16 **)((s8 *)(*(saddr *)((s8 *)((u8 *)this) + 0x28) + (index * 4)) + 0)) + 0) & 1;

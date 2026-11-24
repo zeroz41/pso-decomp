@@ -13,5 +13,6 @@ struct SubtractiveRng {
 LAYOUT_ASSERT(SubtractiveRng_size, sizeof(SubtractiveRng) == 0xE8);
 
 extern "C" void subtractive_rng_seed(void *rng, s32 seed);
+extern "C" f32 calc_random_ratio__10TObjPlayerFv(SubtractiveRng *rng);
 
 #endif

@@ -1,3 +1,5 @@
+#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
@@ -39,18 +41,17 @@
 
 #pragma defer_codegen on
 
-extern BmlResource *moja_bml_resource;
 extern "C" {
-u8 * bm3_fly_boss_stat_handle;
+player_stats *bm3_fly_boss_stat_handle;
 AttackParams * TObjEneBm3Fly__attack_params;
-u8 * bm3_fly_resist_stats;
+ActorParamBlock *bm3_fly_resist_stats;
 Bm3FlyParameters * bm3_fly_lobby_params;
 BmlResource * bm3_fly_nest_resources;
 TBreakUpMdlData * TObjEneBm3Fly__breakup_model;
 extern const f32 lbl_805D9E80;
 extern void *tl_04;
 
-const TBoss3VoloptBreakupParams bm3_fly_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
+const BreakUpParamRow bm3_fly_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
 const char *TObjEneBm3Fly__name = "TObjEneBm3Fly";
 
 Bm3FlyMovementParameters bm3_fly_decision_row = {
@@ -74,11 +75,11 @@ const NpcAnimationBinding bm3_fly_resource_binding_desc = { NULL, bm3_fly_action
 void TObjEneBm3Fly::load_resources() {
     TBreakUpMdlData *model;
     bm3_fly_nest_resources = TObjEneBm3FlyNest::get_bml_resource();
-    model = new TBreakUpMdlData((saddr)bm3_fly_nest_resources->models[0].model);
+    model = new TBreakUpMdlData(bm3_fly_nest_resources->models[0].model);
     TObjEneBm3Fly__breakup_model = model;
-    bm3_fly_boss_stat_handle = (u8 *)TLobby::register_boss(0);
+    bm3_fly_boss_stat_handle = TLobby::register_boss(0);
     TObjEneBm3Fly__attack_params = (AttackParams *)TLobby::dispatch_shared_handler_b(0);
-    bm3_fly_resist_stats = (u8 *)TLobby::register_object(0);
+    bm3_fly_resist_stats = TLobby::register_object(0);
     bm3_fly_lobby_params = (Bm3FlyParameters *)TLobby::dispatch_shared_handler_a(0);
     {
         NpcAnimationBinding binding = bm3_fly_resource_binding_desc;
@@ -101,7 +102,7 @@ void TObjEneBm3Fly::release_shared_data() {
 TObjEneBm3Fly::TObjEneBm3Fly(TObject *parent, TObjEneBm3FlyNest *nest, s32 entity_id, s32 set_index, const Vec *position, const Vec *velocity) : TObjEneDD_ST(parent) {
     m_name = TObjEneBm3Fly__name;
     owner_id = nest->get_entity_id();
-    init_common_from((u8 *)nest);
+    init_common_from(nest);
     this->entity_id = entity_id;
     this->set_index = set_index;
     VecCopy(&this->position, position);
@@ -122,7 +123,7 @@ void TObjEneBm3Fly::init_child_params() {
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);
-    this->reset_hp(reinterpret_cast<player_stats *>(bm3_fly_boss_stat_handle), TObjEneBm3Fly__attack_params, reinterpret_cast<ActorParamBlock *>(bm3_fly_resist_stats));
+    this->reset_hp(bm3_fly_boss_stat_handle, TObjEneBm3Fly__attack_params, bm3_fly_resist_stats);
     set_state_flag_1();
     this->movementParameters = &bm3_fly_decision_row;
     this->initialize_enemy_state(3);
@@ -178,7 +179,6 @@ TObjEneBm3Fly::~TObjEneBm3Fly() {
 }
 void restore_alpha_ref(void);
 void set_alpha_ref_override(u8 scene);
-void spawn_landing_dead_spot(s32 point, s32 delay);
 void TObjEneBm3Fly::run_task() {
     f32 dz;
     f32 dx;
@@ -983,7 +983,8 @@ void TObjEneBm3Fly::action(s32 msg) {
         TBoss8Dragon__sub_800BB7DC(this);
         TBoss8Dragon__sub_800BB7D8(this, 0xF1, 1.0f);
         play_sound_effect(this->remap_sound_for_area(0x4003E425), &this->position, 0, 0);
-        TBoss3Volopt::create_breakup_mdl((saddr)TObjEneBm3Fly__breakup_model, (saddr)&bm3_fly_breakup_params, this->texlist, (saddr)&this->body_center, this->rotation_y);
+        TBoss3Volopt::create_breakup_mdl(TObjEneBm3Fly__breakup_model, &bm3_fly_breakup_params,
+                           this->texlist, &this->body_center, this->rotation_y);
         this->step = 0;
         return;
     case 3:
@@ -1045,7 +1046,7 @@ void TObjEneBm3Fly::state_death_fall(s32 msg) {
                     this->step = 2;
                     this->slide_speed = 0.0f;
                     this->status_flags &= ~BM3_FLY_SHADOW;
-                    spawn_landing_dead_spot((saddr)&this->position, 0xA);
+                    spawn_landing_dead_spot(&position, 0xA);
                     spawn_effect_at_ground(&this->position, 0x1E);
                 }
             }
@@ -1137,7 +1138,7 @@ void TObjEneBm3Fly::render_demo() {
 }
 
 void TObjEneMoja::bindModel(int index) {
-    model = (void *)moja_bml_resource->models[index].model;
+    model = moja_bml_resource->models[index].model;
     texlist = moja_bml_resource->models[index].texlist;
 }
 

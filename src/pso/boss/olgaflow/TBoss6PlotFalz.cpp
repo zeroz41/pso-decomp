@@ -1,4 +1,7 @@
+#include "pso/render/StripBufferPair.h"
+#include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/olgaflow/OlgaFlowActions.h"
@@ -537,18 +540,6 @@ void TBoss6PlotFalz::queue_instance_destruction() {
 }
 
 
-// What spawn_type1 / spawn_type2 hand create: the owner, then a copy of the 0x40-byte set entry
-// at 0x388 renumbered for the body (the constructor's apply_set_data reads it), then spawn_variant.
-struct Boss6BodySpawnParams {
-    TBoss6PlotFalz *owner;
-    s16 set_index;
-    u8 pad_06[0x4];
-    s16 entity_id;
-    s16 flags;
-    u8 pad_0E[0x36];
-    u8 variant;
-};
-
 extern "C" f32 xyz_distance(const void *, const void *);
 
 void TBoss6PlotFalz::release_object() { if (tube != NULL) { tube->queue_destruction(); tube = NULL; } }
@@ -576,11 +567,11 @@ void TBoss6PlotFalz::spawn_type2() {
     if (TBoss6PlotFalz__type2_instance == NULL) {
         params.owner = this;
         params.variant = spawn_variant;
-        copy_set_entry(&params.set_index, &set_entry);
-        params.flags = 1;
-        params.set_index = set_index + 0x1FF;
-        params.entity_id = entity_id + 0x1FF;
-        TBoss6PlotFalz__type2_instance = TBoss6Type2::create((saddr)&params);
+        copy_set_entry(&params.set_entry, &set_entry);
+        params.set_entry.room = 1;
+        params.set_entry.set_index = set_index + 0x1FF;
+        params.set_entry.entity_id = entity_id + 0x1FF;
+        TBoss6PlotFalz__type2_instance = TBoss6Type2::create(&params);
     }
 }
 
@@ -589,10 +580,10 @@ void TBoss6PlotFalz::spawn_type1() {
     if (TBoss6PlotFalz__type1_instance == NULL) {
         params.owner = this;
         params.variant = spawn_variant;
-        copy_set_entry(&params.set_index, &set_entry);
-        params.set_index = set_index + 0x200;
-        params.entity_id = entity_id + 0x200;
-        TBoss6PlotFalz__type1_instance = TBoss6Type1::create((saddr)&params);
+        copy_set_entry(&params.set_entry, &set_entry);
+        params.set_entry.set_index = set_index + 0x200;
+        params.set_entry.entity_id = entity_id + 0x200;
+        TBoss6PlotFalz__type1_instance = TBoss6Type1::create(&params);
     }
 }
 
@@ -740,18 +731,18 @@ void Boss6ScrollStrips::free_buffer_pairs() {
 }
 
 void Boss6ScrollStrips::build_tables(const Boss6StripDesc *descs, s32 n) {
-    BmlResource *h;
+    BmlResource *archive;
     s32 i;
     const Boss6StripDesc *r;
     NJS_OBJECT *t;
     s32 j;
-    h = TBoss6PlotFalz::get_scene_archive();
-    if (h == 0 || descs == NULL || n < 1) {
+    archive = TBoss6PlotFalz::get_scene_archive();
+    if (archive == NULL || descs == NULL || n < 1) {
         return;
     }
     count = n;
     items = NULL;
-    items = (StripBufferPair **)mem_alloc(count * 4);
+    items = static_cast<StripBufferPair **>(mem_alloc(count * sizeof(*items)));
     u = 0;
     v = 0;
     for (j = 0; j < count; j++) {
@@ -759,7 +750,7 @@ void Boss6ScrollStrips::build_tables(const Boss6StripDesc *descs, s32 n) {
     }
     for (i = 0; i < count; i++) {
         r = &descs[i];
-        t = find_model_node(get_bml_model(h, r->model), r->node);
+        t = find_model_node(get_bml_model(archive, r->model), r->node);
         items[i] = new StripBufferPair(t, r->texture_filter);
     }
 }
@@ -954,9 +945,9 @@ TBoss6PlotFalz::~TBoss6PlotFalz() {
 #pragma opt_common_subs off
 TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(parent) {
     TBoss6PlotFalzStateRecord record;
-    u8 *base_params;
-    u8 *attack_params;
-    u8 *resistance_params;
+    player_stats *base_params;
+    AttackParams *attack_params;
+    ActorParamBlock *resistance_params;
 
     m_name = TBoss6PlotFalz__name;
     reset_child_ids();
@@ -975,10 +966,10 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     velocity.y = 0.0f;
     velocity.x = 0.0f;
     target = 0;
-    base_params = (u8 *)TLobby::register_boss(0x2C);
-    attack_params = (u8 *)TLobby::dispatch_shared_handler_b(0x2C);
-    resistance_params = (u8 *)TLobby::register_object(0x2C);
-    bind_enemy_combat_stats(reinterpret_cast<player_stats *>(base_params), reinterpret_cast<AttackParams *>(attack_params), reinterpret_cast<ActorParamBlock *>(resistance_params));
+    base_params = TLobby::register_boss(0x2C);
+    attack_params = TLobby::dispatch_shared_handler_b(0x2C);
+    resistance_params = TLobby::register_object(0x2C);
+    bind_enemy_combat_stats(base_params, attack_params, resistance_params);
     register_entity_by_id(this);
     actorFlags = (s32) (actorFlags | 0x02000000);
     set_visible_flag();

@@ -2,6 +2,7 @@
 #define PSO_OBJECT_BASE_ACTORCOLLISION_H
 
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/map/CsnGroundQuery.h"
 #include "pso/object/base/CollisionBodySet.h"
 #include "types.h"
 #include "pso/object/base/TObjCollidable.h"
@@ -62,17 +63,11 @@ u16 register_entity_by_id(TObjCollidable *actor);
 // The actor with this entity id if it can be hit on that collision body now,
 // else NULL.
 TObjChara *resolve_hittable_target(u16 actor_id, s16 collider);
-// Drops pos onto the ground under it (from 10 units up, through the actor's
-// ground cache when it has one); 1 if found, the ground normal in *normal.
-s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal);
 // The eight world corners of a box body of an actor at origin turned by
 // facing; 1 when written to *out.
 s32 build_collision_box_corners(Vec origin, s32 facing, CollisionBody *body, CollisionBox *out);
 // Empties player_unique_pair_entries.
 void reset_global_table(void);
-// 1 if the actor's bodies at pos touch another registered non-player actor's;
-// that body is copied to *out.
-s32 test_player_overlap_with_players(void *, TObjCollidable *self, Vec *pos, CollisionBody *out);
 }
 
 #endif

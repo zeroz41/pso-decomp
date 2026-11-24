@@ -6,6 +6,7 @@
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/unk/TLobby.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/player/TObjPlayer.h"
 
 #include "types.h"
@@ -85,14 +86,14 @@ s32 Boss6WaveArcMask::test_bit(s32 bit) {
     return ((1 << shift) & words[word]) != 0;
 }
 
-TBoss6SwordWave *TBoss6SwordWave::create(TObject *owner, const Vec *position, s32 start_angle, s32 end_angle, f32 radius) {
+TBoss6SwordWave *TBoss6SwordWave::create(TBoss6Type2 *owner, const Vec *position, s32 start_angle, s32 end_angle, f32 radius) {
     return new TBoss6SwordWave(owner, position, start_angle, end_angle, radius);
 }
 
-TBoss6SwordWave::TBoss6SwordWave(TObject *owner, const Vec *position, s32 start_angle, s32 end_angle, f32 radius)
+TBoss6SwordWave::TBoss6SwordWave(TBoss6Type2 *owner, const Vec *position, s32 start_angle, s32 end_angle, f32 radius)
     : TObject(owner) {
     m_name = TBoss6SwordWave__name;
-    this->owner = (TBoss6Type2 *)owner;
+    this->owner = owner;
     VecCopy(&this->position, position);
     this->position.y = 0.0f;
     this->radius = radius;
@@ -100,12 +101,12 @@ TBoss6SwordWave::TBoss6SwordWave(TObject *owner, const Vec *position, s32 start_
     inner_radius = 0.0f;
     outer_radius = 0.0f;
     particle_timer = 0.0f;
-    f32 param = ((f32 *)TLobby::dispatch_shared_handler_a(0x2C))[0];
+    f32 param = TLobby::dispatch_shared_handler_a(0x2C)->values.floats[0];
     power = (s32)param;
     if (0.0f == param) {
         power = 0x14;
     }
-    f32 scale = ((f32 *)TLobby::dispatch_shared_handler_a(0x2F))[2];
+    f32 scale = TLobby::dispatch_shared_handler_a(0x2F)->values.floats[2];
     power_scale = scale;
     if (0.0f == scale) {
         power_scale = 1.0f;

@@ -1,10 +1,14 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/camera/TCameraFollow.h"
+#include "pso/system/memory.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/enemy/EnemyTargeting.h"
+#include "pso/map/FloorArea.h"
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/PadRumble.h"
@@ -34,7 +38,6 @@
 #include "pso/boss/volopt/TObjVoloptPillar.h"
 #include "pso/boss/volopt/TObjVoloptShutter.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/byteswap.h"
@@ -60,19 +63,11 @@ struct VoloptCameraParams {
     s32 enabled;
 };
 
-// The model node the shutter models hang off.
-struct VoloptShutterNode {
-    u32 evalflags;
-    void *model;
-    u8 pad_8[0x24];
-    VoloptShutterNode *child;
-};
-
 extern "C" {
 s32 is_local_client_floor_leader();
 u16 TObjRoomId__sub_801A1DB8(u16 id);
 void TObjPlayer__sub_801BA42C(void);
-extern s32 door_vo_ship_class_name;
+extern const char *door_vo_ship_class_name;
 }
 void reset_cameras_to_actor(void *actor, s32 flags);
 
@@ -266,8 +261,8 @@ void TObject::pause_update() {
     m_flags |= PAUSE_UPDATE;
 }
 
-BOOL TUnk_804B6C24::check_value_equals(saddr name) const {
-    return (saddr)m_name == name;
+BOOL TObject::check_value_equals(const char *name) const {
+    return m_name == name;
 }
 
 void clear_volopt_cage_flag() {
@@ -367,14 +362,14 @@ s32 TObjPlayer::get_area() {
     return current_area;
 }
 
-void TBoss3Volopt::reset_photon_effect() {
+void TObjEnemy::register_by_id() {
     this->register_object_by_id();
 }
 
 TBoss3Volopt::TBoss3Volopt(void *set_data) : TObjEnemyCustom(tl_04) {
     m_name = TBoss3Volopt_name;
     apply_set_data(set_data);
-    reset_photon_effect();
+    register_by_id();
     move_to_arena(0);
     VecCopy(&position, VecCopy(&body_center, &boss3_volopt_spawn_pos));
     actorFlags |= 0x06040000;
@@ -407,14 +402,14 @@ TBoss3Volopt::~TBoss3Volopt() {
 
 void TBoss3Volopt::load_resources() {
     s32 v2;
-    void *resource;
+    BmlResource *resource;
     v2 = TObjEneDD::check_v2_mode();
     if (v2 != 0) {
         resource = new BmlResource(5, &bm_boss3_volopt_ap_resource_descriptor, 0, 0, NULL);
-        boss3_volopt_resources = (BmlResource *)resource;
+        boss3_volopt_resources = resource;
     } else {
         resource = new BmlResource(5, &bm_boss3_volopt_resource_descriptor, 0, 0, NULL);
-        boss3_volopt_resources = (BmlResource *)resource;
+        boss3_volopt_resources = resource;
     }
     volopt_v2_mode = v2;
     TBoss3VoloptP01::init_breakup_effect();
@@ -422,8 +417,8 @@ void TBoss3Volopt::load_resources() {
     TBoss3VoloptP02::load_resources();
     TBoss3VoloptHiraisin::init_models();
     TBoss3VoloptMonitor::load_resources();
-    volopt_shutter_model_b = ((VoloptShutterNode *)boss3_volopt_resources->models[13].model)->model;
-    volopt_shutter_model_a = ((VoloptShutterNode *)boss3_volopt_resources->models[13].model)->child->model;
+    volopt_shutter_model_b = boss3_volopt_resources->models[13].model->model;
+    volopt_shutter_model_a = boss3_volopt_resources->models[13].model->child->model;
     volopt_shutter_global_param = (saddr)boss3_volopt_resources->models[13].texlist;
     TObjVoloptPillar::cache_target_values();
     TObjVoloptCage::init_break_model();
@@ -550,8 +545,7 @@ void TBoss3Volopt::move_to_arena(s32 phase2) {
         if (phase2 != 0) {
             for (i = 0; i < registered_player_count; i++) {
                 player = TObjPlayer::get_player_data(i);
-                if (player != NULL && TObjRoomId__sub_801A1DB8(player->get_entity_id()) == 0 &&
-                    ((TObjPlayer *)player)->get_area() == 0xD) {
+                if (player != NULL && TObjRoomId__sub_801A1DB8(player->get_entity_id()) == 0 && player->get_area() == AREA_VOL_OPT) {
                     send_position(player, &volopt_phase2_player_positions[i], volopt_phase2_player_angles[i]);
                 }
             }
@@ -632,7 +626,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 attack.id = entity_id;
                 attack.count = max_targets < count ? max_targets : count;
                 attack.tech = 3.0f * random_ratio();
-                move_data((void *)(attack.order), (const void *)(volopt_p01_order), 6);
+                move_data(attack.order, volopt_p01_order, sizeof(volopt_p01_order));
                 attack.send();
                 if (max_targets < 5) {
                     max_targets++;
@@ -695,7 +689,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 targets.init();
                 targets.id = entity_id;
                 targets.count = max_targets < count_v1 ? max_targets : count_v1;
-                move_data((void *)(targets.order), (const void *)(volopt_p01_order), 6);
+                move_data(targets.order, volopt_p01_order, sizeof(volopt_p01_order));
                 targets.send();
                 if (max_targets < 5) {
                     max_targets++;
@@ -1317,8 +1311,8 @@ void TBoss3Volopt::push_actors_out(s32 phase2) {
         actor = TObjPlayer::get_player_data(i);
         if (actor == NULL) continue;
         if (actor->bodies == NULL) continue;
-        if (((TUnk_804B6C24 *)actor)->check_value_equals((saddr)TOCapsuleAncient01::class_name) != 0) continue;
-        if (((TUnk_804B6C24 *)actor)->check_value_equals(door_vo_ship_class_name) != 0) continue;
+        if (actor->check_value_equals(TOCapsuleAncient01::class_name) != 0) continue;
+        if (actor->check_value_equals(door_vo_ship_class_name) != 0) continue;
         if (!(actor->bodies->flags & 0x20000)) continue;
         if (fabs_float(actor->position.z - center_z) > 1000.0f) {
             Vec pos = *&actor->position;
@@ -1407,7 +1401,7 @@ void handle_6x15_vol_opt_boss_actions(TBoss3VoloptActionPacket *packet) {
 
 void handle_6x16_vol_opt_boss_actions(TBoss3VoloptTargetsPacket *packet) {
     packet->swap();
-    move_data((void *)(volopt_p01_order), (const void *)(packet->order), 6);
+    move_data(volopt_p01_order, packet->order, sizeof(volopt_p01_order));
     TBoss3Volopt::set_primary_p01s(packet->count);
     volopt_p01_tech = -1;
 }
@@ -1427,7 +1421,7 @@ void handle_6x17_set_entity_position_and_angle(TBoss3VoloptPositionPacket *packe
     TObjCollidable *actor;
 
     packet->swap();
-    actor = (TObjCollidable *)find_entity_by_id(packet->id);
+    actor = find_entity_by_id(packet->id);
     if (actor != NULL) {
         VecCopy(&actor->position, &packet->pos);
         actor->rotation_y = packet->rotation_y;
@@ -1472,7 +1466,7 @@ void TBoss3Volopt::update_phase() {
 
 void handle_6x84_vol_opt_boss_actions(TBoss3VoloptAttackPacket *packet) {
     packet->swap();
-    move_data((void *)(volopt_p01_order), (const void *)(packet->order), 6);
+    move_data(volopt_p01_order, packet->order, sizeof(volopt_p01_order));
     volopt_p01_tech = packet->tech;
     TBoss3Volopt::set_primary_p01s(packet->count);
 }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include <dolphin/os/OSCache.h>
 #include "pso/unk/text_80327844.h"
 #include "pso/system/memory.h"
 #include "pso/system/scene/TScene.h"
@@ -13,7 +14,6 @@ struct Entry_80327B40 { Mesh_80327B40 *mesh; Pt_80327B40 *src; };
 struct Scene_80327B40 { u8 pad0[4]; s32 count; Entry_80327B40 *entries; };
 
 extern "C" {
-void DCFlushRangeNoSync(void *, u32);
 s32 visit_model_tree_recursive();
 
 void TScene::offset_position(s32 arg1, s32 arg2) {

@@ -1,5 +1,6 @@
 #pragma defer_codegen on
 
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -18,15 +19,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-extern s32 hud_texlist;
 
 extern "C" {
 void TWindowSubStatusDisp__sub_80256C40(TWindowStatusGauge *self, WindowDrawContext *ctx, NJS_POINT2 *pos, f32 depth);
-extern s32 __vt__18TWindowStatusGauge[];
-
-TWindowStatusGauge *TWindowStatusGauge::init_from(StatusGaugeLayout *source, s32 client) {
-    __ct__18TWindowLayoutEntryFl(this, client);
-    *reinterpret_cast<s32 **>(reinterpret_cast<u8 *>(this) + 4) = __vt__18TWindowStatusGauge;
+TWindowStatusGauge::TWindowStatusGauge(StatusGaugeLayout *source, s32 client)
+    : TWindowLayoutEntry(client) {
     width = 0.0f;
     x = source->pos[0];
     y = source->pos[1];
@@ -36,7 +33,6 @@ TWindowStatusGauge *TWindowStatusGauge::init_from(StatusGaugeLayout *source, s32
     flags = (u16)source->flags;
     maximum = source->maximum;
     target = source->target;
-    return this;
 }
 
 TWindowStatusGauge::~TWindowStatusGauge() {}
@@ -85,7 +81,7 @@ void TWindowStatusGauge::render(WindowDrawContext *ctx) {
     pos.y = ctx->inner_y + this->y;
     depth = -1.0f / (0.299f * this->depth + ctx->depth);
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(11, -1);
     if (this->flags & 8) {
         TWindowSubStatusDisp__sub_80256C40(this, ctx, &pos, depth);

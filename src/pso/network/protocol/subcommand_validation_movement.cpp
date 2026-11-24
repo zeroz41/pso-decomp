@@ -1,10 +1,7 @@
 #include "pso/network/protocol/subcommand_validation.h"
+#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/render/render_util.h"
 #include "pso/network/protocol/protocol_types.h"
-
-extern "C" {
-void *find_entity_by_id(u16 id);
-}
 
 s32 validate_6x21_inter_level_warp(G_ClientIDHeader *packet) {
     s32 temp_r0;

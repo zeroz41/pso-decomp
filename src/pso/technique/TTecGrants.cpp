@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -31,6 +32,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/technique/TechniqueRingwaveList.h"
+#include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecCircle.h"
 #include <stddef.h>
@@ -44,7 +46,6 @@ struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
 
 extern "C" {
 
-void scale_matrix(s32, f32, f32, f32);
 void draw_ginja_object(void);
 
 // ---- pso/unk/text_80232AA4
@@ -67,10 +68,6 @@ struct GrantsEmitterSet { const GrantsEmitterPart *parts; u32 count; };
 struct GrantsEffectEntry { s32 effect; u32 flags; s32 pad_08; };
 
 struct GrantsEffectSet { const GrantsEffectEntry *ents; u32 count; };
-
-extern "C" {
-void mem_free(void *);
-}
 
 // Per level tier (TObjPlayer::get_level_tier): the particle emitters TTecGrantsEffect keeps alive and
 // the effects it spawns when it ends.
@@ -100,10 +97,6 @@ const GrantsEffectSet technique_effect_entry_table[6] = {
 };
 
 const char *tec_grants_class_name = "TTecGrants";
-
-extern "C" {
-void *mem_alloc(u32 size);
-}
 
 // Function definitions in reverse address order (defer_codegen emits them reversed).
 #pragma defer_codegen on
@@ -335,7 +328,7 @@ void TTecGrantsFlash::render() {
     post_translate_matrix(&position.x);
     scale_matrix(0, scale.x, scale.y, scale.z);
     translate_matrix(0, 0.0f, 1e+01f, 0.0f);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(&lbl_804CC868));
+    TObjFish::set_global_param(&lbl_804CC868);
     get_bml_model(technique_effect_bml, 10);
     draw_ginja_object();
     pop_matrix();
