@@ -191,7 +191,7 @@ s16 NetIPv6NeighborOutput(NetPacket *a, u8 *b, NetIPv6SendParameters *c, s16 d) 
             ret = -0x10E;
             goto done;
         }
-        set_value_and_enable(&cur, (saddr)src);
+        set_value_and_enable(&cur, src);
         netbuf_copy_by_ref(&cur, &a->fragments[n - 1].buffer, l);
         src += l;
         seg--;
@@ -431,7 +431,7 @@ s16 NetIPv6HandleRedirect(NetPacket *pkt, u8 *right, u8 *dst, s16 iface) {
     if (NetIPv6IsLinkLocal(right) == 0) {
         return -1;
     }
-    set_value_and_enable(&ref, (saddr)&msg);
+    set_value_and_enable(&ref, &msg);
     netbuf_copy_by_ref(&ref, &frag->buffer, 0x28);
     dest = msg.destination.bytes;
     if (NetIPv6IsMulticast(dest) != 0) {
@@ -448,7 +448,7 @@ s16 NetIPv6HandleRedirect(NetPacket *pkt, u8 *right, u8 *dst, s16 iface) {
     len -= 0x28;
     if (len >= 8) {
         netbuf_ref_advance(&frag->buffer, 0x28);
-        r = NetIPv6ParseRedirectOptions(frag, len, &msg, (saddr)opts, &optlen, iface);
+        r = NetIPv6ParseRedirectOptions(frag, len, &msg, opts, &optlen, iface);
         if (r < 0) {
             return r;
         }
@@ -461,7 +461,7 @@ s16 NetIPv6HandleRedirect(NetPacket *pkt, u8 *right, u8 *dst, s16 iface) {
     return 0;
 }
 #pragma pop
-s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirect *msg, s32 opts, s16 *optlen, s16 iface) {
+s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirect *msg, void *opts, s16 *optlen, s16 iface) {
     NetBufferRef ref;
     u8 *h;
     s16 len;
@@ -521,7 +521,7 @@ s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *address, s16
     if (len < 0x18) {
         return -1;
     }
-    set_value_and_enable(&ref, (saddr)&msg);
+    set_value_and_enable(&ref, &msg);
     netbuf_copy_by_ref(&ref, &hdr->buffer, 0x18);
     if ((s16)NetIPv6IsMulticast(msg.target.bytes)) {
         return -1;
@@ -663,7 +663,7 @@ s16 NetIPv6ApplyNeighborAdvertisement(NetIcmpv6NeighborAdvertisement *msg, u8 *n
                     pkt->fragment_count = 0;
                     pkt->total_bytes = e->pending->len;
                     pkt->fragments[pkt->fragment_count].length = e->pending->len;
-                    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)e->pending->data);
+                    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, e->pending->data);
                     pkt->fragment_count++;
                     ret = ipv6_transmit(pkt, &e->pending->params, e->iface, e->lladdr);
                     release_entry(pkt);
@@ -763,7 +763,7 @@ s16 NetIPv6HandleNeighborSolicitation(NetPacket *pkt, u8 *src, u8 *dst, s16 ifac
     if ((s16)NetIPv6IsUnspecified(src) && NetIPv6IsSolicitedNodeAddress(dst, iface) == 0) {
         return -1;
     }
-    set_value_and_enable(&ref, (saddr)&sp18);
+    set_value_and_enable(&ref, &sp18);
     netbuf_copy_by_ref(&ref, &hdr->buffer, 0x18);
     if ((s16)NetIPv6IsMulticast(sp18.target.bytes)) {
         return -1;
@@ -854,7 +854,7 @@ s16 NetIPv6AnswerNeighborSolicitation(void *self, void *a, void *b, s16 iface) {
             opt[1] = len >> 3;
             p->total_bytes += len;
             p->fragments[p->fragment_count].length = n + 2;
-            set_value_and_enable(&p->fragments[p->fragment_count].buffer, (saddr)opt);
+            set_value_and_enable(&p->fragments[p->fragment_count].buffer, opt);
             flags |= 0x20;
             p->fragment_count += 1;
         }
@@ -880,7 +880,7 @@ s16 NetIPv6HandleRouterAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface
     if (r == 0) {
         return -1;
     }
-    set_value_and_enable(&ref, (saddr)&sp18);
+    set_value_and_enable(&ref, &sp18);
     netbuf_copy_by_ref(&ref, &p->buffer, 0x10);
     n -= 0x10;
     if (n >= 8U) {
@@ -941,7 +941,7 @@ extern s16 NetIPv6ParseRouterAdvertisementOptions(NetPacketFragment *self, s32 n
       case 3:
         if (len == 0x20U)
       {
-        set_value_and_enable(&ref, (saddr) &prefix_opt);
+        set_value_and_enable(&ref, &prefix_opt);
         new_var3 = prefix_opt.prefix.bytes;
         netbuf_copy_by_ref(&ref, &self->buffer, 0x20);
         prefix_event.prefix = (new_var2 = new_var3);
@@ -956,7 +956,7 @@ extern s16 NetIPv6ParseRouterAdvertisementOptions(NetPacketFragment *self, s32 n
       case 5:
         if (len == 8U)
       {
-        set_value_and_enable(&ref, (saddr) &mtu_opt);
+        set_value_and_enable(&ref, &mtu_opt);
         netbuf_copy_by_ref(&ref, &self->buffer, 8);
         mtu_event.router = dst;
         mtu_event.mtu = mtu_opt.mtu;
@@ -1067,7 +1067,7 @@ s16 NetIPv6HandleRouterSolicitation(NetPacket *pkt, u8 *src, u8 *dst, s16 iface)
     if (len < 8) {
         return -1;
     }
-    set_value_and_enable(&b, (saddr)&a);
+    set_value_and_enable(&b, &a);
     netbuf_copy_by_ref(&b, &h->buffer, 8);
     len -= 8;
     if (len >= 8) {
@@ -1175,7 +1175,7 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 flags, NetI
     params->hop_limit = 0xFF;
     pkt->total_bytes += 0x18;
     pkt->fragments[pkt->fragment_count].length = 0x18;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)&na);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, &na);
     pkt->fragment_count++;
     na.type = 0x88;
     na.code = 0;
@@ -1232,7 +1232,7 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 flags, NetI
                     ret = -0x10E;
                     goto done;
                 }
-                set_value_and_enable(&cur, (saddr)src);
+                set_value_and_enable(&cur, src);
                 netbuf_copy_by_ref(&cur, &pkt->fragments[n - 1].buffer, l);
                 src += l;
                 seg--;
@@ -1386,7 +1386,7 @@ s16 NetIPv6EmitNeighborSolicitation(NetPacket *pkt, u8 *target, NetIPv6SendParam
             option.length_units = (u8)(length >> 3);
             pkt->total_bytes += length;
             pkt->fragments[pkt->fragment_count].length = length;
-            set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)&option);
+            set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, &option);
             pkt->fragment_count += 1;
         }
     }
@@ -1396,7 +1396,7 @@ s16 NetIPv6EmitNeighborSolicitation(NetPacket *pkt, u8 *target, NetIPv6SendParam
     params->hop_limit = 0xFF;
     pkt->total_bytes += 0x18;
     pkt->fragments[pkt->fragment_count].length = 0x18;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)&message);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, &message);
     pkt->fragment_count += 1;
     message.header.type = 0x87;
     message.header.code = 0;
@@ -1425,7 +1425,7 @@ s16 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *
             option.length_units = (u8) (length >> 3);
             net_packet->total_bytes += length;
             net_packet->fragments[net_packet->fragment_count].length = length;
-            set_value_and_enable(&net_packet->fragments[net_packet->fragment_count].buffer, (saddr)&option);
+            set_value_and_enable(&net_packet->fragments[net_packet->fragment_count].buffer, &option);
             net_packet->fragment_count += 1;
         }
     }
@@ -1435,7 +1435,7 @@ s16 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *
     addr->hop_limit = 0xFF;
     net_packet->total_bytes += 8;
     net_packet->fragments[net_packet->fragment_count].length = 8;
-    set_value_and_enable(&net_packet->fragments[net_packet->fragment_count].buffer, (saddr)&message);
+    set_value_and_enable(&net_packet->fragments[net_packet->fragment_count].buffer, &message);
     net_packet->fragment_count += 1;
     message.header.type = 0x85;
     message.header.code = 0;
@@ -1455,7 +1455,7 @@ inline saddr send_pending_packet(Ipv6NdNeighbor *e) {
     nw->fragment_count = 0;
     nw->total_bytes = e->pending->len;
     nw->fragments[nw->fragment_count].length = e->pending->len;
-    set_value_and_enable(&nw->fragments[nw->fragment_count].buffer, (saddr)e->pending->data);
+    set_value_and_enable(&nw->fragments[nw->fragment_count].buffer, e->pending->data);
     nw->fragment_count++;
     ipv6_transmit(nw, &e->pending->params, e->iface, e->lladdr);
     release_entry(nw);

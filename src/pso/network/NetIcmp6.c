@@ -36,7 +36,7 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
         return -1;
     }
     body = &pkt->fragments[1];
-    set_value_and_enable(&ref, (saddr)&icmp);
+    set_value_and_enable(&ref, &icmp);
     netbuf_copy_by_ref(&ref, &body->buffer, 8);
     switch (icmp.type) {
     case 128:
@@ -58,12 +58,12 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
         return r;
     case 1:
         netbuf_ref_advance(&body->buffer, 8);
-        set_value_and_enable(&ref, (saddr)&ip);
+        set_value_and_enable(&ref, &ip);
         netbuf_copy_by_ref(&ref, &body->buffer, sizeof(ip));
         netbuf_ref_advance(&body->buffer, sizeof(ip));
         switch (ip.next_header) {
         case 17:
-            set_value_and_enable(&ref, (saddr)&udp);
+            set_value_and_enable(&ref, &udp);
             netbuf_copy_by_ref(&ref, &body->buffer, sizeof(udp));
             udp_ctlinput(udp.src_port, icmp.code);
             break;
@@ -75,7 +75,7 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
         mtu = icmp.pointer;
         if (mtu > 0 && mtu < 0x8000) {
             netbuf_ref_advance(&body->buffer, 8);
-            set_value_and_enable(&ref, (saddr)&ip);
+            set_value_and_enable(&ref, &ip);
             netbuf_copy_by_ref(&ref, &body->buffer, sizeof(ip));
             NetIPv6UpdatePathMtu(&ip.dst, mtu);
         }
@@ -194,11 +194,11 @@ s16 icmp6_send_error(void *a, u8 *src, s16 c, s16 flag) {
     pkt->fragment_count = 0;
     pkt->total_bytes = c;
     pkt->fragments[pkt->fragment_count].length = c;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)src);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, src);
     pkt->fragment_count += 1;
     pkt->total_bytes += 8;
     pkt->fragments[pkt->fragment_count].length = 8;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)a);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, a);
     pkt->fragment_count += 1;
     if (pkt->total_bytes + 0x28 > 0x500) {
         d = len = pkt->total_bytes - 0x4d8;
@@ -236,7 +236,7 @@ s16 icmp6_send_echo_reply(u8 type, u8 code, u8 *src, u8 *dst, NetPacket *pkt, s1
         netbuf_ref_advance(&pkt->fragments[pkt->fragment_count - 1].buffer, sizeof(hdr));
         pkt->fragments[pkt->fragment_count - 1].length -= sizeof(hdr);
         pkt->fragments[pkt->fragment_count].length = sizeof(hdr);
-        set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)&hdr);
+        set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, &hdr);
         pkt->fragment_count++;
         break;
     default:

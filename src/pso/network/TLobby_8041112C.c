@@ -554,7 +554,7 @@ extern s32 copy_ipv6_interface_addresses(s16 id, NetBufferRef *self, s32 len, u8
     rec.prefix_len = *(s16 *)(ent + offsetof(Ipv6Iface, prefix_len));
     rec.flags = *(s16 *)(ent + offsetof(Ipv6Iface, flags));
     rec.callback = *(u32 *)(ent + offsetof(Ipv6Iface, callback));
-    set_value_and_enable(&ref, (saddr)&rec);
+    set_value_and_enable(&ref, &rec);
     netbuf_copy_by_ref(self, &ref, 0x1C);
     netbuf_ref_advance(self, 0x1C);
     cur = *(Ipv6AddrNode **)(ent + offsetof(Ipv6Iface, addrs));
@@ -567,7 +567,7 @@ extern s32 copy_ipv6_interface_addresses(s16 id, NetBufferRef *self, s32 len, u8
         rec.prefix_len = cur->prefix_len;
         rec.flags = cur->flags;
         rec.callback = 0;
-        set_value_and_enable(&ref, (saddr)&rec);
+        set_value_and_enable(&ref, &rec);
         netbuf_copy_by_ref(self, &ref, 0x1C);
         netbuf_ref_advance(self, 0x1C);
         cur = cur->next;

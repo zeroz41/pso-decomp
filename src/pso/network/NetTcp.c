@@ -588,13 +588,13 @@ send:
         if (optlen != 0) {
             m->total_bytes += optlen;
             m->fragments[m->fragment_count].length = optlen;
-            set_value_and_enable(&m->fragments[m->fragment_count].buffer, (saddr)optp);
+            set_value_and_enable(&m->fragments[m->fragment_count].buffer, optp);
             m->fragment_count++;
         }
         header_bytes = sizeof(TcpHdr);
         m->total_bytes += header_bytes;
         m->fragments[m->fragment_count].length = header_bytes;
-        set_value_and_enable(&m->fragments[m->fragment_count].buffer, (saddr)th);
+        set_value_and_enable(&m->fragments[m->fragment_count].buffer, th);
         m->fragment_count++;
         th->sum = calc_transport_checksum(&tp->local, &tp->remote, 6, m, 1);
         if (tp->force == 0 || tp->timers[1] == 0) {
@@ -710,7 +710,7 @@ s16 tcp_respond(NetworkAddress *dst, NetworkAddress *src_addr, u16 sport, u16 dp
     ph = &hdr.sum;
     NetMemcpy(ph, p7, 2);
     NetMemcpy(&hdr.urp, p8, 2);
-    set_value_and_enable(&pkt->fragments[0].buffer, (saddr)&hdr);
+    set_value_and_enable(&pkt->fragments[0].buffer, &hdr);
     src.sum = ((s16)calc_transport_checksum(src_addr, dst, (s8)(6), pkt, (s16)(1)));
     NetMemcpy(ph, &src.sum, 2);
     if (dispatch_by_addr_family(pkt, dst, src_addr, buf + 4, buf + 4, 6) < 0) {
@@ -2501,14 +2501,14 @@ s32 close_if_open(TcpTcb *tcb) {
 }
 
 s16 tcp_alloc_rcv_buf(TcpTcb *tcb) {
-    s32 spC[3];
+    NetBufferRef buf;
 
     if (tcb->rcv_buf.kind == 0) {
-        if (buffer_pool_alloc(&spC[0], tcb->rcv_bufsize, 1) < 0) {
+        if (buffer_pool_alloc(&buf, tcb->rcv_bufsize, 1) < 0) {
             return -0x102;
         }
-        init_msg(&tcb->rcv_alloc, spC[0]);
-        set_value_and_enable(&tcb->rcv_buf, spC[0]);
+        init_msg(&tcb->rcv_alloc, buf.data);
+        set_value_and_enable(&tcb->rcv_buf, buf.data);
     }
     tcb->rcv_count = 0;
     tcb->rcv_head = 0;
@@ -2521,14 +2521,14 @@ s16 tcp_alloc_rcv_buf(TcpTcb *tcb) {
 
 s16 tcp_alloc_snd_buf(TcpTcb *tcb) {
     unsigned char off;
-    s32 spC;
+    NetBufferRef buf;
 
     if (tcb->snd_buf.kind == 0) {
-        if (buffer_pool_alloc(&spC, tcb->snd_bufsize, 1) < 0) {
+        if (buffer_pool_alloc(&buf, tcb->snd_bufsize, 1) < 0) {
             return -0x102;
         }
-        init_msg(&tcb->snd_alloc, spC);
-        set_value_and_enable(&tcb->snd_buf, spC);
+        init_msg(&tcb->snd_alloc, buf.data);
+        set_value_and_enable(&tcb->snd_buf, buf.data);
     }
     tcb->snd_count = 0;
     off = offsetof(TcpTcb, snd_head);

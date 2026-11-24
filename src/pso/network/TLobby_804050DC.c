@@ -1201,8 +1201,8 @@ u8 *netbuf_ref_data(NetBufferRef *self)
     }
 }
 
-void init_msg(NetBufferRef *ref, s32 value) {
-    ref->value = value;
+void init_msg(NetBufferRef *ref, void *data) {
+    ref->data = data;
     ref->kind = 4;
 }
 
@@ -1211,8 +1211,8 @@ void init_packet_header(NetBufferRef *ref, s32 value) {
     ref->kind = 3;
 }
 
-void set_value_and_enable(NetBufferRef *ref, s32 value) {
-    ref->value = value;
+void set_value_and_enable(NetBufferRef *ref, void *data) {
+    ref->data = data;
     ref->kind = 1;
 }
 

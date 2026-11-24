@@ -65,7 +65,7 @@ inline void append_fragment(NetPacket *pkt, void *data, s32 len) {
     s32 off = pkt->total_bytes;
     pkt->fragments[n].length = len;
     pkt->total_bytes = off + len;
-    set_value_and_enable(&pkt->fragments[n].buffer, (saddr)data);
+    set_value_and_enable(&pkt->fragments[n].buffer, data);
     pkt->fragment_count++;
 }
 
@@ -77,7 +77,7 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 ifac
     NetPacketFragment *frag;
     UdpControlBlock *e;
     frag = &pkt->fragments[1];
-    set_value_and_enable(&header, (saddr)&hdr);
+    set_value_and_enable(&header, &hdr);
     netbuf_copy_by_ref(&header, &frag->buffer, 8);
     if (hdr.checksum != 0 && calc_transport_checksum(src, dst, 0x11, pkt, 0) != 0) {
         return -1;

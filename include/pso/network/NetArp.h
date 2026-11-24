@@ -36,7 +36,7 @@ typedef struct ArpHold {
     s16 len;                    /* 0x06 */
     s16 cap;                    /* 0x08: ArpState.hold_size */
     u8 padA[2];
-    s32 data;                   /* 0x0C: its buffer, as a NetBufferRef value */
+    u8 *data;                   /* 0x0C: its buffer */
 } ArpHold;
 
 /* An address cache entry. */

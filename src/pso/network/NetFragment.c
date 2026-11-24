@@ -71,7 +71,7 @@ s32 release_packet_fragments(NetPacket *a) {
     return 0;
 }
 
-s32 fragment_input(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress* src, u16 frag_off, u8 more, s16 iface)
+saddr fragment_input(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress* src, u16 frag_off, u8 more, s16 iface)
 {
     NetFragPacket *fragment_alloc_packet(NetworkAddress *, s32, u8); /* declared here with other parameter types; the definition is NetFragPacket * (NetworkAddress *, s32, s32) */
     NetFragPool* base = &packet_fragment_pool_state;
@@ -189,7 +189,7 @@ saddr reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16
     }
     frag->offset = frag_off;
     frag->len = frag_len;
-    set_value_and_enable(&src, (saddr)self);
+    set_value_and_enable(&src, self);
     if (frag_off == 0) {
         first_len = (total = frag_len + hdr_len);
         if (buffer_pool_alloc(&frag->data, first_len, 2) < 0) {

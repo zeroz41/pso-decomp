@@ -179,10 +179,10 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
     pkt->fragment_count = 0;
     pkt->total_bytes = total_len;
     pkt->fragments[pkt->fragment_count].length = hlen;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr) ip);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, ip);
     pkt->fragment_count++;
     pkt->fragments[pkt->fragment_count].length = data_len;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr) (ip + hlen));
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (ip + hlen));
     pkt->fragment_count++;
     reassembled = 0;
   }
@@ -424,11 +424,11 @@ s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface)
       rec->fragment_count = 0;
       rec->total_bytes = (u16) (tail + (nunits * 8));
       rec->fragments[rec->fragment_count].length = tail + (nunits * 8);
-      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (saddr) payload);
+      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, payload);
       rec->fragment_count += 1;
       rec->total_bytes += hlen;
       rec->fragments[rec->fragment_count].length = hlen;
-      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (saddr) ip);
+      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, ip);
       rec->fragment_count += 1;
       r = AT_IP4_PktSend(rec, target, ifidx);
       if (r < 0)
@@ -467,11 +467,11 @@ s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface)
     rec->fragment_count = 0;
     rec->total_bytes = len;
     rec->fragments[rec->fragment_count].length = len;
-    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (saddr) (pkt + hlen));
+    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (pkt + hlen));
     rec->fragment_count += 1;
     rec->total_bytes += hlen;
     rec->fragments[rec->fragment_count].length = hlen;
-    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (saddr) pkt);
+    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, pkt);
     rec->fragment_count += 1;
     r = AT_IP4_PktSend(rec, target, ifidx);
     release_entry(rec);
@@ -578,7 +578,7 @@ s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 prot
     ip->cksum = ip_header_checksum(ip, 10);
     pkt->total_bytes += hlen << 2;
     pkt->fragments[pkt->fragment_count].length = hlen * 4;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr) ip);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, ip);
     pkt->fragment_count++;
     r = AT_IP4_PktSend(pkt, target, ifidx);
     return r;
@@ -661,7 +661,7 @@ s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 prot
     ip->cksum = ip_header_checksum(ip, 10);
     pp->total_bytes += hlen << 2;
     pp->fragments[pp->fragment_count].length = hlen * 4;
-    set_value_and_enable(&pp->fragments[pp->fragment_count].buffer, (saddr) ip);
+    set_value_and_enable(&pp->fragments[pp->fragment_count].buffer, ip);
     pp->fragment_count++;
     r = AT_IP4_PktSend(pp, target, ifidx);
     if (r < 0)

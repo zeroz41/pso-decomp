@@ -189,7 +189,7 @@ extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s3
     rec.addr = ifc->addr;
     rec.mask = ifc->mask;
     rec.broadcast = ifc->broadcast;
-    set_value_and_enable((&ref), (saddr)&rec);
+    set_value_and_enable((&ref), &rec);
     netbuf_copy_by_ref(out, &ref, sizeof(rec));
     netbuf_ref_advance(out, sizeof(rec));
     alias = ifc->aliases;
@@ -201,7 +201,7 @@ extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s3
         rec.addr = alias->addr;
         rec.mask = alias->mask;
         rec.broadcast = alias->broadcast;
-        set_value_and_enable((&ref), (saddr)&rec);
+        set_value_and_enable((&ref), &rec);
         netbuf_copy_by_ref(out, &ref, sizeof(rec));
         netbuf_ref_advance(out, sizeof(rec));
         alias = alias->next;

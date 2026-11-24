@@ -91,12 +91,12 @@ s16 link_packet_length(void *pkt) {
 inline s32 copy_packet_out(void *self, NetPacket *pkt) {
     u8 tmp[0x10];
     NetPacketFragment *p;
-    saddr acc;
+    u8 *acc;
     s16 n;
     s32 sum;
     sum = 0;
     n = (s16)pkt->fragment_count;
-    acc = (saddr)self;
+    acc = self;
     p = pkt->fragments + n - 1;
     while (n > 0) {
         set_value_and_enable((NetBufferRef *)tmp, acc);

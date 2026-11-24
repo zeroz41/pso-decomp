@@ -111,7 +111,7 @@ s32 arp_init(void)
     ArpHold *q;
     s16 k;
     ArpAlias *p4;
-    long sum;
+    u8 *buf;
 
     init_net_buffer_config(&arp_state);
     i = tbl->nentries;
@@ -131,13 +131,13 @@ s32 arp_init(void)
     k = tbl->nholds;
     step = &tbl->hold_size;
     q = tbl->holds;
-    sum = (long)tbl->hold_buffers;
+    buf = tbl->hold_buffers;
     for (; k > 0; k--) {
         NetMemset(q, 0, sizeof(ArpHold));
         q->cap = *step;
-        q->data = sum;
+        q->data = buf;
         q++;
-        sum += *step;
+        buf += *step;
     }
     j = tbl->naliases;
     p4 = tbl->aliases;
@@ -557,7 +557,7 @@ return;
 {
 NetPacketFragment *p;
 s16 k;
-s32 src;
+u8 *src;
 found->used = 1;
 k = (s16) pkt->fragment_count;
 src = found->data;
@@ -597,7 +597,7 @@ NetPacket *alloc_packet_with_header(ArpFields *f, ArpIface *iface) {
     pkt->total_bytes = len;
     buf = (u8 *)&arp_state.packet;
     pkt->fragments[0].length = t;
-    set_value_and_enable(&pkt->fragments[0].buffer, (saddr)*(u8 **)buf);
+    set_value_and_enable(&pkt->fragments[0].buffer, *(u8 **)buf);
     buf = *(u8 **)buf;
     NetMemset(buf, 0, len);
     NetMemcpy(buf, &iface->htype, 6);

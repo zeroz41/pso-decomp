@@ -551,7 +551,7 @@ s32 tcp_drop_acked_data(u32 acknowledged, TcpTcb *control) {
         ack.remaining = acknowledged;
         request_ref.kind = 1;
         if (acknowledged != 0 && control->snd_count != 0) {
-            set_value_and_enable(&request_ref, (saddr)&request);
+            set_value_and_enable(&request_ref, &request);
             NetMemcpy(&cursor, &control->snd_buf, 8);
             if ((s32)control->snd_head != 0) {
                 netbuf_ref_advance(&cursor, control->snd_head * sizeof(request));
@@ -688,7 +688,7 @@ s32 tcp_gather_send_data(u32 offset, u32 length, NetPacket *packet, TcpTcb *cont
         request_ref.kind = 1;
         remaining = length;
         if (length != 0 && control->snd_count != 0) {
-            set_value_and_enable(&request_ref, (saddr)&request);
+            set_value_and_enable(&request_ref, &request);
             ring_index = control->snd_head;
             NetMemcpy(&ring_cursor, &control->snd_buf, sizeof(NetBufferRef));
             if (ring_index != 0) {

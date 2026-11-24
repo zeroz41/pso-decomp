@@ -106,10 +106,10 @@ inline NetPacket *make_input_packet(u8 *ip, s16 total_len, u8 *payload, s32 payl
     pkt->fragment_count = 0;
     pkt->total_bytes = total_len;
     pkt->fragments[pkt->fragment_count].length = total_len - payload_len;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)ip);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, ip);
     pkt->fragment_count += 1;
     pkt->fragments[pkt->fragment_count].length = (u16)payload_len;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr)payload);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, payload);
     pkt->fragment_count += 1;
     return pkt;
 }
@@ -455,7 +455,7 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   e->fragment_count = 0;
   e->total_bytes = tot;
   e->fragments[e->fragment_count].length = (s16) tot;
-  set_value_and_enable(&e->fragments[e->fragment_count].buffer, (saddr) (p + 0x28));
+  set_value_and_enable(&e->fragments[e->fragment_count].buffer, (p + 0x28));
   e->fragment_count = e->fragment_count + 1;
   NetMemcpy(&params.source, self + 8, sizeof(params.source));
   NetMemcpy(&params.destination, self + 0x18, sizeof(params.destination));
@@ -612,7 +612,7 @@ s16 ipv6_transmit(NetPacket *packet, NetIPv6SendParameters *params, s16 iface, u
   }
   packet->total_bytes += sizeof(Ipv6Header);
   packet->fragments[packet->fragment_count].length = sizeof(Ipv6Header);
-  set_value_and_enable(&packet->fragments[packet->fragment_count].buffer, (saddr) slot);
+  set_value_and_enable(&packet->fragments[packet->fragment_count].buffer, slot);
   packet->fragment_count += 1;
   if (NetIPv6IsMulticast(params->destination.bytes))
   {
@@ -689,12 +689,12 @@ s16 ipv6_fragment_output(NetPacket *packet, Ipv6Header *hdr, s16 iface, u8 *link
         off += (s16)iov.total_bytes;
         iov.total_bytes += 8;
         iovp->fragments[iov.fragment_count].length = 8;
-        set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, (saddr)&fh);
+        set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, &fh);
         iov.fragment_count++;
         hdr->payload_length = iov.total_bytes;
         iov.total_bytes += 40;
         iovp->fragments[iov.fragment_count].length = 40;
-        set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, (saddr)hdr);
+        set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, hdr);
         iov.fragment_count++;
         if (NetIPv6IsMulticast(hdr->dst.bytes)) {
             r = NetIPv6OutputToDestination(iovp, &hdr->dst, iface);
