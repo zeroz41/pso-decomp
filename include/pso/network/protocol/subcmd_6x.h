@@ -125,8 +125,8 @@ struct G_Attack_6x45 : G_Attack_6x43_6x44_6x45 {
 // entity id.
 struct G_BarbaRayBossActions_6xA9 {
  struct G_ClientIDHeader header;
- s16 what;       // the boss state (transition_enemy_state)
- s16 unknown_a2; // the boss action_index
+ s16 what; // the boss state (transition_enemy_state)
+ s16 action_index;
  void bswap();
  void send();
  void init();
@@ -134,8 +134,8 @@ struct G_BarbaRayBossActions_6xA9 {
 
 struct G_BarbaRayBossActions_6xAA {
  struct G_ClientIDHeader header;
- s16 what;       // the boss state (transition_enemy_state)
- s16 unknown_a2; // the boss action_index
+ s16 what; // the boss state (transition_enemy_state)
+ s16 action_index;
  u32 target_client_id;
  void bswap();
  void send();
