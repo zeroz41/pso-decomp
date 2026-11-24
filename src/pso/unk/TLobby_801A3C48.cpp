@@ -152,7 +152,6 @@ void TQuestThread__sub_801F5D88(void);
 void TLobby__sub_8029B2A4(void);
 void reset_globals(void);
 }
-void init_scene_fog_system(void);
 void clear_received_symbol_chat(void);
 
 // Load and release hooks of the online lobby scene, in pairs: run_online_lobby_scene runs

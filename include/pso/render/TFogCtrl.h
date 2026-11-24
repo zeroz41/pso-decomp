@@ -85,5 +85,9 @@ struct TFogCtrl : public TObject {
 };
 
 LAYOUT_ASSERT(TFogCtrl_size, sizeof(TFogCtrl) == 0x1C8);
+
 void init_scene_fog_system(void);
+// Creates the fog controller of the current floor area.
+void create_area_fog_ctrl(void);
+FogEntry *copy_fog_entry(FogEntry *dst, FogEntry *src);
 #endif

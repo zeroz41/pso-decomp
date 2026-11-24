@@ -65,7 +65,6 @@ extern "C" {
 void TSceneSora__sub_80207430(void);
 void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
-s32 create_area_fog_ctrl();
 s32 activate_triggered_floor_events();
 s32 cleanup_game_objects__9TMainTaskFv();
 s32 restore_floor_telepipes();

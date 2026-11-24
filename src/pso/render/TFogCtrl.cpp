@@ -23,6 +23,10 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/GinjaView.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXStruct.h>
+#include <dolphin/gx/GXPixel.h>
+#undef PSO_SDK_COMPACT_MATH
 
 extern "C" {
 static const char fog_entry_file_name[] = "fogentry.dat";
@@ -31,28 +35,12 @@ const char *TFogCtrl_name = "TFogCtrl";
 const char *TFogCtrl_EOR_name = "TFogCtrl_EOR";
 }
 
-struct GXFogAdjTable {
-    u16 r[10];
-};
-
 extern "C" {
-
-void create_area_fog_ctrl(void);
-void GXInitFogAdjTable(GXFogAdjTable *, s32, void *);
-void GXSetFogRangeAdj(s32, s32, GXFogAdjTable *);
-
-extern s32 area_fog_row_table[];
-extern FogEntry fog_default_entry;
-extern FogEntry *fog_entry_array;
-extern s32 fog_update_flags;
-
 extern const f32 TFogCtrl__data_805DA948 = 0.0f;
 extern const f32 TFogCtrl__data_805DA94C = 640.0f;
 #define FOG_ZERO (*(const f32 *)&TFogCtrl__data_805DA948)
 #define FOG_MAX (*(const f32 *)&TFogCtrl__data_805DA94C)
 }
-FogEntry *copy_fog_entry(FogEntry *dst, FogEntry *src);
-void init_scene_fog_system(void);
 
 s32 area_fog_row_table[36] = {
     33, 1, 2, 3, 4, 5, 14, 15, 30, 31, 32, 23, 16, 34, 35, 34, 19, 47,
@@ -450,7 +438,7 @@ void TFogCtrl::apply_fog_entry() {
         } else if (width <= FOG_ZERO) {
             width = FOG_ZERO;
         }
-        GXInitFogAdjTable(&tbl, (s32)width, &scene_projection_state);
+        GXInitFogAdjTable(&tbl, width, scene_projection_state.matrix);
         GXSetFogRangeAdj(1, 0x140, &tbl);
     } else {
         if (width >= (3.2e+02f)) {
@@ -458,7 +446,7 @@ void TFogCtrl::apply_fog_entry() {
         } else if (width <= FOG_ZERO) {
             width = FOG_ZERO;
         }
-        GXInitFogAdjTable(&tbl, (s32)width, &scene_projection_state);
+        GXInitFogAdjTable(&tbl, width, scene_projection_state.matrix);
         GXSetFogRangeAdj(1, 0xA0, &tbl);
     }
     TParticleCtrl::end_effect_render();
