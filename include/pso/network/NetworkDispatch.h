@@ -25,7 +25,7 @@ typedef struct NetTimerRecord {
 } NetTimerRecord;
 
 typedef struct NetworkDispatchState {
-    s32 lock_handle;
+    NetMutexHandle lock_handle;
     s32 queue_handle;
     NetThreadHandle thread_ids[2]; /* protocol and timer dispatch threads */
     s32 interval;

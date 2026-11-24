@@ -15,7 +15,7 @@
 
 NetworkPacketBufferDescriptor network_packet_buffer_descriptors[NETWORK_PACKET_BUFFER_COUNT];
 u8 network_packet_buffers[NETWORK_PACKET_BUFFER_COUNT][NETWORK_PACKET_BUFFER_BYTES];
-s32 network_packet_mutex;
+NetMutexHandle network_packet_mutex;
 
 #pragma push
 #pragma dont_inline off
@@ -37,9 +37,9 @@ static inline NetworkPacketBufferDescriptor *find_packet_descriptor(u8 *packet) 
 void clear_message_entry(u8 *packet) {
     NetworkPacketBufferDescriptor *entry;
     u8 unused[8];
-    lock_mutex((saddr)network_packet_mutex);
+    lock_mutex(network_packet_mutex);
     entry = find_entry_by_address(packet);
-    unlock_mutex((saddr)network_packet_mutex);
+    unlock_mutex(network_packet_mutex);
     if (entry != NULL) {
         entry->in_use = 0;
         entry->queued_length = 0;
@@ -75,9 +75,9 @@ static inline u8 *alloc_packet_buffer(u32 size) {
 
 u8 *alloc_packet_buffer_locked(u32 size) {
     u8 *buf;
-    lock_mutex((saddr)network_packet_mutex);
+    lock_mutex(network_packet_mutex);
     buf = alloc_packet_buffer(size);
-    unlock_mutex((saddr)network_packet_mutex);
+    unlock_mutex(network_packet_mutex);
     return buf;
 }
 
@@ -102,9 +102,9 @@ u8 *alloc_rx_packet_buffer(u32 size) {
 
 NetworkPacketBufferDescriptor *find_packet_buffer_locked(u8 *packet) {
     NetworkPacketBufferDescriptor *e;
-    lock_mutex((saddr)network_packet_mutex);
+    lock_mutex(network_packet_mutex);
     e = find_packet_descriptor(packet);
-    unlock_mutex((saddr)network_packet_mutex);
+    unlock_mutex(network_packet_mutex);
     return e;
 }
 #pragma pop

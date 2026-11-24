@@ -69,7 +69,7 @@ s32 lobby_send_ring_read_pos;
 s32 lobby_ring_buffer_write_pos;
 s32 lobby_ring_buffer_size;
 u8 *send_ring_buffer_base;
-s32 send_ring_mutex;
+NetMutexHandle send_ring_mutex;
 NetThreadHandle queue_thread_handle;
 /* inferred: PppLink.used for the 4 packet slots init_buffer_desc_b hands out */
 s16 packet_buffer_used[4];

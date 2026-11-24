@@ -247,15 +247,15 @@ s16 create_message_queue(s32 *out) {
 }
 #pragma pop
 
-void unlock_mutex(saddr mutex) {
+void unlock_mutex(NetMutexHandle mutex) {
     OSUnlockMutex((OSMutex*)mutex);
 }
 
-void lock_mutex(saddr mutex) {
+void lock_mutex(NetMutexHandle mutex) {
     OSLockMutex((OSMutex*)mutex);
 }
 
-void NetReleaseMutex(u32 handle) {
+void NetReleaseMutex(NetMutexHandle handle) {
     s32 index;
     for (index = 0; index < 8; index++) {
         if (handle == network_mutex_slot_table[index].handle) break;
@@ -263,7 +263,7 @@ void NetReleaseMutex(u32 handle) {
     if (index < 8) network_mutex_slot_table[index].active = 0;
 }
 
-s16 create_mutex(s32 *out) {
+s16 create_mutex(NetMutexHandle *out) {
     NetworkMutexSlot *m;
     s32 i;
     s32 off;

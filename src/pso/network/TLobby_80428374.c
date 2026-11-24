@@ -39,7 +39,7 @@ uaddr lbl_805D7C10;
 s32 lbl_805D7C0C;
 u32 lbl_805D7C08;
 u8 *lbl_805D7C04;
-s32 lobby_buffer_pool_alarm_handle;
+NetMutexHandle lobby_buffer_pool_alarm_handle;
 s32 lbl_805D7BFC;
 saddr lobby_buffer_pool_end;
 saddr lbl_805D7BF4;

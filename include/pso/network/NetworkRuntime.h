@@ -5,6 +5,8 @@
 #include <stddef.h>
 
 typedef uaddr NetThreadHandle;
+/* A mutex handle from create_mutex: the address of its slot's OSMutex, kept and compared as an unsigned word (NetReleaseMutex). */
+typedef uaddr NetMutexHandle;
 typedef struct NetworkThreadSlot NetworkThreadSlot;
 typedef void (*NetThreadEntry)(void);
 typedef struct PppFrame PppFrame;
@@ -44,7 +46,7 @@ struct PppHeader;
 /* The network stack's thread (net_thread_state, TLobby_804048E8.c): the mutex the stack's callers hold, the thread running
  * run_net_thread_loop (start_network_thread) and how long that loop sleeps between polls. */
 typedef struct NetThreadState {
-    s32 mutex;
+    NetMutexHandle mutex;
     NetThreadHandle thread;                 /* 0x04 */
     s16 poll_ms;                /* 0x08: 40 (init_thread_poll_config), set by set_net_poll_interval */
     u8 padA[6];
@@ -62,8 +64,8 @@ void get_time_ms(s32* out);
 s16 create_message_queue(s32 *out);
 void clear_slot_for_handle(u32 handle);
 void send_message_queue(u32 handle, void *source, s32 size);
-void unlock_mutex(saddr mutex);
-void lock_mutex(saddr mutex);
+void unlock_mutex(NetMutexHandle mutex);
+void lock_mutex(NetMutexHandle mutex);
 void signal_alarm_queue(void* alarm);
 void resume_thread(saddr thread);
 void AT_TerminateTask(void* thread);
@@ -82,7 +84,7 @@ void NetStoreCurrentThread(s32* thread);
 void NetSuspendCurrentThread(void);
 void AT_StartTask(uaddr thread);
 void NetReceiveMessage(u32 handle, void* destination, s32 size);
-void NetReleaseMutex(u32 handle);
+void NetReleaseMutex(NetMutexHandle handle);
 
 s16 NetIPv4IsLoopback(s32 address);
 s16 NetIPv4IsUnspecified(u32 address);
