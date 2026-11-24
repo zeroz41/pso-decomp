@@ -606,8 +606,7 @@ void fsm_noop_action(PppFsm *fsm) {
 
 }
 
-s32 read_2_bytes(void *self, void *src) {
-    u8 *dst = (u8 *)self;
+s32 read_2_bytes(u8 *dst, PppFrame **src) {
     u8 buf[2];
     if (dst == 0) {
         return -1;

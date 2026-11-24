@@ -464,12 +464,12 @@ s16 recv_ipv6cp_config_nak(PppFsm *self, PppHeader *src, PppFrame *h) {
 #pragma opt_dead_assignments off
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline uaddr build_requested_options(Ipv6cpOptions *opts) {
-    uaddr t;
-    uaddr v = 0;
+inline PppFrame *build_requested_options(Ipv6cpOptions *opts) {
+    PppFrame *t;
+    PppFrame *v = NULL;
     t = v;
-    t = (uaddr)init_net_buffer_entry(0);
-    if (t == 0) {
+    t = init_net_buffer_entry(0);
+    if (t == NULL) {
         return v;
     }
     append_masked_ipv6cp_options(&t, &opts->requested, opts->requested.mask);
@@ -477,7 +477,7 @@ inline uaddr build_requested_options(Ipv6cpOptions *opts) {
     return v;
 }
 
-inline s32 read_option_byte(void *p) {
+inline s32 read_option_byte(PppFrame **p) {
     if (ppp_buffer_read(p, ppp_option_byte_buf, 1) != 1) {
         return -1;
     }
@@ -488,14 +488,14 @@ s16 verify_message_sequence(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
     s16 err;
     s16 a;
     s16 b;
-    uaddr cur;
+    PppFrame *cur;
 
     err = 0;
     if (msg->id != fsm->id) {
         return -1;
     }
     cur = build_requested_options((Ipv6cpOptions *)fsm->opts);
-    if (msg->len != (u16)ppp_frame_length((PppFrame *)cur)) {
+    if (msg->len != (u16)ppp_frame_length(cur)) {
         err = 1;
     } else {
         while ((a = read_option_byte(&cur)) != -1) {
@@ -702,15 +702,15 @@ inline s32 ppp_option_type(s32 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void append_masked_ipv6cp_options(uaddr *self, Ipv6cpOptionSet *opts, s32 mask)
+void append_masked_ipv6cp_options(PppFrame **self, Ipv6cpOptionSet *opts, s32 mask)
 {
   s16 new_var;
   s16 i;
   s32 m;
-  if ((*self) == 0)
+  if ((*self) == NULL)
   {
-    *self = (uaddr) init_net_buffer_entry(0);
-    if ((*self) == 0)
+    *self = init_net_buffer_entry(0);
+    if ((*self) == NULL)
     {
       return;
     }
@@ -720,13 +720,13 @@ void append_masked_ipv6cp_options(uaddr *self, Ipv6cpOptionSet *opts, s32 mask)
   {
     if (m & (1 << i))
     {
-      append_ipv6cp_option((PppFrame **) self, opts, ppp_option_type(i), ipv6cp_option_lengths[i], 0);
+      append_ipv6cp_option(self, opts, ppp_option_type(i), ipv6cp_option_lengths[i], 0);
     }
   }
 
 }
 #pragma pop
-void append_ipv6cp_option(PppFrame **pbuf, Ipv6cpOptionSet *opts, s32 type, s32 total_len, void *src) {
+void append_ipv6cp_option(PppFrame **pbuf, Ipv6cpOptionSet *opts, s32 type, s32 total_len, PppFrame **src) {
     u8 *p;
     PppFrame *b;
     s16 n;

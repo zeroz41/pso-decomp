@@ -58,7 +58,7 @@ s32 init_net_subsystem_block(void);
 s32 PP_pap_remote(PppProtoBlocks *blocks);
 s32 PP_chap_local(PppProtoBlocks *blocks);
 void queue_command_81(PppFsm *fsm);
-s32 read_2_bytes(void *self, void *src);
+s32 read_2_bytes(u8 *dst, PppFrame **src);
 void reset_connection_slot(PppFsm *self);
 void PP_pap_down(PppFsm *fsm);
 void PP_pap_init(PppProtoBlocks *blocks);

@@ -151,7 +151,7 @@ static inline s16 pap_read_reply_message(PapOptions *options, u8 actual_id, u8 e
         if (requested != 0) {
             available = ppp_frame_length(source);
             destination = pap_message_buffer();
-            copied = (s16)ppp_buffer_copy_out((u8 *)source, *destination, requested);
+            copied = (s16)ppp_buffer_copy_out(source, *destination, requested);
             (*destination)[copied] = 0;
             options->message = *destination;
             result = 1;

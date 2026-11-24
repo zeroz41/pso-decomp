@@ -22,7 +22,7 @@ s32 init_net_subsystem_block(void) {
     return 0;
 }
 
-s32 ppp_buffer_copy_out(u8* self_m, void* dst, s32 n)
+s32 ppp_buffer_copy_out(PppFrame *frame, void* dst, s32 n)
 {
     void NetMemcpy(void*, const void*, s16);
     s32 m; u16 cap; u32 t;
@@ -30,10 +30,10 @@ s32 ppp_buffer_copy_out(u8* self_m, void* dst, s32 n)
     if (dst == NULL) {
         return 0;
     }
-    cap = ((PppFrame *)self_m)->len;
+    cap = frame->len;
     t = (cap < (u16)n) ? cap : n;
     m = t;
-    NetMemcpy(dst, ((PppFrame *)self_m)->data, m);
+    NetMemcpy(dst, frame->data, m);
     return m;
 }
 
@@ -63,15 +63,15 @@ PppFrame *alloc_from_buffer(PppFrame *frame, s16 n) {
     return NULL;
 }
 
-s16 ppp_buffer_read(void *self, void *dst, u16 n) {
+s16 ppp_buffer_read(PppFrame **cursor, void *dst, u16 n) {
     PppFrame *p;
     s16 m;
     s16 total = 0;
 
-    if (self == 0) {
+    if (cursor == 0) {
         return 0;
     }
-    while (n != 0 && (p = *(PppFrame **)self) != 0) {
+    while (n != 0 && (p = *cursor) != 0) {
         m = (n < p->len) ? n : p->len;
         if (dst != 0) {
             if (m == 1) {

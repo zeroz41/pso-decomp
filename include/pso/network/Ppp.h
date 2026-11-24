@@ -34,7 +34,7 @@ void fsm_reset(PppFsm *fsm); /* PppFsm.c */
 s16 wait_for_ipcp_open(PppFsm *self); /* PppIpcp.c */
 struct LcpConfig;
 s16 apply_lcp_config_to_sides(PppFsm *state, struct LcpConfig *config); /* PppLcp.c */
-s32 ppp_buffer_copy_out(u8 *self_m, void *dst, s32 n); /* PppBuffer.c */
+s32 ppp_buffer_copy_out(PppFrame *frame, void *dst, s32 n); /* PppBuffer.c */
 
 void fsm_restart_timer(PppFsm *fsm);
 s16 ipcp_open(PppFsm *fsm);
@@ -57,7 +57,6 @@ s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout);
 void setup_auth_after_lcp_negotiation(PppFsm *c);
 s16 vj_remember_uncompressed(PppVjCompressionState *state, PppFrame **spp);
 PppFrame *init_net_buffer_entry(u16 idx);
-void append_masked_ipcp_options(uaddr *self, void *opt, s32 mask);
 s16 verify_ipcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected);
 s16 ppp_link_attach_protocol(s16 h, s16 v);
 s32 ppp_link_send_packet(s16 ch, s32 mode, s32 addr, u8 *packet);
