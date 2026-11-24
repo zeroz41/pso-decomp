@@ -932,7 +932,7 @@ pso/npc/TNpcPlayer_800D87A8.cpp
 pso/npc/TNpcPlayer_8014DADC.cpp
 pso/npc/TNpcPlayer_80190E64.cpp
 pso/npc/TNpcPlayer_802C3CD0.cpp
-pso/npc/TNpcPlayer_8034DAA0.cpp
+pso/npc/NpcPartnerControl.cpp
 pso/object/cave/TOAirconCave01.cpp
 pso/object/cave/TOAirconCave02.cpp
 pso/object/collision/TOAttackableCol.cpp
@@ -1445,8 +1445,8 @@ pso/npc/TObjNpcConnoisseur.cpp
 pso/npc/TObjNpcEnemy.cpp
 pso/npc/TObjNpcExpertBase.cpp
 pso/npc/TObjNpcFemaleBase.cpp
-pso/npc/TUnk_804A8640.cpp
-pso/npc/TUnk_804A92A8.cpp
+pso/npc/TObjNpcFemale.cpp
+pso/npc/TObjNpcFomarl.cpp
 pso/npc/TObjNpcFemaleChild.cpp
 pso/npc/TObjNpcFemaleDwarf.cpp
 pso/npc/TObjNpcFemaleFat.cpp
@@ -1464,7 +1464,7 @@ pso/npc/TObjNpcHosa2.cpp
 pso/npc/TObjNpcKenkyu.cpp
 pso/npc/TObjNpcKenkyu2.cpp
 pso/npc/TObjNpcLappy.cpp
-pso/npc/TUnk_804A9F50.cpp
+pso/npc/TObjNpcMale.cpp
 pso/npc/TObjNpcMaleBase.cpp
 pso/npc/TObjNpcMaleChild.cpp
 pso/npc/TObjNpcMaleDwarf.cpp

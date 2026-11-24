@@ -2,21 +2,20 @@
 #define PSO_NPC_TOBJNPCFEMALECHILD_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A8640.h"
+#include "pso/npc/TObjNpcFemale.h"
 
-class TObjControl;
+struct BmlResource;
 
-struct TObjNpcFemaleChild : public TUnk_804A8640 {
+struct TObjNpcFemaleChild : public TObjNpcFemale {
     TObjNpcFemaleChild(TObject *parent, void *set_data);
     virtual ~TObjNpcFemaleChild();
     static void release_static_instance();
     static void load_shared_resource();
+    static void *create(void *set_data);
+    static const char *name;
+    static BmlResource *static_instance;
 };
 
 LAYOUT_ASSERT(TObjNpcFemaleChild_size, sizeof(TObjNpcFemaleChild) == 0x3B8);
-
-extern "C" {
-void *TObjNpcFemaleChild__create(void *set_data);
-}
 
 #endif

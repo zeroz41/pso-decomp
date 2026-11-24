@@ -8,35 +8,59 @@
 
 class TObjPlayer;
 
-// One entry of Unk_8014F844's sorted list of nearby targets.
-struct Unk_8014F844Entry {
+// One entry of NpcPlayerView's sorted list of nearby targets.
+struct NpcPlayerViewTarget {
+    void copy(NpcPlayerViewTarget *src);
+
     u32 entity_id;
     s32 collider;     // collision body index
     f32 distance_sq;  // squared horizontal distance
 };
 
-// The 0x108-byte record TNpcPlayer allocates twice (m_74, m_78).
-struct Unk_8014F844 {
-    Unk_8014F844(s32 id);
+// What a partner NPC tracks about one player: its own (self_view) or the one it follows
+// (leader_view): the enemies in range, its condition flags and an obstacle probe.
+struct NpcPlayerView {
+    NpcPlayerView(s32 id);
+    ~NpcPlayerView();
+    s32 is_player_lost();
+    s32 update_hp_change();
+    s32 update_conditions();
+    s32 can_recover(s32 kind, s32 allow_item);
+    s32 scan_targets(f32 range);
+    s32 check_moved();
+    s32 scan_nearby_enemies(Vec *pos, f32 range);
+    void sort_targets(NpcPlayerViewTarget *entries, s32 lo, s32 hi);
+    s32 partition_targets(NpcPlayerViewTarget *a, int lo, int hi);
+    s32 probe_obstacles();
+    s32 get_target_collider();
+    u32 get_target_id();
+    u16 get_client_id();
+    u32 get_prev_target_id();
+    u32 get_condition();
+    void copy_target(NpcPlayerViewTarget *src, NpcPlayerViewTarget *dst);
+    u32 get_status();
+    void clear_flags();
+    NpcPlayerView *target_list();
+    void set_target(u32 id, s32 collider);
 
     s32 target_count;
-    Unk_8014F844Entry targets[10];  // nearest first (quick_sort)
-    s32 m_7c;
-    s32 m_80;
-    s32 m_84;
-    s16 m_88;
-    u16 m_8a;  // client id of the player it follows
-    u32 m_8c;
-    u32 m_90;
-    TObjPlayer *m_94;
-    s32 m_98;
-    Vec m_9c;
-    TObjCollidable *m_a8;
-    CollisionBody m_ac;
-    CollisionBody m_d8;
-    s32 m_104;
+    NpcPlayerViewTarget targets[10];  // nearest first (sort_targets)
+    u32 target_id;        // entity the player attacks
+    u32 prev_target_id;
+    s32 target_collider;  // collision body index of target_id
+    s16 last_hp;
+    u16 client_id;        // client id of the player it watches
+    u32 status;           // 1 moved, 2 enemies in range, 4 needs help, 0x20 obstacle ahead
+    u32 condition;        // hp, tp and damage flags
+    TObjPlayer *player;
+    s32 goal_angle;       // heading from the player to its goal
+    Vec last_position;    // where the player last moved from
+    TObjCollidable *probe;      // collider swept ahead of the player
+    CollisionBody probe_body;
+    CollisionBody obstacle_body;  // body of the obstacle probe hit
+    s32 obstacle_angle;
 };
-LAYOUT_ASSERT(Unk_8014F844_size, sizeof(Unk_8014F844) == 0x108);
+LAYOUT_ASSERT(NpcPlayerView_size, sizeof(NpcPlayerView) == 0x108);
 
 // Eleven per-action counters the partner AI steps and tests.
 struct PartnerCounters {
@@ -53,6 +77,7 @@ class TPlyCharData;
 struct disp_data_part2;
 
 extern disp_data_part2 *npc_player_char_data_buffer;
+extern int partner_chatter_flags;
 
 struct TNpcPlayer : public TObject {
     struct AiParams {
@@ -82,45 +107,43 @@ struct TNpcPlayer : public TObject {
     virtual void render();
     void partner_request_physical_attack();
     void send_partner_attack_stage_request();
-    s32 m_1c;
+    s32 in_combat;
     s32 m_20;
-    s32 m_24;
-    s32 m_28;
-    s16 m_2c;  // row of TNpcPlayer__template_table
+    s32 chatter_id;
+    s32 init_step;
+    s16 template_index;  // row of npc_player_ai_templates
     u8 _pad2E[0x2];
     AiParams ai_params;
-    f32 m_58;
+    f32 leader_distance_sq;
     PartnerCounters partner_counters;
     u8 _pad72[0x2];
-    Unk_8014F844 *m_74;
-    Unk_8014F844 *m_78;
-    u32 m_7c;
-    u32 m_80;
-    s32 m_84;
-    f32 m_88;
-    s8 m_8c;
-    s8 m_8d;
-    s16 m_8e;
-    s16 m_90;
-    s16 m_92;
-    Vec m_94;
-    Vec m_a0;
-    Vec m_ac;
+    NpcPlayerView *leader_view;  // the player the partner follows
+    NpcPlayerView *self_view;    // the partner's own player
+    u32 ai_state;
+    u32 ai_flags;
+    s32 escort_leader;
+    f32 escort_distance_sq;
+    s8 stuck_frames;
+    s8 still_frames;
+    s16 attack_delay;
+    s16 detour_frames;
+    s16 recovery_action;
+    Vec waypoint_dir;
+    Vec waypoint;
+    Vec move_target;
     u8 _padB8[0xC];
     s32 m_c4;
     s32 m_c8;
     s32 m_cc;
-    Vec m_d0;
-    Vec m_dc;
+    Vec steer_point;
+    Vec goal;
     void dispatch_action(s32 arg1);
     void change_ai_state(u32 arg1);
     void handle_action(s32 arg1);
     void request_chatter(u32 arg1);
-    static void quick_sort(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static const char *name;
     static bool is_small_obstacle(f32 size);
     static bool is_hp_low(f32 hp, f32 max_hp);
-    void *dt(s16 arg1);
-    s32 try_attack(s32 arg1, s32 arg2);
     s32 check_movement_progress();
     void init_follow_target();
     void update_condition_flags();
@@ -134,10 +157,6 @@ struct TNpcPlayer : public TObject {
     void decide_action();
     static TPlyCharData *build_npc_player_record(s32 arg0);
     static void ensure_rock_singleton();
-    s32 get_npc_state();
-    s32 get_condition();
-    s32 get_action_state();
-    void reset_fields_8c();
     void update();
     void update_players();
     void update_lobby();
@@ -168,13 +187,13 @@ struct TNpcPlayer : public TObject {
     static void send_6x3e_to_all_players(void *pos, s32 arg);
     static void apply_to_players(s32 value, void *arg1, s32 heading);
     static void send_inter_level_warp_all(s32 value);
-    static void send_npc_control_6x69(s32 arg0);
-    static void send_npc_stop_6x69(s32 arg0);
-    static void send_npc_control_create(u16 arg0, u16 arg1, s32 arg2, u8 *arg3, s32 heading);
+    static void send_npc_control_6x69(s32 controller_id);
+    static void send_npc_stop_6x69(s32 controller_id);
+    static void send_npc_control_create(u16 controller_id, u16 npc_client_id, s32 npc_type, u8 *pos, s32 heading);
     static void create_companion(u16 leader, u16 slot, s32 appearance, f32 *p, s32 heading);
     static void create_default_companion(u16 leader, s32 appearance, u8 *pos, s32 heading);
-    static void send_npc_control_notify_players(s32 arg0, s32 arg1, s32 arg2);
-    static void send_npc_create(s32 arg0, s32 arg1);
+    static void send_npc_control_notify_players(s32 controller_id, s32 npc_client_id, s32 npc_type);
+    static void send_npc_create(s32 controller_id, s32 npc_type);
     static void reset_player_lobby_model(u16 client);
     static void update_player_field(u16 client, s32 frames);
     static void end_camera_pan_for_client(u16 client);

@@ -1,8 +1,10 @@
 #include "pso/system/BmlResource.h"
+#include "pso/object/TObjControl.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 #include "pso/npc/TObjNpcKenkyuW.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
@@ -18,6 +20,11 @@
 #include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
+
+void *TObjNpcKenkyuW::create(void *set_data) {
+    TObjControl *control = new TObjControl(tl_04);
+    return new TObjNpcKenkyuW(control, set_data);
+}
 
 __declspec(section ".data") const char *bm_npc_kenkyu_w_model_names[2] = {"kenkyu_w_hone_body.nj", NULL};
 const char *bm_npc_kenkyu_w_motion_names[] = {NULL};
@@ -40,7 +47,7 @@ void TObjNpcKenkyuW::load_resource_instance() {
 
 TObjNpcKenkyuW::~TObjNpcKenkyuW() {}
 
-TObjNpcKenkyuW::TObjNpcKenkyuW(TObject *parent, void *set_data) : TUnk_804A9F50(parent) {
+TObjNpcKenkyuW::TObjNpcKenkyuW(TObject *parent, void *set_data) : TObjNpcMale(parent) {
     m_name = class_name;
     apply_set_data(set_data);
     init_position_vectors();

@@ -23,7 +23,7 @@
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/byteswap.h"
 #include "pso/unk/TLobby_803DE778.h"
-#include "pso/npc/TNpcPlayer_8034DAA0.h"
+#include "pso/npc/NpcPartnerControl.h"
 #include "pso/system/GslArchive.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 

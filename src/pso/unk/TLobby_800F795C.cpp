@@ -12,9 +12,9 @@
 #include "pso/enemy/darkgunner/TObjEneDarkGunner.h"
 #include "pso/unk/TLobby_800F795C.h"
 #include "pso/unk/TLobby_801E43E4.h"
-#include "pso/npc/TUnk_804A8640.h"
-#include "pso/npc/TUnk_804A92A8.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcFemale.h"
+#include "pso/npc/TObjNpcFomarl.h"
+#include "pso/npc/TObjNpcMale.h"
 #include "pso/enemy/dubchik/TObjEneDubchik.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
@@ -192,9 +192,9 @@ void load_shinowa_mirage_resources();
 
 FloorResourceCallbacks floor_resource_callbacks_selector_00[43] = {
     { TObjNpcBase::load_resources, TObjNpcBase::free_static },
-    { TObjNpcFemaleBase__sub_80149C7C, TObjNpcFemaleBase__sub_80149C64 },
-    { TObjNpcFemaleTall__sub_8014AA60, TObjNpcFemaleTall__sub_8014AA48 },
-    { TObjNpcLappy__sub_8014B840, TObjNpcLappy__sub_8014B828 },
+    { TObjNpcFemale::load_resources, TObjNpcFemale::free_resources },
+    { TObjNpcFomarl::load_resources, TObjNpcFomarl::free_resources },
+    { TObjNpcMale::load_resources, TObjNpcMale::free_resources },
     { TObjNpcFemaleBase::load_shared_resource, TObjNpcFemaleBase::free_static_data },
     { TObjNpcFemaleChild::load_shared_resource, TObjNpcFemaleChild::release_static_instance },
     { TObjNpcFemaleDwarf::load_static_resource, TObjNpcFemaleDwarf::unload_static_data },
@@ -295,7 +295,7 @@ FloorResourceCallbacks floor_resource_callbacks_selector_05[12] = {
     { TObjEneSlime::spawn_pair, TObjEneSlime::free_instance },
     { TObjEnePanarms::load_and_spawn_npc, TObjEnePanarms::free_data },
     { TObjNpcBase::load_resources, TObjNpcBase::free_static },
-    { TObjNpcFemaleBase__sub_80149C7C, TObjNpcFemaleBase__sub_80149C64 },
+    { TObjNpcFemale::load_resources, TObjNpcFemale::free_resources },
     { TObjNpcCloakroomBase::load_shared_resource, TObjNpcCloakroomBase::destroy_static_instance },
     { reset_camera_override, restore_cameras_if_overridden },
     { 0, 0 },
@@ -438,9 +438,9 @@ FloorResourceCallbacks floor_resource_callbacks_selector_17[10] = {
 
 FloorResourceCallbacks floor_resource_callbacks_selector_18[29] = {
     { TObjNpcBase::load_resources, TObjNpcBase::free_static },
-    { TObjNpcFemaleBase__sub_80149C7C, TObjNpcFemaleBase__sub_80149C64 },
-    { TObjNpcFemaleTall__sub_8014AA60, TObjNpcFemaleTall__sub_8014AA48 },
-    { TObjNpcLappy__sub_8014B840, TObjNpcLappy__sub_8014B828 },
+    { TObjNpcFemale::load_resources, TObjNpcFemale::free_resources },
+    { TObjNpcFomarl::load_resources, TObjNpcFomarl::free_resources },
+    { TObjNpcMale::load_resources, TObjNpcMale::free_resources },
     { TObjNpcFemaleDwarf::load_static_resource, TObjNpcFemaleDwarf::unload_static_data },
     { TObjNpcFemaleOld::load_resource_instance, TObjNpcFemaleOld::destroy_static_instance },
     { TObjNpcMaleChild::load_shared_resource, TObjNpcMaleChild::release_static_instance },
@@ -518,9 +518,9 @@ FloorResourceCallbacks floor_resource_callbacks_selectors_23_24_25_26_27[16] = {
     { TObjEneMe1GiGue::load_resources, TObjEneMe1GiGue::delete_barrier },
     { TObjEneLappy::load_resources, TObjEneLappy::free_resources },
     { TObjNpcBase::load_resources, TObjNpcBase::free_static },
-    { TObjNpcFemaleBase__sub_80149C7C, TObjNpcFemaleBase__sub_80149C64 },
-    { TObjNpcFemaleTall__sub_8014AA60, TObjNpcFemaleTall__sub_8014AA48 },
-    { TObjNpcLappy__sub_8014B840, TObjNpcLappy__sub_8014B828 },
+    { TObjNpcFemale::load_resources, TObjNpcFemale::free_resources },
+    { TObjNpcFomarl::load_resources, TObjNpcFomarl::free_resources },
+    { TObjNpcMale::load_resources, TObjNpcMale::free_resources },
     { TObjNpcNgcBase::load_resources, TObjNpcNgcBase::free_shared_resources },
     { 0, 0 },
 };
@@ -536,9 +536,9 @@ FloorResourceCallbacks floor_resource_callbacks_selector_34[15] = {
     { fn_8035B788, fn_8035B750 },
     { TObjEneLappy::load_resources, TObjEneLappy::free_resources },
     { TObjNpcBase::load_resources, TObjNpcBase::free_static },
-    { TObjNpcFemaleBase__sub_80149C7C, TObjNpcFemaleBase__sub_80149C64 },
-    { TObjNpcFemaleTall__sub_8014AA60, TObjNpcFemaleTall__sub_8014AA48 },
-    { TObjNpcLappy__sub_8014B840, TObjNpcLappy__sub_8014B828 },
+    { TObjNpcFemale::load_resources, TObjNpcFemale::free_resources },
+    { TObjNpcFomarl::load_resources, TObjNpcFomarl::free_resources },
+    { TObjNpcMale::load_resources, TObjNpcMale::free_resources },
     { TObjNpcNgcBase::load_resources, TObjNpcNgcBase::free_shared_resources },
     { 0, 0 },
 };
@@ -555,9 +555,9 @@ FloorResourceCallbacks floor_resource_callbacks_selector_35[16] = {
     { load_re2_flower_resources, TObjEneRe2Flower::destroy_instance },
     { TObjEneIllGill::load_shared_resources, TObjEneIllGill::free_effect },
     { TObjNpcBase::load_resources, TObjNpcBase::free_static },
-    { TObjNpcFemaleBase__sub_80149C7C, TObjNpcFemaleBase__sub_80149C64 },
-    { TObjNpcFemaleTall__sub_8014AA60, TObjNpcFemaleTall__sub_8014AA48 },
-    { TObjNpcLappy__sub_8014B840, TObjNpcLappy__sub_8014B828 },
+    { TObjNpcFemale::load_resources, TObjNpcFemale::free_resources },
+    { TObjNpcFomarl::load_resources, TObjNpcFomarl::free_resources },
+    { TObjNpcMale::load_resources, TObjNpcMale::free_resources },
     { TObjNpcNgcBase::load_resources, TObjNpcNgcBase::free_shared_resources },
     { 0, 0 },
 };
@@ -572,9 +572,9 @@ FloorResourceCallbacks floor_resource_callbacks_selectors_28_29[14] = {
     { TObjEneDelDepth::load_assets, TObjEneDelDepth::free_shared_data },
     { TObjEneDellBiter::load_resources, TObjEneDellBiter::destroy_static_instance },
     { TObjNpcBase::load_resources, TObjNpcBase::free_static },
-    { TObjNpcFemaleBase__sub_80149C7C, TObjNpcFemaleBase__sub_80149C64 },
-    { TObjNpcFemaleTall__sub_8014AA60, TObjNpcFemaleTall__sub_8014AA48 },
-    { TObjNpcLappy__sub_8014B840, TObjNpcLappy__sub_8014B828 },
+    { TObjNpcFemale::load_resources, TObjNpcFemale::free_resources },
+    { TObjNpcFomarl::load_resources, TObjNpcFomarl::free_resources },
+    { TObjNpcMale::load_resources, TObjNpcMale::free_resources },
     { TObjNpcNgcBase::load_resources, TObjNpcNgcBase::free_shared_resources },
     { 0, 0 },
 };
