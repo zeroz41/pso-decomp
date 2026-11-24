@@ -367,7 +367,7 @@ void TObjSeabedSuiso_CH::scroll_kind2_uvs() {
         if (node != NULL && node->model != NULL) {
             entry = TObjSeabedSuisoBrakable::get_texture_entry(0);
             if (entry != -1) {
-                scroll_ginja_mesh_uvs(node->model, 1, 0, entry, 1);
+                scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 1, 0, entry, 1);
             }
         }
         last_uv_scroll_tick = actor_frame_tick;
@@ -407,12 +407,12 @@ void TObjSeabedSuiso_CH::update_switch_lock() {
         entry = TObjSeabedSuisoBrakable::get_texture_entry(4);
         node = TObjSeabedSuisoBrakable::get_model13_node(2);
         if (node != NULL && entry != -1) {
-            scroll_ginja_mesh_uvs(node->model, 0, 1, entry, 1);
+            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 0, 1, entry, 1);
         }
         entry = TObjSeabedSuisoBrakable::get_texture_entry(3);
         node = TObjSeabedSuisoBrakable::get_model13_node(0);
         if (node != NULL && entry != -1) {
-            scroll_ginja_mesh_uvs(node->model, 0, 3, entry, 1);
+            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 0, 3, entry, 1);
         }
         last_uv_scroll_tick = actor_frame_tick;
     }
@@ -519,7 +519,7 @@ void TObjSeabedSuisoBrakable::vfunc_14() {
             if (node != NULL && node->model != NULL) {
                 entry = get_texture_entry(1);
                 if (entry != -1) {
-                    scroll_ginja_mesh_uvs(node->model, 0, 1, entry, 1);
+                    scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 0, 1, entry, 1);
                 }
             }
             last_uv_scroll_tick = actor_frame_tick;
@@ -531,7 +531,7 @@ void TObjSeabedSuisoBrakable::vfunc_14() {
             if (node != NULL && node->model != NULL) {
                 entry = get_texture_entry(2);
                 if (entry != -1) {
-                    scroll_ginja_mesh_uvs(node->model, 0, 1, entry, 1);
+                    scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(node->model), 0, 1, entry, 1);
                 }
             }
             last_uv_scroll_tick = actor_frame_tick;

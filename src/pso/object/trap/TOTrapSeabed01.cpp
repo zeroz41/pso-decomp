@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaTexture.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -144,7 +145,7 @@ void TOTrapSeabed01::load_resources() {
 void TOTrapSeabed01::free_static_resources() {
     if (TOTrapSeabed01__texture_file != NULL) {
         release_texture_list(TOTrapSeabed01__texture_file);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TOTrapSeabed01__texture_file);
+        safe_free(TOTrapSeabed01__texture_file);
         TOTrapSeabed01__texture_file = NULL;
     }
     if (TOTrapSeabed01__bml_resource != NULL) {
@@ -277,7 +278,7 @@ void TOTrapSeabed01::render_effect_layers() {
     TObjFish::set_global_param(TOTrapSeabed01__texture_file);
     if (actor_frame_tick != lbl_805D681C) {
         if (TOTrapSeabed01__ginja_model != NULL && seabed01_ginja_mesh_index != -1) {
-            scroll_ginja_mesh_uvs(TOTrapSeabed01__ginja_model->model, 0, -20, seabed01_ginja_mesh_index, 1);
+            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(TOTrapSeabed01__ginja_model->model), 0, -20, seabed01_ginja_mesh_index, 1);
             PPCSync();
         }
         lbl_805D681C = actor_frame_tick;

@@ -326,7 +326,7 @@ void TRaderMapCore::load_frame_texture() {
 void TRaderMapCore::free_statics() {
     if (TRaderMapCore__data_805D5F4C != NULL) {
         release_texture_list(TRaderMapCore__data_805D5F4C);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TRaderMapCore__data_805D5F4C);
+        safe_free(TRaderMapCore__data_805D5F4C);
         TRaderMapCore__data_805D5F4C = NULL;
     }
     if (TRaderMapCore__frame_model_resource != NULL) {
@@ -353,7 +353,7 @@ void TRaderMapCore::load_map_resources() {
     status = TScene::get_status();
     e = (Ent_801FB798 *)get_floor_scene_table(area);
     replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)e[status].name, (char *)"r.rel");
-    TRaderMapCore__floor_map_resource = (u8 *)create_named_object(buf);
+    TRaderMapCore__floor_map_resource = static_cast<u8 *>(create_named_object(buf));
     if (TRaderMapCore__floor_map_resource != NULL && *(u32 *)(TRaderMapCore__floor_map_resource + 4) != 0) {
         replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)e[status].name, "r");
         bind_gvm_texture_list(buf, *(u8 **)(TRaderMapCore__floor_map_resource + 4));

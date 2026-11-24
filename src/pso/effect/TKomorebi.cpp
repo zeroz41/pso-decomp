@@ -44,7 +44,7 @@ void TKomorebi::render() {
         !(xz_distance_squared(&position, &camera_ctrl_instance->pos) < 1600.0f)) {
         TParticleCtrl::begin_effect_render();
         if (actor_frame_tick != komorebi_last_uv_update_frame) {
-            scroll_ginja_mesh_uvs(static_cast<NJS_OBJECT *>(model)->model, 0, (s32)scale.x, 0, 1);
+            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(static_cast<NJS_OBJECT *>(model)->model), 0, (s32)scale.x, 0, 1);
             komorebi_last_uv_update_frame = actor_frame_tick;
         }
         push_matrix();

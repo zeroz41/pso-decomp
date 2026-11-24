@@ -1,3 +1,5 @@
+#include "pso/system/SubtractiveRng.h"
+#include "pso/system/memory.h"
 #include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/AttackTargetHistory.h"
@@ -269,7 +271,6 @@ static Vec boss1_dragon_held_camera_eye_offsets[4] = {
     {300.0f, 120.0f, 50.0f},
 };
 f32 atan2_float(f32 y, f32 x);
-f32 calc_random_ratio__10TObjPlayerFv(void *);
 }
 void handle_6x12_dragon_boss_actions(TObjPlayer *packet);
 void handle_6x11_dragon_boss_actions(void *packet);
@@ -666,7 +667,7 @@ void *TBoss1Dragon::create(void *set_data) {
 
 void TBoss1Dragon::free_resources() {
     if ((u32) boss1_dragon_capture_model != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)boss1_dragon_capture_model));
+        safe_free(reinterpret_cast<void *>(boss1_dragon_capture_model));
         boss1_dragon_capture_model = 0U;
     }
     if ((u32) boss1_dragon_resource != 0U) {
@@ -3000,18 +3001,18 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
                     if (((TObjBase *)player)->is_alive() != 0) {
                         VecCopy(&position, &player->position);
                         position.x += (100.0f) *
-                            (calc_random_ratio__10TObjPlayerFv(this->randomState) - (0.5f));
+                            (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - (0.5f));
                         position.z += (100.0f) *
-                            (calc_random_ratio__10TObjPlayerFv(this->randomState) - (0.5f));
+                            (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - (0.5f));
                         found = 1;
                     }
                 }
                 if (found == 0) {
                     position.x = 700.0f *
-                        (calc_random_ratio__10TObjPlayerFv(this->randomState) - (0.5f));
+                        (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - (0.5f));
                     position.y = (0.0f);
                     position.z = 700.0f *
-                        (calc_random_ratio__10TObjPlayerFv(this->randomState) - (0.5f));
+                        (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - (0.5f));
                 }
                 new TBoss1DragonEffBullet(&this->sub_tasks, &this->breath_origin, &position);
             }

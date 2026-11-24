@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/text_803D96A8.h"
 #include "types.h"
@@ -197,7 +198,7 @@ void TLobby__sub_8022F068(void) {
         if (technique_texture_list->textures->texture != NULL) {
             release_texture_list(technique_texture_list);
         }
-        TAdSinglePlyChrSelectGC::safe_free((uaddr) technique_texture_list);
+        safe_free(technique_texture_list);
         technique_texture_list = NULL;
     }
     if (technique_effect_bml != NULL) {

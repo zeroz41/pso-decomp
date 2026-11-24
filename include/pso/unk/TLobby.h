@@ -723,7 +723,7 @@ struct TLobby : public TObject {
     void update_battle_sync(s32 t);
     static void send_battle_mode_data(void * _w0);
     void bswap_switch_activate_token();
-    static s32 load_texture_pvm_file(const char *name, saddr arg1);
+    static s32 load_texture_pvm_file(const char *name, NJS_TEXLIST *texlist);
     static unsigned char read_packet_byte();
     static void close_windows();
     static void clear_quest_vm_flag();

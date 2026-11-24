@@ -59,6 +59,8 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
 #include "pso/unk/TLobby.h"
+#include "pso/unk/text_8007C0CC.h"
+#include "pso/system/SubtractiveRng.h"
 
 #include "pso/enemy/dubchik/TOCtrlDubchik.h"
 
@@ -612,14 +614,12 @@ s16 get_actor_attack_params_atp_min__9TObjCharaFv(void* p);
 s16 get_attack_params_atp_min(void* p);
 s16 get_attack_params_atp_max(void* p);
 bool is_split_screen(void);
-f32 calc_random_ratio__10TObjPlayerFv(void);
 s32 get_current_floor(void);
 f32 fabs_float(f32 x);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32 x);
 u32 csnLookAt(void *, void *);
 uaddr csnVector(void *, void *, s32);
-u32 subtractive_rng_next();
 void create__10TObjPlayerFUiii(uaddr, s32, s32);
 s32 create_font_small_task(u32, s32, s32, s32, s32 *, s16, u16);
 s32 create_font_small_task_default_color(u32, s32, s32, s32, s32 *, s16);
@@ -909,8 +909,9 @@ s32 get_current_floor(void) {
     return current_floor_index;
 }
 
-f32 calc_random_ratio__10TObjPlayerFv(void) {
-    return (f32) (subtractive_rng_next() >> 0x10U) / *(const volatile f32 *)&lbl_805D7D3C;
+f32 calc_random_ratio__10TObjPlayerFv(SubtractiveRng *rng) {
+    const u32 sample = static_cast<u32>(subtractive_rng_next(reinterpret_cast<s32 *>(rng)));
+    return (f32) (sample >> 16) / *(const volatile f32 *)&lbl_805D7D3C;
 }
 
 bool is_split_screen(void) {
@@ -3894,7 +3895,7 @@ f32 TObjChara::random_ratio() {
     if (get_main_phase() == 0xE) {
         return (3.0517578e-05f) * (f32) rand();
     }
-    return ((f32 (*)(s32))calc_random_ratio__10TObjPlayerFv)((saddr)this + 0x160);
+    return calc_random_ratio__10TObjPlayerFv(&rng);
 }
 
 void TObjChara::refresh_target() {  }

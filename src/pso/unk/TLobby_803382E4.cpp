@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/ui/UISprite.h"
@@ -127,16 +128,16 @@ void TLobby::handle_flag2_request() {
 }
 
 void TLobby::load_now_loading_texture() {
-    saddr archive;
-    saddr packed;
+    void *archive;
+    void *packed;
     if (!(lobby_request_flags & 2)) {
-        archive = (saddr)TQuestVmDownLoadServer::alloc(0x11000);
-        packed = (saddr)TQuestVmDownLoadServer::alloc(0x2000);
-        read_disc_file_sectors("NowLoading.prs", (void *)packed);
-        prs_decompress_buffer(packed, archive);
-        load_gvm_texture_archive((void *)archive, &lbl_804EF1DC);
-        TAdSinglePlyChrSelectGC::safe_free(packed);
-        TAdSinglePlyChrSelectGC::safe_free(archive);
+        archive = TQuestVmDownLoadServer::alloc(0x11000);
+        packed = TQuestVmDownLoadServer::alloc(0x2000);
+        read_disc_file_sectors("NowLoading.prs", packed);
+        prs_decompress_buffer(reinterpret_cast<saddr>(packed), reinterpret_cast<saddr>(archive));
+        load_gvm_texture_archive(archive, &lbl_804EF1DC);
+        safe_free(packed);
+        safe_free(archive);
         lobby_request_flags |= 2;
     }
 }

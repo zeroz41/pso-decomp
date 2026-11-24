@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -92,7 +93,7 @@ void TORockJungleS01::load_resources() {
 void TORockJungleS01::free_globals() {
     if (TORockJungleS01__texture_resource != NULL) {
         release_texture_list(TORockJungleS01__texture_resource);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TORockJungleS01__texture_resource);
+        safe_free(TORockJungleS01__texture_resource);
         TORockJungleS01__texture_resource = NULL;
     }
     if (TORockJungleS01__bml_resource != NULL) {

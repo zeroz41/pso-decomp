@@ -74,9 +74,9 @@ void load_boss2_common_resource(void) {
     boss2_common_resource = resource;
     boss2_common_texture_list = resource->models[6].texlist;
     if (TObjEneDD::check_v2_mode() != 0) {
-        TLobby::load_texture_pvm_file("obj_boss2_common_a.gvm", (saddr)boss2_common_texture_list);
+        TLobby::load_texture_pvm_file("obj_boss2_common_a.gvm", boss2_common_texture_list);
     } else {
-        TLobby::load_texture_pvm_file("obj_boss2_common.gvm", (saddr)boss2_common_texture_list);
+        TLobby::load_texture_pvm_file("obj_boss2_common.gvm", boss2_common_texture_list);
     }
 }
 

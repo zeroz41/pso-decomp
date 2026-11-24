@@ -164,7 +164,7 @@ void TObjDoorKey::render() {
 void TObjDoorKey::draw_active_beam() {
     Key_8018FBB8 *arg0 = (Key_8018FBB8 *)this;
     if (TObjDoorKey__data_805D5C04 != actor_frame_tick) {
-        scroll_ginja_mesh_uvs(((Node_8018FBB8 *)TObjDoorKey__ginja_model_table[1])->model, 0, 0x14, 0xE, 1);
+        scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(((Node_8018FBB8 *)TObjDoorKey__ginja_model_table[1])->model), 0, 0x14, 0xE, 1);
         PPCSync();
         TObjDoorKey__data_805D5C04 = actor_frame_tick;
     }

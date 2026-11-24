@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
@@ -396,7 +397,7 @@ const char *lbl_805D3D58 = TObjFish__class_name_string;
 extern "C" {
 TObjFish::~TObjFish() {
     if (m_a0 != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(m_a0));
+        safe_free(m_a0);
         m_a0 = NULL;
     }
 }

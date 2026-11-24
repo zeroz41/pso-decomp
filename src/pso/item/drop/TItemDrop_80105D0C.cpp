@@ -1,3 +1,4 @@
+#include "pso/system/SubtractiveRng.h"
 #include "pso/item/MagStats.h"
 #include "types.h"
 #include <stdio.h>
@@ -357,7 +358,6 @@ u32 subtractive_rng_next(void *);
 s32 __cvt_fp2unsigned(f32);
 extern const f32 lbl_805DAAD8;
 s32 item_drop_rng_below(saddr arg0, u32 arg1);
-s32 calc_random_ratio__10TObjPlayerFv(void *);
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1);
 void prune_weapon_attributes__9TItemDropFPvPv(void *self, Obj_80106F4C *o);
 u8 roll_weapon_special_for_stars(u8);
@@ -410,10 +410,10 @@ void TItemDrop::load_drop_tables() {
 
 void roll_table_ratio__9TItemDropFPvUi(u8 *arg0, u32 arg1) {
     if (arg1 < 0x10U) {
-        calc_random_ratio__10TObjPlayerFv(*(void **)((s8 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x20)) + (arg1 * 4)) + 0));
+        calc_random_ratio__10TObjPlayerFv(*(SubtractiveRng **)((s8 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x20)) + (arg1 * 4)) + 0));
         return;
     }
-    calc_random_ratio__10TObjPlayerFv(*(void **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x20)) + 0x40));
+    calc_random_ratio__10TObjPlayerFv(*(SubtractiveRng **)((s8 *)(*(u8 **)((s8 *)arg0 + 0x20)) + 0x40));
 }
 
 u32 TItemDrop::roll_channel_below(s32 count, u32 arg2) {
@@ -946,9 +946,9 @@ TItemDrop::~TItemDrop() {
     s32 i;
     TItemDrop__sub_8010F168((void *)load_unload_set, 1);
     load_unload_set = 0;
-    TAdSinglePlyChrSelectGC::safe_free(TItemDrop__relocatable_load_buffer);
+    safe_free(reinterpret_cast<void *>(TItemDrop__relocatable_load_buffer));
     TItemDrop__relocatable_load_buffer = 0;
-    TAdSinglePlyChrSelectGC::safe_free(TItemDrop__second_relocatable_load_buffer);
+    safe_free(reinterpret_cast<void *>(TItemDrop__second_relocatable_load_buffer));
     TItemDrop__second_relocatable_load_buffer = 0;
     for (i = 0; i != 0x11; i++) {
         ::operator delete((void *)entries[i]);

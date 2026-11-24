@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/map/MapSetArchive.h"
 #include "pso/network/FloorEventCommand.h"
@@ -488,7 +489,7 @@ void TLobby__sub_802083C0(void);
 
 void TLobby__sub_802083C0(void) {
     if ((u32) forest_rel_work_buffer != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)forest_rel_work_buffer));
+        safe_free(reinterpret_cast<void *>(forest_rel_work_buffer));
         forest_rel_work_buffer = 0U;
         forest_rel_module = 0;
         forest_rel_set_data_table = 0;

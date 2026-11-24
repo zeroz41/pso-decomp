@@ -218,7 +218,7 @@ s32 TAdSinglePlyChrSelectGC::load_system_file(s32 chan, s32 *arg1) {
             ok = 0;
         }
     }
-    TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+    safe_free(buf);
     TAdSinglePlyChrSelectGC::copy_name(chan);
     lbl_805D49B4 = 0;
     return ok;
@@ -467,7 +467,7 @@ s32 TAdSinglePlyChrSelectGC::load_save_from_card() {
     }
     while (poll_memcard_result(character_save_card_slot) != 0) {
         if (TAdPlayerLoadGC::probe_card_slot(character_save_card_slot) != 1) {
-            TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+            safe_free(buf);
             return 0;
         }
     }
@@ -475,7 +475,7 @@ s32 TAdSinglePlyChrSelectGC::load_save_from_card() {
     chr_select_serial_seeds[0] = chr_select_serial_seeds[1] = g;
     p = new CharacterFile;
     if (p == NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+        safe_free(buf);
         return 0;
     }
     memset(p, 0, 0x1156C);
@@ -483,11 +483,11 @@ s32 TAdSinglePlyChrSelectGC::load_save_from_card() {
     TAdSinglePlyChrSelectGC::decrypt_char_data(p);
     if (card_character_save_buffer->pad_11564 != p->pad_11564) {
         delete p;
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+        safe_free(buf);
         return 0;
     }
     delete p;
-    TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+    safe_free(buf);
     return 1;
     }
     return 0;
@@ -733,7 +733,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void) {
         while (start_memcard_read(character_save_card_slot, pso_character_card_filename.filename, buf, character_save_file_block_count) != 0) {
             if (TAdPlayerLoadGC::probe_card_slot(character_save_card_slot) != 1) {
                 if (buf != 0) {
-                    TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                    safe_free(buf);
                 }
                 TLobby::disconnect_protocol();
                 return 0xFFFF0000;
@@ -744,7 +744,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void) {
         while (poll_memcard_result(character_save_card_slot) != 0) {
             if (TAdPlayerLoadGC::probe_card_slot(character_save_card_slot) != 1) {
                 if (buf != 0) {
-                    TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                    safe_free(buf);
                 }
                 TLobby::disconnect_protocol();
                 return 0xFFFF0000;
@@ -764,7 +764,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void) {
             (C_801FD8B8 *)TAdSinglePlyChrSelectGC::get_instance());
         if (ret != 7) {
             if (buf != 0) {
-                TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                safe_free(buf);
             }
             if (file != NULL) {
                 delete file;
@@ -775,7 +775,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FCE6C(void) {
         memcpy(TAdSinglePlyChrSelectGC__sub_801FCD04(card_character_save_buffer),
                TAdSinglePlyChrSelectGC__sub_801FCD04(file), 0x41C);
         if (buf != 0) {
-            TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+            safe_free(buf);
         }
         if (file != NULL) {
             delete file;
@@ -856,7 +856,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
         while (start_memcard_read(character_save_card_slot, pso_character_card_filename.filename, buf, character_save_file_block_count) != 0) {
             if (TAdPlayerLoadGC::probe_card_slot(character_save_card_slot) != 1) {
                 if (buf != 0) {
-                    TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                    safe_free(buf);
                 }
                 if (TAdSinglePlyChrSelectGC::get_game_mode() == 1) {
                     TLobby::disconnect_protocol();
@@ -869,7 +869,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
         while (poll_memcard_result(character_save_card_slot) != 0) {
             if (TAdPlayerLoadGC::probe_card_slot(character_save_card_slot) != 1) {
                 if (buf != 0) {
-                    TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                    safe_free(buf);
                 }
                 if (TAdSinglePlyChrSelectGC::get_game_mode() == 1) {
                     TLobby::disconnect_protocol();
@@ -891,7 +891,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
             (C_801FD8B8 *)TAdSinglePlyChrSelectGC::get_instance());
         if (ret != 7) {
             if (buf != 0) {
-                TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                safe_free(buf);
             }
             if (file != NULL) {
                 delete file;
@@ -903,7 +903,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
         }
         if (((CharacterSaveRecord *)active_character_save_record)->pad_14 != TAdSinglePlyChrSelectGC__sub_801FCD3C(file)->pad_14) {
             if (buf != 0) {
-                TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                safe_free(buf);
             }
             if (file != NULL) {
                 delete file;
@@ -914,7 +914,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card() {
             return 2;
         }
         if (buf != 0) {
-            TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+            safe_free(buf);
         }
         if (file != NULL) {
             delete file;
@@ -2181,7 +2181,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
             while (start_memcard_read(character_save_card_slot, pso_character_card_filename.filename, buf, character_save_file_block_count) != 0) {
                 if (TAdPlayerLoadGC::probe_card_slot(character_save_card_slot) != 1) {
                     if (buf != 0) {
-                        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                        safe_free(buf);
                     }
                     if (TAdSinglePlyChrSelectGC::get_game_mode() == 1) {
                         TLobby::disconnect_protocol();
@@ -2194,7 +2194,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
             while (poll_memcard_result(character_save_card_slot) != 0) {
                 if (TAdPlayerLoadGC::probe_card_slot(character_save_card_slot) != 1) {
                     if (buf != 0) {
-                        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                        safe_free(buf);
                     }
                     if (TAdSinglePlyChrSelectGC::get_game_mode() == 1) {
                         TLobby::disconnect_protocol();
@@ -2214,7 +2214,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
             ret = TAdSinglePlyChrSelectGC::compare_save_headers((A_801FD8B8 *)TAdSinglePlyChrSelectGC__sub_801FCD3C(file), (A_801FD8B8 *)get_character_save_record(0xFFFF), (C_801FD8B8 *)file, (C_801FD8B8 *)TAdSinglePlyChrSelectGC::get_instance());
             if (ret != 7) {
                 if (buf != 0) {
-                    TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                    safe_free(buf);
                 }
                 if (file != NULL) {
                     delete file;
@@ -2226,7 +2226,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
             }
             if (((CharacterSaveRecord *)active_character_save_record)->pad_14 != TAdSinglePlyChrSelectGC__sub_801FCD3C(file)->pad_14) {
                 if (buf != 0) {
-                    TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                    safe_free(buf);
                 }
                 if (file != NULL) {
                     delete file;
@@ -2237,7 +2237,7 @@ s32 TAdSinglePlyChrSelectGC::load_character_from_card(int card_file) {
                 return 2;
             }
             if (buf != 0) {
-                TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                safe_free(buf);
             }
             if (file != NULL) {
                 delete file;
@@ -2823,7 +2823,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
                     TLobby::disconnect_protocol();
                 }
                 if (buf != 0) {
-                    TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                    safe_free(buf);
                 }
                 return 0;
             }
@@ -2836,7 +2836,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
                     TLobby::disconnect_protocol();
                 }
                 if (buf != 0) {
-                    TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                    safe_free(buf);
                 }
                 return 0;
             }
@@ -2850,7 +2850,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
         TAdSinglePlyChrSelectGC::decrypt_char_data(file);
         if (TAdSinglePlyChrSelectGC::compare_save_headers((A_801FD8B8 *)TAdSinglePlyChrSelectGC__sub_801FCD3C(file), (A_801FD8B8 *)get_character_save_record(0xFFFF), (C_801FD8B8 *)file, (C_801FD8B8 *)TAdSinglePlyChrSelectGC::get_instance()) != 7) {
             if (buf != 0) {
-                TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                safe_free(buf);
             }
             if (file != NULL) {
                 delete file;
@@ -2861,7 +2861,7 @@ s32 TAdSinglePlyChrSelectGC::save_online_character(void) {
             return 0;
         }
         if (buf != 0) {
-            TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+            safe_free(buf);
         }
         if (file != NULL) {
             delete file;
@@ -3099,7 +3099,7 @@ void init_fresh_character_card(void) {
 
 s32 TAdSinglePlyChrSelectGC::free_buffer() {
     if (guild_card_save_file_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)guild_card_save_file_buffer));
+        safe_free(guild_card_save_file_buffer);
         guild_card_save_file_buffer = NULL;
         return 1;
     }
@@ -3109,7 +3109,7 @@ s32 TAdSinglePlyChrSelectGC::free_buffer() {
 
 s32 TAdSinglePlyChrSelectGC::free_data() {
     if (system_save_file_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)system_save_file_buffer));
+        safe_free(system_save_file_buffer);
         system_save_file_buffer = NULL;
         return 1;
     }
@@ -3149,7 +3149,7 @@ s32 alloc_global_buffer(void) {
 
 s32 TAdSinglePlyChrSelectGC::free() {
     if (character_save_file_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)character_save_file_buffer));
+        safe_free(character_save_file_buffer);
         character_save_file_buffer = NULL;
         return 1;
     }

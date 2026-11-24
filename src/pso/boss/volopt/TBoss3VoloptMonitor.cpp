@@ -132,7 +132,7 @@ static BmlResource *volopt_monitor_resources;
 static NJS_TEXLIST *volopt_monitor_textures;
 static s32 volopt_monitor_last_tick;
 
-static void *volopt_monitor_screen_meshes[4];
+static GinjaModel *volopt_monitor_screen_meshes[4];
 s8 volopt_target_slot_used[VOLOPT_MONITOR_SLOTS];
 Vec volopt_slot_positions[VOLOPT_MONITOR_SLOTS];
 
@@ -218,9 +218,9 @@ void TBoss3VoloptMonitor::load_resources() {
     volopt_monitor_textures = &volopt_monitor_texture_table;
     volopt_monitor_resources = boss3_volopt_resources;
     clear_texlist_names(&volopt_monitor_texture_table);
-    TLobby::load_texture_pvm_file("fe_obj_vo_momitor.gvm", (saddr)volopt_monitor_textures);
+    TLobby::load_texture_pvm_file("fe_obj_vo_momitor.gvm", volopt_monitor_textures);
     for (i = 0; i < 4; i++) {
-        volopt_monitor_screen_meshes[i] = ((void **)(saddr)get_bml_model((BmlResource *)volopt_monitor_resources, volopt_monitor_models[2][i]))[1];
+        volopt_monitor_screen_meshes[i] = static_cast<GinjaModel *>(get_bml_model(volopt_monitor_resources, volopt_monitor_models[2][i])->model);
     }
     volopt_monitor_stats = (BossStats *)TLobby::register_boss(0x23);
     volopt_monitor_stats_b = TLobby::dispatch_shared_handler_b(0x23);

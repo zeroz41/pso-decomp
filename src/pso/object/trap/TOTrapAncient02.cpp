@@ -432,7 +432,7 @@ void TOTrapAncient02::vfunc_82() {
 void TOTrapAncient02::vfunc_84() {
     if (lbl_805D5ADC != actor_frame_tick && lbl_805D5AE0 != NULL) {
         lbl_805D5ADC = actor_frame_tick;
-        scroll_ginja_mesh_uvs(lbl_805D5AE0, 0, 0xE, lbl_805D5AE4, 1);
+        scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(lbl_805D5AE0), 0, 0xE, lbl_805D5AE4, 1);
     }
     spin_angle += 0x888;
     switch (mode) {

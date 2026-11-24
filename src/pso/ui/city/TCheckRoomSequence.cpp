@@ -539,7 +539,7 @@ TCheckRoomSequence::~TCheckRoomSequence() {
     close_extra_window();
     TCheckRoomSequence__slot_active_flags[get_split_screen_slot()] = 0;
     if (pad_30 != 0) {
-        TAdSinglePlyChrSelectGC::safe_free(pad_30);
+        safe_free(reinterpret_cast<void *>(pad_30));
         pad_30 = 0;
     }
 }

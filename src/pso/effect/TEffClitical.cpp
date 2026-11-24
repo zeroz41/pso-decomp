@@ -51,7 +51,7 @@ void TEffClitical::render() {
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, camera_ctrl_instance->yaw);
     scale_matrix(0, scale.x, scale.y, scale.z);
-    draw_chunk_object((void *)(*(saddr *)effect_rel));
+    draw_chunk_object(*effect_rel);
     pop_matrix();
     copy_slot_to_anim_frame(&slot);
     model_render_flags = saved_model_render_flags;

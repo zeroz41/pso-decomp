@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
@@ -112,7 +113,7 @@ TBoss8DragonEffTail::TBoss8DragonEffTail(TBoss8Dragon *dragon, Vec *nodes)
 void TBoss8DragonEffTail::free_statics() {
     if (dragon_tail_gvm_texture_handle != NULL) {
         release_texture_list(dragon_tail_gvm_texture_handle);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)dragon_tail_gvm_texture_handle);
+        safe_free(dragon_tail_gvm_texture_handle);
         dragon_tail_gvm_texture_handle = NULL;
     }
     delete boss8_eff_tail_bml_resource;

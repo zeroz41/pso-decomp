@@ -1,3 +1,5 @@
+#include "pso/system/SubtractiveRng.h"
+#include "pso/system/memory.h"
 #include "pso/system/PersistentSound.h"
 #pragma defer_codegen on
 #include "pso/system/EnemyBmlResource.h"
@@ -104,7 +106,6 @@ f64 atan2_float(f32, f32);
 f32 newton_sqrtf(f32);
 s32 is_split_screen();
 f32 fabs_float(f32);
-f32 calc_random_ratio__10TObjPlayerFv(void *);
 }
 const char *bm_modelparticle_gryphon_model_names[4] = {
     "boss_rock.gj", "fe_obj001_iwaware_01.gj", "fe_obj001_iwaware_02.gj", NULL,
@@ -549,7 +550,7 @@ void TBoss5Gryphon::cleanup() {
     TBoss5GryphonShockWave::release_particle_table();
     if (boss5_gryphon_texture_list != NULL) {
         release_texture_list(boss5_gryphon_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)boss5_gryphon_texture_list);
+        safe_free(boss5_gryphon_texture_list);
         boss5_gryphon_texture_list = NULL;
     }
     if (boss5_gryphon_bml_resource != NULL) {
@@ -2649,7 +2650,7 @@ void TBoss5Gryphon::update_ground_lightning_attack(s32 event) {
             apply_lightning_hit(self, &self->position, gryphon_sixty);
         }
         if (boss5_gryphon_behavior_params[2]->attack.action_level >= 4 && self->lightning.frame % 20 == 0) {
-            self->fire_horn_lightning((self->lightning.frame / 20) & 1 ? 0 : 1, gryphon_four * calc_random_ratio__10TObjPlayerFv(self->rng));
+            self->fire_horn_lightning((self->lightning.frame / 20) & 1 ? 0 : 1, gryphon_four * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng)));
         }
         self->spawn_ancient_trap(0x40032D11);
         self->lightning.frame++;
@@ -2801,10 +2802,10 @@ void TBoss5Gryphon::update_offscreen_dive(u32 event) {
                 self->dive.step = 1;
             }
             found = 0;
-            ang = 65536.0f * calc_random_ratio__10TObjPlayerFv(self->rng);
-            r = calc_random_ratio__10TObjPlayerFv(self->rng);
-            if (calc_random_ratio__10TObjPlayerFv(self->rng) > 0.5f) {
-                pl = get_player_by_client_id((u16)((s32)(gryphon_four * calc_random_ratio__10TObjPlayerFv(self->rng))));
+            ang = 65536.0f * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng));
+            r = calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng));
+            if (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng)) > 0.5f) {
+                pl = get_player_by_client_id((u16)((s32)(gryphon_four * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(self->rng)))));
                 if (pl->is_alive() != 0) {
                     CsnHit *hit;
                     r *= gryphon_fifty;
@@ -3784,9 +3785,9 @@ void TBoss5Gryphon::fire_horn_lightning(s32 left, s32 client_id) {
     s32 ang;
     CsnHit *hit;
 
-    r = calc_random_ratio__10TObjPlayerFv(this->rng);
+    r = calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->rng));
     r = 100.0f * r + 100.0f;
-    ang = (s32)(45056.0f * calc_random_ratio__10TObjPlayerFv(this->rng) + (f32)this->rotation_y);
+    ang = (s32)(45056.0f * calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->rng)) + (f32)this->rotation_y);
     if (left != 0) {
         if (this->lightning.horns[0] == NULL) return;
         this->lightning.horns[0]->get_start_position(&pos);

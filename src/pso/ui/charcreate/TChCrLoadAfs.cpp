@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/npc/TNpcPlayer_8028B810.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/system/Adxf.h"
@@ -129,7 +130,7 @@ TChCrLoadAfs::~TChCrLoadAfs() {
     }
     u8 *buffer = buffer_address;
     if (buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(buffer));
+        safe_free(buffer);
         buffer_address = 0;
     }
     release_load_slot();
@@ -219,7 +220,7 @@ void TChCrLoadAfsTextureReq::update_loading() {
     if (retry != 0) {
         ADXF_Close(load_handle);
         load_handle = 0;
-        TAdSinglePlyChrSelectGC::safe_free(buffers[index]);
+        safe_free(reinterpret_cast<void *>(buffers[index]));
         buffers[index] = 0;
         state = 1;
         return;

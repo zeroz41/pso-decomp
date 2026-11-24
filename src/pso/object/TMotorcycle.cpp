@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
@@ -90,7 +91,7 @@ extern "C" void *create_stage_motorcycle(void *placement) {
 void TMotorcycle::free_statics() {
     if (TMotorcycle__texture_list != NULL) {
         release_texture_list(TMotorcycle__texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TMotorcycle__texture_list);
+        safe_free(TMotorcycle__texture_list);
         TMotorcycle__texture_list = NULL;
     }
     if (TMotorcycle__bml_resource != NULL) {

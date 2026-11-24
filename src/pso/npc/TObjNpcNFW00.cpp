@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "types.h"
 #include "pso/npc/TObjNpcNFW00.h"
 #include "pso/object/TObjControl.h"
@@ -12,7 +13,7 @@
 #pragma readonly_strings on
 
 const char *TObjNpcNFW00__name = "TObjNpcNFW00";
-uaddr TObjNpcNFW00__named_object_resource;
+void **TObjNpcNFW00__named_object_resource;
 NJS_TEXLIST *TObjNpcNFW00__texture_gvm_handle;
 
 void *TObjNpcNFW00__create(void *set_data) {
@@ -23,17 +24,17 @@ void *TObjNpcNFW00__create(void *set_data) {
 void TObjNpcNFW00::free_resources() {
     if (TObjNpcNFW00__texture_gvm_handle != NULL) {
         release_texture_list(TObjNpcNFW00__texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TObjNpcNFW00__texture_gvm_handle);
+        safe_free(TObjNpcNFW00__texture_gvm_handle);
         TObjNpcNFW00__texture_gvm_handle = NULL;
     }
-    if (TObjNpcNFW00__named_object_resource != 0) {
-        TLobby::free_nodes_with_id(TObjNpcNFW00__named_object_resource);
-        TObjNpcNFW00__named_object_resource = 0;
+    if (TObjNpcNFW00__named_object_resource != NULL) {
+        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(TObjNpcNFW00__named_object_resource));
+        TObjNpcNFW00__named_object_resource = NULL;
     }
 }
 
 void TObjNpcNFW00::load_assets() {
-    TObjNpcNFW00__named_object_resource = create_named_object("npc_i00_data.rel");
+    TObjNpcNFW00__named_object_resource = static_cast<void **>(create_named_object("npc_i00_data.rel"));
     TObjNpcNFW00__texture_gvm_handle = load_gvm_texture_file("n_i00_body.gvm");
 }
 
@@ -43,7 +44,7 @@ TObjNpcNFW00::TObjNpcNFW00(TObject *parent, void *set_data) : TUnk_804A8640(pare
     this->m_name = TObjNpcNFW00__name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = *(void **)TObjNpcNFW00__named_object_resource;
+    model = *TObjNpcNFW00__named_object_resource;
     this->texlist = TObjNpcNFW00__texture_gvm_handle;
     this->setup_common();
 }

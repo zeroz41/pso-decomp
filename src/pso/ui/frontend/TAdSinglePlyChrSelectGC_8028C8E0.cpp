@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
 #include "types.h"
 #include "pso/ui/charcreate/CharacterPreviewModels.h"
 #include "pso/ui/charcreate/TChCrLoadAfsTextureReq.h"
@@ -77,14 +78,14 @@ void TChCrLoadReq::load_preview_models() {
         len = 0;
         p = (uaddr)TLobby__sub_801E38A0(static_cast<const u8 *>(m_74[i]->get_load_buffer()), &len, &tag, NULL, NULL);
         if (p == 0 || tag != 0x4E4A544C) return;
-        TAdSinglePlyChrSelectGC::safe_free(p);
+        safe_free(reinterpret_cast<void *>(p));
         bufs[i] = (uaddr)TLobby__sub_801E38A0(static_cast<const u8 *>(m_74[i]->get_load_buffer()), &len, &tag, NULL, NULL);
         if (bufs[i] == 0 || tag != 0x4E4A434D) {
-            for (i = 0; i < 6; i++) TAdSinglePlyChrSelectGC::safe_free(bufs[i]);
+            for (i = 0; i < 6; i++) safe_free(reinterpret_cast<void *>(bufs[i]));
             return;
         }
         if (is_node_tree_valid(bufs[i], tag) == 0) {
-            for (i = 0; i < 6; i++) TAdSinglePlyChrSelectGC::safe_free(bufs[i]);
+            for (i = 0; i < 6; i++) safe_free(reinterpret_cast<void *>(bufs[i]));
             return;
         }
     }
@@ -98,7 +99,7 @@ void TChCrLoadReq::load_preview_models() {
     }
     bind_character_preview_models(&models);
     blend_creation_proportion_shapes((f32 *)(&inputs.appearance->width));
-    for (j = 0; j < 6; j++) TAdSinglePlyChrSelectGC::safe_free(bufs[j]);
+    for (j = 0; j < 6; j++) safe_free(reinterpret_cast<void *>(bufs[j]));
 }
 
 void TChCrLoadReq::start_preview_loads() {

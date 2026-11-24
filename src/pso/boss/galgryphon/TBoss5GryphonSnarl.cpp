@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/unk/text_80066F10.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
@@ -149,7 +150,7 @@ void TBoss5GryphonSnarl::select_effect_table() {
 void TLobby__sub_80066EC0(void) {
     if (boss5_common_texture_list != NULL) {
         release_texture_list(boss5_common_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(boss5_common_texture_list));
+        safe_free(boss5_common_texture_list);
         boss5_common_texture_list = NULL;
     }
     delete lbl_805D4DD8;

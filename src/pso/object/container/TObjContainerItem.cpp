@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/object/container/ContainerResources.h"
@@ -377,7 +378,7 @@ void load_forest_box_resources(void) {
 void free_forest_box_resources() {
     if (forest_box_textures != NULL) {
         release_texture_list(forest_box_textures);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)forest_box_textures);
+        safe_free(forest_box_textures);
         forest_box_textures = NULL;
     }
     if ((uaddr) forest_box_model_archive != 0U) {
@@ -411,7 +412,7 @@ void load_container_breakup_resources() {
 void free_container_breakup_resources() {
     if (container_breakup_textures != NULL) {
         release_texture_list(container_breakup_textures);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)container_breakup_textures);
+        safe_free(container_breakup_textures);
         container_breakup_textures = NULL;
     }
     if ((uaddr) container_breakup_model_archive != 0U) {

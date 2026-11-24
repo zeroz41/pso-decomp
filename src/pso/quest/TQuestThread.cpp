@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/ResourceFile.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/window/WindowMenuFactory.h"
@@ -712,7 +713,7 @@ TUnk_804C8678::~TUnk_804C8678() {
     } else {
         quest_area_manager = NULL;
     }
-    TAdSinglePlyChrSelectGC::safe_free((uaddr)script);
+    safe_free(script);
 }
 
 void TQuestThread::destroy_quest_obj() {

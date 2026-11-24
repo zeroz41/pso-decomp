@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include <string.h>
 #include "pso/system/ResourceFile.h"
 #include "types.h"
@@ -47,7 +48,7 @@ void TLobby::refresh_quest_list(const char *path) {
         if (quest != NULL) {
             read_disc_file(path, quest);
             TLobby::rebuild_all(quest);
-            TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(quest));
+            safe_free(quest);
         }
     }
 }
@@ -370,7 +371,7 @@ void TLobby::open_session(const char *path) {
             populate_quest_floor_sets();
             TLobby::init_id_tables();
             floor_set_flags = 1;
-            TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(TLobby__data_805D5EE0));
+            safe_free(TLobby__data_805D5EE0);
             TLobby__data_805D5EE0 = NULL;
         }
     }

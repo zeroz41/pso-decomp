@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -128,22 +129,22 @@ void TQuestVmDownLoadServer::free_download_buffers() {
     }
     s0 = &TQuestVmDownLoadServer__download_file_state;
     if (s0->data != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)s0->data);
+        safe_free(s0->data);
         s0->data = 0;
     }
     s1 = &quest_download_file_slot;
     if (s1->data != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)s1->data);
+        safe_free(s1->data);
         s1->data = 0;
     }
     s2 = &quest_download_file_info;
     if (s2->data != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)s2->data);
+        safe_free(s2->data);
         s2->data = 0;
     }
     s3 = &quest_download_file_header;
     if (s3->data != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)s3->data);
+        safe_free(s3->data);
         s3->data = 0;
     }
     quest_download_in_progress = 0;
@@ -160,22 +161,22 @@ void TQuestVmDownLoadServer::free_buffers() {
     }
     s = &TQuestVmDownLoadServer__download_file_state;
     if (s->data != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)s->data);
+        safe_free(s->data);
         s->data = 0;
     }
     s = &quest_download_file_slot;
     if (s->data != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)s->data);
+        safe_free(s->data);
         s->data = 0;
     }
     s = &quest_download_file_info;
     if (s->data != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)s->data);
+        safe_free(s->data);
         s->data = 0;
     }
     s = &quest_download_file_header;
     if (s->data != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)s->data);
+        safe_free(s->data);
         s->data = 0;
     }
     TQuestVmDownLoadServer__dat_download_complete = 0;
@@ -350,8 +351,8 @@ void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
     subtractive_rng_make_shuffle((s32 *)&TQuestVmDownLoadServer__rng_cipher_state);
     TAdSinglePlyChrSelectGC::permute_save_blocks(&TQuestVmDownLoadServer__rng_cipher_state, (const u8*)src, (u8*)dst, (u32)size);
     move_data((void *)(this), (const void *)((const void *)dst), (u32)size);
-    TAdSinglePlyChrSelectGC::safe_free((uaddr)dst);
-    TAdSinglePlyChrSelectGC::safe_free((uaddr)src);
+    safe_free(dst);
+    safe_free(src);
 }
 void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     void *src;
@@ -363,8 +364,8 @@ void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     subtractive_rng_make_shuffle((s32 *)&TQuestVmDownLoadServer__rng_cipher_state);
     subtractive_rng_unshuffle((void *)&TQuestVmDownLoadServer__rng_cipher_state, (const u8 *)src, (u8 *)dst, (u32)size);
     move_data((void *)(((u32 *)data)), (const void *)((const void *)dst), (u32)size);
-    TAdSinglePlyChrSelectGC::safe_free((uaddr)dst);
-    TAdSinglePlyChrSelectGC::safe_free((uaddr)src);
+    safe_free(dst);
+    safe_free(src);
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, download_rng_seed_pair[0]);
     ((TAdSinglePlyChrSelectGC *)(&TQuestVmDownLoadServer__rng_cipher_state))->apply_rng_cipher(((u32 *)data), size & ~3);
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, ((u32 *)data)[0]);
@@ -400,7 +401,7 @@ s32 TQuestVmDownLoadServer::verify_checksum(const void *data, s32 size) {
   stored = *(s32 *)(((s8 *)copy) + 4);
   *(s32 *)(((s8 *)copy) + 4) = 0;
   crc = TQuestVmDownLoadServer__sub_801F8538(copy, size);
-  TAdSinglePlyChrSelectGC::safe_free((uaddr)copy);
+  safe_free(copy);
   return (u32)__cntlzw((u32)(crc - stored)) >> 5;
 }
 QuestDownloadRecord *get_quest_download_file_header(void) {
@@ -430,7 +431,7 @@ TQuestVmDownLoadServer::TQuestVmDownLoadServer(TObject *parent) : TObject(parent
 
 TQuestVmDownLoadServer::~TQuestVmDownLoadServer() {
     if (save_image != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)save_image);
+        safe_free(save_image);
         save_image = NULL;
     }
     if (mc_select != NULL) {
@@ -798,7 +799,7 @@ void TQuestVmDownLoadServer::build_file_slot_image() {
     if (this->memcard_slot >= 0 && poll_memcard_result(this->memcard_slot) == 0) {
         if (this->slot_file_blocks > 0) {
             if (this->save_image != NULL) {
-                TAdSinglePlyChrSelectGC::safe_free((uaddr)this->save_image);
+                safe_free(this->save_image);
                 this->save_image = NULL;
             }
             this->save_image = TQuestVmDownLoadServer::alloc(this->slot_file_blocks << 13);
@@ -854,7 +855,7 @@ void TQuestVmDownLoadServer::abort_download() {
     if (poll_memcard_result(this->memcard_slot) == 0) {
         TAdSinglePlyChrSelectGC::reset_quest_id();
         if ((uaddr) this->save_image != 0U) {
-            TAdSinglePlyChrSelectGC::safe_free((uaddr)this->save_image);
+            safe_free(this->save_image);
             this->save_image = 0U;
         }
         this->state = 0xB;
@@ -867,7 +868,7 @@ void TQuestVmDownLoadServer::write_memcard_file() {
     if (this->memcard_slot >= 0 && poll_memcard_result(this->memcard_slot) == 0) {
         if (this->state_file_blocks > 0) {
             if (this->save_image != NULL) {
-                TAdSinglePlyChrSelectGC::safe_free((uaddr)this->save_image);
+                safe_free(this->save_image);
                 this->save_image = NULL;
             }
             this->save_image = TQuestVmDownLoadServer::alloc(this->state_file_blocks << 13);
@@ -922,7 +923,7 @@ void TQuestVmDownLoadServer::finish_download() {
     if (poll_memcard_result(this->memcard_slot) == 0) {
         TAdSinglePlyChrSelectGC::reset_quest_id();
         if ((uaddr) this->save_image != 0U) {
-            TAdSinglePlyChrSelectGC::safe_free((uaddr)this->save_image);
+            safe_free(this->save_image);
             this->save_image = 0U;
         }
         if ((uaddr) this->icon_menu != 0U) {
@@ -944,7 +945,7 @@ void TQuestVmDownLoadServer::build_file_info_image() {
         if (poll_memcard_result(this->memcard_slot) == 0) {
             if (this->info_file_blocks > 0) {
                 if (this->save_image != NULL) {
-                    TAdSinglePlyChrSelectGC::safe_free((uaddr)this->save_image);
+                    safe_free(this->save_image);
                     this->save_image = NULL;
                 }
                 this->save_image = TQuestVmDownLoadServer::alloc(this->info_file_blocks << 13);
@@ -1002,7 +1003,7 @@ void TQuestVmDownLoadServer::close_download() {
     if (poll_memcard_result(this->memcard_slot) == 0) {
         TAdSinglePlyChrSelectGC::reset_quest_id();
         if ((uaddr) this->save_image != 0U) {
-            TAdSinglePlyChrSelectGC::safe_free((uaddr)this->save_image);
+            safe_free(this->save_image);
             this->save_image = 0U;
         }
         if ((uaddr) this->icon_menu != 0U) {
@@ -1023,7 +1024,7 @@ void TQuestVmDownLoadServer::destroy() {
 }
 void TQuestVmDownLoadServer::close() {
     if ((uaddr) this->save_image != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)this->save_image);
+        safe_free(this->save_image);
         this->save_image = 0U;
     }
     if ((uaddr) this->icon_menu != 0U) {

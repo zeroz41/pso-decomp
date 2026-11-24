@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
 #include "pso/render/GinjaUvScroll.h"
@@ -543,7 +544,7 @@ void TScene::tick_material_fmt1() {
                 uv->u += uv->du;
                 uv->v += uv->dv;
                 if (fabs_float(uv->u) >= 1.0f || fabs_float(uv->v) >= 1.0f) {
-                    scroll_ginja_mesh_uvs(node->model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
+                    scroll_ginja_mesh_uvs(&node->model->model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
                     uv->u -= (f32)(s32)uv->u;
                     uv->v -= (f32)(s32)uv->v;
                 }
@@ -575,7 +576,7 @@ void TScene::tick_material_fmt1() {
                 uv->u += uv->du;
                 uv->v += uv->dv;
                 if (uv->u >= 1.0f || uv->v >= 1.0f) {
-                    scroll_ginja_mesh_uvs(node->model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
+                    scroll_ginja_mesh_uvs(&node->model->model, (s32)uv->u, (s32)uv->v, uv->texture, 1);
                     uv->u -= (f32)(s32)uv->u;
                     uv->v -= (f32)(s32)uv->v;
                 }
@@ -845,22 +846,22 @@ void TScene::free_scene_resources() {
     u32 buffer;
     buffer = material_info_buffer;
     if (buffer != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free(buffer);
+        safe_free(reinterpret_cast<void *>(buffer));
         material_info_buffer = 0U;
     }
     buffer = floor_bin_buffer;
     if (buffer != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free(buffer);
+        safe_free(reinterpret_cast<void *>(buffer));
         floor_bin_buffer = 0U;
     }
     buffer = texture_animation_buffer;
     if (buffer != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free(buffer);
+        safe_free(reinterpret_cast<void *>(buffer));
         texture_animation_buffer = 0U;
     }
     buffer = supplementary_rel_buffer;
     if (buffer != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free(buffer);
+        safe_free(reinterpret_cast<void *>(buffer));
         supplementary_rel_buffer = 0U;
     }
     buffer = (uaddr)scene_material_root;
@@ -872,13 +873,13 @@ void TScene::free_scene_resources() {
     }
     buffer = collision_file_buffer;
     if (buffer != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free(buffer);
+        safe_free(reinterpret_cast<void *>(buffer));
         collision_file_buffer = 0U;
     }
     TObjButterflyLobby::free_singleton_805D4E6C();
     buffer = map_rel_load_buffer;
     if (buffer != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free(buffer);
+        safe_free(reinterpret_cast<void *>(buffer));
         map_rel_load_buffer = 0U;
     }
     scene_collision_data = NULL;

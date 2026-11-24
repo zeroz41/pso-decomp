@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
@@ -319,7 +320,7 @@ void TODoorJungleMain::load_resources() {
 void TODoorJungleMain::free_static_resources() {
     if (door_jungle_main_gvm_texture != NULL) {
         release_texture_list(door_jungle_main_gvm_texture);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)door_jungle_main_gvm_texture);
+        safe_free(door_jungle_main_gvm_texture);
         door_jungle_main_gvm_texture = NULL;
     }
     if (TODoorJungleMain__bml_resource != NULL) {

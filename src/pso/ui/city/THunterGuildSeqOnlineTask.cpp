@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/unk/TScreenFadeOut.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TPlyGuildCardTag_8013ABCC.h"
@@ -335,11 +336,11 @@ void TQuestListOnline::release_resources() {
         TQuestListOnline__dat_download_state.buffer = NULL;
     }
     if (TQuestListOnline__selected_quest_info != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TQuestListOnline__selected_quest_info);
+        safe_free(TQuestListOnline__selected_quest_info);
         TQuestListOnline__selected_quest_info = NULL;
     }
     if (TQuestListOnline__quest_list_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TQuestListOnline__quest_list_buffer);
+        safe_free(TQuestListOnline__quest_list_buffer);
         TQuestListOnline__quest_list_buffer = NULL;
     }
     if (TQuestListOnline__download_window != NULL) {

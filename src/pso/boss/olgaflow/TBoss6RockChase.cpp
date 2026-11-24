@@ -1,3 +1,4 @@
+#include "pso/enemy/BattleParameters.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -47,7 +48,7 @@ void TBoss6RockChase::damage_players_in_range() {
     f32 range;
     count = TLobby::get_game_mode();
     range = boss6_rock_chase_model_radius_table[size_kind].radius;
-    damage = ((f32 *)TLobby::dispatch_shared_handler_a(0x2C))[3];
+    damage = TLobby::dispatch_shared_handler_a(0x2C)->values.floats[3];
     if (damage < 1) {
         damage = 20;
     }

@@ -7,6 +7,8 @@
 
 // The Mines' research computer: four screens scroll their textures, and it
 // stays drawn while the camera is within its radius.
+struct GinjaModel;
+
 struct TOComputerMachine01 : public TOQuestTalkBase {
     TOComputerMachine01(void *set_data);
     virtual ~TOComputerMachine01();
@@ -24,7 +26,7 @@ struct TOComputerMachine01 : public TOQuestTalkBase {
     static s32 last_scroll_frame;
     // The screen meshes: the model's first child and its siblings, last
     // first.
-    static void *screen_meshes[4];
+    static GinjaModel *screen_meshes[4];
 
     u8 pad_e4[0x4];
 };

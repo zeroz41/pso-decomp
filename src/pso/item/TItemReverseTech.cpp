@@ -181,7 +181,7 @@ void TItemReverseTech::load_textures() {
         }
         mem_free(buf);
     }
-    TAdSinglePlyChrSelectGC::safe_free(file);
+    safe_free(reinterpret_cast<void *>(file));
 }
 #pragma pop
 

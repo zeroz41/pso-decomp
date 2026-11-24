@@ -276,7 +276,7 @@ s32 TLobby::load_bml_exec(BmlResource *bml, const char *name) {
                 if (p != NULL) {
                     prs_decompress_buffer((saddr)lobby_bml_read_buffer, reinterpret_cast<saddr>(p));
                     bind_bml_model(bml, bml_header_record_ptr->rawSize, bml->loaded_models++, p);
-                    TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(p));
+                    safe_free(p);
                 } else {
                     TLobby::debug_print("TBinModel: Can't malloc(LOADMODEL)");
                 }
@@ -328,7 +328,7 @@ s32 TLobby::load_bml_exec(BmlResource *bml, const char *name) {
                 if (p != NULL) {
                     prs_decompress_buffer((saddr)lobby_bml_read_buffer, reinterpret_cast<saddr>(p));
                     bind_bml_motion(bml, bml->loaded_models++, p);
-                    TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(p));
+                    safe_free(p);
                 } else {
                     TLobby::debug_print("TBinModel: Can't malloc(LOADMOTION)");
                 }
@@ -413,7 +413,7 @@ void TLobby::free_chr_select_data() {
         bml_load_buffer = NULL;
     }
     TItemDrop__sub_800FE2D8();
-    TAdSinglePlyChrSelectGC::safe_free((uaddr)lobby_download_buffer);
+    safe_free(lobby_download_buffer);
     lobby_download_buffer = 0;
 }
 void TLobby::init_download_buffers() {
@@ -701,7 +701,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                         st.align_read_offset(blk);
                         disc_read_filename = lbl_805D2B10;
                         prs_decompress_buffer(buf, (saddr)resource_decompress_buffer);
-                        TAdSinglePlyChrSelectGC::safe_free(buf);
+                        safe_free(reinterpret_cast<void *>(buf));
                         bind_bml_model(this, size, i, resource_decompress_buffer);
                     } else {
                         TLobby::debug_print("TBinModel:%s Malloc failed.", descriptor->archive_filename);
@@ -723,7 +723,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                             st.read_data((saddr)((void *)tbuf), (s32)tsize);
                             st.align_read_offset(blk);
                             prs_decompress_buffer(tbuf, (saddr)resource_decompress_buffer);
-                            TAdSinglePlyChrSelectGC::safe_free(tbuf);
+                            safe_free(reinterpret_cast<void *>(tbuf));
                             if (load_gvm_texture_archive(resource_decompress_buffer, models[i].texlist) > 0) {
                                 models[i].flags |= 1;
                             } else {
@@ -750,7 +750,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                     st.read_data((saddr)((void *)mb), (s32)sz);
                     st.align_read_offset(blk);
                     prs_decompress_buffer(mb, (saddr)resource_decompress_buffer);
-                    TAdSinglePlyChrSelectGC::safe_free(mb);
+                    safe_free(reinterpret_cast<void *>(mb));
                     bind_bml_motion(this, j, resource_decompress_buffer);
                     break;
                 }

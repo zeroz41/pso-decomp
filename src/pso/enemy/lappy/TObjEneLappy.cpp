@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -926,7 +927,7 @@ void TObjEneLappy::free_resources() {
     if (TLobby::get_instance() == 0) {
         if (rappy_alternate_texture_list != 0) {
             release_texture_list(rappy_alternate_texture_list);
-            TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<saddr>(rappy_alternate_texture_list));
+            safe_free(rappy_alternate_texture_list);
             rappy_alternate_texture_list = 0;
         }
     } else {

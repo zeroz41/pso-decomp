@@ -1,3 +1,5 @@
+#include "pso/system/SubtractiveRng.h"
+#include "pso/system/memory.h"
 #include "pso/math/CurvePathPoint.h"
 #include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -265,7 +267,6 @@ extern CurvePathPoint TBoss8Dragon__dive_height_curve[3];
 extern "C" {
 extern f32 boss8_dragon_fall_accel;
 void subtractive_rng_seed(void *, s32);
-f32 calc_random_ratio__10TObjPlayerFv(void *);
 // Slot 87: per-action event dispatch through a table of handler members.
 }
 extern "C" {
@@ -470,7 +471,7 @@ void *TBoss8Dragon::create(void *set_data) {
 
 void TBoss8Dragon::free_static() {
     if (boss8_dragon_capture_model != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)boss8_dragon_capture_model);
+        safe_free(boss8_dragon_capture_model);
         boss8_dragon_capture_model = NULL;
     }
     if (boss8_dragon_resource != NULL) {
@@ -2521,15 +2522,15 @@ void TBoss8Dragon::update_spinning_projectile_attack(s32 event) {
                     player = get_player_by_client_id((u16)((this->action_frames >> 1) % 4));
                     if (player->is_alive() != 0) {
                         VecCopy(&pos, &player->position);
-                        pos.x += 100.0f * (calc_random_ratio__10TObjPlayerFv(this->randomState) - 0.5f);
-                        pos.z += 100.0f * (calc_random_ratio__10TObjPlayerFv(this->randomState) - 0.5f);
+                        pos.x += 100.0f * (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - 0.5f);
+                        pos.z += 100.0f * (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - 0.5f);
                         found = 1;
                     }
                 }
                 if (found == 0) {
-                    pos.x = 700.0f * (calc_random_ratio__10TObjPlayerFv(this->randomState) - 0.5f);
+                    pos.x = 700.0f * (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - 0.5f);
                     pos.y = 0.0f;
-                    pos.z = 700.0f * (calc_random_ratio__10TObjPlayerFv(this->randomState) - 0.5f);
+                    pos.z = 700.0f * (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - 0.5f);
                 }
                 new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &pos, this->attack_kind, ((TObjBase *)this)->get_entity_id());
             }

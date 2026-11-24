@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/PersistentSound.h"
 #include "pso/system/BmlResource.h"
@@ -225,7 +226,7 @@ void *TObjContainerIdo::create(void *set) {
 void TObjContainerIdo::free_resources() {
     if (container_ido_textures != NULL) {
         release_texture_list(container_ido_textures);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)container_ido_textures);
+        safe_free(container_ido_textures);
         container_ido_textures = NULL;
     }
     if (container_ido_model_archive != NULL) {

@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/ui/charcreate/CharacterPreviewModels.h"
 #include "pso/ui/charcreate/TObjCMMainMenu_8028EA88.h"
 #include "pso/system/BmlAccessors.h"
@@ -508,7 +509,7 @@ void load_creation_shape_rel(TCMCharacter *character) {
     }
 }
 void TCMCharacter::free_field_FC() {
-    TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(shape_rel));
+    safe_free(shape_rel);
     shape_rel = NULL;
 }
 

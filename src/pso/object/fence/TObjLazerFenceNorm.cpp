@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
@@ -141,7 +142,7 @@ void TObjLazerFenceNorm::free_resources() {
     }
     if (lazer_fence_norm_texture_list != NULL) {
         release_texture_list(lazer_fence_norm_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)lazer_fence_norm_texture_list);
+        safe_free(lazer_fence_norm_texture_list);
         lazer_fence_norm_texture_list = NULL;
     }
 }

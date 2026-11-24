@@ -969,7 +969,7 @@ void TLobby::load_ask_dictionary() {
     aram = ARAlloc(aligned);
     data = (saddr)load_disc_file(lbl_8044F098);
     TLobby::aram_transfer_sync(3, data, aram, aligned);
-    TAdSinglePlyChrSelectGC::safe_free(data);
+    safe_free(reinterpret_cast<void *>(data));
     aram_dma_setup(aram, size, 3, 1, 0x2710);
     start_askdic();
 }

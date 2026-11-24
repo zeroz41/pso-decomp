@@ -1116,7 +1116,7 @@ void load_data_buffers(void) {
             if (boss2_tunnel_snapshot_buffer != NULL) {
                 memmove(boss2_tunnel_snapshot_buffer, (void *)file, size);
             }
-            TAdSinglePlyChrSelectGC::safe_free(file);
+            safe_free(reinterpret_cast<void *>(file));
         }
     }
 }

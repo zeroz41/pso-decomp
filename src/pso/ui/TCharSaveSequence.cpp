@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/unk/TScreenFadeOut.h"
@@ -100,7 +101,7 @@ void TAdSinglePlyChrSelectGC::init_logo_state(s32 arg0) {
 void TAdSinglePlyChrSelectGC::noop() {  }
 void TCharSaveSequence::free_buffer() {
     if (download_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)download_buffer);
+        safe_free(download_buffer);
         download_buffer = NULL;
         download_buffer_size = 0;
     }

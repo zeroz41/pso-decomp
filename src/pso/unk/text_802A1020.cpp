@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
 #include "pso/unk/text_802A1020.h"
@@ -79,7 +80,7 @@ s32 verify_game_file_integrity(void) {
         if (file_integrity_table[i].size <= 1000000) {
             buf = load_disc_file(file_integrity_table[i].file);
             if (buf == NULL) {
-                TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+                safe_free(buf);
                 lobby_cursor_active_flag = 0;
                 return 0;
             }
@@ -94,7 +95,7 @@ s32 verify_game_file_integrity(void) {
                     }
                 }
             }
-            TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+            safe_free(buf);
             if (~crc != file_integrity_table[i].crc) {
                 lobby_cursor_active_flag = 1;
                 return 1;

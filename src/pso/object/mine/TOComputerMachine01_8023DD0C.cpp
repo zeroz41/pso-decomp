@@ -2,19 +2,12 @@
 #include "types.h"
 #include "pso/render/GinjaUvScroll.h"
 #include "pso/render/GinjaModel.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/math/AngleLookup.h"
-
-struct Ent_8023DD0C { u8 type; u8 pad[3]; u32 f4; };
-
-struct Tbl_8023DD0C { Ent_8023DD0C *entries; u32 count; };
-
-struct Ent_8023DD60 { u8 type; u8 pad[3]; u32 f4; };
-
-struct Tbl_8023DD60 { Ent_8023DD60 *entries; u32 count; };
 
 struct UV_8023DDC8 { s16 u; s16 v; };
 
@@ -23,17 +16,15 @@ struct Vtx_8023E0FC { f32 x, y, z, u, v; s32 color; };
 struct Info_8023E0FC { f32 x, y, z; f32 dx1, dy1, dx2, dy2; f32 pad; f32 u, v, du1, dv1, du2, dv2; u8 pad2[8]; };
 
 extern "C" {
-s32 has_texture_scroll_entry(Tbl_8023DD0C *t, u16 id);
-void set_ginja_texture_wrap_repeat(Tbl_8023DD60 *t);
 void DCFlushRangeNoSync(void *, u32);
 
-s32 has_texture_scroll_entry(Tbl_8023DD0C *t, u16 id) {
+s32 has_texture_scroll_entry(const GinjaDrawRecord *record, u16 id) {
     s32 found = 0;
-    if (t != 0) {
-        Ent_8023DD0C *e = t->entries;
+    if (record != NULL) {
+        const GinjaParameter *e = record->parameters;
         u32 i;
-        for (i = 0; i < t->count; i++) {
-            if (e->type == 8 && id == (e->f4 & 0x1FFF)) {
+        for (i = 0; i < record->parameter_count; i++) {
+            if (e->kind == 8 && id == (e->value & 0x1FFF)) {
                 found = 1;
             }
             e++;
@@ -42,35 +33,34 @@ s32 has_texture_scroll_entry(Tbl_8023DD0C *t, u16 id) {
     return found;
 }
 
-void set_ginja_texture_wrap_repeat(Tbl_8023DD60 *t) {
-    if (t != 0) {
-        Ent_8023DD60 *e = t->entries;
+void set_ginja_texture_wrap_repeat(GinjaDrawRecord *record) {
+    if (record != NULL) {
+        GinjaParameter *e = record->parameters;
         u32 i;
-        for (i = 0; i < t->count; i++, e++) {
-            if (e->type == 8) {
-                e->f4 &= ~0xC0000;
-                e->f4 |= 0x40000;
-                e->f4 &= ~0x30000;
-                e->f4 |= 0x10000;
+        for (i = 0; i < record->parameter_count; i++, e++) {
+            if (e->kind == 8) {
+                e->value &= ~0xC0000;
+                e->value |= 0x40000;
+                e->value &= ~0x30000;
+                e->value |= 0x10000;
             }
         }
     }
 }
 
-void scroll_ginja_mesh_uvs(void *model, s32 du, s32 dv, u16 cmd, s32 rewrite) {
-    GinjaModel *self = static_cast<GinjaModel *>(model);
+void scroll_ginja_mesh_uvs(GinjaModel *self, s32 du, s32 dv, u16 cmd, s32 rewrite) {
     s32 found = 0;
     GinjaVertexArray *a;
-    if (self->primary != 0 && has_texture_scroll_entry((Tbl_8023DD0C *)(self->primary), cmd) == 1) {
+    if (self->primary != 0 && has_texture_scroll_entry(self->primary, cmd) == 1) {
         found = 1;
         if (rewrite != 0) {
-            set_ginja_texture_wrap_repeat((Tbl_8023DD60 *)(self->primary));
+            set_ginja_texture_wrap_repeat(self->primary);
         }
     }
-    if (self->secondary != 0 && has_texture_scroll_entry((Tbl_8023DD0C *)(self->secondary), cmd) == 1) {
+    if (self->secondary != 0 && has_texture_scroll_entry(self->secondary, cmd) == 1) {
         found = 1;
         if (rewrite != 0) {
-            set_ginja_texture_wrap_repeat((Tbl_8023DD60 *)(self->secondary));
+            set_ginja_texture_wrap_repeat(self->secondary);
         }
     }
     if (found != 0) {

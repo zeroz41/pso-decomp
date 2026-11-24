@@ -17,6 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/moja/TObjEneMoja.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -141,10 +142,10 @@ const char *TObjEneMoja__name = "TObjEneMoja";
 
 // What load_resources sets up and free_resources releases: the combat stat
 // blocks of the two variants, the archive and the punch's sampled trail.
-void **moja_boss_stats_handles;
-void **moja_attack_params;
-void **moja_object_handles;
-void **moja_behavior_params;
+player_stats **moja_boss_stats_handles;
+AttackParams **moja_attack_params;
+ActorParamBlock **moja_object_handles;
+BattleMovementParams **moja_behavior_params;
 BmlResource *moja_bml_resource;
 SampledMotionPoints *moja_punch_points;
 
@@ -182,8 +183,8 @@ TObjEneMoja::TObjEneMoja(TObject *parent, void *setData) : TObjEnemy(parent) {
     set_requested_action(requested_action);
     init_collision_body_parts(this, &moja_collision_body, 1);
     attack = 0;
-    bind_enemy_combat_stats(reinterpret_cast<player_stats *>(moja_boss_stats_handles[variant]), reinterpret_cast<AttackParams *>(moja_attack_params[attack + variant * 3]),
-        reinterpret_cast<ActorParamBlock *>(moja_object_handles[variant]));
+    bind_enemy_combat_stats(moja_boss_stats_handles[variant], moja_attack_params[attack + variant * 3],
+        moja_object_handles[variant]);
     movementParameters = &moja_movement_params[variant];
     referenceHp = hp;
     update_prev_position();
@@ -235,10 +236,10 @@ void TObjEneMoja::load_resources() {
     second.z = 0.0f;
     points->sample_node_offsets((NJS_OBJECT *)moja_bml_resource->models[1].model,
         (NJS_MOTION *)moja_bml_resource->motions[moja_motion_actions[3].motion].motion, 38, &first, &second);
-    moja_boss_stats_handles = (void **)mem_alloc(8);
-    moja_attack_params = (void **)mem_alloc(0x18);
-    moja_object_handles = (void **)mem_alloc(8);
-    moja_behavior_params = (void **)mem_alloc(8);
+    moja_boss_stats_handles = static_cast<player_stats **>(mem_alloc(2 * sizeof(*moja_boss_stats_handles)));
+    moja_attack_params = static_cast<AttackParams **>(mem_alloc(6 * sizeof(*moja_attack_params)));
+    moja_object_handles = static_cast<ActorParamBlock **>(mem_alloc(2 * sizeof(*moja_object_handles)));
+    moja_behavior_params = static_cast<BattleMovementParams **>(mem_alloc(2 * sizeof(*moja_behavior_params)));
     moja_boss_stats_handles[0] = TLobby::register_boss(0x49);
     moja_boss_stats_handles[1] = TLobby::register_boss(0x4A);
     moja_attack_params[0] = TLobby::dispatch_shared_handler_b(0x48);
@@ -781,7 +782,7 @@ void TObjEneMoja::run_move_action() {
 }
 
 void TObjEneMoja::update_approach_state() {
-    u8 *params;
+    BattleMovementParams *params;
     u8 *t;
     switch (phase) {
     case 0:
@@ -791,7 +792,7 @@ void TObjEneMoja::update_approach_state() {
             TObjPlayer::play_effect_if_v2(-0x200);
         }
         if (action_flags != 0x20U) {
-            set_override_speed(*(f32 *)((s8 *)moja_behavior_params[variant] + 0xC));
+            set_override_speed(moja_behavior_params[variant]->values.floats[3]);
             requested_action = 2;
             {
             Vec v = ((TObjChara *)target)->body_center;
@@ -810,8 +811,8 @@ void TObjEneMoja::update_approach_state() {
         t = target;
         if (t != NULL) {
             Vec v3 = ((TObjChara *)t)->body_center;
-            params = (u8 *)moja_behavior_params[variant];
-            if (((MojaMovementParameters *)movementParameters)->target_range * ((MojaMovementParameters *)movementParameters)->target_range < enemy_pursue_point(this, ((MojaMovementParameters *)movementParameters)->turn_speed, &v3, params, *(f32 *)((s8 *)params + 8), 30.0f)) {
+            params = moja_behavior_params[variant];
+            if (((MojaMovementParameters *)movementParameters)->target_range * ((MojaMovementParameters *)movementParameters)->target_range < enemy_pursue_point(this, ((MojaMovementParameters *)movementParameters)->turn_speed, &v3, params, params->values.floats[2], 30.0f)) {
                 target = NULL;
             }
             if (horizontal_distance_squared(&move_destination, &position) < (((MojaMovementParameters *)movementParameters)->move_speed + bodies->radius) * (((MojaMovementParameters *)movementParameters)->move_speed + bodies->radius)
@@ -851,7 +852,7 @@ s32 TObjEneMoja::is_target_in_attack_range() {
             radius = 10.0f;
         }
         for (i = 0; i < 3; i++) {
-            this->attack_params = (AttackParams *)moja_attack_params[i + (this->variant) * 3];
+            this->attack_params = moja_attack_params[i + (this->variant) * 3];
             sq = (radius + this->attack_params->get_attack_range()) *
                  (radius + this->attack_params->get_attack_range());
             lim = this->attack_params->get_attack_angle();
@@ -935,7 +936,7 @@ void TObjEneMoja::update_punch_attack() {
     Vec *e;
     switch (phase) {
     case 0:
-        set_override_speed(*(f32 *)moja_behavior_params[variant]);
+        set_override_speed(moja_behavior_params[variant]->values.floats[0]);
         phase = 1;
     case 1:
         advance_animation();
@@ -988,7 +989,7 @@ void TObjEneMoja::update_punch_attack() {
                 break;
             default:
                 requested_action = 0;
-                timer = (s16)((f32 *)moja_behavior_params[variant])[1];
+                timer = (s16)moja_behavior_params[variant]->values.floats[1];
                 break;
             }
         }

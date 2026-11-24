@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/render/GvmTextureArchive.h"
 #include "pso/system/Adxf.h"
 #include "pso/system/ResourceFile.h"
@@ -1169,7 +1170,7 @@ saddr load_relocatable_file(saddr name, saddr buffer) {
     return 0;
 }
 
-void free_data_file(void *p) { TAdSinglePlyChrSelectGC::safe_free((uaddr)p); }
+void free_data_file(void *p) { safe_free(p); }
 
 void *load_data_file(const char *path) { return load_disc_file(path); }
 
@@ -1178,7 +1179,7 @@ void TLobby::free_nodes_with_id(uaddr root) {
 
     while (file != NULL) {
         if ((uaddr)file->root == root) {
-            TAdSinglePlyChrSelectGC::safe_free((uaddr)file->data);
+            safe_free(file->data);
             delete file;
         }
         file = (TUnk_8049C658 *)file->m_next;
@@ -1264,14 +1265,14 @@ saddr load_encrypted_text_archive(char *name, s32 *out_size) {
         st.read_sectors_sync(1, buf);
         sp8 = *(s32 *)((s8 *)buf + 0);
         h = *(s32 *)((s8 *)buf + 4);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+        safe_free(buf);
         ret = (saddr)TQuestVmDownLoadServer::alloc(sp8);
         buf = load_disc_file(name);
         __ct__14SubtractiveRngFv(rng);
         subtractive_rng_seed(rng, h);
         subtractive_rng_xor_buffer(rng, (u32 *)(buf + 8), size - 8);
         prs_decompress_buffer((saddr)(buf + 8), ret);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+        safe_free(buf);
     }
     if (out_size != NULL) {
         *out_size = sp8;
@@ -1291,7 +1292,7 @@ saddr load_text_resource_pair(saddr name) {
     sprintf(path, "%s.pr3", name);
     relocs = load_encrypted_text_archive(path, &size);
     root = (saddr)alloc_named_object((const char *)name, (u8 *)data, size, (RelFileTrailer *)relocs);
-    TAdSinglePlyChrSelectGC::safe_free((u32)relocs);
+    safe_free(reinterpret_cast<void *>(relocs));
     return root;
 }
 
@@ -1323,7 +1324,7 @@ void *TLobby__sub_800F9A60(const char *name, u8 *data, s32 size) {
     return apply_rel_relocations(file);
 }
 
-saddr create_named_object(const char *name) {
+void *create_named_object(const char *name) {
     s32 size = get_resource_file_size(name);
     TUnk_8049C658 *file;
 
@@ -1334,9 +1335,9 @@ saddr create_named_object(const char *name) {
         file->m_name = file->name;
         file->data = load_disc_file(name);
         file->size = size;
-        return (saddr)apply_rel_relocations(file);
+        return apply_rel_relocations(file);
     }
-    return 0;
+    return NULL;
 }
 
 void clear_resource_load_tasks(void) {
