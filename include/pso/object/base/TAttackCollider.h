@@ -2,6 +2,10 @@
 #define PSO_OBJECT_BASE_TATTACKCOLLIDER_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/enemy/AreaAttackContact.h"
+
+class AreaAttackHistory;
 
 class TAttackCollider : public TObjCollidable {
 public:
@@ -9,15 +13,19 @@ public:
     TAttackCollider(TObject *, TObjBase *, const CollisionBody *, s32);
     virtual ~TAttackCollider();
     void update_body_contact_flag(f32);
-    virtual s32 call_vt13_with_default(void *, void *, saddr);
-    virtual s32 area_attack_deliver_direct(void *, saddr, void *, f32);
-    virtual s32 vfunc_16(void *, void *);
-    virtual void call_vt16_with_default(void *, void *);
-    virtual s32 area_attack_deliver_physical(void *, void *, f32);
-    virtual void vfunc_19(void *);
-    virtual void area_attack_apply_recoil(void *, f32);
-    virtual void area_attack_receive_direct(void *, f32 *, void *);
-    virtual void apply_hit_if_active(void *, f32 *);
+    virtual s32 call_vt13_with_default(const AreaAttackContact *contact, DirectAttackPayload *attack,
+                                       AreaAttackHistory *history);
+    virtual s32 area_attack_deliver_direct(const AreaAttackContact *contact, DirectAttackPayload *attack,
+                                           AreaAttackHistory *history, f32 range);
+    // Delivers attack to every eligible player in reach, with no hit history (inferred name).
+    virtual s32 deliver_direct_no_history(const AreaAttackContact *contact, DirectAttackPayload *attack);
+    virtual void call_vt16_with_default(const AreaAttackContact *contact, AreaAttackHistory *history);
+    virtual s32 area_attack_deliver_physical(const AreaAttackContact *contact, AreaAttackHistory *history, f32 range);
+    // Delivers a physical hit to every eligible player in reach, with no hit history (inferred name).
+    virtual void deliver_physical_no_history(const AreaAttackContact *contact);
+    virtual void area_attack_apply_recoil(TObjChara *target, f32 recoil);
+    virtual void area_attack_receive_direct(TObjChara *target, const f32 *recoil, DirectAttackPayload *attack);
+    virtual void apply_hit_if_active(TObjChara *target, const f32 *recoil);
     // Takes the firing actor and its room.
     void set_owner(TObjBase *actor);
     void set_position_from(const Vec *pos);

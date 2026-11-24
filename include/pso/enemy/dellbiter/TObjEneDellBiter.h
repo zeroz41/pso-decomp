@@ -21,11 +21,6 @@ struct DelbiterInitialParameters {
     u32 unknown_c[4];
 };
 
-struct DelbiterContactAttack {
-    f32 power;
-    s32 flags;
-};
-
 // What TLobby::spawn_npc_enemy animates the NPC copy with (laid out like MojaAnimationBinding).
 struct DelbiterAttackDefinition {
     void *motion;

@@ -26,7 +26,7 @@
 
 const char *TBoss8DragonEffTail__name = "TBoss8DragonEffTail";
 // As TBoss1DragonEffTail's: what run_task hands its attack history.
-extern const TailAttackParams boss8_dragon_tail_attack_params = { 3.0f, 1 };
+extern const AreaAttackContact boss8_dragon_tail_attack_params = { 3.0f, 1 };
 // The 17 collision bodies the constructor sets up: the first a radius-10 sphere, the rest copies of it.
 CollisionBody boss8_dragon_eff_tail_init_data[17] = { { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 } };
 BmlResource *boss8_eff_tail_bml_resource;
@@ -67,19 +67,19 @@ void TBoss8DragonEffTail::run_task() {
         this->sweep_vector.z = 5.0f * sin_table_lookup(this->rotation_y);
     }
     {
-        TailAttackParams params = boss8_dragon_tail_attack_params;
+        AreaAttackContact params = boss8_dragon_tail_attack_params;
         this->dragon->reset_tail_hp();
         call_vt16_with_default(&params, this->attack_history);
     }
     this->dragon->reload_boss_stats();
 }
 
-void TBoss8DragonEffTail::area_attack_apply_recoil(void *target, f32) {
-    vec3_add_to(&((TObjChara *)target)->velocity, &sweep_vector);
+void TBoss8DragonEffTail::area_attack_apply_recoil(TObjChara *target, f32) {
+    vec3_add_to(&target->velocity, &sweep_vector);
 }
 
-void TBoss8DragonEffTail::apply_hit_if_active(void *target, f32 *) {
-    ((TObjChara *)target)->receive_physical_attack((void *)this->owner, 1.0f);
+void TBoss8DragonEffTail::apply_hit_if_active(TObjChara *target, const f32 *) {
+    target->receive_physical_attack((void *)this->owner, 1.0f);
 }
 
 void TBoss8DragonEffTail::enable() { this->sweep_side = 1; clear_attack_history(); }

@@ -24,12 +24,12 @@
 
 int TObjMotion::is_motion_blending() { return (motion_flags >> 2) & 1; }
 
-void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *hit) {
+void TObjEneRe7BeruraPunch::apply_hit_if_active(TObjChara *target, const f32 *hit) {
     TObjChara *entity;
 
     TAttackCollider::apply_hit_if_active(target, hit);
     if (TObjEneDD::check_v2_mode() != 0) {
-        if (is_player_entity_id(((TObjBase *)(target))->get_entity_id()) != 0) {
+        if (is_player_entity_id(target->get_entity_id()) != 0) {
             entity = (TObjChara *)find_entity_by_id(this->owner_id);
             if ((entity != NULL) && (entity->random_ratio() < 0.1f)) {
                 TObjEneDD__sub_800BA438(entity, (TObjChara *)target);
@@ -38,9 +38,6 @@ void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *hit) {
     }
 }
 
-// the contact attack update_attack_collision hands call_vt16_with_default
-// (layout as DelbiterContactAttack; name inferred)
-struct BeruraPunchContactAttack { f32 power; s32 flags; };
 
 
 void TObjEneRe7BeruraPunch::render() {
@@ -143,9 +140,9 @@ s32 TObjEneRe7BeruraPunch::update_attack_collision() {
     if (owner != 0) {
         owner->reload_stats_from_tables();
     }
-    BeruraPunchContactAttack attack = { 3.0f, 3 };
+    AreaAttackContact attack = { 3.0f, 3 };
     if (TObjEneDD::check_v2_mode() != 0) {
-        attack.flags &= ~2;
+        attack.contact_flags &= ~2;
     }
     this->call_vt16_with_default(&attack, this->attack_history);
     if (owner != 0) {

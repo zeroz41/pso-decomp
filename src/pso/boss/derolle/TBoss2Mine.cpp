@@ -336,7 +336,7 @@ void TBoss2Mine::state_explode(s32 reason) {
         if (step > 30) {
             *reinterpret_cast<TBoss2MineCollisionWords *>(&hit) =
                 *reinterpret_cast<const TBoss2MineCollisionWords *>(&boss2_mine_collision_desc);
-            hit.power = TBoss2DeRolLe::get_mine_power();
+            hit.attack.power = TBoss2DeRolLe::get_mine_power();
             TObjEneDD__sub_800BA5A4(this, &hit);
             spawn_particle_effect_with_flags(&bodies->center, 0x16B, 0x40);
             timer = 2;

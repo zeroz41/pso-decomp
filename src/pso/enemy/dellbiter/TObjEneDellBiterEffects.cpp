@@ -132,7 +132,7 @@ void TObjEneDellBiter_Eff_TpAbsorb1::run_task() {
         }
         attack.kind = dell_biter_tp_absorb_attack.kind;
         attack.power = power;
-        call_vt13_with_default((void *)&dell_biter_tp_absorb_hit_params, &attack, (saddr)attack_history);
+        call_vt13_with_default(&dell_biter_tp_absorb_hit_params, &attack, attack_history);
         return;
     }
     queue_destruction();

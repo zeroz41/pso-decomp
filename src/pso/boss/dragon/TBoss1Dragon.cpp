@@ -467,15 +467,14 @@ void apply_dragon_hit_ailment(TObjChara *target) {
     }
 }
 
-void TUnk_80481B34::area_attack_receive_direct(void *target, f32 *, void *payload) {
-    TObjChara *chara = (TObjChara *)target;
+void TUnk_80481B34::area_attack_receive_direct(TObjChara *chara, const f32 *, DirectAttackPayload *payload) {
     s32 i;
     CollisionBody *e;
 
     for (i = 0; i < chara->body_count; i++) {
         e = &chara->bodies[i];
         if (e->flags & 0x04000000) {
-            DirectAttackPayload attack = *(DirectAttackPayload *)payload;
+            DirectAttackPayload attack = *payload;
             chara->receive_direct_attack((void *)this->owner, attack, e, -1, -1);
             apply_dragon_hit_ailment(chara);
             return;
@@ -483,9 +482,9 @@ void TUnk_80481B34::area_attack_receive_direct(void *target, f32 *, void *payloa
     }
 }
 
-void TUnk_80481B34::apply_hit_if_active(void *target, f32 *) {
-    ((TObjChara *)target)->receive_physical_attack((void *)this->owner, 1.0f);
-    apply_dragon_hit_ailment((TObjChara *)target);
+void TUnk_80481B34::apply_hit_if_active(TObjChara *target, const f32 *) {
+    target->receive_physical_attack((void *)this->owner, 1.0f);
+    apply_dragon_hit_ailment(target);
 }
 
 saddr TBoss1Dragon::get_instance() {
@@ -1867,7 +1866,7 @@ void TBoss1Dragon::apply_trail_attack() {
     TObjBoss1MokoHill_SoloM *moko_hill = this->moko_hill;
     if ((moko_hill != NULL) && (moko_hill->is_dragon_trail_damaging() != 0)) {
         DragonAttackParams params = dragon_breath_attack_params;
-        params.power = boss1_dragon_behavior_params[0]->trail_attack_power;
+        params.attack.power = boss1_dragon_behavior_params[0]->trail_attack_power;
         switch (TBoss1Dragon::isV2Mode()) {
         case 0:
             TObjEneDD::setup_instance(this, &this->position, &params, this->attack_history);
@@ -1881,8 +1880,8 @@ void TBoss1Dragon::apply_trail_attack() {
 
 void TBoss1Dragon::deliver_breath_attack(Vec *position, AreaAttackHistory *attack_history) {
     DragonAttackParams params = dragon_fireball_attack_params;
-    params.power = boss1_dragon_behavior_params[0]->breath_attack_power;
-    params.kind = this->attack_kind;
+    params.attack.power = boss1_dragon_behavior_params[0]->breath_attack_power;
+    params.attack.kind = this->attack_kind;
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         TObjEneDD::setup_instance(this, position, &params, attack_history);
@@ -1895,8 +1894,8 @@ void TBoss1Dragon::deliver_breath_attack(Vec *position, AreaAttackHistory *attac
 
 void TBoss1Dragon::apply_fireball_impact_damage(Vec *position) {
     DragonAttackParams params = dragon_fireball_impact_damage_params;
-    params.power = boss1_dragon_behavior_params[0]->fireball_impact_power;
-    params.kind = this->attack_kind;
+    params.attack.power = boss1_dragon_behavior_params[0]->fireball_impact_power;
+    params.attack.kind = this->attack_kind;
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         TObjEneDD::setup(this, position, &params);
@@ -1926,7 +1925,7 @@ void TBoss1Dragon::setup_v2_instance(const Vec *position, DragonAttackParams *pa
     ((TAttackCollider *)this->attack_collider)->set_position_from(position);
     this->attack_collider->bodies->radius = params->radius;
     this->attack_collider->bodies->flags = 0x9D03;
-    this->attack_collider->call_vt13_with_default(&params->contact, params, reinterpret_cast<saddr>(history));
+    this->attack_collider->call_vt13_with_default(&params->contact, &params->attack, history);
 }
 
 void TBoss1Dragon::update_switch_attack() {

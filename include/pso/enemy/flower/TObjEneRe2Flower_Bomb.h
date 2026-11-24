@@ -13,7 +13,7 @@ class TObjEneRe2Flower_Bomb : public TAttackCollider {
 public:
     TObjEneRe2Flower_Bomb(TObjEneRe2Flower *owner, const Vec *start, s32 heading);
     virtual ~TObjEneRe2Flower_Bomb();
-    virtual s32 area_attack_deliver_direct(void *, saddr, void *, f32);
+    virtual s32 area_attack_deliver_direct(const AreaAttackContact *contact, DirectAttackPayload *attack, AreaAttackHistory *history, f32 range);
     virtual void render();
     virtual void run_task();
     static const char *class_name;

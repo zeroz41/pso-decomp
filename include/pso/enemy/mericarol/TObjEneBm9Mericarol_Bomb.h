@@ -14,7 +14,7 @@ public:
     virtual ~TObjEneBm9Mericarol_Bomb();
     virtual void render();
     virtual void run_task();
-    virtual s32 area_attack_deliver_direct(void *recoil, saddr desc, void *object, f32 range);
+    virtual s32 area_attack_deliver_direct(const AreaAttackContact *contact, DirectAttackPayload *attack, AreaAttackHistory *history, f32 range);
     u16 owner_id;              // get_entity_id(owner); find_entity_by_id on impact
     u8 pad_B2[0x2];
     Vec pos;                   // the bomb's own position: ground-checked, moved by velocity
@@ -23,13 +23,12 @@ public:
     Vec ground_normal;        // ground surface orientation used by the shadow
     AreaAttackContact contact;
     s32 m_ec;
-    s32 attack_type;           // 5 in v2 mode, else by phase; 0x12 for the final blast
-    f32 power;                 // {attack_type, power} is the DirectAttackPayload &attack_type passes
+    DirectAttackPayload attack; // kind: 5 in v2 mode, else by phase; 0x12 for the final blast
     f32 fall_speed;
     s32 age;                   // frames alive; destroyed at 150
     s32 state;
     s32 phase_effect_id;       // 0x208..0x20A by the owner's phase
-    s32 final_blast;           // phase 0: upgrades attack_type to 0x12 when the bomb lands
+    s32 final_blast;           // phase 0: upgrades attack.kind to 0x12 when the bomb lands
     s32 shadow_visible;
     TParticleCtrl *effect;     // particle 0x207, follows pos
     TParticleCtrl *phase_effect;

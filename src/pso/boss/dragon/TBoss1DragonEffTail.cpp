@@ -60,7 +60,7 @@ void TBoss1DragonEffTail::run_task() {
         this->sweep_vector.z = 5.0f * sin_table_lookup(this->rotation_y);
     }
     {
-        TailAttackParams params = { 3.0f, 1 };
+        AreaAttackContact params = { 3.0f, 1 };
         this->dragon->reset_tail_hp();
         call_vt16_with_default(&params, this->attack_history);
     }
@@ -69,14 +69,14 @@ void TBoss1DragonEffTail::run_task() {
 
 // Pushes the hit object along this tail's sweep vector (its velocity, which the base
 // TAttackCollider::area_attack_apply_recoil also moves).
-void TBoss1DragonEffTail::area_attack_apply_recoil(void *target, f32) {
-    vec3_add_to(&((TObjChara *)target)->velocity, &sweep_vector);
+void TBoss1DragonEffTail::area_attack_apply_recoil(TObjChara *target, f32) {
+    vec3_add_to(&target->velocity, &sweep_vector);
 }
 
-void TBoss1DragonEffTail::apply_hit_if_active(void *target, f32 *) {
-    ((TObjChara *)target)->receive_physical_attack((void *)this->owner, 1.0f);
+void TBoss1DragonEffTail::apply_hit_if_active(TObjChara *target, const f32 *) {
+    target->receive_physical_attack((void *)this->owner, 1.0f);
     if (TObjEneDD::check_v2_mode() != 0) {
-        apply_dragon_hit_ailment((TObjChara *)target);
+        apply_dragon_hit_ailment(target);
     }
 }
 

@@ -798,10 +798,10 @@ void TObjEneDD::setup_instance(TObjBase *owner, Vec *pos, DragonAttackParams *pa
     obj_ene_dd_instance->bodies->radius = params->radius;
     obj_ene_dd_instance->bodies->flags = 0x9D03;
     if (params->radius > 100.0f) {
-        obj_ene_dd_instance->area_attack_deliver_direct(&params->contact, (saddr)params, attack_history, params->radius);
+        obj_ene_dd_instance->area_attack_deliver_direct(&params->contact, &params->attack, attack_history, params->radius);
         return;
     }
-    obj_ene_dd_instance->call_vt13_with_default(&params->contact, params, (saddr)attack_history);
+    obj_ene_dd_instance->call_vt13_with_default(&params->contact, &params->attack, attack_history);
 }
 
 void TObjEneDD::setup(TObjBase *owner, Vec *pos, DragonAttackParams *params) { TObjEneDD::setup_instance(owner, pos, params, NULL); }

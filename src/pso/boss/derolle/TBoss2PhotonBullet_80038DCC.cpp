@@ -50,7 +50,7 @@ extern const Boss2PhotonLevel TBoss2PhotonPad__bullet_level_param_table[3] = {
 
 extern const DirectAttackPayload boss2_photon_bullet_attack[1] = { { 0, 3.0f } };
 
-extern const s32 boss2_photon_bullet_hit_args[2] = { 0x40400000, 1 }; // 3.0f as raw bits, then 1
+extern const AreaAttackContact boss2_photon_bullet_hit_args = {3.0f, 1};
 
 const char *TBoss2PhotonPad__name = "TBoss2PhotonPad";
 
@@ -141,7 +141,7 @@ void TBoss2PhotonBullet::run_task() {
     if (position.x <= boss2_platform_max && position.x >= boss2_platform_min) {
         DirectAttackPayload attack = boss2_photon_bullet_attack[0];
         attack.power = TBoss2DeRolLe::get_bullet_power();
-        if (vfunc_16((void *)boss2_photon_bullet_hit_args, &attack) != 0) {
+        if (deliver_direct_no_history(&boss2_photon_bullet_hit_args, &attack) != 0) {
             queue_destruction();
             return;
         }

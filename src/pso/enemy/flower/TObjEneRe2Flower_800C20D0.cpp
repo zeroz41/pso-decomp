@@ -225,7 +225,7 @@ void TObjEneRe2Flower::state_self_destruct(s32 reason) {
             spawn_particle_effect_with_flags(&v, 0xD3, 0x40);
             {
                 DragonAttackParams prm = re2_flower_tower_attack_params;
-                prm.contact.recoil = prm.power = *re2_flower_movement_params;
+                prm.contact.recoil = prm.attack.power = *re2_flower_movement_params;
                 if (is_tower_variant() != 0) {
                     TObjEneDD__sub_800BA5A4(this, &prm);
                 } else {

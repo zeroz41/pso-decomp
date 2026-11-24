@@ -411,9 +411,9 @@ void TObjEneDellBiter::update_contact_attacks() {
         attack_bodies[1]->rotation_y = rotation_y;
         VecCopy(&attack_bodies[1]->position, &part_positions[1]);
         attack_bodies[1]->refresh_collision_body_centers();
-        DelbiterContactAttack attack = { get_attack_params_atp_min(TObjEneDellBiter__shared_handler_param), 1 };
+        AreaAttackContact attack = { get_attack_params_atp_min(TObjEneDellBiter__shared_handler_param), 1 };
         if (is_confused() != 0) {
-            attack.flags |= 2;
+            attack.contact_flags |= 2;
         }
         attack_bodies[0]->call_vt16_with_default(&attack, attack_history);
         attack_bodies[1]->call_vt16_with_default(&attack, attack_history);

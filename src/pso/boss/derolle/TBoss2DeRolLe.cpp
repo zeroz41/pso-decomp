@@ -3399,7 +3399,7 @@ void TBoss2DeRolLe::handle_laser_attack_state(u32 reason) {
                 }
                 {
                     DragonAttackParams r = derolle_laser_hit_effect_params;
-                    r.power = derolle_params[0]->laser_power;
+                    r.attack.power = derolle_params[0]->laser_power;
                     TObjEneDD::setup_instance(this, hit, &r, attack_history);
                 }
             }

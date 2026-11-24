@@ -164,12 +164,6 @@ Vec bringer_camera_ctrl_target_vec;
 
 
 
-// The slash's contact block, call_vt16_with_default's first argument: the recoil and the bodies
-// it tests (bit 0 players, bit 1 enemies; see DragonAttackParams).
-struct BringerSlashContact {
-    f32 recoil;
-    u32 contact_flags;
-};
 
 
 
@@ -438,7 +432,7 @@ void TObjEneDf2Bringer::update_attack_child() {
         VecCopy(&collider->bodies[0].offset, &points[1]);
         VecCopy(&collider->bodies[1].offset, &points[3]);
         collider->refresh_collision_body_centers();
-        BringerSlashContact contact = { 3.0f, 1 };
+        AreaAttackContact contact = { 3.0f, 1 };
         if (is_confused() != 0) {
             contact.contact_flags |= 2;
         }

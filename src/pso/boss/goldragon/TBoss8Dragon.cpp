@@ -1468,22 +1468,22 @@ void TBoss8Dragon::apply_trail_attack() {  }
 
 void TBoss8Dragon::setup_breath_instance(Vec *pos, u32 kind, AreaAttackHistory *history) {
     DragonAttackParams s = TBoss8Dragon__breath_params;
-    s.power = boss8_dragon_behavior_params[0]->values[0];
-    s.kind = kind;
+    s.attack.power = boss8_dragon_behavior_params[0]->values[0];
+    s.attack.kind = kind;
     setup_instance(pos, &s, history);
 }
 
 void TBoss8Dragon::apply_fireball_impact_damage(Vec *pos, u32 kind) {
     DragonAttackParams s = boss8_dragon_fireball_impact_params;
-    s.power = boss8_dragon_behavior_params[0]->values[1];
-    s.kind = kind;
+    s.attack.power = boss8_dragon_behavior_params[0]->values[1];
+    s.attack.kind = kind;
     this->setup_instance(pos, &s, 0);
 }
 
 void TBoss8Dragon::apply_pillar_attack(Vec *pos, f32 radius) {
     DragonAttackParams s = boss8_dragon_pillar_attack_params;
     s.radius = radius;
-    s.power = boss8_dragon_behavior_params[0]->values[2];
+    s.attack.power = boss8_dragon_behavior_params[0]->values[2];
     this->setup_instance(pos, &s, this->attack_history);
 }
 

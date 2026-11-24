@@ -333,7 +333,7 @@ void TObjEneDf2Bringer_Eff_TpAbsorb1::run_task() {
     }
     attack.kind = bringer_tp_absorb_attack.kind;
     attack.power = power;
-    call_vt13_with_default((void *)&bringer_tp_absorb_hit_params, &attack, (saddr)attack_history);
+    call_vt13_with_default(&bringer_tp_absorb_hit_params, &attack, attack_history);
     timer--;
     if (hit != 0 || timer < 0) {
         deactivate();

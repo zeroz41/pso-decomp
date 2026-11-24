@@ -7,8 +7,8 @@ class TUnk_80481B34 : public TAttackCollider {
 public:
     TUnk_80481B34(TObject *parent, TObjBase *owner);
     virtual ~TUnk_80481B34();
-    virtual void apply_hit_if_active(void *, f32 *);
-    virtual void area_attack_receive_direct(void *, f32 *, void *);
+    virtual void apply_hit_if_active(TObjChara *target, const f32 *recoil);
+    virtual void area_attack_receive_direct(TObjChara *target, const f32 *recoil, DirectAttackPayload *attack);
 };
 LAYOUT_ASSERT(TUnk_80481B34_size, sizeof(TUnk_80481B34) == 0xB0);
 

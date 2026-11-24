@@ -698,7 +698,7 @@ void TObjEneMe1Canadin::set_flag3c8_bit40() { status_flags |= 0x40; }
 
 void TObjEneMe1Canadin::deliver_discharge_attack(Vec *pos) {
     DragonAttackParams params = canadin_discharge_attack_params;
-    params.power = kind_params->ranged_power;
+    params.attack.power = kind_params->ranged_power;
     TObjEneDD::setup(this, pos, &params);
 }
 
@@ -1582,7 +1582,7 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         if (this->stage >= 0x96) {
             DragonAttackParams c = canadin_self_destruct_attack_params;
             TObjEneMe1CanadinParams *t = this->kind_params;
-            c.power = t->self_destruct_power;
+            c.attack.power = t->self_destruct_power;
             TObjEneDD__sub_800BA5A4(this, &c);
             this->status_flags |= 0x800000;
         }

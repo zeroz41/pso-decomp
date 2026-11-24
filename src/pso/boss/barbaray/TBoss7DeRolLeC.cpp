@@ -3114,7 +3114,7 @@ void TBoss7DeRolLeC::handle_laser_attack_state(u32 event) {
             }
             {
                 DragonAttackParams params = boss7_laser_particle_params;
-                params.power = boss_params->laser_power;
+                params.attack.power = boss_params->laser_power;
                 TObjEneDD::setup_instance(this, beam_end, &params, attack_history);
             }
             if (laser_ptcl != NULL) {

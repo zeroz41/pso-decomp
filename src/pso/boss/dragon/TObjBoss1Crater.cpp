@@ -7,6 +7,7 @@
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/AreaAttackContact.h"
+#include "pso/boss/DragonAttackParams.h"
 #include "pso/object/base/TAttackCollider.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -46,14 +47,8 @@ void load_dragon_ground_assets(void) {
 
 // The crater's hit: kind and power (run_task replaces both), the body radius the ctor gives it, and the
 // recoil pair run_task passes to call_vt13_with_default.
-struct CraterAttackParams {
-    s32 kind;
-    f32 power;
-    f32 radius;
-    AreaAttackContact contact;
-};
 
-extern const CraterAttackParams boss1_crater_attack_params = { 1, 50.0f, 20.0f, { 0.0f, 1 } };
+extern const DragonAttackParams boss1_crater_attack_params = { 1, 50.0f, 20.0f, { 0.0f, 1 } };
 const char *TObjBoss1Crater__name = "TObjBoss1Crater";
 
 TObjBoss1Crater *TObjBoss1Crater__instance_list[20];
@@ -79,11 +74,11 @@ void TObjBoss1Crater::run_task() {
         return;
     }
     {
-        CraterAttackParams params = boss1_crater_attack_params;
-        params.power = ((TBoss1Dragon *)owner)->get_crater_attack_power();
-        params.kind = attack_kind;
+        DragonAttackParams params = boss1_crater_attack_params;
+        params.attack.power = ((TBoss1Dragon *)owner)->get_crater_attack_power();
+        params.attack.kind = attack_kind;
         n = attack_target_list_count(attack_history);
-        if (call_vt13_with_default(const_cast<AreaAttackContact *>(&boss1_crater_attack_params.contact), &params, (saddr)attack_history) != 0) {
+        if (call_vt13_with_default(&boss1_crater_attack_params.contact, &params.attack, attack_history) != 0) {
             s32 m = attack_target_list_count(attack_history);
             for (s32 j = n; j < m; j++) {
                 hit_timers[j] = 0x3C;
@@ -106,8 +101,7 @@ void TObjBoss1Crater::run_task() {
     }
 }
 
-void TObjBoss1Crater::area_attack_receive_direct(void *target, f32 *, void *attack) {
-    TObjChara *chara = (TObjChara *)target;
+void TObjBoss1Crater::area_attack_receive_direct(TObjChara *chara, const f32 *, DirectAttackPayload *attack) {
     s32 off;
     s32 i;
     CollisionBody *body;
@@ -115,7 +109,7 @@ void TObjBoss1Crater::area_attack_receive_direct(void *target, f32 *, void *atta
     for (i = 0; i < chara->body_count; i++) {
         body = (CollisionBody *)((u8 *)chara->bodies + off);
         if (body->flags & 0x04000000) {
-            DirectAttackPayload payload = *(DirectAttackPayload *)attack;
+            DirectAttackPayload payload = *attack;
             chara->receive_direct_attack((void *)owner, payload, body, -1, -1);
             if (attack_kind == 0x13 && !(chara->actorFlags & 0x20)) {
                 apply_dragon_hit_ailment(chara);

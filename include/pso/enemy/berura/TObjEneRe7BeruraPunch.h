@@ -11,7 +11,7 @@ class AreaAttackHistory;
 struct TObjEneRe7BeruraPunch : public TAttackCollider {
     TObjEneRe7BeruraPunch(TObject *parent, TObjBase *owner);
     virtual ~TObjEneRe7BeruraPunch();
-    virtual void apply_hit_if_active(void *, f32 *);
+    virtual void apply_hit_if_active(TObjChara *target, const f32 *recoil);
     s32 update_attack_collision();
     void update_flight();
     void snap_to_ground();

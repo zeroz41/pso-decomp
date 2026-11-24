@@ -29,7 +29,7 @@ extern const Boss7PhotonLevel boss7_photon_bullet_level_table[3] = {
     {5, 1, 0x4000, 5.0f},
 };
 extern const DirectAttackPayload boss7_photon_bullet_attack[1] = {{0, 3.0f}};
-extern const s32 boss7_photon_bullet_hit_args[2] = {0x40400000, 1}; // 3.0f as raw bits, then 1
+extern const AreaAttackContact boss7_photon_bullet_hit_args = {3.0f, 1};
 const char *TBoss7PhotonPad__name = "TBoss7PhotonPad";
 const char *TBoss7PhotonBullet__name = "TBoss7PhotonBullet";
 
@@ -128,7 +128,7 @@ void TBoss7PhotonBullet::run_task() {
     if (position.x <= boss7_deck_max_x && position.x >= boss7_deck_min_x) {
         DirectAttackPayload attack = boss7_photon_bullet_attack[0];
         attack.power = TBoss7PhotonBullet::get_target_pos_y();
-        if (vfunc_16((void *)boss7_photon_bullet_hit_args, &attack) != 0) {
+        if (deliver_direct_no_history(&boss7_photon_bullet_hit_args, &attack) != 0) {
             queue_destruction();
             return;
         }

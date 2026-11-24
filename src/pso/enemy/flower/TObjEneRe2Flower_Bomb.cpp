@@ -32,7 +32,7 @@ const char *TObjEneRe2Flower_Bomb::class_name = "TObjEneRe2Flower_Bomb";
 
 // The bomb's first function: its 30.0 opens this file's literal pool at
 // 0x805DA000, while the Flower file's pool already holds 30.0 at 0x805D9FEC.
-s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, saddr desc, void *object, f32 range) {
+s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(const AreaAttackContact *contact, DirectAttackPayload *attack, AreaAttackHistory *history, f32 range) {
     s32 result;
     s32 flags;
     TObjChara *p;
@@ -44,11 +44,11 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, saddr desc, 
         return 0;
     }
     clear_battle_param_slots();
-    if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 1) {
+    if (contact->contact_flags & 1) {
         this->update_body_contact_flag(range);
         flags |= 0x80000;
     }
-    if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 2) {
+    if (contact->contact_flags & 2) {
         this->mark_enemy_body_contacts();
         flags |= 0x100000;
     }
@@ -62,11 +62,11 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, saddr desc, 
                 is_target_eligible(p->actorFlags) != 0 &&
                 !(fabs_float(start_position.y - p->body_center.y) > 30.0f)) {
                 ok = 1;
-                if (object != 0 && attack_target_history_add((AreaAttackHistory *)object, p) == 0) {
+                if (history != 0 && attack_target_history_add(history, p) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {
-                    this->area_attack_receive_direct(p, (f32 *)recoil, (void *)desc);
+                    this->area_attack_receive_direct(p, &contact->recoil, attack);
                     result = 1;
                 }
             }
@@ -129,7 +129,7 @@ void TObjEneRe2Flower_Bomb::run_task() {
         if (age >= 0x14) {
             contact.contact_flags |= 2;
         }
-        if (vfunc_16(&contact, const_cast<DragonAttackParams *>(&flower_bomb_attack)) != 0) {
+        if (deliver_direct_no_history(&contact, const_cast<DirectAttackPayload *>(&flower_bomb_attack.attack)) != 0) {
             static_cast<TObjEneRe2Flower *>(find_entity_by_id(owner_id))->notify_bomb_hit();
             queue_destruction();
             return;

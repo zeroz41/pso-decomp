@@ -9,14 +9,13 @@ class AreaAttackHistory;
 class TBoss1Dragon;
 
 // What the dragons' tails pass to call_vt16_with_default each frame (run_task).
-struct TailAttackParams { f32 power; s32 kind; };
 
 struct TBoss1DragonEffTail : public TAttackCollider {
     TBoss1DragonEffTail(TBoss1Dragon *dragon, Vec *nodes);
     virtual ~TBoss1DragonEffTail();
-    virtual void apply_hit_if_active(void *, f32 *);
+    virtual void apply_hit_if_active(TObjChara *target, const f32 *recoil);
     virtual void run_task();
-    virtual void area_attack_apply_recoil(void *, f32);
+    virtual void area_attack_apply_recoil(TObjChara *target, f32 recoil);
     TBoss1Dragon *dragon;  // its owner: run_task follows it and refreshes its tail hit points
     Vec *nodes;            // the owner's node positions the 17 bodies are placed on
     AreaAttackHistory *attack_history;

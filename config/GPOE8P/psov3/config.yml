@@ -3922,9 +3922,9 @@ force_active:
   - apply_head_fall_attack__12TBoss1DragonFv
   - apply_heal_to_target__13TOHealGeneralFv
   - apply_hit__15TOAttackableColFl
-  - apply_hit_if_active__13TUnk_80481B34FPvPf
-  - apply_hit_if_active__19TBoss1DragonEffTailFPvPf
-  - apply_hit_if_active__21TObjEneRe7BeruraPunchFPvPf
+  - apply_hit_if_active__13TUnk_80481B34FP9TObjCharaPCf
+  - apply_hit_if_active__19TBoss1DragonEffTailFP9TObjCharaPCf
+  - apply_hit_if_active__21TObjEneRe7BeruraPunchFP9TObjCharaPCf
   - apply_hit_to_target__14TBoss7CrawfishFPvPv
   - apply_item_data__9TItemDropFPvPv
   - apply_item_flags__5TItemFP9TItemData
@@ -4014,9 +4014,9 @@ force_active:
   - are_p01s_broken__12TBoss3VoloptFv
   - are_p01s_idle__12TBoss3VoloptFv
   - area_allows_win_timer__15TObjSoloPlayWinFv
-  - area_attack_apply_recoil__19TBoss1DragonEffTailFPvf
-  - area_attack_receive_direct__13TUnk_80481B34FPvPfPv
-  - area_attack_receive_direct__15TObjBoss1CraterFPvPfPv
+  - area_attack_apply_recoil__19TBoss1DragonEffTailFP9TObjCharaf
+  - area_attack_receive_direct__13TUnk_80481B34FP9TObjCharaPCfP19DirectAttackPayload
+  - area_attack_receive_direct__15TObjBoss1CraterFP9TObjCharaPCfP19DirectAttackPayload
   - area_dialogue_file_ancient_e
   - area_dialogue_file_ancient_e_u
   - area_dialogue_file_ancient_f

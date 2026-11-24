@@ -15,22 +15,22 @@
 extern "C" {
 
 
-void TAttackCollider::apply_hit_if_active(void *chara, f32 *recoil) {
-    ((TObjChara *)chara)->receive_physical_attack(owner, 1.0f);
-    if (((TObjChara *)chara)->obj_isState2_324() == 0) {
-        this->area_attack_apply_recoil(chara, *recoil);
+void TAttackCollider::apply_hit_if_active(TObjChara *target, const f32 *recoil) {
+    target->receive_physical_attack(owner, 1.0f);
+    if (target->obj_isState2_324() == 0) {
+        this->area_attack_apply_recoil(target, *recoil);
     }
 }
 
-void TAttackCollider::area_attack_receive_direct(void *dst, f32 *recoil, void *desc) {
+void TAttackCollider::area_attack_receive_direct(TObjChara *target, const f32 *recoil, DirectAttackPayload *attack) {
     s32 i;
     CollisionBody *rec;
-    for (i = 0; i < ((TObjChara *)dst)->body_count; i++) {
-        rec = &((TObjChara *)dst)->bodies[i];
+    for (i = 0; i < target->body_count; i++) {
+        rec = &target->bodies[i];
         if (rec->flags & 0x04000000) {
-            ((TObjChara *)dst)->receive_direct_attack(owner, *(DirectAttackPayload *)desc, rec, -1, -1);
-            if (((TObjChara *)dst)->obj_isState2_324() == 0) {
-                area_attack_apply_recoil(dst, *recoil);
+            target->receive_direct_attack(owner, *attack, rec, -1, -1);
+            if (target->obj_isState2_324() == 0) {
+                area_attack_apply_recoil(target, *recoil);
             }
             return;
         }
@@ -39,8 +39,7 @@ void TAttackCollider::area_attack_receive_direct(void *dst, f32 *recoil, void *d
 
 #pragma push
 #pragma fp_contract on
-void TAttackCollider::area_attack_apply_recoil(void *b_arg, f32 s) {
-    TObjChara *target = static_cast<TObjChara *>(b_arg);
+void TAttackCollider::area_attack_apply_recoil(TObjChara *target, f32 s) {
     Vec v;
     VecCopy(&v, &target->position);
     subtract_vector(&v, &position);
@@ -50,11 +49,11 @@ void TAttackCollider::area_attack_apply_recoil(void *b_arg, f32 s) {
 }
 #pragma pop
 
-void TAttackCollider::vfunc_19(void *contact) {
+void TAttackCollider::deliver_physical_no_history(const AreaAttackContact *contact) {
     this->call_vt16_with_default(contact, 0);
 }
 
-s32 TAttackCollider::area_attack_deliver_physical(void *contact, void *object, f32 range) {
+s32 TAttackCollider::area_attack_deliver_physical(const AreaAttackContact *contact, AreaAttackHistory *history, f32 range) {
     s32 hit = 0;
     s32 mask = 0;
     TObjChara *t;
@@ -66,11 +65,11 @@ s32 TAttackCollider::area_attack_deliver_physical(void *contact, void *object, f
         return 0;
     }
     clear_battle_param_slots();
-    if (static_cast<AreaAttackContact *>(contact)->contact_flags & 1) {
+    if (contact->contact_flags & 1) {
         update_body_contact_flag(range);
         mask |= 0x80000;
     }
-    if (static_cast<AreaAttackContact *>(contact)->contact_flags & 2) {
+    if (contact->contact_flags & 2) {
         mark_enemy_body_contacts();
         mask |= 0x100000;
     }
@@ -82,11 +81,11 @@ s32 TAttackCollider::area_attack_deliver_physical(void *contact, void *object, f
             }
             if (obj_is_hit_receivable(t) != 0 && t != owner && is_target_eligible(t->actorFlags) != 0) {
                 ok = 1;
-                if (object != NULL && attack_target_history_add((AreaAttackHistory *)object, t) == 0) {
+                if (history != NULL && attack_target_history_add(history, t) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {
-                    this->apply_hit_if_active(t, (f32 *)((AreaAttackContact *)contact));
+                    this->apply_hit_if_active(t, &contact->recoil);
                     hit = 1;
                 } else {
                     n = t->body_count;
@@ -102,16 +101,17 @@ s32 TAttackCollider::area_attack_deliver_physical(void *contact, void *object, f
 
 #pragma push
 #pragma fp_contract on
-void TAttackCollider::call_vt16_with_default(void *contact, void *history) {
+void TAttackCollider::call_vt16_with_default(const AreaAttackContact *contact, AreaAttackHistory *history) {
     area_attack_deliver_physical(contact, history, 100.0f);
 }
 #pragma pop
 
-s32 TAttackCollider::vfunc_16(void *recoil, void *attack) {
-    return call_vt13_with_default(recoil, attack, 0);
+s32 TAttackCollider::deliver_direct_no_history(const AreaAttackContact *contact, DirectAttackPayload *attack) {
+    return call_vt13_with_default(contact, attack, NULL);
 }
 
-s32 TAttackCollider::area_attack_deliver_direct(void *recoil, saddr desc, void *object, f32 range) {
+s32 TAttackCollider::area_attack_deliver_direct(const AreaAttackContact *contact, DirectAttackPayload *attack,
+                                                AreaAttackHistory *history, f32 range) {
     s32 hit = 0;
     s32 mask = 0;
     TObjChara *t;
@@ -121,11 +121,11 @@ s32 TAttackCollider::area_attack_deliver_direct(void *recoil, saddr desc, void *
         return 0;
     }
     clear_battle_param_slots();
-    if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 1) {
+    if (contact->contact_flags & 1) {
         update_body_contact_flag(range);
         mask |= 0x80000;
     }
-    if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 2) {
+    if (contact->contact_flags & 2) {
         mark_enemy_body_contacts();
         mask |= 0x100000;
     }
@@ -137,11 +137,11 @@ s32 TAttackCollider::area_attack_deliver_direct(void *recoil, saddr desc, void *
             }
             if (obj_is_hit_receivable(t) != 0 && t != owner && is_target_eligible(t->actorFlags) != 0) {
                 ok = 1;
-                if (object != NULL && attack_target_history_add((AreaAttackHistory *)object, t) == 0) {
+                if (history != NULL && attack_target_history_add(history, t) == 0) {
                     ok = 0;
                 }
                 if (ok != 0) {
-                    this->area_attack_receive_direct((void *)t, (f32 *)((AreaAttackContact *)recoil), (void *)desc);
+                    this->area_attack_receive_direct(t, &contact->recoil, attack);
                     hit = 1;
                 }
             }
@@ -150,8 +150,9 @@ s32 TAttackCollider::area_attack_deliver_direct(void *recoil, saddr desc, void *
     return hit;
 }
 
-s32 TAttackCollider::call_vt13_with_default(void *recoil, void *attack, saddr history) {
-    return area_attack_deliver_direct(recoil, reinterpret_cast<saddr>(attack), reinterpret_cast<void *>(history), 100.0f);
+s32 TAttackCollider::call_vt13_with_default(const AreaAttackContact *contact, DirectAttackPayload *attack,
+                                            AreaAttackHistory *history) {
+    return area_attack_deliver_direct(contact, attack, history, 100.0f);
 }
 
 }
