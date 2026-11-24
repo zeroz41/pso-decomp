@@ -141,7 +141,7 @@ struct TNpcPlayer : public TObject {
     void dispatch_action(s32 arg1);
     void change_ai_state(u32 arg1);
     void handle_action(s32 arg1);
-    void request_chatter(u32 arg1);
+    void request_chatter(u32 id);
     static const char *name;
     static bool is_small_obstacle(f32 size);
     static bool is_hp_low(f32 hp, f32 max_hp);
