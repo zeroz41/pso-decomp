@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 #include "pso/system/NinjaTypes.h"
 
 class TParticleCtrl;
@@ -112,10 +112,10 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     s32 texture_scroll_speed;
     s32 texture_scroll;          // render scrolls the body strips by it
     s32 dizzy_level;             // +1 after every dizzy spell; scales turn_limit and the next spell
-    TUnk_80490470 body_fade;
+    MaterialShadeFade body_fade;
     s32 current_arm;             // the arm the next punch throws (0 / 1)
     TObjEneRe7BeruraPunch *punch;
-    TUnk_80490470 arm_fade;      // fades the thrown arm back in
+    MaterialShadeFade arm_fade;      // fades the thrown arm back in
     u32 arm_flags[2];            // BERURA_ARM_*
     Vec hand_positions[2];       // the hand emitters follow these
     TParticleCtrl *hand_emitters[2];

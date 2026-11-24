@@ -59,7 +59,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 
 #include "pso/player/TUnk_804928CC.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 
 void bringer_render_node_callback(NJS_OBJECT *);
 void *bringer_init_params[7] = {

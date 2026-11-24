@@ -7,7 +7,7 @@ struct BmlResource;
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 #include "pso/render/TUnk_80494938.h"
 
 class TObject;
@@ -51,7 +51,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     f32 wall_chance;          // check_low_hp_trigger's roll for raising the wall (flag 0x10)
     f32 burst_chance;         // try_enter_low_hp_state's roll for the burst (state 9)
     s32 can_walk;             // variant <= 0
-    TUnk_80490470 body_fade;
+    MaterialShadeFade body_fade;
     TUnk_80494938 wall_fade;  // draw_body fades the wall model with it
     RenderFadeState part_fades[4];
     TParticleCtrl *burst_emitter; // the burst's charge particles

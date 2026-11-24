@@ -139,21 +139,21 @@ GinjaRenderTarget *camera_render_target_singleton;
 
 int TObjPlayer::is_inactive() { return this->model_load_flags == 0; }
 
-extern "C" {
-void GXPosition3f32_80083594(f32 x, f32 y, f32 z) {
+// The SDK's GXPosition3f32, GXColor1u32 and GXTexCoord2f32 out of line: each
+// writes its vertex attribute straight into the GX write-gather FIFO.
+static void write_position(f32 x, f32 y, f32 z) {
     *(volatile f32 *)0xCC008000 = x;
     *(volatile f32 *)0xCC008000 = y;
     *(volatile f32 *)0xCC008000 = z;
 }
 
-void GXColor1u32_80083594(s32 color) {
+static void write_color(s32 color) {
     *(volatile s32 *)0xCC008000 = color;
 }
 
-void GXTexCoord2f32_80083594(f32 s, f32 t) {
+static void write_tex_coord(f32 s, f32 t) {
     *(volatile f32 *)0xCC008000 = s;
     *(volatile f32 *)0xCC008000 = t;
-}
 }
 
 f32 atan_float(f32 x) {
@@ -283,19 +283,19 @@ void draw_textured_screen_quad(u32 argb, f32 *pos, f32 *size, s32 cropped) {
     GXSetVtxAttrFmt(GX_VTXFMT4, GX_VA_TEX0, GX_TEX_ST, GX_F32, 0);
     GXBegin(GX_QUADS, GX_VTXFMT4, 4);
     z = -1.0f;
-    GXPosition3f32_80083594(pos[0] * z, pos[1] * z, z);
+    write_position(pos[0] * z, pos[1] * z, z);
     rgba = (argb << 8) | (argb >> 24);
-    GXColor1u32_80083594(rgba);
-    GXTexCoord2f32_80083594(0.0f, 0.0f);
-    GXPosition3f32_80083594(z * (pos[0] + size[0]), pos[1] * z, z);
-    GXColor1u32_80083594(rgba);
-    GXTexCoord2f32_80083594(1.0f, 0.0f);
-    GXPosition3f32_80083594(z * (pos[0] + size[0]), z * (pos[1] + size[1]), z);
-    GXColor1u32_80083594(rgba);
-    GXTexCoord2f32_80083594(1.0f, 1.0f);
-    GXPosition3f32_80083594(pos[0] * z, z * (pos[1] + size[1]), z);
-    GXColor1u32_80083594(rgba);
-    GXTexCoord2f32_80083594(0.0f, 1.0f);
+    write_color(rgba);
+    write_tex_coord(0.0f, 0.0f);
+    write_position(z * (pos[0] + size[0]), pos[1] * z, z);
+    write_color(rgba);
+    write_tex_coord(1.0f, 0.0f);
+    write_position(z * (pos[0] + size[0]), z * (pos[1] + size[1]), z);
+    write_color(rgba);
+    write_tex_coord(1.0f, 1.0f);
+    write_position(pos[0] * z, z * (pos[1] + size[1]), z);
+    write_color(rgba);
+    write_tex_coord(0.0f, 1.0f);
     TObjPlayer::end_screen_quad();
     set_default_alpha_blend();
     if (cropped != 0) {
@@ -337,21 +337,21 @@ void draw_screen_quad(u32 argb, s32 cropped, f32 border) {
     GXBegin(GX_QUADS, GX_VTXFMT4, 4);
     z = -2.0f;
     top_left = -border * z;
-    GXPosition3f32_80083594(top_left, top_left, z);
+    write_position(top_left, top_left, z);
     rgba = (argb << 8) | (argb >> 24);
-    GXColor1u32_80083594(rgba);
-    GXTexCoord2f32_80083594(0.0f, 0.0f);
+    write_color(rgba);
+    write_tex_coord(0.0f, 0.0f);
     right = (640.0f + border) * z;
-    GXPosition3f32_80083594(right, top_left, z);
-    GXColor1u32_80083594(rgba);
-    GXTexCoord2f32_80083594(1.0f, 0.0f);
+    write_position(right, top_left, z);
+    write_color(rgba);
+    write_tex_coord(1.0f, 0.0f);
     bottom = (480.0f + border) * z;
-    GXPosition3f32_80083594(right, bottom, z);
-    GXColor1u32_80083594(rgba);
-    GXTexCoord2f32_80083594(1.0f, 1.0f);
-    GXPosition3f32_80083594(top_left, bottom, z);
-    GXColor1u32_80083594(rgba);
-    GXTexCoord2f32_80083594(0.0f, 1.0f);
+    write_position(right, bottom, z);
+    write_color(rgba);
+    write_tex_coord(1.0f, 1.0f);
+    write_position(top_left, bottom, z);
+    write_color(rgba);
+    write_tex_coord(0.0f, 1.0f);
     TObjPlayer::end_screen_quad();
     set_default_alpha_blend();
     if (cropped != 0) {

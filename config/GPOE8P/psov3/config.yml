@@ -3191,7 +3191,7 @@ force_active:
   - __vt__13TUnk_8048E1A4
   - __vt__17TLightGlareSwitch
   - __vt__11TLightGlare
-  - __vt__13TUnk_80490470
+  - __vt__17MaterialShadeFade
   - __vt__13TUnk_804909C4
   - __vt__13TUnk_80493450
   - __vt__13TUnk_80494938
@@ -3838,7 +3838,7 @@ force_active:
   - advance_timer__14TBoss6PlotFalzFv
   - advance_to_preparation_phase__20TShopArmorListWindowFv
   - advance_toward_limit__14TBoss7TentacleFf
-  - advance_toward_max__13TUnk_80490470Fv
+  - advance_toward_max__17MaterialShadeFadeFv
   - advance_toward_max__13TUnk_80494938Fv
   - advance_wait_next__11TBoss4Type3Fv
   - advance_wrap_offset__13TUnk_804B2578Fv
@@ -4796,7 +4796,7 @@ force_active:
   - calc_product_and_ratio__13TBoss5GryphonFP23Boss5GryphonMotionEntryP22Boss5GryphonActionStep
   - calc_range__9TTecZaruaFv
   - calc_rate_from_field__14TBoss4DarkFalzFv
-  - calc_recoil_offsets__13TUnk_80490470Fv
+  - calc_recoil_offsets__17MaterialShadeFadeFv
   - calc_remaining_char_slots__6TLobbyFv
   - calc_rotated_hex_point__23TObjOnlineEndingHexLineFP10NJS_POINT2P14EndingHexPoint
   - calc_rotated_vector__14TObjEneBm5WolfFlP3VecPl
@@ -5587,7 +5587,7 @@ force_active:
   - decay_glow_and_calc_hp_ratio__9TBoss6MagFv
   - decay_timer_and_clear_flag__13TOCtrlDubchikFv
   - decay_timer_and_finish__13TOCtrlDubchikFv
-  - decay_value_toward_floor__13TUnk_80490470Fv
+  - decay_value_toward_floor__17MaterialShadeFadeFv
   - decay_value_toward_floor__13TUnk_80494938Fv
   - decide_action__10TNpcPlayerFv
   - decode_adx_stereo__FPSclPsPsPsPsss
@@ -6925,7 +6925,7 @@ force_active:
   - has_photon_blast__8MagStatsFUc
   - has_serial_input__22TAdEnterSerialAccessGCFv
   - has_valid_slot__23TAdSinglePlyChrSelectGCFv
-  - has_visible_opacity__13TUnk_80490470Fv
+  - has_visible_opacity__17MaterialShadeFadeFv
   - has_visible_opacity__13TUnk_80494938Fv
   - hashi_collision_bodies
   - hashi_versus1_collision_bodies
@@ -14577,7 +14577,7 @@ force_active:
   - reset_by_door__18TObjLazerFenceNormFv
   - reset_by_door__19TObjLazerFenceExtraFPv
   - reset_camera_if_fullscreen__6TLobbyFPv
-  - reset_color__13TUnk_80490470Fv
+  - reset_color__17MaterialShadeFadeFv
   - reset_color__13TUnk_80494938Fv
   - reset_counters__11TBoss6Type2Fv
   - reset_cursor__17TAdMultiConfirmGCFPv
@@ -14608,7 +14608,7 @@ force_active:
   - __sinit_TFontSmallTask_cpp
   - set_core_color__17TObjEneMe1CanadinFPC8NJS_ARGB
   - reset_matrix__13TObjTombstoneFv
-  - reset_obstruction_fade__13TUnk_80490470Fv
+  - reset_obstruction_fade__17MaterialShadeFadeFv
   - reset_obstruction_fade__13TUnk_80494938Fv
   - reset_oscillation__11TItemMagSubFll
   - reset_pad_rumble_effects_and_channels__Fs
@@ -15471,7 +15471,7 @@ force_active:
   - set_flag_and_notify__12TObjEneLappyFv
   - set_flag_and_notify__11BmlResourceFv
   - set_flags__13MagOwnerWatchFUl
-  - set_flags_and_apply_damage_color__13TUnk_80490470Fv
+  - set_flags_and_apply_damage_color__17MaterialShadeFadeFv
   - set_flags_and_apply_damage_color__13TUnk_80494938Fv
   - set_flags_and_apply_damage_color__15RenderFadeStateFv
   - set_flags_and_apply_damage_color__18CameraDistanceFadeFv
@@ -15553,7 +15553,7 @@ force_active:
   - set_random_param__13TBoss5GryphonFP23Boss5GryphonMotionEntry
   - set_random_timer_15__15TObjEneSlimeOneFv
   - set_random_timer__15TObjEneSlimeOneFll
-  - set_rate_from_divisor__13TUnk_80490470Fl
+  - set_rate_from_divisor__17MaterialShadeFadeFl
   - set_rate_from_divisor__13TUnk_80494938Fl
   - set_air_turn_direction__12TBoss1DragonFll
   - set_scale__13TUnk_804B2578Ff

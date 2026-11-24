@@ -66,7 +66,7 @@ s32 berura_node_saved_render_flags;
 Vec * re7_berura_demo_camera_ptr;
 s32 berura_demo_flag;
 s32 re7_berura_demo_flag;
-TUnk_80490470 * TObjEneRe7Berura__demo_target;
+MaterialShadeFade * TObjEneRe7Berura__demo_target;
 u8 * re7_berura_static_buffer;
 s32 * berura_node_matrix_ptr_a;
 s16 * berura_node_matrix_ptr_b;

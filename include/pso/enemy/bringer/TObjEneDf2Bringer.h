@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 
 class AreaAttackHistory;
 struct BmlResource;
@@ -74,7 +74,7 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     void spawn_particle_if_in_band();
     void update_if_in_band();
     s32 status_flags;  // bit 0 hidden (init_enemy), 1 body fade, 2 no flinch, 3 hit since the emerge
-    TUnk_80490470 body_fade;
+    MaterialShadeFade body_fade;
     RenderFadeState renderFadeStates[4];
     Vec node_points[4];  // filled by bringer_render_node_callback: sparks [0]/[1], shot [2], TP drain [3]
     s32 twist_angle;     // turns toward the target within +-0x2000; render rotates a node by it

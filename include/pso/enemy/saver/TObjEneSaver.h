@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 
 struct TObjPlayer;
 struct TEneParticleCtrl;
@@ -67,7 +67,7 @@ struct TObjEneSaver : public TObjEnemy {
     Vec particle_position;
     s32 facing_angle;
     TEneParticleCtrl *particle_ctrl;
-    TUnk_80490470 body_fade;
+    MaterialShadeFade body_fade;
     TAttackTraceStrip *attack_traces[3];
 };
 

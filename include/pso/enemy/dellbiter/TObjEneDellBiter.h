@@ -5,7 +5,7 @@
 
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 #include "pso/render/RenderFadeState.h"
 
 class TNowLoading;
@@ -70,7 +70,7 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     u32 flags;
     u32 flags_3c4;
     Vec reflection_position;
-    TUnk_80490470 fade;
+    MaterialShadeFade fade;
     RenderFadeState camera_fades[4];
     Vec part_positions[3];
     s32 part_rotation_x;

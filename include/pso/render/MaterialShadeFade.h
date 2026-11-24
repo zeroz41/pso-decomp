@@ -1,12 +1,14 @@
-#ifndef PSO_RENDER_TUNK_80490470_H
-#define PSO_RENDER_TUNK_80490470_H
+#ifndef PSO_RENDER_MATERIALSHADEFADE_H
+#define PSO_RENDER_MATERIALSHADEFADE_H
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
 
-class TUnk_80490470 : public MaterialColorFade {
+// An enemy body fade in two stages over phase 0..2: the colour offset rises from
+// black to full shade over 0..1, then the alpha offset rises over 1..2.
+class MaterialShadeFade : public MaterialColorFade {
 public:
-    TUnk_80490470();
-    virtual ~TUnk_80490470();
+    MaterialShadeFade();
+    virtual ~MaterialShadeFade();
     virtual void set_flags_and_apply_damage_color();
     virtual s32 decay_value_toward_floor();
     virtual void set_rate_from_divisor(s32);
@@ -21,7 +23,5 @@ public:
     void start_fade_in();
     f32 phase;
 };
-
-extern "C" void *__ct__13TUnk_80490470Fv(void *);
 
 #endif

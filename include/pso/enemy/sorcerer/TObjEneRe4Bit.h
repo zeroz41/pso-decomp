@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 #include <stddef.h>
 
 struct TObjEneRe4Sorcerer;
@@ -71,7 +71,7 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     s32 texture_index;
     s32 technique_texture;
     f32 lift_height;
-    TUnk_80490470 fade;
+    MaterialShadeFade fade;
     Vec homing_velocity;
     s32 cast_state;
     s32 state_step;

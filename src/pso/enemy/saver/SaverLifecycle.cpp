@@ -34,7 +34,7 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer_800A7764.h"
 
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"

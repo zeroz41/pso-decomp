@@ -62,7 +62,7 @@
 
 #include "pso/object/ambient/TObjFish.h"
 
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 #include "pso/object/base/TObjBase.h"
 extern "C" {
 

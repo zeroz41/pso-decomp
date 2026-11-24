@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/player/TUnk_804928CC.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 
 class TParticleCtrl;
 class AreaAttackHistory;
@@ -36,7 +36,7 @@ struct TObjEneRe7BeruraPunch : public TUnk_804928CC {
     Vec travel_position;  // the fist; position is the ground point under it
     Vec ground_normal;  // CsnContact::normal of the ground under travel_position
     f32 scale;       // grows by 0.15 a frame to 2 while flying
-    TUnk_80490470 fade;
+    MaterialShadeFade fade;
     f32 distance;    // travelled, 10 a frame
     s32 pad_118;
 };

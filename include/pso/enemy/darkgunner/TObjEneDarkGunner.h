@@ -2,7 +2,7 @@
 #define PSO_ENEMY_DARKGUNNER_TOBJENEDARKGUNNER_H
 #include "types.h"
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 
 struct BmlResource;
 
@@ -73,7 +73,7 @@ struct TObjEneDarkGunner : public TObjEnemyCustom {
     TeneFakeTecThunderEff *children[4];  // the beams update_attack spawns at child_offsets
     TParticleCtrl *trail_emitter;  // particle 0xD9/0xD4 at shadow_pos while behavior_flags & 0x200000
     TParticleCtrl *glow_emitter;   // particle 0xDB at body_center while behavior_flags & 0x800000
-    TUnk_80490470 render_control;
+    MaterialShadeFade render_control;
     s32 material_phase;
     // bm_ene_darkgunner.bml, loaded with the Dark Gunner's resources.
     static BmlResource *bml_resource;

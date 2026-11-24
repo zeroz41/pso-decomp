@@ -59,7 +59,7 @@
 
 #include "pso/system/vector.h"
 
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 
 #include "pso/boss/volopt/TBoss3Volopt.h"
 
