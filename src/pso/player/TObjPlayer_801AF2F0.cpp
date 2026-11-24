@@ -2251,9 +2251,9 @@ void handle_6x29_delete_inventory_item(G_DeleteInventoryItem_6x29 *command) {
     ((TObjPlayer *)(&cmd))->copy_pair_fields3(command);
     ((TObjPlayer *)(&cmd))->bswap_body_dwords3();
     if (validate_6x29_delete_inventory_item((G_ClientIDHeader *)&cmd) != 0) {
-        saddr p = (saddr)get_player_by_client_id(cmd.f2);
-        if (p != 0 && ((TObjPlayer *)p)->is_in_lobby() == 0) {
-            ((TObjPlayer *)p)->dispatch_action(cmd.f4, cmd.f8);
+        TObjPlayer *p = get_player_by_client_id(cmd.f2);
+        if (p != NULL && p->is_in_lobby() == 0) {
+            p->dispatch_action(cmd.f4, cmd.f8);
         }
     }
 }
@@ -4146,19 +4146,19 @@ void handle_6x31_use_medical_center(G_UseMedicalCenter_6x31 *command) {
     TObjPlayer::update_medical_font((s32)((s32)((saddr) &pkt)), command);
     bswap_g_client_id_header(&pkt);
     if (validate_6x31_use_medical_center((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.player_id);
+        TObjPlayer *p = get_player_by_client_id(pkt.player_id);
         if (p != NULL) {
-            TObjPlayer::recover_full(p);
+            p->recover_full();
         }
     }
 }
 
 
-void TObjPlayer::recover_full(void *player) {
-    ((TObjPlayer *)player)->restore_hp_and_tp();
-    ((TObjPlayer *)player)->clear_all_status_effects();
-    ((TObjBase *)player)->clear_actor_flags((u32)0xE00);
-    ((TObjPlayer *)player)->clear_state_flags(1);
+void TObjPlayer::recover_full() {
+    this->restore_hp_and_tp();
+    this->clear_all_status_effects();
+    this->clear_actor_flags(0xE00);
+    this->clear_state_flags(1);
 }
 
 void TObjPlayer::send_code50_packet(int player) {
@@ -4178,7 +4178,7 @@ void handle_6x32_medical_center_revive_all_players(void) {
     for (i = 0; i < 4; i++, pp++) {
         p = *pp;
         if (p != NULL && p->obj_isState3_324() != 0) {
-            TObjPlayer::recover_full(p);
+            p->recover_full();
         }
     }
 }
@@ -4682,7 +4682,7 @@ void prepare_guild_return__10TObjPlayerFPv(void *player) {
 #pragma scheduling off
 #pragma scheduling on
 #pragma scheduling off
-void recover_player_full(void *player) { TObjPlayer::recover_full(player); }
+void recover_player_full(void *player) { ((TObjPlayer *)player)->recover_full(); }
 #pragma pop
 
 #pragma push
@@ -5430,7 +5430,7 @@ s32 TObjPlayer::try_pickup_item() {
         if (owner_if_alive == 0) {
             return 0;
         }
-        recover_full(this);
+        recover_full();
         ((FlagWord *)((saddr)this + 0x858))->set(4);
         send_6x29_delete_item(this, ((TItem *)owner_if_alive)->get_item_id(), 1);
         return 1;
@@ -5695,7 +5695,7 @@ void TLobby::apply_battle_rules_to_players() {
             TLobby__sub_801D4C28(p->inventory_objects, p, 3, 9);
         }
         p->set_flag_4096();
-        TObjPlayer::recover_full(p);
+        p->recover_full();
         p->cancel_status_effects();
         ((TObjPlayer *)(&lobby_char_slot_array[i]))->copy_lobby_header((saddr)p);
     }
