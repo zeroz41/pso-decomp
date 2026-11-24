@@ -5128,7 +5128,11 @@ short TObjPlayer::query_child_state2() {
     return action_provider->get_stand_up_action();
 }
 
+}
+
 void release_control_lock(void *player) { ((TObjPlayer *)player)->clear_flag_200(); }
+
+extern "C" {
 
 void TObjPlayer::clear_flag_200() { this->state_flags &= 0xfffffdff; }
 
