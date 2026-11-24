@@ -70,7 +70,7 @@ test:
         if (ppp_opened_count >= 2) goto after;
     }
 after:
-    if (lbl_805D7A7C != 6 && (s16)(s32)lbl_805D7A7C) {
+    if (ppp_ip_mode != 6 && (s16)(s32)ppp_ip_mode) {
         if (self->abort != 0) {
             p->abort = 0;
             self->abort = 0;

@@ -9,7 +9,7 @@
    NetApplyConnectionConfig). */
 typedef struct NetConnectCfg {
     u16 flags;
-    s16 h2;
+    s16 ip_mode;        /* ppp_ip_mode: 4 = IPv4 only; 0 or 6 also negotiate IPv6CP */
     s16 wait;
     u8 pad_6[2];
     char *user;
@@ -51,16 +51,16 @@ typedef struct NetLinkStatus {
     s16 link_up;
     s16 ppp_up;
     s16 state;
-    s16 h6;
-    u32 w8;
-    s16 hC;
+    s16 error;          /* lobby_modem_error */
+    u32 result_code;    /* lobby_modem_reply_value: the number in the modem's last numeric reply */
+    s16 session_active; /* ppp_session_active */
     u8 padE[2];
-    u32 w10;
-    u32 w14;
-    u32 w18;
-    u32 w1C;
-    u32 w20;
-    u32 w24;
+    u32 addr_local;     /* IPCP's negotiated addresses */
+    u32 addr_peer;
+    u32 dns_local_primary;
+    u32 dns_local_secondary;
+    u32 dns_peer_primary;
+    u32 dns_peer_secondary;
     u8 addr[4][4];
 } NetLinkStatus;
 
@@ -130,8 +130,8 @@ s32 is_timed_out(void);
 s32 TLobby__sub_803FB6A0(void);
 s32 ppp_open_sub(void);
 void ppp_set_auth(u16 protocol);
-extern s16 lbl_805D7A84;
-extern s16 lbl_805D7A88;
+extern s16 ppp_session_active;
+extern s16 ppp_open_requested;
 extern saddr lobby_modem_callback;
 void TLobby__sub_803FC318(PppProtoBlocks *connection);
 void TLobby__sub_803F9FAC(PppProtoBlocks *connection);

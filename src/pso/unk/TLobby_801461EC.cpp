@@ -226,7 +226,7 @@ s32 connect_pppoe(s32 *out_value) {
     cfg.user = (char *)&lbl_8050CCE8 + 0x7C;
     cfg.password = (char *)&lbl_8050CCE8 + 0xFC;
     cfg.callback = 0;
-    cfg.h2 = 4;
+    cfg.ip_mode = 4;
     cfg.h18 = 6;
     cfg.h1A = 0;
     cfg.h1C = 0;
@@ -279,11 +279,11 @@ s32 connect_pppoe(s32 *out_value) {
     } while (state != 4);
     if (state == 4) {
         NetGetLinkStatus(&status);
-        lobby_local_ip_addr = status.w10;
+        lobby_local_ip_addr = status.addr_local;
         *out_value = 0;
-        lobby_dns_server_addr = status.w18;
-        lobby_dns_server_addr2 = status.w1C;
-        lobby_gateway_addr = status.w10;
+        lobby_dns_server_addr = status.dns_local_primary;
+        lobby_dns_server_addr2 = status.dns_local_secondary;
+        lobby_gateway_addr = status.addr_local;
         return 0;
     }
     stop2.wait = 1;
@@ -718,7 +718,7 @@ void get_link_state(s16 *state, s16 *reason) {
         status.state = 0;
     }
     *state = status.state;
-    *reason = status.h6;
+    *reason = status.error;
 }
 
 /* Modem dial-up connection to phone number idx of the modem account (AT+MS=V34 init command,
@@ -830,7 +830,7 @@ s32 connect_modem(s32 idx, s16 id) {
     }
     cfg.phone_number = get_modem_phone_number(idx);
     cfg.callback = 0;
-    cfg.h2 = 4;
+    cfg.ip_mode = 4;
     cfg.h18 = 6;
     cfg.h1A = 0;
     cfg.h1C = 0;
@@ -895,13 +895,13 @@ s32 connect_modem(s32 idx, s16 id) {
     if (state == 4 && cancel == 0) {
         NetGetLinkStatus(&status);
         lbl_8050C0A8[0] = 4;
-        lbl_8050C0A8[1] = status.w10;
+        lbl_8050C0A8[1] = status.addr_local;
         lbl_8050C0A8[2] = 0;
         lbl_8050C0A8[3] = 0;
         if_config((s16)lobby_net_session_id, lbl_8050C0A8);
-        TLobby::set_default_gateway(status.w10);
-        lobby_dns_server_addr = status.w18;
-        lobby_dns_server_addr2 = status.w1C;
+        TLobby::set_default_gateway(status.addr_local);
+        lobby_dns_server_addr = status.dns_local_primary;
+        lobby_dns_server_addr2 = status.dns_local_secondary;
         return TLobby::set_dns_servers();
     }
     lobby_net_session_id = -1;

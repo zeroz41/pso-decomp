@@ -23,7 +23,7 @@ s32 reset_socket_table(void);
 void run_net_thread_loop(void);
 void ppp_input_packet(PppFrame *frame);
 
-extern s32 lbl_805D7A94;
+extern s32 ppp_last_io_ms;
 /* inferred: the PPP FCS-16 lookup table (RFC 1662 fcstab); the receive path checks the FCS against 0xF0B8. */
 extern u16 ppp_fcs16_table[];
 u8 ppp_rx_buffer[0x200];
@@ -81,14 +81,14 @@ void run_net_thread_loop(void) {
             unlock_mutex(g->mutex);
             continue;
         }
-        if (lbl_805D7A88 != 0) {
+        if (ppp_open_requested != 0) {
             lock_mutex(g->mutex);
             ppp_open_sub();
             unlock_mutex(g->mutex);
             continue;
         }
         net_sleep_ms(g->poll_ms);
-        if (lbl_805D7A84 != 0) {
+        if (ppp_session_active != 0) {
             process_expired_timers();
         }
     }
@@ -370,7 +370,7 @@ s32 ppp_poll_input(void)
     }
     return 0;
   }
-  if (lbl_805D7A7A != 0)
+  if (ppp_use_pppoe != 0)
   {
     base = &ppp_buffers;
     for (;;)
@@ -382,7 +382,7 @@ s32 ppp_poll_input(void)
       {
         break;
       }
-      get_time_ms(&lbl_805D7A94);
+      get_time_ms(&ppp_last_io_ms);
       frame = ppp_rx_frame_ptr;
       b = (frame->data[0] & 0xFFFFFFFFFFFFFFFFu);
       id = b;
@@ -430,7 +430,7 @@ s32 ppp_poll_input(void)
       {
         n = get_field_4(ppp_rx_frame_ptr) - 2;
         TLobby__sub_80401CAC(&ppp_rx_frame_ptr, n);
-        get_time_ms(&lbl_805D7A94);
+        get_time_ms(&ppp_last_io_ms);
         ppp_input_packet(ppp_rx_frame_ptr);
         ppp_rx_frame_ptr = 0;
         return 1;
@@ -534,7 +534,7 @@ void ppp_input_packet(PppFrame *frame) {
         return;
     }
     G = &ppp_proto_blocks;
-    if (lbl_805D7A7A == 0 && frame->data[0] == 0xFF && frame->data[1] == 3 &&
+    if (ppp_use_pppoe == 0 && frame->data[0] == 0xFF && frame->data[1] == 3 &&
         ppp_buffer_read(&frame, lobby_ppp_read_buf, 2) == 2) {
         read_network_u16_be(lobby_ppp_read_buf);
     }
@@ -626,7 +626,7 @@ void ppp_input_packet(PppFrame *frame) {
             G->rx_err_drops++;
             return;
         }
-        if (lbl_805D7A7C != 6 && (s16)(s32)lbl_805D7A7C) {
+        if (ppp_ip_mode != 6 && (s16)(s32)ppp_ip_mode) {
             FWD_80405A74()
         }
         G->rx_ipv6cp++;
@@ -914,7 +914,7 @@ s16 ppp_output_frame(PppFrame *p) {
     if (two == 0) {
         n = 3;
     }
-    if (lbl_805D7A7A != 0) {
+    if (ppp_use_pppoe != 0) {
         acfc = 0;
     } else {
         acfc = ppp_keep_field(is_lcp, opts, LCP_OPT_ACFC);
@@ -939,7 +939,7 @@ s16 ppp_output_frame(PppFrame *p) {
     frame = bufs->frame_out;
     frame->data = (u8 *)frame + ((bufs->headroom + 3) & ~3);
     out = frame->data;
-    if (lbl_805D7A7A != 0) {
+    if (ppp_use_pppoe != 0) {
         NetMemcpy(out + 0x14, p->data, p->len);
         frame->len = p->len;
     } else {
@@ -978,7 +978,7 @@ s16 ppp_output_frame(PppFrame *p) {
     if (state == 7 || state == 0) {
         return 0;
     }
-    get_time_ms(&lbl_805D7A94);
+    get_time_ms(&ppp_last_io_ms);
     return send_network_frame(frame->len, frame->data);
 }
 #pragma pop

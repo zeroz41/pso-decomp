@@ -498,7 +498,7 @@ s16 parse_lcp_option(PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 
     case 2:
         side->got.accm = rd32_804012E0(src);
         len -= 4;
-        if (lbl_805D7A7A != 0) {
+        if (ppp_use_pppoe != 0) {
             res = 4;
         } else if (remote == 0 || (side->want.mask & 4)) {
             u32 v = side->got.accm | side->want.accm;
@@ -560,7 +560,7 @@ s16 parse_lcp_option(PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 
         }
         break;
     case 8:
-        if (lbl_805D7A7A != 0) {
+        if (ppp_use_pppoe != 0) {
             res = 4;
         } else if (!(side->mask & 0x100)) {
             res = 4;

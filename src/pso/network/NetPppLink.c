@@ -174,7 +174,7 @@ s16 get_checked_status_value(s16 ch) {
     if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
-    if (lbl_805D7A7A != 0) {
+    if (ppp_use_pppoe != 0) {
         return 0x5AE;
     }
     return lobby_net_buffer_desc_b.size;

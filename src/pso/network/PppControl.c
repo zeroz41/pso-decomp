@@ -63,7 +63,7 @@ s32 close_all_connections(void) {
 s16 negotiate_ipcp_and_ipv6cp(void) {
     PppProtoBlocks *connection = &ppp_proto_blocks;
     PppFsm *ipv6cp = &connection->ipv6cp;
-    s16 st = lbl_805D7A7C;
+    s16 st = ppp_ip_mode;
     PppFsm *ipcp;
 
     if ((st == 6 || st == 0) && TLobby__sub_803FF304(ipv6cp) != 0) {
@@ -153,7 +153,7 @@ s16 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
         return -0x11;
     }
     PP_doppp_active(&g->ipcp);
-    st = lbl_805D7A7C;
+    st = ppp_ip_mode;
     if (st == 6 || st == 0) {
         PP_doppp_active(&g->ipv6cp);
     }
@@ -177,7 +177,7 @@ s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
         return -0x11;
     }
     PP_doppp_active(&g->ipcp);
-    st = lbl_805D7A7C;
+    st = ppp_ip_mode;
     if (st == 6 || st == 0) {
         PP_doppp_active(&g->ipv6cp);
     }
@@ -312,6 +312,6 @@ s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     if (open_network_transport(&cfg_block) != 0) {
         return -1;
     }
-    lbl_805D7A7E = 1;
+    network_transport_open = 1;
     return 0;
 }

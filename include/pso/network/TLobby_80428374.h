@@ -94,7 +94,7 @@ typedef struct ModemConfig {
  * password. */
 typedef struct NetSession {
     u16 flags;                  /* NetConnectCfg.flags; bit 2: no modem */
-    s16 h2;                     /* 0x02 */
+    s16 ip_mode;                /* 0x02: NetConnectCfg.ip_mode */
     s16 wait;                   /* 0x04: NetConnectCfg.wait */
     u8 pad6[2];
     s32 connect_ms;             /* 0x08: when PPP started (state 3); is_timed_out gives up 60 s later */
