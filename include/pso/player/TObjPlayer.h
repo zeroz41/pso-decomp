@@ -893,7 +893,7 @@ struct TObjPlayer : public TObjChara {
     int get_floor_surface_type();
     s32 get_falz_phase();
     s16 get_section_clamped();
-    static void split_capped_value(u8 level, u8 *arg1, s8 *arg2);
+    static void split_capped_value(u8 level, u8 *capped, u8 *overflow);
     u8 get_valid_technique();
     void level_up_all_techniques(s32 add);
     static u8 clamp_to_max(saddr arg0, u8 level, u8 arg2);

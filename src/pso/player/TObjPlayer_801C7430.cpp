@@ -3894,7 +3894,7 @@ void TObjPlayer::pay_tp_and_send_6x48_cast() {
             if (*(s16 *)&this->tp < 0) {
                 *(s16 *)&this->tp = 0;
             }
-            TObjPlayer::split_capped_value(((TObjPlayer *)(self->techs))->get_castable_technique_level(), &hi, (s8 *)&lo);
+            TObjPlayer::split_capped_value(((TObjPlayer *)(self->techs))->get_castable_technique_level(), &hi, &lo);
             ((void (*)(void *))init_6x48_cast_complete_packet)(&pkt);
             pkt.id = ((TObjBase *)self)->get_entity_id();
             pkt.tech = tech;
@@ -4119,7 +4119,7 @@ void TObjPlayer::request_technique_cast() {
         ((TMainCursor *)(self->cursor))->set_cursor_pos(td->target, td->node);
     }
     tech = ((PlayerTechniqueState *)(self->techs))->get_or_init_field_4();
-    TObjPlayer::split_capped_value(get_cast_technique_level(self->techs, tech), &hi, (s8 *)&lo);
+    TObjPlayer::split_capped_value(get_cast_technique_level(self->techs, tech), &hi, &lo);
     if (self == NULL || ((TObjChara *)self)->obj_isState2_324() == 0) {
         ((void (*)(void *))init_6x8D_technique_level_packet)(&m1);
         m1.id = ((TObjBase *)self)->get_entity_id();

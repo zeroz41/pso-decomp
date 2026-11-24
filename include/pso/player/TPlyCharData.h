@@ -37,6 +37,9 @@ public:
     void set_power_materials_used(u8 count);
     // Set on a record saved from a disc whose game files failed the size/CRC check.
     void mark_game_files_modified();
+    // Cast level of technique `tech` up to 14; the levels above it are kept in m_present[2] of inventory slot `tech`.
+    u8 *technique_level(s32 tech);
+    u8 *technique_level_overflow(s32 tech);
 };
 
 LAYOUT_ASSERT(PlyCharDataSize, sizeof(TPlyCharData) == 0x41C);

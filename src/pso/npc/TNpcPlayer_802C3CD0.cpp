@@ -15,8 +15,6 @@ extern "C" {
 void copy_player_visual_record(void *, void *);
 void clamp_stats__10TObjPlayerFiPv(void *, void *, s32);
 u8 TObjPlayer__sub_801C0124(void *, s16);
-u8 *TObjPlayer__sub_802C4688(TPlyCharData *character, s32 i);
-s8 *TObjPlayer__sub_802C4698(TPlyCharData *character, s32 i);
 saddr reset(void *);
 }
 
@@ -33,7 +31,7 @@ void TObjPlayer::export_character_data(TPlyCharData *character) {
     s16 hp;
     s16 tp;
     TItem *item;
-    s8 *overflow;
+    u8 *overflow;
     s32 j;
     s32 k;
     set_flag_80000();
@@ -58,9 +56,9 @@ void TObjPlayer::export_character_data(TPlyCharData *character) {
     copy_player_visual_record(&character->m_disp_part2, name);
     TObjPlayer__sub_8013A748(&character->m_config, &action_palettes);
     for (j = 0; j < 0x13; j++) {
-        overflow = TObjPlayer__sub_802C4698(character, j);
+        overflow = character->technique_level_overflow(j);
         split_capped_value(TObjPlayer__sub_801C0124(&technique_state, j),
-            TObjPlayer__sub_802C4688(character, j), overflow);
+            character->technique_level(j), overflow);
     }
     for (k = 0; k != 0xD; k++) {
         item = get_equipped_item(k);
@@ -89,7 +87,7 @@ void TObjPlayer::export_state_to_record(TPlyCharData *record) {
     s32 k;
     s32 i2;
     TPlyInventoryItem *entry;
-    s8 *overflow;
+    u8 *overflow;
     s32 m;
     set_flag_80000();
     record->m_inventory.m_num_items = query_state_if_present__10TObjPlayerFPv(this, record->m_inventory.get_items());
@@ -132,8 +130,8 @@ void TObjPlayer::export_state_to_record(TPlyCharData *record) {
     copy_player_visual_record(&record->m_disp_part2, name);
     TObjPlayer__sub_8013A748(&record->m_config, &action_palettes);
     for (k = 0; k < 19; k++) {
-        overflow = TObjPlayer__sub_802C4698(record, k);
-        split_capped_value(TObjPlayer__sub_801C0124(&technique_state, k), TObjPlayer__sub_802C4688(record, k), overflow);
+        overflow = record->technique_level_overflow(k);
+        split_capped_value(TObjPlayer__sub_801C0124(&technique_state, k), record->technique_level(k), overflow);
     }
     for (m = 0; m != 13; m++) {
         item = get_equipped_item(m);
