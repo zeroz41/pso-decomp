@@ -61,16 +61,17 @@
 #include "pso/ui/window/WindowLayout.h"
 #include <dolphin/os/OSTime.h>
 
-extern "C" s32 check_player_flag1__10TObjPlayerFv(void);
 
 // Window size {width, height} passed to TWindowMessage::create.
 struct BattleIntroWindowSize { f32 x, y; };
 // Score or player count of the two teams.
 struct BattleTeamTotals { s32 team[2]; };
-extern "C" {
-TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
-u8 TLobby__sub_801D7100(void *);
+extern "C" s32 check_player_flag1__10TObjPlayerFv(void);
+
+TPlayerBattleCtrl4P *TPlayerBattleCtrl4P::instance;
 extern const char *TDeadSpot__class_name;
+extern "C" {
+u8 TLobby__sub_801D7100(void *);
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 s32 fn_801D6D8C(void *, u8, int);
@@ -79,20 +80,18 @@ void request_active_window_close(void);
 }
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 extern s16 battle_event_second_table[];
-s32 TPlayerBattleCtrl4P__init_flag;
+s32 TPlayerBattleCtrl4P::reload_ready;
 BattleRanking split_screen_battle_rankings[4];
 extern "C" {
 void *create_window_menu_default(const NJS_POINT2 *pos, int entries);
 void TLobby__sub_801036CC();
-s32 reset_players();
-char team_matchup_message_buffer[256];
 }
+char team_matchup_message_buffer[256];
     extern int evt2_random_enemies_mode;
 typedef void (TPlayerBattleCtrl4P::*BattleAction)();
-extern "C" {
 s32 lbl_805D6AB0;
 // Japanese text (shift-JIS)
-const char *TPlayerBattleCtrl4P__message_table_language0[7] = {
+const char *TPlayerBattleCtrl4P::japanese_messages[7] = {
     "\x82\xE0\x82\xA4\x88\xEA\x93\x78\x81\x41\x93\xAF\x82\xB6\x83\x8B\x81\x5B\x83\x8B\x82\xC5\n\x8C\x88\x93\xAC\x82\xF0\x8D\x73\x82\xA2\x82\xDC\x82\xB7\x82\xA9\x81\x48", // もう一度、同じルールで 決闘を行いますか？
     "\x82\xCD\x82\xA2", // はい
     "\x82\xA2\x82\xA2\x82\xA6", // いいえ
@@ -101,7 +100,7 @@ const char *TPlayerBattleCtrl4P__message_table_language0[7] = {
     "\x91\xBC\x82\xCC\x90\x6C\x82\xC6\x82\xCC\x89\xF1\x90\xFC\x82\xAA\n\x82\xAB\x82\xEA\x82\xDC\x82\xB5\x82\xBD\n\n\x83\x72\x83\x57\x83\x85\x83\x41\x83\x8B\x83\x8D\x83\x72\x81\x5B\x82\xD6\n\x93\x5D\x91\x97\x82\xB5\x82\xDC\x82\xB7\x81\x42\nPress start button.", // 他の人との回線が きれました  ビジュアルロビーへ 転送します。 Press start button.
     "\x8D\xA1\x89\xF1\x82\xCD\x83\x60\x81\x5B\x83\x80\x90\xED\x82\xC5\x82\xB7\x81\x42\n\x82\x60\x83\x60\x81\x5B\x83\x80\n  %s\n  %s\n\x82\x61\x83\x60\x81\x5B\x83\x80\n  %s\n  %s\n", // 今回はチーム戦です。 Ａチーム   %s   %s Ｂチーム   %s   %s
 };
-const char *TPlayerBattleCtrl4P__message_table_language1[7] = {
+const char *TPlayerBattleCtrl4P::english_messages[7] = {
     "Do you want to \nfight the same\nrules?",
     "Yes",
     "No",
@@ -110,17 +109,16 @@ const char *TPlayerBattleCtrl4P__message_table_language1[7] = {
     "I'm sorry that you \nweren't able to do \nit. Please try again.\n\nTransporting to the \nvisual lobby.\nPress start button.",
     "Team battle ok.\nA-TEAM\n  %s\n  %s\nB-TEAM\n  %s\n  %s\n",
 };
-}
 
-const char *TPlayerBattleCtrl4P__name = "TPlayerBattleCtrl4P";
+const char *TPlayerBattleCtrl4P::class_name = "TPlayerBattleCtrl4P";
 
 void TPlayerBattleCtrl4P::init_instance_with_text(saddr rules, saddr text) {
-    if (TPlayerBattleCtrl4P__instance == NULL) {
+    if (instance == NULL) {
         new TPlayerBattleCtrl4P(tl_00);
     }
-    if (TPlayerBattleCtrl4P__instance != NULL) {
-        strncpy(TPlayerBattleCtrl4P__instance->intro_text, (const char *)text, 0x200);
-        TPlayerBattleCtrl4P__instance->rule_data = (u8 *)rules;
+    if (instance != NULL) {
+        strncpy(instance->intro_text, (const char *)text, 0x200);
+        instance->rule_data = (u8 *)rules;
     }
 }
 
@@ -128,14 +126,14 @@ TPlayerBattleCtrl4P::TPlayerBattleCtrl4P(TObject *parent) : TObject(parent) {
     s32 i;
     const char **p;
 
-    m_name = TPlayerBattleCtrl4P__name;
+    m_name = class_name;
     set_split_screen_battle_phase(0);
     this->intro_window = 0;
     this->menu_window = 0;
     clear_player_windows();
-    p = TPlayerBattleCtrl4P__message_table_language1;
+    p = english_messages;
     if (current_language == LANGUAGE_JAPANESE) {
-        p = TPlayerBattleCtrl4P__message_table_language0;
+        p = japanese_messages;
     }
     this->message_table = p;
     for (i = 0; i < 4; i++) {
@@ -144,7 +142,7 @@ TPlayerBattleCtrl4P::TPlayerBattleCtrl4P(TObject *parent) : TObject(parent) {
             reinterpret_cast<TObjPlayer *>(pl)->export_character_data(reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC::get_char_index((u32)i)));
         }
     }
-    TPlayerBattleCtrl4P__instance = this;
+    instance = this;
     this->rule_data = 0;
 }
 
@@ -158,7 +156,7 @@ TPlayerBattleCtrl4P::~TPlayerBattleCtrl4P() {
         menu_window = NULL;
     }
     close_player_windows();
-    TPlayerBattleCtrl4P__instance = 0;
+    instance = 0;
 }
 
 void TPlayerBattleCtrl4P::run_task() {
@@ -524,14 +522,14 @@ void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
             TQuestThread::clear_buffer(quest_mission_manager);
         }
         TLobby::stop_audio_streams();
-        TPlayerBattleCtrl4P__init_flag = 0;
+        reload_ready = 0;
         TLobby::init_fadeout_state(TPlayerBattleCtrl4P::init);
         set_phase_state(2);
     }
 }
 
 void TPlayerBattleCtrl4P::finish_battle_reload() {
-    if ((s32) TPlayerBattleCtrl4P__init_flag != 0) {
+    if (reload_ready != 0) {
         reset_players();
         TLobby::set_fade_params(TPlayerBattleCtrl4P::reset_ctrl_to_default);
         set_phase_state(3);
@@ -1102,13 +1100,13 @@ void TPlayerBattleCtrl4P::reset_phase() { set_split_screen_battle_phase(0); }
 void TPlayerBattleCtrl4P::init() {
     TLobby__sub_801B09A4();
     advance_item_system_generation();
-    TPlayerBattleCtrl4P__init_flag = 1;
+    reload_ready = 1;
 }
 
 void TPlayerBattleCtrl4P::reset_ctrl_to_default() {
-    TPlayerBattleCtrl4P *instance = TPlayerBattleCtrl4P__instance;
-    if (instance != NULL) {
-        instance->reset_phase();
+    TPlayerBattleCtrl4P *ctrl = instance;
+    if (ctrl != NULL) {
+        ctrl->reset_phase();
     }
 }
 
@@ -1168,7 +1166,7 @@ s32 *get_split_screen_battle_rankings(void) {
 }
 
 u8 TPlayerBattleCtrl4P::is_battle_mode_active() {
-    TPlayerBattleCtrl4P *ctrl = TPlayerBattleCtrl4P__instance;
+    TPlayerBattleCtrl4P *ctrl = instance;
     if (ctrl != 0) {
         return ctrl->phase == 1 || ctrl->phase == 2;
     }
