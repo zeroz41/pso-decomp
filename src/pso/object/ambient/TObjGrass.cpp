@@ -554,7 +554,7 @@ void TObjGrass::run_task() {
             ((TObjGrass *)arg0)->sub_800BE75C();
             break;
         case 2:
-            TObjGrass::update_chase_target(arg0);
+            update_chase_target();
             break;
         case 3:
             ((TObjGrass *)arg0)->sub_800BDD70();
@@ -948,8 +948,8 @@ void TObjGrass::sub_800BE75C() {
     minimap_render_dot(&o->pos, -0x5DB4, 1, 0);
 }
 
-#define arg0 ((u8 *)arg0_)
-void TObjGrass::update_chase_target(void *arg0_) {
+#define arg0 ((u8 *)this)
+void TObjGrass::update_chase_target() {
     f32 speed;
     f32 dist;
     s32 turn;
@@ -962,9 +962,9 @@ void TObjGrass::update_chase_target(void *arg0_) {
         speed *= (2.0f);
         *(f32 *)((s8 *)arg0 + 0xC8) = (2.0f) * (*(Anim_800BE4C0 **)((s8 *)arg0 + 0xD8))[*(s16 *)((s8 *)arg0 + 0xB8)].f8;
         { f32 ft = (f32)turn; ft *= (2.0f); turn = (s32)ft; }
-        play_persistent_sound(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A300), arg0, &((TObjEnemy *)arg0)->position, 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003A300), this, &position, 0, 0);
     } else {
-        play_persistent_sound(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A801), arg0, &((TObjEnemy *)arg0)->position, 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003A801), this, &position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
     }
     ((TObjMotion *)arg0)->advance_animation();

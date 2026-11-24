@@ -16746,7 +16746,7 @@ force_active:
   - update_chase__18TObjEneBalClawClawFv
   - update_retreat__18TObjEneBalClawClawFv
   - update_chase_target__14TObjEneIllGillFv
-  - update_chase_target__9TObjGrassFPv
+  - update_chase_target__9TObjGrassFv
   - update_chat_parts__12TWindowTimerFv
   - update_child_window_visibility__11TWindowCtrlFv
   - update_children__10TObjPlayerFv
