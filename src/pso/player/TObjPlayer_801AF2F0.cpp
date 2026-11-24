@@ -4425,9 +4425,13 @@ void TObjPlayer::init_trait_flags() {
     }
 }
 
+}
+
 void send_impose_hold(TObjPlayer *player, int frames) {
     ((s32 (*)(TObjPlayer *, Vec *, s32, s32, f32))send_6x2C_impose_hold)(player, player->get_position_ptr(), frames, 0, (*(f32 *)&TObjPlayer__data_805DC278));
 }
+
+extern "C" {
 
 void TObjPlayer::play_effect(saddr arg0, s32 arg1, s32 arg2) {
     ((s32 (*)(s32, s32, s32, s32, f32))send_6x2C_impose_hold)(arg0, (saddr)((TObjPlayer *)arg0)->get_position_ptr(), arg1, arg2, (*(f32 *)&TObjPlayer__data_805DC278));
@@ -4470,6 +4474,8 @@ void handle_6x2C_impose_hold(saddr command) {
     }
 }
 
+}
+
 void send_release_hold(TObjPlayer *player) {
     struct S801B5200_801B3FD8 sp8;
 
@@ -4479,6 +4485,8 @@ void send_release_hold(TObjPlayer *player) {
         ((TObjPlayer *)(&sp8))->send_lobby_update_font();
     }
 }
+
+extern "C" {
 
 s32 TObjPlayer::draw_small_font(saddr arg0, void * command) {
     copy_subcommand_header();
