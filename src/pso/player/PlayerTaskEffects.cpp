@@ -100,15 +100,7 @@ s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 #include "pso/player/TObjPlayer_80011014.h"
 
 
-struct Arrival_801C5F84 {
-    s32 active;
-    s32 yaw;
-    Vec pos;
-};
-
 extern "C" {
-extern Arrival_801C5F84 TObjPlayer__arrival_override_table[12];
-void set_arrival_override_pos(u16 idx, s32 yaw, void *pos);
 }
 void update_player_appear_fade(u8 *arg0);
 void reset_player_appearance_opacity(void *a0);
@@ -436,8 +428,8 @@ void TPlayerSoul::run_task() {
     }
 }
 
-void TObjPlayer::new_child_object(u16 arg0) {
-    new TPlayerLevelFeedback(tl_07, arg0);
+void TObjPlayer::new_child_object(u16 player_id) {
+    new TPlayerLevelFeedback(tl_07, player_id);
 }
 
 TPlayerLevelFeedback::TPlayerLevelFeedback(TObject* parent, u16 id) : TObject(parent) {
@@ -541,42 +533,42 @@ void clear_movement_history(MovementHistory *history) {
 }
 
 
-void set_arrival_override_pos(u16 idx, s32 yaw, void *pos) {
-    TObjPlayer__arrival_override_table[idx].active = 1;
-    TObjPlayer__arrival_override_table[idx].yaw = yaw;
-    VecCopy((Vec *)&TObjPlayer__arrival_override_table[idx].pos, (const Vec *)pos);
+void set_arrival_override_pos(u16 slot, s32 heading, const Vec *pos) {
+    TObjPlayer__arrival_override_table[slot].active = 1;
+    TObjPlayer__arrival_override_table[slot].heading = heading;
+    VecCopy(&TObjPlayer__arrival_override_table[slot].pos, pos);
 }
 
 #pragma push
 #pragma opt_common_subs off
 void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z) {
-    s32 temp_r5;
-    u8 *temp_r3;
-    temp_r5 = slot * 0x14;
-    *(s32 *)((s8 *)((u8 *)TObjPlayer__arrival_override_table + temp_r5) + 0) = 1;
-    temp_r3 = (u8 *)TObjPlayer__arrival_override_table + temp_r5;
-    *(s32 *)((s8 *)temp_r3 + 4) = heading;
-    *(f32 *)((s8 *)temp_r3 + 8) = x;
-    *(f32 *)((s8 *)temp_r3 + 0xC) = y;
-    *(f32 *)((s8 *)temp_r3 + 0x10) = z;
+    s32 offset;
+    ArrivalOverride *entry;
+    offset = slot * sizeof(ArrivalOverride);
+    ((ArrivalOverride *)((u8 *)TObjPlayer__arrival_override_table + offset))->active = 1;
+    entry = (ArrivalOverride *)((u8 *)TObjPlayer__arrival_override_table + offset);
+    entry->heading = heading;
+    entry->pos.x = x;
+    entry->pos.y = y;
+    entry->pos.z = z;
 }
 #pragma pop
 
-void set_params__10TObjPlayerFPvPvPviPv(void *arg0, void *arg1, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
-    s16 temp_r4;
+void set_params__10TObjPlayerFPvPvPviPv(void *out, void *player, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
+    s16 defense;
 
-    *(s16 *)((s8 *)arg0 + 0) = (s16) (base_stats->stats.atp + get_attack_params_atp_max(attack_stats));
-    temp_r4 = base_stats->stats.dfp;
-    *(s16 *)((s8 *)arg0 + 2) = (s16) (temp_r4 + resistance_stats->value_1c);
-    *(s16 *)((s8 *)arg0 + 4) = (s16) base_stats->stats.mst;
-    *(s16 *)((s8 *)arg0 + 6) = (s16) (0.1f * (f32) (base_stats->stats.ata + ((AttackParams *)(saddr)attack_stats)->get_ata()));
-    *(s16 *)((s8 *)arg0 + 8) = (s16) (base_stats->stats.evp + resistance_stats->values[0]);
-    *(s16 *)((s8 *)arg0 + 0xA) = (s16) base_stats->stats.lck;
-    *(s16 *)((s8 *)arg0 + 0xC) = (s16) resistance_stats->values[1];
-    *(s16 *)((s8 *)arg0 + 0xE) = (s16) resistance_stats->values[2];
-    *(s16 *)((s8 *)arg0 + 0x10) = (s16) resistance_stats->values[3];
-    *(s16 *)((s8 *)arg0 + 0x12) = (s16) resistance_stats->values[4];
-    *(s16 *)((s8 *)arg0 + 0x14) = (s16) resistance_stats->values[5];
+    *(s16 *)((s8 *)out + 0) = (s16) (base_stats->stats.atp + get_attack_params_atp_max(attack_stats));
+    defense = base_stats->stats.dfp;
+    *(s16 *)((s8 *)out + 2) = (s16) (defense + resistance_stats->value_1c);
+    *(s16 *)((s8 *)out + 4) = (s16) base_stats->stats.mst;
+    *(s16 *)((s8 *)out + 6) = (s16) (0.1f * (f32) (base_stats->stats.ata + ((AttackParams *)(saddr)attack_stats)->get_ata()));
+    *(s16 *)((s8 *)out + 8) = (s16) (base_stats->stats.evp + resistance_stats->values[0]);
+    *(s16 *)((s8 *)out + 0xA) = (s16) base_stats->stats.lck;
+    *(s16 *)((s8 *)out + 0xC) = (s16) resistance_stats->values[1];
+    *(s16 *)((s8 *)out + 0xE) = (s16) resistance_stats->values[2];
+    *(s16 *)((s8 *)out + 0x10) = (s16) resistance_stats->values[3];
+    *(s16 *)((s8 *)out + 0x12) = (s16) resistance_stats->values[4];
+    *(s16 *)((s8 *)out + 0x14) = (s16) resistance_stats->values[5];
 }
 
 void init_shield_params(void *out, void *player, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
@@ -585,15 +577,15 @@ void init_shield_params(void *out, void *player, player_stats *base_stats, Attac
     *(s16 *)((s8 *)out + 0x18) = obj_getS16_2BA((u8 *)player);
 }
 
-void TObjPlayer::calc_pos_delta(void *arg1, void *arg2) {
-    *(s16 *)((s8 *)arg2 + 0) = (s16) (*(s16 *)((s8 *)arg1 + 0) - *(s16 *)((s8 *)this + 0));
-    *(s16 *)((s8 *)arg2 + 2) = (s16) (*(s16 *)((s8 *)arg1 + 2) - *(s16 *)((s8 *)this + 2));
-    *(s16 *)((s8 *)arg2 + 4) = (s16) (*(s16 *)((s8 *)arg1 + 4) - *(s16 *)&this->m_flags);
-    *(s16 *)((s8 *)arg2 + 6) = (s16) (*(s16 *)((s8 *)arg1 + 6) - *(s16 *)&this->m_id);
-    *(s16 *)((s8 *)arg2 + 8) = (s16) (*(s16 *)((s8 *)arg1 + 8) - *(s16 *)((s8 *)this + 8));
-    *(s16 *)((s8 *)arg2 + 0xA) = (s16) (*(s16 *)((s8 *)arg1 + 0xA) - *(s16 *)((s8 *)this + 0xA));
-    *(s16 *)((s8 *)arg2 + 0x16) = (s16) (*(s16 *)((s8 *)arg1 + 0x16) - *(s16 *)((s8 *)this + 0x16));
-    *(s16 *)((s8 *)arg2 + 0x18) = (s16) (*(s16 *)((s8 *)arg1 + 0x18) - *(s16 *)((s8 *)this + 0x18));
+void TObjPlayer::calc_pos_delta(void *other, void *delta) {
+    *(s16 *)((s8 *)delta + 0) = (s16) (*(s16 *)((s8 *)other + 0) - *(s16 *)((s8 *)this + 0));
+    *(s16 *)((s8 *)delta + 2) = (s16) (*(s16 *)((s8 *)other + 2) - *(s16 *)((s8 *)this + 2));
+    *(s16 *)((s8 *)delta + 4) = (s16) (*(s16 *)((s8 *)other + 4) - *(s16 *)&this->m_flags);
+    *(s16 *)((s8 *)delta + 6) = (s16) (*(s16 *)((s8 *)other + 6) - *(s16 *)&this->m_id);
+    *(s16 *)((s8 *)delta + 8) = (s16) (*(s16 *)((s8 *)other + 8) - *(s16 *)((s8 *)this + 8));
+    *(s16 *)((s8 *)delta + 0xA) = (s16) (*(s16 *)((s8 *)other + 0xA) - *(s16 *)((s8 *)this + 0xA));
+    *(s16 *)((s8 *)delta + 0x16) = (s16) (*(s16 *)((s8 *)other + 0x16) - *(s16 *)((s8 *)this + 0x16));
+    *(s16 *)((s8 *)delta + 0x18) = (s16) (*(s16 *)((s8 *)other + 0x18) - *(s16 *)((s8 *)this + 0x18));
 }
 
 #pragma fp_contract on
@@ -606,10 +598,10 @@ void TObjPlayer::copy_offset_position(void *chara) {
     *(f32 *)((s8 *)this + 8) = (f32) ((TObjPlayer *)chara)->position.z;
 }
 
-s32 TObjPlayer::decrement_clamp(s32 *arg0, s32 arg1) {
-    *arg0 -= arg1;
-    if ((s32) *arg0 < 0) {
-        *arg0 = 0;
+s32 TObjPlayer::decrement_clamp(s32 *value, s32 amount) {
+    *value -= amount;
+    if (*value < 0) {
+        *value = 0;
         return 0;
     }
     return 1;
@@ -813,15 +805,15 @@ void PlayerShrinkPacket::send() {
     bswap();
     send_subcommand(this);
 }
-u16 TObjPlayer::interpolate_angle(void *arg0, u16 arg1, u16 arg2, s32 *arg3) {
-    s16 temp_r0;
-    s32 var_r3;
-    temp_r0 = (s16) ((u16) arg2 - arg1);
-    if ((temp_r0 > -0x3000) && (temp_r0 < 0x3000)) {
-        var_r3 = (temp_r0 >> 4) - (temp_r0 >> 5);
+u16 TObjPlayer::interpolate_angle(void *unused, u16 from, u16 to, s32 *step) {
+    s16 diff;
+    s32 turn;
+    diff = (s16)((u16)to - from);
+    if (diff > -0x3000 && diff < 0x3000) {
+        turn = (diff >> 4) - (diff >> 5);
     } else {
-        var_r3 = temp_r0 >> 4;
+        turn = diff >> 4;
     }
-    *arg3 = var_r3;
-    return (u16) (arg1 + var_r3);
+    *step = turn;
+    return (u16)(from + turn);
 }

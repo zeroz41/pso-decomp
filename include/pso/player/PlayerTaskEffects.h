@@ -2,6 +2,20 @@
 #define PSO_PLAYER_PLAYERTASKEFFECTS_H
 
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
+
+// Where a player appears on the next floor when an override is set (12 slots,
+// one per client id).
+struct ArrivalOverride {
+    s32 active;
+    s32 heading;
+    Vec pos;
+};
+
+extern "C" {
+extern ArrivalOverride TObjPlayer__arrival_override_table[12];
+void set_arrival_override_pos(u16 slot, s32 heading, const Vec *pos);
+}
 
 // Overrides where player `slot` appears on the next floor: at (x, y, z),
 // facing `heading`.

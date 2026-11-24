@@ -589,14 +589,14 @@ struct TObjPlayer : public TObjChara {
     s32 consume_trap_count(s32 arg1, s32 arg2);
     s32 clamp_char_at(s32 arg1);
     static s32 init_partial(saddr arg0);
-    static s32 decrement_clamp(s32 *arg0, s32 arg1);
+    static s32 decrement_clamp(s32 *value, s32 amount);
     void copy_offset_position(void *chara);
-    void calc_pos_delta(void *arg1, void *arg2);
+    void calc_pos_delta(void *other, void *delta);
     void set_visible_flag();
     s32 check_flag_04000000();
     void clear_flag_8000();
     s32 check_flag_0x8000();
-    static u16 interpolate_angle(void *arg0, u16 arg1, u16 arg2, s32 *arg3);
+    static u16 interpolate_angle(void *unused, u16 from, u16 to, s32 *step);
     void update_state_group();
     void start_action_18();
     void start_action();
@@ -1064,7 +1064,7 @@ struct TObjPlayer : public TObjChara {
     void set_flag_8_if_check_passes();
     u8 *construct_freeze_shell(u8 *arg1, u8 *arg2);
     static void create_tec_zonde(void *source, void *origin, void *targets, s32 level);
-    static void new_child_object(u16 arg0);
+    static void new_child_object(u16 player_id);
     void create_item_eff_cane(TItem* item, s32 attachment, s32 effect_id);
     void spawn_cane_effect(TItem* item, s32 attachment);
     void spawn_cane_effects(TItem* item, s32 first_attachment, s32 second_attachment);
