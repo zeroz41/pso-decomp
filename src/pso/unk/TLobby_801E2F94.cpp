@@ -38,6 +38,8 @@
 #include "pso/system/vector.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx.h>
+#include "pso/unk/text_803DD5E0.h"
+#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #undef PSO_SDK_COMPACT_MATH
 
 void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
@@ -360,7 +362,7 @@ void *TLobby__sub_801E38A0(const u8 *file, u32 *offset, u32 *type, void *destina
     TLobby__sub_801E3CF0(&size);
     p += 8;
     *offset += 8;
-    tag = TLobby::bswap32_value(tag);
+    tag = bswap32_value(tag);
     switch (tag) {
     case 0x4E4A494E:
         *type = 0x4E4A494E;
@@ -422,7 +424,7 @@ next:
     move_data((void *)((&tag)), (const void *)(p), 4);
     TLobby__sub_801E3CF0((u32 *)&tag);
     *offset += 4;
-    tag = TLobby::bswap32_value(tag);
+    tag = bswap32_value(tag);
     if (tag == 0x504F4630) {
         move_data((void *)((&size)), (const void *)(p + 4), 4);
         TLobby__sub_801E3CF0(&size);
@@ -532,7 +534,7 @@ loop_2:
             TLobby::run_disk_error_check();
             TKeyBoardControl::flush_input();
             update_global_sound_frame();
-            TKeyBoardControl::read_pads();
+            read_pads();
             hardware_keyboard_state.disable_disconnected_ports();
             TLobby::reset_state_byte();
             goto loop_2;

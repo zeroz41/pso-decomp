@@ -227,7 +227,7 @@ void set_ginja_material_color(u32 v, u32) {
 #pragma scheduling off
 #pragma peephole off
 
-void TObjPlayer::set_global_color_rgba(u32 v, u32) {
+void set_global_color_rgba(u32 v, u32) {
     ginja_material_cache.global_color.r = (v & 0xFF000000) >> 24;
     ginja_material_cache.global_color.g = (v & 0xFF0000) >> 16;
     ginja_material_cache.global_color.b = (v & 0xFF00) >> 8;
@@ -238,7 +238,7 @@ void TObjPlayer::set_global_color_rgba(u32 v, u32) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void TObjPlayer::set_global_color_rgba_alt_b(u32 v, u32) {
+void set_global_color_rgba_alt_b(u32 v, u32) {
     ginja_material_cache.global_color_alt_b.r = (v & 0xFF000000) >> 24;
     ginja_material_cache.global_color_alt_b.g = (v & 0xFF0000) >> 16;
     ginja_material_cache.global_color_alt_b.b = (v & 0xFF00) >> 8;
@@ -561,7 +561,7 @@ GinjaParameterHandler ginja_parameter_handlers[11] = {
     ginja_set_vertex_format, set_ginja_indexed_vtx_desc,
     set_ginja_channel_counts, NULL,
     set_ginja_blend_param, set_ginja_material_color,
-    TObjPlayer::set_global_color_rgba, TObjPlayer::set_global_color_rgba_alt_b,
+    set_global_color_rgba, set_global_color_rgba_alt_b,
     ginja_load_texture_slot, set_ginja_tev_order,
     set_ginja_texcoord_gen,
 };
@@ -601,7 +601,7 @@ void set_ginja_draw_list_mask(s32 arg0) {
     ginja_draw_list_mask = arg0;
 }
 
-void TObjPlayer::set_global_effect_state(s32 global_effect_state) {
+void set_global_effect_state(s32 global_effect_state) {
     lbl_805D76E0 = global_effect_state;
 }
 

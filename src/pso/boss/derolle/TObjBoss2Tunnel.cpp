@@ -317,7 +317,7 @@ f32 normalize_vector_xz(Vec *vector) {
 
 void store_inverse_current_matrix(NJS_CAMERA *camera, CameraMatrix *view) {
     push_matrix();
-    TObjPlayer::invert_matrix_in_place(0);
+    invert_matrix_in_place(0);
     get_current_matrix(&view->m);
     pop_matrix();
 }

@@ -1605,7 +1605,7 @@ force_active:
   - sample_motion_value_channel__FPv
   - sample_absent_vector_channel__FPv
   - sample_absent_angle_channel__FPv
-  - TObjPlayer__sub_803D9C60
+  - swap_gvrt_word
   - copy_texture_data_and_flush
   - copy_texture_pixel_range
   - copy_texture_pixels
@@ -4668,7 +4668,7 @@ force_active:
   - broadcast_to_players__6TLobbyFii
   - broadcast_values__15TBoss3VoloptP02Fv
   - bsearch_record__6TLobbyFPvii
-  - bswap32_in_place__6TLobbyFPUl
+  - bswap32_in_place
   - bswap_6x12_packet__10TObjPlayerFv
   - bswap_6x6E_sync_game_state__6TLobbyFPv
   - bswap__15G_GoGoBall_6x79Fv
@@ -4700,7 +4700,7 @@ force_active:
   - bswap_pair__14TPlyDispConfigFv
   - bswap_state__15TOAttackableColFv
   - bswap_stats__10TObjPlayerFv
-  - bswap_u32__6TLobbyFPUl
+  - bswap_u32
   - bswap_udp_test_header__6TLobbyFv
   - buffer_init
   - build_6x05_write_switch_flag__FPv
@@ -5330,7 +5330,7 @@ force_active:
   - convert_quest_object_rows
   - convert_serial_hex_to_decimal__22TAdEnterSerialAccessGCFPCc
   - copySavedX__12TBoss1DragonFPi
-  - copy_4word_struct__6TLobbyFPvPv
+  - copy_4word_struct
   - copy__15BreakUpParamRowFP15BreakUpParamRow
   - copy_from__24CharacterPreviewLoadArgsFPC24CharacterPreviewLoadArgs
   - copy__14QuestVmContextFP14QuestVmContext
@@ -8950,7 +8950,7 @@ force_active:
   - mag_sub_transition_frames
   - main_task_dtor_chain
   - make_players__6TLobbyFv
-  - map_pad_buttons__16TKeyBoardControlFUs
+  - map_pad_buttons
   - mark_done__12TBoss4ThanksFv
   - mark_done__12TBoss6ThanksFv
   - matrix_identity
@@ -15243,7 +15243,7 @@ force_active:
   - saver_boss_stat_handle
   - saver_collision_body_part_table
   - saver_object_stat_handle
-  - scale_axis_value__16TKeyBoardControlFs
+  - scale_axis_value
   - scale_by_const__10TBoss6TubeFf
   - scale_by_level__14TOTrapChainSawFf
   - scale_owner_height__11TItemMagSubFf
@@ -15275,7 +15275,7 @@ force_active:
   - secretary_body_resource_descriptor
   - seed_character_select_serial_rng__Fl
   - seed_download_rng__Fl
-  - seek_gvrt_chunk__6TLobbyFv
+  - seek_gvrt_chunk
   - select_hurt_action__16TObjEneMerillLiaFv
   - select_air_fire_target__12TBoss1DragonFP3Vec
   - select_and_advance__20TShopItemTecSequenceFPv

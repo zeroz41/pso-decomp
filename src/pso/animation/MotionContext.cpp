@@ -6,6 +6,7 @@
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/ChunkModelDraw.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" void blend_quaternions_nlerp(const f32 *a, const f32 *b, f32 rate, f32 *out);
 
@@ -103,7 +104,7 @@ void apply_motion_node_transform(NJS_OBJECT *node) {
         rotate_matrix_by_node_angles(ang, 1);
         break;
     default:
-        ((TObjPlayer *)quat)->concat_quaternion_rotation();
+        concat_quaternion_rotation(quat);
         break;
     }
     scale_current_matrix(scl);
@@ -291,7 +292,7 @@ void compose_motion_node_matrix(void *node) {
         rotate_matrix_by_node_angles(ang, 1);
         break;
     default:
-        ((TObjPlayer *)quat)->concat_quaternion_rotation();
+        concat_quaternion_rotation(quat);
         break;
     }
     scale_current_matrix(scl);

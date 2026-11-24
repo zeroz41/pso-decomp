@@ -49,10 +49,6 @@ struct TKeyBoardControl : public TObject {
     static void update_main_menu_scene();
     static void update_menu_scene();
     static void flush_input();
-    static void init_pad_slots_and_read(s32, s32, s32);
-    static void read_pads();
-    static s32 map_pad_buttons(u16 button_bits);
-    static s16 scale_axis_value(s16 x);
     void clamp_axes();
     static void init_pad_states();
     static void parse_pad_event(s32 chan, u32 type);

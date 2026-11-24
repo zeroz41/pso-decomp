@@ -39,6 +39,13 @@ void gvm_stream_seek(s32 offset, s32 whence);
 void copy_u16_bytes(s8 *dst, s8 *src);
 void replace_gvm_texture_directory(struct NJS_TEXLIST *list, s32 stride, const GvmTextureHeader *header);
 void *load_nj_chunk_model_resource(u8 *base, u32 *off, u32 *out);
+// GVR files are little-endian: these swap a word's byte order.
+void bswap32_in_place(u32 *p);
+void bswap_u32(u32 *p);
+u32 bswap32_value(u32 v);
+void copy_4word_struct(void *dst, void *src);
+// Skips the chunks before the GVRT chunk in the GVM stream.
+void seek_gvrt_chunk(void);
 #ifdef __cplusplus
 }
 s32 calc_gvm_entry_stride(u16 flags);

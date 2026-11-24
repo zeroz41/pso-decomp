@@ -47,7 +47,7 @@ void draw_projected_textured_strip(ProjectedStripVertex *vertices, s32 count) {
 }
 #pragma pop
 
-void TLobby__sub_803E2EE4(s32 blended) {
+void begin_screen_textured_draw(s32 blended) {
     load_screen_space_matrix();
     if (blended != 0) {
         setup_blended_textured_draw();

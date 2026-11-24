@@ -25,8 +25,8 @@ void TAdSinglePlyChrSelectGC::append_extension_if_missing(char *name, char *ext)
     }
 }
 
-s32 TObjPlayer__sub_803DA104(u8 x) {
-    switch (x) {
+s32 is_palette_texture_format(u8 format) {
+    switch (format) {
     case 8:
     case 9:
     case 10:

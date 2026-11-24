@@ -39,6 +39,7 @@
 #include <stddef.h>
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/render/GinjaMaterial.h"
 
 s32 lbl_805D65F0;
 void *scene_sora_instance;
@@ -307,7 +308,7 @@ void TObjPlayer::clear_state_if_flag80(s32 arg0) {
     if (arg0 & 0x80) {
         set_ginja_post_tev_stage_count(0);
         set_ginja_post_texgen_count(0);
-        TObjPlayer::set_global_effect_state(0);
+        set_global_effect_state(0);
         model_render_flags &= 0xFFF7FFFF;
     }
 }
@@ -337,7 +338,7 @@ void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags
             model_render_flags |= 0x80000;
             set_ginja_post_tev_stage_count(1);
             set_ginja_post_texgen_count(1);
-            TObjPlayer::set_global_effect_state(1);
+            set_global_effect_state(1);
         }
     }
 }

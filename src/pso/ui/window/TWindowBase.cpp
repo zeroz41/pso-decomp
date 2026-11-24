@@ -543,7 +543,7 @@ void TWindowSubComCard__sub_802454E4(s32 texture) {
     set_tev_swap_channels(3, 3, 3, 3);
     TObjFish::set_global_param(hud_texlist);
     set_texture_num(texture);
-    TLobby__sub_803E2EE4(1);
+    begin_screen_textured_draw(1);
 }
 #pragma push
 #pragma fp_contract on

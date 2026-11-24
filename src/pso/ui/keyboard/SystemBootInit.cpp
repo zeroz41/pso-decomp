@@ -78,6 +78,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/unk/text_803DE7E0.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/render/ChunkModelDraw.h"
 
 GXLightObj gx_default_light_obj[4];
@@ -94,7 +95,7 @@ s32 keyboard_active_flag;
 s32 keyboard_input_flag;
 
 void poll_input_devices_frame(void) {
-    TKeyBoardControl::read_pads();
+    read_pads();
     hardware_keyboard_state.disable_disconnected_ports();
     TKeyBoardControl::flush_input();
     update_pad_rumble();
@@ -290,9 +291,9 @@ void init_game_systems(void) {
     init_chunk_draw((saddr)resource_decompress_buffer, 0x2000);
     set_frame_update_callback(poll_input_devices_frame);
     player_matrix_stack_buffer = (saddr)xmalloc(0x600);
-    TObjPlayer::init_matrix_stack(player_matrix_stack_buffer, 0x20);
+    init_matrix_stack(player_matrix_stack_buffer, 0x20);
     set_matrix_identity(0);
-    TKeyBoardControl::init_pad_slots_and_read(0, 0, 0);
+    init_pad_slots_and_read(0, 0, 0);
     TObjBoss2Tunnel::enable_and_trigger();
     init_pad_rumble();
     TKeyBoardControl::init_pad_state();

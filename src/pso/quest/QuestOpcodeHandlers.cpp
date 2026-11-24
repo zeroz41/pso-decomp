@@ -3843,7 +3843,7 @@ void qst_op_set_quest_board_handler(void) {
     }
 }
 
-void qst_op_getmtime(int a0) { qst_registers[(unsigned char)(a0)] = TLobby__sub_803DF1CC(); }
+void qst_op_getmtime(int a0) { qst_registers[(unsigned char)(a0)] = get_coarse_time(); }
 
 void qst_op_winset_time(s32 reg) {
     TWindowCtrl::set_timer_window_time(qst_registers[(u8)reg]);

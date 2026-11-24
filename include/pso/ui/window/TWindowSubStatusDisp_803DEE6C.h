@@ -5,7 +5,7 @@
 
 extern "C" {
 void DVDConvertEntrynumToPath(f32 *q);
-u32 TLobby__sub_803DF1CC(void);
+u32 get_coarse_time(void);
 void begin_screen_draw(s32 mode);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 }

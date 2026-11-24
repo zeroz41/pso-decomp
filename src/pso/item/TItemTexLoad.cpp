@@ -119,7 +119,7 @@ TItemTexLoad::~TItemTexLoad() {
 
 TItemTexLoad::TItemTexLoad(TObject* parent) : TObject(parent) {
     m_name = TItemTexLoad_name;
-    TObjPlayer__sub_803DD5E8(&m_texture_list, &m_texture_entry, (uaddr)item_texture_filename_buffer, 1);
+    bind_texture_name_table(&m_texture_list, &m_texture_entry, (uaddr)item_texture_filename_buffer, 1);
     m_texture_entry.attr = 0;
     m_texture_list.nbTexture = 1;
     m_texture_index = -1;

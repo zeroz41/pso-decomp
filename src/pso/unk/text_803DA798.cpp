@@ -9,11 +9,11 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803DAFA8.h"
 #include <dolphin/os/OSCache.h>
+#include "pso/render/GinjaModelQueue.h"
 extern "C" {
-s32 TObjPlayer__sub_803DB23C(GinjaTextureHeader *header);
-s32 TObjPlayer__sub_803DB244(void);
-s32 TObjPlayer__sub_803DA104(int format);
-s32 TObjPlayer__sub_803D9DA8(GinjaTextureState *texture, GvrTextureDesc *desc);
+// Called with the whole format word, as Ginja's C callers do without a prototype; the callee reads the low byte.
+s32 is_palette_texture_format(int format);
+s32 init_texture_from_gvr_desc(GinjaTextureState *texture, GvrTextureDesc *desc);
 }
 
 s32 TObjFish::set_global_param(NJS_TEXLIST *texlist) {
@@ -95,7 +95,7 @@ s32 reference_loaded_texture(u32 id, u32 tlut_name, s32 format, s32 *slot_out) {
     s32 shared;
     s32 slot;
     index = find_texture_by_surface_id(id);
-    if (TObjPlayer__sub_803DA104(format) != 0) {
+    if (is_palette_texture_format(format) != 0) {
         if (index < 0) {
             *slot_out = -1;
             return 0;
@@ -139,14 +139,14 @@ s32 create_texture_state(u32 id, u32 tlut_name, GvrTextureDesc *desc) {
         return -1;
     }
     texture->surface = surface;
-    if (TObjPlayer__sub_803D9DA8(texture, desc) != 1) {
+    if (init_texture_from_gvr_desc(texture, desc) != 1) {
         texture->surface = NULL;
         return -1;
     }
     if (id != 0xFFFFFFFFU) {
         texture->surface->id = id;
     }
-    if (TObjPlayer__sub_803DA104(desc->format) != 0) {
+    if (is_palette_texture_format(desc->format) != 0) {
         texture->tlut_name = tlut_name;
     } else {
         texture->tlut_name = -1;
@@ -231,7 +231,7 @@ s32 select_texture_by_surface_id(u32 id) {
 s32 reload_texture_state_pixels(GinjaTextureState *texture, s32 src, u32 arg2) {
     GinjaSurfaceState *surface = texture->surface;
     if ((surface->header.flags & 0x80000000) != 0 && arg2 != 0) {
-        if (TObjPlayer__sub_803DB23C(&surface->header) != 0) {
+        if (start_texture_header_transfer(&surface->header) != 0) {
             texture_error.code = 8;
             return -1;
         }
@@ -241,7 +241,7 @@ s32 reload_texture_state_pixels(GinjaTextureState *texture, s32 src, u32 arg2) {
             return -1;
         }
     }
-    while (TObjPlayer__sub_803DB244() != 0) {
+    while (texture_transfer_pending() != 0) {
     }
     return 1;
 }

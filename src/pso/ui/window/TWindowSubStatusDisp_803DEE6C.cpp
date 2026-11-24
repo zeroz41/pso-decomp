@@ -139,7 +139,7 @@ void set_constant_material_color(u32 x) {
 #pragma scheduling off
 #pragma peephole off
 
-u32 TLobby__sub_803DF1CC(void) {
+u32 get_coarse_time(void) {
     return OSGetTime() >> 6;
 }
 #pragma pop

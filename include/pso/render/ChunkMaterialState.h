@@ -4,6 +4,8 @@
 #include "pso/system/NinjaTypes.h"
 extern "C" {
 void set_chunk_material_override_pair(s32 first, s32 second);
+// Sets up the matrix stack of depth entries in the locked cache, its first entry the identity.
+void init_matrix_stack(s32 buffer, s32 depth);
 }
 void submit_chunk_material_color(s32 chunkType, s16 *packedMaterial);
 // Sets the material colour the constant-material draw uses, each channel

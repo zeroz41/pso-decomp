@@ -521,7 +521,6 @@ struct TLobby : public TObject {
     static void set_callback(uaddr arg0, s32 arg1);
     u32 get_packet_size();
     u32 get_available_size();
-    void copy_u16_array(u16 *src, s32 n);
     static s32 calc_delta(s32 arg0, s32 arg1);
     static void reset_player_state();
     static s32 aram_dma_blocking(s32 owner, s32 aram, saddr dest, s32 length);
@@ -634,10 +633,6 @@ struct TLobby : public TObject {
     static void SVM_DelCbSvr(s32 arg0, s32 arg1);
     static s32 svm_set_cb_svr(s32 group, AdxWorkerCallback callback, s32 context);
     static void set_message_and_notify(char *src);
-    static void bswap32_in_place(u32 *p);
-    static void seek_gvrt_chunk();
-    static void bswap_u32(u32 *p);
-    static u32 bswap32_value(u32 v);
     static void destroy_singleton();
     static void init_graph();
     static void free_buffer();
@@ -939,7 +934,6 @@ struct TLobby : public TObject {
     static void close_giveup_window(void*);
     static void close_menu_windows();
     static void construct_global_arrays();
-    static void copy_4word_struct(void *, void *);
     static void copy_all_data(int, int);
     static void *copy_com_card_entry(void *, void *);
     static void *copy_member_record(void *, void *);

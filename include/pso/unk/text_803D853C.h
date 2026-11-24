@@ -48,6 +48,10 @@ f32 vec3_cross(const struct Vec *a, const struct Vec *b, struct Vec *out);
 }
 void rotate_matrix_zyx(MtxP matrix, s32 x, s32 y, s32 z);
 extern "C" {
+// Inverts matrix in place; NULL inverts the current matrix.
+void invert_matrix_in_place(MtxP matrix);
+}
+extern "C" {
 // vsprintf into a 128-byte buffer queued as debug text at pos.
 void debug_printf_at(s32 pos, const char *format, ...);
 }

@@ -27,7 +27,7 @@ struct Tbl_803D9E38 { u8 pad[8]; Ent_803D9E38 arr[1]; };
 
 extern "C" {
 s32 fn_803DA12C(u8 *, s32, s32, s32);
-s32 TObjPlayer__sub_803D9DA8(A_803D9DA8 *texture, B_803D9DA8 *desc);
+s32 init_texture_from_gvr_desc(A_803D9DA8 *texture, B_803D9DA8 *desc);
 void rotate_matrix_x(Matrix34* matrix, s32 angle);
 s32 notify_texture_state_ready(int, int);
 
@@ -100,14 +100,13 @@ asm void transform_point_by_current_matrix(const f32 *src, Vec *dst) {
 #include "orig_asm/pso/unk/text_803D96A8/transform_point_by_current_matrix.inc"
 }
 
-void TObjPlayer::concat_quaternion_rotation() {
-    f32 *arg0 = (f32 *)this;
+void concat_quaternion_rotation(const f32 *quat) {
     Mtx34 mtx;
     Q_803D98E4 q;
-    q.w = arg0[0];
-    q.x = arg0[1];
-    q.y = arg0[2];
-    q.z = arg0[3];
+    q.w = quat[0];
+    q.x = quat[1];
+    q.y = quat[2];
+    q.z = quat[3];
     PSMTXQuat(mtx, (const PSQuaternion *)&q);
     PSMTXConcat(*current_matrix, mtx, *current_matrix);
 }
@@ -160,7 +159,7 @@ asm void post_translate_matrix(const f32 *v) {
 #include "orig_asm/pso/unk/text_803D96A8/post_translate_matrix.inc"
 }
 
-void TObjPlayer__sub_803D9C60(u32 *p) {
+void swap_gvrt_word(u32 *p) {
     u32 v = *p;
     *p = ((v & 0xFF000000) >> 24) | ((v & 0xFF0000) >> 8) | ((v & 0xFF00) << 8) | ((v & 0xFF) << 24);
 }
@@ -174,7 +173,7 @@ u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *arg1, u32 *arg2) {
     }
     do {
         tag = *p;
-        TObjPlayer__sub_803D9C60(&tag);
+        swap_gvrt_word(&tag);
         switch (tag) {
         case 0x54525647:
             move_data(lobby, p + 2, 8);
@@ -183,7 +182,7 @@ u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *arg1, u32 *arg2) {
             u32 len;
             p++;
             len = *p++;
-            TObjPlayer__sub_803D9C60(&len);
+            swap_gvrt_word(&len);
             if (arg1 != NULL) {
                 *arg1 = *p;
             }
@@ -198,7 +197,7 @@ u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *arg1, u32 *arg2) {
     return p;
 }
 
-s32 TObjPlayer__sub_803D9DA8(A_803D9DA8 *texture, B_803D9DA8 *desc) {
+s32 init_texture_from_gvr_desc(A_803D9DA8 *texture, B_803D9DA8 *desc) {
     if (fn_803DA12C(texture->p + 4, desc->b, desc->c, desc->a) != 0) {
         texture_error.code = 6;
         return -1;
@@ -206,14 +205,14 @@ s32 TObjPlayer__sub_803D9DA8(A_803D9DA8 *texture, B_803D9DA8 *desc) {
     return 1;
 }
 
-s32 TObjPlayer::is_gvm_load_ok() {
-    if (TObjPlayer__sub_803DB244() == 0) {
+s32 is_gvm_load_ok() {
+    if (texture_transfer_pending() == 0) {
         return 1;
     }
     return -1;
 }
 
-s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 idx, s32 *arg2, u32 *arg3) {
+s32 resolve_texlist_entry(s32 *arg0, u32 idx, s32 *arg2, u32 *arg3) {
     saddr sp8;
     u32 j;
     s32 *temp_r4;

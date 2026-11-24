@@ -15,6 +15,10 @@ void ginja_set_vertex_format(u32 arg0, u32);
 void load_ginja_model_matrices(int matrix_id);
 extern "C" {
 void prepare_ginja_model(void);
+// Global colour parameters, packed 0xRRGGBBAA.
+void set_global_color_rgba(u32 v, u32);
+void set_global_color_rgba_alt_b(u32 v, u32);
+void set_global_effect_state(s32 global_effect_state);
 }
 s32 queue_model_draw_current_matrix(void *model);
 void set_ginja_blend_param(u32 x, u32);

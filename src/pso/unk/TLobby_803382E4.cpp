@@ -103,11 +103,11 @@ void TLobby__sub_803382E4(void) {
         set_default_alpha_blend();
         TObjFish::set_global_param(&lbl_804EF1DC);
         set_texture_num(0);
-        TLobby__sub_803E2EE4(0);
+        begin_screen_textured_draw(0);
         draw_projected_textured_strip(lbl_804EF2E4, 4);
         TLobby::reset_player_state();
         set_texture_num(1);
-        TLobby__sub_803E2EE4(0);
+        begin_screen_textured_draw(0);
         draw_projected_textured_strip(lbl_804EF344, 4);
         TLobby::reset_player_state();
         set_additive_blend();
@@ -183,13 +183,13 @@ void TLobby__sub_80338534(void) {
             set_texture_num(0);
         }
         set_additive_blend();
-        TLobby__sub_803E2EE4(1);
+        begin_screen_textured_draw(1);
         draw_projected_textured_strip(overlay->info_icon, 4);
         TLobby::reset_player_state();
         set_default_alpha_blend();
         TObjFish::set_global_param(hud_texlist);
         set_texture_num(5);
-        TLobby__sub_803E2EE4(1);
+        begin_screen_textured_draw(1);
         draw_projected_textured_strip(overlay->hud_icon, 4);
         TLobby::reset_player_state();
     }

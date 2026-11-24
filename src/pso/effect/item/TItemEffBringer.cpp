@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D853C.h"
 
 const char *TItemEffBringer::class_name = "TItemEffBringer";
 
@@ -45,7 +46,7 @@ TItemEffBringer::TItemEffBringer(void *owner, const Vec *pos, const Vec *dir, f3
     m_name = class_name;
     push_matrix();
     origin.x = origin.y = origin.z = 0.0f;
-    TObjPlayer::invert_matrix_in_place(0);
+    invert_matrix_in_place(0);
     transform_point_by_current_matrix(&origin.x, &camera);
     VecCopy(&to_shot, pos);
     subtract_vector(&to_shot, &camera);

@@ -50,7 +50,7 @@ s32 PADReset(u32);
 #pragma push
 #pragma scheduling off
 
-void TKeyBoardControl::init_pad_slots_and_read(s32, s32, s32) {
+void init_pad_slots_and_read(s32, s32, s32) {
     keyboard_control_pad_slots[0].conn = TKeyBoardControl__pad_status_buffer;
     keyboard_control_pad_slots[1].conn = &TKeyBoardControl__pad_status_buffer[0x1E];
     keyboard_control_pad_slots[2].conn = &TKeyBoardControl__pad_status_buffer[0x3C];
@@ -61,7 +61,7 @@ void TKeyBoardControl::init_pad_slots_and_read(s32, s32, s32) {
 typedef struct Pad_803DEA18 Pad_803DEA18;
 #pragma push
 #pragma use_lmw_stmw off
-void TKeyBoardControl::read_pads() {
+void read_pads() {
   u32 diff;
   unsigned short new_var;
   Pad_803DEA18 *pad;
@@ -84,12 +84,12 @@ void TKeyBoardControl::read_pads() {
       diff = old->button ^ (new_var = pad->button);
       cur = new_var;
       released = old->button & diff;
-      out->held = TKeyBoardControl::map_pad_buttons(cur);
+      out->held = map_pad_buttons(cur);
       out->notHeld = ~out->held;
-      out->pressed = TKeyBoardControl::map_pad_buttons(cur & diff);
-      out->released = TKeyBoardControl::map_pad_buttons(released);
-      out->stickX = TKeyBoardControl::scale_axis_value(pad->stickX);
-      out->stickY = -TKeyBoardControl::scale_axis_value(pad->stickY);
+      out->pressed = map_pad_buttons(cur & diff);
+      out->released = map_pad_buttons(released);
+      out->stickX = scale_axis_value(pad->stickX);
+      out->stickY = -scale_axis_value(pad->stickY);
       out->substickX = pad->substickX;
       out->substickY = pad->substickY;
       out->trigL = pad->triggerL;
@@ -143,7 +143,7 @@ PadSlot *get_pad_slot(u32 device) {
 }
 #pragma pop
 
-s32 TKeyBoardControl::map_pad_buttons(u16 released) {
+s32 map_pad_buttons(u16 released) {
     s32 r = 0;
     u32 i;
     for (i = 0; i < keyboard_pad_button_count; i++) {
@@ -152,7 +152,7 @@ s32 TKeyBoardControl::map_pad_buttons(u16 released) {
     return r;
 }
 
-s16 TKeyBoardControl::scale_axis_value(s16 x) {
+s16 scale_axis_value(s16 x) {
     return (x * 128) / 89;
 }
 
@@ -177,10 +177,10 @@ void TKeyBoardControl::clamp_axes() {
     }
 }
 
-void TObjPlayer::init_matrix_stack(s32 player_matrix_stack_buffer, s32 arg1) {
+void init_matrix_stack(s32 buffer, s32 depth) {
     matrix_stack_base = (GC_Mtx *)0xE0000000;
     current_matrix = (GC_Mtx *)0xE0000000;
-    matrix_stack_limit = (GC_Mtx *)0xE0000000 + (arg1 - 1);
+    matrix_stack_limit = (GC_Mtx *)0xE0000000 + (depth - 1);
     PSMTXIdentity(identity_matrix == 0 ? (MtxP)0xE0000000 : identity_matrix);
     move_data(matrix_stack_base, identity_matrix, 0x30);
 }
