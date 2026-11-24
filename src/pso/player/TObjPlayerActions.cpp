@@ -296,19 +296,6 @@ typedef struct Msg_801D00B0 {
     s32 v;
 } Msg_801D00B0;
 
-typedef struct Npc_801D00B0 {
-    u8 pad0[0x3F0];
-    s32 f3f0;
-    u8 pad3f4[4];
-    f32 x;
-    u8 pad3fc[4];
-    f32 z;
-    u8 pad404[0x5EC - 0x404];
-    u8 sub[4];
-} Npc_801D00B0;
-
-
-
 typedef struct Msg_801D0634 {
     u8 pad0[2];
     u16 id;
@@ -4609,20 +4596,19 @@ void handle_6x40_walk_to_position(G_WalkToPosition_6x40 *command) {
 extern "C" {
 
 void TObjPlayer::send_6x40_walk_to_position() {
-    Npc_801D00B0 *self_view = (Npc_801D00B0 *)this;
     Msg_801D00B0 m;
     if (update_combat_stats() != 0) {
-        calc_movement_target(self_view->f3f0, &self_view->x, &self_view->z);
-        ((FlagWord *)(self_view->sub))->reset();
-        if (((TObjCollidable *)self_view)->test_actor_flags(0x100000) != 0) {
-            ((FlagWord *)(self_view->sub))->set(8);
+        calc_movement_target(target_heading, &move_target.x, &move_target.z);
+        move_speed.flags.reset();
+        if (test_actor_flags(0x100000) != 0) {
+            move_speed.flags.set(8);
         }
-        if ((self_view == NULL) || (((TObjChara *)self_view)->obj_isState2_324() == 0)) {
+        if ((this == NULL) || (obj_isState2_324() == 0)) {
             ((G_WalkToPosition_6x40 *)&m)->init();
-            m.f2 = ((TObjBase *)self_view)->get_entity_id();
-            m.x = self_view->x;
-            m.z = self_view->z;
-            m.v = ((FlagWord *)(self_view->sub))->get_bits();
+            m.f2 = get_entity_id();
+            m.x = move_target.x;
+            m.z = move_target.z;
+            m.v = move_speed.flags.get_bits();
             ((G_WalkToPosition_6x40 *)&m)->send();
         }
     }
