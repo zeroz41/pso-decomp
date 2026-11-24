@@ -26,6 +26,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/Draw2D.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
 
 extern "C" {
 f32 xyz_distance(void *, void *);
@@ -134,7 +135,7 @@ void TObjPlayer::draw_area_chunk_objects() {
     Boss4ZakoDrawEntry *p = t->entries;
     s32 i;
     model = get_bml_model(TBoss4Uro::get_instance_count(), 8);
-    TObjPlayer::begin_alpha_blend(zako_fade_full);
+    begin_alpha_blend(zako_fade_full);
     TObjFish::set_global_param(falz_zako_texture_list);
     for (i = 0; i < t->count; i++, p++) {
         push_matrix();
@@ -144,7 +145,7 @@ void TObjPlayer::draw_area_chunk_objects() {
         draw_chunk_object(model);
         pop_matrix();
     }
-    TObjPlayer::sync_player_globals();
+    end_alpha_blend();
 }
 
 // File-scope constants of the zako draw: .sdata2 objects in this order, defined after their

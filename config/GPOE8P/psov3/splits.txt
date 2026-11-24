@@ -566,12 +566,9 @@ pso/boss/darkfalz/TObjDFJisin.cpp:
 	.sdata2     start:0x805D8A30 end:0x805D8AD8
 
 pso/boss/darkfalz/TBoss4Type2_800522CC.cpp:
-	.text       start:0x800522CC end:0x80052374
+	.text       start:0x800522CC end:0x80052420
 	.rodata     start:0x804374F8 end:0x80437500
 	.sdata2     start:0x805D8AD8 end:0x805D8AF4
-
-pso/player/TObjPlayer_80052374.cpp:
-	.text       start:0x80052374 end:0x80052420
 
 pso/unk/text_80052420.cpp:
 	.text       start:0x80052420 end:0x800524E8

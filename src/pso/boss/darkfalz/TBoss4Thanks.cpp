@@ -141,7 +141,7 @@ void TBoss4Thanks::render() {
     return;
   }
   {
-    TObjPlayer::begin_alpha_blend(fade);
+    begin_alpha_blend(fade);
     push_matrix();
     set_motion_packed_rotation();
     post_translate_matrix(boss4_thanks_position);
@@ -149,7 +149,7 @@ void TBoss4Thanks::render() {
     draw_model_motion(model, motions[current_motion], motion_frame);
     clear_motion_packed_rotation();
     pop_matrix();
-    TObjPlayer::sync_player_globals();
+    end_alpha_blend();
   }
 }
 

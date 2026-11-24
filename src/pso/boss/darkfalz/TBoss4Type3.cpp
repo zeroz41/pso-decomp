@@ -508,7 +508,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
         return;
     }
     if (t < 1.0f) {
-        TObjPlayer::begin_alpha_blend(t);
+        begin_alpha_blend(t);
     } else if (tbl == boss4_type3_model_ids) {
         TBoss6PlotFalz__sub_802AC008(hit_flash, hp_ratio);
     }
@@ -524,7 +524,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     clear_motion_packed_rotation();
     model_render_flags &= ~0x20000;
     if (t < 1.0f) {
-        TObjPlayer::sync_player_globals();
+        end_alpha_blend();
         return;
     }
     if (tbl == boss4_type3_model_ids) {

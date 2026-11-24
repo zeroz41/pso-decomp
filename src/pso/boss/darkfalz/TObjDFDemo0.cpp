@@ -218,7 +218,7 @@ void TObjDFDemo0::render() {
 
     if ((0.0f) != fade) {
         if (fade < (1.0f)) {
-            TObjPlayer::begin_alpha_blend(fade);
+            begin_alpha_blend(fade);
         }
         push_matrix();
         set_motion_packed_rotation();
@@ -234,7 +234,7 @@ void TObjDFDemo0::render() {
         clear_motion_packed_rotation();
         pop_matrix();
         if (fade < (1.0f)) {
-            TObjPlayer::sync_player_globals();
+            end_alpha_blend();
         }
     }
 }

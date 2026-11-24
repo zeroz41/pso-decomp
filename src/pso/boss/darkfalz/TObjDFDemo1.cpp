@@ -48,6 +48,7 @@ struct DFDemo1NodeColor {
 extern s32 boss4_type1_model_ids[6];
 extern s32 boss4_zanzo_bml_index_table[];
 #include "pso/render/model_render_state.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
 // Defined after the constructor: it follows the constructor's angle template in .rodata.
 extern const ModelNodeSpec df_demo1_strip_specs[6];
 
@@ -190,7 +191,7 @@ void TObjDFDemo1::draw_fading_model() {
         alpha = (f32)(0x88 - timer) / 12.0f;
     }
     if (alpha < 1.0f) {
-        TObjPlayer::begin_alpha_blend(alpha);
+        begin_alpha_blend(alpha);
     }
     push_matrix();
     set_motion_packed_rotation();
@@ -213,7 +214,7 @@ void TObjDFDemo1::draw_fading_model() {
     clear_motion_packed_rotation();
     pop_matrix();
     if (alpha < 1.0f) {
-        TObjPlayer::sync_player_globals();
+        end_alpha_blend();
     }
 }
 
@@ -252,7 +253,7 @@ void TObjDFDemo1::sub_8004E068() {
         col[e->slot] = (old & 0xFF) | ((s32)(255.0f * f) << 8);
     }
     if (alpha < 1.0f) {
-        TObjPlayer::begin_alpha_blend(alpha);
+        begin_alpha_blend(alpha);
     }
     model_render_flags |= 0x20000;
     TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, scroll);
@@ -268,6 +269,6 @@ void TObjDFDemo1::sub_8004E068() {
     pop_matrix();
     model_render_flags &= ~0x20000;
     if (alpha < 1.0f) {
-        TObjPlayer::sync_player_globals();
+        end_alpha_blend();
     }
 }

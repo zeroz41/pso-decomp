@@ -1105,9 +1105,9 @@ void TBoss4Zanzo::render() {
         post_translate_matrix(&params.pos.x);
         rotate_matrix_y(0, params.rotation_y);
         TObjFish::set_global_param(params.texlist);
-        TObjPlayer::begin_alpha_blend(value);
+        begin_alpha_blend(value);
         draw_model_motion(params.model, params.motion, params.frame);
-        TObjPlayer::sync_player_globals();
+        end_alpha_blend();
         clear_motion_packed_rotation();
         pop_matrix();
     }
