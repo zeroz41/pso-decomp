@@ -4,14 +4,14 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
-#include "pso/unk/TUnk_8013E020.h"
+#include "pso/player/PlayerRef.h"
 
 // run_task is declared first: it is the key function that places the vtable at 0x804C3F60.
 struct TForceOperate : public TObject {
     virtual void run_task();
     TForceOperate(TObject *parent, u16 id);
     virtual ~TForceOperate();
-    TUnk_8013E020 m_1c;
+    PlayerRef player_ref;
     static const char *class_name;
 };
 

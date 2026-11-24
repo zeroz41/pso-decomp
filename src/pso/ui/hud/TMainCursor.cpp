@@ -106,7 +106,7 @@ struct State_8013AF50 {
 
 extern "C" {
 void publish_target_list__11TMainCursorFPvi(struct Self_8013D4A0 *, s32);
-State_8013AF50 *get_player__13TUnk_8013E020Fv(s32);
+State_8013AF50 *get_player__9PlayerRefFv(s32);
 
 extern const char *lockon_list_clear_task_name;
 
@@ -125,7 +125,6 @@ struct Pl_8013B0F0 {
 };
 
 extern "C" {
-u16 get_client_id(void *p);
 int set_target_index__11TMainCursorFs(void *, s32);
 }
 extern Pl_8013B0F0 *player_slot_table[12];
@@ -351,8 +350,8 @@ u8 fn_8013F24C(Obj_8013F24C *self, s16 i);
 
 void TLOC_ListClear::run_task() {
     saddr arg0 = (saddr)this;
-    if ((((TUnk_8013E020 *)(arg0 + 0x1C))->resolve_player() != 0) && ((u32) *(u32 *)((s8 *)(((TUnk_8013E020 *)(arg0 + 0x1C))->get_player()) + 0x424) != 0U)) {
-        TObjPlayer__sub_8013DEF8((u8 *)(*(saddr *)((s8 *)(((TUnk_8013E020 *)(arg0 + 0x1C))->get_player()) + 0x424) + 0x520));
+    if ((((PlayerRef *)(arg0 + 0x1C))->resolve() != 0) && ((u32) *(u32 *)((s8 *)(((PlayerRef *)(arg0 + 0x1C))->get_player()) + 0x424) != 0U)) {
+        TObjPlayer__sub_8013DEF8((u8 *)(*(saddr *)((s8 *)(((PlayerRef *)(arg0 + 0x1C))->get_player()) + 0x424) + 0x520));
     }
 }
 
@@ -361,8 +360,8 @@ extern "C" {
 u8 *__dt__14TLOC_ListClearFv(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(void ***)((s8 *)arg0 + 0x18) = lbl_804A71C4;
-        if ((((TUnk_8013E020 *)(arg0 + 0x1C))->resolve_player() != 0) &&((u32) *(u32 *)((s8 *)(((TUnk_8013E020 *)(arg0 + 0x1C))->get_player()) + 0x424) != 0U)) {
-            ((TLockOnCursor *)(*(saddr *)((s8 *)(((TUnk_8013E020 *)(arg0 + 0x1C))->get_player()) + 0x424)))->set_list_clear_task(NULL);
+        if ((((PlayerRef *)(arg0 + 0x1C))->resolve() != 0) &&((u32) *(u32 *)((s8 *)(((PlayerRef *)(arg0 + 0x1C))->get_player()) + 0x424) != 0U)) {
+            ((TLockOnCursor *)(*(saddr *)((s8 *)(((PlayerRef *)(arg0 + 0x1C))->get_player()) + 0x424)))->set_list_clear_task(NULL);
         }
         __dt__13TUnk_804A7260Fv(arg0, 0);
         if (arg1 > 0) {
@@ -384,19 +383,19 @@ void *TLOC_ListClear::init_lockon(TObject *parent, u16 id) {
 void TLOC_End::run_task() {
     saddr arg0 = (saddr)this;
     s32 i;
-    if (((TUnk_8013E020 *)(arg0 + 0x1C))->resolve_player() == 0) {
+    if (((PlayerRef *)(arg0 + 0x1C))->resolve() == 0) {
         return;
     }
-    if (get_player__13TUnk_8013E020Fv(arg0 + 0x1C)->cur == NULL) {
+    if (get_player__9PlayerRefFv(arg0 + 0x1C)->cur == NULL) {
         return;
     }
     for (i = 0; i < 4; i++) {
-        TMainCursor::sort_list((saddr)(get_player__13TUnk_8013E020Fv(arg0 + 0x1C)->cur), (s32)i);
-        publish_target_list__11TMainCursorFPvi((Self_8013D4A0 *)get_player__13TUnk_8013E020Fv(arg0 + 0x1C)->cur, i);
+        TMainCursor::sort_list((saddr)(get_player__9PlayerRefFv(arg0 + 0x1C)->cur), (s32)i);
+        publish_target_list__11TMainCursorFPvi((Self_8013D4A0 *)get_player__9PlayerRefFv(arg0 + 0x1C)->cur, i);
     }
-    get_player__13TUnk_8013E020Fv(arg0 + 0x1C)->cur->nearest_target.publish();
+    get_player__9PlayerRefFv(arg0 + 0x1C)->cur->nearest_target.publish();
     for (i = 0; i < 4; i++) {
-        ((TMainCursor *)(&get_player__13TUnk_8013E020Fv(arg0 + 0x1C)->cur->parts[i]))->reset_cursor_parts();
+        ((TMainCursor *)(&get_player__9PlayerRefFv(arg0 + 0x1C)->cur->parts[i]))->reset_cursor_parts();
     }
 }
 
@@ -1619,7 +1618,7 @@ TObjPlayer *resolve_player_by_client_id(u16 *client_id) {
 TLOC_Start::TLOC_Start(TObject *parent, u16 id) : TUnk_804A7260(parent, id) { m_name = TLOC_Start__name; }
 
 TLOC_Start::~TLOC_Start() {
-    if ((m_target.resolve_player() != 0) && (*(u32 *)((s8 *)m_target.get_player() + 0x424) != 0U)) {
+    if ((m_target.resolve() != 0) && (*(u32 *)((s8 *)m_target.get_player() + 0x424) != 0U)) {
         ((TLockOnCursor *)*(saddr *)((s8 *)m_target.get_player() + 0x424))->set_start_task(NULL);
     }
 }
@@ -1629,7 +1628,7 @@ void TLOC_Start::run_task() {
     Pl_8013B0F0 *pl;
     Cur_8013B0F0 *cur;
     s32 i;
-    pl = (Pl_8013B0F0 *)get_player_by_client_id((s32)(get_client_id((void *)(arg0 + 0x1C))));
+    pl = (Pl_8013B0F0 *)get_player_by_client_id((s32)(((PlayerRef *)(arg0 + 0x1C))->get_client_id()));
     if (pl == NULL) {
         return;
     }
@@ -1657,7 +1656,7 @@ void TLOC_Start::run_task() {
 TLOC_End::TLOC_End(TObject *parent, u16 id) : TUnk_804A7260(parent, id) { m_name = TLOC_End__name; }
 
 TLOC_End::~TLOC_End() {
-    if ((m_target.resolve_player() != 0) && (*(u32 *)((s8 *)m_target.get_player() + 0x424) != 0U)) {
+    if ((m_target.resolve() != 0) && (*(u32 *)((s8 *)m_target.get_player() + 0x424) != 0U)) {
         ((TLockOnCursor *)*(saddr *)((s8 *)m_target.get_player() + 0x424))->set_end_task(NULL);
     }
 }
@@ -1704,22 +1703,18 @@ void TMainCursor__sub_8013DFC4(u8 *arg0) {
 
 }
 
-TObjPlayer *TUnk_8013E020::get_player() { return player; }
+TObjPlayer *PlayerRef::get_player() { return player; }
 
-TUnk_8013E020::~TUnk_8013E020() {}
+PlayerRef::~PlayerRef() {}
 
-void TUnk_8013E020::set_field_0(u16 v) { a = v; }
+void PlayerRef::set_client_id(u16 id) { client_id = id; }
 
-TUnk_8013E020::TUnk_8013E020() {
-    a = b = 0xffff;
+PlayerRef::PlayerRef() {
+    client_id = reserved = 0xffff;
     player = 0;
 }
 
-extern "C" {
-
-u16 get_client_id(void* p) { return *(u16*)((char*)p + 0x0); }
-
-}
+u16 PlayerRef::get_client_id() { return client_id; }
 
 TUnk_804A7260::~TUnk_804A7260() {}
 
@@ -1729,7 +1724,7 @@ void TUnk_8013F08C::set_list_clear_task(TObject *task) { list_clear_task = task;
 
 TUnk_804A7260::TUnk_804A7260(TObject *parent, u16 id) : TObject(parent) {
     disallow_rendering();
-    m_target.set_field_0(id);
+    m_target.set_client_id(id);
 }
 
 void TUnk_8013EF0C::publish() {

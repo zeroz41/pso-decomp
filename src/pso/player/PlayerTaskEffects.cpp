@@ -207,8 +207,8 @@ void *PlayerActionProvider::operator new(size_t size) { return obj_heap->heap_al
 void PlayerActionProvider::operator delete(void *p) { obj_heap->heap_free(p); }
 
 
-BOOL TUnk_8013E020::resolve_player() {
-    player = get_player_by_client_id(get_client_id(this));
+BOOL PlayerRef::resolve() {
+    player = get_player_by_client_id(get_client_id());
     if (player != NULL) {
         return 1;
     }
@@ -730,15 +730,15 @@ void PlayerDeathSink::calc_height(TObjPlayer *player) {
 
 TForceOperate::TForceOperate(TObject *parent, u16 id) : TObject(parent) {
     m_name = class_name;
-    m_1c.set_field_0(id);
+    player_ref.set_client_id(id);
 }
 
 void TForceOperate::run_task() {
     TObjPlayer *player;
     TObjCollidable *entity;
 
-    if (m_1c.resolve_player() != 0) {
-        player = m_1c.get_player();
+    if (player_ref.resolve() != 0) {
+        player = player_ref.get_player();
         if ((player->is_target_valid() != 0) && (player->has_action_palette_entry() != 0)) {
             entity = find_entity_by_id(((TMainCursor *)&player->lock_on_cursor->selection.target)->get_id());
             if (entity != NULL) {

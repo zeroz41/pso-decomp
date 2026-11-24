@@ -5,7 +5,6 @@
 
 extern "C" {
 void TMainCursor__sub_8013DFC4(u8 *arg0);
-u16 get_client_id(void *p);
 }
 
 
