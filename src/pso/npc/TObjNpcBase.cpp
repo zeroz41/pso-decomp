@@ -101,8 +101,8 @@ void TObjNpcBase::interact(u16 client) {
     TObjPlayer *player;
 
     if (message_label > 0) {
-        if ((u16) client == local_client_id) {
-            player = get_player_by_client_id((u16) client);
+        if (client == local_client_id) {
+            player = get_player_by_client_id(client);
             if ((player != NULL) && (mode != 3)) {
                 mode = 3;
                 phase = 0;
@@ -472,7 +472,7 @@ void TObjNpcBase::run_task() {
     update_prev_position();
     ((TBoss3VoloptHiraisin *)this)->copy_position();
     if (message_label > 0 && TRaderMapCore::is_not_split_screen() == 0) {
-        submit_cursor_candidate((void *) this, -1);
+        submit_cursor_candidate(this, -1);
     }
     clear_actor_flags(0x1B3FU);
 }
