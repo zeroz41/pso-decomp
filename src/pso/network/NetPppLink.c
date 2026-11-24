@@ -66,14 +66,14 @@ s16 TLobby__sub_803FD10C(void) {
 
 #pragma push
 #pragma optimization_level 3
-s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arr_) {
+s32 TLobby__sub_803FD21C(s16 ch, s32 mode, s32 addr, u8 *packet) {
     s16 len;
     PppFrame *pkt;
-    if ((arg0 != 0) && (arg0 != 1)) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
     pkt = ppp_buffers.ip_out;
-    len = TLobby__sub_804098B4(arr_);
+    len = TLobby__sub_804098B4(packet);
     if (lobby_net_buffer_desc_b.size < len) {
         return -0x112;
     }
@@ -81,8 +81,8 @@ s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arr_) {
     if ((s16) lobby_modem_connect_state == 4) {
         pkt->data = (u8 *)ppp_buffers.ip_out + ((ppp_buffers.headroom + 0x83) & 0xFFFFFFFC);
         pkt->len = len;
-        TLobby__sub_80409908(pkt->data, arr_);
-        TLobby__sub_80406328((saddr) pkt, lobby_net_buffer_desc_b.protocols[arg0].type);
+        TLobby__sub_80409908(pkt->data, packet);
+        TLobby__sub_80406328((saddr) pkt, lobby_net_buffer_desc_b.protocols[ch].type);
     }
     unlock_mutex(net_thread_state.mutex);
     return 0;
@@ -91,14 +91,14 @@ s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arr_) {
 
 #pragma push
 #pragma optimization_level 3
-s32 TLobby__sub_803FD310(s16 arg0, s32 arg1, u8 *arr_) {
+s32 TLobby__sub_803FD310(s16 ch, s32 addr, u8 *packet) {
     s16 len;
     PppFrame *pkt;
-    if ((arg0 != 0) && (arg0 != 1)) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
     pkt = ppp_buffers.ip_out;
-    len = TLobby__sub_804098B4(arr_);
+    len = TLobby__sub_804098B4(packet);
     if (lobby_net_buffer_desc_b.size < len) {
         return -0x112;
     }
@@ -106,8 +106,8 @@ s32 TLobby__sub_803FD310(s16 arg0, s32 arg1, u8 *arr_) {
     if ((s16) lobby_modem_connect_state == 4) {
         pkt->data = (u8 *)ppp_buffers.ip_out + ((ppp_buffers.headroom + 0x83) & 0xFFFFFFFC);
         pkt->len = len;
-        TLobby__sub_80409908(pkt->data, arr_);
-        TLobby__sub_80406328((saddr) pkt, lobby_net_buffer_desc_b.protocols[arg0].type);
+        TLobby__sub_80409908(pkt->data, packet);
+        TLobby__sub_80406328((saddr) pkt, lobby_net_buffer_desc_b.protocols[ch].type);
     }
     unlock_mutex(net_thread_state.mutex);
     return 0;
@@ -142,36 +142,36 @@ s32 TLobby__sub_803FD404(s16 ch, u8 *addr) {
     return -0x112;
 }
 
-s32 TLobby__sub_803FD490(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s32 TLobby__sub_803FD490(s16 ch) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
     return 0;
 }
 
-s32 TLobby__sub_803FD4B4(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s32 TLobby__sub_803FD4B4(s16 ch) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
     return 0;
 }
 
-s32 TLobby__sub_803FD4D8(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s32 TLobby__sub_803FD4D8(s16 ch) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
     return 0;
 }
 
-s32 TLobby__sub_803FD4FC(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s32 TLobby__sub_803FD4FC(s16 ch) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
     return 0;
 }
 
-s16 get_checked_status_value(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s16 get_checked_status_value(s16 ch) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
     if (lbl_805D7A7A != 0) {

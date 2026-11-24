@@ -21,16 +21,16 @@
 #include "pso/network/text_80421620.h"
 
 /* This file's functions. */
-s32 abort_tcp_connection(s16 arg0);
+s32 abort_tcp_connection(s16 id);
 void clear_position(TcpTcb *tcb);
 s32 close_if_open(TcpTcb *tcb);
 s32 get_rcv_bufsize(TcpTcb *tcb);
 s32 get_rcv_count(TcpTcb *tcb);
 s32 get_rcv_space(TcpTcb *tcb);
 s32 get_snd_queued(TcpTcb *tcb);
-s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *snd_space, s32 *rcv_count);
+s32 get_tcp_stat(s16 id, s16 *state, s16 *pending, s32 *snd_space, s32 *rcv_count);
 void insert_item_at(TcpTcb *tcb, s16 idx, s32 a, s32 b);
-s32 mark_connection_closed(s16 arg0);
+s32 mark_connection_closed(s16 id);
 void reset_slot_index(TcpTcb *tcb);
 s16 AT_TCP_Connect(s16 handle, NetworkAddress *addr, s16 port);
 s16 tcp_get_socket_handle(s16 i);
@@ -143,15 +143,15 @@ extern void TLobby__sub_8041A3CC(void) {
     }
 }
 
-void TLobby__sub_8041A498(TcpTcb *tcp_tcb, s16 arg1) {
+void TLobby__sub_8041A498(TcpTcb *tcp_tcb, s16 error) {
     s16 idx = tcp_tcb - tcp_protocol_state.tcbs;
 
     if (tcp_tcb->t_state >= 3) {
         tcp_tcb->t_state = 0;
         AT_TCP_Rawsend(tcp_tcb);
     }
-    tcp_tcb->error = arg1;
-    switch (arg1) {
+    tcp_tcb->error = error;
+    switch (error) {
     case 4:
         set_thread_state_and_resume(idx, tcp_tcb->send_done, -8);
         set_slot_state_and_resume(idx, tcp_tcb->recv_done, -8);
@@ -833,7 +833,6 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, NetworkAddress *a,
     return dst;
 }
 extern s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, TcpHdr *th);
-void TLobby__sub_8041A498(TcpTcb *arg0, s16 arg1);
 #define TCP_IDX(tp) ((s16)((TcpTcb *)(tp) - tcp_protocol_state.tcbs))
 #define TCP_MIN(a, b) ((a) < (b) ? (a) : (b))
 #define TCP_MAX(a, b) ((a) > (b) ? (a) : (b))
@@ -1963,14 +1962,14 @@ s32 TLobby__sub_8041DBD4(s16 handle, NetBufferRef *destination, s32 len, TcpComp
 
 #pragma push
 #pragma pool_data off
-s16 tcp_start_send(s16 arg0, NetPacket *req, TcpCompletion completion, u8 arg3) {
+s16 tcp_start_send(s16 id, NetPacket *req, TcpCompletion completion, u8 urgent) {
     s16 r;
     s16 v;
     s16 ret;
     TcpTcb *e;
-    if (arg0 < 0 || arg0 >= tcp_protocol_state.count) {
+    if (id < 0 || id >= tcp_protocol_state.count) {
         r = -4;
-    } else if (tcp_protocol_state.tcbs[arg0].state != 1) {
+    } else if (tcp_protocol_state.tcbs[id].state != 1) {
         r = -4;
     } else {
         r = 0;
@@ -1979,7 +1978,7 @@ s16 tcp_start_send(s16 arg0, NetPacket *req, TcpCompletion completion, u8 arg3) 
         return -4;
     }
     e = tcp_protocol_state.tcbs;
-    e += arg0;
+    e += id;
     v = e->t_state;
     if (v <= 1) {
         return -4;
@@ -1991,7 +1990,7 @@ s16 tcp_start_send(s16 arg0, NetPacket *req, TcpCompletion completion, u8 arg3) 
         return -4;
     }
     TLobby__sub_80420BD0(req, e, completion);
-    if (arg3 != 0) {
+    if (urgent != 0) {
         e->snd_up = e->snd_nxt + req->total_bytes;
     }
     ret = AT_TCP_Rawsend(e);
@@ -2089,13 +2088,13 @@ s32 TLobby__sub_8041DE1C(s16 i, s16 opt, u32 *val) {
 
 #pragma push
 #pragma pool_data off
-s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *snd_space, s32 *rcv_count) {
+s32 get_tcp_stat(s16 id, s16 *state, s16 *pending, s32 *snd_space, s32 *rcv_count) {
     s16 r;
     TcpTcb *e;
 
-    if (arg0 < 0 || arg0 >= tcp_protocol_state.count) {
+    if (id < 0 || id >= tcp_protocol_state.count) {
         r = -4;
-    } else if (tcp_protocol_state.tcbs[arg0].state != 1) {
+    } else if (tcp_protocol_state.tcbs[id].state != 1) {
         r = -4;
     } else {
         r = 0;
@@ -2104,15 +2103,15 @@ s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *snd_space, s32 *rcv_count)
         return -4;
     }
     e = tcp_protocol_state.tcbs;
-    e += arg0;
-    if (arg1 != NULL) {
-        *arg1 = e->t_state;
+    e += id;
+    if (state != NULL) {
+        *state = e->t_state;
     }
-    if (arg2 != NULL) {
+    if (pending != NULL) {
         if (e->t_state == 1) {
-            *arg2 = e->pending;
+            *pending = e->pending;
         } else {
-            *arg2 = 0;
+            *pending = 0;
         }
     }
     if (snd_space != NULL) {
@@ -2127,13 +2126,13 @@ s32 get_tcp_stat(s16 arg0, s16 *arg1, s16 *arg2, s32 *snd_space, s32 *rcv_count)
 
 #pragma push
 #pragma pool_data off
-s32 mark_connection_closed(s16 arg0) {
+s32 mark_connection_closed(s16 id) {
     s16 r;
     TcpTcb *e;
 
-    if (arg0 < 0 || arg0 >= tcp_protocol_state.count) {
+    if (id < 0 || id >= tcp_protocol_state.count) {
         r = -4;
-    } else if (tcp_protocol_state.tcbs[arg0].state != 1) {
+    } else if (tcp_protocol_state.tcbs[id].state != 1) {
         r = -4;
     } else {
         r = 0;
@@ -2142,7 +2141,7 @@ s32 mark_connection_closed(s16 arg0) {
         return -4;
     }
     e = tcp_protocol_state.tcbs;
-    e += arg0;
+    e += id;
     e->t_state = 0;
     e->flags |= 0x80;
     TLobby__sub_8041B5C0(e);
@@ -2152,13 +2151,13 @@ s32 mark_connection_closed(s16 arg0) {
 
 #pragma push
 #pragma pool_data off
-s32 abort_tcp_connection(s16 arg0) {
+s32 abort_tcp_connection(s16 id) {
     s16 r;
     TcpTcb *e;
 
-    if (arg0 < 0 || arg0 >= tcp_protocol_state.count) {
+    if (id < 0 || id >= tcp_protocol_state.count) {
         r = -4;
-    } else if (tcp_protocol_state.tcbs[arg0].state != 1) {
+    } else if (tcp_protocol_state.tcbs[id].state != 1) {
         r = -4;
     } else {
         r = 0;
@@ -2167,7 +2166,7 @@ s32 abort_tcp_connection(s16 arg0) {
         return -4;
     }
     e = tcp_protocol_state.tcbs;
-    e += arg0;
+    e += id;
     if (e->t_state < 4) {
         e->t_state = 0;
     } else {

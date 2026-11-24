@@ -37,7 +37,7 @@ s16 PP_chap_monitor(PppFsm *c, s32 timeout) {
     auth = (PppChap *)c->opts;
     if (lobby_session_flags & 2) {
         auth->active = 1;
-        TLobby__sub_803FE820((saddr)c);
+        TLobby__sub_803FE820(c);
         ppp_fsm_send_packet(c, 1, 0, build_avetcp_net_buffer(c));
     } else {
         auth->active = 0;

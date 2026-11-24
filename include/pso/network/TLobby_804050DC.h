@@ -54,8 +54,8 @@ s32 close_connection_by_index(s16 i);
 NetPacket *alloc_free_entry(void);
 void release_entry(NetPacket *pkt);
 s32 call_entry_callback(s16 i, s16 arg);
-s16 call_handler_by_index(s16 arg0, s32 arg1, s32 detail, s32 first, s32 second);
-s32 clear_table_entry_locked(s16 arg0);
+s16 call_handler_by_index(s16 idx, s32 handle, s32 mode, s32 addr, s32 pkt);
+s32 clear_table_entry_locked(s16 idx);
 void init_net_block_18A0(void);
 s16 invoke_socket_callback(s16 i, s32 arg);
 s16 is_entry_flag10_set(s16 i);
@@ -66,13 +66,13 @@ s32 run_net_init_step(void);
 s32 shutdown_network_handle(void);
 s16 is_socket_flag_set(s16 i);
 s16 TLobby__sub_8040A044(s16 idx, u32 a, s16 b, u32 *c);
-void TLobby__sub_804050DC(s16 arg0);
-s32 TLobby__sub_804062A0(s16 arg0);
+void TLobby__sub_804050DC(s16 poll_ms);
+s32 TLobby__sub_804062A0(s16 command);
 s16 TLobby__sub_80406624(s32 a, s32 b, u16 code, PppFrame *frame);
 s16 reset_network_timer_list(void);
 s16 arp_resolve_and_send(s16 idx, void *name, void *arg2);
 s32 TLobby__sub_80409AA8(void);
-s16 NetIPv4IsBroadcast(u32 arg0, s16 arg1);
+s16 NetIPv4IsBroadcast(u32 address, s16 iface);
 void lobby_timer_start(PppFsmTimer *timer);
 s16 ipv4_iface_for_address(u32 ip);
 s32 TLobby__sub_8040DD68(void);
@@ -91,12 +91,12 @@ s16 TLobby__sub_804098B4(void *pkt);
 s32 TLobby__sub_80409908(void *self, void *arr_);
 u8 *netbuf_ref_data(NetBufferRef *self);
 s16 TLobby__sub_80406328(saddr self, s16 type);
-s16 dispatch_handler_by_index(s16 id, s32 arg1, s32 arg2, s32 arg3);
+s16 dispatch_handler_by_index(s16 idx, s32 handle, s32 addr, s32 pkt);
 s16 dispatch_by_addr_family(NetPacket *pkt, NetworkAddress *dst, NetworkAddress *src, u8 *ip4_opts, void *ip6_opts, u8 proto);
 s16 AT_IP_SetSrcFromDst(NetworkAddress *src, NetworkAddress *dst);
-s16 is_multicast_address(NetworkAddress *addr, s16 arg1);
+s16 is_multicast_address(NetworkAddress *addr, s16 iface);
 s16 is_addr_unspecified(NetworkAddress *addr);
-s16 AT_IP4_IsReachable(u32 ipv4, u32 arg1);
+s16 AT_IP4_IsReachable(u32 dst, u32 src);
 s16 TLobby__sub_8040DA54(NetworkAddress *dst, NetworkAddress *src);
 u16 TLobby__sub_8040D8F0(NetworkAddress *src, NetworkAddress *dst, s8 proto, NetPacket *pkt, s16 flag);
 s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 proto);
@@ -111,7 +111,7 @@ s32 dispatch_slot_a(s16, s32);                       /* NetArp.c */
 s32 dispatch_slot_b(s16, s32);                       /* NetArp.c */
 s16 forward_net_op(s16, u8 *, u8 *);                 /* NetArp.c */
 s16 *get_active_entry_by_index(s16);                 /* NetIpv4Route.c */
-Ipv4Route *AT_IP4_RouteSearch(u32, u32);             /* NetIpv4Route.c */
+Ipv4Route *AT_IP4_RouteSearch(u32 dst, u32 src);     /* NetIpv4Route.c */
 s16 NetIPv4IsInterfaceUp(s16);                       /* NetIpv4Route.c */
 s16 TLobby__sub_8040FEE4(s32, s32);                  /* NetIpv4Route.c */
 s16 get_ipv4_interface_mtu(s16);                       /* NetIpv4Route.c */

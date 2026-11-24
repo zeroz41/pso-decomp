@@ -245,8 +245,8 @@ void queue_command_81(PppFsm *fsm) {
     TLobby__sub_804062A0(0x81);
 }
 
-void mark_lcp_starting(PppFsm *arg0) {
-    arg0->blocks->phase = 1;
+void mark_lcp_starting(PppFsm *fsm) {
+    fsm->blocks->phase = 1;
 }
 
 void reset_lcp_options(PppFsm *self) {

@@ -24,7 +24,6 @@ s16 TLobby__sub_80413D78(void *self, s16 idx);
 s16 TLobby__sub_80413F0C(void *self, s16 id);
 
 
-s32 TLobby__sub_80409E18(s16 arg0, s32 arg1, s32 arg2);
 
 
 /* Inline the helpers below; this applies to the rest of the file. */
@@ -1690,7 +1689,7 @@ inline Ipv6Iface *find_80414504(s16 id) {
     return e;
 }
 
-s16 NetIPv6GetInterfaceLinkLayerAddress(s32 arg0, s16 arg1, s16 id) {
+s16 NetIPv6GetInterfaceLinkLayerAddress(s32 dst, s16 dst_size, s16 id) {
     Ipv6Iface *e;
     s16 r;
 
@@ -1702,10 +1701,10 @@ s16 NetIPv6GetInterfaceLinkLayerAddress(s32 arg0, s16 arg1, s16 id) {
     if (r < 0) {
         return r;
     }
-    if (r > arg1) {
+    if (r > dst_size) {
         return -2;
     }
-    TLobby__sub_80409E18(id, e->handle, arg0);
+    TLobby__sub_80409E18(id, e->handle, dst);
     return r;
 }
 
@@ -1752,23 +1751,23 @@ s16 *get_valid_entry(s16 iface) {
     return temp_r3;
 }
 
-s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *arg0, u8 *addr) {
-    *(u8 *)((s8 *)arg0 + 0) = 0xFF;
-    *(s8 *)((s8 *)arg0 + 1) = 2;
-    *(s8 *)((s8 *)arg0 + 2) = 0;
-    *(s8 *)((s8 *)arg0 + 3) = 0;
-    *(s8 *)((s8 *)arg0 + 4) = 0;
-    *(s8 *)((s8 *)arg0 + 5) = 0;
-    *(s8 *)((s8 *)arg0 + 6) = 0;
-    *(s8 *)((s8 *)arg0 + 7) = 0;
-    *(s8 *)((s8 *)arg0 + 8) = 0;
-    *(s8 *)((s8 *)arg0 + 9) = 0;
-    *(s8 *)((s8 *)arg0 + 0xA) = 0;
-    *(s8 *)((s8 *)arg0 + 0xB) = 1;
-    *(u8 *)((s8 *)arg0 + 0xC) = 0xFF;
-    *(u8 *)((s8 *)arg0 + 0xD) = (u8) *(u8 *)((s8 *)addr + 0xD);
-    *(u8 *)((s8 *)arg0 + 0xE) = (u8) *(u8 *)((s8 *)addr + 0xE);
-    *(u8 *)((s8 *)arg0 + 0xF) = (u8) *(u8 *)((s8 *)addr + 0xF);
+s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *dst, u8 *addr) {
+    dst[0] = 0xFF;
+    dst[1] = 2;
+    dst[2] = 0;
+    dst[3] = 0;
+    dst[4] = 0;
+    dst[5] = 0;
+    dst[6] = 0;
+    dst[7] = 0;
+    dst[8] = 0;
+    dst[9] = 0;
+    dst[0xA] = 0;
+    dst[0xB] = 1;
+    dst[0xC] = 0xFF;
+    dst[0xD] = addr[0xD];
+    dst[0xE] = addr[0xE];
+    dst[0xF] = addr[0xF];
     return 0;
 }
 
@@ -2034,70 +2033,70 @@ void TLobby__sub_80414B98(u8 *dst, s16 bits, u8 *src)
 
 }
 
-s16 NetCompareBitsBackward(u8 *arg0, u8 *arg1, s16 arg2) {
+s16 NetCompareBitsBackward(u8 *lhs, u8 *rhs, s16 bits) {
     s16 n;
     s16 rem;
     s32 a;
     s32 b;
-    if (arg2 <= 0) {
+    if (bits <= 0) {
         return 0;
     }
-    rem = arg2 % 8;
-    n = arg2 / 8;
+    rem = bits % 8;
+    n = bits / 8;
     while (n > 0) {
-        if (*arg0 != *arg1) {
-            return *arg0 - *arg1;
+        if (*lhs != *rhs) {
+            return *lhs - *rhs;
         }
-        arg0--;
-        arg1--;
+        lhs--;
+        rhs--;
         n--;
     }
     switch (rem) {
     case 1:
-        a = *arg0 & 1;
-        b = *arg1 & 1;
+        a = *lhs & 1;
+        b = *rhs & 1;
         if (a != b) {
             return a - b;
         }
         return 0;
     case 2:
-        a = *arg0 & 3;
-        b = *arg1 & 3;
+        a = *lhs & 3;
+        b = *rhs & 3;
         if (a != b) {
             return a - b;
         }
         return 0;
     case 3:
-        a = *arg0 & 7;
-        b = *arg1 & 7;
+        a = *lhs & 7;
+        b = *rhs & 7;
         if (a != b) {
             return a - b;
         }
         return 0;
     case 4:
-        a = *arg0 & 0xF;
-        b = *arg1 & 0xF;
+        a = *lhs & 0xF;
+        b = *rhs & 0xF;
         if (a != b) {
             return a - b;
         }
         return 0;
     case 5:
-        a = *arg0 & 0x1F;
-        b = *arg1 & 0x1F;
+        a = *lhs & 0x1F;
+        b = *rhs & 0x1F;
         if (a != b) {
             return a - b;
         }
         return 0;
     case 6:
-        a = *arg0 & 0x3F;
-        b = *arg1 & 0x3F;
+        a = *lhs & 0x3F;
+        b = *rhs & 0x3F;
         if (a != b) {
             return a - b;
         }
         return 0;
     case 7:
-        a = *arg0 & 0x7F;
-        b = *arg1 & 0x7F;
+        a = *lhs & 0x7F;
+        b = *rhs & 0x7F;
         if (a != b) {
             return a - b;
         }

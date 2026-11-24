@@ -77,12 +77,12 @@ extern s16 AT_IP4_PktSend(NetPacket *self, u32 key, s16 id) {
 }
 #pragma push
 #pragma opt_common_subs on
-s16 get_ipv4_interface_mtu(s16 arg0) {
+s16 get_ipv4_interface_mtu(s16 iface) {
     Ipv4Iface *ifc;
-    if ((arg0 < 0) || (arg0 >= ipv4_address_routing_state.nifaces)) {
+    if ((iface < 0) || (iface >= ipv4_address_routing_state.nifaces)) {
         return -0x109;
     }
-    ifc = &ipv4_address_routing_state.ifaces[arg0];
+    ifc = &ipv4_address_routing_state.ifaces[iface];
     if (ifc->state != 1) {
         return -2;
     }
@@ -362,14 +362,14 @@ extern s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     return 0;
 }
 #pragma pop
-s16 AT_IP4_IsReachable(u32 ipv4, u32 arg1) {
-    if (AT_IP4_RouteSearch(ipv4, arg1) != NULL) {
+s16 AT_IP4_IsReachable(u32 dst, u32 src) {
+    if (AT_IP4_RouteSearch(dst, src) != NULL) {
         return 1;
     }
     return 0;
 }
 
-Ipv4Route *AT_IP4_RouteSearch(u32 a0, u32 a1) {
+Ipv4Route *AT_IP4_RouteSearch(u32 dst, u32 src) {
     u32 t;
     u16 flags;
     s16 i;
@@ -384,16 +384,16 @@ Ipv4Route *AT_IP4_RouteSearch(u32 a0, u32 a1) {
     e = ipv4_address_routing_state.routes;
     for (i = 0; i < ipv4_address_routing_state.nroutes; i++, e++) {
         flags = e->flags;
-        t = a0 & e->mask;
+        t = dst & e->mask;
         if (!(flags & 1)) {
             continue;
         }
-        if ((flags & 4) && e->dst == a0) {
+        if ((flags & 4) && e->dst == dst) {
             return e;
         }
         if ((flags & 8) && e->type == 1) {
-            if (a0 == 0xFFFFFFFF || a0 == 0) {
-                if (e->gateway == a1) {
+            if (dst == 0xFFFFFFFF || dst == 0) {
+                if (e->gateway == src) {
                     m1 = e;
                     continue;
                 }
@@ -674,13 +674,13 @@ s16 NetIPv4IsLoopback(s32 address) {
     return 0;
 }
 
-s16 NetIPv4IsBroadcast(u32 arg0, s16 arg1) {
+s16 NetIPv4IsBroadcast(u32 address, s16 iface) {
     Ipv4Iface *e;
-    if (arg1 < 0 || arg1 >= ipv4_address_routing_state.nifaces) {
+    if (iface < 0 || iface >= ipv4_address_routing_state.nifaces) {
         e = NULL;
     } else {
         e = ipv4_address_routing_state.ifaces;
-        e += arg1;
+        e += iface;
         if (e->state != 1) {
             e = NULL;
         }
@@ -688,7 +688,7 @@ s16 NetIPv4IsBroadcast(u32 arg0, s16 arg1) {
     if (e == NULL) {
         return 0;
     }
-    if (e->addr == 0 || arg0 == 0xFFFFFFFF || arg0 == e->broadcast) {
+    if (e->addr == 0 || address == 0xFFFFFFFF || address == e->broadcast) {
         return 1;
     }
     return 0;
@@ -722,12 +722,12 @@ s16 NetIPv4IsInterfaceUp(s16 iface) {
 
 #pragma push
 #pragma opt_common_subs on
-s16 *get_active_entry_by_index(s16 arg0) {
+s16 *get_active_entry_by_index(s16 iface) {
     Ipv4Iface *ifc;
-    if ((arg0 < 0) || (arg0 >= ipv4_address_routing_state.nifaces)) {
+    if ((iface < 0) || (iface >= ipv4_address_routing_state.nifaces)) {
         return NULL;
     }
-    ifc = &ipv4_address_routing_state.ifaces[arg0];
+    ifc = &ipv4_address_routing_state.ifaces[iface];
     if (ifc->state != 1) {
         return NULL;
     }
@@ -735,9 +735,9 @@ s16 *get_active_entry_by_index(s16 arg0) {
 }
 #pragma pop
 
-s16 TLobby__sub_8040FEE4(s32 ipv4, s32 arg1) {
+s16 TLobby__sub_8040FEE4(s32 lhs, s32 rhs) {
     s32 temp_r0;
-    temp_r0 = ipv4 - arg1;
+    temp_r0 = lhs - rhs;
     if (temp_r0 < 0) {
         return -1;
     }

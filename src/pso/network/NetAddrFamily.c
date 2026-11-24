@@ -120,10 +120,10 @@ s16 NetValidateLocalAddress(NetworkAddress* address) {
     }
 }
 
-s16 is_multicast_address(NetworkAddress *addr, s16 arg1) {
+s16 is_multicast_address(NetworkAddress *addr, s16 iface) {
     switch (addr->family) {
     case 4:
-        return NetIPv4IsBroadcast(addr->ipv4, arg1);
+        return NetIPv4IsBroadcast(addr->ipv4, iface);
     case 6:
         return NetIPv6IsMulticast(addr->address);
     case 0:

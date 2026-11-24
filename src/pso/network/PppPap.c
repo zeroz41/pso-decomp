@@ -26,8 +26,8 @@ s32 init_net_block_620_secondary(void) {
     return 0;
 }
 
-s16 PP_pap_monitor(void *arg0, u32 timeout) {
-    PppFsm *c = (PppFsm *)arg0;
+s16 PP_pap_monitor(void *fsm, u32 timeout) {
+    PppFsm *c = (PppFsm *)fsm;
     NetThreadState *g;
     PppProtoBlocks *blocks;
 
@@ -218,12 +218,12 @@ void pap_input(PppFsm *self, PppFrame *source) {
 
 #pragma pop
 
-s32 TLobby__sub_80403168(u8 *source, u8 *pap_password, u8 *ppp_fsm) {
+s32 TLobby__sub_80403168(u8 *source, u8 *pap_password, PppFsm *ppp_fsm) {
     PppPapAuthenticationState *g;
     PapOptions *opts;
     u32 n;
     u32 m;
-    opts = (PapOptions *)((PppFsm *)ppp_fsm)->opts;
+    opts = (PapOptions *)ppp_fsm->opts;
     g = &ppp_pap_authentication_state;
     n = NetStringLength((const char *)(source));
     if (n >= 0x80) {

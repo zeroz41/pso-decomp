@@ -594,8 +594,8 @@ s16 ppp_fsm_send_packet(PppFsm *self, u8 code, int reply_identifier, PppFrame *p
     return TLobby__sub_80406624(0, 0, fsm->proto->proto, payload);
 }
 #pragma pop
-void TLobby__sub_803FE820(saddr arg0) {
-    lobby_timer_start(&((PppFsm *)arg0)->timer);
+void TLobby__sub_803FE820(PppFsm *fsm) {
+    lobby_timer_start(&fsm->timer);
 }
 
 s16 TLobby__sub_803FE844(PppFsm *fsm, PppHeader *header, PppFrame *frame) {

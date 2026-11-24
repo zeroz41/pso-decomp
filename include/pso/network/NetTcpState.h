@@ -199,7 +199,7 @@ s16 TLobby__sub_8041E780(void);
 /* NetTcp.c: account the resent range [first, last) against the retransmit scoreboard (segs[]). */
 void TLobby__sub_8041D398(TcpTcb *tp, s32 first, s32 last);
 /* NetTcp.c: start sending a queued packet on connection arg0. */
-s16 tcp_start_send(s16 arg0, NetPacket *req, TcpCompletion completion, u8 arg3);
+s16 tcp_start_send(s16 id, NetPacket *req, TcpCompletion completion, u8 urgent);
 
 /* SocketProtocolRuntime.c: the TCP send and receive queues. */
 s32 TLobby__sub_8041ED8C(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCompletion callback);

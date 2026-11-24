@@ -101,7 +101,7 @@ s32 ipv6cp_set_interface_identifiers(s32 ignored, u8 *first_identifier, u8 *seco
 
 s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s32 dns_local_primary, s32 dns_local_secondary, s32 dns_peer_primary, s32 dns_peer_secondary) {
     IpcpConfig *ipcp_cfg;
-    u8 *fsm_state;
+    PppFsm *fsm_state;
     s16 ipcp_set_vj_compression(s16 disabled, IpcpSide *side);
     s16 ipcp_set_local_address(IpcpSide *side, s32 addr);
     s16 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr);
@@ -109,9 +109,9 @@ s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s
     s16 ipcp_set_peer_address(IpcpSide *side, s32 addr);
     s16 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr);
     s16 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr);
-    fsm_state = (u8 *)&ppp_proto_blocks.ipcp;
-    ipcp_cfg = *(IpcpConfig **)((s8 *)fsm_state + 0x30);
-    PP_doppp_active((void *)fsm_state);
+    fsm_state = &ppp_proto_blocks.ipcp;
+    ipcp_cfg = fsm_state->opts;
+    PP_doppp_active(fsm_state);
     if (ipcp_set_vj_compression(vj_disabled, &ipcp_cfg->local) != 0) {
         return -0x11;
     }
@@ -140,7 +140,7 @@ s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s
 }
 
 s16 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
-    u8 *g = (u8 *)&ppp_proto_blocks;
+    PppProtoBlocks *g = &ppp_proto_blocks;
     PppFsm *chap = &ppp_proto_blocks.chap;
     s16 r;
     s16 st;
@@ -152,22 +152,22 @@ s16 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
         }
         return -0x11;
     }
-    PP_doppp_active(g + 0x6C);
+    PP_doppp_active(&g->ipcp);
     st = lbl_805D7A7C;
     if (st == 6 || st == 0) {
-        PP_doppp_active(g + 0xD4);
+        PP_doppp_active(&g->ipv6cp);
     }
     return 0;
 }
 
 s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
-    u8 *g = (u8 *)&ppp_proto_blocks;
-    u8 *c = g + 0x38;
+    PppProtoBlocks *g = &ppp_proto_blocks;
+    PppFsm *c = &g->pap;
     s16 r;
     s16 st;
     if (lobby_session_flags & 1) {
         TLobby__sub_80403168(peer_id, pap_password, c);
-        TLobby__sub_803FE658((PppFsm *)c);
+        TLobby__sub_803FE658(c);
     }
     r = PP_pap_monitor(c, timeout);
     if (r < 0) {
@@ -176,10 +176,10 @@ s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
         }
         return -0x11;
     }
-    PP_doppp_active(g + 0x6C);
+    PP_doppp_active(&g->ipcp);
     st = lbl_805D7A7C;
     if (st == 6 || st == 0) {
-        PP_doppp_active(g + 0xD4);
+        PP_doppp_active(&g->ipv6cp);
     }
     return 0;
 }

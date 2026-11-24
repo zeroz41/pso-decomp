@@ -59,12 +59,11 @@ PppFrame *build_avetcp_net_buffer(PppFsm *c)
   return buf;
 }
 
-s32 PP_doppp_active(void *self) {
-    u8 *arg0 = (u8 *)self;
-    *(u8 *)((s8 *)arg0 + 2) = (u8) (*(u8 *)((s8 *)arg0 + 2) & 0xFFFFFFBF);
-    *(u8 *)((s8 *)arg0 + 2) = (u8) (*(u8 *)((s8 *)arg0 + 2) | 0x80);
-    if ((u8) *(u8 *)((s8 *)arg0 + 0) < 1U) {
-        *(u8 *)((s8 *)arg0 + 0) = 1U;
+s32 PP_doppp_active(PppFsm *fsm) {
+    fsm->flags &= ~0x40;
+    fsm->flags |= 0x80;
+    if (fsm->state < 1) {
+        fsm->state = 1;
     }
     return 0;
 }

@@ -21,7 +21,7 @@
 /* The object header the stack's records share (laid out like TObject's fields). */
 s32 reset_socket_table(void);
 void run_net_thread_loop(void);
-void ppp_input_packet(PppFrame *arg0);
+void ppp_input_packet(PppFrame *frame);
 
 extern s32 lbl_805D7A94;
 /* inferred: the PPP FCS-16 lookup table (RFC 1662 fcstab); the receive path checks the FCS against 0xF0B8. */
@@ -56,8 +56,8 @@ void pap_input(PppFsm *self, PppFrame *source);
 s32 TLobby__sub_804060B8(u8 *, int, int);
 
 
-void TLobby__sub_804050DC(s16 arg0) {
-    net_thread_state.poll_ms = arg0;
+void TLobby__sub_804050DC(s16 poll_ms) {
+    net_thread_state.poll_ms = poll_ms;
 }
 void init_net_block_18A0(void) {
     TLobby__sub_803F79AC(&net_thread_state);
@@ -508,7 +508,7 @@ inline s32 get_80405A74(PppFrame **s) {
 }
 #define FWD_80405A74()                                                       \
     G->rx_drops++;                                                           \
-    t = alloc_from_buffer(arg0, 4);                                          \
+    t = alloc_from_buffer(frame, 4);                                          \
     p = t->data;                                                             \
     *p++ = 0xFF;                                                             \
     *p++ = 3;                                                                \
@@ -523,24 +523,24 @@ inline s32 get_80405A74(PppFrame **s) {
     }                                                                        \
     ppp_fsm_send_packet(&G->lcp, 8, 0, u);                                   \
     return;
-void ppp_input_packet(PppFrame *arg0) {
+void ppp_input_packet(PppFrame *frame) {
     u16 code;
     PppProtoBlocks *G;
     PppFrame *t;
     u8 *p;
     PppFrame *u;
     u8 pad[0x24];
-    if (arg0 == NULL) {
+    if (frame == NULL) {
         return;
     }
     G = &ppp_proto_blocks;
-    if (lbl_805D7A7A == 0 && arg0->data[0] == 0xFF && arg0->data[1] == 3 &&
-        ppp_buffer_read(&arg0, lobby_ppp_read_buf, 2) == 2) {
+    if (lbl_805D7A7A == 0 && frame->data[0] == 0xFF && frame->data[1] == 3 &&
+        ppp_buffer_read(&frame, lobby_ppp_read_buf, 2) == 2) {
         read_network_u16_be(lobby_ppp_read_buf);
     }
-    code = (u16)get_80405A74(&arg0);
+    code = (u16)get_80405A74(&frame);
     if (!(code & 1)) {
-        code = (code << 8) | get_80405A74(&arg0);
+        code = (code << 8) | get_80405A74(&frame);
     }
     switch (code) {
     case 0x21:
@@ -548,14 +548,14 @@ void ppp_input_packet(PppFrame *arg0) {
             G->rx_err_drops++;
             return;
         }
-        TLobby__sub_804060B8(arg0->data, arg0->len, 0x800);
+        TLobby__sub_804060B8(frame->data, frame->len, 0x800);
         return;
     case 0x57:
         if (G->ipv6cp.state != 5) {
             G->rx_err_drops++;
             return;
         }
-        TLobby__sub_804060B8(arg0->data, arg0->len, -0x7923);
+        TLobby__sub_804060B8(frame->data, frame->len, -0x7923);
         return;
     case 0x2D:
         if (G->ipcp.state != 5) {
@@ -566,11 +566,11 @@ void ppp_input_packet(PppFrame *arg0) {
             G->rx_err_drops++;
             return;
         }
-        if (TLobby__sub_804040E0(((IpcpConfig *)G->ipcp.opts)->net_list, &arg0) <= 0) {
+        if (TLobby__sub_804040E0(((IpcpConfig *)G->ipcp.opts)->net_list, &frame) <= 0) {
             G->rx_err_drops++;
             return;
         }
-        TLobby__sub_804060B8(arg0->data, arg0->len, 0x800);
+        TLobby__sub_804060B8(frame->data, frame->len, 0x800);
         return;
     case 0x2F:
         if (G->ipcp.state != 5) {
@@ -581,15 +581,15 @@ void ppp_input_packet(PppFrame *arg0) {
             G->rx_err_drops++;
             return;
         }
-        if (TLobby__sub_80403F4C(((IpcpConfig *)G->ipcp.opts)->net_list, &arg0) <= 0) {
+        if (TLobby__sub_80403F4C(((IpcpConfig *)G->ipcp.opts)->net_list, &frame) <= 0) {
             G->rx_err_drops++;
             return;
         }
-        TLobby__sub_804060B8(arg0->data, arg0->len, 0x800);
+        TLobby__sub_804060B8(frame->data, frame->len, 0x800);
         return;
     case 0xC021:
         G->rx_lcp++;
-        TLobby__sub_803FDBF8(&G->lcp, arg0);
+        TLobby__sub_803FDBF8(&G->lcp, frame);
         return;
     case 0xC023:
         if (G->phase != 2 && G->phase != 3) {
@@ -600,7 +600,7 @@ void ppp_input_packet(PppFrame *arg0) {
             return;
         }
         G->rx_pap++;
-        pap_input(&G->pap, arg0);
+        pap_input(&G->pap, frame);
         return;
     case 0xC223:
         if (G->phase != 2 && G->phase != 3) {
@@ -611,7 +611,7 @@ void ppp_input_packet(PppFrame *arg0) {
             return;
         }
         G->rx_chap++;
-        chap_input(&G->chap, arg0);
+        chap_input(&G->chap, frame);
         return;
     case 0x8021:
         if (G->phase != 3) {
@@ -619,7 +619,7 @@ void ppp_input_packet(PppFrame *arg0) {
             return;
         }
         G->rx_ipcp++;
-        TLobby__sub_803FDBF8(&G->ipcp, arg0);
+        TLobby__sub_803FDBF8(&G->ipcp, frame);
         return;
     case 0x8057:
         if (G->phase != 3) {
@@ -630,7 +630,7 @@ void ppp_input_packet(PppFrame *arg0) {
             FWD_80405A74()
         }
         G->rx_ipv6cp++;
-        TLobby__sub_803FDBF8(&G->ipv6cp, arg0);
+        TLobby__sub_803FDBF8(&G->ipv6cp, frame);
         return;
     default:
         FWD_80405A74()
@@ -703,10 +703,10 @@ s32 TLobby__sub_804061FC(void)
   return 0;
 }
 
-s32 TLobby__sub_804062A0(s16 arg0) {
+s32 TLobby__sub_804062A0(s16 command) {
     PppProtoBlocks *l = &ppp_proto_blocks;
 
-    switch (arg0) {
+    switch (command) {
     case 0x82:
         if (l->phase == 0) {
             l->phase = 1;

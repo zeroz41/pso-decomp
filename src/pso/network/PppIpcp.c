@@ -245,18 +245,18 @@ void free_field_98(PppFsm *self) {
     TLobby__sub_80405000(((IpcpConfig *)self->opts)->net_list);
 }
 
-void TLobby__sub_803FF374(PppFsm *arg0) {
-    *(s8 *)((s8 *)arg0 + 0xA) = 0;
-    *(s8 *)((s8 *)arg0 + 0xB) = 0;
+void TLobby__sub_803FF374(PppFsm *fsm) {
+    fsm->padA = 0;
+    fsm->ack_count = 0;
 }
 
-void ipcp_opening(PppFsm *arg0) {
+void ipcp_opening(PppFsm *fsm) {
     IpcpConfig *p;
     s16 a;
     s16 b;
     a = 0;
     b = 0;
-    p = *(IpcpConfig **)((s8 *)arg0 + 0x30);
+    p = fsm->opts;
     TLobby__sub_80405000(p->net_list);
     p->net_list = 0;
     if (p->local.got.flags & 4) {
@@ -268,8 +268,8 @@ void ipcp_opening(PppFsm *arg0) {
     if (a != 0 || b != 0) {
         p->net_list = init_net_list(a, b);
     }
-    lobby_timer_stop(&arg0->timer);
-    *(s8 *)((s8 *)arg0 + 0) = 5;
+    lobby_timer_stop(&fsm->timer);
+    fsm->state = 5;
 }
 
 void free_field_98_and_clear(PppFsm *self) {
@@ -278,8 +278,8 @@ void free_field_98_and_clear(PppFsm *self) {
     config->net_list = 0;
 }
 
-void TLobby__sub_803FF468(PppFsm *arg0) {
-    lobby_timer_stop(&arg0->timer);
+void TLobby__sub_803FF468(PppFsm *fsm) {
+    lobby_timer_stop(&fsm->timer);
 }
 
 void TLobby__sub_803FF48C(PppFsm *o) {
