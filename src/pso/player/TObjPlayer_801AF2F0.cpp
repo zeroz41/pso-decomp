@@ -617,9 +617,9 @@ void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading);
 s16 item_equip_attach_equip_flag_table[10] = {0x3E, 0x3F, 0x18, 0x24, 0x32, 0x23, 0x30, 0x0A, 0x13, 0x00};
 
 void obj_copyVec2_0(u8 *d, u8 *s);
-void emit_sand_footstep_effect(saddr arg0);
-void emit_water_footstep_effect(saddr arg0);
-void emit_grass_footstep_effect(saddr arg0);
+void emit_sand_footstep_effect(saddr step);
+void emit_water_footstep_effect(saddr step);
+void emit_grass_footstep_effect(saddr step);
 s32 player_auxiliary_surfaces_enabled();
 
 // The level-up light colour and direction (spawn_level_change_feedback).
