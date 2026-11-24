@@ -528,9 +528,7 @@ public:
 	packet_header header;
 	char filename[16];
 public:
-	void bswap() {
-		header.bswap();
-	};
+	void bswap();
 };
 
 class TPlyGuildCardTagPacket {

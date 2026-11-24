@@ -170,6 +170,27 @@ struct TTradeList {
     void bswap();
 };
 
+// AA: a quest statistic the client reports to the server.
+struct TSendQuestStatistic {
+    packet_header header;
+    u16 id;
+    u16 unused;
+    u16 arg1;
+    u16 arg2;
+    u32 values[8];
+
+    void bswap();
+};
+LAYOUT_ASSERT(TSendQuestStatisticSize, sizeof(TSendQuestStatistic) == 0x2C);
+
+// AB: the server's answer to a quest statistic query.
+struct TRecvQuestStats {
+    packet_header header;
+    u16 value;
+
+    void bswap();
+};
+
 // 9F: the client config the server asked for.
 struct TSendClientConfig {
     packet_header header;
@@ -227,7 +248,7 @@ struct TSendClientConfig {
     o(handle_8A_lobby_name_packet, char *name) \
     o(handle_C5_player_challenge_data_packet, TPlyChallenge *records, s32 count) \
     o(handle_DA_lobby_event_packet, int theme) \
-    o(handle_AB_quest_stats_response_packet, void) \
+    o(handle_AB_quest_stats_response_packet, u16 value) \
     o(handle_D3_execute_trade_packet, TTradeList *trade_list) \
     o(handle_D4_trade_result_packet, u8 state) \
     o(handle_D1_advance_trade_state_packet, u8 state)
@@ -376,6 +397,9 @@ public:
     void send_simple_mail(TChatMessage &message);
 
     void send_quest_barrier();
+    void send_statistic(u16 id, u16 arg1, u16 arg2, u32 *values);
+    void send_download_head(u8 flags, const char *filename);
+    void send_trade_list(TTradeList *list);
     void send_message_box_closed();
     void send_cancel_trade();
     void send_trade_ready();
@@ -418,15 +442,9 @@ public:
     void send_find_user(TPlyGuildCardTag &tag, u32 gc_num);
     void send_create_game(char *name, char *password, u8 difficulty, u8 battle_mode, u8 challenge_mode, u8 episode);
 public:
-    void bswap_packet();
-public:
-    void bswap_cmd_AB();
     static u8 *copy_player_data(void *, void *);
 };
 
-extern "C" {
-void bswap_cmd_AB__9TProtocolFv(void *p);
 extern s32 lobby_state_flags;
-}
 
 #endif

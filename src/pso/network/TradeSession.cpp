@@ -97,7 +97,7 @@ void TLobby::update_trade_list_send() {
         break;
     case 6:
         ((TLobby *)sp8)->build_trade_item_list();
-        TLobby::send_trade_list(protocol_instance, sp8);
+        protocol_instance->send_trade_list((TTradeList *)sp8);
         trade_protocol_flags |= 0x400;
         if ((uaddr) trade_main_window != 0U) {
             TWindowSubTradeMain__sub_80330A84((void *)trade_main_window);

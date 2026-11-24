@@ -1,28 +1,40 @@
 #include "types.h"
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
 #include "pso/network/TProtocol.h"
+#include "pso/network/protocol/protocol.h"
+#include "pso/network/PSOV3EncryptionTCP.h"
+#include "pso/network/TProtocol_801E08CC.h"
+#include "pso/player/TPlySmth.h"
+#include "pso/quest/TQuestListOnline.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/unk/TLobby.h"
+#include "pso/unk/text_801DF280.h"
+
+LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D4_trade_result_packet) == 0xBC9C);
+LAYOUT_ASSERT(TradeAdvanceCallbackOffset, offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D1_advance_trade_state_packet) == 0xBCA0);
+LAYOUT_ASSERT(ProtocolConnectedOffset, offsetof(TProtocol, m_connected) == 0x1910);
+LAYOUT_ASSERT(PacketHeaderSize, sizeof(packet_header) == 4);
+LAYOUT_ASSERT(PacketFlagsOffset, offsetof(packet_header, flags) == 1);
+LAYOUT_ASSERT(PacketSizeOffset, offsetof(packet_header, size) == 2);
 
 void TProtocol::send_keepalive() {
-    packet_header tmp;
-    tmp.command = 0x1D;
-    tmp.flags = 0;
-    tmp.size = sizeof(tmp);
-    tmp.bswap();
-    send((u8 *)&tmp, sizeof(tmp));
+    packet_header header;
+    header.command = 0x1D;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8 *)&header, sizeof(header));
 }
-
-#include "types.h"
-#include "pso/network/TProtocol.h"
-#include "pso/quest/TQuestListOnline.h"
 
 void TProtocol::handle_cmd_AC(packet &pkt) {
     if (pkt.pkt.header.flags == 0) {
         TQuestListOnline::handle_quest_ready();
         return;
     }
-    this->m_is_invalid_packet = 1;
+    m_is_invalid_packet = 1;
 }
-
-#include "pso/network/TProtocol.h"
 
 void TProtocol::send_quest_barrier() {
     packet_header header;
@@ -30,78 +42,36 @@ void TProtocol::send_quest_barrier() {
     header.flags = 0;
     header.size = sizeof(header);
     header.bswap();
-    send((u8*)&header, sizeof(header));
+    send((u8 *)&header, sizeof(header));
 }
-
-// ---- pso/network/TProtocol_801D9F50
-#include "types.h"
-#include <string.h>
-#include "pso/network/TProtocol.h"
 
 void TProtocol::handle_cmd_AB(packet &pkt) {
-    void *protocol = &pkt;
-    s32 (*temp_r12)(u16);
+    TRecvQuestStats &stats = as(TRecvQuestStats &, pkt);
 
-    ((TProtocol *)protocol)->bswap_cmd_AB();
-    temp_r12 = *(s32 (**)(u16))((s8 *)this + 0xBC94);
-    if (temp_r12 != NULL) {
-        temp_r12(((TProtocol *)protocol)->m_flags);
+    stats.bswap();
+    if (m_recv_handlers.handle_AB_quest_stats_response_packet != NULL) {
+        m_recv_handlers.handle_AB_quest_stats_response_packet(stats.value);
     }
 }
 
-// ---- pso/unk/text_801D9FA0
-
-struct VBase_18_801D9FA0 { char pad[0x18]; };
-
-struct VObj_18_801D9FA0 : VBase_18_801D9FA0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8(void *, s32);
-};
-
-struct Pkt_801D9FA0 {
-    u8 cmd;
-    u8 flag;
-    u16 size;
-    s16 a;
-    s16 b;
-    s16 c;
-    s16 d;
-    u32 data[8];
-};
-
-extern "C" {
-void send_statistic_aa(VObj_18_801D9FA0 *obj, s16 a, s16 c, s16 d, u32 *src);
-void send_statistic_aa(VObj_18_801D9FA0 *obj, s16 a, s16 c, s16 d, u32 *src) {
-    Pkt_801D9FA0 pkt;
+void TProtocol::send_statistic(u16 id, u16 arg1, u16 arg2, u32 *values) {
+    TSendQuestStatistic pkt;
     s32 i;
-    memset(&pkt, 0, 0x2C);
-    pkt.cmd = 0xAA;
-    pkt.flag = 0;
-    pkt.size = 0x2C;
-    pkt.a = a;
-    pkt.b = 0;
-    pkt.c = c;
-    pkt.d = d;
+
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0xAA;
+    pkt.header.flags = 0;
+    pkt.header.size = sizeof(pkt);
+    pkt.id = id;
+    pkt.unused = 0;
+    pkt.arg1 = arg1;
+    pkt.arg2 = arg2;
     for (i = 0; i < 8; i++) {
-        pkt.data[i] = src[i];
+        pkt.values[i] = values[i];
     }
-    ((TProtocol *)(&pkt))->bswap_packet();
-    obj->m8(&pkt, 0x2C);
+    pkt.bswap();
+    send((u8 *)&pkt, sizeof(pkt));
 }
-
-}
-
-// ---- pso/network/TProtocol_801DA054
-
-#include "pso/network/protocol/protocol.h"
-#include "pso/network/TProtocol_801E08CC.h"
 
 void TProtocol::handle_cmd_9F(packet &) {
     TSendClientConfig reply;
@@ -125,12 +95,7 @@ void TProtocol::handle_cmd_D7(packet &) {
     set_lobby_count_value();
 }
 
-#include "pso/network/TProtocol.h"
-#include "pso/network/TProtocol_801DA140.h"
-
-extern "C" void bswap__17TSendDownloadHeadFv(TSendDownloadHead *);
-
-void send_download_head_d7(TProtocol *self, s8 flags, const char *filename) {
+void TProtocol::send_download_head(u8 flags, const char *filename) {
     TSendDownloadHead pkt;
     memset(&pkt, 0, sizeof(pkt));
     pkt.header.command = 0xD7;
@@ -138,8 +103,8 @@ void send_download_head_d7(TProtocol *self, s8 flags, const char *filename) {
     strncpy(pkt.filename, filename, sizeof(pkt.filename));
     pkt.header.size = sizeof(pkt);
     strncpy(pkt.filename, filename, sizeof(pkt.filename));
-    bswap__17TSendDownloadHeadFv(&pkt);
-    self->send((u8 *)&pkt, sizeof(pkt));
+    pkt.bswap();
+    send((u8 *)&pkt, sizeof(pkt));
 }
 
 void TProtocol::send_message_box_closed() {
@@ -148,20 +113,9 @@ void TProtocol::send_message_box_closed() {
     header.flags = 0;
     header.size = sizeof(header);
     header.bswap();
-    send((u8*)&header, sizeof(header));
+    send((u8 *)&header, sizeof(header));
 }
 
-#include <stdio.h>
-#include "pso/network/TProtocol.h"
-#include "pso/unk/TLobby.h"
-#include <stddef.h>
-LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D4_trade_result_packet) == 0xBC9C);
-LAYOUT_ASSERT(TradeAdvanceCallbackOffset, offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D1_advance_trade_state_packet) == 0xBCA0);
-LAYOUT_ASSERT(TradeHeaderSize, sizeof(packet_header) == 4);
-LAYOUT_ASSERT(TradeStateOffset, offsetof(packet_header, flags) == 1);
-
-/* TProtocol's globals. Its code is split over several files; this is the first whose data sits where these do (the
- * strings ahead of its trade-list log formats in .rodata). */
 packet *server_packet;
 u32 new_ip_addr;
 u16 new_port;
@@ -170,33 +124,11 @@ const char *lobby_server_greeting_text = "DreamCast Lobby Server. Copyright SEGA
 const char *port_map_copyright = "DreamCast Port Map. Copyright SEGA Enterprises. 1999";
 OBJECT_NAME(TProtocol);
 
-
-#include "types.h"
-struct VBase_18_801DA4A0 { char pad[0x18]; };
-
-struct VObj_18_801DA4A0 : VBase_18_801DA4A0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8(void *, s32);
-};
-
-
-#include <string.h>
-extern "C" {
-void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, TTradeList *src);
-
 void TProtocol::handle_cmd_D5(packet &pkt) {
     TPlyText<0x1000> tmp = as(TPlyText<0x1000> &, pkt);
     if (m_recv_handlers.handle_1A_D5_recv_text != NULL) {
         m_recv_handlers.handle_1A_D5_recv_text(tmp.text);
     }
-}
 }
 
 void TProtocol::send_cancel_trade() {
@@ -242,17 +174,15 @@ void TProtocol::recv_advance_trade_state(packet &pkt) {
     }
 }
 
-extern "C" {
-
-void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, TTradeList *src) {
+void TProtocol::send_trade_list(TTradeList *list) {
     char message[0x80];
-    sprintf(message, "SndTradeList %d %d", src->item_count, src->target_client_id);
-    TTradeList pkt = *src;
+    sprintf(message, "SndTradeList %d %d", list->item_count, list->target_client_id);
+    TTradeList pkt = *list;
     pkt.header.command = 0xD0;
     pkt.header.flags = 0;
     pkt.header.size = sizeof(pkt);
     pkt.bswap();
-    obj->m8(&pkt, sizeof(pkt));
+    send((u8 *)&pkt, sizeof(pkt));
 }
 
 void TProtocol::send_text_packet_D9(char *str) {
@@ -275,8 +205,6 @@ void TProtocol::handle_cmd_D8(packet &pkt) {
     if (m_recv_handlers.handle_D8_infoboard_packet != NULL) {
         m_recv_handlers.handle_D8_infoboard_packet(&tmp);
     }
-}
-
 }
 
 void TProtocol::send_info_board_request() {
@@ -313,21 +241,14 @@ void TProtocol::send_text_packet_c7(char *str) {
     }
 }
 
-#include "types.h"
-#include <string.h>
-#include "pso/player/TPlySmth.h"
-#include "pso/ui/window/TWindowSubComCard_8007A810.h"
-#include "pso/unk/TLobby.h"
-#include "pso/network/TProtocol.h"
-#include "pso/network/protocol/protocol.h"
-#include "pso/network/PSOV3EncryptionTCP.h"
+void TProtocol::send_c6_packet(void *blocked_senders) {
+    TBlockedSenders *senders = (TBlockedSenders *)blocked_senders;
 
-void TProtocol::send_c6_packet(void *lobby) {
     if (m_connected != 0) {
-        *(u8 *)((s8 *)lobby + 0) = 0xC6;
-        *(s16 *)((s8 *)lobby + 2) = 0x7C;
-        ((TBlockedSenders *)lobby)->bswap();
-        send((u8 *)lobby, 0x7C);
+        senders->header.command = 0xC6;
+        senders->header.size = sizeof(*senders);
+        senders->bswap();
+        send((u8 *)senders, sizeof(*senders));
     }
 }
 
@@ -449,14 +370,12 @@ void TProtocol::handle_cmd_9B(packet &pkt) {
     }
 }
 
-extern "C" void set_port__7TSocketFUl(TSocket *socket, s16 port);
-
 s32 TProtocol::set_server_info(const char *serial_v1, const char *access_key_v1, const char *serial,
                                const char *access_key, const char *host, u16 port) {
     s32 error;
 
     error = resolve_domain((char *)host);
-    set_port__7TSocketFUl(this, port);
+    set_port(port);
     if (error != 0) {
         return 2;
     }
@@ -475,8 +394,6 @@ s32 TProtocol::set_server_info(const char *serial_v1, const char *access_key_v1,
     return 0;
 }
 
-#include "pso/network/TProtocol.h"
-
 void TProtocol::send_lobby_name_request() {
     packet_header header;
     header.command = 0x8A;
@@ -486,10 +403,6 @@ void TProtocol::send_lobby_name_request() {
     send((u8*)&header, sizeof(header));
 }
 
-#include "types.h"
-#include "pso/network/TProtocol.h"
-#include "pso/unk/text_801DF280.h"
-
 void TProtocol::handle_cmd_8A(packet &pkt) {
     TRecvLobbyName tmp = as(TRecvLobbyName &, pkt);
     bswap_cmd_8a_header(&tmp);
@@ -497,8 +410,6 @@ void TProtocol::handle_cmd_8A(packet &pkt) {
         m_recv_handlers.handle_8A_lobby_name_packet(tmp.name);
     }
 }
-
-#include "pso/network/TProtocol.h"
 
 void TProtocol::send_lobby_arrow(int arrow) {
     packet_header header;
@@ -508,11 +419,6 @@ void TProtocol::send_lobby_arrow(int arrow) {
     header.bswap();
     send((u8*)&header, sizeof(header));
 }
-
-#include "types.h"
-#include "pso/network/TProtocol.h"
-
-#include "pso/unk/text_801DF280.h"
 
 // The lobby registers a no-argument function as the 88 handler; the protocol passes it the list.
 typedef void (*arrow_color_list_handler)(void *list);
@@ -538,11 +444,6 @@ void TProtocol::handle_cmd_C4(packet &pkt) {
         m_recv_handlers.handle_C4_choice_search_reply_packet((ChoiceSearchResultList *)results);
     }
 }
-
-#include "pso/network/TProtocol.h"
-#include "pso/unk/text_801DF280.h"
-
-LAYOUT_ASSERT(ProtocolConnectedOffset, offsetof(TProtocol, m_connected) == 0x1910);
 
 void TProtocol::send_choice_search(TPlyChoiceSearchConfig &parameters) {
     ChoiceSearchPacket packet;
@@ -570,10 +471,6 @@ void TProtocol::send_choice_search_parameters(TPlyChoiceSearchConfig &parameters
     }
 }
 
-#include "types.h"
-#include "pso/network/TProtocol.h"
-#include "pso/unk/text_801DF280.h"
-
 void TProtocol::handle_cmd_C0(packet &pkt) {
     TRecvChoiceSearchOptions tmp = as(TRecvChoiceSearchOptions &, pkt);
     bswap_c0_lobby_entries(&tmp);
@@ -581,13 +478,6 @@ void TProtocol::handle_cmd_C0(packet &pkt) {
         m_recv_handlers.handle_C0_choice_search_option_packet(&tmp);
     }
 }
-
-#include "pso/network/TProtocol.h"
-#include <stddef.h>
-LAYOUT_ASSERT(ProtocolConnectedOffset, offsetof(TProtocol, m_connected) == 0x1910);
-LAYOUT_ASSERT(PacketHeaderSize, sizeof(packet_header) == 4);
-LAYOUT_ASSERT(PacketFlagsOffset, offsetof(packet_header, flags) == 1);
-LAYOUT_ASSERT(PacketSizeOffset, offsetof(packet_header, size) == 2);
 
 void TProtocol::send_choice_search_options_request() {
     packet_header header;
@@ -600,10 +490,6 @@ void TProtocol::send_choice_search_options_request() {
         send((u8*)&header, sizeof(header));
     }
 }
-
-#include "types.h"
-#include "pso/network/TProtocol.h"
-#include "pso/unk/text_801DF280.h"
 
 // The lobby registers a no-argument function as the B1 handler; the protocol passes it the time text.
 typedef void (*server_time_handler)(char *time);
@@ -656,20 +542,14 @@ void TProtocol::send_server_time_accepted() {
 #include "pso/unk/TLobby.h"
 #include "pso/network/protocol/protocol.h"
 
-struct Stack_801DB554 {
-    s8 sp8;
-    s8 sp9;
-    s16 spA;
-};
-
 void TProtocol::send_6F_burst_done() {
-    Stack_801DB554 stack;
+    packet_header header;
     if (m_connected != 0) {
-        stack.sp8 = 0x6F;
-        stack.sp9 = 0;
-        stack.spA = 4;
-        ((packet_header *)((saddr) &stack.sp8))->bswap();
-        send((u8 *)&stack.sp8, 4);
+        header.command = 0x6F;
+        header.flags = 0;
+        header.size = sizeof(header);
+        header.bswap();
+        send((u8 *)&header, sizeof(header));
     }
 }
 
@@ -1332,7 +1212,7 @@ void TProtocol::send_logout() {
 int TProtocol::send_login3() {
 	int ret;
 	set_ip_address(new_ip_addr);
-	set_port((short)new_port);
+	set_port(new_port);
 
 	if (open() >= 0) {
 		ret = 0;
@@ -2090,15 +1970,25 @@ LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_1_offset, offsetof(RecoveredFields_8
 LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_2_offset, offsetof(RecoveredFields_801DD33C_arg1, field_2) == 0x2);
 LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_4_offset, offsetof(RecoveredFields_801DD33C_arg1, field_4) == 0x4);
 
-void TProtocol::bswap_cmd_AB() {
-	((packet_header *)this)->bswap();
-	bswap_16((u16 *)((char *)this + 4));
+void TRecvQuestStats::bswap() {
+    header.bswap();
+    bswap_16(&value);
 }
 
-extern "C" {
+void TSendQuestStatistic::bswap() {
+    int i;
 
-void TProtocol::bswap_packet() { ((packet_header *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_16((u16 *)((char*)this + 0x8)); bswap_16((u16 *)((char*)this + 0xa)); { int i; for (i = 0; i < 8; i++) { bswap_32((u32 *)((char*)this + 0xc + i * 4)); } } }
-void TSendClientConfig::bswap() { header.bswap(); }
+    header.bswap();
+    bswap_16(&id);
+    bswap_16(&unused);
+    bswap_16(&arg1);
+    bswap_16(&arg2);
+    for (i = 0; i < 8; i++) {
+        bswap_32(&values[i]);
+    }
+}
 
+void TSendClientConfig::bswap() {
+    header.bswap();
 }
 

@@ -1045,7 +1045,6 @@ struct TLobby : public TObject {
     static void send_position_update();
     static void send_room_change(int);
     static void send_selected_character();
-    static void send_trade_list(void *, void *);
     static void set_byte9_clamped(void *, u8);
     static void set_clamped_field_4(void *, u8);
     static void set_clamped_field_c(void *, u8);

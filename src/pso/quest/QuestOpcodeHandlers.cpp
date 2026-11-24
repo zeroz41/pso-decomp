@@ -46,6 +46,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/item/drop/TItemDropSub.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/TProtocol.h"
 #include "pso/map/TSetManager.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/math/AngleLookup.h"
@@ -590,9 +591,6 @@ void qst_op_check_for_keyword(void) {
     qst_registers[(u8)idx] = 0;
 }
 
-extern "C" {
-s32 send_statistic_aa(TProtocol *, int, int, int, void *);
-}
 
 void qst_op_enable_keyword_detect() { TOChatSensorCapture::create_instance((void*)tl_01); }
 
@@ -603,7 +601,7 @@ void qst_op_prepare_statistic(void) {
 }
 
 void qst_op_send_statistic() {
-    send_statistic_aa(TLobby::protocol_instance, qst_statistic_id, qst_statistic_arg1, qst_statistic_arg2, (void *) qst_args);
+    TLobby::protocol_instance->send_statistic(qst_statistic_id, qst_statistic_arg1, qst_statistic_arg2, (u32 *)qst_args);
 }
 
 void qst_op_arg_pushs(int a0) { int old = qst_arg_count; qst_arg_count = old + 1; qst_args[old] = a0; }
@@ -900,7 +898,6 @@ s32 TObjPlayer__sub_801B4044();
 s32 send_code_49_1__10TObjPlayerFi();
 void delete_item(void *, s32, s32);
 void TFontSmallLobby__sub_801C013C(void *p);
-s32 send_download_head_d7(TProtocol *, int, int);
 }
 void play_cue_stream_file(const char *name);
 extern "C" {
@@ -2010,7 +2007,7 @@ void qst_op_get_dl_status(s32 reg) {
 }
 
 void qst_op_file_dl_req(void) {
-    send_download_head_d7(TLobby::protocol_instance, (int) ((u8) qst_args[0]), (int) (qst_args[1]));
+    TLobby::protocol_instance->send_download_head(qst_args[0], (const char *)qst_args[1]);
     TLobby__sub_801F3614();
     TLobby__sub_8032CDEC();
 }

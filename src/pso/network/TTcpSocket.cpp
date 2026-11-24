@@ -321,7 +321,7 @@ const u8 TProtocol::next() {
     return val;
 }
 
-void TSocket::set_port(u32 port) {
+void TSocket::set_port(short port) {
     m_dst_port = to_le_uint16_t(port);
 }
 
