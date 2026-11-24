@@ -677,7 +677,7 @@ struct TObjPlayer : public TObjChara {
     void try_trigger_effect();
     void select_run_request();
     int apply_status_action_b();
-    void calc_movement_target(s32 angle, f32 *arg2, f32 *arg3);
+    void calc_movement_target(s32 angle, f32 *out_x, f32 *out_z);
     void reset_and_flag();
     void send_6x40_walk_to_position();
     void handle_ring_hit();
@@ -702,7 +702,7 @@ struct TObjPlayer : public TObjChara {
     int is_action_flag_28();
     void set_anim_flag();
     void clear_flag_200();
-    void set_float_param(s16 arg1);
+    void set_float_param(s16 value);
     void init_field_4();
     void *init_6x4D_packet();
     void init_and_send();
@@ -719,7 +719,7 @@ struct TObjPlayer : public TObjChara {
     void init_6x33_packet();
     void send_coords();
     void swap_header();
-    void *copy_6x48_cast_technique_complete_packet(void *arg1);
+    void *copy_6x48_cast_technique_complete_packet(void *src);
     void send_swapped_header();
     void swap_field6();
     void *copy_6x8d_technique_level_packet(void *command);
