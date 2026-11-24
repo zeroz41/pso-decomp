@@ -3240,13 +3240,13 @@ void handle_6x33_revive_player(G_RevivePlayer_6x33 *command) {
 }
 extern "C" {
 
-void send_6x33_revive_player(u16 client_id, s16 type) {
+void send_6x33_revive_player(u16 client_id, u16 target_id) {
     struct Pkt_801CCB58 pkt;
     TObjChara *chara = (TObjChara *)get_player_by_client_id(static_cast<u16>(client_id));
     if (chara == NULL || chara->obj_isState2_324() == 0) {
         ((TObjPlayer *)(&pkt))->init_6x33_packet();
         pkt.id = client_id;
-        pkt.c = type;
+        pkt.c = target_id;
         ((TObjPlayer *)(&pkt))->send_coords();
     }
 }

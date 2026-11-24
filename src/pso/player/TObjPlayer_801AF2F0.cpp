@@ -552,7 +552,6 @@ void copy_player_visual_record(void *, void *);
 u16 get_id__11TMainCursorFv(void* p);
 s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
-saddr TObjPlayer__sub_80116620(void *, int);
 void TObjPlayer__sub_801AF554(void *chara, s8 level);
 bool TObjPlayer__sub_801AF694(TObjPlayer *player, s32 kind);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
@@ -4382,7 +4381,7 @@ s32 TObjPlayer::can_use_item(void *item) {
                 if (slot == NULL) {
                     return 0;
                 }
-                if (((TObjPlayer *)TObjPlayer__sub_80116620(&slot->target_records, 0))->get_type_id() == 0xFFFF) {
+                if (slot->target_records.get_record(0)->get_entity_id() == 0xFFFF) {
                     return 0;
                 }
             }

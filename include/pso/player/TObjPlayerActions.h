@@ -8,7 +8,7 @@ struct TObjPlayer;
 // --- functions defined in TObjPlayerActions.cpp ---
 extern "C" {
 void release_photon_blast_player_holds(u16 *p);
-void send_6x33_revive_player(u16 client_id, s16 type);
+void send_6x33_revive_player(u16 client_id, u16 target_id);
 int ret_801D26AC(void);
 }
 void freeze_players_for_photon_blast(s16 arg0, u16 *arg1);

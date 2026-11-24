@@ -45,7 +45,6 @@
 
 extern "C" {
 LockOnActionSlot *TObjPlayer__sub_801B57E8(TObjPlayer *player);
-LockOnTargetRecord *TObjPlayer__sub_80116620(LockOnTargetRecordList *records, s32 index);
 }
 
 #pragma readonly_strings on
@@ -196,8 +195,8 @@ CapturedTargetList *PlayerAttackController::capture_lockon_targets(TObjPlayer *p
     entry = lockon_targets.entries;
     lockon_targets.set_count(count);
     for (i = 0; i != count; i++) {
-        record = TObjPlayer__sub_80116620(&slot->target_records, i);
-        entry->set_uid(((TObjPlayer *)record)->get_type_id());
+        record = slot->target_records.get_record(i);
+        entry->set_uid(record->get_entity_id());
         entry->set_collider_index(record->get_part());
         entry++;
     }

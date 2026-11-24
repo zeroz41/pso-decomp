@@ -241,7 +241,7 @@ struct Item_8013D4A0 { u16 id; s16 idx; f32 size; };
 
 struct Part_8013D4A0 { u8 pad0[0xC]; f32 size; u8 pad10[8]; s32 flags; u8 pad1C[0x10]; };
 
-struct Sub_8013D4A0 { u8 pad0[0x40]; u8 x40[0x5C]; u8 x9C[0x88]; };
+struct Sub_8013D4A0 { u8 pad0[0x40]; u8 x40[0x5C]; LockOnTargetRecordList x9C; };
 
 struct Self_8013D4A0 { u8 pad0[0x5C]; Sub_8013D4A0 subs[3]; u8 pad3C8[0x124]; u8 x4EC[0xC]; u8 x4F8[0x10]; u16 x508; s16 x50A; };
 
@@ -268,7 +268,6 @@ struct Weapon_8013CDE4 { f32 f0; f32 f4; s32 f8; s32 fc; s32 f10; };
 
 extern "C" {
 int TLockOnCursor__sub_8013EB34(void);
-void *TObjPlayer__sub_80116620(void *, s32);
 void set_cursor_count(void *, s32);
 s32 TLockOnCursor__sub_8013EB2C(void *);
 s32 TMainCursor__sub_8013F168(void *p);
@@ -292,7 +291,6 @@ struct Obj_8013EB6C { u8 pad[0x5c]; Rec_8013EB6C recs[1]; };
 struct Obj_8013EC1C { u16 a; u16 b; u16 c; };
 
 
-struct Ent_8013D91C { u16 id; s16 idx; u8 pad[8]; };
 
 extern "C" {
 
@@ -495,7 +493,7 @@ void render__13TLockOnCursorFv(saddr arg0) {
     s32 j;
     u8 *c;
     s32 n;
-    Ent_8013D91C *p;
+    LockOnTargetRecord *p;
     saddr e;
     u8 *o;
     if (is_split_screen() != 0) {
@@ -509,13 +507,13 @@ void render__13TLockOnCursorFv(saddr arg0) {
         c = (u8 *)TLockOnCursor__record_at((Obj_8013EB6C *)arg0, i);
         if (((TMainCursor *)c)->get_selected_entry() != 0) {
             n = ((TLockOnCursor *)(c + 0x9C))->get_target();
-            for (p = (Ent_8013D91C *)TObjPlayer__sub_80116620(c + 0x9C, 0), j = 0; j < n; j++, p++) {
+            for (p = ((LockOnActionSlot *)c)->target_records.get_record(0), j = 0; j < n; j++, p++) {
                 if (((TLockOnCursor *)p)->test_flag_1_at_8() == 0 &&
                     ((TLockOnCursor *)p)->render_part() == 0 &&
-                    ((TObjPlayer *)p)->get_type_id() != 0xFFFF) {
-                    o = (u8 *)find_entity_by_id(p->id);
+                    p->get_entity_id() != 0xFFFF) {
+                    o = (u8 *)find_entity_by_id(p->entity_id);
                     if (o != NULL) {
-                        e = *(s32 *)(o + 0xA4) + p->idx * 0x2C;
+                        e = *(s32 *)(o + 0xA4) + p->collider_index * 0x2C;
                         if (e != 0) {
                             ((TLockOnCursor *)arg0)->renderSecondaryCursor((u8*)e, (s32)(get_cursor_palette_mode((void *)c)), (s32)(((TMainCursor *)c)->get_active()));
                         }
@@ -622,7 +620,7 @@ void publish_target_list__11TMainCursorFPvi(Self_8013D4A0 *arg0, s32 arg1) {
             }
             set_cursor_slot(sub, (u8)((TObjCollidable *)ent)->get_cursor_action());
         }
-        cur = TObjPlayer__sub_80116620(sub->x9C, count);
+        cur = sub->x9C.get_record(count);
         set_cursor_id__11TMainCursorFs(cur, item->id);
         ((TMainCursor *)cur)->set_size(item->size);
         ((TMainCursor *)cur)->set_field2(item->idx);
@@ -652,8 +650,8 @@ void publish_target_list__11TMainCursorFPvi(Self_8013D4A0 *arg0, s32 arg1) {
         TMainCursor__sub_80154230(ent, item->idx, ((TLockOnCursor *)arg0)->get_target_id());
         count++;
     }
-    set_cursor_count(sub->x9C, count);
-    set_cursor_id__11TMainCursorFs(TObjPlayer__sub_80116620(sub->x9C, count), 0xFFFF);
+    set_cursor_count(&sub->x9C, count);
+    set_cursor_id__11TMainCursorFs(sub->x9C.get_record(count), 0xFFFF);
 }
 
 }

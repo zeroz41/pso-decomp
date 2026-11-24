@@ -1201,6 +1201,10 @@ struct G_UseStarAtomizer_6x66 {
  struct G_UnusedHeader header;
  // The user first; -1 for an empty slot (handle_6x66_use_star_atomizer).
  s16 target_client_ids[4];
+
+ void bswap();
+ void send();
+ void init_header();
 };
 
 struct G_VolOpt2BossActions_6x18 {

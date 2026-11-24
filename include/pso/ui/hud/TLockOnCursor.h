@@ -60,19 +60,22 @@ public:
 // static TLockOnCursor::init_sub and the free function destroy_target_record, so both stay untyped here.
 // TargetCursorList.h is not included: its C declarations clash with the cursor units' own.
 struct LockOnTargetRecord {
-    u16 entity_id;
+    u16 entity_id;  // 0xFFFF when the slot has no target
     s16 part;
     f32 value;
-    s32 unk_8;
+    s32 flags;
 
     s16 get_part();
+    u16 get_entity_id();
 };
 
 // A count and eleven LockOnTargetRecord, built by TLockOnCursor__sub_8013F000 and destroyed
 // by destroy_target_records (no real constructor until LockOnTargetRecord has one).
 struct LockOnTargetRecordList {
-    s32 unk_0;
-    LockOnTargetRecord unk_4[11];
+    s32 count;
+    LockOnTargetRecord records[11];
+
+    LockOnTargetRecord *get_record(s32 index);
 };
 
 // TLockOnCursor +0x5C, four of them.

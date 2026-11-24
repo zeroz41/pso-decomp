@@ -2247,13 +2247,10 @@ pso/item/TItemMoney.cpp:
 	.sdata      start:0x805D2C20 end:0x805D2C24
 
 pso/item/TItemObject.cpp:
-	.text       start:0x80115D68 end:0x80116578
+	.text       start:0x80115D68 end:0x80116634
 	.rodata     start:0x8043E600 end:0x8043E610
 	.data       start:0x8049F698 end:0x8049F770
 	.sdata      start:0x805D2C28 end:0x805D2C30
-
-pso/player/TObjPlayer_80116578.cpp:
-	.text       start:0x80116578 end:0x80116634
 
 pso/item/TUnk_8049F770.cpp:
 	.text       start:0x80116634 end:0x8011679C
