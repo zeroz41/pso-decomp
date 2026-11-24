@@ -286,7 +286,7 @@ void clear_position(TcpTcb *tcb) {
     tcb->timers[3] = 0;
 }
 
-s32 tcp_sack_next_hole(TcpTcb *tcb, s32 *p1, s32 *p2);
+s32 tcp_sack_next_hole(TcpTcb *tcb, s32 *start, s32 *end);
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation off
@@ -1643,13 +1643,13 @@ s32 tcp_dooptions(TcpTcb *self, u8 *data, s16 total, TcpHdr *th)
 }
 #pragma pop
 
-void insert_item_at(TcpTcb *o, s16 idx, s32 a, s32 b) {
+void insert_item_at(TcpTcb *tcb, s16 idx, s32 a, s32 b) {
     s16 i;
     s16 n;
     if (idx < 0) {
         return;
     }
-    n = o->seg_top;
+    n = tcb->seg_top;
     if (idx > n + 1) {
         return;
     }
@@ -1657,16 +1657,16 @@ void insert_item_at(TcpTcb *o, s16 idx, s32 a, s32 b) {
         return;
     }
     if (n >= 0x1F) {
-        o->seg_top = 0x1E;
+        tcb->seg_top = 0x1E;
     }
-    for (i = o->seg_top; i >= idx; i--) {
-        o->segs[i + 1] = o->segs[i];
+    for (i = tcb->seg_top; i >= idx; i--) {
+        tcb->segs[i + 1] = tcb->segs[i];
     }
-    o->segs[idx].start = a;
-    o->segs[idx].end = b;
-    o->segs[idx].edge = b;
-    o->segs[idx].stamp = o->snd_max;
-    o->seg_top++;
+    tcb->segs[idx].start = a;
+    tcb->segs[idx].end = b;
+    tcb->segs[idx].edge = b;
+    tcb->segs[idx].stamp = tcb->snd_max;
+    tcb->seg_top++;
 }
 
 s16 tcp_sack_empty(TcpTcb *tcb) {

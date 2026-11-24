@@ -978,7 +978,7 @@ extern s16 NetIPv6ParseRouterAdvertisementOptions(NetPacketFragment *self, s32 n
 s32 NetIPv6UpdateRouterEntry(void *addr, NetIcmpv6RouterAdvertisement *ra, s16 iface);
 #pragma push
 #pragma opt_propagation off
-s16 NetIPv6UpdateDefaultRouter(NetIcmpv6RouterAdvertisement *buf, u8 *a, s16 c) {
+s16 NetIPv6UpdateDefaultRouter(NetIcmpv6RouterAdvertisement *ra, u8 *src, s16 iface) {
     Ipv6NdState *g = &ipv6_neighbor_discovery_state;
     s16 *pc = &g->nrouters;
     Ipv6NdRouter **pl = &g->routers;
@@ -995,9 +995,9 @@ s16 NetIPv6UpdateDefaultRouter(NetIcmpv6RouterAdvertisement *buf, u8 *a, s16 c) 
         u8 *s1;
     } loc;
 
-    m = buf;
-    aa = a;
-    cc = c;
+    m = ra;
+    aa = src;
+    cc = iface;
     p = find_router_in(pc, pl, aa);
     if (p == 0) {
         if (m->router_lifetime != 0) {
@@ -1457,18 +1457,18 @@ inline saddr send_pending_packet(Ipv6NdNeighbor *e) {
     return 1;
 }
 
-extern Ipv6NdNeighbor *NetIPv6UpdateNeighborLinkAddress(void *a, void *b, s16 len, s16 val) {
+Ipv6NdNeighbor *NetIPv6UpdateNeighborLinkAddress(void *addr, void *lladdr, s16 lladdr_len, s16 iface) {
     s32 n;
     Ipv6NdNeighbor *e;
 
 
-    if (a == 0) {
+    if (addr == 0) {
         return 0;
     }
-    if (len == 0 || b == 0) {
+    if (lladdr_len == 0 || lladdr == 0) {
         return 0;
     }
-    e = NetIPv6FindOrSelectNeighborCacheEntry(a, b, len);
+    e = NetIPv6FindOrSelectNeighborCacheEntry(addr, lladdr, lladdr_len);
     if (e == 0) {
         return 0;
     }
@@ -1476,24 +1476,24 @@ extern Ipv6NdNeighbor *NetIPv6UpdateNeighborLinkAddress(void *a, void *b, s16 le
     case 0:
         e->used = 1;
     case 1:
-        NetMemcpy(e->addr, a, 0x10);
-        n = len;
+        NetMemcpy(e->addr, addr, 0x10);
+        n = lladdr_len;
         if ((u32)n > 0x20) {
             n = 0x20;
         }
         e->lladdr_len = n;
-        NetMemcpy(e->lladdr, b, e->lladdr_len);
+        NetMemcpy(e->lladdr, lladdr, e->lladdr_len);
         e->nud = 2;
         e->timer = ipv6_neighbor_discovery_state.stale_time;
-        e->iface = val;
+        e->iface = iface;
         break;
     case 2:
-        n = len;
+        n = lladdr_len;
         if ((u32)n > 0x20) {
             n = 0x20;
         }
         e->lladdr_len = n;
-        NetMemcpy(e->lladdr, b, e->lladdr_len);
+        NetMemcpy(e->lladdr, lladdr, e->lladdr_len);
         if (e->nud == 0 && e->pending != 0) {
             send_pending_packet(e);
             e->pending->used = 0;
@@ -1501,10 +1501,10 @@ extern Ipv6NdNeighbor *NetIPv6UpdateNeighborLinkAddress(void *a, void *b, s16 le
         }
         e->nud = 2;
         e->timer = ipv6_neighbor_discovery_state.stale_time;
-        e->iface = val;
+        e->iface = iface;
         break;
     case 3:
-        e->iface = val;
+        e->iface = iface;
         break;
     default:
         break;

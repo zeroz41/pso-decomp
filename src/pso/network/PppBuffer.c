@@ -50,13 +50,13 @@ PppFrame *ppp_buffer_from_bytes(void *src, u16 n) {
 }
 #pragma opt_propagation reset
 
-PppFrame *alloc_from_buffer(PppFrame *frame, s16 n) {
+PppFrame *alloc_from_buffer(PppFrame *frame, s16 length) {
     u8 *data;
     if (frame != NULL) {
         data = frame->data;
-        if ((s32)(data - (u8 *)(frame + 1)) >= n) {
-            frame->data = data - n;
-            frame->len += n;
+        if ((s32)(data - (u8 *)(frame + 1)) >= length) {
+            frame->data = data - length;
+            frame->len += length;
             return frame;
         }
     }

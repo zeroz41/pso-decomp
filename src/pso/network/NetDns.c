@@ -171,7 +171,7 @@ s32 dns_close(s16 i) {
 }
 #pragma pop
 
-extern void dns_copy_lookup_result(DnsLookupRequest *p);
+extern void dns_copy_lookup_result(DnsLookupRequest *self);
 #pragma push
 #pragma opt_propagation off
 extern s16 dns_get_addr(s16 idx, void *buf, s16 *len, void *buf2, s16 *len2, uaddr mode) {
