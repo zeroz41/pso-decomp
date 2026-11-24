@@ -192,13 +192,13 @@ void TNeedleShoot::check_target_hit(s32) {
     }
     switch (contact_mode) {
     case 1:
-        list = collect_technique_contacts((TObjBase *)owner);
+        list = collect_technique_contacts(owner);
         break;
     case 2:
-        list = collect_contacts_from_game_mode((TObjBase *)owner);
+        list = collect_contacts_from_game_mode(owner);
         break;
     default: {
-        TObjBase *source = (TObjBase *)owner;
+        TObjBase *source = owner;
         list = collect_contacts(source);
         break;
     }
@@ -301,7 +301,7 @@ TNeedleShoot::TNeedleShoot(s32 owner, Vec *from, Vec *to) : TObject(tl_06) {
     pad_88.y = 1.0f;
     pad_88.z = 1.0f;
     distance = 0.0f;
-    this->owner = owner;
+    this->owner = (TObjBase *)owner;
     speed = 5.0f;
     range = 1000.0f;
     contact_mode = 0;

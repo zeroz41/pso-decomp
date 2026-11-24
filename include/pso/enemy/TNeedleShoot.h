@@ -20,7 +20,7 @@ struct TNeedleShoot : public TObject {
     virtual void vfunc_8();
     // Called by check_target_hit with the first receivable contact.
     virtual void on_target_hit(void *);
-    uaddr owner;  // the shooter; run_task refreshes it from owner_id
+    TObjBase *owner;  // the shooter; run_task refreshes it from owner_id
     f32 range;     // the shot is destroyed once distance passes it
     f32 distance;  // speed summed each frame
     Vec prev_pos;
