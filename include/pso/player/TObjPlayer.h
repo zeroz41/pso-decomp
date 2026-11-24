@@ -135,7 +135,7 @@ struct TObjPlayer : public TObjChara {
     virtual s32 update_flag30_timer();
     virtual s32 update_movement_status();
     virtual s32 update_shock_clock();
-    virtual void vfunc_78(saddr);
+    virtual void send_status_effect_add(StatStatusReceipt effect);
     virtual s32 vfunc_79();
     void set_floor(s32);
     void set_input_mode(s32);
@@ -1287,7 +1287,9 @@ struct TObjPlayer : public TObjChara {
     void recover_full();
     static void apply_speed_scale(int, f32);
     static s32 test_ordered_anim_markers(void *, f32, f32);
-    static void remove_status_effect(unsigned int, void *);
+    void remove_status_effect(StatStatusReceipt effect);
+    void send_status_effect_remove(StatStatusReceipt effect);
+    void dispatch_status_effect_msg(StatStatusReceipt effect);
     s32 query_state_if_present(void *);
 
     // Placeholder-named members defined in the player units.

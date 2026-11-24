@@ -234,9 +234,8 @@ typedef struct Msg_801B1E54 {
     u16 d;
 } Msg_801B1E54;
 
-struct Eff_801B2C04 { u16 f0; u16 f2; u32 f4; u32 f8; };
+struct Eff_801B2C04 { u16 f0; u16 f2; StatStatusReceipt effect; };
 
-struct Pair_801B2C04 { u32 a; u32 b; };
 
 struct Pkt_801B1D8C {
     u8 hdr[4];
@@ -252,99 +251,10 @@ struct Pkt_801B1EE0 {
     f32 pos[3];
 };
 
-struct Pair_801B2AE8 { u32 a; u32 b; };
 
-struct Pair_801B2AE8;
 
-struct Item_801B2014 { s32 id; f32 val; };
+struct Eff_801B2D88 { u16 f0; u16 f2; StatStatusReceipt effect; };
 
-struct Item_801B21AC { s32 id; f32 val; };
-
-struct VBase_801B21AC { char pad[0x18]; };
-
-struct VObj_801B21AC : VBase_801B21AC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76(Item_801B21AC);
-};
-
-struct Eff_801B2D88 { u16 f0; u16 f2; u32 f4; u32 f8; };
-
-struct Pair_801B2D88 { u32 a; u32 b; };
 
 struct Eff_801B2CE4 { u16 f0; u16 f2; u32 f4; u32 f8; };
 
@@ -683,8 +593,6 @@ void* draw_font__10TObjPlayerFPv(void* p);
 void foreach_player__10TObjPlayerFv(s32 (*callback)(u32));
 void *handle_set_visible__10TObjPlayerFi(void *dst, void *src);
 void send_6x2F_change_player_hp(s32 id, s32 client, s32 hp);
-void dispatch_status_effect_msg__10TObjPlayerFUiPv(uaddr player, Pair_801B2AE8 *msg);
-void send_code_13_3__10TObjPlayerFii(saddr player, saddr effect);
 void *clear_negative_status_effects__10TObjPlayerFi(void *dst, void *src);
 s32 calc_scaled_value__10TObjPlayerFii(TObjPlayer *player, s32 value);
 s32 build_player_class_stat_template(saddr player, saddr out);
@@ -4748,14 +4656,14 @@ s32 TObjPlayer::get_next_level_exp() {
     return TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(this), actor_level_index + 1);
 }
 
-void TObjPlayer::vfunc_78(saddr effect) {
+void TObjPlayer::send_status_effect_add(StatStatusReceipt effect) {
     s32 effect_data;
     s32 pkt;
 
     if ((this == 0) || (obj_isState2_324() == 0)) {
         ((TObjPlayer *)(&pkt))->set_code_12_3();
         *(s16 *)((s8 *)&pkt + 2) = this->get_entity_id();
-        obj_copyVec2_0((u8 *)&effect_data, (u8 *)effect);
+        obj_copyVec2_0((u8 *)&effect_data, (u8 *)&effect);
         ((TObjPlayer *)(&pkt))->reinit_update_sub4_and_send();
     }
 }
@@ -4766,12 +4674,9 @@ void handle_6x0C_add_or_remove_status_effect(G_AddOrRemoveStatusEffect_6x0C_6x0D
     TObjPlayer__sub_801C092C(&e, command);
     apply_status_effect__10TObjPlayerFPv(&e);
     if (fn_8036B770(&e) != 0) {
-        u32 p = (uaddr)get_player_by_client_id(e.f2);
+        TObjPlayer *p = get_player_by_client_id(e.f2);
         if (p != 0) {
-            Pair_801B2D88 q;
-            q.a = e.f4;
-            q.b = e.f8;
-            ((void (*)(u32, Pair_801B2D88 *))dispatch_status_effect_msg__10TObjPlayerFUiPv)(p, &q);
+            p->dispatch_status_effect_msg(e.effect);
         }
     }
 }
@@ -4796,14 +4701,14 @@ void handle_6x0E_clear_negative_status_effects(G_ClearNegativeStatusEffects_6x0E
 }
 
 
-void send_code_13_3__10TObjPlayerFii(saddr player, saddr effect) {
+void TObjPlayer::send_status_effect_remove(StatStatusReceipt effect) {
     s32 effect_data;
     s32 pkt;
 
-    if ((player == 0) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
+    if ((this == 0) || (obj_isState2_324() == 0)) {
         ((TObjPlayer *)(&pkt))->set_code_13_3();
-        *(s16 *)((s8 *)&pkt + 2) = ((TObjBase *)(player))->get_entity_id();
-        obj_copyVec2_0((u8 *)&effect_data, (u8 *)effect);
+        *(s16 *)((s8 *)&pkt + 2) = this->get_entity_id();
+        obj_copyVec2_0((u8 *)&effect_data, (u8 *)&effect);
         ((TObjPlayer *)(&pkt))->update_and_send();
     }
 }
@@ -4813,63 +4718,60 @@ void handle_6x0D_add_or_remove_status_effect(G_AddOrRemoveStatusEffect_6x0C_6x0D
     ((TObjPlayer *)(&e))->copy_6x0d_status_effect_packet(command);
     ((TObjPlayer *)(&e))->bswap_status_effect();
     if (fn_8036B748(&e) != 0) {
-        u32 p = (uaddr)get_player_by_client_id(e.f2);
+        TObjPlayer *p = get_player_by_client_id(e.f2);
         if (p != 0) {
-            Pair_801B2C04 q;
-            q.a = e.f4;
-            q.b = e.f8;
-            TObjPlayer::remove_status_effect(p, &q);
+            p->remove_status_effect(e.effect);
         }
     }
 }
 
 
-void dispatch_status_effect_msg__10TObjPlayerFUiPv(uaddr player, Pair_801B2AE8 *msg) {
-    switch (msg->a) {
+void TObjPlayer::dispatch_status_effect_msg(StatStatusReceipt effect) {
+    switch (effect.kind) {
     case 15:
-        ((TObjPlayer *)player)->apply_poison_status();
+        this->apply_poison_status();
         break;
     case 16:
-        ((TObjPlayer *)player)->apply_paralysis();
+        this->apply_paralysis();
         break;
     case 17:
-        ((TObjPlayer *)player)->apply_slow_status();
+        this->apply_slow_status();
         break;
     case 18:
-        ((TObjPlayer *)player)->apply_confusion_status();
+        this->apply_confusion_status();
         break;
     case 3:
-        ((TObjPlayer *)player)->apply_shock_status();
+        this->apply_shock_status();
         break;
     case 2:
-        ((TObjPlayer *)player)->apply_movement_ailment(0);
+        this->apply_movement_ailment(0);
         break;
     case 7:
-        ((TObjPlayer *)player)->clear_harmful_statuses();
+        this->clear_harmful_statuses();
         break;
     case 9:
     case 11:
         {
-            Pair_801B2AE8 tmp = *msg;
-            ((TObjPlayer *)player)->apply_attack_stat_status(&tmp);
+            StatStatusReceipt tmp = effect;
+            this->apply_attack_stat_status(&tmp);
         }
         break;
     case 10:
     case 12:
         {
-            Pair_801B2AE8 tmp2 = *msg;
-            ((TObjPlayer *)player)->apply_defense_stat_status(&tmp2);
+            StatStatusReceipt tmp2 = effect;
+            this->apply_defense_stat_status(&tmp2);
         }
         break;
     }
 }
 
-void TObjPlayer::remove_status_effect(unsigned int actor, void *effect) {
-    TObjChara *chara = (TObjChara *)actor;
+void TObjPlayer::remove_status_effect(StatStatusReceipt effect) {
+    TObjChara *chara = this;
     f32 amount;
     f32 base;
 
-    switch (*(s32 *)effect) {
+    switch (effect.kind) {
     case 0:
         chara->actorFlags = (s32) (chara->actorFlags & 0xFFFFFFFC);
         amount = -chara->get_status_effect_amount(0);
@@ -5013,83 +4915,83 @@ s32 TObjPlayer::update_defense_stat_status() {
 
 void TObjPlayer::sync_status_effect_flags() {
     TObjPlayer *self = this;
-    Item_801B21AC item;
+    StatStatusReceipt item;
     u32 diff;
-    item.val = player_zero;
+    item.power = player_zero;
     diff = (self->m_3cc ^ self->actorFlags) & 0x3F;
     if (diff != 0) {
         if (diff & 3) {
             if (self->actorFlags & 3) {
                 if (self->actorFlags & 1) {
-                    item.id = 0xF;
+                    item.kind = 0xF;
                 }
                 if (self->actorFlags & 2) {
-                    item.id = 0x10;
+                    item.kind = 0x10;
                 }
-                ((VObj_801B21AC *)this)->m76(item);
+                this->send_status_effect_add(item);
             } else {
-                item.id = 0;
-                ((s32 (*)(void *, Item_801B21AC))send_code_13_3__10TObjPlayerFii)(this, item);
+                item.kind = 0;
+                this->send_status_effect_remove(item);
             }
         }
         if (diff & 0x3C) {
             if (self->actorFlags & 0x3C) {
                 if (self->actorFlags & 8) {
-                    item.id = 0x11;
+                    item.kind = 0x11;
                 }
                 if (self->actorFlags & 0x10) {
-                    item.id = 0x12;
+                    item.kind = 0x12;
                 }
                 if (self->actorFlags & 0x20) {
-                    item.id = 2;
+                    item.kind = 2;
                 }
                 if (self->actorFlags & 4) {
-                    item.id = 3;
+                    item.kind = 3;
                 }
-                ((VObj_801B21AC *)this)->m76(item);
+                this->send_status_effect_add(item);
             } else {
-                item.id = 1;
-                ((s32 (*)(void *, Item_801B21AC))send_code_13_3__10TObjPlayerFii)(this, item);
+                item.kind = 1;
+                this->send_status_effect_remove(item);
             }
         }
         if (diff & 0x40) {
-            item.id = 7;
-            ((VObj_801B21AC *)this)->m76(item);
+            item.kind = 7;
+            this->send_status_effect_add(item);
         }
         self->m_3cc = self->actorFlags;
     }
 }
 
 void TObjPlayer::resend_status_effects() {
-    Item_801B2014 item;
-    item.val = player_zero;
+    StatStatusReceipt item;
+    item.power = player_zero;
     if (this->test_actor_flags(1) != 0) {
-        item.id = 0xF;
-        ((void (*)(s32, Item_801B2014))dispatch_status_effect_msg__10TObjPlayerFUiPv)(((saddr)this), item);
+        item.kind = 0xF;
+        this->dispatch_status_effect_msg(item);
     }
     if (this->test_actor_flags(2) != 0) {
-        item.id = 0x10;
-        ((void (*)(s32, Item_801B2014))dispatch_status_effect_msg__10TObjPlayerFUiPv)(((saddr)this), item);
+        item.kind = 0x10;
+        this->dispatch_status_effect_msg(item);
     }
     if (this->test_actor_flags(0x40) != 0) {
-        item.id = 7;
-        ((void (*)(s32, Item_801B2014))dispatch_status_effect_msg__10TObjPlayerFUiPv)(((saddr)this), item);
+        item.kind = 7;
+        this->dispatch_status_effect_msg(item);
     }
     if (this->test_actor_flags(8) != 0) {
-        item.id = 0x11;
-        ((void (*)(s32, Item_801B2014))dispatch_status_effect_msg__10TObjPlayerFUiPv)(((saddr)this), item);
+        item.kind = 0x11;
+        this->dispatch_status_effect_msg(item);
     }
     if (this->test_actor_flags(0x10) != 0) {
-        item.id = 0x12;
-        ((void (*)(s32, Item_801B2014))dispatch_status_effect_msg__10TObjPlayerFUiPv)(((saddr)this), item);
+        item.kind = 0x12;
+        this->dispatch_status_effect_msg(item);
     }
     if (this->test_actor_flags(0x20) != 0) {
-        item.id = 2;
-        ((void (*)(s32, Item_801B2014))dispatch_status_effect_msg__10TObjPlayerFUiPv)(((saddr)this), item);
+        item.kind = 2;
+        this->dispatch_status_effect_msg(item);
     }
     if (this->test_actor_flags(4) != 0) {
-        item.id = 3;
-        ((void (*)(s32, Item_801B2014))dispatch_status_effect_msg__10TObjPlayerFUiPv)(((saddr)this), item);
+        item.kind = 3;
+        this->dispatch_status_effect_msg(item);
     }
 }
 
