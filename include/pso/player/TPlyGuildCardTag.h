@@ -61,7 +61,7 @@ public:
 };
 
 extern "C" {
-void __ct__16TPlyGuildCardTagFUsUl(void *arg0, s16 arg1, s32 arg2);
+void __ct__16TPlyGuildCardTagFUsUl(void *tag, s16 tag2, s32 guildcard_number);
 }
 
 #endif

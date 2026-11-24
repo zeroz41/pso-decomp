@@ -39,8 +39,8 @@ TMenuList<LobbyListEntry, 16, 0>::TMenuList(const TMenuList &o) {
     } while (d < end);
 }
 
-void *copy_lobby_entry(void *arg0, void *arg1) {
+void *copy_lobby_entry(void *dst, void *src) {
     __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag();
-    *(s32 *)((s8 *)arg0 + 8) = (s32) *(s32 *)((s8 *)arg1 + 8);
-    return arg0;
+    *(s32 *)((s8 *)dst + 8) = (s32) *(s32 *)((s8 *)src + 8);
+    return dst;
 }

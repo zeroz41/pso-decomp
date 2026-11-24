@@ -6,16 +6,16 @@
 #include "pso/player/TPlyDispConfigSmth.h"
 #include "pso/player/TPlyInventory.h"
 
-void bswap__12TPlyCharDataFv(saddr arg0) {
+void bswap__12TPlyCharDataFv(saddr char_data) {
     s32 off;
     s32 i;
 
     for (i = 0, off = 0; i < 0x1E; i++, off += 0x1C) {
-        ((TPlyInventoryItem *)((char *)arg0 + off + 4))->bswap();
+        ((TPlyInventoryItem *)((char *)char_data + off + 4))->bswap();
     }
-    bswap__15disp_data_part2Fv(arg0 + 0x370);
-    bswap__12player_statsFv((void *)(arg0 + 0x34C));
-    ((TPlyDispConfig *)(arg0 + 0x3C0))->bswap_pair();
+    bswap__15disp_data_part2Fv(char_data + 0x370);
+    bswap__12player_statsFv((void *)(char_data + 0x34C));
+    ((TPlyDispConfig *)(char_data + 0x3C0))->bswap_pair();
 }
 
 void TPlyDispConfig::bswap_pair() { bswap__18TPlyDispConfigSmthFv((saddr)this); bswap__18TPlyDispConfigSmthFv((saddr)((char*)this + 0x24)); }
