@@ -266,10 +266,6 @@ struct TLobby : public TObject {
     static void update_camera_state();
     static void update_periodic_tick();
     static void reset_counter();
-    void update_child_player();
-    void set_float_4(f32 v);
-    void set_pos_z(f32 v);
-    void set_scale(f32 v);
     void send_set_battle_mode_data();
     void bswap_set_battle_mode_data();
     void send_6x7D_set_battle_mode_data();

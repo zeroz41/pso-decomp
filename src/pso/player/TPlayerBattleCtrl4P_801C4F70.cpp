@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TPlayerBattleCtrl4P.h"
+#include "pso/player/PlayerBattleScore.h"
 
-s32 TPlayerBattleCtrl4P::get_state() { return *(s32 *)&this->m_name; }
-void TPlayerBattleCtrl4P::set_battle_mode(s32 v) { *(s32 *)&this->m_down = v; }
+s32 PlayerBattleScore::get_timer() { return timer; }
+void PlayerSubObjectSlots::set_score(s32 v) { score = v; }

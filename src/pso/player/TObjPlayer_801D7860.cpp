@@ -9,9 +9,9 @@ s32 TObjPlayer::init_sub_object(saddr lobby) {
 }
 void TObjPlayer::init_sub_object_vectors(saddr lobby) {
     ((DamageStatSlot *)lobby)->set_total(0.0f);
-    ((TLobby *)lobby)->set_float_4(0.0f);
-    ((TLobby *)lobby)->set_pos_z(1.0f);
-    ((TLobby *)lobby)->set_scale(1.0f);
+    ((DamageStatSlot *)lobby)->set_accumulated(0.0f);
+    ((DamageStatSlot *)lobby)->set_normal_weight(1.0f);
+    ((DamageStatSlot *)lobby)->set_bonus_weight(1.0f);
 }
 
 }

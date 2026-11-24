@@ -96,8 +96,6 @@ public:
     s32 phase;
     s32 phase_state;
 public:
-    s32 get_state();
-    void set_battle_mode(s32 v);
     s32 close_windows_on_button();
     void close_player_windows();
     void create_result_windows();
