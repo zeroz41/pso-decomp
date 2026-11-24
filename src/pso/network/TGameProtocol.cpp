@@ -109,7 +109,7 @@ extern "C" void handle_6x4C_hit_by_enemy(void *arg0);
 extern "C" void handle_6x4D_player_died(void *arg0);
 extern "C" void handle_6x4E_player_revivable(void *arg0);
 extern "C" void handle_6x4F_player_revived(void *arg0);
-extern "C" void handle_6x50_switch_interaction(const void *source);
+extern "C" void handle_6x50_switch_interaction(void *source);
 extern "C" void handle_6x52_set_animation_state(saddr arg0);
 extern "C" void handle_6x53(void *arg0);
 extern "C" void handle_6x54();

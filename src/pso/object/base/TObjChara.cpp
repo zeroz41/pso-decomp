@@ -4277,7 +4277,7 @@ s32 TObjPlayer::is_local_player() {
     return 0;
 }
 
-s32 TObjPlayer::get_attacker_id() { return (u16)(this->attacker_id); }
+u16 TObjPlayer::get_attacker_id() { return this->attacker_id; }
 
 void TObjPlayer::set_attacker_id(u16 id) { this->attacker_id = id; }
 

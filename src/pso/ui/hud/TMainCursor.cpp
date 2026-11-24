@@ -224,7 +224,6 @@ s32 quick_sort_partition__11TMainCursorFiPvii(saddr self, Ent_8013C678 *a, s32 l
 void TMainCursor__sub_8013F170(void *p, s32 v);
 void clear_target_cursor_list(void *p);
 
-s32 is_key_machine_ready__10TObjPlayerFv();
 s32 TMainCursor__sub_8013E2A0(void *list);
 s16 TMainCursor__sub_8013E298(void *entry);
 s16 get_action_entry_index(void *entry);
@@ -929,7 +928,7 @@ void TMainCursor::bind_action_channels() {
         type = get_action_palette_tag_mode(&self->channel);
         enabled = get_action_palette_tag_slot(&self->channel);
         if (is_current_area_item_enabled() == 0) {
-            if (is_key_machine_ready__10TObjPlayerFv() == 0) {
+            if (TObjPlayer::is_key_machine_ready() == 0) {
                 return;
             }
             if (type != 4) {

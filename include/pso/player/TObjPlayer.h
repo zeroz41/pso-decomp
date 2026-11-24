@@ -344,7 +344,7 @@ struct TObjPlayer : public TObjChara {
     int emit_grass_footstep_particle(int position);
     void emit_photon_blast_feedback_from_packet();
     int copy_vec_at_18();
-    s32 get_attacker_id();
+    u16 get_attacker_id();
     void set_attacker_id(u16 id);
     s32 is_local_player();
     void apply_velocity();
@@ -697,6 +697,7 @@ struct TObjPlayer : public TObjChara {
     void update_if_flag_set();
     static void set_flag_0x100000(void* p);
     static void apply_velocity_if_free(saddr arg0);
+    static void apply_velocity_if_free(void *player);
     void complete_guard_reaction();
     void select_hit_action();
     static void create_photon_blast_party_effects(u16 id);
@@ -835,7 +836,7 @@ struct TObjPlayer : public TObjChara {
     void set_action_flag_40();
     void set_field_d4_and_flag_200(f32 value);
     void set_action_flag();
-    int bswap_field_u32();
+    void bswap_field_u32();
     void *copy_packet_pos_6x42(void *pkt);
     void bswap_u16_pair_list();
     void bswap_u16_pair();
@@ -1190,7 +1191,7 @@ struct TObjPlayer : public TObjChara {
     void get_hand_joint_position(saddr arg1);
     void close_sub_window();
     s32 find_inventory_item_id(s8 arg1, s8 arg2);
-    s32 try_add_sale_meseta(s32 arg1, s32 amount, s32 count);
+    s32 try_add_sale_meseta(s32 item_id, s32 amount, s32 count);
     void drop_items_on_death();
     static void send_6x2A_drop_item(void *arg0, s32 source, void *arg2, s32 arg3);
     s32 send_trap_packet(int arg1_);
@@ -1396,7 +1397,6 @@ struct TObjPlayer : public TObjChara {
     s32 can_guard();
     // Sets the player's cast level of technique `tech`, capped at the level it has learned.
     static void set_technique_level_clamped(TObjPlayer *player, u8 level, int tech);
-    static void *get_element(void *, int);
     static void send_6x29_delete_item(void *, int, int);
     static s32 find_free_slot(void *, void *);
     static s32 fill_player_record(void *, void *);
@@ -1410,6 +1410,17 @@ struct TObjPlayer : public TObjChara {
     static void draw_strip_list_pos_nrm(void *, void *, unsigned int);
     static void draw_triangle_strips(void *, void *, unsigned int);
     static int draw_textured_vertices(void *, int, int);
+    static void send_object_id_packet(int);
+    void update_action_state();
+    static void release_control_lock(void *);
+    static void *copy_font(void *, void *);
+    s32 reset_volopt_state();
+    static s32 is_key_machine_ready();
+    static void recover_full(void *);
+    static void apply_speed_scale(int, f32);
+    static s32 test_ordered_anim_markers(void *, f32, f32);
+    static void remove_status_effect(unsigned int, void *);
+    s32 query_state_if_present(void *);
 
     // Placeholder-named members defined in the player units.
     static void create_derolle_breakup_model();
@@ -1513,7 +1524,7 @@ struct TObjPlayer : public TObjChara {
     static void restore_model_render_state();
     static void save_model_render_state();
     s32 can_equip_item(s32 tech);
-    int clear_links();
+    void clear_links();
     void ensure_default();
     int get_flag();
     s32 is_action_channel_available(s32 arg1);

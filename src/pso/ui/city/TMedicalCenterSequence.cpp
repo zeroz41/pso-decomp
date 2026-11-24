@@ -45,7 +45,6 @@ extern "C" {
 extern const char *TMedicalCenterSequence__class_name;
 
 int obj_getPtr2B0_20(TObjPlayer *player);
-void send_code50_packet__10TObjPlayerFi(TObjPlayer *player);
 void send_code_49_1__10TObjPlayerFi(TObjPlayer *player);
 }
 
@@ -204,7 +203,7 @@ void TMedicalCenterSequence::exec_heal() {
     }
     play_sound_effect(0x42D08, 0, 0, 0);
     send_code_49_1__10TObjPlayerFi(player);
-    send_code50_packet__10TObjPlayerFi(player);
+    TObjPlayer::send_code50_packet((saddr)player);
     if (player->is_alive_and_ready() != 0) {
         player->refill_traps();
     }

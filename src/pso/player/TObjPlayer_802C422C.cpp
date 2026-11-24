@@ -85,7 +85,7 @@ void export_player_record__10TObjPlayerFPvPv(TPlyCharData *record, u8 *arg1) {
     s32 i;
     ((TObjPlayer *)arg1)->set_flag_80000();
     copy_player_visual_record(&record->m_disp_part2, arg1 + 0x85C);
-    record->m_inventory.m_num_items = query_state_if_present__10TObjPlayerFPv(reinterpret_cast<TObjPlayer *>(arg1), record->m_inventory.get_items());
+    record->m_inventory.m_num_items = reinterpret_cast<TObjPlayer *>(arg1)->query_state_if_present(record->m_inventory.get_items());
     ((TObjPlayer *)arg1)->inventory_objects->set_flag_and_update((TObjPlayer *)arg1);
     clamp_stats__10TObjPlayerFiPv(arg1, &record->m_stats, (void *) (TObjPlayer::get_class_stat_entry((u8 *)arg1)));
     record->m_inventory.m_hp_materials_used = ((TObjPlayer *)arg1)->get_hp_material_points();

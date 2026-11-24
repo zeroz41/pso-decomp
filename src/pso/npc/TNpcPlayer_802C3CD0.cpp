@@ -35,7 +35,7 @@ void TObjPlayer::export_character_data(TPlyCharData *character) {
     s32 j;
     s32 k;
     set_flag_80000();
-    character->m_inventory.m_num_items = query_state_if_present__10TObjPlayerFPv(this, character->m_inventory.get_items());
+    character->m_inventory.m_num_items = query_state_if_present(character->m_inventory.get_items());
     hp = get_actor_hp();
     tp = get_actor_tp(this);
     for (i = 0; i != 0xD; i++) {
@@ -90,7 +90,7 @@ void TObjPlayer::export_state_to_record(TPlyCharData *record) {
     u8 *overflow;
     s32 m;
     set_flag_80000();
-    record->m_inventory.m_num_items = query_state_if_present__10TObjPlayerFPv(this, record->m_inventory.get_items());
+    record->m_inventory.m_num_items = query_state_if_present(record->m_inventory.get_items());
     hp = get_actor_hp();
     tp = get_actor_tp(this);
     p = items;
