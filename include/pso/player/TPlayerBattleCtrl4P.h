@@ -22,7 +22,7 @@ class TPlayerBattleCtrl4P : public TObject {
 private:
     TPlayerBattleCtrl4P(TObject *parent);
     virtual ~TPlayerBattleCtrl4P();
-    void set_split_screen_battle_phase(s32);
+    void set_split_screen_battle_phase(s32 phase);
     void reset_phase();
     void clear_player_windows();
     s32 get_time_limit();
@@ -88,9 +88,9 @@ public:
     s32 timed_event_state;
     s32 player_active[4];
     s32 player_teams[4];
-    u8 unknown_284[4];
+    s32 win_effects_enabled;  // quest opcodes enable_win_pfx / disable_win_pfx
     u16 player_order[4];
-    u8 unknown_290[4];
+    s32 unknown_290;
     const char** message_table;
     s32 phase;
     s32 phase_state;
@@ -112,13 +112,13 @@ public:
     s32 is_battle_decided();
     s32 check_all_players_flag();
     static s32 fn_80211B10(s32 client_id);
-    void apply_rule_configuration(s32 arg1);
+    void apply_rule_configuration(s32 use_rules);
     void update_all_players();
     void shuffle_order();
     void update();
 
     static void reset_random_enemies_mode(TObject *fade);
-    static void init_instance_with_text(saddr arg0, saddr arg1);
+    static void init_instance_with_text(saddr rules, saddr text);
 public:
     void update_player_alive_flags();
     void update_timed_events(s32 frames);

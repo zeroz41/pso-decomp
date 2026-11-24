@@ -615,7 +615,7 @@ void TPlayerBattleCtrl4P::start_duel() {
             timed_event_flags[j] = 0;
         }
     }
-    *(s32 *)unknown_284 = battle_ctrl_default_value;
+    win_effects_enabled = battle_ctrl_default_value;
 }
 
 void TPlayerBattleCtrl4P::update() {
@@ -1099,7 +1099,7 @@ void TPlayerBattleCtrl4P::record_results() {
     TAdSinglePlyChrSelectGC__sub_801FCE6C();
 }
 
-void TPlayerBattleCtrl4P::reset_score_counters() { this->timed_event_state = 0; *(s32 *)&this->unknown_290 = 0; }
+void TPlayerBattleCtrl4P::reset_score_counters() { this->timed_event_state = 0; unknown_290 = 0; }
 
 void TPlayerBattleCtrl4P::notify_lobby(const char *file, saddr duration) {
     play_cue_stream_file(file);
