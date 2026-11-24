@@ -775,15 +775,7 @@ struct TObjPlayer : public TObjChara {
     void bswap_u16_pair();
     int test_bit1_at_10();
     f32 get_float_14();
-    void set_attack_target(s16 v);
-    void set_flag_1_at_c();
-    void increment_strike_counter();
-    void set_action_type(s32 v);
-    s32 get_field_1c();
     void request_heavy_attack_particles();
-    s32 update_if_flag8_set();
-    s32 tick_countdown_timer();
-    s16 get_obj_id();
     void set_action_palette_state_mode(u8 mode);
     void clear_flag_128();
     static s32 decrement_timer(s32 *timer);
