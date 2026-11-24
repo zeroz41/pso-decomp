@@ -14,7 +14,6 @@
 extern "C" {
 void copy_player_visual_record(void *, void *);
 u8 TObjPlayer__sub_801C0124(void *, s16);
-saddr reset(void *);
 }
 
 s32 TNpcPlayer::send_command(s32 cls, s32 count, const TPlyInventoryItem *source, s32 level, TPlyCharData *character) {

@@ -56,7 +56,6 @@
 #include "pso/ui/font/TFontSmallHelp.h"
 #include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/player/TObjPlayer_801D3554.h"
 #include "pso/system/task/TMainTask.h"
 #include <stddef.h>
 #include "pso/player/PlayerRequirementStats.h"
@@ -92,7 +91,6 @@
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/item/TItemList.h"
 #include "pso/player/TPlyItem.h"
-#include "pso/unk/text_801D40D4.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
@@ -552,7 +550,6 @@ u32 create__18TPlayerLobbyMarkerFsSc(u16 a0 = 0, s32 a1 = 0);
 void release_all_players_control_lock(void);
 s32 check_conditions__10TObjPlayerFv(void *, s16);
 s16 TObjPlayer__sub_801CFBFC(u8 *arg0);
-s32 TObjPlayer__sub_801D4368(TPlyItem *inventory);
 
 
 s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *attacker, s32 amount);
@@ -1987,7 +1984,7 @@ u32 TObjPlayer::pickup_item(TItem *item) {
         break;
     }
     if (list != NULL) {
-        ((TItemList *)list)->set_field_1c(item);
+        ((TItemList *)list)->set_owner(item);
         inv = *(u8 * *)&this->inventory_objects;
         on_inventory_item_added(item, (*(s16 *)((s8 *)inv + 0x1C))++);
         item->set_mode(1);
@@ -2046,7 +2043,7 @@ void handle_6xAC(G_DeleteMultipleInventoryItems_6xAC *command) {
 
 
 void TObjPlayer::delete_multiple_inventory_items(s32 *item_ids, s32 count) {
-    TObjPlayer__sub_801D49F4(this->inventory_objects, this, item_ids, count);
+    this->inventory_objects->remove_items(this, item_ids, count);
 }
 
 s32 TObjPlayer::count_items_of_type(s8 kind, s8 group, s8 subgroup) {
@@ -2087,7 +2084,7 @@ void TObjPlayer::request_item_drop(s32 key, s32 count) {
     if (owner->get_amount() - count > 0) {
         item.id = -1;
     }
-    insert_item_node(&inventory_objects->list, get_marker_position(&marker_position), this, (TItemData *)&item, id);
+    inventory_objects->list.add_drop(get_marker_position(&marker_position), this, (TItemData *)&item, id);
 }
 
 void TObjPlayer::request_meseta_drop(s32 amount) {
@@ -2099,7 +2096,7 @@ void TObjPlayer::request_meseta_drop(s32 amount) {
         set_action_flag_2();
         ((TItemData *)(&stack.sp8))->init_meseta(amount);
         stack.sp14 = -1;
-        insert_item_node(&inventory_objects->list, get_marker_position(&marker_position), this, (TItemData *)&stack.sp8, -1);
+        inventory_objects->list.add_drop(get_marker_position(&marker_position), this, (TItemData *)&stack.sp8, -1);
     }
 }
 
@@ -2207,7 +2204,7 @@ void TObjPlayer::drop_items_on_death() {
         lbl_8050BF60.x=this->position.x;
         lbl_8050BF60.y=player_front_distance+this->position.y;
         lbl_8050BF60.z=this->position.z;
-        create_drop_nodes__9TItemListFPvPvPvPvi(&this->inventory_objects->list, &lbl_8050BF60, this, records, count);
+        this->inventory_objects->list.add_drops(&lbl_8050BF60, this, records, count);
         set_action_flag_2();
     }
 }
@@ -2502,7 +2499,7 @@ void TObjPlayer::swap_inventory_items(s32 first_id, s32 second_id) {
         return;
     }
     if (this->inventory_objects != NULL) {
-        TObjPlayer__sub_801D47EC(this->inventory_objects, first_id, second_id);
+        this->inventory_objects->swap_items(first_id, second_id);
     }
 }
 
@@ -2513,7 +2510,7 @@ void TObjPlayer::close_sub_window() {
     if (this->is_locally_controlled() != 0) {
         p = this->inventory_objects;
         if (p != 0) {
-            TObjPlayer__sub_801D4368((TPlyItem *)p);
+            ((TPlyItem *)p)->sort_items();
         }
     }
 }
@@ -5458,7 +5455,7 @@ void TLobby::apply_battle_rules_to_players() {
             p->sonar_stock.set_count(TObjPlayer__sub_801D6D28(q));
         }
         if (TLobby__sub_801D6F94(q) == 1) {
-            TLobby__sub_801D4C28(p->inventory_objects, p, 3, 9);
+            p->inventory_objects->reduce_items_of_kind(p, 3, 9);
         }
         p->set_flag_4096();
         p->recover_full();

@@ -2,7 +2,7 @@
 #include "pso/player/PlayerState.h"
 #include "pso/player/PlayerTaskEffects.h"
 #include "types.h"
-#include "pso/unk/text_801D40D4.h"
+#include "pso/player/TPlyItem.h"
 #include "pso/player/TObjPlayer_801D84CC.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/item/TItem.h"
@@ -87,7 +87,7 @@ TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
     TUnk_801D8A4C record;
     copy_player_visual_record(record.visual, &data->m_disp_part2);
     TLobby::copy_data(record.stats, &data->m_stats);
-    fn_801D40D4(data->m_inventory.m_num_items,
+    copy_equipped_weapon_and_mag(data->m_inventory.m_num_items,
                 data->m_inventory.get_items(),
                 reinterpret_cast<TPlyInventoryItem *>(record.items));
     return new TUnk_804C4540(tl_03, &record);

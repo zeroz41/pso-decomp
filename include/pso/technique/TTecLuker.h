@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/technique/TTecCircle.h"
 
-class TUnk_804C4450;
+class PositionPlacementQueue;
 class TTelepipeSelectField;
 class TTelepipeEffect;
 
@@ -15,7 +15,7 @@ struct TTecLuker : public TTecCircle {
     virtual ~TTecLuker();
     virtual void apply_to_target(TObjChara *);
     virtual void run_task();
-    TUnk_804C4450 *placement;  // the placement search a local caster starts for the pipe
+    PositionPlacementQueue *placement;  // the placement search a local caster starts for the pipe
     TTelepipeSelectField *field;  // the selectable field at pipe_pos
     s16 floor;  // get_current_floor() when cast
     u16 traveller;  // the client the pipe belongs to (local_client_id or the caster)

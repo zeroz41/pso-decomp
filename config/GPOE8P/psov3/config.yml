@@ -570,8 +570,8 @@ force_active:
   - remove_slow_immunity
   - remove_shock_immunity
   - remove_paralysis_immunity
-  - __ct__13TUnk_804C4468FP7TObjectlP8TObjBasePC3VecSc
-  - TItemList__sub_801D58C8
+  - __ct__15TItemDropSearchFP7TObjectP13ItemDropQueueP8TObjBasePC3Vecl
+  - set_failed__13PlacementSlotFv
   - remove_status_cleanse
   - add_freeze_immunity
   - add_confusion_immunity
@@ -1571,7 +1571,7 @@ force_active:
   - set_unscaled_speed__15PlayerMoveSpeedFf
   - set__18PlayerCameraOffsetFfff
   - has_grass_ground_flag__19ContactSurfaceStateFv
-  - TObjPlayer__sub_801D45B0
+  - set_key__18InventorySortEntryFP5TItem
   - __dt__19InventorySortBufferFv
   - __ct__19InventorySortBufferFl
   - __ct__18InventorySortEntryFv
@@ -2479,7 +2479,7 @@ force_active:
   - __dt__29TObjFogCollisionPoison_TickerFv
   - __dt__17TNpcPlayerSpawnerFv
   - __dt__15TNpcTalkTriggerFv
-  - __dt__13TUnk_804C4498Fv
+  - __dt__16TPlacementSearchFv
   - __dt__13TUnk_804C8678Fv
   - __dt__11TTecAntiEffFv
   - __dt__15TTecGrantsFlashFv
@@ -3250,7 +3250,7 @@ force_active:
   - __vt__17TNpcPlayerSpawner
   - __vt__15TNpcTalkTrigger
   - __vt__13TUnk_804B97C0
-  - __vt__13TUnk_804C4498
+  - __vt__16TPlacementSearch
   - __vt__11TQuadSprite
   - __vt__13TUnk_804C8678
   - __vt__11TTecAntiEff
@@ -5302,7 +5302,7 @@ force_active:
   - construct_lobby_players
   - construct_panzer_faust__FPUcPUcl
   - __ct__17TLightGlareSwitchFPvP7TObject
-  - __ct__13TUnk_804C4498FP7TObjectP8TObjBasePC3VecSc
+  - __ct__16TPlacementSearchFP7TObjectP8TObjBasePC3Vecl
   - construct_rappys_fan__13TUnk_804F0908FlPv
   - __ct__13TUnk_804A4238FP7TObjectPUc
   - __ct__13TUnk_804A4338FP7TObjectPUc
@@ -5538,7 +5538,7 @@ force_active:
   - creation_stick_range
   - creation_stick_zero
   - cri_copyright_string
-  - __ct__13TUnk_804C4480FP7TObjectlP8TObjBasePC3VecSc
+  - __ct__15TPositionSearchFP7TObjectP22PositionPlacementQueueP8TObjBasePC3Vecl
   - __ct__13TUnk_804A2148FPvPC3VecPC3Vecf
   - __ct__13TUnk_804A5058FP7TObjectPUc
   - cull_sections__6TSceneFv
@@ -6206,7 +6206,7 @@ force_active:
   - find_or_alloc_battle_param_slot__FUl
   - find_pack_leader__14TObjEneBm5WolfFi
   - find_parts_in_range__10TNpcPlayerFPvPvif
-  - find_placement_obstruction
+  - find_obstruction__16TPlacementSearchFP16CollisionBodySet
   - find_player_on_floor__12TBoss1DragonFv
   - find_player_texture_name_ordinal__FPUc
   - find_random_player__12TBoss3VoloptFv
@@ -14612,7 +14612,7 @@ force_active:
   - reset_obstruction_fade__13TUnk_80494938Fv
   - reset_oscillation__11TItemMagSubFll
   - reset_pad_rumble_effects_and_channels__Fs
-  - reset_placement_search_ring__13TUnk_804C4498Fv
+  - reset_placement_search_ring__16TPlacementSearchFv
   - reset_quest_list_vm__22THunterGuildSeqOfflineFv
   - reset_random_enemies_mode__19TPlayerBattleCtrl4PFP7TObject
   - reset_random_enemies_mode__6TLobbyFP7TObject
@@ -16095,7 +16095,7 @@ force_active:
   - step_fade_opacity_increase__21TScreenFadeControllerFv
   - step_ground_technique_projectile__8TTecShotFv
   - step_line__23TObjOnlineEndingHexLineFv
-  - step_placement_search__13TUnk_804C4498Fv
+  - step_placement_search__16TPlacementSearchFv
   - stop__12TMotionModelFv
   - stop_adx_audio__14TBoss6PlotFalzFv
   - stop_effect__14TItemEquipBaseFUl

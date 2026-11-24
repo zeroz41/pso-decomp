@@ -26,11 +26,11 @@
 #include "pso/ui/window/TWindowSubTradeMain_802D2808.h"
 #include <stddef.h>
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/unk/text_801D40D4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TPlyItem.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 void build_6xA6_modify_trade_proposal(void *);
@@ -317,7 +317,7 @@ void TLobby::apply_trade_items() {
                         if (id == 0xFFFFFF01) {
                             try_spend_actor_meseta(reinterpret_cast<TObjChara *>(player), count);
                         } else {
-                            if ((allowed != 0) && (fn_801D4270(id) != 0)) {
+                            if ((allowed != 0) && (selected_character_has_item(id) != 0)) {
                                 remove_list_entry_by_id(id);
                                 flag = 1;
                             }

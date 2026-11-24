@@ -1754,7 +1754,7 @@ extern "C" {
 TItemData *TPlyInventoryItem::get_data() { return &m_data; }
 void PendingItemDrop::set_source_id(s32 id) { source_id = id; }
 PendingItemDrop::PendingItemDrop() {}
-Unk_801C2098::Unk_801C2098() { state = 0; }
+PlacementSlot::PlacementSlot() { state = 0; }
 
 PlayerTelepipe *PlayerTelepipe::init() {
     __ct__8FlagWordFv(&flags);

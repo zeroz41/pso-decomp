@@ -1,54 +1,51 @@
 #include "types.h"
 #include "pso/item/TItemList.h"
-#include "pso/player/TObjPlayer_801D3554.h"
+#include "pso/item/TPlacementSearch.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyItem.h"
 
 #pragma dont_inline on
 
-void TObjPlayer::insert_item_node(TUnk_804C445C *pool, Vec *position, TObjPlayer *owner, TItemData *item, s32 id) {
-    Unk_801C2098 *slot = TItemList__sub_801D5868(pool, 0);
-    PendingItemDrop *record = TItemList__sub_801D5854(pool, 0);
-    if (TItemList__sub_801D5844(slot) != 0) {
-        TItemList__sub_801D5838(slot);
+void ItemDropQueue::add_drop(Vec *position, TObjPlayer *owner, TItemData *item, s32 id) {
+    PlacementSlot *slot = get_slot(0);
+    PendingItemDrop *record = get_record(0);
+    if (slot->is_free() != 0) {
+        slot->reserve();
         record->set_source_id(id);
         record->copy_item_data(item);
-        TItemList::create_node(pool, owner, position, 0);
-        TItemList__sub_801D5804(pool);
+        TItemDropSearch::create(this, owner, position, 0);
+        increment_count();
     }
 }
 
-extern "C" {
-void create_drop_nodes__9TItemListFPvPvPvPvi(TUnk_804C445C *pool, Vec *position, TObjPlayer *owner,
-                                             PendingItemDrop *records, s32 count) {
+void ItemDropQueue::add_drops(Vec *position, TObjPlayer *owner, PendingItemDrop *drops, s32 count) {
     s32 i;
-    Unk_801C2098 *slot;
+    PlacementSlot *slot;
     PendingItemDrop *entry;
 
-    slot = TItemList__sub_801D5868(pool, 0);
-    entry = TItemList__sub_801D5854(pool, 0);
+    slot = get_slot(0);
+    entry = get_record(0);
     for (i = 0; i < count; i++) {
-        if (TItemList__sub_801D5844(slot) != 0) {
-            TItemList__sub_801D5838(slot);
-            *entry = *records;
-            reinterpret_cast<void (*)(void *, void *, void *, s32)>(&TItemList::create_node)(pool, owner, position, i);
-            TItemList__sub_801D5804(pool);
+        if (slot->is_free() != 0) {
+            slot->reserve();
+            *entry = *drops;
+            TItemDropSearch::create(this, owner, position, i);
+            increment_count();
             ++slot;
             ++entry;
-            ++records;
+            ++drops;
         }
     }
 }
-}
 
-Unk_801C2098 &Unk_801C2098::operator=(const Unk_801C2098 &other) {
+PlacementSlot &PlacementSlot::operator=(const PlacementSlot &other) {
     state = other.state;
     return *this;
 }
 
-void start_placement_search(TUnk_804C4450 *pool, Vec *pos, TObjBase *source) {
-    TItemList__sub_801D5838(TItemList__sub_801D5868(pool, 0));
-    TItemList__sub_801D3B00(pool, source, pos, 0);
-    TItemList__sub_801D5804(pool);
+void start_placement_search(PositionPlacementQueue *queue, Vec *pos, TObjBase *source) {
+    queue->get_slot(0)->reserve();
+    TPositionSearch::create(queue, source, pos, 0);
+    queue->increment_count();
 }
