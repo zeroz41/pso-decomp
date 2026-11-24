@@ -632,9 +632,10 @@ s16 fsm_read_header(PppHeader *dst, PppFrame **src) {
     return 0;
 }
 
-u16 ip_pseudo_header_checksum(u8* p, PppFrame *buf, u16 count) {
+u16 ip_pseudo_header_checksum(IpPseudoHeader *pseudo, PppFrame *buf, u16 count) {
     u32 sum = 0;
     s32 i;
+    u8 *p = (u8 *)pseudo;
     if (p != NULL) {
         i = 6; while (i--) { sum += *p++ << 8; sum += *p++; }
     }

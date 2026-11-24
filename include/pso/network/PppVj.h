@@ -84,6 +84,16 @@ typedef struct PppVjCompressionState {
 } PppVjCompressionState;
 LAYOUT_ASSERT(PppVjCompressionState_size, sizeof(PppVjCompressionState) == 0x38);
 
+/* The IPv4 pseudo header summed ahead of a TCP segment's checksum. */
+typedef struct IpPseudoHeader {
+    u8 src[4];
+    u8 dst[4];
+    u8 zero;
+    u8 protocol;
+    u16 length;
+} IpPseudoHeader;
+LAYOUT_ASSERT(IpPseudoHeader_size, sizeof(IpPseudoHeader) == 0xC);
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -94,7 +104,7 @@ s32 sl_compress_tcp(PppVjCompressionState *state, PppFrame **frame, s16 compress
 s32 NetIPv4ReadHeader(ParsedIpHeader *out, PppFrame **src);
 PppFrame *NetIPv4WriteHeader(ParsedIpHeader *ip, PppFrame *frame, s32 preserve_checksum);
 s32 NetTcpReadHeader(ParsedTcpHeader *record, PppFrame **frame);
-PppFrame *NetTcpWriteHeader(ParsedTcpHeader *record, PppFrame *frame, u8 *checksum_state);
+PppFrame *NetTcpWriteHeader(ParsedTcpHeader *record, PppFrame *frame, IpPseudoHeader *pseudo);
 #ifdef __cplusplus
 }
 #endif

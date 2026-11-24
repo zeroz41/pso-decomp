@@ -272,12 +272,7 @@ typedef struct TcpHeaderOut {
     u8 options[0x28];
 } TcpHeaderOut;
 
-typedef struct ChecksumObj {
-    u8 pad0[0xA];
-    u16 count;
-} ChecksumObj;
-
-PppFrame *NetTcpWriteHeader(ParsedTcpHeader *record, PppFrame *frame, u8 *obj) {
+PppFrame *NetTcpWriteHeader(ParsedTcpHeader *record, PppFrame *frame, IpPseudoHeader *pseudo) {
     TcpHeaderOut hdr;
     u32 n = 0;
     PppFrame *buf;
@@ -323,7 +318,7 @@ PppFrame *NetTcpWriteHeader(ParsedTcpHeader *record, PppFrame *frame, u8 *obj) {
     }
     hp->flags = flags;
     hp->window = record->window;
-    if (obj == NULL) {
+    if (pseudo == NULL) {
         hp->checksum = record->checksum;
     } else {
         hp->checksum = 0;
@@ -335,8 +330,8 @@ PppFrame *NetTcpWriteHeader(ParsedTcpHeader *record, PppFrame *frame, u8 *obj) {
     }
     len = (u16)(n + 0x14);
     NetMemcpy(dst, hp, len);
-    if (obj != NULL) {
-        hp->checksum = ip_pseudo_header_checksum(obj, buf, ((ChecksumObj *)obj)->count);
+    if (pseudo != NULL) {
+        hp->checksum = ip_pseudo_header_checksum(pseudo, buf, pseudo->length);
     }
     NetMemcpy(dst, hp, len);
     return buf;
