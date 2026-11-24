@@ -799,14 +799,14 @@ struct TLobby : public TObject {
     static void apply_battle_rules_to_players();
     void player_flag_1();
     int check_player_state_flag_2();
-    static void handle_reset_choice(s32 arg0);
+    static void handle_reset_choice(s32 choice);
     static void clear_flag400();
     static void check_flags_and_proceed();
     static void cancel_trade();
     static s32 show_event_message(s32 client_id, s32 arg1, s32 code);
     void build_trade_item_list();
-    static void send_modify_trade_proposal(s8 arg0, s32 arg1, s32 arg2);
-    static void send_trade_proposal_result(s8 arg0, s8 arg1);
+    static void send_modify_trade_proposal(s8 what, s32 item_id, s32 amount);
+    static void send_trade_proposal_result(s8 what, s8 result);
     static s32 ar_alloc(s32 context);
     static s32 get_state_zero(s32 context);
     static s32 process_connection_state(s32 context);
@@ -980,10 +980,7 @@ struct TLobby : public TObject {
     static void handle_register_result(int);
     static void handle_short_list_input();
     static void handle_state(int);
-    static void handle_state_init(void *);
     static void handle_team_select();
-    static void handle_trade_request_state_a(void *);
-    static void handle_trade_request_state_b(void *);
     static void handle_verify_result(unsigned int);
     static void handle_warp_menu_input();
     static void increment_ref_and_set_flag(void *);
@@ -1080,7 +1077,6 @@ struct TLobby : public TObject {
     static void update_ship_select_window();
     static void update_short_list();
     static void update_state();
-    static void update_status_message(void *);
     static int close_trade_request(void*);
     static void copy_all_entries(int, int);
     static void dispatch_by_index(u16, int);

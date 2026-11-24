@@ -6889,7 +6889,7 @@ force_active:
   - state_spawn__17TObjEneMe1CanadinFl
   - handle_state__18TObjEneRe4SorcererFl
   - handle_state__6TLobbyFi
-  - handle_state_init__6TLobbyFPv
+  - handle_state_init__FP26G_ModifyTradeProposal_6xA6
   - handle_state_message__13TObjEneRe4BitFl
   - state_wait__18TObjEneMe3SinowZoaFl
   - handle_takeoff_state__13TBoss5GryphonFl
@@ -6903,8 +6903,8 @@ force_active:
   - handle_trade_offer_confirmation__FPv
   - handle_trade_partner_cancel__FPv
   - handle_trade_request_reply__FPv
-  - handle_trade_request_state_a__6TLobbyFPv
-  - handle_trade_request_state_b__6TLobbyFPv
+  - handle_trade_request_state_a__FP26G_ModifyTradeProposal_6xA6
+  - handle_trade_request_state_b__FP26G_ModifyTradeProposal_6xA6
   - handle_trade_state_cancel__FP26G_ModifyTradeProposal_6xA6
   - handle_type3__9TItemDropFPvPv
   - handle_verify_result__6TLobbyFUi
@@ -17243,7 +17243,7 @@ force_active:
   - update_state_spin__16TBoss3VoloptCoreFv
   - update_status_display__12TAdDialingGCFv
   - update_status_message__12TAdDialingGCFv
-  - update_status_message__6TLobbyFPv
+  - update_status_message__FP26G_ModifyTradeProposal_6xA6
   - update_stream__15PSOV3EncryptionFv
   - update_stream_buffers
   - update_stretch_state__12TBoss1DragonFUl
