@@ -40,7 +40,7 @@ extern GXTexMtx ginja_texture_matrix_ids[];
 
 u32 ginja_blend_override = 0x250F;
 
-s32 lbl_805D76E0;
+s32 ginja_global_effect_state;
 GinjaDrawEndCallback ginja_draw_end_callback;
 GinjaPreCallback ginja_pre_channel_callback;
 GinjaPreCallback ginja_pre_texgen_callback;
@@ -602,7 +602,7 @@ void set_ginja_draw_list_mask(s32 arg0) {
 }
 
 void set_global_effect_state(s32 global_effect_state) {
-    lbl_805D76E0 = global_effect_state;
+    ginja_global_effect_state = global_effect_state;
 }
 
 #pragma push

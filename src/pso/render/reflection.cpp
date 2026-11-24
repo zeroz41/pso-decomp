@@ -300,7 +300,7 @@ extern "C" {
 void GXSetTevOp(s32 stage, s32 mode);
 void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
 }
-const f64 lbl_80465E18 = 0.0054931640625;
+const f64 reflection_angle_to_degrees = 0.0054931640625;
 
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
 
@@ -322,7 +322,7 @@ void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags
         calc_projection_screen_offset(&x, &y);
         if (flags & 0x80) {
             push_matrix();
-            fov_y = (f32) (lbl_80465E18 * calc_camera_vertical_fov());
+            fov_y = (f32) (reflection_angle_to_degrees * calc_camera_vertical_fov());
             if (TCameraCtrl::is_view_offset() != 0) {
                 C_MTXLightPerspective(mtx, fov_y, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - x), (f32) (0.5f - y));
             } else {

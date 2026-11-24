@@ -25,10 +25,10 @@
 #include "pso/render/GinjaView.h"
 
 extern "C" {
-static const char lbl_8043DA20[] = "fogentry.dat";
-static const char lbl_8043DA30[] = "fogentry_a.dat";
-const char *TFogCtrl__name = "TFogCtrl";
-const char *TFogCtrl_EOR__name = "TFogCtrl_EOR";
+static const char fog_entry_file_name[] = "fogentry.dat";
+static const char fog_entry_online_file_name[] = "fogentry_a.dat";
+const char *TFogCtrl_name = "TFogCtrl";
+const char *TFogCtrl_EOR_name = "TFogCtrl_EOR";
 }
 
 struct GXFogAdjTable {
@@ -84,7 +84,7 @@ void init_scene_fog_system(void) {
     for (i = 0; i < 0x80; i++) {
         copy_fog_entry(&fog_entry_array[i], &fog_default_entry);
     }
-    read_disc_file(lbl_8043DA20, fog_entry_array);
+    read_disc_file(fog_entry_file_name, fog_entry_array);
     for (i = 0; i < 4; i++) {
         TFogCtrl::fog_instance_table[i] = NULL;
     }
@@ -126,11 +126,11 @@ void TFogCtrl::update_fog_entries() {
     s32 i;
     if (TLobby::is_online_ready() != 0) {
         if (!(fog_update_flags & 2)) {
-            read_disc_file(lbl_8043DA30, fog_entry_array);
+            read_disc_file(fog_entry_online_file_name, fog_entry_array);
             fog_update_flags |= 2;
         }
     } else if (fog_update_flags & 2) {
-        read_disc_file(lbl_8043DA20, fog_entry_array);
+        read_disc_file(fog_entry_file_name, fog_entry_array);
         fog_update_flags &= ~2;
     }
     for (i = 0; i != 4; i++) {
@@ -159,7 +159,7 @@ void TFogCtrl::on_entries_released() { }
 TFogCtrl::TFogCtrl(TObject *parent, s32 index) : TObject(parent) {
     s32 i;
     f32 zero;
-    m_name = TFogCtrl__name;
+    m_name = TFogCtrl_name;
     this->index = index;
     if (this->index >= 0 && this->index < 4) {
         fog_instance_table[this->index] = this;
@@ -624,7 +624,7 @@ void TQuestVmDownLoadServer::destroy_instance() {
 }
 
 TFogCtrl_EOR::TFogCtrl_EOR() : TObject(&end_of_render_root) {
-    m_name = TFogCtrl_EOR__name;
+    m_name = TFogCtrl_EOR_name;
 }
 
 TFogCtrl_EOR::~TFogCtrl_EOR() {

@@ -61,8 +61,8 @@ void GXSetNumTexGens(u8);
 s32 GXSetTevOp(int, int);
 s32 GXSetTevOrder(int, int, int, int);
 s32 GXSetNumTevStages(int);
-extern u8 lbl_805D77D8;
-extern u8 lbl_805D77D9;
+extern u8 chunk_tev_stage_extra;
+extern u8 chunk_texgen_extra;
 s32 GXSetZMode(int, int, int);
 s32 GXSetZCompLoc(int);
 extern s32 ginja_draw_flags;
@@ -76,7 +76,7 @@ extern u32 chunk_blend_header_bits;
 extern u32 chunk_strip_dirty_flags;
 void GXSetAlphaCompare(int comp0, int ref0, int op, int comp1, int ref1);
 extern saddr chunk_vertex_cache_buffer;
-extern s32 lbl_805D77FC;
+extern s32 chunk_vertex_cache_size;
 void transform_chunk_object_tree(void *, void (*)(void *));
 s32 __cvt_fp2unsigned(f32);
 extern GC_Mtx chunk_object_current_matrix;
@@ -91,8 +91,8 @@ struct ChunkModel_803E44D4 { u32 *vertices; s16 *polygons; };
 struct ChunkBuffer_803E44D4 { void *vertices; s32 bytes; };
 struct ChunkRecording_803E44D4 { ChunkBuffer_803E44D4 buffers[32]; s32 index; };
 }
-char lbl_804FC810[19] = "CHNK MEMORY ASSERT";
-extern u32 lbl_805D77E4;
+char chunk_memory_assert_message[19] = "CHNK MEMORY ASSERT";
+extern u32 chunk_vertex_cache_flags;
 extern ChunkRecording_803E44D4* chunk_vertex_cache_state;
 extern "C" {
 s32 GXSetNumChans(int);
@@ -530,8 +530,8 @@ void setup_tev_passclr() {
 
 void setup_chunk_tev_stages(void) {
     if ((u32) (model_render_flags & 0x80000) != 0) {
-        GXSetNumTevStages((saddr)((u8)(lbl_805D77D8 + 1)));
-        GXSetNumTexGens((u8)((u8)(lbl_805D77D9 + 1)));
+        GXSetNumTevStages((saddr)((u8)(chunk_tev_stage_extra + 1)));
+        GXSetNumTexGens((u8)((u8)(chunk_texgen_extra + 1)));
     } else {
         GXSetNumTevStages((saddr)(1U));
         GXSetNumTexGens((u8)(1U));
@@ -849,7 +849,7 @@ s32 draw_chunk_vertices_cached(void* arg) {
     if (chunk_render_flags & 4) return 0;
     chunk_has_vertex_colors = 0;
     cache = chunk_vertex_cache_buffer;
-    if (lbl_805D77E4 & 4) {
+    if (chunk_vertex_cache_flags & 4) {
         if (chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].bytes != 0) {
             memmove((void*)chunk_vertex_cache_buffer, chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].vertices, chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].bytes);
         }
@@ -857,7 +857,7 @@ s32 draw_chunk_vertices_cached(void* arg) {
     } else if (model->vertices != 0) {
         count = dispatch_chunk_vertex_list(model->vertices, chunk_vertex_cache_buffer);
     }
-    if (lbl_805D77E4 & 1) {
+    if (chunk_vertex_cache_flags & 1) {
         if (chunk_vertex_cache_state) {
             if (chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].vertices == 0) {
                 if (count) {
@@ -865,12 +865,12 @@ s32 draw_chunk_vertices_cached(void* arg) {
                     chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].bytes = count << 5;
                 }
             } else {
-                OSReport(lbl_804FC810);
+                OSReport(chunk_memory_assert_message);
             }
             chunk_vertex_cache_state->index++;
         }
     } else {
-        if (lbl_805D77E4 & 2) {
+        if (chunk_vertex_cache_flags & 2) {
             if (count) memmove(chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].vertices, (void*)chunk_vertex_cache_buffer, count << 5);
             chunk_vertex_cache_state->index++;
         }
@@ -973,7 +973,7 @@ void draw_triangle_strips(s16 *list, Vtx_803E36C4 *verts, u32 info) {
 
 void init_chunk_draw(saddr vertex_buffer, s32 vertex_buffer_size) {
     chunk_vertex_cache_buffer = vertex_buffer;
-    lbl_805D77FC = vertex_buffer_size;
+    chunk_vertex_cache_size = vertex_buffer_size;
     chunk_render_flags = 0;
 }
 
@@ -991,15 +991,15 @@ GC_Mtx chunk_object_current_matrix;
 
 s32 chunk_previous_strip_flags;
 u32 chunk_strip_dirty_flags;
-u8 lbl_805D77D8;
-u8 lbl_805D77D9;
+u8 chunk_tev_stage_extra;
+u8 chunk_texgen_extra;
 void (*player_chunk_draw_end_callback)();
 u32 chunk_has_vertex_colors;
-u32 lbl_805D77E4;
+u32 chunk_vertex_cache_flags;
 ChunkRecording_803E44D4* chunk_vertex_cache_state;
 s32 chunk_texture_record_index;
 u32 chunk_blend_header_bits;
 u32 lbl_805D77F4;
 u32 chunk_render_flags;
-s32 lbl_805D77FC;
+s32 chunk_vertex_cache_size;
 saddr chunk_vertex_cache_buffer;
