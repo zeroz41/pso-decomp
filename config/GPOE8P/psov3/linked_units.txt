@@ -1637,7 +1637,7 @@ pso/player/TObjPlayerMaterials.cpp
 pso/player/TObjPlayer_801AEE10.cpp
 pso/player/TObjPlayerSupportEffects.cpp
 pso/player/TObjPlayer_801AF2F0.cpp
-pso/player/TObjPlayer_801BC140.cpp
+pso/player/TObjPlayerPosition.cpp
 pso/player/TObjPlayer_801BC194.cpp
 pso/player/TObjPlayerInit.cpp
 pso/player/TObjPlayerCreate.cpp
