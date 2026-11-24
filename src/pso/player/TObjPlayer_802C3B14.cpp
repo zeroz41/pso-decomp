@@ -48,10 +48,11 @@ void TObjPlayer::copy_mag_level_to_record(u8 *record) {
 
 void TObjPlayer::apply_pending_action(saddr arg1) {
     saddr arg0 = (saddr)this;
+    TPlyCharData *record = (TPlyCharData *)arg1;
     s32 temp = TObjPlayer__sub_801BFFA0((void *)(arg0 + 0x41C));
     if (temp != 0) {
-        ((TPlyCharData *)arg1)->set_pending_action(temp);
-        ((TPlyCharData *)arg1)->stamp_save_time();
+        record->set_pending_action(temp);
+        record->stamp_save_time();
     }
 }
 
