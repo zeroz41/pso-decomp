@@ -1259,7 +1259,7 @@ TNpcPlayer::TNpcPlayer(u16 leader_id, u16 self_id, int template_id, s32 escort, 
 }
 
 TNpcPlayer::~TNpcPlayer() {
-    uaddr player;
+    TObjPlayer *player;
     NpcPlayerView *view;
     NpcPlayerView *partner;
     view = leader_view;
@@ -1269,9 +1269,9 @@ TNpcPlayer::~TNpcPlayer() {
     }
     partner = self_view;
     if (partner != NULL) {
-        player = (uaddr)get_player_by_client_id(partner->get_client_id());
-        if (player != 0U) {
-            TObjPlayer::send_item_pickup_request((saddr)player);
+        player = get_player_by_client_id(partner->get_client_id());
+        if (player != NULL) {
+            TObjPlayer::send_disable_pk_mode(player);
         }
         delete self_view;
         self_view = NULL;

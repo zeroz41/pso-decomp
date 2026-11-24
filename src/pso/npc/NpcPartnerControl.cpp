@@ -352,7 +352,7 @@ void quest_remove_npc_player(u16 client) {
     TObjPlayer *player;
     player = get_player_by_client_id(client);
     if (player != NULL) {
-        TObjPlayer::send_item_pickup_request((saddr)player);
+        TObjPlayer::send_disable_pk_mode(player);
         delete player;
     }
 }
@@ -519,7 +519,7 @@ void disable_pk_mode_for_all_players() {
     i = 0;
     do {
         if ((player = get_player_by_client_id(i)) != NULL) {
-            TObjPlayer::send_item_pickup_request((saddr)player);
+            TObjPlayer::send_disable_pk_mode(player);
         }
         i += 1;
     } while (i < 4);
