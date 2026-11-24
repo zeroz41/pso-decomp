@@ -698,6 +698,7 @@ void TProtocol::handle_cmd_90(packet &pkt) {
 #include "pso/system/byteswap.h"
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/charcreate/TCharaMaking.h"
 #include <string.h>
 #include <stdio.h>
 #include <stddef.h>
@@ -913,70 +914,58 @@ void TProtocol::send_pso_data(game_command &packet, u32 size) {
     }
 }
 
-struct List_801DC1E4 { u8 command; u8 flags; u16 size; u32 entries[30]; };
-struct Text_801DC1E4 { u8 command; u8 flags; u16 size; char text[0x200]; };
-struct Proto_801DC1E4 { u8 pad[0x1910]; s32 connected; u8 pad1914[0x74]; u8 char_data[0x41C]; };
-
-s32 validate_player_visual_record(void *arg0);
-extern "C" {
-
-void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *char_data, TPlyChallenge *challenge, TPlyChoiceSearchConfig *choice_search_config,
-                               List_801DC1E4 *blocked_senders, Text_801DC1E4 *auto_reply, char *info_board) {
-    if (self->connected) {
-        validate_player_visual_record(char_data + 0x370);
-        TProtocol::copy_player_data(self->char_data, char_data);
+void TProtocol::send_update_chara_data_v2(TPlyCharData &char_data, TPlyChallenge &challenge, TPlyChoiceSearchConfig &choice_search_config,
+                                          TBlockedSenders &blocked_senders, TPlyText<512> &auto_reply, char *info_board) {
+    if (m_connected) {
+        validate_player_visual_record(&char_data.m_disp_part2);
+        copy_player_data(&m_character_data, &char_data);
         TPlyJoinData tmp;
         memset(&tmp, 0, sizeof(tmp));
         tmp.header.command = 0x98;
         tmp.header.flags = 3;
         tmp.header.size = sizeof(tmp);
-        TProtocol::copy_player_data(&tmp.char_data, self->char_data);
-        tmp.challenge = *challenge;
-        copy_choice_search_parameters(&tmp.choice_search_config, choice_search_config);
+        copy_player_data(&tmp.char_data, &m_character_data);
+        tmp.challenge = challenge;
+        copy_choice_search_parameters(&tmp.choice_search_config, &choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));
-        for (int i = 0; i < blocked_senders->flags; ++i) {
-            tmp.blocked_senders[i] = blocked_senders->entries[i];
+        for (int i = 0; i < blocked_senders.header.flags; ++i) {
+            tmp.blocked_senders[i] = blocked_senders.blocked_senders[i];
         }
-        tmp.auto_reply_enabled = auto_reply->flags;
-        strncpy(tmp.auto_reply, auto_reply->text, sizeof(tmp.auto_reply) - 1);
+        tmp.auto_reply_enabled = auto_reply.header.flags;
+        strncpy(tmp.auto_reply, auto_reply.text, sizeof(tmp.auto_reply) - 1);
         const int packet_size = strlen(tmp.auto_reply) + 0x680;
         tmp.header.size = packet_size & ~3;
         encode_uploaded_player_inventory(&tmp.char_data);
         tmp.bswap();
-        ((TProtocol *)self)->send((u8 *)&tmp, packet_size & ~3);
+        send((u8 *)&tmp, packet_size & ~3);
     }
 }
 
-struct List_801DC34C { u8 command; u8 flags; u16 size; u32 entries[30]; };
-struct Text_801DC34C { u8 command; u8 flags; u16 size; char text[0x200]; };
-struct Proto_801DC34C { u8 pad[0x1910]; s32 connected; u8 pad1914[0x74]; u8 char_data[0x41C]; };
-
-void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *char_data, TPlyChallenge *challenge, TPlyChoiceSearchConfig *choice_search_config,
-                               List_801DC34C *blocked_senders, Text_801DC34C *auto_reply, char *info_board) {
-    if (self->connected) {
-        validate_player_visual_record(char_data + 0x370);
-        TProtocol::copy_player_data(self->char_data, char_data);
+void TProtocol::send_chara_data_v2(TPlyCharData &char_data, TPlyChallenge &challenge, TPlyChoiceSearchConfig &choice_search_config,
+                                   TBlockedSenders &blocked_senders, TPlyText<512> &auto_reply, char *info_board) {
+    if (m_connected) {
+        validate_player_visual_record(&char_data.m_disp_part2);
+        copy_player_data(&m_character_data, &char_data);
         TPlyJoinData tmp;
         memset(&tmp, 0, sizeof(tmp));
         tmp.header.command = 0x61;
         tmp.header.flags = 3;
         tmp.header.size = sizeof(tmp);
-        TProtocol::copy_player_data(&tmp.char_data, self->char_data);
-        tmp.challenge = *challenge;
-        copy_choice_search_parameters(&tmp.choice_search_config, choice_search_config);
+        copy_player_data(&tmp.char_data, &m_character_data);
+        tmp.challenge = challenge;
+        copy_choice_search_parameters(&tmp.choice_search_config, &choice_search_config);
         strncpy(tmp.info_board, info_board, sizeof(tmp.info_board));
-        for (int i = 0; i < blocked_senders->flags; ++i) {
-            tmp.blocked_senders[i] = blocked_senders->entries[i];
+        for (int i = 0; i < blocked_senders.header.flags; ++i) {
+            tmp.blocked_senders[i] = blocked_senders.blocked_senders[i];
         }
-        tmp.auto_reply_enabled = auto_reply->flags;
-        strncpy(tmp.auto_reply, auto_reply->text, sizeof(tmp.auto_reply) - 1);
+        tmp.auto_reply_enabled = auto_reply.header.flags;
+        strncpy(tmp.auto_reply, auto_reply.text, sizeof(tmp.auto_reply) - 1);
         const int packet_size = strlen(tmp.auto_reply) + 0x680;
         tmp.header.size = packet_size & ~3;
         encode_uploaded_player_inventory(&tmp.char_data);
         tmp.bswap();
-        ((TProtocol *)self)->send((u8 *)&tmp, packet_size & ~3);
+        send((u8 *)&tmp, packet_size & ~3);
     }
-}
 }
 
 void TProtocol::send_text_list() {

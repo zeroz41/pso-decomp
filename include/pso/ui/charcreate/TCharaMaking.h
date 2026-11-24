@@ -13,6 +13,9 @@ extern BmlResourceDescriptor creation_menu_resource_descriptor;
 extern const char *TCharaMaking__name;
 extern const s32 lbl_8045122C[19];
 
+// Resets out-of-range appearance fields (name, section, class, parts); returns 0 if any were bad.
+s32 validate_player_visual_record(void *record);
+
 extern "C" {
 void TCharaMaking__sub_8028E790(void);
 // The section id a character name hashes to.

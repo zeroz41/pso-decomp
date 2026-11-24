@@ -40,7 +40,6 @@ TPlyDispConfigSmth *copy_disp_config_palette(TPlyDispConfigSmth *dst, TPlyDispCo
 void copy_gc_tag(gc_tag *dst, gc_tag *src);
 
 extern "C" {
-TPlyCharData *copy_player_data__9TProtocolFPvPv(TPlyCharData *dst, TPlyCharData *src);
 u8 *init_idle_timeout_timer(u8 *timer, saddr parent);
 void queue_join_entry_exit_on_input(void *self);
 void show_join_entry_message(s32 id);

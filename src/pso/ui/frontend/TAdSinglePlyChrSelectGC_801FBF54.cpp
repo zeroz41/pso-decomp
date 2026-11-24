@@ -32,6 +32,7 @@
 #include "pso/network/client_id.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/TLobby.h"
+#include "pso/network/TProtocol.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
 #include "pso/player/TObjPlayer.h"
@@ -1158,7 +1159,7 @@ struct E_801FDE14 { u8 pad[0x424]; u32 f424; u8 pad2[0x2794 - 0x428]; u32 f2794;
 struct S_801FE010;
 struct B8_801FDFB8 { u32 w[2]; };
 
-struct P_801FDFB8 { u8 pad[0x41C]; u8 a[0x278C - 0x41C]; B8_801FDFB8 f278C; s32 f2794; };
+struct P_801FDFB8 { TPlyCharData char_data; u8 a[0x278C - 0x41C]; B8_801FDFB8 f278C; s32 f2794; };
 
 typedef struct Ent_801FE338 {
     u32 f0;
@@ -1169,7 +1170,6 @@ extern "C" {
 s32 TAdSinglePlyChrSelectGC__sub_801FE380(P_801FE380 *arg0, s32 arg1, P_801FE380 *arg2, s32 arg3);
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 S_801FE010 *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(S_801FE010 *arg0, S_801FE010 *arg1);
-void copy_player_data__9TProtocolFPvPv();
 void *memset(void *, int, unsigned long);
 
 }
@@ -1341,23 +1341,19 @@ s32 TAdSinglePlyChrSelectGC::copy_character_to_slot(CharacterFile *arg0, int src
     return 1;
 }
 
-extern "C" {
-
-#define arg0 ((P_801FDFB8 *)a0)
-#define arg1 ((P_801FDFB8 *)a1)
-}
-
-void *TAdSinglePlyChrSelectGC::copy_char_slot_data(void * a0, void * a1) {
-    copy_player_data__9TProtocolFPvPv();
-    assign_char_data__23TAdSinglePlyChrSelectGCFPvPv((S_801FE010 *)arg0->a, (S_801FE010 *)arg1->a);
-    arg0->f278C = arg1->f278C;
-    arg0->f2794 = arg1->f2794;
+#define dst ((P_801FDFB8 *)a0)
+#define src ((P_801FDFB8 *)a1)
+void *TAdSinglePlyChrSelectGC::copy_char_slot_data(void *a0, void *a1) {
+    TProtocol::copy_player_data(&dst->char_data, &src->char_data);
+    assign_char_data__23TAdSinglePlyChrSelectGCFPvPv((S_801FE010 *)dst->a, (S_801FE010 *)src->a);
+    dst->f278C = src->f278C;
+    dst->f2794 = src->f2794;
     return a0;
 }
+#undef dst
+#undef src
 
 extern "C" {
-#undef arg0
-#undef arg1
 
 S_801FE010 *assign_char_data__23TAdSinglePlyChrSelectGCFPvPv(S_801FE010 *arg0, S_801FE010 *arg1) {
     BankItemRecord *p;

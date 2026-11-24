@@ -195,14 +195,12 @@ void handle_6x6C_sync_game_state(CompressedSyncPacket *pkt);
 void handle_6x6B_sync_game_state(CompressedSyncPacket *pkt);
 s32 TLobby__sub_801A3E8C();
 s32 init_player_join_record(void *);
-void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const NJS_POINT2 card_list_message_window_size[1];
 void fn_80338D58(void *list, s32 flag, const char *name, s32 player_count, s32 max_players, s32 difficulty, s32 mark, s32 level, s32 index);
 extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
 void handle_chat_message__11TWindowCtrlFPc(char *);
-void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s32 unused);
 void show_card_list_message(void *msg);
 void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected);
@@ -412,10 +410,10 @@ void TLobby::reset_lobby_state() {
 
 void TLobby::send_game_character() {
     TPlyChoiceSearchConfig choice_search_config;
-    u8 b[0x7C];
+    TBlockedSenders blocked_senders;
     char c[0xAC];
     TPlyChallenge challenge;
-    u8 e[0x204];
+    TPlyText<512> auto_reply;
     CharacterSaveRecord *card;
     TAdSinglePlyChrSelectGC::init();
     card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
@@ -424,12 +422,12 @@ void TLobby::send_game_character() {
     copy_choice_search_selections(card->choice_search, &choice_search_config);
     memset(c, 0, sizeof(c));
     strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
-    memset(b, 0, sizeof(b));
-    ((TLobby *)b)->collect_active_card_ids();
-    memset(e, 0, sizeof(e));
+    memset(&blocked_senders, 0, sizeof(blocked_senders));
+    ((TLobby *)&blocked_senders)->collect_active_card_ids();
+    memset(&auto_reply, 0, sizeof(auto_reply));
     if (TLobby::get_flag_bit0() != 0) {
-        e[1] = 1;
-        strncpy((char *)e + 4, (char *)TLobby::get_card_window_area(), 0x200);
+        auto_reply.header.flags = 1;
+        strncpy(auto_reply.text, (char *)TLobby::get_card_window_area(), 0x200);
     }
     memset(&challenge, 0, sizeof(challenge));
     challenge.challenge = card->challenge;
@@ -442,7 +440,7 @@ void TLobby::send_game_character() {
     challenge.battle_reserved_count_2 = card->online_battle.reserved_counts[1];
     challenge.battle_reserved_value_1 = card->online_battle.reserved_values[0];
     challenge.battle_reserved_value_2 = card->online_battle.reserved_values[1];
-    send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &challenge, &choice_search_config, b, e, c);
+    protocol_instance->send_update_chara_data_v2(*TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), challenge, choice_search_config, blocked_senders, auto_reply, c);
 }
 void TLobby::update_idle_timeout(void *object) {
     TLobbyIdleTimer *t = (TLobbyIdleTimer *)object;
@@ -2023,10 +2021,10 @@ void TLobby::handle_login_result(unsigned int result) {
 }
 void TLobby::send_selected_character() {
     TPlyChoiceSearchConfig choice_search_config;
-    u8 b[0x7C];
+    TBlockedSenders blocked_senders;
     char c[0xAC];
     TPlyChallenge challenge;
-    u8 e[0x204];
+    TPlyText<512> auto_reply;
     CharacterSaveRecord *card;
     card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
     memset(&choice_search_config, 0, sizeof(choice_search_config));
@@ -2034,12 +2032,12 @@ void TLobby::send_selected_character() {
     copy_choice_search_selections(card->choice_search, &choice_search_config);
     memset(c, 0, sizeof(c));
     strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
-    memset(b, 0, sizeof(b));
-    ((TLobby *)b)->collect_active_card_ids();
-    memset(e, 0, sizeof(e));
+    memset(&blocked_senders, 0, sizeof(blocked_senders));
+    ((TLobby *)&blocked_senders)->collect_active_card_ids();
+    memset(&auto_reply, 0, sizeof(auto_reply));
     if (TLobby::get_flag_bit0() != 0) {
-        e[1] = 1;
-        strncpy((char *)e + 4, (char *)TLobby::get_card_window_area(), 0x200);
+        auto_reply.header.flags = 1;
+        strncpy(auto_reply.text, (char *)TLobby::get_card_window_area(), 0x200);
     }
     memset(&challenge, 0, sizeof(challenge));
     challenge.challenge = card->challenge;
@@ -2052,7 +2050,7 @@ void TLobby::send_selected_character() {
     challenge.battle_reserved_count_2 = card->online_battle.reserved_counts[1];
     challenge.battle_reserved_value_1 = card->online_battle.reserved_values[0];
     challenge.battle_reserved_value_2 = card->online_battle.reserved_values[1];
-    send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &challenge, &choice_search_config, b, e, c);
+    protocol_instance->send_chara_data_v2(*TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), challenge, choice_search_config, blocked_senders, auto_reply, c);
 }
 void TLobby::queue_static_object_destruction() {
     join_lobby_controller->queue_destruction();
@@ -2812,11 +2810,11 @@ void *TLobby::copy_member_record(void *to, void *from) {
     dst->ip_addr = src->ip_addr;
     dst->client_id = src->client_id;
     *(ByteBlock_10 *)dst->name = *(ByteBlock_10 *)src->name;
-    copy_player_data__9TProtocolFPvPv(&dst->char_data, &src->char_data);
+    TProtocol::copy_player_data(&dst->char_data, &src->char_data);
     return dst;
 }
 
-TPlyCharData *copy_player_data__9TProtocolFPvPv(TPlyCharData *dst, TPlyCharData *src) {
+TPlyCharData *TProtocol::copy_player_data(TPlyCharData *dst, TPlyCharData *src) {
     dst->m_inventory.m_num_items = src->m_inventory.m_num_items;
     dst->m_inventory.m_hp_materials_used = src->m_inventory.m_hp_materials_used;
     dst->m_inventory.m_tp_materials_used = src->m_inventory.m_tp_materials_used;
