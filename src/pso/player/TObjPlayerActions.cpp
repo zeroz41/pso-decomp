@@ -531,7 +531,6 @@ void send_code_49_1__10TObjPlayerFi(saddr player);
 u16 TObjPlayer__sub_801B5AF8(void *, s32);
 s32 is_action_id_none(int);
 s32 interpolate_angle__10TObjPlayerFPvUsUsPl(void *, int, int, s32 *);
-s32 damp_planar_velocity();
 s32 get_vobj_state_28__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 u8 TObjPlayer__sub_801C010C(const PlayerTechniqueState *state, s32 technique);
@@ -2261,7 +2260,7 @@ void TObjPlayer::update_fall_reaction() {
     case 2:
         break;
     }
-    ((s32 (*)(void *))damp_planar_velocity)(this);
+    this->damp_planar_velocity();
     if (check_actor_blocking_move() != 0) {
         clear_velocity(this);
     }
@@ -2692,7 +2691,7 @@ void TObjPlayer::set_flag_0x100000(void* p) { ((int (*)(void*))clear_velocity)(p
 
 void TObjPlayer::apply_velocity_if_free(saddr arg0) {
     TObjPlayer *p = (TObjPlayer *)arg0;
-    damp_planar_velocity();
+    p->damp_planar_velocity();
     if (p->resolve_move_collision() == 0U) {
         p->apply_velocity();
     }

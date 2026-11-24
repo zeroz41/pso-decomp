@@ -506,8 +506,6 @@ typedef struct Player_801B6110 {
     s32 flags;
 } Player_801B6110;
 
-struct P_801B5FB0 { u8 pad[0x308]; f32 a; f32 pad30c; f32 b; };
-
 struct Pkt_801B6A5C {
     u8 pad0[2];
     u16 id;
@@ -848,7 +846,6 @@ void submit_cursor_candidate(void *self);
 void *TObjPlayer__sub_801B57E8(TObjPlayer *player);
 void TObjPlayer__sub_801B5A44(saddr player, s32 secondary, s32 i, s32 action, s32 param);
 void TObjPlayer__sub_801B5AF8(saddr player, s32 index);
-void damp_planar_velocity(P_801B5FB0 *p);
 void send_6x30_change_player_level(Player_801B6C30 *player);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 void handle_6x99(void);
@@ -3565,16 +3562,16 @@ void TObjPlayer::rewind_position_history() {
     }
 }
 
-void damp_planar_velocity(P_801B5FB0 *p) {
-    if (p->a < lbl_805DC298 && p->a > lbl_805DC29C) {
-        p->a = TObjPlayer__data_805DC278;
+void TObjPlayer::damp_planar_velocity() {
+    if (this->velocity.x < lbl_805DC298 && this->velocity.x > lbl_805DC29C) {
+        this->velocity.x = TObjPlayer__data_805DC278;
     } else {
-        p->a *= (*(const f32 *)&TObjPlayer__data_805DC28C);
+        this->velocity.x *= (*(const f32 *)&TObjPlayer__data_805DC28C);
     }
-    if (p->b < lbl_805DC298 && p->b > lbl_805DC29C) {
-        p->b = TObjPlayer__data_805DC278;
+    if (this->velocity.z < lbl_805DC298 && this->velocity.z > lbl_805DC29C) {
+        this->velocity.z = TObjPlayer__data_805DC278;
     } else {
-        p->b *= (*(const f32 *)&TObjPlayer__data_805DC28C);
+        this->velocity.z *= (*(const f32 *)&TObjPlayer__data_805DC28C);
     }
 }
 

@@ -346,6 +346,7 @@ struct TObjPlayer : public TObjChara {
     void set_attacker_id(u16 id);
     s32 is_local_player();
     void apply_velocity();
+    void damp_planar_velocity();
     s16 clamp_tp();
     static void clear_s16_arrays(void* p);
     s32 add_capped_counter_999(s32 arg1);
