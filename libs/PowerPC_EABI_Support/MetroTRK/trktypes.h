@@ -17,8 +17,6 @@ typedef int TRKBufferID;
 
 typedef u32 NubEventID;
 
-typedef int UARTError;
-
 #define TRKMSGBUF_SIZE (0x800 + 0x80)
 
 typedef struct TRKBuffer {

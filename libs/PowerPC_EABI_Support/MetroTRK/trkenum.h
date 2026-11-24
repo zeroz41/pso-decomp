@@ -2,6 +2,7 @@
 #define _METROTRK_TRKENUM_H
 
 #include <dolphin/types.h>
+#include "PowerPC_EABI_Support/MetroTRK/UART.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -167,33 +168,6 @@ typedef enum {
 	MEMACCESS_UserMemory     = 0,
 	MEMACCESS_DebuggerMemory = 1,
 } MemoryAccessOptions;
-
-typedef enum {
-	UART_NoError            = 0,
-	UART_UnknownBaudRate    = 1,
-	UART_ConfigurationError = 2,
-	UART_BufferOverflow     = 3,
-	UART_NoData             = 4,
-} UARTErrorOptions;
-
-typedef enum {
-	kBaudHWSet  = -1,
-	kBaud300    = 300,
-	kBaud600    = 600,
-	kBaud1200   = 1200,
-	kBaud1800   = 1800,
-	kBaud2000   = 2000,
-	kBaud2400   = 2400,
-	kBaud3600   = 3600,
-	kBaud4800   = 4800,
-	kBaud7200   = 7200,
-	kBaud9600   = 9600,
-	kBaud19200  = 19200,
-	kBaud38400  = 38400,
-	kBaud57600  = 57600,
-	kBaud115200 = 115200,
-	kBaud230400 = 230400
-} UARTBaudRate;
 
 #ifdef __cplusplus
 };

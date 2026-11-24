@@ -162,7 +162,6 @@ void TRKGetInput();
 void TRKProcessInput(TRKBufferID bufID);
 
 DSError TRK_main(void);
-UARTError InitializeUART(UARTBaudRate baudRate);
 DSError TRKInitializeIntDrivenUART(u32, u32, u32, volatile u8**);
 int TRKPollUART();
 UARTError TRKReadUARTN(void*, u32);
