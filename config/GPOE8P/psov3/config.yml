@@ -5462,7 +5462,7 @@ force_active:
   - create_backgrounds__9TSaveChCrFv
   - create_bgm_col_zones__Fv
   - create_buy_list_windows__24TShopEquipmentListWindowFv
-  - create_cane_if_ready__10TObjPlayerFlPv
+  - create_cane_if_ready__20TItemWeaponSRankCardFP3Vec
   - create_card_action_window__17TWindowSubComCardFv
   - create_ch_cr_tag_occ_header__Fl
   - create__12TChallenge4PFv

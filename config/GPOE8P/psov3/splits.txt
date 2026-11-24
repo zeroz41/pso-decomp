@@ -9826,7 +9826,7 @@ pso/weapon/TItemWeaponSRankKnuckle.cpp:
 	.data       start:0x804F26E0 end:0x804F27DC
 	.sdata2     start:0x805E0258 end:0x805E0260
 
-pso/player/TObjPlayer_80362E60.cpp:
+pso/weapon/TItemWeaponSRankCard.cpp:
 	.text       start:0x80362DE8 end:0x803631A0
 	.rodata     start:0x80479FC8 end:0x80479FD8
 	.data       start:0x804F27E0 end:0x804F28E0

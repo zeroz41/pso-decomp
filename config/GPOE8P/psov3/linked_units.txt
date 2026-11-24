@@ -1622,7 +1622,7 @@ pso/player/Palettex.cpp
 pso/weapon/TItemWeaponTsumikiri.cpp
 pso/weapon/TItemWeaponDarkMeteor.cpp
 pso/player/TObjPlayer_80357B2C.cpp
-pso/player/TObjPlayer_80362E60.cpp
+pso/weapon/TItemWeaponSRankCard.cpp
 pso/player/EquippedItemDraw.cpp
 pso/render/GinjaTextureTable.cpp
 pso/math/PointLineDistance.cpp

@@ -68,7 +68,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/player/TObjPlayer_80125780.h"
-#include "pso/player/TObjPlayer_80362E60.h"
+#include "pso/weapon/TItemWeaponSRankCard.h"
 #include "pso/weapon/TUnk_804E24F0.h"
 #include "pso/weapon/TUnk_804F28E0.h"
 #include "pso/unk/text_80125428.h"
@@ -344,7 +344,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TObjPlayer::create_object_by_type,
     TObjPlayer__sub_80128308,
     TUnk_804F28E0::create,
-    TObjPlayer__sub_803630F0,
+    TItemWeaponSRankCard::create,
     create_s_rank_knuckle,
     TObjPlayer::create_srank_common_weapon,
 };
