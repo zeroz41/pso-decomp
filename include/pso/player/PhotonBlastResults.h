@@ -42,6 +42,7 @@ struct PhotonBlastRequestSlot {
     void clear();
     u16 get_client_id();
     void set_client_id(u16 id);
+    void add_amount(s32 n);
     PhotonBlastRequestSlot &operator=(PhotonBlastRequestSlot &other);
 };
 
@@ -62,6 +63,14 @@ struct PhotonBlastRequest {
     void set_kind(s16 kind);
     void set_client_id(u16 client_id);
     PhotonBlastRequest &operator=(PhotonBlastRequest &other);
+    // Frees every donor slot.
+    void clear_slots();
+    int get_slot_count();
+    PhotonBlastRequestSlot *get_slot(s32 i);
+    void mark_in_use();
+    int is_free();
+    // Adds 10 to client_id's slot, claiming a free slot on its first donation.
+    void add_donor(u16 client_id);
 };
 
 // Every player's pending photon blast, one request per client; TObjPlayer::alloc_shared_buffers
@@ -72,6 +81,14 @@ struct PhotonBlastRequestTable {
     PhotonBlastRequestTable();
     ~PhotonBlastRequestTable();
 };
+
+// PhotonBlastRequests.cpp: the four requests (TObjPlayer__shared_photon_blast_state).
+int get_photon_blast_request_count();
+// The first request not in use, NULL when all four are.
+PhotonBlastRequest *find_free_photon_blast_request(void *requests);
+void reset_photon_blast_request(void *requests, s32 index);
+// Clears flag 4 and sets flag 8 on the photon blast gauge of each requesting player.
+void release_photon_blast_requests(void *requests);
 
 // How many more donors share each chained kind; admit_photon_blast_sequence
 // hands count to TPhotonBlastSequence.

@@ -20,7 +20,6 @@
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/TFogCtrl.h"
-#include "pso/player/TObjPlayer_803130BC.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801C7430.h"
 #include "pso/unk/text_8024AB98.h"

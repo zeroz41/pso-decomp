@@ -8816,12 +8816,9 @@ pso/player/TPlayerBattleCtrl4P.cpp:
 	.sbss       start:0x805D6AA8 end:0x805D6AC0
 	.sdata2     start:0x805DF228 end:0x805DF248
 
-pso/unk/text_80312C50.cpp:
-	.text       start:0x80312C50 end:0x803130BC
+pso/player/PhotonBlastRequests.cpp:
+	.text       start:0x80312C50 end:0x80313268
 	.sdata2     start:0x805DF248 end:0x805DF24C
-
-pso/player/TObjPlayer_803130BC.cpp:
-	.text       start:0x803130BC end:0x80313268
 
 pso/enemy/deldepth/TObjEneDelDepth.cpp:
 	.text       start:0x80313268 end:0x8031623C

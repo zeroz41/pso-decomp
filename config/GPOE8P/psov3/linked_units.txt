@@ -1662,7 +1662,7 @@ pso/player/TObjPlayer_802D5174.cpp
 pso/boss/barbaray/TBoss7BreakUp.cpp
 pso/ui/frontend/EndingSequence.cpp
 pso/weapon/TItemWeaponNug2000Bazooka.cpp
-pso/player/TObjPlayer_803130BC.cpp
+pso/player/PhotonBlastRequests.cpp
 pso/player/MaterialUsage.cpp
 pso/player/TObjPlayer_8033E910.cpp
 pso/player/PlayerPadBinding.cpp
@@ -2030,7 +2030,6 @@ pso/unk/text_80307BE8.cpp
 pso/unk/text_80308294.cpp
 pso/unk/text_80309890.cpp
 pso/unk/text_803098DC.cpp
-pso/unk/text_80312C50.cpp
 pso/unk/text_80320358.cpp
 pso/unk/text_80327844.cpp
 pso/object/mine/TOComputerMachine01_803278B0.cpp

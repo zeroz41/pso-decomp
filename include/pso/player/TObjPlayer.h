@@ -29,6 +29,7 @@ struct NJS_OBJECT;
 #include "pso/unk/TUnk_804DDD28.h"
 
 struct TItemData;
+struct PhotonBlastRequest;
 struct SceneSectionAngles;
 
 struct TItem;
@@ -910,10 +911,6 @@ struct TObjPlayer : public TObjChara {
     static void clear_foot_stamp(saddr owner, saddr player);
     static s32 check_hit_by_id_431(void* p, u16 target_id);
     static s32 check_hit_by_id(saddr owner, u16 target_id, s32 id);
-    void update_children();
-    void process_indexed_element(s32 arg1);
-    void check_flag_at_4();
-    static int get_max_children(void*);
     static void alloc_and_init(s32 item_id, saddr position, saddr direction);
     static void create_and_init_effect(s32 item_id, u32 *hit, saddr direction);
     static void start_guardianna_hit_card(s32 item_id, u32 *hit, saddr direction);
@@ -1337,7 +1334,7 @@ struct TObjPlayer : public TObjChara {
     s32 can_guard();
     // Sets the player's cast level of technique `tech`, capped at the level it has learned.
     static void set_technique_level_clamped(TObjPlayer *player, u8 level, int tech);
-    static void *get_element(void *, int);
+    static PhotonBlastRequest *get_element(void *, int);
     static void send_6x29_delete_item(void *, int, int);
     static s32 fill_player_record(void *, void *);
     s32 foreach_player();

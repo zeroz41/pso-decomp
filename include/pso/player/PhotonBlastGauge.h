@@ -87,7 +87,8 @@ struct PhotonBlastGauge {
     void set_field_3c(f32 v);
     void start_photon_blast_action();
     f32 get_dist();
-    int query_field40();
+    // Flag 4: the player has an open photon blast request others can donate to.
+    int is_blast_requested();
 
     // The owner's client id, sent in the 6x39/6x3A packets.
     u16 client_id;
