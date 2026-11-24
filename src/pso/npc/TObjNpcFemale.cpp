@@ -2,7 +2,6 @@
 #include "pso/npc/TObjNpcFemale.h"
 #include "pso/object/base/TObjMotion.h"
 
-extern uaddr npc_town_motion_data;
 extern u32 lbl_805D5D78;
 
 const TObjMotionAction TObjNpcFemale::action_table[2] = {
