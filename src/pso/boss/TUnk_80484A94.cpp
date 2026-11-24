@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/boss/TUnk_80484A94.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/render/NinjaUtil.h"
@@ -24,6 +23,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/SoundEffect.h"
 
 extern "C" {
 }
@@ -94,7 +94,7 @@ void TUnk_80484A94::run_task() {
         queue_destruction();
         return;
     }
-    play_persistent_sound((s32)(0x4003C11D), this, &position, (s32)(0), (s32)(0));
+    play_persistent_sound(0x4003C11D, this, &position, 0, 0);
 }
 
 TUnk_80484A94::~TUnk_80484A94() {

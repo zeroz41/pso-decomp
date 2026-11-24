@@ -8,6 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/unk/text_802A1020.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/NinjaTypes.h"
@@ -32,9 +33,11 @@ saddr get_localized_text_entry(s32, s32);
 // these are written first and land last.
 extern const s32 current_language;
 extern int lobby_cursor_active_flag;
+}
 
-int TObjPlayer__sub_802A1018(void) { return lobby_cursor_active_flag; }
+int game_files_modified() { return game_files_modified_flag; }
 
+extern "C" {
 void TLobby__sub_802A0F70(void) {
     TLobby::update_menu_cursor();
     const char *names[5] = { "f512_midashi", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng", "f512_midashi_eng" };

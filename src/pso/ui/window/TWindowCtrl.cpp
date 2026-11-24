@@ -856,11 +856,11 @@ void TWindowCtrl::create_level_up_window(saddr stats, saddr client) {
     new TWindowSetLevelUp(tl_07, stats, client);
 }
 
-int TWindowCtrl::open_default(u16 id, s32 text) { return TWindowCtrl::open(id, text, 15); }
+int TWindowCtrl::open_default(u16 id, const char *text) { return TWindowCtrl::open(id, text, 15); }
 
 extern "C" {
 
-saddr TWindowCtrl::open(u16 id, saddr text, s32 flags) {
+saddr TWindowCtrl::open(u16 id, const char *text, s32 flags) {
     saddr temp_r3;
 
     if (instance == NULL) {
@@ -869,11 +869,11 @@ saddr TWindowCtrl::open(u16 id, saddr text, s32 flags) {
     if (flags & 0x40) {
         post_chat_log_message();
     }
-    temp_r3 = (saddr)instance->show_chat_balloon(id, flags, (void *)text, static_cast<s32>(local_client_id));
+    temp_r3 = (saddr)instance->show_chat_balloon(id, flags, text, static_cast<s32>(local_client_id));
     if (temp_r3 == 0) {
         return 0;
     }
-    set_text__15TWindowFukidasiFPvii((u8 *)temp_r3, text, flags);
+    set_text__15TWindowFukidasiFPvii((u8 *)temp_r3, (saddr)text, flags);
     return temp_r3;
 }
 
@@ -1221,7 +1221,7 @@ void TWindowCtrl::handle_chat_message(char *arg1) {
         if (i < 12) {
             u16 slot = i;
             TOChatSensorCapture::capture_message(slot, v);
-            TWindowCtrl::open(slot, (saddr)v, 0xCB);
+            TWindowCtrl::open(slot, v, 0xCB);
         }
     }
 }
@@ -1230,7 +1230,7 @@ void TWindowCtrl::handle_chat_message(char *arg1) {
 
 extern "C" {
 
-TWindowFukidasi *TWindowCtrl::show_chat_balloon(u16 player, s32 flags, void *text, s32 client) {
+TWindowFukidasi *TWindowCtrl::show_chat_balloon(u16 player, s32 flags, const char *text, s32 client) {
     u32 i;
     if (instance == NULL) {
         return 0;
@@ -1240,7 +1240,7 @@ TWindowFukidasi *TWindowCtrl::show_chat_balloon(u16 player, s32 flags, void *tex
             TWindowFukidasi *b = balloons[i];
             if (b != 0 && b->all_parents_unqueued_for_destruction() != 0 &&
                 player == b->get_speaker_id() &&
-                check_card_match_enabled__15TWindowFukidasiFl(b, text) != 0) {
+                b->check_card_match_enabled(text) != 0) {
                 b->rearm_balloon(flags);
                 return 0;
             }

@@ -28,15 +28,7 @@
 #include "pso/network/client_id.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
-
-// Matrix-stack, vector and animation helpers and unowned globals without a usable header:
-// text_803D96A8.h/text_803D853C.h/MatrixTransforms.h/TObjMotion.h includers declare these with
-// conflicting private prototypes, the globals have no owning unit yet, and the
-// MSL headers are not on this unit's include path (rand).
-extern "C" {
-// TNpcPlayer_800D87A8.h declares it without the id its definition passes through.
-TObjBase *find_active_entity_by_id(u16 id);
-}
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 
 // The whole unit is built with deferred inlining, so the compiler emits the
 // functions in reverse order: the last function here sits first in the DOL.

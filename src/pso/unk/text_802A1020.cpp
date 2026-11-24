@@ -38,7 +38,7 @@ void process_async_file_reads(void);
 void update_sound_request_slots(void);
 s8 movie_finished_flag;
 u8 opening_movie_purpose;
-s32 lobby_cursor_active_flag;
+s32 game_files_modified_flag;
 
 // File size and CRC-32 of the files checked by verify_game_file_integrity (crc 0: size check only).
 Entry_802A1020 file_integrity_table[11] = {
@@ -73,14 +73,14 @@ s32 verify_game_file_integrity(void) {
     for (i = 0; i < 11; i++) {
         size = get_disc_file_size(file_integrity_table[i].file);
         if (size != file_integrity_table[i].size) {
-            lobby_cursor_active_flag = 1;
+            game_files_modified_flag = 1;
             return 1;
         }
         if (file_integrity_table[i].size <= 1000000) {
             buf = load_disc_file(file_integrity_table[i].file);
             if (buf == NULL) {
                 TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
-                lobby_cursor_active_flag = 0;
+                game_files_modified_flag = 0;
                 return 0;
             }
             crc = 0xFFFFFFFF;
@@ -96,12 +96,12 @@ s32 verify_game_file_integrity(void) {
             }
             TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
             if (~crc != file_integrity_table[i].crc) {
-                lobby_cursor_active_flag = 1;
+                game_files_modified_flag = 1;
                 return 1;
             }
         }
     }
-    lobby_cursor_active_flag = 0;
+    game_files_modified_flag = 0;
     return 0;
 }
 

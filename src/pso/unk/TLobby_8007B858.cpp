@@ -8,7 +8,6 @@
 #include "pso/object/lobby/LobbyGoGoBall.h"
 #include "pso/object/lobby/TGoGoBallGame.h"
 #include "pso/npc/TNpcPlayer.h"
-#include "pso/unk/TUnk_804F07C8.h"
 #include "pso/map/TSetManager.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/TProtocol.h"
@@ -33,8 +32,8 @@
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/TFogCtrl.h"
-#include "pso/npc/TNpcPlayer_8034DAA0.h"
-#include "pso/unk/TLobby_80191218.h"
+#include "pso/npc/NpcPartnerControl.h"
+#include "pso/npc/TNpcTalkTrigger.h"
 #include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/effect/TEffIndirectCtrl.h"
 #include "pso/unk/TLobby_802D3970.h"
@@ -59,7 +58,6 @@
 #include "pso/system/GslArchive.h"
 
 void load_particle_entry_resources(void);
-void init_partner_dialogue(void);
 void load_technique_resources(void);
 
 
@@ -90,8 +88,8 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {clear_legacy_enemy_kill_flags, release_legacy_enemy_kill_flags},
     {load_particle_entry_resources, TParticleCtrl::free_all},
     {TFogCtrl::update_fog_entries, TFogCtrl::release_fog_entries},
-    {init_partner_dialogue, TNpcPlayer__sub_8034EDB8},
-    {TLobby__sub_80191270, TLobby__sub_80191264},
+    {init_partner_dialogue, release_partner_dialogue},
+    {reset_npc_proximity_target_on_floor_load, reset_npc_proximity_target_on_floor_free},
     {TLobby__sub_8007BBEC, TLobby__sub_8007BBF8},
     {reset_and_init_capture_texture, reset_and_release_capture_texture},
     {TObjPlayer__sub_80083F38, (FloorResourceCallback)TObjPlayer__sub_80083F04},
@@ -140,7 +138,7 @@ void TLobby::create_tasks() {
     new TCineCtrl(tl_00);
     TRaderMapCore::create();
     restore_floor_telepipes();
-    new TUnk_804F07C8(tl_06);
+    new TNpcPartnerSpawner(tl_06);
     new TSwitch(tl_00);
     TQuestColCtrl::init();
     if (get_current_floor_area() == AREA_LOBBY) {

@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #pragma defer_codegen on
 
@@ -217,6 +216,7 @@ BmlResource *lbl_805D6808;
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/SoundEffect.h"
 
 void TOTrapChainSaw::vfunc_16() {  }
 
@@ -627,7 +627,7 @@ void TOTrapChainSawDamage::vfunc_27() {
     if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x100) == 0xA) && ((p = *(void **)((s8 *)((u8 *)this) + 0x108)) != NULL)) {
         TOTrapChainSawDamage__sub_802C9C00((u8 *)p, 1);
     }
-    play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 0), this, reinterpret_cast<const Vec *>((u8 *)this + 0x38), 0, 0);
+    play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 0), this, &position, 0, 0);
 }
 #pragma pop
 void TOTrapChainSawDamage::vfunc_28() {
@@ -695,9 +695,9 @@ void TOTrapChainSawKey::update_state() {
     if (*(f32 *)((s8 *)arg0 + 0x104) > (f32) (u32) (*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x100)) + 4) - 1)) {
         *(f32 *)((s8 *)arg0 + 0x104) = 0.0f;
     }
-    play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 2), arg0, &position, 0, 0);
+    play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 2), this, &position, 0, 0);
     if ((s32) *(s32 *)((s8 *)arg0 + 0xF0) == 1) {
-        play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 1), arg0, &position, 0, 0);
+        play_persistent_sound(get_area_table_value__17TOTrapChainSawKeyFii(this, 1), this, &position, 0, 0);
     }
 }
 

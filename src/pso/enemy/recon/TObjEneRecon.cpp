@@ -1,11 +1,10 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D8F74.h"
@@ -36,7 +35,6 @@
 #include "pso/enemy/recon/TObjEneRecobox.h"
 #include "pso/enemy/recon/TObjEneReconBomb.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -1111,7 +1109,7 @@ void TObjEneRecon::load_resources() {
   TObjEneReconBomb::load_resources();
   NpcAnimationBinding binding = recon_anim_binding;
   binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneRecon__recobox_static_instance->motions);
-  NpcModelRegistry::register_animated_chunk(0xC, TObjEneRecon__recobox_static_instance->models[0].model, TObjEneRecon__recobox_static_instance->models[0].texlist, &binding, TObjEneRecon__collision_body_template.radius, 15.0f);
+  TObjNpcEnemy::register_animated_chunk(0xC, TObjEneRecon__recobox_static_instance->models[0].model, TObjEneRecon__recobox_static_instance->models[0].texlist, &binding, TObjEneRecon__collision_body_template.radius, 15.0f);
 }
 
 

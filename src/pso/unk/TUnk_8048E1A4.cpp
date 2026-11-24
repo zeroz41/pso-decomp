@@ -29,6 +29,7 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/render/model_render_state.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 
 
 f32 TUnk_8048E1A4::receive_physical_attack(void *arg1, f32) {
@@ -71,7 +72,6 @@ struct VObj_80081EA4 : VBase_80081EA4 {
 };
 
 extern "C" {
-uaddr find_active_entity_by_id(u16);
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
@@ -84,26 +84,27 @@ s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
 
 void TUnk_8048E1A4::freeze_shell_hold() {
-    saddr p;
-    p = find_active_entity_by_id(*(u16 *)((s8 *)this + 0x358));
-    if (p == 0) {
+    TObjCollidable *owner;
+    TParticleCtrl *effect;
+    owner = find_active_entity_by_id(*(u16 *)((s8 *)this + 0x358));
+    if (owner == NULL) {
         return;
     }
     this->rotation_y += 0x10;
-    if (((TObjCollidable *)p)->test_actor_flags(0x800) == 0) {
-        if (((TObjCollidable *)p)->test_actor_flags(0x20) != 0) {
+    if (owner->test_actor_flags(0x800) == 0) {
+        if (owner->test_actor_flags(0x20) != 0) {
             return;
         }
     }
     *(s32 *)((s8 *)this + 0x334) = 2;
-    p = (saddr)spawn_particle_effect((const Vec *)((u8 *)this + 0x35C), 0x153);
-    if (p != 0) {
-        attach_particle_model((u8 *)p, get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
+    effect = spawn_particle_effect((const Vec *)((u8 *)this + 0x35C), 0x153);
+    if (effect != NULL) {
+        attach_particle_model(effect, get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
     }
-    p = (saddr)spawn_particle_effect((const Vec *)((u8 *)this + 0x38), 0x33);
-    if (p != 0) {
-        attach_particle_model((u8 *)p, get_bml_model((BmlResource *)freeze_shell_bml_resource, 0), get_bml_texlist((BmlResource *)freeze_shell_bml_resource, 1), get_bml_motion((BmlResource *)freeze_shell_bml_resource, 0), 0, 1.0f);
-        ((TParticleCtrl *)p)->set_scale(this->scale.x, this->scale.y);
+    effect = spawn_particle_effect((const Vec *)((u8 *)this + 0x38), 0x33);
+    if (effect != NULL) {
+        attach_particle_model(effect, get_bml_model((BmlResource *)freeze_shell_bml_resource, 0), get_bml_texlist((BmlResource *)freeze_shell_bml_resource, 1), get_bml_motion((BmlResource *)freeze_shell_bml_resource, 0), 0, 1.0f);
+        effect->set_scale(this->scale.x, this->scale.y);
     }
     this->frame = 0.0f;
 }

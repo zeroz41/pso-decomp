@@ -23,6 +23,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/npc/NpcPartnerControl.h"
 
 extern "C" {
 s32 prepare_hospital_return__10TObjPlayerFv();
@@ -43,7 +44,7 @@ void return_to_city_after_defeat(TObject *) {
         }
         floor_transition_state.set_next_floor(0, (int) (get_floor_map_terrain(0)));
         mark_area_change_pending();
-        TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
+        send_inter_level_warp_all(floor_transition_state.get_next_floor());
         (*(s32 *)&TWindowReturnCity__client_scan_index) = 4;
     }
 }

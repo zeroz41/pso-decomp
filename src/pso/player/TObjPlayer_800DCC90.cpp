@@ -18,6 +18,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/network/client_id.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 
  extern const Vec lbl_8043C920 = {0.0f, 0.0f, 0.0f};
 typedef struct Parm_800DC4B4 {
@@ -54,7 +55,6 @@ struct Me_800DC9EC {
 };
 
 extern "C" { u8 *find_entity_by_id(s16);
-Obj_800DC4B4 *find_active_entity_by_id(u16);
 extern const f32 lbl_805D5260;
 extern const f32 lbl_805D5268;
 extern s32 lbl_805D5270;
@@ -68,7 +68,7 @@ void TUnk_80494E48::run_task() {
         ((TObject *)arg0)->queue_destruction();
         return;
     }
-    obj = find_active_entity_by_id(arg0->owner);
+    obj = (Obj_800DC4B4 *)find_active_entity_by_id(arg0->owner);
     switch ((*(int *)((u8 *)this + 0xFC))) {
     case 0:
         arg0->timer--;

@@ -1,7 +1,6 @@
-#include "pso/system/PersistentSound.h"
 #include "types.h"
 #include "pso/object/fence/TOFenceBase.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"

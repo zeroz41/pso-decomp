@@ -150,6 +150,6 @@ void TLobby__sub_80066EC0(void) {
         TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(boss5_common_texture_list));
         boss5_common_texture_list = NULL;
     }
-    delete lbl_805D4DD8;
-    lbl_805D4DD8 = 0;
+    delete boss5_common_bml_resource;
+    boss5_common_bml_resource = 0;
 }

@@ -2,7 +2,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/ambient/TObjCGrass.h"
 #include "pso/map/CsnGroundCandidates.h"
 #include "pso/map/CsnGroundQuery.h"
@@ -122,7 +122,7 @@ void TObjCGrass::load_resources() {
     NpcAnimationBinding binding = cgrass_anim_binding;
     binding.motions = TObjCGrass_bml_resource->motions;
     BmlModelEntry *model = TObjCGrass_bml_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x36, model->model, model->texlist, &binding, 2.0f, 0.0f);
+    TObjNpcEnemy::register_animated_chunk(0x36, model->model, model->texlist, &binding, 2.0f, 0.0f);
 }
 
 }

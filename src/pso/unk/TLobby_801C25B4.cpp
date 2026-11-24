@@ -1,6 +1,5 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/client_id.h"
-#include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -397,7 +396,7 @@ TPlayerBattleCtrl::TPlayerBattleCtrl(TObject *parent) : TObject(parent) {
     text = (current_language == LANGUAGE_JAPANESE) ? player_battle_ctrl_text_japanese : player_battle_ctrl_text_english;
     player = get_local_player();
     if (player != NULL) {
-        export_character_data__10TObjPlayerFPvPv(player, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
+        player->export_character_data(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     }
     TLobby::stop_audio_streams();
     pad_64 = 0;
@@ -817,9 +816,9 @@ s32 TLobby__sub_801C417C(void) {
 }
 
 void TLobby::close_and_play_effect(int client, s32 arg1) {
-    u32 temp = (uaddr)get_player_by_client_id((u16)client);
-    if (temp != 0U) {
-        TObjPlayer::play_effect_default(temp, -1);
+    TObjPlayer *player = get_player_by_client_id((u16)client);
+    if (player != NULL) {
+        send_impose_hold(player, -1);
     }
     if (arg1 != 0) {
         begin_player_keyboard_hold(local_client_id);
@@ -829,9 +828,9 @@ void TLobby::close_and_play_effect(int client, s32 arg1) {
 }
 
 void TLobby::handle_battle_result(int client, s32 arg1) {
-    s32 player;
-    if ((player = (saddr)get_player_by_client_id((u16)client)) != 0U) {
-        TObjPlayer::send_code_45_1(player);
+    TObjPlayer *player;
+    if ((player = get_player_by_client_id((u16)client)) != NULL) {
+        send_release_hold(player);
     }
     if (arg1 != 0) {
         end_player_keyboard_hold(local_client_id);
@@ -1011,12 +1010,12 @@ void TLobby::init_battle_ctrl(s32 arg0, saddr src) {
 }
 
 void TLobby__sub_801C38E8(void *arg0) {
-    u32 t;
+    TObjPlayer *player;
     switch (*(s32 *)((u8 *)arg0 + 0x20)) {
     case 0:
-        t = (saddr)get_local_player();
-        if (t != 0) {
-            TObjPlayer::play_effect_default(t, -1);
+        player = get_local_player();
+        if (player != NULL) {
+            send_impose_hold(player, -1);
         }
         *(s32 *)((u8 *)arg0 + 0x2C) = 0xF;
         *(s32 *)((u8 *)arg0 + 0x20) = 1;

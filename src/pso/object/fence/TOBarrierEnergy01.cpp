@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/fence/TOBarrierEnergy01.h"
@@ -8,7 +7,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/TLobby_80156B18.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer.h"

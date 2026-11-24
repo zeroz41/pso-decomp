@@ -291,7 +291,7 @@ extern BmlResource *TContainerAncient01__bml_resource;
 s32 reset_state__19TContainerAncient01Fv();
 }
 
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 
 
 #include "pso/render/RenderFadeState.h"
@@ -407,7 +407,7 @@ void TContainerAncient01::load_resources() {
     }
     NpcAnimationBinding prm = container_ancient_anim_binding;
     prm.motions = TContainerAncient01__bml_resource->motions;
-    NpcModelRegistry::register_animated_ginja(0x3B, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0)),
+    TObjNpcEnemy::register_animated_ginja(0x3B, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0)),
                                              reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0)), &prm,
                                              10.0f, TContainerAncient01__data_805DBD14[0]);
 }

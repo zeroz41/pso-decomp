@@ -9,7 +9,7 @@
 #pragma defer_codegen on
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/npc/TNpcPlayer_8028B810.h"
+#include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/boss/galgryphon/TObjBoss5Pillar_8028B714.h"
 #include "pso/ui/frontend/TAdMultiConfirmGC_802E03D0.h"
 
@@ -187,28 +187,19 @@ void TAdChrSelPlayerGC::run_task() {
         switch (F(0x104, s32)) {
         case 0:
             copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
-            p = ::operator new(0x4AC);
-            if (p != NULL) {
-                p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), 0);
-            }
+            p = new CharacterPreview(this, visual_record, 0);
             F(0x170, void *) = p;
             F(0x60, s32) = 0xF3D5;
             break;
         case 1:
             copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_entry(F(0x110, s32))->m_disp_part2);
-            p = ::operator new(0x4AC);
-            if (p != NULL) {
-                p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), 0);
-            }
+            p = new CharacterPreview(this, visual_record, 0);
             F(0x170, void *) = p;
             F(0x60, s32) = 0xF3D5;
             break;
         case 2:
             copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
-            p = ::operator new(0x4AC);
-            if (p != NULL) {
-                p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), 0);
-            }
+            p = new CharacterPreview(this, visual_record, 0);
             F(0x170, void *) = p;
             F(0x60, s32) = 0xF3D5;
             break;
@@ -216,10 +207,7 @@ void TAdChrSelPlayerGC::run_task() {
         case 4:
         case 5:
             copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_char_table_entry(F(0x10C, s32))->m_disp_part2);
-            p = ::operator new(0x4AC);
-            if (p != NULL) {
-                p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (saddr)(arg0 + 0x120), (s32)(F(0x10C, s32)));
-            }
+            p = new CharacterPreview(this, visual_record, (s32)(F(0x10C, s32)));
             F(0x170, void *) = p;
             break;
         }

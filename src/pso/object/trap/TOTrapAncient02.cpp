@@ -1,5 +1,4 @@
 #include "pso/technique/TTecZondeEff.h"
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -10,7 +9,6 @@
 #include "pso/object/trap/TOTrap.h"
 #include "pso/object/trap/TOTrapAncient02.h"
 #include "pso/object/trap/TOTrapAncient02R.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -398,7 +396,7 @@ void TOTrapAncient02::vfunc_82() {
                 if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
                     p = get_player_by_client_id(local_client_id);
                     if (p != NULL && p->check_player_flag1() != 0) {
-                        TObjPlayer::send_code_45_1((saddr)p);
+                        send_release_hold(p);
                     }
                 }
             }

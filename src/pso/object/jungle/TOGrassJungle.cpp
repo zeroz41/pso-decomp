@@ -7,7 +7,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/object/jungle/TOGrassJungle.h"
-#include "pso/object/TMotorcycle.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
@@ -44,7 +44,7 @@ void TOGrassJungle::load_resources() {
     BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&ograss_jungle_resource_descriptor, 0, 0, NULL);
     TOGrassJungle__bml_resource = archive;
     TOGrassJungle__grass_gvm_texture = load_gvm_texture_file("o_grass_jungle.gvm");
-    TMotorcycle::add_entry(0x3F, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOGrassJungle__bml_resource, 0)),
+    TObjNpcEnemy::register_ginja(0x3F, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOGrassJungle__bml_resource, 0)),
                            TOGrassJungle__grass_gvm_texture, 12.0f, -10.0f);
 }
 

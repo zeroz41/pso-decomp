@@ -372,7 +372,7 @@ void load_forest_box_resources(void) {
         forest_box_debris_secondary = &forest_box_break_params[1];
         break;
     }
-    TMotorcycle::add_entry(1, get_forest_box_model(1), forest_box_textures, lbl_805DBD0C, lbl_805DBCF4);
+    TObjNpcEnemy::register_ginja(1, get_forest_box_model(1), forest_box_textures, lbl_805DBD0C, lbl_805DBCF4);
 }
 
 void free_forest_box_resources() {

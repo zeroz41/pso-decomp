@@ -17,7 +17,6 @@
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include <stdio.h>
 #include "pso/unk/text_803D8030.h"
-#include "pso/npc/TObjNpcEnemy_803D8090.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/render/RenderSbssGlobals.h"
 
@@ -72,7 +71,7 @@ void queue_debug_text(s32 position, const char *text) {
     debug_text_pool_cursor += len + 1;
 }
 
-void print_float_padded(s32 arg0, s32 prec, f32 val) {
+void print_float_padded(s32 position, s32 prec, f32 val) {
     char buf[24];
     s16 y;
     f32 scale;
@@ -84,9 +83,9 @@ void print_float_padded(s32 arg0, s32 prec, f32 val) {
     s32 total;
     s32 j;
 
-    y = (s16) ((s16) (arg0 & 0xFFFF) * (scale = debug_text_scale));
+    y = (s16) ((s16) (position & 0xFFFF) * (scale = debug_text_scale));
     r = debug_text_record_cursor++;
-    r->x = (s16) ((s16) (arg0 >> 16) * scale);
+    r->x = (s16) ((s16) (position >> 16) * scale);
     r->y = y;
     r->size = debug_text_scale;
     r->color = debug_text_global_count;

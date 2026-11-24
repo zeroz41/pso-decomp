@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/system/BmlAccessors.h"
 #pragma defer_codegen on
@@ -7,7 +6,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 
 #include "pso/effect/enemy/TEneEffHamon.h"
@@ -91,7 +90,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D853C.h"
@@ -365,7 +363,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     {
         NpcAnimationBinding atk = dark_gunner_attack_binding_desc;
         atk.motions = TObjEneDarkGunner::bml_resource->motions;
-        NpcModelRegistry::register_animated_chunk(0x19, TObjEneDarkGunner::bml_resource->models[1].model, TObjEneDarkGunner::bml_resource->models[1].texlist, &atk, 10.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(0x19, TObjEneDarkGunner::bml_resource->models[1].model, TObjEneDarkGunner::bml_resource->models[1].texlist, &atk, 10.0f, 0.0f);
     }
 }
 }

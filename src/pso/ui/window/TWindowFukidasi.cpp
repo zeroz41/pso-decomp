@@ -1266,11 +1266,11 @@ void clamp_text_size__15TWindowFukidasiFPvPv(Fuki_80250314 *b, f32 *out) {
 }
 }
 
-s32 TWindowFukidasi::check_card_match_enabled(saddr arg1) {
+s32 TWindowFukidasi::check_card_match_enabled(const char *text) {
     if ((u8) *(u8 *)((s8 *)this + 0x72) != 0) {
         return 0;
     }
-    return (u32) __cntlzw(strcmp((const char *)((TWindowSubComCard *)((TWindowBase *)this)->get_array_entry(0))->get_field_20(), (const char *)arg1)) >> 5;
+    return (u32) __cntlzw(strcmp((const char *)((TWindowSubComCard *)((TWindowBase *)this)->get_array_entry(0))->get_field_20(), text)) >> 5;
 }
 
 #pragma push

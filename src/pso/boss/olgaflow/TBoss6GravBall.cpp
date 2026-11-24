@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -26,7 +25,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

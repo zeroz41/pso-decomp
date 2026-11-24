@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -25,7 +24,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
@@ -183,10 +181,10 @@ void TBoss6Demo21_TYPE2_DEAD::run_task() {
         break;
     }
     if (timer >= 0x12C && timer <= 0x1AC) {
-        play_persistent_sound(0x4003352E, this, 0, 0, 0);
+        play_persistent_sound(0x4003352E, this, NULL, 0, 0);
     }
     if (timer >= 0x1D7 && timer <= 0x23A) {
-        play_persistent_sound(0x32D2F, this, 0, 0, 0);
+        play_persistent_sound(0x32D2F, this, NULL, 0, 0);
     }
     switch (timer) {
     case 0xAE:

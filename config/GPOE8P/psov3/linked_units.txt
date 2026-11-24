@@ -332,7 +332,7 @@ pso/boss/galgryphon/TObjBoss5PillarSmoke.cpp
 pso/boss/galgryphon/TObjBoss5Pillar_8028B08C.cpp
 pso/boss/galgryphon/TObjBoss5Pillar_8028B6C0.cpp
 pso/boss/galgryphon/TObjBoss5Pillar_8028B714.cpp
-pso/npc/TNpcPlayer_8028B810.cpp
+pso/ui/charcreate/CharacterPreview.cpp
 pso/boss/barbaray/TObjBoss7Dust.cpp
 pso/boss/barbaray/TObjBoss7RaftSplash.cpp
 pso/boss/goldragon/TObjBoss8DemoRoom.cpp
@@ -929,10 +929,9 @@ pso/enemy/gee/TObjEneMe1Gee_NEEDLE_802A4A44.cpp
 pso/ui/hud/TNowLoading.cpp
 pso/npc/TNpcPlayer.cpp
 pso/npc/TNpcPlayer_800D87A8.cpp
-pso/npc/TNpcPlayer_8014DADC.cpp
-pso/npc/TNpcPlayer_80190E64.cpp
+pso/npc/TNpcTalkTrigger.cpp
 pso/npc/TNpcPlayer_802C3CD0.cpp
-pso/npc/TNpcPlayer_8034DAA0.cpp
+pso/npc/NpcPartnerControl.cpp
 pso/object/cave/TOAirconCave01.cpp
 pso/object/cave/TOAirconCave02.cpp
 pso/object/collision/TOAttackableCol.cpp
@@ -1445,8 +1444,8 @@ pso/npc/TObjNpcConnoisseur.cpp
 pso/npc/TObjNpcEnemy.cpp
 pso/npc/TObjNpcExpertBase.cpp
 pso/npc/TObjNpcFemaleBase.cpp
-pso/npc/TUnk_804A8640.cpp
-pso/npc/TUnk_804A92A8.cpp
+pso/npc/TObjNpcFemale.cpp
+pso/npc/TObjNpcFomarl.cpp
 pso/npc/TObjNpcFemaleChild.cpp
 pso/npc/TObjNpcFemaleDwarf.cpp
 pso/npc/TObjNpcFemaleFat.cpp
@@ -1464,7 +1463,7 @@ pso/npc/TObjNpcHosa2.cpp
 pso/npc/TObjNpcKenkyu.cpp
 pso/npc/TObjNpcKenkyu2.cpp
 pso/npc/TObjNpcLappy.cpp
-pso/npc/TUnk_804A9F50.cpp
+pso/npc/TObjNpcMale.cpp
 pso/npc/TObjNpcMaleBase.cpp
 pso/npc/TObjNpcMaleChild.cpp
 pso/npc/TObjNpcMaleDwarf.cpp
@@ -1480,7 +1479,6 @@ pso/npc/TObjNpcNFW01.cpp
 pso/npc/TObjNpcNHW00.cpp
 pso/npc/TObjNpcNHW01.cpp
 pso/npc/TObjNpcNgcBase.cpp
-pso/npc/TObjNpcNgcBase_80358AE8.cpp
 pso/npc/TObjNpcNurseBase.cpp
 pso/npc/TObjNpcSecretaryBase.cpp
 pso/npc/TObjNpcSoldierBase.cpp

@@ -6,7 +6,7 @@
 #include "pso/object/jungle/TORockJungleM01.h"
 #include "pso/object/jungle/TORockJungleS01.h"
 #include "pso/object/TObjChip.h"
-#include "pso/object/TMotorcycle.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/TObjMapCsn.h"
@@ -84,7 +84,7 @@ void TORockJungleS01::load_resources() {
         TORockJungleS01__texture_resource = load_gvm_texture_file("o_rock_jungle_123.GVM");
         break;
     }
-    TMotorcycle::add_entry(0x3E, reinterpret_cast<NJS_OBJECT *>(get_model(0)),
+    TObjNpcEnemy::register_ginja(0x3E, reinterpret_cast<NJS_OBJECT *>(get_model(0)),
                            get_jungle_rock_texture_resource(0), 5.0f, 0.0f);
 }
 #pragma pool_data reset

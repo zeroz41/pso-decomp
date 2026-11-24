@@ -7,7 +7,6 @@
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_80227A2C.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/TLoadCtrl_80227390.h"
@@ -38,8 +37,8 @@ struct SndEnt_8022675C {
     const Vec *src;
     Vec pos;
     s16 timer; // frames left: 0x96 when played, 5 to fade out; the same id is not replayed while >= 0x94
-    s16 x1a;
-    const void *identity;
+    s16 volume;
+    const void *actor;
     u8 pad[8];
 };
 
@@ -227,9 +226,7 @@ SndEnt_8022675C lbl_805145F0[40];
 u8 lbl_80514C30[0x20];
 f32 lbl_80514C50[4];
 
-extern "C" {
-
-s32 TOTrapAncient01::check_trigger_flag(const Vec *position, s32 flags) {
+s32 check_sound_admission(const Vec *position, s32 flags) {
     s32 var_r3;
 
     if (flags & 0x2000) {
@@ -242,7 +239,7 @@ s32 TOTrapAncient01::check_trigger_flag(const Vec *position, s32 flags) {
     }
     return 1;
 }
-s32 play_persistent_sound(s32 id, const void *identity, const Vec *position, s32 adjustment, s32 flags) {
+s32 play_persistent_sound(s32 id, const void *actor, const Vec *position, s32 volume, s32 flags) {
     s32 idx = -1;
     s32 i;
     s32 ok;
@@ -263,7 +260,7 @@ s32 play_persistent_sound(s32 id, const void *identity, const Vec *position, s32
     }
     if (idx >= 0) {
         if (position != NULL) {
-            ok = TOTrapAncient01::check_trigger_flag(position, lbl_805145F0[idx].flags);
+            ok = check_sound_admission(position, lbl_805145F0[idx].flags);
         } else {
             ok = fn_802264B8(idx, 1);
         }
@@ -271,14 +268,14 @@ s32 play_persistent_sound(s32 id, const void *identity, const Vec *position, s32
         if (ok != 0) {
             e = &lbl_805145F0[idx];
             e->src = position;
-            e->x1a = adjustment;
+            e->volume = volume;
             e->timer = 5;
-            idx = normalize_sound_request(id, e->identity, e->src, e->x1a, flags);
+            idx = normalize_sound_request(id, e->actor, e->src, e->volume, flags);
         }
         return idx;
     }
-    if (TOTrapAncient01::check_trigger_flag(position, flags) != 0) {
-        idx = normalize_sound_request(id, identity, position, adjustment, flags);
+    if (check_sound_admission(position, flags) != 0) {
+        idx = normalize_sound_request(id, actor, position, volume, flags);
         last_sound_effect_slot = idx;
         if (idx >= 0) {
             lbl_805145F0[idx].flags &= lbl_805DC748;
@@ -286,9 +283,9 @@ s32 play_persistent_sound(s32 id, const void *identity, const Vec *position, s32
                 lbl_805145F0[idx].flags |= 0x2000;
             }
             lbl_805145F0[idx].src = position;
-            lbl_805145F0[idx].x1a = adjustment;
+            lbl_805145F0[idx].volume = volume;
             lbl_805145F0[idx].id = id;
-            lbl_805145F0[idx].identity = identity;
+            lbl_805145F0[idx].actor = actor;
             lbl_805145F0[idx].timer = 5;
             lbl_805145F0[idx].flags |= 0x1600;
         } else {
@@ -297,7 +294,8 @@ s32 play_persistent_sound(s32 id, const void *identity, const Vec *position, s32
     }
     return idx;
 }
-s32 play_sound_effect(s32 id, const Vec *position, s32 adjustment, s32 flags) {
+extern "C" {
+s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
     s32 i;
     s32 idx;
     Vec *pos;
@@ -315,7 +313,7 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 adjustment, s32 flags) {
         }
     }
     if (idx < 0) {
-        idx = play_packed_sound_once(id, (saddr)position, adjustment, flags);
+        idx = play_packed_sound_once(id, (saddr)position, volume, flags);
     }
     if (idx >= 0) {
         if (position != NULL) {
@@ -329,9 +327,9 @@ s32 play_sound_effect(s32 id, const Vec *position, s32 adjustment, s32 flags) {
         }
         lbl_805145F0[idx].src = position;
         lbl_805145F0[idx].timer = 0x96;
-        lbl_805145F0[idx].x1a = adjustment;
+        lbl_805145F0[idx].volume = volume;
         lbl_805145F0[idx].id = id;
-        lbl_805145F0[idx].identity = NULL;
+        lbl_805145F0[idx].actor = NULL;
         if (fn_802264B8(idx, 0) == 1) {
             last_sound_effect_slot = idx;
             lbl_805145F0[idx].flags |= 0x600;

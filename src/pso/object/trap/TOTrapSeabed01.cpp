@@ -419,7 +419,7 @@ void TOTrapSeabed01::sub_802C9D38() {
             held = get_player_by_client_id(((TObjBase *)target)->get_entity_id());
             if (held != NULL) {
                 if (held->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1((saddr)held);
+                    send_release_hold(held);
                 }
                 obj_clear_flag30_20000(held);
             }
@@ -427,7 +427,7 @@ void TOTrapSeabed01::sub_802C9D38() {
     } else if (target != NULL && local_client_id == ((TObjBase *)target)->get_entity_id()) {
         held = get_player_by_client_id(local_client_id);
         if (held != NULL && held->check_player_flag1() != 0) {
-            TObjPlayer::send_code_45_1((saddr)held);
+            send_release_hold(held);
         }
     }
 }
