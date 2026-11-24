@@ -5495,9 +5495,9 @@ void handle_6x1B_enable_pk_mode_for_player(G_EnablePKModeForPlayer_6x1B *command
 
 void TObjPlayer::set_state_flag_6043() {
     if (this->obj_isState3_324() != 0) {
-        this->m_698 = 0x6043;
+        this->collision_body.flags = 0x6043;
     } else {
-        this->m_698 = 0x2003;
+        this->collision_body.flags = 0x2003;
     }
     set_player_pk_mode_flag(((u8 *)this) + 0x828);
 }
@@ -5532,9 +5532,9 @@ void handle_6x1C_disable_pk_mode_for_player(G_DisablePKModeForPlayer_6x1C *comma
 
 void TObjPlayer::set_state_flag_604B() {
     if (this->obj_isState3_324() != 0) {
-        this->m_698 = 0x604B;
+        this->collision_body.flags = 0x604B;
     } else {
-        this->m_698 = 0x200B;
+        this->collision_body.flags = 0x200B;
     }
     fn_801C19E8(((u8 *)this) + 0x828);
 }

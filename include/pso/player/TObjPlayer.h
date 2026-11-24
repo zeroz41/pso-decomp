@@ -248,9 +248,7 @@ struct TObjPlayer : public TObjChara {
     void* m_66c;
     u8 _pad670[0x8];
     PlayerNpcControl npc_control;
-    u8 _pad680[0x18];
-    s32 m_698;
-    u8 unk_69C[0x10];
+    CollisionBody collision_body;
     void* m_6ac;
     u8 _pad6B0[0x80];
     MovementHold movement_hold;
@@ -1433,6 +1431,7 @@ struct TObjPlayer : public TObjChara {
 LAYOUT_ASSERT(PlayerPaletteModifierOffset, offsetof(TObjPlayer, photon_blast_gauge) == 0x4AC);
 LAYOUT_ASSERT(PlayerActionPalettesOffset, offsetof(TObjPlayer, action_palettes) == 0x500);
 LAYOUT_ASSERT(PlayerStateAfterPalettes, offsetof(TObjPlayer, pad_binding) == 0x550);
+LAYOUT_ASSERT(PlayerCollisionBodyOffset, offsetof(TObjPlayer, collision_body) == 0x680);
 LAYOUT_ASSERT(PlayerHairSelectorOffset, offsetof(TObjPlayer, m_878) == 0x878);
 LAYOUT_ASSERT(PlayerHairFlagsOffset, offsetof(TObjPlayer, m_88e) == 0x88E);
 LAYOUT_ASSERT(PlayerHairModelOffset, offsetof(TObjPlayer, hair_model) == 0x8AC);
