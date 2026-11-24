@@ -588,7 +588,7 @@ force_active:
   - TJudgmentSequence__sub_80215BA0
   - TJudgmentSequence__sub_80215BCC
   - TJudgmentSequence__sub_80215BF8
-  - TKeyBoardControl__pad_status_buffer
+  - pad_slot_state_buffer
   - keyboard_polling_disabled
   - poll_input_devices_frame
   - reset_main_phase_state
@@ -598,7 +598,7 @@ force_active:
   - noop_keyboard_callback
   - on_keyboard_type_event
   - TKeyBoardControl_key_bit_table
-  - TKeyBoardControl_prev_pad_state
+  - prev_pad_status
   - __ct__9TKomorebiFP7TObjectP13ObjectSetData
   - komorebi_bml_resource
   - komorebi_resource_descriptor
@@ -5081,7 +5081,7 @@ force_active:
   - __vt__13TUnk_804B5C08
   - city_vertical_model_y_step
   - select_subtype__16TObjEneMerillLiaFv
-  - clamp_axes__16TKeyBoardControlFv
+  - clamp_pad_axes
   - clamp_destination_index__15TObjCityMapWarpFv
   - clamp_difficulty__6TLobbyFl
   - clamp_flight_height__13TObjEneBm3FlyFv
@@ -7416,7 +7416,7 @@ force_active:
   - keyboard_input_buffer
   - keyboard_layout_mode_table
   - keyboard_pad_state_table
-  - keyboard_pad_status_buffer
+  - pad_status
   - keyboard_poll_key_codes
   - keyboard_repeat_key_codes
   - keyboard_task_object_dtor_chain
