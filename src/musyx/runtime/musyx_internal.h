@@ -9,28 +9,8 @@
 extern "C" {
 #endif
 
-#if defined(MUSYX_RUNTIME_A_H)
-typedef Ent_803BA228 FX_TAB;
-#endif
-
-#if !defined(MUSYX_RUNTIME_A_H)
 struct SoundReverb;
 void ReverbHICallback(void *left, void *right, void *surround, SoundReverb *rv);
-
-typedef struct SndParaEntry {
-    u8 type;
-    u8 pad1;
-    union {
-        u16 w;
-        u8 b;
-    } v;
-} SndParaEntry;
-
-typedef struct SndParaInfo {
-    u8 count;
-    u8 pad[3];
-    SndParaEntry *ents;
-} SndParaInfo;
 
 typedef struct SynthITDInfo {
     u8 music;
@@ -474,7 +454,7 @@ u32 hwFrq2Pitch(u32 frq);
 void hwSetITDMode(s32 v, u8 mode);
 void hwSetTimeOffset(s8 offset);
 s32 hwGetVirtualSampleID(s32 voice);
-s32 hwInit(uaddr frq, s32 numVoices, s32 numStudios, u32 flags);
+s32 hwInit(u32 *frq, s32 numVoices, s32 numStudios, u32 flags);
 void snd_handle_irq(void);
 void hwInitIrq(void);
 void hwIRQEnterCritical(void);
@@ -519,6 +499,8 @@ void salDeactivateVoice(DSPvoice *dsp_vptr);
 s32 salAddStudioInput(DSPstudioinfo *stp, SND_STUDIO_INPUT *desc);
 s32 salRemoveStudioInput(DSPstudioinfo *stp, SND_STUDIO_INPUT *desc);
 void salHandleAuxProcessing(void);
+void salInitHRTFBuffer(void);
+u32 salSynthSendMessage(DSPvoice *dsp_vptr, u32 mesg);
 void salCalcVolume(u8 voltab_index, SAL_VOLINFO *vi, f32 vol, u32 pan, u32 span, f32 auxa, f32 auxb, u32 itd, u32 dpl2);
 
 void aramInit(u32 length);
@@ -526,6 +508,22 @@ s32 aramStoreData(u8 *src, u32 size);
 void aramRemoveData(s32 addr, s32 size);
 u8 aramAllocateStreamBuffer(u32 len);
 void aramFreeStreamBuffer(u8 id);
+u32 aramGetZeroBuffer(void);
+
+extern f32 lbl_804F6358[128];
+extern f32 lbl_804F6558[128];
+extern u16 lbl_804F6758[194];
+s32 salChangeADSRState(ADSR_VARS *adsr);
+u32 adsrStartRelease(ADSR_VARS *adsr, u32 rtime);
+u32 adsrHandle(ADSR_VARS *adsr, u16 *adsr_start, u16 *adsr_delta);
+
+void synthInit(u32 mixFrq, u32 numVoices);
+void synthActivateStudio(u8 studio, u32 isMaster, SND_STUDIO_TYPE type);
+void synthDeactivateStudio(u8 studio);
+void synthAddStudioInput(u8 studio, SND_STUDIO_INPUT *in_desc);
+void synthRemoveStudioInput(u8 studio, SND_STUDIO_INPUT *in_desc);
+void vsInit(void);
+void s3dInit(s32 flags);
 
 void salApplyMatrix(const SND_FMATRIX *mat, const SND_FVECTOR *in, SND_FVECTOR *out);
 f32 salNormalizeVector(SND_FVECTOR *vec);
@@ -633,7 +631,6 @@ s16 sndSin(u16 angle);
 u16 sndRand(void);
 void sndConvertTicks(u32 *ticks, SynthVoice *svoice);
 u32 sndConvert2Ms(u32 time);
-u32 sndFXCheck(u32 id);
 f32 floorf(f32 x);
 void s3dKillEmitterByFXID(FX_TAB *fxTab, u32 num);
 void seqKillInstancesByGroupID(u16 sgid);
@@ -742,7 +739,6 @@ typedef struct ARAMStreamBuffer {
     u32 length;
     u32 allocLength;
 } ARAMStreamBuffer;
-#endif
 #endif
 
 #ifdef __cplusplus

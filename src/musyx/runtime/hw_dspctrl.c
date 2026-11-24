@@ -1,4 +1,6 @@
-#include "musyx/runtime/musyx_runtime_a.h"
+#include <string.h>
+#include <dolphin/os/OSCache.h>
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 

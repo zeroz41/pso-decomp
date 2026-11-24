@@ -1,13 +1,12 @@
-#include "musyx/runtime/musyx_runtime_a.h"
 #include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 
 u8 s3dCallCnt;
-Emitter_S3D *s3dEmitterRoot;
-Listener_S3D *s3dListenerRoot;
-Room_S3D *s3dRoomRoot;
-Door_S3D *s3dDoorRoot;
+SND_EMITTER *s3dEmitterRoot;
+SND_LISTENER *s3dListenerRoot;
+SND_ROOM *s3dRoomRoot;
+SND_DOOR *s3dDoorRoot;
 u32 snd_used_studios;
 u8 snd_base_studio;
 u8 snd_max_studios;
@@ -22,9 +21,9 @@ u8 runListNum;
 #pragma auto_inline on
 #pragma opt_common_subs on
 void UpdateRoomDistances(void) {
-    FVec_S3D d;
-    Room_S3D *r;
-    Listener_S3D *li;
+    SND_FVECTOR d;
+    SND_ROOM *r;
+    SND_LISTENER *li;
     f32 distance;
     u32 n;
     for (n = 0, li = s3dListenerRoot; li != 0; li = li->next, ++n)
@@ -53,12 +52,12 @@ void UpdateRoomDistances(void) {
 #pragma auto_inline on
 #pragma opt_common_subs on
 void CheckRoomStatus(void) {
-    Listener_S3D *li;
-    Emitter_S3D *em;
-    Room_S3D *r;
-    Room_S3D *max_room;
-    Room_S3D *room;
-    FVec_S3D d;
+    SND_LISTENER *li;
+    SND_EMITTER *em;
+    SND_ROOM *r;
+    SND_ROOM *max_room;
+    SND_ROOM *room;
+    SND_FVECTOR d;
     f32 distance;
     f32 maxDis;
     u32 li_num;
@@ -184,7 +183,7 @@ void CheckRoomStatus(void) {
 #pragma inline_depth(4)
 #pragma auto_inline on
 #pragma opt_common_subs on
-static inline void CalcDoorParameters_S3D(Door_S3D *door) {
+static inline void CalcDoorParameters_S3D(SND_DOOR *door) {
     f32 f;
     f32 v;
     v = door->open;
@@ -195,7 +194,7 @@ static inline void CalcDoorParameters_S3D(Door_S3D *door) {
 }
 
 void CheckDoorStatus(void) {
-    Door_S3D *door;
+    SND_DOOR *door;
 
     for (door = s3dDoorRoot; door != 0; door = door->next) {
         if (!(door->flags & 0x80000000)) {
@@ -247,17 +246,17 @@ static inline f32 sqrtf_S3D(f32 x) {
     return x;
 }
 
-void CalcEmitter(Emitter_S3D *em, f32 *vol, f32 *doppler, f32 *xPan, f32 *yPan, f32 *zPan) {
-    Listener_S3D *li;
-    FVec_S3D d;
-    FVec_S3D v;
-    FVec_S3D p;
+void CalcEmitter(SND_EMITTER *em, f32 *vol, f32 *doppler, f32 *xPan, f32 *yPan, f32 *zPan) {
+    SND_LISTENER *li;
+    SND_FVECTOR d;
+    SND_FVECTOR v;
+    SND_FVECTOR p;
     f32 relspeed;
     f32 distance;
     f32 new_distance;
     f32 ft;
     f32 vd;
-    FVec_S3D pan;
+    SND_FVECTOR pan;
     u32 n;
 
     ft = 1.f / 60.f;
@@ -355,10 +354,10 @@ static inline u16 clip3FFF_S3D(u32 v) {
     return v;
 }
 
-void SetFXParameters(Emitter_S3D *const em, f32 vol, f32 xPan, f32 yPan, f32 zPan, f32 doppler) {
+void SetFXParameters(SND_EMITTER *const em, f32 vol, f32 xPan, f32 yPan, f32 zPan, f32 doppler) {
     u32 vid;
     u8 i;
-    Param_S3D *pPtr;
+    SND_PARAMETER *pPtr;
 
     vid = em->vid;
     if ((em->flags & 0x100000) != 0) {
@@ -384,7 +383,7 @@ void SetFXParameters(Emitter_S3D *const em, f32 vol, f32 xPan, f32 yPan, f32 zPa
 }
 #pragma pop
 
-void EmitterShutdown(Emitter_S3D *em) {
+void EmitterShutdown(SND_EMITTER *em) {
     if (em->next != 0) {
         em->next->prev = em->prev;
     }
@@ -400,8 +399,8 @@ void EmitterShutdown(Emitter_S3D *em) {
 }
 
 void s3dKillEmitterByFXID(FX_TAB *fxTab, u32 num) {
-    Emitter_S3D *n;
-    Emitter_S3D *next;
+    SND_EMITTER *n;
+    SND_EMITTER *next;
     u32 i;
 
     for (n = s3dEmitterRoot; n != 0; n = next) {
@@ -421,11 +420,34 @@ void s3dKillEmitterByFXID(FX_TAB *fxTab, u32 num) {
     }
 }
 
-Emitter_S3D tmp_em_S3D;
-static StartGroup_S3D startGroup[64];
-static StartList_S3D startList[64];
-static RunList_S3D runList[64];
-Emitter_S3D default_em_S3D;
+SND_EMITTER tmp_em_S3D;
+typedef struct START_LIST {
+    struct START_LIST *next;
+    f32 vol;
+    f32 xPan;
+    f32 yPan;
+    f32 zPan;
+    f32 pitch;
+    SND_EMITTER *em;
+} START_LIST;
+
+typedef struct RUN_LIST {
+    struct RUN_LIST *next;
+    f32 vol;
+    SND_EMITTER *em;
+} RUN_LIST;
+
+typedef struct START_GROUP {
+    u32 id;
+    START_LIST *list;
+    RUN_LIST *running;
+    u16 numRunning;
+} START_GROUP;
+
+static START_GROUP startGroup[64];
+static START_LIST startList[64];
+static RUN_LIST runList[64];
+SND_EMITTER default_em_S3D;
 
 
 #pragma push
@@ -433,10 +455,10 @@ Emitter_S3D default_em_S3D;
 #pragma inline_depth(4)
 #pragma auto_inline on
 #pragma opt_common_subs on
-void AddRunningEmitter(Emitter_S3D *em, f32 vol) {
+void AddRunningEmitter(SND_EMITTER *em, f32 vol) {
     s32 i;
-    RunList_S3D *rl;
-    RunList_S3D *lrl;
+    RUN_LIST *rl;
+    RUN_LIST *lrl;
 
     for (i = 0; i < startGroupNum; ++i) {
         if (em->group == startGroup[i].id) {
@@ -479,9 +501,9 @@ void AddRunningEmitter(Emitter_S3D *em, f32 vol) {
 #pragma inline_depth(4)
 #pragma auto_inline on
 #pragma opt_common_subs on
-u32 AddStartingEmitter(Emitter_S3D *em, f32 vol, f32 xPan, f32 yPan, f32 zPan, f32 pitch) {
+u32 AddStartingEmitter(SND_EMITTER *em, f32 vol, f32 xPan, f32 yPan, f32 zPan, f32 pitch) {
     s32 i;
-    StartList_S3D *sl;
+    START_LIST *sl;
 
     for (i = 0; i < startGroupNum; ++i) {
         if (em->group == startGroup[i].id) {
@@ -537,8 +559,8 @@ u32 AddStartingEmitter(Emitter_S3D *em, f32 vol, f32 xPan, f32 yPan, f32 zPan, f
 #pragma bool off
 void StartContinousEmitters(void) {
     s32 i;
-    StartList_S3D *sl;
-    Emitter_S3D *em;
+    START_LIST *sl;
+    SND_EMITTER *em;
     f32 dv;
 
     for (i = 0; i < startGroupNum; ++i) {
@@ -601,7 +623,7 @@ static inline void ClearStartList_S3D(void) {
     runListNum = 0;
 }
 
-static inline void EmitterShutdown_S3D(Emitter_S3D *em) {
+static inline void EmitterShutdown_S3D(SND_EMITTER *em) {
     if (em->next != 0) {
         em->next->prev = em->prev;
     }
@@ -619,8 +641,8 @@ static inline void EmitterShutdown_S3D(Emitter_S3D *em) {
 }
 
 void s3dHandle(void) {
-    Emitter_S3D *em;
-    Emitter_S3D *nem;
+    SND_EMITTER *em;
+    SND_EMITTER *nem;
     f32 vol;
     f32 xPan;
     f32 yPan;

@@ -68,12 +68,12 @@ void snd_handle_irq(void) {
     hwIRQLeaveCritical();
 }
 
-s32 hwInit(uaddr frq, s32 numVoices, s32 numStudios, u32 flags) {
+s32 hwInit(u32 *frq, s32 numVoices, s32 numStudios, u32 flags) {
     hwInitIrq();
     salFrame = 0;
     salAuxFrame = 0;
     salMessageCallback = NULL;
-    if (salInitAi(snd_handle_irq, flags, (u32 *)frq) != 0 &&
+    if (salInitAi(snd_handle_irq, flags, frq) != 0 &&
         salInitDspCtrl(numVoices, numStudios, (flags & 1) != 0) != 0 &&
         salInitDsp(flags) != 0) {
         hwEnableIrq();
