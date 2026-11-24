@@ -76,7 +76,7 @@ void emit_photon_blast_feedback_effects(saddr owner, u16 target_id);
 extern "C" {
 int copy_subcommand_header(void*);
 void TObjPlayer__sub_801BF47C(void* p);
-int lbl_805D5D70;
+int shared_count;
 int shared_flag;
 extern const f32 TObjPlayer__data_805DC278;
 }
@@ -469,7 +469,7 @@ void MaterialUsage::add_item_count_kind4(s32 class_index, u8 amount) {
     try_add_item_count(class_index, 4, amount);
 }
 
-void TObjPlayer::set_shared_count(int count) { lbl_805D5D70 = count; }
+void TObjPlayer::set_shared_count(int count) { shared_count = count; }
 
 void TObjPlayer::set_shared_flag(int flag) { shared_flag = flag; }
 
