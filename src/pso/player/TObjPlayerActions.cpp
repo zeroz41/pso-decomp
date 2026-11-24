@@ -680,22 +680,17 @@ void TObjPlayer__sub_801C7874(TObjPlayer *player) {
 int TObjPlayer::try_change_action(void* p) { return ((TObjPlayer *)p)->try_change_action(); }
 
 void TObjPlayer::run_lobby_chair_state_phase(s16 phase) {
-    saddr arg0 = (saddr)this;
-  uaddr new_var2;
-  unsigned int new_var;
   {
     switch (phase)
     {
       case 7:
         TObjPlayer::try_change_action(this);
         return;
-      new_var2 = (new_var = arg0);
       case 2:
         ((s32 (*)(void))TObjPlayer__sub_801C7874)();
         return;
       case 3:
-        ((TObjPlayer *)new_var2)->finish_chair_sit_down();
- do { } while (0 != 0);
+        finish_chair_sit_down();
         return;
       case 8:
         lobby_chair_phase8_nop();
@@ -948,22 +943,17 @@ void TObjPlayer::lobby_animation_phase2_nop() {  }
 int TObjPlayer::try_change_action_wrapper(void* p) { return ((TObjPlayer *)p)->try_change_action(); }
 
 void TObjPlayer::run_lobby_animation_state_phase(s16 phase) {
-    saddr arg0 = (saddr)this;
-  uaddr new_var2;
-  unsigned int new_var;
   {
     switch (phase)
     {
       case 7:
         TObjPlayer::try_change_action_wrapper(this);
         return;
-      new_var2 = (new_var = arg0);
       case 2:
         lobby_animation_phase2_nop();
         return;
       case 3:
-        ((TObjPlayer *)new_var2)->update_if_flagged();
- do { } while (0 != 0);
+        update_if_flagged();
         return;
       case 8:
         lobby_animation_phase8_nop();
@@ -1343,10 +1333,7 @@ void TObjPlayer::warp_phase2_nop() {  }
 void TObjPlayer::warp_phase7_nop() {  }
 
 void TObjPlayer::run_warp_action_phase(s16 phase) {
-    saddr arg0 = (saddr)this;
-  saddr new_var;
   {
-    new_var = arg0;
     switch (phase)
     {
       case 7:
@@ -1356,19 +1343,19 @@ void TObjPlayer::run_warp_action_phase(s16 phase) {
         warp_phase2_nop();
         return;
       case 3:
-        ((TObjPlayer *)new_var)->check_state_dead();
+        check_state_dead();
         return;
       case 8:
         warp_phase8_nop();
         return;
       case 5:
-        ((TObjPlayer *)new_var)->send_warp_position();
+        send_warp_position();
         return;
       case 0:
         this->set_dead_state();
         return;
       case 1:
-        ((TObjPlayer *)new_var)->update_warp_relocation();
+        update_warp_relocation();
         return;
       case 6:
         this->init_flags_vec4();
@@ -1633,22 +1620,17 @@ void TObjPlayer::set_motion() {
 }
 
 void TObjPlayer::run_service_hold_state_phase(s16 phase) {
-    saddr arg0 = (saddr)this;
-  uaddr new_var2;
-  unsigned int new_var;
   {
     switch (phase)
     {
       case 7:
         set_motion();
         return;
-      new_var2 = (new_var = arg0);
       case 2:
         TObjPlayer::service_hold_phase2_nop();
         return;
       case 3:
-        ((TObjPlayer *)new_var2)->update_service_hold();
- do { } while (0 != 0);
+        update_service_hold();
         return;
       case 8:
         TObjPlayer::service_hold_phase8_nop();
@@ -1801,22 +1783,17 @@ void TObjPlayer::revival_phase2_nop() {  }
 void TObjPlayer::revival_phase7_nop() {  }
 
 void TObjPlayer::run_revival_state_phase(s16 phase) {
-    saddr arg0 = (saddr)this;
-  uaddr new_var2;
-  unsigned int new_var;
   {
     switch (phase)
     {
       case 7:
         revival_phase7_nop();
         return;
-      new_var2 = (new_var = arg0);
       case 2:
         revival_phase2_nop();
         return;
       case 3:
-        ((TObjPlayer *)new_var2)->update_timer_action();
- do { } while (0 != 0);
+        update_timer_action();
         return;
       case 8:
         update_timer_state();
@@ -3084,8 +3061,6 @@ void TObjPlayer::photon_blast_phase2_nop() {  }
 int TObjPlayer::try_apply_status_action_default() { return TObjPlayer::try_apply_status_action(this); }
 
 void TObjPlayer::dispatch_photon_blast_action(s16 phase) {
-    saddr arg0 = (saddr)this;
-  saddr *new_var;
   {
     switch (phase)
     {
@@ -3097,16 +3072,12 @@ void TObjPlayer::dispatch_photon_blast_action(s16 phase) {
         return;
       case 3:
         this->update_target_approach();
-        arg0 = arg0;
-        if (1)
-      {
-      }
         return;
       case 8:
         this->update_band_state();
         return;
       case 5:
-        ((TObjPlayer *)(*(new_var = &arg0)))->prepare_photon_blast_action();
+        this->prepare_photon_blast_action();
         return;
       case 0:
         this->enter_photon_blast_action();
@@ -4925,17 +4896,14 @@ void TObjPlayer::check_idle_movement_request() {
 int TObjPlayer::try_apply_status_action_2() { return TObjPlayer::try_apply_status_action(this); }
 
 void TObjPlayer::run_idle_state_phase(s16 phase) {
-    saddr arg0 = (saddr)this;
-  saddr new_var;
   {
     switch (phase)
     {
       case 7:
         this->try_apply_status_action_2();
         return;
-      new_var = arg0;
       case 2:
-        ((TObjPlayer *)new_var)->check_idle_movement_request();
+        check_idle_movement_request();
         return;
       case 3:
         TObjPlayer::complete_idle_state();
@@ -4944,13 +4912,13 @@ void TObjPlayer::run_idle_state_phase(s16 phase) {
         idle_phase8_nop();
         return;
       case 5:
-        ((TObjPlayer *)new_var)->send_6x3E_stop_at_position();
+        send_6x3E_stop_at_position();
         return;
       case 0:
-        ((TObjPlayer *)new_var)->start_animation();
+        start_animation();
         return;
       case 1:
-        TObjPlayer::update_action(new_var);
+        TObjPlayer::update_action((saddr)this);
         return;
       case 6:
         TObjPlayer::exit_idle_state();
