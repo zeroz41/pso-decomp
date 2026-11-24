@@ -1423,10 +1423,10 @@ force_active:
   - name__20TObjNpcCloakroomBase
   - static_instance__20TObjNpcCloakroomBase
   - name__18TObjNpcConnoisseur
-  - TObjNpcEnemy__collision_body_parts
+  - collision_body_parts__12TObjNpcEnemy
   - __ct__12TObjNpcEnemyFP7TObjectPv
-  - TObjNpcEnemy__entry_table
-  - TObjNpcEnemy_class_name
+  - entry_table__12TObjNpcEnemy
+  - name__12TObjNpcEnemy
   - name__17TObjNpcExpertBase
   - shared_resource__17TObjNpcExpertBase
   - __ct__17TObjNpcFemaleBaseFP7TObjectPv
@@ -15538,7 +15538,7 @@ force_active:
   - set_node_offsets__10TBoss2MineFv
   - set_npc_control_flag__10TNpcPlayerFPvs
   - set_npc_ctrl_state__10TNpcPlayerFl
-  - set_npc_data__12TObjNpcEnemyFPv
+  - set_npc_data__12TObjNpcEnemyFP17TObjNpcEnemyEntry
   - set_num_tex_gens_zero__10TObjPlayerFv
   - set_offscreen_height__13TBoss5GryphonFv
   - set_option_and_confirm__17TWindowOptionCtrlFll
@@ -16334,7 +16334,7 @@ force_active:
   - update_idle_state__15TObjEneMe1GiGueFv
   - sub_802D4E08__23TAdSinglePlyChrSelectGCFv
   - sub_802D577C__13TUnk_804E21F8Fv
-  - sub_802D7444__12TObjNpcEnemyFv
+  - is_not_jungle_grass__12TObjNpcEnemyFv
   - init_model_animation__17TAdChrSelPlayerGCFv
   - sub_802E1F14__12TAdTimeSetGCFv
   - enter_sway__14TBoss7TentacleFv

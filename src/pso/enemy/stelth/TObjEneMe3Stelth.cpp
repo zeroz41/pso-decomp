@@ -56,7 +56,6 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/technique/TTecSifta.h"
-#include "pso/npc/TObjNpcEnemy_803D8090.h"
 #include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
 #include "pso/unk/text_803DC86C.h"
 #include "pso/render/ModelDrawContext.h"

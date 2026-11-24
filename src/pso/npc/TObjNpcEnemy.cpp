@@ -25,17 +25,13 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/render/GinjaTextureMatrices.h"
 
 #pragma readonly_strings on
 
-CollisionBody TObjNpcEnemy__collision_body_parts = {{0.0f, 7.5f, 0.0f}, 7.0f, 0.0f, 0, 0x30203, {0.0f, 0.0f, 0.0f}, 0.0f};
-const char *TObjNpcEnemy_class_name = "TObjNpcEnemy";
-
-extern "C" {
-void * TObjNpcEnemy__create(void *set_data);
-s32 translate_matrix(int, int, f32, f32, f32);
-
-}
+CollisionBody TObjNpcEnemy::collision_body_parts = {{0.0f, 7.5f, 0.0f}, 7.0f, 0.0f, 0, 0x30203, {0.0f, 0.0f, 0.0f}, 0.0f};
+const char *TObjNpcEnemy::name = "TObjNpcEnemy";
 
 void TObjNpcEnemyEntry::reset() {
     id = 0;
@@ -125,31 +121,31 @@ void NpcModelRegistry::register_chunk(s16 id, NJS_OBJECT *model, NJS_TEXLIST *te
     }
 }
 
-TObjNpcEnemyEntry *TObjNpcEnemy::get_entry_by_index(s16 arg0) {
+TObjNpcEnemyEntry *TObjNpcEnemy::get_entry_by_index(s16 index) {
     TObjNpcEnemyEntry *entry;
-    if (arg0 < 0) {
+    if (index < 0) {
         return NULL;
     }
-    if (arg0 >= 0x10) {
+    if (index >= 0x10) {
         return NULL;
     }
-    entry = &TObjNpcEnemy__entry_table[arg0];
+    entry = &entry_table[index];
     if (entry->id == 0) {
         return NULL;
     }
     return entry;
 }
 
-TObjNpcEnemyEntry *TObjNpcEnemy::insert_slot_by_id(s16 arg0) {
+TObjNpcEnemyEntry *TObjNpcEnemy::insert_slot_by_id(s16 id) {
     s32 i;
     TObjNpcEnemyEntry *e;
     for (i = 0; i < 0x10; i++) {
-        e = &TObjNpcEnemy__entry_table[i];
+        e = &entry_table[i];
         if (e->id == 0) {
             return e;
         }
-        if (e->id >= arg0) {
-            if (e->id == arg0) {
+        if (e->id >= id) {
+            if (e->id == id) {
                 return NULL;
             }
             break;
@@ -158,7 +154,7 @@ TObjNpcEnemyEntry *TObjNpcEnemy::insert_slot_by_id(s16 arg0) {
     if (i >= 0x10) {
         return NULL;
     }
-    if (TObjNpcEnemy__entry_table[15].id != 0) {
+    if (entry_table[15].id != 0) {
         return NULL;
     }
     if (i < 0xF) {
@@ -171,11 +167,11 @@ TObjNpcEnemyEntry *TObjNpcEnemy::insert_slot_by_id(s16 arg0) {
 void TObjNpcEnemy::reset_all_anim_fields() {
     s32 i;
     for (i = 0; i < 0x10; i++) {
-        TObjNpcEnemy__entry_table[i].reset();
+        entry_table[i].reset();
     }
 }
 
-s32 TObjNpcEnemy::sub_802D7444() {
+s32 TObjNpcEnemy::is_not_jungle_grass() {
     return (this->entry->id != 0x3F) ? 1 : 0;
 }
 
@@ -189,16 +185,16 @@ void TObjNpcEnemy::request_action(s32) {
 }
 
 
-void TObjNpcEnemy::set_npc_data(void *data) {
+void TObjNpcEnemy::set_npc_data(TObjNpcEnemyEntry *data) {
     TObjNpcEnemyEntry *entry;
 
-    this->entry = (TObjNpcEnemyEntry *)data;
+    this->entry = data;
     entry = this->entry;
     if (entry == NULL) {
         this->model = 0;
         this->texlist = 0;
         this->requested_action = 0;
-        *(f32 *)((s8 *)this->bodies + 0xC) = 0.0f;
+        this->bodies->radius = 0.0f;
         return;
     }
     this->model = entry->model;
@@ -214,11 +210,10 @@ void TObjNpcEnemy::set_npc_data(void *data) {
         init_motion(entry->animation.actions, entry->animation.motions, requested_action);
         break;
     }
-    *(f32 *)((s8 *)this->bodies + 0xC) = this->entry->radius;
+    this->bodies->radius = this->entry->radius;
 }
 
 void TObjNpcEnemy::draw_debug_info() {
-    u8 *arg0 = (u8 *)this;
     TObjNpcEnemyEntry *p;
     TObjNpcBase::draw_debug_info();
     TObjNpcEnemy::set_global_count(0xFF00FF);
@@ -227,7 +222,7 @@ void TObjNpcEnemy::draw_debug_info() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
     p = TObjNpcEnemy::get_entry_by_index((s16) this->rotation_x);
     if (p != this->entry) {
-        ((TObjNpcEnemy *)arg0)->set_npc_data(p);
+        set_npc_data(p);
     }
     p = this->entry;
     if (p == NULL) {
@@ -251,7 +246,7 @@ void TObjNpcEnemy::draw_debug_info() {
         } else {
             this->requested_action = this->rotation_z;
         }
-        ((TObjMotion *)arg0)->advance_animation();
+        advance_animation();
         break;
     }
 }
@@ -282,30 +277,27 @@ void TObjNpcEnemy::update_state() {
     }
 }
 
-extern s32 model_render_flags;
-
 void TObjNpcEnemy::render() {
-    u8 *arg0 = (u8 *)this;
     TObjNpcEnemyEntry *entry;
 
     if ((this->entry != NULL) && (this->update_object_view_visibility(this->view_distance, this->view_radius) != 0) && ((s32) this->visible == 1)) {
         select_actor_lighting(this);
-        if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
+        if (is_not_jungle_grass() != 0) {
             model_render_flags |= 1;
         }
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix_from(0);
         translate_matrix_vec3(0, ((u8 *)&this->position));
         entry = this->entry;
-        translate_matrix(0, (saddr)entry, 0.0f, entry->y_offset, 0.0f);
+        translate_matrix(0, 0.0f, entry->y_offset, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         update_state();
         pop_matrix();
-        if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
-            model_render_flags &= 0xFFFFFFFE;
+        if (is_not_jungle_grass() != 0) {
+            model_render_flags &= ~1;
         }
         restore_scene_lighting();
-        ((TObjEnemy *)arg0)->draw_ground_shadow(0, 0);
+        draw_ground_shadow(0, 0);
     }
 }
 
@@ -313,23 +305,23 @@ TObjNpcEnemy::~TObjNpcEnemy() {}
 
 
 TObjNpcEnemy::TObjNpcEnemy(TObject *parent, void *set_data) : TObjNpcBase(parent) {
-    m_name = TObjNpcEnemy_class_name;
+    m_name = name;
     apply_set_data(set_data);
     init_position_vectors();
     apply_set_params(0, 1);
     movementParameters = &npc_movement_parameters;
     set_motion_params(&npc_default_battle_stats);
-    init_collision_body_parts(this, &TObjNpcEnemy__collision_body_parts, 1);
-    ((TObjPlayer *)this)->register_object_by_id();
+    init_collision_body_parts(this, &collision_body_parts, 1);
+    register_object_by_id();
     update_prev_position();
     ((TBoss3VoloptHiraisin *)this)->copy_position();
     set_npc_data(get_entry_by_index((s16)rotation_x));
 }
 
-void *TObjNpcEnemy__create(void *set_data) {
+void *TObjNpcEnemy::create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcEnemy(control, set_data);
 }
 
 
-TObjNpcEnemyEntry TObjNpcEnemy__entry_table[16];
+TObjNpcEnemyEntry TObjNpcEnemy::entry_table[16];
