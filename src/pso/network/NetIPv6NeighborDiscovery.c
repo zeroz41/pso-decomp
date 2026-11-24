@@ -783,7 +783,7 @@ extern s16 NetIPv6ParseNeighborSolicitationOptions(NetPacketFragment *self, s32 
 {
   u8 *p;
   s16 step;
-  short new_var;
+  s16 lladdr_len;
   u8 *q;
   while (n >= 8)
   {
@@ -807,7 +807,8 @@ extern s16 NetIPv6ParseNeighborSolicitationOptions(NetPacketFragment *self, s32 
       return -0x10E;
     }
     q = p + 2;
-    NetIPv6UpdateNeighborLinkAddress(out, q, new_var = step - 2, iface);
+    lladdr_len = step - 2;
+    NetIPv6UpdateNeighborLinkAddress(out, q, lladdr_len, iface);
     netbuf_ref_advance(&self->buffer, step);
   }
 
@@ -899,7 +900,7 @@ s16 NetIPv6HandleRouterAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface
 extern s16 NetIPv6ParseRouterAdvertisementOptions(NetPacketFragment *self, s32 n, u8 *dst, s16 iface)
 {
   NetBufferRef ref;
-  u8 *new_var3;
+  u8 *prefix;
   Ipv6NdPrefixInfoOption prefix_opt;
   Ipv6NdPrefixEvent prefix_event;
   Ipv6NdMtuOption mtu_opt;
@@ -907,7 +908,6 @@ extern s16 NetIPv6ParseRouterAdvertisementOptions(NetPacketFragment *self, s32 n
   long long new_var;
   u8 *payload = (void *) 0;
   s16 len;
-  u8 *new_var2;
   while (n >= 8)
   {
     u8 *p = netbuf_ref_data(&self->buffer);
@@ -938,9 +938,9 @@ extern s16 NetIPv6ParseRouterAdvertisementOptions(NetPacketFragment *self, s32 n
         if (len == 0x20U)
       {
         set_value_and_enable(&ref, &prefix_opt);
-        new_var3 = prefix_opt.prefix.bytes;
+        prefix = prefix_opt.prefix.bytes;
         netbuf_copy_by_ref(&ref, &self->buffer, 0x20);
-        prefix_event.prefix = (new_var2 = new_var3);
+        prefix_event.prefix = prefix;
         prefix_event.prefix_len = prefix_opt.prefix_len;
         prefix_event.preferred_lifetime = prefix_opt.preferred_lifetime;
         prefix_event.valid_lifetime = prefix_opt.valid_lifetime;

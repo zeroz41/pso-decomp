@@ -351,11 +351,10 @@ void ipv6cp_start_negotiation(PppFsm *entry) {
 }
 
 void ipv6cp_opening(PppFsm *entry) {
-    s8 *entry_s8 = (s8 *)entry;
-  s8 *new_var;
-  new_var = (s8 *) (((s8 *) entry_s8) + ((0, 0)));
-  lobby_timer_stop(&entry->timer);
-  *new_var = 5;
+    PppFsm *fsm = entry;
+    u8 *state = &fsm->state;
+    lobby_timer_stop(&entry->timer);
+    *state = 5;
 }
 
 void ipv6cp_link_closed(PppFsm *fsm) {
