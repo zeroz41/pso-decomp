@@ -96,7 +96,7 @@ struct TNpcPlayer : public TObject {
         u8 attack_technique_probability;
         f32 unknown_24;
         void copy(AiParams *src);
-        void copy_entry_by_index(s32 arg1);
+        void copy_entry_by_index(s32 index);
     };
 
     TNpcPlayer(u16 a, u16 b, int kind, TObject *parent);
