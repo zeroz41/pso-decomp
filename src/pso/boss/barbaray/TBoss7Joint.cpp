@@ -16,7 +16,6 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 
 
-extern const f32 lbl_805DE9F0;
 
 
 int TBoss7Joint::is_part_active() { return part_flags & 0x1; }
@@ -40,7 +39,7 @@ void TBoss7Joint::enable_body_collision() {
 
 void TBoss7Joint::update_body_colliders() {
     f32 y = position.y;
-    if (y < (lbl_805DE9F0 - 50.0f)) {
+    if (y < (boss7_sea_level_y - 50.0f)) {
         bodies->flags &= ~7;
     } else if (y >= 30.0f) {
         bodies->flags |= 5;

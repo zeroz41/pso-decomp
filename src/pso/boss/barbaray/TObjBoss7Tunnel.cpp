@@ -34,6 +34,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/boss/barbaray/TBoss7BreakUp.h"
 
 // count + index list; the TUnk_804E4B24 constructor copies both into the segment it builds
 struct Boss2TunnelEffectEntry {
@@ -63,7 +64,6 @@ s32 boss2_tunnel_spawn_timer_table[0x1F] = {
 s32 boss2_tunnel_spawn_timer_table_b[10] = {1, 1, 3, 4, 3, 3, 3, 3, 3, 3};
 // y comes from a float constant of another file, so this file's static
 // initializer (0x802F2CC4, .ctors 0x80433FDC) fills it in at startup.
-extern const f32 boss7_tunnel_splash_y;
 Vec boss7_tunnel_raft_splash_positions[2] = {
     {78.0f, boss7_tunnel_splash_y, 83.0f},
     {-78.0f, boss7_tunnel_splash_y, 83.0f},

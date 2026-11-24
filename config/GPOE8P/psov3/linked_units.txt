@@ -1673,7 +1673,7 @@ pso/player/TObjPlayer_802C367C.cpp
 pso/player/TObjPlayer_802C3B14.cpp
 pso/player/TObjPlayer_802C422C.cpp
 pso/player/TObjPlayer_802D5174.cpp
-pso/player/TObjPlayer_802E6CA8.cpp
+pso/boss/barbaray/TBoss7BreakUp.cpp
 pso/player/TObjPlayer_80307618.cpp
 pso/player/TObjPlayer_803083B0.cpp
 pso/player/TObjPlayer_803130BC.cpp

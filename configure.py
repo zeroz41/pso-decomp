@@ -825,7 +825,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowSubStatusDisp_80288030.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # -inline off,deferred: the named float constants 0x805DE9C8-0x805DEA04 sit in .sdata2, are loaded
     # by address (not folded), and precede the TU's own literal pool (76.0/-75.0): written last to first.
-    "pso/player/TObjPlayer_802E6CA8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/boss/barbaray/TBoss7BreakUp.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # -sdata 4: the 8-byte technique_ringwave_texture_list sits in .data, not .sdata.
     "pso/technique/TechniqueRingwaveList.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -sdata 4: the 8-byte NJS_TEXLISTs sit in .data, not .sdata.

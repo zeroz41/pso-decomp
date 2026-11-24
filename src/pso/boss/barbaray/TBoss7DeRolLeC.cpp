@@ -141,7 +141,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_802E6CA8.h"
+#include "pso/boss/barbaray/TBoss7JointBreakUp.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
@@ -393,8 +393,8 @@ const s32 *boss7_derolle_c_crawfish_angle_sets[4] = {boss7_derolle_c_crawfish_an
 
 Boss7LoadCallback boss7_derolle_c_load_callbacks[6] = {
     {TBoss7Tentacle::load_static_resource, TBoss7Tentacle::destroy_instance},
-    {TObjPlayer__sub_802E7470, TObjPlayer__sub_802E7084},
-    {TObjPlayer__sub_802E7088, TObjPlayer__sub_802E746C},
+    {TBoss7JointBreakUp::load_static_resource, TBoss7JointBreakUp::destroy_instance},
+    {TBoss7BodyBreakUp::load_static_resource, TBoss7BodyBreakUp::destroy_instance},
     {TBoss7Crawfish::load_static_resource, TBoss7Crawfish::destroy_instance},
     {TBoss7TentacleNeedle::load_static_resource, TBoss7TentacleNeedle::destroy_instance},
     {TUnk_804F1C88::load_static_resource, TUnk_804F1C88::destroy_instance},

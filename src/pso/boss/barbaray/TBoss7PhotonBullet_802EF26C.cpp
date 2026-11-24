@@ -1,6 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/barbaray/TBoss7PhotonBullet.h"
 #include "pso/boss/barbaray/TBoss7PhotonPad.h"
+#include "pso/boss/barbaray/TBoss7BreakUp.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
@@ -32,10 +33,6 @@ extern const s32 boss7_photon_bullet_hit_args[2] = {0x40400000, 1}; // 3.0f as r
 const char *TBoss7PhotonPad__name = "TBoss7PhotonPad";
 const char *TBoss7PhotonBullet__name = "TBoss7PhotonBullet";
 
-extern "C" {
-extern const f32 lbl_805DEA00;
-extern const f32 lbl_805DEA04;
-}
 
 TBoss7PhotonPad::TBoss7PhotonPad(TObject *parent, const Vec *shot_origin, const Vec *direction, s32 shot_level)
     : TObject(parent) {
@@ -128,7 +125,7 @@ void TBoss7PhotonBullet::run_task() {
             grounded &= ~1;
         }
     }
-    if (position.x <= lbl_805DEA00 && position.x >= lbl_805DEA04) {
+    if (position.x <= boss7_deck_max_x && position.x >= boss7_deck_min_x) {
         DirectAttackPayload attack = boss7_photon_bullet_attack[0];
         attack.power = TBoss7PhotonBullet::get_target_pos_y();
         if (vfunc_16((void *)boss7_photon_bullet_hit_args, &attack) != 0) {

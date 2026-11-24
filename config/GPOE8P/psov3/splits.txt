@@ -8478,7 +8478,7 @@ pso/ui/frontend/TAdGameStartSubGC.cpp:
 	.sbss       start:0x805D6908 end:0x805D690C
 	.sdata2     start:0x805DE998 end:0x805DE9C8
 
-pso/player/TObjPlayer_802E6CA8.cpp:
+pso/boss/barbaray/TBoss7BreakUp.cpp:
 	.text       start:0x802E6CA8 end:0x802E7888
 	.ctors      start:0x80433FD8 end:0x80433FDC
 	.rodata     start:0x80472C68 end:0x80472CB0
