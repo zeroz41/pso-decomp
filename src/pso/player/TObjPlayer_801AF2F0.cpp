@@ -456,20 +456,6 @@ struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
 LAYOUT_ASSERT(RecoveredGlobal_8000F7FC_lbl_80515F48_size, sizeof(RecoveredGlobal_8000F7FC_lbl_80515F48) == 0x28);
 
 
-typedef struct Msg_801BA838 {
-    u8 pad0[2];
-    u16 slot;
-    s32 floor;
-    u8 vec[12];
-    s32 ang;
-    u8 pad20[8];
-} Msg_801BA838;
-
-typedef struct Player_801BA838 {
-    u8 pad0[0x60];
-    s32 ang;
-} Player_801BA838;
-
 typedef struct Msg20_801BA8D4 {
     u8 pad0[2];
     u16 id;
@@ -493,13 +479,6 @@ typedef struct Player_801BA8D4 {
     u8 pad44[0x60 - 0x44];
     s32 ang;
 } Player_801BA8D4;
-
-struct Msg_801BA78C {
-    u16 cmd;
-    u16 slot;
-    u32 x4;
-    u32 flags;
-};
 
 struct Sp8Struct_801baa00 {
     s16 f0;
@@ -1375,34 +1354,34 @@ void handle_6x1F_set_player_floor(G_SetPlayerFloor_6x1F *command) {
 }
 
 void handle_6x20_set_position(G_SetPosition_6x20 *command) {
-    Msg_801BA838 m;
-    Player_801BA838 *p;
-    ((G_SetPosition_6x20 *)&m)->init();
-    *(G_SetPosition_6x20 *)&m = *command;
-    ((G_SetPosition_6x20 *)&m)->bswap();
-    if (validate_6x20_set_position((G_ClientIDHeader *)&m) != 0) {
-        p = (Player_801BA838 *)get_player_by_client_id(m.slot);
+    G_SetPosition_6x20 m;
+    TObjPlayer *p;
+    m.init();
+    m = *command;
+    m.bswap();
+    if (validate_6x20_set_position(&m.header) != 0) {
+        p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
-            ((TObjBase *)p)->set_position_from(m.vec);
-            ((TObjPlayer *)p)->set_floor_index(get_floor_area(m.floor));
-            ((TObjPlayer *)p)->set_floor(m.floor);
-            p->ang = m.ang;
-            ::set_flag_400000((TObjPlayer *)p);
+            p->set_position_from(&m.pos);
+            p->set_floor_index(get_floor_area(m.floor));
+            p->set_floor(m.floor);
+            p->rotation_y = m.angle_y;
+            ::set_flag_400000(p);
         }
     }
 }
 
 void handle_6xAE_set_animation_state(G_SetAnimationState_6xAE *command) {
-    Msg_801BA78C m;
-    void *p;
-    ((G_SetAnimationState_6xAE *)&m)->init();
-    *(G_SetAnimationState_6xAE *)&m = *command;
-    ((G_SetAnimationState_6xAE *)&m)->bswap();
+    G_SetAnimationState_6xAE m;
+    TObjPlayer *p;
+    m.init();
+    m = *command;
+    m.bswap();
     if (validate_6xAE_set_animation_state(&m) != 0) {
-        p = get_player_by_client_id(m.slot);
-        if (p != NULL && TFontSmallLobby::is_lobby_floor_15() != 0 && ((TObjPlayer *)p)->test_action_mask(0x01000000) == 0 && (m.flags & 0x04000000)) {
-            ((TObjPlayer *)p)->set_state_flags(m.flags & 0x1C000000);
-            ((TObjPlayer *)p)->run_action_state_phase(0x18, 0);
+        p = get_player_by_client_id(m.header.client_id);
+        if (p != NULL && TFontSmallLobby::is_lobby_floor_15() != 0 && p->test_action_mask(0x01000000) == 0 && (m.player_flags & 0x04000000)) {
+            p->set_state_flags(m.player_flags & 0x1C000000);
+            p->run_action_state_phase(0x18, 0);
         }
     }
 }
