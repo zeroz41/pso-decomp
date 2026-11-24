@@ -25,7 +25,7 @@ const char *TObjRoomId__name = "TObjRoomId";
 static const Vec room_id_base_normal = {0.0f, 0.0f, -1.0f};
 
 extern "C" {
-u16 TObjRoomId__sub_801A1DB8(u16 x);
+u16 TObjRoomId__sub_801A1DB8(u16 entity_id);
 }
 
 s32 TObjRoomId::is_player_in_range(u16 id, f32 range_squared) {
