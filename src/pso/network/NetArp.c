@@ -29,9 +29,9 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
 
 s32 arp_init(void);
 void arp_start(void);
-s32 arp_remove_alias(s16, saddr);
-s32 arp_add_alias(s16, saddr);
-s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, saddr haddr, s16 plen, saddr paddr);
+s32 arp_remove_alias(s16, u8 *);
+s32 arp_add_alias(s16, u8 *);
+s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, u8 *haddr, s16 plen, u8 *paddr);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -55,11 +55,11 @@ void arp_start(void) {
     arp_init();
 }
 
-s32 dispatch_slot_a(s16 id, s32 key) {
+s32 dispatch_slot_a(s16 id, u8 *key) {
     return arp_remove_alias(id, key);
 }
 
-s32 dispatch_slot_b(s16 id, s32 pkey) {
+s32 dispatch_slot_b(s16 id, u8 *pkey) {
     return arp_add_alias(id, pkey);
 }
 
@@ -95,7 +95,7 @@ s16 forward_net_op(s16 idx, u8 *name, u8 *pkt) {
     return arp_resolve_and_send(idx, name, pkt);
 }
 
-s16 forward_net_op_5args(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, s32 haddr, s16 plen, s32 paddr) {
+s16 forward_net_op_5args(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, u8 *haddr, s16 plen, u8 *paddr) {
     return register_arp_interface(handler, socket, htype, ptype, hlen, haddr, plen, paddr);
 }
 
@@ -357,7 +357,7 @@ s16 arp_resolve_and_send(s16 idx, void *name, void *pkt) {
     return ret;
 }
 
-s32 arp_remove_alias(s16 id, saddr key) {
+s32 arp_remove_alias(s16 id, u8 *key) {
     ArpState *tbl = &arp_state;
     ArpIface *base = tbl->ifaces;
     s16 ok;
@@ -392,7 +392,7 @@ s32 arp_remove_alias(s16 id, saddr key) {
         if (tbl->naliases <= i) {
             return -1;
         }
-        if (NetMemcmp(p->addr, (void *)key, 4) == 0) {
+        if (NetMemcmp(p->addr, key, 4) == 0) {
             if (e->aliases == p) {
                 e->aliases = p->next;
             } else {
@@ -421,7 +421,7 @@ inline ArpAlias *alloc_arp_alias(ArpState *t, s16 *count) {
     }
     return NULL;
 }
-s32 arp_add_alias(s16 id, saddr pkey) {
+s32 arp_add_alias(s16 id, u8 *pkey) {
     s16 lim;
     ArpAlias *next;
     ArpAlias *p;
@@ -442,7 +442,7 @@ s32 arp_add_alias(s16 id, saddr pkey) {
     if (node == NULL) {
         return -1;
     }
-    NetMemcpy(node->addr, (void *)pkey, 4);
+    NetMemcpy(node->addr, pkey, 4);
     node->used = 1;
     node->next = NULL;
     if (e->aliases == NULL) {
@@ -475,7 +475,7 @@ inline ArpIface *find_free_arp_iface(ArpIface *base) {
     return NULL;
 }
 
-s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, saddr haddr, s16 plen, saddr paddr)
+s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, u8 *haddr, s16 plen, u8 *paddr)
 {
     ArpIface *base;
     ArpIface *slot;
@@ -506,8 +506,8 @@ s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hl
     slot->hlen = hlen;
     slot->plen = plen;
     slot->op = 0;
-    NetMemcpy(slot->haddr, (void *)haddr, hlen);
-    NetMemcpy(slot->paddr, (void *)paddr, plen);
+    NetMemcpy(slot->haddr, haddr, hlen);
+    NetMemcpy(slot->paddr, paddr, plen);
     slot->aliases = NULL;
     return idx;
 }

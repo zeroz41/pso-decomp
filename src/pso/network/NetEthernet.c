@@ -14,7 +14,7 @@ s16 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b);
 s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt);
 s32 dix_free_buffer(s16 id, u8 *pkt);
 s32 dix_update_multicast(s16 idx, s16 mode, u8 *data);
-s32 dix_update_address(s16 id, s16 op, s32 addr);
+s32 dix_update_address(s16 id, s16 op, u8 *addr);
 s32 dix_get_address(s16 id, u8 *dst);
 s32 dix_get_address_length(s16 idx);
 s32 dix_get_mtu(s16 idx);
@@ -386,7 +386,7 @@ s32 dix_update_multicast(s16 idx, s16 mode, u8 *data) {
     return -2;
 }
 
-s32 dix_update_address(s16 id, s16 op, s32 addr) {
+s32 dix_update_address(s16 id, s16 op, u8 *addr) {
     s32 h;
     EthSocket *e;
 
@@ -596,7 +596,7 @@ found:
     }
     switch (b) {
     case 0x800:
-        ret = forward_net_op_5args(a, idx, 1, b, 6, (saddr)p1->mac, c, (saddr)k);
+        ret = forward_net_op_5args(a, idx, 1, b, 6, p1->mac, c, k);
         if (ret < 0) {
             err = ret;
             goto fail;

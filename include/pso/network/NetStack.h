@@ -121,8 +121,8 @@ s16 ipv6_output(NetPacket *pkt, void *dst, void *src, NetIPv6SendOptions *opts, 
 extern NetPacketPool lobby_udp_socket_table;
 /* Shared by the modules cut out of this unit; each is defined in the file named in its comment. */
 u16 packet_ones_complement_sum(struct NetPacket *, s16); /* PppFraming.c */
-s32 dispatch_slot_a(s16, s32);                       /* NetArp.c */
-s32 dispatch_slot_b(s16, s32);                       /* NetArp.c */
+s32 dispatch_slot_a(s16, u8 *);                       /* NetArp.c */
+s32 dispatch_slot_b(s16, u8 *);                       /* NetArp.c */
 s16 forward_net_op(s16, u8 *, u8 *);                 /* NetArp.c */
 s16 *get_active_entry_by_index(s16);                 /* NetIpv4Route.c */
 Ipv4Route *AT_IP4_RouteSearch(u32 dst, u32 src);     /* NetIpv4Route.c */
@@ -133,7 +133,7 @@ s16 get_ipv4_interface_mtu(s16);                       /* NetIpv4Route.c */
 s32 route4_redirect(u32 dst, u32 new_gateway, u32 mask, u32 flags, u32 old_gateway); /* NetIpv4Route.c */
 /* ARP (src/pso/network/NetArp.c). */
 s32 unregister_arp_interface(s16 id);
-s16 forward_net_op_5args(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, s32 haddr, s16 plen, s32 paddr);
+s16 forward_net_op_5args(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, u8 *haddr, s16 plen, u8 *paddr);
 /* The handler table (src/pso/network/NetHandlerTable.c). */
 s16 link_update_multicast(s16 idx, s32 handle, s32 op, void *addr);
 s16 link_update_address(s16 idx, s32 handle, s32 op, void *addr);
