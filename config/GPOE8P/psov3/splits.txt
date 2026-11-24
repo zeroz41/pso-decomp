@@ -3010,7 +3010,7 @@ pso/object/ambient/TObjLight_80133568.cpp:
 	.sbss       start:0x805D5558 end:0x805D557C
 	.sdata2     start:0x805DB088 end:0x805DB0A8
 
-pso/unk/TLobby.cpp:
+pso/network/TLobby.cpp:
 	.text       start:0x801349C8 end:0x8013AE18
 	.ctors      start:0x80433F80 end:0x80433F84
 	.rodata     start:0x8043ED98 end:0x8043F090

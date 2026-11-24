@@ -515,7 +515,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # dtors): written last to first, deferred.
     "pso/camera/TCameraConversation.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # -sdata 4: its last .bss object (0x8050BEB8) is 8 bytes.
-    "pso/unk/TLobby.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
+    "pso/network/TLobby.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -sdata 4: the 8-byte load/release callback tables of BOSS01 (0x804A7358), BOSS02 (0x804A7360)
     # and BOSS05 (0x804A7368) sit in .data, not .sdata.
     "pso/map/area/AreaBoss01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
