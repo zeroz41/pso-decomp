@@ -403,7 +403,7 @@ TPlayerSoul::TPlayerSoul(TObject* parent, u16 id) : TPlayerParticleOwner(parent)
     set_player_id(id);
     TObjPlayer* player = get_player();
     if (player != 0) {
-        TParticleCtrl* value = (TParticleCtrl *)create_particle_emitter((char*)player + 0x2FC, 0xAF);
+        TParticleCtrl* value = create_particle_emitter(&player->body_center, 0xAF);
         if (value != 0) {
             set_particle(value);
         } else {
@@ -438,13 +438,14 @@ void TObjPlayer::new_child_object(u16 player_id) {
 }
 
 TPlayerLevelFeedback::TPlayerLevelFeedback(TObject* parent, u16 id) : TObject(parent) {
-    uaddr player;
+    TObjPlayer *player;
+    TParticleCtrl *effect;
     player_id = id;
     timer = 10;
-    player = (uaddr)get_player_by_client_id(player_id);
-    if (player != 0) {
-        player = (uaddr)spawn_particle_effect_with_flags((const Vec *)(player + 0x2FC), 0x23, 0x10);
-        if (player != 0) ((TParticleCtrl *)player)->set_owner_id(player_id);
+    player = get_player_by_client_id(player_id);
+    if (player != NULL) {
+        effect = spawn_particle_effect_with_flags(&player->body_center, 0x23, 0x10);
+        if (effect != NULL) effect->set_owner_id(player_id);
     }
 }
 
@@ -452,15 +453,15 @@ TPlayerLevelFeedback::~TPlayerLevelFeedback() {}
 
 void TPlayerLevelFeedback::run_task() {
     s32 remaining;
-    uaddr player;
-    uaddr emitter;
+    TObjPlayer *player;
+    TParticleCtrl *emitter;
     remaining = timer - 1;
     timer = remaining;
     if (remaining < 0) {
-        player = (uaddr)get_player_by_client_id(player_id);
-        if (player != 0) {
-            emitter = (uaddr)spawn_particle_effect_with_flags((const Vec *)(player + 0x2FC), 0x20, 0x10);
-            if (emitter != 0) ((TParticleCtrl *)emitter)->set_owner_id(player_id);
+        player = get_player_by_client_id(player_id);
+        if (player != NULL) {
+            emitter = spawn_particle_effect_with_flags(&player->body_center, 0x20, 0x10);
+            if (emitter != NULL) emitter->set_owner_id(player_id);
         }
         queue_destruction();
     }
