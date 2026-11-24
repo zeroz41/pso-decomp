@@ -81,7 +81,7 @@ typedef struct ModemConfig {
     const char *init_script;
     const char *dial_script;
     char *hangup_script; /* the script run after hanging up (ppp_hangup), when hangup is set */
-    char *s48;
+    char *modem_name;    /* MDMInit's argument (ppp_begin_connect); the game sets "B5" */
     s32 ms_mode;          /* configure_modem_options' arguments */
     s32 error_correction;
     s32 compression;

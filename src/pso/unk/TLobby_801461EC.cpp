@@ -776,7 +776,7 @@ s32 connect_modem(s32 idx, s16 id) {
     modem.init_script = 0;
     modem.dial_script = 0;
     modem.hangup_script = 0;
-    modem.s48 = "B5";
+    modem.modem_name = "B5";
     len = strlen("AT+MS=V34");
     memset(command, 0, sizeof(command));
     strncpy(command, "AT+MS=V34", len);

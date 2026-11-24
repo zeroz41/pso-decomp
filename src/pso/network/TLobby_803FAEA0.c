@@ -379,7 +379,7 @@ s32 ppp_open_sub(void) {
     lobby_modem_connect_state = 2;
     get_time_ms(&ppp_last_io_ms);
     ppp_session_active = 1;
-    rc = ppp_begin_connect(0, 0, g->h80, g->h7E, g->h7C, 1, g->modem.s48, g->flags & 4);
+    rc = ppp_begin_connect(0, 0, g->h80, g->h7E, g->h7C, 1, g->modem.modem_name, g->flags & 4);
     if (rc != 0 || lobby_modem_abort_flag != 0) {
         if (lobby_modem_abort_flag != 0) {
             lobby_modem_error = 0xd;
