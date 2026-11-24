@@ -52,4 +52,21 @@ void set_motion_packed_rotation();
 void clear_motion_packed_rotation();
 void traverse_animated_node_tree(void *arg);
 
+// ShapeMotionDraw.cpp: shape motions (per-node vertex and normal keys).
+// Bits of the current chunk draw (set_chunk_render_flags, and the strip marks
+// set_chunk_blend_depth_mode leaves).
+extern u32 chunk_render_flags;
+void draw_shape_motion_node_tree(NJS_OBJECT *node);
+void sample_shape_vertices(void **src, void **dst);
+void interpolate_shape_vertices(void *vertex_keys, u32 vertex_key_count, void *normal_keys, u32 normal_key_count,
+                                f32 frame, u32 *src, void **out);
+void set_shape_motion_row_stride(s32 channels);
+void advance_shape_motion_row();
+void bind_shape_motion(NJS_MOTION *shape, f32 frame);
+void select_shape_motion_context(s32 index);
+// The buffer interpolate_shape_vertices writes vertex lists to.
+void set_shape_vertex_buffer(u32 *buffer);
+// sample_shape_vertices, then moves to the next node's row.
+void sample_shape_node_vertices(void **src, void **dst);
+
 #endif

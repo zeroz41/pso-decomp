@@ -169,8 +169,8 @@ extern NodeFlagEntry *node_flag_cursor;
 extern Mtx34 *anim_model_matrix_array;
 // Where save_joint_matrix_callback stores the next node's matrix.
 extern Mtx34 *player_joint_matrix_write_ptr;
-// The 0x6000 bytes init_game_systems allocates for the motion data
-// TObjPlayer blends from two motions' keys (TObjPlayer::set_global_7778).
+// The 0x6000 bytes init_game_systems allocates for the vertex lists shape
+// motions interpolate (set_shape_vertex_buffer).
 extern void *motion_blend_buffer;
 
 LAYOUT_ASSERT(TObjBaseSize, sizeof(TObjBase)==0x90);

@@ -14,7 +14,6 @@ struct Node_803E49FC {
     struct Node_803E49FC *next;
 };
 
-extern s32 chunk_render_flags;
 
 void clear_chunk_strip_blend_flags() {
     chunk_render_flags &= 0xFFFFF9FF;

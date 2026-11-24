@@ -296,7 +296,7 @@ void init_game_systems(void) {
     TObjBoss2Tunnel::enable_and_trigger();
     init_pad_rumble();
     TKeyBoardControl::init_pad_state();
-    TObjPlayer::set_global_7778((saddr)motion_blend_buffer);
+    set_shape_vertex_buffer((u32 *)motion_blend_buffer);
     keyboard_input_buffer = (DebugTextRecord *)xmalloc(0x1000);
     init_debug_text_buffer(keyboard_input_buffer, 0x80, 0x800);
     TObjNpcEnemy::set_global_count(-1);

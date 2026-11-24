@@ -1682,7 +1682,7 @@ pso/player/TObjPlayer_803E18C0.cpp
 pso/player/TObjPlayer_803E1A58.cpp
 pso/player/TObjPlayer_803E21B8.cpp
 pso/player/TObjPlayer_803E2810.cpp
-pso/player/TObjPlayer_803E5470.cpp
+pso/render/ShapeMotionDraw.cpp
 pso/player/TPlyItem.cpp
 pso/render/TUnk_80490470.cpp
 pso/player/TUnk_804A2548.cpp

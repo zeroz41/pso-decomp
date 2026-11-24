@@ -958,8 +958,6 @@ struct TObjPlayer : public TObjChara {
     static void set_tev_passclr();
     static s32 set_num_tex_gens_zero();
     static void setup_tex_gen();
-    static void set_global_7778(saddr arg0);
-    static void update_render_state();
     static void set_global_color_rgba(u32 v, u32);
     static void set_global_color_rgba_alt_b(u32 v, u32);
     static void draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha);
@@ -1029,9 +1027,6 @@ struct TObjPlayer : public TObjChara {
     void concat_quaternion_rotation();
     static s32 is_gvm_load_ok();
     static void load_screen_space_matrix();
-    void draw_motion_node_list();
-    static void resolve_render_keys(u32 **src, u32 **dst);
-    static void advance_render_counters();
     static void draw_effect();
     void draw_trail_pair();
     static void update_particle_by_phase(NJS_OBJECT *);

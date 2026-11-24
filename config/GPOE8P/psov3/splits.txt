@@ -11658,7 +11658,7 @@ pso/unk/text_803E4CE8.cpp:
 	.text       start:0x803E4CE8 end:0x803E4D8C
 	.sdata2     start:0x805E10B0 end:0x805E10B8
 
-pso/player/TObjPlayer_803E5470.cpp:
+pso/render/ShapeMotionDraw.cpp:
 	.text       start:0x803E4D8C end:0x803E5668
 	.data       start:0x804FC828 end:0x804FC854
 	.bss        start:0x8058DC00 end:0x8058DC48

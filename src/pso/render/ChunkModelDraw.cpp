@@ -74,7 +74,6 @@ extern u32 chunk_strip_dirty_flags;
 void GXSetAlphaCompare(int comp0, int ref0, int op, int comp1, int ref1);
 extern saddr chunk_vertex_cache_buffer;
 extern s32 lbl_805D77FC;
-extern s32 chunk_render_flags;
 void transform_chunk_object_tree(void *, void (*)(void *));
 s32 __cvt_fp2unsigned(f32);
 extern GC_Mtx chunk_object_current_matrix;
@@ -401,14 +400,14 @@ void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 la
     draw = 1;
     skip = (info >> 14) & 3;
     count = info & 0x3FFF;
-    if ((u32)chunk_render_flags != 0) {
-        if ((u32)chunk_render_flags & 1) {
-            if ((u32)chunk_render_flags & 0x200) {
+    if (chunk_render_flags != 0) {
+        if (chunk_render_flags & 1) {
+            if (chunk_render_flags & 0x200) {
                 clear_chunk_strip_blend_flags();
                 draw = 0;
             }
-        } else if ((u32)chunk_render_flags & 2) {
-            if ((u32)chunk_render_flags & 0x400) {
+        } else if (chunk_render_flags & 2) {
+            if (chunk_render_flags & 0x400) {
                 clear_chunk_strip_blend_flags();
                 draw = 0;
             }
@@ -608,7 +607,7 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
     }
     temp_r30 = (u32) (chunk_blend_header_bits & 0x3800) >> 0xBU;
     temp_r29 = (u32) (chunk_blend_header_bits & 0x700) >> 8U;
-    if ((u32) chunk_render_flags != 0) {
+    if (chunk_render_flags != 0) {
         clear_chunk_strip_blend_flags();
     }
     if (arg1 == 0) {
@@ -639,7 +638,7 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
             var_r6 |= model_alpha_reason;
         }
         if ((var_r28 != 0U) && (var_r6 != 0) && (temp_r30 == 4) && (temp_r29 == 5)) {
-            if ((u32) chunk_render_flags != 0) {
+            if (chunk_render_flags != 0) {
                 chunk_render_flags |= 0x200;
             }
             GXSetBlendMode(var_r31, temp_r30, temp_r29, 0);
@@ -653,7 +652,7 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
                 set_chunk_alpha_compare_ref((u8) material_alpha_compare_reference);
             }
         } else {
-            if ((u32) chunk_render_flags != 0) {
+            if (chunk_render_flags != 0) {
                 chunk_render_flags |= 0x200;
             }
             if (((u32) (id & 0x01000000) != 0) && ((u32) (ginja_draw_flags & 2) == 0)) {
@@ -673,7 +672,7 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
             }
         }
     } else {
-        if ((u32) chunk_render_flags != 0) {
+        if (chunk_render_flags != 0) {
             chunk_render_flags |= 0x400;
         }
         zcomp_surface = current_render_context->textures->textures[chunk_texture_record_index].texture->surface;
@@ -881,7 +880,7 @@ s32 draw_chunk_vertices_cached(void* arg) {
     ChunkModel_803E44D4* model = (ChunkModel_803E44D4*)arg;
     saddr cache;
     s32 count = 0;
-    if ((u32)chunk_render_flags & 4) return 0;
+    if (chunk_render_flags & 4) return 0;
     chunk_has_vertex_colors = 0;
     cache = chunk_vertex_cache_buffer;
     if (lbl_805D77E4 & 4) {
@@ -972,14 +971,14 @@ void draw_triangle_strips(s16 *list, Vtx_803E36C4 *verts, u32 info) {
     draw = 1;
     skip = (info >> 14) & 3;
     count = info & 0x3FFF;
-    if ((u32)chunk_render_flags != 0) {
-        if ((u32)chunk_render_flags & 1) {
-            if ((u32)chunk_render_flags & 0x200) {
+    if (chunk_render_flags != 0) {
+        if (chunk_render_flags & 1) {
+            if (chunk_render_flags & 0x200) {
                 clear_chunk_strip_blend_flags();
                 draw = 0;
             }
-        } else if ((u32)chunk_render_flags & 2) {
-            if ((u32)chunk_render_flags & 0x400) {
+        } else if (chunk_render_flags & 2) {
+            if (chunk_render_flags & 0x400) {
                 clear_chunk_strip_blend_flags();
                 draw = 0;
             }
@@ -1041,6 +1040,6 @@ ChunkRecording_803E44D4* chunk_vertex_cache_state;
 s32 chunk_texture_record_index;
 u32 chunk_blend_header_bits;
 u32 lbl_805D77F4;
-s32 chunk_render_flags;
+u32 chunk_render_flags;
 s32 lbl_805D77FC;
 saddr chunk_vertex_cache_buffer;

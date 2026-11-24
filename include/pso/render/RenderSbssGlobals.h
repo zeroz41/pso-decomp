@@ -17,5 +17,7 @@ extern GinjaSceneState *current_render_context;
 extern u32 locked_cache_heap_handle;
 // The number of texture slots in use.
 extern u32 player_ref_entry_active_count;
+// Where shape motions write their interpolated vertex lists (set_shape_vertex_buffer).
+extern u32 *shape_vertex_buffer;
 
 #endif
