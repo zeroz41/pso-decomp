@@ -450,7 +450,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
     s32 i;
     u8 *eff;
     hit = 0;
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     check_object_collisions();
     check_enemy_body_collisions(this);
     if (bodies->flags & 0x180000) {

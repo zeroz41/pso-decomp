@@ -640,7 +640,7 @@ void TObjEneBm5GibonU::backjump_state(s32 msg) {
             }
             if (this->is_passing_frame(33.0f) != 0) {
                 this->clear_invulnerable();
-                TObjPlayer::init_all_slots();
+                clear_battle_param_slots();
                 this->check_object_collisions();
                 if (this->attack_collider->bodies->flags & 0x80000) {
                     s32 i;

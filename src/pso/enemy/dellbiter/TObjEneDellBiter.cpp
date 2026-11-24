@@ -427,7 +427,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
     DirectAttackPayload attack;
     hit = 0;
     VecCopy(&rush_body->position, &position);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     rush_body->check_object_collisions();
     if (rush_body->bodies->flags & 0x180000) {
         hit = 1;

@@ -1011,7 +1011,7 @@ extern "C" s32 TObjEneGibbles__sub_802D9824(void *self, s32 arg, f32 scale) {
         return 0;
     }
     ((TObjEneGibbles *)self)->render_and_get_joint_pos(&((TObjEneGibbles *)self)->attack_colliders[0]->position, 0x35);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     p = ((TObjEneGibbles *)self)->attack_colliders;
     (*p)->check_object_collisions();
     if ((*p)->bodies->flags & 0x80000) {
@@ -1057,7 +1057,7 @@ extern "C" s32 TObjEneGibbles__sub_802D9644(void *self, s32 arg, f32 scale) {
         return 0;
     }
     ((TObjEneGibbles *)self)->render_and_get_joint_pos(&((TObjEneGibbles *)self)->attack_colliders[0]->position, 0x1f);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     p = ((TObjEneGibbles *)self)->attack_colliders;
     (*p)->check_object_collisions();
     if ((*p)->bodies->flags & 0x80000) {

@@ -92,7 +92,7 @@ void TBoss7Crawfish::register_attack_hits() {
     set.count = 1;
     VecCopy(&set.position, &position);
     set.facing = rotation_y;
-    TObjPlayer::apply_status_effect((saddr)&set);
+    collect_player_body_contacts(&set);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         if ((u32)hit_count < 4) {
             entry = (ActorBodyHit *)TObjOnlineEnding::get_attack_entry(i);

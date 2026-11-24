@@ -2028,21 +2028,21 @@ s32 TObjEneMe3Stelth::check_move_collision(Vec *pos) {
     body->flags = 0x9D01;
     VecCopy(&sp, &this->position);
     VecCopy(&this->position, pos);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     this->check_collisions();
     if ((body->flags & 0x80000) && get_valid_target_player(this->current_target->get_entity_id()) == 0) {
         VecCopy(&this->position, &sp);
-        TObjPlayer::init_all_slots();
+        clear_battle_param_slots();
         return 1;
     }
     if ((body->flags & 0x100000) && get_valid_target_player(this->entity_id) == 0) {
         VecCopy(&this->position, &sp);
-        TObjPlayer::init_all_slots();
+        clear_battle_param_slots();
         return 1;
     }
     result = (body->flags & 0x200000) != 0;
     VecCopy(&this->position, &sp);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     copy_collision_body(body, &TObjEneMe3Stelth__collision_body_template);
     body->flags = saved;
     return result;

@@ -17,6 +17,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/map/CsnGroundQuery.h"
@@ -44,7 +45,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, saddr desc, 
     if (this->owner == 0) {
         return 0;
     }
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 1) {
         this->update_body_contact_flag(range);
         flags |= 0x80000;

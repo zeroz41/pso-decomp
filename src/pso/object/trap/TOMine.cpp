@@ -379,7 +379,7 @@ void TOMine::detonate() {
     u8 *obj;
     set_indexed_flags(0, 2);
     *(f32 *)(*(u8 * *)&this->bodies + 0xC) = this->m_350;
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     this->check_object_collisions();
     check_enemy_body_collisions(this);
     for (i = 0; i < 0x10; i++) {

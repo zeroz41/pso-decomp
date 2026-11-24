@@ -47,7 +47,7 @@ void TObjGyaranzoMissile::explode() {
     TObjChara *target;
     owner = find_entity_by_id(owner_id);
     bodies->radius = 6.0f;
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     check_object_collisions();
     check_enemy_body_collisions(this);
     if (bodies->flags & 0x180000) {

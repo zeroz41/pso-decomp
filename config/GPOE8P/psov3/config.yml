@@ -3776,7 +3776,7 @@ force_active:
   - add_synchro__8MagStatsFl
   - add_target_in_cone__15TObjEneMe1GiGueFPvPv
   - add_target_in_front_arc__16TObjEneNanoDragoFP9TObjChara
-  - add_unique_pair_entry__10TObjPlayerFP14TObjCollidablel
+  - add_unique_pair_entry__FP14TObjCollidablel
   - add_weapon_stat_bonuses__9TItemDataFlPslPsl
   - adjust_height_to_ground__15TObjEneDelDepthFv
   - advance_afterimage__11TBoss4Type2Fv
@@ -4993,8 +4993,8 @@ force_active:
   - check_event_theme__13TObjLobbyMainFv
   - check_finished__6TMovieFv
   - check_flag_or_state__15TObjBoss2TunnelFi
-  - check_flag_pair__10TObjPlayerFll
-  - check_flags__10TObjPlayerFll
+  - check_body_flag_pair__Fll
+  - check_body_flags__Fll
   - check_floor_contact__18TObjEneMe3SinowZoaFPC3Vec
   - check_ground_or_fall__13TUnk_804B5BA8Fv
   - check_heavy_damage_flag__9TObjCharaFf
@@ -5168,7 +5168,7 @@ force_active:
   - clear_harmful_statuses__14TBoss7CrawfishFv
   - clear_item_effect__22PlayerAttackControllerFv
   - clear_item_if_player_picked_up__9TItemDropFPvPv
-  - clear_item_table__10TObjPlayerFv
+  - clear_entity_table__Fv
   - clear_key_state__16KeyboardKeyStateFv
   - clear_load_buffers__23TAdSinglePlyChrSelectGCFv
   - clear_network_info_cipher_pool__Fv
@@ -6203,7 +6203,7 @@ force_active:
   - refresh_target__12TObjEneSaverFv
   - find_open_direction__15TObjEneMe1GiGueFP3Vec
   - find_open_direction__16TObjEneNanoDragoFP3Vec
-  - find_or_alloc_slot__10TObjPlayerFUl
+  - find_or_alloc_battle_param_slot__FUl
   - find_pack_leader__14TObjEneBm5WolfFi
   - find_parts_in_range__10TNpcPlayerFPvPvif
   - find_placement_obstruction

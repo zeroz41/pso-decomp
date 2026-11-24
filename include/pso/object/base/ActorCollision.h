@@ -15,15 +15,27 @@ struct G_UpdateObjectState_6x0B;
 // The actor bodies the last collect_body_contacts pass touched, each pair once.
 extern ActorBodyHit player_unique_pair_entries[16];
 extern int player_unique_pair_entry_count;
-// The actors TObjPlayer::find_or_alloc_slot gave a slot, 0 for a free one.
+// The actors find_or_alloc_battle_param_slot gave a slot, 0 for a free one.
 extern saddr player_battle_param_table[16];
 
 // Places the set's bodies at its position and adds every registered actor body
-// they touch to player_unique_pair_entries: the players' (TObjPlayer::
-// apply_status_effect), the enemies' or the other objects'.
+// they touch to player_unique_pair_entries: the players', the enemies' or the
+// other objects'.
+void collect_player_body_contacts(CollisionBodySet *set);
 void collect_enemy_body_contacts(CollisionBodySet *set);
 void collect_object_body_contacts(CollisionBodySet *set);
 void collect_body_contacts(CollisionBodySet *set, s32 start, s32 count);
+// Enters (target, body) in the hit pair table unless it is already there.
+void add_unique_pair_entry(TObjCollidable *target, s32 body);
+// 1 if two bodies with these flags can touch / hit each other.
+s32 check_body_flag_pair(s32 flags, s32 other_flags);
+s32 check_body_flags(s32 flags, s32 other_flags);
+// Empties the entity table.
+void clear_entity_table();
+// Frees every battle param slot.
+void clear_battle_param_slots();
+// The slot the actor has, else a free one given to it; -1 when all are taken.
+s32 find_or_alloc_battle_param_slot(uaddr actor);
 int set_battle_param_slot(int slot, int actor);
 CollisionBox *copy_collision_box(CollisionBox *dst, const CollisionBox *src);
 void copy_collision_sphere(CollisionSphere *dst, CollisionSphere *src);
@@ -34,7 +46,9 @@ s32 test_collider_sphere_overlap_xz(Vec origin, const CollisionBody *body, Colli
 s32 resolve_actor_sphere_contact(TObjCollidable *actor, TObjCollidable *other, CollisionBody *contact);
 s32 resolve_player_box_contact(TObjCollidable *actor, TObjCollidable *other, CollisionBody *contact);
 s32 respond_to_body_contact(TObjCollidable *actor, TObjCollidable *other, CollisionBody *contact);
-// Empties the entity table and the battle param slots.
+// Empties the entity table and the battle param slots; init_entity_tables also
+// zeroes the registered actor counts.
+void init_entity_tables();
 void clear_entity_tables(void);
 
 extern "C" {

@@ -50,8 +50,8 @@ s32 registered_enemy_count;
 s32 registered_object_count;
 int player_unique_pair_entry_count;
 
-void TObjPlayer::apply_status_effect(saddr set) {
-    collect_body_contacts((CollisionBodySet *)set, 0, registered_player_count);
+void collect_player_body_contacts(CollisionBodySet *set) {
+    collect_body_contacts(set, 0, registered_player_count);
 }
 
 void collect_enemy_body_contacts(CollisionBodySet *set) {
@@ -125,7 +125,7 @@ void collect_body_contacts(CollisionBodySet *set, s32 start, s32 count) {
                     Vec offset;
                     CollisionSphere other_sphere;
                     hit = NULL;
-                    if (TObjPlayer::check_flags(flags, other_body->flags)) {
+                    if (check_body_flags(flags, other_body->flags)) {
                         rotate_vector_by_current_matrix(&other_body->offset, &offset);
                         other_body->center.x = other_pos.x + offset.x;
                         other_body->center.y = other_pos.y + offset.y;
@@ -154,7 +154,7 @@ void collect_body_contacts(CollisionBodySet *set, s32 start, s32 count) {
                         }
                     }
                     if (hit != NULL) {
-                        TObjPlayer::add_unique_pair_entry(actor, j);
+                        add_unique_pair_entry(actor, j);
                     }
                 }
                 pop_matrix();
@@ -165,7 +165,7 @@ void collect_body_contacts(CollisionBodySet *set, s32 start, s32 count) {
 
 #pragma pop
 
-void TObjPlayer::add_unique_pair_entry(TObjCollidable *target, s32 body) {
+void add_unique_pair_entry(TObjCollidable *target, s32 body) {
     ActorBodyHit *p;
     s32 i;
     if ((u32)player_unique_pair_entry_count < 0x10) {
@@ -269,7 +269,7 @@ void TObjCollidable::send_object_state_update(void *saved_state) {
     }
 }
 
-void TObjPlayer::clear_item_table() {
+void clear_entity_table() {
     s32 i;
     for (i = 0; i < 0x18c; i++) {
         TObjPlayer__data_8050D460[i] = NULL;
@@ -389,14 +389,14 @@ TObjCollidable *find_entity_by_id(u16 id) {
 
 void TOTrapAncient02R__sub_80154D78(TObject *) {}
 
-void TObjPlayer::init_all_slots() {
+void clear_battle_param_slots() {
     int i;
     for (i = 0; i < 16; i++) {
         set_battle_param_slot(i, 0);
     }
 }
 
-s32 TObjPlayer::find_or_alloc_slot(uaddr actor) {
+s32 find_or_alloc_battle_param_slot(uaddr actor) {
     s32 slot;
     u32 battle_param;
 
@@ -673,7 +673,7 @@ s32 respond_to_body_contact(TObjCollidable *actor, TObjCollidable *other, Collis
     return 0;
 }
 
-s32 TObjPlayer::check_flag_pair(s32 flags, s32 other_flags) {
+s32 check_body_flag_pair(s32 flags, s32 other_flags) {
     if (((flags & 0x2000) && (other_flags & 0x100)) || ((flags & 0x100) && (other_flags & 0x2000))) {
         return 1;
     }
@@ -692,7 +692,7 @@ s32 TObjPlayer::check_flag_pair(s32 flags, s32 other_flags) {
     return 0;
 }
 
-s32 TObjPlayer::check_flags(s32 flags, s32 other_flags) {
+s32 check_body_flags(s32 flags, s32 other_flags) {
     s32 shared;
 
     shared = flags & other_flags;
@@ -807,7 +807,7 @@ CollisionBody *refresh_actor_body_spheres(CollisionBodySet a, CollisionBodySet b
         VecCopy(&worldA, &a.position);
         for (j = 0; j < countB; ++j) {
             destination = &b.colliders[j];
-            if (TObjPlayer::check_flags(flags, destination->flags)) {
+            if (check_body_flags(flags, destination->flags)) {
                 VecCopy(&worldB, &b.position);
                 VecCopy(&offsetB, &destination->offset);
                 facingB = b.facing;
@@ -872,7 +872,7 @@ void *TObjCollidable::find_actor_body_contact(u8 *target, f32 limit) {
             destination.facing = other->rotation_y;
             result = refresh_actor_body_spheres(source, destination);
             if (result) {
-                TObjPlayer::find_or_alloc_slot((uaddr)other);
+                find_or_alloc_battle_param_slot((uaddr)other);
                 return result;
             }
         }
@@ -933,7 +933,7 @@ u32 TObjCollidable::check_actor_body_contact(void *target, f32 range) {
             b.facing = other->rotation_y;
             hit = refresh_actor_body_spheres(a, b);
             if (hit != NULL) {
-                TObjPlayer::find_or_alloc_slot((uaddr)other);
+                find_or_alloc_battle_param_slot((uaddr)other);
                 hit->flags |= 0x04000000;
                 return (uaddr)hit;
             }
@@ -953,7 +953,7 @@ void TObjCollidable::update_enemy_collision_flags() {
             player = TObjPlayer::get_player_data(j);
             if (player != NULL) {
                 contact = (CollisionBody *)find_actor_body_contact((u8 *)player, 10000.0f);
-                if (contact != NULL && TObjPlayer::check_flag_pair(bodies->flags, contact->flags) == 0 &&
+                if (contact != NULL && check_body_flag_pair(bodies->flags, contact->flags) == 0 &&
                     respond_to_body_contact(this, player, contact) != 0) {
                     bodies->flags = bodies->flags | 0x01200000;
                 }
@@ -975,7 +975,7 @@ void check_enemy_body_collisions(TObjCollidable *actor) {
                     contact = (CollisionBody *)actor->find_actor_body_contact((u8 *)other, 10000.0f);
                     if (contact != NULL) {
                         actor->bodies->flags |= 0x100000;
-                        if (TObjPlayer::check_flag_pair(actor->bodies->flags, contact->flags) == 0 &&
+                        if (check_body_flag_pair(actor->bodies->flags, contact->flags) == 0 &&
                             respond_to_body_contact(actor, other, contact) != 0) {
                             actor->bodies->flags |= 0x800000;
                         }
@@ -999,7 +999,7 @@ void TObjCollidable::check_object_collisions() {
                 contact = (CollisionBody *)find_actor_body_contact((u8 *)player, 10000.0f);
                 if (contact != NULL) {
                     bodies->flags = bodies->flags | 0x80000;
-                    if (TObjPlayer::check_flag_pair(bodies->flags, contact->flags) == 0 &&
+                    if (check_body_flag_pair(bodies->flags, contact->flags) == 0 &&
                         respond_to_body_contact(this, player, contact) != 0) {
                         bodies->flags = bodies->flags | 0x400000;
                     }
@@ -1100,17 +1100,17 @@ void TObjCollidable::reset_motion_fields() {
 }
 
 void clear_entity_tables(void) {
-    TObjPlayer::clear_item_table();
-    TObjPlayer::init_all_slots();
+    clear_entity_table();
+    clear_battle_param_slots();
 }
 
-void TObjPlayer::reset() {
+void init_entity_tables() {
     entity_table_count = 0;
     registered_player_count = 0;
     registered_enemy_count = 0;
     registered_object_count = 0;
-    TObjPlayer::clear_item_table();
-    TObjPlayer::init_all_slots();
+    clear_entity_table();
+    clear_battle_param_slots();
 }
 
 TObjCollidable::~TObjCollidable() {

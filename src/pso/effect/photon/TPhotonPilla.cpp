@@ -229,7 +229,7 @@ void TPhotonPilla::spawn_laser() {
 void TPhotonPilla::apply_photon_blast_effects() {
     s32 index;
 
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     mark_enemy_body_contacts();
     if (bodies->flags & 0x100000) {
         index = 0;

@@ -29,6 +29,7 @@
 #include "pso/technique/TTecMegid.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -53,12 +54,6 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
 
-
-extern "C" {
-s32 project_actor_to_ground(void *, void *, void *);
-s32 free_collision_body_parts(void *);
-saddr init_collision_body_parts(void *, void *, int);
-}
 
 DelDepthParameters *TObjEneDelDepth__tune_params;
 BmlResource *TObjEneDelDepth__shared_resource;
@@ -208,7 +203,7 @@ void TObjEneDelDepth::init() {
     this->texlist = get_bml_texlist((BmlResource *)(TObjEneDelDepth__shared_resource = TObjEneDelDepth::get_data()), 0);
     this->model = (void *)get_bml_model((BmlResource *)TObjEneDelDepth__shared_resource, 0);
     VecCopy(&this->prev_position, (const Vec *)(VecCopy(&this->home_position, (const Vec *)(VecCopy(&this->center, &this->position)))));
-    this->collisionBody = (CollisionBody *)init_collision_body_parts(self, TObjEneDelDepth_collision_body_parts, 1);
+    this->collisionBody = init_collision_body_parts(this, TObjEneDelDepth_collision_body_parts, 1);
     ((TObjMotion *)self)->set_action_table(deldepth_motion_actions);
     ((TObjMotion *)self)->set_motion_list(TObjEneDelDepth__shared_resource->motions);
     ((TObjMotion *)self)->set_animation(0);
@@ -547,7 +542,7 @@ void TObjEneDelDepth::update_movement() {
     s32 ang;
     s32 rot;
     if ((actor_frame_tick % 5) == 0) {
-        TObjPlayer::init_all_slots();
+        clear_battle_param_slots();
         self->check_object_collisions();
         for (i = 0; i < 16; i++) {
             pl = (TObjChara *)TObjPlayer::get_battle_param(i);

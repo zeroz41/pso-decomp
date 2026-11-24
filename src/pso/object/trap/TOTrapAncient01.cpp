@@ -269,7 +269,7 @@ void TOTrapAncient01::vfunc_82() {
     if (damage_timer < 0.0f) {
         bodies->radius = 15.0f;
         set_indexed_flags(0, 0x100);
-        TObjPlayer::init_all_slots();
+        clear_battle_param_slots();
         check_object_collisions();
         for (i = 0; i < 16; i++) {
             p = (TObjChara *)TObjPlayer::get_battle_param(i);

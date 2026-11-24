@@ -112,7 +112,7 @@ void TObjVoloptPillar::run_task() {
             timer = 15;
             state = 3;
             bodies->flags |= 2;
-            TObjPlayer::init_all_slots();
+            clear_battle_param_slots();
             this->check_object_collisions();
             if (bodies->flags & 0x80000) {
                 for (i = 0; i < 16; i++) {

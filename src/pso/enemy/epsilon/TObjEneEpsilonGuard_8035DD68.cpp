@@ -510,7 +510,7 @@ void TObjEneEpsilonGuard::update_effect_attack() {
         }
         TObjEneEpsilonGuard__model_desc[1].radius = 36.0f * effect_scale;
         VecCopy(&collider->position, &position);
-        TObjPlayer::init_all_slots();
+        clear_battle_param_slots();
         collider->check_object_collisions();
         if (collider->bodies->flags & 0x80000) {
             for (i = 0; i < 16; i++) {

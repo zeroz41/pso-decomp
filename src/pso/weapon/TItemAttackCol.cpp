@@ -212,14 +212,13 @@ TUnk_804E355C::~TUnk_804E355C() {}
 void TUnk_804E355C::check_hits() {
     s32 i;
     ActorBodyHit *hit;
-    u8 *arg0 = (u8 *)this;
     reset_global_table();
     collect_enemy_body_contacts((CollisionBodySet *)&bodies);
     if (pad_C0 != 0) {
         collect_object_body_contacts((CollisionBodySet *)&bodies);
     }
     if (pad_BC != 0) {
-        TObjPlayer::apply_status_effect((saddr)(arg0 + 0x1C));
+        collect_player_body_contacts((CollisionBodySet *)&bodies);
     }
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         hit = static_cast<ActorBodyHit *>(TObjOnlineEnding::get_attack_entry(i));

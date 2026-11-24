@@ -2076,24 +2076,24 @@ s32 TObjEneMe3SinowZoa::check_move_collision(const Vec *pos) {
     body->flags = 0x9D01U;
     VecCopy(&saved_position, &this->position);
     VecCopy(&this->position, pos);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     this->check_collisions();
     this->update_enemy_collision_flags();
     if (body->flags & 0x80000) {
         if (get_valid_target_player(this->current_target->get_entity_id()) == 0) {
             VecCopy(&this->position, &saved_position);
-            TObjPlayer::init_all_slots();
+            clear_battle_param_slots();
             return 1;
         }
     }
     if ((body->flags & 0x100000) && get_valid_target_player(this->entity_id) == 0) {
         VecCopy(&this->position, &saved_position);
-        TObjPlayer::init_all_slots();
+        clear_battle_param_slots();
         return 1;
     }
     r = (body->flags & 0x200000) != 0;
     VecCopy(&this->position, &saved_position);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     copy_collision_body(body, &sinow_zoa_collision_parts);
     body->flags = saved;
     return r;

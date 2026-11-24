@@ -471,14 +471,6 @@ struct TObjPlayer : public TObjChara {
     static void notify_hit_target(u32 arg0, uaddr arg1, u32 arg2, uaddr pos);
     s32 is_rand_below_threshold();
     s16 get_kill_count();
-    static void apply_status_effect(saddr a);
-    // Enters (target, body) in the hit pair table unless it is already there.
-    static void add_unique_pair_entry(TObjCollidable *target, s32 body);
-    static void clear_item_table();
-    static void init_all_slots();
-    static s32 check_flag_pair(s32 arg0, s32 arg1);
-    static s32 check_flags(s32 flags, s32 arg1);
-    static void reset();
     static void set_camera_mode(s32 camera_mode);
     s16 get_evp();
     int check_flag_0x80();
@@ -1299,7 +1291,6 @@ struct TObjPlayer : public TObjChara {
     GC_Mtx *item_node_matrices;
     void revive_or_spawn_marker();
     static void spawn_dead_spot(saddr point, s32 selector, s32 delay, f32 maxScale);
-    static s32 find_or_alloc_slot(uaddr arg0);
     void add_luck_material(u8 amount);
     void add_dfp_material(u8 amount);
     void add_evp_material(u8 amount);

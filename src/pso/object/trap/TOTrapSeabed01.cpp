@@ -329,7 +329,7 @@ void TOTrapSeabed01::vfunc_82() {
     if (--strike_timer < 0) {
         bodies->radius = 15.0f;
         set_indexed_flags(0, 0x100);
-        TObjPlayer::init_all_slots();
+        clear_battle_param_slots();
         this->check_object_collisions();
         deliver_attack_hits(1.0f);
         receive_physical_attack(target, 1.0f);

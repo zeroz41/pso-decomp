@@ -5,6 +5,7 @@
 #include "pso/enemy/AreaAttackContact.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/object/base/TObjChara.h"
@@ -65,7 +66,7 @@ s32 TUnk_804928CC::area_attack_deliver_physical(void *contact, void *object, f32
     if (owner == NULL) {
         return 0;
     }
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     if (static_cast<AreaAttackContact *>(contact)->contact_flags & 1) {
         update_body_contact_flag(range);
         mask |= 0x80000;
@@ -120,7 +121,7 @@ s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr desc, void *ob
     if (owner == NULL) {
         return 0;
     }
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 1) {
         update_body_contact_flag(range);
         mask |= 0x80000;
