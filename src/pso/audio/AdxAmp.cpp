@@ -6,19 +6,14 @@
 
 extern "C" {
 
-static inline AdxAmp *adx_amp_from_lobby(void *self) {
-    return (AdxAmp *)self;
+void AdxAmp::set_packet_flags(s32 sfreq) {
+    this->sfreq = sfreq;
 }
 
-void TLobby::set_packet_flags(s32 sfreq) {
-    adx_amp_from_lobby(this)->sfreq = sfreq;
-}
-
-void TLobby::clear_entry() {
-    AdxAmp *amp = adx_amp_from_lobby(this);
-    if (amp != NULL) {
+void AdxAmp::clear_entry() {
+    if (this != NULL) {
         TLobby::init_once();
-        memset(amp, 0, sizeof(AdxAmp));
+        memset(this, 0, sizeof(AdxAmp));
         TLobby::release_ref();
     }
 }

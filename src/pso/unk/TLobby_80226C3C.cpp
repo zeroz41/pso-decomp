@@ -23,7 +23,7 @@ char *lobby_current_slot_entry = "";
 
 extern "C" {
     extern int lbl_805D62B8;
-void TLobby__sub_803C94DC(u8 *arg0, s32 arg1);
+void TLobby__sub_803C94DC(u8 *player, s32 paused);
 s32 TLobby__sub_803C9CB0(s32);
 void *lbl_805D62D8;
 void *lbl_805D62DC;
@@ -55,7 +55,7 @@ void set_cue_stream_gain(s32 arg0);
 extern "C" {
 void TLobby__sub_8022733C(void);
 s32 TLobby__sub_803C5D00(void *);
-s32 TLobby__sub_803C97B8(u8 *arg0);
+s32 TLobby__sub_803C97B8(u8 *player);
 }
 extern saddr lbl_804CB850[];
 void set_dark_falz_music_request(s32 arg0);
@@ -627,7 +627,7 @@ void init_adx_audio_system(void) {
         if ((u32)lbl_804CB850[i] == 0U) {
             TLobby::debug_print("can't create ADXT-BGM #%d", i);
         } else {
-            ((TLobby *)lbl_804CB850[i])->set_field_6d(2);
+            set_auto_repeat((AdxtPlayer *)lbl_804CB850[i], 2);
         }
     }
     for (i = 0; i < 1; i++) {

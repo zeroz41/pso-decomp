@@ -231,7 +231,7 @@ s32 TLobby::get_field_28() {
     return *(s32 *)((s8 *)arg0 + 0x28);
 }
 
-s16 TLobby::get_slot() {
+s32 TLobby::get_slot() {
     u8 *arg0 = (u8 *)this;
     return *(s16 *)((s8 *)arg0 + 0x24);
 }
@@ -244,23 +244,22 @@ s32 TLobby__sub_803C3AC4(u8 *adxb_decoder) {
     return ((AdxbDecoder *)adxb_decoder)->block_samples;
 }
 
-s32 TLobby::get_packet_flag_for_state() {
-    AdxbDecoder *arg0 = (AdxbDecoder *)this;
-    s16 s = arg0->m_A8;
+s32 AdxbDecoder::get_packet_flag_for_state() {
+    s16 s = m_A8;
     if (s == 0) {
         return 0x10;
     }
     if (s == 2) {
-        if (arg0->m_AA == 2) {
+        if (m_AA == 2) {
             return 4;
         }
-        if (arg0->m_AA == 1) {
+        if (m_AA == 1) {
             return 8;
         }
         return 0x10;
     }
     if (s == 1) {
-        if (arg0->m_AA == 2) {
+        if (m_AA == 2) {
             return 4;
         }
         return 0x10;

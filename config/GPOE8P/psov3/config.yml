@@ -17812,7 +17812,7 @@ force_active:
   - "TLobby__sub_803C96E0"
   - "adx_get_data_start_offset"
   - "ADXT_SetOutPan"
-  - "apply_if_v2__6TLobbyFv"
+  - "apply_if_v2"
   - "check_packet_header_8001__6TLobbyFPUslPl"
   - "set_rate_mode__6TLobbyFl"
   - "adxm_set_error_callback"

@@ -16,16 +16,6 @@ struct AdxtMemTableEntry {
     s32 length;
 };
 
-struct AdxtNotifyVtable {
-    void *pad_00[3];
-    void (*destroy)(void *);
-    void *pad_10;
-    void (*reset)(void *);
-};
-
-struct AdxtNotifyObj {
-    AdxtNotifyVtable *vt;
-};
 
 struct AdxtPlayer {
     s8 used;                       /* 0x00 */
@@ -69,8 +59,8 @@ struct AdxtPlayer {
     s8 pause_flag;                 /* 0x72 */
     u8 pad_73;                     /* 0x73 */
     AdxAmp *amp;                   /* 0x74 */
-    AdxtNotifyObj *extra_objs[2];  /* 0x78 */
-    AdxtNotifyObj *extra_objs2[2]; /* 0x80 */
+    SjRingBuffer *extra_objs[2];   /* 0x78 */
+    SjRingBuffer *extra_objs2[2];  /* 0x80 */
     s32 time_offset;               /* 0x88 */
     s32 total_pages;               /* 0x8C */
     s32 loop_end_sample;           /* 0x90 */
@@ -99,6 +89,10 @@ void start_stream_playback(AdxtPlayer *player, SjRingBuffer *sj);
 void ADXT_SetOutPan(AdxtPlayer *player, s32 ch, s32 pan);
 void ADXT_StartMemIdx(AdxtPlayer *player, u8 *table_data, s32 entry_index);
 void ADXT_StartFname(AdxtPlayer *player, const char *name);
+void set_sync_mode_flag(AdxtPlayer *player, s8 flag);
+s32 get_error_code(AdxtPlayer *player);
+void set_auto_repeat(AdxtPlayer *player, s8 flag);
+s32 apply_if_v2(AdxtPlayer *player);
 }
 
 #endif

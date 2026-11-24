@@ -63,6 +63,7 @@ struct AdxbDecoder {
     u8 pad_B0[0x8];
 
     s32 get_loop_start_byte();
+    s32 get_packet_flag_for_state();
 };
 LAYOUT_ASSERT(AdxbDecoder_size_check, sizeof(AdxbDecoder) == 0xB8);
 
