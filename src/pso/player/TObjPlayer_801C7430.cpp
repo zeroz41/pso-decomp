@@ -3434,7 +3434,7 @@ void handle_6x37_photon_blast(G_PhotonBlast_6x37 *command) {
     ((void (*)(struct PbPacket37_801CC194 *))TObjPlayer__sub_801D1D88)((struct PbPacket37_801CC194 *)((void *) (&pkt)));
     ((s32 (*)(void *, void *))TObjPlayer__sub_801D1D44)((void *) (&pkt), command);
     ((TObjPlayer *)(&pkt))->swap_endian16();
-    if (validate_6x37_photon_blast((G_ClientIDHeader *)(&pkt)) != 0) {
+    if (validate_6x37_photon_blast((G_PhotonBlast_6x37 *)&pkt) != 0) {
         player = get_player_by_client_id(pkt.player);
         if ((player != NULL) && (player->check_flag_4() == 0) && (player->m_up == tl_03) && (player->reset_volopt_state() != 0)) {
             player->photon_blast_gauge.check_photon_blast_flag();
@@ -4182,7 +4182,7 @@ void handle_6x45_attack(G_Attack_6x43_6x44_6x45 *command) {
     ((G_Attack_6x45 *)&pkt)->init();
     ((TObjPlayer *)(&pkt))->copy_6x45_attack_packet(command);
     ((G_Attack_6x45 *)&pkt)->bswap();
-    if (validate_6x45_attack((G_ClientIDHeader *)&pkt) == 0) return;
+    if (validate_6x45_attack((G_Attack_6x43_6x44_6x45 *)&pkt) == 0) return;
     player = get_player_by_client_id(pkt.player);
     if (player == 0) return;
     if (player->is_in_tl03_state() == 0) return;
@@ -4307,7 +4307,7 @@ void handle_6x44_attack(G_Attack_6x43_6x44_6x45 *command) {
     ((G_Attack_6x44 *)&pkt)->init();
     ((void (*)(Pkt_801CDED4 *, void *))TObjPlayer__sub_801D2348)(&pkt, command);
     ((G_Attack_6x44 *)&pkt)->bswap();
-    if (validate_6x44_attack((G_ClientIDHeader *)&pkt) == 0) return;
+    if (validate_6x44_attack((G_Attack_6x43_6x44_6x45 *)&pkt) == 0) return;
     player = get_player_by_client_id(pkt.player);
     if (player == 0) return;
     if (player->is_in_tl03_state() == 0) return;
@@ -4801,7 +4801,7 @@ void handle_6x43_attack(G_Attack_6x43_6x44_6x45 *command) {
     ((G_Attack_6x43 *)&pkt)->init();
     ((void (*)(Pkt_801CF128 *, void *))TObjPlayer__sub_801D24B0)(&pkt, command);
     ((G_Attack_6x43 *)&pkt)->bswap();
-    if (validate_6x43_attack((G_ClientIDHeader *)&pkt) == 0) return;
+    if (validate_6x43_attack((G_Attack_6x43_6x44_6x45 *)&pkt) == 0) return;
     player = get_player_by_client_id(pkt.player);
     if (player == 0) return;
     if (player->is_in_tl03_state() == 0) return;
@@ -4979,7 +4979,7 @@ void handle_6x42_move_to_position(G_MoveToPosition_6x41_6x42 *command) {
     ((G_MoveToPosition_6x41_6x42 *)&cmd)->init();
     ((TObjPlayer *)(&cmd))->copy_packet_pos_6x42(command);
     ((G_MoveToPosition_6x41_6x42 *)&cmd)->bswap();
-    if (validate_6x42_move_to_position((G_ClientIDHeader *)&cmd) != 0) {
+    if (validate_6x42_move_to_position((G_MoveToPosition_6x41_6x42 *)&cmd) != 0) {
         p = (Player_801CF780 *)get_player_by_client_id(cmd.id);
         if (p != 0 && ((TObjPlayer *)p)->is_in_tl03_state() != 0 && ((TObjPlayer *)p)->test_action_mask(0x1E) != 0) {
             p->x = cmd.x;
@@ -5254,7 +5254,7 @@ void handle_6x40_walk_to_position(G_WalkToPosition_6x40 *command) {
     ((G_WalkToPosition_6x40 *)&cmd)->init();
     ((TObjPlayer *)(&cmd))->copy_6x40_walk_to_position_packet(command);
     ((G_WalkToPosition_6x40 *)&cmd)->bswap();
-    if (validate_6x40_walk_to_position((G_ClientIDHeader *)&cmd) != 0) {
+    if (validate_6x40_walk_to_position((G_WalkToPosition_6x40 *)&cmd) != 0) {
         p = (Player_801D0000 *)get_player_by_client_id(cmd.id);
         if (p != 0 && ((TObjPlayer *)p)->is_in_tl03_state() != 0 && ((TObjPlayer *)p)->test_action_mask(0x1E) != 0) {
             p->x = cmd.x;
@@ -5417,7 +5417,7 @@ void handle_6x3F_set_position(G_SetPosition_6x3F *command) {
     ((TObjPlayer *)(&m))->init_set_position_packet();
     ((void (*)(void *, void *))TObjPlayer__sub_801D2540)(&m, command);
     ((TObjPlayer *)(&m))->byteswap_set_position_cmd();
-    if (validate_6x3F_set_position((G_ClientIDHeader *)&m) != 0) {
+    if (validate_6x3F_set_position((G_SetPosition_6x3F *)&m) != 0) {
         p = (Player_801D0634 *)get_player_by_client_id(m.id);
         if (p != NULL) {
             ((TObjBase *)p)->set_position_from(m.vec);
@@ -5446,7 +5446,7 @@ void handle_6x3E_stop_at_position(G_StopAtPosition_6x3E *command) {
     ((G_StopAtPosition_6x3E *)(&m))->init();
     ((void (*)(void *, void *))TObjPlayer__sub_801D25AC)(&m, command);
     ((G_StopAtPosition_6x3E *)(&m))->bswap();
-    if (validate_6x3E_stop_at_position((G_ClientIDHeader *)&m) == 0) {
+    if (validate_6x3E_stop_at_position((G_StopAtPosition_6x3E *)&m) == 0) {
         return;
     }
     p = (Player_801D0724 *)get_player_by_client_id(m.id);

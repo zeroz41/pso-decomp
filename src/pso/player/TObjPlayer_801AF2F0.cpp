@@ -2259,7 +2259,7 @@ void handle_6x25_equip_item(G_EquipItem_6x25 *command) {
     ((TObjPlayer *)(&m))->init_command();
     ((TObjPlayer *)(&m))->copy_pair_fields4(command);
     ((TObjPlayer *)(&m))->bswap_body_dwords5();
-    if (validate_6x25_equip_item((G_ClientIDHeader *)&m) != 0) {
+    if (validate_6x25_equip_item((G_EquipItem_6x25 *)&m) != 0) {
         player = (TObjPlayer *)get_player_by_client_id(m.slot);
         if (player != NULL && (slot = static_cast<TItemList *>(player->inventory_objects->start_inventory_update(m.c))) != NULL &&
             (item = slot->get_owner_if_alive()) != NULL) {
@@ -2320,7 +2320,7 @@ void handle_6x26_unequip_item(G_UnequipItem_6x26 *command) {
     ((TObjPlayer *)(&m))->init_cmd_6x26();
     ((TObjPlayer *)(&m))->copy_unequip_fields(command);
     ((TObjPlayer *)(&m))->bswap_body_dwords4();
-    if (validate_6x26_unequip_item((G_ClientIDHeader *)&m) != 0) {
+    if (validate_6x26_unequip_item((G_UnequipItem_6x26 *)&m) != 0) {
         player = (TObjPlayer *)get_player_by_client_id(m.slot);
         if (player != NULL && (slot = static_cast<TItemList *>(player->inventory_objects->start_inventory_update(m.c))) != NULL &&
             (item = slot->get_owner_if_alive()) != NULL) {
@@ -2750,7 +2750,7 @@ void handle_6xAC(G_DeleteMultipleInventoryItems_6xAC *command) {
     ((TObjPlayer *)(&sp8))->init_6xAC_packet();
     TObjPlayer__sub_801C1268((u8 *)&sp8, (u8 *)command);
     ((TObjPlayer *)(&sp8))->byteswap_data();
-    if (validate_6xAC((G_ClientIDHeader *)&sp8) != 0) {
+    if (validate_6xAC((G_DeleteMultipleInventoryItems_6xAC *)&sp8) != 0) {
         saddr p = (saddr)get_player_by_client_id(sp8.f2);
         if (p != 0 && TFontSmallLobby::is_lobby_floor_15() == 0) {
             dispatch_input__10TObjPlayerFPvii(reinterpret_cast<TObjPlayer *>(p), reinterpret_cast<s32 *>(sp8.f8), sp8.f4);
@@ -2847,7 +2847,7 @@ void handle_6x83_place_trap(G_PlaceTrap_6x83 *command) {
     ((TObjPlayer *)(&pkt))->init_trap_packet();
     ((TObjPlayer *)(&pkt))->copy_short_fields(command);
     ((TObjPlayer *)(&pkt))->bswap_body_words();
-    if (validate_6x83_place_trap((G_ClientIDHeader *)&pkt) != 0) {
+    if (validate_6x83_place_trap((G_PlaceTrap_6x83 *)&pkt) != 0) {
         u8 *p = (u8 *)get_player_by_client_id(pkt.client);
         if (p != NULL && create_placed_trap__10TOMineTrapFUiss(p, pkt.a, pkt.b) != 0) {
             ((TObjPlayer *)(p + 0x7C4))->consume_trap_count(1, pkt.a);
@@ -2880,7 +2880,7 @@ void handle_6x2A_drop_item(G_DropItem_6x2A *command) {
     ((TObjPlayer *)(&m))->init_6x2A();
     TObjPlayer__sub_801C106C((u8 *)&m, (u8 *)command);
     bswap_fields__10TObjPlayerFi((saddr)&m);
-    if (validate_6x2A_drop_item((G_ClientIDHeader *)&m) != 0) {
+    if (validate_6x2A_drop_item((G_DropItem_6x2A *)&m) != 0) {
         p = (Player_801B87E4 *)get_player_by_client_id((u16)m.slot);
         if ((p != NULL) && (((s32 (*)(void))is_volopt_phase_final__10TObjPlayerFv)() == 0)) {
             ((TPlyItem *)(p->inv))->update_inventory_item(reinterpret_cast<TObjPlayer *>(p), m.c, reinterpret_cast<f32 *>(m.d), m.a, m.b);
@@ -3641,7 +3641,7 @@ void handle_6x30_change_player_level(G_ChangePlayerLevel_6x30 *command) {
     ((TObjPlayer *)(&pkt))->build_6x30_change_level_packet();
     ((TObjPlayer *)(&pkt))->copy_fields(command);
     swap_endian__10TObjPlayerFi((saddr)&pkt);
-    if (validate_6x30_change_player_level((G_ClientIDHeader *)&pkt) == 0) {
+    if (validate_6x30_change_player_level((G_ChangePlayerLevel_6x30 *)&pkt) == 0) {
         return;
     }
     p = (Plr_801B6A5C *)get_player_by_client_id((u16)pkt.id);
@@ -5629,7 +5629,7 @@ void handle_6x24_teleport_player(G_TeleportPlayer_6x24 *command) {
     ((TObjPlayer *)(&pkt))->init_cmd_6x24();
     TObjPlayer__sub_801C07B4((u8 *)&pkt, (u8 *)command);
     ((TObjPlayer *)(&pkt))->byteswap_packet_body();
-    if (validate_6x24_teleport_player((G_ClientIDHeader *)&pkt) == 0) {
+    if (validate_6x24_teleport_player((G_TeleportPlayer_6x24 *)&pkt) == 0) {
         return;
     }
     player = (uaddr)get_player_by_client_id(pkt.slot);
@@ -5669,7 +5669,7 @@ void handle_6x2F_change_player_hp(G_ChangePlayerHP_6x2F *command) {
     ((TObjPlayer *)(&pkt))->init_6x2F_packet_header();
     TObjPlayer__sub_801C06BC(reinterpret_cast<G_ChangePlayerHP_6x2F *>(&pkt), command);
     ((TObjPlayer *)(&pkt))->bswap_change_hp_packet();
-    if (validate_6x2F_change_player_hp((G_ClientIDHeader *)&pkt) == 0) {
+    if (validate_6x2F_change_player_hp((G_ChangePlayerHP_6x2F *)&pkt) == 0) {
         return;
     }
     player = (uaddr)get_player_by_client_id(pkt.client);

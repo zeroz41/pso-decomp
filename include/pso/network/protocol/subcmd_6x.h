@@ -97,7 +97,7 @@ struct G_AttackFinished_Header_6x46 {
 struct G_Attack_6x43_6x44_6x45 {
  struct G_ClientIDHeader header;
  u16 angle_y;
- u16 action_type; // the receiver passes it to the attack state's set_action_type
+ s16 action_type; // the receiver passes it to the attack state's set_action_type
 };
 
 // The three stages of a physical attack combo (6x43, then 6x44, then 6x45),
@@ -171,21 +171,21 @@ struct G_CastTechnique_Header_6x47 {
 
 struct G_ChangePlayerHP_6x2F {
  struct G_ClientIDHeader header;
- u32 type;
+ s32 type;
  s16 amount;
  u16 client_id;
 };
 
 struct G_ChangePlayerLevel_6x30 {
  struct G_ClientIDHeader header;
- u16 atp;
- u16 mst;
- u16 evp;
- u16 hp;
- u16 dfp;
- u16 ata;
- u16 level;
- u16 is_level_down;
+ s16 atp;
+ s16 mst;
+ s16 evp;
+ s16 hp;
+ s16 dfp;
+ s16 ata;
+ s16 level;
+ s16 is_level_down;
 };
 
 struct G_ClearNegativeStatusEffects_6x0E {
@@ -259,7 +259,7 @@ struct G_DeleteInventoryItem_6x29 {
 
 struct G_DeleteMultipleInventoryItems_6xAC {
  struct G_ClientIDHeader header;
- u32 num_items;
+ s32 num_items;
  u32 item_ids[0x1E];
 };
 
@@ -310,8 +310,8 @@ struct G_DragonBossActions_6x12 {
 
 struct G_DropItem_6x2A {
  struct G_ClientIDHeader header;
- u16 amount;
- u16 floor;
+ s16 amount;
+ s16 floor;
  u32 item_id;
  struct VectorXYZF pos;
 };
@@ -362,7 +362,7 @@ struct G_EnableStealthSuitEffect_6x7A {
 struct G_EquipItem_6x25 {
  struct G_ClientIDHeader header;
  u32 item_id;
- u32 equip_slot;
+ s32 equip_slot;
 };
 
 struct G_ExecutePhotonBlast_Header_6x49 {
@@ -614,7 +614,7 @@ struct G_PartialPlayerData_DCProtos_6x1E {
 
 struct G_PhotonBlast_6x37 {
  struct G_ClientIDHeader header;
- u16 amount;
+ s16 amount;
  u16 unused;
 };
 
@@ -640,8 +640,8 @@ struct G_PickUpItem_6x59 {
 
 struct G_PlaceTrap_6x83 {
  struct G_ClientIDHeader header;
- u16 trap_type;
- u16 trap_index;
+ s16 trap_type;
+ s16 trap_index;
 };
 
 struct G_PlaySoundFromPlayer_6xB2 {
@@ -841,7 +841,7 @@ struct G_SetPosition_6x20 {
 
 struct G_SetPosition_6x3F {
  struct G_ClientIDHeader header;
- u16 is_near_enemy;
+ s16 is_near_enemy;
  u16 angle;
  s16 floor;
  s16 room;
@@ -919,7 +919,7 @@ struct G_SpecializableItemDropRequest_6xA2 {
 
 struct G_StopAtPosition_6x3E {
  struct G_ClientIDHeader header;
- u16 is_near_enemy;
+ s16 is_near_enemy;
  u16 angle;
  s16 floor;
  s16 room;
@@ -1042,7 +1042,7 @@ struct G_UnblockGameJoin_6x71 {
 struct G_UnequipItem_6x26 {
  struct G_ClientIDHeader header;
  u32 item_id;
- u32 unused;
+ s32 equip_slot;
 };
 
 struct G_Unknown_6x02_6x03 {
