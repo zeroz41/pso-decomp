@@ -31,7 +31,7 @@ typedef struct NetworkDispatchState {
     s32 interval;
     NetProtocolHandlerEntry handlers[3];
     NetTimerRecord timers[10];
-    u8 unknown_F4[4];
+    u8 pad_F4[4];
 } NetworkDispatchState;
 #ifdef __cplusplus
 extern "C" {
@@ -77,7 +77,7 @@ NET_DISPATCH_OFFSET(NetworkDispatchState, thread_ids, 0x08);
 NET_DISPATCH_OFFSET(NetworkDispatchState, interval, 0x10);
 NET_DISPATCH_OFFSET(NetworkDispatchState, handlers, 0x14);
 NET_DISPATCH_OFFSET(NetworkDispatchState, timers, 0x2C);
-NET_DISPATCH_OFFSET(NetworkDispatchState, unknown_F4, 0xF4);
+NET_DISPATCH_OFFSET(NetworkDispatchState, pad_F4, 0xF4);
 NET_DISPATCH_OFFSET(NetProtocolMessage, first, 0x00);
 NET_DISPATCH_OFFSET(NetProtocolMessage, second, 0x02);
 NET_DISPATCH_OFFSET(NetProtocolMessage, protocol, 0x04);

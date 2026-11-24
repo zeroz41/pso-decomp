@@ -24,11 +24,11 @@ NetworkDispatchState network_dispatch_state;
 
 
 void rtos_term(void) {
-    NetMemset(&network_dispatch_state.lock_handle, 0, offsetof(NetworkDispatchState, unknown_F4));
+    NetMemset(&network_dispatch_state.lock_handle, 0, offsetof(NetworkDispatchState, pad_F4));
     AT_TerminateRTOS();
 }
 s16 rtos_init(void) {
-    NetMemset(&network_dispatch_state, 0, offsetof(NetworkDispatchState, unknown_F4));
+    NetMemset(&network_dispatch_state, 0, offsetof(NetworkDispatchState, pad_F4));
     network_dispatch_state.interval = 0x1E;
     return AT_InitializeRTOS();
 }
