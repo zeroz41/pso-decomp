@@ -15,8 +15,6 @@ extern TObject *tl_02;
 extern TObject *tl_05;
 extern TObject *tl_06;
 extern TObject *tl_07;
-void archive_pool_free(void *pool, void *node);
-void *archive_pool_alloc(void *pool, u32 size);
 
 // The header is followed by the s16 flags of every object set, then of every enemy set.
 int TLobby__sub_8020B5CC(FloorSetFlagsPayload *buf) {
@@ -118,18 +116,18 @@ s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
         s++;
     }
     if (floor_set_archives[idx].enemies != NULL) {
-        archive_pool_free(floor_set_archive_pool, floor_set_archives[idx].enemies);
+        floor_set_archive_pool->free(floor_set_archives[idx].enemies);
     }
-    floor_set_archives[idx].enemies = archive_pool_alloc(floor_set_archive_pool, sz);
+    floor_set_archives[idx].enemies = floor_set_archive_pool->alloc(sz);
     if ((uaddr)src & 0x1F) {
         buf = TQuestVmDownLoadServer::alloc(sz);
         memcpy(buf, src, sz);
         if (floor_set_archives[idx].enemies != NULL) {
-            TLobby::send_or_handle_packet(floor_set_archive_pool, (void *)buf, floor_set_archives[idx].enemies, (void *)sz, (u32)0);
+            floor_set_archive_pool->transfer(buf, floor_set_archives[idx].enemies, sz, 0);
         }
         safe_free(buf);
     } else if (floor_set_archives[idx].enemies != NULL) {
-        TLobby::send_or_handle_packet(floor_set_archive_pool, (void *)src, floor_set_archives[idx].enemies, (void *)sz, (u32)0);
+        floor_set_archive_pool->transfer(src, floor_set_archives[idx].enemies, sz, 0);
     }
     return 1;
     }
@@ -170,18 +168,18 @@ s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, FloorObjectSetRow *sr
         s++;
     }
     if (floor_set_archives[idx].objects != NULL) {
-        archive_pool_free(floor_set_archive_pool, floor_set_archives[idx].objects);
+        floor_set_archive_pool->free(floor_set_archives[idx].objects);
     }
-    floor_set_archives[idx].objects = archive_pool_alloc(floor_set_archive_pool, sz);
+    floor_set_archives[idx].objects = floor_set_archive_pool->alloc(sz);
     if ((uaddr)src & 0x1F) {
         buf = TQuestVmDownLoadServer::alloc(sz);
         memcpy(buf, src, sz);
         if (floor_set_archives[idx].objects != NULL) {
-            TLobby::send_or_handle_packet(floor_set_archive_pool, (void *)buf, floor_set_archives[idx].objects, (void *)sz, (u32)0);
+            floor_set_archive_pool->transfer(buf, floor_set_archives[idx].objects, sz, 0);
         }
         safe_free(buf);
     } else if (floor_set_archives[idx].objects != NULL) {
-        TLobby::send_or_handle_packet(floor_set_archive_pool, (void *)src, floor_set_archives[idx].objects, (void *)sz, (u32)0);
+        floor_set_archive_pool->transfer(src, floor_set_archives[idx].objects, sz, 0);
     }
     return 1;
     }

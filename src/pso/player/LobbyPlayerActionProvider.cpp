@@ -2,9 +2,9 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TPlyPhotonChair.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/player/PlayerActionProvider.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TUnk_804ED7D0.h"
+#include "pso/player/LobbyPlayerActionProvider.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 struct PlayerMotionEntry {
@@ -189,18 +189,16 @@ struct RecoveredGlobal_lbl_805430E8 { s32 value; u8 remaining[0x1BC]; };
 RecoveredGlobal_lbl_805430E8 lbl_805430E8;
 struct RecoveredGlobal_lbl_805432A8 { s32 value; u8 remaining[0x1BC]; };
 RecoveredGlobal_lbl_805432A8 lbl_805432A8;
-int is_valid_player_motion_variant(s32 variant);
-int TLobby__sub_802A7278(s32 a0);
 int is_valid_player_motion_variant(s32 variant = 0);
 int TLobby__sub_802A7278(s32 a0 = 0);
 void check_valid_state__6TLobbyFi(saddr unused);
 s32 is_handle_valid__10TObjPlayerFv();
 
-s32 lbl_805D6C80;
+s32 lobby_action_motion_buffer;
 s32 lbl_805D6C84;
 
-s32 TUnk_804ED7D0::get_cell_address(s32 arg1, s32 arg2) {
-    return lbl_805D6C80 + ((arg2 + (arg1 * vfunc_75())) << 0xE);
+s32 LobbyPlayerActionProvider::get_cell_address(s32 arg1, s32 arg2) {
+    return lobby_action_motion_buffer + ((arg2 + (arg1 * vfunc_75())) << 0xE);
 }
 
 s32 is_valid_state__6TLobbyFPvi(void *unused, s32 arg1) {
@@ -222,10 +220,10 @@ void check_valid_state__6TLobbyFi(saddr unused) {
     TLobby::is_valid_state((void *)unused, (s32)((s32)(is_handle_valid__10TObjPlayerFv())));
 }
 
-BmlMotionEntry *TUnk_804ED7D0::vfunc_76() {
+BmlMotionEntry *LobbyPlayerActionProvider::vfunc_76() {
     return reinterpret_cast<BmlMotionEntry *>(get_state_table(((TObjPlayer *)this)->is_handle_valid()));
 }
-s32 *TUnk_804ED7D0::get_state_table(s32 _w1) {
+s32 *LobbyPlayerActionProvider::get_state_table(s32 _w1) {
     saddr unused = (saddr)this;
     s32 *var_r3;
     switch (TLobby::is_valid_state((void *)unused, (s32)_w1)) {
@@ -243,11 +241,11 @@ s32 *TUnk_804ED7D0::get_state_table(s32 _w1) {
     }
 }
 
-int TUnk_804ED7D0::vfunc_9(s32 a, s32 b, s32 c) {
+int LobbyPlayerActionProvider::vfunc_9(s32 a, s32 b, s32 c) {
     return town_player_motion_clip_index_tables[a][b][c];
 }
 
-const s32 *TUnk_804ED7D0::vfunc_8(s32 arg1, s32 variant) {
+const s32 *LobbyPlayerActionProvider::vfunc_8(s32 arg1, s32 variant) {
     if (((s32)TLobby__sub_802A7278(arg1)) == 0) {
         return NULL;
     }
@@ -256,7 +254,7 @@ const s32 *TUnk_804ED7D0::vfunc_8(s32 arg1, s32 variant) {
     }
     return NULL;
 }
-int TUnk_804ED7D0::vfunc_7(s32, s32) {
+int LobbyPlayerActionProvider::vfunc_7(s32, s32) {
     s32 i = ((s32 (*)(void))is_valid_state__6TLobbyFPvi)();
     if (((s32 (*)(void))TLobby__sub_802A7278)() != 0) {
         return (saddr)*lbl_804ED728[i];
@@ -265,68 +263,66 @@ int TUnk_804ED7D0::vfunc_7(s32, s32) {
 }
 
 
-int TUnk_804ED7D0::vfunc_6(s32, s32, s32) { return 1; }
-int TUnk_804ED7D0::vfunc_5(s32) {
+int LobbyPlayerActionProvider::vfunc_6(s32, s32, s32) { return 1; }
+int LobbyPlayerActionProvider::vfunc_5(s32) {
     saddr arg0 = (saddr)this;
     if (TLobby::test_flag_1_at_6c84() == 0) {
         TLobby::init_object_flag();
-        ((TUnk_804DDD28 *)arg0)->load_action_motion_pairs(0, 0, 0);
+        ((PlayerActionProvider *)arg0)->load_action_motion_pairs(0, 0, 0);
     }
     if (TLobby::test_flag_2_at_6c84() == 0) {
         TLobby::apply_state_6c84();
-        ((TUnk_804DDD28 *)arg0)->load_action_motion_pairs(1, 1, 0);
+        ((PlayerActionProvider *)arg0)->load_action_motion_pairs(1, 1, 0);
     }
     return 1;
 }
 
-void TLobby::free_singleton_805D6C80() {
-    if ((u32) (*(u32 *)&lbl_805D6C80) != 0U) {
-        mem_free((void*)(*(uaddr *)&lbl_805D6C80));
-        (*(u32 *)&lbl_805D6C80) = 0U;
+}
+
+void free_lobby_action_motion_buffer() {
+    if ((u32) (*(u32 *)&lobby_action_motion_buffer) != 0U) {
+        mem_free((void*)(*(uaddr *)&lobby_action_motion_buffer));
+        (*(u32 *)&lobby_action_motion_buffer) = 0U;
     }
 }
 
-void alloc_work_buffer__6TLobbyFv(void);
-
-void alloc_work_buffer__6TLobbyFv(void) {
-    lbl_805D6C80 = (saddr)mem_alloc(0x1C0000);
+s32 alloc_lobby_action_motion_buffer() {
+    return lobby_action_motion_buffer = (saddr)mem_alloc(0x1C0000);
 }
 
 
-void TLobby::update_photon_chairs() { TPlyPhotonChair::free_static_model(); TLobby::free_singleton_805D6C80(); TLobby::set_photon_chair_flag(0); TLobby::clear_flag_at_6c84(); }
-void TLobby::update_photon_chair() {
-    TLobby::set_photon_chair_flag(0);
-    if (((u32 (*)(void))alloc_work_buffer__6TLobbyFv)() == 0U) {
-        TLobby::set_photon_chair_flag(1);
+void release_lobby_player_actions() { TPlyPhotonChair::free_static_model(); free_lobby_action_motion_buffer(); set_player_action_provider_selector(0); TLobby::clear_flag_at_6c84(); }
+void init_lobby_player_actions() {
+    set_player_action_provider_selector(0);
+    if ((u32)alloc_lobby_action_motion_buffer() == 0U) {
+        set_player_action_provider_selector(1);
         return;
     }
     TPlyPhotonChair::load_resources();
 }
 
-TUnk_804ED7D0::~TUnk_804ED7D0() {}
+LobbyPlayerActionProvider::~LobbyPlayerActionProvider() {}
 
-TUnk_804ED7D0::TUnk_804ED7D0() {}
+LobbyPlayerActionProvider::LobbyPlayerActionProvider() {}
 
 void TLobby::init_player_forward() {
     __ct__8FlagWordFv((&lbl_805D6C84));
 }
 
-}
-
-__declspec(section ".ctors") static void *const __sinit_TLobby_80328F7C_80329368_cpp_ref = (void *)TLobby::init_player_forward;
+__declspec(section ".ctors") static void *const __sinit_LobbyPlayerActionProvider_cpp_ref = (void *)TLobby::init_player_forward;
 
 #define IVS ((int (*)(void*))is_valid_state__6TLobbyFPvi)
 #define CVS ((int (*)(void*))check_valid_state__6TLobbyFi)
 
-int TUnk_804ED7D0::vfunc_11() { return (IVS(this)) == 0; }
-int TUnk_804ED7D0::vfunc_10() { return (CVS(this)) == 0; }
+int LobbyPlayerActionProvider::vfunc_11() { return (IVS(this)) == 0; }
+int LobbyPlayerActionProvider::vfunc_10() { return (CVS(this)) == 0; }
 
-int TUnk_804ED7D0::vfunc_13() {
+int LobbyPlayerActionProvider::vfunc_13() {
     return (u8) (((s32)IVS(this)) == 1);
 }
 
-int TUnk_804ED7D0::vfunc_12() {
+int LobbyPlayerActionProvider::vfunc_12() {
     return (u8) (((s32)CVS(this)) == 1);
 }
 
-int TUnk_804ED7D0::vfunc_4() {  return lbl_805D6C80; }
+int LobbyPlayerActionProvider::vfunc_4() {  return lobby_action_motion_buffer; }

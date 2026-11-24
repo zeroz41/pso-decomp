@@ -97,8 +97,6 @@ struct TLobby : public TObject {
     void apply_lobby_markers();
     static s32 get_option_state();
     static void install_game_join_handlers();
-    static void send_or_handle_packet(void *arg0, void *arg1, void *arg2, void *arg3, u32 arg4);
-    void merge_adjacent_free_blocks();
     static void sync_auto_reply_state();
     void set_short_mail_text();
     static s32 set_flag_bit0(s32 arg0);
@@ -160,7 +158,6 @@ struct TLobby : public TObject {
     void bswap_enemy_state();
     static void wait_ready_loop();
     static s32 run_disk_error_check();
-    u32 write_packet_header(s32 size, s32 dst, u32 capacity);
     s32 alloc_download_quest(s32 size, s32 *out_size);
     static void run_frame();
     static void free_static_buffer(void* a0);
@@ -399,20 +396,9 @@ struct TLobby : public TObject {
     static void free_chr_select_slots();
     static void free_dialog_global();
     static void free_dialing_gc();
-    static int get_max_players();
     s32 get_valid_child();
     static s32 validate_handle(s32 *arg0);
-    s32 calc_cell_offset(s32 arg1, s32 arg2);
-    static void alloc_boss4rock_buffer();
-    static void enable_and_refresh();
-    static void set_photon_chair_flag(int photon_chair_flag);
     void set_field_4(s32 v);
-    static s32 get_hold_effect_size_by_type();
-    s32 send_packet(s32 arg1, s32 arg2, s32 size, s32 arg4);
-    s32 get_param();
-    s32 get_field_04();
-    static void alloc_snapshot_buffer();
-    static void send_type2_event(s32 arg0, s32 arg1, s32 arg2);
     static void *create_mist_ctrl(void *parent, void *arg1);
     static void forward_npc_enemy();
     static unsigned char get_trade_mode();
@@ -489,9 +475,6 @@ struct TLobby : public TObject {
     s32 get_scroll_offset();
     static void update_scroll_impl();
     static void set_callback(uaddr arg0, s32 arg1);
-    static s32 aram_dma_blocking(s32 owner, s32 aram, saddr dest, s32 length);
-    static s32 aram_read_sync(s32 owner, s32 aram, saddr dest, s32 length);
-    static s32 aram_transfer_sync(s32 owner, uaddr source, s32 aram, s32 length);
     static void send_game_character();
     static void open_udp_socket_for_player(s32 client);
     void send_6x71_to_player();
@@ -594,7 +577,6 @@ struct TLobby : public TObject {
     static void send_data(const char *filename);
     static void update_alloc_size();
     static u8 get_selected_slot();
-    u8 *init_memory_pool(s32 arg1, s32 arg2, s32 flags);
     static void init_on_main_phase();
     static void copy_state_block();
     static char *get_unit_list();
@@ -720,11 +702,6 @@ struct TLobby : public TObject {
     static void update_scene_alt();
     static s32 is_multi_ready();
     static void update_game_modes();
-    s32 get_cell_address(s32 arg1, s32 arg2);
-    s32 *get_state_table(s32 _w1);
-    static void free_singleton_805D6C80();
-    static void update_photon_chairs();
-    static void update_photon_chair();
     static void init_player_forward();
     static void release_indexed_entry(s32 arg0);
     static void free_global_buffers();
@@ -841,7 +818,6 @@ struct TLobby : public TObject {
     static void add_lobby_members(TPlyJoinLobbyEntry *, int, int, int);
     static void *adxf_open(unsigned int, int);
     static s32 adxf_open_file(int, void *, int, void *);
-    static void alloc_work_buffer();
     static void broadcast_to_players(int, int);
     static void *bsearch_record(void *, int, int);
     static void bswap_6x6E_sync_game_state(void*);
@@ -878,10 +854,8 @@ struct TLobby : public TObject {
     static void destroy_lobby_ui();
     static void disable_window_flags(void*);
     static void *find_chunk_by_id(void *, int);
-    static void *find_free_pool_entry(void *);
     static void *find_header_by_id(void *, int);
     static void *find_type5_header(void *, int);
-    static uaddr *free_and_delete(void *, s16);
     static saddr get_card_window_area();
     static ActorParamBlock *get_entry(int, int);
     static int get_flag_bit0();
@@ -979,7 +953,6 @@ struct TLobby : public TObject {
     static void set_menu_mode_2();
     static void set_player_count(int);
     static void set_section_id(void *, u8);
-    static void set_slot_position(int, int);
     static void set_validated_field_0x1(void *, u8);
     static void show_seq_phase_message(int);
     static void update();

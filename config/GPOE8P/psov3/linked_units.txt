@@ -829,7 +829,7 @@ pso/unk/TLobby_80299A60.cpp
 pso/unk/TLobby_80299B90.cpp
 pso/unk/TLobby_80299C4C.cpp
 pso/object/seabed/TObjSuisoChip_802A6080.cpp
-pso/unk/TLobby_802A7290.cpp
+pso/player/GamePlayerActionProvider.cpp
 pso/camera/TCameraVolOptFollow.cpp
 pso/camera/TCameraDebugOrbit.cpp
 pso/camera/TCameraDebugView.cpp
@@ -841,7 +841,7 @@ pso/unk/TLobby_802E03C8.cpp
 pso/unk/TLobby_80300098.cpp
 pso/unk/TLobby_8030A6A8.cpp
 pso/unk/TLobby_8030A834.cpp
-pso/unk/TLobby_80328F7C.cpp
+pso/player/LobbyPlayerActionProvider.cpp
 pso/unk/TLobby_80329600.cpp
 pso/unk/TLobby_80335E7C.cpp
 pso/ui/charcreate/TChCrTagOccHeader.cpp
@@ -2136,7 +2136,7 @@ pso/technique/TTecLightCharge.cpp
 pso/weapon/TItemAttackCol.cpp
 pso/unk/TLobby_803BFE50.cpp
 pso/unk/text_8020B5CC.cpp
-pso/unk/TUnk_804DDD28.cpp
+pso/player/PlayerActionProvider.cpp
 pso/boss/barbaray/TBoss7Joint_802EE704.cpp
 pso/network/NetworkInfoRequests.cpp
 pso/unk/text_803F3BF8.cpp
@@ -2192,3 +2192,4 @@ pso/player/TObjPlayer_801AF2F0Data.cpp
 pso/ui/window/TWindowHelpItem_802540ACData.cpp
 pso/ui/window/TWindowMainMenuData.cpp
 pso/system/prs.cpp
+pso/system/AramPool.cpp

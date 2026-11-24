@@ -8,7 +8,6 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TUnk_8048DF58.h"
-#include "pso/unk/text_803DE864.h"
 #include "pso/player/TPlyDispData.h"
 
 // One TU .text 0x8007EAF8-0x8007ECF0: its .sdata holds enable_v2_features, its .data the TUnk_8048DF58 vtable.
@@ -44,7 +43,7 @@ void safe_free(void *allocation) {
     }
 }
 
-u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32 a, s32 b) { return fn_803DE864(a, b); }
+u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32 a, s32 b) { return (u8 *)xcalloc(a, b); }
 
 void *TQuestVmDownLoadServer::alloc(u32 size) { return xmalloc(size); }
 

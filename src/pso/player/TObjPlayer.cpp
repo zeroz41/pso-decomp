@@ -13,7 +13,7 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/unk/text_80072004.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/player/PlayerActionProvider.h"
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/base/TObjBase.h"
@@ -612,9 +612,9 @@ u8 *TObjPlayer::copy_hold_params(u8 *src) {
 }
 
 s16 TBoss7Crawfish::get_floor() { return this->requested_action; }
-s32 *TUnk_804DDD28::get_state_table(s32) { return 0; }
-int TUnk_804DDD28::vfunc_10() { return 0; }
-int TUnk_804DDD28::vfunc_5(s32) { return 0; }
+s32 *PlayerActionProvider::get_state_table(s32) { return 0; }
+int PlayerActionProvider::vfunc_10() { return 0; }
+int PlayerActionProvider::vfunc_5(s32) { return 0; }
 int TObjPlayer::sub_802a7290_fwd() { return ((TLobby *)this)->get_valid_child(); }
 int TObjPlayer::is_handle_valid() { return TLobby::validate_handle((s32 *)this); }
 

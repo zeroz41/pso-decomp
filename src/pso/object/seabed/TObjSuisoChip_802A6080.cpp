@@ -9,7 +9,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
 
-int TLobby::get_max_players() { return 8; }
+int get_rlc_directory_entry_size() { return 8; }
 
 s32 TObjSuisoChip::vfunc_8() {
     return TObjChip::vfunc_8();

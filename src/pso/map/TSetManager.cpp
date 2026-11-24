@@ -27,7 +27,7 @@
 s32 active_set_floor_area;
 s32 active_set_floor;
 s32 lbl_805D6100;
-void *floor_set_archive_pool;
+AramPool *floor_set_archive_pool;
 THeap *floor_saved_row_heap;
 FloorObjectSetRow *current_floor_object_set_rows;
 s32 current_floor_object_set_count;
@@ -76,9 +76,6 @@ u32 TLobby__data_80513D10[9];
 #pragma force_active on
 u8 lbl_80513D34[0x24];
 #pragma pop
-extern "C" {
-void archive_pool_free(void *pool, void *node);
-}
 extern const char decoration_file_suffix_online[7] = "ad.dat";
 extern const char decoration_file_suffix_offline[6] = "d.dat";
 
@@ -224,13 +221,13 @@ void clear_floor_population(void) {
     lbl_805D6100 = 0;
     for (s32 i = 17; i >= 0; i--) {
         if (floor_set_archives[i].enemies != NULL) {
-            archive_pool_free(floor_set_archive_pool, floor_set_archives[i].enemies);
+            floor_set_archive_pool->free(floor_set_archives[i].enemies);
             floor_set_archives[i].enemies = NULL;
         }
     }
     for (s32 i = 17; i >= 0; i--) {
         if (floor_set_archives[i].objects != NULL) {
-            archive_pool_free(floor_set_archive_pool, floor_set_archives[i].objects);
+            floor_set_archive_pool->free(floor_set_archives[i].objects);
             floor_set_archives[i].objects = NULL;
         }
     }
@@ -295,7 +292,7 @@ void free_item_drop_tables() {
         floor_saved_row_heap = NULL;
     }
     if (floor_set_archive_pool != NULL) {
-        TLobby::free_and_delete((u32 *)floor_set_archive_pool, 1);
+        delete floor_set_archive_pool;
         floor_set_archive_pool = NULL;
     }
     if (enemy_set_row_buffer != NULL) {
@@ -330,7 +327,7 @@ void arrive_floor_population() {
         current_floor_object_set_rows = (FloorObjectSetRow *)TQuestVmDownLoadServer::alloc(bytes);
     }
     if (current_floor_object_set_rows != NULL) {
-        TLobby::send_or_handle_packet((void *)floor_set_archive_pool, floor_set_archives[index].objects, (void *)current_floor_object_set_rows, (void *)bytes, (u32)1);
+        floor_set_archive_pool->transfer(floor_set_archives[index].objects, current_floor_object_set_rows, bytes, 1);
         o = current_floor_object_set_rows;
         r = floor->object_rows;
         for (i = 0; i < floor->object_count; i++, o++, r++) {
@@ -347,7 +344,7 @@ void arrive_floor_population() {
         current_floor_enemy_set_rows = (EnemySetRecord *)TQuestVmDownLoadServer::alloc(bytes);
     }
     if (current_floor_enemy_set_rows != NULL) {
-        TLobby::send_or_handle_packet((void *)floor_set_archive_pool, floor_set_archives[index].enemies, (void *)current_floor_enemy_set_rows, (void *)bytes, (u32)1);
+        floor_set_archive_pool->transfer(floor_set_archives[index].enemies, current_floor_enemy_set_rows, bytes, 1);
         e = current_floor_enemy_set_rows;
         r2 = floor->enemy_rows;
         for (j = 0; j < floor->enemy_count; j++, e++, r2++) {
@@ -363,18 +360,13 @@ void arrive_floor_population() {
 void init_item_drop_tables(void) {
     s32 i;
     s32 k;
-    void *p;
 
     floor_set_flags = 0;
     object_set_row_buffer = 0;
     enemy_set_row_buffer = 0;
     floor_set_archive_pool = 0;
     floor_saved_row_heap = 0;
-    p = ::operator new(0x30);
-    if (p != NULL) {
-        p = ((TLobby *)p)->init_memory_pool(item_drop_memory_pool_ar_addr, item_drop_memory_pool_size, 0x40);
-    }
-    floor_set_archive_pool = p;
+    floor_set_archive_pool = new AramPool(item_drop_memory_pool_ar_addr, item_drop_memory_pool_size, 0x40);
     for (i = 0; i < 18; i++) {
         floor_set_archives[i].objects = NULL;
         floor_set_archives[i].enemies = NULL;

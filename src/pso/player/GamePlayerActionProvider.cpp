@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
-#include "pso/unk/TUnk_804DDBF0.h"
+#include "pso/player/GamePlayerActionProvider.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/player/PlayerActionProvider.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -2616,14 +2616,11 @@ const s32 ** player_motion_clip_roots_b[6] = {
     lbl_804DDA10, lbl_804DDA5C, lbl_804DDAA8, lbl_804DDAF4,
     lbl_804DDB40, lbl_804DDB8C,
 };
-s32 player_action_motion_buffer;
+s32 game_action_motion_buffer;
 
 extern "C" {
-int is_valid_player_motion_variant(s32 variant);
-int TLobby__sub_802A7278(s32 a0);
 void set_motion_variant(void *p, s32 _w1);
 s32 matches_loaded_motion(void *, s32, s32);
-void TLobby__sub_802A7640(void);
 int is_valid_player_motion_variant(s32 variant = 0);
 int TLobby__sub_802A7278(s32 a0 = 0);
 
@@ -2641,21 +2638,21 @@ s32 TLobby::validate_handle(s32 *arg0) {
 }
 TUnk_802A7318::TUnk_802A7318() { m_0 = 0; m_4 = 0; }
 
-s32 TUnk_804DDBF0::get_cell_address(s32 arg1, s32 arg2) {
-    return player_action_motion_buffer + ((arg2 + (arg1 * vfunc_75())) << 0xE);
+s32 GamePlayerActionProvider::get_cell_address(s32 arg1, s32 arg2) {
+    return game_action_motion_buffer + ((arg2 + (arg1 * vfunc_75())) << 0xE);
 }
 
-void TUnk_804DDBF0::vfunc_14() {
+void GamePlayerActionProvider::vfunc_14() {
     reinterpret_cast<NJS_MOTION *>(motions[get_attack1_action()].motion)->inp_fn |= 0x80;
     reinterpret_cast<NJS_MOTION *>(motions[get_attack2_action()].motion)->inp_fn |= 0x80;
     reinterpret_cast<NJS_MOTION *>(motions[get_attack3_action()].motion)->inp_fn |= 0x80;
 }
 
-int TUnk_804DDBF0::vfunc_9(s32 a, s32 b, s32 c) {
+int GamePlayerActionProvider::vfunc_9(s32 a, s32 b, s32 c) {
     return player_motion_clip_roots_b[a][b][c];
 }
 
-const s32 *TUnk_804DDBF0::vfunc_8(s32 arg1, s32 variant) {
+const s32 *GamePlayerActionProvider::vfunc_8(s32 arg1, s32 variant) {
     if (((s32)TLobby__sub_802A7278(arg1)) == 0) {
         return NULL;
     }
@@ -2664,7 +2661,7 @@ const s32 *TUnk_804DDBF0::vfunc_8(s32 arg1, s32 variant) {
     }
     return NULL;
 }
-int TUnk_804DDBF0::vfunc_7(s32 arg1, s32 variant) {
+int GamePlayerActionProvider::vfunc_7(s32 arg1, s32 variant) {
     if (((s32)TLobby__sub_802A7278(arg1)) == 0) {
         return 0;
     }
@@ -2673,7 +2670,7 @@ int TUnk_804DDBF0::vfunc_7(s32 arg1, s32 variant) {
     }
     return 0;
 }
-int TUnk_804DDBF0::vfunc_6(s32 arg1, s32 id, s32 flags) {
+int GamePlayerActionProvider::vfunc_6(s32 arg1, s32 id, s32 flags) {
     s32 temp_r3;
     if (matches_loaded_motion(this, id, flags) != 0) {
         return 1;
@@ -2687,7 +2684,7 @@ int TUnk_804DDBF0::vfunc_6(s32 arg1, s32 id, s32 flags) {
     return temp_r3;
 }
 
-int TUnk_804DDBF0::vfunc_5(s32 arg1) {
+int GamePlayerActionProvider::vfunc_5(s32 arg1) {
     s32 a = ((TObjPlayer *)this)->is_handle_valid();
     s32 b = ((TObjPlayer *)this)->sub_802a7290_fwd();
     s32 r = load_action_motion_pairs(arg1, a, b);
@@ -2697,23 +2694,22 @@ int TUnk_804DDBF0::vfunc_5(s32 arg1) {
     return r;
 }
 
-void TLobby__sub_802A7640(void) {
-    if ((u32) (*(u32 *)&player_action_motion_buffer) != 0U) {
-        mem_free((void*)(*(uaddr *)&player_action_motion_buffer));
-        (*(u32 *)&player_action_motion_buffer) = 0U;
+}
+
+void free_game_action_motion_buffer() {
+    if ((u32) (*(u32 *)&game_action_motion_buffer) != 0U) {
+        mem_free((void*)(*(uaddr *)&game_action_motion_buffer));
+        (*(u32 *)&game_action_motion_buffer) = 0U;
     }
 }
+void alloc_game_action_motion_buffer() {
+    game_action_motion_buffer = (saddr)mem_alloc(0x100000);
 }
-void disable_and_free_boss4rock_buffer(void);
-void TLobby::alloc_boss4rock_buffer() {
-    player_action_motion_buffer = (saddr)mem_alloc(0x100000);
-}
-// inferred: unload half of enable_and_refresh in ending_scene_callbacks (frees what alloc_boss4rock_buffer allocated)
-void disable_and_free_boss4rock_buffer(void) { TLobby__sub_802A7640(); TLobby::set_photon_chair_flag(0); }
-void TLobby::enable_and_refresh() { TLobby::set_photon_chair_flag(1); TLobby::alloc_boss4rock_buffer(); }
+void release_game_player_actions() { free_game_action_motion_buffer(); set_player_action_provider_selector(0); }
+void init_game_player_actions() { set_player_action_provider_selector(1); alloc_game_action_motion_buffer(); }
 
-TUnk_804DDBF0::~TUnk_804DDBF0() {}
-TUnk_804DDBF0::TUnk_804DDBF0() {}
-s32 *TUnk_804DDBF0::get_state_table(s32) { return reinterpret_cast<s32 *>(motions); }
-BmlMotionEntry *TUnk_804DDBF0::vfunc_76() { return motions; }
-int TUnk_804DDBF0::vfunc_4() {  return (*(int *)&player_action_motion_buffer); }
+GamePlayerActionProvider::~GamePlayerActionProvider() {}
+GamePlayerActionProvider::GamePlayerActionProvider() {}
+s32 *GamePlayerActionProvider::get_state_table(s32) { return reinterpret_cast<s32 *>(motions); }
+BmlMotionEntry *GamePlayerActionProvider::vfunc_76() { return motions; }
+int GamePlayerActionProvider::vfunc_4() {  return (*(int *)&game_action_motion_buffer); }

@@ -4,25 +4,16 @@
 #include "pso/ui/hud/TLoadingCur.h"
 #include "pso/ui/frontend/TAdLoadNetworkGC.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 
 #include <stddef.h>
-#include "pso/unk/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/NinjaTypes.h"
-#define PSO_SDK_COMPACT_MATH
-#include <dolphin/os/OSCache.h>
-#undef PSO_SDK_COMPACT_MATH
-
-
-volatile s32 aram_dma_pending;
 
 extern "C" {
-void ARQPostRequest(void *, uaddr, u32, u32, uaddr, uaddr, u32, void *);
 const char *TNowLoading__class_name = "TNowLoading";
 void TNowLoading__sub_8001D4D0(void);
 void TNowLoading__sub_8001D4D4(void);
@@ -106,48 +97,3 @@ TNowLoading::TNowLoading(TObject *parent, Vec *pos) : TObject(parent) {
 
 void TNowLoading__sub_8001D4D0(void) {  }
 void TNowLoading__sub_8001D4D4(void) {  }
-
-s32 TLobby::aram_dma_blocking(s32 owner, s32 aram, saddr dest, s32 length) {
-    u8 request[0x20];
-    s32 len;
-    len = (length + 0x1F) & ~0x1F;
-    aram_dma_pending = 1;
-    DCInvalidateRange((void *)dest, len);
-    ARQPostRequest(request, owner, 1, 1, aram, dest, len, (void *)TLobby__sub_8001D9DC);
-    for (;;) {
-        if (aram_dma_pending == 0) break;
-    }
-    DCInvalidateRange((void *)dest, len);
-    return 1;
-}
-
-s32 TLobby::aram_read_sync(s32 owner, s32 aram, saddr dest, s32 length) {
-    u8 request[0x20];
-    s32 len;
-    len = (length + 0x1F) & ~0x1F;
-    aram_dma_pending = 1;
-    DCInvalidateRange((void *)dest, len);
-    ARQPostRequest(request, owner, 1, 1, aram, dest, len, (void *)TLobby__sub_8001D9DC);
-    for (;;) {
-        if (aram_dma_pending == 0) break;
-        TLobby::run_frame();
-    }
-    DCInvalidateRange((void *)dest, len);
-    return 1;
-}
-s32 TLobby::aram_transfer_sync(s32 owner, uaddr source, s32 aram, s32 length) {
-    u8 request[0x20];
-    s32 len;
-    if (aram == 0 && source == 0) {
-        return 0;
-    }
-    len = (length + 0x1F) & ~0x1F;
-    aram_dma_pending = 1;
-    DCFlushRange((void *)source, len);
-    ARQPostRequest(request, owner, 0, 1, source, aram, len, (void *)TLobby__sub_8001D9DC);
-    for (;;) {
-        if (aram_dma_pending == 0) break;
-        TLobby::run_frame();
-    }
-    return 1;
-}

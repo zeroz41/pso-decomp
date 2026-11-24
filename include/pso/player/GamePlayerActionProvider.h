@@ -1,15 +1,15 @@
-#ifndef PSO_UNK_TUNK_804DDBF0_H
-#define PSO_UNK_TUNK_804DDBF0_H
+#ifndef PSO_PLAYER_GAMEPLAYERACTIONPROVIDER_H
+#define PSO_PLAYER_GAMEPLAYERACTIONPROVIDER_H
 #include "types.h"
 #include "pso/system/BmlResource.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/player/PlayerActionProvider.h"
 
-class TUnk_804DDBF0 : public TUnk_804DDD28 {
+class GamePlayerActionProvider : public PlayerActionProvider {
 public:
     BmlMotionEntry motions[16];
-    TUnk_804DDBF0();
+    GamePlayerActionProvider();
     virtual s32 get_cell_address(s32, s32);
-    virtual ~TUnk_804DDBF0();
+    virtual ~GamePlayerActionProvider();
     virtual int vfunc_5(s32);
     virtual int vfunc_6(s32, s32, s32);
     virtual int vfunc_7(s32, s32);
@@ -37,6 +37,6 @@ public:
     virtual s32 *get_state_table(s32);
     virtual BmlMotionEntry *vfunc_76();
 };
-LAYOUT_ASSERT(TUnk_804DDBF0_size, sizeof(TUnk_804DDBF0) == 0x8C);
+LAYOUT_ASSERT(GamePlayerActionProvider_size, sizeof(GamePlayerActionProvider) == 0x8C);
 
 #endif

@@ -131,18 +131,21 @@ pso/ui/hud/TLoadingCur.cpp:
 	.sdata2     start:0x805D7E90 end:0x805D7EC0
 
 pso/ui/hud/TNowLoading.cpp:
-	.text       start:0x8001D198 end:0x8001D6A0
+	.text       start:0x8001D198 end:0x8001D4D8
 	.rodata     start:0x80434A10 end:0x80434A20
 	.data       start:0x80480C98 end:0x80480CB0
 	.sdata      start:0x805D2640 end:0x805D2648
-	.sbss       start:0x805D4A90 end:0x805D4A98
 	.sdata2     start:0x805D7EC0 end:0x805D7EC4
+
+pso/system/AramPool.cpp:
+	.text       start:0x8001D4D8 end:0x8001DA00
+	.sbss       start:0x805D4A90 end:0x805D4A98
 
 pso/unk/TLobbyBattleParamData.cpp:
 	.sbss       start:0x805D4A98 end:0x805D4AC0
 
 pso/unk/TLobby_8001D6A0.cpp:
-	.text       start:0x8001D6A0 end:0x8001ED80
+	.text       start:0x8001DA00 end:0x8001ED80
 	.rodata     start:0x80434A20 end:0x80434AA0
 	.sbss       start:0x805D4AC0 end:0x805D4AC8
 	.sdata2     start:0x805D7EC8 end:0x805D7F10
@@ -7729,7 +7732,7 @@ pso/object/seabed/TObjSeabedSuisoBrakable.cpp:
 	.rodata     start:0x80466CE0 end:0x80466D10
 	.bss        start:0x80540AC0 end:0x80540AF0
 
-pso/unk/TLobby_802A7290.cpp:
+pso/player/GamePlayerActionProvider.cpp:
 	.text       start:0x802A7290 end:0x802A7798
 	.rodata     start:0x80466D10 end:0x8046FB90
 	.data       start:0x804DD830 end:0x804DDD28
@@ -7738,7 +7741,7 @@ pso/unk/TLobby_802A7290.cpp:
 pso/system/data/pso_const_ids3.cpp:
 	.text       start:0x802A7798 end:0x802A7848
 
-pso/unk/TUnk_804DDD28.cpp:
+pso/player/PlayerActionProvider.cpp:
 	.text       start:0x802A7848 end:0x802A7D68
 	.rodata     start:0x8046FB90 end:0x8046FBA8
 	.data       start:0x804DDD28 end:0x804DDE60
@@ -8955,7 +8958,7 @@ pso/ui/frontend/TAdDialingGC_80328E50.cpp:
 pso/ui/frontend/TAdDialingGC_80328E90.cpp:
 	.text       start:0x80328E90 end:0x80328F7C
 
-pso/unk/TLobby_80328F7C.cpp:
+pso/player/LobbyPlayerActionProvider.cpp:
 	.text       start:0x80328F7C end:0x80329478
 	.ctors      start:0x80433FE8 end:0x80433FEC
 	.rodata     start:0x804767D0 end:0x80477090

@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/enemy/EnemyPlacement.h"
 #include "pso/object/base/ObjectSetData.h"
+#include "pso/system/AramPool.h"
 #include <stddef.h>
 
 struct TObjEnemy;
@@ -46,8 +47,8 @@ struct LobbyFloorRows {
 
 // Raw object and enemy set archive blocks for each floor.
 struct LobbyPoolEntry {
-    void *objects;
-    void *enemies;
+    AramBlock *objects;
+    AramBlock *enemies;
 };
 
 LAYOUT_ASSERT(FloorObjectSetRow_size, sizeof(FloorObjectSetRow) == 0x44);
@@ -82,7 +83,7 @@ extern s32 active_set_floor_area;
 // Bit 0: the floor sets are loaded.
 extern s16 floor_set_flags;
 // Every floor's set rows, kept in the ARAM pool, and the flags saved in the row heap while a floor is left.
-extern void *floor_set_archive_pool;
+extern AramPool *floor_set_archive_pool;
 extern THeap *floor_saved_row_heap;
 extern LobbyPoolEntry floor_set_archives[18];
 extern LobbyFloorRows floor_enemy_group_table[18];

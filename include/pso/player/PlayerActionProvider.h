@@ -1,11 +1,11 @@
-#ifndef PSO_UNK_TUNK_804DDD28_H
-#define PSO_UNK_TUNK_804DDD28_H
+#ifndef PSO_PLAYER_PLAYERACTIONPROVIDER_H
+#define PSO_PLAYER_PLAYERACTIONPROVIDER_H
 #include "types.h"
 
 struct BmlMotionEntry;
 
-// The two-word record TUnk_804DDD28 starts with: its constructor 0x802A7318
-// clears both words, its destructor is 0x801D3518.
+// The two-word record PlayerActionProvider starts with: its constructor clears
+// both words.
 class TUnk_802A7318 {
 public:
     TUnk_802A7318();
@@ -14,16 +14,17 @@ public:
     u32 m_4;
 };
 
-// Base of the player action providers (TUnk_804DDBF0, TUnk_804ED7D0) that
-// TObjPlayer::init_action_provider creates; allocated from obj_heap.
-class TUnk_804DDD28 {
+// Base of the player action providers (GamePlayerActionProvider,
+// LobbyPlayerActionProvider) that TObjPlayer::init_action_provider creates;
+// allocated from obj_heap.
+class PlayerActionProvider {
 public:
     TUnk_802A7318 unk_0;
-    TUnk_804DDD28();
+    PlayerActionProvider();
     static void *operator new(size_t size);
     static void operator delete(void *p);
     virtual s32 get_cell_address(s32, s32);
-    virtual ~TUnk_804DDD28();
+    virtual ~PlayerActionProvider();
     virtual int vfunc_4();
     virtual int vfunc_5(s32);
     virtual int vfunc_6(s32, s32, s32);
@@ -99,9 +100,29 @@ public:
     virtual BmlMotionEntry *vfunc_76(); // Motion list used when the player changes lobby animation state.
     virtual s32 *get_state_table(s32);
     void copy_motion_pair(void*);
+    s32 load_motion(s32 set, s32 index, s32 size, s32 aram_addr);
     s32 load_action_motion_pairs(s32, s32, s32);
 };
 
 extern const char *player_motion_data_filename_ptr;
+
+// player_action_provider_selector picks the class TObjPlayer::init_action_provider
+// creates: 1 = GamePlayerActionProvider, 0 = LobbyPlayerActionProvider. Each scene's
+// load hook selects one and allocates its motion buffer (the lobby hook selects the
+// game provider when its allocation fails); the release hook frees it and selects 0.
+// New-game setup also selects the game provider (select_game_player_actions).
+extern int player_action_provider_selector;
+int get_player_action_provider_selector();
+void set_player_action_provider_selector(int selector);
+void select_game_player_actions();
+s32 get_player_action_motion_count();
+void alloc_game_action_motion_buffer();
+void free_game_action_motion_buffer();
+void init_game_player_actions();
+void release_game_player_actions();
+s32 alloc_lobby_action_motion_buffer();
+void free_lobby_action_motion_buffer();
+void init_lobby_player_actions();
+void release_lobby_player_actions();
 
 #endif
