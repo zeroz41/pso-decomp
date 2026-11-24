@@ -139,7 +139,7 @@ void OSInit()
 	__DVDLongFileNameFlag = 1;
 
 	OSSetArenaLo((!BootInfo->arenaLo) ? &__ArenaLo : BootInfo->arenaLo);
-	if ((!BootInfo->arenaLo) && (BI2DebugFlag) && (*(u32*)BI2DebugFlag < 2)) {
+	if ((!BootInfo->arenaLo) && (BI2DebugFlag) && (*BI2DebugFlag < 2)) {
 		OSSetArenaLo((void*)(((u32)(char*)&_stack_addr + 0x1F) & 0xFFFFFFE0));
 	}
 	OSSetArenaHi((!BootInfo->arenaHi) ? &__ArenaHi : BootInfo->arenaHi);
@@ -190,7 +190,7 @@ void OSInit()
 			OSReport("EPPC Minnow\n");
 			break;
 		default:
-			OSReport("Development HW%d\n", ((u32)consoleType - 0x10000000) - 3);
+			OSReport("Development HW%d\n", (consoleType - 0x10000000) - 3);
 			break;
 		}
 	}

@@ -37,7 +37,7 @@ static const char* parse_format(const char* format_string, scan_format* format) 
     if (((c = *++s) == '%')) {
         f.conversion_char = c;
         *format = f;
-        return ((const char*)s + 1);
+        return s + 1;
     }
 
     if (c == '*') {
@@ -56,7 +56,7 @@ static const char* parse_format(const char* format_string, scan_format* format) 
         if (f.field_width == 0) {
             f.conversion_char = 0xFF;
             *format = f;
-            return ((const char*)s + 1);
+            return s + 1;
         }
 
         f.field_width_specified = 1;
@@ -230,7 +230,7 @@ static const char* parse_format(const char* format_string, scan_format* format) 
     }
 
     *format = f;
-    return ((const char*)s + 1);
+    return s + 1;
 }
 
 static int __sformatter(int (*ReadProc)(void*, int, int), void* ReadProcArg, const char* format_str, va_list arg) {
@@ -432,7 +432,7 @@ static int __sformatter(int (*ReadProc)(void*, int, int), void* ReadProcArg, con
                         c = rval;
 
                         if (format.argument_options == wchar_argument) {
-                            mbtowc(((wchar_t*)arg_ptr), (char*)(&c), 1);
+                            mbtowc((wchar_t*)arg_ptr, &c, 1);
                             arg_ptr++;
                         } else
                             *arg_ptr++ = c;
@@ -485,7 +485,7 @@ static int __sformatter(int (*ReadProc)(void*, int, int), void* ReadProcArg, con
                     while (format.field_width-- && ((c = ((*ReadProc)(ReadProcArg, 0, __GetAChar))) != -1) &&
                            tst_char_map(format.char_set, c)) {
                         if (format.argument_options == wchar_argument) {
-                            mbtowc(((wchar_t*)arg_ptr), (char*)&c, 1);
+                            mbtowc((wchar_t*)arg_ptr, &c, 1);
                             arg_ptr = (char*)((wchar_t*)arg_ptr + 1);
                         } else
                             *arg_ptr++ = c;
@@ -537,7 +537,7 @@ static int __sformatter(int (*ReadProc)(void*, int, int), void* ReadProcArg, con
                             *(long*)arg_ptr = chars_read;
                             break;
                         case char_argument:
-                            *(char*)arg_ptr = chars_read;
+                            *arg_ptr = chars_read;
                             break;
                         case long_long_argument:
                             *(long long*)arg_ptr = chars_read;

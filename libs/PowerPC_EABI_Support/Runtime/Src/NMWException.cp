@@ -52,7 +52,7 @@ extern void* __construct_new_array(void* block, ConstructorDestructor ctor, Cons
             __partial_array_destructor pad(ptr, size, n, dtor);
             char* p;
 
-            for (pad.i = 0, p = (char*)ptr; pad.i < n; pad.i++, p += size) {
+            for (pad.i = 0, p = ptr; pad.i < n; pad.i++, p += size) {
                 CTORCALL_COMPLETE(ctor, p);
             }
         }

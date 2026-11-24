@@ -57,7 +57,7 @@ static const char* parse_format(const char* format_string, va_list* arg, print_f
     if ((c = *++s) == '%') {
         f.conversion_char = c;
         *format = f;
-        return ((const char*)s + 1);
+        return s + 1;
     }
 
     for (;;) {
@@ -112,7 +112,7 @@ static const char* parse_format(const char* format_string, va_list* arg, print_f
     if (f.field_width > 509) {
         f.conversion_char = 0xFF;
         *format = f;
-        return ((const char*)s + 1);
+        return s + 1;
     }
 
     if (c == '.') {
@@ -272,7 +272,7 @@ static const char* parse_format(const char* format_string, va_list* arg, print_f
     }
 
     *format = f;
-    return ((const char*)s + 1);
+    return s + 1;
 }
 
 static char* long2str(signed long num, char* buff, print_format format) {

@@ -604,7 +604,7 @@ static void SPEC2_MakeStatus(s32 chan, PADStatus *status, u32 data[2]) {
 
 
 BOOL PADSync(void) {
-    return ResettingBits == 0 && (s32)ResettingChan == 32 && !SIBusy();
+    return ResettingBits == 0 && ResettingChan == 32 && !SIBusy();
 }
 
 

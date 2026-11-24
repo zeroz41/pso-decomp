@@ -1000,7 +1000,7 @@ long DVDGetDriveStatus() {
 			} else if (executing == &DummyCommandBlock) {
 				retVal = DVD_STATE_END;
 			} else {
-				retVal = DVDGetCommandBlockStatus((struct DVDCommandBlock*)executing);
+				retVal = DVDGetCommandBlockStatus(executing);
 			}
 		}
 	}

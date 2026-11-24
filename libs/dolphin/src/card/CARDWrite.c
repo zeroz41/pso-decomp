@@ -103,9 +103,9 @@ long CARDWriteAsync(struct CARDFileInfo * fileInfo, const void * buf, long lengt
     if (result < 0)
         return __CARDPutControlBlock(card, result);
 
-    DCStoreRange((void *)buf, (u32)length);
+    DCStoreRange(buf, (u32)length);
     card->apiCallback = callback ? callback : __CARDDefaultApiCallback;
-    card->buffer = (void *)buf;
+    card->buffer = buf;
     result = __CARDEraseSector(fileInfo->chan, card->sectorSize * (u32)fileInfo->iBlock, EraseCallback);
     if (result < 0)
         __CARDPutControlBlock(card, result);

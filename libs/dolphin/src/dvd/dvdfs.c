@@ -347,7 +347,7 @@ long DVDReadPrio(struct DVDFileInfo * fileInfo, void * addr, long length, long o
     enabled = OSDisableInterrupts();
 
     while(1) {
-        state = ((volatile DVDCommandBlock*)block)->state;
+        state = block->state;
         if (state == 0) {
             retVal = (s32)block->transferredSize;
             break;
