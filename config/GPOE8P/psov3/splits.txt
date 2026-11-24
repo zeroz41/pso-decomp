@@ -4844,32 +4844,16 @@ pso/player/TObjPlayer_801AF2F0.cpp:
 	.sdata      start:0x805D3530 end:0x805D3538
 	.sdata2     start:0x805DC278 end:0x805DC2E0
 
-pso/player/TObjPlayer_801BC194.cpp:
-	.text       start:0x801BC194 end:0x801BC5D4
-
-pso/player/TObjPlayerInit.cpp:
-	.text       start:0x801BC5D4 end:0x801BCF04
-
-pso/player/TObjPlayer_801BCF04.cpp:
-	.text       start:0x801BCF04 end:0x801BCFBC
-
-pso/player/TObjPlayer_801BCFBC.cpp:
-	.text       start:0x801BCFBC end:0x801BD318
+pso/player/TObjPlayerCreate.cpp:
+	.text       start:0x801BC194 end:0x801BDE60
 	.rodata     start:0x80446F70 end:0x80446F78
 
-pso/player/TObjPlayerCreate.cpp:
-	.text       start:0x801BD318 end:0x801BDE60
-
-pso/player/TObjPlayer_801BDF5C.cpp:
-	.text       start:0x801BDE60 end:0x801BEC98
-	.ctors      start:0x80433F8C end:0x80433F90
-	.bss        start:0x8050E920 end:0x80511C80
-	.sbss       start:0x805D5D68 end:0x805D5D70
-
 pso/player/TObjPlayer.cpp:
-	.text       start:0x801BEC98 end:0x801C0064
+	.text       start:0x801BDE60 end:0x801C0064
+	.ctors      start:0x80433F8C end:0x80433F90
 	.data       start:0x804C3E38 end:0x804C3E60
-	.sbss       start:0x805D5D70 end:0x805D5D78
+	.bss        start:0x8050E920 end:0x80511C80
+	.sbss       start:0x805D5D68 end:0x805D5D78
 
 pso/player/PlayerSharedSbss.cpp:
 	.sbss       start:0x805D5D78 end:0x805D5D90

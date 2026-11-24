@@ -1594,12 +1594,7 @@ pso/player/TObjPlayer_8011E214.cpp
 pso/object/base/TObjCollidable.cpp
 pso/player/TObjPlayer_80178150.cpp
 pso/player/TObjPlayer_801AF2F0.cpp
-pso/player/TObjPlayer_801BC194.cpp
-pso/player/TObjPlayerInit.cpp
 pso/player/TObjPlayerCreate.cpp
-pso/player/TObjPlayer_801BCFBC.cpp
-pso/player/TObjPlayer_801BCF04.cpp
-pso/player/TObjPlayer_801BDF5C.cpp
 pso/player/TObjPlayer_801C00C4.cpp
 pso/player/TObjPlayer_801C0808.cpp
 pso/player/TObjPlayer_801C1FF8.cpp
