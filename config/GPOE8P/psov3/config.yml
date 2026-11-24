@@ -5355,7 +5355,7 @@ force_active:
   - copy_drop_node__FPUcPUc
   - copy_effect_data__18TAdChrMoveEffectGCFPvPv
   - copy_fog_entry__FP8FogEntryP8FogEntry
-  - copy_from__11TMainCursorFPv
+  - copy_from__12CursorTargetFP12CursorTarget
   - copy_from__16DelayedWeaponHitFP16DelayedWeaponHit
   - copy_from__14TechniqueBoostFP14TechniqueBoost
   - copy_from__19StarLightParametersFP19StarLightParameters
