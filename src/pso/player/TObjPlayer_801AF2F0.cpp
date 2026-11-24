@@ -133,6 +133,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include "pso/npc/NpcPartnerControl.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
 
 #pragma readonly_strings on
 
@@ -1093,7 +1094,6 @@ typedef struct List_801BC068 {
 extern "C" {
 s32 check_value_equals__13TUnk_804B6C24CFl(void *, s32);
 void copy_player_visual_record(void *, void *);
-void copy_disp_config(void *);
 u16 get_id__11TMainCursorFv(void* p);
 s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
@@ -1523,7 +1523,7 @@ void TObjPlayer::init_action_palette_defaults(saddr player) {
 }
 
 void TObjPlayer::init_player_substructs(u8 *data) {
-    copy_disp_config((void *)((char *)this + 1280));
+    copy_disp_config(&action_palettes, data);
     TObjPlayer::init_action_palette_defaults((saddr)this);
 }
 

@@ -654,17 +654,17 @@ force_active:
   - __sinit_TLobby_80103F5C_cpp
   - init_idle_timeout_timer
   - show_card_list_message
-  - handle_generate_id
+  - handle_generate_id__Fv
   - handle_game_list
-  - handle_lobby_text
-  - handle_server_message
-  - handle_error
+  - handle_lobby_text__Fl
+  - handle_server_message__Fl
+  - handle_error__Fl
   - queue_join_entry_exit_on_input
   - show_join_entry_message
   - show_dialog_value_line
-  - lobby_init_hook
-  - render_idle_timeout
-  - init_6x6F_quest_flags_packet
+  - lobby_init_hook__Fv
+  - render_idle_timeout__Fv
+  - init_6x6F_quest_flags_packet__FPv
   - TLobby__sub_8013FF64
   - TLobby__sub_80182E60
   - alloc_enemy_ids__Fl
@@ -1546,7 +1546,7 @@ force_active:
   - __ct__13TUnk_804A4C78FP7TObjectPUc
   - __ct__21TItemShootRocketPunchFP22TItemWeaponRocketPunchPC3VecPC3Vecf
   - __ct__13TUnk_804A5930FP7TObjectPUc
-  - copy_disp_config_palette
+  - copy_disp_config_palette__FPvPv
   - collect_body_contacts__FP16CollisionBodySetll
   - set_battle_param_slot__Fii
   - copy_collision_box__FP12CollisionBoxPC12CollisionBox
@@ -1662,7 +1662,7 @@ force_active:
   - TPlyCharData__global_destructor_registration
   - class_name__22TPlyFollowParticleCtrl
   - __ct__23PlayerHandParticlesBaseFv
-  - copy_guild_card_tag_triplet
+  - copy_guild_card_tag_triplet__FPvPv
   - copy_lobby_entry__FPvPv
   - TPlyOnCreated__name
   - TPlyPhotonChair__shared_model_resource

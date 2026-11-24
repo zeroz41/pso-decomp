@@ -2949,8 +2949,8 @@ s32 get_online_message_text(s32 id) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x38)) + (id * 4));
 }
 
-s32 *get_password_input_buffer(void) {
-    return ((s32 *)&TAdEnterPasswordGC__input_buffer);
+u8 *get_password_input_buffer(void) {
+    return ((u8 *)&TAdEnterPasswordGC__input_buffer);
 }
 
 void *TProtocol::operator new(size_t size) { return obj_heap->heap_alloc(size); }

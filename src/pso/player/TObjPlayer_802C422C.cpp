@@ -11,6 +11,7 @@
 #include "pso/player/TPlyItem.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
 
 extern "C" {
 
@@ -71,7 +72,6 @@ void TObjPlayer__sub_802C456C(Obj_802C456C *self, s32 i, u8 v);
 void TObjPlayer__sub_802C4648(Obj_802C4648 *self, u32 v);
 void TObjPlayer__sub_802C4668(O_802C4668 *self, u32 c);
 s32 copy_player_visual_record(void *, void *);
-s32 copy_disp_config(void *, void *);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
 s32 clamp_stats__10TObjPlayerFiPv(void *, void *, void *);
 u8 TObjPlayer__sub_801C0124(void *, s16);

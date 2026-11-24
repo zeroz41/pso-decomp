@@ -21,23 +21,24 @@ extern TAdScrollWinGC *lobby_scroll_text_window;
 // The idle-timeout warning window TLobby::update_idle_timeout opens.
 extern TWindowMessage *TLobby__idle_timeout_object;
 
-extern "C" {
-u8 *init_idle_timeout_timer(u8 *timer, saddr parent);
 void handle_generate_id(void);
 void handle_lobby_text(s32 text);
 void handle_server_message(s32 text);
 void handle_error(s32 text);
 void update_state_with_location(void);
+void lobby_init_hook(void);
+void render_idle_timeout(void);
+void init_6x6F_quest_flags_packet(void *p);
+void *copy_disp_config(void *dst, void *src);
+void *copy_disp_config_palette(void *p, void *a1);
+
+extern "C" {
+u8 *init_idle_timeout_timer(u8 *timer, saddr parent);
 void queue_join_entry_exit_on_input(void *self);
 void show_join_entry_message(s32 id);
 void show_dialog_value_line(saddr text);
-void lobby_init_hook(void);
 void *__ct__17TPlyJoinLobbyDataFv(void *self);
-void render_idle_timeout(void);
-void init_6x6F_quest_flags_packet(void *p);
-void *copy_disp_config(void *arg0, void *arg1);
-void *copy_disp_config_palette(void *p, void *a1);
-void copy_gc_tag(void *arg0, void *arg1);
+void copy_gc_tag(void *dst, void *src);
 void *__ct__13GameListEntryFv(void *entry);
 void *__ct__18TPlyJoinLobbyEntryFv(void *self);
 void *__dt__18TPlyJoinLobbyEntryFv(void *self, s16 del);
