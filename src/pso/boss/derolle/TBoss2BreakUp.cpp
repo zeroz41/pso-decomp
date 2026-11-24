@@ -1,23 +1,19 @@
-#include "pso/system/MatrixStack.h"
-// The De Rol Le breakup effects: TUnk_80482090 (the pieces TBoss2DeRolLe spawns), TUnk_804820A8 (the pieces
-// TBoss2Joint spawns), their base TUnk_804820C0 and the breakup models they start from.
+// The De Rol Le breakup effects: TBoss2BodyBreakUp (the pieces TBoss2DeRolLe spawns), TBoss2JointBreakUp (the pieces
+// TBoss2Joint spawns), their base TBoss2BreakUp and the breakup models they start from.
 // Built -inline off,deferred: the functions below are written last to first (the vtables at 0x80482090-0x804820D8
-// and TUnk_804820A8::render's .rodata templates before TUnk_80482090::render's only come out in that order).
+// and TBoss2JointBreakUp::render's .rodata templates before TBoss2BodyBreakUp::render's only come out in that order).
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/player/TUnk_804820A8.h"
+#include "pso/boss/derolle/TBoss2BreakUp.h"
+#include "pso/boss/derolle/RandomAngle.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/system/vector.h"
 #include "pso/effect/TBreakUpMdl.h"
-#include "pso/player/TUnk_804820C0.h"
-#include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/unk/TUnk_80482090.h"
-#include "pso/player/TObjPlayer_8002E784.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
@@ -28,10 +24,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"
+#include "pso/unk/text_803D853C.h"
 
-extern "C" {
-s32 matrix_mult_vec(int, void *, void *);
-void set_chunk_material_override_pair(s32 first, s32 second);
 extern const f32 breakup_unit;
 extern const f32 breakup_zero;
 extern const f32 breakup_bounce_factor;
@@ -43,17 +37,15 @@ extern const f32 breakup_spread_scale;
 extern const f32 breakup_gravity;
 extern const f32 breakup_fade_step;
 extern const f32 breakup_floor_height;
-void TObjPlayer__sub_8002ECC4(TBreakUpMdlData *model, s32 n);
-void TObjPlayer__sub_8002ED48(TBreakUpMdlData *model, s32 n);
 
-TBreakUpMdlData *shared_breakup_model;
-TBreakUpMdlData *lbl_805D4B8C;
+TBreakUpMdlData *joint_breakup_model;
+TBreakUpMdlData *body_breakup_model;
 f32 boss2_breakup_water_level = boss2_water_level;
 
 #pragma push
 #pragma opt_common_subs off
 #pragma fp_contract on
-s32 TObjPlayer__sub_8002EDCC(BreakupPiece *piece) {
+s32 TBoss2BreakUp::move_piece(BreakupPiece *piece) {
     f32 vel_y;
     f32 pos_y;
     f32 x;
@@ -106,7 +98,7 @@ s32 TObjPlayer__sub_8002EDCC(BreakupPiece *piece) {
 }
 #pragma pop
 
-void TObjPlayer__sub_8002ED48(TBreakUpMdlData *model, s32 n) {
+void TBoss2BreakUp::scale_piece_positions(TBreakUpMdlData *model, s32 n) {
     s32 i;
     push_matrix();
     set_matrix_identity(0);
@@ -117,7 +109,7 @@ void TObjPlayer__sub_8002ED48(TBreakUpMdlData *model, s32 n) {
     pop_matrix();
 }
 
-void TObjPlayer__sub_8002ECC4(TBreakUpMdlData *model, s32 n) {
+void TBoss2BreakUp::spread_piece_velocities(TBreakUpMdlData *model, s32 n) {
     s32 i;
     push_matrix();
     set_matrix_identity(0);
@@ -128,26 +120,26 @@ void TObjPlayer__sub_8002ECC4(TBreakUpMdlData *model, s32 n) {
     pop_matrix();
 }
 
-TUnk_804820C0::TUnk_804820C0(TObject *parent) : TObject(parent) {
+TBoss2BreakUp::TBoss2BreakUp(TObject *parent) : TObject(parent) {
     m_frames = 0;
 }
 
-TUnk_804820C0::~TUnk_804820C0() {
+TBoss2BreakUp::~TBoss2BreakUp() {
 }
 
-void TObjPlayer::create_breakup_model() {
+void TBoss2JointBreakUp::create_model() {
     TBreakUpMdlData *model = new TBreakUpMdlData(boss2_derolle_resource->models[6].model);
-    shared_breakup_model = model;
-    TObjPlayer__sub_8002ED48(model, 0x13);
-    TObjPlayer__sub_8002ECC4(shared_breakup_model, 0x13);
+    joint_breakup_model = model;
+    scale_piece_positions(model, 0x13);
+    spread_piece_velocities(joint_breakup_model, 0x13);
 }
 
-void TObjPlayer::free_breakup_model() {
-    delete shared_breakup_model;
-    shared_breakup_model = NULL;
+void TBoss2JointBreakUp::free_model() {
+    delete joint_breakup_model;
+    joint_breakup_model = NULL;
 }
 
-TUnk_804820A8::TUnk_804820A8(TObject *parent, const Vec *pos) : TUnk_804820C0(parent) {
+TBoss2JointBreakUp::TBoss2JointBreakUp(TObject *parent, const Vec *pos) : TBoss2BreakUp(parent) {
     f32 alpha;
     f32 spin_max;
     BreakupPiece *p;
@@ -157,23 +149,23 @@ TUnk_804820A8::TUnk_804820A8(TObject *parent, const Vec *pos) : TUnk_804820C0(pa
     alpha = breakup_unit;
     for (i = 0, p = m_pieces; i < 19; i++, p++) {
         VecCopy(&p->pos, pos);
-        vec3_add_to(&p->pos, &shared_breakup_model->m_records[i].pos);
+        vec3_add_to(&p->pos, &joint_breakup_model->m_records[i].pos);
         v = &p->vel;
-        VecCopy(v, &shared_breakup_model->m_records[i].vel);
+        VecCopy(v, &joint_breakup_model->m_records[i].vel);
         v->y = lerp__9TDeadSpotFff(breakup_rise_speed_min, breakup_rise_speed_max);
         v->z -= lerp__9TDeadSpotFff(breakup_unit, breakup_back_speed_max);
-        p->ang_x = TObjPlayer::calc_random_scaled();
+        p->ang_x = random_angle();
         p->spin = (s32)(spin_max * rand_signed_unit());
-        p->ang_z = TObjPlayer::calc_random_scaled();
+        p->ang_z = random_angle();
         p->state = 0;
         p->alpha = alpha;
     }
 }
 
-TUnk_804820A8::~TUnk_804820A8() {
+TBoss2JointBreakUp::~TBoss2JointBreakUp() {
 }
 
-void TUnk_804820A8::run_task() {
+void TBoss2JointBreakUp::run_task() {
     BreakupPiece *piece;
     s32 i;
     m_frames += 1;
@@ -184,7 +176,7 @@ void TUnk_804820A8::run_task() {
     i = 0;
     do {
         piece = &m_pieces[i];
-        if (TObjPlayer__sub_8002EDCC(piece) != 0) {
+        if (move_piece(piece) != 0) {
             if ((i % 2) == 0) {
                 TObjBoss2CeilJunk::create_particle(&piece->pos, 0x171);
             }
@@ -193,7 +185,7 @@ void TUnk_804820A8::run_task() {
     } while (i < 0x13);
 }
 
-void TUnk_804820A8::render() {
+void TBoss2JointBreakUp::render() {
     BmlModelEntry *models = boss2_derolle_resource->models;
     NJS_OBJECT *mdl = models[6].model;
     NJS_ARGB color = {1.0f, 1.0f, 1.0f, 1.0f};
@@ -235,18 +227,18 @@ void TUnk_804820A8::render() {
     current_scene_light->sub_801337F8();
 }
 
-void TObjPlayer::create_derolle_breakup_model() {
+void TBoss2BodyBreakUp::create_model() {
     TBreakUpMdlData *model = new TBreakUpMdlData(boss2_derolle_resource->models[5].model);
-    lbl_805D4B8C = model;
-    TObjPlayer__sub_8002ECC4(model, 0x1C);
+    body_breakup_model = model;
+    spread_piece_velocities(model, 0x1C);
 }
 
-void TObjPlayer::clear_target_ref() {
-    delete lbl_805D4B8C;
-    lbl_805D4B8C = NULL;
+void TBoss2BodyBreakUp::free_model() {
+    delete body_breakup_model;
+    body_breakup_model = NULL;
 }
 
-TUnk_80482090::TUnk_80482090(TObject *parent, const f32 (*matrix)[4]) : TUnk_804820C0(parent) {
+TBoss2BodyBreakUp::TBoss2BodyBreakUp(TObject *parent, const f32 (*matrix)[4]) : TBoss2BreakUp(parent) {
     BreakupPiece *p;
     s32 i;
     Vec *v;
@@ -259,10 +251,10 @@ TUnk_80482090::TUnk_80482090(TObject *parent, const f32 (*matrix)[4]) : TUnk_804
     v->x = breakup_zero;
     v->y = breakup_zero;
     v->z = breakup_zero;
-    matrix_mult_vec(0, v, v);
+    matrix_mult_vec(NULL, v, v);
     for (i = 0; i < 0x1C; i++, p++) {
-        matrix_mult_vec(0, &lbl_805D4B8C->m_records[i].pos, &p->pos);
-        rotate_vector_by_matrix(0, &lbl_805D4B8C->m_records[i].vel, &p->vel);
+        matrix_mult_vec(NULL, &body_breakup_model->m_records[i].pos, &p->pos);
+        rotate_vector_by_matrix(0, &body_breakup_model->m_records[i].vel, &p->vel);
         p->vel.y = lerp__9TDeadSpotFff(breakup_rise_speed_min, breakup_rise_speed_max);
         p->vel.z -= lerp__9TDeadSpotFff(breakup_unit, breakup_back_speed_max);
         p->ang_x = 0;
@@ -274,10 +266,10 @@ TUnk_80482090::TUnk_80482090(TObject *parent, const f32 (*matrix)[4]) : TUnk_804
     pop_matrix();
 }
 
-TUnk_80482090::~TUnk_80482090() {
+TBoss2BodyBreakUp::~TBoss2BodyBreakUp() {
 }
 
-void TUnk_80482090::run_task() {
+void TBoss2BodyBreakUp::run_task() {
     BreakupPiece *piece;
     s32 i;
     m_frames += 1;
@@ -288,7 +280,7 @@ void TUnk_80482090::run_task() {
     i = 0;
     do {
         piece = &m_pieces[i];
-        if (TObjPlayer__sub_8002EDCC(piece) != 0) {
+        if (move_piece(piece) != 0) {
             if ((i % 2) == 0) {
                 TObjBoss2CeilJunk::create_particle(&piece->pos, 0x170);
             }
@@ -297,7 +289,7 @@ void TUnk_80482090::run_task() {
     } while (i < 0x1C);
 }
 
-void TUnk_80482090::render() {
+void TBoss2BodyBreakUp::render() {
     NJS_OBJECT *n;
     BreakupPiece *p;
     s32 i;
@@ -340,8 +332,6 @@ void TUnk_80482090::render() {
     }
     pop_matrix();
     current_scene_light->sub_801337F8();
-}
-
 }
 
 extern const f32 breakup_unit = 1.0f;

@@ -33,6 +33,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/boss/derolle/RandomAngle.h"
 
 // Unit-owned .bss banks (0x80541528-0x80541928), defined in address order: the tentacle's working
 // copy of its model nodes 0x310, segment_offsets +0x310 (0xA8), needle_offsets +0x3B8 (0x38).
@@ -89,7 +90,7 @@ TBoss7Tentacle::TBoss7Tentacle(TObject *parent, const f32 (*joint)[4], s32 index
     yaw = 0;
     pitch = 0;
     sway_speed = 0x5EF;
-    sway_phase = TObjPlayer::calc_random_scaled();
+    sway_phase = random_angle();
     reach = 0.0f;
     bend = 0.0f;
     timer = 0;

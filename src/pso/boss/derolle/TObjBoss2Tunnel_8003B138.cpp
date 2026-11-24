@@ -18,7 +18,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TUnk_804835D8.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
-#include "pso/player/TObjPlayer_8002E784.h"
+#include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"

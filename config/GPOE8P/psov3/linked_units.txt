@@ -1560,8 +1560,8 @@ pso/weapon/TItemWeaponFist.cpp
 pso/player/TObjPlayer.cpp
 pso/player/TObjPlayerSet.cpp
 pso/object/base/TObjChara.cpp
-pso/player/TObjPlayer_8002E784.cpp
-pso/player/TObjPlayer_8002EF8C.cpp
+pso/boss/derolle/TBoss2BreakUp.cpp
+pso/boss/derolle/RandomAngle.cpp
 pso/player/TObjPlayer_80052374.cpp
 pso/player/TObjPlayer_80055678.cpp
 pso/player/TObjPlayer_80080750.cpp

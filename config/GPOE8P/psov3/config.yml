@@ -1499,8 +1499,8 @@ force_active:
   - set_status_effect_type__9TObjCharaFll
   - set_status_effect_amount__9TObjCharaFlf
   - clear_immunity_flags__9TObjCharaFv
-  - TObjPlayer__sub_8002ECC4
-  - TObjPlayer__sub_8002ED48
+  - spread_piece_velocities__13TBoss2BreakUpFP15TBreakUpMdlDatal
+  - scale_piece_positions__13TBoss2BreakUpFP15TBreakUpMdlDatal
   - draw_capture_caption_bar__10TObjPlayerFv
   - is_shadow_pass_requested__10TObjPlayerFv
   - request_shadow_pass__10TObjPlayerFv
@@ -15630,7 +15630,7 @@ force_active:
   - setup_tex_gen__10TObjPlayerFv
   - setup_vertex_format__10TObjPlayerFv
   - setup_vtx_desc__10TObjPlayerFv
-  - shared_breakup_model
+  - joint_breakup_model
   - shared_model_resource__16TObjRainbowLobby
   - shield_table__14TItemProShield
   - shift_position_history__13TBoss5GryphonFv

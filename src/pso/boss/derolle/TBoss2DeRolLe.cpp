@@ -64,7 +64,6 @@ struct NJS_OBJECT;
 
 #include "pso/effect/TBreakUpMdl.h"
 
-#include "pso/unk/TUnk_80482090.h"
 
 #include "pso/boss/derolle/TBoss2Tentacle.h"
 
@@ -77,7 +76,7 @@ struct NJS_OBJECT;
 #include "pso/boss/TUnk_80482C58.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/player/TObjPlayer_8002E784.h"
+#include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/model_render_state.h"
 
@@ -270,7 +269,6 @@ f32 boss2_derolle_particle_limits[3] = {32.0f, 30.0f, 30.0f};
 const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 
 #include <stddef.h>
-#include "pso/player/TObjPlayer_8002E784.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/TUnk_804A6F78.h"
@@ -528,8 +526,8 @@ void TBoss2DeRolLe::load_resources() {
     p = &derolle_breakup_stub_nodes[10];
     p->evalflags = NJD_EVAL_UNIT_POS | NJD_EVAL_UNIT_ANG | NJD_EVAL_UNIT_SCL | NJD_EVAL_HIDE | NJD_EVAL_BREAK;
     p->child = 0;
-    TObjPlayer::create_breakup_model();
-    TObjPlayer::create_derolle_breakup_model();
+    TBoss2JointBreakUp::create_model();
+    TBoss2BodyBreakUp::create_model();
     TWindowCtrl::init_all_slots();
 }
 
@@ -538,8 +536,8 @@ void *TBoss2DeRolLe::create(void *set_data) {
 }
 
 void TBoss2DeRolLe::reset_parts() {
-    TObjPlayer::clear_target_ref();
-    TObjPlayer::free_breakup_model();
+    TBoss2BodyBreakUp::free_model();
+    TBoss2JointBreakUp::free_model();
     TBoss2Fin::release_effect_table();
     TBoss2Mine::free_resources();
     TBoss2Tentacle::release_shared_model();
@@ -789,7 +787,7 @@ void TBoss2DeRolLe::run_task() {
   {
     state_flags = flags & ~0x80;
     state_flags |= 0x40;
-    new TUnk_80482090(this, node_matrices[0]);
+    new TBoss2BodyBreakUp(this, node_matrices[0]);
   }
   if ((TObjEneDD::is_main_phase_15() != 0) && (debug_pad_active == 0))
   {

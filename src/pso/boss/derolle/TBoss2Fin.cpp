@@ -5,7 +5,7 @@
 #include "pso/object/TObjEZRopeBase.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_8002E784.h"
+#include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/TObjCharaHelpers.h"

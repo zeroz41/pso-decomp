@@ -18,6 +18,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/boss/derolle/RandomAngle.h"
 
 // TObjBoss7DustCtrl and TObjBoss7Dust share one TU, built deferred and written from the unit's last
 // function back: Dust's code comes first in .text, yet DustCtrl's class name precedes Dust's in .sdata
@@ -47,7 +48,7 @@ void TObjBoss7DustCtrl::init_strips() {
     {
         s32 *p = TObjBoss7DustCtrl__rotation_pairs;
         for (i = 0; i < 20; i++) {
-            *p++ = TObjPlayer::calc_random_scaled();
+            *p++ = random_angle();
         }
     }
     {
@@ -61,7 +62,7 @@ void TObjBoss7DustCtrl::init_strips() {
         }
     }
     for (j = 0; j < 10; j++) {
-        TObjBoss7DustCtrl__vertical_phase_angles[j] = TObjPlayer::calc_random_scaled();
+        TObjBoss7DustCtrl__vertical_phase_angles[j] = random_angle();
     }
     TObjBoss7DustCtrl_dust_counter = 0;
 }

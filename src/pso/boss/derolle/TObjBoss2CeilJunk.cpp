@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 #include "pso/boss/derolle/Boss2CommonResource.h"
-#include "pso/player/TObjPlayer_8002E784.h"
+#include "pso/boss/derolle/TBoss2BreakUp.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
@@ -31,6 +31,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/model_render_state.h"
+#include "pso/boss/derolle/RandomAngle.h"
 
 struct Color_8003A1B4
 {
@@ -211,7 +212,7 @@ TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TOb
         state = 2;
         home_position.y = prev_position.y + TObjBoss2CeilJunk__height_offset_table[kind];
     }
-    rotation_y = TObjPlayer::calc_random_scaled();
+    rotation_y = random_angle();
     rotation_x = (s32) (4096.0f * rand_signed_unit());
     velocity.x = 0.0f;
     velocity.y = 0.0f;

@@ -247,7 +247,7 @@ pso/boss/dragon/TObjBoss1Rock.cpp:
 	.sdata      start:0x805D26A0 end:0x805D26A8
 	.sdata2     start:0x805D8200 end:0x805D8228
 
-pso/player/TObjPlayer_8002E784.cpp:
+pso/boss/derolle/TBoss2BreakUp.cpp:
 	.text       start:0x8002E3D4 end:0x8002EF8C
 	.ctors      start:0x80433F28 end:0x80433F2C
 	.rodata     start:0x804355F0 end:0x80435620
@@ -255,7 +255,7 @@ pso/player/TObjPlayer_8002E784.cpp:
 	.sbss       start:0x805D4B88 end:0x805D4B98
 	.sdata2     start:0x805D8228 end:0x805D8278
 
-pso/player/TObjPlayer_8002EF8C.cpp:
+pso/boss/derolle/RandomAngle.cpp:
 	.text       start:0x8002EF8C end:0x8002EFE8
 	.rodata     start:0x80435620 end:0x80435628
 
