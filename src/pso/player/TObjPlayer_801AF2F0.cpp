@@ -552,7 +552,6 @@ void submit_target_to_player_cursor(void *target, s32 id);
 void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst);
 Obj_801B4FD8 * init_player_join_record(Obj_801B4FD8 *self);
 void submit_cursor_candidate(void *self);
-void *TObjPlayer__sub_801B57E8(TObjPlayer *player);
 void TObjPlayer__sub_801B5A44(saddr player, s32 secondary, s32 i, s32 action, s32 param);
 void TObjPlayer__sub_801B5AF8(saddr player, s32 index);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
@@ -3446,17 +3445,17 @@ s32 TObjPlayer::is_quest_interaction_blocked() {
     }
 }
 
-void *TObjPlayer__sub_801B57E8(TObjPlayer *player) {
+LockOnActionSlot *TObjPlayer::find_palette_lockon_slot() {
     s32 i;
     saddr cursor;
-    if (player->lock_on_cursor == NULL) {
+    if (lock_on_cursor == NULL) {
         return NULL;
     }
-    cursor = (saddr)player->lock_on_cursor->action_slots;
+    cursor = (saddr)lock_on_cursor->action_slots;
     for (i = 0; i < 4; i++) {
-        if (try_move__11TMainCursorFiii(cursor, get_player_action_palette_mode(&player->action_palette_state),
-                get_player_action_palette_slot(&player->action_palette_state)) != 0) {
-            return (void *)cursor;
+        if (try_move__11TMainCursorFiii(cursor, get_player_action_palette_mode(&action_palette_state),
+                get_player_action_palette_slot(&action_palette_state)) != 0) {
+            return (LockOnActionSlot *)cursor;
         }
         cursor += 0x124;
     }

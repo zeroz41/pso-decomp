@@ -43,10 +43,6 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/CollisionActorLookup.h"
 
-extern "C" {
-LockOnActionSlot *TObjPlayer__sub_801B57E8(TObjPlayer *player);
-}
-
 #pragma readonly_strings on
 
 void CapturedTargetList::clear_lockon_list() {
@@ -184,7 +180,7 @@ CapturedTargetList *PlayerAttackController::capture_lockon_targets(TObjPlayer *p
     LockOnTargetRecord *record;
     if (player->lock_on_cursor == 0) return 0;
     lockon_targets.clear_lockon_list();
-    slot = TObjPlayer__sub_801B57E8(player);
+    slot = player->find_palette_lockon_slot();
     if (slot == 0) return 0;
     if (get_cursor_palette_mode(slot) != 2) return 0;
     lock_range = slot->lock_range;
