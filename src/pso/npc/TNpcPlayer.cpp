@@ -62,11 +62,6 @@ s32 __dt__12TPlyCharDataFv(s32 object, s16 free_flags);
 void * __ct__12TPlyCharDataFv(void *object);
 s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range);
 s32 try_update_target_flag__10TNpcPlayerFPvi(NpcPlayerView *view, s32 id);
-void set_technique_seed_level(PlayerTechniqueState *techniques, s16 technique, u8 level);
-void reset_partner_counter(PartnerCounters *counters, s32 index);
-void increment_partner_counter(PartnerCounters *counters, s32 index);
-s16 get_partner_counter(PartnerCounters *counters, s32 index);
-s32 npc_counter_reset_if_reached(PartnerCounters *counters, s32 index, s32 limit);
 s32 try_send_6x27_use_item(void *player, s32 key);
 s8 get_cast_technique_level(void *, s16);
 void __register_global_object(void *obj, void *dtor, void *link);
@@ -91,9 +86,6 @@ const char *TNpcPlayer::name = "TNpcPlayer";
 // of this file, which no compiler-generated __sinit reproduces.
 __declspec(section ".ctors") static void *const npc_player_global_initializer = (void *)__sinit_TNpcPlayer_cpp;
 
-int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
-void set_partner_counter(saddr counters, s32 index, s16 value);
-s32 clamp_partner_counter(PartnerCounters *counters, s32 index, s32 limit);
 int get_registered_object_count(void);
 TNpcPlayer::AiParams npc_player_ai_templates[64] = {
     {0x0, 0x4, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 13.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0xf, 0x0, 50.0f},
@@ -990,9 +982,9 @@ void NpcPlayerView::set_target(u32 id, s32 collider) {
 
 NpcPlayerView *NpcPlayerView::target_list() { return this; }
 
-s32 clamp_partner_counter(PartnerCounters *counters, s32 index, s32 limit) {
-    if (is_partner_counter_reached(counters->count, index, limit) != 0) {
-        counters->count[index] = limit;
+s32 PartnerCounters::clamp(s32 index, s32 limit) {
+    if (is_reached(index, limit) != 0) {
+        count[index] = limit;
         return 1;
     }
     return 0;
@@ -1017,25 +1009,19 @@ u32 NpcPlayerView::get_condition() { return condition; }
 
 u32 NpcPlayerView::get_prev_target_id() { return prev_target_id; }
 
-void set_partner_counter(saddr counters, s32 index, s16 value) {
-    *(s16 *)((s8 *)(counters + (index * 2)) + 0) = value;
-}
+void PartnerCounters::set(s32 index, s16 value) { count[index] = value; }
 
-int is_partner_counter_reached(s16 *table, s32 idx, s32 value) {
-    return value <= table[idx] ? 1 : 0;
-}
+s32 PartnerCounters::is_reached(s32 index, s32 value) { return value <= count[index] ? 1 : 0; }
 
-s32 npc_counter_reset_if_reached(PartnerCounters *counters, s32 index, s32 limit) {
-    if (is_partner_counter_reached(counters->count, index, limit) != 0) {
-        counters->count[index] = 0;
+s32 PartnerCounters::reset_if_reached(s32 index, s32 limit) {
+    if (is_reached(index, limit) != 0) {
+        count[index] = 0;
         return 1;
     }
     return 0;
 }
 
-s16 get_partner_counter(PartnerCounters *counters, s32 index) {
-    return counters->count[index];
-}
+s16 PartnerCounters::get(s32 index) { return count[index]; }
 
 u16 NpcPlayerView::get_client_id() { return client_id; }
 
@@ -1043,17 +1029,11 @@ u32 NpcPlayerView::get_target_id() { return target_id; }
 
 s32 NpcPlayerView::get_target_collider() { return target_collider; }
 
-void increment_partner_counter(PartnerCounters *counters, s32 index) {
-    counters->count[index]++;
-}
+void PartnerCounters::increment(s32 index) { count[index]++; }
 
-void reset_partner_counter(PartnerCounters *counters, s32 index) {
-    counters->count[index] = 0;
-}
+void PartnerCounters::reset(s32 index) { count[index] = 0; }
 
-void set_technique_seed_level(PlayerTechniqueState *techniques, s16 technique, u8 level) {
-    techniques->levels[technique] = level;
-}
+void PlayerTechniqueState::set_technique_level(s16 technique, u8 level) { levels[technique] = level; }
 
 void __sinit_TNpcPlayer_cpp() {
     __register_global_object(__ct__12TPlyCharDataFv(npc_player_char_data), (void *)__dt__12TPlyCharDataFv, npc_player_ply_char_data_global);
@@ -1295,15 +1275,15 @@ void TNpcPlayer::run_task() {
         init_state();
         if (!(leader_view->player->actorFlags & 0x800)) {
             if (self_view->player->actorFlags & 0x800) {
-                if (clamp_partner_counter(&partner_counters, 3, 0x400) != 0) {
+                if (partner_counters.clamp(3, 0x400) != 0) {
                     request_chatter(5);
-                } else if (is_partner_counter_reached(partner_counters.count, 3, 0) != 0) {
+                } else if (partner_counters.is_reached(3, 0) != 0) {
                     request_chatter(4);
                 }
-                increment_partner_counter(&partner_counters, 3);
+                partner_counters.increment(3);
                 change_ai_state(0);
             } else {
-                reset_partner_counter(&partner_counters, 3);
+                partner_counters.reset(3);
                 update_condition_flags();
                 partner_observe_surroundings();
                 decide_action();
@@ -1386,7 +1366,7 @@ void TNpcPlayer::decide_action() {
                 }
             }
         } else if (select_recovery_action(1) != 0) {
-            reset_partner_counter(&partner_counters, 8);
+            partner_counters.reset(8);
             if (ai_flags & 0x200) {
                 request_chatter(0x13);
                 change_ai_state(8);
@@ -1468,8 +1448,8 @@ s32 TNpcPlayer::check_return_to_leader() {
     if (leader_distance_sq >= r2) {
         ai_flags |= 0x100;
         if (t->target_count != 0) {
-            increment_partner_counter(&partner_counters, 5);
-            if (npc_counter_reset_if_reached(&partner_counters, 5, 3) != 0) {
+            partner_counters.increment(5);
+            if (partner_counters.reset_if_reached(5, 3) != 0) {
                 o = (TObjChara *)find_active_entity_by_id(t->targets[0].entity_id);
                 ai_flags &= ~0x8000;
                 if (o != 0) {
@@ -1495,8 +1475,8 @@ s32 TNpcPlayer::choose_attack_target() {
     view = self_view->target_list();
     if (view->target_count >= 3) {
         ai_flags |= 0x2000;
-        increment_partner_counter(&partner_counters, 6);
-        if (npc_counter_reset_if_reached(&partner_counters, 6, 100) != 0) {
+        partner_counters.increment(6);
+        if (partner_counters.reset_if_reached(6, 100) != 0) {
             if (self_view->get_condition() & 8) {
                 request_chatter(1);
             } else {
@@ -1574,8 +1554,8 @@ s32 TNpcPlayer::select_recovery_action(s32 check_leader) {
     }
     tgt = self_view->target_list();
     if (check_leader != 0 && tgt->target_count != 0 && (flags & 2)) {
-        increment_partner_counter(&partner_counters, 5);
-        if (npc_counter_reset_if_reached(&partner_counters, 5, 0x1E) != 0) {
+        partner_counters.increment(5);
+        if (partner_counters.reset_if_reached(5, 0x1E) != 0) {
             ent = (TObjBase *)find_active_entity_by_id(tgt->targets[0].entity_id);
             ai_flags &= ~0x8000;
             if (ent != NULL) {
@@ -1611,11 +1591,11 @@ s32 TNpcPlayer::select_recovery_action(s32 check_leader) {
                     return 1;
                 }
             } else {
-                if (get_partner_counter(&partner_counters, 8) == 0) {
+                if (partner_counters.get(8) == 0) {
                     request_chatter(0x14);
                 }
-                increment_partner_counter(&partner_counters, 8);
-                npc_counter_reset_if_reached(&partner_counters, 8, 0x5DC);
+                partner_counters.increment(8);
+                partner_counters.reset_if_reached(8, 0x5DC);
             }
         } else if (self_view->get_condition() & 0x10) {
             if (self_view->can_recover(1, 1) != 0) {
@@ -1680,11 +1660,11 @@ s32 TNpcPlayer::select_recovery_action(s32 check_leader) {
                     return 1;
                 }
             } else {
-                if (get_partner_counter(&partner_counters, 8) == 0) {
+                if (partner_counters.get(8) == 0) {
                     request_chatter(0x14);
                 }
-                increment_partner_counter(&partner_counters, 8);
-                npc_counter_reset_if_reached(&partner_counters, 8, 0x5DC);
+                partner_counters.increment(8);
+                partner_counters.reset_if_reached(8, 0x5DC);
             }
         } else if (self_view->get_condition() & 0x10) {
             if (self_view->can_recover(1, 1) != 0) {
@@ -1711,13 +1691,13 @@ void TNpcPlayer::deliver_partner_action() {
     switch (ai_state) {
     case 0:
         VecCopy(&move_target, VecCopy(&steer_point, &goal));
-        increment_partner_counter(&partner_counters, 4);
-        if (get_partner_counter(&partner_counters, 4) == 5401) {
+        partner_counters.increment(4);
+        if (partner_counters.get(4) == 5401) {
             ai_flags &= ~4;
             chatter_id = 25;
-            set_partner_counter((saddr)partner_counters.count, 4, 0);
+            partner_counters.set(4, 0);
         }
-        if (clamp_partner_counter(&partner_counters, 4, 5400) != 0) {
+        if (partner_counters.clamp(4, 5400) != 0) {
             request_chatter(11);
         }
         break;
@@ -1752,15 +1732,15 @@ void TNpcPlayer::deliver_partner_action() {
         break;
     }
     if (ai_state != 2) {
-        reset_partner_counter(&partner_counters, 1);
-        reset_partner_counter(&partner_counters, 5);
+        partner_counters.reset(1);
+        partner_counters.reset(5);
         ai_flags &= ~0x8000;
     }
     if (ai_state != 1) {
         ai_flags &= ~8;
     }
     if (ai_state != 0) {
-        reset_partner_counter(&partner_counters, 4);
+        partner_counters.reset(4);
     }
 }
 #pragma pop
@@ -1893,23 +1873,23 @@ void TNpcPlayer::update_condition_flags() {
     leader_view->check_moved();
     leader_view->update_conditions();
     if (leader_view->get_condition() & 2) {
-        if (get_partner_counter(&partner_counters, 0xA) == 0) {
+        if (partner_counters.get(0xA) == 0) {
             request_chatter(9);
         }
-        increment_partner_counter(&partner_counters, 0xA);
+        partner_counters.increment(0xA);
     } else {
-        reset_partner_counter(&partner_counters, 0xA);
+        partner_counters.reset(0xA);
     }
     if (leader_view->scan_targets(30.0f) != 0) {
         if (leader_view->get_condition() & 8) {
-            if (get_partner_counter(&partner_counters, 9) == 0) {
+            if (partner_counters.get(9) == 0) {
                 request_chatter(0xC);
             }
-            increment_partner_counter(&partner_counters, 8);
-            npc_counter_reset_if_reached(&partner_counters, 9, 0x2BC);
+            partner_counters.increment(8);
+            partner_counters.reset_if_reached(9, 0x2BC);
             return;
         }
-        reset_partner_counter(&partner_counters, 9);
+        partner_counters.reset(9);
     }
 }
 
@@ -2154,15 +2134,15 @@ s32 TNpcPlayer::check_movement_progress() {
     if (stuck > 0x1E) {
         stuck_frames = 0x1EU;
         ai_flags = ai_flags | 0x4000;
-        if (get_partner_counter(&partner_counters, 7) == 0) {
+        if (partner_counters.get(7) == 0) {
             request_chatter(7);
         }
-        increment_partner_counter(&partner_counters, 7);
-        npc_counter_reset_if_reached(&partner_counters, 7, 0x12C);
+        partner_counters.increment(7);
+        partner_counters.reset_if_reached(7, 0x12C);
         return 0;
     }
     if ((stuck == 0) && (ai_flags & 0x4000)) {
-        reset_partner_counter(&partner_counters, 7);
+        partner_counters.reset(7);
         request_chatter(0x18);
         ai_flags = ai_flags & 0xFFFFBFFF;
     }
@@ -2886,7 +2866,7 @@ void TNpcPlayer::request_chatter(u32 id) {
     if (escort_leader != 0 && (id == 4 || id == 0x11)) {
         return;
     }
-    reset_partner_counter(&partner_counters, 0);
+    partner_counters.reset(0);
     if (id != chatter_id) {
         chatter_id = id;
         ai_flags |= 4;
@@ -2917,7 +2897,7 @@ void TNpcPlayer::deliver_partner_chatter() {
         }
     }
     ai_flags &= ~4;
-    if (npc_counter_reset_if_reached(&partner_counters, 0, 0x190) != 0) {
+    if (partner_counters.reset_if_reached(0, 0x190) != 0) {
         chatter_id = 0x19;
     }
 }
@@ -3019,9 +2999,9 @@ void TNpcPlayer::partner_request_physical_attack() {
     prev_target = this->self_view->get_prev_target_id();
     target = this->self_view->get_target_id();
     if (target != prev_target) {
-        set_partner_counter((saddr)&this->partner_counters, 1, 0);
+        partner_counters.set(1, 0);
     }
-    npc_counter_reset_if_reached(&this->partner_counters, 1, 3);
+    partner_counters.reset_if_reached(1, 3);
     send_partner_attack_stage_request();
 }
 #pragma pop
@@ -3032,7 +3012,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
     G_Attack_6x45 cmd45;
     TObjPlayer *player;
     TObjCollidable *target;
-    switch (get_partner_counter(&partner_counters, 1)) {
+    switch (partner_counters.get(1)) {
     case 0:
         cmd43.init();
         if (self_view != NULL) {
@@ -3046,7 +3026,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_uid(self_view->get_target_id());
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_collider_index(self_view->get_target_collider());
                 cmd43.send();
-                increment_partner_counter(&partner_counters, 1);
+                partner_counters.increment(1);
             }
         }
         break;
@@ -3063,7 +3043,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_uid(self_view->get_target_id());
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_collider_index(self_view->get_target_collider());
                 cmd44.send();
-                increment_partner_counter(&partner_counters, 1);
+                partner_counters.increment(1);
             }
         }
         break;
@@ -3080,7 +3060,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_uid(self_view->get_target_id());
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_collider_index(self_view->get_target_collider());
                 cmd45.send();
-                reset_partner_counter(&partner_counters, 1);
+                partner_counters.reset(1);
                 request_chatter(0xD);
             }
         }
@@ -3101,21 +3081,21 @@ void TNpcPlayer::init_equipment() {
     if (flags & TECHNIQUE_FLAGS_FOIE_GIFOIE) {
         TObjPlayer::set_technique_level_clamped(player, this->ai_params.attack_technique_level, 0);
         TObjPlayer::set_technique_level_clamped(player, this->ai_params.attack_technique_level, 1);
-        set_technique_seed_level(&player->technique_state, 0, this->ai_params.attack_technique_level);
-        set_technique_seed_level(&player->technique_state, 1, this->ai_params.attack_technique_level);
+        player->technique_state.set_technique_level(0, this->ai_params.attack_technique_level);
+        player->technique_state.set_technique_level(1, this->ai_params.attack_technique_level);
     } else if (flags & TECHNIQUE_FLAGS_BARTA_GIBARTA) {
         TObjPlayer::set_technique_level_clamped(player, this->ai_params.attack_technique_level, 3);
         TObjPlayer::set_technique_level_clamped(player, this->ai_params.attack_technique_level, 4);
-        set_technique_seed_level(&player->technique_state, 3, this->ai_params.attack_technique_level);
-        set_technique_seed_level(&player->technique_state, 4, this->ai_params.attack_technique_level);
+        player->technique_state.set_technique_level(3, this->ai_params.attack_technique_level);
+        player->technique_state.set_technique_level(4, this->ai_params.attack_technique_level);
     } else if (flags & TECHNIQUE_FLAGS_ZONDE_RAZONDE) {
         TObjPlayer::set_technique_level_clamped(player, this->ai_params.attack_technique_level, 6);
         TObjPlayer::set_technique_level_clamped(player, this->ai_params.attack_technique_level, 8);
-        set_technique_seed_level(&player->technique_state, 6, this->ai_params.attack_technique_level);
-        set_technique_seed_level(&player->technique_state, 8, this->ai_params.attack_technique_level);
+        player->technique_state.set_technique_level(6, this->ai_params.attack_technique_level);
+        player->technique_state.set_technique_level(8, this->ai_params.attack_technique_level);
     }
     TObjPlayer::set_technique_level_clamped(player, this->ai_params.support_technique_level, 0xF);
     TObjPlayer::set_technique_level_clamped(player, this->ai_params.support_technique_level, 0x10);
-    set_technique_seed_level(&player->technique_state, 0xF, this->ai_params.support_technique_level);
-    set_technique_seed_level(&player->technique_state, 0x10, this->ai_params.support_technique_level);
+    player->technique_state.set_technique_level(0xF, this->ai_params.support_technique_level);
+    player->technique_state.set_technique_level(0x10, this->ai_params.support_technique_level);
 }

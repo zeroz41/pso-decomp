@@ -67,6 +67,13 @@ LAYOUT_ASSERT(NpcPlayerView_size, sizeof(NpcPlayerView) == 0x108);
 struct PartnerCounters {
     PartnerCounters();
     void clear();
+    s32 clamp(s32 index, s32 limit);
+    void set(s32 index, s16 value);
+    s32 is_reached(s32 index, s32 value);
+    s32 reset_if_reached(s32 index, s32 limit);
+    s16 get(s32 index);
+    void increment(s32 index);
+    void reset(s32 index);
 
     s16 count[11];
 };
