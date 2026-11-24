@@ -45,18 +45,18 @@ void create_drop_nodes__9TItemListFPvPvPvPvi(TUnk_804C445C *pool, Vec *position,
 }
 }
 
-u8 *copy_drop_node(u8 *arg0, u8 *arg1) {
-    u8 *temp_r4;
-    u8 *temp_r5;
-    fn_801D371C(arg0, arg1);
-    temp_r5 = (arg0 + 4);
-    temp_r4 = (arg1 + 4);
-    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(ByteBlock_14 *)((saddr) temp_r5 + 4) = *(const ByteBlock_14 *)((saddr) temp_r4 + 4);
-    return arg0;
+u8 *copy_drop_node(u8 *dst, u8 *src) {
+    u8 *src_tail;
+    u8 *dst_tail;
+    fn_801D371C(dst, src);
+    dst_tail = (dst + 4);
+    src_tail = (src + 4);
+    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
+    *(ByteBlock_14 *)((saddr) dst_tail + 4) = *(const ByteBlock_14 *)((saddr) src_tail + 4);
+    return dst;
 }
 
-void fn_801D371C(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
+void fn_801D371C(void* dst, void* src) { *(u32*)((char*)dst + 0x0) = *(u32*)((char*)src + 0x0); }
 void start_placement_search(TUnk_804C4450 *pool, Vec *pos, TObjBase *source) {
     TItemList__sub_801D5838(TItemList__sub_801D5868(pool, 0));
     TItemList__sub_801D3B00(pool, source, pos, 0);

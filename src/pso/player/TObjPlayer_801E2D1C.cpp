@@ -18,8 +18,8 @@
 void end_ginja_model_draw();
 
 void TObjPlayer::render_model_tree(void *model) {
-    Mtx34 sp38;
-    Mtx34 sp8;
+    Mtx34 normal_matrix;
+    Mtx34 inverse;
     NJS_OBJECT *node;
 
     node = (NJS_OBJECT *)model;
@@ -31,9 +31,9 @@ void TObjPlayer::render_model_tree(void *model) {
         }
         if ((node->model != NULL) && !(node->evalflags & 8)) {
             GXLoadPosMtxImm(*current_matrix, 0);
-            PSMTXInverse(*current_matrix, sp8);
-            PSMTXTranspose(sp8, sp38);
-            GXLoadNrmMtxImm(sp38, 0);
+            PSMTXInverse(*current_matrix, inverse);
+            PSMTXTranspose(inverse, normal_matrix);
+            GXLoadNrmMtxImm(normal_matrix, 0);
             model_draw_context->draw(node->model);
         }
         if (node->child != NULL) {
@@ -43,7 +43,7 @@ void TObjPlayer::render_model_tree(void *model) {
         node = node->sibling;
     } while (node != NULL);
 }
-void compose_motion_node_matrix(void *arg0);
+void compose_motion_node_matrix(void *node);
 void draw_ginja_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     ModelDrawContext *g;
     bind_motion_context((NJS_MOTION *)motion, frame);
@@ -55,8 +55,8 @@ void draw_ginja_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
 }
 
 void TObjPlayer::render_matrix_chain(void *model) {
-    Mtx34 sp38;
-    Mtx34 sp8;
+    Mtx34 normal_matrix;
+    Mtx34 inverse;
     NJS_OBJECT *node;
 
     node = (NJS_OBJECT *)model;
@@ -68,9 +68,9 @@ void TObjPlayer::render_matrix_chain(void *model) {
         }
         if ((node->model != NULL) && !(node->evalflags & 8)) {
             GXLoadPosMtxImm(*current_matrix, 0);
-            PSMTXInverse(*current_matrix, sp8);
-            PSMTXTranspose(sp8, sp38);
-            GXLoadNrmMtxImm(sp38, 0);
+            PSMTXInverse(*current_matrix, inverse);
+            PSMTXTranspose(inverse, normal_matrix);
+            GXLoadNrmMtxImm(normal_matrix, 0);
             model_draw_context->draw(node->model);
         }
         if (node->child != NULL) {

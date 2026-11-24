@@ -10,9 +10,9 @@ struct TObjPlayer;
 struct PendingItemDrop;
 struct Vec;
 
-u8 *copy_drop_node(u8 *arg0, u8 *arg1);
+u8 *copy_drop_node(u8 *dst, u8 *src);
 extern "C" {
-void fn_801D371C(void *p, void *q);
+void fn_801D371C(void *dst, void *src);
 void create_drop_nodes__9TItemListFPvPvPvPvi(TUnk_804C445C *pool, Vec *position, TObjPlayer *owner,
                                              PendingItemDrop *records, s32 count);
 }
