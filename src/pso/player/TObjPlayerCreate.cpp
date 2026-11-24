@@ -385,7 +385,7 @@ void TObjPlayer::destroy_child() {
 
 extern "C" {
 
-extern s32 shared_state_flags;
+extern u32 shared_state_flags[2];
 
 void TObjPlayer::load_character_state(TPlyCharData *record) {
     u8 count;
@@ -396,7 +396,7 @@ void TObjPlayer::load_character_state(TPlyCharData *record) {
     create_inventory();
     set_action_provider_variant((s16) default_action_provider_variant());
     if ((obj_isState2_324() == 0) || (TFontSmallLobby::is_lobby_floor_15() == 0)) {
-        if (!(shared_state_flags & 1)) {
+        if (!(shared_state_flags[0] & 1)) {
             assign_inventory_item_ids(this, records, count);
         }
         bind_saved_inventory_equipment(this, records, count);

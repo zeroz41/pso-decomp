@@ -819,7 +819,7 @@ extern TObjPlayer *player_slot_table[];
 const char *lbl_805D3530 = "TObjPlayer";
 extern s32 lbl_805D55C0;
 extern s32 lobby_player_count;
-extern s32 shared_state_flags;
+extern u32 shared_state_flags[2];
 extern Rec_801B09A4 *lobby_char_slot_array;
 extern const char lbl_805DC27C[];
 extern f32 player_angle_per_degree;
@@ -5742,7 +5742,7 @@ void TLobby__sub_801B09A4(void) {
     TObjPlayer *players[12];
     s32 i;
     TObjPlayer *p;
-    shared_state_flags |= 1;
+    shared_state_flags[0] |= 1;
     for (i = 0; i < 12; i++) {
         players[i] = NULL;
     }
@@ -5759,7 +5759,7 @@ void TLobby__sub_801B09A4(void) {
             TWindowCtrl::enable_client_main_menu(i);
         }
     }
-    shared_state_flags &= ~1;
+    shared_state_flags[0] &= ~1;
 }
 
 s32 TLobby::count_members() {

@@ -91,7 +91,7 @@ PhotonBlastRegistry *TObjPlayer__shared_photon_blast_state;
 s32 lobby_player_count;
 extern u8 *TObjPlayer__shared_model_buffer;
 extern s32 lbl_805D5D7C;
-extern s32 shared_state_flags;
+extern u32 shared_state_flags[2];
 
 void TObjPlayer::free_shared_data() {
     if (TObjPlayer__shared_photon_blast_state != NULL) {
@@ -123,9 +123,9 @@ void TObjPlayer::alloc_shared_buffers() {
 }
 
     extern unsigned char lobby_rule_settings[];
-void TObjPlayer::finalize_shared() { TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(0)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); shared_state_flags = 0; TLockOnCursor::free_cursor_resources(); free_player_motion_directory(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
+void TObjPlayer::finalize_shared() { TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(0)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); shared_state_flags[0] = 0; TLockOnCursor::free_cursor_resources(); free_player_motion_directory(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
 
-void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(1)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; alloc_player_motion_directory(); load_player_motion_data(); copy_player_motion_directory(); upload_player_motion_data(); free_player_motion_archive(); load_target_cursor_models(); load_player_footstamp(); reset_client_quest_slot_table(); shared_state_flags = 0; }
+void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(1)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; alloc_player_motion_directory(); load_player_motion_data(); copy_player_motion_directory(); upload_player_motion_data(); free_player_motion_archive(); load_target_cursor_models(); load_player_footstamp(); reset_client_quest_slot_table(); shared_state_flags[0] = 0; }
 
 extern "C" {
 extern u8 TObjPlayer__char_data_array[];
@@ -1012,7 +1012,7 @@ u32 town_npc_shared_resource;
 s32 lbl_805D5D7C;
 u8 *TObjPlayer__shared_model_buffer;
 PlayerJointMatrixSet *player_shared_buffer_base;
-s32 shared_state_flags;
+u32 shared_state_flags[2];
 
 int PlayerActionProvider::vfunc_6(s32, s32, s32) { return 0; }
 int PlayerActionProvider::get_death_action() { return -1; }
