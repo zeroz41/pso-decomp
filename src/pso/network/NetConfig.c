@@ -19,13 +19,6 @@
 #include "pso/network/NetIpv6Route.h"
 #include "pso/network/NetworkMessageTransport.h"
 
-typedef struct Big_803F8AD8 {
-    u8 pad0[0xB7A0];
-    EthFrameSlot eth_slots[8];  /* 0xB7A0 */
-    EthSocket eth_sockets[3];   /* 0xE760 */
-    EthLink eth_link;           /* 0xE790 */
-    EthDriver bba;              /* 0xE7A0 */
-} Big_803F8AD8;
 
 
 /* The start-up parameters AT_SetInitParam stores (one per NetTransportParams field) with their
@@ -52,27 +45,49 @@ u32 net_param_buffer_pool_size;
 void *net_tcp_socket_storage;
 void *net_udp_socket_storage;
 
-static u32 lobby_net_config_block[4722];
+static DnsQuery dns_queries[8];
+static DnsPtr dns_ptrs[16];
+static DnsHost dns_hosts[16];
+static DnsAddr dns_addrs[32];
+static DnsBuffer dns_buffers[8];
+static u8 dns_buffer_data[8 * 0x200];
+static NetworkAddress dns_servers[2];
 static Ipv6Header ipv6_interface_config;
 static Ipv6RawSocket ipv6_raw_sockets[1];
-static u32 ipv6_pmtu_storage[50];
+static Ipv6PmtuEntry ipv6_pmtu_storage[9];
 static Ipv6AddrNode ipv6_addr_pool_storage[9];
 static Ipv6Iface ipv6_iface_storage[3];
-static u32 ipv6_route_storage[1267];
-static s32 ipv4_raw_socket_storage[212];
+static Ipv6Route ipv6_route_storage[0x1A];
+static u8 ipv6_nd_buffers[2 * 1500];
+static Ipv6NdRouter ipv6_nd_routers[8];
+static Ipv6NdNeighbor ipv6_nd_neighbors[8];
+static Ipv6NdPending ipv6_nd_pending[2];
+static Ipv4RawSocket ipv4_raw_sockets[1];
+static Ipv4Alias ipv4_alias_pool[9];
+static Ipv4Iface ipv4_iface_storage[3];
+static Ipv4Route ipv4_routes[0x1A];
 static NetFragment ip_fragments[0x10];
 static NetFragPacket ip_frag_packets[2];
 static u8 net_buffer_pool_data[0x4000] ATTRIBUTE_ALIGN(4);
 static NetBufferPoolEntry net_buffer_pool_entries[2];
-static s32 net_packet_storage[1059];
-static s32 lobby_handler_storage[3115];
-static s32 lobby_net_recv_desc[641];
+static NetPacket net_packets[5];
+static u8 arp_packet[0x1C];
+static u8 arp_hold_buffers[2 * 0x5DC];
+static ArpAlias arp_aliases[9];
+static ArpHold arp_holds[2];
+static ArpIface arp_ifaces[3];
+static ArpEntry arp_entries[8];
+static LobbyHandler lobby_handlers[3];
+static EthFrameSlot eth_slots[8];
+static EthSocket eth_sockets[3];
+static EthLink eth_link;
+static EthDriver eth_driver;
+static u8 loopback_slots[2 * 0x500];
 
 void term_dns_config(void *cfg) {
 }
 
 void init_net_config(DnsResolverState *c) {
-    u8 *buf = (u8 *)lobby_net_config_block;
     c->next_id = 0;
     c->f2 = 0x3F;
     c->max_name = 0xFF;
@@ -83,20 +98,20 @@ void init_net_config(DnsResolverState *c) {
     dns_resolver_timeouts[1] = 4;
     dns_resolver_timeouts[2] = 8;
     c->nservers = 2;
-    c->servers = (NetworkAddress *)(buf + 0x49A0);
+    c->servers = dns_servers;
     c->max_tries = 6;
     c->buffer_size = 0x200;
-    c->buffer_base = buf + 0x39A0;
+    c->buffer_base = dns_buffer_data;
     c->nbuffers = 8;
-    c->buffers = (DnsBuffer *)(buf + 0x3960);
+    c->buffers = dns_buffers;
     c->naddrs = 0x20;
-    c->addrs = (DnsAddr *)(buf + 0x3460);
+    c->addrs = dns_addrs;
     c->nhosts = 0x10;
-    c->hosts = (DnsHost *)(buf + 0x13A0);
+    c->hosts = dns_hosts;
     c->nptrs = 0x10;
-    c->ptrs = (DnsPtr *)(buf + 0x1E0);
+    c->ptrs = dns_ptrs;
     c->nqueries = 8;
-    c->queries = (DnsQuery *)buf;
+    c->queries = dns_queries;
 }
 
 void term_tcp_config(TcpState *cfg) {
@@ -147,26 +162,24 @@ void init_udp_socket_config(Ipv6State *o) {
     o->rs_count_init = 2;
     o->pmtu_lifetime = 0x1E;
     o->min_mtu = 0x500;
-    o->routes = (Ipv6Route *)ipv6_route_storage;
+    o->routes = ipv6_route_storage;
     o->ifaces = ipv6_iface_storage;
     o->addr_pool = ipv6_addr_pool_storage;
-    o->pmtu = (Ipv6PmtuEntry *)ipv6_pmtu_storage;
+    o->pmtu = ipv6_pmtu_storage;
 }
 
 void term_ipv6_nd_config(void *cfg) {
 }
 
 void init_buffer_descriptor_b(Ipv6NdState *cfg) {
-    u8 *block;
     cfg->npending = 2;
-    block = (u8 *)lobby_net_config_block;
     cfg->nneighbors = 8;
     cfg->nrouters = 8;
     cfg->mtu = 1500;
-    cfg->pending = (Ipv6NdPending *)(block + 0x6064);
-    cfg->neighbors = (Ipv6NdNeighbor *)(block + 0x5E24);
-    cfg->routers = (Ipv6NdRouter *)(block + 0x5D04);
-    cfg->buffers = (u8 *)lobby_net_config_block + 0x514C;
+    cfg->pending = ipv6_nd_pending;
+    cfg->neighbors = ipv6_nd_neighbors;
+    cfg->routers = ipv6_nd_routers;
+    cfg->buffers = ipv6_nd_buffers;
 }
 
 void term_ipv4_config(void *cfg) {
@@ -178,7 +191,7 @@ void init_ipv4_raw_socket_config(Ipv4ProtocolState *cfg) {
     cfg->nsockets = 1;
     cfg->def_tos = 0;
     cfg->def_ttl = 0x78;
-    cfg->sockets = (Ipv4RawSocket *)ipv4_raw_socket_storage;
+    cfg->sockets = ipv4_raw_sockets;
 }
 #pragma pop
 
@@ -190,9 +203,9 @@ void init_buffer_descriptor_a(Ipv4RoutingState *cfg) {
     cfg->nifaces = 3;
     cfg->max_aliases = 9;
     cfg->min_mtu = 0x240;
-    cfg->routes = (Ipv4Route *)((u8 *)lobby_net_config_block + 0x621C);
-    cfg->ifaces = (Ipv4Iface *)((u8 *)lobby_net_config_block + 0x61C8);
-    cfg->alias_pool = (Ipv4Alias *)((u8 *)lobby_net_config_block + 0x60F0);
+    cfg->routes = ipv4_routes;
+    cfg->ifaces = ipv4_iface_storage;
+    cfg->alias_pool = ipv4_alias_pool;
 }
 
 void term_fragment_config(NetFragPool *cfg) {
@@ -221,7 +234,7 @@ void term_packet_pool_config(void *cfg) {
 
 void init_packet_pool_config(NetPacketPool *cfg) {
     cfg->count = 5;
-    cfg->packets = (NetPacket *)net_packet_storage;
+    cfg->packets = net_packets;
 }
 
 void term_arp_config(void *cfg) {
@@ -235,12 +248,12 @@ void init_net_buffer_config(ArpState *cfg) {
     cfg->naliases = 9;
     cfg->timeout = 0x14;
     cfg->retry = 3;
-    cfg->entries = (ArpEntry *)((u8 *)lobby_net_config_block + 0xB650);
-    cfg->ifaces = (ArpIface *)((u8 *)lobby_net_config_block + 0xB5F0);
-    cfg->holds = (ArpHold *)((u8 *)lobby_net_config_block + 0xB5D0);
-    cfg->aliases = (ArpAlias *)((u8 *)lobby_net_config_block + 0xB564);
-    cfg->hold_buffers = (u8 *)lobby_net_config_block + 0xA9AC;
-    cfg->packet = (u8 *)lobby_net_config_block + 0xA990;
+    cfg->entries = arp_entries;
+    cfg->ifaces = arp_ifaces;
+    cfg->holds = arp_holds;
+    cfg->aliases = arp_aliases;
+    cfg->hold_buffers = arp_hold_buffers;
+    cfg->packet = arp_packet;
 }
 
 void term_handler_table_config(void *cfg) {
@@ -248,7 +261,7 @@ void term_handler_table_config(void *cfg) {
 
 void init_handler_table_config(LobbyHandlerTable *cfg) {
     cfg->count = 3;
-    cfg->list = (struct LobbyHandler *)lobby_handler_storage;
+    cfg->list = lobby_handlers;
 }
 
 void term_dix_config(void *cfg) {
@@ -256,22 +269,21 @@ void term_dix_config(void *cfg) {
 }
 
 void init_net_func_table(EthernetState *cfg) {
-    Big_803F8AD8 *g = (Big_803F8AD8 *)lobby_net_config_block;
-    g->bba.init = (s16 (*)(s16))open_ethernet_device;
-    g->bba.open = (s16 (*)(s16, u16))open_channel_checked;
-    g->bba.close = remove_rec_by_handle;
-    g->bba.add_multicast = add_multicast_address;
-    g->bba.remove_multicast = consume_item_count_by_id;
-    g->bba.get_address = (s16 (*)(s16, void *))get_local_address;
-    g->bba.send = queue_timeout_message;
+    eth_driver.init = (s16 (*)(s16))open_ethernet_device;
+    eth_driver.open = (s16 (*)(s16, u16))open_channel_checked;
+    eth_driver.close = remove_rec_by_handle;
+    eth_driver.add_multicast = add_multicast_address;
+    eth_driver.remove_multicast = consume_item_count_by_id;
+    eth_driver.get_address = (s16 (*)(s16, void *))get_local_address;
+    eth_driver.send = queue_timeout_message;
     cfg->ndrivers = 1;
     cfg->nlinks = 1;
     cfg->nsockets = 3;
     cfg->nslots = 8;
-    cfg->drivers = &g->bba;
-    cfg->links = &g->eth_link;
-    cfg->sockets = g->eth_sockets;
-    cfg->slots = g->eth_slots;
+    cfg->drivers = &eth_driver;
+    cfg->links = &eth_link;
+    cfg->sockets = eth_sockets;
+    cfg->slots = eth_slots;
 }
 
 void term_loopback_config(void *cfg) {
@@ -281,7 +293,7 @@ void init_net_recv_desc(LoopbackState *cfg) {
     cfg->slot_size = 0x500;
     cfg->slot_count = 2;
     cfg->slot_used = loopback_slot_used;
-    cfg->slots = (u8 *)lobby_net_recv_desc;
+    cfg->slots = loopback_slots;
 }
 
 u8 *layout_buffers(NetTransportParams *h, u8 *p, u8 *end) {

@@ -8903,7 +8903,7 @@ force_active:
   - lobby_make_team_menu_window
   - lobby_make_team_window
   - lobby_net_channel_table
-  - lobby_net_recv_desc
+  - loopback_slots
   - lobby_pigeon_texture_gvm
   - lobby_pulse_color_phase
   - lobby_pulse_color_table

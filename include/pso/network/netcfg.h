@@ -14,12 +14,33 @@ extern "C" {
 struct DnsResolverState;
 struct UdpRuntimeState;
 struct Ipv4ProtocolState;
-struct LobbyHandler;
 struct TcpState;
+
+/* A link-layer driver, registered by insert_link_handler from 11 functions: loopback (register_loopback_handlers,
+   always entry 0), PPP (ppp_link_init) and Ethernet (init_net_sockets).  Each function is called by one
+   dispatcher (named after the slot); get_lladdr_len..multicast_ctl only when flags & 4. */
+typedef struct LobbyHandler {
+    s16 active;
+    s16 flags;                                     /* 0x02: as registered: 1 loopback, 2 PPP, 0x7C Ethernet */
+    s16 (*get_interface_id)(s16 idx, void *dst);   /* 0x04: link_get_interface_id */
+    s16 (*open)(s16 idx, u32 a, s16 b, u32 *c);    /* 0x08: link_attach_protocol; opens a channel for an EtherType */
+    s32 (*close)(s16);                             /* 0x0C: call_entry_callback; frees the channel */
+    s16 (*get_mtu)(s32);                           /* 0x10: invoke_socket_callback; Ethernet 1500 */
+    s16 (*get_lladdr_len)(s32);                    /* 0x14: link_get_address_length; Ethernet 6 */
+    s32 (*get_lladdr)(s32, void *);                /* 0x18: link_get_address; copies the MAC */
+    s16 (*alias_ctl)(s32, s32, void *);            /* 0x1C: link_update_address; 1 adds, 2 removes an ARP alias */
+    s16 (*multicast_ctl)(s32, s32, void *);        /* 0x20: link_update_multicast; 1 joins, 2 leaves a multicast group */
+    s32 (*release_frame)(s32, s32);                /* 0x24: dispatch_handler_by_id; frees a received frame; link_input calls it
+                                                      as void (s16, s32) */
+    s16 (*forward)(s32, void *, void *);           /* 0x28: dispatch_handler_by_index; sends an IPv4 packet to a
+                                                      unicast next hop (ppp_link_forward_packet, forward_loopback_packet) */
+    s16 (*output)(s32, s32, void *, void *);       /* 0x2C: call_handler_by_index */
+} LobbyHandler;
+LAYOUT_ASSERT(LobbyHandler_size_check, sizeof(LobbyHandler) == 0x30);
 
 typedef struct LobbyHandlerTable {
     s16 count;
-    struct LobbyHandler *list;
+    LobbyHandler *list;
 } LobbyHandlerTable;
 LAYOUT_ASSERT(LobbyHandlerTable_size_check, sizeof(LobbyHandlerTable) == 8);
 LAYOUT_ASSERT(LobbyHandlerTable_list_offset, offsetof(LobbyHandlerTable, list) == 4);
