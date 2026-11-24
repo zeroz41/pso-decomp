@@ -12,7 +12,7 @@ struct ScratchRotation {
 };
 
 extern Vec scratch_vec;
-extern Vec lbl_8050BF00;  // a second scratch vector, after scratch_vec
+extern Vec scratch_vec2;
 extern ScratchRotation scratch_rotation;
 
 #endif

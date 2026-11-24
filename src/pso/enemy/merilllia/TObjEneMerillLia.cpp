@@ -612,17 +612,17 @@ void TObjEneMerillLia::beast_idle_update() {
         subtract_vector(&scratch_vec, &position);
         d = &scratch_vec;
         ang = (s32)(10430.38043493439 * atan2_float(d->x, d->z));
-        v = &lbl_8050BF00;
+        v = &scratch_vec2;
         v->x = v->y = 0.0f;
         v->z = move_speed;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, ang);
-        rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
+        rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
         pop_matrices(1);
-        vec3_add_to(&lbl_8050BF00, &position);
-        if (project_actor_to_ground(this, &lbl_8050BF00, 0) == 1) {
+        vec3_add_to(&scratch_vec2, &position);
+        if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
             requested_action = 2;
-            VecCopy(&position, &lbl_8050BF00);
+            VecCopy(&position, &scratch_vec2);
             rotation_y = approach_angle_limited(rotation_y, ang, ((BeastMovementParams *)movementParameters)->turnSpeed);
         } else {
             f32 rr = fabs_float(d->z);
@@ -632,16 +632,16 @@ void TObjEneMerillLia::beast_idle_update() {
                 ang = (s32)(10430.38043493439 * atan2_float(0.0f, d->z));
             }
             v->y = 0.0f;
-            lbl_8050BF00.x = 0.0f;
+            scratch_vec2.x = 0.0f;
             v->z = move_speed;
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, ang);
-            rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
+            rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
             pop_matrices(1);
-            vec3_add_to(&lbl_8050BF00, &position);
-            if (project_actor_to_ground(this, &lbl_8050BF00, 0) == 1) {
+            vec3_add_to(&scratch_vec2, &position);
+            if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
                 requested_action = 2;
-                VecCopy(&position, &lbl_8050BF00);
+                VecCopy(&position, &scratch_vec2);
                 rotation_y = approach_angle_limited(rotation_y, ang, ((BeastMovementParams *)movementParameters)->turnSpeed);
             } else {
                 s32 ang2;
@@ -652,16 +652,16 @@ void TObjEneMerillLia::beast_idle_update() {
                     ang2 = (s32)(10430.38043493439 * atan2_float(scratch_vec.x, 0.0f));
                 }
                 v->y = 0.0f;
-                lbl_8050BF00.x = 0.0f;
+                scratch_vec2.x = 0.0f;
                 v->z = move_speed;
                 push_matrix_from(identity_matrix);
                 rotate_matrix_y(0, ang2);
-                rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
+                rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
                 pop_matrices(1);
-                vec3_add_to(&lbl_8050BF00, &position);
-                if (project_actor_to_ground(this, &lbl_8050BF00, 0) == 1) {
+                vec3_add_to(&scratch_vec2, &position);
+                if (project_actor_to_ground(this, &scratch_vec2, 0) == 1) {
                     requested_action = 2;
-                    VecCopy(&position, &lbl_8050BF00);
+                    VecCopy(&position, &scratch_vec2);
                     rotation_y = approach_angle_limited(rotation_y, ang2, ((BeastMovementParams *)movementParameters)->turnSpeed);
                 } else {
                     requested_action = 2;

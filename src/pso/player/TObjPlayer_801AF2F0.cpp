@@ -1247,7 +1247,7 @@ extern const f32 TObjPlayer__data_805DC278;
 extern f32 TObjPlayer__data_805DC28C;
 extern f32 TObjPlayer__data_805DC294;
 extern const f32 TObjPlayer__data_805DC2BC;
-extern Vec lbl_8050BF60;
+extern Vec scratch_vec5;
 extern Color_801B6964 player_feedback_light_color[];
 extern void *player_slot_table[];
 const char *lbl_805D3530 = "TObjPlayer";
@@ -2892,10 +2892,10 @@ void TObjPlayer::drop_items_on_death() {
         }
     }
     if (count>0) {
-        lbl_8050BF60.x=fields->position.x;
-        lbl_8050BF60.y=TObjPlayer__data_805DC2BC+fields->position.y;
-        lbl_8050BF60.z=fields->position.z;
-        create_drop_nodes__9TItemListFPvPvPvPvi(&fields->inventory_owner->list, &lbl_8050BF60, this, records, count);
+        scratch_vec5.x=fields->position.x;
+        scratch_vec5.y=TObjPlayer__data_805DC2BC+fields->position.y;
+        scratch_vec5.z=fields->position.z;
+        create_drop_nodes__9TItemListFPvPvPvPvi(&fields->inventory_owner->list, &scratch_vec5, this, records, count);
         set_action_flag_2();
     }
 }

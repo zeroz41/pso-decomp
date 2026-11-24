@@ -429,15 +429,15 @@ void TObjEneIllGill::run_idle_action() {
 }
 
 s32 TObjEneIllGill::project_step_to_ground(s32 angle) {
-    lbl_8050BF00.y = 0.0f;
-    lbl_8050BF00.x = 0.0f;
-    lbl_8050BF00.z = ((IllGillMovementParameters *)movementParameters)->speed;
+    scratch_vec2.y = 0.0f;
+    scratch_vec2.x = 0.0f;
+    scratch_vec2.z = ((IllGillMovementParameters *)movementParameters)->speed;
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, angle);
-    rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
+    rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
     pop_matrices(1);
-    vec3_add_to(&lbl_8050BF00, &position);
-    return project_actor_to_ground(this, &lbl_8050BF00, 0);
+    vec3_add_to(&scratch_vec2, &position);
+    return project_actor_to_ground(this, &scratch_vec2, 0);
 }
 
 void TObjEneIllGill::clear_charge_hits() {
@@ -457,7 +457,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
     ang = (s32)(10430.38043493439 * atan2_float(scratch_vec.x, scratch_vec.z));
     if (o->project_step_to_ground(ang) == 1) {
         o->requested_action = 1;
-        VecCopy((Vec *)&o->position, (const Vec *)&lbl_8050BF00);
+        VecCopy((Vec *)&o->position, (const Vec *)&scratch_vec2);
         o->rotation_y = approach_angle_limited(o->rotation_y, ang, ((IllGillMovementParameters *)o->movementParameters)->turn);
     } else {
         if (fabs_float(scratch_vec.x) < fabs_float(scratch_vec.z)) {
@@ -467,7 +467,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
         }
         if (o->project_step_to_ground(ang) == 1) {
             o->requested_action = 1;
-            VecCopy((Vec *)&o->position, (const Vec *)&lbl_8050BF00);
+            VecCopy((Vec *)&o->position, (const Vec *)&scratch_vec2);
             o->rotation_y = approach_angle_limited(o->rotation_y, ang, ((IllGillMovementParameters *)o->movementParameters)->turn);
         } else {
             if (fabs_float(scratch_vec.x) < fabs_float(scratch_vec.z)) {
@@ -477,7 +477,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
             }
             if (o->project_step_to_ground(ang) == 1) {
                 o->requested_action = 1;
-                VecCopy((Vec *)&o->position, (const Vec *)&lbl_8050BF00);
+                VecCopy((Vec *)&o->position, (const Vec *)&scratch_vec2);
                 o->rotation_y = approach_angle_limited(o->rotation_y, ang, ((IllGillMovementParameters *)o->movementParameters)->turn);
             } else {
                 o->requested_action = 0;

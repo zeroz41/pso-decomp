@@ -606,17 +606,17 @@ void TOTrapAncient02R::vfunc_81() {
                     phase = 2;
                     VecCopy(&scratch_vec, &position);
                     scratch_vec.y += h344 + h348;
-                    VecCopy(&lbl_8050BF00, &((TObjChara *)target)->body_center);
-                    subtract_vector(&lbl_8050BF00, &scratch_vec);
-                    if (normalize_vector_safe(&lbl_8050BF00) < 1e-5f) {
-                        lbl_8050BF00.x = lbl_8050BF00.y = 0.0f;
-                        lbl_8050BF00.z = 1.0f;
+                    VecCopy(&scratch_vec2, &((TObjChara *)target)->body_center);
+                    subtract_vector(&scratch_vec2, &scratch_vec);
+                    if (normalize_vector_safe(&scratch_vec2) < 1e-5f) {
+                        scratch_vec2.x = scratch_vec2.y = 0.0f;
+                        scratch_vec2.z = 1.0f;
                         push_matrix_from(identity_matrix);
                         rotate_matrix_y(0, rotation_y);
-                        rotate_vector_by_matrix(0, &lbl_8050BF00, &lbl_8050BF00);
+                        rotate_vector_by_matrix(0, &scratch_vec2, &scratch_vec2);
                         pop_matrix();
                     }
-                    ang = 10430.38043493439 * atan2_float(lbl_8050BF00.x, lbl_8050BF00.z);
+                    ang = 10430.38043493439 * atan2_float(scratch_vec2.x, scratch_vec2.z);
                     switch (technique) {
                     case 1: {
                         DirectAttackPayload payload;
@@ -626,7 +626,7 @@ void TOTrapAncient02R::vfunc_81() {
                         spawn_particle_effect(&scratch_vec, 0xB9);
                         spawn_particle_effect(&scratch_vec, 0xBA);
                         {
-                            new TTecZondeEff(tl_07, &scratch_vec, &lbl_8050BF00, 0x14000000, 0x14, range, 1.8f);
+                            new TTecZondeEff(tl_07, &scratch_vec, &scratch_vec2, 0x14000000, 0x14, range, 1.8f);
                         }
                         play_sound_effect(0x4002A408, &scratch_vec, 0, 0);
                         break;

@@ -275,7 +275,7 @@ s32 TLockOnCursor__sub_8013EB2C(void *);
 s32 TMainCursor__sub_8013F168(void *p);
 Weapon_8013CDE4 *get_weapon_range_record(void *, s32);
 void TMainCursor__sub_8013E9A0(void *p);
-extern f32 lbl_8050BF60[3];
+extern f32 scratch_vec5[3];
 int TObjPlayer__sub_801B066C(void *p);
 #define C_8013CDE4 ((saddr)cur)
 #define TECH_8013CDE4(t)                                          \
@@ -769,10 +769,10 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
             ((TMainCursor *)C_8013CDE4)->set_field_0c(0);
             ((TMainCursor *)C_8013CDE4)->set_color_mode(0x60000000);
             ((TMainCursor *)C_8013CDE4)->set_flags(0x40800);
-            lbl_8050BF60[0] = 50.0f * sin_table_lookup(*(s32 *)(player + 0x60)) + *(f32 *)(player + 0x2FC);
-            lbl_8050BF60[1] = *(f32 *)(player + 0x300);
-            lbl_8050BF60[2] = 50.0f * cos_table_lookup(*(s32 *)(player + 0x60)) + *(f32 *)(player + 0x304);
-            VecCopy((Vec *)cur->pos, (const Vec *)lbl_8050BF60);
+            scratch_vec5[0] = 50.0f * sin_table_lookup(*(s32 *)(player + 0x60)) + *(f32 *)(player + 0x2FC);
+            scratch_vec5[1] = *(f32 *)(player + 0x300);
+            scratch_vec5[2] = 50.0f * cos_table_lookup(*(s32 *)(player + 0x60)) + *(f32 *)(player + 0x304);
+            VecCopy((Vec *)cur->pos, (const Vec *)scratch_vec5);
             break;
         case 10:
         case 13:
