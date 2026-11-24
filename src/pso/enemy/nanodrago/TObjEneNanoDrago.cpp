@@ -7,7 +7,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/AreaSound.h"
-#include "pso/enemy/nanodrago/TUnk_80494E10.h"
+#include "pso/enemy/nanodrago/TObjNanoDragoSingleBeam.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -29,7 +29,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/render_util.h"
-#include "pso/enemy/nanodrago/TUnk_80494E48.h"
+#include "pso/enemy/nanodrago/TObjNanoDragoTargetedBeam.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/AngleUnits.h"
@@ -581,7 +581,7 @@ void TObjEneNanoDrago::update_single_beam_state() {
             play_persistent_sound(0x4003AD1E, this, &position, 0, 0);
             if (frame >= 20.0f) {
                 capture_beam_origins();
-                new TUnk_80494E10(&beamOrigins[0], &((TObjChara *)target)->body_center, !(actorFlags & 0x01000000), this);
+                new TObjNanoDragoSingleBeam(&beamOrigins[0], &((TObjChara *)target)->body_center, !(actorFlags & 0x01000000), this);
                 spawn_beam_particle(0);
                 play_sound_effect(0x4003A527, &position, 0, 0);
                 state = 3;
@@ -995,7 +995,7 @@ void TObjEneNanoDrago::spawn_targeted_beam(s32 targetIndex) {
         }
         rotation.y = rotation_y + spreadAngle;
         rotation.z = 0;
-        new TUnk_80494E48(&beamOrigins[originIndex], beamTargetIds[targetIndex], &rotation, targetIndex * 3, entity_id);
+        new TObjNanoDragoTargetedBeam(&beamOrigins[originIndex], beamTargetIds[targetIndex], &rotation, targetIndex * 3, entity_id);
     }
 }
 void TObjEneNanoDrago::request_growth() {
@@ -1046,8 +1046,8 @@ void TObjEneNanoDrago::begin_hidden_flight() {
     resume_action = 1;
     refresh_collision_body_centers();
 }
-void TObjEneNanoDrago::trigger_hit_camera_shake(u32 victim) {
-    if ((victim == (uaddr)get_player_by_client_id(0)) && ((s32) cameraShakeCooldown <= 0)) {
+void TObjEneNanoDrago::trigger_hit_camera_shake(TObjChara *victim) {
+    if ((victim == get_player_by_client_id(0)) && ((s32) cameraShakeCooldown <= 0)) {
         cameraShakeCooldown = 0x1E;
         TCameraCtrl::set_shake_preset(1);
     }

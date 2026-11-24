@@ -1610,7 +1610,7 @@ pso/player/TObjPlayer_800BBE90.cpp
 pso/enemy/flower/TObjEneRe2Flower_Bomb.cpp
 pso/render/RenderFadeState_800D7BFC.cpp
 pso/player/TObjPlayer_800D8A2C.cpp
-pso/enemy/nanodrago/TUnk_80494E48.cpp
+pso/enemy/nanodrago/TObjNanoDragoTargetedBeam.cpp
 pso/render/GinjaTextureEntryCopy.cpp
 pso/player/TObjPlayer_800F0810.cpp
 pso/object/TObjHMS_EZRope_Player.cpp
@@ -1888,7 +1888,7 @@ pso/unk/text_800C2CE0.cpp
 pso/enemy/TUnk_80493450_800C69E8.cpp
 pso/unk/text_800C7FEC.cpp
 pso/enemy/nanodrago/TObjEneNanoDrago_800D9BBC.cpp
-pso/enemy/nanodrago/TUnk_80494E10.cpp
+pso/enemy/nanodrago/TObjNanoDragoSingleBeam.cpp
 pso/unk/text_800F5BC0.cpp
 pso/unk/text_800F7D30.cpp
 pso/unk/text_800F7DAC.cpp

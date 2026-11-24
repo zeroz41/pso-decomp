@@ -1,5 +1,5 @@
-#ifndef PSO_ENEMY_NANODRAGO_TUNK_80494E10_H
-#define PSO_ENEMY_NANODRAGO_TUNK_80494E10_H
+#ifndef PSO_ENEMY_NANODRAGO_TOBJNANODRAGOSINGLEBEAM_H
+#define PSO_ENEMY_NANODRAGO_TOBJNANODRAGOSINGLEBEAM_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -9,10 +9,10 @@ class TObjEneNanoDrago;
 
 // The straight beam TObjEneNanoDrago::update_single_beam_state fires at its target. On the
 // ground it also drags a trail effect along the floor under the beam.
-class TUnk_80494E10 : public TObjCollidable {
+class TObjNanoDragoSingleBeam : public TObjCollidable {
 public:
-    TUnk_80494E10(Vec *origin, Vec *target_pos, s32 trail, TObjEneNanoDrago *owner);
-    virtual ~TUnk_80494E10();
+    TObjNanoDragoSingleBeam(Vec *origin, Vec *target_pos, s32 trail, TObjEneNanoDrago *owner);
+    virtual ~TObjNanoDragoSingleBeam();
     virtual void run_task();
     // Moves origin onto the ground straight below it; 0 when there is none.
     s32 snap_to_ground(Vec *origin);
@@ -30,6 +30,6 @@ public:
     u16 owner_id;
     u8 pad_FE[0x2];
 };
-LAYOUT_ASSERT(TUnk_80494E10_size, sizeof(TUnk_80494E10) == 0x100);
+LAYOUT_ASSERT(TObjNanoDragoSingleBeam_size, sizeof(TObjNanoDragoSingleBeam) == 0x100);
 
 #endif

@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/enemy/nanodrago/TUnk_80494E10.h"
+#include "pso/enemy/nanodrago/TObjNanoDragoSingleBeam.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -54,7 +54,7 @@ int TObjMotion::is_action_passing_frame(s32 action, f32 at_frame) {
     return 0;
 }
 
-void TUnk_80494E10::hit_object_in_radius(TObjChara *target, TObjCollidable *shooter) {
+void TObjNanoDragoSingleBeam::hit_object_in_radius(TObjChara *target, TObjCollidable *shooter) {
     if (target == NULL) {
         return;
     }
@@ -71,18 +71,19 @@ void TUnk_80494E10::hit_object_in_radius(TObjChara *target, TObjCollidable *shoo
     payload.power = nano_drago_single_beam_power;
     target->receive_direct_attack(shooter, payload, 0, -1, -1);
     if (shooter != NULL) {
+        TObjEneNanoDrago *nano_drago = static_cast<TObjEneNanoDrago *>(shooter);
         if (target->actorFlags & 0x800) {
-            static_cast<TObjEneNanoDrago *>(shooter)->request_growth();
+            nano_drago->request_growth();
         }
         if (is_split_screen() == 0 && local_client_id == target->get_entity_id()) {
-            static_cast<TObjEneNanoDrago *>(shooter)->trigger_hit_camera_shake((uaddr)target);
+            nano_drago->trigger_hit_camera_shake(target);
         }
     }
     spawn_particle_effect(&target->body_center, 0xFB);
     spawn_particle_effect(&target->body_center, 0xFC);
 }
 
-s32 TUnk_80494E10::snap_to_ground(Vec *origin) {
+s32 TObjNanoDragoSingleBeam::snap_to_ground(Vec *origin) {
     CsnHit *hit = csnVecterUnder(origin, 0x16EF);
     if (hit == NULL) {
         return 0;
@@ -91,7 +92,7 @@ s32 TUnk_80494E10::snap_to_ground(Vec *origin) {
     return 1;
 }
 
-void TUnk_80494E10::run_task() {
+void TObjNanoDragoSingleBeam::run_task() {
     TObjCollidable *shooter;
     s32 i;
     TObjPlayer *player;
@@ -131,7 +132,7 @@ void TUnk_80494E10::run_task() {
     }
 }
 
-TUnk_80494E10::~TUnk_80494E10() {
+TObjNanoDragoSingleBeam::~TObjNanoDragoSingleBeam() {
     if (effect != NULL) {
         effect->queue_destruction();
         effect = NULL;
@@ -142,7 +143,7 @@ TUnk_80494E10::~TUnk_80494E10() {
     }
 }
 
-TUnk_80494E10::TUnk_80494E10(Vec *origin, Vec *target_pos, s32 trail, TObjEneNanoDrago *owner)
+TObjNanoDragoSingleBeam::TObjNanoDragoSingleBeam(Vec *origin, Vec *target_pos, s32 trail, TObjEneNanoDrago *owner)
     : TObjCollidable(tl_06) {
     Angle3 angle;
     f32 s;

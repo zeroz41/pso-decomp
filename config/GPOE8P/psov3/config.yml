@@ -2390,7 +2390,7 @@ force_active:
   - __dt__13TUnk_804909C4Fv
   - __dt__19TObjEneMe1GeeLeaderFv
   - __dt__17TAttackTraceStripFv
-  - __dt__13TUnk_80494E10Fv
+  - __dt__23TObjNanoDragoSingleBeamFv
   - __dt__13TUnk_8049CA54Fv
   - __dt__18TItemEffArmorPulseFv
   - __dt__19TItemEffEquipAnchorFv
@@ -3195,7 +3195,7 @@ force_active:
   - __vt__13TUnk_804909C4
   - __vt__13TUnk_80493450
   - __vt__13TUnk_80494938
-  - __vt__13TUnk_80494E10
+  - __vt__23TObjNanoDragoSingleBeam
   - __vt__18TItemEffArmorPulse
   - __vt__19TItemEffEquipAnchor
   - __vt__19TItemEffShieldPulse
@@ -6936,7 +6936,7 @@ force_active:
   - hide__5TItemFv
   - hide_part__9TObjLukerFUs
   - hide_title_layers_and_release
-  - hit_object_in_radius__13TUnk_80494E10FP9TObjCharaP14TObjCollidable
+  - hit_object_in_radius__23TObjNanoDragoSingleBeamFP9TObjCharaP14TObjCollidable
   - hit_target_in_range__13TUnk_804EF130FP9TObjCharaP14TObjCollidable
   - hold_captured_player__12TBoss1DragonFv
   - hook__13TItemEffLavisFv
@@ -14860,7 +14860,7 @@ force_active:
   - run_task__17TLightGlareSwitchFv
   - run_task__11TLightGlareFv
   - run_task__13TUnk_804909C4Fv
-  - run_task__13TUnk_80494E10Fv
+  - run_task__23TObjNanoDragoSingleBeamFv
   - run_task__13TUnk_8049CA54Fv
   - run_task__18TItemEffArmorPulseFv
   - run_task__19TItemEffEquipAnchorFv
@@ -15719,7 +15719,7 @@ force_active:
   - slot_entity_dispatcher_instance
   - slow_curse_timer_ct__FlUlUslf
   - smpcmp
-  - snap_to_ground__13TUnk_80494E10FP3Vec
+  - snap_to_ground__23TObjNanoDragoSingleBeamFP3Vec
   - snap_to_ground__11TBoss6Type2Fv
   - snap_to_ground__13TObjEneMorfosFll
   - snap_to_ground__21TObjEneRe7BeruraPunchFv

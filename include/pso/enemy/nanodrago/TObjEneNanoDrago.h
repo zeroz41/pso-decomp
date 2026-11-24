@@ -35,7 +35,7 @@ struct TObjEneNanoDrago : public TObjEnemyCustom {
     void capture_beam_origins();
     void add_target_in_front_arc(TObjChara *candidate);
     void update_fade_in_state();
-    void trigger_hit_camera_shake(u32 target);
+    void trigger_hit_camera_shake(TObjChara *victim);
     void request_growth();
     void spawn_beam_particle(s32 index);
     void find_open_direction(Vec *direction);
@@ -84,7 +84,7 @@ struct TObjEneNanoDrago : public TObjEnemyCustom {
 LAYOUT_ASSERT(TObjEneNanoDrago_size, sizeof(TObjEneNanoDrago) == 0x47C);
 extern BmlResource *nano_drago_entry_params_resource;
 extern NanoDragoBehaviorParams *nano_drago_behavior_params;
-// The straight beam's (TUnk_80494E10) parameters update_attack_parameters reads.
+// The straight beam's (TObjNanoDragoSingleBeam) parameters update_attack_parameters reads.
 extern f32 nano_drago_single_beam_speed; // the beam's speed, also its hit radius
 extern s32 nano_drago_single_beam_power; // the direct attack's power
 // The homing beam parameters update_attack_parameters reads from the attack table.

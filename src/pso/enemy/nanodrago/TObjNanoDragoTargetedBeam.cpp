@@ -7,7 +7,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/enemy/nanodrago/TUnk_80494E48.h"
+#include "pso/enemy/nanodrago/TObjNanoDragoTargetedBeam.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
@@ -27,7 +27,7 @@
 
 extern const Vec nano_drago_beam_forward = {0.0f, 0.0f, 0.0f};
 
-void TUnk_80494E48::run_task() {
+void TObjNanoDragoTargetedBeam::run_task() {
     Vec dir;
     TObjCollidable *shooter;
     TObjChara *target;
@@ -84,13 +84,14 @@ void TUnk_80494E48::run_task() {
             DirectAttackPayload payload = {0, 0.0f};
             payload.power = nano_drago_beam_power;
             target->receive_direct_attack(shooter, payload, 0, -1, -1);
+            TObjEneNanoDrago *nano_drago = static_cast<TObjEneNanoDrago *>(shooter);
             if (target->actorFlags & 0x800) {
-                static_cast<TObjEneNanoDrago *>(shooter)->request_growth();
+                nano_drago->request_growth();
             }
             spawn_particle_effect(&target->body_center, 0xFB);
             spawn_particle_effect(&target->body_center, 0xFC);
             if (is_split_screen() == 0 && local_client_id == target_id) {
-                static_cast<TObjEneNanoDrago *>(shooter)->trigger_hit_camera_shake((uaddr)target);
+                nano_drago->trigger_hit_camera_shake(target);
             }
             queue_destruction();
         }
@@ -98,20 +99,20 @@ void TUnk_80494E48::run_task() {
     }
 }
 
-TUnk_80494E48::~TUnk_80494E48() {
+TObjNanoDragoTargetedBeam::~TObjNanoDragoTargetedBeam() {
     if (effect != NULL) {
         effect->queue_destruction();
         effect = NULL;
     }
 }
 
-TUnk_80494E48::TUnk_80494E48(Vec *origin, u16 target_id, Angle3 *rotation, s32 delay, u16 shooter_id)
+TObjNanoDragoTargetedBeam::TObjNanoDragoTargetedBeam(Vec *origin, u16 target_id, Angle3 *rotation, s32 delay, u16 shooter_id)
     : TObjCollidable(tl_04) {
     Vec *target_pos;
     this->target_id = target_id;
     this->shooter_id = shooter_id;
     this->origin = origin;
-    pad_E8 = 0.0f;
+    distance = 0.0f;
     push_matrix_from(identity_matrix);
     {
         Vec forward = nano_drago_beam_forward;
