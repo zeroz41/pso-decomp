@@ -58,10 +58,11 @@ void process_trade_target__10TObjPlayerFiPv(saddr player, TItemData *item_data) 
             TObjPlayer::send_6x29_delete_item((TObjPlayer *)player, slot_item->get_item_id(), 1);
             set_equip_slot_entry(player + 0xD04, val_ext, 0);
         }
-        if (((TObjPlayer *)player)->pickup_item((TItem *)item) != 0U) {
-            ((TObjPlayer *)player)->set_flag_20000();
-            ((TObjPlayer *)player)->equip_item_to_slot(reinterpret_cast<TItem *>(item), 0);
-            ((TObjPlayer *)player)->clear_flag_20000();
+        TObjPlayer *owner = (TObjPlayer *)player;
+        if (owner->pickup_item((TItem *)item) != 0U) {
+            owner->set_flag_20000();
+            owner->equip_item_to_slot(reinterpret_cast<TItem *>(item), 0);
+            owner->clear_flag_20000();
         }
     }
 }
