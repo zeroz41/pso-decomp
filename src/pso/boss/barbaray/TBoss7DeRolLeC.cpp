@@ -125,7 +125,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 #include "pso/system/task/TObject_80019A50.h"
 
@@ -1545,7 +1544,7 @@ void TBoss7DeRolLeC::sub_802EC32C() {}
 void TBoss7DeRolLeC::play_sound_at(s32 id, Vec *pos) { play_sound_effect(id, pos, 0, 0); }
 
 void TBoss7DeRolLeC::play_persistent_sound_at(s32 id, Vec *pos) {
-    play_persistent_sound(id, (saddr)this, (uaddr)pos, 0, 0);
+    play_persistent_sound(id, this, pos, 0, 0);
 }
 
 void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {

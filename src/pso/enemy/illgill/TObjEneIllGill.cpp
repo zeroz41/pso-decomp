@@ -46,7 +46,6 @@
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -1131,7 +1130,7 @@ void TObjEneIllGill::update_shadow_attack() {
         }
         break;
     case 2:
-        play_persistent_sound((s32)(0x4003A356), (saddr)enemy, (uaddr)&position, (s32)(0), (s32)(0));
+        play_persistent_sound(0x4003A356, enemy, &position, 0, 0);
         apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), 0.0f);
         if (this->target != NULL) {
             Vec w;
@@ -1358,7 +1357,7 @@ void TObjEneIllGill::update_charge_attack() {
                 o->chargeFrames = c + 1;
             }
         }
-        play_persistent_sound((s32)(0x4003A34F), (saddr)o, (uaddr)&o->position, (s32)(0), (s32)(0));
+        play_persistent_sound(0x4003A34F, o, &o->position, 0, 0);
         if (o->primaryEffect != 0 && ((TObject *)(o->primaryEffect))->all_parents_unqueued_for_destruction() != 0) {
             ((TParticleCtrl *)o->primaryEffect)->set_position(&o->chargeEffectPosition1);
         }
@@ -1431,7 +1430,7 @@ void TObjIllGillKage::attack_target() {
 }
 
 void TObjIllGillKage::tick_persistent_sound() {
-    play_persistent_sound(0x4003A357, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(0x4003A357, this, &position, 0, 0);
     if (timer-- < 0) {
         this->state = 2;
     }

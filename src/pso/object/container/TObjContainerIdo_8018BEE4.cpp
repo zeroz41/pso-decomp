@@ -34,7 +34,6 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/system/TLanguage_801E4874.h"
@@ -166,7 +165,7 @@ void TObjContainerIdo::run_task() {
             position.y -= v.y;
             position.z -= v.z;
             state |= 0x04000000;
-            play_persistent_sound(0x4B717, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4B717, this, &position, 0, 0);
         } else if (!(state & 0x01000000)) {
             play_sound_effect(0x4C118, &position, 0, 0);
             state |= 0x01000000;
@@ -184,7 +183,7 @@ void TObjContainerIdo::run_task() {
             position.y += w.y;
             position.z += w.z;
             state |= 0x04000000;
-            play_persistent_sound(0x4B717, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4B717, this, &position, 0, 0);
         } else if (!(state & 0x01000000)) {
             play_sound_effect(0x4C118, &position, 0, 0);
             state |= 0x01000000;

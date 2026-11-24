@@ -30,7 +30,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TUnk_804B6C24.h"
@@ -214,20 +213,20 @@ void TOTrapAncient01::vfunc_81() {
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_persistent_sound(0x4321A, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4321A, this, &position, 0, 0);
             break;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_persistent_sound(0x4004B211, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4004B211, this, &position, 0, 0);
             break;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_persistent_sound(0x4004B217, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4004B217, this, &position, 0, 0);
             break;
         case AREA_VR_SPACESHIP_ALPHA:
         case AREA_VR_SPACESHIP_BETA:
-            play_persistent_sound(0x4004B212, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4004B212, this, &position, 0, 0);
             break;
         }
     } else {
@@ -295,11 +294,11 @@ void TOTrapAncient01::vfunc_82() {
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        play_persistent_sound(0x4004C618, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4004C618, this, &position, 0, 0);
         break;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_persistent_sound(0x4004C610, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4004C610, this, &position, 0, 0);
         break;
     case AREA_PIONEER2_EP1:
         return;

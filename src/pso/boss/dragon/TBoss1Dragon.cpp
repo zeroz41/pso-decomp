@@ -89,7 +89,6 @@ struct NJS_OBJECT;
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 struct DragonCaptureVectors { Vec vectors[3]; };
 // The Dragon's block from TLobby::dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers and the
 // landing radius its attacks put in their DragonAttackParams copies, the V2 speeds, and the body parts' defenses.
@@ -1307,7 +1306,7 @@ void TBoss1Dragon::play_se_at_pos(s32 id) {
 }
 
 void TBoss1Dragon::spawn_trap(s32 id) {
-    play_persistent_sound(id, (saddr)this, (uaddr)&this->sound_origin, 0, 0);
+    play_persistent_sound(id, this, &this->sound_origin, 0, 0);
 }
 
 void TBoss1Dragon::play_sound_if_in_band() {

@@ -27,7 +27,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/effect/photon/TPhotonLine.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -142,7 +142,7 @@ void TPhotonEstlla::run_task() {
         }
     }
     if (started != 0) {
-        play_persistent_sound(0x4002462F, (saddr)this, 0, 0, 0);
+        play_persistent_sound(0x4002462F, this, 0, 0, 0);
     }
 }
 

@@ -51,7 +51,6 @@ struct AnimationMotion;
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TLobby_8001EF5C.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -233,7 +232,7 @@ void TODoorJungleMain::run_task() {
             flag = 0;
             *(f32 *)&this->animation_end_frame = (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1);
         } else {
-            play_persistent_sound(0x43220, (saddr)arg0, (uaddr)&this->position, 0, 0);
+            play_persistent_sound(0x43220, arg0, &this->position, 0, 0);
         }
         if (flag != 0) {
             if (++*(s32 *)&this->m_d8 % 30 == 0) {

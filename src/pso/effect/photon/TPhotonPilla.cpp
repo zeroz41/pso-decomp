@@ -25,7 +25,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/effect/photon/TPhotonLaser.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
@@ -179,7 +179,7 @@ void TPhotonPilla::run_task() {
         apply_photon_blast_effects();
     }
     if (started != 0) {
-        play_persistent_sound(0x4002462F, (saddr)this, 0, 0, 0);
+        play_persistent_sound(0x4002462F, this, 0, 0, 0);
     }
 }
 

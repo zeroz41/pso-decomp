@@ -90,7 +90,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D853C.h"
@@ -646,7 +645,7 @@ void TObjEneDarkGunner::update_move() {
             behavior_flags &= ~0x80000;
             state = 3;
         }
-        play_persistent_sound(0x4003AD28, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4003AD28, this, &position, 0, 0);
         if (turn_delay > 0) {
             turn_delay--;
             if (bodies->flags & 0x300000) {

@@ -21,7 +21,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 // Stored in the object name field by the constructor.
 const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
@@ -159,7 +158,7 @@ void TObjEnePanarmsAtkColli::run_task() {
         check_radius_collisions();
         return;
     case 1:
-        play_persistent_sound(remap_sound_for_area(0x4003BA2A), (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003BA2A), this, &position, 0, 0);
         sweep_segment_collisions();
         return;
     }

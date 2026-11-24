@@ -71,7 +71,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
 #include "pso/render/model_render_state.h"
@@ -751,7 +750,7 @@ void TBoss4Type2::jisin_update() {
         create_jisin(this, angle);
     }
     if (action_timer <= 0x1E) {
-        play_persistent_sound(0x4003AD16, (saddr)this, (uaddr)&position, 0, 1);
+        play_persistent_sound(0x4003AD16, this, &position, 0, 1);
     }
     if (--action_timer < 0) {
         change_action(8);
@@ -819,7 +818,7 @@ void TBoss4Type2::beam_update() {
             }
         }
         if (anim_frame >= 8.0f && anim_frame <= 17.0f) {
-            play_persistent_sound(0x4003B512, (saddr)this, (uaddr)&position, 0, 1);
+            play_persistent_sound(0x4003B512, this, &position, 0, 1);
         }
     }
     if (action_timer == 0x26) {
@@ -978,7 +977,7 @@ void TBoss4Type2::tenchu_update() {
         }
     }
     if (action_timer > 6) {
-        play_persistent_sound(0x4003AD16, (saddr)this, (uaddr)&position, 0, 1);
+        play_persistent_sound(0x4003AD16, this, &position, 0, 1);
     }
     if (--action_timer < 0) {
         change_action(stop_action);

@@ -58,7 +58,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"
@@ -1592,7 +1591,7 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         } else {
             this->alt_model_color = 0xFF000000;
         }
-        play_persistent_sound(0x4003B71D, (saddr)this, (uaddr)&this->body_center, 0, 0);
+        play_persistent_sound(0x4003B71D, this, &this->body_center, 0, 0);
         this->check_collisions();
         break;
     }

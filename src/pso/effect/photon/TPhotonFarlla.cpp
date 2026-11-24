@@ -20,7 +20,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/map/FloorArea.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D8F74.h"
 
 #include "pso/player/TObjPlayer_80011014.h"
@@ -183,7 +183,7 @@ void TPhotonFarlla::run_task() {
         }
     }
     if (visible != 0) {
-        play_persistent_sound(0x4002462F, (saddr)this, 0, 0, 0);
+        play_persistent_sound(0x4002462F, this, 0, 0, 0);
     }
 }
 

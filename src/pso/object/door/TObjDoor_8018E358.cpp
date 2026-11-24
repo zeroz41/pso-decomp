@@ -24,7 +24,7 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/model_render_state.h"
@@ -190,14 +190,14 @@ void TObjDoor::update_state() {
         }
         break;
     case 4:
-        play_persistent_sound(0x49e08, (saddr)this, (uaddr)&this->position, 0, 0);
+        play_persistent_sound(0x49e08, this, &this->position, 0, 0);
         this->frame+=(1.8f);
         if(this->frame>(motion_table[0]->frameCount-1)) {
             this->frame=(motion_table[0]->frameCount-1);this->state=5;
         }
         break;
     case 3:
-        play_persistent_sound(0x49e08, (saddr)this, (uaddr)&this->position, 0, 0);
+        play_persistent_sound(0x49e08, this, &this->position, 0, 0);
         this->frame-=1.8f;
         if(this->frame<0.0f) {this->frame=0.0f;this->state=2;}
         break;

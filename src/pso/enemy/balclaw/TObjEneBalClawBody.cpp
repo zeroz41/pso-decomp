@@ -34,7 +34,6 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -360,7 +359,7 @@ void TObjEneBalClawBody::update_chase() {
             body->reset_enemy_state();
             break;
         }
-        play_persistent_sound(0x4003B235, (saddr)body, (uaddr)&body->position, 0, 0);
+        play_persistent_sound(0x4003B235, body, &body->position, 0, 0);
         body->velocity.y = 0.0f;
         {
             update_enemy_wander_move(body, ((TObjChara *)body->target)->body_center, 1, ((EnemyMoveParams *)body->movementParameters)->min_distance);

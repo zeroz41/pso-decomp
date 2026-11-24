@@ -36,7 +36,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/text_803E2F28.h"
 #include "pso/render/model_render_state.h"
@@ -580,7 +579,7 @@ void TObjEneNanoDrago::update_single_beam_state() {
             }
             break;
         case 2:
-            play_persistent_sound(0x4003AD1E, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4003AD1E, this, &position, 0, 0);
             if (frame >= 20.0f) {
                 capture_beam_origins();
                 u32 obj = (uaddr)TObject::operator new(0x100);
@@ -650,7 +649,7 @@ void TObjEneNanoDrago::update_multi_beam_state() {
             }
             break;
         case 2:
-            play_persistent_sound(0x4003AD1E, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4003AD1E, this, &position, 0, 0);
             if (frame >= 20.0f) {
                 capture_beam_origins();
                 for (i = 0; i < beamTargetCount; i++) {

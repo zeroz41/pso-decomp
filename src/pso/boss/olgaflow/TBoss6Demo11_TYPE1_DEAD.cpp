@@ -6,7 +6,6 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/PadRumble.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/camera/CameraHelpers.h"
@@ -127,7 +126,7 @@ void TBoss6Demo11_TYPE1_DEAD::run_task() {
         break;
     }
     if (timer >= 0x89) {
-        play_persistent_sound(0x4003A424, (saddr)this, 0, 0, 0);
+        play_persistent_sound(0x4003A424, this, 0, 0, 0);
     }
     switch (timer) {
     case 0xE:

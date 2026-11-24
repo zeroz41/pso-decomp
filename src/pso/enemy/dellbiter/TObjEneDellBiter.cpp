@@ -71,7 +71,6 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/render/render_util.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/render/model_render_state.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
@@ -529,7 +528,7 @@ void TObjEneDellBiter::play_step_effect() {
             play_ground_step_sound(this, &position);
             return;
         }
-        play_persistent_sound(this->remap_sound_for_area((saddr)((void *)0x40039E13)), (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(this->remap_sound_for_area((saddr)((void *)0x40039E13)), this, &position, 0, 0);
         spawn_particle_effect(&position, 0xF0);
     }
 }

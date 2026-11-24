@@ -6,7 +6,6 @@
 #include "pso/network/TProtocol.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/TLobby.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -52,7 +51,7 @@ void TODoorCave03::update_closing() {
     } else {
         position.y = y - 1.0f;
     }
-    play_persistent_sound(0x42807, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(0x42807, this, &position, 0, 0);
 }
 
 void TODoorCave03::update_open() {
@@ -74,7 +73,7 @@ void TODoorCave03::update_opening() {
     } else {
         position.y += 1.0f;
     }
-    play_persistent_sound(0x42807, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(0x42807, this, &position, 0, 0);
 }
 
 void TODoorCave03::update_closed() {

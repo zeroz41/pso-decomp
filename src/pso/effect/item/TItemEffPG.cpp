@@ -13,7 +13,7 @@
 #include "pso/player/TUnk_804A2548.h"
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject_8001A448.h"
@@ -180,7 +180,7 @@ void TItemEffPGModel::run_task() {
             color.a = opacity - 0.06666667f;
         }
     }
-    play_persistent_sound(0x4001A343, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(0x4001A343, this, &position, 0, 0);
 }
 
 void TItemEffPGModel::render() {

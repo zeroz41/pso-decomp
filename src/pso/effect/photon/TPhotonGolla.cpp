@@ -15,7 +15,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
@@ -171,7 +171,7 @@ void TPhotonGolla::run_task() {
         spawn_concentrate();
     }
     if (visible != 0) {
-        play_persistent_sound(0x4002462F, (saddr)this, 0, 0, 0);
+        play_persistent_sound(0x4002462F, this, 0, 0, 0);
     }
 }
 

@@ -59,7 +59,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/object/base/TObjBase.h"
 
 extern "C" {
@@ -589,7 +588,7 @@ void TObjEneDubchik::update_chase() {
         } else {
             action = remap_sound_for_area(0x4003B200);
         }
-        play_persistent_sound(action, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(action, this, &position, 0, 0);
         if (target != NULL) {
             if (collapsed != 0) {
                 speed = get_float_parameter(2);
@@ -757,7 +756,7 @@ void TObjEneDubchik::update_fall_apart() {
     case 3: {
         s32 all_done;
         render_model_and_set_attach_points();
-        play_persistent_sound(remap_sound_for_area(0x4003AD07), (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003AD07), this, &position, 0, 0);
         all_done = 1;
         for (i = 0; i < 3; i++) {
             if (part_hit[i] != 0 && parts[i] != NULL) {

@@ -6,7 +6,7 @@
 #include "pso/unk/text_803E2F28.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/city/CityTraffic.h"
 #include "pso/object/city/CityTrafficTables.h"
@@ -347,11 +347,11 @@ void TObjCityAirCar_Car::run_task() {
     if ((lane == 1 && path_frame >= 15.5f && path_frame <= 35.5f) ||
         (lane == 2 && path_frame >= 15.0f && path_frame <= 35.0f)) {
         if (model_type == 4) {
-            play_persistent_sound(0x4004CB02, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4004CB02, this, &position, 0, 0);
         } else if (model_type == 0) {
-            set_sound_pitch_request(play_persistent_sound(0x4004C101, (saddr)this, (uaddr)&position, 0, 0), -0x200, 0);
+            set_sound_pitch_request(play_persistent_sound(0x4004C101, this, &position, 0, 0), -0x200, 0);
         } else {
-            play_persistent_sound(0x4004C101, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4004C101, this, &position, 0, 0);
         }
     }
     if (city_air_car_model_resource != 0) {

@@ -35,7 +35,6 @@ struct NJS_OBJECT;
 
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"
 
@@ -557,12 +556,12 @@ void TObjEneEpsilonGuard::update_guard_state() {
             update_effect_attack();
         }
         if (flags & 0x20) {
-            play_persistent_sound(0x4003A846, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4003A846, this, &position, 0, 0);
             return;
         }
         state = mode;
         if ((state != 4) && (state != 5)) {
-            play_persistent_sound(0x4003AD43, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4003AD43, this, &position, 0, 0);
         }
     }
 }

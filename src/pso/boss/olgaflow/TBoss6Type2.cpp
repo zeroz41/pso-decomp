@@ -54,7 +54,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
@@ -701,7 +700,7 @@ void TBoss6Type2::run_task() {
     update_head_aim();
     copy_vec_array();
     if ((s32) this->berserk != 0) {
-        play_persistent_sound(0x4006B00C, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4006B00C, this, &position, 0, 0);
     }
     update_countdown();
     update_possess_target();
