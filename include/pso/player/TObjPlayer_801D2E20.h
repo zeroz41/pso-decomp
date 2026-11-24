@@ -27,12 +27,12 @@ extern "C" {
 
 // --- functions defined in TObjPlayer_801D2E20.cpp ---
 s32 TObjPlayer__sub_801D2EE8(s16 stage);
-s16 TObjPlayer__sub_801D2F0C(void *arg0);
-s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
-s32 TObjPlayer__sub_801D2F8C(s16 arg0);
-void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, s32 kind, s16 arg3);
-void apply_anim_action__10TObjPlayerFPvi(u8 *arg0, saddr arg1);
-s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec *out);
+s16 TObjPlayer__sub_801D2F0C(void *record);
+s16 TObjPlayer__sub_801D2F4C(s16 *stage_ptr);
+s32 TObjPlayer__sub_801D2F8C(s16 stage);
+void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, s32 kind, s16 maximum_stage);
+void apply_anim_action__10TObjPlayerFPvi(u8 *controller, saddr player);
+s32 get_first_target_position__10TObjPlayerFPvPv(void *controller, Vec *out);
 void * capture_lockon_targets(Self_801D32A0 *self, Pl_801D32A0 *player);
 s32 *TObjPlayer__sub_801D345C(void *p);
 void handle_6x54(void);
@@ -41,6 +41,6 @@ void handle_6x65(void);
 void handle_6x8B(void);
 void handle_6x64(void);
 }
-void begin_player_attack(u8 *arg0, s32 arg1, s16 arg2, s32 arg3);
+void begin_player_attack(u8 *controller, s32 arg1, s16 stage, s32 arg3);
 
 #endif

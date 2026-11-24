@@ -81,32 +81,32 @@ s32 TObjPlayer__sub_801D2EE8(s16 stage) {
     return 1;
 }
 
-s16 TObjPlayer__sub_801D2F0C(void *arg0) {
-    s16 var_r31;
-    var_r31 = *(s16 *)((s8 *)arg0 + 2);
-    if (TObjPlayer__sub_801D2F8C((s16)(var_r31)) == 0) {
-        var_r31 = 0;
+s16 TObjPlayer__sub_801D2F0C(void *record) {
+    s16 stage;
+    stage = *(s16 *)((s8 *)record + 2);
+    if (TObjPlayer__sub_801D2F8C(stage) == 0) {
+        stage = 0;
     }
-    return var_r31;
+    return stage;
 }
 
-s16 TObjPlayer__sub_801D2F4C(s16 *arg0) {
-    s16 var_r31;
-    var_r31 = *arg0;
-    if (TObjPlayer__sub_801D2F8C((s16)((s16)((int) (var_r31)))) == 0) {
-        var_r31 = 0;
+s16 TObjPlayer__sub_801D2F4C(s16 *stage_ptr) {
+    s16 stage;
+    stage = *stage_ptr;
+    if (TObjPlayer__sub_801D2F8C(stage) == 0) {
+        stage = 0;
     }
-    return var_r31;
+    return stage;
 }
 
-s32 TObjPlayer__sub_801D2F8C(s16 arg0) {
-    if ((arg0 < 0) || (arg0 >= 3)) {
+s32 TObjPlayer__sub_801D2F8C(s16 stage) {
+    if ((stage < 0) || (stage >= 3)) {
         return 0;
     }
     return 1;
 }
 
-void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, s32 kind, s16 arg3) {
+void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, s32 kind, s16 maximum_stage) {
     s16 t;
     if (((int (*)(void*, int))test_flags_any)((void*)(((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self)))), 2) == 0 ||
         self->is_flag32_clear() == 0) {
@@ -116,8 +116,8 @@ void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, 
         ((int (*)(void*, int))test_flags_any)((void*)(((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self)))), 4) == 0) {
         ((FlagWord *)((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self))))->set(1);
         self->advance_and_clamp_state();
-        if (self->get_validated_attack_stage() > arg3) {
-            self->set_saved_attack_stage(arg3);
+        if (self->get_validated_attack_stage() > maximum_stage) {
+            self->set_saved_attack_stage(maximum_stage);
         }
         t = ((TObjPlayer *)obj)->get_action_palette_entry(kind);
         ((TObjPlayer *)obj)->set_action_palette_state_mode(2);
@@ -136,41 +136,41 @@ s32 TObjPlayer::update_if_flag8_set() {
 
 s32 TObjPlayer::tick_countdown_timer() {
     u8 *arg0 = (u8 *)this;
-    s32 temp_r0;
+    s32 remaining;
 
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x1C) - 1;
-    *(s32 *)((s8 *)arg0 + 0x1C) = temp_r0;
-    if (temp_r0 < 0) {
+    remaining = *(s32 *)((s8 *)arg0 + 0x1C) - 1;
+    *(s32 *)((s8 *)arg0 + 0x1C) = remaining;
+    if (remaining < 0) {
         ((FlagWord *)(arg0 + 0xC))->set(1);
         return 1;
     }
     return 0;
 }
 
-void apply_anim_action__10TObjPlayerFPvi(u8 *arg0, saddr arg1) {
-    ((FlagWord *)((void *) (arg0 + 0xC)))->set(2);
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) ((TObjPlayer *)arg1)->get_attack_recovery_count();
-    TObjPlayer::clear_flag_128((void*)((void *) (arg1)));
+void apply_anim_action__10TObjPlayerFPvi(u8 *controller, saddr player) {
+    ((FlagWord *)((void *) (controller + 0xC)))->set(2);
+    *(s32 *)((s8 *)controller + 0x1C) = (s32) ((TObjPlayer *)player)->get_attack_recovery_count();
+    TObjPlayer::clear_flag_128((void*)((void *) (player)));
 }
 
-void begin_player_attack(u8 *player, s32 arg1, s16 arg2, s32 arg3) {
+void begin_player_attack(u8 *controller, s32 arg1, s16 stage, s32 arg3) {
   s8 *new_var;
-  ((PlayerAttackController *)player)->set_saved_attack_stage((s16)(arg2));
-  *((s32 *) (((s8 *) player) + 0x14)) = arg3;
-  *((s16 *) (((s8 *) player) + 0x12)) = 0;
-  new_var = (s8 *) player;
-  *((s32 *) (((s8 *) player) + 0x18)) = 0;
-  ((FlagWord *)((void *) (player + 0xC)))->clear(0x1F);
+  ((PlayerAttackController *)controller)->set_saved_attack_stage((s16)(stage));
+  *((s32 *) (((s8 *) controller) + 0x14)) = arg3;
+  *((s16 *) (((s8 *) controller) + 0x12)) = 0;
+  new_var = (s8 *) controller;
+  *((s32 *) (((s8 *) controller) + 0x18)) = 0;
+  ((FlagWord *)((void *) (controller + 0xC)))->clear(0x1F);
   *((s32 *) (new_var + 0x1C)) = 6;
-  *((f32 *) (new_var + 4)) = (f32) (*((f32 *) (((s8 *) player) + 8)));
-  if ((s16) (*((s16 *) (((s8 *) player) + 0))))
+  *((f32 *) (new_var + 4)) = (f32) (*((f32 *) (((s8 *) controller) + 8)));
+  if ((s16) (*((s16 *) (((s8 *) controller) + 0))))
   {
-    *((f32 *) (((s8 *) player) + 4)) *= 1.25f;
+    *((f32 *) (((s8 *) controller) + 4)) *= 1.25f;
   }
 }
 
-s32 get_first_target_position__10TObjPlayerFPvPv(void *arg0, Vec *out) {
-    Slot_801D3224 *s = (Slot_801D3224 *)TObjPlayer__sub_801D345C((void*)(arg0));
+s32 get_first_target_position__10TObjPlayerFPvPv(void *controller, Vec *out) {
+    Slot_801D3224 *s = (Slot_801D3224 *)TObjPlayer__sub_801D345C((void*)(controller));
     u16 uid = ((CapturedTarget *)s)->get_uid();
     Obj_801D3224 *o;
     if (uid == 0xFFFF) {
