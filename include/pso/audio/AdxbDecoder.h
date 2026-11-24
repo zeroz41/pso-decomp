@@ -79,6 +79,17 @@ struct AdxbDecoder {
     s32 get_decoded_samples();
     s32 get_decoded_bytes();
     s32 get_packet_flag_for_state();
+    // Back to idle once decoding ended (state 3).
+    void reset();
+    void stop();
+    // Idle (state 0) to decoding (state 1).
+    void start();
+    s32 get_total_samples();
+    s32 get_block_samples();
+    s32 get_channels() const;
+    s32 get_rate();
+    // Frees every decoder channel and decoder.
+    static void clear_pool();
 };
 LAYOUT_ASSERT(AdxbDecoder_size_check, sizeof(AdxbDecoder) == 0xB8);
 
@@ -98,7 +109,6 @@ extern "C" {
 void TLobby__sub_803C2A00(AdxbDecoder *o);
 s32 sub_803C1668(AdxbDecoder *decoder, u8 *buffer, s32 len);
 void TLobby__sub_803C34F4(AdxbDecoder *decoder);
-s32 TLobby__sub_803C3B38(const AdxbDecoder *decoder);
 }
 void process_byteswapped_pcm_transfer(AdxbDecoder *o);
 extern "C" {

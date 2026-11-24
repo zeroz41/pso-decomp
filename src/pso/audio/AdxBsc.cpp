@@ -167,25 +167,22 @@ s32 AdxbDecoder::get_decoded_bytes() {
     return bytes;
 }
 
-void TLobby__sub_803C3984(u8 *arg0) {
-    AdxbDecoder *h = (AdxbDecoder *)arg0;
-    if (h->state == 3) {
-        h->channel->clear_done_state();
-        h->m_9C = 0;
-        h->state = 0;
+void AdxbDecoder::reset() {
+    if (state == 3) {
+        channel->clear_done_state();
+        m_9C = 0;
+        state = 0;
     }
 }
 
-void TLobby__sub_803C39CC(u8 *arg0) {
-    AdxbDecoder *h = (AdxbDecoder *)arg0;
-    h->channel->reset_client_state();
-    h->state = 0;
+void AdxbDecoder::stop() {
+    channel->reset_client_state();
+    state = 0;
 }
 
-void TLobby__sub_803C3A04(u8 *arg0) {
-    AdxbDecoder *h = (AdxbDecoder *)arg0;
-    if (h->state == 0) {
-        h->state = 1;
+void AdxbDecoder::start() {
+    if (state == 0) {
+        state = 1;
     }
 }
 
@@ -229,12 +226,12 @@ s32 AdxbDecoder::get_loop_type() {
     return loop_type;
 }
 
-s32 TLobby__sub_803C3ABC(u8 *adxb_decoder) {
-    return ((AdxbDecoder *)adxb_decoder)->samples;
+s32 AdxbDecoder::get_total_samples() {
+    return samples;
 }
 
-s32 TLobby__sub_803C3AC4(u8 *adxb_decoder) {
-    return ((AdxbDecoder *)adxb_decoder)->block_samples;
+s32 AdxbDecoder::get_block_samples() {
+    return block_samples;
 }
 
 s32 AdxbDecoder::get_packet_flag_for_state() {
@@ -260,12 +257,12 @@ s32 AdxbDecoder::get_packet_flag_for_state() {
     return 0x10;
 }
 
-s32 TLobby__sub_803C3B38(const AdxbDecoder *decoder) {
-    return decoder->channels;
+s32 AdxbDecoder::get_channels() const {
+    return channels;
 }
 
-s32 TLobby__sub_803C3B44(u8 *adxb_decoder) {
-    return ((AdxbDecoder *)adxb_decoder)->rate;
+s32 AdxbDecoder::get_rate() {
+    return rate;
 }
 
 s32 AdxbDecoder::get_format() {
@@ -406,7 +403,7 @@ s32 get_progress_info__6TLobbyFPvPvPvPv(u8 *arg0, s32 *arg1, s32 *arg2, s32 *arg
     *arg3 = h->samples - h->m_98;
     return (saddr)h->output_buffer;
 }
-void TLobby__sub_803C406C(void) {
+void AdxbDecoder::clear_pool() {
     AdxDecoderChannel::clear_pool();
     memset(adx_channel_record_pool, 0, sizeof(adx_channel_record_pool));
 }
