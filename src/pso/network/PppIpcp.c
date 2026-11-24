@@ -7,15 +7,9 @@
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/PppIpcp.h"
-typedef struct P_803FF48C P_803FF48C;
 /* This file's functions. */
-void free_field_98(PppFsm *self);
-void free_field_98_and_clear(PppFsm *self);
-s32 read_2_bytes(void *self, void *src);
-u8 *write_network_u32_be(u8 *p, u32 v);
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
-extern s32 is_timed_out(void);
 #include "pso/network/NetworkTransport.h"
 
 extern IpcpState ipcp_state;

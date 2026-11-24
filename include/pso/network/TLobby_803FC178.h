@@ -7,15 +7,8 @@
 #include "pso/network/PppFsm.h"
 
 /* TLobby_803FC178.c: PPP (LCP/IPCP/CHAP/PAP, MD5), the connection state machine and the stack's buffer streams. */
-typedef struct RecoveredGlobal_803AA0C0_lbl_80556E88 RecoveredGlobal_803AA0C0_lbl_80556E88;
 typedef struct PppChapAuthenticationState PppChapAuthenticationState;
-typedef struct RecoveredGlobal_803F88E4_lbl_805AEEB0 RecoveredGlobal_803F88E4_lbl_805AEEB0;
-typedef struct RecoveredFields_803F88E4_arg0 RecoveredFields_803F88E4_arg0;
 typedef struct PppHeader PppHeader;
-struct RecoveredGlobal_803AA0C0_lbl_80556E88 {
-    s32 value;
-    u8 remaining[0xFC];
-};
 struct PppChapAuthenticationState {
     char peer_id[0x80];
     char secret[0x80];
@@ -23,26 +16,6 @@ struct PppChapAuthenticationState {
     PppFsmProtocol proto;
 };
 LAYOUT_ASSERT(PppChapAuthenticationState_size, sizeof(PppChapAuthenticationState) == 0x150);
-struct RecoveredGlobal_803F88E4_lbl_805AEEB0
-{
-  s32 value;
-  u8 remaining[0x49C4];
-};
-struct RecoveredFields_803F88E4_arg0
-{
-  s16 field_0;
-  s16 field_2;
-  s16 field_4;
-  u8 unknown_6[0x2];
-  u8 *field_8;
-  u8 *field_C;
-  u8 *field_10;
-  s16 field_14;
-  u8 unknown_16[0x2];
-  u8 *field_18;
-};
-LAYOUT_ASSERT(RecoveredGlobal_803F88E4_lbl_805AEEB0_size, (sizeof(RecoveredGlobal_803F88E4_lbl_805AEEB0)) == 0x49C8);
-LAYOUT_ASSERT(RecoveredGlobal_803AA0C0_lbl_80556E88_size, sizeof(RecoveredGlobal_803AA0C0_lbl_80556E88) == 0x100);
 /* A PPP control packet header (RFC 1661): code, identifier and length. */
 struct PppHeader { u8 code; u8 id; s16 len; };
 LAYOUT_ASSERT(PppHeader_size_check, sizeof(PppHeader) == 4);
