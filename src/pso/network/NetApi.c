@@ -52,7 +52,7 @@ typedef struct NetIpOption {
 void deliver_to_receive_callback(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *pkt);
 s32 route4_del(saddr dst, saddr mask, saddr gateway);
 s32 route4_add(saddr dst, saddr mask, saddr gateway);
-s32 tcp_stat(s32 a, s16 *b, s16 *c, u32 *d, u32 *e);
+s32 tcp_stat(s32 nh, s16 *stat, s16 *backlog, u32 *sendwin, u32 *recvwin);
 void OSReport(const char *, ...);
 /* The avetcp.a version strings; avetcp_init checks the banner's leading '\n' through avetcp_version_banner_ptr. */
 const u8 avetcp_version_banner[] =
@@ -78,7 +78,7 @@ s16 AT_UDP_Send(s32 nh, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst
 s32 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 origin, u8 type, u16 flags);
 s16 copy_ipv4_interface_addresses(s16 iface, NetBufferRef *out, s32 len, void *buf);
 s16 copy_ipv6_interface_addresses(s16 iface, NetBufferRef *out, s32 len, void *buf);
-s32 tcp_connect(s32 a, NetworkAddress *addr, u16 port, NetIpOption *opt);
+s32 tcp_connect(s32 nh, NetworkAddress *addr, u16 port, NetIpOption *opt);
 s32 avetcp_term(void) {
     dispatcher_term();
     handler_table_term();
@@ -264,30 +264,30 @@ s32 raw_socket_deliver_ipv4(NetPacket *pkt, u32 src, u32 dst, NetworkReceiveCall
     return 0;
 }
 
-s32 udp_close(s32 a) {
+s32 udp_close(s32 nh) {
     s32 r;
     NetworkDispatchState *g;
-    s16 m;
-    if ((a & SOCKET_TAG_MASK) != UDP_SOCKET_TAG) { return -4; }
+    s16 handle;
+    if ((nh & SOCKET_TAG_MASK) != UDP_SOCKET_TAG) { return -4; }
     g = &network_dispatch_state;
-    m = a & ~SOCKET_TAG_MASK;
+    handle = nh & ~SOCKET_TAG_MASK;
     lock_mutex(g->lock_handle);
-    r = NetUdpClose(m);
+    r = NetUdpClose(handle);
     unlock_mutex(g->lock_handle);
     return r;
 }
 
 
-s16 udp_send(s32 h, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt, s8 n, send_buffs *bufs) {
+s16 udp_send(s32 nh, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *opt, s8 count, send_buffs *bufs) {
     NetworkAddress any_addr;
     UdpSendOptions any_opt;
     u16 i;
     NetPacket *pkt;
     s16 r;
-    if ((h & SOCKET_TAG_MASK) != UDP_SOCKET_TAG) {
+    if ((nh & SOCKET_TAG_MASK) != UDP_SOCKET_TAG) {
         return -4;
     }
-    h = h & ~SOCKET_TAG_MASK;
+    nh = nh & ~SOCKET_TAG_MASK;
     NetMemset(&any_addr, 0, sizeof(NetworkAddress));
     if (dst != NULL) {
         if (dst->family == 0) {
@@ -308,7 +308,7 @@ s16 udp_send(s32 h, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendO
         opt = &any_opt;
     }
     lock_mutex(network_dispatch_state.lock_handle);
-    if (n > 3) {
+    if (count > 3) {
         unlock_mutex(network_dispatch_state.lock_handle);
         return -2;
     }
@@ -319,7 +319,7 @@ s16 udp_send(s32 h, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendO
     }
     pkt->fragment_count = 0;
     pkt->total_bytes = 0;
-    for (i = n; i != 0; i--) {
+    for (i = count; i != 0; i--) {
         if (bufs[i - 1].len < 0) {
             release_entry(pkt);
             unlock_mutex(network_dispatch_state.lock_handle);
@@ -340,7 +340,7 @@ s16 udp_send(s32 h, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendO
         unlock_mutex(network_dispatch_state.lock_handle);
         return 0;
     }
-    r = AT_UDP_Send(h, pkt, src, dst, port, opt);
+    r = AT_UDP_Send(nh, pkt, src, dst, port, opt);
     release_entry(pkt);
     unlock_mutex(network_dispatch_state.lock_handle);
     return r;
@@ -398,7 +398,7 @@ s16 udp_deliver(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
     return 0;
 }
 
-void deliver_to_receive_callback(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *o) {
+void deliver_to_receive_callback(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *packet) {
     s32 i;
     u8 *buf;
     s16 len;
@@ -416,12 +416,12 @@ void deliver_to_receive_callback(NetworkReceiveCallback cb, NetworkReceivePrefix
         buf = hdr->buf;
         init_packet_header(&pkt, buf);
         for (i = 1; len > 0; i++) {
-            if (len > o->fragments[i].length) {
-                chunk = o->fragments[i].length;
+            if (len > packet->fragments[i].length) {
+                chunk = packet->fragments[i].length;
             } else {
                 chunk = len;
             }
-            netbuf_copy_by_ref(&pkt, &o->fragments[i].buffer, chunk);
+            netbuf_copy_by_ref(&pkt, &packet->fragments[i].buffer, chunk);
             netbuf_ref_advance(&pkt, (u32)chunk);
             len -= chunk;
         }
@@ -444,27 +444,27 @@ s32 complete_request_callback(s16 handle, TcpSendCallback cb, s16 code, const Tc
     return 0;
 }
 
-s16 tcp_receive(s32 a, TcpCompletion cb, s32 len, void *buf) {
+s16 tcp_receive(s32 nh, TcpCompletion cb, s32 len, void *buf) {
     NetBufferRef destination;
     s16 r;
     NetworkDispatchState *g;
     TcpTcb *s;
-    if (a & SOCKET_TAG_MASK) {
+    if (nh & SOCKET_TAG_MASK) {
         return -4;
     }
     g = &network_dispatch_state;
-    a = a & ~SOCKET_TAG_MASK;
+    nh = nh & ~SOCKET_TAG_MASK;
     lock_mutex(g->lock_handle);
-    if (validate_tcp_handle(a) < 0) {
+    if (validate_tcp_handle(nh) < 0) {
         unlock_mutex(g->lock_handle);
         return -4;
     }
-    if (tcp_get_socket_handle(a) == 1) {
+    if (tcp_get_socket_handle(nh) == 1) {
         unlock_mutex(g->lock_handle);
         return -9;
     }
     s = tcp_protocol_state.tcbs;
-    s += (s16)a;
+    s += (s16)nh;
     if (s->waits[0].flags & 3) {
         unlock_mutex(g->lock_handle);
         return -9;
@@ -474,10 +474,10 @@ s16 tcp_receive(s32 a, TcpCompletion cb, s32 len, void *buf) {
     s->waits[0].flags |= 1;
     if (s->flags & 0x40) {
         s->waits[0].flags |= 8;
-        r = tcp_start_receive(a, &destination, len, cb);
+        r = tcp_start_receive(nh, &destination, len, cb);
         s->waits[0].flags &= ~8;
     } else {
-        r = tcp_start_receive(a, &destination, len, cb);
+        r = tcp_start_receive(nh, &destination, len, cb);
     }
     if (r < 0) {
         s->waits[0].flags &= ~1;
@@ -533,7 +533,7 @@ s32 set_slot_state_and_resume(s16 idx, TcpCompletion cb, s16 state) {
   return 0;
 }
 
-s16 tcp_send(s32 a, TcpCompletion notify, char bufnum, struct send_buffs *sb) {
+s16 tcp_send(s32 nh, TcpCompletion notify, char bufnum, struct send_buffs *sb) {
     TcpTcb *s;
     NetPacket *entry;
     struct send_buffs *p;
@@ -544,22 +544,22 @@ s16 tcp_send(s32 a, TcpCompletion notify, char bufnum, struct send_buffs *sb) {
     if (bufnum > 3) {
         return -2;
     }
-    if (a & SOCKET_TAG_MASK) {
+    if (nh & SOCKET_TAG_MASK) {
         return -4;
     }
-    a = a & ~SOCKET_TAG_MASK;
+    nh = nh & ~SOCKET_TAG_MASK;
     lock_mutex(network_dispatch_state.lock_handle);
-    if (validate_tcp_handle(a) < 0) {
+    if (validate_tcp_handle(nh) < 0) {
         unlock_mutex(network_dispatch_state.lock_handle);
         return -4;
     }
-    r = tcp_get_socket_handle(a);
+    r = tcp_get_socket_handle(nh);
     if (r == -1 || r == 1) {
         unlock_mutex(network_dispatch_state.lock_handle);
         return -9;
     }
     s = tcp_protocol_state.tcbs;
-    s += (s16)a;
+    s += (s16)nh;
     if ((s->waits[2].flags & 3) || s->waits[1].count != 0) {
         unlock_mutex(network_dispatch_state.lock_handle);
         return -9;
@@ -572,7 +572,7 @@ s16 tcp_send(s32 a, TcpCompletion notify, char bufnum, struct send_buffs *sb) {
     entry->fragment_count = (u16)bufnum;
     n = bufnum;
     p = sb + (u16)n;
-    /* The matching loop advances the packet base by one fragment at a time. */
+    /* Each pass advances the packet base by one fragment. */
     cur = (u8 *)entry + (entry->total_bytes = 0) * sizeof(NetPacketFragment);
     while ((u16)n != 0) {
         p--;
@@ -596,10 +596,10 @@ s16 tcp_send(s32 a, TcpCompletion notify, char bufnum, struct send_buffs *sb) {
     s->waits[2].flags |= 1;
     if (s->flags & 0x40) {
         s->waits[2].flags |= 8;
-        ret = tcp_start_send(a, entry, notify, 0);
+        ret = tcp_start_send(nh, entry, notify, 0);
         s->waits[2].flags &= ~8;
     } else {
-        ret = tcp_start_send(a, entry, notify, 0);
+        ret = tcp_start_send(nh, entry, notify, 0);
     }
     release_entry(entry);
     if (ret < 0) {
@@ -671,54 +671,54 @@ s16 tcp_get_opt(s16 nh, s16 type, u32 *opt) {
     return r;
 }
 
-s32 tcp_stat(s32 a, s16 *b, s16 *c, u32 *d, u32 *e) {
+s32 tcp_stat(s32 nh, s16 *stat, s16 *backlog, u32 *sendwin, u32 *recvwin) {
     s32 r;
     NetworkDispatchState *g;
-    if (a & SOCKET_TAG_MASK) { return -4; }
+    if (nh & SOCKET_TAG_MASK) { return -4; }
     g = &network_dispatch_state;
-    a = a & ~SOCKET_TAG_MASK;
+    nh = nh & ~SOCKET_TAG_MASK;
     lock_mutex(g->lock_handle);
-    if (validate_tcp_handle(a) < 0) {
+    if (validate_tcp_handle(nh) < 0) {
         unlock_mutex(g->lock_handle);
         return -4;
     }
-    r = get_tcp_stat(a, b, c, d, e);
+    r = get_tcp_stat(nh, stat, backlog, sendwin, recvwin);
     unlock_mutex(g->lock_handle);
     return r;
 }
 
-s32 tcp_delete(s32 a) {
+s32 tcp_delete(s32 nh) {
     s32 r;
     NetworkDispatchState *g;
-    s32 m;
-    if (a & SOCKET_TAG_MASK) { return -4; }
+    s32 handle;
+    if (nh & SOCKET_TAG_MASK) { return -4; }
     g = &network_dispatch_state;
-    m = a & ~SOCKET_TAG_MASK;
+    handle = nh & ~SOCKET_TAG_MASK;
     lock_mutex(g->lock_handle);
-    r = mark_connection_closed(m);
+    r = mark_connection_closed(handle);
     unlock_mutex(g->lock_handle);
     return r;
 }
 
-s32 tcp_abort(s32 a) {
+s32 tcp_abort(s32 nh) {
     s32 r;
     NetworkDispatchState *g;
-    s32 m;
+    s32 handle;
     s16 st;
-    if (a & SOCKET_TAG_MASK) { return -4; }
+    if (nh & SOCKET_TAG_MASK) { return -4; }
     g = &network_dispatch_state;
-    m = a & ~SOCKET_TAG_MASK;
+    handle = nh & ~SOCKET_TAG_MASK;
     lock_mutex(g->lock_handle);
-    if (validate_tcp_handle(m) < 0) {
+    if (validate_tcp_handle(handle) < 0) {
         unlock_mutex(g->lock_handle);
         return -4;
     }
-    st = tcp_get_socket_handle(m);
+    st = tcp_get_socket_handle(handle);
     if (st == -1 || st == 1) {
         unlock_mutex(network_dispatch_state.lock_handle);
         return -9;
     }
-    r = abort_tcp_connection(m);
+    r = abort_tcp_connection(handle);
     unlock_mutex(g->lock_handle);
     return r;
 }
@@ -749,15 +749,15 @@ s32 complete_accept_request(s16 idx, TcpAcceptCallback cb, s16 code, NetworkAddr
     return 0;
 }
 
-s32 tcp_connect(s32 a, NetworkAddress *addr, u16 port, NetIpOption *opt) {
+s32 tcp_connect(s32 nh, NetworkAddress *addr, u16 port, NetIpOption *opt) {
     NetIpOption tmp;
     s32 r;
     NetworkDispatchState *g;
     void *p;
-    if (a & SOCKET_TAG_MASK) {
+    if (nh & SOCKET_TAG_MASK) {
         return -4;
     }
-    a = a & ~SOCKET_TAG_MASK;
+    nh = nh & ~SOCKET_TAG_MASK;
     if (addr != NULL) {
         if (addr->family == 0) {
             return -2;
@@ -788,41 +788,41 @@ s32 tcp_connect(s32 a, NetworkAddress *addr, u16 port, NetIpOption *opt) {
     }
     g = &network_dispatch_state;
     lock_mutex(g->lock_handle);
-    if (validate_tcp_handle(a) < 0) {
+    if (validate_tcp_handle(nh) < 0) {
         unlock_mutex(g->lock_handle);
         return -4;
     }
-    if (tcp_get_socket_handle(a) != 0) {
+    if (tcp_get_socket_handle(nh) != 0) {
         unlock_mutex(g->lock_handle);
         return -9;
     }
-    tcp_set_ip_options(a, p, opt);
-    r = AT_TCP_Connect(a, addr, port);
+    tcp_set_ip_options(nh, p, opt);
+    r = AT_TCP_Connect(nh, addr, port);
     unlock_mutex(g->lock_handle);
     return r;
 }
 
-s32 tcp_bind(s32 a, void *addr, u16 port) {
+s32 tcp_bind(s32 nh, void *addr, u16 port) {
     u8 tmp[0x14];
     s32 r;
     NetworkDispatchState *g;
-    if (a & SOCKET_TAG_MASK) { return -4; }
-    a = a & ~SOCKET_TAG_MASK;
+    if (nh & SOCKET_TAG_MASK) { return -4; }
+    nh = nh & ~SOCKET_TAG_MASK;
     if (addr == NULL) {
         NetMemset(tmp, 0, 0x14);
         addr = tmp;
     }
     g = &network_dispatch_state;
     lock_mutex(g->lock_handle);
-    if (validate_tcp_handle(a) < 0) {
+    if (validate_tcp_handle(nh) < 0) {
         unlock_mutex(g->lock_handle);
         return -4;
     }
-    if (tcp_get_socket_handle(a) != 0) {
+    if (tcp_get_socket_handle(nh) != 0) {
         unlock_mutex(g->lock_handle);
         return -9;
     }
-    r = tcp_pcbbind(a, addr, port);
+    r = tcp_pcbbind(nh, addr, port);
     unlock_mutex(g->lock_handle);
     return r;
 }
