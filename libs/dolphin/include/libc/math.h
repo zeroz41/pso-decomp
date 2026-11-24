@@ -13,7 +13,7 @@ float sinf(float x);
 float cosf(float x);
 float tanf(float x);
 float acosf(float x);
-float powf(float base, float exponent);
+float powf(float x, float y);
 
 double ldexp(double x, int exp);
 
@@ -70,8 +70,8 @@ extern inline float sqrt(float x)
 #define fabs(x) __fabs(x)
 #define fabsf(x) __fabsf(x)
 
-long __fpclassifyf(float x);
-long __fpclassifyd(double x);
+long __fpclassifyf(float __value);
+long __fpclassifyd(double __value);
 
 #define FP_NAN       1
 #define FP_INFINITE  2

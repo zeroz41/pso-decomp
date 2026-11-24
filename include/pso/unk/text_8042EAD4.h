@@ -5,10 +5,10 @@
 #include "pso/unk/SharedMemory.h"
 
 extern "C" {
-s32 fn_8042EAD4(u8 *source, u32 size);
-void fn_8042EBA4(DolHeader *dol_image, s32 arg1);
-void TAdTrialModemChkGC__sub_8042EC14();
-s32 fn_8042ED98(s32 index, const char *text);
+s32 set_shared_memory_data(u8 *source, u32 size);
+void launch_iwanaga_dol(DolHeader *dol_image, s32 arg1);
+void init_shared_memory();
+s32 set_disc_error_message(s32 index, const char *text);
 }
 
 #endif

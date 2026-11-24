@@ -43,7 +43,7 @@ typedef struct IpcpState {
 LAYOUT_ASSERT(IpcpState_size_check, sizeof(IpcpState) == 0xD8);
 
 struct PppProtoBlocks;
-void TLobby__sub_803FEF4C(struct PppProtoBlocks *connection);
+void init_ipcp_protocol(struct PppProtoBlocks *connection);
 
 /* Reads one option (hdr = type, length) from the packet at cursor into side->got and settles it against cfg. c is 1
  * for the peer's Configure-Request, 0 for a reply to ours. Returns the PPP reply code 2 (ack), 3 (nak), 4 (reject),
@@ -58,5 +58,7 @@ s16 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr);
 s16 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr);
 s16 ipcp_set_peer_address(IpcpSide *side, s32 addr);
 s16 ipcp_set_local_address(IpcpSide *side, s32 addr);
+
+void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
 
 #endif

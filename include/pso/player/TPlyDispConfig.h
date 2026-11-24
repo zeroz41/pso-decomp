@@ -10,6 +10,7 @@ class TPlyDispConfigSmth {
 public:
     TPlyDispConfigSmth() { m_mbr_0x0 = 0; };
     void bswap();
+    TPlyDispConfigSmth *copy(TPlyDispConfigSmth *src);
 public:
     u32 m_mbr_0x0;
     gc_tag m_tags[4];
@@ -27,6 +28,7 @@ public:
     TPlyDispConfigSmth m_smth1;
 public:
     void bswap_pair();
+    TPlyDispConfig *copy_full(TPlyDispConfig *src);
 };
 
 #endif

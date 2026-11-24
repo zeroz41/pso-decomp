@@ -6,6 +6,7 @@
 #include "pso/macros.h"
 #include "pso/forward.h"
 #include "pso/network/protocol/protocol.h"
+#include "pso/quest/challenge/ChallengeRecord.h"
 #include "pso/ui/TMenuList.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TPlyClientConfig.h"
@@ -151,12 +152,7 @@ public:
     char name[16];
     TPlyCharData char_data;
 public:
-    void bswap() {
-        tag.bswap();
-        bswap_32(&ip_addr);
-        bswap_32(&client_id);
-        char_data.bswap();
-    };
+    void bswap();
 };
 
 class TGenGuildCardTag {
@@ -168,10 +164,7 @@ public:
 public:
     TGenGuildCardTag() {};
 
-    void bswap() {
-        bswap_32(&guildcard_number);
-        bswap_16(&tag2);
-    };
+    void bswap();
 };
 
 class TRecvGenerateID {
@@ -180,11 +173,7 @@ public:
     u32 client_id;
     TGenGuildCardTag tag;
 public:
-    void bswap() {
-        header.bswap();
-        bswap_32(&client_id);
-        tag.bswap();
-    };
+    void bswap();
 };
 
 class TChatMessage {
@@ -202,31 +191,25 @@ public:
     };
 };
 
+class TRecvPort {
+public:
+    packet_header header;
+    u32 ip_addr;
+    short port;
+public:
+    void bswap();
+};
+
 class TUserAns {
 public:
     packet_header header;
     TPlyGuildCardTag tag;
     u32 found_guildcard;
-    struct {
-        packet_header header;
-        u32 ip_addr;
-        short port;
-        void bswap() {
-            header.bswap();
-            bswap_32(&ip_addr);
-            bswap_16(as(u16 *, &port));
-        };
-    } recv_port;
+    TRecvPort recv_port;
     char location[68];
     TPlyMeetUserExtension extension;
 public:
-    void bswap() {
-        header.bswap();
-        tag.bswap();
-        bswap_32(&found_guildcard);
-        recv_port.bswap();
-        extension.bswap();
-    };
+    void bswap();
 };
 
 class TRecvDownload {
@@ -236,10 +219,7 @@ public:
     u8 data[1024];
     u32 data_size;
 public:
-    void bswap() {
-        header.bswap();
-        bswap_32(&data_size);
-    };
+    void bswap();
 };
 
 class TRecvDownloadHead {
@@ -251,10 +231,7 @@ public:
     char filename[16];
     u32 file_size;
 public:
-    void bswap() {
-        header.bswap();
-        bswap_32(&file_size);
-    };
+    void bswap();
 };
 
 class TPlyJoinLobby {
@@ -281,14 +258,14 @@ public:
     packet_header header;
     u32 variations[16][2];
     TPlyJoinLobbyData lobby_data[4];
-    u8 client_id;
-    u8 leader_id;
-    u8 disable_udp;
-    u8 difficulty;
-    u8 battle_mode;
-    u8 event;
-    u8 section_id;
-    u8 challenge_mode;
+    char client_id;
+    char leader_id;
+    char disable_udp;
+    char difficulty;
+    char battle_mode;
+    char event;
+    char section_id;
+    char challenge_mode;
     u32 rare_seed;
     u8 episode;
     u8 unknown1;
@@ -435,9 +412,7 @@ public:
 	packet_header header;
 	TPsoDataLong data;
 public:
-	void bswap() {
-		header.bswap();
-	};
+	void bswap();
 };
 
 class TRecvPsoData {
@@ -445,9 +420,7 @@ public:
 	packet_header header;
 	TPsoData data;
 public:
-	void bswap() {
-		header.bswap();
-	};
+	void bswap();
 };
 
 template<int action_type = 0>
@@ -510,27 +483,12 @@ public:
 	};
 };
 
-class TRecvPort {
-public:
-	packet_header header;
-	u32 ip_addr;
-	short port;
-public:
-	void bswap() {
-		header.bswap();
-		bswap_32(&ip_addr);
-		bswap_16(as(u16 *, &port));
-	};
-};
-
 class TSendDownloadHead {
 public:
 	packet_header header;
 	char filename[16];
 public:
-	void bswap() {
-		header.bswap();
-	};
+	void bswap();
 };
 
 class TPlyGuildCardTagPacket {
@@ -567,16 +525,11 @@ public:
 	};
 };
 
-// A player's challenge-mode records (newserv PlayerRecordsChallengeV3).
-struct TPlyChallengeRecords {
-	u8 pad_0[0x100];
-};
-
 // One player's records as the C5 packet and the 61/98 player data carry them
 // (newserv PlayerRecordsEntry_V3). The battle counts are separate fields.
 struct TPlyChallenge {
 	u32 client_id;
-	TPlyChallengeRecords challenge;
+	ChallengeRecord challenge;  // newserv PlayerRecordsChallengeV3
 	u16 battle_place_count_1;
 	u16 battle_place_count_2;
 	u16 battle_place_count_3;

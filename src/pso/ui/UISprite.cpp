@@ -486,7 +486,7 @@ void fn_80291178(void) {
     }
     TObjCMIcon::init_icon_table();
     cmicon_instance = TObjCMIcon::create(tl_06);
-    TLobby::load_texture_pvm_file(ccconsole_pvm_file_name_table[creation_sprite_table_index],
+    psoLoadTexturePvmFile(ccconsole_pvm_file_name_table[creation_sprite_table_index],
                                   &creation_sprite_table);
 }
 

@@ -2,7 +2,7 @@
 #include "pso/ui/frontend/TAdMcSelectMcGC.h"
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdMcSelectCursorGC.h"
-#include "pso/ui/frontend/TAdMcSelectCursorGC_8032A610.h"
+#include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/render/render_util.h"
@@ -25,7 +25,7 @@ void TAdMcSelectMcGC::draw_status_window() {
 }
 
 void TAdMcSelectMcGC::render() {
-    if (pad_1c == 1) {
+    if (render_direct == 1) {
         if (TMainTask::get_render_pass() == 1) {
             return;
         }
@@ -37,7 +37,7 @@ block_5:
         set_additive_blend();
         draw_status_window();
         set_default_alpha_blend();
-        if (pad_1c == 0) {
+        if (render_direct == 0) {
             restore_saved_depth_alpha_state();
         }
     }
@@ -60,24 +60,24 @@ void TAdMcSelectMcGC::run_task() {
         pad_120 >>= 1;
     }
     slot_cursor = TAdMcSelectCursorGC::get_cursor_type(pad_12c);
-    if (slot_cursor != NULL && TAdMcSelectCursorGC__sub_8032A6D8(slot_cursor) == 0) {
+    if (slot_cursor != NULL && slot_cursor->get_check_step() == 0) {
         pad_124 = 0;
     }
     switch (pad_124) {
     case 0:
-        if (slot_cursor != NULL && TAdMcSelectCursorGC__sub_8032A6D8(slot_cursor) > 0) {
+        if (slot_cursor != NULL && slot_cursor->get_check_step() > 0) {
             pad_124 = 1;
         }
         pad_120 = 0;
         break;
     case 1:
-        if (slot_cursor != NULL && TAdMcSelectCursorGC__sub_8032A6D8(slot_cursor) > 3) {
+        if (slot_cursor != NULL && slot_cursor->get_check_step() > 3) {
             pad_124 = 2;
         }
         pad_120 = 0;
         break;
     case 2:
-        if (slot_cursor != NULL && TAdMcSelectCursorGC__sub_8032A6D8(slot_cursor) > 4) {
+        if (slot_cursor != NULL && slot_cursor->get_check_step() > 4) {
             pad_124 = 3;
         }
         pad_120 = 0;
@@ -99,7 +99,7 @@ TAdMcSelectMcGC::TAdMcSelectMcGC(TObject *parent, s32 slot) : TObject(parent) {
     pad_128 = 0;
     pad_12c = slot;
     pad_120 = 0xFF;
-    pad_1c = 1;
+    render_direct = 1;
     for (i = 0; i < 8; i++) {
         quads[i].u0 = 0.0f;
         quads[i].v0 = 0.0f;

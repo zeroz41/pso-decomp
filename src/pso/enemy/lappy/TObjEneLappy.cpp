@@ -986,9 +986,9 @@ void TObjEneLappy::load_resources() {
     }
     if (TLobby::get_instance() == 0) {
         if (rare) {
-            rappy_alternate_texture_list = load_gvm_texture_file(re3_b_lappy_base_niji_gvm);
+            rappy_alternate_texture_list = LoadPvmFileTls(re3_b_lappy_base_niji_gvm);
         } else {
-            rappy_alternate_texture_list = load_gvm_texture_file(re3_b_lappy_base_ao_gvm);
+            rappy_alternate_texture_list = LoadPvmFileTls(re3_b_lappy_base_ao_gvm);
         }
     } else {
         rappy_alternate_texture_list = rappy_bml_resource->models[1].texlist;

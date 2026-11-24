@@ -1,13 +1,7 @@
-#include "NMWException.h"
+#include "Runtime.PPCEABI.H/NMWException.h"
 #include "__ppc_eabi_linker.h"
 
 #pragma exceptions on
-
-typedef struct ProcessInfo {
-    __eti_init_info* exception_info;
-    char* TOC;
-    int active;
-} ProcessInfo;
 
 static ProcessInfo fragmentinfo[1];
 

@@ -11,37 +11,34 @@
 #include "types.h"
 #include "pso/network/TLobby_803FCF44.h"
 
-struct Self_803FD85C;
 
 #include <stddef.h>
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
-void net_sleep_ms(s32 ms);
+#include "pso/network/NetworkRuntime.h"
 
-struct Self_803FDA68;
 
-struct V_803FE600;
 
 NetworkDispatchState network_dispatch_state;
 
 
-void TLobby__sub_80419A00(void) {
-    NetMemset(&network_dispatch_state.lock_handle, 0, offsetof(NetworkDispatchState, unknown_F4));
-    cancel_pending_alarms();
+void rtos_term(void) {
+    NetMemset(&network_dispatch_state.lock_handle, 0, offsetof(NetworkDispatchState, pad_F4));
+    AT_TerminateRTOS();
 }
-s16 TLobby__sub_80419A34(void) {
-    NetMemset(&network_dispatch_state, 0, offsetof(NetworkDispatchState, unknown_F4));
+s16 rtos_init(void) {
+    NetMemset(&network_dispatch_state, 0, offsetof(NetworkDispatchState, pad_F4));
     network_dispatch_state.interval = 0x1E;
-    return TLobby__sub_803F8E9C();
+    return AT_InitializeRTOS();
 }
 
-s32 TLobby__sub_80419A7C(void) {
+s32 dispatcher_term(void) {
     lock_mutex(network_dispatch_state.lock_handle);
-    cancel_thread_if_running((void *)network_dispatch_state.thread_ids[1]);
-    cancel_thread_if_running((void *)network_dispatch_state.thread_ids[0]);
-    deactivate_entry_by_key(network_dispatch_state.thread_ids[1]);
-    deactivate_entry_by_key(network_dispatch_state.thread_ids[0]);
+    AT_TerminateTask((void *)network_dispatch_state.thread_ids[1]);
+    AT_TerminateTask((void *)network_dispatch_state.thread_ids[0]);
+    AT_DeleteTask(network_dispatch_state.thread_ids[1]);
+    AT_DeleteTask(network_dispatch_state.thread_ids[0]);
     clear_slot_for_handle(network_dispatch_state.queue_handle);
     unlock_mutex(network_dispatch_state.lock_handle);
     NetReleaseMutex(network_dispatch_state.lock_handle);
@@ -52,28 +49,28 @@ s16 NetInitializeDispatcher(void) {
     s32 *p4 = &network_dispatch_state.queue_handle;
     NetThreadHandle *p8;
     NetThreadHandle *p12;
-    if (TLobby__sub_803F94F0(p4) < 0) {
+    if (create_message_queue(p4) < 0) {
         return -0x100;
     }
-    if (TLobby__sub_803F96AC(&network_dispatch_state.lock_handle) < 0) {
+    if (create_mutex(&network_dispatch_state.lock_handle) < 0) {
         clear_slot_for_handle(*p4);
         return -0x100;
     }
     p8 = &network_dispatch_state.thread_ids[0];
-    if (TLobby__sub_803F9B94(NetRunProtocolDispatchLoop, p8) < 0) {
+    if (AT_CreateTask(NetRunProtocolDispatchLoop, p8) < 0) {
         clear_slot_for_handle(*p4);
         NetReleaseMutex(network_dispatch_state.lock_handle);
         return -0x100;
     }
     p12 = &network_dispatch_state.thread_ids[1];
-    if (TLobby__sub_803F9B94(NetRunTimerDispatchLoop, p12) < 0) {
-        deactivate_entry_by_key(*p8);
+    if (AT_CreateTask(NetRunTimerDispatchLoop, p12) < 0) {
+        AT_DeleteTask(*p8);
         clear_slot_for_handle(*p4);
         NetReleaseMutex(network_dispatch_state.lock_handle);
         return -0x100;
     }
-    NetResumeThread(*p8);
-    NetResumeThread(*p12);
+    AT_StartTask(*p8);
+    AT_StartTask(*p12);
     return 0;
 }
 
@@ -218,7 +215,7 @@ void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u
     message.protocol = protocol;
     message.detail = detail;
     message.payload = payload;
-    TLobby__sub_803F9344(network_dispatch_state.queue_handle, &message, sizeof(message));
+    send_message_queue(network_dispatch_state.queue_handle, &message, sizeof(message));
 }
 
 void NetRunProtocolDispatchLoop(void) {

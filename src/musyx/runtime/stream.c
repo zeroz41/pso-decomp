@@ -1,4 +1,3 @@
-#define MUSYX_STREAM_IMPL
 #include <dolphin/os/OSCache.h>
 #include "musyx/runtime/musyx_internal.h"
 
@@ -39,17 +38,6 @@ typedef struct STREAM_INFO {
     u8 hwStreamHandle;
     u32 nextStreamHandle;
 } STREAM_INFO;
-
-typedef struct SAMPLE_INFO {
-    u32 info;
-    void *addr;
-    void *extraData;
-    u32 offset;
-    u32 length;
-    u32 loop;
-    u32 loopLength;
-    u8 compType;
-} SAMPLE_INFO;
 
 static STREAM_INFO streamInfo[64];
 static u8 streamCallCnt;
@@ -153,7 +141,7 @@ void streamHandle(void) {
                     } break;
                     case 1: {
                         u32 off = (si->last / 14) * 8;
-                        if ((len = si->updateFunction((void *)((uaddr)si->buffer + off), cpos - si->last, 0, 0, si->user)) != 0 &&
+                        if ((len = si->updateFunction((u8 *)si->buffer + off, cpos - si->last, 0, 0, si->user)) != 0 &&
                             si->state == 2) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {
@@ -185,7 +173,7 @@ void streamHandle(void) {
                         break;
                     case 1: {
                         u32 off = ((si->last / 14) * 8);
-                        if ((len = si->updateFunction((void *)((uaddr)si->buffer + off), si->size - si->last, 0, 0, si->user)) &&
+                        if ((len = si->updateFunction((u8 *)si->buffer + off, si->size - si->last, 0, 0, si->user)) &&
                             si->state == 2) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {
@@ -220,7 +208,7 @@ void streamHandle(void) {
                         break;
                     case 1: {
                         u32 off = (si->last / 14) * 8;
-                        if ((len = si->updateFunction((void *)((uaddr)si->buffer + off), si->size - si->last, si->buffer, cpos, si->user)) &&
+                        if ((len = si->updateFunction((u8 *)si->buffer + off, si->size - si->last, si->buffer, cpos, si->user)) &&
                             si->state == 2) {
                             cpos = (si->last + len) % si->size;
                             if (!(si->flags & 0x20000)) {
@@ -284,7 +272,7 @@ s32 GetPrivateIndex(u32 publicID) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline u32 GetPrivateIndex_803AB2C8(u32 publicID) {
+static inline u32 GetPrivateIndexInline(u32 publicID) {
     u32 i;
     for (i = 0; i < 64; ++i) {
         if (streamInfo[i].state != 0 && publicID == streamInfo[i].stid) {
@@ -298,7 +286,7 @@ void sndStreamARAMUpdate(u32 stid, u32 off1, u32 len1, u32 off2, u32 len2) {
     u32 i;
 
     hwDisableIrq();
-    i = GetPrivateIndex_803AB2C8(stid);
+    i = GetPrivateIndexInline(stid);
     if (i != -1) {
         switch (streamInfo[i].type) {
         case 0:
@@ -346,7 +334,7 @@ void CheckOutputMode(s8 *pan, s8 *span) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline void CheckOutputMode_803AB5A8(u8 *pan, u8 *span) {
+static inline void CheckOutputModeInline(u8 *pan, u8 *span) {
     if (synthFlags & 1) {
         *pan = 64;
         *span = 0;
@@ -363,7 +351,7 @@ void streamOutputModeChanged(void) {
         if (streamInfo[i].state != 0) {
             streamInfo[i].pan = streamInfo[i].orgPan;
             streamInfo[i].span = streamInfo[i].orgSPan;
-            CheckOutputMode_803AB5A8(&streamInfo[i].pan, &streamInfo[i].span);
+            CheckOutputModeInline(&streamInfo[i].pan, &streamInfo[i].span);
             if (streamInfo[i].state != 3) {
                 SetHWMix(&streamInfo[i]);
             }
@@ -377,7 +365,7 @@ void streamOutputModeChanged(void) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline u32 GeneratePublicID_803AB6F0(void) {
+static inline u32 GeneratePublicID(void) {
     u32 id;
     u32 i;
 
@@ -395,19 +383,10 @@ static inline u32 GeneratePublicID_803AB6F0(void) {
     return id;
 }
 
-static inline void CheckOutputMode_803AB6F0(u8 *pan, u8 *span) {
-    if (synthFlags & 1) {
-        *pan = 64;
-        *span = 0;
-    } else if (!(synthFlags & 2)) {
-        *span = 0;
-    }
-}
-
-static inline void SetupVolumeAndPan_803AB6F0(STREAM_INFO *si, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb) {
+static inline void SetupVolumeAndPan(STREAM_INFO *si, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb) {
     si->orgPan = pan;
     si->orgSPan = span;
-    CheckOutputMode_803AB6F0(&pan, &span);
+    CheckOutputModeInline(&pan, &span);
     si->vol = vol;
     si->pan = pan;
     si->span = span;
@@ -432,7 +411,7 @@ u32 sndStreamAllocEx(u8 prio, void *buffer, u32 samples, u32 frq, u8 vol, u8 pan
     }
 
     if (i != 64) {
-        stid = GeneratePublicID_803AB6F0();
+        stid = GeneratePublicID();
         streamInfo[i].stid = stid;
         streamInfo[i].flags = flags;
         bytes = sndStreamAllocLength(samples, flags);
@@ -457,7 +436,7 @@ u32 sndStreamAllocEx(u8 prio, void *buffer, u32 samples, u32 frq, u8 vol, u8 pan
         streamInfo[i].frq = frq;
         streamInfo[i].studio = studio;
         streamInfo[i].prio = prio;
-        SetupVolumeAndPan_803AB6F0(&streamInfo[i], vol, pan, span, auxa, auxb);
+        SetupVolumeAndPan(&streamInfo[i], vol, pan, span, auxa, auxb);
         streamInfo[i].user = user;
         streamInfo[i].nextStreamHandle = -1;
         streamInfo[i].state = 3;
@@ -492,37 +471,7 @@ u32 sndStreamAllocLength(u32 samples, u32 flags) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline u32 GetPrivateIndex_803ABB54(u32 publicID) {
-    u32 i;
-    for (i = 0; i < 64; ++i) {
-        if (streamInfo[i].state != 0 && publicID == streamInfo[i].stid) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-static inline void CheckOutputMode_803ABB54(u8 *pan, u8 *span) {
-    if (synthFlags & 1) {
-        *pan = 64;
-        *span = 0;
-    } else if (!(synthFlags & 2)) {
-        *span = 0;
-    }
-}
-
-static inline void SetupVolumeAndPan_803ABB54(STREAM_INFO *si, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb) {
-    si->orgPan = pan;
-    si->orgSPan = span;
-    CheckOutputMode_803ABB54(&pan, &span);
-    si->vol = vol;
-    si->pan = pan;
-    si->span = span;
-    si->auxa = auxa;
-    si->auxb = auxb;
-}
-
-static inline void SetupVolumeAndPan2_803ABB54(STREAM_INFO *si, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb) {
+static inline void SetupVolumeAndPan2(STREAM_INFO *si, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb) {
     si->orgPan = pan;
     si->orgSPan = span;
     CheckOutputMode((s8 *)&pan, (s8 *)&span);
@@ -533,12 +482,12 @@ static inline void SetupVolumeAndPan2_803ABB54(STREAM_INFO *si, u8 vol, u8 pan, 
     si->auxb = auxb;
 }
 
-static inline void MixParameterInner_803ABB54(u32 stid, u8 vol, u8 pan, u8 span, u8 fxvol) {
+static inline void MixParameterInner(u32 stid, u8 vol, u8 pan, u8 span, u8 fxvol) {
     u32 i;
     hwDisableIrq();
     i = GetPrivateIndex(stid);
     if (i != -1) {
-        SetupVolumeAndPan2_803ABB54(&streamInfo[i], vol, pan, span, fxvol, 0);
+        SetupVolumeAndPan2(&streamInfo[i], vol, pan, span, fxvol, 0);
         SetHWMix(&streamInfo[i]);
         if (streamInfo[i].nextStreamHandle != 0xffffffff) {
             sndStreamMixParameter(streamInfo[i].nextStreamHandle, vol, pan, span, fxvol);
@@ -551,12 +500,12 @@ void sndStreamMixParameter(u32 stid, u8 vol, u8 pan, u8 span, u8 fxvol) {
     u32 i;
 
     hwDisableIrq();
-    i = GetPrivateIndex_803ABB54(stid);
+    i = GetPrivateIndexInline(stid);
     if (i != -1) {
-        SetupVolumeAndPan_803ABB54(&streamInfo[i], vol, pan, span, fxvol, 0);
+        SetupVolumeAndPan(&streamInfo[i], vol, pan, span, fxvol, 0);
         SetHWMix(&streamInfo[i]);
         if (streamInfo[i].nextStreamHandle != 0xffffffff) {
-            MixParameterInner_803ABB54(streamInfo[i].nextStreamHandle, vol, pan, span, fxvol);
+            MixParameterInner(streamInfo[i].nextStreamHandle, vol, pan, span, fxvol);
         }
     }
     hwEnableIrq();
@@ -567,53 +516,12 @@ void sndStreamMixParameter(u32 stid, u8 vol, u8 pan, u8 span, u8 fxvol) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline u32 GetPrivateIndex_803ABECC(u32 publicID) {
-    u32 i;
-    for (i = 0; i < 64; ++i) {
-        if (streamInfo[i].state != 0 && publicID == streamInfo[i].stid) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-static inline void CheckOutputMode_803ABECC(u8 *pan, u8 *span) {
-    if (synthFlags & 1) {
-        *pan = 64;
-        *span = 0;
-    } else if (!(synthFlags & 2)) {
-        *span = 0;
-    }
-}
-
-static inline void SetupVolumeAndPan_803ABECC(STREAM_INFO *si, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb) {
-    si->orgPan = pan;
-    si->orgSPan = span;
-    CheckOutputMode_803ABECC(&pan, &span);
-    si->vol = vol;
-    si->pan = pan;
-    si->span = span;
-    si->auxa = auxa;
-    si->auxb = auxb;
-}
-
-static inline void SetupVolumeAndPan2_803ABECC(STREAM_INFO *si, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb) {
-    si->orgPan = pan;
-    si->orgSPan = span;
-    CheckOutputMode((s8 *)&pan, (s8 *)&span);
-    si->vol = vol;
-    si->pan = pan;
-    si->span = span;
-    si->auxa = auxa;
-    si->auxb = auxb;
-}
-
-static inline void MixParameterInner_803ABECC(u32 stid, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb) {
+static inline void MixParameterExInner(u32 stid, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb) {
     u32 i;
     hwDisableIrq();
     i = GetPrivateIndex(stid);
     if (i != -1) {
-        SetupVolumeAndPan2_803ABECC(&streamInfo[i], vol, pan, span, auxa, auxb);
+        SetupVolumeAndPan2(&streamInfo[i], vol, pan, span, auxa, auxb);
         if (streamInfo[i].state == 2) {
             SetHWMix(&streamInfo[i]);
         }
@@ -628,14 +536,14 @@ void sndStreamMixParameterEx(u32 stid, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb
     u32 i;
 
     hwDisableIrq();
-    i = GetPrivateIndex_803ABECC(stid);
+    i = GetPrivateIndexInline(stid);
     if (i != -1) {
-        SetupVolumeAndPan_803ABECC(&streamInfo[i], vol, pan, span, auxa, auxb);
+        SetupVolumeAndPan(&streamInfo[i], vol, pan, span, auxa, auxb);
         if (streamInfo[i].state == 2) {
             SetHWMix(&streamInfo[i]);
         }
         if (streamInfo[i].nextStreamHandle != 0xffffffff) {
-            MixParameterInner_803ABECC(streamInfo[i].nextStreamHandle, vol, pan, span, auxa, auxb);
+            MixParameterExInner(streamInfo[i].nextStreamHandle, vol, pan, span, auxa, auxb);
         }
     }
     hwEnableIrq();
@@ -645,17 +553,7 @@ void sndStreamMixParameterEx(u32 stid, u8 vol, u8 pan, u8 span, u8 auxa, u8 auxb
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline u32 GetPrivateIndex_803AC268(u32 publicID) {
-    u32 i;
-    for (i = 0; i < 64; ++i) {
-        if (streamInfo[i].state != 0 && publicID == streamInfo[i].stid) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-static inline void FrqInner_803AC268(u32 stid, u32 frq) {
+static inline void FrqInner(u32 stid, u32 frq) {
     u32 i;
     u16 pitch;
 
@@ -678,14 +576,14 @@ void sndStreamFrq(u32 stid, u32 frq) {
     u16 pitch;
 
     hwDisableIrq();
-    if ((i = GetPrivateIndex_803AC268(stid)) != -1) {
+    if ((i = GetPrivateIndexInline(stid)) != -1) {
         streamInfo[i].frq = frq;
         if (streamInfo[i].state == 2) {
             pitch = (4096.f * frq) / synthInfo.mixFrq;
             hwSetPitch(streamInfo[i].voice, pitch);
         }
         if (streamInfo[i].nextStreamHandle != 0xffffffff) {
-            FrqInner_803AC268(streamInfo[i].nextStreamHandle, frq);
+            FrqInner(streamInfo[i].nextStreamHandle, frq);
         }
     }
     hwEnableIrq();
@@ -695,17 +593,7 @@ void sndStreamFrq(u32 stid, u32 frq) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline u32 GetPrivateIndex_803AC510(u32 publicID) {
-    u32 i;
-    for (i = 0; i < 64; ++i) {
-        if (streamInfo[i].state != 0 && publicID == streamInfo[i].stid) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-static inline void FreeInner_803AC510(u32 stid) {
+static inline void FreeInner(u32 stid) {
     u32 i;
     hwDisableIrq();
     i = GetPrivateIndex(stid);
@@ -723,12 +611,12 @@ static inline void FreeInner_803AC510(u32 stid) {
 void sndStreamFree(u32 stid) {
     u32 i;
     hwDisableIrq();
-    i = GetPrivateIndex_803AC510(stid);
+    i = GetPrivateIndexInline(stid);
     if (i != -1) {
         sndStreamDeactivate(stid);
         hwExitStream(streamInfo[i].hwStreamHandle);
         if (streamInfo[i].nextStreamHandle != 0xffffffff) {
-            FreeInner_803AC510(streamInfo[i].nextStreamHandle);
+            FreeInner(streamInfo[i].nextStreamHandle);
         }
         streamInfo[i].state = 0;
     }
@@ -739,22 +627,12 @@ void sndStreamFree(u32 stid) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline u32 GetPrivateIndex_803AC720(u32 publicID) {
-    u32 i;
-    for (i = 0; i < 64; ++i) {
-        if (streamInfo[i].state != 0 && publicID == streamInfo[i].stid) {
-            return i;
-        }
-    }
-    return -1;
-}
-
 u32 sndStreamActivate(u32 stid) {
     u32 i;
     u32 ret = 0;
 
     hwDisableIrq();
-    i = GetPrivateIndex_803AC720(stid);
+    i = GetPrivateIndexInline(stid);
     if (i != -1) {
         if (streamInfo[i].state == 3) {
             if ((streamInfo[i].voice = voiceBlock(streamInfo[i].prio)) == -1) {
@@ -780,17 +658,7 @@ u32 sndStreamActivate(u32 stid) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-static inline u32 GetPrivateIndex_803AC920(u32 publicID) {
-    u32 i;
-    for (i = 0; i < 64; ++i) {
-        if (streamInfo[i].state != 0 && publicID == streamInfo[i].stid) {
-            return i;
-        }
-    }
-    return -1;
-}
-
-static inline void DeactivateInner_803AC920(u32 stid) {
+static inline void DeactivateInner(u32 stid) {
     u32 i;
     hwDisableIrq();
     i = GetPrivateIndex(stid);
@@ -809,14 +677,14 @@ static inline void DeactivateInner_803AC920(u32 stid) {
 void sndStreamDeactivate(u32 stid) {
     u32 i;
     hwDisableIrq();
-    i = GetPrivateIndex_803AC920(stid);
+    i = GetPrivateIndexInline(stid);
     if (i != -1) {
         if (streamInfo[i].state == 1 || streamInfo[i].state == 2) {
             voiceUnblock(streamInfo[i].voice);
             streamInfo[i].state = 3;
         }
         if (streamInfo[i].nextStreamHandle != 0xffffffff) {
-            DeactivateInner_803AC920(streamInfo[i].nextStreamHandle);
+            DeactivateInner(streamInfo[i].nextStreamHandle);
         }
     }
     hwEnableIrq();

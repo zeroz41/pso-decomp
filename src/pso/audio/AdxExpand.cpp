@@ -81,14 +81,6 @@ static inline s32 adx_expand_get_state_impl(const void *ptr) {
     return ((const AdxDecoderChannel *)ptr)->state;
 }
 
-static inline void adx_expand_clear_impl(void *ptr) {
-    AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
-    if (ch != NULL) {
-        ch->used = 0;
-        memset(ch, 0, sizeof(AdxDecoderChannel));
-    }
-}
-
 static inline void adx_expand_calc_coeffs_impl(void *ptr, s32 rate, s32 cutoff) {
     AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
     calc_adx_predictor_coeffs(cutoff, rate, &ch->coef_k0, &ch->coef_k1);
@@ -97,31 +89,30 @@ static inline void adx_expand_calc_coeffs_impl(void *ptr, s32 rate, s32 cutoff) 
 extern "C" {
 s32 adx_expand_odd_result_flag;
 
-void TLobby::update_receive_check() {
+void AdxDecoderChannel::update_receive_check() {
     adx_expand_update_impl(this);
 }
 
-s32 TLobby::get_size() {
+s32 AdxDecoderChannel::get_decoded_count() {
     return adx_expand_get_size_impl(this);
 }
 
-void TLobby::reset_field_0C() {
+void AdxDecoderChannel::clear_done_state() {
     adx_expand_reset_state_impl(this);
 }
 
-void TLobby::reset_client_state() {
+void AdxDecoderChannel::reset_client_state() {
     adx_expand_reset_client_impl(this);
 }
 
-void TLobby__sub_803CB4A4(u8 *channel_buf) {
-    AdxDecoderChannel *ch = (AdxDecoderChannel *)channel_buf;
-    if (ch->state == 0) {
-        ch->decoded_count = 0;
-        ch->state = 1;
+void TLobby__sub_803CB4A4(AdxDecoderChannel *channel) {
+    if (channel->state == 0) {
+        channel->decoded_count = 0;
+        channel->state = 1;
     }
 }
 
-s32 TLobby::post_request(s32 src, s32 nblk, s32 out_left, s32 out_right) {
+s32 AdxDecoderChannel::post_request(s32 src, s32 nblk, s32 out_left, s32 out_right) {
     if (adx_expand_is_idle_impl(this)) {
         adx_expand_set_stereo_impl(this, src, nblk, out_left, out_right);
         return 1;
@@ -129,7 +120,7 @@ s32 TLobby::post_request(s32 src, s32 nblk, s32 out_left, s32 out_right) {
     return 0;
 }
 
-s32 TLobby::try_post_command(s32 src, s32 nblk, s32 out_buf) {
+s32 AdxDecoderChannel::try_post_command(s32 src, s32 nblk, s32 out_buf) {
     if (adx_expand_is_idle_impl(this)) {
         adx_expand_set_mono_impl(this, src, nblk, out_buf);
         return 1;
@@ -137,26 +128,28 @@ s32 TLobby::try_post_command(s32 src, s32 nblk, s32 out_buf) {
     return 0;
 }
 
-s32 TLobby::get_client_count() {
+s32 AdxDecoderChannel::get_state() {
     return adx_expand_get_state_impl(this);
 }
 
-void TLobby::clear_record_data() {
-    adx_expand_clear_impl(this);
+void AdxDecoderChannel::clear_record_data() {
+    if (this != NULL) {
+        used = 0;
+        memset(this, 0, sizeof(AdxDecoderChannel));
+    }
 }
 
-void TLobby__sub_803CB570(u8 *channel_buf, u8 *header, s16 *out_coefs) {
-    AdxDecoderChannel *ch = (AdxDecoderChannel *)channel_buf;
+void TLobby__sub_803CB570(AdxDecoderChannel *channel, u8 *header, s16 *out_coefs) {
     s16 *header_samples = (s16 *)header;
-    ch->delay_samples[0] = header_samples[0];
-    ch->delay_samples[1] = *out_coefs;
-    ch->delay_samples[2] = header_samples[1];
-    ch->delay_samples[2] = header_samples[1];
+    channel->delay_samples[0] = header_samples[0];
+    channel->delay_samples[1] = *out_coefs;
+    channel->delay_samples[2] = header_samples[1];
+    channel->delay_samples[2] = header_samples[1];
 }
 
 #pragma push
 #pragma fp_contract on
-void TLobby::calc_adx_coeffs_at_offset(s32 rate, s32 cutoff) {
+void AdxDecoderChannel::calc_adx_coeffs_at_offset(s32 rate, s32 cutoff) {
     adx_expand_calc_coeffs_impl(this, rate, cutoff);
 }
 #pragma pop
@@ -184,7 +177,7 @@ AdxDecoderChannel *adx_allocate_decoder_channel(void) {
     return c;
 }
 
-void TLobby::clear_buffer_340() {
+void AdxDecoderChannel::clear_pool() {
     memset(adx_decoder_channel_pool, 0, sizeof(adx_decoder_channel_pool));
 }
 

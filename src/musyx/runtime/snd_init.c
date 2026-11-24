@@ -1,4 +1,4 @@
-#include "musyx/runtime/musyx_runtime_a.h"
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 
@@ -11,7 +11,7 @@ static inline s32 DoInit(u32 mixFrq, uaddr aramSize, u32 numVoices, u32 flags) {
     u32 ret;
     ret = 0;
     dataInitStack();
-    dataInit(0, (void *)aramSize);
+    dataInit(0, aramSize);
     seqInit();
     synthIdleWaitActive = 0;
     synthInit(mixFrq, numVoices);

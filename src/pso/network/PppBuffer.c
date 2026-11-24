@@ -11,19 +11,18 @@
 
 #include "pso/network/NetStackTypes.h"
 
-s32 TLobby__sub_803F79BC(void *);
 #include "pso/network/PppBuffer.h"
 
 void init_net_state_c(void) {
-    TLobby__sub_803F79BC(&lbl_805C04A8);
+    term_ppp_buffers_config(&ppp_buffers);
 }
 
 s32 init_net_subsystem_block(void) {
-    init_net_buffer_desc(&lbl_805C04A8);
+    init_net_buffer_desc(&ppp_buffers);
     return 0;
 }
 
-s32 TLobby__sub_80401ABC(u8* self_m, void* dst, s32 n)
+s32 ppp_buffer_copy_out(u8* self_m, void* dst, s32 n)
 {
     void NetMemcpy(void*, const void*, s16);
     s32 m; u16 cap; u32 t;
@@ -39,8 +38,8 @@ s32 TLobby__sub_80401ABC(u8* self_m, void* dst, s32 n)
 }
 
 #pragma opt_propagation off
-PppFrame *TLobby__sub_80401B20(void *src, u16 n) {
-    PppBuffers *g = &lbl_805C04A8;
+PppFrame *ppp_buffer_from_bytes(void *src, u16 n) {
+    PppBuffers *g = &ppp_buffers;
     PppFrame *t = g->packet;
     PppFrame *e;
     t->data = (u8 *)t + ((g->headroom + 0x83) & ~3);
@@ -93,7 +92,7 @@ s16 ppp_buffer_read(void *self, void *dst, u16 n) {
     return total;
 }
 
-void TLobby__sub_80401CAC(PppFrame **o, u16 v) {
+void ppp_buffer_truncate(PppFrame **o, u16 v) {
     if (o == NULL || *o == NULL) return;
     if (v == 0) return;
     if ((*o)->len < v) return;
@@ -107,7 +106,7 @@ u32 get_field_4(PppFrame *frame) {
 #pragma push
 #pragma opt_propagation off
 PppFrame *init_net_buffer_entry(u16 idx) {
-    PppBuffers *g = &lbl_805C04A8;
+    PppBuffers *g = &ppp_buffers;
     PppFrame *t = (PppFrame *)(g->pool + idx * g->pool_words * 4);
     PppFrame *e;
     e = (PppFrame *)(g->pool + idx * g->pool_words * 4);
@@ -117,4 +116,4 @@ PppFrame *init_net_buffer_entry(u16 idx) {
 }
 #pragma pop
 
-PppBuffers lbl_805C04A8;
+PppBuffers ppp_buffers;

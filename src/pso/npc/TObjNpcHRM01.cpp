@@ -35,7 +35,7 @@ void TObjNpcHRM01::free_shared_objects() {
 
 void TObjNpcHRM01::load_resources() {
     shared_object_resource = static_cast<void **>(create_named_object("npc_d01_data.rel"));
-    body_texture_gvm_handle = load_gvm_texture_file("n_d01_e_body.gvm");
+    body_texture_gvm_handle = LoadPvmFileTls("n_d01_e_body.gvm");
 }
 
 TObjNpcHRM01::~TObjNpcHRM01() {}

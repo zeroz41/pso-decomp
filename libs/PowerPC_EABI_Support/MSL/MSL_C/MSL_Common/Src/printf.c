@@ -1,7 +1,3 @@
-#define __FileWrite printf___FileWrite
-#define __StringWrite printf___StringWrite
-#define round_decimal printf_round_decimal
-
 #include "MSL_C/printf.h"
 #include "MSL_C/ansi_fp.h"
 #include "MSL_C/direct_io.h"
@@ -11,7 +7,6 @@
 #include "MSL_C/string.h"
 #include "MSL_C/wchar_io.h"
 
-extern void __num2dec(const decform*, double, decimal*);
 
 #define TARGET_FLOAT_BITS 64
 #define TARGET_FLOAT_BYTES (TARGET_FLOAT_BITS / 8)
@@ -62,7 +57,7 @@ static const char* parse_format(const char* format_string, va_list* arg, print_f
     if ((c = *++s) == '%') {
         f.conversion_char = c;
         *format = f;
-        return ((const char*)s + 1);
+        return s + 1;
     }
 
     for (;;) {
@@ -117,7 +112,7 @@ static const char* parse_format(const char* format_string, va_list* arg, print_f
     if (f.field_width > 509) {
         f.conversion_char = 0xFF;
         *format = f;
-        return ((const char*)s + 1);
+        return s + 1;
     }
 
     if (c == '.') {
@@ -277,7 +272,7 @@ static const char* parse_format(const char* format_string, va_list* arg, print_f
     }
 
     *format = f;
-    return ((const char*)s + 1);
+    return s + 1;
 }
 
 static char* long2str(signed long num, char* buff, print_format format) {
@@ -487,7 +482,7 @@ static char* longlong2str(signed long long num, char* pBuf, print_format fmt) {
 static char * double2hex(long double num, char * buff, print_format format)  {
     char *p;
     unsigned char *q;
-    unsigned char temp_r7;
+    unsigned char byte;
     char working_byte;
     long double ld;
     long exp;
@@ -554,11 +549,11 @@ static char * double2hex(long double num, char * buff, print_format format)  {
     q = (unsigned char*) &num;
 
     for (hex_precision = format.precision; hex_precision >= 1; hex_precision--) {
-        temp_r7 = *(q + (hex_precision / 2 + 1));
+        byte = *(q + (hex_precision / 2 + 1));
         if (hex_precision % 2) {
-            working_byte = temp_r7 & 0xF;
+            working_byte = byte & 0xF;
         } else {
-            working_byte = (temp_r7 >> 4);
+            working_byte = (byte >> 4);
         }
 
         if (working_byte < 10) {
@@ -1182,7 +1177,7 @@ int printf(const char* format, ...) {
     {
         va_list args;
         va_start(args, format);
-        res = __pformatter(&__FileWrite, (void*)stdout, format, args);
+        res = __pformatter(&__FileWrite, stdout, format, args);
     }
 
     return res;
@@ -1195,7 +1190,7 @@ int vprintf(const char* format, va_list arg) {
         return -1;
     }
 
-    ret = __pformatter(&__FileWrite, (void*)stdout, format, arg);
+    ret = __pformatter(&__FileWrite, stdout, format, arg);
     return ret;
 }
 

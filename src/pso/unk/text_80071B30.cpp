@@ -11,6 +11,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeModeState.h"
 
 struct Hdr_80071BC0 { u32 a, b; };
 
@@ -27,8 +28,6 @@ typedef ChallengeTechniqueLevel Pair_80071BC0;
 typedef ChallengeStageStart Tbl_80071BC0;
 
 extern "C" {
-s32 *TWindowSubStatusDisp__sub_8006F0D8(void *);
-extern u8 challenge_mode_state[];
 void copy_player_visual_record(void *, void *);
 void set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(TObjPlayer *, u8, s16);
 extern s32 local_client_id;
@@ -36,11 +35,11 @@ s32 TLobby__sub_80071B30(s32 arg0, s32 slot) {
     s32 *list;
     s32 n;
     s32 i;
-    s32 *q = (s32 *)(challenge_mode_state + arg0 * 0x104 + 0x270);
-    if (q[0] == 0) {
+    ChallengeClientRecords *r = &challenge_mode_state.client_records[arg0];
+    if (r->present == 0) {
         return 0;
     }
-    list = TWindowSubStatusDisp__sub_8006F0D8(q + 1);
+    list = TWindowSubStatusDisp__sub_8006F0D8(&r->records, slot);
     n = TWindowSubStatusDisp::get_layout_id(slot);
     for (i = 0; i < n; i++) {
         if (list[i] == 0) {

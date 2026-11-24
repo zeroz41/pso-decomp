@@ -9,7 +9,7 @@ s32 TKeyBoardControl__polling_channel_mask;
 void OSClearContext(void *);
 void OSSetCurrentContext(void *);
 
-void fn_803F1804(s32 arg0, void *arg1) {
+void call_si_polling_callback(s32 arg0, void *arg1) {
     u8 ctx[0x2C8];
     if (si_polling_callback != 0) {
         OSClearContext(ctx);
@@ -20,14 +20,14 @@ void fn_803F1804(s32 arg0, void *arg1) {
     }
 }
 
-uaddr fn_803F1864(uaddr arg0) {
+uaddr set_si_polling_callback(uaddr arg0) {
     uaddr temp_r31;
     temp_r31 = si_polling_callback;
     si_polling_callback = arg0;
     if (arg0 != 0U) {
-        SIRegisterPollingHandler((void *) (((s32 *)fn_803F1804)));
+        SIRegisterPollingHandler((void *) (((s32 *)call_si_polling_callback)));
     } else {
-        SIUnregisterPollingHandler((void *) (((s32 *)fn_803F1804)));
+        SIUnregisterPollingHandler((void *) (((s32 *)call_si_polling_callback)));
     }
     return temp_r31;
 }

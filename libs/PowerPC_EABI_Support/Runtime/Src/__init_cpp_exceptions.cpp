@@ -6,12 +6,7 @@ extern char* GetR2(void);
 extern "C" {
 #endif
 
-typedef struct __eti_init_info {
-    void* eti_start;
-    void* eti_end;
-    void* code_start;
-    unsigned long code_size;
-} __eti_init_info;
+#include "PowerPC_EABI_Support/Runtime/Inc/__ppc_eabi_linker.h"
 
 __declspec(section ".init") extern __eti_init_info _eti_init_info[];
 

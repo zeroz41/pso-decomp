@@ -1,10 +1,3 @@
-
-
-#define F23 GBAKey_F23
-#define F25 GBAKey_F25
-#define __GBA lbl_805D2200
-#define ucode lbl_804FDC78
-
 #include "gba/__gba.h"
 #include <string.h>
 

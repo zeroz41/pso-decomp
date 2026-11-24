@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+extern u32 lobby_net_config_mode;
+
 s32 update_network_info_request(void);
 
 // --- C functions defined in text_803F3BF8.cpp ---

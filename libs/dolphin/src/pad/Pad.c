@@ -1,36 +1,3 @@
-
-
-#define AnalogMode lbl_805D4560
-#define Type lbl_80544930
-#define CmdProbeDevice lbl_80544970
-#define CheckingBits lbl_805D7204
-#define CmdCalibrate lbl_805D4570
-#define CmdReadOrigin lbl_805D456C
-#define EnabledBits lbl_805D71F4
-#define Initialized lbl_805D71F0
-#define MakeStatus lbl_805D4568
-#define OnReset Pad_OnReset
-#define Origin lbl_80544940
-#define PADOriginCallback Pad_PADOriginCallback
-#define PADOriginUpdateCallback Pad_PADOriginUpdateCallback
-#define PADProbeCallback Pad_PADProbeCallback
-#define PADReceiveCheckCallback Pad_PADReceiveCheckCallback
-#define PADTypeAndStatusCallback Pad_PADTypeAndStatusCallback
-#define PendingBits lbl_805D7208
-#define RecalibrateBits lbl_805D71FC
-#define ResetFunctionInfo lbl_804F4AC8
-#define ResettingBits lbl_805D71F8
-#define ResettingChan lbl_805D4558
-#define SPEC0_MakeStatus Pad_SPEC0_MakeStatus
-#define SPEC1_MakeStatus Pad_SPEC1_MakeStatus
-#define SPEC2_MakeStatus Pad_SPEC2_MakeStatus
-#define SamplingCallback lbl_805D720C
-#define SamplingHandler Pad_SamplingHandler
-#define Spec lbl_805D4564
-#define UpdateOrigin Pad_UpdateOrigin
-#define WaitingBits lbl_805D7200
-#define XPatchBits lbl_805D455C
-#define __PADFixBits lbl_805D7CE8
 #include <dolphin.h>
 #include <dolphin/pad.h>
 #include <dolphin/si.h>
@@ -44,29 +11,14 @@ static void PADProbeCallback(s32 chan, u32 error, OSContext *context);
 static void PADDisable(s32 chan);
 static void UpdateOrigin(s32 chan);
 static void PADOriginCallback(s32 chan, u32 error, OSContext *context);
-int PADReset(u32 mask);
-BOOL PADRecalibrate(u32 mask);
-BOOL PADInit();
 static void PADReceiveCheckCallback(s32 chan, u32 error);
-u32 PADRead(PADStatus* status);
-void PADSetSamplingRate(u32 msec);
-void __PADTestSamplingRate(u32 tvmode);
-void PADControlAllMotors(const u32 *commandArray);
-void PADControlMotor(s32 chan, u32 command);
-void PADSetSpec(u32 spec);
-u32 PADGetSpec();
 static void SPEC0_MakeStatus(s32 chan, PADStatus *status, u32 data[2]);
 static void SPEC1_MakeStatus(s32 chan, PADStatus *status, u32 data[2]);
 static s8 ClampS8(s8 var, s8 org);
 static u8 ClampU8(u8 var, u8 org);
 static void SPEC2_MakeStatus(s32 chan, PADStatus *status, u32 data[2]);
-BOOL PADGetType(s32 chan, u32 * type);
-BOOL PADSync(void);
-void PADSetAnalogMode(u32 mode);
 static BOOL OnReset(BOOL f);
 static void PADTypeAndStatusCallback(s32 chan, u32 type);
-void __PADDisableXPatch(void);
-BOOL __PADDisableRecalibration(BOOL disable);
 
 #define LATENCY 8
 
@@ -652,7 +604,7 @@ static void SPEC2_MakeStatus(s32 chan, PADStatus *status, u32 data[2]) {
 
 
 BOOL PADSync(void) {
-    return ResettingBits == 0 && (s32)ResettingChan == 32 && !SIBusy();
+    return ResettingBits == 0 && ResettingChan == 32 && !SIBusy();
 }
 
 

@@ -1,6 +1,4 @@
 #define _MATH_H_
-#define TRKRequestSend Runtime_TRKRequestSend
-#define TRKSuppAccessFile Runtime_TRKSuppAccessFile
 
 #include "PowerPC_EABI_Support/MetroTRK/trk.h"
 
@@ -100,7 +98,7 @@ DSError TRKSuppAccessFile(u32 file_handle, u8* data, size_t* count,
 	return error;
 }
 
-DSError TRKRequestSend(TRKBuffer* msgBuf, int* bufferId, u32 p1, u32 p2, int p3)
+DSError TRKRequestSend(TRKBuffer* msgBuf, int* bufferId, u32 expectedReplySize, u32 maxRetries, int useTimeout)
 {
 	int error = DS_NoError;
 	TRKBuffer* buffer;
@@ -112,11 +110,11 @@ DSError TRKRequestSend(TRKBuffer* msgBuf, int* bufferId, u32 p1, u32 p2, int p3)
 
 	*bufferId = -1;
 
-	for (tries = p2 + 1; tries != 0 && *bufferId == -1 && error == DS_NoError;
+	for (tries = maxRetries + 1; tries != 0 && *bufferId == -1 && error == DS_NoError;
 	     tries--) {
 		error = TRKMessageSend(msgBuf);
 		if (error == DS_NoError) {
-			if (p3) {
+			if (useTimeout) {
 				timer = 0;
 			}
 
@@ -125,7 +123,7 @@ DSError TRKRequestSend(TRKBuffer* msgBuf, int* bufferId, u32 p1, u32 p2, int p3)
 					*bufferId = TRKTestForPacket();
 					if (*bufferId != -1)
 						break;
-				} while (!p3 || ++timer < 79999980);
+				} while (!useTimeout || ++timer < 79999980);
 
 				if (*bufferId == -1)
 					break;
@@ -147,7 +145,7 @@ DSError TRKRequestSend(TRKBuffer* msgBuf, int* bufferId, u32 p1, u32 p2, int p3)
 			}
 
 			if (*bufferId != -1) {
-				if (buffer->length < p1) {
+				if (buffer->length < expectedReplySize) {
 					badReply = TRUE;
 				}
 				if (error == DS_NoError && !badReply) {
@@ -174,113 +172,113 @@ DSError TRKRequestSend(TRKBuffer* msgBuf, int* bufferId, u32 p1, u32 p2, int p3)
 	return error;
 }
 
-DSError HandleOpenFileSupportRequest(const char* path, u8 replyError, u32* param_3, u8* ioResult) {
-    int sp10;
-    int spC;
-    TRKBuffer* sp8;
-    TRKBuffer* var_r31;
-    DSError var_r26;
+DSError HandleOpenFileSupportRequest(const char* path, u8 replyError, u32* fileHandle, u8* ioResult) {
+    int replyBufferId;
+    int bufferId;
+    TRKBuffer* buffer;
+    TRKBuffer* replyBuffer;
+    DSError error;
 
-    *param_3 = 0;
-    var_r26 = TRKGetFreeBuffer(&spC, &sp8);
-    if (var_r26 == DS_NoError) {
-        var_r26 = TRKAppendBuffer1_ui8(sp8, 0xD2);
+    *fileHandle = 0;
+    error = TRKGetFreeBuffer(&bufferId, &buffer);
+    if (error == DS_NoError) {
+        error = TRKAppendBuffer1_ui8(buffer, 0xD2);
     }
-    if (var_r26 == DS_NoError) {
-        var_r26 = TRKAppendBuffer1_ui8(sp8, replyError);
+    if (error == DS_NoError) {
+        error = TRKAppendBuffer1_ui8(buffer, replyError);
     }
-    if (var_r26 == DS_NoError) {
-        var_r26 = TRKAppendBuffer1_ui16(sp8, strlen(path) + 1);
+    if (error == DS_NoError) {
+        error = TRKAppendBuffer1_ui16(buffer, strlen(path) + 1);
     }
-    if (var_r26 == DS_NoError) {
-        var_r26 = TRKAppendBuffer_ui8(sp8, (u8*) path, strlen(path) + 1);
+    if (error == DS_NoError) {
+        error = TRKAppendBuffer_ui8(buffer, (u8*) path, strlen(path) + 1);
     }
-    if (var_r26 == DS_NoError) {
+    if (error == DS_NoError) {
         *ioResult = 0;
-        var_r26 = TRKRequestSend(sp8, &sp10, 7, 3, 0);
-        if (var_r26 == DS_NoError) {
-            var_r31 = TRKGetBuffer(sp10);
-            TRKSetBufferPosition(var_r31, 2);
+        error = TRKRequestSend(buffer, &replyBufferId, 7, 3, 0);
+        if (error == DS_NoError) {
+            replyBuffer = TRKGetBuffer(replyBufferId);
+            TRKSetBufferPosition(replyBuffer, 2);
         }
-        if (var_r26 == DS_NoError) {
-            var_r26 = TRKReadBuffer1_ui8(var_r31, ioResult);
+        if (error == DS_NoError) {
+            error = TRKReadBuffer1_ui8(replyBuffer, ioResult);
         }
-        if (var_r26 == DS_NoError) {
-            var_r26 = TRKReadBuffer1_ui32(var_r31, param_3);
+        if (error == DS_NoError) {
+            error = TRKReadBuffer1_ui32(replyBuffer, fileHandle);
         }
-        TRKReleaseBuffer(sp10);
+        TRKReleaseBuffer(replyBufferId);
     }
-    TRKReleaseBuffer(spC);
-    return var_r26;
+    TRKReleaseBuffer(bufferId);
+    return error;
 }
 
-DSError HandleCloseFileSupportRequest(int replyError, u8* ioResult) {
-    int sp10;
-    int spC;
-    DSError var_r31;
-    TRKBuffer* sp8;
-    TRKBuffer* var_r30;
+DSError HandleCloseFileSupportRequest(int fileHandle, u8* ioResult) {
+    int replyBufferId;
+    int bufferId;
+    DSError error;
+    TRKBuffer* buffer;
+    TRKBuffer* replyBuffer;
 
-    var_r31 = TRKGetFreeBuffer(&spC, &sp8);
-    if (var_r31 == DS_NoError) {
-        var_r31 = TRKAppendBuffer1_ui8(sp8, 0xD3);
+    error = TRKGetFreeBuffer(&bufferId, &buffer);
+    if (error == DS_NoError) {
+        error = TRKAppendBuffer1_ui8(buffer, 0xD3);
     }
-    if (var_r31 == DS_NoError) {
-        var_r31 = TRKAppendBuffer1_ui32(sp8, replyError);
+    if (error == DS_NoError) {
+        error = TRKAppendBuffer1_ui32(buffer, fileHandle);
     }
-    if (var_r31 == DS_NoError) {
+    if (error == DS_NoError) {
         *ioResult = DS_IONoError;
-        var_r31 = TRKRequestSend(sp8, &sp10, 3, 3, 0);
-        if (var_r31 == DS_NoError) {
-            var_r30 = TRKGetBuffer(sp10);
-            TRKSetBufferPosition(var_r30, 2);
+        error = TRKRequestSend(buffer, &replyBufferId, 3, 3, 0);
+        if (error == DS_NoError) {
+            replyBuffer = TRKGetBuffer(replyBufferId);
+            TRKSetBufferPosition(replyBuffer, 2);
         }
-        if (var_r31 == DS_NoError) {
-            var_r31 = TRKReadBuffer1_ui8(var_r30, ioResult);
+        if (error == DS_NoError) {
+            error = TRKReadBuffer1_ui8(replyBuffer, ioResult);
         }
-        TRKReleaseBuffer(sp10);
+        TRKReleaseBuffer(replyBufferId);
     }
-    TRKReleaseBuffer(spC);
-    return var_r31;
+    TRKReleaseBuffer(bufferId);
+    return error;
 }
 
-DSError HandlePositionFileSupportRequest(u32 replyErr, u32* param_2, u8 param_3, u8* ioResult) {
-    int sp10;
-    int spC;
-    TRKBuffer* sp8;
-    TRKBuffer* var_r31;
-    DSError var_r27;
+DSError HandlePositionFileSupportRequest(u32 fileHandle, u32* position, u8 mode, u8* ioResult) {
+    int replyBufferId;
+    int bufferId;
+    TRKBuffer* buffer;
+    TRKBuffer* replyBuffer;
+    DSError error;
 
-    var_r27 = TRKGetFreeBuffer(&spC, &sp8);
-    if (var_r27 == DS_NoError) {
-        var_r27 = TRKAppendBuffer1_ui8(sp8, 0xD4);
+    error = TRKGetFreeBuffer(&bufferId, &buffer);
+    if (error == DS_NoError) {
+        error = TRKAppendBuffer1_ui8(buffer, 0xD4);
     }
-    if (var_r27 == DS_NoError) {
-        var_r27 = TRKAppendBuffer1_ui32(sp8, replyErr);
+    if (error == DS_NoError) {
+        error = TRKAppendBuffer1_ui32(buffer, fileHandle);
     }
-    if (var_r27 == DS_NoError) {
-        var_r27 = TRKAppendBuffer1_ui32(sp8, *param_2);
+    if (error == DS_NoError) {
+        error = TRKAppendBuffer1_ui32(buffer, *position);
     }
-    if (var_r27 == DS_NoError) {
-        var_r27 = TRKAppendBuffer1_ui8(sp8, param_3);
+    if (error == DS_NoError) {
+        error = TRKAppendBuffer1_ui8(buffer, mode);
     }
-    if (var_r27 == DS_NoError) {
+    if (error == DS_NoError) {
         *ioResult = DS_IONoError;
-        var_r27 = TRKRequestSend(sp8, &sp10, 3, 3, 0);
-        if (var_r27 == DS_NoError) {
-            var_r31 = TRKGetBuffer(sp10);
-            TRKSetBufferPosition(var_r31, 2);
+        error = TRKRequestSend(buffer, &replyBufferId, 3, 3, 0);
+        if (error == DS_NoError) {
+            replyBuffer = TRKGetBuffer(replyBufferId);
+            TRKSetBufferPosition(replyBuffer, 2);
         }
-        if (var_r27 == DS_NoError) {
-            var_r27 = TRKReadBuffer1_ui8(var_r31, ioResult);
+        if (error == DS_NoError) {
+            error = TRKReadBuffer1_ui8(replyBuffer, ioResult);
         }
-        if (var_r27 == DS_NoError) {
-            var_r27 = TRKReadBuffer1_ui32(var_r31, param_2);
+        if (error == DS_NoError) {
+            error = TRKReadBuffer1_ui32(replyBuffer, position);
         } else {
-            *param_2 = -1;
+            *position = -1;
         }
-        TRKReleaseBuffer(sp10);
+        TRKReleaseBuffer(replyBufferId);
     }
-    TRKReleaseBuffer(spC);
-    return var_r27;
+    TRKReleaseBuffer(bufferId);
+    return error;
 }

@@ -16,6 +16,7 @@
 #pragma push
 
 #include "types.h"
+#include "pso/render/gjSystem.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/ui/frontend/TAdBackGC.h"
 #include "pso/system/PadRumble.h"
@@ -79,7 +80,6 @@ s8 func_801A5E54__Fv();
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern "C" {
-s32 func_803DCDFC__Fv();
 s32 run_load_callback_table(void *, int);
 s32 reset_controller_input_state();
 s32 __ct__15TWindowCtrlMainFv(u32);
@@ -367,7 +367,7 @@ void TAdSinglePlyChrSelectGC__sub_8033B264(void) {
 }
 
 void TAdSinglePlyChrSelectGC::run_frame() {
-    func_803DCDFC__Fv();
+    begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
     Vec a = lbl_80477D78;

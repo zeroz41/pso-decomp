@@ -39,7 +39,7 @@ void TObjNpcARW00::free_resources() {
 
 void TObjNpcARW00::load_resources() {
     static_model = static_cast<void **>(create_named_object("npc_f00_data.rel"));
-    gvm_texture_handle = load_gvm_texture_file("n_f00_w_body.gvm");
+    gvm_texture_handle = LoadPvmFileTls("n_f00_w_body.gvm");
 }
 
 TObjNpcARW00::~TObjNpcARW00() {}

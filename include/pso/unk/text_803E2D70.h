@@ -14,8 +14,10 @@ struct ProjectedStripVertex {
 LAYOUT_ASSERT(ProjectedStripVertex_size, sizeof(ProjectedStripVertex) == 0x18);
 
 extern "C" {
+// Ends a strip drawn after begin_screen_textured_draw.
+void end_screen_textured_draw(void);
 void draw_projected_textured_strip(ProjectedStripVertex *vertices, s32 count);
-void TLobby__sub_803E2EE4(s32 blended);
+void begin_screen_textured_draw(s32 blended);
 }
 
 #endif

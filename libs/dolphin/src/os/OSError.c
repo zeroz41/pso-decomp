@@ -8,9 +8,6 @@
 
 OSErrorHandler __OSErrorTable[OS_ERROR_MAX];
 
-extern volatile __OSInterrupt __OSLastInterrupt;
-extern volatile u32 __OSLastInterruptSrr0;
-extern volatile OSTime __OSLastInterruptTime;
 
 __declspec(weak) void OSReport(char* msg, ...) {
     va_list marker;

@@ -9,13 +9,10 @@
 #include "pso/network/NetTcpState.h"
 #include "pso/network/text_80421620.h"
 
-typedef struct Hdr_80420DE4 { u16 src; u16 dst; u16 len; u16 sum; } Hdr_80420DE4;
-
-s16 TLobby__sub_8040D8F0(void *, void *, int, void *, int);
 UdpRuntimeState udp_runtime_state;
 
 s32 reset_stack_module(void) {
-    TLobby__sub_803F87C4(&udp_runtime_state.count);
+    term_udp_config(&udp_runtime_state.count);
     udp_runtime_state.count = 0;
     return 0;
 }
@@ -23,7 +20,7 @@ s16 init_ucb_entries(void) {
     s16 i;
     UdpControlBlock *e;
 
-    TLobby__sub_803F87C8(&udp_runtime_state);
+    init_udp_control_config(&udp_runtime_state);
     e = udp_runtime_state.entries;
     i = 0;
     while (i < udp_runtime_state.count) {
@@ -40,7 +37,7 @@ s16 init_ucb_entries(void) {
     udp_runtime_state.ephemeralPortStart = 0x400;
     return 0;
 }
-s32 TLobby__sub_80420D38(u16 src_port, u8 code) {
+s32 udp_ctlinput(u16 src_port, u8 code) {
     s16 i;
     UdpControlBlock *e;
     UdpRuntimeState *g = &udp_runtime_state;
@@ -63,26 +60,26 @@ s32 TLobby__sub_80420D38(u16 src_port, u8 code) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline void add_item_80420FC8(NetPacket *pkt, void *data, s32 len) {
+inline void append_fragment(NetPacket *pkt, void *data, s32 len) {
     s32 n = pkt->fragment_count;
     s32 off = pkt->total_bytes;
     pkt->fragments[n].length = len;
     pkt->total_bytes = off + len;
-    set_value_and_enable(&pkt->fragments[n].buffer, (saddr)data);
+    set_value_and_enable(&pkt->fragments[n].buffer, data);
     pkt->fragment_count++;
 }
 
 s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 iface) {
     NetBufferRef header;
-    Hdr_80420DE4 hdr;
+    UdpHeader hdr;
     UdpRuntimeState *g;
     s16 i;
     NetPacketFragment *frag;
     UdpControlBlock *e;
     frag = &pkt->fragments[1];
-    set_value_and_enable(&header, (saddr)&hdr);
+    set_value_and_enable(&header, &hdr);
     netbuf_copy_by_ref(&header, &frag->buffer, 8);
-    if (hdr.sum != 0 && (u16)TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 0) != 0) {
+    if (hdr.checksum != 0 && calc_transport_checksum(src, dst, 0x11, pkt, 0) != 0) {
         return -1;
     }
     g = &udp_runtime_state;
@@ -92,30 +89,30 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 ifac
         if (e->active == 0) {
             goto next;
         }
-        if (is_addr_unspecified((u8 *)&e->remoteAddress) != 0) {
+        if (is_addr_unspecified(&e->remoteAddress) != 0) {
             if (e->remoteAddress.family != 0 && e->remoteAddress.family != src->family) {
                 goto next;
             }
         } else if (compare_sockaddr(&e->remoteAddress, src) != 0) {
             goto next;
         }
-        if (is_addr_unspecified((u8 *)&e->localAddress) != 0) {
+        if (is_addr_unspecified(&e->localAddress) != 0) {
             if (e->localAddress.family != 0 && e->localAddress.family != dst->family) {
                 goto next;
             }
         } else if (compare_sockaddr(&e->localAddress, dst) != 0) {
             goto next;
         }
-        if (e->remotePort != 0 && e->remotePort != hdr.src) {
+        if (e->remotePort != 0 && e->remotePort != hdr.src_port) {
             goto next;
         }
-        if (e->localPort != hdr.dst) {
+        if (e->localPort != hdr.dst_port) {
             goto next;
         }
         pkt->total_bytes -= 8;
         frag->length -= 8;
         netbuf_ref_advance(&frag->buffer, 8);
-        if (TLobby__sub_80421F10(pkt, src, dst, hdr.src, e->receiveCallback, i) != 0) {
+        if (udp_deliver(pkt, src, dst, hdr.src_port, e->receiveCallback, i) != 0) {
             return -1;
         }
         return 0;
@@ -140,7 +137,7 @@ s16 AT_UDP_Send(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst
     if (e->active == 0) {
         return -4;
     }
-    if (is_addr_unspecified((u8 *)&e->remoteAddress) == 0) {
+    if (is_addr_unspecified(&e->remoteAddress) == 0) {
         dst = &e->remoteAddress;
     }
     if (e->localAddress.family != 0) {
@@ -154,18 +151,18 @@ s16 AT_UDP_Send(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst
     } else {
         e->destinationPort = port;
     }
-    if (TLobby__sub_8040DA54((u8 *)dst, (u8 *)src) == 0) {
+    if (AT_IP_IsReachable(dst, src) == 0) {
         NetDispatchSocketEvent(id, e->eventCallback, 2, 0x80);
         return -6;
     }
-    r = AT_IP_SetSrcFromDst((Out_8040D95C *)src, (In_8040D95C *)dst);
+    r = AT_IP_SetSrcFromDst(src, dst);
     if (r < 0) {
         return r;
     }
     e->length = pkt->total_bytes + 8;
-    add_item_80420FC8(pkt, &e->sourcePort, 8);
+    append_fragment(pkt, &e->sourcePort, 8);
     e->checksum = 0;
-    e->checksum = TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 1);
+    e->checksum = calc_transport_checksum(src, dst, 0x11, pkt, 1);
     return dispatch_by_addr_family(pkt, dst, src, opt->ipv4, &opt->ipv6, 0x11);
 }
 #pragma pop

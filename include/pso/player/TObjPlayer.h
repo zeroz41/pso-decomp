@@ -263,7 +263,7 @@ struct TObjPlayer : public TObjChara {
     PlayerAttackController attack_state;  // the attack accuracy/damage-scale block
     void* m_828;
     u8 _pad82C[0x4];
-    PlayerTelepipe telepipe;  // TTecLuker::init_fields, send_telepipe_packet
+    PlayerTelepipe telepipe;  // TTecLuker::init_fields, TelepipeState::send_telepipe_packet
     Vec marker_position;  // above the head (copy_offset_position), where the lobby marker is drawn
     void* m_858;
     char name[0x1C];
@@ -314,7 +314,6 @@ struct TObjPlayer : public TObjChara {
     void enter_battle_state();
     void write_ids();
     void set_vec4_const();
-    static void init_matrix_stack(s32 arg0, s32 arg1);
     static void render_tree(void *model);
     void init_vec_record();
     s32 get_entrance_id();
@@ -919,9 +918,6 @@ struct TObjPlayer : public TObjChara {
     static void copy_gauge_warn_vec();
     static void free_global_805D6FB8();
     static void alloc_and_init_object_b4();
-    static void set_global_effect_state(s32 global_effect_state);
-    static void set_global_color_rgba(u32 v, u32);
-    static void set_global_color_rgba_alt_b(u32 v, u32);
     static void draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha);
     static void draw_player_model_by_id(s32 client_id, f32 alpha);
     static void rebuild_players_for_stage(s32 stage);
@@ -980,9 +976,6 @@ struct TObjPlayer : public TObjChara {
     void set_all_technique_levels(void *level);
     void copy_all_technique_entries(void *level);
     static TItem *create_object_by_type(u8 *item);
-    static void invert_matrix_in_place(MtxP matrix);
-    void concat_quaternion_rotation();
-    static s32 is_gvm_load_ok();
     static void draw_effect();
     void draw_trail_pair();
     static void update_particle_by_phase(NJS_OBJECT *);

@@ -1,21 +1,3 @@
-
-
-#define __AICallbackStackSwitch ai___AICallbackStackSwitch
-#define __AIDHandler ai___AIDHandler
-#define __AID_Callback lbl_805D721C
-#define __AISHandler ai___AISHandler
-#define __AIS_Callback lbl_805D7218
-#define __AI_SRC_INIT ai___AI_SRC_INIT
-#define __AI_init_flag lbl_805D7228
-#define __AI_set_stream_sample_rate ai___AI_set_stream_sample_rate
-#define __CallbackStack lbl_805D7220
-#define __OldStack lbl_805D7224
-#define bound_32KHz lbl_805D7230
-#define bound_48KHz lbl_805D7238
-#define buffer lbl_805D7250
-#define max_wait lbl_805D7248
-#define min_wait lbl_805D7240
-
 #include <dolphin/ai.h>
 #include <dolphin/gx.h>
 #include <dolphin/hw_regs.h>
@@ -279,7 +261,7 @@ static void __AIDHandler(__OSInterrupt interrupt, OSContext* context)
 }
 
 static asm void __AICallbackStackSwitch(register void* cb) {
-#include "orig_asm/ai/ai/ai___AICallbackStackSwitch.inc"
+#include "orig_asm/ai/ai/__AICallbackStackSwitch.inc"
 }
 
 

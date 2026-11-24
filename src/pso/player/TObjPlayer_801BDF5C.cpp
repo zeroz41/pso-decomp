@@ -91,7 +91,7 @@ void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set
 
 extern "C" {
 extern u8 TObjPlayer__char_data_array[];
-void __destroy_arr(void *arr, void *dtor, u32 size, u32 n);
+void __destroy_arr(void *block, void *dtor, u32 size, u32 n);
 void __register_global_object(void *obj, void *dtor, void *chain);
 void *__construct_array(void *, void *, void *, u32, u32);
 void construct__19PlayerCharDataEntryFv(void *);

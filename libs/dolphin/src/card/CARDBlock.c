@@ -1,9 +1,3 @@
-
-
-#define EraseCallback CARDBlock_EraseCallback
-#define WriteCallback CARDBlock_WriteCallback
-#define __CARDBlock lbl_80544980
-
 #include <dolphin.h>
 #include <dolphin/card.h>
 
@@ -27,8 +21,8 @@ static void WriteCallback(s32 chan, s32 result) {
 
     if (result >= 0)
     {
-        fat0 = (u16 *)((u8 *)card->workArea + 0x6000);
-        fat1 = (u16 *)((u8 *)card->workArea + 0x8000);
+        fat0 = (u16 *)((u8 *)card->workArea + (3 + 0) * CARD_SYSTEM_BLOCK_SIZE);
+        fat1 = (u16 *)((u8 *)card->workArea + (3 + 1) * CARD_SYSTEM_BLOCK_SIZE);
 
         ASSERTLINE(0x52, card->currentFat);
         if (card->currentFat == fat0)

@@ -4,6 +4,7 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
 #include "pso/network/TLobby_804050DC.h"
+#include "pso/network/NetTcpState.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
@@ -17,16 +18,14 @@
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
-typedef struct PH_8040EC38 PH_8040EC38;
-typedef struct P_8040EC38 P_8040EC38;
-u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag);
-s32 init_ipv4_interfaces(void);
+u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, NetPacket *pkt, s16 flag);
 
 #include <stddef.h>
 
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/NetIpv4.h"
 
 extern Ipv4ProtocolState ipv4_protocol_state;
 
@@ -35,20 +34,20 @@ extern Ipv4ProtocolState ipv4_protocol_state;
 #pragma inline_depth(4)
 
 
-s32 TLobby__sub_8040DD68(void) {
+s32 ipv4_term(void) {
     release_slot_by_id(0x800);
-    TLobby__sub_803F892C((void *)(&ipv4_protocol_state.nsockets));
+    term_ipv4_config((void *)(&ipv4_protocol_state.nsockets));
     ipv4_protocol_state.nsockets = 0;
     return 0;
 }
 
 s16 ipv4_input(u8 *ip, s16 len, s16 iface);
-s32 init_ipv4_interfaces(void) {
+s16 init_ipv4_interfaces(void) {
     s16 i;
     Ipv4RawSocket *e;
     Ipv4ProtocolState *g = &ipv4_protocol_state;
 
-    TLobby__sub_803F8930(g);
+    init_ipv4_raw_socket_config(g);
     e = g->sockets;
     for (i = 0; i < g->nsockets; i++) {
         e->tag[0] = 'I';
@@ -77,8 +76,6 @@ inline u16 ip_header_checksum(void *p, s16 n)
 
 s16 ipv4_input(u8 *ip, s16 len, s16 iface)
 {
-  saddr fragment_input(u8 *self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress *src, u16 frag_off, u8 more, s16 iface);
-  s16 tcp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
   u16 total_len;
   u16 hlen;
   NetPacket *pkt;
@@ -182,10 +179,10 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
     pkt->fragment_count = 0;
     pkt->total_bytes = total_len;
     pkt->fragments[pkt->fragment_count].length = hlen;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr) ip);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, ip);
     pkt->fragment_count++;
     pkt->fragments[pkt->fragment_count].length = data_len;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr) (ip + hlen));
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (ip + hlen));
     pkt->fragment_count++;
     reassembled = 0;
   }
@@ -427,11 +424,11 @@ s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface)
       rec->fragment_count = 0;
       rec->total_bytes = (u16) (tail + (nunits * 8));
       rec->fragments[rec->fragment_count].length = tail + (nunits * 8);
-      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (saddr) payload);
+      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, payload);
       rec->fragment_count += 1;
       rec->total_bytes += hlen;
       rec->fragments[rec->fragment_count].length = hlen;
-      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (saddr) ip);
+      set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, ip);
       rec->fragment_count += 1;
       r = AT_IP4_PktSend(rec, target, ifidx);
       if (r < 0)
@@ -470,11 +467,11 @@ s16 AT_IP4_Forward(u32 dst, u32 src, u8 *pkt, s16 len, s16 iface)
     rec->fragment_count = 0;
     rec->total_bytes = len;
     rec->fragments[rec->fragment_count].length = len;
-    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (saddr) (pkt + hlen));
+    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (pkt + hlen));
     rec->fragment_count += 1;
     rec->total_bytes += hlen;
     rec->fragments[rec->fragment_count].length = hlen;
-    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, (saddr) pkt);
+    set_value_and_enable(&rec->fragments[rec->fragment_count].buffer, pkt);
     rec->fragment_count += 1;
     r = AT_IP4_PktSend(rec, target, ifidx);
     release_entry(rec);
@@ -581,7 +578,7 @@ s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 prot
     ip->cksum = ip_header_checksum(ip, 10);
     pkt->total_bytes += hlen << 2;
     pkt->fragments[pkt->fragment_count].length = hlen * 4;
-    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, (saddr) ip);
+    set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, ip);
     pkt->fragment_count++;
     r = AT_IP4_PktSend(pkt, target, ifidx);
     return r;
@@ -664,7 +661,7 @@ s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 prot
     ip->cksum = ip_header_checksum(ip, 10);
     pp->total_bytes += hlen << 2;
     pp->fragments[pp->fragment_count].length = hlen * 4;
-    set_value_and_enable(&pp->fragments[pp->fragment_count].buffer, (saddr) ip);
+    set_value_and_enable(&pp->fragments[pp->fragment_count].buffer, ip);
     pp->fragment_count++;
     r = AT_IP4_PktSend(pp, target, ifidx);
     if (r < 0)
@@ -677,11 +674,11 @@ s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 prot
   return 0;
 }
 #pragma pop
-typedef struct PH_8040EC38 { s32 src; s32 dst; u8 zero; s8 proto; u16 len; } PH_8040EC38;
-struct P_8040EC38 { u8 pad0[8]; s32 f8; s16 fC; };
+/* The IPv4 pseudo-header a TCP or UDP checksum covers (RFC 793, RFC 768). */
+typedef struct Ipv4PseudoHeader { s32 src; s32 dst; u8 zero; s8 proto; u16 len; } Ipv4PseudoHeader;
 
-u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag) {
-    PH_8040EC38 ph;
+u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, NetPacket *pkt, s16 flag) {
+    Ipv4PseudoHeader ph;
     u32 sum;
 
     ph.src = src;
@@ -689,9 +686,9 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag)
     ph.zero = 0;
     ph.proto = proto;
     if (flag == 0) {
-        ph.len = ((P_8040EC38 *)pkt)->f8 - ((P_8040EC38 *)pkt)->fC;
+        ph.len = pkt->total_bytes - pkt->fragments[0].length;
     } else {
-        ph.len = ((P_8040EC38 *)pkt)->f8;
+        ph.len = pkt->total_bytes;
     }
     sum = ones_complement_sum(&ph, 6);
     sum += packet_ones_complement_sum(pkt, flag);

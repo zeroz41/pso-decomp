@@ -20,7 +20,7 @@ typedef void* ConstructorDestructor;
 extern "C" {
 #endif
 
-extern void* __copy(char* to, char* from, size_t size);
+extern char* __copy(char* to, char* from, size_t size);
 
 extern void __construct_array(void* ptr, ConstructorDestructor ctor, ConstructorDestructor dtor, size_t size, size_t n);
 extern void __destroy_arr(void* block, ConstructorDestructor* dtor, size_t size, size_t n);
@@ -32,6 +32,36 @@ extern void __destroy_new_array3();
 
 #ifdef __cplusplus
 }
+
+class __partial_array_destructor {
+  private:
+    void* p;
+    size_t size;
+    size_t n;
+    ConstructorDestructor dtor;
+
+  public:
+    size_t i;
+
+    __partial_array_destructor(void* array, size_t elementsize, size_t nelements, ConstructorDestructor destructor) {
+        p = array;
+        size = elementsize;
+        n = nelements;
+        dtor = destructor;
+        i = n;
+    }
+
+    ~__partial_array_destructor() {
+        char* ptr;
+
+        if (i < n && dtor) {
+            for (ptr = (char*)p + size * i; i > 0; i--) {
+                ptr -= size;
+                DTORCALL_COMPLETE(dtor, ptr);
+            }
+        }
+    }
+};
 #endif
 
 #endif

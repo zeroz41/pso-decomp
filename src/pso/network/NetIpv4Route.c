@@ -24,21 +24,21 @@ s16 NetIPv4AddRoute(u32, u32, u32, s16, u8, u16);
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/NetIpv4.h"
 
-s32 init_ipv4_routing(void);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
 
 s32 shutdown_ipv4_routing(void) {
-    TLobby__sub_803F8958((void *)&ipv4_address_routing_state);
+    term_ipv4_routing_config((void *)&ipv4_address_routing_state);
     ipv4_address_routing_state.nroutes = 0;
     ipv4_address_routing_state.nifaces = 0;
     ipv4_address_routing_state.max_aliases = 0;
     return 0;
 }
-s32 init_ipv4_routing(void) {
+s16 init_ipv4_routing(void) {
     init_buffer_descriptor_a(&ipv4_address_routing_state);
     NetMemset(ipv4_address_routing_state.routes, 0, ipv4_address_routing_state.nroutes * sizeof(Ipv4Route));
     /* Sized with Ipv4Route (0x14 bytes), not Ipv4Iface (0x1C): the last 8 bytes of each entry are not cleared. */
@@ -47,13 +47,13 @@ s32 init_ipv4_routing(void) {
     return 0;
 }
 
-inline s16 chk_8040EDE4(s16 id, u32 k) {
+inline s16 is_ipv4_broadcast(s16 id, u32 addr) {
     Ipv4Iface *p;
     p = (Ipv4Iface *)get_active_entry_by_index(id);
     if (p == NULL) {
         return 0;
     }
-    if (p->addr == 0 || k == 0xFFFFFFFF || k == p->broadcast) {
+    if (p->addr == 0 || addr == 0xFFFFFFFF || addr == p->broadcast) {
         return 1;
     }
     return 0;
@@ -70,19 +70,19 @@ extern s16 AT_IP4_PktSend(NetPacket *self, u32 key, s16 id) {
     if (e->state != 1) {
         return -6;
     }
-    if (key == 0 || chk_8040EDE4(id, key)) {
-        return call_handler_by_index(id, e->handle, 1, (saddr)&key, (saddr)self);
+    if (key == 0 || is_ipv4_broadcast(id, key)) {
+        return call_handler_by_index(id, e->handle, 1, &key, self);
     }
-    return dispatch_handler_by_index(id, e->handle, (saddr)&key, (saddr)self);
+    return dispatch_handler_by_index(id, e->handle, &key, self);
 }
 #pragma push
 #pragma opt_common_subs on
-s16 get_ipv4_interface_mtu(s16 arg0) {
+s16 get_ipv4_interface_mtu(s16 iface) {
     Ipv4Iface *ifc;
-    if ((arg0 < 0) || (arg0 >= ipv4_address_routing_state.nifaces)) {
+    if ((iface < 0) || (iface >= ipv4_address_routing_state.nifaces)) {
         return -0x109;
     }
-    ifc = &ipv4_address_routing_state.ifaces[arg0];
+    ifc = &ipv4_address_routing_state.ifaces[iface];
     if (ifc->state != 1) {
         return -2;
     }
@@ -90,7 +90,7 @@ s16 get_ipv4_interface_mtu(s16 arg0) {
 }
 #pragma pop
 
-inline s16 getfirst_8040F1A0(s16 *pn, Ipv4Iface **pb, u32 *out) {
+inline s16 first_iface_addr(s16 *pn, Ipv4Iface **pb, u32 *out) {
     if (*pn <= 0) {
         return 0;
     }
@@ -101,12 +101,12 @@ inline s16 getfirst_8040F1A0(s16 *pn, Ipv4Iface **pb, u32 *out) {
     return 1;
 }
 
-inline void drop_8040F1A0(Ipv4RoutingState *g, u32 k1, u32 k2) {
+inline void remove_iface_route(Ipv4RoutingState *g, u32 dst, u32 gateway) {
     s16 i;
     Ipv4Route *e;
     e = g->routes;
     for (i = 0; i < g->nroutes; i++, e++) {
-            if ((e->flags & 1) && e->dst == k1 && e->gateway == k2 && (e->type & 1) == 1) {
+            if ((e->flags & 1) && e->dst == dst && e->gateway == gateway && (e->type & 1) == 1) {
             e->flags = 0;
             break;
         }
@@ -116,7 +116,7 @@ inline void drop_8040F1A0(Ipv4RoutingState *g, u32 k1, u32 k2) {
 extern s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c)
 {
   s16 n;
-  u32 new_var;
+  u32 addr;
   Ipv4RoutingState *tbl;
   Ipv4Iface *new_var2;
   Ipv4Iface *e;
@@ -144,10 +144,10 @@ extern s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c)
     for (i = 0; (node != NULL) && (i < n); i++)
     {
       m = node->mask;
-      new_var = node->addr;
-      if ((m & new_var) == (m & dst))
+      addr = node->addr;
+      if ((m & addr) == (m & dst))
       {
-        *out = new_var;
+        *out = addr;
         return 0;
       }
       node = node->next;
@@ -165,7 +165,7 @@ typedef struct Ipv4IfaceAddrRecord {
     u8 pad10[0xC];
 } Ipv4IfaceAddrRecord;
 LAYOUT_ASSERT(Ipv4IfaceAddrRecord_size_check, sizeof(Ipv4IfaceAddrRecord) == 0x1C);
-extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s32 buf) {
+extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, void *buf) {
     Ipv4RoutingState *g = &ipv4_address_routing_state;
     Ipv4Iface *ifc;
     s16 n;
@@ -189,7 +189,7 @@ extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s3
     rec.addr = ifc->addr;
     rec.mask = ifc->mask;
     rec.broadcast = ifc->broadcast;
-    set_value_and_enable((&ref), (saddr)&rec);
+    set_value_and_enable((&ref), &rec);
     netbuf_copy_by_ref(out, &ref, sizeof(rec));
     netbuf_ref_advance(out, sizeof(rec));
     alias = ifc->aliases;
@@ -201,7 +201,7 @@ extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s3
         rec.addr = alias->addr;
         rec.mask = alias->mask;
         rec.broadcast = alias->broadcast;
-        set_value_and_enable((&ref), (saddr)&rec);
+        set_value_and_enable((&ref), &rec);
         netbuf_copy_by_ref(out, &ref, sizeof(rec));
         netbuf_ref_advance(out, sizeof(rec));
         alias = alias->next;
@@ -209,13 +209,13 @@ extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s3
         n++;
         len -= sizeof(rec);
     }
-    if (TLobby__sub_80409EB0(idx, ifc->handle) <= 6) {
-        TLobby__sub_80409E18(idx, ifc->handle, buf);
+    if (link_get_address_length(idx, ifc->handle) <= 6) {
+        link_get_address(idx, ifc->handle, buf);
     }
     return count;
 }
 
-extern s32 bring_down_ipv4_interface(s16 id) {
+extern s16 bring_down_ipv4_interface(s16 id) {
     Ipv4RoutingState *g;
     s16 *pn;
     Ipv4Iface **pb;
@@ -236,13 +236,13 @@ extern s32 bring_down_ipv4_interface(s16 id) {
     nd = b->aliases;
     cnt = 0;
     while (nd != NULL && cnt < g->max_aliases) {
-        if (is_socket_flag_set(id) == 0 && getfirst_8040F1A0(pn, pb, &addr)) {
-            drop_8040F1A0(g, nd->addr, addr);
+        if (is_socket_flag_set(id) == 0 && first_iface_addr(pn, pb, &addr)) {
+            remove_iface_route(g, nd->addr, addr);
         }
-        TLobby__sub_80409D7C(id, b->handle, 2, &nd->addr);
+        link_update_address(id, b->handle, 2, &nd->addr);
         {
             Ipv4Alias *next = nd->next;
-            nd->f0 = 0;
+            nd->state = 0;
             nd->addr = 0;
             nd->network = 0;
             nd->broadcast = 0;
@@ -252,8 +252,8 @@ extern s32 bring_down_ipv4_interface(s16 id) {
             nd = next;
         }
     }
-    if (is_socket_flag_set(id) == 0 && getfirst_8040F1A0(pn, pb, &addr)) {
-        drop_8040F1A0(g, b->addr, addr);
+    if (is_socket_flag_set(id) == 0 && first_iface_addr(pn, pb, &addr)) {
+        remove_iface_route(g, b->addr, addr);
     }
     {
         Ipv4Route *e;
@@ -300,7 +300,7 @@ extern s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx) {
         return -2;
     }
     ifc->state = 1;
-    ifc->handle = TLobby__sub_8040A044(idx, 0x800, 4, &addr);
+    ifc->handle = link_attach_protocol(idx, 0x800, 4, &addr);
     if (ifc->handle < 0) {
         ifc->state = 0;
         return ifc->handle;
@@ -328,7 +328,7 @@ extern s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     ifc->aliases = NULL;
     gateway = 0xFFFFFFFF;
     if (is_socket_flag_set(idx) == 0 && !unspecified) {
-        found = getfirst_8040F1A0(pn, pifs, &gateway);
+        found = first_iface_addr(pn, pifs, &gateway);
         if (found) {
             found = NetIPv4AddRoute(addr, 0xFFFFFFFF, gateway, 0, 1, 0);
             if (found < 0) {
@@ -347,7 +347,7 @@ extern s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     err = NetIPv4AddRoute(addr & mask, mask, addr, 0, 1, 0);
     if (err < 0) {
         if (is_socket_flag_set(idx) == 0 && gateway != 0xFFFFFFFF && !unspecified) {
-            drop_8040F1A0(g, addr, gateway);
+            remove_iface_route(g, addr, gateway);
         }
         call_entry_callback(idx, ifc->handle);
         ifc->state = 0;
@@ -362,14 +362,14 @@ extern s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     return 0;
 }
 #pragma pop
-s16 AT_IP4_IsReachable(u32 ipv4, u32 arg1) {
-    if (AT_IP4_RouteSearch(ipv4, arg1) != NULL) {
+s16 AT_IP4_IsReachable(u32 dst, u32 src) {
+    if (AT_IP4_RouteSearch(dst, src) != NULL) {
         return 1;
     }
     return 0;
 }
 
-Ipv4Route *AT_IP4_RouteSearch(u32 a0, u32 a1) {
+Ipv4Route *AT_IP4_RouteSearch(u32 dst, u32 src) {
     u32 t;
     u16 flags;
     s16 i;
@@ -384,16 +384,16 @@ Ipv4Route *AT_IP4_RouteSearch(u32 a0, u32 a1) {
     e = ipv4_address_routing_state.routes;
     for (i = 0; i < ipv4_address_routing_state.nroutes; i++, e++) {
         flags = e->flags;
-        t = a0 & e->mask;
+        t = dst & e->mask;
         if (!(flags & 1)) {
             continue;
         }
-        if ((flags & 4) && e->dst == a0) {
+        if ((flags & 4) && e->dst == dst) {
             return e;
         }
         if ((flags & 8) && e->type == 1) {
-            if (a0 == 0xFFFFFFFF || a0 == 0) {
-                if (e->gateway == a1) {
+            if (dst == 0xFFFFFFFF || dst == 0) {
+                if (e->gateway == src) {
                     m1 = e;
                     continue;
                 }
@@ -427,10 +427,10 @@ Ipv4Route *AT_IP4_RouteSearch(u32 a0, u32 a1) {
     return NULL;
 }
 
-s32 TLobby__sub_8040F8A4(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
+s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
 {
   Ipv4RoutingState *tbl = &ipv4_address_routing_state;
-  u32 new_var;
+  u32 route_dst;
   u16 f;
   s16 i;
   s16 found = 0;
@@ -446,8 +446,8 @@ s32 TLobby__sub_8040F8A4(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gatewa
     {
       continue;
     }
-    new_var = e->dst;
-    if (new_var == 0)
+    route_dst = e->dst;
+    if (route_dst == 0)
     {
       a4 |= 2;
       found = 1;
@@ -456,7 +456,7 @@ s32 TLobby__sub_8040F8A4(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gatewa
     f = (u16) a4;
     if (a4 & 4)
     {
-      if (((!e->flags) & 4) || (new_var != a1))
+      if (((!e->flags) & 4) || (route_dst != a1))
       {
         continue;
       }
@@ -468,7 +468,7 @@ s32 TLobby__sub_8040F8A4(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gatewa
     {
       continue;
     }
-    if ((a1 & e->mask) != (new_var & a3))
+    if ((a1 & e->mask) != (route_dst & a3))
     {
       continue;
     }
@@ -487,22 +487,22 @@ s32 TLobby__sub_8040F8A4(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gatewa
   return 0;
 }
 
-extern s32 TLobby__sub_8040F9CC(void *a, void *unused, void *b, s32 flag) {
+s32 ipv4_route_delete(u32 dst, u32 mask, u32 gateway, s32 flag) {
     Ipv4RoutingState *tbl = &ipv4_address_routing_state;
-    Unk805BDD60Entry *e = (Unk805BDD60Entry *)tbl->routes;
+    Ipv4Route *e = tbl->routes;
     s16 i;
     u8 f = (u8)flag & 1;
     for (i = 0; i < tbl->nroutes; i++, e++) {
         if (!(e->flags & 1)) {
             continue;
         }
-        if (e->f4 != (uaddr)a) {
+        if (e->dst != dst) {
             continue;
         }
-        if (e->fC != (uaddr)b) {
+        if (e->gateway != gateway) {
             continue;
         }
-        if (f != (e->f12 & 1)) {
+        if (f != (e->type & 1)) {
             continue;
         }
         e->flags = 0;
@@ -511,7 +511,7 @@ extern s32 TLobby__sub_8040F9CC(void *a, void *unused, void *b, s32 flag) {
     return -2;
 }
 
-inline s16 find_iface_by_addr_8040FA48(Ipv4Iface *ifaces, s16 n, s16 m, u32 addr) {
+inline s16 find_iface_by_addr(Ipv4Iface *ifaces, s16 n, s16 m, u32 addr) {
     s16 i;
     s16 j;
     Ipv4Iface *ifc;
@@ -534,7 +534,7 @@ inline s16 find_iface_by_addr_8040FA48(Ipv4Iface *ifaces, s16 n, s16 m, u32 addr
     }
     return -1;
 }
-inline s16 find_iface_by_network_8040FA48(Ipv4Iface *ifaces, s16 n, s16 m, u32 addr) {
+inline s16 find_iface_by_network(Ipv4Iface *ifaces, s16 n, s16 m, u32 addr) {
     s16 i;
     s16 j;
     Ipv4Iface *ifc;
@@ -557,12 +557,12 @@ inline s16 find_iface_by_network_8040FA48(Ipv4Iface *ifaces, s16 n, s16 m, u32 a
     }
     return -1;
 }
-inline Ipv4Iface *get_ifaces_8040FA48(Ipv4RoutingState *g) {
+inline Ipv4Iface *ipv4_ifaces(Ipv4RoutingState *g) {
     return g->ifaces;
 }
 #pragma push
 #pragma opt_common_subs on
-s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 f10, u8 type, u16 flags) {
+s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 origin, u8 type, u16 flags) {
     Ipv4RoutingState *g = &ipv4_address_routing_state;
     Ipv4Iface *ifaces;
     s16 m;
@@ -572,12 +572,12 @@ s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 f10, u8 type, u16 flags)
     Ipv4Route *e;
     Ipv4Route *slot;
 
-    ifaces = get_ifaces_8040FA48(g);
+    ifaces = ipv4_ifaces(g);
     m = g->max_aliases;
     n = g->nifaces;
-    idx = find_iface_by_addr_8040FA48(ifaces, n, m, gateway);
+    idx = find_iface_by_addr(ifaces, n, m, gateway);
     if (idx < 0) {
-        idx = find_iface_by_network_8040FA48(ifaces, n, m, gateway);
+        idx = find_iface_by_network(ifaces, n, m, gateway);
         if (idx < 0) {
             return -2;
         }
@@ -600,7 +600,7 @@ s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 f10, u8 type, u16 flags)
     slot->dst = dst;
     slot->gateway = gateway;
     slot->type = type;
-    slot->f10 = f10;
+    slot->origin = origin;
     slot->iface = idx;
     switch (type) {
     case 1:
@@ -674,13 +674,13 @@ s16 NetIPv4IsLoopback(s32 address) {
     return 0;
 }
 
-s16 NetIPv4IsBroadcast(u32 arg0, s16 arg1) {
+s16 NetIPv4IsBroadcast(u32 address, s16 iface) {
     Ipv4Iface *e;
-    if (arg1 < 0 || arg1 >= ipv4_address_routing_state.nifaces) {
+    if (iface < 0 || iface >= ipv4_address_routing_state.nifaces) {
         e = NULL;
     } else {
         e = ipv4_address_routing_state.ifaces;
-        e += arg1;
+        e += iface;
         if (e->state != 1) {
             e = NULL;
         }
@@ -688,7 +688,7 @@ s16 NetIPv4IsBroadcast(u32 arg0, s16 arg1) {
     if (e == NULL) {
         return 0;
     }
-    if (e->addr == 0 || arg0 == 0xFFFFFFFF || arg0 == e->broadcast) {
+    if (e->addr == 0 || address == 0xFFFFFFFF || address == e->broadcast) {
         return 1;
     }
     return 0;
@@ -722,12 +722,12 @@ s16 NetIPv4IsInterfaceUp(s16 iface) {
 
 #pragma push
 #pragma opt_common_subs on
-s16 *get_active_entry_by_index(s16 arg0) {
+s16 *get_active_entry_by_index(s16 iface) {
     Ipv4Iface *ifc;
-    if ((arg0 < 0) || (arg0 >= ipv4_address_routing_state.nifaces)) {
+    if ((iface < 0) || (iface >= ipv4_address_routing_state.nifaces)) {
         return NULL;
     }
-    ifc = &ipv4_address_routing_state.ifaces[arg0];
+    ifc = &ipv4_address_routing_state.ifaces[iface];
     if (ifc->state != 1) {
         return NULL;
     }
@@ -735,13 +735,13 @@ s16 *get_active_entry_by_index(s16 arg0) {
 }
 #pragma pop
 
-s16 TLobby__sub_8040FEE4(s32 ipv4, s32 arg1) {
-    s32 temp_r0;
-    temp_r0 = ipv4 - arg1;
-    if (temp_r0 < 0) {
+s16 compare_ipv4_addr(s32 lhs, s32 rhs) {
+    s32 diff;
+    diff = lhs - rhs;
+    if (diff < 0) {
         return -1;
     }
-    if (temp_r0 > 0) {
+    if (diff > 0) {
         return 1;
     }
     return 0;

@@ -1,18 +1,6 @@
-#include "musyx/runtime/musyx_runtime_a.h"
+#include "musyx/runtime/musyx_internal.h"
 
-struct VolInfo {
-    f32 volL;
-    f32 volR;
-    f32 volS;
-    f32 volAuxAL;
-    f32 volAuxAR;
-    f32 volAuxAS;
-    f32 volAuxBL;
-    f32 volAuxBR;
-    f32 volAuxBS;
-};
-
-struct PanInfo {
+typedef struct SAL_PANINFO {
     u32 pan_i;
     u32 pan_im;
     u32 span_i;
@@ -25,7 +13,7 @@ struct PanInfo {
     f32 span_fm;
     f32 rpan_f;
     f32 rpan_fm;
-};
+} SAL_PANINFO;
 
 extern "C" {
 
@@ -90,7 +78,7 @@ inline f32 volFmodf(f32 x, f32 m) {
     }
 }
 
-static void CalcBus(f32 *vol_tab, f32 *vl, f32 *vr, f32 *vs, f32 vol, PanInfo *pi) {
+static void CalcBus(f32 *vol_tab, f32 *vl, f32 *vr, f32 *vs, f32 vol, SAL_PANINFO *pi) {
     u32 i;
     f32 f;
     f32 v;
@@ -105,7 +93,7 @@ static void CalcBus(f32 *vol_tab, f32 *vl, f32 *vr, f32 *vs, f32 vol, PanInfo *p
 }
 
 static void CalcBusDPL2(f32 *vol_tab, f32 *fvl, f32 *fvr, f32 *rvl, f32 *rvr, f32 vol,
-                                 PanInfo *pi) {
+                                 SAL_PANINFO *pi) {
     u32 i;
     f32 f;
     f32 v;
@@ -123,13 +111,13 @@ static void CalcBusDPL2(f32 *vol_tab, f32 *fvl, f32 *fvr, f32 *rvl, f32 *rvr, f3
 }
 
 #pragma exceptions on
-void salCalcVolume(u8 voltab_index, VolInfo *vi, f32 vol, u32 pan, u32 span, f32 auxa,
+void salCalcVolume(u8 voltab_index, SAL_VOLINFO *vi, f32 vol, u32 pan, u32 span, f32 auxa,
                            f32 auxb, u32 itd, u32 dpl2) {
     f32 *vol_tab;
     f32 p;
     f32 sp;
     f32 revPan;
-    PanInfo pi;
+    SAL_PANINFO pi;
 
     vol_tab = voltab_index == 0 ? musyx_vol_tab : dspDLSVolTab;
 

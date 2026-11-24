@@ -45,7 +45,7 @@ void TTextureWave::init_image_buffer(u8 *arg1, s32 arg2) {
     reinterpret_cast<GinjaTextureInput *>(arg0 + 0x18)->set_render_rect(reinterpret_cast<void *>(this->m_44 + 0x20), 5, (int) this->m_4, (int) this->m_0);
     set_texture_name(reinterpret_cast<NJS_TEXNAME *>(&this->m_c),
         reinterpret_cast<GinjaTextureInput *>(arg0 + 0x18), this->m_8, 0x40800000);
-    pso_load_texture(*(NJS_TEXLIST **)&this->m_3c);
+    psoLoadTexture(*(NJS_TEXLIST **)&this->m_3c);
 }
 
 }

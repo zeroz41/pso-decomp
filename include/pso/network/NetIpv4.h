@@ -11,7 +11,7 @@ extern "C" {
 /* Another address of an interface (from Ipv4RoutingState.alias_pool). */
 typedef struct Ipv4Alias Ipv4Alias;
 struct Ipv4Alias {
-    s16 f0;
+    s16 state;                  /* as Ipv4Iface.state; cleared when the alias is dropped */
     u8 pad2[2];
     u32 addr;
     u32 broadcast;
@@ -40,7 +40,7 @@ typedef struct Ipv4Route {
     u32 dst;
     u32 mask;
     u32 gateway;
-    s16 f10;
+    s16 origin;                 /* 0 for an interface's own routes, 1 for route4_add and route4_redirect */
     s16 type;
 } Ipv4Route;
 LAYOUT_ASSERT(Ipv4Route_size_check, sizeof(Ipv4Route) == 0x14);
@@ -56,6 +56,12 @@ typedef struct Ipv4RoutingState {
 } Ipv4RoutingState;
 LAYOUT_ASSERT(Ipv4RoutingState_size_check, sizeof(Ipv4RoutingState) == 0x18);
 extern Ipv4RoutingState ipv4_address_routing_state;
+/* Deletes the route to dst through gateway whose type has bit 0 equal to bit 0 of flag. */
+s32 ipv4_route_delete(u32 dst, u32 mask, u32 gateway, s32 flag);
+
+u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, NetPacket *pkt, s16 flag);
+s16 bring_down_ipv4_interface(s16 id);
+s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx);
 
 #ifdef __cplusplus
 }

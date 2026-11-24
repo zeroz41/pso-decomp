@@ -15,12 +15,12 @@
 
 NetworkPacketBufferDescriptor network_packet_buffer_descriptors[NETWORK_PACKET_BUFFER_COUNT];
 u8 network_packet_buffers[NETWORK_PACKET_BUFFER_COUNT][NETWORK_PACKET_BUFFER_BYTES];
-s32 network_packet_mutex;
+NetMutexHandle network_packet_mutex;
 
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-static inline NetworkPacketBufferDescriptor *find_804253F8(u8 *packet) {
+static inline NetworkPacketBufferDescriptor *find_packet_descriptor(u8 *packet) {
     s32 i;
     for (i = 0; i < 0x20; i++) {
         if (network_packet_buffer_descriptors[i].in_use != 0 && network_packet_buffer_descriptors[i].data <= packet &&
@@ -37,9 +37,9 @@ static inline NetworkPacketBufferDescriptor *find_804253F8(u8 *packet) {
 void clear_message_entry(u8 *packet) {
     NetworkPacketBufferDescriptor *entry;
     u8 unused[8];
-    lock_mutex((saddr)network_packet_mutex);
+    lock_mutex(network_packet_mutex);
     entry = find_entry_by_address(packet);
-    unlock_mutex((saddr)network_packet_mutex);
+    unlock_mutex(network_packet_mutex);
     if (entry != NULL) {
         entry->in_use = 0;
         entry->queued_length = 0;
@@ -47,7 +47,7 @@ void clear_message_entry(u8 *packet) {
 }
 
 void release_entry_by_id(u8 *packet) {
-    NetworkPacketBufferDescriptor *e = find_804253F8(packet);
+    NetworkPacketBufferDescriptor *e = find_packet_descriptor(packet);
     if (e != NULL) {
         e->in_use = 0;
         e->queued_length = 0;
@@ -73,15 +73,15 @@ static inline u8 *alloc_packet_buffer(u32 size) {
     return buf;
 }
 
-u8 *TLobby__sub_8042558C(u32 size) {
+u8 *alloc_packet_buffer_locked(u32 size) {
     u8 *buf;
-    lock_mutex((saddr)network_packet_mutex);
+    lock_mutex(network_packet_mutex);
     buf = alloc_packet_buffer(size);
-    unlock_mutex((saddr)network_packet_mutex);
+    unlock_mutex(network_packet_mutex);
     return buf;
 }
 
-u8 *TLobby__sub_80425640(u32 size) {
+u8 *alloc_rx_packet_buffer(u32 size) {
     s16 i;
     u8 *buf = NULL;
     if (size > NETWORK_PACKET_BUFFER_BYTES) {
@@ -100,11 +100,11 @@ u8 *TLobby__sub_80425640(u32 size) {
     return buf;
 }
 
-NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u8 *packet) {
+NetworkPacketBufferDescriptor *find_packet_buffer_locked(u8 *packet) {
     NetworkPacketBufferDescriptor *e;
-    lock_mutex((saddr)network_packet_mutex);
-    e = find_804253F8(packet);
-    unlock_mutex((saddr)network_packet_mutex);
+    lock_mutex(network_packet_mutex);
+    e = find_packet_descriptor(packet);
+    unlock_mutex(network_packet_mutex);
     return e;
 }
 #pragma pop
@@ -128,7 +128,7 @@ void cancel_alarm_a(void) {
 
 s16 initialize_network_packet_pool(void) {
     s32 i;
-    if (TLobby__sub_803F96AC(&network_packet_mutex) < 0) {
+    if (create_mutex(&network_packet_mutex) < 0) {
         return -1;
     } else {
     for (i = 0; (0x20) > (i); i++) {

@@ -25,6 +25,8 @@
 #include <stdlib.h>
 
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/player/PlayerSubcommandHandlers.h"
 
 #include "pso/unk/TLobby_801E43E4.h"
 
@@ -384,15 +386,6 @@ struct Stack_80010B44 {
     s32 sp10;
 };
 
-struct Pkt_80010C54 {
-    u8 cmd;
-    u8 size;
-    u16 client;
-    u16 target;
-    u8 which;
-    u8 amount;
-};
-
 struct Pkt_80010DE8 { u8 f0; u8 f1; u16 f2; u16 f4; u8 f6; u8 f7; };
 struct Obj_80010DE8 { u8 pad[0x1c]; u16 f1c; };
 
@@ -573,7 +566,6 @@ void shutdown_and_reset_system(void);
 void init_game_systems(void);
 extern "C" {
 void clear_velocity(u8 *arg0);
-void handle_6x9A_update_entity_stat(Pkt_80010C54 *pkt);
 s32 select_destination_away_from(TObjChara *chara, Vec point);
 s32 check_path_obstructed(TObjChara *chara, Vec *target);
 void enemy_turn_half_toward_dest(TObjChara *chara);
@@ -3898,27 +3890,27 @@ void TObjChara::send_update_entity_stat(u16 target, s32 which, s32 amount) {
     ((TObjPlayer *)(&pkt))->send_head();
 }
 
-void handle_6x9A_update_entity_stat(Pkt_80010C54 *pkt) {
+void handle_6x9A_update_entity_stat(G_UpdateEntityStat_6x9A *command) {
     s16 v;
     saddr player;
     s32 amount;
-    if (pkt == NULL) {
+    if (command == NULL) {
         return;
     }
-    ((TObjPlayer *)pkt)->bswap_head16();
-    if (pkt->client >= 0x1000U) {
+    ((TObjPlayer *)command)->bswap_head16();
+    if (command->header.entity_id >= 0x1000U) {
         return;
     }
-    player = reinterpret_cast<saddr>(get_player_by_client_id(pkt->client));
+    player = reinterpret_cast<saddr>(get_player_by_client_id(command->header.entity_id));
     if (player == 0) {
         return;
     }
-    amount = pkt->amount;
-    switch (pkt->which) {
+    amount = command->amount;
+    switch (command->what) {
     case 0: {
         v = amount;
         ((s32 (*)(s32, s16))TObjectV8047c128_subtract_hp)(player, v);
-        if (((s32 (*)(u16))is_entity_locally_controlled)(pkt->target) != 0) {
+        if (((s32 (*)(u16))is_entity_locally_controlled)(command->entity_index) != 0) {
             ((s32 (*)(s32, s32, s32, s16))draw_hp_label)(player, player + 0x2FC, 0xA, v);
         } else {
             ((s32 (*)(s32, s32, s32, s16))draw_hp_label)(player, player + 0x2FC, 0xA, -amount);
@@ -3928,7 +3920,7 @@ void handle_6x9A_update_entity_stat(Pkt_80010C54 *pkt) {
     case 1: {
         v = amount;
         ((TObjChara *)player)->subtract_actor_tp((s32)v);
-        if (((s32 (*)(u16))is_entity_locally_controlled)(pkt->target) != 0) {
+        if (((s32 (*)(u16))is_entity_locally_controlled)(command->entity_index) != 0) {
             ((s32 (*)(s32, s32, s32, s16))show_tp_font)(player, player + 0x2FC, 0xA, v);
         } else {
             ((s32 (*)(s32, s32, s32, s16))show_tp_font)(player, player + 0x2FC, 0xA, -amount);

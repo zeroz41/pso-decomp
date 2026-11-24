@@ -1,5 +1,3 @@
-#define __GBA lbl_805D2200
-
 #include "gba/__gba.h"
 
 s32 GBAGetProcessStatus(s32 chan, u8* percentp) {

@@ -83,14 +83,14 @@ BmlArchiveEntry * bml_header_record_ptr;
 s32 bml_load_entry_index;
 u8 * lobby_bml_read_buffer;
 void check_bin_model_loaded__6TLobbyFPvPv(BmlResource *resource, void *);
-s32 bind_bml_motion(BmlResource *resource, s32 index, u8 *bytes);
+s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes);
 s32 TLobby__sub_800F9FF4(saddr);
 extern u8 *resource_decompress_buffer;
 s32 release_texture_list(void *);
-u32 prs_decompress_buffer(s32 arg0, s32 arg1);
+u32 prs_decompress_buffer(s32 src, s32 dst);
 
 extern const char *lbl_805D2B10;
-s32 bind_bml_model(BmlResource *resource, u32 size, s32 index, u8 *bytes);
+s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes);
 void TItemDrop__sub_800FE2D8(void);
 void *load_nj_chunk_model_resource(u8 *, u32 *, u32 *);
 
@@ -171,11 +171,11 @@ extern "C" void *allocate_bml_chunk(BmlResource *resource, u8 *file, u32 *offset
     return load_nj_chunk_model_resource(file, offset, tag);
 }
 
-void BmlResource::load_texture_sub(const char *filename, s32 index) {
+void BmlResource::LoadTextureSub(const char *filename, s32 index) {
     char buf[0x20];
     s32 size;
     TLobby::change_file_extension(buf, const_cast<char *>(filename), const_cast<char *>("gvm"));
-    size = TGStream::load_sct_file(buf, lobby_download_buffer);
+    size = TGStream::gsSctLoadFile(buf, lobby_download_buffer);
     if (size > 0x40000) {
         TLobby::debug_print("LoadTextureSub: %s too large.", buf);
     } else if (size > 0) {
@@ -197,7 +197,7 @@ void BmlResource::set_flag_and_notify() {
     }
 }
 
-s32 TLobby::load_bml_exec(BmlResource *bml, const char *name) {
+s32 LoadBmlExec(BmlResource *bml, const char *name) {
     s32 n;
     switch (bml->load_state) {
     case 0:
@@ -275,7 +275,7 @@ s32 TLobby::load_bml_exec(BmlResource *bml, const char *name) {
                 u8 *p = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(bml_header_record_ptr->rawSize));
                 if (p != NULL) {
                     prs_decompress_buffer((saddr)lobby_bml_read_buffer, reinterpret_cast<saddr>(p));
-                    bind_bml_model(bml, bml_header_record_ptr->rawSize, bml->loaded_models++, p);
+                    LoadBinModelSub(bml, bml_header_record_ptr->rawSize, bml->loaded_models++, p);
                     safe_free(p);
                 } else {
                     TLobby::debug_print("TBinModel: Can't malloc(LOADMODEL)");
@@ -283,7 +283,7 @@ s32 TLobby::load_bml_exec(BmlResource *bml, const char *name) {
                 break;
             }
             case 0:
-                bind_bml_model(bml, bml_header_record_ptr->size, bml->loaded_models++, lobby_bml_read_buffer);
+                LoadBinModelSub(bml, bml_header_record_ptr->size, bml->loaded_models++, lobby_bml_read_buffer);
                 break;
             }
             bml_header_record_ptr++;
@@ -327,7 +327,7 @@ s32 TLobby::load_bml_exec(BmlResource *bml, const char *name) {
                 u8 *p = static_cast<u8 *>(TQuestVmDownLoadServer::alloc(bml_header_record_ptr->rawSize));
                 if (p != NULL) {
                     prs_decompress_buffer((saddr)lobby_bml_read_buffer, reinterpret_cast<saddr>(p));
-                    bind_bml_motion(bml, bml->loaded_models++, p);
+                    LoadBinMotionSub(bml, bml->loaded_models++, p);
                     safe_free(p);
                 } else {
                     TLobby::debug_print("TBinModel: Can't malloc(LOADMOTION)");
@@ -335,7 +335,7 @@ s32 TLobby::load_bml_exec(BmlResource *bml, const char *name) {
                 break;
             }
             case 0:
-                bind_bml_motion(bml, bml->loaded_motions++, lobby_bml_read_buffer);
+                LoadBinMotionSub(bml, bml->loaded_motions++, lobby_bml_read_buffer);
                 break;
             }
             bml_header_record_ptr++;
@@ -442,7 +442,7 @@ void increment_ref_and_set_flag__6TLobbyFPv(void *context) {
     request->entry->flags |= 1;
 }
 }
-void load_bin_motion_callback(BmlMotionLoadRequest *request) {
+void LoadBinMotionCallBack(BmlMotionLoadRequest *request) {
     u32 position;
     u32 kind;
     *request->motion = NULL;
@@ -458,7 +458,7 @@ void load_bin_motion_callback(BmlMotionLoadRequest *request) {
 }
 
 
-void load_bin_model_callback(BmlModelLoadRequest *self) {
+void LoadBinModelCallBack(BmlModelLoadRequest *self) {
     char name[0x20];
     BmlTextureLoadRequest params;
     u32 i;
@@ -497,7 +497,7 @@ void load_bin_model_callback(BmlModelLoadRequest *self) {
     ((void (*)(void *))check_bin_model_loaded__6TLobbyFPvPv)(self->resource);
 }
 
-s32 bind_bml_motion(BmlResource *resource, s32 index, u8 *bytes) {
+s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes) {
     u32 offset;
     u32 tag;
     AnimationMotion *motion;
@@ -512,7 +512,7 @@ s32 bind_bml_motion(BmlResource *resource, s32 index, u8 *bytes) {
     return 1;
 }
 
-s32 bind_bml_model(BmlResource *resource, u32 size, s32 index, u8 *bytes) {
+s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes) {
     void *data;
     u32 offset;
     u32 tag;
@@ -536,7 +536,7 @@ s32 bind_bml_model(BmlResource *resource, u32 size, s32 index, u8 *bytes) {
     return 1;
 }
 
-s32 BmlResource::load_bin_motion(const char *name, s32 index) {
+s32 BmlResource::LoadBinMotion(const char *name, s32 index) {
     u32 offset;
     s32 tag;
     s32 size;
@@ -559,7 +559,7 @@ s32 BmlResource::load_bin_motion(const char *name, s32 index) {
     return 1;
 }
 
-s32 BmlResource::load_bin_model(const char *name, s32 index) {
+s32 BmlResource::LoadBinModel(const char *name, s32 index) {
     s32 size;
     models[index].model = NULL;
     models[index].texlist = NULL;
@@ -572,9 +572,9 @@ s32 BmlResource::load_bin_model(const char *name, s32 index) {
         TLobby::debug_print("LoadBinModel: tmpbuf overflow(%x)", size - 0x40000);
     }
     read_disc_file_sectors(name, lobby_download_buffer);
-    bind_bml_model(this, size, index, lobby_download_buffer);
+    LoadBinModelSub(this, size, index, lobby_download_buffer);
     if (models[index].texlist != NULL) {
-        load_texture_sub(name, index);
+        LoadTextureSub(name, index);
     }
     return 1;
 }
@@ -702,7 +702,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                         disc_read_filename = lbl_805D2B10;
                         prs_decompress_buffer(buf, (saddr)resource_decompress_buffer);
                         safe_free(reinterpret_cast<void *>(buf));
-                        bind_bml_model(this, size, i, resource_decompress_buffer);
+                        LoadBinModelSub(this, size, i, resource_decompress_buffer);
                     } else {
                         TLobby::debug_print("TBinModel:%s Malloc failed.", descriptor->archive_filename);
                     }
@@ -711,7 +711,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                     st.read_data((saddr)resource_decompress_buffer, (s32)size);
                     st.align_read_offset(blk);
                     disc_read_filename = lbl_805D2B10;
-                    bind_bml_model(this, size, i, resource_decompress_buffer);
+                    LoadBinModelSub(this, size, i, resource_decompress_buffer);
                     break;
                 }
                 if (this->flags & 0x800) {
@@ -751,13 +751,13 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
                     st.align_read_offset(blk);
                     prs_decompress_buffer(mb, (saddr)resource_decompress_buffer);
                     safe_free(reinterpret_cast<void *>(mb));
-                    bind_bml_motion(this, j, resource_decompress_buffer);
+                    LoadBinMotionSub(this, j, resource_decompress_buffer);
                     break;
                 }
                 default:
                     st.read_data((saddr)resource_decompress_buffer, (s32)sz);
                     st.align_read_offset(blk);
-                    bind_bml_motion(this, j, resource_decompress_buffer);
+                    LoadBinMotionSub(this, j, resource_decompress_buffer);
                     break;
                 }
             }
@@ -767,7 +767,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
             for (s32 i = 0; i < model_count; i++, rec++) {
                 if (models[i].texlist != NULL) {
                     strncpy(name, rec->name, 0x20);
-                    load_texture_sub(name, i);
+                    LoadTextureSub(name, i);
                 }
             }
         }
@@ -788,7 +788,7 @@ static inline void load_models(BmlResource *resource, const char *const *list) {
     s32 i;
     const char *const *p;
     for (p = list, i = 0; *p != 0; p++, i++) {
-        resource->load_bin_model(*p, i);
+        resource->LoadBinModel(*p, i);
     }
 }
 
@@ -796,7 +796,7 @@ static inline void load_motions(BmlResource *resource, const char *const *list) 
     s32 i;
     const char *const *p;
     for (p = list, i = 0; *p != 0; p++, i++) {
-        resource->load_bin_motion(*p, i);
+        resource->LoadBinMotion(*p, i);
     }
 }
 
@@ -809,7 +809,7 @@ static inline void request_motions(BmlResource *resource, const char **list) {
         req.motion = &resource->motions[i].motion;
         req.resource = resource;
         TLobby::create_named_entry(*list, lobby_download_buffer,
-                reinterpret_cast<BmlLoadCallback>(load_bin_motion_callback), &req, &handle);
+                reinterpret_cast<BmlLoadCallback>(LoadBinMotionCallBack), &req, &handle);
         TLobby__sub_8001EDD8(resource, handle);
     }
 }
@@ -870,7 +870,7 @@ BmlResource *init_bin_model_request(BmlResource *resource, s32 kind,
             req.entry = &resource->models[i];
             req.size = TGStream::get_resource_file_size(*p);
             TLobby::create_named_entry(*p, lobby_download_buffer,
-                reinterpret_cast<BmlLoadCallback>(load_bin_model_callback), &req, &handle);
+                reinterpret_cast<BmlLoadCallback>(LoadBinModelCallBack), &req, &handle);
             TLobby__sub_8001EDD8(resource, handle);
         }
         request_motions(resource, motions);

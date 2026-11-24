@@ -312,7 +312,7 @@ void TRaderMapCore::reset() { *(float *)&this->m_prev = 0.0f; *(float *)&this->m
 
 void TRaderMapCore::load_frame_texture() {
     TRaderMapCore__frame_model_resource = new BmlResource(5, &obj_f_enemy_resource_descriptor, 0, 0, NULL);
-    TRaderMapCore__data_805D5F4C = load_gvm_texture_file("RaderMapFrame.gvm");
+    TRaderMapCore__data_805D5F4C = LoadPvmFileTls("RaderMapFrame.gvm");
 }
 
 void TRaderMapCore::free_statics() {

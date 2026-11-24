@@ -1,6 +1,3 @@
-#define D54 lbl_804FDC48
-#define __GBA lbl_805D2200
-
 #include "gba/__gba.h"
 
 static volatile u8 D54[] = {

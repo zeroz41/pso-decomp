@@ -1,10 +1,10 @@
-#include "musyx/runtime/musyx_runtime_b.h"
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 
-u32 lbl_805D4630 = 1;
+u32 last_rnd = 1;
 
-s16 lbl_804F7168[1024] = {
+s16 sndSintab[1024] = {
     0, 6, 12, 18, 25, 31, 37, 43, 50, 56, 62, 69, 75, 81, 87, 94,
     100, 106, 113, 119, 125, 131, 138, 144, 150, 157, 163, 169, 175, 182, 188, 194,
     200, 207, 213, 219, 226, 232, 238, 244, 251, 257, 263, 269, 276, 282, 288, 295,
@@ -72,12 +72,12 @@ s16 lbl_804F7168[1024] = {
 };
 
 u16 sndRand(void) {
-    lbl_805D4630 = lbl_805D4630 * 0xA8351D63;
-    return lbl_805D4630 >> 6;
+    last_rnd = last_rnd * 0xA8351D63;
+    return last_rnd >> 6;
 }
 
-s16 sndSin(s32 angle) {
-    s16 *tbl = lbl_804F7168;
+s16 sndSin(u16 angle) {
+    s16 *tbl = sndSintab;
     u32 t = angle & 0xFFF;
     if (t < 0x400U) {
         return tbl[t];
@@ -114,12 +114,12 @@ void *sndBSearch(void *key, void *base, s32 num, s32 len, s32 (*cmp)(void *, voi
     return 0;
 }
 
-void sndConvertMs(s32 *time) {
+void sndConvertMs(u32 *time) {
     *time <<= 8;
 }
 
-void sndConvertTicks(u32 *ticks, saddr seqId) {
-    *ticks = ((*ticks << 16) / synthGetTicksPerSecond((void *)seqId) * 1000) >> 5;
+void sndConvertTicks(u32 *ticks, SynthVoice *svoice) {
+    *ticks = ((*ticks << 16) / synthGetTicksPerSecond(svoice) * 1000) >> 5;
 }
 
 u32 sndConvert2Ms(u32 time) {

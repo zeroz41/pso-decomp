@@ -1,8 +1,5 @@
 #include "PowerPC_EABI_Support/MetroTRK/trk.h"
 
-extern TRKEventQueue gTRKEventQueue;
-extern TRKState gTRKState;
-
 void TRKHandleRequestEvent(TRKEvent* event)
 {
 	TRKBuffer* buffer = TRKGetBuffer(event->msgBufID);

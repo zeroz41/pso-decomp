@@ -19,7 +19,7 @@ public:
     s32 advance_timer(f32 limit);
     void copy_color(NJS_ARGB *src);
     void set_rate(f32 new_rate);
-    void sub_800D741C();
+    void update_fade_alpha();
     void init_death_params();
     void start_fade_in();
     f32 value;

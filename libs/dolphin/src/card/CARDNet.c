@@ -1,7 +1,3 @@
-
-
-#define __CARDVendorID lbl_805D4580
-
 #include <dolphin.h>
 #include <dolphin/card.h>
 #include <dolphin/exi.h>

@@ -10,26 +10,26 @@
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/TLobby_80428374.h"
 #include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/NetPppLink.h"
 
-s16 TLobby__sub_803FB358(NetLinkStatus *status);
+s16 ppp_get_link_status(NetLinkStatus *status);
 /* The session's small state (.sbss 805D7A78-805D7A98), in reverse definition order: this compiler lays .sbss out
  * last-defined first. */
-s32 lbl_805D7A94;
-s32 lbl_805D7A90;
-saddr lbl_805D7A8C;
+s32 ppp_last_io_ms;
+s32 lobby_session_flags;
+saddr lobby_modem_callback;
 s16 lobby_modem_connect_state;
-s16 lbl_805D7A88;
+s16 ppp_open_requested;
 s16 lobby_modem_abort_flag;
-s16 lbl_805D7A84;
-s16 lbl_805D7A82;
+s16 ppp_session_active;
+s16 lobby_modem_error;
 s16 ppp_auth_failed;
-s16 lbl_805D7A7E;
-s16 lbl_805D7A7C;
-s16 lbl_805D7A7A;
+s16 network_transport_open;
+s16 ppp_ip_mode;
+s16 ppp_use_pppoe;
 u16 ppp_auth_protocol;
-void net_sleep_ms(int);
 
-NetSession lbl_805BFF68;
+NetSession net_session;
 PppProtoBlocks ppp_proto_blocks;
 
 typedef struct LobbyPkt_803FB7A4 {
@@ -39,27 +39,25 @@ typedef struct LobbyPkt_803FB7A4 {
 } LobbyPkt_803FB7A4;
 LAYOUT_ASSERT(LobbyPkt_803FB7A4_size, sizeof(LobbyPkt_803FB7A4) == 0x18);
 
-#define LOBBY_NOTIFY() do { if (g->cb != NULL) { unlock_mutex(lbl_805C18A0.mutex); g->cb(lbl_805D7A82, 0); lock_mutex(lbl_805C18A0.mutex); } } while (0)
-#define LOBBY_ABORT(code, st) do { lbl_805D7A82 = (code); lobby_modem_connect_state = (st); LOBBY_NOTIFY(); return 0; } while (0)
+#define LOBBY_NOTIFY() do { if (g->cb != NULL) { unlock_mutex(net_thread_state.mutex); g->cb(lobby_modem_error, 0); lock_mutex(net_thread_state.mutex); } } while (0)
+#define LOBBY_ABORT(code, st) do { lobby_modem_error = (code); lobby_modem_connect_state = (st); LOBBY_NOTIFY(); return 0; } while (0)
 
-s32 NetControl(s32 cmd, s32 arg) {
+s32 ppp_get_opt(s32 cmd, s32 arg) {
     switch (cmd) {
     case 1:
-        TLobby__sub_804050DC(arg);
+        set_net_poll_interval(arg);
         return 0;
     }
     return -1;
 }
 
-typedef struct H_803FB120 { u8 pad[0x28]; u8 *name; u8 pad2C[0x20]; void *v4C; } H_803FB120;
-extern H_803FB120 lobby_net_session_state;
 
-s16 TLobby__sub_803FAEDC(NetSession *cfg) {
+s16 ppp_set_dial_string(NetSession *cfg) {
     u32 plen;
     u8 *p;
-    u8 **pname = &lobby_net_session_state.name;
+    u8 **pname = &lobby_net_session_state.cmd;
     u32 len;
-    u8 *buf = lobby_net_session_state.name;
+    u8 *buf = lobby_net_session_state.cmd;
 
     if (cfg->phone_number == NULL) {
         return 1;
@@ -91,16 +89,15 @@ s32 ppp_term(void) {
     stop_network_thread();
     init_net_state_a();
     init_net_block_620();
-    TLobby__sub_803F7678();
+    ppp_term_hook();
     reset_boot_state();
-    TLobby__sub_803FD0C0();
+    ppp_link_term();
     init_net_block_18A0();
     init_net_state_c();
     return 0;
 }
 
-s16 TLobby__sub_803FD10C(void);
-void TLobby__sub_804061FC(int);
+void ppp_init_protocols(int);
 
 s16 ppp_init(void) {
     s16 i;
@@ -109,73 +106,73 @@ s16 ppp_init(void) {
 
     init_net_subsystem_block();
     run_net_init_step();
-    ret = TLobby__sub_803FD10C();
+    ret = ppp_link_init();
     if (ret < 0) {
         return -1;
     }
     init_modem_session_config();
-    TLobby__sub_803F767C();
+    ppp_init_hook();
     init_net_block_620_secondary();
     init_net_state_b();
-    NetMemset(&lbl_805BFF68, 0, sizeof(lbl_805BFF68));
-    p = &lbl_805BFF68;
+    NetMemset(&net_session, 0, sizeof(net_session));
+    p = &net_session;
     i = 0;
     while (i < 1) {
-        NetMemcpy(&p->modem, lobby_net_session_state.v4C, sizeof(ModemConfig));
+        NetMemcpy(&p->modem, lobby_net_session_state.config, sizeof(ModemConfig));
         i++;
         p++;
     }
     lobby_modem_connect_state = 0;
-    lbl_805D7A88 = 0;
+    ppp_open_requested = 0;
     lobby_modem_abort_flag = 0;
-    lbl_805D7A84 = 0;
-    lbl_805D7A82 = 0;
-    lbl_805D7A7E = 0;
+    ppp_session_active = 0;
+    lobby_modem_error = 0;
+    network_transport_open = 0;
     if (reset_network_timer_list() == 0) {
-        TLobby__sub_804061FC(0);
+        ppp_init_protocols(0);
     }
     start_network_thread();
     return ret;
 }
 
-ModemConfig *TLobby__sub_803FB110(void) {
-    return &lbl_805BFF68.modem;
+ModemConfig *ppp_get_modem_property(void) {
+    return &net_session.modem;
 }
 
-u8 *copy_name_buffer(void *src) {
-    NetSession *g = &lbl_805BFF68;
+u8 *ppp_set_modem_property(void *src) {
+    NetSession *g = &net_session;
     if (src == 0) {
-        NetMemcpy(&g->modem, lobby_net_session_state.v4C, sizeof(ModemConfig));
+        NetMemcpy(&g->modem, lobby_net_session_state.config, sizeof(ModemConfig));
     } else {
         NetMemcpy(&g->modem, src, sizeof(ModemConfig));
     }
     return (u8 *)&g->modem;
 }
 
-s16 NetGetLinkStatus(NetLinkStatus *status) {
-    return TLobby__sub_803FB358(status);
+s16 ppp_stat(NetLinkStatus *status) {
+    return ppp_get_link_status(status);
 }
 
 s32 ppp_stop(NetWaitParam *param) {
     NetLinkStatus status;
     s32 t;
 
-    lock_mutex(lbl_805C18A0.mutex);
-    lbl_805D7A8C = 0;
-    if (lbl_805D7A84 != 0) {
+    lock_mutex(net_thread_state.mutex);
+    lobby_modem_callback = 0;
+    if (ppp_session_active != 0) {
         lobby_modem_abort_flag = 1;
         lobby_modem_connect_state = 6;
     } else {
-        lbl_805D7A88 = 0;
+        ppp_open_requested = 0;
         lobby_modem_connect_state = 0;
     }
-    unlock_mutex(lbl_805C18A0.mutex);
+    unlock_mutex(net_thread_state.mutex);
     if (param == NULL || param->wait == 0) {
         return 0;
     }
     for (t = 0; t < 300000; t += 200) {
         net_sleep_ms(200);
-        TLobby__sub_803FB358(&status);
+        ppp_get_link_status(&status);
         if (status.state == 0) {
             return 0;
         }
@@ -198,7 +195,7 @@ s32 ppp_start(NetConnectCfg *cfg) {
     }
     for (t = 0; t < 300000; t += 200) {
         net_sleep_ms(200);
-        TLobby__sub_803FB358(&status);
+        ppp_get_link_status(&status);
         switch (status.state) {
         case 4:
             return 0;
@@ -211,14 +208,12 @@ s32 ppp_start(NetConnectCfg *cfg) {
     return -1;
 }
 
-void lock_mutex(saddr mutex);
-void unlock_mutex(saddr mutex);
 void NetMemcpy(void* destination, void* source, int size);
 #pragma push
 #pragma cplusplus off
 #pragma dont_inline off
 #pragma dont_inline off
-s16 TLobby__sub_803FB358(NetLinkStatus *status)
+s16 ppp_get_link_status(NetLinkStatus *status)
 {
   u8 *base;
   IpcpConfig *b;
@@ -227,7 +222,7 @@ s16 TLobby__sub_803FB358(NetLinkStatus *status)
   Ipv6cpConfig *a;
   u32 v0;
   u32 v1;
-  lock_mutex(lbl_805C18A0.mutex);
+  lock_mutex(net_thread_state.mutex);
   base = (u8 *)&ppp_proto_blocks;
   /* The byte offset keeps the block address load after the mutex call. */
   q = (PppFsm *)(base + offsetof(PppProtoBlocks, ipv6cp));
@@ -241,12 +236,12 @@ s16 TLobby__sub_803FB358(NetLinkStatus *status)
   {
     status->link_up = 0;
   }
-  status->w10 = b->local.want.our_addr;
-  *(new_var = &status->w14) = b->local.want.his_addr;
-  status->w18 = b->local.want.dns[0];
-  status->w1C = b->local.want.dns[1];
-  status->w20 = b->peer.want.dns[0];
-  status->w24 = b->peer.want.dns[1];
+  status->addr_local = b->local.want.our_addr;
+  *(new_var = &status->addr_peer) = b->local.want.his_addr;
+  status->dns_local_primary = b->local.want.dns[0];
+  status->dns_local_secondary = b->local.want.dns[1];
+  status->dns_peer_primary = b->peer.want.dns[0];
+  status->dns_peer_secondary = b->peer.want.dns[1];
   if (q->state == 5)
   {
     status->ppp_up = 1;
@@ -264,64 +259,64 @@ s16 TLobby__sub_803FB358(NetLinkStatus *status)
   NetMemcpy(status->addr[2], &v0, 4);
   NetMemcpy(status->addr[3], &v1, 4);
   status->state = lobby_modem_connect_state;
-  status->w8 = lobby_modem_reply_value;
-  status->h6 = lbl_805D7A82;
-  status->hC = lbl_805D7A84;
-  unlock_mutex(lbl_805C18A0.mutex);
+  status->result_code = lobby_modem_reply_value;
+  status->error = lobby_modem_error;
+  status->session_active = ppp_session_active;
+  unlock_mutex(net_thread_state.mutex);
   return 0;
 }
 #pragma pop
 
-/* Copies a connection config block (cfg) into the session state at lbl_805BFF68 when not connected; runs the user callback if flag bit 2 is set. */
+/* Copies a connection config block (cfg) into the session state at net_session when not connected; runs the user callback if flag bit 2 is set. */
 s16 NetApplyConnectionConfig(NetConnectCfg *cfg) {
-  NetSession *g = &lbl_805BFF68;
+  NetSession *g = &net_session;
   NetStoreTick(&cfg->start_tick);
-  lock_mutex(lbl_805C18A0.mutex);
-  if (((s16) lbl_805D7A84) == 0)
+  lock_mutex(net_thread_state.mutex);
+  if (((s16) ppp_session_active) == 0)
   {
     g->flags = cfg->flags;
-    g->h2 = cfg->h2;
-    lbl_805D7A7C = cfg->h2;
-    g->h4 = cfg->wait;
-    g->user = cfg->wC;
+    g->ip_mode = cfg->ip_mode;
+    ppp_ip_mode = cfg->ip_mode;
+    g->wait = cfg->wait;
+    g->user = cfg->user;
     g->password = cfg->password;
     g->phone_number = cfg->phone_number;
     g->cb = (void (*)(s16, s32))cfg->callback;
     NetMemcpy(&g->h7C, &cfg->h18, 0xA);
     NetMemcpy(&g->req, &cfg->h24, sizeof(ModemRequest));
-    NetMemcpy(&g->h98, &cfg->h34, 0x10);
+    NetMemcpy(&g->auth_mode, &cfg->auth_mode, 0x10);
     if (g->mtu == 0)
     {
       g->mtu = lobby_net_buffer_desc_b.size;
     }
-    g->wA8 = cfg->w44;
-    g->wAC = cfg->w48;
-    g->wB0 = cfg->w4C;
-    g->wB4 = cfg->w50;
-    g->wB8 = cfg->w54;
-    g->wBC = cfg->w58;
-    NetMemcpy(g->bufC0, cfg->b5C, 8);
-    NetMemcpy(g->bufC8, cfg->b64, 8);
-    lbl_805D7A82 = 0;
+    g->addr_local = cfg->addr_local;
+    g->addr_peer = cfg->addr_peer;
+    g->dns_local_primary = cfg->dns_local_primary;
+    g->dns_local_secondary = cfg->dns_local_secondary;
+    g->dns_peer_primary = cfg->dns_peer_primary;
+    g->dns_peer_secondary = cfg->dns_peer_secondary;
+    NetMemcpy(g->local_interface_id, cfg->local_interface_id, 8);
+    NetMemcpy(g->peer_interface_id, cfg->peer_interface_id, 8);
+    lobby_modem_error = 0;
     lobby_modem_connect_state = 1;
-    lbl_805D7A88 = 1;
-    lbl_805D7A90 = g->flags;
-    lbl_805D7A8C = (saddr)g->cb;
+    ppp_open_requested = 1;
+    lobby_session_flags = g->flags;
+    lobby_modem_callback = (saddr)g->cb;
     if (g->flags & 4)
     {
-      lbl_805D7A7A = 1;
+      ppp_use_pppoe = 1;
     }
     else
     {
-      lbl_805D7A7A = 0;
+      ppp_use_pppoe = 0;
     }
   }
-  unlock_mutex(lbl_805C18A0.mutex);
+  unlock_mutex(net_thread_state.mutex);
   return 0;
 }
 
 s32 is_timed_out(void) {
-    NetSession *g = &lbl_805BFF68;
+    NetSession *g = &net_session;
     s32 now;
     get_time_ms(&now);
     if (lobby_modem_connect_state == 5 || lobby_modem_abort_flag != 0 || (u32)(now - g->connect_ms) > 60000) {
@@ -330,33 +325,32 @@ s32 is_timed_out(void) {
     return 0;
 }
 
-s32 close_all_connections(void);
 
-s32 TLobby__sub_803FB6A0(void) {
+s32 ppp_hangup(void) {
     PppProtoBlocks *blocks = &ppp_proto_blocks;
-    NetSession *sess = &lbl_805BFF68;
+    NetSession *sess = &net_session;
     PppFsm *lcp = &blocks->lcp;
     update_connection_state(lcp);
     if (lcp->state == 6) {
-        while (blocks->busy != 0) {
-            unlock_mutex(lbl_805C18A0.mutex);
+        while (blocks->phase != 0) {
+            unlock_mutex(net_thread_state.mutex);
             process_expired_timers();
-            net_sleep_ms(lbl_805C18A0.poll_ms);
-            lock_mutex(lbl_805C18A0.mutex);
+            net_sleep_ms(net_thread_state.poll_ms);
+            lock_mutex(net_thread_state.mutex);
         }
     }
     lobby_modem_abort_flag = 0;
     lobby_modem_connect_state = 7;
     close_all_connections();
-    if (sess->modem.h6 != 0 && sess->modem.w44 != NULL && NetStringLength(sess->modem.w44) != 0) {
-        modem_run_script((u8 *)sess->modem.w44, sess);
+    if (sess->modem.hangup != 0 && sess->modem.hangup_script != NULL && NetStringLength(sess->modem.hangup_script) != 0) {
+        modem_run_script((u8 *)sess->modem.hangup_script, sess);
     }
-    if (lbl_805D7A7E != 0) {
+    if (network_transport_open != 0) {
         close_network_transport();
-        lbl_805D7A7E = 0;
+        network_transport_open = 0;
     }
-    lbl_805D7A84 = 0;
-    lbl_805D7A88 = 0;
+    ppp_session_active = 0;
+    ppp_open_requested = 0;
     lobby_modem_abort_flag = 0;
     lobby_modem_connect_state = 0;
     return 0;
@@ -364,7 +358,7 @@ s32 TLobby__sub_803FB6A0(void) {
 
 s32 ppp_open_sub(void) {
     extern s32 lbl_805D7BD8;
-    NetSession *g = &lbl_805BFF68;
+    NetSession *g = &net_session;
     LobbyPkt_803FB7A4 pkt;
     s16 r29;
     s16 ok;
@@ -377,16 +371,16 @@ s32 ppp_open_sub(void) {
     s32 flag;
     s16 h2;
 
-    lbl_805D7A88 = 0;
+    ppp_open_requested = 0;
     lobby_modem_connect_state = 2;
-    get_time_ms(&lbl_805D7A94);
-    lbl_805D7A84 = 1;
-    rc = ppp_begin_connect(0, 0, g->h80, g->h7E, g->h7C, 1, g->modem.s48, g->flags & 4);
+    get_time_ms(&ppp_last_io_ms);
+    ppp_session_active = 1;
+    rc = ppp_begin_connect(0, 0, g->h80, g->h7E, g->h7C, 1, g->modem.modem_name, g->flags & 4);
     if (rc != 0 || lobby_modem_abort_flag != 0) {
         if (lobby_modem_abort_flag != 0) {
-            lbl_805D7A82 = 0xd;
+            lobby_modem_error = 0xd;
         } else {
-            lbl_805D7A82 = 1;
+            lobby_modem_error = 1;
         }
         lobby_modem_connect_state = 8;
         LOBBY_NOTIFY();
@@ -396,8 +390,8 @@ s32 ppp_open_sub(void) {
         if (g->req.has_arg == 1 && (s16)send_atx_command_mode(0) != 0) {
             LOBBY_ABORT(1, 8);
         }
-        if (g->modem.h0 != 0) {
-            rc = configure_modem_options(g->modem.w4C, g->modem.w50, g->modem.w54, g->modem.init_count, g->modem.init_command);
+        if (g->modem.send_init != 0) {
+            rc = configure_modem_options(g->modem.ms_mode, g->modem.error_correction, g->modem.compression, g->modem.init_count, g->modem.init_command);
         } else {
             rc = configure_modem_options(0, 0, 0, 0, 0);
         }
@@ -408,14 +402,14 @@ s32 ppp_open_sub(void) {
             lobby_modem_connect_state = 0xa;
             goto L242;
         }
-        if (g->modem.h2 != 0) {
-            ret = TLobby__sub_803FAEDC(g);
+        if (g->modem.dial != 0) {
+            ret = ppp_set_dial_string(g);
             if (ret != 0) {
                 LOBBY_ABORT(ret, 8);
             }
         }
     }
-    if (g->modem.h4 != 0) {
+    if (g->modem.wait_connect != 0) {
         timeout = g->req.timeout * 1000;
         get_time_ms(&t0);
         for (;;) {
@@ -435,74 +429,74 @@ s32 ppp_open_sub(void) {
             flag = lobby_modem_abort_flag;
             if ((s16)flag != 0 || (u32)(t1 - t0) > (u32)timeout) {
                 if ((s16)flag != 0) {
-                    lbl_805D7A82 = 0xd;
+                    lobby_modem_error = 0xd;
                 } else {
-                    lbl_805D7A82 = 0xc;
+                    lobby_modem_error = 0xc;
                 }
                 lobby_modem_connect_state = 8;
                 LOBBY_NOTIFY();
                 return 0;
             }
-            unlock_mutex(lbl_805C18A0.mutex);
+            unlock_mutex(net_thread_state.mutex);
             net_sleep_ms(100);
-            lock_mutex(lbl_805C18A0.mutex);
+            lock_mutex(net_thread_state.mutex);
         }
     }
 L242:
     if (g->flags & 2) {
         lobby_modem_connect_state = 0xa;
         while (lobby_modem_connect_state == 0xa) {
-            unlock_mutex(lbl_805C18A0.mutex);
+            unlock_mutex(net_thread_state.mutex);
             net_sleep_ms(100);
             process_expired_timers();
-            lock_mutex(lbl_805C18A0.mutex);
+            lock_mutex(net_thread_state.mutex);
         }
         if (lobby_modem_connect_state != 1) {
             if (g->cb != NULL) {
-                unlock_mutex(lbl_805C18A0.mutex);
-                lbl_805D7A82 = 1;
-                g->cb(lbl_805D7A82, 0);
-                lock_mutex(lbl_805C18A0.mutex);
+                unlock_mutex(net_thread_state.mutex);
+                lobby_modem_error = 1;
+                g->cb(lobby_modem_error, 0);
+                lock_mutex(net_thread_state.mutex);
             }
             return 0;
         }
     }
-    unlock_mutex(lbl_805C18A0.mutex);
+    unlock_mutex(net_thread_state.mutex);
     net_sleep_ms(500);
-    lock_mutex(lbl_805C18A0.mutex);
+    lock_mutex(net_thread_state.mutex);
     lobby_modem_connect_state = 3;
     ppp_auth_failed = 0;
     get_time_ms(&g->connect_ms);
     ppp_auth_protocol = 0;
     if (g->flags & 4) {
         pkt.lcp.accm = -1;
-        pkt.lcp.f4 = 1;
+        pkt.lcp.no_acfc = 1;
         pkt.lcp.mru = 0x5AE;
         mode = 1;
-        pkt.lcp.fE = 1;
+        pkt.lcp.no_pfc = 1;
     } else {
         pkt.lcp.accm = 0xA0000;
         /* These session inputs are loaded as unsigned halfwords. */
-        pkt.lcp.f4_u = g->uA0;
+        pkt.lcp.no_acfc_u = g->no_acfc;
         pkt.lcp.mru = g->mtu;
-        pkt.lcp.fE_u = g->uA2;
-        mode = g->hA4;
+        pkt.lcp.no_pfc_u = g->no_pfc;
+        mode = g->vj_disabled;
     }
-    pkt.lcp.auth_mode = g->h98;
+    pkt.lcp.auth_mode = g->auth_mode;
     pkt.lcp.magic = g->start_tick;
     pkt.user = g->user;
     pkt.password = g->password;
     if (lcp_connect(&pkt.lcp) != 0) {
         LOBBY_ABORT(5, 8);
     }
-    h2 = g->h2;
+    h2 = g->ip_mode;
     if (h2 == 6 || h2 == 0) {
-        ipv6cp_set_interface_identifiers(0, g->bufC0, g->bufC8);
+        ipv6cp_set_interface_identifiers(0, g->local_interface_id, g->peer_interface_id);
     }
-    ipcp_configure_all_options(mode, g->wA8, g->wAC, g->wB0, g->wB4, g->wB8, g->wBC);
-    lbl_805D7AA0 = 0;
+    ipcp_configure_all_options(mode, g->addr_local, g->addr_peer, g->dns_local_primary, g->dns_local_secondary, g->dns_peer_primary, g->dns_peer_secondary);
+    ppp_opened_count = 0;
     ok = 0;
-    switch (g->h98 & 0x7f) {
+    switch (g->auth_mode & 0x7f) {
     default:
         ok = 1;
         break;
@@ -566,9 +560,9 @@ L242:
     }
     lobby_modem_connect_state = 4;
     if (g->cb != NULL) {
-        unlock_mutex(lbl_805C18A0.mutex);
+        unlock_mutex(net_thread_state.mutex);
         g->cb(0, lbl_805D7BD8);
-        lock_mutex(lbl_805C18A0.mutex);
+        lock_mutex(net_thread_state.mutex);
     }
     return 0;
 }
@@ -578,12 +572,12 @@ s16 get_remaining(s32 elapsed) {
 }
 
 /* Stores the PPP auth protocol: 0xC023 (PAP) -> 0x80, 0xC223 (CHAP) -> 0x82, else the raw value. */
-void ppp_set_auth(u16 v) {
-    if (v == 0xC023) {
+void ppp_set_auth(u16 protocol) {
+    if (protocol == 0xC023) {
         ppp_auth_protocol = 0x80;
-    } else if (v == 0xC223) {
+    } else if (protocol == 0xC223) {
         ppp_auth_protocol = 0x82;
     } else {
-        ppp_auth_protocol = v;
+        ppp_auth_protocol = protocol;
     }
 }

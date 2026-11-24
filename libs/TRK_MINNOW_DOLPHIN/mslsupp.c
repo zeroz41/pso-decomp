@@ -68,3 +68,20 @@ DSIOResult __access_file(u32 handle, u8* buffer, size_t* count, void* ref_con, M
 void __open_temp_file(void)
 {
 }
+
+DSIOResult __close_console(u32 handle)
+{
+	if (GetTRKConnected() == DS_NoError) {
+		return DS_IOError;
+	}
+
+	switch ((u8)TRKCloseFile(DSMSG_CloseFile, handle)) {
+	case DS_IONoError:
+		return DS_IONoError;
+	case DS_IOEOF:
+		return DS_IOEOF;
+	case DS_IOError:
+	default:
+		return DS_IOError;
+	}
+}

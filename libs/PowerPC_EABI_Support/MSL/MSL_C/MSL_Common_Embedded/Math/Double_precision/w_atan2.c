@@ -12,12 +12,7 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 double atan2(double y, double x)
-#else
-double atan2(y, x)
-double y, x;
-#endif
 {
 #ifdef _IEEE_LIBM
     return __ieee754_atan2(y, x);

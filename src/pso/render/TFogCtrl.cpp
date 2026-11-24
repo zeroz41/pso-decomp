@@ -10,6 +10,7 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/render/GinjaDrawUtil.h"
+#include "pso/render/SceneFog.h"
 #include <stddef.h>
 #include "pso/map/FloorArea.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -24,10 +25,10 @@
 #include "pso/render/GinjaView.h"
 
 extern "C" {
-static const char lbl_8043DA20[] = "fogentry.dat";
-static const char lbl_8043DA30[] = "fogentry_a.dat";
-const char *TFogCtrl__name = "TFogCtrl";
-const char *TFogCtrl_EOR__name = "TFogCtrl_EOR";
+static const char fog_entry_file_name[] = "fogentry.dat";
+static const char fog_entry_online_file_name[] = "fogentry_a.dat";
+const char *TFogCtrl_name = "TFogCtrl";
+const char *TFogCtrl_EOR_name = "TFogCtrl_EOR";
 }
 
 struct GXFogAdjTable {
@@ -83,7 +84,7 @@ void init_scene_fog_system(void) {
     for (i = 0; i < 0x80; i++) {
         copy_fog_entry(&fog_entry_array[i], &fog_default_entry);
     }
-    read_disc_file(lbl_8043DA20, fog_entry_array);
+    read_disc_file(fog_entry_file_name, fog_entry_array);
     for (i = 0; i < 4; i++) {
         TFogCtrl::fog_instance_table[i] = NULL;
     }
@@ -125,11 +126,11 @@ void TFogCtrl::update_fog_entries() {
     s32 i;
     if (TLobby::is_online_ready() != 0) {
         if (!(fog_update_flags & 2)) {
-            read_disc_file(lbl_8043DA30, fog_entry_array);
+            read_disc_file(fog_entry_online_file_name, fog_entry_array);
             fog_update_flags |= 2;
         }
     } else if (fog_update_flags & 2) {
-        read_disc_file(lbl_8043DA20, fog_entry_array);
+        read_disc_file(fog_entry_file_name, fog_entry_array);
         fog_update_flags &= ~2;
     }
     for (i = 0; i != 4; i++) {
@@ -158,7 +159,7 @@ void TFogCtrl::on_entries_released() { }
 TFogCtrl::TFogCtrl(TObject *parent, s32 index) : TObject(parent) {
     s32 i;
     f32 zero;
-    m_name = TFogCtrl__name;
+    m_name = TFogCtrl_name;
     this->index = index;
     if (this->index >= 0 && this->index < 4) {
         fog_instance_table[this->index] = this;
@@ -360,15 +361,15 @@ s32 TFogCtrl::get_param() { return locked; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-void TFogCtrl::request_transition(s32 arg1, s32 arg2) {
-    if (arg2 & 1) {
+void TFogCtrl::request_transition(s32 slot, s32 flags) {
+    if (flags & 1) {
         mode = 1;
     } else {
         mode = 2;
     }
     request_from = selected;
     request_to = 2;
-    request_selected = arg1;
+    request_selected = slot;
 }
 #pragma pop
 
@@ -393,7 +394,7 @@ s32 TFogCtrl::request_fog(s32 entry, s32 flags) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 TFogCtrl::select_fog(s32 entry, s32 arg2) {
+s32 TFogCtrl::select_fog(s32 entry, s32 flags) {
     if (get_param() != 0) {
         return 0;
     }
@@ -401,7 +402,7 @@ s32 TFogCtrl::select_fog(s32 entry, s32 arg2) {
         return 1;
     }
     load_entry_into_slot(2, entry);
-    request_transition(1, arg2);
+    request_transition(1, flags);
     return 1;
 }
 #pragma pop
@@ -410,19 +411,19 @@ s32 TFogCtrl::select_fog(s32 entry, s32 arg2) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 TFogCtrl::restore_fog(s32 arg1) {
-    s32 temp_r0;
+s32 TFogCtrl::restore_fog(s32 flags) {
+    s32 current;
     if (get_param() != 0) {
         return 0;
     }
-    temp_r0 = selected;
-    if (temp_r0 == 0) {
+    current = selected;
+    if (current == 0) {
         return 1;
     }
-    if ((temp_r0 == 3) && (blend_selected == 0)) {
+    if ((current == 3) && (blend_selected == 0)) {
         return 1;
     }
-    if (arg1 & 1) {
+    if (flags & 1) {
         mode = 1;
     } else {
         mode = 2;
@@ -469,12 +470,12 @@ void TFogCtrl::apply_fog_entry() {
 #pragma auto_inline off
 #pragma dont_inline off
 void TFogCtrl::clear_active_flag() {
-    s32 temp_r3;
+    s32 dirty_flags;
 
     if (is_split_screen() == 0) {
-        temp_r3 = dirty;
-        if (temp_r3 & 1) {
-            dirty = temp_r3 & ~1;
+        dirty_flags = dirty;
+        if (dirty_flags & 1) {
+            dirty = dirty_flags & ~1;
             apply_fog_entry();
         }
     } else {
@@ -560,22 +561,22 @@ s32 TFogCtrl::restore_fog_for_player(s32 owner_client_id, s32 player) {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-s32 TFogCtrl::select_fog_for_viewport(s32 arg0, s32 entry, s32 arg2) {
+s32 TFogCtrl::select_fog_for_viewport(s32 view, s32 entry, s32 flags) {
     if (is_split_screen() == 0) {
-        arg0 = 0;
+        view = 0;
     }
-    if (arg0 >= 0 && arg0 < 4 && fog_instance_table[arg0] != NULL) {
-        return fog_instance_table[arg0]->select_fog(entry, arg2);
+    if (view >= 0 && view < 4 && fog_instance_table[view] != NULL) {
+        return fog_instance_table[view]->select_fog(entry, flags);
     }
     return 0;
 }
 #pragma pop
 
-s32 TFogCtrl::update_all(s32 arg0) {
+s32 TFogCtrl::update_all(s32 flags) {
     s32 i;
     for (i = 0; i != 4; i++) {
         if (fog_instance_table[i] != NULL) {
-            fog_instance_table[i]->restore_fog(arg0);
+            fog_instance_table[i]->restore_fog(flags);
         }
     }
     return 1;
@@ -591,11 +592,11 @@ s32 TFogCtrl::update_first_active_fog() {
     return 0;
 }
 
-s32 TFogCtrl::apply_all(s32 entry, s32 arg1) {
+s32 TFogCtrl::apply_all(s32 entry, s32 flags) {
     s32 i;
     for (i = 0; i != 4; i++) {
         if (fog_instance_table[i] != NULL) {
-            fog_instance_table[i]->select_fog(entry, arg1);
+            fog_instance_table[i]->select_fog(entry, flags);
         }
     }
     return 1;
@@ -623,7 +624,7 @@ void TQuestVmDownLoadServer::destroy_instance() {
 }
 
 TFogCtrl_EOR::TFogCtrl_EOR() : TObject(&end_of_render_root) {
-    m_name = TFogCtrl_EOR__name;
+    m_name = TFogCtrl_EOR_name;
 }
 
 TFogCtrl_EOR::~TFogCtrl_EOR() {

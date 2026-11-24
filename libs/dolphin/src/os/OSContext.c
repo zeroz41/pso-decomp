@@ -3,9 +3,6 @@
 
 #include "os/__os.h"
 
-extern void __RAS_OSDisableInterrupts_begin();
-extern void __RAS_OSDisableInterrupts_end();
-extern void DBPrintf(char*, ...);
 
 #define HID2 920
 

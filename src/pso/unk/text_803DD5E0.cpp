@@ -1,5 +1,6 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/dvd.h>
+#include <dolphin/gx/GXStruct.h>
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GinjaTexture.h"
@@ -31,7 +32,7 @@ void set_ginja_draw_flags(s32 flags) {
     ginja_draw_flags = flags;
 }
 
-void TObjPlayer__sub_803DD5E8(NJS_TEXLIST *list, NJS_TEXNAME *entries, uaddr names, s32 count) {
+void bind_texture_name_table(NJS_TEXLIST *list, NJS_TEXNAME *entries, uaddr names, s32 count) {
     int i;
 
     for (i = 0; i < count; ++i) {
@@ -82,7 +83,7 @@ s32 read_gvrt_file_header(NJS_TEXLIST *list, s32 index) {
     DVDFileInfo *pfile;
     u32 size;
     reset_texture_error();
-    r = TObjPlayer__sub_803D9E38((s32 *)list, index, &id, (u32 *)&tlut_name);
+    r = resolve_texlist_entry((s32 *)list, index, &id, (u32 *)&tlut_name);
     if (r != 0) {
         return r;
     }
@@ -105,7 +106,7 @@ s32 read_gvrt_file_header(NJS_TEXLIST *list, s32 index) {
     if ((u32)id != 0xFFFFFFFF) {
         global_index = id;
     }
-    r = TObjPlayer__sub_803DAC48(list, index, global_index, tlut_name, &desc, &slot);
+    r = bind_texlist_texture(list, index, global_index, tlut_name, &desc, &slot);
     if (r != 0) {
         DVDClose(pfile);
         return r;
@@ -127,7 +128,7 @@ s32 load_texture_from_memory(NJS_TEXLIST *list, s32 index) {
     u32 chunk;
     GinjaTextureInput *input;
     reset_texture_error();
-    r = TObjPlayer__sub_803D9E38((s32 *)list, index, &id, (u32 *)&tlut_name);
+    r = resolve_texlist_entry((s32 *)list, index, &id, (u32 *)&tlut_name);
     if (r != 0) {
         return r;
     }
@@ -146,15 +147,15 @@ s32 load_texture_from_memory(NJS_TEXLIST *list, s32 index) {
     if ((u32)id != 0xFFFFFFFF) {
         global_index = id;
     }
-    r = TObjPlayer__sub_803DAC48(list, index, global_index, tlut_name, &desc, &slot);
+    r = bind_texlist_texture(list, index, global_index, tlut_name, &desc, &slot);
     if (r != 0) {
         return r;
     }
-    if (TObjPlayer__sub_803DAB9C(slot, chunk) < 0) {
-        TObjPlayer__sub_803DAC1C(slot);
+    if (reload_texture_slot_pixels(slot, chunk) < 0) {
+        release_texture_slot(slot);
         return -1;
     }
-    while (TObjPlayer::is_gvm_load_ok() != 1) {
+    while (is_gvm_load_ok() != 1) {
     }
     return 1;
 }
@@ -168,7 +169,7 @@ s32 create_texture_from_input(NJS_TEXLIST *list, s32 index) {
     s32 global_index;
     GinjaTextureInput *input;
     reset_texture_error();
-    r = TObjPlayer__sub_803D9E38((s32 *)list, index, &id, (u32 *)&tlut_name);
+    r = resolve_texlist_entry((s32 *)list, index, &id, (u32 *)&tlut_name);
     if (r != 0) {
         return r;
     }
@@ -180,7 +181,7 @@ s32 create_texture_from_input(NJS_TEXLIST *list, s32 index) {
     if ((u32)id != 0xFFFFFFFF) {
         global_index = id;
     }
-    if (TObjPlayer__sub_803DAC48(list, index, global_index, tlut_name, &desc, &slot) >= 0) {
+    if (bind_texlist_texture(list, index, global_index, tlut_name, &desc, &slot) >= 0) {
         return 1;
     }
     return -1;
@@ -195,7 +196,7 @@ s32 reference_texture_by_global_index(NJS_TEXLIST *list, s32 index) {
     s32 r;
     s32 global_index;
     reset_texture_error();
-    r = TObjPlayer__sub_803D9E38((s32 *)list, index, &id, (u32 *)&tlut_name);
+    r = resolve_texlist_entry((s32 *)list, index, &id, (u32 *)&tlut_name);
     if (r != 0) {
         return r;
     }
@@ -203,7 +204,7 @@ s32 reference_texture_by_global_index(NJS_TEXLIST *list, s32 index) {
     if ((u32)id != 0xFFFFFFFF) {
         global_index = id;
     }
-    switch (TObjPlayer__sub_803DA8E4(global_index, tlut_name, 0, &slot)) {
+    switch (reference_loaded_texture(global_index, tlut_name, 0, &slot)) {
     case -1:
         return -1;
     case 0:
@@ -216,7 +217,7 @@ s32 reference_texture_by_global_index(NJS_TEXLIST *list, s32 index) {
             texture->surface->id = global_index;
         }
         active_texture_surface_count++;
-        TObjPlayer__sub_803DAB7C(list, index, slot);
+        set_texlist_texture(list, index, slot);
         break;
     }
     return 1;
@@ -240,7 +241,7 @@ s32 load_texture_list(NJS_TEXLIST *list) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void TLobby::bswap32_in_place(u32 *p) {
+void bswap32_in_place(u32 *p) {
     u32 v = *p;
     *p = ((v & 0xFF000000) >> 24) | ((v & 0xFF0000) >> 8) | ((v & 0xFF00) << 8) | ((v & 0xFF) << 24);
 }
@@ -282,7 +283,7 @@ void copy_u16_bytes(s8 *dst, s8 *src) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void TLobby::copy_4word_struct(void *dst, void *src) {
+void copy_4word_struct(void *dst, void *src) {
     s8 *d = (s8 *)dst;
     s8 *s = (s8 *)src;
     s32 t;
@@ -338,11 +339,11 @@ void replace_gvm_texture_directory(NJS_TEXLIST* list, s32 stride, const GvmTextu
         if (dimensions) record += 2;
         if (alternateGlobal) {
             if (globals) {
-                TLobby::copy_4word_struct(&texture->global_index, record);
+                copy_4word_struct(&texture->global_index, record);
                 texture->attr |= 0x01000000;
             }
         } else if (globals) {
-            TLobby::copy_4word_struct(&texture->global_index, record);
+            copy_4word_struct(&texture->global_index, record);
             texture->attr |= 0x00800000;
         }
         off += 0xC;
@@ -360,12 +361,12 @@ s32 calc_gvm_entry_stride(u16 flags) {
     return r;
 }
 
-void TLobby::seek_gvrt_chunk() {
+void seek_gvrt_chunk() {
     s32 magic;
     s32 size;
     do {
         magic = *(s32 *)gvm_stream_read(4);
-        TLobby::bswap32_in_place((u32 *)&magic);
+        bswap32_in_place((u32 *)&magic);
         switch (magic) {
         case 0x4D4D4F43:
         case 0x564E4F43:
@@ -374,7 +375,7 @@ void TLobby::seek_gvrt_chunk() {
         case 0x4C505647:
         case 0x43474D49:
             size = *(s32 *)gvm_stream_read(4);
-            TLobby::bswap32_in_place((u32 *)&size);
+            bswap32_in_place((u32 *)&size);
             gvm_stream_seek(size, 1);
             break;
         case 0x54525647:
@@ -382,7 +383,7 @@ void TLobby::seek_gvrt_chunk() {
             break;
         default:
             size = *(s32 *)gvm_stream_read(4);
-            TLobby::bswap32_in_place((u32 *)&size);
+            bswap32_in_place((u32 *)&size);
             gvm_stream_seek(size, 1);
             break;
         }
@@ -410,8 +411,8 @@ s32 load_gvm_texture_archive(void *buf, NJS_TEXLIST *list) {
     }
     gvm_stream_begin((saddr)buf);
     header = (GvmTextureHeader *)gvm_stream_read(sizeof(GvmTextureHeader));
-    TLobby::bswap32_in_place(&header->magic);
-    TLobby::bswap32_in_place(&header->size);
+    bswap32_in_place(&header->magic);
+    bswap32_in_place(&header->size);
     if (header->magic != 0x484D5647) {
         texture_error.code = 4;
         return -1;
@@ -419,7 +420,7 @@ s32 load_gvm_texture_archive(void *buf, NJS_TEXLIST *list) {
     list->nbTexture = header->texture_count;
     replace_gvm_texture_directory(list, calc_gvm_entry_stride(header->flags), header);
     gvm_stream_seek(header->size + 8, 0);
-    TLobby::seek_gvrt_chunk();
+    seek_gvrt_chunk();
     n = list->nbTexture;
     for (i = 0; i < n; i++) {
         for (k = 0; k < n; k++) {
@@ -427,31 +428,31 @@ s32 load_gvm_texture_archive(void *buf, NJS_TEXLIST *list) {
                 break;
             }
         }
-        r = TObjPlayer__sub_803D9E38((s32 *)list, k, &id, (u32 *)&tlut_name);
+        r = resolve_texlist_entry((s32 *)list, k, &id, (u32 *)&tlut_name);
         if (r == -1) {
             texture_error.code = 7;
             return -1;
         }
         chunk = (GvrTextureChunk *)gvm_stream_read(sizeof(GvrTextureChunk));
-        TLobby::bswap32_in_place(&chunk->magic);
-        TLobby::bswap32_in_place(&chunk->size);
+        bswap32_in_place(&chunk->magic);
+        bswap32_in_place(&chunk->size);
         if (chunk->magic != 0x54525647) {
             texture_error.code = 4;
             return -1;
         }
         data = gvm_stream_read(chunk->size - 8);
         if (r == 0) {
-            switch (TObjPlayer__sub_803DAC48(list, k, id, tlut_name, &chunk->desc, &slot)) {
+            switch (bind_texlist_texture(list, k, id, tlut_name, &chunk->desc, &slot)) {
             case -1:
                 texture_error.code = 6;
                 return -1;
             case 0:
-                if (TObjPlayer__sub_803DAB9C(slot, data) == -1) {
-                    TObjPlayer__sub_803DAC1C(slot);
+                if (reload_texture_slot_pixels(slot, data) == -1) {
+                    release_texture_slot(slot);
                     return -1;
                 }
                 do {
-                } while (TObjPlayer::is_gvm_load_ok() != 1);
+                } while (is_gvm_load_ok() != 1);
                 break;
             }
         }
@@ -463,7 +464,7 @@ s32 load_gvm_texture_archive(void *buf, NJS_TEXLIST *list) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void TLobby::bswap_u32(u32 *p) {
+void bswap_u32(u32 *p) {
     u32 v = *p;
     *p = ((v & 0xFF000000) >> 24) | ((v & 0xFF0000) >> 8) | ((v & 0xFF00) << 8) | ((v & 0xFF) << 24);
 }
@@ -472,7 +473,7 @@ void TLobby::bswap_u32(u32 *p) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-u32 TLobby::bswap32_value(u32 v) {
+u32 bswap32_value(u32 v) {
     return ((v & 0xFF) << 24) | ((v & 0xFF00) << 8) | ((v & 0xFF0000) >> 8) | ((v & 0xFF000000) >> 24);
 }
 #pragma pop
@@ -491,12 +492,12 @@ void *load_nj_chunk_model_resource(u8 *base, u32 *off, u32 *out) {
     pos = 0;
     src = base + *off;
     move_data((void *)((&magic)), (const void *)(src), 4);
-    TLobby::bswap_u32(&magic);
+    bswap_u32(&magic);
     move_data((void *)((&size)), (const void *)(src + 4), 4);
-    TLobby::bswap_u32(&size);
+    bswap_u32(&size);
     src += 8;
     *off += 8;
-    magic = TLobby::bswap32_value(magic);
+    magic = bswap32_value(magic);
     switch ((s32) magic) {
     case 0x4E4A494E:
         *out = 0x4E4A494E;
@@ -549,12 +550,12 @@ unknown:
     return NULL;
 relocate:
     move_data((void *)((&magic)), (const void *)(src), 4);
-    TLobby::bswap_u32(&magic);
+    bswap_u32(&magic);
     *off += 4;
-    magic = TLobby::bswap32_value(magic);
+    magic = bswap32_value(magic);
     if (magic == 0x504F4630) {
         move_data((void *)((&size)), (const void *)(src + 4), 4);
-        TLobby::bswap_u32(&size);
+        bswap_u32(&size);
         src += 8;
         *off += 4;
         while (size != 0) {
@@ -597,6 +598,6 @@ relocate:
     return buf;
 }
 
-s32 gx_light_objects[0x50];
+GXLightObj gx_light_objects[5];
 s16 *chunk_polygon_list_cache[0x7E];
 u8 gvrt_header_read_buffer[0x20];

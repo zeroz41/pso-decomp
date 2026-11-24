@@ -275,5 +275,5 @@ void TLobby::send_status_packet() {
     char lobby[0x84];
 
     ((TLobby *)lobby)->collect_active_card_ids();
-    protocol_instance->send_c6_packet(lobby);
+    protocol_instance->send_c6_packet((TBlockedSenders *)lobby);
 }

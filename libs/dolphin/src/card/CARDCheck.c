@@ -1,9 +1,3 @@
-
-
-#define VerifyDir CARDCheck_VerifyDir
-#define VerifyFAT CARDCheck_VerifyFAT
-#define VerifyID CARDCheck_VerifyID
-#define __CARDBlock lbl_80544980
 #include <dolphin.h>
 #include <dolphin/card.h>
 

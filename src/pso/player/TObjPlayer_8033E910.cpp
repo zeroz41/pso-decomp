@@ -5,7 +5,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_8033E910.h"
 #include "pso/weapon/TItemWeaponSBerillsHands.h"
-#include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/unk/TUnk_804EFA88.h"
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaTextureMatrices.h"
@@ -22,8 +21,12 @@
 #include "pso/object/ambient/TObjFish.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXTev.h>
+#include <dolphin/gx/GXGeometry.h>
 #undef PSO_SDK_COMPACT_MATH
 #include <dolphin/mtx.h>
+
+// Defined at the end of the file, where the original places it after the unit's other functions.
+static void set_tex_coord_gen(GXTexCoordID dst_coord, GXTexGenType func, GXTexGenSrc src_param, u32 mtx);
 
 #pragma readonly_strings on
 
@@ -63,7 +66,7 @@ void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 
 void init_particle_effect__10TObjPlayerFv(void) { TObjFish::set_global_param(get_shared_capture_texture_list()); load_list_texture(0, 0, 0, 2); }
 
-void reset_effects__10TObjPlayerFv(void) { set_ginja_post_tev_stage_count((saddr)(0)); set_ginja_post_texgen_count((saddr)(0)); TObjPlayer::set_global_effect_state((saddr)(0)); model_render_flags = (model_render_flags & 0xfff7ffff); }
+void reset_effects__10TObjPlayerFv(void) { set_ginja_post_tev_stage_count((saddr)(0)); set_ginja_post_texgen_count((saddr)(0)); set_global_effect_state((saddr)(0)); model_render_flags = (model_render_flags & 0xfff7ffff); }
 
 void setup_projection_tex_matrix__10TObjPlayerFv(void) {
     GinjaMatrix mtx;
@@ -85,11 +88,11 @@ void setup_projection_tex_matrix__10TObjPlayerFv(void) {
         load_current_pos_matrix(2);
         GXSetTevOrder(GX_TEVSTAGE1, GX_TEXCOORD1, GX_TEXMAP2, GX_COLOR0A0);
         GXSetTevOp(GX_TEVSTAGE1, GX_DECAL);
-        set_tex_coord_gen2(1, 0, 0, 0x24);
+        set_tex_coord_gen(GX_TEXCOORD1, GX_TG_MTX3x4, GX_TG_POS, GX_TEXMTX2);
         model_render_flags |= 0x80000;
         set_ginja_post_tev_stage_count(1);
         set_ginja_post_texgen_count(1);
-        TObjPlayer::set_global_effect_state((saddr)((1)));
+        set_global_effect_state((saddr)((1)));
     }
 }
 
@@ -125,8 +128,8 @@ void TUnk_804EFA88::render() {
         play_indirect_effect_recipe(this->entries[i].effect_kind, 1, 1);
         ((void (*)(void *))init_particle_effect__10TObjPlayerFv)(this);
         ((void (*)(void *))setup_projection_tex_matrix__10TObjPlayerFv)(this);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->entries[i].p18));
-        draw_ginja_object((void *)(this->entries[i].p1C));
+        TObjFish::set_global_param(this->entries[i].texlist);
+        draw_ginja_object(this->entries[i].model);
         pop_matrix();
         reset_indirect_tev(1);
         ((void (*)(void *))reset_effects__10TObjPlayerFv)(this);
@@ -140,7 +143,7 @@ void TUnk_804EFA88::run_task() {
         return;
     }
     for (i = 0; i < this->entry_count; i++) {
-        TLobby__sub_8033EE38(&this->entries[i]);
+        clear_draw_record(&this->entries[i]);
     }
     this->entry_count = 0;
 }
@@ -159,10 +162,10 @@ TUnk_804EFA88::~TUnk_804EFA88() {
 TUnk_804EFA88::TUnk_804EFA88(TObject *parent) : TObject(parent) {
     s32 i;
     entry_count = 0;
-    entries = (Item_8033EB4C *)mem_alloc(0x240);
+    entries = (IndirectDrawRecord *)mem_alloc(0x240);
     if (entries != NULL) {
         for (i = 0; i < 0x10; i++) {
-            TLobby__sub_8033EE38(&entries[i]);
+            clear_draw_record(&entries[i]);
         }
     }
     lbl_805D6DA0 = this;
@@ -178,3 +181,8 @@ void TLobby::release_indexed_entry(s32 arg0) {
 void TLobby__sub_8033EDF8(void) { lbl_805D6DA0 = 0; }
 
 void TLobby__sub_8033EE04(void) { lbl_805D6DA0 = 0; }
+
+// The SDK's GXSetTexCoordGen out of line: no normalisation, identity post-transform.
+static void set_tex_coord_gen(GXTexCoordID dst_coord, GXTexGenType func, GXTexGenSrc src_param, u32 mtx) {
+    GXSetTexCoordGen2(dst_coord, func, src_param, mtx, GX_FALSE, GX_PTIDENTITY);
+}

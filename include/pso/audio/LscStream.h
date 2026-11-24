@@ -91,7 +91,7 @@ s32 lsc_enqueue_range(LscStream* stream, const char* filename,
     s32 open_mode, s32 range_offset, s32 range_length);
 s32 lsc_enqueue_file(LscStream* stream, const char* filename);
 void lsc_destroy(LscStream* stream);
-LscStream* lsc_create(void* sj_handle);
+LscStream* LSC_Create(void* sj_handle);
 void lsc_shutdown(void);
 void lsc_init(void);
 void lsc_poll(LscStream* stream);

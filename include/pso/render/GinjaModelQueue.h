@@ -3,18 +3,14 @@
 
 #include "types.h"
 
+struct GinjaTextureHeader;
+
 extern "C" {
-s32 TObjPlayer__sub_803DB23C(void);
-s32 TObjPlayer__sub_803DB244(void);
+// Texture transfers are synchronous on GameCube: nothing is ever started or left pending.
+s32 start_texture_header_transfer(struct GinjaTextureHeader *header);
+s32 texture_transfer_pending(void);
 }
 void draw_queued_models(u32 count);
 void flush_model_draw_queue(void);
-
-// --- C functions defined in GinjaModelQueue.cpp ---
-extern "C" {
-s32 TObjPlayer__sub_803DB23C(void);
-s32 TObjPlayer__sub_803DB244(void);
-}
-// --- end of C functions
 
 #endif

@@ -43,7 +43,7 @@ void TObjNpcARM00::free_resources() {
 
 void TObjNpcARM00::load_resources() {
     model_resource = static_cast<void **>(create_named_object("npc_e00_data.rel"));
-    texture_list = load_gvm_texture_file("n_e00_w_body.gvm");
+    texture_list = LoadPvmFileTls("n_e00_w_body.gvm");
 }
 
 TObjNpcARM00::~TObjNpcARM00() {}

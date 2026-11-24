@@ -100,8 +100,8 @@ static inline void GXNormal3f32(f32 x, f32 y, f32 z) {
   GXWGFifo.f32 = z;
 }
 
-static inline void GXColor1u32(u32 v) {
-  GXWGFifo.u32 = v;
+static inline void GXColor1u32(u32 clr) {
+  GXWGFifo.u32 = clr;
 }
 
 static inline void GXColor4u8(u8 r, u8 g, u8 b, u8 a) {

@@ -566,7 +566,7 @@ void TObjCityDoor_Lobby::render() {
 void load_city_common_resources(void) {
     BmlResource *resource = new BmlResource(5, (BmlResourceDescriptor *)&bm_obj_city_common_resource_descriptor.archive, 0, 0, NULL);
     city_common_model_archive = resource;
-    city_common_texture_list = load_gvm_texture_file(city_common_texture_filename);
+    city_common_texture_list = LoadPvmFileTls(city_common_texture_filename);
 }
 
 void TLobby::free_map_resources() {

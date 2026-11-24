@@ -9,7 +9,7 @@
 typedef void (*KeyboardCallback)(s32 chan, s32 err);
 typedef void (*KeyboardTypeCallback)(s32 chan);
 
-struct KeyboardChannelState {
+typedef struct KeyboardChannelState {
     u8 type;
     u8 layout;
     u8 pad_02;
@@ -35,8 +35,7 @@ struct KeyboardChannelState {
     u32 head;
     u8 pad_64[4];
 
-    void update_pressed_keys();
-};
+} KeyboardChannelState;
 
 LAYOUT_ASSERT(KeyboardChannelState_size, sizeof(KeyboardChannelState) == 0x68);
 LAYOUT_ASSERT(KeyboardChannelState_delay_offset, offsetof(KeyboardChannelState, delay) == 0x28);
@@ -45,17 +44,29 @@ LAYOUT_ASSERT(KeyboardChannelState_cur_offset, offsetof(KeyboardChannelState, cu
 
 extern KeyboardChannelState keyboard_pad_state_table[4];
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 extern s32 TKeyBoardControl__polling_channel_mask;
 s32 __OSReschedule(void);
 
+void init_pad_states(void);
+void parse_pad_event(s32 chan, u32 type);
+void detect_device_type(s32 chan);
 void noop_keyboard_callback(s32 chan, s32 err);
 s32 reset_keyboard_port(s32 chan, KeyboardCallback callback);
-void on_keyboard_type_event(s32 chan, u32 type);
-u8 get_keyboard_port_layout(s32 chan);
-}
-
+s32 disable_all_channels(void);
 void handle_pad_transfer_done(s32 chan, u32 status, OSContext *ctx);
+void on_keyboard_type_event(s32 chan, u32 type);
+s32 start_get_type_async(s32 chan, s32 out_bytes, s32 in_bytes, KeyboardTypeCallback callback);
+void update_pressed_keys(KeyboardChannelState *state);
+void update_key_events(s32 chan);
+u8 get_keyboard_port_layout(s32 chan);
+void enable_keyboard_polling(s32 chan);
+void disable_channel_polling(s32 chan);
 s32 poll_keyboard_port(s32 chan, u8 *out);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

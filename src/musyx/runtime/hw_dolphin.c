@@ -1,5 +1,11 @@
-#include "musyx/runtime/musyx_runtime_b.h"
+#include <string.h>
+#include <dolphin/os/OSCache.h>
+#include <dolphin/os/OSInterrupt.h>
+#include <dolphin/os/OSTime.h>
+#include <dolphin/ai.h>
 #include <dolphin/dsp.h>
+#include <dolphin/base/PPCArch.h>
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 
@@ -8,7 +14,7 @@ extern "C" {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma auto_inline on
-static inline void callUserCallback_803BE320(void) {
+static inline void callUserCallback(void) {
     if (salLogicActive) {
         return;
     }
@@ -27,7 +33,7 @@ void salCallback(void) {
     salLastTick = OSGetTick();
 
     if (salDspIsDone) {
-        callUserCallback_803BE320();
+        callUserCallback();
     } else {
         salLogicIsWaiting = 1;
     }
@@ -44,12 +50,12 @@ void dspResumeCallback(void) {
     salDspIsDone = 1;
     if (salLogicIsWaiting) {
         salLogicIsWaiting = 0;
-        callUserCallback_803BE320();
+        callUserCallback();
     }
 }
 
 u32 salInitAi(void (*callback)(void), u32 unk, u32 *outFreq) {
-    if ((salAIBufferBase = (Rec_803BE528 *)salMalloc(0x280 * 4)) != 0) {
+    if ((salAIBufferBase = (u8 *)salMalloc(0x280 * 4)) != 0) {
         memset(salAIBufferBase, 0, 0x280 * 4);
         DCFlushRange(salAIBufferBase, 0x280 * 4);
         salAIBufferIndex = 1;
@@ -59,7 +65,7 @@ u32 salInitAi(void (*callback)(void), u32 unk, u32 *outFreq) {
         userCallback = callback;
         AIRegisterDMACallback(salCallback);
         AIInitDMA(OSCachedToPhysical(salAIBufferBase) + (salAIBufferIndex * 0x280), 0x280);
-        synthInfo[1] = 0x20;
+        synthInfo.numSamples = 0x20;
         *outFreq = 32000;
         return 1;
     }
@@ -72,8 +78,8 @@ void salStartAi(void) {
     AIStartDMA();
 }
 
-Rec_803BE528 *salAiGetDest(void) {
-    return &salAIBufferBase[(u8)((salAIBufferIndex + 2) % 4)];
+void *salAiGetDest(void) {
+    return salAIBufferBase + (u8)((salAIBufferIndex + 2) % 4) * 0x280;
 }
 
 extern u8 dspSlave[];
@@ -110,7 +116,7 @@ u32 salInitDsp(u32 flags) {
 
 void salCtrlDsp(saddr dest) {
     u16 *mail;
-    salBuildCommandList((void *) (dest), (int) (salGetStartDelay()));
+    salBuildCommandList((s16 *)dest, salGetStartDelay());
     mail = dspCmdList;
     salDspIsDone = 0;
     PPCSync();
@@ -152,7 +158,7 @@ void hwIRQLeaveCritical(void) {
 }
 
 void (*userCallback)(void);
-Rec_803BE528 *salAIBufferBase;
+u8 *salAIBufferBase;
 volatile u32 salDspIsDone;
 volatile u32 salLogicIsWaiting;
 volatile u32 salLogicActive;

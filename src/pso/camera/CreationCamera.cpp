@@ -12,12 +12,12 @@
 #include "pso/render/render_util.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
-static char active_character_name[12];
+static char active_challenge_title[12];
 
-char *get_active_character_name() {
+char *get_active_challenge_title() {
     CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
-    decode_obfuscated_string(active_character_name, record->name, 12);
-    return active_character_name;
+    decode_obfuscated_string(active_challenge_title, record->challenge.rank_title, 12);
+    return active_challenge_title;
 }
 
 u32 get_character_creation_selected_entry_id() {

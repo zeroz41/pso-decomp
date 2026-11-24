@@ -38,7 +38,7 @@ const DVDDiskID *saved_card_disk_id;
 // inferred: the init function stores the version banner pointer here
 const char *mcfs_version_ref;
 
-s32 TAdPlayerLoadGC::get_or_set_channel_flag(s32 channel, s32 mode) {
+s32 get_or_set_channel_flag(s32 channel, s32 mode) {
     if (((channel != 0) && (channel != 1)) || (mode < 0) || (mode > 2)) {
         return 0;
     }
@@ -48,7 +48,7 @@ s32 TAdPlayerLoadGC::get_or_set_channel_flag(s32 channel, s32 mode) {
     return player_load_channel_flags[channel];
 }
 
-s32 TAdPlayerLoadGC::get_load_state() {
+s32 get_load_state() {
     return card_lib_state;
 }
 // the work area CARDMountAsync is given (its workArea argument), stored by the init function.
@@ -63,7 +63,7 @@ void *card_work_area __attribute__((aligned(32)));
 // (CARDStat.gameName/company below): the card's disk id, or the fixed card_game_name/
 // card_company codes when the channel flag says the disk id is overridden.
 static inline void get_game_name_and_company(s32 card_channel, u8 *game_name, u8 *company) {
-    if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) != 1) {
+    if (get_or_set_channel_flag(card_channel, 2) != 1) {
         const DVDDiskID *disk_id = CARDGetDiskID(card_channel);
         memcpy(game_name, disk_id->gameName, 4);
         memcpy(company, disk_id->company, 2);
@@ -128,7 +128,7 @@ void update_card_find(s32 card_channel) {
             load_request_slots[card_channel].status = -202;
             load_request_slots[card_channel].step = 0x18;
         } else {
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
+            if (get_or_set_channel_flag(card_channel, 2) == 1) {
                 saved_card_disk_id = CARDGetDiskID(card_channel);
                 memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
                 memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
@@ -148,7 +148,7 @@ void update_card_find(s32 card_channel) {
                     }
                 }
             }
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
             if (found == 0) {
@@ -167,12 +167,12 @@ void update_card_find(s32 card_channel) {
 }
 #pragma pop
 
-void TAdPlayerLoadGC::step_set_attributes(s32 card_channel) {
+void step_set_attributes(s32 card_channel) {
 
     switch (load_request_slots[card_channel].step) {
 
     case 0x11:
-        if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
+        if (get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
             memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
             memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
@@ -181,7 +181,7 @@ void TAdPlayerLoadGC::step_set_attributes(s32 card_channel) {
         }
         load_request_slots[card_channel].result = CARDSetAttributesAsync(card_channel, load_request_slots[card_channel].file_no, load_request_slots[card_channel].attr, 0);
         if (load_request_slots[card_channel].result < 0) {
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
             load_request_slots[card_channel].status = -0xD4;
@@ -192,13 +192,13 @@ void TAdPlayerLoadGC::step_set_attributes(s32 card_channel) {
     case 0x12:
         load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
         if (load_request_slots[card_channel].result == 0) {
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
             load_request_slots[card_channel].status = 0;
             load_request_slots[card_channel].step = 0x16;
         } else if (load_request_slots[card_channel].result != -1) {
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
             load_request_slots[card_channel].status = -0xD4;
@@ -209,12 +209,12 @@ void TAdPlayerLoadGC::step_set_attributes(s32 card_channel) {
         return;
     }
 }
-void TAdPlayerLoadGC::update_card_delete(s32 card_channel) {
+void update_card_delete(s32 card_channel) {
     CardRequestSlot *s;
 
     switch (load_request_slots[card_channel].step) {
     case 0xF:
-        if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
+        if (get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
             memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
             memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
@@ -223,7 +223,7 @@ void TAdPlayerLoadGC::update_card_delete(s32 card_channel) {
         }
         load_request_slots[card_channel].result = CARDDeleteAsync(card_channel, load_request_slots[card_channel].name, 0);
         if (load_request_slots[card_channel].result < 0) {
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
             load_request_slots[card_channel].status = -0xD3;
@@ -234,13 +234,13 @@ void TAdPlayerLoadGC::update_card_delete(s32 card_channel) {
     case 0x10:
         load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
         if (load_request_slots[card_channel].result == 0) {
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
             load_request_slots[card_channel].status = 0;
             load_request_slots[card_channel].step = 0x16;
         } else if (load_request_slots[card_channel].result != -1) {
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
             load_request_slots[card_channel].status = -0xD3;
@@ -251,11 +251,11 @@ void TAdPlayerLoadGC::update_card_delete(s32 card_channel) {
         return;
     }
 }
-void TAdPlayerLoadGC::update_card_rename(s32 card_channel) {
+void update_card_rename(s32 card_channel) {
 
     switch (load_request_slots[card_channel].step) {
     case 0xd:
-        if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1) {
+        if (get_or_set_channel_flag(card_channel, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(card_channel);
             memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
             memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
@@ -264,7 +264,7 @@ void TAdPlayerLoadGC::update_card_rename(s32 card_channel) {
         }
         load_request_slots[card_channel].result = CARDRenameAsync(card_channel, load_request_slots[card_channel].name, load_request_slots[card_channel].new_name, 0);
         if (load_request_slots[card_channel].result < 0) {
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
             load_request_slots[card_channel].status = -210;
@@ -275,13 +275,13 @@ void TAdPlayerLoadGC::update_card_rename(s32 card_channel) {
     case 0xe:
         load_request_slots[card_channel].result = CARDGetResultCode(card_channel);
         if (load_request_slots[card_channel].result == 0) {
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
             load_request_slots[card_channel].status = 0;
             load_request_slots[card_channel].step = 0x16;
         } else if (load_request_slots[card_channel].result != -1) {
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(card_channel, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(card_channel, saved_card_disk_id);
             }
             load_request_slots[card_channel].status = -210;
@@ -310,7 +310,7 @@ void update_card_write(s32 file) {
 
     switch (st[id * 0x1A]) {
     case 0xB:
-        if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
+        if (get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
             memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
             memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
@@ -327,7 +327,7 @@ void update_card_write(s32 file) {
         }
         if (*result < 0) {
             id = *channel;
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(id, saved_card_disk_id);
             }
             ioff = *channel * 0x68;
@@ -343,14 +343,14 @@ void update_card_write(s32 file) {
             *result = r;
             if (*result == 0) {
                 id = *channel;
-                if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
+                if (get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                     CARDSetDiskID(id, saved_card_disk_id);
                 }
                 *(s32 *)((u8 *)st + *channel * 0x68) = 0x14;
             } else {
                 if (*result != -1) {
                     id = *channel;
-                    if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
+                    if (get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                         CARDSetDiskID(id, saved_card_disk_id);
                     }
                     ioff = *channel * 0x68;
@@ -362,7 +362,7 @@ void update_card_write(s32 file) {
         }
     case 0x14:
         id = *channel;
-        if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
+        if (get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
             memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
             memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
@@ -379,7 +379,7 @@ void update_card_write(s32 file) {
         }
         if (*result < 0) {
             id = *channel;
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(id, saved_card_disk_id);
             }
             ioff = *channel * 0x68;
@@ -395,7 +395,7 @@ void update_card_write(s32 file) {
             *result = r;
             if (*result == 0) {
                 id = *channel;
-                if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
+                if (get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                     CARDSetDiskID(id, saved_card_disk_id);
                 }
                 ioff = *channel * 0x68;
@@ -403,7 +403,7 @@ void update_card_write(s32 file) {
                 *(s32 *)((u8 *)st + ioff) = 0x16;
             } else if (*result != -1) {
                 id = *channel;
-                if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
+                if (get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                     CARDSetDiskID(id, saved_card_disk_id);
                 }
                 ioff = *channel * 0x68;
@@ -438,7 +438,7 @@ void update_card_read(s32 file) {
 
     switch (st[id * 0x1A]) {
     case 0x9:
-        if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
+        if (get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
             memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
             memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
@@ -455,7 +455,7 @@ void update_card_read(s32 file) {
         }
         if (*result < 0) {
             id = *channel;
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(id, saved_card_disk_id);
             }
             ioff = *channel * 0x68;
@@ -471,7 +471,7 @@ void update_card_read(s32 file) {
             *result = r;
             if (*result == 0) {
                 id = *channel;
-                if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
+                if (get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                     CARDSetDiskID(id, saved_card_disk_id);
                 }
                 ioff = *channel * 0x68;
@@ -479,7 +479,7 @@ void update_card_read(s32 file) {
                 *(s32 *)((u8 *)st + ioff) = 0x16;
             } else if (*result != -1) {
                 id = *channel;
-                if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
+                if (get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                     CARDSetDiskID(id, saved_card_disk_id);
                 }
                 ioff = *channel * 0x68;
@@ -514,7 +514,7 @@ void update_card_open(s32 file) {
 
     switch (st[id * 0x1A]) {
     case 0x8:
-        if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) {
+        if (get_or_set_channel_flag(id, 2) == 1) {
             saved_card_disk_id = CARDGetDiskID(id);
             memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
             memcpy(card_disk_id.gameName, card_game_name, sizeof(card_disk_id.gameName));
@@ -526,7 +526,7 @@ void update_card_open(s32 file) {
         load_request_slots[id].result = res;
         if (load_request_slots[id].result < 0) {
             id = *channel;
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(id, saved_card_disk_id);
             }
             id = *channel;
@@ -542,7 +542,7 @@ void update_card_open(s32 file) {
         load_request_slots[id].result = res;
         if (load_request_slots[id].result < 0) {
             id = *channel;
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(id, saved_card_disk_id);
             }
             id = *channel;
@@ -551,7 +551,7 @@ void update_card_open(s32 file) {
             CARDClose(&rec->file_info);
         } else {
             id = *channel;
-            if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
+            if (get_or_set_channel_flag(id, 2) == 1 && saved_card_disk_id != NULL) {
                 CARDSetDiskID(id, saved_card_disk_id);
             }
             id = *channel;
@@ -587,7 +587,7 @@ void update_card_create(s32 file) {
   switch (st[id * 0x1A])
   {
     case 0x6:
-      if (TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1)
+      if (get_or_set_channel_flag(id, 2) == 1)
     {
       saved_card_disk_id = CARDGetDiskID(id);
       memcpy(&card_disk_id, saved_card_disk_id, sizeof(card_disk_id));
@@ -601,7 +601,7 @@ void update_card_create(s32 file) {
       if (load_request_slots[id].result < 0)
     {
       id = *channel;
-      if ((TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) && (saved_card_disk_id != 0))
+      if ((get_or_set_channel_flag(id, 2) == 1) && (saved_card_disk_id != 0))
       {
         CARDSetDiskID(id, saved_card_disk_id);
       }
@@ -619,7 +619,7 @@ void update_card_create(s32 file) {
       if (load_request_slots[id].result == 0)
     {
       id = *channel;
-      if ((TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) && (saved_card_disk_id != 0))
+      if ((get_or_set_channel_flag(id, 2) == 1) && (saved_card_disk_id != 0))
       {
         CARDSetDiskID(id, saved_card_disk_id);
       }
@@ -633,7 +633,7 @@ void update_card_create(s32 file) {
     else
     {
       id = (res = *channel);
-      if ((TAdPlayerLoadGC::get_or_set_channel_flag(id, 2) == 1) && (saved_card_disk_id != 0))
+      if ((get_or_set_channel_flag(id, 2) == 1) && (saved_card_disk_id != 0))
       {
         CARDSetDiskID(id, saved_card_disk_id);
       }
@@ -839,13 +839,13 @@ s32 update_card_requests(void) {
             update_card_read(load_request_slots[i].file_index);
             break;
         case 6:
-            TAdPlayerLoadGC::update_card_rename(i);
+            update_card_rename(i);
             break;
         case 7:
-            TAdPlayerLoadGC::update_card_delete(i);
+            update_card_delete(i);
             break;
         case 8:
-            TAdPlayerLoadGC::step_set_attributes(i);
+            step_set_attributes(i);
             break;
         case 9:
             update_card_find(i);
@@ -878,7 +878,7 @@ s32 init_card_lib(void *work_area) {
         card_slot_info[i].state = -3;
         card_slot_info[i].mem_size = 0;
         card_slot_info[i].sector_size = 0;
-        TAdPlayerLoadGC::reset_slot_entry(i);
+        reset_slot_entry(i);
     }
     card_work_area = work_area;
     card_attach_callback = NULL;
@@ -888,7 +888,7 @@ s32 init_card_lib(void *work_area) {
     return 0;
 }
 
-void TAdPlayerLoadGC::reset_slot_entry(s32 channel) {
+void reset_slot_entry(s32 channel) {
     CardRequestSlot *slot = &load_request_slots[channel];
     slot->buffer = NULL;
     memset(slot->name, 0, sizeof(slot->name));
@@ -903,7 +903,7 @@ void TAdPlayerLoadGC::reset_slot_entry(s32 channel) {
 }
 
 // Returns CARDClose's result; for a file index outside 0..99 ret is never set (as in the game).
-s32 TAdPlayerLoadGC::close_card_slot(s32 file_handle) {
+s32 close_card_slot(s32 file_handle) {
     CardFileEntry *s;
     s32 ret;
     if (file_handle >= 0 && file_handle < 0x64) {

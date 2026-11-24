@@ -31,11 +31,7 @@ extern inline double sqrt(double x) {
     }
     return INFINITY;
 }
-#ifdef __STDC__
 static const double
-#else
-static double
-#endif
     bp[] =
         {
             1.0,
@@ -75,12 +71,7 @@ static double
     ivln2_h = 1.44269502162933349609e+00,
     ivln2_l = 1.92596299112661746887e-08;
 
-#ifdef __STDC__
 double __ieee754_pow(double x, double y)
-#else
-double __ieee754_pow(x, y)
-double x, y;
-#endif
 {
   double z, ax, z_h, z_l, p_h, p_l;
   double y1, t1, t2, r, s, t, u, v, w;

@@ -1,8 +1,7 @@
 #include <dolphin.h>
 #include <dolphin/mtx.h>
 #include <macros.h>
-
-extern f32 tanf(f32);
+#include <math.h>
 
 void C_MTXFrustum(Mtx44 m, f32 t, f32 b, f32 l, f32 r, f32 n, f32 f)
 {

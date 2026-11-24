@@ -57,6 +57,7 @@ extern "C" {
 u32 gcrna_get_stream_id(GcrnaStream *stream, s32 channel);
 void set_stream_channel_pan(GcrnaStream *stream, s32 channel, s32 pan);
 void set_stream_frequency(GcrnaStream *stream, s32 frequency);
+void set_sound_stream_volume(GcrnaStream *stream, s32 volume);
 void update_active_streams(void);
 void update_stream_buffers(GcrnaStream *stream);
 }

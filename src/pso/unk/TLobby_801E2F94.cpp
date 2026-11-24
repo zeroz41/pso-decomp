@@ -16,6 +16,7 @@
 #include "pso/system/main_loop.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "types.h"
+#include "pso/render/gjSystem.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include <dolphin/os/OSCache.h>
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
@@ -37,6 +38,8 @@
 #include "pso/system/vector.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx.h>
+#include "pso/unk/text_803DD5E0.h"
+#include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #undef PSO_SDK_COMPACT_MATH
 
 void TLobby::draw_with_camera(NJS_SPRITE *sprite, s32 frame_index, s32 flags, f32 depth) {
@@ -103,7 +106,7 @@ int current_line_width = 12;
 s32 lbl_805D3584 = 1;
 f32 viewport_scissor_origin_x = 320.0f;
 f32 camera_viewport_center_y = 240.0f;
-s32 TObjPlayer__sub_803DAD28(u32 id);
+s32 select_texture_by_surface_id(u32 id);
 }
 
 void set_viewport_scissor(int mode, const TileRect *r) {
@@ -145,7 +148,7 @@ void set_screen_center(f32 x, f32 y) {
 extern "C" {
 void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle) {  }
 
-void TWindowDD::draw_transformed_primitive(s32 a1, u32 id, s32 a3) { TObjPlayer__sub_803DAD28(id); draw_screen_textured_strip((ScreenTexturedVertex *)this, a1, a3); }
+void TWindowDD::draw_transformed_primitive(s32 a1, u32 id, s32 a3) { select_texture_by_surface_id(id); draw_screen_textured_strip((ScreenTexturedVertex *)this, a1, a3); }
 
 }
 
@@ -359,7 +362,7 @@ void *TLobby__sub_801E38A0(const u8 *file, u32 *offset, u32 *type, void *destina
     TLobby__sub_801E3CF0(&size);
     p += 8;
     *offset += 8;
-    tag = TLobby::bswap32_value(tag);
+    tag = bswap32_value(tag);
     switch (tag) {
     case 0x4E4A494E:
         *type = 0x4E4A494E;
@@ -421,7 +424,7 @@ next:
     move_data((void *)((&tag)), (const void *)(p), 4);
     TLobby__sub_801E3CF0((u32 *)&tag);
     *offset += 4;
-    tag = TLobby::bswap32_value(tag);
+    tag = bswap32_value(tag);
     if (tag == 0x504F4630) {
         move_data((void *)((&size)), (const void *)(p + 4), 4);
         TLobby__sub_801E3CF0(&size);
@@ -485,8 +488,6 @@ s32 TLobby__sub_801E3E9C(s32 arg0, saddr arg1, saddr arg2);
 s32 TKeyBoardControl__sub_801E3E24(s32 arg0, saddr arg1, saddr arg2);
 void TKeyBoardControl__sub_8000F7FC(void);
 
-void fn_803DCEC8(void);
-void fn_803DCF0C(void);
 
 void TObjPlayer::render_tree(void *model) {
     void *var_r31;
@@ -519,8 +520,8 @@ void render_tick(void) {
     GXSetViewport((0.0f), (0.0f), (6.4e+02f), (4.8e+02f), (0.0f), (1.0f));
     set_cull_none();
     TParticleCtrl::end_effect_render();
-    fn_803DCEC8();
-    fn_803DCF0C();
+    copy_efb_to_framebuffer();
+    present_frame();
     TKeyBoardControl__sub_8000F7FC();
 }
 
@@ -533,7 +534,7 @@ loop_2:
             TLobby::run_disk_error_check();
             TKeyBoardControl::flush_input();
             update_global_sound_frame();
-            TKeyBoardControl::read_pads();
+            read_pads();
             hardware_keyboard_state.disable_disconnected_ports();
             TLobby::reset_state_byte();
             goto loop_2;

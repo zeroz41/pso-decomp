@@ -4,7 +4,6 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/unk/TLobby_801E43E4.h"
-#include "pso/object/ambient/TObjLight_803DF220.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/render/render_util.h"
@@ -22,6 +21,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/network/protocol/SubcommandHandlers.h"
 
 #pragma readonly_strings on
 
@@ -43,8 +44,6 @@ struct Shot_80357284 {
     f32 speed;
 };
 
-struct Pkt_803570E4 { u8 hdr[4]; s8 d[0x40]; };
-
 struct V4_8035740C { f32 x, y, z; s32 w; };
 
 struct O_8035740C { u8 pad0[0xC4]; V4_8035740C v[10]; };
@@ -55,7 +54,6 @@ extern "C" {
 s32 is_local_client_floor_leader();
 void clear_rock_state__10TBoss6RockFl(s32 i, s32 a, s32 b);
 int olga_flow_subordinate_actions_enabled;
-void handle_6xAD_olga_flow_subordinate_boss_actions(Pkt_803570E4 *pkt);
 }
 
 void send_6xAD_olga_flow_subordinate_boss_actions(u8 *arg0) {
@@ -80,7 +78,7 @@ void TBoss6Type2__sub_803570C8(s8 *buf) {
 }
 
 struct B_80357058;
-void handle_6xAD_olga_flow_subordinate_boss_actions(Pkt_803570E4 *pkt) {
+void handle_6xAD_olga_flow_subordinate_boss_actions(G_OlgaFlowSubordinateBossActions_6xAD *command) {
     Vec v[3];
     s8 boss;
     s32 n;
@@ -90,10 +88,10 @@ void handle_6xAD_olga_flow_subordinate_boss_actions(Pkt_803570E4 *pkt) {
     if (olga_flow_subordinate_actions_enabled == 0) {
         return;
     }
-    read_be16_field2_forward(pkt);
-    boss = pkt->d[0];
+    read_be16_field2_forward(command);
+    boss = command->actions[0];
     if (boss >= 0) {
-        p = &pkt->d[1];
+        p = &command->actions[1];
         n = 0;
         for (i = 0; i < 3; i++, p += 2) {
             if (p[0] < 0 || p[1] < 0) {
@@ -105,8 +103,8 @@ void handle_6xAD_olga_flow_subordinate_boss_actions(Pkt_803570E4 *pkt) {
         TBoss6Mag::set_path_points_by_index(boss, v, n);
     }
     for (j = 0; j < 0x40; j++) {
-        if (pkt->d[j] >= 0 && j >= 7 && j <= 0x26) {
-            s8 c = pkt->d[j];
+        if (command->actions[j] >= 0 && j >= 7 && j <= 0x26) {
+            s8 c = command->actions[j];
             s32 idx = j - 7;
             s32 a = 0;
             s32 type = c & 0xF;

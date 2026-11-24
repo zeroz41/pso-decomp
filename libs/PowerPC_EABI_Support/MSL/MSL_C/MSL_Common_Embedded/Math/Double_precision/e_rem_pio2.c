@@ -12,11 +12,7 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 static const int two_over_pi[] = {
-#else
-static int two_over_pi[] = {
-#endif
     0xA2F983, 0x6E4E44, 0x1529FC, 0x2757D1, 0xF534DD, 0xC0DB62, 0x95993C, 0x439041, 0xFE5163, 0xABDEBB, 0xC561B7,
     0x246E3A, 0x424DD2, 0xE00649, 0x2EEA09, 0xD1921C, 0xFE1DEB, 0x1CB129, 0xA73EE8, 0x8235F5, 0x2EBB44, 0x84E99C,
     0x7026B4, 0x5F7E41, 0x3991D6, 0x398353, 0x39F49C, 0x845F8B, 0xBDF928, 0x3B1FF8, 0x97FFDE, 0x05980F, 0xEF2F11,
@@ -25,22 +21,14 @@ static int two_over_pi[] = {
     0xE61B08, 0x659985, 0x5F14A0, 0x68408D, 0xFFD880, 0x4D7327, 0x310606, 0x1556CA, 0x73A8C9, 0x60E27B, 0xC08C6B,
 };
 
-#ifdef __STDC__
 static const int npio2_hw[] = {
-#else
-static int npio2_hw[] = {
-#endif
     0x3FF921FB, 0x400921FB, 0x4012D97C, 0x401921FB, 0x401F6A7A, 0x4022D97C, 0x4025FDBB, 0x402921FB,
     0x402C463A, 0x402F6A7A, 0x4031475C, 0x4032D97C, 0x40346B9C, 0x4035FDBB, 0x40378FDB, 0x403921FB,
     0x403AB41B, 0x403C463A, 0x403DD85A, 0x403F6A7A, 0x40407E4C, 0x4041475C, 0x4042106C, 0x4042D97C,
     0x4043A28C, 0x40446B9C, 0x404534AC, 0x4045FDBB, 0x4046C6CB, 0x40478FDB, 0x404858EB, 0x404921FB,
 };
 
-#ifdef __STDC__
 static const double
-#else
-static double
-#endif
     zero = 0.00000000000000000000e+00,
     half = 5.00000000000000000000e-01,
     two24 = 1.67772160000000000000e+07,
@@ -52,12 +40,7 @@ static double
     pio2_3 = 2.02226624871116645580e-21,
     pio2_3t = 8.47842766036889956997e-32;
 
-#ifdef __STDC__
 int __ieee754_rem_pio2(double x, double* y)
-#else
-int __ieee754_rem_pio2(x, y)
-double x, y[];
-#endif
 {
     double z, w, t, r, fn;
     double tx[3];

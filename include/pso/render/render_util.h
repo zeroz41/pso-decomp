@@ -113,30 +113,26 @@ extern u32 color_draw_saved_and_mask;
 extern u32 color_draw_saved_or_mask;
 extern NJS_ARGB color_draw_saved_color;
 
-extern "C" {
 void restore_saved_depth_alpha_state(void);
 void *delete_object_if_delete_flag(void *self, s16 del);
-void TObjMapWarp__sub_80141CA4(void *self);
+void *TObjMapWarp__sub_80141CA4(void *self);
 // Debug-draw entry points; their bodies are compiled out of the release game.
 void debug_draw_line(const Vec *from, const Vec *to, u32 from_color, u32 to_color);
 void fn_80141CB4(const Vec *pos, f32 size);
 void fn_80141CB8(const Vec *pos, const s32 *rotation, const Vec *size, const NJS_ARGB *color);
-void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, f32 size);
+extern "C" void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, f32 size);
 void debug_draw_scaled(const Vec *pos, Vec *scale, const NJS_ARGB *color);
-void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
+extern "C" void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
 f32 horizontal_distance_squared(const Vec *a, const Vec *b);
-}
 // Normalizes v and returns 1, or returns 0 when v is (nearly) zero.
 s32 normalize_if_nonzero(Vec *v);
 s32 f32_bits(f32 value);
 f32 bits_to_f32(s32 bits);
-extern "C" {
 s32 angle_difference_abs(s32 a, s32 b);
 s32 angle_diff_s16(s32 a, s32 b);
 f32 approach_vector_fixed_distance(const Vec *from, const Vec *to, Vec *out, f32 step);
 s32 approach_angle_adaptive(s32 from, s32 to);
 s32 approach_angle_limited(s32 from, s32 to, s32 max_step);
-}
 void set_global_draw_flag_bits(void *owner, u32 bits);
 
 #endif

@@ -1,5 +1,6 @@
 #include "pso/render/GinjaView.h"
 #include "types.h"
+#include "pso/render/gjSystem.h"
 #include "pso/system/NinjaTypes.h"
 
 #include <stddef.h>
@@ -12,7 +13,6 @@
 #include "pso/math/AngleLookup.h"
 
 SceneProjectionState scene_projection_state;
-extern GXRenderModeObj *active_gx_render_mode;
 
 #pragma push
 #pragma use_lmw_stmw off

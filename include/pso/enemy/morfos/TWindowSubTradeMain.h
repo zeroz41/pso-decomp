@@ -53,7 +53,6 @@ struct TWindowSubTradeMain : public TObject {
     void clear_flag();
     void clear_flag70_bit80();
     void set_trade_state(s16 trade_state);
-    static s32 get_state();
     static void draw_offer(void *item, void *amount);
     static void draw_request(void *item, void *amount);
     TWindowMessageYesNo *open_confirm_yes_no();

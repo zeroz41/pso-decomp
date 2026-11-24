@@ -306,7 +306,7 @@ void lsc_destroy(LscStream *lsc_stream) {
     }
 }
 
-LscStream *lsc_create(void *sj_handle) {
+LscStream *LSC_Create(void *sj_handle) {
     SjHandle *sj = (SjHandle *)sj_handle;
     u8 lk[4];
     s32 i;

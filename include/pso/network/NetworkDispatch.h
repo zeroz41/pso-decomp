@@ -25,13 +25,13 @@ typedef struct NetTimerRecord {
 } NetTimerRecord;
 
 typedef struct NetworkDispatchState {
-    s32 lock_handle;
+    NetMutexHandle lock_handle;
     s32 queue_handle;
     NetThreadHandle thread_ids[2]; /* protocol and timer dispatch threads */
     s32 interval;
     NetProtocolHandlerEntry handlers[3];
     NetTimerRecord timers[10];
-    u8 unknown_F4[4];
+    u8 pad_F4[4];
 } NetworkDispatchState;
 #ifdef __cplusplus
 extern "C" {
@@ -39,15 +39,15 @@ extern "C" {
 extern NetworkDispatchState network_dispatch_state;
 s32 register_protocol_handler(u16 type, NetProtocolHandler fn);
 s32 release_slot_by_id(u16 a);
-void TLobby__sub_80419A00(void);
-s16 TLobby__sub_80419A34(void);
+void rtos_term(void);
+s16 rtos_init(void);
 s16 NetInitializeDispatcher(void);
 void NetYieldOutsideDispatcherThread(void);
 void NetRunProtocolDispatchLoop(void);
 void NetRunTimerDispatchLoop(void);
 void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol);
 s32 dispatch_handler_by_id(s16 first, s32 second, s32 payload);
-s32 TLobby__sub_80419A7C(void);
+s32 dispatcher_term(void);
 #ifdef __cplusplus
 }
 #endif
@@ -77,7 +77,7 @@ NET_DISPATCH_OFFSET(NetworkDispatchState, thread_ids, 0x08);
 NET_DISPATCH_OFFSET(NetworkDispatchState, interval, 0x10);
 NET_DISPATCH_OFFSET(NetworkDispatchState, handlers, 0x14);
 NET_DISPATCH_OFFSET(NetworkDispatchState, timers, 0x2C);
-NET_DISPATCH_OFFSET(NetworkDispatchState, unknown_F4, 0xF4);
+NET_DISPATCH_OFFSET(NetworkDispatchState, pad_F4, 0xF4);
 NET_DISPATCH_OFFSET(NetProtocolMessage, first, 0x00);
 NET_DISPATCH_OFFSET(NetProtocolMessage, second, 0x02);
 NET_DISPATCH_OFFSET(NetProtocolMessage, protocol, 0x04);

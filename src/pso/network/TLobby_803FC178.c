@@ -6,56 +6,49 @@
 /* This file's functions. */
 void init_net_state_a(void);
 s32 init_net_state_b(void);
-s32 mark_sub_ready(void *obj);
-s32 set_active_flag(void *self);
-void update_connection_state(void *arg0);
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
 #include "pso/network/NetworkTransport.h"
 
-struct Self_803FD74C;
 
-struct Self_803FD85C;
 
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/PppBuffer.h"
 
-void TLobby__sub_803F76F0(void *); /* declared with 1 parameter; the definition is void (void) */
-void net_sleep_ms(int);
-s16 ppp_buffer_read(void *self, void *dst, u16 n);
 
 void init_net_state_a(void) {
-    TLobby__sub_803F76F0((void *)&lbl_805C02D0);
+    term_ppp_auth_config(&chap_state);
 }
 
 s32 init_net_state_b(void) {
-    init_net_buffer_table(&lbl_805C02D0);
+    init_net_buffer_table(&chap_state);
     return 0;
 }
 
 s16 PP_chap_monitor(PppFsm *c, s32 timeout) {
     PppChap *auth;
-    u8 *sub;
+    PppProtoBlocks *blocks;
     NetThreadState *g;
 
-    sub = c->sub;
+    blocks = c->blocks;
     auth = (PppChap *)c->opts;
-    if (lbl_805D7A90 & 2) {
+    if (lobby_session_flags & 2) {
         auth->active = 1;
-        TLobby__sub_803FE820((saddr)c);
+        fsm_restart_timer(c);
         ppp_fsm_send_packet(c, 1, 0, build_avetcp_net_buffer(c));
     } else {
         auth->active = 0;
     }
-    g = &lbl_805C18A0;
+    g = &net_thread_state;
     c->abort = 0;
     while (c->state != 5) {
-        if (is_timed_out() != 0 || c->abort != 0 || *sub == 4) {
+        if (is_timed_out() != 0 || c->abort != 0 || blocks->phase == 4) {
             c->abort = 0;
             if (ppp_auth_failed != 0) {
-                lbl_805D7A82 = 6;
+                lobby_modem_error = 6;
             } else {
-                lbl_805D7A82 = 5;
+                lobby_modem_error = 5;
             }
             lobby_modem_connect_state = 8;
             return -1;
@@ -73,13 +66,12 @@ s16 PP_chap_monitor(PppFsm *c, s32 timeout) {
 }
 
 struct PppChapAuthenticationState;
-struct N_80405298;
 PppChapAuthenticationState ppp_chap_authentication_state;
-PppAuthState lbl_805C02D0;
+PppAuthState chap_state;
 /* The challenge length and the response reader's scratch byte (.sbss 805D7A98), in reverse definition order. */
-u16 lbl_805D7A9A;
+u16 chap_challenge_length;
 u8 chap_read_byte_buffer;
-void TLobby__sub_803FC318(PppProtoBlocks *connection) {
+void PP_chap_init(PppProtoBlocks *connection) {
     PppFsm *fsm = &connection->chap;
     PppFsmTimer *timer;
 
@@ -87,129 +79,120 @@ void TLobby__sub_803FC318(PppProtoBlocks *connection) {
         timer = &fsm->timer;
         ppp_chap_authentication_state.proto.name = chap_protocol_name;
         ppp_chap_authentication_state.proto.proto = 0xC223;
-        ppp_chap_authentication_state.proto.h6 = 0x70;
+        ppp_chap_authentication_state.proto.code_mask = 0x70;
         ppp_chap_authentication_state.proto.tx_counter_index = 3;
         ppp_chap_authentication_state.proto.max_terminate_attempts = 0;
-        ppp_chap_authentication_state.proto.max_request_attempts = lbl_805C02D0.f36;
-        ppp_chap_authentication_state.proto.max_peer_attempts = lbl_805C02D0.f37;
-        ppp_chap_authentication_state.proto.timeout = lbl_805C02D0.f38 * 1000;
-        ppp_chap_authentication_state.proto.release_resources = TLobby__sub_803FE84C;
-        ppp_chap_authentication_state.proto.reset_options = TLobby__sub_803FE84C;
-        ppp_chap_authentication_state.proto.start_negotiation = TLobby__sub_803FE84C;
-        ppp_chap_authentication_state.proto.link_opened = TLobby__sub_803FE84C;
-        ppp_chap_authentication_state.proto.link_closed = TLobby__sub_803FE84C;
-        ppp_chap_authentication_state.proto.finish_termination = TLobby__sub_803FE84C;
+        ppp_chap_authentication_state.proto.max_request_attempts = chap_state.max_request_attempts;
+        ppp_chap_authentication_state.proto.max_peer_attempts = chap_state.max_peer_attempts;
+        ppp_chap_authentication_state.proto.timeout = chap_state.timeout_secs * 1000;
+        ppp_chap_authentication_state.proto.release_resources = fsm_noop_action;
+        ppp_chap_authentication_state.proto.reset_options = fsm_noop_action;
+        ppp_chap_authentication_state.proto.start_negotiation = fsm_noop_action;
+        ppp_chap_authentication_state.proto.link_opened = fsm_noop_action;
+        ppp_chap_authentication_state.proto.link_closed = fsm_noop_action;
+        ppp_chap_authentication_state.proto.finish_termination = fsm_noop_action;
         ppp_chap_authentication_state.proto.build_config_request = build_avetcp_net_buffer;
-        ppp_chap_authentication_state.proto.check_config_request = TLobby__sub_803FE844;
-        ppp_chap_authentication_state.proto.check_config_ack = TLobby__sub_803FE844;
-        ppp_chap_authentication_state.proto.check_config_nak = TLobby__sub_803FE844;
-        ppp_chap_authentication_state.proto.check_config_reject = TLobby__sub_803FE844;
-        fsm->sub = (u8 *)connection;
+        ppp_chap_authentication_state.proto.check_config_request = fsm_noop_check;
+        ppp_chap_authentication_state.proto.check_config_ack = fsm_noop_check;
+        ppp_chap_authentication_state.proto.check_config_nak = fsm_noop_check;
+        ppp_chap_authentication_state.proto.check_config_reject = fsm_noop_check;
+        fsm->blocks = connection;
         fsm->proto = &ppp_chap_authentication_state.proto;
         fsm->opts = &ppp_chap_authentication_state.options;
-        fsm->f4 = fsm->proto->max_request_attempts;
-        fsm->f7 = fsm->proto->max_peer_attempts;
-        fsm->f5 = fsm->proto->max_terminate_attempts;
+        fsm->max_request_attempts = fsm->proto->max_request_attempts;
+        fsm->max_peer_attempts = fsm->proto->max_peer_attempts;
+        fsm->max_terminate_attempts = fsm->proto->max_terminate_attempts;
         fsm->state = 0;
-        fsm->retries = fsm->f4;
-        fsm->f6 = fsm->f7;
-        timer->callback = TLobby__sub_803FC728;
+        fsm->retries = fsm->max_request_attempts;
+        fsm->peer_attempts_left = fsm->max_peer_attempts;
+        timer->callback = chap_request_timeout;
         timer->arg = fsm;
-        lobby_timer_add((N_80405298 *)timer, fsm->proto->timeout);
+        lobby_timer_add(timer, fsm->proto->timeout);
     }
 }
 
-s32 set_active_flag(void *self) {
-    u8 *arg0 = (u8 *)self;
-    *(s8 *)((s8 *)arg0 + 0xA0) = 2;
-    *(u8 *)((s8 *)arg0 + 0xA2) = (u8) (*(u8 *)((s8 *)arg0 + 0xA2) | 0x20);
-    *(u8 *)((s8 *)arg0 + 2) = (u8) (*(u8 *)((s8 *)arg0 + 2) | 0x20);
+s32 PP_chap_remote(PppProtoBlocks *blocks) {
+    blocks->chap.state = 2;
+    blocks->chap.flags = (u8) (blocks->chap.flags | 0x20);
+    blocks->auth_pending = (u8) (blocks->auth_pending | 0x20);
     return 0;
 }
 
-s32 mark_sub_ready(void *obj) {
-    Obj_803FC480 *self = (Obj_803FC480 *)obj;
-    Sub_803FC480 *s = &self->sub;
-    s->f0 = 1;
-    s->f2 |= 0x10;
-    self->f2 |= 0x10;
-    s->f3 = s->f4;
+s32 PP_chap_local(PppProtoBlocks *blocks) {
+    PppFsm *s = &blocks->chap;
+    s->state = 1;
+    s->flags |= 0x10;
+    blocks->auth_pending |= 0x10;
+    s->retries = s->max_request_attempts;
     return 0;
 }
 
-struct O_80400ACC;
 
 void chap_input(PppFsm *self, PppFrame *source) {
-    u8 *arg0 = (u8 *)self;
     PppHeader hdr;
-    u8 temp_r0;
-    u8 temp_r0_2;
-    u8 temp_r0_3;
-    u8 *temp_r30;
-    u8 *temp_r30_2;
-    u8 *temp_r30_3;
-    u8 *temp_r30_4;
+    u8 flags;
+    PppProtoBlocks *blocks;
 
-    if (TLobby__sub_803FE8BC(&hdr, &source) != -1) {
+    if (fsm_read_header(&hdr, &source) != -1) {
         hdr.len -= 4;
-        TLobby__sub_80401CAC(&source, hdr.len);
+        ppp_buffer_truncate(&source, hdr.len);
         switch (hdr.code) {
         case 1:
             chap_recv_challenge(self, &hdr, source);
             return;
         case 2:
             if (chap_recv_response(self, &hdr, source) == 0) {
-                if (lbl_805D7A90 & 2) {
-                    temp_r30 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
-                    lobby_timer_stop((void *) (arg0 + 0x10));
-                    temp_r0 = *(u8 *)((s8 *)arg0 + 2) & 0xFFFFFFEF;
-                    *(u8 *)((s8 *)arg0 + 2) = temp_r0;
-                    if (!(temp_r0 & 0x10)) {
-                        *(s8 *)((s8 *)arg0 + 0) = 5;
+                if (lobby_session_flags & 2) {
+                    blocks = self->blocks;
+                    lobby_timer_stop(&self->timer);
+                    flags = self->flags & 0xFFFFFFEF;
+                    self->flags = flags;
+                    if (!(flags & 0x10)) {
+                        self->state = 5;
                     }
-                    *(u8 *)((s8 *)temp_r30 + 2) = (u8) (*(u8 *)((s8 *)temp_r30 + 2) & 0xFFFFFFEF);
-                    *(u8 *)((s8 *)temp_r30 + 2) = (u8) (*(u8 *)((s8 *)temp_r30 + 2) & 0xFFFFFFDF);
-                    start_ipcp_after_auth((O_80400ACC *) (temp_r30));
+                    blocks->auth_pending = (u8) (blocks->auth_pending & 0xFFFFFFEF);
+                    blocks->auth_pending = (u8) (blocks->auth_pending & 0xFFFFFFDF);
+                    start_ipcp_after_auth(blocks);
                     return;
                 }
-                temp_r30_2 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
-                lobby_timer_stop((void *) (arg0 + 0x10));
-                temp_r0_2 = *(u8 *)((s8 *)arg0 + 2) & 0xFFFFFFDF;
-                *(u8 *)((s8 *)arg0 + 2) = temp_r0_2;
-                if (!(temp_r0_2 & 0x10)) {
-                    *(s8 *)((s8 *)arg0 + 0) = 5;
+                blocks = self->blocks;
+                lobby_timer_stop(&self->timer);
+                flags = self->flags & 0xFFFFFFDF;
+                self->flags = flags;
+                if (!(flags & 0x10)) {
+                    self->state = 5;
                 }
-                *(u8 *)((s8 *)temp_r30_2 + 2) = (u8) (*(u8 *)((s8 *)temp_r30_2 + 2) & 0xFFFFFFDF);
-                start_ipcp_after_auth((O_80400ACC *) (temp_r30_2));
+                blocks->auth_pending = (u8) (blocks->auth_pending & 0xFFFFFFDF);
+                start_ipcp_after_auth(blocks);
                 return;
             }
             break;
         case 3:
-            lobby_timer_stop((void *) (arg0 + 0x10));
-            temp_r30_3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
-            lobby_timer_stop((void *) (arg0 + 0x10));
-            temp_r0_3 = *(u8 *)((s8 *)arg0 + 2) & 0xFFFFFFEF;
-            *(u8 *)((s8 *)arg0 + 2) = temp_r0_3;
-            if (!(temp_r0_3 & 0x10)) {
-                *(s8 *)((s8 *)arg0 + 0) = 5;
+            lobby_timer_stop(&self->timer);
+            blocks = self->blocks;
+            lobby_timer_stop(&self->timer);
+            flags = self->flags & 0xFFFFFFEF;
+            self->flags = flags;
+            if (!(flags & 0x10)) {
+                self->state = 5;
             }
-            *(u8 *)((s8 *)temp_r30_3 + 2) = (u8) (*(u8 *)((s8 *)temp_r30_3 + 2) & 0xFFFFFFEF);
-            *(u8 *)((s8 *)temp_r30_3 + 2) = (u8) (*(u8 *)((s8 *)temp_r30_3 + 2) & 0xFFFFFFDF);
-            start_ipcp_after_auth((O_80400ACC *) (temp_r30_3));
+            blocks->auth_pending = (u8) (blocks->auth_pending & 0xFFFFFFEF);
+            blocks->auth_pending = (u8) (blocks->auth_pending & 0xFFFFFFDF);
+            start_ipcp_after_auth(blocks);
             return;
         case 4:
-            lobby_timer_stop((void *) (arg0 + 0x10));
-            temp_r30_4 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xC));
-            update_connection_state(temp_r30_4 + 0xA0);
-            update_connection_state(temp_r30_4 + 4);
-            *(s16 *)((s8 *)arg0 + 8) = 1;
+            lobby_timer_stop(&self->timer);
+            blocks = self->blocks;
+            update_connection_state(&blocks->chap);
+            update_connection_state(&blocks->lcp);
+            self->abort = 1;
             ppp_auth_failed = 1;
             break;
         }
     }
 }
 
-s32 TLobby__sub_803FC684(u8 *source, u8 *chap_secret, PppFsm *fsm) {
+s32 chap_set_secret(u8 *source, u8 *chap_secret, PppFsm *fsm) {
     PppChap *options = fsm->opts;
 
     if (NetStringLength((const char *)((void *)source)) >= 0x80) {
@@ -225,34 +208,34 @@ s32 TLobby__sub_803FC684(u8 *source, u8 *chap_secret, PppFsm *fsm) {
     return 0;
 }
 
-void TLobby__sub_803FC728(PppFsm *c) {
+void chap_request_timeout(PppFsm *c) {
     PppFrame *buf;
     PppChap *chap = (PppChap *)c->opts;
-    u8 *sub;
+    PppProtoBlocks *sub;
 
     if (chap->active != 0) {
         if (c->retries != 0) {
             chap->msg = "Request timeout";
-            TLobby__sub_803FE658(c);
+            fsm_send_config_request(c);
             return;
         }
         chap->msg = "Request retry exceeded";
-        sub = c->sub;
-        update_connection_state(sub + 0xA0);
-        update_connection_state(sub + 4);
+        sub = c->blocks;
+        update_connection_state(&sub->chap);
+        update_connection_state(&sub->lcp);
         c->abort = 1;
         return;
     }
     if (c->retries != 0) {
-        buf = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
+        buf = ppp_buffer_from_bytes(chap_state.response, chap->len);
         ppp_fsm_send_packet(c, 2, chap->id, buf);
-        lobby_timer_start((u8 *)&c->timer);
+        lobby_timer_start(&c->timer);
         c->retries--;
         return;
     }
-    sub = c->sub;
-    update_connection_state(sub + 0xA0);
-    update_connection_state(sub + 4);
+    sub = c->blocks;
+    update_connection_state(&sub->chap);
+    update_connection_state(&sub->lcp);
     c->abort = 1;
 }
 
@@ -310,7 +293,7 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
     total = hdr->len;
     n = chap_read_byte_slow(&v);
     if (n != -1) {
-        p = value = lbl_805C02D0.p10;
+        p = value = chap_state.rx_value;
         for (i = 0; i < n; i++) {
             *p++ = chap_read_byte(&v);
         }
@@ -323,50 +306,50 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
         m = 0x7F;
     }
     if (m != 0) {
-        q = name = lbl_805C02D0.p4;
+        q = name = chap_state.rx_name;
         for (j = 0; j < m; j++) {
             *q++ = chap_read_byte(&v);
         }
         *q = 0;
     }
-    if (lbl_805D7A90 & 2) {
-        secret = TLobby__sub_803F7684((const char *)name);
+    if (lobby_session_flags & 2) {
+        secret = ppp_find_auth_secret((const char *)name);
         if (secret == NULL) {
-            NetCopyString(lbl_805C02D0.p20, chap_failure_message);
-            reply = TLobby__sub_80401B20(lbl_805C02D0.p20, NetStringLength(lbl_805C02D0.p20));
+            NetCopyString(chap_state.message, chap_failure_message);
+            reply = ppp_buffer_from_bytes(chap_state.message, NetStringLength(chap_state.message));
             ppp_fsm_send_packet(c, 4, hdr->id, reply);
             return -1;
         }
     }
-    *lbl_805C02D0.p18 = hdr->id;
-    if (lbl_805D7A90 & 2) {
-        NetCopyString((char *)lbl_805C02D0.p18 + 1, secret);
+    *chap_state.hash_input = hdr->id;
+    if (lobby_session_flags & 2) {
+        NetCopyString((char *)chap_state.hash_input + 1, secret);
     } else {
-        NetCopyString((char *)lbl_805C02D0.p18 + 1, chap->secret);
+        NetCopyString((char *)chap_state.hash_input + 1, chap->secret);
     }
-    if (lbl_805D7A90 & 2) {
+    if (lobby_session_flags & 2) {
         len = NetStringLength(secret);
     } else {
         len = NetStringLength(chap->secret);
     }
     init_md5_state(&ctx);
-    MD5Update(&ctx, lbl_805C02D0.p18, len + 1);
-    MD5Update(&ctx, lbl_805C02D0.p8 + 1, lbl_805D7A9A);
-    MD5Final((u8 *)lbl_805C02D0.p20, &ctx);
-    if (NetMemcmp(lbl_805C02D0.p20, value, 0x10) == 0) {
-        NetCopyString(lbl_805C02D0.p20, "Wellcome!!");
+    MD5Update(&ctx, chap_state.hash_input, len + 1);
+    MD5Update(&ctx, chap_state.tx_challenge + 1, chap_challenge_length);
+    MD5Final((u8 *)chap_state.message, &ctx);
+    if (NetMemcmp(chap_state.message, value, 0x10) == 0) {
+        NetCopyString(chap_state.message, "Wellcome!!");
         code = 3;
         ret = 0;
-    } else if (lbl_805D7A90 & 2) {
-        NetCopyString(lbl_805C02D0.p20, chap_failure_message);
+    } else if (lobby_session_flags & 2) {
+        NetCopyString(chap_state.message, chap_failure_message);
         code = 4;
         ret = -1;
     } else {
-        NetCopyString(lbl_805C02D0.p20, "Wellcome!!");
+        NetCopyString(chap_state.message, "Wellcome!!");
         code = 3;
         ret = 0;
     }
-    reply = TLobby__sub_80401B20(lbl_805C02D0.p20, NetStringLength(lbl_805C02D0.p20));
+    reply = ppp_buffer_from_bytes(chap_state.message, NetStringLength(chap_state.message));
     ppp_fsm_send_packet(c, code, hdr->id, reply);
     return ret;
 }
@@ -378,6 +361,10 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
 #pragma opt_common_subs on
 #pragma opt_propagation off
 #pragma opt_lifetimes off
+inline void chap_session_down(PppProtoBlocks *blocks) {
+    update_connection_state(&blocks->chap);
+    update_connection_state(&blocks->lcp);
+}
 inline PppChap *chap_options(PppFsm *connection) {
     return (PppChap *)connection->opts;
 }
@@ -406,7 +393,7 @@ void chap_recv_challenge(PppFsm *connection, PppHeader *header, PppFrame *source
     chap = chap_options(connection);
     challenge_length = chap_read_byte_slow(&source);
     if (challenge_length != -1) {
-        challenge_cursor = (challenge_slot.value = lbl_805C02D0.pC);
+        challenge_cursor = (challenge_slot.value = chap_state.rx_challenge);
         for (challenge_index = 0; challenge_index < challenge_length; challenge_index++) {
             *challenge_cursor++ = chap_read_byte(&source);
         }
@@ -417,40 +404,38 @@ void chap_recv_challenge(PppFsm *connection, PppHeader *header, PppFrame *source
         peer_name_length = 0x7f;
     }
     if (peer_name_length != 0) {
-        peer_name = lbl_805C02D0.p0;
+        peer_name = chap_state.rx_challenge_name;
         for (peer_name_index = 0; peer_name_index < peer_name_length; peer_name_index++) {
             *peer_name++ = chap_read_byte(&source);
         }
         *peer_name = 0;
     }
-    *lbl_805C02D0.p14 = header->id;
-    NetCopyString((char *)lbl_805C02D0.p14 + 1, chap->secret);
+    *chap_state.response_input = header->id;
+    NetCopyString((char *)chap_state.response_input + 1, chap->secret);
     string_length = NetStringLength(chap->secret);
     raw_name_length = NetStringLength(chap->name);
     challenge_offset = string_length + 1;
     string_length = raw_name_length;
-    NetMemcpy(lbl_805C02D0.p14 + challenge_offset, challenge_slot.value, challenge_length);
-    NetMemset(lbl_805C02D0.p1C, 0, lbl_805C02D0.size1C);
-    *lbl_805C02D0.p1C = 0x10;
+    NetMemcpy(chap_state.response_input + challenge_offset, challenge_slot.value, challenge_length);
+    NetMemset(chap_state.response, 0, chap_state.response_size);
+    *chap_state.response = 0x10;
     init_md5_state(&context);
-    MD5Update(&context, lbl_805C02D0.p14, challenge_offset + challenge_length);
-    MD5Final(lbl_805C02D0.p1C + 1, &context);
+    MD5Update(&context, chap_state.response_input, challenge_offset + challenge_length);
+    MD5Final(chap_state.response + 1, &context);
     {
         u32 response_name_length = string_length;
-        NetMemcpy(lbl_805C02D0.p1C + 0x11, (void *)chap->name, response_name_length);
+        NetMemcpy(chap_state.response + 0x11, (void *)chap->name, response_name_length);
     }
     chap->id = header->id;
     chap->len = string_length + 0x11;
-    reply = TLobby__sub_80401B20(lbl_805C02D0.p1C, chap->len);
+    reply = ppp_buffer_from_bytes(chap_state.response, chap->len);
     ppp_fsm_send_packet(connection, 2, chap->id, reply);
-    lobby_timer_start((u8 *)&connection->timer);
+    lobby_timer_start(&connection->timer);
     connection->retries--;
-    if (connection->f6 != 0) {
-        connection->f6--;
+    if (connection->peer_attempts_left != 0) {
+        connection->peer_attempts_left--;
     } else {
-        header = (PppHeader *)connection->sub;
-        update_connection_state((u8 *)header + 0xA0);
-        update_connection_state((u8 *)header + 4);
+        chap_session_down(connection->blocks);
     }
 }
 #pragma pop

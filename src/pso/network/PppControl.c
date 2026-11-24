@@ -17,17 +17,17 @@
 
 s16 configure_and_open_network_transport(int a, int b, int c, int d, int e, char *modem_name, int no_modem);
 
-s32 network_input_available(u8 *out) {
-    if (TLobby__sub_803F811C((s16 *)out) != 0) {
+s16 network_input_available(u16 *out) {
+    if (get_transport_input_count((s16 *)out) != 0) {
         return -1;
     }
     return 0;
 }
 
-s32 recv_network_bytes(u8 *dst, unsigned short n) {
+s16 recv_network_bytes(u8 *dst, u16 n) {
   u8 buf;
   u16 st;
-  while (((u16) n) != 0)
+  while (n != 0)
   {
     if ((recv_network_frame(1, &buf, &st) != 0) && (st != 1))
     {
@@ -46,16 +46,16 @@ s32 send_network_bytes(saddr src, u16 len) {
     return 0;
 }
 
-void TLobby__sub_804061FC(int);
+void ppp_init_protocols(int);
 s32 close_all_connections(void) {
-    TLobby__sub_803FD85C(&ppp_proto_blocks.ipv6cp);
-    TLobby__sub_803FD85C(&ppp_proto_blocks.ipcp);
-    TLobby__sub_803FD85C(&ppp_proto_blocks.pap);
-    TLobby__sub_803FD85C(&ppp_proto_blocks.chap);
-    TLobby__sub_803FD85C(&ppp_proto_blocks.lcp);
-    ppp_proto_blocks.busy = 0;
+    fsm_lowerdown(&ppp_proto_blocks.ipv6cp);
+    fsm_lowerdown(&ppp_proto_blocks.ipcp);
+    fsm_lowerdown(&ppp_proto_blocks.pap);
+    fsm_lowerdown(&ppp_proto_blocks.chap);
+    fsm_lowerdown(&ppp_proto_blocks.lcp);
+    ppp_proto_blocks.phase = 0;
     if (reset_network_timer_list() == 0) {
-        TLobby__sub_804061FC(0);
+        ppp_init_protocols(0);
     }
     return 0;
 }
@@ -63,17 +63,17 @@ s32 close_all_connections(void) {
 s16 negotiate_ipcp_and_ipv6cp(void) {
     PppProtoBlocks *connection = &ppp_proto_blocks;
     PppFsm *ipv6cp = &connection->ipv6cp;
-    s16 st = lbl_805D7A7C;
+    s16 st = ppp_ip_mode;
     PppFsm *ipcp;
 
-    if ((st == 6 || st == 0) && TLobby__sub_803FF304(ipv6cp) != 0) {
+    if ((st == 6 || st == 0) && ipcp_open(ipv6cp) != 0) {
         return -0x11;
     }
     ipcp = &connection->ipcp;
-    if (TLobby__sub_803FF304(ipcp) != 0) {
+    if (ipcp_open(ipcp) != 0) {
         return -0x11;
     }
-    if (TLobby__sub_803FED78(ipcp) != 0) {
+    if (wait_for_ipcp_open(ipcp) != 0) {
         return -0x11;
     }
     return 0;
@@ -101,17 +101,10 @@ s32 ipv6cp_set_interface_identifiers(s32 ignored, u8 *first_identifier, u8 *seco
 
 s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s32 dns_local_primary, s32 dns_local_secondary, s32 dns_peer_primary, s32 dns_peer_secondary) {
     IpcpConfig *ipcp_cfg;
-    u8 *fsm_state;
-    s16 ipcp_set_vj_compression(s16 disabled, IpcpSide *side);
-    s16 ipcp_set_local_address(IpcpSide *side, s32 addr);
-    s16 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr);
-    s16 ipcp_set_peer_primary_dns(IpcpSide *side, s32 addr);
-    s16 ipcp_set_peer_address(IpcpSide *side, s32 addr);
-    s16 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr);
-    s16 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr);
-    fsm_state = (u8 *)&ppp_proto_blocks.ipcp;
-    ipcp_cfg = *(IpcpConfig **)((s8 *)fsm_state + 0x30);
-    PP_doppp_active((void *)fsm_state);
+    PppFsm *fsm_state;
+    fsm_state = &ppp_proto_blocks.ipcp;
+    ipcp_cfg = fsm_state->opts;
+    PP_doppp_active(fsm_state);
     if (ipcp_set_vj_compression(vj_disabled, &ipcp_cfg->local) != 0) {
         return -0x11;
     }
@@ -140,11 +133,11 @@ s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s
 }
 
 s16 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
-    u8 *g = (u8 *)&ppp_proto_blocks;
+    PppProtoBlocks *g = &ppp_proto_blocks;
     PppFsm *chap = &ppp_proto_blocks.chap;
     s16 r;
     s16 st;
-    TLobby__sub_803FC684(chap_name, chap_secret, chap);
+    chap_set_secret(chap_name, chap_secret, chap);
     r = PP_chap_monitor(chap, timeout);
     if (r < 0) {
         if (r == -0x12) {
@@ -152,22 +145,22 @@ s16 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
         }
         return -0x11;
     }
-    PP_doppp_active(g + 0x6C);
-    st = lbl_805D7A7C;
+    PP_doppp_active(&g->ipcp);
+    st = ppp_ip_mode;
     if (st == 6 || st == 0) {
-        PP_doppp_active(g + 0xD4);
+        PP_doppp_active(&g->ipv6cp);
     }
     return 0;
 }
 
 s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
-    u8 *g = (u8 *)&ppp_proto_blocks;
-    u8 *c = g + 0x38;
+    PppProtoBlocks *g = &ppp_proto_blocks;
+    PppFsm *c = &g->pap;
     s16 r;
     s16 st;
-    if (lbl_805D7A90 & 1) {
-        TLobby__sub_80403168(peer_id, pap_password, c);
-        TLobby__sub_803FE658((PppFsm *)c);
+    if (lobby_session_flags & 1) {
+        pap_set_secret(peer_id, pap_password, c);
+        fsm_send_config_request(c);
     }
     r = PP_pap_monitor(c, timeout);
     if (r < 0) {
@@ -176,10 +169,10 @@ s16 pap_connect(u8 *peer_id, u8 *pap_password, s32 timeout) {
         }
         return -0x11;
     }
-    PP_doppp_active(g + 0x6C);
-    st = lbl_805D7A7C;
+    PP_doppp_active(&g->ipcp);
+    st = ppp_ip_mode;
     if (st == 6 || st == 0) {
-        PP_doppp_active(g + 0xD4);
+        PP_doppp_active(&g->ipv6cp);
     }
     return 0;
 }
@@ -189,7 +182,7 @@ s16 lcp_connect(LcpConfig *cfg) {
     LcpSide *auth_side;
     LcpSide *local_side;
 
-    TLobby__sub_803F808C();
+    lcp_connect_hook();
     conn = &ppp_proto_blocks.lcp;
     if (apply_lcp_config_to_sides(conn, cfg) != 0) {
         return -0x11;
@@ -201,7 +194,7 @@ s16 lcp_connect(LcpConfig *cfg) {
         auth_side = conn->opts;
         local_side = auth_side;
         auth_side += 1;
-        if (lbl_805D7A90 & 2) {
+        if (lobby_session_flags & 2) {
             auth_side = local_side;
         }
         if (auth_side->got.auth_proto == 0xC023) {
@@ -234,7 +227,7 @@ s16 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 a
     ppp_connect_records[6].active = 0;
     ppp_connect_records[7].active = 0;
     transport_rc = configure_and_open_network_transport(arg1, arg2, arg3, arg4, arg5, modem_name, no_modem);
-    TLobby__sub_804062A0(0x82);
+    ppp_link_event(0x82);
     return transport_rc;
 }
 
@@ -247,13 +240,7 @@ s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     char *modem_name;
     s16 no_modem;
 {
-    s32 open_network_transport(void *);
-    struct {
-        s32 v[6];
-        s16 x;
-        s16 y;
-        void* z;
-    } cfg_block;
+    NetTransportOpenCfg cfg_block;
     s32 t;
     if (a == 0) {
         t = 0;
@@ -262,7 +249,7 @@ s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     } else {
         t = 0;
     }
-    cfg_block.v[0] = t;
+    cfg_block.settings[0] = t;
     if (b == 0) {
         t = 2;
     } else if (b == 1) {
@@ -272,7 +259,7 @@ s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     } else {
         t = 2;
     }
-    cfg_block.v[1] = t;
+    cfg_block.settings[1] = t;
     if (c == 0) {
         t = 0;
     } else if (c == 1) {
@@ -280,8 +267,8 @@ s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     } else {
         t = 0;
     }
-    cfg_block.v[2] = t;
-    cfg_block.v[3] = 1;
+    cfg_block.settings[2] = t;
+    cfg_block.settings[3] = 1;
     if (d == 0) {
         t = 0;
     } else if (d == 1) {
@@ -299,7 +286,7 @@ s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     } else {
         t = 2;
     }
-    cfg_block.v[4] = t;
+    cfg_block.settings[4] = t;
     if (e == 2) {
         t = 0;
     } else if (e == 3) {
@@ -307,17 +294,17 @@ s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     } else {
         t = 1;
     }
-    cfg_block.v[5] = t;
-    cfg_block.x = 0;
-    cfg_block.z = modem_name;
+    cfg_block.settings[5] = t;
+    cfg_block.reserved = 0;
+    cfg_block.modem_name = modem_name;
     if (no_modem != 0) {
-        cfg_block.y = 1;
+        cfg_block.use_pppoe = 1;
     } else {
-        cfg_block.y = 0;
+        cfg_block.use_pppoe = 0;
     }
     if (open_network_transport(&cfg_block) != 0) {
         return -1;
     }
-    lbl_805D7A7E = 1;
+    network_transport_open = 1;
     return 0;
 }

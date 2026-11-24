@@ -1,9 +1,3 @@
-
-
-#define EraseCallback CARDDir_EraseCallback
-#define WriteCallback CARDDir_WriteCallback
-#define __CARDBlock lbl_80544980
-
 #include <dolphin.h>
 #include <dolphin/card.h>
 
@@ -23,8 +17,8 @@ static void WriteCallback(s32 chan, s32 result) {
 
     if (result >= 0)
     {
-        CARDDir *dir0 = (CARDDir*)((u8*)card->workArea + 0x2000);
-        CARDDir *dir1 = (CARDDir*)((u8*)card->workArea + 0x4000);
+        CARDDir *dir0 = (CARDDir*)((u8*)card->workArea + (1 + 0) * CARD_SYSTEM_BLOCK_SIZE);
+        CARDDir *dir1 = (CARDDir*)((u8*)card->workArea + (1 + 1) * CARD_SYSTEM_BLOCK_SIZE);
 
         ASSERTLINE(0x4F, card->currentDir);
 

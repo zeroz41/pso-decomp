@@ -667,7 +667,7 @@ void ZeroOffsetHandler(u32 i) {
         auxb = (preVol * (f32)inpGetPreAuxB(sv) * (1.f / 16383.f)) +
                (postVol * (f32)inpGetPostAuxB(sv) * (1.f / 16383.f));
         sv->curOutputVolume = (u16)(postVol * 32767.f);
-        hwSetVolume(i, sv->volTable, sv->lastPan, sv->lastSPan, postVol, auxa, auxb);
+        hwSetVolume(i, sv->volTable, postVol, sv->lastPan, sv->lastSPan, auxa, auxb);
     }
     if (sv->age != 0) {
         if ((s32)(sv->age -= sv->ageSpeed * lowDeltaTime) < 0) {
@@ -696,7 +696,7 @@ void EventHandler(u32 voice) {
         if ((sv->cFlags & 0x10000000090ULL) == 0x90) {
             sv->cFlags &= ~0x90ULL;
             hwKeyOff(voice);
-            if ((sv->cFlags & 0x20000000000ULL) != 0 && (u32)adsrRelease((MusyxEnvelope *)&sv->pitchADSR) != 0) {
+            if ((sv->cFlags & 0x20000000000ULL) != 0 && adsrRelease(&sv->pitchADSR) != 0) {
                 sv->cFlags &= ~0x20000000000ULL;
             }
         }
@@ -1106,25 +1106,25 @@ void synthSetMusicVolumeType(u8 i, u8 v) {
     }
 }
 
-s32 synthHWMessageHandler(s32 op, u32 idx) {
-    s32 ret = 0;
-    switch (op) {
+u32 synthHWMessageHandler(u32 mesg, u32 voiceID) {
+    u32 ret = 0;
+    switch (mesg) {
     case 0:
-        if (synthVoice[(u8)idx].block == 0) {
-            vsSampleEndNotify(hwGetVirtualSampleID(idx));
-            if (idx == synthVoice[(u8)idx].id) {
-                macSampleEndNotify(&synthVoice[(u8)idx]);
+        if (synthVoice[(u8)voiceID].block == 0) {
+            vsSampleEndNotify(hwGetVirtualSampleID((u8)voiceID));
+            if (voiceID == synthVoice[(u8)voiceID].id) {
+                macSampleEndNotify(&synthVoice[(u8)voiceID]);
             }
         }
         break;
     case 1:
-        voiceKill((u8)idx);
+        voiceKill((u8)voiceID);
         break;
     case 2:
-        ret = vsSampleStartNotify(idx);
+        ret = vsSampleStartNotify(voiceID);
         break;
     case 3:
-        vsSampleEndNotify(hwGetVirtualSampleID(idx));
+        vsSampleEndNotify(hwGetVirtualSampleID((u8)voiceID));
         break;
     }
     return ret;
@@ -1240,7 +1240,7 @@ void synthInit(u32 mixFrq, u32 numVoices) {
 
     voiceInitLastStarted();
     synthInitJobQueue();
-    hwSetMesgCallback((saddr)synthHWMessageHandler);
+    hwSetMesgCallback(synthHWMessageHandler);
 }
 #pragma pop
 

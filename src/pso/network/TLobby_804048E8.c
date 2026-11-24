@@ -5,16 +5,16 @@
 #include "pso/network/TLobby_804048E8.h"
 #include "pso/network/NetArp.h"
 #include "pso/network/PppBuffer.h"
+#include "pso/network/NetworkRuntime.h"
 
 #pragma push
 #pragma cplusplus on
-PppVjCompressionState lbl_805C06D8;
-PppVjConnectionState lbl_805C0710[16];
-PppVjConnectionState lbl_805C0FD0[16];
+PppVjCompressionState vj_comp;
+PppVjConnectionState vj_rstate[16];
+PppVjConnectionState vj_tstate[16];
 u32 lbl_805C1890[4];
 #pragma pop
 
-s32 NetMemcmp(void *, void *, int);
 void NetMemcpy(void *, void *, int);
 
 #pragma push
@@ -30,38 +30,38 @@ inline u8 *vj_encode(u8 *cp, u32 n) {
     return cp;
 }
 
-s32 TLobby__sub_804048E8(PppVjCompressionState *comp, PppFrame **m, s16 compress_cid) {
+s32 sl_compress_tcp(PppVjCompressionState *comp, PppFrame **m, s16 compress_cid) {
     PppVjConnectionState *cs;
     PppVjConnectionState *lastcs;
     PppVjConnectionState *lcs;
-    B_80403F4C *oth;
+    ParsedTcpHeader *oth;
     u32 deltaS;
     u32 deltaA;
     s16 changes;
     u8 *cp;
     s32 hlen;
-    B_80403F4C b;
-    A_80403F4C a;
+    ParsedTcpHeader b;
+    ParsedIpHeader a;
 
     cp = (u8 *)lbl_805C1890;
     changes = 0;
     lastcs = &comp->tstate[comp->last_cs];
     cs = lastcs->next;
     lcs = lastcs;
-    hlen = TLobby__sub_803FEA88(&a, m);
+    hlen = NetIPv4ReadHeader(&a, m);
     if (a.proto != 6 || a.frag != 0 || a.mf != 0) {
         if (a.proto != 6) {
-            comp->n10++;
+            comp->out_not_tcp++;
         } else {
-            comp->n14++;
+            comp->out_not_compressible++;
         }
         *m = NetIPv4WriteHeader(&a, *m, 1);
         return 0x40;
     }
-    hlen += TLobby__sub_804053B8(&b, m);
+    hlen += NetTcpReadHeader(&b, m);
     if (b.syn || b.fin || b.rst || !b.ack_flag) {
-        comp->n14++;
-        *m = TLobby__sub_8040555C(&b, *m, NULL);
+        comp->out_not_compressible++;
+        *m = NetTcpWriteHeader(&b, *m, NULL);
         *m = NetIPv4WriteHeader(&a, *m, 1);
         return 0x40;
     }
@@ -75,9 +75,9 @@ s32 TLobby__sub_804048E8(PppVjCompressionState *comp, PppFrame **m, s16 compress
         }
         lcs = cs;
         cs = cs->next;
-        comp->n20++;
+        comp->searches++;
     }
-    comp->n24++;
+    comp->misses++;
     comp->last_cs = lcs->id;
     goto uncompressed;
 
@@ -171,7 +171,7 @@ found:
     }
     cp = write_network_u16_be(cp, deltaA);
     NetMemcpy(cp, lbl_805C1890, (s16)deltaS);
-    comp->n1C++;
+    comp->out_compressed++;
     return 0x80;
 
 uncompressed:
@@ -179,14 +179,14 @@ uncompressed:
     cs->a = a;
     cs->b = b;
     comp->last_xmit = cs->id;
-    comp->n18++;
-    *m = TLobby__sub_8040555C(&b, *m, NULL);
+    comp->out_uncompressed++;
+    *m = NetTcpWriteHeader(&b, *m, NULL);
     *m = NetIPv4WriteHeader(&a, *m, 1);
     return 0x70;
 }
 #pragma pop
 
-void TLobby__sub_80405000(PppVjCompressionState *state) {
+void vj_release_state(PppVjCompressionState *state) {
     if (state == NULL) {
         return;
     }
@@ -195,14 +195,14 @@ void TLobby__sub_80405000(PppVjCompressionState *state) {
 PppVjCompressionState *init_net_list(s16 count1, s16 count2) {
     PppVjConnectionState *base;
     s16 i;
-    PppVjCompressionState *p = &lbl_805C06D8;
+    PppVjCompressionState *p = &vj_comp;
 
     if (count1 > 0 && count1 <= 0x10) {
-        p->ents = lbl_805C0710;
+        p->rstate = vj_rstate;
         p->max = count1 - 1;
     }
     if (count2 > 0 && count2 <= 0x10) {
-        p->tstate = lbl_805C0FD0;
+        p->tstate = vj_tstate;
         p->max_tx = count2 - 1;
     }
     p->last_cs = 0;
@@ -220,4 +220,4 @@ PppVjCompressionState *init_net_list(s16 count1, s16 count2) {
     return p;
 }
 
-NetThreadState lbl_805C18A0;
+NetThreadState net_thread_state;

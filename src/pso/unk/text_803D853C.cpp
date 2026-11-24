@@ -248,7 +248,7 @@ asm f32 vec3_dot(const Vec *a, const Vec *b) {
 #pragma push
 #pragma scheduling off
 
-void TObjPlayer::invert_matrix_in_place(MtxP matrix) {
+void invert_matrix_in_place(MtxP matrix) {
     if (matrix == NULL) {
         matrix = *current_matrix;
     }

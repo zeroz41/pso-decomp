@@ -1,34 +1,3 @@
-
-
-#define AutoFinishing lbl_805D715C
-#define CancelCallback lbl_805D716C
-#define Canceling lbl_805D7168
-#define CategorizeError dvd_CategorizeError
-#define LastError lbl_805D7178
-#define LastState lbl_805D718C
-#define NumInternalRetry lbl_805D717C
-#define cbForCancelSync dvd_cbForCancelSync
-#define cbForStateBusy dvd_cbForStateBusy
-#define cbForStateCheckID1 dvd_cbForStateCheckID1
-#define cbForStateCheckID2 dvd_cbForStateCheckID2
-#define cbForStateCheckID3 dvd_cbForStateCheckID3
-#define cbForStateCoverClosed dvd_cbForStateCoverClosed
-#define cbForStateGettingError dvd_cbForStateGettingError
-#define cbForStateGoToRetry dvd_cbForStateGoToRetry
-#define cbForStateReadingFST dvd_cbForStateReadingFST
-#define cbForUnrecoveredError dvd_cbForUnrecoveredError
-#define cbForUnrecoveredErrorRetry dvd_cbForUnrecoveredErrorRetry
-#define stateCheckID dvd_stateCheckID
-#define stateCheckID2 dvd_stateCheckID2
-#define stateCheckID3 dvd_stateCheckID3
-#define stateCoverClosed dvd_stateCoverClosed
-#define stateCoverClosed_CMD dvd_stateCoverClosed_CMD
-#define stateGettingError dvd_stateGettingError
-#define stateGoToRetry dvd_stateGoToRetry
-#define stateMotorStopped dvd_stateMotorStopped
-#define stateReadingFST dvd_stateReadingFST
-#define stateTimeout dvd_stateTimeout
-
 #include <dolphin.h>
 #include <dolphin/os.h>
 #include <dolphin/dvd.h>
@@ -59,7 +28,7 @@ static int ResetRequired;
 static int FirstTimeInBootrom;
 static int DVDInitialized;
 static OSAlarm ResetAlarm;
-void (* LastState)(struct DVDCommandBlock *);
+static void (*LastState)(DVDCommandBlock *);
 
 static void stateReadingFST();
 static void cbForStateReadingFST(unsigned long intType);
@@ -1031,7 +1000,7 @@ long DVDGetDriveStatus() {
 			} else if (executing == &DummyCommandBlock) {
 				retVal = DVD_STATE_END;
 			} else {
-				retVal = DVDGetCommandBlockStatus((struct DVDCommandBlock*)executing);
+				retVal = DVDGetCommandBlockStatus(executing);
 			}
 		}
 	}

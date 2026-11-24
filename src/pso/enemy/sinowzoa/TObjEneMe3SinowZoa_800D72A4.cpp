@@ -14,23 +14,23 @@ void TUnk_80494938::set_flags_and_apply_damage_color() { MaterialColorFade::set_
 
 s32 TUnk_80494938::advance_timer(f32 limit) {
     this->value = this->value + this->rate;
-    sub_800D741C();
+    update_fade_alpha();
     return this->value >= limit;
 }
 
 s32 TUnk_80494938::advance_toward_max() {
     this->value = this->value + this->rate;
-    sub_800D741C();
+    update_fade_alpha();
     return this->value >= 2.0f;
 }
 
 s32 TUnk_80494938::decay_value_toward_floor() {
     this->value = this->value - this->rate;
-    sub_800D741C();
+    update_fade_alpha();
     return this->value <= 0.0f;
 }
 
-void TUnk_80494938::sub_800D741C() {
+void TUnk_80494938::update_fade_alpha() {
     f32 temp_f2;
     temp_f2 = this->value;
     if (temp_f2 <= 0.0f) {

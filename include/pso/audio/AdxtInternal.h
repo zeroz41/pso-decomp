@@ -8,6 +8,7 @@
 #include "pso/audio/SjRingBuffer.h"
 
 struct AdxStreamFile;
+struct AudioStreamInputState;
 struct GcrnaStream;
 
 struct AdxtMemTableEntry {
@@ -15,27 +16,17 @@ struct AdxtMemTableEntry {
     s32 length;
 };
 
-struct AdxtNotifyVtable {
-    void *pad_00[3];
-    void (*destroy)(void *);
-    void *pad_10;
-    void (*reset)(void *);
-};
-
-struct AdxtNotifyObj {
-    AdxtNotifyVtable *vt;
-};
 
 struct AdxtPlayer {
     s8 used;                       /* 0x00 */
     s8 stat;                       /* 0x01 */
     u8 source_type;                /* 0x02 */
     s8 max_channels;               /* 0x03 */
-    saddr decoder_handle;          /* 0x04 */
+    AudioStreamInputState *input_state; /* 0x04 */
     AdxStreamFile *stream_file;    /* 0x08 */
-    saddr rna_handle;              /* 0x0C */
+    GcrnaStream *rna_handle;       /* 0x0C */
     SjRingBuffer *input_ring;      /* 0x10 */
-    AdxtNotifyObj *notify_obj;     /* 0x14 */
+    SjRingBuffer *input_sj;        /* 0x14 */
     SjRingBuffer *output_rings[2]; /* 0x18 */
     saddr input_buf_addr;          /* 0x20 */
     s32 input_buf_size;            /* 0x24 */
@@ -45,7 +36,7 @@ struct AdxtPlayer {
     s32 output_stride;             /* 0x34 */
     s32 server_freq;               /* 0x38 */
     s16 total_sectors;             /* 0x3C */
-    s16 start_sectors;             /* 0x3E */
+    s16 min_sectors;               /* 0x3E */
     s16 output_vol;                /* 0x40 */
     s16 out_pan[2];                /* 0x42 */
     u8 pad_46[2];                  /* 0x46 */
@@ -60,7 +51,7 @@ struct AdxtPlayer {
     s32 reserved_64;               /* 0x64 */
     s16 reserved_68;               /* 0x68 */
     s16 reserved_6A;               /* 0x6A */
-    s8 reload_flag;                /* 0x6C */
+    s8 loop_flag;                  /* 0x6C */
     s8 auto_repeat;                /* 0x6D */
     u8 pad_6E[2];                  /* 0x6E */
     s8 auto_start_flag;            /* 0x70 */
@@ -68,8 +59,8 @@ struct AdxtPlayer {
     s8 pause_flag;                 /* 0x72 */
     u8 pad_73;                     /* 0x73 */
     AdxAmp *amp;                   /* 0x74 */
-    AdxtNotifyObj *extra_objs[2];  /* 0x78 */
-    AdxtNotifyObj *extra_objs2[2]; /* 0x80 */
+    SjRingBuffer *extra_objs[2];   /* 0x78 */
+    SjRingBuffer *extra_objs2[2];  /* 0x80 */
     s32 time_offset;               /* 0x88 */
     s32 total_pages;               /* 0x8C */
     s32 loop_end_sample;           /* 0x90 */
@@ -89,9 +80,19 @@ LAYOUT_ASSERT(AdxtPlayer_played_samples_offset, offsetof(AdxtPlayer, played_samp
 
 typedef void (*AdxtStopHook)(void);
 
+void stop_audio_stream(AdxtPlayer *player);
+void set_field_40_and_notify(AdxtPlayer *player, s32 volume);
+
 extern "C" {
 void configure_audio_stream_output(AdxtPlayer *player);
-void start_audio_stream_file(AdxtPlayer *player, const char *name);
+void start_stream_playback(AdxtPlayer *player, SjRingBuffer *sj);
+void ADXT_SetOutPan(AdxtPlayer *player, s32 ch, s32 pan);
+void ADXT_StartMemIdx(AdxtPlayer *player, u8 *table_data, s32 entry_index);
+void ADXT_StartFname(AdxtPlayer *player, const char *name);
+void set_sync_mode_flag(AdxtPlayer *player, s8 flag);
+s32 get_error_code(AdxtPlayer *player);
+void set_auto_repeat(AdxtPlayer *player, s8 flag);
+s32 apply_if_v2(AdxtPlayer *player);
 }
 
 #endif

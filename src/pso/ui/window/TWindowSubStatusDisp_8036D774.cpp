@@ -185,7 +185,7 @@ void TBGMulti__ct(void) {
         palette[0] = (saddr)TLobby::tmp_buf_use_req("TBGMulti");
         TLanguage::draw_string((void *)"f128_gr.gvp", palette, 0x4D);
         TLobby::tmp_buf_release("TBGMulti");
-        TObjFish::set_global_param(TBGMulti__textures = load_gvm_texture_file("bg_multi.gvm"));
+        TObjFish::set_global_param(TBGMulti__textures = LoadPvmFileTls("bg_multi.gvm"));
         TLanguage::set_entry_index(0, 0x4D);
     }
     split_screen_hud_animation_frame = 0x384;

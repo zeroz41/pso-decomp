@@ -805,7 +805,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/window/TWindowSetLevelUp.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred", "-str reuse,readonly", "-pool off")},
     "pso/ui/window/TWindowChallengeResult.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/text_8013F810.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    "pso/network/TProtocol_801DA240.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/network/TProtocol.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6EmptyWarp_802B0E2C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/olgaflow/TBoss6PlotFalz_802B0228.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
@@ -932,7 +931,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/charcreate/TChCrLoadReq.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/beast/TObjEneBeast.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # load_texture_pvm_file reaches each .rodata object with its own lis/addi (no shared base): -pool off.
+    # psoLoadTexturePvmFile reaches each .rodata object with its own lis/addi (no shared base): -pool off.
     "pso/unk/TLobby_801E43E4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/system/scene/OfflineGameScene.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/TLobby_801A3C48.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -1437,9 +1436,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # 1.3.2 keeps approach_vector_fixed_distance's early-out copy unscheduled.
     "pso/render/render_util.cpp": {"mw_version": "GC/1.3.2", "cflags": [*_switch(cflags_pso, "-fp_contract on"), "-DPSO_SDK_COMPACT_MATH"]},
     "pso/render/render_util_head.cpp": {"mw_version": "GC/1.3.2", "cflags": [*_switch(cflags_pso, "-fp_contract on"), "-DPSO_SDK_COMPACT_MATH"]},
-    # Metrowerks' GCN_Mem_Alloc.c (runtime library code at -O4,p); belongs
-    # in the runtime lib under its own name.
-    "pso/unk/text_8039739C.cpp": {"cflags": _switch(cflags_pso, "-O4,p")},
     "pso/quest/QuestOpcodeHandlers.cpp": {"cflags": _switch(cflags_pso, "-inline on", "-str reuse,readonly")},
     "pso/quest/TQuestThread.cpp": {"cflags": _switch(cflags_pso, "-inline on")},
     # The quest-list vtable precedes its switch table: deferred, written from
@@ -1587,7 +1583,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         # sit before the function's int->double conversion constants (0x805E0E40); only deferred compilation emits that order.
         "pso/render/GinjaPerspective.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-inline off,deferred")},
         # -sdata 4: its last .bss object (0x8058D520) is 8 bytes.
-        "pso/unk/text_803DCDFC.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-sdata 4")},
+        "pso/render/gjSystem.c": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-sdata 4")},
         # Saves registers through _savegpr_N everywhere (no stmw in the unit).
         "pso/unk/text_803E2D70.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-use_lmw_stmw off")},
         "pso/render/ChunkModelDraw.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-use_lmw_stmw off")},
@@ -1595,7 +1591,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     # mcFsGc ("Ver 1.10.00 Build:Sep 17 2002") with ACCESS's file transfer.
     ("mcfs", 0x803E5668, "GC/1.2.5", cflags_middleware, {
         # Epilogue order (mtlr before the restores) only 1.2.5n produces.
-        "pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp": {"mw_version": "GC/1.2.5n"},
+        "pso/ui/keyboard/KBDXfer.c": {"mw_version": "GC/1.2.5n"},
         "pso/unk/text_803F1804.cpp": {"mw_version": "GC/1.2.5n"},
         # Its loops keep base + index offsets instead of walking pointers
         # (0x803F2F1C, 0x803F31D8); the rest of the file is the same either way.
@@ -2000,6 +1996,10 @@ if args.target == "psov3":
         RuntimeLib(
             "MSL_C.PPCEABI.bare.H",
             [
+                # GCN_Mem_Alloc.c: unpooled string literals; the Dolphin OS heap API
+                Unit("PowerPC_EABI_Support/MSL/MSL_C/PPC_EABI/Src/GCN_Mem_Alloc.c",
+                     cflags=[*(f for f in cflags_runtime if f != "-str reuse,pool,readonly"),
+                             "-str reuse,readonly", "-i libs/dolphin/include", "-DPSO_SDK_COMPACT_MATH"]),
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/abort_exit.c"),
                 # alloc.c: only GC/1.3 emits `li -5; and` where 1.3.2+ use rlwinm
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/alloc.c",

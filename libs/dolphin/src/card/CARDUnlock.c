@@ -1,9 +1,3 @@
-
-
-#define CardData lbl_804F4C60
-#define next lbl_805D4578
-#define __CARDBlock lbl_80544980
-
 #include <dolphin.h>
 #include <dolphin/card.h>
 

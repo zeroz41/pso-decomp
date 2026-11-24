@@ -4,13 +4,8 @@
 #include "types.h"
 
 extern "C" {
-s32 TObjPlayer__sub_803DA104(u8 x);
+// TRUE for the GX colour-index formats (C4, C8, C14X2), which need a palette.
+s32 is_palette_texture_format(u8 format);
 }
-
-// --- C functions defined in TAdSinglePlyChrSelectGC_803DA038.cpp ---
-extern "C" {
-s32 TObjPlayer__sub_803DA104(u8 x);
-}
-// --- end of C functions
 
 #endif

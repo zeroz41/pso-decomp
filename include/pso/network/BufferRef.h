@@ -5,7 +5,10 @@
 #include <stddef.h>
 
 typedef struct NetBufferRef {
-    uaddr value;
+    union {
+        uaddr value; /* kinds 2 and 3: a pool slot handle (entry << 24 | segment << 16) */
+        void *data;  /* kinds 1 and 4: the bytes themselves */
+    };
     u8 kind;
     u8 padding[3];
 } NetBufferRef;
@@ -15,14 +18,14 @@ LAYOUT_ASSERT(NetBufferRef_kind_check, offsetof(NetBufferRef, kind) == 4);
 #ifdef __cplusplus
 extern "C" {
 #endif
-void set_value_and_enable(NetBufferRef *ref, s32 value);
-void init_packet_header(NetBufferRef *ref, s32 value);
-void init_msg(NetBufferRef *ref, s32 value);
+void set_value_and_enable(NetBufferRef *ref, void *data);
+void init_packet_header(NetBufferRef *ref, void *data);
+void init_msg(NetBufferRef *ref, void *data);
 
 /* Advances a buffer reference by n bytes (TLobby_804050DC.c). */
 void netbuf_ref_advance(NetBufferRef *ref, s32 n);
 /* Frees the block behind a buffer reference of kind 2 or 4 (TLobby_804050DC.c). */
-s32 TLobby__sub_80406B6C(NetBufferRef *ref);
+s32 netbuf_release(NetBufferRef *ref);
 #ifdef __cplusplus
 }
 #endif

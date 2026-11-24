@@ -11,9 +11,6 @@
 #define BUILD_TIME "18:25:00"
 #endif
 
-extern DSPTaskInfo* __DSP_rude_task;
-extern int __DSP_rude_task_pending;
-
 static BOOL __DSP_init_flag;
 
 

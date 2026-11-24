@@ -29,7 +29,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/TUnk_804EF130.h"
 #include "pso/system/task/TObject.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 #include "pso/render/TUnk_80494938.h"
 #include <stddef.h>
 #include "pso/boss/volopt/TBoss3Volopt.h"

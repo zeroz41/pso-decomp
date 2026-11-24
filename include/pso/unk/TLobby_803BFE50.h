@@ -3,28 +3,26 @@
 
 #include "types.h"
 
+struct AudioStreamInputState;
+
 extern "C" {
 void sub_803C0018(void);
-void TLobby__sub_803BFE58(u8 *arg0);
-void TLobby__sub_803BFEE8(u8 *arg0);
-void audio_stream_get_format(u8 *arg0);
-void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, s32 arg2);
-s32 audio_stream_get_output_samples(u8 *lobby);
 void audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
-void audio_stream_start(u8 *lobby);
 void decode_adxb_pcm_stream(u8 *lobby);
 }
 
 // --- C functions defined in TLobby_803BFE50.cpp ---
 extern "C" {
 void sub_803C0018(void);
-void TLobby__sub_803BFE58(u8 *arg0);
-void TLobby__sub_803BFEE8(u8 *arg0);
-void audio_stream_get_format(u8 *arg0);
-void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, s32 arg2);
-s32 audio_stream_get_output_samples(u8 *lobby);
+s32 TLobby__sub_803BFE58(AudioStreamInputState *st);
+s32 TLobby__sub_803BFEE8(AudioStreamInputState *st);
+s32 audio_stream_get_format(AudioStreamInputState *st);
+void audio_stream_set_notify_callback(AudioStreamInputState *st, void (*callback)(void *), void *context);
+s32 audio_stream_get_output_samples(AudioStreamInputState *st);
+void audio_stream_start(AudioStreamInputState *st);
+s32 audio_stream_get_state(AudioStreamInputState *st);
+void process_audio_stream_input(AudioStreamInputState *st);
 void audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
-void audio_stream_start(u8 *lobby);
 void decode_adxb_pcm_stream(u8 *lobby);
 }
 // --- end of C functions

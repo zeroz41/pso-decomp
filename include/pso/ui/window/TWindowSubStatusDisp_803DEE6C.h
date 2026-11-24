@@ -3,9 +3,16 @@
 
 #include "types.h"
 
+// Draws a rotated textured quad: q holds a corner, its two screen edges and the
+// texture corner with its uv edges.
+void draw_rotated_quad(f32 *q);
+
 extern "C" {
-void DVDConvertEntrynumToPath(f32 *q);
-u32 TLobby__sub_803DF1CC(void);
+u32 get_coarse_time(void);
+// Difference between two get_coarse_time values.
+s32 calc_delta(s32 start, s32 end);
+// Converts a get_coarse_time difference to microseconds.
+u32 coarse_time_to_usec(u32 x);
 void begin_screen_draw(s32 mode);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 }

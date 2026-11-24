@@ -1,4 +1,5 @@
 #include "MSL_C/string.h"
+#include "MSL_C/printf.h"
 
 size_t strlen(const char* str) {
     size_t len = -1;
@@ -316,8 +317,6 @@ char* strstr(const char* str, const char* pat) {
 
     return NULL;
 }
-
-extern int sprintf(char* s, const char* format, ...);
 
 char* __strerror(int errnum, char* str) {
     if (errnum == 1) strcpy(str, "Argument list too long");

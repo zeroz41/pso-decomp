@@ -14,9 +14,8 @@ void create_reflection_target();
 // Forces the next reflection pass even when the player's floor ray missed.
 void request_reflection_render();
 
-extern "C" {
-s32 fn_8029E7BC(saddr arg0, u8 *arg1);
-void TObjPlayer__sub_8029EE2C(void);
-}
+// Finds a reflective floor (collision flag 0x4000) below pos; writes its point and normal to plane.
+s32 find_reflective_floor(saddr pos, u8 *plane);
+void load_reflection_texture(void);
 
 #endif

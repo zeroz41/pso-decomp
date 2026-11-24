@@ -18,7 +18,6 @@
 #pragma dont_inline off
 
 
-s32 init_bba_exi_adapter(void *);
 /* The message queues (OSMessageQueue + messages) and, below, the channel table: only this file uses them. */
 typedef struct TransportMessageQueue32 {
     OSMessageQueue queue;
@@ -37,7 +36,7 @@ LAYOUT_ASSERT(TransportMessageQueue10Messages, offsetof(TransportMessageQueue10,
 
 static TransportMessageQueue32 lbl_805CF240;
 static TransportMessageQueue32 pppoe_message_queue;
-static TransportMessageQueue10 lbl_805CF380;
+static TransportMessageQueue10 transport_message_queue;
 /* The thread, link-status and Ethernet negotiation-mode state. */
 s32 network_message_pending_count;
 saddr ether_nego_mode;
@@ -48,21 +47,21 @@ s32 lobby_exi_prev_status;
 NetThreadHandle lobby_message_thread_handle;
 s32 lbl_805D7BB0;
 s16 network_link_status_cache = -1;
-void TLobby__sub_80426190(EthernetReceiveFilter *);
-s16 TLobby__sub_80426110(EthernetReceiveFilter *o, u16 kind, u16 ether_type);
-extern const u8 lbl_805E1190[8] = { 255, 255, 255, 255, 255, 255, 0, 0 };
-saddr TLobby__sub_804089A8(s16, s16, void *, void *); /* declared here with other parameter types; the definition is s32 (s16, s16, s16, void *) */
-saddr TLobby__sub_80426AAC(u16 key, saddr len);
+void apply_receive_filter(EthernetReceiveFilter *);
+s16 add_receive_protocol(EthernetReceiveFilter *o, u16 kind, u16 ether_type);
+extern const u8 transport_broadcast_address[8] = { 255, 255, 255, 255, 255, 255, 0, 0 };
+saddr dix_input(s16, s16, void *, void *); /* declared here with other parameter types; the definition is s32 (s16, s16, s16, void *) */
+saddr alloc_receive_frame(u16 key, saddr len);
 
 static struct {
     EthernetReceiveFilter filter;
-    u8 unknown_56[0x802];
+    u8 pad_56[0x802];
 } lobby_net_channel_table;
 
 void reset_message_thread(void) {
     if ((u32)lobby_message_thread_handle != 0) {
-        cancel_thread_if_running((void *)lobby_message_thread_handle);
-        deactivate_entry_by_key((uaddr)((void *)lobby_message_thread_handle));
+        AT_TerminateTask((void *)lobby_message_thread_handle);
+        AT_DeleteTask((uaddr)((void *)lobby_message_thread_handle));
         lobby_message_thread_handle = 0;
     }
     NetUnregisterTimer(update_exi_status);
@@ -100,7 +99,7 @@ s32 post_message(OSMessageQueue *queue, u8 *packet, s32 length, s32 by_address) 
     if (by_address != 0) {
         p = find_entry_by_address(packet);
     } else {
-        p = TLobby__sub_804256B8(packet);
+        p = find_packet_buffer_locked(packet);
     }
     if (p != NULL) {
         p->queued_length = length;
@@ -124,17 +123,17 @@ void message_thread_loop(void) {
         n = msg->queued_length;
         packet = msg->data;
         if (n > 0) {
-            start_exi_send(packet, n, TLobby__sub_80425D88);
-            OSReceiveMessage(&lbl_805CF380.queue, &sp8, OS_MESSAGE_BLOCK);
+            start_exi_send(packet, n, signal_network_message);
+            OSReceiveMessage(&transport_message_queue.queue, &sp8, OS_MESSAGE_BLOCK);
             network_message_pending_count -= 1;
         }
         clear_message_entry(packet);
     }
 }
 
-void TLobby__sub_80425D88(u8 v) {
+void signal_network_message(u8 v) {
     network_message_pending_count++;
-    OSSendMessage(&lbl_805CF380.queue, (OSMessage)v, OS_MESSAGE_NOBLOCK);
+    OSSendMessage(&transport_message_queue.queue, (OSMessage)v, OS_MESSAGE_NOBLOCK);
 }
 
 #define pkt ((EthernetFrameHeader *)a)
@@ -161,7 +160,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
     if (NetMemcmp(src, filter->local_address, 6) == 0) {
         switch (type) {
         case 1:
-            TLobby__sub_804089A8(0, 1, 0, a);
+            dix_input(0, 1, 0, a);
             break;
         case 2:
             release_entry_by_id(a);
@@ -170,10 +169,10 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
         return;
     }
     if (pkt->destination[0] & 1) {
-        if (NetMemcmp(a, lbl_805E1190, 6) == 0) {
+        if (NetMemcmp(a, transport_broadcast_address, 6) == 0) {
             switch (type) {
             case 1:
-                TLobby__sub_804089A8(0, 1, (u8 *)b - 4, a);
+                dix_input(0, 1, (u8 *)b - 4, a);
                 break;
             case 2:
                 post_message((OSMessageQueue *)(mq + sizeof(TransportMessageQueue32)), a, (saddr)((u8 *)b - 4), 1);
@@ -187,7 +186,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
             if (e->references > 0 && NetMemcmp(a, e->address, 6) == 0) {
                 switch (type) {
                 case 1:
-                    TLobby__sub_804089A8(0, 1, (u8 *)b - 4, a);
+                    dix_input(0, 1, (u8 *)b - 4, a);
                     break;
                 case 2:
                     post_message((OSMessageQueue *)(mq + sizeof(TransportMessageQueue32)), a, (saddr)((u8 *)b - 4), 1);
@@ -198,7 +197,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
         }
         switch (type) {
         case 1:
-            TLobby__sub_804089A8(0, 1, 0, a);
+            dix_input(0, 1, 0, a);
             break;
         case 2:
             release_entry_by_id(a);
@@ -209,7 +208,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
     if (NetMemcmp(a, filter->local_address, 6) != 0) {
         switch (type) {
         case 1:
-            TLobby__sub_804089A8(0, 1, 0, a);
+            dix_input(0, 1, 0, a);
             break;
         case 2:
             release_entry_by_id(a);
@@ -219,7 +218,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
     }
     switch (type) {
     case 1:
-        TLobby__sub_804089A8(0, 1, (u8 *)b - 4, a);
+        dix_input(0, 1, (u8 *)b - 4, a);
         break;
     case 2:
         post_message((OSMessageQueue *)(mq + sizeof(TransportMessageQueue32)), a, (saddr)((u8 *)b - 4), 1);
@@ -229,7 +228,7 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
 
 #undef pkt
 
-s16 TLobby__sub_80426110(EthernetReceiveFilter *o, u16 kind, u16 ether_type) {
+s16 add_receive_protocol(EthernetReceiveFilter *o, u16 kind, u16 ether_type) {
     s32 i;
     EthernetProtocolRegistration *p = o->protocols;
     for (i = 5; i != 0; i--, p++) {
@@ -243,7 +242,7 @@ s16 TLobby__sub_80426110(EthernetReceiveFilter *o, u16 kind, u16 ether_type) {
             p->ether_type = ether_type;
             o->protocol_count++;
             if (o->protocol_count > 0) {
-                TLobby__sub_80426190(o);
+                apply_receive_filter(o);
             }
             return 0;
         }
@@ -251,7 +250,7 @@ s16 TLobby__sub_80426110(EthernetReceiveFilter *o, u16 kind, u16 ether_type) {
     return -1;
 }
 
-void TLobby__sub_80426190(EthernetReceiveFilter *o) {
+void apply_receive_filter(EthernetReceiveFilter *o) {
     s32 i;
     s32 n = 0;
     for (i = 0; i < 5; i++) {
@@ -264,13 +263,13 @@ void TLobby__sub_80426190(EthernetReceiveFilter *o) {
         o->filter_types[n] = 0;
     }
     if (n > 0) {
-        TLobby__sub_8042BA48(o->filter_types, n);
-        TLobby__sub_8042B58C((uaddr)TLobby__sub_80426AAC, (saddr)forward_to_channel);
+        bba_set_receive_filter_types(o->filter_types, n);
+        bba_set_receive_callbacks((uaddr)alloc_receive_frame, (saddr)forward_to_channel);
     }
 }
 
 /* Resets the 0x56-byte network config block (MAC + 6 multicast slots) and starts the message thread. */
-s16 TLobby__sub_804262CC(EthernetReceiveFilter *config) {
+s16 open_bba_receive_filter(EthernetReceiveFilter *config) {
     EthernetMulticastEntry *entry;
     s16 status;
     s32 i;
@@ -295,7 +294,7 @@ s16 TLobby__sub_804262CC(EthernetReceiveFilter *config) {
             i += 1;
             entry++;
         } while (i < 6);
-        TLobby__sub_80426190(config);
+        apply_receive_filter(config);
         status = 0;
     }
     if (status < 0) {
@@ -303,11 +302,11 @@ s16 TLobby__sub_804262CC(EthernetReceiveFilter *config) {
     }
     OSInitMessageQueue(&lbl_805CF240.queue, lbl_805CF240.messages, 32);
     OSInitMessageQueue(&pppoe_message_queue.queue, pppoe_message_queue.messages, 32);
-    OSInitMessageQueue(&lbl_805CF380.queue, lbl_805CF380.messages, 10);
-    if (TLobby__sub_803F9B94(message_thread_loop, &lobby_message_thread_handle) < 0) {
+    OSInitMessageQueue(&transport_message_queue.queue, transport_message_queue.messages, 10);
+    if (AT_CreateTask(message_thread_loop, &lobby_message_thread_handle) < 0) {
         return -1;
     }
-    NetResumeThread((u32)lobby_message_thread_handle);
+    AT_StartTask((u32)lobby_message_thread_handle);
     lbl_805D7BB0 = 1;
     network_link_status_cache = -1;
     lobby_exi_prev_status = 0;
@@ -317,7 +316,7 @@ s16 TLobby__sub_804262CC(EthernetReceiveFilter *config) {
     return 0;
 }
 
-s16 TLobby__sub_80426440(void) {
+s16 pppoe_terminate_hook(void) {
     return 0;
 }
 
@@ -326,12 +325,12 @@ s16 post_send_message(void *data, u16 len) {
     NetworkPacketBufferDescriptor *msg;
     u8 pad[8];
     saddr src = (saddr)data;
-    buf = TLobby__sub_8042558C(len);
+    buf = alloc_packet_buffer_locked(len);
     if (buf == NULL) {
         return -1;
     }
     NetMemcpy((void *)buf, (void *)src, (saddr) (void *)len);
-    msg = TLobby__sub_804256B8(buf);
+    msg = find_packet_buffer_locked(buf);
     if (msg != NULL) {
         msg->queued_length = (s32)len;
         OSSendMessage(&lbl_805CF240.queue, msg, OS_MESSAGE_NOBLOCK);
@@ -353,7 +352,7 @@ u16 recv_pppoe_message(u8 **out_data, u16 *out_len) {
     return 0;
 }
 
-static inline s16 remove_rec_80426998(u16 key) {
+static inline s16 remove_receive_protocol(u16 key) {
     s32 i;
     EthernetReceiveFilter *o = &lobby_net_channel_table.filter;
     EthernetProtocolRegistration *p = o->protocols;
@@ -368,13 +367,13 @@ static inline s16 remove_rec_80426998(u16 key) {
     return -1;
 }
 
-s32 TLobby__sub_80426574(void) {
+s32 detach_pppoe_protocols(void) {
     EthernetReceiveFilter *o = &lobby_net_channel_table.filter;
     EthernetProtocolRegistration *p;
     s32 i;
     NetworkPacketBufferDescriptor *msg;
 
-    remove_rec_80426998(0x8864);
+    remove_receive_protocol(0x8864);
     p = o->protocols;
     for (i = 5; i != 0; i--, p++) {
         if (p->delivery_mode != 0 && p->ether_type == 0x8863) {
@@ -393,15 +392,15 @@ s32 TLobby__sub_80426574(void) {
     return 0;
 }
 
-s16 TLobby__sub_80426660(u8 *out) {
+s16 open_pppoe_adapter(u8 *out) {
     EthernetReceiveFilter *chan = &lobby_net_channel_table.filter;
-    if (TLobby__sub_804262CC(chan) < 0) {
+    if (open_bba_receive_filter(chan) < 0) {
         return -1;
     }
-    TLobby__sub_80426110(chan, 2, 0x8863);
-    TLobby__sub_80426110(chan, 2, 0x8864);
+    add_receive_protocol(chan, 2, 0x8863);
+    add_receive_protocol(chan, 2, 0x8864);
     NetMemcpy(out, chan->local_address, 6);
-    NetMemcpy(out + 6, lbl_805E1190, 6);
+    NetMemcpy(out + 6, transport_broadcast_address, 6);
     return 0;
 }
 
@@ -420,7 +419,7 @@ s32 queue_timeout_message(s16 dev, u8 *packet, s16 timeout) {
     if (dev != 0) {
         return -0x113;
     }
-    msg = TLobby__sub_804256B8(packet);
+    msg = find_packet_buffer_locked(packet);
     if (msg != NULL) {
         msg->queued_length = clamped;
         OSSendMessage(&lbl_805CF240.queue, msg, OS_MESSAGE_NOBLOCK);
@@ -503,7 +502,7 @@ s32 remove_rec_by_handle(s16 dev, u16 handle) {
     if (dev != 0) {
         return -0x113;
     }
-    if (remove_rec_80426998(handle) < 0) {
+    if (remove_receive_protocol(handle) < 0) {
         return -0x113;
     }
     return 0;
@@ -516,7 +515,7 @@ s32 open_channel_checked(s16 dev, u16 ether_type) {
         return -0x113;
     }
     g = &lobby_net_channel_table.filter;
-    if (TLobby__sub_80426110(g, 1, ether_type) < 0) {
+    if (add_receive_protocol(g, 1, ether_type) < 0) {
         return -0x113;
     }
     return 0;
@@ -529,7 +528,7 @@ void forward_to_channel(void *frame, void *b) {
     }
 }
 
-saddr TLobby__sub_80426AAC(u16 key, saddr len) {
+saddr alloc_receive_frame(u16 key, saddr len) {
     EthernetReceiveFilter *o = &lobby_net_channel_table.filter;
     s32 i;
     saddr ret = 0;
@@ -544,10 +543,10 @@ saddr TLobby__sub_80426AAC(u16 key, saddr len) {
             switch (o->protocols[i].delivery_mode) {
             case 1:
                 hdr.ether_type = key;
-                ret = TLobby__sub_804089A8(0, 0, (void *)(len - 4), &hdr);
+                ret = dix_input(0, 0, (void *)(len - 4), &hdr);
                 break;
             case 2:
-                ret = (saddr)TLobby__sub_80425640(len);
+                ret = (saddr)alloc_rx_packet_buffer(len);
                 break;
             }
             break;
@@ -556,13 +555,13 @@ saddr TLobby__sub_80426AAC(u16 key, saddr len) {
     return ret;
 }
 
-s32 TLobby__sub_80426B88(s16 dev) {
+s32 open_ethernet_device(s16 dev) {
     EthernetReceiveFilter *g;
     if (dev != 0) {
         return -0x113;
     }
     g = &lobby_net_channel_table.filter;
-    if (TLobby__sub_804262CC(g) < 0) {
+    if (open_bba_receive_filter(g) < 0) {
         return -0x113;
     }
     return 0;

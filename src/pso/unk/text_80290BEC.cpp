@@ -1,6 +1,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TMainTask.h"
 #include "types.h"
+#include "pso/render/gjSystem.h"
 #include "pso/unk/text_80290BEC.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -15,7 +16,6 @@ void request_main_phase(s32 arg0);
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern "C" {
-void func_803DCDFC__Fv(void);
 void fn_80290BEC(void) {
     s32 *var_r3;
     TLobby::stop_audio_streams();
@@ -27,7 +27,7 @@ void fn_80290BEC(void) {
 }
 void run_main_frame(void) {
     s32 *var_r3;
-    func_803DCDFC__Fv();
+    begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
     var_r3 = (s32 *)&main_task;

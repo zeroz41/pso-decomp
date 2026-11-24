@@ -22,7 +22,6 @@
 #include <stddef.h>
 
 
-u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -34,57 +33,55 @@ s16 dispatch_by_addr_family(NetPacket *pkt, NetworkAddress *dst, NetworkAddress 
     case 4:
         return AT_IP4_Send(pkt, dst->ipv4, src->ipv4, ip4_opts[0], ip4_opts[1], ip4_opts[2], proto);
     case 6:
-        return TLobby__sub_80410A98(pkt, dst->address, src->address, ip6_opts, proto);
+        return ipv6_output(pkt, dst->address, src->address, ip6_opts, proto);
     case 0:
     default:
         return -2;
     }
 }
 
-u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 proto, u8 *pkt, s16 flag) {
-    NetworkAddress *src = (NetworkAddress *)arg0;
-    NetworkAddress *dst = (NetworkAddress *)arg1;
+u16 calc_transport_checksum(NetworkAddress *src, NetworkAddress *dst, s8 proto, NetPacket *pkt, s16 flag) {
     switch (src->family) {
     case 4:
         return calc_pseudo_header_checksum(src->ipv4, dst->ipv4, proto, pkt, flag);
     case 6:
-        return calc_ipv6_pseudo_header_checksum((const IPv6Address *)src->address, (const IPv6Address *)dst->address, proto, (const NetPacket *)pkt, flag);
+        return calc_ipv6_pseudo_header_checksum((const IPv6Address *)src->address, (const IPv6Address *)dst->address, proto, pkt, flag);
     case 0:
     default:
         return 0xFFFEU;
     }
 }
 
-s16 AT_IP_SetSrcFromDst(Out_8040D95C *out_8040_d95_c, In_8040D95C *in_8040_d95_c) {
+s16 AT_IP_SetSrcFromDst(NetworkAddress *src, NetworkAddress *dst) {
     Ipv4Route *rt;
     s16 ok;
 
-    switch (in_8040_d95_c->type) {
+    switch (dst->family) {
     case 4:
         {
-        u32 v = out_8040_d95_c->f4;
+        u32 v = src->ipv4;
         if (v != 0) {
             return 0;
         }
-        rt = AT_IP4_RouteSearch(in_8040_d95_c->f4, v);
+        rt = AT_IP4_RouteSearch(dst->ipv4, v);
         if (rt == NULL) {
             return -6;
         }
-        out_8040_d95_c->type = 4;
-        return AT_IP4_SrcAddrSel(&out_8040_d95_c->f4, rt->gateway, rt->iface);
+        src->family = 4;
+        return AT_IP4_SrcAddrSel(&src->ipv4, rt->gateway, rt->iface);
         }
     case 6:
-        ok = NetIPv6IsUnspecified((u8 *)&out_8040_d95_c->f4);
+        ok = NetIPv6IsUnspecified(src->address);
         if (ok == 0) {
             return 0;
         }
         {
-        Ipv6Route *rt = TLobby__sub_80413264(&in_8040_d95_c->f4, &out_8040_d95_c->f4);
+        Ipv6Route *rt = NetIPv6LookupRoute(dst->address, src->address);
         if (rt == NULL) {
             return -6;
         }
-        out_8040_d95_c->type = 6;
-        return TLobby__sub_80411F1C(&out_8040_d95_c->f4, &in_8040_d95_c->f4, rt->iface);
+        src->family = 6;
+        return NetIPv6SelectSourceAddress(src->address, dst->address, rt->iface);
         }
     case 0:
     default:
@@ -92,14 +89,12 @@ s16 AT_IP_SetSrcFromDst(Out_8040D95C *out_8040_d95_c, In_8040D95C *in_8040_d95_c
     }
 }
 
-s16 TLobby__sub_8040DA54(u8 *dst, u8 *src) {
-    NetworkAddress *a = (NetworkAddress *)dst;
-    NetworkAddress *b = (NetworkAddress *)src;
-    switch (a->family) {
+s16 AT_IP_IsReachable(NetworkAddress *dst, NetworkAddress *src) {
+    switch (dst->family) {
     case 4:
-        return AT_IP4_IsReachable(a->ipv4, b->ipv4);
+        return AT_IP4_IsReachable(dst->ipv4, src->ipv4);
     case 6:
-        return TLobby__sub_80413230(a->address, (saddr)b->address);
+        return NetIPv6IsReachable(dst->address, (saddr)src->address);
     default:
     case 0:
         return -2;
@@ -124,10 +119,10 @@ s16 NetValidateLocalAddress(NetworkAddress* address) {
     }
 }
 
-s16 is_multicast_address(NetworkAddress *addr, s16 arg1) {
+s16 is_multicast_address(NetworkAddress *addr, s16 iface) {
     switch (addr->family) {
     case 4:
-        return NetIPv4IsBroadcast(addr->ipv4, arg1);
+        return NetIPv4IsBroadcast(addr->ipv4, iface);
     case 6:
         return NetIPv6IsMulticast(addr->address);
     case 0:
@@ -136,8 +131,7 @@ s16 is_multicast_address(NetworkAddress *addr, s16 arg1) {
     }
 }
 
-s16 is_addr_unspecified(u8 *arg0) {
-    NetworkAddress *addr = (NetworkAddress *)arg0;
+s16 is_addr_unspecified(NetworkAddress *addr) {
     switch (addr->family) {
     case 0:
         return 1;
@@ -156,7 +150,7 @@ s16 compare_sockaddr(NetworkAddress *a, NetworkAddress *b) {
         if (b->family != 4) {
             return -1;
         }
-        return TLobby__sub_8040FEE4(a->ipv4, b->ipv4);
+        return compare_ipv4_addr(a->ipv4, b->ipv4);
     case 6:
         if (b->family != 6) {
             return -1;
@@ -168,20 +162,18 @@ s16 compare_sockaddr(NetworkAddress *a, NetworkAddress *b) {
     }
 }
 
-s16 AT_IP_GetMssFromDstSrc(u8 *remote, u8 *local) {
-    NetworkAddress *a = (NetworkAddress *)remote;
-    NetworkAddress *b = (NetworkAddress *)local;
+s16 AT_IP_GetMssFromDstSrc(NetworkAddress *remote, NetworkAddress *local) {
     s16 mtu;
     u32 family;
     Ipv4Route *rt4;
     Ipv6Route *rt;
-    family = a->family;
-    if (b->family != family) {
+    family = remote->family;
+    if (local->family != family) {
         return -2;
     }
     switch ((s32)family) {
     case 4:
-        rt4 = AT_IP4_RouteSearch(a->ipv4, b->ipv4);
+        rt4 = AT_IP4_RouteSearch(remote->ipv4, local->ipv4);
         if (rt4 == NULL) {
             return -6;
         }
@@ -191,7 +183,7 @@ s16 AT_IP_GetMssFromDstSrc(u8 *remote, u8 *local) {
         }
         return mtu - 0x28;
     case 6:
-        rt = TLobby__sub_80413264(a->address, b->address);
+        rt = NetIPv6LookupRoute(remote->address, local->address);
         if (rt == NULL) {
             return -6;
         }

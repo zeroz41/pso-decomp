@@ -28,7 +28,7 @@ public:
     s32 draw_title_layer(s32 arg1, s32 color);
     void calc_text_pos(f32 *pos, const char *text);
     s32 update_title_rects();
-    void set_field_134(s32 value);  // sets render_direct and the draw line ctrl's +0x28 to value
+    void set_render_direct(s32 value);  // sets render_direct and the draw line ctrl's +0x28 to value
     s32 title;                        // 0x1C: the title's line in text group 0x13 and its banner strip
     TAdTitleRect rects[8];            // 0x20: slide in one after another
     f32 text_pos[2];                  // 0x120: calc_text_pos's x, y

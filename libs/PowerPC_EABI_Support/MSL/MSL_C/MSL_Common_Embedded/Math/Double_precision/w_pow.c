@@ -11,12 +11,7 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 double pow(double x, double y)
-#else
-double pow(x, y)
-double x, y;
-#endif
 {
 #ifdef _IEEE_LIBM
   return __ieee754_pow(x, y);

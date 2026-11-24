@@ -5,11 +5,11 @@
 #include <dolphin/base/PPCArch.h>
 #include <dolphin/db.h>
 #include <dolphin/exi.h>
+#include <dolphin/pad.h>
 #include <string.h>
 #include <macros.h>
 #include "os/__os.h"
-
-void EnableMetroTRKInterrupts(void);
+#include "dvd/__dvd.h"
 
 #define OS_CURRENTCONTEXT_PADDR 0x00C0
 
@@ -24,22 +24,7 @@ void EnableMetroTRKInterrupts(void);
 #define DB_EXCEPTIONRET_OFFSET  0xC
 #define DB_EXCEPTIONDEST_OFFSET 0x8
 
-extern unsigned long __DVDLongFileNameFlag;
-extern unsigned long __PADSpec;
-extern unsigned char __ArenaLo[];
-extern char _stack_addr[];
-extern unsigned char __ArenaHi[];
-
-void __OSEVStart(void);
-void __OSEVEnd(void);
-void __OSEVSetNumber(void);
-void __OSExceptionVector(void);
-
-void __DBVECTOR(void);
-void __OSDBINTSTART(void);
-void __OSDBINTEND(void);
 static asm void __OSDBJump(void);
-void __OSDBJUMPEND(void);
 
 #define NOP 0x60000000
 
@@ -154,8 +139,8 @@ void OSInit()
 	__DVDLongFileNameFlag = 1;
 
 	OSSetArenaLo((!BootInfo->arenaLo) ? &__ArenaLo : BootInfo->arenaLo);
-	if ((!BootInfo->arenaLo) && (BI2DebugFlag) && (*(u32*)BI2DebugFlag < 2)) {
-		OSSetArenaLo((void*)(((u32)(char*)&_stack_addr + 0x1F) & 0xFFFFFFE0));
+	if ((!BootInfo->arenaLo) && (BI2DebugFlag) && (*BI2DebugFlag < 2)) {
+		OSSetArenaLo((void*)OSRoundUp32B(&_stack_addr));
 	}
 	OSSetArenaHi((!BootInfo->arenaHi) ? &__ArenaHi : BootInfo->arenaHi);
 	OSExceptionInit();
@@ -205,7 +190,7 @@ void OSInit()
 			OSReport("EPPC Minnow\n");
 			break;
 		default:
-			OSReport("Development HW%d\n", ((u32)consoleType - 0x10000000) - 3);
+			OSReport("Development HW%d\n", (consoleType - 0x10000000) - 3);
 			break;
 		}
 	}
@@ -335,8 +320,6 @@ static asm void OSExceptionVector(void) {
 #include "orig_asm/os/OS/OSExceptionVector.inc"
 }
 
-void __OSUnhandledException(__OSException exception, OSContext* context,
-                            u32 dsisr, u32 dar);
 asm void OSDefaultExceptionHandler(register __OSException exception,
                                    register OSContext* context) {
 #include "orig_asm/os/OS/OSDefaultExceptionHandler.inc"

@@ -7,10 +7,6 @@
 #include "MSL_C/ansi_files.h"
 #include "errno.h"
 
-#define SEEK_SET (0)
-#define SEEK_CUR (1)
-#define SEEK_END (2)
-
 int _ftell(FILE* file) {
 	int charsInUndoBuffer = 0;
 	int position;

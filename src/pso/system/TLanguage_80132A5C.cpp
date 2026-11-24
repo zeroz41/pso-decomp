@@ -75,7 +75,7 @@ void TLanguage::load_fonts(s32 language) {
             TLanguage::draw_string((void *)f128_keyjpn_gvp, &palette, 2);
             TLanguage::draw_string((void *)f064_wordmojitex_jpn_gvp, &palette, 3);
             TLanguage::decode_font_data((void *)b256_menutext01_j_gvp, &palette, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)load_gvm_texture_file(TextureJapanese_gvm);
+            alphabet = (GvmTexture *)LoadPvmFileTls(TextureJapanese_gvm);
             localized_alphabet_list = alphabet;
             break;
 
@@ -84,7 +84,7 @@ void TLanguage::load_fonts(s32 language) {
             TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
             TLanguage::draw_string((void *)f064_wordmojitex_ger_gvp, &palette, 3);
             TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)load_gvm_texture_file(TextureGerman_gvm);
+            alphabet = (GvmTexture *)LoadPvmFileTls(TextureGerman_gvm);
             localized_alphabet_list = alphabet;
             break;
 
@@ -93,7 +93,7 @@ void TLanguage::load_fonts(s32 language) {
             TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
             TLanguage::draw_string((void *)f064_wordmojitex_fre_gvp, &palette, 3);
             TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)load_gvm_texture_file(TextureFrench_gvm);
+            alphabet = (GvmTexture *)LoadPvmFileTls(TextureFrench_gvm);
             localized_alphabet_list = alphabet;
             break;
 
@@ -102,7 +102,7 @@ void TLanguage::load_fonts(s32 language) {
             TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
             TLanguage::draw_string((void *)f064_wordmojitex_spa_gvp, &palette, 3);
             TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)load_gvm_texture_file(TextureSpanish_gvm);
+            alphabet = (GvmTexture *)LoadPvmFileTls(TextureSpanish_gvm);
             localized_alphabet_list = alphabet;
             break;
 
@@ -111,7 +111,7 @@ void TLanguage::load_fonts(s32 language) {
             TLanguage::draw_string((void *)f128_keyeng_gvp, &palette, 2);
             TLanguage::draw_string((void *)f064_wordmojitex_eng_gvp, &palette, 3);
             TLanguage::decode_font_data((void *)b256_menutext01_e_gvp, &palette, 0x4B, 0x4C);
-            alphabet = (GvmTexture *)load_gvm_texture_file(TextureEnglish_gvm);
+            alphabet = (GvmTexture *)LoadPvmFileTls(TextureEnglish_gvm);
             localized_alphabet_list = alphabet;
             break;
     }

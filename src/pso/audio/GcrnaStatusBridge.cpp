@@ -9,8 +9,8 @@ s32 gcrna_bridge_get_status(void) {
     return 0;
 }
 
-void gcrna_set_sample_bits(GcrnaSampleBitsTarget *target, s32 sample_bits) {
-    if (target != NULL) {
-        target->sample_bits = sample_bits;
+void gcrna_set_sample_bits(GcrnaStream *stream, s32 sample_bits) {
+    if (stream != NULL) {
+        stream->sample_bits = sample_bits;
     }
 }

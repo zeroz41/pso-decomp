@@ -69,7 +69,7 @@ void TBoss6Rock::load_resources() {
     s32 i;
     resource = new BmlResource(5, &boss6_rock_resource_descriptor, 0, 0, NULL);
     boss6_rock_resource = resource;
-    boss6_rock_texture_list = load_gvm_texture_file("boss06_rock_dat.gvm");
+    boss6_rock_texture_list = LoadPvmFileTls("boss06_rock_dat.gvm");
     if (boss6_rock_resource == NULL || boss6_rock_texture_list == NULL) {
         return;
     }

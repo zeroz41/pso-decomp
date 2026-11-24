@@ -81,7 +81,7 @@ void free_obj_lobby_main() {
 }
 
 void load_obj_lobby_main() {
-    lobby_main_texture_gvm = load_gvm_texture_file("obj_lobby_main.GVM");
+    lobby_main_texture_gvm = LoadPvmFileTls("obj_lobby_main.GVM");
 }
 
 s32 get_theme_lobby_type() {

@@ -134,6 +134,6 @@ void TObjPlayer::create_render_texture() {
     set_texture_name(&player_render_texture_name, &player_render_target, 0x18696, 0x40800000);
     lbl_80500C30.p = &player_render_texture_name;
     lbl_80500C30.v = 1;
-    pso_load_texture((NJS_TEXLIST *)&lbl_80500C30);
+    psoLoadTexture((NJS_TEXLIST *)&lbl_80500C30);
 }
 }

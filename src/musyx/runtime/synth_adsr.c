@@ -1,4 +1,5 @@
-#include "musyx/runtime/musyx_runtime_a.h"
+#include <math.h>
+#include "musyx/runtime/musyx_internal.h"
 #include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
@@ -7,8 +8,7 @@ u32 adsrConvertTimeCents(s32 timeCents) {
     return (u32)(1000.0f * powf(2.0f, 1.27156579e-08f * (f32)timeCents));
 }
 
-s32 salChangeADSRState(void *adsrPtr) {
-    ADSRVars *adsr = (ADSRVars *)adsrPtr;
+s32 salChangeADSRState(ADSR_VARS *adsr) {
     s32 ret;
     s32 index;
     u32 aTime;
@@ -87,7 +87,7 @@ s32 salChangeADSRState(void *adsrPtr) {
                         if (index < 0) {
                             index = 0;
                         }
-                        adsr->currentVolume = (s32) (lbl_804F6758[index] << 0x10);
+                        adsr->currentVolume = (s32) (dspAttenuationTab[index] << 0x10);
                         adsr->currentDelta = 0U;
                     } else {
                     case 4:
@@ -103,14 +103,14 @@ s32 salChangeADSRState(void *adsrPtr) {
     return ret;
 }
 
-u32 adsrSetup(u8 *adsrPtr) {
-    ((ADSRVars *)adsrPtr)->state = 0;
-    return salChangeADSRState(adsrPtr);
+u32 adsrSetup(ADSR_VARS *adsr) {
+    adsr->state = 0;
+    return salChangeADSRState(adsr);
 }
 #pragma push
 #pragma opt_common_subs on
 
-u32 adsrStartRelease(ADSRVars *adsr, u32 rtime) {
+u32 adsrStartRelease(ADSR_VARS *adsr, u32 rtime) {
     switch (adsr->mode) {
     case 0:
         adsr->state = 4;
@@ -144,80 +144,77 @@ u32 adsrStartRelease(ADSRVars *adsr, u32 rtime) {
 
 #pragma pop
 
-s32 adsrRelease(MusyxEnvelope *e) {
-    switch (e->mode) {
+u32 adsrRelease(ADSR_VARS *adsr) {
+    switch (adsr->mode) {
     case 0:
     case 1:
-        return adsrStartRelease((ADSRVars *)e, e->release);
+        return adsrStartRelease(adsr, adsr->data.dls.rTime);
     default:
         return 0;
     }
 }
 
-u32 adsrHandle(void *adsrPtr, void *adsrOut, void *adsrDelta) {
-    ADSRVars *e = (ADSRVars *)adsrPtr;
-    u16 *out = (u16 *)adsrOut;
-    u16 *dlt = (u16 *)adsrDelta;
+u32 adsrHandle(ADSR_VARS *adsr, u16 *adsr_start, u16 *adsr_delta) {
     s32 ret = 0;
     s32 old;
     s32 d;
     s32 v;
-    switch (e->mode) {
+    switch (adsr->mode) {
     case 0:
-        if (e->state != 3) {
-            old = e->currentVolume;
-            e->currentVolume = old + e->currentDelta;
-            *out = old >> 16;
-            if (e->currentDelta >= 0) {
-                *dlt = e->currentDelta >> 21;
+        if (adsr->state != 3) {
+            old = adsr->currentVolume;
+            adsr->currentVolume = old + adsr->currentDelta;
+            *adsr_start = old >> 16;
+            if (adsr->currentDelta >= 0) {
+                *adsr_delta = adsr->currentDelta >> 21;
             } else {
-                *dlt = -(-e->currentDelta >> 21);
+                *adsr_delta = -(-adsr->currentDelta >> 21);
             }
-            if (--e->cnt == 0) {
-                ret = salChangeADSRState(e);
+            if (--adsr->cnt == 0) {
+                ret = salChangeADSRState(adsr);
             }
         } else {
-            *out = e->currentVolume >> 16;
-            *dlt = 0;
+            *adsr_start = adsr->currentVolume >> 16;
+            *adsr_delta = 0;
         }
         break;
     case 1:
-        if (e->state != 3) {
-            old = e->currentVolume;
-            if (e->data.dls.aMode == 0 && e->state == 1) {
-                e->currentVolume = old + e->currentDelta;
+        if (adsr->state != 3) {
+            old = adsr->currentVolume;
+            if (adsr->data.dls.aMode == 0 && adsr->state == 1) {
+                adsr->currentVolume = old + adsr->currentDelta;
             } else {
-                e->currentIndex += e->currentDelta;
-                v = 0xC1 - ((e->currentIndex + 0x8000) >> 16);
+                adsr->currentIndex += adsr->currentDelta;
+                v = 0xC1 - ((adsr->currentIndex + 0x8000) >> 16);
                 if (v < 0) {
                     v = 0;
                 }
-                e->currentVolume = lbl_804F6758[v] << 16;
+                adsr->currentVolume = dspAttenuationTab[v] << 16;
             }
-            *out = old >> 16;
-            d = e->currentVolume - old;
+            *adsr_start = old >> 16;
+            d = adsr->currentVolume - old;
             if (d >= 0) {
-                *dlt = d >> 21;
+                *adsr_delta = d >> 21;
             } else {
-                *dlt = -(-d >> 21);
+                *adsr_delta = -(-d >> 21);
             }
-            if (--e->cnt == 0) {
-                ret = salChangeADSRState(e);
+            if (--adsr->cnt == 0) {
+                ret = salChangeADSRState(adsr);
             }
         } else {
-            *out = e->currentVolume >> 16;
-            *dlt = 0;
+            *adsr_start = adsr->currentVolume >> 16;
+            *adsr_delta = 0;
         }
         break;
     }
     return ret;
 }
 
-u32 adsrHandleLowPrecision(void *adsrPtr, void *adsrOut, void *adsrDelta) {
+u32 adsrHandleLowPrecision(ADSR_VARS *adsr, u16 *adsr_start, u16 *adsr_delta) {
     u8 i;
 
     for (i = 0; i < 15; i++) {
-        if (adsrHandle(adsrPtr, adsrOut, adsrDelta) != 0) {
+        if (adsrHandle(adsr, adsr_start, adsr_delta) != 0) {
             return 1;
         }
     }

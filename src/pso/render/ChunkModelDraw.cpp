@@ -4,6 +4,7 @@
 #include "pso/render/ChunkPolygonList.h"
 #include <math.h>
 #include "pso/render/GinjaDrawUtil.h"
+#include "pso/render/SceneFog.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
@@ -24,78 +25,59 @@
 #include <dolphin/os.h>
 #include <dolphin/gx/GXTransform.h>
 #include <dolphin/gx/GXGeometry.h>
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXLighting.h>
+#include <dolphin/gx/GXPixel.h>
+#include <dolphin/gx/GXVert.h>
+#undef PSO_SDK_COMPACT_MATH
 
 
 
-struct ChunkNode_803E2F78 {
-    u32 flags;
-    s32 obj;
-    f32 pos[3];
-    s32 ang[3];
-    f32 scl[3];
-    ChunkNode_803E2F78 *child;
-    ChunkNode_803E2F78 *sibling;
-    f32 f34;
+
+
+
+// One vertex of the chunk vertex cache: transformed position and normal, then
+// the vertex colour and a pad word to 32 bytes.
+struct ChunkCachedVertex {
+    Vec pos;
+    Vec normal;
+    u32 color;
+    u32 pad;
 };
 
-typedef union {
-    u8 u8;
-    u16 u16;
-    s16 s16;
-    u32 u32;
-    f32 f32;
-} PPCWGPipe;
-
-#ifdef __MWERKS__
-volatile PPCWGPipe GXWGFifo : 0xCC008000;
-#else
-#define GXWGFifo (*(volatile PPCWGPipe *)0xCC008000)
-#endif
-
-
-typedef struct Vtx_803E36C4 { f32 x, y, z, nx, ny, nz; u32 pad[2]; } Vtx_803E36C4;
-
 extern "C" {
-void GXSetNumTexGens(u8);
-s32 GXSetTevOp(int, int);
-s32 GXSetTevOrder(int, int, int, int);
-s32 GXSetNumTevStages(int);
-extern u8 lbl_805D77D8;
-extern u8 lbl_805D77D9;
-s32 GXSetZMode(int, int, int);
-s32 GXSetZCompLoc(int);
+void GXSetNumTevStages(u8 stages);
+void GXSetTevOp(GXTevStageID stage, GXTevMode mode);
+void GXSetTevOrder(GXTevStageID stage, GXTexCoordID coord, GXTexMapID map, GXChannelID color);
+void GXSetAlphaCompare(GXCompare comp0, int ref0, GXAlphaOp op, GXCompare comp1, int ref1);
+extern u8 chunk_tev_stage_extra;
+extern u8 chunk_texgen_extra;
 extern s32 ginja_draw_flags;
 extern void (*player_chunk_draw_end_callback)();
 extern s32 chunk_texture_record_index;
-void GXSetChanMatColor(s32, GXColor);
 extern NJS_ARGB model_material_color;
 extern s32 model_render_flags;
 
 extern u32 chunk_blend_header_bits;
 extern u32 chunk_strip_dirty_flags;
-void GXSetAlphaCompare(int comp0, int ref0, int op, int comp1, int ref1);
 extern saddr chunk_vertex_cache_buffer;
-extern s32 lbl_805D77FC;
-void transform_chunk_object_tree(void *, void (*)(void *));
+extern s32 chunk_vertex_cache_size;
+void transform_chunk_object_tree(void *object, s32 (*draw)(void *model));
 s32 __cvt_fp2unsigned(f32);
 extern GC_Mtx chunk_object_current_matrix;
-void draw_strip_list_pos_nrm(s16 *list, Vtx_803E36C4 *verts, u32 info);
-void GXSetChanCtrl(s32 chan, u8 enable, s32 ambSrc, s32 matSrc, u32 lightMask, s32 diffFn, s32 attnFn);
-extern u32 gx_chan_ctrl_light_mask;
+void draw_strip_list_pos_nrm(s16 *list, ChunkCachedVertex *verts, u32 info);
 extern u32 chunk_has_vertex_colors;
-void draw_strip_pos_normal(s16 *list, Vtx_803E36C4 *verts, u32 info);
-void draw_triangle_strips(s16 *list, Vtx_803E36C4 *verts, u32 info);
-s32 GXSetBlendMode(int, int, int, int);
-void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 large);
-struct ChunkModel_803E44D4 { u32 *vertices; s16 *polygons; };
-struct ChunkBuffer_803E44D4 { void *vertices; s32 bytes; };
-struct ChunkRecording_803E44D4 { ChunkBuffer_803E44D4 buffers[32]; s32 index; };
+void draw_strip_pos_normal(s16 *list, ChunkCachedVertex *verts, u32 info);
+void draw_triangle_strips(s16 *list, ChunkCachedVertex *verts, u32 info);
+void draw_chunk_textured_strips(s16 *list, ChunkCachedVertex *verts, u32 info, s32 large);
+// One recorded chunk vertex cache: the transformed vertices of one model draw.
+struct ChunkCacheBuffer { void *vertices; s32 bytes; };
+struct ChunkCacheRecording { ChunkCacheBuffer buffers[32]; s32 index; };
 }
-char lbl_804FC810[19] = "CHNK MEMORY ASSERT";
-extern u32 lbl_805D77E4;
-extern ChunkRecording_803E44D4* chunk_vertex_cache_state;
+char chunk_memory_assert_message[19] = "CHNK MEMORY ASSERT";
+extern u32 chunk_vertex_cache_flags;
+extern ChunkCacheRecording* chunk_vertex_cache_state;
 extern "C" {
-s32 GXSetNumChans(int);
 extern s32 chunk_previous_strip_flags;
 
 #pragma push
@@ -115,23 +97,23 @@ void copy_matrix3x3_for_chunk_tree(const GC_Mtx *src) {
 }
 #pragma pop
 
-#define node ((ChunkNode_803E2F78 *)arg0)
-void transform_chunk_object_tree(void *arg0, void (*cb)(void *)) {
+#define node ((NJS_OBJECT *)object)
+void transform_chunk_object_tree(void *object, s32 (*draw)(void *model)) {
     u32 flags;
     s32 r;
 
     do {
-        flags = node->flags;
+        flags = node->evalflags;
         r = 0;
         if (flags & 0x800) {
             get_current_matrix(&chunk_object_current_matrix);
         }
         if ((flags & 7) == 7) {
             if (!(flags & 8)) {
-                r = ((s32 (*)(s32))cb)(node->obj);
+                r = draw(node->model);
             }
             if (!(flags & 0x10) && (!(flags & 0x100) || r == 0)) {
-                transform_chunk_object_tree(node->child, cb);
+                transform_chunk_object_tree(node->child, draw);
             }
         } else {
             push_matrix();
@@ -142,7 +124,7 @@ void transform_chunk_object_tree(void *arg0, void (*cb)(void *)) {
                 if (flags & 0x1000) {
                     copy_matrix3x3_for_chunk_tree(&chunk_object_current_matrix);
                 } else if (flags & 0x400) {
-                    apply_quat_rotation(node->f34, (f32 *)node->ang);
+                    apply_quat_rotation(node->quat_w, (f32 *)node->ang);
                 } else {
                     rotate_matrix_by_node_angles(node->ang, flags & 0x20);
                 }
@@ -151,20 +133,20 @@ void transform_chunk_object_tree(void *arg0, void (*cb)(void *)) {
                 scale_current_matrix(node->scl);
             }
             if (!(flags & 8)) {
-                r = ((s32 (*)(s32))cb)(node->obj);
+                r = draw(node->model);
             }
             if (!(flags & 0x10) && (!(flags & 0x100) || r == 0)) {
-                transform_chunk_object_tree(node->child, cb);
+                transform_chunk_object_tree(node->child, draw);
             }
             pop_matrix();
         }
-        arg0 = node->sibling;
-    } while (arg0 != NULL);
+        object = node->sibling;
+    } while (object != NULL);
 }
 #undef node
 }
 
-struct ReorderedMatrix_803E3390 {
+struct ChunkPairedMatrix {
     f32 m00, m10;
     f32 m20, m01;
     f32 m11, m21;
@@ -172,21 +154,17 @@ struct ReorderedMatrix_803E3390 {
     f32 m22, m03;
     f32 m13, m23;
 };
-struct VtxIn_803E3390 {
-    f32 x, y, z;
-    f32 nx, ny, nz;
+// A chunk vertex stream entry: position then normal, untransformed.
+struct ChunkVertexPosNormal {
+    Vec pos;
+    Vec normal;
 };
-struct VtxOut_803E3390 {
-    f32 x, y, z;
-    f32 nx, ny, nz;
-    f32 pad[2];
-};
-LAYOUT_ASSERT(ReorderedMatrix_803E3390_size, sizeof(ReorderedMatrix_803E3390) == 0x30);
-LAYOUT_ASSERT(VtxIn_803E3390_size, sizeof(VtxIn_803E3390) == 0x18);
-LAYOUT_ASSERT(VtxOut_803E3390_size, sizeof(VtxOut_803E3390) == 0x20);
+LAYOUT_ASSERT(ChunkPairedMatrix_size, sizeof(ChunkPairedMatrix) == 0x30);
+LAYOUT_ASSERT(ChunkVertexPosNormal_size, sizeof(ChunkVertexPosNormal) == 0x18);
+LAYOUT_ASSERT(ChunkCachedVertex_size, sizeof(ChunkCachedVertex) == 0x20);
 
 struct WeightedChunkVertex {
-    VtxIn_803E3390 vertex;
+    ChunkVertexPosNormal vertex;
     s16 weight;
     u16 index;
 };
@@ -200,42 +178,42 @@ extern "C" {
 
 // This chunk command transforms indexed positions and normals with signed 8.8 weights.
 #ifdef __MWERKS__
-asm void transform_chunk_vertices_weighted(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
+asm void transform_chunk_vertices_weighted(ChunkVertexJob *job, ChunkPairedMatrix *matrix, u32 accumulate) {
 #include "orig_asm/pso/render/ChunkModelDraw/transform_chunk_vertices_weighted.inc"
 }
 #else
-static void transform_chunk_vertex(const VtxIn_803E3390 *src, const ReorderedMatrix_803E3390 *matrix, VtxOut_803E3390 *dst) {
-    f32 x = src->x, y = src->y, z = src->z;
-    f32 nx = src->nx, ny = src->ny, nz = src->nz;
-    dst->x = fmaf(matrix->m02, z, fmaf(matrix->m01, y, fmaf(matrix->m00, x, matrix->m03)));
-    dst->y = fmaf(matrix->m12, z, fmaf(matrix->m11, y, fmaf(matrix->m10, x, matrix->m13)));
-    dst->z = fmaf(matrix->m22, z, fmaf(matrix->m21, y, fmaf(matrix->m20, x, matrix->m23)));
-    dst->nx = fmaf(matrix->m02, nz, fmaf(matrix->m01, ny, matrix->m00 * nx));
-    dst->ny = fmaf(matrix->m12, nz, fmaf(matrix->m11, ny, matrix->m10 * nx));
-    dst->nz = fmaf(matrix->m22, nz, fmaf(matrix->m21, ny, matrix->m20 * nx));
+static void transform_chunk_vertex(const ChunkVertexPosNormal *src, const ChunkPairedMatrix *matrix, ChunkCachedVertex *dst) {
+    f32 x = src->pos.x, y = src->pos.y, z = src->pos.z;
+    f32 nx = src->normal.x, ny = src->normal.y, nz = src->normal.z;
+    dst->pos.x = fmaf(matrix->m02, z, fmaf(matrix->m01, y, fmaf(matrix->m00, x, matrix->m03)));
+    dst->pos.y = fmaf(matrix->m12, z, fmaf(matrix->m11, y, fmaf(matrix->m10, x, matrix->m13)));
+    dst->pos.z = fmaf(matrix->m22, z, fmaf(matrix->m21, y, fmaf(matrix->m20, x, matrix->m23)));
+    dst->normal.x = fmaf(matrix->m02, nz, fmaf(matrix->m01, ny, matrix->m00 * nx));
+    dst->normal.y = fmaf(matrix->m12, nz, fmaf(matrix->m11, ny, matrix->m10 * nx));
+    dst->normal.z = fmaf(matrix->m22, nz, fmaf(matrix->m21, ny, matrix->m20 * nx));
 }
 
-void transform_chunk_vertices_weighted(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix, u32 accumulate) {
+void transform_chunk_vertices_weighted(ChunkVertexJob *job, ChunkPairedMatrix *matrix, u32 accumulate) {
     const WeightedChunkVertex *src = (const WeightedChunkVertex *)job->src;
     for (s32 i = 0; i < job->count; ++i, ++src) {
-        VtxOut_803E3390 *dst = (VtxOut_803E3390 *)(job->dst + src->index * sizeof(VtxOut_803E3390));
-        VtxOut_803E3390 transformed;
+        ChunkCachedVertex *dst = (ChunkCachedVertex *)(job->dst + src->index * sizeof(ChunkCachedVertex));
+        ChunkCachedVertex transformed;
         transform_chunk_vertex(&src->vertex, matrix, &transformed);
         f32 weight = src->weight * (1.0f / 256.0f);
         if (accumulate) {
-            dst->x = fmaf(transformed.x, weight, dst->x);
-            dst->y = fmaf(transformed.y, weight, dst->y);
-            dst->z = fmaf(transformed.z, weight, dst->z);
-            dst->nx = fmaf(transformed.nx, weight, dst->nx);
-            dst->ny = fmaf(transformed.ny, weight, dst->ny);
-            dst->nz = fmaf(transformed.nz, weight, dst->nz);
+            dst->pos.x = fmaf(transformed.pos.x, weight, dst->pos.x);
+            dst->pos.y = fmaf(transformed.pos.y, weight, dst->pos.y);
+            dst->pos.z = fmaf(transformed.pos.z, weight, dst->pos.z);
+            dst->normal.x = fmaf(transformed.normal.x, weight, dst->normal.x);
+            dst->normal.y = fmaf(transformed.normal.y, weight, dst->normal.y);
+            dst->normal.z = fmaf(transformed.normal.z, weight, dst->normal.z);
         } else {
-            dst->x = transformed.x * weight;
-            dst->y = transformed.y * weight;
-            dst->z = transformed.z * weight;
-            dst->nx = transformed.nx * weight;
-            dst->ny = transformed.ny * weight;
-            dst->nz = transformed.nz * weight;
+            dst->pos.x = transformed.pos.x * weight;
+            dst->pos.y = transformed.pos.y * weight;
+            dst->pos.z = transformed.pos.z * weight;
+            dst->normal.x = transformed.normal.x * weight;
+            dst->normal.y = transformed.normal.y * weight;
+            dst->normal.z = transformed.normal.z * weight;
         }
     }
 }
@@ -246,7 +224,7 @@ void transform_chunk_vertices_weighted(ChunkVertexJob *job, ReorderedMatrix_803E
 // ps_muls1 starts the normal. The first vertex is peeled; stores use psq_stu
 // (+12, +8 W=1, +4, +8 W=1) leaving dst->pad untouched.
 #ifdef __MWERKS__
-asm void transform_chunk_vertices_pos_normal(register ChunkVertexJob *job, register ReorderedMatrix_803E3390 *matrix) {
+asm void transform_chunk_vertices_pos_normal(register ChunkVertexJob *job, register ChunkPairedMatrix *matrix) {
     nofralloc
     lwz r5, 0x0(r3)
     lwz r6, 0x4(r3)
@@ -324,9 +302,9 @@ tail:
     blr
 }
 #else
-void transform_chunk_vertices_pos_normal(ChunkVertexJob *job, ReorderedMatrix_803E3390 *matrix) {
-    VtxOut_803E3390 *dst = (VtxOut_803E3390 *)job->dst;
-    VtxIn_803E3390 *src = (VtxIn_803E3390 *)job->src;
+void transform_chunk_vertices_pos_normal(ChunkVertexJob *job, ChunkPairedMatrix *matrix) {
+    ChunkCachedVertex *dst = (ChunkCachedVertex *)job->dst;
+    ChunkVertexPosNormal *src = (ChunkVertexPosNormal *)job->src;
     s32 n = job->count;
     while (n-- > 0) {
         transform_chunk_vertex(src, matrix, dst);
@@ -341,13 +319,6 @@ struct ChunkVertexNormalColor {
     Vec pos;
     Vec normal;
     f32 color;
-};
-
-struct ChunkCachedVertex {
-    Vec pos;
-    Vec normal;
-    u32 color;
-    u32 pad;
 };
 
 void transform_chunk_vertices_pos_normal_color(ChunkVertexJob *job, GC_Mtx *matrix) {
@@ -367,25 +338,10 @@ void transform_chunk_vertices_pos_normal_color(ChunkVertexJob *job, GC_Mtx *matr
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-static inline void GXPosition3f32(f32 x, f32 y, f32 z) {
-    GXWGFifo.f32 = x;
-    GXWGFifo.f32 = y;
-    GXWGFifo.f32 = z;
-}
-static inline void GXNormal3f32(f32 x, f32 y, f32 z) {
-    GXWGFifo.f32 = x;
-    GXWGFifo.f32 = y;
-    GXWGFifo.f32 = z;
-}
-static inline void GXTexCoord2s16(s16 s, s16 t) {
-    GXWGFifo.s16 = s;
-    GXWGFifo.s16 = t;
-}
-
-void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 large) {
+void draw_chunk_textured_strips(s16 *list, ChunkCachedVertex *verts, u32 info, s32 large) {
     s16 s;
     s16 t;
-    Vtx_803E36C4 *v;
+    ChunkCachedVertex *v;
     s32 skip;
     s32 n;
     s32 draw;
@@ -425,8 +381,8 @@ void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 la
             s = *list++;
             t = *list++;
             if (draw) {
-                GXPosition3f32(v->x, v->y, v->z);
-                GXNormal3f32(v->nx, v->ny, v->nz);
+                GXPosition3f32(v->pos.x, v->pos.y, v->pos.z);
+                GXNormal3f32(v->normal.x, v->normal.y, v->normal.z);
                 GXTexCoord2s16(s, t);
             }
             list += skip;
@@ -434,11 +390,11 @@ void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 la
     } while (--count != 0);
 }
 
-void draw_strip_list_pos_nrm(s16 *list, Vtx_803E36C4 *verts, u32 info) {
+void draw_strip_list_pos_nrm(s16 *list, ChunkCachedVertex *verts, u32 info) {
     s32 skip;
     s32 n;
     u32 count;
-    Vtx_803E36C4 *v;
+    ChunkCachedVertex *v;
     skip = (info >> 14) & 3;
     count = info & 0x3FFF;
     GXClearVtxDesc();
@@ -452,8 +408,8 @@ void draw_strip_list_pos_nrm(s16 *list, Vtx_803E36C4 *verts, u32 info) {
         GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT0, n);
         do {
             v = &verts[*list++];
-            GXPosition3f32(v->x, v->y, v->z);
-            GXNormal3f32(v->nx, v->ny, v->nz);
+            GXPosition3f32(v->pos.x, v->pos.y, v->pos.z);
+            GXNormal3f32(v->normal.x, v->normal.y, v->normal.z);
             list += skip;
         } while (--n != 0);
     } while (--count != 0);
@@ -476,7 +432,7 @@ void submit_chunk_material_color(s32 type, s16* data) {
         color.b=(u8)gb;
         if ((u32)(model_render_flags&0x10)!=0U) {
             convert_color_f32_to_u8(&model_material_color,&converted);
-            GXSetChanMatColor(4,converted);
+            GXSetChanMatColor(GX_COLOR0A0, converted);
         } else if ((u32)(model_render_flags&0x20)!=0U) {
             convert_color_u8_to_f32(&color,&add);
             add.a+=model_material_color.a;
@@ -484,10 +440,10 @@ void submit_chunk_material_color(s32 type, s16* data) {
             add.g+=model_material_color.g;
             add.b+=model_material_color.b;
             convert_color_f32_to_u8(&add,&convertedAdd);
-            GXSetChanMatColor(4,convertedAdd);
-        } else GXSetChanMatColor(4,color);
+            GXSetChanMatColor(GX_COLOR0A0, convertedAdd);
+        } else GXSetChanMatColor(GX_COLOR0A0, color);
     }
-    if ((u32)(ginja_draw_flags&2)!=0U) GXSetChanMatColor(4,fallback);
+    if ((u32)(ginja_draw_flags&2)!=0U) GXSetChanMatColor(GX_COLOR0A0, fallback);
 }
 
 void set_chunk_blend(u32 x) {
@@ -495,49 +451,42 @@ void set_chunk_blend(u32 x) {
     chunk_strip_dirty_flags |= 8;
 }
 
-void apply_chunk_texture_command(s32 header, s32 arg1) {
-    s32 var_r31;
-    s32 idx;
-    s32 var_r4;
-    s32 var_r5;
-    s32 var_r6;
-    var_r5 = 1;
-    var_r6 = 1;
-    if ((u32) (header & 0x2000) != 0) {
-        var_r6 = 0;
-    } else if ((u32) (header & 0x8000) != 0) {
-        var_r6 = 2;
+void apply_chunk_texture_command(s32 header, s32 texture_word) {
+    s32 texture_id;
+    s32 wrap_t = GX_REPEAT;
+    s32 wrap_s = GX_REPEAT;
+    if (header & NJD_FCL_U) {
+        wrap_s = GX_CLAMP;
+    } else if (header & NJD_FFL_U) {
+        wrap_s = GX_MIRROR;
     }
-    if ((u32) (header & 0x1000) != 0) {
-        var_r5 = 0;
-    } else if ((u32) (header & 0x4000) != 0) {
-        var_r5 = 2;
+    if (header & NJD_FCL_V) {
+        wrap_t = GX_CLAMP;
+    } else if (header & NJD_FFL_V) {
+        wrap_t = GX_MIRROR;
     }
-    var_r31 = arg1 & 0x1FFF;
-    idx = var_r31;
-    var_r4 = var_r6;
-    var_r6 = 0;
-    load_list_texture((idx), (var_r4), (var_r5), 0);
-    chunk_texture_record_index = var_r31;
+    texture_id = texture_word & NJD_TID_MASK;
+    load_list_texture(texture_id, wrap_s, wrap_t, 0);
+    chunk_texture_record_index = texture_id;
 }
 
 void setup_tev_passclr() {
     GXSetNumTevStages(1);
-    GXSetNumTexGens(0U);
-    GXSetTevOp(0, 4);
-    GXSetTevOrder(0, 0xFF, 0xFF, 4);
+    GXSetNumTexGens(0);
+    GXSetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
+    GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
 }
 
 void setup_chunk_tev_stages(void) {
     if ((u32) (model_render_flags & 0x80000) != 0) {
-        GXSetNumTevStages((saddr)((u8)(lbl_805D77D8 + 1)));
-        GXSetNumTexGens((u8)((u8)(lbl_805D77D9 + 1)));
+        GXSetNumTevStages(chunk_tev_stage_extra + 1);
+        GXSetNumTexGens(chunk_texgen_extra + 1);
     } else {
-        GXSetNumTevStages((saddr)(1U));
-        GXSetNumTexGens((u8)(1U));
+        GXSetNumTevStages(1);
+        GXSetNumTexGens(1);
     }
-    GXSetTevOp(0, 0);
-    GXSetTevOrder(0, 0, 0, 4);
+    GXSetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+    GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
 }
 
 void set_strip_lighting_chan_ctrl(u32 flags) {
@@ -550,79 +499,79 @@ void set_strip_lighting_chan_ctrl(u32 flags) {
         enable = 1;
     }
     if (chunk_has_vertex_colors != 0) {
-        GXSetChanCtrl(0, enable, 0, 1, gx_chan_ctrl_light_mask, 2, 2);
-        GXSetChanCtrl(2, 0, 0, 1, gx_chan_ctrl_light_mask, 2, 2);
+        GXSetChanCtrl(GX_COLOR0, enable, GX_SRC_REG, GX_SRC_VTX, gx_chan_ctrl_light_mask, GX_DF_CLAMP, GX_AF_NONE);
+        GXSetChanCtrl(GX_ALPHA0, GX_FALSE, GX_SRC_REG, GX_SRC_VTX, gx_chan_ctrl_light_mask, GX_DF_CLAMP, GX_AF_NONE);
     } else {
-        GXSetChanCtrl(0, enable, 0, 0, gx_chan_ctrl_light_mask, 2, 2);
-        GXSetChanCtrl(2, 0, 0, 0, gx_chan_ctrl_light_mask, 2, 2);
+        GXSetChanCtrl(GX_COLOR0, enable, GX_SRC_REG, GX_SRC_REG, gx_chan_ctrl_light_mask, GX_DF_CLAMP, GX_AF_NONE);
+        GXSetChanCtrl(GX_ALPHA0, GX_FALSE, GX_SRC_REG, GX_SRC_REG, gx_chan_ctrl_light_mask, GX_DF_CLAMP, GX_AF_NONE);
     }
 }
 
 void set_chunk_alpha_compare_ref(int ref) {
-    GXSetAlphaCompare(4, ref, 0, 7, 0);
+    GXSetAlphaCompare(GX_GREATER, ref, GX_AOP_AND, GX_ALWAYS, 0);
 }
 
-void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
+void set_chunk_blend_depth_mode(s32 header, s32 textured) {
     // The two reasons the blended pass may keep depth writes.
     static const u32 texture_alpha_reason = 1;
     static const u32 model_alpha_reason = 2;
-    s32 var_r31;
-    s32 temp_r30;
-    s32 temp_r29;
-    u32 var_r28;
+    GXBlendMode blend_mode;
+    GXBlendFactor src_factor;
+    GXBlendFactor dst_factor;
+    u32 material_opaque;
     GinjaSurfaceState *alpha_surface;
     u32 id;
     GinjaSurfaceState *zcomp_surface;
-    u32 var_r6;
-    if ((u32) (header & 8) != 0) {
-        var_r31 = 1;
+    u32 alpha_reasons;
+    if ((u32) (header & (NJD_FST_UA >> NJD_FST_SHIFT)) != 0) {
+        blend_mode = GX_BM_BLEND;
     } else {
-        var_r31 = 0;
+        blend_mode = GX_BM_NONE;
     }
-    temp_r30 = (u32) (chunk_blend_header_bits & 0x3800) >> 0xBU;
-    temp_r29 = (u32) (chunk_blend_header_bits & 0x700) >> 8U;
+    src_factor = (GXBlendFactor)((chunk_blend_header_bits & 0x3800) >> 11);
+    dst_factor = (GXBlendFactor)((chunk_blend_header_bits & 0x700) >> 8);
     if (chunk_render_flags != 0) {
         clear_chunk_strip_blend_flags();
     }
-    if (arg1 == 0) {
-        GXSetBlendMode(var_r31, temp_r30, temp_r29, 0);
-        GXSetZCompLoc(0);
-        GXSetZMode(1, 3, 0);
-    } else if (var_r31 != 0) {
-        var_r6 = 0;
-        var_r28 = 1U;
+    if (textured == 0) {
+        GXSetBlendMode(blend_mode, src_factor, dst_factor, GX_LO_CLEAR);
+        GXSetZCompLoc(GX_FALSE);
+        GXSetZMode(GX_TRUE, GX_LEQUAL, GX_FALSE);
+    } else if (blend_mode != GX_BM_NONE) {
+        alpha_reasons = 0;
+        material_opaque = 1U;
         alpha_surface = current_render_context->textures->textures[chunk_texture_record_index].texture->surface;
         id = model_render_flags;
         if (((u32) (id & 0x10) != 0) && (1.0f != model_material_color.a)) {
-            var_r28 = 0U;
+            material_opaque = 0U;
         }
         if (((u32) (id & 0x20) != 0) && (0.0f != model_material_color.a)) {
-            var_r28 = 0U;
+            material_opaque = 0U;
         }
         if (alpha_surface->header.format == 0xEU) {
             if ((u32) (id & 0x400000) != 0) {
                 if ((u32) (alpha_surface->header.flags & 0x40000000) != 0) {
-                    var_r6 |= texture_alpha_reason;
+                    alpha_reasons |= texture_alpha_reason;
                 }
             } else {
-                var_r6 |= texture_alpha_reason;
+                alpha_reasons |= texture_alpha_reason;
             }
         }
         if ((u32) (id & 1) != 0) {
-            var_r6 |= model_alpha_reason;
+            alpha_reasons |= model_alpha_reason;
         }
-        if ((var_r28 != 0U) && (var_r6 != 0) && (temp_r30 == 4) && (temp_r29 == 5)) {
+        if ((material_opaque != 0U) && (alpha_reasons != 0) && (src_factor == GX_BL_SRCALPHA) && (dst_factor == GX_BL_INVSRCALPHA)) {
             if (chunk_render_flags != 0) {
                 chunk_render_flags |= 0x200;
             }
-            GXSetBlendMode(var_r31, temp_r30, temp_r29, 0);
+            GXSetBlendMode(blend_mode, src_factor, dst_factor, GX_LO_CLEAR);
             if ((u32) (model_render_flags & 0x200000) != 0) {
-                GXSetZCompLoc(0);
-                GXSetZMode(1, 3, 1);
+                GXSetZCompLoc(GX_FALSE);
+                GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
                 set_chunk_alpha_compare_ref(0);
             } else {
-                GXSetZCompLoc(0);
-                GXSetZMode(1, 3, 1);
+                GXSetZCompLoc(GX_FALSE);
+                GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
                 set_chunk_alpha_compare_ref((u8) material_alpha_compare_reference);
             }
         } else {
@@ -630,17 +579,17 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
                 chunk_render_flags |= 0x200;
             }
             if (((u32) (id & 0x01000000) != 0) && ((u32) (ginja_draw_flags & 2) == 0)) {
-                GXSetBlendMode(var_r31, temp_r30, temp_r29, 0);
-                GXSetZCompLoc(0);
-                GXSetZMode(1, 3, 1);
+                GXSetBlendMode(blend_mode, src_factor, dst_factor, GX_LO_CLEAR);
+                GXSetZCompLoc(GX_FALSE);
+                GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
                 set_chunk_alpha_compare_ref((u8) material_alpha_compare_reference);
             } else {
-                GXSetBlendMode(var_r31, temp_r30, temp_r29, 0);
-                GXSetZCompLoc(0);
-                if (var_r28 != 0U) {
-                    GXSetZMode(1, 3, 0);
+                GXSetBlendMode(blend_mode, src_factor, dst_factor, GX_LO_CLEAR);
+                GXSetZCompLoc(GX_FALSE);
+                if (material_opaque != 0U) {
+                    GXSetZMode(GX_TRUE, GX_LEQUAL, GX_FALSE);
                 } else {
-                    GXSetZMode(1, 3, 1);
+                    GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
                 }
                 set_chunk_alpha_compare_ref(0);
             }
@@ -652,17 +601,17 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
         zcomp_surface = current_render_context->textures->textures[chunk_texture_record_index].texture->surface;
         if ((zcomp_surface->header.format == 0xEU) && ((u32) (zcomp_surface->header.flags & 0x40000000) != 0)) {
             set_chunk_alpha_compare_ref(0x1F);
-            GXSetBlendMode(0, temp_r30, temp_r29, 0);
-            GXSetZCompLoc(0);
-            GXSetZMode(1, 3, 1);
+            GXSetBlendMode(GX_BM_NONE, src_factor, dst_factor, GX_LO_CLEAR);
+            GXSetZCompLoc(GX_FALSE);
+            GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
         } else {
-            GXSetBlendMode(0, temp_r30, temp_r29, 0);
-            GXSetZCompLoc(1);
-            GXSetZMode(1, 3, 1);
+            GXSetBlendMode(GX_BM_NONE, src_factor, dst_factor, GX_LO_CLEAR);
+            GXSetZCompLoc(GX_TRUE);
+            GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
         }
     }
     if ((u32) (model_render_flags & 0x400) != 0) {
-        GXSetZMode(1, 3, 0);
+        GXSetZMode(GX_TRUE, GX_LEQUAL, GX_FALSE);
     }
 }
 
@@ -736,11 +685,11 @@ void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
                     set_chunk_blend_depth_mode(state.header, 1);
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX3x4, GX_TG_NRM, GX_TEXMTX4, GX_FALSE, GX_PTIDENTITY);
-                    draw_strip_pos_normal(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
+                    draw_strip_pos_normal(list, (ChunkCachedVertex *) vertex_buffer, strip_info);
                 } else {
                     set_chunk_blend_depth_mode(state.header, 0);
                     setup_tev_passclr();
-                    draw_strip_list_pos_nrm(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
+                    draw_strip_list_pos_nrm(list, (ChunkCachedVertex *) vertex_buffer, strip_info);
                 }
                 break;
             case NJD_CS_UVN:
@@ -749,7 +698,7 @@ void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
                 if (state.header & (NJD_FST_ENV >> NJD_FST_SHIFT)) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX3x4, GX_TG_NRM, GX_TEXMTX4, GX_FALSE, GX_PTIDENTITY);
-                    draw_triangle_strips(list, (Vtx_803E36C4 *) vertex_buffer, strip_info);
+                    draw_triangle_strips(list, (ChunkCachedVertex *) vertex_buffer, strip_info);
                 } else if (chunk_has_vertex_colors != 0) {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, GX_FALSE, GX_PTIDENTITY);
@@ -757,7 +706,7 @@ void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
                 } else {
                     setup_chunk_tev_stages();
                     GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_IDENTITY, GX_FALSE, GX_PTIDENTITY);
-                    draw_chunk_textured_strips(list, (Vtx_803E36C4 *) vertex_buffer, strip_info, type == NJD_CS_UVH);
+                    draw_chunk_textured_strips(list, (ChunkCachedVertex *) vertex_buffer, strip_info, type == NJD_CS_UVH);
                 }
                 break;
             }
@@ -785,9 +734,9 @@ s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
         job.dst = (u8 *)(buffer + (info & 0xFFFF) * 32);
         total += job.count;
         if ((type & 0xFF) == 0x29) {
-            transform_chunk_vertices_pos_normal(&job, (ReorderedMatrix_803E3390 *)current_matrix);
+            transform_chunk_vertices_pos_normal(&job, (ChunkPairedMatrix *)current_matrix);
         } else if ((type & 0xFF) == 0x2C) {
-            transform_chunk_vertices_weighted(&job, (ReorderedMatrix_803E3390 *)current_matrix, ((type & ~0x8000) >> 8) & 0xFF);
+            transform_chunk_vertices_weighted(&job, (ChunkPairedMatrix *)current_matrix, ((type & ~0x8000) >> 8) & 0xFF);
         } else if ((type & 0xFF) == 0x2A) {
             transform_chunk_vertices_pos_normal_color(&job, current_matrix);
         } else if ((type & 0xFF) == 0x23) {
@@ -825,7 +774,7 @@ void setup_model_draw_state(void *) {
         GXLoadTexMtxImm(m, GX_TEXMTX4, GX_MTX3x4);
     }
     push_matrix();
-    GXSetZCompLoc(0);
+    GXSetZCompLoc(GX_FALSE);
 }
 
 void end_chunk_draw() {
@@ -834,8 +783,8 @@ void end_chunk_draw() {
         apply_scene_fog();
     }
     pop_matrix();
-    GXSetZCompLoc(1);
-    GXSetZMode(1, 1, 1);
+    GXSetZCompLoc(GX_TRUE);
+    GXSetZMode(GX_TRUE, GX_LESS, GX_TRUE);
     set_chunk_alpha_compare_ref(0);
     if (player_chunk_draw_end_callback != NULL) {
         player_chunk_draw_end_callback();
@@ -843,21 +792,21 @@ void end_chunk_draw() {
 }
 
 s32 draw_chunk_vertices_cached(void* arg) {
-    ChunkModel_803E44D4* model = (ChunkModel_803E44D4*)arg;
+    NJS_CNK_MODEL* model = (NJS_CNK_MODEL*)arg;
     saddr cache;
     s32 count = 0;
     if (chunk_render_flags & 4) return 0;
     chunk_has_vertex_colors = 0;
     cache = chunk_vertex_cache_buffer;
-    if (lbl_805D77E4 & 4) {
+    if (chunk_vertex_cache_flags & 4) {
         if (chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].bytes != 0) {
             memmove((void*)chunk_vertex_cache_buffer, chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].vertices, chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].bytes);
         }
         chunk_vertex_cache_state->index++;
-    } else if (model->vertices != 0) {
-        count = dispatch_chunk_vertex_list(model->vertices, chunk_vertex_cache_buffer);
+    } else if (model->vertex_list != NULL) {
+        count = dispatch_chunk_vertex_list((u32 *)model->vertex_list, chunk_vertex_cache_buffer);
     }
-    if (lbl_805D77E4 & 1) {
+    if (chunk_vertex_cache_flags & 1) {
         if (chunk_vertex_cache_state) {
             if (chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].vertices == 0) {
                 if (count) {
@@ -865,16 +814,16 @@ s32 draw_chunk_vertices_cached(void* arg) {
                     chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].bytes = count << 5;
                 }
             } else {
-                OSReport(lbl_804FC810);
+                OSReport(chunk_memory_assert_message);
             }
             chunk_vertex_cache_state->index++;
         }
     } else {
-        if (lbl_805D77E4 & 2) {
+        if (chunk_vertex_cache_flags & 2) {
             if (count) memmove(chunk_vertex_cache_state->buffers[chunk_vertex_cache_state->index].vertices, (void*)chunk_vertex_cache_buffer, count << 5);
             chunk_vertex_cache_state->index++;
         }
-        if (model->polygons) dispatch_chunk_polygon_list(model->polygons, cache);
+        if (model->polygon_list) dispatch_chunk_polygon_list(model->polygon_list, cache);
         return 0;
     }
 }
@@ -888,18 +837,18 @@ void draw_chunk_model(void *model) {
 
 void draw_chunk_object(void *child) {
     setup_model_draw_state(child);
-    transform_chunk_object_tree(child, (void (*)(void *))draw_chunk_vertices_cached);
+    transform_chunk_object_tree(child, draw_chunk_vertices_cached);
     end_chunk_draw();
 }
 
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void draw_strip_pos_normal(s16 *list, Vtx_803E36C4 *verts, u32 info) {
+void draw_strip_pos_normal(s16 *list, ChunkCachedVertex *verts, u32 info) {
     s32 skip;
     s32 n;
     u32 count;
-    Vtx_803E36C4 *v;
+    ChunkCachedVertex *v;
     skip = (info >> 14) & 3;
     count = info & 0x3FFF;
     GXClearVtxDesc();
@@ -913,8 +862,8 @@ void draw_strip_pos_normal(s16 *list, Vtx_803E36C4 *verts, u32 info) {
         GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT0, n);
         do {
             v = &verts[*list++];
-            GXPosition3f32(v->x, v->y, v->z);
-            GXNormal3f32(v->nx, v->ny, v->nz);
+            GXPosition3f32(v->pos.x, v->pos.y, v->pos.z);
+            GXNormal3f32(v->normal.x, v->normal.y, v->normal.z);
             list += skip;
         } while (--n != 0);
     } while (--count != 0);
@@ -925,12 +874,12 @@ void draw_strip_pos_normal(s16 *list, Vtx_803E36C4 *verts, u32 info) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma optimization_level 4
-void draw_triangle_strips(s16 *list, Vtx_803E36C4 *verts, u32 info) {
+void draw_triangle_strips(s16 *list, ChunkCachedVertex *verts, u32 info) {
     s32 skip;
     s32 n;
     s32 draw;
     u32 count;
-    Vtx_803E36C4 *v;
+    ChunkCachedVertex *v;
     draw = 1;
     skip = (info >> 14) & 3;
     count = info & 0x3FFF;
@@ -962,8 +911,8 @@ void draw_triangle_strips(s16 *list, Vtx_803E36C4 *verts, u32 info) {
         do {
             v = &verts[*list++];
             if (draw) {
-                GXPosition3f32(v[2].x, v[2].y, v[2].z);
-                GXNormal3f32(v[2].nx, v[2].ny, v[2].nz);
+                GXPosition3f32(v[2].pos.x, v[2].pos.y, v[2].pos.z);
+                GXNormal3f32(v[2].normal.x, v[2].normal.y, v[2].normal.z);
             }
             list += skip;
         } while (--n != 0);
@@ -973,7 +922,7 @@ void draw_triangle_strips(s16 *list, Vtx_803E36C4 *verts, u32 info) {
 
 void init_chunk_draw(saddr vertex_buffer, s32 vertex_buffer_size) {
     chunk_vertex_cache_buffer = vertex_buffer;
-    lbl_805D77FC = vertex_buffer_size;
+    chunk_vertex_cache_size = vertex_buffer_size;
     chunk_render_flags = 0;
 }
 
@@ -991,15 +940,15 @@ GC_Mtx chunk_object_current_matrix;
 
 s32 chunk_previous_strip_flags;
 u32 chunk_strip_dirty_flags;
-u8 lbl_805D77D8;
-u8 lbl_805D77D9;
+u8 chunk_tev_stage_extra;
+u8 chunk_texgen_extra;
 void (*player_chunk_draw_end_callback)();
 u32 chunk_has_vertex_colors;
-u32 lbl_805D77E4;
-ChunkRecording_803E44D4* chunk_vertex_cache_state;
+u32 chunk_vertex_cache_flags;
+ChunkCacheRecording* chunk_vertex_cache_state;
 s32 chunk_texture_record_index;
 u32 chunk_blend_header_bits;
 u32 lbl_805D77F4;
 u32 chunk_render_flags;
-s32 lbl_805D77FC;
+s32 chunk_vertex_cache_size;
 saddr chunk_vertex_cache_buffer;

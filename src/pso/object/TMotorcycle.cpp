@@ -103,7 +103,7 @@ void TMotorcycle::free_statics() {
 void TMotorcycle::load_resources() {
     BmlResource *storage = new BmlResource(5, (BmlResourceDescriptor *)&motorcycle_resource_descriptor, 0, 0, NULL);
     TMotorcycle__bml_resource = storage;
-    TMotorcycle__texture_list = load_gvm_texture_file("obj_motorcycle.GVM");
+    TMotorcycle__texture_list = LoadPvmFileTls("obj_motorcycle.GVM");
     TObjNpcEnemy::register_ginja(0x3C, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TMotorcycle__bml_resource, 0)),
                            TMotorcycle__texture_list, 16.0f, 0.0f);
     TObjNpcEnemy::register_ginja(0x3D, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TMotorcycle__bml_resource, 1)),

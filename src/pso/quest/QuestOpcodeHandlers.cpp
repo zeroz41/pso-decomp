@@ -46,6 +46,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/item/drop/TItemDropSub.h"
 #include "pso/unk/TLobby.h"
+#include "pso/ui/chat/SymbolChatPayload.h"
+#include "pso/network/TProtocol.h"
 #include "pso/map/TSetManager.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/math/AngleLookup.h"
@@ -200,7 +202,7 @@ s32 dispatch_chat_message_to_children__12TOChatSensorFl();
 }
 void append_episode_progress_string(void);
 void append_entered_item_name_pair(void);
-void append_split_screen_hero_name(void);
+void append_challenge_title(void);
 s32 parse_f_index(const char *a0);
 void append_hero_name(void);
 void append_hero_class_name(void);
@@ -246,7 +248,7 @@ const CmdTable_801E6604 message_substitution_handlers = { {
     { "hero job", append_hero_class_name },
     { "time", append_episode_progress_string },
     { "award item", append_entered_item_name_pair },
-    { "challenge title", append_split_screen_hero_name },
+    { "challenge title", append_challenge_title },
     { "pl_name", append_player_name },
     { "pl_job", TLobby::append_default_string },
     { "last_word", TLobby::append_card_window_text },
@@ -429,10 +431,10 @@ s32 parse_r_index(const char *text) {
 
 u8 *quest_script_read_ptr;
 
-void append_split_screen_hero_name(void) {
+void append_challenge_title(void) {
     char buf[0x40];
     if (is_split_screen() == 1) {
-        sprintf(buf, "%s", get_active_character_name());
+        sprintf(buf, "%s", get_active_challenge_title());
     } else {
         sprintf(buf, "%s", TLobby__sub_800713C8());
     }
@@ -562,11 +564,11 @@ void qst_op_get_item_stackability() {
 void qst_op_create_symbol_chat_capture_buffer() { TLobby::create_singleton((void *)tl_01); }
 
 void qst_op_get_recent_symbol_chat() {
-    u8 buf[0x3C];
+    SymbolChatPayload buf;
     u8 idx;
     idx = (u8) qst_args[1];
-    TLobby::send_slot_entity_or_local((u16) qst_args[0], (saddr) buf);
-    memcpy(&qst_registers[(u8)idx], buf, 0x3C);
+    TLobby::send_slot_entity_or_local((u16) qst_args[0], &buf);
+    memcpy(&qst_registers[(u8)idx], &buf, sizeof(buf));
 }
 
 void qst_op_get_guildcard_num(void) {
@@ -590,9 +592,6 @@ void qst_op_check_for_keyword(void) {
     qst_registers[(u8)idx] = 0;
 }
 
-extern "C" {
-s32 send_statistic_aa(TProtocol *, int, int, int, void *);
-}
 
 void qst_op_enable_keyword_detect() { TOChatSensorCapture::create_instance((void*)tl_01); }
 
@@ -603,7 +602,7 @@ void qst_op_prepare_statistic(void) {
 }
 
 void qst_op_send_statistic() {
-    send_statistic_aa(TLobby::protocol_instance, qst_statistic_id, qst_statistic_arg1, qst_statistic_arg2, (void *) qst_args);
+    TLobby::protocol_instance->send_statistic(qst_statistic_id, qst_statistic_arg1, qst_statistic_arg2, (u32 *)qst_args);
 }
 
 void qst_op_arg_pushs(int a0) { int old = qst_arg_count; qst_arg_count = old + 1; qst_args[old] = a0; }
@@ -900,7 +899,6 @@ s32 TObjPlayer__sub_801B4044();
 s32 send_code_49_1__10TObjPlayerFi();
 void delete_item(void *, s32, s32);
 void TFontSmallLobby__sub_801C013C(void *p);
-s32 send_download_head_d7(TProtocol *, int, int);
 }
 void play_cue_stream_file(const char *name);
 extern "C" {
@@ -2010,7 +2008,7 @@ void qst_op_get_dl_status(s32 reg) {
 }
 
 void qst_op_file_dl_req(void) {
-    send_download_head_d7(TLobby::protocol_instance, (int) ((u8) qst_args[0]), (int) (qst_args[1]));
+    TLobby::protocol_instance->send_download_head(qst_args[0], (const char *)qst_args[1]);
     TLobby__sub_801F3614();
     TLobby__sub_8032CDEC();
 }
@@ -3846,7 +3844,7 @@ void qst_op_set_quest_board_handler(void) {
     }
 }
 
-void qst_op_getmtime(int a0) { qst_registers[(unsigned char)(a0)] = TLobby__sub_803DF1CC(); }
+void qst_op_getmtime(int a0) { qst_registers[(unsigned char)(a0)] = get_coarse_time(); }
 
 void qst_op_winset_time(s32 reg) {
     TWindowCtrl::set_timer_window_time(qst_registers[(u8)reg]);

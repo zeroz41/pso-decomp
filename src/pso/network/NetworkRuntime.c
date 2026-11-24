@@ -21,7 +21,7 @@
 NetworkAlarmSlot lobby_alarm_slot_table[0x40];
 NetworkMutexSlot network_mutex_slot_table[8];
 
-s32 cancel_pending_alarms(void) {
+s32 AT_TerminateRTOS(void) {
     s32 i;
     s32 lvl;
     NetworkAlarmSlot *s;
@@ -34,13 +34,13 @@ s32 cancel_pending_alarms(void) {
         }
     }
     OSRestoreInterrupts(lvl);
-    TLobby__sub_80428358();
+    pppoe_term_rtos();
     cancel_alarm_a();
     cancel_alarm_b();
     return 0;
 }
 
-s16 TLobby__sub_803F8E9C(void)
+s16 AT_InitializeRTOS(void)
 {
   s32 i;
   /* These retained locals preserve the retail stack frame. */
@@ -55,12 +55,12 @@ s16 TLobby__sub_803F8E9C(void)
   NetworkMutexSlot *fourth_mutex;
   NetworkThreadSlot *slot;
   NetworkMessageQueueSlot *message_queue;
-  u8 *alarm_base;
+  NetworkAlarmSlot *alarm_base;
   enum {
     MUTEX_SLOTS_OFFSET = sizeof(lobby_alarm_slot_table),
     MESSAGE_QUEUE_SLOTS_OFFSET = MUTEX_SLOTS_OFFSET + sizeof(network_mutex_slot_table)
   };
-  alarm_base = (u8 *) lobby_alarm_slot_table;
+  alarm_base = lobby_alarm_slot_table;
   /* These three tables occupy consecutive BSS ranges. Retail addresses them from the alarm table base. */
   message_queue_base = (uaddr)alarm_base;
   message_queue_base = message_queue_base + MESSAGE_QUEUE_SLOTS_OFFSET;
@@ -77,7 +77,7 @@ s16 TLobby__sub_803F8E9C(void)
 
   for (i = 0; i < 0x40; i++)
   {
-    alarm = &((NetworkAlarmSlot *)alarm_base)[i];
+    alarm = &alarm_base[i];
     alarm->active = 0;
     OSInitMessageQueue(&alarm->queue, &alarm->message, 1);
   }
@@ -128,7 +128,7 @@ s16 TLobby__sub_803F8E9C(void)
   {
     return -1;
   }
-  if (TLobby__sub_80428360(0) < 0)
+  if (pppoe_init_rtos(0) < 0)
   {
     return -1;
   }
@@ -169,7 +169,7 @@ void NetReceiveMessage(u32 handle, void* destination, s32 size) {
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_dead_assignments off
-void TLobby__sub_803F9344(u32 handle, void *source, s32 size)
+void send_message_queue(u32 handle, void *source, s32 size)
 {
   u8 *base;
   u8 *slot;
@@ -228,7 +228,7 @@ NetworkMessageQueueSlot network_message_queue_slot_table[2];
 #pragma push
 #pragma optimize_for_size off
 #pragma use_lmw_stmw off
-s16 TLobby__sub_803F94F0(s32 *out) {
+s16 create_message_queue(s32 *out) {
     NetworkMessageQueueSlot *s;
     s32 i;
     s32 off;
@@ -247,15 +247,15 @@ s16 TLobby__sub_803F94F0(s32 *out) {
 }
 #pragma pop
 
-void unlock_mutex(saddr mutex) {
+void unlock_mutex(NetMutexHandle mutex) {
     OSUnlockMutex((OSMutex*)mutex);
 }
 
-void lock_mutex(saddr mutex) {
+void lock_mutex(NetMutexHandle mutex) {
     OSLockMutex((OSMutex*)mutex);
 }
 
-void NetReleaseMutex(u32 handle) {
+void NetReleaseMutex(NetMutexHandle handle) {
     s32 index;
     for (index = 0; index < 8; index++) {
         if (handle == network_mutex_slot_table[index].handle) break;
@@ -263,7 +263,7 @@ void NetReleaseMutex(u32 handle) {
     if (index < 8) network_mutex_slot_table[index].active = 0;
 }
 
-s16 TLobby__sub_803F96AC(s32 *out) {
+s16 create_mutex(NetMutexHandle *out) {
     NetworkMutexSlot *m;
     s32 i;
     s32 off;

@@ -9,7 +9,7 @@ extern "C" {
 
 int Hu_IsStub();
 
-void DBInitComm(volatile u8** param_1, __OSInterruptHandler param_2);
+void DBInitComm(volatile u8** inputFlagPtr, __OSInterruptHandler monitorCallback);
 void DBInitInterrupts(void);
 u32 DBQueryData(void);
 int DBRead(void* data, u32 size);

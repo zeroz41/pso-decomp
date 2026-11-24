@@ -21,7 +21,7 @@ u16 read_network_u16_be(u8 *p) {
     return v;
 }
 
-u32 TLobby__sub_80402AFC(u8 *p) {
+u32 read_network_u32_be(u8 *p) {
     u32 v = *p++;
     v <<= 8;
     v |= *p++;

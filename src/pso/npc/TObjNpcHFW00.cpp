@@ -39,7 +39,7 @@ void TObjNpcHFW00::free_resources() {
 
 void TObjNpcHFW00::load_resources() {
     shared_resource_obj = static_cast<void **>(create_named_object("npc_g00_data.rel"));
-    texture_handle = load_gvm_texture_file("n_g00_body.gvm");
+    texture_handle = LoadPvmFileTls("n_g00_body.gvm");
 }
 
 TObjNpcHFW00::~TObjNpcHFW00() {}

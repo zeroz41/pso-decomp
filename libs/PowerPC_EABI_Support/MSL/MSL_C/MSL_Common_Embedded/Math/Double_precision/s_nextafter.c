@@ -11,12 +11,7 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 double nextafter(double x, double y)
-#else
-double nextafter(x, y)
-double x, y;
-#endif
 {
   int hx, hy, ix, iy;
   unsigned int lx, ly;

@@ -1804,6 +1804,9 @@ def _misowned(rows: list[dict], bases: dict[str, set[str]], symbols_text: str,
         if f[3]:
             by_cls[f[3]].append(f)
         by_key[(f[3], f[4] if f[3] else f[0])].append(f)
+        free = re.match(r"(\w+?)__F", f[0]) if not f[3] else None
+        if free:   # a C++ free function: its callers name it unmangled
+            by_key[(None, free[1])].append(f)
     for fs in by_unit.values():
         fs.sort(key=lambda f: f[1])
     index = {u[2]: i for i, u in enumerate(units)}

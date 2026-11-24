@@ -112,7 +112,7 @@ void TQuadSpriteSclColRot::render() {
                 q.edge_a_y = -w * s;
                 q.edge_b_x = h * s;
                 q.edge_b_y = h * c;
-                DVDConvertEntrynumToPath(&q.x);
+                draw_rotated_quad(&q.x);
             }
             n = n->next;
         }

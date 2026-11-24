@@ -367,7 +367,7 @@ void TAdDialingGC::update_selection() {
         *(s16 *)&this->m_30 = 0;
         return;
     }
-    NetGetLinkStatus((NetLinkStatus *)&this->_pad2C);
+    ppp_stat((NetLinkStatus *)&this->_pad2C);
     if ((s16) *(s16 *)&this->m_68 != (s16) *(s16 *)&this->m_30) {
         *(s32 *)&this->m_24 = 0;
     }

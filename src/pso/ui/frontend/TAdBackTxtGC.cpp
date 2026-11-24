@@ -34,7 +34,7 @@ void TAdBackTxtGC::draw_character_background_frame(s32 arg1, s32 color) {
 
 #pragma readonly_strings on
 void TAdBackTxtGC::render() {
-    if (m_24 == 0) {
+    if (render_direct == 0) {
         if (defer_render() != 0) {
             return;
         }
@@ -47,7 +47,7 @@ void TAdBackTxtGC::render() {
     draw_character_background_frame(frame / 3, -1);
     set_color_blending_mode(0, 8);
     set_color_blending_mode(1, 6);
-    if (m_24 == 0) {
+    if (render_direct == 0) {
         restore_saved_depth_alpha_state();
     }
 }
@@ -72,7 +72,7 @@ TAdBackTxtGC::TAdBackTxtGC(TObject *parent) : TObject(parent) {
     m_name = TAdBackTxtGC__name;
     frame = -1;
     m_depth = 0.0025641026f;
-    m_24 = 1;
+    render_direct = 1;
 }
 
     struct TexName_804DC098 { const char *name; s32 a; s32 b; };

@@ -83,26 +83,26 @@ static BOOL DBGEXIImm(void* data, s32 byte_size, u32 write)
 	return TRUE;
 }
 
-static BOOL DBGReadMailbox(void* param1)
+static BOOL DBGReadMailbox(void* mailbox)
 {
 	BOOL error = FALSE;
-	u32 local_c;
+	u32 command;
 
 	if (!DBGEXISelect(4)) {
 		return FALSE;
 	}
 
-	local_c = 0x60000000;
-	error |= !DBGEXIImm((u8*)&local_c, 2, 1);
+	command = 0x60000000;
+	error |= !DBGEXIImm((u8*)&command, 2, 1);
 	error |= !DBGEXISync();
-	error |= !DBGEXIImm(param1, sizeof(param1), 0);
+	error |= !DBGEXIImm(mailbox, sizeof(mailbox), 0);
 	error |= !DBGEXISync();
 	error |= !DBGEXIDeselect();
 
 	return !error;
 }
 
-static BOOL DBGWriteMailbox(u32 param_1)
+static BOOL DBGWriteMailbox(u32 mailbox)
 {
 	BOOL error = FALSE;
 	u32 value;
@@ -111,7 +111,7 @@ static BOOL DBGWriteMailbox(u32 param_1)
 		return FALSE;
 	}
 
-	value = (param_1 & 0x1fffffff) | 0xc0000000;
+	value = (mailbox & 0x1fffffff) | 0xc0000000;
 	error |= !DBGEXIImm((u8*)&value, sizeof(value), 1);
 	error |= !DBGEXISync();
 	error |= !DBGEXIDeselect();
@@ -119,10 +119,10 @@ static BOOL DBGWriteMailbox(u32 param_1)
 	return !error;
 }
 
-static BOOL DBGRead(u32 param1, u32* data, s32 byte_size)
+static BOOL DBGRead(u32 addr, u32* data, s32 byte_size)
 {
 	BOOL error   = FALSE;
-	u32* dataPtr = (u32*)data;
+	u32* dataPtr = data;
 	u32 writeValue;
 	u32 readValue;
 
@@ -130,7 +130,7 @@ static BOOL DBGRead(u32 param1, u32* data, s32 byte_size)
 		return FALSE;
 	}
 
-	writeValue = (u32)(param1 << 8) & 0x1fffc00 | 0x20000000;
+	writeValue = (u32)(addr << 8) & 0x1fffc00 | 0x20000000;
 	error |= !DBGEXIImm((u8*)&writeValue, sizeof(writeValue), 1);
 	error |= !DBGEXISync();
 
@@ -150,10 +150,10 @@ static BOOL DBGRead(u32 param1, u32* data, s32 byte_size)
 	return !error;
 }
 
-static BOOL DBGWrite(u32 param1, u32* data, s32 byte_size)
+static BOOL DBGWrite(u32 addr, u32* data, s32 byte_size)
 {
 	BOOL error   = FALSE;
-	u32* dataPtr = (u32*)data;
+	u32* dataPtr = data;
 	u32 value;
 	u32 nextWord;
 
@@ -161,7 +161,7 @@ static BOOL DBGWrite(u32 param1, u32* data, s32 byte_size)
 		return FALSE;
 	}
 
-	value = (param1 & 0x1fffc) << 8 | 0xa0000000;
+	value = (addr & 0x1fffc) << 8 | 0xa0000000;
 	error = !DBGEXIImm((u8*)&value, sizeof(value), 1);
 	error |= !DBGEXISync();
 
@@ -181,7 +181,7 @@ static BOOL DBGWrite(u32 param1, u32* data, s32 byte_size)
 	return !error;
 }
 
-static BOOL DBGReadStatus(void* param_1)
+static BOOL DBGReadStatus(void* status)
 {
 	BOOL error = FALSE;
 	u32 value;
@@ -193,7 +193,7 @@ static BOOL DBGReadStatus(void* param_1)
 	value = 0x40000000;
 	error |= !DBGEXIImm((u8*)&value, 2, 1);
 	error |= !DBGEXISync();
-	error |= !DBGEXIImm(param_1, sizeof(param_1), 0);
+	error |= !DBGEXIImm(status, sizeof(status), 0);
 	error |= !DBGEXISync();
 	error |= !DBGEXIDeselect();
 
@@ -218,28 +218,28 @@ static void DBGHandler(__OSInterrupt interrupt, OSContext* context)
 
 static void CheckMailBox(void)
 {
-	u32 local_8[2];
+	u32 status[2];
 
-	DBGReadStatus(local_8);
-	if (local_8[0] & 1) {
-		DBGReadMailbox(local_8);
-		local_8[0] &= ~0xE0000000;
-		if ((local_8[0] & 0x1f000000) == 0x1f000000) {
-			SendMailData = local_8[0];
-			RecvDataLeng = local_8[0] & 0x7fff;
+	DBGReadStatus(status);
+	if (status[0] & 1) {
+		DBGReadMailbox(status);
+		status[0] &= ~0xE0000000;
+		if ((status[0] & 0x1f000000) == 0x1f000000) {
+			SendMailData = status[0];
+			RecvDataLeng = status[0] & 0x7fff;
 			EXIInputFlag = 1;
 		}
 	}
 }
 
-void DBInitComm(volatile u8** param_1, __OSInterruptHandler param_2)
+void DBInitComm(volatile u8** inputFlagPtr, __OSInterruptHandler monitorCallback)
 {
 	BOOL enabled;
 
 	enabled       = OSDisableInterrupts();
 	pEXIInputFlag = &EXIInputFlag;
-	*param_1      = pEXIInputFlag;
-	MTRCallback   = param_2;
+	*inputFlagPtr      = pEXIInputFlag;
+	MTRCallback   = monitorCallback;
 	DBGEXIInit();
 	OSRestoreInterrupts(enabled);
 }
@@ -266,18 +266,18 @@ u32 DBQueryData(void)
 	return RecvDataLeng;
 }
 
-int DBRead(void* param1, u32 param2)
+int DBRead(void* data, u32 size)
 {
 	BOOL enabled;
-	u32 lVar3;
+	u32 offset;
 
 	enabled = OSDisableInterrupts();
 	if (SendMailData & 0x10000) {
-		lVar3 = 0x1000;
+		offset = 0x1000;
 	} else {
-		lVar3 = 0;
+		offset = 0;
 	}
-	DBGRead(lVar3 + 0x1e000, param1, param2 + 3U & 0xfffffffc);
+	DBGRead(offset + 0x1e000, data, size + 3U & 0xfffffffc);
 	RecvDataLeng = 0;
 	EXIInputFlag = 0;
 	OSRestoreInterrupts(enabled);

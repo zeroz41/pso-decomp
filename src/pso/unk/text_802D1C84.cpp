@@ -139,7 +139,7 @@ void fn_802D1CC8(void) {
     set_texture_name(&lbl_80540BBC, &lbl_80540B98, 0x18696, 0x40800000);
     lbl_80540BC8[0] = reinterpret_cast<uaddr>(&lbl_80540BBC);
     lbl_80540BC8[1] = 1;
-    pso_load_texture((NJS_TEXLIST *)lbl_80540BC8);
+    psoLoadTexture((NJS_TEXLIST *)lbl_80540BC8);
 }
 #define PSO_VCALL_VObj_18_477421_m99(_self) (((VObj_18_477421 *)(_self))->m99())
 #define PSO_VCALL_VObj_18_477421_m81(_self) (((VObj_18_477421 *)(_self))->m81())

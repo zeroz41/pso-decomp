@@ -1,18 +1,12 @@
 #pragma defer_codegen on
-#define __count_trailing_zerol ansi_fp___count_trailing_zerol
 
 #include "MSL_C/ansi_fp.h"
 #include "MSL_C/MSL_Common/float.h"
 #include "MSL_C/ctype.h"
 #include "limits.h"
 
-extern unsigned int __double_max[];
 #define DBL_MAX (*(double*)__double_max)
 #define HUGE_VALF_ (*(float*)__float_huge)
-extern double copysign(double, double);
-extern double nextafter(double, double);
-extern double pow(double, double);
-extern double modf(double, double*);
 
 int ansi_fp_abs(int x) {
     int sign = x >> 31;

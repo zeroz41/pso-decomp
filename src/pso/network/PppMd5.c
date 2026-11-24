@@ -11,7 +11,7 @@
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/PppMd5.h"
 
-const u8 lbl_8047FE78[64] = {128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+const u8 md5_padding[64] = {128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 void MD5Final(u8 *dst, MD5Context *ctx) {
     u8 buf[8];
     u32 x;
@@ -28,7 +28,7 @@ void MD5Final(u8 *dst, MD5Context *ctx) {
     buf[7] = *high >> 24;
     x = (ctx->count[0] >> 3) & 0x3f;
     n = (x < 0x38) ? (0x38 - x) : (0x78 - x);
-    MD5Update(ctx, lbl_8047FE78, n);
+    MD5Update(ctx, md5_padding, n);
     MD5Update(ctx, buf, 8);
     dst[0] = ctx->state[0];
     dst[1] = ctx->state[0] >> 8;

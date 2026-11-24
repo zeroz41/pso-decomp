@@ -11,12 +11,12 @@
 #pragma inline_depth(4)
 
 s32 reset_net_value(void) {
-    TLobby__sub_803F89D8(&network_buffer_pool_state);
+    term_buffer_pool_config(&network_buffer_pool_state);
     network_buffer_pool_state.count = 0;
     return 0;
 }
 
-s16 TLobby__sub_80415690(void) {
+s16 buffer_pool_init(void) {
     NetBufferPool* p;
     s16* step;
     u8 *cursor;
@@ -64,7 +64,7 @@ s16 TLobby__sub_80415690(void) {
     return 0;
 }
 
-s16 TLobby__sub_8041579C(NetBufferRef *self)
+s16 buffer_pool_free(NetBufferRef *self)
 {
     u32 word;
     s16 entry;
@@ -75,7 +75,7 @@ s16 TLobby__sub_8041579C(NetBufferRef *self)
     NetBufferPoolEntry *ent;
 
     if (self->kind == 4) {
-        TLobby__sub_803F8D84(self->value);
+        free_buffer_slot(self->value);
         return 0;
     }
     word = self->value;
@@ -124,7 +124,7 @@ s16 TLobby__sub_8041579C(NetBufferRef *self)
     return 0;
 }
 
-s16 TLobby__sub_80415954(void *out_, int size, s16 owner) {
+s16 buffer_pool_alloc(void *out_, int size, s16 owner) {
     NetBufferRef *ref = (NetBufferRef *)out_;
     NetBufferPool *pool;
     NetBufferPoolEntry *e;

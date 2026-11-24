@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 
 struct TObjEneBalClaw : public TObjEnemyCustom {
     TObjEneBalClaw(TObject *parent);
@@ -17,7 +17,7 @@ struct TObjEneBalClaw : public TObjEnemyCustom {
     virtual s32 update_action_hold_status();
     virtual s32 is_target_in_attack_range();
     s32 range_band;           // 0 near, 1 mid, 2 far: the target's xz distance band, with hysteresis
-    TUnk_80490470 fade;
+    MaterialShadeFade fade;
     f32 hover_height_min;     // hover_height sinks to this (25 body, 15 claw)
     f32 hover_height_max;     // and rises to this while behavior_flags bit 0x10000 is set (40)
     f32 hover_height;         // height of the model and collision body above the floor

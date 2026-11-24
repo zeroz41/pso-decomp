@@ -7,54 +7,46 @@
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/PppIpcp.h"
-typedef struct P_803FF48C P_803FF48C;
 /* This file's functions. */
-void free_field_98(PppFsm *self);
-void free_field_98_and_clear(PppFsm *self);
-s32 read_2_bytes(void *self, void *src);
-u8 *write_network_u32_be(u8 *p, u32 v);
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
-extern s32 is_timed_out(void);
 #include "pso/network/NetworkTransport.h"
 
-extern IpcpState lbl_805C0328;
+extern IpcpState ipcp_state;
 
 
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
 
-void net_sleep_ms(int);
 #include "pso/network/PppBuffer.h"
 #include "pso/network/TLobby_803FAEA0.h"
 
 /* The empty option set each IPCP side starts from (.rodata 8047FE18). */
-const IpcpOptions lbl_8047FE18 = {0};
+const IpcpOptions ipcp_default_options = {0};
 /* Each option's length by flag bit: option 1 (two addresses) 10, options 2 and 3 6, options 0x81 and 0x83
  * (RFC 1877 name servers, bits 9 and 11) 6. */
-const u8 lbl_8047FE3C[20] = {0, 10, 6, 6, 0, 0, 0, 0, 0, 6, 0, 6};
+const u8 ipcp_option_lengths[20] = {0, 10, 6, 6, 0, 0, 0, 0, 0, 6, 0, 6};
 /* The option readers' scratch bytes (.sbss 805D7AA8), in reverse definition order. */
 u8 lcp_read_byte_buffer;
-u8 lbl_805D7AA8[4];
-s16 TLobby__sub_803FED78(PppFsm *self) {
+u8 ipcp_option_value[4];
+s16 wait_for_ipcp_open(PppFsm *self) {
     PppFsm *p;
     void *ipv6cp_state;
     PppFsm *ipv6cp;
     NetThreadState *pd;
-    u8 *obj;
+    PppProtoBlocks *blocks;
     s16 st;
-    s16 check_connection_status(void *); /* declared s16 here; the definition returns s32 */
     st = 1;
-    obj = self->sub;
+    blocks = self->blocks;
     self->abort = 0;
     ipv6cp_state = &ppp_proto_blocks.ipv6cp;
     ipv6cp = (PppFsm *)ipv6cp_state;
     ipv6cp->abort = 0;
     p = (PppFsm *)ipv6cp_state;
-    pd = &lbl_805C18A0;
+    pd = &net_thread_state;
     goto test;
     while (1) {
-        if (is_timed_out() != 0 || obj[0] == 4) {
+        if (is_timed_out() != 0 || blocks->phase == 4) {
             update_connection_state(self);
             self->abort = 0;
             p->abort = 0;
@@ -68,10 +60,10 @@ s16 TLobby__sub_803FED78(PppFsm *self) {
         lock_mutex(pd->mutex);
 test:
         if (self->state == 5) goto after;
-        if (lbl_805D7AA0 >= 2) goto after;
+        if (ppp_opened_count >= 2) goto after;
     }
 after:
-    if (lbl_805D7A7C != 6 && (s16)(s32)lbl_805D7A7C) {
+    if (ppp_ip_mode != 6 && (s16)(s32)ppp_ip_mode) {
         if (self->abort != 0) {
             p->abort = 0;
             self->abort = 0;
@@ -81,7 +73,7 @@ after:
         self->abort = 0;
         return 0;
     }
-    pd = &lbl_805C18A0;
+    pd = &net_thread_state;
     while (st > 0) {
         st = check_connection_status(p);
         unlock_mutex(pd->mutex);
@@ -108,14 +100,14 @@ after:
     return -1;
 }
 
-void TLobby__sub_803FF48C(PppFsm *o);
-s16 TLobby__sub_803FF50C(PppFsm *self, PppHeader *item, PppFrame *arg);
-s16 TLobby__sub_803FF698(PppFsm *self, PppHeader *item, PppFrame *arg);
-s16 TLobby__sub_803FF9A4(PppFsm *self, PppHeader *src, PppFrame *bits);
+void ipcp_reset_options(PppFsm *o);
+s16 recv_ipcp_config_reject(PppFsm *self, PppHeader *item, PppFrame *arg);
+s16 recv_ipcp_config_nak(PppFsm *self, PppHeader *item, PppFrame *arg);
+s16 recv_ipcp_config_request(PppFsm *self, PppHeader *src, PppFrame *bits);
 PppFrame *build_ipcp_config_request(PppFsm *self);
-void TLobby__sub_803FEF4C(PppProtoBlocks *connection) {
-    const IpcpOptions *src = &lbl_8047FE18;
-    void *state_address = &lbl_805C0328;
+void init_ipcp_protocol(PppProtoBlocks *connection) {
+    const IpcpOptions *src = &ipcp_default_options;
+    void *state_address = &ipcp_state;
     IpcpState *state = (IpcpState *)state_address;
     PppFsmProtocol *protocol = (PppFsmProtocol *)state_address;
     PppFsm *fsm;
@@ -124,24 +116,24 @@ void TLobby__sub_803FEF4C(PppProtoBlocks *connection) {
     fsm = &connection->ipcp;
     config = &state->config;
     protocol->proto = 0x8021;
-    protocol->h6 = 0xfe;
+    protocol->code_mask = 0xfe;
     protocol->tx_counter_index = 2;
     protocol->max_request_attempts = 0x14;
     protocol->max_peer_attempts = 10;
     protocol->max_terminate_attempts = 10;
     protocol->timeout = 0xbb8;
     protocol->release_resources = free_field_98;
-    protocol->reset_options = TLobby__sub_803FF48C;
-    protocol->start_negotiation = TLobby__sub_803FF374;
+    protocol->reset_options = ipcp_reset_options;
+    protocol->start_negotiation = ipcp_start_negotiation;
     protocol->link_opened = ipcp_opening;
     protocol->link_closed = free_field_98_and_clear;
-    protocol->finish_termination = TLobby__sub_803FF468;
+    protocol->finish_termination = ipcp_finish_termination;
     protocol->build_config_request = build_ipcp_config_request;
-    protocol->check_config_request = TLobby__sub_803FF9A4;
-    protocol->check_config_ack = TLobby__sub_803FF858;
-    protocol->check_config_nak = TLobby__sub_803FF698;
-    protocol->check_config_reject = TLobby__sub_803FF50C;
-    fsm->sub = (u8 *)connection;
+    protocol->check_config_request = recv_ipcp_config_request;
+    protocol->check_config_ack = verify_ipcp_config_ack;
+    protocol->check_config_nak = recv_ipcp_config_nak;
+    protocol->check_config_reject = recv_ipcp_config_reject;
+    fsm->blocks = connection;
     fsm->proto = protocol;
     fsm->opts = config;
     state->config.local.want = *src;
@@ -149,7 +141,7 @@ void TLobby__sub_803FEF4C(PppProtoBlocks *connection) {
     state->config.peer.want = *src;
     config->peer.got = *src;
     config->peer.flags = 6;
-    TLobby__sub_803FD694(fsm);
+    fsm_init(fsm);
 }
 
 s16 ipcp_set_vj_compression(s16 disabled, IpcpSide *side) {
@@ -234,31 +226,31 @@ s16 ipcp_set_local_address(IpcpSide *side, s32 addr) {
     return 0;
 }
 
-s16 TLobby__sub_803FF304(PppFsm *fsm) {
+s16 ipcp_open(PppFsm *fsm) {
     PP_doppp_active(fsm);
-    if (*fsm->sub == 3) {
-        TLobby__sub_803FD958((u8 *)fsm);
+    if (fsm->blocks->phase == 3) {
+        fsm_open(fsm);
     }
     return 0;
 }
 
 void free_field_98(PppFsm *self) {
-    TLobby__sub_80405000(((IpcpConfig *)self->opts)->net_list);
+    vj_release_state(((IpcpConfig *)self->opts)->net_list);
 }
 
-void TLobby__sub_803FF374(PppFsm *arg0) {
-    *(s8 *)((s8 *)arg0 + 0xA) = 0;
-    *(s8 *)((s8 *)arg0 + 0xB) = 0;
+void ipcp_start_negotiation(PppFsm *fsm) {
+    fsm->padA = 0;
+    fsm->ack_count = 0;
 }
 
-void ipcp_opening(PppFsm *arg0) {
+void ipcp_opening(PppFsm *fsm) {
     IpcpConfig *p;
     s16 a;
     s16 b;
     a = 0;
     b = 0;
-    p = *(IpcpConfig **)((s8 *)arg0 + 0x30);
-    TLobby__sub_80405000(p->net_list);
+    p = fsm->opts;
+    vj_release_state(p->net_list);
     p->net_list = 0;
     if (p->local.got.flags & 4) {
         a = p->local.got.vj_slots;
@@ -269,21 +261,21 @@ void ipcp_opening(PppFsm *arg0) {
     if (a != 0 || b != 0) {
         p->net_list = init_net_list(a, b);
     }
-    lobby_timer_stop(&arg0->timer);
-    *(s8 *)((s8 *)arg0 + 0) = 5;
+    lobby_timer_stop(&fsm->timer);
+    fsm->state = 5;
 }
 
 void free_field_98_and_clear(PppFsm *self) {
     IpcpConfig *config = (IpcpConfig *)self->opts;
-    TLobby__sub_80405000(config->net_list);
+    vj_release_state(config->net_list);
     config->net_list = 0;
 }
 
-void TLobby__sub_803FF468(PppFsm *arg0) {
-    lobby_timer_stop(&arg0->timer);
+void ipcp_finish_termination(PppFsm *fsm) {
+    lobby_timer_stop(&fsm->timer);
 }
 
-void TLobby__sub_803FF48C(PppFsm *o) {
+void ipcp_reset_options(PppFsm *o) {
     IpcpConfig *q = o->opts;
     q->local.got = q->local.want;
     q->local.got.his_addr = q->peer.want.our_addr;
@@ -292,7 +284,7 @@ void TLobby__sub_803FF48C(PppFsm *o) {
     q->peer.flags = q->peer.flags | q->peer.want.flags;
 }
 
-inline u32 optbit_803FFB84(u16 bit) {
+inline u32 ppp_option_bit(u16 bit) {
     if (bit < 8) {
         return bit;
     }
@@ -301,7 +293,7 @@ inline u32 optbit_803FFB84(u16 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-s16 TLobby__sub_803FF50C(PppFsm *self, PppHeader *item, PppFrame *arg) {
+s16 recv_ipcp_config_reject(PppFsm *self, PppHeader *item, PppFrame *arg) {
     IpcpConfig *bits = (IpcpConfig *)self->opts;
     s32 count = item->len;
     s16 k;
@@ -340,7 +332,7 @@ s16 TLobby__sub_803FF50C(PppFsm *self, PppHeader *item, PppFrame *arg) {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-s16 TLobby__sub_803FF698(PppFsm *self, PppHeader *item, PppFrame *arg) {
+s16 recv_ipcp_config_nak(PppFsm *self, PppHeader *item, PppFrame *arg) {
     IpcpConfig *bits;
     IpcpSide *p;
     s32 count;
@@ -403,7 +395,7 @@ inline s32 read_option_byte(void *p) {
     }
     return (s16)lcp_read_byte_buffer;
 }
-s16 TLobby__sub_803FF858(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
+s16 verify_ipcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
     uaddr cur;
     s16 err;
     s16 a;
@@ -433,17 +425,16 @@ s16 TLobby__sub_803FF858(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
 #pragma pop
 #pragma pop
 
-s16 TLobby__sub_803FF9A4(PppFsm *self, PppHeader *src, PppFrame *bits) {
+s16 recv_ipcp_config_request(PppFsm *self, PppHeader *src, PppFrame *bits) {
     u32 sh;
     void *buf;
-    unsigned int new_var;
+    unsigned int code;
     IpcpConfig *base;
     s32 n;
     s16 r;
     u8 hdr[2];
     s16 k;
     s16 res;
-    void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
     base = (IpcpConfig *)self->opts;
     n = src->len;
     k = 2;
@@ -466,7 +457,7 @@ s16 TLobby__sub_803FF9A4(PppFsm *self, PppHeader *src, PppFrame *bits) {
             k = res;
         }
         if (res != 4) {
-            sh = (hdr[0] < 8) ? hdr[0] : (((new_var = hdr[0]) >= 0x80 && new_var < 0x90) ? new_var - 0x78 : 0);
+            sh = (hdr[0] < 8) ? hdr[0] : (((code = hdr[0]) >= 0x80 && code < 0x90) ? code - 0x78 : 0);
             base->peer.got.flags |= 1 << sh;
         }
         append_ipcp_option((PppFrame **)&buf, &base->peer.got, hdr[0], hdr[1], &bits);
@@ -476,8 +467,8 @@ s16 TLobby__sub_803FF9A4(PppFsm *self, PppHeader *src, PppFrame *bits) {
     }
 
     if (k == 3) {
-        if (self->f6 != 0) {
-            self->f6--;
+        if (self->peer_attempts_left != 0) {
+            self->peer_attempts_left--;
         } else {
             k = 4;
             ppp_fsm_send_packet(self, 4, src->id, buf);
@@ -500,8 +491,8 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
     len = hdr[1] - 2;
     switch (hdr[0]) {
     case 1:
-        side->got.our_addr = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
-        side->got.his_addr = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.our_addr = (ppp_buffer_read(cursor, ipcp_option_value, 4) != 4) ? 0 : read_network_u32_be(ipcp_option_value);
+        side->got.his_addr = (ppp_buffer_read(cursor, ipcp_option_value, 4) != 4) ? 0 : read_network_u32_be(ipcp_option_value);
         len -= 8;
         if (c == 0) {
             if (cfg->peer.want.our_addr != 0) {
@@ -545,7 +536,7 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
         break;
 
     case 2:
-        side->got.vj_protocol = (s16)((ppp_buffer_read(cursor, lbl_805D7AA8, 2) != 2) ? -1 : read_network_u16_be(lbl_805D7AA8));
+        side->got.vj_protocol = (s16)((ppp_buffer_read(cursor, ipcp_option_value, 2) != 2) ? -1 : read_network_u16_be(ipcp_option_value));
         len -= 2;
         if (!(side->flags & 4)) {
             if (side->got.vj_protocol == 0x2d) {
@@ -604,7 +595,7 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
         break;
 
     case 3:
-        side->got.our_addr = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.our_addr = (ppp_buffer_read(cursor, ipcp_option_value, 4) != 4) ? 0 : read_network_u32_be(ipcp_option_value);
         len -= 4;
         if (c == 0) {
             cfg->local.want.our_addr = side->got.our_addr;
@@ -619,7 +610,7 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
         break;
 
     case 0x81:
-        side->got.dns[0] = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.dns[0] = (ppp_buffer_read(cursor, ipcp_option_value, 4) != 4) ? 0 : read_network_u32_be(ipcp_option_value);
         len -= 4;
         if (c == 0) {
             cfg->local.want.dns[0] = side->got.dns[0];
@@ -634,7 +625,7 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
         break;
 
     case 0x83:
-        side->got.dns[1] = (ppp_buffer_read(cursor, lbl_805D7AA8, 4) != 4) ? 0 : TLobby__sub_80402AFC(lbl_805D7AA8);
+        side->got.dns[1] = (ppp_buffer_read(cursor, ipcp_option_value, 4) != 4) ? 0 : read_network_u32_be(ipcp_option_value);
         len -= 4;
         if (c == 0) {
             cfg->local.want.dns[1] = side->got.dns[1];
@@ -653,7 +644,7 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
         break;
     }
 
-    if (!(side->flags & (1 << optbit_803FFB84(hdr[0])))) {
+    if (!(side->flags & (1 << ppp_option_bit(hdr[0])))) {
         res = 4;
     }
     if (len < 0) {
@@ -670,7 +661,6 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
 }
 #pragma pop
 
-void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
 PppFrame *build_ipcp_config_request(PppFsm *self) {
     PppFrame *blk;
     s16 i;
@@ -691,7 +681,7 @@ PppFrame *build_ipcp_config_request(PppFsm *self) {
             goto done;
         }
     }
-    p = lbl_8047FE3C + 1;
+    p = ipcp_option_lengths + 1;
     for (i = 1; i < 0x20; i++) {
         if (flags & (1 << i)) {
             append_ipcp_option(&blk, &base->local.got, (i < 8) ? i : ((i < 0x20) ? i + 0x78 : 0), *p, 0);
@@ -702,7 +692,7 @@ done:
     return blk;
 }
 
-inline s32 optnum_80400270(s32 bit) {
+inline s32 ppp_option_type(s32 bit) {
     if (bit < 8) {
         return bit;
     }
@@ -728,7 +718,7 @@ void append_masked_ipcp_options(uaddr *self, void *opt, s32 mask) {
     m = (new_var = (s16)mask);
     for (i = 1; i < 0x20; i++) {
         if (m & (1 << i)) {
-            append_ipcp_option((PppFrame **)self, (IpcpOptions *)opt, optnum_80400270(i), lbl_8047FE3C[i], 0);
+            append_ipcp_option((PppFrame **)self, (IpcpOptions *)opt, ppp_option_type(i), ipcp_option_lengths[i], 0);
         }
     }
 }
@@ -787,4 +777,4 @@ void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, vo
     buf->len += len;
 }
 
-IpcpState lbl_805C0328;
+IpcpState ipcp_state;

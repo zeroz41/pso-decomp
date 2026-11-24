@@ -46,6 +46,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/network/client_id.h"
+#include "pso/unk/text_8013ADE4.h"
 
 struct Plate_8032AACC { u8 data[0x3B4]; };
 
@@ -132,7 +133,6 @@ u8 *get_access_key_input_buffer();
 
 u8 *get_raw_serial_input_buffer();
 
-u8 *TAdEnterPasswordGC__sub_8013ADE4();
 
 u32 get_field_118__22TAdEnterSerialAccessGCFv();
 
@@ -295,7 +295,7 @@ u8 *get_serial_text__22TAdEnterSerialAccessGCFii(s32 arg0, s32 field) {
         case 1:
             return get_access_key_input_buffer();
         case 2:
-            return TAdEnterPasswordGC__sub_8013ADE4();
+            return get_password_input_buffer();
         }
     }
     return (u8 *)"";

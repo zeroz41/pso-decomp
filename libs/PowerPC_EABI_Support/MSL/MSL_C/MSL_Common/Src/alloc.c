@@ -1,4 +1,5 @@
 #include <string.h>
+#include "alloc.h"
 
 typedef struct Block {
     struct Block* prev;
@@ -117,8 +118,6 @@ static const unsigned long fix_pool_sizes[] = {4, 12, 20, 36, 52, 68};
 #define Block_empty(ths)                                                                           \
     (_sb = (SubBlock*)((char*)(ths) + 16)),                                                        \
         SubBlock_is_free(_sb) && SubBlock_size(_sb) == Block_size((ths)) - 24
-
-void __sys_free(void* ptr);
 
 void Block_link(Block* ths, SubBlock* sb) {
     SubBlock** st;

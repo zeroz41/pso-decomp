@@ -1,18 +1,3 @@
-
-
-#define __ARQCallbackHi lbl_805D7298
-#define __ARQCallbackLo lbl_805D729C
-#define __ARQChunkSize lbl_805D72A0
-#define __ARQRequestPendingHi lbl_805D7290
-#define __ARQRequestPendingLo lbl_805D7294
-#define __ARQRequestQueueHi lbl_805D7278
-#define __ARQRequestQueueLo lbl_805D7280
-#define __ARQRequestTailHi lbl_805D727C
-#define __ARQRequestTailLo lbl_805D7284
-#define __ARQRequestQueueTemp lbl_805D7288
-#define __ARQRequestTailTemp lbl_805D728C
-#define __ARQ_init_flag lbl_805D72A4
-
 #include <dolphin.h>
 #include <dolphin/ar.h>
 #include <macros.h>
@@ -82,7 +67,7 @@ void __ARQServiceQueueLo(void)
 	}
 }
 
-void __ARQCallbackHack(uaddr unused) { }
+void __ARQCallbackHack(u32 pointerToARQRequest) { }
 
 void __ARQInterruptServiceRoutine()
 {

@@ -16,11 +16,7 @@
 #define EDOM 33
 #endif
 
-#ifdef __STDC__
 static const double
-#else
-static double
-#endif
     ln2_hi = 6.93147180369123816490e-01,
     ln2_lo = 1.90821492927058770002e-10,
     two54 = 1.80143985094819840000e+16,
@@ -34,12 +30,7 @@ static double
 
 static double zero = 0.0;
 
-#ifdef __STDC__
 double __ieee754_log(double x)
-#else
-double __ieee754_log(x)
-double x;
-#endif
 {
   double hfsq, f, s, z, R, w, t1, t2, dk;
   int k, hx, i, j;

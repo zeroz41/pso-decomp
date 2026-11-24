@@ -1,10 +1,3 @@
-
-
-#define EraseCallback CARDWrite_EraseCallback
-#define WriteCallback CARDWrite_WriteCallback
-#define __CARDBlock lbl_80544980
-#define __CARDDefaultApiCallback fn_80380B74
-
 #include <dolphin.h>
 #include <dolphin/card.h>
 
@@ -110,9 +103,9 @@ long CARDWriteAsync(struct CARDFileInfo * fileInfo, const void * buf, long lengt
     if (result < 0)
         return __CARDPutControlBlock(card, result);
 
-    DCStoreRange((void *)buf, (u32)length);
+    DCStoreRange(buf, (u32)length);
     card->apiCallback = callback ? callback : __CARDDefaultApiCallback;
-    card->buffer = (void *)buf;
+    card->buffer = buf;
     result = __CARDEraseSector(fileInfo->chan, card->sectorSize * (u32)fileInfo->iBlock, EraseCallback);
     if (result < 0)
         __CARDPutControlBlock(card, result);

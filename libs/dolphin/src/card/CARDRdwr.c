@@ -1,9 +1,3 @@
-
-
-#define BlockReadCallback CARDRdwr_BlockReadCallback
-#define BlockWriteCallback CARDRdwr_BlockWriteCallback
-#define __CARDBlock lbl_80544980
-
 #include <dolphin.h>
 #include <dolphin/card.h>
 

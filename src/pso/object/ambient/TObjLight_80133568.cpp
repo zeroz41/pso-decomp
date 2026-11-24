@@ -8,7 +8,7 @@
 #include "pso/object/TUnk_804A6F78.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/object/ambient/TObjLight_803DF220.h"
+#include "pso/render/gjLight.h"
 #include "pso/system/memory.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
@@ -54,7 +54,7 @@ TQuestThread *TLobby__sub_80134A20(void *p) { return TQuestThread::create_in_roo
 
 extern s32 lbl_804A7008[];
 
-void *__dt__13TUnk_804A7008Fv(void *object, s16 arg1) {
+void *__dt__15TLobbyIdleTimerFv(void *object, s16 arg1) {
     if (object != NULL) {
         *(s32 **)((s8 *)object + 0x18) = lbl_804A7008;
         __dt__7TObjectFv(object, 0);

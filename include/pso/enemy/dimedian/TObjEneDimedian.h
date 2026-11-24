@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 
 class TObject;
 class TAttackTraceStrip;
@@ -25,7 +25,7 @@ struct TObjEneDimedian : public TUnk_80493450 {
     virtual void spawn_death_effect();
     virtual void update_attack_trail();
     virtual void beast_retire_corpse();
-    TUnk_80490470 body_fade;  // raised while appearing, decayed by beast_retire_corpse
+    MaterialShadeFade body_fade;  // raised while appearing, decayed by beast_retire_corpse
     TAttackTraceStrip *attack_trails[2];  // fed by update_attack_trail from the claw samples
     RenderFadeState camera_fades[4];  // one per camera (render indexes it by camera mode)
     static void *create(void *arg0);

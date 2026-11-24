@@ -115,16 +115,16 @@ LAYOUT_ASSERT(NetworkInfoConfigText400Offset, offsetof(NetworkInfoConfig, e) == 
 LAYOUT_ASSERT(NetworkInfoConfigText256Offset, offsetof(NetworkInfoConfig, f) == 0x17D4);
 
 s32 parse_netinfo(char *text, u32 size, NetworkInfoConfig *config);
-s32 decode_network_info_payload(u8 *key, u8 *payload, u32 size, NetworkInfoConfig *config);
+s32 decode_network_info_payload(u8 *key_data, u8 *payload, u32 size, NetworkInfoConfig *config);
 
-u32 *allocate_network_info_cipher_key(saddr src);
+u32 *allocate_network_info_cipher_key(u8 *key_data);
 void bind_network_info_cipher_pool(u32 *p, s32 n);
 void clear_network_info_cipher_pool(void);
 void copy_network_info_cipher_block(u32 *dst, u32 *src);
-s32 copy_network_info_config_string(char *dest, char *arg1, u32 num, u32 arg3);
+s32 copy_network_info_config_string(char *dest, char *line, u32 num, u32 size);
 void decrypt_network_info_cipher_block(u32 *key, NetworkInfoCipherBlock *src, NetworkInfoCipherBlock *dst);
 s32 decrypt_network_info_cipher_blocks(u32 *key, u8 *src, s32 len, u8 *dst);
-void decrypt_network_info_cipher_round(u32 *arg0, u32 *arg1);
+void decrypt_network_info_cipher_round(u32 *key, u32 *block);
 s32 parse_hex_string(char *s);
 s32 parse_network_info_config_decimal(char *s, u32 n);
 s32 parse_network_info_config_hex(char *s, u32 n);

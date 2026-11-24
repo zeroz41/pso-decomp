@@ -31,7 +31,7 @@ typedef struct NetworkAlarmSlot {
 } NetworkAlarmSlot;
 typedef struct NetworkMutexSlot {
     s32 active;
-    u32 handle;
+    NetMutexHandle handle;
     OSMutex mutex;
 } NetworkMutexSlot;
 typedef struct NetworkMessageSlot {
@@ -56,7 +56,7 @@ LAYOUT_ASSERT(NetworkMessageQueueSlot_queue_offset, offsetof(NetworkMessageQueue
 #ifdef __cplusplus
 extern "C" {
 #endif
-s16 TLobby__sub_803F96AC(s32 *out);
+s16 create_mutex(NetMutexHandle *out);
 extern NetworkAlarmSlot lobby_alarm_slot_table[64];
 extern NetworkMutexSlot network_mutex_slot_table[8];
 extern NetworkMessageQueueSlot network_message_queue_slot_table[2];

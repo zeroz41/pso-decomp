@@ -5,6 +5,8 @@
 #include "pso/object/switch/TOChatSensor.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/network/protocol/SubcommandHandlers.h"
 struct Stack_801781D8 {
     s32 sp8;
     s16 spC;
@@ -17,20 +19,17 @@ struct Stack_801781D8 {
     s8 sp1C;
 };
 
-struct Pkt_80178178 { u8 pad[4]; s16 area; u16 id; u8 mode; };
-
 void clear_floor_switch_flag(u32 id, s16 floor);
 void set_floor_switch_flag(u32 id, s16 floor);
-extern "C" {
-void handle_6x93_set_switch_flag_from_timer(Pkt_80178178 *p);
-void handle_6x93_set_switch_flag_from_timer(Pkt_80178178 *p) {
-    ((TOChatSensor *)p)->swap_state_endian();
-    if (p->mode == 1) {
-        set_floor_switch_flag(p->id, p->area);
-    } else if (p->area != get_current_floor()) {
-        clear_floor_switch_flag(p->id, p->area);
+void handle_6x93_set_switch_flag_from_timer(G_SetSwitchFlagFromTimer_6x93 *command) {
+    ((TOChatSensor *)command)->swap_state_endian();
+    if (command->should_set == 1) {
+        set_floor_switch_flag(command->switch_flag_num, command->switch_flag_floor);
+    } else if (command->switch_flag_floor != get_current_floor()) {
+        clear_floor_switch_flag(command->switch_flag_num, command->switch_flag_floor);
     }
 }
+extern "C" {
 
 #pragma push
 #pragma opt_common_subs off

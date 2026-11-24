@@ -1,9 +1,3 @@
-
-
-#define WriteMTXPS3x3from3x4 GXTransform_WriteMTXPS3x3from3x4
-#define WriteMTXPS4x2 GXTransform_WriteMTXPS4x2
-#define WriteMTXPS4x3 GXTransform_WriteMTXPS4x3
-
 #include <dolphin/gx.h>
 #include <dolphin/mtx.h>
 #include <dolphin/os.h>
@@ -86,7 +80,7 @@ void GXGetProjectionv(f32 *ptr) {
 }
 
 static asm void WriteMTXPS4x3(register f32 mtx[3][4], register volatile f32 *dest) {
-#include "orig_asm/gx/GXTransform/GXTransform_WriteMTXPS4x3.inc"
+#include "orig_asm/gx/GXTransform/WriteMTXPS4x3.inc"
 }
 
 
@@ -101,7 +95,7 @@ static asm void WriteMTXPS4x3(register f32 mtx[3][4], register volatile f32 *des
 
 
 static asm void WriteMTXPS3x3from3x4(register f32 mtx[3][4], register volatile f32 *dest) {
-#include "orig_asm/gx/GXTransform/GXTransform_WriteMTXPS3x3from3x4.inc"
+#include "orig_asm/gx/GXTransform/WriteMTXPS3x3from3x4.inc"
 }
 
 
@@ -118,7 +112,7 @@ static asm void WriteMTXPS3x3from3x4(register f32 mtx[3][4], register volatile f
 
 
 static asm void WriteMTXPS4x2(register f32 mtx[2][4], register volatile f32 *dest) {
-#include "orig_asm/gx/GXTransform/GXTransform_WriteMTXPS4x2.inc"
+#include "orig_asm/gx/GXTransform/WriteMTXPS4x2.inc"
 }
 
 

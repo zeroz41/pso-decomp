@@ -4,9 +4,8 @@
 #include "types.h"
 #include "pso/audio/SjRingBuffer.h"
 
-class TLobby;
 struct AdxStreamFile;
-struct VObj_803C9E38;
+struct AdxtPlayer;
 
 // One interleaved track of an AIX file; each layer feeds its own ADXT player.
 struct AixLayer {
@@ -73,8 +72,8 @@ struct AixPlayer {
     s8 track_count;
     AixDemuxer *demuxer;
     AdxStreamFile *stream;
-    TLobby *tracks[33];
-    VObj_803C9E38 *track_inputs[70];
+    AdxtPlayer *tracks[33];
+    SjRingBuffer *track_inputs[70];
     u8 loop;
     u8 continue_segments;
     u8 pad_1aa[6];

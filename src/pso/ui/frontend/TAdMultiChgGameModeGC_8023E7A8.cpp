@@ -24,7 +24,7 @@
 #include "pso/unk/TLobby_803360CC.h"
 #include "pso/unk/TLobby_802A0F3C.h"
 #include "pso/unk/text_800FA464.h"
-#include "pso/unk/text_803DCDFC.h"
+#include "pso/render/gjSystem.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/unk/text_8023F3F8.h"
 #include "pso/unk/text_802E10D8.h"
@@ -513,7 +513,7 @@ void run_game_mode_select_frame(void) {
         TAdMultiChgGameModeGC::create_mode_scene();
         break;
     }
-    func_803DCDFC__Fv();
+    begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
     main_task.begin_frame();

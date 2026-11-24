@@ -34,6 +34,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/render/render_util.h"
 
 
 #pragma readonly_strings on
@@ -76,7 +77,7 @@ struct Luker_801A1768 {
     s32 fB8;
 };
 
-struct Plr_801A0F34 { u8 pad[0x30]; s32 flags; u8 pad34[4]; u8 pos[0xc]; };
+struct Plr_801A0F34 { u8 pad[0x30]; s32 flags; u8 pad34[4]; Vec pos; };
 
 struct Ctrl_801A0E38;
 struct Obj_801A0DB4;
@@ -94,10 +95,8 @@ extern "C" {
 void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 s32 is_split_screen(void);
 void *create_window_menu_default(const void *p, s32 a);
-f32 horizontal_distance_squared(void *, void *);
 s32 TTecLuker__sub_8023401C(void *);
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
-s32 init_fields__9TTecLukerFs(void *, int);
 extern s32 lbl_805D55C0;
 
 void TObjLuker::hide_part(u16 part) {
@@ -182,14 +181,14 @@ void TObjLuker::open_destination_windows() {
     }
 }
 }
-s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
+s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range);
 extern s32 local_client_id;
-s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
+s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range) {
     s32 ret;
     s32 flag;
     s32 i;
     Plr_801A0F34 *p;
-    void *pos;
+    Vec *pos;
     ret = 1;
     flag = 0;
     if (is_split_screen() == 0) {
@@ -200,12 +199,12 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
     do {
         p = (Plr_801A0F34 *)get_player_by_client_id(i);
         if (p != NULL) {
-            pos = p->pos;
+            pos = &p->pos;
             if (!(p->flags & 0x800)) {
                 if (((TObjPlayer *)p)->is_controls_locked() == 1) {
                     ret = 0;
                 }
-                if (horizontal_distance_squared(arg0, pos) > range) {
+                if (horizontal_distance_squared(center, pos) > range) {
                     ret = 0;
                 }
                 flag = 0;
@@ -215,7 +214,7 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
         }
             i++;
     } while (i < 4);
-    if (arg1 == NULL) {
+    if (confirming_view == NULL) {
         return ret;
     }
     if (ret != 0 && flag == 0) {
@@ -226,8 +225,8 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
             if (p != NULL &&
                 test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 4) != 0) {
                 found = 1;
-                if (arg1 != NULL) {
-                    *arg1 = j;
+                if (confirming_view != NULL) {
+                    *confirming_view = j;
                 }
                 break;
             }
@@ -251,7 +250,7 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
         for (saddr i = 0; i < 4; i++) {
             p = (uaddr)get_player_by_client_id(i);
             if (p != 0U) {
-                if (horizontal_distance_squared((void *)(arg0 + 0x38), (void *)(p + 0x38)) < (farg0 * farg0)) {
+                if (horizontal_distance_squared((const Vec *)(arg0 + 0x38), (const Vec *)(p + 0x38)) < (farg0 * farg0)) {
                     found = 1;
                     if ((p != 0U) && (((TObjPlayer *)p)->is_controls_locked() == 0)) {
                         ((TObjLuker *)arg0)->show_part((((TObjBase *)(p))->get_entity_id()));
@@ -269,7 +268,7 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
         }
     } else {
         p = (uaddr)get_player_by_client_id(local_client_id);
-        if ((p != 0U) && (horizontal_distance_squared((void *)(p + 0x38), (void *)(arg0 + 0x38)) < (farg0 * farg0))) {
+        if ((p != 0U) && (horizontal_distance_squared((const Vec *)(p + 0x38), (const Vec *)(arg0 + 0x38)) < (farg0 * farg0))) {
             found = 1;
         }
         if (found != 0) {
@@ -298,22 +297,22 @@ typedef struct Luker_801A1260 Luker_801A1260;
 void TObjLuker::transfer_to_town() {
     u8 *arg0_ = (u8 *)this;
   Luker_801A1260 *arg0 = (Luker_801A1260 *) arg0_;
-  u8 *self;
-  u8 *local;
+  TObjPlayer *self;
+  TObjPlayer *local;
   s32 i;
-  u8 *p;
+  TObjPlayer *p;
   s32 flag;
-  self = (u8 *)get_player_by_client_id(arg0->owner);
-  local = (u8 *)get_player_by_client_id(local_client_id);
+  self = get_player_by_client_id(arg0->owner);
+  local = get_player_by_client_id(local_client_id);
   if ((((get_main_phase() == 0xF) && (lbl_805D55C0 != 0)) || (self == 0)) || (local == 0))
   {
     return;
   }
-  floor_transition_state.set_next_floor(*((s16 *) (((s8 *) self) + 0x832)), get_floor_map_terrain(*((s16 *) (((s8 *) self) + 0x832))));
+  floor_transition_state.set_next_floor(self->telepipe.state.floor, get_floor_map_terrain(self->telepipe.state.floor));
   mark_area_change_pending();
   for (i = 0; i < 4; i++)
   {
-    p = (u8 *)get_player_by_client_id(i);
+    p = get_player_by_client_id(i);
     if (p != 0)
     {
       flag = 0x830 * 0;
@@ -322,41 +321,41 @@ void TObjLuker::transfer_to_town() {
         flag = 1;
       }
       else
-        if (((TObjChara *)p)->obj_isState3_324() != 0)
+        if (p->obj_isState3_324() != 0)
       {
         flag = 1;
       }
       if (flag != 0)
       {
-        ((TTecLuker *)(p + 0x848))->set_state(arg0->owner);
-        send_6x21_inter_level_warp((TObjPlayer *)p, floor_transition_state.get_next_floor());
-        ((TObjMotion *)p)->set_room((s16) (*((s32 *) (((s8 *) self) + 0x834))));
+        ((TTecLuker *)&p->telepipe.flags)->set_state(arg0->owner);
+        send_6x21_inter_level_warp(p, floor_transition_state.get_next_floor());
+        p->set_room((s16) self->telepipe.state.room_id);
       }
     }
   }
   if (local != 0)
   {
-    ((TTecLuker *)(local + 0x848))->set_state(arg0->owner);
+    ((TTecLuker *)&local->telepipe.flags)->set_state(arg0->owner);
     if (((Ctrl_801A0E38 *)get_player_by_client_id(arg0->owner)) != 0)
     {
-      ((TObjMotion *)local)->set_room((s16) (*((s32 *) (((s8 *) self) + 0x834))));
+      local->set_room((s16) self->telepipe.state.room_id);
     }
-    send_6x21_inter_level_warp((TObjPlayer *)local, floor_transition_state.get_next_floor());
+    send_6x21_inter_level_warp(local, floor_transition_state.get_next_floor());
   }
   if (is_split_screen() != 0)
   {
-    self = (u8 *)get_player_by_client_id(arg0->partner);
+    self = get_player_by_client_id(arg0->partner);
     if (self != 0)
     {
-      init_fields__9TTecLukerFs(self + 0x830, arg0->partner);
-      ((TTecLuker *)(self + 0x830))->send_telepipe_packet();
+      self->telepipe.state.init_fields(arg0->partner);
+      self->telepipe.state.send_telepipe_packet();
     }
   }
   else
     if (local_client_id == arg0->owner)
   {
-    init_fields__9TTecLukerFs(local + 0x830, arg0->owner);
-    ((TTecLuker *)(local + 0x830))->send_telepipe_packet();
+    local->telepipe.state.init_fields(arg0->owner);
+    local->telepipe.state.send_telepipe_packet();
   }
 }
 
@@ -397,7 +396,7 @@ void TObjLuker::run_task() {
                 if (is_player_in_range__9TObjLukerFv((s32)((saddr) arg0), 10.0f) != 0) {
                     flag = 0;
                     if (is_split_screen() != 0) {
-                        if (are_players_gathered_near((u8 *)&this->position, &sp8, 10.0f) != 0) {
+                        if (are_players_gathered_near(&this->position, &sp8, 10.0f) != 0) {
                             flag = 1;
                             this->m_aa = this->m_a8;
                         }

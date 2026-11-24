@@ -175,7 +175,7 @@ void set_depth_buffer_settings_3() {
     set_material_alpha_compare_reference(depth_buffer_settings.alpha_ref);
 }
 
-extern "C" void restore_saved_depth_alpha_state(void) {
+void restore_saved_depth_alpha_state(void) {
     depth_buffer_settings.copy(&saved_depth_alpha_scene_state);
     GXSetAlphaCompare((GXCompare)depth_buffer_settings.alpha_compare, 0, GX_AOP_AND, GX_ALWAYS, 0);
     GXSetZCompLoc(depth_buffer_settings.z_before_tex);
@@ -202,8 +202,6 @@ u32 calc_pulse_flash_color(u8 r, u8 g, u8 b, s32 frame, s32 period, s32 start, s
     return 0xFF000000 | (r << 16) | (g << 8) | b;
 }
 
-extern "C" {
-
 void *delete_object_if_delete_flag(void *self, s16 del) {
     if (self != NULL && del > 0) {
         operator delete(self);
@@ -211,14 +209,17 @@ void *delete_object_if_delete_flag(void *self, s16 del) {
     return self;
 }
 
-void TObjMapWarp__sub_80141CA4(void *self) { *(s32 *)self = 0; }
+void *TObjMapWarp__sub_80141CA4(void *self) {
+    *(s32 *)self = 0;
+    return self;
+}
 
 // Debug-draw entry points; their bodies are compiled out of the release game.
 void debug_draw_line(const Vec *from, const Vec *to, u32 from_color, u32 to_color) {}
 void fn_80141CB4(const Vec *pos, f32 size) {}
 void fn_80141CB8(const Vec *pos, const s32 *rotation, const Vec *size, const NJS_ARGB *color) {}
 
-void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, f32 size) {
+extern "C" void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, f32 size) {
     Vec scale;
     scale.x = size;
     scale.y = size;
@@ -227,13 +228,12 @@ void debug_draw_uniform_scaled(const Vec *pos, const NJS_ARGB *color, f32 size) 
 }
 
 void debug_draw_scaled(const Vec *pos, Vec *scale, const NJS_ARGB *color) {}
-void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius) {}
+extern "C" void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius) {}
 
 f32 horizontal_distance_squared(const Vec *a, const Vec *b) {
     f32 dx = b->x - a->x;
     f32 dz = b->z - a->z;
     return dx * dx + dz * dz;
-}
 }
 
 // Normalizes v and returns 1, or returns 0 when v is (nearly) zero.
@@ -289,8 +289,6 @@ void set_default_alpha_blend() { set_color_blending_mode(0, 8); set_color_blendi
 // Source alpha added onto the destination.
 void set_additive_blend() { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); }
 
-extern "C" {
-
 s32 angle_difference_abs(s32 a, s32 b) {
     s16 d = (u16)b - (u16)a;
     if (d < 0) {
@@ -327,8 +325,6 @@ f32 approach_vector_fixed_distance(const Vec *from, const Vec *to, Vec *out, f32
     out->y = d.y;
     out->z = d.z;
     return len;
-}
-
 }
 
 s32 clamp_s32(s32 value, s32 min, s32 max) {
@@ -371,7 +367,7 @@ void direction_to_rotation_xy(u8 *dir, s32 *rot_a, s32 *rot_b) {
     *rot_b = RAD_TO_ANGLE * atan2_float(v->x, newton_sqrtf(v->y * v->y + v->z * v->z));
 }
 
-extern "C" s32 approach_angle_adaptive(s32 from, s32 to) {
+s32 approach_angle_adaptive(s32 from, s32 to) {
     u16 a = from;
     u16 b = to;
     s16 d = b - a;
@@ -390,7 +386,7 @@ s32 lerp_angle_half(s32 from, s32 to) {
     return (u16)(a + ((s16)(b - a) >> 1));
 }
 
-extern "C" s32 approach_angle_limited(s32 from, s32 to, s32 max_step) {
+s32 approach_angle_limited(s32 from, s32 to, s32 max_step) {
     s16 d = (u16)to - (u16)from;
     s16 out;
     if (d > max_step || d < -max_step) {
@@ -423,11 +419,11 @@ f32 vec_distance_squared(u8 *a, u8 *b) {
 
 // The original pools +1e-5f before -1e-5f although it loads -1e-5f first, which no source
 // order reproduces here; the two constants are read by address and defined at the end of this file.
-extern "C" const f32 lbl_805DB15C; // 1e-5f
-extern "C" const f32 lbl_805DB160; // -1e-5f
+extern "C" const f32 near_zero_epsilon; // 1e-5f
+extern "C" const f32 near_zero_neg_epsilon; // -1e-5f
 
 s32 is_near_zero(f32 value) {
-    if (lbl_805DB160 < value && value < lbl_805DB15C) {
+    if (near_zero_neg_epsilon < value && value < near_zero_epsilon) {
         return 1;
     }
     return 0;
@@ -482,24 +478,24 @@ void save_model_draw_state(void *owner) {
 // constants above), so it reads the three doubles by address.
 extern const f32 __float_nan[];
 extern const f32 __float_huge[];
-extern const f64 lbl_8043F298[]; // 0.0
-extern const f64 lbl_8043F2A0[]; // 0.5
-extern const f64 lbl_8043F2A8[]; // 3.0
+extern const f64 sqrt_double_zero[]; // 0.0
+extern const f64 sqrt_double_half[]; // 0.5
+extern const f64 sqrt_double_three[]; // 3.0
 
 // MSL's double sqrt.
 f64 sqrt_double(f64 x) {
-    if (x > lbl_8043F298[0]) {
+    if (x > sqrt_double_zero[0]) {
         f64 guess = __frsqrte(x);
-        guess = lbl_8043F2A0[0] * guess * (lbl_8043F2A8[0] - x * (guess * guess));
-        guess = lbl_8043F2A0[0] * guess * (lbl_8043F2A8[0] - x * (guess * guess));
-        guess = lbl_8043F2A0[0] * guess * (lbl_8043F2A8[0] - x * (guess * guess));
-        guess = lbl_8043F2A0[0] * guess * (lbl_8043F2A8[0] - x * (guess * guess));
+        guess = sqrt_double_half[0] * guess * (sqrt_double_three[0] - x * (guess * guess));
+        guess = sqrt_double_half[0] * guess * (sqrt_double_three[0] - x * (guess * guess));
+        guess = sqrt_double_half[0] * guess * (sqrt_double_three[0] - x * (guess * guess));
+        guess = sqrt_double_half[0] * guess * (sqrt_double_three[0] - x * (guess * guess));
         return x * guess;
     }
-    if (lbl_8043F298[0] == x) {
-        return lbl_8043F298[0];
+    if (sqrt_double_zero[0] == x) {
+        return sqrt_double_zero[0];
     }
-    if (x != lbl_8043F298[0]) {
+    if (x != sqrt_double_zero[0]) {
         return __float_nan[0];
     }
     return __float_huge[0];
@@ -531,5 +527,5 @@ void save_model_material_color(void *owner) {
 
 void save_model_render_flags(void *owner) { color_draw_saved_render_flags = model_render_flags; }
 
-__declspec(section ".sdata2") extern const f32 lbl_805DB15C = 1e-05f;
-__declspec(section ".sdata2") extern const f32 lbl_805DB160 = -1e-05f;
+__declspec(section ".sdata2") extern const f32 near_zero_epsilon = 1e-05f;
+__declspec(section ".sdata2") extern const f32 near_zero_neg_epsilon = -1e-05f;

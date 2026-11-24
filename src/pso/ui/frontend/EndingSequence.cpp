@@ -19,7 +19,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/unk/text_803DCDFC.h"
+#include "pso/render/gjSystem.h"
 #include "pso/unk/text_800FA464.h"
 #include "pso/render/GinjaView.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -48,7 +48,7 @@ void start_ending_sequence(void) {
 }
 
 void TKeyBoardControl::run_main_frame() {
-    func_803DCDFC__Fv();
+    begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
     main_task.begin_frame();

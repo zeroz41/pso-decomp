@@ -16,7 +16,8 @@
 
 #pragma readonly_strings on
 
-struct Names_801E13C4 { const char* p[6]; };
+// The banner and icon image files of the save, copied whole by load_banner_files.
+struct CardBannerFileNames { const char* p[6]; };
 
 u32 card_slot_state_flags;
 s32 lbl_805D5E34;
@@ -26,15 +27,14 @@ s32 card_result_code;
     int card_wait_state;
 extern "C" {
 s32 mount_memcard(saddr);
-const Names_801E13C4 memory_card_banner_filenames = {{"vms_sys.tp", "vms_icon1.tp", "vms_icon2.tp", "vms_down.tp", "vms_capt.tp", "vms_net.tp"}};
+const CardBannerFileNames memory_card_banner_filenames = {{"vms_sys.tp", "vms_icon1.tp", "vms_icon2.tp", "vms_down.tp", "vms_capt.tp", "vms_net.tp"}};
 u32 calc_crc32_bitwise(u8 *, u32);
 }
-extern "C" {
-int strcmp(const char *s1, const char *s2);
 extern u8 *memcard_work_areas[];
-s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size);
 extern CARDFileInfo memcard_file_info;
 extern CARDStat memcard_file_status;
+extern "C" {
+s32 open_or_create_memcard_file(s32 chan, const char *name, void *buf, u32 size);
 
 void TAdPlayerLoadGC::reset_load_state(s32 channel, u64 *serial_number) {
     *serial_number = 0;
@@ -44,14 +44,14 @@ void TAdPlayerLoadGC::reset_load_state(s32 channel, u64 *serial_number) {
 void TAdPlayerLoadGC::poll_card_load(s32 chan) {
     s32 memSize;
     s32 sectorSize;
-    s32 temp_r3;
+    s32 probe_result;
 
     card_slot_state_flags &= ~(0x400 << chan);
     do {
-        temp_r3 = CARDProbeEx(chan, &memSize, &sectorSize);
-    } while (temp_r3 == -1);
+        probe_result = CARDProbeEx(chan, &memSize, &sectorSize);
+    } while (probe_result == CARD_RESULT_BUSY);
     if (sectorSize == 0x2000) {
-        if ((temp_r3 == -3) || (temp_r3 == -2)) {
+        if ((probe_result == CARD_RESULT_NOCARD) || (probe_result == CARD_RESULT_WRONGDEVICE)) {
             card_result_code = -0x7D;
             return;
         }
@@ -64,17 +64,17 @@ s32 TAdPlayerLoadGC::check_card_result_code(s32 channel) {
         return 0;
     }
     switch (CARDGetResultCode(channel)) {
-    case -0x80:
-    case -0xE:
-    case -4:
-    case -1:
+    case CARD_RESULT_FATAL_ERROR:
+    case CARD_RESULT_CANCELED:
+    case CARD_RESULT_NOFILE:
+    case CARD_RESULT_BUSY:
     case 0:
         card_result_code = 0;
         return 1;
-    case -5:
-    case -3:
-    case -0xB:
-    case -0xA:
+    case CARD_RESULT_IOERROR:
+    case CARD_RESULT_NOCARD:
+    case CARD_RESULT_LIMIT:
+    case CARD_RESULT_NOPERM:
         card_result_code = -0x7D;
         return 0;
     default:
@@ -87,23 +87,23 @@ s32 TAdPlayerLoadGC::check_card_result_code(s32 channel) {
 s32 TAdPlayerLoadGC::probe_and_check_card(saddr channel) {
     s32 memSize;
     s32 sectorSize;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r3_3;
-    s32 temp_r3_4;
-    s32 var_r0;
-    if ((card_slot_state_flags & (0x400 << channel)) && ((temp_r3 = CARDGetResultCode(channel), ((temp_r3 == -5) != 0)) || (temp_r3 == -2))) {
-        var_r0 = -0x7F;
-        if (temp_r3 == -2) {
-            var_r0 = -0x7D;
+    s32 result_code;
+    s32 probe_result;
+    s32 check_result;
+    s32 check_status;
+    s32 error;
+    if ((card_slot_state_flags & (0x400 << channel)) && ((result_code = CARDGetResultCode(channel), ((result_code == CARD_RESULT_IOERROR) != 0)) || (result_code == CARD_RESULT_WRONGDEVICE))) {
+        error = -0x7F;
+        if (result_code == CARD_RESULT_WRONGDEVICE) {
+            error = -0x7D;
         }
-        card_result_code = var_r0;
+        card_result_code = error;
         return 0;
     }
     do {
-        temp_r3_2 = CARDProbeEx(channel, &memSize, &sectorSize);
-    } while (temp_r3_2 == -1);
-    if (temp_r3_2 == -2) {
+        probe_result = CARDProbeEx(channel, &memSize, &sectorSize);
+    } while (probe_result == CARD_RESULT_BUSY);
+    if (probe_result == CARD_RESULT_WRONGDEVICE) {
         card_result_code = -0x7D;
         return 0;
     }
@@ -115,42 +115,42 @@ s32 TAdPlayerLoadGC::probe_and_check_card(saddr channel) {
                 return 0;
             }
         }
-        temp_r3_3 = CARDCheckAsync(channel, 0);
-        if (temp_r3_3 == 0) {
+        check_result = CARDCheckAsync(channel, 0);
+        if (check_result == 0) {
             for (;;) {
-                temp_r3_4 = CARDGetResultCode(channel);
-                if (temp_r3_4 == -1) {
+                check_status = CARDGetResultCode(channel);
+                if (check_status == CARD_RESULT_BUSY) {
                     continue;
                 }
-                switch (temp_r3_4) {
-                case -3:
+                switch (check_status) {
+                case CARD_RESULT_NOCARD:
                     card_result_code = -0xFF;
                     return 0;
-                case -5:
-                case -128:
+                case CARD_RESULT_IOERROR:
+                case CARD_RESULT_FATAL_ERROR:
                     card_result_code = -0x7F;
                     return 0;
                 case 0:
                     return 1;
-                case -13:
-                case -6:
+                case CARD_RESULT_ENCODING:
+                case CARD_RESULT_BROKEN:
                     card_result_code = -0xFD;
                     return 1;
                 }
             }
         } else {
-            switch (temp_r3_3) {
-            case -5:
-            case -128:
+            switch (check_result) {
+            case CARD_RESULT_IOERROR:
+            case CARD_RESULT_FATAL_ERROR:
                 card_result_code = -0x7D;
                 return 0;
-            case -3:
+            case CARD_RESULT_NOCARD:
                 card_result_code = -0xFF;
                 return 0;
             case 0:
                 return 1;
-            case -13:
-            case -6:
+            case CARD_RESULT_ENCODING:
+            case CARD_RESULT_BROKEN:
                 card_result_code = -0xFD;
                 return 1;
             }
@@ -289,7 +289,7 @@ void free_banner_buffers(void) {
 }
 
 void TAdPlayerLoadGC::load_banner_files() {
-    Names_801E13C4 names = memory_card_banner_filenames;
+    CardBannerFileNames names = memory_card_banner_filenames;
     const char* path = "pso_bana_f.tp";
     s32 i;
     for (i = 0; i < 6; i++) {
@@ -592,23 +592,23 @@ s32 poll_memcard_result(saddr chan) {
 s32 TAdPlayerLoadGC::probe_card_slot(saddr chan) {
     s32 memSize;
     s32 sectorSize;
-    s32 temp_r3;
+    s32 probe_result;
     if (chan >= 2) {
         return 0;
     }
-    if ((card_slot_state_flags & (0x400 << chan)) && (CARDGetResultCode(chan) == -5)) {
+    if ((card_slot_state_flags & (0x400 << chan)) && (CARDGetResultCode(chan) == CARD_RESULT_IOERROR)) {
         card_result_code = -0x7D;
         return 1;
     }
     do {
-        temp_r3 = CARDProbeEx(chan, &memSize, &sectorSize);
-    } while (temp_r3 == -1);
-    if (temp_r3 == -3) {
+        probe_result = CARDProbeEx(chan, &memSize, &sectorSize);
+    } while (probe_result == CARD_RESULT_BUSY);
+    if (probe_result == CARD_RESULT_NOCARD) {
         card_result_code = -0xFF;
         return 0;
     }
     if (sectorSize == 0x2000) {
-        switch (temp_r3) {
+        switch (probe_result) {
         case 0:
             if (!(card_slot_state_flags & (4 << chan))) {
                 if (((s32)mount_memcard(chan)) == 0) {

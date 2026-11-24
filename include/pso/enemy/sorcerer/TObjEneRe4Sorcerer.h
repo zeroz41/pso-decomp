@@ -7,7 +7,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/player/TargetCursorList.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 #include <stddef.h>
 
 struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
@@ -61,7 +61,7 @@ struct TObjEneRe4Sorcerer : public TObjEneDD_ST {
     s32 warp_angle;
     s32 pad_3f4;
     f32 effect_scale;
-    TUnk_80490470 fade;
+    MaterialShadeFade fade;
     TargetCursorList targets;
     RenderFadeState fades[4];
     s32 state_timer;

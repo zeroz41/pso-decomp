@@ -14,7 +14,7 @@ extern unsigned long __DVDLongFileNameFlag;
 void __DVDFSInit();
 
 void __DVDInitWA(void);
-void __DVDInterruptHandler(short unused, struct OSContext * context);
+void __DVDInterruptHandler(short interrupt, struct OSContext * context);
 void __DVDLowSetWAType(u32 type, u32 location);
 
 void __DVDClearWaitingQueue();
@@ -25,5 +25,7 @@ int __DVDDequeueWaitingQueue(struct DVDCommandBlock * block);
 int __DVDIsBlockInWaitingQueue(struct DVDCommandBlock * block);
 
 void __fstLoad();
+
+int DVDReadAbsAsyncForBS(DVDCommandBlock* block, void* addr, s32 length, s32 offset, DVDCBCallback callback);
 
 #endif

@@ -2,7 +2,7 @@
 
 // Q15 gain is 32767 * exp(-i * step), truncated to an integer.
 // The half-decibel step ln(10)/40 is truncated to eight decimal places.
-u16 lbl_804F6758[194] ATTRIBUTE_ALIGN(8) = {
+u16 dspAttenuationTab[194] ATTRIBUTE_ALIGN(8) = {
     32767, 30934, 29203, 27569, 26027, 24571, 23197, 21899, 20674, 19518, 18426, 17395,
     16422, 15503, 14636, 13817, 13044, 12315, 11626, 10975, 10361, 9782, 9234, 8718,
     8230, 7770, 7335, 6925, 6537, 6172, 5826, 5500, 5193, 4902, 4628, 4369,

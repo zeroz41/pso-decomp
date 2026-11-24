@@ -12,8 +12,7 @@ void move_data(void *dst, const void *src, s32 n) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void TLobby::copy_u16_array(u16 *src, s32 n) {
-    u16 *dst = (u16 *)this;
+void copy_u16_array(u16 *dst, u16 *src, s32 n) {
     memmove(dst, src, n * sizeof(u16));
 }
 #pragma pop

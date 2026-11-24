@@ -10,8 +10,6 @@
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/frontend/TAdAgreementBaseGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
-#include "pso/unk/text_8036F764.h"
-#include <string.h>
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 
 #include "pso/ui/TLevelSelect.h"
@@ -35,32 +33,11 @@ void *TAdEp3Exist::vfunc_6() {
     return TAdEnterSerialAccessGC::create_callback((void *)lbl_8047B8C4, (void *)lbl_8047B8CC, draw_message_window);
 }
 
-struct Obj_8036F4DC { u8 pad0[8]; u8 cnt; u8 bits; };
-
-struct Prs_8036F5B0 {
-    u8 *f0;
-    u8 *f4;
-    u8 *fC_pad8;
-    s32 fC;
-    u8 *f10;
-    s32 f14;
-    u8 *f18;
-    u32 f1C;
-    s32 f20, f24;
-    s32 f28;
-    u32 f2C;
-};
-
 extern "C" {
-void TAdEp3Exist__sub_8036F574(u8 *arg0);
-u8 TAdEp3Exist__sub_8036F590(u8 *arg0);
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
 u32 calc_text_width(char *s);
 
 void TAdEp3Exist__sub_8036F0AC(TAdEp3Exist *p);
-int prs_read_control_bit(Obj_8036F4DC *arg0);
-void TAdEp3Exist__sub_8036F5A4(void* p);
-s32 prs_decompress(Prs_8036F5B0 *c, u8 *src, s32 arg2, s32 arg3);
 
 void TAdEp3Exist::draw_message_window(void *window, void *frame_context) {
     ((TWindowBase *)window)->draw_window_frame(frame_context);
@@ -175,100 +152,3 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     fn_80329BAC(cursor);
     cursor->set_selection_index(0);
 }
-
-int prs_read_control_bit(Obj_8036F4DC *arg0) {
-    s32 t;
-    if (--arg0->cnt == 0) {
-        arg0->bits = TAdEp3Exist__sub_8036F590((u8 *)arg0);
-        arg0->cnt = 8;
-    }
-    t = arg0->bits;
-    arg0->bits = t >> 1;
-    return t & 1;
-}
-
-saddr TAdEp3Exist::free_if_valid(saddr arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
-        ::operator delete((void *)arg0);
-    }
-    return arg0;
-}
-
-void TAdEp3Exist__sub_8036F574(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0xC) = 0;
-    *(s32 *)((s8 *)arg0 + 0) = 0;
-    *(s32 *)((s8 *)arg0 + 4) = 0;
-    *(s8 *)((s8 *)arg0 + 8) = 1;
-}
-
-u8 TAdEp3Exist__sub_8036F590(u8 *arg0) {
-    u8 *temp_r4;
-    temp_r4 = *(u8 **)((s8 *)arg0 + 0xC);
-    *(u8 **)((s8 *)arg0 + 0xC) = (u8 *) (temp_r4 + 1);
-    return *temp_r4;
-}
-
-void TAdEp3Exist__sub_8036F5A4(void* p) { *(s32*)((char*)p + 0x10) = 0; }
-#pragma push
-#pragma opt_lifetimes off
-#define BIT(c) ((u8 (*)(void *))prs_read_control_bit)(c)
-#define BYTE(c) TAdEp3Exist__sub_8036F590((u8 *)(c))
-s32 prs_decompress(Prs_8036F5B0 *c, u8 *src, s32 arg2, s32 arg3) {
-    s32 n;
-    s32 off;
-    u32 size;
-    u8 *p;
-    u32 lo;
-    u32 hi;
-    u8 a;
-    n = 0;
-    c->fC = c->f14 = arg2;
-    c->f18 = src;
-    c->f0 = src;
-    c->f4 = src;
-    c->f28 = arg3;
-    c->f10 = (u8 *)0x80001800;
-    for (;;) {
-        if (c->f2C != 0) break;
-        while (BIT(c)) {
-            p = (u8 *)prs_next_output_byte(c);
-            *p = BYTE(c);
-            n++;
-        }
-        if (BIT(c)) {
-            size = BYTE(c);
-            hi = BYTE(c);
-            if ((hi | size) == 0) break;
-            off = (s32)(hi << 5) + (s32)(size >> 3) - 0x2000;
-            size &= 7;
-            if (size != 0) {
-                size += 2;
-            } else {
-                size = BYTE(c) + 1;
-            }
-        } else {
-            a = BIT(c);
-            size = (a << 1) + BIT(c) + 2;
-            off = BYTE(c) - 0x100;
-        }
-        off += n;
-        while (size-- != 0) {
-            p = (u8 *)prs_next_output_byte(c);
-            *p = prs_read_byte_at((u8 *)c, off);
-            n++;
-            off++;
-        }
-    }
-    if (c->f2C != 0) {
-        TAdEp3Exist__sub_8036F5A4((void*)(c));
-        return -1;
-    }
-    size = n;
-    if (c->f1C != 0) {
-        memmove(c->f18 + (n - c->f1C), c->f10, c->f1C);
-        c->f1C = 0;
-    }
-    TAdEp3Exist__sub_8036F5A4((void*)(c));
-    return size;
-}
-#pragma pop

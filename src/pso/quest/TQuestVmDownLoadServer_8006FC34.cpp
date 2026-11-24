@@ -6,6 +6,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/challenge/TChallenge.h"
+#include "pso/quest/challenge/ChallengeModeState.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/TObjTombstone.h"
 #include "pso/player/TObjPlayer.h"
@@ -13,14 +14,6 @@
 #include "pso/unk/text_8026A14C.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
-
-struct Table_8006FE7C {
-    s32 v0;
-    s32 v4;
-    s32 v8;
-    u8 padC[0x270 - 0xC];
-    ChallengeTombstonePlayerSlot recs[4];
-};
 
 struct Date_8006FC7C { u16 year; u8 a; u8 b; u8 c; u8 d; u8 pad[6]; };
 
@@ -32,7 +25,6 @@ struct Card_8006FC7C {
 struct Unit_8006FC7C { u8 pad[0x370]; s32 f370; };
 
 extern "C" {
-extern Table_8006FE7C challenge_mode_state;
 extern void *tl_07;
 char *TLobby__sub_80070ACC(u8, u8, s32);
 Unit_8006FC7C *find_entity_by_id(void);
@@ -69,13 +61,13 @@ void TChallenge::update_card_save_info() {
         return;
     }
     card->tombstone.phase = TWindowSubStatusDisp::resolve_player_slot(-1);
-    card->tombstone.layout = challenge_mode_state.v0;
+    card->tombstone.layout = challenge_mode_state.stage;
     card->tombstone.floor = get_current_floor();
-    if (card->tombstone.unk_4 < 0) {
-        card->tombstone.unk_4 = 0x270F;
+    if (card->tombstone.deaths < 0) {
+        card->tombstone.deaths = 0x270F;
     }
-    if (++card->tombstone.unk_4 > 0x270F) {
-        card->tombstone.unk_4 = 0x270F;
+    if (++card->tombstone.deaths > 0x270F) {
+        card->tombstone.deaths = 0x270F;
     }
     VecCopy((Vec *)&card->tombstone.position, (const Vec *)&ply->position);
     getDateStamp((DateStamp *)&date);
@@ -129,15 +121,15 @@ void TChallenge::update_card_save_info() {
 
 void TLobby::spawn_player_tombstones() {
     saddr i;
-    ChallengeTombstonePlayerSlot *rec;
+    ChallengeClientRecords *rec;
     TObjTombstoneRecord *info;
     TLobby::reset_tombstone_values();
     for (i = 0; i < 4; i++) {
-        rec = &challenge_mode_state.recs[i];
-        if (rec->active != 0 && get_player_by_client_id(i) != NULL) {
-            info = &rec->record;
-            if (info->unk_4 > 0 && info->phase == TWindowSubStatusDisp::resolve_player_slot(-1)
-                && info->layout == challenge_mode_state.v0 && static_cast<s8>(info->floor) == challenge_mode_state.v8) {
+        rec = &challenge_mode_state.client_records[i];
+        if (rec->present != 0 && get_player_by_client_id(i) != NULL) {
+            info = &rec->records.tombstone;
+            if (info->deaths > 0 && info->phase == TWindowSubStatusDisp::resolve_player_slot(-1)
+                && info->layout == challenge_mode_state.stage && static_cast<s8>(info->floor) == challenge_mode_state.current_floor) {
                 TObjTombstone::create(static_cast<TObject *>(tl_07), i, info);
             }
         }

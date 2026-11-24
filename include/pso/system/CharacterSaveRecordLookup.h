@@ -2,6 +2,7 @@
 #define PSO_SYSTEM_CHARACTER_SAVE_RECORD_LOOKUP_H
 
 #include "types.h"
+#include "pso/quest/challenge/ChallengeRecord.h"
 #include "pso/ui/city/BankItemRecord.h"
 
 struct ChatShortcutBodyCopy {
@@ -35,10 +36,10 @@ struct CharacterSaveRecord {
     s32 pad_24C;
     BankItemRecord bank_items[200];
     // Set up by init_guild_card_tag.
-    u8 guild_card[0x229C - 0x1510];
-    // The character's name as stored, obfuscated; read it with decode_obfuscated_string.
-    char name[12];
-    u8 pad_22A8[0x2354 - 0x22A8];
+    u8 guild_card[0x21C4 - 0x1510];
+    // Challenge mode records; the 6x7C packet carries a copy.
+    ChallengeRecord challenge;
+    u8 pad_22C4[0x2354 - 0x22C4];
     // Split-screen battles finished in each place (first to fourth), and battles left early.
     u16 battle_place_counts[4];
     u16 battle_disconnect_count;
@@ -49,7 +50,8 @@ struct CharacterSaveRecord {
 // character's record.
 extern "C" saddr get_character_save_record(u32 client);
 
-// The decoded name of the character get_character_save_record(0xFFFF) returns, in a shared buffer.
-char *get_active_character_name();
+// The decoded challenge rank title of the record get_character_save_record(0xFFFF) returns, in a
+// shared buffer.
+char *get_active_challenge_title();
 
 #endif

@@ -448,7 +448,7 @@ void LCAlloc(void* addr, u32 nBytes) {
     u32 hid2 = PPCMfhid2();
 
     ASSERTMSGLINE(1319, !((u32)addr & 31), "LCAlloc(): addr must be 32 byte aligned");
-    ASSERTMSGLINE(1321, !((u32)nBytes & 31), "LCAlloc(): nBytes must be 32 byte aligned");
+    ASSERTMSGLINE(1321, !(nBytes & 31), "LCAlloc(): nBytes must be 32 byte aligned");
 
     if ((hid2 & 0x10000000) == 0) {
         LCEnable();
@@ -461,7 +461,7 @@ void LCAllocNoInvalidate(void* addr, u32 nBytes) {
     u32 hid2 = PPCMfhid2();
 
     ASSERTMSGLINE(1366, !((u32)addr & 31), "LCAllocNoFlush(): addr must be 32 byte aligned");
-    ASSERTMSGLINE(1368, !((u32)nBytes & 31), "LCAllocNoFlush(): nBytes must be 32 byte aligned");
+    ASSERTMSGLINE(1368, !(nBytes & 31), "LCAllocNoFlush(): nBytes must be 32 byte aligned");
 
     if ((hid2 & 0x10000000) == 0) {
         LCEnable();

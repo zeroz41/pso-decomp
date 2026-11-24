@@ -17,7 +17,7 @@ DBCommTable gDBCommTable = { nullptr, nullptr, nullptr, nullptr, nullptr, nullpt
 asm void TRKLoadContext(OSContext* ctx, u32 a) {
 #include "orig_asm/TRK_MINNOW_DOLPHIN/dolphin_trk_glue/TRKLoadContext.inc"
 }
-void TRKEXICallBack(__OSInterrupt param_0, OSContext* ctx)
+void TRKEXICallBack(__OSInterrupt interrupt, OSContext* ctx)
 {
 	OSEnableScheduler();
 	TRKLoadContext(ctx, 0x500);
@@ -54,9 +54,9 @@ int InitMetroTRKCommTable(int hwId)
 	return result;
 }
 
-DSError TRKInitializeIntDrivenUART(u32 param_0, u32 param_1, u32 param_2, volatile u8** param_3)
+DSError TRKInitializeIntDrivenUART(u32 unused1, u32 unused2, u32 unused3, volatile u8** inputPendingPtrRef)
 {
-	gDBCommTable.initialize_func(param_3, TRKEXICallBack);
+	gDBCommTable.initialize_func(inputPendingPtrRef, TRKEXICallBack);
 	return DS_NoError;
 }
 
@@ -96,13 +96,13 @@ UARTError WriteUARTFlush(void)
 	}
 	return readErr;
 }
-UARTError WriteUART1(u8 arg0)
+UARTError WriteUART1(s8 data)
 {
-	gWriteBuf[gWritePos++] = arg0;
+	gWriteBuf[gWritePos++] = data;
 	return 0;
 }
 
-UARTError TRKReadUARTPoll(u8* arg0)
+UARTError TRKReadUARTPoll(u8* c)
 {
 	UARTError readErr = 4;
 	s32 cnt;
@@ -121,7 +121,7 @@ UARTError TRKReadUARTPoll(u8* arg0)
 		}
 	}
 	if (gReadPos < gReadCount) {
-		*arg0   = gReadBuf[gReadPos++];
+		*c   = gReadBuf[gReadPos++];
 		readErr = 0;
 	}
 	return readErr;

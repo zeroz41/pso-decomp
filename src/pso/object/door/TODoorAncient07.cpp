@@ -109,8 +109,8 @@ void TODoorAncient07::load_resources() {
     BmlResource *resource = new BmlResource(1, &door_ancient_567_resource_descriptor, 0, 0, NULL);
     bml_resource = resource;
     texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(NJS_TEXLIST *));
-    texture_lists[0] = load_gvm_texture_file("fs_obj_door07_m_03_r.gvm");
-    texture_lists[1] = load_gvm_texture_file("fs_obj_door07_m_03_g.gvm");
+    texture_lists[0] = LoadPvmFileTls("fs_obj_door07_m_03_r.gvm");
+    texture_lists[1] = LoadPvmFileTls("fs_obj_door07_m_03_g.gvm");
     model_nodes = (NJS_OBJECT *)mem_alloc(3 * sizeof(NJS_OBJECT));
     if (bml_resource != NULL && model_nodes != NULL) {
         copy_model_node(&model_nodes[0], bml_resource->models[0].model);

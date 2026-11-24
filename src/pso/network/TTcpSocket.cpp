@@ -19,7 +19,7 @@
 #include "pso/network/TUdpSocket.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/text_803DCDFC.h"
+#include "pso/render/gjSystem.h"
 
 // Game code; structure adapted from pso-gc-reference, verified against PsoV3.dol.
 
@@ -54,7 +54,6 @@ struct at_ip_addr {
 void func_80019A68();
 void controller_stuff();
 void render_tick();
-void func_803DCDFC();
 extern "C" {
 short tcp_connect(short nh, struct at_ip_addr *addr, u16 port, struct at_ip_option *option);
 short tcp_send(short nh, void (*notify)(short size, short sock_fd), char bufnum, struct send_buffs *sb);
@@ -265,7 +264,7 @@ int TTcpSocket::open() {
 			return -1;
 		} else {
 			for (;;) {
-				func_803DCDFC();
+				begin_gx_frame();
 				controller_stuff();
 				if (short status = stat()) {
 					log(get_sock_status_name(status));
@@ -301,7 +300,7 @@ int TTcpSocket::open() {
 
 extern "C" {
 s32 get_csn_group_flags(s32);
-s16 TLobby__sub_8040A698(s16, void *, void *, int, void *, int);
+s16 dns_get_addr(s16, void *, void *, int, void *, int);
 }
 
 int TSocket::is_empty() {
@@ -321,7 +320,7 @@ const u8 TProtocol::next() {
     return val;
 }
 
-void TSocket::set_port(u32 port) {
+void TSocket::set_port(short port) {
     m_dst_port = to_le_uint16_t(port);
 }
 
@@ -333,7 +332,7 @@ void TSocket::set_ip_address(u32 addr) {
     m_dst_addr.addr_bytes[0] = ptr[3];
 }
 
-int TSocket::resolve_domain(char *domain) {
+int TSocket::resolve_domain(const char *domain) {
     s32 ret;
     s16 result;
     s32 i;
@@ -358,12 +357,12 @@ int TSocket::resolve_domain(char *domain) {
             spA = 1;
             sp8 = 0;
             do {
-                result = TLobby__sub_8040A698(handle, &spC, &spA, 0, &sp8, -1);
+                result = dns_get_addr(handle, &spC, &spA, 0, &sp8, -1);
                 count++;
                 if (count > 0x1518) {
                     break;
                 }
-                func_803DCDFC__Fv();
+                begin_gx_frame();
                 controller_stuff();
                 if (static_cast<s8>(func_801A5E54()) != 0) {
                     break;
@@ -402,7 +401,7 @@ int TSocket::resolve_domain(char *domain) {
                 ret = 6;
                 break;
             }
-            close_connection_by_index(handle);
+            dns_close(handle);
         } else {
             set_ip_address(0);
             ret = 4;

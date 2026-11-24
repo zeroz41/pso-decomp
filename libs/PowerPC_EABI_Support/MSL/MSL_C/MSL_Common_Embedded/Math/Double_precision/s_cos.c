@@ -11,12 +11,7 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 double cos(double x)
-#else
-double cos(x)
-double x;
-#endif
 {
     double y[2], z = 0.0;
     int n, ix;

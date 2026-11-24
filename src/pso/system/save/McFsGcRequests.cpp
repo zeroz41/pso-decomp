@@ -1,17 +1,17 @@
 #include "types.h"
 #include "pso/system/save/McFsGcRequests.h"
+#include "pso/system/save/McFsGc.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include <string.h>
 #define PSO_SDK_COMPACT_MATH
 #include "pso/system/save/CardFileEntry.h"
 #undef PSO_SDK_COMPACT_MATH
 
-extern "C" {
 
-s32 TAdPlayerLoadGC::take_card_read_result(s32 channel, s32 *card_detail) {
+s32 take_card_read_result(s32 channel, s32 *card_detail) {
     s32 r;
     s32 t;
-    if (TAdPlayerLoadGC::get_load_state() < 1) {
+    if (get_load_state() < 1) {
         return -1;
     }
     if (load_request_slots[channel].kind == 0x4) {
@@ -37,10 +37,10 @@ s32 TAdPlayerLoadGC::take_card_read_result(s32 channel, s32 *card_detail) {
     return r;
 }
 
-s32 TAdPlayerLoadGC::request_card_read(s32 file, void *buffer, s32 length, s32 offset) {
+s32 request_card_read(s32 file, void *buffer, s32 length, s32 offset) {
     s32 chan;
 
-    if (TAdPlayerLoadGC::get_load_state() < 1) {
+    if (get_load_state() < 1) {
         return -1;
     }
     if (file < 0 || file >= 100 || ((chan = card_open_files[file].channel) != 0 && chan != 1)) {
@@ -58,11 +58,11 @@ s32 TAdPlayerLoadGC::request_card_read(s32 file, void *buffer, s32 length, s32 o
     load_request_slots[chan].file_index = file;
     return 0;
 }
-s32 TAdPlayerLoadGC::take_card_open_result(s32 channel, s32 *card_detail) {
+s32 take_card_open_result(s32 channel, s32 *card_detail) {
     s32 r;
     s32 t;
 
-    if (TAdPlayerLoadGC::get_load_state() < 1) {
+    if (get_load_state() < 1) {
         return -1;
     }
     if (load_request_slots[channel].kind == 3) {
@@ -95,11 +95,11 @@ s32 TAdPlayerLoadGC::take_card_open_result(s32 channel, s32 *card_detail) {
 #pragma push
 #pragma opt_dead_assignments off
 #pragma optimize_for_size off
-s32 TAdPlayerLoadGC::begin_card_file_request(s32 chan, const char *name) {
+s32 begin_card_file_request(s32 chan, const char *name) {
     s32 i;
     s32 *pc;
     s32 idx;
-    if (TAdPlayerLoadGC::get_load_state() < 1) {
+    if (get_load_state() < 1) {
         return -1;
     }
     if (strlen(name) >= 0x20) {
@@ -132,14 +132,14 @@ s32 TAdPlayerLoadGC::begin_card_file_request(s32 chan, const char *name) {
 }
 #pragma pop
 
-void TAdPlayerLoadGC::unmount_card(s32 chan) {
+void unmount_card(s32 chan) {
     CARDUnmount(chan);
 }
-s32 TAdPlayerLoadGC::take_card_mount_result(s32 channel, s32 *card_detail) {
+s32 take_card_mount_result(s32 channel, s32 *card_detail) {
     s32 r;
     s32 t;
 
-    if (TAdPlayerLoadGC::get_load_state() < 1) {
+    if (get_load_state() < 1) {
         return -1;
     }
     if (load_request_slots[channel].kind == 1) {
@@ -164,11 +164,10 @@ s32 TAdPlayerLoadGC::take_card_mount_result(s32 channel, s32 *card_detail) {
     }
     return r;
 }
-}
 
 s32 request_card_mount(s32 chan) {
     s32 r;
-    if (TAdPlayerLoadGC::get_load_state() < 1) {
+    if (get_load_state() < 1) {
         return -1;
     }
     if (load_request_slots[chan].kind != 0) {
@@ -182,12 +181,11 @@ s32 request_card_mount(s32 chan) {
     return r;
 }
 
-extern "C" {
-s32 TAdPlayerLoadGC::take_card_find_result(s32 card_channel, s32 *card_detail) {
+s32 take_card_find_result(s32 card_channel, s32 *card_detail) {
     s32 r;
     s32 t;
 
-    if (TAdPlayerLoadGC::get_load_state() < 1) {
+    if (get_load_state() < 1) {
         return -1;
     }
     if (load_request_slots[card_channel].kind == 9) {
@@ -212,11 +210,11 @@ s32 TAdPlayerLoadGC::take_card_find_result(s32 card_channel, s32 *card_detail) {
     }
     return r;
 }
-s32 TAdPlayerLoadGC::request_card_find(s32 card_channel, const char *name) {
+s32 request_card_find(s32 card_channel, const char *name) {
     s32 r = 0;
     s32 n = 0;
 
-    if (TAdPlayerLoadGC::get_load_state() < 1) {
+    if (get_load_state() < 1) {
         return -1;
     }
     if (strlen(name) >= 0x20) {
@@ -241,5 +239,4 @@ s32 TAdPlayerLoadGC::request_card_find(s32 card_channel, const char *name) {
     memset(load_request_slots[card_channel].name, 0, 0x20);
     strcpy(load_request_slots[card_channel].name, name);
     return 0;
-}
 }

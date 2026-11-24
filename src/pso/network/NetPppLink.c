@@ -12,40 +12,40 @@
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/PppFsm.h"
 #include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/NetPppLink.h"
 
 
 
-void TLobby__sub_803F7980(void *);
-void TLobby__sub_803FD0C0(void) {
+void ppp_link_term(void) {
     PppLink *g = &lobby_net_buffer_desc_b;
     clear_table_entry_locked(g->id);
     g->id = -1;
     g->count = 0;
-    TLobby__sub_803F7980(g);
+    term_ppp_link_config(g);
 }
 
-s32 TLobby__sub_803FD404(s16 ch, u8 *addr);
-s32 TLobby__sub_803FD60C(s16 ch, u8 *dst);
+s32 ppp_link_free_buffer(s16 ch, u8 *addr);
+s32 ppp_link_get_interface_id(s16 ch, u8 *dst);
 
-s16 TLobby__sub_803FD10C(void) {
-    Fn_8040881C fns[11];
+s16 ppp_link_init(void) {
+    NetLinkDriverFn fns[11];
     s16 r;
     s16 i;
     s16 *p;
 
     init_buffer_desc_b(&lobby_net_buffer_desc_b);
-    fns[0] = (Fn_8040881C)TLobby__sub_803FD60C;
-    fns[1] = (Fn_8040881C)TLobby__sub_803FD5A4;
-    fns[2] = (Fn_8040881C)clear_socket_slot;
-    fns[3] = (Fn_8040881C)get_checked_status_value;
-    fns[4] = (Fn_8040881C)TLobby__sub_803FD4FC;
-    fns[5] = (Fn_8040881C)TLobby__sub_803FD4D8;
-    fns[6] = (Fn_8040881C)TLobby__sub_803FD4B4;
-    fns[7] = (Fn_8040881C)TLobby__sub_803FD490;
-    fns[8] = (Fn_8040881C)TLobby__sub_803FD404;
-    fns[9] = (Fn_8040881C)TLobby__sub_803FD310;
-    fns[10] = (Fn_8040881C)TLobby__sub_803FD21C;
-    r = TLobby__sub_80409A3C(fns, 2);
+    fns[0] = (NetLinkDriverFn)ppp_link_get_interface_id;
+    fns[1] = (NetLinkDriverFn)ppp_link_attach_protocol;
+    fns[2] = (NetLinkDriverFn)clear_socket_slot;
+    fns[3] = (NetLinkDriverFn)get_checked_status_value;
+    fns[4] = (NetLinkDriverFn)ppp_link_get_address_length;
+    fns[5] = (NetLinkDriverFn)ppp_link_get_address;
+    fns[6] = (NetLinkDriverFn)ppp_link_update_address;
+    fns[7] = (NetLinkDriverFn)ppp_link_update_multicast;
+    fns[8] = (NetLinkDriverFn)ppp_link_free_buffer;
+    fns[9] = (NetLinkDriverFn)ppp_link_forward_packet;
+    fns[10] = (NetLinkDriverFn)ppp_link_send_packet;
+    r = register_link_handler(fns, 2);
     if (r < 0) {
         return r;
     }
@@ -66,55 +66,55 @@ s16 TLobby__sub_803FD10C(void) {
 
 #pragma push
 #pragma optimization_level 3
-s32 TLobby__sub_803FD21C(s16 arg0, s32 arg1, s32 arg2, u8 *arr_) {
+s32 ppp_link_send_packet(s16 ch, s32 mode, s32 addr, u8 *packet) {
     s16 len;
     PppFrame *pkt;
-    if ((arg0 != 0) && (arg0 != 1)) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
-    pkt = lbl_805C04A8.ip_out;
-    len = TLobby__sub_804098B4(arr_);
+    pkt = ppp_buffers.ip_out;
+    len = link_packet_length(packet);
     if (lobby_net_buffer_desc_b.size < len) {
         return -0x112;
     }
-    lock_mutex(lbl_805C18A0.mutex);
+    lock_mutex(net_thread_state.mutex);
     if ((s16) lobby_modem_connect_state == 4) {
-        pkt->data = (u8 *)lbl_805C04A8.ip_out + ((lbl_805C04A8.headroom + 0x83) & 0xFFFFFFFC);
+        pkt->data = (u8 *)ppp_buffers.ip_out + ((ppp_buffers.headroom + 0x83) & 0xFFFFFFFC);
         pkt->len = len;
-        TLobby__sub_80409908(pkt->data, arr_);
-        TLobby__sub_80406328((saddr) pkt, lobby_net_buffer_desc_b.protocols[arg0].type);
+        link_packet_copy(pkt->data, packet);
+        ppp_output_datagram(pkt, lobby_net_buffer_desc_b.protocols[ch].type);
     }
-    unlock_mutex(lbl_805C18A0.mutex);
+    unlock_mutex(net_thread_state.mutex);
     return 0;
 }
 #pragma pop
 
 #pragma push
 #pragma optimization_level 3
-s32 TLobby__sub_803FD310(s16 arg0, s32 arg1, u8 *arr_) {
+s32 ppp_link_forward_packet(s16 ch, s32 addr, u8 *packet) {
     s16 len;
     PppFrame *pkt;
-    if ((arg0 != 0) && (arg0 != 1)) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
-    pkt = lbl_805C04A8.ip_out;
-    len = TLobby__sub_804098B4(arr_);
+    pkt = ppp_buffers.ip_out;
+    len = link_packet_length(packet);
     if (lobby_net_buffer_desc_b.size < len) {
         return -0x112;
     }
-    lock_mutex(lbl_805C18A0.mutex);
+    lock_mutex(net_thread_state.mutex);
     if ((s16) lobby_modem_connect_state == 4) {
-        pkt->data = (u8 *)lbl_805C04A8.ip_out + ((lbl_805C04A8.headroom + 0x83) & 0xFFFFFFFC);
+        pkt->data = (u8 *)ppp_buffers.ip_out + ((ppp_buffers.headroom + 0x83) & 0xFFFFFFFC);
         pkt->len = len;
-        TLobby__sub_80409908(pkt->data, arr_);
-        TLobby__sub_80406328((saddr) pkt, lobby_net_buffer_desc_b.protocols[arg0].type);
+        link_packet_copy(pkt->data, packet);
+        ppp_output_datagram(pkt, lobby_net_buffer_desc_b.protocols[ch].type);
     }
-    unlock_mutex(lbl_805C18A0.mutex);
+    unlock_mutex(net_thread_state.mutex);
     return 0;
 }
 #pragma pop
 
-s32 TLobby__sub_803FD404(s16 ch, u8 *addr) {
+s32 ppp_link_free_buffer(s16 ch, u8 *addr) {
     PppLink *p = &lobby_net_buffer_desc_b;
     s16 size;
     s16 i;
@@ -142,39 +142,39 @@ s32 TLobby__sub_803FD404(s16 ch, u8 *addr) {
     return -0x112;
 }
 
-s32 TLobby__sub_803FD490(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s32 ppp_link_update_multicast(s16 ch) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
     return 0;
 }
 
-s32 TLobby__sub_803FD4B4(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s32 ppp_link_update_address(s16 ch) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
     return 0;
 }
 
-s32 TLobby__sub_803FD4D8(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s32 ppp_link_get_address(s16 ch) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
     return 0;
 }
 
-s32 TLobby__sub_803FD4FC(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s32 ppp_link_get_address_length(s16 ch) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
     return 0;
 }
 
-s16 get_checked_status_value(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s16 get_checked_status_value(s16 ch) {
+    if ((ch != 0) && (ch != 1)) {
         return -0x112;
     }
-    if (lbl_805D7A7A != 0) {
+    if (ppp_use_pppoe != 0) {
         return 0x5AE;
     }
     return lobby_net_buffer_desc_b.size;
@@ -191,7 +191,7 @@ s32 clear_socket_slot(s16 i) {
     return 0;
 }
 
-s16 TLobby__sub_803FD5A4(s16 h, s16 v) {
+s16 ppp_link_attach_protocol(s16 h, s16 v) {
     s16 r;
     PppLink *g = &lobby_net_buffer_desc_b;
     if (h != g->id) { return -274; }
@@ -207,14 +207,9 @@ s16 TLobby__sub_803FD5A4(s16 h, s16 v) {
     return r;
 }
 
-typedef struct NetConfigEntry_805BC238 {
-    u8 pad0[8];
-    u32 unk8;
-    u32 unkC;
-} NetConfigEntry_805BC238;
-s32 TLobby__sub_803FD60C(s16 ch, u8 *dst) {
+s32 ppp_link_get_interface_id(s16 ch, u8 *dst) {
     PppFsm *fsm;
-    NetConfigEntry_805BC238 *e;
+    Ipv6cpConfig *e;
     u16 low;
     u32 a;
     u32 b;
@@ -223,12 +218,12 @@ s32 TLobby__sub_803FD60C(s16 ch, u8 *dst) {
         return -0x112;
     }
     fsm = &ppp_proto_blocks.ipv6cp;
-    e = (NetConfigEntry_805BC238 *)fsm->opts;
+    e = fsm->opts;
     if (fsm->state != 5) {
         return -0x112;
     }
-    a = e->unk8;
-    b = e->unkC;
+    a = e->local.current.words[0];
+    b = e->local.current.words[1];
     p = dst + 1;
     dst[0] = a >> 24;
     low = a;

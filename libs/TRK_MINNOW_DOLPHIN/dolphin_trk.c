@@ -7,7 +7,6 @@
 #define EXCEPTIONMASK_ADDR 0x80000044
 
 static u32 lc_base;
-extern u32 _db_stack_addr;
 
 static u32 TRK_ISR_OFFSETS[15] = { PPC_SystemReset,
 	                               PPC_MachineCheck,
@@ -39,15 +38,15 @@ void EnableMetroTRKInterrupts(void)
 	EnableEXI2Interrupts();
 }
 
-u32 TRKTargetTranslate(u32 param_0)
+u32 TRKTargetTranslate(u32 addr)
 {
-	if (param_0 >= lc_base) {
-		if ((param_0 < lc_base + 0x4000) && ((gTRKCPUState.Extended1.DBAT3U_ & 3) != 0)) {
-			return param_0;
+	if (addr >= lc_base) {
+		if ((addr < lc_base + 0x4000) && ((gTRKCPUState.Extended1.DBAT3U_ & 3) != 0)) {
+			return addr;
 		}
 	}
 
-	return param_0 & 0x3FFFFFFF | 0x80000000;
+	return addr & 0x3FFFFFFF | 0x80000000;
 }
 
 void TRK_copy_vector(u32 offset)

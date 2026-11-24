@@ -1,6 +1,6 @@
 /* The AVE-TCP net buffer setup (build_avetcp_net_buffer, which logs under the name "avetcp") and
  * PP_doppp_active (a C library, built with GC/1.2.5n). A file of its own: CHAP (TLobby_803FC178.c) defines
- * the .bss object lbl_805C02D0 before the functions that use it, while this code loads that address afresh at
+ * the .bss object chap_state before the functions that use it, while this code loads that address afresh at
  * each use. No name evidence for the module, so the file keeps its address name. */
 #include "types.h"
 #include "pso/network/TLobby_803FC178.h"
@@ -39,32 +39,31 @@ PppFrame *build_avetcp_net_buffer(PppFsm *c)
   }
   p = buf->data;
   NetStoreTick(&tick);
-  lbl_805D7A9A = (tick & 0x1F) + 0x10;
-  *p++ = lbl_805D7A9A;
+  chap_challenge_length = (tick & 0x1F) + 0x10;
+  *p++ = chap_challenge_length;
   NetStoreTick(&tick);
-  for (i = 0; i < lbl_805D7A9A; i++)
+  for (i = 0; i < chap_challenge_length; i++)
   {
     *p++ = tick;
   }
   NetCopyString((char *)p, name);
-  buf->len += lbl_805D7A9A + (u16)NetStringLength(name) + 1;
+  buf->len += chap_challenge_length + (u16)NetStringLength(name) + 1;
   len = buf->len;
-  lim = lbl_805C02D0.size8;
+  lim = chap_state.tx_challenge_size;
   n = len;
   if ((s16)len > lim)
   {
     n = lim;
   }
-  NetMemcpy(lbl_805C02D0.p8, buf->data, n);
+  NetMemcpy(chap_state.tx_challenge, buf->data, n);
   return buf;
 }
 
-s32 PP_doppp_active(void *self) {
-    u8 *arg0 = (u8 *)self;
-    *(u8 *)((s8 *)arg0 + 2) = (u8) (*(u8 *)((s8 *)arg0 + 2) & 0xFFFFFFBF);
-    *(u8 *)((s8 *)arg0 + 2) = (u8) (*(u8 *)((s8 *)arg0 + 2) | 0x80);
-    if ((u8) *(u8 *)((s8 *)arg0 + 0) < 1U) {
-        *(u8 *)((s8 *)arg0 + 0) = 1U;
+s32 PP_doppp_active(PppFsm *fsm) {
+    fsm->flags &= ~0x40;
+    fsm->flags |= 0x80;
+    if (fsm->state < 1) {
+        fsm->state = 1;
     }
     return 0;
 }

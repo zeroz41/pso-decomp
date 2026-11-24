@@ -74,9 +74,9 @@ void TOFenceAncient04::load_resources() {
     NJS_TEXLIST **lists = (NJS_TEXLIST **)mem_alloc(4 * sizeof(NJS_TEXLIST *));
     texlists = lists;
     lists[0] = model_resource->models[0].texlist;
-    texlists[1] = load_gvm_texture_file(texture_file_b);
-    texlists[2] = load_gvm_texture_file(texture_file_g);
-    texlists[3] = load_gvm_texture_file(texture_file_p);
+    texlists[1] = LoadPvmFileTls(texture_file_b);
+    texlists[2] = LoadPvmFileTls(texture_file_g);
+    texlists[3] = LoadPvmFileTls(texture_file_p);
 }
 
 // Defined after load_resources, which addresses each by its own symbol.

@@ -19,9 +19,9 @@ extern u8 network_packet_buffers[NETWORK_PACKET_BUFFER_COUNT][NETWORK_PACKET_BUF
 /* packet: an address inside one of the pool's buffers. */
 void clear_message_entry(u8 *packet);
 void release_entry_by_id(u8 *packet);
-u8 *TLobby__sub_8042558C(u32 size);
-u8 *TLobby__sub_80425640(u32 size);
-NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u8 *packet);
+u8 *alloc_packet_buffer_locked(u32 size);
+u8 *alloc_rx_packet_buffer(u32 size);
+NetworkPacketBufferDescriptor *find_packet_buffer_locked(u8 *packet);
 NetworkPacketBufferDescriptor *find_entry_by_address(u8 *packet);
 void cancel_alarm_a(void);
 #ifdef __cplusplus

@@ -1,5 +1,5 @@
-#include "NMWException.h"
-#include "MWCPlusLib.h"
+#include "Runtime.PPCEABI.H/NMWException.h"
+#include "Runtime.PPCEABI.H/MWCPlusLib.h"
 
 DestructorChain* __global_destructor_chain;
 

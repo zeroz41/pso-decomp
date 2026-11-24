@@ -10,8 +10,8 @@ LAYOUT_ASSERT(queue_count_offset, offsetof(GinjaModelQueue, count) == 4);
 LAYOUT_ASSERT(queue_draw_offset, offsetof(GinjaModelQueue, draw) == 8);
 LAYOUT_ASSERT(queue_known_size, sizeof(GinjaModelQueue) == 12);
 
-s32 TObjPlayer__sub_803DB23C() { return 0; }
-s32 TObjPlayer__sub_803DB244() { return 0; }
+s32 start_texture_header_transfer(struct GinjaTextureHeader *header) { return 0; }
+s32 texture_transfer_pending() { return 0; }
 
 #pragma push
 #pragma scheduling off

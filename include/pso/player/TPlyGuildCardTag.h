@@ -55,8 +55,6 @@ public:
     u16 m_tag2;
     u32 m_guildcard_number;
 public:
-    void *copy_full(void *source);
-    void*copy(void* a1);
     static void bswap_lobby_entry(void *entry);
 };
 

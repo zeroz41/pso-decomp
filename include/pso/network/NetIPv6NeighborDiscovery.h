@@ -24,7 +24,7 @@ typedef struct NetIcmpv6Redirect {
 } NetIcmpv6Redirect;
 LAYOUT_ASSERT(NetIcmpv6Redirect_size_check, sizeof(NetIcmpv6Redirect) == 0x28);
 
-/* The record neighbour discovery passes to TLobby__sub_80411604 for events 1, 6, 7, 8 and 9. Event 7 (a router went
+/* The record neighbour discovery passes to NetIPv6HandleRoutingEvent for events 1, 6, 7, 8 and 9. Event 7 (a router went
    away) removes the route through addr and adds a default route through next_router; the others read addr only. */
 typedef struct Ipv6NdAddrEvent {
     u8 *addr;
@@ -61,7 +61,7 @@ typedef struct Ipv6NdMtuOption {
 } Ipv6NdMtuOption;
 LAYOUT_ASSERT(Ipv6NdMtuOption_size_check, sizeof(Ipv6NdMtuOption) == 8);
 
-/* Event 2: a prefix information option, passed on to TLobby__sub_80412618. */
+/* Event 2: a prefix information option, passed on to NetIPv6AutoconfigurePrefix. */
 typedef struct Ipv6NdPrefixEvent {
     u8 *prefix;
     s16 prefix_len;
@@ -70,7 +70,7 @@ typedef struct Ipv6NdPrefixEvent {
 } Ipv6NdPrefixEvent;
 LAYOUT_ASSERT(Ipv6NdPrefixEvent_size_check, sizeof(Ipv6NdPrefixEvent) == 0x10);
 
-/* Event 4: an MTU option; TLobby__sub_80411604 stores mtu in the interface. */
+/* Event 4: an MTU option; NetIPv6HandleRoutingEvent stores mtu in the interface. */
 typedef struct Ipv6NdMtuEvent {
     u8 *router;
     s32 mtu;
@@ -78,16 +78,23 @@ typedef struct Ipv6NdMtuEvent {
 LAYOUT_ASSERT(Ipv6NdMtuEvent_size_check, sizeof(Ipv6NdMtuEvent) == 8);
 
 s16 NetIPv6SendRouterSolicitation(s16 iface);
-s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirect *msg, s32 opts, s16 *optlen, s16 iface);
-s16 NetIPv6ApplyNeighborAdvertisement(NetIcmpv6NeighborAdvertisement *msg, u8 *lladdr, s16 lladdr_len, s32 src, s32 address,
+s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirect *msg, void *opts, s16 *optlen, s16 iface);
+s16 NetIPv6ApplyNeighborAdvertisement(NetIcmpv6NeighborAdvertisement *msg, u8 *lladdr, s16 lladdr_len, u8 *src, u8 *address,
                                       s16 iface);
-s16 TLobby__sub_80417494(NetIcmpv6RouterAdvertisement *ra, u8 *src, s16 iface);
-s16 TLobby__sub_80417868(NetPacketFragment *opts, u32 len, u8 *src, s16 iface);
+s16 NetIPv6UpdateDefaultRouter(NetIcmpv6RouterAdvertisement *ra, u8 *src, s16 iface);
+s16 NetIPv6ParseRouterSolicitationOptions(NetPacketFragment *opts, u32 len, u8 *src, s16 iface);
 s16 NetIPv6SendMulticastNeighborProbe(Ipv6NdNeighbor *e);
 s16 NetIPv6SendUnicastNeighborProbe(Ipv6NdNeighbor *e);
-Ipv6NdNeighbor *TLobby__sub_804182DC(void *addr, void *lladdr, s16 lladdr_len, s16 iface);
+Ipv6NdNeighbor *NetIPv6UpdateNeighborLinkAddress(void *addr, void *lladdr, s16 lladdr_len, s16 iface);
 Ipv6NdNeighbor *NetIPv6FindOrSelectNeighborCacheEntry(u8 *addr, u8 *key, s16 klen);
 Ipv6NdRouter *NetIPv6SelectDefaultRouter(void *addr);
 Ipv6NdPending *NetIPv6SelectPendingPacketSlot(void);
+
+s16 NetIPv6HandleRouterSolicitation(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
+s16 NetIPv6FindTargetLinkLayerAddressOption(NetPacketFragment *opt, s32 len, u8 **out, s16 *outlen);
+s16 NetIPv6HandleRouterAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
+s16 NetIPv6HandleNeighborSolicitation(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
+s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
+s16 NetIPv6HandleRedirect(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
 
 #endif

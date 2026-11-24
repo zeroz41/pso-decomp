@@ -1,3 +1,524 @@
+#include "types.h"
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
+#include "pso/network/TProtocol.h"
+#include "pso/network/protocol/protocol.h"
+#include "pso/network/PSOV3EncryptionTCP.h"
+#include "pso/network/TProtocol_801E08CC.h"
+#include "pso/player/TPlySmth.h"
+#include "pso/quest/TQuestListOnline.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/unk/TLobby.h"
+#include "pso/network/protocol/packet_swaps.h"
+#include "pso/player/TPlyClientConfig.h"
+#include "pso/network/protocol/packet_classes.h"
+#include "pso/player/TPlyGuildCardTag.h"
+#include "pso/item/TItemData.h"
+#include "pso/network/TPlyMeetUserExtension.h"
+#include "pso/network/TPlyJoinLobby.h"
+#include "pso/player/TPlyCharData_801E0A04.h"
+#include "pso/system/memory.h"
+#include "pso/ui/window/TMessageBox.h"
+
+LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D4_trade_result_packet) == 0xBC9C);
+LAYOUT_ASSERT(TradeAdvanceCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D1_advance_trade_state_packet) == 0xBCA0);
+LAYOUT_ASSERT(ProtocolConnectedOffset, offsetof(TProtocol, m_connected) == 0x1910);
+LAYOUT_ASSERT(PacketHeaderSize, sizeof(packet_header) == 4);
+LAYOUT_ASSERT(PacketFlagsOffset, offsetof(packet_header, flags) == 1);
+LAYOUT_ASSERT(PacketSizeOffset, offsetof(packet_header, size) == 2);
+
+void TProtocol::send_keepalive() {
+    packet_header header;
+    header.command = 0x1D;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8 *)&header, sizeof(header));
+}
+
+void TProtocol::handle_cmd_AC(packet &pkt) {
+    if (pkt.pkt.header.flags == 0) {
+        TQuestListOnline::handle_quest_ready();
+        return;
+    }
+    m_is_invalid_packet = 1;
+}
+
+void TProtocol::send_quest_barrier() {
+    packet_header header;
+    header.command = 0xAC;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8 *)&header, sizeof(header));
+}
+
+void TProtocol::handle_cmd_AB(packet &pkt) {
+    TRecvQuestStats &stats = as(TRecvQuestStats &, pkt);
+
+    stats.bswap();
+    if (m_recv_handlers.handle_AB_quest_stats_response_packet != NULL) {
+        m_recv_handlers.handle_AB_quest_stats_response_packet(stats.value);
+    }
+}
+
+void TProtocol::send_statistic(u16 id, u16 first_label, u16 second_label, u32 *values) {
+    TSendQuestStatistic pkt;
+    s32 i;
+
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0xAA;
+    pkt.header.flags = 0;
+    pkt.header.size = sizeof(pkt);
+    pkt.id = id;
+    pkt.unused = 0;
+    pkt.first_label = first_label;
+    pkt.second_label = second_label;
+    for (i = 0; i < 8; i++) {
+        pkt.values[i] = values[i];
+    }
+    pkt.bswap();
+    send((u8 *)&pkt, sizeof(pkt));
+}
+
+void TProtocol::handle_cmd_9F(packet &) {
+    TSendClientConfig reply;
+    memset(&reply, 0, sizeof(reply));
+    reply.header.command = 0x9F;
+    reply.header.size = sizeof(reply);
+    reply.config = m_client_config;
+    reply.bswap();
+    send((u8 *)&reply, sizeof(reply));
+}
+
+void TProtocol::handle_cmd_DA(packet &pkt) {
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    if (m_recv_handlers.handle_DA_lobby_event_packet != NULL) {
+        m_recv_handlers.handle_DA_lobby_event_packet(header.flags);
+    }
+}
+
+void TProtocol::handle_cmd_D7(packet &) {
+    set_lobby_count_value();
+}
+
+void TProtocol::send_download_head(u8 flags, const char *filename) {
+    TSendDownloadHead pkt;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0xD7;
+    pkt.header.flags = flags;
+    strncpy(pkt.filename, filename, sizeof(pkt.filename));
+    pkt.header.size = sizeof(pkt);
+    strncpy(pkt.filename, filename, sizeof(pkt.filename));
+    pkt.bswap();
+    send((u8 *)&pkt, sizeof(pkt));
+}
+
+void TProtocol::send_message_box_closed() {
+    packet_header header;
+    header.command = 0xD6;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8 *)&header, sizeof(header));
+}
+
+packet *server_packet;
+u32 new_ip_addr;
+u16 new_port;
+s32 lobby_state_flags;
+const char *lobby_server_greeting_text = "DreamCast Lobby Server. Copyright SEGA Enterprises. 1999";
+const char *port_map_copyright = "DreamCast Port Map. Copyright SEGA Enterprises. 1999";
+OBJECT_NAME(TProtocol);
+
+void TProtocol::handle_cmd_D5(packet &pkt) {
+    TPlyText<0x1000> tmp = as(TPlyText<0x1000> &, pkt);
+    if (m_recv_handlers.handle_1A_D5_recv_text != NULL) {
+        m_recv_handlers.handle_1A_D5_recv_text(tmp.text);
+    }
+}
+
+void TProtocol::send_cancel_trade() {
+    packet_header header;
+    header.command = 0xD4;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+
+void TProtocol::recv_trade_result(packet &pkt) {
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    if (m_recv_handlers.handle_D4_trade_result_packet != 0) {
+        m_recv_handlers.handle_D4_trade_result_packet(header.flags);
+    }
+}
+
+void TProtocol::handle_cmd_D3(packet &pkt) {
+    char message[0x80];
+    TTradeList trade_list = as(TTradeList &, pkt);
+    trade_list.bswap();
+    sprintf(message, "RcvTradeList %d %d", trade_list.item_count, trade_list.target_client_id);
+    if (m_recv_handlers.handle_D3_execute_trade_packet != NULL) {
+        m_recv_handlers.handle_D3_execute_trade_packet(&trade_list);
+    }
+}
+void TProtocol::send_trade_ready() {
+    packet_header header;
+    header.command = 0xD2;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+
+void TProtocol::recv_advance_trade_state(packet &pkt) {
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    if (m_recv_handlers.handle_D1_advance_trade_state_packet != 0) {
+        m_recv_handlers.handle_D1_advance_trade_state_packet(header.flags);
+    }
+}
+
+void TProtocol::send_trade_list(TTradeList *list) {
+    char message[0x80];
+    sprintf(message, "SndTradeList %d %d", list->item_count, list->target_client_id);
+    TTradeList pkt = *list;
+    pkt.header.command = 0xD0;
+    pkt.header.flags = 0;
+    pkt.header.size = sizeof(pkt);
+    pkt.bswap();
+    send((u8 *)&pkt, sizeof(pkt));
+}
+
+void TProtocol::send_text_packet_D9(char *str) {
+    TPlyText<172> pkt;
+    s32 n;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0xD9;
+    pkt.header.flags = 0;
+    char *t = pkt.text;
+    strncpy(t, str, sizeof(pkt.text));
+    n = (strlen(t) + 8) & ~3;
+    pkt.header.size = n;
+    pkt.bswap();
+    send((u8 *)&pkt, n);
+}
+
+void TProtocol::handle_cmd_D8(packet &pkt) {
+    TRecvInfoBoard tmp = as(TRecvInfoBoard &, pkt);
+    tmp.bswap();
+    if (m_recv_handlers.handle_D8_infoboard_packet != NULL) {
+        m_recv_handlers.handle_D8_infoboard_packet(&tmp);
+    }
+}
+
+void TProtocol::send_info_board_request() {
+    packet_header header;
+    memset(&header, 0, sizeof(header));
+    header.command = 0xD8;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+
+void TProtocol::send_disable_auto_reply() {
+    packet_header header;
+    header.command = 0xC8;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+void TProtocol::send_text_packet_c7(char *str) {
+    if (m_connected != 0) {
+    TPlyText<512> pkt;
+    s32 n;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0xC7;
+    pkt.header.flags = 0;
+    char *t = pkt.text;
+    strncpy(t, str, sizeof(pkt.text) - 1);
+    n = (strlen(t) + 8) & ~3;
+    pkt.header.size = n;
+    pkt.bswap();
+    send((u8 *)&pkt, n);
+    }
+}
+
+void TProtocol::send_c6_packet(TBlockedSenders *senders) {
+    if (m_connected != 0) {
+        senders->header.command = 0xC6;
+        senders->header.size = sizeof(*senders);
+        senders->bswap();
+        send((u8 *)senders, sizeof(*senders));
+    }
+}
+
+void TProtocol::handle_cmd_C5(packet &pkt) {
+    TRecvChallengeData tmp = as(TRecvChallengeData &, pkt);
+    tmp.bswap();
+    if (m_recv_handlers.handle_C5_player_challenge_data_packet != NULL) {
+        m_recv_handlers.handle_C5_player_challenge_data_packet(tmp.records, tmp.header.flags);
+    }
+}
+
+s32 TProtocol::send_login_9e_extended(void *player_name, int udp_disabled) {
+    memset(m_player_name, 0, 0x10);
+    strncpy(m_player_name, (const char *)player_name, 0x10);
+    m_udp_disabled = udp_disabled;
+    TSendLogin pkt;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0x9E;
+    pkt.header.flags = m_udp_disabled;
+    pkt.header.size = sizeof(pkt);
+    __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&pkt.tag, &m_guildcard_tag);
+    pkt.hardware_id = m_smth;
+    pkt.sub_version = m_sub_version;
+    pkt.language = m_language;
+    pkt.client_config = m_client_config;
+    strncpy(pkt.serial_number_v1, m_serial_number_v1, sizeof(pkt.serial_number_v1));
+    strncpy(pkt.access_key_v1, m_access_key_v1, sizeof(pkt.access_key_v1));
+    strncpy(pkt.serial_number, m_serial_number2, sizeof(pkt.serial_number));
+    strncpy(pkt.access_key, m_access_key2, sizeof(pkt.access_key));
+    strncpy(pkt.serial_number2, m_serial_number, sizeof(pkt.serial_number2));
+    strncpy(pkt.access_key2, m_access_key, sizeof(pkt.access_key2));
+    strncpy(pkt.name, m_player_name, sizeof(pkt.name));
+    pkt.bswap();
+    send((u8 *)&pkt, sizeof(pkt));
+    return 0;
+}
+
+void TProtocol::handle_cmd_9C(packet &pkt) {
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    m_regist_state = header.flags;
+    if (m_recv_handlers.handle_92_9C_register_response_packet != NULL) {
+        m_recv_handlers.handle_92_9C_register_response_packet(header.flags);
+    }
+}
+void TProtocol::handle_cmd_02(packet &pkt) {
+    TRecvPsoRegistConnect tmp = as(TRecvPsoRegistConnect &, pkt);
+    tmp.bswap();
+    if (!strcmp(lobby_server_greeting_text, tmp.copyright)) {
+        m_recv_crypt.reset(tmp.server_key);
+        m_send_crypt.reset(tmp.client_key);
+        m_is_encrypted = true;
+        TSendLogin tmp2;
+        memset(&tmp2, 0, sizeof(tmp2));
+        tmp2.header.command = 0x9E;
+        tmp2.header.flags = m_udp_disabled;
+        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&tmp2.tag, &m_guildcard_tag);
+        tmp2.hardware_id = m_smth;
+        tmp2.sub_version = m_sub_version;
+        tmp2.language = m_language;
+        strncpy(tmp2.serial_number_v1, m_serial_number_v1, sizeof(tmp2.serial_number_v1));
+        strncpy(tmp2.access_key_v1, m_access_key_v1, sizeof(tmp2.access_key_v1));
+        strncpy(tmp2.serial_number, m_serial_number2, sizeof(tmp2.serial_number));
+        strncpy(tmp2.access_key, m_access_key2, sizeof(tmp2.access_key));
+        strncpy(tmp2.serial_number2, m_serial_number, sizeof(tmp2.serial_number2));
+        strncpy(tmp2.access_key2, m_access_key, sizeof(tmp2.access_key2));
+        strncpy(tmp2.name, m_player_name, sizeof(tmp2.name));
+        tmp2.client_config = m_client_config;
+        if (m_has_meet_user_settings != 0) {
+            tmp2.is_extended = 1;
+            tmp2.extension = meet_user_settings;
+            tmp2.header.size = sizeof(tmp2);
+            tmp2.bswap();
+            send((u8 *)&tmp2, sizeof(tmp2));
+        } else {
+            tmp2.header.size = offsetof(TSendLogin, extension);
+            tmp2.bswap();
+            send((u8 *)&tmp2, offsetof(TSendLogin, extension));
+        }
+    } else {
+        close();
+    }
+    m_has_meet_user_settings = 0;
+}
+
+void TProtocol::handle_cmd_9A(packet &pkt) {
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    m_regist_state = header.flags;
+    if (m_recv_handlers.handle_18_90_9A_recv_pso_regist_check != NULL) {
+        m_recv_handlers.handle_18_90_9A_recv_pso_regist_check(header.flags);
+    }
+}
+
+void TProtocol::handle_cmd_9B(packet &pkt) {
+    TRecvPsoRegistConnect tmp = as(TRecvPsoRegistConnect &, pkt);
+    tmp.bswap();
+    if (!strcmp(port_map_copyright, tmp.copyright)) {
+        m_recv_crypt.reset(tmp.server_key);
+        m_send_crypt.reset(tmp.client_key);
+        m_is_encrypted = true;
+        TSendVerifyLicense tmp2;
+        memset(&tmp2, 0, sizeof(tmp2));
+        tmp2.header.command = 0xDB;
+        tmp2.header.size = sizeof(tmp2);
+        strncpy(tmp2.serial_number_v1, m_serial_number_v1, sizeof(tmp2.serial_number_v1));
+        strncpy(tmp2.access_key_v1, m_access_key_v1, sizeof(tmp2.access_key_v1));
+        strncpy(tmp2.serial_number, m_serial_number2, sizeof(tmp2.serial_number));
+        strncpy(tmp2.access_key, m_access_key2, sizeof(tmp2.access_key));
+        tmp2.hardware_id = m_smth;
+        tmp2.sub_version = m_sub_version;
+        strncpy(tmp2.serial_number2, m_serial_number, sizeof(tmp2.serial_number2));
+        strncpy(tmp2.access_key2, m_access_key, sizeof(tmp2.access_key2));
+        strncpy(tmp2.password, m_password, sizeof(tmp2.password));
+        tmp2.bswap();
+        send(as(u8 *, &tmp2), sizeof(tmp2));
+    } else {
+        close();
+    }
+}
+
+s32 TProtocol::set_server_info(const char *serial_v1, const char *access_key_v1, const char *serial,
+                               const char *access_key, const char *host, u16 port) {
+    s32 error;
+
+    error = resolve_domain(host);
+    set_port(port);
+    if (error != 0) {
+        return 2;
+    }
+    memset(m_serial_number_v1, 0, 0x11);
+    memset(m_access_key_v1, 0, 0x11);
+    memset(m_serial_number2, 0, 0x11);
+    memset(m_access_key2, 0, 0x11);
+    strncpy(m_serial_number_v1, serial_v1, 8);
+    strncpy(m_access_key_v1, access_key_v1, 0xC);
+    strncpy(m_serial_number2, serial, 8);
+    strncpy(m_access_key2, access_key, 0xC);
+    if (open() < 0) {
+        return 1;
+    }
+    recv();
+    return 0;
+}
+
+void TProtocol::send_lobby_name_request() {
+    packet_header header;
+    header.command = 0x8A;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+
+void TProtocol::handle_cmd_8A(packet &pkt) {
+    TRecvLobbyName tmp = as(TRecvLobbyName &, pkt);
+    bswap_cmd_8a_header(&tmp);
+    if (m_recv_handlers.handle_8A_lobby_name_packet != NULL) {
+        m_recv_handlers.handle_8A_lobby_name_packet(tmp.name);
+    }
+}
+
+void TProtocol::send_lobby_arrow(int arrow) {
+    packet_header header;
+    header.command = 0x89;
+    header.flags = arrow;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+
+// The lobby registers a no-argument function as the 88 handler; the protocol passes it the list.
+typedef void (*arrow_color_list_handler)(void *list);
+
+void TProtocol::handle_cmd_88(packet &pkt) {
+    char list[0xC4];
+    arrow_color_list_handler handler;
+
+    copy_entry_table((s32 *)list, (s32 *)&pkt);
+    bswap_cmd_88_body(list);
+    handler = (arrow_color_list_handler)m_recv_handlers.handle_88_player_arrow_color_list_packet;
+    if (handler != NULL) {
+        handler(list);
+    }
+}
+
+void TProtocol::handle_cmd_C4(packet &pkt) {
+    char results[sizeof(ChoiceSearchResultList)];
+
+    copy_cmd_c4_entry_table((s32 *)results, (s32 *)&pkt);
+    bswap_cmd_c4_body(results);
+    if (m_recv_handlers.handle_C4_choice_search_reply_packet != NULL) {
+        m_recv_handlers.handle_C4_choice_search_reply_packet((ChoiceSearchResultList *)results);
+    }
+}
+
+void TProtocol::send_choice_search(TPlyChoiceSearchConfig &parameters) {
+    ChoiceSearchPacket packet;
+    if (m_connected != 0) {
+        memset(&packet, 0, sizeof(packet));
+        packet.header.command = 0xC3;
+        packet.header.flags = 0;
+        packet.header.size = sizeof(packet);
+        copy_choice_search_parameters(&packet.parameters, &parameters);
+        packet.bswap();
+        send((u8*)&packet, sizeof(packet));
+    }
+}
+
+void TProtocol::send_choice_search_parameters(TPlyChoiceSearchConfig &parameters) {
+    ChoiceSearchPacket packet;
+    if (m_connected != 0) {
+        memset(&packet, 0, sizeof(packet));
+        packet.header.command = 0xC2;
+        packet.header.flags = 0;
+        packet.header.size = sizeof(packet);
+        copy_choice_search_parameters(&packet.parameters, &parameters);
+        packet.bswap();
+        send((u8*)&packet, sizeof(packet));
+    }
+}
+
+void TProtocol::handle_cmd_C0(packet &pkt) {
+    TRecvChoiceSearchOptions tmp = as(TRecvChoiceSearchOptions &, pkt);
+    bswap_c0_lobby_entries(&tmp);
+    if (m_recv_handlers.handle_C0_choice_search_option_packet != NULL) {
+        m_recv_handlers.handle_C0_choice_search_option_packet(&tmp);
+    }
+}
+
+void TProtocol::send_choice_search_options_request() {
+    packet_header header;
+    if (m_connected != 0) {
+        memset(&header, 0, sizeof(header));
+        header.command = 0xC0;
+        header.flags = 0;
+        header.size = sizeof(header);
+        header.bswap();
+        send((u8*)&header, sizeof(header));
+    }
+}
+
+// The lobby registers a no-argument function as the B1 handler; the protocol passes it the time text.
+typedef void (*server_time_handler)(char *time);
+
+void TProtocol::handle_cmd_B1(packet &pkt) {
+    TRecvServerTime recv = as(TRecvServerTime &, pkt);
+    server_time_handler handler;
+    s32 low = recv.time_flags_low;
+    s32 mid = recv.time_flags_mid;
+    s32 high = recv.time_flags_high;
+
+    lobby_state_flags = 0;
+    lobby_state_flags = (lobby_state_flags & ~0xFF) | (low & 0xFF);
+    lobby_state_flags = (lobby_state_flags & ~0xFF00) | ((mid << 8) & 0xFF00);
+    lobby_state_flags = (lobby_state_flags & ~0xFF0000) | ((high << 16) & 0xFF0000);
+    bswap_packet_header_cmd_b1(&recv);
+    handler = (server_time_handler)m_recv_handlers.handle_B1_current_time_packet;
+    if (handler != NULL) {
+        handler(recv.time);
+    }
+}
+
 // ---- pso/network/TProtocol_801DB474
 #include "pso/network/TProtocol.h"
 
@@ -28,20 +549,14 @@ void TProtocol::send_server_time_accepted() {
 #include "pso/unk/TLobby.h"
 #include "pso/network/protocol/protocol.h"
 
-struct Stack_801DB554 {
-    s8 sp8;
-    s8 sp9;
-    s16 spA;
-};
-
 void TProtocol::send_6F_burst_done() {
-    Stack_801DB554 stack;
+    packet_header header;
     if (m_connected != 0) {
-        stack.sp8 = 0x6F;
-        stack.sp9 = 0;
-        stack.spA = 4;
-        ((packet_header *)((saddr) &stack.sp8))->bswap();
-        send((u8 *)&stack.sp8, 4);
+        header.command = 0x6F;
+        header.flags = 0;
+        header.size = sizeof(header);
+        header.bswap();
+        send((u8 *)&header, sizeof(header));
     }
 }
 
@@ -73,7 +588,6 @@ void TProtocol::handle_cmd_97(packet &pkt) {
 
 #include "pso/ui/chat/TChatMessage.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
-#include "pso/unk/text_801DF280.h"
 #include <stddef.h>
 
 struct CharacterSaveInfoPacket {
@@ -173,7 +687,6 @@ void TProtocol::handle_cmd_92(packet &pkt) {
 // ---- pso/unk/text_801DB998
 
 #include "pso/player/TPlySmth.h"
-#include "pso/ui/chat/TChatMessage_801DF918.h"
 
 struct Stack_801DB998 {
     u8 sp8;
@@ -406,28 +919,19 @@ void TProtocol::send_pso_data_long2(u32 flags, long_game_command &packet, size_t
 	}
 }
 
-struct Pkt_801DC084 {
-    u8 cmd;
-    u8 flag;
-    u16 size;
-    u8 data[0x400];
-};
-
-extern "C" {
-void bswap__12TRecvPsoDataFv(void *);
 
 void TProtocol::send_pso_data2(u32 flags, game_command &packet, u32 size) {
     char buf[0x80];
     sprintf(buf, "SndPsoData2 %d %d %d", packet.header.command, size, flags);
     if (this->m_connected != 0) {
-        Pkt_801DC084 pkt;
+        TRecvPsoData pkt;
         int packet_size;
-        pkt.cmd = 0x62;
-        pkt.flag = flags;
-        pkt.size = size + 4;
-        packet_size = pkt.size;
-        memcpy(pkt.data, &packet, size);
-        bswap__12TRecvPsoDataFv(&pkt);
+        pkt.header.command = 0x62;
+        pkt.header.flags = flags;
+        pkt.header.size = size + 4;
+        packet_size = pkt.header.size;
+        memcpy(&pkt.data.pkt, &packet, size);
+        pkt.bswap();
         this->send((u8 *)&pkt, packet_size);
     }
 }
@@ -436,14 +940,14 @@ void TProtocol::send_pso_data(game_command &packet, u32 size) {
     char buf[0x80];
     sprintf(buf, "SndPsoData %d %d", packet.header.command, size);
     if (this->m_connected != 0) {
-        Pkt_801DC084 pkt;
+        TRecvPsoData pkt;
         int packet_size;
-        pkt.cmd = 0x60;
-        pkt.flag = 0;
-        pkt.size = size + 4;
-        packet_size = pkt.size;
-        memcpy(pkt.data, &packet, size);
-        bswap__12TRecvPsoDataFv(&pkt);
+        pkt.header.command = 0x60;
+        pkt.header.flags = 0;
+        pkt.header.size = size + 4;
+        packet_size = pkt.header.size;
+        memcpy(&pkt.data.pkt, &packet, size);
+        pkt.bswap();
         this->send((u8 *)&pkt, packet_size);
     }
 }
@@ -452,7 +956,6 @@ struct List_801DC1E4 { u8 command; u8 flags; u16 size; u32 entries[30]; };
 struct Text_801DC1E4 { u8 command; u8 flags; u16 size; char text[0x200]; };
 struct Proto_801DC1E4 { u8 pad[0x1910]; s32 connected; u8 pad1914[0x74]; u8 char_data[0x41C]; };
 
-}
 s32 validate_player_visual_record(void *arg0);
 extern "C" {
 
@@ -704,7 +1207,7 @@ void TProtocol::send_logout() {
 int TProtocol::send_login3() {
 	int ret;
 	set_ip_address(new_ip_addr);
-	set_port((short)new_port);
+	set_port(new_port);
 
 	if (open() >= 0) {
 		ret = 0;
@@ -1462,14 +1965,445 @@ LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_1_offset, offsetof(RecoveredFields_8
 LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_2_offset, offsetof(RecoveredFields_801DD33C_arg1, field_2) == 0x2);
 LAYOUT_ASSERT(RecoveredFields_801DD33C_arg1_4_offset, offsetof(RecoveredFields_801DD33C_arg1, field_4) == 0x4);
 
-void TProtocol::bswap_cmd_AB() {
-	((packet_header *)this)->bswap();
-	bswap_16((u16 *)((char *)this + 4));
+void TRecvQuestStats::bswap() {
+    header.bswap();
+    bswap_16(&value);
+}
+
+void TSendQuestStatistic::bswap() {
+    int i;
+
+    header.bswap();
+    bswap_16(&id);
+    bswap_16(&unused);
+    bswap_16(&first_label);
+    bswap_16(&second_label);
+    for (i = 0; i < 8; i++) {
+        bswap_32(&values[i]);
+    }
+}
+
+void TSendClientConfig::bswap() {
+    header.bswap();
+}
+
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+
+struct ClientConfigBytes { u8 bytes[0x20]; };
+
+TPlyClientConfig& TPlyClientConfig::operator=(const TPlyClientConfig& other) {
+    *reinterpret_cast<ClientConfigBytes*>(this) =
+        *reinterpret_cast<const ClientConfigBytes*>(&other);
+    return *this;
+}
+
+void TSendDownloadHead::bswap() {
+    header.bswap();
+}
+
+void TTradeList::bswap() {
+    header.bswap();
+    bswap_16(&target_client_id);
+    bswap_16(&item_count);
+    for (int i = 0; i < 32; i++) {
+        items[i].bswap();
+    }
+}
+template <> void TPlyText<172>::bswap() { header.bswap(); }
+void TRecvInfoBoard::bswap() { header.bswap(); }
+template <> void TPlyText<512>::bswap() { header.bswap(); }
+void TBlockedSenders::bswap() {
+    header.bswap();
+    for (int i = 0; i < 30; ++i) {
+        bswap_32(&blocked_senders[i]);
+    }
+}
+void TRecvChallengeData::bswap() {
+    header.bswap();
+    for (int i = 0; i < 12; i++) {
+        records[i].bswap();
+    }
+}
+void TPlyChallenge::bswap() {
+    bswap_32(&client_id);
+    challenge.bswap();
+    bswap_16(&battle_place_count_1);
+    bswap_16(&battle_place_count_2);
+    bswap_16(&battle_place_count_3);
+    bswap_16(&battle_place_count_4);
+    bswap_16(&battle_disconnect_count);
+    bswap_16(&pad_10E);
+    bswap_16(&pad_110);
+    bswap_16(&pad_112);
+    bswap_32(&pad_114);
+    bswap_32(&pad_118);
+}
+void TSendLogin::bswap() {
+    header.bswap();
+    tag.bswap();
+    bswap_ply_smth_pair(&hardware_id);
+    bswap_32(&sub_version);
+    extension.bswap();
+}
+
+void TPlyMeetUserExtension::bswap() {
+    for (int i = 0; i < 8; ++i) {
+        tags[i].bswap();
+    }
+    bswap_32(&mbr_0x40);
+}
+
+void TRecvPsoRegistConnect::bswap() {
+    header.bswap();
+    bswap_32(&server_key);
+    bswap_32(&client_key);
+}
+
+struct RecoveredFields_801DF394_arg0
+{
+  s32 field_0;
+};
+
+struct RecoveredFields_801DF394_arg1
+{
+  s32 field_0;
+};
+
+struct RecoveredFields_801DF4FC_arg0
+{
+  s32 field_0;
+};
+
+struct RecoveredFields_801DF4FC_arg1
+{
+  s32 field_0;
+};
+
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+struct W4_801DF558 { u32 w[4]; };
+
+struct W8_801DF558 { u32 w[8]; };
+
+struct W12_801DF558 { u32 w[12]; };
+
+struct T3_801DF558 { u32 w[3]; };
+
+struct Entry_801DF558 {
+    u32 a;
+    W4_801DF558 b;
+    W8_801DF558 c;
+    W12_801DF558 d;
+    T3_801DF558 e;
+    u8 ext[0x64];
+};
+
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+struct W4_801DF61C { s32 v[4]; };
+
+struct Copy_801DF61C { W4_801DF61C a; W4_801DF61C b; };
+
+struct Tag_801DF61C { u8 b[8]; };
+
+struct Obj_801DF61C {
+    Tag_801DF61C tags[8];
+    s32 w;
+    Copy_801DF61C c;
+};
+
+extern "C" {
+int bswap_32__FPUl(void* a0);
+s32 bswap_16__FPUs(s32);
+int __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void*);
+Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src);
+s32 __ct__16TPlyGuildCardTagFv(s32);
+}
+
+void TSendVerifyLicense::bswap() {
+    header.bswap();
+    bswap_ply_smth_pair(&hardware_id);
+    bswap_32(&sub_version);
+}
+
+TSendVerifyLicense::TSendVerifyLicense() {}
+void bswap_cmd_8a_header(void *p) { ((packet_header *)p)->bswap(); }
+void bswap_cmd_88_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 16; i++) { bswap_cmd_88_marker_record((void*)((char*)p + 0x4 + i * 12)); } } }
+
+void bswap_cmd_88_marker_record(void* p) { ((TPlyGuildCardTag *)p)->bswap(); bswap_32((u32 *)((char*)p + 0x8)); }
+
+typedef struct RecoveredFields_801DF394_arg0 RecoveredFields_801DF394_arg0;
+typedef struct RecoveredFields_801DF394_arg1 RecoveredFields_801DF394_arg1;
+
+s32 *copy_entry_table(s32 *arg0, s32 *arg1) {
+  uaddr var_r30;
+  saddr var_r29;
+  var_r30 = (uaddr) (((u8 *) arg0) + 4);
+  var_r29 = (saddr) (((u8 *) arg1) + 4);
+  ((RecoveredFields_801DF394_arg0 *) arg0)->field_0 = ((RecoveredFields_801DF394_arg1 *) arg1)->field_0;
+  do
+  {
+    copy_cmd_88_marker_record((void*)var_r30, (void*)var_r29);
+    var_r30 += 0xC;
+    var_r29 += 0xC;
+  }
+  while (var_r30 < ((uaddr) (((u8 *) arg0) + 0xC4)));
+  return arg0;
+}
+
+void* copy_cmd_88_marker_record(void* p, void* a1) { __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(p); *(void**)((char*)p + 0x8) = *(void**)((char*)a1 + 0x8); return p; }
+void bswap_cmd_c4_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 32; i++) { bswap_cmd_c4_entry((void *)((char*)p + 0x4 + i * 212)); } } }
+
+void bswap_cmd_c4_entry(void *arg0) {
+    bswap_32((u32 *)arg0);
+    bswap_cmd_c4_reconnect_command((saddr)((void *)((char *)arg0 + 100)));
+    ((TPlyMeetUserExtension *)((char *)arg0 + 112))->bswap();
+}
+
+void bswap_cmd_c4_reconnect_command(saddr arg0) {
+    ((packet_header *)arg0)->bswap();
+    ((s32)bswap_32__FPUl((void*)(arg0 + 4)));
+    bswap_16__FPUs(arg0 + 8);
+    bswap_16__FPUs(arg0 + 0xA);
+}
+
+typedef struct RecoveredFields_801DF4FC_arg0 RecoveredFields_801DF4FC_arg0;
+typedef struct RecoveredFields_801DF4FC_arg1 RecoveredFields_801DF4FC_arg1;
+s32 *copy_cmd_c4_entry_table(s32 *arg0, s32 *arg1) {
+  u8 *dst;
+  u8 *src;
+  dst = (u8 *)arg0 + 4;
+  src = (u8 *)arg1 + 4;
+  ((RecoveredFields_801DF4FC_arg0 *) arg0)->field_0 = ((RecoveredFields_801DF4FC_arg1 *) arg1)->field_0;
+  do
+  {
+    copy_cmd_c4_entry(dst, src);
+    dst += 0xD4;
+    src += 0xD4;
+  }
+  while (dst < (u8 *)arg0 + 0x1A84);
+  return arg0;
+}
+
+struct Obj_801DF61C;
+void *copy_cmd_c4_entry(void *dst, void *src) {
+    Entry_801DF558 *d = (Entry_801DF558 *)dst;
+    Entry_801DF558 *s = (Entry_801DF558 *)src;
+    d->a = s->a;
+    d->b = s->b;
+    d->c = s->c;
+    d->d = s->d;
+    d->e = s->e;
+    copy_ply_meet_user_extension((Obj_801DF61C *)d->ext, (Obj_801DF61C *)s->ext);
+    return dst;
+}
+
+Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src) {
+    Tag_801DF61C *d = dst->tags;
+    Tag_801DF61C *s = src->tags;
+    do {
+        ((int (*)(void *, void *))__ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag)(d, s);
+        d++;
+        s++;
+    } while (d < dst->tags + 8);
+    dst->w = src->w;
+    dst->c.a = src->c.a;
+    dst->c.b = src->c.b;
+    return dst;
+}
+
+void ChoiceSearchPacket::bswap() {
+    header.bswap();
+    parameters.bswap();
+}
+void TPlyChoiceSearchConfig::bswap() {
+    bswap_32(&disabled);
+    for (int i = 0; i < 5; i++) {
+        bswap_u16_pair_field(&entries[i]);
+    }
+}
+
+void bswap_u16_pair_field(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((void*)((char*)p + 0x2))); }
+
+TPlyChoiceSearchConfig *copy_choice_search_parameters(TPlyChoiceSearchConfig *dst, const TPlyChoiceSearchConfig *src) {
+    *dst = *src;
+    return dst;
+}
+
+void bswap_c0_lobby_entries(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 56; i++) { bswap_c0_choice_search_entry((void*)((char*)p + 0x4 + i * 32)); } } }
+
+void bswap_c0_choice_search_entry(void* p) { bswap_u16_pair_field(p); }
+
+void bswap_packet_header_cmd_b1(void *p) { ((packet_header *)p)->bswap(); }
+
+void bswap_save_packet(saddr arg0) {
+    ((packet_header *)arg0)->bswap();
+    ((s32)bswap_32__FPUl((void*)(arg0 + 4)));
+    ((s32)bswap_32__FPUl((void*)(arg0 + 8)));
+}
+
+void bswap_change_ship_block_packet(void* p) { ((packet_header *)p)->bswap(); ((TPlyGuildCardTag *)((char*)p + 0x4))->bswap(); }
+
+s32 construct_change_ship_block_packet(s32 arg0) {
+    __ct__16TPlyGuildCardTagFv(arg0 + 4);
+    return arg0;
 }
 
 extern "C" {
 
-void TProtocol::bswap_packet() { ((packet_header *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_16((u16 *)((char*)this + 0x8)); bswap_16((u16 *)((char*)this + 0xa)); { int i; for (i = 0; i < 8; i++) { bswap_32((u32 *)((char*)this + 0xc + i * 4)); } } }
-void TSendClientConfig::bswap() { header.bswap(); }
+
+void bswap__12TChatMessageFv(saddr arg0) {
+    ((packet_header *)arg0)->bswap();
+    ((TPlyGuildCardTag *)(arg0 + 4))->bswap();
+    bswap_32((u32 *)(arg0 + 0x1C));
+}
 
 }
+
+LAYOUT_ASSERT(RegistConnectHeaderOffset, offsetof(TSendPsoRegistConnect, header) == 0);
+LAYOUT_ASSERT(RegistConnectPacketSize, sizeof(TSendPsoRegistConnect) == 0x28);
+
+void bswap_cmd_9c_send_pso_regist(void* p) { ((packet_header *)p)->bswap(); bswap_ply_smth_pair((char*)p + 0x4); bswap_32((u32 *)((char*)p + 0xc)); }
+void* construct_cmd_9c_send_pso_regist(void* p) { __ct__8TPlySmthFv((char*)p + 0x4); return p; }
+
+void TSendPsoRegistConnect::bswap() {
+    header.bswap();
+}
+
+template<> void TRecvExit<true>::bswap() {
+    header.bswap();
+}
+
+void TPlyJoinLobby::bswap() {
+    header.bswap();
+    for (int i = 0; i < 12; ++i) {
+        entries[i].bswap();
+    }
+}
+
+void TPlyJoinLobbyEntry::bswap() {
+    tag.bswap();
+    bswap_32(&ip_addr);
+    bswap_32(&client_id);
+    bswap__12TPlyCharDataFv((saddr)&char_data);
+}
+
+LAYOUT_ASSERT(LobbyExitSize, sizeof(TRecvExit<true>) == 8);
+LAYOUT_ASSERT(GameExitSize, sizeof(TRecvExit<false>) == 8);
+LAYOUT_ASSERT(GameExitClientOffset, offsetof(TRecvExit<false>, client_id) == 4);
+LAYOUT_ASSERT(GameExitLeaderOffset, offsetof(TRecvExit<false>, leader_id) == 5);
+LAYOUT_ASSERT(GameExitUdpOffset, offsetof(TRecvExit<false>, disable_udp) == 6);
+
+template<> void TRecvExit<false>::bswap() {
+    header.bswap();
+}
+
+void TCreateGame::bswap() {
+    header.bswap();
+    tag.bswap();
+}
+
+void TFindUser::bswap() {
+    header.bswap();
+    tag.bswap();
+    bswap_32(&target_gc);
+}
+
+TFindUser::TFindUser() {}
+
+void TRoomChange::bswap() {
+    header.bswap();
+    tag.bswap();
+}
+
+TRoomChange::TRoomChange() {}
+
+void TRecvGenerateID::bswap() {
+    header.bswap();
+    bswap_32(&client_id);
+    tag.bswap();
+}
+
+void TGenGuildCardTag::bswap() {
+    bswap_16(&tag2);
+    bswap_32(&guildcard_number);
+}
+
+void TRecvPsoDataLong::bswap() {
+    header.bswap();
+}
+
+void TRecvPsoData::bswap() {
+    header.bswap();
+}
+
+void TPlyJoinData::bswap() {
+    header.bswap();
+    bswap__12TPlyCharDataFv((saddr)&char_data);
+    challenge.bswap();
+    choice_search_config.bswap();
+    for (int i = 0; i < 30; i++) {
+        bswap_32(&blocked_senders[i]);
+    }
+    bswap_32(&auto_reply_enabled);
+}
+
+LAYOUT_ASSERT(SendActionSize, sizeof(TSendAction<0>) == 12);
+LAYOUT_ASSERT(SendActionTagOffset, offsetof(TSendAction<0>, tag) == 4);
+LAYOUT_ASSERT(NamedActionSize, sizeof(TSendAction<1>) == 0x1C);
+LAYOUT_ASSERT(PasswordActionSize, sizeof(TSendAction<2>) == 0x1C);
+LAYOUT_ASSERT(NamedPasswordActionSize, sizeof(TSendAction<3>) == 0x2C);
+LAYOUT_ASSERT(NamedActionNameOffset, offsetof(TSendAction<1>, name) == 0xC);
+LAYOUT_ASSERT(PasswordActionPasswordOffset, offsetof(TSendAction<2>, password) == 0xC);
+LAYOUT_ASSERT(NamedPasswordActionNameOffset, offsetof(TSendAction<3>, name) == 0xC);
+LAYOUT_ASSERT(NamedPasswordActionPasswordOffset, offsetof(TSendAction<3>, password) == 0x1C);
+LAYOUT_ASSERT(TPlyJoinDataSize, sizeof(TPlyJoinData) == 0x87C);
+LAYOUT_ASSERT(TPlyJoinDataAutoReplyOffset, offsetof(TPlyJoinData, auto_reply) == 0x67C);
+
+TPlyJoinData::~TPlyJoinData() {}
+
+TPlyJoinData::TPlyJoinData() {}
+
+template<> void TSendAction<0>::bswap() {
+    header.bswap();
+    tag.bswap();
+}
+
+template<> TSendAction<0>::TSendAction() {}
+
+void TSendAction<3>::bswap() {
+    header.bswap();
+    tag.bswap();
+}
+
+TSendAction<3>::TSendAction() {}
+
+void TSendAction<2>::bswap() {
+    header.bswap();
+    tag.bswap();
+}
+
+TSendAction<2>::TSendAction() {}
+
+void TSendAction<1>::bswap() {
+    header.bswap();
+    tag.bswap();
+}
+
+TSendAction<1>::TSendAction() {}
+
+extern "C" {
+
+
+void bswap__11TMessageBoxFv(saddr arg0) {
+    ((packet_header *)arg0)->bswap();
+    ((TPlyGuildCardTag *)(arg0 + 4))->bswap();
+}
+
+}
+
+TMessageBox::TMessageBox() {}

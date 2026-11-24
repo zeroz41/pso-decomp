@@ -34,11 +34,17 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/CameraCapture.h"
-#include "pso/system/scene/TScene_8029F5B0.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx.h>
+#undef PSO_SDK_COMPACT_MATH
+
+// Defined at the end of the file, where the original places it with the other out-of-line helpers.
+static void set_tex_coord_gen(GXTexCoordID dst_coord, GXTexGenType func, GXTexGenSrc src_param, u32 mtx);
 #include "pso/player/TObjPlayer_803DC834.h"
 #include <stddef.h>
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/render/GinjaMaterial.h"
 
 s32 lbl_805D65F0;
 void *scene_sora_instance;
@@ -54,7 +60,7 @@ extern "C" {
 void reflect_matrix_in_plane(s32 mode, void *plane);
 }
 
-s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
+s32 find_reflective_floor(saddr pos, u8 *plane) {
   Vec probe;
   s32 area;
   s32 mask;
@@ -66,7 +72,7 @@ s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
   {
     mask = 0x4000;
   }
-  VecCopy(&probe, (const Vec *)arg0);
+  VecCopy(&probe, (const Vec *)pos);
   probe.y += 35.0f;
   hit = csnVecterUnder(&probe, mask);
   if (hit != 0)
@@ -76,23 +82,20 @@ s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
     {
       return 0;
     }
-    if (arg1 != 0)
+    if (plane != 0)
     {
-      *((f32 *) (arg1 + 0)) = contact->point.x;
-      *((f32 *) (arg1 + 4)) = hit->contact->point.y;
-      *((f32 *) (arg1 + 8)) = hit->contact->point.z;
-      *((f32 *) (arg1 + 0xC)) = hit->contact->normal.x;
-      *((f32 *) (arg1 + 0x10)) = hit->contact->normal.y;
-      *((f32 *) (arg1 + 0x14)) = hit->contact->normal.z;
+      *((f32 *) (plane + 0)) = contact->point.x;
+      *((f32 *) (plane + 4)) = hit->contact->point.y;
+      *((f32 *) (plane + 8)) = hit->contact->point.z;
+      *((f32 *) (plane + 0xC)) = hit->contact->normal.x;
+      *((f32 *) (plane + 0x10)) = hit->contact->normal.y;
+      *((f32 *) (plane + 0x14)) = hit->contact->normal.z;
     }
     return 1;
   }
   return 0;
 }
 
-extern "C" {
-s32 GXSetScissor(s32, s32, s32, s32);
-}
 
 s32 push_player_reflection_matrix(u16 client_id, s32 clip) {
     s32 sp8[8];
@@ -109,7 +112,7 @@ s32 push_player_reflection_matrix(u16 client_id, s32 clip) {
     if (player == 0U) {
         return 0;
     }
-    if (fn_8029E7BC(player + 0x2FC, (u8 *)sp8) == 0) {
+    if (find_reflective_floor(player + 0x2FC, (u8 *)sp8) == 0) {
         return 0;
     }
     if (clip != 0) {
@@ -224,7 +227,7 @@ struct Ray_8029EC3C { Vec o; Vec d; };
 extern "C" {
 #pragma push
 #pragma fp_contract on
-s32 fn_8029EC3C(Vec *pos, s32 mask) {
+s32 reflect_matrix_at_floor(Vec *pos, s32 mask) {
     Ray_8029EC3C ray;
     Vec a;
     Vec b;
@@ -283,7 +286,7 @@ s32 fn_8029EC3C(Vec *pos, s32 mask) {
 
 }
 
-void TObjPlayer__sub_8029EE2C(void) { TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D65F0)); load_list_texture((saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)2)); }
+void load_reflection_texture(void) { TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D65F0)); load_list_texture((saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)2)); }
 
 struct Cam_8029EFFC { Vec pos; Vec scale; };
 
@@ -294,12 +297,7 @@ struct Pl_8029EFFC {
     Vec pos2FC;
 };
 
-extern "C" {
-// Every caller tests this as an int; the header's bool return would not match.
-void GXSetTevOp(s32 stage, s32 mode);
-void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
-}
-const f64 lbl_80465E18 = 0.0054931640625;
+const f64 reflection_angle_to_degrees = 0.0054931640625;
 
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
 
@@ -307,7 +305,7 @@ void TObjPlayer::clear_state_if_flag80(s32 arg0) {
     if (arg0 & 0x80) {
         set_ginja_post_tev_stage_count(0);
         set_ginja_post_texgen_count(0);
-        TObjPlayer::set_global_effect_state(0);
+        set_global_effect_state(0);
         model_render_flags &= 0xFFF7FFFF;
     }
 }
@@ -321,7 +319,7 @@ void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags
         calc_projection_screen_offset(&x, &y);
         if (flags & 0x80) {
             push_matrix();
-            fov_y = (f32) (lbl_80465E18 * calc_camera_vertical_fov());
+            fov_y = (f32) (reflection_angle_to_degrees * calc_camera_vertical_fov());
             if (TCameraCtrl::is_view_offset() != 0) {
                 C_MTXLightPerspective(mtx, fov_y, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - x), (f32) (0.5f - y));
             } else {
@@ -331,13 +329,13 @@ void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags
             load_current_tex_matrix(2);
             pop_matrix();
             load_current_pos_matrix(2);
-            GXSetTevOrder(1, 1, 2, 4);
-            GXSetTevOp(1, 2);
-            fn_8029F5B0(1, 0, 0, 0x24);
+            GXSetTevOrder(GX_TEVSTAGE1, GX_TEXCOORD1, GX_TEXMAP2, GX_COLOR0A0);
+            GXSetTevOp(GX_TEVSTAGE1, GX_BLEND);
+            set_tex_coord_gen(GX_TEXCOORD1, GX_TG_MTX3x4, GX_TG_POS, GX_TEXMTX2);
             model_render_flags |= 0x80000;
             set_ginja_post_tev_stage_count(1);
             set_ginja_post_texgen_count(1);
-            TObjPlayer::set_global_effect_state(1);
+            set_global_effect_state(1);
         }
     }
 }
@@ -370,7 +368,7 @@ void TUnk_804DC7C4::render_shadows() {
     {
         Vec off = p->pos2FC;
         off.y += 10.0f;
-        hit = fn_8029E7BC((saddr)&off, (u8 *)&reflect_pos);
+        hit = find_reflective_floor((saddr)&off, (u8 *)&reflect_pos);
     }
     if (is_boss_area() != 0) {
         hit = 1;
@@ -449,7 +447,7 @@ void TUnk_804DC7C4::render_shadows() {
             push_matrix();
             push_matrix();
             VecCopy((Vec *)(&tmp), (const Vec *)(&p->pos2FC));
-            r = fn_8029EC3C(&tmp, 0x4000);
+            r = reflect_matrix_at_floor(&tmp, 0x4000);
             if (r == 1) {
                 ((TMainTask *)((u8 *)&main_task))->render_object_layers(0);
             }
@@ -473,7 +471,7 @@ void TUnk_804DC7C4::render() {  }
 void TUnk_804DC7C4::run_task() {
     TScene::set_id(TObjPlayer::setup_projection_texture);
     TScene::set_active_scene(TObjPlayer::clear_state_if_flag80);
-    TScene::set_instance(TObjPlayer__sub_8029EE2C);
+    TScene::set_instance(load_reflection_texture);
 }
 
 TUnk_804DC7C4::~TUnk_804DC7C4() {
@@ -511,4 +509,26 @@ s32 TSceneSora::get_state() { return *(s32*)((char*)this + 0x20); }
 void TSceneSora::set_scene_flag(int scene_flag) { (*(int *)&lbl_805D65F0) = scene_flag; }
 void TSceneSora::copy_reflection_vec(u8 *arg0) {
     VecCopy((Vec *)(&sora_reflection_ray_direction), (const Vec *)(arg0));
+}
+
+// The SDK's GXSetTexCoordGen out of line: no normalisation, identity post-transform.
+static void set_tex_coord_gen(GXTexCoordID dst_coord, GXTexGenType func, GXTexGenSrc src_param, u32 mtx) {
+    GXSetTexCoordGen2(dst_coord, func, src_param, mtx, GX_FALSE, GX_PTIDENTITY);
+}
+
+inline void TScene::end_reflection_pass() { reflection_pass_active = 0; }
+
+inline void TScene::set_visibility_radius_margin(f32 margin) { visibility_radius_margin = margin; }
+
+inline void TScene::begin_reflection_pass() { reflection_pass_active = 1; }
+
+// Copies the 640x480 frame into the render target's texture as RGB565 and clears it.
+inline void GinjaRenderTarget::copy_efb_to_texture() {
+    GXColor clear_color = {0, 0, 0, 0};
+    GXSetZMode(GX_FALSE, GX_ALWAYS, GX_TRUE);
+    GXSetCopyClear(clear_color, 0xFFFFFF);
+    GXSetTexCopySrc(0, 0, 640, 480);
+    GXSetTexCopyDst(640, 480, GX_TF_RGB565, GX_FALSE);
+    GXCopyTex(texture_list.textures->texture->surface->header.pixels, GX_TRUE);
+    GXPixModeSync();
 }

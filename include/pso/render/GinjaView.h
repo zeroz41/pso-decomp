@@ -2,34 +2,13 @@
 #define PSO_RENDER_GINJAVIEW_H
 
 #include "types.h"
+#include "pso/render/gjSystem.h"
 #include "pso/animation/MotionContext.h"
-
-// The screen the view projects onto: per-axis scale (distance times the
-// screen size, y flipped), the centre and the reciprocals of the scales.
-struct ScreenProjection {
-    f32 scale_x;
-    f32 scale_y;
-    f32 center_x;
-    f32 center_y;
-    f32 inv_scale_x;
-    f32 inv_scale_y;
-    f32 distance;
-    f32 width;
-    f32 height;
-    f32 aspect;  // height / width
-};
-
-LAYOUT_ASSERT(ScreenProjection_size, sizeof(ScreenProjection) == 0x28);
-
-extern ScreenProjection screen_projection;
 
 // Takes view's distance and centre into screen_projection, rebuilding its
 // scales, and makes the clip bounds relative to the new centre.
 void update_projection_params(const ScreenProjection *view);
 
-// [0] far and [1] near clip distance, [2..5] the screen bounds of [6..9]
-// relative to the screen centre.
-extern f32 camera_clip_parameters[10];
 
 // The perspective GX projects with, and what it was built from.
 struct SceneProjectionState {

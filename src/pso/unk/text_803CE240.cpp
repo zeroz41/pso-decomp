@@ -4,12 +4,12 @@
 #include "pso/unk/text_803CE240.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AixPlayer.h"
+#include "pso/audio/AdxTalk.h"
+#include "pso/audio/AdxtInternal.h"
 
 extern "C" {
-void TLobby__sub_803C9E38(TLobby *, VObj_803C9E38 *);
-s32 TLobby__sub_803C9CB0(TLobby *);
+void TLobby__sub_803C9E38(AdxtPlayer *player, SjRingBuffer *sj);
 void update_file_stream_range(void *context);
-s32 get_field_60__6TLobbyFv(TLobby *);
 AixPlayer aix_player_pool[4];
 void TLobby__sub_803CE240(void) {
     s32 i;
@@ -23,7 +23,7 @@ void TLobby__sub_803CE240(void) {
 
 void TLobby__sub_803CE2A0(AixPlayer *player) {
     AixDemuxer *demuxer;
-    TLobby **tracks;
+    AdxtPlayer **tracks;
     s32 i;
     s32 count;
     s32 offset;
@@ -42,7 +42,7 @@ void TLobby__sub_803CE2A0(AixPlayer *player) {
             }
             count = TLobby__sub_803CE1D8(demuxer);
             for (i = 0; i < count; i++) {
-                player->tracks[i]->set_field98(1);
+                set_sync_mode_flag(player->tracks[i], 1);
                 TLobby__sub_803C9E38(tracks[i], player->track_inputs[i]);
             }
             player->state = 2;
@@ -61,7 +61,7 @@ void TLobby__sub_803CE2A0(AixPlayer *player) {
         }
     }
     for (i = 0; i < player->track_count; i++) {
-        if (get_field_60__6TLobbyFv(player->tracks[i]) == -1) {
+        if (get_error_code(player->tracks[i]) == -1) {
             player->state = 4;
             break;
         }

@@ -31,7 +31,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 
 #include "pso/player/TUnk_804928CC.h"
-#include "pso/render/TUnk_80490470.h"
+#include "pso/render/MaterialShadeFade.h"
 #include "pso/enemy/dellbiter/TObjEneDellBiter_Eff_Rush.h"
 #include <stddef.h>
 #include "pso/enemy/dellbiter/TObjEneDellBiter_Eff_TpAbsorb1.h"

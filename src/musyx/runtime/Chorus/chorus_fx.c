@@ -1,4 +1,4 @@
-#include "musyx/runtime/musyx_runtime_b.h"
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 
@@ -121,7 +121,7 @@ asm void do_src2(register void *src) {
 #pragma push
 #pragma peephole off
 void sndAuxCallbackChorus(u8 reason, SND_AUX_INFO *info, void *user) {
-    Work_803BF884 *c = (Work_803BF884 *)user;
+    SND_AUX_CHORUS *c = (SND_AUX_CHORUS *)user;
     s32 *leftD;
     s32 *rightD;
     s32 *surD;
@@ -132,10 +132,10 @@ void sndAuxCallbackChorus(u8 reason, SND_AUX_INFO *info, void *user) {
     u8 nextCurrentLast;
     switch (reason) {
     case 0:
-        nextCurrentLast = (c->currentLast + 1) % 3;
-        leftD = c->lastLeft[nextCurrentLast];
-        rightD = c->lastRight[nextCurrentLast];
-        surD = c->lastSur[nextCurrentLast];
+        nextCurrentLast = (c->work.currentLast + 1) % 3;
+        leftD = c->work.lastLeft[nextCurrentLast];
+        rightD = c->work.lastRight[nextCurrentLast];
+        surD = c->work.lastSur[nextCurrentLast];
         leftS = info->data.bufferUpdate.left;
         rightS = info->data.bufferUpdate.right;
         surS = info->data.bufferUpdate.surround;
@@ -144,44 +144,44 @@ void sndAuxCallbackChorus(u8 reason, SND_AUX_INFO *info, void *user) {
             *rightD++ = *rightS++;
             *surD++ = *surS++;
         }
-        c->src.pitchHi = (c->pitchOffset >> 16) + 1;
-        c->src.pitchLo = (c->pitchOffset & 0xFFFF) << 16;
-        if (--c->pitchOffsetPeriodCount == 0) {
-            c->pitchOffsetPeriodCount = c->pitchOffsetPeriod;
-            c->pitchOffset = -c->pitchOffset;
+        c->work.src.pitchHi = (c->work.pitchOffset >> 16) + 1;
+        c->work.src.pitchLo = (c->work.pitchOffset & 0xFFFF) << 16;
+        if (--c->work.pitchOffsetPeriodCount == 0) {
+            c->work.pitchOffsetPeriodCount = c->work.pitchOffsetPeriod;
+            c->work.pitchOffset = -c->work.pitchOffset;
         }
         for (i = 0; i < 3; i++) {
-            c->src.posHi = c->currentPosHi;
-            c->src.posLo = c->currentPosLo;
+            c->work.src.posHi = c->work.currentPosHi;
+            c->work.src.posLo = c->work.currentPosLo;
             switch (i) {
             case 0:
-                c->src.smpBase = c->lastLeft[0];
-                c->src.dest = info->data.bufferUpdate.left;
-                c->src.old = c->oldLeft;
+                c->work.src.smpBase = c->work.lastLeft[0];
+                c->work.src.dest = info->data.bufferUpdate.left;
+                c->work.src.old = c->work.oldLeft;
                 break;
             case 1:
-                c->src.smpBase = c->lastRight[0];
-                c->src.dest = info->data.bufferUpdate.right;
-                c->src.old = c->oldRight;
+                c->work.src.smpBase = c->work.lastRight[0];
+                c->work.src.dest = info->data.bufferUpdate.right;
+                c->work.src.old = c->work.oldRight;
                 break;
             case 2:
-                c->src.smpBase = c->lastSur[0];
-                c->src.dest = info->data.bufferUpdate.surround;
-                c->src.old = c->oldSur;
+                c->work.src.smpBase = c->work.lastSur[0];
+                c->work.src.dest = info->data.bufferUpdate.surround;
+                c->work.src.old = c->work.oldSur;
                 break;
             }
-            switch (c->src.pitchHi) {
+            switch (c->work.src.pitchHi) {
             case 0:
-                do_src1(&c->src);
+                do_src1(&c->work.src);
                 break;
             case 1:
-                do_src2(&c->src);
+                do_src2(&c->work.src);
                 break;
             }
         }
-        c->currentPosHi = c->src.posHi % 480;
-        c->currentPosLo = c->src.posLo;
-        c->currentLast = nextCurrentLast;
+        c->work.currentPosHi = c->work.src.posHi % 480;
+        c->work.currentPosLo = c->work.src.posLo;
+        c->work.currentLast = nextCurrentLast;
         break;
     case 1:
         break;
@@ -192,7 +192,7 @@ void sndAuxCallbackChorus(u8 reason, SND_AUX_INFO *info, void *user) {
 #pragma push
 #pragma dont_inline off
 
-static inline u32 sndAuxCallbackUpdateSettingsChorus_803BFBF0(AuxChorus_803BFBF0 *ch) {
+static inline u32 sndAuxCallbackUpdateSettingsChorus(SND_AUX_CHORUS *ch) {
     ch->work.currentPosHi = 0x140 - ((ch->baseDelay - 5) << 5);
     ch->work.currentPosLo = 0;
     ch->work.currentPosHi = (ch->work.currentPosHi + (ch->work.currentLast - 1) * 0xa0) % 0x1e0;
@@ -202,7 +202,7 @@ static inline u32 sndAuxCallbackUpdateSettingsChorus_803BFBF0(AuxChorus_803BFBF0
     return 1;
 }
 
-u32 sndAuxCallbackPrepareChorus(AuxChorus_803BFBF0 *chorus) {
+u32 sndAuxCallbackPrepareChorus(SND_AUX_CHORUS *chorus) {
     u32 i;
     s32 *lastLeft;
     s32 *lastRight;
@@ -235,7 +235,7 @@ u32 sndAuxCallbackPrepareChorus(AuxChorus_803BFBF0 *chorus) {
         chorus->work.oldSur[0] = chorus->work.oldSur[1] = chorus->work.oldSur[2] = chorus->work.oldSur[3] = 0;
         chorus->work.src.trigger = 480;
         chorus->work.src.target = 0;
-        return sndAuxCallbackUpdateSettingsChorus_803BFBF0(chorus);
+        return sndAuxCallbackUpdateSettingsChorus(chorus);
     }
     return 0;
 }

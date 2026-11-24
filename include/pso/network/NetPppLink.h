@@ -1,7 +1,7 @@
 #ifndef PSO_NETWORK_NETPPPLINK_H
 #define PSO_NETWORK_NETPPPLINK_H
 /* The PPP link as the dispatcher sees it (lobby_net_buffer_desc_b, src/pso/network/TLobby_803FCF44.c).
- * TLobby__sub_803FD10C registers it; TLobby__sub_803FD5A4 binds an EtherType on it; TLobby__sub_804060B8 copies each
+ * ppp_link_init registers it; ppp_link_attach_protocol binds an EtherType on it; ppp_link_input copies each
  * received packet into a free buffer and passes it to the protocol bound for its type. */
 #include "types.h"
 
@@ -16,7 +16,7 @@ typedef struct PppLinkProtocol {
 } PppLinkProtocol;
 
 typedef struct PppLink {
-    s16 id;                     /* its handler index (TLobby__sub_80409A3C), -1 = closed */
+    s16 id;                     /* its handler index (register_link_handler), -1 = closed */
     PppLinkProtocol protocols[2]; /* 0x02 */
     u8 padA[2];
     s16 *used;                  /* 0x0C: one flag per receive buffer */
@@ -31,6 +31,8 @@ LAYOUT_ASSERT(PppLink_size_check, sizeof(PppLink) == 0x18);
 extern PppLink lobby_net_buffer_desc_b;
 
 void init_buffer_desc_b(PppLink *link);
+
+s16 ppp_link_init(void);
 
 #ifdef __cplusplus
 }

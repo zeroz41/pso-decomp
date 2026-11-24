@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/gjSystem.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os.h>
 #include <dolphin/os/OSAlloc.h>
@@ -76,8 +77,8 @@
 #include "pso/unk/text_803D8030.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/unk/text_803DCDB0.h"
 #include "pso/unk/text_803DE7E0.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/render/ChunkModelDraw.h"
 
 GXLightObj gx_default_light_obj[4];
@@ -94,7 +95,7 @@ s32 keyboard_active_flag;
 s32 keyboard_input_flag;
 
 void poll_input_devices_frame(void) {
-    TKeyBoardControl::read_pads();
+    read_pads();
     hardware_keyboard_state.disable_disconnected_ports();
     TKeyBoardControl::flush_input();
     update_pad_rumble();
@@ -251,7 +252,7 @@ void init_gx_lighting_defaults(void) {
 }
 
 void init_game_systems(void) {
-    SystemVideoInitConfig cfg;
+    VideoSystemConfig cfg;
     u32 lo;
     u32 hi;
     u32 size;
@@ -262,20 +263,20 @@ void init_game_systems(void) {
     DVDInit();
     VIInit();
     PADInit();
-    TKeyBoardControl::update_camera();
+    reset_projection_state();
     lo = (u32)OSGetArenaLo();
     hi = (u32)OSGetArenaHi();
-    cfg.rmode = NULL;
-    cfg.rmode = &GXNtsc480IntDf;
-    cfg.count = 2;
-    size = calc_framebuffer_size_bytes(0, &GXNtsc480IntDf);
-    cfg.fb[0] = (lo + 0x1F) & ~0x1F;
-    cfg.fbsize = 0x40000;
-    cfg.fb[1] = cfg.fb[0] + size;
-    cfg.fb[2] = cfg.fb[1] + size;
-    cfg.heap = (u32)OSInitAlloc((void *)(cfg.fb[2] + 0x40000), (void *)hi, 2);
-    cfg.heapsize = 0x518000;
-    start = cfg.heap + 0x518000;
+    cfg.render_mode = NULL;
+    cfg.render_mode = &GXNtsc480IntDf;
+    cfg.present_interval = 2;
+    size = calc_framebuffer_size_bytes(NULL);
+    cfg.display_framebuffer = (u8 *)((lo + 0x1F) & ~0x1F);
+    cfg.fifo_size = 0x40000;
+    cfg.draw_framebuffer = cfg.display_framebuffer + size;
+    cfg.fifo_buffer = cfg.draw_framebuffer + size;
+    cfg.heap = (u8 *)OSInitAlloc(cfg.fifo_buffer + 0x40000, (void *)hi, 2);
+    cfg.heap_size = 0x518000;
+    start = (uaddr)cfg.heap + 0x518000;
     init_system_heap_and_global_allocator((u8 *)start, (s32)(hi - start));
     init_video_and_gx(&cfg);
     OSSetArenaLo((void *)hi);
@@ -288,11 +289,11 @@ void init_game_systems(void) {
     motion_blend_buffer = (void *)xmalloc(0x6000);
     anim_model_matrix_array = (Mtx34 *)xmalloc(0x14A0);
     init_chunk_draw((saddr)resource_decompress_buffer, 0x2000);
-    TKeyBoardControl::set_key_state((saddr)poll_input_devices_frame);
+    set_frame_update_callback(poll_input_devices_frame);
     player_matrix_stack_buffer = (saddr)xmalloc(0x600);
-    TObjPlayer::init_matrix_stack(player_matrix_stack_buffer, 0x20);
+    init_matrix_stack(player_matrix_stack_buffer, 0x20);
     set_matrix_identity(0);
-    TKeyBoardControl::init_pad_slots_and_read(0, 0, 0);
+    init_pad_slots_and_read(0, 0, 0);
     TObjBoss2Tunnel::enable_and_trigger();
     init_pad_rumble();
     TKeyBoardControl::init_pad_state();

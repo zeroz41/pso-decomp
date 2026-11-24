@@ -33,10 +33,10 @@ struct BmlResource {
     ~BmlResource();
     void free_if_not_in_arena(void *ptr);
     void reset();
-    void load_texture_sub(const char *filename, s32 index);
+    void LoadTextureSub(const char *filename, s32 index);
     void set_flag_and_notify();
-    s32 load_bin_motion(const char *name, s32 index);
-    s32 load_bin_model(const char *name, s32 index);
+    s32 LoadBinMotion(const char *name, s32 index);
+    s32 LoadBinModel(const char *name, s32 index);
 
     u32 flags;
     s32 loaded_models;

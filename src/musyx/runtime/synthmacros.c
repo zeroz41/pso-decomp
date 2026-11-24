@@ -1,6 +1,7 @@
 #include <string.h>
 #include "musyx/musyx.h"
 #include "musyx/runtime/musyx_internal.h"
+#pragma bool off
 
 extern "C" {
 
@@ -16,7 +17,6 @@ void TimeQueueAdd(SynthVoice *self);
 void macMakeActive(SynthVoice *svoice);
 
 #pragma push
-#pragma bool off
 s32 mcmdWait(SynthVoice *svoice, SynthMacroStep *op) {
     u32 v;
     u32 ms;
@@ -116,7 +116,6 @@ body:
 }
 
 #pragma push
-#pragma bool off
 #pragma opt_common_subs on
 void mcmdPlayMacro(SynthVoice *svoice, SynthMacroStep *step) {
     s32 key;
@@ -154,10 +153,9 @@ void mcmdPlayMacro(SynthVoice *svoice, SynthMacroStep *step) {
 #pragma pop
 
 #pragma push
-#pragma bool off
 #pragma opt_common_subs on
 void mcmdStartSample(SynthVoice *svoice, SynthMacroStep *step) {
-    static SampleInfo newsmp;
+    static SAMPLE_INFO newsmp;
     u16 smp;
     smp = step->para[0] >> 8;
 
@@ -179,15 +177,15 @@ void mcmdStartSample(SynthVoice *svoice, SynthMacroStep *step) {
         break;
     }
 
-    if (newsmp.offset >= newsmp.count) {
-        newsmp.offset = newsmp.count - 1;
+    if (newsmp.offset >= newsmp.length) {
+        newsmp.offset = newsmp.length - 1;
     }
 
     hwInitSamplePlayback(svoice->id & 0xFF, smp, &newsmp, (svoice->cFlags & 0x100) == 0,
                          ((u32)svoice->prio << 24) | ((u32)svoice->age >> 15), svoice->id,
                          (svoice->cFlags & 0x80000000000) == 0, svoice->itdMode);
 
-    svoice->sInfo = newsmp.key;
+    svoice->sInfo = newsmp.info;
 
     if (svoice->playFrq != -1) {
         DoSetPitch(svoice);
@@ -247,7 +245,6 @@ void mcmdVibrato(SynthVoice *svoice, SynthMacroStep *op) {
 }
 
 #pragma push
-#pragma bool off
 #pragma opt_common_subs on
 void DoSetPitch(SynthVoice *svoice) {
     u32 f;
@@ -317,7 +314,6 @@ void DoSetPitch(SynthVoice *svoice) {
 #pragma pop
 
 #pragma push
-#pragma bool off
 #pragma opt_common_subs on
 void mcmdSetADSR(SynthVoice *svoice, SynthMacroStep *step) {
     SynthADSRInfo adsr;
@@ -368,7 +364,6 @@ void mcmdSetADSR(SynthVoice *svoice, SynthMacroStep *step) {
 #pragma pop
 
 #pragma push
-#pragma bool off
 #pragma opt_common_subs on
 void mcmdSetPitchADSR(SynthVoice *svoice, SynthMacroStep *step) {
     SynthADSRInfo adsr;
@@ -428,7 +423,6 @@ void mcmdSetPitchADSR(SynthVoice *svoice, SynthMacroStep *step) {
 #pragma pop
 
 #pragma push
-#pragma bool off
 #pragma opt_common_subs on
 void DoPanningSetup(SynthVoice *svoice, SynthMacroStep *step, u8 pi) {
     u32 mstime;
@@ -450,7 +444,6 @@ void DoPanningSetup(SynthVoice *svoice, SynthMacroStep *step, u8 pi) {
 #pragma pop
 
 #pragma push
-#pragma bool off
 #pragma opt_common_subs on
 u32 TranslateVolume(u32 volume, u16 curve) {
     u8 *ptr;
@@ -477,7 +470,6 @@ u32 TranslateVolume(u32 volume, u16 curve) {
 #pragma pop
 
 #pragma push
-#pragma bool off
 #pragma opt_common_subs on
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -542,7 +534,6 @@ void DoEnvelopeCalculation(SynthVoice *svoice, SynthMacroStep *step, s32 start_v
 #pragma pop
 
 #pragma push
-#pragma bool off
 #pragma opt_common_subs on
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -654,7 +645,7 @@ void mcmdPortamento(SynthVoice *svoice, SynthMacroStep *op) {
     }
 }
 
-s32 varGet32(SynthVoice *svoice, u32 isExCtrl, u32 index) {
+s32 varGet32(SynthVoice *svoice, u32 isExCtrl, u8 index) {
     if (isExCtrl != 0) {
         return inpGetExCtrl(svoice, index);
     }
@@ -665,7 +656,7 @@ s32 varGet32(SynthVoice *svoice, u32 isExCtrl, u32 index) {
     return synthGlobalVariable[index - 16];
 }
 
-s16 varGet(SynthVoice *svoice, u32 isExCtrl, u32 index) {
+s16 varGet(SynthVoice *svoice, u32 isExCtrl, u8 index) {
     s32 r;
     if (isExCtrl != 0) {
         r = (u16)inpGetExCtrl(svoice, index);
@@ -695,7 +686,6 @@ void varSet32(SynthVoice *svoice, u32 isExCtrl, u8 index, s32 val) {
 
 #pragma push
 #pragma opt_common_subs on
-#pragma bool off
 #pragma dont_inline off
 #pragma inline_depth(4)
 
@@ -740,7 +730,6 @@ void mcmdVarCalculation(SynthVoice *svoice, SynthMacroStep *step, u8 op) {
 #pragma pop
 
 #pragma push
-#pragma bool off
 #pragma opt_common_subs on
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -803,7 +792,6 @@ void mcmdSendMessage(SynthVoice *svoice, SynthMacroStep *step) {
 #pragma pop
 
 #pragma push
-#pragma bool off
 #pragma opt_common_subs on
 void mcmdSetKeyGroup(SynthVoice *svoice, SynthMacroStep *step) {
     u32 i;
@@ -831,7 +819,6 @@ void mcmdSetKeyGroup(SynthVoice *svoice, SynthMacroStep *step) {
 #pragma pop
 
 #pragma push
-#pragma bool off
 #pragma opt_common_subs on
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -1393,7 +1380,7 @@ void macHandleActive(SynthVoice *svoice) {
         svoice->keyGroup = 0;
         svoice->vibModAddScale = 0;
         svoice->treScale = 0;
-        inpInit((u8 *)svoice);
+        inpInit(svoice);
         if ((lastNote = inpGetMidiLastNote(svoice->midi, svoice->midiSet)) != 0xFF) {
             svoice->lastNote = lastNote;
         } else {
@@ -1699,7 +1686,6 @@ void macHandleActive(SynthVoice *svoice) {
 
 #pragma push
 #pragma opt_common_subs on
-#pragma bool off
 #pragma dont_inline off
 #pragma inline_depth(4)
 

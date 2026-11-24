@@ -12,12 +12,7 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 double asin(double x)
-#else
-double asin(x)
-double x;
-#endif
 {
 #ifdef _IEEE_LIBM
   return __ieee754_asin(x);

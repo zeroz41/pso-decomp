@@ -57,4 +57,4 @@ void release_blob_shadow_texture(void) {
     }
 }
 
-void load_ha_u032_kage(void) { blob_shadow_texture_list = load_gvm_texture_file("ha_u032_kage.gvm"); }
+void load_ha_u032_kage(void) { blob_shadow_texture_list = LoadPvmFileTls("ha_u032_kage.gvm"); }

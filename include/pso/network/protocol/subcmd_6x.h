@@ -29,6 +29,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
 #include "pso/network/protocol/cast_packets.h"
+#include "pso/quest/challenge/ChallengeRecord.h"
 
 struct G_6x70_Base_DCNTE {
  u16 client_id;
@@ -96,7 +97,7 @@ struct G_AttackFinished_Header_6x46 {
 struct G_Attack_6x43_6x44_6x45 {
  struct G_ClientIDHeader header;
  u16 angle_y;
- u16 action_type; // the receiver passes it to the attack state's set_action_type
+ s16 action_type; // the receiver passes it to the attack state's set_action_type
 };
 
 // The three stages of a physical attack combo (6x43, then 6x44, then 6x45),
@@ -170,21 +171,21 @@ struct G_CastTechnique_Header_6x47 {
 
 struct G_ChangePlayerHP_6x2F {
  struct G_ClientIDHeader header;
- u32 type;
+ s32 type;
  s16 amount;
  u16 client_id;
 };
 
 struct G_ChangePlayerLevel_6x30 {
  struct G_ClientIDHeader header;
- u16 atp;
- u16 mst;
- u16 evp;
- u16 hp;
- u16 dfp;
- u16 ata;
- u16 level;
- u16 is_level_down;
+ s16 atp;
+ s16 mst;
+ s16 evp;
+ s16 hp;
+ s16 dfp;
+ s16 ata;
+ s16 level;
+ s16 is_level_down;
 };
 
 struct G_ClearNegativeStatusEffects_6x0E {
@@ -258,7 +259,7 @@ struct G_DeleteInventoryItem_6x29 {
 
 struct G_DeleteMultipleInventoryItems_6xAC {
  struct G_ClientIDHeader header;
- u32 num_items;
+ s32 num_items;
  u32 item_ids[0x1E];
 };
 
@@ -309,8 +310,8 @@ struct G_DragonBossActions_6x12 {
 
 struct G_DropItem_6x2A {
  struct G_ClientIDHeader header;
- u16 amount;
- u16 floor;
+ s16 amount;
+ s16 floor;
  u32 item_id;
  struct VectorXYZF pos;
 };
@@ -361,7 +362,7 @@ struct G_EnableStealthSuitEffect_6x7A {
 struct G_EquipItem_6x25 {
  struct G_ClientIDHeader header;
  u32 item_id;
- u32 equip_slot;
+ s32 equip_slot;
 };
 
 struct G_ExecutePhotonBlast_Header_6x49 {
@@ -436,6 +437,13 @@ struct G_HitByEnemy_6x4B_6x4C {
  u16 angle;
  u16 current_hp;
  struct VectorXZF velocity;
+};
+
+struct G_UpdateEnemyState_6x0A {
+ struct G_EntityIDHeader header;
+ u16 enemy_index;
+ s16 total_damage;
+ u32 game_flags;
 };
 
 struct G_UpdateObjectState_6x0B {
@@ -592,7 +600,7 @@ struct G_OlgaFlowBossActions_6xA4_6xA5 {
 
 struct G_OlgaFlowSubordinateBossActions_6xAD {
  struct G_UnusedHeader header;
- u8 unknown_a1[0x40];
+ s8 actions[0x40];
 };
 
 struct G_PartialPlayerData_DCProtos_6x1E {
@@ -606,14 +614,14 @@ struct G_PartialPlayerData_DCProtos_6x1E {
 
 struct G_PhotonBlast_6x37 {
  struct G_ClientIDHeader header;
- u16 amount;
+ s16 amount;
  u16 unused;
 };
 
 struct G_PickUpItemRequest_6x5A {
  struct G_ClientIDHeader header;
  u32 item_id;
- u16 floor;
+ s16 floor;
  u16 unused;
  G_PickUpItemRequest_6x5A();
  void bswap();
@@ -632,8 +640,8 @@ struct G_PickUpItem_6x59 {
 
 struct G_PlaceTrap_6x83 {
  struct G_ClientIDHeader header;
- u16 trap_type;
- u16 trap_index;
+ s16 trap_type;
+ s16 trap_index;
 };
 
 struct G_PlaySoundFromPlayer_6xB2 {
@@ -731,13 +739,19 @@ struct G_SetBossWarpFlags_6x6A {
  u16 unused;
 };
 
+struct G_SetChallengeTime_6x95 {
+ struct G_UnusedHeader header;
+ s32 client_id;
+ s32 time;
+};
+
 struct G_SetChallengeDeadFlag_6x9D {
  struct G_UnusedHeader header;
  u32 client_id;
 };
 
 struct G_SetChallengeRecordsBase_6x7C {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;
  u16 client_id;
  u8 unused[2];
 };
@@ -749,12 +763,15 @@ struct G_SetChallengeRecords_PC_6x7C {
 
 struct G_SetChallengeRecords_V3_6x7C {
  struct G_SetChallengeRecordsBase_6x7C __base_G_SetChallengeRecordsBase_6x7C;
- u8 records[0x100];
+ ChallengeRecord records;
+ G_SetChallengeRecords_V3_6x7C();
+ void bswap();
+ void send();
 };
 
 struct G_SetEnemyLowGameFlagsUltimate_6x9C {
  struct G_EntityIDHeader header;
- u32 status_effect_flags;
+ s32 status_effect_flags;
 };
 
 struct G_SetEntityPositionAndAngle_6x17 {
@@ -765,8 +782,8 @@ struct G_SetEntityPositionAndAngle_6x17 {
 
 struct G_SetEntitySetFlags_6x76 {
  struct G_EntityIDHeader header;
- u16 floor;
- u16 flags;
+ s16 floor;
+ s16 flags;
 };
 
 struct G_SetKillerEntityID_6x89 {
@@ -824,7 +841,7 @@ struct G_SetPosition_6x20 {
 
 struct G_SetPosition_6x3F {
  struct G_ClientIDHeader header;
- u16 is_near_enemy;
+ s16 is_near_enemy;
  u16 angle;
  s16 floor;
  s16 room;
@@ -838,7 +855,7 @@ struct G_SetQuestFlags_V2_V3_6x6F {
 
 struct G_SetSwitchFlagFromTimer_6x93 {
  struct G_UnusedHeader header;
- u16 switch_flag_floor;
+ s16 switch_flag_floor;
  u16 switch_flag_num;
  u8 should_set;
  u8 unused[3];
@@ -852,8 +869,11 @@ struct G_SetTechniqueLevelOverride_6x8D {
 };
 
 struct G_SetTelepipeState_6x68 {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;
  struct TelepipeState state;
+ G_SetTelepipeState_6x68();
+ void bswap();
+ void send();
 };
 
 struct G_ShieldAttack_6x4A {
@@ -862,7 +882,7 @@ struct G_ShieldAttack_6x4A {
 
 struct G_ShowChallengeTimeRecordsWindow_6x8A {
  struct G_ClientIDHeader header;
- u32 which;
+ s32 which;
 };
 
 struct G_ShrinkPlayer_6x87 {
@@ -899,7 +919,7 @@ struct G_SpecializableItemDropRequest_6xA2 {
 
 struct G_StopAtPosition_6x3E {
  struct G_ClientIDHeader header;
- u16 is_near_enemy;
+ s16 is_near_enemy;
  u16 angle;
  s16 floor;
  s16 room;
@@ -1022,7 +1042,7 @@ struct G_UnblockGameJoin_6x71 {
 struct G_UnequipItem_6x26 {
  struct G_ClientIDHeader header;
  u32 item_id;
- u32 unused;
+ s32 equip_slot;
 };
 
 struct G_Unknown_6x02_6x03 {
@@ -1063,13 +1083,12 @@ struct G_Unknown_6x92 {
  f32 value;
 };
 
-struct G_UpdateAttackableColState_6x91 {
- struct G_UpdateObjectState_6x0B __base_G_UpdateObjectState_6x0B;
+struct G_UpdateAttackableColState_6x91 : G_UpdateObjectState_6x0B {
  u16 is_destroyed;
  u16 remaining_hits;
  u16 switch_flag_num;
  u8 should_set;
- u8 floor;
+ s8 floor;
 };
 
 struct G_UpdateEntityStat_6x9A {

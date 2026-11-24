@@ -80,33 +80,33 @@ int mbtowc(wchar_t* pwc, const char* s, size_t n) {
     return utf8_to_unicode(pwc, s, n);
 }
 
-size_t unicode_to_UTF8(char* r3, wchar_t r4) {
-    const char lut[] = { 0, 0, 0xC0, 0xE0 };
-    int r5;
-    char* r6;
+size_t unicode_to_UTF8(char* s, wchar_t wchar) {
+    const char first_byte_mark[] = { 0, 0, 0xC0, 0xE0 };
+    int number_of_bytes;
+    char* target_ptr;
 
-    if (!r3)
+    if (!s)
         return 0;
 
-    if (r4 < 0x80)
-        r5 = 1;
-    else if (r4 < 0x800)
-        r5 = 2;
+    if (wchar < 0x80)
+        number_of_bytes = 1;
+    else if (wchar < 0x800)
+        number_of_bytes = 2;
     else
-        r5 = 3;
+        number_of_bytes = 3;
 
-    r6 = r3 + r5;
-    switch (r5) {
+    target_ptr = s + number_of_bytes;
+    switch (number_of_bytes) {
         case 3:
-            *--r6 = (r4 & 0x3F) | 0x80;
-            r4 >>= 6;
+            *--target_ptr = (wchar & 0x3F) | 0x80;
+            wchar >>= 6;
         case 2:
-            *--r6 = (r4 & 0x3F) | 0x80;
-            r4 >>= 6;
+            *--target_ptr = (wchar & 0x3F) | 0x80;
+            wchar >>= 6;
         case 1:
-            *--r6 = r4 | lut[r5];
+            *--target_ptr = wchar | first_byte_mark[number_of_bytes];
     }
-    return r5;
+    return number_of_bytes;
 }
 #pragma dont_inline off
 

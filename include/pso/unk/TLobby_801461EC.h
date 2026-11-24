@@ -30,6 +30,7 @@ void fn_80147A68(void);
 void *get_account_entry(int idx);
 }
 void get_link_state(s16 *state, s16 *reason);
+int get_link_status();
 char *get_modem_phone_number(s32 idx);
 // --- end of C functions
 

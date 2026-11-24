@@ -300,7 +300,7 @@ void TParticleBallistic::draw_sprite_quad(s32 kind) {
         quad.edge_a_y = -sx * s;
         quad.edge_b_x = sy * s;
         quad.edge_b_y = sy * c;
-        DVDConvertEntrynumToPath(&quad.x);
+        draw_rotated_quad(&quad.x);
     }
     TWindowSubStatusDisp::get_player();
     TParticleCtrl::end_effect_render();

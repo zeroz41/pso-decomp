@@ -1,52 +1,49 @@
 #include "types.h"
 #include "pso/audio/GcrnaBufferQuery.h"
-#include "pso/unk/TLobby.h"
 
-static inline s32 gcrna_query_stream_bytes(void *self_ptr, s32 mode) {
-    GcrnaBufferQueryState *state = static_cast<GcrnaBufferQueryState *>(self_ptr);
-    GcrnaBufferVtable **stream = state->stream;
-    GcrnaBufferVtable *vt = *stream;
-    return vt->query_bytes(stream, mode, vt);
+static inline s32 gcrna_query_stream_bytes(GcrnaStream *stream, s32 mode) {
+    SjRingBuffer *sj = stream->ring_buffers[0];
+    return sj->interface->get_available(sj, mode);
 }
 
-static inline s32 gcrna_query_is_active(TLobby *self) {
-    if (self == NULL) {
+static inline s32 gcrna_query_is_active(GcrnaStream *stream) {
+    if (stream == NULL) {
         return -1;
     }
-    return *(u32 *)&self->m_prev & 1;
+    return stream->flags & 1;
 }
 
-static inline s32 gcrna_query_is_looping(TLobby *self) {
-    if (self == NULL) {
+static inline s32 gcrna_query_is_looping(GcrnaStream *stream) {
+    if (stream == NULL) {
         return -1;
     }
-    return ((uaddr)self->m_prev >> 1U) & 1;
+    return (stream->flags >> 1U) & 1;
 }
 
-u32 TLobby::get_packet_size() {
+u32 get_packet_size(GcrnaStream *stream) {
     s32 bytes;
 
-    if (this == NULL) {
+    if (stream == NULL) {
         return -1U;
     }
-    bytes = gcrna_query_stream_bytes(this, 0);
-    if (gcrna_query_is_active(this) == 1) {
-        if ((gcrna_query_is_looping(this) == 0) && (bytes > 0)) {
+    bytes = gcrna_query_stream_bytes(stream, 0);
+    if (gcrna_query_is_active(stream) == 1) {
+        if ((gcrna_query_is_looping(stream) == 0) && (bytes > 0)) {
             bytes = 0x2000;
         }
     }
     return (u32)bytes >> 1U;
 }
 
-u32 TLobby::get_available_size() {
+u32 get_available_size(GcrnaStream *stream) {
     s32 bytes;
 
-    if (this == NULL) {
+    if (stream == NULL) {
         return -1U;
     }
-    bytes = gcrna_query_stream_bytes(this, 1);
-    if (gcrna_query_is_active(this) == 1) {
-        if ((gcrna_query_is_looping(this) == 0) && (bytes < 0x2000)) {
+    bytes = gcrna_query_stream_bytes(stream, 1);
+    if (gcrna_query_is_active(stream) == 1) {
+        if ((gcrna_query_is_looping(stream) == 0) && (bytes < 0x2000)) {
             bytes = 0;
         }
     }

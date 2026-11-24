@@ -19,9 +19,7 @@ public:
     PSOV3EncryptionTCP m_recv_crypt;
     int m_is_encrypted;
 public:
-    TTcpSocket(TObject *parent) : TSocket(parent) {
-        m_name = TTcpSocket_name;
-    }
+    TTcpSocket(TObject *parent);
 
     virtual ~TTcpSocket();
 

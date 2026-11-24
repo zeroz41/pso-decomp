@@ -39,7 +39,7 @@ s32 get_network_info_file_size(void);
 s32 get_network_info_card_key(int channel, u8 *key);
 u32 calc_crc32(saddr buf, s32 len);
 extern "C" {
-u32 fn_803F4D10(u32 crc, u8 *buf, s32 len);
+u32 update_crc32(u32 crc, u8 *buf, s32 len);
 }
 
 s32 get_network_config_backup_mode(void);
@@ -53,7 +53,7 @@ s32 get_or_set_network_config_mode(s32 mode);
 void init_network_config_defaults(void);
 s32 request_network_info_exists(s32 channel);
 void set_network_config_card_channel(s32 channel);
-s32 take_network_info_exists_result(s32 *arg0, s32 *arg1);
+s32 take_network_info_exists_result(s32 *card_result, s32 *card_detail);
 void update_network_info_exists(void);
 void update_network_info_load(void);
 

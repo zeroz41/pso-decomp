@@ -2,7 +2,6 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/unk/text_8013F810.h"
-#include "pso/unk/text_803DF204.h"
 
 #include "types.h"
 #include "pso/system/debug_print.h"
@@ -125,7 +124,7 @@ s32 TLobby::lz_compress_packet(void *src, s32 size, s32 *hdr) {
     s32 i;
     s32 t1;
     out = hdr;
-    t0 = TLobby__sub_803DF1CC();
+    t0 = get_coarse_time();
     this->set_range((u8 *)src, size, (s8 *)(hdr + 2));
     this->init_lookup_tables();
     code_buf[0] = 0;
@@ -206,8 +205,8 @@ s32 TLobby::lz_compress_packet(void *src, s32 size, s32 *hdr) {
     bswap_32((u32 *)out);
     bswap_32((u32 *)(out + 1));
     ((Lz_8013F99C *)this)->codesize += 8;
-    t1 = TLobby__sub_803DF1CC();
-    sprintf(msg, "compless size  %d %d time %d", size, ((Lz_8013F99C *)this)->codesize, fn_803DF204(TLobby::calc_delta(t0, t1)));
+    t1 = get_coarse_time();
+    sprintf(msg, "compless size  %d %d time %d", size, ((Lz_8013F99C *)this)->codesize, coarse_time_to_usec(calc_delta(t0, t1)));
     ::debug_print(msg);
     return ((Lz_8013F99C *)this)->codesize;
 }

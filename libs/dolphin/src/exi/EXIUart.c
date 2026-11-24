@@ -37,10 +37,6 @@ s32 EXIGetType(s32 chan, u32 dev, u32* type) {
     }
 }
 
-int InitializeUART();
-int ReadUARTN();
-int WriteUARTN(void *buf, u32 len);
-
 static BOOL ProbeBarnacle(s32 chan, u32 dev, u32* revision) {
     int err;
     u32 cmd;
@@ -120,7 +116,7 @@ void __OSEnableBarnacle(s32 chan, u32 dev) {
     }
 }
 
-int InitializeUART() {
+int InitializeUART(u32 baudRate) {
     if (BarnacleEnabled == 0xA5FF005A) {
         return 0;
     }
@@ -136,7 +132,7 @@ int InitializeUART() {
     return 0;
 }
 
-int ReadUARTN() {
+int ReadUARTN(void* bytes, u32 length) {
     return 4;
 }
 
@@ -155,7 +151,7 @@ static int QueueLength(void) {
     return 0x10 - (cmd >> 0x18);
 }
 
-int WriteUARTN(void *buf, u32 len) {
+int WriteUARTN(const void* buf, u32 len) {
     unsigned long cmd;
     long xLen;
     int qLen;

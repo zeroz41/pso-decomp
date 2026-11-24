@@ -1,15 +1,7 @@
-#include "types.h"
-#include "pso/network/protocol/protocol.h"
-#include "pso/network/TRecvPort.h"
-#include "pso/system/byteswap.h"
+#include "pso/network/protocol/packet_classes.h"
 
-extern "C" {
-
-
-void bswap__9TRecvPortFv(saddr arg0) {
-    ((packet_header *)arg0)->bswap();
-    bswap_32((u32 *)(arg0 + 4));
-    bswap_16((u16 *)(arg0 + 8));
-}
-
+void TRecvPort::bswap() {
+    header.bswap();
+    bswap_32(&ip_addr);
+    bswap_16((u16 *)&port);
 }

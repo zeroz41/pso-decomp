@@ -28,22 +28,22 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
 #include "pso/network/NetStackTypes.h"
 
 s32 arp_init(void);
-void TLobby__sub_804073B8(void);
+void arp_start(void);
 s32 arp_remove_alias(s16, saddr);
 s32 arp_add_alias(s16, saddr);
-s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, saddr f, s16 g, saddr h);
+s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, saddr haddr, s16 plen, saddr paddr);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
 
 void age_arp_cache(void);
-s32 TLobby__sub_80407358(void) {
-    ArpState *g = &lbl_805C1AB0;
+s32 arp_term(void) {
+    ArpState *g = &arp_state;
     s32 tmp[2];
     release_slot_by_id(0x806);
     NetUnregisterTimer(age_arp_cache);
-    TLobby__sub_803F8A24(g);
+    term_arp_config(g);
     g->nentries = 0;
     g->nifaces = 0;
     g->nholds = 0;
@@ -51,7 +51,7 @@ s32 TLobby__sub_80407358(void) {
     return 0;
 }
 
-void TLobby__sub_804073B8(void) {
+void arp_start(void) {
     arp_init();
 }
 
@@ -63,8 +63,8 @@ s32 dispatch_slot_b(s16 id, s32 pkey) {
     return arp_add_alias(id, pkey);
 }
 
-s32 TLobby__sub_80407418(s16 id) {
-    ArpState *t = &lbl_805C1AB0;
+s32 unregister_arp_interface(s16 id) {
+    ArpState *t = &arp_state;
     ArpIface *e;
     s16 ok;
     s32 tmp[2];
@@ -87,7 +87,7 @@ s32 TLobby__sub_80407418(s16 id) {
         return -2;
     }
     call_entry_callback(e->handler, e->arp_socket);
-    TLobby__sub_80408388(id);
+    arp_free_interface(id);
     return 0;
 }
 
@@ -95,14 +95,14 @@ s16 forward_net_op(s16 idx, u8 *name, u8 *pkt) {
     return arp_resolve_and_send(idx, name, pkt);
 }
 
-s16 forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s16 arg6, s32 arg7) {
-    return register_arp_interface(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+s16 forward_net_op_5args(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, s32 haddr, s16 plen, s32 paddr) {
+    return register_arp_interface(handler, socket, htype, ptype, hlen, haddr, plen, paddr);
 }
 
 extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c);
 s32 arp_init(void)
 {
-    ArpState *tbl = &lbl_805C1AB0;
+    ArpState *tbl = &arp_state;
     s16 *step;
     ArpEntry *p;
     s16 j;
@@ -111,9 +111,9 @@ s32 arp_init(void)
     ArpHold *q;
     s16 k;
     ArpAlias *p4;
-    long sum;
+    u8 *buf;
 
-    init_net_buffer_config(&lbl_805C1AB0);
+    init_net_buffer_config(&arp_state);
     i = tbl->nentries;
     p = tbl->entries;
     for (; i > 0; i--) {
@@ -131,13 +131,13 @@ s32 arp_init(void)
     k = tbl->nholds;
     step = &tbl->hold_size;
     q = tbl->holds;
-    sum = (long)tbl->hold_buffers;
+    buf = tbl->hold_buffers;
     for (; k > 0; k--) {
         NetMemset(q, 0, sizeof(ArpHold));
         q->cap = *step;
-        q->data = sum;
+        q->data = buf;
         q++;
-        sum += *step;
+        buf += *step;
     }
     j = tbl->naliases;
     p4 = tbl->aliases;
@@ -150,8 +150,8 @@ s32 arp_init(void)
     return 0;
 }
 
-s16 TLobby__sub_804082AC(ArpIface *iface, ArpFields *f, void *haddr);
-inline ArpIface *FindHit_80407640(ArpState *t, s16 b, s16 c) {
+s16 arp_match_own_address(ArpIface *iface, ArpFields *f, void *haddr);
+inline ArpIface *find_arp_iface(ArpState *t, s16 b, s16 c) {
     ArpIface *hit;
     s16 i;
     s16 n;
@@ -168,7 +168,7 @@ inline ArpIface *FindHit_80407640(ArpState *t, s16 b, s16 c) {
     return NULL;
 }
 
-inline s16 CheckPkt_80407640(ArpHeader *pkt, ArpIface *hit) {
+inline s16 arp_header_valid(ArpHeader *pkt, ArpIface *hit) {
     if (NetMemcmp(pkt, &hit->htype, 6) == 0) {
         if (pkt->op == 1 || pkt->op == 2) {
             return 1;
@@ -177,7 +177,7 @@ inline s16 CheckPkt_80407640(ArpHeader *pkt, ArpIface *hit) {
     return -1;
 }
 
-inline ArpEntry *FindPeer_80407640(ArpEntry *peer, s16 n, u8 ff, u8 *p2) {
+inline ArpEntry *scan_arp_entries(ArpEntry *peer, s16 n, u8 ff, u8 *p2) {
     for (; n > 0; n--, peer++) {
         if (peer->plen == ff && peer->state != 0 && NetMemcmp(peer->paddr, p2, peer->plen) == 0) {
             return peer;
@@ -187,7 +187,7 @@ inline ArpEntry *FindPeer_80407640(ArpEntry *peer, s16 n, u8 ff, u8 *p2) {
 }
 extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
 {
-  ArpState *t = &lbl_805C1AB0;
+  ArpState *t = &arp_state;
   ArpHeader *pp;
   ArpIface *hit;
   ArpEntry *peer;
@@ -202,12 +202,12 @@ extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
   if (b < 0) {
     return -1;
   }
-  hit = FindHit_80407640(t, b, c);
+  hit = find_arp_iface(t, b, c);
   if (hit == NULL) {
     return -1;
   }
   pp = (ArpHeader *) pkt;
-  if (CheckPkt_80407640(pp, hit) < 0) {
+  if (arp_header_valid(pp, hit) < 0) {
     return -1;
   }
   in.hdr = pp;
@@ -219,12 +219,12 @@ extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
   in.tha = p2;
   p2 += hit->hlen;
   in.tpa = p2;
-  peer = FindPeer_80407640(t->entries, t->nentries, hit->plen, in.spa);
+  peer = scan_arp_entries(t->entries, t->nentries, hit->plen, in.spa);
   if (peer != NULL) {
     find_or_add_peer_entry(hit->handler, hit->socket, hit->plen, in.spa, hit->hlen, in.sha, 2);
   }
   if (pp->op == 1) {
-    if (TLobby__sub_804082AC(hit, &in, buf) > 0) {
+    if (arp_match_own_address(hit, &in, buf) > 0) {
       r = alloc_packet_with_header(&out, hit);
       if (r != NULL) {
         out.hdr->op = 2;
@@ -232,7 +232,7 @@ extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
         NetMemcpy(out.tha, in.sha, hit->hlen);
         NetMemcpy(out.spa, in.tpa, hit->plen);
         NetMemcpy(out.tpa, in.spa, hit->plen);
-        call_handler_by_index(hit->handler, c, 0, (saddr)in.sha, (saddr)r);
+        call_handler_by_index(hit->handler, c, 0, in.sha, r);
         if (r != NULL) {
           release_entry(r);
         }
@@ -244,8 +244,8 @@ extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
 void age_arp_cache(void) {
     ArpEntry* p;
     s16 n;
-    n = lbl_805C1AB0.nentries;
-    p = lbl_805C1AB0.entries;
+    n = arp_state.nentries;
+    p = arp_state.entries;
     for (; n > 0; n--, p++) {
         if (p->state != 0) {
             if (p->timer != 0) {
@@ -271,7 +271,7 @@ void age_arp_cache(void) {
 
 void arp_hold_packet(ArpEntry *entry, NetPacket *pkt);
 
-inline ArpIface *Lookup_8040799C(ArpState *t, s16 idx) {
+inline ArpIface *arp_iface_at(ArpState *t, s16 idx) {
     ArpIface *list = t->ifaces;
     s16 ok;
     if (idx >= 0 && idx < t->nifaces) {
@@ -285,7 +285,7 @@ inline ArpIface *Lookup_8040799C(ArpState *t, s16 idx) {
     return NULL;
 }
 
-inline ArpEntry *Find_8040799C(ArpState *t, u8 k, void *name) {
+inline ArpEntry *find_arp_entry(ArpState *t, u8 k, void *name) {
     s16 n = t->nentries;
     ArpEntry *p = t->entries;
     for (; n > 0; n--, p++) {
@@ -296,7 +296,7 @@ inline ArpEntry *Find_8040799C(ArpState *t, u8 k, void *name) {
     return NULL;
 }
 
-inline void Clear_8040799C(ArpEntry *p) {
+inline void release_hold(ArpEntry *p) {
     if (p->hold != NULL) {
         p->hold->entry = NULL;
         p->hold->len = 0;
@@ -304,7 +304,7 @@ inline void Clear_8040799C(ArpEntry *p) {
     }
 }
 
-inline void Send_8040799C(ArpIface *e, void *name) {
+inline void send_arp_request(ArpIface *e, void *name) {
     ArpFields o;
     NetPacket *r = alloc_packet_with_header(&o, e);
     if (r != NULL) {
@@ -313,7 +313,7 @@ inline void Send_8040799C(ArpIface *e, void *name) {
         NetMemcpy(o.spa, e->paddr, e->plen);
         NetMemset(o.tha, 0, e->hlen);
         NetMemcpy(o.tpa, name, e->plen);
-        call_handler_by_index(e->handler, e->arp_socket, 1, 0, (saddr)r);
+        call_handler_by_index(e->handler, e->arp_socket, 1, 0, r);
         if (r != NULL) {
             release_entry(r);
         }
@@ -321,29 +321,29 @@ inline void Send_8040799C(ArpIface *e, void *name) {
 }
 
 s16 arp_resolve_and_send(s16 idx, void *name, void *pkt) {
-    ArpState *t = &lbl_805C1AB0;
+    ArpState *t = &arp_state;
     ArpIface *e;
     ArpEntry *p;
     s16 ret;
     ArpEntry *np;
 
-    e = Lookup_8040799C(t, idx);
+    e = arp_iface_at(t, idx);
     if (e == NULL) {
         return -2;
     }
     ret = 0;
-    p = Find_8040799C(t, e->plen, name);
+    p = find_arp_entry(t, e->plen, name);
     if (p != NULL) {
         p->timer = t->timeout;
         if (p->state != 1) {
-            ret = call_handler_by_index(e->handler, e->socket, 0, (saddr)p->haddr, (saddr)pkt);
+            ret = call_handler_by_index(e->handler, e->socket, 0, p->haddr, pkt);
         } else {
             if (p->hold != NULL) {
-                Clear_8040799C(p);
+                release_hold(p);
                 p->hold = NULL;
             }
             arp_hold_packet(p, pkt);
-            Send_8040799C(e, name);
+            send_arp_request(e, name);
             p->timer = t->retry;
         }
     } else {
@@ -351,14 +351,14 @@ s16 arp_resolve_and_send(s16 idx, void *name, void *pkt) {
         NetMemset(buf, 0, 6);
         np = find_or_add_peer_entry(e->handler, e->socket, e->plen, name, e->hlen, buf, 1);
         arp_hold_packet(np, pkt);
-        Send_8040799C(e, name);
+        send_arp_request(e, name);
         np->timer = t->retry;
     }
     return ret;
 }
 
 s32 arp_remove_alias(s16 id, saddr key) {
-    ArpState *tbl = &lbl_805C1AB0;
+    ArpState *tbl = &arp_state;
     ArpIface *base = tbl->ifaces;
     s16 ok;
     ArpIface *e;
@@ -408,20 +408,7 @@ s32 arp_remove_alias(s16 id, saddr key) {
     return -1;
 }
 
-inline ArpIface *lookup2_80407D98(ArpState *t, s16 idx) {
-    ArpIface *list = t->ifaces;
-    s16 ok;
-    if (idx >= 0 && idx < t->nifaces) {
-        ok = 1;
-    } else {
-        ok = -1;
-    }
-    if (ok >= 0) {
-        return list + idx;
-    }
-    return NULL;
-}
-inline ArpAlias *alloc2_80407D98(ArpState *t, s16 *count) {
+inline ArpAlias *alloc_arp_alias(ArpState *t, s16 *count) {
     ArpAlias *p = t->aliases;
     s16 n = *count;
     for (; n > 0; n--, p++) {
@@ -441,17 +428,17 @@ s32 arp_add_alias(s16 id, saddr pkey) {
     ArpIface *e;
     ArpAlias *node;
     s16 *max;
-    ArpState *t = &lbl_805C1AB0;
+    ArpState *t = &arp_state;
     s16 k;
 
-    e = lookup2_80407D98(t, id);
+    e = arp_iface_at(t, id);
     if (e == NULL) {
         return -1;
     }
     if (e->used == 0) {
         return -1;
     }
-    node = alloc2_80407D98(t, max = &t->naliases);
+    node = alloc_arp_alias(t, max = &t->naliases);
     if (node == NULL) {
         return -1;
     }
@@ -476,11 +463,11 @@ s32 arp_add_alias(s16 id, saddr pkey) {
     return 0;
 }
 
-inline ArpIface *findfree_80407F20(ArpIface *base) {
+inline ArpIface *find_free_arp_iface(ArpIface *base) {
     ArpIface *p;
     s16 i;
     p = base;
-    for (i = 0; i < lbl_805C1AB0.nifaces; i++, p++) {
+    for (i = 0; i < arp_state.nifaces; i++, p++) {
         if (p->used == 0) {
             return p;
         }
@@ -488,49 +475,49 @@ inline ArpIface *findfree_80407F20(ArpIface *base) {
     return NULL;
 }
 
-s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, saddr f, s16 g, saddr h)
+s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, saddr haddr, s16 plen, saddr paddr)
 {
     ArpIface *base;
     ArpIface *slot;
     s16 res;
     s16 idx;
 
-    if (a < 0) {
+    if (handler < 0) {
         return -1;
     }
-    res = TLobby__sub_8040A044(a, 0x806, g, (u32 *)h);
+    res = link_attach_protocol(handler, 0x806, plen, (u32 *)paddr);
     if (res < 0) {
         return res;
     }
-    base = lbl_805C1AB0.ifaces;
-    slot = findfree_80407F20(base);
+    base = arp_state.ifaces;
+    slot = find_free_arp_iface(base);
     if (slot == NULL) {
-        call_entry_callback(a, res);
+        call_entry_callback(handler, res);
         return -0x10d;
     }
     slot->used = 1;
     idx = (s16)(slot - base);
-    slot->handler = a;
-    slot->socket = b;
+    slot->handler = handler;
+    slot->socket = socket;
     slot->arp_socket = res;
     slot->index = idx;
-    slot->htype = c;
-    slot->ptype = d;
-    slot->hlen = e;
-    slot->plen = g;
-    slot->f10 = 0;
-    NetMemcpy(slot->haddr, (void *)f, e);
-    NetMemcpy(slot->paddr, (void *)h, g);
+    slot->htype = htype;
+    slot->ptype = ptype;
+    slot->hlen = hlen;
+    slot->plen = plen;
+    slot->op = 0;
+    NetMemcpy(slot->haddr, (void *)haddr, hlen);
+    NetMemcpy(slot->paddr, (void *)paddr, plen);
     slot->aliases = NULL;
     return idx;
 }
 extern void arp_hold_packet(ArpEntry *entry, NetPacket *pkt) {
-u8 tmp[0x8];
+NetBufferRef tmp;
 ArpHold *found;
 s16 sum = 0;
 ArpHold *best = NULL;
-ArpHold *e = lbl_805C1AB0.holds;
-s16 n = lbl_805C1AB0.nholds;
+ArpHold *e = arp_state.holds;
+s16 n = arp_state.nholds;
 found = NULL;
 while (n > 0)
 {
@@ -570,15 +557,15 @@ return;
 {
 NetPacketFragment *p;
 s16 k;
-s32 src;
+u8 *src;
 found->used = 1;
 k = (s16) pkt->fragment_count;
 src = found->data;
 p = pkt->fragments + k - 1;
 while (k > 0)
 {
-set_value_and_enable((NetBufferRef *)tmp, src);
-netbuf_copy_by_ref(tmp, (void *)&pkt->fragments[k - 1].buffer, (s32)p->length);
+set_value_and_enable(&tmp, src);
+netbuf_copy_by_ref(&tmp, &pkt->fragments[k - 1].buffer, (s32)p->length);
 src += p->length;
 sum += p->length;
 p--;
@@ -608,9 +595,9 @@ NetPacket *alloc_packet_with_header(ArpFields *f, ArpIface *iface) {
     }
     pkt->fragment_count = 1;
     pkt->total_bytes = len;
-    buf = (u8 *)&lbl_805C1AB0.packet;
+    buf = (u8 *)&arp_state.packet;
     pkt->fragments[0].length = t;
-    set_value_and_enable(&pkt->fragments[0].buffer, (saddr)*(u8 **)buf);
+    set_value_and_enable(&pkt->fragments[0].buffer, *(u8 **)buf);
     buf = *(u8 **)buf;
     NetMemset(buf, 0, len);
     NetMemcpy(buf, &iface->htype, 6);
@@ -626,7 +613,7 @@ NetPacket *alloc_packet_with_header(ArpFields *f, ArpIface *iface) {
     return pkt;
 }
 
-s16 TLobby__sub_804082AC(ArpIface *iface, ArpFields *f, void *haddr) {
+s16 arp_match_own_address(ArpIface *iface, ArpFields *f, void *haddr) {
     s16 i;
     ArpAlias *p;
 
@@ -639,7 +626,7 @@ s16 TLobby__sub_804082AC(ArpIface *iface, ArpFields *f, void *haddr) {
         i = 0;
         while (p != NULL) {
             i++;
-            if (lbl_805C1AB0.naliases <= i) {
+            if (arp_state.naliases <= i) {
                 return -1;
             }
             if (NetMemcmp(p->addr, f->tpa, iface->plen) == 0) {
@@ -652,8 +639,8 @@ s16 TLobby__sub_804082AC(ArpIface *iface, ArpFields *f, void *haddr) {
     return -1;
 }
 
-s32 TLobby__sub_80408388(s16 id) {
-    ArpState *t = &lbl_805C1AB0;
+s32 arp_free_interface(s16 id) {
+    ArpState *t = &arp_state;
     ArpIface *e;
     ArpAlias *n;
     ArpAlias *next;
@@ -678,20 +665,7 @@ s32 TLobby__sub_80408388(s16 id) {
     return -1;
 }
 
-inline ArpEntry *find_80408428(ArpState *t, u8 plen, void *paddr) {
-    s16 n = t->nentries;
-    ArpEntry *e = t->entries;
-    while (n > 0) {
-        if (e->plen == plen && e->state != 0 && NetMemcmp(e->paddr, paddr, e->plen) == 0) {
-            return e;
-        }
-        n--;
-        e++;
-    }
-    return NULL;
-}
-
-inline void detach_80408428(ArpEntry *e) {
+inline void detach_hold(ArpEntry *e) {
     if (e->hold != NULL) {
         e->hold->entry = NULL;
         e->hold->len = 0;
@@ -701,11 +675,11 @@ inline void detach_80408428(ArpEntry *e) {
 }
 
 ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, u8 hlen, void *haddr, s16 state) {
-    ArpState *t = &lbl_805C1AB0;
+    ArpState *t = &arp_state;
     ArpEntry *e;
     NetPacket *p;
 
-    e = find_80408428(t, plen, paddr);
+    e = find_arp_entry(t, plen, paddr);
     if (e != NULL) {
         e->timer = t->timeout;
         if (haddr == NULL) {
@@ -728,11 +702,11 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
                 p->total_bytes = e->hold->len;
                 p->fragments[0].length = e->hold->len;
                 set_value_and_enable(&p->fragments[0].buffer, e->hold->data);
-                call_handler_by_index(handler, socket, 0, (saddr)e->haddr, (saddr)p);
+                call_handler_by_index(handler, socket, 0, e->haddr, p);
                 release_entry(p);
             }
         }
-        detach_80408428(e);
+        detach_hold(e);
         return e;
     }
     if (haddr == NULL) {
@@ -745,7 +719,7 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
             e = find_oldest_peer_entry(0);
         }
         if (e->hold != NULL) {
-            detach_80408428(e);
+            detach_hold(e);
         }
         e->state = 0;
         e->timer = 0;
@@ -767,9 +741,9 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
 ArpEntry *find_oldest_peer_entry(s16 state) {
     ArpEntry *best = 0;
     ArpEntry *p;
-    s16 n = lbl_805C1AB0.nentries;
+    s16 n = arp_state.nentries;
     s32 v;
-    p = lbl_805C1AB0.entries;
+    p = arp_state.entries;
     for (; n > 0; n--, p++) {
         v = p->state;
         if ((s16)v != 0 && v != state) {
@@ -784,8 +758,8 @@ ArpEntry *find_oldest_peer_entry(s16 state) {
 }
 
 ArpEntry *find_free_peer_entry(void) {
-    s16 n = lbl_805C1AB0.nentries;
-    ArpEntry *e = lbl_805C1AB0.entries;
+    s16 n = arp_state.nentries;
+    ArpEntry *e = arp_state.entries;
     while (n > 0) {
         if (e->state == 0) {
             return e;
@@ -796,4 +770,4 @@ ArpEntry *find_free_peer_entry(void) {
     return NULL;
 }
 
-ArpState lbl_805C1AB0;
+ArpState arp_state;

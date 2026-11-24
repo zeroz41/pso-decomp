@@ -894,7 +894,7 @@ void G_Attack_6x43::init() {
 void G_Attack_6x43::bswap() {
     header.bswap();
     bswap_16(&angle_y);
-    bswap_16(&action_type);
+    bswap_16((u16 *)&action_type);
 }
 
 void G_Attack_6x43::send() {
@@ -912,7 +912,7 @@ void G_Attack_6x44::init() {
 void G_Attack_6x44::bswap() {
     header.bswap();
     bswap_16(&angle_y);
-    bswap_16(&action_type);
+    bswap_16((u16 *)&action_type);
 }
 
 void G_Attack_6x44::send() {
@@ -930,7 +930,7 @@ void G_Attack_6x45::init() {
 void G_Attack_6x45::bswap() {
     header.bswap();
     bswap_16(&angle_y);
-    bswap_16(&action_type);
+    bswap_16((u16 *)&action_type);
 }
 
 void G_Attack_6x45::send() {

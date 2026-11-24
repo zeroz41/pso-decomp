@@ -11,7 +11,7 @@ struct TAdMcSelectGC : public TObject {
     TAdMcSelectGC(TObject *parent);
     virtual ~TAdMcSelectGC();
     virtual void render();
-    u32 m_1c;
+    u32 state;  // 0 on the first frame, then 1
     u8 _pad20[0x4];
     u32 m_24;
     uaddr m_28;
@@ -29,9 +29,5 @@ struct TAdMcSelectGC : public TObject {
 };
 
 LAYOUT_ASSERT(TAdMcSelectGC_size, sizeof(TAdMcSelectGC) == 0x34);
-
-extern "C" {
-void *__dt__13TAdMcSelectGCFv(void *arg0, s16 arg1);
-}
 
 #endif

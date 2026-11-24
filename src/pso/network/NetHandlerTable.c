@@ -20,24 +20,25 @@ typedef struct LobbyHandler LobbyHandler;
 
 #include <stddef.h>
 
-/* A link-layer driver, registered by TLobby__sub_8040A2BC from 11 functions: loopback (register_loopback_handlers,
-   always entry 0), PPP (TLobby__sub_803FD10C) and Ethernet (init_net_sockets).  Each function is called by one
-   dispatcher (named after the slot); op14..op20 only when flags & 4. */
+/* A link-layer driver, registered by insert_link_handler from 11 functions: loopback (register_loopback_handlers,
+   always entry 0), PPP (ppp_link_init) and Ethernet (init_net_sockets).  Each function is called by one
+   dispatcher (named after the slot); get_lladdr_len..multicast_ctl only when flags & 4. */
 struct LobbyHandler {
     s16 active;
     s16 flags;                                     /* 0x02: as registered: 1 loopback, 2 PPP, 0x7C Ethernet */
-    s16 (*get_interface_id)(s16 idx, void *dst);   /* 0x04: TLobby__sub_8040A0C0 */
-    s16 (*op08)(s16 idx, u32 a, s16 b, u32 *c);    /* 0x08: TLobby__sub_8040A044 */
-    s32 (*op0C)(s16);                              /* 0x0C: call_entry_callback */
-    s16 (*op10)(s32);                              /* 0x10: invoke_socket_callback */
-    s16 (*op14)(s32);                              /* 0x14: TLobby__sub_80409EB0 */
-    s32 (*op18)(s32, s32);                         /* 0x18: TLobby__sub_80409E18 */
-    s16 (*op1C)(s32, s32, void *);                 /* 0x1C: TLobby__sub_80409D7C */
-    s16 (*op20)(s32, s32, void *);                 /* 0x20: TLobby__sub_80409CE0 */
-    s32 (*op24)(s32, s32);                         /* 0x24: dispatch_handler_by_id; TLobby__sub_80409818 calls it
+    s16 (*get_interface_id)(s16 idx, void *dst);   /* 0x04: link_get_interface_id */
+    s16 (*open)(s16 idx, u32 a, s16 b, u32 *c);    /* 0x08: link_attach_protocol; opens a channel for an EtherType */
+    s32 (*close)(s16);                             /* 0x0C: call_entry_callback; frees the channel */
+    s16 (*get_mtu)(s32);                           /* 0x10: invoke_socket_callback; Ethernet 1500 */
+    s16 (*get_lladdr_len)(s32);                    /* 0x14: link_get_address_length; Ethernet 6 */
+    s32 (*get_lladdr)(s32, void *);                /* 0x18: link_get_address; copies the MAC */
+    s16 (*alias_ctl)(s32, s32, void *);            /* 0x1C: link_update_address; 1 adds, 2 removes an ARP alias */
+    s16 (*multicast_ctl)(s32, s32, void *);        /* 0x20: link_update_multicast; 1 joins, 2 leaves a multicast group */
+    s32 (*release_frame)(s32, s32);                /* 0x24: dispatch_handler_by_id; frees a received frame; link_input calls it
                                                       as void (s16, s32) */
-    s16 (*op28)(s32, s32, s32);                    /* 0x28: dispatch_handler_by_index */
-    s16 (*output)(s32, s32, s32, s32);             /* 0x2C: call_handler_by_index */
+    s16 (*forward)(s32, void *, void *);           /* 0x28: dispatch_handler_by_index; sends an IPv4 packet to a
+                                                      unicast next hop (ppp_link_forward_packet, forward_loopback_packet) */
+    s16 (*output)(s32, s32, void *, void *);       /* 0x2C: call_handler_by_index */
 };
 LAYOUT_ASSERT(LobbyHandler_size_check, sizeof(LobbyHandler) == 0x30);
 
@@ -46,20 +47,19 @@ extern LobbyHandlerTable lobby_handler_table_desc; /* defined at the end of the 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 
-s16 TLobby__sub_8040A2BC(Fn_8040881C *fns, s16 kind);
-s32 TLobby__sub_80409AD8(void);
+s16 insert_link_handler(NetLinkDriverFn *fns, s16 kind);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-void TLobby__sub_80409818(s32 msg, s16 len, s16 idx, s16 second, u16 type) {
+void link_input(s32 msg, s16 len, s16 idx, s16 second, u16 type) {
     if (idx < 0 || idx >= lobby_handler_table_desc.count) {
         return;
     }
     switch (type) {
     default:
-        ((void (*)(s16, s32))lobby_handler_table_desc.list[idx].op24)(second, msg);
+        ((void (*)(s16, s32))lobby_handler_table_desc.list[idx].release_frame)(second, msg);
         break;
     case 0x800:
     case 0x806:
@@ -69,7 +69,7 @@ void TLobby__sub_80409818(s32 msg, s16 len, s16 idx, s16 second, u16 type) {
     }
 }
 
-inline s16 packet_length_804098B4(NetPacket *pkt) {
+inline s16 packet_length(NetPacket *pkt) {
     NetPacketFragment *f;
     s16 n;
     s16 total = 0;
@@ -84,44 +84,43 @@ inline s16 packet_length_804098B4(NetPacket *pkt) {
     }
     return pkt->total_bytes;
 }
-s16 TLobby__sub_804098B4(void *pkt) {
-    return packet_length_804098B4(pkt);
+s16 link_packet_length(void *pkt) {
+    return packet_length(pkt);
 }
 
-inline s32 calc_80409908(void *self, u8 *arr) {
+inline s32 copy_packet_out(void *self, NetPacket *pkt) {
     u8 tmp[0x10];
-    u8 *p;
-    s32 *meta = (s32 *)arr;
-    saddr acc;
+    NetPacketFragment *p;
+    u8 *acc;
     s16 n;
     s32 sum;
     sum = 0;
-    n = (s16)meta[1];
-    acc = (saddr)self;
-    p = arr + n * 12;
+    n = (s16)pkt->fragment_count;
+    acc = self;
+    p = pkt->fragments + n - 1;
     while (n > 0) {
         set_value_and_enable((NetBufferRef *)tmp, acc);
-        netbuf_copy_by_ref(tmp, arr + (n - 1) * 12 + 0x10, *(s16 *)p);
-        acc += *(s16 *)p;
-        sum += *(s16 *)p;
-        p -= 12;
+        netbuf_copy_by_ref((NetBufferRef *)tmp, &pkt->fragments[n - 1].buffer, p->length);
+        acc += p->length;
+        sum += p->length;
+        p--;
         n--;
     }
-    if ((s16)sum != (s16)meta[2]) return sum;
-    return (s16)meta[2];
+    if ((s16)sum != (s16)pkt->total_bytes) return sum;
+    return (s16)pkt->total_bytes;
 }
 
-s32 TLobby__sub_80409908(void *self, void *arr_) {
-    return calc_80409908(self, arr_);
+s32 link_packet_copy(void *self, void *arr_) {
+    return copy_packet_out(self, arr_);
 }
-s32 clear_table_entry_locked(s16 arg0) {
+s32 clear_table_entry_locked(s16 idx) {
     s32 ret;
     lock_mutex(network_dispatch_state.lock_handle);
-    if (arg0 < 0 || arg0 > lobby_handler_table_desc.count) {
+    if (idx < 0 || idx > lobby_handler_table_desc.count) {
         ret = -0x10F;
     } else {
         LobbyHandler *e = lobby_handler_table_desc.list;
-        e += arg0;
+        e += idx;
         NetMemset(e, 0, sizeof(LobbyHandler));
         ret = 0;
     }
@@ -129,24 +128,24 @@ s32 clear_table_entry_locked(s16 arg0) {
     return ret;
 }
 
-s16 TLobby__sub_80409A3C(Fn_8040881C *fns, s16 kind) {
+s16 register_link_handler(NetLinkDriverFn *fns, s16 kind) {
     s16 id;
     lock_mutex(network_dispatch_state.lock_handle);
-    id = TLobby__sub_8040A2BC(fns, kind);
+    id = insert_link_handler(fns, kind);
     unlock_mutex(network_dispatch_state.lock_handle);
     return id;
 }
 
-s32 TLobby__sub_80409AA8(void) {
-    TLobby__sub_803F8A9C(&lobby_handler_table_desc);
+s32 handler_table_term(void) {
+    term_handler_table_config(&lobby_handler_table_desc);
     lobby_handler_table_desc.count = 0;
     return 0;
 }
 
-s32 TLobby__sub_80409AD8(void) {
+s16 handler_table_init(void) {
     s16 i;
     LobbyHandler *e;
-    TLobby__sub_803F8AA0(&lobby_handler_table_desc);
+    init_handler_table_config(&lobby_handler_table_desc);
     e = lobby_handler_table_desc.list;
     i = 0;
     while (i < lobby_handler_table_desc.count) {
@@ -157,14 +156,14 @@ s32 TLobby__sub_80409AD8(void) {
     return 0;
 }
 
-s16 call_handler_by_index(s16 arg0, s32 payload, s32 detail, s32 first, s32 second) {
+s16 call_handler_by_index(s16 idx, s32 handle, s32 mode, void *addr, void *pkt) {
     LobbyHandler *e;
-    s16 (*fn)(s32, s32, s32, s32);
-    if (arg0 < 0 || arg0 > lobby_handler_table_desc.count) {
+    s16 (*fn)(s32, s32, void *, void *);
+    if (idx < 0 || idx > lobby_handler_table_desc.count) {
         return -0x10F;
     }
     e = lobby_handler_table_desc.list;
-    e += arg0;
+    e += idx;
     if (e->active == 0) {
         return -2;
     }
@@ -172,25 +171,25 @@ s16 call_handler_by_index(s16 arg0, s32 payload, s32 detail, s32 first, s32 seco
     if (fn == NULL) {
         return -2;
     }
-    return fn(payload, detail, first, second);
+    return fn(handle, mode, addr, pkt);
 }
 
-s16 dispatch_handler_by_index(s16 id, s32 def, s32 arg2, s32 tex) {
+s16 dispatch_handler_by_index(s16 idx, s32 handle, void *addr, void *pkt) {
     LobbyHandler *e;
-    s16 (*fn)(s32, s32, s32);
-    if (id < 0 || id > lobby_handler_table_desc.count) {
+    s16 (*fn)(s32, void *, void *);
+    if (idx < 0 || idx > lobby_handler_table_desc.count) {
         return -0x10F;
     }
     e = lobby_handler_table_desc.list;
-    e += id;
+    e += idx;
     if (e->active == 0) {
         return -2;
     }
-    fn = e->op28;
+    fn = e->forward;
     if (fn == NULL) {
         return -2;
     }
-    return fn(def, arg2, tex);
+    return fn(handle, addr, pkt);
 }
 
 s32 dispatch_handler_by_id(s16 first, s32 second, s32 payload) {
@@ -205,14 +204,14 @@ s32 dispatch_handler_by_id(s16 first, s32 second, s32 payload) {
     if (e->active == 0) {
         return -2;
     }
-    fn = e->op24;
+    fn = e->release_frame;
     if (fn == NULL) {
         return -2;
     }
     return fn(second, payload);
 }
 
-s16 TLobby__sub_80409CE0(s16 idx, s32 def, s32 op, void *tex) {
+s16 link_update_multicast(s16 idx, s32 def, s32 op, void *tex) {
     LobbyHandler *e;
     s16 (*fn)(s32, s32, void *);
 
@@ -227,14 +226,14 @@ s16 TLobby__sub_80409CE0(s16 idx, s32 def, s32 op, void *tex) {
     if (!(e->flags & 4)) {
         return 0;
     }
-    fn = e->op20;
+    fn = e->multicast_ctl;
     if (fn == NULL) {
         return -2;
     }
     return fn(def, op, tex);
 }
 
-s16 TLobby__sub_80409D7C(s16 idx, s32 def, s32 op, void *tex) {
+s16 link_update_address(s16 idx, s32 def, s32 op, void *tex) {
     LobbyHandler *e;
     s16 (*fn)(s32, s32, void *);
 
@@ -249,51 +248,51 @@ s16 TLobby__sub_80409D7C(s16 idx, s32 def, s32 op, void *tex) {
     if (!(e->flags & 4)) {
         return 0;
     }
-    fn = e->op1C;
+    fn = e->alias_ctl;
     if (fn == NULL) {
         return -2;
     }
     return fn(def, op, tex);
 }
 
-s32 TLobby__sub_80409E18(s16 id, s32 arg1, s32 arg2) {
+s32 link_get_address(s16 idx, s32 handle, void *dst) {
     LobbyHandler *e;
-    s32 (*fn)(s32, s32);
+    s32 (*fn)(s32, void *);
 
-    if (id < 0 || id > lobby_handler_table_desc.count) {
+    if (idx < 0 || idx > lobby_handler_table_desc.count) {
         return -0x10F;
     }
     e = lobby_handler_table_desc.list;
-    e += id;
+    e += idx;
     if (e->active == 0) {
         return -2;
     }
     if (!(e->flags & 4)) {
         return 0;
     }
-    fn = e->op18;
+    fn = e->get_lladdr;
     if (fn == NULL) {
         return -2;
     }
-    return fn(arg1, arg2);
+    return fn(handle, dst);
 }
 
-s16 TLobby__sub_80409EB0(s16 arg0, s32 handle) {
+s16 link_get_address_length(s16 idx, s32 handle) {
     LobbyHandler *e;
     s16 (*fn)(s32);
 
-    if (arg0 < 0 || arg0 > lobby_handler_table_desc.count) {
+    if (idx < 0 || idx > lobby_handler_table_desc.count) {
         return -0x10F;
     }
     e = lobby_handler_table_desc.list;
-    e += arg0;
+    e += idx;
     if (e->active == 0) {
         return -2;
     }
     if (!(e->flags & 4)) {
         return 0;
     }
-    fn = e->op14;
+    fn = e->get_lladdr_len;
     if (fn == NULL) {
         return -2;
     }
@@ -311,10 +310,10 @@ s16 invoke_socket_callback(s16 i, s32 arg) {
     if (e->active == 0) {
         return -2;
     }
-    if (e->op10 == 0) {
+    if (e->get_mtu == 0) {
         return -2;
     }
-    return e->op10(arg);
+    return e->get_mtu(arg);
 }
 #pragma pop
 
@@ -329,14 +328,14 @@ s32 call_entry_callback(s16 i, s16 arg) {
     if (e->active == 0) {
         return -2;
     }
-    if (e->op0C == 0) {
+    if (e->close == 0) {
         return -2;
     }
-    return e->op0C(arg);
+    return e->close(arg);
 }
 #pragma pop
 
-s16 TLobby__sub_8040A044(s16 idx, u32 a, s16 b, u32 *c) {
+s16 link_attach_protocol(s16 idx, u32 a, s16 b, u32 *c) {
     LobbyHandler *e;
     if (idx < 0 || idx > lobby_handler_table_desc.count) {
         return -0x10F;
@@ -346,13 +345,13 @@ s16 TLobby__sub_8040A044(s16 idx, u32 a, s16 b, u32 *c) {
     if (e->active == 0) {
         return -2;
     }
-    if (e->op08 == 0) {
+    if (e->open == 0) {
         return -2;
     }
-    return e->op08(idx, a, b, c);
+    return e->open(idx, a, b, c);
 }
 
-s16 TLobby__sub_8040A0C0(s16 idx, void *a)
+s16 link_get_interface_id(s16 idx, void *a)
 {
     LobbyHandler *e;
 
@@ -418,7 +417,7 @@ s16 is_socket_flag_set(s16 i) {
 }
 #pragma pop
 
-extern s16 TLobby__sub_8040A2BC(Fn_8040881C *fns, s16 kind) {
+extern s16 insert_link_handler(NetLinkDriverFn *fns, s16 kind) {
     LobbyHandler *e;
     s16 i;
 
@@ -429,7 +428,7 @@ extern s16 TLobby__sub_8040A2BC(Fn_8040881C *fns, s16 kind) {
     case 1:
         e = lobby_handler_table_desc.list;
         if (e->active == 0) {
-            NetMemcpy(&e->get_interface_id, fns, 11 * sizeof(Fn_8040881C));
+            NetMemcpy(&e->get_interface_id, fns, 11 * sizeof(NetLinkDriverFn));
             e->flags = kind;
             e->active = 1;
             return 0;
@@ -438,7 +437,7 @@ extern s16 TLobby__sub_8040A2BC(Fn_8040881C *fns, s16 kind) {
     default:
         for (i = 1, e = lobby_handler_table_desc.list + 1; i < lobby_handler_table_desc.count; i++, e++) {
             if (e->active == 0) {
-                NetMemcpy(&e->get_interface_id, fns, 11 * sizeof(Fn_8040881C));
+                NetMemcpy(&e->get_interface_id, fns, 11 * sizeof(NetLinkDriverFn));
                 e->flags = kind;
                 e->active = 1;
                 return i;

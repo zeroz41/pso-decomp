@@ -103,13 +103,13 @@ void TLobby__sub_803382E4(void) {
         set_default_alpha_blend();
         TObjFish::set_global_param(&lbl_804EF1DC);
         set_texture_num(0);
-        TLobby__sub_803E2EE4(0);
+        begin_screen_textured_draw(0);
         draw_projected_textured_strip(lbl_804EF2E4, 4);
-        TLobby::reset_player_state();
+        end_screen_textured_draw();
         set_texture_num(1);
-        TLobby__sub_803E2EE4(0);
+        begin_screen_textured_draw(0);
         draw_projected_textured_strip(lbl_804EF344, 4);
-        TLobby::reset_player_state();
+        end_screen_textured_draw();
         set_additive_blend();
         draw_compass_sprite(&lbl_804EF3E0, 2, (__cvt_fp2unsigned(255.0f * alpha) << 24) | 0xFFFFFF, 0x21, 0.5f);
         set_default_alpha_blend();
@@ -183,15 +183,15 @@ void TLobby__sub_80338534(void) {
             set_texture_num(0);
         }
         set_additive_blend();
-        TLobby__sub_803E2EE4(1);
+        begin_screen_textured_draw(1);
         draw_projected_textured_strip(overlay->info_icon, 4);
-        TLobby::reset_player_state();
+        end_screen_textured_draw();
         set_default_alpha_blend();
         TObjFish::set_global_param(hud_texlist);
         set_texture_num(5);
-        TLobby__sub_803E2EE4(1);
+        begin_screen_textured_draw(1);
         draw_projected_textured_strip(overlay->hud_icon, 4);
-        TLobby::reset_player_state();
+        end_screen_textured_draw();
     }
     set_default_alpha_blend();
     TCameraCtrl::restore_saved_view();
@@ -233,4 +233,4 @@ void TLobby::update_pulse_colors(s32 arg0) {
 
 void TWindowSubStatusDisp__sub_803386F0(void) { TObjPlayer::free_if_valid(info_icon_texture); }
 
-void load_info_icon(void) { info_icon_texture = (saddr)load_gvm_texture_file("InfoIcon.gvm"); }
+void load_info_icon(void) { info_icon_texture = (saddr)LoadPvmFileTls("InfoIcon.gvm"); }

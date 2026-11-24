@@ -24,9 +24,6 @@
 const char *TObjRoomId__name = "TObjRoomId";
 static const Vec room_id_base_normal = {0.0f, 0.0f, -1.0f};
 
-extern "C" {
-u16 TObjRoomId__sub_801A1DB8(u16 entity_id);
-}
 
 s32 TObjRoomId::is_player_in_range(u16 id, f32 range_squared) {
     TObjPlayer *p = get_player_by_client_id(id);
@@ -141,7 +138,7 @@ void set_player_room_control_flag(TObjPlayer *player) {
 
 extern s32 local_client_id;
 
-u16 TObjRoomId__sub_801A1DB8(u16 entity_id) {
+u16 get_entity_id_kind(u16 entity_id) {
     u16 r;
     if (entity_id == 0xFFFF) {
         r = 0xFFFF;

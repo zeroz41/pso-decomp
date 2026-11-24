@@ -7,6 +7,10 @@
 extern "C" {
 #endif
 
+#define SEEK_SET 0
+#define SEEK_CUR 1
+#define SEEK_END 2
+
 #define stdin (&__files._stdin)
 #define stdout (&__files._stdout)
 #define stderr (&__files._stderr)
@@ -27,14 +31,13 @@ enum __file_kinds {
     __closed_file,
     __disk_file,
     __console_file,
-    __string_file,
-    __unavailable_file = 3,
+    __unavailable_file,
 };
 
 enum __file_orientation {
- UNORIENTED,
- CHAR_ORIENTED,
- WIDE_ORIENTED,
+    __unoriented,
+    __char_oriented,
+    __wide_oriented
 };
 
 typedef struct _file_modes {
@@ -82,12 +85,11 @@ typedef struct _FILE {
     __file_handle handle;
     file_modes file_mode;
     file_states file_state;
-
-    unsigned char char_buffer;
+    unsigned char is_dynamically_allocated;
+    char char_buffer;
     char char_buffer_overflow;
-    char ungetc_buffer[4];
+    char ungetc_buffer[2];
     wchar_t ungetc_wide_buffer[2];
-
     unsigned long position;
     unsigned char* buffer;
     unsigned long buffer_size;
@@ -96,20 +98,19 @@ typedef struct _FILE {
     unsigned long buffer_alignment;
     unsigned long save_buffer_length;
     unsigned long buffer_position;
-
     __pos_proc position_fn;
     __io_proc read_fn;
     __io_proc write_fn;
     __close_proc close_fn;
     __idle_proc idle_fn;
-    void* next;
+    struct _FILE* next_file;
 } FILE;
 
 typedef struct _files {
     FILE _stdin;
     FILE _stdout;
     FILE _stderr;
-    FILE _sentinel;
+    FILE empty;
 } files;
 
 #define _IONBF 0
@@ -117,6 +118,13 @@ typedef struct _files {
 #define _IOFBF 2
 
 extern files __files;
+
+int __close_console(__file_handle file);
+int __write_console(__file_handle file, unsigned char* buf, size_t* count, __idle_proc idle_fn);
+int __read_console(__file_handle file, unsigned char* buf, size_t* count, __idle_proc idle_fn);
+
+unsigned int __flush_all(void);
+void __close_all(void);
 
 #ifdef __cplusplus
 };

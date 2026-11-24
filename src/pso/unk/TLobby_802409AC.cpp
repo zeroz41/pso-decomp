@@ -1,4 +1,4 @@
-#include "pso/network/TUserAns.h"
+#include "pso/network/protocol/packet_classes.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/GuildCardEntry.h"
 #include "pso/system/memory.h"
@@ -120,16 +120,6 @@ struct Voice_80241FD8 {
     u8 pad3[0x48 - 0x24]; s32 fade; s32 fadeStep;
 };
 
-struct Ctl_80240B64 {
-    u8 type;
-    s16 value;
-};
-
-struct Params_80240B64 {
-    u8 count;
-    Ctl_80240B64 *ctl;
-};
-
 struct Owner_80241798 { u8 pad[0x288]; u32 field_288; };
 
 struct Sound_80241798 {
@@ -150,8 +140,6 @@ extern "C" {
 s32 sndFXCtrl(int, int, int);
 s32 sndFXKeyOff(int);
 void TLobby__sub_80240F3C(SoundRequestVoice *);
-u32 sndFXStartParaInfo(u16, u8, u8, u8, Params_80240B64 *);
-u32 sndFXCheck(u32);
 extern s8 TLobby__data_805434A8[];
 void TLobby__sub_80241798(Sound_80241798 *arg0);
 }
@@ -171,8 +159,8 @@ s32 set_voice_pitch_slide(SoundRequestVoice *voice, s32 target, s32 duration) {
 }
 
 s32 tick_sound_voice(SoundRequestVoice *v) {
-    Params_80240B64 params;
-    Ctl_80240B64 ctl[6];
+    SND_PARAMETER_INFO params;
+    SND_PARAMETER ctl[6];
     s32 level;
     s32 fade;
     s32 step;
@@ -198,10 +186,10 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         calc_sound_spatial_params(v);
         v->clamp_params();
         v->update();
-        params.count = 1;
-        params.ctl = ctl;
-        ctl[0].type = 0x80;
-        ctl[0].value = v->pitch;
+        params.numPara = 1;
+        params.paraArray = ctl;
+        ctl[0].ctrl = 0x80;
+        ctl[0].paraData.value14 = v->pitch;
         if (!(lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
             level = OSDisableInterrupts();
         }
@@ -1158,7 +1146,7 @@ void TLobby__sub_8024285C(void) { TLobby::reset_com_card_list(); }
 
 
 GuildCardRecord *__ct__15GuildCardRecordFv(void *p);
-void *__construct_array(void *array, GuildCardRecord *(*ctor)(void *), void *dtor, u32 size, u32 count);
+void *__construct_array(void *ptr, GuildCardRecord *(*ctor)(void *), void *dtor, u32 size, u32 n);
 static void __sinit_TLobby_802409AC_cpp();
 }
 __declspec(section ".ctors") static void *const com_card_global_initializer = (void *)__sinit_TLobby_802409AC_cpp;

@@ -12,7 +12,7 @@ struct McSelectMcQuad {
 // Memory card picture of one slot on the memory card select screen
 class TAdMcSelectMcGC : public TObject {
 public:
-    s32 pad_1c;                // 1 (ctor): drawn outside render pass 1; TAdMcSelectGC clears it
+    s32 render_direct;                // 1 (ctor): drawn outside render pass 1; TAdMcSelectGC clears it
     McSelectMcQuad quads[8];
     u32 pad_120;               // alpha of the picture
     s32 pad_124;               // fade-in step, follows the slot's cursor state
@@ -27,7 +27,7 @@ public:
     virtual void run_task();
     static void release_selected_entry();
     static void init_memorycard();
-    void set_field_0x1c(s32 v); // stores pad_1c; defined in TAdMcSelectGC.cpp
+    void set_render_direct(s32 v); // stores render_direct; defined in TAdMcSelectGC.cpp
 };
 
 LAYOUT_ASSERT(TAdMcSelectMcGC_size, sizeof(TAdMcSelectMcGC) == 0x134);

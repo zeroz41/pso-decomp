@@ -1,7 +1,6 @@
 #ifndef PSO_SDK_COMPACT_MATH
 #define PSO_SDK_COMPACT_MATH 1
 #endif
-#define TRK_fill_mem mem_TRK_TRK_fill_mem
 
 #include "PowerPC_EABI_Support/MetroTRK/trk.h"
 
@@ -13,14 +12,14 @@ __declspec(section ".init") void* TRK_memset(void* dest, int val, size_t count)
 	return dest;
 }
 
-__declspec(section ".init") void* TRK_memcpy(void* dest, const void* src, size_t count)
+__declspec(section ".init") void* TRK_memcpy(void* dst, const void* src, size_t n)
 {
 	u8* s = (u8*)src - 1;
-	u8* d = (u8*)dest - 1;
+	u8* d = (u8*)dst - 1;
 
-	count++;
+	n++;
 
-	while (--count) {
+	while (--n) {
 		*++d = *++s;
 	}
 }

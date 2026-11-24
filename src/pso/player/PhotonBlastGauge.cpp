@@ -143,7 +143,7 @@ void handle_6x38_donate_to_photon_blast(saddr src) {
     cmd.init_subcommand_6x38();
     cmd.copy_packet_header_6x38((void *)src);
     cmd.bswap_fields();
-    if (validate_6x38_donate_to_photon_blast(&cmd.header) != 0) {
+    if (validate_6x38_donate_to_photon_blast(&cmd) != 0) {
         player = get_player_by_client_id(cmd.header.client_id);
         if ((player != NULL) && (is_current_area_item_enabled() != 0)) {
             if (get_current_floor() == player->get_floor()) {

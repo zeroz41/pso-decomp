@@ -11,20 +11,10 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 static const double
-#else
-static double
-#endif
     two54 = 1.80143985094819840000e+16;
 
-#ifdef __STDC__
 double frexp(double x, int* eptr)
-#else
-double frexp(x, eptr)
-double x;
-int* eptr;
-#endif
 {
     int hx, ix, lx;
     hx = __HI(x);

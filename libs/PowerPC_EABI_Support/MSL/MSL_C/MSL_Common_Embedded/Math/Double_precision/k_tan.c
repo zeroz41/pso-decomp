@@ -11,11 +11,7 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 static const double
-#else
-static double
-#endif
     one = 1.00000000000000000000e+00,
     pio4 = 7.85398163397448278999e-01,
     pio4lo = 3.06161699786838301793e-17,
@@ -35,13 +31,7 @@ static double
         2.59073051863633712884e-05,
 };
 
-#ifdef __STDC__
 double __kernel_tan(double x, double y, int iy)
-#else
-double __kernel_tan(x, y, iy)
-double x, y;
-int iy;
-#endif
 {
   double z, r, v, w, s;
   int ix, hx;

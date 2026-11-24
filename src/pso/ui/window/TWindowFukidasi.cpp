@@ -388,18 +388,18 @@ void TWindowFukidasi::draw_body_row(RotatedQuadSpriteRect *slice, WindowDrawCont
     slice->x = context->pivot[0] + context->scale[0] * (slice->x - context->pivot[0]);
     slice->edge_a_x *= context->scale[0];
     slice->edge_b_x *= context->scale[0];
-    DVDConvertEntrynumToPath(&slice->x);
+    draw_rotated_quad(&slice->x);
     slice->x = left + fullWidth - cap;
     slice->x = context->pivot[0] + context->scale[0] * (slice->x - context->pivot[0]);
     slice->u = (194.0f - cap) / 256.0f;
-    DVDConvertEntrynumToPath(&slice->x);
+    draw_rotated_quad(&slice->x);
     w = (fullWidth - 64.0f) * context->scale[0];
     if (w >= 0.0f) {
         slice->x = 32.0f + left;
         slice->x = context->pivot[0] + context->scale[0] * (slice->x - context->pivot[0]);
         slice->edge_a_x = w;
         slice->u = 0.5078125f;
-        DVDConvertEntrynumToPath(&slice->x);
+        draw_rotated_quad(&slice->x);
     }
 }
 

@@ -11,6 +11,8 @@
 #include "pso/network/TLobby_803FAEA0.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/NetworkRuntime.h"
+#include "pso/network/TLobby_804050DC.h"
 
 /* The script strings are read-only: the short ones are in .sdata2. */
 #pragma readonly_strings on
@@ -24,7 +26,6 @@ typedef struct RecoveredGlobal_8042839C_lbl_805D0A40 {
 #pragma auto_inline off
 #pragma dont_inline off
 
-s32 TLobby__sub_803F77E0(void *);
 ModemSessionState lobby_net_session_state;
 /* The session's and the buffer pool's small state (.sbss 805D7BD0-805D7C30). This compiler lays .sbss out in
  * reverse definition order, so the last address comes first. */
@@ -38,7 +39,7 @@ uaddr lbl_805D7C10;
 s32 lbl_805D7C0C;
 u32 lbl_805D7C08;
 u8 *lbl_805D7C04;
-s32 lobby_buffer_pool_alarm_handle;
+NetMutexHandle lobby_buffer_pool_alarm_handle;
 s32 lbl_805D7BFC;
 saddr lobby_buffer_pool_end;
 saddr lbl_805D7BF4;
@@ -52,20 +53,17 @@ s32 lbl_805D7BD8;
 u32 lobby_modem_wait_timeout_ms;
 u32 lobby_modem_wait_start_ms;
 
-s32 net_sleep_ms(int);
 s16 WaitNstrRecv(u8 *buf, s16 len);
-s16 network_input_available(u16 *avail);
-s16 recv_network_bytes(u8 *dst, u16 n);
 s16 send_network_bytes(void *, s32);
 
 
 void reset_boot_state(void) {
-    TLobby__sub_803F77E0((s32 *)&lobby_net_session_state);
+    term_modem_session_config(&lobby_net_session_state);
 }
 
 LAYOUT_ASSERT(RecoveredGlobal_8042839C_lbl_805D0A40_size, sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60);
 s32 init_modem_session_config(void) {
-    init_modem_buffer_config((void *)&lobby_net_session_state);
+    init_modem_buffer_config(&lobby_net_session_state);
     return 0;
 }
 
@@ -141,9 +139,9 @@ static inline s16 modem_wait_connect(void) {
             ret = 4;
             break;
         }
-        unlock_mutex(lbl_805C18A0.mutex);
+        unlock_mutex(net_thread_state.mutex);
         net_sleep_ms(100);
-        lock_mutex(lbl_805C18A0.mutex);
+        lock_mutex(net_thread_state.mutex);
     }
     return ret;
 }
@@ -195,7 +193,7 @@ s16 modem_run_script(u8 *script, NetSession *sess) {
             ret = go_dial(&sess->req);
             break;
         case 1:
-            ret = modem_script_send();
+            ret = go_send();
             break;
         case 2:
             ret = go_wait(&sess->req);
@@ -241,14 +239,13 @@ s16 wait_timeout_loop(ModemRequest *request) {
         if ((u32)(now - start) > limit) {
             break;
         }
-        unlock_mutex(lbl_805C18A0.mutex);
+        unlock_mutex(net_thread_state.mutex);
         net_sleep_ms(100);
-        lock_mutex(lbl_805C18A0.mutex);
+        lock_mutex(net_thread_state.mutex);
     }
     return ret;
 }
 
-s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);
 
 inline s16 modem_wait_for_string(u8 *s, s16 n, s16 timeout) {
     get_time_ms((s32 *)&lobby_modem_wait_start_ms);
@@ -306,7 +303,7 @@ s16 go_wait(ModemRequest *req) {
     }
     return 0;
 }
-s16 modem_script_send(void) {
+s16 go_send(void) {
     const char *const *keys;
     s32 di;
     s32 si;
@@ -367,7 +364,7 @@ s16 go_dial(ModemRequest *request) {
     u16 avail;
 
     state = &lobby_net_session_state;
-    config = TLobby__sub_803FB110();
+    config = ppp_get_modem_property();
     if (config == NULL) {
         return -3;
     }
@@ -375,12 +372,12 @@ s16 go_dial(ModemRequest *request) {
     out = (u8 **)((u8 *)state + offsetof(ModemSessionState, cmd));
     **out = 0;
     if (request->type == 0) {
-        if (config->prefix0 != NULL) {
-            NetCopyString((char *)*out, config->prefix0);
+        if (config->tone_dial_command != NULL) {
+            NetCopyString((char *)*out, config->tone_dial_command);
         }
     } else {
-        if (config->prefix1 != NULL) {
-            NetCopyString((char *)*out, config->prefix1);
+        if (config->pulse_dial_command != NULL) {
+            NetCopyString((char *)*out, config->pulse_dial_command);
         }
     }
     if (request->has_arg != 0) {
@@ -421,7 +418,7 @@ s16 go_dial(ModemRequest *request) {
     if (send_network_bytes(*out, (u16)NetStringLength((const char *)*out)) != 0) {
         return 4;
     }
-    return TLobby__sub_804290D4(request->timeout);
+    return WaitStringConnect(request->timeout);
 }
 
 #pragma push
@@ -543,7 +540,7 @@ s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next) {
     return 1;
 }
 
-s16 TLobby__sub_804290D4(s32 idx) {
+s16 WaitStringConnect(s32 idx) {
     s16 *lenp;
     u8 **bufp;
     ModemConfig *config;
@@ -555,7 +552,7 @@ s16 TLobby__sub_804290D4(s32 idx) {
     s32 n;
     u8 ch;
 
-    config = TLobby__sub_803FB110();
+    config = ppp_get_modem_property();
     if (config == NULL) {
         return 1;
     }
@@ -574,28 +571,28 @@ s16 TLobby__sub_804290D4(s32 idx) {
         if (WaitNstrRecv(*bufp + *lenp - 1, 1) != 0) {
             return 4;
         }
-        n = NetStringLength(config->result_ok);
-        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->result_ok, n) == 0) {
+        n = NetStringLength(config->connect_response);
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->connect_response, n) == 0) {
             goto L122;
         }
-        n = NetStringLength(config->result_error);
-        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->result_error, n) == 0) {
+        n = NetStringLength(config->busy_response);
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->busy_response, n) == 0) {
             return 2;
         }
-        n = NetStringLength(config->result_busy);
-        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->result_busy, n) == 0) {
+        n = NetStringLength(config->error_response);
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->error_response, n) == 0) {
             return 2;
         }
-        n = NetStringLength(config->result_no_dialtone);
-        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->result_no_dialtone, n) == 0) {
+        n = NetStringLength(config->delayed_response);
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->delayed_response, n) == 0) {
             return 2;
         }
-        n = NetStringLength(config->result_no_carrier);
-        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->result_no_carrier, n) == 0) {
+        n = NetStringLength(config->no_carrier_response);
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->no_carrier_response, n) == 0) {
             return 3;
         }
-        n = NetStringLength(config->result_no_answer);
-        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->result_no_answer, n) == 0) {
+        n = NetStringLength(config->no_dialtone_response);
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->no_dialtone_response, n) == 0) {
             return 3;
         }
     }
@@ -663,9 +660,9 @@ s16 WaitNstrRecv(u8 *buf, s16 len) {
             lobby_modem_wait_timeout_ms = 0;
             return -1;
         }
-        unlock_mutex(lbl_805C18A0.mutex);
+        unlock_mutex(net_thread_state.mutex);
         net_sleep_ms(100);
-        lock_mutex(lbl_805C18A0.mutex);
+        lock_mutex(net_thread_state.mutex);
     }
     return 0;
 }
@@ -680,7 +677,7 @@ s16 init_buffer_pool(void) {
     lbl_805D7BF4 = (saddr)lobby_buffer_pool_base;
     lobby_buffer_pool_end = (saddr)(lobby_buffer_pool_base + lobby_buffer_pool_size);
     lbl_805D7BFC = lobby_buffer_pool_size;
-    if (TLobby__sub_803F96AC(&lobby_buffer_pool_alarm_handle) < 0) {
+    if (create_mutex(&lobby_buffer_pool_alarm_handle) < 0) {
         return -1;
     }
     reset_buffer_pool();

@@ -1,5 +1,3 @@
-#define __constants lbl_8047BA08
-
 #pragma ANSI_strict off
 #pragma tvectors off
 #pragma internal on

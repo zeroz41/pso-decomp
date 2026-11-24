@@ -27,24 +27,24 @@ s32 sndFXKeyOff(s32 vid) {
     return ret;
 }
 
-u32 sndFXStartParaInfo(u16 fid, u8 vol, u8 pan, u8 studio, SndParaInfo *req) {
+u32 sndFXStartParaInfo(u16 fid, u8 vol, u8 pan, u8 studio, SND_PARAMETER_INFO *paraInfo) {
     u32 id;
     u8 i;
-    SndParaEntry *e;
+    SND_PARAMETER *pPtr;
     u8 t;
     hwDisableIrq();
     id = synthFXStart(fid, vol, pan, studio, synthITDDefault[studio].sfx);
     if (id != 0xFFFFFFFF) {
-        e = req->ents;
+        pPtr = paraInfo->paraArray;
         i = 0;
-        while (i < req->count) {
-            t = e->type;
+        while (i < paraInfo->numPara) {
+            t = pPtr->ctrl;
             if (t < 0x40 || t == 0x80 || t == 0x84) {
-                synthFXSetCtrl14(id, t, e->v.w);
+                synthFXSetCtrl14(id, t, pPtr->paraData.value14);
             } else {
-                synthFXSetCtrl(id, t, e->v.b);
+                synthFXSetCtrl(id, t, pPtr->paraData.value7);
             }
-            e++;
+            pPtr++;
             i++;
         }
     }
@@ -52,8 +52,8 @@ u32 sndFXStartParaInfo(u16 fid, u8 vol, u8 pan, u8 studio, SndParaInfo *req) {
     return id;
 }
 
-u32 sndFXCheck(u32 id) {
-    if (vidGetInternalId(id) != 0xFFFFFFFF) return id;
+u32 sndFXCheck(u32 vid) {
+    if (vidGetInternalId(vid) != 0xFFFFFFFF) return vid;
     return 0xFFFFFFFF;
 }
 
@@ -120,7 +120,7 @@ void sndSetAuxProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA,
 }
 #pragma push
 #pragma opt_common_subs on
-void synthActivateStudio(u8 studio, u32 isMaster, u32 type) {
+void synthActivateStudio(u8 studio, u32 isMaster, SND_STUDIO_TYPE type) {
     hwDisableIrq();
     synthAuxACallback[studio] = 0;
     synthAuxBCallback[studio] = 0;

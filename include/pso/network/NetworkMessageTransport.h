@@ -11,11 +11,11 @@ extern "C" {
 #endif
 struct EthernetReceiveFilter;
 struct OSMessageQueue;
-void TLobby__sub_80425D88(u8 v);
-s16 TLobby__sub_804262CC(struct EthernetReceiveFilter *filter);
-s16 TLobby__sub_80426440(void);
-s16 TLobby__sub_80426660(u8 *arg0);
-s32 TLobby__sub_80426B88(s16 dev);
+void signal_network_message(u8 v);
+s16 open_bba_receive_filter(struct EthernetReceiveFilter *filter);
+s16 pppoe_terminate_hook(void);
+s16 open_pppoe_adapter(u8 *out);
+s32 open_ethernet_device(s16 dev);
 void dispatch_received_ethernet_frame(struct EthernetReceiveFilter *filter, void *frame, void *b);
 void reset_message_thread(void);
 void update_exi_status(void);

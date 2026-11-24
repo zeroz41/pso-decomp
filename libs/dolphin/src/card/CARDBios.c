@@ -1,16 +1,3 @@
-
-
-
-#define OnReset CARDBios_OnReset
-#define ResetFunctionInfo lbl_804F4C50
-#define Retry CARDBios_Retry
-#define TimeoutHandler CARDBios_TimeoutHandler
-#define UnlockedCallback CARDBios_UnlockedCallback
-#define __CARDBlock lbl_80544980
-#define __CARDDefaultApiCallback fn_80380B74
-#define __CARDDiskNone lbl_80544BA0
-#define __CARDStart CARDBios___CARDStart
-
 #include <dolphin.h>
 #include <dolphin/os.h>
 #include <dolphin/card.h>
@@ -625,7 +612,7 @@ void CARDInit(void) {
             OSInitThreadQueue(&card->threadQueue);
             OSCreateAlarm(&card->alarm);
         }
-        __CARDSetDiskID((void*)OSPhysicalToCached(0));
+        __CARDSetDiskID(OSPhysicalToCached(0));
 
         OSRegisterResetFunction(&ResetFunctionInfo);
     }

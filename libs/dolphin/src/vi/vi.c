@@ -1,29 +1,3 @@
-
-
-#define CurrTiming lbl_805D71E0
-#define FBSet lbl_805D71E8
-#define HorVer lbl_805448D8
-#define PostCB lbl_805D71B4
-#define PreCB lbl_805D71B0
-#define __VIRetraceHandler vi___VIRetraceHandler
-#define changeMode lbl_805D71C0
-#define changed lbl_805D71C8
-#define flushFlag lbl_805D71A4
-#define getCurrentFieldEvenOdd vi_getCurrentFieldEvenOdd
-#define getTiming vi_getTiming
-#define regs lbl_805447E8
-#define retraceCount lbl_805D71A0
-#define retraceQueue lbl_805D71A8
-#define setFbbRegs vi_setFbbRegs
-#define setVerticalRegs vi_setVerticalRegs
-#define shdwChangeMode lbl_805D71D0
-#define shdwChanged lbl_805D71D8
-#define shdwRegs lbl_80544860
-#define encoderType lbl_805D71B8
-#define displayOffsetH lbl_805D71BC
-#define displayOffsetV lbl_805D71BE
-#define message lbl_805D71EC
-
 #include <dolphin/vi.h>
 #include <dolphin/gx.h>
 #include <dolphin/hw_regs.h>
@@ -122,11 +96,7 @@ static SomeVIStruct HorVer;
 #define MARK_CHANGED(index) (changed |= 1LL << (63 - (index)))
 
 
-static struct {
-	VITiming timing_[8];
-	u16 taps_[25];
-	u16 pad_;
-} lbl_804F4800 = { {
+static VITiming timing[8] = {
 
 	{ 6,   240, 24,  25,  3,  2,  12,  13,  12,  13,  520, 519,
 	  520, 519, 525, 429, 64, 71, 105, 162, 373, 122, 412 },
@@ -151,11 +121,11 @@ static struct {
 
 	{ 12,   480,  44,   44,  10, 10, 24,  24,  24,  24,  1038, 1038,
 	  1038, 1038, 1050, 429, 64, 71, 105, 168, 379, 122, 412 },
-}, { 0x01F0, 0x01DC, 0x01AE, 0x0174, 0x0129, 0x00DB, 0x008E, 0x0046, 0x000C,
-	    0x00E2, 0x00CB, 0x00C0, 0x00C4, 0x00CF, 0x00DE, 0x00EC, 0x00FC, 0x0008,
-	    0x000F, 0x0013, 0x0013, 0x000F, 0x000C, 0x0008, 0x0001 } };
+};
 
-#define taps lbl_804F4800.taps_
+static u16 taps[25] = { 0x01F0, 0x01DC, 0x01AE, 0x0174, 0x0129, 0x00DB, 0x008E, 0x0046, 0x000C,
+	    0x00E2, 0x00CB, 0x00C0, 0x00C4, 0x00CF, 0x00DE, 0x00EC, 0x00FC, 0x0008,
+	    0x000F, 0x0013, 0x0013, 0x000F, 0x000C, 0x0008, 0x0001 };
 
 static u32 getCurrentFieldEvenOdd(void);
 
@@ -275,34 +245,34 @@ static VITiming* getTiming(VITVMode mode)
 {
 	switch (mode) {
 	case VI_TVMODE_NTSC_INT:
-		return &lbl_804F4800.timing_[0];
+		return &timing[0];
 	case VI_TVMODE_NTSC_DS:
-		return &lbl_804F4800.timing_[1];
+		return &timing[1];
 
 	case VI_TVMODE_PAL_INT:
-		return &lbl_804F4800.timing_[2];
+		return &timing[2];
 	case VI_TVMODE_PAL_DS:
-		return &lbl_804F4800.timing_[3];
+		return &timing[3];
 
 	case VI_TVMODE_EURGB60_INT:
-		return &lbl_804F4800.timing_[0];
+		return &timing[0];
 	case VI_TVMODE_EURGB60_DS:
-		return &lbl_804F4800.timing_[1];
+		return &timing[1];
 
 	case VI_TVMODE_MPAL_INT:
-		return &lbl_804F4800.timing_[4];
+		return &timing[4];
 	case VI_TVMODE_MPAL_DS:
-		return &lbl_804F4800.timing_[5];
+		return &timing[5];
 
 	case VI_TVMODE_NTSC_PROG:
-		return &lbl_804F4800.timing_[6];
+		return &timing[6];
 	case VI_TVMODE_3:
-		return &lbl_804F4800.timing_[7];
+		return &timing[7];
 
 	case VI_TVMODE_DEBUG_PAL_INT:
-		return &lbl_804F4800.timing_[2];
+		return &timing[2];
 	case VI_TVMODE_DEBUG_PAL_DS:
-		return &lbl_804F4800.timing_[3];
+		return &timing[3];
 
 	default:
 		return NULL;
@@ -730,14 +700,6 @@ static void setVerticalRegs(u16 dispPosY, u16 dispSizeY, u8 equ, u16 acv,
 
 
 
-static char lbl_804F49BC[0x10C] =
-	"***************************************\n\0\0\0\0"
-	" ! ! ! C A U T I O N ! ! !             \n\0\0\0\0"
-	"This TV format \"DEBUG_PAL\" is only for \n\0\0\0\0"
-	"temporary solution until PAL DAC board \n\0\0\0\0"
-	"is available. Please do NOT use this   \n\0\0\0\0"
-	"mode in real games!!!                  \n\0\0\0\0";
-
 void VIConfigure(const GXRenderModeObj* rm)
 {
 	VITiming* tm;
@@ -762,13 +724,13 @@ void VIConfigure(const GXRenderModeObj* rm)
 
 	if (tvInGame == VI_DEBUG_PAL && message == FALSE) {
 		message = TRUE;
-		OSReport(&lbl_804F49BC[0x0]);
-		OSReport(&lbl_804F49BC[0x2C]);
-		OSReport(&lbl_804F49BC[0x58]);
-		OSReport(&lbl_804F49BC[0x84]);
-		OSReport(&lbl_804F49BC[0xB0]);
-		OSReport(&lbl_804F49BC[0xDC]);
-		OSReport(&lbl_804F49BC[0x0]);
+		OSReport("***************************************\n");
+		OSReport(" ! ! ! C A U T I O N ! ! !             \n");
+		OSReport("This TV format \"DEBUG_PAL\" is only for \n");
+		OSReport("temporary solution until PAL DAC board \n");
+		OSReport("is available. Please do NOT use this   \n");
+		OSReport("mode in real games!!!                  \n");
+		OSReport("***************************************\n");
 	}
 
 	if (tvInGame == VI_NTSC || tvInGame == VI_MPAL)

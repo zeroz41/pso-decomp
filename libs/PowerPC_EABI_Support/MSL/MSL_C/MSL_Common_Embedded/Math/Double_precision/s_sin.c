@@ -11,12 +11,7 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 double sin(double x)
-#else
-double sin(x)
-double x;
-#endif
 {
     double y[2], z = 0.0;
     int n, ix;

@@ -7,14 +7,16 @@
 
 // Ninja texture list: `nbTexture` names, each naming one texture
 // (NJS_TEXNAME is defined with Ginja's loaded-texture fields in GinjaMaterialState.h).
-struct NJS_TEXNAME;
+typedef struct NJS_TEXNAME NJS_TEXNAME;
 
+typedef struct NJS_TEXLIST NJS_TEXLIST;
 struct NJS_TEXLIST {
     NJS_TEXNAME *textures;
     u32 nbTexture;
 };
 
 // One sprite cell of a texture: size, centre, uv rectangle and texture index.
+typedef struct NJS_TEXANIM NJS_TEXANIM;
 struct NJS_TEXANIM {
     s16 sx, sy;
     s16 cx, cy;
@@ -26,6 +28,7 @@ typedef Vec NJS_POINT3;
 
 // A Ninja camera: eye position, view direction, roll, view angle (0x10000 a
 // turn) and the near and far clip planes (negative view-space z).
+typedef struct NJS_CAMERA NJS_CAMERA;
 struct NJS_CAMERA {
     f32 px, py, pz;
     f32 vx, vy, vz;
@@ -37,6 +40,7 @@ struct NJS_CAMERA {
 
 // A 2D sprite: position, scale and angle, drawn from cells of `tanim`
 // (texture ids into `tlist`).
+typedef struct NJS_SPRITE NJS_SPRITE;
 struct NJS_SPRITE {
     NJS_POINT3 p;
     f32 sx, sy;
@@ -45,15 +49,18 @@ struct NJS_SPRITE {
     NJS_TEXANIM *tanim;
 };
 
+typedef struct NJS_POINT2 NJS_POINT2;
 struct NJS_POINT2 {
     f32 x, y;
 };
 
+typedef struct NJS_TEX NJS_TEX;
 struct NJS_TEX {
     s16 u, v;
 };
 
 // `num` points with one colour each and optional texture coordinates.
+typedef struct NJS_POINT3COL NJS_POINT3COL;
 struct NJS_POINT3COL {
     NJS_POINT3 *p;
     u32 *col;
@@ -62,7 +69,7 @@ struct NJS_POINT3COL {
 };
 
 // A Ninja colour with float channels, alpha first.
-struct NJS_ARGB;
+typedef struct NJS_ARGB NJS_ARGB;
 // Copies the four channels of `src` into `dst`.
 void copy_argb(NJS_ARGB *dst, NJS_ARGB *src);
 
@@ -111,7 +118,15 @@ struct NJS_ARGB {
 // Strip chunk flags (the head's high byte).
 #define NJD_FST_SHIFT 8
 #define NJD_FST_IL (0x01 << NJD_FST_SHIFT)  // ignore light
+#define NJD_FST_UA (0x08 << NJD_FST_SHIFT)  // use alpha
 #define NJD_FST_ENV (0x40 << NJD_FST_SHIFT) // environment mapping
+
+// Texture-id chunk flags (the head's high byte) and the id field of its data.
+#define NJD_FFL_U 0x8000U  // flip U
+#define NJD_FFL_V 0x4000U  // flip V
+#define NJD_FCL_U 0x2000U  // clamp U
+#define NJD_FCL_V 0x1000U  // clamp V
+#define NJD_TID_MASK 0x1FFF
 
 // Material attribute bits (texture addressing).
 #define NJD_FLAG_FLIP_U 0x40000
@@ -123,6 +138,7 @@ struct NJS_ARGB {
 #define NJD_TEXATTR_TYPE_MEMORY 0x40000000
 
 // Chunk model streams referenced by an NJS_OBJECT.
+typedef struct NJS_CNK_MODEL NJS_CNK_MODEL;
 struct NJS_CNK_MODEL {
     void *vertex_list;
     s16 *polygon_list;
@@ -131,6 +147,7 @@ struct NJS_CNK_MODEL {
 };
 
 // Ninja model hierarchy node.
+typedef struct NJS_OBJECT NJS_OBJECT;
 struct NJS_OBJECT {
     u32 evalflags;
     void *model;
@@ -145,9 +162,16 @@ struct NJS_OBJECT {
 LAYOUT_ASSERT(NJS_OBJECT_size, sizeof(NJS_OBJECT) == 0x38);
 LAYOUT_ASSERT(NJS_OBJECT_child_offset, offsetof(NJS_OBJECT, child) == 0x2C);
 
-extern "C" void copy_model_node(NJS_OBJECT *dst, const NJS_OBJECT *src);
+#ifdef __cplusplus
+extern "C" {
+#endif
+void copy_model_node(NJS_OBJECT *dst, const NJS_OBJECT *src);
+#ifdef __cplusplus
+}
+#endif
 
 // Ninja byte colour; on this big-endian target the bytes of the ARGB word are a, r, g, b.
+typedef struct NJS_BGRA NJS_BGRA;
 struct NJS_BGRA {
     u8 a;
     u8 r;
@@ -156,12 +180,14 @@ struct NJS_BGRA {
 };
 
 // Ninja colour: one packed ARGB word or its bytes.
+typedef union NJS_COLOR NJS_COLOR;
 union NJS_COLOR {
     u32 color;
     NJS_BGRA argb;
 };
 
 // `num` 2D points with one colour each and optional texture coordinates.
+typedef struct NJS_POINT2COL NJS_POINT2COL;
 struct NJS_POINT2COL {
     NJS_POINT2 *p;
     NJS_COLOR *col;
@@ -170,6 +196,7 @@ struct NJS_POINT2COL {
 };
 
 // Ninja motion: per-node key data played over nbFrame frames.
+typedef struct NJS_MOTION NJS_MOTION;
 struct NJS_MOTION {
     void *mdata;
     u32 nbFrame;
@@ -190,18 +217,21 @@ struct NJS_MOTION {
 #define NJD_MTYPE_QUAT_1 0x2000
 
 // Two motions blended: motion[0] at frame[0] into motion[1] at frame[1].
+typedef struct NJS_MOTION_LINK NJS_MOTION_LINK;
 struct NJS_MOTION_LINK {
     NJS_MOTION *motion[2];
     f32 frame[2];
 };
 
 // NJS_MOTION::mdata for a motion with position and angle keys per node.
+typedef struct NJS_MDATA2 NJS_MDATA2;
 struct NJS_MDATA2 {
     void *p[2];  // position keys, angle keys
     u32 nb[2];   // their counts
 };
 
 // A float key: three values at a frame.
+typedef struct NJS_MKEY_F NJS_MKEY_F;
 struct NJS_MKEY_F {
     u32 keyframe;
     f32 key[3];
@@ -211,30 +241,35 @@ LAYOUT_ASSERT(NinjaFloatKeySize, sizeof(NJS_MKEY_F) == 0x10);
 
 
 // An angle key: three angles at a frame.
+typedef struct NJS_MKEY_A NJS_MKEY_A;
 struct NJS_MKEY_A {
     u32 keyframe;
     s32 key[3];
 };
 
 // A short angle key: three 16-bit angles at a 16-bit frame.
+typedef struct NJS_MKEY_SA NJS_MKEY_SA;
 struct NJS_MKEY_SA {
     u16 keyframe;
     s16 key[3];
 };
 
 // One angle at a frame.
+typedef struct NJS_MKEY_A1 NJS_MKEY_A1;
 struct NJS_MKEY_A1 {
     u32 keyframe;
     s32 key;
 };
 
 // A shape key: a whole vertex (or normal) array at a frame.
+typedef struct NJS_MKEY_P NJS_MKEY_P;
 struct NJS_MKEY_P {
     u32 keyframe;
     f32 *key;
 };
 
 // A rotation quaternion at a frame, real part first.
+typedef struct NJS_MKEY_QUAT NJS_MKEY_QUAT;
 struct NJS_MKEY_QUAT {
     u32 keyframe;
     f32 key[4];

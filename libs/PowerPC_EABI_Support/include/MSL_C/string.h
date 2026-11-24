@@ -7,9 +7,9 @@
 extern "C" {
 #endif
 
-__declspec(section ".init") void* memcpy(void* dest, const void* src, size_t n);
-__declspec(section ".init") void __fill_mem(void* dest, int val, size_t count);
-__declspec(section ".init") void* memset(void* dest, int val, size_t count);
+__declspec(section ".init") void* memcpy(void* dst, const void* src, size_t n);
+__declspec(section ".init") void __fill_mem(void* dst, int val, size_t n);
+__declspec(section ".init") void* memset(void* dst, int val, size_t n);
 
 int memcmp(const void* lhs, const void* rhs, size_t count);
 void* __memrchr(const void* ptr, int ch, size_t count);

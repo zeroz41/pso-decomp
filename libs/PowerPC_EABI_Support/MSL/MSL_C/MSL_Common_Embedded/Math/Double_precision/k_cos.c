@@ -11,11 +11,7 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 static const double
-#else
-static double
-#endif
     one = 1.00000000000000000000e+00,
     C1 = 4.16666666666666019037e-02,
     C2 = -1.38888888888741095749e-03,
@@ -24,12 +20,7 @@ static double
     C5 = 2.08757232129817482790e-09,
     C6 = -1.13596475577881948265e-11;
 
-#ifdef __STDC__
 double __kernel_cos(double x, double y)
-#else
-double __kernel_cos(x, y)
-double x, y;
-#endif
 {
     double a, hz, z, r, qx;
     int ix;

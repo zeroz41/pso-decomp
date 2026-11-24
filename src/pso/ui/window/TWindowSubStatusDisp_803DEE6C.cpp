@@ -66,7 +66,7 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth) {
 
 #pragma push
 #pragma scheduling off
-void DVDConvertEntrynumToPath(f32 *q) {
+void draw_rotated_quad(f32 *q) {
     f32 z = -1.0f / q[2];
     u32 color = (u32)constant_material_color;
     f32 y0, x0, u0, v0;
@@ -139,7 +139,21 @@ void set_constant_material_color(u32 x) {
 #pragma scheduling off
 #pragma peephole off
 
-u32 TLobby__sub_803DF1CC(void) {
+u32 get_coarse_time(void) {
     return OSGetTime() >> 6;
+}
+#pragma pop
+
+s32 calc_delta(s32 start, s32 end) {
+    return end - start;
+}
+
+#pragma push
+#pragma scheduling off
+#pragma peephole off
+#pragma optimize_for_size off
+// The OS timer runs at 40.5 MHz, so a get_coarse_time difference (ticks / 64) times 512 / 324 is microseconds.
+u32 coarse_time_to_usec(u32 x) {
+    return ((u32)(x << 6) * 8) / 324;
 }
 #pragma pop

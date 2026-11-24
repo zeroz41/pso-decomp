@@ -9,6 +9,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D853C.h"
 
 #pragma readonly_strings on
 
@@ -185,24 +186,25 @@ struct RotSrc_800FEEA4 {
     s8 bone;
     u8 pad[3];
     f32 angle;
-    u8 data[0xC];
+    Vec data;
 };
 
 struct PosSrc_800FEEA4 {
     s8 bone;
     u8 pad[3];
     s32 ofs;
-    u8 data[0x10];
+    Vec data;
+    u8 pad_14[4];
 };
 
 struct RotDst_800FEEA4 {
     f32 angle;
-    u8 data[0xC];
+    Vec data;
 };
 
 struct PosDst_800FEEA4 {
     s32 val;
-    u8 data[0xC];
+    Vec data;
 };
 
 struct Model_800FEEA4 {
@@ -221,7 +223,6 @@ struct Self_800FEEA4 {
 };
 
 extern "C" {
-void matrix_mult_vec(s32, void *, void *);
 extern Vec TObjEZBoneRotPlayer__chain_gravity;
 
 void TObjHMS_EZRope_Player::render() { sub_800FF2D0(); }
@@ -232,14 +233,14 @@ void TObjHMS_EZRope_Player::run_task() {
     PosDst_800FEEA4 *pd;
     if (((Self_800FEEA4 *)this)->rot_dst != NULL) {
         push_matrix();
-        TObjPlayer::invert_matrix_in_place(0);
+        invert_matrix_in_place(0);
         rs = ((Self_800FEEA4 *)this)->rot_src;
         rd = ((Self_800FEEA4 *)this)->rot_dst;
         while (rs->bone >= 0) {
             rd->angle = rs->angle;
             push_matrix();
             concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(((TObjMotion *)(((Self_800FEEA4 *)this)->model))->get_joint_matrix(rs->bone)));
-            matrix_mult_vec(0, rs->data, rd->data);
+            matrix_mult_vec(NULL, &rs->data, &rd->data);
             pop_matrix();
             rs++;
             rd++;
@@ -247,14 +248,14 @@ void TObjHMS_EZRope_Player::run_task() {
         pop_matrix();
     }
     push_matrix();
-    TObjPlayer::invert_matrix_in_place(0);
+    invert_matrix_in_place(0);
     ps = ((Self_800FEEA4 *)this)->pos_src;
     pd = ((Self_800FEEA4 *)this)->pos_dst;
     while (ps->bone >= 0) {
         pd->val = ((Self_800FEEA4 *)this)->model->base + ps->ofs;
         push_matrix();
         concat_matrix(NULL, reinterpret_cast<const f32 (*)[4]>(((TObjMotion *)(((Self_800FEEA4 *)this)->model))->get_joint_matrix(ps->bone)));
-        matrix_mult_vec(0, ps->data, pd->data);
+        matrix_mult_vec(NULL, &ps->data, &pd->data);
         pop_matrix();
         ps++;
         pd++;

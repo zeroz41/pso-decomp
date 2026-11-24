@@ -19,7 +19,7 @@ typedef struct NetPacket {
     NetPacketFragment fragments[12];
 } NetPacket;
 
-/* The packet records (alloc_free_entry, release_entry); TLobby__sub_803F8A0C sets the count and the array. */
+/* The packet records (alloc_free_entry, release_entry); init_packet_pool_config sets the count and the array. */
 typedef struct NetPacketPool {
     s16 count;
     u8 pad2[2];

@@ -1,8 +1,7 @@
 #include "libc/stdlib.h"
-
-void _ExitProcess();
-void __destroy_global_chain();
-void __kill_critical_regions();
+#include "abort_exit.h"
+#include "critical_regions.h"
+#include "Runtime.PPCEABI.H/NMWException.h"
 
 extern void (*_dtors[])(void);
 

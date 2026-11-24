@@ -679,20 +679,20 @@ DSError TRKDoStop(TRKBuffer* b)
 
 DSError TRKDoSetOption(TRKBuffer* buffer) {
     DSError error;
-    u8 spA;
-    u8 sp9;
-    u8 sp8;
+    u8 command;
+    u8 option;
+    u8 value;
 
-    spA = 0;
-    sp9 = 0;
-    sp8 = 0;
+    command = 0;
+    option = 0;
+    value = 0;
     TRKSetBufferPosition(buffer, DSREPLY_NoError);
-    error = TRKReadBuffer1_ui8(buffer, &spA);
+    error = TRKReadBuffer1_ui8(buffer, &command);
     if (error == DS_NoError) {
-        error = TRKReadBuffer1_ui8(buffer, &sp9);
+        error = TRKReadBuffer1_ui8(buffer, &option);
     }
     if (error == DS_NoError) {
-        error = TRKReadBuffer1_ui8(buffer, &sp8);
+        error = TRKReadBuffer1_ui8(buffer, &value);
     }
     if (error != DS_NoError) {
         TRKResetBuffer(buffer, 1);
@@ -705,8 +705,8 @@ DSError TRKDoSetOption(TRKBuffer* buffer) {
             buffer->length++;
         }
         TRKSendACK(buffer);
-    } else if (sp9 == 1) {
-        SetUseSerialIO(sp8);
+    } else if (option == 1) {
+        SetUseSerialIO(value);
     }
     TRKResetBuffer(buffer, 1);
     if (buffer->position < 0x880) {

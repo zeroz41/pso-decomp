@@ -4,17 +4,14 @@ char stdin_buff[0x100];
 char stdout_buff[0x100];
 char stderr_buff[0x100];
 
-extern int __close_console(__file_handle file);
-extern int __write_console(__file_handle file, unsigned char* buf, size_t* count, __idle_proc idle_fn);
-extern int __read_console(__file_handle file, unsigned char* buf, size_t* count, __idle_proc idle_fn);
-
-extern files __files = {
+files __files = {
     {
         0,
         0,
         1,
         1,
         2,
+        0,
         0,
         0,
         0,
@@ -54,6 +51,7 @@ extern files __files = {
         0,
         0,
         0,
+        0,
         { 0, 0 },
         { 0, 0 },
         0,
@@ -85,6 +83,7 @@ extern files __files = {
         0,
         0,
         0,
+        0,
         { 0, 0 },
         { 0, 0 },
         0,
@@ -100,7 +99,7 @@ extern files __files = {
         __write_console,
         __close_console,
         NULL,
-        &__files._sentinel,
+        &__files.empty,
     },
 };
 
@@ -116,14 +115,14 @@ void __close_all(void) {
 		}
 
 		plast = p;
-		p     = (FILE*)p->next;
-		if (plast->char_buffer)
+		p     = p->next_file;
+		if (plast->is_dynamically_allocated)
 			free(plast);
 		else
 		{
 			plast->file_mode.file_kind = __unavailable_file;
-			if ((p != NULL) && p->char_buffer)
-				plast->next = NULL;
+			if ((p != NULL) && p->is_dynamically_allocated)
+				plast->next_file = NULL;
 		}
 	}
 }
@@ -137,7 +136,7 @@ unsigned int __flush_all(void)
         if ((__stream->file_mode.file_kind) && (fflush(__stream))) {
         retval = -1;
         }
-        __stream = (FILE*)__stream->next;
+        __stream = __stream->next_file;
     };
     return retval;
 }
