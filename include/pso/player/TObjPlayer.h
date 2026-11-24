@@ -379,8 +379,6 @@ struct TObjPlayer : public TObjChara {
     // Set while a menu window holds the player's input, with the action buttons masked.
     s32 is_controls_locked();
     static s32 check_flag_01000000(void *player);
-    static void sync_player_globals();
-    static void begin_alpha_blend(f32 alpha);
     Vec *get_position_ptr();
     // Where the player stood before this frame's move.
     Vec *get_prev_position_ptr();
