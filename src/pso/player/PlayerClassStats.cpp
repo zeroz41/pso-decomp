@@ -116,7 +116,7 @@ extern const u8 attack_recovery_count_table[20][3] = {
     { 9, 7, 1 }, { 8, 6, 1 }, { 9, 7, 1 }, { 4, 4, 1 }, { 10, 9, 1 },
     { 12, 8, 1 }, { 9, 7, 1 }, { 18, 15, 10 }, { 8, 6, 1 }, { 0, 0, 0 },
 };
-extern const s32 lbl_804479AC[36][5] = {
+extern const s32 footstep_floor_table_default[36][5] = {
     { 0x40003804, 0x3c07, 0x40003a01, 0x40004e1f, 0x40003804 },
     { 0x40004b00, 0x3c07, 0x40003a01, 0x40004e1f, 0x40004b00 },
     { 0x40004b00, 0x3c07, 0x40003a01, 0x40004e1f, 0x40004b00 },
@@ -154,7 +154,7 @@ extern const s32 lbl_804479AC[36][5] = {
     { 0x40004b00, 0x3c07, 0x40004419, 0x40004e1f, 0x5b17 },
     { 0x40003804, 0x3c07, 0x40003a01, 0x40004e1f, 0x40003804 },
 };
-extern const s32 lbl_80447C7C[36][5] = {
+extern const s32 footstep_floor_table_cast[36][5] = {
     { 0x40003c09, 0x3c07, 0x40003a01, 0x40004e1f, 0x40003c09 },
     { 0x40004c15, 0x3c07, 0x40003a01, 0x40004e1f, 0x40004c15 },
     { 0x40004c15, 0x3c07, 0x40003a01, 0x40004e1f, 0x40004c15 },
@@ -192,7 +192,7 @@ extern const s32 lbl_80447C7C[36][5] = {
     { 0x40004c15, 0x3c07, 0x40004419, 0x40004e1f, 0x5018 },
     { 0x40003c09, 0x3c07, 0x40003a01, 0x40004e1f, 0x40003c09 },
 };
-extern const s32 lbl_80447F4C[36][5] = {
+extern const s32 footstep_floor_table_racast[36][5] = {
     { 0x40003b08, 0x3c07, 0x40003a01, 0x40004e1f, 0x40003b08 },
     { 0x40003b08, 0x3c07, 0x40003a01, 0x40004e1f, 0x40003b08 },
     { 0x40003b08, 0x3c07, 0x40003a01, 0x40004e1f, 0x40003b08 },
@@ -368,125 +368,125 @@ extern const Rec_804484EC lbl_80448960[19] = {
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
     { 18.0f, 30.0f, 32.0f, 13.0f, 35 },
 };
-extern const TPlyInventoryItem lbl_80448ADC[5] = {
+extern const TPlyInventoryItem humar_starting_inventory[5] = {
     { { 1, 0, 0, 0 }, 8, { { { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 2, 0, 5, 0, 0xf4, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0x28, 0, 0, 0x12 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
 };
-extern const TPlyInventoryItem lbl_80448B68[5] = {
+extern const TPlyInventoryItem hunewearl_starting_inventory[5] = {
     { { 1, 0, 0, 0 }, 8, { { { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 2, 0, 5, 0, 0xf4, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0x28, 0, 0, 0x12 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
 };
-extern const TPlyInventoryItem lbl_80448BF4[5] = {
+extern const TPlyInventoryItem hucast_starting_inventory[5] = {
     { { 1, 0, 0, 0 }, 8, { { { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 2, 0, 5, 0, 0xf4, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0x28, 0, 0, 0x12 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
 };
-extern const TPlyInventoryItem lbl_80448C80[5] = {
+extern const TPlyInventoryItem ramar_starting_inventory[5] = {
     { { 1, 0, 0, 0 }, 8, { { { 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 2, 0, 5, 0, 0xf4, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0x28, 0, 0, 0x12 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
 };
-extern const TPlyInventoryItem lbl_80448D0C[5] = {
+extern const TPlyInventoryItem racast_starting_inventory[5] = {
     { { 1, 0, 0, 0 }, 8, { { { 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 2, 0, 5, 0, 0xf4, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0x28, 0, 0, 0x12 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
 };
-extern const TPlyInventoryItem lbl_80448D98[5] = {
+extern const TPlyInventoryItem racaseal_starting_inventory[5] = {
     { { 1, 0, 0, 0 }, 8, { { { 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 2, 0, 5, 0, 0xf4, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0x28, 0, 0, 0x12 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
 };
-extern const TPlyInventoryItem lbl_80448E24[5] = {
+extern const TPlyInventoryItem fomarl_starting_inventory[5] = {
     { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 2, 0, 5, 0, 0xf4, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0x28, 0, 0, 0x12 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
 };
-extern const TPlyInventoryItem lbl_80448EB0[5] = {
+extern const TPlyInventoryItem fonewm_starting_inventory[5] = {
     { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 2, 0, 5, 0, 0xf4, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0x28, 0, 0, 0x12 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
 };
-extern const TPlyInventoryItem lbl_80448F3C[5] = {
+extern const TPlyInventoryItem fonewearl_starting_inventory[5] = {
     { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 2, 0, 5, 0, 0xf4, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0x28, 0, 0, 0x12 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
 };
-extern const TPlyInventoryItem lbl_80448FC8[5] = {
+extern const TPlyInventoryItem hucaseal_starting_inventory[5] = {
     { { 1, 0, 0, 0 }, 8, { { { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 2, 0, 5, 0, 0xf4, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0x28, 0, 0, 0x12 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
 };
-extern const TPlyInventoryItem lbl_80449054[5] = {
+extern const TPlyInventoryItem fomar_starting_inventory[5] = {
     { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 2, 0, 5, 0, 0xf4, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0x28, 0, 0, 0x12 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
 };
-extern const TPlyInventoryItem lbl_804490E0[5] = {
+extern const TPlyInventoryItem ramarl_starting_inventory[5] = {
     { { 1, 0, 0, 0 }, 8, { { { 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 8, { { { 2, 0, 5, 0, 0xf4, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0x28, 0, 0, 0x12 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
     { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
 };
-extern const Vec lbl_8044916C[4] = {
+extern const Vec hospital_positions_ep1[4] = {
     { 213.0f, 3.0f, -280.0f },
     { 207.0f, 3.0f, -280.0f },
     { 219.0f, 3.0f, -280.0f },
     { 225.0f, 3.0f, -280.0f },
 };
-extern const Vec lbl_8044919C[4] = {
+extern const Vec hospital_positions_ep2[4] = {
     { 7.0f, 0.0f, -200.0f },
     { 5.0f, 0.0f, -185.0f },
     { 20.0f, 0.0f, -211.0f },
     { 23.0f, 0.0f, -197.0f },
 };
-extern const s32 lbl_804491CC[2] = {
+extern const s32 hospital_yaw_by_episode[2] = {
     0x8000, 0xb000,
 };
-extern const Vec lbl_804491D4[4] = {
+extern const Vec guild_return_positions_ep1[4] = {
     { 190.0f, 0.0f, 330.0f },
     { 184.0f, 0.0f, 324.0f },
     { 196.0f, 0.0f, 336.0f },
     { 178.0f, 0.0f, 318.0f },
 };
-extern const Vec lbl_80449204[4] = {
+extern const Vec guild_return_positions_ep2[4] = {
     { 10.0f, 0.0f, 205.0f },
     { 7.0f, 0.0f, 194.0f },
     { 0.0f, 0.0f, 185.0f },
     { 10.0f, 0.0f, 218.0f },
 };
-extern const s32 lbl_80449234[2] = {
+extern const s32 guild_return_yaw_by_episode[2] = {
     0xe400, 0xc000,
 };
 extern const Vec lobby_entry_table[2] = {
     { 0.0f, 0.0f, -2015.0f },
     { -9998.0f, 30.0f, -198.0f },
 };
-extern const s32 lbl_80449254[2] = {
+extern const s32 lobby_entry_yaw_by_episode[2] = {
     0x8000, 0x8000,
 };
 extern const s32 player_hurt_protection_ticks_table[4] = {

@@ -82,7 +82,7 @@ s32 TObjPlayer::get_hurt_protection_ticks() {
 }
 
 s32 TObjPlayer::get_lobby_entry_yaw() {
-    return *(s32 *)((s8 *)lbl_80449254 + (TLobby::get_instance() * 4));
+    return *(s32 *)((s8 *)lobby_entry_yaw_by_episode + (TLobby::get_instance() * 4));
 }
 
 u8 *TObjPlayer::get_lobby_entry_ptr() {
@@ -90,7 +90,7 @@ u8 *TObjPlayer::get_lobby_entry_ptr() {
 }
 
 s32 TObjPlayer::get_guild_return_yaw() {
-    return *(s32 *)((s8 *)lbl_80449234 + (TLobby::get_instance() * 4));
+    return *(s32 *)((s8 *)guild_return_yaw_by_episode + (TLobby::get_instance() * 4));
 }
 
 const Vec *TObjPlayer::get_guild_return_position() {
@@ -98,7 +98,7 @@ const Vec *TObjPlayer::get_guild_return_position() {
 }
 
 s32 TObjPlayer::get_hospital_yaw() {
-    return *(s32 *)((s8 *)lbl_804491CC + (TLobby::get_instance() * 4));
+    return *(s32 *)((s8 *)hospital_yaw_by_episode + (TLobby::get_instance() * 4));
 }
 
 u8 *TObjPlayer::get_hospital_position() {
@@ -263,7 +263,7 @@ PhotonBlastMotionTiming *photon_blast_motion_timing_tables[6] = {
     lbl_804C46B0, lbl_804C4794, lbl_804C4794,
 };
 const s32 (*player_footstep_floor_table[3])[5] = {
-    lbl_804479AC, lbl_80447C7C, lbl_80447F4C,
+    footstep_floor_table_default, footstep_floor_table_cast, footstep_floor_table_racast,
 };
 const Rec_8044821C *player_clamped_index_table_pointers[3] = {
     lbl_8044821C, lbl_804482DC, lbl_8044839C,
@@ -276,9 +276,9 @@ const Rec_804484EC *player_cast_motion_record_table[6] = {
     lbl_80448960, lbl_80448668, lbl_80448668,
 };
 const TPlyInventoryItem *class_starting_inventory_table[12] = {
-    lbl_80448ADC, lbl_80448B68, lbl_80448BF4, lbl_80448C80,
-    lbl_80448D0C, lbl_80448D98, lbl_80448E24, lbl_80448EB0,
-    lbl_80448F3C, lbl_80448FC8, lbl_80449054, lbl_804490E0,
+    humar_starting_inventory, hunewearl_starting_inventory, hucast_starting_inventory, ramar_starting_inventory,
+    racast_starting_inventory, racaseal_starting_inventory, fomarl_starting_inventory, fonewm_starting_inventory,
+    fonewearl_starting_inventory, hucaseal_starting_inventory, fomar_starting_inventory, ramarl_starting_inventory,
 };
 
 s32 TObjPlayer__sub_801D91B8(saddr player) {
@@ -342,10 +342,10 @@ int TBoss4DarkFalz::get_instance_count() {  return dark_falz_form_index; }
 s32 TBoss4DarkFalz__sub_801D94C0(void* p) { return *(s32*)((char*)p + 0x14); }
 
 const Vec *hospital_position_table_by_episode[2] = {
-    lbl_8044916C, lbl_8044919C,
+    hospital_positions_ep1, hospital_positions_ep2,
 };
 const Vec *guild_return_position_table_by_episode[2] = {
-    lbl_804491D4, lbl_80449204,
+    guild_return_positions_ep1, guild_return_positions_ep2,
 };
 
 // Highest technique level per class (12 classes x 19 techniques, 0xFF = not learnable), read by
