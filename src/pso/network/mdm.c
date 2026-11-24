@@ -14,7 +14,7 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-// Transmit side of the modem EXI transfer (cleared as one 0x2C block by sub_8042CEF8).
+// Transmit side of the modem EXI transfer (MDMInit clears it as one block).
 typedef struct ModemSendState {
     s32 busy;
     u8 *data;
@@ -29,7 +29,7 @@ typedef struct ModemSendState {
     void (*callback)(s32 length);
 } ModemSendState;
 
-// Receive side of the modem EXI transfer (cleared as one 0x40 block by sub_8042CEF8).
+// Receive side of the modem EXI transfer (MDMInit clears it as one block).
 typedef struct ModemRecvState {
     u8 *buffer;
     u8 *head;

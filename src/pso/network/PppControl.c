@@ -1,5 +1,5 @@
-/* PPP connection control: the connect records (.bss 805C0638), the calls the session layer (803FB7A4) makes
- * and the modem wrappers (a C library, built with GC/1.2.5n). PppControl is an inferred name. */
+/* PPP connection control: the connect records, the calls the session layer (PppApi.c) makes and the modem
+ * wrappers (a C library, built with GC/1.2.5n). PppControl is an inferred name. */
 #include "types.h"
 #include "pso/network/PppChap.h"
 #include "pso/network/Ppp.h"

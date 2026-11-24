@@ -1,5 +1,4 @@
-/* PPP LCP, the protocol that names itself "Lcp" (805E1178), and its state object (.bss 805C0400) (a C library,
- * built with GC/1.2.5n). */
+/* PPP LCP, the protocol that names itself "Lcp", and its state object (a C library, built with GC/1.2.5n). */
 #include "types.h"
 #include "pso/network/PppChap.h"
 #include "pso/network/Ppp.h"
@@ -18,11 +17,11 @@
 
 #include "pso/network/PppBuffer.h"
 
-/* The option values both sides start from: MRU 1500 and a full async control-character map (.rodata 8047FE50). */
+/* The option values both sides start from: MRU 1500 and a full async control-character map. */
 const LcpVals lcp_default_values = {0, 1500, 0xFFFFFFFF};
-/* Each option's length, by option type (.rodata 8047FE68). */
+/* Each option's length, by option type. */
 const u8 lcp_option_lengths[16] = {4, 4, 6, 4, 4, 6, 6, 2, 2};
-/* The option readers' scratch bytes (.sbss 805D7AB0), in reverse definition order. */
+/* The option readers' scratch bytes, in reverse definition order. */
 u8 lobby_read_byte_buffer[1];
 u8 lcp_read_value_buffer[4];
 

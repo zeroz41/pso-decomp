@@ -68,7 +68,7 @@ s16 PP_chap_monitor(PppFsm *c, s32 timeout) {
 struct PppChapAuthenticationState;
 PppChapAuthenticationState ppp_chap_authentication_state;
 PppAuthState chap_state;
-/* The challenge length and the response reader's scratch byte (.sbss 805D7A98), in reverse definition order. */
+/* The challenge length and the response reader's scratch byte, in reverse definition order. */
 u16 chap_challenge_length;
 u8 chap_read_byte_buffer;
 void PP_chap_init(PppProtoBlocks *connection) {

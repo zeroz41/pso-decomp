@@ -13,8 +13,7 @@
 #include "pso/network/NetPppLink.h"
 
 s16 ppp_get_link_status(NetLinkStatus *status);
-/* The session's small state (.sbss 805D7A78-805D7A98), in reverse definition order: this compiler lays .sbss out
- * last-defined first. */
+/* The session's small state, in reverse definition order: this compiler lays .sbss out last-defined first. */
 s32 ppp_last_io_ms;
 s32 lobby_session_flags;
 NetStatusCallback lobby_modem_callback;

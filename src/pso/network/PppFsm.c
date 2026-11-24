@@ -16,11 +16,10 @@
 #include "pso/network/PppApi.h"
 #include "pso/network/IPv4Header.h"
 
-void update_countdown_state(PppFsm *);
 
 /* The PPP FCS-16 lookup table of RFC 1662 (fcstab), which the HDLC framing (ppp_poll_input, ppp_output_frame)
- * reads. .data 804FD3A8, just before this file's jump tables; owner inferred: no TU between NetworkThreadRuntime.c
- * and this one has other .data, and this file holds the stack's other checksum code (ip_pseudo_header_checksum). */
+ * reads. It sits just before this file's jump tables; owner inferred: no TU between NetworkThreadRuntime.c and
+ * this one has other .data, and this file holds the stack's other checksum code (ip_pseudo_header_checksum). */
 u16 ppp_fcs16_table[256] = {
     0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,
     0x8c48, 0x9dc1, 0xaf5a, 0xbed3, 0xca6c, 0xdbe5, 0xe97e, 0xf8f7,
@@ -56,7 +55,7 @@ u16 ppp_fcs16_table[256] = {
     0x7bc7, 0x6a4e, 0x58d5, 0x495c, 0x3de3, 0x2c6a, 0x1ef1, 0x0f78,
 };
 
-/* How many PPP protocols have reached the opened state (5); IPCP's wait stops at 2 (.sbss 805D7AA0). */
+/* How many PPP protocols have reached the opened state (5); IPCP's wait stops at 2. */
 s32 ppp_opened_count;
 
 void fsm_init(PppFsm *fsm) {

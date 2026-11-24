@@ -1,5 +1,4 @@
-/* PPP IPCP, the protocol that names itself "IPcp" (805E1170), and its state object (.bss 805C0328) (a C
- * library, built with GC/1.2.5n). */
+/* PPP IPCP, the protocol that names itself "IPcp", and its state object (a C library, built with GC/1.2.5n). */
 #include "types.h"
 #include "pso/network/PppChap.h"
 #include "pso/network/Ppp.h"
@@ -21,12 +20,12 @@ extern IpcpState ipcp_state;
 #include "pso/network/PppBuffer.h"
 #include "pso/network/PppApi.h"
 
-/* The empty option set each IPCP side starts from (.rodata 8047FE18). */
+/* The empty option set each IPCP side starts from. */
 const IpcpOptions ipcp_default_options = {0};
 /* Each option's length by flag bit: option 1 (two addresses) 10, options 2 and 3 6, options 0x81 and 0x83
  * (RFC 1877 name servers, bits 9 and 11) 6. */
 const u8 ipcp_option_lengths[20] = {0, 10, 6, 6, 0, 0, 0, 0, 0, 6, 0, 6};
-/* The option readers' scratch bytes (.sbss 805D7AA8), in reverse definition order. */
+/* The option readers' scratch bytes, in reverse definition order. */
 u8 lcp_read_byte_buffer;
 u8 ipcp_option_value[4];
 s16 wait_for_ipcp_open(PppFsm *self) {

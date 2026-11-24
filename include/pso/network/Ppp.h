@@ -31,6 +31,7 @@ void ppp_link_term(void);
 /* Called across the PPP files; each line names its defining file. */
 void fsm_init(PppFsm *fsm); /* PppFsm.c */
 void fsm_reset(PppFsm *fsm); /* PppFsm.c */
+void update_countdown_state(PppFsm *self);
 s16 wait_for_ipcp_open(PppFsm *self); /* PppIpcp.c */
 struct LcpConfig;
 s16 apply_lcp_config_to_sides(PppFsm *state, struct LcpConfig *config); /* PppLcp.c */

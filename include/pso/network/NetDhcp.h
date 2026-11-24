@@ -40,7 +40,7 @@ typedef struct DhcpMessage {
 LAYOUT_ASSERT(DhcpMessage_size, sizeof(DhcpMessage) == 0x5DC);
 
 // The UDP callback receives into scratch, then copies accepted replies into
-// reply. Each region owns one 1500-byte message (0x804249F0 / 0x80424A48).
+// reply. Each region owns one 1500-byte message.
 typedef struct DhcpClientBuffers {
     DhcpMessage outgoing;
     DhcpMessage reply;
