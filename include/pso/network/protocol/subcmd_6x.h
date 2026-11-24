@@ -532,7 +532,7 @@ struct G_MoveToPosition_6x41_6x42 {
 
 // 6x69: quest NPC partner control (create, release or take over an NPC player).
 struct G_NPCControl_6x69 {
- struct G_ClientIDHeader header;
+ G_ClientIDHeader header;
  u16 controller_id;  // client that runs the NPC
  u16 npc_client_id;  // player slot of the NPC
  s16 command;        // 0/3 create, 1 release, 2 take over all NPCs
