@@ -282,8 +282,8 @@ s32 TObjPlayer__sub_801D84A8(void* p);
 s32 TObjPlayer__sub_801D84F0(void* p);
 int bswap_16__FPUs(void*);
 
-s32 TObjPlayer::can_use_palette_action_for_entry(u32 obj) {
-    return ((TObjPlayer *)obj)->can_use_palette_action(((Obj_801D8474 *)this)->a, ((Obj_801D8474 *)this)->b);
+s32 TObjPlayer::can_use_palette_action_for_entry(TObjPlayer *player) {
+    return player->can_use_palette_action(((Obj_801D8474 *)this)->a, ((Obj_801D8474 *)this)->b);
 }
 
 s32 TObjPlayer__sub_801D84A8(void* p) { return *(s32*)((char*)p + 0x0); }

@@ -1128,7 +1128,7 @@ struct TObjPlayer : public TObjChara {
     void bswap_entry_list();
     static void update_party_cursors(saddr cursors, s32 result);
     void init_action_config();
-    s32 can_use_palette_action_for_entry(u32 obj);
+    s32 can_use_palette_action_for_entry(TObjPlayer *player);
     s32 is_palette_entry_displayable(u8 kind, u8 sub);
     s32 can_use_palette_action(u8 kind, u8 arg);
     static void set_animation_from_data(saddr player, s32 picture);

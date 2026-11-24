@@ -7,7 +7,7 @@
 extern "C" {
 
 s32 get_result_entry__18TChallenge4PResultFPv(s32, s32);
-s32 can_use_palette_action_for_entry__10TObjPlayerFUl(s32, s32);
+s32 can_use_palette_action_for_entry__10TObjPlayerFP10TObjPlayer(s32, s32);
 
 void TObjPlayer::update_party_cursors(saddr cursors, s32 result) {
     s32 offset;
@@ -21,7 +21,7 @@ void TObjPlayer::update_party_cursors(saddr cursors, s32 result) {
         entry = base + offset;
         if (get_result_entry__18TChallenge4PResultFPv(result, i) == 0) {
             TObjPlayer__sub_8013DEF8((u8 *)entry);
-        } else if (can_use_palette_action_for_entry__10TObjPlayerFUl(entry, result) != 0) {
+        } else if (can_use_palette_action_for_entry__10TObjPlayerFP10TObjPlayer(entry, result) != 0) {
             TMainCursor__sub_8013DFC4((u8 *)entry);
         } else {
             TObjPlayer__sub_8013DEF8((u8 *)entry);
