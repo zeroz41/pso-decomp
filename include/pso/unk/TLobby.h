@@ -413,10 +413,6 @@ struct TLobby : public TObject {
     static void alloc_snapshot_buffer();
     static void send_type2_event(s32 arg0, s32 arg1, s32 arg2);
     static void *create_mist_ctrl(void *parent, void *arg1);
-    void set_trade_field_4(s32 arg1);
-    void update_both_halves();
-    static void clear_stale_entries(u8 *tail);
-    void*get_trade_obj_ptr();
     static void forward_npc_enemy();
     static unsigned char get_trade_mode();
     static s32 is_online_ready();
@@ -770,7 +766,6 @@ struct TLobby : public TObject {
     static void update_floor_state_deferred();
     static void update_scene_alt();
     static s32 is_multi_ready();
-    s32 add_trade_item(u32 arg1, s32 cnt);
     static void update_game_modes();
     s32 get_cell_address(s32 arg1, s32 arg2);
     s32 *get_state_table(s32 _w1);
@@ -782,7 +777,6 @@ struct TLobby : public TObject {
     static void free_global_buffers();
     void fill_guild_card_from_char(s32 index);
     void roll_item_grind_bonus();
-    void remove_trade_entry(u32 key);
     static void free_map_resources();
     static void send_field1c_packet(saddr arg0);
     static void send_font_state(saddr arg0);
@@ -821,8 +815,6 @@ struct TLobby : public TObject {
     static s32 init_floor_enemy_count(s32 floor, u8 *source, u32 size);
     static s32 load_object_set_entries(s32 arg0, u8 *rows, u32 byte_size);
     static s32 unhide_enemies_at(s32 arg0, s32 arg1, s32 arg2);
-    void transfer_trade_item_amount(u32 arg1, s32 arg2);
-    void move_trade_item_amount(u32 arg1, s32 arg2);
     s32 copy_current_entry_name(s32 len);
     void capture_chat_sensor();
     static void parse_message_tag();
@@ -929,7 +921,6 @@ struct TLobby : public TObject {
     static void *copy_com_card_entry(void *, void *);
     static void *copy_member_record(void *, void *);
     static void *copy_pair(void *, void *);
-    static u8 *copy_struct_f8(int, int);
     static void *copy_symbol_chat_entry(void *, void *);
     static s32 create_named_entry(const char *name, void *destination, void (*callback)(void *), const void *params, void **request);
     static void *create_quest_col_apc_inw(void *, void *);
@@ -942,7 +933,6 @@ struct TLobby : public TObject {
     static void disable_window_flags(void*);
     static void *find_chunk_by_id(void *, int);
     static void *find_free_pool_entry(void *);
-    static void *find_free_trade_slot(void *);
     static void *find_header_by_id(void *, int);
     static void *find_type5_header(void *, int);
     static uaddr *free_and_delete(void *, s16);

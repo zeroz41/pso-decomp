@@ -8112,17 +8112,8 @@ pso/unk/text_802D1C84.cpp:
 	.bss        start:0x80540B98 end:0x80540BD0
 	.sbss       start:0x805D6880 end:0x805D6884
 
-pso/unk/text_802D1D48.cpp:
-	.text       start:0x802D1D48 end:0x802D1EFC
-
-pso/unk/TLobby_802D1EFC.cpp:
-	.text       start:0x802D1EFC end:0x802D220C
-
-pso/ui/window/TWindowSubTradeMain_802D220C.cpp:
-	.text       start:0x802D220C end:0x802D22F0
-
-pso/unk/TLobby_802D22F0.cpp:
-	.text       start:0x802D22F0 end:0x802D23A4
+pso/network/TradeItemList.cpp:
+	.text       start:0x802D1D48 end:0x802D23A4
 
 pso/ui/window/TWindowTradeRequest.cpp:
 	.text       start:0x802D23A4 end:0x802D23E0

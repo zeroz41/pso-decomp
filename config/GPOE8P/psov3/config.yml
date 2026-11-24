@@ -5399,7 +5399,7 @@ force_active:
   - copy_struct28__17TWindowSubComCardFii
   - copy_struct__17TWindowSubComCardFPvPv
   - copy_tombstone_spot__FP17TObjTombstoneSpotPC17TObjTombstoneSpot
-  - copy_struct_f8__6TLobbyFii
+  - __as__13TradeItemListFRC13TradeItemList
   - copy_target_record__11TMainCursorFPvPv
   - copy__19NpcPlayerViewTargetFP19NpcPlayerViewTarget
   - copy_from__22TBoss6Type2MotionTrackFP22TBoss6Type2MotionTrack

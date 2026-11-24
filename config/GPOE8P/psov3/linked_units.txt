@@ -834,8 +834,7 @@ pso/camera/TCameraVolOptFollow.cpp
 pso/camera/TCameraDebugOrbit.cpp
 pso/camera/TCameraDebugView.cpp
 pso/unk/TLobby_802AF5FC.cpp
-pso/unk/TLobby_802D1EFC.cpp
-pso/unk/TLobby_802D22F0.cpp
+pso/network/TradeItemList.cpp
 pso/unk/TLobby_802D3970.cpp
 pso/unk/TLobby_802D79EC.cpp
 pso/unk/TLobby_802E03C8.cpp
@@ -1366,7 +1365,6 @@ pso/ui/window/TWindowSubTrade.cpp
 pso/ui/window/TWindowSubTradeMain_80187C98.cpp
 pso/ui/window/TWindowSubTradeMain_80268468.cpp
 pso/ui/window/TWindowSubEquipKind_80278300.cpp
-pso/ui/window/TWindowSubTradeMain_802D220C.cpp
 pso/ui/window/TWindowSubTradeMain_802D3924.cpp
 pso/ui/window/TWindowSubTradeMain_80330A84.cpp
 pso/ui/window/TWindowTimer.cpp
@@ -1982,7 +1980,6 @@ pso/ui/TLevelSelect_802AEBA8.cpp
 pso/unk/text_802C39F8.cpp
 pso/unk/text_802C3AC0.cpp
 pso/unk/text_802D1C84.cpp
-pso/unk/text_802D1D48.cpp
 pso/unk/text_802E10D8.cpp
 pso/unk/text_802F0E24.cpp
 pso/unk/text_802F0F04.cpp

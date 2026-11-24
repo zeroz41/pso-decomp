@@ -3,10 +3,8 @@
 #include "types.h"
 #include "pso/network/TradeItemEntry.h"
 
-// One side of the trade window state: two 31-entry item lists.
-struct Half_802D38B4 { TradeItemEntry lists[2][0x1F]; };
-
-extern "C" Half_802D38B4 trade_window_state[2];
+// [0] is the local player's side, [1] the trade partner's.
+extern TradeSide trade_window_state[2];
 // The trade session state (.sbss), defined in TradeSession.cpp.
 extern u16 trade_protocol_flags;
 extern s8 trade_partner_client_id;
@@ -46,7 +44,6 @@ void update_status_message(G_ModifyTradeProposal_6xA6 *proposal);
 extern "C" {
 void reset__6TLobbyFi(saddr text_handle);
 saddr build_trade_partner_status_text(void);
-u8 *copy_struct_f8__6TLobbyFii(saddr arg0, saddr arg1);
 }
 // --- end of C functions
 
