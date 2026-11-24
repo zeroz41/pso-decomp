@@ -76,11 +76,11 @@ void pap_init(u8 *arg0) {
         p->name = "Pap";
         p->proto = 0xC023;
         p->h6 = 0xE;
-        p->b8 = 1;
-        p->bB = 0;
+        p->tx_counter_index = 1;
+        p->max_terminate_attempts = 0;
         /* The settings follow the options and name buffers in BSS. */
-        p->b9 = *(u8 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, f12)));
-        p->bA = *(u8 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, f13)));
+        p->max_request_attempts = *(u8 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, f12)));
+        p->max_peer_attempts = *(u8 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, f13)));
         p->timeout = *(u16 *)((uaddr)g + (sizeof(*g) + offsetof(PppPapState, f14))) * 1000;
         p->release_resources = TLobby__sub_803FE84C;
         p->reset_options = TLobby__sub_803FE84C;
@@ -96,9 +96,9 @@ void pap_init(u8 *arg0) {
         fsm->sub = arg0;
         fsm->proto = p;
         fsm->opts = &g->options;
-        fsm->f4 = fsm->proto->b9;
-        fsm->f7 = fsm->proto->bA;
-        fsm->f5 = fsm->proto->bB;
+        fsm->f4 = fsm->proto->max_request_attempts;
+        fsm->f7 = fsm->proto->max_peer_attempts;
+        fsm->f5 = fsm->proto->max_terminate_attempts;
         fsm->state = 0;
         fsm->retries = fsm->f4;
         fsm->f6 = fsm->f7;

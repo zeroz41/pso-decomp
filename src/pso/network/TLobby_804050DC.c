@@ -699,7 +699,6 @@ s32 TLobby__sub_804060B8(u8 *src, int len, int id) {
 #pragma pop
 void init_lcp_protocol(u8 *conn);
 void pap_init(u8 *arg0);
-void TLobby__sub_803FEF4C(u8 *self);
 s32 TLobby__sub_804061FC(void)
 {
   u8 *p;
@@ -717,7 +716,7 @@ s32 TLobby__sub_804061FC(void)
   init_lcp_protocol((u8 *)(PppProtoBlocks *)new_var);
   pap_init((u8 *)(PppProtoBlocks *)new_var);
   TLobby__sub_803FC318((PppProtoBlocks *)new_var);
-  TLobby__sub_803FEF4C((u8 *)(PppProtoBlocks *)new_var);
+  TLobby__sub_803FEF4C((PppProtoBlocks *)new_var);
   TLobby__sub_803F9FAC((PppProtoBlocks *)new_var);
   if (p[0] == 0)
   {

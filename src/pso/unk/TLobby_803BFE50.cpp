@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/audio/AdxbDecoder.h"
+#include "pso/audio/AudioStreamInput.h"
 #include <stddef.h>
 #include "pso/unk/TLobby_803BFE50.h"
 #include "pso/audio/SjRingBuffer.h"
@@ -109,32 +110,6 @@ struct AudioStreamSourceVtable {
 
 struct AudioStreamSource { AudioStreamSourceVtable *vt; };
 
-// Names inferred from the decode step (decode_audio_stream_step) and the setup in alloc_audio_stream_state.
-struct AudioStreamInputState {
-    s8 in_use;
-    s8 state;
-    u8 channels;
-    char stop_when_drained;
-    TLobby *decoder;
-    AudioStreamSource *source;
-    SjRingBuffer *rings[2];
-    SjChunk src_chunk;
-    SjChunk out_chunks[2];
-    s32 output_samples;
-    s32 consumed_bytes;
-    s32 decoded_samples;
-    s32 max_samples;
-    s32 notify_samples;
-    s32 notify_count;
-    s32 notify_bytes;
-    void (*notify_callback)(void *);
-    void *notify_context;
-    void (*output_callback)(void *, s32, u8 *, s32);
-    void *output_context;
-    u8 header[0x40];
-    s32 header_size;
-};
-
 extern "C" {
 void TLobby__sub_803BFE58(u8 *arg0);
 void TLobby__sub_803BFEE8(u8 *arg0);
@@ -174,17 +149,15 @@ s32 TLobby::get_offset_58() {
 void TLobby__sub_803BFE58(u8 *arg0) {
     ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->get_field_34();
 }
-s32 TLobby::dispatch_field4_event() {
-    u8 *arg0 = (u8 *)this;
-    return ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->get_field30();
+s32 AudioStreamInputState::get_loop_end_sample() {
+    return decoder->get_field30();
 }
-s32 TLobby::send_with_offset4_alt() {
-    u8 *arg0 = (u8 *)this;
-    return ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->get_field_2c();
+s32 AudioStreamInputState::get_loop_start_byte() {
+    AdxbDecoder *adx = reinterpret_cast<AdxbDecoder *>(decoder);
+    return adx->get_loop_start_byte();
 }
-s32 TLobby::notify_client() {
-    u8 *arg0 = (u8 *)this;
-    return ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->get_field_28();
+s32 AudioStreamInputState::get_loop_start_sample() {
+    return decoder->get_field_28();
 }
 void TLobby__sub_803BFEE8(u8 *arg0) {
     ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->get_slot();
@@ -213,25 +186,21 @@ void audio_stream_get_format(u8 *arg0) {
     AudioStreamInputState *stream = (AudioStreamInputState *)arg0;
     stream->decoder->get_field_a8();
 }
-void TLobby::set_field_44(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 0x44) = arg1;
+void AudioStreamInputState::set_notify_bytes(s32 bytes) {
+    notify_bytes = bytes;
 }
-void TLobby::set_field_40(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 0x40) = arg1;
+void AudioStreamInputState::set_notify_count(s32 samples) {
+    notify_count = samples;
 }
-void TLobby::set_field_3c(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 0x3C) = arg1;
+void AudioStreamInputState::set_notify_sample_count(s32 samples) {
+    notify_samples = samples;
 }
 void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0x48) = arg1;
     *(s32 *)((s8 *)arg0 + 0x4C) = arg2;
 }
-void TLobby::set_count(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 0x34) = arg1;
+void AudioStreamInputState::set_decoded_samples(s32 samples) {
+    decoded_samples = samples;
 }
 s32 audio_stream_get_output_samples(u8 *lobby) {
     return *(s32 *)((s8 *)lobby + 0x2C);
@@ -659,7 +628,7 @@ s32 sub_803C1668(AdxbDecoder *h, u8 *buf, s32 len) {
     h->m_24 = 0;
     h->m_34 = 0;
     h->m_30 = 0;
-    h->m_2C = 0;
+    h->loop_start_byte = 0;
     h->m_28 = 0;
     h->m_20 = 0;
     h->stream_channels = h->channels;

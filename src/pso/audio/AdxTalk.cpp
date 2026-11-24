@@ -548,15 +548,15 @@ void stop_audio_stream(u8 *arg0) {
     u8 *temp_r4;
     u8 *temp_r4_2;
     u8 *temp_r4_3;
-    if (player->f8 != NULL) {
-        stop_adx_stream(player->f8);
-        adxstm_close(player->f8);
+    if (player->file != NULL) {
+        stop_adx_stream(player->file);
+        adxstm_close(player->file);
         temp_r3 = *(void ***)((s8 *)arg0 + 0x14);
         if (temp_r3 != NULL) {
             temp_r4 = (u8 *)(*temp_r3);
             (*(s32 (**)(void *, void *))((s8 *)temp_r4 + 0x14))(temp_r3, temp_r4);
         }
-        player->f8 = NULL;
+        player->file = NULL;
     }
     TLobby::init_once();
     if ((s32) *(u8 *)((s8 *)arg0 + 2) == 4) {
@@ -654,7 +654,7 @@ void configure_audio_stream_output(Stream_803C9FCC *self) {
     s32 v;
     Stream_803C9FCC *pp;
     TLobby::set_range(self->f8, self->f3e << 11, self->f3c << 11);
-    set_scroll_position__6TLobbyFl(self->f8, 0x19);
+    set_adx_stream_end_sector(self->f8, 0x19);
     init_stream_position__6TLobbyFv(self->f8);
     v = self->f10;
     pp = self;

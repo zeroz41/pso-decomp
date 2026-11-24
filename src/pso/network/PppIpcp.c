@@ -36,52 +36,54 @@ const u8 lbl_8047FE3C[20] = {0, 10, 6, 6, 0, 0, 0, 0, 0, 6, 0, 6};
 /* The option readers' scratch bytes (.sbss 805D7AA8), in reverse definition order. */
 u8 lcp_read_byte_buffer;
 u8 lbl_805D7AA8[4];
-s16 TLobby__sub_803FED78(u8 *self) {
+s16 TLobby__sub_803FED78(PppFsm *self) {
     PppFsm *p;
+    void *ipv6cp_state;
+    PppFsm *ipv6cp;
     NetThreadState *pd;
     u8 *obj;
     s16 st;
-    void *ps;
     s16 check_connection_status(void *); /* declared s16 here; the definition returns s32 */
     st = 1;
-    obj = ((PppFsm *)self)->sub;
-    ((PppFsm *)self)->abort = 0;
-    ps = &ppp_proto_blocks.ipv6cp;
-    ((PppFsm *)ps)->abort = 0;
-    p = (PppFsm *)ps;
+    obj = self->sub;
+    self->abort = 0;
+    ipv6cp_state = &ppp_proto_blocks.ipv6cp;
+    ipv6cp = (PppFsm *)ipv6cp_state;
+    ipv6cp->abort = 0;
+    p = (PppFsm *)ipv6cp_state;
     pd = &lbl_805C18A0;
     goto test;
     while (1) {
         if (is_timed_out() != 0 || obj[0] == 4) {
             update_connection_state(self);
-            ((PppFsm *)self)->abort = 0;
+            self->abort = 0;
             p->abort = 0;
             return -1;
         }
-        if (((PppFsm *)self)->abort != 0) goto after;
-        st = check_connection_status((void *)p);
+        if (self->abort != 0) goto after;
+        st = check_connection_status(p);
         unlock_mutex(pd->mutex);
         net_sleep_ms(0x64);
         process_expired_timers();
         lock_mutex(pd->mutex);
 test:
-        if (self[0] == 5) goto after;
+        if (self->state == 5) goto after;
         if (lbl_805D7AA0 >= 2) goto after;
     }
 after:
     if (lbl_805D7A7C != 6 && (s16)(s32)lbl_805D7A7C) {
-        if (((PppFsm *)self)->abort != 0) {
+        if (self->abort != 0) {
             p->abort = 0;
-            ((PppFsm *)self)->abort = 0;
+            self->abort = 0;
             return -1;
         }
         p->abort = 0;
-        ((PppFsm *)self)->abort = 0;
+        self->abort = 0;
         return 0;
     }
     pd = &lbl_805C18A0;
     while (st > 0) {
-        st = check_connection_status((void *)p);
+        st = check_connection_status(p);
         unlock_mutex(pd->mutex);
         net_sleep_ms(0x64);
         process_expired_timers();
@@ -89,12 +91,12 @@ after:
     }
     switch (st) {
     case 0:
-        ((PppFsm *)self)->abort = 0;
+        self->abort = 0;
         p->abort = 0;
         return 0;
     case -2:
-        if (((PppFsm *)self)->abort == 0) {
-            ((PppFsm *)self)->abort = 0;
+        if (self->abort == 0) {
+            self->abort = 0;
             p->abort = 0;
             return 0;
         }
@@ -102,7 +104,7 @@ after:
     }
     update_connection_state(self);
     p->abort = 0;
-    ((PppFsm *)self)->abort = 0;
+    self->abort = 0;
     return -1;
 }
 
@@ -111,41 +113,43 @@ s16 TLobby__sub_803FF50C(PppFsm *self, PppHeader *item, PppFrame *arg);
 s16 TLobby__sub_803FF698(PppFsm *self, PppHeader *item, PppFrame *arg);
 s16 TLobby__sub_803FF9A4(PppFsm *self, PppHeader *src, PppFrame *bits);
 PppFrame *build_ipcp_config_request(PppFsm *self);
-void TLobby__sub_803FEF4C(u8 *self) {
+void TLobby__sub_803FEF4C(PppProtoBlocks *connection) {
     const IpcpOptions *src = &lbl_8047FE18;
-    u8 *o = (u8 *)&lbl_805C0328;
-    u8 *sub;
-    u8 *p;
-    ((PppFsmProtocol *)o)->name = "IPcp";
-    sub = self + 0x6c;
-    p = o + 0x3c;
-    ((PppFsmProtocol *)o)->proto = 0x8021;
-    ((PppFsmProtocol *)o)->h6 = 0xfe;
-    ((PppFsmProtocol *)o)->b8 = 2;
-    ((PppFsmProtocol *)o)->b9 = 0x14;
-    ((PppFsmProtocol *)o)->bA = 10;
-    ((PppFsmProtocol *)o)->bB = 10;
-    ((PppFsmProtocol *)o)->timeout = 0xbb8;
-    ((PppFsmProtocol *)o)->release_resources = free_field_98;
-    ((PppFsmProtocol *)o)->reset_options = TLobby__sub_803FF48C;
-    ((PppFsmProtocol *)o)->start_negotiation = TLobby__sub_803FF374;
-    ((PppFsmProtocol *)o)->link_opened = ipcp_opening;
-    ((PppFsmProtocol *)o)->link_closed = free_field_98_and_clear;
-    ((PppFsmProtocol *)o)->finish_termination = TLobby__sub_803FF468;
-    ((PppFsmProtocol *)o)->build_config_request = build_ipcp_config_request;
-    ((PppFsmProtocol *)o)->check_config_request = TLobby__sub_803FF9A4;
-    ((PppFsmProtocol *)o)->check_config_ack = TLobby__sub_803FF858;
-    ((PppFsmProtocol *)o)->check_config_nak = TLobby__sub_803FF698;
-    ((PppFsmProtocol *)o)->check_config_reject = TLobby__sub_803FF50C;
-    ((PppFsm *)sub)->sub = self;
-    ((PppFsm *)sub)->proto = (PppFsmProtocol *)o;
-    ((PppFsm *)sub)->opts = p;
-    ((IpcpState *)o)->config.local.want = *src;
-    ((IpcpState *)o)->config.local.flags = 6;
-    ((IpcpState *)o)->config.peer.want = *src;
-    ((IpcpConfig *)p)->peer.got = *src;
-    ((IpcpConfig *)p)->peer.flags = 6;
-    TLobby__sub_803FD694(sub);
+    void *state_address = &lbl_805C0328;
+    IpcpState *state = (IpcpState *)state_address;
+    PppFsmProtocol *protocol = (PppFsmProtocol *)state_address;
+    PppFsm *fsm;
+    IpcpConfig *config;
+    protocol->name = "IPcp";
+    fsm = &connection->ipcp;
+    config = &state->config;
+    protocol->proto = 0x8021;
+    protocol->h6 = 0xfe;
+    protocol->tx_counter_index = 2;
+    protocol->max_request_attempts = 0x14;
+    protocol->max_peer_attempts = 10;
+    protocol->max_terminate_attempts = 10;
+    protocol->timeout = 0xbb8;
+    protocol->release_resources = free_field_98;
+    protocol->reset_options = TLobby__sub_803FF48C;
+    protocol->start_negotiation = TLobby__sub_803FF374;
+    protocol->link_opened = ipcp_opening;
+    protocol->link_closed = free_field_98_and_clear;
+    protocol->finish_termination = TLobby__sub_803FF468;
+    protocol->build_config_request = build_ipcp_config_request;
+    protocol->check_config_request = TLobby__sub_803FF9A4;
+    protocol->check_config_ack = TLobby__sub_803FF858;
+    protocol->check_config_nak = TLobby__sub_803FF698;
+    protocol->check_config_reject = TLobby__sub_803FF50C;
+    fsm->sub = (u8 *)connection;
+    fsm->proto = protocol;
+    fsm->opts = config;
+    state->config.local.want = *src;
+    state->config.local.flags = 6;
+    state->config.peer.want = *src;
+    config->peer.got = *src;
+    config->peer.flags = 6;
+    TLobby__sub_803FD694(fsm);
 }
 
 s16 ipcp_set_vj_compression(s16 disabled, IpcpSide *side) {
@@ -230,11 +234,10 @@ s16 ipcp_set_local_address(IpcpSide *side, s32 addr) {
     return 0;
 }
 
-s16 TLobby__sub_803FF304(u8 *lobby) {
-    typedef struct Fields_arg0 { u8 pad_0[12]; u8 * field_C; } Fields_arg0;
-    PP_doppp_active((void *)lobby);
-    if ((u8) *((Fields_arg0*)lobby)->field_C == 3) {
-        TLobby__sub_803FD958(lobby);
+s16 TLobby__sub_803FF304(PppFsm *fsm) {
+    PP_doppp_active(fsm);
+    if (*fsm->sub == 3) {
+        TLobby__sub_803FD958((u8 *)fsm);
     }
     return 0;
 }

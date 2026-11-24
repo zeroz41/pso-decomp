@@ -73,7 +73,7 @@ inline void wait_803D1D28(LscStream *lsc_stream) {
         }
         if (lsc_stream->read_started == 0) {
             TLobby::set_range(lsc_stream->file_handle, lsc_stream->min_buffer_bytes, lsc_stream->buffer_capacity);
-            set_scroll_offset__6TLobbyFl(lsc_stream->file_handle, 0);
+            seek_adx_stream_sector(lsc_stream->file_handle, 0);
             init_stream_position__6TLobbyFv(lsc_stream->file_handle);
             lsc_stream->read_started = 1;
         }

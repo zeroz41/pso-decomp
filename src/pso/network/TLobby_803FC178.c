@@ -88,10 +88,10 @@ void TLobby__sub_803FC318(PppProtoBlocks *connection) {
         ppp_chap_authentication_state.proto.name = chap_protocol_name;
         ppp_chap_authentication_state.proto.proto = 0xC223;
         ppp_chap_authentication_state.proto.h6 = 0x70;
-        ppp_chap_authentication_state.proto.b8 = 3;
-        ppp_chap_authentication_state.proto.bB = 0;
-        ppp_chap_authentication_state.proto.b9 = lbl_805C02D0.f36;
-        ppp_chap_authentication_state.proto.bA = lbl_805C02D0.f37;
+        ppp_chap_authentication_state.proto.tx_counter_index = 3;
+        ppp_chap_authentication_state.proto.max_terminate_attempts = 0;
+        ppp_chap_authentication_state.proto.max_request_attempts = lbl_805C02D0.f36;
+        ppp_chap_authentication_state.proto.max_peer_attempts = lbl_805C02D0.f37;
         ppp_chap_authentication_state.proto.timeout = lbl_805C02D0.f38 * 1000;
         ppp_chap_authentication_state.proto.release_resources = TLobby__sub_803FE84C;
         ppp_chap_authentication_state.proto.reset_options = TLobby__sub_803FE84C;
@@ -107,9 +107,9 @@ void TLobby__sub_803FC318(PppProtoBlocks *connection) {
         fsm->sub = (u8 *)connection;
         fsm->proto = &ppp_chap_authentication_state.proto;
         fsm->opts = &ppp_chap_authentication_state.options;
-        fsm->f4 = fsm->proto->b9;
-        fsm->f7 = fsm->proto->bA;
-        fsm->f5 = fsm->proto->bB;
+        fsm->f4 = fsm->proto->max_request_attempts;
+        fsm->f7 = fsm->proto->max_peer_attempts;
+        fsm->f5 = fsm->proto->max_terminate_attempts;
         fsm->state = 0;
         fsm->retries = fsm->f4;
         fsm->f6 = fsm->f7;
@@ -209,8 +209,8 @@ void chap_input(PppFsm *self, PppFrame *source) {
     }
 }
 
-s32 TLobby__sub_803FC684(u8 *source, u8 *chap_secret, u8 *arg2) {
-    char **p = (char **)((PppFsm *)arg2)->opts;
+s32 TLobby__sub_803FC684(u8 *source, u8 *chap_secret, PppFsm *fsm) {
+    PppChap *options = fsm->opts;
 
     if (NetStringLength((const char *)((void *)source)) >= 0x80) {
         source[0x7F] = 0;
@@ -220,8 +220,8 @@ s32 TLobby__sub_803FC684(u8 *source, u8 *chap_secret, u8 *arg2) {
     }
     NetCopyString(ppp_chap_authentication_state.peer_id, (const char *)source);
     NetCopyString(ppp_chap_authentication_state.secret, (const char *)chap_secret);
-    p[0] = ppp_chap_authentication_state.peer_id;
-    p[1] = ppp_chap_authentication_state.secret;
+    options->name = ppp_chap_authentication_state.peer_id;
+    options->secret = ppp_chap_authentication_state.secret;
     return 0;
 }
 

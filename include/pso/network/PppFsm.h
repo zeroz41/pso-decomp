@@ -18,10 +18,10 @@ struct PppFsmProtocol {
     const char *name;
     u16 proto;                  /* 0x04: 0xC023 PAP */
     u16 h6;
-    u8 b8;
-    u8 b9;                      /* 0x09: copied to PppFsm.f4 */
-    u8 bA;                      /* 0x0A: copied to PppFsm.f7 */
-    u8 bB;                      /* 0x0B: copied to PppFsm.f5 */
+    u8 tx_counter_index;
+    u8 max_request_attempts; /* 0x09: copied to PppFsm.f4 */
+    u8 max_peer_attempts; /* 0x0A: copied to PppFsm.f7 */
+    u8 max_terminate_attempts; /* 0x0B: copied to PppFsm.f5 */
     s32 timeout;                /* 0x0C: in ms */
     PppFsmAction release_resources;
     PppFsmAction reset_options;

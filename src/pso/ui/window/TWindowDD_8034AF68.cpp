@@ -18,8 +18,8 @@ void clear_window_dd_nodes(void) {
     if (ws_recent_state.a == NULL || ws_recent_state.b == NULL) {
         return;
     }
-    ws_recent_state.a->f4 = ws_recent_state.n;
-    ws_recent_state.b->f4 = ws_recent_state.n;
+    ws_recent_state.a->count = ws_recent_state.n;
+    ws_recent_state.b->count = ws_recent_state.n;
     ws_recent_state.a = NULL;
     ws_recent_state.b = NULL;
     ws_recent_state.a0 = 0;
@@ -37,13 +37,11 @@ static const s32 category0_ids[] = { 11 };
 static const s32 category2_ids[] = { 12 };
 static const s32 category3_ids[] = { 13 };
 static const s32 category4_ids[] = { 2, 15, 24, 47 };
-extern WsDataHeader *TWindowDD__ws_data_base;
-extern WsDataHeader *TWindowDD__ws_data_table;
 extern s32 TWindowDD__window_mode;
 
 void TWindowDD::init_ws_data_tables() {
-    WsDataHeader *a = TWindowDD__ws_data_base;
-    WsDataHeader *b;
+    TWindowDDValueList *a = TWindowDD__ws_data_base;
+    TWindowDDValueList *b;
     s32 i;
     s32 x;
     s32 y;
@@ -55,13 +53,13 @@ void TWindowDD::init_ws_data_tables() {
     }
     ws_recent_state.a = a;
     ws_recent_state.b = b;
-    ws_recent_state.a0 = a->f0;
-    ws_recent_state.b0 = b->f0;
+    ws_recent_state.a0 = a->values;
+    ws_recent_state.b0 = b->values;
     if (ws_recent_state.a0 == 0 || ws_recent_state.b0 == 0) {
         return;
     }
-    x = a->f4;
-    y = b->f4;
+    x = a->count;
+    y = b->count;
     if (x < 1 || y < 1 || x != y) {
         return;
     }
