@@ -2,8 +2,6 @@
 #include "pso/npc/TObjNpcMale.h"
 #include "pso/object/base/TObjMotion.h"
 
-extern u32 lbl_805D5D78;
-
 const TObjMotionAction TObjNpcMale::action_table[2] = {
     { MOTION_MODE_LOOP, -1, 0, 0.9f, 0x1 },
     { MOTION_MODE_LOOP, -1, 1, 1.4f, ACTION_INTERPOLATE | 0x2 },
@@ -24,7 +22,7 @@ void TObjNpcMale::free_resources() {
     }
 }
 
-void TObjNpcMale::load_resources() { shared_resource = lbl_805D5D78; }
+void TObjNpcMale::load_resources() { shared_resource = town_npc_shared_resource; }
 
 TObjNpcMale::~TObjNpcMale() {}
 

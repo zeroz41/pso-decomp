@@ -62,6 +62,8 @@ extern NpcMovementParameters npc_movement_parameters;
 extern CollisionBody npc_base_collision_body_desc;
 // PlyMotionNpcTown.cpt, the walk/talk motions the town NPCs share.
 extern uaddr npc_town_motion_data;
+// The shared resource of the plain town NPCs (TObjNpcFemale, TObjNpcMale, TObjNpcFomarl); nothing assigns it.
+extern u32 town_npc_shared_resource;
 
 LAYOUT_ASSERT(NpcBaseHomeRotation, offsetof(TObjNpcBase, home_rotation_y) == 0x384);
 LAYOUT_ASSERT(NpcBaseVisible, offsetof(TObjNpcBase, visible) == 0x390);
