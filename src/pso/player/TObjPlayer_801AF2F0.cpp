@@ -4588,7 +4588,7 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     TObjPlayer__sub_801BE7E0(dst, ((TObjPlayer *)src)->get_def_materials_used());
     TObjPlayer__sub_801BE7B4(dst, ((TObjPlayer *)src)->get_luck_materials_used());
     for (i = 0; i < 0x13; i++) {
-        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(src->f428, i), &dst->fB4[i], (s8 *)&dst->f142[i]);
+        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(src->f428, i), &dst->fB4[i], dst->f142[i].b);
     }
     for (j = 0; j != 0xD; j++) {
         TItem *e = ((TObjPlayer *)src)->get_equipped_item(j);
