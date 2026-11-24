@@ -8,6 +8,7 @@
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/NetworkInfoCodec.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#include "pso/system/save/McFsGc.h"
 
 typedef struct Ent_803F47BC {
     char name[0x20];
@@ -101,7 +102,7 @@ void update_network_info_load(void) {
         }
         s->phase = 4;
     case 4:
-        network_info_load_state.card_result = TAdPlayerLoadGC::take_card_mount_result(get_network_config_card_channel(), &network_info_load_state.card_detail);
+        network_info_load_state.card_result = take_card_mount_result(get_network_config_card_channel(), &network_info_load_state.card_detail);
         if (network_info_load_state.card_result < 0) {
             network_info_load_state.result = -200;
             s->phase = 27;
@@ -112,22 +113,22 @@ void update_network_info_load(void) {
         }
         s->phase = 7;
     case 7:
-        TAdPlayerLoadGC::get_or_set_channel_flag(get_network_config_card_channel(), 1);
-        network_info_load_state.file_handle = TAdPlayerLoadGC::begin_card_file_request(get_network_config_card_channel(), "sega_network_information");
+        get_or_set_channel_flag(get_network_config_card_channel(), 1);
+        network_info_load_state.file_handle = begin_card_file_request(get_network_config_card_channel(), "sega_network_information");
         if (network_info_load_state.file_handle < 0) {
-            TAdPlayerLoadGC::get_or_set_channel_flag(get_network_config_card_channel(), 0);
+            get_or_set_channel_flag(get_network_config_card_channel(), 0);
             network_info_load_state.card_result = network_info_load_state.file_handle;
-            TAdPlayerLoadGC::unmount_card(get_network_config_card_channel());
+            unmount_card(get_network_config_card_channel());
             network_info_load_state.result = -204;
             s->phase = 27;
             break;
         }
         s->phase = 8;
     case 8:
-        network_info_load_state.card_result = TAdPlayerLoadGC::take_card_open_result(get_network_config_card_channel(), &network_info_load_state.card_detail);
+        network_info_load_state.card_result = take_card_open_result(get_network_config_card_channel(), &network_info_load_state.card_detail);
         if (network_info_load_state.card_result < 0) {
-            TAdPlayerLoadGC::get_or_set_channel_flag(get_network_config_card_channel(), 0);
-            TAdPlayerLoadGC::unmount_card(get_network_config_card_channel());
+            get_or_set_channel_flag(get_network_config_card_channel(), 0);
+            unmount_card(get_network_config_card_channel());
             network_info_load_state.result = -204;
             s->phase = 27;
             break;
@@ -135,19 +136,19 @@ void update_network_info_load(void) {
         if (network_info_load_state.card_result == 200) {
             break;
         }
-        TAdPlayerLoadGC::get_or_set_channel_flag(get_network_config_card_channel(), 0);
+        get_or_set_channel_flag(get_network_config_card_channel(), 0);
         s->phase = 9;
     case 9:
-        TAdPlayerLoadGC::get_or_set_channel_flag(get_network_config_card_channel(), 1);
+        get_or_set_channel_flag(get_network_config_card_channel(), 1);
         if ((void *)(&network_info_load_state)[0].caller_buffer == NULL) {
             if (TAdPlayerLoadGC__network_config_buffer != NULL) {
                 OSFreeToHeap(__OSCurrHeap, TAdPlayerLoadGC__network_config_buffer);
             }
             TAdPlayerLoadGC__network_config_buffer = (Save_803F3F64 *)OSAllocFromHeap(__OSCurrHeap, get_network_info_file_size());
             if (TAdPlayerLoadGC__network_config_buffer == NULL) {
-                TAdPlayerLoadGC::close_card_slot(network_info_load_state.file_handle);
-                TAdPlayerLoadGC::get_or_set_channel_flag(get_network_config_card_channel(), 0);
-                TAdPlayerLoadGC::unmount_card(get_network_config_card_channel());
+                close_card_slot(network_info_load_state.file_handle);
+                get_or_set_channel_flag(get_network_config_card_channel(), 0);
+                unmount_card(get_network_config_card_channel());
                 network_info_load_state.result = -4;
                 s->phase = 27;
                 break;
@@ -155,7 +156,7 @@ void update_network_info_load(void) {
         } else {
             TAdPlayerLoadGC__network_config_buffer = (Save_803F3F64 *)network_info_load_state.caller_buffer;
         }
-        network_info_load_state.card_result = TAdPlayerLoadGC::request_card_read((s32)network_info_load_state.file_handle, TAdPlayerLoadGC__network_config_buffer, (s32)(get_network_info_file_size()), 0);
+        network_info_load_state.card_result = request_card_read((s32)network_info_load_state.file_handle, TAdPlayerLoadGC__network_config_buffer, (s32)(get_network_info_file_size()), 0);
         if (network_info_load_state.card_result < 0) {
             if ((void *)(&network_info_load_state)[0].caller_buffer == NULL) {
                 if (TAdPlayerLoadGC__network_config_buffer != NULL) {
@@ -165,29 +166,29 @@ void update_network_info_load(void) {
                 network_info_load_state.caller_buffer = 0;
             }
             TAdPlayerLoadGC__network_config_buffer = NULL;
-            TAdPlayerLoadGC::close_card_slot(network_info_load_state.file_handle);
-            TAdPlayerLoadGC::get_or_set_channel_flag(get_network_config_card_channel(), 0);
-            TAdPlayerLoadGC::unmount_card(get_network_config_card_channel());
+            close_card_slot(network_info_load_state.file_handle);
+            get_or_set_channel_flag(get_network_config_card_channel(), 0);
+            unmount_card(get_network_config_card_channel());
             network_info_load_state.result = -205;
             s->phase = 27;
             break;
         }
         s->phase = 10;
     case 10:
-        network_info_load_state.card_result = TAdPlayerLoadGC::take_card_read_result(get_network_config_card_channel(), &network_info_load_state.card_detail);
+        network_info_load_state.card_result = take_card_read_result(get_network_config_card_channel(), &network_info_load_state.card_detail);
         if (network_info_load_state.card_result == 0) {
             if (TAdPlayerLoadGC__network_config_buffer->size <= 0 || (u32)TAdPlayerLoadGC__network_config_buffer->size > 0x23B8) {
-                TAdPlayerLoadGC::close_card_slot(network_info_load_state.file_handle);
-                TAdPlayerLoadGC::get_or_set_channel_flag(get_network_config_card_channel(), 0);
-                TAdPlayerLoadGC::unmount_card(get_network_config_card_channel());
+                close_card_slot(network_info_load_state.file_handle);
+                get_or_set_channel_flag(get_network_config_card_channel(), 0);
+                unmount_card(get_network_config_card_channel());
                 network_info_load_state.result = -30;
                 s->phase = 27;
             } else {
                 network_info_load_state.card_result = get_network_info_card_key(get_network_config_card_channel(), key);
                 if (network_info_load_state.card_result != 0) {
-                    TAdPlayerLoadGC::close_card_slot(network_info_load_state.file_handle);
-                    TAdPlayerLoadGC::get_or_set_channel_flag(get_network_config_card_channel(), 0);
-                    TAdPlayerLoadGC::unmount_card(get_network_config_card_channel());
+                    close_card_slot(network_info_load_state.file_handle);
+                    get_or_set_channel_flag(get_network_config_card_channel(), 0);
+                    unmount_card(get_network_config_card_channel());
                     network_info_load_state.result = -31;
                     s->phase = 27;
                 } else {
@@ -196,9 +197,9 @@ void update_network_info_load(void) {
                     sum = calc_crc32((saddr)TAdPlayerLoadGC__network_config_buffer, 0x8000);
                     if (sum != crc) {
                         init_network_config_defaults();
-                        TAdPlayerLoadGC::close_card_slot(network_info_load_state.file_handle);
-                        TAdPlayerLoadGC::get_or_set_channel_flag(get_network_config_card_channel(), 0);
-                        TAdPlayerLoadGC::unmount_card(get_network_config_card_channel());
+                        close_card_slot(network_info_load_state.file_handle);
+                        get_or_set_channel_flag(get_network_config_card_channel(), 0);
+                        unmount_card(get_network_config_card_channel());
                         network_info_load_state.result = -32;
                         s->phase = 27;
                     } else {
@@ -207,9 +208,9 @@ void update_network_info_load(void) {
                         network_info_load_state.card_result = decode_network_info_payload(key, TAdPlayerLoadGC__network_info_payload_buffer, TAdPlayerLoadGC__network_config_buffer->size, ((NetworkInfoConfig *)lobby_net_config_buffer));
                         if (network_info_load_state.card_result != 0) {
                             init_network_config_defaults();
-                            TAdPlayerLoadGC::close_card_slot(network_info_load_state.file_handle);
-                            TAdPlayerLoadGC::get_or_set_channel_flag(get_network_config_card_channel(), 0);
-                            TAdPlayerLoadGC::unmount_card(get_network_config_card_channel());
+                            close_card_slot(network_info_load_state.file_handle);
+                            get_or_set_channel_flag(get_network_config_card_channel(), 0);
+                            unmount_card(get_network_config_card_channel());
                             network_info_load_state.result = -33;
                             s->phase = 27;
                         } else {
@@ -244,9 +245,9 @@ void update_network_info_load(void) {
             network_info_load_state.caller_buffer = 0;
         }
         TAdPlayerLoadGC__network_config_buffer = NULL;
-        TAdPlayerLoadGC::close_card_slot(network_info_load_state.file_handle);
-        TAdPlayerLoadGC::get_or_set_channel_flag(get_network_config_card_channel(), 0);
-        TAdPlayerLoadGC::unmount_card(get_network_config_card_channel());
+        close_card_slot(network_info_load_state.file_handle);
+        get_or_set_channel_flag(get_network_config_card_channel(), 0);
+        unmount_card(get_network_config_card_channel());
         break;
     }
 }
@@ -313,10 +314,10 @@ void update_network_info_exists(void) {
     s = &network_info_load_state;
     switch (s->phase) {
     case 1:
-        TAdPlayerLoadGC::get_or_set_channel_flag(s->card_channel, 1);
-        network_info_load_state.card_result = TAdPlayerLoadGC::request_card_find(s->card_channel, "sega_network_information");
+        get_or_set_channel_flag(s->card_channel, 1);
+        network_info_load_state.card_result = request_card_find(s->card_channel, "sega_network_information");
         if (network_info_load_state.card_result < 0) {
-            TAdPlayerLoadGC::get_or_set_channel_flag(s->card_channel, 0);
+            get_or_set_channel_flag(s->card_channel, 0);
             network_info_load_state.result = -209;
             s->phase = 27;
             break;
@@ -324,18 +325,18 @@ void update_network_info_exists(void) {
         s->phase = 2;
     case 2:
         t = &network_info_load_state;
-        network_info_load_state.card_result = TAdPlayerLoadGC::take_card_find_result(t->card_channel, &t->card_detail);
+        network_info_load_state.card_result = take_card_find_result(t->card_channel, &t->card_detail);
         switch (network_info_load_state.card_result) {
         case 0:
         case -102:
-            TAdPlayerLoadGC::get_or_set_channel_flag(t->card_channel, 0);
+            get_or_set_channel_flag(t->card_channel, 0);
             network_info_load_state.result = 0;
             s->phase = 25;
             break;
         case 200:
             break;
         default:
-            TAdPlayerLoadGC::get_or_set_channel_flag(t->card_channel, 0);
+            get_or_set_channel_flag(t->card_channel, 0);
             network_info_load_state.result = -209;
             s->phase = 27;
             break;
