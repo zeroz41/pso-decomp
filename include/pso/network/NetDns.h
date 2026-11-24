@@ -168,10 +168,10 @@ LAYOUT_ASSERT(DnsQueryStatusOffset, offsetof(DnsQuery, status) == 0x10);
 LAYOUT_ASSERT(DnsQueryMessageOffset, offsetof(DnsQuery, msg) == 0x18);
 LAYOUT_ASSERT(DnsQueryReplyOffset, offsetof(DnsQuery, reply) == 0x1c);
 LAYOUT_ASSERT(DnsQueryRequestOffset, offsetof(DnsQuery, req) == 0x20);
-LAYOUT_ASSERT(DnsQueryLookupCallbackOffset, offsetof(DnsQuery, req) + offsetof(DnsLookupRequest, cb) == 0x34);
-LAYOUT_ASSERT(DnsQueryLookupHostOffset, offsetof(DnsQuery, req) + offsetof(DnsLookupRequest, host) == 0x38);
-LAYOUT_ASSERT(DnsQueryPtrCallbackOffset, offsetof(DnsQuery, req) + offsetof(DnsPtrRequest, cb) == 0x28);
-LAYOUT_ASSERT(DnsQueryPtrEntryOffset, offsetof(DnsQuery, req) + offsetof(DnsPtrRequest, entry) == 0x2c);
+LAYOUT_ASSERT(DnsQueryLookupCallbackOffset, offsetof(DnsQuery, req.lookup.cb) == 0x34);
+LAYOUT_ASSERT(DnsQueryLookupHostOffset, offsetof(DnsQuery, req.lookup.host) == 0x38);
+LAYOUT_ASSERT(DnsQueryPtrCallbackOffset, offsetof(DnsQuery, req.ptr.cb) == 0x28);
+LAYOUT_ASSERT(DnsQueryPtrEntryOffset, offsetof(DnsQuery, req.ptr.entry) == 0x2c);
 
 extern DnsResolverState dns_resolver_state;
 
