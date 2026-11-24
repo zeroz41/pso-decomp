@@ -4262,7 +4262,7 @@ s32 TObjPlayer::update_aim_target() {
     x = 1.5f * sin_table_lookup(this->target_heading);
     this->velocity.x = x;
     this->velocity.y = 0.0f;
-    this->velocity.z = (f32) (1.5f * ((f32 (*)(s32, f32, f32))cos_table_lookup)(this->target_heading, x, 1.5f));
+    this->velocity.z = 1.5f * cos_table_lookup(this->target_heading);
     if (this->check_actor_blocking_move() != 0) {
         ((int (*)(void*))clear_velocity)((void*)(this));
         return 0;
@@ -4527,7 +4527,7 @@ s32 TObjPlayer::update_combat_stats() {
     x = speed * sin_table_lookup(this->target_heading);
     this->velocity.x = x;
     this->velocity.y = 0.0f;
-    this->velocity.z = (f32) (speed * ((f32 (*)(int, f32))cos_table_lookup)(this->target_heading, (f32) (x)));
+    this->velocity.z = speed * cos_table_lookup(this->target_heading);
     if (this->check_actor_blocking_move() != 0) {
         clear_velocity((void *) (((u8 *)this)));
         return 0;
