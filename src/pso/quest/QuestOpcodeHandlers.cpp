@@ -24,7 +24,6 @@
 #include "pso/unk/TLobby_8026B06C.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerTaskEffects.h"
-#include "pso/npc/TNpcPlayer_8014DADC.h"
 #include "pso/quest/BattleRules.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/item/TObjItemNameSelect.h"
