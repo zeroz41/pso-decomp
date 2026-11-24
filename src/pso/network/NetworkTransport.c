@@ -55,12 +55,6 @@ void subtract_network_queue_timeout(s32 elapsed_ms);
 void set_lobby_map_state_code(s32 code);
 NetSendChunk *get_next_send_chunk(void);
 s32 AT_SetWorkArea(u8 *data, s32 size);
-void term_ppp_auth_config(void);
-void term_pap_config(void);
-void term_modem_session_config(void);
-void term_ppp_link_config(void);
-void term_net_thread_config(void);
-void term_ppp_buffers_config(void);
 u32 compute_range_end(NetTransportParams *params, s32 base, u32 limit);
 
 /* CodeWarrior emits these .sbss globals in reverse order of definition. */
@@ -112,7 +106,7 @@ static const char modem_no_dialtone_response[] = "NO DIALTONE";
 static const char modem_initialization_script[] = "send \"AT&FE0\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATS0=1\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATW2\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATX3&C1&D2\\r\"\nwait \"OK\\r\\n\",3\n";
 static const char modem_dial_script[] = "dial \"%t\"\n";
 
-void term_ppp_auth_config(void) {
+void term_ppp_auth_config(void *cfg) {
 
 }
 
@@ -140,7 +134,7 @@ void init_net_buffer_table(PppAuthState *auth) {
     auth->timeout_secs = 3;
 }
 
-void term_pap_config(void) {
+void term_pap_config(void *cfg) {
 
 }
 
@@ -156,7 +150,7 @@ void init_net_block_620_params(PppPapState *pap) {
     pap->timeout_secs = 3;
 }
 
-void term_modem_session_config(void) {
+void term_modem_session_config(void *cfg) {
 
 }
 
@@ -207,7 +201,7 @@ void init_modem_buffer_config(ModemSessionState *state) {
     state->config->hangup_script = 0;
 }
 
-void term_ppp_link_config(void) {
+void term_ppp_link_config(void *cfg) {
 
 }
 
@@ -218,7 +212,7 @@ void init_buffer_desc_b(PppLink *link) {
     link->size = 0x5DC;
 }
 
-void term_net_thread_config(void) {
+void term_net_thread_config(void *cfg) {
 
 }
 
@@ -226,7 +220,7 @@ void init_thread_poll_config(NetThreadState *t) {
     t->poll_ms = 0x28;
 }
 
-void term_ppp_buffers_config(void) {
+void term_ppp_buffers_config(void *cfg) {
 
 }
 

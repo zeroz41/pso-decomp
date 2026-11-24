@@ -26,7 +26,6 @@ typedef struct RecoveredGlobal_8042839C_lbl_805D0A40 {
 #pragma auto_inline off
 #pragma dont_inline off
 
-s32 term_modem_session_config(void *);
 ModemSessionState lobby_net_session_state;
 /* The session's and the buffer pool's small state (.sbss 805D7BD0-805D7C30). This compiler lays .sbss out in
  * reverse definition order, so the last address comes first. */
@@ -59,7 +58,7 @@ s16 send_network_bytes(void *, s32);
 
 
 void reset_boot_state(void) {
-    term_modem_session_config((s32 *)&lobby_net_session_state);
+    term_modem_session_config(&lobby_net_session_state);
 }
 
 LAYOUT_ASSERT(RecoveredGlobal_8042839C_lbl_805D0A40_size, sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60);

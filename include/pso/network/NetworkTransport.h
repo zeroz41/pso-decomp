@@ -75,6 +75,15 @@ extern u32 net_param_word_h;
 extern u32 net_param_word_i;
 extern void *net_transport_buffer_ptr_a; /* the UDP control blocks */
 extern void *net_transport_buffer_ptr_b; /* the TCP control blocks */
+
+/* Empty in this build; each layer's term step still hands over its configuration record. */
+void term_ppp_auth_config(void *cfg);
+void term_pap_config(void *cfg);
+void term_modem_session_config(void *cfg);
+void term_ppp_link_config(void *cfg);
+void term_net_thread_config(void *cfg);
+void term_ppp_buffers_config(void *cfg);
+
 #ifdef __cplusplus
 }
 #endif

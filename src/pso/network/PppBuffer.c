@@ -11,7 +11,6 @@
 
 #include "pso/network/NetStackTypes.h"
 
-s32 term_ppp_buffers_config(void *);
 #include "pso/network/PppBuffer.h"
 
 void init_net_state_c(void) {

@@ -16,7 +16,6 @@
 
 
 
-void term_ppp_link_config(void *);
 void ppp_link_term(void) {
     PppLink *g = &lobby_net_buffer_desc_b;
     clear_table_entry_locked(g->id);

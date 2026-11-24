@@ -48,7 +48,6 @@ PppFsmTimer *lobby_timer_list_head;
 #include "pso/network/PppLcp.h"
 #include "pso/network/PppIpcp.h"
 
-s32 term_net_thread_config(void *);
 
 s32 ppp_link_input(u8 *, int, int);
 

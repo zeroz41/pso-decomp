@@ -16,10 +16,9 @@ s32 init_net_state_b(void);
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/PppBuffer.h"
 
-void term_ppp_auth_config(void *); /* declared with 1 parameter; the definition is void (void) */
 
 void init_net_state_a(void) {
-    term_ppp_auth_config((void *)&chap_state);
+    term_ppp_auth_config(&chap_state);
 }
 
 s32 init_net_state_b(void) {
