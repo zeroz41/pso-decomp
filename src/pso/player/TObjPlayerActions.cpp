@@ -380,33 +380,6 @@ struct Player_801D0724 {
     s16 f328;
 };
 
-typedef struct Msg_801D08B0 {
-    u8 pad0[2];
-    s16 f2;
-    s16 f4;
-    s16 f6;
-    s16 f8;
-    s16 fa;
-    Vec vec;
-} Msg_801D08B0;
-
-typedef struct Msg_801D094C {
-    u8 pad0[2];
-    s16 f2;
-    s16 f4;
-    s16 f6;
-    s16 f8;
-    s16 fa;
-    Vec vec;
-} Msg_801D094C;
-
-typedef struct Player_801D094C {
-    u8 pad0[0x38];
-    Vec vec;
-    u8 pad44[0x60 - 0x44];
-    s32 f60;
-} Player_801D094C;
-
 
 
 #pragma push
@@ -535,7 +508,6 @@ void release_all_players_control_lock(void);
 void handle_6x36(void);
 void handle_6x48_cast_technique_complete(void *arg);
 s32 TObjPlayer__sub_801CFBFC(u8 *arg0);
-void send_idle_return_event__10TObjPlayerFPvPvs(void *arg0, const Vec *arg1, s16 arg2);
 void TObjPlayer__sub_801D0E74(void* p);
 G_IntraMapWarp_6x55 *TObjPlayer__sub_801D0EA0(G_IntraMapWarp_6x55 *destination, G_IntraMapWarp_6x55 *source);
 void TObjPlayer__sub_801D0F70(void* p);
@@ -4956,40 +4928,39 @@ void handle_6x3E_stop_at_position(G_StopAtPosition_6x3E *command) {
 }
 extern "C" {
 
-void TObjPlayer::update_position_from_target() { ((int (*)(void*, void*, void*))send_idle_return_event__10TObjPlayerFPvPvs)(this, (char*)this + 0x38, *(void**)((char*)this + 0x60)); }
+void TObjPlayer::update_position_from_target() { send_6x3F_set_position(&position, rotation_y); }
 
-void send_idle_return_event__10TObjPlayerFPvPvs(void *player, const Vec *arg1, s16 arg2) {
-    Msg_801D08B0 m;
-    s32 t;
-    if ((player == NULL) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        t = ((TObjCollidable *)player)->test_actor_flags(0x100000) != 0 ? 1 : 0;
-        ((G_SetPosition_6x3F *)&m)->init();
-        m.f2 = ((TObjBase *)player)->get_entity_id();
-        m.f4 = t;
-        m.f6 = arg2;
-        m.f8 = ((TObjPlayer *)player)->get_floor();
-        m.fa = ((TObjBase *)player)->get_room();
-        VecCopy(&m.vec, arg1);
-        ((G_SetPosition_6x3F *)&m)->send();
+void TObjPlayer::send_6x3F_set_position(const Vec *pos, s32 angle) {
+    G_SetPosition_6x3F m;
+    s32 near_enemy;
+    if ((this == NULL) || (obj_isState2_324() == 0)) {
+        near_enemy = test_actor_flags(0x100000) != 0 ? 1 : 0;
+        m.init();
+        m.header.client_id = get_entity_id();
+        m.is_near_enemy = near_enemy;
+        m.angle = angle;
+        m.floor = get_floor();
+        m.room = get_room();
+        VecCopy((Vec *)&m.pos, pos);
+        m.send();
     }
 }
 
 void TObjPlayer::send_6x3E_stop_at_position() {
-    Player_801D094C *arg0 = (Player_801D094C *)this;
-    Msg_801D094C m;
-    s32 t;
-    if ((arg0 == NULL) || (((TObjChara *)arg0)->obj_isState2_324() == 0)) {
-        t = ((TObjCollidable *)arg0)->test_actor_flags(0x100000) != 0 ? 1 : 0;
-        ((G_StopAtPosition_6x3E *)(&m))->init();
-        m.f2 = ((TObjBase *)arg0)->get_entity_id();
-        m.f4 = t;
-        m.f6 = this->rotation_y;
-        ((TObjPlayer *)arg0)->sync_current_floor();
-        ((TObjPlayer *)arg0)->sync_current_area();
-        m.f8 = ((TObjPlayer *)arg0)->get_floor();
-        m.fa = ((TObjBase *)arg0)->get_room();
-        VecCopy(&m.vec, &arg0->vec);
-        ((G_StopAtPosition_6x3E *)(&m))->send();
+    G_StopAtPosition_6x3E m;
+    s32 near_enemy;
+    if ((this == NULL) || (obj_isState2_324() == 0)) {
+        near_enemy = test_actor_flags(0x100000) != 0 ? 1 : 0;
+        m.init();
+        m.header.client_id = get_entity_id();
+        m.is_near_enemy = near_enemy;
+        m.angle = rotation_y;
+        sync_current_floor();
+        sync_current_area();
+        m.floor = get_floor();
+        m.room = get_room();
+        VecCopy((Vec *)&m.pos, &position);
+        m.send();
     }
 }
 
