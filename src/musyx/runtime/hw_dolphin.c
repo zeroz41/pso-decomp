@@ -14,7 +14,7 @@ extern "C" {
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma auto_inline on
-static inline void callUserCallback_803BE320(void) {
+static inline void callUserCallback(void) {
     if (salLogicActive) {
         return;
     }
@@ -33,7 +33,7 @@ void salCallback(void) {
     salLastTick = OSGetTick();
 
     if (salDspIsDone) {
-        callUserCallback_803BE320();
+        callUserCallback();
     } else {
         salLogicIsWaiting = 1;
     }
@@ -50,7 +50,7 @@ void dspResumeCallback(void) {
     salDspIsDone = 1;
     if (salLogicIsWaiting) {
         salLogicIsWaiting = 0;
-        callUserCallback_803BE320();
+        callUserCallback();
     }
 }
 
