@@ -19,7 +19,7 @@ typedef struct LcpVals {
     u32 magic;
     u8 pad10[4];
     u8 chap_alg;
-    u8 f15;
+    u8 auth_negotiable;
     u8 pad16[2];
 } LcpVals;
 LAYOUT_ASSERT(LcpVals_size_check, sizeof(LcpVals) == 0x18);

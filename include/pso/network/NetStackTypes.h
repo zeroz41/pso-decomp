@@ -6,20 +6,6 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/PppFsm.h"
 
-typedef struct p803FE518_UnkBuf803FF344 {
-    u8* data;
-    u16 len;
-} p803FE518_UnkBuf803FF344;
-typedef struct p803FE518_UnkSrc803FE518 {
-    u8 pad0[2];
-    u16 w2;
-    u32 w4;
-    u16 h8;
-    u8 pad_a[2];
-    u32 wc;
-    u8 pad10[4];
-    u8 b14;
-} p803FE518_UnkSrc803FE518;
 #pragma push
 #pragma cplusplus off
 static inline s16 fn_8040B758_len(char* s)

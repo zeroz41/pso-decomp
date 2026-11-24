@@ -336,13 +336,13 @@ s16 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
     return 0;
 }
 #pragma pop
-extern void TLobby__sub_804017D8(uaddr *self_m, void *src, u8 idx, u8 val, s32 *flag);
-inline void loop_8040172C(uaddr *self, void *src, s16 mask) {
+void TLobby__sub_804017D8(PppFrame **pbuf, LcpVals *vals, u8 type, u8 len, PppFrame **src);
+inline void add_lcp_options(PppFrame **pbuf, LcpVals *vals, s16 mask) {
     s16 i;
     i = 1;
     while (i <= 8) {
         if (mask & (1 << i)) {
-            TLobby__sub_804017D8(self, src, i, lcp_option_lengths[i], 0);
+            TLobby__sub_804017D8(pbuf, vals, i, lcp_option_lengths[i], 0);
         }
         i++;
     }
@@ -356,14 +356,14 @@ inline s32 read_option_byte(void *p) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline uaddr build_requested_options(PppFsm *fsm) {
+inline PppFrame *build_requested_options(PppFsm *fsm) {
     LcpOpts *o = (LcpOpts *)fsm->opts;
-    uaddr t = 0;
-    t = (uaddr)init_net_buffer_entry(0);
+    PppFrame *t = 0;
+    t = init_net_buffer_entry(0);
     if (t == 0) {
         return 0;
     }
-    loop_8040172C(&t, &o->local.got, o->local.got.mask);
+    add_lcp_options(&t, &o->local.got, o->local.got.mask);
     return t;
 }
 s16 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
@@ -375,8 +375,8 @@ s16 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
         return -1;
     }
     {
-        uaddr cur = build_requested_options(fsm);
-        if (msg->len != (u16)get_field_4((PppFrame *)cur)) {
+        PppFrame *cur = build_requested_options(fsm);
+        if (msg->len != (u16)get_field_4(cur)) {
             err = 1;
         } else {
             while ((a = read_option_byte(&cur)) != -1) {
@@ -398,15 +398,6 @@ s16 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline void add_lcp_options(PppFrame **pbuf, s16 *vals, s16 mask) {
-    s16 i;
-
-    for (i = 1; i <= 8; i++) {
-        if (mask & (1 << i)) {
-            TLobby__sub_804017D8((uaddr *)pbuf, vals, i, lcp_option_lengths[i], NULL);
-        }
-    }
-}
 
 s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
     LcpOpts *opts;
@@ -423,7 +414,7 @@ s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
     reply = NULL;
     opts->remote.got.mask = 0;
     reply = init_net_buffer_entry(1);
-    if (opts->remote.want.f15 != 0) {
+    if (opts->remote.want.auth_negotiable != 0) {
         opts->remote.got.auth_proto = 0;
         opts->remote.got.mask |= 8;
     }
@@ -446,7 +437,7 @@ s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
         if (r != 4 && hdr[0] <= 8) {
             opts->remote.got.mask |= 1 << hdr[0];
         }
-        TLobby__sub_804017D8((uaddr *)&reply, &opts->remote.got.mask, hdr[0], hdr[1], (s32 *)&src);
+        TLobby__sub_804017D8(&reply, &opts->remote.got, hdr[0], hdr[1], &src);
         if (r >= 3) {
             ppp_fsm_send_packet(fsm, status, msg->id, reply);
         }
@@ -454,7 +445,7 @@ s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
     missing = opts->remote.want.mask & ~opts->remote.got.mask;
     if (status == 3) {
         if (fsm->peer_attempts_left != 0) {
-            add_lcp_options(&reply, &opts->remote.got.mask, missing);
+            add_lcp_options(&reply, &opts->remote.got, missing);
             fsm->peer_attempts_left--;
         } else {
             status = 4;
@@ -469,9 +460,10 @@ s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
 }
 #pragma pop
 
-#define rd16_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 2) != 2 ? -1 : read_network_u16_be(lcp_read_value_buffer))
-#define rd32_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 4) != 4 ? 0 : TLobby__sub_80402AFC(lcp_read_value_buffer))
-#define rd8_804012E0(src) (ppp_buffer_read((void *)(src), lobby_read_byte_buffer, 1) != 1 ? -1 : (s16)lobby_read_byte_buffer[0])
+/* Read an option value from the frame: -1 (0 for 32 bits) when the frame is too short. */
+#define READ_OPTION_U16(src) (ppp_buffer_read(src, lcp_read_value_buffer, 2) != 2 ? -1 : read_network_u16_be(lcp_read_value_buffer))
+#define READ_OPTION_U32(src) (ppp_buffer_read(src, lcp_read_value_buffer, 4) != 4 ? 0 : TLobby__sub_80402AFC(lcp_read_value_buffer))
+#define READ_OPTION_U8(src) (ppp_buffer_read(src, lobby_read_byte_buffer, 1) != 1 ? -1 : (s16)lobby_read_byte_buffer[0])
 s16 parse_lcp_option(PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 remote) {
     s16 len;
     s16 res;
@@ -481,7 +473,7 @@ s16 parse_lcp_option(PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 
     len = hdr[1] - 2;
     switch (hdr[0]) {
     case 1:
-        side->got.mru = rd16_804012E0(src);
+        side->got.mru = READ_OPTION_U16(src);
         len -= 2;
         if (side->got.mru < 0x80) {
             side->got.mru = 0x80;
@@ -496,7 +488,7 @@ s16 parse_lcp_option(PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 
         }
         break;
     case 2:
-        side->got.accm = rd32_804012E0(src);
+        side->got.accm = READ_OPTION_U32(src);
         len -= 4;
         if (ppp_use_pppoe != 0) {
             res = 4;
@@ -509,13 +501,13 @@ s16 parse_lcp_option(PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 
         }
         break;
     case 3:
-        side->got.auth_proto = rd16_804012E0(src);
+        side->got.auth_proto = READ_OPTION_U16(src);
         len -= 2;
         if (side->got.auth_proto == 0xC223) {
-            side->got.chap_alg = (s8)rd8_804012E0(src);
+            side->got.chap_alg = (s8)READ_OPTION_U8(src);
             len -= 1;
         }
-        if (side->want.f15 != 0) {
+        if (side->want.auth_negotiable != 0) {
             u16 v = side->got.auth_proto;
             if (v == 0xC023 || (v == 0xC223 && (s32)side->got.chap_alg == 5)) {
                 side->want.auth_proto = v;
@@ -527,7 +519,7 @@ s16 parse_lcp_option(PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 
                 hdr[1] = 4;
                 while (len > 0) {
                     len--;
-                    if (rd8_804012E0(src) == -1) {
+                    if (READ_OPTION_U8(src) == -1) {
                         return -1;
                     }
                 }
@@ -546,7 +538,7 @@ s16 parse_lcp_option(PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 
         }
         break;
     case 5:
-        side->got.magic = rd32_804012E0(src);
+        side->got.magic = READ_OPTION_U32(src);
         len -= 4;
         if (side->got.magic == 0 || opts->remote.got.magic == opts->local.got.magic) {
             get_time_ms(&t);
@@ -581,7 +573,7 @@ s16 parse_lcp_option(PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 
     }
     if (remote == 0 && len > 0) {
         while (len-- > 0) {
-            if (rd8_804012E0(src) == -1) {
+            if (READ_OPTION_U8(src) == -1) {
                 return -1;
             }
         }
@@ -593,98 +585,85 @@ s16 parse_lcp_option(PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 
 #pragma dont_inline off
 #pragma inline_depth(4)
 PppFrame *TLobby__sub_8040172C(PppFsm *c) {
-    uaddr obj;
+    PppFrame *obj;
     LcpOpts *s;
     s = c->opts;
     obj = 0;
-    obj = (uaddr)init_net_buffer_entry(0);
+    obj = init_net_buffer_entry(0);
     if (obj == 0) {
         return 0;
     }
-    loop_8040172C(&obj, &s->local.got, s->local.got.mask);
-    return (PppFrame *)obj;
+    add_lcp_options(&obj, &s->local.got, s->local.got.mask);
+    return obj;
 }
 #pragma pop
 
-extern void TLobby__sub_804017D8(uaddr *self_m, void *src, u8 idx, u8 val, s32 *flag) {
-p803FE518_UnkBuf803FF344 *p;
-p803FE518_UnkSrc803FE518 *s;
-u8 *out;
-u8 *cnt;
-int c;
-s16 rem;
-rem = ((u8) val) - 2;
-if ((*((p803FE518_UnkBuf803FF344 **) self_m)) == ((void *) 0))
-{
-*((p803FE518_UnkBuf803FF344 **) self_m) = (p803FE518_UnkBuf803FF344 *)(((void*)init_net_buffer_entry((u16)(1))));
-if ((*((p803FE518_UnkBuf803FF344 **) self_m)) == ((void *) 0))
-{
-return;
-}
-}
-p = *((p803FE518_UnkBuf803FF344 **) self_m);
-s = (p803FE518_UnkSrc803FE518 *)(src);
-out = p->data;
-out = out + p->len;
-*(out++) = idx;
-cnt = out;
-*(out++) = val;
-switch (idx)
-{
-case 1:
-out = write_network_u16_be((u8 *)(out), (u16)(s->w2));
-rem -= 2;
-break;
-case 2:
-out = write_network_u32_be((u8 *)(out), (u32)(s->w4));
-rem -= 4;
-break;
-case 3:
-out = write_network_u16_be((u8 *)(out), (u16)(s->h8));
-rem -= 2;
-if (s->h8 == 0xc223)
-{
-*cnt = 5;
-*(out++) = s->b14;
-if (val == 4)
-{
-val++;
-}
-rem = 0;
-}
-if (s->h8 == 0xc023)
-{
-*cnt = 4;
-if (val == 5)
-{
-val--;
-}
-rem = 0;
-}
-break;
-case 5:
-out = write_network_u32_be((u8 *)(out), (u32)(s->wc));
-rem -= 4;
-break;
-case 4:
-case 6:
-case 7:
-case 8:
-break;
-}
-while ((rem--) > 0)
-{
-if (((s16) (ppp_buffer_read((void *)((u8 *) flag), (void *)lobby_read_byte_buffer, 1))) != 1)
-{
-c = -1;
-}
-else
-{
-c = (s16) lobby_read_byte_buffer[0];
-}
-*(out++) = c;
-}
-p->len += val;
+void TLobby__sub_804017D8(PppFrame **pbuf, LcpVals *vals, u8 type, u8 len, PppFrame **src) {
+    PppFrame *p;
+    u8 *out;
+    u8 *cnt;
+    int c;
+    s16 rem;
+    rem = len - 2;
+    if (*pbuf == NULL) {
+        *pbuf = init_net_buffer_entry(1);
+        if (*pbuf == NULL) {
+            return;
+        }
+    }
+    p = *pbuf;
+    out = p->data;
+    out = out + p->len;
+    *(out++) = type;
+    cnt = out;
+    *(out++) = len;
+    switch (type) {
+    case 1:
+        out = write_network_u16_be(out, vals->mru);
+        rem -= 2;
+        break;
+    case 2:
+        out = write_network_u32_be(out, vals->accm);
+        rem -= 4;
+        break;
+    case 3:
+        out = write_network_u16_be(out, vals->auth_proto);
+        rem -= 2;
+        if (vals->auth_proto == 0xc223) {
+            *cnt = 5;
+            *(out++) = vals->chap_alg;
+            if (len == 4) {
+                len++;
+            }
+            rem = 0;
+        }
+        if (vals->auth_proto == 0xc023) {
+            *cnt = 4;
+            if (len == 5) {
+                len--;
+            }
+            rem = 0;
+        }
+        break;
+    case 5:
+        out = write_network_u32_be(out, vals->magic);
+        rem -= 4;
+        break;
+    case 4:
+    case 6:
+    case 7:
+    case 8:
+        break;
+    }
+    while ((rem--) > 0) {
+        if ((s16)ppp_buffer_read(src, lobby_read_byte_buffer, 1) != 1) {
+            c = -1;
+        } else {
+            c = (s16)lobby_read_byte_buffer[0];
+        }
+        *(out++) = c;
+    }
+    p->len += len;
 }
 
 s32 configure_mode_by_type(void *self, s16 type) {
@@ -694,17 +673,17 @@ s32 configure_mode_by_type(void *self, s16 type) {
         c->want.auth_proto = 0xC023;
     } else if (type == 1) {
         c->want.mask &= ~8;
-        c->want.f15 = 0;
+        c->want.auth_negotiable = 0;
     } else if (type == 2) {
         c->want.mask |= 8;
         c->want.auth_proto = 0xC223;
         c->want.chap_alg = 5;
-        c->want.f15 = 0;
+        c->want.auth_negotiable = 0;
     } else if (type == 4) {
         c->want.mask |= 8;
         c->want.auth_proto = 0xC223;
         c->want.chap_alg = 5;
-        c->want.f15 = 1;
+        c->want.auth_negotiable = 1;
     } else {
         return 1;
     }
