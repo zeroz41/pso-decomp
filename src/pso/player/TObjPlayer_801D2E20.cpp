@@ -60,9 +60,9 @@ void CapturedTargetList::clear_lockon_list() {
     }
 }
 
-void TObjPlayer::advance_and_clamp_state() {
-    if ((*(s16 *)((s8 *)this + 0x10) = *(s16 *)((s8 *)this + 0x10) + 1) > 2) {
-        set_saved_attack_stage((s16)(2));
+void PlayerAttackController::advance_and_clamp_state() {
+    if (++pending_stage > 2) {
+        set_saved_attack_stage(2);
     }
 }
 
@@ -109,15 +109,15 @@ s32 TObjPlayer__sub_801D2F8C(s16 arg0) {
 void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, s32 kind, s16 arg3) {
     s16 t;
     if (((int (*)(void*, int))test_flags_any)((void*)(((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self)))), 2) == 0 ||
-        ((TObjPlayer *)self)->is_flag32_clear() == 0) {
+        self->is_flag32_clear() == 0) {
         ((FlagWord *)((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self))))->set(4);
     }
     if (((int (*)(void*, int))test_flags_any)((void*)(((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self)))), 2) != 0 &&
         ((int (*)(void*, int))test_flags_any)((void*)(((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self)))), 4) == 0) {
         ((FlagWord *)((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self))))->set(1);
-        ((TObjPlayer *)self)->advance_and_clamp_state();
+        self->advance_and_clamp_state();
         if (self->get_validated_attack_stage() > arg3) {
-            ((TObjPlayer *)self)->set_saved_attack_stage(arg3);
+            self->set_saved_attack_stage(arg3);
         }
         t = ((TObjPlayer *)obj)->get_action_palette_entry(kind);
         ((TObjPlayer *)obj)->set_action_palette_state_mode(2);
@@ -155,7 +155,7 @@ void apply_anim_action__10TObjPlayerFPvi(u8 *arg0, saddr arg1) {
 
 void begin_player_attack(u8 *player, s32 arg1, s16 arg2, s32 arg3) {
   s8 *new_var;
-  ((TObjPlayer *)player)->set_saved_attack_stage((s16)(arg2));
+  ((PlayerAttackController *)player)->set_saved_attack_stage((s16)(arg2));
   *((s32 *) (((s8 *) player) + 0x14)) = arg3;
   *((s16 *) (((s8 *) player) + 0x12)) = 0;
   new_var = (s8 *) player;
@@ -230,9 +230,9 @@ void TObjPlayer::reset_movement_state() {
 
 s16 TObjPlayer::get_obj_id() { return *(s16*)((char*)this + 0x2); }
 
-void TObjPlayer::set_saved_attack_stage(s16 v) { *(s16*)((char*)this + 0x10) = v; }
+void PlayerAttackController::set_saved_attack_stage(s16 stage) { pending_stage = stage; }
 
-int TObjPlayer::is_flag32_clear() { return (((int (*)(void*, int))test_flags_any)((void*)((char*)this + 0xc), 32)) == 0; }
+int PlayerAttackController::is_flag32_clear() { return test_flags_any(&flags, 32) == 0; }
 
 s32 *TObjPlayer__sub_801D345C(void *p) { return (s32 *)((CapturedTargetList *)((char*)p + 0x30))->get_captured_target_entry(0); }
 

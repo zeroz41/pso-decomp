@@ -30,6 +30,11 @@ struct PlayerAttackController {
     // Bit 0x20 follows the item effect pair 0x20/0x40 (TItemEquipBase::effect_flags).
     void set_item_effect();
     void clear_item_effect();
+
+    // Counts up the pending stage, held at 2.
+    void advance_and_clamp_state();
+    void set_saved_attack_stage(s16 stage);
+    int is_flag32_clear();
 };
 LAYOUT_ASSERT(AttackControllerEvpScale, offsetof(PlayerAttackController, evp_scale) == 0x08);
 LAYOUT_ASSERT(AttackControllerFlags, offsetof(PlayerAttackController, flags) == 0x0C);
