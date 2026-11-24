@@ -6,9 +6,33 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80066F5C.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/system/NinjaTypes.h"
 
 #pragma readonly_strings on
 
+// Shows the switch hit effects of every visible floor stone node within the attack's range of pos
+// and hides those nodes.
+void TObjBoss5FloorStone::trigger_switches_in_range(const Vec *pos, const DragonAttackParams *params) {
+    Vec effect_pos;
+    f32 range_squared;
+    NJS_OBJECT *root;
+    NJS_OBJECT *node;
+    BmlModelEntry *models;
+    models = lbl_805D4DD8->models;
+    root = models[5].model;
+    range_squared = TBoss8Dragon::calc_sq_offset(params, 50.0f);
+    for (node = root->child; node != NULL; node = node->sibling) {
+        if (!(node->evalflags & NJD_EVAL_HIDE) && TBoss8Dragon::is_within_xz_distance(pos, node, range_squared) != 0) {
+            effect_pos.x = node->pos[0];
+            effect_pos.y = node->pos[1];
+            effect_pos.z = node->pos[2];
+            TBoss8Dragon::spawn_attack_effect(&effect_pos);
+            TBoss8Dragon::spawn_switch_attack(&effect_pos);
+            node->evalflags |= NJD_EVAL_HIDE;
+        }
+    }
+}
 
 const char *TObjBoss5FloorStone__name = "TObjBoss5FloorStone";
 

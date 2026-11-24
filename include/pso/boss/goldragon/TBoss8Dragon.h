@@ -243,7 +243,6 @@ public:
     void sweep_head_fall_spheres_early();
     void render_nodes_flagged();
     void copy_vectors();
-    static void trigger_switches_in_range(TObject *floor_stone, const Vec *pos, const DragonAttackParams *params);
     static s32 calc_binomial_coefficient(s32 n, s32 k);
     static s32 eval_bezier_curve(CurvePathPoint *points, int count, int closed, Vec *out, f32 t);
     static void get_camera_offsets(Vec *target_offset, Vec *eye_offset);

@@ -7403,18 +7403,18 @@ pso/npc/TObjNpcKenkyu.cpp:
 	.sbss       start:0x805D64B8 end:0x805D64C0
 
 pso/npc/TObjNpcSoutokufu.cpp:
-	.text       start:0x80289538 end:0x802897D0
+	.text       start:0x80289538 end:0x80289710
 	.rodata     start:0x80450AF8 end:0x80450B38
 	.data       start:0x804D3318 end:0x804D34A8
 	.sdata      start:0x805D3B08 end:0x805D3B10
 	.sbss       start:0x805D64C0 end:0x805D64C8
-	.sdata2     start:0x805DD8E8 end:0x805DD8F0
 
 pso/boss/galgryphon/TObjBoss5FloorStone.cpp:
-	.text       start:0x802897D0 end:0x802898E8
+	.text       start:0x80289710 end:0x802898E8
 	.rodata     start:0x80450B38 end:0x80450B50
 	.data       start:0x804D34A8 end:0x804D34C0
 	.sdata      start:0x805D3B10 end:0x805D3B18
+	.sdata2     start:0x805DD8E8 end:0x805DD8F0
 
 pso/object/door/TODoorFourLightSpace.cpp:
 	.text       start:0x802898E8 end:0x8028A714
