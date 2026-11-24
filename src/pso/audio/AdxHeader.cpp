@@ -1,51 +1,17 @@
 // CRI adx_dcd.c: ADX header and info decoding, ADX_GetCoefficient.
 #include "types.h"
-#include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_803C4698.h"
 #include "pso/audio/AdxEncoder.h"
 #include "pso/audio/AdxHeader.h"
 
 #include <math.h>
 
-static inline s32 adx_parse_header_loop_points_impl(void *ptr, s32 size, u16 *out0, u16 *out1) {
-    AdxHeader *h = (AdxHeader *)ptr;
-    s32 err;
-    u8 ver;
-    if (size < 0x14) {
-        err = -1;
-    } else if (h->magic != 0x8000) {
-        err = -2;
-    } else if (h->header_offset < 0x10) {
-        err = -1;
-    } else {
-        ver = h->version;
-        err = 0;
-    }
-    if (err != 0) {
-        return -1;
-    }
-    if (ver >= 4U) {
-        if (size < 0x20) {
-            return -1;
-        }
-        if (h->magic != 0x8000) {
-            return -2;
-        }
-        if (h->header_offset < 0x1C) {
-            return -1;
-        }
-        out0[0] = h->loop_points[0];
-        out1[0] = h->loop_points[1];
-        out0[1] = h->loop_points[2];
-        out1[1] = h->loop_points[3];
-    } else {
-        out0[0] = out1[0] = out0[1] = out1[1] = 0;
-    }
-    return 0;
-}
 
-static inline s32 adx_parse_packet_header_len_impl(void *ptr, s32 size, s16 *out) {
-    AdxPacketHeader *p = (AdxPacketHeader *)ptr;
+
+extern "C" {
+
+s32 adx_parse_packet_header_len(u8 *hdr, s32 size, s16 *out) {
+    AdxPacketHeader *p = (AdxPacketHeader *)hdr;
     if (size < 0x10) {
         return -1;
     }
@@ -54,12 +20,6 @@ static inline s32 adx_parse_packet_header_len_impl(void *ptr, s32 size, s16 *out
     }
     *out = p->len + 4;
     return 0;
-}
-
-extern "C" {
-
-s32 TLobby::parse_packet_header_len(s32 size, s16 *out) {
-    return adx_parse_packet_header_len_impl(this, size, out);
 }
 
 s32 sub_803C46DC(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4, s32 *o5, s32 *o6, s32 *o7) {
@@ -113,8 +73,41 @@ s32 sub_803C46DC(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4, s32 *o5,
     return 0;
 }
 
-s32 TLobby::parse_header_loop_points(s32 size, u16 *out0, u16 *out1) {
-    return adx_parse_header_loop_points_impl(this, size, out0, out1);
+s32 adx_parse_header_loop_points(u8 *hdr, s32 size, u16 *out0, u16 *out1) {
+    AdxHeader *h = (AdxHeader *)hdr;
+    s32 err;
+    u8 ver;
+    if (size < 0x14) {
+        err = -1;
+    } else if (h->magic != 0x8000) {
+        err = -2;
+    } else if (h->header_offset < 0x10) {
+        err = -1;
+    } else {
+        ver = h->version;
+        err = 0;
+    }
+    if (err != 0) {
+        return -1;
+    }
+    if (ver >= 4U) {
+        if (size < 0x20) {
+            return -1;
+        }
+        if (h->magic != 0x8000) {
+            return -2;
+        }
+        if (h->header_offset < 0x1C) {
+            return -1;
+        }
+        out0[0] = h->loop_points[0];
+        out1[0] = h->loop_points[1];
+        out0[1] = h->loop_points[2];
+        out1[1] = h->loop_points[3];
+    } else {
+        out0[0] = out1[0] = out0[1] = out1[1] = 0;
+    }
+    return 0;
 }
 
 s32 TLobby__sub_803C48C8(u8 *hdr, s32 size, u16 *out) {
@@ -154,7 +147,7 @@ s32 sub_803C4910(u8 *hdr, s32 size, s16 *len, u8 *out_0C, s8 *bits, s8 *block_by
     return 0;
 }
 
-s32 TLobby::find_terminator_index(s16 *samples, s32 count, s16 *out_index) {
+s32 adx_find_end_marker(s16 *samples, s32 count, s16 *out_index) {
     s16 *p = samples;
     s32 i;
     s32 best = 0x7FFFFFFF;

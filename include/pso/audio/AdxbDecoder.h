@@ -49,16 +49,19 @@ struct AdxbDecoder {
     s16 m_7E;
     u8 *m_80;
     s32 source_offset; // inferred: never read here, zeroed with n and bytes by set_source
-    void (*read)(s32, s32 *, s32 *, s32 *);
-    saddr readArg;
-    void (*done)(s32, s32, s32);
-    s32 doneArg;
+    // Asks where the next samples go: position and room in the output buffer, samples
+    // still wanted; returns the output buffer.
+    s16 *(*read)(void *obj, s32 *pos, s32 *avail, s32 *remaining);
+    void *readArg;
+    // Told how many bytes and samples a step decoded.
+    void (*done)(void *obj, s32 bytes, s32 samples);
+    void *doneArg;
     s32 m_98;
     s32 m_9C;
     s32 n;
     s32 bytes;
     s16 format;
-    s16 m_AA;
+    s16 encoding; // sample encoding within the format (WAVE 0 16-bit, 1 8-bit, 2 4-bit)
     void *ahx_handle; // "can't play AHX data by this handle" when null
     s32 max_samples;      // the stream input's max_samples
     s32 max_sample_units; // max_samples / 96
@@ -106,13 +109,40 @@ struct SpsdHeader {
 };
 
 extern "C" {
+// One decode step for the handle's format.
+void adxb_exec_handle(AdxbDecoder *adxb);
+void adxb_exec_one_adx(AdxbDecoder *adxb);
+// Runs the AHX decoder's hook.
+void adxb_exec_one_ahx(AdxbDecoder *adxb);
+void adxb_exec_one_spsd(AdxbDecoder *adxb);
+void adxb_exec_one_aiff(AdxbDecoder *adxb);
+void adxb_exec_one_au(AdxbDecoder *adxb);
+void adxb_exec_one_wav(AdxbDecoder *adxb);
 void TLobby__sub_803C2A00(AdxbDecoder *o);
-s32 sub_803C1668(AdxbDecoder *decoder, u8 *buffer, s32 len);
-void TLobby__sub_803C34F4(AdxbDecoder *decoder);
+
+// Decodes the ADX, SPSD, WAVE, AIFF or AU header at hdr into the handle; returns the
+// header size, 0 when the header is not supported.
+s32 adxb_decode_header(AdxbDecoder *adxb, u8 *hdr, s32 size);
+s32 ADXB_DecodeHeaderAdx(AdxbDecoder *adxb, u8 *hdr, s32 size);
+s32 adxb_decode_header_spsd(AdxbDecoder *adxb, u8 *hdr, s32 size);
+s32 adxb_decode_header_wav(AdxbDecoder *adxb, u8 *hdr, s32 size);
+s32 adxb_decode_header_aiff(AdxbDecoder *adxb, u8 *hdr, s32 size);
+s32 adxb_decode_header_au(AdxbDecoder *adxb, u8 *hdr, s32 size);
+s32 adxb_is_spsd_header(const u8 *hdr);
+s32 adxb_is_wav_header(const u8 *hdr);
+s32 adxb_is_aiff_header(const u8 *hdr);
+s32 adxb_is_au_header(const u8 *hdr);
+// Reads a Sun/NeXT ".snd" (AU) header; returns the start of the sample data, NULL when the
+// header is not supported.
+u8 *adx_au_parse_header(u8 *hdr, s32 size, s32 *rate, s32 *channels, s32 *bits, s32 *samples, s32 *format);
+
+void adxb_set_read_callback(AdxbDecoder *adxb, s16 *(*read)(void *, s32 *, s32 *, s32 *), void *obj);
+// The callbacks a new handle starts with: decode into the handle's own output buffer.
+s16 *adxb_default_read(void *obj, s32 *pos, s32 *avail, s32 *remaining);
+void adxb_default_done(void *obj, s32 bytes, s32 samples);
 }
 void process_byteswapped_pcm_transfer(AdxbDecoder *o);
 extern "C" {
-void TLobby__sub_803C40D0(AdxbDecoder *o);
 s32 TLobby__sub_803C44C0(SpsdHeader *hdr, s32 size, s16 *len, s8 *out_0C, s8 *bits, s8 *block_bytes, s8 *channels, s32 *rate,
                          s32 *samples, s32 *block_samples, s16 *format);
 }

@@ -38,6 +38,12 @@ extern "C" {
 s32 sub_803C4910(u8 *hdr, s32 size, s16 *len, u8 *out_0C, s8 *bits, s8 *block_bytes, u8 *channels, s32 *rate, s32 *samples, s32 *block_samples);
 s32 TLobby__sub_803C48C8(u8 *hdr, s32 size, u16 *out);
 s32 sub_803C46DC(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4, s32 *o5, s32 *o6, s32 *o7);
+// The length of the packet header at hdr (type 0x8001), with its 4-byte head.
+s32 adx_parse_packet_header_len(u8 *hdr, s32 size, s16 *out);
+// The two loop point pairs of a version 4 ADX header, zero for older versions.
+s32 adx_parse_header_loop_points(u8 *hdr, s32 size, u16 *out0, u16 *out1);
+// The index of the first 0x8000 end marker among every other sample, -1 when there is none.
+s32 adx_find_end_marker(s16 *samples, s32 count, s16 *out_index);
 }
 void calc_adx_predictor_coeffs(s32 cutoff, s32 rate, s16 *k0, s16 *k1);
 // --- end of C functions

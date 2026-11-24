@@ -9,6 +9,7 @@
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/LscStream.h"
 #include "pso/audio/SjRingBuffer.h"
+#include "pso/audio/AdxHeader.h"
 
 #include "types.h"
 #include "pso/audio/GcrnaStream.h"
@@ -241,7 +242,7 @@ void TLobby__sub_803CAEB4(void *context) {
     tlen = 0;
     ring->interface->get_chunk(ring, 1, 0x7FFFFFFF, &a);
     ring->interface->get_chunk(ring, 1, 0x7FFFFFFF, &b);
-    if (((TLobby *)(a.data))->parse_packet_header_len(a.size, &hlen) != 0)
+    if (adx_parse_packet_header_len(a.data, a.size, &hlen) != 0)
     {
       o->sync_mode_flag = 0;
       ring->interface->unget_chunk(ring, 1, &b);
@@ -249,14 +250,14 @@ void TLobby__sub_803CAEB4(void *context) {
       return;
     }
     n = hlen;
-    r1 = TLobby::find_terminator_index((s16 *)(a.data + n), (s32)(a.size - n), &hlen);
+    r1 = adx_find_end_marker((s16 *)(a.data + n), (s32)(a.size - n), &hlen);
     if (r1 == 0)
     {
       r2 = -1;
     }
     else
     {
-      r2 = TLobby::find_terminator_index((s16 *)b.data, (s32)b.size, &tlen);
+      r2 = adx_find_end_marker((s16 *)b.data, (s32)b.size, &tlen);
     }
     n += hlen;
     m = tlen & 0xFFFFFFFFFFFFFFFFu;

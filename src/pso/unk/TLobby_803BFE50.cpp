@@ -41,57 +41,7 @@ typedef struct S_803C0628 {
     s32 f40;
 } S_803C0628;
 
-struct Snd_803C0F98 {
-    u8 pad0[4];
-    s32 state;
-    AdxDecoderChannel *channel;
-    u8 pad0C[2];
-    s8 channels;
-    u8 pad0F[0x50 - 0x0F];
-    u8 *src;
-    s32 max;
-    u8 pad58[0x64 - 0x58];
-    s16 *dst;
-    s32 size;
-    s32 rofs;
-    s32 pos;
-    s32 avail;
-    s32 unk78;
-    u8 pad7C[0x88 - 0x7C];
-    void (*get)(s32, s32 *, s32 *, s32 *);
-    s32 getCtx;
-    void (*put)(s32, s32, s32);
-    s32 putCtx;
-    u8 pad98[0xA0 - 0x98];
-    s32 count;
-    s32 bytes;
-};
 
-struct Snd_803C0BE8 {
-    u8 pad0[4];
-    s32 state;
-    AdxDecoderChannel *channel;
-    u8 pad0C[2];
-    s8 channels;
-    u8 pad0F[0x50 - 0x0F];
-    u8 *src;
-    s32 max;
-    u8 pad58[0x64 - 0x58];
-    s16 *dst;
-    s32 size;
-    s32 rofs;
-    s32 pos;
-    s32 avail;
-    s32 unk78;
-    u8 pad7C[0x88 - 0x7C];
-    void (*get)(s32, s32 *, s32 *, s32 *);
-    s32 getCtx;
-    void (*put)(s32, s32, s32);
-    s32 putCtx;
-    u8 pad98[0xA0 - 0x98];
-    s32 count;
-    s32 bytes;
-};
 
 struct Rec_803C0018 { u8 state; u8 pad[0x9B]; };
 
@@ -99,17 +49,13 @@ struct Rec_803C0018 { u8 state; u8 pad[0x9B]; };
 RecoveredGlobal_lbl_80570AC0 lbl_80570AC0;
 
 extern "C" {
-void TLobby__sub_803C133C(Snd_803C0BE8 *arg0);
-void decode_adxb_pcm_stream(u8 *lobby);
+void adxb_exec_wav_pcm16(AdxbDecoder *adxb);
+void adxb_exec_wav_split16(AdxbDecoder *adxb);
+void adxb_exec_wav_pcm8(AdxbDecoder *adxb);
 
-void audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3);
-void sub_803C0BE8(Snd_803C0BE8 *arg0);
 void sub_803C0018(void);
 void decode_audio_stream_step(AudioStreamInputState *st);
-s32 TLobby__sub_803C3B68(saddr decoder, u16 *hdr, saddr size);
 void process_audio_stream_input(AudioStreamInputState *st);
-
-void TLobby__sub_803C3B5C(AdxbDecoder *decoder, void (*callback)(void *, s32 *, s32 *, s32 *), void *context);
 u8 *AudioStreamInputState::get_offset_58() {
     return header;
 }
@@ -190,7 +136,7 @@ inline void parse_audio_stream_input_header(AudioStreamInputState *st) {
         s->interface->unget_chunk(s, 1, &b);
         return;
     }
-    n = TLobby__sub_803C3B68((saddr)h, (u16 *)b.data, b.size);
+    n = adxb_decode_header(h, b.data, b.size);
     if (n == 0 || n > b.size) {
         s->interface->unget_chunk(s, 1, &b);
         return;
@@ -306,7 +252,7 @@ void decode_audio_stream_step(AudioStreamInputState *st) {
     if (h->get_state() == 0) {
         feed_audio_stream_decoder(st);
     }
-    TLobby__sub_803C34F4(h);
+    adxb_exec_handle(h);
     if (h->get_state() == 3) {
         drain_audio_stream_decoder(st);
     }
@@ -316,7 +262,7 @@ void decode_audio_stream_step(AudioStreamInputState *st) {
     }
 }
 
-void audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3) {
+s16 *audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3) {
     S_803C0628 *arg0 = (S_803C0628 *)arg0_;
     saddr h;
     s32 i;
@@ -338,7 +284,7 @@ void audio_stream_get_write_window(void *arg0_, s32 *arg1, s32 *arg2, s32 *arg3)
     } else {
         *arg3 = 0x1FFFFFFF;
     }
-    arg0->decoder->get_output_buffer();
+    return arg0->decoder->get_output_buffer();
 }
 
 void AudioStreamInputState::reset_flag() {
@@ -401,7 +347,7 @@ AudioStreamInputState *alloc_audio_stream_state(SjRingBuffer *source, s32 channe
     if (st->decoder == NULL) {
         return NULL;
     }
-    TLobby__sub_803C3B5C(st->decoder, audio_stream_get_write_window, st);
+    adxb_set_read_callback(st->decoder, audio_stream_get_write_window, st);
     st->source = source;
     st->channels = channels;
     for (i = 0; i < channels; i++) {
@@ -432,47 +378,47 @@ void TLobby::reset_sound_buffers() {
     AdxbDecoder::clear_pool();
     memset(&lbl_80570AC0.value, 0, 0x9C0);
 }
-void decode_adxb_pcm_stream(u8 *lobby) {
-    s16 temp_r0;
-    temp_r0 = *(s16 *)((s8 *)lobby + 0xAA);
-    if (temp_r0 == 2) {
-        sub_803C0BE8((Snd_803C0BE8 *)(lobby));
+void adxb_exec_one_wav(AdxbDecoder *adxb) {
+    s16 encoding;
+    encoding = adxb->encoding;
+    if (encoding == 2) {
+        adxb_exec_wav_split16(adxb);
         return;
     }
-    if (temp_r0 == 1) {
-        ((TLobby *)lobby)->convert_pcm_u8_to_s16();
+    if (encoding == 1) {
+        adxb_exec_wav_pcm8(adxb);
         return;
     }
-    if (temp_r0 == 0) {
-        TLobby__sub_803C133C((Snd_803C0BE8 *)(lobby));
+    if (encoding == 0) {
+        adxb_exec_wav_pcm16(adxb);
     }
 }
-s32 TLobby::is_riff_wave() {
-    u8 *arg0 = (u8 *)this;
-    if (memcmp(arg0, "RIFF", 4) == 0 && memcmp((u8 *)&this->m_prev, "WAVE", 4) == 0) {
+s32 adxb_is_wav_header(const u8 *hdr) {
+    if (memcmp(hdr, "RIFF", 4) == 0 && memcmp(hdr + 8, "WAVE", 4) == 0) {
         return 1;
     }
     return 0;
 }
 
-void sub_803C0BE8(Snd_803C0BE8 *arg0) {
-    u8 *src = arg0->src;
+// The 4-bit WAVE encoding, decoded as 16-bit samples whose low and high bytes are stored apart.
+void adxb_exec_wav_split16(AdxbDecoder *adxb) {
+    u8 *src = adxb->src;
     s16 *l;
     s16 *r;
     s32 i;
     s32 n;
-    if (arg0->state == 1 && arg0->channel->get_state() == 0) {
-        arg0->get(arg0->getCtx, &arg0->pos, &arg0->avail, &arg0->unk78);
-        n = arg0->size - arg0->pos;
-        if (n > arg0->avail) {
-            n = arg0->avail;
+    if (adxb->state == 1 && adxb->channel->get_state() == 0) {
+        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->x78);
+        n = adxb->bufLen - adxb->pos;
+        if (n > adxb->avail) {
+            n = adxb->avail;
         }
-        if (n > arg0->max) {
-            n = arg0->max;
+        if (n > adxb->maxLen) {
+            n = adxb->maxLen;
         }
-        l = arg0->dst + arg0->pos;
-        if (arg0->channels == 2) {
-            r = arg0->dst + (arg0->rofs + arg0->pos);
+        l = adxb->buf + adxb->pos;
+        if (adxb->channels == 2) {
+            r = adxb->buf + (adxb->rOff + adxb->pos);
             for (i = 0; i < n; i++) {
                 l[i] = src[i * 4] | (src[i * 4 + 2] << 8);
                 r[i] = src[i * 4 + 1] | (src[i * 4 + 3] << 8);
@@ -482,35 +428,34 @@ void sub_803C0BE8(Snd_803C0BE8 *arg0) {
                 l[i] = src[i * 2] | (src[i * 2 + 1] << 8);
             }
         }
-        arg0->count = n;
-        arg0->bytes = arg0->channels * (n * 2);
-        arg0->state = 2;
+        adxb->n = n;
+        adxb->bytes = adxb->channels * (n * 2);
+        adxb->state = 2;
     }
-    if (arg0->state == 2) {
-        arg0->put(arg0->putCtx, arg0->bytes, arg0->count);
-        arg0->state = 3;
+    if (adxb->state == 2) {
+        adxb->done(adxb->doneArg, adxb->bytes, adxb->n);
+        adxb->state = 3;
     }
 }
 
-void TLobby::convert_pcm_u8_to_s16() {
-    Snd_803C0F98 *arg0 = (Snd_803C0F98 *)this;
-    u8 *src = arg0->src;
+void adxb_exec_wav_pcm8(AdxbDecoder *adxb) {
+    u8 *src = adxb->src;
     s16 *l;
     s16 *r;
     s32 i;
     s32 n;
-    if (arg0->state == 1 && arg0->channel->get_state() == 0) {
-        arg0->get(arg0->getCtx, &arg0->pos, &arg0->avail, &arg0->unk78);
-        n = arg0->size - arg0->pos;
-        if (n > arg0->avail) {
-            n = arg0->avail;
+    if (adxb->state == 1 && adxb->channel->get_state() == 0) {
+        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->x78);
+        n = adxb->bufLen - adxb->pos;
+        if (n > adxb->avail) {
+            n = adxb->avail;
         }
-        if (n > arg0->max) {
-            n = arg0->max;
+        if (n > adxb->maxLen) {
+            n = adxb->maxLen;
         }
-        l = arg0->dst + arg0->pos;
-        if (arg0->channels == 2) {
-            r = arg0->dst + (arg0->rofs + arg0->pos);
+        l = adxb->buf + adxb->pos;
+        if (adxb->channels == 2) {
+            r = adxb->buf + (adxb->rOff + adxb->pos);
             for (i = 0; i < n; i++) {
                 l[i] = (u8)(src[i * 2] - 0x80) << 8;
                 r[i] = (u8)(src[i * 2 + 1] - 0x80) << 8;
@@ -520,34 +465,34 @@ void TLobby::convert_pcm_u8_to_s16() {
                 l[i] = (u8)(src[i] - 0x80) << 8;
             }
         }
-        arg0->count = n;
-        arg0->bytes = n * arg0->channels;
-        arg0->state = 2;
+        adxb->n = n;
+        adxb->bytes = n * adxb->channels;
+        adxb->state = 2;
     }
-    if (arg0->state == 2) {
-        arg0->put(arg0->putCtx, arg0->bytes, arg0->count);
-        arg0->state = 3;
+    if (adxb->state == 2) {
+        adxb->done(adxb->doneArg, adxb->bytes, adxb->n);
+        adxb->state = 3;
     }
 }
 
-void TLobby__sub_803C133C(Snd_803C0BE8 *arg0) {
-    u16 *src = (u16 *)arg0->src;
+void adxb_exec_wav_pcm16(AdxbDecoder *adxb) {
+    u16 *src = (u16 *)adxb->src;
     s16 *l;
     s16 *r;
     s32 i;
     s32 n;
-    if (arg0->state == 1 && arg0->channel->get_state() == 0) {
-        arg0->get(arg0->getCtx, &arg0->pos, &arg0->avail, &arg0->unk78);
-        n = arg0->size - arg0->pos;
-        if (n > arg0->avail) {
-            n = arg0->avail;
+    if (adxb->state == 1 && adxb->channel->get_state() == 0) {
+        adxb->read(adxb->readArg, &adxb->pos, &adxb->avail, &adxb->x78);
+        n = adxb->bufLen - adxb->pos;
+        if (n > adxb->avail) {
+            n = adxb->avail;
         }
-        if (n > arg0->max) {
-            n = arg0->max;
+        if (n > adxb->maxLen) {
+            n = adxb->maxLen;
         }
-        l = arg0->dst + arg0->pos;
-        if (arg0->channels == 2) {
-            r = arg0->dst + (arg0->rofs + arg0->pos);
+        l = adxb->buf + adxb->pos;
+        if (adxb->channels == 2) {
+            r = adxb->buf + (adxb->rOff + adxb->pos);
             for (i = 0; i < n; i++) {
                 l[i] = (((src[i * 2]) & 0xFF) << 8) | (((src[i * 2]) >> 8) & 0xFF);
                 r[i] = (((src[i * 2 + 1]) & 0xFF) << 8) | (((src[i * 2 + 1]) >> 8) & 0xFF);
@@ -557,46 +502,46 @@ void TLobby__sub_803C133C(Snd_803C0BE8 *arg0) {
                 l[i] = (((src[i]) & 0xFF) << 8) | (((src[i]) >> 8) & 0xFF);
             }
         }
-        arg0->count = n;
-        arg0->bytes = arg0->channels * (n * 2);
-        arg0->state = 2;
+        adxb->n = n;
+        adxb->bytes = adxb->channels * (n * 2);
+        adxb->state = 2;
     }
-    if (arg0->state == 2) {
-        arg0->put(arg0->putCtx, arg0->bytes, arg0->count);
-        arg0->state = 3;
+    if (adxb->state == 2) {
+        adxb->done(adxb->doneArg, adxb->bytes, adxb->n);
+        adxb->state = 3;
     }
 }
 
-s32 sub_803C1668(AdxbDecoder *h, u8 *buf, s32 len) {
+s32 adxb_decode_header_wav(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 n;
-    h->m_02 = 1;
-    if (TLobby__sub_803C1780(buf, len, &n, &h->m_0C, &h->bits, &h->block_bytes,
-                             &h->channels, &h->rate, &h->samples, &h->block_samples, &h->m_AA) < 0) {
+    adxb->m_02 = 1;
+    if (TLobby__sub_803C1780(hdr, size, &n, &adxb->m_0C, &adxb->bits, &adxb->block_bytes,
+                             &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
         return 0;
     }
-    h->m_1C = 0;
-    h->m_4A = 0;
-    h->m_48 = 0;
-    h->loop_count = 0;
-    h->loop_type = 0;
-    h->loop_end_byte = 0;
-    h->loop_end_sample = 0;
-    h->loop_start_byte = 0;
-    h->loop_start_sample = 0;
-    h->loop_enabled = 0;
-    h->stream_channels = h->channels;
-    h->stream_block_bytes = h->block_bytes;
-    h->stream_block_samples = h->block_samples;
-    h->buf = h->output_buffer;
-    h->bufLen = h->wrap_len;
-    h->rOff = h->wrap_offset;
-    h->m_7C = h->m_48;
-    h->m_7E = h->m_4A;
-    h->m_80 = h->m_4C;
-    h->m_9C = 0;
-    h->m_98 = 0;
-    h->format = 1;
-    memset(h->m_4C, 0, 4);
+    adxb->m_1C = 0;
+    adxb->m_4A = 0;
+    adxb->m_48 = 0;
+    adxb->loop_count = 0;
+    adxb->loop_type = 0;
+    adxb->loop_end_byte = 0;
+    adxb->loop_end_sample = 0;
+    adxb->loop_start_byte = 0;
+    adxb->loop_start_sample = 0;
+    adxb->loop_enabled = 0;
+    adxb->stream_channels = adxb->channels;
+    adxb->stream_block_bytes = adxb->block_bytes;
+    adxb->stream_block_samples = adxb->block_samples;
+    adxb->buf = adxb->output_buffer;
+    adxb->bufLen = adxb->wrap_len;
+    adxb->rOff = adxb->wrap_offset;
+    adxb->m_7C = adxb->m_48;
+    adxb->m_7E = adxb->m_4A;
+    adxb->m_80 = adxb->m_4C;
+    adxb->m_9C = 0;
+    adxb->m_98 = 0;
+    adxb->format = 1;
+    memset(adxb->m_4C, 0, 4);
     return n;
 }
 
@@ -705,7 +650,7 @@ s32 TLobby__sub_803C1780(u8 *buffer, s32 size, s16 *data_offset,
 #undef WAVE_SWAP16
 #undef WAVE_SWAP32
 
-void TLobby__sub_803C19D8(void) {
+void adxb_exec_one_ahx(AdxbDecoder *adxb) {
     lbl_805D7510();
 }
 void AdxbDecoder::set_max_samples(s32 limit) {
