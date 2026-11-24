@@ -7248,7 +7248,7 @@ force_active:
   - invoke_callback__10TItemTimerFv
   - invoke_callback_and_destroy__19TQuestListChallengeFv
   - invoke_callback_and_queue_destruction__12TQuestListVMFv
-  - invoke_menu_callback__10TObjPlayerFPv
+  - trigger_impact__15TItemEffLandHitFv
   - ipv6_interface_config
   - is_action_ready__9TBoss6MagFv
   - is_active__10TBoss6RockFv

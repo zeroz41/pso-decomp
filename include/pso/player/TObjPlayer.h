@@ -437,9 +437,9 @@ struct TObjPlayer : public TObjChara {
     static void init_game_resources();
     s32 is_script_controlled();
     saddr activate_d04_slot();
+    // this is the hit position, not a player.
     void spawn_hit_particle_trio();
-    static void forward_item_effect_callback(s32 arg0, saddr arg1);
-    static void invoke_menu_callback_if_set(u32 arg0);
+    static void forward_item_effect_callback(s32 layer, saddr pos);
     void init_item_data(s32 arg1);
     void bswap_fields_x4();
     void bswap_and_send_item();

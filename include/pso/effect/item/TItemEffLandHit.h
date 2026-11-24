@@ -19,6 +19,10 @@ public:
     TItemEffLandHit(TObject *parent, TItem *item, Vec *start, Vec *end);
     virtual ~TItemEffLandHit();
     virtual void run_task();
+    // Fires the shooting item's impact callback from start to end and ends the effect.
+    void trigger_impact();
+    // The item timer's expiry callback for the effect.
+    static void on_timer_expired(TObject *object);
 };
 
 void spawn_land_hit_effect(TObject *parent, TItem *item, Vec *start, Vec *end, s32 frames);

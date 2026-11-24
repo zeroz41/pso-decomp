@@ -3,6 +3,7 @@
 #include "pso/player/TObjPlayer_80109344.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 
 struct W_801093B4 { s32 a; s32 b; s32 c; };
 
@@ -30,26 +31,24 @@ void TObjPlayer::spawn_hit_particle_trio() {
 }
 #pragma pop
 
-void TObjPlayer::forward_item_effect_callback(s32 arg0, saddr player) {
-    ((TObjPlayer *)player)->spawn_hit_particle_trio();
+void TObjPlayer::forward_item_effect_callback(s32 layer, saddr pos) {
+    ((TObjPlayer *)pos)->spawn_hit_particle_trio();
 }
-void spawn_weapon_impact_effect(s32 arg0, s32 arg1, s32 arg2, saddr player) {
-    ((TObjPlayer *)player)->spawn_hit_particle_trio();
+void spawn_weapon_impact_effect(s32 layer, void *weapon, s32 start, saddr end) {
+    ((TObjPlayer *)end)->spawn_hit_particle_trio();
 }
 
-
-void invoke_menu_callback__10TObjPlayerFPv(void *arg0) {
-    void *x;
-    x = find_item_by_id((saddr)(*(void **)((s8 *)arg0 + 0x34)));
-    if (x != NULL) {
-        ((TObjPlayer *)x)->call_callback_1ec((saddr)(((char *)arg0 + 28)), (saddr)(((char *)arg0 + 40)));
+void TItemEffLandHit::trigger_impact() {
+    TItem *item;
+    item = find_item_by_id(item_id);
+    if (item != NULL) {
+        ((TObjPlayer *)item)->call_callback_1ec((saddr)&start, (saddr)&end);
     }
-    *(u32 *)((s8 *)arg0 + 0x38) = 1;
+    finished = 1;
 }
 
-void TObjPlayer::invoke_menu_callback_if_set(u32 arg0) {
-    if (arg0 != 0U) {
-        ((s32 (*)())invoke_menu_callback__10TObjPlayerFPv)();
+void TItemEffLandHit::on_timer_expired(TObject *object) {
+    if (object != NULL) {
+        static_cast<TItemEffLandHit *>(object)->trigger_impact();
     }
 }
-
