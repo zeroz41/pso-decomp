@@ -514,6 +514,7 @@ bool is_target_in_facing_cone__10TObjPlayerFPv(void *self, Vec *target);
 void TObjPlayer__sub_801BA42C(void);
 void TObjPlayer__sub_801BBB70(void);
 void clear_flag_4000_callback__10TObjPlayerFv(TObjPlayer *);
+InventoryItemList *__ct__17InventoryItemListFv(void *list);
 s32 TObjPlayer__sub_801BE8F4(void *, s32, s32);
 void TObjPlayer__sub_801BEEAC(void *, void *);
 void TObjPlayer__sub_801BEEE0(void *, void *);

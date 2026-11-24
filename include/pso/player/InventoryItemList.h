@@ -12,9 +12,4 @@ struct InventoryItemList {
     InventoryItemList();
 };
 
-extern "C" {
-// InventoryItemList::InventoryItemList(), for code that builds the list in place.
-InventoryItemList *__ct__17InventoryItemListFv(void *list);
-}
-
 #endif
