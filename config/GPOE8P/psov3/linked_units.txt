@@ -1093,7 +1093,6 @@ pso/system/scene/TScene.cpp
 pso/system/scene/TSceneSora.cpp
 pso/system/scene/TScene_801A7E40.cpp
 pso/system/scene/TScene_801FBA20.cpp
-pso/system/scene/TScene_8029F5B0.cpp
 pso/system/scene/TScene_80327B00.cpp
 pso/map/TSetManager.cpp
 pso/ui/city/TShopArmorListWindow.cpp

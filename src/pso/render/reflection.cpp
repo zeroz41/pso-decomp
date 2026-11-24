@@ -34,7 +34,12 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/CameraCapture.h"
-#include "pso/system/scene/TScene_8029F5B0.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx.h>
+#undef PSO_SDK_COMPACT_MATH
+
+// Defined at the end of the file, where the original places it with the other out-of-line helpers.
+static void set_tex_coord_gen(GXTexCoordID dst_coord, GXTexGenType func, GXTexGenSrc src_param, u32 mtx);
 #include "pso/player/TObjPlayer_803DC834.h"
 #include <stddef.h>
 #include "pso/network/client_id.h"
@@ -91,9 +96,6 @@ s32 find_reflective_floor(saddr pos, u8 *plane) {
   return 0;
 }
 
-extern "C" {
-s32 GXSetScissor(s32, s32, s32, s32);
-}
 
 s32 push_player_reflection_matrix(u16 client_id, s32 clip) {
     s32 sp8[8];
@@ -295,11 +297,6 @@ struct Pl_8029EFFC {
     Vec pos2FC;
 };
 
-extern "C" {
-// Every caller tests this as an int; the header's bool return would not match.
-void GXSetTevOp(s32 stage, s32 mode);
-void GXSetTevOrder(s32 stage, s32 coord, s32 map, s32 color);
-}
 const f64 reflection_angle_to_degrees = 0.0054931640625;
 
 const Vec sora_reflection_up_vec = {0.0f, 1.0f, 0.0f};
@@ -332,9 +329,9 @@ void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags
             load_current_tex_matrix(2);
             pop_matrix();
             load_current_pos_matrix(2);
-            GXSetTevOrder(1, 1, 2, 4);
-            GXSetTevOp(1, 2);
-            fn_8029F5B0(1, 0, 0, 0x24);
+            GXSetTevOrder(GX_TEVSTAGE1, GX_TEXCOORD1, GX_TEXMAP2, GX_COLOR0A0);
+            GXSetTevOp(GX_TEVSTAGE1, GX_BLEND);
+            set_tex_coord_gen(GX_TEXCOORD1, GX_TG_MTX3x4, GX_TG_POS, GX_TEXMTX2);
             model_render_flags |= 0x80000;
             set_ginja_post_tev_stage_count(1);
             set_ginja_post_texgen_count(1);
@@ -512,4 +509,26 @@ s32 TSceneSora::get_state() { return *(s32*)((char*)this + 0x20); }
 void TSceneSora::set_scene_flag(int scene_flag) { (*(int *)&lbl_805D65F0) = scene_flag; }
 void TSceneSora::copy_reflection_vec(u8 *arg0) {
     VecCopy((Vec *)(&sora_reflection_ray_direction), (const Vec *)(arg0));
+}
+
+// The SDK's GXSetTexCoordGen out of line: no normalisation, identity post-transform.
+static void set_tex_coord_gen(GXTexCoordID dst_coord, GXTexGenType func, GXTexGenSrc src_param, u32 mtx) {
+    GXSetTexCoordGen2(dst_coord, func, src_param, mtx, GX_FALSE, GX_PTIDENTITY);
+}
+
+inline void TScene::end_reflection_pass() { reflection_pass_active = 0; }
+
+inline void TScene::set_visibility_radius_margin(f32 margin) { visibility_radius_margin = margin; }
+
+inline void TScene::begin_reflection_pass() { reflection_pass_active = 1; }
+
+// Copies the 640x480 frame into the render target's texture as RGB565 and clears it.
+inline void GinjaRenderTarget::copy_efb_to_texture() {
+    GXColor clear_color = {0, 0, 0, 0};
+    GXSetZMode(GX_FALSE, GX_ALWAYS, GX_TRUE);
+    GXSetCopyClear(clear_color, 0xFFFFFF);
+    GXSetTexCopySrc(0, 0, 640, 480);
+    GXSetTexCopyDst(640, 480, GX_TF_RGB565, GX_FALSE);
+    GXCopyTex(texture_list.textures->texture->surface->header.pixels, GX_TRUE);
+    GXPixModeSync();
 }

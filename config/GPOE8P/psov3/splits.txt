@@ -7582,14 +7582,11 @@ pso/map/FloorArea_8029E764.cpp:
 	.text       start:0x8029E764 end:0x8029E7BC
 
 pso/render/reflection.cpp:
-	.text       start:0x8029E7BC end:0x8029F5B0
+	.text       start:0x8029E7BC end:0x8029F694
 	.rodata     start:0x80465E08 end:0x80465E20
 	.data       start:0x804DC7B8 end:0x804DC7DC
 	.sbss       start:0x805D65F0 end:0x805D6600
 	.sdata2     start:0x805DDD88 end:0x805DDDB8
-
-pso/system/scene/TScene_8029F5B0.cpp:
-	.text       start:0x8029F5B0 end:0x8029F694
 	.sbss2      start:0x805E1220 end:0x805E1224
 
 pso/player/TObjPlayer_8029F694.cpp:
