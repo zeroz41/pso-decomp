@@ -147,12 +147,12 @@ PlayerHandParticles::PlayerHandParticles() {
 
 PlayerHandParticles::~PlayerHandParticles() {}
 
-void TObjPlayer::create_left_hand_ptcl(void *owner) {
-    ((PlayerHandParticles *)this)->left_hand = new TPlyPtclObjectLeftHand((TObjBase *)owner);
+void PlayerHandParticles::create_left_hand(TObjBase *owner) {
+    left_hand = new TPlyPtclObjectLeftHand(owner);
 }
 
-void TObjPlayer::create_right_hand_ptcl(void *owner) {
-    ((PlayerHandParticles *)this)->right_hand = new TPlyPtclObjectRightHand((TObjBase *)owner);
+void PlayerHandParticles::create_right_hand(TObjBase *owner) {
+    right_hand = new TPlyPtclObjectRightHand(owner);
 }
 
 void emit_water_step_particles(saddr owner, saddr position) {
@@ -190,14 +190,13 @@ PlayerFollowParticles::PlayerFollowParticles() {
 
 PlayerFollowParticles::~PlayerFollowParticles() {}
 
-void TObjPlayer::update_follow_particle(saddr owner) {
-    ((PlayerFollowParticles *)this)->set_owner_id(((TObjBase *)owner)->get_entity_id());
+void PlayerFollowParticles::set_owner(TObjBase *owner) {
+    set_owner_id(owner->get_entity_id());
 }
 
-void TObjPlayer::update_child(void *owner) {
-    PlayerFollowParticles *state = (PlayerFollowParticles *)this;
-    ((TObjPlayer *)&state->hands)->create_left_hand_ptcl(owner);
-    ((TObjPlayer *)&state->hands)->create_right_hand_ptcl(owner);
+void PlayerFollowParticles::create_hand_particles(TObjBase *owner) {
+    hands.create_left_hand(owner);
+    hands.create_right_hand(owner);
 }
 
 void TObjPlayer::clear_foot_stamp(saddr owner, saddr player) {

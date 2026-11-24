@@ -5492,7 +5492,7 @@ force_active:
   - create_keyboard__17TWindowSubComCardFii
   - create_keyboard_control__20TWindowSubSymbolChatFv
   - create_learned_blast_toast__13TWindowSubMagFv
-  - create_left_hand_ptcl__10TObjPlayerFPv
+  - create_left_hand__19PlayerHandParticlesFP8TObjBase
   - create_list__13TWindowSubMagFv
   - create_list__19TWindowSubTradeMainFv
   - create_list_item__19TWindowSubShortMailFv
@@ -5517,7 +5517,7 @@ force_active:
   - create_resta_effect__16TObjEneMe3StelthFPv
   - create_result_window__16TObjOnlineEndingFv
   - create_result_windows__23TShopJudgmentItemWindowFv
-  - create_right_hand_ptcl__10TObjPlayerFPv
+  - create_right_hand__19PlayerHandParticlesFP8TObjBase
   - create_single_entry_window__17TWindowSubComCardFv
   - create_symbol_list_card__20TWindowSubSymbolChatFv
   - create_texture_wave_tasks__6TSceneFP7TObject

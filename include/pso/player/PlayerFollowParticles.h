@@ -4,6 +4,7 @@
 #include "types.h"
 #include <dolphin/mtx/GeoTypes.h>
 
+class TObjBase;
 class TPlyPtclObjectLeftHand;
 class TPlyPtclObjectRightHand;
 
@@ -13,13 +14,15 @@ struct PlayerHandParticlesBase {
     ~PlayerHandParticlesBase();
 };
 
-// The hand particle followers a player keeps (created together by update_child).
+// The hand particle followers a player keeps (created together by create_hand_particles).
 struct PlayerHandParticles : PlayerHandParticlesBase {
     PlayerHandParticles();
     ~PlayerHandParticles();
     void prepare_heavy_attack_particles();
     void emit_jellen_support_effect();
     void emit_shifta_support_effect();
+    void create_left_hand(TObjBase *owner);
+    void create_right_hand(TObjBase *owner);
 
     TPlyPtclObjectLeftHand *left_hand;
     TPlyPtclObjectRightHand *right_hand;
@@ -38,6 +41,8 @@ struct PlayerFollowParticles {
     void prepare_heavy_attack_particles_default();
     void emit_jellen_support_effect_default();
     void emit_shifta_support();
+    void create_hand_particles(TObjBase *owner);
+    void set_owner(TObjBase *owner);
 };
 
 LAYOUT_ASSERT(PlayerFollowParticles_size, sizeof(PlayerFollowParticles) == 0x30);

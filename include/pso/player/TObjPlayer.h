@@ -941,11 +941,7 @@ struct TObjPlayer : public TObjChara {
     static TItem *create_nug2000_bazooka(u8 *item);
     static void enable_foot_stamp(saddr owner, saddr player);
     static void clear_foot_stamp(saddr owner, saddr player);
-    void update_child(void *owner);
-    void update_follow_particle(saddr owner);
     static s32 check_hit_by_id_431(void* p, u16 target_id);
-    void create_right_hand_ptcl(void *owner);
-    void create_left_hand_ptcl(void *owner);
     static s32 check_hit_by_id(saddr owner, u16 target_id, s32 id);
     void update_children();
     void process_indexed_element(s32 arg1);
