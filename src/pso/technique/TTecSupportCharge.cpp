@@ -2,7 +2,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/object/TUnk_804CCAC8.h"
+#include "pso/technique/TTecSupportCharge.h"
 
 #include "pso/system/vector.h"
 
@@ -13,7 +13,7 @@ __declspec(section ".data") u32 TObjLight__support_charge_effect_ids[2] = {0x1F4
 void stop_sound_request(s32 idx);
 }
 
-void TUnk_804CCAC8::run_task() {
+void TTecSupportCharge::run_task() {
     ++age;
     if(age%10==0) {
         for(int i=0;i<2;++i)spawn_particle_effect(&position,TObjLight__support_charge_effect_ids[i]);
@@ -22,11 +22,11 @@ void TUnk_804CCAC8::run_task() {
     else if(age>=180)queue_destruction();
 }
 
-TUnk_804CCAC8::~TUnk_804CCAC8() {
+TTecSupportCharge::~TTecSupportCharge() {
     stop_sound_request(sound);
 }
 
-TUnk_804CCAC8::TUnk_804CCAC8(TObjPlayer *actor, TObject *parent) : TObject(parent) {
+TTecSupportCharge::TTecSupportCharge(TObjPlayer *actor, TObject *parent) : TObject(parent) {
     this->actor = actor;
     VecCopy(&position, &this->actor->body_center);
     age = 0;

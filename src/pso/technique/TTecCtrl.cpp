@@ -39,11 +39,11 @@
 #include "pso/technique/TTecResta.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TargetCursorList.h"
-#include "pso/object/TUnk_804CC794.h"
-#include "pso/object/TUnk_804CC948.h"
-#include "pso/unk/TUnk_804CCD0C.h"
-#include "pso/unk/TUnk_804CC990.h"
-#include "pso/object/TUnk_804CCAC8.h"
+#include "pso/technique/TTecFireCharge.h"
+#include "pso/technique/TTecIceCharge.h"
+#include "pso/technique/TTecThunderCharge.h"
+#include "pso/technique/TTecLightCharge.h"
+#include "pso/technique/TTecSupportCharge.h"
 #include "pso/object/TUnk_804CC74C.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
@@ -682,38 +682,38 @@ void create_technique_charge_light(u32 kind, void *owner) {
     s32 base = p->pad_12 + p->pad_20 + 50;
     switch (kind) {
     case 1:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, TUnk_804CC794)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, TTecFireCharge)
         break;
     case 0:
     case 2:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, TUnk_804CC794)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 0.5f, 0.0f, TTecFireCharge)
         break;
     case 3:
     case 4:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, TUnk_804CC948)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, TTecIceCharge)
         break;
     case 5:
-        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.7f, 1.0f, TUnk_804CC948)
+        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.7f, 1.0f, TTecIceCharge)
         break;
     case 6:
     case 7:
     case 8:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 0.3f, TUnk_804CCD0C)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 0.3f, TTecThunderCharge)
         break;
     case 9:
     case 15:
     case 16:
     case 17:
-        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, TUnk_804CC990)
+        CHARGE_LIGHT_8022C738(1.0f, 1.0f, 1.0f, 1.0f, TTecLightCharge)
         break;
     case 10:
     case 11:
     case 12:
     case 14:
-        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.9f, 1.0f, TUnk_804CCAC8)
+        CHARGE_LIGHT_8022C738(1.0f, 0.3f, 0.9f, 1.0f, TTecSupportCharge)
         break;
     case 13:
-        CHARGE_LIGHT_8022C738(1.0f, 0.9f, 0.3f, 1.0f, TUnk_804CCAC8)
+        CHARGE_LIGHT_8022C738(1.0f, 0.9f, 0.3f, 1.0f, TTecSupportCharge)
         break;
     case 18:
         CHARGE_LIGHT_8022C738(1.0f, 0.6f, 0.2f, 0.7f, TUnk_804CC74C)

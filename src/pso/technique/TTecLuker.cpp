@@ -18,7 +18,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/TUnk_804CCA0C.h"
-#include "pso/unk/TUnk_804CC990.h"
+#include "pso/technique/TTecLightCharge.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"

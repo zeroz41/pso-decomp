@@ -6064,7 +6064,7 @@ pso/technique/TTecDeband.cpp:
 	.sdata      start:0x805D37A8 end:0x805D37B0
 	.sdata2     start:0x805DC7F0 end:0x805DC7F8
 
-pso/object/ambient/TObjLight_8022F9E8.cpp:
+pso/technique/TTecFireCharge.cpp:
 	.text       start:0x8022F9E8 end:0x8022FB70
 	.data       start:0x804CC788 end:0x804CC7B0
 
@@ -6110,7 +6110,7 @@ pso/technique/TechniqueRingwaveList.cpp:
 pso/technique/TechniqueRingwaveNames.cpp:
 	.rodata     start:0x8044D5D0 end:0x8044D644
 
-pso/unk/TUnk_804CC948.cpp:
+pso/technique/TTecIceCharge.cpp:
 	.text       start:0x802333D4 end:0x8023355C
 	.data       start:0x804CC940 end:0x804CC960
 
@@ -6120,7 +6120,7 @@ pso/technique/TTecJelin.cpp:
 	.data       start:0x804CC960 end:0x804CC988
 	.sdata      start:0x805D37D8 end:0x805D37E0
 
-pso/unk/TUnk_804CC990.cpp:
+pso/technique/TTecLightCharge.cpp:
 	.text       start:0x80233A90 end:0x80233C18
 	.data       start:0x804CC988 end:0x804CC9A8
 
@@ -6149,7 +6149,7 @@ pso/object/TActorLight.cpp:
 	.bss        start:0x80516150 end:0x805161D8
 	.sdata2     start:0x805DC888 end:0x805DC8A0
 
-pso/object/ambient/TObjLight_80236D60.cpp:
+pso/technique/TTecSupportCharge.cpp:
 	.text       start:0x80236D60 end:0x80236EE8
 	.data       start:0x804CCAC0 end:0x804CCAE0
 
@@ -6215,7 +6215,7 @@ pso/technique/TTecSlicer.cpp:
 	.sdata      start:0x805D3828 end:0x805D3830
 	.sdata2     start:0x805DC948 end:0x805DC968
 
-pso/technique/TechniqueChargeLight.cpp:
+pso/technique/TTecThunderCharge.cpp:
 	.text       start:0x8023BE9C end:0x8023C024
 	.data       start:0x804CCD00 end:0x804CCD28
 
