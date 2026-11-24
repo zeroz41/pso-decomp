@@ -639,10 +639,10 @@ force_active:
   - TLobby__sub_8001E2A8
   - TLobby__sub_8001E75C
   - TLobby__sub_8001EDD8
-  - TLobby__sub_8006F38C
-  - TLobby__sub_8006F48C
-  - TLobby__sub_8006F5B0
-  - TLobby__sub_8006FAE4
+  - challenge_rank_for_total__Fl
+  - apply_challenge_rank_title__Fv
+  - record_challenge_stage_time__Fl
+  - random_challenge_key__Fv
   - refresh_challenge_windows__10TChallengeFv
   - request_missing_challenge_records__10TChallengeFv
   - restore_challenge_from_save__10TChallengeFv
@@ -4797,7 +4797,7 @@ force_active:
   - calc_range__9TTecZaruaFv
   - calc_rate_from_field__14TBoss4DarkFalzFv
   - calc_recoil_offsets__17MaterialShadeFadeFv
-  - calc_remaining_char_slots__6TLobbyFv
+  - count_free_inventory_slots__Fv
   - calc_rotated_hex_point__23TObjOnlineEndingHexLineFP10NJS_POINT2P14EndingHexPoint
   - calc_rotated_vector__14TObjEneBm5WolfFlP3VecPl
   - calc_rotated_vector__16TObjEneBm5GibonUFlP3VecPl
@@ -5395,7 +5395,6 @@ force_active:
   - copy_state__20TBoss6MagMotionTrackFP20TBoss6MagMotionTrack
   - copy_state__14GoGoBallConfigFP14GoGoBallConfig
   - copy_state__16TKeyBoardControlFPvPv
-  - copy_state_block__6TLobbyFv
   - copy_struct28__17TWindowSubComCardFii
   - copy_struct__17TWindowSubComCardFPvPv
   - copy_tombstone_spot__FP17TObjTombstoneSpotPC17TObjTombstoneSpot
@@ -5596,7 +5595,7 @@ force_active:
   - decode_params__14TOTrapChainSawFv
   - decode_params__17TOTrapChainSawKeyFv
   - decode_params__20TOTrapChainSawDamageFv
-  - decode_slot__6TLobbyFUi
+  - decode_challenge_value__FUl
   - decrypt_network_info_cipher_block__FPUlP22NetworkInfoCipherBlockP22NetworkInfoCipherBlock
   - decrypt_network_info_cipher_blocks__FPUlPUclPUc
   - decrypt_network_info_cipher_round__FPUlPUl
@@ -7291,7 +7290,7 @@ force_active:
   - is_active__14ShortMailEntryFv
   - buttons_enabled__16PlayerPadBindingFv
   - is_growth_inactive__11TItemMagSubFv
-  - is_id_out_of_range__6TLobbyFi
+  - is_challenge_time_out_of_range__Fl
   - is_in_camera_range__18TObjBoss7TunnelColFv
   - is_in_view_depth__15TODoorVS2Door01Ff
   - is_in_view_depth__6TSceneFP3Vecff
@@ -8155,7 +8154,7 @@ force_active:
   - boss1_dragon_reference_pos_vec
   - boss1_dragon_forward_reference_vec
   - saved_view_params__11TCameraCtrl
-  - lbl_804FF82C
+  - active_challenge_title
   - lbl_805007C8
   - canadin_shared_handler_b_table
   - canadin_object_handle_table
@@ -9237,7 +9236,7 @@ force_active:
   - open_armor_list_window__26TShopEquipmentGearSequenceFv
   - open_bank__18TCheckRoomSequenceFv
   - open_buy_window__22TShopEquipmentSequenceFv
-  - open_challenge_progress_window__10TChallengeFPv
+  - open_challenge_progress_window__10TChallengeFl
   - open_challenge_window__6TLobbyFll
   - open_city_warp_menu__6TLobbyFv
   - open_com_card_list__18TWindowSubShortCutFv
