@@ -66,6 +66,12 @@ struct VObj_8011D5B4 : VBase_8011D5B4 {
 struct Rec_8011D5B4 { s32 k1; s32 v1; s32 k2; f32 v2; };
 struct Timer_8011D5B4 { u8 pad[0x28]; VObj_8011D5B4 *obj; f32 f2c; };
 
+void TObjPlayer::set_state_flags(u32 flags) { state_flags |= flags; }
+
+void TObjPlayer::set_flag_10000() {
+    set_state_flags(0x10000);
+}
+
 extern "C" {
 TItemLockCountCtrl * item_timer_event_instance;
 

@@ -2414,7 +2414,7 @@ pso/item/TItemTimer.cpp:
 	.sdata      start:0x805D2C88 end:0x805D2C90
 
 pso/item/TItemTimerEvent.cpp:
-	.text       start:0x8011D5B4 end:0x8011E214
+	.text       start:0x8011D5B4 end:0x8011E248
 	.rodata     start:0x8043E810 end:0x8043E828
 	.data       start:0x804A0568 end:0x804A06C8
 	.sdata      start:0x805D2C90 end:0x805D2C98
@@ -2423,9 +2423,6 @@ pso/item/TItemTimerEvent.cpp:
 
 pso/weapon/WeaponAttackActionData.cpp:
 	.rodata     start:0x8043E828 end:0x8043E858
-
-pso/player/TObjPlayer_8011E214.cpp:
-	.text       start:0x8011E214 end:0x8011E248
 
 pso/weapon/WeaponSpecialSelection.cpp:
 	.text       start:0x8011E248 end:0x8011E2AC
