@@ -4,7 +4,7 @@
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/player/TObjPlayer_803DF7A8.h"
 #include "pso/player/TObjPlayer_803E112C.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 
 extern "C" {
 #pragma push

@@ -64,7 +64,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"

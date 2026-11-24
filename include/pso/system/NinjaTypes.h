@@ -112,6 +112,15 @@ struct NJS_ARGB {
 #define NJD_FST_IL (0x01 << NJD_FST_SHIFT)  // ignore light
 #define NJD_FST_ENV (0x40 << NJD_FST_SHIFT) // environment mapping
 
+// Material attribute bits (texture addressing).
+#define NJD_FLAG_FLIP_U 0x40000
+#define NJD_FLAG_FLIP_V 0x20000
+#define NJD_FLAG_CLAMP_U 0x10000
+#define NJD_FLAG_CLAMP_V 0x8000
+
+// Texture attribute: the texture is in memory (not a file).
+#define NJD_TEXATTR_TYPE_MEMORY 0x40000000
+
 // Chunk model streams referenced by an NJS_OBJECT.
 struct NJS_CNK_MODEL {
     void *vertex_list;

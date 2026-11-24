@@ -3,12 +3,11 @@
 #include "pso/render/ChunkVertexJob.h"
 #include "pso/render/ChunkPolygonList.h"
 #include <math.h>
-#include "pso/player/TObjPlayer_803E1A58.h"
-#include "pso/player/TObjPlayer_803E21B8.h"
+#include "pso/render/GinjaDrawUtil.h"
+#include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803DD5E0.h"
-#include "pso/unk/text_803E2008.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/memory.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -794,10 +793,6 @@ void dispatch_chunk_polygon_list(s16 *list, saddr vertex_buffer) {
 }
 #pragma pop
 
-extern "C" {
-void push_reordered_matrix_ps(void);
-}
-
 s32 dispatch_chunk_vertex_list(u32 *list, saddr buffer) {
     u32 info;
     u32 length;
@@ -838,7 +833,7 @@ void setup_model_draw_state(void *) {
     Mtx34 trans;
     Mtx34 m;
     if ((u32) (ginja_draw_flags & 2) != 0) {
-        TObjPlayer::reset_particle_counter();
+        disable_scene_fog();
         apply_scene_fog();
     }
     GXSetVtxAttrFmt(0, 9, 1, 4, 0);
@@ -863,7 +858,7 @@ void setup_model_draw_state(void *) {
 #pragma peephole off
 void end_chunk_draw() {
     if ((u32) (ginja_draw_flags & 2) != 0) {
-        TObjPlayer::set_effect_active();
+        enable_scene_fog();
         apply_scene_fog();
     }
     pop_matrix();

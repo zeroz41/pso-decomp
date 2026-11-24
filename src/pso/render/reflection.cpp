@@ -20,7 +20,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/scene/TScene.h"

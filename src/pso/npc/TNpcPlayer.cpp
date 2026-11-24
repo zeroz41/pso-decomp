@@ -33,7 +33,7 @@
 #include "pso/technique/TTecReverser.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TLobby_8013A874.h"
 #include "pso/object/base/CollisionActorLookup.h"

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_803E21B8.h"
+#include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -45,7 +45,7 @@ void TObjBoss2Tunnel::draw_projected_quads(ProjectedVertex *p, s32 n) {
 #pragma pop
 
 void TObjBoss2Tunnel::setup_projected_color_draw(s32 mode) {
-    TObjPlayer::load_screen_space_matrix();
+    load_screen_space_matrix();
     if (mode != 0) {
         setup_blended_color_draw();
         return;

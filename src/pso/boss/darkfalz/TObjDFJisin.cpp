@@ -41,7 +41,7 @@ struct NJS_OBJECT;
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/boss/darkfalz/TObjDFYutai.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"

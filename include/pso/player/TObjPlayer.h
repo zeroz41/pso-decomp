@@ -947,17 +947,6 @@ struct TObjPlayer : public TObjChara {
     static s32 find_table_index_by_id(u32 id);
     static s32 find_record_index(u32 arg0, u32 arg1);
     static void set_global_effect_state(s32 global_effect_state);
-    void reload_texture(saddr arg1, u32 arg2, void *arg3);
-    static void set_effect_active();
-    static void reset_particle_counter();
-    static void setup_render();
-    static void setup_vertex_format();
-    static void setup_vtx_desc();
-    static void setup_color_channels(int total);
-    static s32 apply_blend_mode_1();
-    static void set_tev_passclr();
-    static s32 set_num_tex_gens_zero();
-    static void setup_tex_gen();
     static void set_global_color_rgba(u32 v, u32);
     static void set_global_color_rgba_alt_b(u32 v, u32);
     static void draw_player_model_by_client(u16 client_id, saddr motion, f32 frame, f32 alpha);
@@ -1026,7 +1015,6 @@ struct TObjPlayer : public TObjChara {
     static void concat_matrix(uaddr arg0, uaddr arg1);
     void concat_quaternion_rotation();
     static s32 is_gvm_load_ok();
-    static void load_screen_space_matrix();
     static void draw_effect();
     void draw_trail_pair();
     static void update_particle_by_phase(NJS_OBJECT *);
@@ -1374,7 +1362,6 @@ struct TObjPlayer : public TObjChara {
     // Calls callback with each occupied entry of the player table.
     static void for_each_player_slot(void (*callback)(void *));
     static void send_code50_packet(int);
-    static int draw_textured_vertices(void *, int, int);
 
     // Placeholder-named members defined in the player units.
     static void create_derolle_breakup_model();

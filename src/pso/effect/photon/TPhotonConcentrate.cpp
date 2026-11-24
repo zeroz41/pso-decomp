@@ -10,7 +10,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/base/TObjMotion.h"

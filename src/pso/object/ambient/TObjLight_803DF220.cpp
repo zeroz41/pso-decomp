@@ -1,8 +1,7 @@
 #include "pso/system/TrailStrip.h"
 #include "types.h"
 #include "pso/object/ambient/TObjLight_803DF220.h"
-#include "pso/player/TObjPlayer_803E21B8.h"
-#include "pso/player/TObjPlayer_803E20B0.h"
+#include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/player/TObjPlayer.h"
 

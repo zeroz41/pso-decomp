@@ -29,7 +29,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"

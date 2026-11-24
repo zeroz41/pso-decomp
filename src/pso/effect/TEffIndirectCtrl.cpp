@@ -18,7 +18,7 @@
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/system/memory.h"
 #include <dolphin/os/OSCache.h>
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include <dolphin/gx/GXBump.h>
 
 typedef void (TEffIndirectCtrl::*IndirectTask)();

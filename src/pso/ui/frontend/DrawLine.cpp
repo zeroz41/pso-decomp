@@ -5,12 +5,12 @@
 #include "pso/ui/frontend/TAdDrawLineTask.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/render_util.h"
+#include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-void draw_projected_line_strip__10TObjPlayerFPvii(DrawLineVertex *, s32, s32);
 void copy_draw_line_record(DrawLineRecord *, const DrawLineRecord *);
 }
 
@@ -126,7 +126,7 @@ void TAdDrawLineTask::run_task() {
 
 void TAdDrawLineTask::render() {
     set_default_alpha_blend();
-    draw_projected_line_strip__10TObjPlayerFPvii(vertices, 4, 1);
+    draw_screen_color_strip((ScreenColorVertex *)vertices, 4, 1);
 }
 
 void TAdDrawLineTask::set_depth(f32 depth) {

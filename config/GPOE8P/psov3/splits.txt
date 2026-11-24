@@ -11600,7 +11600,7 @@ pso/player/TObjPlayer_803E18C0.cpp:
 	.text       start:0x803E18C0 end:0x803E1A58
 	.sdata2     start:0x805E1020 end:0x805E1038
 
-pso/player/TObjPlayer_803E1A58.cpp:
+pso/render/GinjaDrawUtil.cpp:
 	.text       start:0x803E1A58 end:0x803E2070
 	.data       start:0x804FC780 end:0x804FC810
 	.bss        start:0x8058DB90 end:0x8058DBB0
@@ -11608,20 +11608,20 @@ pso/player/TObjPlayer_803E1A58.cpp:
 	.sbss       start:0x805D77B8 end:0x805D77D0
 	.sdata2     start:0x805E1038 end:0x805E1050
 
-pso/unk/text_803E2070.cpp:
+pso/render/SceneFogReset.cpp:
 	.text       start:0x803E2070 end:0x803E20B0
 	.sdata2     start:0x805E1050 end:0x805E1058
 
-pso/player/TObjPlayer_803E20B0.cpp:
+pso/render/ScreenSpaceMatrix.cpp:
 	.text       start:0x803E20B0 end:0x803E21B8
 	.sdata2     start:0x805E1058 end:0x805E1070
 
-pso/player/TObjPlayer_803E21B8.cpp:
+pso/render/ScreenPrimitiveDraw.cpp:
 	.text       start:0x803E21B8 end:0x803E2810
 	.bss        start:0x8058DBB0 end:0x8058DBD0
 	.sdata2     start:0x805E1070 end:0x805E1074
 
-pso/player/TObjPlayer_803E2810.cpp:
+pso/render/TexturedVertexDraw.cpp:
 	.text       start:0x803E2810 end:0x803E29B0
 	.sdata2     start:0x805E1078 end:0x805E107C
 

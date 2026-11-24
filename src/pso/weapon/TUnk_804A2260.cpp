@@ -14,7 +14,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/effect/item/TItemEffLavis.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/CapturedTargetList.h"
 #include "pso/map/CsnQuery.h"

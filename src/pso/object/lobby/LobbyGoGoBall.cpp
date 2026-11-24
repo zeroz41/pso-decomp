@@ -58,7 +58,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_803D853C.h"

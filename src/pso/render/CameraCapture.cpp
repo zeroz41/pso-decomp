@@ -18,6 +18,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/render/CameraCapture.h"
+#include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/effect/TEffect.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -120,8 +121,7 @@ extern GXRenderModeObj *active_gx_render_mode;
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/model_render_state.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
-#include "pso/player/TObjPlayer_803E21B8.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/player/TObjPlayer_803DC834.h"
 #include "pso/object/ambient/TObjLight_803DF220.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
@@ -265,7 +265,7 @@ void draw_textured_screen_quad(u32 argb, f32 *pos, f32 *size, s32 cropped) {
     }
     load_list_texture(0, 0, 0, 0);
     set_default_alpha_blend();
-    TObjPlayer::load_screen_space_matrix();
+    load_screen_space_matrix();
     setup_blended_textured_draw();
     GXSetNumTexGens(1);
     GXSetNumChans(1);
@@ -318,7 +318,7 @@ void draw_screen_quad(u32 argb, s32 cropped, f32 border) {
     }
     load_list_texture(0, 0, 0, 0);
     set_default_alpha_blend();
-    TObjPlayer::load_screen_space_matrix();
+    load_screen_space_matrix();
     setup_blended_textured_draw();
     GXSetNumTexGens(1);
     GXSetNumChans(1);

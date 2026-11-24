@@ -45,7 +45,7 @@
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/technique/TTecRaBarta.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_80011014.h"

@@ -36,7 +36,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
 
