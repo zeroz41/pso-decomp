@@ -16,6 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/TSocket.h"
 #include "pso/network/TTcpSocket.h"
+#include "pso/network/NetworkWaitIcon.h"
 #include "pso/network/TUdpSocket.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -51,7 +52,6 @@ struct at_ip_addr {
 	} ip46;
 };
 
-void func_80019A68();
 extern "C" {
 short tcp_connect(short nh, struct at_ip_addr *addr, u16 port, struct at_ip_option *option);
 short tcp_send(short nh, void (*notify)(short size, short sock_fd), char bufnum, struct send_buffs *sb);
@@ -190,7 +190,7 @@ int TTcpSocket::test_connection() {
 			main_task.run_tl_camera_tasks();
 			main_task.render();
 			main_task.render_screen_overlay();
-			func_80019A68();
+			update_network_wait_icon();
 			render_tick();
 		}
 	}
@@ -280,7 +280,7 @@ int TTcpSocket::open() {
 							main_task.run_tl_camera_tasks();
 							main_task.render();
 							main_task.render_screen_overlay();
-							func_80019A68();
+							update_network_wait_icon();
 							render_tick();
 						}
 					} else {
@@ -366,7 +366,7 @@ int TSocket::resolve_domain(const char *domain) {
                 main_task.run_tl_camera_tasks();
                 main_task.render();
                 main_task.render_screen_overlay();
-                func_80019A68();
+                update_network_wait_icon();
                 render_tick();
             } while (result == -1);
             switch (result) {

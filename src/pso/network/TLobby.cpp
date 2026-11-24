@@ -78,6 +78,7 @@
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/network/client_id.h"
 #include "pso/system/task/TObject_80019A50.h"
+#include "pso/network/NetworkWaitIcon.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -956,7 +957,7 @@ void TLobby::run_task() {
         return;
     }
     if (quest_download_active != 0) {
-        func_80019A68__Fv();
+        update_network_wait_icon();
     }
     r = TLobby::query_task_active();
     if (protocol_instance->m_is_invalid_packet != 0 || get_link_status() == 0 || r < 0) {
