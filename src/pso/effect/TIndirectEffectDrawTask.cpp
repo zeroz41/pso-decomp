@@ -108,7 +108,7 @@ IndirectDrawRecord &IndirectDrawRecord::operator=(IndirectDrawRecord &other) {
     model = other.model;
     scene = other.scene;
     effect_kind = other.effect_kind;
-    pad_23 = other.pad_23;
+    reserved = other.reserved;
     return *this;
 }
 

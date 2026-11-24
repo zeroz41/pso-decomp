@@ -69,9 +69,9 @@ struct BattleTeamTotals { s32 team[2]; };
 extern "C" s32 check_player_flag1__10TObjPlayerFv(void);
 
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P::instance;
-extern const char *TDeadSpot__class_name;
 extern "C" {
 u8 TLobby__sub_801D7100(void *);
+extern const char *TDeadSpot__class_name;
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 s32 fn_801D6D8C(void *, u8, int);

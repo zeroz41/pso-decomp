@@ -20,7 +20,7 @@ struct IndirectDrawRecord {
     void *model;
     u16 scene;
     u8 effect_kind;  // indirect effect kind
-    u8 pad_23;
+    u8 reserved;     // never set by the queueing code; copied with the record
 
     IndirectDrawRecord &operator=(IndirectDrawRecord &other);
 };
