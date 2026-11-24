@@ -329,7 +329,7 @@ struct Tbl_80292730 { s32 f0; s32 f4; s32 f8; Entry_80292730 *entries; };
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-void clamp_and_set_unit_value__10TObjPlayerFiUci(void *, u8, s16);
+void set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(void *, u8, s16);
 
 
 s32 TLobby::set_camera_height_if_valid(f32 farg0) {
@@ -404,7 +404,7 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
             ((TObjPlayer *)((u8 *)p + 0x428))->set_all_technique_levels((void *)0xFF);
             if (tbl->entries != NULL) {
                 for (e = tbl->entries; e->id != 0xFF; e++) {
-                    clamp_and_set_unit_value__10TObjPlayerFiUci(p, e->id, e->val);
+                    set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(p, e->id, e->val);
                 }
             }
             *(s32 *)((s8 *)p + 0xD58) = 0;

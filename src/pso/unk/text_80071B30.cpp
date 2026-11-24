@@ -30,7 +30,7 @@ extern "C" {
 s32 *TWindowSubStatusDisp__sub_8006F0D8(void *);
 extern u8 challenge_mode_state[];
 void copy_player_visual_record(void *, void *);
-void clamp_and_set_unit_value__10TObjPlayerFiUci(TObjPlayer *, u8, s16);
+void set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(TObjPlayer *, u8, s16);
 extern s32 local_client_id;
 s32 TLobby__sub_80071B30(s32 arg0, s32 slot) {
     s32 *list;
@@ -106,7 +106,7 @@ void TObjPlayer::rebuild_players_for_stage(s32 stage) {
             ((TObjPlayer *)((u8 *)p + 0x428))->set_all_technique_levels((void *)0xff);
             if (t->techniques != NULL) {
                 for (e = t->techniques; e->level != 0xff; e++) {
-                    clamp_and_set_unit_value__10TObjPlayerFiUci(p, e->level, e->technique);
+                    set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(p, e->level, e->technique);
                 }
             }
             *(s32 *)((u8 *)p + 0xd58) = 0;

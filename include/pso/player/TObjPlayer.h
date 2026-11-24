@@ -1424,7 +1424,8 @@ struct TObjPlayer : public TObjChara {
     static void heap_alloc(void* a0);
     static u8 *create_lobby_marker(s16 client, s8 arg1);
     s32 can_guard();
-    static void clamp_and_set_unit_value(int, u8, int);
+    // Sets the player's cast level of technique `tech`, capped at the level it has learned.
+    static void set_technique_level_clamped(TObjPlayer *player, u8 level, int tech);
     static void *get_element(void *, int);
     static void send_6x29_delete_item(void *, int, int);
     static s32 find_free_slot(void *, void *);
