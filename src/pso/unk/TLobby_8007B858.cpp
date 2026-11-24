@@ -33,7 +33,7 @@
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/TFogCtrl.h"
-#include "pso/npc/TNpcPlayer_8034DAA0.h"
+#include "pso/npc/NpcPartnerControl.h"
 #include "pso/unk/TLobby_80191218.h"
 #include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/effect/TEffIndirectCtrl.h"

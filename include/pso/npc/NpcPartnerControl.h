@@ -1,9 +1,8 @@
-#ifndef PSO_NPC_TNPCPLAYER_8034DAA0_H
-#define PSO_NPC_TNPCPLAYER_8034DAA0_H
+#ifndef PSO_NPC_NPCPARTNERCONTROL_H
+#define PSO_NPC_NPCPARTNERCONTROL_H
 
 #include "types.h"
 
-// --- C functions defined in TNpcPlayer_8034DAA0.cpp ---
 extern "C" {
 void TLobby__sub_8034DAA0(s32 client, u32 status);
 s32 TNpcPlayer__get_lobby_entry_yaw(void);
@@ -14,7 +13,6 @@ void clear_partner_dialogue_flags(void);
 u8 *get_party_position(void);
 s32 get_party_yaw(void);
 }
-// --- end of C functions
 
 // Custom partner remarks per player: up to six texts, each keyed by a remark kind (25 = free slot).
 struct PartnerDialogueSet {

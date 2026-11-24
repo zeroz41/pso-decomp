@@ -2,9 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "pso/network/protocol/subcmd_6x.h"
-#include "pso/npc/TNpcPlayer_8034DAA0.h"
-#include "pso/unk/text_8034DAA0.h"
-#include "pso/npc/TNpcPlayer_8034DC20.h"
+#include "pso/npc/NpcPartnerControl.h"
 #include "pso/unk/TUnk_804F07C8.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/unk/TLobby.h"
