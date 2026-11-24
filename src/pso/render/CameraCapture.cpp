@@ -121,6 +121,7 @@ Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 #include "pso/render/model_render_state.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/GinjaDrawUtil.h"
+#include "pso/render/SceneFog.h"
 #include "pso/player/TObjPlayer_803DC834.h"
 #include "pso/render/gjLight.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"

@@ -9,7 +9,6 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/math/BoxCollision.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/text_803DA798.h"
 
 GXPosNrmMtx gx_pos_mtx_index_table[10] = {
     GX_PNMTX0, GX_PNMTX1, GX_PNMTX2, GX_PNMTX3, GX_PNMTX4, GX_PNMTX5, GX_PNMTX6, GX_PNMTX7, GX_PNMTX8, GX_PNMTX9,
@@ -21,11 +20,6 @@ GXTexMapID list_texture_map_table[10] = {
     GX_TEXMAP0, GX_TEXMAP1, GX_TEXMAP2, GX_TEXMAP3, GX_TEXMAP4, GX_TEXMAP5, GX_TEXMAP6, GX_TEXMAP7, GX_TEXMAP_NULL,
 };
 GXTexObj list_texture_tex_obj;
-s32 scene_fog_type;
-f32 scene_fog_end_distance;
-f32 scene_fog_start_distance;
-GXColor scene_fog_color;
-s8 scene_fog_enable_flag;
 
 extern "C" {
 #pragma push
@@ -137,63 +131,4 @@ asm void reorder_current_matrix_ps(void) {
 
 asm void push_reordered_matrix_ps(void) {
 #include "orig_asm/pso/render/GinjaDrawUtil/push_reordered_matrix_ps.inc"
-}
-
-void reload_texture_num(s32 n, saddr texaddr, u32 attr, u32 lod) {
-    saddr src;
-    if ((attr & NJD_TEXATTR_TYPE_MEMORY) != 0) {
-        src = texaddr;
-    } else {
-        OSPanic("nuReLoadTexture.c", 48, "sorry");
-    }
-    TObjPlayer__sub_803DAE1C(n, src, lod);
-}
-
-// The second {0.0f, 1.0f} pair (identity_current_matrix_ps loads the 1.0f).
-f32 identity_matrix_ps_constants[2] = {0.0f, 1.0f};
-
-asm void identity_current_matrix_ps(void) {
-#include "orig_asm/pso/render/GinjaDrawUtil/identity_current_matrix_ps.inc"
-}
-
-asm void push_identity_matrix_ps(void) {
-#include "orig_asm/pso/render/GinjaDrawUtil/push_identity_matrix_ps.inc"
-}
-
-void enable_scene_fog() {
-    scene_fog_enable_flag = 1;
-}
-
-void disable_scene_fog() {
-    scene_fog_enable_flag = 0;
-}
-
-#pragma push
-#pragma scheduling off
-#pragma peephole off
-void set_scene_fog_color(u32 color) {
-    scene_fog_color.r = (color & 0xFF000000) >> 24;
-    scene_fog_color.g = (color & 0x00FF0000) >> 16;
-    scene_fog_color.b = (color & 0x0000FF00) >> 8;
-}
-#pragma pop
-
-void set_scene_fog_distances(f32 start, f32 end) {
-    scene_fog_start_distance = start;
-    scene_fog_end_distance = end;
-}
-
-void set_scene_fog_type(s32 type) {
-    scene_fog_type = type;
-}
-
-void apply_scene_fog() {
-    s32 type;
-    if (scene_fog_enable_flag != 0) {
-        type = scene_fog_type;
-    } else {
-        type = GX_FOG_NONE;
-    }
-    GXSetFog((GXFogType)type, scene_fog_start_distance, scene_fog_end_distance, scene_projection_state.near_z,
-             scene_projection_state.far_z, scene_fog_color);
 }

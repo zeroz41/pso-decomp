@@ -17,11 +17,6 @@ void reorder_current_matrix_ps(void);
 // Entry inside reorder_current_matrix_ps after it loads the matrix pointer; push_reordered_matrix_ps branches here.
 void reorder_matrix_ps_entry(void);
 void push_reordered_matrix_ps(void);
-// Sets the current matrix to the identity.
-void identity_current_matrix_ps(void);
-// Entry inside identity_current_matrix_ps after it loads the matrix pointer; push_identity_matrix_ps branches here.
-void identity_matrix_ps_entry(void);
-void push_identity_matrix_ps(void);
 }
 
 // The smallest and largest corner of the eight corners of a box.
@@ -35,17 +30,5 @@ void load_current_pos_matrix(s32 index);
 void load_current_tex_matrix(s32 index);
 // Loads texture index of the current render context's texture list into GX texture map map.
 void load_list_texture(s32 index, s32 wrap_s, s32 wrap_t, s32 map);
-// Reloads the pixels of texture n from texaddr; attr must be NJD_TEXATTR_TYPE_MEMORY.
-void reload_texture_num(s32 n, saddr texaddr, u32 attr, u32 lod);
-
-// The fog apply_scene_fog hands GX: on/off, colour (0xRRGGBBxx), start and end distance and GX fog type.
-void enable_scene_fog();
-void disable_scene_fog();
-void set_scene_fog_color(u32 color);
-void set_scene_fog_distances(f32 start, f32 end);
-void set_scene_fog_type(s32 type);
-void apply_scene_fog();
-// SceneFogReset.cpp: white perspective fog from 0 to 1000000, enabled and applied.
-void reset_scene_fog();
 
 #endif

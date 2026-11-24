@@ -6,6 +6,7 @@
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GinjaMaterialCache.h"
 #include "pso/render/GinjaDrawUtil.h"
+#include "pso/render/SceneFog.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/render/ModelDrawContext.h"

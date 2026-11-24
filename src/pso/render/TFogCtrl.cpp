@@ -10,6 +10,7 @@
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/render/GinjaDrawUtil.h"
+#include "pso/render/SceneFog.h"
 #include <stddef.h>
 #include "pso/map/FloorArea.h"
 #include "pso/effect/particle/TParticleCtrl.h"

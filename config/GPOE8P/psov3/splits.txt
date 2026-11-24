@@ -11514,15 +11514,21 @@ pso/math/PointLineDistance.cpp:
 	.sdata2     start:0x805E1020 end:0x805E1038
 
 pso/render/GinjaDrawUtil.cpp:
-	.text       start:0x803E1A58 end:0x803E2070
-	.data       start:0x804FC780 end:0x804FC810
+	.text       start:0x803E1A58 end:0x803E1EE8
+	.data       start:0x804FC780 end:0x804FC7F8
 	.bss        start:0x8058DB90 end:0x8058DBB0
-	.sdata      start:0x805D46E8 end:0x805D4700
-	.sbss       start:0x805D77B8 end:0x805D77D0
+	.sdata      start:0x805D46E8 end:0x805D46F0
 	.sdata2     start:0x805E1038 end:0x805E1050
 
-pso/render/SceneFogReset.cpp:
-	.text       start:0x803E2070 end:0x803E20B0
+pso/render/nuReLoadTexture.c:
+	.text       start:0x803E1EE8 end:0x803E1F60
+	.data       start:0x804FC7F8 end:0x804FC810
+	.sdata      start:0x805D46F0 end:0x805D46F8
+
+pso/render/SceneFog.cpp:
+	.text       start:0x803E1F60 end:0x803E20B0
+	.sdata      start:0x805D46F8 end:0x805D4700
+	.sbss       start:0x805D77B8 end:0x805D77D0
 	.sdata2     start:0x805E1050 end:0x805E1058
 
 pso/render/ScreenSpaceMatrix.cpp:
