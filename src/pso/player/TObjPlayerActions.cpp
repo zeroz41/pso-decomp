@@ -1463,7 +1463,7 @@ void TObjPlayer::update_frozen_release() {
   s16 temp_r0;
   if (this->test_actor_flags(0x800) != 0)
   {
-    ((FlagWord *)&this->m_858)->clear(1);
+    ((FlagWord *)&this->death_flags)->clear(1);
     run_action_state_phase(0xF, 5);
     return;
   }
@@ -1892,7 +1892,7 @@ void TObjPlayer::send_6x4E_player_revivable() {
 }
 
 void TObjPlayer::update_action_render() {
-    if (test_flags_any((s32 *)&this->m_858, 1) != 0) {
+    if (test_flags_any((s32 *)&this->death_flags, 1) != 0) {
         this->requested_action = this->get_action_animation();
     } else {
         this->requested_action = this->get_model_field_m25();
@@ -1926,7 +1926,7 @@ void TObjPlayer::exit_death_state() {
 
     flags = this->actorFlags & 0xFFFFFDFF;
     this->actorFlags = flags;
-    this->m_36c = 0;
+    this->return_city_window = 0;
     this->death_sink.reset();
     this->resume_motion();
 }
@@ -1955,7 +1955,7 @@ void TObjPlayer::enter_death_state() {
     reset_on_death();
     clear_velocity(this);
     this->phase = 0;
-    if (test_flags_any((s32 *)&this->m_858, 1) != 0) {
+    if (test_flags_any((s32 *)&this->death_flags, 1) != 0) {
         this->set_action_state(0xF, (s32)(((s16 (*)(void))ret_801D26AC)()));
         this->restart_death_pose();
     } else {
@@ -2023,14 +2023,14 @@ void TObjPlayer::prepare_death() {
     Cmd2_801CA7BC c2;
     if (this->is_locally_controlled() != 0) {
         TWindowCtrl::disable_client_main_menu((u16)this->get_entity_id());
-        this->m_36c = 0;
+        this->return_city_window = 0;
         this->death_fade = NULL;
-        ((FlagWord *)&this->m_858)->clear(4);
+        ((FlagWord *)&this->death_flags)->clear(4);
         if (this->find_revival_item() == 0) {
-            ((FlagWord *)&this->m_858)->set(2);
+            ((FlagWord *)&this->death_flags)->set(2);
         }
     }
-    if (test_flags_any((s32 *)&this->m_858, 1) == 0) {
+    if (test_flags_any((s32 *)&this->death_flags, 1) == 0) {
         this->drop_items_on_death();
     }
     if (is_flag_400_set__10TObjPlayerFPv(this) != 0) {
@@ -2046,7 +2046,7 @@ void TObjPlayer::prepare_death() {
         c1.send();
         ((TObjPlayer *)(&c2))->init_6x4D_packet();
         c2.client = this->get_entity_id();
-        TObjPlayer__sub_801BEEE0(c2.data, &this->m_858);
+        TObjPlayer__sub_801BEEE0(c2.data, &this->death_flags);
         ((TObjPlayer *)(&c2))->init_and_send();
     }
 }
@@ -2069,11 +2069,11 @@ void TObjPlayer::check_reopen_return_city_window() {
   uaddr temp_r3;
   new_var = (s32) this->get_entity_id();
   TWindowCtrl::disable_client_main_menu(new_var);
-  temp_r3 = this->m_36c;
+  temp_r3 = this->return_city_window;
   new_var = 0U;
-  if ((temp_r3 != new_var) && ((((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0) || (reinterpret_cast<TObject *>(m_36c)->check_value_equals(TWindowReturnCity::class_name) == 0)))
+  if ((temp_r3 != new_var) && ((((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0) || (reinterpret_cast<TObject *>(return_city_window)->check_value_equals(TWindowReturnCity::class_name) == 0)))
   {
-    this->m_36c = 0U;
+    this->return_city_window = 0U;
   }
   if (((((pad_binding.is_button_pressed(4) != 0) && (TObjPlayer::is_camera_mode_active() == 0)) && (TTecCtrl::is_technique_ready() == 0)) && ((TObjPlayer::check_camera_mode() == 0) || ((TObjPlayer::check_camera_mode() != 0) && (get_main_phase() == 0xF)))) && (is_controls_locked() == 0))
   {
@@ -2230,7 +2230,7 @@ void TObjPlayer::complete_fall_reaction() {
     switch (this->phase) {
     case 1:
         if (((s16) this->requested_action == this->get_action_animation()) && (this->motion_flags & 0x10) && (this->test_actor_flags(0x800) != 0)) {
-            ((FlagWord *)&this->m_858)->set(1);
+            ((FlagWord *)&this->death_flags)->set(1);
             run_action_state_phase(0xF, 5);
         }
         break;
@@ -2351,7 +2351,7 @@ void TObjPlayer::hurt_phase8_nop() {  }
 void TObjPlayer::complete_hurt_reaction() {
     if (this->motion_flags & 0x10) {
         if (this->test_actor_flags(0x800) != 0) {
-            ((FlagWord *)&this->m_858)->clear(1);
+            ((FlagWord *)&this->death_flags)->clear(1);
             run_action_state_phase(0xF, 5);
             return;
         }
@@ -2629,7 +2629,7 @@ void TObjPlayer::guard_reaction_phase8_nop() {  }
 void TObjPlayer::complete_guard_reaction() {
     if (this->motion_flags & 0x10) {
         if (this->test_actor_flags(0x800) != 0) {
-            ((FlagWord *)&this->m_858)->clear(1);
+            ((FlagWord *)&this->death_flags)->clear(1);
             run_action_state_phase(0xF, 5);
             return;
         }

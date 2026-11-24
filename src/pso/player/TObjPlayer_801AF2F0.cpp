@@ -4346,8 +4346,8 @@ void TObjPlayer::clear_flag_4096() { this->clear_state_flags(4096); }
 int TObjWarpBossMulti::is_flag_clear(void* p) { return (((TObjPlayer *)p)->check_flag(4096)) == 0; }
 
 s32 TObjPlayer::create_return_city_window() {
-    if ((this->is_locally_controlled() != 0) && ((u32) this->m_36c == 0U) && (this->death_fade != NULL)) {
-        this->m_36c = (saddr)new TWindowReturnCity(tl_07, (u16)this->get_entity_id());
+    if ((this->is_locally_controlled() != 0) && ((u32) this->return_city_window == 0U) && (this->death_fade != NULL)) {
+        this->return_city_window = (saddr)new TWindowReturnCity(tl_07, (u16)this->get_entity_id());
         return 1;
     }
     return 0;

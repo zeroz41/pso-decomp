@@ -220,7 +220,7 @@ struct TObjPlayer : public TObjChara {
     PlayerActionPaletteState action_palette_state;
     PhotonChairSeat chair_seat;
     ContactSurfaceState contact_surface;
-    s32 m_36c;
+    s32 return_city_window;
     s32 regen_timer;  // frames toward the next regeneration tick (tick_regen_timer)
     MaterialUsage materials;
     // Inferred: the action provider init_action_provider creates
@@ -282,7 +282,7 @@ struct TObjPlayer : public TObjChara {
     PlayerPkState pk_state;
     PlayerTelepipe telepipe;  // TTecLuker::init_fields, TelepipeState::send_telepipe_packet
     Vec marker_position;  // above the head (calc_marker_position), where the lobby marker is drawn
-    void* m_858;
+    void* death_flags;
     char name[0x1C];
     u8 m_878;
     u8 unk_879[0x13];

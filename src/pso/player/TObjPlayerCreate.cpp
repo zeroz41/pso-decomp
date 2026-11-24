@@ -179,7 +179,7 @@ void TObjPlayer::init_action_provider() {
     m_339 = 0;
     unk_338[0] = 0;
     action_state = 0;
-    m_36c = 0;
+    return_city_window = 0;
     regen_timer = 0;
     reset_entrance_id();
     unit_scale.reset();
@@ -409,7 +409,7 @@ void TObjPlayer::update_action_animation() {
         this->clear_state_flags(4);
         if (this->test_actor_flags(0x800) != 0) {
             run_action_state_phase(0xF, 0);
-            if (test_flags_any((u8 *)&this->m_858, 1) != 0) {
+            if (test_flags_any((u8 *)&this->death_flags, 1) != 0) {
                 this->requested_action = this->get_action_animation();
             } else {
                 this->restart_death_pose();

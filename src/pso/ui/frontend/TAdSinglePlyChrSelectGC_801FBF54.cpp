@@ -2767,7 +2767,7 @@ void TAdSinglePlyChrSelectGC::reset_character_data(void) {
         TPlyCharData *character = (TPlyCharData *)selected_character_data;
         init_character_stats_for_level(character->m_disp_part2.char_class, character, character->m_stats.level);
         selected_character_data->reset_technique_levels();
-        ((TObjPlayer *)selected_character_data)->m_36c = 0;
+        ((TObjPlayer *)selected_character_data)->return_city_window = 0;
     }
     if ((void *) active_character_save_record != NULL) {
         memset((u8 *)active_character_save_record + 0x250, 0, 0x12C0);
