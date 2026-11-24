@@ -129,8 +129,8 @@ Vec *PlayerScaleState::get_scale() { return &scale; }
 
 s16 PlayerAnimationState::get_action_id() { return action_id; }
 
-u8 TObjPlayer__sub_801BF918(u8 *arg0) {
-    return (u8) (*(s32 *)((s8 *)arg0 + 4) == 2);
+u8 TObjPlayer__sub_801BF918(u8 *record) {
+    return (u8) (*(s32 *)((s8 *)record + 4) == 2);
 }
 
 void TObjPlayer__sub_801BF914(void) {  }
@@ -263,18 +263,18 @@ void set_player_action_palette_slot(PlayerActionPaletteState *state, u8 slot) {
     set_action_palette_tag_slot(&state->tag, slot);
 }
 
-void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1) {
-    *arg0 |= 1 << arg1;
+void TObjPlayer__sub_801BF4A0(s32 *bits, s32 bit) {
+    *bits |= 1 << bit;
 }
 
-void TObjPlayer__sub_801BF488(s32 *arg0, s32 arg1) {
-    *arg0 &= ~(1 << arg1);
+void TObjPlayer__sub_801BF488(s32 *bits, s32 bit) {
+    *bits &= ~(1 << bit);
 }
 
 void TObjPlayer__sub_801BF47C(void* p) { *(s32*)((char*)p + 0x0) = 0; }
 
-u8 TObjPlayer__sub_801BF460(s32 *arg0, s32 arg1) {
-    return (u8) ((*arg0 & (1 << arg1)) == 0);
+u8 TObjPlayer__sub_801BF460(s32 *bits, s32 bit) {
+    return (u8) ((*bits & (1 << bit)) == 0);
 }
 
 TPlayerReadyCallback::TPlayerReadyCallback(TObject* parent, u16 id, void (*fn)(TObjPlayer*)) : TObject(parent) {
@@ -386,24 +386,24 @@ void TObjPlayer__sub_801BEF44(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u3
 
 void TObjPlayer__sub_801BEF30(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 
-void TObjPlayer::copy_player_record_header(u8 *arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(u16 *)((s8 *)arg0 + 0) = (u16) *(u16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
-    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    __memcpy(&this->m_prev, arg1 + 8, 0xC);
-    *(s32 *)((s8 *)arg0 + 0x14) = (s32) *(s32 *)((s8 *)arg1 + 0x14);
-    *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
+void TObjPlayer::copy_player_record_header(u8 *src) {
+    u8 *dst = (u8 *)this;
+    *(u16 *)((s8 *)dst + 0) = (u16) *(u16 *)((s8 *)src + 0);
+    *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
+    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
+    __memcpy(&this->m_prev, src + 8, 0xC);
+    *(s32 *)((s8 *)dst + 0x14) = (s32) *(s32 *)((s8 *)src + 0x14);
+    *(s32 *)((s8 *)dst + 0x18) = (s32) *(s32 *)((s8 *)src + 0x18);
 }
 
 void TObjPlayer__sub_801BEEE0(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
 
-void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1) {
-    *(s16 *)((s8 *)arg0 + 0) = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
-    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 8);
-    __memcpy(arg0 + 0xC, arg1 + 0xC, 8);
+void TObjPlayer__sub_801BEEAC(u8 *dst, u8 *src) {
+    *(s16 *)((s8 *)dst + 0) = (s16) *(s16 *)((s8 *)src + 0);
+    *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
+    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
+    *(f32 *)((s8 *)dst + 8) = (f32) *(f32 *)((s8 *)src + 8);
+    __memcpy(dst + 0xC, src + 0xC, 8);
 }
 
 void *TObjPlayer::copy_6x0d_status_effect_packet(void *command) {
@@ -421,8 +421,8 @@ void TObjPlayer::sub_801BEE2C(s16 v) { this->hp_bonus = v; }
 
 void TObjPlayer::sub_801BEE24(s16 v) { this->tp_bonus = v; }
 
-void TObjPlayer::set_meseta(s32 arg1) {
-    this->stat_block->meseta = arg1;
+void TObjPlayer::set_meseta(s32 meseta) {
+    this->stat_block->meseta = meseta;
 }
 
 void TObjPlayer::set_position(f32 a, f32 b, f32 c) { this->position.x = a; this->position.y = b; this->position.z = c; }
@@ -480,14 +480,14 @@ void TObjPlayer::set_shared_flag(int a0) { shared_flag = a0; }
 struct RecoveredGlobal_lbl_804C3E38 { s32 value; s32 pad_4; void *(*dtor)(void *, s16); };
 RecoveredGlobal_lbl_804C3E38 lbl_804C3E38 = {0, 0, TObjPlayer__sub_801BFAD4};
 
-void *TObjPlayer__sub_801BFAD4(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 4) = &lbl_804C3E38.value;
-        if (arg1 > 0) {
-            ::operator delete(arg0);
+void *TObjPlayer__sub_801BFAD4(void *timer, s16 flags) {
+    if (timer != NULL) {
+        *(s32 **)((s8 *)timer + 4) = &lbl_804C3E38.value;
+        if (flags > 0) {
+            ::operator delete(timer);
         }
     }
-    return arg0;
+    return timer;
 }
 #pragma pop
 
@@ -600,22 +600,22 @@ PlayerActionPaletteState::PlayerActionPaletteState() {
     prefix = 0;
 }
 
-void TObjPlayer__sub_801BFF80(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0) = 0;
-    *(s32 *)((s8 *)arg0 + 4) = 0;
-    *(f32 *)((s8 *)arg0 + 0x10) = (f32) TObjPlayer__data_805DC278;
-    *(f32 *)((s8 *)arg0 + 0xC) = (f32) TObjPlayer__data_805DC278;
-    *(f32 *)((s8 *)arg0 + 8) = (f32) TObjPlayer__data_805DC278;
+void TObjPlayer__sub_801BFF80(u8 *record) {
+    *(s32 *)((s8 *)record + 0) = 0;
+    *(s32 *)((s8 *)record + 4) = 0;
+    *(f32 *)((s8 *)record + 0x10) = (f32) TObjPlayer__data_805DC278;
+    *(f32 *)((s8 *)record + 0xC) = (f32) TObjPlayer__data_805DC278;
+    *(f32 *)((s8 *)record + 8) = (f32) TObjPlayer__data_805DC278;
 }
 
 s32 TObjPlayer__sub_801BFFA0(void* p) { return *(s32*)((char*)p + 0x0); }
 
-u8 *TObjPlayer::copy_hold_params(u8 *arg1) {
+u8 *TObjPlayer::copy_hold_params(u8 *src) {
     copy_subcommand_header(this);
-    this->m_flags = (s16) *(s16 *)((s8 *)arg1 + 4);
-    this->m_id = (s16) *(s16 *)((s8 *)arg1 + 6);
-    *(ByteBlock_8 *)((saddr) ((u8 *)this) + 8) = *(const ByteBlock_8 *)((saddr) arg1 + 8);
-    *(f32 *)((s8 *)((u8 *)this) + 0x10) = (f32) *(f32 *)((s8 *)arg1 + 0x10);
+    this->m_flags = (s16) *(s16 *)((s8 *)src + 4);
+    this->m_id = (s16) *(s16 *)((s8 *)src + 6);
+    *(ByteBlock_8 *)((saddr) ((u8 *)this) + 8) = *(const ByteBlock_8 *)((saddr) src + 8);
+    *(f32 *)((s8 *)((u8 *)this) + 0x10) = (f32) *(f32 *)((s8 *)src + 0x10);
     return ((u8 *)this);
 }
 
