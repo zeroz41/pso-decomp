@@ -128,6 +128,7 @@ int qst_label_address(int label);
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/player/TObjPlayerActions.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/item/item_create.h"
 u8 *qst_code;
 s32 *qst_function_table;
 s32 *qst_registers;
@@ -2076,7 +2077,7 @@ void qst_op_check_for_hacking(u8 out) {
     if (fn_80077788() == 1) {
         qst_registers[out] |= 4;
     }
-    if (TLobby::get_drop_flag() == 1) {
+    if (get_drop_flag() == 1) {
         qst_registers[out] |= 8;
     }
     player = ((u8 *)get_player_by_client_id(local_client_id));

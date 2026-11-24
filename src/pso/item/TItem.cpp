@@ -79,6 +79,7 @@
 #include "pso/effect/TEffIndirectSampler.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/item/item_create.h"
 
 
 // The two colours of the present box, by wrapping colour (box_color).
@@ -1157,7 +1158,7 @@ void TItem::refresh_if_current_player() {
 s32 TItem::get_icon_index() {
     TItemData data;
     copy_to_item_data(&data);
-    return TLobby::get_item_data((uaddr)&data);
+    return get_item_data((uaddr)&data);
 }
 
 void TItem::set_item_group(u8 value) { item_group = value; }

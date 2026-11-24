@@ -179,13 +179,8 @@ struct TLobby : public TObject {
     void bswap_player_packet();
     void update_and_send();
     static TLobbyFloorItemEntry *copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src);
-    static void set_boss_buf_entry(int a0, int a1);
     static int get_sync_counter(u16 a0);
-    static s32 get_item_data(u32 arg0);
-    static void forward_message(saddr arg0, uaddr arg1);
     static void mark_selected();
-    static int get_drop_flag();
-    static void handle_select_confirm();
     static void forward_to_player(int id, void *arg1);
     static void handle_player_event(s32 client, s32 arg1);
     void dispatch_packet_wrapper();

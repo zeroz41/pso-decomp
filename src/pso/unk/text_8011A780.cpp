@@ -25,6 +25,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
+#include "pso/item/item_create.h"
 
 
 // FloorItem::FloorItem() on a record built here.
@@ -82,7 +83,7 @@ void observe_item_id(s32 item_id) {
         if (lo < id && id < 0x2010000) {
             u16 idx = id >> 21;
             if (item_sync_counter_table[idx] <= id) {
-                TLobby::set_boss_buf_entry(id + 1, idx);
+                set_boss_buf_entry(id + 1, idx);
             }
         }
     }

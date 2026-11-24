@@ -26,6 +26,7 @@
 #include "pso/unk/text_80104FCC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/item/item_create.h"
 
 
 // Screen x, y of each item icon slot (indexed by get_entry_ptr).
@@ -539,10 +540,10 @@ void ItemListRow::set_item_info(void *a1, s32 index, s32 count) {
 
     this->x = lbl_805DCF08;
     this->status_icon = 51;
-    item_data = TLobby::get_item_data((uaddr)a1);
+    item_data = get_item_data((uaddr)a1);
     temp_r3 = TItemData::is_wrapped(a1);
     select_item_icon(item_data, *(unsigned char*)((char*)a1 + 0x0), *(unsigned char*)((char*)a1 + 0x1), temp_r3);
-    TLobby::forward_message(get_shared_text_buffer(), (uaddr)(void *)a1);
+    forward_message(get_shared_text_buffer(), (uaddr)(void *)a1);
     this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
     update_stat_line_if_positive(count);
     update_item_colors((saddr)a1);
@@ -574,9 +575,9 @@ void ItemListRow::set_ground_item(void *it, s32 index) {
 
     this->x = (f32) lbl_805DCF08;
     this->status_icon = 0x33;
-    item_data = TLobby::get_item_data((uaddr)it);
+    item_data = get_item_data((uaddr)it);
     select_item_icon(item_data, *(u8 *)((s8 *)it + 0), *(u8 *)((s8 *)it + 1), TItemData::is_wrapped(it));
-    TLobby::forward_message(get_shared_text_buffer(), (uaddr)(void *)it);
+    forward_message(get_shared_text_buffer(), (uaddr)(void *)it);
     this->label = (char *)replace_owned_string(get_shared_text_buffer(), (saddr)this->label, 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();

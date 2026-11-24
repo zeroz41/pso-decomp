@@ -9,6 +9,7 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/item/ItemCreateFunction.h"
+#include "pso/item/item_create.h"
 #include "pso/item/TItemObject.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/protocol/ItemDropPacket.h"
@@ -374,21 +375,21 @@ ItemCreateFunction item_tool_factory_table[24] = {
 
 void normalize_drop_area(s32 *p);
 
-void TLobby::set_boss_buf_entry(int a0, int a1) { item_sync_counter_table[(unsigned short)(a1)] = a0; }
+void set_boss_buf_entry(int value, u16 index) { item_sync_counter_table[index] = value; }
 int TLobby::get_sync_counter(u16 a0) {  return item_sync_counter_table[a0]; }
-s32 TLobby::get_item_data(u32 arg0) {
-    if (arg0 != 0U) {
+s32 get_item_data(u32 item) {
+    if (item != 0U) {
         return get_item_icon_index();
     }
     return 0;
 }
-void TLobby::forward_message(saddr buf, uaddr arg1) {
-    if (arg1 != 0U) {
-        ((TItemData *)arg1)->format_item_name((char *)buf);
+void forward_message(saddr buf, uaddr item) {
+    if (item != 0U) {
+        ((TItemData *)item)->format_item_name((char *)buf);
     }
 }
 void TLobby::mark_selected() { lobby_drop_flag = 1; }
-int TLobby::get_drop_flag() {  return lobby_drop_flag; }
+int get_drop_flag() {  return lobby_drop_flag; }
 
 ItemCreateFunction TLobby__sub_8010440C(u8 *item) {
     u8 i = item[1];
@@ -407,7 +408,7 @@ ItemCreateFunction get_weapon_factory_for_item(u8 *item) {
 }
 
 void TLobby__sub_80104464(void) {  }
-void TLobby::handle_select_confirm() {
+void handle_select_confirm() {
     TPlyCharData *chr;
 
     if ((fn_80077790() == 1) || (fn_80077788() == 1)) {
@@ -848,7 +849,7 @@ ItemClassLoadUnloadEntry item_class_load_unload_table[15] = {
     { load_item_kt_afs, TItemTexLoad::free_textures },
     { TItemEffectWeapon::initialize_static_effects, TItemEffectWeapon::free_static_effects },
     { init_item_drop_globals, unload_item_drop_globals },
-    { TLobby::handle_select_confirm, TLobby__sub_80104464 },
+    { handle_select_confirm, TLobby__sub_80104464 },
     { NULL, NULL },
 };
 
