@@ -1313,9 +1313,9 @@ void handle_6x21_inter_level_warp(G_InterLevelWarp_6x21 *command) {
     G_InterLevelWarp_6x21 m;
     void *p;
 
-    ((G_InterLevelWarp_6x21 *)&m)->init();
+    m.init();
     m = *command;
-    ((G_InterLevelWarp_6x21 *)&m)->bswap();
+    m.bswap();
     if (validate_6x21_inter_level_warp(&m.header) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
@@ -1347,9 +1347,9 @@ void handle_6x1F_set_player_floor(G_SetPlayerFloor_6x1F *command) {
     Msg20_801BA8D4 m3;
     void *p;
     Player_801BA8D4 *pl;
-    ((G_SetPlayerFloor_6x1F *)&m)->init();
+    m.init();
     m = *command;
-    ((G_SetPlayerFloor_6x1F *)&m)->bswap();
+    m.bswap();
     if (validate_6x1F_set_player_floor(&m.header) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
@@ -1380,7 +1380,7 @@ void handle_6x20_set_position(G_SetPosition_6x20 *command) {
     Msg_801BA838 m;
     Player_801BA838 *p;
     ((G_SetPosition_6x20 *)&m)->init();
-    *(G_SetPosition_6x20 *)&m = *(G_SetPosition_6x20 *)command;
+    *(G_SetPosition_6x20 *)&m = *command;
     ((G_SetPosition_6x20 *)&m)->bswap();
     if (validate_6x20_set_position((G_ClientIDHeader *)&m) != 0) {
         p = (Player_801BA838 *)get_player_by_client_id(m.slot);
@@ -1398,7 +1398,7 @@ void handle_6xAE_set_animation_state(G_SetAnimationState_6xAE *command) {
     Msg_801BA78C m;
     void *p;
     ((G_SetAnimationState_6xAE *)&m)->init();
-    *(G_SetAnimationState_6xAE *)&m = *(G_SetAnimationState_6xAE *)command;
+    *(G_SetAnimationState_6xAE *)&m = *command;
     ((G_SetAnimationState_6xAE *)&m)->bswap();
     if (validate_6xAE_set_animation_state(&m) != 0) {
         p = get_player_by_client_id(m.slot);
@@ -1587,7 +1587,7 @@ void handle_6x25_equip_item(G_EquipItem_6x25 *command) {
     TItem *item;
     TItemList *slot;
     ((G_EquipItem_6x25 *)&m)->init();
-    *(G_EquipItem_6x25 *)&m = *(G_EquipItem_6x25 *)command;
+    *(G_EquipItem_6x25 *)&m = *command;
     ((G_EquipItem_6x25 *)&m)->bswap();
     if (validate_6x25_equip_item((G_EquipItem_6x25 *)&m) != 0) {
         player = (TObjPlayer *)get_player_by_client_id(m.slot);
@@ -2057,7 +2057,7 @@ void TObjPlayer::send_6x29_delete_item(TObjPlayer *player, s32 item_id, s32 coun
 void handle_6x29_delete_inventory_item(G_DeleteInventoryItem_6x29 *command) {
     L_801B8D68 cmd;
     ((G_DeleteInventoryItem_6x29 *)&cmd)->init();
-    *(G_DeleteInventoryItem_6x29 *)&cmd = *(G_DeleteInventoryItem_6x29 *)command;
+    *(G_DeleteInventoryItem_6x29 *)&cmd = *command;
     ((G_DeleteInventoryItem_6x29 *)&cmd)->bswap();
     if (validate_6x29_delete_inventory_item((G_ClientIDHeader *)&cmd) != 0) {
         TObjPlayer *p = get_player_by_client_id(cmd.f2);
@@ -2075,7 +2075,7 @@ void TObjPlayer::dispatch_action(s32 key, s32 amount) {
 void handle_6xAC(G_DeleteMultipleInventoryItems_6xAC *command) {
     L_801B8CB0 cmd;
     ((G_DeleteMultipleInventoryItems_6xAC *)&cmd)->init();
-    *(G_DeleteMultipleInventoryItems_6xAC *)&cmd = *(G_DeleteMultipleInventoryItems_6xAC *)command;
+    *(G_DeleteMultipleInventoryItems_6xAC *)&cmd = *command;
     ((G_DeleteMultipleInventoryItems_6xAC *)&cmd)->bswap();
     if (validate_6xAC((G_DeleteMultipleInventoryItems_6xAC *)&cmd) != 0) {
         saddr p = (saddr)get_player_by_client_id(cmd.f2);
@@ -2171,7 +2171,7 @@ s32 TObjPlayer::send_trap_packet(int kind) {
 void handle_6x83_place_trap(G_PlaceTrap_6x83 *command) {
     Pkt_801B8908 pkt;
     ((G_PlaceTrap_6x83 *)&pkt)->init();
-    *(G_PlaceTrap_6x83 *)&pkt = *(G_PlaceTrap_6x83 *)command;
+    *(G_PlaceTrap_6x83 *)&pkt = *command;
     ((G_PlaceTrap_6x83 *)&pkt)->bswap();
     if (validate_6x83_place_trap((G_PlaceTrap_6x83 *)&pkt) != 0) {
         u8 *p = (u8 *)get_player_by_client_id(pkt.client);
@@ -2202,9 +2202,9 @@ void TObjPlayer::send_6x2A_drop_item(TObjPlayer *player, s32 source, void *pos, 
 void handle_6x2A_drop_item(G_DropItem_6x2A *command) {
     G_DropItem_6x2A m;
     TObjPlayer *p;
-    ((G_DropItem_6x2A *)&m)->init();
-    *(G_DropItem_6x2A *)&m = *(G_DropItem_6x2A *)command;
-    ((G_DropItem_6x2A *)&m)->bswap();
+    m.init();
+    m = *command;
+    m.bswap();
     if (validate_6x2A_drop_item(&m) != 0) {
         p = (TObjPlayer *)get_player_by_client_id((u16)m.header.client_id);
         if ((p != NULL) && (p->is_in_lobby() == 0)) {
@@ -2303,7 +2303,7 @@ void handle_6x2B_create_inventory_item(G_CreateInventoryItem_PC_V3_BB_6x2B *comm
     s32 kind;
     u8 *item;
     ((G_CreateInventoryItem_PC_V3_BB_6x2B *)&pkt)->init();
-    *(G_CreateInventoryItem_PC_V3_BB_6x2B *)&pkt = *(G_CreateInventoryItem_PC_V3_BB_6x2B *)command;
+    *(G_CreateInventoryItem_PC_V3_BB_6x2B *)&pkt = *command;
     ((G_CreateInventoryItem_PC_V3_BB_6x2B *)&pkt)->bswap();
     if (validate_6x2B_create_inventory_item((G_ClientIDHeader *)&pkt) != 0) {
         player = (TObjPlayer *)get_player_by_client_id(pkt.client);
@@ -2439,7 +2439,7 @@ void handle_6x27_use_item(G_UseItem_6x27 *command) {
     u8 *owner_if_alive;
     void *node;
     ((G_UseItem_6x27 *)&pkt)->init();
-    *(G_UseItem_6x27 *)&pkt = *(G_UseItem_6x27 *)command;
+    *(G_UseItem_6x27 *)&pkt = *command;
     ((G_UseItem_6x27 *)&pkt)->bswap();
     if (validate_6x27_use_item((G_ClientIDHeader *)(&pkt)) != 0) {
         player = (u8 *)get_player_by_client_id((u16)pkt.client);
@@ -2457,11 +2457,11 @@ void TWindowSubMag::feed_mag(void* p, void* a1, void* a2) { ((int (*)(void*))sen
 void send_6x28_feed_mag(void *chara, s32 mag_id, s32 fed_item_id) {
     G_FeedMag_6x28 cmd;
     if (chara == 0 || ((TObjChara *)chara)->obj_isState2_324() == 0) {
-        ((G_FeedMag_6x28 *)&cmd)->init();
+        cmd.init();
         cmd.header.client_id = ((TObjBase *)(chara))->get_entity_id();
         cmd.mag_item_id = mag_id;
         cmd.fed_item_id = fed_item_id;
-        ((G_FeedMag_6x28 *)&cmd)->send();
+        cmd.send();
     }
 }
 
@@ -2471,9 +2471,9 @@ void handle_6x28_feed_mag(G_FeedMag_6x28 *command) {
     saddr a;
     saddr b;
     void *node;
-    ((G_FeedMag_6x28 *)&cmd)->init();
-    *(G_FeedMag_6x28 *)&cmd = *(G_FeedMag_6x28 *)command;
-    ((G_FeedMag_6x28 *)&cmd)->bswap();
+    cmd.init();
+    cmd = *command;
+    cmd.bswap();
     if (validate_6x28_feed_mag(&cmd.header) != 0) {
         p = (u8 *)get_player_by_client_id(cmd.header.client_id);
         if (p != NULL && (node = ((TObjPlayer *)p)->inventory_objects->start_inventory_update(cmd.mag_item_id)) != 0U) {
@@ -2926,7 +2926,7 @@ void TObjPlayer::send_6x30_change_player_level() {
     G_ChangePlayerLevel_6x30 m;
     player_stats *stats;
     if ((this->reset_volopt_state() != 0) && ((this == NULL) || (this->obj_isState2_324() == 0))) {
-        ((G_ChangePlayerLevel_6x30 *)&m)->init();
+        m.init();
         m.header.client_id = this->get_entity_id();
         stats = this->stat_block;
         m.atp = stats->stats.atp;
@@ -2937,7 +2937,7 @@ void TObjPlayer::send_6x30_change_player_level() {
         m.ata = stats->stats.ata;
         m.level = this->clamp_nested_index();
         m.is_level_down = 0;
-        ((G_ChangePlayerLevel_6x30 *)&m)->send();
+        m.send();
     }
 }
 
@@ -2958,9 +2958,9 @@ void handle_6x30_change_player_level(G_ChangePlayerLevel_6x30 *command) {
     G_ChangePlayerLevel_6x30 pkt;
     TObjPlayer *pl;
     f32 f;
-    ((G_ChangePlayerLevel_6x30 *)&pkt)->init();
+    pkt.init();
     ((TObjPlayer *)(&pkt))->copy_fields(command);
-    ((G_ChangePlayerLevel_6x30 *)&pkt)->bswap();
+    pkt.bswap();
     if (validate_6x30_change_player_level(&pkt) == 0) {
         return;
     }
@@ -3187,9 +3187,9 @@ s16 TObjPlayer::add_stat_clamped(s32 amount, s16 *stat, s16 max) {
 void handle_6x2E_set_or_clear_player_flags(G_SetOrClearPlayerFlags_6x2E *command) {
     G_SetOrClearPlayerFlags_6x2E m;
     TObjPlayer *p;
-    ((G_SetOrClearPlayerFlags_6x2E *)&m)->init();
-    *(G_SetOrClearPlayerFlags_6x2E *)&m = *(G_SetOrClearPlayerFlags_6x2E *)command;
-    ((G_SetOrClearPlayerFlags_6x2E *)&m)->bswap();
+    m.init();
+    m = *command;
+    m.bswap();
     if (validate_6x2E_set_or_clear_player_flags(&m.header) != 0) {
         p = (TObjPlayer *)get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
@@ -4912,7 +4912,7 @@ void handle_6x24_teleport_player(G_TeleportPlayer_6x24 *command) {
     Pkt_801B1EE0 pkt;
     uaddr player;
     ((G_TeleportPlayer_6x24 *)&pkt)->init();
-    *(G_TeleportPlayer_6x24 *)&pkt = *(G_TeleportPlayer_6x24 *)command;
+    *(G_TeleportPlayer_6x24 *)&pkt = *command;
     ((G_TeleportPlayer_6x24 *)&pkt)->bswap();
     if (validate_6x24_teleport_player((G_TeleportPlayer_6x24 *)&pkt) == 0) {
         return;
@@ -4952,7 +4952,7 @@ void handle_6x2F_change_player_hp(G_ChangePlayerHP_6x2F *command) {
     Pkt_801B1D8C pkt;
     uaddr player;
     ((G_ChangePlayerHP_6x2F *)&pkt)->init();
-    *(G_ChangePlayerHP_6x2F *)&pkt = *(G_ChangePlayerHP_6x2F *)command;
+    *(G_ChangePlayerHP_6x2F *)&pkt = *command;
     ((G_ChangePlayerHP_6x2F *)&pkt)->bswap();
     if (validate_6x2F_change_player_hp((G_ChangePlayerHP_6x2F *)&pkt) == 0) {
         return;
@@ -5656,7 +5656,7 @@ void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {
     u8 *p;
     s32 team;
     ((G_SetPlayerBattleTeam_6x90 *)&cmd)->init();
-    *(G_SetPlayerBattleTeam_6x90 *)&cmd = *(G_SetPlayerBattleTeam_6x90 *)command;
+    *(G_SetPlayerBattleTeam_6x90 *)&cmd = *command;
     ((G_SetPlayerBattleTeam_6x90 *)&cmd)->bswap();
     if (validate_6x90_set_player_battle_team((G_ClientIDHeader *)&cmd) == 0) {
         return;
@@ -5779,7 +5779,7 @@ void handle_6x8F_add_battle_damage_scores(G_AddBattleDamageScores_6x8F *command)
     TObjCollidable *target;
     TObjPlayer *other;
     ((G_AddBattleDamageScores_6x8F *)&pkt)->init();
-    *(G_AddBattleDamageScores_6x8F *)&pkt = *(G_AddBattleDamageScores_6x8F *)command;
+    *(G_AddBattleDamageScores_6x8F *)&pkt = *command;
     ((G_AddBattleDamageScores_6x8F *)&pkt)->bswap();
     if (validate_6x8F_add_battle_damage_scores((G_ClientIDHeader *)&pkt) == 0) {
         return;
