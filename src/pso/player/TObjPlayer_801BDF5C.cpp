@@ -171,314 +171,6 @@ s8 TObjPlayer::get_rule_field_0() {
     return ((TLobby *)lobby_rule_settings)->get_rule_field_0();
 }
 
-struct Base_801BE3D8 { char pad[0x8]; };
-struct VObj_801BE3D8 : Base_801BE3D8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual int m25();
-};
-struct Base_801BE40C { char pad[0x8]; };
-struct VObj_801BE40C : Base_801BE40C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual int m22();
-};
-struct Base_801BE440 { char pad[0x8]; };
-struct VObj_801BE440 : Base_801BE440 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual int m24();
-};
-struct Base_801BE474 { char pad[0x8]; };
-struct VObj_801BE474 : Base_801BE474 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual int m26();
-};
-struct Base_801BE4A8 { char pad[0x8]; };
-struct VObj_801BE4A8 : Base_801BE4A8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual int m26();
-};
-struct Base_801BE4DC { char pad[0x8]; };
-struct VObj_801BE4DC : Base_801BE4DC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual int m19();
-};
-struct Base_801BE510 { char pad[0x8]; };
-struct VObj_801BE510 : Base_801BE510 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual int m27();
-};
-struct Base_801BE544 { char pad[0x8]; };
-struct VObj_801BE544 : Base_801BE544 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual int m14();
-};
-struct Base_801BE578 { char pad[0x8]; };
-struct VObj_801BE578 : Base_801BE578 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual int m17();
-};
-struct Base_801BE5AC { char pad[0x8]; };
-struct VObj_801BE5AC : Base_801BE5AC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual int m16();
-};
-struct Base_801BE5E0 { char pad[0x8]; };
-struct VObj_801BE5E0 : Base_801BE5E0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual int m15();
-};
-struct Base_801BE614 { char pad[0x8]; };
-struct VObj_801BE614 : Base_801BE614 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual int m28();
-};
-
 extern "C" {
 
 
@@ -487,63 +179,51 @@ void TObjPlayer::clear_flag_400000() {
 }
 
 short TObjPlayer::get_model_field_m25() {
-    struct VObj_801BE3D8 *o = (struct VObj_801BE3D8 *)this->action_provider;
-    return o->m25();
+    return action_provider->vfunc_27();
 }
 
 short TObjPlayer::get_action_animation() {
-    struct VObj_801BE40C *o = (struct VObj_801BE40C *)this->action_provider;
-    return o->m22();
+    return action_provider->vfunc_24();
 }
 
 short TObjPlayer::call_model_m24() {
-    struct VObj_801BE440 *o = (struct VObj_801BE440 *)this->action_provider;
-    return o->m24();
+    return action_provider->vfunc_26();
 }
 
 short TObjPlayer::get_weapon_stat_c() {
-    struct VObj_801BE474 *o = (struct VObj_801BE474 *)this->action_provider;
-    return o->m26();
+    return action_provider->vfunc_28();
 }
 
 short TObjPlayer::call_obj_vt26() {
-    struct VObj_801BE4A8 *o = (struct VObj_801BE4A8 *)this->action_provider;
-    return o->m26();
+    return action_provider->vfunc_28();
 }
 
 short TObjPlayer::query_child_state() {
-    struct VObj_801BE4DC *o = (struct VObj_801BE4DC *)this->action_provider;
-    return o->m19();
+    return action_provider->vfunc_21();
 }
 
 short TObjPlayer::query_equip() {
-    struct VObj_801BE510 *o = (struct VObj_801BE510 *)this->action_provider;
-    return o->m27();
+    return action_provider->vfunc_29();
 }
 
 short TObjPlayer::get_status() {
-    struct VObj_801BE544 *o = (struct VObj_801BE544 *)this->action_provider;
-    return o->m14();
+    return action_provider->vfunc_16();
 }
 
 short TObjPlayer::get_model_state() {
-    struct VObj_801BE578 *o = (struct VObj_801BE578 *)this->action_provider;
-    return o->m17();
+    return action_provider->vfunc_19();
 }
 
 short TObjPlayer::get_state() {
-    struct VObj_801BE5AC *o = (struct VObj_801BE5AC *)this->action_provider;
-    return o->m16();
+    return action_provider->vfunc_18();
 }
 
 short TObjPlayer::call_subobject_m15() {
-    struct VObj_801BE5E0 *o = (struct VObj_801BE5E0 *)this->action_provider;
-    return o->m15();
+    return action_provider->vfunc_17();
 }
 
 short TObjPlayer::get_vobj_state_28() {
-    struct VObj_801BE614 *o = (struct VObj_801BE614 *)this->action_provider;
-    return o->m28();
+    return action_provider->vfunc_30();
 }
 
 extern "C" TObjPlayer *get_local_player() {
@@ -690,3 +370,24 @@ void TObjPlayer::set_field_374(u8 v) { materials.set_power_used(v); }
 u8 TObjPlayer__sub_801BEC3C(void* p) { return *(u8*)((char*)p + 0x223); }
 
 }
+
+
+struct O_801BEC50 { u16 a; u16 b; f32 x; f32 y; f32 z; };
+
+
+extern const f32 TObjPlayer__data_805DC278;
+int TPlyPhotonChair::is_mounted() { return (*(u32*)((char*)this + 0x334) >> 26) & 0x1; }
+
+void TObjPlayer::init_vec_record() {
+    O_801BEC50 *p = (O_801BEC50 *)this;
+    p->a = 0xFFFF;
+    p->b = 0;
+    p->x = p->y = p->z = TObjPlayer__data_805DC278;
+}
+
+void PlayerNpcControl::reset() {
+    controller_client_id = 0xFFFF;
+    state = 0;
+}
+
+s32 TObjPlayer::get_entrance_id() { return *(s32*)((char*)this + 0x3c8); }

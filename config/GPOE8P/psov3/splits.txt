@@ -4928,13 +4928,10 @@ pso/player/TObjPlayer_801BDDDC.cpp:
 	.text       start:0x801BDDDC end:0x801BDE60
 
 pso/player/TObjPlayer_801BDF5C.cpp:
-	.text       start:0x801BDE60 end:0x801BEC44
+	.text       start:0x801BDE60 end:0x801BEC98
 	.ctors      start:0x80433F8C end:0x80433F90
 	.bss        start:0x8050E920 end:0x80511C80
 	.sbss       start:0x805D5D68 end:0x805D5D70
-
-pso/player/TPlyPhotonChair_801BEC44.cpp:
-	.text       start:0x801BEC44 end:0x801BEC98
 
 pso/player/TObjPlayer.cpp:
 	.text       start:0x801BEC98 end:0x801C0064
