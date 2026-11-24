@@ -5000,7 +5000,7 @@ force_active:
   - check_ground_or_fall__13TUnk_804B5BA8Fv
   - check_heavy_damage_flag__9TObjCharaFf
   - check_height_ready__13TObjTombstoneFv
-  - check_hit_by_id_276__10TObjPlayerFUs
+  - emit_movement_effect__19PlayerHandParticlesFUs
   - check_hit_sphere__16TObjEneBm5GibonUFif
   - check_hold_player__14TOTrapSeabed01FPv
   - check_load_state__16TAdChrSelASlotGCFv
@@ -5954,7 +5954,7 @@ force_active:
   - duel_result_window_layout_table
   - duel_start_countdown_effect_pos
   - eff_indirect_update_and_flush__16TEffIndirectCtrlFv
-  - emit_deband_support_effect__FPvUs
+  - emit_deband_support_effect__19PlayerHandParticlesFUs
   - emit_grass_footstep_particle__10TObjPlayerFi
   - emit_jellen_support_effect__19PlayerHandParticlesFv
   - emit_marker_effects__13TUnk_804A0DB0Fv
@@ -5980,7 +5980,7 @@ force_active:
   - emit_player_model_particle__Fllll
   - emit_player_sprite_particle__Flll
   - emit_shifta_support_effect__19PlayerHandParticlesFv
-  - emit_zalure_support_effect__FPvUs
+  - emit_zalure_support_effect__19PlayerHandParticlesFUs
   - empty_post_damage_hook__FPvPv
   - empty_state__14TObjEneBm5WolfFl
   - empty_warp_overlay_vertices

@@ -23,6 +23,9 @@ struct PlayerHandParticles : PlayerHandParticlesBase {
     void emit_shifta_support_effect();
     void create_left_hand(TObjBase *owner);
     void create_right_hand(TObjBase *owner);
+    int emit_movement_effect(u16 target_id);
+    int emit_deband_support_effect(u16 target_id);
+    int emit_zalure_support_effect(u16 target_id);
 
     TPlyPtclObjectLeftHand *left_hand;
     TPlyPtclObjectRightHand *right_hand;
@@ -43,6 +46,9 @@ struct PlayerFollowParticles {
     void emit_shifta_support();
     void create_hand_particles(TObjBase *owner);
     void set_owner(TObjBase *owner);
+    int emit_movement_effect();
+    int emit_deband_support();
+    int emit_zalure_support();
 };
 
 LAYOUT_ASSERT(PlayerFollowParticles_size, sizeof(PlayerFollowParticles) == 0x30);

@@ -66,8 +66,6 @@ void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1);
 void emit_idle_water_effect(saddr arg0);
 void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1);
 }
-int emit_zalure_support_effect(void* p, u16 target_id);
-int emit_deband_support_effect(void* p, u16 target_id);
 void* get_surface_contact_point(void* p);
 void emit_grass_footstep_effect(saddr arg0);
 void emit_water_step_particles(saddr owner, saddr position);
@@ -325,10 +323,9 @@ void TObjPlayer::check_hit_by_id_431_from_packet() {
     TObjPlayer::check_hit_by_id_431((s8 *)arg0 + 4, *arg0);
 }
 
-int TObjPlayer::check_hit_by_id_276(u16 target_id) { return TObjPlayer::check_hit_by_id((saddr)this, target_id, 276); }
+int PlayerHandParticles::emit_movement_effect(u16 target_id) { return TObjPlayer::check_hit_by_id((saddr)this, target_id, 276); }
 
-int TObjPlayer::emit_movement_effect_at() {
-    u16 *arg0 = (u16 *)this; return ((TObjPlayer *)((s8 *)arg0 + 4))->check_hit_by_id_276(*arg0); }
+int PlayerFollowParticles::emit_movement_effect() { return hands.emit_movement_effect(owner_id); }
 
 void* get_surface_contact_point(void* p) { return (char*)p + 0x24; }
 
@@ -364,15 +361,13 @@ void PlayerHandParticles::emit_jellen_support_effect() {
 
 void PlayerFollowParticles::emit_jellen_support_effect_default() { hands.emit_jellen_support_effect(); }
 
-int emit_deband_support_effect(void* p, u16 target_id) { return TObjPlayer::check_hit_by_id((saddr)p, target_id, 508); }
+int PlayerHandParticles::emit_deband_support_effect(u16 target_id) { return TObjPlayer::check_hit_by_id((saddr)this, target_id, 508); }
 
-int TObjPlayer::emit_deband_support_effect_at() {
-    u16 *arg0 = (u16 *)this; return emit_deband_support_effect((void*)((s8 *)arg0 + 4), *arg0); }
+int PlayerFollowParticles::emit_deband_support() { return hands.emit_deband_support_effect(owner_id); }
 
-int emit_zalure_support_effect(void* p, u16 target_id) { return create_attached_oneshot_emitter(p, target_id, 508); }
+int PlayerHandParticles::emit_zalure_support_effect(u16 target_id) { return create_attached_oneshot_emitter(this, target_id, 508); }
 
-int TObjPlayer::emit_zalure_support_effect_at() {
-    u16 *arg0 = (u16 *)this; return emit_zalure_support_effect((void*)((s8 *)arg0 + 4), *arg0); }
+int PlayerFollowParticles::emit_zalure_support() { return hands.emit_zalure_support_effect(owner_id); }
 
 #pragma push
 #pragma fp_contract on

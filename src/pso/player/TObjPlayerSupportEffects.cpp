@@ -37,14 +37,14 @@ void TObjPlayer::enemy_spawn_zalure_effect() {
     if (is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv(this) != 0) {
         return;
     }
-    ((TObjPlayer *)(((u8 *)this) + 0x384))->emit_zalure_support_effect_at();
+    follow_particles.emit_zalure_support();
 }
 
 void TObjPlayer::trigger_switch_attack() {
     if (is_body_collision_inactive() != 0 || check_flag_800000__10TObjPlayerFPv(this) != 0) {
         return;
     }
-    ((TObjPlayer *)(((u8 *)this) + 0x384))->emit_deband_support_effect_at();
+    follow_particles.emit_deband_support();
 }
 
 void TObjPlayer::enemy_spawn_jellen_effect() {
@@ -65,7 +65,7 @@ void TObjPlayer::update_movement_effects() {
     if (TTecCtrl::is_technique_ready() != 0 && TObjPlayer__sub_801AF868(this) == 0 && update_movement_by_screen() != 0 &&
         test_action_mask(0x408000) == 0 && is_body_collision_inactive() == 0 &&
         check_flag_800000__10TObjPlayerFPv(this) == 0) {
-        ((TObjPlayer *)(((u8 *)this) + 0x384))->emit_movement_effect_at();
+        follow_particles.emit_movement_effect();
     }
     if (is_body_collision_inactive() == 0 && test_action_mask(2) != 0 && contact_surface.has_water_ground_flag() != 0) {
         emit_idle_water_effect(&follow_particles);
