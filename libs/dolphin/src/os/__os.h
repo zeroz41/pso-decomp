@@ -97,6 +97,41 @@ void __start(void);
 
 __declspec(section ".init") extern void __start(void);
 
+void InitMetroTRK(void);
+void EnableMetroTRKInterrupts(void);
+
+void __OSEVStart(void);
+void __OSEVEnd(void);
+void __OSEVSetNumber(void);
+void __OSExceptionVector(void);
+void __DBVECTOR(void);
+void __OSDBINTSTART(void);
+void __OSDBINTEND(void);
+void __OSDBJUMPEND(void);
+
+extern u8 __ArenaLo[];
+extern u8 __ArenaHi[];
+extern u8 _stack_addr[];
+extern u8 _stack_end[];
+extern u8 _SDA_BASE_[];
+extern u8 _SDA2_BASE_[];
+
+typedef struct RomSection {
+    void* romOfs;
+    void* virtualOfs;
+    size_t size;
+} RomSection;
+
+typedef struct BssSection {
+    void* virtualOfs;
+    size_t size;
+} BssSection;
+
+__declspec(section ".init") extern RomSection _rom_copy_info[];
+__declspec(section ".init") extern BssSection _bss_init_info[];
+
+int main(int argc, char** argv);
+
 long long __get_clock(void);
 unsigned long __get_time(void);
 int __to_gm_time(void);

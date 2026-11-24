@@ -78,6 +78,7 @@ void PADClamp(PADStatus * status);
 
 void __PADDisableXPatch(void);
 BOOL __PADDisableRecalibration(BOOL disable);
+extern u32 __PADSpec;
 
 #ifdef __cplusplus
 }

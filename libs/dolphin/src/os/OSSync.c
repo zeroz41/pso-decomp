@@ -3,8 +3,6 @@
 
 #include "os/__os.h"
 
-void __OSSystemCallVectorStart();
-void __OSSystemCallVectorEnd();
 
 static asm void SystemCallVector(void) {
 #include "orig_asm/os/OSSync/SystemCallVector.inc"

@@ -1,26 +1,12 @@
-#include <dolphin/types.h>
-#include <stddef.h>
-void OSResetSystem(int, u32, BOOL);
-void InitMetroTRK(void);
-void DBInit(void);
-void OSInit(void);
-void exit(int);
-void* memcpy(void*, const void*, size_t);
-void* memset(void*, int, size_t);
-void __init_hardware(void);
-void __flush_cache(void*, size_t);
-void __init_user(void);
-extern u8 _stack_addr[];
-extern u8 _SDA_BASE_[];
-extern u8 _SDA2_BASE_[];
-typedef struct RomSection { void* romOfs; void* virtualOfs; size_t size; } RomSection;
-typedef struct BssSection { void* virtualOfs; size_t size; } BssSection;
-__declspec(section ".init") extern RomSection _rom_copy_info[];
-__declspec(section ".init") extern BssSection _bss_init_info[];
+#include <dolphin/os.h>
+#include <dolphin/db.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "os/__os.h"
+
 __declspec(section ".init") static void __init_registers(void);
 __declspec(section ".init") static void __init_data(void);
-
-int main(int argc, char** argv);
 
 __declspec(section ".init") static void __check_pad3(void) {
     if ((*(u16*)0x800030E4 & 0xEEF) == 0xEEF) {

@@ -1,11 +1,7 @@
 #include <dolphin.h>
 #include <dolphin/mtx.h>
 #include <macros.h>
-
-
-extern f32 sinf(f32);
-extern f32 cosf(f32);
-extern f32 tanf(f32);
+#include <math.h>
 
 
 static float Unit01[2] = { 0.0f, 1.0f };

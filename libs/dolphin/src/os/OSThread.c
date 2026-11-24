@@ -68,8 +68,6 @@
     } while(0);
 
 
-extern u8 _stack_end[];
-extern u8 _stack_addr[];
 
 static OSThreadQueue RunQueue[32];
 static OSThread IdleThread;
