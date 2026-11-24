@@ -59,4 +59,6 @@ s16 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr);
 s16 ipcp_set_peer_address(IpcpSide *side, s32 addr);
 s16 ipcp_set_local_address(IpcpSide *side, s32 addr);
 
+void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
+
 #endif

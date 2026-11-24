@@ -50,8 +50,6 @@ PppFsmTimer *lobby_timer_list_head;
 
 s32 term_net_thread_config(void *);
 
-void net_sleep_ms(int);
-void PP_pap_proc(PppFsm *self, PppFrame *source);
 s32 ppp_link_input(u8 *, int, int);
 
 

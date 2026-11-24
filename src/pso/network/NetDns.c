@@ -31,6 +31,7 @@ extern void dns_complete_query(DnsQuery *self, s16 a, s16 b);
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/NetDns.h"
 
 typedef struct DnsQueryHeader {
     u16 id;
@@ -686,7 +687,6 @@ extern void dns_expire_cache(void) {
     }
 }
 
-extern s16 dns_parse_reply(DnsQuery *self);
 inline DnsQuery *find_query_for_request(DnsResolverState *base, NetworkReceivePrefix *req) {
     s16 count;
     s16 key;
@@ -713,7 +713,6 @@ s16 AT_DNS_UdpReceiver(s16 mode, NetworkReceivePrefix *req)
   s16 reply_len;
   DnsBuffer *s;
   s32 pad[2];
-  s16 dns_parse_reply(DnsQuery *); /* declared s16 here; the definition returns s32 */
   if (((UdpDatagram *)req)->port != 0x35)
   {
     return 1;
@@ -1316,14 +1315,12 @@ void dns_free_host(DnsHost *self, s16 x)
 
 }
 
-extern s16 dns_remove_addr(DnsHost *self_m, DnsAddr *arg);
 extern DnsAddr *dns_alloc_addr(DnsHost *self)
 {
     s16 n;
     s16 i;
     DnsAddr *best;
     DnsAddr *e;
-    s16 dns_remove_addr(DnsHost *, DnsAddr *); /* declared s16 here; the definition returns s32 */
     if (self == NULL) {
         return NULL;
     }

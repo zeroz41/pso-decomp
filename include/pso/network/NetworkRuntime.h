@@ -108,6 +108,10 @@ void ipv6cp_reset_options(struct PppFsm *o);
 s16 verify_message_sequence(struct PppFsm *fsm, struct PppHeader *msg, PppFrame *expected);
 void append_ipv6cp_option(PppFrame **pbuf, Ipv6cpOptionSet *opts, s32 type, s32 total_len, void *src);
 void append_masked_ipv6cp_options(uaddr *self, Ipv6cpOptionSet *opts, s32 mask);
+
+void net_sleep_ms(s32 ms);
+s32 NetCompareStringsCaseInsensitiveN(u8 *a, u8 *b, u32 n);
+
 #ifdef __cplusplus
 }
 #endif

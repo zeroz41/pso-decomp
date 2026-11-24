@@ -2000,7 +2000,7 @@ s16 tcp_start_send(s16 id, NetPacket *req, TcpCompletion completion, u8 urgent) 
 
 #pragma push
 #pragma pool_data off
-s32 tcp_set_option(s16 i, s16 opt, u32 *val) {
+s16 tcp_set_option(s16 i, s16 opt, u32 *val) {
     s16 r;
     TcpState *g;
     TcpTcb *tcb;

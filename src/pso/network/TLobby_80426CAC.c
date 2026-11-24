@@ -935,7 +935,6 @@ s16 pppoe_open(PppoeNames *names) {
     s16 i;
     s16 slot;
     s16 set;
-    s16 open_pppoe_adapter(u8 *); /* declared s16 here; the definition returns s32 */
 
     tbl = (0, (PppoeSlot *)&lobby_pppoe_slot_table);
     set = 0;

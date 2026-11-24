@@ -12,6 +12,7 @@
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/PppFsm.h"
 #include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/NetPppLink.h"
 
 
 

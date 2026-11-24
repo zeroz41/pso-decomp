@@ -149,6 +149,15 @@ s16 icmp6_send_error(void *a, u8 *src, s16 c, s16 flag);
 /* IPv6 input (src/pso/network/NetIpv6.c). */
 s16 ipv6_process_options(u8 *p, s16 n, u8 *self, s16 c, s16 d);
 s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx);
+
+s16 icmp_send(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt);
+s32 fragment_input(u8 *self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress *src, u16 frag_off, u8 more, s16 iface);
+void run_net_thread_loop(void);
+s32 close_all_connections(void);
+void PP_pap_proc(PppFsm *self, PppFrame *source);
+s16 network_input_available(u16 *out);
+s16 recv_network_bytes(u8 *dst, u16 n);
+
 #ifdef __cplusplus
 }
 #endif

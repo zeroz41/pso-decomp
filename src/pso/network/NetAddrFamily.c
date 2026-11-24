@@ -22,7 +22,6 @@
 #include <stddef.h>
 
 
-u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, NetPacket *pkt, s16 flag);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off

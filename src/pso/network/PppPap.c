@@ -12,7 +12,6 @@
 #include "pso/network/NetStackTypes.h"
 
 s32 term_pap_config(void *);
-void net_sleep_ms(int);
 #include "pso/network/PppBuffer.h"
 #include "pso/network/PppFsm.h"
 

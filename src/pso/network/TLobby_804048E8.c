@@ -5,6 +5,7 @@
 #include "pso/network/TLobby_804048E8.h"
 #include "pso/network/NetArp.h"
 #include "pso/network/PppBuffer.h"
+#include "pso/network/NetworkRuntime.h"
 
 #pragma push
 #pragma cplusplus on
@@ -14,7 +15,6 @@ PppVjConnectionState vj_tstate[16];
 u32 lbl_805C1890[4];
 #pragma pop
 
-s32 NetMemcmp(void *, void *, int);
 void NetMemcpy(void *, void *, int);
 
 #pragma push

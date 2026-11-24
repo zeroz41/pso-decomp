@@ -90,4 +90,11 @@ Ipv6NdNeighbor *NetIPv6FindOrSelectNeighborCacheEntry(u8 *addr, u8 *key, s16 kle
 Ipv6NdRouter *NetIPv6SelectDefaultRouter(void *addr);
 Ipv6NdPending *NetIPv6SelectPendingPacketSlot(void);
 
+s16 NetIPv6HandleRouterSolicitation(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
+s16 NetIPv6FindTargetLinkLayerAddressOption(NetPacketFragment *opt, s32 len, u8 **out, s16 *outlen);
+s16 NetIPv6HandleRouterAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
+s16 NetIPv6HandleNeighborSolicitation(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
+s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
+s16 NetIPv6HandleRedirect(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
+
 #endif

@@ -18,7 +18,6 @@
 #pragma dont_inline off
 
 
-s32 init_bba_exi_adapter(void *);
 /* The message queues (OSMessageQueue + messages) and, below, the channel table: only this file uses them. */
 typedef struct TransportMessageQueue32 {
     OSMessageQueue queue;

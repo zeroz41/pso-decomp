@@ -59,6 +59,10 @@ extern Ipv4RoutingState ipv4_address_routing_state;
 /* Deletes the route to dst through gateway whose type has bit 0 equal to bit 0 of flag. */
 s32 ipv4_route_delete(u32 dst, u32 mask, u32 gateway, s32 flag);
 
+u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, NetPacket *pkt, s16 flag);
+s16 bring_down_ipv4_interface(s16 id);
+s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx);
+
 #ifdef __cplusplus
 }
 #endif

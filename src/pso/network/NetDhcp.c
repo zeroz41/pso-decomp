@@ -708,7 +708,6 @@ DhcpOption dhcp_options[12] = {
     { 0xF, 0, 1, 4, &dhcp_client_addr },
     { 0x10, 0, 0, 0x20, dhcp_hostname },
 };
-void net_sleep_ms(s32);
 
 s32 get_task_count(void) {
     return dhcp_state;

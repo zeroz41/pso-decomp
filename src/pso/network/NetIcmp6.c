@@ -7,6 +7,7 @@
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/UdpRuntime.h"
+#include "pso/network/NetIPv6NeighborDiscovery.h"
 
 /* Defined K&R with an s16 mtu (TLobby_8041112C.c). */
 s32 NetIPv6UpdatePathMtu(IPv6Address *addr, s16 mtu);
@@ -19,13 +20,6 @@ typedef struct Icmp6ErrorInfo {
 } Icmp6ErrorInfo;
 LAYOUT_ASSERT(Icmp6ErrorInfo_size_check, sizeof(Icmp6ErrorInfo) == 8);
 s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16 iface) {
-    /* The handlers are defined in TLobby_8041112C.c with their own parameter types (s32/void * for some
-       arguments); this caller declares them with an s16 iface. */
-    s16 NetIPv6HandleRouterSolicitation(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
-    s16 NetIPv6HandleRouterAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
-    s16 NetIPv6HandleNeighborSolicitation(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
-    s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
-    s16 NetIPv6HandleRedirect(NetPacket *pkt, u8 *src, u8 *dst, s16 iface);
     NetBufferRef ref;
     Ipv6Header ip;
     Icmp6ErrorInfo icmp;
@@ -162,7 +156,6 @@ s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16
 }
 
 s16 icmp6_send_error(void *a, u8 *src, s16 c, s16 flag) {
-    s16 NetIPv6IsAnycastAddress(void *, s16);
     NetIcmpv6Header *msg = a;
     Ipv6Header *ip = (Ipv6Header *)src;
     IPv6Address buf;

@@ -216,6 +216,10 @@ s32 tcp_drop_acked_data(u32 len, TcpTcb *self);
 s32 tcp_gather_send_data(u32 off, u32 len, NetPacket *pkt, TcpTcb *tp);
 s16 tcp_input(NetPacket *pkt, NetworkAddress *remote, NetworkAddress *local);
 s32 tcp_queue_send_request(NetPacket *req, TcpTcb *s, TcpCompletion done);
+
+s16 tcp_set_option(s16 i, s16 opt, u32 *val);
+s32 tcp_unlink_listener(s16 idx);
+
 #ifdef __cplusplus
 }
 #endif

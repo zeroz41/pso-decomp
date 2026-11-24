@@ -10,6 +10,7 @@
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/TLobby_80428374.h"
 #include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/NetPppLink.h"
 
 s16 ppp_get_link_status(NetLinkStatus *status);
 /* The session's small state (.sbss 805D7A78-805D7A98), in reverse definition order: this compiler lays .sbss out
@@ -27,7 +28,6 @@ s16 network_transport_open;
 s16 ppp_ip_mode;
 s16 ppp_use_pppoe;
 u16 ppp_auth_protocol;
-void net_sleep_ms(int);
 
 NetSession net_session;
 PppProtoBlocks ppp_proto_blocks;
@@ -97,7 +97,6 @@ s32 ppp_term(void) {
     return 0;
 }
 
-s16 ppp_link_init(void);
 void ppp_init_protocols(int);
 
 s16 ppp_init(void) {
@@ -209,8 +208,6 @@ s32 ppp_start(NetConnectCfg *cfg) {
     return -1;
 }
 
-void lock_mutex(saddr mutex);
-void unlock_mutex(saddr mutex);
 void NetMemcpy(void* destination, void* source, int size);
 #pragma push
 #pragma cplusplus off
@@ -328,7 +325,6 @@ s32 is_timed_out(void) {
     return 0;
 }
 
-s32 close_all_connections(void);
 
 s32 ppp_hangup(void) {
     PppProtoBlocks *blocks = &ppp_proto_blocks;
@@ -576,12 +572,12 @@ s16 get_remaining(s32 elapsed) {
 }
 
 /* Stores the PPP auth protocol: 0xC023 (PAP) -> 0x80, 0xC223 (CHAP) -> 0x82, else the raw value. */
-void ppp_set_auth(u16 v) {
-    if (v == 0xC023) {
+void ppp_set_auth(u16 protocol) {
+    if (protocol == 0xC023) {
         ppp_auth_protocol = 0x80;
-    } else if (v == 0xC223) {
+    } else if (protocol == 0xC223) {
         ppp_auth_protocol = 0x82;
     } else {
-        ppp_auth_protocol = v;
+        ppp_auth_protocol = protocol;
     }
 }

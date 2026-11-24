@@ -10,15 +10,12 @@
 #include "pso/network/PppLcp.h"
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
-extern s32 is_timed_out(void);
-extern void ppp_set_auth(u16 protocol);
 #include "pso/network/NetworkTransport.h"
 
 
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
 
-void net_sleep_ms(s32 ms);
 #include "pso/network/PppBuffer.h"
 
 /* The option values both sides start from: MRU 1500 and a full async control-character map (.rodata 8047FE50). */

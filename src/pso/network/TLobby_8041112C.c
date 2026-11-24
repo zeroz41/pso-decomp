@@ -1192,7 +1192,7 @@ inline Ipv6Iface *ipv6_get_iface(Ipv6State *g, s16 idx) {
     }
     return ifc;
 }
-extern s32 NetIPv6IsPreferredAddress(u8 *addr, s16 idx) {
+extern s16 NetIPv6IsPreferredAddress(void *addr, s16 idx) {
     Ipv6State *g = &ipv6_address_routing_state;
     Ipv6Iface *ifc;
     s16 n;
@@ -1466,7 +1466,7 @@ s16 NetIPv6IsSolicitedNodeAddress(void *self, s16 id)
 inline Ipv6Iface *lookup_ipv6_iface(Ipv6State *g, s16 idx) {
     return ipv6_get_iface(g, idx);
 }
-extern s32 NetIPv6IsOwnLinkLocalAddress(u8 *addr, s16 idx) {
+extern s16 NetIPv6IsOwnLinkLocalAddress(u8 *addr, s16 idx) {
     Ipv6State *g = &ipv6_address_routing_state;
     Ipv6Iface *ifc;
     s16 n;

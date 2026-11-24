@@ -421,7 +421,6 @@ s16 NetIPv6HandleRedirect(NetPacket *pkt, u8 *right, u8 *dst, s16 iface) {
     u32 len;
     NetPacketFragment *frag;
     s16 r;
-    s16 NetIPv6IsLinkLocal(u8 *); /* declared s16 here; the definition returns s32 */
 
     frag = &pkt->fragments[1];
     optlen = 0x38;
@@ -514,7 +513,6 @@ s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *address, s16
     NetPacketFragment *hdr;
     u32 len;
     s16 r;
-    s16 NetIPv6FindTargetLinkLayerAddressOption(NetPacketFragment *o, s32 len, u8 **out, s16 *outlen); /* declared s16 here; the definition returns s32 */
     lladdr = 0;
     lladlen = 0;
 
@@ -872,7 +870,6 @@ s16 NetIPv6HandleRouterAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface
     u32 n;
     NetPacketFragment *p;
     s16 r;
-    s16 NetIPv6IsLinkLocal(u8 *pkt); /* declared s16 here; the definition returns s32 */
 
     p = &pkt->fragments[1];
     n = pkt->fragments[1].length;
@@ -1058,12 +1055,12 @@ s16 NetIPv6UpdateDefaultRouter(NetIcmpv6RouterAdvertisement *buf, u8 *a, s16 c) 
 }
 #pragma pop
 
-s16 NetIPv6HandleRouterSolicitation(NetPacket *o, u8 *src, u8 *dst, s16 iface) {
+s16 NetIPv6HandleRouterSolicitation(NetPacket *pkt, u8 *src, u8 *dst, s16 iface) {
     NetBufferRef b;
     NetIcmpv6RouterSolicitation a;
     s32 pad;
     u8 *v;
-    NetPacketFragment *h = &o->fragments[1];
+    NetPacketFragment *h = &pkt->fragments[1];
     u32 len = h->length;
     s16 r;
 
@@ -1161,8 +1158,6 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 flags, NetI
     Ipv6NdNeighbor *e;
     u8 *p6;
     void netbuf_copy_by_ref(NetBufferRef *, void *, int);
-    s16 NetIPv6InterfaceNeedsResolution(s16 pkt); /* declared s16 here; the definition returns s32 */
-    s16 NetIPv6IsPreferredAddress(void *, s16); /* declared s16 here; the definition is s32 (u8 *, s16) */
     if (NetIPv6IsMulticast(address) != 0) {
         return -0x10E;
     }
@@ -1372,7 +1367,6 @@ s16 NetIPv6EmitNeighborSolicitation(NetPacket *pkt, u8 *target, NetIPv6SendParam
     s16 addr_len;
     s16 length;
     s16 r;
-    s16 NetIPv6IsOwnLinkLocalAddress(u8 *, s16); /* declared s16 here; the definition returns s32 */
 
     if (NetIPv6IsMulticast(target) != 0) {
         return -0x10E;

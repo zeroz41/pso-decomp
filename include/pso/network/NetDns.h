@@ -178,6 +178,8 @@ s32 close_and_reset_connection(DnsQuery *connection);
 void dispatch_request_callback(DnsQuery *connection, s16 status);
 s16 dns_open_addr(char *name, s16 len, s32 type);
 
+s16 dns_parse_reply(DnsQuery *self);
+s16 dns_remove_addr(DnsHost *host, DnsAddr *addr);
 
 #ifdef __cplusplus
 }

@@ -18,7 +18,6 @@ extern IpcpState ipcp_state;
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
 
-void net_sleep_ms(int);
 #include "pso/network/PppBuffer.h"
 #include "pso/network/TLobby_803FAEA0.h"
 
@@ -436,7 +435,6 @@ s16 recv_ipcp_config_request(PppFsm *self, PppHeader *src, PppFrame *bits) {
     u8 hdr[2];
     s16 k;
     s16 res;
-    void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
     base = (IpcpConfig *)self->opts;
     n = src->len;
     k = 2;
@@ -663,7 +661,6 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
 }
 #pragma pop
 
-void append_ipcp_option(PppFrame **pbuf, IpcpOptions *opt, s32 type, s32 len, void *src);
 PppFrame *build_ipcp_config_request(PppFsm *self) {
     PppFrame *blk;
     s16 i;

@@ -25,6 +25,7 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, NetPacket *pkt, s16 
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/NetIpv4.h"
 
 extern Ipv4ProtocolState ipv4_protocol_state;
 
@@ -75,7 +76,6 @@ inline u16 ip_header_checksum(void *p, s16 n)
 
 s16 ipv4_input(u8 *ip, s16 len, s16 iface)
 {
-  saddr fragment_input(u8 *self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress *src, u16 frag_off, u8 more, s16 iface);
   u16 total_len;
   u16 hlen;
   NetPacket *pkt;

@@ -16,7 +16,7 @@
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
-void net_sleep_ms(s32 ms);
+#include "pso/network/NetworkRuntime.h"
 
 
 

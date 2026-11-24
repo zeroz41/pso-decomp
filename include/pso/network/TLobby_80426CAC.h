@@ -24,6 +24,9 @@ s32 skip_pppoe_tags(s32 slot, u8 *tags, u16 len);
 s16 get_pppoe_session_id(s16 slot);
 s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen);
 s16 pppoe_send_session_frame(s16 slot, u8 *frame, u16 len);
+
+s32 pppoe_close(s16 slot);
+
 #ifdef __cplusplus
 }
 #endif

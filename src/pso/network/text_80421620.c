@@ -48,8 +48,6 @@ s32 route4_del(saddr dst, saddr mask, saddr gateway);
 s32 NetIPv4AddRoute(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
 s32 route4_add(saddr dst, saddr mask, saddr gateway);
 s32 mark_connection_closed(s32);
-s16 tcp_set_option(s16, s16, u32 *); /* declared s16 here; the definition returns s32 */
-void tcp_unlink_listener(s16);
 s32 get_tcp_stat(int, void *, void *, void *, void *);
 s16 validate_tcp_handle(int);
 s32 tcp_stat(s32 a, s16 *b, s16 *c, u32 *d, u32 *e);
@@ -82,10 +80,6 @@ s16 copy_ipv6_interface_addresses(s16, void *, int, void *);
 s16 if_get(s16 iface, s32 hdr_src, s32 len, saddr buf);
 s32 OSDisableInterrupts();
 s32 OSRestoreInterrupts(int);
-s16 bring_down_ipv4_interface(s16);
-s16 bring_down_ipv6_interface(s16);
-s16 AT_IP4_IfUp(s32, s32, s32, s16);
-s16 bring_up_ipv6_interface(void *, s16, s16, s16, s32);
 s32 avetcp_term(void) {
     dispatcher_term();
     handler_table_term();

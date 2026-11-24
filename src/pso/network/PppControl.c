@@ -17,17 +17,17 @@
 
 s16 configure_and_open_network_transport(int a, int b, int c, int d, int e, char *modem_name, int no_modem);
 
-s32 network_input_available(u8 *out) {
+s16 network_input_available(u16 *out) {
     if (get_transport_input_count((s16 *)out) != 0) {
         return -1;
     }
     return 0;
 }
 
-s32 recv_network_bytes(u8 *dst, unsigned short n) {
+s16 recv_network_bytes(u8 *dst, u16 n) {
   u8 buf;
   u16 st;
-  while (((u16) n) != 0)
+  while (n != 0)
   {
     if ((recv_network_frame(1, &buf, &st) != 0) && (st != 1))
     {
@@ -102,13 +102,6 @@ s32 ipv6cp_set_interface_identifiers(s32 ignored, u8 *first_identifier, u8 *seco
 s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s32 dns_local_primary, s32 dns_local_secondary, s32 dns_peer_primary, s32 dns_peer_secondary) {
     IpcpConfig *ipcp_cfg;
     PppFsm *fsm_state;
-    s16 ipcp_set_vj_compression(s16 disabled, IpcpSide *side);
-    s16 ipcp_set_local_address(IpcpSide *side, s32 addr);
-    s16 ipcp_set_local_secondary_dns(IpcpSide *side, s32 addr);
-    s16 ipcp_set_peer_primary_dns(IpcpSide *side, s32 addr);
-    s16 ipcp_set_peer_address(IpcpSide *side, s32 addr);
-    s16 ipcp_set_peer_secondary_dns(IpcpSide *side, s32 addr);
-    s16 ipcp_set_local_primary_dns(IpcpSide *side, s32 addr);
     fsm_state = &ppp_proto_blocks.ipcp;
     ipcp_cfg = fsm_state->opts;
     PP_doppp_active(fsm_state);

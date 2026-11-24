@@ -12,6 +12,8 @@
 #include "pso/network/TLobby_80428374.h"
 
 #include "types.h"
+#include "pso/network/NetworkRuntime.h"
+#include "pso/network/TLobby_804050DC.h"
 
 /* The CHAP and PAP buffers init_net_buffer_table and init_net_block_620_params hand out (PppAuthState, PppPapState). */
 typedef struct PppAuthBuffers {
@@ -49,9 +51,6 @@ typedef struct NetSendChunk {
 } NetSendChunk;
 LAYOUT_ASSERT(NetSendChunkSize, sizeof(NetSendChunk) == 8);
 
-void net_sleep_ms(s32);
-s32 pppoe_close(s16);
-void run_net_thread_loop(void);
 void subtract_network_queue_timeout(s32 elapsed_ms);
 void set_lobby_map_state_code(s32 code);
 NetSendChunk *get_next_send_chunk(void);

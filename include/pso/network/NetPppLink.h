@@ -32,6 +32,8 @@ extern PppLink lobby_net_buffer_desc_b;
 
 void init_buffer_desc_b(PppLink *link);
 
+s16 ppp_link_init(void);
+
 #ifdef __cplusplus
 }
 #endif

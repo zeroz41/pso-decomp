@@ -24,6 +24,7 @@ s16 NetIPv4AddRoute(u32, u32, u32, s16, u8, u16);
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
+#include "pso/network/NetIpv4.h"
 
 
 /* Inline the helpers below; this applies to the rest of the file. */
@@ -214,7 +215,7 @@ extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s3
     return count;
 }
 
-extern s32 bring_down_ipv4_interface(s16 id) {
+extern s16 bring_down_ipv4_interface(s16 id) {
     Ipv4RoutingState *g;
     s16 *pn;
     Ipv4Iface **pb;

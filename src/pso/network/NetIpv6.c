@@ -74,7 +74,6 @@ inline s16 process_options_header(u8 *ext, s16 rem, u8 *ip, s16 len, s16 iface) 
 }
 
 inline NetPacket *input_fragment_header(u8 *ip, Ipv6FragmentHeader *frag, s32 remaining, s16 total_len, s16 iface, NetworkAddress *src, NetIcmpv6Header *error) {
-    saddr fragment_input(u8 *, u16, s16, u8, u32, NetworkAddress *, u16, u8, s16);
     u32 offset_flags;
     u32 more;
     u32 offset;

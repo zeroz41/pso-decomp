@@ -29,7 +29,6 @@
 
 s16 icmp_input(u8 *self, u32 d, u32 c)
 {
-  s16 icmp_send(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt);
   NetPacketFragment *p;
   NetBufferRef stream;
   u8 hdr[8];
