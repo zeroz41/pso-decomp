@@ -960,7 +960,6 @@ struct TObjPlayer : public TObjChara {
     static void spawn_effect(saddr player);
     void draw();
     void set_state_flag_604B();
-    static s32 update_small_font(saddr arg0, void * command);
     static void send_disable_pk_mode(TObjPlayer *player);
     void set_state_flag_6043();
     static void send_enable_pk_mode(TObjPlayer *player);
@@ -990,8 +989,6 @@ struct TObjPlayer : public TObjChara {
     void update_foot_stamp(int arg1);
     void play_footstep_sound(f32 at_frame, f32 farg1);
     void revive();
-    static s32 revive_6xA1(saddr arg0, void * command);
-    static s32 update_medical_font(saddr arg0, void * command);
     s32 get_recovery_need_flags();
     s32 can_use_action();
     s32 is_target_valid();
@@ -1001,7 +998,6 @@ struct TObjPlayer : public TObjChara {
     void apply_material_color_override();
     static s32 get_battle_ctrl_flag(u16 id);
     s32 is_outside_movement_hold(f32 *pos);
-    static s32 draw_small_font(saddr arg0, void * command);
     static void play_effect(TObjPlayer *player, s32 effect_id, s32 mode);
     s32 get_clamped_index();
     void apply_input_mode();

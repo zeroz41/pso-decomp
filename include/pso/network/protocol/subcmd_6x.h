@@ -190,6 +190,7 @@ struct G_ChangePlayerLevel_6x30 {
 
 struct G_ClearNegativeStatusEffects_6x0E {
  struct G_ClientIDHeader header;
+ G_ClearNegativeStatusEffects_6x0E &operator=(G_ClearNegativeStatusEffects_6x0E &src);
 };
 
 struct G_ClearPhotonBlastReadyFlag_6x3A {
@@ -279,14 +280,17 @@ struct G_DestroyFloorItem_6x5C_6x63 {
 
 struct G_DisableDropWeaponOnDeath_6x81 {
  struct G_ClientIDHeader header;
+ G_DisableDropWeaponOnDeath_6x81 &operator=(G_DisableDropWeaponOnDeath_6x81 &src);
 };
 
 struct G_DisablePKModeForPlayer_6x1C {
  struct G_ClientIDHeader header;
+ G_DisablePKModeForPlayer_6x1C &operator=(G_DisablePKModeForPlayer_6x1C &src);
 };
 
 struct G_DisableStealthSuitEffect_6x7B {
  struct G_ClientIDHeader header;
+ G_DisableStealthSuitEffect_6x7B &operator=(G_DisableStealthSuitEffect_6x7B &src);
 };
 
 struct G_DonateToPhotonBlast_6x38 {
@@ -357,14 +361,17 @@ struct G_DropStackedItem_PC_V3_BB_6x5D : G_DropStackedItem_DC_6x5D {
 
 struct G_EnableDropWeaponOnDeath_6x82 {
  struct G_ClientIDHeader header;
+ G_EnableDropWeaponOnDeath_6x82 &operator=(G_EnableDropWeaponOnDeath_6x82 &src);
 };
 
 struct G_EnablePKModeForPlayer_6x1B {
  struct G_ClientIDHeader header;
+ G_EnablePKModeForPlayer_6x1B &operator=(G_EnablePKModeForPlayer_6x1B &src);
 };
 
 struct G_EnableStealthSuitEffect_6x7A {
  struct G_ClientIDHeader header;
+ G_EnableStealthSuitEffect_6x7A &operator=(G_EnableStealthSuitEffect_6x7A &src);
 };
 
 struct G_EquipItem_6x25 {
@@ -695,6 +702,7 @@ struct G_PlayerRevived_6x4F {
 
 struct G_ReleaseHold_6x2D {
  struct G_ClientIDHeader header;
+ G_ReleaseHold_6x2D &operator=(G_ReleaseHold_6x2D &src);
 };
 
 struct G_RequestPartialPlayerData_DCProtos_6x1D {
@@ -713,6 +721,7 @@ struct G_RevivePlayer_6x33 {
 
 struct G_RevivePlayer_V3_BB_6xA1 {
  struct G_ClientIDHeader header;
+ G_RevivePlayer_V3_BB_6xA1 &operator=(G_RevivePlayer_V3_BB_6xA1 &src);
 };
 
 struct G_SelectChallengeModeFailureOption_6x97 {
@@ -1185,6 +1194,7 @@ struct G_UseItem_6x27 {
 
 struct G_UseMedicalCenter_6x31 {
  struct G_ClientIDHeader header;
+ G_UseMedicalCenter_6x31 &operator=(G_UseMedicalCenter_6x31 &src);
 };
 
 struct G_UseStarAtomizer_6x66 {

@@ -205,11 +205,6 @@ typedef struct Pkt_801B0300 Pkt_801B0300;
 
 struct Cmd_801B0690 { u16 hdr; u16 client; s32 team; };
 
-struct pkt_801B1674 {
-    u8 hdr[2];
-    u16 player_id;
-};
-
 struct Rec_801B09A4 { u8 bytes[0x42C]; };
 
 struct pkt_801B1FA4 {
@@ -253,18 +248,12 @@ struct Pkt_801B1EE0 {
 struct Eff_801B2D88 { u16 f0; u16 f2; StatStatusReceipt effect; };
 
 
-struct Eff_801B2CE4 { u16 f0; u16 f2; u32 f4; u32 f8; };
 
 struct S801B4430_801b4430_801B3FD8 { s8 b[2]; s16 h; };
 
 struct S801B44EC_801b44ec_801B3FD8 { s8 b[2]; s16 h; };
 
 struct S801B4630_801B3FD8 { s8 b[2]; s16 h; };
-
-struct pkt_801B5164 {
-    u8 hdr[2];
-    u16 player_id;
-};
 
 struct Pkt_801B5328 {
     u8 hdr[2];
@@ -578,18 +567,13 @@ void draw_player_status(saddr window, void *player, saddr str);
 void show_sub_status_window(void *window, s32 *str, s32 *name);
 void draw_status_line(void *window, s32 *str, s32 *name, s32 value);
 int TObjPlayer__sub_801B066C(void* p);
-void *TLobby__sub_801B07E0(void *dst, void *src);
-void *TLobby__sub_801B08F0(void *dst, void *src);
 void TLobby__sub_801B09A4(void);
 
 void draw_small_label__15TFontSmallLobbyFi(saddr player);
-void *TFontSmallLobby__sub_801B1224(void *dst, void *src);
 void TLobby__sub_801B1254(saddr player);
-void* draw_font__10TObjPlayerFPv(void* p);
 void foreach_player__10TObjPlayerFv(s32 (*callback)(u32));
 void *handle_set_visible__10TObjPlayerFi(void *dst, void *src);
 void send_6x2F_change_player_hp(s32 id, s32 client, s32 hp);
-void *clear_negative_status_effects__10TObjPlayerFi(void *dst, void *src);
 s32 calc_scaled_value__10TObjPlayerFii(TObjPlayer *player, s32 value);
 s32 build_player_class_stat_template(TObjPlayer *player, PlayerRequirementStats *out);
 void prepare_guild_return__10TObjPlayerFPv(void *player);
@@ -3723,18 +3707,18 @@ void send_release_hold(TObjPlayer *player) {
 }
 
 
-s32 TObjPlayer::draw_small_font(saddr dst, void * command) {
-    copy_subcommand_header((u8 *)dst, command);
-    return dst;
+G_ReleaseHold_6x2D &G_ReleaseHold_6x2D::operator=(G_ReleaseHold_6x2D &src) {
+    copy_subcommand_header(this, &src);
+    return *this;
 }
 
 void handle_6x2D_release_hold(G_ReleaseHold_6x2D *command) {
-    struct pkt_801B5164 pkt;
+    G_ReleaseHold_6x2D pkt;
     ((TObjPlayer *)(&pkt))->set_code_45_1();
-    TObjPlayer::draw_small_font((s32)((saddr) &pkt), command);
+    pkt = *command;
     bswap_g_client_id_header(&pkt);
-    if (validate_6x2D_release_hold((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.player_id);
+    if (validate_6x2D_release_hold(&pkt.header) != 0) {
+        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->clear_state_flags(1);
         }
@@ -4039,18 +4023,18 @@ void send_code_49_1__10TObjPlayerFi(saddr player) {
     }
 }
 
-s32 TObjPlayer::update_medical_font(saddr arg0, void * command) {
-    copy_subcommand_header((u8 *)arg0, command);
-    return arg0;
+G_UseMedicalCenter_6x31 &G_UseMedicalCenter_6x31::operator=(G_UseMedicalCenter_6x31 &src) {
+    copy_subcommand_header(this, &src);
+    return *this;
 }
 
 void handle_6x31_use_medical_center(G_UseMedicalCenter_6x31 *command) {
-    struct pkt_801B1674 pkt;
+    G_UseMedicalCenter_6x31 pkt;
     ((TObjPlayer *)(&pkt))->set_code_49_1();
-    TObjPlayer::update_medical_font((s32)((s32)((saddr) &pkt)), command);
+    pkt = *command;
     bswap_g_client_id_header(&pkt);
-    if (validate_6x31_use_medical_center((G_ClientIDHeader *)&pkt) != 0) {
-        TObjPlayer *p = get_player_by_client_id(pkt.player_id);
+    if (validate_6x31_use_medical_center(&pkt.header) != 0) {
+        TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
             p->recover_full();
         }
@@ -4097,18 +4081,18 @@ void TObjPlayer::send_6xA1_player_id() {
     }
 }
 
-s32 TObjPlayer::revive_6xA1(saddr dst, void * command) {
-    copy_subcommand_header((u8 *)dst, command);
-    return dst;
+G_RevivePlayer_V3_BB_6xA1 &G_RevivePlayer_V3_BB_6xA1::operator=(G_RevivePlayer_V3_BB_6xA1 &src) {
+    copy_subcommand_header(this, &src);
+    return *this;
 }
 
 void handle_6xA1_revive_player_v3(G_RevivePlayer_V3_BB_6xA1 *command) {
-    struct pkt_801B1674 pkt;
+    G_RevivePlayer_V3_BB_6xA1 pkt;
     ((TObjPlayer *)(&pkt))->set_code_161_1();
-    TObjPlayer::revive_6xA1((s32)((s32)((saddr) &pkt)), command);
+    pkt = *command;
     bswap_g_client_id_header(&pkt);
-    if (validate_6xA1_revive_player_v3((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.player_id);
+    if (validate_6xA1_revive_player_v3(&pkt.header) != 0) {
+        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->revive();
         }
@@ -4678,18 +4662,18 @@ void handle_6x0C_add_or_remove_status_effect(G_AddOrRemoveStatusEffect_6x0C_6x0D
 }
 
 
-void *clear_negative_status_effects__10TObjPlayerFi(void *dst, void *src) {
-    copy_subcommand_header(dst, src);
-    return dst;
+G_ClearNegativeStatusEffects_6x0E &G_ClearNegativeStatusEffects_6x0E::operator=(G_ClearNegativeStatusEffects_6x0E &src) {
+    copy_subcommand_header(this, &src);
+    return *this;
 }
 
 void handle_6x0E_clear_negative_status_effects(G_ClearNegativeStatusEffects_6x0E *command) {
-    Eff_801B2CE4 e;
-    ((TObjPlayer *)(&e))->set_code_14_1();
-    clear_negative_status_effects__10TObjPlayerFi(&e, command);
-    bswap_g_client_id_header(&e);
-    if (validate_6x0E_clear_negative_status_effects((G_ClientIDHeader *)&e) != 0) {
-        TObjPlayer *p = get_player_by_client_id(e.f2);
+    G_ClearNegativeStatusEffects_6x0E pkt;
+    ((TObjPlayer *)(&pkt))->set_code_14_1();
+    pkt = *command;
+    bswap_g_client_id_header(&pkt);
+    if (validate_6x0E_clear_negative_status_effects(&pkt.header) != 0) {
+        TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
         if (p != 0) {
             p->clear_harmful_statuses();
         }
@@ -5240,15 +5224,18 @@ void TObjPlayer::send_enable_pk_mode(TObjPlayer *player) {
     }
 }
 
-void* draw_font__10TObjPlayerFPv(void* p) { ((int (*)(void*))copy_subcommand_header)(p); return p; }
+G_EnablePKModeForPlayer_6x1B &G_EnablePKModeForPlayer_6x1B::operator=(G_EnablePKModeForPlayer_6x1B &src) {
+    copy_subcommand_header(this, &src);
+    return *this;
+}
 
 void handle_6x1B_enable_pk_mode_for_player(G_EnablePKModeForPlayer_6x1B *command) {
-    struct pkt_801B1674 pkt;
+    G_EnablePKModeForPlayer_6x1B pkt;
     init_packet_6x1B_enable_pk_mode_for_player(&pkt);
-    ((s32 (*)(s32, void *))draw_font__10TObjPlayerFPv)((s32)((saddr) &pkt), command);
+    pkt = *command;
     bswap_g_client_id_header(&pkt);
-    if (validate_6x1B_enable_pk_mode_for_player((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.player_id);
+    if (validate_6x1B_enable_pk_mode_for_player(&pkt.header) != 0) {
+        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->set_state_flag_6043();
         }
@@ -5274,18 +5261,18 @@ void TObjPlayer::send_disable_pk_mode(TObjPlayer *player) {
     }
 }
 
-s32 TObjPlayer::update_small_font(saddr dst, void * command) {
-    copy_subcommand_header((u8 *)dst, command);
-    return dst;
+G_DisablePKModeForPlayer_6x1C &G_DisablePKModeForPlayer_6x1C::operator=(G_DisablePKModeForPlayer_6x1C &src) {
+    copy_subcommand_header(this, &src);
+    return *this;
 }
 
 void handle_6x1C_disable_pk_mode_for_player(G_DisablePKModeForPlayer_6x1C *command) {
-    struct pkt_801B1674 pkt;
+    G_DisablePKModeForPlayer_6x1C pkt;
     init_packet_6x1C_disable_pk_mode_for_player(&pkt);
-    TObjPlayer::update_small_font((s32)((saddr) &pkt), command);
+    pkt = *command;
     bswap_g_client_id_header(&pkt);
-    if (validate_6x1C_disable_pk_mode_for_player((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.player_id);
+    if (validate_6x1C_disable_pk_mode_for_player(&pkt.header) != 0) {
+        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->set_state_flag_604B();
         }
@@ -5394,18 +5381,18 @@ void TLobby__sub_801B1254(saddr player) {
     }
 }
 
-void *TFontSmallLobby__sub_801B1224(void *dst, void *src) {
-    copy_subcommand_header(dst, src);
-    return dst;
+G_EnableStealthSuitEffect_6x7A &G_EnableStealthSuitEffect_6x7A::operator=(G_EnableStealthSuitEffect_6x7A &src) {
+    copy_subcommand_header(this, &src);
+    return *this;
 }
 
 void handle_6x7A_enable_stealth_suit_effect(G_EnableStealthSuitEffect_6x7A *command) {
-    struct pkt_801B1674 pkt;
+    G_EnableStealthSuitEffect_6x7A pkt;
     init_packet_6x7A_enable_stealth_suit_effect(&pkt);
-    TFontSmallLobby__sub_801B1224(&pkt, command);
+    pkt = *command;
     bswap_g_client_id_header(&pkt);
-    if (validate_6x7A_enable_stealth_suit_effect((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.player_id);
+    if (validate_6x7A_enable_stealth_suit_effect(&pkt.header) != 0) {
+        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->set_stealth_suit_flags();
         }
@@ -5428,18 +5415,18 @@ void draw_small_label__15TFontSmallLobbyFi(saddr player) {
     }
 }
 
-s32 TFontSmallLobby::disable_stealth_suit_effect(s32 dst, void * command) {
-    copy_subcommand_header((u8 *)dst, command);
-    return dst;
+G_DisableStealthSuitEffect_6x7B &G_DisableStealthSuitEffect_6x7B::operator=(G_DisableStealthSuitEffect_6x7B &src) {
+    copy_subcommand_header(this, &src);
+    return *this;
 }
 
 void handle_6x7B_disable_stealth_suit_effect(G_DisableStealthSuitEffect_6x7B *command) {
-    struct pkt_801B1674 pkt;
+    G_DisableStealthSuitEffect_6x7B pkt;
     init_packet_6x7B_disable_stealth_suit_effect(&pkt);
-    TFontSmallLobby::disable_stealth_suit_effect((s32)((s32)((saddr) &pkt)), command);
+    pkt = *command;
     bswap_g_client_id_header(&pkt);
-    if (validate_6x7B_disable_stealth_suit_effect((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.player_id);
+    if (validate_6x7B_disable_stealth_suit_effect(&pkt.header) != 0) {
+        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->clear_stealth_suit_flags();
         }
@@ -5684,18 +5671,18 @@ void TLobby::send_font_state(saddr player) {
     }
 }
 
-void *TLobby__sub_801B08F0(void *dst, void *src) {
-    copy_subcommand_header(dst, src);
-    return dst;
+G_DisableDropWeaponOnDeath_6x81 &G_DisableDropWeaponOnDeath_6x81::operator=(G_DisableDropWeaponOnDeath_6x81 &src) {
+    copy_subcommand_header(this, &src);
+    return *this;
 }
 
 void handle_6x81_disable_drop_weapon_on_death(G_DisableDropWeaponOnDeath_6x81 *command) {
-    struct pkt_801B1674 pkt;
+    G_DisableDropWeaponOnDeath_6x81 pkt;
     init_packet_6x81_disable_drop_weapon_on_death(&pkt);
-    TLobby__sub_801B08F0(&pkt, command);
+    pkt = *command;
     bswap_g_client_id_header(&pkt);
-    if (validate_6x81_disable_drop_weapon_on_death((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.player_id);
+    if (validate_6x81_disable_drop_weapon_on_death(&pkt.header) != 0) {
+        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
             TObjPlayer::disable_drop_weapon_on_death(p);
         }
@@ -5717,18 +5704,18 @@ void TLobby::send_field1c_packet(saddr player) {
     }
 }
 
-void *TLobby__sub_801B07E0(void *dst, void *src) {
-    copy_subcommand_header(dst, src);
-    return dst;
+G_EnableDropWeaponOnDeath_6x82 &G_EnableDropWeaponOnDeath_6x82::operator=(G_EnableDropWeaponOnDeath_6x82 &src) {
+    copy_subcommand_header(this, &src);
+    return *this;
 }
 
 void handle_6x82_enable_drop_weapon_on_death(G_EnableDropWeaponOnDeath_6x82 *command) {
-    struct pkt_801B1674 pkt;
+    G_EnableDropWeaponOnDeath_6x82 pkt;
     init_packet_6x82_enable_drop_weapon_on_death(&pkt);
-    TLobby__sub_801B07E0(&pkt, command);
+    pkt = *command;
     bswap_g_client_id_header(&pkt);
-    if (validate_6x82_enable_drop_weapon_on_death((G_ClientIDHeader *)&pkt) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.player_id);
+    if (validate_6x82_enable_drop_weapon_on_death(&pkt.header) != 0) {
+        u8 *p = (u8 *)get_player_by_client_id(pkt.header.client_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->set_flag_drop_weapon_on_death();
         }
