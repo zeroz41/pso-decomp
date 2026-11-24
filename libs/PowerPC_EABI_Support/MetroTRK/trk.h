@@ -155,6 +155,7 @@ DSError HandleOpenFileSupportRequest(const char* path, u8 replyError, u32* fileH
 DSError HandleCloseFileSupportRequest(int fileHandle, u8* ioResult);
 DSError HandlePositionFileSupportRequest(u32 fileHandle, u32* position, u8 mode, u8* ioResult);
 u32 TRKAccessFile(u32, u32, u32*, u8*);
+u32 TRKCloseFile(u32, u32);
 
 TRKBufferID TRKTestForPacker();
 void TRKGetInput();

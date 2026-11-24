@@ -10567,11 +10567,8 @@ TRK_MINNOW_DOLPHIN/target_options.c:
 	.text       start:0x8039630C end:0x80396328
 	.bss        start:0x805492F8 end:0x80549300
 
-pso/unk/text_80396328.cpp:
-	.text       start:0x80396328 end:0x803963AC
-
 TRK_MINNOW_DOLPHIN/mslsupp.c:
-	.text       start:0x803963AC end:0x80396524
+	.text       start:0x80396328 end:0x80396524
 
 PowerPC_EABI_Support/Runtime/Src/__va_arg.c:
 	.text       start:0x80396524 end:0x803965EC
