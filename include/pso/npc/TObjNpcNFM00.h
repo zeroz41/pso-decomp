@@ -9,14 +9,12 @@ struct TObjNpcNFM00 : public TUnk_804A9F50 {
     virtual ~TObjNpcNFM00();
     static void free_resources();
     static void load_assets();
+    static void *create(void *set_data);
+    static const char *name;
+    static uaddr shared_named_model_object;
+    static NJS_TEXLIST *texture_gvm_handle;
 };
 
 LAYOUT_ASSERT(TObjNpcNFM00_size, sizeof(TObjNpcNFM00) == 0x3B8);
-
-class TObjControl;
-
-extern "C" {
-void *TObjNpcNFM00__create(void *set_data);
-}
 
 #endif

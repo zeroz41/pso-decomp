@@ -3279,24 +3279,24 @@ pso/unk/TLobby_801461EC.cpp:
 	.sdata2     start:0x805DB1B0 end:0x805DB1B3
 
 pso/boss/darkfalz/TOBoss4Rock.cpp:
-	.text       start:0x80147A80 end:0x80147B30
+	.text       start:0x80147A80 end:0x80147AC8
 
 pso/npc/TObjNpcAHM01.cpp:
-	.text       start:0x80147B30 end:0x80147D44
+	.text       start:0x80147AC8 end:0x80147CDC
 	.rodata     start:0x8043F428 end:0x8043F460
 	.data       start:0x804A7850 end:0x804A79C8
 	.sdata      start:0x805D2D08 end:0x805D2D10
 	.sbss       start:0x805D5720 end:0x805D5728
 
 pso/npc/TObjNpcARM00.cpp:
-	.text       start:0x80147D44 end:0x80147F50
+	.text       start:0x80147CDC end:0x80147EE8
 	.rodata     start:0x8043F460 end:0x8043F498
 	.data       start:0x804A79C8 end:0x804A7B40
 	.sdata      start:0x805D2D10 end:0x805D2D18
 	.sbss       start:0x805D5728 end:0x805D5730
 
 pso/npc/TObjNpcARW00.cpp:
-	.text       start:0x80147F50 end:0x801480F4
+	.text       start:0x80147EE8 end:0x801480F4
 	.rodata     start:0x8043F498 end:0x8043F4D0
 	.data       start:0x804A7B40 end:0x804A7CB8
 	.sdata      start:0x805D2D18 end:0x805D2D20
@@ -3317,7 +3317,7 @@ pso/npc/TObjNpcBringer.cpp:
 	.sdata      start:0x805D2D28 end:0x805D2D30
 
 pso/npc/TObjNpcCloakroomBase.cpp:
-	.text       start:0x80149630 end:0x801498E0
+	.text       start:0x80149630 end:0x80149878
 	.rodata     start:0x8043F588 end:0x8043F5D0
 	.data       start:0x804A8090 end:0x804A8220
 	.sdata      start:0x805D2D30 end:0x805D2D38
@@ -3325,14 +3325,14 @@ pso/npc/TObjNpcCloakroomBase.cpp:
 	.sdata2     start:0x805DB1E8 end:0x805DB1F0
 
 pso/npc/TObjNpcConnoisseur.cpp:
-	.text       start:0x801498E0 end:0x80149AD4
+	.text       start:0x80149878 end:0x80149A6C
 	.rodata     start:0x8043F5D0 end:0x8043F7D0
 	.data       start:0x804A8220 end:0x804A84B0
 	.sdata      start:0x805D2D38 end:0x805D2D64
 	.sbss       start:0x805D5748 end:0x805D5750
 
 pso/npc/TObjNpcExpertBase.cpp:
-	.text       start:0x80149AD4 end:0x80149C44
+	.text       start:0x80149A6C end:0x80149C44
 	.rodata     start:0x8043F7D0 end:0x8043F810
 	.data       start:0x804A84B0 end:0x804A8640
 	.sdata      start:0x805D2D68 end:0x805D2D70
@@ -7388,7 +7388,7 @@ pso/ui/window/TWindowMainMenu4P.cpp:
 	.sdata      start:0x805D3AF0 end:0x805D3AF8
 
 pso/quest/TQuestListChallenge.cpp:
-	.text       start:0x80288B04 end:0x802893C8
+	.text       start:0x80288B04 end:0x80289360
 	.rodata     start:0x804507A8 end:0x80450AC0
 	.data       start:0x804D30C8 end:0x804D3188
 	.sdata      start:0x805D3AF8 end:0x805D3AFC
@@ -7396,14 +7396,14 @@ pso/quest/TQuestListChallenge.cpp:
 	.sdata2     start:0x805DD8E0 end:0x805DD8E8
 
 pso/npc/TObjNpcKenkyu.cpp:
-	.text       start:0x802893C8 end:0x802895A0
+	.text       start:0x80289360 end:0x80289538
 	.rodata     start:0x80450AC0 end:0x80450AF8
 	.data       start:0x804D3188 end:0x804D3318
 	.sdata      start:0x805D3B00 end:0x805D3B08
 	.sbss       start:0x805D64B8 end:0x805D64C0
 
 pso/npc/TObjNpcSoutokufu.cpp:
-	.text       start:0x802895A0 end:0x802897D0
+	.text       start:0x80289538 end:0x802897D0
 	.rodata     start:0x80450AF8 end:0x80450B38
 	.data       start:0x804D3318 end:0x804D34A8
 	.sdata      start:0x805D3B08 end:0x805D3B10
@@ -7885,7 +7885,7 @@ pso/ui/charcreate/TChCrTagPlGraphic.cpp:
 	.sdata2     start:0x805DDF18 end:0x805DDF34
 
 pso/ui/frontend/TAdSelectTxtSubGC.cpp:
-	.text       start:0x802A35B4 end:0x802A3A20
+	.text       start:0x802A35B4 end:0x802A39B8
 	.rodata     start:0x804665D8 end:0x804665F8
 	.data       start:0x804DCC98 end:0x804DCCB0
 	.sdata      start:0x805D3DC0 end:0x805D3DC4
@@ -7893,14 +7893,14 @@ pso/ui/frontend/TAdSelectTxtSubGC.cpp:
 	.sdata2     start:0x805DDF38 end:0x805DDF5C
 
 pso/npc/TObjNpcHosa.cpp:
-	.text       start:0x802A3A20 end:0x802A3BF8
+	.text       start:0x802A39B8 end:0x802A3B90
 	.rodata     start:0x804665F8 end:0x80466628
 	.data       start:0x804DCCB0 end:0x804DCE40
 	.sdata      start:0x805D3DC8 end:0x805D3DD0
 	.sbss       start:0x805D6650 end:0x805D6658
 
 pso/npc/TObjNpcKenkyuW.cpp:
-	.text       start:0x802A3BF8 end:0x802A4540
+	.text       start:0x802A3B90 end:0x802A4540
 	.rodata     start:0x80466628 end:0x80466668
 	.data       start:0x804DCE40 end:0x804DCFD0
 	.bss        start:0x80540A38 end:0x80540AC0
@@ -8704,14 +8704,14 @@ pso/unk/text_802FE9E0.cpp:
 	.data       start:0x804E6218 end:0x804E6240
 
 pso/npc/TObjNpcKenkyu2.cpp:
-	.text       start:0x802FEA38 end:0x802FEC78
+	.text       start:0x802FEA38 end:0x802FEC10
 	.rodata     start:0x80474C80 end:0x80474CB8
 	.data       start:0x804E6240 end:0x804E63D0
 	.sdata      start:0x805D4030 end:0x805D4038
 	.sbss       start:0x805D69D0 end:0x805D69D8
 
 pso/npc/TObjNpcHosa2.cpp:
-	.text       start:0x802FEC78 end:0x802FEDE8
+	.text       start:0x802FEC10 end:0x802FEDE8
 	.rodata     start:0x80474CB8 end:0x80474CF0
 	.data       start:0x804E63D0 end:0x804E6560
 	.sdata      start:0x805D4038 end:0x805D4040

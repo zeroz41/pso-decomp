@@ -1,4 +1,6 @@
 #include "pso/system/BmlResource.h"
+#include "pso/object/TObjControl.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
@@ -23,6 +25,11 @@
 #include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
+
+void *TObjNpcKenkyuW::create(void *set_data) {
+    TObjControl *control = new TObjControl(tl_04);
+    return new TObjNpcKenkyuW(control, set_data);
+}
 
 __declspec(section ".data") const char *bm_npc_kenkyu_w_model_names[2] = {"kenkyu_w_hone_body.nj", NULL};
 const char *bm_npc_kenkyu_w_motion_names[] = {NULL};

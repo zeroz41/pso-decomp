@@ -9,14 +9,12 @@ struct TObjNpcHRM01 : public TUnk_804A9F50 {
     virtual ~TObjNpcHRM01();
     static void free_shared_objects();
     static void load_resources();
+    static void *create(void *set_data);
+    static const char *name;
+    static uaddr shared_object_resource;
+    static NJS_TEXLIST *body_texture_gvm_handle;
 };
 
 LAYOUT_ASSERT(TObjNpcHRM01_size, sizeof(TObjNpcHRM01) == 0x3B8);
-
-class TObjControl;
-
-extern "C" {
-void *TObjNpcHRM01__create(void *set_data);
-}
 
 #endif

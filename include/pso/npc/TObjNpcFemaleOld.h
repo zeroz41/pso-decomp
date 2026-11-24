@@ -4,19 +4,18 @@
 #include "types.h"
 #include "pso/npc/TUnk_804A8640.h"
 
-class TObjControl;
+struct BmlResource;
 
 struct TObjNpcFemaleOld : public TUnk_804A8640 {
     TObjNpcFemaleOld(TObject *parent, void *set_data);
     virtual ~TObjNpcFemaleOld();
     static void destroy_static_instance();
     static void load_resource_instance();
+    static void *create(void *set_data);
+    static const char *name;
+    static BmlResource *static_instance;
 };
 
 LAYOUT_ASSERT(TObjNpcFemaleOld_size, sizeof(TObjNpcFemaleOld) == 0x3B8);
-
-extern "C" {
-void *TObjNpcFemaleOld__create(void *set_data);
-}
 
 #endif
