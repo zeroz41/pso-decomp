@@ -323,9 +323,9 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
     }
     *chap_state.hash_input = hdr->id;
     if (lobby_session_flags & 2) {
-        NetCopyString((char *)chap_state.hash_input + 1, secret);
+        NetCopyString((char *)&chap_state.hash_input[1], secret);
     } else {
-        NetCopyString((char *)chap_state.hash_input + 1, chap->secret);
+        NetCopyString((char *)&chap_state.hash_input[1], chap->secret);
     }
     if (lobby_session_flags & 2) {
         len = NetStringLength(secret);
@@ -411,7 +411,7 @@ void chap_recv_challenge(PppFsm *connection, PppHeader *header, PppFrame *source
         *peer_name = 0;
     }
     *chap_state.response_input = header->id;
-    NetCopyString((char *)chap_state.response_input + 1, chap->secret);
+    NetCopyString((char *)&chap_state.response_input[1], chap->secret);
     string_length = NetStringLength(chap->secret);
     raw_name_length = NetStringLength(chap->name);
     challenge_offset = string_length + 1;
