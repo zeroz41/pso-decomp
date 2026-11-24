@@ -1,0 +1,88 @@
+#ifndef PSO_PLAYER_PLAYERSUBCOMMANDHANDLERS_H
+#define PSO_PLAYER_PLAYERSUBCOMMANDHANDLERS_H
+
+// Player handlers of the 6x game subcommands, called through TGameProtocol's subcommand table.
+
+struct G_AddOrRemoveStatusEffect_6x0C_6x0D;
+struct G_ChangePlayerLevel_6x30;
+struct G_CreateLobbyChair_6xAB;
+struct G_DeleteInventoryItem_6x29;
+struct G_DeleteMultipleInventoryItems_6xAC;
+struct G_DisableDropWeaponOnDeath_6x81;
+struct G_DisablePKModeForPlayer_6x1C;
+struct G_DisableStealthSuitEffect_6x7B;
+struct G_DropItem_6x2A;
+struct G_EnableDropWeaponOnDeath_6x82;
+struct G_EnablePKModeForPlayer_6x1B;
+struct G_EnableStealthSuitEffect_6x7A;
+struct G_ExecutePhotonBlast_Header_6x49;
+struct G_HitByEnemy_6x4B_6x4C;
+struct G_InterLevelWarp_6x21;
+struct G_LevelUpAllTechniques_6x9B;
+struct G_LobbyAnimation_6x58;
+struct G_PlaceTrap_6x83;
+struct G_PlayerDied_6x4D;
+struct G_PlayerRevivable_6x4E;
+struct G_PlayerRevived_6x4F;
+struct G_ReleaseHold_6x2D;
+struct G_RevivePlayer_6x33;
+struct G_RevivePlayer_V3_BB_6xA1;
+struct G_SetAnimationState_6xAE;
+struct G_SetKillerEntityID_6x89;
+struct G_SetOrClearPlayerFlags_6x2E;
+struct G_SetPlayerFloor_6x1F;
+struct G_SetPlayerPositionAndAngle_6x56;
+struct G_SetPlayerVisibility_6x22_6x23;
+struct G_SetPosition_6x20;
+struct G_SetPosition_6x3F;
+struct G_SetTechniqueLevelOverride_6x8D;
+struct G_ShieldAttack_6x4A;
+struct G_StopAtPosition_6x3E;
+struct G_TurnOrMoveLobbyChair_6xAF_6xB0;
+struct G_Unknown_6x53;
+struct G_UseMedicalCenter_6x31;
+
+void handle_6x0C_add_or_remove_status_effect(G_AddOrRemoveStatusEffect_6x0C_6x0D *command);
+void handle_6x0D_add_or_remove_status_effect(G_AddOrRemoveStatusEffect_6x0C_6x0D *command);
+void handle_6x1B_enable_pk_mode_for_player(G_EnablePKModeForPlayer_6x1B *command);
+void handle_6x1C_disable_pk_mode_for_player(G_DisablePKModeForPlayer_6x1C *command);
+void handle_6x1F_set_player_floor(G_SetPlayerFloor_6x1F *command);
+void handle_6x20_set_position(G_SetPosition_6x20 *command);
+void handle_6x21_inter_level_warp(G_InterLevelWarp_6x21 *command);
+void handle_6x22_set_player_invisible(G_SetPlayerVisibility_6x22_6x23 *command);
+void handle_6x23_set_player_visible(G_SetPlayerVisibility_6x22_6x23 *command);
+void handle_6x29_delete_inventory_item(G_DeleteInventoryItem_6x29 *command);
+void handle_6x2A_drop_item(G_DropItem_6x2A *command);
+void handle_6x2D_release_hold(G_ReleaseHold_6x2D *command);
+void handle_6x2E_set_or_clear_player_flags(G_SetOrClearPlayerFlags_6x2E *command);
+void handle_6x30_change_player_level(G_ChangePlayerLevel_6x30 *command);
+void handle_6x31_use_medical_center(G_UseMedicalCenter_6x31 *command);
+void handle_6x33_revive_player(G_RevivePlayer_6x33 *command);
+void handle_6x3E_stop_at_position(G_StopAtPosition_6x3E *command);
+void handle_6x3F_set_position(G_SetPosition_6x3F *command);
+void handle_6x49_execute_photon_blast(G_ExecutePhotonBlast_Header_6x49 *command);
+void handle_6x4A_shield_attack(G_ShieldAttack_6x4A *command);
+void handle_6x4B_hit_by_enemy(G_HitByEnemy_6x4B_6x4C *command);
+void handle_6x4C_hit_by_enemy(G_HitByEnemy_6x4B_6x4C *command);
+void handle_6x4D_player_died(G_PlayerDied_6x4D *command);
+void handle_6x4E_player_revivable(G_PlayerRevivable_6x4E *command);
+void handle_6x4F_player_revived(G_PlayerRevived_6x4F *command);
+void handle_6x53(G_Unknown_6x53 *command);
+void handle_6x56_set_player_position_and_angle(G_SetPlayerPositionAndAngle_6x56 *command);
+void handle_6x58_lobby_animation(G_LobbyAnimation_6x58 *command);
+void handle_6x7A_enable_stealth_suit_effect(G_EnableStealthSuitEffect_6x7A *command);
+void handle_6x7B_disable_stealth_suit_effect(G_DisableStealthSuitEffect_6x7B *command);
+void handle_6x81_disable_drop_weapon_on_death(G_DisableDropWeaponOnDeath_6x81 *command);
+void handle_6x82_enable_drop_weapon_on_death(G_EnableDropWeaponOnDeath_6x82 *command);
+void handle_6x83_place_trap(G_PlaceTrap_6x83 *command);
+void handle_6x89_set_killer_entity_id(G_SetKillerEntityID_6x89 *command);
+void handle_6x8D_set_technique_level_override(G_SetTechniqueLevelOverride_6x8D *command);
+void handle_6x9B_level_up_all_techniques(G_LevelUpAllTechniques_6x9B *command);
+void handle_6xA1_revive_player_v3(G_RevivePlayer_V3_BB_6xA1 *command);
+void handle_6xAB(G_CreateLobbyChair_6xAB *command);
+void handle_6xAC(G_DeleteMultipleInventoryItems_6xAC *command);
+void handle_6xAE_set_animation_state(G_SetAnimationState_6xAE *command);
+void handle_6xAF_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *command);
+void handle_6xB0_turn_or_move_lobby_chair(G_TurnOrMoveLobbyChair_6xAF_6xB0 *command);
+
+#endif
