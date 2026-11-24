@@ -187,7 +187,6 @@ struct Self_801B96BC {
 extern "C" {
 s32 calc_stat_threshold__10TObjPlayerFPv(void *player);
 s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming);
-u8 is_volopt_phase_final__10TObjPlayerFv(TObjPlayer *player);
 s32 is_item_equipped(TItem *item);
 s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out, s32 key);
 }
@@ -2402,7 +2401,7 @@ u32 TObjPlayer::pickup_item(TItem *item) {
 
 void TObjPlayer::send_6x29_delete_item(void *obj, int a, int b) {
     Cmd_801B8DE8 cmd;
-    if (((s32 (*)(void))is_volopt_phase_final__10TObjPlayerFv)() != 0) {
+    if (((TObjPlayer *)obj)->is_in_lobby() != 0) {
         return;
     }
     if (obj != 0 && ((TObjChara *)obj)->obj_isState2_324() != 0) {
@@ -2422,7 +2421,7 @@ void handle_6x29_delete_inventory_item(G_DeleteInventoryItem_6x29 *command) {
     ((TObjPlayer *)(&sp8))->bswap_body_dwords3();
     if (validate_6x29_delete_inventory_item((G_ClientIDHeader *)&sp8) != 0) {
         saddr p = (saddr)get_player_by_client_id(sp8.f2);
-        if (p != 0 && ((s32 (*)(void))is_volopt_phase_final__10TObjPlayerFv)() == 0) {
+        if (p != 0 && ((TObjPlayer *)p)->is_in_lobby() == 0) {
             ((TObjPlayer *)p)->dispatch_action(sp8.f4, sp8.f8);
         }
     }
@@ -2548,7 +2547,7 @@ void handle_6x83_place_trap(G_PlaceTrap_6x83 *command) {
 
 void TObjPlayer::send_6x2A_drop_item(void *player, s32 source, void *arg2, s32 arg3) {
     Cmd_801B8870 cmd;
-    if (((s32 (*)(void))is_volopt_phase_final__10TObjPlayerFv)() == 0 && (player == NULL || ((TObjChara *)player)->obj_isState2_324() == 0)) {
+    if (((TObjPlayer *)player)->is_in_lobby() == 0 && (player == NULL || ((TObjChara *)player)->obj_isState2_324() == 0)) {
         ((TObjPlayer *)(&cmd))->init_6x2A();
         cmd.client = ((TObjBase *)((saddr)player))->get_entity_id();
         cmd.a = source;
@@ -2568,7 +2567,7 @@ void handle_6x2A_drop_item(G_DropItem_6x2A *command) {
     bswap_fields__10TObjPlayerFi((saddr)&m);
     if (validate_6x2A_drop_item((G_DropItem_6x2A *)&m) != 0) {
         p = (Player_801B87E4 *)get_player_by_client_id((u16)m.slot);
-        if ((p != NULL) && (((s32 (*)(void))is_volopt_phase_final__10TObjPlayerFv)() == 0)) {
+        if ((p != NULL) && (((TObjPlayer *)p)->is_in_lobby() == 0)) {
             ((TPlyItem *)(p->inv))->update_inventory_item(reinterpret_cast<TObjPlayer *>(p), m.c, reinterpret_cast<f32 *>(m.d), m.a, m.b);
         }
     }
@@ -2645,7 +2644,7 @@ void delete_item(void *player, s32 id, s32 count) { TObjPlayer::send_6x29_delete
 void TObjPlayer::request_inventory_item(TItemData* item) {
     TObjPlayer* player = this;
     InventoryCreatePacket_801B849C packet;
-    if (((s32 (*)(void))is_volopt_phase_final__10TObjPlayerFv)() == 0) {
+    if (is_in_lobby() == 0) {
         if ((s32)item->id == -1) {
             item->id = advance_item_id_counter((u16)local_client_id);
         }
@@ -2669,7 +2668,7 @@ void handle_6x2B_create_inventory_item(G_CreateInventoryItem_PC_V3_BB_6x2B *comm
     ((TObjPlayer *)(&pkt))->bswap_cmd_item_data();
     if (validate_6x2B_create_inventory_item((G_ClientIDHeader *)&pkt) != 0) {
         player = (saddr)get_player_by_client_id(pkt.client);
-        if ((player != 0) && (((s32 (*)(void))is_volopt_phase_final__10TObjPlayerFv)() == 0)) {
+        if ((player != 0) && (((TObjPlayer *)player)->is_in_lobby() == 0)) {
             if ((u32)(pkt.size * 4) == 0x18) {
                 kind = 0;
                 ((TItemData *)pkt.item)->convert_from_version(0);
@@ -6248,8 +6247,8 @@ s32 TFontSmallLobby::is_lobby_floor_15(void) {
     return (u8) (get_current_floor_area() == AREA_LOBBY);
 }
 
-u8 is_volopt_phase_final__10TObjPlayerFv(TObjPlayer *player) {
-    return (u8) (player->get_area() == 0xF);
+s32 TObjPlayer::is_in_lobby() {
+    return (u8)(get_area() == AREA_LOBBY);
 }
 
 s32 TObjPlayer::is_key_machine_ready(void) {
