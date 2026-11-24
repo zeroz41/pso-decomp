@@ -2148,7 +2148,7 @@ s32 NpcPlayerView::can_recover(s32 kind, s32 allow_item) {
             condition = condition | NPC_CONDITION_HAS_RECOVERY_ITEM;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((saddr)player, 0xF) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)player, TECHNIQUE_RESTA) != 0) {
             return 1;
         }
         break;
@@ -2159,7 +2159,7 @@ s32 NpcPlayerView::can_recover(s32 kind, s32 allow_item) {
         }
         break;
     case 2:
-        if (TObjPlayer::try_camera_action((saddr)player, 0x10) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)player, TECHNIQUE_ANTI) != 0) {
             return 1;
         }
         break;
@@ -2168,7 +2168,7 @@ s32 NpcPlayerView::can_recover(s32 kind, s32 allow_item) {
             condition = condition | NPC_CONDITION_HAS_RECOVERY_ITEM;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((saddr)player, 0x11) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)player, TECHNIQUE_REVERSER) != 0) {
             return 1;
         }
         break;
