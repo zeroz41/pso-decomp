@@ -26,5 +26,6 @@ void __two_exp(decimal*, short);
 void __str2dec(decimal*, const char*, short);
 void __timesdec(decimal*, const decimal*, const decimal*);
 void __ull2dec(decimal*, unsigned long long);
+double __dec2num(const decimal* d);
 
 #endif

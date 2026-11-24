@@ -339,7 +339,6 @@ int atoi(const char* str) {
 
 #include "MSL_C/ansi_fp.h"
 #include "MSL_C/locale.h"
-extern double __dec2num(const decimal* d);
 extern float __float_huge[];
 extern float __float_nan[];
 extern unsigned int __double_huge[];

@@ -20,7 +20,7 @@ typedef void* ConstructorDestructor;
 extern "C" {
 #endif
 
-extern void* __copy(char* to, char* from, size_t size);
+extern char* __copy(char* to, char* from, size_t size);
 
 extern void __construct_array(void* ptr, ConstructorDestructor ctor, ConstructorDestructor dtor, size_t size, size_t n);
 extern void __destroy_arr(void* block, ConstructorDestructor* dtor, size_t size, size_t n);
