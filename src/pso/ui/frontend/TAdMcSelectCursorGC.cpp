@@ -4,7 +4,6 @@
 #include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/ui/frontend/TAdMcSelectCursorGC_8032A610.h"
 #include "pso/render/render_util.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"
@@ -37,7 +36,7 @@ void TAdMcSelectCursorGC::render_cursor() {
 }
 
 void TAdMcSelectCursorGC::render() {
-    if ((s32) this->m_13c == 1) {
+    if ((s32) this->render_direct == 1) {
         if (TMainTask::get_render_pass() == 1) {
             return;
         }
@@ -49,7 +48,7 @@ block_5:
         set_additive_blend();
         render_cursor();
         set_default_alpha_blend();
-        if ((s32) this->m_13c == 0) {
+        if ((s32) this->render_direct == 0) {
             restore_saved_depth_alpha_state();
         }
     }
@@ -63,11 +62,11 @@ void TAdMcSelectCursorGC::run_task() {
     TAdMcCheckGC *t;
     TAdMcCheckGC *t1;
     s32 i;
-    if (m_1c == 0) {
+    if (selection_locked == 0) {
         t = TAdMcSelectCursorGC::get_cursor_type(1 - selected_slot);
         if (TAdMultiPlyChrSelectGC::dispatch_draw_command(reinterpret_cast<s32>(&controller_physical_port_bank.controllers[0]), 0x80, 6, 1) != 0 ||
             test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0) {
-            if (TAdMcSelectCursorGC__sub_8032A6D8(t) >= 4) {
+            if (t->get_check_step() >= 4) {
                 selected_slot++;
                 if (selected_slot > 1) {
                     selected_slot = 1;
@@ -75,7 +74,7 @@ void TAdMcSelectCursorGC::run_task() {
             }
         } else if ((TAdMultiPlyChrSelectGC::dispatch_draw_command(reinterpret_cast<s32>(&controller_physical_port_bank.controllers[0]), 0x40, 6, 1) != 0 ||
                     test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0) &&
-                   TAdMcSelectCursorGC__sub_8032A6D8(t) >= 4) {
+                   t->get_check_step() >= 4) {
             selected_slot--;
             if (selected_slot < 0) {
                 selected_slot = 0;
@@ -84,8 +83,8 @@ void TAdMcSelectCursorGC::run_task() {
     }
     t1 = TAdMcSelectCursorGC::get_cursor_type(selected_slot);
     t2 = TAdMcSelectCursorGC::get_cursor_type(1 - selected_slot);
-    if (t1 != 0 && TAdMcSelectCursorGC__sub_8032A6D8(t1) == 0) {
-        if (t2 != 0 && TAdMcSelectCursorGC__sub_8032A6D8(t2) == 0) {
+    if (t1 != 0 && t1->get_check_step() == 0) {
+        if (t2 != 0 && t2->get_check_step() == 0) {
             cursor_alpha = 0;
         } else {
             selected_slot = 1 - selected_slot;
@@ -120,8 +119,8 @@ TAdMcSelectCursorGC::TAdMcSelectCursorGC(TObject *parent) : TObject(parent) {
     m_12c = 0;
     m_134 = 0;
     cursor_alpha = 0;
-    m_13c = 1;
-    m_1c = 0;
+    render_direct = 1;
+    selection_locked = 0;
     selected_slot = 0;
     previous_slot = selected_slot;
     for (s32 i = 0; i < 8; i++) {
@@ -152,7 +151,7 @@ void TAdMcSelectCursorGC::release_cursor_entry() {
 
 void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC__texture_entry = &mc_select_cursor_texture_list; load_streamed_prs_texture((s32)"f256_memorycard_select", (s32)&mc_select_cursor_texture_list); }
 
-s32 TAdMcSelectCursorGC__sub_8032A6D8(TAdMcCheckGC *card) { return card->m_1c; }
+s32 TAdMcCheckGC::get_check_step() { return check_step; }
 
 TAdMcCheckGC *TAdMcSelectCursorGC::get_cursor_type(int slot) { return memcard_cursor_instance_table[slot]; }
 

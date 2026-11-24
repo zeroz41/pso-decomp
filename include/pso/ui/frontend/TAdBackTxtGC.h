@@ -11,12 +11,12 @@ public:
     void draw_character_background_frame(s32, s32);
     virtual void render();
     virtual void run_task();
-    void set_field_24(s32 v);
+    void set_render_direct(s32 v);
     void set_depth(f32 v);
 
     s32 frame;
     f32 m_depth;
-    s32 m_24;
+    s32 render_direct;
 };
 
 LAYOUT_ASSERT(TAdBackTxtGC_size, sizeof(TAdBackTxtGC) == 0x28);

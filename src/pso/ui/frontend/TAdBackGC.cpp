@@ -52,7 +52,7 @@ void TAdBackGC::sub_8029A6EC() {
 extern "C" {
 
 void TAdBackGC::render() {
-    if (m_20 == 0) {
+    if (render_direct == 0) {
         if (defer_render() == 0) {
             set_depth_buffer_settings_2();
             goto draw;
@@ -65,7 +65,7 @@ draw:
         draw_title_background_layer(&chr_select_ad_pic_2_texture_descriptor, 0, -1, m_depth);
         set_color_blending_mode(0, 8);
         set_color_blending_mode(1, 6);
-        if (m_20 == 0) {
+        if (render_direct == 0) {
             restore_saved_depth_alpha_state();
         }
     }
@@ -77,7 +77,7 @@ TAdBackGC::~TAdBackGC() {}
 TAdBackGC::TAdBackGC(TObject *parent) : TObject(parent) {
     m_name = TAdBackGC__class_name;
     m_depth = -400.0f;
-    m_20 = 1;
+    render_direct = 1;
 }
 
 NJS_TEXLIST *chr_select_ad_pic_texture;

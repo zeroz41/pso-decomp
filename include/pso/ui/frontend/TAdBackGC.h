@@ -13,11 +13,11 @@ public:
     virtual void run_task();
     virtual void render();
 public:
-    void set_field_20(s32 v);
+    void set_render_direct(s32 v);
     void set_depth(f32 v);
 
     f32 m_depth;
-    s32 m_20;
+    s32 render_direct;
 };
 
 LAYOUT_ASSERT(TAdBackGC_size, sizeof(TAdBackGC) == 0x24);

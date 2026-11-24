@@ -31,7 +31,7 @@
 #pragma dont_inline off
 
 
-extern TSaveChCrStateActions lbl_804EF658[];
+extern TSaveChCrStateActions save_chcr_state_actions[];
 
 #pragma readonly_strings on
 const char *TSaveChCr__name = "TSaveChCr";
@@ -52,26 +52,26 @@ extern void *tl_03;
 }
 
 void TSaveChCr::destroy_if_keyboard_idle() { if (this->timer == 0) { queue_destruction(); request_queued_main_phase(); } }
-void TSaveChCr::sub_80339B94() { close_window(); }
-void TSaveChCr::save_if_dirty() { if (sub_80339F30() != 0) { set_state((saddr)((void*)4)); } }
+void TSaveChCr::enter_close_state() { close_window(); }
+void TSaveChCr::save_if_dirty() { if (is_confirm_pressed() != 0) { set_state(4); } }
 void TSaveChCr::close_and_advance_to_3() { close_and_advance(3); }
 void TSaveChCr::update_save_status() {
-    s32 var_r3;
+    s32 result;
 
     if ((s32) this->timer <= 0) {
-        this->m_28 = 0;
+        this->status_checked = 0;
         this->card_status = poll_memcard_status();
         if ((s32) this->card_status != 0) {
-            set_state((saddr)((void*)(1)));
+            set_state(1);
             return;
         }
         if (this->mode == 0) {
-            var_r3 = save_character();
+            result = save_character();
         } else {
-            var_r3 = sub_8033A138();
+            result = load_card_character();
         }
-        if (var_r3 == 7) {
-            set_state((saddr)((void*)(4)));
+        if (result == 7) {
+            set_state(4);
             return;
         }
         queue_destruction();
@@ -79,7 +79,7 @@ void TSaveChCr::update_save_status() {
     }
 }
 void TSaveChCr::close_and_advance_step2() { close_and_advance(2); }
-void TSaveChCr::sub_80339CE4() {}
+void TSaveChCr::update_saving() {}
 void TSaveChCr::save_1() { close_and_advance(1); }
 void TSaveChCr::update_save_state() {
     s32 card_status;
@@ -92,22 +92,22 @@ void TSaveChCr::update_save_state() {
             }
         } else {
             if (card_status & 4) {
-                set_state((saddr)((void*)(1)));
+                set_state(1);
                 return;
             }
             if (card_status == 0) {
-                set_state((saddr)((void*)(2)));
+                set_state(2);
             }
         }
     }
 }
-void TSaveChCr::fn_80339D78() {
+void TSaveChCr::enter_check_state() {
     close_window();
     if (card_status & 1) {
         close_and_advance(0);
     }
 }
-s32 TSaveChCr::sub_80339DBC() {
+s32 TSaveChCr::has_no_save_files() {
     if ((TAdPlayerLoadGC::find_card_file(0, pso_system_card_filename) != 0) || (TAdPlayerLoadGC::find_card_file(0, pso_character_card_filename.filename) != 0) || (TAdPlayerLoadGC::find_card_file(0, pso_guildcard_card_filename.filename) != 0)) {
         return 0;
     }
@@ -115,41 +115,41 @@ s32 TSaveChCr::sub_80339DBC() {
 }
 
 s32 TSaveChCr::poll_memcard_status() {
-    s32 var_r31;
+    s32 status;
 
     if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
-        this->m_28 = 0;
+        this->status_checked = 0;
         return 1;
     }
     if (TAdPlayerLoadGC::probe_and_check_card(0) == 0) {
-        this->m_28 = 0;
+        this->status_checked = 0;
         return 4;
     }
     if (poll_memcard_result(0) != 0) {
-        this->m_24 = (this->m_24 + 1);
-        this->m_28 = 0;
+        this->read_fail_count = (this->read_fail_count + 1);
+        this->status_checked = 0;
         return 2;
     }
-    this->m_24 = 0;
+    this->read_fail_count = 0;
     if (TAdPlayerLoadGC::check_memcard_status(0) != 0) {
-        this->m_28 = 0;
+        this->status_checked = 0;
         return 4;
     }
-    if ((s32) this->m_28 != 0) {
+    if ((s32) this->status_checked != 0) {
         return this->card_status;
     }
-    var_r31 = 0;
-    this->m_28 = 1;
+    status = 0;
+    this->status_checked = 1;
     if (poll_memcard_status__23TAdSinglePlyChrSelectGCFv() == 0) {
-        var_r31 |= 4;
+        status |= 4;
     }
-    if (sub_80339DBC() == 0) {
-        var_r31 |= 4;
+    if (has_no_save_files() == 0) {
+        status |= 4;
     }
-    return var_r31;
+    return status;
 }
 
-s32 TSaveChCr::sub_80339F30() {
+s32 TSaveChCr::is_confirm_pressed() {
     return creation_buttons_pressed(4) ? 1 : 0;
 }
 
@@ -187,7 +187,7 @@ void TSaveChCr::create_backgrounds() {
     backdrop_text = new TAdBackTxtGC(this);
 }
 
-s32 TSaveChCr::sub_8033A138() { return TAdSinglePlyChrSelectGC::load_character_from_card(0); }
+s32 TSaveChCr::load_card_character() { return TAdSinglePlyChrSelectGC::load_character_from_card(0); }
 s32 TSaveChCr::save_character() {
     TObjPlayer::begin_action_from_char_select();
     return TAdSinglePlyChrSelectGC::load_character_from_card(1);
@@ -196,7 +196,7 @@ s32 TSaveChCr::save_character() {
 void TSaveChCr::set_state(s32 next_state) {
     if (state_index != next_state) {
         state_index = next_state;
-        TSaveChCrStateAction action = lbl_804EF658[state_index].first;
+        TSaveChCrStateAction action = save_chcr_state_actions[state_index].first;
         if (action != NULL) {
             (this->*action)();
         }
@@ -212,7 +212,7 @@ void TSaveChCr::run_task() {
   {
     set_state(0);
   }
-  entry = &lbl_804EF658[state_index];
+  entry = &save_chcr_state_actions[state_index];
   TSaveChCrStateAction action = (*entry).task;
   if (action != 0)
   {
@@ -236,8 +236,8 @@ TSaveChCr::~TSaveChCr() {
 TSaveChCr::TSaveChCr(TObject *parent, s32 mode) : TObject(parent) {
     m_name = TSaveChCr__name;
     this->mode = mode;
-    m_24 = 0;
-    m_28 = 0;
+    read_fail_count = 0;
+    status_checked = 0;
     card_status = poll_memcard_status();
     owned_window = NULL;
     timer = 0;
@@ -251,10 +251,10 @@ TSaveChCr *TSaveChCr::create(s32 mode) {
 
 // Per-state actions of TSaveChCr: the first runs when set_state enters the
 // state, the task runs every frame from run_task.
-TSaveChCrStateActions lbl_804EF658[5] = {
-    {&TSaveChCr::fn_80339D78, &TSaveChCr::update_save_state},
-    {&TSaveChCr::save_1, &TSaveChCr::sub_80339CE4},
+TSaveChCrStateActions save_chcr_state_actions[5] = {
+    {&TSaveChCr::enter_check_state, &TSaveChCr::update_save_state},
+    {&TSaveChCr::save_1, &TSaveChCr::update_saving},
     {&TSaveChCr::close_and_advance_step2, &TSaveChCr::update_save_status},
     {&TSaveChCr::close_and_advance_to_3, &TSaveChCr::save_if_dirty},
-    {&TSaveChCr::sub_80339B94, &TSaveChCr::destroy_if_keyboard_idle},
+    {&TSaveChCr::enter_close_state, &TSaveChCr::destroy_if_keyboard_idle},
 };

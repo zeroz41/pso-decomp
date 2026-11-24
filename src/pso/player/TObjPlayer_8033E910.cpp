@@ -5,7 +5,6 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_8033E910.h"
 #include "pso/weapon/TItemWeaponSBerillsHands.h"
-#include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/unk/TUnk_804EFA88.h"
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaTextureMatrices.h"
@@ -129,8 +128,8 @@ void TUnk_804EFA88::render() {
         play_indirect_effect_recipe(this->entries[i].effect_kind, 1, 1);
         ((void (*)(void *))init_particle_effect__10TObjPlayerFv)(this);
         ((void (*)(void *))setup_projection_tex_matrix__10TObjPlayerFv)(this);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->entries[i].p18));
-        draw_ginja_object((void *)(this->entries[i].p1C));
+        TObjFish::set_global_param(this->entries[i].texlist);
+        draw_ginja_object(this->entries[i].model);
         pop_matrix();
         reset_indirect_tev(1);
         ((void (*)(void *))reset_effects__10TObjPlayerFv)(this);
@@ -144,7 +143,7 @@ void TUnk_804EFA88::run_task() {
         return;
     }
     for (i = 0; i < this->entry_count; i++) {
-        TLobby__sub_8033EE38(&this->entries[i]);
+        clear_draw_record(&this->entries[i]);
     }
     this->entry_count = 0;
 }
@@ -163,10 +162,10 @@ TUnk_804EFA88::~TUnk_804EFA88() {
 TUnk_804EFA88::TUnk_804EFA88(TObject *parent) : TObject(parent) {
     s32 i;
     entry_count = 0;
-    entries = (Item_8033EB4C *)mem_alloc(0x240);
+    entries = (IndirectDrawRecord *)mem_alloc(0x240);
     if (entries != NULL) {
         for (i = 0; i < 0x10; i++) {
-            TLobby__sub_8033EE38(&entries[i]);
+            clear_draw_record(&entries[i]);
         }
     }
     lbl_805D6DA0 = this;

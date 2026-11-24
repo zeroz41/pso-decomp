@@ -6434,7 +6434,7 @@ force_active:
   - fn_80327A38
   - receive_direct_attack__9TBoss6MagFPv19DirectAttackPayloadPvll
   - __dt__9TBoss6MagFv
-  - fn_80339D78__9TSaveChCrFv
+  - enter_check_state__9TSaveChCrFv
   - is_held__22ControllerInputContextFl
   - is_pressed__22ControllerInputContextFl
   - __ct__13TUnk_804F1EC8FP7TObjectPUc
@@ -8120,7 +8120,7 @@ force_active:
   - lbl_804EF1B8
   - lbl_804EF1DC
   - lbl_804EF3A4
-  - lbl_804EF658
+  - save_chcr_state_actions
   - lbl_804EFBC8
   - lbl_804EFBD0
   - __vt__22TWindowDD_WS_ScrollBar
@@ -16353,11 +16353,11 @@ force_active:
   - act_chase_pl__9TBoss6MagFv
   - act_set_shoulder__9TBoss6MagFv
   - act_start__9TBoss6MagFv
-  - sub_80339B94__9TSaveChCrFv
-  - sub_80339CE4__9TSaveChCrFv
-  - sub_80339DBC__9TSaveChCrFv
-  - sub_80339F30__9TSaveChCrFv
-  - sub_8033A138__9TSaveChCrFv
+  - enter_close_state__9TSaveChCrFv
+  - update_saving__9TSaveChCrFv
+  - has_no_save_files__9TSaveChCrFv
+  - is_confirm_pressed__9TSaveChCrFv
+  - load_card_character__9TSaveChCrFv
   - handle_retry_menu__17TCharSaveSequenceFv
   - wait_character_file_write__17TCharSaveSequenceFv
   - start_character_read__17TCharSaveSequenceFv

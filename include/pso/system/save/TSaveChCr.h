@@ -17,8 +17,8 @@ public:
     s32 state_index;
     // 0 saves the character; otherwise it is loaded back from the card.
     s32 mode;
-    s32 m_24;
-    s32 m_28;
+    s32 read_fail_count;
+    s32 status_checked;
     s32 card_status;
     TAdBackGC *backdrop;
     TAdBackTxtGC *backdrop_text;
@@ -36,12 +36,12 @@ public:
     void close_and_advance_step2();
     void save_1();
     void update_save_state();
-    void fn_80339D78();
-    void sub_80339CE4();
-    void sub_80339B94();
-    s32 sub_80339DBC();
-    s32 sub_80339F30();
-    s32 sub_8033A138();
+    void enter_check_state();
+    void update_saving();
+    void enter_close_state();
+    s32 has_no_save_files();
+    s32 is_confirm_pressed();
+    s32 load_card_character();
     void close_window();
     void create_backgrounds();
     s32 save_character();
