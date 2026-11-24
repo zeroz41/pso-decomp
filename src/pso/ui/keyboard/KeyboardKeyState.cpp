@@ -300,7 +300,7 @@ void KeyboardKeyState::reset_state() {
 #pragma pop
 
 void KeyboardKeyState::reset_input() {
-    TKeyBoardControl::init_pad_states();
+    init_pad_states();
     reset_state();
     set_si_polling_callback((uaddr)((s32 *)KeyboardKeyState::append_next_char_global));
 }

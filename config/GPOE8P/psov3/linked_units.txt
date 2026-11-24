@@ -721,7 +721,7 @@ pso/unk/TLobby_80243370.cpp
 pso/ui/keyboard/WindowKeyBoardMode.cpp
 pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp
 pso/audio/AdxUiBridge.cpp
-pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp
+pso/ui/keyboard/KBDXfer.c
 pso/effect/TKomorebi.cpp
 pso/system/TLanguage.cpp
 pso/system/TLanguage_801A5694.cpp

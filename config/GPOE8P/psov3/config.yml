@@ -5666,7 +5666,7 @@ force_active:
   - destroy_sub_objects__15TBoss3VoloptP02Fv
   - set_core_color__13TObjEneMe1GeeFPC8NJS_ARGB
   - destroy_subobjects_recursive__9TItemListFv
-  - detect_device_type__16TKeyBoardControlFl
+  - detect_device_type
   - dimedian_action_table
   - dimedian_appear_motion_filename
   - dimedian_attack_left_motion_filename
@@ -5693,7 +5693,7 @@ force_active:
   - dimedian_walk_motion_filename
   - disable__23MagNodeOscillationStateFv
   - disable_cancel__19TWindowMenuIconLineFv
-  - disable_channel_polling__16TKeyBoardControlFl
+  - disable_channel_polling
   - disable_window_flags__6TLobbyFPv
   - dispatch_action__10TNpcPlayerFl
   - dispatch_action__12TBoss1DragonFUll
@@ -5985,7 +5985,7 @@ force_active:
   - empty_warp_overlay_zero_vec
   - enable_fog__15TObjBoss2TunnelFPv
   - enable_fog__15TObjBoss2TunnelFv
-  - enable_keyboard_polling__16TKeyBoardControlFl
+  - enable_keyboard_polling
   - enable_particles__13TBoss5GryphonFv
   - enable_progressive_mode__13TAdVIConfigGCFPv
   - encrypt_download_data__22TQuestVmDownLoadServerFl
@@ -6859,7 +6859,7 @@ force_active:
   - handle_msg_type2__6TLobbyFl
   - handle_number_input__21TShopDeleteItemWindowFv
   - handle_open__19TWindowMenuIconLineFv
-  - handle_pad_transfer_done__FlUlP9OSContext
+  - handle_pad_transfer_done
   - handle_page_input__24TWindowSubSymbolChatHelpFv
   - handle_page_input__26TWindowSubQuestBoardSelectFv
   - handle_pay_confirm__23TShopJudgmentItemWindowFv
@@ -9332,7 +9332,7 @@ force_active:
   - parse_network_info_config_hex__FPcUl
   - parse_network_info_config_line__FPcUlP17NetworkInfoConfig
   - parse_packet__9TProtocolFv
-  - parse_pad_event__16TKeyBoardControlFlUl
+  - parse_pad_event
   - parse_r_index
   - parse_tag_command__24TMessageWindowControllerFv
   - particle_regular_bml_descriptor
@@ -16026,7 +16026,7 @@ force_active:
   - capture_symbol_chat__18TSymbolChatCaptureFUsl
   - start_fade__9TAdFadeGCFPv
   - start_gba_joyboot__6TLobbyFv
-  - start_get_type_async__16TKeyBoardControlFlllPFl_v
+  - start_get_type_async
   - start_handle_6x78_entry__FUs
   - start_hp_text_color_transition__20TWindowSubStatusDispFv
   - start_invincibility__8TItemMagFv
@@ -16971,7 +16971,7 @@ force_active:
   - update_item_select__21TShopDeleteItemWindowFPv
   - update_judge_confirm__23TShopJudgmentItemWindowFv
   - update_kafun_attack__16TObjEneMerillLiaFv
-  - update_key_events__16TKeyBoardControlFl
+  - update_key_events
   - update_knockback_state__12TObjEneSaverFv
   - update_knockback_state__15TObjEnemyCustomFv
   - update_knockback_state__16TObjEneNanoDragoFv
@@ -17115,7 +17115,7 @@ force_active:
   - update_position_if_changed__19TWindowSubTradeMainFlPUcPUc
   - approach_upper_hover_height__17TObjEneMe1CanadinFv
   - update_possess_target__11TBoss6Type2Fv
-  - update_pressed_keys__20KeyboardChannelStateFv
+  - update_pressed_keys
   - update_proximity_state__16TObjEneNanoDragoFv
   - update_pulse_state__10TBoss2MineFv
   - update_pulse_value__17TOSensorAncient01Fv

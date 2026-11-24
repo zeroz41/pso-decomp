@@ -8,16 +8,15 @@
 #include <dolphin/os/OSTime.h>
 #include <dolphin/si.h>
 #include "pso/ui/keyboard/KeyboardDeviceDriver.h"
-#include "pso/ui/keyboard/TKeyBoardControl.h"
 
 KeyboardChannelState keyboard_pad_state_table[4];
 s32 keyboard_polling_disabled;
 
 static OSResetFunctionInfo keyboard_reset_func_info = {
-    (OSResetFunction)TKeyBoardControl::disable_all_channels, 127
+    (OSResetFunction)disable_all_channels, 127
 };
 
-void TKeyBoardControl::init_pad_states() {
+void init_pad_states(void) {
     s32 i;
     for (i = 0; i < 4; i++) {
         KeyboardChannelState *state = &keyboard_pad_state_table[i];
@@ -35,7 +34,7 @@ void TKeyBoardControl::init_pad_states() {
     OSRegisterResetFunction(&keyboard_reset_func_info);
 }
 
-void TKeyBoardControl::parse_pad_event(s32 chan, u32 type) {
+void parse_pad_event(s32 chan, u32 type) {
     u32 halfword = type >> 16U;
     s32 prefix = (type >> 16U) & 0xFFF0;
     KeyboardChannelState *state = &keyboard_pad_state_table[chan];
@@ -59,7 +58,7 @@ void TKeyBoardControl::parse_pad_event(s32 chan, u32 type) {
     }
 }
 
-void TKeyBoardControl::detect_device_type(s32 chan) {
+void detect_device_type(s32 chan) {
     KeyboardChannelState *state = &keyboard_pad_state_table[chan];
     u32 type;
     if (state->err != 0) {
@@ -97,7 +96,7 @@ void TKeyBoardControl::detect_device_type(s32 chan) {
         return;
     }
     if (state->out[0] == 0xFF && keyboard_polling_disabled == 0) {
-        TKeyBoardControl::enable_keyboard_polling(chan);
+        enable_keyboard_polling(chan);
     }
 }
 
@@ -122,13 +121,13 @@ s32 reset_keyboard_port(s32 chan, KeyboardCallback callback) {
         return ret;
     }
     state->out[0] = 0xFF;
-    return TKeyBoardControl::start_get_type_async(chan, 1, 3, TKeyBoardControl::detect_device_type);
+    return start_get_type_async(chan, 1, 3, detect_device_type);
 }
 
-s32 TKeyBoardControl::disable_all_channels() {
+s32 disable_all_channels(void) {
     u32 mask;
     while ((mask = (u32)TKeyBoardControl__polling_channel_mask) != 0) {
-        TKeyBoardControl::disable_channel_polling(__cntlzw(mask));
+        disable_channel_polling(__cntlzw(mask));
     }
     keyboard_polling_disabled = 1;
     return 1;
@@ -177,7 +176,7 @@ void on_keyboard_type_event(s32 chan, u32 type) {
     if (keyboard_polling_disabled != 0) {
         return;
     }
-    TKeyBoardControl::parse_pad_event(chan, type);
+    parse_pad_event(chan, type);
     if (state->type != 0) {
         if (SITransfer(chan, state->out, state->out_bytes, state->in, state->in_bytes, handle_pad_transfer_done,
                        state->delay) != 0) {
@@ -204,7 +203,7 @@ void on_keyboard_type_event(s32 chan, u32 type) {
     }
 }
 
-s32 TKeyBoardControl::start_get_type_async(s32 chan, s32 out_bytes, s32 in_bytes, KeyboardTypeCallback callback) {
+s32 start_get_type_async(s32 chan, s32 out_bytes, s32 in_bytes, KeyboardTypeCallback callback) {
     s32 en;
     KeyboardChannelState *state = &keyboard_pad_state_table[chan];
     en = OSDisableInterrupts();
@@ -216,26 +215,25 @@ s32 TKeyBoardControl::start_get_type_async(s32 chan, s32 out_bytes, s32 in_bytes
     return 0;
 }
 
-void KeyboardChannelState::update_pressed_keys() {
-    KeyboardChannelState *self = this;
+void update_pressed_keys(KeyboardChannelState *state) {
     s32 n;
-    memcpy(prev, cur, 4);
-    if (in[4] == 1 || in[4] == 2) {
+    memcpy(state->prev, state->cur, 4);
+    if (state->in[4] == 1 || state->in[4] == 2) {
         return;
     }
     n = 0;
-    if (in[4] != 0) {
+    if (state->in[4] != 0) {
         n = 1;
-        cur[0] = in[4];
+        state->cur[0] = state->in[4];
     }
-    if (in[5] != 0) {
-        reinterpret_cast<u8 *>(self)[n++ + offsetof(KeyboardChannelState, cur)] = in[5];
+    if (state->in[5] != 0) {
+        ((u8 *)state)[n++ + offsetof(KeyboardChannelState, cur)] = state->in[5];
     }
-    if (in[6] != 0) {
-        reinterpret_cast<u8 *>(self)[n++ + offsetof(KeyboardChannelState, cur)] = in[6];
+    if (state->in[6] != 0) {
+        ((u8 *)state)[n++ + offsetof(KeyboardChannelState, cur)] = state->in[6];
     }
     for (; n < 4; n++) {
-        cur[n] = 0;
+        state->cur[n] = 0;
     }
 }
 
@@ -251,7 +249,7 @@ inline s32 push_key_to_queue(KeyboardChannelState *state, u8 key) {
     return 0;
 }
 
-void TKeyBoardControl::update_key_events(s32 chan) {
+void update_key_events(s32 chan) {
     KeyboardChannelState *state;
     u8 key;
     s32 j;
@@ -270,7 +268,7 @@ void TKeyBoardControl::update_key_events(s32 chan) {
     switch (state->type) {
     case 1:
     case 2:
-        state->update_pressed_keys();
+        update_pressed_keys(state);
         break;
     default:
         return;
@@ -315,7 +313,7 @@ u8 get_keyboard_port_layout(s32 chan) {
     return entry[offsetof(KeyboardChannelState, layout)];
 }
 
-void TKeyBoardControl::enable_keyboard_polling(s32 chan) {
+void enable_keyboard_polling(s32 chan) {
     u32 cmd;
     u32 buf[2];
     u32 bit = 0x80000000U >> chan;
@@ -328,7 +326,7 @@ void TKeyBoardControl::enable_keyboard_polling(s32 chan) {
     }
 }
 
-void TKeyBoardControl::disable_channel_polling(s32 chan) {
+void disable_channel_polling(s32 chan) {
     u32 bit = 0x80000000U >> chan;
     SIDisablePolling(bit);
     TKeyBoardControl__polling_channel_mask &= ~bit;
@@ -398,7 +396,7 @@ s32 poll_keyboard_port(s32 chan, u8 *out) {
             break;
         }
     }
-    TKeyBoardControl::update_key_events(chan);
+    update_key_events(chan);
     if (out != NULL) {
         memmove(out, state->cur, 4);
     }

@@ -11628,7 +11628,7 @@ pso/quest/QuestDownloadAramFile.cpp:
 	.sbss       start:0x805D7908 end:0x805D7930
 	.sdata2     start:0x805E10D8 end:0x805E10E8
 
-pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp:
+pso/ui/keyboard/KBDXfer.c:
 	.text       start:0x803F0C50 end:0x803F1804
 	.data       start:0x804FCD38 end:0x804FCD48
 	.bss        start:0x805A2720 end:0x805A28C0
