@@ -153,7 +153,6 @@ typedef struct Player_801CC6B8 {
 } Player_801CC6B8;
 
 
-struct Mylla_801CC558 { u8 pad[0xA4]; u8 *tbl; };
 
 
 struct Pkt_801CCB58 { u16 hdr; u16 id; s16 c; };
@@ -191,26 +190,8 @@ struct Player_801CCD38 { u8 pad[0x10]; TObject *f10; u8 pad14[0x328 - 0x14]; s16
 
 struct Player_801CD078 { u8 pad[0x32E]; s16 tp; u8 pad330[0x428 - 0x330]; u8 techs[4]; };
 
-struct Node_801CD424 { u8 pad[0x1C]; f32 pos[3]; u8 pad28[0x2C - 0x28]; };
 
-struct Obj_801CD424 { u8 pad[0xA4]; Node_801CD424 *nodes; };
 
-struct Player_801CD424 {
-    u8 pad[0x60];
-    s32 f60;
-    u8 pad64[0xBA - 0x64];
-    s16 fba;
-    u8 padbc[0x326 - 0xBC];
-    s16 f326;
-    s16 f328;
-    u8 pad32a[0x33C - 0x32A];
-    s32 f33c;
-    u8 pad340[0x3F0 - 0x340];
-    s32 f3f0;
-    u8 pad3f4[0x428 - 0x3F4];
-    u8 techs[0x744 - 0x428];
-    u8 f744[4];
-};
 
 struct Sub_801CD188 { u8 pad[0x508]; u16 f508; };
 
@@ -511,7 +492,6 @@ s32 TObjPlayer__sub_801CFBFC(u8 *arg0);
 void TObjPlayer__sub_801D0E74(void* p);
 G_IntraMapWarp_6x55 *TObjPlayer__sub_801D0EA0(G_IntraMapWarp_6x55 *destination, G_IntraMapWarp_6x55 *source);
 void TObjPlayer__sub_801D0F70(void* p);
-Vec *copy_position__10TObjPlayerFPv(void *p, const Vec *src);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(TObjPlayer *player, u8 level, s32 i);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
 u8 * copy_6x4b_hit_by_enemy_packet__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
@@ -3016,25 +2996,23 @@ void TObjPlayer::update_photon_blast_action() {
 void TObjPlayer::enter_photon_blast_action() {
     PhotonBlastTarget *slot;
     u16 id;
-    Mylla_801CC558 *m;
-    u8 *arg0 = (u8 *)this;
+    TObjCollidable *actor;
     this->action_state = 9;
     run_action_state_phase(this->mode, 6);
     slot = this->photon_blast_gauge.get_target(0);
     id = slot->entity_id;
     if (id != 0xFFFF) {
-        m = ((Mylla_801CC558 * (*)(u16))find_entity_by_id)(id);
-        if (m == NULL) {
+        actor = find_entity_by_id(id);
+        if (actor == NULL) {
             slot->entity_id = id = 0xFFFF;
         } else {
-            ((s32 (*)(void *, void *))copy_position__10TObjPlayerFPv)(arg0 + 0x744, m->tbl + slot->index * 0x2C + 0x1C);
+            photon_blast_aim.set_position(&actor->bodies[slot->index].center);
         }
     }
     if (id == 0xFFFF) {
         this->target_heading = this->rotation_y;
     } else {
-        slot = (PhotonBlastTarget *)((TObjPlayer *)&this->photon_blast_aim)->get_field4_ptr();
-        this->target_heading = calc_angle_to(this->get_position_ptr(), (Vec *)slot);
+        this->target_heading = calc_angle_to(this->get_position_ptr(), photon_blast_aim.get_position());
     }
     this->set_actor_flags(0x400000);
     clear_velocity(this);
@@ -3437,31 +3415,30 @@ void TObjPlayer::update_technique_cast() {
 void TObjPlayer::enter_technique_cast() {
     PhotonBlastTarget *td;
     u16 target;
-    Obj_801CD424 *o;
-    Player_801CD424 *self = (Player_801CD424 *)this;
-    self->f33c = 8;
+    TObjCollidable *actor;
+    action_state = 8;
     run_action_state_phase(this->mode, 6);
     td = technique_state.get_technique_data();
     target = td->entity_id;
-    if (target == 0xFFFF || target == (u16)((TObjBase *)self)->get_entity_id() ||
+    if (target == 0xFFFF || target == (u16)get_entity_id() ||
         technique_state.get_section_clamped() == 0) {
-        self->f3f0 = this->rotation_y;
+        target_heading = rotation_y;
     } else {
-        o = ((Obj_801CD424 * (*)(u16))find_entity_by_id)(target);
-        if (o == 0) {
+        actor = find_entity_by_id(target);
+        if (actor == 0) {
             td->entity_id = 0xFFFF;
         } else {
-            ((void (*)(void *, void *))copy_position__10TObjPlayerFPv)(self->f744, o->nodes[td->index].pos);
-            self->f3f0 = calc_angle_to(((TObjPlayer *)self)->get_position_ptr(), (Vec *)((TObjPlayer *)(self->f744))->get_field4_ptr());
+            photon_blast_aim.set_position(&actor->bodies[td->index].center);
+            target_heading = calc_angle_to(get_position_ptr(), photon_blast_aim.get_position());
         }
     }
-    ((TObjBase *)self)->set_actor_flags(0x400000);
-    ((void (*)(void *))clear_velocity)(self);
-    this->phase = 0;
-    if (((TObjChara *)self)->obj_isState2_324() != 0) {
-        this->current_action = ((s16 (*)(void))ret_801D26AC)();
+    set_actor_flags(0x400000);
+    clear_velocity(this);
+    phase = 0;
+    if (obj_isState2_324() != 0) {
+        current_action = ((s16 (*)(void))ret_801D26AC)();
     }
-    ((TObjPlayer *)self)->set_action_state(8, ((TObjPlayer *)self)->get_status());
+    set_action_state(8, get_status());
 }
 
 }
@@ -5159,9 +5136,9 @@ void TObjPlayer::clear_flag_200() { this->state_flags &= 0xfffffdff; }
 
 void TObjPlayer__sub_801D0F70(void* p) { *(u32*)((char*)p + 0x334) |= 0x200; }
 
-void*TObjPlayer::get_field4_ptr() { return (char*)this + 0x4; }
+Vec *PhotonBlastAim::get_position() { return &position; }
 
-Vec *copy_position__10TObjPlayerFPv(void *p, const Vec *src) { return VecCopy((Vec *)((char *)p + 0x4), src); }
+Vec *PhotonBlastAim::set_position(const Vec *src) { return VecCopy(&position, src); }
 
 void TObjPlayer::set_float_param(s16 arg1) {
     this->photon_blast_gauge.set_field_3c((f32) (s32) arg1);

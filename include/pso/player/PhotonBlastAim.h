@@ -12,6 +12,8 @@ struct PhotonBlastAim {
     Vec position;
 
     void reset();
+    Vec *get_position();
+    Vec *set_position(const Vec *src);
 };
 
 LAYOUT_ASSERT(PhotonBlastAim_size, sizeof(PhotonBlastAim) == 0x10);
