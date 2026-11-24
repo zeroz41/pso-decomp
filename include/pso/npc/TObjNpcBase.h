@@ -11,7 +11,7 @@ struct NpcMovementParameters {
     f32 search_range;  // find_nearest_visible_player range
     f32 speed;       // walking speed (enemy_set_heading_velocity)
     s32 turn_speed;  // largest turn per frame (approach_angle_limited)
-    u32 unk_0C[4];
+    u32 pad_0C[4];
 };
 
 struct TObjNpcBase : public TObjEnemy {
