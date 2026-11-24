@@ -14,39 +14,6 @@ struct Hdr_803BD8A8 { u32 f0; u32 info; };
 
 struct Hdr_803BD93C { u32 f0; u32 info; };
 
-typedef struct S_803BF408 {
-    u8 pad0[0x1A8];
-    f32 f1A8;
-    u8 pad1AC[0x1C4 - 0x1AC];
-    u8 disabled;
-} S_803BF408;
-
-struct Src_803BF884 {
-    s32 *dest;
-    s32 *smpBase;
-    s32 *old;
-    u32 posLo;
-    u32 posHi;
-    u32 pitchLo;
-    u32 pitchHi;
-};
-
-struct Work_803BF884 {
-    s32 *lastLeft[3];
-    s32 *lastRight[3];
-    s32 *lastSur[3];
-    u8 currentLast;
-    s32 oldLeft[4];
-    s32 oldRight[4];
-    s32 oldSur[4];
-    u32 currentPosLo;
-    u32 currentPosHi;
-    s32 pitchOffset;
-    u32 pitchOffsetPeriodCount;
-    u32 pitchOffsetPeriod;
-    Src_803BF884 src;
-};
-
 extern "C" {
 extern s8 salTimeOffset;
 void hwSetTimeOffset(s8 arg0);
@@ -79,7 +46,6 @@ s32 OSRestoreInterrupts(s32 level);
 extern volatile s32 oldState;
 extern volatile u16 hwIrqLevel;
 void hwEnableIrq(void);
-s32 ReverbHICreate(SoundReverb *self, f32 a, f32 b, f32 c, f32 d, f32 e, f32 f);
 s32 OSEnableInterrupts(void);
 void hwIRQLeaveCritical(void);
 void hwInitIrq(void);
@@ -168,12 +134,7 @@ u16 adsrConvertTimeCents(s32);
 extern u8 dspScale2IndexTab[];
 void hwSetADSR(s32 n, void *_adsr, u8 mode);
 void aramUploadData(u8 *src, u32 dst, u32 len, s32 dir, void *cb, void *arg);
-void DoCrossTalk(void *, void *, f32, f32);
-void HandleReverb(void *, void *, int);
-void ReverbHICallback(void *sptr, void *arg1, void *arg2, S_803BF408 *rv);
 void salCalcVolume(u8 voltab_index, SAL_VOLINFO *vi, f32 vol, u32 pan, u32 span, f32 auxa, f32 auxb, u32 itd, u32 dpl2);
-void do_src1(void *);
-void do_src2(void *);
 extern u32 synthInfo[];
 u32 hwFrq2Pitch(u32 frq);
 void sndSetHooks(SND_HOOKS *hooks);
@@ -184,44 +145,6 @@ extern "C" {
 
 void sndConvertMs(s32 *time);
 u32 sndConvert2Ms(u32 time);
-extern "C" {
-f32 powf(f32, f32);
-}
-
-typedef struct ChorusSrcInfo_803BFBF0 {
-    s32 *dest;
-    s32 *smpBase;
-    s32 *old;
-    u32 posLo;
-    u32 posHi;
-    u32 pitchLo;
-    u32 pitchHi;
-    u32 trigger;
-    u32 target;
-} ChorusSrcInfo_803BFBF0;
-
-typedef struct ChorusWork_803BFBF0 {
-    s32 *lastLeft[3];
-    s32 *lastRight[3];
-    s32 *lastSur[3];
-    u8 currentLast;
-    s32 oldLeft[4];
-    s32 oldRight[4];
-    s32 oldSur[4];
-    u32 currentPosLo;
-    u32 currentPosHi;
-    s32 pitchOffset;
-    u32 pitchOffsetPeriodCount;
-    u32 pitchOffsetPeriod;
-    ChorusSrcInfo_803BFBF0 src;
-} ChorusWork_803BFBF0;
-
-typedef struct AuxChorus_803BFBF0 {
-    ChorusWork_803BFBF0 work;
-    u32 baseDelay;
-    u32 variation;
-    u32 period;
-} AuxChorus_803BFBF0;
 
 }
 
@@ -229,8 +152,6 @@ extern "C" {
 void hwSetVolume(s32 v, u8 table, u32 pan, s32 span, f32 vol, f32 auxa, f32 auxb);
 void aramFreeStreamBuffer(u8 id);
 void dspResumeCallback(void);
-s32 ReverbHICreate(SoundReverb * rv, float coloration, float time, float mix, float damping, float preDelay, float crossTalk);
-u32 sndAuxCallbackPrepareChorus(AuxChorus_803BFBF0 *chorus);
 }
 
 #endif

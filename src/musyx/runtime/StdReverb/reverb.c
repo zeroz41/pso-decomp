@@ -1,4 +1,7 @@
-#include "musyx/runtime/musyx_runtime_b.h"
+#include <math.h>
+#include <string.h>
+#include "musyx/runtime/musyx_internal.h"
+#include "pso/audio/SoundReverb.h"
 
 extern "C" {
 
@@ -90,22 +93,22 @@ asm void HandleReverb(void *sptr, void *rv, int k) {
 
 #pragma push
 #pragma peephole off
-void ReverbHICallback(void *sptr, void *arg1, void *arg2, S_803BF408 *rv) {
+void ReverbHICallback(void *left, void *right, void *surround, SoundReverb *rv) {
     u8 i;
     for (i = 0; i < 3; i++) {
         switch (i) {
         case 0:
-            if (0.0f != rv->f1A8) {
-                f32 t = 0.5f * rv->f1A8;
-                DoCrossTalk(sptr, arg1, t, 1.0f - t);
+            if (0.0f != rv->crossTalk) {
+                f32 t = 0.5f * rv->crossTalk;
+                DoCrossTalk(left, right, t, 1.0f - t);
             }
-            HandleReverb(sptr, rv, 0);
+            HandleReverb(left, rv, 0);
             break;
         case 1:
-            HandleReverb(arg1, rv, 1);
+            HandleReverb(right, rv, 1);
             break;
         case 2:
-            HandleReverb(arg2, rv, 2);
+            HandleReverb(surround, rv, 2);
             break;
         }
     }

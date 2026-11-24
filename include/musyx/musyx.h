@@ -38,6 +38,41 @@ typedef struct SND_STUDIO_INPUT {
     u8 srcStudio;
 } SND_STUDIO_INPUT;
 
+typedef struct _SND_CHORUS_SRCINFO {
+    s32 *dest;
+    s32 *smpBase;
+    s32 *old;
+    u32 posLo;
+    u32 posHi;
+    u32 pitchLo;
+    u32 pitchHi;
+    u32 trigger;
+    u32 target;
+} _SND_CHORUS_SRCINFO;
+
+typedef struct _SND_CHORUS_WORK {
+    s32 *lastLeft[3];
+    s32 *lastRight[3];
+    s32 *lastSur[3];
+    u8 currentLast;
+    s32 oldLeft[4];
+    s32 oldRight[4];
+    s32 oldSur[4];
+    u32 currentPosLo;
+    u32 currentPosHi;
+    s32 pitchOffset;
+    u32 pitchOffsetPeriodCount;
+    u32 pitchOffsetPeriod;
+    _SND_CHORUS_SRCINFO src;
+} _SND_CHORUS_WORK;
+
+typedef struct SND_AUX_CHORUS {
+    _SND_CHORUS_WORK work;
+    u32 baseDelay;
+    u32 variation;
+    u32 period;
+} SND_AUX_CHORUS;
+
 extern "C" {
 void sndSetAuxProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, u8 midiA, SND_SEQID seqIDA,
                                   SND_AUX_CALLBACK auxB, void *userB, u8 midiB, SND_SEQID seqIDB);
