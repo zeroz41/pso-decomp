@@ -89,7 +89,6 @@ s32 TObjPlayer__sub_801C6DAC(u8 *target);
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
-#include "pso/ui/font/TFontSmallLobby_801C013C.h"
 #include "pso/network/protocol/subcommand_validation_player.h"
 #include "pso/unk/text_8020C354.h"
 #include "pso/object/base/TObjMotion.h"

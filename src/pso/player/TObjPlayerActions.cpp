@@ -76,7 +76,6 @@
 #include "pso/math/ScratchVectors.h"
 #include "pso/ui/hud/TMainCursor_8013E7B8.h"
 #include "pso/system/byteswap.h"
-#include "pso/ui/font/TFontSmallLobby_801C013C.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/system/SoundEffect.h"

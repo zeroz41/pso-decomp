@@ -118,7 +118,6 @@
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/ui/font/TFontSmallLobby_801C013C.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -980,7 +979,7 @@ void TObjPlayer::sub_801BB950() {
       scale_state.request_size_restore();
     }
   }
-  TFontSmallLobby__sub_801C013C(&this->technique_state);
+  technique_state.enable_techniques();
   reset_client_quest_slot_table();
 }
 

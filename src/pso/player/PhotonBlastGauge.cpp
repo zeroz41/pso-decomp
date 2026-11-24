@@ -5,7 +5,6 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/byteswap.h"
-#include "pso/ui/font/TFontSmallLobby_801C013C.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/player/TObjPlayer.h"

@@ -28,6 +28,7 @@ public:
     void set_field18(f32 v);
     void set_field_1c(f32 v);
     void set_technique_level(s16 technique, u8 level);
+    void enable_techniques();
 
     u8 level;
     u8 level_override;

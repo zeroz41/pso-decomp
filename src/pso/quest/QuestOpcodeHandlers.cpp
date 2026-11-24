@@ -897,7 +897,6 @@ s32 TObjPlayer__sub_801B3FD8();
 s32 TObjPlayer__sub_801B4044();
 s32 send_code_49_1__10TObjPlayerFi();
 void delete_item(void *, s32, s32);
-void TFontSmallLobby__sub_801C013C(void *p);
 }
 void play_cue_stream_file(const char *name);
 extern "C" {
@@ -2805,7 +2804,7 @@ void qst_op_disable_techs(s32 slot_reg) {
 void qst_op_enable_techs(s32 slot_reg) {
     TObjPlayer *player = get_player_by_client_id(qst_registers[(u8)slot_reg]);
     if (player != NULL) {
-        TFontSmallLobby__sub_801C013C(&player->technique_state);
+        player->technique_state.enable_techniques();
     }
 }
 

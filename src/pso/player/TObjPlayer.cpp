@@ -1,7 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/network/protocol/subcmd_6x.h"
-#include "pso/ui/font/TFontSmallLobby_801C013C.h"
 #include "pso/player/PhotonBlastRequests.h"
 #include "pso/player/PlayerState.h"
 #include "pso/player/PlayerTaskEffects.h"
@@ -1047,11 +1046,9 @@ u8 TObjPlayer::get_item_count_max() { return 255; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-extern "C" {
-void __copy(void *, void *, int);
-void TFontSmallLobby__sub_801C013C(void* p) { ((FlagWord *)((void*)((char*)p + 0x10)))->clear(2); }
+extern "C" void __copy(void *, void *, int);
 
-}
+void PlayerTechniqueState::enable_techniques() { flags.clear(2); }
 
 PlayerTechniqueState::PlayerTechniqueState() {
     reset_tech_state();

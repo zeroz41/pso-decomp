@@ -36,7 +36,6 @@
 #include "pso/player/TPlyDispConfig.h"
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/player/TObjPlayer_80309D80.h"
-#include "pso/ui/font/TFontSmallLobby_801C013C.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/player/TUnk_804C4540.h"
