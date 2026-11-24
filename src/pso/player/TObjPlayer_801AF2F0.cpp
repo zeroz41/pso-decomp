@@ -506,27 +506,6 @@ typedef struct Player_801B6110 {
     s32 flags;
 } Player_801B6110;
 
-struct Pkt_801B6A5C {
-    u8 pad0[2];
-    u16 id;
-    s16 st[6];
-    s16 exp;
-    s16 kind;
-};
-
-struct Stats_801B6A5C { s16 st[6]; u8 pad[0xc]; s32 exp; };
-
-struct Plr_801B6A5C {
-    u8 pad0[0x2b0];
-    Stats_801B6A5C *stats;
-    u8 pad2b4[4];
-    s16 a;
-    s16 b;
-    u8 pad2bc[0x70];
-    s16 a2;
-    s16 b2;
-};
-
 struct Color_801B6964 { f32 r, g, b, a; };
 
 typedef struct Msg_801B6C30 {
@@ -3290,40 +3269,38 @@ void *TObjPlayer::copy_fields(void *command) {
 }
 
 void handle_6x30_change_player_level(G_ChangePlayerLevel_6x30 *command) {
-    Pkt_801B6A5C pkt;
-    Plr_801B6A5C *p;
+    G_ChangePlayerLevel_6x30 pkt;
     TObjPlayer *pl;
     f32 f;
     ((TObjPlayer *)(&pkt))->build_6x30_change_level_packet();
     ((TObjPlayer *)(&pkt))->copy_fields(command);
     swap_endian__10TObjPlayerFi((saddr)&pkt);
-    if (validate_6x30_change_player_level((G_ChangePlayerLevel_6x30 *)&pkt) == 0) {
+    if (validate_6x30_change_player_level(&pkt) == 0) {
         return;
     }
-    p = (Plr_801B6A5C *)get_player_by_client_id((u16)pkt.id);
-    if (p == NULL) {
+    pl = (TObjPlayer *)get_player_by_client_id((u16)pkt.header.client_id);
+    if (pl == NULL) {
         return;
     }
-    pl = (TObjPlayer *)p;
     if (pl->reset_volopt_state() == 0) {
         return;
     }
-    p->stats->st[0] = pkt.st[0];
-    p->stats->st[1] = pkt.st[1];
-    p->stats->st[2] = pkt.st[2];
-    p->stats->st[3] = pkt.st[3];
-    p->stats->st[4] = pkt.st[4];
-    p->stats->st[5] = pkt.st[5];
-    p->stats->exp = pkt.exp;
+    pl->stat_block->stats.atp = pkt.atp;
+    pl->stat_block->stats.mst = pkt.mst;
+    pl->stat_block->stats.evp = pkt.evp;
+    pl->stat_block->stats.hp = pkt.hp;
+    pl->stat_block->stats.dfp = pkt.dfp;
+    pl->stat_block->stats.ata = pkt.ata;
+    pl->stat_block->level = pkt.level;
     f = pl->get_tp_class_factor();
-    ((TObjChara *)p)->recalc_combat_stats((player_stats *)((saddr)p->stats), NULL, NULL, (f32)(pl->get_class_hp_factor()), (f32)f);
-    p->a2 = p->a;
-    p->b2 = p->b;
+    pl->recalc_combat_stats(pl->stat_block, NULL, NULL, (f32)(pl->get_class_hp_factor()), (f32)f);
+    pl->hp = pl->hpmax;
+    pl->tp = pl->tpmax;
     if (pl->is_alive_and_ready() != 0) {
         pl->refill_traps();
     }
     if (pl->check_flag_4() == 0) {
-        if (pkt.kind == 1) {
+        if (pkt.is_level_down == 1) {
             pl->spawn_level_change_feedback("Level Down");
         } else {
             pl->spawn_level_change_feedback("Level Up");
