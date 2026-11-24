@@ -111,7 +111,7 @@ void NetIPv6TickAddresses(void) {
                     ifc->dad_timer = g->dad_interval;
                 }
             } else {
-                if (ifc->f18 == 0) {
+                if (ifc->autoconf == 0) {
                     ifc->dad_state = 4;
                 } else {
                     ifc->dad_state = 3;
@@ -146,7 +146,7 @@ void NetIPv6TickAddresses(void) {
                         a->dad_timer = g->dad_interval;
                     }
                 } else {
-                    if (a->f16 == 0) {
+                    if (a->autoconf == 0) {
                         a->state = 4;
                     } else {
                         a->state = 3;
@@ -814,7 +814,7 @@ s16 NetIPv6AutoconfigurePrefix(Ipv6NdPrefixEvent *pi, s16 idx)
         found = 0;
         i = 0;
         for (; node != 0 && i < g->max_addrs; node = node->next, i++) {
-            if (node->f16 == 0) {
+            if (node->autoconf == 0) {
                 if (cmp16_80412618(new_addr, node->addr) == 0) {
                     found = 1;
                 }
@@ -857,7 +857,7 @@ s16 NetIPv6AutoconfigurePrefix(Ipv6NdPrefixEvent *pi, s16 idx)
     NetMemcpy(pfx + offsetof(Ipv6AddrNode, addr), new_addr, 16);
     *(s16 *)(pfx + offsetof(Ipv6AddrNode, prefix_len)) = pi->prefix_len;
     fl = 1;
-    *(s16 *)(pfx + offsetof(Ipv6AddrNode, f16)) = fl;
+    *(s16 *)(pfx + offsetof(Ipv6AddrNode, autoconf)) = fl;
     *(s16 *)(pfx + offsetof(Ipv6AddrNode, flags)) = 0;
     *(u16 *)(pfx + offsetof(Ipv6AddrNode, scope)) = NetIPv6GetAddressScopeClass(new_addr);
     if (is_entry_flag10_set(idx) != 0) {
@@ -991,7 +991,7 @@ s16 bring_up_ipv6_interface(u8 *addr, s16 plen, s16 x, s16 idx, saddr y)
     e->mtu = r;
     NetMemcpy(e->addr, tmp, 16);
     e->prefix_len = plen;
-    e->f18 = 0;
+    e->autoconf = 0;
     e->flags = x;
     e->scope = NetIPv6GetAddressScopeClass(tmp);
     if (is_entry_flag10_set(idx)) {
@@ -1144,35 +1144,35 @@ Ipv6Route *NetIPv6LookupRoute(void *dst, void *src) {
     return NULL;
 }
 
-extern s16 NetIPv6AddRoute(u8 *src, s16 id, u8 *key, s16 a, s16 b, s16 c) {
+s16 NetIPv6AddRoute(u8 *prefix, s16 prefix_len, u8 *gateway, s16 iface, s16 type, s16 origin) {
     Ipv6State *tbl = &ipv6_address_routing_state;
     s16 i;
     Ipv6Route *e;
     Ipv6Route *found;
-    s16 sid;
+    s16 plen;
     u8 buf[16];
 
-    if (id < 0 || id > 0x80) {
+    if (prefix_len < 0 || prefix_len > 0x80) {
         return -2;
     }
-    if (a < 0 || a >= tbl->count) {
+    if (iface < 0 || iface >= tbl->count) {
         return -2;
     }
-    if (b != 1 && b != 2 && b != 3 && b != 0) {
+    if (type != 1 && type != 2 && type != 3 && type != 0) {
         return -2;
     }
-    if (c != 1 && c != 2 && c != 3 && c != 4) {
+    if (origin != 1 && origin != 2 && origin != 3 && origin != 4) {
         return -2;
     }
-    NetIPv6CopyPrefix(buf, id, src);
+    NetIPv6CopyPrefix(buf, prefix_len, prefix);
     e = tbl->routes;
-    sid = id;
+    plen = prefix_len;
     found = NULL;
     i = 0;
     for (; i < tbl->route_count; i++, e++) {
         if (e->state == 1) {
-            if (e->prefix_len == sid && cmp_8041347C(e->prefix, buf) == 0) {
-                if (!ll_8041347C(buf) || cmp_8041347C(e->gateway, key) == 0) {
+            if (e->prefix_len == plen && cmp_8041347C(e->prefix, buf) == 0) {
+                if (!ll_8041347C(buf) || cmp_8041347C(e->gateway, gateway) == 0) {
                     return -2;
                 }
             }
@@ -1186,11 +1186,11 @@ extern s16 NetIPv6AddRoute(u8 *src, s16 id, u8 *key, s16 a, s16 b, s16 c) {
     }
     found->state = 1;
     NetMemcpy(found->prefix, buf, 16);
-    NetMemcpy(found->gateway, key, 16);
-    found->type = b;
-    found->f4 = c;
-    found->prefix_len = id;
-    found->iface = a;
+    NetMemcpy(found->gateway, gateway, 16);
+    found->type = type;
+    found->origin = origin;
+    found->prefix_len = prefix_len;
+    found->iface = iface;
     return 0;
 }
 

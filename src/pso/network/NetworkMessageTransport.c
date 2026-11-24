@@ -56,7 +56,7 @@ saddr alloc_receive_frame(u16 key, saddr len);
 
 static struct {
     EthernetReceiveFilter filter;
-    u8 unknown_56[0x802];
+    u8 pad_56[0x802];
 } lobby_net_channel_table;
 
 void reset_message_thread(void) {

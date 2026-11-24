@@ -71,7 +71,7 @@ typedef struct ArpIface {
     u16 ptype;                  /* 0x0C */
     u8 hlen;                    /* 0x0E */
     u8 plen;                    /* 0x0F */
-    s16 f10;                    /* 0x10: cleared at registration */
+    s16 op;                     /* 0x10: ArpHeader.op after htype .. plen; cleared at registration, never sent */
     u8 haddr[6];                /* 0x12 */
     u8 paddr[4];                /* 0x18 */
     ArpAlias *aliases;          /* 0x1C */

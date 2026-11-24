@@ -11,7 +11,7 @@ extern "C" {
 /* Another address of an interface (from Ipv4RoutingState.alias_pool). */
 typedef struct Ipv4Alias Ipv4Alias;
 struct Ipv4Alias {
-    s16 f0;
+    s16 state;                  /* as Ipv4Iface.state; cleared when the alias is dropped */
     u8 pad2[2];
     u32 addr;
     u32 broadcast;
@@ -40,7 +40,7 @@ typedef struct Ipv4Route {
     u32 dst;
     u32 mask;
     u32 gateway;
-    s16 f10;
+    s16 origin;                 /* 0 for an interface's own routes, 1 for route4_add and route4_redirect */
     s16 type;
 } Ipv4Route;
 LAYOUT_ASSERT(Ipv4Route_size_check, sizeof(Ipv4Route) == 0x14);

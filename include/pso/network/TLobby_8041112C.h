@@ -207,7 +207,7 @@ s16 buffer_pool_alloc(void *out_, int size, s16 owner);
 s16 NetCompareBitsBackward(u8 *lhs, u8 *rhs, s16 bits);
 s16 NetCompareBitPrefix(u8 *a, u8 *b, s16 bits);
 s16 NetIPv6GetAddressScopeClass(u8 *a);
-s16 NetIPv6AddRoute(u8 *src, s16 id, u8 *key, s16 a, s16 b, s16 c);
+s16 NetIPv6AddRoute(u8 *prefix, s16 prefix_len, u8 *gateway, s16 iface, s16 type, s16 origin);
 s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *dst, u8 *addr);
 s32 loopback_shutdown(void);
 s32 init_ipv6_all_routers_multicast_address(u8 *address, s8 scope);

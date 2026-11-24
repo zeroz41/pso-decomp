@@ -36,7 +36,7 @@ typedef struct ModemRecvState {
     u8 *body;
     u8 *tail;
     s32 short_read;
-    s32 f14;
+    s32 async_busy;   /* an interrupt-driven receive is running; cleared when it completes, ModemRecv refuses with -5 */
     s32 received;
     s32 length;
     s32 head_length;
@@ -44,8 +44,8 @@ typedef struct ModemRecvState {
     s32 tail_length;
     s32 available;
     s32 capacity;
-    s32 f34;
-    s32 f38;
+    s32 poll_off;     /* 1 until ModemRecv first arms the receive interrupt (0x20) for polling */
+    s32 data_ready;   /* set by the receive interrupt while polling; ModemRecv reads only then */
     void (*callback)(s32 received);
 } ModemRecvState;
 
@@ -243,7 +243,7 @@ void ModemRecvCallback(s32 chan, OSContext *context) {
     EXIUnlock(0);
     if (modem_recv_state.capacity - modem_recv_state.received < modem_register_config.recv_threshold || modem_recv_state.short_read == 1) {
         modem_recv_state.short_read = 0;
-        modem_recv_state.f14 = 0;
+        modem_recv_state.async_busy = 0;
         if (modem_recv_state.callback != NULL) {
             callback = modem_recv_state.callback;
             modem_recv_state.callback = NULL;
@@ -272,12 +272,12 @@ void ModemExiHandler(s32 chan, OSContext *context) {
                 ModemSendChunk();
                 break;
             case 26:
-                if (modem_recv_state.f34 == 0) {
-                    modem_recv_state.f38 = 1;
+                if (modem_recv_state.poll_off == 0) {
+                    modem_recv_state.data_ready = 1;
                     modem_register_config.interrupt_mask &= ~0x20;
                     ModemWriteRegister(1, modem_register_config.interrupt_mask);
                     EXIUnlock(0);
-                } else if (modem_recv_state.f14 != 0) {
+                } else if (modem_recv_state.async_busy != 0) {
                     ModemStartRecv(modem_register_config.recv_threshold);
                 } else {
                     modem_register_config.interrupt_mask &= ~0x20;
@@ -288,7 +288,7 @@ void ModemExiHandler(s32 chan, OSContext *context) {
             case 25:
                 modem_recv_state.available = ModemReadRegister(0xB) << 8;
                 modem_recv_state.available += ModemReadRegister(0xC);
-                if (modem_recv_state.available == 0 || modem_recv_state.f14 == 0) {
+                if (modem_recv_state.available == 0 || modem_recv_state.async_busy == 0) {
                     ModemWriteRegister(1, modem_register_config.interrupt_mask);
                     EXIUnlock(0);
                 } else {
@@ -537,11 +537,11 @@ s32 MDMInit(const char *country) {
     modem_command_response_state.done = 0;
     modem_command_response_state.length = 0;
     modem_line_state = 1;
-    modem_recv_state.f14 = 0;
-    modem_recv_state.f38 = 0;
+    modem_recv_state.async_busy = 0;
+    modem_recv_state.data_ready = 0;
     modem_send_state.busy = 0;
     modem_recv_state.capacity = 0;
-    modem_recv_state.f34 = 1;
+    modem_recv_state.poll_off = 1;
 
     EXISelect(0, 2, 0);
     cmd = 0;
@@ -663,17 +663,17 @@ s32 ModemRecv(u8 *buf) {
     s32 len;
     s32 count;
 
-    if (modem_recv_state.f14 != 0) {
+    if (modem_recv_state.async_busy != 0) {
         return -5;
     }
-    if (modem_recv_state.f34 == 0) {
-        if (modem_recv_state.f38 == 0) {
+    if (modem_recv_state.poll_off == 0) {
+        if (modem_recv_state.data_ready == 0) {
             return 0;
         }
         ModemLockExi();
     } else {
-        modem_recv_state.f34 = 0;
-        modem_recv_state.f38 = 0;
+        modem_recv_state.poll_off = 0;
+        modem_recv_state.data_ready = 0;
         ModemLockExi();
         modem_register_config.interrupt_mask |= 0x20;
         ModemWriteRegister(0x01, modem_register_config.interrupt_mask);
@@ -681,7 +681,7 @@ s32 ModemRecv(u8 *buf) {
         ModemWriteRegister(0x10, 0);
         ModemWriteRegister(0x11, 1);
     }
-    modem_recv_state.f38 = 0;
+    modem_recv_state.data_ready = 0;
 
     len = ModemReadRegister(0x0B) << 8;
     len += ModemReadRegister(0x0C);

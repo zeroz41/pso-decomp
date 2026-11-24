@@ -72,7 +72,7 @@ typedef struct UdpRuntimeState {
     u16 ephemeralPortEnd;
     u16 ephemeralPortStart;
     UdpControlBlock* entries;
-    u32 m_c;
+    u8 pad_C[4];
 } UdpRuntimeState;
 LAYOUT_ASSERT(UdpRuntimeState_entries_offset, offsetof(UdpRuntimeState, entries) == 8);
 

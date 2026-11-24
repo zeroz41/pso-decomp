@@ -36,7 +36,8 @@ struct LobbyHandler {
     s16 (*multicast_ctl)(s32, s32, void *);        /* 0x20: link_update_multicast; 1 joins, 2 leaves a multicast group */
     s32 (*release_frame)(s32, s32);                /* 0x24: dispatch_handler_by_id; frees a received frame; link_input calls it
                                                       as void (s16, s32) */
-    s16 (*op28)(s32, s32, s32);                    /* 0x28: dispatch_handler_by_index */
+    s16 (*forward)(s32, s32, s32);                 /* 0x28: dispatch_handler_by_index; sends an IPv4 packet to a
+                                                      unicast next hop (ppp_link_forward_packet, forward_loopback_packet) */
     s16 (*output)(s32, s32, s32, s32);             /* 0x2C: call_handler_by_index */
 };
 LAYOUT_ASSERT(LobbyHandler_size_check, sizeof(LobbyHandler) == 0x30);
@@ -185,7 +186,7 @@ s16 dispatch_handler_by_index(s16 idx, s32 handle, s32 addr, s32 pkt) {
     if (e->active == 0) {
         return -2;
     }
-    fn = e->op28;
+    fn = e->forward;
     if (fn == NULL) {
         return -2;
     }

@@ -25,7 +25,7 @@ struct Ipv6AddrNode {
     u8 addr[16];
     s16 prefix_len;
     s16 state;
-    s16 f16;
+    s16 autoconf; /* 1 for addresses NetIPv6AutoconfigurePrefix made from a prefix: matched by prefix, not whole */
     s16 flags; /* bit 0 tested like Ipv6Iface.flags, and reported where an interface reports its flags */
     s16 scope;
     s16 dad_count;
@@ -38,7 +38,7 @@ LAYOUT_ASSERT(Ipv6AddrNode_size_check, sizeof(Ipv6AddrNode) == 0x2C);
 typedef struct Ipv6Route {
     s16 state;
     s16 type;
-    s16 f4;
+    s16 origin; /* NetIPv6AddRoute: 1 for routes to the interface's own addresses, 4 for neighbor discovery */
     s16 iface;
     u8 prefix[16];
     u8 gateway[16];
@@ -51,7 +51,7 @@ typedef struct Ipv6Iface {
     u8 addr[16];
     s16 prefix_len;
     s16 dad_state;
-    s16 f18;
+    s16 autoconf; /* as Ipv6AddrNode.autoconf; bring_up_ipv6_interface clears it */
     s16 flags; /* flag word: NetIPv6IsAnycastAddress tests bit 0; bring_up_ipv6_interface sets it from its request */
     s16 scope;
     s16 dad_count;

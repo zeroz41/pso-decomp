@@ -518,7 +518,7 @@ s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hl
     slot->ptype = ptype;
     slot->hlen = hlen;
     slot->plen = plen;
-    slot->f10 = 0;
+    slot->op = 0;
     NetMemcpy(slot->haddr, (void *)haddr, hlen);
     NetMemcpy(slot->paddr, (void *)paddr, plen);
     slot->aliases = NULL;

@@ -242,7 +242,7 @@ extern s32 bring_down_ipv4_interface(s16 id) {
         link_update_address(id, b->handle, 2, &nd->addr);
         {
             Ipv4Alias *next = nd->next;
-            nd->f0 = 0;
+            nd->state = 0;
             nd->addr = 0;
             nd->network = 0;
             nd->broadcast = 0;
@@ -562,7 +562,7 @@ inline Ipv4Iface *get_ifaces_8040FA48(Ipv4RoutingState *g) {
 }
 #pragma push
 #pragma opt_common_subs on
-s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 f10, u8 type, u16 flags) {
+s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 origin, u8 type, u16 flags) {
     Ipv4RoutingState *g = &ipv4_address_routing_state;
     Ipv4Iface *ifaces;
     s16 m;
@@ -600,7 +600,7 @@ s16 NetIPv4AddRoute(u32 dst, u32 mask, u32 gateway, s16 f10, u8 type, u16 flags)
     slot->dst = dst;
     slot->gateway = gateway;
     slot->type = type;
-    slot->f10 = f10;
+    slot->origin = origin;
     slot->iface = idx;
     switch (type) {
     case 1:
