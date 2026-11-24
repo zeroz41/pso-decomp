@@ -79,18 +79,11 @@ DSError TRKPPCAccessFPRegister(void* srcDestPtr, u32 fpr, BOOL read);
 DSError TRKPPCAccessSpecialReg(void* value, u32* access_func, BOOL read);
 static void TRKExceptionHandler(u16);
 void TRKInterruptHandlerEnableInterrupts(void);
-void WriteFPSCR(register f64*);
-void ReadFPSCR(register f64*);
-void __TRK_set_MSR(u32 msr);
-u32 __TRK_get_MSR();
 static void TRK_ppc_memcpy(register void* dest, register const void* src,
                            register int n, register u32 param_4,
                            register u32 param_5);
 
-void TRKRestoreExtended1Block();
-void TRKUARTInterruptHandler();
 DSError TRKTargetReadInstruction(void* data, u32 start);
-DSError HandleOpenFileSupportRequest(const char* path, u8 replyError, u32* param_3, u8* ioResult);
 
 static BOOL TRKTargetCheckStep();
 
@@ -429,8 +422,6 @@ DSError TRKTargetSupportMask(u8 mask[32])
     return DS_NoError;
 }
 
-extern BOOL gTRKBigEndian;
-
 DSError TRKTargetCPUType(DSCPUType* cpuType)
 {
     cpuType->cpuMajor          = 0;
@@ -689,7 +680,7 @@ DSError TRKTargetSupportRequest(void) {
         *((u32*) gTRKCPUState.Default.GPR[5]) = spC;
     } else {
         length = (size_t*) gTRKCPUState.Default.GPR[5];
-        error = TRKSuppAccessFile((u8) gTRKCPUState.Default.GPR[4], (u8*) gTRKCPUState.Default.GPR[6], length, (DSIOResult*) &ioResult, TRUE, commandId == DSMSG_ReadFile);
+        error = TRKSuppAccessFile((u8) gTRKCPUState.Default.GPR[4], (u8*) gTRKCPUState.Default.GPR[6], length, &ioResult, TRUE, commandId == DSMSG_ReadFile);
         if (ioResult == DS_IONoError && error != DS_NoError) {
             ioResult = DS_IOError;
         }

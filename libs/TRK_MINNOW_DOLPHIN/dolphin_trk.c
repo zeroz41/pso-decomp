@@ -7,7 +7,6 @@
 #define EXCEPTIONMASK_ADDR 0x80000044
 
 static u32 lc_base;
-extern u32 _db_stack_addr;
 
 static u32 TRK_ISR_OFFSETS[15] = { PPC_SystemReset,
 	                               PPC_MachineCheck,

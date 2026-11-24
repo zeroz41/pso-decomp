@@ -96,9 +96,9 @@ UARTError WriteUARTFlush(void)
 	}
 	return readErr;
 }
-UARTError WriteUART1(u8 arg0)
+UARTError WriteUART1(s8 data)
 {
-	gWriteBuf[gWritePos++] = arg0;
+	gWriteBuf[gWritePos++] = data;
 	return 0;
 }
 

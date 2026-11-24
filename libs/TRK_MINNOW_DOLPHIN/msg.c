@@ -1,7 +1,5 @@
 #include "PowerPC_EABI_Support/MetroTRK/trk.h"
 
-UARTError WriteUART1(s8 arg0);
-
 DSError TRKMessageSend(TRKBuffer* msg)
 {
     u8 var_r30;
