@@ -148,6 +148,12 @@ struct TNpcPlayer : public TObject {
     s32 check_movement_progress();
     s32 needs_movement();
     void select_path_waypoint();
+    s32 partner_find_wall_segment(Vec *from, Vec *to, Vec *point, Vec *normal);
+    s32 partner_route_around_wall(Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2);
+    void partner_compute_stalled_detour(Vec *from, Vec *to, Vec *d, Vec *out);
+    s32 partner_clip_path_point(Vec *from, Vec *to, Vec *out);
+    void deliver_partner_chatter();
+    void partner_observe_surroundings();
     void init_follow_target();
     void update_condition_flags();
     void init_state();
