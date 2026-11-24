@@ -38,15 +38,15 @@ void EnableMetroTRKInterrupts(void)
 	EnableEXI2Interrupts();
 }
 
-u32 TRKTargetTranslate(u32 param_0)
+u32 TRKTargetTranslate(u32 addr)
 {
-	if (param_0 >= lc_base) {
-		if ((param_0 < lc_base + 0x4000) && ((gTRKCPUState.Extended1.DBAT3U_ & 3) != 0)) {
-			return param_0;
+	if (addr >= lc_base) {
+		if ((addr < lc_base + 0x4000) && ((gTRKCPUState.Extended1.DBAT3U_ & 3) != 0)) {
+			return addr;
 		}
 	}
 
-	return param_0 & 0x3FFFFFFF | 0x80000000;
+	return addr & 0x3FFFFFFF | 0x80000000;
 }
 
 void TRK_copy_vector(u32 offset)

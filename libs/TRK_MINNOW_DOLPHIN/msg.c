@@ -2,55 +2,55 @@
 
 DSError TRKMessageSend(TRKBuffer* msg)
 {
-    u8 var_r30;
-    u8 var_r28;
-    u8 var_r28_2;
-    s32 var_r3;
+    u8 checksum;
+    u8 byte;
+    u8 checksumByte;
+    s32 error;
     s32 i;
 
-    var_r30 = 0;
+    checksum = 0;
     for (i = 0; i < msg->length; i++) {
-        var_r30 = var_r30 + msg->data[i];
+        checksum = checksum + msg->data[i];
     }
-    var_r30 = var_r30 ^ 0xFF;
-    var_r3 = WriteUART1(0x7E);
-    if (var_r3 == 0) {
+    checksum = checksum ^ 0xFF;
+    error = WriteUART1(0x7E);
+    if (error == 0) {
         for (i = 0; i < msg->length; i++) {
-            var_r28 = msg->data[i];
-            if (var_r28 == 0x7E || var_r28 == 0x7D) {
-                var_r3 = WriteUART1(0x7D);
-                var_r28 ^= 0x20;
-                if (var_r3 != 0) {
+            byte = msg->data[i];
+            if (byte == 0x7E || byte == 0x7D) {
+                error = WriteUART1(0x7D);
+                byte ^= 0x20;
+                if (error != 0) {
                     break;
                 }
             }
-            var_r3 = WriteUART1(var_r28);
-            if (var_r3 != 0) {
+            error = WriteUART1(byte);
+            if (error != 0) {
                 break;
             }
         }
     }
-    if (var_r3 == 0) {
-        var_r28_2 = var_r30;
+    if (error == 0) {
+        checksumByte = checksum;
         for (i = 0; i < 1; i++) {
-            if (var_r28_2 == 0x7E || var_r28_2 == 0x7D) {
-                var_r3 = WriteUART1(0x7D);
-                var_r28_2 ^= 0x20;
-                if (var_r3 != 0) {
+            if (checksumByte == 0x7E || checksumByte == 0x7D) {
+                error = WriteUART1(0x7D);
+                checksumByte ^= 0x20;
+                if (error != 0) {
                     break;
                 }
             }
-            var_r3 = WriteUART1(var_r28_2);
-            if (var_r3 != 0) {
+            error = WriteUART1(checksumByte);
+            if (error != 0) {
                 break;
             }
         }
     }
-    if (var_r3 == 0) {
-        var_r3 = WriteUART1(0x7E);
+    if (error == 0) {
+        error = WriteUART1(0x7E);
     }
-    if (var_r3 == 0) {
-        var_r3 = WriteUARTFlush();
+    if (error == 0) {
+        error = WriteUARTFlush();
     }
-    return var_r3;
+    return error;
 }
