@@ -204,8 +204,6 @@ void render_shadows__7TObjectFv();
 void handle_chat_message__11TWindowCtrlFPc(char *);
 void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s32 unused);
-const char *TWindowMakeTeam__sub_80264B24(TWindowMakeTeam *window);
-const char *TWindowMakeTeam__sub_80264B38(TWindowMakeTeam *window);
 void show_card_list_message(void *msg);
 void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected);
 void receive_file_chunk__22TQuestVmDownLoadServerFv();
@@ -1196,9 +1194,9 @@ void TLobby::handle_create_game_window() {
 
     if (lobby_make_team_window != NULL) {
         if (lobby_make_team_window->test_flag_1d_bit0() != 0) {
-            name = TWindowMakeTeam__sub_80264B38(lobby_make_team_window);
+            name = lobby_make_team_window->get_name();
             if (name != NULL) {
-                password = TWindowMakeTeam__sub_80264B24(lobby_make_team_window);
+                password = lobby_make_team_window->get_comment();
                 battle_mode = (s8)lobby_make_team_window->read_mode() == 2;
                 difficulty = lobby_make_team_window->is_enabled();
                 challenge_mode = (s8)lobby_make_team_window->get_mode() == 1;

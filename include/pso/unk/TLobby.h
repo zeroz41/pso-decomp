@@ -90,7 +90,7 @@ struct TLobby : public TObject {
     static void stop_audio_streams();
     static void set_pre_retrace_callback();
     static void shutdown_buffers();
-    static void dispatch_by_index(s32 arg0);
+    static void dispatch_by_index(s32 index);
     static void open_scroll_text_window(saddr src);
     void render();
     static void copy_player_records(TPlyChallenge *records, s32 count);

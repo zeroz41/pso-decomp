@@ -12,10 +12,10 @@ extern "C" {
 u8 *get_window_layout_position(s32);
 s32 TWindowSubStatusDisp__sub_80338740(void *, void *, void *, void *, void *, void *, void *, void *, void *);
 
-void fn_80338D58(O_80338D58 *arg0, void *flag, void *name, void *a3, void *a4, void *a5, void *a6, void *a7, void *index) {
-    if (arg0->idx < arg0->count) {
-        TWindowSubStatusDisp__sub_80338740((void *)((TWindowBase *)arg0)->get_array_entry(arg0->idx), flag, name, a3, a4, a5, a6, a7, index);
-        arg0->idx += 1;
+void fn_80338D58(O_80338D58 *list, void *flag, void *name, void *a3, void *a4, void *a5, void *a6, void *a7, void *index) {
+    if (list->idx < list->count) {
+        TWindowSubStatusDisp__sub_80338740((void *)((TWindowBase *)list)->get_array_entry(list->idx), flag, name, a3, a4, a5, a6, a7, index);
+        list->idx += 1;
     }
 }
 
