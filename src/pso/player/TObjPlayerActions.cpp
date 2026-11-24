@@ -518,8 +518,6 @@ s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(TObjPlayer *player, TObjChara *target, s32 damage);
 void send_6x2F_change_player_hp(u16 sender, u16 client, s16 hp);
 s32 is_on_current_floor__10TObjPlayerFi();
-s32 accumulate_damage_stats_at_76c(s32, s32, s32);
-s32 fn_801B0480(int, void *, int);
 s32 draw_player_status(void *, void *, const char *);
 s16 calc_scaled_value__10TObjPlayerFii(void *, int);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
@@ -2055,7 +2053,7 @@ void TObjPlayer::enter_death_state() {
     u32 entity_id;
     u32 other;
     u16 killer;
-    u8 *culprit;
+    TObjCollidable *culprit;
     u8 *character_save_record;
     u8 *temp_r3_3;
     this->action_state = 0xF;
@@ -2077,16 +2075,16 @@ void TObjPlayer::enter_death_state() {
                 entity_id = (u16)this->get_entity_id();
                 other = (u16)((TObjBase *)entity)->get_entity_id();
                 if (other != entity_id) {
-                    fn_801B0480((saddr) (entity), this, 1);
+                    ((TObjPlayer *)entity)->record_kill(this, 1);
                 }
             }
             if (entity->check_value_equals(TOMineTrap__data_805D3080) == 0) {
-                accumulate_damage_stats_at_76c((saddr)this, (saddr)entity, 1);
+                record_death(entity, 1);
             } else if ((killer = ((TOMineTrap *)entity)->get_trap_type()) == 0xffffU) {
-                accumulate_damage_stats_at_76c((saddr)this, (saddr)entity, 1);
+                record_death(entity, 1);
             } else {
-                culprit = (u8 *)find_entity_by_id(killer);
-                accumulate_damage_stats_at_76c((saddr)this, (saddr)culprit, 1);
+                culprit = find_entity_by_id(killer);
+                record_death(culprit, 1);
             }
             draw_player_status(this, (void *) (entity), "\tC9");
         }

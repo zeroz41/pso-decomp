@@ -592,7 +592,7 @@ s16 TObjPlayer__sub_801CFBFC(u8 *arg0);
 s32 TObjPlayer__sub_801D4368(TPlyItem *inventory);
 
 
-s32 accumulate_damage_stats(saddr, saddr, s32);
+s32 accumulate_damage_stats(DamageStatSlot *slot, TObject *attacker, s32 amount);
 s8 get_validated_array_value(s32 *, s32);
 s32 TObjPlayer__sub_801D6D28(s32 *);
 s8 TLobby__sub_801D6DDC(s32 *);
@@ -5708,17 +5708,18 @@ void draw_player_status(saddr window, void *player, saddr str) {
     }
 }
 
-extern "C" void fn_801B0480(u8 *player, void *attacker, s32 amount) {
-    if (reinterpret_cast<TObject *>(attacker)->check_value_equals(TObjPlayer_name) == 0
+// Counts a kill unless the victim is a player on this player's own PK team.
+void TObjPlayer::record_kill(TObject *victim, s32 count) {
+    if (victim->check_value_equals(TObjPlayer_name) == 0
         || ((TLobby *)lobby_rule_settings)->get_rule_field_a() != 1
-        || ((PlayerPkState *)(player + 0x828))->get_team() != ((PlayerPkState *)((u8 *)attacker + 0x828))->get_team()) {
-        accumulate_damage_stats((saddr)(player + 0x75C), (saddr)attacker, amount);
+        || pk_state.get_team() != ((TObjPlayer *)victim)->pk_state.get_team()) {
+        accumulate_damage_stats(&battle_score.damage_stats[0], victim, count);
         play_sound_effect(0x4004B20A, 0, 0, 0);
     }
 }
 
-s32 accumulate_damage_stats_at_76c(s32 player, s32 attacker, s32 amount) {
-    return accumulate_damage_stats(player + 0x76C, attacker, amount);
+s32 TObjPlayer::record_death(TObject *killer, s32 count) {
+    return accumulate_damage_stats(&battle_score.damage_stats[1], killer, count);
 }
 
 void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damage) {
@@ -5767,39 +5768,39 @@ void handle_6x8E(void) {  }
 
 void apply_camera_shake__10TObjPlayerFiii(saddr player, saddr target, s32 damage) {
     if ((TTecCtrl::is_technique_ready() != 0) && (((TObjCollidable *)target)->test_actor_flags(0x10000000) == 0) && (((TObjChara *)player)->is_locally_controlled() != 0)) {
-        accumulate_damage_stats(player + 0x78C, target, damage);
+        accumulate_damage_stats(&((TObjPlayer *)player)->battle_score.damage_stats[3], (TObject *)target, damage);
     }
 }
 
 }
 void handle_6x8F_add_battle_damage_scores(G_AddBattleDamageScores_6x8F *command) {
     Pkt_801B01AC pkt;
-    u8 *player;
-    u8 *target;
-    u8 *other;
+    TObjPlayer *player;
+    TObjCollidable *target;
+    TObjPlayer *other;
     ((G_AddBattleDamageScores_6x8F *)&pkt)->init();
     *(G_AddBattleDamageScores_6x8F *)&pkt = *(G_AddBattleDamageScores_6x8F *)command;
     ((G_AddBattleDamageScores_6x8F *)&pkt)->bswap();
     if (validate_6x8F_add_battle_damage_scores((G_ClientIDHeader *)&pkt) == 0) {
         return;
     }
-    player = (u8 *)get_player_by_client_id((u16)pkt.client);
+    player = get_player_by_client_id((u16)pkt.client);
     if (player == NULL) {
         return;
     }
-    target = (u8 *)find_entity_by_id(pkt.target);
+    target = find_entity_by_id(pkt.target);
     if (target == NULL) {
         return;
     }
-    if ((u16)((TObjBase *)(target))->get_entity_id() != (u16)((TObjBase *)(player))->get_entity_id()) {
-        accumulate_damage_stats((saddr)(player + 0x78C), (saddr)target, pkt.amount);
+    if ((u16)target->get_entity_id() != (u16)player->get_entity_id()) {
+        accumulate_damage_stats(&player->battle_score.damage_stats[3], target, pkt.amount);
     }
-    if (((TObjCollidable *)target)->test_actor_flags(0x10000000) == 0) {
+    if (target->test_actor_flags(0x10000000) == 0) {
         return;
     }
-    other = (u8 *)get_player_by_client_id((u16)((TObjBase *)(target))->get_entity_id());
+    other = get_player_by_client_id((u16)target->get_entity_id());
     if (other != NULL) {
-        accumulate_damage_stats((saddr)(other + 0x77C), (saddr)player, pkt.amount);
+        accumulate_damage_stats(&other->battle_score.damage_stats[2], player, pkt.amount);
     }
 }
 extern "C" {

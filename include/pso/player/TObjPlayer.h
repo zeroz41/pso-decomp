@@ -900,6 +900,8 @@ struct TObjPlayer : public TObjChara {
     s32 get_battle_place();
     s32 calc_battle_score();
     int get_pk_team();
+    void record_kill(TObject *victim, s32 count);
+    s32 record_death(TObject *killer, s32 count);
     s16 get_handle_value();
     s32 get_class_flags();
     static s32 check_technique_castable(saddr player);
