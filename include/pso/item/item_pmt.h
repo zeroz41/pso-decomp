@@ -13,7 +13,7 @@ struct ItemSoundRequest {
     s8 index;
     u8 pad_2[2];
     TObjPlayer *player;
-    s32 pad_8;
+    s32 unused;
     TObjChara *target;
     s32 collider;
 

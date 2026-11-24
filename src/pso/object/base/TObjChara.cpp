@@ -355,7 +355,7 @@ extern s32 registered_player_count;
 extern s32 registered_enemy_count;
 s32 damage_hp__10TObjPlayerFii(saddr arg0, saddr arg1);
 void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3);
-s16 get_actor_tp(u8* p);
+s16 get_actor_tp(u8* object);
 int obj_getPtr2B0_20(u8* p);
 s16 obj_getS16_2BA(u8* p);
 void send_6x2F_change_player_hp(u16, u16, s16);
@@ -988,8 +988,8 @@ int obj_getPtr2B0_20(u8* p) {
     return *(int*)(*(u8**)(p + 0x2b0) + 0x20);
 }
 
-s16 get_actor_tp(u8* p) {
-    return *(s16*)(p + 0x32e);
+s16 get_actor_tp(u8* object) {
+    return *(s16*)(object + 0x32e);
 }
 
 s32 TObjChara::obj_isState2_324() {
