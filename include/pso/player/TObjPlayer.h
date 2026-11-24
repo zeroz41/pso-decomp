@@ -1137,7 +1137,6 @@ struct TObjPlayer : public TObjChara {
     u8 get_mag_level();
     const Vec *get_guild_return_position();
     static void heap_alloc(void* a0);
-    static TPlayerLobbyMarker *create_lobby_marker(s16 client, s8 material_index);
     s32 can_guard();
     // Sets the player's cast level of technique `tech`, capped at the level it has learned.
     static void set_technique_level_clamped(TObjPlayer *player, u8 level, int tech);
