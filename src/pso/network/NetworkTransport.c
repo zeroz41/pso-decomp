@@ -49,13 +49,6 @@ typedef struct NetSendChunk {
 } NetSendChunk;
 LAYOUT_ASSERT(NetSendChunkSize, sizeof(NetSendChunk) == 8);
 
-typedef struct A_803F8314 {
-    u8 pad[0x1A];
-    s16 flag;
-    char *name;
-} A_803F8314;
-
-
 void net_sleep_ms(s32);
 s32 TLobby__sub_80428094(s16);
 void run_net_thread_loop(void);
@@ -63,7 +56,6 @@ void subtract_network_queue_timeout(s32 elapsed_ms);
 void set_lobby_map_state_code(s32 code);
 NetSendChunk *get_next_send_chunk(void);
 s16 TLobby__sub_804281DC(void *);
-s32 open_network_transport(A_803F8314 *cfg);
 s32 AT_SetWorkArea(u8 *data, s32 size);
 s32 AT_GetInitParam(NetTransportParams *arg0);
 void TLobby__sub_803F76F0(void);
@@ -585,14 +577,14 @@ after_close:
     }
 }
 
-s32 open_network_transport(A_803F8314 *cfg) {
+s32 open_network_transport(NetTransportOpenCfg *cfg) {
     u8 *buf = pppoe_discovery_name_storage[0];
     char *name;
     s32 ret;
     if (send_ring_buffer_base == NULL) {
         return 2;
     }
-    if (cfg->flag != 0) {
+    if (cfg->use_pppoe != 0) {
         network_pppoe_transport_enabled = 1;
         buf[0] = 0;
         buf[0x100] = 0;
@@ -602,8 +594,8 @@ s32 open_network_transport(A_803F8314 *cfg) {
         }
     } else {
         network_pppoe_transport_enabled = 0;
-        if (cfg->name != NULL) {
-            name = cfg->name;
+        if (cfg->modem_name != NULL) {
+            name = cfg->modem_name;
         } else {
             name = (char *)modem_default_connect_argument;
         }

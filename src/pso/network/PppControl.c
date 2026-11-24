@@ -247,13 +247,7 @@ s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     char *modem_name;
     s16 no_modem;
 {
-    s32 open_network_transport(void *);
-    struct {
-        s32 v[6];
-        s16 x;
-        s16 y;
-        void* z;
-    } cfg_block;
+    NetTransportOpenCfg cfg_block;
     s32 t;
     if (a == 0) {
         t = 0;
@@ -262,7 +256,7 @@ s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     } else {
         t = 0;
     }
-    cfg_block.v[0] = t;
+    cfg_block.settings[0] = t;
     if (b == 0) {
         t = 2;
     } else if (b == 1) {
@@ -272,7 +266,7 @@ s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     } else {
         t = 2;
     }
-    cfg_block.v[1] = t;
+    cfg_block.settings[1] = t;
     if (c == 0) {
         t = 0;
     } else if (c == 1) {
@@ -280,8 +274,8 @@ s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     } else {
         t = 0;
     }
-    cfg_block.v[2] = t;
-    cfg_block.v[3] = 1;
+    cfg_block.settings[2] = t;
+    cfg_block.settings[3] = 1;
     if (d == 0) {
         t = 0;
     } else if (d == 1) {
@@ -299,7 +293,7 @@ s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     } else {
         t = 2;
     }
-    cfg_block.v[4] = t;
+    cfg_block.settings[4] = t;
     if (e == 2) {
         t = 0;
     } else if (e == 3) {
@@ -307,13 +301,13 @@ s16 configure_and_open_network_transport(a, b, c, d, e, modem_name, no_modem)
     } else {
         t = 1;
     }
-    cfg_block.v[5] = t;
-    cfg_block.x = 0;
-    cfg_block.z = modem_name;
+    cfg_block.settings[5] = t;
+    cfg_block.reserved = 0;
+    cfg_block.modem_name = modem_name;
     if (no_modem != 0) {
-        cfg_block.y = 1;
+        cfg_block.use_pppoe = 1;
     } else {
-        cfg_block.y = 0;
+        cfg_block.use_pppoe = 0;
     }
     if (open_network_transport(&cfg_block) != 0) {
         return -1;

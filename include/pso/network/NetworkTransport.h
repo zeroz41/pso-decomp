@@ -18,6 +18,14 @@ typedef struct NetTransportParams {
     u32 i;
 } NetTransportParams;
 
+/* open_network_transport's request (configure_and_open_network_transport). */
+typedef struct NetTransportOpenCfg {
+    s32 settings[6];  /* mapped from configure_and_open_network_transport's arguments; open_network_transport does not read them */
+    s16 reserved;     /* always 0 */
+    s16 use_pppoe;    /* nonzero: open the PPPoE transport instead of dialling the modem */
+    char *modem_name; /* modem_init's argument; NULL uses "00" */
+} NetTransportOpenCfg;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -28,6 +36,7 @@ s32 TLobby__sub_803F767C(void);
 const char *TLobby__sub_803F7684(const char *name);
 
 void init_modem_buffer_config(struct ModemSessionState *state);
+s32 open_network_transport(NetTransportOpenCfg *cfg);
 struct PppAuthState;
 struct PppPapState;
 struct PppBuffers;
