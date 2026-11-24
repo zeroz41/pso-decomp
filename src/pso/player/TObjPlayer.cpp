@@ -66,6 +66,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/CapturedTargetList.h"
 #include "pso/player/PlayerTelepipe.h"
+#include "pso/player/InventoryItemList.h"
 
 u8 *TObjPlayer::create_player_instance(s32 slot, PlayerCharDataEntry *player) {
     u8 *p;
@@ -285,19 +286,15 @@ u8 TObjPlayer::get_power_materials_used() { return materials.get_power_used(); }
 
 }
 
-struct Inv_801BE890 { s32 f0; TPlyInventoryItem items[0x1E]; };
+InventoryItemList::InventoryItemList() {
+    s32 i;
+    count = 0;
+    for (i = 0; i < 30; i++) {
+        items[i].init();
+    }
+}
 
 extern "C" {
-Inv_801BE890 *init_inventory_list__10TObjPlayerFPv(Inv_801BE890 *list);
-
-Inv_801BE890 *init_inventory_list__10TObjPlayerFPv(Inv_801BE890 *list) {
-    s32 i;
-    list->f0 = 0;
-    for (i = 0; i < 0x1E; i++) {
-        list->items[i].init();
-    }
-    return list;
-}
 
 void TObjPlayer::set_move_mode(s32 v) { this->m_3dc = v; }
 void TObjPlayer::set_input_mode(s32 v) { this->m_3d8 = v; }

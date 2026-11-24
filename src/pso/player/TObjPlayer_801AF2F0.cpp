@@ -3,6 +3,7 @@
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/PlayerCharDataEntry.h"
+#include "pso/player/InventoryItemList.h"
 #include "pso/player/PlayerLevelTable.h"
 #include "pso/unk/text_8024AB98.h"
 #include "pso/player/PlayerState.h"
@@ -274,7 +275,7 @@ struct Obj_801B4FD8 {
     s32 fB0;
     s8 fB4[0x13];
     u8 padC7[0x13C - 0xC7];
-    u8 f13C[0x488 - 0x13C];
+    InventoryItemList f13C;
     s32 f488;
 };
 
@@ -356,13 +357,6 @@ struct S801B5200_801B3FD8 { s8 b[2]; s16 h; };
 struct Color_801B6964 { f32 r, g, b, a; };
 
 
-struct Buf_801B802C {
-    s32 n;
-    TPlyInventoryItem items[30];
-    u8 padding[4];
-};
-
-LAYOUT_ASSERT(SavedInventoryBufferSize, sizeof(Buf_801B802C) == 0x350);
 
 struct S801B7F4C { s8 b[2]; s16 h; s32 w; };
 
@@ -520,7 +514,6 @@ bool is_target_in_facing_cone__10TObjPlayerFPv(void *self, Vec *target);
 void TObjPlayer__sub_801BA42C(void);
 void TObjPlayer__sub_801BBB70(void);
 void clear_flag_4000_callback__10TObjPlayerFv(TObjPlayer *);
-void init_inventory_list__10TObjPlayerFPv(void *);
 s32 TObjPlayer__sub_801BE8F4(void *, s32, s32);
 void TObjPlayer__sub_801BEEAC(void *, void *);
 void TObjPlayer__sub_801BEEE0(void *, void *);
@@ -2339,16 +2332,15 @@ void assign_inventory_item_ids(TObjPlayer *player, TPlyInventoryItem *records, s
 }
 
 void rebuild_player_inventory(TObjPlayer *player) {
-    Buf_801B802C buffer;
     if (player->inventory_objects != NULL) {
-        init_inventory_list__10TObjPlayerFPv(&buffer);
-        buffer.n = player->query_state_if_present(buffer.items);
+        InventoryItemList buffer;
+        buffer.count = player->query_state_if_present(buffer.items);
         player->inventory_objects->destroy_subobjects(player);
         player->inventory_objects->queue_destruction();
         player->inventory_objects = NULL;
         player->create_inventory();
-        assign_inventory_item_ids(player, buffer.items, buffer.n);
-        TObjPlayer::bind_saved_inventory_equipment(player, buffer.items, buffer.n);
+        assign_inventory_item_ids(player, buffer.items, buffer.count);
+        TObjPlayer::bind_saved_inventory_equipment(player, buffer.items, buffer.count);
     }
 }
 
@@ -3625,7 +3617,7 @@ Obj_801B4FD8 *init_player_join_record(Obj_801B4FD8 *self) {
     self->telepipe.init();
     __ct__8FlagWordFv((self->f94));
     self->f98.init();
-    init_inventory_list__10TObjPlayerFPv(self->f13C);
+    __ct__17InventoryItemListFv(&self->f13C);
     self->f0 = 0xFFFF;
     self->f2 = 0;
     self->f4 = 0;
