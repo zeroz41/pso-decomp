@@ -220,7 +220,7 @@ struct G_CreateInventoryItem_PC_V3_BB_6x2B {
 
 struct G_CreateLobbyChair_6xAB {
  struct G_ClientIDHeader header;
- u16 animation_number;
+ s16 animation_number;
  u16 flags;
 };
 
@@ -435,7 +435,7 @@ struct G_GolDragonBossActions_6xA8 {
 struct G_HitByEnemy_6x4B_6x4C {
  struct G_ClientIDHeader header;
  u16 angle;
- u16 current_hp;
+ s16 current_hp;
  struct VectorXZF velocity;
 };
 
@@ -539,7 +539,7 @@ struct G_LevelUpAllTechniques_6x9B {
 
 struct G_LobbyAnimation_6x58 {
  struct G_ClientIDHeader header;
- u16 animation_number;
+ s16 animation_number;
  u16 flags;
 };
 
@@ -712,7 +712,7 @@ struct G_SendGuildCard_PC_6x06 {
 
 struct G_SetAnimationState_6x52 {
  struct G_ClientIDHeader header;
- u16 animation;
+ s16 animation;
  u16 unknown_a2;
  u32 angle;
 };
@@ -826,7 +826,7 @@ struct G_SetPlayerFloor_6x1F {
 struct G_SetPlayerPositionAndAngle_6x56 {
  struct G_ClientIDHeader header;
  u32 angle_y;
- struct VectorXYZF pos;
+ Vec pos;
 };
 
 struct G_SetPlayerVisibility_6x22_6x23 {

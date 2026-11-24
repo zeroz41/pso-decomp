@@ -1130,7 +1130,7 @@ void handle_6xAB(G_CreateLobbyChair_6xAB *command) {
     TObjPlayer__sub_801D1284((u8 *)&m);
     ((TObjPlayer *)(&m))->copy_packet_header_6xAB(command);
     ((TObjPlayer *)(&m))->swap_bytes();
-    if (validate_6xAB(reinterpret_cast<G_ClientIDHeader *>(&m)) != 0) {
+    if (validate_6xAB(reinterpret_cast<G_CreateLobbyChair_6xAB *>(&m)) != 0) {
         p = get_player_by_client_id(m.id);
         if (p != NULL && ((TObjPlayer *)p)->is_in_tl03_state() != 0) {
             if (TObjPlayer__sub_801D11F8(&m) == 0) {
@@ -1445,7 +1445,7 @@ void handle_6x58_lobby_animation(G_LobbyAnimation_6x58 *command) {
     ((void (*)(void *))TObjPlayer__sub_801D13EC)(&m);
     ((TObjPlayer *)(&m))->copy_packet_header_6x58(command);
     ((TObjPlayer *)(&m))->bswap_packet();
-    if (validate_6x58_lobby_animation(reinterpret_cast<G_ClientIDHeader *>(&m)) != 0) {
+    if (validate_6x58_lobby_animation(reinterpret_cast<G_LobbyAnimation_6x58 *>(&m)) != 0) {
         p = (Player_801C851C *)get_player_by_client_id((u16)m.slot);
         if ((p != NULL) && (((TObjPlayer *)p)->is_in_tl03_state() != 0)) {
             p->anim = m.c;
@@ -1706,7 +1706,7 @@ void handle_6x56_set_player_position_and_angle(G_SetPlayerPositionAndAngle_6x56 
     ((TObjPlayer *)(&m))->init_position_packet();
     ((void (*)(void *, void *))TObjPlayer__sub_801D1514)(&m, command);
     ((TObjPlayer *)(&m))->swap_endian_words();
-    if (validate_6x56_set_player_position_and_angle(reinterpret_cast<G_ClientIDHeader *>(&m)) != 0) {
+    if (validate_6x56_set_player_position_and_angle(reinterpret_cast<G_SetPlayerPositionAndAngle_6x56 *>(&m)) != 0) {
         p = (Player_801C8B5C *)get_player_by_client_id((s32)(m.slot));
         if (p != NULL) {
             p->ang = m.c;
@@ -1853,7 +1853,7 @@ void handle_6x55_intra_map_warp(game_command_header *command) {
     packet.init();
     TObjPlayer__sub_801D0EA0(&packet, reinterpret_cast<G_IntraMapWarp_6x55 *>(command));
     packet.bswap();
-    if (validate_6x55_intra_map_warp(&packet.header) != 0) {
+    if (validate_6x55_intra_map_warp(&packet) != 0) {
         TObjPlayer *player = get_player_by_client_id(packet.header.client_id);
         if (player != NULL && player->is_in_tl03_state() != 0 && player->test_action_mask(0x8200) == 0) {
             player->warp_yaw = packet.angle_y;
@@ -2125,7 +2125,7 @@ void handle_6x52_set_animation_state(G_SetAnimationState_6x52 *command) {
     ((TObjPlayer *)(&pkt))->init_6x52_packet();
     ((TObjPlayer *)(&pkt))->copy_font_state(command);
     ((TObjPlayer *)(&pkt))->swap_stats_bytes();
-    if (validate_6x52_set_animation_state(reinterpret_cast<G_ClientIDHeader *>(&pkt)) != 0) {
+    if (validate_6x52_set_animation_state(reinterpret_cast<G_SetAnimationState_6x52 *>(&pkt)) != 0) {
         player = get_player_by_client_id(pkt.client);
         if ((player != NULL) && (player->is_in_tl03_state() != 0) && (player->test_action_mask(0x8000) == 0) && ((TFontSmallLobby::is_lobby_floor_15() == 0) || (player->obj_isState2_324() == 0) || (player->check_flag(0x04000000) == 0))) {
             player->anim_state.set_animation(pkt.c);
@@ -2776,7 +2776,7 @@ void handle_6x4C_hit_by_enemy(G_HitByEnemy_6x4B_6x4C *command) {
     ((TObjPlayer *)(&m))->init_6x4C_packet();
     ((void (*)(void *, void *))copy_6x4c_hit_by_enemy_packet__10TObjPlayerFPvPv)(&m, command);
     ((TObjPlayer *)(&m))->bswap_head_pair();
-    if (validate_6x4C_hit_by_enemy(reinterpret_cast<G_ClientIDHeader *>(&m)) != 0) {
+    if (validate_6x4C_hit_by_enemy(reinterpret_cast<G_HitByEnemy_6x4B_6x4C *>(&m)) != 0) {
         p = (Player_801CACD8 *)get_player_by_client_id(m.id);
         {
             TObjPlayer *tp = (TObjPlayer *)p;
@@ -2921,7 +2921,7 @@ void handle_6x4B_hit_by_enemy(G_HitByEnemy_6x4B_6x4C *command) {
     ((TObjPlayer *)(&m))->reset_action_state();
     ((void (*)(void *, void *))copy_6x4b_hit_by_enemy_packet__10TObjPlayerFPvPv)(&m, command);
     ((TObjPlayer *)(&m))->read_swapped_fields();
-    if (validate_6x4B_hit_by_enemy(reinterpret_cast<G_ClientIDHeader *>(&m)) != 0) {
+    if (validate_6x4B_hit_by_enemy(reinterpret_cast<G_HitByEnemy_6x4B_6x4C *>(&m)) != 0) {
         p = (Player_801CB1B0 *)get_player_by_client_id(m.id);
         {
             TObjPlayer *tp = (TObjPlayer *)p;
