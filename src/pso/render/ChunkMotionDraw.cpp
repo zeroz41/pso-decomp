@@ -13,8 +13,6 @@ void clear_chunk_strip_blend_flags() {
     chunk_render_flags &= 0xFFFFF9FF;
 }
 
-extern void (*player_chunk_draw_end_callback)();
-
 void set_chunk_draw_end_callback(void (*callback)()) {
     player_chunk_draw_end_callback = callback;
 }

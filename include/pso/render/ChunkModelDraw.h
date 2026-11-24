@@ -29,6 +29,7 @@ void clear_chunk_render_flags();
 // set_chunk_blend_depth_mode leaves in chunk_render_flags.
 void clear_chunk_strip_blend_flags();
 // Called by end_chunk_draw after every chunk model.
+extern void (*player_chunk_draw_end_callback)();
 void set_chunk_draw_end_callback(void (*callback)());
 // A chunk model draw is setup_model_draw_state, draw_chunk_vertices_cached
 // for every model in the tree, then end_chunk_draw.
