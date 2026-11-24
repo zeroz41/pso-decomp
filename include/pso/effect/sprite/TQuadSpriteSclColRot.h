@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/effect/sprite/TQuadSprite.h"
 
-// The rotated sprite DVDConvertEntrynumToPath draws: a corner at depth, the two
+// The rotated sprite draw_rotated_quad draws: a corner at depth, the two
 // screen edges from it, then the texture corner and the matching uv edges.
 struct RotatedQuadSpriteRect {
     f32 x;

@@ -66,7 +66,7 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth) {
 
 #pragma push
 #pragma scheduling off
-void DVDConvertEntrynumToPath(f32 *q) {
+void draw_rotated_quad(f32 *q) {
     f32 z = -1.0f / q[2];
     u32 color = (u32)constant_material_color;
     f32 y0, x0, u0, v0;

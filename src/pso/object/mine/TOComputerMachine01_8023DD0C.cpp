@@ -236,7 +236,7 @@ void draw_compass_sprite(const NJS_SPRITE *sprite, s32 idx, s32 color, s32 flags
         begin_screen_draw(0);
     }
     set_draw_texture_and_color(idx, color);
-    DVDConvertEntrynumToPath((f32 *)&info);
+    draw_rotated_quad((f32 *)&info);
     TWindowSubStatusDisp::get_player();
 }
 #pragma pop

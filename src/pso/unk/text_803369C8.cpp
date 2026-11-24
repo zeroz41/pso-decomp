@@ -110,7 +110,7 @@ void draw_title_rings(s32 owner, f32 depth, s32 frame) {
     q.vh = 0.83984375f;
     q.z = -1.0f / depth;
     rotate_title_background_quad(owner, (u8 *)&q, (u8 *)ring_center, -angle, 430.0f);
-    DVDConvertEntrynumToPath((f32 *)&q);
+    draw_rotated_quad((f32 *)&q);
     set_draw_texture_and_color(12, color);
     q.u = 0.0f;
     q.v = 0.0f;
@@ -118,7 +118,7 @@ void draw_title_rings(s32 owner, f32 depth, s32 frame) {
     q.vh = 0.34765625f;
     q.z = -1.0f / (1.0f + depth);
     rotate_title_background_quad(owner, (u8 *)&q, (u8 *)ring_center, angle, 178.0f);
-    DVDConvertEntrynumToPath((f32 *)&q);
+    draw_rotated_quad((f32 *)&q);
     q.u = 0.349609375f;
     q.v = 0.0f;
     q.uw = 0.203125f;
@@ -128,7 +128,7 @@ void draw_title_rings(s32 owner, f32 depth, s32 frame) {
         pos[1] = ring_center[1] + ring_offsets[i][0] * sin_table_lookup(angle) + ring_offsets[i][1] * cos_table_lookup(angle);
         q.z = -1.0f / (2.0f + depth);
         rotate_title_background_quad(owner, (u8 *)&q, (u8 *)pos, -angle * 2, 104.0f);
-        DVDConvertEntrynumToPath((f32 *)&q);
+        draw_rotated_quad((f32 *)&q);
     }
     TWindowSubStatusDisp::get_player();
     set_default_alpha_blend();

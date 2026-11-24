@@ -38,7 +38,7 @@ void draw_wait_icon_quad(f32 *pos, f32 *scale, s32 angle, s32 uv_angle) {
     q[11] = s2 / 256.0f;
     q[12] = -s2 / 256.0f;
     q[13] = c2 / 256.0f;
-    DVDConvertEntrynumToPath(q);
+    draw_rotated_quad(q);
 }
 #pragma pop
 
