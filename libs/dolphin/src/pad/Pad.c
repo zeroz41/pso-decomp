@@ -11,29 +11,14 @@ static void PADProbeCallback(s32 chan, u32 error, OSContext *context);
 static void PADDisable(s32 chan);
 static void UpdateOrigin(s32 chan);
 static void PADOriginCallback(s32 chan, u32 error, OSContext *context);
-int PADReset(u32 mask);
-BOOL PADRecalibrate(u32 mask);
-BOOL PADInit();
 static void PADReceiveCheckCallback(s32 chan, u32 error);
-u32 PADRead(PADStatus* status);
-void PADSetSamplingRate(u32 msec);
-void __PADTestSamplingRate(u32 tvmode);
-void PADControlAllMotors(const u32 *commandArray);
-void PADControlMotor(s32 chan, u32 command);
-void PADSetSpec(u32 spec);
-u32 PADGetSpec();
 static void SPEC0_MakeStatus(s32 chan, PADStatus *status, u32 data[2]);
 static void SPEC1_MakeStatus(s32 chan, PADStatus *status, u32 data[2]);
 static s8 ClampS8(s8 var, s8 org);
 static u8 ClampU8(u8 var, u8 org);
 static void SPEC2_MakeStatus(s32 chan, PADStatus *status, u32 data[2]);
-BOOL PADGetType(s32 chan, u32 * type);
-BOOL PADSync(void);
-void PADSetAnalogMode(u32 mode);
 static BOOL OnReset(BOOL f);
 static void PADTypeAndStatusCallback(s32 chan, u32 type);
-void __PADDisableXPatch(void);
-BOOL __PADDisableRecalibration(BOOL disable);
 
 #define LATENCY 8
 

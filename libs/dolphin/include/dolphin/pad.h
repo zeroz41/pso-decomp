@@ -76,6 +76,9 @@ PADSamplingCallback PADSetSamplingCallback(PADSamplingCallback callback);
 
 void PADClamp(PADStatus * status);
 
+void __PADDisableXPatch(void);
+BOOL __PADDisableRecalibration(BOOL disable);
+
 #ifdef __cplusplus
 }
 #endif
