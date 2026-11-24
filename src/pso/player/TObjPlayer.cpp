@@ -249,7 +249,7 @@ void TObjPlayer::clear_flag_200000() {
 }
 int TObjPlayer::check_flag_4() { return check_flag(4); }
 G_SetPlayerVisibility_6x22_6x23 &G_SetPlayerVisibility_6x22_6x23::operator=(const G_SetPlayerVisibility_6x22_6x23 &src) {
-    copy_subcommand_header(this, (void *)&src);
+    copy_subcommand_header(this, &src);
     return *this;
 }
 void TObjPlayer::clear_flag_4000_callback() { clear_flag_4000(); }
@@ -1040,7 +1040,7 @@ void bswap_g_client_id_header(void* p) { ((G_ClientIDHeader *)p)->bswap(); }
 G_LevelUpAllTechniques_6x9B &G_LevelUpAllTechniques_6x9B::operator=(G_LevelUpAllTechniques_6x9B &src) {
     copy_subcommand_header(this, &src);
     num_levels = src.num_levels;
-    __copy(unused, (void *)src.unused, 3);
+    __copy(unused, src.unused, 3);
     return *this;
 }
 
@@ -1511,7 +1511,7 @@ void G_SetPosition_6x20::send() { bswap(); ((game_command *)this)->send(); }
 void G_SetPlayerFloor_6x1F::bswap() { header.bswap(); bswap_32((u32 *)&floor); }
 
 G_SetPlayerFloor_6x1F &G_SetPlayerFloor_6x1F::operator=(const G_SetPlayerFloor_6x1F &src) {
-    copy_subcommand_header(this, (void *)&src);
+    copy_subcommand_header(this, &src);
     floor = src.floor;
     return *this;
 }
@@ -1527,7 +1527,7 @@ void G_SetPlayerFloor_6x1F::send() { bswap(); ((game_command *)this)->send(); }
 void G_InterLevelWarp_6x21::bswap() { header.bswap(); bswap_32((u32 *)&floor); }
 
 G_InterLevelWarp_6x21 &G_InterLevelWarp_6x21::operator=(const G_InterLevelWarp_6x21 &src) {
-    copy_subcommand_header(this, (void *)&src);
+    copy_subcommand_header(this, &src);
     floor = src.floor;
     return *this;
 }
