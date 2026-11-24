@@ -99,8 +99,8 @@ struct TNpcPlayer : public TObject {
         void copy_entry_by_index(s32 index);
     };
 
-    TNpcPlayer(u16 a, u16 b, int kind, TObject *parent);
-    TNpcPlayer(u16 a, u16 b, int kind, s32 arg4, TObject *parent);
+    TNpcPlayer(u16 leader_id, u16 self_id, int template_id, TObject *parent);
+    TNpcPlayer(u16 leader_id, u16 self_id, int template_id, s32 escort, TObject *parent);
     virtual ~TNpcPlayer();
     void deliver_partner_action();
     virtual void run_task();
@@ -138,9 +138,9 @@ struct TNpcPlayer : public TObject {
     s32 m_cc;
     Vec steer_point;
     Vec goal;
-    void dispatch_action(s32 arg1);
-    void change_ai_state(u32 arg1);
-    void handle_action(s32 arg1);
+    void dispatch_action(s32 action);
+    void change_ai_state(u32 state);
+    void handle_action(s32 action);
     void request_chatter(u32 id);
     static const char *name;
     static bool is_small_obstacle(f32 size);
@@ -164,16 +164,13 @@ struct TNpcPlayer : public TObject {
     s32 check_return_to_leader();
     s32 update_follow_target();
     void decide_action();
-    static TPlyCharData *build_npc_player_record(s32 arg0);
+    static TPlyCharData *build_npc_player_record(s32 index);
     static void ensure_rock_singleton();
     void init_equipment();
     static s32 send_command(s32 cls, s32 count, const TPlyInventoryItem *source, s32 level, TPlyCharData *character);
-    void byteswap_header();
-    void send_state_60();
     void update_combat_action();
-    u8 *destroy_and_materialize_player(s16 arg1);
     void request_technique_cast(s32 kind);
-    s32 select_recovery_action(s32 arg1);
+    s32 select_recovery_action(s32 check_leader);
     s32 route_around_object(Vec *out);
     void calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, Vec *axis, f32 *reach);
 };

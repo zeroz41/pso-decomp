@@ -68,7 +68,7 @@ void reset_partner_counter(PartnerCounters *counters, s32 index);
 void increment_partner_counter(PartnerCounters *counters, s32 index);
 s16 get_partner_counter(PartnerCounters *counters, s32 index);
 s32 npc_counter_reset_if_reached(PartnerCounters *counters, s32 index, s32 limit);
-s32 try_send_6x27_use_item(s32, s32, void *);
+s32 try_send_6x27_use_item(void *player, s32 key);
 s8 get_cast_technique_level(void *, s16);
 void __register_global_object(void *obj, void *dtor, void *link);
 
@@ -801,7 +801,6 @@ TPlyInventoryItem *npc_player_equipment_ultimate[64] = {
 
 
 void TUnk_804AF7B0::run_task() {
-    s32 temp_r0;
     saddr up;
 
     up = (saddr)m_up;
@@ -819,12 +818,11 @@ void TUnk_804AF7B0::run_task() {
             damage_interval = 0x96;
             contact_ticks = 0;
         }
-        temp_r0 = contact_ticks;
-        if (temp_r0 == 1) {
+        if (contact_ticks == 1) {
             TObjFogCollisionPoison__sub_801535D0(up);
             return;
         }
-        if (temp_r0 > 0x3C) {
+        if (contact_ticks > 0x3C) {
             TObjFogCollisionPoison__sub_80153520(up);
         }
     }
@@ -1068,7 +1066,7 @@ void TNpcPlayer::ensure_rock_singleton() {
     }
 }
 
-TPlyCharData *TNpcPlayer::build_npc_player_record(s32 arg0) {
+TPlyCharData *TNpcPlayer::build_npc_player_record(s32 index) {
     s32 mode;
     s32 diff;
     s32 lvl;
@@ -1078,7 +1076,7 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 arg0) {
         quest_npc_visual_pending = 0;
         copy_player_visual_record(&npc_player_visual_record, &quest_npc_visual_record);
     } else {
-        copy_player_visual_record(&npc_player_visual_record, &npc_player_char_data_buffer[arg0]);
+        copy_player_visual_record(&npc_player_visual_record, &npc_player_char_data_buffer[index]);
     }
     bswap__15disp_data_part2Fv((saddr)&npc_player_visual_record);
     mem_free(npc_player_char_data_buffer);
@@ -1089,7 +1087,7 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 arg0) {
     } else {
         diff = 2;
     }
-    base = npc_player_ai_templates[arg0].base_level;
+    base = npc_player_ai_templates[index].base_level;
     lvl = base + diff * 25;
     if (mode == 3) {
         lvl = base + 150;
@@ -1099,19 +1097,19 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 arg0) {
     }
     switch (mode) {
     case 0:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 1:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 2:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 3:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     default:
-        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     }
     copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(npc_player_char_data)->m_disp_part2, &npc_player_visual_record);
@@ -1173,7 +1171,7 @@ TPlyCharData *load_npc_player_template(s32 index) {
     return reinterpret_cast<TPlyCharData *>(npc_player_char_data);
 }
 
-TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, TObject *parent) : TObject(parent) {
+TNpcPlayer::TNpcPlayer(u16 leader_id, u16 self_id, int template_id, TObject *parent) : TObject(parent) {
     m_name = TNpcPlayer::name;
     chatter_id = 0x19;
     in_combat = 0;
@@ -1190,7 +1188,7 @@ TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, TObject *parent) : TObject(parent
     m_c4 = 0;
     m_c8 = 0;
     m_cc = 0;
-    template_index = kind;
+    template_index = template_id;
     ai_flags = 0;
     ai_state = 0;
     escort_distance_sq = 0.0f;
@@ -1198,8 +1196,8 @@ TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, TObject *parent) : TObject(parent
     stuck_frames = 0;
     attack_delay = 0;
     still_frames = 0;
-    leader_view = new NpcPlayerView(a);
-    self_view = new NpcPlayerView(b);
+    leader_view = new NpcPlayerView(leader_id);
+    self_view = new NpcPlayerView(self_id);
     ai_params.copy(&npc_player_ai_templates[template_index]);
     if (self_view != 0 && self_view->player != 0) {
         VecCopy(&goal, &self_view->player->position);
@@ -1225,7 +1223,7 @@ void TNpcPlayer::AiParams::copy(AiParams *src) {
     unknown_24 = src->unknown_24;
 }
 
-TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, s32 arg4, TObject *parent) : TObject(parent) {
+TNpcPlayer::TNpcPlayer(u16 leader_id, u16 self_id, int template_id, s32 escort, TObject *parent) : TObject(parent) {
     m_name = TNpcPlayer::name;
     chatter_id = 0x19;
     in_combat = 0;
@@ -1242,7 +1240,7 @@ TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, s32 arg4, TObject *parent) : TObj
     m_c4 = 0;
     m_c8 = 0;
     m_cc = 0;
-    template_index = kind;
+    template_index = template_id;
     ai_flags = 0;
     ai_state = 0;
     escort_distance_sq = 0.0f;
@@ -1250,14 +1248,14 @@ TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, s32 arg4, TObject *parent) : TObj
     stuck_frames = 0;
     attack_delay = 0;
     still_frames = 0;
-    leader_view = new NpcPlayerView(a);
-    self_view = new NpcPlayerView(b);
+    leader_view = new NpcPlayerView(leader_id);
+    self_view = new NpcPlayerView(self_id);
     ai_params.copy(&npc_player_ai_templates[template_index]);
     if (self_view != 0 && self_view->player != 0) {
         VecCopy(&goal, &self_view->player->position);
         init_equipment();
     }
-    escort_leader = arg4;
+    escort_leader = escort;
 }
 
 TNpcPlayer::~TNpcPlayer() {
@@ -1318,13 +1316,9 @@ void TNpcPlayer::run_task() {
 }
 
 void TNpcPlayer::decide_action() {
-    f32 temp_f0;
-    f32 temp_f1;
-    f32 temp_f2;
-    f32 var_f31;
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r3_3;
+    f32 threshold;
+    f32 roll;
+    f32 aggression;
     if ((get_current_floor_area() == AREA_PIONEER2_EP1) || (get_current_floor_area() == AREA_PIONEER2_EP2)) {
         calc_follow_goal();
         change_ai_state(1);
@@ -1339,13 +1333,12 @@ void TNpcPlayer::decide_action() {
         }
         ai_flags = ai_flags & 0xFFFFFEFF;
         if (select_recovery_action(1) != 0) {
-            temp_r3 = ai_flags;
-            if (temp_r3 & 0x200) {
+            if (ai_flags & 0x200) {
                 request_chatter(0x13);
                 change_ai_state(8);
                 return;
             }
-            ai_flags = temp_r3 & 0xFFFFFDFF;
+            ai_flags &= ~0x200;
             if (horizontal_distance_squared(&goal, &self_view->player->position) < 900.0f) {
                 change_ai_state(8);
                 return;
@@ -1359,18 +1352,18 @@ void TNpcPlayer::decide_action() {
         attack_delay = 0;
         return;
     case 1:
-        var_f31 = 1.0f;
+        aggression = 1.0f;
         if (ai_flags & 0x8000) {
-            var_f31 = 2.0f;
+            aggression = 2.0f;
         }
         if ((self_view->player->can_perform_physical_action() != 0) && (attack_delay == 0)) {
-            temp_f1 = fabs_float(10.0f * (3.0517578125e-05f * (f32) rand()));
-            temp_f0 = 0.1f * (f32) ai_params.attack_probability;
-            temp_f0 *= var_f31;
-            if (temp_f1 < temp_f0) {
+            roll = fabs_float(10.0f * (3.0517578125e-05f * (f32) rand()));
+            threshold = 0.1f * (f32) ai_params.attack_probability;
+            threshold *= aggression;
+            if (roll < threshold) {
                 attack_delay = 0;
             } else {
-                attack_delay = (s16) (10.0f * (temp_f1 - temp_f0));
+                attack_delay = (s16) (10.0f * (roll - threshold));
             }
         }
         attack_delay = (s16) (attack_delay - 1);
@@ -1383,9 +1376,8 @@ void TNpcPlayer::decide_action() {
                 change_ai_state(8);
                 ai_flags = ai_flags & 0xFFFFFF7F;
             } else {
-                temp_r3_2 = ai_flags;
-                if (temp_r3_2 & 0x80) {
-                    ai_flags = temp_r3_2 & 0xFFFFFF7F;
+                if (ai_flags & 0x80) {
+                    ai_flags &= ~0x80;
                     if (attack_delay == 0) {
                         change_ai_state(2);
                     }
@@ -1396,17 +1388,16 @@ void TNpcPlayer::decide_action() {
             }
         } else if (select_recovery_action(1) != 0) {
             reset_partner_counter(&partner_counters, 8);
-            temp_r3_3 = ai_flags;
-            if (temp_r3_3 & 0x200) {
+            if (ai_flags & 0x200) {
                 request_chatter(0x13);
                 change_ai_state(8);
-            } else if (temp_r3_3 & 0x80) {
-                ai_flags = temp_r3_3 & ~0x280;
+            } else if (ai_flags & 0x80) {
+                ai_flags &= ~0x280;
                 if (attack_delay == 0) {
                     change_ai_state(2);
                 }
             } else {
-                ai_flags = temp_r3_3 & 0xFFFFFDFF;
+                ai_flags &= ~0x200;
                 if (horizontal_distance_squared(&goal, &self_view->player->position) < 900.0f) {
                     change_ai_state(8);
                 } else if (escort_leader != 0) {
@@ -1541,18 +1532,16 @@ s32 TNpcPlayer::choose_attack_target() {
 #pragma fp_contract on
 s32 TNpcPlayer::calc_follow_goal() {
     Vec dir;
-    f32 temp_f0;
+    f32 keep_distance;
     f32 z;
-    f32 temp_f2;
     TObjPlayer *obj_player;
     if (escort_leader != 0) {
         if (ai_params.technique_flags & 0x80) {
-            temp_f0 = ai_params.unknown_24;
-            if (escort_distance_sq <= (temp_f0 * temp_f0)) {
+            keep_distance = ai_params.unknown_24;
+            if (escort_distance_sq <= (keep_distance * keep_distance)) {
                 obj_player = self_view->player;
                 dir.x = goal.x - obj_player->position.x;
-                temp_f2 = goal.z;
-                z = temp_f2 - obj_player->position.z;
+                z = goal.z - obj_player->position.z;
                 dir.y = 0.0f;
                 dir.z = z;
                 if (0.0f != vector_length(&dir)) {
@@ -1574,7 +1563,7 @@ s32 TNpcPlayer::calc_follow_goal() {
 }
 #pragma pop
 
-s32 TNpcPlayer::select_recovery_action(s32 arg1) {
+s32 TNpcPlayer::select_recovery_action(s32 check_leader) {
     TNpcPlayer * self = this;
     u8 flags = 0;
     NpcPlayerView *tgt;
@@ -1582,11 +1571,11 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
     if (self->self_view->get_status() & 4) {
         flags |= 1;
     }
-    if (arg1 != 0 && (self->leader_view->get_status() & 4) && self->escort_leader == 0) {
+    if (check_leader != 0 && (self->leader_view->get_status() & 4) && self->escort_leader == 0) {
         flags |= 2;
     }
     tgt = self->self_view->target_list();
-    if (arg1 != 0 && tgt->target_count != 0 && (flags & 2)) {
+    if (check_leader != 0 && tgt->target_count != 0 && (flags & 2)) {
         increment_partner_counter(&self->partner_counters, 5);
         if (npc_counter_reset_if_reached(&self->partner_counters, 5, 0x1E) != 0) {
             ent = (TObjBase *)find_active_entity_by_id(tgt->targets[0].entity_id);
@@ -1930,12 +1919,11 @@ void TNpcPlayer::update_condition_flags() {
 #pragma fp_contract on
 void TNpcPlayer::partner_observe_surroundings() {
     f32 x;
-    s32 temp_r3_2;
-    TObjPlayer *obj_player;
-    TObjPlayer *temp_r3;
-    NpcPlayerView *temp_r3_3;
-    obj_player = leader_view->player;
-    leader_distance_sq = horizontal_distance_squared(&obj_player->position, &self_view->player->position);
+    TObjPlayer *leader;
+    TObjPlayer *self_player;
+    NpcPlayerView *view;
+    leader = leader_view->player;
+    leader_distance_sq = horizontal_distance_squared(&leader->position, &self_view->player->position);
     if (escort_leader != 0) {
         ((s32 (*)(void *, s32, f32))try_update_target_flag__10TNpcPlayerFPvi)(self_view, leader_view->get_client_id(), ai_params.enemy_lock_on_range);
     } else {
@@ -1943,8 +1931,8 @@ void TNpcPlayer::partner_observe_surroundings() {
     }
     self_view->update_conditions();
     x = goal.x;
-    temp_r3 = self_view->player;
-    self_view->goal_angle = (s32)(10430.38043493439 * atan2_float(x - temp_r3->position.x, goal.z - temp_r3->position.z));
+    self_player = self_view->player;
+    self_view->goal_angle = (s32)(10430.38043493439 * atan2_float(x - self_player->position.x, goal.z - self_player->position.z));
     self_view->probe_obstacles();
     if (self_view->update_hp_change() != 0) {
         if (self_view->get_condition() & 0x40) {
@@ -1953,9 +1941,8 @@ void TNpcPlayer::partner_observe_surroundings() {
             request_chatter(0xF);
         } else if (self_view->get_condition() & 0x200) {
             if (ai_state != 8U) {
-                temp_r3_2 = ai_flags;
-                if (temp_r3_2 & 0x10000) {
-                    ai_flags = temp_r3_2 & 0xFFFEFFFF;
+                if (ai_flags & 0x10000) {
+                    ai_flags &= ~0x10000;
                 } else {
                     request_chatter(0x11);
                 }
@@ -1978,8 +1965,8 @@ void TNpcPlayer::partner_observe_surroundings() {
             stuck_frames = (s8)(stuck_frames + 1);
         }
     } else {
-        temp_r3_3 = self_view;
-        VecCopy(&temp_r3_3->last_position, &temp_r3_3->player->prev_position);
+        view = self_view;
+        VecCopy(&view->last_position, &view->player->prev_position);
         stuck_frames = 0;
         still_frames = 0;
     }
@@ -2161,12 +2148,12 @@ void TNpcPlayer::render() {  }
 #pragma push
 #pragma fp_contract on
 s32 TNpcPlayer::check_movement_progress() {
-    s8 temp_r3;
+    s8 stuck;
     if (horizontal_distance_squared(&move_target, &steer_point) <= 100.0f) {
         return 0;
     }
-    temp_r3 = stuck_frames;
-    if (temp_r3 > 0x1E) {
+    stuck = stuck_frames;
+    if (stuck > 0x1E) {
         stuck_frames = 0x1EU;
         ai_flags = ai_flags | 0x4000;
         if (get_partner_counter(&partner_counters, 7) == 0) {
@@ -2176,7 +2163,7 @@ s32 TNpcPlayer::check_movement_progress() {
         npc_counter_reset_if_reached(&partner_counters, 7, 0x12C);
         return 0;
     }
-    if ((temp_r3 == 0) && (ai_flags & 0x4000)) {
+    if ((stuck == 0) && (ai_flags & 0x4000)) {
         reset_partner_counter(&partner_counters, 7);
         request_chatter(0x18);
         ai_flags = ai_flags & 0xFFFFBFFF;
@@ -2187,7 +2174,7 @@ s32 TNpcPlayer::check_movement_progress() {
 
 s32 NpcPlayerView::check_moved() {
     Vec d;
-    f32 temp_f1;
+    f32 pos_z;
     f32 *prev_position_ptr;
     f32 *position_ptr;
     prev_position_ptr = (f32 *)player->get_prev_position_ptr();
@@ -2197,9 +2184,9 @@ s32 NpcPlayerView::check_moved() {
     }
     d.x = position_ptr[0] - prev_position_ptr[0];
     d.y = position_ptr[1] - prev_position_ptr[1];
-    temp_f1 = position_ptr[2];
-    d.z = temp_f1 - prev_position_ptr[2];
-    if (((f32 (*)(void *, f32))vector_length)(&d, temp_f1) > 0.4f) {
+    pos_z = position_ptr[2];
+    d.z = pos_z - prev_position_ptr[2];
+    if (((f32 (*)(void *, f32))vector_length)(&d, pos_z) > 0.4f) {
         status = status | 1;
         return 1;
     }
@@ -2262,76 +2249,76 @@ s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1) {
 }
 
 s32 NpcPlayerView::update_conditions() {
-    f32 temp_f1;
-    f32 temp_f2;
+    f32 hp_ratio;
+    f32 tp_max;
     f32 actor_hp;
     f32 actor_tp;
     s32 actorFlags;
-    s32 var_r31;
-    var_r31 = 0;
+    s32 changed;
+    changed = 0;
     actor_hp = (f32)((TObjChara *)player)->get_actor_hp();
-    temp_f1 = actor_hp / (f32)((TObjChara *)player)->get_hpmax();
+    hp_ratio = actor_hp / (f32)((TObjChara *)player)->get_hpmax();
     if (status & 2) {
-        if (temp_f1 <= 0.25f) {
-            var_r31 = 1;
+        if (hp_ratio <= 0.25f) {
+            changed = 1;
             condition = condition | 8;
             status = status | 4;
         }
-        if (temp_f1 <= 0.75f) {
-            var_r31 = 1;
+        if (hp_ratio <= 0.75f) {
+            changed = 1;
             condition = condition | 0x1000;
         }
-    } else if (temp_f1 <= 0.75f) {
-        var_r31 = 1;
+    } else if (hp_ratio <= 0.75f) {
+        changed = 1;
         condition = condition | 8;
         status = status | 4;
     }
-    if (temp_f1 <= 0.1f) {
-        var_r31 = 1;
+    if (hp_ratio <= 0.1f) {
+        changed = 1;
         condition = condition | 0x800;
         status = status | 4;
     }
     actorFlags = player->actorFlags;
     if ((actorFlags & 1) || (actorFlags & 2) || (actorFlags & 0x10)) {
-        var_r31 = 1;
+        changed = 1;
         condition = condition | 2;
         status = status | 4;
     }
     actor_tp = (f32)get_actor_tp((u8 *)player);
-    temp_f2 = (f32)obj_getS16_2BA((u8 *)player);
-    if (((actor_tp / temp_f2) <= 0.2f) && (0.0f != temp_f2)) {
+    tp_max = (f32)obj_getS16_2BA((u8 *)player);
+    if (((actor_tp / tp_max) <= 0.2f) && (0.0f != tp_max)) {
         status = status | 4;
         condition = condition | 0x10;
     }
-    return var_r31;
+    return changed;
 }
 
 s32 NpcPlayerView::update_hp_change() {
-    s16 temp_r0;
+    s16 damage;
     s16 actor_hp;
     s16 hpmax;
-    s16 temp_r4;
+    s16 prev_hp;
     actor_hp = ((TObjChara *)player)->get_actor_hp();
     hpmax = ((TObjChara *)player)->get_hpmax();
     if (last_hp <= 0) {
         last_hp = actor_hp;
         return 0;
     }
-    temp_r4 = last_hp;
-    temp_r0 = (s16)(temp_r4 - actor_hp);
-    if (temp_r4 >= (s32)(actor_hp - 1)) {
-        if ((f32)temp_r0 > (0.3f * (f32)hpmax)) {
+    prev_hp = last_hp;
+    damage = (s16)(prev_hp - actor_hp);
+    if (prev_hp >= (s32)(actor_hp - 1)) {
+        if ((f32)damage > (0.3f * (f32)hpmax)) {
             condition = condition | 0x40;
-        } else if ((f32)temp_r0 > (0.2f * (f32)hpmax)) {
+        } else if ((f32)damage > (0.2f * (f32)hpmax)) {
             condition = condition | 0x80;
-        } else if ((f32)temp_r0 > (0.01f * (f32)hpmax)) {
+        } else if ((f32)damage > (0.01f * (f32)hpmax)) {
             condition = condition | 0x100;
         }
     } else {
         condition = condition | 0x200;
     }
     last_hp = actor_hp;
-    return temp_r0 ? 1 : 0;
+    return damage ? 1 : 0;
 }
 
 // Dead-stripped from the DOL: no code of it survives, only its literal (0.2 at
@@ -2939,45 +2926,37 @@ void TNpcPlayer::deliver_partner_chatter() {
     }
 }
 
-void TNpcPlayer::handle_action(s32 arg1) {
-    s32 player;
-    s32 temp_r3_2;
-    s32 temp_r3_3;
-    NpcPlayerView *temp_r5;
-    NpcPlayerView *temp_r5_2;
-    NpcPlayerView *temp_r5_3;
+void TNpcPlayer::handle_action(s32 action) {
+    s32 item;
 
-    switch (arg1) {
+    switch (action) {
     case 0:
-        player = self_view->player->find_inventory_item_id(3, 0);
-        if (player != -1) {
-            temp_r5 = self_view;
-            try_send_6x27_use_item((saddr)temp_r5->player, player, temp_r5);
+        item = self_view->player->find_inventory_item_id(3, 0);
+        if (item != -1) {
+            try_send_6x27_use_item(self_view->player, item);
             ai_flags = ai_flags | 0x10000;
         }
         break;
     case 1:
-        temp_r3_2 = self_view->player->find_inventory_item_id(3, 1);
-        if (temp_r3_2 != -1) {
-            temp_r5_2 = self_view;
-            try_send_6x27_use_item((saddr)temp_r5_2->player, temp_r3_2, temp_r5_2);
+        item = self_view->player->find_inventory_item_id(3, 1);
+        if (item != -1) {
+            try_send_6x27_use_item(self_view->player, item);
             return;
         }
         break;
     case 2:
-        temp_r3_3 = self_view->player->find_inventory_item_id(3, 6);
-        if (temp_r3_3 != -1) {
-            temp_r5_3 = self_view;
-            try_send_6x27_use_item((saddr)temp_r5_3->player, temp_r3_3, temp_r5_3);
+        item = self_view->player->find_inventory_item_id(3, 6);
+        if (item != -1) {
+            try_send_6x27_use_item(self_view->player, item);
         }
         break;
     }
 }
 
-void TNpcPlayer::change_ai_state(u32 arg1) {
-    ai_state = arg1;
+void TNpcPlayer::change_ai_state(u32 state) {
+    ai_state = state;
     ai_flags = ai_flags & 0xFFFFEFFF;
-    switch (arg1) {
+    switch (state) {
     case 0:
         ai_flags = ai_flags & 0xFFFFFFCF;
         VecCopy(&goal, &self_view->player->body_center);
@@ -3001,11 +2980,11 @@ void TNpcPlayer::change_ai_state(u32 arg1) {
     }
 }
 
-void TNpcPlayer::dispatch_action(s32 arg1) {
-    switch (arg1) {
+void TNpcPlayer::dispatch_action(s32 action) {
+    switch (action) {
     case 0:
         if (self_view->get_condition() & 0x20) {
-            handle_action(arg1);
+            handle_action(action);
         } else {
             request_technique_cast(0xF);
         }
@@ -3015,20 +2994,20 @@ void TNpcPlayer::dispatch_action(s32 arg1) {
         return;
     case 1:
         if (self_view->get_condition() & 0x20) {
-            handle_action(arg1);
+            handle_action(action);
             return;
         }
         break;
     case 2:
         if (self_view->get_condition() & 0x20) {
-            handle_action(arg1);
+            handle_action(action);
             return;
         }
         request_technique_cast(0x10);
         return;
     case 3:
         if (self_view->get_condition() & 0x20) {
-            handle_action(arg1);
+            handle_action(action);
             return;
         }
         request_technique_cast(0x11);
