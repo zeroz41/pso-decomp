@@ -221,7 +221,7 @@ s32 TLobby__sub_80411604(s16 id, int n, void *pp)
   void *h;
   s16 i;
   Ipv6State *g = &ipv6_address_routing_state;
-  u8 *ent;
+  Ipv6Route *ent;
   s16 t;
   u8 *e;
   u8 *p = (u8 *) pp;
@@ -246,24 +246,24 @@ s32 TLobby__sub_80411604(s16 id, int n, void *pp)
   switch (n)
   {
     case 0:
-      ent = (u8 *)g->routes;
-      for (i = 0; i < g->route_count; i++, ent += sizeof(Ipv6Route))
+      ent = g->routes;
+      for (i = 0; i < g->route_count; i++, ent++)
     {
-      if (((*((s16 *) ent)) == 1) && ((*((s16 *) (ent + offsetof(Ipv6Route, type)))) == 0))
+      if (((*((s16 *) ent)) == 1) && ((*((s16 *) &ent->type)) == 0))
       {
-        if ((*((s16 *) (ent + offsetof(Ipv6Route, prefix_len)))) == (*((s16 *) (p + 4))))
+        if ((*((s16 *) &ent->prefix_len)) == (*((s16 *) (p + 4))))
         {
-          if (cmp16_80411604(ent + offsetof(Ipv6Route, gateway), *((void **) p)) == 0)
+          if (cmp16_80411604(&ent->gateway, *((void **) p)) == 0)
           {
-            *((s16 *) (ent + offsetof(Ipv6Route, type))) = 1;
+            *((s16 *) &ent->type) = 1;
           }
         }
         else
-          if ((*((s16 *) (ent + offsetof(Ipv6Route, prefix_len)))) == 128)
+          if ((*((s16 *) &ent->prefix_len)) == 128)
         {
-          if (cmp16_80411604(ent + offsetof(Ipv6Route, prefix), *((void **) p)) == 0)
+          if (cmp16_80411604(&ent->prefix, *((void **) p)) == 0)
           {
-            *((s16 *) (ent + offsetof(Ipv6Route, type))) = 1;
+            *((s16 *) &ent->type) = 1;
           }
         }
       }
@@ -545,7 +545,7 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
     struct AddrRec_80412058 rec;
     u8 *ent;
     u8 ref[8];
-    u8 *cur;
+    Ipv6AddrNode *cur;
     u8 *st;
 
     st = (u8 *)&ipv6_address_routing_state;
@@ -568,20 +568,20 @@ extern s32 TLobby__sub_80412058(s16 id, u8 *self, s32 len, u8 *out) {
     set_value_and_enable((NetBufferRef *)ref, (saddr)&rec);
     netbuf_copy_by_ref(self, ref, 0x1C);
     netbuf_ref_advance((NetBufferRef *)self, 0x1C);
-    cur = *(u8 **)(ent + offsetof(Ipv6Iface, addrs));
+    cur = *(Ipv6AddrNode **)(ent + offsetof(Ipv6Iface, addrs));
     i = 1;
     n = 0;
     len -= 0x1C;
     while ((u32)(s16)len >= 0x1C && cur != NULL && n < *(s16 *)(st + offsetof(Ipv6State, max_addrs))) {
         rec.kind = 6;
-        NetMemcpy(rec.addr, cur + offsetof(Ipv6AddrNode, addr), 0x10);
-        rec.a = *(s16 *)(cur + offsetof(Ipv6AddrNode, prefix_len));
-        rec.b = *(s16 *)(cur + offsetof(Ipv6AddrNode, f18));
+        NetMemcpy(rec.addr, &cur->addr, 0x10);
+        rec.a = cur->prefix_len;
+        rec.b = cur->f18;
         rec.c = 0;
         set_value_and_enable((NetBufferRef *)ref, (saddr)&rec);
         netbuf_copy_by_ref(self, ref, 0x1C);
         netbuf_ref_advance((NetBufferRef *)self, 0x1C);
-        cur = *(u8 **)(cur + offsetof(Ipv6AddrNode, next));
+        cur = cur->next;
         i++;
         n++;
         len -= 0x1C;
@@ -1208,21 +1208,21 @@ s16 ipv6_iface_for_address(void *self) {
     Ipv6State *base = &ipv6_address_routing_state;
     s16 i;
     s16 j;
-    u8 *e;
-    u8 *n;
+    Ipv6Iface *e;
+    Ipv6AddrNode *n;
     s32 r;
     s16 c;
-    for (i = 0, e = (u8 *)base->ifaces; i < base->count; i++, e += sizeof(Ipv6Iface)) {
+    for (i = 0, e = base->ifaces; i < base->count; i++, e++) {
         if (*(s16 *)e == 1) {
-            r = NetMemcmp(e + offsetof(Ipv6Iface, addr), self, 0x10);
+            r = NetMemcmp(&e->addr, self, 0x10);
             if (r < 0) c = -1;
             else if (r > 0) c = 1;
             else c = 0;
             if (c == 0) {
                 return i;
             }
-            for (n = *(u8 **)(e + offsetof(Ipv6Iface, addrs)), j = 0; n != 0 && j < base->max_addrs; n = *(u8 **)(n + offsetof(Ipv6AddrNode, next)), j++) {
-                r = NetMemcmp(n + offsetof(Ipv6AddrNode, addr), self, 0x10);
+            for (n = e->addrs, j = 0; n != 0 && j < base->max_addrs; n = n->next, j++) {
+                r = NetMemcmp(&n->addr, self, 0x10);
                 if (r < 0) c = -1;
                 else if (r > 0) c = 1;
                 else c = 0;
@@ -1305,17 +1305,17 @@ extern s32 TLobby__sub_80413934(u8 *addr, s16 idx) {
 }
 
 s16 TLobby__sub_80413AA0(void *self, s16 id) {
-    u8 *tbl = (u8 *)&ipv6_address_routing_state;
-    u8 *e = NULL;
+    Ipv6State *tbl = &ipv6_address_routing_state;
+    Ipv6Iface *e = NULL;
     s16 i;
-    u8 *p;
+    Ipv6AddrNode *p;
     s16 c;
     s32 r;
-    if (id < 0 || id >= *(s16 *)(tbl + offsetof(Ipv6State, count))) {
+    if (id < 0 || id >= tbl->count) {
         e = NULL;
     } else {
-        e = *(u8 **)(tbl + offsetof(Ipv6State, ifaces));
-        e += id * sizeof(Ipv6Iface);
+        e = tbl->ifaces;
+        e += id;
         if (*(s16 *)e != 1) {
             e = NULL;
         }
@@ -1323,7 +1323,7 @@ s16 TLobby__sub_80413AA0(void *self, s16 id) {
     if (e == NULL) {
         return 0;
     }
-    r = NetMemcmp(e + offsetof(Ipv6Iface, addr), self, 16);
+    r = NetMemcmp(&e->addr, self, 16);
     if (r < 0) {
         c = -1;
     } else if (r > 0) {
@@ -1332,15 +1332,15 @@ s16 TLobby__sub_80413AA0(void *self, s16 id) {
         c = 0;
     }
     if (c == 0) {
-        if (*(s16 *)(e + offsetof(Ipv6Iface, dad_state)) < 2) {
+        if (e->dad_state < 2) {
             return 0;
         }
         return 1;
     }
-    p = *(u8 **)(e + offsetof(Ipv6Iface, addrs));
+    p = e->addrs;
     i = 0;
-    while (p != NULL && i < *(s16 *)(tbl + offsetof(Ipv6State, max_addrs))) {
-        r = NetMemcmp(p + offsetof(Ipv6AddrNode, addr), self, 16);
+    while (p != NULL && i < tbl->max_addrs) {
+        r = NetMemcmp(&p->addr, self, 16);
         if (r < 0) {
             c = -1;
         } else if (r > 0) {
@@ -1349,29 +1349,29 @@ s16 TLobby__sub_80413AA0(void *self, s16 id) {
             c = 0;
         }
         if (c == 0) {
-            if (*(s16 *)(p + offsetof(Ipv6AddrNode, state)) < 2) {
+            if (p->state < 2) {
                 return 0;
             }
             return 1;
         }
-        p = *(u8 **)(p + offsetof(Ipv6AddrNode, next));
+        p = p->next;
         i++;
     }
     return 0;
 }
 
 s16 TLobby__sub_80413C0C(void *self, s16 id) {
-    u8 *tbl = (u8 *)&ipv6_address_routing_state;
-    u8 *e = NULL;
+    Ipv6State *tbl = &ipv6_address_routing_state;
+    Ipv6Iface *e = NULL;
     s32 i;
-    u8 *p;
+    Ipv6AddrNode *p;
     s16 c;
     s32 r;
-    if (id < 0 || id >= *(s16 *)(tbl + offsetof(Ipv6State, count))) {
+    if (id < 0 || id >= tbl->count) {
         e = NULL;
     } else {
-        e = *(u8 **)(tbl + offsetof(Ipv6State, ifaces));
-        e += id * sizeof(Ipv6Iface);
+        e = tbl->ifaces;
+        e += id;
         if (*(s16 *)e != 1) {
             e = NULL;
         }
@@ -1379,7 +1379,7 @@ s16 TLobby__sub_80413C0C(void *self, s16 id) {
     if (e == NULL) {
         return 0;
     }
-    r = NetMemcmp(e + offsetof(Ipv6Iface, addr), (u8 *)self, 16);
+    r = NetMemcmp(&e->addr, (u8 *)self, 16);
     if (r < 0) {
         c = -1;
     } else if (r > 0) {
@@ -1388,15 +1388,15 @@ s16 TLobby__sub_80413C0C(void *self, s16 id) {
         c = 0;
     }
     if (c == 0) {
-        if (*(s16 *)(e + offsetof(Ipv6Iface, dad_state)) == 1) {
+        if (e->dad_state == 1) {
             return 1;
         }
         return 0;
     }
-    p = *(u8 **)(e + offsetof(Ipv6Iface, addrs));
+    p = e->addrs;
     i = 0;
-    while (p != NULL && (s16)i < *(s16 *)(tbl + offsetof(Ipv6State, max_addrs))) {
-        r = NetMemcmp(p + offsetof(Ipv6AddrNode, addr), (u8 *)self, 16);
+    while (p != NULL && (s16)i < tbl->max_addrs) {
+        r = NetMemcmp(&p->addr, (u8 *)self, 16);
         if (r < 0) {
             c = -1;
         } else if (r > 0) {
@@ -1405,22 +1405,22 @@ s16 TLobby__sub_80413C0C(void *self, s16 id) {
             c = 0;
         }
         if (c == 0) {
-            if (*(s16 *)(p + offsetof(Ipv6AddrNode, state)) == 1) {
+            if (p->state == 1) {
                 return 1;
             }
             return 0;
         }
-        p = *(u8 **)(p + offsetof(Ipv6AddrNode, next));
+        p = p->next;
         i++;
     }
     return 0;
 }
 
 s16 TLobby__sub_80413D78(void *self, s16 idx) {
-    u8 *tbl = (u8 *)&ipv6_address_routing_state;
-    u8 *e = NULL;
+    Ipv6State *tbl = &ipv6_address_routing_state;
+    Ipv6Iface *e = NULL;
     s32 i;
-    u8 *p;
+    Ipv6AddrNode *p;
     s32 r;
     s16 c;
     s16 ok;
@@ -1433,11 +1433,11 @@ s16 TLobby__sub_80413D78(void *self, s16 idx) {
     if (ok) {
         return 0;
     }
-    if ((s16)idx < 0 || idx >= *(s16 *)(tbl + offsetof(Ipv6State, count))) {
+    if ((s16)idx < 0 || idx >= tbl->count) {
         e = NULL;
     } else {
-        e = *(u8 **)(tbl + offsetof(Ipv6State, ifaces));
-        e += idx * sizeof(Ipv6Iface);
+        e = tbl->ifaces;
+        e += idx;
         if (*(s16 *)e != 1) {
             e = NULL;
         }
@@ -1445,7 +1445,7 @@ s16 TLobby__sub_80413D78(void *self, s16 idx) {
     if (e == NULL) {
         return 0;
     }
-    r = NetMemcmp(e + offsetof(Ipv6Iface, addr), self, 16);
+    r = NetMemcmp(&e->addr, self, 16);
     if (r < 0) {
         c = -1;
     } else if (r > 0) {
@@ -1454,15 +1454,15 @@ s16 TLobby__sub_80413D78(void *self, s16 idx) {
         c = 0;
     }
     if (c == 0) {
-        if ((*(s16 *)(e + offsetof(Ipv6Iface, flags)) & 1) == 0) {
+        if ((e->flags & 1) == 0) {
             return 0;
         }
         return 1;
     }
-    p = *(u8 **)(e + offsetof(Ipv6Iface, addrs));
+    p = e->addrs;
     i = 0;
-    while (p != NULL && (s16)i < *(s16 *)(tbl + offsetof(Ipv6State, max_addrs))) {
-        r = NetMemcmp(p + offsetof(Ipv6AddrNode, addr), self, 16);
+    while (p != NULL && (s16)i < tbl->max_addrs) {
+        r = NetMemcmp(&p->addr, self, 16);
         if (r < 0) {
             c = -1;
         } else if (r > 0) {
@@ -1471,12 +1471,12 @@ s16 TLobby__sub_80413D78(void *self, s16 idx) {
             c = 0;
         }
         if (c == 0) {
-            if ((*(s16 *)(p + offsetof(Ipv6AddrNode, f18)) & 1) == 0) {
+            if ((p->f18 & 1) == 0) {
                 return 0;
             }
             return 1;
         }
-        p = *(u8 **)(p + offsetof(Ipv6AddrNode, next));
+        p = p->next;
         i++;
     }
     return 0;
@@ -1812,139 +1812,137 @@ u8 init_ipv6_all_nodes_multicast_address(u8 *address, s8 scope) {
     return 0;
 }
 
-s16 NetIPv6IsLinkLocal(u8 *arg0) {
-    u8 temp_r3;
+s16 NetIPv6IsLinkLocal(u8 *address) {
+    u8 second;
 
-    if ((u8) *(u8 *)((s8 *)arg0 + 0) != 0xFE) {
+    if (address[0] != 0xFE) {
         return 0;
     }
-    temp_r3 = *(u8 *)((s8 *)arg0 + 1);
-    if (!(temp_r3 & 0x80) || (temp_r3 & 0x40)) {
+    second = address[1];
+    if (!(second & 0x80) || (second & 0x40)) {
         return 0;
     }
     return 1;
 }
 
-s16 NetIPv6IsLoopback(u8 *arg0) {
-    typedef struct Fields_arg0 { u8 field_0; u8 field_1; u8 field_2; u8 field_3; u8 field_4; u8 field_5; u8 field_6; u8 field_7; u8 field_8; u8 field_9; u8 field_A; u8 field_B; u8 field_C; u8 field_D; u8 field_E; u8 field_F; } Fields_arg0;
-    if ((u8) ((Fields_arg0*)arg0)->field_0 != 0) {
+s16 NetIPv6IsLoopback(u8 *address) {
+    if (address[0] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_1 != 0) {
+    if (address[1] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_2 != 0) {
+    if (address[2] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_3 != 0) {
+    if (address[3] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_4 != 0) {
+    if (address[4] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_5 != 0) {
+    if (address[5] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_6 != 0) {
+    if (address[6] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_7 != 0) {
+    if (address[7] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_8 != 0) {
+    if (address[8] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_9 != 0) {
+    if (address[9] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_A != 0) {
+    if (address[10] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_B != 0) {
+    if (address[11] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_C != 0) {
+    if (address[12] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_D != 0) {
+    if (address[13] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_E != 0) {
+    if (address[14] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)arg0)->field_F == 1) {
+    if (address[15] == 1) {
         return 1;
     }
     return 0;
 }
 
 s16 NetIPv6IsMulticast(u8 *address) {
-    if ((u8) *address == 0xFF) {
+    if (*address == 0xFF) {
         return 1;
     }
     return 0;
 }
 
-s16 NetIPv6IsUnspecified(u8 *bytes) {
-    typedef struct Fields_arg0 { u8 field_0; u8 field_1; u8 field_2; u8 field_3; u8 field_4; u8 field_5; u8 field_6; u8 field_7; u8 field_8; u8 field_9; u8 field_A; u8 field_B; u8 field_C; u8 field_D; u8 field_E; u8 field_F; } Fields_arg0;
-    if ((u8) ((Fields_arg0*)bytes)->field_0 != 0) {
+s16 NetIPv6IsUnspecified(u8 *address) {
+    if (address[0] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_1 != 0) {
+    if (address[1] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_2 != 0) {
+    if (address[2] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_3 != 0) {
+    if (address[3] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_4 != 0) {
+    if (address[4] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_5 != 0) {
+    if (address[5] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_6 != 0) {
+    if (address[6] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_7 != 0) {
+    if (address[7] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_8 != 0) {
+    if (address[8] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_9 != 0) {
+    if (address[9] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_A != 0) {
+    if (address[10] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_B != 0) {
+    if (address[11] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_C != 0) {
+    if (address[12] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_D != 0) {
+    if (address[13] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_E != 0) {
+    if (address[14] != 0) {
         return 0;
     }
-    if ((u8) ((Fields_arg0*)bytes)->field_F != 0) {
+    if (address[15] != 0) {
         return 0;
     }
     return 1;
 }
 
 s16 NetIPv6CompareAddresses(u8 *a, u8 *b) {
-    s32 temp_r3;
-    temp_r3 = NetMemcmp(a, b, 0x10);
-    if (temp_r3 < 0) {
+    s32 order;
+    order = NetMemcmp(a, b, 0x10);
+    if (order < 0) {
         return -1;
     }
-    if (temp_r3 > 0) {
+    if (order > 0) {
         return 1;
     }
     return 0;
