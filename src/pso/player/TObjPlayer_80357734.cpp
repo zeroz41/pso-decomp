@@ -1,3 +1,4 @@
+#include "pso/math/ClampedStep.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemWeapon.h"
@@ -27,9 +28,9 @@ TUnk_804F14A8::TUnk_804F14A8(TObject *parent, u8 *item) : TItemWeapon(parent, it
 
 TUnk_804F14A8::~TUnk_804F14A8() {}
 
-void TUnk_804F14A8::update_attack() { TObjPlayer::add_angle_clamped(&rotation_z, -3640, 0); }
+void TUnk_804F14A8::update_attack() { ::add_angle_clamped(&rotation_z, -3640, 0); }
 
-void TUnk_804F14A8::update_idle() { TObjPlayer::add_angle_clamped(&rotation_z, 1820, 8192); }
+void TUnk_804F14A8::update_idle() { ::add_angle_clamped(&rotation_z, 1820, 8192); }
 
 void TUnk_804F14A8::vfunc_60() {
     u32 player_list;

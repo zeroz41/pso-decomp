@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/galgryphon/TBoss5GryphonLightningEff.h"
 #include "pso/render/MaterialColorFade.h"
@@ -139,7 +140,7 @@ __declspec(section ".sdata2") extern const f32 gryphon_lightning_points_per_unit
 void TBoss5GryphonLightningEff::release_texture() {
     if (inazuma_texture_list != NULL) {
         release_texture_list(inazuma_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)inazuma_texture_list);
+        safe_free(inazuma_texture_list);
         inazuma_texture_list = NULL;
     }
 }

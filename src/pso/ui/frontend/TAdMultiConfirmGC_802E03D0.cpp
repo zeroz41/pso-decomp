@@ -1,5 +1,4 @@
 #include "pso/player/TPlyCharData.h"
-#include "pso/system/BmlResource.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer.h"
@@ -13,7 +12,6 @@
 #include "pso/boss/galgryphon/TObjBoss5Pillar_8028B714.h"
 #include "pso/ui/frontend/TAdMultiConfirmGC_802E03D0.h"
 
-#include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/npc/TNpcPlayer.h"
 
@@ -56,8 +54,7 @@ s32 rotate_matrix_y(int, int);
 extern TObjMotionAction lbl_804E2F78[9];
 u8 *TAdMultiPlyChrSelectGC__resource_bundle;
 
-s32 copy_player_visual_record(void *, void *);
-#define F(o, t) (*(t *)(arg0 + (o)))
+void copy_player_visual_record(void *, const void *);
 
 }
 
@@ -148,116 +145,115 @@ TAdChrSelPlayerGC::~TAdChrSelPlayerGC() {
         mem_free(joint_matrices);
         joint_matrices = NULL;
     }
-    if (m_170 != NULL) {
-        free_chcr_resources((u8 *)m_170, 1);
-        m_170 = NULL;
+    if (preview_data != NULL) {
+        free_chcr_resources(preview_data, 1);
+        preview_data = NULL;
         TAdPlyStatusGC *status = TAdPlyStatusGC::get_index();
         if (status != NULL) {
-            status->set_status_param((saddr)m_170);
+            status->set_status_param(preview_data);
         }
     }
 }
 
 void TAdChrSelPlayerGC::run_task() {
-    u8 *arg0 = (u8 *)this;
-    void *p;
+    CharacterPreview *p;
     TAdPlyStatusGC *status;
     s32 t;
-    switch (F(0xFC, s32)) {
+    switch (state) {
     case 0:
-        if (F(0x170, void *) != NULL) {
-            free_chcr_resources((u8 *)(F(0x170, void *)), 1);
-            F(0x170, void *) = NULL;
+        if (preview_data != NULL) {
+            free_chcr_resources(preview_data, 1);
+            preview_data = NULL;
         }
-        if (F(0x100, s32) != 0) {
-            F(0xFC, s32) = F(0x100, s32) - 1;
-            F(0x100, s32) = 0;
+        if (pending_state != 0) {
+            state = pending_state - 1;
+            pending_state = 0;
         }
         break;
     case 1:
-        if (F(0x170, void *) != NULL) {
-            free_chcr_resources((u8 *)(F(0x170, void *)), 1);
-            F(0x170, void *) = NULL;
+        if (preview_data != NULL) {
+            free_chcr_resources(preview_data, 1);
+            preview_data = NULL;
         }
-        if (F(0x100, s32) != 0) {
-            F(0xFC, s32) = F(0x100, s32) - 1;
-            F(0x100, s32) = 0;
+        if (pending_state != 0) {
+            state = pending_state - 1;
+            pending_state = 0;
             break;
         }
-        switch (F(0x104, s32)) {
+        switch (layout_mode) {
         case 0:
-            copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
-            p = new CharacterPreview(this, visual_record, 0);
-            F(0x170, void *) = p;
-            F(0x60, s32) = 0xF3D5;
+            copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
+            p = new CharacterPreview(this, &visual_record, 0);
+            preview_data = p;
+            rotation_y = 0xF3D5;
             break;
         case 1:
-            copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_entry(F(0x110, s32))->m_disp_part2);
-            p = new CharacterPreview(this, visual_record, 0);
-            F(0x170, void *) = p;
-            F(0x60, s32) = 0xF3D5;
+            copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_entry(status_index)->m_disp_part2);
+            p = new CharacterPreview(this, &visual_record, 0);
+            preview_data = p;
+            rotation_y = 0xF3D5;
             break;
         case 2:
-            copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
-            p = new CharacterPreview(this, visual_record, 0);
-            F(0x170, void *) = p;
-            F(0x60, s32) = 0xF3D5;
+            copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
+            p = new CharacterPreview(this, &visual_record, 0);
+            preview_data = p;
+            rotation_y = 0xF3D5;
             break;
         case 3:
         case 4:
         case 5:
-            copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_char_table_entry(F(0x10C, s32))->m_disp_part2);
-            p = new CharacterPreview(this, visual_record, (s32)(F(0x10C, s32)));
-            F(0x170, void *) = p;
+            copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_table_entry(slot)->m_disp_part2);
+            p = new CharacterPreview(this, &visual_record, slot);
+            preview_data = p;
             break;
         }
-        ((TAdChrSelPlayerGC *)arg0)->init_model_animation();
-        F(0xFC, s32) = 2;
+        init_model_animation();
+        state = 2;
         break;
     case 2:
-        if (F(0x100, s32) != 0) {
-            if (F(0x170, void *) != NULL) {
-                free_chcr_resources((u8 *)(F(0x170, void *)), 1);
-                F(0x170, void *) = NULL;
+        if (pending_state != 0) {
+            if (preview_data != NULL) {
+                free_chcr_resources(preview_data, 1);
+                preview_data = NULL;
             }
-            F(0xFC, s32) = F(0x100, s32) - 1;
-            F(0x100, s32) = 0;
-        } else if (((TChCrLoadAfs *)(F(0x170, void *)))->is_unloaded() != 0) {
-            F(0xFC, s32) = 3;
-            F(0x118, s32) = 0;
+            state = pending_state - 1;
+            pending_state = 0;
+        } else if (preview_data->is_unloaded() != 0) {
+            state = 3;
+            animation_ticks = 0;
         }
         break;
     case 3:
-        if (F(0x100, s32) != 0) {
-            if (F(0x170, void *) != NULL) {
-                free_chcr_resources((u8 *)(F(0x170, void *)), 1);
-                F(0x170, void *) = NULL;
+        if (pending_state != 0) {
+            if (preview_data != NULL) {
+                free_chcr_resources(preview_data, 1);
+                preview_data = NULL;
             }
-            F(0xFC, s32) = F(0x100, s32) - 1;
-            F(0x100, s32) = 0;
+            state = pending_state - 1;
+            pending_state = 0;
         } else {
-            if (F(0x11C, s32) == 1) {
-                F(0x60, s32) = F(0x60, s32) - 0x100;
+            if (spin_model == 1) {
+                rotation_y = rotation_y - 0x100;
             }
-            F(0x118, s32) = F(0x118, s32) + 1;
-            t = F(0x118, s32);
+            animation_ticks = animation_ticks + 1;
+            t = animation_ticks;
             if (t == 0x384 || t == 0x708) {
-                TAdMultiConfirmGC::set_cursor_index_1(arg0);
+                TAdMultiConfirmGC::set_cursor_index_1(this);
             } else if (t == 0x546) {
-                TAdMultiConfirmGC::set_cursor_index_2(arg0);
+                TAdMultiConfirmGC::set_cursor_index_2(this);
             }
-            if (F(0x118, s32) == 0x8CA) {
-                TAdMultiConfirmGC::reset_cursor(arg0);
-                F(0x118, s32) = 0;
+            if (animation_ticks == 0x8CA) {
+                TAdMultiConfirmGC::reset_cursor(this);
+                animation_ticks = 0;
             }
-            ((TObjMotion *)arg0)->advance_animation();
+            advance_animation();
         }
         break;
     }
     status = TAdPlyStatusGC::get_index();
     if (status != NULL) {
-        status->set_load_state(F(0xFC, s32));
-        status->set_status_param((saddr)(F(0x170, void *)));
+        status->set_load_state(state);
+        status->set_status_param(preview_data);
     }
 }
 
@@ -276,9 +272,9 @@ void TAdChrSelPlayerGC::set_cursor_index(s32 arg1) {
     if ((requested_action < 0) || (requested_action > 8)) {
         this->requested_action = 0;
     }
-    if (this->m_154 & 2) {
+    if (visual_record.classFlags & 2) {
         this->requested_action = (this->requested_action + 1);
-        if ((s32) this->m_151 == 6) {
+        if ((s32) static_cast<u8>(visual_record.classId) == 6) {
             this->requested_action = (this->requested_action + 1);
         }
     }
@@ -294,25 +290,25 @@ void TAdChrSelPlayerGC::update_chara_making() {
     push_matrix();
     post_translate_matrix((u8 *)&position);
     rotate_matrix_y(0, rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)m_170->get_status_sub()));
-    draw_model_with_arg((void *)m_170->get_field_4a4());
+    TObjFish::set_global_param(preview_data->get_status_sub());
+    draw_model_with_arg((void *)preview_data->get_body_model());
     push_matrix_from((void *)get_joint_matrix(0x3A));
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)m_170->get_status_data()));
-    TObjPlayer::play_phase_transition_sound(m_170->get_field_4a0());
+    TObjFish::set_global_param(preview_data->get_status_data());
+    TObjPlayer::play_phase_transition_sound(preview_data->get_attachment_model());
     pop_matrix();
-    if (m_170->get_field_49c() != 0U) {
+    if (preview_data->get_head_model() != 0U) {
         push_matrix_from((void *)get_joint_matrix(0x3B));
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)m_170->get_chara_making_data()));
+        TObjFish::set_global_param(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
-        TObjPlayer::play_phase_transition_sound(m_170->get_field_49c());
+        TObjPlayer::play_phase_transition_sound(preview_data->get_head_model());
         TCharaMaking::clear_flag_bit0();
         pop_matrix();
     }
-    if (m_170->get_field_498() != 0U) {
+    if (preview_data->get_hair_model() != 0U) {
         push_matrix_from((void *)get_joint_matrix(0x3B));
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)m_170->get_chara_making_data()));
+        TObjFish::set_global_param(preview_data->get_chara_making_data());
         TCharaMaking::enable_making();
-        TObjPlayer__sub_802E0580(this, m_170->get_field_498(), visual_record);
+        TObjPlayer__sub_802E0580(this, preview_data->get_hair_model(), &visual_record);
         TCharaMaking::clear_flag_bit0();
         pop_matrix();
     }

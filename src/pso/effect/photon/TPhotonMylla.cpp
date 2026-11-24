@@ -1,12 +1,12 @@
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
+#include "pso/effect/photon/PhotonBlastSummon.h"
+#include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/effect/photon/PhotonBlastSummon.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
-#include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/effect/photon/TPhotonMylla.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -14,8 +14,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/PhotonBlastResults.h"
-#include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"
 
 

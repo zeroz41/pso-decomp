@@ -123,7 +123,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, saddr arg2, 
             if (p == 0) {
                 break;
             }
-            if (obj_is_hit_receivable(reinterpret_cast<u8 *>(p)) != 0 && p != this->owner &&
+            if (obj_is_hit_receivable(p) != 0 && p != this->owner &&
                 is_area_attack_target_eligible((saddr)this, p->actorFlags) != 0 &&
                 !(fabs_float(start_position.y - p->body_center.y) > 30.0f)) {
                 ok = 1;

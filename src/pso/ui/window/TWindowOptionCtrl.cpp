@@ -466,7 +466,7 @@ saddr TWindowOptionCtrl::create_sound_mode_menu() {
 saddr TWindowOptionCtrl::create_sound_balance_window() {
     s32 sound_balance_window;
 
-    sound_balance_window = (saddr)new TWindowSoundBalance((saddr)TWindowOptionCtrl::get_option_entry(0xCF));
+    sound_balance_window = (saddr)new TWindowSoundBalance(reinterpret_cast<const NJS_POINT2 *>(get_option_entry(0xCF)));
     return sound_balance_window;
 }
 

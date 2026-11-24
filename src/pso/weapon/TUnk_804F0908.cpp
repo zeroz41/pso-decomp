@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/math/ClampedStep.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/weapon/TItemWeapon.h"
@@ -119,8 +120,8 @@ TUnk_804F0810::TUnk_804F0810(TObject *parent, u8 *item) : TItemWeapon(parent, it
 
 TUnk_804F0810::~TUnk_804F0810() {}
 
-void TUnk_804F0810::update_attack() { TObjPlayer::add_angle_clamped(&spin_angle, -4551, 0); }
-void TUnk_804F0810::update_idle() { TObjPlayer::add_angle_clamped(&spin_angle, 1820, 13653); }
+void TUnk_804F0810::update_attack() { add_angle_clamped(&spin_angle, -4551, 0); }
+void TUnk_804F0810::update_idle() { add_angle_clamped(&spin_angle, 1820, 13653); }
 void TUnk_804F0810::reserved_53() { draw_weapon_at_joint((saddr)this, 49); update_trail_slot(0); update_trail_slot(1); }
 
 void TUnk_804F0810::vfunc_60() {

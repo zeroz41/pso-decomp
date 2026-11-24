@@ -110,6 +110,5 @@ void ReverbHICallback(void *sptr, void *arg1, void *arg2, S_803BF408 *rv) {
         }
     }
 }
-#pragma pop
 
 }

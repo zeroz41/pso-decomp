@@ -19,6 +19,11 @@ public:
     s16 get_or_init_field_4();
     void set_tech_level(s16 lim);
     void reset_slots();
+    s16 get_section_clamped();
+    u8 get_valid_technique();
+    u8 get_castable_technique_level();
+    s32 check_technique_level(s32 technique, u8 level);
+    PhotonBlastTarget *get_technique_data();
     void set_technique_state(s32 v);
     void set_field18(f32 v);
     void set_field_1c(f32 v);
@@ -38,12 +43,13 @@ public:
     f32 pad_18;
     f32 pad_1c;
     PhotonBlastTarget targets[10];
-    u8 pad_48[0x14];
+    u8 learned_levels[0x14];
     u8 levels[0x14];
     u8 caps[0x14];
 };
 
 LAYOUT_ASSERT(PlayerTechniqueStateSize, sizeof(PlayerTechniqueState) == 0x84);
+LAYOUT_ASSERT(PlayerTechniqueStateLearnedLevels, offsetof(PlayerTechniqueState, learned_levels) == 0x48);
 LAYOUT_ASSERT(PlayerTechniqueStateLevels, offsetof(PlayerTechniqueState, levels) == 0x5C);
 
 #endif

@@ -2,7 +2,6 @@
 #include "pso/weapon/TUnk_804A67D0.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/item/TUnk_804A0628.h"
-#include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
@@ -22,27 +21,19 @@ void TUnk_804A67D0::on_equipped() {
     }
 }
 
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(1)
 void TUnk_804A67D0::update_idle() {
-    s32 opened = 0;
-    if (scale.x < 1.0f) {
-        scale.x += 0.14f;
-        if (1.0f <= scale.x) {
-            scale.x = 1.0f;
-            opened = 1;
-        }
-    }
-    TItemEffOrgaFlowShot::approach_value(&scale.y, -0.04000001f, 1.0f);
-    TItemEffOrgaFlowShot::approach_value(&scale.z, 0.14f, 1.0f);
-    if (opened == 1) {
-        play_sound_effect(0x4001AA24, &this->owner->position, 0, 0);
+    if (scale.open() == 1) {
+        play_sound_effect(0x4001AA24, &owner->position, 0, 0);
     }
 }
 
 void TUnk_804A67D0::update_attack() {
-    TItemEffOrgaFlowShot::approach_value(&scale.x, -0.14f, 0.3f);
-    TItemEffOrgaFlowShot::approach_value(&scale.y, 0.04000001f, 1.2f);
-    TItemEffOrgaFlowShot::approach_value(&scale.z, -0.14f, 0.3f);
+    scale.close();
 }
+#pragma pop
 
 TUnk_804A67D0::~TUnk_804A67D0() {}
 

@@ -23,11 +23,11 @@ void TUnk_8049F770::apply_use_effect() {
     t = get_pmt_amount();
     new_var = game_difficulty_selection;
     new_var = t + (new_var * (t / 2));
-    add_actor_hp((u8 *)this->owner, new_var);
+    add_actor_hp((TObjChara *)this->owner, new_var);
   }
   else
   {
-    add_actor_hp((u8 *)this->owner, ((TObjChara *)(this->owner))->get_hpmax());
+    add_actor_hp((TObjChara *)this->owner, ((TObjChara *)(this->owner))->get_hpmax());
   }
 }
 

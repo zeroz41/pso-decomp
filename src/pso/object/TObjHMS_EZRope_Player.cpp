@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/object/TObjHMS_EZRope_Player_800FEFCC.h"
 #include "types.h"
@@ -56,7 +57,7 @@ TObjEZRopeBase::TObjEZRopeBase(TObject *parent) : TObject(parent) {
 }
 
 TObjEZRopeBase::~TObjEZRopeBase() {
-    if (points != nullptr) { TAdSinglePlyChrSelectGC::safe_free((uaddr)points); points = nullptr; }
+    if (points != nullptr) { safe_free(points); points = nullptr; }
 }
 
 void TObjEZRopeBase::init_ropes(TObjEZRopeSegment *segment_list, TObjEZRopeEnd *end_list,
@@ -317,15 +318,15 @@ TObjHMS_EZRope_Player::TObjHMS_EZRope_Player(TObject *parent, TObjHMSRopeSpec *r
 
 TObjHMS_EZRope_Player::~TObjHMS_EZRope_Player() {
     if (segment_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)segment_buffer);
+        safe_free(segment_buffer);
         segment_buffer = NULL;
     }
     if (end_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)end_buffer);
+        safe_free(end_buffer);
         end_buffer = NULL;
     }
     if (collider_buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)collider_buffer);
+        safe_free(collider_buffer);
         collider_buffer = NULL;
     }
 }

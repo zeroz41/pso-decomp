@@ -1,3 +1,4 @@
+#include "pso/object/base/TObjChara.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TUnk_8049FE00.h"
@@ -7,7 +8,6 @@
 
 extern "C" {
 int obj_getS16_2BA(void*);
-s32 add_actor_tp(u8 *owner, s32 half);
 }
 
 int TUnk_8049FE00::get_max_tp() { return obj_getS16_2BA(this->owner); }
@@ -35,7 +35,7 @@ void TUnk_8049FE00::apply_use_effect() {
         stat_value = get_max_tp();
         break;
     }
-    add_actor_tp((u8 *)this->owner, stat_value);
+    add_actor_tp((TObjChara *)this->owner, stat_value);
 }
 
 TUnk_8049FE00::~TUnk_8049FE00() {}

@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "types.h"
@@ -49,7 +50,6 @@ const u32 photon_blast_gauge_ring_color_table[7] = {
     0xFF3C3C3C, 0xFFD8CF00, 0xFFD88A00, 0xFFD84500, 0xFFD80000, 0xFFFFFFFF, 0,
 };
 
-extern s32 hud_texlist;
 
 // inferred: simple_status_window_layout_entries, the layout table simple_status_window_layout
 // points at (frame sprite, two text/value entries, the HP and TP gauges, three icon sprites).
@@ -312,9 +312,9 @@ void TWindowSimpleStatus::update_status_icons(void *ofs) {
 #pragma push
 #pragma fp_contract on
 void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *arg1, Params_80270244 *arg2, u32 arg3, f32 arg6, s32 arg4, s32 arg5, f32 arg7) {
-    ColorLineVertex verts[3];
-    ColorLineList prim;
-    u32 colors[3];
+    NJS_POINT2 verts[3];
+    NJS_POINT2COL prim;
+    NJS_COLOR colors[3];
     s32 end = arg5;
     s32 angle = arg4;
     f32 amp_x;
@@ -324,11 +324,11 @@ void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *arg1, Params_
     depth = ((TWindowSimpleStatus *)window_simple_status)->draw_depth + 0.299f * arg6;
     amp_x = arg7 * arg2->f28;
     amp_y = arg7 * arg2->f2c;
-    prim.verts = verts;
-    prim.colors = colors;
+    prim.p = verts;
+    prim.col = colors;
     prim.tex = NULL;
-    prim.count = 1;
-    colors[2] = colors[1] = colors[0] = (arg3 << 8) | (arg3 >> 24);
+    prim.num = 1;
+    colors[2].color = colors[1].color = colors[0].color = (arg3 << 8) | (arg3 >> 24);
     verts[0].x = arg2->f20 + arg2->f28 * (arg1->x - arg2->f20);
     verts[0].y = arg2->f24 + arg2->f2c * (arg1->y - arg2->f24);
     verts[2].x = amp_x * cos_table_lookup(angle) + verts[0].x;
@@ -342,7 +342,7 @@ void draw_photon_blast_fan(saddr window_simple_status, NJS_POINT2 *arg1, Params_
         }
         verts[2].x = amp_x * cos_table_lookup(angle) + verts[0].x;
         verts[2].y = amp_y * sin_table_lookup(angle) + verts[0].y;
-        draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&prim), 3, 2, depth);
+        draw_polygon_2d(&prim, 3, 2, depth);
     }
 }
 #pragma pop
@@ -517,7 +517,7 @@ void TWindowSimpleStatus::draw_background(u8 *ctx) {
     size.y = 35.0f;
     scale = -1.0f / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(0xB, *(s32 *)((s8 *)ctx + 0x34));
     r.x0 = pos.x;
     r.y0 = pos.y;

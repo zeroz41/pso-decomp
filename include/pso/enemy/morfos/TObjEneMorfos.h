@@ -25,8 +25,10 @@ struct MorfosParams {
     s32 charge_spin_step;    // rotation the burst adds per charging frame
 };
 
+struct EnemyPlacement;
+
 struct TObjEneMorfos : public TObjEneDD_ST {
-    TObjEneMorfos(TObject *parent, void *set_data);
+    TObjEneMorfos(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneMorfos();
     virtual f32 receive_physical_attack(void *attacker, f32 scale);
     virtual void dispatch_action(u32 state, s32 reason);
@@ -70,7 +72,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     s32 check_low_hp_trigger();
     void init_instance();
     static void unload_static_data();
-    void *create();
+    static void *create(void *set_data);
     static s32 snap_to_ground(s32 arg0, saddr origin);
     // The state handlers dispatch_action picks (names from the motions they request).
     void state_damage(s32 ev);    // 10: damage_kabe_body
@@ -92,7 +94,7 @@ struct TObjEneMorfos : public TObjEneDD_ST {
     s32 target_angle;
     s32 burst_start_angle;    // rotation_y when the burst turn started
     f32 accum;                // walk timer, then the dying texture scroll
-    u8 unk_4C8[0x4];
+    f32 unk_4C8;
     Vec walk_dir;             // sin, 0, cos of rotation_y when the walk starts
     void render_part(s32 idx, s32 mode);
     void state_rotating_projectile_burst(s32 ev);
@@ -106,9 +108,9 @@ LAYOUT_ASSERT(TObjEneMorfos_fades, offsetof(TObjEneMorfos, body_fade) == 0x3EC);
 extern MorfosParams *TObjEneMorfos__param_table;
 
 // What TObjEneMorfos::load_static_data fetches from TLobby; reset_hp reads one entry of each.
-extern saddr morfos_base_params[1];        // register_boss(0x40)
-extern saddr morfos_attack_params[3];      // dispatch_shared_handler_b(morfos_attack_param_ids[i])
-extern saddr morfos_resistance_params[1];  // register_object(0x40)
+extern player_stats *morfos_base_params[1];        // register_boss(0x40)
+extern AttackParams *morfos_attack_params[3];      // dispatch_shared_handler_b(morfos_attack_param_ids[i])
+extern ActorParamBlock *morfos_resistance_params[1];  // register_object(0x40)
 extern const s32 morfos_attack_param_ids[2];
 extern const s32 morfos_base_params_index[2];  // the entries reset_hp passes
 extern const s32 morfos_attack_params_index[2];

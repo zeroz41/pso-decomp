@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "types.h"
@@ -227,25 +228,24 @@ extern const f32 lbl_805DCE0C;
 extern "C" {
 void update_requirements__15TWindowHelpItemFv(Help_80254CE4 *self);
 void update_stat_comparison__15TWindowHelpItemFv(Help_802549B0 *self);
-void TWindowHelpItem__vt0(HelpItem_802551C4 *self);
-void TWindowHelpItem__vt3(HelpItem_8025500C *self);
-void set_percentage_rows__15TWindowHelpItemFPvPvi(void *self, Op_802544D8 *ops, EntryFn_802544D8 fn);
-extern u8 lbl_8044EDD8[];
-extern u8 lbl_8044EDE0[];
-extern u8 lbl_8044EDE8[];
-extern u8 lbl_8044EDF0[];
-extern u8 lbl_805DCDFC[4];
-void sub_802534B0__15TWindowHelpItemFv(void *);
-extern u8 lbl_8044EDB8[];
-extern u8 lbl_8044EDC0[];
-extern u8 localized_alphabet_list[];
-extern u8 hud_texlist[];
-extern u8 lbl_805DCDC8[];
-extern u8 lbl_805DCDCC[];
-extern u8 lbl_805DCDD0[];
-extern u8 lbl_805DCDD4[];
-extern u8 lbl_805DCDD8[];
-extern u8 lbl_805DCDDC[];
+extern "C" void TWindowHelpItem__vt0(HelpItem_802551C4 *self);
+extern "C" void TWindowHelpItem__vt3(HelpItem_8025500C *self);
+extern "C" void set_percentage_rows__15TWindowHelpItemFPvPvi(void *self, Op_802544D8 *ops, EntryFn_802544D8 fn);
+extern "C" u8 lbl_8044EDD8[];
+extern "C" u8 lbl_8044EDE0[];
+extern "C" u8 lbl_8044EDE8[];
+extern "C" u8 lbl_8044EDF0[];
+extern "C" u8 lbl_805DCDFC[4];
+extern "C" void sub_802534B0__15TWindowHelpItemFv(void *);
+extern "C" u8 lbl_8044EDB8[];
+extern "C" u8 lbl_8044EDC0[];
+extern "C" u8 localized_alphabet_list[];
+extern "C" u8 lbl_805DCDC8[];
+extern "C" u8 lbl_805DCDCC[];
+extern "C" u8 lbl_805DCDD0[];
+extern "C" u8 lbl_805DCDD4[];
+extern "C" u8 lbl_805DCDD8[];
+extern "C" u8 lbl_805DCDDC[];
 void *TWindowHelpItem__item_layout_entries[67] = {
     (void *)0xc, (void *)0x1, (void *)0xb, (void *)0x0,
     (void *)0x0, (void *)0xb, (void *)0x0, (void *)0x41a00000,

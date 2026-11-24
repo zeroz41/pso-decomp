@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/render/model_render_state.h"

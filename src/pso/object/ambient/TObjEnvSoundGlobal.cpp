@@ -1,3 +1,5 @@
+#include "pso/render/NinjaUtil.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/network/FloorEventCommand.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -15,7 +17,7 @@
 
 struct Row_80190AA0 { u32 cue; s32 mode; };
 
-struct Obj_801903B4 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x90 - 0x44]; f32 param; s32 sound; s32 mode; };
+struct Obj_801903B4 { u8 pad0[0x38]; Vec pos; u8 pad44[0x90 - 0x44]; f32 param; s32 sound; s32 mode; };
 
 
 // Per-area {sound cue, mode} rows, indexed by the object's set parameter.
@@ -184,7 +186,7 @@ void *TObjEnvSound::create(void *rader_map_core) {
 }
 
 s32 fn_801908F8(saddr arg0, f32 farg0) {
-    return xyz_distance_squared(&camera_ctrl_instance->pos, &((TObjEnvSound *)arg0)->position) < farg0;
+    return xyz_distance_squared(&camera_ctrl_instance->pos, &reinterpret_cast<const TObjBase *>(arg0)->position) < farg0;
 }
 
 s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
@@ -300,10 +302,10 @@ void TObjEnvSoundGlobal::run_task() {
     case 0:
         break;
     case 1:
-        play_persistent_sound((s32)self->sound, this, &position, 0, 0);
+        play_persistent_sound((s32)self->sound, self, &self->pos, 0, 0);
         break;
     case 2:
-        play_persistent_sound((s32)self->sound, this, NULL, (s32)self->param, 2);
+        play_persistent_sound((s32)self->sound, self, NULL, (s32)self->param, 2);
         break;
     }
 }

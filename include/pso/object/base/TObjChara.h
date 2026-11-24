@@ -11,6 +11,7 @@ struct ActorParamBlock;
 struct AttackParams;
 struct ControllerInputContext;
 struct CsnGroup;
+struct CsnHit;
 
 // One row of a character's status effects: 0 poison/paralysis, 1 slow,
 // confusion, freeze or shock, 2 the attack stat (Shifta/Jellen), 3 the
@@ -49,6 +50,7 @@ public:
     void calc_attach_pos();
     // move_destination = position, then move_origin and prev_position follow it.
     void init_position_vectors();
+    void copy_position();
     void add_flags_2e4(u32);
     // Alive and nothing blocks the line from `from` to its body centre (csnLookAt).
     s32 is_target_unobstructed(const Vec *from);
@@ -104,8 +106,8 @@ public:
     virtual s32 add_actor_exp(s32);
     virtual s32 consume_timer_field(s32);
     virtual s32 get_actor_level_index();
-    virtual u8 *update_actor_ground_y();
-    virtual u8 *update_actor_ground_y_at(Vec *pos);
+    virtual CsnHit *update_actor_ground_y();
+    virtual CsnHit *update_actor_ground_y_at(Vec *pos);
     virtual s32 is_actor_cadence_frame(s32);
     virtual s32 select_melee_contact_body(void *, f32);
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
@@ -169,13 +171,18 @@ public:
     virtual void gain_photon_blast_charge(f32);
     // Spends photon blast charge; TObjPlayer forwards it to subtract_photon_blast_charge (param name inferred).
     virtual void spend_photon_blast_charge(f32 charge);
-    virtual void gain_photon_blast_chain_charge();
+    virtual void gain_photon_blast_chain_charge(f32 amount);
     virtual void vfunc_78(saddr);
     void request_box_item_drop(const Vec *position, s32 random_item);
     virtual void *get_center();
     virtual void reset_motion_fields();
-    u8 pad_FC[0x7];
-    u8 m_103;
+    union {
+        u16 attack_credit_slots[4];
+        struct {
+            u8 pad_FC[0x7];
+            u8 m_103;
+        } credit_slot_bytes;
+    };
     u8 pad_104[0x12];
     s16 m_116;
     u8 unk_118[0x2];
@@ -189,7 +196,7 @@ public:
     StatusEffect status_effects[5];
     Vec move_origin;  // where the current move started (calc_velocity_toward_destination's from)
     Vec move_destination;  // where the current move goes
-    u8 *target;
+    TObjChara *target;
     u32 m_2ac;
     player_stats *stat_block;  // the stat block get_stats returns
     f32 frame_timer;  // frames counted up or down by the current behaviour
@@ -243,17 +250,40 @@ public:
     s16 phase;
     u8 pad_32A[0x2];
     s16 hp;
-    u16 tp;
+    s16 tp;
     u8 unk_330[0x4];
 };
 
 extern "C" void *__dt__9TObjCharaFv(void *, s16);
 extern "C" s32 try_spend_actor_meseta(TObjChara *actor, s32 amount);
 
+LAYOUT_ASSERT(TObjCharaHpMaxOffset, offsetof(TObjChara, hpmax) == 0x2B8);
+LAYOUT_ASSERT(TObjCharaTpMaxOffset, offsetof(TObjChara, tpmax) == 0x2BA);
+LAYOUT_ASSERT(TObjCharaHpBonusOffset, offsetof(TObjChara, hp_bonus) == 0x2BC);
+LAYOUT_ASSERT(TObjCharaTpBonusOffset, offsetof(TObjChara, tp_bonus) == 0x2BE);
+LAYOUT_ASSERT(TObjCharaHpOffset, offsetof(TObjChara, hp) == 0x32C);
+LAYOUT_ASSERT(TObjCharaTpOffset, offsetof(TObjChara, tp) == 0x32E);
 LAYOUT_ASSERT(TObjCharaBaseStatsOffset, offsetof(TObjChara, stat_block) == 0x2B0);
 LAYOUT_ASSERT(TObjCharaAttackParamsOffset, offsetof(TObjChara, attack_params) == 0x318);
 LAYOUT_ASSERT(TObjCharaResistanceParamsOffset, offsetof(TObjChara, param_block) == 0x31C);
 LAYOUT_ASSERT(TObjCharaSize, sizeof(TObjChara) == 0x334);
 LAYOUT_ASSERT(TObjCharaGroundNormalOffset, offsetof(TObjChara, ground_normal) == 0x248);
+
+LAYOUT_ASSERT(TObjCharaAttackCreditSlotsOffset, offsetof(TObjChara, attack_credit_slots) == 0xFC);
+
+// Advances position through the wall and ground probes.
+void move_with_wall_slide(TObjChara *actor);
+
+void obj_clearArrS16_FC(TObjChara *actor, s32 index);
+extern "C" {
+s32 add_actor_hp(TObjChara *actor, s16 amount);
+s32 add_actor_tp(TObjChara *actor, s32 amount);
+s32 add_actor_hp_bonus(TObjChara *actor, s32 amount);
+s32 add_actor_tp_bonus(TObjChara *actor, s32 amount);
+
+u16 obj_getArrU16_FC(TObjChara *actor, s32 index);
+void obj_setArrS16_FC(TObjChara *actor, s32 index, u16 value);
+void add_id_to_slots__10TObjPlayerFiUs(TObjChara *actor, u16 id);
+}
 
 #endif

@@ -1,4 +1,5 @@
 #include "pso/system/BmlResource.h"
+#include "pso/render/NinjaUtil.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
@@ -367,8 +368,8 @@ f32 TContainerAncient01R::receive_weapon_special_attack(void *, void *) {
 TContainerAncient01::TContainerAncient01(TObject *parent, void *set_data) : TObjChara(parent) {
     m_name = TContainerAncient01__name;
     this->apply_object_set_data(set_data);
-    this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0));
-    this->texlist = get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0);
+    this->model = get_bml_model(TContainerAncient01__bml_resource, 0);
+    this->texlist = get_bml_texlist(TContainerAncient01__bml_resource, 0);
     this->action_table = TContainerAncient01__anim_table;
     this->set_action_table(this->action_table);
     this->motion_list = TContainerAncient01__bml_resource->motions;
@@ -395,26 +396,26 @@ void TContainerAncient01::load_resources() {
     BmlResource *p;
     TContainerAncient01__bml_resource = NULL;
     if (TContainerAncient01::is_global_state_in_table() != 0) {
-        p = new BmlResource(5, (BmlResourceDescriptor *)&TContainerAncient01__resource_descriptor_2, 0, 0, NULL);
+        p = new BmlResource(5, &TContainerAncient01__resource_descriptor_2, 0, 0, NULL);
         TContainerAncient01__effect_id_table[0] = 0x230;
         TContainerAncient01__bml_resource = p;
         TContainerAncient01__effect_id_table[1] = 0x231;
     } else {
-        p = new BmlResource(5, (BmlResourceDescriptor *)&TContainerAncient01__resource_descriptor, 0, 0, NULL);
+        p = new BmlResource(5, &TContainerAncient01__resource_descriptor, 0, 0, NULL);
         TContainerAncient01__effect_id_table[0] = 0x45;
         TContainerAncient01__bml_resource = p;
         TContainerAncient01__effect_id_table[1] = 0x46;
     }
     NpcAnimationBinding prm = container_ancient_anim_binding;
     prm.motions = TContainerAncient01__bml_resource->motions;
-    TObjNpcEnemy::register_animated_ginja(0x3B, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0)),
-                                             reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0)), &prm,
+    TObjNpcEnemy::register_animated_ginja(0x3B, get_bml_model(TContainerAncient01__bml_resource, 0),
+                                             get_bml_texlist(TContainerAncient01__bml_resource, 0), &prm,
                                              10.0f, TContainerAncient01__data_805DBD14[0]);
 }
 
 void TContainerAncient01::release_static_resource() {
     if (TContainerAncient01__bml_resource != NULL) {
-        delete (BmlResource *)TContainerAncient01__bml_resource;
+        delete TContainerAncient01__bml_resource;
         TContainerAncient01__bml_resource = NULL;
     }
 }
@@ -462,10 +463,10 @@ void TContainerAncient01::run_task() {
         }
     }
     if (static_cast<const void *>(current_motion) == get_bml_motion(TContainerAncient01__bml_resource, 0)) {
-        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0));
+        this->model = get_bml_model(TContainerAncient01__bml_resource, 0);
     }
     if (static_cast<const void *>(current_motion) == get_bml_motion(TContainerAncient01__bml_resource, 1)) {
-        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 1));
+        this->model = get_bml_model(TContainerAncient01__bml_resource, 1);
     }
     ((TObject *)arg0)->TObject::run_task();
 }
@@ -489,7 +490,7 @@ void TContainerAncient01::render() {
 }
 
 s32 TContainerAncient01::select_melee_contact_body(void *target, f32) {
-    return xyz_distance_squared(&((TObjBase *)target)->position, &this->position) < 4e+02f;
+    return xyz_distance_squared(&static_cast<const TObjBase *>(target)->position, &position) < 4e+02f;
 }
 
 int TContainerAncient01::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
@@ -678,8 +679,8 @@ TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TO
 
     m_name = TContainerAncient01R__name;
     self->m5(set_data);
-    self->x34 = (saddr)get_bml_model((BmlResource *)TContainerAncient01R__bml_resource, 0);
-    self->x24 = (saddr)get_bml_texlist((BmlResource *)TContainerAncient01R__bml_resource, 0);
+    model = get_bml_model(TContainerAncient01R__bml_resource, 0);
+    texlist = get_bml_texlist(TContainerAncient01R__bml_resource, 0);
     self->animTbl = TContainerAncient01__anim_table;
     ((TObjMotion *)self)->set_action_table(self->animTbl);
     self->motion_list = TContainerAncient01R__bml_resource->motions;
@@ -754,10 +755,10 @@ void TContainerAncient01R::run_task() {
         }
     }
     if (static_cast<const void *>(current_motion) == get_bml_motion(TContainerAncient01R__bml_resource, 0)) {
-        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01R__bml_resource, 0));
+        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TContainerAncient01R__bml_resource, 0));
     }
     if (static_cast<const void *>(current_motion) == get_bml_motion(TContainerAncient01R__bml_resource, 1)) {
-        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01R__bml_resource, 1));
+        this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model(TContainerAncient01R__bml_resource, 1));
     }
     ((TObject *)arg0)->TObject::run_task();
 }
@@ -781,7 +782,7 @@ void TContainerAncient01R::render() {
 }
 
 s32 TContainerAncient01R::select_melee_contact_body(void *target, f32) {
-    return xyz_distance_squared(&((TObjBase *)target)->position, &this->position) < 4e+02f;
+    return xyz_distance_squared(&static_cast<const TObjBase *>(target)->position, &position) < 4e+02f;
 }
 
 int TContainerAncient01R::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }

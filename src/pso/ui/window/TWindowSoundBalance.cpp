@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
@@ -9,6 +10,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSoundBalance.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/item/mag/TItemMag.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -56,7 +58,6 @@ WindowDescriptor window_sound_balance_settings = {
 };
 
 extern "C" {
-u32 calc_text_width();
 const char *TWindowSoundBalance__name = "TWindowSoundBalance";
 
 void TWindowSoundBalance::set_sound_effect_gain(s16 gain) {
@@ -79,11 +80,9 @@ void TWindowSoundBalance::set_music_gain(s16 gain) {
     }
 }
 
-void TWindowSoundBalance::apply_balance(void *window_key_board_soft) {
-    saddr temp;
-
-    temp = reinterpret_cast<saddr>(get_array_entry((s32)selection));
-    draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)temp, is_active());
+void TWindowSoundBalance::apply_balance(WindowDrawContext *context) {
+    u8 *entry = static_cast<u8 *>(get_array_entry(selection));
+    draw_selection_bar(context, entry, is_active());
 }
 
 void TWindowSoundBalance::handle_cancel() {
@@ -138,7 +137,7 @@ void TWindowSoundBalance::handle_lr_input() {
     ControllerInputContext *input;
     input = &controller_input_state.controllers[0];
     if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x30, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x30, 6, 1) != 0)) {
-        play_sound_effect(0x54100, 0, 0, 0);
+        play_sound_effect(0x54100, NULL, 0, 0);
         if ((TAdMultiPlyChrSelectGC::dispatch_draw_command((saddr)input, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
             this->selection = (this->selection - 1);
         }
@@ -163,7 +162,7 @@ void TWindowSoundBalance::render() {
     draw_visible_window_entries(
         self,
         &self->entry_list,
-        reinterpret_cast<WindowDrawContext *>(entry));
+        entry);
     entry->inner_x += 174.0f;
     entry->inner_w -= 348.0f;
     self->apply_balance(entry);
@@ -191,7 +190,8 @@ void TWindowSoundBalance::run_task() {
 TWindowSoundBalance::~TWindowSoundBalance() {}
 #pragma push
 #pragma fp_contract on
-TWindowSoundBalance::TWindowSoundBalance(saddr arg1) : TWindowBase((u8 *)&window_sound_balance_settings, (s16)4, (u8 *)arg1) {
+TWindowSoundBalance::TWindowSoundBalance(const NJS_POINT2 *position)
+    : TWindowBase((u8 *)&window_sound_balance_settings, 4, (u8 *)position) {
     u8 *e;
     SoundBalanceSettings *st;
 
@@ -201,12 +201,12 @@ TWindowSoundBalance::TWindowSoundBalance(saddr arg1) : TWindowBase((u8 *)&window
     this->music_gain = 1;
     this->sound_effect_gain = 1;
     e = (u8 *)get_array_entry(0);
-    ((TWindowSubComCard *)e)->get_field_20();
-    *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
+    char *label = reinterpret_cast<char *>(reinterpret_cast<TWindowSubComCard *>(e)->get_field_20());
+    *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
     e = (u8 *)get_array_entry(1);
-    ((TWindowSubComCard *)e)->get_field_20();
-    *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
+    label = reinterpret_cast<char *>(reinterpret_cast<TWindowSubComCard *>(e)->get_field_20());
+    *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width(label);
     measure_message_text_width_default(e);
     st = (SoundBalanceSettings *)TAdSinglePlyChrSelectGC::get_global_state();
     if (st == 0) {

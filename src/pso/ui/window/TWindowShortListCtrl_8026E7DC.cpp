@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"

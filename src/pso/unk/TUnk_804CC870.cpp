@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -81,9 +82,6 @@ struct Ctl_80232C50 {
     u8 pos[4];
 };
 
-extern "C" {
-void mem_free(void *);
-}
 
 // Per level tier (TObjPlayer::get_level_tier): the particle emitters TUnk_804CC888 keeps alive and
 // the effects it spawns when it ends.
@@ -237,7 +235,7 @@ void TUnk_804CC870::render() {
     post_translate_matrix(&position.x);
     scale_matrix(0, scale.x, scale.y, scale.z);
     translate_matrix(0, 0.0f, 1e+01f, 0.0f);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(&lbl_804CC868));
+    TObjFish::set_global_param(&lbl_804CC868);
     get_bml_model(technique_effect_bml, 10);
     draw_ginja_object();
     pop_matrix();
@@ -276,7 +274,6 @@ struct Task_80232EC0 {
 };
 
 extern "C" {
-void *mem_alloc(u32 size);
 }
 TUnk_804CC888::TUnk_804CC888(u8 *src, s32 level, TObject *parent) : TObject(parent) {
     u32 i;

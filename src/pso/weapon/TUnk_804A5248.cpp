@@ -1,7 +1,7 @@
+#include "pso/math/ClampedStep.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A5248.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/unk/text_80120D50.h"
 #include "pso/unk/text_8012C268.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
@@ -21,14 +21,14 @@ void TUnk_804A5248::vfunc_60() {
 
 void TUnk_804A5248::update_idle() {
     if (get_item_index() == 5) {
-        TItemEffOrgaFlowShot::approach_value(&barrel_scale, 0.1f, 0.6f);
+        ::approach_value(&barrel_scale, 0.1f, 0.6f);
     }
 }
 
 
 void TUnk_804A5248::update_attack() {
     if (get_item_index() == 5) {
-        TItemEffOrgaFlowShot::approach_value(&barrel_scale, 0.2f, 1.0f);
+        ::approach_value(&barrel_scale, 0.2f, 1.0f);
     }
 }
 

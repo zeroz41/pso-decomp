@@ -1,3 +1,4 @@
+#include "pso/math/ClampedStep.h"
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A5F18.h"
@@ -22,11 +23,11 @@ void TUnk_804A5F18::emit_marker_effects() {
 }
 
 void TUnk_804A5F18::update_idle() {
-    TObjPlayer::add_angle_clamped(&rotation_x, 1820, 10922);
+    ::add_angle_clamped(&rotation_x, 1820, 10922);
 }
 
 void TUnk_804A5F18::update_attack() {
-    TObjPlayer::add_angle_clamped(&rotation_x, -1820, 0);
+    ::add_angle_clamped(&rotation_x, -1820, 0);
 }
 
 void TUnk_804A5F18::on_equipped() {

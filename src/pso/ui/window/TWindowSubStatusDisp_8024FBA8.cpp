@@ -1,3 +1,4 @@
+#include "pso/ui/font/TNECFontEORFunction.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -26,8 +27,6 @@ void build_small_font_glyph_quad(s32, void *);
 void begin_screen_draw(s32);
 void draw_textured_quad_at_depth(void *, f32);
 void set_draw_texture_and_color(s32, u32);
-const char *parse_text_control_codes(const char *, s32 *, s32 *);
-void set_glyph_quad_extents(s32, void *);
 s32 get_font_char_advance(s32);
 s32 map_char_to_font_code(s32);
 void calc_gauge_scale__20TWindowSubStatusDispFUsPvl(s32, void *, s32);
@@ -97,6 +96,8 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width) {
     s32 col;
     s32 flag;
     TexturedQuad q;
+    // The original caller passes the advance in a full word.
+    typedef void (*SetGlyphExtent)(s32, TexturedQuad *);
     col = color;
     ok = 1;
     flag = 0;
@@ -158,14 +159,14 @@ s32 draw_window_text(f32 *pos, const char *s, s32 color, s32 mode, f32 width) {
         }
         q.x0 = x;
         q.y0 = y;
-        set_glyph_quad_extents(adv, &q);
+        reinterpret_cast<SetGlyphExtent>(set_glyph_quad_extents)(adv, &q);
         if ((f32)(u8)adv > width) {
             ok = 0;
             q.x1 = q.x0 + width;
         }
         if (text_clip_enabled_flag == 0 || text_draw_clip_context->is_point_in_bounds(&q) != 0) {
             calc_gauge_scale__20TWindowSubStatusDispFUsPvl(glyph, &q, col);
-            set_glyph_quad_extents(adv, &q);
+            reinterpret_cast<SetGlyphExtent>(set_glyph_quad_extents)(adv, &q);
             if ((f32)(u8)adv > width) {
                 q.x1 = q.x0 + width;
             }

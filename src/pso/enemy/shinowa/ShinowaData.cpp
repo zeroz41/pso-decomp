@@ -1,3 +1,4 @@
+#include "pso/effect/TBreakUpMdl.h"
 #include "types.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"
 
@@ -7,7 +8,7 @@
 // .rodata 0x8043CE00-0x8043CF40 of the Shinowa code (the StelthData.cpp shape): the code
 // addresses each object on its own, so it did not compile them itself.
 
-extern const TBoss3VoloptBreakupParams shinowa_mirage_breakup_params = { 0x14, { 0.07f, 2.0f, 0.97f, 0.2f, 2.0f, 1.5f } };
+extern const BreakUpParamRow shinowa_mirage_breakup_params = { 0x14, 0.07f, 2.0f, 0.97f, 0.2f, 2.0f, 1.5f };
 extern const s32 shinowa_mirage_base_param_ids[2] = { 6, 19 };
 extern const s32 shinowa_mirage_attack_param_ids[2] = { 6, 71 };
 extern const s32 shinowa_mirage_resistance_param_ids[2] = { 6, 19 };

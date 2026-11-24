@@ -6,8 +6,6 @@
 #include <dolphin/gx.h>
 #undef PSO_SDK_COMPACT_MATH
 
-typedef struct ProjectedStripVertex { f32 x, y, w, u, v; u32 color; } ProjectedStripVertex;
-
 typedef union WGPipe_803E2D70 {
     u8 u8;
     u16 u16;
@@ -34,17 +32,17 @@ static inline void GXTexCoord2f32_803E2D70(f32 s, f32 t) {
     (*(volatile WGPipe_803E2D70 *)0xCC008000).f32 = s;
     (*(volatile WGPipe_803E2D70 *)0xCC008000).f32 = t;
 }
-void draw_projected_textured_strip(ProjectedStripVertex *v, s32 n) {
+void draw_projected_textured_strip(ProjectedStripVertex *vertices, s32 count) {
     f32 inv;
     u32 c;
-    GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT4, n);
-    for (; n > 0; n--) {
-        inv = -1.0f / v->w;
-        GXPosition3f32_803E2D70(v->x * inv, v->y * inv, inv);
-        c = v->color;
+    GXBegin(GX_TRIANGLESTRIP, GX_VTXFMT4, count);
+    for (; count > 0; count--) {
+        inv = -1.0f / vertices->w;
+        GXPosition3f32_803E2D70(vertices->x * inv, vertices->y * inv, inv);
+        c = vertices->color;
         GXColor1u32_803E2D70(((c & 0xFFFFFF) << 8) | ((c & 0xFF000000) >> 24));
-        GXTexCoord2f32_803E2D70(v->u, v->v);
-        v++;
+        GXTexCoord2f32_803E2D70(vertices->u, vertices->v);
+        vertices++;
     }
 }
 #pragma pop

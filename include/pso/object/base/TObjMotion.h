@@ -10,6 +10,7 @@
 #include "pso/object/base/TObjBase.h"
 struct BmlMotionEntry;
 struct CameraAngles;
+struct CsnGroundCandidates;
 
 // One collision body of an actor (TObjCollidable::bodies points at the actor's
 // array of them); init_collision_body_parts copies a static table of these.
@@ -31,7 +32,7 @@ public:
     virtual ~TObjCollidable();
     f32 get_collision_body_radius(s32);
     virtual void reset_motion_fields();
-    void*find_actor_body_contact(u8*, f32);
+    CollisionBody *find_actor_body_contact(TObjCollidable *target, f32 limit);
     void set_indexed_flags(s32, s32);
     void clear_player_status_flag(s32, u32);
     // actorFlags & flags.
@@ -62,15 +63,17 @@ public:
     void clear_shadow_flag();
     // The ground polygons project_actor_to_ground last found (csnVectorUnder's
     // cache), NULL to query without one.
-    void *ground_cache;
+    CsnGroundCandidates *ground_cache;
     u16 interactor;  // client id of the player interacting, 0xFFFF for none
-    u8 unk_96[0x2];
+    u16 hit_receive_state;  // 1 allows this object to receive hits
     CursorAction cursor_action;
     FlagWord *body_flags;  // one word per collision body
     FlagWord own_body_flags;  // body_flags of an actor with a single body
     CollisionBody *bodies;
     s32 body_count;
 };
+LAYOUT_ASSERT(TObjCollidableHitReceiveStateOffset, offsetof(TObjCollidable, hit_receive_state) == 0x96);
+
 // The actor and collision body a weapon's hit reports.
 struct ActorBodyHit {
     TObjCollidable *target;

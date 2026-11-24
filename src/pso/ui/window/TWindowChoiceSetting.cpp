@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowScrollBar.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -23,13 +24,7 @@
 const char *lbl_805D3970 = "TWindowMenuInfomation";
 static const NJS_POINT2 lbl_8044F3A0 = {425.0f, 188.0f};
 
-struct Stack_80268A6C {
-    f32 sp8;
-    f32 spC;
-};
-
 extern "C" {
-s32 clamp_list_scroll_offset(int, void *, void *);
 s32 TWindowSubComCard__sub_8026906C(void);
 
 void TWindowMenuInfomation::request_close() {
@@ -137,26 +132,26 @@ void TWindowMenuInfomation::update_scroll_offset() {
 
 void TWindowMenuInfomation::clamp_scroll() {
     u8 *arg0 = (u8 *)this;
-    Stack_80268A6C stack;
+    NJS_POINT2 range;
     f32 temp_f1;
-    if ((u32) *(u32 *)&this->unk_7C != 0U) {
-        stack.sp8 = 0.0f;
+    if (scroll_bar != NULL) {
+        range.x = 0.0f;
         temp_f1 = this->frame_size[1] - 20.0f;
-        stack.spC = temp_f1;
+        range.y = temp_f1;
         if (this->heading != 0) {
-            stack.spC = temp_f1 - 6.0f;
+            range.y = temp_f1 - 6.0f;
         }
-        clamp_list_scroll_offset((int) (*(u32 *)&this->unk_7C), arg0 + 0x68, &stack.sp8);
+        scroll_bar->clamp_offset(scroll_offset, &range);
     }
 }
 
 
-void TWindowMenuInfomation::draw_setting(saddr window_key_board_soft) {
+void TWindowMenuInfomation::draw_setting(WindowDrawContext *context) {
     u16 *entry;
 
     entry = (u16 *)this->get_array_entry(this->index);
     if (*entry & 1) {
-        draw_selection_bar(reinterpret_cast<WindowDrawContext *>(window_key_board_soft), (u8 *)entry, this->is_open());
+        draw_selection_bar(context, (u8 *)entry, this->is_open());
     }
 }
 
@@ -169,7 +164,7 @@ void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows) {
     window->entry_capacity = (s16)rows;
     window->m_70 = 0;
     window->heading = NULL;
-    *(s32 *)window->unk_7C = 0;
+    window->scroll_bar = NULL;
     for (i = 0; i < rows; i++) {
         entry = static_cast<WindowTextEntry *>(window->get_array_entry(i));
         entry->y = (f32)(i * 0x14);
@@ -209,30 +204,29 @@ void fn_80268C5C(const NJS_POINT2 *extent, s32 rows) {
 }
 
 extern "C" {
-s32 draw_window_scrollbar(s32, s32, void *);
 
 void TWindowMenuInfomation::render() {
-    saddr draw_context;
+    WindowDrawContext *draw_context;
 
-    draw_context = reinterpret_cast<saddr>(get_draw_context());
-    ((TWindowBase *)((u8 *)this))->draw_window_frame((void *)draw_context);
+    draw_context = get_draw_context();
+    ((TWindowBase *)((u8 *)this))->draw_window_frame(draw_context);
     draw_visible_window_entries(
         reinterpret_cast<const void *>(((u8 *)this)),
         reinterpret_cast<const WindowLayoutEntries *>(((u8 *)this) + 0x24),
-        reinterpret_cast<WindowDrawContext *>(draw_context));
+        draw_context);
     draw_setting(draw_context);
     if (this->heading != 0) {
-        ((TWindowSubStatusDisp *)((saddr)this->heading))->forward_render((void *)(draw_context));
+        ((TWindowSubStatusDisp *)((saddr)this->heading))->forward_render(draw_context);
     }
-    if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x7C) != 0U) {
-        draw_window_scrollbar(*(u32 *)((s8 *)((u8 *)this) + 0x7C), draw_context, ((u8 *)this) + 0x68);
+    if (scroll_bar != NULL) {
+        draw_window_scrollbar(scroll_bar, draw_context, scroll_offset);
     }
 }
 
 void TWindowMenuInfomation::run_task() {
     u8 *arg0 = (u8 *)this;
     uaddr temp_r3;
-    uaddr temp_r3_2;
+    WindowScrollBar *temp_r3_2;
     ControllerInputContext *input;
     ControllerInputContext *temp_r30_2;
     ControllerInputContext *context;
@@ -267,9 +261,9 @@ void TWindowMenuInfomation::run_task() {
         if (temp_r3 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
         }
-        temp_r3_2 = *(u32 *)((s8 *)arg0 + 0x7C);
-        if (temp_r3_2 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r3_2)->increment_counter();
+        temp_r3_2 = scroll_bar;
+        if (temp_r3_2 != NULL) {
+            temp_r3_2->increment_counter();
         }
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
@@ -280,7 +274,7 @@ void TWindowMenuInfomation::run_task() {
 }
 
 TWindowMenuInfomation::~TWindowMenuInfomation() {
-    TWindowSubStatusDisp::destroy_allocation((saddr)(*(void * *)&this->unk_7C), (s16)1);
+    TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), (s16)1);
     TWindowSubStatusDisp::destroy_status_display((saddr)this->heading, (s16)1);
 }
 TWindowMenuInfomation::TWindowMenuInfomation(void *parent, s32 rows)

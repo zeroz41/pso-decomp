@@ -10,7 +10,8 @@
 #include "pso/map/FloorArea.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/ui/window/TWindowSubShortCutList.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/ui/window/TWindowSubItemList.h"
@@ -72,7 +73,7 @@ s32 has_armor_with_unit_slot(TWindowSubItem *window_sub_item, TItem *item);
 const char *TWindowSubItem::class_name = "TWindowSubItem";
 
 // Item list window position (x, y).
-extern const f32 lbl_8044F998[2] = {308.0f, 184.0f};
+extern const NJS_POINT2 lbl_8044F998 = {308.0f, 184.0f};
 
 void TWindowSubItemList::build_item_list() {
     s32 ids[30];
@@ -173,9 +174,9 @@ TWindowSubItem::TWindowSubItem(TWindowMainMenu *parent, s32 client) : TObject(pa
     m_name = class_name;
     parent_menu = parent;
     client_id = client;
-    item_list = create_sub_item_list_window((saddr)get_window_layout_position(3), lbl_8044F998, client_id);
+    item_list = create_sub_item_list_window(get_window_layout_position(3), &lbl_8044F998, client_id);
     item_list->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)parent_menu, 0));
-    ((TWindowSubShortCutList *)item_list)->set_flag70_bit10();
+    item_list->set_flag70_bit10();
     help_window = 0;
     purpose_menu = 0;
     confirm_menu = 0;
@@ -452,7 +453,7 @@ void TWindowSubItem::render() {  }
 
 s32 TWindowSubItem::open_purpose_window(s32 arg1) {
     saddr titled_window_menu;
-    titled_window_menu = create_titled_window_menu(((int)(saddr)get_window_layout_position(4)), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x26), this->client_id);
+    titled_window_menu = create_titled_window_menu(reinterpret_cast<saddr>(get_window_layout_position(4)), 3, (saddr)TWindowSubStatusDisp::get_message_10(0x26), this->client_id);
     if (arg1 == -0xFF) {
         TWindowSubItem::add_meseta_purpose_actions((saddr)this, titled_window_menu);
     } else if ((s32) (arg1 & 0xFFFFFFF0) == -0x10) {
@@ -469,7 +470,7 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
 
 s32 TWindowSubItem::create_menu_window() {
     saddr titled_window_menu;
-    titled_window_menu = create_titled_window_menu(((int)(saddr)get_window_layout_position(6)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->client_id);
+    titled_window_menu = create_titled_window_menu(reinterpret_cast<saddr>(get_window_layout_position(6)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x27), this->client_id);
     ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5D)), 6, 0);
     ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5E)), 6, 1);
     ((TWindowBase *)titled_window_menu)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)this->parent_menu, 2));

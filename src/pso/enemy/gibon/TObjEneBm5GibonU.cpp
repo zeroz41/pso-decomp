@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/AngleUnits.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -38,7 +39,7 @@ struct NJS_OBJECT;
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/technique/TTecZonde.h"
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -130,9 +131,9 @@ TObjMotionAction gibon_u_action_table[17] = {
 };
 const char *TObjEneBm5GibonU__class_name = "TObjEneBm5GibonU";
 const NpcAnimationBinding TObjEneBm5GibonU__spawn_params = { NULL, gibon_u_action_table, 0, 1, 17 };
-__declspec(section ".data") u8 *TObjEneBm5GibonU__stat_params[2];
-__declspec(section ".data") u8 *gibon_stat_handle_a_table[2];
-__declspec(section ".data") u8 *gibon_stat_handle_b_table[2];
+__declspec(section ".data") player_stats *TObjEneBm5GibonU__stat_params[2];
+__declspec(section ".data") AttackParams *gibon_stat_handle_a_table[2];
+__declspec(section ".data") ActorParamBlock *gibon_stat_handle_b_table[2];
 __declspec(section ".data") u8 *gibon_param_table[2];
 __declspec(section ".data") f32 lbl_80500E98[3];
 __declspec(section ".data") u32 lbl_80500EA4[3];
@@ -201,21 +202,21 @@ void TObjEneBm5GibonU::get_attack_state(void *pos) { spawn_landing_effect((Vec *
 void TObjEneBm5GibonU::spawn_landing_effect(Vec *pos) {
     Vec v;
     CsnHit *hit;
-    void *p;
+    TParticleCtrl *p;
     VecCopy(&v, pos);
     v.y += 15.0f;
     hit = csnVectorUnder(&v, ground_candidates.groups, 5);
     if (hit != NULL && (hit->hit_mask & 4)) {
         p = spawn_particle_effect(&hit->contact[2].point, 0x49);
         if (p != NULL) {
-            attach_particle_model((u8 *)p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
+            attach_particle_model(p, TParticleCtrl::get_particle_model(2), TParticleCtrl::get_instance(), 0, 1, 1.0f);
             if (is_leader == 1) {
-                ((TParticleCtrl *)p)->set_scale(1.5f, 1.0f);
+                p->set_scale(1.5f, 1.0f);
             }
         }
         p = spawn_particle_effect(&hit->contact[2].point, 0xA4);
         if (p != NULL && is_leader == 1) {
-            ((TParticleCtrl *)p)->set_scale(1.5f, 1.0f);
+            p->set_scale(1.5f, 1.0f);
         }
         play_ground_landing_sound(&position);
         return;
@@ -461,7 +462,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                     copy_position_if_valid(this, body_center);
                     r = enemy_turn_toward_dest(((TObjEneBm5GibonUMovementParameters *)movementParameters)->turn);
                     enemy_set_heading_velocity(((TObjEneBm5GibonUMovementParameters *)movementParameters)->speed, this, rotation_y);
-                    move_with_wall_slide((u8 *)this);
+                    move_with_wall_slide(this);
                 } else {
                     VecCopy(&v, &destination);
                     subtract_vector(&v, &body_center);
@@ -531,7 +532,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 msg) {
                 } else {
                     switch (technique_type) {
                     case 1:
-                        TTecGiBarta::create_ex(this, &p, rotation_y, get_clamped_level());
+                        TTecGiBarta::create_ex(this, &p, rotation_y, (get_clamped_level()));
                         break;
                     default:
                         if (r < attack_params->get_attack_angle() / 2 && current_target != 0) {
@@ -649,7 +650,7 @@ void TObjEneBm5GibonU::backjump_state(s32 msg) {
                         if (p == 0) {
                             break;
                         }
-                        if (obj_is_hit_receivable((u8 *)p) != 0 && p->select_melee_contact_body(this, 1.0f) != 0) {
+                        if (obj_is_hit_receivable(p) != 0 && p->select_melee_contact_body(this, 1.0f) != 0) {
                             p->apply_knockback_from_attacker((u8 *)this, 1.0f);
                             p->receive_physical_attack(this, 1.0f);
                         }
@@ -721,9 +722,9 @@ void TObjEneBm5GibonU::update_dying_state(s32 msg) {
                 rotate_xz_pair_by_angle(&spot.x, &spot.z, this->rotation_y);
                 vec3_add_to(&spot, &this->position);
                 if (this->is_leader == 1) {
-                    spawn_dead_spot_scale15((saddr)&spot, 0x32);
+                    spawn_dead_spot_scale15(&spot, 0x32);
                 } else {
-                    TObjPlayer::spawn_dead_spot_type2((saddr)&spot, 0x32);
+                    TObjPlayer::spawn_dead_spot_type2(&spot, 0x32);
                 }
                 spawn_effect_at_ground(&spot, 0x46);
             }
@@ -1971,9 +1972,9 @@ void TObjEneBm5GibonU::load_resources() {
     v[1] = 0.0f;
     v[2] = 0.0f;
     for (i = 0; i < 2; i++) {
-        TObjEneBm5GibonU__stat_params[i] = (u8 *)TLobby::register_boss(gibon_base_stat_ids[i]);
-        gibon_stat_handle_a_table[i] = (u8 *)TLobby::dispatch_shared_handler_b(gibon_attack_stat_ids[i]);
-        gibon_stat_handle_b_table[i] = (u8 *)TLobby::register_object(gibon_resist_stat_ids[i]);
+        TObjEneBm5GibonU__stat_params[i] = TLobby::register_boss(gibon_base_stat_ids[i]);
+        gibon_stat_handle_a_table[i] = TLobby::dispatch_shared_handler_b(gibon_attack_stat_ids[i]);
+        gibon_stat_handle_b_table[i] = TLobby::register_object(gibon_resist_stat_ids[i]);
         gibon_param_table[i] = (u8 *)TLobby::dispatch_shared_handler_a(gibon_param_ids[i]);
     }
     NpcAnimationBinding sp = TObjEneBm5GibonU__spawn_params;
@@ -2039,7 +2040,7 @@ TObjEneBm5GibonU::TObjEneBm5GibonU(TObject *parent, void *set_data) : TObjEneDD_
     this->set_animation(this->requested_action);
     this->set_requested_action(this->requested_action);
     b = this->is_leader ? 1 : 0;
-    this->reset_hp(reinterpret_cast<player_stats *>(TObjEneBm5GibonU__stat_params[b]), reinterpret_cast<AttackParams *>(gibon_stat_handle_a_table[b]), reinterpret_cast<ActorParamBlock *>(gibon_stat_handle_b_table[b]));
+    this->reset_hp(TObjEneBm5GibonU__stat_params[b], gibon_stat_handle_a_table[b], gibon_stat_handle_b_table[b]);
     this->set_state_flag_1();
     this->movementParameters = &TObjEneBm5GibonU__movement_parameters;
     if (this->is_leader != 0) {

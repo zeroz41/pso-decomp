@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-void initialize_enemy_photon_effect(void *p);
+struct TObjEnemy;
+
+void initialize_enemy_photon_effect(TObjEnemy *enemy);
 
 #endif

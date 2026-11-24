@@ -23,12 +23,12 @@ struct TWindowMessage : public TWindowAddition {
     int append_line(int text, int mode);
     static u8 *create(saddr parent, const f32 *size, uaddr rows, s32 client);
     static u8 *create(const NJS_POINT2 *pos, const f32 *size, saddr rows);
-    u32 m_70;
-    s32 m_74;
-    u32 m_78;
+    s32 oldest_line;
+    s32 reveal_line;
+    u32 line_display_ticks;
     TWindowMessageLine *lines;
-    f32 unk_80;
-    f32 m_84;
+    f32 next_line_y;
+    f32 target_scroll_y;
     s32 next_line;
     s32 line_count;
     void complete_reveal();

@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
@@ -36,8 +37,7 @@ void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 void text_builder_reset(void);
 extern "C" {
 
-extern u8 hud_texlist[];
-extern const char lbl_805DCCA8[] = ":";
+extern "C" const char lbl_805DCCA8[] = ":";
 void *TWindowDuelResult__layout_entries[140] = {
     (void *)0x13, (void *)0x1, (void *)0x3, (void *)0x0,
     (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,

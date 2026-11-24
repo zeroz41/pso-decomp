@@ -119,20 +119,20 @@ struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };
 // address order.
 
 void TObjContainerJungEx::load_resource_instance() {
-    BmlResource *bundle = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_hako02_resource_descriptor, 0, 0, NULL);
+    BmlResource *bundle = new BmlResource(5, &fe_obj_hako02_resource_descriptor, 0, 0, NULL);
     jungle_container_ex_archive = bundle;
 }
 
 void TObjContainerJungEx::free_data() {
     if (jungle_container_ex_archive != NULL) {
-        delete (BmlResource *)jungle_container_ex_archive;
+        delete jungle_container_ex_archive;
         jungle_container_ex_archive = NULL;
     }
 }
 
 NJS_OBJECT *TObjContainerJungEx::get_model(s32 index) {
     if (jungle_container_ex_archive != NULL) {
-        return (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_container_ex_archive, index);
+        return get_bml_model(jungle_container_ex_archive, index);
     }
     return NULL;
 }
@@ -181,9 +181,9 @@ void TObjContainerJung::vfunc_81() {
             post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             scale_matrix(0, 0.85f, 0.85f, 0.85f);
-            draw_ginja_object((void *)get_bml_model((BmlResource *)jungle_container_archive, 0));
+            draw_ginja_object((void *)get_bml_model(jungle_container_archive, 0));
             TParticleCtrl::begin_effect_render();
-            draw_ginja_object((void *)get_bml_model((BmlResource *)jungle_container_archive, 3));
+            draw_ginja_object((void *)get_bml_model(jungle_container_archive, 3));
             TParticleCtrl::end_effect_render();
             pop_matrix();
             break;
@@ -223,11 +223,11 @@ void TObjContainerJung::vfunc_79() const {
         px = position.x;
         py = position.y;
         pz = position.z;
-        a.pos[0] = px;
-        a.pos[1] = py;
-        a.pos[2] = pz;
+        a.pos.x = px;
+        a.pos.y = py;
+        a.pos.z = pz;
         a.floor_y = py;
-        a.model = (saddr) get_bml_model((BmlResource *)jungle_container_archive, 1);
+        a.model = get_bml_model(jungle_container_archive, 1);
         a.textures = jungle_container_textures;
         TObjChipParams b = container_jung_spawn_params;
         f32 qz;
@@ -236,11 +236,11 @@ void TObjContainerJung::vfunc_79() const {
         qx = position.x;
         qy = position.y;
         qz = position.z;
-        b.pos[0] = qx;
-        b.pos[1] = qy;
-        b.pos[2] = qz;
+        b.pos.x = qx;
+        b.pos.y = qy;
+        b.pos.z = qz;
         b.floor_y = qy;
-        b.model = (saddr) get_bml_model((BmlResource *)jungle_container_archive, 2);
+        b.model = get_bml_model(jungle_container_archive, 2);
         b.textures = jungle_container_textures;
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
@@ -252,13 +252,13 @@ void TObjContainerJung::vfunc_79() const {
 #pragma pop
 
 void TObjContainerJung::load_resources() {
-    BmlResource *archive = new BmlResource(5, (BmlResourceDescriptor *)&TObjContainerJung__resource_descriptor, 0, 0, NULL);
+    BmlResource *archive = new BmlResource(5, &TObjContainerJung__resource_descriptor, 0, 0, NULL);
     jungle_container_archive = archive;
     jungle_container_textures = get_bml_texlist((BmlResource *)archive, 0);
 }
 
 void TObjContainerJung::release() {
-    delete (BmlResource *)jungle_container_archive;
+    delete jungle_container_archive;
     jungle_container_archive = NULL;
     jungle_container_textures = NULL;
 }
@@ -269,7 +269,7 @@ void *TObjContainerJung::create(void *set_data) {
 
 NJS_OBJECT *TObjContainerJung::get_model_by_index(s32 index) {
     if (jungle_container_archive != NULL) {
-        return (NJS_OBJECT *)get_bml_model((BmlResource *)jungle_container_archive, index);
+        return get_bml_model(jungle_container_archive, index);
     }
     return NULL;
 }
@@ -310,7 +310,7 @@ void TObjContainerJungEx::vfunc_81() {
 
     switch (this->mode) {
     case 0:
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)TObjContainerJungEx::get_textures(0)));
+        TObjFish::set_global_param(TObjContainerJungEx::get_textures(0));
         push_matrix();
         post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
@@ -352,11 +352,11 @@ void TObjContainerJungEx::vfunc_79() const {
     px = position.x;
     py = position.y;
     pz = position.z;
-    a.pos[0] = px;
-    a.pos[1] = py;
-    a.pos[2] = pz;
+    a.pos.x = px;
+    a.pos.y = py;
+    a.pos.z = pz;
     a.floor_y = py;
-    a.model = (saddr)TObjContainerJungEx::get_model(1);
+    a.model = TObjContainerJungEx::get_model(1);
     a.textures = TObjContainerJungEx::get_textures(0);
     TObjChipParams b = container_jung_ex_spawn_params_b;
     f32 qz;
@@ -365,11 +365,11 @@ void TObjContainerJungEx::vfunc_79() const {
     qx = position.x;
     qy = position.y;
     qz = position.z;
-    b.pos[0] = qx;
-    b.pos[1] = qy;
-    b.pos[2] = qz;
+    b.pos.x = qx;
+    b.pos.y = qy;
+    b.pos.z = qz;
     b.floor_y = qy;
-    b.model = (saddr)TObjContainerJungEx::get_model(2);
+    b.model = TObjContainerJungEx::get_model(2);
     b.textures = TObjContainerJungEx::get_textures(0);
     spawn_particle_effect_with_flags(&position, 0x45, 0x40);
     spawn_particle_effect_with_flags(&position, 0x46, 0x40);
@@ -502,12 +502,12 @@ void TObjContainerJungEnemy::vfunc_79() const {
         xa = position.x;
         ya = position.y;
         za = position.z;
-        a.pos[0] = xa;
-        a.pos[1] = ya;
-        a.pos[2] = za;
+        a.pos.x = xa;
+        a.pos.y = ya;
+        a.pos.z = za;
         a.floor_y = ya;
-        a.model = (saddr)large_fragment_model;
-        a.textures = texlist;
+        a.model = large_fragment_model;
+        a.textures = reinterpret_cast<NJS_TEXLIST *>(texlist);
         TObjChipParams b = container_jung_enemy_spawn_params_b;
         f32 zb;
         f32 yb;
@@ -515,12 +515,12 @@ void TObjContainerJungEnemy::vfunc_79() const {
         xb = position.x;
         yb = position.y;
         zb = position.z;
-        b.pos[0] = xb;
-        b.pos[1] = yb;
-        b.pos[2] = zb;
+        b.pos.x = xb;
+        b.pos.y = yb;
+        b.pos.z = zb;
         b.floor_y = yb;
-        b.model = (saddr)small_fragment_model;
-        b.textures = texlist;
+        b.model = small_fragment_model;
+        b.textures = reinterpret_cast<NJS_TEXLIST *>(texlist);
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
         new TObjChip(tl_05, &a);

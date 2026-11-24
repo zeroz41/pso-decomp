@@ -6,7 +6,7 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
-#include "pso/technique/TTecZonde.h"
+#include "pso/technique/TTecCtrl.h"
 #include "pso/map/FloorArea.h"
 
 #include "types.h"

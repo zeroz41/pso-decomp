@@ -34,16 +34,6 @@ void free_collision_body_parts(TObject *obj);
 extern TObject *tl_04;
 }
 
-struct BreakupParams {
-    s32 pad_0;
-    f32 pad_4;
-    f32 pad_8;
-    f32 pad_c;
-    f32 pad_10;
-    f32 pad_14;
-    f32 pad_18;
-};
-
 struct EnemyMovementParams {
     f32 pad_0;
     f32 pad_4;
@@ -72,7 +62,7 @@ struct CollisionState {
 
 static const char *TBoss3VoloptHiraisin_name = "TBoss3VoloptHiraisin";
 
-static BreakupParams volopt_hiraisin_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
+static BreakUpParamRow volopt_hiraisin_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
 static TObjMotionAction volopt_hiraisin_motions[5] = {
     {1, 0, 6, 0.7f, 0},
     {1, 0, 6, 0.7f, 1},
@@ -136,8 +126,8 @@ void TBoss3VoloptHiraisin::update_descend() {
 void TBoss3VoloptHiraisin::start_attack() {
     s16 max_hp;
     u32 flags;
-    TBoss3Volopt::create_breakup_mdl((saddr)volopt_hiraisin_breakup_model, (saddr)&volopt_hiraisin_breakup_params,
-                                     get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0x10), (saddr)&body_center, rotation_y);
+    TBoss3Volopt::create_breakup_mdl(volopt_hiraisin_breakup_model, &volopt_hiraisin_breakup_params,
+                       get_bml_texlist((BmlResource *)volopt_hiraisin_resources, 0x10), &body_center, rotation_y);
     trigger_dell_biter_events(&body_center);
     play_sound_effect(0x4001C112, &position, 0, 0);
     behavior_flags &= ~1;
@@ -316,7 +306,7 @@ void TBoss3VoloptHiraisin::init_models() {
     volopt_hiraisin_resources = boss3_volopt_resources;
     volopt_hiraisin_spin_node = find_model_node(get_bml_model((BmlResource *)boss3_volopt_resources, 0x10), 0xB);
     volopt_hiraisin_spin_node->evalflags &= ~NJD_EVAL_UNIT_ANG;
-    breakup = new TBreakUpMdlData((saddr)get_bml_model((BmlResource *)volopt_hiraisin_resources, 0x10));
+    breakup = new TBreakUpMdlData(get_bml_model((BmlResource *)volopt_hiraisin_resources, 0x10));
     volopt_hiraisin_breakup_model = breakup;
     volopt_hiraisin_stats = TLobby::register_boss(0x24);
     volopt_hiraisin_stats_b = TLobby::dispatch_shared_handler_b(0x24);
@@ -350,7 +340,7 @@ void TBoss3VoloptHiraisin::init_params() {
     tp = tpmax;
     referenceHp = hp;
     set_param(0x2E);
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     load_params_from_table(0x10);
     start_appear();
     add_flags_2e4(4);
@@ -377,7 +367,7 @@ TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TObject *parent, void *set_data) : TO
     init_params();
 }
 
-void TBoss3VoloptHiraisin::copy_position() {
+void TObjChara::copy_position() {
     VecCopy(&center, &body_center);
 }
 

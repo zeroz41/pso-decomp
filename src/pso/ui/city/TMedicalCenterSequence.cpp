@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/SoundEffect.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/unk/text_80222C28.h"

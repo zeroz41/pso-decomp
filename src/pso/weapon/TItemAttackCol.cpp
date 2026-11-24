@@ -274,7 +274,7 @@ s32 TUnk_804E355C::try_add_hit_target(const ActorBodyHit *hit) {
             }
             previous++;
         }
-        if (obj_is_hit_receivable((u8 *)hit->target) != 0) {
+        if (obj_is_hit_receivable(hit->target) != 0) {
             copy_actor_body_hit(previous, hit);
             hit_count += 1;
             return 1;
@@ -422,7 +422,7 @@ TItemAttackCol::TItemAttackCol(TObject *parent, Desc_8011E5C4 *params) : TUnk_80
             0,
             20.0f,
         };
-        star_light = (TEffStarLight2D *)spawn_star_light_2d((saddr)&position, (saddr)&star, (saddr)this);
+        star_light = spawn_star_light_2d(&position, &star, this);
     } else {
         star_light = NULL;
     }

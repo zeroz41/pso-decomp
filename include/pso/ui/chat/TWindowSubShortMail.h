@@ -6,7 +6,7 @@
 #include "pso/system/task/TObject.h"
 
 struct TWindowMainMenu;
-struct TWindowMenuIconLine;
+class TWindowMenuIconLine;
 struct TWindowMessage;
 
 class TKeyBoardControl;
@@ -16,7 +16,7 @@ struct TWindowSubShortMail : public TObject {
     virtual ~TWindowSubShortMail();
     virtual void run_task();
     virtual void render();
-    saddr create_list_item();
+    TWindowMenuIconLine *create_list_item();
     static TKeyBoardControl *create_keyboard();
     static saddr open_confirm_prompt(void *parent, int client_id);
     saddr open_confirm_dialog();
@@ -25,7 +25,7 @@ struct TWindowSubShortMail : public TObject {
     static s32 is_active();
     void close();
     void update_mail_count();
-    s32 refresh_mail_list(void *list);
+    s32 refresh_mail_list(TWindowMenuIconLine *list);
     saddr create_menu();
     saddr build_menu();
     saddr create_confirm_menu_window();
@@ -42,8 +42,8 @@ struct TWindowSubShortMail : public TObject {
     s32 target_card_id;
     u32 reply_mail_id;
     TWindowMainMenu *parent;
-    void *mail_list;
-    void *message_window;
+    TWindowMenuIconLine *mail_list;
+    TWindowMessage *message_window;
     void *main_menu;
     void *action_menu;
     void *auto_reply_window;
@@ -51,7 +51,7 @@ struct TWindowSubShortMail : public TObject {
     void *confirm_window;
     void *card_list;
     void *card_window;
-    void *keyboard;
+    TKeyBoardControl *keyboard;
 };
 
 LAYOUT_ASSERT(TWindowSubShortMailKeyboardOffset, offsetof(TWindowSubShortMail, keyboard) == 0x5C);

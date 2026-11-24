@@ -1,3 +1,5 @@
+#include "pso/system/memory.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/fence/TOBarrierEnergy01.h"

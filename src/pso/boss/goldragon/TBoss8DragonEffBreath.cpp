@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/object/TObjControl.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBreath.h"
 
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"

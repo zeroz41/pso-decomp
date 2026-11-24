@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
 #include "pso/player/TPlayerFootStamp.h"
 #include "types.h"
 #include <stdlib.h>
@@ -15,7 +16,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D8DE0.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/camera/CameraAngles.h"
@@ -67,7 +67,7 @@ void load_player_footstamp(void) {
 void TPlayerFootStamp::free_instance() {
     if (player_footstamp_texture_gvm_handle != NULL) {
         release_texture_list(player_footstamp_texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(player_footstamp_texture_gvm_handle));
+        safe_free(player_footstamp_texture_gvm_handle);
         player_footstamp_texture_gvm_handle = NULL;
     }
 }

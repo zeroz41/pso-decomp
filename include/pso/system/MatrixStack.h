@@ -8,6 +8,10 @@
 // The model matrix stack the Ninja-style draw code works on (the
 // text_803D96A8 unit), and the screen projection it feeds.
 extern "C" {
+// Copies source into dest. A null argument uses the current matrix.
+void copy_matrix(MtxP dest, const f32 (*source)[4]);
+// Post-multiplies dest by source. A null argument uses the current matrix.
+void concat_matrix(MtxP dest, const f32 (*source)[4]);
 void post_translate_matrix(const f32 *v);
 void scale_current_matrix(const f32 *v);
 // ang is an NJS_OBJECT ang[3]; zxy != 0 applies the angles in Z, X, Y order.

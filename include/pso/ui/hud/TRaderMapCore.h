@@ -31,8 +31,9 @@ struct RadarPlayerMarker {
     NJS_ARGB color;
 };
 
+struct TObjPlayer;
 struct RadarMapViewState;
-struct Rect_801F9228;
+struct RadarScissorRect;
 
 struct TRaderMapCore : public TObjBase {
     TRaderMapCore(TObject *parent);
@@ -57,10 +58,10 @@ struct TRaderMapCore : public TObjBase {
     NJS_OBJECT *m_178;
     NJS_OBJECT *m_17c;
     NJS_OBJECT *m_180;
-    void* m_184;
-    f32 m_188;
-    f32 m_18c;
-    f32 m_190;
+    TObjPlayer *target_player;
+    f32 pan_x_speed;
+    f32 pan_z_speed;
+    f32 zoom_speed;
     u32 m_194;
     s32 angle;
     f32 m_19c;
@@ -73,7 +74,7 @@ struct TRaderMapCore : public TObjBase {
     void reset_counter();
     static void hide_radar();
     static void show_radar();
-    static void set_view_scissor(void *self, int mode, void *arg2);
+    void set_view_scissor(int mode, const RadarScissorRect *rect);
     static s32 save_floor_discovery(int floor, void *map_data);
     static void free_map_data();
     static void free_heap();
@@ -90,11 +91,11 @@ struct TRaderMapCore : public TObjBase {
     void draw_player_markers();
     void setup_overhead_projection(RadarMapViewState *view);
     void begin_map_view(int mode);
-    void setup_view(s32 arg1);
+    void setup_view(s32 mode);
     void render_region_records(s32 mode);
     void set_default_view_size();
     virtual void render();
-    s32 is_render_admitted(void *arg1);
+    s32 is_render_admitted(s32 mode);
     void update_pan_zoom_input();
     void update_target();
     static s32 pack_color_bits(s32 input, s32 mask);
@@ -108,7 +109,7 @@ struct TRaderMapCore : public TObjBase {
     static void free_statics();
     static void load_frame_texture();
     void reset();
-    static void *init_map_ptr(s32 *counter, s32 index);
+    static NJS_OBJECT *init_map_ptr(const s32 *counter, s32 index);
     static s32 is_not_split_screen();
     static void clear();
     static s32 apply_packed_flags(saddr input, s32 buttons, s32 delay, s32 period);
@@ -138,12 +139,13 @@ LAYOUT_ASSERT(RaderMapCoreDelay, offsetof(TRaderMapCore, m_90) == 0x90);
 LAYOUT_ASSERT(RaderMapCoreMarkers, offsetof(TRaderMapCore, player_marker_records) == 0x94);
 LAYOUT_ASSERT(RaderMapCoreSelectedPlayer, offsetof(TRaderMapCore, m_134) == 0x134);
 LAYOUT_ASSERT(RaderMapCoreViewportWidth, offsetof(TRaderMapCore, viewport_width) == 0x160);
-LAYOUT_ASSERT(RaderMapCoreTarget, offsetof(TRaderMapCore, m_184) == 0x184);
+LAYOUT_ASSERT(RaderMapCoreTarget, offsetof(TRaderMapCore, target_player) == 0x184);
 LAYOUT_ASSERT(RaderMapCoreTail, offsetof(TRaderMapCore, m_1a0) == 0x1A0);
 
 // Draws a door or gate marker on the radar: green when it is open to the
 // player, red when it is locked.
 extern "C" s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags);
+extern "C" s32 add_radar_scaled_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags, f32 scale);
 
 // Queues a radar dot of the given colour and kind at pos, drawn at scale. Unless bit 0 of flags is
 // set, a dot more than 300 units from the radar's view centre is dropped. Returns 0 when dropped or

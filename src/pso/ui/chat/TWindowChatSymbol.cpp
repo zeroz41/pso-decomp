@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -65,7 +66,6 @@ struct SymbolChatSpriteLayout {
 
 void fn_80248324(WindowLayoutEntries *entries, s32 arg1, s32 arg2);
 
-extern s32 hud_texlist;
 
 SymbolChatSpriteLayout symbol_chat_layout_sprite_records = {
     25, 1,

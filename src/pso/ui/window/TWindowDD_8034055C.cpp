@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/WindowVertexBufferAbi.h"
 #pragma defer_codegen on
 #include "pso/ui/window/TWindowDD.h"
@@ -17,7 +18,6 @@ extern const f32 lbl_805DFC00;
 extern const f32 lbl_805DFC04;
 extern const f32 lbl_805DFC08;
 extern const f32 lbl_805DFC2C;
-extern saddr hud_texlist;
 extern const f32 TWindowDD__data_805DFB20;
 extern const f32 lbl_805DFB48;
 extern const f32 lbl_805DFB4C;
@@ -128,7 +128,7 @@ void TWindowWordSelectMode::render() {
     ((TWindowDD *)points)->copy_point_table(0);
     TWindowDD__sub_80348A2C(ctx, points);
     TWindowDD__sub_803489B8(ctx, points, 0);
-    count = TWindowDD::get_draw_count((void **)hud_texlist);
+    count = TWindowDD::get_draw_count(hud_texlist);
     if (this->pad_60 == 0) {
         sel = this->pad_68;
     } else {

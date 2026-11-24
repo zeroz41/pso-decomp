@@ -2,6 +2,7 @@
 #define PSO_UNK_SHAREDMEMORY_H
 
 #include "types.h"
+#include <stddef.h>
 
 #define SHARED_MEMORY_MAGIC 0x53454741 // 'SEGA'
 
@@ -60,6 +61,19 @@ struct SharedMemory {
 };
 
 LAYOUT_ASSERT(SharedMemory_size, sizeof(SharedMemory) == 0x8000);
+
+LAYOUT_ASSERT(SharedMemoryCheckParamOffset, offsetof(SharedMemoryConnectParam, check_param) == 0xF4);
+LAYOUT_ASSERT(SharedMemoryClientFlagOffset, offsetof(SharedMemoryConnectParam, unk_13C) == 0x13C);
+LAYOUT_ASSERT(SharedMemoryTrialFlagOffset, offsetof(SharedMemoryConnectParam, unk_13D) == 0x13D);
+LAYOUT_ASSERT(SharedMemoryTrialParamOffset, offsetof(SharedMemoryConnectParam, trial_param) == 0x1C0);
+LAYOUT_ASSERT(SharedMemoryCheckPairOffset, offsetof(SharedMemoryConnectParam, unk_1C2) == 0x1C2);
+LAYOUT_ASSERT(SharedMemoryModemFlagOffset, offsetof(SharedMemoryConnectParam, modem_flag) == 0x23C);
+LAYOUT_ASSERT(SharedMemoryModemCharOffset, offsetof(SharedMemoryConnectParam, check_char) == 0x23D);
+LAYOUT_ASSERT(SharedMemoryModemParamOffset, offsetof(SharedMemoryConnectParam, modem_param) == 0x23E);
+LAYOUT_ASSERT(SharedMemoryCheckParam360Offset, offsetof(SharedMemoryConnectParam, check_param_360) == 0x360);
+LAYOUT_ASSERT(SharedMemoryFlagsOffset, offsetof(SharedMemory, flags) == 0x4);
+LAYOUT_ASSERT(SharedMemoryConnectParamOffset, offsetof(SharedMemory, connect_param) == 0x7020);
+LAYOUT_ASSERT(SharedMemoryDiscMessagesOffset, offsetof(SharedMemory, disc_messages) == 0x7820);
 
 // Header of a DOL executable.
 struct DolHeader {

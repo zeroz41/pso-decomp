@@ -15,45 +15,45 @@ void TWindowKeyBoardBase::reset_input() {
 }
 
 void TWindowKeyBoardBase::set_mode3() {
-    m_b4 = 530;
+    composition_flags = 530;
 }
 
 void TWindowKeyBoardBase::set_mode2() {
     set_mode0();
-    m_b4 |= 0x100;
+    composition_flags |= 0x100;
 }
 
 void TWindowKeyBoardBase::set_mode1() {
     set_mode0();
-    m_b4 |= 0x80;
+    composition_flags |= 0x80;
 }
 
 void TWindowKeyBoardBase::set_mode0() {
-    m_b4 = 18;
+    composition_flags = 18;
 }
 
 void TWindowKeyBoardBase::sub_8025CC48() {
     switch (current_language) {
     case LANGUAGE_JAPANESE:
-        m_b4 = 0;
+        composition_flags = 0;
         if (test_keyboard_card_flag_16(client_index) != 0) {
-            m_b4 = (s32)(m_b4 | 1);
+            composition_flags = (s32)(composition_flags | 1);
         }
         if (test_keyboard_card_flag_32(client_index) != 0) {
-            m_b4 = (s32)(m_b4 | 2);
+            composition_flags = (s32)(composition_flags | 2);
         }
         if (test_keyboard_card_flag_64(client_index) != 0) {
-            m_b4 = (s32)(m_b4 | 4);
+            composition_flags = (s32)(composition_flags | 4);
         }
         if (test_keyboard_card_flag_128(client_index) != 0) {
-            m_b4 = (s32)(m_b4 | 8);
+            composition_flags = (s32)(composition_flags | 8);
         }
         break;
     case LANGUAGE_ENGLISH:
     case LANGUAGE_GERMAN:
     case LANGUAGE_FRENCH:
     case LANGUAGE_SPANISH:
-        m_b4 = 6;
+        composition_flags = 6;
         break;
     }
 }

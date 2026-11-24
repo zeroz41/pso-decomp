@@ -1,3 +1,4 @@
+#include "pso/object/base/TObjChara.h"
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
@@ -96,7 +97,7 @@ void TUnk_804A1E28::update_weapon() {
         return;
     }
     if (temp_r0 > 0) {
-        add_actor_tp(*(u8 * *)&this->owner, (0.1f * (f32) temp_r0));
+        add_actor_tp(this->owner, static_cast<s32>(0.1f * (f32) temp_r0));
         this->cached_tp = get_actor_tp(this->owner);
     }
 }

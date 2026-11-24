@@ -1,6 +1,8 @@
+#include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/technique/TechniqueBandSound.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "types.h"
@@ -110,6 +112,9 @@ extern "C" {
 s32 get_type__10TObjPlayerFPv(void *);
 List_8022BD74 *find_area_contact__10TTecCircleFl(Tec_8022BD74 *, void *);
 
+#pragma push
+#pragma dont_inline off
+#pragma inline_depth(1)
 void TTecBarta::update_technique_by_state() {
     s32 handle;
 
@@ -144,6 +149,7 @@ void TTecBarta::update_technique_by_state() {
         break;
     }
 }
+#pragma pop
 
 
 void TTecBarta::create_particle_emitters() {
@@ -173,7 +179,7 @@ void TTecBarta::create_particle_emitters() {
         if (this->emitters[i] != NULL) {
             row = &TTecBarta__emitter_bands[this->band].rows[i];
             if (row->flags & 0x20) {
-                attach_particle_model((u8 *)this->emitters[i], get_bml_model(technique_effect_bml, 0), technique_texture_list, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
+                attach_particle_model(reinterpret_cast<TParticleCtrl *>(this->emitters[i]), get_bml_model(technique_effect_bml, 0), technique_texture_list, get_bml_motion(technique_effect_bml, 0), 0, 1.0f);
             } else {
                 ((TParticleCtrl *)(this->emitters[i]))->set_scale(row->scale, row->scale);
             }
@@ -265,7 +271,7 @@ void TTecBarta::run_task() {
     if (this->band == 5) {
         TechniqueParticleEmitter *e = (TechniqueParticleEmitter *)create_timed_particle_emitter(&this->position.x, 0x18A, 0x14, 1);
         if (e != NULL) {
-            attach_particle_model((u8 *)e, get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
+            attach_particle_model(reinterpret_cast<TParticleCtrl *>(e), get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
         }
     }
     move_ground_technique_projectile();

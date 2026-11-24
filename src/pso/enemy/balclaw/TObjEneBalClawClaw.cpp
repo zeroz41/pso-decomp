@@ -1,3 +1,5 @@
+#include "pso/enemy/EnemyPlacement.h"
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -51,17 +53,17 @@ TObjMotionAction balclaw_claw_actions[7] = {
 BalClawMovement balclaw_claw_movement = {{150.0f, 0.5555555f, 0x400}, 30, 0, 0, 1, 0};
 CollisionBody TObjEneBalClawClaw__collision_body_template = {{0.0f, 18.0f, 0.0f}, 5.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-u8 *balclaw_claw_base_params[1];
-u8 *balclaw_claw_attack_params[1];
-u8 *balclaw_claw_resistance_params[1];
+player_stats *balclaw_claw_base_params[1];
+AttackParams *balclaw_claw_attack_params[1];
+ActorParamBlock *balclaw_claw_resistance_params[1];
 BalClawBehaviorParams *balclaw_claw_behavior_params[1];
 
 const char *balclaw_claw_class_name = "TObjEneBalClawClaw";
 
-TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, void *set_data) : TObjEneBalClaw(parent) {
+TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, EnemyPlacement *set_data) : TObjEneBalClaw(parent) {
     apply_set_data(set_data);
     init();
-    if (*(s16 *)((s8 *)set_data + 0xA) != 0) {
+    if (set_data->wave != 0) {
         start_appear();
     }
 }
@@ -95,7 +97,7 @@ void TObjEneBalClawClaw::init() {
     init_collision_body_parts(this, &TObjEneBalClawClaw__collision_body_template, 1);
     this->variant = 0;
     this->movementParameters = &balclaw_claw_movement;
-    this->bind_enemy_combat_stats(reinterpret_cast<player_stats *>(balclaw_claw_base_params[0]), reinterpret_cast<AttackParams *>(balclaw_claw_attack_params[0]), reinterpret_cast<ActorParamBlock *>(balclaw_claw_resistance_params[0]));
+    this->bind_enemy_combat_stats(balclaw_claw_base_params[0], balclaw_claw_attack_params[0], balclaw_claw_resistance_params[0]);
     this->load_params();
     this->requested_action = 0;
     this->set_animation(this->requested_action);
@@ -106,7 +108,7 @@ void TObjEneBalClawClaw::init() {
     this->set_param(0x26);
     VecCopy(&this->body_center, &this->position);
     this->body_center.y += 5.0f;
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     this->set_model(2);
     this->wobble_angle = 0;
     this->wobble_offset = 0.0f;
@@ -124,7 +126,7 @@ TObjEneBalClawClaw::~TObjEneBalClawClaw() {
 
 void *TObjEneBalClawClaw::create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
-    return new TObjEneBalClawClaw(control, set_data);
+    return new TObjEneBalClawClaw(control, static_cast<EnemyPlacement *>(set_data));
 }
 
 TObjEneBalClawClaw *TObjEneBalClawClaw::create_from_body(TObjEneBalClawBody *body, u16 id, s32 index, const Vec *pos, s32 rot_y, s32 hp) {
@@ -157,7 +159,7 @@ void TObjEneBalClawClaw::run_task() {
         mode = next_action;
         state = 0;
     }
-    target = (u8 *)find_active_entity_by_id(targetId);
+    target = static_cast<TObjChara *>(find_active_entity_by_id(targetId));
     release_destroyed_target();
     update_state();
     flags = behavior_flags;
@@ -223,7 +225,7 @@ void TObjEneBalClawClaw::update_attack_distance_state() {
     f32 dist;
     s32 next;
     s32 prev;
-    u8 *chased;
+    TObjChara *chased;
 
     if (is_actor_cadence_frame(0x1E) != 0) {
         find_target_in_range(250.0f);
@@ -247,7 +249,7 @@ void TObjEneBalClawClaw::update_attack_distance_state() {
     case 1:
         chased = target;
         if (chased != NULL) {
-            dist = xz_distance_squared(&((TObjChara *)chased)->position, &position);
+            dist = xz_distance_squared(&chased->position, &position);
             prev = range_band;
             switch (prev) {
             case 0:
@@ -305,7 +307,7 @@ void TObjEneBalClawClaw::update_chase() {
         } else {
             reset_active_state();
         }
-        target = (u8 *)find_active_entity_by_id(targetId);
+        target = static_cast<TObjChara *>(find_active_entity_by_id(targetId));
         if (target != NULL) {
             VecCopy(&move_destination, &((TObjChara *)target)->body_center);
         }
@@ -340,7 +342,7 @@ void TObjEneBalClawClaw::update_damage() {
         next.x += velocity.x;
         next.z += velocity.z;
         if (check_path_obstructed(this, &next) == 0) {
-            move_with_wall_slide((u8 *)this);
+            move_with_wall_slide(this);
         } else {
             velocity.x = velocity.z = 0.0f;
         }
@@ -374,7 +376,7 @@ void TObjEneBalClawClaw::run_death_sequence() {
     case 1:
         advance_animation();
         if (fade.decay_value_toward_floor() == 1) {
-            TObjPlayer::apply_effect_variant_a((saddr)&position, 0);
+            TObjPlayer::apply_effect_variant_a(&position, 0);
             send_entity_set_flags();
             queue_destruction();
         }
@@ -617,7 +619,7 @@ void TObjEneBalClawClaw::update_return_home() {
         calc_velocity_toward_destination(this, move_origin, move_destination,
                                          ((EnemyMoveParams *)movementParameters)->min_distance);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         break;

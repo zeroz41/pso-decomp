@@ -1,3 +1,4 @@
+#include "pso/network/TUserAns.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/GuildCardEntry.h"
 #include "pso/system/memory.h"
@@ -867,7 +868,6 @@ s32 start_voice_fade(struct Voice_80241FD8 *v, s32 step) {
 }
 
 #pragma push
-#pragma fp_contract on
 s32 TLobby::init_sound_voice(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     *(s32 *)((s8 *)this + 4) = 0;
     *(s32 *)((s8 *)this + 8) = arg4;
@@ -924,7 +924,6 @@ s32 TLobby::init_sound_voice(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 typedef struct Tag_802421C4 { s32 a; s32 b; } Tag_802421C4;
 
 #pragma inline_depth(1)
-#pragma auto_inline off
 #pragma dont_inline off
 struct Pair_80242380 {
     u8 c[8];
@@ -956,7 +955,7 @@ int com_card_entry_count;
 extern "C" {
 void __copy(void *, void *, int);
 Entry_80242380 *copy_com_card_entry__6TLobbyFPvPv(Entry_80242380 *dst, Entry_80242380 *src);
-void TLobby__sub_8024273C(void *p);
+void TLobby__sub_8024273C(TUserAns &response);
 
 SoundRequestVoice::~SoundRequestVoice() {
     state = 0;
@@ -966,7 +965,7 @@ SoundRequestVoice::SoundRequestVoice() {
     state = 0;
 }
 s32 SoundControlState::get_field_308() { return ms; }
-void TLobby::forward_8024273C(void *p) { TLobby__sub_8024273C(p); }
+void TLobby::handle_user_search_answer(TUserAns &response) { TLobby__sub_8024273C(response); }
 
 void TLobby::send_find_user_self_tag(s32 gc_num) {
     if (protocol_instance != NULL) {
@@ -1125,12 +1124,12 @@ void TLobby::remove_com_card_entry(s32 arg0) {
     (*(s32 *)&com_card_entry_count) -= 1;
 }
 
-void TLobby__sub_8024273C(void *p) {
+void TLobby__sub_8024273C(TUserAns &response) {
     u8 *entry;
-    s32 slot = TLobby::remove_com_card_by_id(*(u32 *)((u8 *)p + 0xC));
-    entry = (u8 *)com_card_entries;
-    entry += slot * 0xBC;
-    TLobby::init_player_entry(entry, (u8 *)p);
+    s32 slot = TLobby::remove_com_card_by_id(response.found_guildcard);
+    entry = reinterpret_cast<u8 *>(com_card_entries);
+    entry += slot * sizeof(GuildCardRecord);
+    TLobby::init_player_entry(entry, reinterpret_cast<u8 *>(&response));
     com_card_entry_count++;
     TLobby__sub_80242918();
 }

@@ -32,7 +32,6 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/client_id.h"
@@ -131,8 +130,8 @@ TOTrapAncient01::~TOTrapAncient01() {
 void TOTrapAncient01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_o_trap_ancient01_resource_descriptor, 0, 0, NULL);
     TOTrapAncient01__bml_resource = resource;
-    TObjNpcEnemy::register_ginja(0x39, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 3)),
-                           reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)resource, 3)), 20.0f, 0.0f);
+    TObjNpcEnemy::register_ginja(0x39, get_bml_model(TOTrapAncient01__bml_resource, 3),
+                           get_bml_texlist(resource, 3), 20.0f, 0.0f);
 }
 
 void TOTrapAncient01::release_static_resource() {
@@ -241,7 +240,7 @@ void TOTrapAncient01::vfunc_81() {
         this->player = find_nearest_visible_player(this, NULL, range);
         if (this->player != 0xFFFF) {
             player = get_player_by_client_id(this->player);
-            target = (u8 *)player;
+            target = player;
             if (target != NULL) {
                 dist = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
                 this->dist -= TObjPlayer__sub_8017A1A4(player, 0);
@@ -276,10 +275,10 @@ void TOTrapAncient01::vfunc_82() {
             if (p == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)p) == 0) {
+            if (obj_is_hit_receivable(p) == 0) {
                 break;
             }
-            if (((TUnk_804B6C24 *)p)->check_value_equals((saddr)lbl_805D3530) == 0) {
+            if (reinterpret_cast<TObject *>(p)->check_value_equals(lbl_805D3530) == 0) {
                 break;
             }
             p->receive_direct_attack(this, payload, NULL, -1, -1);
@@ -350,17 +349,17 @@ void TOTrapAncient01::play_sounds() {
     const TObjChipParams chip0 = {
         0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
-        (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 0), get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 0), 22,
+        get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 0), get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 0), 22,
     };
     const TObjChipParams chip1 = {
         0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
-        (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 1), get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 1), 22,
+        get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 1), get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 1), 22,
     };
     const TObjChipParams chip2 = {
         0.5f, 0.03f, 0.15f, {position.x, position.y, position.z}, {3.0f, 5.0f, 3.0f},
         {0x800, 0x100, 0x800}, 4, 30, position.y, 1.0f,
-        (saddr)get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 2), get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 2), 22,
+        get_bml_model((BmlResource *)TOTrapAncient01__bml_resource, 2), get_bml_texlist((BmlResource *)TOTrapAncient01__bml_resource, 2), 22,
     };
     new TObjChip(tl_06, &chip0);
     new TObjChip(tl_06, &chip1);

@@ -28,7 +28,7 @@ void TWindowLoadItemTexture::set_mag_slot_state(TItemData *item) {
 
 void fn_8026287C(TWindowLoadItemTexture *window) {
     WindowSpritePart *sprite = static_cast<WindowSpritePart *>(window->get_array_entry(0));
-    sprite->texture_list_slot = reinterpret_cast<s32 *>(&window->texture_list);
+    sprite->texture_list_slot = &window->texture_list;
     sprite->flags &= ~2;
 }
 

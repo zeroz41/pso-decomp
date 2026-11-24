@@ -1,5 +1,5 @@
-#include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TPlyPhotonChair.h"
@@ -146,7 +146,6 @@ struct Chair_8035B058 {
 extern "C" {
 void TPlyPhotonChair__sub_8035B56C(void* p, f32 v);
 extern uaddr TPlyPhotonChair__shared_model_resource;
-s32 get_bml_motion(int, int);
 
 
 s32 get_rader_map__11TMainCursorFv(void *, void *);
@@ -265,12 +264,12 @@ TPlyPhotonChair::TPlyPhotonChair(s32 arg1, TObject *parent) : TObjBase(parent) {
     get_rader_map__11TMainCursorFv(ply_photon_chair + 0xD0, (void *)&TPlyPhotonChair__section_id_color_table[(s32)((TPlyPhotonChair *)(player))->get_actor_section_id()]);
     ((TPlyPhotonChair *)ply_photon_chair)->texlist = get_bml_texlist((BmlResource *)TPlyPhotonChair__shared_model_resource, 1);
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_type((saddr)get_bml_model((BmlResource *)TPlyPhotonChair__shared_model_resource, 1));
-    ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_field_8((s32)((int) (get_bml_motion((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 1))));
+    ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_field_8((saddr)get_bml_motion(reinterpret_cast<BmlResource *>(TPlyPhotonChair__shared_model_resource), 1));
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->sync_field10_from_child();
     TPlyPhotonChair__sub_8035B56C(ply_photon_chair + 0x98, 1.0f);
     ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_state_ready();
     ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->set_type((saddr)get_bml_model((BmlResource *)TPlyPhotonChair__shared_model_resource, 0));
-    ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->set_field_8((s32)((int) (get_bml_motion((int) ((*(s32 *)&TPlyPhotonChair__shared_model_resource)), 0))));
+    ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->set_field_8((saddr)get_bml_motion(reinterpret_cast<BmlResource *>(TPlyPhotonChair__shared_model_resource), 0));
     ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->sync_field10_from_child();
     TPlyPhotonChair__sub_8035B56C(ply_photon_chair + 0xB4, 1.0f);
     ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->set_state_ready();

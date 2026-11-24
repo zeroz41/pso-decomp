@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -76,7 +77,6 @@ s32 TWindowSubSymbolChat__data_805D649C;
 s32 TWindowSubSymbolChat__help_window;
 
 f32 get_scale__15TWindowCtrlMainFv(s32);
-extern s32 hud_texlist;
 
 void TWindowSubSymbolChat__sub_80281840(Win_80281840 *arg0);
 s32 TWindowSubComCard__sub_80265660(s32, s32);
@@ -1055,7 +1055,7 @@ void TWindowSubSymbolChat__sub_80281840(Win_80281840 *arg0) {
         }
         scale = (-1.0f) / get_scale__15TWindowCtrlMainFv(arg0->ctrl);
         begin_screen_draw(1);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+        TObjFish::set_global_param(hud_texlist);
         set_draw_texture_and_color(0, color);
         q.x = 482.0f;
         q.y = 344.0f;

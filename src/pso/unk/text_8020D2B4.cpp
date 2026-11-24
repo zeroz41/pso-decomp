@@ -1,3 +1,4 @@
+#include "pso/render/NinjaUtil.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/ObjectFactoryTables.h"
@@ -49,7 +50,6 @@ void *find_scene_room_by_id(s32 room);
 void apply_room_transform_to_enemy_rows(SpawnRecord_8020D36C *rows, s32 count);
 void apply_room_transform_to_object_rows(FloorObjectSetRow *arr, s32 n);
 s32 find_set_factory_index(void *, void *);
-f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 s32 TLobby__sub_801C2614();
 }
 extern RecoveredGlobal_8020D2B4_lbl_8058D490 identity_matrix;
@@ -131,12 +131,12 @@ s32 is_within_camera_distance(void *arg0, void *arg1, f32 farg0) {
         if (camera_ctrl_instance != NULL) {
             n = TCameraCtrl::get_view_count();
             for (i = 0; i < n; i++) {
-                if (xyz_distance_squared((u8 *)arg1, (u8 *)&camera_ctrl_instance->split_pos[i]) < farg0) {
+                if (xyz_distance_squared(static_cast<const Vec *>(arg1), &camera_ctrl_instance->split_pos[i]) < farg0) {
                     return 1;
                 }
             }
         }
-    } else if (camera_ctrl_instance != NULL && xyz_distance_squared((u8 *)arg1, (u8 *)&camera_ctrl_instance->pos) < farg0) {
+    } else if (camera_ctrl_instance != NULL && xyz_distance_squared(static_cast<const Vec *>(arg1), &camera_ctrl_instance->pos) < farg0) {
         return 1;
     }
     return 0;
@@ -197,7 +197,7 @@ void TSetManager::apply_floor_set_rows() {
         TLobby::assign_objects_to_slots((u8 *)current_floor_object_set_rows, floor->object_count);
     }
     if (floor->enemy_placement & 4) {
-        TLobby::assign_display_objects((u8 *)current_floor_enemy_set_rows, floor->enemy_count);
+        TLobby::assign_display_objects(current_floor_enemy_set_rows, floor->enemy_count);
     }
     if ((s32) floor_decoration_row_count > 0) {
         apply_room_transform_to_object_rows(floor_decoration_rows, floor_decoration_row_count);

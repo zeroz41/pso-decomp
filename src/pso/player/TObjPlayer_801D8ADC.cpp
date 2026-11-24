@@ -350,8 +350,8 @@ stats *get_class_base_stats(s32 cls) {
     return player_class_base_stat_tables[(s8)TObjPlayer__sub_801AFDBC(cls)];
 }
 
-player_stats *get_class_stat_caps(s32 cls) {
-    return (player_stats*)&player_class_stat_caps[(s8)TObjPlayer__sub_801AFDBC(cls)];
+const player_stats *get_class_stat_caps(s32 cls) {
+    return &player_class_stat_caps[(s8)TObjPlayer__sub_801AFDBC(cls)];
 }
 
 player_stats *TObjPlayer::get_class_stat_entry(u8 *player) {

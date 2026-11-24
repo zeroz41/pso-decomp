@@ -27,8 +27,10 @@ struct GibblesAiParams {
     s32 wait_frames;      // frames it crouches before the jump attack
 };
 
+struct EnemyPlacement;
+
 struct TObjEneGibbles : public TObjEnemy {
-    TObjEneGibbles(TObject *parent, void *setData);
+    TObjEneGibbles(TObject *parent, EnemyPlacement *setData);
     virtual void run_death_reaction();
     virtual ~TObjEneGibbles();
     // the run_task mode handlers are named after the motions they request
@@ -108,6 +110,8 @@ struct TObjEneGibbles : public TObjEnemy {
     void sub_802D7E3C();
     void sub_802D8034();
     void render_and_get_joint_pos(Vec *out, s32 node);
+    bool attack_from_joint_31(s32 trigger_hit_reaction, f32 power);
+    bool attack_from_joint_53(s32 trigger_hit_reaction, f32 power);
     void state_punch();
     void state_attack();
     s32 landing_damage_players();
@@ -118,8 +122,6 @@ void gibbles_render_node_callback(NJS_OBJECT *);
 // hit the players touching attack_colliders[0] (moved to joint 0x1F / 0x35);
 // arg 1 grows armor by the damage dealt
 extern "C" {
-s32 TObjEneGibbles__sub_802D9644(void *self, s32 arg, f32 scale);
-s32 TObjEneGibbles__sub_802D9824(void *self, s32 arg, f32 scale);
 }
 
 #endif

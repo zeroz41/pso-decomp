@@ -188,7 +188,6 @@ void load_resources__12TBoss1DragonFv();
 void load_boss5_gryphon_resources();
 void load_darkgunner_effect_resources();
 
-void load_shinowa_mirage_resources();
 
 FloorResourceCallbacks floor_resource_callbacks_selector_00[43] = {
     { TObjNpcBase::load_resources, TObjNpcBase::free_static },

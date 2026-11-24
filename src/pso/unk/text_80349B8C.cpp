@@ -7,36 +7,29 @@
 #pragma auto_inline off
 #pragma dont_inline off
 #pragma pool_data off
-struct Desc_80349C54 {
-    f32 *pos;
-    s32 *col;
-    s32 a;
-    s32 b;
-};
-
 struct Item_80349C54 {
     u32 count;
-    s32 color;
-    const f32 *pos;
-    const f32 *size;
+    u32 color;
+    const NJS_POINT2 *pos;
+    const NJS_POINT2 *size;
 };
 
-static const f32 lbl_80478778[6] = { 31.0f, 73.0f, 31.0f, 73.0f, 31.0f, 405.0f };
-static const f32 lbl_80478790[6] = { 28.0f, 1.0f, 1.0f, 333.0f, 28.0f, 1.0f };
-static const f32 lbl_804787A8[6] = { 459.0f, 73.0f, 486.0f, 73.0f, 459.0f, 405.0f };
-static const f32 lbl_804787C0[6] = { 28.0f, 1.0f, 1.0f, 333.0f, 28.0f, 1.0f };
-static const f32 lbl_804787D8[6] = { 543.0f, 73.0f, 543.0f, 73.0f, 543.0f, 405.0f };
-static const f32 lbl_804787F0[6] = { 19.0f, 1.0f, 1.0f, 333.0f, 19.0f, 1.0f };
-static const f32 lbl_80478808[6] = { 595.0f, 73.0f, 615.0f, 73.0f, 595.0f, 405.0f };
-static const f32 lbl_80478820[6] = { 19.0f, 1.0f, 1.0f, 333.0f, 19.0f, 1.0f };
-static const f32 lbl_80478838[4] = { 543.0f, 241.0f, 543.0f, 318.0f };
-static const f32 lbl_80478848[4] = { 19.0f, 1.0f, 19.0f, 1.0f };
-static const f32 lbl_80478858[4] = { 595.0f, 241.0f, 595.0f, 318.0f };
-static const f32 lbl_80478868[4] = { 19.0f, 1.0f, 19.0f, 1.0f };
-static const f32 lbl_80478878[4] = { 0.0f, 55.0f, 229.0f, 24.0f };
-static const f32 lbl_80478888[4] = { 213.0f, 1.0f, 411.0f, 1.0f };
-static const f32 lbl_80478898[4] = { 0.0f, 456.0f, 426.0f, 425.0f };
-static const f32 lbl_804788A8[4] = { 410.0f, 1.0f, 214.0f, 1.0f };
+static const NJS_POINT2 lbl_80478778[3] = { {31.0f, 73.0f}, {31.0f, 73.0f}, {31.0f, 405.0f} };
+static const NJS_POINT2 lbl_80478790[3] = { {28.0f, 1.0f}, {1.0f, 333.0f}, {28.0f, 1.0f} };
+static const NJS_POINT2 lbl_804787A8[3] = { {459.0f, 73.0f}, {486.0f, 73.0f}, {459.0f, 405.0f} };
+static const NJS_POINT2 lbl_804787C0[3] = { {28.0f, 1.0f}, {1.0f, 333.0f}, {28.0f, 1.0f} };
+static const NJS_POINT2 lbl_804787D8[3] = { {543.0f, 73.0f}, {543.0f, 73.0f}, {543.0f, 405.0f} };
+static const NJS_POINT2 lbl_804787F0[3] = { {19.0f, 1.0f}, {1.0f, 333.0f}, {19.0f, 1.0f} };
+static const NJS_POINT2 lbl_80478808[3] = { {595.0f, 73.0f}, {615.0f, 73.0f}, {595.0f, 405.0f} };
+static const NJS_POINT2 lbl_80478820[3] = { {19.0f, 1.0f}, {1.0f, 333.0f}, {19.0f, 1.0f} };
+static const NJS_POINT2 lbl_80478838[2] = { {543.0f, 241.0f}, {543.0f, 318.0f} };
+static const NJS_POINT2 lbl_80478848[2] = { {19.0f, 1.0f}, {19.0f, 1.0f} };
+static const NJS_POINT2 lbl_80478858[2] = { {595.0f, 241.0f}, {595.0f, 318.0f} };
+static const NJS_POINT2 lbl_80478868[2] = { {19.0f, 1.0f}, {19.0f, 1.0f} };
+static const NJS_POINT2 lbl_80478878[2] = { {0.0f, 55.0f}, {229.0f, 24.0f} };
+static const NJS_POINT2 lbl_80478888[2] = { {213.0f, 1.0f}, {411.0f, 1.0f} };
+static const NJS_POINT2 lbl_80478898[2] = { {0.0f, 456.0f}, {426.0f, 425.0f} };
+static const NJS_POINT2 lbl_804788A8[2] = { {410.0f, 1.0f}, {214.0f, 1.0f} };
 static const f32 quest_line_color_quad_coordinates[8] = { 212.0f, 55.0f, 212.0f, 56.0f, 229.0f, 25.0f, 229.0f, 24.0f };
 static const f32 quest_line_quad_vertices[8] = { 409.0f, 456.0f, 409.0f, 457.0f, 426.0f, 426.0f, 426.0f, 425.0f };
 // TAdLoadQuestLineGC::m_name (lbl_805D4300 in TAdLoadQuestLineGC.cpp) points here.
@@ -60,63 +53,63 @@ static const QuestLineRects2 quest_line_color_entry_table = { {
 } };
 
 void draw_color_quad_2d(void *arg0, void *arg1p, int arg2) {
-    f32 pos[8];
-    Desc_80349C54 d;
-    s32 col[4];
+    NJS_POINT2 pos[4];
+    NJS_POINT2COL d;
+    NJS_COLOR col[4];
     f32 *arg1 = (f32 *)arg1p;
     f32 y;
     f32 x;
-    Desc_80349C54 *pd = &d;
+    NJS_POINT2COL *pd = &d;
     x = arg1[0];
     y = arg1[1];
-    d.pos = pos;
+    d.p = pos;
     d.col = col;
-    d.a = 0;
-    d.b = 4;
-    d.pos[0] = x;
-    d.pos[1] = y;
-    d.col[0] = arg2;
-    d.pos[2] = arg1[2];
-    d.pos[3] = arg1[3];
-    d.col[1] = arg2;
-    d.pos[4] = arg1[4];
-    d.pos[5] = arg1[5];
-    d.col[2] = arg2;
-    d.pos[6] = arg1[6];
-    d.pos[7] = arg1[7];
-    d.col[3] = arg2;
-    draw_polygon_2d((NJS_POINT2COL *)pd, 4, 3, -1.0f);
+    d.tex = NULL;
+    d.num = 4;
+    d.p[0].x = x;
+    d.p[0].y = y;
+    d.col[0].color = arg2;
+    d.p[1].x = arg1[2];
+    d.p[1].y = arg1[3];
+    d.col[1].color = arg2;
+    d.p[2].x = arg1[4];
+    d.p[2].y = arg1[5];
+    d.col[2].color = arg2;
+    d.p[3].x = arg1[6];
+    d.p[3].y = arg1[7];
+    d.col[3].color = arg2;
+    draw_polygon_2d(pd, 4, 3, -1.0f);
 }
 
 void draw_filled_rects_2d(void *arg0, void *arg1, int arg2) {
-    f32 pos[8];
-    Desc_80349C54 d;
-    s32 col[4];
+    NJS_POINT2 pos[4];
+    NJS_POINT2COL d;
+    NJS_COLOR col[4];
     Item_80349C54 *item;
     u32 i;
-    s32 c;
+    u32 c;
     u32 j;
-    d.pos = pos;
+    d.p = pos;
     d.col = col;
-    d.a = 0;
-    d.b = 4;
+    d.tex = NULL;
+    d.num = 4;
     for (i = 0; i < (u32) arg2; i++) {
         item = &((Item_80349C54 *) arg1)[i];
         c = item->color;
         for (j = 0; j < item->count; j++) {
-            d.pos[0] = item->pos[j * 2];
-            d.pos[1] = item->pos[j * 2 + 1];
-            d.col[0] = c;
-            d.pos[2] = item->pos[j * 2];
-            d.pos[3] = d.pos[1] + item->size[j * 2 + 1];
-            d.col[1] = c;
-            d.pos[4] = item->pos[j * 2] + item->size[j * 2];
-            d.pos[5] = item->pos[j * 2 + 1] + item->size[j * 2 + 1];
-            d.col[2] = c;
-            d.pos[6] = item->pos[j * 2] + item->size[j * 2];
-            d.pos[7] = item->pos[j * 2 + 1];
-            d.col[3] = c;
-            draw_polygon_2d((NJS_POINT2COL *)&d, 4, 3, -1.0f);
+            d.p[0].x = item->pos[j].x;
+            d.p[0].y = item->pos[j].y;
+            d.col[0].color = c;
+            d.p[1].x = item->pos[j].x;
+            d.p[1].y = d.p[0].y + item->size[j].y;
+            d.col[1].color = c;
+            d.p[2].x = item->pos[j].x + item->size[j].x;
+            d.p[2].y = item->pos[j].y + item->size[j].y;
+            d.col[2].color = c;
+            d.p[3].x = item->pos[j].x + item->size[j].x;
+            d.p[3].y = item->pos[j].y;
+            d.col[3].color = c;
+            draw_polygon_2d(&d, 4, 3, -1.0f);
         }
     }
 }

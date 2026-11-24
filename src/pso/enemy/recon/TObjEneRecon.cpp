@@ -49,7 +49,6 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
@@ -59,8 +58,8 @@
 extern "C" {
 extern TObjMotionAction TObjEneRecon__animation_entries[6];
 
-// Breakup-model parameters TObjEneRecon::state_death hands to TBoss3Volopt::create_breakup_mdl.
-extern const TBoss3VoloptBreakupParams recon_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
+// Breakup-model parameters TObjEneRecon::state_death hands to create_breakup_mdl.
+extern const BreakUpParamRow recon_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
 const char *TObjEneRecon_name_ref = "TObjEneRecon";
 extern const NpcAnimationBinding recon_anim_binding = { NULL, TObjEneRecon__animation_entries, 1, 1, 6 };
 // Scale of the ground shadow render draws under the Recon.
@@ -356,7 +355,8 @@ void TObjEneRecon::state_death(s32 reason) {
             spawn_particle_effect_with_flags(&position, 0x45, 0x40);
             spawn_particle_effect_with_flags(&position, 0x46, 0x40);
             play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80D), &position, 0, 0);
-            TBoss3Volopt::create_breakup_mdl((saddr)boss3_volopt_instance, (saddr)&recon_breakup_params, (texlist), (saddr)&body_center, (s32)(rotation_y));
+            TBoss3Volopt::create_breakup_mdl(boss3_volopt_instance, &recon_breakup_params,
+                               texlist, &body_center, rotation_y);
             break;
         }
         break;
@@ -1099,7 +1099,7 @@ f32 TObjEneRecobox::get_recon_rotate_rad() { return recon_rotate_rad; }
 extern "C" {
 void TObjEneRecon::load_resources() {
   TObjEneRecon__recobox_static_instance = TObjEneRecobox::get_bml_resource();
-  boss3_volopt_instance = new TBreakUpMdlData((long)(saddr)TObjEneRecon__recobox_static_instance->models->model);
+  boss3_volopt_instance = new TBreakUpMdlData(TObjEneRecon__recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
   TObjEneRecon__base_params = TLobby::register_boss(0x42);
@@ -1108,7 +1108,7 @@ void TObjEneRecon::load_resources() {
   TObjEneRecon__behavior_params = (ReconParams *)TLobby::dispatch_shared_handler_a(0x42);
   TObjEneReconBomb::load_resources();
   NpcAnimationBinding binding = recon_anim_binding;
-  binding.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneRecon__recobox_static_instance->motions);
+  binding.motions = TObjEneRecon__recobox_static_instance->motions;
   TObjNpcEnemy::register_animated_chunk(0xC, TObjEneRecon__recobox_static_instance->models[0].model, TObjEneRecon__recobox_static_instance->models[0].texlist, &binding, TObjEneRecon__collision_body_template.radius, 15.0f);
 }
 
@@ -1130,7 +1130,7 @@ void TObjEneRecon::release_static_instance() {
 TObjEneRecon::TObjEneRecon(TObject *parent, TObjEneRecobox *owner, u16 id, s32 index, Vec *pos, Vec *dir) : TObjEneDD_ST(parent) {
     m_name = TObjEneRecon_name_ref;
     owner_id = owner->get_entity_id();
-    init_common_from((u8 *)owner);
+    init_common_from(owner);
     entity_id = id;
     set_index = index;
     VecCopy(&position, pos);

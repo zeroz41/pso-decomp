@@ -1,13 +1,15 @@
 #ifndef PSO_ENEMY_BALCLAW_TOBJENEBALCLAWBODY_H
 #define PSO_ENEMY_BALCLAW_TOBJENEBALCLAWBODY_H
 
+struct EnemyPlacement;
+
 #include "types.h"
 #include "pso/enemy/balclaw/TObjEneBalClaw.h"
 
 class TParticleCtrl;
 
 struct TObjEneBalClawBody : public TObjEneBalClaw {
-    TObjEneBalClawBody(TObject *parent, void *set_data);
+    TObjEneBalClawBody(TObject *parent, EnemyPlacement *set_data);
     virtual ~TObjEneBalClawBody();
     void sub_800C73F4();
     int get_flag_0x388_b24();

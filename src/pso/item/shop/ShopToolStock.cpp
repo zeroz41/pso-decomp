@@ -56,7 +56,7 @@ typedef struct Hdr_8022525C
 
 extern "C" {
 void sort_shop_items(s32, s32, s32);
-uaddr lobby_tool_random_rel;
+void *lobby_tool_random_rel;
 int shop_tool_stock_level;
 s32 shop_tool_stock_counts[4];
 s32 shop_tool_stock_table[4];
@@ -411,7 +411,7 @@ void mark_shop_tool_sold_out(s32 a, s32 b) {
 void TLobby::set_6264_and_call_2244B0(int a0, int a1) { shop_tool_stock_level = a1; TLobby::generate_shop_inventory(a0); }
 
 void TLobby::generate_shop_inventory(s32 idx) {
-    if (lobby_tool_random_rel != 0) {
+    if (lobby_tool_random_rel != NULL) {
         if (shop_tool_flags[idx] == 0) {
             shop_tool_flags[idx] = 1;
             shop_tool_stock_counts[idx] = 0;
@@ -438,14 +438,14 @@ void TLobby::free_all_rocks() {
         i -= 1;
         var_r31 -= 1;
     } while (i >= 0);
-    if ((u32) lobby_tool_random_rel != 0U) {
-        TLobby::free_nodes_with_id(lobby_tool_random_rel);
-        lobby_tool_random_rel = var_r30;
+    if (lobby_tool_random_rel != NULL) {
+        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(lobby_tool_random_rel));
+        lobby_tool_random_rel = NULL;
     }
 }
 void load_tool_random_rel(void) {
     s32 i;
-    (*(s32 *)&lobby_tool_random_rel) = create_named_object("ToolRandom.rel");
+    lobby_tool_random_rel = create_named_object("ToolRandom.rel");
     for (i = 0; i < 4; i++) {
         ((saddr *)&shop_tool_stock_buffers)[i] = 0;
     }

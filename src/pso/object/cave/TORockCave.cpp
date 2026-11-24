@@ -259,20 +259,20 @@ void TORockCaveBrakable::vfunc_16() {
     Vec offset;
     s32 i;
 
-    params.pos[0] = position.x;
-    params.pos[1] = position.y;
-    params.pos[2] = position.z;
-    params.floor_y = params.pos[1];
+    params.pos.x = position.x;
+    params.pos.y = position.y;
+    params.pos.z = position.z;
+    params.floor_y = params.pos.y;
     for (i = 0; i < 6; i++) {
         VecCopy(&offset, &offsets[i]);
         push_matrix_from(identity_matrix);
         rotate_matrix_y(NULL, rotation_y);
         rotate_vector_by_matrix(0, &offset, &offset);
         pop_matrix();
-        VecCopy((Vec *)params.pos, &position);
-        vec3_add_to((Vec *)params.pos, &offset);
-        params.model = (saddr)get_bml_model((BmlResource *)rock_cave_model_resource, i);
-        params.textures = get_bml_texlist((BmlResource *)rock_cave_model_resource, i);
+        VecCopy(&params.pos, &position);
+        vec3_add_to(&params.pos, &offset);
+        params.model = get_bml_model(rock_cave_model_resource, i);
+        params.textures = get_bml_texlist(rock_cave_model_resource, i);
         new TObjChip(tl_05, &params);
     }
 }

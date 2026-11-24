@@ -28,8 +28,8 @@ void TUnk_804A3830::reserved_53() {
 TUnk_804A3830::~TUnk_804A3830() {}
 
 TUnk_804A3830::TUnk_804A3830(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    set_weapon_trail_joints((saddr)this, 2, 1, 2);
-    set_weapon_trail_joints((saddr)this, 3, 3, 4);
+    set_weapon_trail_joints(this, 2, 1, 2);
+    set_weapon_trail_joints(this, 3, 3, 4);
     set_weapon_flags(513);
 }
 

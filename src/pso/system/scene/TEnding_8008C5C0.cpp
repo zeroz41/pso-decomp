@@ -14,7 +14,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -85,7 +85,7 @@ void run_game_frame(void) {
     process_async_file_reads();
     update_sound_request_slots();
     TAdSinglePlyChrSelectGC::noop();
-    if (func_801A5E54__Fv() != 0) {
+    if (static_cast<s8>(func_801A5E54()) != 0) {
         TKeyBoardControl__sub_8000F92C();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {

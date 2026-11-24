@@ -34,7 +34,7 @@ public:
     virtual void render_chips();
     virtual void vfunc_12();
     virtual void draw_chips();
-    static void copy_debris_params(void *dst, void *src);
+    static void copy_debris_params(TObjChipParams *dst, const TObjChipParams *src);
     static TObjChipSpawnParams *copy_transform(TObjChipSpawnParams *spawn, TObjChipParams *params);
 
     f32 pad_1c;

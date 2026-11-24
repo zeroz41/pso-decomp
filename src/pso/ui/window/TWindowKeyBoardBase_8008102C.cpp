@@ -9,10 +9,11 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/render/render_util.h"
 
 extern "C" {
 u32 __cvt_fp2unsigned(f32);
-f32 horizontal_distance_squared(s32, s32);
 }
 
 void KeyboardTextBuffer::init(u32 width, u32 lines) {
@@ -50,14 +51,11 @@ KeyboardTextBuffer::KeyboardTextBuffer() {
 }
 
 int TEF_LensFlare::is_player_out_of_range(f32 range_sq) {
-    s32 arg0 = (saddr)this;
-    u32 player;
-
-    player = (uaddr)get_player_by_client_id(local_client_id);
-    if (player == 0U) {
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player == NULL) {
         return 0;
     }
-    return (u32) __cntlzw(horizontal_distance_squared(player + 0x38, arg0 + 0x38) < range_sq) >> 5;
+    return (u32) __cntlzw(horizontal_distance_squared(&player->position, &position) < range_sq) >> 5;
 }
 void *TEF_LensFlare::create(void *set_data) {
     if (is_split_screen() != 0) {

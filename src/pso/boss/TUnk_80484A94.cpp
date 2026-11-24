@@ -46,7 +46,7 @@ s32 TUnk_80484A94::try_capture_target() {
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)target) != 0) {
+            if (obj_is_hit_receivable(reinterpret_cast<const TObjCollidable *>(target)) != 0) {
                 DirectAttackPayload hit = {0, 0.0f};
                 target->receive_direct_attack(m_up, hit, NULL, -1, -1);
                 owner = m_up;

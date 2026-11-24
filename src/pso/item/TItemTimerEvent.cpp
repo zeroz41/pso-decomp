@@ -194,13 +194,13 @@ void TUnk_804A0668::vfunc_6() {
 
 void TUnk_804A0648::vfunc_6() {
     if (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0) {
-        add_actor_hp((u8 *)this->m_28, 1);
+        add_actor_hp((TObjChara *)this->m_28, 1);
     }
 }
 
 void TUnk_804A0628::vfunc_6() {
     if (((TObjCollidable *)this->m_28)->test_actor_flags(0x800) == 0) {
-        add_actor_tp((u8 *)this->m_28, 1);
+        add_actor_tp((TObjChara *)this->m_28, 1);
     }
 }
 

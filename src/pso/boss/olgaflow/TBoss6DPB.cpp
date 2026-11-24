@@ -14,6 +14,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/unk/TLobby.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
@@ -34,23 +35,23 @@ const char *TDPBShower__class_name = "TDPBShower";
 #pragma dont_inline off
 #pragma push
 #pragma fp_contract on
-u8 *TBoss6Type2::create_dpb(saddr parent, saddr position, f32 radius) {
-    return (u8 *)new TBoss6DPB((TObject *)parent, position, radius);
+TBoss6DPB *TBoss6Type2::create_dpb(TObject *parent, const Vec *position, f32 radius) {
+    return new TBoss6DPB(parent, position, radius);
 }
 #pragma pop
 
-TBoss6DPB::TBoss6DPB(TObject *parent, saddr position, f32 radius) : TObject(parent) {
+TBoss6DPB::TBoss6DPB(TObject *parent, const Vec *position, f32 radius) : TObject(parent) {
     m_name = TBoss6DPB__class_name;
     owner = (TBoss6Type2 *)parent;
-    VecCopy(&this->position, (const Vec *)position);
+    VecCopy(&this->position, position);
     this->position.y = 0.0f;
     this->radius = radius;
-    f32 param = ((f32 *)TLobby::dispatch_shared_handler_a(0x2C))[2];
+    f32 param = TLobby::dispatch_shared_handler_a(0x2C)->values.floats[2];
     power = (s32)param;
     if (0.0f == param) {
         power = 0x14;
     }
-    f32 scale = ((f32 *)TLobby::dispatch_shared_handler_a(0x2F))[2];
+    f32 scale = TLobby::dispatch_shared_handler_a(0x2F)->values.floats[2];
     power_scale = scale;
     if (0.0f == scale) {
         power_scale = 1.0f;

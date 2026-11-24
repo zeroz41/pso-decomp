@@ -7,6 +7,8 @@
 class TAttackTraceStrip;
 struct BmlResource;
 
+extern BmlResource *moja_bml_resource;
+
 struct MojaBattleStat {
     u8 unknown_00[0x18];
     s32 techniqueLevel;

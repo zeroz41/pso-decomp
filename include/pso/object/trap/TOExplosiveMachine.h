@@ -3,6 +3,9 @@
 
 #include "pso/object/base/TObjMotion.h"
 
+struct NJS_OBJECT;
+struct GinjaTextureList;
+
 struct ExplosiveMachineModel {
     u8 unknown00[0x14];
     f32 radius;
@@ -20,7 +23,7 @@ struct TOExplosiveMachine : public TObjBase {
     f32 view_distance;
     f32 view_radius;
     f32 trigger_radius;
-    void *debris_models[2];
+    NJS_OBJECT *debris_models[2];
     NJS_TEXLIST *debris_textures[2];
 };
 

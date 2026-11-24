@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -8,7 +9,6 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-s32 draw_window_scrollbar(void *, s32, void *);
 
 TWindowSubEquipKind *create_equip_kind_window(saddr position, const NJS_POINT2 *size, s32 client) {
     TShopJudgmentItemWindow__sub_80267F9C(size, 0x1F);
@@ -18,23 +18,23 @@ TWindowSubEquipKind *create_equip_kind_window(saddr position, const NJS_POINT2 *
 }
 
 void TWindowSubEquipKind::render() {
-    saddr context;
+    WindowDrawContext *context;
 
-    context = reinterpret_cast<saddr>(get_draw_context());
-    draw_window_frame((void *)context);
+    context = get_draw_context();
+    draw_window_frame(context);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
-        reinterpret_cast<WindowDrawContext *>(context));
+        context);
     draw_selected_list_entry(context);
     if (m_88 != 4) {
-        draw_tab_label((void *)context);
+        draw_tab_label(context);
     }
     if (status_display != NULL) {
-        ((TWindowSubStatusDisp *)((void *)(status_display)))->forward_render((void *)(context));
+        ((TWindowSubStatusDisp *)((void *)(status_display)))->forward_render(context);
     }
     if (scroll_bar != NULL) {
-        draw_window_scrollbar(scroll_bar, context, (u8 *)&scroll_offset[0]);
+        draw_window_scrollbar(scroll_bar, context, scroll_offset);
     }
 }
 

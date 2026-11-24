@@ -6,7 +6,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/fence/TOBarrierEnergy01.h"
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/base/TObjMotion.h"
@@ -112,7 +111,7 @@ void handle_6x86_hit_destructible_object(game_command_header *command) {
     }
     o = (TOVS2Wall01 *)find_entity_by_id(id);
     if (o != NULL) {
-        if (((TUnk_804B6C24 *)o)->check_value_equals((saddr)TOVS2Wall01__class_name) == 0) {
+        if (reinterpret_cast<TObject *>(o)->check_value_equals(TOVS2Wall01__class_name) == 0) {
             return;
         }
         switch (wall_hit_packet->update_reason) {
@@ -200,12 +199,12 @@ void TOVS2Wall01::vfunc_6(s16 *arg1, s32 arg2) {
 void TOVS2Wall01::spawn_debris(s32 index) {
     TObjChipParams params = vs2_wall_debris_desc;
 
-    params.pos[0] = body_center.x;
-    params.pos[1] = body_center.y;
-    params.pos[2] = body_center.z;
+    params.pos.x = body_center.x;
+    params.pos.y = body_center.y;
+    params.pos.z = body_center.z;
     params.floor_y = position.y;
-    params.model = (saddr)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, index);
-    params.textures = get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
+    params.model = get_bml_model(TOVS2Wall01__bml_resource, index);
+    params.textures = get_bml_texlist(TOVS2Wall01__bml_resource, index);
     new TObjChip(tl_05, &params);
 }
 
@@ -303,7 +302,7 @@ s32 TOVS2Wall01::try_start_action(s32, s32) { return 1; }
 TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     m_name = TOVS2__class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, index);
+    model = (void *)get_bml_model(TOVS2Wall01__bml_resource, index);
     model_radius = 50.0f + static_cast<GinjaModelBounds *>(static_cast<NJS_OBJECT *>(model)->model)->radius;
     texlist = get_bml_texlist((BmlResource *)TOVS2Wall01__bml_resource, index);
     init_collision_body_parts(this, &ovs2wall01_collision_parts[index], 1);
@@ -330,7 +329,7 @@ void TOVS2Wall01::load_resources() {
 }
 void TOVS2Wall01::release_model() {
     if (TOVS2Wall01__bml_resource != NULL) {
-        delete (BmlResource *)TOVS2Wall01__bml_resource;
+        delete TOVS2Wall01__bml_resource;
         TOVS2Wall01__bml_resource = NULL;
     }
 }

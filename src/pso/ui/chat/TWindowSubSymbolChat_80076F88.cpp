@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/system/memory.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/ResourceFile.h"
@@ -261,7 +262,7 @@ void TWindowSubSymbolChat::load_symbol_chat_data() {
     e = w->e;
     data = (saddr)load_disc_file("symbolchat.dat");
     move_data((void *)(e), (const void *)((const void *)data), (u32)0x420);
-    TAdSinglePlyChrSelectGC::safe_free(data);
+    safe_free(reinterpret_cast<void *>(data));
     for (i = 0; i < 6; i++) {
         ((TWindowSubSymbolChat *)(&e[i]))->bswap_entry();
         t = (saddr)get_symbol_chat_preset(i);

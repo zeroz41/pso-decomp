@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80287570.h"
@@ -29,7 +30,6 @@ typedef struct UV_80287580 {
 extern "C" {
 u32 calc_text_width(char *s);
 const UV_80287580 window_tab_uv_table[4] = {{0.0f, 98.0f}, {0.0f, 125.0f}, {0.0f, 152.0f}, {80.0f, 98.0f}};
-extern s32 hud_texlist;
 void __dl__FPv(void);
 
 f32 TWindowSubStatusDisp__sub_80287570(void *arg0) {
@@ -46,7 +46,7 @@ void draw_window_tab(WindowDrawContext *context, f32 *pos, u8 idx, f32 width) {
     w = width;
     w += (8e+01f);
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(1, context->color);
     r1.x0 = pos[0];
     r1.y0 = pos[1];

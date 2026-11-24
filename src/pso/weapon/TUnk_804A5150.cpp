@@ -1,3 +1,4 @@
+#include "pso/math/ClampedStep.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A5150.h"
 #include "pso/player/TObjPlayer.h"
@@ -10,9 +11,9 @@
 #include "pso/system/MatrixOps.h"
 
 
-void TUnk_804A5150::update_idle() { TObjPlayer::add_angle_clamped(&rotation_x, (saddr)((void*)-910), (saddr)((void*)-7281)); TObjPlayer::add_angle_clamped(&rotation_z, (saddr)((void*)-910), (saddr)((void*)-9102)); }
+void TUnk_804A5150::update_idle() { ::add_angle_clamped(&rotation_x, -910, -7281); ::add_angle_clamped(&rotation_z, -910, -9102); }
 
-void TUnk_804A5150::update_attack() { TObjPlayer::add_angle_clamped(&rotation_x, (saddr)((void*)1820), (saddr)((void*)0)); TObjPlayer::add_angle_clamped(&rotation_z, (saddr)((void*)1820), (saddr)((void*)0)); }
+void TUnk_804A5150::update_attack() { ::add_angle_clamped(&rotation_x, 1820, 0); ::add_angle_clamped(&rotation_z, 1820, 0); }
 
 void TUnk_804A5150::vfunc_60() {
     s32 player_list;

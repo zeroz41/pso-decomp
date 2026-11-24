@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 
+struct TWindowSubStatusDisp;
+
 struct TWindowSubAreaMapDisp : public TWindowBase {
     TWindowSubAreaMapDisp();
     virtual ~TWindowSubAreaMapDisp();
@@ -11,8 +13,8 @@ struct TWindowSubAreaMapDisp : public TWindowBase {
     f32 m_64;
     u8 unk_68[0x4];
     u32 m_6c;
-    uaddr m_70;
-    uaddr title;
+    TWindowSubStatusDisp *heading;
+    char *title;
     void update_manual_scroll();
     virtual void render();
     virtual void run_task();

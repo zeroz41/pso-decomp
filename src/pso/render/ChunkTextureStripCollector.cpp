@@ -1,139 +1,122 @@
 #include "types.h"
-#include "pso/render/ChunkTextureStripCollector.h"
-struct Model_800F5A50 { void *vlist; void *plist; };
+#include "pso/render/StripBufferPair.h"
+#include "pso/system/NinjaTypes.h"
 
-struct Node_800F5A50 {
-    u32 evalflags;
-    Model_800F5A50 *model;
-    f32 pos[3];
-    s32 ang[3];
-    f32 scl[3];
-    Node_800F5A50 *child;
-    Node_800F5A50 *sibling;
-};
-
-struct Count_800F5AC8 { s32 verts; s32 strips; };
-
-struct StripRef_800F591C { s16 *strip; s16 *uv; };
-
-StripRef_800F591C *plist_strip_write_ptr;
+StripUvRef *plist_strip_write_ptr;
 s16 *plist_strip_uv_write_ptr;
 s32 plist_texture_matches_filter;
-extern "C" {
-void count_model_strips_by_texture(void *ctx, Node_800F5A50 *node, void *arg);
-void collect_model_strips_by_texture(void *ctx, Node_800F5A50 *node, void *arg);
 
-void collect_model_strips_by_texture(void *ctx, Node_800F5A50 *node, void *arg) {
+void StripBufferPair::collect_model_strips_by_texture(NJS_OBJECT *node, s32 texture_filter) {
     do {
-        if (node->model != 0 && node->model->plist != 0) {
-            ((void (*)(void *, void *, void *))collect_plist_strips_by_texture)(ctx, node->model->plist, arg);
+        NJS_CNK_MODEL *model = static_cast<NJS_CNK_MODEL *>(node->model);
+        if (model != NULL && model->polygon_list != NULL) {
+            collect_plist_strips_by_texture(model->polygon_list, texture_filter);
         }
         if (node->child != 0) {
-            collect_model_strips_by_texture(ctx, node->child, arg);
+            collect_model_strips_by_texture(node->child, texture_filter);
         }
         node = node->sibling;
     } while (node != 0);
 }
-}
 
-void collect_plist_strips_by_texture(void *ctx, s16 *p, s32 tex) {
+void StripBufferPair::collect_plist_strips_by_texture(s16 *plist, s32 texture_filter) {
     s16 c;
     s16 type;
     u32 n;
     u32 i;
     s16 len;
     s32 k;
-    while ((c = *p++) != 0xFF) {
+    while ((c = *plist++) != 0xFF) {
         if ((c & 0xFF) < 8) {
             continue;
         }
         type = c & 0xFF;
         if (type < 0x10) {
-            if ((*p++ & 0x1FFF) == tex) {
+            if ((*plist++ & 0x1FFF) == texture_filter) {
                 plist_texture_matches_filter = 1;
             } else {
                 plist_texture_matches_filter = 0;
             }
         } else if (type < 0x40) {
-            s32 skip = *(u16 *) p;
-            p++;
-            p += skip;
+            s32 skip = *(u16 *) plist;
+            plist++;
+            plist += skip;
         } else {
-            s32 skip = *(u16 *) p;
-            p++;
+            s32 skip = *(u16 *) plist;
+            plist++;
             if (plist_texture_matches_filter != 0 && type == 0x41) {
-                plist_strip_write_ptr->strip = p;
+                plist_strip_write_ptr->strip = plist;
                 plist_strip_write_ptr->uv = plist_strip_uv_write_ptr;
                 plist_strip_write_ptr++;
-                n = *p++ & 0x3FFF;
+                n = *plist++ & 0x3FFF;
                 for (i = 0; i < n; i++) {
-                    len = *p++;
+                    len = *plist++;
                     if (len < 0) {
                         len = -len;
                     }
                     for (k = 0; k < len; k++) {
-                        *plist_strip_uv_write_ptr++ = p[1];
-                        *plist_strip_uv_write_ptr++ = p[2];
-                        p += 3;
+                        *plist_strip_uv_write_ptr++ = plist[1];
+                        *plist_strip_uv_write_ptr++ = plist[2];
+                        plist += 3;
                     }
                 }
             } else {
-                p += skip;
+                plist += skip;
             }
         }
     }
 }
 
-void count_model_strips_by_texture(void *ctx, Node_800F5A50 *node, void *arg) {
+void StripBufferPair::count_model_strips_by_texture(NJS_OBJECT *node, s32 texture_filter) {
     do {
-        if (node->model != 0 && node->model->plist != 0) {
-            count_plist_strips_by_texture(ctx, node->model->plist, arg);
+        NJS_CNK_MODEL *model = static_cast<NJS_CNK_MODEL *>(node->model);
+        if (model != NULL && model->polygon_list != NULL) {
+            count_plist_strips_by_texture(model->polygon_list, texture_filter);
         }
         if (node->child != 0) {
-            count_model_strips_by_texture(ctx, node->child, arg);
+            count_model_strips_by_texture(node->child, texture_filter);
         }
         node = node->sibling;
     } while (node != 0);
 }
-void count_plist_strips_by_texture(void *ctx, void *plist, void *arg) {
-    Count_800F5AC8 *cnt = (Count_800F5AC8 *) ctx;
-    s16 *p = (s16 *) plist;
+
+void StripBufferPair::count_plist_strips_by_texture(s16 *plist, s32 texture_filter) {
     s16 c;
     s32 skip;
     u32 n;
     u32 i;
     s16 len;
-    while ((c = *p++) != 0xFF) {
+    while ((c = *plist++) != 0xFF) {
         if ((c & 0xFF) < 8) {
             continue;
         }
         c = c & 0xFF;
         if (c < 0x10) {
-            if ((*p++ & 0x1FFF) == (saddr) arg) {
+            if ((*plist++ & 0x1FFF) == texture_filter) {
                 plist_texture_matches_filter = 1;
             } else {
                 plist_texture_matches_filter = 0;
             }
         } else if (c < 0x40) {
-            skip = *(u16 *) p;
-            p++;
-            p += skip;
+            skip = *(u16 *) plist;
+            plist++;
+            plist += skip;
         } else {
-            s32 size = *(u16 *) p;
-            p++;
+            s32 size = *(u16 *) plist;
+            plist++;
             if (plist_texture_matches_filter != 0 && c == 0x41) {
-                cnt->strips++;
-                n = *p++ & 0x3FFF;
+                strip_count++;
+                n = *plist++ & 0x3FFF;
                 for (i = 0; i < n; i++) {
-                    len = *p++;
+                    len = *plist++;
                     if (len < 0) {
                         len = -len;
                     }
-                    cnt->verts += len;
-                    p += len * 3;
+                    uv_count += len;
+                    plist += len * 3;
                 }
             } else {
-                p += size;
+                plist += size;
             }
         }
     }

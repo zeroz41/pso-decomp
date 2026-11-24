@@ -1,4 +1,6 @@
 #include "pso/system/TLanguage_801E4874.h"
+#include "pso/system/memory.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -21,7 +23,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
@@ -223,7 +224,7 @@ void *TObjContainerIdo::create(void *set) {
 void TObjContainerIdo::free_resources() {
     if (container_ido_textures != NULL) {
         release_texture_list(container_ido_textures);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)container_ido_textures);
+        safe_free(container_ido_textures);
         container_ido_textures = NULL;
     }
     if (container_ido_model_archive != NULL) {

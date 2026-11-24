@@ -1,3 +1,6 @@
+#include "pso/unk/text_8024AB98.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer_80011014.h"
 #include "types.h"
 #include "pso/unk/text_802233F8.h"
 #include "pso/player/TObjPlayer.h"

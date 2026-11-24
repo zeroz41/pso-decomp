@@ -19,6 +19,7 @@ extern TWindowMainMenuEntry main_menu_4p_android_entries[];
 
 struct TWindowMenuMainMenu;
 class TWindowMessage;
+struct NJS_POINT2;
 
 struct MainMenuSlotState {
     s16 first;
@@ -46,14 +47,14 @@ struct TWindowMainMenu : public TObject {
     void close_and_clear_flags();
     s32 close_active_submenu();
     void set_scale_f();
-    TWindowMenuMainMenu *m_1c;
+    TWindowMenuMainMenu *menu_window;
     s32 m_20;
     TWindowMessage *help_window;
     MainMenuSlotState slots[4];
-    u32 m_48;
+    u32 description_item_id;
     u32 m_4c;
-    u16 m_50;
-    u16 m_52;
+    s16 submenu_depth;
+    s16 selected_slot;
     s32 client_index;
     u8 _pad58[0x4];
     TWindowMainMenuEntry *active_entries;
@@ -69,18 +70,8 @@ struct TWindowMainMenu : public TObject {
     void close();
     virtual void run_task();
     virtual void render();
-    int is_item_active();
-    void set_symbol_chat_parts(void * symbol_chat_parts);
-    void update_item_tween();
-    void init_color();
-    void pop_level();
-    int get_selected_item_type();
-    void clear_menu_flags();
-    saddr find_free_slot();
-    s32 update_if_active(s32 id);
-    void draw_entries_reversed(u8 *frame);
-    s32 is_not_split_screen();
-    static void *create_menu(void *arg0, void *arg1);
+    static TWindowMenuMainMenu *create_menu(const NJS_POINT2 *position, s32 client);
+    void populate_menu(const TWindowMainMenuEntry *window_main_menu_entry);
     void open_menu_with_entry(s16 id);
     void try_open_battle_menu(s16 key);
     s32 filter_menu_entry(s16 *arg1, s32 *arg2);

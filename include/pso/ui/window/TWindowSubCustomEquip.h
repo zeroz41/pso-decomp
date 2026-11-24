@@ -6,13 +6,17 @@
 #include "pso/ui/window/TWindowBase.h"
 
 class TWindowSubStatusDisp;
+class WindowSpritePart;
+struct NJS_POINT2;
+
+void set_relative_pos(NJS_POINT2 *position, WindowSpritePart *entry);
 
 struct TWindowSubCustomEquip : public TWindowBase {
     TWindowSubCustomEquip(s32 slot);
     virtual ~TWindowSubCustomEquip();
     void handle_cursor_input();
-    void update_palette_slot(s32, s32, s32);
-    void sub_80275F08(void *);
+    void update_palette_slot(s32, u16, u16);
+    void get_cursor_origin(NJS_POINT2 *position);
     virtual void render();
     u8 m_60;
     u8 m_61;
@@ -23,7 +27,6 @@ struct TWindowSubCustomEquip : public TWindowBase {
     s16 m_66;
     u32 angle;
     TWindowSubStatusDisp *m_6c;
-    void set_relative_pos(void *relative_pos);
     void layout_selection_parts(void *arg1);
     void layout_entry_group(void *index);
     void reset_selection();
@@ -34,7 +37,8 @@ struct TWindowSubCustomEquip : public TWindowBase {
     virtual void run_task();
     int is_selected();
     void clear_flag_and_set_entry_state();
-    void draw_cursor(u8 *arg1);
+    void draw_cursor(WindowDrawContext *context);
+    static void draw_cursor_sprite(f32 depth_scale, WindowDrawContext *context, NJS_POINT2 *position, s32 frame);
     s32 is_type_valid();
     static s32 get_saved_slot_for_index(s32 arg0, s8 arg1);
     void get_cursor_pos(void *arg1);

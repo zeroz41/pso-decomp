@@ -1,3 +1,5 @@
+#include "pso/player/PlayerState.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -32,7 +34,6 @@
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/network/client_id.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"

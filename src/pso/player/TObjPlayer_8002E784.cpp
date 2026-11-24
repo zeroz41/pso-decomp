@@ -1,3 +1,4 @@
+#include "pso/system/MatrixStack.h"
 // The De Rol Le breakup effects: TUnk_80482090 (the pieces TBoss2DeRolLe spawns), TUnk_804820A8 (the pieces
 // TBoss2Joint spawns), their base TUnk_804820C0 and the breakup models they start from.
 // Built -inline off,deferred: the functions below are written last to first (the vtables at 0x80482090-0x804820D8
@@ -30,6 +31,7 @@
 
 extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
+void set_chunk_material_override_pair(s32 first, s32 second);
 extern const f32 breakup_unit;
 extern const f32 breakup_zero;
 extern const f32 breakup_bounce_factor;
@@ -134,7 +136,7 @@ TUnk_804820C0::~TUnk_804820C0() {
 }
 
 void TObjPlayer::create_breakup_model() {
-    TBreakUpMdlData *model = new TBreakUpMdlData((saddr)boss2_derolle_resource->models[6].model);
+    TBreakUpMdlData *model = new TBreakUpMdlData(boss2_derolle_resource->models[6].model);
     shared_breakup_model = model;
     TObjPlayer__sub_8002ED48(model, 0x13);
     TObjPlayer__sub_8002ECC4(shared_breakup_model, 0x13);
@@ -184,7 +186,7 @@ void TUnk_804820A8::run_task() {
         piece = &m_pieces[i];
         if (TObjPlayer__sub_8002EDCC(piece) != 0) {
             if ((i % 2) == 0) {
-                TObjBoss2CeilJunk::create_particle(piece, 0x171);
+                TObjBoss2CeilJunk::create_particle(&piece->pos, 0x171);
             }
         }
         i += 1;
@@ -234,7 +236,7 @@ void TUnk_804820A8::render() {
 }
 
 void TObjPlayer::create_derolle_breakup_model() {
-    TBreakUpMdlData *model = new TBreakUpMdlData((saddr)boss2_derolle_resource->models[5].model);
+    TBreakUpMdlData *model = new TBreakUpMdlData(boss2_derolle_resource->models[5].model);
     lbl_805D4B8C = model;
     TObjPlayer__sub_8002ECC4(model, 0x1C);
 }
@@ -244,7 +246,7 @@ void TObjPlayer::clear_target_ref() {
     lbl_805D4B8C = NULL;
 }
 
-TUnk_80482090::TUnk_80482090(TObject *parent, uaddr matrix) : TUnk_804820C0(parent) {
+TUnk_80482090::TUnk_80482090(TObject *parent, const f32 (*matrix)[4]) : TUnk_804820C0(parent) {
     BreakupPiece *p;
     s32 i;
     Vec *v;
@@ -252,7 +254,7 @@ TUnk_80482090::TUnk_80482090(TObject *parent, uaddr matrix) : TUnk_804820C0(pare
     m_matrix = matrix;
     push_matrix();
     set_matrix_identity(0);
-    TObjPlayer::concat_matrix(0, m_matrix);
+    ::concat_matrix(NULL, m_matrix);
     v = &m_origin;
     v->x = breakup_zero;
     v->y = breakup_zero;
@@ -288,7 +290,7 @@ void TUnk_80482090::run_task() {
         piece = &m_pieces[i];
         if (TObjPlayer__sub_8002EDCC(piece) != 0) {
             if ((i % 2) == 0) {
-                TObjBoss2CeilJunk::create_particle(piece, 0x170);
+                TObjBoss2CeilJunk::create_particle(&piece->pos, 0x170);
             }
         }
         i += 1;
@@ -315,7 +317,7 @@ void TUnk_80482090::render() {
             rotate_matrix_z(0, p->ang_z);
             rotate_matrix_x(0, p->ang_x);
             translate_matrix(0, -m_origin.x, -m_origin.y, -m_origin.z);
-            TObjPlayer::concat_matrix(0, m_matrix);
+            ::concat_matrix(NULL, m_matrix);
             switch (p->state) {
             case 0:
             case 1:

@@ -89,6 +89,7 @@ class TObject {
 #endif
 public:
     const char *m_name;
+    BOOL check_value_equals(const char *name) const;
     u16 m_flags;
     u16 m_id;
     TObject *m_prev;

@@ -8,6 +8,7 @@
 #include "pso/object/TUnk_804CC74C.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/system/vector.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/system/SoundEffect.h"
 u32 dark_technique_charge_effect_ids[3] = {0x1E7, 0x1E8, 0x1EF};

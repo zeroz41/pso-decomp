@@ -1,3 +1,5 @@
+#include "pso/system/memory.h"
+#include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/system/Adxf.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -13,7 +15,7 @@
 #include "pso/unk/TLobby.h"
 #include <string.h>
 
-int TChCrLoadAfs::is_unloaded() { return *(u32*)((char*)this + 0x4a8) == 0; }
+int CharacterPreview::is_unloaded() { return completion_flags == 0; }
 
 extern "C" s32 chcr_load_afs_busy_flag;
 
@@ -128,7 +130,7 @@ TChCrLoadAfs::~TChCrLoadAfs() {
     }
     u8 *buffer = buffer_address;
     if (buffer != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(buffer));
+        safe_free(buffer);
         buffer_address = 0;
     }
     release_load_slot();
@@ -218,7 +220,7 @@ void TChCrLoadAfsTextureReq::update_loading() {
     if (retry != 0) {
         ADXF_Close(load_handle);
         load_handle = 0;
-        TAdSinglePlyChrSelectGC::safe_free(buffers[index]);
+        safe_free(reinterpret_cast<void *>(buffers[index]));
         buffers[index] = 0;
         state = 1;
         return;

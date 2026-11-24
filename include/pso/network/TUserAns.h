@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+class TUserAns;
+
 extern "C" {
 void bswap__8TUserAnsFv(saddr arg0);
 }

@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
@@ -111,8 +112,6 @@ extern const char TObjFish__class_name_string[] = "TObjFish";
 
 #pragma push
 #pragma fp_contract on
-#pragma dont_inline off
-#pragma inline_depth(4)
 void TObjFish::render() {
     TObjFishEntry *f;
     s32 n;
@@ -165,32 +164,32 @@ void TObjFish::render() {
             if (get_current_floor_area() == AREA_SEABED_UPPER) {
                 switch (f->anim) {
                 case 1:
-                    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 1));
-                    draw_ginja_object((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 1));
+                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 1));
+                    draw_ginja_object((void *)get_bml_model(TObjFish__area_bml_resource, 1));
                     break;
                 case 2:
-                    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 2));
-                    draw_ginja_object((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 2));
+                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 2));
+                    draw_ginja_object((void *)get_bml_model(TObjFish__area_bml_resource, 2));
                     break;
                 default:
-                    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 0));
-                    draw_ginja_object((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 0));
+                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 0));
+                    draw_ginja_object((void *)get_bml_model(TObjFish__area_bml_resource, 0));
                     break;
                 }
             } else {
                 set_motion_packed_rotation();
                 switch (f->anim) {
                 case 1:
-                    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 1));
-                    draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 1), get_bml_motion(TObjFish__area_bml_resource, 1), f->frame);
+                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 1));
+                    draw_ginja_model_with_motion((void *)get_bml_model(TObjFish__area_bml_resource, 1), get_bml_motion(TObjFish__area_bml_resource, 1), f->frame);
                     break;
                 case 2:
-                    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 2));
-                    draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 2), get_bml_motion(TObjFish__area_bml_resource, 2), f->frame);
+                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 2));
+                    draw_ginja_model_with_motion((void *)get_bml_model(TObjFish__area_bml_resource, 2), get_bml_motion(TObjFish__area_bml_resource, 2), f->frame);
                     break;
                 default:
-                    TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjFish__area_bml_resource, 0));
-                    draw_ginja_model_with_motion((void *)get_bml_model((BmlResource *)TObjFish__area_bml_resource, 0), get_bml_motion(TObjFish__area_bml_resource, 0), f->frame);
+                    TObjFish::set_global_param(get_bml_texlist(TObjFish__area_bml_resource, 0));
+                    draw_ginja_model_with_motion((void *)get_bml_model(TObjFish__area_bml_resource, 0), get_bml_motion(TObjFish__area_bml_resource, 0), f->frame);
                     break;
                 }
                 clear_motion_packed_rotation();
@@ -337,12 +336,10 @@ void TObjFish::run_task() {
 #pragma pop
 
 
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #pragma push
 #pragma fp_contract on
-s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
-    Vec *arg1 = (Vec *)arg1_arg;
+s32 TObjFish::init_fish_school(Vec *arg1, s32 arg2, s32 arg3) {
     TObjFishEntry *p;
     s32 i;
 
@@ -396,7 +393,7 @@ const char *lbl_805D3D58 = TObjFish__class_name_string;
 extern "C" {
 TObjFish::~TObjFish() {
     if (m_a0 != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(m_a0));
+        safe_free(m_a0);
         m_a0 = NULL;
     }
 }
@@ -449,7 +446,7 @@ void *TObjFish::create(void *set_data) {
 
 void TObjFish::free_resource() {
     if (TObjFish__area_bml_resource != NULL) {
-        delete (BmlResource *)TObjFish__area_bml_resource;
+        delete TObjFish__area_bml_resource;
         TObjFish__area_bml_resource = NULL;
     }
 }
@@ -481,42 +478,38 @@ TObjFishAreaResource fish_resource_name_table[5] = {
 #pragma defer_codegen on
 void TObjFish::load_area_resource() {
     // Use one base for every descriptor, as in the original loader.
-    u8 *base = reinterpret_cast<u8 *>(fish_resource_name_table);
+    TObjFishAreaResource *base = fish_resource_name_table;
     BmlResource *p;
     switch (get_current_floor_area()) {
     case AREA_JUNGLE_NORTH:
         TObjFish__area_event_stage = 1;
-        p = new BmlResource(1, (BmlResourceDescriptor *)(base + 1 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, NULL);
+        p = new BmlResource(1, &base[1].descriptor, 0, 0, NULL);
         TObjFish__area_bml_resource = p;
         break;
     case AREA_SEASIDE:
     case AREA_SEASIDE_NIGHT:
         TObjFish__area_event_stage = 2;
-        p = new BmlResource(1, (BmlResourceDescriptor *)(base + 2 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, NULL);
+        p = new BmlResource(1, &base[2].descriptor, 0, 0, NULL);
         TObjFish__area_bml_resource = p;
         break;
     case AREA_SEABED_UPPER:
         TObjFish__area_event_stage = 3;
-        p = new BmlResource(1, (BmlResourceDescriptor *)(base + 3 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, NULL);
+        p = new BmlResource(1, &base[3].descriptor, 0, 0, NULL);
         TObjFish__area_bml_resource = p;
         break;
     case AREA_SEABED_LOWER:
         TObjFish__area_event_stage = 4;
-        p = new BmlResource(1, (BmlResourceDescriptor *)(base + 4 * sizeof(TObjFishAreaResource) + offsetof(TObjFishAreaResource, descriptor)), 0, 0, NULL);
+        p = new BmlResource(1, &base[4].descriptor, 0, 0, NULL);
         TObjFish__area_bml_resource = p;
         break;
     case AREA_LOBBY:
     default:
         TObjFish__area_event_stage = 0;
-        p = new BmlResource(1, (BmlResourceDescriptor *)(base + offsetof(TObjFishAreaResource, descriptor)), 0, 0, NULL);
+        p = new BmlResource(1, &base[0].descriptor, 0, 0, NULL);
         TObjFish__area_bml_resource = p;
         break;
     }
 }
 
 }
-LAYOUT_ASSERT(TObjFishSetData_counts_offset, offsetof(TObjFishSetData, counts) == 0x30);
-LAYOUT_ASSERT(TObjFishAreaResource_size, sizeof(TObjFishAreaResource) == 0x30);
-LAYOUT_ASSERT(TObjFishAreaResource_descriptor_offset, offsetof(TObjFishAreaResource, descriptor) == 0x20);
-#undef init_fish_school__8TObjFishFPvll
 #pragma pop

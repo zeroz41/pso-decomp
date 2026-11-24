@@ -1,6 +1,8 @@
+#include "pso/effect/sprite/TQuadSpriteSclColRot.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjChara.h"
 #include "pso/unk/text_803D96A8.h"
@@ -79,7 +81,6 @@ struct Fuki_802504C0 {
     u8 phase; u8 options; u8 kind; u8 slot;
 };
 
-struct Fuki_8025181C { u8 pad0[0x38]; f32 w; f32 h; };
 struct Fuki_80250F70;
 struct Fuki_802504C0;
 
@@ -95,20 +96,7 @@ struct Fuki_80251380 {
     s16 viewport;
 };
 
-struct View_80252764 {
-    f32 x;
-    f32 y;
-    u8 pad8[0x28 - 0x8];
-    f32 sx;
-    f32 sy;
-    s32 fade_in;  // frame counter of the name plate fade (inferred)
-    u8 pad34[0x38 - 0x34];
-    f32 depth;
-};
 
-struct Slice_80252558 { f32 x, y, z, width, f10, lean, rowHeight, f1c, u, v, uw, f2c, f30, vh, pad[4]; };
-struct Fukidasi_80252558 { u8 pad[0x40]; f32 position[2]; f32 size[2]; };
-struct DrawCtx_80252558 { u8 pad[0x20]; f32 pivot[2]; f32 scale[2]; };
 
 struct Fuki_802511E4 {
     u8 pad0[0x76];
@@ -138,9 +126,6 @@ struct Fuki_80251594 {
     f32 head[2];
 };
 
-struct Fuki_802523CC { u8 pad0[0x40]; f32 x; };
-struct Slice_802523CC { f32 x; u8 pad4[8]; f32 width; u8 pad10[4]; f32 lean; u8 pad18[8]; f32 u; u8 pad24[4]; f32 uw; };
-struct Ctx_802523CC { u8 pad0[0x20]; f32 pivot; u8 pad24[4]; f32 scale; };
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
 s32 draw_resolved_window__15TWindowFukidasiFllll(Fuki_80250F70 *, f32 *, f32 *, s32);
 }
@@ -153,7 +138,6 @@ s32 TWindowFukidasi__sub_802505C0(Fuki_80251028 *b, f32 *rect, f32 *out);
 s32 shift_rect_with_head__15TWindowFukidasiFPvPvPv(Fuki_80250F70 *b, f32 *rect, f32 *out);
 void refresh_rect_placement__15TWindowFukidasiFPv(Fuki_80251028 *b);
 void set_text__15TWindowFukidasiFPvii(u8 *arg0, saddr arg1, saddr arg2);
-void draw_name_plate__15TWindowFukidasiFv(TWindowFukidasi *, View_80252764 *, u32);
 void TWindowFukidasi__sub_80252C38(void *p);
 s32 fn_80252CBC(void);
 s32 reset_float_field__15TWindowHelpItemFv();
@@ -177,7 +161,6 @@ struct WindowFukidasiLayoutEntries { s32 value; u32 remaining[8]; };
 WindowFukidasiLayoutEntries window_fukidasi_layout_entries = {1, {1, 3, 0, 0, 0x3F000000, 0xFFFFFFFF, 0, 0}};
 u32 window_fukidasi_addition_params[5] = {0, 0, 0x476A6000, 0, 0x7023};
 const char *window_fukidasi_class_name = TWindowFukidasi__class_name_string;
-extern void *hud_texlist;
 
 #define F70_80250A24 ((Fuki_80250F70 *)b)
 #define CLAMP_80250A24 ((s32 (*)(Fuki_80250F70 *, f32 *, f32))clamp_position__15TWindowFukidasiFPvf)
@@ -193,7 +176,6 @@ struct Fuki_80251790 {
     s32 frame;
 };
 
-extern "C" s32 draw_small_font_string_clipped__FPfPCcUlf(f32 *pos, const char *s, u32 color, f32 width);
 saddr get_zero_vec2();
 }
 
@@ -296,7 +278,7 @@ void TWindowFukidasi::run_task() {
 #pragma fp_contract on
 void TWindowFukidasi::render() {
     f32 off[2];
-    View_80252764 *v;
+    WindowDrawContext *v;
     switch (static_cast<u8>(m_70)) {
     case 0:
         project_anchor(NULL, head_position);
@@ -321,72 +303,72 @@ void TWindowFukidasi::render() {
         break;
     }
     follow_anchor();
-    v = reinterpret_cast<View_80252764 *>(get_draw_context());
-    v->sx /= TCameraCtrl::get_view_scale();
-    v->sy /= TCameraCtrl::get_fov();
+    v = get_draw_context();
+    v->scale[0] /= TCameraCtrl::get_view_scale();
+    v->scale[1] /= TCameraCtrl::get_fov();
     off[0] = 3.0f * tail_scale;
     off[1] = 2.5f * tail_scale;
-    draw_body((struct DrawCtx_80252558 *)(v), (u32)(0xFF000000), off, 0.0299f + draw_depth);
+    draw_body(v, (u32)(0xFF000000), off, 0.0299f + draw_depth);
     draw_tail(v, (u32)(0xFF000000), off, 0.01495f + draw_depth);
     off[0] = 0.0f;
     off[1] = 0.0f;
-    draw_body((struct DrawCtx_80252558 *)(v), static_cast<u32>(balloon_color), off, 0.01495f + draw_depth);
+    draw_body(v, static_cast<u32>(balloon_color), off, 0.01495f + draw_depth);
     draw_tail(v, static_cast<u32>(balloon_color), off, 0.04485f + draw_depth);
     if (is_active() != 0) {
         draw_visible_window_entries(
             this,
             &entry_list,
-            reinterpret_cast<WindowDrawContext *>(v));
-        draw_name_plate__15TWindowFukidasiFv(this, v, static_cast<u32>(balloon_color));
+            v);
+        draw_name_plate(v, static_cast<u32>(balloon_color));
     }
 }
 
-void TWindowFukidasi::draw_body(void *ctx, u32 argb, f32 *offset, f32 depth) {
-    struct Slice_80252558 s;
+void TWindowFukidasi::draw_body(WindowDrawContext *context, u32 argb, f32 *offset, f32 depth) {
+    RotatedQuadSpriteRect s;
     f32 width;
     f32 capY;
     f32 mid;
     f32 d;
     f32 t;
-    width = ((struct Fukidasi_80252558 *)this)->size[0] + 0.342f * ((struct Fukidasi_80252558 *)this)->size[1];
-    s.f10 = 0.0f;
-    s.f2c = 0.0f;
-    s.f30 = 0.0f;
+    width = frame_size[0] + 0.342f * frame_size[1];
+    s.edge_a_y = 0.0f;
+    s.edge_a_v = 0.0f;
+    s.edge_b_u = 0.0f;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(1, argb);
-    if (((struct Fukidasi_80252558 *)this)->size[1] < 64.0f) {
-        capY = 0.5f * ((struct Fukidasi_80252558 *)this)->size[1];
+    if (frame_size[1] < 64.0f) {
+        capY = 0.5f * frame_size[1];
     } else {
         capY = 32.0f;
     }
-    s.z = -1.0f / depth;
-    s.y = ((struct Fukidasi_80252558 *)this)->position[1] + offset[1];
-    s.rowHeight = capY;
+    s.depth = -1.0f / depth;
+    s.y = frame_position[1] + offset[1];
+    s.edge_b_y = capY;
     s.v = 0.0f;
-    s.vh = capY / 256.0f;
-    s.y = ((struct DrawCtx_80252558 *)ctx)->pivot[1] + ((struct DrawCtx_80252558 *)ctx)->scale[1] * (s.y - ((struct DrawCtx_80252558 *)ctx)->pivot[1]);
-    s.rowHeight *= ((struct DrawCtx_80252558 *)ctx)->scale[1];
-    draw_body_row(&s, ((struct DrawCtx_80252558 *)ctx), offset[0], 0.0f, width, capY);
-    s.y = (((struct Fukidasi_80252558 *)this)->size[1] + (((struct Fukidasi_80252558 *)this)->position[1] + offset[1])) - capY;
-    s.y = ((struct DrawCtx_80252558 *)ctx)->pivot[1] + ((struct DrawCtx_80252558 *)ctx)->scale[1] * (s.y - ((struct DrawCtx_80252558 *)ctx)->pivot[1]);
+    s.edge_b_v = capY / 256.0f;
+    s.y = context->pivot[1] + context->scale[1] * (s.y - context->pivot[1]);
+    s.edge_b_y *= context->scale[1];
+    draw_body_row(&s, context, offset[0], 0.0f, width, capY);
+    s.y = (frame_size[1] + (frame_position[1] + offset[1])) - capY;
+    s.y = context->pivot[1] + context->scale[1] * (s.y - context->pivot[1]);
     t = 96.0f - capY;
     s.v = t / 256.0f;
-    draw_body_row(&s, ((struct DrawCtx_80252558 *)ctx), offset[0], ((struct Fukidasi_80252558 *)this)->size[1] - capY, width, capY);
-    d = ((struct Fukidasi_80252558 *)this)->size[1] - 64.0f;
-    mid = d * ((struct DrawCtx_80252558 *)ctx)->scale[1];
+    draw_body_row(&s, context, offset[0], frame_size[1] - capY, width, capY);
+    d = frame_size[1] - 64.0f;
+    mid = d * context->scale[1];
     if (mid >= 0.0f) {
-        f32 y = 32.0f + ((struct Fukidasi_80252558 *)this)->position[1];
+        f32 y = 32.0f + frame_position[1];
         s.y = y + offset[1];
-        s.y = ((struct DrawCtx_80252558 *)ctx)->pivot[1] + ((struct DrawCtx_80252558 *)ctx)->scale[1] * (s.y - ((struct DrawCtx_80252558 *)ctx)->pivot[1]);
+        s.y = context->pivot[1] + context->scale[1] * (s.y - context->pivot[1]);
         s.v = 0.125f;
-        s.rowHeight = mid;
-        draw_body_row(&s, ((struct DrawCtx_80252558 *)ctx), offset[0], 32.0f, width, d);
+        s.edge_b_y = mid;
+        draw_body_row(&s, context, offset[0], 32.0f, width, d);
     }
     TWindowSubStatusDisp::get_player();
 }
 
-void TWindowFukidasi::draw_body_row(void *s, void *ctx, f32 offsetX, f32 rowTop, f32 fullWidth, f32 rowHeight) {
+void TWindowFukidasi::draw_body_row(RotatedQuadSpriteRect *slice, WindowDrawContext *context, f32 offsetX, f32 rowTop, f32 fullWidth, f32 rowHeight) {
     f32 left;
     f32 cap;
     f32 w;
@@ -396,32 +378,32 @@ void TWindowFukidasi::draw_body_row(void *s, void *ctx, f32 offsetX, f32 rowTop,
     } else {
         cap = 32.0f;
     }
-    left = offsetX + (((Fuki_802523CC *)this)->x - 0.342f * rowTop);
+    left = offsetX + (frame_position[0] - 0.342f * rowTop);
 
-    ((Slice_802523CC *)s)->x = left;
-    ((Slice_802523CC *)s)->width = cap;
-    ((Slice_802523CC *)s)->lean = 0.342f * -rowHeight;
-    ((Slice_802523CC *)s)->u = 0.3828125f;
-    ((Slice_802523CC *)s)->uw = cap / 256.0f;
-    ((Slice_802523CC *)s)->x = ((Ctx_802523CC *)ctx)->pivot + ((Ctx_802523CC *)ctx)->scale * (((Slice_802523CC *)s)->x - ((Ctx_802523CC *)ctx)->pivot);
-    ((Slice_802523CC *)s)->width *= ((Ctx_802523CC *)ctx)->scale;
-    ((Slice_802523CC *)s)->lean *= ((Ctx_802523CC *)ctx)->scale;
-    DVDConvertEntrynumToPath((f32 *)((Slice_802523CC *)s));
-    ((Slice_802523CC *)s)->x = left + fullWidth - cap;
-    ((Slice_802523CC *)s)->x = ((Ctx_802523CC *)ctx)->pivot + ((Ctx_802523CC *)ctx)->scale * (((Slice_802523CC *)s)->x - ((Ctx_802523CC *)ctx)->pivot);
-    ((Slice_802523CC *)s)->u = (194.0f - cap) / 256.0f;
-    DVDConvertEntrynumToPath((f32 *)((Slice_802523CC *)s));
-    w = (fullWidth - 64.0f) * ((Ctx_802523CC *)ctx)->scale;
+    slice->x = left;
+    slice->edge_a_x = cap;
+    slice->edge_b_x = 0.342f * -rowHeight;
+    slice->u = 0.3828125f;
+    slice->edge_a_u = cap / 256.0f;
+    slice->x = context->pivot[0] + context->scale[0] * (slice->x - context->pivot[0]);
+    slice->edge_a_x *= context->scale[0];
+    slice->edge_b_x *= context->scale[0];
+    DVDConvertEntrynumToPath(&slice->x);
+    slice->x = left + fullWidth - cap;
+    slice->x = context->pivot[0] + context->scale[0] * (slice->x - context->pivot[0]);
+    slice->u = (194.0f - cap) / 256.0f;
+    DVDConvertEntrynumToPath(&slice->x);
+    w = (fullWidth - 64.0f) * context->scale[0];
     if (w >= 0.0f) {
-        ((Slice_802523CC *)s)->x = 32.0f + left;
-        ((Slice_802523CC *)s)->x = ((Ctx_802523CC *)ctx)->pivot + ((Ctx_802523CC *)ctx)->scale * (((Slice_802523CC *)s)->x - ((Ctx_802523CC *)ctx)->pivot);
-        ((Slice_802523CC *)s)->width = w;
-        ((Slice_802523CC *)s)->u = 0.5078125f;
-        DVDConvertEntrynumToPath((f32 *)((Slice_802523CC *)s));
+        slice->x = 32.0f + left;
+        slice->x = context->pivot[0] + context->scale[0] * (slice->x - context->pivot[0]);
+        slice->edge_a_x = w;
+        slice->u = 0.5078125f;
+        DVDConvertEntrynumToPath(&slice->x);
     }
 }
 
-void TWindowFukidasi::draw_tail(void *view, u32 color, f32 *off, f32 depth) {
+void TWindowFukidasi::draw_tail(WindowDrawContext *context, u32 color, f32 *off, f32 depth) {
     NJS_POINT2 verts[3];
     f32 pos[3];
     NJS_POINT2COL prim;
@@ -461,79 +443,79 @@ void TWindowFukidasi::draw_tail(void *view, u32 color, f32 *off, f32 depth) {
 #pragma fp_contract on
 #pragma opt_common_subs off
 extern "C" {
-void draw_name_plate__15TWindowFukidasiFv(TWindowFukidasi *self, View_80252764 *arg1, u32 arg2) {
+void TWindowFukidasi::draw_name_plate(WindowDrawContext *context, u32 argb) {
   f32 pos[2];
-  f32 q[8];
+  TexturedQuad q;
   f32 scale;
   f32 textW;
   s32 alpha;
   s32 alphaBits;
   s32 color;
   f32 new_var;
-  void *name;
-  name = self->name;
-  if ((name != 0) && (arg1->fade_in >= 0))
+  char *name_text;
+  name_text = name;
+  if ((name_text != 0) && (context->open_tick >= 0))
   {
-    textW = (f32) ((u32) get_name_text_width(name));
-    if (arg1->fade_in < 6)
+    textW = (f32) ((u32) get_name_text_width(name_text));
+    if (context->open_tick < 6)
     {
-      alpha = (s32) (0.16666667f * ((f32) ((s32) (arg1->fade_in * 0xFF))));
+      alpha = (s32) (0.16666667f * ((f32) ((s32) (context->open_tick * 0xFF))));
     }
     else
     {
       alpha = 0xFF;
     }
     alphaBits = alpha << 24;
-    color = arg2 & 0xffffff;
+    color = argb & 0xffffff;
     color |= alphaBits & 0xff000000;
-    pos[0] = arg1->x - 11.0f;
-    pos[1] = arg1->y - 10.0f;
-    scale = -1.0f / (0.0598f + arg1->depth);
+    pos[0] = context->x - 11.0f;
+    pos[1] = context->y - 10.0f;
+    scale = -1.0f / (0.0598f + context->depth);
     begin_screen_draw(1);
     TWindowSubStatusDisp::render_forward();
     set_draw_texture_and_color(0, color);
-    q[0] = pos[0];
-    q[1] = pos[1];
-    q[2] = 16.0f + q[0];
-    q[3] = 19.0f + q[1];
-    q[4] = 0.56640625f;
-    q[5] = 0.92578125f;
-    q[6] = 0.62890625f;
-    q[7] = 1.0f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)q);
-    draw_textured_quad_at_depth(q, scale);
+    q.x0 = pos[0];
+    q.y0 = pos[1];
+    q.x1 = 16.0f + q.x0;
+    q.y1 = 19.0f + q.y0;
+    q.u0 = 0.56640625f;
+    q.v0 = 0.92578125f;
+    q.u1 = 0.62890625f;
+    q.v1 = 1.0f;
+    context->transform_quad(&q);
+    draw_textured_quad_at_depth(&q.x0, scale);
     if (textW < 20.0f)
     {
-      q[0] = 12.0f + ((20.0f + pos[0]) - 16.0f);
+      q.x0 = 12.0f + ((20.0f + pos[0]) - 16.0f);
     }
     else
     {
-      q[0] = 12.0f + ((pos[0] + textW) - 16.0f);
+      q.x0 = 12.0f + ((pos[0] + textW) - 16.0f);
     }
-    q[1] = pos[1];
-    q[2] = 16.0f + q[0];
-    q[3] = 19.0f + q[1];
-    q[4] = 0.69140625f;
-    q[5] = 0.92578125f;
-    q[6] = 0.75390625f;
-    q[7] = 1.0f;
-    ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)q);
-    draw_textured_quad_at_depth(q, scale);
+    q.y0 = pos[1];
+    q.x1 = 16.0f + q.x0;
+    q.y1 = 19.0f + q.y0;
+    q.u0 = 0.69140625f;
+    q.v0 = 0.92578125f;
+    q.u1 = 0.75390625f;
+    q.v1 = 1.0f;
+    context->transform_quad(&q);
+    draw_textured_quad_at_depth(&q.x0, scale);
     if (textW > 20.0f)
     {
       {
         f32 k = 16.0f;
-        q[0] = (new_var = pos[0]) + k;
+        q.x0 = (new_var = pos[0]) + k;
       }
-      q[1] = pos[1];
-      q[2] = 12.0f + ((new_var + textW) - 16.0f);
-      q[3] = 19.0f + q[1];
-      q[4] = 0.62890625f;
-      q[5] = 0.92578125f;
-      q[6] = 0.69140625f;
-      q[7] = 1.0f;
-      ((WindowDrawContext *)arg1)->transform_quad((TexturedQuad *)q);
-      draw_textured_quad_at_depth(q, scale);
+      q.y0 = pos[1];
+      q.x1 = 12.0f + ((new_var + textW) - 16.0f);
+      q.y1 = 19.0f + q.y0;
+      q.u0 = 0.62890625f;
+      q.v0 = 0.92578125f;
+      q.u1 = 0.69140625f;
+      q.v1 = 1.0f;
+      context->transform_quad(&q);
+      draw_textured_quad_at_depth(&q.x0, scale);
     }
     TWindowSubStatusDisp::get_player();
     pos[0] += 6.0f;
@@ -542,8 +524,8 @@ void draw_name_plate__15TWindowFukidasiFv(TWindowFukidasi *self, View_80252764 *
       pos[0] = (0.5f * (20.0f - textW)) + pos[0];
     }
     pos[1] += 3.0f;
-    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 0, 1, -1.0f / (0.07475f + arg1->depth), 100000.0f);
-    draw_small_font_string_clipped__FPfPCcUlf(pos, self->name, alphaBits, 1000000.0f);
+    set_text_draw_params(context, 0, 1, -1.0f / (0.07475f + context->depth), 100000.0f);
+    draw_small_font_string_clipped(pos, name, alphaBits, 1000000.0f);
   }
 }
 }
@@ -749,14 +731,13 @@ void TWindowFukidasi::set_color(u16 color) {
 #pragma fp_contract on
 extern "C" {
 void TWindowFukidasi::get_boundary_offset(s32 angle, f32 *out) {
-    Fuki_8025181C *b = (Fuki_8025181C *)this;
     f32 ax;
     f32 ay;
     f32 kx;
     f32 ky;
     s32 neg;
-    ax = 0.5f * (0.5f * b->w + 14.0f);
-    ay = 0.5f * (0.5f * b->h + 10.0f);
+    ax = 0.5f * (0.5f * target_size[0] + 14.0f);
+    ay = 0.5f * (0.5f * target_size[1] + 10.0f);
     out[0] = ax * cos_table_lookup(angle);
     out[1] = ay * sin_table_lookup(angle);
     if ((angle + 0x2000) & 0x4000) {

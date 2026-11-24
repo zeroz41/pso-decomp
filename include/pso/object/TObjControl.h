@@ -4,6 +4,8 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+class TObjChara;
+
 class TObjControl : public TObject {
 public:
     TObjControl(TObject *parent);
@@ -15,7 +17,7 @@ public:
 };
 
 extern "C" {
-u8 *get_enemy_entity(u16 arg0);
+TObjChara *get_enemy_entity(u16 arg0);
 }
 
 #endif

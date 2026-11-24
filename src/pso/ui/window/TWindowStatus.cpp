@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
@@ -34,7 +35,6 @@ void draw_photon_blast_gauge_ring(s32, void *, const f32 *, f32, f32);
 void begin_screen_draw(s32 mode);
 s32 draw_textured_quad_at_depth(void *, f32);
 void set_draw_texture_and_color(s32 idx, s32 color);
-extern s32 hud_texlist;
 
 s32 draw_right_aligned_number(void *);
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp);
@@ -145,9 +145,9 @@ void TWindowStatus::draw_background(u8 *ctx) {
         draw_photon_blast_gauge_ring((saddr)this, ctx, pos, *(s32 *)((s8 *)e + 0x20), 26.0f);
     }
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(0xB, *(s32 *)((s8 *)ctx + 0x34));
-    { f32 r = TWindowSubComCard__sub_80244784((TWindowSubComCard *)this);
+    { f32 r = get_transition_progress();
     s = -1.0f / (0.0598f + this->draw_depth);
     q.x0 = -(69.0f * (w = 1.0f - r)); }
     q.y0 = -(80.0f * w);

@@ -164,7 +164,7 @@ void TOWreckAncient::free_statics() {
         wreck_ancient_bml_resource = NULL;
     }
     if (wreck_ancient_brakable_bml_resource != NULL) {
-        delete (BmlResource *)wreck_ancient_brakable_bml_resource;
+        delete wreck_ancient_brakable_bml_resource;
         wreck_ancient_brakable_bml_resource = NULL;
     }
 }
@@ -304,20 +304,20 @@ void TOWreckAncientBrakable::spawn_debris() {
     AncientWreckDebrisOffsets arr = TOWreckAncientBrakable__debris_table;
     TObjChipParams p = TOWreckAncientBrakable__debris_param_table;
     s32 i;
-    p.pos[0] = position.x;
-    p.pos[1] = position.y;
-    p.pos[2] = position.z;
-    p.floor_y = p.pos[1];
+    p.pos.x = position.x;
+    p.pos.y = position.y;
+    p.pos.z = position.z;
+    p.floor_y = p.pos.y;
     for (i = 0; i < 9; i++) {
         VecCopy(&tmp, &arr.offsets[i]);
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, rotation_y);
         rotate_vector_by_matrix(0, &tmp, &tmp);
         pop_matrix();
-        VecCopy((Vec *)p.pos, &position);
-        vec3_add_to((Vec *)p.pos, &tmp);
-        p.model = (saddr)get_bml_model((BmlResource *)wreck_ancient_brakable_bml_resource, i);
-        p.textures = get_bml_texlist((BmlResource *)wreck_ancient_brakable_bml_resource, i);
+        VecCopy(&p.pos, &position);
+        vec3_add_to(&p.pos, &tmp);
+        p.model = get_bml_model(wreck_ancient_brakable_bml_resource, i);
+        p.textures = get_bml_texlist(wreck_ancient_brakable_bml_resource, i);
         new TObjChip(tl_05, &p);
     }
 }

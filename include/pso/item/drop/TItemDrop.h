@@ -4,13 +4,14 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct SubtractiveRng;
+
 struct TItemDrop : public TObject {
     TItemDrop(TObject *parent, s8 section);
     virtual ~TItemDrop();
     // create_load_unload_set(item_drop_load_unload_table) (name inferred).
     saddr load_unload_set;
-    // 17 run_step-seeded entries the ctor allocates (name inferred).
-    saddr *entries;
+    SubtractiveRng **entries;
     // item_drop_load_unload_table's {load, unload} pairs (names inferred:
     // the first opens ItemPT.gsl/ItemRT.gsl, the second allocates and frees
     // the unit star tables).
@@ -18,7 +19,6 @@ struct TItemDrop : public TObject {
     static void unload_drop_tables();
     static void alloc_unit_star_tables();
     static void free_unit_star_tables();
-    static s32 run_step(s32 arg0);
     static void clear_item_if_player_picked_up(void* p, void* id);
     static s32 calc_drop_offset(s32 arg0);
     static void set_drop_index(void *rng, void *item);
@@ -29,7 +29,8 @@ struct TItemDrop : public TObject {
     static s32 is_enabled();
     static s32 is_not_special(void *);
     static s32 can_drop();
-    u32 roll_channel_below(s32 count, u32 arg2);
+    u32 roll_channel_below(s32 count, u32 channel);
+    f32 roll_table_ratio(u32 channel);
     void generate_drop_item(s32 idx, u8 *item);
     static s32 select_rare_box_item(s32 rng, s32 off, u8 *item);
     static s32 drop_item(s32 rng, s32 area, saddr item);

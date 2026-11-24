@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include <string.h>
@@ -109,9 +110,9 @@ s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
     d = t->enemy_rows;
     for (i = 0; i < n; i++) {
         if (s->type != -1) {
-            d->id = s->id;
-            d->room = s->room;
-            d->wave = s->wave;
+            d->id = s->placement.id;
+            d->room = s->placement.room;
+            d->wave = s->placement.wave;
             d++;
         }
         s++;
@@ -126,7 +127,7 @@ s32 init_quest_floor_enemies(s32 idx, EnemySetRecord *src, u32 size) {
         if (floor_set_archives[idx].enemies != NULL) {
             TLobby::send_or_handle_packet(floor_set_archive_pool, (void *)buf, floor_set_archives[idx].enemies, (void *)sz, (u32)0);
         }
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+        safe_free(buf);
     } else if (floor_set_archives[idx].enemies != NULL) {
         TLobby::send_or_handle_packet(floor_set_archive_pool, (void *)src, floor_set_archives[idx].enemies, (void *)sz, (u32)0);
     }
@@ -178,7 +179,7 @@ s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, FloorObjectSetRow *sr
         if (floor_set_archives[idx].objects != NULL) {
             TLobby::send_or_handle_packet(floor_set_archive_pool, (void *)buf, floor_set_archives[idx].objects, (void *)sz, (u32)0);
         }
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+        safe_free(buf);
     } else if (floor_set_archives[idx].objects != NULL) {
         TLobby::send_or_handle_packet(floor_set_archive_pool, (void *)src, floor_set_archives[idx].objects, (void *)sz, (u32)0);
     }

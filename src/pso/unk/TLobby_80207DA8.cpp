@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/map/MapSetArchive.h"
 #include "pso/network/FloorEventCommand.h"
@@ -11,7 +12,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
@@ -453,13 +453,12 @@ s32 TLobby::get_drop_item_mode() {
     }
 }
 
-saddr load_relocatable_file(saddr name, saddr arg1);
 
 // inferred: first word of the loaded SetDataTable*.rel module (update_drop_item/load_item_data)
 MapSetArea *forest_rel_set_data_table;
 // inferred: the SetDataTable*.rel module load_relocatable_file returns
 MapSetModule *forest_rel_module;
-uaddr forest_rel_work_buffer;
+void *forest_rel_work_buffer;
 
 void TLobby::update_drop_item() {
     MapSetModule *temp_r3;
@@ -468,10 +467,10 @@ void TLobby::update_drop_item() {
 
     forest_rel_set_data_table = 0;
     forest_rel_module = NULL;
-    if ((u32) forest_rel_work_buffer != 0U) {
+    if (forest_rel_work_buffer != NULL) {
         drop_item_mode = TLobby::get_drop_item_mode();
         if (get_resource_file_size(forest_rel_filename_table[drop_item_mode]) <= 0x24B8) {
-            temp_r3 = (MapSetModule *)load_relocatable_file((saddr)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
+            temp_r3 = (MapSetModule *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3;
             if (temp_r3 != NULL) {
                 areas = temp_r3->areas;
@@ -485,9 +484,9 @@ void TLobby::update_drop_item() {
 void TLobby__sub_802083C0(void);
 
 void TLobby__sub_802083C0(void) {
-    if ((u32) forest_rel_work_buffer != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)forest_rel_work_buffer));
-        forest_rel_work_buffer = 0U;
+    if (forest_rel_work_buffer != NULL) {
+        safe_free(forest_rel_work_buffer);
+        forest_rel_work_buffer = NULL;
         forest_rel_module = 0;
         forest_rel_set_data_table = 0;
         map_set_areas = 0;
@@ -516,16 +515,16 @@ void TLobby::load_item_data() {
     MapSetModule *temp_r3_2;
     MapSetArea *areas;
     s32 drop_item_mode;
-    u32 temp_r3;
+    void *buffer;
 
     forest_rel_set_data_table = 0;
     forest_rel_module = NULL;
-    temp_r3 = (saddr)TQuestVmDownLoadServer::alloc(0x24B8);
-    forest_rel_work_buffer = temp_r3;
-    if (temp_r3 != 0U) {
+    buffer = TQuestVmDownLoadServer::alloc(0x24B8);
+    forest_rel_work_buffer = buffer;
+    if (buffer != NULL) {
         drop_item_mode = TLobby::get_drop_item_mode();
         if (get_resource_file_size(forest_rel_filename_table[drop_item_mode]) <= 0x24B8) {
-            temp_r3_2 = (MapSetModule *)load_relocatable_file((saddr)forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
+            temp_r3_2 = (MapSetModule *)load_relocatable_file(forest_rel_filename_table[drop_item_mode], forest_rel_work_buffer);
             forest_rel_module = temp_r3_2;
             if (temp_r3_2 != NULL) {
                 areas = temp_r3_2->areas;

@@ -1,7 +1,6 @@
 #include "pso/unk/TUnk_804F1C58.h"
 #include "types.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/unk/TLobby_801E2F94.h"
 
@@ -14,6 +13,6 @@ void TUnk_804F1C58::apply_with_callback(NJS_MOTION *new_motion, f32 new_frame) {
     node_matrix_array_base = node_matrices;
     player_apply_callback_fn = node_callback;
     set_chunk_model_node_callback(process_node_callback);
-    draw_motion(static_cast<NJS_OBJECT *>(model), new_motion, new_frame);
+    draw_motion(model, new_motion, new_frame);
     set_chunk_model_node_callback(NULL);
 }

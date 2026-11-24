@@ -34,7 +34,6 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/key/TOKey.h"
-#include "pso/player/TUnk_804B6C24.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/TLanguage_801E4874.h"
 
@@ -79,7 +78,7 @@ Obj_8018FA6C *fn_8018FA6C(u16 id) {
     while (tl_05->children != 0 && next != 0) {
         cur = next;
         next = cur->next;
-        if (((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TObjDoorKey__class_name) != 0 && cur->id == id) {
+        if (reinterpret_cast<TObject *>(cur)->check_value_equals(TObjDoorKey__class_name) != 0 && cur->id == id) {
             return cur;
         }
     }
@@ -163,7 +162,7 @@ void TObjDoorKey::render() {
 void TObjDoorKey::draw_active_beam() {
     Key_8018FBB8 *arg0 = (Key_8018FBB8 *)this;
     if (TObjDoorKey__data_805D5C04 != actor_frame_tick) {
-        scroll_ginja_mesh_uvs(((Node_8018FBB8 *)TObjDoorKey__ginja_model_table[1])->model, 0, 0x14, 0xE, 1);
+        scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(((Node_8018FBB8 *)TObjDoorKey__ginja_model_table[1])->model), 0, 0x14, 0xE, 1);
         PPCSync();
         TObjDoorKey__data_805D5C04 = actor_frame_tick;
     }

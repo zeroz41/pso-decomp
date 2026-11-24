@@ -1159,7 +1159,7 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 arg2, NetIP
     NetIcmpv6NeighborAdvertisement na;
     NetBufferRef cur;
     Ipv6NdNeighbor *e;
-    void *p6;
+    u8 *p6;
     void netbuf_copy_by_ref(void *, void *, int);
     s16 TLobby__sub_804136AC(s16 pkt); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_80413934(void *, s16); /* declared s16 here; the definition is s32 (u8 *, s16) */
@@ -1422,7 +1422,7 @@ s16 NetIPv6EmitNeighborSolicitation(void *arg0, void *arg1, void *arg2, s16 arg3
     NetMemcpy(&message.target, target, 0x10);
     message.header.checksum = 0;
     message.header.checksum = calc_ipv6_pseudo_header_checksum(&addr->source, &addr->destination, addr->next_header, net_packet, 1);
-    return TLobby__sub_80410BA8(net_packet, addr, b, (void *)d);
+    return TLobby__sub_80410BA8(net_packet, addr, b, (u8 *)d);
 }
 
 #pragma push

@@ -290,7 +290,7 @@ void TAdEndText::free_resources() {
 void TAdEndText::load_ending_font() {
     loaded_font_texture_list = &ending_font_texture_list;
     bind_gvm_texture_list("ed128_font.gvm", &ending_font_texture_list);
-    credit_script_lines = (char **)create_named_object("AdEnding.rel");
+    credit_script_lines = static_cast<char **>(create_named_object("AdEnding.rel"));
     font_loaded_flag = 0;
 }
 

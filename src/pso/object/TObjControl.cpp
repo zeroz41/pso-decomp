@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/enemy/BattleParameters.h"
 #pragma defer_codegen on
 
@@ -77,13 +78,6 @@ struct B_800F698C {
     s16 f0; u8 pad2[4]; u16 f6; s16 f8; s16 fA; u8 padC[4]; Vec v10; Vec v1C; f32 f28[5]; s16 f3C; s16 f3E;
 };
 
-struct Node_800F6E2C {
-    u8 pad0[0x340];
-    Node_800F6E2C *f340;
-    Node_800F6E2C *f344;
-    Node_800F6E2C *f348;
-    Node_800F6E2C *f34C;
-};
 
 extern "C" {
 
@@ -91,7 +85,6 @@ extern "C" {
 extern uaddr TObjPlayer__data_8050D460[];
 
 
-u16 obj_getArrU16_FC(void *, int);
 
 
 s16 get_attack_params_atp_min(void *);
@@ -113,9 +106,7 @@ void handle_6x0A_update_enemy_state(Msg_800F6464 *arg0);
 
 void award_enemy_experience__9TObjEnemyFl(u8 *arg0, s32 arg1);
 
-void link_chain_nodes__10TObjPlayerFPvPvPv(void *arg0, Node_800F6E2C *arg1, Node_800F6E2C *arg2);
 
-void apply_by_index__9TObjEnemyFs(s16, void *);
 
 s32 get_attack_credit_slot_count(void *);
 
@@ -137,7 +128,6 @@ s32 submit_cursor_candidate(void *, int);
 
 void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
 
-extern EnemyStateRecord *TLobby__data_805D6144;
 
 extern u8 lobby_rule_settings[];
 
@@ -159,10 +149,6 @@ void send_6x0A_enemy_state_packet(void *);
         tail = q; \
     }
 
-extern "C" {
-
-s32 copy_header__6TLobbyFPv(s32);
-}
 
 
 #pragma push
@@ -179,11 +165,11 @@ void TObjCollidable::clear_shadow_flag() { this->m_flags &= 0xfffffbff; }
 
 int TObjEnemy::apply_player_54a00() { return unregister_object_by_id(); }
 
-s32 TObjEnemy::apply_by_index(s16 index) {
+s32 TObjEnemy::apply_by_index(s16 index, const EnemyStateRecord *record) {
     if (index > 0xB4F) {
         return 0;
     }
-    copy_header__6TLobbyFPv((saddr)TLobby__data_805D6144 + (index * 0xC));
+    TLobby__data_805D6144[index].copy_header(record);
     return 1;
 }
 
@@ -310,9 +296,8 @@ TObjEnemy* TObjEnemy::groupRoot() {
     return 0;
 }
 
-s32 TObjPlayer::is_action_available() {
-    TObjEnemy*_w0 = (TObjEnemy*)this;
-    return ((saddr)_w0->groupRoot()) ? 1 : 0;
+s32 TObjEnemy::has_group() {
+    return reinterpret_cast<saddr>(groupRoot()) ? 1 : 0;
 }
 
 s32 TUnk_80493450::countChildren() {
@@ -550,30 +535,30 @@ void TUnk_80493450::unlink_enemy_group_relations() {
     this->children = NULL;
 }
 
-void link_chain_nodes__10TObjPlayerFPvPvPv(void *arg0, Node_800F6E2C *arg1, Node_800F6E2C *arg2) {
-    Node_800F6E2C *p = arg1->f34C;
-    Node_800F6E2C *q = arg2->f34C;
+void TObjEnemy::link_chain_nodes(TObjEnemy *source, TObjEnemy *destination) {
+    TObjEnemy *p = source->children;
+    TObjEnemy *q = destination->children;
     if (p != NULL) {
-        while (p->f348 != NULL) {
-            p = p->f348;
+        while (p->next != NULL) {
+            p = p->next;
         }
         if (q == NULL) {
-            if (p->f344 != NULL) {
-                p->f344->f348 = NULL;
-                p->f344 = NULL;
+            if (p->previous != NULL) {
+                p->previous->next = NULL;
+                p->previous = NULL;
             }
-            p->f340 = arg2;
-            arg2->f34C = p;
+            p->group = destination;
+            destination->children = p;
             return;
         }
-        while (q->f348 != NULL) {
-            q = q->f348;
+        while (q->next != NULL) {
+            q = q->next;
         }
-        if (p->f344 != NULL) {
-            p->f344->f348 = NULL;
+        if (p->previous != NULL) {
+            p->previous->next = NULL;
         }
-        p->f344 = q;
-        q->f348 = p;
+        p->previous = q;
+        q->next = p;
     }
 }
 
@@ -633,7 +618,7 @@ void TObjEnemy::distribute_experience() {
             if (id == 0xFFFF) {
                 break;
             }
-            ((void (*)(void *, u16))award_enemy_experience__9TObjEnemyFl)(this, id);
+            ((void (*)(TObjEnemy *, u16))award_enemy_experience__9TObjEnemyFl)(this, id);
         }
     }
 }
@@ -642,7 +627,7 @@ int TObjEnemy::query_lobby_state() { return send_6x60_standard_drop_item_request
 
 void TObjEnemy::refresh_lobby_state() { distribute_experience(); query_lobby_state(); }
 
-u8 *get_enemy_entity(u16 arg0) {
+TObjChara *get_enemy_entity(u16 arg0) {
     s32 low;
     s32 mid;
     s32 high;
@@ -657,9 +642,9 @@ u8 *get_enemy_entity(u16 arg0) {
                 high = mid;
             }
         }
-        uaddr e = TObjPlayer__data_8050D460[low];
-        if (e != 0 && arg0 == ((TObjBase *)e)->get_entity_id()) {
-            return (u8 *)e;
+        TObjChara *e = reinterpret_cast<TObjChara *>(TObjPlayer__data_8050D460[low]);
+        if (e != 0 && arg0 == e->get_entity_id()) {
+            return e;
         }
     }
     return 0;
@@ -770,7 +755,7 @@ void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
     Msg_800F6464 msg;
     u32 new_flags;
     if (((EnemyStateRecord *)state_in) != NULL) {
-        ((TLobby *)(&state))->copy_header(((EnemyStateRecord *)state_in));
+        state.copy_header(static_cast<const EnemyStateRecord *>(state_in));
     } else if (this->exchange_object_state(&state, 1) == 0) {
         return;
     }
@@ -798,7 +783,7 @@ void handle_6x0A_update_enemy_state(Msg_800F6464 *arg0) {
     TObjEnemy *e;
     ((TLobby *)arg0)->bswap_enemy_state();
     idx = arg0->f4;
-    ((TLobby *)(&sp))->copy_header(&TLobby__data_805D6144[idx]);
+    sp.copy_header(&TLobby__data_805D6144[idx]);
     sp.damage = arg0->f6;
     if (game_difficulty_selection == 3) {
         sp.flags &= 0x3F;
@@ -806,7 +791,7 @@ void handle_6x0A_update_enemy_state(Msg_800F6464 *arg0) {
     } else {
         sp.flags = arg0->f8;
     }
-    apply_by_index__9TObjEnemyFs(idx, &sp);
+    TObjEnemy::apply_by_index(idx, &sp);
     e = (TObjEnemy *)get_enemy_entity(arg0->f2);
     if (e != NULL) {
         e->apply_hit_message_flags(&sp);

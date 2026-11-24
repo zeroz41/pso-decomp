@@ -13,7 +13,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/enemy/illgill/TObjIllGillKage.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjChara.h"
@@ -112,17 +111,15 @@ const char *TObjIllGillKage__class_name = "TObjIllGillKage";
 
 #pragma defer_codegen on
 void TObjEneIllGill::load_shared_resources() {
-    void *p;
     BmlResource *resource;
     Vec *q;
 
-    p = new BmlResource(1, &illGillResourceDescriptor, 0, 0, NULL);
-    illGillResource = (BmlResource *)p;
+    illGillResource = new BmlResource(1, &illGillResourceDescriptor, 0, 0, NULL);
     TObjEneIllGill__boss_registration_id = TLobby::register_boss(0x26);
-    ill_gill_combat_parameter_variants[0] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x26);
-    ill_gill_combat_parameter_variants[1] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x27);
-    ill_gill_combat_parameter_variants[2] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x28);
-    ill_gill_combat_parameter_variants[3] = (AttackParams *)TLobby::dispatch_shared_handler_b(0x29);
+    ill_gill_combat_parameter_variants[0] = TLobby::dispatch_shared_handler_b(0x26);
+    ill_gill_combat_parameter_variants[1] = TLobby::dispatch_shared_handler_b(0x27);
+    ill_gill_combat_parameter_variants[2] = TLobby::dispatch_shared_handler_b(0x28);
+    ill_gill_combat_parameter_variants[3] = TLobby::dispatch_shared_handler_b(0x29);
     TObjEneIllGill__resistance_params = TLobby::register_object(0x26);
     illGillAttackBehavior = (IllGillAttackBehavior *)TLobby::dispatch_shared_handler_a(0x26);
     illGillModelNodeIndex = 0;
@@ -170,7 +167,7 @@ TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(paren
     this->add_flags_2e4(8);
     init_collision_body_parts(this, &illGillCollisionBody, 1);
     this->update_prev_position();
-    ((TBoss3VoloptHiraisin *)self)->copy_position();
+    copy_position();
     register_object_by_id();
     movementParameters = &illGillMovement;
     attackType = 0;
@@ -260,7 +257,7 @@ void TObjEneIllGill::run_task() {
         o->target = NULL;
     }
     o->update_prev_position();
-    ((TBoss3VoloptHiraisin *)o)->copy_position();
+    o->copy_position();
     submit_cursor_candidate(o, -1);
     o->frame_timer += 1.0f;
 }
@@ -317,7 +314,7 @@ void TObjEneIllGill::refresh_target() {
     f32 bestDist;
     f32 d;
     u16 t;
-    saddr ent;
+    TObjPlayer *ent;
     if (is_actor_cadence_frame(0x1E) != 0) {
         if (fadingIn != 0) {
             targetId = 0xFFFF;
@@ -332,8 +329,8 @@ void TObjEneIllGill::refresh_target() {
             for (; i < registered_player_count + registered_enemy_count; i++) {
                 pl = (u8 *)TObjPlayer::get_player_data(i);
                 if (pl == NULL) break;
-                if (obj_is_hit_receivable(pl) == 0) continue;
-                id = ((TObjBase *)pl)->get_entity_id();
+                if (obj_is_hit_receivable(reinterpret_cast<TObjCollidable *>(pl)) == 0) continue;
+                id = reinterpret_cast<TObjBase *>(pl)->get_entity_id();
                 if (id >= 0x4000) continue;
                 if (id == entity_id) continue;
                 if (((TObjChara *)pl)->actorFlags & 0x02000800) continue;
@@ -351,10 +348,10 @@ void TObjEneIllGill::refresh_target() {
         }
         t = targetId;
         if (t < 0x1000) {
-            ent = (saddr)get_player_by_client_id(t);
+            ent = get_player_by_client_id(t);
             if (ent != 0) {
-                if (((TObjPlayer *)ent)->get_floor() == get_current_floor()) {
-                    target = (u8 *)ent;
+                if (ent->get_floor() == get_current_floor()) {
+                    target = ent;
                     clear_actor_flags(0x04040000);
                     return;
                 }
@@ -490,7 +487,7 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
     ((TObjEnemy *)o)->enemy_turn_toward_dest(((IllGillMovementParameters *)o->movementParameters)->turn);
     enemy_set_heading_velocity(((IllGillMovementParameters *)o->movementParameters)->speed, (TObjEnemy *)(o), o->rotation_y);
     (*(&o->body_center)).y += 5.0f;
-    move_with_wall_slide((u8 *)o);
+    move_with_wall_slide(o);
 }
 
 void TObjEneIllGill::update_idle() {
@@ -642,27 +639,27 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
     s32 ang;
     f32 rad;
     u16 id;
-    u8 *pl;
+    TObjChara *pl;
 
-    if (this->target != NULL && this->attack_params != NULL && !(((TObjChara *)this->target)->actorFlags & 0x02000800)) {
+    if (this->target != NULL && this->attack_params != NULL && !(this->target->actorFlags & 0x02000800)) {
         if (test_actor_flags(0x2000) != 0) {
             this->attackType = 3;
             bind_enemy_combat_stats(NULL, ill_gill_combat_parameter_variants[this->attackType], NULL);
             return 1;
         }
-        dist = calc_xz_distance_sq(this, (TObjBase *)this->target, &v);
+        dist = calc_xz_distance_sq(this, this->target, &v);
         ang = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
         pl = this->target;
-        if (((TObjChara *)pl)->bodies != NULL) {
-            rad = ((TObjChara *)pl)->bodies->radius - 1.0;
+        if (pl->bodies != NULL) {
+            rad = pl->bodies->radius - 1.0;
         } else {
             rad = 10.0f;
         }
-        id = ((TObjBase *)pl)->get_entity_id();
+        id = reinterpret_cast<TObjBase *>(pl)->get_entity_id();
         if (id < 0x1000) {
             s32 i;
             pl = this->target;
-            if (((TObjPlayer *)pl)->check_player_flag1() == 1 || (enable_v2_features == 1 && ((TObjCollidable *)pl)->test_actor_flags(0x20) != 0)) {
+            if (((TObjPlayer *)pl)->check_player_flag1() == 1 || (enable_v2_features == 1 && pl->test_actor_flags(0x20) != 0)) {
                 this->attack_params = ill_gill_combat_parameter_variants[0];
                 if (dist <= (rad + this->attack_params->get_attack_range()) * (rad + this->attack_params->get_attack_range()) &&
                     ang <= this->attack_params->get_attack_angle()) {
@@ -734,13 +731,13 @@ void TObjEneIllGill::update_weapon_attack() {
     TParticleCtrl *primary;
     TParticleCtrl *secondary;
     TParticleCtrl *tertiary;
-    u8 *player;
-    u8 *hit_target;
-    u8 *chase_target;
+    TObjPlayer *player;
+    TObjChara *hit_target;
+    TObjChara *chase_target;
     target_id = this->targetId;
     if (target_id < 0x1000U) {
-        player = (u8 *)get_player_by_client_id(target_id);
-        if ((player != NULL) && (((TObjPlayer *)player)->get_floor() == get_current_floor())) {
+        player = get_player_by_client_id(target_id);
+        if ((player != NULL) && (player->get_floor() == get_current_floor())) {
             this->target = player;
         } else {
             this->target = NULL;
@@ -765,7 +762,7 @@ void TObjEneIllGill::update_weapon_attack() {
             this->actorFlags = (s32) (this->actorFlags & 0xFFDFFFFF);
             this->actionTimer = 0;
         } else {
-            Vec v = *(Vec *)((u8 *)&((TObjChara *)chase_target)->body_center);
+            Vec v = chase_target->body_center;
             subtract_vector(&v, &body_center);
             angle_left = ((TObjEnemy *)actor)->turn_toward_direction((((IllGillMovementParameters *)movementParameters)->turn), &v);
             apply_actor_gravity((TObjEnemy *)actor, (s32 *)(0), 0.0f);
@@ -837,7 +834,7 @@ void TObjEneIllGill::update_weapon_attack() {
         if (((TObjMotion *)actor)->is_passing_frame((f32)((f32) this->hitFrame)) != 0) {
             this->hitFrame = 0;
             hit_target = this->target;
-            if ((hit_target != NULL) && (((TObjChara *)(hit_target))->select_melee_contact_body(actor, 1.0f) != 0)) {
+            if ((hit_target != NULL) && (hit_target->select_melee_contact_body(actor, 1.0f) != 0)) {
                 switch (this->weaponSpecial) {
                 case 1:
                     ((TObjPlayer *)actor)->set_model_id(7);
@@ -1002,14 +999,14 @@ void TObjEneIllGill::update_death_fall() {
       apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
       if (((TObjMotion *)self)->is_passing_frame((f32)(10.0f)) != 0)
     {
-      play_sound_effect(0x4003A351, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
+      play_sound_effect(0x4003A351, &position, 0, 0);
       this->phase = 2;
     }
       return;
     return;
     case 2:
       this->body_center.y += 5.0f;
-      move_with_wall_slide(self);
+      move_with_wall_slide(this);
       velocity.x *= 0.5f;
       this->velocity.z *= 0.5f;
       if (((TObjMotion *)self)->is_passing_frame((f32)(30.0f)) != 0)
@@ -1022,8 +1019,8 @@ void TObjEneIllGill::update_death_fall() {
     case 3:
       if (((TObjMotion *)self)->is_passing_frame((f32)(52.0f)) != 0)
     {
-      play_sound_effect(0x4003A358, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
-      TObjPlayer::apply_effect_variant_b((saddr)&position, 0xA);
+      play_sound_effect(0x4003A358, &position, 0, 0);
+      TObjPlayer::apply_effect_variant_b(&position, 0xA);
       fn_800D911C(&position);
       this->phase = 4;
       this->deathTimer = 0xA;
@@ -1076,12 +1073,12 @@ void TObjEneIllGill::capture_effect_positions(NJS_OBJECT *) {
 
 void TObjEneIllGill::update_shadow_attack() {
     u8 *arg0_ = (u8 *)this;
-    u8 *pl;
+    TObjPlayer *pl;
     s32 a;
     u8 *enemy = (u8 *)arg0_;
     if (this->targetId < 0x1000U) {
-        pl = (u8 *)get_player_by_client_id(this->targetId);
-        if (pl != NULL && ((TObjPlayer *)pl)->get_floor() == get_current_floor()) {
+        pl = get_player_by_client_id(this->targetId);
+        if (pl != NULL && pl->get_floor() == get_current_floor()) {
             this->target = pl;
         } else {
             this->target = NULL;
@@ -1176,9 +1173,9 @@ void TObjEneIllGill::update_shadow_attack() {
 void TObjEneIllGill::update_charge_attack() {
     TObjEneIllGill *o = this;
     if (o->targetId < 0x1000) {
-        saddr p = (saddr)get_player_by_client_id(o->targetId);
-        if (p != 0 && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
-            o->target = (u8 *)p;
+        TObjPlayer *p = get_player_by_client_id(o->targetId);
+        if (p != NULL && p->get_floor() == get_current_floor()) {
+            o->target = p;
         } else {
             o->target = NULL;
         }
@@ -1205,13 +1202,13 @@ void TObjEneIllGill::update_charge_attack() {
         ((TObjMotion *)o)->advance_animation();
         apply_actor_gravity(o, 0, 0.0f);
         if (o->target != NULL) {
-            Vec v = *(&((TObjChara *)o->target)->body_center);
+            Vec v = o->target->body_center;
             s32 d;
             subtract_vector(&v, &o->body_center);
             d = o->turn_toward_direction((s32)(2.0f * (f32)((IllGillMovementParameters *)o->movementParameters)->turn), &v);
             if (d < o->attack_params->get_attack_angle()) {
                 s32 ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
-                o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client((saddr)o, o->targetId, NULL)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
+                o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client(o, o->targetId, NULL)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
                 if (o->chargeDistance < 100.0f) {
                     o->chargeDistance = 100.0f;
                 }
@@ -1223,7 +1220,7 @@ void TObjEneIllGill::update_charge_attack() {
                 rotate_vector_by_matrix(0, &v, &v);
                 pop_matrices(1);
                 vec3_add_to(&v, &o->body_center);
-                if (select_enemy_destination(o, v, 1) != 0 || select_enemy_destination(o, *(&((TObjChara *)o->target)->body_center), 1) != 0) {
+                if (select_enemy_destination(o, v, 1) != 0 || select_enemy_destination(o, o->target->body_center, 1) != 0) {
                     o->phase = 1;
                     o->requested_action = 8;
                     o->set_actor_flags(0x4000000);
@@ -1248,13 +1245,13 @@ void TObjEneIllGill::update_charge_attack() {
         o->set_actor_flags(0x4000000);
         o->set_indexed_flags(0, 0x80);
         {
-            Vec v = *(&((TObjChara *)o->target)->body_center);
+            Vec v = o->target->body_center;
             s32 d;
             subtract_vector(&v, &o->body_center);
             d = o->turn_toward_direction((s32)(2.0f * (f32)((IllGillMovementParameters *)o->movementParameters)->turn), &v);
             if (d < o->attack_params->get_attack_angle()) {
                 s32 ang = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
-                o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client((saddr)o, o->targetId, NULL)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
+                o->chargeDistance = 30.0f + (newton_sqrtf(TObjPlayer::calc_distance_to_client(o, o->targetId, NULL)) + ((TObjCollidable *)o)->get_collision_body_radius(0));
                 if (o->chargeDistance < 100.0f) {
                     o->chargeDistance = 100.0f;
                 }
@@ -1266,7 +1263,7 @@ void TObjEneIllGill::update_charge_attack() {
                 rotate_vector_by_matrix(0, &v, &v);
                 pop_matrices(1);
                 vec3_add_to(&v, &o->body_center);
-                if (select_enemy_destination(o, v, 1) == 0 && select_enemy_destination(o, *(&((TObjChara *)o->target)->body_center), 1) == 0) {
+                if (select_enemy_destination(o, v, 1) == 0 && select_enemy_destination(o, o->target->body_center, 1) == 0) {
                     if (o->targetId == 0xFFFF) {
                         o->target = NULL;
                     } else {
@@ -1316,7 +1313,7 @@ void TObjEneIllGill::update_charge_attack() {
                 if (p->get_entity_id() >= 0x1000) {
                     break;
                 }
-                if (o->find_actor_body_contact((u8 *)p, 10000.0f) != 0 &&
+                if (o->find_actor_body_contact(reinterpret_cast<TObjCollidable *>(p), 10000.0f) != 0 &&
                     p->select_melee_contact_body(o, 1.0f) != 0) {
                     f32 dmg = p->receive_physical_attack(o, 1.0f);
                     p->set_actor_flags(0x400);
@@ -1339,7 +1336,7 @@ void TObjEneIllGill::update_charge_attack() {
             }
             ((TObjEnemy *)o)->enemy_turn_toward_dest((s32)(4.5f * (f32)prm->turn));
             enemy_set_heading_velocity(spd, (TObjEnemy *)(o), o->rotation_y);
-            move_with_wall_slide((u8 *)o);
+            move_with_wall_slide(o);
             d2 = horizontal_distance_squared(&o->move_destination, &o->body_center);
             t = spd + o->bodies->radius;
             if (d2 < t * t || ((IllGillMovementParameters *)o->movementParameters)->range * ((IllGillMovementParameters *)o->movementParameters)->range < d2 || 120.0f < (f32)(c = o->chargeFrames)) {
@@ -1420,11 +1417,11 @@ void TObjIllGillKage::run_task() {
 }
 
 void TObjIllGillKage::attack_target() {
-    saddr player;
+    TObjPlayer *player;
 
     this->state = 1;
-    player = (saddr)get_player_by_client_id(this->target_id);
-    if ((player != 0) && (TObjPlayer::is_locally_controlled((void *)player) != 0) && (((TObject *)player)->all_parents_unqueued_for_destruction() != 0) && (((TObjCollidable *)player)->test_actor_flags(0x800) == 0)) {
+    player = get_player_by_client_id(this->target_id);
+    if ((player != NULL) && (TObjPlayer::is_locally_controlled(player) != 0) && (player->all_parents_unqueued_for_destruction() != 0) && (player->test_actor_flags(0x800) == 0)) {
         TObjPlayer::play_effect(player, this->timer, 3);
     }
 }

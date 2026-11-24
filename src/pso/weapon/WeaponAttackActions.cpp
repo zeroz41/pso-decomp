@@ -1,3 +1,4 @@
+#include "pso/system/MatrixStack.h"
 #include "types.h"
 #include "pso/object/TActorLight.h"
 
@@ -484,7 +485,7 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
         if (extended_state != 0) {
             var_r23 = 0;
             var_r29 = NULL;
-            ShotVector endpoint = *(ShotVector *)origin;
+            Vec endpoint = *reinterpret_cast<const Vec *>(origin);
             if (i < extended_state->get_captured_target_count()) {
                 temp_r22 = extended_state->get_captured_target_entry(i);
                 var_r29 = (u8 *)(((TObjChara *(*)(u16, s16))resolve_hittable_target)(temp_r22->get_uid(),temp_r22->get_captured_target_collider_index()));
@@ -508,7 +509,7 @@ s32 TItemWeapon::launch_shot(u8 *origin, s32 i, s32 angle, s32 apply) {
                 fallback.x = lbl_805DAC98;
                 fallback.z = *(f32 *)((s8 *)weapon_range_record + 0);
                 rotate_matrix_y(0, (void *) (*(saddr *)((s8 *)this->owner + 0x60) + angle));
-                transform_point_by_current_matrix(&fallback.x, (Vec *)&endpoint.x);
+                transform_point_by_current_matrix(&fallback.x, &endpoint);
                 pop_matrix();
                 vec3_add_to((Vec *)&endpoint.x, (const Vec *)origin);
             }
@@ -1180,9 +1181,9 @@ s32 TItemWeapon::get_joint_position(s32 joint, void *out) {
         floats.spC = lbl_805DAC98;
         floats.sp8 = lbl_805DAC98;
         push_matrix();
-        TObjPlayer::copy_matrix(0, (uaddr)get_model_joint_matrix(owner, joint));
-        premultiply_matrix(0, (saddr)TCameraCtrl::get_view_matrix());
-        transform_point_by_current_matrix(&floats.sp8, (Vec *)out);
+        ::copy_matrix(NULL, get_model_joint_matrix(owner, joint));
+        premultiply_matrix(NULL, TCameraCtrl::get_view_matrix());
+        transform_point_by_current_matrix(&floats.sp8, static_cast<Vec *>(out));
         pop_matrix();
     } else {
         player->get_anim_node_position(0x30, (Vec *)out);

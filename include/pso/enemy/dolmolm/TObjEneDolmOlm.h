@@ -72,9 +72,9 @@ s32 TObjEneDolmOlm__sub_80300CF0(void);
 extern BmlResource *TObjEneDolmOlm__resource_bundle;
 extern SampledMotionPoints *TObjEneDolmOlm__left_attack_samples; // the left attack's (action 3) trail samples
 extern SampledMotionPoints *TObjEneDolmOlm__right_attack_samples; // the right attack's (action 4) trail samples
-extern u8 **dolm_olm_combat_stat_id_pair;
-extern u8 **TObjEneDolmOlm__shared_handler_ids;
-extern u8 **TObjEneDolmOlm__registered_object_ids;
+extern player_stats **dolm_olm_combat_stat_id_pair;
+extern AttackParams **TObjEneDolmOlm__shared_handler_ids;
+extern ActorParamBlock **TObjEneDolmOlm__registered_object_ids;
 extern DolmOlmBehaviorParams **TObjEneDolmOlm__behavior_params_by_variant;
 extern s32 TObjEneDolmOlm__effect_render_state;
 extern TObjMotionAction TObjEneDolmOlm__param_table[13];

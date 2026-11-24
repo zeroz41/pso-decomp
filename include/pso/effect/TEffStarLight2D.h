@@ -2,7 +2,8 @@
 #define PSO_TEFFSTARLIGHT2D_H
 #include "pso/system/task/TObject.h"
 #include "types.h"
-#include "pso/unk/TLobby_801E2F94.h"
+#include "pso/render/ColorLineList.h"
+#include <stddef.h>
 #include <dolphin/mtx/GeoTypes.h>
 
 union StarLightColor {
@@ -42,5 +43,7 @@ public:
 LAYOUT_ASSERT(StarLightColorSize, sizeof(StarLightColor) == 4);
 LAYOUT_ASSERT(StarLightParametersSize, sizeof(StarLightParameters) == 0x14);
 LAYOUT_ASSERT(TEffStarLight2DSize, sizeof(TEffStarLight2D) == 0x4C);
+LAYOUT_ASSERT(StarLightPositionOffset, offsetof(TEffStarLight2D, position) == 0x2C);
+LAYOUT_ASSERT(StarLightParametersOffset, offsetof(TEffStarLight2D, parameters) == 0x38);
 
 #endif

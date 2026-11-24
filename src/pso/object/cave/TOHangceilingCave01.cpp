@@ -1,3 +1,5 @@
+#include "pso/system/memory.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/GinjaTexture.h"

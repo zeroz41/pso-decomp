@@ -1,3 +1,4 @@
+#include "pso/player/PlayerState.h"
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
@@ -23,8 +24,6 @@ s32 get_main_phase();
 extern "C" {
 s32 is_key_machine_ready__10TObjPlayerFv();
 u8 *find_player_arrival_set(void *, s32);
-s32 TObjPlayer__sub_801BF954(void *, int);
-s32 TObjPlayer__sub_801BF95C(void *);
 void *consume_telepipe_arrival(u16, void *);
 extern Ent_801BC194 TObjPlayer__arrival_override_table[];
 extern const f32 TObjPlayer__data_805DC278;
@@ -40,7 +39,7 @@ void TObjPlayer::place_on_area_entry() {
         this->check_flag(0x100000) == 0 && is_key_machine_ready__10TObjPlayerFv() != 0) {
         this->set_state_flags(0x100000);
         this->set_position_from(this->get_lobby_entry_ptr());
-        this->rotation_y = ((TObjPlayer *)arg0)->get_lobby_entry_yaw();
+        this->rotation_y = get_lobby_entry_yaw();
         send_impose_hold(this, 0x1E);
         TObjPlayer::set_camera_mode(3);
         new TForceOperate(tl_02, ((TObjBase *)(arg0))->get_entity_id());

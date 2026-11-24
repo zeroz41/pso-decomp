@@ -1,4 +1,6 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/system/BmlResource.h"
+#include "pso/enemy/moja/TObjEneMoja.h"
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -43,7 +45,7 @@ TObjNpcMoja::TObjNpcMoja(TObject *parent, void *set_data) : TObjNpcBase(parent) 
     init_collision_body_parts(this, &collision_body_parts, 1);
     register_object_by_id();
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
 }
 
 TObjNpcMoja::~TObjNpcMoja() {}

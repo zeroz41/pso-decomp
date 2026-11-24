@@ -33,8 +33,8 @@ void TUnk_804A1D30::vfunc_60() {
 TUnk_804A1D30::~TUnk_804A1D30() {}
 
 TUnk_804A1D30::TUnk_804A1D30(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
-    set_weapon_trail_joints((saddr)this, 0, 3, 2);
-    set_weapon_trail_joints((saddr)this, 1, 4, 5);
+    set_weapon_trail_joints(this, 0, 3, 2);
+    set_weapon_trail_joints(this, 1, 4, 5);
     scale.x = scale.y = scale.z = 1.0f;
 }
 

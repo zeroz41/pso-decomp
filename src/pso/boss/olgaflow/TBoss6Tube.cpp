@@ -1,4 +1,6 @@
 #include "pso/system/TLanguage_801E4874.h"
+#include "pso/system/memory.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
@@ -13,7 +15,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include <stdlib.h>
 #include "pso/unk/text_803D96A8.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
@@ -211,7 +212,7 @@ void TBoss6Tube::free_resources() {
     }
     if (boss6_tube_texture_list != NULL) {
         release_texture_list(boss6_tube_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)boss6_tube_texture_list);
+        safe_free(boss6_tube_texture_list);
         boss6_tube_texture_list = NULL;
     }
     TBoss6Tube::reset_state();

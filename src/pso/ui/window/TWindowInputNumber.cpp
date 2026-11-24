@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/unk/TUnk_804CF9C8.h"
@@ -125,7 +126,6 @@ struct ArrowUVs { UV_802563A0 uv[2]; };
 static const ArrowUVs arrow_uvs = {{{224.0f, 0.0f}, {240.0f, 0.0f}}};
 
 extern "C" {
-extern s32 hud_texlist;
 
 void TWindowInputNumber::create(s32 title) {
     uaddr var_r0;
@@ -217,7 +217,7 @@ void TWindowInputNumber::draw_arrows(WindowDrawContext *ctx, TUnk_804CF9C8 *digi
     y = ctx->inner_y + digit->y;
     depth = -1.0f / (0.22424999f + ctx->depth);
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(0, -1);
     q.x0 = x;
     q.y0 = y - 15.0f;

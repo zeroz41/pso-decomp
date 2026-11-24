@@ -42,7 +42,7 @@ void TObjVoloptPillar::spawn_debris_chips() {
         {0x400, 0x100, 0x400},
         4, 60,
         0.0f, 1.0f,
-        (saddr)boss3_volopt_resources->models[0xE].model,
+        boss3_volopt_resources->models[0xE].model,
         boss3_volopt_resources->models[0xE].texlist,
         2,
     };
@@ -117,7 +117,7 @@ void TObjVoloptPillar::run_task() {
                     if (target == NULL) {
                         break;
                     }
-                    if (obj_is_hit_receivable((u8 *)target) != 0) {
+                    if (obj_is_hit_receivable(target) != 0) {
                         DirectAttackPayload attack = volopt_pillar_attack;
                         attack.power = TBoss3VoloptP02::get_int_param(1);
                         target->receive_direct_attack(owner, attack, NULL, -1, -1);

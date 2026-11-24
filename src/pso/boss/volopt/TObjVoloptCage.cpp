@@ -5,7 +5,6 @@
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/unk/TLobby.h"
@@ -29,11 +28,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
-// TBoss3Volopt::create_breakup_mdl takes saddr; through that declaration CW keeps the param and Vec addresses
-// in saved registers across the two calls, so the call goes through the pointer-typed symbol.
-extern "C" void create_breakup_mdl__12TBoss3VoloptFllP11NJS_TEXLISTll(TBreakUpMdlData *model, VoloptBreakUpParams *params,
-                                                         NJS_TEXLIST *textures, Vec *pos, s32 angle);
-
 extern BmlResource *volopt_p02_resources;
 
 
@@ -44,14 +38,14 @@ static CollisionBody volopt_cage_collision_body[1] = {
     {{0.0f, 18.0f, 0.0f}, 20.0f, 0.0f, 0, 0x8003},
 };
 
-VoloptBreakUpParams volopt_cage_breakup_params = {
-    20, {0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f},
+BreakUpParamRow volopt_cage_breakup_params = {
+    20, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f,
 };
 
-void *volopt_cage_combat_stats;
+player_stats *volopt_cage_combat_stats;
 VoloptCageParams *volopt_cage_params;
 static TBreakUpMdlData *volopt_cage_breakup_model;
-static saddr volopt_cage_model;
+static NJS_OBJECT *volopt_cage_model;
 static NJS_TEXLIST *volopt_cage_textures;
 
 void TObjVoloptCage::damage_caged_player() {
@@ -75,10 +69,10 @@ void TObjVoloptCage::update_breakup() {
         break;
     case 0:
         play_sound_effect(0x4001C112, &position, 0, 0);
-        create_breakup_mdl__12TBoss3VoloptFllP11NJS_TEXLISTll(volopt_cage_breakup_model, &volopt_cage_breakup_params,
-                                                 volopt_cage_textures, &body_center, rotation_y);
-        create_breakup_mdl__12TBoss3VoloptFllP11NJS_TEXLISTll(volopt_cage_breakup_model, &volopt_cage_breakup_params,
-                                                 volopt_cage_textures, &body_center, rotation_y);
+        TBoss3Volopt::create_breakup_mdl(volopt_cage_breakup_model, &volopt_cage_breakup_params,
+                           volopt_cage_textures, &body_center, rotation_y);
+        TBoss3Volopt::create_breakup_mdl(volopt_cage_breakup_model, &volopt_cage_breakup_params,
+                           volopt_cage_textures, &body_center, rotation_y);
         trigger_dell_biter_events(&body_center);
         timer = 12;
         disallow_rendering();
@@ -176,7 +170,7 @@ void TObjVoloptCage::destroy() {
 }
 
 void TObjVoloptCage::init_break_model() {
-    volopt_cage_model = (saddr)boss3_volopt_resources->models[0x12].model;
+    volopt_cage_model = boss3_volopt_resources->models[0x12].model;
     volopt_cage_breakup_model = new TBreakUpMdlData(volopt_cage_model);
     volopt_cage_combat_stats = TLobby::register_boss(0x26);
     volopt_cage_params = (VoloptCageParams *)TLobby::dispatch_shared_handler_a(0x26);
@@ -189,7 +183,7 @@ void TObjVoloptCage::render() {
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
-        draw_chunk_object((void *)volopt_cage_model);
+        draw_chunk_object(volopt_cage_model);
         pop_matrix();
     }
 }
@@ -233,7 +227,7 @@ void TObjVoloptCage::run_task() {
     }
     update_state();
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     submit_cursor_candidate(this, -1);
 }
 
@@ -266,7 +260,7 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
     set_entry = 0;
     room = boss->room;
     set_group = boss->set_group;
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     set_param(0x2E);
     position.y = -25.0f;
     recalc_combat_stats((player_stats *)volopt_cage_combat_stats, NULL, NULL, 1.0f, 1.0f);

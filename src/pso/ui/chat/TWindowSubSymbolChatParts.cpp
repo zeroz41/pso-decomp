@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/chat/SymbolChatPreset.h"
 #include "types.h"
 #include "pso/ui/window/WindowScrollBar.h"
@@ -27,7 +28,6 @@
 const char *TWindowSubSymbolChatParts::class_name = "TWindowSubSymbolChatParts";
 #pragma pop
 
-extern s32 hud_texlist;
 
 // inferred: symbol_chat_parts_layout_entries, the layout table symbol_chat_parts_window_layout
 // points at (three sprite parts).
@@ -98,28 +98,9 @@ struct Chat_80285314 {
 extern "C" {
 void TWindowSubSymbolChatFaceType__sub_80283C84(void *, void *, f32, f32);
 void fn_802857C4(Win_802857C4 *arg0, Rect_802857C4 *arg1);
-struct Stack_80284C04 {
-    f32 sp8;
-    f32 spC;
-};
-
 struct TWSC *get_instance__20TWindowSubSymbolChatFv();
 
 struct TWSC;
-
-struct Win_80284D68 {
-    u8 pad[0x4C];
-    f32 height;
-    u8 pad2[0x68 - 0x50];
-    NJS_POINT2 pos;
-    u8 pad3[2];
-    s8 col;
-    s8 row;
-    u8 pad4[2];
-    s16 count;
-    u8 pad5[0x8C - 0x78];
-    s32 card;
-};
 
 struct Parts_80285B84 {
     u8 pad[0x2C];
@@ -132,7 +113,6 @@ struct Parts_80285B84 {
 };
 
 void clamp_list_scroll_offset(s32, NJS_POINT2 *, NJS_POINT2 *);
-s32 draw_window_scrollbar(s32, s32, void *);
 void fn_80285314(Win_802857C4 *, Rect_802857C4 *);
 void fn_802855C4(Win_802857C4 *, Rect_802857C4 *);
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);
@@ -140,12 +120,12 @@ void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, voi
 
 #pragma push
 #pragma fp_contract on
-void fn_80284C04(u8 *arg0) {
-    Stack_80284C04 stack;
-    *(s8 *)((s8 *)arg0 + 0x74) = (s8) TWindowSubStatusDisp::round_away_from_zero((f32) *(s16 *)((s8 *)arg0 + 0x76) / 4.0f);
-    stack.sp8 = 170.0f;
-    stack.spC = (40.0f * (f32) (s8) (u8) *(s8 *)((s8 *)arg0 + 0x74)) + 18.0f;
-    ((WindowScrollBar *)(*(u8 **)((s8 *)arg0 + 0x8C)))->copy_position(&stack.sp8);
+void fn_80284C04(TWindowSubSymbolChatParts *parts) {
+    NJS_POINT2 extent;
+    parts->row_count = (s8) TWindowSubStatusDisp::round_away_from_zero((f32) parts->item_count / 4.0f);
+    extent.x = 170.0f;
+    extent.y = (40.0f * (f32) parts->row_count) + 18.0f;
+    parts->scrollbar->set_extent(&extent);
 }
 }
 #pragma pop
@@ -180,19 +160,18 @@ s32 TWindowSubSymbolChatParts::calc_symbol_index() {
 #pragma push
 #pragma fp_contract on
 void TWindowSubSymbolChatParts::select_index_and_scroll(s32 symbol_index) {
-    Win_80284D68 *arg0 = (Win_80284D68 *)this;
     NJS_POINT2 v;
 
-    if (symbol_index >= arg0->count) {
-        symbol_index = arg0->count - 1;
+    if (symbol_index >= item_count) {
+        symbol_index = item_count - 1;
     }
-    arg0->row = symbol_index / 4;
-    arg0->col = symbol_index % 4;
-    arg0->pos.y = 16.0f + (40.0f * (f32)arg0->row + 9.0f);
-    arg0->pos.y -= 81.0f;
+    cursor_row = symbol_index / 4;
+    cursor_col = symbol_index % 4;
+    scroll_offset[1] = 16.0f + (40.0f * (f32)(s8)cursor_row + 9.0f);
+    scroll_offset[1] -= 81.0f;
     v.x = 0.0f;
-    v.y = arg0->height - 10.0f - 16.0f;
-    clamp_list_scroll_offset(arg0->card, &arg0->pos, &v);
+    v.y = frame_size[1] - 10.0f - 16.0f;
+    scrollbar->clamp_offset(scroll_offset, &v);
 }
 #pragma pop
 
@@ -230,14 +209,13 @@ void TWindowSubSymbolChatParts::handle_add() {
 #pragma push
 #pragma fp_contract on
 void TWindowSubSymbolChatParts::sub_80284FB8() {
-    Win_80284D68 *w = (Win_80284D68 *)this;
     NJS_POINT2 v;
-    f32 target = 16.0f + (40.0f * (f32)w->row + 9.0f);
+    f32 target = 16.0f + (40.0f * (f32)(s8)cursor_row + 9.0f);
     target -= 81.0f;
-    w->pos.y += target - w->pos.y;
+    scroll_offset[1] += target - scroll_offset[1];
     v.x = 0.0f;
-    v.y = w->height - 10.0f - 16.0f;
-    clamp_list_scroll_offset(w->card, &w->pos, &v);
+    v.y = frame_size[1] - 10.0f - 16.0f;
+    scrollbar->clamp_offset(scroll_offset, &v);
 }
 #pragma pop
 
@@ -461,14 +439,14 @@ void fn_802857C4(Win_802857C4 *arg0, Rect_802857C4 *ctx) {
 
 void TWindowSubSymbolChatParts::update_height() {
     item_count = TWindowSubSymbolChat::compute_total_height();
-    fn_80284C04((u8 *)this);
+    fn_80284C04(this);
     m_71 = 2;
 }
 
 void TWindowSubSymbolChatParts::open(s8 *selected_value) {
     selection = selected_value;
     item_count = 0xC0;
-    fn_80284C04((u8 *)this);
+    fn_80284C04(this);
     m_71 = 1;
 }
 
@@ -493,7 +471,7 @@ extern "C" void fn_80285A28(Win_80285A28 *self, s32 *help) {
     set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(e0), 185.0f, 22.0f);
     e0->f34 = 0;
     self->height = 0x44;
-    fn_80284C04((u8 *)self);
+    fn_80284C04(reinterpret_cast<TWindowSubSymbolChatParts *>(self));
     self->mode = 0;
 }
 
@@ -513,7 +491,9 @@ void render__25TWindowSubSymbolChatPartsFv(u8 *window_sub_symbol_chat_parts) {
         fn_80285314((Win_802857C4 *)(window_sub_symbol_chat_parts), (Rect_802857C4 *)(ctx));
         break;
     }
-    draw_window_scrollbar((saddr)((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->scrollbar, ctx, window_sub_symbol_chat_parts + 0x68);
+    draw_window_scrollbar(reinterpret_cast<TWindowSubSymbolChatParts *>(window_sub_symbol_chat_parts)->scrollbar,
+                          reinterpret_cast<WindowDrawContext *>(ctx),
+                          reinterpret_cast<TWindowSubSymbolChatParts *>(window_sub_symbol_chat_parts)->scroll_offset);
     ((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->sub_80285274((u8 *)ctx);
     ((TWindowSubSymbolChatParts *)window_sub_symbol_chat_parts)->heading->forward_render((void *)(ctx));
 }
@@ -540,7 +520,7 @@ void run_task__25TWindowSubSymbolChatPartsFv(Parts_80285B84 *arg0) {
     ((TWindowSubSymbolChatParts *)arg0)->sub_80284FB8();
     if ((f32)arg0->timer >= 7.5f) {
         ((TWindowSubStatusDisp *)(arg0->sub88))->update_subwindow();
-        ((TWindowSubStatusDisp *)(arg0->sub8C))->increment_counter();
+        reinterpret_cast<TWindowSubSymbolChatParts *>(arg0)->scrollbar->increment_counter();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
 }

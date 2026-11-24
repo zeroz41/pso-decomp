@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "types.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8036D774.h"
@@ -174,7 +175,7 @@ extern s32 split_screen_hud_animation_frame;
 void TLobby::free_singleton_805D7018() {
     if (TBGMulti__textures != NULL) {
         release_texture_list(TBGMulti__textures);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TBGMulti__textures);
+        safe_free(TBGMulti__textures);
         TBGMulti__textures = NULL;
     }
 }

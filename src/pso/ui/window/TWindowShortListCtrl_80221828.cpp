@@ -3,7 +3,7 @@
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"
 
-void TWindowSubShortCutList::set_flag70_bit10() { this->state_flags |= 0x10; }
+void TWindowMenuIconLine::set_flag70_bit10() { this->state_flags |= 0x10; }
 
 void TShopJudgmentItemEntry::set(TItem *item, s32 index) {
     this->index = index;

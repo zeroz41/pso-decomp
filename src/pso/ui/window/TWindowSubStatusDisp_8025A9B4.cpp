@@ -1,3 +1,4 @@
+#include "pso/ui/font/TNECFontEORFunction.h"
 #include "types.h"
 #include "pso/unk/TUnk_804CF998.h"
 #include "pso/ui/window/WindowTextEntry.h"
@@ -21,7 +22,6 @@ struct Ref_8025AD5C { u8 pad0[0x10]; f32 f10; f32 f14; f32 f18; u8 pad1c[0x30 - 
 extern "C" {
 u8 get_small_font_glyph_width(u8);
 s32 TWindowSubStatusDisp__sub_800FC248(u8);
-char *parse_text_control_codes(char *, s32 *, s32);
 u8 get_font_char_advance(u16);
 u16 map_char_to_font_code(u16);
 void measure_message_text_width(WindowTextEntry *msg, f32 maxw);
@@ -94,7 +94,7 @@ void measure_message_text_width(WindowTextEntry *msg, f32 maxw) {
     p = msg->text;
     x = maxx;
     while (*p != 0) {
-        p = parse_text_control_codes(p, &sjis, 0);
+        p = const_cast<char *>(parse_text_control_codes(p, &sjis, NULL));
         ch = *p;
         if (ch == 0) {
             continue;

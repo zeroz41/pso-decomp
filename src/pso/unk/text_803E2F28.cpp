@@ -22,7 +22,6 @@
 #include <dolphin/gx/GXTransform.h>
 #include <dolphin/gx/GXGeometry.h>
 
-#pragma scheduling off
 
 struct FloatColor { f32 a, r, g, b; };
 
@@ -458,9 +457,6 @@ void draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts
 s32 dispatch_chunk_vertex_list(u32*, saddr);
 #pragma pop
 
-#pragma push
-#pragma scheduling off
-#pragma peephole off
 void submit_chunk_material_color(s32 type, s16* data) {
     FloatColor add;
     ByteColor color;
@@ -488,21 +484,12 @@ void submit_chunk_material_color(s32 type, s16* data) {
     }
     if ((u32)(ginja_draw_flags&2)!=0U) GXSetChanMatColor(4,fallback);
 }
-#pragma pop
 
-#pragma push
-#pragma scheduling off
-#pragma peephole off
 void set_chunk_blend(u32 x) {
     chunk_blend_header_bits = x & 0x3F00;
     chunk_strip_dirty_flags |= 8;
 }
-#pragma pop
 
-#pragma push
-#pragma opt_common_subs off
-#pragma scheduling off
-#pragma peephole off
 void apply_chunk_texture_command(s32 header, s32 arg1) {
     s32 var_r31;
     s32 idx;
@@ -528,7 +515,6 @@ void apply_chunk_texture_command(s32 header, s32 arg1) {
     load_list_texture((idx), (var_r4), (var_r5), 0);
     chunk_texture_record_index = var_r31;
 }
-#pragma pop
 
 void TObjPlayer::setup_tev_passclr() {
     GXSetNumTevStages(1);
@@ -537,8 +523,6 @@ void TObjPlayer::setup_tev_passclr() {
     GXSetTevOrder(0, 0xFF, 0xFF, 4);
 }
 
-#pragma push
-#pragma peephole off
 void setup_chunk_tev_stages(void) {
     if ((u32) (model_render_flags & 0x80000) != 0) {
         GXSetNumTevStages((saddr)((u8)(lbl_805D77D8 + 1)));
@@ -550,7 +534,6 @@ void setup_chunk_tev_stages(void) {
     GXSetTevOp(0, 0);
     GXSetTevOrder(0, 0, 0, 4);
 }
-#pragma pop
 
 void set_strip_lighting_chan_ctrl(u32 flags) {
     u8 enable;
@@ -570,12 +553,9 @@ void set_strip_lighting_chan_ctrl(u32 flags) {
     }
 }
 
-#pragma push
-#pragma scheduling off
 void set_chunk_alpha_compare_ref(int ref) {
     GXSetAlphaCompare(4, ref, 0, 7, 0);
 }
-#pragma pop
 
 void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
     // Inferred names: the two reasons the blended pass may keep depth writes,
@@ -849,8 +829,6 @@ void TObjPlayer::setup_model_draw_state(void *) {
     GXSetZCompLoc(0);
 }
 
-#pragma push
-#pragma peephole off
 void TObjPlayer::end_chunk_draw() {
     if ((u32) (ginja_draw_flags & 2) != 0) {
         TObjPlayer::set_effect_active();
@@ -864,7 +842,6 @@ void TObjPlayer::end_chunk_draw() {
         player_chunk_draw_end_callback();
     }
 }
-#pragma pop
 
 s32 TObjPlayer::draw_chunk_vertices_cached(void* arg) {
     ChunkModel_803E44D4* model = (ChunkModel_803E44D4*)arg;
@@ -909,15 +886,12 @@ void draw_chunk_model(void *model) {
     TObjPlayer::end_chunk_draw();
 }
 
-#pragma push
-#pragma scheduling off
 
 void draw_chunk_object(void *child) {
     TObjPlayer::setup_model_draw_state(child);
     transform_chunk_object_tree(child, (void (*)(void *))TObjPlayer::draw_chunk_vertices_cached);
     TObjPlayer::end_chunk_draw();
 }
-#pragma pop
 
 #pragma push
 #pragma dont_inline off
@@ -998,14 +972,11 @@ void draw_triangle_strips__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u
 }
 #pragma pop
 
-#pragma push
-#pragma scheduling off
 void TObjPlayer__sub_803E492C(s32 a, s32 b) {
     chunk_vertex_cache_buffer = a;
     lbl_805D77FC = b;
     chunk_render_flags = 0;
 }
-#pragma pop
 
 
 void set_chunk_render_flags(u32 flags) {

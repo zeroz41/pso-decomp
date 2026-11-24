@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/charcreate/TChCrCharSelect_802937D4.h"
 #include "pso/ui/charcreate/TChCrCharSelect.h"

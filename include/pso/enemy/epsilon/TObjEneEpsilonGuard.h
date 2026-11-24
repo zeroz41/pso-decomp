@@ -89,9 +89,9 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
 LAYOUT_ASSERT(TObjEneEpsilonGuard_size, sizeof(TObjEneEpsilonGuard) == 0x4D8);
 
 // Stat handles the guards' resource loader registers with TLobby.
-extern u8 *epsilon_guard_boss_stat_handle;
-extern u8 *epsilon_guard_shared_handler_b;
-extern u8 *epsilon_guard_registered_object_handle;
+extern player_stats *epsilon_guard_boss_stat_handle;
+extern AttackParams *epsilon_guard_shared_handler_b;
+extern ActorParamBlock *epsilon_guard_registered_object_handle;
 extern TObjEneEpsilonGuardParams *TObjEneEpsilonGuard__movement_params;
 
 #endif

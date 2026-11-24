@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
@@ -74,7 +75,7 @@ void *TObjTank::create(void *set_data) {
 void TObjTank::free_globals() {
     if (TObjTank__texture_list != NULL) {
         release_texture_list(TObjTank__texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TObjTank__texture_list);
+        safe_free(TObjTank__texture_list);
         TObjTank__texture_list = NULL;
     }
     if (tank_bml_resource != NULL) {

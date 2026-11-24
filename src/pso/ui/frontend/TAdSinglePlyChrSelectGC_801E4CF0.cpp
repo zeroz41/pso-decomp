@@ -24,8 +24,8 @@ void TTextureWave::advance_wrapped_cursor() {
 }
 
 TTextureWave::~TTextureWave() {
-    release_texture_list((NJS_TEXLIST *)this->m_3c);
-    TAdSinglePlyChrSelectGC::safe_free(this->m_44);
+    release_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->m_3c));
+    safe_free(reinterpret_cast<void *>(this->m_44));
 }
 
 void TTextureWave::init_image_buffer(u8 *arg1, s32 arg2) {

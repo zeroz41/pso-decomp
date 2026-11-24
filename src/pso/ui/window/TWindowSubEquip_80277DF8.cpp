@@ -77,7 +77,7 @@ void TWindowSubEquip::run_task() {
         this->m_24 = -1;
         ((TWindowSubEquip *)(this->equip_list))->update_window();
         ((TWindowMenuIconLine *)(this->equip_list))->clear_decided();
-        ((TWindowSubMag *)(this->equip_list))->start_scroll(188.0f);
+        reinterpret_cast<TWindowMenuIconLine *>(equip_list)->start_scroll(188.0f);
         this->m_1c = 2U;
     case 2:
         update();

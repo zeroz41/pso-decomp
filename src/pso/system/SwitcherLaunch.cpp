@@ -7,6 +7,8 @@
 #include "types.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/SharedMemory.h"
+#include "pso/unk/text_8042EAD4.h"
+#include "pso/unk/text_8042EE4C.h"
 #include "pso/unk/text_8007F8D0.h"
 #include "pso/unk/text_8014618C.h"
 #include "pso/unk/text_8007FA24.h"
@@ -15,9 +17,6 @@
 #pragma pool_data off
 
 extern "C" {
-void TAdTrialModemChkGC__sub_8042EC14(int, int);
-void fn_8042ED98(int, const char *);
-void fn_8042EF48(int);
 s32 fn_8042EAD4(u8 *arg0, u32 arg1);
 void fn_8042EBA4(DolHeader *, s32);
 extern s32 resource_decompress_buffer;
@@ -49,7 +48,8 @@ s32 lbl_805D4EC0;
 s32 lbl_805D4EC4;
 void init_disc_error_messages(void);
 #pragma push
-#pragma optimization_level 1
+// O2 preserves the retail argument setup with the shared declarations.
+#pragma optimization_level 2
 #pragma dont_inline on
 void init_disc_error_messages(void) {
     s32 z = 0;
@@ -60,7 +60,7 @@ void init_disc_error_messages(void) {
     lbl_805D4EC4 = z;
     disc_error_code = p[-0x55d0];
     p[-0x55d0] = z;
-    TAdTrialModemChkGC__sub_8042EC14((saddr)p, z);
+    TAdTrialModemChkGC__sub_8042EC14();
     fn_8042EF48(0);
     fn_8042ED98(4, disc_error_message_text);
     fn_8042ED98(1, disc_error_insert_disc_text);

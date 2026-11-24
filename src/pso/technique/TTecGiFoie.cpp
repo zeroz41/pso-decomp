@@ -1,5 +1,6 @@
 #include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/technique/TTecGiFoie.h"

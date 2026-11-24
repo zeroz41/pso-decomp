@@ -1,9 +1,9 @@
-#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/effect/TEffGuard.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
 #pragma readonly_strings on
 const char *TEffGuard::class_name = "TEffGuard";

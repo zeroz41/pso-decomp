@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyStateRecord.h"
 #include "pso/network/client_id.h"
 #include "pso/item/TItemIdCounters.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -8,7 +9,8 @@
 #include "pso/item/ItemCreateFunction.h"
 #include "pso/item/TItemObject.h"
 #include "pso/system/byteswap.h"
-#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/network/protocol/ItemDropPacket.h"
+#include "pso/enemy/TObjEnemy.h"
 #include <stddef.h>
 #include "pso/unk/TLobby.h"
 #include "pso/item/TItemData.h"
@@ -876,25 +878,6 @@ struct Blk_8010542C { u32 w[4]; };
 struct Item_8010542C { u32 a; Blk_8010542C b; };
 struct Entry_8010567C { u16 a; u16 b; };
 
-struct Pkt_8010567C {
-    u8 hdr[4];
-    u8 f4;
-    u8 f5;
-    s16 f6;
-    f32 x;
-    f32 z;
-    s16 f10;
-    s16 f12;
-    u8 f14;
-    f32 f18;
-    s32 f1c;
-    s32 f20;
-    s32 f24;
-};
-
-
-struct Rec_80105538 { s32 a; u16 b; u16 b2; s32 c; };
-
 struct Pkt_80105538 {
     u8 hdr[4];
     s8 f4;
@@ -934,7 +917,6 @@ int check_class_equip_permission(TObjPlayer *player, s32 perm);
 void send_6x60_standard_drop_item_request(Obj_80105538 *self);
 }
 void *build_6x06_send_guild_card(void *arg0);
-extern Rec_80105538 *TLobby__data_805D6144;
 extern "C" s32 is_script_controlled__10TObjPlayerFv(void *);
 s32 check_equip_requirements(void *self, TItemData *p, s32 *out) {
   void *new_var;
@@ -1229,8 +1211,8 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
                 (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
                  designated_client_id == local_client_id)) {
                 if (self->f2c != -1) {
-                    Rec_80105538 e = TLobby__data_805D6144[self->f2c];
-                    if (e.b != 0xFFFF) {
+                    EnemyStateRecord e = TLobby__data_805D6144[self->f2c];
+                    if (e.drop_id != 0xFFFF) {
                         Pkt_80105538 pkt;
                         build_6x06_send_guild_card(&pkt);
                         pkt.f4 = get_current_floor();
@@ -1266,21 +1248,24 @@ void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
             if (this->set_index != -1) {
                 Entry_8010567C e = quest_object_entries[this->set_index];
                 if (e.b != 0xFFFF) {
-                    Pkt_8010567C pkt;
-                    ((TLobby *)(&pkt))->build_6x06_guild_card_packet();
-                    pkt.f4 = get_current_floor();
-                    pkt.f5 = 0x30;
-                    pkt.x = position.x;
-                    pkt.z = position.z;
-                    pkt.f10 = room;
-                    pkt.f12 = random_item;
-                    pkt.f6 = this->set_index;
-                    pkt.f14 = get_current_floor_area();
-                    pkt.f18 = scale.z;
-                    pkt.f1c = this->set_params[0];
-                    pkt.f20 = set_params[1];
-                    pkt.f24 = this->set_params[2];
-                    ((TLobby *)(&pkt))->process_and_dispatch_packet();
+                    G_SpecializableItemDropRequest_6xA2 packet;
+                    G_StandardDropItemRequest_PC_V3_BB_6x60 &extended =
+                        packet.__base_G_StandardDropItemRequest_PC_V3_BB_6x60;
+                    G_StandardDropItemRequest_DC_6x60 &drop = extended.__base_G_StandardDropItemRequest_DC_6x60;
+                    packet.init();
+                    drop.floor = get_current_floor();
+                    drop.rt_index = 0x30;
+                    drop.pos.x = position.x;
+                    drop.pos.z = position.z;
+                    drop.room = room;
+                    drop.ignore_def = random_item;
+                    drop.entity_index = set_index;
+                    extended.effective_area = get_current_floor_area();
+                    packet.param3 = scale.z;
+                    packet.param4 = set_params[0];
+                    packet.param5 = set_params[1];
+                    packet.param6 = set_params[2];
+                    packet.send();
                 }
             }
         }
@@ -1367,13 +1352,11 @@ void TWindowSubStatusDisp::clear_fields() { *(s16*)((char*)this + 0xa) = 0; *(s1
 
 extern "C" {
 
-s32 test_flags_any(s32, s32);
-
-extern u32 TItemMenuCtrl__instance;
+s32 test_flags_any(s32 *, s32);
 
 s32 TItemMenuCtrl::query_flag(s32 arg0) {
-    if ((u32) TItemMenuCtrl__instance != 0U) {
-        return test_flags_any(TItemMenuCtrl__instance + 0x1C, 1 << arg0);
+    if (TItemMenuCtrl__instance != NULL) {
+        return test_flags_any(&TItemMenuCtrl__instance->menu_flags.bits, 1 << arg0);
     }
     return 0;
 }
@@ -1391,12 +1374,24 @@ void *build_6x06_send_guild_card(void *arg0) {
 }
 void build_6x05_write_switch_flag(void* a0) { *(float*)((char*)a0 + 0xc) = 0.0f; *(float*)((char*)a0 + 0x8) = 0.0f; *(short*)((char*)a0 + 0x10) = 0; *(short*)((char*)a0 + 0x12) = 0; *(unsigned char*)((char*)a0 + 0x5) = 0; *(unsigned char*)((char*)a0 + 0x4) = 0; *(unsigned char*)((char*)a0 + 0x0) = 96; *(unsigned char*)((char*)a0 + 0x1) = 5; }
 
-void TLobby::process_and_dispatch_packet() { bswap_6xa2_fields(); send_subcommand_to_leader(this); }
-void TLobby::bswap_6xa2_fields() { bswap_6x60_drop_request_fields(this); bswap_32((u32 *)((char*)this + 0x18)); bswap_32((u32 *)((char*)this + 0x1c)); bswap_32((u32 *)((char*)this + 0x20)); bswap_32((u32 *)((char*)this + 0x24)); }
-void *TLobby::build_6x06_guild_card_packet() {
+void G_SpecializableItemDropRequest_6xA2::send() {
+    bswap();
+    send_subcommand_to_leader(this);
+}
+
+void G_SpecializableItemDropRequest_6xA2::bswap() {
+    bswap_6x60_drop_request_fields(this);
+    bswap_32(reinterpret_cast<u32 *>(&param3));
+    bswap_32(reinterpret_cast<u32 *>(&param4));
+    bswap_32(reinterpret_cast<u32 *>(&param5));
+    bswap_32(reinterpret_cast<u32 *>(&param6));
+}
+
+G_SpecializableItemDropRequest_6xA2 *G_SpecializableItemDropRequest_6xA2::init() {
     build_6x06_send_guild_card(this);
-    *((u8 *)this + 0) = 0xA2;
-    *((u8 *)this + 1) = 0x0A;
+    G_UnusedHeader &header = __base_G_StandardDropItemRequest_PC_V3_BB_6x60.__base_G_StandardDropItemRequest_DC_6x60.header;
+    header.subcommand = 0xA2;
+    header.size = 0x0A;
     return this;
 }
 

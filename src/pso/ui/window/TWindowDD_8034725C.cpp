@@ -1,4 +1,5 @@
-#include "pso/ui/window/WindowDrawContext.h"
+#include "pso/render/GinjaMaterialState.h"
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/Language.h"
@@ -96,7 +97,7 @@ extern const f32 lbl_805DFC28;
 void TWindowDD__sub_80347E04(W_80347E04 *arg0, s32 arg1);
 extern uaddr TWindowDD__work_buffer;
 extern const f32 TWindowDD__data_805DFB58;
-void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, void *arg1);
+void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, WordSelectMessage *message);
 void TWindowDD__sub_80348D90(void *, int);
 extern const f32 TWindowDD__data_805DFB6C;
 extern const f32 TWindowDD__data_805DFB74;
@@ -376,7 +377,7 @@ void TWindowDD__sub_80347A4C(u8 *arg0, saddr window_dd) {
     temp_r3 = TWindowDD__sub_80342158(reinterpret_cast<const TWindowDD_WS_Word *>(window_dd));
     if (TWindowDD::is_state_zero_unless_0x2C8(temp_r3) != 0) {
         TWindowDD__sub_80348DD8(arg0 + 0xC4, temp_r3);
-        TWindowDD__sub_80347CC8((W_80347CC8 *)(arg0), arg0 + 0xC4);
+        TWindowDD__sub_80347CC8((W_80347CC8 *)(arg0), reinterpret_cast<WordSelectMessage *>(arg0 + 0xC4));
         *(s32 *)((s8 *)arg0 + 0x98) = 1;
         *(s32 *)((s8 *)arg0 + 0x9C) = (s32) (s16) temp_r3;
         return;
@@ -430,7 +431,7 @@ void TWindowDD::update_selection_state() {
             }
             break;
         }
-        TWindowDD__sub_80347CC8((W_80347CC8 *)arg0, arg0->sub);
+        TWindowDD__sub_80347CC8((W_80347CC8 *)arg0, reinterpret_cast<WordSelectMessage *>(arg0->sub));
         arg0->cur = (s16)v;
     }
 }
@@ -446,14 +447,14 @@ void TWindowDD__sub_80347C50(W_80347C50 *self) {
     }
 }
 
-void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, void *window_dd) {
+void TWindowDD__sub_80347CC8(W_80347CC8 *arg0, WordSelectMessage *message) {
     S_80347CC8 *s;
     E_80347CC8 *e;
     f32 x;
     f32 c;
     f32 max;
     f32 f10;
-    TWindowDD::format_message(window_dd, (void *)TWindowDD__work_buffer, local_client_id);
+    TWindowDD::format_message(message, reinterpret_cast<char *>(TWindowDD__work_buffer), local_client_id);
     s = arg0->f70;
     if (s != NULL) {
         e = (E_80347CC8 *)((TWindowBase *)s)->get_array_entry(0);
@@ -498,7 +499,7 @@ void TWindowDD__sub_80347E04(W_80347E04 *arg0, s32 arg1) {
     NJS_POINT2 b;
     u32 r;
     u8 *o;
-    ((TWindowDD *)(arg0->pages[arg0->cur]))->get_cursor_pos((u8 *)&v);
+    static_cast<TWindowDD_WS_Word *>(arg0->pages[arg0->cur])->get_cursor_pos(&v);
     r = ((TWindowDD *)(arg0->pages[arg0->cur]))->update_if_field28_set();
     if (r != 0) {
         if (arg1 == 0) {
@@ -763,22 +764,22 @@ s32 TWindowDD::can_append_chars(s32 arg0, s32 *pos) {
     return (arg0 + t + 1) < 0x80;
 }
 
-void TWindowDD::format_message(void *src, void *dst, u16 player) {
+void TWindowDD::format_message(WordSelectMessage *message, char *text, u16 player) {
     switch ((s32) TWindowDD__window_mode) {
     case LANGUAGE_JAPANESE:
-        format_entry_text__9TWindowDDFPvPv(static_cast<WordSelectMessage *>(src), static_cast<char *>(dst));
+        format_entry_text__9TWindowDDFPvPv(message, text);
         return;
     default:
-        format_english_message__9TWindowDDFPvPvUs(static_cast<WordSelectMessage *>(src), static_cast<char *>(dst), player);
+        format_english_message__9TWindowDDFPvPvUs(message, text, player);
         return;
     case LANGUAGE_SPANISH:
-        TWindowDD__sub_80345608(static_cast<WordSelectMessage *>(src), static_cast<char *>(dst), player);
+        TWindowDD__sub_80345608(message, text, player);
         return;
     case LANGUAGE_GERMAN:
-        format_german_message__9TWindowDDFPvPvUs(static_cast<WordSelectMessage *>(src), static_cast<char *>(dst), player);
+        format_german_message__9TWindowDDFPvPvUs(message, text, player);
         return;
     case LANGUAGE_FRENCH:
-        format_message_text__9TWindowDDFPvPvUs(static_cast<WordSelectMessage *>(src), static_cast<char *>(dst), player);
+        format_message_text__9TWindowDDFPvPvUs(message, text, player);
         return;
     }
 }
@@ -883,13 +884,12 @@ void TWindowDD::append_string(const char *str, char *buf, s32 *pos) {
     }
 }
 
-extern saddr hud_texlist;
 
 void TWindowDD_WS_String::draw(saddr ctx, s32 idx, f32 offset) {
     Buf sp8;
     s32 draw_count;
 
-    draw_count = TWindowDD::get_draw_count((void **)(hud_texlist));
+    draw_count = TWindowDD::get_draw_count(hud_texlist);
     ((TWindowDD *)(&sp8))->reset_entries(TWindowDD__sub_80348AD4(draw_depth, offset), -1);
     ((TWindowDD *)(&sp8))->copy_point_table(idx);
     TWindowDD__sub_80348A2C(reinterpret_cast<WindowDrawContext *>(ctx), reinterpret_cast<WindowVertex *>(&sp8));
@@ -979,8 +979,8 @@ f32 TWindowDD__sub_80348AD4(f32 draw_depth, f32 offset) {
 }
 #pragma pop
 
-s32 TWindowDD::get_draw_count(void **hud_texlist) {
-    return **(s32 **)((s8 *)(*(void **)((s8 *)(*hud_texlist) + 0x20)) + 0xC);
+s32 TWindowDD::get_draw_count(const NJS_TEXLIST *textures) {
+    return textures->textures[2].texture->surface->id;
 }
 
 extern s32 twindowdd_entry_count;

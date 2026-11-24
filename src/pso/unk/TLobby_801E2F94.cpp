@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/render/TriangleFan3D.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/animation/MotionContext.h"
@@ -256,24 +257,23 @@ void ColorLineList::draw_strip_swap_color(s32 n, s32 flags, f32 scale) {
     }
 }
 void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
-    ColorLineList *self = (ColorLineList *)poly;
     ColorLineList tmp;
     ColorLineVertex v[2];
     u32 c[2];
     u32 tex;
-    ColorLineVertex *pts;
+    NJS_POINT2 *pts;
     s32 i;
     s16 *cols;
     if (!(flags & 2)) {
         tmp.verts = v;
         tmp.colors = c;
-        tmp.tex = self->tex;
+        tmp.tex = poly->tex;
         tmp.count = 2;
-        draw_color_lines(self, count, flags | 0x10, depth);
-        copy_vec2((&v[0]), &self->verts[0]);
-        copy_vec2((&v[1]), &self->verts[self->count - 1]);
-        TObjCMHairMenu__sub_801E3F54(&c[0], &self->colors[0]);
-        TObjCMHairMenu__sub_801E3F54(&c[1], &self->colors[self->count - 1]);
+        draw_color_lines(reinterpret_cast<ColorLineList *>(poly), count, flags | 0x10, depth);
+        copy_vec2((&v[0]), &poly->p[0]);
+        copy_vec2((&v[1]), &poly->p[poly->num - 1]);
+        TObjCMHairMenu__sub_801E3F54(&c[0], &poly->col[0].color);
+        TObjCMHairMenu__sub_801E3F54(&c[1], &poly->col[poly->num - 1].color);
         draw_color_lines(&tmp, 2, flags, depth);
         return;
     }
@@ -291,8 +291,8 @@ void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
         setup_opaque_color_draw();
     }
     GXBegin(GX_TRIANGLEFAN, GX_VTXFMT4, count);
-    pts = self->verts;
-    cols = (s16 *)self->colors;
+    pts = poly->p;
+    cols = reinterpret_cast<s16 *>(poly->col);
     for (i = 0; i < count; pts++, cols += 2, i++) {
         TObjPlayer__sub_801E3F30(pts->x * depth, pts->y * depth, depth);
         TObjPlayer__sub_801E3F24(*(u32 *)cols);

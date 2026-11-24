@@ -22,7 +22,7 @@ struct Boss6WaveArcMask {
 
 class TBoss6SwordWave : public TObject {
 public:
-    TBoss6SwordWave(TObject *owner, const Vec *position, s32 start_angle, s32 end_angle, f32 radius);
+    TBoss6SwordWave(TBoss6Type2 *owner, const Vec *position, s32 start_angle, s32 end_angle, f32 radius);
     virtual ~TBoss6SwordWave();
     virtual void run_task();
     virtual void render();
@@ -30,7 +30,7 @@ public:
     void spawn_wave_ring_particles();
     void check_player_hits();
     void break_rocks_in_wave();
-    static TBoss6SwordWave *create(TObject *owner, const Vec *position, s32 start_angle, s32 end_angle, f32 radius);
+    static TBoss6SwordWave *create(TBoss6Type2 *owner, const Vec *position, s32 start_angle, s32 end_angle, f32 radius);
 
     TBoss6Type2 *owner;  // the parent that created it
     Vec position;

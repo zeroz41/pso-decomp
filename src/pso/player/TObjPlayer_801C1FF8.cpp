@@ -1,5 +1,6 @@
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/PlayerLevelTable.h"
+#include "pso/player/PhotonBlastRequests.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/TPlyCharData_8007214C.h"
@@ -29,10 +30,6 @@ struct S_801C20A4 { u16 f0; s16 f2; s32 f4; f32 f8; f32 fC; f32 f10; s32 f14; u8
 extern "C" {
 u8 get_record_byte_at(O_801C21C4 *self, s32 i);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
-void __destroy_arr(void *, void *, int, int);
-void __construct_array(void *, void *, void *, int, int);
-void __ct__18PhotonBlastRequestFv(void);
-void __dt__18PhotonBlastRequestFv(void);
 extern const f32 TObjPlayer__data_805DC278;
 S_801C20A4 *init_player_telepipe_record(S_801C20A4 *arg0);
 s32 test_flags_any(s32 *flags, s32 mask);
@@ -127,18 +124,8 @@ TPlyCharData *TObjPlayer::get_char_data() { return reinterpret_cast<TPlyCharData
 s32 get_field_0_s32(void* p) { return *(s32*)((char*)p + 0x0); }
 void*TObjPlayer::init_char_data() { ((TObjPlayer *)((char*)this + 0x4))->clear_header_struct(); __ct__12TPlyCharDataFv((saddr)((char*)this + 0xc)); __ct__8FlagWordFv(((char*)this + 0x428)); *(int*)(this) = 0; return this; }
 
-void *fn_801C2308(void *arr, s16 arg1) {
-    if (arr != 0) {
-        __destroy_arr(arr, (void *)__dt__18PhotonBlastRequestFv, 0x18, 4);
-        if (arg1 > 0) {
-            ::operator delete(arr);
-        }
-    }
-    return arr;
-}
-void *fn_801C2360(void *array) {
-    __construct_array(array, (void *)__ct__18PhotonBlastRequestFv, (void *)__dt__18PhotonBlastRequestFv, 0x18, 4);
-    return array;
-}
+PhotonBlastRegistry::~PhotonBlastRegistry() {}
+
+PhotonBlastRegistry::PhotonBlastRegistry() {}
 
 }

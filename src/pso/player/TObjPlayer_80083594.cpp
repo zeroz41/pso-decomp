@@ -1,3 +1,6 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/unk/text_803DD5E0.h"
+#include "pso/render/GinjaRenderTarget.h"
 #include "pso/render/GinjaTextureInput.h"
 #pragma defer_codegen on
 
@@ -114,7 +117,6 @@ NJS_TEXLIST shadow_map_texture_list = {&shadow_map_texture_entry, 1};
 Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 
 extern "C" {
-extern s32 hud_texlist;
 }
 
 #include "pso/system/task/TMainTask.h"
@@ -126,7 +128,7 @@ extern s32 hud_texlist;
 #include "pso/camera/CameraHelpers.h"
 #include "pso/render/GinjaView.h"
 
-extern uaddr camera_render_target_singleton;
+extern GinjaRenderTarget *camera_render_target_singleton;
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
 
 #include "pso/player/TObjPlayer_80083B38.h"
@@ -188,7 +190,7 @@ s32 C_MTXLightFrustum(void *, f32, f32, f32, f32, f32, f32, f32, f32);
 
 int lbl_805D4EE0;
 unsigned char camera_capture_flags;
-uaddr camera_render_target_singleton;
+GinjaRenderTarget *camera_render_target_singleton;
 
 extern "C" {
 void reset_and_release_capture_texture(void);
@@ -750,24 +752,24 @@ void TCameraCapturePass::render() {
 }
 
 void TObjPlayer::init_render_target_singleton() {
-    uaddr temp_r3;
-    camera_render_target_singleton = 0U;
+    GinjaRenderTarget *target;
+    camera_render_target_singleton = NULL;
     if (get_current_floor_area() == AREA_GOL_DRAGON) {
-        temp_r3 = (uaddr)::operator new(0x28);
-        camera_render_target_singleton = temp_r3;
-        if (temp_r3 != 0U) {
-            ((TObjPlayer *)temp_r3)->init_render_target();
+        target = static_cast<GinjaRenderTarget *>(::operator new(sizeof(GinjaRenderTarget)));
+        camera_render_target_singleton = target;
+        if (target != NULL) {
+            target->init_render_target();
         }
     }
 }
 
 void TObjPlayer::free_singleton() {
-    if ((u32) camera_render_target_singleton != 0U) {
-        ((TObjPlayer *)camera_render_target_singleton)->reset_lobby_subobject();
+    if (camera_render_target_singleton != NULL) {
+        camera_render_target_singleton->release_texture();
     }
-    if ((u32) camera_render_target_singleton != 0U) {
-        ::operator delete((void *)camera_render_target_singleton);
-        camera_render_target_singleton = 0U;
+    if (camera_render_target_singleton != NULL) {
+        ::operator delete(camera_render_target_singleton);
+        camera_render_target_singleton = NULL;
     }
 }
 
@@ -804,13 +806,13 @@ void TLiveCameraView::render_shadows() {
         set_camera_capture_flags_bit2();
         main_task.render_scene_passes();
         clear_camera_capture_flags_bit2();
-        if ((void *) (*(u8 * *)&camera_render_target_singleton) != NULL) {
+        if (camera_render_target_singleton != NULL) {
             GXColor c = {0, 0, 0, 0};
             GXSetCopyClear(c, 0xFFFFFF);
             GXSetZMode(GX_TRUE, GX_ALWAYS, GX_TRUE);
             GXSetTexCopySrc(0, 0, 0x280, 0x1E0);
             GXSetTexCopyDst(0x280, 0x1E0, GX_TF_RGB565, GX_FALSE);
-            GXCopyTex((void *) (*(saddr *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&camera_render_target_singleton) + 0x1C)) + 8)) + 0xC)) + 0x20)), GX_TRUE);
+            GXCopyTex(camera_render_target_singleton->texture_list.textures->texture->surface->header.pixels, GX_TRUE);
             GXPixModeSync();
         }
         GXSetViewport(0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 1.0f);
@@ -827,8 +829,8 @@ void TLiveCameraView::run_task() {}
 void TLiveCameraView::render() {}
 
 void TLiveCameraView::bind_texture() {
-    if ((is_split_screen() == 0) && ((u32) camera_render_target_singleton != 0U)) {
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(camera_render_target_singleton + 0x1C));
+    if ((is_split_screen() == 0) && (camera_render_target_singleton != NULL)) {
+        TObjFish::set_global_param(&camera_render_target_singleton->texture_list);
         load_list_texture(0, 0, 0, 0);
     }
 }
@@ -934,7 +936,7 @@ void TObjPlayer::draw_capture_caption_bar() {
     Stack_80082C30 stack;
     f32 y;
     f32 x;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(0, -1);
     begin_screen_draw(1);
     x = 192.0f;

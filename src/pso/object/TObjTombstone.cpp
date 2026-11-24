@@ -76,7 +76,7 @@ TItemData lbl_8048D278[6] = {
 Off_800753DC tombstone_name_label_offset_table[8] = {
     { 0, -2 }, { 2, -2 }, { 2, 0 }, { 2, 2 }, { 0, 2 }, { -2, 2 }, { -2, 0 }, { -2, -2 },
 };
-uaddr TObjTombstone__shared_resource_object;
+BmlResource *TObjTombstone__shared_resource_object;
 s32 tombstone_first_run_flag;
 Vec tombstone_position_table[4];
 }
@@ -96,25 +96,25 @@ TObjTombstone *TLobby::create_tombstone(TObject *parent, s32 client, const TObjT
 }
 
 void TObjTombstone::load_resources() {
-    saddr res;
-    if (TObjTombstone__shared_resource_object == 0) {
-        res = (saddr)new BmlResource(1, &tombstone_resource_descriptor, 0, 0, NULL);
+    BmlResource *res;
+    if (TObjTombstone__shared_resource_object == NULL) {
+        res = new BmlResource(1, &tombstone_resource_descriptor, 0, 0, NULL);
         TObjTombstone__shared_resource_object = res;
         TObjTombstone::reset_matrix();
     }
 }
 
 void TObjTombstone::destroy() {
-    if (TObjTombstone__shared_resource_object != 0U) {
-        delete (BmlResource *)TObjTombstone__shared_resource_object;
-        TObjTombstone__shared_resource_object = 0U;
+    if (TObjTombstone__shared_resource_object != NULL) {
+        delete TObjTombstone__shared_resource_object;
+        TObjTombstone__shared_resource_object = NULL;
         TObjTombstone::reset_matrix();
     }
 }
 
 TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneRecord *src) : TObjCollidable(parent) {
     this->m_name = TObjTombstone__class_name;
-    if (TObjTombstone__shared_resource_object == 0U) {
+    if (TObjTombstone__shared_resource_object == NULL) {
         return;
     }
     setup(client, src);
@@ -130,7 +130,7 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneSpo
     : TObjCollidable(parent) {
     TObjTombstoneRecord record;
     this->m_name = TObjTombstone__class_name;
-    if (TObjTombstone__shared_resource_object == 0U) {
+    if (TObjTombstone__shared_resource_object == NULL) {
         return;
     }
     volatile TObjTombstoneRecord &output = record;
@@ -145,8 +145,8 @@ TObjTombstone::TObjTombstone(TObject *parent, s32 client, const TObjTombstoneSpo
 }
 
 void TObjTombstone::setup(s32 client, const TObjTombstoneRecord *src) {
-    this->texlist = get_bml_texlist((BmlResource *)TObjTombstone__shared_resource_object, 0);
-    *(saddr *)&this->model = (saddr)get_bml_model((BmlResource *)TObjTombstone__shared_resource_object, 0);
+    this->texlist = get_bml_texlist(TObjTombstone__shared_resource_object, 0);
+    this->model = get_bml_model(TObjTombstone__shared_resource_object, 0);
     this->client_id = client;
     this->record = *src;
     VecCopy(&this->position, &this->record.position);
@@ -453,9 +453,9 @@ void TObjTombstone::update_render_flags() {
     NJS_OBJECT *material;
     u32 *flags;
 
-    if (TObjTombstone__shared_resource_object != 0U) {
+    if (TObjTombstone__shared_resource_object != NULL) {
         if (tombstone_first_run_flag == 0) {
-            scroll_ginja_mesh_uvs(static_cast<NJS_OBJECT *>(model)->child->sibling->model, -8, 0, 0, 1);
+            scroll_ginja_mesh_uvs(static_cast<GinjaModel *>(static_cast<NJS_OBJECT *>(model)->child->sibling->model), -8, 0, 0, 1);
             tombstone_first_run_flag = 1;
             PPCSync();
         }
