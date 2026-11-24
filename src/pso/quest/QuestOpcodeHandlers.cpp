@@ -4672,40 +4672,40 @@ void qst_op_npc_stop(void) {
     send_npc_stop_6x69((s32) (u16) qst_args[0]);
 }
 void qst_op_npc_crp_id(u8 first) {
-    f32 pos[3];
+    Vec pos;
     int heading;
     int leader;
     int appearance;
     int slot;
     int i = first;
 
-    pos[0] = (f32)qst_registers[i++];
-    pos[1] = (f32)qst_registers[i++];
-    pos[2] = (f32)qst_registers[i++];
+    pos.x = (f32)qst_registers[i++];
+    pos.y = (f32)qst_registers[i++];
+    pos.z = (f32)qst_registers[i++];
     heading = (int)(182.04445f * (f32)qst_registers[i++]);
     leader = qst_registers[i++];
     slot = qst_registers[i++];
     appearance = qst_registers[i++];
     TLobby::free_luker_object();
-    create_companion(leader, slot, appearance, pos, heading);
+    create_companion(leader, slot, appearance, &pos, heading);
     TLobby::clear_quest_vm_flag();
 }
 
 void qst_op_npc_crp(u8 first) {
-    f32 pos[3];
+    Vec pos;
     int heading;
     int leader;
     int appearance;
     int i = first;
 
-    pos[0] = (f32)qst_registers[i++];
-    pos[1] = (f32)qst_registers[i++];
-    pos[2] = (f32)qst_registers[i++];
+    pos.x = (f32)qst_registers[i++];
+    pos.y = (f32)qst_registers[i++];
+    pos.z = (f32)qst_registers[i++];
     heading = (int)(182.04445f * (f32)qst_registers[i++]);
     leader = qst_registers[i++];
     appearance = qst_registers[i++];
     TLobby::free_luker_object();
-    create_default_companion(leader, appearance, (u8 *)pos, heading);
+    create_default_companion(leader, appearance, &pos, heading);
     TLobby::clear_quest_vm_flag();
 }
 
@@ -4792,7 +4792,7 @@ void qst_op_npc_crppk(u8 regs) {
     b = qst_registers[i++];
     c = qst_registers[i];
     TLobby::free_luker_object();
-    send_npc_control_create(a, c, b, (u8 *)&v, angle);
+    send_npc_control_create(a, c, b, &v, angle);
     TLobby::clear_quest_vm_flag();
 }
 

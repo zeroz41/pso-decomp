@@ -8,7 +8,6 @@
 #include "pso/object/lobby/LobbyGoGoBall.h"
 #include "pso/object/lobby/TGoGoBallGame.h"
 #include "pso/npc/TNpcPlayer.h"
-#include "pso/unk/TUnk_804F07C8.h"
 #include "pso/map/TSetManager.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/TProtocol.h"
@@ -137,7 +136,7 @@ void TLobby::create_tasks() {
     new TCineCtrl(tl_00);
     TRaderMapCore::create();
     restore_floor_telepipes();
-    new TUnk_804F07C8(tl_06);
+    new TNpcPartnerSpawner(tl_06);
     new TSwitch(tl_00);
     TQuestColCtrl::init();
     if (get_current_floor_area() == AREA_LOBBY) {
