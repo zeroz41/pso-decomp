@@ -193,6 +193,8 @@ LAYOUT_ASSERT(TNpcPlayer_size, sizeof(TNpcPlayer) == 0xE8);
 
 // Builds the character record of NPC template index, scaled to the selected difficulty.
 TPlyCharData *load_npc_player_template(s32 index);
+// The NPC AI parameter rows, indexed by TNpcPlayer::AiParams::copy_entry_by_index.
+extern TNpcPlayer::AiParams TNpcPlayer__template_table[64];
 // Clears a 6x40 walk-to-position packet and sets its header (subcommand 0x40, size 4).
 void init_6x40_walk_packet(void *cmd);
 #endif

@@ -14,6 +14,15 @@ u8 *get_party_position(void);
 s32 get_party_yaw(void);
 }
 
+// The common partner remarks, one per remark kind; an empty text means none is set.
+struct PartnerRemark {
+    char text[0x36];
+};
+
+extern PartnerRemark npc_partner_dialogue_state[25];
+// Bit 2 silences the partners' chatter (TNpcPlayer::disable_partner_chatter).
+extern s32 partner_chatter_flags;
+
 // Custom partner remarks per player: up to six texts, each keyed by a remark kind (25 = free slot).
 struct PartnerDialogueSet {
     const char *text[6];

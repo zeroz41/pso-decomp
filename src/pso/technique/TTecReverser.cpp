@@ -153,7 +153,7 @@ void TTecReverser::run_task() {
         return;
     }
     entity = (uaddr)find_entity_by_id(targets.records[0].id);
-    if ((((TTecReverser *)entity)->is_active() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
+    if ((((TObjBase *)entity)->is_active() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
         vfunc_6((void *)entity);
     }
     queue_destruction();

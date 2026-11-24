@@ -1264,7 +1264,7 @@ void *lbl_804AF630[64] = {
 };
 
 
-extern s32 lbl_805D6EA0;
+extern s32 partner_chatter_flags;
 
 
 void TUnk_804AF7B0::run_task() {
@@ -2138,7 +2138,7 @@ void TNpcPlayer::deliver_partner_action() {
     Vec d;
     f32 len;
 
-    if ((m_80 & 4) && !(lbl_805D6EA0 & 2)) {
+    if ((m_80 & 4) && !(partner_chatter_flags & 2)) {
         deliver_partner_chatter(this);
     }
     if (m_78->m_94->test_action_mask(2) == 0) {
@@ -2857,7 +2857,7 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 r
     range = range * range;
     for (; i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i++) {
         actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
-        if (((TTecReverser *)actor)->is_active() == 0 || !(actor->actorFlags & 0x20000000)) {
+        if (actor->is_active() == 0 || !(actor->actorFlags & 0x20000000)) {
             continue;
         }
         for (c = 0; c < actor->body_count; c++) {
