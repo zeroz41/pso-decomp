@@ -980,7 +980,6 @@ void handle_6x37_photon_blast(saddr command);
 void handle_6x49_execute_photon_blast(void *command);
 void copy_tech_params__10TObjPlayerFPvPv(void *arg0, void *arg1);
 void handle_6x33_revive_player(void *command);
-void clamp_and_set_unit_value__10TObjPlayerFiUci(TObjPlayer *player, u8 level, s32 i);
 s32 try_equip_item__10TObjPlayerFii(TObjPlayer *player, s16 tech);
 void handle_6x48_cast_technique_complete(void *arg);
 s32 can_start_technique__10TObjPlayerFPvi(Player_801CD078 *self, s32 tech);
@@ -3786,12 +3785,12 @@ void send_6x33_revive_player(u16 client_id, s16 type) {
     }
 }
 
-void clamp_and_set_unit_value__10TObjPlayerFiUci(TObjPlayer *player, u8 level, s32 i) {
+void TObjPlayer::set_technique_level_clamped(TObjPlayer *player, u8 level, int tech) {
     if (player->obj_isState3_324() != 0 && TObjPlayer::is_invalid_slot(level) == 0 &&
-        level > (u8)TObjPlayer__sub_801C010C(&player->technique_state, i)) {
-        level = TObjPlayer__sub_801C010C(&player->technique_state, i);
+        level > (u8)TObjPlayer__sub_801C010C(&player->technique_state, tech)) {
+        level = TObjPlayer__sub_801C010C(&player->technique_state, tech);
     }
-    set_technique_level_entry(&player->technique_state, i, level);
+    set_technique_level_entry(&player->technique_state, tech, level);
 }
 
 void TObjPlayer::update_cursor(s32 parameter) {
@@ -3875,7 +3874,7 @@ void handle_6x48_cast_technique_complete(void *arg) {
     }
     ul = lvl;
     ((PlayerTechniqueState *)(p->techs))->set_level(ul);
-    ((void (*)(void *, u8, s16))clamp_and_set_unit_value__10TObjPlayerFiUci)(p, ul, tech);
+    ((void (*)(void *, u8, s16))TObjPlayer::set_technique_level_clamped)(p, ul, tech);
     tail_801CCD38(p, tech, lvl);
 }
 extern int fold_flush_4;
@@ -4077,7 +4076,7 @@ void handle_6x47_cast_technique(u8* self) {
         e = 0;
     }
     p->technique_state.set_level((u8)e);
-    clamp_and_set_unit_value__10TObjPlayerFiUci(p, (u8)e, c);
+    TObjPlayer::set_technique_level_clamped(p, (u8)e, c);
     lim = cmd.params.target_count;
     p->technique_state.set_tech_level(lim);
     d = (u32*)get_technique_data__10TObjPlayerFPv(&p->technique_state);

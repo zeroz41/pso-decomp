@@ -23,23 +23,23 @@ void TNpcPlayer::init_equipment() {
     flags = this->ai_params.technique_flags;
     player = this->self_view->player;
     if (flags & TECHNIQUE_FLAGS_FOIE_GIFOIE) {
-        TObjPlayer::clamp_and_set_unit_value((saddr)player, this->ai_params.attack_technique_level, 0);
-        TObjPlayer::clamp_and_set_unit_value((saddr)player, this->ai_params.attack_technique_level, 1);
+        TObjPlayer::set_technique_level_clamped(player, this->ai_params.attack_technique_level, 0);
+        TObjPlayer::set_technique_level_clamped(player, this->ai_params.attack_technique_level, 1);
         set_technique_seed_level(&player->technique_state, 0, this->ai_params.attack_technique_level);
         set_technique_seed_level(&player->technique_state, 1, this->ai_params.attack_technique_level);
     } else if (flags & TECHNIQUE_FLAGS_BARTA_GIBARTA) {
-        TObjPlayer::clamp_and_set_unit_value((saddr)player, this->ai_params.attack_technique_level, 3);
-        TObjPlayer::clamp_and_set_unit_value((saddr)player, this->ai_params.attack_technique_level, 4);
+        TObjPlayer::set_technique_level_clamped(player, this->ai_params.attack_technique_level, 3);
+        TObjPlayer::set_technique_level_clamped(player, this->ai_params.attack_technique_level, 4);
         set_technique_seed_level(&player->technique_state, 3, this->ai_params.attack_technique_level);
         set_technique_seed_level(&player->technique_state, 4, this->ai_params.attack_technique_level);
     } else if (flags & TECHNIQUE_FLAGS_ZONDE_RAZONDE) {
-        TObjPlayer::clamp_and_set_unit_value((saddr)player, this->ai_params.attack_technique_level, 6);
-        TObjPlayer::clamp_and_set_unit_value((saddr)player, this->ai_params.attack_technique_level, 8);
+        TObjPlayer::set_technique_level_clamped(player, this->ai_params.attack_technique_level, 6);
+        TObjPlayer::set_technique_level_clamped(player, this->ai_params.attack_technique_level, 8);
         set_technique_seed_level(&player->technique_state, 6, this->ai_params.attack_technique_level);
         set_technique_seed_level(&player->technique_state, 8, this->ai_params.attack_technique_level);
     }
-    TObjPlayer::clamp_and_set_unit_value((saddr)player, this->ai_params.support_technique_level, 0xF);
-    TObjPlayer::clamp_and_set_unit_value((saddr)player, this->ai_params.support_technique_level, 0x10);
+    TObjPlayer::set_technique_level_clamped(player, this->ai_params.support_technique_level, 0xF);
+    TObjPlayer::set_technique_level_clamped(player, this->ai_params.support_technique_level, 0x10);
     set_technique_seed_level(&player->technique_state, 0xF, this->ai_params.support_technique_level);
     set_technique_seed_level(&player->technique_state, 0x10, this->ai_params.support_technique_level);
 }
