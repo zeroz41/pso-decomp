@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void spawn_faust_hit_explosion(s32 id, saddr arg1);
+void spawn_faust_hit_explosion(s32 id, saddr hit);
 
 #endif

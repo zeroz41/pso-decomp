@@ -141,12 +141,12 @@ void set_player_room_control_flag(TObjPlayer *player) {
 
 extern s32 local_client_id;
 
-u16 TObjRoomId__sub_801A1DB8(u16 x) {
+u16 TObjRoomId__sub_801A1DB8(u16 entity_id) {
     u16 r;
-    if (x == 0xFFFF) {
+    if (entity_id == 0xFFFF) {
         r = 0xFFFF;
     } else {
-        r = x & 0x5000;
+        r = entity_id & 0x5000;
     }
     return r;
 }
