@@ -53,6 +53,7 @@ struct TUnk_801D8A4C;
 struct PlayerSyncRecord;
 struct PlayerCharDataEntry;
 struct TLockOnCursor;
+class LockOnActionSlot;
 struct TMovie;
 struct CapturedTargetList;
 class TPlayerLobbyMarker;
@@ -977,6 +978,8 @@ struct TObjPlayer : public TObjChara {
     s32 get_camera_field();
     void release_attached_resource();
     void action_enable_if_present();
+    // The lock-on cursor slot that matches the action palette mode and slot, NULL without one.
+    LockOnActionSlot *find_palette_lockon_slot();
     s32 is_quest_interaction_blocked();
     s32 has_action_palette_entry();
     static s32 is_effect_channel_active(saddr player, s32 index);
