@@ -769,7 +769,7 @@ FX_TAB *dataGetFX(s16 fid) {
 
 #pragma pop
 
-void dataInit(void *self, void *p) {
+void dataInit(u32 smpBase, u32 smpLength) {
     s32 i;
 
     dataSmpSDirNum = 0;
@@ -782,7 +782,7 @@ void dataInit(void *self, void *p) {
         dataMacMainTab[i].num = 0;
         dataMacMainTab[i].subTabIndex = 0;
     }
-    hwInitSampleMem(self, p);
+    hwInitSampleMem(smpBase, smpLength);
 }
 
 }

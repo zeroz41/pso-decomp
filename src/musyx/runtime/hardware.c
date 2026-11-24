@@ -342,16 +342,16 @@ u32 hwGetPos(s32 v) {
 }
 
 void hwFlushStream(u8 *base, u32 offset, u32 len, u8 hwStreamHandle, void *cb, void *arg) {
-    u32 sp20[2];
+    u32 length;
     u32 addr;
     u8 *p;
-    addr = aramGetStreamBufferAddress(hwStreamHandle, sp20);
+    addr = aramGetStreamBufferAddress(hwStreamHandle, &length);
     len += offset & 0x1F;
     offset &= ~0x1F;
     len = (len + 0x1F) & ~0x1F;
     p = base + offset;
     DCStoreRange(p, len);
-    aramUploadData((u8 *)(p), (u32)(addr + offset), (u32)(len), (s32)(1), (void *)(cb), (void *)(arg));
+    aramUploadData(p, addr + offset, len, 1, cb, arg);
 }
 
 u8 hwInitStream(u32 size) {
@@ -363,7 +363,7 @@ void hwExitStream(u8 id) {
 }
 
 uaddr hwGetStreamPlayBuffer(u8 hwStreamHandle) {
-    return aramGetStreamBufferAddress(hwStreamHandle, (u32 *)(0));
+    return aramGetStreamBufferAddress(hwStreamHandle, NULL);
 }
 
 void *hwTransAddr(void *samples) {
@@ -374,8 +374,8 @@ u32 hwFrq2Pitch(u32 frq) {
     return (u32)(4096.0f * (f32)frq / (f32)synthInfo.mixFrq);
 }
 
-void hwInitSampleMem(void *self, void *p) {
-    aramInit((uaddr)p);
+void hwInitSampleMem(u32 baseAddr, u32 length) {
+    aramInit(length);
 }
 
 void hwSaveSample(SynthSampleHeader **header, uaddr *data) {
