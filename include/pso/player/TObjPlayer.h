@@ -373,9 +373,6 @@ struct TObjPlayer : public TObjChara {
     void set_type_dragon();
     void bswap_dragon_boss_fields();
     void bswap_stats();
-    static void clear_target_ref();
-    static void create_breakup_model();
-    static s32 calc_random_scaled();
     static saddr get_battle_param(int index);
     s32 check_player_flag1();
     s32 check_flag(s32 flag);
@@ -438,7 +435,6 @@ struct TObjPlayer : public TObjChara {
     // this is the hit position, not a player.
     void spawn_hit_particle_trio();
     static void forward_item_effect_callback(s32 layer, saddr pos);
-    void init_item_data(s32 arg1);
     void bswap_fields_x4();
     void bswap_and_send_item();
     void set_type_bytes();
@@ -454,7 +450,6 @@ struct TObjPlayer : public TObjChara {
     static void drop_item(s32 slot, saddr arg1);
     static void drop_meseta_from_slot(s32 slot, saddr arg1);
     static saddr get_item_by_slot_flag(u8 flags);
-    void reset_status_block();
     void set_flag_10000();
     void set_state_flags(u32 v);
     void set_model_param(s16 v);
@@ -923,9 +918,6 @@ struct TObjPlayer : public TObjChara {
     u8 *construct_freeze_shell(u8 *arg1, u8 *arg2);
     static void create_tec_zonde(void *source, void *origin, void *targets, s32 level);
     static void new_child_object(u16 player_id);
-    void create_item_eff_cane(TItem* item, s32 attachment, s32 effect_id);
-    void spawn_cane_effect(TItem* item, s32 attachment);
-    void spawn_cane_effects(TItem* item, s32 first_attachment, s32 second_attachment);
     int is_flag_b0_4();
     static u32 spawn_shot_effect(saddr owner, saddr origin, saddr end, f32 frames);
     void clear_rico_ring_flag();
@@ -1273,8 +1265,6 @@ struct TObjPlayer : public TObjChara {
     s32 query_state_if_present(void *);
 
     // Placeholder-named members defined in the player units.
-    static void create_derolle_breakup_model();
-    static void free_breakup_model();
     static void draw_capture_caption_bar();
     static int is_shadow_pass_requested();
     static void request_shadow_pass();
