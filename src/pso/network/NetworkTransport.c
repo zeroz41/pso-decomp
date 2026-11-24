@@ -67,11 +67,6 @@ typedef struct Obj_803F77E4 {
     Sub_803F77E4 *f4C;
 } Obj_803F77E4;
 
-s32 send_at_ms_command__23TAdSinglePlyChrSelectGCFl(s32 mode);
-s32 send_at_error_correction_cmd__23TAdSinglePlyChrSelectGCFl(s32 mode);
-s32 send_at_compression_cmd__23TAdSinglePlyChrSelectGCFl(s32 mode);
-s32 send_atx_command__23TAdSinglePlyChrSelectGCFl(s32 mode);
-
 void net_sleep_ms(s32);
 s32 TLobby__sub_80428094(s16);
 void run_net_thread_loop(void);
@@ -450,7 +445,7 @@ s32 configure_modem_options(s32 ms_mode, s32 error_correction, s32 compression, 
     case 0: value = 2; break;
     default: valid = 0; break;
     }
-    if (valid != 0 && send_at_ms_command__23TAdSinglePlyChrSelectGCFl(value) != 1) {
+    if (valid != 0 && MDMConnectMode(value) != 1) {
         return -1;
     }
     valid = 1;
@@ -461,7 +456,7 @@ s32 configure_modem_options(s32 ms_mode, s32 error_correction, s32 compression, 
     case 0:
     default: valid = 0; break;
     }
-    if (valid != 0 && send_at_error_correction_cmd__23TAdSinglePlyChrSelectGCFl(value) != 1) {
+    if (valid != 0 && MDMErrorCorrectMode(value) != 1) {
         return -1;
     }
     valid = 1;
@@ -473,7 +468,7 @@ s32 configure_modem_options(s32 ms_mode, s32 error_correction, s32 compression, 
     case 0:
     default: valid = 0; break;
     }
-    if (valid != 0 && send_at_compression_cmd__23TAdSinglePlyChrSelectGCFl(value) != 1) {
+    if (valid != 0 && MDMCompressMode(value) != 1) {
         return -1;
     }
     while (count != 0) {
@@ -499,7 +494,7 @@ s32 send_atx_command_mode(s32 extended) {
     } else {
         mode = 2;
     }
-    if (send_atx_command__23TAdSinglePlyChrSelectGCFl(mode) == 1) {
+    if (MDMWaitToneMode(mode) == 1) {
         return 0;
     }
     return -1;

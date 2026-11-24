@@ -988,43 +988,43 @@ void TAdSinglePlyChrSelectGC__sub_8042E488(s32 value) {
     EXIUnlock(0);
 }
 
-s32 TAdSinglePlyChrSelectGC::send_at_ms_command(s32 arg0) {
+s32 MDMConnectMode(s32 mode) {
     char buf[0x80];
     s32 result;
     Names_8042E57C names = {{"", "V90", "V34", "V32B", "V22B", ""}};
-    if (arg0 <= 0 || arg0 >= 5) {
+    if (mode <= 0 || mode >= 5) {
         return -2;
     }
     strcpy(buf, "AT+MS=");
-    strcat(buf, names.name[arg0]);
+    strcat(buf, names.name[mode]);
     strcat(buf, "\r");
     result = modem_send_at_command(buf);
     return 1;
 }
 
-s32 TAdSinglePlyChrSelectGC::send_at_error_correction_cmd(s32 arg0) {
+s32 MDMErrorCorrectMode(s32 mode) {
     char buf[0x80];
     s32 result;
     Names_8042E628 names = {{"", "3", "4", "0"}};
-    if (arg0 <= 0 || arg0 > 3) {
+    if (mode <= 0 || mode > 3) {
         return -2;
     }
     strcpy(buf, "AT+ES=");
-    strcat(buf, names.name[arg0]);
+    strcat(buf, names.name[mode]);
     strcat(buf, "\r");
     result = modem_send_at_command(buf);
     return 1;
 }
 
-s32 TAdSinglePlyChrSelectGC::send_at_compression_cmd(s32 arg0) {
+s32 MDMCompressMode(s32 mode) {
     char buf[0x80];
     s32 result;
     Names_8042E6C4 names = {{"", "2", "1", "0", "3"}};
-    if (arg0 <= 0 || arg0 > 4) {
+    if (mode <= 0 || mode > 4) {
         return -2;
     }
     strcpy(buf, "AT%C");
-    strcat(buf, names.name[arg0]);
+    strcat(buf, names.name[mode]);
     strcat(buf, "\r");
     result = modem_send_at_command(buf);
     return 1;
@@ -1037,15 +1037,15 @@ s32 copy_default_and_get_state(ModemConnectionInfo *out) {
     return lbl_805D7C98;
 }
 
-s32 TAdSinglePlyChrSelectGC::send_atx_command(s32 arg0) {
+s32 MDMWaitToneMode(s32 mode) {
     char buf[0x80];
     Names_8042E7B8 names = {{"", "3", "4"}};
     s32 result;
-    if (arg0 <= 0 || arg0 > 2) {
+    if (mode <= 0 || mode > 2) {
         return -2;
     }
     strcpy(buf, "ATX");
-    strcat(buf, names.name[arg0]);
+    strcat(buf, names.name[mode]);
     strcat(buf, "\r");
     result = modem_send_at_command(buf);
     return 1;
