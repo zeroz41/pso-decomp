@@ -110,6 +110,12 @@ void init_stick_escape_detector(StickEscapeDetector *detector, const ControllerI
 class TPlyCharData;
 typedef GC_Mtx PlayerJointMatrixSet[32];
 extern PlayerJointMatrixSet *player_shared_buffer_base;
+extern u32 shared_state_flags[2];
+
+// Constants the player code shares from its .sdata2 pool.
+extern const f32 player_zero;
+extern f32 player_half;
+extern f32 player_one;
 
 struct TObjPlayer : public TObjChara {
     TObjPlayer(TObject *parent, PlayerSyncRecord *record);
@@ -335,6 +341,8 @@ struct TObjPlayer : public TObjChara {
     s32 is_action_available();
     static s32 is_any_teammate_in_state();
     static void set_shared_flag(int flag);
+    // Twelve 0xC00-byte joint matrix blocks, one per player slot.
+    static u8 *shared_model_buffer;
     static void set_shared_count(int count);
     void set_position(f32 a, f32 b, f32 c);
     void set_meseta(s32 meseta);

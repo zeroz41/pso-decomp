@@ -82,11 +82,7 @@ TObjPlayer *create_player_object(s32 slot, s32 role, TPlyCharData *record) {
 
 
 
-extern const f32 player_zero;
-extern const f32 player_one;
-extern u8 *TObjPlayer__shared_model_buffer;
 extern s32 lbl_805D5D7C;
-extern u32 shared_state_flags[2];
 
 PhotonBlastRegistry *TObjPlayer__shared_photon_blast_state;
 s32 lobby_player_count;
@@ -100,15 +96,15 @@ void TObjPlayer::free_shared_data() {
         mem_free(player_shared_buffer_base);
         player_shared_buffer_base = NULL;
     }
-    if (TObjPlayer__shared_model_buffer != NULL) {
-        mem_free(TObjPlayer__shared_model_buffer);
-        TObjPlayer__shared_model_buffer = NULL;
+    if (shared_model_buffer != NULL) {
+        mem_free(shared_model_buffer);
+        shared_model_buffer = NULL;
     }
 }
 
 void TObjPlayer::alloc_shared_buffers() {
-    if (TObjPlayer__shared_model_buffer == NULL) {
-        TObjPlayer__shared_model_buffer = static_cast<u8 *>(mem_alloc(0x9000));
+    if (shared_model_buffer == NULL) {
+        shared_model_buffer = static_cast<u8 *>(mem_alloc(0x9000));
     }
     if (player_shared_buffer_base == NULL) {
         player_shared_buffer_base = static_cast<PlayerJointMatrixSet *>(mem_alloc(12 * sizeof(PlayerJointMatrixSet)));
@@ -464,9 +460,7 @@ void PlayerDeathSink::set_progress(f32 v) { progress = v; }
 void PlayerAppearFade::set_client_id(u16 id) { client_id = id; }
 
 void UnitScale::reset() {
-    x = player_one;
-    y = player_one;
-    z = player_one;
+    z = y = x = player_one;
 }
 
 void BattleMusicState::reset_counter_field4() {
@@ -980,7 +974,7 @@ int TObjPlayer::is_handle_valid() { return ((PlayerMotionKey *)this)->get_body_t
 
 u32 town_npc_shared_resource;
 s32 lbl_805D5D7C;
-u8 *TObjPlayer__shared_model_buffer;
+u8 *TObjPlayer::shared_model_buffer;
 PlayerJointMatrixSet *player_shared_buffer_base;
 u32 shared_state_flags[2];
 

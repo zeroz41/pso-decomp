@@ -46,11 +46,6 @@
 #include "pso/player/PlayerCharDataEntry.h"
 #include "pso/object/TObjWaitEntryHairMoveSim.h"
 
-extern u8 *TObjPlayer__shared_model_buffer;
-extern u32 shared_state_flags[2];
-extern const f32 player_zero;
-extern const f32 player_half;
-extern const f32 player_one;
 
 extern "C" {
 
@@ -458,7 +453,7 @@ void TObjPlayer::init_idle_animation() {
 }
 
 void TObjPlayer::init_model_buffer_and_actions(void *data) {
-    joint_matrices = TObjPlayer__shared_model_buffer + get_entity_id() * 0xC00;
+    joint_matrices = shared_model_buffer + get_entity_id() * 0xC00;
     select_class_action_provider();
     action_provider->load_motions(get_entity_id());
     init_idle_animation();
@@ -488,7 +483,7 @@ int copy_player_visual_record(void *dst, void *src);
 }
 
 void TObjPlayer::init_model_and_idle_pose() {
-    joint_matrices = TObjPlayer__shared_model_buffer + get_entity_id() * 0xC00;
+    joint_matrices = shared_model_buffer + get_entity_id() * 0xC00;
     select_class_action_provider();
     load_action_motions(get_entity_id());
     init_idle_animation();

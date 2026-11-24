@@ -128,9 +128,6 @@ void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(reinterpr
 #include "pso/player/TPlyInventory.h"
 
 
-extern "C" {
-extern u8 *TObjPlayer__shared_model_buffer;
-}
 void create_player_ending_motion(void);
 void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); player_ending_motion_object = static_cast<BmlMotionEntry **>(create_named_object("PlyEndingMotionData.rel")); }
 
@@ -140,7 +137,7 @@ TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(p
     VecCopy(&position, ((ArrivalOverride *)src->pose)->get_pos());
     rotation_y = ((ArrivalOverride *)src->pose)->get_heading();
     select_class_action_provider();
-    joint_matrices = TObjPlayer__shared_model_buffer + this->get_entity_id() * 0xC00;
+    joint_matrices = shared_model_buffer + this->get_entity_id() * 0xC00;
     init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), *player_ending_motion_object, 1);
     frame = src->frame;
     pause_motion();

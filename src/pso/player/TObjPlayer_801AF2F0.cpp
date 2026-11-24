@@ -588,9 +588,6 @@ void __construct_array(void *, void *(*)(void *), void *, u32, u32);
 
 extern const char *TOMineTrap__data_805D3080;
 extern const char *TObjPlayer__player_set_class_name;
-extern const f32 player_zero;
-extern f32 player_half;
-extern f32 player_one;
 extern const f32 player_front_distance;
 extern Vec lbl_8050BF60;
 extern Color_801B6964 player_feedback_light_color[];
@@ -598,7 +595,6 @@ extern TObjPlayer *player_slot_table[];
 const char *TObjPlayer_name = "TObjPlayer";
 extern s32 lbl_805D55C0;
 extern s32 lobby_player_count;
-extern u32 shared_state_flags[2];
 extern Rec_801B09A4 *lobby_char_slot_array;
 extern const char status_line_break[];
 extern f32 player_angle_per_degree;
