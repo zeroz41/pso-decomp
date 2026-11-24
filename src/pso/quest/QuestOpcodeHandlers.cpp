@@ -23,6 +23,7 @@
 #include "pso/ui/window/TWindowMessageScroll.h"
 #include "pso/unk/TLobby_8026B06C.h"
 #include "pso/npc/NpcPartnerControl.h"
+#include "pso/player/PlayerTaskEffects.h"
 #include "pso/npc/TNpcPlayer_8014DADC.h"
 #include "pso/quest/BattleRules.h"
 #include "pso/quest/TQuestThread.h"
@@ -4708,7 +4709,6 @@ void qst_op_npc_crp(u8 first) {
 }
 
 extern "C" {
-void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z);
 void queue_player_injured_pose(s32 player);
 }
 void set_player_quest_control_flag(TObjPlayer *player);

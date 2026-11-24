@@ -6011,12 +6011,12 @@ void TObjPlayer__sub_801B18C0(saddr player, u32 arg1) {
 
 int TObjPlayer::get_field_828() { return ((int (*)(void*))get_type__10TObjPlayerFPv)((char*)this + 0x828); }
 
-void TObjPlayer::send_enable_pk_mode(saddr player) {
+void TObjPlayer::send_enable_pk_mode(TObjPlayer *player) {
     s8 sp8[8];
 
-    if ((player == 0) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
+    if ((player == NULL) || (player->obj_isState2_324() == 0)) {
         init_packet_6x1B_enable_pk_mode_for_player((s32 *)&sp8);
-        *(s16 *)((s8 *)&sp8 + 2) = ((TObjBase *)(player))->get_entity_id();
+        *(s16 *)((s8 *)&sp8 + 2) = player->get_entity_id();
         send_6x1B_enable_pk_mode_for_player((s32 *)&sp8);
     }
 }
