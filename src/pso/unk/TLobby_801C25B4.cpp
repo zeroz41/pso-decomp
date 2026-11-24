@@ -82,7 +82,6 @@ extern "C" {
 u8 TLobby__sub_801C2614(void);
 s32 TLobby__sub_801C2678(void);
 extern s16 battle_event_second_table[];
-s32 TLobby__sub_801C19D0(void *);
 u8 TLobby__sub_801D7100(void *);
 extern u8 lobby_rule_settings[];
 s32 TLobby__sub_801C26A8(void);
@@ -316,7 +315,6 @@ void TLobby__sub_801C3AF4(Lobby_801C3AF4 *self);
 
 void handle_6x7D_set_battle_mode_data(Pkt_801C374C *pkt);
 
-s32 set_player_team_id(void *, int);
 s32 fn_801D6D8C(void *, int, int);
 s32 fn_801D726C(void *, int);
 s32 fn_801D72B0(void *, int);
@@ -878,7 +876,7 @@ void TLobby::apply_game_settings(s32 arg0, s32 arg1) {
                         v = 1;
                     }
                     battle_intro_value_table[i] = v;
-                    set_player_team_id((void *)(p + 0x828), battle_intro_value_table[i]);
+                    ((PlayerPkState *)(p + 0x828))->set_team(battle_intro_value_table[i]);
                 } else {
                     battle_intro_value_table[i] = -1;
                 }
@@ -931,7 +929,7 @@ s32 check_team_balance__6TLobbyFPvi(Lobby_801C484C *self, s32 arg1) {
         do {
             pl = (uaddr)get_player_by_client_id(i);
             if (pl != 0) {
-                t = TLobby__sub_801C19D0((void *)(pl + 0x828)) - 1;
+                t = ((PlayerPkState *)(pl + 0x828))->get_team() - 1;
                 if (t >= 0 && t < 2) {
                     cnt.v[t] = 1;
                 }
@@ -1130,7 +1128,7 @@ s32 calc_player_rankings__6TLobbyFPv(Lobby_801C484C *) {
         for (k = 0; k < 4; k++) {
             p = (uaddr)get_player_by_client_id(k);
             if (p != 0) {
-                s32 t = TLobby__sub_801C19D0((void *)(p + 0x828)) != 1 ? 1 : 0;
+                s32 t = ((PlayerPkState *)(p + 0x828))->get_team() != 1 ? 1 : 0;
                 team.v[t] += TLobby__sub_801C4FC4((void *)(p + 0x7AC));
             }
         }
@@ -1138,7 +1136,7 @@ s32 calc_player_rankings__6TLobbyFPv(Lobby_801C484C *) {
             p = (uaddr)get_player_by_client_id(k);
             if (p != 0) {
                 TBL_801C343C[n].id = ((TObjBase *)p)->get_entity_id();
-                TBL_801C343C[n].score = team.v[TLobby__sub_801C19D0((void *)(p + 0x828)) != 1 ? 1 : 0];
+                TBL_801C343C[n].score = team.v[((PlayerPkState *)(p + 0x828))->get_team() != 1 ? 1 : 0];
                 n++;
             }
         }
@@ -1557,7 +1555,7 @@ s32 TLobby::check_battle_end(void *) {
             if (ok != 0) {
                 cnt++;
                 if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
-                    idx = TLobby__sub_801C19D0(p + 0x828) - 1;
+                    idx = ((PlayerPkState *)(p + 0x828))->get_team() - 1;
                     if (idx >= 0 && idx < 2) {
                         seen[idx] = 1;
                     }

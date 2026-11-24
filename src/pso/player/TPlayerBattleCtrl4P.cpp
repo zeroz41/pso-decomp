@@ -775,7 +775,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
             w = 1;
           }
           player_teams[j] = w;
-          set_player_team_id((void *)(p + 0x828), player_teams[(((((((((((j & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu]);
+          ((PlayerPkState *)(p + 0x828))->set_team(player_teams[(((((((((((j & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu) & 0xFFFFFFFFFFFFFFFFu]);
         }
         else
         {
@@ -850,7 +850,7 @@ s32 TPlayerBattleCtrl4P::calculate_rankings() {
         for (k = 0; k < 4; k++) {
             p = (uaddr)get_player_by_client_id(k);
             if (p != 0) {
-                s32 t = TLobby__sub_801C19D0((void *)(p + 0x828)) != 1 ? 1 : 0;
+                s32 t = ((PlayerPkState *)(p + 0x828))->get_team() != 1 ? 1 : 0;
                 team.team[t] += TLobby__sub_801C4FC4((void *)(p + 0x7AC));
             }
         }
@@ -858,7 +858,7 @@ s32 TPlayerBattleCtrl4P::calculate_rankings() {
             p = (uaddr)get_player_by_client_id(k);
             if (p != 0) {
                 split_screen_battle_rankings[n].client_id = ((TObjBase *)p)->get_entity_id();
-                split_screen_battle_rankings[n].score = team.team[TLobby__sub_801C19D0((void *)(p + 0x828)) != 1 ? 1 : 0];
+                split_screen_battle_rankings[n].score = team.team[((PlayerPkState *)(p + 0x828))->get_team() != 1 ? 1 : 0];
                 n++;
             }
         }
@@ -945,7 +945,7 @@ s32 TPlayerBattleCtrl4P::is_battle_decided() {
             if (ok != 0) {
                 count++;
                 if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
-                    team = TLobby__sub_801C19D0(p + 0x828) - 1;
+                    team = ((PlayerPkState *)(p + 0x828))->get_team() - 1;
                     if (team >= 0 && team < 2) {
                         seen.team[team] = 1;
                     }

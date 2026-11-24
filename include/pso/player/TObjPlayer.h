@@ -1322,6 +1322,7 @@ LAYOUT_ASSERT(TObjPlayer_npc_control_offset, offsetof(TObjPlayer, npc_control) =
 LAYOUT_ASSERT(TObjPlayer_movement_history_offset, offsetof(TObjPlayer, movement_history) == 0x6AC);
 LAYOUT_ASSERT(TObjPlayer_movement_hold_offset, offsetof(TObjPlayer, movement_hold) == 0x730);
 LAYOUT_ASSERT(TObjPlayer_photon_blast_aim_offset, offsetof(TObjPlayer, photon_blast_aim) == 0x744);
+LAYOUT_ASSERT(TObjPlayer_pk_state_offset, offsetof(TObjPlayer, pk_state) == 0x828);
 LAYOUT_ASSERT(PlayerItemNodeMatricesOffset, offsetof(TObjPlayer, item_node_matrices) == 0xDB4);
 LAYOUT_ASSERT(TObjPlayer_size, sizeof(TObjPlayer) == 0xDB8);
 

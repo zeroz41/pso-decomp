@@ -1611,19 +1611,19 @@ s32 TWindowDuelResult__sub_801C19AC(f32 *arg0) {
 
 void TObjPlayer__sub_801C19C8(void* p, f32 v) { *(f32*)((char*)p + 0x0) = v; }
 
-s32 TLobby__sub_801C19D0(void* p) { return *(s32*)((char*)p + 0x4); }
+s32 PlayerPkState::get_team() { return team; }
 
-void set_player_team_id(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
+void PlayerPkState::set_team(s32 id) { team = id; }
 
 void fn_801C19E0(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
 
-void fn_801C19E8(void* p) { *(s32*)((char*)p + 0x0) = 0; }
+void PlayerPkState::disable() { enabled = 0; }
 
-void set_player_pk_mode_flag(void* p) { *(s32*)((char*)p + 0x0) = 1; }
+void PlayerPkState::enable() { enabled = 1; }
 
-void* TObjPlayer__sub_801C1A00(void* p) { TObjPlayer__sub_801C1A30(p); return p; }
+PlayerPkState *PlayerPkState::init() { reset(); return this; }
 
-void TObjPlayer__sub_801C1A30(void* p) { *(s32*)((char*)p + 0x0) = 0; *(s32*)((char*)p + 0x4) = 0; }
+void PlayerPkState::reset() { enabled = 0; team = 0; }
 
 void *TObjPlayer::reset_lobby_settings() {
     ((TLobby *)this)->reset_settings_to_default();

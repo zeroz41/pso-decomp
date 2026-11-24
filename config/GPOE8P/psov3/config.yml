@@ -1567,7 +1567,7 @@ force_active:
   - reset__20PlayerAnimationStateFv
   - __ct__18PlayerCameraOffsetFv
   - __as__29G_CreateInventoryItem_DC_6x2BFR29G_CreateInventoryItem_DC_6x2B
-  - TObjPlayer__sub_801C1A30
+  - reset__13PlayerPkStateFv
   - set_unscaled_speed__15PlayerMoveSpeedFf
   - set__18PlayerCameraOffsetFfff
   - has_grass_ground_flag__19ContactSurfaceStateFv

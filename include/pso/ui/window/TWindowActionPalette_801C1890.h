@@ -6,10 +6,7 @@
 struct TObjPlayer;
 struct TItem;
 extern "C" {
-s32 TLobby__sub_801C19D0(void *p);
 void TObjPlayer__sub_801C19C8(void *p, f32 v);
-void *TObjPlayer__sub_801C1A00(void *p);
-void TObjPlayer__sub_801C1A30(void *p);
 void TObjPlayer__sub_801C1AC8(void *self);
 void TObjPlayer__sub_801C1B0C(void);
 void TObjPlayer__sub_801C1F78(void *p, u16 v);
@@ -17,10 +14,7 @@ int TWindowActionPalette__sub_801C1C20(void *p);
 u16 TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2);
 s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
 f32 fn_801C19A4(void *p);
-void set_player_team_id(void *p, s32 v);
 void fn_801C19E0(void *p, s32 v);
-void fn_801C19E8(void *p);
-void set_player_pk_mode_flag(void *p);
 s32 fn_801C1B88(void *p);
 s32 fn_801C1BA0(void *p);
 void *ref_primary_action_palette(void *p);

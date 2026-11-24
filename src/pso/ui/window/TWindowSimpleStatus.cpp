@@ -142,7 +142,6 @@ struct Rect_80270394 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f
 
 extern "C" {
 s32 get_photon_blast_chain(Slots_80270060 *);
-s32 TLobby__sub_801C19D0(void *);
 s32 TWindowSubComCard__sub_802452DC(s32);
 s32 TWindowSubComCard__sub_80245320(Rect_80270394 *, u8 *);
 s32 TWindowSubComCard__sub_802454E4(s32);
@@ -456,7 +455,7 @@ void update_photon_blast_player_marker(saddr help, s32 arg1) {
             break;
         default:
             if (((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1 && (p = (u8 *)get_player_by_client_id(key)) != 0) {
-                key = TLobby__sub_801C19D0(p + 0x828) - 1;
+                key = ((PlayerPkState *)(p + 0x828))->get_team() - 1;
             }
             set_sprite_uv_from_pixels(reinterpret_cast<WindowSpritePart *>(help), 34.0f * key, 202.0f);
             break;

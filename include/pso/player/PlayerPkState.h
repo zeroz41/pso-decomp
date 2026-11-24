@@ -8,6 +8,15 @@
 struct PlayerPkState {
     s32 enabled;
     s32 team;
+
+    s32 get_team();
+    void set_team(s32 id);
+    void disable();
+    void enable();
+    PlayerPkState *init();
+    void reset();
 };
+
+LAYOUT_ASSERT(PlayerPkState_size, sizeof(PlayerPkState) == 0x8);
 
 #endif

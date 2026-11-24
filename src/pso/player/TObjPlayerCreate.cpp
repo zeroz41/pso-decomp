@@ -213,7 +213,7 @@ void TObjPlayer::init_action_provider() {
     reset_state();
     ::set_flag_400000(this);
     if (TObjPlayer::get_player_count() == 1) {
-        set_player_pk_mode_flag((u8 *)&pk_state);
+        pk_state.enable();
     }
 }
 
@@ -549,7 +549,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     trap_counts.init();
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
     attack_state.init();
-    TObjPlayer__sub_801C1A00(((char *)this + 2088));
+    pk_state.init();
     init_player_telepipe_record(&telepipe);
     TObjPlayer__sub_801BFB4C(&marker_position);
     __ct__8FlagWordFv(((char *)this + 2136));
@@ -580,7 +580,7 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     trap_counts.init();
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
     attack_state.init();
-    TObjPlayer__sub_801C1A00(((char *)this + 2088));
+    pk_state.init();
     init_player_telepipe_record(&telepipe);
     TObjPlayer__sub_801BFB4C(&marker_position);
     __ct__8FlagWordFv(((char *)this + 2136));
@@ -621,7 +621,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     trap_counts.init();
     ((TObjPlayer *)(((u8 *)this) + 0x7C8))->clear_base();
     attack_state.init();
-    TObjPlayer__sub_801C1A00((void *) (((u8 *)this) + 0x828));
+    pk_state.init();
     init_player_telepipe_record(&telepipe);
     TObjPlayer__sub_801BFB4C(&marker_position);
     __ct__8FlagWordFv((((u8 *)this) + 0x858));

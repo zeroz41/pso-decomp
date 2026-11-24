@@ -215,7 +215,6 @@ extern "C" {
 extern Color_801FAAEC radar_map_backdrop_color;
 void TRaderMapCore__sub_801F967C(TRaderMapCore *self, u32 color);
 s32 get_current_floor(void);
-s32 TLobby__sub_801C19D0(void *);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
 static const Vec4_801F9E9C radar_player_slot_color_table[4] = {
     { 1.0f, 1.0f, 0.0f, 0.0f },
@@ -968,7 +967,7 @@ void TRaderMapCore::gather_player_markers() {
     p = (Player_801F9E9C *)get_player_by_client_id(local_client_id);
     me = &((Core_801F9E9C *)this)->e[0];
     if (p != NULL) {
-        team = TLobby__sub_801C19D0(p->sub828);
+        team = ((PlayerPkState *)p->sub828)->get_team();
         if (((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
             VecCopy((Vec *)me, (const Vec *)p->pos);
             me->y = 10.0f;
@@ -1012,7 +1011,7 @@ void TRaderMapCore::gather_player_markers() {
         } else if (team != 0) {
             p = (Player_801F9E9C *)get_player_by_client_id(i);
             if (p != NULL && floor == ((TObjPlayer *)p)->get_floor() &&
-                team == TLobby__sub_801C19D0(p->sub828) &&
+                team == ((PlayerPkState *)p->sub828)->get_team() &&
                 ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
                 VecCopy((Vec *)e, (const Vec *)p->pos);
                 e->y = 10.0f;

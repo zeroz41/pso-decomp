@@ -627,12 +627,7 @@ u8 TObjPlayer__sub_801C0124(void *, s16);
 f32 fn_801C19A4(void *);
 s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
 void TObjPlayer__sub_801C19C8(void *p, f32 v);
-s32 TLobby__sub_801C19D0(void *p);
-void set_player_team_id(void *p, s32 v);
 void fn_801C19E0(void *, s32);
-void fn_801C19E8(void *p);
-void set_player_pk_mode_flag(void *p);
-void *TObjPlayer__sub_801C1A00(void *p);
 s32 TObjPlayer__sub_801C1AC8(void *);
 s32 TObjPlayer__sub_801C1B0C(void *, int);
 s32 fn_801C1B88(void *p);
@@ -3742,7 +3737,7 @@ Obj_801B4FD8 *init_player_join_record(Obj_801B4FD8 *self) {
     s32 i;
     __construct_array(self->f28, __ct__12StatusEffectFv, 0, 0xC, 5);
     ((TObjPlayer *)(self->f68))->clear_header_struct();
-    TObjPlayer__sub_801C1A00(self->f70);
+    ((PlayerPkState *)self->f70)->init();
     init_player_telepipe_record(&self->telepipe);
     __ct__8FlagWordFv((self->f94));
     self->f98.init();
@@ -5241,7 +5236,7 @@ void TObjPlayer::set_state_flag_6043() {
     } else {
         this->collision_body.flags = 0x2003;
     }
-    set_player_pk_mode_flag((u8 *)&this->pk_state);
+    this->pk_state.enable();
 }
 
 void TObjPlayer::send_disable_pk_mode(TObjPlayer *player) {
@@ -5278,7 +5273,7 @@ void TObjPlayer::set_state_flag_604B() {
     } else {
         this->collision_body.flags = 0x200B;
     }
-    fn_801C19E8((u8 *)&this->pk_state);
+    this->pk_state.disable();
 }
 
 void *TObjPlayer::find_revival_item() {
@@ -5738,7 +5733,7 @@ void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {
         return;
     }
     team = cmd.team;
-    set_player_team_id(p + 0x828, team);
+    ((PlayerPkState *)(p + 0x828))->set_team(team);
     if (team == 1) {
         TMainCursor__sub_801540B8((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
     } else {
@@ -5747,7 +5742,7 @@ void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {
 }
 extern "C" {
 
-int TObjPlayer__sub_801B066C(void* p) { return TLobby__sub_801C19D0((char*)p + 0x828); }
+int TObjPlayer__sub_801B066C(void* p) { return ((PlayerPkState *)((char*)p + 0x828))->get_team(); }
 
 void draw_status_line(void *window, s32 *str, s32 *name, s32 value) {
     text_builder_reset();
@@ -5783,7 +5778,7 @@ void draw_player_status(saddr window, void *player, saddr str) {
 extern "C" void fn_801B0480(u8 *player, void *attacker, s32 amount) {
     if (reinterpret_cast<TObject *>(attacker)->check_value_equals(TObjPlayer_name) == 0
         || ((TLobby *)lobby_rule_settings)->get_rule_field_a() != 1
-        || TLobby__sub_801C19D0(player + 0x828) != TLobby__sub_801C19D0((u8 *)attacker + 0x828)) {
+        || ((PlayerPkState *)(player + 0x828))->get_team() != ((PlayerPkState *)((u8 *)attacker + 0x828))->get_team()) {
         accumulate_damage_stats((saddr)(player + 0x75C), (saddr)attacker, amount);
         play_sound_effect(0x4004B20A, 0, 0, 0);
     }
