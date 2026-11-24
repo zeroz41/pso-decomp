@@ -698,6 +698,19 @@ def extern_c_functions(text: str, code: str) -> list[tuple[int, str]]:
     return out
 
 
+def extern_c_definitions(text: str) -> set[str]:
+    """Names of the functions a source file defines under `extern "C"` (a block or a prefix): they have C linkage
+    whatever the file's suffix."""
+    if "extern" not in text:
+        return set()
+    out = set()
+    for _, head, body, _ in _extern_c_heads(text, blank(text)):
+        found = _declared(head) if body else None
+        if found and found[1]:
+            out.add(found[0])
+    return out
+
+
 # --- declarations, comments and literals ---------------------------------------------------------------------------
 
 _MACRO_NAME = re.compile(r"[A-Z][A-Z0-9_]*")   # MACRO(...) at file scope is an invocation, not a prototype
@@ -2082,12 +2095,34 @@ class Config:
     linkage: dict[str, set[str]]   # function name -> the units defining it
     middleware: set[str] = dataclasses.field(default_factory=set)   # units of the prebuilt C libraries
     pairs: list[tuple[str, str]] = dataclasses.field(default_factory=list)   # (symbols.txt, splits.txt) texts
+    repo: "Repo | None" = None
+    rev: str | None = None
+    c_defined: dict[str, set[str]] = dataclasses.field(default_factory=dict)   # unit -> its extern "C" definitions
+    sources: list[str] | None = None   # the library C++ sources at rev (read lazily)
+
+    def c_definitions(self, unit: str) -> set[str]:
+        """The functions the unit's source (the C++ file under a library root whose path ends with the unit's name)
+        defines under `extern "C"`. Only a library's own source is read: the game's C++ has no C entry points, and an
+        `extern "C"` around one of its definitions is the same debt as the header's."""
+        if unit not in self.c_defined:
+            if self.repo is None or self.rev is None:
+                return set()
+            if self.sources is None:
+                self.sources = [p for p in self.repo.paths(self.rev, LIBRARY_ROOTS)
+                                if Path(p).suffix.lower() in CPP_SUFFIXES]
+            rels = [rel for rel in self.sources if rel == unit or rel.endswith("/" + unit)]
+            texts = self.repo.read(self.rev, rels, None) if rels else {}
+            self.c_defined[unit] = set().union(*(extern_c_definitions(text) for text in texts.values()))
+        return self.c_defined[unit]
 
     def cxx_linkage(self, name: str) -> bool:
-        """True when a C++ unit, and no C unit, defines the function. A middleware unit is never C++: the
-        libraries are C, whatever the unit's file is called."""
+        """True when a C++ unit, and no C unit, defines the function with C++ linkage. A middleware unit is never
+        C++: the libraries are C, whatever the unit's file is called. A definition under `extern "C"` in the
+        library unit's own source has C linkage (the runtime's and the SDK's .cpp files define their C entry points
+        so); one that only takes it from a header's prototype, or a game unit's, does not."""
         units = self.linkage.get(name, ())
-        return any(Path(u).suffix.lower() in CPP_SUFFIXES and u not in self.middleware for u in units) and \
+        return any(Path(u).suffix.lower() in CPP_SUFFIXES and u not in self.middleware
+                   and name not in self.c_definitions(u) for u in units) and \
             not any(Path(u).suffix.lower() == ".c" for u in units)
 
 
@@ -2101,7 +2136,7 @@ def read_config(repo: "Repo", rev: str) -> Config:
         if "symbols" in paths:
             pairs.append((paths["symbols"], paths.get("splits")))
     texts = repo.read(rev, sorted({p for pair in pairs for p in pair if p}), None)
-    config = Config(collections.defaultdict(set))
+    config = Config(collections.defaultdict(set), repo=repo, rev=rev)
     libraries = middleware(repo.read(rev, ["configure.py"], None).get("configure.py", ""))
     for symbols_path, splits_path in sorted(set(pairs)):
         config.pairs.append((texts.get(symbols_path, ""), texts.get(splits_path, "") if splits_path else ""))
