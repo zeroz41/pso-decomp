@@ -153,10 +153,10 @@ void TObjPlayer::set_regen_timer(s32 v) { this->regen_timer = v; }
 s32 TObjPlayer::get_regen_timer() { return this->regen_timer; }
 int TObjPlayer::is_newman() { return (this->class_flags & CLASS_FLAG_NEWMAN) != 0; }
 int TObjPlayer::is_android() { return (this->class_flags & CLASS_FLAG_ANDROID) != 0; }
-void TObjPlayer::check_stat_flag_41c() { ((FlagWord *)((char*)this + 0x41c))->set(32); }
-void TObjPlayer::check_flag_at_41c() { ((FlagWord *)((char*)this + 0x41c))->set(4); }
-void TObjPlayer::set_flag_41c_bit1() { ((FlagWord *)((char*)this + 0x41c))->set(2); }
-void TObjPlayer::clamp_stat_41c() { ((FlagWord *)((char*)this + 0x41c))->set(8); }
+void TObjPlayer::check_stat_flag_41c() { m_41c.set(32); }
+void TObjPlayer::check_flag_at_41c() { m_41c.set(4); }
+void TObjPlayer::set_flag_41c_bit1() { m_41c.set(2); }
+void TObjPlayer::clamp_stat_41c() { m_41c.set(8); }
 
 }
 
@@ -241,11 +241,11 @@ void TObjPlayer::clear_flag_0x2() { this->state_flags &= 0xfffffffd; }
 
 int TObjPlayer::is_action_active() { return (this->state_flags >> 1) & 0x1; }
 void TObjPlayer__sub_801BE784(void* p, u8 v) { *(u8*)((char*)p + 0x2e7) = v; }
-u8 TObjPlayer::get_battle_mode() { return *(u8*)((char*)this + 0x33a); }
+u8 TObjPlayer::get_battle_mode() { return unk_33A[0]; }
 void TObjPlayer__sub_801BE794(void* p, u8 v) { *(u8*)((char*)p + 0x2cb) = v; }
 u8 TObjPlayer::get_byte_339() { return this->m_339; }
 void TObjPlayer__sub_801BE7A4(void* p, u8 v) { *(u8*)((char*)p + 0x2af) = v; }
-u8 TObjPlayer::get_mag_level() { return *(u8*)((char*)this + 0x338); }
+u8 TObjPlayer::get_mag_level() { return unk_338[0]; }
 void TObjPlayer__sub_801BE7B4(void* p, u8 v) { *(u8*)((char*)p + 0x293) = v; }
 u8 TObjPlayer::get_luck_materials_used() { return materials.get_luck_used(); }
 void TObjPlayer__sub_801BE7E0(void* p, u8 v) { *(u8*)((char*)p + 0x277) = v; }
@@ -350,7 +350,7 @@ u8 TObjPlayer__sub_801BEB3C(void* p) { return *(u8*)((char*)p + 0x2e7); }
 u8 TObjPlayer__sub_801BEB44(void* p) { return *(u8*)((char*)p + 0x2cb); }
 u8 TObjPlayer__sub_801BEB4C(void* p) { return *(u8*)((char*)p + 0x2af); }
 void TObjPlayer::set_language(s32 v) { this->language = v; }
-void TObjPlayer::reset_entrance_id() { *(s32*)((char*)this + 0x3c8) = -1; }
+void TObjPlayer::reset_entrance_id() { entrance_id = -1; }
 void TObjPlayer::set_luck_materials_used(u8 v) { materials.set_luck_used(v); }
 u8 PlayerSyncRecord::get_luck_materials_used() { return items[12].m_present[3]; }
 void TObjPlayer::set_def_materials_used(u8 v) { materials.set_def_used(v); }
@@ -383,4 +383,4 @@ void PlayerNpcControl::reset() {
     state = 0;
 }
 
-s32 TObjPlayer::get_entrance_id() { return *(s32*)((char*)this + 0x3c8); }
+s32 TObjPlayer::get_entrance_id() { return entrance_id; }

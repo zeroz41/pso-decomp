@@ -200,7 +200,7 @@ struct TObjPlayer : public TObjChara {
     s16 lobby_animation;
     u8 pad_3c2[0x2];
     f32 lobby_animation_frame;  // frame the lobby animation (action state 0x17) resumes at
-    u8 unk_3C8[0x4];
+    s32 entrance_id;
     u32 m_3cc;
     s32 controller_port; // 0-3, set by init_control_mode for a local player
     s32 freeze_escape_step; // added to the freeze timer on each stick escape (negative)
