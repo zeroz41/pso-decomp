@@ -13,7 +13,7 @@ class TPlayerFootStamp : public TObject {
 public:
     TPlayerFootStamp(TObjPlayer *player, s32 side);
     virtual ~TPlayerFootStamp();
-    void sub_802B0204(s32);
+    void select_texture(s32);
 public:
     static void *create(void *slot, void *side);
     static void free_instance();
@@ -27,7 +27,7 @@ public:
     Vec corners[4];           // 0x88: the quad's corners around position
     u32 color;                // 0xB8: the floor's footprint colour
     s16 side;                 // 0xBC: 0 or 1 (the caller's foot), else none is made
-    s16 texture;              // 0xBE: set_texture_num index, 1 for android feet
+    s16 texture;              // 0xBE: select_texture index, 1 for android feet
     s32 timer;                // 0xC0: frames left
 };
 
