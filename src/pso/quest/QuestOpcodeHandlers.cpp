@@ -22,7 +22,7 @@
 #include "pso/quest/QuestVm.h"
 #include "pso/ui/window/TWindowMessageScroll.h"
 #include "pso/unk/TLobby_8026B06C.h"
-#include "pso/npc/TNpcPlayer_8034DAA0.h"
+#include "pso/npc/NpcPartnerControl.h"
 #include "pso/quest/BattleRules.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/item/TObjItemNameSelect.h"
