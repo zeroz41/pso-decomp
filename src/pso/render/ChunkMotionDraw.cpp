@@ -39,25 +39,25 @@ void draw_blend_motion_tree(NJS_OBJECT *model, NJS_MOTION_LINK *motion, f32 blen
     draw_object_tree_recursive(model);
 }
 
-void draw_object_tree_recursive(void *arg) {
-    struct Node_803E49FC *arg0 = (struct Node_803E49FC *)arg;
+void draw_object_tree_recursive(void *object) {
+    struct Node_803E49FC *node = (struct Node_803E49FC *)object;
     uaddr t;
     do {
         push_matrix();
-        apply_motion_node_transform((NJS_OBJECT *)arg0);
+        apply_motion_node_transform((NJS_OBJECT *)node);
         if (chunk_model_node_callback != NULL) {
-            chunk_model_node_callback(reinterpret_cast<NJS_OBJECT *>(arg0));
+            chunk_model_node_callback(reinterpret_cast<NJS_OBJECT *>(node));
         }
-        t = arg0->f4;
-        if (t != 0 && (arg0->flags & 8) == 0) {
+        t = node->f4;
+        if (t != 0 && (node->flags & 8) == 0) {
             model_draw_context->draw((void *)t);
         }
-        if (arg0->child != NULL) {
-            draw_object_tree_recursive((void *)arg0->child);
+        if (node->child != NULL) {
+            draw_object_tree_recursive((void *)node->child);
         }
         pop_matrix();
-        arg0 = arg0->next;
-    } while (arg0 != NULL);
+        node = node->next;
+    } while (node != NULL);
 }
 
 void draw_model_blend_motion(void *model, void *motion, f32 blend_factor) {
@@ -93,23 +93,23 @@ void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDra
     }
     traverse_animated_node_tree(model);
 }
-void traverse_animated_node_tree(void *arg) {
-    struct Node_803E49FC *arg0 = (struct Node_803E49FC *)arg;
+void traverse_animated_node_tree(void *object) {
+    struct Node_803E49FC *node = (struct Node_803E49FC *)object;
     uaddr t;
     do {
         push_matrix();
-        compose_motion_node_matrix(arg0);
+        compose_motion_node_matrix(node);
         if (chunk_model_node_callback != NULL) {
-            chunk_model_node_callback(reinterpret_cast<NJS_OBJECT *>(arg0));
+            chunk_model_node_callback(reinterpret_cast<NJS_OBJECT *>(node));
         }
-        t = arg0->f4;
-        if (t != 0 && (arg0->flags & 8) == 0) {
+        t = node->f4;
+        if (t != 0 && (node->flags & 8) == 0) {
             model_draw_context->draw((void *)t);
         }
-        if (arg0->child != NULL) {
-            traverse_animated_node_tree((void *)arg0->child);
+        if (node->child != NULL) {
+            traverse_animated_node_tree((void *)node->child);
         }
         pop_matrix();
-        arg0 = arg0->next;
-    } while (arg0 != NULL);
+        node = node->next;
+    } while (node != NULL);
 }

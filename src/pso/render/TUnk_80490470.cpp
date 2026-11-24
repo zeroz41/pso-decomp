@@ -12,9 +12,9 @@ s32 TUnk_80490470::has_visible_opacity() {
 
 void TUnk_80490470::set_flags_and_apply_damage_color() { MaterialColorFade::set_flags_and_apply_damage_color(); set_chunk_blend(7424); }
 s32 TUnk_80490470::advance_toward_max() {
-    f32 temp_f1;
-    temp_f1 = phase;
-    phase = (f32) (temp_f1 + this->rate);
+    f32 current;
+    current = phase;
+    phase = (f32) (current + this->rate);
     this->calc_recoil_offsets();
     return phase >= 2.0f;
 }
@@ -36,15 +36,15 @@ s32 TUnk_80490470::decay_value_toward_floor() {
 
 
 void TUnk_80490470::calc_recoil_offsets() {
-    f32 temp_f1;
-    f32 var_f0;
+    f32 current;
+    f32 shade;
 
-    temp_f1 = phase;
-    if (temp_f1 > 1.0f) {
-        if (temp_f1 > 2.0f) {
+    current = phase;
+    if (current > 1.0f) {
+        if (current > 2.0f) {
             this->color.a = 0.0f;
         } else {
-            this->color.a = (f32) (temp_f1 - 2.0f);
+            this->color.a = (f32) (current - 2.0f);
         }
         this->color.r = 0.0f;
         this->color.g = 0.0f;
@@ -52,13 +52,13 @@ void TUnk_80490470::calc_recoil_offsets() {
         return;
     }
     this->color.a = -1.0f;
-    var_f0 = phase - 1.0f;
-    if (var_f0 < (-1.0f)) {
-        var_f0 = (-1.0f);
+    shade = phase - 1.0f;
+    if (shade < (-1.0f)) {
+        shade = (-1.0f);
     }
-    this->color.r = var_f0;
-    this->color.g = var_f0;
-    this->color.b = var_f0;
+    this->color.r = shade;
+    this->color.g = shade;
+    this->color.b = shade;
 }
 
     
