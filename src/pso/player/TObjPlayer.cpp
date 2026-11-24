@@ -61,6 +61,7 @@
 #include "pso/item/TItemList.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer_80309D80.h"
+#include "pso/map/area/AreaScene.h"
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/PlayerLevelTable.h"
@@ -117,7 +118,6 @@ void TObjPlayer::alloc_shared_buffers() {
     }
 }
 
-extern unsigned char lobby_rule_settings[];
 void TObjPlayer::finalize_shared() { TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(0)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); shared_state_flags[0] = 0; TLockOnCursor::free_cursor_resources(); free_player_motion_directory(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
 
 void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(1)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; alloc_player_motion_directory(); load_player_motion_data(); copy_player_motion_directory(); upload_player_motion_data(); free_player_motion_archive(); load_target_cursor_models(); load_player_footstamp(); reset_client_quest_slot_table(); shared_state_flags[0] = 0; }
@@ -135,7 +135,7 @@ void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
 
 ArrivalOverride player_arrival_overrides[12];
 u8 player_slot_table[0x30];
-u8 lobby_rule_settings[0x24];
+s32 lobby_rule_settings[9];
 u8 lbl_8050EA64[0xC];
 u8 TObjPlayer__char_data_array[0x42C * 0xC];
 
