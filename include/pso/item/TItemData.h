@@ -83,7 +83,7 @@ struct TItemData {
     s32 get_base_rarity();
     s32 check_item_flags();
     void clear_unidentified_flag();
-    static s32 is_item_usable(saddr arg0, u8 *arg1);
+    static s32 is_item_usable(saddr arg0, u8 *item);
     saddr test_flag3();
     saddr get_item_field_2();
     void add_quantity(s32 amount);

@@ -180,8 +180,7 @@ struct TLobby : public TObject {
     void update_and_send();
     static TLobbyFloorItemEntry *copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src);
     static int get_sync_counter(u16 a0);
-    static void mark_selected();
-    static void forward_to_player(int id, void *arg1);
+    static void forward_to_player(int id, void *item);
     static void handle_player_event(s32 client, s32 arg1);
     void dispatch_packet_wrapper();
     void process_and_dispatch_packet();

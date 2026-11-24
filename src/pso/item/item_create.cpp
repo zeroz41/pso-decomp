@@ -388,7 +388,7 @@ void forward_message(saddr buf, uaddr item) {
         ((TItemData *)item)->format_item_name((char *)buf);
     }
 }
-void TLobby::mark_selected() { lobby_drop_flag = 1; }
+void mark_selected() { lobby_drop_flag = 1; }
 int get_drop_flag() {  return lobby_drop_flag; }
 
 ItemCreateFunction TLobby__sub_8010440C(u8 *item) {
@@ -412,7 +412,7 @@ void handle_select_confirm() {
     TPlyCharData *chr;
 
     if ((fn_80077790() == 1) || (fn_80077788() == 1)) {
-        TLobby::mark_selected();
+        mark_selected();
         chr = (TPlyCharData *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF);
         if (chr != NULL) {
             fn_801058E8(chr);

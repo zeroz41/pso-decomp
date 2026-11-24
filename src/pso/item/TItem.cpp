@@ -1151,7 +1151,7 @@ f32 TItem::get_owner_alpha() {
 
 void TItem::refresh_if_current_player() {
     if ((s32)owner_client_id == local_client_id) {
-        TLobby::mark_selected();
+        mark_selected();
     }
 }
 
