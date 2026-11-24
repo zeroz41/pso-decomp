@@ -401,20 +401,21 @@ void handle_6xA7(void) {  }
 
 LAYOUT_ASSERT(RecoveredGlobal_802D2C38_lbl_804E1920_size, sizeof(trade_proposal_state_handlers) == 0x140);
 void handle_6xA6_modify_trade_proposal(u8 *message_window) {
-    s32 (*temp_r12)(void *);
-    u16 temp_r3;
-    u8 temp_r5;
-    ((G_ModifyTradeProposal_6xA6 *)message_window)->bswap();
-    temp_r3 = *(u16 *)((s8 *)message_window + 2);
-    if ((temp_r3 < 4U) && (temp_r5 = *(u8 *)((s8 *)message_window + 4), ((temp_r5 < 8U) != 0))) {
-        if ((trade_partner_client_id != 4) && ((s32) temp_r3 != trade_partner_client_id)) {
-            if ((temp_r5 == 0) && ((u8) *(u8 *)((s8 *)message_window + 5) == 0)) {
-                ((s32 (*)())send_trade_busy_reply)();
+    G_ModifyTradeProposal_6xA6 *packet = (G_ModifyTradeProposal_6xA6 *)message_window;
+    TradeProposalHandler handler;
+    u16 client_id;
+    u8 what;
+    packet->bswap();
+    client_id = packet->header.client_id;
+    if (client_id < 4U && (what = packet->what, what < 8U)) {
+        if (trade_partner_client_id != 4 && (s32)client_id != trade_partner_client_id) {
+            if (what == 0 && packet->result == 0) {
+                send_trade_busy_reply(client_id);
             }
         } else {
-            temp_r12 = *(s32 (**)(void *))((s8 *)((u8 *)(((u8 *)&trade_proposal_state_handlers + ((s8) trade_proposal_state << 5))) + ((temp_r5 * 4) & 0x3FC)) + 0);
-            if (temp_r12 != NULL) {
-                temp_r12(message_window);
+            handler = trade_proposal_state_handlers[(s8)trade_proposal_state][what];
+            if (handler != NULL) {
+                handler(packet);
             }
         }
     }
