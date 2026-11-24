@@ -8,7 +8,7 @@
 # treats the artifact as untrusted data, and the PR number comes from the triggering
 # run's head branch and commit, not from the artifact.
 #
-# It also measures source quality (tools/source_quality.py, from master) on the pull
+# It also measures source quality (tools/source_quality.py and tools/misowned.py, from master) on the pull
 # request's merge commit, fetched into a bare repository and read as text only. The
 # result is advisory: it is shown in the comment and never fails the pull request.
 #
@@ -53,6 +53,7 @@ jobs:
           sparse-checkout: |
             tools/ci_comment.py
             tools/source_quality.py
+            tools/misowned.py
           sparse-checkout-cone-mode: false
 
       - name: Download results
