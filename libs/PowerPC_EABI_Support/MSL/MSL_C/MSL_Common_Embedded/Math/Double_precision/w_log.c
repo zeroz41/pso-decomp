@@ -11,12 +11,7 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 double log(double x)
-#else
-double log(x)
-double x;
-#endif
 {
 #ifdef _IEEE_LIBM
   return __ieee754_log(x);

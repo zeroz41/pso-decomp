@@ -11,18 +11,9 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 static const double huge = 1.0e300;
-#else
-static double huge = 1.0e300;
-#endif
 
-#ifdef __STDC__
 double floor(double x)
-#else
-double floor(x)
-double x;
-#endif
 {
     int i0, i1, j0;
     unsigned i, j;

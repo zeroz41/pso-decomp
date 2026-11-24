@@ -27,11 +27,7 @@ extern inline double sqrt(double x) {
     return INFINITY;
 }
 
-#ifdef __STDC__
 static const double
-#else
-static double
-#endif
     one = 1.00000000000000000000e+00,
     big = 1.000e+300, pio2_hi = 1.57079632679489655800e+00,
     pio2_lo = 6.12323399573676603587e-17,
@@ -47,12 +43,7 @@ static double
     qS3 = -6.88283971605453293030e-01,
     qS4 = 7.70381505559019352791e-02;
 
-#ifdef __STDC__
 double __ieee754_asin(double x)
-#else
-double __ieee754_asin(x)
-double x;
-#endif
 {
   double t, w, p, q, c, r, s;
   int hx, ix;

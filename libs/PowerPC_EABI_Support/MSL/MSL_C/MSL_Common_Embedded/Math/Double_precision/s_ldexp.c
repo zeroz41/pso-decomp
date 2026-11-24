@@ -12,22 +12,13 @@
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 #include "MSL_C/MSL_Common/float.h"
 
-#ifdef __STDC__
 static const double
-#else
-static double
-#endif
 two54   =  1.80143985094819840000e+16,
 twom54  =  5.55111512312578270212e-17,
 huge   = 1.0e+300,
 tiny   = 1.0e-300;
 
-#ifdef __STDC__
 	double ldexp(double value, int exp)
-#else
-	double ldexp(value, exp)
-	double value; int exp;
-#endif
 {
 	int  k,hx,lx;
 

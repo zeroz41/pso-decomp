@@ -11,17 +11,9 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 static const int init_jk[] = { 2, 3, 4, 6 };
-#else
-static int init_jk[] = { 2, 3, 4, 6 };
-#endif
 
-#ifdef __STDC__
 static const double PIo2[] = {
-#else
-static double PIo2[] = {
-#endif
     1.57079625129699707031e+00,
     7.54978941586159635335e-08,
     5.39030252995776476554e-15,
@@ -32,23 +24,12 @@ static double PIo2[] = {
     2.16741683877804819444e-51,
 };
 
-#ifdef __STDC__
 static const double
-#else
-static double
-#endif
     zero = 0.0,
     one = 1.0, two24 = 1.67772160000000000000e+07,
     twon24 = 5.96046447753906250000e-08;
 
-#ifdef __STDC__
 int __kernel_rem_pio2(double* x, double* y, int e0, int nx, int prec, const int* ipio2)
-#else
-int __kernel_rem_pio2(x, y, e0, nx, prec, ipio2)
-double x[], y[];
-int e0, nx, prec;
-int ipio2[];
-#endif
 {
     int jz, jx, jv, jp, jk, carry, n, iq[20], i, j, k, m, q0, ih;
     double z, fw, f[20], fq[20], q[20];

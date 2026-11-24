@@ -11,11 +11,7 @@
 
 #include "MSL_C/MSL_Common_Embedded/Math/fdlibm.h"
 
-#ifdef __STDC__
 static const double
-#else
-static double
-#endif
     half = 5.00000000000000000000e-01,
     S1 = -1.66666666666666324348e-01,
     S2 = 8.33333333332248946124e-03,
@@ -24,13 +20,7 @@ static double
     S5 = -2.50507602534068634195e-08,
     S6 = 1.58969099521155010221e-10;
 
-#ifdef __STDC__
 double __kernel_sin(double x, double y, int iy)
-#else
-double __kernel_sin(x, y, iy)
-double x, y;
-int iy;
-#endif
 {
     double z, r, v;
     int ix;
