@@ -382,26 +382,26 @@ void align_menu_entry_positions(TWindowMenu *self) {
 }
 #pragma pop
 
-void TWindowSubComCard::calc_layout_height(f32 width) {
+void TWindowMenu::calc_layout_height(f32 width) {
     f32 h;
     u32 i;
     Ent_80265C30 *e;
     h = 0.0f;
-    for (i = 0; i < *(s16 *)(((u8 *)this) + 0x76); i++) {
-        e = (Ent_80265C30 *)((TWindowBase *)this)->get_array_entry(i);
+    for (i = 0; i < row_count; i++) {
+        e = (Ent_80265C30 *)get_array_entry(i);
         if (((TWindowSubComCard *)e)->get_field_20() != 0 && !(e->h <= lbl_8044F330)) {
             measure_message_text_width(e, width);
             h += 2.0f + e->h;
         }
     }
     h -= 2.0f;
-    if (this->m_2c & 0x40) {
+    if (window_flags & 0x40) {
         h += 6.0f;
     }
-    this->width = width;
-    *(f32 *)(((u8 *)this) + 0x3C) = 20.0f + h;
-    *(f32 *)(((u8 *)this) + 0x7C) = h;
-    ((TWindowBase *)((u8 *)this))->save_position();
+    target_size[0] = width;
+    target_size[1] = 20.0f + h;
+    layout_height = h;
+    save_position();
 }
 
 void TWindowSubComCardList::set_scroll_target(f32 width, f32 farg1) {

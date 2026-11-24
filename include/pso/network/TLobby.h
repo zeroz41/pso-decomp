@@ -345,7 +345,6 @@ struct TLobby : public TObject {
     static saddr get_global_63e0();
     static void load_player_data();
     static void send_card_window_state();
-    static void send_packet(s32 window, s32 src);
     static void free_shared_objects();
     static void free_single_player_chr_select();
     static void alloc_download_server();

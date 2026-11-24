@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/ChoiceSearchSelection.h"
 
 struct GuildCardSlot;
 
@@ -14,34 +15,26 @@ struct TWindowSubComCard : public TObject {
     void rebuild_com_card_list(saddr list_window);
     static const char *class_name;
     u32 sub_80272DE0();
-    void sub_80271F04(void *, s32, saddr);
+    void sub_80271F04(ChoiceSearchSelection *selections, s32 key, saddr val);
     s32 reinit(int);
     s32 init_guild_card_tag(int);
     s32 sub_802730E0();
-    s32 create_option_list_window(saddr, s32);
+    s32 create_option_list_window(ChoiceSearchSelection *selections, s32 key);
     void sub_802721D8();
     u8 *find_entry_rest(void *, s32);
     void send_state_if_dirty();
+    void send_choice_search(ChoiceSearchSelection *selections);
     void handle_close_flag();
     virtual void render();
     virtual void run_task();
     u8 state;
     u8 m_1d;
     u8 _pad1E[0x2];
-    uaddr m_20;
+    uaddr client_id;
     uaddr m_24;
     uaddr m_28;
     uaddr m_2c;
-    void* m_30;
-    u8 unk_34[0x4];
-    f32 width;
-    u8 unk_3C[0x4];
-    s32 m_40;
-    u8 unk_44[0x4];
-    f32 m_48;
-    u8 unk_4C[0x4];
-    u32 m_50;
-    u8 unk_54[0x4];
+    ChoiceSearchSelection choice_selections[5];
     uaddr chr_select;
     u32 m_5c;
     uaddr m_60;
@@ -57,7 +50,6 @@ struct TWindowSubComCard : public TObject {
     static saddr get_card_slot(s32 arg0);
     static void *send_command(saddr index);
     static u8 *apply_selection(s32 index);
-    s32 find_value_by_key(u16 key);
     static saddr get_com_count();
     static void release();
     static saddr get_chr_select();
@@ -101,7 +93,6 @@ struct TWindowSubComCard : public TObject {
     void set_text(void *text);
     static void handle_press_a(saddr ply_guild_card_tag, s32 id);
     static void handle_press_b(saddr ply_guild_card_tag, s32 client_id);
-    void calc_layout_height(f32 width);
 
     void set_card_index(s32 card_index);
     void set_selected_card(s32 card_index);
@@ -110,7 +101,7 @@ struct TWindowSubComCard : public TObject {
     s32 create_entry_list_window();
     s32 open_yesno_dialog();
     s32 confirm_and_free();
-    void set_com_param(s32 com_param);
+    static void set_com_param(s32 client_id, s32 com_param);
     void set_page(s16 v);
     void set_display_page();
     static s32 create_com_card_window(s32 parent);

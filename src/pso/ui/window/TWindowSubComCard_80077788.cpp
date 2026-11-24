@@ -12,8 +12,6 @@
 #pragma dont_inline off
 struct ByteBlock_28 { u8 bytes[0x28]; };
 
-struct S_80077840 { u32 key; s32 val; };
-
 struct S_80077814 { u32 key; s32 val; };
 
 struct S_80077980 { s32 key; s32 val; };
@@ -77,14 +75,13 @@ void set_value_by_key(S_80077814 *arr, u16 key, s32 val) {
     }
 }
 
-s32 TWindowSubComCard::find_value_by_key(u16 key) {
-    S_80077840 *arr = (S_80077840 *)this;
+s32 find_choice_search_value(ChoiceSearchSelection *selections, u16 parent_choice_id) {
     s32 i;
     for (i = 0; i < 5; i++) {
-        if (arr->key == key) {
-            return arr->val;
+        if (selections->parent_choice_id == parent_choice_id) {
+            return selections->choice_id;
         }
-        arr++;
+        selections++;
     }
     return 0;
 }
@@ -109,7 +106,7 @@ void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *chr_select
     u32 k;
     Out_800778B4 *dst;
     Ent_800777C4 *e;
-    S_80077840 tmp[5];
+    ChoiceSearchSelection tmp[5];
     copy_struct28__17TWindowSubComCardFii((saddr) tmp, (saddr) arr);
     TWindowSubComCard__sub_80077980((S_80077980 *) arr);
     n = chr_select->count;
@@ -119,7 +116,7 @@ void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *chr_select
     while (i < n) {
         if (e->a == 0) {
             id = dst->a = e->b;
-            k = ((TWindowSubComCard *)tmp)->find_value_by_key(id);
+            k = find_choice_search_value(tmp, id);
             dst->b = (u16) find_table_entry_id(chr_select, id, k);
             dst++;
         }

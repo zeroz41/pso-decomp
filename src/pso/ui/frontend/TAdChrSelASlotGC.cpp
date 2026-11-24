@@ -95,7 +95,7 @@ PlayerSlotLabel *TAdChrSelASlotGC::build_slot_entry(s32 index, s32 slot, void *p
 #pragma pool_data off
 TWindowBase *TAdChrSelASlotGC::create_format_failed_window(s32 kind) {
     NJS_POINT2 pos;
-    TWindowBase *w;
+    TWindowMenu *w;
     switch (kind) {
     case 0:
         copy_vec2(&pos, (void *)(this->mode == 2 ? &chr_sel_a_slot_left_message_pos : &chr_sel_a_slot_message_pos));
@@ -104,17 +104,17 @@ TWindowBase *TAdChrSelASlotGC::create_format_failed_window(s32 kind) {
         copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
-    w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
-    ((TWindowMenu *)w)->add_text_entry(get_localized_text_entry(0x16, kind + 0x2B), 0x20, 0);
-    ((TWindowMenu *)w)->set_flag_40();
+    w = (TWindowMenu *)create_window_menu_default((saddr)&pos, 1);
+    w->add_text_entry(get_localized_text_entry(0x16, kind + 0x2B), 0x20, 0);
+    w->set_flag_40();
     TQuestThread::set_status_flag_80(w);
-    ((TWindowSubComCard *)w)->calc_layout_height(190.0f);
+    w->calc_layout_height(190.0f);
     return w;
 }
 
 TWindowBase *TAdChrSelASlotGC::create_not_formatted_window(s32 kind) {
     NJS_POINT2 pos;
-    TWindowBase *w;
+    TWindowMenu *w;
     switch (kind) {
     case 0:
         copy_vec2(&pos, (void *)(this->mode == 2 ? &chr_sel_a_slot_left_message_pos : &chr_sel_a_slot_message_pos));
@@ -123,17 +123,17 @@ TWindowBase *TAdChrSelASlotGC::create_not_formatted_window(s32 kind) {
         copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
-    w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
-    ((TWindowMenu *)w)->add_text_entry(get_localized_text_entry(0x16, kind + 0x29), 0x20, 0);
-    ((TWindowMenu *)w)->set_flag_40();
+    w = (TWindowMenu *)create_window_menu_default((saddr)&pos, 1);
+    w->add_text_entry(get_localized_text_entry(0x16, kind + 0x29), 0x20, 0);
+    w->set_flag_40();
     TQuestThread::set_status_flag_80(w);
-    ((TWindowSubComCard *)w)->calc_layout_height(190.0f);
+    w->calc_layout_height(190.0f);
     return w;
 }
 
 TWindowBase *TAdChrSelASlotGC::create_formatted_window(s32 kind) {
     NJS_POINT2 pos;
-    TWindowBase *w;
+    TWindowMenu *w;
     switch (kind) {
     case 0:
         copy_vec2(&pos, (void *)(this->mode == 2 ? &chr_sel_a_slot_left_message_pos : &chr_sel_a_slot_message_pos));
@@ -142,11 +142,11 @@ TWindowBase *TAdChrSelASlotGC::create_formatted_window(s32 kind) {
         copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
-    w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
-    ((TWindowMenu *)w)->add_text_entry(get_localized_text_entry(0x16, kind + 0x27), 0x20, 0);
-    ((TWindowMenu *)w)->set_flag_40();
+    w = (TWindowMenu *)create_window_menu_default((saddr)&pos, 1);
+    w->add_text_entry(get_localized_text_entry(0x16, kind + 0x27), 0x20, 0);
+    w->set_flag_40();
     TQuestThread::set_status_flag_80(w);
-    ((TWindowSubComCard *)w)->calc_layout_height(190.0f);
+    w->calc_layout_height(190.0f);
     return w;
 }
 
@@ -227,7 +227,7 @@ TWindowMessageYesNo *TAdChrSelASlotGC::open_create_character_prompt(s32 pos) {
 
 TWindowBase *TAdChrSelASlotGC::create_slot_message_window(s32 kind, s32 text) {
     NJS_POINT2 pos;
-    TWindowBase *w;
+    TWindowMenu *w;
     switch (kind) {
     case 0:
         copy_vec2(&pos, (void *)(this->mode == 2 ? &chr_sel_a_slot_left_message_pos : &chr_sel_a_slot_message_pos));
@@ -236,11 +236,11 @@ TWindowBase *TAdChrSelASlotGC::create_slot_message_window(s32 kind, s32 text) {
         copy_vec2(&pos, (void *)&chr_sel_b_slot_message_pos);
         break;
     }
-    w = (TWindowBase *)create_window_menu_default((saddr)&pos, 1);
-    ((TWindowMenu *)w)->add_text_entry(get_localized_text_entry(0x16, text), 0x21, 0);
-    ((TWindowMenu *)w)->set_flag_40();
+    w = (TWindowMenu *)create_window_menu_default((saddr)&pos, 1);
+    w->add_text_entry(get_localized_text_entry(0x16, text), 0x21, 0);
+    w->set_flag_40();
     TQuestThread::set_status_flag_80(w);
-    ((TWindowSubComCard *)w)->calc_layout_height(190.0f);
+    w->calc_layout_height(190.0f);
     return w;
 }
 #pragma pool_data reset

@@ -815,7 +815,6 @@ pso/unk/TLobby_802409AC.cpp
 pso/unk/TLobby_8026B06C.cpp
 pso/ui/window/TWindowMenuIconLine_8026DE30.cpp
 pso/ui/window/TWindowMenuIconLineLists.cpp
-pso/unk/TLobby_80271E48.cpp
 pso/unk/TLobby_8028A7C8.cpp
 pso/unk/TLobby_8028EA28.cpp
 pso/unk/TLobby_80291D94.cpp

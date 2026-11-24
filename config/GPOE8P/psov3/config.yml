@@ -5501,7 +5501,7 @@ force_active:
   - create_menu_window__14TWindowSubItemFv
   - create_menu_window__17TWindowSubComCardFv
   - create_message_window__22TWindowSubTradeMessageFPCc
-  - create_option_list_window__17TWindowSubComCardFll
+  - create_option_list_window__17TWindowSubComCardFP21ChoiceSearchSelectionl
   - create_particle_emitters__11TBoss4Type3Fv
   - create_particle_emitters__9TTecBartaFv
   - create_particles__11TTecGiBartaFv
@@ -15410,7 +15410,7 @@ force_active:
   - set_child_flags__11TBoss6Type2Fv
   - set_child_windows_enabled__19TWindowSubTradeMainFl
   - set_code_43_6__10TObjPlayerFv
-  - set_com_param__17TWindowSubComCardFl
+  - set_com_param__17TWindowSubComCardFll
   - set_cursor_color__11TMainCursorFlll
   - set_cursor_index_1__17TAdMultiConfirmGCFPv
   - set_cursor_index_2__17TAdMultiConfirmGCFPv
@@ -16269,7 +16269,7 @@ force_active:
   - sub_8026556C__21TWindowSubComCardListFv
   - sub_80266BB8__11TWindowMenuFv
   - sub_8027095C__19TWindowSoundBalanceFv
-  - sub_80271F04__17TWindowSubComCardFPvll
+  - sub_80271F04__17TWindowSubComCardFP21ChoiceSearchSelectionll
   - sub_802721D8__17TWindowSubComCardFv
   - sub_802730E0__17TWindowSubComCardFv
   - get_cursor_origin__21TWindowSubCustomEquipFP10NJS_POINT2

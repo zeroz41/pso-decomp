@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include "pso/quest/challenge/ChallengeRecord.h"
 #include "pso/ui/city/BankItemRecord.h"
+#include "pso/system/ChoiceSearchSelection.h"
 
 // A character's battle mode results: wins in each place (first to fourth) and battles left early.
 // The client keeps the remaining counts and values only to send them on.
@@ -16,12 +17,6 @@ struct BattleRecord {
 };
 
 LAYOUT_ASSERT(BattleRecord_size, sizeof(BattleRecord) == 0x18);
-
-// One choice search setting: the category and the option picked in it.
-struct ChoiceSearchSelection {
-    s32 parent_choice_id;
-    s32 choice_id;
-};
 
 struct ChatShortcutBodyCopy {
     u8 bytes[0x50];
