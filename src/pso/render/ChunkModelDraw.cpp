@@ -25,12 +25,26 @@
 #include <dolphin/os.h>
 #include <dolphin/gx/GXTransform.h>
 #include <dolphin/gx/GXGeometry.h>
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXLighting.h>
+#include <dolphin/gx/GXPixel.h>
+#include <dolphin/gx/GXVert.h>
+#undef PSO_SDK_COMPACT_MATH
+
+// Ninja chunk flags used here: the strip head's use-alpha bit and the texture-id chunk's
+// flip/clamp bits and id field.
+#define NJD_FST_UA (0x08 << NJD_FST_SHIFT)
+#define NJD_FFL_U 0x8000U
+#define NJD_FFL_V 0x4000U
+#define NJD_FCL_U 0x2000U
+#define NJD_FCL_V 0x1000U
+#define NJD_TID_MASK 0x1FFF
 
 
 
 struct ChunkNode_803E2F78 {
     u32 flags;
-    s32 obj;
+    void *model;
     f32 pos[3];
     s32 ang[3];
     f32 scl[3];
@@ -39,53 +53,34 @@ struct ChunkNode_803E2F78 {
     f32 f34;
 };
 
-typedef union {
-    u8 u8;
-    u16 u16;
-    s16 s16;
-    u32 u32;
-    f32 f32;
-} PPCWGPipe;
-
-#ifdef __MWERKS__
-volatile PPCWGPipe GXWGFifo : 0xCC008000;
-#else
-#define GXWGFifo (*(volatile PPCWGPipe *)0xCC008000)
-#endif
 
 
 typedef struct Vtx_803E36C4 { f32 x, y, z, nx, ny, nz; u32 pad[2]; } Vtx_803E36C4;
 
 extern "C" {
-void GXSetNumTexGens(u8);
-s32 GXSetTevOp(int, int);
-s32 GXSetTevOrder(int, int, int, int);
-s32 GXSetNumTevStages(int);
+void GXSetNumTevStages(u8 stages);
+void GXSetTevOp(GXTevStageID stage, GXTevMode mode);
+void GXSetTevOrder(GXTevStageID stage, GXTexCoordID coord, GXTexMapID map, GXChannelID color);
+void GXSetAlphaCompare(GXCompare comp0, int ref0, GXAlphaOp op, GXCompare comp1, int ref1);
 extern u8 chunk_tev_stage_extra;
 extern u8 chunk_texgen_extra;
-s32 GXSetZMode(int, int, int);
-s32 GXSetZCompLoc(int);
 extern s32 ginja_draw_flags;
 extern void (*player_chunk_draw_end_callback)();
 extern s32 chunk_texture_record_index;
-void GXSetChanMatColor(s32, GXColor);
 extern NJS_ARGB model_material_color;
 extern s32 model_render_flags;
 
 extern u32 chunk_blend_header_bits;
 extern u32 chunk_strip_dirty_flags;
-void GXSetAlphaCompare(int comp0, int ref0, int op, int comp1, int ref1);
 extern saddr chunk_vertex_cache_buffer;
 extern s32 chunk_vertex_cache_size;
-void transform_chunk_object_tree(void *, void (*)(void *));
+void transform_chunk_object_tree(void *object, s32 (*draw)(void *model));
 s32 __cvt_fp2unsigned(f32);
 extern GC_Mtx chunk_object_current_matrix;
 void draw_strip_list_pos_nrm(s16 *list, Vtx_803E36C4 *verts, u32 info);
-void GXSetChanCtrl(s32 chan, u8 enable, s32 ambSrc, s32 matSrc, u32 lightMask, s32 diffFn, s32 attnFn);
 extern u32 chunk_has_vertex_colors;
 void draw_strip_pos_normal(s16 *list, Vtx_803E36C4 *verts, u32 info);
 void draw_triangle_strips(s16 *list, Vtx_803E36C4 *verts, u32 info);
-s32 GXSetBlendMode(int, int, int, int);
 void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 large);
 struct ChunkModel_803E44D4 { u32 *vertices; s16 *polygons; };
 struct ChunkBuffer_803E44D4 { void *vertices; s32 bytes; };
@@ -95,7 +90,6 @@ char chunk_memory_assert_message[19] = "CHNK MEMORY ASSERT";
 extern u32 chunk_vertex_cache_flags;
 extern ChunkRecording_803E44D4* chunk_vertex_cache_state;
 extern "C" {
-s32 GXSetNumChans(int);
 extern s32 chunk_previous_strip_flags;
 
 #pragma push
@@ -115,8 +109,8 @@ void copy_matrix3x3_for_chunk_tree(const GC_Mtx *src) {
 }
 #pragma pop
 
-#define node ((ChunkNode_803E2F78 *)arg0)
-void transform_chunk_object_tree(void *arg0, void (*cb)(void *)) {
+#define node ((ChunkNode_803E2F78 *)object)
+void transform_chunk_object_tree(void *object, s32 (*draw)(void *model)) {
     u32 flags;
     s32 r;
 
@@ -128,10 +122,10 @@ void transform_chunk_object_tree(void *arg0, void (*cb)(void *)) {
         }
         if ((flags & 7) == 7) {
             if (!(flags & 8)) {
-                r = ((s32 (*)(s32))cb)(node->obj);
+                r = draw(node->model);
             }
             if (!(flags & 0x10) && (!(flags & 0x100) || r == 0)) {
-                transform_chunk_object_tree(node->child, cb);
+                transform_chunk_object_tree(node->child, draw);
             }
         } else {
             push_matrix();
@@ -151,15 +145,15 @@ void transform_chunk_object_tree(void *arg0, void (*cb)(void *)) {
                 scale_current_matrix(node->scl);
             }
             if (!(flags & 8)) {
-                r = ((s32 (*)(s32))cb)(node->obj);
+                r = draw(node->model);
             }
             if (!(flags & 0x10) && (!(flags & 0x100) || r == 0)) {
-                transform_chunk_object_tree(node->child, cb);
+                transform_chunk_object_tree(node->child, draw);
             }
             pop_matrix();
         }
-        arg0 = node->sibling;
-    } while (arg0 != NULL);
+        object = node->sibling;
+    } while (object != NULL);
 }
 #undef node
 }
@@ -367,21 +361,6 @@ void transform_chunk_vertices_pos_normal_color(ChunkVertexJob *job, GC_Mtx *matr
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-static inline void GXPosition3f32(f32 x, f32 y, f32 z) {
-    GXWGFifo.f32 = x;
-    GXWGFifo.f32 = y;
-    GXWGFifo.f32 = z;
-}
-static inline void GXNormal3f32(f32 x, f32 y, f32 z) {
-    GXWGFifo.f32 = x;
-    GXWGFifo.f32 = y;
-    GXWGFifo.f32 = z;
-}
-static inline void GXTexCoord2s16(s16 s, s16 t) {
-    GXWGFifo.s16 = s;
-    GXWGFifo.s16 = t;
-}
-
 void draw_chunk_textured_strips(s16 *list, Vtx_803E36C4 *verts, u32 info, s32 large) {
     s16 s;
     s16 t;
@@ -476,7 +455,7 @@ void submit_chunk_material_color(s32 type, s16* data) {
         color.b=(u8)gb;
         if ((u32)(model_render_flags&0x10)!=0U) {
             convert_color_f32_to_u8(&model_material_color,&converted);
-            GXSetChanMatColor(4,converted);
+            GXSetChanMatColor(GX_COLOR0A0, converted);
         } else if ((u32)(model_render_flags&0x20)!=0U) {
             convert_color_u8_to_f32(&color,&add);
             add.a+=model_material_color.a;
@@ -484,10 +463,10 @@ void submit_chunk_material_color(s32 type, s16* data) {
             add.g+=model_material_color.g;
             add.b+=model_material_color.b;
             convert_color_f32_to_u8(&add,&convertedAdd);
-            GXSetChanMatColor(4,convertedAdd);
-        } else GXSetChanMatColor(4,color);
+            GXSetChanMatColor(GX_COLOR0A0, convertedAdd);
+        } else GXSetChanMatColor(GX_COLOR0A0, color);
     }
-    if ((u32)(ginja_draw_flags&2)!=0U) GXSetChanMatColor(4,fallback);
+    if ((u32)(ginja_draw_flags&2)!=0U) GXSetChanMatColor(GX_COLOR0A0, fallback);
 }
 
 void set_chunk_blend(u32 x) {
@@ -495,49 +474,42 @@ void set_chunk_blend(u32 x) {
     chunk_strip_dirty_flags |= 8;
 }
 
-void apply_chunk_texture_command(s32 header, s32 arg1) {
-    s32 var_r31;
-    s32 idx;
-    s32 var_r4;
-    s32 var_r5;
-    s32 var_r6;
-    var_r5 = 1;
-    var_r6 = 1;
-    if ((u32) (header & 0x2000) != 0) {
-        var_r6 = 0;
-    } else if ((u32) (header & 0x8000) != 0) {
-        var_r6 = 2;
+void apply_chunk_texture_command(s32 header, s32 texture_word) {
+    s32 texture_id;
+    s32 wrap_t = GX_REPEAT;
+    s32 wrap_s = GX_REPEAT;
+    if (header & NJD_FCL_U) {
+        wrap_s = GX_CLAMP;
+    } else if (header & NJD_FFL_U) {
+        wrap_s = GX_MIRROR;
     }
-    if ((u32) (header & 0x1000) != 0) {
-        var_r5 = 0;
-    } else if ((u32) (header & 0x4000) != 0) {
-        var_r5 = 2;
+    if (header & NJD_FCL_V) {
+        wrap_t = GX_CLAMP;
+    } else if (header & NJD_FFL_V) {
+        wrap_t = GX_MIRROR;
     }
-    var_r31 = arg1 & 0x1FFF;
-    idx = var_r31;
-    var_r4 = var_r6;
-    var_r6 = 0;
-    load_list_texture((idx), (var_r4), (var_r5), 0);
-    chunk_texture_record_index = var_r31;
+    texture_id = texture_word & NJD_TID_MASK;
+    load_list_texture(texture_id, wrap_s, wrap_t, 0);
+    chunk_texture_record_index = texture_id;
 }
 
 void setup_tev_passclr() {
     GXSetNumTevStages(1);
-    GXSetNumTexGens(0U);
-    GXSetTevOp(0, 4);
-    GXSetTevOrder(0, 0xFF, 0xFF, 4);
+    GXSetNumTexGens(0);
+    GXSetTevOp(GX_TEVSTAGE0, GX_PASSCLR);
+    GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD_NULL, GX_TEXMAP_NULL, GX_COLOR0A0);
 }
 
 void setup_chunk_tev_stages(void) {
     if ((u32) (model_render_flags & 0x80000) != 0) {
-        GXSetNumTevStages((saddr)((u8)(chunk_tev_stage_extra + 1)));
-        GXSetNumTexGens((u8)((u8)(chunk_texgen_extra + 1)));
+        GXSetNumTevStages(chunk_tev_stage_extra + 1);
+        GXSetNumTexGens(chunk_texgen_extra + 1);
     } else {
-        GXSetNumTevStages((saddr)(1U));
-        GXSetNumTexGens((u8)(1U));
+        GXSetNumTevStages(1);
+        GXSetNumTexGens(1);
     }
-    GXSetTevOp(0, 0);
-    GXSetTevOrder(0, 0, 0, 4);
+    GXSetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+    GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
 }
 
 void set_strip_lighting_chan_ctrl(u32 flags) {
@@ -550,79 +522,79 @@ void set_strip_lighting_chan_ctrl(u32 flags) {
         enable = 1;
     }
     if (chunk_has_vertex_colors != 0) {
-        GXSetChanCtrl(0, enable, 0, 1, gx_chan_ctrl_light_mask, 2, 2);
-        GXSetChanCtrl(2, 0, 0, 1, gx_chan_ctrl_light_mask, 2, 2);
+        GXSetChanCtrl(GX_COLOR0, enable, GX_SRC_REG, GX_SRC_VTX, gx_chan_ctrl_light_mask, GX_DF_CLAMP, GX_AF_NONE);
+        GXSetChanCtrl(GX_ALPHA0, GX_FALSE, GX_SRC_REG, GX_SRC_VTX, gx_chan_ctrl_light_mask, GX_DF_CLAMP, GX_AF_NONE);
     } else {
-        GXSetChanCtrl(0, enable, 0, 0, gx_chan_ctrl_light_mask, 2, 2);
-        GXSetChanCtrl(2, 0, 0, 0, gx_chan_ctrl_light_mask, 2, 2);
+        GXSetChanCtrl(GX_COLOR0, enable, GX_SRC_REG, GX_SRC_REG, gx_chan_ctrl_light_mask, GX_DF_CLAMP, GX_AF_NONE);
+        GXSetChanCtrl(GX_ALPHA0, GX_FALSE, GX_SRC_REG, GX_SRC_REG, gx_chan_ctrl_light_mask, GX_DF_CLAMP, GX_AF_NONE);
     }
 }
 
 void set_chunk_alpha_compare_ref(int ref) {
-    GXSetAlphaCompare(4, ref, 0, 7, 0);
+    GXSetAlphaCompare(GX_GREATER, ref, GX_AOP_AND, GX_ALWAYS, 0);
 }
 
-void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
+void set_chunk_blend_depth_mode(s32 header, s32 textured) {
     // The two reasons the blended pass may keep depth writes.
     static const u32 texture_alpha_reason = 1;
     static const u32 model_alpha_reason = 2;
-    s32 var_r31;
-    s32 temp_r30;
-    s32 temp_r29;
-    u32 var_r28;
+    GXBlendMode blend_mode;
+    GXBlendFactor src_factor;
+    GXBlendFactor dst_factor;
+    u32 material_opaque;
     GinjaSurfaceState *alpha_surface;
     u32 id;
     GinjaSurfaceState *zcomp_surface;
-    u32 var_r6;
-    if ((u32) (header & 8) != 0) {
-        var_r31 = 1;
+    u32 alpha_reasons;
+    if ((u32) (header & (NJD_FST_UA >> NJD_FST_SHIFT)) != 0) {
+        blend_mode = GX_BM_BLEND;
     } else {
-        var_r31 = 0;
+        blend_mode = GX_BM_NONE;
     }
-    temp_r30 = (u32) (chunk_blend_header_bits & 0x3800) >> 0xBU;
-    temp_r29 = (u32) (chunk_blend_header_bits & 0x700) >> 8U;
+    src_factor = (GXBlendFactor)((chunk_blend_header_bits & 0x3800) >> 11);
+    dst_factor = (GXBlendFactor)((chunk_blend_header_bits & 0x700) >> 8);
     if (chunk_render_flags != 0) {
         clear_chunk_strip_blend_flags();
     }
-    if (arg1 == 0) {
-        GXSetBlendMode(var_r31, temp_r30, temp_r29, 0);
-        GXSetZCompLoc(0);
-        GXSetZMode(1, 3, 0);
-    } else if (var_r31 != 0) {
-        var_r6 = 0;
-        var_r28 = 1U;
+    if (textured == 0) {
+        GXSetBlendMode(blend_mode, src_factor, dst_factor, GX_LO_CLEAR);
+        GXSetZCompLoc(GX_FALSE);
+        GXSetZMode(GX_TRUE, GX_LEQUAL, GX_FALSE);
+    } else if (blend_mode != GX_BM_NONE) {
+        alpha_reasons = 0;
+        material_opaque = 1U;
         alpha_surface = current_render_context->textures->textures[chunk_texture_record_index].texture->surface;
         id = model_render_flags;
         if (((u32) (id & 0x10) != 0) && (1.0f != model_material_color.a)) {
-            var_r28 = 0U;
+            material_opaque = 0U;
         }
         if (((u32) (id & 0x20) != 0) && (0.0f != model_material_color.a)) {
-            var_r28 = 0U;
+            material_opaque = 0U;
         }
         if (alpha_surface->header.format == 0xEU) {
             if ((u32) (id & 0x400000) != 0) {
                 if ((u32) (alpha_surface->header.flags & 0x40000000) != 0) {
-                    var_r6 |= texture_alpha_reason;
+                    alpha_reasons |= texture_alpha_reason;
                 }
             } else {
-                var_r6 |= texture_alpha_reason;
+                alpha_reasons |= texture_alpha_reason;
             }
         }
         if ((u32) (id & 1) != 0) {
-            var_r6 |= model_alpha_reason;
+            alpha_reasons |= model_alpha_reason;
         }
-        if ((var_r28 != 0U) && (var_r6 != 0) && (temp_r30 == 4) && (temp_r29 == 5)) {
+        if ((material_opaque != 0U) && (alpha_reasons != 0) && (src_factor == GX_BL_SRCALPHA) && (dst_factor == GX_BL_INVSRCALPHA)) {
             if (chunk_render_flags != 0) {
                 chunk_render_flags |= 0x200;
             }
-            GXSetBlendMode(var_r31, temp_r30, temp_r29, 0);
+            GXSetBlendMode(blend_mode, src_factor, dst_factor, GX_LO_CLEAR);
             if ((u32) (model_render_flags & 0x200000) != 0) {
-                GXSetZCompLoc(0);
-                GXSetZMode(1, 3, 1);
+                GXSetZCompLoc(GX_FALSE);
+                GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
                 set_chunk_alpha_compare_ref(0);
             } else {
-                GXSetZCompLoc(0);
-                GXSetZMode(1, 3, 1);
+                GXSetZCompLoc(GX_FALSE);
+                GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
                 set_chunk_alpha_compare_ref((u8) material_alpha_compare_reference);
             }
         } else {
@@ -630,17 +602,17 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
                 chunk_render_flags |= 0x200;
             }
             if (((u32) (id & 0x01000000) != 0) && ((u32) (ginja_draw_flags & 2) == 0)) {
-                GXSetBlendMode(var_r31, temp_r30, temp_r29, 0);
-                GXSetZCompLoc(0);
-                GXSetZMode(1, 3, 1);
+                GXSetBlendMode(blend_mode, src_factor, dst_factor, GX_LO_CLEAR);
+                GXSetZCompLoc(GX_FALSE);
+                GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
                 set_chunk_alpha_compare_ref((u8) material_alpha_compare_reference);
             } else {
-                GXSetBlendMode(var_r31, temp_r30, temp_r29, 0);
-                GXSetZCompLoc(0);
-                if (var_r28 != 0U) {
-                    GXSetZMode(1, 3, 0);
+                GXSetBlendMode(blend_mode, src_factor, dst_factor, GX_LO_CLEAR);
+                GXSetZCompLoc(GX_FALSE);
+                if (material_opaque != 0U) {
+                    GXSetZMode(GX_TRUE, GX_LEQUAL, GX_FALSE);
                 } else {
-                    GXSetZMode(1, 3, 1);
+                    GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
                 }
                 set_chunk_alpha_compare_ref(0);
             }
@@ -652,17 +624,17 @@ void set_chunk_blend_depth_mode(s32 header, s32 arg1) {
         zcomp_surface = current_render_context->textures->textures[chunk_texture_record_index].texture->surface;
         if ((zcomp_surface->header.format == 0xEU) && ((u32) (zcomp_surface->header.flags & 0x40000000) != 0)) {
             set_chunk_alpha_compare_ref(0x1F);
-            GXSetBlendMode(0, temp_r30, temp_r29, 0);
-            GXSetZCompLoc(0);
-            GXSetZMode(1, 3, 1);
+            GXSetBlendMode(GX_BM_NONE, src_factor, dst_factor, GX_LO_CLEAR);
+            GXSetZCompLoc(GX_FALSE);
+            GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
         } else {
-            GXSetBlendMode(0, temp_r30, temp_r29, 0);
-            GXSetZCompLoc(1);
-            GXSetZMode(1, 3, 1);
+            GXSetBlendMode(GX_BM_NONE, src_factor, dst_factor, GX_LO_CLEAR);
+            GXSetZCompLoc(GX_TRUE);
+            GXSetZMode(GX_TRUE, GX_LEQUAL, GX_TRUE);
         }
     }
     if ((u32) (model_render_flags & 0x400) != 0) {
-        GXSetZMode(1, 3, 0);
+        GXSetZMode(GX_TRUE, GX_LEQUAL, GX_FALSE);
     }
 }
 
@@ -825,7 +797,7 @@ void setup_model_draw_state(void *) {
         GXLoadTexMtxImm(m, GX_TEXMTX4, GX_MTX3x4);
     }
     push_matrix();
-    GXSetZCompLoc(0);
+    GXSetZCompLoc(GX_FALSE);
 }
 
 void end_chunk_draw() {
@@ -834,8 +806,8 @@ void end_chunk_draw() {
         apply_scene_fog();
     }
     pop_matrix();
-    GXSetZCompLoc(1);
-    GXSetZMode(1, 1, 1);
+    GXSetZCompLoc(GX_TRUE);
+    GXSetZMode(GX_TRUE, GX_LESS, GX_TRUE);
     set_chunk_alpha_compare_ref(0);
     if (player_chunk_draw_end_callback != NULL) {
         player_chunk_draw_end_callback();
@@ -888,7 +860,7 @@ void draw_chunk_model(void *model) {
 
 void draw_chunk_object(void *child) {
     setup_model_draw_state(child);
-    transform_chunk_object_tree(child, (void (*)(void *))draw_chunk_vertices_cached);
+    transform_chunk_object_tree(child, draw_chunk_vertices_cached);
     end_chunk_draw();
 }
 

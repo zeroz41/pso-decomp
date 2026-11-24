@@ -13,6 +13,9 @@
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/system/MatrixOps.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx/GXLighting.h>
+#undef PSO_SDK_COMPACT_MATH
 
 struct Ent_803DEBC8 { u32 mask; u32 val; };
 
@@ -29,7 +32,6 @@ extern ChunkMaterialColor model_material_color;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void GXInitLightAttnK(void *, f32, f32, f32);
 extern PADStatus prev_pad_status[4];
 
 #pragma push

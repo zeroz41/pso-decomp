@@ -9,14 +9,14 @@ struct NJS_MOTION;
 struct NJS_MOTION_LINK;
 
 void init_chunk_draw(saddr vertex_buffer, s32 vertex_buffer_size);
-void apply_chunk_texture_command(s32 header, s32 arg1);
+void apply_chunk_texture_command(s32 header, s32 texture_word);
 void draw_chunk_model(void *model);
 extern "C" {
 void draw_chunk_object(void *child);
 }
 void set_chunk_alpha_compare_ref(int ref);
 void set_chunk_blend(u32 x);
-void set_chunk_blend_depth_mode(s32 header, s32 arg1);
+void set_chunk_blend_depth_mode(s32 header, s32 textured);
 void set_strip_lighting_chan_ctrl(u32 flags);
 void setup_chunk_tev_stages(void);
 void submit_chunk_material_color(s32 type, s16 *data);
