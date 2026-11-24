@@ -10,6 +10,26 @@
 extern "C" {
 #endif
 struct NetPacket;
+
+/* if_config's request: an address to bring an interface up with. */
+typedef struct IfConfigRequest {
+    s32 family; /* 4: AT_IP4_IfUp, 6: bring_up_ipv6_interface */
+    union {
+        struct {
+            u32 addr;
+            u32 mask;
+            u32 broadcast;
+        } ipv4;
+        struct {
+            u8 addr[16];
+            s16 prefix_len;
+            s16 flags;
+            s32 arg; /* bring_up_ipv6_interface's last argument */
+        } ipv6;
+    };
+    u8 pad1C[4];
+} IfConfigRequest;
+
 s32 raw_socket_deliver(struct NetPacket *pkt, u8 *src, u8 *dst, NetworkReceiveCallback cb, s16 index);
 s32 raw_socket_deliver_ipv4(struct NetPacket *pkt, u32 src, u32 dst, NetworkReceiveCallback cb, s16 index);
 s16 avetcp_init(void);

@@ -41,7 +41,6 @@ LAYOUT_ASSERT(Stack_80421938_size, sizeof(Stack_80421938) == 0x28);
 
 typedef struct IpAddr_80422B8C { u32 family; u8 a[0xC]; } IpAddr_80422B8C;
 
-typedef struct P_8042315C { s32 type; s32 a; s32 b; s32 c; s32 pad10; s16 n; s16 m; s32 d; s32 pad1C; } P_8042315C;
 
 
 s32 NetIPv6ShutdownRouting(void);
@@ -100,7 +99,6 @@ s16 bring_down_ipv4_interface(s16);
 s16 bring_down_ipv6_interface(s16);
 s16 AT_IP4_IfUp(s32, s32, s32, s16);
 s16 bring_up_ipv6_interface(void *, s16, s16, s16, s32);
-s16 if_config(s16 iface, P_8042315C *p);
 s32 avetcp_term(void) {
     dispatcher_term();
     handler_table_term();
@@ -967,7 +965,7 @@ s16 if_down(s16 idx, s32 op) {
     return result;
 }
 
-s16 if_config(s16 iface, P_8042315C *p) {
+s16 if_config(s16 iface, IfConfigRequest *req) {
     s16 result;
     s32 intr;
     if (iface < 0) {
@@ -975,15 +973,15 @@ s16 if_config(s16 iface, P_8042315C *p) {
     }
     lock_mutex(network_dispatch_state.lock_handle);
     intr = OSDisableInterrupts();
-    switch (p->type) {
+    switch (req->family) {
     case 4:
-        result = AT_IP4_IfUp(p->a, p->b, p->c, iface);
+        result = AT_IP4_IfUp(req->ipv4.addr, req->ipv4.mask, req->ipv4.broadcast, iface);
         break;
     case 6:
-        if (p->n < 0 || p->n > 0x80) {
+        if (req->ipv6.prefix_len < 0 || req->ipv6.prefix_len > 0x80) {
             result = -2;
         } else {
-            result = bring_up_ipv6_interface(&p->a, p->n, p->m, iface, p->d);
+            result = bring_up_ipv6_interface(req->ipv6.addr, req->ipv6.prefix_len, req->ipv6.flags, iface, req->ipv6.arg);
         }
         break;
     case 5:

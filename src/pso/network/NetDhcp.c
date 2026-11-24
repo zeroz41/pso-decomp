@@ -26,7 +26,6 @@ typedef struct Req_804250A8 {
     s32 d;
 } Req_804250A8;
 
-typedef struct P_8042315C { s32 type; s32 a; s32 b; s32 c; s32 pad10; s16 n; s16 m; s32 d; s32 pad1C; } P_8042315C;
 
 s16 if_get(s16 iface, void *hdr_src, s32 len, void *buf);
 s16 if_config(s16 iface, void *req);
@@ -369,7 +368,7 @@ s32 ensure_dhcp_reply_socket(void);
 
 s32 dhcp_release_step(void) {
     s32 now;
-    P_8042315C opt;
+    IfConfigRequest opt;
     send_buffs buf;
     NetworkAddress dst;
     NetworkAddress src;
@@ -384,10 +383,10 @@ s32 dhcp_release_step(void) {
         if (dhcp_state == 1 || dhcp_state == 2 || dhcp_state == 6) {
             dhcp_interface_mode = dhcp_set_interface_mode(0);
         }
-        opt.type = 4;
-        opt.a = 0;
-        opt.b = -1;
-        opt.c = -1;
+        opt.family = 4;
+        opt.ipv4.addr = 0;
+        opt.ipv4.mask = -1;
+        opt.ipv4.broadcast = -1;
         if (if_config(dhcp_iface, &opt) != 0) {
             dhcp_error = 3;
             dhcp_step = -1;
@@ -565,8 +564,8 @@ s16 dhcp_handle_reply(s16 mode, NetworkReceivePrefix *record);
 /* One step of the DHCP discover state machine (dhcp_step). */
 s32 dhcp_discover_step(void) {
     s32 now;
-    P_8042315C req;
-    P_8042315C req2;
+    IfConfigRequest req;
+    IfConfigRequest req2;
     u32 pad2[3];
     u32 buf[2];
     u32 pad1[1];
@@ -584,16 +583,16 @@ s32 dhcp_discover_step(void) {
         if (dhcp_state == 1 || dhcp_state == 2 || dhcp_state == 6) {
             dhcp_interface_mode = dhcp_set_interface_mode(0);
         }
-        req.type = 4;
-        req.a = 0;
-        req.b = -1;
-        req.c = -1;
+        req.family = 4;
+        req.ipv4.addr = 0;
+        req.ipv4.mask = -1;
+        req.ipv4.broadcast = -1;
         if (if_config(dhcp_iface, &req) != 0) {
             if_down(dhcp_iface, 4);
-            req2.type = 4;
-            req2.a = 0;
-            req2.b = -1;
-            req2.c = -1;
+            req2.family = 4;
+            req2.ipv4.addr = 0;
+            req2.ipv4.mask = -1;
+            req2.ipv4.broadcast = -1;
             if (if_config(dhcp_iface, &req2) != 0) {
                 dhcp_step = -1;
                 dhcp_state = -2;

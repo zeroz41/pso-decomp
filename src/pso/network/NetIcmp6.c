@@ -18,13 +18,6 @@ typedef struct Icmp6ErrorInfo {
     s32 pointer;
 } Icmp6ErrorInfo;
 LAYOUT_ASSERT(Icmp6ErrorInfo_size_check, sizeof(Icmp6ErrorInfo) == 8);
-typedef struct UdpHeader {
-    u16 src_port;
-    u16 dst_port;
-    u16 length;
-    u16 checksum;
-} UdpHeader;
-LAYOUT_ASSERT(UdpHeader_size_check, sizeof(UdpHeader) == 8);
 s16 NetIPv6HandleIcmpMessage(NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16 iface) {
     /* The handlers are defined in TLobby_8041112C.c with their own parameter types (s32/void * for some
        arguments); this caller declares them with an s16 iface. */

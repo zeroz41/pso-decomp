@@ -710,10 +710,11 @@ s16 ipv6_fragment_output(NetPacket *packet, Ipv6Header *hdr, s16 iface, u8 *link
 }
 #pragma pop
 
-typedef struct PH_80411040 { IPv6Address src; IPv6Address dst; u32 len; u8 zero[3]; u8 next_header; } PH_80411040;
-LAYOUT_ASSERT(PH_80411040_size_check, sizeof(PH_80411040) == 0x28);
+/* The IPv6 pseudo-header the upper-layer checksums cover (RFC 2460 8.1). */
+typedef struct Ipv6PseudoHeader { IPv6Address src; IPv6Address dst; u32 len; u8 zero[3]; u8 next_header; } Ipv6PseudoHeader;
+LAYOUT_ASSERT(Ipv6PseudoHeader_size_check, sizeof(Ipv6PseudoHeader) == 0x28);
 extern u16 calc_ipv6_pseudo_header_checksum(const struct IPv6Address *src, const struct IPv6Address *dst, u8 next_header, const struct NetPacket *pkt, s16 flag) {
-    PH_80411040 ph;
+    Ipv6PseudoHeader ph;
     u32 sum;
 
     NetMemcpy(&ph.src, (void *)src, sizeof(IPv6Address));

@@ -9,8 +9,6 @@
 #include "pso/network/NetTcpState.h"
 #include "pso/network/text_80421620.h"
 
-typedef struct Hdr_80420DE4 { u16 src; u16 dst; u16 len; u16 sum; } Hdr_80420DE4;
-
 UdpRuntimeState udp_runtime_state;
 
 s32 reset_stack_module(void) {
@@ -73,7 +71,7 @@ inline void append_fragment(NetPacket *pkt, void *data, s32 len) {
 
 s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 iface) {
     NetBufferRef header;
-    Hdr_80420DE4 hdr;
+    UdpHeader hdr;
     UdpRuntimeState *g;
     s16 i;
     NetPacketFragment *frag;
@@ -81,7 +79,7 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 ifac
     frag = &pkt->fragments[1];
     set_value_and_enable(&header, (saddr)&hdr);
     netbuf_copy_by_ref(&header, &frag->buffer, 8);
-    if (hdr.sum != 0 && calc_transport_checksum(src, dst, 0x11, pkt, 0) != 0) {
+    if (hdr.checksum != 0 && calc_transport_checksum(src, dst, 0x11, pkt, 0) != 0) {
         return -1;
     }
     g = &udp_runtime_state;
@@ -105,16 +103,16 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 ifac
         } else if (compare_sockaddr(&e->localAddress, dst) != 0) {
             goto next;
         }
-        if (e->remotePort != 0 && e->remotePort != hdr.src) {
+        if (e->remotePort != 0 && e->remotePort != hdr.src_port) {
             goto next;
         }
-        if (e->localPort != hdr.dst) {
+        if (e->localPort != hdr.dst_port) {
             goto next;
         }
         pkt->total_bytes -= 8;
         frag->length -= 8;
         netbuf_ref_advance(&frag->buffer, 8);
-        if (udp_deliver(pkt, src, dst, hdr.src, e->receiveCallback, i) != 0) {
+        if (udp_deliver(pkt, src, dst, hdr.src_port, e->receiveCallback, i) != 0) {
             return -1;
         }
         return 0;

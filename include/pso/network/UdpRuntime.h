@@ -15,6 +15,15 @@ typedef struct NetworkAddress {
     };
 } NetworkAddress;
 
+/* A UDP header (RFC 768). */
+typedef struct UdpHeader {
+    u16 src_port;
+    u16 dst_port;
+    u16 length;
+    u16 checksum;
+} UdpHeader;
+LAYOUT_ASSERT(UdpHeader_size_check, sizeof(UdpHeader) == 8);
+
 typedef struct UdpControlBlock {
     char signature[3];
     u8 index;
