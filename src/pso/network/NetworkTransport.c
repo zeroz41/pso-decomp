@@ -186,10 +186,10 @@ void init_modem_buffer_config(ModemSessionState *state) {
     state->window_len = 0x80;
     state->rxlen = 0x80;
     state->config = &modem_default_config;
-    state->config->h0 = 1;
-    state->config->h2 = 1;
-    state->config->h4 = 1;
-    state->config->h6 = 0;
+    state->config->send_init = 1;
+    state->config->dial = 1;
+    state->config->wait_connect = 1;
+    state->config->hangup = 0;
     state->config->numeric_result = 1;
     state->config->tone_dial_command = modem_tone_dial_command;
     state->config->pulse_dial_command = modem_pulse_dial_command;

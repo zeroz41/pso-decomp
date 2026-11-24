@@ -346,7 +346,7 @@ s32 TLobby__sub_803FB6A0(void) {
     lobby_modem_abort_flag = 0;
     lobby_modem_connect_state = 7;
     close_all_connections();
-    if (sess->modem.h6 != 0 && sess->modem.hangup_script != NULL && NetStringLength(sess->modem.hangup_script) != 0) {
+    if (sess->modem.hangup != 0 && sess->modem.hangup_script != NULL && NetStringLength(sess->modem.hangup_script) != 0) {
         modem_run_script((u8 *)sess->modem.hangup_script, sess);
     }
     if (network_transport_open != 0) {
@@ -394,7 +394,7 @@ s32 ppp_open_sub(void) {
         if (g->req.has_arg == 1 && (s16)send_atx_command_mode(0) != 0) {
             LOBBY_ABORT(1, 8);
         }
-        if (g->modem.h0 != 0) {
+        if (g->modem.send_init != 0) {
             rc = configure_modem_options(g->modem.ms_mode, g->modem.error_correction, g->modem.compression, g->modem.init_count, g->modem.init_command);
         } else {
             rc = configure_modem_options(0, 0, 0, 0, 0);
@@ -406,14 +406,14 @@ s32 ppp_open_sub(void) {
             lobby_modem_connect_state = 0xa;
             goto L242;
         }
-        if (g->modem.h2 != 0) {
+        if (g->modem.dial != 0) {
             ret = TLobby__sub_803FAEDC(g);
             if (ret != 0) {
                 LOBBY_ABORT(ret, 8);
             }
         }
     }
-    if (g->modem.h4 != 0) {
+    if (g->modem.wait_connect != 0) {
         timeout = g->req.timeout * 1000;
         get_time_ms(&t0);
         for (;;) {

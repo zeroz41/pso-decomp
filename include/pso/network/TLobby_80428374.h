@@ -59,10 +59,10 @@ LAYOUT_ASSERT(ModemRequest_size, sizeof(ModemRequest) == 0x10);
 LAYOUT_ASSERT(ModemRequest_timeout_offset, offsetof(ModemRequest, timeout) == 4);
 
 typedef struct ModemConfig {
-    s16 h0;             /* set: send the init options (configure_modem_options) */
-    s16 h2;
-    s16 h4;
-    s16 h6;             /* set: run hangup_script after hanging up */
+    s16 send_init;      /* set: send the init options (configure_modem_options) */
+    s16 dial;           /* set: dial phone_number after the request's prefix */
+    s16 wait_connect;   /* set: wait up to the request's timeout for the line to connect */
+    s16 hangup;         /* set: run hangup_script after hanging up */
     s16 numeric_result;
     u8 pad0A[2];
     const char *tone_dial_command;  /* "ATDT" */
@@ -80,7 +80,7 @@ typedef struct ModemConfig {
     u8 pad39[3];
     const char *init_script;
     const char *dial_script;
-    char *hangup_script; /* the script run after hanging up (TLobby__sub_803FB6A0), when h6 is set */
+    char *hangup_script; /* the script run after hanging up (TLobby__sub_803FB6A0), when hangup is set */
     char *s48;
     s32 ms_mode;          /* configure_modem_options' arguments */
     s32 error_correction;

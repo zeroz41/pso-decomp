@@ -756,10 +756,10 @@ s32 connect_modem(s32 idx, s16 id) {
     if (id == -1) {
         return 2;
     }
-    modem.h0 = 1;
-    modem.h2 = 1;
-    modem.h4 = 1;
-    modem.h6 = 0;
+    modem.send_init = 1;
+    modem.dial = 1;
+    modem.wait_connect = 1;
+    modem.hangup = 0;
     modem.numeric_result = 0;
     modem.tone_dial_command = 0;
     modem.pulse_dial_command = 0;
