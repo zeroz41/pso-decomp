@@ -49,7 +49,6 @@ s32 is_on_current_floor__10TObjPlayerFi(TObjPlayer *player);
 extern "C" {
 
 s32 test_flags_any(s32 *flags, s32 mask);
-s32 is_flag30_8_set__10TObjPlayerFi(saddr);
 
 
 }
@@ -348,7 +347,7 @@ f32 PlayerMoveSpeed::calc_speed(TObjPlayer *player) {
 
 
 f32 PlayerMoveSpeed::calc_speed(TObjPlayer *player, f32 speed) {
-    if (is_flag30_8_set__10TObjPlayerFi((saddr)player) != 0) {
+    if (player->is_flag30_8_set() != 0) {
         speed *= 0.5f;
     } else if (test_flags_any(&flags.bits, 8) != 0) {
         speed *= 0.75f;

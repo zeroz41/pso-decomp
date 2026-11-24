@@ -1289,6 +1289,9 @@ struct TObjPlayer : public TObjChara {
     void update_action_state();
     static void release_control_lock(void *);
     s32 reset_volopt_state();
+    s32 is_flag30_8_set();
+    s32 is_flag30_10_set();
+    void delete_multiple_inventory_items(s32 *item_ids, s32 count);
     static s32 is_key_machine_ready();
     static void recover_full(void *);
     static void apply_speed_scale(int, f32);
