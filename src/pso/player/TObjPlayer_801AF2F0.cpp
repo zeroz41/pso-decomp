@@ -751,39 +751,6 @@ struct Sp8Struct_801baa00 {
 
 struct Msg_801BAB1C { u16 cmd; u16 id; s32 value; u8 pad8[8]; };
 
-struct VBase_801BAB78 { char pad[0x18]; };
-
-struct VObj_801BAB78 : VBase_801BAB78 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    virtual void m24(); virtual void m25(); virtual void m26(); virtual void m27();
-    virtual void m28(); virtual void m29(); virtual void m30(); virtual void m31();
-    virtual void m32(); virtual void m33(); virtual void m34(); virtual void m35();
-    virtual void m36(); virtual void m37(); virtual void m38(); virtual void m39();
-    virtual void m40(); virtual void m41(); virtual void m42(); virtual void m43();
-    virtual void m44(); virtual void m45(); virtual void m46(); virtual void m47();
-    virtual void m48(); virtual void m49(); virtual void m50(); virtual void m51();
-    virtual void m52(); virtual void m53(); virtual void m54(); virtual void m55();
-    virtual void m56(); virtual void m57(); virtual void m58(); virtual void m59();
-    virtual void m60(); virtual void m61(); virtual void m62();
-    virtual void m63(s32, Vec *);
-    u8 pad1c[0x3C - 0x1C];
-    f32 f3c;
-    u8 pad40[0x60 - 0x40];
-    s32 f60;
-    u8 pad64[0x248 - 0x64];
-    u8 f248[4];
-};
-
-struct Stack_801BAD60 {
-    s32 sp8;
-    f32 spC;
-};
-
 struct Player_801BB524 { u8 pad[0x30]; u32 flags; u8 pad34[0x324 - 0x34]; s16 control; };
 
 struct O_801BC050 { u16 a; u16 pad; s32 b; };
@@ -912,10 +879,6 @@ s32 try_send_6x27_use_item(void *player, s32 key);
 void dispatch_input__10TObjPlayerFPvii(TObjPlayer *player, s32 *keys, s32 count);
 bool is_target_in_facing_cone__10TObjPlayerFPv(void *self, Vec *target);
 void TObjPlayer__sub_801BA42C(void);
-void draw_projected_shadow__10TObjPlayerFPvPvi(VObj_801BAB78 *self, f32 *pos, s32 forceDraw);
-void TObjPlayer__sub_801BAC48(void);
-void draw_body__10TObjPlayerFPvi(u8 *arg0, s32 arg1);
-void run_task__10TObjPlayerFv(TObjPlayer *player);
 void TObjPlayer__sub_801BBB70(void);
 void TObjPlayer__sub_801BC050(O_801BC050 *p);
 void create_player_instance__10TObjPlayerFll(u16, Rec_801B09A4 *);
@@ -1442,203 +1405,188 @@ void TObjPlayer::unregister() {
     ((s32 *)&player_slot_table)[(u16)((TObjBase *)((saddr)this))->get_entity_id()] = 0;
 }
 
-void run_task__10TObjPlayerFv(TObjPlayer *player) {
-    s16 temp_r0;
-    s16 temp_r0_2;
-
-    player->handle_state2_transitions();
-    player->update_subsystems();
-    player->update_position_history();
-    player->update_status_effects();
-    player->run_action_state_phase(player->mode, 1);
-    player->advance_animation();
-    ((TObjChara *)player)->calc_attach_pos();
-    player->copy_position();
-    ((TObjPlayer *)((u8 *)player + 0x84C))->copy_offset_position(player);
-    if (((TObjCollidable *)player)->test_actor_flags(0x800) != 0) {
-        ((TObjCollidable *)player)->refresh_collision_body_centers();
-    } else if (get_type__10TObjPlayerFPv((u8 *)player + 0x828) == 0) {
-        temp_r0 = player->control_state;
-        switch (temp_r0) {
+void TObjPlayer::run_task() {
+    handle_state2_transitions();
+    update_subsystems();
+    update_position_history();
+    update_status_effects();
+    run_action_state_phase(mode, 1);
+    advance_animation();
+    calc_attach_pos();
+    copy_position();
+    ((TObjPlayer *)&marker_position)->copy_offset_position(this);
+    if (test_actor_flags(0x800) != 0) {
+        refresh_collision_body_centers();
+    } else if (get_type__10TObjPlayerFPv(&m_828) == 0) {
+        switch (control_state) {
         case 1:
-            ((TObjCollidable *)player)->refresh_collision_body_centers();
-            check_enemy_body_collisions(player);
-            player->update_enemy_collision_flags();
+            refresh_collision_body_centers();
+            check_enemy_body_collisions(this);
+            update_enemy_collision_flags();
             break;
         case 6:
         case 2:
-            ((TObjCollidable *)player)->refresh_collision_body_centers();
+            refresh_collision_body_centers();
             break;
         case 3:
-            ((TObjCollidable *)player)->refresh_collision_body_centers();
-            check_enemy_body_collisions(player);
-            player->update_enemy_collision_flags();
+            refresh_collision_body_centers();
+            check_enemy_body_collisions(this);
+            update_enemy_collision_flags();
             break;
         }
     } else {
-        temp_r0_2 = player->control_state;
-        switch (temp_r0_2) {
+        switch (control_state) {
         case 3:
         case 1:
-            player->check_object_collisions();
-            check_enemy_body_collisions(player);
-            player->update_enemy_collision_flags();
+            check_object_collisions();
+            check_enemy_body_collisions(this);
+            update_enemy_collision_flags();
             break;
         case 2:
-            if (((TObjPlayer *)player)->check_flag(4) != 0) {
-                ((TObjCollidable *)player)->refresh_collision_body_centers();
+            if (check_flag(4) != 0) {
+                refresh_collision_body_centers();
             } else {
-                player->check_object_collisions();
+                check_object_collisions();
             }
             break;
         case 6:
-            ((TObjCollidable *)player)->refresh_collision_body_centers();
+            refresh_collision_body_centers();
             break;
         }
     }
-    player->update_movement_effects();
-    player->update_facing_vector();
+    update_movement_effects();
+    update_facing_vector();
 }
 
-void render_shadows__10TObjPlayerFv(u8 *self) {
+void TObjPlayer::render_shadows() {
     f32 f;
 
-    if (is_in_shadow_range(&((TObjBase *)self)->position, lbl_805DC2D4) != 0) {
-        ((TObjCollidable *)self)->set_shadow_flag();
+    if (is_in_shadow_range(&position, lbl_805DC2D4) != 0) {
+        set_shadow_flag();
         TParticleCtrl::begin_effect_render();
-        if (((TObjCollidable *)self)->test_actor_flags(0x02000000) == 0 && ((TObjPlayer *)self)->is_inactive() != 0 &&
-            (((TObjPlayer *)self)->check_flag_4() == 0 ||
-             (((TObjPlayer *)self)->check_flag_4() != 0 && *(s16 *)(self + 0x328) == 0))) {
-            f = ((TObjPlayer *)self)->classify_actor_view_detail(lbl_805DC2CC, lbl_805DC2D0, TObjPlayer__data_805DC2BC);
-            ((TObjBase *)self)->clear_actor_flags((u32)0x08000000);
-            draw_body__10TObjPlayerFPvi(self, (s32)f);
-            save_render_material_state(self + 0x608);
-            ((TObjPlayer *)self)->apply_material_color_override();
-            ((void (*)(void *))TObjPlayer__sub_801BAC48)(self);
-            ((TObjPlayer *)(self + 0x608))->write_ids();
+        if (test_actor_flags(0x02000000) == 0 && is_inactive() != 0 &&
+            (check_flag_4() == 0 || (check_flag_4() != 0 && phase == 0))) {
+            f = classify_actor_view_detail(lbl_805DC2CC, lbl_805DC2D0, TObjPlayer__data_805DC2BC);
+            clear_actor_flags((u32)0x08000000);
+            draw_body((s32)f);
+            save_render_material_state((u8 *)&render_material_state);
+            apply_material_color_override();
+            sub_801BAC48();
+            ((TObjPlayer *)&render_material_state)->write_ids();
         }
         TParticleCtrl::end_effect_render();
-        ((TObjCollidable *)self)->clear_shadow_flag();
+        clear_shadow_flag();
     }
 }
 
 void TObjPlayer::render_body_pass(f32 f) {
-    u8 *self = (u8 *)this;
-    ((TObjBase *)self)->clear_actor_flags((u32)0x08000000);
+    clear_actor_flags((u32)0x08000000);
     TParticleCtrl::end_effect_render();
     select_actor_lighting(this);
-    if (TObjPlayer::check_flag_800000(self) != 0 && ((TObjChara *)self)->obj_isState2_324() != 0) {
-        TObjPlayer::draw(self, ((TObjChara *)self)->get_frame());
-    } else if (!(*(u16 *)(self + 4) & 0x400)) {
+    if (TObjPlayer::check_flag_800000(this) != 0 && obj_isState2_324() != 0) {
+        TObjPlayer::draw(this, get_frame());
+    } else if (!(m_flags & 0x400)) {
         model_render_flags |= 1;
-        draw_body__10TObjPlayerFPvi(self, (s32)f);
+        draw_body((s32)f);
         model_render_flags &= ~1;
     }
-    save_render_material_state((u8 *)&this->render_material_state);
+    save_render_material_state((u8 *)&render_material_state);
     apply_material_color_override();
     set_draw_list_mask(1);
-    ((void (*)(void *))TObjPlayer__sub_801BAC48)(self);
-    ((TObjPlayer *)(self + 0x608))->write_ids();
+    sub_801BAC48();
+    ((TObjPlayer *)&render_material_state)->write_ids();
     restore_scene_lighting();
 }
 
-void render__10TObjPlayerFv(u8 *player) {
-    s32 spC;
-    s32 sp8;
-    f32 temp_f31;
-    s32 temp_r3;
+void TObjPlayer::render() {
+    f32 detail;
 
-    if ((((TObjCollidable *)player)->test_actor_flags(0x02000000) == 0) && (((TObjPlayer *)player)->is_inactive() != 0) && ((((TObjPlayer *)player)->check_flag_4() == 0) || ((((TObjPlayer *)player)->check_flag_4() != 0) && (((TObjPlayer *)player)->phase == 0)))) {
-        temp_r3 = ((TObjPlayer *)player)->classify_actor_view_detail(lbl_805DC2CC, lbl_805DC2D0, TObjPlayer__data_805DC2BC);
-        spC = temp_r3 ^ 0x80000000;
-        sp8 = 0x43300000;
-        temp_f31 = (f32) temp_r3;
-        if (TObjPlayer__data_805DC278 != temp_f31) {
-            if (((s32)main_task.get_task_flags() & 0x20) && (is_central_control_area() != 0)) {
-                if (push_player_reflection_matrix(((TObjPlayer *)player)->entity_id, 1) != 0) {
-                    ((TObjPlayer *)player)->render_body_pass(temp_f31);
+    if (test_actor_flags(0x02000000) == 0 && is_inactive() != 0 &&
+        (check_flag_4() == 0 || (check_flag_4() != 0 && phase == 0))) {
+        detail = classify_actor_view_detail(lbl_805DC2CC, lbl_805DC2D0, TObjPlayer__data_805DC2BC);
+        if (TObjPlayer__data_805DC278 != detail) {
+            if (((s32)main_task.get_task_flags() & 0x20) && is_central_control_area() != 0) {
+                if (push_player_reflection_matrix(entity_id, 1) != 0) {
+                    render_body_pass(detail);
                     restore_render_scissor(1);
                 }
             } else {
-                TObjBase *base = (TObjBase *)player;
-                base->clear_actor_flags((u32)0x08000000);
+                clear_actor_flags((u32)0x08000000);
                 TParticleCtrl::end_effect_render();
-                select_actor_lighting(base);
-                if ((TObjPlayer::check_flag_800000(player) != 0) && (((TObjChara *)player)->obj_isState2_324() != 0)) {
-                    TObjPlayer::draw(player, ((TObjChara *)player)->get_frame());
-                } else if (!(((TObjPlayer *)player)->m_flags & 0x400)) {
+                select_actor_lighting(this);
+                if (TObjPlayer::check_flag_800000(this) != 0 && obj_isState2_324() != 0) {
+                    TObjPlayer::draw(this, get_frame());
+                } else if (!(m_flags & 0x400)) {
                     model_render_flags |= 1;
-                    ((s32 (*)(void *, s32))draw_body__10TObjPlayerFPvi)(player, (s32) temp_f31);
-                    model_render_flags &= 0xFFFFFFFE;
+                    draw_body((s32)detail);
+                    model_render_flags &= ~1;
                 }
-                save_render_material_state(player + 0x608);
-                ((TObjPlayer *)player)->apply_material_color_override();
+                save_render_material_state((u8 *)&render_material_state);
+                apply_material_color_override();
                 set_draw_list_mask(1);
-                ((s32 (*)(void *))TObjPlayer__sub_801BAC48)(player);
-                ((TObjPlayer *)(player + 0x608))->write_ids();
-                ((s32 (*)(void))restore_scene_lighting)();
+                sub_801BAC48();
+                ((TObjPlayer *)&render_material_state)->write_ids();
+                restore_scene_lighting();
             }
         } else {
-            ((TObjBase *)player)->set_actor_flags(0x08000000);
+            set_actor_flags(0x08000000);
             set_motion_packed_rotation();
-            TObjPlayer::draw(player, ((TObjChara *)player)->get_frame());
+            TObjPlayer::draw(this, get_frame());
             clear_motion_packed_rotation();
-            save_render_material_state(player + 0x608);
-            ((TObjPlayer *)player)->apply_material_color_override();
-            ((s32 (*)(void *))TObjPlayer__sub_801BAC48)(player);
-            ((TObjPlayer *)(player + 0x608))->write_ids();
+            save_render_material_state((u8 *)&render_material_state);
+            apply_material_color_override();
+            sub_801BAC48();
+            ((TObjPlayer *)&render_material_state)->write_ids();
         }
     } else {
         set_motion_packed_rotation();
-        TObjPlayer::draw(player, ((TObjChara *)player)->get_frame());
+        TObjPlayer::draw(this, get_frame());
         clear_motion_packed_rotation();
-        save_render_material_state(player + 0x608);
-        ((TObjPlayer *)player)->apply_material_color_override();
-        ((s32 (*)(void *))TObjPlayer__sub_801BAC48)(player);
-        ((TObjPlayer *)(player + 0x608))->write_ids();
+        save_render_material_state((u8 *)&render_material_state);
+        apply_material_color_override();
+        sub_801BAC48();
+        ((TObjPlayer *)&render_material_state)->write_ids();
     }
 }
 
-void draw_body__10TObjPlayerFPvi(u8 *player, s32 arg1) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801BAD60, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801BAD60, spC) == 0x4);
-    Stack_801BAD60 stack;
+void TObjPlayer::draw_body(s32 detail) {
+    Vec pos;
     Vec *scale;
     push_matrix();
-    VecCopy((Vec *)(&stack.sp8), (const Vec *)(player + 0x38));
-    stack.spC += ((TObjPlayer *)player)->death_sink.offset;
-    translate_matrix_vec3((u8 *)(0), (u8 *)&stack.sp8);
-    ((s32 (*)(int, int))rotate_matrix_y)(0, (int) (((TObjPlayer *)player)->rotation_y));
-    if (((PlayerScaleState *)(player + 0x5B0))->is_scaled() != 0) {
-        scale = ((PlayerScaleState *)(player + 0x5B0))->get_scale();
-        ((s32 (*)(int, f32, f32, f32))scale_matrix)(0, scale->x, scale->y, scale->z);
+    VecCopy(&pos, &position);
+    pos.y += death_sink.offset;
+    translate_matrix_vec3((u8 *)(0), (u8 *)&pos);
+    rotate_matrix_y(0, rotation_y);
+    if (scale_state.is_scaled() != 0) {
+        scale = scale_state.get_scale();
+        scale_matrix(0, scale->x, scale->y, scale->z);
     }
-    save_render_material_state((player + 0x608));
+    save_render_material_state((u8 *)&render_material_state);
     set_model_render_flags(8);
-    ((TObjPlayer *)player)->apply_material_color_override();
-    if (((TObjPlayer *)player)->m_flags & 0x400) {
+    apply_material_color_override();
+    if (m_flags & 0x400) {
         model_render_flags |= 0x810;
         set_chunk_material_override_pair(-1, 0x800);
         set_shadow_material_state();
     }
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(player + 0xCF4));
+    TObjFish::set_global_param(&body_textures);
     set_motion_packed_rotation();
-    if (arg1 == 2) {
-        ((TObjPlayer *)player)->motion_flags = (s32) (((TObjPlayer *)player)->motion_flags | 0x400);
-        ((TObjPlayer *)player)->draw_saving_joints();
+    if (detail == 2) {
+        motion_flags |= 0x400;
+        draw_saving_joints();
     } else {
-        ((TObjPlayer *)player)->motion_flags = (s32) (((TObjPlayer *)player)->motion_flags & 0xFFFFFBFF);
-        ((TObjPlayer *)player)->draw_saving_joints_checked();
+        motion_flags &= ~0x400;
+        draw_saving_joints_checked();
     }
     clear_motion_packed_rotation();
-    ((TObjPlayer *)player)->draw_head_attachments();
-    ((TObjPlayer *)(player + 0x608))->write_ids();
+    draw_head_attachments();
+    ((TObjPlayer *)&render_material_state)->write_ids();
     pop_matrix();
-    if (((PlayerScaleState *)(player + 0x5B0))->is_scaled() != 0) {
-        ((s32 (*)(void *, void *, int))draw_projected_shadow__10TObjPlayerFPvPvi)(player, ((PlayerScaleState *)(player + 0x5B0))->get_scale(), 0);
+    if (scale_state.is_scaled() != 0) {
+        draw_projected_shadow(scale_state.get_scale(), 0);
         return;
     }
-    ((s32 (*)(void *, void *, int))draw_projected_shadow__10TObjPlayerFPvPvi)(player, NULL, 0);
+    draw_projected_shadow(NULL, 0);
 }
 
 void TObjPlayer::draw_head_attachments() {
@@ -1685,24 +1633,24 @@ void TObjPlayer::draw_head_attachments() {
     }
 }
 
-void TObjPlayer__sub_801BAC48(void) {  }
+void TObjPlayer::sub_801BAC48() {}
 
-void draw_projected_shadow__10TObjPlayerFPvPvi(VObj_801BAB78 *self, f32 *pos, s32 forceDraw) {
+void TObjPlayer::draw_projected_shadow(Vec *scale, s32 force_draw) {
     Vec v;
     s32 a;
     s32 b;
-    self->m63(1, &v);
+    get_anim_node_position(1, &v);
     push_matrix();
-    direction_to_rotation_xz(self->f248, &a, &b);
-    translate_matrix(0, v.x, lbl_805DC2C8 + self->f3c, v.z);
+    direction_to_rotation_xz((u8 *)&this->TObjChara::ground_normal, &a, &b);
+    translate_matrix(0, v.x, lbl_805DC2C8 + position.y, v.z);
     rotate_matrix_z(0, b);
     rotate_matrix_x(0, a);
-    ((void (*)(int, s32))rotate_matrix_y)(0, self->f60);
+    rotate_matrix_y(0, rotation_y);
     rotate_matrix_x(0, -0x4000);
-    if (pos != NULL) {
-        scale_matrix(0, pos[0], pos[2], (*(const f32 *)&TObjPlayer__data_805DC294));
+    if (scale != NULL) {
+        scale_matrix(0, scale->x, scale->z, (*(const f32 *)&TObjPlayer__data_805DC294));
     }
-    draw_blob_shadow(forceDraw);
+    draw_blob_shadow(force_draw);
     pop_matrix();
 }
 

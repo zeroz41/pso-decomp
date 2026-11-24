@@ -1096,6 +1096,9 @@ struct TObjPlayer : public TObjChara {
     void apply_state_transform();
     void draw_head_attachments();
     void render_body_pass(f32 f);
+    void draw_body(s32 detail);
+    void draw_projected_shadow(Vec *scale, s32 force_draw);
+    void sub_801BAC48();
     void unregister();
     void init_player_substructs(u8 *data);
     static void init_action_palette_defaults(saddr player);

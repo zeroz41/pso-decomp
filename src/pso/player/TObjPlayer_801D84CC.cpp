@@ -73,7 +73,6 @@ void TObjPlayer__sub_801D8664(s32 player, s8 group, s8 kind) {
     process_trade_target__10TObjPlayerFiPv(player, &item_data);
 }
 
-s32 TObjPlayer__sub_801BAC48(void *);
 }
 BmlMotionEntry **player_ending_motion_object;
 void save_render_material_state(u8 *state);
@@ -109,7 +108,7 @@ void TUnk_804C4540::render() {
         ((TObjPlayer *)&render_material_state)->write_ids();
         draw_head_attachments();
         pop_matrix();
-        TObjPlayer__sub_801BAC48(this);
+        sub_801BAC48();
         restore_scene_lighting();
         return;
     }
