@@ -147,14 +147,6 @@ struct PlayerSyncPacket {
     s32 total_size;
     PlayerSyncRecord record;
 };
-struct DateStamp_80134F9C { s32 v[3]; };
-struct Timer_80134F9C {
-    u8 pad[0x1C];
-    s32 now;
-    s32 start;
-    u32 limit;
-    u8 state;
-};
 typedef char LobbyPlayerName[16];
 /* An entry of the game list (command 08). */
 struct GameMenuEntry {
@@ -179,7 +171,6 @@ typedef struct {
     u32 w1;
 } D_80134E30;
 LAYOUT_ASSERT(RecoveredGlobal_8013561C_lbl_805127F8_size, sizeof(RecoveredGlobal_8013561C_lbl_805127F8) == 0x200);
-struct Ent_801368B0 { u8 hdr[0xC]; s32 id; char name[0x10]; u8 rest[0x43C - 0x20]; };
 struct Hdr_80136A8C {
     u8 pad0[0xAC];
     s32 fAC;
@@ -188,20 +179,6 @@ struct Hdr_80136A8C {
     u8 pad48C[4];
 };
 struct Hdr_80136C94 { u8 data[0x10]; };
-struct Pkt_80136C94 {
-    u8 pad0[0x84];
-    Row_80135208 rows[4];
-    s8 client_id;
-    s8 leader_id;
-    s8 b106;
-    s8 b107;
-    s8 count;
-    s8 b109;
-    s8 b10a;
-    s8 b10b;
-    s32 w10c;
-    u8 b110;
-};
 typedef struct LobbyServerAddress {
     const char *host;
     s32 port;
@@ -217,10 +194,6 @@ typedef struct {
     u32 w0;
     u32 w1;
 } D_80137384;
-typedef struct Date_801399B8 {
-    u16 y;
-    u8 b[0x16];
-} Date_801399B8;
 struct H_8013A348 { u8 b[12]; };
 struct S_8013A348 { u8 pad[0x28]; struct H_8013A348 h[5]; };
 struct ByteBlock_10 { u8 bytes[0x10]; };
@@ -382,13 +355,13 @@ void TLobby::send_game_character() {
     send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &d, &a, b, e, c);
 }
 void TLobby::update_idle_timeout(void *object) {
-    Timer_80134F9C *t = (Timer_80134F9C *)object;
+    TUnk_804A7008 *t = (TUnk_804A7008 *)object;
     NJS_POINT2 tmp = lbl_8043EE28[0];
-    DateStamp_80134F9C ds;
+    DateStamp ds;
     u32 limit;
     u32 elapsed;
-    getDateStamp((DateStamp *)&ds);
-    DateToSeconds((DateStamp *)&ds, (int *)&t->now);
+    getDateStamp(&ds);
+    DateToSeconds(&ds, &t->now);
     if (has_window_task_root() == 0) {
         TLobby__idle_timeout_object = 0;
     }
@@ -430,14 +403,15 @@ void TLobby::update_idle_timeout(void *object) {
 }
 
 u8 *init_idle_timeout_timer(u8 *timer, saddr parent) {
-    s32 date;
+    TUnk_804A7008 *t = (TUnk_804A7008 *)timer;
+    DateStamp date;
     __ct__7TObjectFP7TObject((void *)timer, (void *)parent);
     *(void ***)((s8 *)timer + 0x18) = lbl_804A7008;
-    getDateStamp((DateStamp *)(&date));
-    DateToSeconds((DateStamp *)(&date), (int *)(timer + 0x1C));
-    ((TUnk_804A7008 *)timer)->m_20 = (s32) *(s32 *)((s8 *)timer + 0x1C);
-    *(s32 *)((s8 *)timer + 0x24) = ((TLobby *)(saddr)local_client_id)->get_table_entry_by_index();
-    ((TUnk_804A7008 *)timer)->m_28 = 0;
+    getDateStamp(&date);
+    DateToSeconds(&date, (int *)(timer + 0x1C));
+    t->start = t->now;
+    t->limit = ((TLobby *)(saddr)local_client_id)->get_table_entry_by_index();
+    t->state = 0;
     TLobby__idle_timeout_object = 0;
     return timer;
 }
@@ -2147,13 +2121,13 @@ void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected
     strncpy((char *)lbl_8050AAD4, selected->name, 0x11);
 }
 void TLobby::handle_game_join(void *data) {
-    Pkt_80136C94 *pkt = (Pkt_80136C94 *)data;
+    TPlyJoinGame *pkt = (TPlyJoinGame *)data;
     Hdr_80136C94 hdr;
     TObjPlayer *p;
     saddr i;
     s32 j;
     ((TObjPlayer *)(&hdr))->clear_header_struct();
-    memcpy(game_join_player_records, pkt->rows, 0x80);
+    memcpy(game_join_player_records, pkt->lobby_data, 0x80);
     bswap_32(&game_join_player_records[0].ip_addr);
     bswap_32(&game_join_player_records[1].ip_addr);
     bswap_32(&game_join_player_records[2].ip_addr);
@@ -2162,19 +2136,19 @@ void TLobby::handle_game_join(void *data) {
     lobby_debug_printf_stub(lobby_debug_game_start_format, pkt->client_id);
     local_client_id = pkt->client_id;
     designated_client_id = pkt->leader_id;
-    join_state_flag = pkt->b106;
-    TLobby::set_player_count(pkt->count);
-    TLobby__data_805D4E30 = pkt->b10b;
-    game_difficulty_selection = pkt->b107;
-    event_theme_id = pkt->b109;
-    set_area_random_seed(pkt->w10c);
-    leader_selection.set_section_id(pkt->b10a);
-    if ((s32)pkt->b110 == 2) {
+    join_state_flag = pkt->disable_udp;
+    TLobby::set_player_count(pkt->battle_mode);
+    TLobby__data_805D4E30 = pkt->challenge_mode;
+    game_difficulty_selection = pkt->difficulty;
+    event_theme_id = pkt->event;
+    set_area_random_seed(pkt->rare_seed);
+    leader_selection.set_section_id(pkt->section_id);
+    if ((s32)pkt->episode == 2) {
         request_story_select_state(1);
     } else {
         request_story_select_state(0);
     }
-    set_item_drop_server_seed(pkt->w10c);
+    set_item_drop_server_seed(pkt->rare_seed);
     for (i = 0; i < 0xC; i++) {
         p = get_player_by_client_id(i);
         if (p != NULL) {
@@ -2388,7 +2362,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
         }
     } else {
         game_join_pending_clients[e.client_id] = 1;
-        TLobby::copy_member_record(&((Entry_8013634C *)join_entries)[e.client_id], &e);
+        TLobby::copy_member_record(&((TPlyJoinLobbyEntry *)join_entries)[e.client_id], &e);
     }
     if (local_client_id == designated_client_id) {
         init_6x72_resume_packet(&pkt);
@@ -2536,15 +2510,15 @@ void TLobby::send_logout() {
                                      s[1].host, s[1].port);                                     \
     }
 void TLobby::run_join_lobby_connect(int parent) {
-    Date_801399B8 date;
+    DateStamp date;
     void *p;
     void *win;
     s32 res;
 
     if (lbl_805D55C0 == 0) {
         reset_controller_input_state();
-        getDateStamp((DateStamp *)&date);
-        DateToSeconds((DateStamp *)&date, (int *)&date_seconds);
+        getDateStamp(&date);
+        DateToSeconds(&date, (int *)&date_seconds);
         p = TObject::operator new(0x2C);
         if (p != NULL) {
             init_idle_timeout_timer((u8 *)p, parent);

@@ -6,11 +6,11 @@
 class TUnk_804A7008 : public TObject {
 public:
     virtual ~TUnk_804A7008();
-    u8 unk_1C[0x4];
-    s32 m_20;
-    u8 unk_24[0x4];
-    s8 m_28;
-    u8 unk_29[0x3];
+    int now;   // DateToSeconds of the current date, every frame
+    s32 start; // the time of the last key or pad input
+    u32 limit; // the idle time allowed
+    u8 state;  // 1 once the warning window is shown
+    u8 pad_29[0x3];
 };
 LAYOUT_ASSERT(TUnk_804A7008_size, sizeof(TUnk_804A7008) == 0x2C);
 
