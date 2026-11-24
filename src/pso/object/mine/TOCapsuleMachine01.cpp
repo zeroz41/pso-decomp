@@ -3,7 +3,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/mine/TOCapsuleMachine01.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"

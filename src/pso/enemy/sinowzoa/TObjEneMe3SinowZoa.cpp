@@ -57,7 +57,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
 #include "pso/math/AngleUnits.h"

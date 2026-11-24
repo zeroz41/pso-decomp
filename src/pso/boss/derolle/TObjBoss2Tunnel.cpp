@@ -41,7 +41,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/TLobby_803382E4.h"
 #include "pso/network/client_id.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"

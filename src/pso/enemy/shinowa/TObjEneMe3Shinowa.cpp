@@ -49,7 +49,7 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TLobby.h"

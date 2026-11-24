@@ -35,7 +35,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/render/GinjaMaterial.h"

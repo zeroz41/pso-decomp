@@ -21,7 +21,7 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/boss/TUnk_80484888.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"

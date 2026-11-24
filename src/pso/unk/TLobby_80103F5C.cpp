@@ -468,7 +468,7 @@ void TLobby::alloc_objects() {
     lbl_805D5430.reset();
     TLobby::reset_floor_items();
 }
-int TLobby::get_lobby_flag() {  return lbl_805D5868; }
+int TLobby::get_lobby_flag() {  return entity_table_count; }
 void TLobby::bswap_player_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
 void TLobby::update_and_send() { bswap_player_packet(); send_subcommand((u8 *)this); }
 void TLobby__sub_801041BC(void *arg0) {

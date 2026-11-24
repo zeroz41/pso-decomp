@@ -29,7 +29,7 @@
 #include <string.h>
 #include "pso/technique/TTecCtrl.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -167,10 +167,6 @@ const char *TItemAttackCol__name = "TItemAttackCol";
 // The particle's direction before the collider's heading is added.
 static ParticleAngles particle_direction = {0x4000, 0, 0x4000};
 
-void TObjPlayer__sub_801542F4(saddr a);
-
-void TObjPlayer__sub_8015431C(u8 *set);
-
 }
 f32 vec_distance_squared(u8 *arg0, u8 *arg1);
 TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(parent) {
@@ -218,9 +214,9 @@ void TUnk_804E355C::check_hits() {
     ActorBodyHit *hit;
     u8 *arg0 = (u8 *)this;
     reset_global_table();
-    TObjPlayer__sub_801542F4((saddr)&this->bodies);
+    collect_enemy_body_contacts((CollisionBodySet *)&bodies);
     if (pad_C0 != 0) {
-        TObjPlayer__sub_8015431C((u8 *)&this->bodies);
+        collect_object_body_contacts((CollisionBodySet *)&bodies);
     }
     if (pad_BC != 0) {
         TObjPlayer::apply_status_effect((saddr)(arg0 + 0x1C));
@@ -608,7 +604,7 @@ void TItemAttackCol::check_object_hits() {
     s32 i;
     ActorBodyHit *hit;
     reset_global_table();
-    TObjPlayer__sub_8015431C((u8 *)&this->bodies);
+    collect_object_body_contacts((CollisionBodySet *)&bodies);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         hit = static_cast<ActorBodyHit *>(TObjOnlineEnding::get_attack_entry(i));
         if (try_add_hit_target(hit) != 0) {

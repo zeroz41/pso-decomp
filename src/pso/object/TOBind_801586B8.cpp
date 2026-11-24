@@ -18,7 +18,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D8F74.h"
 

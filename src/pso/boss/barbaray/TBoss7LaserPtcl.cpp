@@ -20,7 +20,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D96A8.h"
 
 #pragma readonly_strings on

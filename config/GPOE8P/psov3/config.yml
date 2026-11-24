@@ -1548,10 +1548,10 @@ force_active:
   - __ct__21TItemShootRocketPunchFP22TItemWeaponRocketPunchPC3VecPC3Vecf
   - __ct__13TUnk_804A5930FP7TObjectPUc
   - TObjPlayer__sub_8013A788
-  - TObjPlayer__sub_8015434C
-  - TObjPlayer__sub_80154E28
-  - TObjPlayer__sub_80155028
-  - TObjPlayer__sub_801550B8
+  - collect_body_contacts__FP16CollisionBodySetll
+  - set_battle_param_slot__Fii
+  - copy_collision_box__FP12CollisionBoxPC12CollisionBox
+  - copy_collision_sphere__FP15CollisionSphereP15CollisionSphere
   - __dt__13TUnk_804B5BA8Fv
   - draw_shadow_quads__12TObjGoGoBallFP3VecP3VeclP3Vecf
   - __ct__22PhotonBlastRequestSlotFv
@@ -14651,17 +14651,17 @@ force_active:
   - reset_visual_state__15TBoss3VoloptP02Fv
   - reset_windows__16TAdChrSelBSlotGCFv
   - resolve_active_quest_result__22THunterGuildSeqOfflineFv
-  - resolve_actor_sphere_contact__FPUcll
+  - resolve_actor_sphere_contact__FP14TObjCollidableP14TObjCollidableP13CollisionBody
   - resolve_anchor_obstruction__11TCameraCtrlFP17TCameraController
   - resolve_color__8TItemMagFv
   - resolve_indirect_node_record
   - resolve_indirect_object_record
   - resolve_owner_heading__11TItemMagSubFv
-  - resolve_player_box_contact__FPUcPUcPUc
+  - resolve_player_box_contact__FP14TObjCollidableP14TObjCollidableP13CollisionBody
   - resolve_set_row_factory_indices__FPvP17FloorObjectSetRowi
   - resolve_theme_index__13TObjLobbyMainFv
   - resource_bundle__16TObjWeddingLobby
-  - respond_to_body_contact__FPUcUlPUc
+  - respond_to_body_contact__FP14TObjCollidableP14TObjCollidableP13CollisionBody
   - restart_particle_effect__14TBoss7TentacleFv
   - restart_primary_sequence__12TBoss1DragonFv
   - restorePosition__12TBoss1DragonFv

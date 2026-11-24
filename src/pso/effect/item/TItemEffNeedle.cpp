@@ -8,7 +8,7 @@
 #include "pso/item/TItemEquipBase.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkMaterialState.h"

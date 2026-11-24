@@ -48,7 +48,7 @@
 #include "pso/boss/olgaflow/TBoss6Type2_80356E50.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/PlayerSlots.h"

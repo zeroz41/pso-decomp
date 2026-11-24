@@ -59,7 +59,7 @@ LAYOUT_ASSERT(OnlineEndingPlayerCountOffset, offsetof(TObjOnlineEnding, player_c
 LAYOUT_ASSERT(OnlineEndingResultWindowOffset, offsetof(TObjOnlineEnding, result_window) == 0x154);
 
 extern int player_unique_pair_entry_count;
-extern unsigned char lbl_8050DAD0[];
+extern ActorBodyHit player_unique_pair_entries[16];
 
 extern "C" {
 void fn_802E52AC(void);

@@ -31,7 +31,7 @@
 #include "pso/npc/TObjNpcBringer.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/TCameraFollow.h"

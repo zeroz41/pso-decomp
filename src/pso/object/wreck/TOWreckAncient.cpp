@@ -27,7 +27,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"

@@ -1,7 +1,7 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -704,7 +704,7 @@ void TObjEneRecon::state_attack(s32 reason) {
                 hit_window = 0;
             }
             if (hit_window == 1) {
-                for (i = 0; i < lbl_805D5868; i++) {
+                for (i = 0; i < entity_table_count; i++) {
                     p = TObjPlayer::get_player_data(i);
                     if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p != NULL && p->get_entity_id() < 0x1000 && p->has_flag_0x800() == 0) {
                         d = horizontal_distance_squared(&p->body_center, &root_node_position);

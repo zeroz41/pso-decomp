@@ -9,10 +9,11 @@ class TObjCollidable;
 extern "C" TObjCollidable *find_entity_by_id(u16 id);
 
 // The entity table find_entity_by_id searches, sorted by entity id:
-// lbl_805D5868 entries in all, players (ids below 0x1000) first, then
-// enemies (ids below 0x4000), then the rest.
-extern s32 lbl_805D5868;
+// entity_table_count entries in all, players (ids below 0x1000) first, then
+// enemies (ids below 0x4000), then the other objects; the three counts split it.
+extern s32 entity_table_count;
 extern s32 registered_player_count;
 extern s32 registered_enemy_count;
+extern s32 registered_object_count;
 
 #endif

@@ -74,7 +74,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"

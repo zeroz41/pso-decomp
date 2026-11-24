@@ -99,7 +99,7 @@ struct NJS_OBJECT;
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 #include "pso/boss/volopt/TBoss3Volopt.h"
 

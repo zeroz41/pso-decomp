@@ -13,7 +13,7 @@
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/AreaSound.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"

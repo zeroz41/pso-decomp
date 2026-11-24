@@ -2,7 +2,7 @@
 #include "pso/system/vector.h"
 #include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 #pragma push
 #pragma fp_contract on

@@ -147,7 +147,7 @@ struct ByteBlock_C_boss6_1 { u8 bytes[0xc]; };
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/object/TObjControl.h"
 
 

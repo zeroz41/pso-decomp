@@ -21,7 +21,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 struct TBoss2MineMovement {
     f32 target_range;

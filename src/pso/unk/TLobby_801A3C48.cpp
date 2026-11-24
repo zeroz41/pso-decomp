@@ -78,6 +78,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/npc/NpcPartnerControl.h"
+#include "pso/object/base/ActorCollision.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -145,7 +146,6 @@ void TLobby__sub_801F494C(u16 client);
 s32 reset_story_select__6TLobbyFPv();
 s32 init_key_slots__15TOKeyJungleMainFPv();
 void TWindowCtrlMain__sub_8024D838(void);
-void TObjPlayer__sub_80156934(void);
 void TRaderMapCore__sub_801F95CC(void);
 void TWindowDD__sub_80344114(void);
 void TQuestThread__sub_801F5D88(void);
@@ -171,7 +171,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TLobby__sub_8001ED74, TLobby__sub_8001ED70},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
     {reset_id_counters, free_id_counters},
-    {TObjPlayer::reset, TObjPlayer__sub_80156934},
+    {TObjPlayer::reset, clear_entity_tables},
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},

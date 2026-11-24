@@ -26,7 +26,7 @@
 #include "pso/object/trap/TOTrapChainSaw.h"
 
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 #include "pso/map/FloorArea.h"
 

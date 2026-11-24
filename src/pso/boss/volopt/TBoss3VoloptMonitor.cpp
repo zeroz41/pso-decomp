@@ -26,7 +26,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/task/TMainTask.h"

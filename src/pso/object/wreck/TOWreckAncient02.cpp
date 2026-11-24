@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/wreck/TOWreckAncient02.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 
 void *TOWreckAncient02::create(void *set_data) {

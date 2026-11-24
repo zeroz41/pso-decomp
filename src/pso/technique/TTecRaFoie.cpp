@@ -19,7 +19,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/TCameraCtrl.h"

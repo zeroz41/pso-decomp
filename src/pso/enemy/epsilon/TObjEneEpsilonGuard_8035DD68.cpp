@@ -14,7 +14,7 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"

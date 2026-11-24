@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"

@@ -30,7 +30,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/model_render_state.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"

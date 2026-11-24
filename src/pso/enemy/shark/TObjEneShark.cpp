@@ -18,7 +18,7 @@
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/moja/TObjEneMoja.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"

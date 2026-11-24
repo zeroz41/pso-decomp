@@ -13,7 +13,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/MatrixOps.h"

@@ -55,7 +55,7 @@
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/model_render_state.h"

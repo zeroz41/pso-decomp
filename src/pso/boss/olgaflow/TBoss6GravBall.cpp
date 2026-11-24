@@ -24,7 +24,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

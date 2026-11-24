@@ -29,7 +29,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjBase.h"
 
 
@@ -145,7 +145,7 @@ void TObjEneReconBomb::run_task() {
         play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80B), &position, 0, 0);
         spawn_particle_effect_with_flags(&position, 0x45, 0x40);
         spawn_particle_effect_with_flags(&position, 0x46, 0x40);
-        for (i = 0; i < lbl_805D5868; i++) {
+        for (i = 0; i < entity_table_count; i++) {
             pl = TObjPlayer::get_player_data(i);
             if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && pl != 0 && pl->get_entity_id() < 0x1000 && pl->has_flag_0x800() == 0) {
                 if (horizontal_distance_squared(&pl->body_center, &body_center) <= blast_radius * blast_radius) {

@@ -51,7 +51,7 @@
 #include "pso/unk/text_802D1C84.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/player/TObjPlayer_800F0810.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecKafun.h"
 #include "pso/player/TPlyDispData.h"

@@ -27,7 +27,7 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/TLanguage_801E4874.h"
 

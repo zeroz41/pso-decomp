@@ -13,7 +13,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjBase.h"
 
 // Built with deferred code generation (configure.py): the functions run last to first.

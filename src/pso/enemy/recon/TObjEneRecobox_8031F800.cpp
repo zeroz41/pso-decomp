@@ -85,7 +85,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803E2F28.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 // TObjBoss2Tunnel.cpp's debug chunk model.
 extern NJS_OBJECT *debug_chunk_object;

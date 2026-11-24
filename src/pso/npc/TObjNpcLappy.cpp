@@ -16,7 +16,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 
 TObjMotionAction npc_lappy_animation_table[10] = {

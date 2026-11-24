@@ -101,7 +101,7 @@ extern "C" {
 #include "pso/technique/TTecResta.h"
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"

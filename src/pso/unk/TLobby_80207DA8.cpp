@@ -330,7 +330,7 @@ s32 bswap_32__FPUl(s32 *, s32);
 s32 TLobby__sub_80207F30(ObjectSetData *set) {
     s32 r;
     memset(set, 0, sizeof(*set));
-    set->object_type = -1;
+    set->set_index = -1;
     r = get_current_floor();
     set->floor = r;
     set->entity_id = 0xFFFF;

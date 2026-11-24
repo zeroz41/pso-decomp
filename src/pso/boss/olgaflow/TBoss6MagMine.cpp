@@ -36,7 +36,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 #pragma readonly_strings on
 // The record exchange_object_state reads and writes.

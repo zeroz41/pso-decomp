@@ -21,7 +21,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/unk/text_801036CC.h"
 #include "pso/system/data/FlagWord.h"

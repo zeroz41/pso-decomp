@@ -342,7 +342,7 @@ void TObjOnlineEnding::close_window() {
 }
 
 void *TObjOnlineEnding::get_attack_entry(int index) {
-    return lbl_8050DAD0 + index * 8;
+    return &player_unique_pair_entries[index];
 }
 
 int TObjOnlineEnding::get_instance() {

@@ -9,7 +9,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleBallistic.h"
 #include "pso/effect/particle/TParticleOrbit.h"

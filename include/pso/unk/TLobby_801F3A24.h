@@ -3,10 +3,11 @@
 
 #include "types.h"
 
-// One entry per quest object; drop_id_base seeds the ids of the items the
-// object drops (TLobby::init_id_tables).
+// One entry per quest object (ObjectSetData::set_index): the state flags the
+// 6x0B update carries; drop_id_base seeds the ids of the items the object
+// drops (TLobby::init_id_tables).
 struct QuestObjectEntry {
-    s16 id;
+    s16 flags;
     u16 drop_id_base;
 };
 extern QuestObjectEntry *quest_object_entries;

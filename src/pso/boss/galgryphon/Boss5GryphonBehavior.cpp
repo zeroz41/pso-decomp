@@ -85,7 +85,7 @@
 #pragma dont_inline off
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/TObjControl.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"

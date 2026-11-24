@@ -42,7 +42,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixOps.h"

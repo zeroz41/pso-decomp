@@ -18,7 +18,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/moja/TObjEneMoja.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/unk/text_803D8F74.h"
 

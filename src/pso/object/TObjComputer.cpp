@@ -24,7 +24,7 @@
 
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaUvScroll.h"

@@ -48,7 +48,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/render_util.h"
 
 disp_data_part2 *npc_player_char_data_buffer;
@@ -793,7 +793,7 @@ TPlyInventoryItem *npc_player_equipment_ultimate[64] = {
 
 u16 TObjPlayer::get_npc_controller() { return npc_control.controller_client_id; }
 
-int get_registered_object_count(void) {  return registered_entity_count; }
+int get_registered_object_count(void) {  return registered_object_count; }
 
 void PhotonBlastTarget::reset() {
     entity_id = 0xFFFF;

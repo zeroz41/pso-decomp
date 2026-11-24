@@ -13,7 +13,7 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalzState.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
@@ -768,7 +768,7 @@ void TBoss6PlotFalz::warp_nearby_players() {
     Vec v;
     s32 i;
     TObjPlayer *p;
-    for (i = registered_player_count + registered_enemy_count; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + registered_enemy_count; i < entity_table_count; i++) {
         p = TObjPlayer::get_player_data(i);
         if (p != NULL && p->bodies != NULL && (p->bodies->flags & 0x20000)
             && !(xyz_distance(&boss6_plot_falz_warp_origin, &p->position) > 150.0f)
@@ -979,7 +979,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     attack_params = (u8 *)TLobby::dispatch_shared_handler_b(0x2C);
     resistance_params = (u8 *)TLobby::register_object(0x2C);
     bind_enemy_combat_stats(reinterpret_cast<player_stats *>(base_params), reinterpret_cast<AttackParams *>(attack_params), reinterpret_cast<ActorParamBlock *>(resistance_params));
-    register_entity_by_id((u8 *)this);
+    register_entity_by_id(this);
     actorFlags = (s32) (actorFlags | 0x02000000);
     set_visible_flag();
     TBoss6PlotFalz::update_active_flag();
