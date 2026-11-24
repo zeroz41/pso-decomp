@@ -966,7 +966,7 @@ void TBoss5Gryphon::emit_part_attack_effect(int part) {
     TObjEneDD::emit_enemy_effect(this, p, &prm, attack_history);
     reset_hp(NULL, boss5_gryphon_attack_params[0], NULL);
     spawn_particle_effect_with_flags(p, effect_ids[2], 0x40);
-    TBoss8Dragon::spawn_attack_effect(p);
+    spawn_attack_effect(p);
 }
 
 void TBoss5Gryphon::emit_walk_foot_attacks() {
@@ -1199,7 +1199,7 @@ void TBoss5Gryphon::spawn_lightning_effect() {
 }
 
 #pragma pop
-void TBoss8Dragon::spawn_attack_effect(const Vec *pos) {
+void TBoss5Gryphon::spawn_attack_effect(const Vec *pos) {
     TParticleCtrl *particle;
 
     particle = spawn_particle_effect_with_flags(pos, 0x210, 0x40);
@@ -1208,7 +1208,7 @@ void TBoss8Dragon::spawn_attack_effect(const Vec *pos) {
     }
 }
 
-void TBoss8Dragon::spawn_switch_attack(const Vec *pos) {
+void TBoss5Gryphon::spawn_switch_attack(const Vec *pos) {
     TParticleCtrl *particle;
 
     particle = spawn_particle_effect_with_flags(pos, 0x211, 0x40);

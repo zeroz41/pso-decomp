@@ -21,7 +21,7 @@ void TBoss8Dragon__sub_8028B0DC(TObjBoss5PillarCtrl *pillar_controller, const Ve
     NJS_OBJECT *n;
     s32 i;
 
-    n = lbl_805D4DD8->models[2].model;
+    n = boss5_common_bml_resource->models[2].model;
     off = TBoss8Dragon::calc_sq_offset(params, 50.0f);
     n = n->child;
     for (i = 0; i < pillar_controller->count; i++) {

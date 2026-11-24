@@ -58,6 +58,8 @@ struct TBoss5Gryphon : public TObjEneDD_ST {
     static void apply_snarl_hit(TBoss5Gryphon *owner, Vec *pos, f32 inner, f32 scale);
     static void apply_tornado_hit(TBoss5Gryphon *owner, Vec *pos);
     static void apply_shockwave_hit(TBoss5Gryphon *owner, Vec *pos);
+    static void spawn_switch_attack(const Vec *pos);
+    static void spawn_attack_effect(const Vec *pos);
     virtual void render();
     virtual void dispatch_action(u32 state, s32 event);
     void state_action_noop();
