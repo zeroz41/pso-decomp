@@ -4518,14 +4518,13 @@ s32 TObjPlayer::get_next_level_exp() {
 }
 
 void TObjPlayer::send_status_effect_add(StatStatusReceipt effect) {
-    s32 effect_data;
-    s32 pkt;
+    G_AddStatusEffect_6x0C pkt;
 
     if ((this == 0) || (obj_isState2_324() == 0)) {
-        ((G_AddStatusEffect_6x0C *)&pkt)->init();
-        *(s16 *)((s8 *)&pkt + 2) = this->get_entity_id();
-        obj_copyVec2_0((u8 *)&effect_data, (u8 *)&effect);
-        ((G_AddStatusEffect_6x0C *)&pkt)->send();
+        pkt.init();
+        pkt.header.client_id = this->get_entity_id();
+        obj_copyVec2_0((u8 *)&pkt.effect, (u8 *)&effect);
+        pkt.send();
     }
 }
 
@@ -4563,14 +4562,13 @@ void handle_6x0E_clear_negative_status_effects(G_ClearNegativeStatusEffects_6x0E
 
 
 void TObjPlayer::send_status_effect_remove(StatStatusReceipt effect) {
-    s32 effect_data;
-    s32 pkt;
+    G_RemoveStatusEffect_6x0D pkt;
 
     if ((this == 0) || (obj_isState2_324() == 0)) {
-        ((G_RemoveStatusEffect_6x0D *)&pkt)->init();
-        *(s16 *)((s8 *)&pkt + 2) = this->get_entity_id();
-        obj_copyVec2_0((u8 *)&effect_data, (u8 *)&effect);
-        ((G_RemoveStatusEffect_6x0D *)&pkt)->send();
+        pkt.init();
+        pkt.header.client_id = this->get_entity_id();
+        obj_copyVec2_0((u8 *)&pkt.effect, (u8 *)&effect);
+        pkt.send();
     }
 }
 void handle_6x0D_add_or_remove_status_effect(G_AddOrRemoveStatusEffect_6x0C_6x0D *command) {
