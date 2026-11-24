@@ -565,6 +565,8 @@ void TLobby::free_boss4rock() {
 
 // ---- pso/unk/text_8020A2AC
 s32 __cvt_fp2unsigned(f32);
+}
+
 saddr item_drop_server_seed;
 s32 lbl_805D60D4;
 s32 map_set_data_handle_a;
@@ -575,6 +577,8 @@ s32 map_object_id_counter;
 s32 map_set_enemy_id_counter;
 u8 *map_set_file_buffer;
 s32 map_set_file_buffer_size;
+
+extern "C" {
 void TLobby__sub_8020A2AC(void) {
     static const f32 seed_scale = 4294967296.0f;
     static const f32 rand_reciprocal = 3.0517578e-05f;
