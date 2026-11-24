@@ -366,12 +366,6 @@ struct S801B5200_801B3FD8 { s8 b[2]; s16 h; };
 struct Color_801B6964 { f32 r, g, b, a; };
 
 
-struct Pkt_801B7EB8 {
-    u8 hdr[2];
-    u16 client;
-    s32 item;
-};
-
 struct Buf_801B802C {
     s32 n;
     TPlyInventoryItem items[30];
@@ -419,7 +413,6 @@ struct L_801B8CB0 { u16 f0; u16 f2; s32 f4; u8 f8[0x78]; };
 
 struct Cmd_801B8DE8 { u8 hdr[2]; s16 id; s32 a; s32 b; };
 
-struct L_801B8D68 { u16 f0; u16 f2; s32 f4; s32 f8; };
 
 
 typedef struct Cmd_801B9634 { u8 hdr[2]; s16 client; s32 val; } Cmd_801B9634;
@@ -440,13 +433,6 @@ LAYOUT_ASSERT(UnequipItemPacketSize, sizeof(UnequipItemPacket) == 12);
 
 struct EquipItemPacket { u16 header; s16 client; s32 item_id; s32 slot; };
 LAYOUT_ASSERT(EquipItemPacketSize, sizeof(EquipItemPacket) == 12);
-
-typedef struct Msg_801BA060 {
-    u8 pad0[2];
-    u16 slot;
-    s32 c;
-    s32 d;
-} Msg_801BA060;
 
 struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
     s32 value;
@@ -1559,18 +1545,18 @@ void send_6x25_equip_item(TObjPlayer *player, s32 item_id, s32 slot) {
 }
 
 void handle_6x25_equip_item(G_EquipItem_6x25 *command) {
-    Msg_801BA060 m;
+    G_EquipItem_6x25 m;
     TObjPlayer *player;
     TItem *item;
     TItemList *slot;
-    ((G_EquipItem_6x25 *)&m)->init();
-    *(G_EquipItem_6x25 *)&m = *command;
-    ((G_EquipItem_6x25 *)&m)->bswap();
-    if (validate_6x25_equip_item((G_EquipItem_6x25 *)&m) != 0) {
-        player = (TObjPlayer *)get_player_by_client_id(m.slot);
-        if (player != NULL && (slot = static_cast<TItemList *>(player->inventory_objects->start_inventory_update(m.c))) != NULL &&
+    m.init();
+    m = *command;
+    m.bswap();
+    if (validate_6x25_equip_item(&m) != 0) {
+        player = get_player_by_client_id(m.header.client_id);
+        if (player != NULL && (slot = static_cast<TItemList *>(player->inventory_objects->start_inventory_update(m.item_id))) != NULL &&
             (item = slot->get_owner_if_alive()) != NULL) {
-            player->equip_item_to_slot(item, m.d);
+            player->equip_item_to_slot(item, m.equip_slot);
         }
     }
 }
@@ -2032,14 +2018,14 @@ void TObjPlayer::send_6x29_delete_item(TObjPlayer *player, s32 item_id, s32 coun
     player->send_unequip_held_item();
 }
 void handle_6x29_delete_inventory_item(G_DeleteInventoryItem_6x29 *command) {
-    L_801B8D68 cmd;
-    ((G_DeleteInventoryItem_6x29 *)&cmd)->init();
-    *(G_DeleteInventoryItem_6x29 *)&cmd = *command;
-    ((G_DeleteInventoryItem_6x29 *)&cmd)->bswap();
-    if (validate_6x29_delete_inventory_item((G_ClientIDHeader *)&cmd) != 0) {
-        TObjPlayer *p = get_player_by_client_id(cmd.f2);
+    G_DeleteInventoryItem_6x29 cmd;
+    cmd.init();
+    cmd = *command;
+    cmd.bswap();
+    if (validate_6x29_delete_inventory_item(&cmd.header) != 0) {
+        TObjPlayer *p = get_player_by_client_id(cmd.header.client_id);
         if (p != NULL && p->is_in_lobby() == 0) {
-            p->dispatch_action(cmd.f4, cmd.f8);
+            p->dispatch_action(cmd.item_id, cmd.amount);
         }
     }
 }
@@ -2146,16 +2132,16 @@ s32 TObjPlayer::send_trap_packet(int kind) {
 }
 
 void handle_6x83_place_trap(G_PlaceTrap_6x83 *command) {
-    Pkt_801B8908 pkt;
-    ((G_PlaceTrap_6x83 *)&pkt)->init();
-    *(G_PlaceTrap_6x83 *)&pkt = *command;
-    ((G_PlaceTrap_6x83 *)&pkt)->bswap();
-    if (validate_6x83_place_trap((G_PlaceTrap_6x83 *)&pkt) != 0) {
-        u8 *p = (u8 *)get_player_by_client_id(pkt.client);
-        if (p != NULL && create_placed_trap__10TOMineTrapFUiss(p, pkt.a, pkt.b) != 0) {
-            ((TObjPlayer *)p)->trap_counts.consume(1, pkt.a);
-            if (((TObjChara *)p)->is_locally_controlled() != 0) {
-                TWindowCtrl::call_window_method_with_default_vec((u16)((TObjBase *)(p))->get_entity_id());
+    G_PlaceTrap_6x83 pkt;
+    pkt.init();
+    pkt = *command;
+    pkt.bswap();
+    if (validate_6x83_place_trap(&pkt) != 0) {
+        TObjPlayer *p = get_player_by_client_id(pkt.header.client_id);
+        if (p != NULL && create_placed_trap__10TOMineTrapFUiss((u8 *)p, pkt.trap_type, pkt.trap_index) != 0) {
+            p->trap_counts.consume(1, pkt.trap_type);
+            if (p->is_locally_controlled() != 0) {
+                TWindowCtrl::call_window_method_with_default_vec((u16)p->get_entity_id());
             }
         }
     }
@@ -2411,19 +2397,19 @@ s32 try_send_6x27_use_item(void *player, s32 key) {
 }
 
 void handle_6x27_use_item(G_UseItem_6x27 *command) {
-    Pkt_801B7EB8 pkt;
-    u8 *player;
-    u8 *owner_if_alive;
+    G_UseItem_6x27 pkt;
+    TObjPlayer *player;
+    TItem *owner_if_alive;
     void *node;
-    ((G_UseItem_6x27 *)&pkt)->init();
-    *(G_UseItem_6x27 *)&pkt = *command;
-    ((G_UseItem_6x27 *)&pkt)->bswap();
-    if (validate_6x27_use_item((G_ClientIDHeader *)(&pkt)) != 0) {
-        player = (u8 *)get_player_by_client_id((u16)pkt.client);
-        if ((player != NULL) && ((node = ((TObjPlayer *)player)->inventory_objects->start_inventory_update(pkt.item)) != 0U)) {
-            owner_if_alive = (u8 *)((TItemList *)node)->get_owner_if_alive();
+    pkt.init();
+    pkt = *command;
+    pkt.bswap();
+    if (validate_6x27_use_item(&pkt.header) != 0) {
+        player = get_player_by_client_id((u16)pkt.header.client_id);
+        if ((player != NULL) && ((node = player->inventory_objects->start_inventory_update(pkt.item_id)) != 0U)) {
+            owner_if_alive = ((TItemList *)node)->get_owner_if_alive();
             if (owner_if_alive != NULL) {
-                ((TItem *)owner_if_alive)->use();
+                owner_if_alive->use();
             }
         }
     }
