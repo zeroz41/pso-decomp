@@ -326,7 +326,7 @@ void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 s32 get_class_name_text(s32);
 extern "C" {
-s32 build_player_class_stat_template(saddr arg0, saddr arg1);
+s32 build_player_class_stat_template(saddr player, saddr out);
 s32 get_shared_text_buffer();
 const s32 status_disp_vt5_message_ids[4] = {0x91, 0x92, 0x91, 0x92};
 }

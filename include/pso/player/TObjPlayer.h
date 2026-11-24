@@ -892,7 +892,7 @@ struct TObjPlayer : public TObjChara {
     void update_battle_control_if_unlocked();
     void update_facing_from_lock();
     f32 get_battle_value(u16 client, s16 technique);
-    u32 set_lobby_marker(s32 arg1);
+    u32 set_lobby_marker(s32 material);
     s32 are_traps_full();
     s32 is_alive_and_ready();
     void refill_traps();
@@ -945,8 +945,8 @@ struct TObjPlayer : public TObjChara {
     void set_flag_4096();
     void disable_primary_action_input();
     void disable_action_input();
-    int try_use_item_by_type(int arg1, int arg2, int arg3);
-    s32 check_can_add_item(s8 arg1, s8 arg2);
+    int try_use_item_by_type(int kind, int group, int subgroup);
+    s32 check_can_add_item(s8 kind, s8 group);
     s32 can_use_item(void *item);
     s32 dispatch_palette_action(u32 act);
     s32 handle_palette_button_input();
@@ -956,7 +956,7 @@ struct TObjPlayer : public TObjChara {
     void start_battle_music();
     void stop_battle_music();
     s32 classify_action_state();
-    void update_foot_stamp(int arg1);
+    void update_foot_stamp(int marker);
     void play_footstep_sound(f32 at_frame, f32 farg1);
     void revive();
     s32 get_recovery_need_flags();
@@ -980,7 +980,7 @@ struct TObjPlayer : public TObjChara {
     s32 is_quest_interaction_blocked();
     s32 has_action_palette_entry();
     static s32 is_effect_channel_active(saddr player, s32 index);
-    static void refresh_party_cursors(saddr arg0);
+    static void refresh_party_cursors(saddr player);
     void set_action_palette_entry(s32 secondary, s32 valid, s32 idx, s32 mode, u16 slot);
     void select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3);
     saddr refresh_effect();
@@ -988,8 +988,8 @@ struct TObjPlayer : public TObjChara {
     s32 check_actor_blocking_move();
     saddr resolve_move_collision();
     void rewind_position_history();
-    s32 is_matching_id(s16 arg1);
-    static s16 add_stat_clamped(s32 amount, s16 *arg1, s16 arg2);
+    s32 is_matching_id(s16 action);
+    static s16 add_stat_clamped(s32 amount, s16 *stat, s16 max);
     s16 add_lck(s32 amount);
     s16 add_evp(s32 amount);
     s16 add_ata(s32 amount);
@@ -1008,16 +1008,16 @@ struct TObjPlayer : public TObjChara {
     void update_position_history();
     static void clear_lobby_flag(void *base);
     void init_effect_5f0();
-    void get_hand_joint_position(saddr arg1);
+    void get_hand_joint_position(saddr out_pos);
     void close_sub_window();
-    s32 find_inventory_item_id(s8 arg1, s8 arg2);
+    s32 find_inventory_item_id(s8 kind, s8 group);
     s32 try_add_sale_meseta(s32 item_id, s32 amount, s32 count);
     void drop_items_on_death();
     static void send_6x2A_drop_item(TObjPlayer *player, s32 source, void *pos, s32 item_id);
-    s32 send_trap_packet(int arg1_);
+    s32 send_trap_packet(int kind);
     void request_meseta_drop(s32 amount);
     void request_item_drop(s32 key, s32 count);
-    s32 count_items_of_type(s8 arg1, s8 arg2, s8 arg3);
+    s32 count_items_of_type(s8 kind, s8 group, s8 subgroup);
     void dispatch_action(s32 key, s32 amount);
     s32 can_inventory_accept_item(u8 *item);
     s32 update_target_lock();
@@ -1032,7 +1032,7 @@ struct TObjPlayer : public TObjChara {
     static void freeze_all_players();
     // The callers pass the angle to the object as well; this does not use it.
     s32 start_camera_pan(s16 action, s32 angle);
-    s32 init_photon_blast(s16 arg1);
+    s32 init_photon_blast(s16 anim);
     s32 start_freeze();
     s32 register_player_slot();
     void apply_state_transform();
@@ -1182,7 +1182,7 @@ struct TObjPlayer : public TObjChara {
     static void load_capture_texture();
     static void end_screen_quad();
     s32 get_language();
-    void record_meseta_pickup(s32 arg1);
+    void record_meseta_pickup(s32 amount);
     static void send_local_player_visible();
     static void send_local_player_invisible();
     void resend_status_effects();
@@ -1284,7 +1284,7 @@ struct TObjPlayer : public TObjChara {
     void clear_links();
     void ensure_default();
     int get_flag();
-    s32 is_action_channel_available(s32 arg1);
+    s32 is_action_channel_available(s32 channel);
     void notify_lobby();
     short query_child_state2();
     s32 update_aim_target();
