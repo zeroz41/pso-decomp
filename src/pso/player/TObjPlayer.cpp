@@ -391,17 +391,15 @@ u8 PlayerSyncRecord::get_power_materials_used() { return items[8].m_present[3]; 
 }
 
 
-struct O_801BEC50 { u16 a; u16 b; f32 x; f32 y; f32 z; };
 
 
 extern const f32 player_zero;
 int TPlyPhotonChair::is_mounted() { return (*(u32*)((char*)this + 0x334) >> 26) & 0x1; }
 
-void TObjPlayer::init_vec_record() {
-    O_801BEC50 *p = (O_801BEC50 *)this;
-    p->a = 0xFFFF;
-    p->b = 0;
-    p->x = p->y = p->z = player_zero;
+void PhotonBlastAim::reset() {
+    target_id = 0xFFFF;
+    pad_2 = 0;
+    position.x = position.y = position.z = player_zero;
 }
 
 void PlayerNpcControl::reset() {
@@ -468,7 +466,7 @@ PlayerActionPaletteState::~PlayerActionPaletteState() {}
 
 void PlayerDeathSink::set_progress(f32 v) { progress = v; }
 
-void TObjPlayer__sub_801BF9E0(void* p, u16 v) { *(s16*)((char*)p + 0x0) = v; }
+void PlayerAppearFade::set_client_id(u16 id) { client_id = id; }
 
 void TObjPlayer::set_vec3_const() { *(float*)((char*)this + 0x0) = player_one; *(float*)((char*)this + 0x4) = player_one; *(float*)((char*)this + 0x8) = player_one; }
 
@@ -504,9 +502,7 @@ Vec *PlayerScaleState::get_scale() { return &scale; }
 
 s16 PlayerAnimationState::get_action_id() { return action_id; }
 
-s32 TObjPlayer__sub_801BF918(u8 *record) {
-    return (u8) (*(s32 *)((s8 *)record + 4) == 2);
-}
+s32 PlayerAppearFade::is_shown() { return (u8)(state == SHOWN); }
 
 Vec *TObjPlayer__sub_801BF914(Vec *position) { return position; }
 
@@ -886,19 +882,16 @@ void*TObjPlayer::set_vec3_const_wrapper() { set_vec3_const(); return this; }
 }
 
 
-struct O_801BFC90 { u16 a; u16 b; s32 c; };
-
 extern "C" {
-void TObjPlayer__sub_801BFC90(O_801BFC90 *p);
 extern const f32 player_scale_initial;
 
 
-void TObjPlayer::reset_scale_vector() {
-    *(f32 *)((s8 *)this + 0x10) = (f32) player_zero;
-    *(f32 *)((s8 *)this + 0xC) = (f32) player_zero;
-    *(f32 *)((s8 *)this + 8) = (f32) player_zero;
-    *(s32 *)((s8 *)this + 4) = 0;
-    *(s32 *)((s8 *)this + 0) = 0;
+void PlayerIntraMapWarp::reset() {
+    destination.z = player_zero;
+    destination.y = player_zero;
+    destination.x = player_zero;
+    yaw = 0;
+    timer = 0;
 }
 
 u8 *TObjPlayer::construct_hurt_timer() {
@@ -909,12 +902,12 @@ u8 *TObjPlayer::construct_hurt_timer() {
 }
 
 BattleMusicState *BattleMusicState::reset_and_clear() { __ct__8FlagWordFv(&flags); reset_counter_field4(); return this; }
-void*TObjPlayer::wrap_update() { TObjPlayer__sub_801BFC90((O_801BFC90 *)(this)); return this; }
+PlayerAppearFade *PlayerAppearFade::init() { reset(); return this; }
 
-void TObjPlayer__sub_801BFC90(O_801BFC90 *p) {
-    p->c = 0;
-    p->a = 0xFFFF;
-    p->b = 0;
+void PlayerAppearFade::reset() {
+    state = WAITING;
+    client_id = 0xFFFF;
+    delay = 0;
 }
 
 void*TObjPlayer::set_vec4_const_wrapper() { set_vec4_const(); return this; }

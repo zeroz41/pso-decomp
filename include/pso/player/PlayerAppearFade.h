@@ -17,9 +17,15 @@ struct PlayerAppearFade {
     s16 delay;
     s32 state;
 
+    PlayerAppearFade *init();
+    void reset();
+    void set_client_id(u16 id);
+    s32 is_shown();
     void begin();
     void update();
     BOOL is_fading();
 };
+
+LAYOUT_ASSERT(PlayerAppearFade_size, sizeof(PlayerAppearFade) == 0x8);
 
 #endif

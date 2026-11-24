@@ -1626,7 +1626,7 @@ call3:
             run_action_state_phase(0x16, 0);
             return;
         }
-        if ((TObjPlayer__sub_801BF918((u8 *)&this->appear_fade) != 0) && (this->is_body_collision_inactive() != 0) && (this->test_action_mask(4) != 0)) {
+        if ((this->appear_fade.is_shown() != 0) && (this->is_body_collision_inactive() != 0) && (this->test_action_mask(4) != 0)) {
             ::set_flag_400000(this);
             appear_fade.begin();
         }

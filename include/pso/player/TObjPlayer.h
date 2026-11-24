@@ -35,6 +35,8 @@ struct PhotonBlastRequestSlot;
 #include "pso/player/PhotonChairSeat.h"
 #include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/PlayerActionProvider.h"
+#include "pso/player/PlayerIntraMapWarp.h"
+#include "pso/player/PhotonBlastAim.h"
 
 struct TItemData;
 struct PhotonBlastRequest;
@@ -248,17 +250,14 @@ struct TObjPlayer : public TObjChara {
     ProtectionTimer protection;  // frames the player cannot be hurt
     u8 _pad648[0x4];
     StickEscapeDetector stick_escape_detector;
-    void* m_658;
-    s32 warp_yaw;
-    Vec warp_destination;
+    PlayerIntraMapWarp intra_map_warp;
     void* m_66c;
     u8 _pad670[0x8];
     PlayerNpcControl npc_control;
     CollisionBody collision_body;
     MovementHistory movement_history;
     MovementHold movement_hold;
-    void* m_744;
-    u8 _pad748[0xC];
+    PhotonBlastAim photon_blast_aim;
     void* m_754;
     u8 _pad758[0x6C];
     PlayerTrapCounts trap_counts;
@@ -313,7 +312,6 @@ struct TObjPlayer : public TObjChara {
     void write_ids();
     void set_vec4_const();
     static void render_tree(void *model);
-    void init_vec_record();
     s32 get_entrance_id();
     void *reset_lobby_settings();
     void set_flags_bit2();
@@ -519,9 +517,7 @@ struct TObjPlayer : public TObjChara {
     static s32 reset_and_return(saddr p);
     void clear_base();
     void*set_vec3_const_wrapper();
-    void reset_scale_vector();
     u8 *construct_hurt_timer();
-    void*wrap_update();
     void*set_vec4_const_wrapper();
     int sub_802a7290_fwd();
     int is_handle_valid();
@@ -1320,7 +1316,12 @@ LAYOUT_ASSERT(PlayerAttackStatsOffset, offsetof(TObjPlayer, attack_stats) == 0xD
 LAYOUT_ASSERT(PlayerResistanceStatsOffset, offsetof(TObjPlayer, resistance_stats) == 0xD8C);
 
 LAYOUT_ASSERT(TObjPlayer_area_offset, offsetof(TObjPlayer, current_area) == 0x3E0);
+LAYOUT_ASSERT(TObjPlayer_appear_fade_offset, offsetof(TObjPlayer, appear_fade) == 0x634);
+LAYOUT_ASSERT(TObjPlayer_intra_map_warp_offset, offsetof(TObjPlayer, intra_map_warp) == 0x658);
 LAYOUT_ASSERT(TObjPlayer_npc_control_offset, offsetof(TObjPlayer, npc_control) == 0x678);
+LAYOUT_ASSERT(TObjPlayer_movement_history_offset, offsetof(TObjPlayer, movement_history) == 0x6AC);
+LAYOUT_ASSERT(TObjPlayer_movement_hold_offset, offsetof(TObjPlayer, movement_hold) == 0x730);
+LAYOUT_ASSERT(TObjPlayer_photon_blast_aim_offset, offsetof(TObjPlayer, photon_blast_aim) == 0x744);
 LAYOUT_ASSERT(PlayerItemNodeMatricesOffset, offsetof(TObjPlayer, item_node_matrices) == 0xDB4);
 LAYOUT_ASSERT(TObjPlayer_size, sizeof(TObjPlayer) == 0xDB8);
 

@@ -7,7 +7,6 @@
 #include "pso/player/MovementHistory.h"
 #include "pso/network/client_id.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/player/TObjPlayer_801BC404.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/vector.h"
@@ -34,10 +33,8 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/ui/font/TFontSmallLobby.h"
-#include "pso/player/TObjPlayer_801BCFBC.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_801BD314.h"
 #include "pso/player/TPlyDispConfig.h"
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/player/TObjPlayer_80309D80.h"
@@ -242,7 +239,7 @@ void TObjPlayer::destroy_owned_object() {
 }
 
 void TObjPlayer::assign_owner_ids() {
-    TObjPlayer__sub_801BF9E0(&appear_fade, get_entity_id());
+    appear_fade.set_client_id(get_entity_id());
     follow_particles.set_owner(this);
     chair_seat.set_owner_id(get_entity_id());
 }
@@ -538,16 +535,16 @@ extern const char *TObjPlayer_name;
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
     ((TObjPlayer *)((char *)this + 1544))->set_vec4_const_wrapper();
-    ((TObjPlayer *)((char *)this + 1588))->wrap_update();
+    appear_fade.init();
     battle_music.reset_and_clear();
     ((TObjPlayer *)((char *)this + 1604))->construct_hurt_timer();
     stick_escape_detector.reset_fields();
-    ((TObjPlayer *)((char *)this + 1624))->reset_scale_vector();
+    intra_map_warp.reset();
     ((TObjPlayer *)((char *)this + 1644))->set_vec3_const_wrapper();
     npc_control.reset();
     movement_history.init();
     movement_hold.init();
-    ((TObjPlayer *)((char *)this + 1860))->init_vec_record();
+    photon_blast_aim.reset();
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
     trap_counts.init();
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
@@ -569,16 +566,16 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
 
 TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(parent) {
     ((TObjPlayer *)((char *)this + 1544))->set_vec4_const_wrapper();
-    ((TObjPlayer *)((char *)this + 1588))->wrap_update();
+    appear_fade.init();
     battle_music.reset_and_clear();
     ((TObjPlayer *)((char *)this + 1604))->construct_hurt_timer();
     stick_escape_detector.reset_fields();
-    ((TObjPlayer *)((char *)this + 1624))->reset_scale_vector();
+    intra_map_warp.reset();
     ((TObjPlayer *)((char *)this + 1644))->set_vec3_const_wrapper();
     npc_control.reset();
     movement_history.init();
     movement_hold.init();
-    ((TObjPlayer *)((char *)this + 1860))->init_vec_record();
+    photon_blast_aim.reset();
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
     trap_counts.init();
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
@@ -610,16 +607,16 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
 
 TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record) : TObjChara(parent) {
     ((TObjPlayer *)(((u8 *)this) + 0x608))->set_vec4_const_wrapper();
-    ((TObjPlayer *)(((u8 *)this) + 0x634))->wrap_update();
+    appear_fade.init();
     battle_music.reset_and_clear();
     ((TObjPlayer *)(((u8 *)this) + 0x644))->construct_hurt_timer();
     stick_escape_detector.reset_fields();
-    ((TObjPlayer *)(((u8 *)this) + 0x658))->reset_scale_vector();
+    intra_map_warp.reset();
     ((TObjPlayer *)(((u8 *)this) + 0x66C))->set_vec3_const_wrapper();
     npc_control.reset();
     movement_history.init();
     movement_hold.init();
-    ((TObjPlayer *)(((u8 *)this) + 0x744))->init_vec_record();
+    photon_blast_aim.reset();
     ((TObjPlayer *)(((u8 *)this) + 0x754))->init_sub_objects();
     trap_counts.init();
     ((TObjPlayer *)(((u8 *)this) + 0x7C8))->clear_base();

@@ -19,4 +19,6 @@ struct MovementHistory {
 
 extern "C" void clear_movement_history(MovementHistory *history);
 
+LAYOUT_ASSERT(MovementHistory_size, sizeof(MovementHistory) == 0x84);
+
 #endif

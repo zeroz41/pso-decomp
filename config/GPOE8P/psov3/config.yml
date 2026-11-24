@@ -1563,7 +1563,7 @@ force_active:
   - get_changed_flags__19ContactSurfaceStateFv
   - stop_timer__19ContactSurfaceStateFv
   - reset_flags__19ContactSurfaceStateFv
-  - TObjPlayer__sub_801BFC90
+  - reset__16PlayerAppearFadeFv
   - reset__20PlayerAnimationStateFv
   - __ct__18PlayerCameraOffsetFv
   - __as__29G_CreateInventoryItem_DC_6x2BFR29G_CreateInventoryItem_DC_6x2B

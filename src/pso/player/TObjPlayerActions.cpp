@@ -1334,8 +1334,8 @@ void TObjPlayer::update_warp_relocation() {
         if (var_f31 < 0.0f) {
             var_f31 = 0.0f;
             this->phase = 3;
-            this->rotation_y = warp_yaw;
-            this->set_position_from(&warp_destination);
+            this->rotation_y = intra_map_warp.yaw;
+            this->set_position_from(&intra_map_warp.destination);
             refresh_equipment_slot();
             this->set_flag_4000();
             this->update_actor_ground_y();
@@ -1400,9 +1400,9 @@ void handle_6x55_intra_map_warp(game_command_header *command) {
     if (validate_6x55_intra_map_warp(&packet.header) != 0) {
         TObjPlayer *player = get_player_by_client_id(packet.header.client_id);
         if (player != NULL && player->is_in_tl03_state() != 0 && player->test_action_mask(0x8200) == 0) {
-            player->warp_yaw = packet.angle_y;
+            player->intra_map_warp.yaw = packet.angle_y;
             player->set_position_from(&packet.from_pos);
-            VecCopy(&player->warp_destination, &packet.pos);
+            VecCopy(&player->intra_map_warp.destination, &packet.pos);
             player->run_action_state_phase(0x14, 0);
         }
     }
@@ -3069,7 +3069,7 @@ void TObjPlayer::enter_photon_blast_action() {
     if (id == 0xFFFF) {
         this->target_heading = this->rotation_y;
     } else {
-        slot = (PhotonBlastTarget *)((TObjPlayer *)&this->m_744)->get_field4_ptr();
+        slot = (PhotonBlastTarget *)((TObjPlayer *)&this->photon_blast_aim)->get_field4_ptr();
         this->target_heading = calc_angle_to(this->get_position_ptr(), (Vec *)slot);
     }
     this->set_actor_flags(0x400000);
