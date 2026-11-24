@@ -1311,7 +1311,6 @@ struct TObjPlayer : public TObjChara {
     static void set_animation_from_data(saddr player, s32 picture);
     static void assign_lobby_slot_if_flagged(saddr player, void *records);
     static void free_shared_lobby_data();
-    void*init_inventory();
     f32 select_normal_attack_marker();
     u8 get_castable_technique_level();
     static void update_all_units(s32 levels, s32 level);

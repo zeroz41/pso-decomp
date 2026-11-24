@@ -85,7 +85,6 @@ void TUnk_804C4540::set_animation_default(s16 index) { set_animation(index); }
 
 TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
     TUnk_801D8A4C record;
-    ((TObjPlayer *)(&record))->init_inventory();
     copy_player_visual_record(record.visual, &data->m_disp_part2);
     TLobby::copy_data(record.stats, &data->m_stats);
     fn_801D40D4(data->m_inventory.m_num_items,
@@ -160,7 +159,11 @@ TUnk_804C4540::~TUnk_804C4540() {}
 
 void TObjPlayer__sub_801D8A38(void* entry) { *(short*)((char*)entry + 0x0) = 1; *(float*)((char*)entry + 0x4) = 0.0f; }
 
-void*TObjPlayer::init_inventory() { TObjPlayer::init_inventory_items((s32)((saddr)((char*)this + 0x50))); TObjPlayer__sub_801BFF80((u8 *)((char*)this + 0xac)); TObjPlayer__sub_801D8A38((void*)((void*)((char*)this + 0xc0))); return this; }
+TUnk_801D8A4C::TUnk_801D8A4C() {
+    TObjPlayer::init_inventory_items((saddr)items);
+    TObjPlayer__sub_801BFF80(pose);
+    TObjPlayer__sub_801D8A38(&pad_C0);
+}
 
 s32 TObjPlayer::init_inventory_items(saddr items) {
     s32 i;

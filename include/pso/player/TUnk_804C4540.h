@@ -7,8 +7,7 @@
 class TPlyCharData;
 
 // The record TUnk_804C4540::create fills from a TPlyCharData and builds the
-// player from (inferred role: the ending sequence's player snapshot). Its
-// constructor is 0x801D8A4C (spelled TObjPlayer::init_inventory for now).
+// player from (inferred role: the ending sequence's player snapshot).
 struct TUnk_801D8A4C {
     u8 visual[0x50];             // copy_player_visual_record
     TPlyInventoryItem items[2];  // TObjPlayer::assign_lobby_slot_if_flagged
@@ -16,6 +15,8 @@ struct TUnk_801D8A4C {
     u8 pose[0x14];               // position and angle
     s16 pad_C0;
     f32 frame;                   // the motion frame the player starts at
+
+    TUnk_801D8A4C();
 };
 LAYOUT_ASSERT(TUnk_801D8A4C_size, sizeof(TUnk_801D8A4C) == 0xC8);
 
