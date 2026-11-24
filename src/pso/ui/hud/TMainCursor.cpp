@@ -272,7 +272,6 @@ s32 TMainCursor__sub_8013F168(void *p);
 Weapon_8013CDE4 *get_weapon_range_record(void *, s32);
 void TMainCursor__sub_8013E9A0(void *p);
 extern f32 lbl_8050BF60[3];
-int TObjPlayer__sub_801B066C(void *p);
 #define C_8013CDE4 ((saddr)cur)
 #define TECH_8013CDE4(t)                                          \
     cur->f3c = (t)->fc;                                           \
@@ -842,7 +841,7 @@ void TMainCursor::set_display_flags(s32 arg0, saddr player, saddr main_cursor) {
         ((TMainCursor *)main_cursor)->set_field_0c(0x30000);
         return;
     }
-    if (TObjPlayer__sub_801B066C((void *)player) == 1) {
+    if (((TObjPlayer *)player)->get_pk_team() == 1) {
         ((TMainCursor *)main_cursor)->set_field_0c(0x40030000);
         return;
     }

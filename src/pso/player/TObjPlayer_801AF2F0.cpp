@@ -512,14 +512,6 @@ struct Msg_801BAB1C { u16 cmd; u16 id; s32 value; u8 pad8[8]; };
 
 
 
-typedef struct Msg_801BC068 {
-    u8 pad0[2];
-    u16 id;
-    u8 pad4[2];
-    s16 ang;
-    u8 pad8[4];
-    u8 vec[12];
-} Msg_801BC068;
 
 
 void mark_player_killed(TObjPlayer *player);
@@ -535,14 +527,12 @@ s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 s8 TObjPlayer__sub_801AFDBC(s8 cls);
 u8 is_on_current_floor__10TObjPlayerFi(saddr player);
-s32 TObjPlayer__sub_801AFFD0(u8 *player);
 void apply_camera_shake__10TObjPlayerFiii(saddr player, saddr target, s32 damage);
 void handle_6x8E(void);
 void record_damage_stats__10TOMineTrapFUiUis(uaddr mine_trap, u32 att, s16 damage);
 void draw_player_status(saddr window, void *player, saddr str);
 void show_sub_status_window(void *window, s32 *str, s32 *name);
 void draw_status_line(void *window, s32 *str, s32 *name, s32 value);
-int TObjPlayer__sub_801B066C(void* p);
 void TLobby__sub_801B09A4(void);
 
 void foreach_player__10TObjPlayerFv(s32 (*callback)(u32));
@@ -670,7 +660,6 @@ void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading);
 
 s16 item_equip_attach_equip_flag_table[10] = {0x3E, 0x3F, 0x18, 0x24, 0x32, 0x23, 0x30, 0x0A, 0x13, 0x00};
 
-struct Ent_801AF868 { u16 id; s16 val; u32 pad; };
 void obj_copyVec2_0(u8 *d, u8 *s);
 void emit_sand_footstep_effect(saddr arg0);
 void emit_water_footstep_effect(saddr arg0);
@@ -716,7 +705,7 @@ void TObjPlayer::update_position(PlayerSyncRecord *record) {
 }
 
 void TObjPlayer::send_selected_spawn_position(u16 id) {
-    Msg_801BC068 m;
+    G_SetPosition_6x3F m;
     saddr found;
     TObjPlayerSet *o;
     found = 0;
@@ -728,11 +717,11 @@ void TObjPlayer::send_selected_spawn_position(u16 id) {
         }
     }
     if (found != 0 && (this == NULL || this->obj_isState2_324() == 0)) {
-        ((G_SetPosition_6x3F *)&m)->init();
-        m.id = ((TObjBase *)(this))->get_entity_id();
-        m.ang = o->rotation_y;
-        VecCopy((Vec *)m.vec, &o->position);
-        ((G_SetPosition_6x3F *)&m)->send();
+        m.init();
+        m.header.client_id = get_entity_id();
+        m.angle = o->rotation_y;
+        VecCopy((Vec *)&m.pos, &o->position);
+        m.send();
     }
 }
 
@@ -5686,7 +5675,7 @@ void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {
 }
 extern "C" {
 
-int TObjPlayer__sub_801B066C(void* p) { return ((PlayerPkState *)((char*)p + 0x828))->get_team(); }
+int TObjPlayer::get_pk_team() { return pk_state.get_team(); }
 
 void draw_status_line(void *window, s32 *str, s32 *name, s32 value) {
     text_builder_reset();
@@ -5712,7 +5701,7 @@ void draw_player_status(saddr window, void *player, saddr str) {
     name = (saddr)((TUnk_804B6C24 *)player)->get_name();
     if (name != 0) {
         if (static_cast<TObject *>(player)->check_value_equals(TObjPlayer_name) != 0) {
-            ((s32 (*)(s32, s32, s32, s32))draw_status_line)(window, str, name, ((s32 (*)(void *))TObjPlayer__sub_801AFFD0)(player));
+            ((s32 (*)(s32, s32, s32, s32))draw_status_line)(window, str, name, ((TObjPlayer *)player)->calc_battle_score());
             return;
         }
         show_sub_status_window((void *)window, (s32 *)str, (s32 *)name);
@@ -5822,15 +5811,15 @@ void TObjPlayer::record_meseta_pickup(s32 amount) {
     battle_score.damage_stats[4].set_total((f32) amount);
 }
 
-s32 TObjPlayer__sub_801AFFD0(u8 *player) {
+s32 TObjPlayer::calc_battle_score() {
     f32 v;
 
-    v = (f32)((TObjPlayer *)player)->battle_score.damage_stats[3].get_total();
-    v -= (f32)((TObjPlayer *)player)->battle_score.damage_stats[2].get_total();
-    v += (f32)((TObjPlayer *)player)->battle_score.damage_stats[0].get_total();
-    v -= (f32)((TObjPlayer *)player)->battle_score.damage_stats[1].get_total();
-    if (((TObjCollidable *)player)->test_actor_flags(0x800) == 0) {
-        v += (f32)obj_getPtr2B0_20(player) * ((TObjPlayer *)player)->battle_score.damage_stats[4].get_bonus_weight();
+    v = (f32)battle_score.damage_stats[3].get_total();
+    v -= (f32)battle_score.damage_stats[2].get_total();
+    v += (f32)battle_score.damage_stats[0].get_total();
+    v -= (f32)battle_score.damage_stats[1].get_total();
+    if (test_actor_flags(0x800) == 0) {
+        v += (f32)obj_getPtr2B0_20((u8 *)this) * battle_score.damage_stats[4].get_bonus_weight();
     }
     return (s32)v;
 }
@@ -6067,20 +6056,20 @@ void mark_player_killed(TObjPlayer *player) {
 
 extern "C" {
 
-s32 TObjPlayer__sub_801AF868(void *player) {
+s32 TObjPlayer::get_battle_place() {
     u16 id;
-    Ent_801AF868 *e;
+    BattleRanking *e;
     int i;
 
-    id = ((TObjBase *)(player))->get_entity_id();
-    if (TObjPlayer::is_single_screen() != 0) {
-        e = (Ent_801AF868 *)get_split_screen_battle_rankings();
+    id = get_entity_id();
+    if (is_single_screen() != 0) {
+        e = (BattleRanking *)get_split_screen_battle_rankings();
     } else {
-        e = (Ent_801AF868 *)TWindowDuelResult__sub_801C257C();
+        e = (BattleRanking *)TWindowDuelResult__sub_801C257C();
     }
     for (i = 0; i < 4; i++, e++) {
-        if (id == e->id) {
-            return e->val;
+        if (id == e->client_id) {
+            return e->place;
         }
     }
     return -1;
@@ -6222,7 +6211,7 @@ s32 TObjPlayer::tick_regen_timer() {
 int TObjPlayer::get_max_level() { return 199; }
 
 void TObjPlayer::update_movement_effects() {
-    if (TTecCtrl::is_technique_ready() != 0 && TObjPlayer__sub_801AF868(this) == 0 && update_movement_by_screen() != 0 &&
+    if (TTecCtrl::is_technique_ready() != 0 && get_battle_place() == 0 && update_movement_by_screen() != 0 &&
         test_action_mask(0x408000) == 0 && is_body_collision_inactive() == 0 &&
         check_flag_800000() == 0) {
         follow_particles.emit_movement_effect();

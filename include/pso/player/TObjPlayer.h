@@ -897,6 +897,9 @@ struct TObjPlayer : public TObjChara {
     s32 is_alive_and_ready();
     void refill_traps();
     s32 update_movement_by_screen();
+    s32 get_battle_place();
+    s32 calc_battle_score();
+    int get_pk_team();
     s16 get_handle_value();
     s32 get_class_flags();
     static s32 check_technique_castable(saddr player);

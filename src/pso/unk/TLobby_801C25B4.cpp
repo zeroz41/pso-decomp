@@ -355,7 +355,6 @@ void TAdSinglePlyChrSelectGC__sub_801C5108(u16);
 u16 TAdSinglePlyChrSelectGC__sub_801C5114();
 void handle_6x7F_battle_scores(saddr command);
 void play_area_music(char *name);
-s32 TObjPlayer__sub_801AFFD0();
 
 #define TBL_801C32B4 ((Ent_801C32B4 *)duel_result_table)
 void record_local_battle_placement(void *arg0);
@@ -1236,16 +1235,16 @@ void play_duel_result_stream(const char *file, saddr duration) {
 }
 
 s32 TLobby::assign_player_id(void *) {
-    s32 temp_r3;
-    saddr temp_r3_2;
+    s32 score;
+    saddr player;
 
-    temp_r3_2 = (saddr)get_local_player();
-    if (temp_r3_2 == 0) {
+    player = (saddr)get_local_player();
+    if (player == 0) {
         return 0;
     }
-    temp_r3 = TObjPlayer__sub_801AFFD0();
-    ((TPlayerBattleCtrl4P *)(temp_r3_2 + 0x7AC))->set_battle_mode(temp_r3);
-    return temp_r3;
+    score = ((TObjPlayer *)player)->calc_battle_score();
+    ((TPlayerBattleCtrl4P *)(player + 0x7AC))->set_battle_mode(score);
+    return score;
 }
 
 TUnk_804C3E88::TUnk_804C3E88(TObject *parent, const char *name, s32 delay) : TObject(parent) {
