@@ -290,7 +290,7 @@ pso/boss/barbaray/TBoss7Crawfish.cpp
 pso/boss/barbaray/TBoss7Joint.cpp
 pso/boss/barbaray/TBoss7LaserLight.cpp
 pso/boss/barbaray/TBoss7LaserPtcl.cpp
-pso/boss/barbaray/TBoss7LaserPtcl_8035AE54.cpp
+pso/player/PhotonChairSeat.cpp
 pso/boss/barbaray/TBoss7PhotonBullet_802EF26C.cpp
 pso/boss/barbaray/Boss7TentacleData.cpp
 pso/boss/barbaray/TBoss7TentacleNeedle.cpp
@@ -1666,12 +1666,11 @@ pso/player/TObjPlayer_803083B0.cpp
 pso/player/TObjPlayer_803130BC.cpp
 pso/player/TObjPlayer_80337348.cpp
 pso/player/TObjPlayer_8033E910.cpp
-pso/player/TObjPlayer_80351748.cpp
+pso/player/PlayerPadBinding.cpp
 pso/player/TObjPlayer_80354EC8.cpp
 pso/player/TObjPlayer_80355A58.cpp
 pso/player/TObjPlayer_80357734.cpp
 pso/player/TObjPlayer_80357B2C.cpp
-pso/player/TObjPlayer_8035AFD0.cpp
 pso/player/TObjPlayer_80362E60.cpp
 pso/player/TObjPlayer_80363BE0.cpp
 pso/render/GinjaTextureTable.cpp
@@ -2047,8 +2046,6 @@ pso/unk/text_8034D3D0.cpp
 pso/item/TUnk_804F112C.cpp
 pso/unk/text_80355C1C.cpp
 pso/unk/text_80357058.cpp
-pso/unk/text_8035AF18.cpp
-pso/unk/text_8035B00C.cpp
 pso/unk/text_8035B6B0.cpp
 pso/unk/text_8035B750.cpp
 pso/unk/text_8035D444.cpp

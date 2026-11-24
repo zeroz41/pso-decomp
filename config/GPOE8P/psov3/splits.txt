@@ -9719,7 +9719,7 @@ pso/object/lobby/TObjButterflyLobby_80350958.cpp:
 	.sbss       start:0x805D6EB8 end:0x805D6EBC
 	.sdata2     start:0x805DFE40 end:0x805DFEC4
 
-pso/player/TObjPlayer_80351748.cpp:
+pso/player/PlayerPadBinding.cpp:
 	.text       start:0x80351748 end:0x80351A2C
 	.sdata2     start:0x805DFEC8 end:0x805DFECC
 
@@ -9892,18 +9892,9 @@ pso/boss/barbaray/TBoss7LaserPtcl.cpp:
 	.sdata      start:0x805D4410 end:0x805D4418
 	.sdata2     start:0x805E00F0 end:0x805E0118
 
-pso/boss/barbaray/TBoss7LaserPtcl_8035AE54.cpp:
-	.text       start:0x8035AE54 end:0x8035AF18
+pso/player/PhotonChairSeat.cpp:
+	.text       start:0x8035AE54 end:0x8035B058
 	.sdata2     start:0x805E0118 end:0x805E011C
-
-pso/unk/text_8035AF18.cpp:
-	.text       start:0x8035AF18 end:0x8035AFD0
-
-pso/player/TObjPlayer_8035AFD0.cpp:
-	.text       start:0x8035AFD0 end:0x8035B00C
-
-pso/unk/text_8035B00C.cpp:
-	.text       start:0x8035B00C end:0x8035B058
 
 pso/player/TPlyPhotonChair.cpp:
 	.text       start:0x8035B058 end:0x8035B6B0

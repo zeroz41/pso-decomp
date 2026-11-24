@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/player/PlayerPadBinding.h"
 
 s32 PlayerPadBinding::get_stick_angle() {
