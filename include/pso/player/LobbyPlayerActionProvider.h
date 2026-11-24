@@ -7,7 +7,7 @@
 class LobbyPlayerActionProvider : public PlayerActionProvider {
 public:
     LobbyPlayerActionProvider();
-    virtual s32 get_cell_address(s32, s32);
+    virtual u8 *get_cell_address(s32, s32);
     virtual ~LobbyPlayerActionProvider();
     virtual const s32 *get_motion_files(s32 body_type, s32 motion_type);
     virtual int get_motion_file(s32 body_type, s32 motion_type, s32 slot);
@@ -66,7 +66,7 @@ public:
     virtual int get_interact_action();
     virtual int get_hurt_action();
     virtual int get_knockdown_action();
-    virtual int get_motion_buffer();
+    virtual u8 *get_motion_buffer();
     virtual int is_male();
     virtual const TObjMotionAction *get_motion_actions(s32 body_type, s32 motion_type);
     virtual int get_idle_action();
@@ -84,7 +84,7 @@ public:
     static void clear_loaded_motions();
 };
 // The lobby motion buffer: 0x38 motions of 0x4000 bytes for each of the two sets.
-extern s32 lobby_action_motion_buffer;
+extern u8 *lobby_action_motion_buffer;
 // Bit 1 once the male motion set is loaded, bit 2 once the female one is.
 extern FlagWord lobby_loaded_motion_sets;
 

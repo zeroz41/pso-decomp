@@ -57,7 +57,7 @@ s32 PlayerActionProvider::load_motion(s32 set, s32 index, s32 size, s32 aram_add
     s32 result;
     s32 aligned;
     QuestDownloadFile *file;
-    s32 dst;
+    u8 *dst;
     aligned = (size + 0x1F) & 0xFFFFFFE0;
     file = (QuestDownloadFile *)mem_alloc(aligned);
     if (file == 0) {
@@ -65,7 +65,7 @@ s32 PlayerActionProvider::load_motion(s32 set, s32 index, s32 size, s32 aram_add
     }
     read_player_motion(aram_addr, file, aligned);
     dst = get_cell_address(set, index);
-    result = file->decrypt(size, (void *)dst, 0x4000);
+    result = file->decrypt(size, dst, 0x4000);
     mem_free(file);
     return result;
 }
@@ -78,7 +78,7 @@ s32 PlayerActionProvider::load_action_motion_pairs(s32 set, s32 body_type, s32 m
     s32 decrypted_size;
     BmlMotionEntry *dst;
     BmlMotionEntry **root;
-    if (this->get_motion_buffer() == 0U) {
+    if (this->get_motion_buffer() == NULL) {
         return 0;
     }
     slots = this->get_motion_files(body_type, motion_type);
@@ -92,7 +92,7 @@ s32 PlayerActionProvider::load_action_motion_pairs(s32 set, s32 body_type, s32 m
         size = entry.get_size();
         decrypted_size = load_motion(set, i, size, entry.get_aram_addr());
         if (decrypted_size != 0) {
-            root = (BmlMotionEntry **)relocate_rel_data((void *)this->get_cell_address(set, i), decrypted_size);
+            root = (BmlMotionEntry **)relocate_rel_data(this->get_cell_address(set, i), decrypted_size);
         }
         *dst = **root;
         slots++;
@@ -111,8 +111,8 @@ PlayerActionProvider::~PlayerActionProvider() {}
 
 PlayerActionProvider::PlayerActionProvider() {}
 
-s32 PlayerActionProvider::get_cell_address(s32, s32) { return 0; }
-int PlayerActionProvider::get_motion_buffer() { return 0; }
+u8 *PlayerActionProvider::get_cell_address(s32, s32) { return NULL; }
+u8 *PlayerActionProvider::get_motion_buffer() { return NULL; }
 const s32 *PlayerActionProvider::get_motion_files(s32, s32) { return NULL; }
 int PlayerActionProvider::get_motion_file(s32, s32, s32) { return 0; }
 void PlayerActionProvider::mark_attack_motions() {}

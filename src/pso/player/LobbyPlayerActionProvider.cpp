@@ -182,7 +182,7 @@ __declspec(section ".data") const s32 ** town_player_motion_clip_index_tables[2]
 BmlMotionEntry lobby_male_motions[56];
 BmlMotionEntry lobby_female_motions[56];
 
-s32 lobby_action_motion_buffer;
+u8 *lobby_action_motion_buffer;
 FlagWord lobby_loaded_motion_sets;
 
 int LobbyPlayerActionProvider::get_run_action() {
@@ -207,7 +207,7 @@ int LobbyPlayerActionProvider::get_idle_action() {
     return ((((TObjPlayer *)this)->is_handle_valid() - 2) == 0) ? 3 : 0;
 }
 
-s32 LobbyPlayerActionProvider::get_cell_address(s32 set, s32 slot) {
+u8 *LobbyPlayerActionProvider::get_cell_address(s32 set, s32 slot) {
     return lobby_action_motion_buffer + ((slot + (set * get_motion_count())) << 0xE);
 }
 
@@ -282,14 +282,14 @@ int LobbyPlayerActionProvider::load_motions(s32) {
 }
 
 void free_lobby_action_motion_buffer() {
-    if ((u32) (*(u32 *)&lobby_action_motion_buffer) != 0U) {
-        mem_free((void*)(*(uaddr *)&lobby_action_motion_buffer));
-        (*(u32 *)&lobby_action_motion_buffer) = 0U;
+    if (lobby_action_motion_buffer != NULL) {
+        mem_free(lobby_action_motion_buffer);
+        lobby_action_motion_buffer = NULL;
     }
 }
 
-s32 alloc_lobby_action_motion_buffer() {
-    return lobby_action_motion_buffer = (saddr)mem_alloc(0x1C0000);
+u8 *alloc_lobby_action_motion_buffer() {
+    return lobby_action_motion_buffer = (u8 *)mem_alloc(0x1C0000);
 }
 
 void release_lobby_player_actions() {
@@ -301,7 +301,7 @@ void release_lobby_player_actions() {
 
 void init_lobby_player_actions() {
     set_player_action_provider_selector(0);
-    if ((u32)alloc_lobby_action_motion_buffer() == 0U) {
+    if (alloc_lobby_action_motion_buffer() == NULL) {
         set_player_action_provider_selector(1);
         return;
     }

@@ -2610,7 +2610,7 @@ const s32 ** player_motion_clip_roots_b[6] = {
     male_motion_file_tables, female_motion_file_tables, fomarl_motion_file_tables, fomar_motion_file_tables,
     hucaseal_motion_file_tables, ramarl_motion_file_tables,
 };
-s32 game_action_motion_buffer;
+u8 *game_action_motion_buffer;
 
 int PlayerMotionKey::matches(s32 body_type, s32 motion_type) {
     bool match = false;
@@ -2647,7 +2647,7 @@ PlayerMotionKey::PlayerMotionKey() {
     motion_type = 0;
 }
 
-s32 GamePlayerActionProvider::get_cell_address(s32 set, s32 slot) {
+u8 *GamePlayerActionProvider::get_cell_address(s32 set, s32 slot) {
     return game_action_motion_buffer + ((slot + (set * get_motion_count())) << 0xE);
 }
 
@@ -2706,13 +2706,13 @@ int GamePlayerActionProvider::load_motions(s32 set) {
 }
 
 void free_game_action_motion_buffer() {
-    if ((u32) (*(u32 *)&game_action_motion_buffer) != 0U) {
-        mem_free((void*)(*(uaddr *)&game_action_motion_buffer));
-        (*(u32 *)&game_action_motion_buffer) = 0U;
+    if (game_action_motion_buffer != NULL) {
+        mem_free(game_action_motion_buffer);
+        game_action_motion_buffer = NULL;
     }
 }
 void alloc_game_action_motion_buffer() {
-    game_action_motion_buffer = (saddr)mem_alloc(0x100000);
+    game_action_motion_buffer = (u8 *)mem_alloc(0x100000);
 }
 void release_game_player_actions() { free_game_action_motion_buffer(); set_player_action_provider_selector(0); }
 void init_game_player_actions() { set_player_action_provider_selector(1); alloc_game_action_motion_buffer(); }
@@ -2721,7 +2721,7 @@ GamePlayerActionProvider::~GamePlayerActionProvider() {}
 GamePlayerActionProvider::GamePlayerActionProvider() {}
 BmlMotionEntry *GamePlayerActionProvider::get_motion_list(s32) { return motions; }
 BmlMotionEntry *GamePlayerActionProvider::get_current_motion_list() { return motions; }
-int GamePlayerActionProvider::get_motion_buffer() { return game_action_motion_buffer; }
+u8 *GamePlayerActionProvider::get_motion_buffer() { return game_action_motion_buffer; }
 
 int GamePlayerActionProvider::get_slow_walk_action() { return 0; }
 int GamePlayerActionProvider::get_technique_action() { return 1; }

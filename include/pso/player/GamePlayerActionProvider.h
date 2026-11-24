@@ -8,7 +8,7 @@ class GamePlayerActionProvider : public PlayerActionProvider {
 public:
     BmlMotionEntry motions[16];
     GamePlayerActionProvider();
-    virtual s32 get_cell_address(s32, s32);
+    virtual u8 *get_cell_address(s32, s32);
     virtual ~GamePlayerActionProvider();
     virtual int load_motions(s32 set);
     virtual int load_motion_set(s32 set, s32 body_type, s32 motion_type);
@@ -33,7 +33,7 @@ public:
     virtual int get_use_item_action();
     virtual int get_lock_on_idle_action();
     virtual int get_attack1_action();
-    virtual int get_motion_buffer();
+    virtual u8 *get_motion_buffer();
     virtual BmlMotionEntry *get_motion_list(s32 body_type);
     virtual BmlMotionEntry *get_current_motion_list();
 };

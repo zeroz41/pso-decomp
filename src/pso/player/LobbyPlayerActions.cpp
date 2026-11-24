@@ -11,7 +11,7 @@ int LobbyPlayerActionProvider::is_male() { return get_gender() == 0; }
 int LobbyPlayerActionProvider::is_female(s32 body_type) { return get_gender(body_type) == 1; }
 int LobbyPlayerActionProvider::is_female() { return get_gender() == 1; }
 
-int LobbyPlayerActionProvider::get_motion_buffer() { return lobby_action_motion_buffer; }
+u8 *LobbyPlayerActionProvider::get_motion_buffer() { return lobby_action_motion_buffer; }
 
 int LobbyPlayerActionProvider::get_knockdown_action() { return 0x6; }
 int LobbyPlayerActionProvider::get_hurt_action() { return 0x7; }
