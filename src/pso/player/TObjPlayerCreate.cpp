@@ -95,7 +95,7 @@ void TObjPlayer::place_on_area_entry() {
     }
     this->save_previous_position();
     this->calc_attach_pos();
-    ((TObjPlayer *)(arg0 + 0x84C))->copy_offset_position(arg0);
+    calc_marker_position(&this->marker_position, this);
     this->set_position_history_entry(0, this->position.x, this->position.z);
     clear_movement_history(&this->movement_history);
     if (TObjPlayer::is_single_screen() != 0) {

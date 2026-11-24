@@ -1097,7 +1097,7 @@ void TObjPlayer::run_task() {
     advance_animation();
     calc_attach_pos();
     copy_position();
-    ((TObjPlayer *)&marker_position)->copy_offset_position(this);
+    calc_marker_position(&marker_position, this);
     if (test_actor_flags(0x800) != 0) {
         refresh_collision_body_centers();
     } else if (get_type__10TObjPlayerFPv(&pk_state) == 0) {

@@ -588,13 +588,11 @@ void PlayerLevelStats::calc_delta(PlayerLevelStats *after, PlayerLevelStats *del
 }
 
 #pragma fp_contract on
-void TObjPlayer::copy_offset_position(void *chara) {
-    f32 temp_f2;
-
-    temp_f2 = ((TObjPlayer *)chara)->get_stats()->proportions;
-    *(f32 *)((s8 *)this + 0) = (f32) ((TObjPlayer *)chara)->position.x;
-    *(f32 *)((s8 *)this + 4) = (f32) ((1.2f * temp_f2) + ((TObjPlayer *)chara)->position.y);
-    *(f32 *)((s8 *)this + 8) = (f32) ((TObjPlayer *)chara)->position.z;
+void calc_marker_position(Vec *pos, TObjPlayer *player) {
+    f32 proportions = player->get_stats()->proportions;
+    pos->x = player->position.x;
+    pos->y = 1.2f * proportions + player->position.y;
+    pos->z = player->position.z;
 }
 
 s32 TObjPlayer::decrement_clamp(s32 *value, s32 amount) {

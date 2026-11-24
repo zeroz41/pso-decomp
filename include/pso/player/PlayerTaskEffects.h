@@ -29,4 +29,10 @@ void set_arrival_override_pos(u16 slot, s32 heading, const Vec *pos);
 // facing `heading`.
 void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z);
 
+struct TObjPlayer;
+
+// Puts `pos` over `player`'s head, 1.2 body proportions above its feet: where the
+// lobby marker is drawn.
+void calc_marker_position(Vec *pos, TObjPlayer *player);
+
 #endif
