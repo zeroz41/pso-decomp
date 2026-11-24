@@ -60,8 +60,8 @@ s32 exi_dma_read_length;
 volatile RecvDescriptor bba_descriptor;
 s32 bba_receive_in_interrupt; /* nonzero: a receive interrupt reads the frame at once, before the other causes */
 ExiSendCompletionCallback exi_send_callback;
-saddr exi_receive_callback;
-uaddr exi_receive_alloc_callback;
+EthReceiveCallback exi_receive_callback;
+EthReceiveAllocCallback exi_receive_alloc_callback;
 s32 exi_accepted_type_count;
 u16 *exi_accepted_types; /* accepted ethertypes (exi_accepted_type_count entries) */
 s32 exi_send_started_flag;
@@ -283,9 +283,9 @@ void bba_receive_next_frame(void) {
                 goto skip;
             }
         }
-        if (exi_receive_alloc_callback != 0) {
+        if (exi_receive_alloc_callback != NULL) {
             status = exi_receive_descriptor.status;
-            exi_receive_buffer = ((u8 *(*)(u16, u16, u8))exi_receive_alloc_callback)(type, exi_receive_descriptor.length, status);
+            exi_receive_buffer = exi_receive_alloc_callback(type, exi_receive_descriptor.length, status);
             if (exi_receive_buffer != NULL) {
                 data = page + 4;
                 len = exi_receive_descriptor.length;
@@ -340,12 +340,12 @@ void bba_receive_dma_done(void) {
     if (exi_dma_write_length != 0) {
         DCInvalidateRange(exi_dma_write_buffer, (exi_dma_write_length + 0x1F) & ~0x1F);
     }
-    if ((u32)exi_receive_callback != 0) {
+    if (exi_receive_callback != NULL) {
         memcpy(exi_receive_buffer, exi_dma_buffer, exi_dma_read_length);
         if (exi_dma_write_length != 0) {
             memcpy(exi_receive_buffer + exi_dma_read_length, exi_dma_write_buffer, exi_dma_write_length);
         }
-        ((void (*)(u8 *, u16))exi_receive_callback)(exi_receive_buffer, exi_receive_descriptor.length);
+        exi_receive_callback(exi_receive_buffer, exi_receive_descriptor.length);
     }
     exi_receive_read_page = exi_receive_descriptor.next;
     bba_receive_next_frame();
@@ -546,8 +546,8 @@ s32 init_bba_exi_adapter(s32 nego_mode) {
     memset(&bba_state.rx_count, 0, 0x24);
     exi_accepted_types = 0;
     exi_accepted_type_count = 0;
-    exi_receive_alloc_callback = 0;
-    exi_receive_callback = 0;
+    exi_receive_alloc_callback = NULL;
+    exi_receive_callback = NULL;
     cid = bba_cmd_in32(0x00);
     if (cid != 0x04020200) {
         EXIUnlock(0);
@@ -661,7 +661,7 @@ static inline void bba_start_receive(void) {
     bba_out8(0x32, 8);
 }
 
-void bba_set_receive_callbacks(u32 alloc_callback, s32 receive_callback) {
+void bba_set_receive_callbacks(EthReceiveAllocCallback alloc_callback, EthReceiveCallback receive_callback) {
     s32 e;
 
     e = OSDisableInterrupts();
@@ -675,7 +675,7 @@ void bba_set_receive_callbacks(u32 alloc_callback, s32 receive_callback) {
     }
     exi_receive_alloc_callback = alloc_callback;
     exi_receive_callback = receive_callback;
-    if (alloc_callback == 0U) {
+    if (alloc_callback == NULL) {
         bba_out8(0x08, 0);
     } else {
         bba_out8(0x08, 0xFF);

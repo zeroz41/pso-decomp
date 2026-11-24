@@ -12,6 +12,7 @@
 #include "types.h"
 #include "pso/network/EthernetReceiveFilter.h"
 #include "pso/network/eth.h"
+#include "pso/network/NetEthernet.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -50,8 +51,6 @@ s16 network_link_status_cache = -1;
 void apply_receive_filter(EthernetReceiveFilter *);
 s16 add_receive_protocol(EthernetReceiveFilter *o, u16 kind, u16 ether_type);
 extern const u8 transport_broadcast_address[8] = { 255, 255, 255, 255, 255, 255, 0, 0 };
-saddr dix_input(s16, s16, void *, void *); /* declared here with other parameter types; the definition is s32 (s16, s16, s16, void *) */
-saddr alloc_receive_frame(u16 key, saddr len);
 
 static struct {
     EthernetReceiveFilter filter;
@@ -136,14 +135,14 @@ void signal_network_message(u8 v) {
     OSSendMessage(&transport_message_queue.queue, (OSMessage)v, OS_MESSAGE_NOBLOCK);
 }
 
-#define pkt ((EthernetFrameHeader *)a)
-void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, void *b) {
+void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, u8 *frame, s32 length) {
+    EthernetFrameHeader *header = (EthernetFrameHeader *)frame;
     s32 i;
     EthernetMulticastEntry *e;
-    u8 *mq = (u8 *)&exi_send_queue;
+    TransportMessageQueue32 *queues = &exi_send_queue; /* queues[1] is pppoe_message_queue */
     EthernetProtocolRegistration *r = filter->protocols;
-    u16 *key = &pkt->ether_type;
-    u8 *src = pkt->source;
+    u16 *key = &header->ether_type;
+    u8 *src = header->source;
     u16 type = 0;
     i = 0;
     while (i < 5) {
@@ -160,22 +159,22 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
     if (NetMemcmp(src, filter->local_address, 6) == 0) {
         switch (type) {
         case 1:
-            dix_input(0, 1, 0, a);
+            dix_input(0, 1, 0, header);
             break;
         case 2:
-            release_entry_by_id(a);
+            release_entry_by_id(frame);
             break;
         }
         return;
     }
-    if (pkt->destination[0] & 1) {
-        if (NetMemcmp(a, transport_broadcast_address, 6) == 0) {
+    if (header->destination[0] & 1) {
+        if (NetMemcmp(frame, transport_broadcast_address, 6) == 0) {
             switch (type) {
             case 1:
-                dix_input(0, 1, (u8 *)b - 4, a);
+                dix_input(0, 1, length - 4, header);
                 break;
             case 2:
-                post_message((OSMessageQueue *)(mq + sizeof(TransportMessageQueue32)), a, (saddr)((u8 *)b - 4), 1);
+                post_message(&queues[1].queue, frame, length - 4, 1);
                 break;
             }
             return;
@@ -183,13 +182,13 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
         i = 0;
         e = filter->multicast;
         for (; i < 6; i++, e++) {
-            if (e->references > 0 && NetMemcmp(a, e->address, 6) == 0) {
+            if (e->references > 0 && NetMemcmp(frame, e->address, 6) == 0) {
                 switch (type) {
                 case 1:
-                    dix_input(0, 1, (u8 *)b - 4, a);
+                    dix_input(0, 1, length - 4, header);
                     break;
                 case 2:
-                    post_message((OSMessageQueue *)(mq + sizeof(TransportMessageQueue32)), a, (saddr)((u8 *)b - 4), 1);
+                    post_message(&queues[1].queue, frame, length - 4, 1);
                     break;
                 }
                 return;
@@ -197,36 +196,35 @@ void dispatch_received_ethernet_frame(EthernetReceiveFilter *filter, void *a, vo
         }
         switch (type) {
         case 1:
-            dix_input(0, 1, 0, a);
+            dix_input(0, 1, 0, header);
             break;
         case 2:
-            release_entry_by_id(a);
+            release_entry_by_id(frame);
             break;
         }
         return;
     }
-    if (NetMemcmp(a, filter->local_address, 6) != 0) {
+    if (NetMemcmp(frame, filter->local_address, 6) != 0) {
         switch (type) {
         case 1:
-            dix_input(0, 1, 0, a);
+            dix_input(0, 1, 0, header);
             break;
         case 2:
-            release_entry_by_id(a);
+            release_entry_by_id(frame);
             break;
         }
         return;
     }
     switch (type) {
     case 1:
-        dix_input(0, 1, (u8 *)b - 4, a);
+        dix_input(0, 1, length - 4, header);
         break;
     case 2:
-        post_message((OSMessageQueue *)(mq + sizeof(TransportMessageQueue32)), a, (saddr)((u8 *)b - 4), 1);
+        post_message(&queues[1].queue, frame, length - 4, 1);
         break;
     }
 }
 
-#undef pkt
 
 s16 add_receive_protocol(EthernetReceiveFilter *o, u16 kind, u16 ether_type) {
     s32 i;
@@ -264,7 +262,7 @@ void apply_receive_filter(EthernetReceiveFilter *o) {
     }
     if (n > 0) {
         bba_set_receive_filter_types(o->filter_types, n);
-        bba_set_receive_callbacks((uaddr)alloc_receive_frame, (saddr)forward_to_channel);
+        bba_set_receive_callbacks(alloc_receive_frame, forward_to_channel);
     }
 }
 
@@ -521,32 +519,31 @@ s32 open_channel_checked(s16 dev, u16 ether_type) {
     return 0;
 }
 
-void forward_to_channel(void *frame, void *b) {
+void forward_to_channel(u8 *frame, s32 length) {
     if (frame != NULL) {
         EthernetReceiveFilter *q = &lobby_net_channel_table.filter;
-        dispatch_received_ethernet_frame(q, frame, b);
+        dispatch_received_ethernet_frame(q, frame, length);
     }
 }
 
-saddr alloc_receive_frame(u16 key, saddr len) {
+u8 *alloc_receive_frame(u16 key, s32 len, u8 status) {
     EthernetReceiveFilter *o = &lobby_net_channel_table.filter;
     s32 i;
-    saddr ret = 0;
+    u8 *ret = NULL;
     EthernetFrameHeader hdr;
-    u8 pad[4];
 
     if (len <= 0 || len > 0x5EE) {
-        return 0;
+        return NULL;
     }
     for (i = 0; i < o->protocol_count; i++) {
         if (o->protocols[i].delivery_mode != 0 && o->protocols[i].ether_type == key) {
             switch (o->protocols[i].delivery_mode) {
             case 1:
                 hdr.ether_type = key;
-                ret = dix_input(0, 0, (void *)(len - 4), &hdr);
+                ret = dix_input(0, 0, len - 4, &hdr);
                 break;
             case 2:
-                ret = (saddr)alloc_rx_packet_buffer(len);
+                ret = alloc_rx_packet_buffer(len);
                 break;
             }
             break;

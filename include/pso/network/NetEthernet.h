@@ -69,6 +69,11 @@ LAYOUT_ASSERT(EthernetState_size_check, sizeof(EthernetState) == 0x18);
 
 extern EthernetState ethernet_state;
 
+struct EthernetFrameHeader;
+/* The drivers' receive entry: mode 0 claims a buffer for a frame of length bytes (NULL drops it), mode 1 hands the
+ * filled frame to its link. */
+u8 *dix_input(s16 dev, s16 mode, s16 length, struct EthernetFrameHeader *frame);
+
 #ifdef __cplusplus
 }
 #endif
