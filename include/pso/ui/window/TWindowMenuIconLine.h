@@ -78,6 +78,11 @@ public:
     // Append a row for one of the player's five battle items (stat 0-4) when
     // they hold any; gray_out greys it where items cannot be used.
     void add_battle_stat_entry(s32 stat, s32 item, s32 gray_out);
+    // The equip menu's list (refresh keeps the cursor): one row per equip
+    // slot, the armor's unit slots indented.
+    void refresh_equipment_list();
+    void build_equipment_list();
+    void add_status_line(u8 category_icon, TItem *item, s32 slot);
     u16 state_flags;
     s16 entry_count;
     s16 cursor;

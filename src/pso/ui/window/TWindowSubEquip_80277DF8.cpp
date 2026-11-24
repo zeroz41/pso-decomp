@@ -75,7 +75,7 @@ void TWindowSubEquip::run_task() {
         fn_80255A38(this->window_help_item);
         this->m_20 = -1;
         this->m_24 = -1;
-        ((TWindowSubEquip *)(this->equip_list))->update_window();
+        ((TWindowMenuIconLine *)equip_list)->refresh_equipment_list();
         ((TWindowMenuIconLine *)(this->equip_list))->clear_decided();
         ((TWindowSubMag *)(this->equip_list))->start_scroll(188.0f);
         this->m_1c = 2U;
