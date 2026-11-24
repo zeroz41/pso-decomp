@@ -127,7 +127,7 @@ extern "C" void handle_6x6B_sync_game_state();
 extern "C" void handle_6x6C_sync_game_state();
 extern "C" void handle_6x6D_sync_game_state();
 extern "C" void handle_6x6E_sync_game_state();
-void handle_6x6F_set_quest_flags_v2(saddr arg0);
+void handle_6x6F_set_quest_flags_v2(saddr pkt);
 extern "C" void handle_6x70_sync_player_disp_and_inventory();
 void handle_6x71_unblock_game_join();
 void handle_6x72_done_loading_into_game();

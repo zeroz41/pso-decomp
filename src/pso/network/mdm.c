@@ -35,7 +35,7 @@ typedef struct ModemRecvState {
     u8 *head;
     u8 *body;
     u8 *tail;
-    s32 f10;
+    s32 short_read;
     s32 f14;
     s32 received;
     s32 length;
@@ -241,8 +241,8 @@ void fn_8042C124(s32 chan, OSContext *context) {
     EXIDeselect(0);
     ModemWriteRegister(1, modem_register_config.interrupt_mask);
     EXIUnlock(0);
-    if (modem_recv_state.capacity - modem_recv_state.received < modem_register_config.recv_threshold || modem_recv_state.f10 == 1) {
-        modem_recv_state.f10 = 0;
+    if (modem_recv_state.capacity - modem_recv_state.received < modem_register_config.recv_threshold || modem_recv_state.short_read == 1) {
+        modem_recv_state.short_read = 0;
         modem_recv_state.f14 = 0;
         if (modem_recv_state.callback != NULL) {
             callback = modem_recv_state.callback;
@@ -295,7 +295,7 @@ void fn_8042C2E4(s32 chan, OSContext *context) {
                     if (modem_recv_state.capacity - modem_recv_state.received < modem_recv_state.available) {
                         modem_recv_state.available = modem_recv_state.capacity - modem_recv_state.received;
                     }
-                    modem_recv_state.f10 = 1;
+                    modem_recv_state.short_read = 1;
                     fn_8042BF6C(modem_recv_state.available);
                 }
                 break;
@@ -533,7 +533,7 @@ s32 modem_init(const char *country) {
     memset(&modem_send_state, 0, sizeof(modem_send_state));
     OSInitThreadQueue(&modem_exi_queue);
     modem_in_recv_callback = 0;
-    modem_recv_state.f10 = 0;
+    modem_recv_state.short_read = 0;
     modem_command_response_state.done = 0;
     modem_command_response_state.length = 0;
     modem_line_state = 1;
