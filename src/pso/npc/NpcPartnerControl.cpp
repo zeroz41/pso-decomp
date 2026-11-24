@@ -329,7 +329,7 @@ void show_partner_chatter_for_key(s16 key) {
         player = get_player_by_client_id(i);
         if (player && player->obj_isState3_324() && key == player->get_room()
             && !(partner_chatter_flags & 2) && npc_partner_dialogue_state[21].text[0]) {
-            TWindowCtrl::open(player->get_entity_id(), (saddr)npc_partner_dialogue_state[21].text, 0x1B);
+            TWindowCtrl::open(player->get_entity_id(), npc_partner_dialogue_state[21].text, 0x1B);
         }
     }
 }
@@ -342,7 +342,7 @@ void notify_partner_room_cleared(s32 room) {
     do {
         player = get_player_by_client_id(i);
         if (player != NULL && player->obj_isState3_324() != 0 && room == player->get_room() && !(partner_chatter_flags & 2) && *remark != 0) {
-            TWindowCtrl::open(player->get_entity_id(), (saddr)remark, 0x1B);
+            TWindowCtrl::open(player->get_entity_id(), remark, 0x1B);
         }
         i += 1;
     } while (i < 4);

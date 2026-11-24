@@ -1067,7 +1067,7 @@ void qst_op_delayed_switch_episode(s32 reg) {
 
 void qst_op_chat_bubble(void) {
     s32 id = qst_args[0];
-    s32 arg = qst_args[1];
+    const char *text = (const char *)qst_args[1];
     void *player;
     s32 start;
     s32 end;
@@ -1075,7 +1075,7 @@ void qst_op_chat_bubble(void) {
     s32 win;
     s32 v;
     if (id < 100) {
-        TWindowCtrl::open_default(id, arg);
+        TWindowCtrl::open_default(id, text);
         TWindowCtrl::set_field28(id);
         return;
     }
@@ -1091,7 +1091,7 @@ void qst_op_chat_bubble(void) {
                 v = get_field_d4(player);
             }
             if (v == id) {
-                TWindowCtrl::open_default(win, arg);
+                TWindowCtrl::open_default(win, text);
                 TWindowCtrl::set_field28(win);
                 return;
             }
@@ -5019,7 +5019,7 @@ void qst_op_list(void) {
 
 void qst_op_message(void) {
     s32 speaker = qst_args[0];
-    s32 text = qst_args[1];
+    const char *text = (const char *)qst_args[1];
     s32 first;
     void *actor;
     s32 end;

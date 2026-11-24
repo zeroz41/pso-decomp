@@ -48,7 +48,7 @@ public:
     void hide();
     int get_visible_flag();
     int is_bit10_set();
-    s32 check_card_match_enabled(saddr arg1);
+    s32 check_card_match_enabled(const char *text);
     void sync_display_pos();
     s32 approach(f32 farg0);
     void get_boundary_offset(s32 angle, f32 *out);
