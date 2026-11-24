@@ -1260,7 +1260,7 @@ void TObjPlayer::sub_801BB950() {
   obj_clear_flag30_20000(this);
   if (TObjPlayer::is_locally_controlled(this) != 0)
   {
-    if (TObjPlayer::check_flag_800000(this) != 0)
+    if (check_flag_800000() != 0)
     {
       ((s32 (*)(void *))draw_small_label__15TFontSmallLobbyFi)(this);
     }
@@ -1479,8 +1479,8 @@ void TObjPlayer::render_body_pass(f32 f) {
     clear_actor_flags((u32)0x08000000);
     TParticleCtrl::end_effect_render();
     select_actor_lighting(this);
-    if (TObjPlayer::check_flag_800000(this) != 0 && obj_isState2_324() != 0) {
-        TObjPlayer::draw(this, get_frame());
+    if (check_flag_800000() != 0 && obj_isState2_324() != 0) {
+        draw(get_frame());
     } else if (!(m_flags & 0x400)) {
         model_render_flags |= 1;
         draw_body((s32)f);
@@ -1510,8 +1510,8 @@ void TObjPlayer::render() {
                 clear_actor_flags((u32)0x08000000);
                 TParticleCtrl::end_effect_render();
                 select_actor_lighting(this);
-                if (TObjPlayer::check_flag_800000(this) != 0 && obj_isState2_324() != 0) {
-                    TObjPlayer::draw(this, get_frame());
+                if (check_flag_800000() != 0 && obj_isState2_324() != 0) {
+                    draw(get_frame());
                 } else if (!(m_flags & 0x400)) {
                     model_render_flags |= 1;
                     draw_body((s32)detail);
@@ -1527,7 +1527,7 @@ void TObjPlayer::render() {
         } else {
             set_actor_flags(0x08000000);
             set_motion_packed_rotation();
-            TObjPlayer::draw(this, get_frame());
+            draw(get_frame());
             clear_motion_packed_rotation();
             save_render_material_state((u8 *)&render_material_state);
             apply_material_color_override();
@@ -1536,7 +1536,7 @@ void TObjPlayer::render() {
         }
     } else {
         set_motion_packed_rotation();
-        TObjPlayer::draw(this, get_frame());
+        draw(get_frame());
         clear_motion_packed_rotation();
         save_render_material_state((u8 *)&render_material_state);
         apply_material_color_override();
@@ -5651,11 +5651,11 @@ void TObjPlayer::draw() {
     pop_matrix();
 }
 
-void TObjPlayer::draw(void *player, f32 at_frame) {
+void TObjPlayer::draw(f32 at_frame) {
     push_matrix();
-    translate_matrix_vec3((u8 *)(0), (u8 *)(((TObjPlayer *)player)->get_position_ptr()));
-    rotate_matrix_y(0, ((TObjPlayer *)player)->rotation_y);
-    ((TObjPlayer *)player)->calc_joint_matrices(((TObjPlayer *)player)->current_motion, at_frame, *(s32 *)((s8 *)player + 0xE0));
+    translate_matrix_vec3(NULL, (u8 *)get_position_ptr());
+    rotate_matrix_y(NULL, rotation_y);
+    calc_joint_matrices(current_motion, at_frame, (saddr)joint_matrices);
     pop_matrix();
 }
 
@@ -5666,7 +5666,7 @@ void TObjPlayer::spawn_effect(saddr player) {
 }
 
 void TObjPlayer::send_field_state() {
-    if ((this->is_body_collision_inactive() == 0) && (TObjPlayer::check_flag_800000(this) == 0)) {
+    if ((this->is_body_collision_inactive() == 0) && (check_flag_800000() == 0)) {
         ((TObjPlayer *)((saddr)this + 0x384))->check_hit_by_id_431_from_packet();
     }
     this->play_sound_if_on_floor(0x42D08);
@@ -5758,8 +5758,8 @@ void TObjPlayer::clear_stealth_suit_flags() {
     this->clear_player_status_flag(0, 0x08000000);
 }
 
-s32 TObjPlayer::check_flag_800000(void *player) {
-    return static_cast<TObjPlayer *>(player)->check_flag(0x800000);
+s32 TObjPlayer::check_flag_800000() {
+    return check_flag(0x800000);
 }
 
 void TObjPlayer::refresh_equipment_slot() {
@@ -6611,7 +6611,7 @@ int TObjPlayer::get_max_level() { return 199; }
 void TObjPlayer::update_movement_effects() {
     if (TTecCtrl::is_technique_ready() != 0 && TObjPlayer__sub_801AF868(this) == 0 && update_movement_by_screen() != 0 &&
         test_action_mask(0x408000) == 0 && is_body_collision_inactive() == 0 &&
-        check_flag_800000(this) == 0) {
+        check_flag_800000() == 0) {
         follow_particles.emit_movement_effect();
     }
     if (is_body_collision_inactive() == 0 && test_action_mask(2) != 0 && contact_surface.has_water_ground_flag() != 0) {
@@ -6620,21 +6620,21 @@ void TObjPlayer::update_movement_effects() {
 }
 
 void TObjPlayer::apply_switch_attack() {
-    if (is_body_collision_inactive() != 0 || check_flag_800000(this) != 0) {
+    if (is_body_collision_inactive() != 0 || check_flag_800000() != 0) {
         return;
     }
     follow_particles.emit_shifta_support();
 }
 
 void TObjPlayer::enemy_spawn_jellen_effect() {
-    if (is_body_collision_inactive() != 0 || check_flag_800000(this) != 0) {
+    if (is_body_collision_inactive() != 0 || check_flag_800000() != 0) {
         return;
     }
     follow_particles.emit_jellen_support_effect_default();
 }
 
 void TObjPlayer::trigger_switch_attack() {
-    if (is_body_collision_inactive() != 0 || check_flag_800000(this) != 0) {
+    if (is_body_collision_inactive() != 0 || check_flag_800000() != 0) {
         return;
     }
     follow_particles.emit_deband_support();
@@ -6642,7 +6642,7 @@ void TObjPlayer::trigger_switch_attack() {
 
 // The support-technique effects: none while the body is inactive or flag 0x800000 is set.
 void TObjPlayer::enemy_spawn_zalure_effect() {
-    if (is_body_collision_inactive() != 0 || check_flag_800000(this) != 0) {
+    if (is_body_collision_inactive() != 0 || check_flag_800000() != 0) {
         return;
     }
     follow_particles.emit_zalure_support();

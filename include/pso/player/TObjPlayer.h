@@ -1100,6 +1100,8 @@ struct TObjPlayer : public TObjChara {
     void draw_projected_shadow(Vec *scale, s32 force_draw);
     void sub_801BAC48();
     s32 is_in_lobby();
+    s32 check_flag_800000();
+    void draw(f32 at_frame);
     void restore_hp_and_tp();
     s32 get_regen_interval(s32 timer);
     void unregister();
