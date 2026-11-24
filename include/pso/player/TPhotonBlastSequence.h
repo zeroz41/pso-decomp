@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TUNK_804C349C_H
-#define PSO_UNK_TUNK_804C349C_H
+#ifndef PSO_PLAYER_TPHOTONBLASTSEQUENCE_H
+#define PSO_PLAYER_TPHOTONBLASTSEQUENCE_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
@@ -11,10 +11,10 @@ struct PhotonBlastRequest;
 // admit_photon_blast_sequence with the owner's client id, the chained
 // players and their counts; run by step_photon_blast_sequence while
 // `animated`, else delivered after `delay` frames (update_and_destroy).
-class TUnk_804C349C : public TObject {
+class TPhotonBlastSequence : public TObject {
 public:
-    TUnk_804C349C(s32 owner_client_id, PhotonBlastRequest *requests, s32 *counts, s32 animated, s32 delay);
-    virtual ~TUnk_804C349C();
+    TPhotonBlastSequence(s32 owner_client_id, PhotonBlastRequest *requests, s32 *counts, s32 animated, s32 delay);
+    virtual ~TPhotonBlastSequence();
     void step_photon_blast_sequence();
     void update_and_destroy();
     f32 calc_photon_blast_power(s32 kind, f32 base_power);
@@ -39,6 +39,6 @@ public:
     u32 recipients[4];
     u16 holds[4];
 };
-LAYOUT_ASSERT(TUnk_804C349C_size, sizeof(TUnk_804C349C) == 0x98);
+LAYOUT_ASSERT(PhotonBlastSequenceSize, sizeof(TPhotonBlastSequence) == 0x98);
 
 #endif

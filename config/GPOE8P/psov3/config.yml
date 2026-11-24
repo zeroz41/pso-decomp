@@ -4788,7 +4788,7 @@ force_active:
   - calc_parameters__11TTecRaBartaFv
   - calc_params__11TTecGiBartaFv
   - calc_params__13TBoss5GryphonFP23Boss5GryphonMotionEntryP22Boss5GryphonActionStep
-  - calc_photon_blast_power__13TUnk_804C349CFlf
+  - calc_photon_blast_power__20TPhotonBlastSequenceFlf
   - calc_player_rankings__6TLobbyFPv
   - calc_position__13TObjEneMe1GeeFP3Vec
   - calc_preview_last_index__12TChCrLoadReqFll
@@ -5612,7 +5612,7 @@ force_active:
   - deliver_delayed_weapon_hit__13TItemAttackerFv
   - deliver_partner_action__10TNpcPlayerFv
   - deliver_partner_chatter__10TNpcPlayerFv
-  - deliver_photon_blast_results_animated__13TUnk_804C349CFv
+  - deliver_photon_blast_results_animated__20TPhotonBlastSequenceFv
   - deliver_target_hit__10TTecSlicerFv
   - dellbiter_demo_camera_vec
   - demo_frame_callback__16TObjEneRe7BeruraFP10NJS_OBJECT
@@ -16655,7 +16655,7 @@ force_active:
   - update_air_fire_state__12TBoss1DragonFUl
   - update_all_parts__9TBoss6MagFv
   - collect_hit_targets__13TPhotonFarllaFv
-  - update_and_destroy__13TUnk_804C349CFv
+  - update_and_destroy__20TPhotonBlastSequenceFv
   - update_and_reset__6TLobbyFPUc
   - update_and_send_lobby__9TWindowDDFv
   - update_angle__13TObjEneMe1GeeFv

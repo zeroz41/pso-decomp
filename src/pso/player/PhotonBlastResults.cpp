@@ -16,7 +16,7 @@
 #include "pso/effect/photon/TPhotonFarlla.h"
 #include "pso/effect/photon/TPhotonGolla.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/TUnk_804C349C.h"
+#include "pso/player/TPhotonBlastSequence.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/TFogCtrl.h"
@@ -41,8 +41,6 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
 
-
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
 
 PhotonBlastEntry photon_blast_entry_table[6] = {
@@ -96,7 +94,7 @@ const PhotonBlastChainCounts photon_blast_result_counts_init = { 0, 0, 0, 0 };
 #pragma push
 #pragma fp_contract on
 
-f32 TUnk_804C349C::calc_photon_blast_power(s32 kind, f32 base_power) {
+f32 TPhotonBlastSequence::calc_photon_blast_power(s32 kind, f32 base_power) {
     f32 power;
     TItemMag *mag;
     power = 0.0f;
@@ -201,7 +199,7 @@ void clear_photon_blast_donations(void) {
         photon_blast_donation_flags[i] = 0;
     }
 }
-void admit_photon_blast_sequence(PhotonBlastRequest *requests, TObjPlayer *self) {
+void admit_photon_blast_sequence(PhotonBlastRequest *requests, TObjPlayer *owner) {
     PhotonBlastRequest a[4];
     PhotonBlastRequest b[4];
     s32 n;
@@ -223,7 +221,7 @@ void admit_photon_blast_sequence(PhotonBlastRequest *requests, TObjPlayer *self)
     k = 0;
     for (j = 0; j < 4; j++, requests++) {
         p = get_player_by_client_id(requests->get_client_id());
-        if (p != NULL && p->get_room() == self->get_room()
+        if (p != NULL && p->get_room() == owner->get_room()
             && requests->get_kind() != -1) {
             a[n].set_client_id(requests->get_client_id());
             a[n].set_kind(requests->get_kind());
@@ -250,9 +248,9 @@ void admit_photon_blast_sequence(PhotonBlastRequest *requests, TObjPlayer *self)
     }
     flag = 0;
     for (i = 0; i < 4; i++) {
-        if (i != self->get_entity_id()) {
+        if (i != owner->get_entity_id()) {
             q = get_player_by_client_id(i);
-            if (q != NULL && q->get_room() == self->get_room()
+            if (q != NULL && q->get_room() == owner->get_room()
                 && photon_blast_sequence_table[q->get_entity_id()].state != 0) {
                 flag = 1;
             }
@@ -261,8 +259,8 @@ void admit_photon_blast_sequence(PhotonBlastRequest *requests, TObjPlayer *self)
     if (flag != 0) {
         return;
     }
-    if (is_photon_blast_presentation_admitted(self->get_entity_id(), b) != 0) {
-        new TUnk_804C349C(self->get_entity_id(), b, counts.count, 1, 0);
+    if (is_photon_blast_presentation_admitted(owner->get_entity_id(), b) != 0) {
+        new TPhotonBlastSequence(owner->get_entity_id(), b, counts.count, 1, 0);
     } else {
         idx = 0;
         for (i = 0; i < 4; i++) {
@@ -272,11 +270,11 @@ void admit_photon_blast_sequence(PhotonBlastRequest *requests, TObjPlayer *self)
             }
         }
         delay = idx * 150 + 100;
-        new TUnk_804C349C(self->get_entity_id(), b, counts.count, 0, delay);
+        new TPhotonBlastSequence(owner->get_entity_id(), b, counts.count, 0, delay);
     }
 }
 
-void TUnk_804C349C::deliver_photon_blast_results_animated() {
+void TPhotonBlastSequence::deliver_photon_blast_results_animated() {
     s32 i;
     for (i = 0; i < photon_blast_hit_count; i++) {
         TObjChara *target = (TObjChara *)find_entity_by_id(photon_blast_hit_queue[i].identity);
@@ -374,7 +372,7 @@ void TUnk_804C349C::deliver_photon_blast_results_animated() {
     clear_photon_blast_donations();
 }
 
-void TUnk_804C349C::deliver_photon_blast_results_delayed() {
+void TPhotonBlastSequence::deliver_photon_blast_results_delayed() {
     s32 i;
     for (i = 0; i < deferred_photon_blast_hit_count; i++) {
         TObjChara *target = (TObjChara *)find_entity_by_id(deferred_photon_blast_hit_queue[i].identity);
@@ -472,7 +470,7 @@ void TUnk_804C349C::deliver_photon_blast_results_delayed() {
     clear_photon_blast_donations();
 }
 
-void TUnk_804C349C::step_photon_blast_sequence() {
+void TPhotonBlastSequence::step_photon_blast_sequence() {
     PhotonSummonParams params;
     s32 first_summon;
     s32 j;
@@ -560,10 +558,8 @@ void TUnk_804C349C::step_photon_blast_sequence() {
 s32 photon_blast_donation_flags[4];
 PhotonBlastChain photon_blast_sequence_table[4];
 
-#define TOBJECT_OUT_OF_LINE_HELPERS
 
-
-void TUnk_804C349C::update_and_destroy() {
+void TPhotonBlastSequence::update_and_destroy() {
     s32 kind;
     s32 j;
     s32 i;
@@ -587,7 +583,7 @@ void TUnk_804C349C::update_and_destroy() {
     }
 }
 
-void TUnk_804C349C::run_task() {
+void TPhotonBlastSequence::run_task() {
     owner = get_player_by_client_id(owner_client_id);
     if (animated != 0) {
         step_photon_blast_sequence();
@@ -596,7 +592,7 @@ void TUnk_804C349C::run_task() {
     update_and_destroy();
 }
 
-TUnk_804C349C::~TUnk_804C349C() {
+TPhotonBlastSequence::~TPhotonBlastSequence() {
     s32 i;
     s32 j;
     if (animated != 0) {
@@ -624,7 +620,7 @@ TUnk_804C349C::~TUnk_804C349C() {
     }
 }
 
-TUnk_804C349C::TUnk_804C349C(s32 owner_client_id, PhotonBlastRequest *requests, s32 *counts, s32 animated, s32 delay)
+TPhotonBlastSequence::TPhotonBlastSequence(s32 owner_client_id, PhotonBlastRequest *requests, s32 *counts, s32 animated, s32 delay)
     : TObject(tl_07) {
     TObjPlayer *player;
     s32 i;

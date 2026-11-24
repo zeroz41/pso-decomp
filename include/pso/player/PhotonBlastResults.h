@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 
-class TUnk_804C349C;
+class TPhotonBlastSequence;
 class TObjPlayer;
 struct BmlResource;
 
@@ -47,7 +47,7 @@ struct PhotonBlastRequestSlot {
 
 // A player's pending photon blast: who fires it, which blast, and the
 // players who donated to it. admit_photon_blast_sequence chains these
-// into a TUnk_804C349C.
+// into a TPhotonBlastSequence.
 struct PhotonBlastRequest {
     u16 client_id;  // the player firing it, 0xFFFF while unused
     s16 kind;       // photon blast kind, -1 for none
@@ -65,7 +65,7 @@ struct PhotonBlastRequest {
 };
 
 // How many more donors share each chained kind; admit_photon_blast_sequence
-// hands count to TUnk_804C349C.
+// hands count to TPhotonBlastSequence.
 struct PhotonBlastChainCounts { s32 count[4]; };
 
 // One entry per photon blast; +0x00 is the hit power (queue_photon_blast_hit), +0x12 is read by
@@ -97,9 +97,9 @@ struct PhotonBlastLoadCallback {
     void (*release)(void);
 };
 
-// Chains the requests whose players are in self's room into one photon blast
-// sequence (a TUnk_804C349C), unless another player's sequence is still running.
-void admit_photon_blast_sequence(PhotonBlastRequest *requests, TObjPlayer *self);
+// Chains the requests whose players are in owner's room into one photon blast
+// sequence (a TPhotonBlastSequence), unless another player's sequence is still running.
+void admit_photon_blast_sequence(PhotonBlastRequest *requests, TObjPlayer *owner);
 void apply_photon_blast_action_hold(s32 unused, s32 duration, s32 owner_client_id);
 
 // The photon blast entry of the scene load callback table.
