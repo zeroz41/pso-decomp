@@ -389,7 +389,7 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
         break;
 
       case 0x2c:
-        flags = (*((u16 *) (q + 2))) & 0xFFF8;
+        flags = ((Ipv6FragmentHeader *) q)->offset_flags & 0xFFF8;
         flag = 1;
 
       default:

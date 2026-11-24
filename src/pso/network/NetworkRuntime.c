@@ -197,11 +197,7 @@ void send_message_queue(NetQueueHandle handle, void *source, s32 size)
     if (i < 32)
     {
       slot = base + (index * 0x3a8);
-      {
-        u8 *p2 = slot;
-        p2 += i * 0x18;
-        *((s32 *)(p2 + 0x1728)) = 1;
-      }
+      ((NetworkMessageQueueSlot *) (slot + 0x1700))->messages[i].active = 1;
       NetMemcpy(((NetworkMessageQueueSlot *) (base + 0x1700))[index].messages[i].data, source, size);
       OSSendMessage(&((NetworkMessageQueueSlot *) (base + 0x1700))[index].queue, &((NetworkMessageQueueSlot *) (base + 0x1700))[index].messages[i], 0);
     }
