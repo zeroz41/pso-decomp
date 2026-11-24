@@ -13,6 +13,7 @@
 #include "pso/object/TUnk_804AF7B0.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/CapturedTargetList.h"
 
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
@@ -58,7 +59,6 @@ extern "C" {
 f32 horizontal_distance_squared(void *, void *);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void * __ct__12TPlyCharDataFv(void *self);
-void TNpcPlayer__sub_8014DC3C(void *, s32);
 void deliver_partner_chatter(TNpcPlayer *self);
 void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out);
 s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2);
@@ -67,14 +67,14 @@ bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 id);
 s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1);
 s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2);
 void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self);
-void set_technique_seed_level(PlayerTechniqueState *self, s16 i, u8 v);
-void reset_partner_counter(saddr arg0, s32 arg1);
-void increment_partner_counter(saddr arg0, s32 arg1);
-int get_partner_counter(saddr arg0, s32 arg1);
-s32 npc_counter_reset_if_reached(saddr arg0, s32 arg1);
-void init_6x45_attack_packet(u8 *arg0);
-void init_6x44_attack_packet(u8 *arg0);
-void init_6x43_attack_packet(u8 *arg0);
+void set_technique_seed_level(PlayerTechniqueState *techniques, s16 technique, u8 level);
+void reset_partner_counter(saddr counters, s32 index);
+void increment_partner_counter(saddr counters, s32 index);
+int get_partner_counter(saddr counters, s32 index);
+s32 npc_counter_reset_if_reached(saddr counters, s32 index);
+void init_6x45_attack_packet(u8 *cmd);
+void init_6x44_attack_packet(u8 *cmd);
+void init_6x43_attack_packet(u8 *cmd);
 void set_state__10TNpcPlayerFPvs(void* p, s16 v);
 void set_type__10TNpcPlayerFPvs(void* p, s16 v);
 s32 free_collision_body_parts(u32);
@@ -109,7 +109,7 @@ s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out);
 s32 partner_find_wall_segment(saddr arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4);
 void partner_observe_surroundings(TNpcPlayer *npc_player);
 int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
-void set_partner_counter(saddr arg0, s32 arg1, s16 arg2);
+void set_partner_counter(saddr counters, s32 index, s16 value);
 s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2);
 void bswap_6x45_packet(void* p);
 void bswap_6x44_packet(void* p);
@@ -867,11 +867,11 @@ void set_state__10TNpcPlayerFPvs(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; 
 
 void TNpcPlayer::byteswap_pos() { bswap_16((u16 *)this); bswap_16((u16 *)((char*)this + 0x2)); }
 
-void TNpcPlayer::set_state(s32 v) { *(s32*)((char*)this + 0x0) = v; }
+void CapturedTargetList::set_count(s32 n) { count = n; }
 
-void TNpcPlayer::set_field_0(s16 v) { *(s16*)((char*)this + 0x0) = v; }
+void CapturedTarget::set_uid(u16 id) { uid = id; }
 
-void TNpcPlayer::set_field2(s16 v) { *(s16*)((char*)this + 0x2) = v; }
+void CapturedTarget::set_collider_index(s16 index) { collider_index = index; }
 
 void init_6x40_walk_packet(void *cmd) {
     G_WalkToPosition_6x40 *packet = (G_WalkToPosition_6x40 *)cmd;
@@ -924,33 +924,33 @@ void TNpcPlayer::finalize_and_send_packet() {
     send_subcommand((u8 *)(arg0));
 }
 
-void init_6x43_attack_packet(u8 *arg0) {
-    *(s16 *)((s8 *)arg0 + 4) = 0;
-    *(s16 *)((s8 *)arg0 + 6) = 0;
-    *(s8 *)((s8 *)arg0 + 0) = 0x43;
-    *(s8 *)((s8 *)arg0 + 1) = 2;
+void init_6x43_attack_packet(u8 *cmd) {
+    *(s16 *)((s8 *)cmd + 4) = 0;
+    *(s16 *)((s8 *)cmd + 6) = 0;
+    *(s8 *)((s8 *)cmd + 0) = 0x43;
+    *(s8 *)((s8 *)cmd + 1) = 2;
 }
 
 void bswap_6x43_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
 void TNpcPlayer::update_lobby() { bswap_6x43_packet(this); ((TLobby *)this)->update_players(); }
 
-void init_6x44_attack_packet(u8 *arg0) {
-    *(s16 *)((s8 *)arg0 + 4) = 0;
-    *(s16 *)((s8 *)arg0 + 6) = 0;
-    *(s8 *)((s8 *)arg0 + 0) = 0x44;
-    *(s8 *)((s8 *)arg0 + 1) = 2;
+void init_6x44_attack_packet(u8 *cmd) {
+    *(s16 *)((s8 *)cmd + 4) = 0;
+    *(s16 *)((s8 *)cmd + 6) = 0;
+    *(s8 *)((s8 *)cmd + 0) = 0x44;
+    *(s8 *)((s8 *)cmd + 1) = 2;
 }
 
 void bswap_6x44_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
 void TNpcPlayer::update_players() { bswap_6x44_packet(this); ((TLobby *)this)->update_players(); }
 
-void init_6x45_attack_packet(u8 *arg0) {
-    *(s16 *)((s8 *)arg0 + 4) = 0;
-    *(s16 *)((s8 *)arg0 + 6) = 0;
-    *(s8 *)((s8 *)arg0 + 0) = 0x45;
-    *(s8 *)((s8 *)arg0 + 1) = 2;
+void init_6x45_attack_packet(u8 *cmd) {
+    *(s16 *)((s8 *)cmd + 4) = 0;
+    *(s16 *)((s8 *)cmd + 6) = 0;
+    *(s8 *)((s8 *)cmd + 0) = 0x45;
+    *(s8 *)((s8 *)cmd + 1) = 2;
 }
 
 void bswap_6x45_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
@@ -1001,24 +1001,24 @@ u32 NpcPlayerView::get_condition() { return condition; }
 
 u32 NpcPlayerView::get_prev_target_id() { return prev_target_id; }
 
-void set_partner_counter(saddr arg0, s32 arg1, s16 arg2) {
-    *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0) = arg2;
+void set_partner_counter(saddr counters, s32 index, s16 value) {
+    *(s16 *)((s8 *)(counters + (index * 2)) + 0) = value;
 }
 
 int is_partner_counter_reached(s16 *table, s32 idx, s32 value) {
     return value <= table[idx] ? 1 : 0;
 }
 
-s32 npc_counter_reset_if_reached(saddr arg0, s32 arg1) {
+s32 npc_counter_reset_if_reached(saddr counters, s32 index) {
     if (((s32 (*)(void))is_partner_counter_reached)() != 0) {
-        *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0) = 0;
+        *(s16 *)((s8 *)(counters + (index * 2)) + 0) = 0;
         return 1;
     }
     return 0;
 }
 
-int get_partner_counter(saddr arg0, s32 arg1) {
-    return *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0);
+int get_partner_counter(saddr counters, s32 index) {
+    return *(s16 *)((s8 *)(counters + (index * 2)) + 0);
 }
 
 u16 NpcPlayerView::get_client_id() { return client_id; }
@@ -1027,18 +1027,18 @@ u32 NpcPlayerView::get_target_id() { return target_id; }
 
 s32 NpcPlayerView::get_target_collider() { return target_collider; }
 
-void increment_partner_counter(saddr arg0, s32 arg1) {
+void increment_partner_counter(saddr counters, s32 index) {
     saddr temp_r5;
-    temp_r5 = arg1 * 2;
-    *(s16 *)((s8 *)(arg0 + temp_r5) + 0) = *(s16 *)((s8 *)(arg0 + temp_r5) + 0) + 1;
+    temp_r5 = index * 2;
+    *(s16 *)((s8 *)(counters + temp_r5) + 0) = *(s16 *)((s8 *)(counters + temp_r5) + 0) + 1;
 }
 
-void reset_partner_counter(saddr arg0, s32 arg1) {
-    *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0) = 0;
+void reset_partner_counter(saddr counters, s32 index) {
+    *(s16 *)((s8 *)(counters + (index * 2)) + 0) = 0;
 }
 
-void set_technique_seed_level(PlayerTechniqueState *self, s16 i, u8 v) {
-    self->levels[i] = v;
+void set_technique_seed_level(PlayerTechniqueState *techniques, s16 technique, u8 level) {
+    techniques->levels[technique] = level;
 }
 
 void __sinit_TNpcPlayer_cpp() {
@@ -1834,7 +1834,7 @@ void TNpcPlayer::update_combat_action() {
         }
         ai_flags &= ~0x2000;
         if (TObjPlayer::try_camera_action((saddr)self_view->player, (s32)id) != 0) {
-            TNpcPlayer__sub_8014DC3C(this, id);
+            partner_request_technique_cast(id);
             return;
         }
     }
