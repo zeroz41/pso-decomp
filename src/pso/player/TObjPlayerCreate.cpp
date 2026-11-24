@@ -19,7 +19,6 @@
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/player/PlayerSyncRecord.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
-#include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/player/LobbyPlayerActionProvider.h"
 #include "pso/player/GamePlayerActionProvider.h"
 #include "pso/player/PlayerClassTechniques.h"

@@ -6,6 +6,7 @@
 #include "pso/player/PlayerTaskEffects.h"
 #include "types.h"
 #include "pso/item/TItem.h"
+#include "pso/unk/TDeathTintFade.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
@@ -56,7 +57,6 @@
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/InventoryEntryCopy.h"
-#include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/item/TItemList.h"
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
@@ -1592,19 +1592,19 @@ void G_SetPosition_6x3F::init() {
     header.size = 6;
 }
 
-f32 fn_801C19A4(void* p) { return *(f32*)((char*)p + 0xc); }
+f32 DamageStatSlot::get_bonus_weight() { return bonus_weight; }
 
-s32 TWindowDuelResult__sub_801C19AC(f32 *arg0) {
-    return (s32) *arg0;
+s32 DamageStatSlot::get_total() {
+    return (s32)total;
 }
 
-void TObjPlayer__sub_801C19C8(void* p, f32 v) { *(f32*)((char*)p + 0x0) = v; }
+void DamageStatSlot::set_total(f32 v) { total = v; }
 
 s32 PlayerPkState::get_team() { return team; }
 
 void PlayerPkState::set_team(s32 id) { team = id; }
 
-void fn_801C19E0(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
+void PlayerBattleScore::set_timer(s32 v) { timer = v; }
 
 void PlayerPkState::disable() { enabled = 0; }
 
@@ -1619,19 +1619,19 @@ void *TObjPlayer::reset_lobby_settings() {
     return this;
 }
 
-s32 is_item_equipped(TItem *item) {
+s32 TItem::is_equipped() {
     u8 equipped = 0;
-    if (item->test_item_flags(4) != 0U && item->test_item_flags(8) != 0U) {
+    if (test_item_flags(4) != 0U && test_item_flags(8) != 0U) {
         equipped = 1;
     }
     return equipped;
 }
 
-void TObjPlayer__sub_801C1AC8(void *self) {
-    is_item_stackable(((TItem *)self)->get_item_type(), ((TItem *)self)->get_item_group());
+s32 TItem::is_stackable() {
+    return is_item_stackable(get_item_type(), get_item_group());
 }
 
-void TObjPlayer__sub_801C1B0C(void) {  }
+void TObjPlayer__sub_801C1B0C(TItem *item, s32 slot) {}
 
 void TObjPlayer::set_flags_bit2() { ((FlagWord *)((char*)this + 0x1c))->set(2); }
 
@@ -1645,7 +1645,7 @@ f32 TUnk_8013EF0C::get_published_target_dist() { return published_target_dist; }
 
 u16 TUnk_8013EF0C::get_published_target_id() { return published_target_id; }
 
-s32 fn_801C1BA0(void* p) { return *(s32*)((char*)p + 0x24); }
+s32 TDeathTintFade::get_viewport_index() { return viewport_index; }
 
 TPlyInventoryItem *fn_801C1BA8(TPlyInventoryItem *destination, const TPlyInventoryItem *source) {
     S_801C1BA8 *dst = (S_801C1BA8 *)destination;

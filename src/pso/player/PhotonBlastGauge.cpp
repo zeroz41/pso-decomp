@@ -9,6 +9,7 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PhotonBlastGauge.h"
+#include "pso/player/PlayerBattleScore.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/map/FloorArea.h"
@@ -266,16 +267,6 @@ void PhotonBlastGauge::reset_state() {
 }
 
 
-struct PlayerSubObjectSlots { s32 a[4]; s32 x10; s32 x14; };
-
-// One damage accumulation slot (TObjPlayer + 0x75C and friends): the running
-// total, the raw amount, and the two weight factors damage_weight picks between.
-struct DamageStatSlot {
-    f32 total;
-    f32 accumulated;
-    f32 normal_weight;
-    f32 bonus_weight;
-};
 
 extern "C" {
 f32 damage_weight(DamageStatSlot *slot, saddr attacker, s32 amount);
@@ -344,10 +335,10 @@ extern "C" {
 void clear_player_sub_object_slots(PlayerSubObjectSlots *p) {
     s32 i;
     for (i = 0; i < 4; i++) {
-        p->a[i] = 0;
+        p->pad_0[i] = 0;
     }
-    p->x10 = 0;
-    p->x14 = 0;
+    p->pad_10 = 0;
+    p->score = 0;
 }
 
 s32 accumulate_damage_stats(u8 *slotp, s32 attacker, s32 amount) {

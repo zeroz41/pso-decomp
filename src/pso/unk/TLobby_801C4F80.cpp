@@ -4,15 +4,14 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
 #include "pso/unk/TLobby.h"
+#include "pso/player/PlayerBattleScore.h"
 
 extern "C" {
 
-s32 TObjPlayer__sub_801C19C8(f32);
 
 
 void TLobby::update_child_player() {
-    s32 arg0 = (saddr)this;
-    TObjPlayer__sub_801C19C8(0.0f);
+    ((DamageStatSlot *)this)->set_total(0.0f);
     set_float_4(0.0f);
 }
 

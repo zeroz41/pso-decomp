@@ -37,6 +37,7 @@ struct PhotonBlastRequestSlot;
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/player/PlayerIntraMapWarp.h"
 #include "pso/player/PhotonBlastAim.h"
+#include "pso/player/PlayerBattleScore.h"
 
 struct TItemData;
 struct PhotonBlastRequest;
@@ -258,8 +259,7 @@ struct TObjPlayer : public TObjChara {
     MovementHistory movement_history;
     MovementHold movement_hold;
     PhotonBlastAim photon_blast_aim;
-    void* m_754;
-    u8 _pad758[0x6C];
+    PlayerBattleScore battle_score;
     PlayerTrapCounts trap_counts;
     PlayerSonarStock sonar_stock;
     PlayerAttackController attack_state;  // the attack accuracy/damage-scale block
@@ -1319,11 +1319,16 @@ LAYOUT_ASSERT(TObjPlayer_npc_control_offset, offsetof(TObjPlayer, npc_control) =
 LAYOUT_ASSERT(TObjPlayer_movement_history_offset, offsetof(TObjPlayer, movement_history) == 0x6AC);
 LAYOUT_ASSERT(TObjPlayer_movement_hold_offset, offsetof(TObjPlayer, movement_hold) == 0x730);
 LAYOUT_ASSERT(TObjPlayer_photon_blast_aim_offset, offsetof(TObjPlayer, photon_blast_aim) == 0x744);
+LAYOUT_ASSERT(TObjPlayer_battle_score_offset, offsetof(TObjPlayer, battle_score) == 0x754);
 LAYOUT_ASSERT(TObjPlayer_pk_state_offset, offsetof(TObjPlayer, pk_state) == 0x828);
 LAYOUT_ASSERT(PlayerItemNodeMatricesOffset, offsetof(TObjPlayer, item_node_matrices) == 0xDB4);
 LAYOUT_ASSERT(TObjPlayer_size, sizeof(TObjPlayer) == 0xDB8);
 
 void set_flag_400000(TObjPlayer *player);
+
+class TDeathTintFade;
+// Runs when a dying player's tint fade reaches full: the player of the fade's viewport goes down.
+void complete_deferred_player_death(TDeathTintFade *fade);
 
 // Sends 6x2D: releases the movement hold on the player.
 void send_release_hold(TObjPlayer *player);
@@ -1342,5 +1347,7 @@ extern "C" {
 void send_6x25_equip_item(TObjPlayer *player, s32 item_id, s32 slot);
 void assign_inventory_item_ids(TObjPlayer *player, TPlyInventoryItem *records, s32 count);
 void rebuild_player_inventory(TObjPlayer *player);
+// Empty; pickup_item calls it as an item joins the inventory, with the slot it takes.
+void TObjPlayer__sub_801C1B0C(TItem *item, s32 slot);
 }
 #endif

@@ -524,7 +524,6 @@ void append_message_char(s8 c) {
 }
 #undef quest_string_append_cursor
 extern "C" {
-s32 TObjPlayer__sub_801C1AC8();
 }
 extern "C" {
 void begin_message_substitution(u8 *a0, char *a1);
@@ -549,9 +548,11 @@ void qst_op_initial_floor(void) {
 
 void qst_op_get_item_stackability() {
     u8 dest_reg;
+    TItem *item;
     dest_reg = (u8) qst_args[1];
-    if (find_item_by_id((int) (qst_args[0])) != 0U) {
-        if (TObjPlayer__sub_801C1AC8() != 0) {
+    item = find_item_by_id((int) (qst_args[0]));
+    if (item != NULL) {
+        if (item->is_stackable() != 0) {
             qst_registers[(u8)dest_reg] = 1;
             return;
         }

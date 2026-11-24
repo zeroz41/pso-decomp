@@ -76,7 +76,6 @@
 #include "pso/math/ScratchVectors.h"
 #include "pso/ui/hud/TMainCursor_8013E7B8.h"
 #include "pso/system/byteswap.h"
-#include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/PlayerSubcommandHandlers.h"
@@ -523,7 +522,6 @@ s32 accumulate_damage_stats_at_76c(s32, s32, s32);
 s32 fn_801B0480(int, void *, int);
 s32 draw_player_status(void *, void *, const char *);
 s16 calc_scaled_value__10TObjPlayerFii(void *, int);
-void complete_deferred_player_death();
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 void enable_action_input__10TObjPlayerFPv(void *p);
 void send_code_49_1__10TObjPlayerFi(saddr player);

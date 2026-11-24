@@ -522,7 +522,6 @@ struct V_80258F34 : Base_80258F34 {
 };
 
 extern "C" {
-s32 TObjPlayer__sub_801C1AC8(void *);
 void ItemListRow::set_inventory_item(void *item, s32 count, s32 sid) {
     s32 item_data;
 
@@ -530,7 +529,7 @@ void ItemListRow::set_inventory_item(void *item, s32 count, s32 sid) {
     item_data = ((TItem *)item)->get_icon_index();
     select_item_icon(item_data, ((TItem *)item)->get_item_type(), ((TItem *)item)->get_item_group(), ((TItem *)item)->is_wrapped());
     this->label = (char *)replace_owned_string((saddr)((TItem *)item)->get_name(), (saddr)this->label, 8, 1);
-    if (TObjPlayer__sub_801C1AC8(item) != 0) {
+    if (((TItem *)item)->is_stackable() != 0) {
         update_stat_line_if_positive(count);
     }
     update_item_icon_colors(item);
@@ -563,7 +562,7 @@ void ItemListRow::init_item_row(void *item, s32 arg2) {
     item_data = ((TItem *)item)->get_icon_index();
     select_item_icon(item_data, ((TItem *)item)->get_item_type(), ((TItem *)item)->get_item_group(), ((TItem *)item)->is_wrapped());
     this->label = (char *)replace_owned_string((saddr)((TItem *)item)->get_name(), (saddr)this->label, 8, 1);
-    if (TObjPlayer__sub_801C1AC8(item) != 0) {
+    if (((TItem *)item)->is_stackable() != 0) {
         s32 v = ((V_80258F34 *) item)->m34();
         update_stat_line_if_positive(v);
     }

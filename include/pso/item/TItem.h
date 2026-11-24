@@ -160,6 +160,8 @@ struct TItem : public TObjCollidable {
     void update_timer();
     void place_on_ground(s16 floor, f32 *pos, s32 quiet);
     u32 test_item_flags(u32 mask);
+    s32 is_equipped();
+    s32 is_stackable();
     void clear_item_flags(u32 mask);
     void add_item_flags(u32 mask);
     int is_at_tekker();

@@ -10,7 +10,6 @@
 
 extern "C" {
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
-s32 TObjPlayer__sub_801C1AC8();
 }
 
 s32 check_trade_offer_inventory(TradeSide *side, s32 *failed_id) {
@@ -150,7 +149,7 @@ s32 TradeItemList::add_trade_item(u32 id, s32 count) {
     if (item == NULL) {
         return 0;
     }
-    if (TObjPlayer__sub_801C1AC8() != 0) {
+    if (item->is_stackable() != 0) {
         item->copy_to_item_data(&data);
         e = entries;
         for (i = 0; i < 30; i++, e++) {

@@ -13,7 +13,6 @@
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/armor/TItemProShield.h"
-#include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -209,7 +208,7 @@ void TItemList::unequip_invalid_items_recursive() {
     for (n = (TItemList *)m_down; n != NULL; n = (TItemList *)n->m_next) {
         if (TItemList::is_item_valid(n) != 0) {
             o = n->get_owner_if_alive();
-            if ((o != NULL) && (is_item_equipped(o) != 0) && (o->is_unit() == 0) &&
+            if ((o != NULL) && (o->is_equipped() != 0) && (o->is_unit() == 0) &&
                 (TObjPlayer::get_slot_value(reinterpret_cast<s32 *>(item_reduce_target_player->equipped_items), o->get_attach_slot()) != 0U)) {
                 item_reduce_target_player->unequip_item(o);
             }
@@ -259,7 +258,7 @@ void TObjPlayer__sub_801D52A8(TItemList *root) {
     for (n = (TItemList *)root->m_down; n != NULL; n = (TItemList *)n->m_next) {
         if (TItemList::is_item_valid(n) != 0) {
             o = n->get_owner_if_alive();
-            if ((o != NULL) && (is_item_equipped(o) != 0) && (o->get_item_type() == 0)) {
+            if ((o != NULL) && (o->is_equipped() != 0) && (o->get_item_type() == 0)) {
                 o->copy_to_item_data(&player_item_collect_cursor->item);
                 player_item_collect_cursor->source_id = o->get_item_id();
                 ++player_item_collect_cursor;
@@ -472,7 +471,7 @@ void TPlyItem::reduce_item_amount(TObjPlayer *player, TItemList *slot, s32 amoun
             item->remove_amount(amount);
             return;
         }
-        if (is_item_equipped(item) != 0) {
+        if (item->is_equipped() != 0) {
             player->unequip_item(item);
         }
         count = item_count;
@@ -488,7 +487,7 @@ void TPlyItem::remove_equipped_item(TObjPlayer *player, TItemList *slot) {
 
     item = slot->get_owner_if_alive();
     if (item != NULL) {
-        if (is_item_equipped(item) != 0) {
+        if (item->is_equipped() != 0) {
             player->unequip_item(item);
         }
         count = item_count;
@@ -531,7 +530,7 @@ s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, 
         item->remove_amount(amount);
         return 1;
     }
-    if (is_item_equipped(item) != 0) {
+    if (item->is_equipped() != 0) {
         player->unequip_item(item);
     }
     item->room = player->get_room();
@@ -642,7 +641,7 @@ void TObjPlayer__sub_801D45B0(s32 *rec, saddr item) {
         *rec |= (((TItem *)item)->get_item_group() << 8) & 0xFF00;
     }
     *rec |= ((TItem *)item)->get_item_index();
-    if (is_item_equipped((TItem *)item) == 0) {
+    if (((TItem *)item)->is_equipped() == 0) {
         *rec |= 0x10000;
     }
 }

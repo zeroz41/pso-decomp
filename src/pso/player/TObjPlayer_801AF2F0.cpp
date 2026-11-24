@@ -67,6 +67,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/enemy/TObjEneHoldEffect.h"
 #include "pso/item/TItem.h"
+#include "pso/unk/TDeathTintFade.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/text_8011A780.h"
@@ -169,7 +170,6 @@ struct Stats_801B96BC { s16 atp; s16 pad2[0x11]; };
 
 extern "C" {
 s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, PlayerRequirementStats *out, u8 *incoming);
-s32 is_item_equipped(TItem *item);
 s32 preview_unequip_stats__10TObjPlayerFv(TObjPlayer *self, PlayerRequirementStats *out, s32 key);
 }
 
@@ -573,7 +573,6 @@ s32 calc_scaled_value__10TObjPlayerFii(TObjPlayer *player, s32 value);
 s32 build_player_class_stat_template(TObjPlayer *player, PlayerRequirementStats *out);
 void prepare_guild_return__10TObjPlayerFPv(void *player);
 void handle_6x34(void);
-void complete_deferred_player_death(void);
 int is_flag_400_set__10TObjPlayerFPv(void* p);
 void enable_action_input__10TObjPlayerFPv(void* p);
 int get_result_entry__18TChallenge4PResultFPv(void* p);
@@ -620,13 +619,6 @@ int TObjPlayer__sub_801BF4A0(void*);
 void set_equip_slot_entry(saddr, s32, s32);
 s32 is_action_id_none(s32);
 u8 TObjPlayer__sub_801C0124(void *, s16);
-f32 fn_801C19A4(void *);
-s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
-void TObjPlayer__sub_801C19C8(void *p, f32 v);
-void fn_801C19E0(void *, s32);
-s32 TObjPlayer__sub_801C1AC8(void *);
-s32 TObjPlayer__sub_801C1B0C(void *, int);
-s32 fn_801C1BA0();
 void *__ct__12StatusEffectFv(void *);
 s32 set_arrival_override_pos(u16, int, int);
 u32 create_lobby_marker__10TObjPlayerFsSc(u16 a0 = 0, s32 a1 = 0);
@@ -1821,7 +1813,7 @@ s32 preview_unequip_stats__10TObjPlayerFv(TObjPlayer *self, PlayerRequirementSta
     if (owner == NULL) {
         return 0;
     }
-    if (is_item_equipped(owner) == 0 && self->get_equipped_item(owner->get_attach_slot()) == NULL) {
+    if (owner->is_equipped() == 0 && self->get_equipped_item(owner->get_attach_slot()) == NULL) {
         return 1;
     }
     ((TLobby *)a)->copy_from(self->attack_params);
@@ -2054,7 +2046,7 @@ u32 TObjPlayer::pickup_item(TItem *item) {
         list = new TItemList(this->inventory_objects->item_list);
         break;
     case 3:
-        if (TObjPlayer__sub_801C1AC8((u8 *)item) != 0) {
+        if (item->is_stackable() != 0) {
             item->copy_to_item_data((TItemData *)&item_data);
             id = (saddr)this->inventory_objects->set_mode_and_refresh_object(&item_data);
             if (id == 0) {
@@ -2078,7 +2070,7 @@ u32 TObjPlayer::pickup_item(TItem *item) {
     if (list != NULL) {
         ((TItemList *)list)->set_field_1c(item);
         inv = *(u8 * *)&this->inventory_objects;
-        TObjPlayer__sub_801C1B0C((u8 *)item, (*(s16 *)((s8 *)inv + 0x1C))++);
+        TObjPlayer__sub_801C1B0C(item, (*(s16 *)((s8 *)inv + 0x1C))++);
         item->set_mode(1);
         ((TObject *)item)->set_parent(this->inventory_objects->item_root);
         item->set_owner_client(this->get_entity_id());
@@ -2916,7 +2908,7 @@ void TObjPlayer::check_level_up() {
                 j = 0;
                 do {
                     removed_item = (u8 *)TObjPlayer::get_slot_value(this->equipped_items, j);
-                    if ((((s32 (*)(void))can_destroy_with_parents__10TObjPlayerFUi)() != 0) && (is_item_equipped((TItem *)removed_item) != 0)) {
+                    if ((((s32 (*)(void))can_destroy_with_parents__10TObjPlayerFUi)() != 0) && (((TItem *)removed_item)->is_equipped() != 0)) {
                         ((TItem *)removed_item)->remove_equip_stats(1);
                     }
                     j += 1;
@@ -2927,7 +2919,7 @@ void TObjPlayer::check_level_up() {
                 i = 0;
                 do {
                     added_item = (u8 *)TObjPlayer::get_slot_value(this->equipped_items, i);
-                    if ((((s32 (*)(void))can_destroy_with_parents__10TObjPlayerFUi)() != 0) && (is_item_equipped((TItem *)added_item) != 0)) {
+                    if ((((s32 (*)(void))can_destroy_with_parents__10TObjPlayerFUi)() != 0) && (((TItem *)added_item)->is_equipped() != 0)) {
                         ((TItem *)added_item)->add_equip_stats(1);
                     }
                     i += 1;
@@ -4447,12 +4439,12 @@ s32 TObjPlayer::create_return_city_window() {
 
 void TObjPlayer::stop_battle() { this->set_battle_flag(0); }
 
-void complete_deferred_player_death(void) {
+void complete_deferred_player_death(TDeathTintFade *fade) {
     u8 lvl;
     s16 aim;
     u16 room;
     TObjPlayer *p;
-    p = get_player_by_client_id(fn_801C1BA0());
+    p = get_player_by_client_id(fade->get_viewport_index());
     if (p == NULL) {
         return;
     }
@@ -5472,7 +5464,7 @@ void TLobby::apply_battle_rules_to_players() {
         if (p == NULL) {
             continue;
         }
-        ((TLobby *)&p->m_754)->update_all_children();
+        ((TLobby *)&p->battle_score)->update_all_children();
         if (((TLobby *)q)->get_rule_field_0() == 1) {
             p->set_state_flag_6043();
             if (((TObjChara *)p)->is_locally_controlled() != 0) {
@@ -5510,7 +5502,7 @@ void TLobby::apply_battle_rules_to_players() {
         }
         switch (TLobby__sub_801D7100(q)) {
         case 2:
-            fn_801C19E0(&p->m_754, fn_801D6DB0(q));
+            p->battle_score.set_timer(fn_801D6DB0(q));
             break;
         }
         switch (((TLobby *)q)->clamp_rule_value_2()) {
@@ -5856,18 +5848,18 @@ void TObjPlayer::record_meseta_pickup(s32 amount) {
     if (this->is_locally_controlled() == 0 || ((u8 (*)(void *))TLobby__sub_801D6FFC)(lobby_rule_settings) != 2 || TTecCtrl::is_technique_ready() == 0) {
         return;
     }
-    TObjPlayer__sub_801C19C8(((u8 *)this) + 0x79C, (f32) amount);
+    battle_score.damage_stats[4].set_total((f32) amount);
 }
 
 s32 TObjPlayer__sub_801AFFD0(u8 *player) {
     f32 v;
 
-    v = (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x78C));
-    v -= (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x77C));
-    v += (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x75C));
-    v -= (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x76C));
+    v = (f32)((TObjPlayer *)player)->battle_score.damage_stats[3].get_total();
+    v -= (f32)((TObjPlayer *)player)->battle_score.damage_stats[2].get_total();
+    v += (f32)((TObjPlayer *)player)->battle_score.damage_stats[0].get_total();
+    v -= (f32)((TObjPlayer *)player)->battle_score.damage_stats[1].get_total();
     if (((TObjCollidable *)player)->test_actor_flags(0x800) == 0) {
-        v += (f32)obj_getPtr2B0_20(player) * fn_801C19A4(player + 0x79C);
+        v += (f32)obj_getPtr2B0_20(player) * ((TObjPlayer *)player)->battle_score.damage_stats[4].get_bonus_weight();
     }
     return (s32)v;
 }

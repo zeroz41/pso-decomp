@@ -49,7 +49,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
-#include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/TLobby_801D726C.h"
@@ -1138,11 +1137,11 @@ s32 TPlayerBattleCtrl4P::calc_battle_score(TObjPlayer *actor) {
     f32 score;
     s32 mode;
 
-    score = (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x78C));
-    score -= (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x77C));
-    score += (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x75C));
-    score -= (f32)TWindowDuelResult__sub_801C19AC((f32 *)(player + 0x76C));
-    score += (f32)obj_getPtr2B0_20(player) * fn_801C19A4(player + 0x79C);
+    score = (f32)((TObjPlayer *)player)->battle_score.damage_stats[3].get_total();
+    score -= (f32)((TObjPlayer *)player)->battle_score.damage_stats[2].get_total();
+    score += (f32)((TObjPlayer *)player)->battle_score.damage_stats[0].get_total();
+    score -= (f32)((TObjPlayer *)player)->battle_score.damage_stats[1].get_total();
+    score += (f32)obj_getPtr2B0_20(player) * ((TObjPlayer *)player)->battle_score.damage_stats[4].get_bonus_weight();
     mode = (s32)score;
     ((TPlayerBattleCtrl4P *)(player + 0x7AC))->set_battle_mode(mode);
     return mode;

@@ -8,9 +8,9 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
@@ -129,10 +129,10 @@ void TWindowDuelResult::sub_8024EF40() {
     pl = (u8 *)get_player_by_client_id(client_index);
     if (pl != 0) {
         set_text_entry_string((u8 *)(get_array_entry(1)), (uaddr)(pl + 0x85C), 0x20);
-        vals[0] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x75C));
-        vals[1] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x76C));
-        vals[2] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x78C));
-        vals[3] = TWindowDuelResult__sub_801C19AC((f32 *)(pl + 0x77C));
+        vals[0] = ((TObjPlayer *)pl)->battle_score.damage_stats[0].get_total();
+        vals[1] = ((TObjPlayer *)pl)->battle_score.damage_stats[1].get_total();
+        vals[2] = ((TObjPlayer *)pl)->battle_score.damage_stats[3].get_total();
+        vals[3] = ((TObjPlayer *)pl)->battle_score.damage_stats[2].get_total();
         for (i = 0; i < 4; i++) {
             a = (u8 *)get_array_entry(i * 3 + 2);
             b = (u8 *)get_array_entry(i * 3 + 4);

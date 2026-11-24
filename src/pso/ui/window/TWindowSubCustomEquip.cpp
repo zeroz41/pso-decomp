@@ -21,7 +21,6 @@
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowActionPalette.h"
-#include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/unk/TUnk_804CF9C8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
