@@ -169,9 +169,6 @@ struct TNpcPlayer : public TObject {
     void update();
     void update_players();
     void update_lobby();
-    void send_6x3E();
-    void bswap_6x3E();
-    void init_6x3E_packet();
     void init_equipment();
     static s32 send_command(s32 cls, s32 count, const TPlyInventoryItem *source, s32 level, TPlyCharData *character);
     void byteswap_header();
