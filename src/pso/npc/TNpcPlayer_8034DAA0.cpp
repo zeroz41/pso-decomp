@@ -46,11 +46,7 @@ extern TNpcPlayerTemplateTable TNpcPlayer__template_table;
 
 struct Global_8034E5A8 { u8 pad[0x46E]; s8 f46e; u8 rest[0x600 - 0x46F]; };
 
-struct Slot_8034EDC4 {
-    s32 a[6];
-    s32 b[6];
-};
-
+PartnerDialogueSet partner_dialogue_table[4];
 int lbl_805D6EA0;
 extern "C" {
 void set_arrival_override_coords(u16, s32, f32, f32, f32);
@@ -60,7 +56,6 @@ void handle_6x69_npc_control(G_NPCControl_6x69 *cmd);
 
 }
 void quest_remove_npc_player(u16 client);
-extern struct Slot_8034EDC4 partner_dialogue_table[];
 extern s32 TNpcPlayer__data_805D5864;
 void init_partner_dialogue(void);
 void quest_player_look_at_partner(u16 src);
@@ -132,8 +127,8 @@ void init_partner_dialogue(void) {
     TNpcPlayer__data_805D5864 = 0;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 6; j++) {
-            partner_dialogue_table[i].a[j] = 0;
-            partner_dialogue_table[i].b[j] = 0x19;
+            partner_dialogue_table[i].text[j] = 0;
+            partner_dialogue_table[i].kind[j] = 0x19;
         }
     }
 }
@@ -699,4 +694,29 @@ void TLobby__sub_8034DAA0(s32 client, u32 status) {
         player->set_tp(obj_getS16_2BA((u8 *)player));
         break;
     }
+}
+void set_partner_dialogue_override(const char *text, s32 kind, u16 player) {
+    s32 i;
+    if (player >= 4) {
+        return;
+    }
+    for (i = 0; i < 6; i++) {
+        if (partner_dialogue_table[player].kind[i] == 25 || kind == partner_dialogue_table[player].kind[i]) {
+            partner_dialogue_table[player].kind[i] = kind;
+            partner_dialogue_table[player].text[i] = text;
+            return;
+        }
+    }
+}
+const char *get_partner_custom_text(s32 kind, u16 player) {
+    s32 i;
+    if (player >= 4) {
+        return NULL;
+    }
+    for (i = 0; i < 6; i++) {
+        if (kind == partner_dialogue_table[player].kind[i]) {
+            return partner_dialogue_table[player].text[i];
+        }
+    }
+    return NULL;
 }
