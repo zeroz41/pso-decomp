@@ -29,7 +29,7 @@ inline u8 *vj_encode(u8 *cp, u32 n) {
     return cp;
 }
 
-s32 sl_compress_tcp(PppVjCompressionState *comp, PppFrame **m, s16 compress_cid) {
+s32 sl_compress_tcp(PppVjCompressionState *state, PppFrame **frame, s16 compress_cid) {
     PppVjConnectionState *cs;
     PppVjConnectionState *lastcs;
     PppVjConnectionState *lcs;
@@ -44,24 +44,24 @@ s32 sl_compress_tcp(PppVjCompressionState *comp, PppFrame **m, s16 compress_cid)
 
     cp = vj_new_seq;
     changes = 0;
-    lastcs = &comp->tstate[comp->last_cs];
+    lastcs = &state->tstate[state->last_cs];
     cs = lastcs->next;
     lcs = lastcs;
-    hlen = NetIPv4ReadHeader(&a, m);
+    hlen = NetIPv4ReadHeader(&a, frame);
     if (a.proto != 6 || a.frag != 0 || a.mf != 0) {
         if (a.proto != 6) {
-            comp->out_not_tcp++;
+            state->out_not_tcp++;
         } else {
-            comp->out_not_compressible++;
+            state->out_not_compressible++;
         }
-        *m = NetIPv4WriteHeader(&a, *m, 1);
+        *frame = NetIPv4WriteHeader(&a, *frame, 1);
         return 0x40;
     }
-    hlen += NetTcpReadHeader(&b, m);
+    hlen += NetTcpReadHeader(&b, frame);
     if (b.syn || b.fin || b.rst || !b.ack_flag) {
-        comp->out_not_compressible++;
-        *m = NetTcpWriteHeader(&b, *m, NULL);
-        *m = NetIPv4WriteHeader(&a, *m, 1);
+        state->out_not_compressible++;
+        *frame = NetTcpWriteHeader(&b, *frame, NULL);
+        *frame = NetIPv4WriteHeader(&a, *frame, 1);
         return 0x40;
     }
     for (;;) {
@@ -74,16 +74,16 @@ s32 sl_compress_tcp(PppVjCompressionState *comp, PppFrame **m, s16 compress_cid)
         }
         lcs = cs;
         cs = cs->next;
-        comp->searches++;
+        state->searches++;
     }
-    comp->misses++;
-    comp->last_cs = lcs->id;
+    state->misses++;
+    state->last_cs = lcs->id;
     goto uncompressed;
 
 found:
     if (lcs != lastcs) {
         if (cs == lastcs) {
-            comp->last_cs = lcs->id;
+            state->last_cs = lcs->id;
         } else {
             lcs->next = cs->next;
             cs->next = lastcs->next;
@@ -159,28 +159,28 @@ found:
     cs->a = a;
     cs->b = b;
     deltaS = cp - vj_new_seq;
-    if (compress_cid == 0 || comp->last_xmit != cs->id) {
-        cp = (*m = alloc_from_buffer(*m, deltaS + 4))->data;
+    if (compress_cid == 0 || state->last_xmit != cs->id) {
+        cp = (*frame = alloc_from_buffer(*frame, deltaS + 4))->data;
         *cp++ = changes | 0x40;
         *cp++ = cs->id;
-        comp->last_xmit = cs->id;
+        state->last_xmit = cs->id;
     } else {
-        cp = (*m = alloc_from_buffer(*m, deltaS + 3))->data;
+        cp = (*frame = alloc_from_buffer(*frame, deltaS + 3))->data;
         *cp++ = (s8)changes;
     }
     cp = write_network_u16_be(cp, deltaA);
     NetMemcpy(cp, vj_new_seq, (s16)deltaS);
-    comp->out_compressed++;
+    state->out_compressed++;
     return 0x80;
 
 uncompressed:
     a.proto = cs->id;
     cs->a = a;
     cs->b = b;
-    comp->last_xmit = cs->id;
-    comp->out_uncompressed++;
-    *m = NetTcpWriteHeader(&b, *m, NULL);
-    *m = NetIPv4WriteHeader(&a, *m, 1);
+    state->last_xmit = cs->id;
+    state->out_uncompressed++;
+    *frame = NetTcpWriteHeader(&b, *frame, NULL);
+    *frame = NetIPv4WriteHeader(&a, *frame, 1);
     return 0x70;
 }
 #pragma pop

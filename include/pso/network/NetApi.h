@@ -44,12 +44,12 @@ s32 unlock_at_sem(void);
 s32 lock_at_sem(void);
 s16 set_at_timer(NetTimerCallback callback, s32 interval);
 s32 reset_at_timer(NetTimerCallback timer);
-s32 udp_close(s32 a);
+s32 udp_close(s32 nh);
 s16 if_down(s16 idx, s32 op);
 s16 tcp_get_opt(s16 nh, s16 type, u32 *opt);
-s32 tcp_delete(s32 a);
-s32 tcp_abort(s32 a);
-s32 tcp_bind(s32 a, void *addr, u16 port);
+s32 tcp_delete(s32 nh);
+s32 tcp_abort(s32 nh);
+s32 tcp_bind(s32 nh, void *addr, u16 port);
 s16 tcp_create(void);
 s16 if_get(s16 iface, void *hdr_src, s32 len, void *buf);
 #ifdef __cplusplus

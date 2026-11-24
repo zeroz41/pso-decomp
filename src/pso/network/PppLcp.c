@@ -662,23 +662,23 @@ void append_lcp_option(PppFrame **pbuf, LcpVals *vals, u8 type, u8 len, PppFrame
     p->len += len;
 }
 
-s32 configure_mode_by_type(LcpSide *c, s16 type) {
+s32 configure_mode_by_type(LcpSide *side, s16 type) {
     if (type == 0) {
-        c->want.mask |= 8;
-        c->want.auth_proto = 0xC023;
+        side->want.mask |= 8;
+        side->want.auth_proto = 0xC023;
     } else if (type == 1) {
-        c->want.mask &= ~8;
-        c->want.auth_negotiable = 0;
+        side->want.mask &= ~8;
+        side->want.auth_negotiable = 0;
     } else if (type == 2) {
-        c->want.mask |= 8;
-        c->want.auth_proto = 0xC223;
-        c->want.chap_alg = 5;
-        c->want.auth_negotiable = 0;
+        side->want.mask |= 8;
+        side->want.auth_proto = 0xC223;
+        side->want.chap_alg = 5;
+        side->want.auth_negotiable = 0;
     } else if (type == 4) {
-        c->want.mask |= 8;
-        c->want.auth_proto = 0xC223;
-        c->want.chap_alg = 5;
-        c->want.auth_negotiable = 1;
+        side->want.mask |= 8;
+        side->want.auth_proto = 0xC223;
+        side->want.chap_alg = 5;
+        side->want.auth_negotiable = 1;
     } else {
         return 1;
     }

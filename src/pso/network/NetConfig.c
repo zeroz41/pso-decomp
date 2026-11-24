@@ -149,23 +149,23 @@ void term_ipv6_routing_config(Ipv6State *cfg) {
 }
 
 /* Fills ipv6_address_routing_state. */
-void init_udp_socket_config(Ipv6State *o) {
-    o->route_count = 0x1A;
-    o->count = 3;
-    o->max_addrs = 9;
-    o->pmtu_count = 9;
-    o->dad_timer_init = 1;
-    o->dad_interval = 1;
-    o->dad_count_init = 1;
-    o->rs_timer_init = 1;
-    o->rs_interval = 1;
-    o->rs_count_init = 2;
-    o->pmtu_lifetime = 0x1E;
-    o->min_mtu = 0x500;
-    o->routes = ipv6_route_storage;
-    o->ifaces = ipv6_iface_storage;
-    o->addr_pool = ipv6_addr_pool_storage;
-    o->pmtu = ipv6_pmtu_storage;
+void init_udp_socket_config(Ipv6State *cfg) {
+    cfg->route_count = 0x1A;
+    cfg->count = 3;
+    cfg->max_addrs = 9;
+    cfg->pmtu_count = 9;
+    cfg->dad_timer_init = 1;
+    cfg->dad_interval = 1;
+    cfg->dad_count_init = 1;
+    cfg->rs_timer_init = 1;
+    cfg->rs_interval = 1;
+    cfg->rs_count_init = 2;
+    cfg->pmtu_lifetime = 0x1E;
+    cfg->min_mtu = 0x500;
+    cfg->routes = ipv6_route_storage;
+    cfg->ifaces = ipv6_iface_storage;
+    cfg->addr_pool = ipv6_addr_pool_storage;
+    cfg->pmtu = ipv6_pmtu_storage;
 }
 
 void term_ipv6_nd_config(Ipv6NdState *cfg) {

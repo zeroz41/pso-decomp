@@ -692,8 +692,8 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, NetPacket *pkt, s16 
     return ~sum;
 }
 
-u16 calc_ip_checksum(NetPacket *self, s16 b) {
-    u32 s = packet_ones_complement_sum(self, b);
+u16 calc_ip_checksum(NetPacket *packet, s16 flag) {
+    u32 s = packet_ones_complement_sum(packet, flag);
     s = (s >> 16) + (s & 0xFFFF);
     s += (s >> 16);
     return ~s;

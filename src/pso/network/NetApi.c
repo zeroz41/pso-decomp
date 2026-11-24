@@ -835,26 +835,26 @@ s16 tcp_create(void) {
     return handle;
 }
 
-void NetDispatchSocketEvent(s16 v, NetSocketEventCallback cb, s32 type, s16 code) {
+void NetDispatchSocketEvent(s16 handle, NetSocketEventCallback callback, s32 protocol, s16 event) {
     s16 validate_tcp_handle(s16 handle);
     TcpTcb *s;
-    switch ((s16)type) {
+    switch ((s16)protocol) {
     case 1:
-        v |= 0x800;
+        handle |= 0x800;
         break;
     case 6:
-        v |= 0xC00;
+        handle |= 0xC00;
         break;
     case 2:
-        v |= UDP_SOCKET_TAG;
+        handle |= UDP_SOCKET_TAG;
         break;
     case 3:
-        if (validate_tcp_handle(v) < 0) {
+        if (validate_tcp_handle(handle) < 0) {
             return;
         }
         s = tcp_protocol_state.tcbs;
-        s += v;
-        if ((u16)(code - 10) <= 1 || code == 4) {
+        s += handle;
+        if ((u16)(event - 10) <= 1 || event == 4) {
             if (s->waits[2].flags & 2) {
                 s->waits[2].status = -5;
                 s->waits[2].flags &= ~1;
@@ -870,8 +870,8 @@ void NetDispatchSocketEvent(s16 v, NetSocketEventCallback cb, s32 type, s16 code
     default:
         return;
     }
-    if (cb != NULL) {
-        cb(v, code);
+    if (callback != NULL) {
+        callback(handle, event);
     }
 }
 

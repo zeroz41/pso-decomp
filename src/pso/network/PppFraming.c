@@ -998,15 +998,15 @@ s16 reset_socket_table(void) {
 }
 #pragma pop
 
-s32 netbuf_release(NetBufferRef *o) {
-    if (o != 0) {
-        switch (o->kind) {
+s32 netbuf_release(NetBufferRef *ref) {
+    if (ref != 0) {
+        switch (ref->kind) {
         case 1:
         case 3:
             break;
         case 2:
         case 4:
-            if (buffer_pool_free(o) < 0) {
+            if (buffer_pool_free(ref) < 0) {
                 return -1;
             }
             return 0;
@@ -1363,12 +1363,12 @@ void netbuf_copy_by_ref(NetBufferRef *dst, NetBufferRef *src, s32 len) {
 }
 #pragma pop
 
-void release_entry(NetPacket *e) {
+void release_entry(NetPacket *pkt) {
     s16 i;
     s16 n = lobby_udp_socket_table.count;
     NetPacket *p = lobby_udp_socket_table.packets;
     for (i = 0; i < n; i++, p++) {
-        if (p->in_use == 1 && p == e) {
+        if (p->in_use == 1 && p == pkt) {
             p->in_use = 0;
             return;
         }

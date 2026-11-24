@@ -427,7 +427,7 @@ Ipv4Route *AT_IP4_RouteSearch(u32 dst, u32 src) {
     return NULL;
 }
 
-s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
+s32 route4_redirect(u32 dst, u32 new_gateway, u32 mask, u32 flags, u32 old_gateway)
 {
   Ipv4RoutingState *tbl = &ipv4_address_routing_state;
   u32 route_dst;
@@ -448,14 +448,14 @@ s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
     route_dst = e->dst;
     if (route_dst == 0)
     {
-      a4 |= 2;
+      flags |= 2;
       found = 1;
       continue;
     }
-    f = (u16) a4;
-    if (a4 & 4)
+    f = (u16) flags;
+    if (flags & 4)
     {
-      if (((!e->flags) & 4) || (route_dst != a1))
+      if (((!e->flags) & 4) || (route_dst != dst))
       {
         continue;
       }
@@ -467,7 +467,7 @@ s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
     {
       continue;
     }
-    if ((a1 & e->mask) != (route_dst & a3))
+    if ((dst & e->mask) != (route_dst & mask))
     {
       continue;
     }
@@ -478,7 +478,7 @@ s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
 
   if (found != 0)
   {
-    if (NetIPv4AddRoute(a1, a3, new_gateway, 1, 2, a4) != 0)
+    if (NetIPv4AddRoute(dst, mask, new_gateway, 1, 2, flags) != 0)
     {
       return -1;
     }

@@ -329,7 +329,7 @@ s16 link_attach_protocol(s16 idx, u32 a, s16 b, u32 *c) {
     return e->open(idx, a, b, c);
 }
 
-s16 link_get_interface_id(s16 idx, void *a)
+s16 link_get_interface_id(s16 idx, void *dst)
 {
     LobbyHandler *e;
 
@@ -344,7 +344,7 @@ s16 link_get_interface_id(s16 idx, void *a)
     if (e->get_interface_id == NULL) {
         return -2;
     }
-    return e->get_interface_id(idx, a);
+    return e->get_interface_id(idx, dst);
 }
 
 #pragma push

@@ -150,16 +150,16 @@ s16 icmp_input(NetPacket *pkt, u32 src, u32 dst)
   return 0;
 }
 
-s16 icmp_send_error(Icmp4Header *p, IPv4Header *b, s16 x, s16 id)
+s16 icmp_send_error(Icmp4Header *icmp, IPv4Header *ip, s16 len, s16 iface)
 {
   NetPacket *pkt;
   s32 lim;
   s16 r;
-  if ((NetIPv4IsUnspecified(b->src) || NetIPv4IsLoopback(b->src)) || (NetIPv4IsBroadcast(b->src, id) != 0))
+  if ((NetIPv4IsUnspecified(ip->src) || NetIPv4IsLoopback(ip->src)) || (NetIPv4IsBroadcast(ip->src, iface) != 0))
   {
     return -1;
   }
-  if (NetIPv4IsBroadcast(b->dst, id))
+  if (NetIPv4IsBroadcast(ip->dst, iface))
   {
     return -1;
   }
@@ -168,21 +168,21 @@ s16 icmp_send_error(Icmp4Header *p, IPv4Header *b, s16 x, s16 id)
   {
     return -1;
   }
-  lim = (s16) ((b->ver_ihl << 2) & 0x3C);
+  lim = (s16) ((ip->ver_ihl << 2) & 0x3C);
   lim = lim + 8;
-  x = (x < lim) ? (x) : (lim);
+  len = (len < lim) ? (len) : (lim);
   pkt->fragment_count = 0;
-  pkt->total_bytes = x;
-  pkt->fragments[pkt->fragment_count].length = x;
-  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, b);
+  pkt->total_bytes = len;
+  pkt->fragments[pkt->fragment_count].length = len;
+  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, ip);
   pkt->fragment_count += 1;
   pkt->total_bytes += 8;
   pkt->fragments[pkt->fragment_count].length = 8;
-  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, p);
+  set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, icmp);
   pkt->fragment_count += 1;
-  p->checksum = 0;
-  p->checksum = calc_ip_checksum(pkt, 1);
-  r = AT_IP4_Send(pkt, b->src, b->dst, 0, 0, 0, 1);
+  icmp->checksum = 0;
+  icmp->checksum = calc_ip_checksum(pkt, 1);
+  r = AT_IP4_Send(pkt, ip->src, ip->dst, 0, 0, 0, 1);
   release_entry(pkt);
   return r;
 }

@@ -16,7 +16,7 @@
 u8 vj_byte_buffer[1];
 u8 vj_u16_buffer[2];
 
-s16 vj_remember_uncompressed(PppVjCompressionState *o, PppFrame **spp) {
+s16 vj_remember_uncompressed(PppVjCompressionState *state, PppFrame **spp) {
     ParsedIpHeader a;
     ParsedTcpHeader b;
     PppVjConnectionState *e;
@@ -25,23 +25,23 @@ s16 vj_remember_uncompressed(PppVjCompressionState *o, PppFrame **spp) {
     NetIPv4ReadHeader(&a, spp);
     NetTcpReadHeader(&b, spp);
     c = a.proto;
-    if (c > o->max) {
-        o->in_errors++;
-        if (o == NULL) {
+    if (c > state->max) {
+        state->in_errors++;
+        if (state == NULL) {
             return 0;
         }
-        o->flags |= 1;
+        state->flags |= 1;
         return 0;
     }
-    e = &o->rstate[c];
-    o->cur = c;
-    o->flags &= ~1;
+    e = &state->rstate[c];
+    state->cur = c;
+    state->flags &= ~1;
     a.proto = 6;
     e->a = a;
     e->b = b;
     *spp = NetTcpWriteHeader(&b, *spp, NULL);
     *spp = NetIPv4WriteHeader(&a, *spp, 1);
-    o->in_uncompressed++;
+    state->in_uncompressed++;
     return (s16)(s64)ppp_frame_length(*spp);
 }
 

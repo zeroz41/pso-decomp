@@ -264,7 +264,7 @@ inline s32 chap_read_byte(PppFrame **src) {
     }
     return chap_read_byte_slow(src);
 }
-s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
+s16 chap_recv_response(PppFsm *fsm, PppHeader *header, PppFrame *source) {
     s16 total;
     PppChap *chap;
     u8 *name;
@@ -285,17 +285,17 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
     name = NULL;
     value = NULL;
     secret = NULL;
-    chap = c->opts;
+    chap = fsm->opts;
 
-    if (hdr->id != c->id) {
+    if (header->id != fsm->id) {
         return -1;
     }
-    total = hdr->len;
-    n = chap_read_byte_slow(&v);
+    total = header->len;
+    n = chap_read_byte_slow(&source);
     if (n != -1) {
         p = value = chap_state.rx_value;
         for (i = 0; i < n; i++) {
-            *p++ = chap_read_byte(&v);
+            *p++ = chap_read_byte(&source);
         }
     }
     m = total - n - 1;
@@ -308,7 +308,7 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
     if (m != 0) {
         q = name = chap_state.rx_name;
         for (j = 0; j < m; j++) {
-            *q++ = chap_read_byte(&v);
+            *q++ = chap_read_byte(&source);
         }
         *q = 0;
     }
@@ -317,11 +317,11 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
         if (secret == NULL) {
             NetCopyString(chap_state.message, chap_failure_message);
             reply = ppp_buffer_from_bytes(chap_state.message, NetStringLength(chap_state.message));
-            ppp_fsm_send_packet(c, 4, hdr->id, reply);
+            ppp_fsm_send_packet(fsm, 4, header->id, reply);
             return -1;
         }
     }
-    *chap_state.hash_input = hdr->id;
+    *chap_state.hash_input = header->id;
     if (lobby_session_flags & 2) {
         NetCopyString((char *)&chap_state.hash_input[1], secret);
     } else {
@@ -350,7 +350,7 @@ s16 chap_recv_response(PppFsm *c, PppHeader *hdr, PppFrame *v) {
         ret = 0;
     }
     reply = ppp_buffer_from_bytes(chap_state.message, NetStringLength(chap_state.message));
-    ppp_fsm_send_packet(c, code, hdr->id, reply);
+    ppp_fsm_send_packet(fsm, code, header->id, reply);
     return ret;
 }
 #pragma pop
