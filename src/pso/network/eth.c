@@ -46,7 +46,7 @@ typedef struct RecvDescriptor {
     u8 status;
 } RecvDescriptor;
 
-/* CodeWarrior lays these uninitialised globals out last-defined first: .sbss 0x805D7C30-0x805D7C90. */
+/* CodeWarrior lays uninitialised globals out last-defined first, so these are in reverse address order. */
 s32 exi_send_tail_length;
 s32 exi_send_dma_length;
 s32 exi_send_size;
@@ -58,7 +58,7 @@ RecvDescriptor exi_receive_descriptor;
 u32 exi_dma_write_length;
 s32 exi_dma_read_length;
 volatile RecvDescriptor bba_descriptor;
-s32 lbl_805D7C58;
+s32 bba_receive_in_interrupt; /* nonzero: a receive interrupt reads the frame at once, before the other causes */
 ExiSendCompletionCallback exi_send_callback;
 saddr exi_receive_callback;
 uaddr exi_receive_alloc_callback;
@@ -399,7 +399,7 @@ void bba_exi_interrupt(s32 chan, OSContext *ctx) {
     }
 
     ir = bba_in8(0x09);
-    if (lbl_805D7C58 == 1 && (ir & 0x02)) {
+    if (bba_receive_in_interrupt == 1 && (ir & 0x02)) {
         bba_recv();
         return;
     }
@@ -578,7 +578,6 @@ s32 init_bba_exi_adapter(void *arg) {
     EXIUnlock(0);
     return 1;
 }
-#pragma pop
 
 void start_exi_send(u8 *data, s32 len, ExiSendCompletionCallback callback) {
     exi_send_data = data;
@@ -643,26 +642,27 @@ void copy_mac_address(void *address) {
     memcpy(exi_mac_address, address, 6);
 }
 
+/* Lays out the receive ring (boundary, write and read pages at page 1, the high boundary at page 0x0F; the page
+ * registers are little-endian), accepts broadcasts and starts the receiver. */
+static inline void bba_start_receive(void) {
+    u16 page;
+    s32 ncrb;
+    page = 0x100;
+    bba_outs(0x0A, &page, 2);
+    bba_outs(0x16, &page, 2);
+    bba_outs(0x18, &page, 2);
+    page = 0xF00;
+    bba_outs(0x1A, &page, 2);
+    ncrb = bba_in8(0x01);
+    ncrb &= ~1;
+    ncrb |= 0x12;
+    bba_out8(0x01, ncrb);
+    bba_out8(0x00, 8);
+    bba_out8(0x32, 8);
+}
+
 void bba_set_receive_callbacks(u32 alloc_callback, s32 receive_callback) {
-    u8 sp43;
-    u8 sp42;
-    s16 sp40;
-    s32 sp3C;
-    s32 sp38;
-    s32 sp34;
-    s32 sp30;
-    s32 sp2C;
-    s32 sp28;
-    u8 sp27;
-    u8 sp26;
-    u8 sp25;
-    u8 sp24;
-    s32 sp20;
-    s32 sp1C;
-    s32 sp18;
-    s32 sp14;
     s32 e;
-    s32 pad;
 
     e = OSDisableInterrupts();
     for (;;) {
@@ -676,80 +676,15 @@ void bba_set_receive_callbacks(u32 alloc_callback, s32 receive_callback) {
     exi_receive_alloc_callback = alloc_callback;
     exi_receive_callback = receive_callback;
     if (alloc_callback == 0U) {
-        sp43 = 0;
-        sp3C = 0xC0000800;
-        EXISelect(0, 2, 5);
-        EXIImm(0, &sp3C, 4, 1, 0);
-        EXISync(0);
-        EXIImmEx(0, &sp43, 1, 1);
-        EXIDeselect(0);
+        bba_out8(0x08, 0);
     } else {
-        sp42 = 0xFF;
-        sp38 = 0xC0000800;
-        EXISelect(0, 2, 5);
-        EXIImm(0, &sp38, 4, 1, 0);
-        EXISync(0);
-        EXIImmEx(0, &sp42, 1, 1);
-        EXIDeselect(0);
-        sp40 = 0x100;
-        sp34 = 0xC0000A00;
-        EXISelect(0, 2, 5);
-        EXIImm(0, &sp34, 4, 1, 0);
-        EXISync(0);
-        EXIImmEx(0, &sp40, 2, 1);
-        EXIDeselect(0);
-        sp30 = 0xC0001600;
-        EXISelect(0, 2, 5);
-        EXIImm(0, &sp30, 4, 1, 0);
-        EXISync(0);
-        EXIImmEx(0, &sp40, 2, 1);
-        EXIDeselect(0);
-        sp2C = 0xC0001800;
-        EXISelect(0, 2, 5);
-        EXIImm(0, &sp2C, 4, 1, 0);
-        EXISync(0);
-        EXIImmEx(0, &sp40, 2, 1);
-        EXIDeselect(0);
-        sp40 = 0xF00;
-        sp28 = 0xC0001A00;
-        EXISelect(0, 2, 5);
-        EXIImm(0, &sp28, 4, 1, 0);
-        EXISync(0);
-        EXIImmEx(0, &sp40, 2, 1);
-        EXIDeselect(0);
-        sp20 = 0x80000100;
-        EXISelect(0, 2, 5);
-        EXIImm(0, &sp20, 4, 1, 0);
-        EXISync(0);
-        EXIImmEx(0, &sp27, 1, 0);
-        EXIDeselect(0);
-        e = sp27;
-        e &= ~1;
-        e |= 0x12;
-        sp26 = e;
-        sp1C = 0xC0000100;
-        EXISelect(0, 2, 5);
-        EXIImm(0, &sp1C, 4, 1, 0);
-        EXISync(0);
-        EXIImmEx(0, &sp26, 1, 1);
-        EXIDeselect(0);
-        sp18 = 0xC0000000;
-        sp25 = 8;
-        EXISelect(0, 2, 5);
-        EXIImm(0, &sp18, 4, 1, 0);
-        EXISync(0);
-        EXIImmEx(0, &sp25, 1, 1);
-        EXIDeselect(0);
-        sp24 = 8;
-        sp14 = 0xC0003200;
-        EXISelect(0, 2, 5);
-        EXIImm(0, &sp14, 4, 1, 0);
-        EXISync(0);
-        EXIImmEx(0, &sp24, 1, 1);
-        EXIDeselect(0);
+        bba_out8(0x08, 0xFF);
+        bba_start_receive();
     }
     EXIUnlock(0);
 }
+
+#pragma pop
 
 s32 poll_exi_status(s32 *status) {
     u8 buf[2];
