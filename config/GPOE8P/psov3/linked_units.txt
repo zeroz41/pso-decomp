@@ -1060,7 +1060,6 @@ pso/player/TPlyDispConfigSmth.cpp
 pso/effect/particle/TPlyFollowParticleCtrl.cpp
 pso/player/TPlyGuildCardTag.cpp
 pso/player/TPlyGuildCardTag_80077BBC.cpp
-pso/player/TPlyGuildCardTag_8007B434.cpp
 pso/player/TPlyGuildCardTag_8007B7EC.cpp
 pso/player/TPlyGuildCardTag_801E0284.cpp
 pso/player/TPlyGuildCardTag_801E09C4.cpp
@@ -1223,7 +1222,6 @@ pso/ui/window/TWindowEffectLight.cpp
 pso/ui/window/TWindowEffectParty.cpp
 pso/ui/window/TWindowFukidasi.cpp
 pso/ui/window/TWindowGetComCard.cpp
-pso/ui/window/TWindowGetComCard_8007B54C.cpp
 pso/ui/window/TWindowHelpItem.cpp
 pso/ui/window/TWindowHelpItem_802531A0.cpp
 pso/ui/window/TWindowHelpItem_802540AC.cpp
@@ -1608,7 +1606,6 @@ pso/player/TObjPlayer_8002E784.cpp
 pso/player/TObjPlayer_8002EF8C.cpp
 pso/player/TObjPlayer_80052374.cpp
 pso/player/TObjPlayer_80055678.cpp
-pso/player/TObjPlayer_8007B4F8.cpp
 pso/player/TObjPlayer_80080750.cpp
 pso/render/CameraCapture.cpp
 pso/player/TUnk_80491460.cpp
@@ -1893,7 +1890,6 @@ pso/unk/text_80076E84.cpp
 pso/unk/text_800779A0.cpp
 pso/unk/text_80077AA4.cpp
 pso/unk/text_80077AE8.cpp
-pso/unk/text_8007B370.cpp
 pso/unk/text_8007C0CC.cpp
 pso/effect/TDuelEffectCtrl.cpp
 pso/enemy/beast/TObjEneBeast_80092AE0.cpp

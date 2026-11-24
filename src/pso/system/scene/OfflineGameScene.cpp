@@ -59,7 +59,7 @@
 #include "pso/object/warp/TObjCityMainWarp_801867F4.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
-#include "pso/ui/window/TWindowGetComCard_8007B54C.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/ui/chat/TWindowChat_800774C0.h"
 #include "pso/network/protocol/choice_search.h"

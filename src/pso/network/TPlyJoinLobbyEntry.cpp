@@ -63,7 +63,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/player/TPlyGuildCardTag_8007B434.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby_80207DA8.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/text_8013ADD0.h"

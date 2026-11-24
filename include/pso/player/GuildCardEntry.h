@@ -35,4 +35,8 @@ struct GuildCardSlot {
 LAYOUT_ASSERT(GuildCardSlotSize, sizeof(GuildCardSlot) == 0x100);
 LAYOUT_ASSERT(GuildCardSlotNoteOffset, offsetof(GuildCardSlot, note) == 0x94);
 
+// Fills a GuildCardEntry with the name, section id, class and language of the player of
+// client; 0 when there is none or it has no guild card number.
+s32 fill_guild_card_from_player(u8 *ply_guild_card_tag, u32 client);
+
 #endif
