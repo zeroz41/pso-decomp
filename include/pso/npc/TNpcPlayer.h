@@ -176,28 +176,6 @@ struct TNpcPlayer : public TObject {
     void init_6x3E_packet();
     void init_equipment();
     static s32 send_command(s32 cls, s32 count, const TPlyInventoryItem *source, s32 level, TPlyCharData *character);
-    static u8 *get_lobby_entry_ptr();
-    static void send_warp_toward_player(u16 id, const Vec *destination);
-    static void send_code_45_to_player(int client);
-    static void play_effect(int client);
-    static void send_stop_at_position(u16 id, void *pos, s32 arg);
-    static void enable_partner_chatter();
-    static void disable_partner_chatter();
-    static void enable_all_battle_ctrl();
-    static void send_6x3e_to_all_players(void *pos, s32 arg);
-    static void apply_to_players(s32 value, void *arg1, s32 heading);
-    static void send_inter_level_warp_all(s32 value);
-    static void send_npc_control_6x69(s32 controller_id);
-    static void send_npc_stop_6x69(s32 controller_id);
-    static void send_npc_control_create(u16 controller_id, u16 npc_client_id, s32 npc_type, u8 *pos, s32 heading);
-    static void create_companion(u16 leader, u16 slot, s32 appearance, f32 *p, s32 heading);
-    static void create_default_companion(u16 leader, s32 appearance, u8 *pos, s32 heading);
-    static void send_npc_control_notify_players(s32 controller_id, s32 npc_client_id, s32 npc_type);
-    static void send_npc_create(s32 controller_id, s32 npc_type);
-    static void reset_player_lobby_model(u16 client);
-    static void update_player_field(u16 client, s32 frames);
-    static void end_camera_pan_for_client(u16 client);
-    static void apply_to_battle_player_slot(u16 client, s16 arg1);
     void byteswap_header();
     void send_state_60();
     void update_combat_action();
@@ -212,6 +190,9 @@ LAYOUT_ASSERT(TNpcPlayer_size, sizeof(TNpcPlayer) == 0xE8);
 
 // Builds the character record of NPC template index, scaled to the selected difficulty.
 TPlyCharData *load_npc_player_template(s32 index);
+// The NPC AI parameter rows, indexed by TNpcPlayer::AiParams::copy_entry_by_index.
+extern TNpcPlayer::AiParams npc_player_ai_templates[64];
+extern s32 quest_npc_visual_pending;
 // Clears a 6x40 walk-to-position packet and sets its header (subcommand 0x40, size 4).
 void init_6x40_walk_packet(void *cmd);
 #endif

@@ -23,42 +23,20 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-// One TU: TLobby__sub_8034DAA0 (jumptable after the TUnk_804F07C8 vtable in .data),
+// One TU: apply_player_slot_status (jumptable after the TUnk_804F07C8 vtable in .data),
 // the party-area task, TTecReverser::is_active, the 4-player notifiers and the
 // partner dialogue code share one .data block (dialogue state, vtable, jumptable).
 
-// One entry per partner remark kind; flag is cleared by clear_partner_dialogue_flags.
-struct E_8034E02C { u8 flag; u8 pad[0x35]; };
-
-extern "C" {
-E_8034E02C npc_partner_dialogue_state[25] = { 0 };
-}
-
-extern "C" {
-struct TNpcPlayerTemplateTable { s32 value; u8 remaining[0x9FC]; };
-extern TNpcPlayerTemplateTable npc_player_ai_templates;
+PartnerRemark npc_partner_dialogue_state[25] = { 0 };
 
 #pragma opt_pointer_analysis on
-
-}
-
-struct Global_8034E5A8 { u8 pad[0x46E]; s8 f46e; u8 rest[0x600 - 0x46F]; };
 
 PartnerDialogueSet partner_dialogue_table[4];
 int partner_chatter_flags;
 extern "C" {
 void set_arrival_override_coords(u16, s32, f32, f32, f32);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
-f32 atan2_float(f32, f32);
-void handle_6x69_npc_control(G_NPCControl_6x69 *cmd);
-
 }
-void quest_remove_npc_player(u16 client);
-extern s32 quest_npc_visual_pending;
-void init_partner_dialogue(void);
-void quest_player_look_at_partner(u16 src);
-void notify_partner_room_cleared(s32 arg0);
-void quest_player_face_actor(u16 src, u16 dst);
 
 // Compiled with -inline off,deferred: the functions are written in reverse of their
 // address order (the .text order is the reverse of the source order).
@@ -87,40 +65,38 @@ void TObjPlayer::set_npc_control_state(s32 state) { npc_control.state = state; }
 
 s32 TObjPlayer::get_npc_control_state() { return npc_control.state; }
 
-void TNpcPlayer::apply_to_battle_player_slot(u16 client, s16 arg1) {
-    uaddr player;
-    if ((arg1 < 0x10) && ((player = ((uaddr)get_player_by_client_id(client))) != 0U)) {
-        ((TObjPlayer *)player)->init_photon_blast(arg1);
+void apply_to_battle_player_slot(u16 client, s16 photon_blast) {
+    TObjPlayer *player;
+    if (photon_blast < 0x10 && (player = get_player_by_client_id(client)) != NULL) {
+        player->init_photon_blast(photon_blast);
     }
 }
 
-void TNpcPlayer::end_camera_pan_for_client(u16 client) {
-    saddr tmp_player;
-    if ((tmp_player = (saddr)get_player_by_client_id(client)) != 0U) {
-        ((TObjPlayer *)tmp_player)->end_camera_pan();
+void end_camera_pan_for_client(u16 client) {
+    TObjPlayer *player;
+    if ((player = get_player_by_client_id(client)) != NULL) {
+        player->end_camera_pan();
     }
 }
 
-void TNpcPlayer::update_player_field(u16 client, s32 frames) {
-    uaddr player;
-    player = (uaddr)get_player_by_client_id(client);
-    if (player != 0U) {
-        ((TObjPlayer *)player)->protection.set_frames(frames);
+void update_player_field(u16 client, s32 frames) {
+    TObjPlayer *player = get_player_by_client_id(client);
+    if (player != NULL) {
+        player->protection.set_frames(frames);
     }
 }
 
-void TNpcPlayer::reset_player_lobby_model(u16 client) {
-    uaddr player;
-    player = (uaddr)get_player_by_client_id(client);
-    if (player != 0U) {
-        ((TObjPlayer *)player)->protection.reset_lobby_model();
+void reset_player_lobby_model(u16 client) {
+    TObjPlayer *player = get_player_by_client_id(client);
+    if (player != NULL) {
+        player->protection.reset_lobby_model();
     }
 }
 
-void init_partner_dialogue(void) {
+void init_partner_dialogue() {
     s32 i;
     s32 j;
-    (*(s32 *)&partner_chatter_flags) = 0;
+    partner_chatter_flags = 0;
     clear_partner_dialogue_flags();
     quest_npc_visual_pending = 0;
     for (i = 0; i < 4; i++) {
@@ -131,9 +107,9 @@ void init_partner_dialogue(void) {
     }
 }
 
-void TNpcPlayer__sub_8034EDB8(void) { partner_chatter_flags = 0; }
+void release_partner_dialogue() { partner_chatter_flags = 0; }
 
-void TNpcPlayer::send_npc_create(s32 controller_id, s32 npc_type) {
+void send_npc_create(s32 controller_id, s32 npc_type) {
     G_NPCControl_6x69 cmd;
     cmd.init();
     cmd.npc_client_id = 0xFFFF;
@@ -144,7 +120,7 @@ void TNpcPlayer::send_npc_create(s32 controller_id, s32 npc_type) {
     cmd.send();
 }
 
-void TNpcPlayer::send_npc_control_notify_players(s32 controller_id, s32 npc_client_id, s32 npc_type) {
+void send_npc_control_notify_players(s32 controller_id, s32 npc_client_id, s32 npc_type) {
     s32 client;
     G_NPCControl_6x69 cmd;
     s32 i;
@@ -164,7 +140,7 @@ void TNpcPlayer::send_npc_control_notify_players(s32 controller_id, s32 npc_clie
     cmd.send();
 }
 
-void TNpcPlayer::create_default_companion(u16 leader, s32 appearance, u8 *pos, s32 heading) {
+void create_default_companion(u16 leader, s32 appearance, u8 *pos, s32 heading) {
     G_NPCControl_6x69 cmd;
     cmd.init();
     cmd.npc_client_id = 0xFFFF;
@@ -177,7 +153,7 @@ void TNpcPlayer::create_default_companion(u16 leader, s32 appearance, u8 *pos, s
     send_6x24_teleport_player(cmd.npc_client_id, pos, heading);
 }
 
-void TNpcPlayer::create_companion(u16 leader, u16 slot, s32 appearance, f32 *p, s32 heading) {
+void create_companion(u16 leader, u16 slot, s32 appearance, f32 *p, s32 heading) {
     G_NPCControl_6x69 cmd;
     cmd.init();
     cmd.controller_id = leader;
@@ -190,7 +166,7 @@ void TNpcPlayer::create_companion(u16 leader, u16 slot, s32 appearance, f32 *p, 
     send_6x24_teleport_player(cmd.npc_client_id, p, heading);
 }
 
-void TNpcPlayer::send_npc_control_create(u16 controller_id, u16 npc_client_id, s32 npc_type, u8 *pos, s32 heading) {
+void send_npc_control_create(u16 controller_id, u16 npc_client_id, s32 npc_type, u8 *pos, s32 heading) {
     s32 client;
     G_NPCControl_6x69 cmd;
     s32 i;
@@ -213,7 +189,7 @@ void TNpcPlayer::send_npc_control_create(u16 controller_id, u16 npc_client_id, s
     cmd.send();
 }
 
-void TNpcPlayer::send_npc_stop_6x69(s32 controller_id) {
+void send_npc_stop_6x69(s32 controller_id) {
     G_NPCControl_6x69 cmd;
     cmd.init();
     cmd.controller_id = controller_id;
@@ -221,7 +197,7 @@ void TNpcPlayer::send_npc_stop_6x69(s32 controller_id) {
     cmd.send();
 }
 
-void TNpcPlayer::send_npc_control_6x69(s32 controller_id) {
+void send_npc_control_6x69(s32 controller_id) {
     G_NPCControl_6x69 cmd;
     cmd.init();
     cmd.controller_id = controller_id;
@@ -301,7 +277,7 @@ void handle_6x69_npc_control(G_NPCControl_6x69 *cmd) {
     }
 }
 
-void TNpcPlayer::send_inter_level_warp_all(s32 value) {
+void send_inter_level_warp_all(s32 value) {
     s32 i;
     TObjPlayer *player;
 
@@ -313,21 +289,21 @@ void TNpcPlayer::send_inter_level_warp_all(s32 value) {
     }
 }
 
-void TNpcPlayer::apply_to_players(s32 value, void *arg1, s32 heading) {
+void apply_to_players(s32 value, const Vec *pos, s32 heading) {
     s32 client;
     TObjPlayer *player;
     client = 0;
     do {
         player = get_player_by_client_id(client);
         if ((player != NULL) && (player->obj_isState3_324() != 0) && (player->get_npc_controller() != 0xFFFF)) {
-            set_arrival_override_coords(player->get_entity_id(), heading, *(f32 *)((s8 *)arg1 + 0), *(f32 *)((s8 *)arg1 + 4), *(f32 *)((s8 *)arg1 + 8));
+            set_arrival_override_coords(player->get_entity_id(), heading, pos->x, pos->y, pos->z);
             send_6x21_inter_level_warp(player, value);
         }
         client += 1;
     } while (client < 4);
 }
 
-void TNpcPlayer::send_6x3e_to_all_players(void *pos, s32 angle) {
+void send_6x3e_to_all_players(void *pos, s32 angle) {
     G_StopAtPosition_6x3E cmd;
     s32 i;
     TObjPlayer *player;
@@ -351,25 +327,25 @@ void TNpcPlayer::send_6x3e_to_all_players(void *pos, s32 angle) {
 
 void show_partner_chatter_for_key(s16 key) {
     s32 i;
-    saddr player;
+    TObjPlayer *player;
     for (i = 0; i < 4; i++) {
-        player = (saddr)get_player_by_client_id(i);
-        if (player && reinterpret_cast<TObjPlayer *>(player)->obj_isState3_324() && key == ((TObjBase *)player)->get_room()
-            && !(partner_chatter_flags & 2) && (*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e) {
-            TWindowCtrl::open(((TObjBase *)(player))->get_entity_id(), (saddr)(&(*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e), 0x1B);
+        player = get_player_by_client_id(i);
+        if (player && player->obj_isState3_324() && key == player->get_room()
+            && !(partner_chatter_flags & 2) && npc_partner_dialogue_state[21].text[0]) {
+            TWindowCtrl::open(player->get_entity_id(), (saddr)npc_partner_dialogue_state[21].text, 0x1B);
         }
     }
 }
 
-void notify_partner_room_cleared(s32 arg0) {
-    s8 *win = (s8 *)((s32 *)&npc_partner_dialogue_state) + 0x3CC;
+void notify_partner_room_cleared(s32 room) {
+    char *remark = npc_partner_dialogue_state[18].text;
     s32 i;
-    saddr p;
+    TObjPlayer *player;
     i = 0;
     do {
-        p = (saddr)get_player_by_client_id(i);
-        if (p != 0 && reinterpret_cast<TObjPlayer *>(p)->obj_isState3_324() != 0 && arg0 == ((TObjBase *)p)->get_room() && !(partner_chatter_flags & 2) && *win != 0) {
-            TWindowCtrl::open(((TObjBase *)(p))->get_entity_id(), (saddr)((void *)((saddr)win)), 0x1B);
+        player = get_player_by_client_id(i);
+        if (player != NULL && player->obj_isState3_324() != 0 && room == player->get_room() && !(partner_chatter_flags & 2) && *remark != 0) {
+            TWindowCtrl::open(player->get_entity_id(), (saddr)remark, 0x1B);
         }
         i += 1;
     } while (i < 4);
@@ -384,7 +360,7 @@ void quest_remove_npc_player(u16 client) {
     }
 }
 
-void TNpcPlayer::enable_all_battle_ctrl() {
+void enable_all_battle_ctrl() {
     s32 i;
     TObjPlayer *player;
     i = 0;
@@ -397,11 +373,11 @@ void TNpcPlayer::enable_all_battle_ctrl() {
     } while (i < 4);
 }
 
-void TNpcPlayer::disable_partner_chatter() { partner_chatter_flags = (partner_chatter_flags | 0x2); }
+void disable_partner_chatter() { partner_chatter_flags |= 2; }
 
-void TNpcPlayer::enable_partner_chatter() { partner_chatter_flags = (partner_chatter_flags & 0xfffffffd); }
+void enable_partner_chatter() { partner_chatter_flags &= ~2; }
 
-void TNpcPlayer::send_stop_at_position(u16 id, void *pos, s32 angle) {
+void send_stop_at_position(u16 id, void *pos, s32 angle) {
     G_StopAtPosition_6x3E cmd;
     s16 near_enemy;
     TObjPlayer *player;
@@ -494,25 +470,23 @@ void quest_player_face_actor(u16 src, u16 dst) {
     cmd.send();
 }
 
-void TNpcPlayer::play_effect(int client) {
-    saddr player;
+void play_effect(int client) {
+    TObjPlayer *player = get_player_by_client_id((u16)client);
 
-    player = (saddr)get_player_by_client_id((u16) client);
-    if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        TObjPlayer::play_effect_default(player, -1);
+    if (player != NULL && player->obj_isState2_324() == 0) {
+        TObjPlayer::play_effect_default((saddr)player, -1);
     }
 }
 
-void TNpcPlayer::send_code_45_to_player(int client) {
-    saddr player;
+void send_code_45_to_player(int client) {
+    TObjPlayer *player = get_player_by_client_id((u16)client);
 
-    player = (saddr)get_player_by_client_id((u16) client);
-    if ((player != 0) && (((TObjChara *)player)->obj_isState2_324() == 0)) {
-        TObjPlayer::send_code_45_1(player);
+    if (player != NULL && player->obj_isState2_324() == 0) {
+        TObjPlayer::send_code_45_1((saddr)player);
     }
 }
 
-void TNpcPlayer::send_warp_toward_player(u16 id, const Vec *destination) {
+void send_warp_toward_player(u16 id, const Vec *destination) {
     TObjPlayer *npc = get_player_by_client_id(id);
     TObjPlayer *local_player = get_player_by_client_id(local_client_id);
     if (local_player == NULL || id == 0) {
@@ -525,10 +499,10 @@ void TNpcPlayer::send_warp_toward_player(u16 id, const Vec *destination) {
     }
 }
 
-void clear_partner_dialogue_flags(void) {
+void clear_partner_dialogue_flags() {
     s32 i;
     for (i = 0; i < 25; i++) {
-        npc_partner_dialogue_state[i].flag = 0;
+        npc_partner_dialogue_state[i].text[0] = 0;
     }
 }
 
@@ -537,73 +511,69 @@ void set_partner_common_remark(s32 kind, const char *text) {
 
     if (kind < 25 && strlen(text) < 53) {
         sprintf(buf, "%s", text);
-        strcpy((char *)&npc_partner_dialogue_state[kind], buf);
+        strcpy(npc_partner_dialogue_state[kind].text, buf);
     }
 }
 
 void TObjPlayer::update_4p_battle_ctrls() {
     s32 i;
-    uaddr player;
+    TObjPlayer *player;
 
     i = 0;
     do {
-        if ((player = ((saddr)get_player_by_client_id(i))) != 0) {
-            TObjPlayer::send_item_pickup_request(player);
+        if ((player = get_player_by_client_id(i)) != NULL) {
+            TObjPlayer::send_item_pickup_request((saddr)player);
         }
         i += 1;
     } while (i < 4);
 }
 
 void TObjPlayer::notify_all_battle_players() {
-    s32 tmp_player;
+    TObjPlayer *player;
     s32 i;
-    uaddr player;
 
     i = 0;
     do {
-        if ((tmp_player = (saddr)get_player_by_client_id(i)) != 0U) {
-            TObjPlayer::notify_field1c(tmp_player);
+        if ((player = get_player_by_client_id(i)) != NULL) {
+            TObjPlayer::notify_field1c((saddr)player);
         }
         i += 1;
     } while (i < 4);
 }
 
-s32 TTecReverser::is_active() {
-    int var_r31;
+s32 TObjBase::is_active() {
+    int active;
 
-    var_r31 = 0;
-    if ((this != NULL) && (all_parents_unqueued_for_destruction() != 0) && !(*(s32 *)((s8 *)this + 0x30) & 0x02040800)) {
-        var_r31 = 1;
+    active = 0;
+    if ((this != NULL) && (all_parents_unqueued_for_destruction() != 0) && !(actorFlags & 0x02040800)) {
+        active = 1;
     }
-    return (u8)((u8) var_r31);
+    return (u8)active;
 }
 
-void TNpcPlayer::AiParams::copy_entry_by_index(s32 arg1) {
-    saddr arg0 = (saddr)this;
-    s32 temp_r5;
-    temp_r5 = arg1 * 0x28;
-    ((AiParams *)((u8 *)&npc_player_ai_templates.value + temp_r5))->copy((AiParams *)arg0);
+void TNpcPlayer::AiParams::copy_entry_by_index(s32 index) {
+    npc_player_ai_templates[index].copy(this);
 }
 
-// Indexed by TLobby::get_instance(); the yaw tables' names are inferred from their accessors.
+// Indexed by TLobby::get_instance().
 static const Vec npc_lobby_entry_positions[2] = {{214.0f, 0.0f, -236.0f}, {214.0f, 0.0f, -236.0f}};
 static const s32 npc_lobby_entry_yaws[2] = {0x8000, 0x8000};
 static const Vec party_position_table[2] = {{200.0f, 0.0f, 320.0f}, {30.0f, 0.0f, 212.0f}};
 static const s32 party_yaw_table[2] = {0xE400, 0xC000};
 
-u8 *TNpcPlayer::get_lobby_entry_ptr() {
-    return (u8 *)&npc_lobby_entry_positions[TLobby::get_instance()];
+const Vec *get_npc_lobby_entry_position() {
+    return &npc_lobby_entry_positions[TLobby::get_instance()];
 }
 
-s32 TNpcPlayer__get_lobby_entry_yaw(void) {
+s32 get_npc_lobby_entry_yaw() {
     return npc_lobby_entry_yaws[TLobby::get_instance()];
 }
 
-u8 *get_party_position(void) {
-    return (u8 *)&party_position_table[TLobby::get_instance()];
+const Vec *get_party_position() {
+    return &party_position_table[TLobby::get_instance()];
 }
 
-s32 get_party_yaw(void) {
+s32 get_party_yaw() {
     return party_yaw_table[TLobby::get_instance()];
 }
 
@@ -640,7 +610,7 @@ TUnk_804F07C8::~TUnk_804F07C8() {
 
 void TUnk_804F07C8::run_task() {  }
 
-void TLobby__sub_8034DAA0(s32 client, u32 status) {
+void apply_player_slot_status(s32 client, u32 status) {
     TObjPlayer *player;
     player = get_player_by_client_id(client);
     if (player == NULL) {

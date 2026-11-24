@@ -17,7 +17,6 @@ struct TTecReverser : public TTecCircle {
     TargetCursorList targets;
     virtual void render();
     static void create(void *source, void *origin, void *targets, s32 level);
-    s32 is_active();
 };
 
 LAYOUT_ASSERT(TTecReverser_size, sizeof(TTecReverser) == 0x148);

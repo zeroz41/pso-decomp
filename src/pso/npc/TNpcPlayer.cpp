@@ -84,8 +84,6 @@ s8 get_cast_technique_level(void *, s16);
 void __register_global_object(void *obj, void *dtor, void *link);
 
 extern int registered_entity_count;
-struct Text_8014E250 { char text[0x36]; };
-extern Text_8014E250 npc_partner_dialogue_state[];
 
 void copy_player_visual_record(void *, void *);
 void __sinit_TNpcPlayer_cpp();
@@ -2409,7 +2407,7 @@ s32 NpcPlayerView::scan_nearby_enemies(Vec *pos, f32 range) {
     range = range * range;
     for (; i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count(); i++) {
         actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
-        if (((TTecReverser *)actor)->is_active() == 0 || !(actor->actorFlags & 0x20000000)) {
+        if (actor->is_active() == 0 || !(actor->actorFlags & 0x20000000)) {
             continue;
         }
         for (c = 0; c < actor->body_count; c++) {
