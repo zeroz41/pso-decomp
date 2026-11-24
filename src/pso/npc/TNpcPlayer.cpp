@@ -73,8 +73,8 @@ u32 npc_player_ply_char_data_global[3];
 u32 npc_player_char_data[263];
 disp_data_part2 quest_npc_visual_record;
 
-// Attack techniques by tier (Foie, Barta, Zonde) and by whether the partner is
-// surrounded, read by TNpcPlayer::update_combat_action.
+// Attack techniques by tier (Foie, Barta, Zonde); the second column is used when the
+// partner is surrounded and hurt. Read by TNpcPlayer::update_combat_action.
 static const s32 npc_player_combat_action_table[3][2] = {
     {TECHNIQUE_FOIE, TECHNIQUE_GIFOIE},
     {TECHNIQUE_BARTA, TECHNIQUE_GIBARTA},
