@@ -24,6 +24,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/player/TPlyInventory.h"
+#include "pso/player/PhotonBlastResults.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/player/TObjPlayer_801BE778.h"
 #include "pso/player/PlayerSyncRecord.h"
@@ -59,7 +60,7 @@ extern uaddr TObjPlayer__shared_model_buffer;
 
 void TObjPlayer::free_shared_data() {
     if ((u32) TObjPlayer__shared_photon_blast_state != 0U) {
-        fn_801C2308((void *)TObjPlayer__shared_photon_blast_state, 1);
+        delete (PhotonBlastRequestTable *)TObjPlayer__shared_photon_blast_state;
         TObjPlayer__shared_photon_blast_state = 0U;
     }
     if (player_shared_buffer_base != NULL) {
@@ -72,10 +73,7 @@ void TObjPlayer::free_shared_data() {
     }
 }
 
-void *fn_801C2360(void *array);
 void TObjPlayer::alloc_shared_buffers() {
-    saddr temp_r3;
-    saddr var_r0;
     if ((u32) TObjPlayer__shared_model_buffer == 0U) {
         TObjPlayer__shared_model_buffer = (uaddr)mem_alloc((uaddr)(0x9000));
     }
@@ -83,12 +81,7 @@ void TObjPlayer::alloc_shared_buffers() {
         player_shared_buffer_base = static_cast<PlayerJointMatrixSet *>(mem_alloc(12 * sizeof(PlayerJointMatrixSet)));
     }
     if ((u32) TObjPlayer__shared_photon_blast_state == 0U) {
-        temp_r3 = (saddr)::operator new(0x60);
-        var_r0 = temp_r3;
-        if (var_r0 != 0) {
-            var_r0 = (saddr)fn_801C2360((void *)temp_r3);
-        }
-        TObjPlayer__shared_photon_blast_state = (u32) var_r0;
+        TObjPlayer__shared_photon_blast_state = (uaddr)new PhotonBlastRequestTable;
     }
 }
 

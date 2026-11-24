@@ -10,30 +10,15 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/CapturedTargetList.h"
 #include "pso/player/PlayerTelepipe.h"
-
-struct E_801C2154 { u8 pad[7]; char v; u8 pad2[0x14]; };
-
-struct O_801C2154 { E_801C2154 recs[8]; };
-
-struct E_801C2180 { u8 pad[7]; char v; u8 pad2[0x14]; };
-
-struct O_801C2180 { E_801C2180 recs[8]; };
-
-struct E_801C21C4 { u8 pad[6]; u8 v; u8 pad2[0x15]; };
-
-struct O_801C21C4 { E_801C21C4 recs[8]; };
+#include "pso/player/TPlyCharData.h"
+#include "pso/player/PhotonBlastResults.h"
 
 struct O_801C21D4 { u8 pad[0x3a1]; u8 id; u8 pad2[0x408 - 0x3a2]; u8 arr[1]; };
 
-
 extern "C" {
 s32 __ct__12TPlyCharDataFv(s32 arg0);
-u8 get_record_byte_at(O_801C21C4 *self, s32 i);
+u8 get_record_byte_at(TPlyCharData *data, s32 tech);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
-void __destroy_arr(void *, void *, int, int);
-void __construct_array(void *, void *, void *, int, int);
-void __ct__18PhotonBlastRequestFv(void);
-void __dt__18PhotonBlastRequestFv(void);
 extern const f32 TObjPlayer__data_805DC278;
 s32 test_flags_any(s32 *flags, s32 mask);
 
@@ -47,11 +32,11 @@ PlayerAttackController *PlayerAttackController::init() {
     return this;
 }
 
-s32 is_field_0_positive(s32 *arg0) {
-    return *arg0 > 0;
+s32 is_field_0_positive(s32 *count) {
+    return *count > 0;
 }
 
-void* get_ptr_8(void* p) { return (char*)p + 0x8; }
+TItemData *get_ptr_8(TPlyInventoryItem *item) { return &item->m_data; }
 void PendingItemDrop::set_source_id(s32 id) { source_id = id; }
 PendingItemDrop::PendingItemDrop() {}
 Unk_801C2098::Unk_801C2098() { state = 0; }
@@ -80,29 +65,29 @@ u8 get_char_class__10TObjPlayerFv(const PlayerLevelTableRow *row) { return row->
 s32 get_level_row_exp_threshold(const PlayerLevelTableRow *row) { return row->experience; }
 
 u32 TObjPlayer::unpack_u32_hi() {
-    O_801C2154 *self = (O_801C2154 *)this;
-    u32 r = (u8)self->recs[4].v;
-    r |= (u8)self->recs[5].v << 8;
-    r |= (u8)self->recs[6].v << 16;
-    r |= (u8)self->recs[7].v << 24;
+    TPlyInventoryItem *items = reinterpret_cast<TPlyCharData *>(this)->m_inventory.m_items;
+    u32 r = (u8)items[4].m_present[3];
+    r |= (u8)items[5].m_present[3] << 8;
+    r |= (u8)items[6].m_present[3] << 16;
+    r |= (u8)items[7].m_present[3] << 24;
     return r;
 }
 
 u32 TObjPlayer::unpack_u32_lo() {
-    O_801C2180 *self = (O_801C2180 *)this;
-    u32 r = (u8)self->recs[0].v;
-    r |= (u8)self->recs[1].v << 8;
-    r |= (u8)self->recs[2].v << 16;
-    r |= (u8)self->recs[3].v << 24;
+    TPlyInventoryItem *items = reinterpret_cast<TPlyCharData *>(this)->m_inventory.m_items;
+    u32 r = (u8)items[0].m_present[3];
+    r |= (u8)items[1].m_present[3] << 8;
+    r |= (u8)items[2].m_present[3] << 16;
+    r |= (u8)items[3].m_present[3] << 24;
     return r;
 }
 
-u8 get_byte_1ab(void* p) { return *(u8*)((char*)p + 0x1ab); }
-u8 get_byte_18f(void* p) { return *(u8*)((char*)p + 0x18f); }
-u8 get_byte_173(void* p) { return *(u8*)((char*)p + 0x173); }
+u8 get_byte_1ab(const TPlyCharData *data) { return data->m_inventory.m_items[15].m_present[3]; }
+u8 get_byte_18f(const TPlyCharData *data) { return data->m_inventory.m_items[14].m_present[3]; }
+u8 get_byte_173(const TPlyCharData *data) { return data->m_inventory.m_items[13].m_present[3]; }
 
-u8 get_record_byte_at(O_801C21C4 *self, s32 i) {
-    return self->recs[i].v;
+u8 get_record_byte_at(TPlyCharData *data, s32 tech) {
+    return data->m_inventory.m_items[tech].m_present[2];
 }
 
 s32 TObjPlayer::get_slot_value_checked(s32 i) {
@@ -127,18 +112,8 @@ TPlyCharData *PlayerCharDataEntry::get_char_data() { return &char_data; }
 s32 PlayerCharDataEntry::get_role() { return role; }
 PlayerCharDataEntry *PlayerCharDataEntry::construct() { ((TObjPlayer *)lobby_header)->clear_header_struct(); __ct__12TPlyCharDataFv((saddr)&char_data); __ct__8FlagWordFv(&flags); role = 0; return this; }
 
-void *fn_801C2308(void *arr, s16 arg1) {
-    if (arr != 0) {
-        __destroy_arr(arr, (void *)__dt__18PhotonBlastRequestFv, 0x18, 4);
-        if (arg1 > 0) {
-            ::operator delete(arr);
-        }
-    }
-    return arr;
-}
-void *fn_801C2360(void *array) {
-    __construct_array(array, (void *)__ct__18PhotonBlastRequestFv, (void *)__dt__18PhotonBlastRequestFv, 0x18, 4);
-    return array;
 }
 
-}
+PhotonBlastRequestTable::~PhotonBlastRequestTable() {}
+
+PhotonBlastRequestTable::PhotonBlastRequestTable() {}

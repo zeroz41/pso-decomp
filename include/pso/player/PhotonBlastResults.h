@@ -64,6 +64,15 @@ struct PhotonBlastRequest {
     PhotonBlastRequest &operator=(PhotonBlastRequest &other);
 };
 
+// Every player's pending photon blast, one request per client; TObjPlayer::alloc_shared_buffers
+// creates it and TObjPlayer::free_shared_data deletes it.
+struct PhotonBlastRequestTable {
+    PhotonBlastRequest requests[4];
+
+    PhotonBlastRequestTable();
+    ~PhotonBlastRequestTable();
+};
+
 // How many more donors share each chained kind; admit_photon_blast_sequence
 // hands count to TPhotonBlastSequence.
 struct PhotonBlastChainCounts { s32 count[4]; };
