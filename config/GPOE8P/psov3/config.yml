@@ -1664,7 +1664,7 @@ force_active:
   - __ct__23PlayerHandParticlesBaseFv
   - copy_guild_card_tag_triplet__FPvPv
   - copy_lobby_entry__FPvPv
-  - TPlyOnCreated__name
+  - class_name__13TPlyOnCreated
   - TPlyPhotonChair__shared_model_resource
   - set_speed__12TMotionModelFf
   - class_name__22TPlyPtclObjectLeftHand
@@ -8059,18 +8059,18 @@ force_active:
   - lbl_804DC0F8
   - lbl_804DC2D8
   - lbl_804DC448
-  - lbl_804DD830
-  - lbl_804DD87C
-  - lbl_804DD8C8
-  - lbl_804DD914
-  - lbl_804DD960
-  - lbl_804DD9AC
-  - lbl_804DDA10
-  - lbl_804DDA5C
-  - lbl_804DDAA8
-  - lbl_804DDAF4
-  - lbl_804DDB40
-  - lbl_804DDB8C
+  - male_action_tables
+  - female_action_tables
+  - fomarl_action_tables
+  - fomar_action_tables
+  - hucaseal_action_tables
+  - ramarl_action_tables
+  - male_motion_file_tables
+  - female_motion_file_tables
+  - fomarl_motion_file_tables
+  - fomar_motion_file_tables
+  - hucaseal_motion_file_tables
+  - ramarl_motion_file_tables
   - lbl_804E0B40
   - lbl_804E0B4C
   - lbl_804E0B54
@@ -8108,11 +8108,11 @@ force_active:
   - lbl_804E8840
   - recobox_model_names
   - recobox_low_model_names
-  - lbl_804ED690
-  - lbl_804ED6DC
+  - lobby_male_action_tables
+  - lobby_female_action_tables
   - lobby_action_tables
-  - lbl_804ED730
-  - lbl_804ED77C
+  - lobby_male_motion_file_tables
+  - lobby_female_motion_file_tables
   - lbl_804ED990
   - lbl_804ED9C0
   - __vt__9TBoss6Mag
@@ -8210,7 +8210,7 @@ force_active:
   - lbl_805430A4
   - lbl_805430BC
   - lobby_male_motions
-  - lbl_805432A8
+  - lobby_female_motions
   - lbl_805434D0
   - morfos_attack_params
   - palettex_states_dtor_chain
