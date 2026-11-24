@@ -8,7 +8,6 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"

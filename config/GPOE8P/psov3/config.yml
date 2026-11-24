@@ -1531,8 +1531,8 @@ force_active:
   - capture_slime_tail_node
   - reset_slime_tail_node_index
   - TObjPlayer__sub_800E85BC
-  - begin_alt_model_draw__10TObjPlayerFv
-  - TObjPlayer__sub_800F08AC
+  - begin_alt_model_draw__Fv
+  - prepend_alt_model__FP14AltChunkObjectl
   - copy_ezrope_collider
   - copy_ezrope_end
   - copy_ezrope_segment
@@ -5136,7 +5136,7 @@ force_active:
   - clear__15PadRumbleEffectFv
   - clear_active_flag__8TFogCtrlFv
   - clear_all_entries__6TLobbyFPv
-  - clear_alt_model_flag__10TObjPlayerFv
+  - clear_alt_model_flag__Fv
   - clear_battle_player_ready_flags
   - clear_bit__16Boss6WaveArcMaskFl
   - clear_buffer__17TCharSaveSequenceFv
@@ -7346,7 +7346,7 @@ force_active:
   - is_slot_active__14TShopGeneratorFUs
   - is_sound_enabled__12TObjEnvSoundFPvl
   - is_sphere_visible__12TBoss1DragonFP3Vecf
-  - is_split_screen__10TObjPlayerFv
+  - split_screen_active__Fv
   - is_stat_over_limit__6TLobbyFl
   - is_state_zero_unless_0x2C8__9TWindowDDFl
   - is_target_in_attack_range__12TObjEneSaverFv
@@ -15389,7 +15389,7 @@ force_active:
   - set_active_flag__11TWindowMenuFv
   - set_segment_flags__20TBoss5GryphonColli_CFv
   - set_segment_flags__19TBoss8DragonColli_CFv
-  - set_alt_model_flag__10TObjPlayerFv
+  - set_alt_model_flag__Fv
   - set_amount__11TItemObjectFl
   - set_anim_by_state__16TObjEneBm5GibonUFv
   - set_anim_state__11TBoss4Type3Fl
@@ -16984,7 +16984,7 @@ force_active:
   - update_lift_state__12TBoss1DragonFUl
   - update_light_direction__12TCharaMakingFv
   - update_light_magic__11TBoss4Type3Fv
-  - update_lights__10TObjPlayerFv
+  - update_lights__Fv
   - update_line_params__23TObjOnlineEndingHexMoveFv
   - update_line_timers__14TWindowMessageFv
   - update_linked_epsilon_position__12TBoss1DragonFv

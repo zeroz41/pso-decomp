@@ -57,7 +57,6 @@ int freeze_all_players__10TObjPlayerFv(void*);
 }
 
 
-#include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/unk/text_803D96A8.h"
 

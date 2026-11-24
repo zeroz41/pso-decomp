@@ -9,7 +9,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/render/AltModel.h"
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/unk/TLobby.h"
@@ -88,7 +88,7 @@ void TBoss2Mine::apply_paralysis() {  }
 
 void TBoss2Mine::apply_poison_status() {  }
 
-void TBoss2Mine::load_resources() { TObjPlayer::init_alt_model(); }
+void TBoss2Mine::load_resources() { init_alt_model(); }
 
 void TBoss2Mine::free_resources() {  }
 

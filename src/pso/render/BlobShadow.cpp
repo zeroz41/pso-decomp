@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/BlobShadow.h"
-#include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/render/AltModel.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
@@ -21,7 +21,7 @@ NJS_TEXLIST *blob_shadow_texture_list;
 
 void draw_blob_shadow(s32 forceDraw) {
     NJS_SPRITE sprite;
-    if (forceDraw != 0 || is_split_screen__10TObjPlayerFv() != 0) {
+    if (forceDraw != 0 || split_screen_active() != 0) {
         sprite.p.x = -4.9910388f;
         sprite.p.y = 0.0f;
         sprite.p.z = 0.0f;

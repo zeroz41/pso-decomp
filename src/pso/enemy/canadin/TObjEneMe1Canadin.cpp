@@ -24,7 +24,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/render/AltModel.h"
 
 #include "pso/render/TUnk_80494938.h"
 #include <stddef.h>
@@ -173,7 +173,7 @@ void TObjEneMe1Canadin::load_resources() {
     model2 = bm_ene_me1_mb_resource->models[0].model;
     canadin_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model2, 3)->model)->polygon_list + 2);
     canadin_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model2, 2)->model)->polygon_list + 2);
-    TObjPlayer::init_alt_model();
+    init_alt_model();
     s16 ids[2] = { 0x17, 0x18 };
     NpcAnimationBinding params = { bm_ene_me1_mb_resource->motions, canadin_action_table, 0, 0, 7 };
     for (i = 0; i < 2; i++) {

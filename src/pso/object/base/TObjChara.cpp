@@ -8,7 +8,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 
 #include "pso/map/CsnQuery.h"
-#include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/system/MainPhaseState.h"
 #include "pso/system/MainPhaseTable.h"
 #include "pso/unk/text_8007C0CC.h"

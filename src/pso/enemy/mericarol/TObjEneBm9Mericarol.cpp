@@ -50,7 +50,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_802D1C84.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/render/AltModel.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecKafun.h"
@@ -164,7 +164,7 @@ void TObjEneBm9Mericarol::load_resources() {
     lbl_805D6874 = 0;
     lbl_805D6878 = 0;
     fn_802D1CC8();
-    TObjPlayer::init_alt_model();
+    init_alt_model();
     for (i = 0; i < 3; i++) {
         bm9_mericarol_phase_hp_table[i] = TLobby::register_boss(mericarol_phase_hp_ids[i]);
         bm9_mericarol_phase_attack_table[i] = TLobby::dispatch_shared_handler_b(mericarol_phase_attack_ids[i]);

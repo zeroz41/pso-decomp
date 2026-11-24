@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/render/AltModel.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/model_render_state.h"
@@ -41,22 +41,20 @@ struct AltChunkObject {
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 
-extern "C" {
+void update_lights() { current_scene_light->init_directional_light(); current_scene_light->sub_801337F8(); }
 
-void TObjPlayer::update_lights() { current_scene_light->init_directional_light(); current_scene_light->sub_801337F8(); }
+void begin_alt_model_draw() {  }
 
-void TObjPlayer::begin_alt_model_draw() {  }
-
-void TObjPlayer::clear_alt_model_flag() {
+void clear_alt_model_flag() {
     model_render_flags &= 0xFFFFF7FF;
     set_chunk_material_override_pair(0xFF00, 0);
 }
-void TObjPlayer::set_alt_model_flag() { model_render_flags |= 0x800; set_chunk_material_override_pair((saddr)(-513), (saddr)(0)); }
+void set_alt_model_flag() { model_render_flags |= 0x800; set_chunk_material_override_pair((saddr)(-513), (saddr)(0)); }
 AltChunkObject alt_model_object;
 AltChunkModel alt_model;
 AltChunkStrips alt_model_strips;
 
-AltChunkObject *TObjPlayer__sub_800F08AC(AltChunkObject *next, s32 diffuse) {
+AltChunkObject *prepend_alt_model(AltChunkObject *next, s32 diffuse) {
     alt_model_strips.diffuse = diffuse;
     alt_model_object.sibling = next;
     return &alt_model_object;
@@ -64,15 +62,15 @@ AltChunkObject *TObjPlayer__sub_800F08AC(AltChunkObject *next, s32 diffuse) {
 void TObjEneDD_ST::draw_with_alt_model(s32 diffuse) {
     saddr saved_model;
     saved_model = (saddr)this->model;
-    TObjPlayer::set_alt_model_flag();
-    TObjPlayer::begin_alt_model_draw();
-    this->model = (void *)TObjPlayer__sub_800F08AC((AltChunkObject *)saved_model, diffuse);
+    set_alt_model_flag();
+    begin_alt_model_draw();
+    this->model = (void *)prepend_alt_model((AltChunkObject *)saved_model, diffuse);
     draw();
-    TObjPlayer::update_lights();
-    TObjPlayer::clear_alt_model_flag();
+    update_lights();
+    clear_alt_model_flag();
     this->model = (void *)saved_model;
 }
-void TObjPlayer::init_alt_model() {
+void init_alt_model() {
     s16 *strips = (s16 *)&alt_model_strips;
     AltChunkObject *object = &alt_model_object;
     strips[0] = 0x2514;
@@ -102,8 +100,6 @@ void TObjPlayer::init_alt_model() {
     object->sibling = NULL;
 }
 
-s32 is_split_screen__10TObjPlayerFv(void) {
+s32 split_screen_active() {
     return is_split_screen() ? 1 : 0;
-}
-
 }

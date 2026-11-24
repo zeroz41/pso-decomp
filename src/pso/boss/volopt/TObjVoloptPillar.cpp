@@ -11,7 +11,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/BmlResource.h"

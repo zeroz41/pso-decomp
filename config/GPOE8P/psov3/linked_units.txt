@@ -1566,7 +1566,7 @@ pso/enemy/flower/TObjEneRe2Flower_Bomb.cpp
 pso/render/RenderFadeState_800D7BFC.cpp
 pso/enemy/nanodrago/TObjNanoDragoTargetedBeam.cpp
 pso/render/GinjaTextureEntryCopy.cpp
-pso/player/TObjPlayer_800F0810.cpp
+pso/render/AltModel.cpp
 pso/object/TObjHMS_EZRope_Player.cpp
 pso/player/TObjPlayer_80109344.cpp
 pso/player/TObjPlayer_80116578.cpp

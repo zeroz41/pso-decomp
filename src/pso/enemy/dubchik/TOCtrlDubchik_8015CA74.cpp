@@ -20,7 +20,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/render_util.h"
-#include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
