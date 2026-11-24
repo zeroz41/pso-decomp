@@ -861,7 +861,7 @@ s16 TObjPlayer::select_idle_action() {
         goto block_109;
     }
 block_109:
-    return ((s32 (*)(void))ret_801D26AC)();
+    return get_no_action();
 }
 
 void handle_6xB1(void) {  }
@@ -883,7 +883,7 @@ void TObjPlayer::do_action() {
         update_facing_from_lock();
     }
     if (obj_isState2_324() != 0) {
-        this->current_action = ((s16 (*)(void))ret_801D26AC)();
+        this->current_action = (s16)get_no_action();
     }
     this->set_action_state(0x17, this->lobby_animation);
     if (get_flag() != 0) {
@@ -981,7 +981,7 @@ void TObjPlayer::enter_off_floor_state() {
     this->deactivate_body_collision();
     this->set_flag_20000();
     this->phase = 0;
-    this->set_action_state(0x16, (int) (((s16 (*)(void))ret_801D26AC)()));
+    this->set_action_state(0x16, (s16)get_no_action());
 }
 
 
@@ -1386,7 +1386,7 @@ void TObjPlayer::enter_freeze_action() {
         this->phase = 0;
         this->freeze_escape_step = (s32) -(freeze_escape_timer_scale * (f64) this->get_status_effect_timer(1));
     }
-    this->set_action_state(0x13, (s16) ((s16 (*)(void))ret_801D26AC)());
+    this->set_action_state(0x13, (s16)get_no_action());
 }
 
 
@@ -1547,7 +1547,7 @@ void TObjPlayer::enter_service_hold_action() {
     run_action_state_phase(this->mode, 6);
     this->requested_action = anim_state.get_animation();
     this->rotation_y = anim_state.get_angle();
-    this->set_action_state(0x10, (int) (((s16 (*)(void))ret_801D26AC)()));
+    this->set_action_state(0x10, (s16)get_no_action());
 }
 
 }
@@ -1667,7 +1667,7 @@ void TObjPlayer::init_action() {
     this->phase = 0;
     this->frame_timer = 44.0f;
     this->set_attacker_id(0xFFFF);
-    this->set_action_state(0x12, (s16) ((s32 (*)(void))ret_801D26AC)());
+    this->set_action_state(0x12, (s16)get_no_action());
     disable_motion_blend();
     if (is_current_area_item_enabled() != 0) {
         new TTecReverserEff(this, tl_07);
@@ -1954,7 +1954,7 @@ void TObjPlayer::enter_death_state() {
     clear_velocity(this);
     this->phase = 0;
     if (test_flags_any((s32 *)&this->death_flags, 1) != 0) {
-        this->set_action_state(0xF, (s32)(((s16 (*)(void))ret_801D26AC)()));
+        this->set_action_state(0xF, (s16)get_no_action());
         this->restart_death_pose();
     } else {
         this->set_action_state(0xF, this->get_model_field_m25());
@@ -2401,7 +2401,7 @@ void TObjPlayer::begin_action_0xB() {
     this->action_state = 0xB;
     run_action_state_phase(this->mode, 6);
     if (obj_isState2_324() != 0) {
-        this->current_action = ((s16 (*)(void))ret_801D26AC)();
+        this->current_action = (s16)get_no_action();
     }
     this->set_action_state(0xB, this->call_obj_vt26());
 }
@@ -2477,7 +2477,7 @@ void TObjPlayer::start_action_c() {
     this->action_state = 0xC;
     run_action_state_phase(this->mode, 6);
     if (obj_isState2_324() != 0) {
-        this->current_action = ((s16 (*)(void))ret_801D26AC)();
+        this->current_action = (s16)get_no_action();
     }
     this->set_action_state(0xC, this->get_weapon_stat_c());
 }
@@ -2580,7 +2580,7 @@ void TObjPlayer::start_use_item_action() {
     this->clear_actor_flags(0x10000);
     this->use_current_item();
     if (this->obj_isState2_324() != 0) {
-        this->current_action = ((s16 (*)(void))ret_801D26AC)();
+        this->current_action = (s16)get_no_action();
     }
     this->set_action_state(0xA, this->query_child_state());
 }
@@ -3361,7 +3361,7 @@ void TObjPlayer::enter_technique_cast() {
     clear_velocity(this);
     phase = 0;
     if (obj_isState2_324() != 0) {
-        current_action = ((s16 (*)(void))ret_801D26AC)();
+        current_action = (s16)get_no_action();
     }
     set_action_state(8, get_status());
 }
@@ -5743,7 +5743,7 @@ int PlayerActionProvider::get_alt_chair_sit_action() { return -1; }
 
 int PlayerActionProvider::get_chair_sit_action() { return -1; }
 
-int ret_801D26AC(void) { return -1; }
+int get_no_action() { return -1; }
 
 int PlayerActionProvider::get_key_4_action() { return -1; }
 
