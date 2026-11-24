@@ -31,12 +31,12 @@ u16 ppp_auth_protocol;
 NetSession net_session;
 PppProtoBlocks ppp_proto_blocks;
 
-typedef struct LobbyPkt_803FB7A4 {
+typedef struct LcpConnectRequest {
     LcpConfig lcp;
     char *user;
     char *password;
-} LobbyPkt_803FB7A4;
-LAYOUT_ASSERT(LobbyPkt_803FB7A4_size, sizeof(LobbyPkt_803FB7A4) == 0x18);
+} LcpConnectRequest;
+LAYOUT_ASSERT(LcpConnectRequest_size, sizeof(LcpConnectRequest) == 0x18);
 
 #define LOBBY_NOTIFY() do { if (g->cb != NULL) { unlock_mutex(net_thread_state.mutex); g->cb(lobby_modem_error, 0); lock_mutex(net_thread_state.mutex); } } while (0)
 #define LOBBY_ABORT(code, st) do { lobby_modem_error = (code); lobby_modem_connect_state = (st); LOBBY_NOTIFY(); return 0; } while (0)
@@ -356,7 +356,7 @@ s32 ppp_hangup(void) {
 
 s32 ppp_open_sub(void) {
     NetSession *g = &net_session;
-    LobbyPkt_803FB7A4 pkt;
+    LcpConnectRequest pkt;
     s16 attempt;
     s16 ok;
     s16 mode;

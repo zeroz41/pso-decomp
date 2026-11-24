@@ -6,38 +6,6 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/PppFsm.h"
 
-#pragma push
-#pragma cplusplus off
-static inline s16 fn_8040B758_len(char* s)
-{
-    s16 len = 0;
-    s32 n;
-
-    while (len < 255) {
-        s8 c = *s;
-
-        s++;
-        if (c == 0) {
-            len--;
-            break;
-        }
-        n = c;
-        if (len + n + 1 <= 255) {
-            s += c;
-        } else {
-            len = 255;
-            break;
-        }
-        len = n + len;
-        len++;
-    }
-    return len;
-}
-#pragma pop
-
-
-
-
 /* CHAP state, in PppFsm.opts of the CHAP connection. */
 typedef struct PppChap {
     const char *name;
