@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/npc/TNpcPlayer_8014DADC.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/render/render_util.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"
@@ -7,7 +8,6 @@
 #include "pso/network/protocol/subcmd_6x.h"
 
 extern "C" {
-TObjCollidable *find_active_entity_by_id(u16 id);
 s32 npc_counter_reset_if_reached(PartnerCounters *counters, s32 index, s32 limit);
 s16 get_partner_counter(PartnerCounters *counters, s32 index);
 void increment_partner_counter(PartnerCounters *counters, s32 index);
