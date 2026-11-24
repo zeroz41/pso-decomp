@@ -1662,7 +1662,7 @@ pso/player/TObjPlayer_802C422C.cpp
 pso/player/TObjPlayer_802D5174.cpp
 pso/boss/barbaray/TBoss7BreakUp.cpp
 pso/player/TObjPlayer_80307618.cpp
-pso/player/TObjPlayer_803083B0.cpp
+pso/weapon/TItemWeaponNug2000Bazooka.cpp
 pso/player/TObjPlayer_803130BC.cpp
 pso/player/TObjPlayer_80337348.cpp
 pso/player/TObjPlayer_8033E910.cpp
@@ -2029,7 +2029,6 @@ pso/unk/text_802FE9E0.cpp
 pso/unk/text_802FF760.cpp
 pso/unk/text_80307BE8.cpp
 pso/unk/text_80308294.cpp
-pso/unk/text_80308328.cpp
 pso/unk/text_80309890.cpp
 pso/unk/text_803098DC.cpp
 pso/unk/text_80312C50.cpp

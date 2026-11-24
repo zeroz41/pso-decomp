@@ -78,6 +78,7 @@
 #include "pso/unk/text_8012AE50.h"
 #include "pso/unk/text_8012C268.h"
 #include "pso/weapon/TItemWeaponDarkMeteor.h"
+#include "pso/weapon/TItemWeaponNug2000Bazooka.h"
 #include "pso/weapon/TItemWeaponTsumikiri.h"
 #include "pso/unk/text_8035D444.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
@@ -312,7 +313,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     create_common_weapon,
     TUnk_804E24F0::create,
     TObjPlayer::create_object_by_type,
-    TObjPlayer::create_nug2000_bazooka,
+    create_nug2000_bazooka,
     TObjPlayer__sub_80307800,
     create_sword_weapon,
     create_saber_weapon,

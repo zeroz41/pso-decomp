@@ -8698,11 +8698,8 @@ pso/unk/text_80308294.cpp:
 	.text       start:0x80308294 end:0x80308328
 	.sdata2     start:0x805DF0B8 end:0x805DF0BC
 
-pso/unk/text_80308328.cpp:
-	.text       start:0x80308328 end:0x803083B0
-
-pso/player/TObjPlayer_803083B0.cpp:
-	.text       start:0x803083B0 end:0x803084A8
+pso/weapon/TItemWeaponNug2000Bazooka.cpp:
+	.text       start:0x80308328 end:0x803084A8
 	.data       start:0x804E71F8 end:0x804E72F0
 
 pso/ui/frontend/TAdLoadNetworkGC.cpp:
