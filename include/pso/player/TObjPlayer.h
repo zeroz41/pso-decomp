@@ -688,6 +688,8 @@ struct TObjPlayer : public TObjChara {
     static void update_action(saddr owner);
     void start_animation();
     void send_6x3E_stop_at_position();
+    // 6x3F: tells the other clients the player is at pos, facing angle.
+    void send_6x3F_set_position(const Vec *pos, s32 angle);
     static void complete_idle_state();
     int try_apply_status_action_2();
     void update_lobby_chair(s32 value);
