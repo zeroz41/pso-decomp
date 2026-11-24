@@ -196,7 +196,7 @@ TUnk_804E355C::TUnk_804E355C(TObject *parent, S_802E451C *params) : TObject(pare
     pad_C0 = 1;
     player = get_player_by_client_id(params->client_id);
     if (player != NULL) {
-        if (get_type__10TObjPlayerFPv(&player->pk_state) != 0) {
+        if (player->pk_state.is_enabled() != 0) {
             pad_BC = 1;
         } else {
             pad_BC = 0;

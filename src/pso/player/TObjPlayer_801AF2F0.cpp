@@ -736,14 +736,14 @@ void TObjPlayer::init_collision_body() {
     switch (this->control_state) {
     case 1:
     case 2:
-        if (get_type__10TObjPlayerFPv(&this->pk_state) == 0) {
+        if (this->pk_state.is_enabled() == 0) {
             this->collision_body.flags = 0x200B;
         } else {
             this->collision_body.flags = 0x2003;
         }
         break;
     case 3:
-        if (get_type__10TObjPlayerFPv(&this->pk_state) == 0) {
+        if (this->pk_state.is_enabled() == 0) {
             this->collision_body.flags = 0x604B;
         } else {
             this->collision_body.flags = 0x6043;
@@ -1001,7 +1001,7 @@ void TObjPlayer::run_task() {
     calc_marker_position(&marker_position, this);
     if (test_actor_flags(0x800) != 0) {
         refresh_collision_body_centers();
-    } else if (get_type__10TObjPlayerFPv(&pk_state) == 0) {
+    } else if (pk_state.is_enabled() == 0) {
         switch (control_state) {
         case 1:
             refresh_collision_body_centers();
@@ -5065,7 +5065,7 @@ s16 TObjPlayer::get_mode_animation(u32 mode) {
     }
 }
 
-int TObjPlayer::get_field_828() { return ((int (*)(void*))get_type__10TObjPlayerFPv)(&this->pk_state); }
+int TObjPlayer::get_field_828() { return this->pk_state.is_enabled(); }
 
 void TObjPlayer::send_enable_pk_mode(TObjPlayer *player) {
     s8 pkt[8];

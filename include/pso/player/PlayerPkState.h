@@ -10,6 +10,7 @@ struct PlayerPkState {
     s32 team;
 
     s32 get_team();
+    s32 is_enabled();
     void set_team(s32 id);
     void disable();
     void enable();

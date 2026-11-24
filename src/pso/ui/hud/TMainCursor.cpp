@@ -777,7 +777,7 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
             break;
         case 11:
         case 12:
-            if (get_type__10TObjPlayerFPv((player + 0x828)) != 0) {
+            if (((TObjPlayer *)player)->pk_state.is_enabled() != 0) {
                 ((TMainCursor *)C_8013CDE4)->set_color(0xA000);
                 ((TMainCursor *)C_8013CDE4)->set_color_mode(0x30000000);
             } else {
@@ -799,7 +799,7 @@ void TMainCursor::setup_action_channel(u8 *player, s32 slot, s32 kind, s32 id) {
         s16 pid = id;
         tech = (Tech_8013CDE4 *)get_photon_blast_entry((s16)pid);
         TMainCursor__sub_8013E9A0(cur);
-        if (get_type__10TObjPlayerFPv((player + 0x828)) == 0) {
+        if (((TObjPlayer *)player)->pk_state.is_enabled() == 0) {
             ((TMainCursor *)C_8013CDE4)->set_color(0x8000);
             ((TMainCursor *)C_8013CDE4)->set_color_mode(0x20000000);
         } else {
@@ -849,7 +849,7 @@ void TMainCursor::set_display_flags(s32 arg0, saddr player, saddr main_cursor) {
 }
 
 void TMainCursor::set_cursor_color(s32 arg0, saddr player, saddr main_cursor) {
-    if (get_type__10TObjPlayerFPv((void *)(player + 0x828)) != 0) {
+    if (((TObjPlayer *)player)->pk_state.is_enabled() != 0) {
         ((TMainCursor *)main_cursor)->set_color(0xA000);
         ((TMainCursor *)main_cursor)->set_color_mode(0x70000000);
         return;

@@ -31,7 +31,6 @@ s16 get_attack_params_atp_max(void *p);
 s16 get_attack_params_atp_min(void *p);
 s32 get_current_floor(void);
 int get_player_data__10TObjPlayerFi(int a0);
-s32 get_type__10TObjPlayerFPv(void *p);
 BOOL is_split_screen(void);
 void main(void);
 f32 newton_sqrtf(f32 x);

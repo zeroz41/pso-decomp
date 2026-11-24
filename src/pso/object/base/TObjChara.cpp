@@ -348,7 +348,6 @@ s32 VecCopy__FP3VecPC3Vec(s32, s32);
 void activate_switch_attacks__10TObjPlayerFii(saddr arg0, saddr pos);
 void attach_mine_trap__10TObjPlayerFiUi(saddr object, u32 arg1);
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
-s32 get_type__10TObjPlayerFPv(void* p);
 void create_hit_effect__10TObjPlayerFPv(void *);
 int get_player_data__10TObjPlayerFi(int a0);
 extern s32 registered_player_count;
@@ -825,7 +824,7 @@ f32 fabs_float(f32 x) {
     return (f32) fabs_double((f64) x);
 }
 
-s32 get_type__10TObjPlayerFPv(void* p) { return *(s32*)((char*)p + 0x0); }
+s32 PlayerPkState::is_enabled() { return enabled; }
 
 u8 TItem::get_item_group() { return this->item_group; }
 
@@ -2460,7 +2459,6 @@ int TObjChara::deliver_attack_hits(f32) { return 0; }
 #define TObjectV8047c128_subtract_hp(a, b) ((void (*)(void *, s32))TObjectV8047c128_subtract_hp)(a, b)
 #define VecCopy__FP3VecPC3Vec(a, b) ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(a, b)
 #define get_actor_attack_params_atp_min__9TObjCharaFv(a) (((TObjChara *)(a))->get_actor_attack_params_atp_min())
-#define get_type__10TObjPlayerFPv(a) ((s32 (*)(void *))get_type__10TObjPlayerFPv)(a)
 #define play_sound_effect(a, b, c, d) ((void (*)(s32, void *, s32, s32))play_sound_effect)(a, b, c, d)
 #define RESIST_80014108(k) \
     dmg += ((Obj_80014108 *)att)->atkElem[k] * (0.01f * (f32)(100 - ((Obj_80014108 *)this)->resist[k]));
@@ -2490,7 +2488,7 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
     if (((TObjChara *)this)->obj_isState2_324() != 0) {
         immune = 1;
     } else if (((TObjChara *)att)->obj_isState2_324() != 0) {
-        if (((TObjChara *)((Obj_80014108 *)this))->is_locally_controlled() != 0 && get_type__10TObjPlayerFPv((u8 *)((Obj_80014108 *)att) + 0x828) != 0) {
+        if (((TObjChara *)((Obj_80014108 *)this))->is_locally_controlled() != 0 && ((TObjPlayer *)att)->pk_state.is_enabled() != 0) {
             immune = 0;
         } else {
             immune = 1;
@@ -2596,7 +2594,6 @@ f32 TObjChara::receive_physical_attack(void *att, f32 scale) {
 #undef TObjectV8047c128_subtract_hp
 #undef VecCopy__FP3VecPC3Vec
 #undef get_actor_attack_params_atp_min__9TObjCharaFv
-#undef get_type__10TObjPlayerFPv
 #undef play_sound_effect
 #undef RESIST_80014108
 #undef COLL_80014108
@@ -2670,7 +2667,7 @@ f32 TObjChara::receive_direct_attack(void *att, DirectAttackPayload payload, voi
     } else if (((Actor_8001311C *)this)->id < 0x1000 && get_main_phase() == 15) {
         if (STATE2(((Actor_8001311C *)att)) != 0) {
             if (this->is_locally_controlled() != 0 || STATE3(((Actor_8001311C *)this)) != 0) {
-                if ((u32)(info.type - 6) <= 4 || get_type__10TObjPlayerFPv(((Actor_8001311C *)att)->f828) != 0) {
+                if ((u32)(info.type - 6) <= 4 || ((TObjPlayer *)att)->pk_state.is_enabled() != 0) {
                     immune = 0;
                 } else {
                     immune = 1;
@@ -3050,7 +3047,7 @@ f32 TObjChara::receive_weapon_special_attack(void *attacker, void *collision) {
     if (ISSTATE2_W24(self) != 0) {
         immune = 1;
     } else if (ISSTATE2_W24(att) != 0) {
-        if (this->is_locally_controlled() != 0 && get_type__10TObjPlayerFPv((void*)((u8 *)att + 0x828)) != 0) {
+        if (this->is_locally_controlled() != 0 && ((TObjPlayer *)att)->pk_state.is_enabled() != 0) {
             immune = 0;
         } else {
             immune = 1;

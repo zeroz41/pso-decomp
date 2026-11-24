@@ -3863,7 +3863,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
         if (target == NULL) {
             continue;
         }
-        if (get_type__10TObjPlayerFPv(&pk_state) != 0 && obj_isState2_324() != 0 &&
+        if (pk_state.is_enabled() != 0 && obj_isState2_324() != 0 &&
             ((TUnk_80493450 *)target)->test_elt_flag(collider, 0x2000) == 0) {
             continue;
         }
