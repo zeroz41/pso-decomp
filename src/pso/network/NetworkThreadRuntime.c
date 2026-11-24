@@ -346,8 +346,8 @@ void ipv6cp_release_resources(PppFsm *fsm) {
 }
 
 void ipv6cp_start_negotiation(PppFsm *entry) {
-    *((s8 *)entry + 0xA) = 0;
-    *(s8 *)((s8 *)entry + 0xB) = 0;
+    entry->padA = 0;
+    entry->ack_count = 0;
 }
 
 void ipv6cp_opening(PppFsm *entry) {
