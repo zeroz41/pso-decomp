@@ -812,7 +812,7 @@ extern const char *TObjPlayer__player_set_class_name;
 extern const f32 TObjPlayer__data_805DC278;
 extern f32 TObjPlayer__data_805DC28C;
 extern f32 TObjPlayer__data_805DC294;
-extern const f32 TObjPlayer__data_805DC2BC;
+extern const f32 player_front_distance;
 extern Vec lbl_8050BF60;
 extern Color_801B6964 player_feedback_light_color[];
 extern TObjPlayer *player_slot_table[];
@@ -822,21 +822,21 @@ extern s32 lobby_player_count;
 extern s32 shared_state_flags;
 extern Rec_801B09A4 *lobby_char_slot_array;
 extern const char lbl_805DC27C[];
-extern f32 lbl_805DC280;
-extern f32 lbl_805DC284;
-extern f32 lbl_805DC288;
-extern const f32 lbl_805DC290;
-extern const f32 lbl_805DC298;
-extern const f32 lbl_805DC29C;
-extern const f32 lbl_805DC2B0;
-extern const f32 lbl_805DC2B4;
-extern const f32 lbl_805DC2B8;
-extern const f32 lbl_805DC2C0;
-extern const f32 lbl_805DC2C4;
-extern const f32 lbl_805DC2C8;
-extern const f32 lbl_805DC2CC;
-extern const f32 lbl_805DC2D0;
-extern const f32 lbl_805DC2D4;
+extern f32 player_angle_per_degree;
+extern f32 player_degrees_per_turn;
+extern f32 player_rand_unit;
+extern const f32 player_stick_deadzone;
+extern const f32 player_velocity_epsilon;
+extern const f32 player_velocity_neg_epsilon;
+extern const f32 player_body_radius;
+extern const f32 player_wall_probe_margin;
+extern const f32 player_wall_facing_limit;
+extern const f32 player_lock_range_sq;
+extern const f32 player_lock_release_range_sq;
+extern const f32 player_shadow_lift;
+extern const f32 player_view_detail_near;
+extern const f32 player_view_detail_far;
+extern const f32 player_shadow_range;
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 start_freeze_self__10TObjPlayerFv;
 }
 
@@ -855,10 +855,10 @@ void init_6x21_inter_level_warp_packet(u8 *arg0);
 s32 player_auxiliary_surfaces_enabled();
 
 // The level-up light colour and direction (spawn_level_change_feedback).
-extern const f32 lbl_805DC2A0;
-extern const f32 lbl_805DC2A4;
-extern const f32 lbl_805DC2A8;
-extern const f32 lbl_805DC2AC;
+extern const f32 player_feedback_light_dir_y;
+extern const f32 player_feedback_light_blue;
+extern const f32 player_feedback_light_alpha;
+extern const f32 player_feedback_light_step;
 struct Pkt_801B1B08 { u16 f0; u16 client; u32 pad; };
 
 struct Pkt_801B1C00 { u16 f0; u16 client; u32 pad; };
@@ -883,7 +883,7 @@ struct Cmd_801BBE54 { u16 hdr; u16 client; s32 area; u8 pos[12]; };
 extern "C" {
 uaddr create_placed_trap__10TOMineTrapFUiss(u8 *, s32, s32);
 
-extern const f32 lbl_805DC2D8;
+extern const f32 player_rand_pick_limit;
 
 // Called ahead of its definition: the functions run from the highest address down.
 
@@ -937,7 +937,7 @@ void TObjPlayer::send_respawn_position() {
     count = 0;
     for (obj = ((List_801BC068 *)tl_06)->head; obj != NULL; obj = obj->next) {
         if (reinterpret_cast<TObject *>(obj)->check_value_equals(TObjPlayer__player_set_class_name) != 0 && obj->f84 == 0) {
-            f32 range = lbl_805DC2C0;
+            f32 range = player_lock_range_sq;
             ok = 1;
             for (i = 0; i < 12; i++) {
                 if (i != (u16)this->get_entity_id()) {
@@ -960,7 +960,7 @@ void TObjPlayer::send_respawn_position() {
         }
     }
     ((TObjPlayer *)(&cmd))->init_cmd_6x24();
-    pick = list[(s32)((f32)count * (lbl_805DC2D8 * (lbl_805DC288 * (f32)rand())))].obj;
+    pick = list[(s32)((f32)count * (player_rand_pick_limit * (player_rand_unit * (f32)rand())))].obj;
     if (pick == NULL || count == 0) {
         area = this->rotation_y;
         VecCopy((Vec *)pos, &this->position);
@@ -980,8 +980,8 @@ void TObjPlayer::init_collision_body() {
     this->collision_body.offset.x = TObjPlayer__data_805DC278;
     this->collision_body.offset.y = TObjPlayer__data_805DC278;
     this->collision_body.offset.z = TObjPlayer__data_805DC278;
-    this->collision_body.radius = lbl_805DC2B0;
-    this->collision_body.half_width = lbl_805DC2B0;
+    this->collision_body.radius = player_body_radius;
+    this->collision_body.half_width = player_body_radius;
     this->collision_body.shape = 0;
     switch (this->control_state) {
     case 1:
@@ -1295,12 +1295,12 @@ void TObjPlayer::run_task() {
 void TObjPlayer::render_shadows() {
     f32 f;
 
-    if (is_in_shadow_range(&position, lbl_805DC2D4) != 0) {
+    if (is_in_shadow_range(&position, player_shadow_range) != 0) {
         set_shadow_flag();
         TParticleCtrl::begin_effect_render();
         if (test_actor_flags(0x02000000) == 0 && is_inactive() != 0 &&
             (check_flag_4() == 0 || (check_flag_4() != 0 && phase == 0))) {
-            f = classify_actor_view_detail(lbl_805DC2CC, lbl_805DC2D0, TObjPlayer__data_805DC2BC);
+            f = classify_actor_view_detail(player_view_detail_near, player_view_detail_far, player_front_distance);
             clear_actor_flags((u32)0x08000000);
             draw_body((s32)f);
             save_render_material_state((u8 *)&render_material_state);
@@ -1337,7 +1337,7 @@ void TObjPlayer::render() {
 
     if (test_actor_flags(0x02000000) == 0 && is_inactive() != 0 &&
         (check_flag_4() == 0 || (check_flag_4() != 0 && phase == 0))) {
-        detail = classify_actor_view_detail(lbl_805DC2CC, lbl_805DC2D0, TObjPlayer__data_805DC2BC);
+        detail = classify_actor_view_detail(player_view_detail_near, player_view_detail_far, player_front_distance);
         if (TObjPlayer__data_805DC278 != detail) {
             if (((s32)main_task.get_task_flags() & 0x20) && is_central_control_area() != 0) {
                 if (push_player_reflection_matrix(entity_id, 1) != 0) {
@@ -1476,7 +1476,7 @@ void TObjPlayer::draw_projected_shadow(Vec *scale, s32 force_draw) {
     get_anim_node_position(1, &v);
     push_matrix();
     direction_to_rotation_xz((u8 *)&this->TObjChara::ground_normal, &a, &b);
-    translate_matrix(0, v.x, lbl_805DC2C8 + position.y, v.z);
+    translate_matrix(0, v.x, player_shadow_lift + position.y, v.z);
     rotate_matrix_z(0, b);
     rotate_matrix_x(0, a);
     rotate_matrix_y(0, rotation_y);
@@ -2053,7 +2053,7 @@ s32 TObjPlayer::update_target_lock() {
         if ((target = find_entity_by_id(lock_target_id)) == NULL) {
             return 0;
         }
-        if (!(lock_target_distance_sq < lbl_805DC2C0)) {
+        if (!(lock_target_distance_sq < player_lock_range_sq)) {
             goto block_17;
         }
         if (((s32 (*)(void *, s32))is_target_in_facing_cone__10TObjPlayerFPv)(this, (saddr)((TObjPlayer *)target)->get_position_ptr()) == 0) {
@@ -2069,7 +2069,7 @@ s32 TObjPlayer::update_target_lock() {
     if ((target = find_entity_by_id(lock_target_id)) == NULL) {
         return 0;
     }
-    if (lock_target_distance_sq > lbl_805DC2C4) {
+    if (lock_target_distance_sq > player_lock_release_range_sq) {
         goto clear_and_return;
     }
     if (((s32 (*)(void *, s32))is_target_in_facing_cone__10TObjPlayerFPv)(this, (saddr)((TObjPlayer *)target)->get_position_ptr()) != 0) {
@@ -2094,8 +2094,8 @@ bool TObjPlayer::is_target_in_facing_cone(void *target_arg) {
     fwd.x = sin_table_lookup(rotation_y);
     fwd.y = TObjPlayer__data_805DC278;
     fwd.z = cos_table_lookup(rotation_y);
-    x = TObjPlayer__data_805DC2BC * sin_table_lookup(rotation_y + 0x8000) + position.x;
-    z = TObjPlayer__data_805DC2BC * cos_table_lookup(rotation_y + 0x8000) + position.z;
+    x = player_front_distance * sin_table_lookup(rotation_y + 0x8000) + position.x;
+    z = player_front_distance * cos_table_lookup(rotation_y + 0x8000) + position.z;
     to.x = target->x - x;
     to.y = TObjPlayer__data_805DC278;
     to.z = target->z - z;
@@ -2437,7 +2437,7 @@ void TObjPlayer::drop_items_on_death() {
     }
     if (count>0) {
         lbl_8050BF60.x=this->position.x;
-        lbl_8050BF60.y=TObjPlayer__data_805DC2BC+this->position.y;
+        lbl_8050BF60.y=player_front_distance+this->position.y;
         lbl_8050BF60.z=this->position.z;
         create_drop_nodes__9TItemListFPvPvPvPvi(&this->inventory_objects->list, &lbl_8050BF60, this, records, count);
         set_action_flag_2();
@@ -2834,7 +2834,7 @@ CsnHit *TObjPlayer::apply_wall_response() {
         dx = reach * sin_table_lookup(angle);
         dz = reach * cos_table_lookup(angle);
         from.x = position.x;
-        from.y = lbl_805DC2B0 + position.y;
+        from.y = player_body_radius + position.y;
         from.z = position.z;
         to.x = from.x + dx;
         to.y = from.y;
@@ -2859,14 +2859,14 @@ CsnHit *TObjPlayer::apply_wall_response() {
     query.count = 1;
     query.mask = 0x28A0;
     origin->x = position.x;
-    origin->y = lbl_805DC2B0 + position.y;
+    origin->y = player_body_radius + position.y;
     origin->z = position.z;
     query.rays = rays;
     angle = (s32)(10430.38043493439 * atan2_float(move.x, move.z));
     rays[0].x = reach * sin_table_lookup(angle);
     rays[0].y = TObjPlayer__data_805DC278;
     rays[0].z = reach * cos_table_lookup(angle);
-    query.radius = lbl_805DC2B4 + reach;
+    query.radius = player_wall_probe_margin + reach;
     blocked = query_wall_radial(&query);
     Vec dir;
     if (blocked != NULL) {
@@ -2874,7 +2874,7 @@ CsnHit *TObjPlayer::apply_wall_response() {
         normal = &blocked->header.contact[ray].normal;
         VecCopy(&dir, &move);
         normalize_vector_safe(&dir);
-        if (vec3_dot(&dir, normal) > lbl_805DC2B8) {
+        if (vec3_dot(&dir, normal) > player_wall_facing_limit) {
             Vec end;
             Vec slide;
             Vec step;
@@ -2915,12 +2915,12 @@ CsnHit *TObjPlayer::apply_wall_response() {
         VecCopy(&dir, &move);
         normalize_vector_safe(&dir);
         f32 facing = vec3_dot(&dir, normal);
-        if (facing <= lbl_805DC2B8) {
+        if (facing <= player_wall_facing_limit) {
             blocked = wall;
         } else if (facing > TObjPlayer__data_805DC278) {
             blocked = NULL;
         } else {
-            f32 push = lbl_805DC298 + wall->depth;
+            f32 push = player_velocity_epsilon + wall->depth;
             Vec *wall_normal = &wall->header.contact[ray].normal;
             f32 px = wall_normal->x * push;
             f32 pz = wall_normal->z * push;
@@ -3190,12 +3190,12 @@ void TObjPlayer::spawn_level_change_feedback(const char *message) {
     new TFontSmallHelp(get_entity_id(), -1, 0x3C, (uaddr)message);
     new_child_object(get_entity_id());
     scratch_vec.x = TObjPlayer__data_805DC278;
-    scratch_vec.y = lbl_805DC2A0;
+    scratch_vec.y = player_feedback_light_dir_y;
     scratch_vec.z = TObjPlayer__data_805DC278;
     player_feedback_light_color[0].g = player_feedback_light_color[0].r = TObjPlayer__data_805DC294;
-    player_feedback_light_color[0].b = lbl_805DC2A4;
-    player_feedback_light_color[0].a = lbl_805DC2A8;
-    new TActorLight(lbl_805DC2AC, (NJS_ARGB *)player_feedback_light_color, &scratch_vec, 10, this, tl_07);
+    player_feedback_light_color[0].b = player_feedback_light_blue;
+    player_feedback_light_color[0].a = player_feedback_light_alpha;
+    new TActorLight(player_feedback_light_step, (NJS_ARGB *)player_feedback_light_color, &scratch_vec, 10, this, tl_07);
     publish_actor_light_scalars(get_entity_id(), TObjPlayer__data_805DC294, TObjPlayer__data_805DC28C);
 }
 
@@ -3417,12 +3417,12 @@ void TObjPlayer::rewind_position_history() {
 }
 
 void TObjPlayer::damp_planar_velocity() {
-    if (this->velocity.x < lbl_805DC298 && this->velocity.x > lbl_805DC29C) {
+    if (this->velocity.x < player_velocity_epsilon && this->velocity.x > player_velocity_neg_epsilon) {
         this->velocity.x = TObjPlayer__data_805DC278;
     } else {
         this->velocity.x *= (*(const f32 *)&TObjPlayer__data_805DC28C);
     }
-    if (this->velocity.z < lbl_805DC298 && this->velocity.z > lbl_805DC29C) {
+    if (this->velocity.z < player_velocity_epsilon && this->velocity.z > player_velocity_neg_epsilon) {
         this->velocity.z = TObjPlayer__data_805DC278;
     } else {
         this->velocity.z *= (*(const f32 *)&TObjPlayer__data_805DC28C);
@@ -4325,7 +4325,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
     case 2:
         ((TObjPlayer *)(self + 0x7CC))->set_action_type(act);
         if (this->check_mode_action(act) != 0) {
-            if (pad_binding.get_stick_magnitude() >= lbl_805DC290) {
+            if (pad_binding.get_stick_magnitude() >= player_stick_deadzone) {
                 this->rotation_y = ((s32 (*)(void *, s32))calc_scaled_value__10TObjPlayerFii)(this, pad_binding.get_stick_angle());
             }
             run_action_state_phase(5, 5);
@@ -4732,7 +4732,7 @@ void TObjPlayer::apply_speed_scale(int actor, f32 farg0) {
 
 s32 calc_scaled_value__10TObjPlayerFii(s32 player, s32 value) {
     if (((TObjPlayer *)player)->is_flag30_10_set() != 0) {
-        return (s32) (lbl_805DC280 * (lbl_805DC284 * (lbl_805DC288 * (f32) rand())));
+        return (s32) (player_angle_per_degree * (player_degrees_per_turn * (player_rand_unit * (f32) rand())));
     }
     return value;
 }
@@ -6565,27 +6565,27 @@ void TObjPlayer::add_luck_material(u8 amount) {
 
 __declspec(section ".sdata2") extern const f32 TObjPlayer__data_805DC278 = 0.0f;
 __declspec(section ".sdata2") extern const char lbl_805DC27C[4] = "\n";
-__declspec(section ".sdata2") extern f32 lbl_805DC280 = 182.04445f;
-__declspec(section ".sdata2") extern f32 lbl_805DC284 = 360.0f;
-__declspec(section ".sdata2") extern f32 lbl_805DC288 = 3.0517578e-05f;
+__declspec(section ".sdata2") extern f32 player_angle_per_degree = 182.04445f;
+__declspec(section ".sdata2") extern f32 player_degrees_per_turn = 360.0f;
+__declspec(section ".sdata2") extern f32 player_rand_unit = 3.0517578e-05f;
 __declspec(section ".sdata2") extern f32 TObjPlayer__data_805DC28C = 0.5f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC290 = 0.1f;
+__declspec(section ".sdata2") extern const f32 player_stick_deadzone = 0.1f;
 __declspec(section ".sdata2") extern f32 TObjPlayer__data_805DC294 = 1.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC298 = 1e-05f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC29C = -1e-05f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2A0 = -1.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2A4 = 0.8f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2A8 = 0.63f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2AC = 0.2f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2B0 = 5.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2B4 = 4.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2B8 = -0.87f;
-__declspec(section ".sdata2") extern const f32 TObjPlayer__data_805DC2BC = 20.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2C0 = 2500.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2C4 = 3600.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2C8 = 0.3f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2CC = 150.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2D0 = 400.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2D4 = 10.0f;
-__declspec(section ".sdata2") extern const f32 lbl_805DC2D8 = 0.99f;
+__declspec(section ".sdata2") extern const f32 player_velocity_epsilon = 1e-05f;
+__declspec(section ".sdata2") extern const f32 player_velocity_neg_epsilon = -1e-05f;
+__declspec(section ".sdata2") extern const f32 player_feedback_light_dir_y = -1.0f;
+__declspec(section ".sdata2") extern const f32 player_feedback_light_blue = 0.8f;
+__declspec(section ".sdata2") extern const f32 player_feedback_light_alpha = 0.63f;
+__declspec(section ".sdata2") extern const f32 player_feedback_light_step = 0.2f;
+__declspec(section ".sdata2") extern const f32 player_body_radius = 5.0f;
+__declspec(section ".sdata2") extern const f32 player_wall_probe_margin = 4.0f;
+__declspec(section ".sdata2") extern const f32 player_wall_facing_limit = -0.87f;
+__declspec(section ".sdata2") extern const f32 player_front_distance = 20.0f;
+__declspec(section ".sdata2") extern const f32 player_lock_range_sq = 2500.0f;
+__declspec(section ".sdata2") extern const f32 player_lock_release_range_sq = 3600.0f;
+__declspec(section ".sdata2") extern const f32 player_shadow_lift = 0.3f;
+__declspec(section ".sdata2") extern const f32 player_view_detail_near = 150.0f;
+__declspec(section ".sdata2") extern const f32 player_view_detail_far = 400.0f;
+__declspec(section ".sdata2") extern const f32 player_shadow_range = 10.0f;
+__declspec(section ".sdata2") extern const f32 player_rand_pick_limit = 0.99f;
 __declspec(section ".sdata2") extern const f32 lbl_805DC2DC = 0.4f;
