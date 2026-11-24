@@ -2,14 +2,14 @@
 #define PSO_BOSS_DRAGON_TOBJBOSS1CRATER_H
 
 #include "types.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 
 class AreaAttackHistory;
 class PointerBuffer;
 class TParticleCtrl;
 struct Vec;
 
-struct TObjBoss1Crater : public TUnk_804928CC {
+struct TObjBoss1Crater : public TAttackCollider {
     TObjBoss1Crater(TObject *parent, TObjBase *owner, Vec *pos);
     virtual ~TObjBoss1Crater();
     virtual void area_attack_receive_direct(void *, f32 *, void *);

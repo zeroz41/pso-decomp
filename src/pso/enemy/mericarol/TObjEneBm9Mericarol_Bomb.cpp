@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol_Bomb.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/system/vector.h"
@@ -166,7 +166,7 @@ TObjEneBm9Mericarol_Bomb::~TObjEneBm9Mericarol_Bomb() {
 
 
 TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *start, Vec *target, f32 power, f32 speed, s32 final_blast)
-    : TUnk_804928CC(owner, owner) {
+    : TAttackCollider(owner, owner) {
     Vec d;
     f32 k;
     m_name = TObjEneBm9Mericarol_Bomb__class_name;

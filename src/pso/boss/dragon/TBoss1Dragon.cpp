@@ -70,7 +70,7 @@ struct NJS_OBJECT;
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/system/MatrixOps.h"
@@ -454,7 +454,7 @@ NJS_OBJECT* TBoss1Dragon::cloneModelHierarchy(NJS_OBJECT* source, NJS_OBJECT* ou
     return output;
 }
 
-TUnk_80481B34::TUnk_80481B34(TObject *parent, TObjBase *owner) : TUnk_804928CC(parent, owner) {
+TUnk_80481B34::TUnk_80481B34(TObject *parent, TObjBase *owner) : TAttackCollider(parent, owner) {
 }
 
 TUnk_80481B34::~TUnk_80481B34() {
@@ -1912,7 +1912,7 @@ f32 TBoss1Dragon::get_crater_attack_power() {
 }
 
 void TBoss1Dragon::emit_v2_enemy_effect(const Vec *position, const DragonAttackParams *params, AreaAttackHistory *history) {
-    ((TUnk_804928CC *)this->attack_collider)->set_position_from(position);
+    ((TAttackCollider *)this->attack_collider)->set_position_from(position);
     this->attack_collider->bodies->radius = params->radius;
     this->attack_collider->bodies->flags = 0x9D03;
     this->attack_collider->call_vt16_with_default(const_cast<AreaAttackContact *>(&params->contact), history);
@@ -1923,7 +1923,7 @@ void TBoss1Dragon::emit_v2_effect_at_position(const DragonAttackParams *params) 
 }
 
 void TBoss1Dragon::setup_v2_instance(const Vec *position, DragonAttackParams *params, AreaAttackHistory *history) {
-    ((TUnk_804928CC *)this->attack_collider)->set_position_from(position);
+    ((TAttackCollider *)this->attack_collider)->set_position_from(position);
     this->attack_collider->bodies->radius = params->radius;
     this->attack_collider->bodies->flags = 0x9D03;
     this->attack_collider->call_vt13_with_default(&params->contact, params, reinterpret_cast<saddr>(history));

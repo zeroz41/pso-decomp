@@ -30,7 +30,7 @@
 
 #include "pso/system/BmlResourceDescriptor.h"
 
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/render/MaterialShadeFade.h"
 #include "pso/enemy/dellbiter/TObjEneDellBiter_Eff_Rush.h"
 #include <stddef.h>
@@ -234,8 +234,8 @@ void TObjEneDellBiter::init_params() {
     combo_count = 0;
     rush_count = 0;
     effect_timer = 0;
-    attack_bodies[0] = new TUnk_804928CC(this, this, &dell_biter_collision_bodies[1], 1);
-    attack_bodies[1] = new TUnk_804928CC(this, this, &dell_biter_collision_bodies[2], 1);
+    attack_bodies[0] = new TAttackCollider(this, this, &dell_biter_collision_bodies[1], 1);
+    attack_bodies[1] = new TAttackCollider(this, this, &dell_biter_collision_bodies[2], 1);
     rush_body = new TObjCollidable(NULL);
     init_collision_body_parts(rush_body, &dell_biter_collision_bodies[3], 1);
     attack_history = new AreaAttackHistory(8);

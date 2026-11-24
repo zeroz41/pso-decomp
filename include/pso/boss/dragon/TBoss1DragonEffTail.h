@@ -2,7 +2,7 @@
 #define PSO_BOSS_DRAGON_TBOSS1DRAGONEFFTAIL_H
 
 #include "types.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/system/vector.h"
 
 class AreaAttackHistory;
@@ -11,7 +11,7 @@ class TBoss1Dragon;
 // What the dragons' tails pass to call_vt16_with_default each frame (run_task).
 struct TailAttackParams { f32 power; s32 kind; };
 
-struct TBoss1DragonEffTail : public TUnk_804928CC {
+struct TBoss1DragonEffTail : public TAttackCollider {
     TBoss1DragonEffTail(TBoss1Dragon *dragon, Vec *nodes);
     virtual ~TBoss1DragonEffTail();
     virtual void apply_hit_if_active(void *, f32 *);

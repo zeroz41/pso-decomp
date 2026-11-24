@@ -7,7 +7,7 @@
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/AreaAttackContact.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -132,7 +132,7 @@ TObjBoss1Crater::~TObjBoss1Crater() {
 }
 
 
-TObjBoss1Crater::TObjBoss1Crater(TObject *parent, TObjBase *owner, Vec *pos) : TUnk_804928CC(parent, owner) {
+TObjBoss1Crater::TObjBoss1Crater(TObject *parent, TObjBase *owner, Vec *pos) : TAttackCollider(parent, owner) {
     f32 r;
     s32 i;
     r = boss1_crater_attack_params.radius;

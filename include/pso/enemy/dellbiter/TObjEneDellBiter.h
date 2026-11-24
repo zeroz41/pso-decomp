@@ -11,7 +11,7 @@ struct NJS_OBJECT;
 class TNowLoading;
 class TParticleCtrl;
 class AreaAttackHistory;
-class TUnk_804928CC;
+class TAttackCollider;
 class TAttackTraceStrip;
 
 struct DelbiterInitialParameters {
@@ -77,7 +77,7 @@ struct TObjEneDellBiter : public TObjEneDD_ST {
     s32 combo_count;
     s32 rush_count;
     s32 effect_timer;
-    TUnk_804928CC *attack_bodies[2];
+    TAttackCollider *attack_bodies[2];
     TObjCollidable *rush_body;
     AreaAttackHistory *attack_history;
     TAttackTraceStrip *saver;

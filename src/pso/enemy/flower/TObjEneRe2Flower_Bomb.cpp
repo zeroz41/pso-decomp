@@ -7,7 +7,7 @@
 #include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_Bomb.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/system/task/TObject.h"
@@ -158,7 +158,7 @@ TObjEneRe2Flower_Bomb::~TObjEneRe2Flower_Bomb() {
 }
 
 TObjEneRe2Flower_Bomb::TObjEneRe2Flower_Bomb(TObjEneRe2Flower *owner, const Vec *start, s32 heading)
-    : TUnk_804928CC(owner, owner) {
+    : TAttackCollider(owner, owner) {
     f32 s;
     f32 c;
     m_name = class_name;

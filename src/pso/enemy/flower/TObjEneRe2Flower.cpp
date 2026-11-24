@@ -26,7 +26,7 @@
 #include "pso/enemy/flower/TObjEneRe2Flower_Bomb.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"

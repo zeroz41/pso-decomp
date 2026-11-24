@@ -1,7 +1,7 @@
 #ifndef PSO_ENEMY_BRINGER_TOBJENEDF2BRINGER_EFF_TPABSORB1_H
 #define PSO_ENEMY_BRINGER_TOBJENEDF2BRINGER_EFF_TPABSORB1_H
 #include "types.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 
 class AreaAttackHistory;
 
@@ -9,7 +9,7 @@ class AreaAttackHistory;
 // (setup_dir_shot) and that deals one hit per AreaAttackHistory entry. Its ctor names it with
 // bringer_tp_absorb_effect_name ("TObjEneDf2Bringer_Eff_TpAbsorb1"), shared with TUnk_8048FE64 and
 // TUnk_8048FE7C; the twin of TObjEneDellBiter_Eff_TpAbsorb1.
-class TObjEneDf2Bringer_Eff_TpAbsorb1 : public TUnk_804928CC {
+class TObjEneDf2Bringer_Eff_TpAbsorb1 : public TAttackCollider {
 public:
     TObjEneDf2Bringer_Eff_TpAbsorb1(TObject *parent, TObjBase *owner, AreaAttackHistory *history);
     virtual ~TObjEneDf2Bringer_Eff_TpAbsorb1();

@@ -27,7 +27,7 @@ int TObjMotion::is_motion_blending() { return (motion_flags >> 2) & 1; }
 void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *hit) {
     TObjChara *entity;
 
-    TUnk_804928CC::apply_hit_if_active(target, hit);
+    TAttackCollider::apply_hit_if_active(target, hit);
     if (TObjEneDD::check_v2_mode() != 0) {
         if (is_player_entity_id(((TObjBase *)(target))->get_entity_id()) != 0) {
             entity = (TObjChara *)find_entity_by_id(this->owner_id);
@@ -308,7 +308,7 @@ void TObjEneRe7BeruraPunch::init() {
     reset();
 }
 TObjEneRe7BeruraPunch::TObjEneRe7BeruraPunch(TObject *parent, TObjBase *owner)
-    : TUnk_804928CC(parent, owner, TObjEneRe7BeruraPunch__collision_body_templates, 2) {
+    : TAttackCollider(parent, owner, TObjEneRe7BeruraPunch__collision_body_templates, 2) {
     m_name = TObjEneRe7BeruraPunch__name;
     owner_id = owner->get_entity_id();
     init();

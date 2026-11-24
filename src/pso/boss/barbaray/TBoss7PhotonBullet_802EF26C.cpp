@@ -66,7 +66,7 @@ void TBoss7PhotonPad::run_task() {
 void TBoss7PhotonPad::render() {  }
 
 TBoss7PhotonBullet::TBoss7PhotonBullet(TObject *parent, TObjBase *owner, const Vec *origin, const Vec *aim, f32 scale)
-    : TUnk_804928CC(parent, owner) {
+    : TAttackCollider(parent, owner) {
     m_name = TBoss7PhotonBullet__name;
     VecCopy(&position, VecCopy(&travel, origin));
     VecCopy(&this->aim, aim);

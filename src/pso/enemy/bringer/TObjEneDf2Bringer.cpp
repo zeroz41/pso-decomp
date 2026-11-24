@@ -58,7 +58,7 @@
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/render/MaterialShadeFade.h"
 
 void bringer_render_node_callback(NJS_OBJECT *);
@@ -335,7 +335,7 @@ void TObjEneDf2Bringer::init_enemy() {
     this->hit_count = 0;
     this->combo_count = 0;
     this->rush_count = 0;
-    this->collider = new TUnk_804928CC(this, this, &bringer_collision_bodies[1], 2);
+    this->collider = new TAttackCollider(this, this, &bringer_collision_bodies[1], 2);
     this->attack_history = new AreaAttackHistory(8);
     this->shot_launcher = new TObjEneDf2Bringer_Eff_TpAbsorb1(this, this, this->attack_history);
     this->attack_trail = TAttackTraceStrip::create(0xFF5050FF, 0x80000080);

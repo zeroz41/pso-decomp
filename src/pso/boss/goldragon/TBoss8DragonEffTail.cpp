@@ -6,7 +6,7 @@
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/system/vector.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/boss/goldragon/TBoss8DragonEffTail.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/dellbiter/TObjEneDellBiter.h"
@@ -92,7 +92,7 @@ TBoss8DragonEffTail::~TBoss8DragonEffTail() {
 }
 
 TBoss8DragonEffTail::TBoss8DragonEffTail(TBoss8Dragon *dragon, Vec *nodes)
-    : TUnk_804928CC(NULL, dragon, boss8_dragon_eff_tail_init_data, 0x11) {
+    : TAttackCollider(NULL, dragon, boss8_dragon_eff_tail_init_data, 0x11) {
     void *data;
     s32 i;
     data = boss8_dragon_eff_tail_init_data;

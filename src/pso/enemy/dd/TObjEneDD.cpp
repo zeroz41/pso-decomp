@@ -68,12 +68,12 @@ int freeze_all_players__10TObjPlayerFv(void*);
 
 
 
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 
 
 #include <stddef.h>
 extern "C" {
-TUnk_804928CC *obj_ene_dd_instance;
+TAttackCollider *obj_ene_dd_instance;
 }
 
 
@@ -144,7 +144,7 @@ s32 tick_period_counter(s32 self, s32 *counter, s32 limit) {
 int TObjEneDD::get_enemy_count() {  return registered_enemy_count; }
 
 void TObjEneDD::create_instance() {
-    obj_ene_dd_instance = new TUnk_804928CC(NULL, NULL);
+    obj_ene_dd_instance = new TAttackCollider(NULL, NULL);
 }
 
 void TObjEneDD::release_resource() {

@@ -19,7 +19,7 @@
 
 #include "pso/system/vector.h"
 
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 
 #include <stddef.h>
 
@@ -89,7 +89,7 @@ void TBoss2PhotonPad::run_task() {
 
 void TBoss2PhotonPad::render() {  }
 
-TBoss2PhotonBullet::TBoss2PhotonBullet(TObject *parent, TObjBase *owner, Vec *pos, Vec *dir, f32 speed) : TUnk_804928CC(parent, owner) {
+TBoss2PhotonBullet::TBoss2PhotonBullet(TObject *parent, TObjBase *owner, Vec *pos, Vec *dir, f32 speed) : TAttackCollider(parent, owner) {
     m_name = TBoss2PhotonBullet__name;
     VecCopy(&travel, pos);
     VecCopy(&position, &travel);

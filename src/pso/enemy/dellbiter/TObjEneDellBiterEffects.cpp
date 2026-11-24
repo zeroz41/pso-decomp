@@ -74,7 +74,7 @@ void TObjEneDellBiter_Eff_Rush::render() {}
 
 TObjEneDellBiter_Eff_TpAbsorb1::TObjEneDellBiter_Eff_TpAbsorb1(
     TObject *parent, TObjBase *owner, const Vec *origin, s32 angle, AreaAttackHistory *history, f32 attack_power)
-    : TUnk_804928CC(parent, owner) {
+    : TAttackCollider(parent, owner) {
     m_name = TObjEneDellBiter_Eff_TpAbsorb1__class_name;
     power = attack_power;
     distance = 0.0f;

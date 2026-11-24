@@ -1,13 +1,13 @@
-#ifndef PSO_PLAYER_TUNK_804928CC_H
-#define PSO_PLAYER_TUNK_804928CC_H
+#ifndef PSO_OBJECT_BASE_TATTACKCOLLIDER_H
+#define PSO_OBJECT_BASE_TATTACKCOLLIDER_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
-class TUnk_804928CC : public TObjCollidable {
+class TAttackCollider : public TObjCollidable {
 public:
-    TUnk_804928CC(TObject *, TObjBase *);
-    TUnk_804928CC(TObject *, TObjBase *, const CollisionBody *, s32);
-    virtual ~TUnk_804928CC();
+    TAttackCollider(TObject *, TObjBase *);
+    TAttackCollider(TObject *, TObjBase *, const CollisionBody *, s32);
+    virtual ~TAttackCollider();
     void update_body_contact_flag(f32);
     virtual s32 call_vt13_with_default(void *, void *, saddr);
     virtual s32 area_attack_deliver_direct(void *, saddr, void *, f32);
@@ -24,9 +24,6 @@ public:
     s32 is_target_eligible(u32 actor_flags);
     TObjBase *owner;   // the actor that fired this hitbox
 };
-LAYOUT_ASSERT(TUnk_804928CC_size, sizeof(TUnk_804928CC) == 0xB0);
-
-extern "C" void *__dt__13TUnk_804928CCFv(void *, s16);
-extern "C" void *__ct__13TUnk_804928CCFP7TObjectP8TObjBasePC13CollisionBodyl(void *, void *, void *, const void *, s32);
+LAYOUT_ASSERT(TAttackCollider_size, sizeof(TAttackCollider) == 0xB0);
 
 #endif

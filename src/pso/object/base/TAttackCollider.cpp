@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/object/base/HitEligibility.h"
 #include "pso/system/vector.h"
 #include "pso/math/MatrixTransforms.h"
@@ -15,14 +15,14 @@
 extern "C" {
 
 
-void TUnk_804928CC::apply_hit_if_active(void *chara, f32 *recoil) {
+void TAttackCollider::apply_hit_if_active(void *chara, f32 *recoil) {
     ((TObjChara *)chara)->receive_physical_attack(owner, 1.0f);
     if (((TObjChara *)chara)->obj_isState2_324() == 0) {
         this->area_attack_apply_recoil(chara, *recoil);
     }
 }
 
-void TUnk_804928CC::area_attack_receive_direct(void *dst, f32 *recoil, void *desc) {
+void TAttackCollider::area_attack_receive_direct(void *dst, f32 *recoil, void *desc) {
     s32 i;
     CollisionBody *rec;
     for (i = 0; i < ((TObjChara *)dst)->body_count; i++) {
@@ -39,7 +39,7 @@ void TUnk_804928CC::area_attack_receive_direct(void *dst, f32 *recoil, void *des
 
 #pragma push
 #pragma fp_contract on
-void TUnk_804928CC::area_attack_apply_recoil(void *b_arg, f32 s) {
+void TAttackCollider::area_attack_apply_recoil(void *b_arg, f32 s) {
     TObjChara *target = static_cast<TObjChara *>(b_arg);
     Vec v;
     VecCopy(&v, &target->position);
@@ -50,11 +50,11 @@ void TUnk_804928CC::area_attack_apply_recoil(void *b_arg, f32 s) {
 }
 #pragma pop
 
-void TUnk_804928CC::vfunc_19(void *contact) {
+void TAttackCollider::vfunc_19(void *contact) {
     this->call_vt16_with_default(contact, 0);
 }
 
-s32 TUnk_804928CC::area_attack_deliver_physical(void *contact, void *object, f32 range) {
+s32 TAttackCollider::area_attack_deliver_physical(void *contact, void *object, f32 range) {
     s32 hit = 0;
     s32 mask = 0;
     TObjChara *t;
@@ -102,16 +102,16 @@ s32 TUnk_804928CC::area_attack_deliver_physical(void *contact, void *object, f32
 
 #pragma push
 #pragma fp_contract on
-void TUnk_804928CC::call_vt16_with_default(void *contact, void *history) {
+void TAttackCollider::call_vt16_with_default(void *contact, void *history) {
     area_attack_deliver_physical(contact, history, 100.0f);
 }
 #pragma pop
 
-s32 TUnk_804928CC::vfunc_16(void *recoil, void *attack) {
+s32 TAttackCollider::vfunc_16(void *recoil, void *attack) {
     return call_vt13_with_default(recoil, attack, 0);
 }
 
-s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr desc, void *object, f32 range) {
+s32 TAttackCollider::area_attack_deliver_direct(void *recoil, saddr desc, void *object, f32 range) {
     s32 hit = 0;
     s32 mask = 0;
     TObjChara *t;
@@ -150,21 +150,21 @@ s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, saddr desc, void *ob
     return hit;
 }
 
-s32 TUnk_804928CC::call_vt13_with_default(void *recoil, void *attack, saddr history) {
+s32 TAttackCollider::call_vt13_with_default(void *recoil, void *attack, saddr history) {
     return area_attack_deliver_direct(recoil, reinterpret_cast<saddr>(attack), reinterpret_cast<void *>(history), 100.0f);
 }
 
 }
 
-void TUnk_804928CC::set_position_from(const Vec *pos) { VecCopy(&this->position, pos); }
+void TAttackCollider::set_position_from(const Vec *pos) { VecCopy(&this->position, pos); }
 
-void TUnk_804928CC::set_owner(TObjBase *actor) {
+void TAttackCollider::set_owner(TObjBase *actor) {
     owner = actor;
     room = owner->room;
 }
 
 // Actors flagged 0x04000000 are out of its reach.
-s32 TUnk_804928CC::is_target_eligible(u32 actor_flags) {
+s32 TAttackCollider::is_target_eligible(u32 actor_flags) {
     return !(actor_flags & 0x04000000);
 }
 
@@ -172,18 +172,18 @@ CollisionBody construct_collision_body_parts = {
     {0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f
 };
 
-TUnk_804928CC::~TUnk_804928CC() {
+TAttackCollider::~TAttackCollider() {
     free_collision_body_parts(this);
 }
 
-TUnk_804928CC::TUnk_804928CC(TObject *parent, TObjBase *owner,
+TAttackCollider::TAttackCollider(TObject *parent, TObjBase *owner,
                            const CollisionBody *parts, s32 count)
     : TObjCollidable(parent) {
     init_collision_body_parts(this, parts, count);
     this->owner = owner;
 }
 
-TUnk_804928CC::TUnk_804928CC(TObject *parent, TObjBase *owner)
+TAttackCollider::TAttackCollider(TObject *parent, TObjBase *owner)
     : TObjCollidable(parent) {
     init_collision_body_parts(this, &construct_collision_body_parts, 1);
     if (owner != NULL) {

@@ -2,12 +2,12 @@
 #define PSO_BOSS_GOLDRAGON_TBOSS8DRAGONEFFTAIL_H
 
 #include "types.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 
 class AreaAttackHistory;
 class TBoss8Dragon;
 
-struct TBoss8DragonEffTail : public TUnk_804928CC {
+struct TBoss8DragonEffTail : public TAttackCollider {
     TBoss8DragonEffTail(TBoss8Dragon *dragon, Vec *nodes);
     virtual ~TBoss8DragonEffTail();
     virtual void apply_hit_if_active(void *, f32 *);

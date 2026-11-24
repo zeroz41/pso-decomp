@@ -1,9 +1,9 @@
 #ifndef PSO_BOSS_TUNK_80481B34_H
 #define PSO_BOSS_TUNK_80481B34_H
 #include "types.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 
-class TUnk_80481B34 : public TUnk_804928CC {
+class TUnk_80481B34 : public TAttackCollider {
 public:
     TUnk_80481B34(TObject *parent, TObjBase *owner);
     virtual ~TUnk_80481B34();

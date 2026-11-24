@@ -8,7 +8,7 @@
 
 class AreaAttackHistory;
 struct BmlResource;
-class TUnk_804928CC;
+class TAttackCollider;
 class TObjEneDf2Bringer_Eff_TpAbsorb1;
 class TAttackTraceStrip;
 class TParticleCtrl;
@@ -83,7 +83,7 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     s32 combo_count;     // slashes in a row
     s32 rush_count;      // charges since the last slash; the walk charges only below 2
     s32 hit_count;       // hits taken; 5 starts the shot (check_stage_advance)
-    TUnk_804928CC *collider;  // built over the Bringer's collision bodies
+    TAttackCollider *collider;  // built over the Bringer's collision bodies
     AreaAttackHistory *attack_history;
     TObjEneDf2Bringer_Eff_TpAbsorb1 *shot_launcher;
     TAttackTraceStrip *attack_trail;

@@ -3,12 +3,12 @@
 #include <stddef.h>
 #include "types.h"
 #include "pso/enemy/AreaAttackContact.h"
-#include "pso/player/TUnk_804928CC.h"
+#include "pso/object/base/TAttackCollider.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
 class TObjEneBm9Mericarol;
 
-class TObjEneBm9Mericarol_Bomb : public TUnk_804928CC {
+class TObjEneBm9Mericarol_Bomb : public TAttackCollider {
 public:
     TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *start, Vec *target, f32 power, f32 speed, s32 final_blast);
     virtual ~TObjEneBm9Mericarol_Bomb();

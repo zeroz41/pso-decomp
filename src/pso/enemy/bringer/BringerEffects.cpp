@@ -254,7 +254,7 @@ void TUnk_8048FE64::run_task() {
 void TUnk_8048FE64::render() {}
 
 TObjEneDf2Bringer_Eff_TpAbsorb1::TObjEneDf2Bringer_Eff_TpAbsorb1(TObject *parent, TObjBase *owner, AreaAttackHistory *history)
-    : TUnk_804928CC(parent, owner) {
+    : TAttackCollider(parent, owner) {
     m_name = bringer_tp_absorb_effect_name;
     active = 0;
     power = 0.0f;

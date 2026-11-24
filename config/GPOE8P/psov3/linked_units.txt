@@ -2065,7 +2065,7 @@ pso/weapon/TUnk_804A1668.cpp
 pso/weapon/TItemWeaponTwinChakram.cpp
 pso/weapon/TUnk_804A1858.cpp
 pso/weapon/TItemWeaponHandgun.cpp
-pso/player/TUnk_804928CC.cpp
+pso/object/base/TAttackCollider.cpp
 pso/network/NetworkRuntime.c
 pso/network/NetworkThreadRuntime.c
 pso/object/ambient/TObjFish.cpp
