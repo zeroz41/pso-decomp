@@ -894,8 +894,6 @@ s32 foreach_player__10TObjPlayerFv(s32 *);
 s32 prepare_guild_return__10TObjPlayerFPv(void *player, s32);
 s32 player_flag_1__6TLobbyFv();
 s32 enable_action_input__10TObjPlayerFPv();
-s32 TObjPlayer__sub_801B3FD8();
-s32 TObjPlayer__sub_801B4044();
 s32 send_code_49_1__10TObjPlayerFi();
 void delete_item(void *, s32, s32);
 }
@@ -3777,8 +3775,8 @@ void qst_op_end_battlebgm() {
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        TObjPlayer__sub_801B3FD8();
-        player->forward_1BF500_at_63c();
+        player->stop_battle_music();
+        player->release_battle_music();
     }
 }
 
@@ -3787,8 +3785,8 @@ void qst_op_start_battlebgm() {
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        TObjPlayer__sub_801B4044();
-        player->attach_battle_ctrl_sub();
+        player->hold_battle_music();
+        player->start_battle_music();
     }
 }
 

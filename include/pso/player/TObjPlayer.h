@@ -939,8 +939,10 @@ struct TObjPlayer : public TObjChara {
     s32 dispatch_palette_action(u32 act);
     s32 handle_palette_button_input();
     s32 execute_palette_action(s32 mode, void *target);
-    void attach_battle_ctrl_sub();
-    void forward_1BF500_at_63c();
+    void hold_battle_music();
+    void release_battle_music();
+    void start_battle_music();
+    void stop_battle_music();
     s32 classify_action_state();
     void update_foot_stamp(int arg1);
     void play_footstep_sound(f32 at_frame, f32 farg1);

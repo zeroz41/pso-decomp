@@ -579,8 +579,6 @@ void enable_action_input__10TObjPlayerFPv(void* p);
 int get_result_entry__18TChallenge4PResultFPv(void* p);
 int get_field_340__18TChallenge4PResultFPv(void* p);
 int get_player_result__18TChallenge4PResultFPv(void* p);
-void TObjPlayer__sub_801B3FD8(void* p);
-void TObjPlayer__sub_801B4044(void* p);
 void handle_6x32_medical_center_revive_all_players(void);
 void recover_player_full(void *player);
 void send_code_49_1__10TObjPlayerFi(saddr player);
@@ -4143,13 +4141,13 @@ s32 TObjPlayer::classify_action_state() {
     }
 }
 
-void TObjPlayer__sub_801B4044(void* p) { ((TObjPlayer *)p)->battle_music.set_flag_2(); }
+void TObjPlayer::hold_battle_music() { battle_music.set_flag_2(); }
 
-void TObjPlayer::forward_1BF500_at_63c() { battle_music.clear_flag0_bit1(); }
+void TObjPlayer::release_battle_music() { battle_music.clear_flag0_bit1(); }
 
-void TObjPlayer::attach_battle_ctrl_sub() { battle_music.clear_target_lock(); }
+void TObjPlayer::start_battle_music() { battle_music.clear_target_lock(); }
 
-void TObjPlayer__sub_801B3FD8(void* p) { ((TObjPlayer *)p)->battle_music.reset_ring(); }
+void TObjPlayer::stop_battle_music() { battle_music.reset_ring(); }
 
 s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
     u8 *self = (u8 *)this;
