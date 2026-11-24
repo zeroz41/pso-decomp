@@ -10,7 +10,7 @@ u8 get_class_technique_cap(s32 cls, s32 technique);
 u8 get_effective_technique_level__10TObjPlayerFPvs(void *techs, s32 technique);
 }
 
-u8 TObjPlayer::clamp_to_max(saddr techs, u8 level, u8 max) {
+u8 PlayerTechniqueState::clamp_to_max(u8 level, u8 max) {
     u8 clamped;
 
     if (TObjPlayer::is_invalid_slot(level) != 0) {
@@ -38,7 +38,7 @@ bool TObjPlayer::is_slot_within_limit(s32 cls, s32 tech, u8 level) {
     return level <= get_class_technique_cap(cls, tech);
 }
 
-s32 TObjPlayer::is_valid_technique_id(s16 technique) {
+s32 PlayerTechniqueState::is_valid_technique_id(s16 technique) {
     s32 valid;
 
     valid = 0;
@@ -62,8 +62,8 @@ s32 TObjPlayer::check_technique_level(saddr techs, s32 idx, u8 level) {
     return level <= get_effective_technique_level__10TObjPlayerFPvs((void *)techs, idx) ? 1 : 0;
 }
 
-void TObjPlayer::set_slot_type_state(s32 techs, s32 slot, s32 entity_id, s16 index) {
-    PhotonBlastTarget *target = ((PlayerTechniqueState *)techs)->get_target(slot);
+void PlayerTechniqueState::set_target(s32 slot, s32 entity_id, s16 index) {
+    PhotonBlastTarget *target = get_target(slot);
     target->set_entity_id(entity_id);
     target->set_index(index);
 }

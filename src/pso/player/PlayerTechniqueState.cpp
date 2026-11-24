@@ -3,11 +3,10 @@
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-void set_slot_type_state__10TObjPlayerFllls(void *techs, s32 slot, s32 entity_id, s16 index);
 u8 TObjPlayer__sub_801C010C(void *techs, s16 technique);
 void TObjPlayer__sub_801D2CC4(void *techs, f32 value);
 void set_technique_level_entry(void *techs, s16 technique, void *level);
-u8 clamp_to_max__10TObjPlayerFlUcUc(s32 techs, u8 level, u8 max);
+u8 clamp_to_max__20PlayerTechniqueStateFUcUc(PlayerTechniqueState *techs, void *level, u8 max);
 void TObjPlayer__sub_801D9C34(PlayerTechniqueState *techs, s16 technique, void *level);
 u8 get_effective_technique_level__10TObjPlayerFPvs(PlayerTechniqueState *techs, s16 technique);
 }
@@ -41,13 +40,13 @@ void TObjPlayer::copy_all_technique_entries(void *level) {
 u8 get_effective_technique_level__10TObjPlayerFPvs(PlayerTechniqueState *techs, s16 technique) {
     u8 level = techs->caps[technique];
     u8 cap = TObjPlayer__sub_801C010C(techs, technique);
-    return TObjPlayer::clamp_to_max((saddr)techs, level, cap);
+    return techs->clamp_to_max(level, cap);
 }
 
 void TObjPlayer__sub_801D9C34(PlayerTechniqueState *techs, s16 technique, void *level) {
     u8 cap = TObjPlayer__sub_801C010C(techs, technique);
     techs->caps[technique] =
-        ((u8 (*)(s32, void *, u8))clamp_to_max__10TObjPlayerFlUcUc)((saddr)techs, level, cap);
+        clamp_to_max__20PlayerTechniqueStateFUcUc(techs, level, cap);
 }
 
 void PlayerTechniqueState::reset_slots() {
@@ -55,7 +54,7 @@ void PlayerTechniqueState::reset_slots() {
 
     target_count = 0;
     for (i = 0; i < 10; i++) {
-        set_slot_type_state__10TObjPlayerFllls(this, i, 65535, 0);
+        set_target(i, 0xFFFF, 0);
     }
 }
 
@@ -98,7 +97,7 @@ s32 PlayerTechniqueState::technique_count() {
 }
 
 void TObjPlayer__sub_801D9E10(PlayerTechniqueState *techs, s16 value) {
-    *(s16 *)techs->pad_8 = value;
+    techs->pad_8 = value;
 }
 
 PhotonBlastTarget *PlayerTechniqueState::get_target(s32 slot) {
@@ -106,7 +105,7 @@ PhotonBlastTarget *PlayerTechniqueState::get_target(s32 slot) {
 }
 
 void PlayerTechniqueState::clear_technique_level(s16 technique) {
-    pad_48[technique] = 0xFF;
+    learned_levels[technique] = 0xFF;
 }
 
 void PlayerTechniqueState::set_field_1c(f32 v) { pad_1c = v; }

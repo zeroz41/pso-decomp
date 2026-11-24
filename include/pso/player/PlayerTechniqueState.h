@@ -30,7 +30,7 @@ public:
     u8 pad_3;
     s16 technique;
     s16 target_count;
-    u8 pad_8[0x2];
+    s16 pad_8;
     s16 pad_a;
     s32 state;
     FlagWord flags;
@@ -38,12 +38,15 @@ public:
     f32 pad_18;
     f32 pad_1c;
     PhotonBlastTarget targets[10];
-    u8 pad_48[0x14];
+    u8 learned_levels[0x14];
     u8 levels[0x14];
     u8 caps[0x14];
 
     static s32 technique_count();
     PhotonBlastTarget *get_target(s32 slot);
+    void set_target(s32 slot, s32 entity_id, s16 index);
+    u8 clamp_to_max(u8 level, u8 max);
+    static s32 is_valid_technique_id(s16 technique);
     void clear_technique_level(s16 technique);
 };
 
