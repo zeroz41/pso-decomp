@@ -17,6 +17,49 @@ struct NpcPlayerViewTarget {
     f32 distance_sq;  // squared horizontal distance
 };
 
+// NpcPlayerView::condition bits, rebuilt every frame by update_conditions,
+// update_hp_change and can_recover.
+enum NpcPlayerCondition {
+    NPC_CONDITION_STATUS_AILMENT     = 0x2,     // actorFlags 1, 2 or 0x10 set
+    NPC_CONDITION_HP_LOW             = 0x8,     // HP <= 25% with enemies in range, <= 75% without
+    NPC_CONDITION_TP_LOW             = 0x10,    // TP <= 20%
+    NPC_CONDITION_HAS_RECOVERY_ITEM  = 0x20,    // can_recover found the item in the inventory
+    NPC_CONDITION_BIG_DAMAGE         = 0x40,    // lost more than 30% of max HP since the last check
+    NPC_CONDITION_MEDIUM_DAMAGE      = 0x80,    // more than 20%
+    NPC_CONDITION_SMALL_DAMAGE       = 0x100,   // more than 1%
+    NPC_CONDITION_HEALED             = 0x200,   // HP went up
+    NPC_CONDITION_HP_CRITICAL        = 0x800,   // HP <= 10%
+    NPC_CONDITION_HP_HURT_IN_COMBAT  = 0x1000,  // HP <= 75% with enemies in range
+};
+
+// NpcPlayerView::status bits (0x80, a probe contact with an actor flagged
+// 0x20000000, has no name yet).
+enum NpcPlayerStatus {
+    NPC_STATUS_MOVED             = 0x1,   // moved more than 0.4 since the last check
+    NPC_STATUS_ENEMIES_IN_RANGE  = 0x2,
+    NPC_STATUS_NEEDS_RECOVERY    = 0x4,   // set with any HP, TP or ailment condition
+    NPC_STATUS_OBSTACLE_AHEAD    = 0x20,  // probe_obstacles hit an object to walk around
+};
+
+// TNpcPlayer::ai_flags bits.
+enum NpcAiFlag {
+    NPC_AI_DETOUR_WAYPOINT       = 0x1,      // a waypoint around a wall is chosen
+    NPC_AI_DETOUR_OVERSHOOT      = 0x2,      // steering 40 units past that waypoint
+    NPC_AI_CHATTER_PENDING       = 0x4,      // request_chatter queued a new line
+    NPC_AI_RUNNING               = 0x8,      // runs until it leaves ai state 1
+    NPC_AI_ATTACK_STATE          = 0x10,     // set on entering ai state 2
+    NPC_AI_MOVE_STATE            = 0x20,     // set on entering ai state 1 or 16
+    NPC_AI_NO_CLEAR_TARGET       = 0x40,     // no target in range has a clear line
+    NPC_AI_ATTACK_BLOCKER        = 0x80,     // an enemy within block_range blocks the way
+    NPC_AI_RETURNING_TO_LEADER   = 0x100,
+    NPC_AI_SELF_NEEDS_RECOVERY   = 0x200,
+    NPC_AI_TARGET_IN_REACH       = 0x1000,   // target within attack_range + 10
+    NPC_AI_SURROUNDED            = 0x2000,   // three or more targets in range
+    NPC_AI_STUCK                 = 0x4000,   // stuck_frames passed 30
+    NPC_AI_DOUBLE_AGGRESSION     = 0x8000,   // doubles the attack probability
+    NPC_AI_CAST_RESTA            = 0x10000,  // skips the healed chatter once
+};
+
 // What a partner NPC tracks about one player: its own (self_view) or the one it follows
 // (leader_view): the enemies in range, its condition flags and an obstacle probe.
 struct NpcPlayerView {
@@ -51,8 +94,8 @@ struct NpcPlayerView {
     s32 target_collider;  // collision body index of target_id
     s16 last_hp;
     u16 client_id;        // client id of the player it watches
-    u32 status;           // 1 moved, 2 enemies in range, 4 needs help, 0x20 obstacle ahead
-    u32 condition;        // hp, tp and damage flags
+    u32 status;           // NpcPlayerStatus bits
+    u32 condition;        // NpcPlayerCondition bits
     TObjPlayer *player;
     s32 goal_angle;       // heading from the player to its goal
     Vec last_position;    // where the player last moved from
@@ -129,7 +172,7 @@ struct TNpcPlayer : public TObject {
     NpcPlayerView *leader_view;  // the player the partner follows
     NpcPlayerView *self_view;    // the partner's own player
     u32 ai_state;
-    u32 ai_flags;
+    u32 ai_flags;  // NpcAiFlag bits
     s32 escort_leader;
     f32 escort_distance_sq;
     s8 stuck_frames;
