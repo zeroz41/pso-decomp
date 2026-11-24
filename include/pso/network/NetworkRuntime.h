@@ -7,33 +7,17 @@
 typedef uaddr NetThreadHandle;
 typedef struct NetworkThreadSlot NetworkThreadSlot;
 typedef void (*NetThreadEntry)(void);
-typedef struct Blk_803FA2A8 Blk_803FA2A8;
-typedef union U_803FA2A8 U_803FA2A8;
-typedef struct Q_803FA2A8 Q_803FA2A8;
-typedef struct A_803FADA0 A_803FADA0;
 typedef struct PppFrame PppFrame;
-struct Blk_803FA2A8 { s32 w[6]; };
-union U_803FA2A8 { s16 h4; Blk_803FA2A8 src; };
-struct Q_803FA2A8 {
-    s16 h0; s16 h2;
-    U_803FA2A8 u;
-    Blk_803FA2A8 dst;
-    s16 h34; s16 h36; s16 h38; s16 h3A;
-    s32 w3C; s32 w40;
-    u8 pad44[0x50 - 0x44];
-    s16 h50;
-};
 /* A PPP frame or packet: its data and length.  It sits at the start of its buffer (PppBuffers); the readers advance
  * data and count len down. */
 struct PppFrame { u8 *data; u16 len; };
 LAYOUT_ASSERT(PppFrame_size_check, sizeof(struct PppFrame) == 8);
-struct A_803FADA0 { u8 pad0[4]; u32 a; u32 b; };
 /* An IPv6CP option set: the mask of the options it holds, then their values (TLobby__sub_803FACD8 appends the options
  * a mask selects). */
 typedef struct Ipv6cpOptionSet {
     s16 mask;
     u8 pad_02[2];
-    u32 words[4];
+    u32 words[4];  /* words[0..1]: the Interface-Identifier (option 1, RFC 5072) */
     s16 compression_protocol;
     u8 pad_16[2];
 } Ipv6cpOptionSet;
@@ -122,7 +106,8 @@ void TLobby__sub_803FA280(struct PppFsm *fsm);
 extern s32 net_default_thread_priority;
 void TLobby__sub_803FA2A8(struct PppFsm *o);
 s16 verify_message_sequence(struct PppFsm *fsm, struct PppHeader *msg, PppFrame *expected);
-void TLobby__sub_803FADA0(PppFrame **pbuf, A_803FADA0 *hdr, s32 type, s32 total_len, void *src);
+void TLobby__sub_803FADA0(PppFrame **pbuf, Ipv6cpOptionSet *opts, s32 type, s32 total_len, void *src);
+void TLobby__sub_803FACD8(uaddr *self, Ipv6cpOptionSet *opts, s32 mask);
 #ifdef __cplusplus
 }
 #endif

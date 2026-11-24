@@ -368,13 +368,13 @@ void NetIPv6CPCancelTimer(PppFsm *entry) {
 }
 
 void TLobby__sub_803FA2A8(PppFsm *o) {
-    Q_803FA2A8 *q = o->opts;
-    q->dst = q->u.src;
-    q->dst.w[3] = q->w3C;
-    q->dst.w[4] = q->w40;
-    q->h0 = q->h0 | q->u.h4;
-    q->h50 = 0;
-    q->h34 = q->h34 | q->h38;
+    Ipv6cpConfig *q = o->opts;
+    q->local.requested = q->local.current;
+    q->local.requested.words[2] = q->peer.current.words[0];
+    q->local.requested.words[3] = q->peer.current.words[1];
+    q->local.flags = q->local.flags | q->local.current.mask;
+    q->peer.requested.mask = 0;
+    q->peer.flags = q->peer.flags | q->peer.current.mask;
 }
 
 #pragma push
@@ -460,7 +460,6 @@ s16 TLobby__sub_803FA4A4(PppFsm *self, PppHeader *src, PppFrame *h) {
 }
 #pragma pop
 
-void TLobby__sub_803FACD8(uaddr *self, void *src, s32 mask);
 #pragma push
 #pragma opt_lifetimes off
 #pragma opt_dead_assignments off
@@ -563,7 +562,7 @@ s16 TLobby__sub_803FA7B0(PppFsm *self, PppHeader *src, PppFrame *h)
       sh = ppp_configure_option_bit(pair[0]);
       m->peer.requested.mask |= 1 << sh;
     }
-    TLobby__sub_803FADA0(&blk, (A_803FADA0 *)&m->peer.requested, pair[0], pair[1], &h);
+    TLobby__sub_803FADA0(&blk, &m->peer.requested, pair[0], pair[1], &h);
     if (res > 3)
     {
       ppp_fsm_send_packet(self, state, src->id, blk);
@@ -683,7 +682,7 @@ PppFrame *TLobby__sub_803FABDC(PppFsm *self) {
     s = ipv6cp_option_lengths + 1;
     for (i = 1; i < 0x20; i++) {
         if (bits & (1 << i)) {
-            TLobby__sub_803FADA0(&obj, (A_803FADA0 *)&p->local.requested, (i < 8) ? i : ((i < 0x20) ? i + 0x78 : 0), *s, NULL);
+            TLobby__sub_803FADA0(&obj, &p->local.requested, (i < 8) ? i : ((i < 0x20) ? i + 0x78 : 0), *s, NULL);
         }
         s++;
     }
@@ -704,7 +703,7 @@ inline s32 optnum_803FACD8(s32 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void TLobby__sub_803FACD8(uaddr *self, void *src, s32 mask)
+void TLobby__sub_803FACD8(uaddr *self, Ipv6cpOptionSet *opts, s32 mask)
 {
   s16 new_var;
   s16 i;
@@ -722,13 +721,13 @@ void TLobby__sub_803FACD8(uaddr *self, void *src, s32 mask)
   {
     if (m & (1 << i))
     {
-      TLobby__sub_803FADA0((PppFrame **) self, (A_803FADA0 *) src, optnum_803FACD8(i), ipv6cp_option_lengths[i], 0);
+      TLobby__sub_803FADA0((PppFrame **) self, opts, optnum_803FACD8(i), ipv6cp_option_lengths[i], 0);
     }
   }
 
 }
 #pragma pop
-void TLobby__sub_803FADA0(PppFrame **pbuf, A_803FADA0 *hdr, s32 type, s32 total_len, void *src) {
+void TLobby__sub_803FADA0(PppFrame **pbuf, Ipv6cpOptionSet *opts, s32 type, s32 total_len, void *src) {
     u8 *p;
     PppFrame *b;
     s16 n;
@@ -750,7 +749,7 @@ void TLobby__sub_803FADA0(PppFrame **pbuf, A_803FADA0 *hdr, s32 type, s32 total_
     case 2:
         break;
     case 1:
-        p = write_network_u32_be(write_network_u32_be(p, hdr->a), hdr->b);
+        p = write_network_u32_be(write_network_u32_be(p, opts->words[0]), opts->words[1]);
         n -= 8;
         break;
     }
