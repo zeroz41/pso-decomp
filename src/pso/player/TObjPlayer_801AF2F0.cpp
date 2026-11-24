@@ -1819,7 +1819,7 @@ void TObjPlayer::reset_motion_fields() {
     if ((TObjPlayer::is_locally_controlled(this) != 0) && (this->check_flag(0x800) != 0)) {
         this->clear_state_flags(0x800);
         TWindowCtrl::enable_client_main_menu(this->get_entity_id());
-        TObjPlayer::play_effect_default((saddr)this, 0xF);
+        send_impose_hold(this, 0xF);
         this->update_position_from_target();
         ((s32 (*)(void *))send_code_49_1__10TObjPlayerFi)(this);
         ((s32 (*)(void *))send_code50_packet__10TObjPlayerFi)(this);
@@ -2967,7 +2967,7 @@ void TObjPlayer::request_item_drop(s32 key, s32 count) {
     if (owner == NULL) {
         return;
     }
-    TObjPlayer::play_effect_default((saddr)this, 0x384);
+    send_impose_hold(this, 0x384);
     set_action_flag_2();
     owner->copy_to_item_data((TItemData *)&item);
     ((TItemData *)&item)->set_stack_count(count);
@@ -2983,7 +2983,7 @@ void TObjPlayer::request_meseta_drop(s32 amount) {
     LAYOUT_ASSERT(sp14_offset, offsetof(Stack_801B8A80, sp14) == 0xC);
     Stack_801B8A80 stack;
     if (amount > 0) {
-        TObjPlayer::play_effect_default((saddr)this, 0x384);
+        send_impose_hold(this, 0x384);
         set_action_flag_2();
         ((TObjPlayer *)(&stack.sp8))->init_item_data(amount);
         stack.sp14 = -1;
@@ -4424,8 +4424,8 @@ void TObjPlayer::init_trait_flags() {
     }
 }
 
-void TObjPlayer::play_effect_default(saddr player, int effect_id) {
-    ((s32 (*)(s32, s32, s32, s32, f32))send_6x2C_impose_hold)(player, (saddr)((TObjPlayer *)player)->get_position_ptr(), effect_id, 0, (*(f32 *)&TObjPlayer__data_805DC278));
+void send_impose_hold(TObjPlayer *player, int frames) {
+    ((s32 (*)(TObjPlayer *, Vec *, s32, s32, f32))send_6x2C_impose_hold)(player, player->get_position_ptr(), frames, 0, (*(f32 *)&TObjPlayer__data_805DC278));
 }
 
 void TObjPlayer::play_effect(saddr arg0, s32 arg1, s32 arg2) {
@@ -4469,12 +4469,12 @@ void handle_6x2C_impose_hold(saddr command) {
     }
 }
 
-void TObjPlayer::send_code_45_1(saddr player) {
+void send_release_hold(TObjPlayer *player) {
     struct S801B5200_801B3FD8 sp8;
 
-    if ((player == 0) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
+    if ((player == NULL) || (player->obj_isState2_324() == 0)) {
         ((TObjPlayer *)(&sp8))->set_code_45_1();
-        sp8.h = ((TObjBase *)(player))->get_entity_id();
+        sp8.h = player->get_entity_id();
         ((TObjPlayer *)(&sp8))->send_lobby_update_font();
     }
 }
@@ -4632,7 +4632,7 @@ void TObjPlayer::apply_material_color_override() {
 void TObjPlayer::clear_action_flag() {
     if ((is_field_0_positive(&this->inventory_objects->list.count) == 0) && (((TObjPlayer *)this)->is_action_active() != 0U)) {
         this->clear_flag_0x2();
-        TObjPlayer::send_code_45_1((saddr)this);
+        send_release_hold(this);
     }
 }
 
@@ -4702,14 +4702,13 @@ s32 TObjPlayer::get_battle_ctrl_id(u16 client) {
 }
 
 void TObjPlayer::update_subsystems() {
-    saddr arg0 = (saddr)this;
     if (TObjPlayer::is_locally_controlled(this) != 0) {
         this->check_level_up();
         sync_status_effect_flags();
         clear_action_flag();
         this->update_target();
         if ((this->check_player_flag1() != 0) && (this->movement_hold.get_frames() >= 0) && (this->movement_hold.count_down() == 0)) {
-            TObjPlayer::send_code_45_1(arg0);
+            send_release_hold(this);
         }
         this->battle_music.update_target_lock(this);
         if (scale_state.is_scaled() != 0) {

@@ -606,13 +606,13 @@ void TPlayerBattleCtrl4P::close_battle_results() {
 
 void TPlayerBattleCtrl4P::begin_battle_reload() {
     s32 i;
-    u32 ret;
+    TObjPlayer *player;
 
     i = 0;
     do {
-        ret = (uaddr)get_player_by_client_id(i);
-        if (ret != 0U) {
-            TObjPlayer::play_effect_default(ret, -1);
+        player = get_player_by_client_id(i);
+        if (player != NULL) {
+            send_impose_hold(player, -1);
         }
         i += 1;
     } while (i < 4);
@@ -924,12 +924,12 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 arg1) {
 
 void TPlayerBattleCtrl4P::remove_player(void *arg0, u16 arg1, s32 arg2) {
     uaddr id;
-    u32 temp;
+    TObjPlayer *player;
 
     id = arg1;
-    temp = (uaddr)get_player_by_client_id(id);
-    if (temp != 0U) {
-        TObjPlayer::play_effect_default(temp, -1);
+    player = get_player_by_client_id(id);
+    if (player != NULL) {
+        send_impose_hold(player, -1);
     }
     if (arg2 != 0) {
         begin_player_keyboard_hold(id);
@@ -1026,9 +1026,9 @@ void send_code_45_to_window__19TPlayerBattleCtrl4PFPvii(void *arg0, s32 arg1, s3
 
     client = (u16)arg1;
     temp_r30 = arg2;
-    s32 player;
-    if ((player = (saddr)get_player_by_client_id(client)) != 0U) {
-        TObjPlayer::send_code_45_1(player);
+    TObjPlayer *player;
+    if ((player = get_player_by_client_id(client)) != NULL) {
+        send_release_hold(player);
     }
     if (temp_r30 != 0) {
         end_player_keyboard_hold(client);

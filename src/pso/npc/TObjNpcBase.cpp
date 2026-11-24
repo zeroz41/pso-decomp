@@ -110,7 +110,7 @@ void TObjNpcBase::interact(u16 client) {
                 targetId = client;
                 target = (u8 *) player;
                 if ((s32) targetId == local_client_id) {
-                    TObjPlayer::play_effect_default((saddr) player, -1);
+                    send_impose_hold(player, -1);
                 }
                 request_action(1);
                 m_2ac = 0;
@@ -265,7 +265,7 @@ void TObjNpcBase::update_conversation() {
             if (target != 0 && local_client_id == ((TObjBase *)(target))->get_entity_id()) {
                 player = get_player_by_client_id(local_client_id);
                 if (player != NULL && player->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1((saddr)player);
+                    send_release_hold(player);
                 }
             }
         }

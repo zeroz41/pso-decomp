@@ -257,7 +257,7 @@ struct TObjPlayer : public TObjChara {
     u8 _pad7EC[0x3C];
     void* m_828;
     u8 _pad82C[0x4];
-    void* m_830;
+    void* telepipe;  // the player's telepipe record (TTecLuker::init_fields, send_telepipe_packet)
     u8 _pad834[0x18];
     void* m_84c;
     u8 _pad850[0x8];
@@ -1174,8 +1174,6 @@ struct TObjPlayer : public TObjChara {
     static s32 get_battle_ctrl_flag(u16 id);
     s32 is_outside_movement_hold(f32 *pos);
     static s32 draw_small_font(saddr arg0, void * command);
-    static void send_code_45_1(saddr player);
-    static void play_effect_default(saddr player, int effect);
     static void play_effect(saddr arg0, s32 arg1, s32 arg2);
     s32 get_clamped_index();
     void apply_input_mode();
@@ -1583,6 +1581,11 @@ LAYOUT_ASSERT(PlayerItemNodeMatricesOffset, offsetof(TObjPlayer, item_node_matri
 LAYOUT_ASSERT(TObjPlayer_size, sizeof(TObjPlayer) == 0xDB8);
 
 void set_flag_400000(TObjPlayer *player);
+
+// Sends 6x2D: releases the movement hold on the player.
+void send_release_hold(TObjPlayer *player);
+// Sends 6x2C: holds the player in place for `frames` frames (-1: until released).
+void send_impose_hold(TObjPlayer *player, int frames);
 
 // The owner joint each item attach slot hangs the equipped model from
 // (TItemEquipBase::set_attach_slot); defined with the player.
