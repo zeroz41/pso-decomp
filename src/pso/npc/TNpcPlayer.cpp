@@ -45,7 +45,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/unk/text_8034D3D0.h"
+#include "pso/npc/NpcPartnerControl.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer_80011014.h"
