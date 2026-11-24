@@ -162,7 +162,8 @@ f32 atan_float(f32 x) {
 
 void TObjPlayer::end_screen_quad() {}
 
-void set_tex_coord_gen(GXTexCoordID dst, GXTexGenType func, GXTexGenSrc src, u32 mtx) {
+// The SDK's GXSetTexCoordGen out of line: no normalisation, identity post-transform.
+static void set_tex_coord_gen(GXTexCoordID dst, GXTexGenType func, GXTexGenSrc src, u32 mtx) {
     GXSetTexCoordGen2(dst, func, src, mtx, GX_FALSE, GX_PTIDENTITY);
 }
 

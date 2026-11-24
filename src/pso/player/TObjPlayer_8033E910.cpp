@@ -22,8 +22,12 @@
 #include "pso/object/ambient/TObjFish.h"
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/gx/GXTev.h>
+#include <dolphin/gx/GXGeometry.h>
 #undef PSO_SDK_COMPACT_MATH
 #include <dolphin/mtx.h>
+
+// Defined at the end of the file, where the original places it after the unit's other functions.
+static void set_tex_coord_gen(GXTexCoordID dst_coord, GXTexGenType func, GXTexGenSrc src_param, u32 mtx);
 
 #pragma readonly_strings on
 
@@ -85,7 +89,7 @@ void setup_projection_tex_matrix__10TObjPlayerFv(void) {
         load_current_pos_matrix(2);
         GXSetTevOrder(GX_TEVSTAGE1, GX_TEXCOORD1, GX_TEXMAP2, GX_COLOR0A0);
         GXSetTevOp(GX_TEVSTAGE1, GX_DECAL);
-        set_tex_coord_gen2(1, 0, 0, 0x24);
+        set_tex_coord_gen(GX_TEXCOORD1, GX_TG_MTX3x4, GX_TG_POS, GX_TEXMTX2);
         model_render_flags |= 0x80000;
         set_ginja_post_tev_stage_count(1);
         set_ginja_post_texgen_count(1);
@@ -178,3 +182,8 @@ void TLobby::release_indexed_entry(s32 arg0) {
 void TLobby__sub_8033EDF8(void) { lbl_805D6DA0 = 0; }
 
 void TLobby__sub_8033EE04(void) { lbl_805D6DA0 = 0; }
+
+// The SDK's GXSetTexCoordGen out of line: no normalisation, identity post-transform.
+static void set_tex_coord_gen(GXTexCoordID dst_coord, GXTexGenType func, GXTexGenSrc src_param, u32 mtx) {
+    GXSetTexCoordGen2(dst_coord, func, src_param, mtx, GX_FALSE, GX_PTIDENTITY);
+}
