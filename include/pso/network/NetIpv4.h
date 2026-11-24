@@ -56,6 +56,8 @@ typedef struct Ipv4RoutingState {
 } Ipv4RoutingState;
 LAYOUT_ASSERT(Ipv4RoutingState_size_check, sizeof(Ipv4RoutingState) == 0x18);
 extern Ipv4RoutingState ipv4_address_routing_state;
+/* Deletes the route to dst through gateway whose type has bit 0 equal to bit 0 of flag. */
+s32 TLobby__sub_8040F9CC(u32 dst, u32 mask, u32 gateway, s32 flag);
 
 #ifdef __cplusplus
 }

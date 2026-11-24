@@ -487,22 +487,22 @@ s32 TLobby__sub_8040F8A4(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gatewa
   return 0;
 }
 
-extern s32 TLobby__sub_8040F9CC(void *a, void *unused, void *b, s32 flag) {
+s32 TLobby__sub_8040F9CC(u32 dst, u32 mask, u32 gateway, s32 flag) {
     Ipv4RoutingState *tbl = &ipv4_address_routing_state;
-    Unk805BDD60Entry *e = (Unk805BDD60Entry *)tbl->routes;
+    Ipv4Route *e = tbl->routes;
     s16 i;
     u8 f = (u8)flag & 1;
     for (i = 0; i < tbl->nroutes; i++, e++) {
         if (!(e->flags & 1)) {
             continue;
         }
-        if (e->f4 != (uaddr)a) {
+        if (e->dst != dst) {
             continue;
         }
-        if (e->fC != (uaddr)b) {
+        if (e->gateway != gateway) {
             continue;
         }
-        if (f != (e->f12 & 1)) {
+        if (f != (e->type & 1)) {
             continue;
         }
         e->flags = 0;

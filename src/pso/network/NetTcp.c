@@ -969,7 +969,7 @@ retry:
         if (found->flags & 0x80) {
             goto drop;
         }
-        if (found->fA & 0x4) {
+        if (found->shutdown & 0x4) {
             goto drop;
         }
     }
@@ -1396,7 +1396,7 @@ retry:
         switch (found->t_state) {
         case 6:
             if (ourfinisacked) {
-                if (found->fA & 4) {
+                if (found->shutdown & 4) {
                     found->timers[3] = tcp_protocol_state.maxidle;
                 }
                 found->t_state = 9;
@@ -1455,13 +1455,13 @@ step6:
         found->rcv_up = found->rcv_nxt;
     }
     if ((rem != 0 || (kind & 1)) && !(found->flags & 0x08)) {
-        if (hdr.seq == found->rcv_nxt && (found->t_state == 4 || (found->fA & 0x0c))) {
+        if (hdr.seq == found->rcv_nxt && (found->t_state == 4 || (found->shutdown & 0x0c))) {
             s32 off;
 
             kind = ti_flags & 1;
             found->rcv_nxt += rem;
             off = len + total;
-            if (!(found->fA & 0x04)) {
+            if (!(found->shutdown & 0x04)) {
                 TLobby__sub_8041F204(pkt, off, found);
             }
             if (found->ack_now == 0) {
@@ -1951,7 +1951,7 @@ s32 TLobby__sub_8041DBD4(s16 handle, NetBufferRef *destination, s32 len, TcpComp
     switch (e->t_state) {
     case 0:
     case 4: case 5: case 6: case 7: case 8: case 9: case 10:
-        if ((e->fA & 4) && (e->rcv_buf.kind == 0 || (u32)get_rcv_count(e) == 0)) {
+        if ((e->shutdown & 4) && (e->rcv_buf.kind == 0 || (u32)get_rcv_count(e) == 0)) {
             return -4;
         }
         break;
@@ -1986,7 +1986,7 @@ s16 tcp_start_send(s16 id, NetPacket *req, TcpCompletion completion, u8 urgent) 
     if (v < 4) {
         return -4;
     }
-    if (v > 5 && (e->fA & 8)) {
+    if (v > 5 && (e->shutdown & 8)) {
         return -4;
     }
     TLobby__sub_80420BD0(req, e, completion);
@@ -2401,7 +2401,7 @@ void TLobby__sub_8041E8A8(s16 idx) {
     t->maxseg = 0x7FFF;
     t->peer_mss = 0x218;
     t->flags = 0;
-    t->fA = 0;
+    t->shutdown = 0;
     t->srtt = 0;
     t->rttvar = 24;
     t->rxtcur = 12;

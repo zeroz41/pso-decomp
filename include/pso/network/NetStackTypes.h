@@ -35,15 +35,6 @@ static inline s16 fn_8040B758_len(char* s)
 }
 #pragma pop
 
-typedef struct {
-    u16 flags;
-    u8 pad2[2];
-    u32 f4;
-    u32 f8;
-    u32 fC;
-    u16 f10;
-    s16 f12;
-} Unk805BDD60Entry;
 
 
 

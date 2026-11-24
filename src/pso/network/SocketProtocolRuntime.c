@@ -24,9 +24,9 @@ s32 TLobby__sub_8041ED8C(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCo
     }
     self->recv_done = callback;
     NetMemcpy(&self->rcv_user, destination, sizeof(*destination));
-    self->fEC = len;
+    self->rcv_want = len;
     m = 0;
-    self->fF0 = m;
+    self->rcv_done = m;
     if (self->rcv_count == 0) {
         switch (self->t_state) {
         case 0:
@@ -54,8 +54,8 @@ s32 TLobby__sub_8041ED8C(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCo
         }
     }
     do {
-        m = (s32)(self->rcv_count > self->fEC ? self->fEC : self->rcv_count);
-        self->fF0 = m;
+        m = (s32)(self->rcv_count > self->rcv_want ? self->rcv_want : self->rcv_count);
+        self->rcv_done = m;
         NetMemcpy(&src, &self->rcv_buf, 8);
         netbuf_ref_advance(&src, self->rcv_head);
         NetMemcpy(&dst, &self->rcv_user, 8);
@@ -75,7 +75,7 @@ s32 TLobby__sub_8041ED8C(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCo
             self->rcv_head -= self->rcv_bufsize;
         }
         self->rcv_user.kind = 0;
-        set_slot_state_and_resume(idx, self->recv_done, self->fF0);
+        set_slot_state_and_resume(idx, self->recv_done, self->rcv_done);
     } while (self->rcv_user.kind != 0 && self->rcv_count != 0);
     if (self->ack_now == 0) {
         self->flags &= ~1;
@@ -153,11 +153,11 @@ s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self)
                 if (rem != 0) {
                     netbuf_ref_advance(&src, rem);
                 }
-                n = (want = self->fEC) - self->fF0;
+                n = (want = self->rcv_want) - self->rcv_done;
                 if (n >= (len = pkt->fragments[i].length - rem)) {
                     n = len;
                     netbuf_copy_by_ref(&dst, &src, n);
-                    self->fF0 += len;
+                    self->rcv_done += len;
                     self->rcv_head += len;
                     if (self->rcv_head >= self->rcv_bufsize) {
                         self->rcv_head -= self->rcv_bufsize;
@@ -171,7 +171,7 @@ s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self)
                     i++;
                 } else {
                     netbuf_copy_by_ref(&dst, &src, n);
-                    self->fF0 += n;
+                    self->rcv_done += n;
                     self->rcv_head += n;
                     if (self->rcv_head >= self->rcv_bufsize) {
                         self->rcv_head -= self->rcv_bufsize;
@@ -182,9 +182,9 @@ s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self)
                     }
                     rem += n;
                 }
-                if (self->fEC == self->fF0) {
+                if (self->rcv_want == self->rcv_done) {
                     self->rcv_user.kind = 0;
-                    set_slot_state_and_resume(idx, self->recv_done, (s16)self->fF0);
+                    set_slot_state_and_resume(idx, self->recv_done, (s16)self->rcv_done);
                     if (!self->rcv_user.kind) {
                         goto zero;
                     }
@@ -206,7 +206,7 @@ s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self)
                 }
             }
             self->rcv_user.kind = 0;
-            set_slot_state_and_resume(idx, self->recv_done, (s16)self->fF0);
+            set_slot_state_and_resume(idx, self->recv_done, (s16)self->rcv_done);
             while (self->rcv_user.kind != 0) {
                 switch (self->t_state) {
                 case 0:

@@ -15,6 +15,7 @@
 
 #include <stddef.h>
 #include "pso/network/BufferRef.h"
+#include "pso/network/NetIpv4.h"
 enum SocketHandleTag {
     TCP_SOCKET_TAG = 0,
     UDP_SOCKET_TAG = 0x400,
@@ -48,7 +49,6 @@ void NetIPv6ShutdownNeighborDiscovery(void);
 s32 TLobby__sub_80418A7C(void);
 s32 TLobby__sub_8041A1D8(void);
 void TLobby__sub_80421FB8(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *pkt);
-s32 TLobby__sub_8040F9CC(void *, void *, void *, int);
 s32 route4_del(saddr dst, saddr mask, saddr gateway);
 s32 NetIPv4AddRoute(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
 s32 route4_add(saddr dst, saddr mask, saddr gateway);
@@ -257,7 +257,7 @@ s32 raw_socket_deliver(NetPacket *pkt, u8 *src, u8 *dst, NetworkReceiveCallback 
 s32 route4_del(saddr dst, saddr mask, saddr gateway) {
     s32 result;
     lock_mutex(network_dispatch_state.lock_handle);
-    result = TLobby__sub_8040F9CC((void *)dst, (void *)mask, (void *)gateway, 0);
+    result = TLobby__sub_8040F9CC(dst, mask, gateway, 0);
     unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }

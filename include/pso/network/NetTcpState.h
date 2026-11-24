@@ -54,7 +54,7 @@ struct TcpTcb {
     u16 state; /* 0 free, 1 in use */
     s16 t_state;
     s16 listener;
-    u8 fA;
+    u8 shutdown;  /* 0x04 receive side shut, 0x08 send side shut (read as BSD's SS_CANTRCVMORE/SS_CANTSENDMORE); nothing sets them */
     /* 0x01 send an ACK now, 0x04 no send delay (option 0x2008), 0x08 FIN received, 0x10 FIN sent, 0x20 the close
        event was dispatched, 0x40 receive and send complete through callbacks (option 0x2020), 0x80 release the TCB
        when it closes (TLobby__sub_8041B5C0) */
@@ -79,8 +79,8 @@ struct TcpTcb {
     u32 rcv_head; /* ring offset of the next byte to read */
     u32 rcv_tail; /* ring offset where the next received byte goes */
     NetBufferRef rcv_user; /* the pending tcp_receive buffer; its kind is cleared when the receive completes */
-    u32 fEC;
-    s32 fF0;
+    u32 rcv_want; /* the pending tcp_receive's length */
+    s32 rcv_done; /* bytes copied into rcv_user so far; the receive completes when it reaches rcv_want */
     /* out-of-order segments waiting for reassembly */
     u32 reasm_total;
     s16 reasm_n; /* index of the last range, -1 when none */
