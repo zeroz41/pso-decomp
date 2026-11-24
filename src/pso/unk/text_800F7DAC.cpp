@@ -24,7 +24,7 @@
 
 extern "C" {
 
-u32 prs_decompress_buffer(s32 arg0, s32 arg1);
+u32 prs_decompress_buffer(s32 src, s32 dst);
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 
 }

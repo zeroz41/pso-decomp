@@ -87,7 +87,7 @@ s32 LoadBinMotionSub(BmlResource *resource, s32 index, u8 *bytes);
 s32 TLobby__sub_800F9FF4(saddr);
 extern u8 *resource_decompress_buffer;
 s32 release_texture_list(void *);
-u32 prs_decompress_buffer(s32 arg0, s32 arg1);
+u32 prs_decompress_buffer(s32 src, s32 dst);
 
 extern const char *lbl_805D2B10;
 s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes);
