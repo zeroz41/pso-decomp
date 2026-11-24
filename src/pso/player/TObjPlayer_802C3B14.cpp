@@ -2,7 +2,7 @@
 #include "pso/player/TObjPlayer_802C367C.h"
 #include "pso/item/InventoryEntryCopy.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_801BE778.h"
+#include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/player/TObjPlayer_802C3B14.h"
 #include "pso/player/TObjPlayer.h"

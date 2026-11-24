@@ -15,7 +15,6 @@
 #include "pso/player/TPlayerFootStamp.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/window/TWindowSnapShot.h"
-#include "pso/player/TObjPlayer_801BE1C0.h"
 #include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/unk/text_801BE104.h"
 #include "pso/system/data/FlagWord.h"
@@ -26,7 +25,6 @@
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
-#include "pso/player/TObjPlayer_801BE778.h"
 #include "pso/player/PlayerSyncRecord.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -100,6 +98,7 @@ void __destroy_arr(void *arr, void *dtor, u32 size, u32 n);
 void __register_global_object(void *obj, void *dtor, void *chain);
 void *__construct_array(void *, void *, void *, u32, u32);
 void construct__19PlayerCharDataEntryFv(void *);
+void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
 
 }
 

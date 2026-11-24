@@ -13,7 +13,7 @@
 #include "pso/player/PlayerClassTechniques.h"
 #include "pso/player/PlayerRequirementStats.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/player/TObjPlayer_801BE778.h"
+#include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyDispData.h"
