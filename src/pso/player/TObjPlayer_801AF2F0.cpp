@@ -484,11 +484,6 @@ struct Dst_801B4CE4 {
 
 struct S801B5200_801B3FD8 { s8 b[2]; s16 h; };
 
-typedef struct Player_801B6110 {
-    u8 pad0[0x30];
-    s32 flags;
-} Player_801B6110;
-
 struct Color_801B6964 { f32 r, g, b, a; };
 
 typedef struct Msg_801B6C30 {
@@ -547,27 +542,6 @@ struct Stack_801B8A80 {
     u8 trailing_storage[0x4];
 };
 
-struct PlayerDeathItemFields {
-    u8 before_position[0x38];
-    Vec position;
-    u8 before_inventory[0xD00-0x44];
-    TPlyItem *inventory_owner;
-};
-
-typedef struct Msg_801B87E4 {
-    u8 pad0[2];
-    u16 slot;
-    s16 a;
-    s16 b;
-    s32 c;
-    u8 d[16];
-} Msg_801B87E4;
-
-typedef struct Player_801B87E4 {
-    u8 pad0[0xD00];
-    void *inv;
-} Player_801B87E4;
-
 struct Item_801B8AF8 {
     u8 data[0xC];
     s32 id;
@@ -583,8 +557,6 @@ typedef struct Cmd_801B8870 {
     s32 a;
     Vec pos;
 } Cmd_801B8870;
-
-LAYOUT_ASSERT(DeathPlayerInventoryOffset, offsetof(PlayerDeathItemFields,inventory_owner)==0xD00);
 
 struct L_801B8CB0 { u16 f0; u16 f2; s32 f4; u8 f8[0x78]; };
 
@@ -2458,15 +2430,15 @@ void TObjPlayer::send_6x2A_drop_item(void *player, s32 source, void *pos, s32 it
 }
 
 void handle_6x2A_drop_item(G_DropItem_6x2A *command) {
-    Msg_801B87E4 m;
-    Player_801B87E4 *p;
+    G_DropItem_6x2A m;
+    TObjPlayer *p;
     ((TObjPlayer *)(&m))->init_6x2A();
     TObjPlayer__sub_801C106C((u8 *)&m, (u8 *)command);
     bswap_fields__10TObjPlayerFi((saddr)&m);
-    if (validate_6x2A_drop_item((G_DropItem_6x2A *)&m) != 0) {
-        p = (Player_801B87E4 *)get_player_by_client_id((u16)m.slot);
-        if ((p != NULL) && (((TObjPlayer *)p)->is_in_lobby() == 0)) {
-            ((TPlyItem *)(p->inv))->update_inventory_item(reinterpret_cast<TObjPlayer *>(p), m.c, reinterpret_cast<f32 *>(m.d), m.a, m.b);
+    if (validate_6x2A_drop_item(&m) != 0) {
+        p = (TObjPlayer *)get_player_by_client_id((u16)m.header.client_id);
+        if ((p != NULL) && (p->is_in_lobby() == 0)) {
+            p->inventory_objects->update_inventory_item(p, m.item_id, &m.pos.x, m.amount, m.floor);
         }
     }
 }
@@ -2477,15 +2449,14 @@ void TObjPlayer::drop_items_on_death() {
     s32 count;
     TItemData* item;
     void* equipped;
-    PlayerDeathItemFields* fields=(PlayerDeathItemFields*)this;
-    if (fields->inventory_owner==NULL || this->obj_isState3_324()!=0 || is_script_controlled()!=0) {
+    if (this->inventory_objects==NULL || this->obj_isState3_324()!=0 || is_script_controlled()!=0) {
         return;
     }
     PendingItemDrop records[9];
     count=0;
     if (TTecCtrl::is_technique_ready()!=0) {
         if (TObjPlayer::check_flag_01000000(this) == 0) {
-            count=fields->inventory_owner->set_globals_and_notify(this, records);
+            count=this->inventory_objects->set_globals_and_notify(this, records);
         }
         if (obj_getPtr2B0_20((u8 *)this)!=0) {
             record=&records[count];
@@ -2496,7 +2467,7 @@ void TObjPlayer::drop_items_on_death() {
             item->id=-1;
         }
     } else if (TObjPlayer::check_flag_01000000(this) == 0) {
-        count=fields->inventory_owner->set_globals_and_notify(this, records);
+        count=this->inventory_objects->set_globals_and_notify(this, records);
     } else {
         equipped = get_equipped_weapon(this);
         if (equipped!=NULL) {
@@ -2504,10 +2475,10 @@ void TObjPlayer::drop_items_on_death() {
         }
     }
     if (count>0) {
-        lbl_8050BF60.x=fields->position.x;
-        lbl_8050BF60.y=TObjPlayer__data_805DC2BC+fields->position.y;
-        lbl_8050BF60.z=fields->position.z;
-        create_drop_nodes__9TItemListFPvPvPvPvi(&fields->inventory_owner->list, &lbl_8050BF60, this, records, count);
+        lbl_8050BF60.x=this->position.x;
+        lbl_8050BF60.y=TObjPlayer__data_805DC2BC+this->position.y;
+        lbl_8050BF60.z=this->position.z;
+        create_drop_nodes__9TItemListFPvPvPvPvi(&this->inventory_objects->list, &lbl_8050BF60, this, records, count);
         set_action_flag_2();
     }
 }
@@ -3446,15 +3417,15 @@ s16 TObjPlayer::add_stat_clamped(s32 amount, s16 *stat, s16 max) {
 
 void handle_6x2E_set_or_clear_player_flags(G_SetOrClearPlayerFlags_6x2E *command) {
     G_SetOrClearPlayerFlags_6x2E m;
-    Player_801B6110 *p;
+    TObjPlayer *p;
     TObjPlayer__sub_801C0C04(&m);
     ((TObjPlayer *)(&m))->copy_pair_fields(command);
     ((TObjPlayer *)(&m))->bswap_body_dwords();
     if (validate_6x2E_set_or_clear_player_flags(&m.header) != 0) {
-        p = (Player_801B6110 *)get_player_by_client_id(m.header.client_id);
+        p = (TObjPlayer *)get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
-            p->flags = p->flags & m.and_mask;
-            p->flags = p->flags | m.or_mask;
+            p->actorFlags = p->actorFlags & m.and_mask;
+            p->actorFlags = p->actorFlags | m.or_mask;
         }
     }
 }
