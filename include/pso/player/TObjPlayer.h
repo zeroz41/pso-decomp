@@ -313,7 +313,6 @@ struct TObjPlayer : public TObjChara {
     void bswap_change_hp_packet();
     void init_6x2F_packet_header();
     void byteswap_packet_body();
-    void enter_battle_state();
     void write_ids();
     void set_vec4_const();
     static void render_tree(void *model);
