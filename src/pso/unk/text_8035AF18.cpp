@@ -15,7 +15,7 @@ int PhotonChairSeat::create_chair() {
 
     FOREACH_NODE(TObject, tl_05->m_down, node) {
         if (((TUnk_804B6C24 *)node)->check_value_equals((saddr)TPlyPhotonChair__class_name) != 0
-            && owner_id == ((TPlyPhotonChair *)node)->sub_8035B530()
+            && owner_id == ((TPlyPhotonChair *)node)->get_owner_id()
             && TPlyPhotonChair__sub_8035B520(node) != 0) {
             return 0;
         }

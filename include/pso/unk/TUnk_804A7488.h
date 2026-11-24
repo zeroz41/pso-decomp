@@ -10,8 +10,9 @@ public:
     virtual ~TUnk_804A7488() {}
     virtual void draw_model();
     void *get_model();
-    u8 *init_parts();
-    void sub_8035B66C();
+    TUnk_804A7488();
+    void reset();
+    void set_model(void *model);
 };
 
 #endif

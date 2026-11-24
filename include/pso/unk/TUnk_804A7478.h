@@ -21,8 +21,13 @@ public:
     f32 get_frame();
     NJS_MOTION *get_motion();
     void stop();
-    void *init();
-    void sub_8035B610();
+    TUnk_804A7478();
+    void reset();
+    void set_motion(NJS_MOTION *motion);
+    // frame_count = the motion's frame count.
+    void set_frame_count_from_motion();
+    void set_speed(f32 speed);
+    void play_to_end();
 };
 
 LAYOUT_ASSERT(TUnk_804A7478Size, sizeof(TUnk_804A7478) == 0x1C);
