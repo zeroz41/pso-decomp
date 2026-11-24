@@ -835,7 +835,7 @@ void TObjPlayer::sub_801BB950() {
   TItem *equipped_weapon;
   if (is_current_area_item_enabled() != 0)
   {
-    equipped_weapon = TObjPlayer::get_equipped_weapon(this);
+    equipped_weapon = get_equipped_weapon(this);
     if (equipped_weapon != 0)
     {
       this->set_action_provider_variant(equipped_weapon->get_motion_type());
@@ -2233,7 +2233,7 @@ s32 TObjPlayer::try_add_sale_meseta(s32 item_id, s32 amount, s32 count) {
 }
 #pragma pop
 
-void delete_item(void *player, s32 id, s32 count) { TObjPlayer::send_6x29_delete_item((TObjPlayer *)player, id, count); }
+void delete_item(TObjPlayer *player, s32 id, s32 count) { TObjPlayer::send_6x29_delete_item(player, id, count); }
 }
 
 void TObjPlayer::request_inventory_item(TItemData* item) {
@@ -2951,7 +2951,7 @@ void handle_6x30_change_player_level(G_ChangePlayerLevel_6x30 *command) {
 }
 
 void TObjPlayer::spawn_level_change_feedback(const char *message) {
-    notify_volopt_if_ready(this);
+    notify_volopt_if_ready();
     new TFontSmallHelp(get_entity_id(), -1, 0x3C, (uaddr)message);
     new_child_object(get_entity_id());
     scratch_vec.x = player_zero;
@@ -2964,7 +2964,11 @@ void TObjPlayer::spawn_level_change_feedback(const char *message) {
     publish_actor_light_scalars(get_entity_id(), player_one, player_half);
 }
 
-void TObjPlayer::notify_volopt_if_ready(void* p) { if (((TObjChara *)p)->is_locally_controlled() != 0) { ((int (*)(void*, void*, void*, void*))play_sound_effect)((void*)335646, (void*)0, (void*)0, (void*)0); } }
+void TObjPlayer::notify_volopt_if_ready() {
+    if (is_locally_controlled() != 0) {
+        play_sound_effect(0x51F1E, 0, 0, 0);
+    }
+}
 
 #pragma push
 #pragma scheduling off

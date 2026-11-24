@@ -892,7 +892,6 @@ s32 foreach_player__10TObjPlayerFv(s32 *);
 s32 prepare_guild_return__10TObjPlayerFPv(void *player, s32);
 s32 player_flag_1__6TLobbyFv();
 s32 enable_action_input__10TObjPlayerFPv();
-void delete_item(void *, s32, s32);
 }
 void play_cue_stream_file(const char *name);
 extern "C" {
@@ -3947,7 +3946,7 @@ void qst_op_item_delete2(u32 src, u32 dst) {
                 qst_registers[(u8)dst++] = (s8)item.data[9];
                 qst_registers[(u8)dst++] = item.data[10];
                 qst_registers[(u8)dst] = (s8)item.data[11];
-                delete_item((void *)player, item.id, 1);
+                delete_item(player, item.id, 1);
                 return;
             }
             qst_registers[(u8)dst] = -1;
@@ -3986,7 +3985,7 @@ void qst_op_item_delete(u32 src, u32 dst) {
                 qst_registers[(u8)dst++] = (s8)item.data[9];
                 qst_registers[(u8)dst++] = item.data[10];
                 qst_registers[(u8)dst] = (s8)item.data[11];
-                delete_item((void *)player, qst_registers[(u8)src], 1);
+                delete_item(player, qst_registers[(u8)src], 1);
                 return;
             }
             qst_registers[(u8)dst] = -1;

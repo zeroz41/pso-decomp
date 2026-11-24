@@ -9,7 +9,7 @@ struct TItem;
 
 extern "C" {
 // Thin wrapper: sends 6x29 to delete the item with this id (count of it) from the player.
-void delete_item(void *player, s32 id, s32 count);
+void delete_item(TObjPlayer *player, s32 id, s32 count);
 void submit_cursor_candidate(void *object, s32 id);
 // 6x2F: sets a player's HP (sender 0xFFFF for an object).
 void send_6x2F_change_player_hp(s32 sender, s32 client, s16 hp);

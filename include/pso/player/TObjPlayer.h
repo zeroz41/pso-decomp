@@ -1013,7 +1013,7 @@ struct TObjPlayer : public TObjChara {
     s16 add_stat(s32 amount);
     void update_aim_angle(s32 aim);
     void clamp_stats(player_stats *out, player_stats *class_stats);
-    static void notify_volopt_if_ready(void* p);
+    void notify_volopt_if_ready();
     void spawn_level_change_feedback(const char *message);
     void *copy_fields(void *command);
     s32 apply_exp_level_growth();
