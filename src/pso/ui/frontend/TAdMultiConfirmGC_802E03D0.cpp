@@ -148,26 +148,26 @@ TAdChrSelPlayerGC::~TAdChrSelPlayerGC() {
         mem_free(joint_matrices);
         joint_matrices = NULL;
     }
-    if (m_170 != NULL) {
-        free_chcr_resources((u8 *)m_170, 1);
-        m_170 = NULL;
+    if (preview != NULL) {
+        free_chcr_resources((u8 *)preview, 1);
+        preview = NULL;
         TAdPlyStatusGC *status = TAdPlyStatusGC::get_index();
         if (status != NULL) {
-            status->set_status_param((saddr)m_170);
+            status->set_status_param(preview);
         }
     }
 }
 
 void TAdChrSelPlayerGC::run_task() {
     u8 *arg0 = (u8 *)this;
-    void *p;
+    CharacterPreview *p;
     TAdPlyStatusGC *status;
     s32 t;
     switch (F(0xFC, s32)) {
     case 0:
-        if (F(0x170, void *) != NULL) {
-            free_chcr_resources((u8 *)(F(0x170, void *)), 1);
-            F(0x170, void *) = NULL;
+        if (preview != NULL) {
+            free_chcr_resources((u8 *)(preview), 1);
+            preview = NULL;
         }
         if (F(0x100, s32) != 0) {
             F(0xFC, s32) = F(0x100, s32) - 1;
@@ -175,9 +175,9 @@ void TAdChrSelPlayerGC::run_task() {
         }
         break;
     case 1:
-        if (F(0x170, void *) != NULL) {
-            free_chcr_resources((u8 *)(F(0x170, void *)), 1);
-            F(0x170, void *) = NULL;
+        if (preview != NULL) {
+            free_chcr_resources((u8 *)(preview), 1);
+            preview = NULL;
         }
         if (F(0x100, s32) != 0) {
             F(0xFC, s32) = F(0x100, s32) - 1;
@@ -188,19 +188,19 @@ void TAdChrSelPlayerGC::run_task() {
         case 0:
             copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = new CharacterPreview(this, visual_record, 0);
-            F(0x170, void *) = p;
+            preview = p;
             F(0x60, s32) = 0xF3D5;
             break;
         case 1:
             copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_entry(F(0x110, s32))->m_disp_part2);
             p = new CharacterPreview(this, visual_record, 0);
-            F(0x170, void *) = p;
+            preview = p;
             F(0x60, s32) = 0xF3D5;
             break;
         case 2:
             copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
             p = new CharacterPreview(this, visual_record, 0);
-            F(0x170, void *) = p;
+            preview = p;
             F(0x60, s32) = 0xF3D5;
             break;
         case 3:
@@ -208,7 +208,7 @@ void TAdChrSelPlayerGC::run_task() {
         case 5:
             copy_player_visual_record(arg0 + 0x120, &TAdSinglePlyChrSelectGC::get_char_table_entry(F(0x10C, s32))->m_disp_part2);
             p = new CharacterPreview(this, visual_record, (s32)(F(0x10C, s32)));
-            F(0x170, void *) = p;
+            preview = p;
             break;
         }
         ((TAdChrSelPlayerGC *)arg0)->init_model_animation();
@@ -216,22 +216,22 @@ void TAdChrSelPlayerGC::run_task() {
         break;
     case 2:
         if (F(0x100, s32) != 0) {
-            if (F(0x170, void *) != NULL) {
-                free_chcr_resources((u8 *)(F(0x170, void *)), 1);
-                F(0x170, void *) = NULL;
+            if (preview != NULL) {
+                free_chcr_resources((u8 *)(preview), 1);
+                preview = NULL;
             }
             F(0xFC, s32) = F(0x100, s32) - 1;
             F(0x100, s32) = 0;
-        } else if (((TChCrLoadAfs *)(F(0x170, void *)))->is_unloaded() != 0) {
+        } else if (((TChCrLoadAfs *)(preview))->is_unloaded() != 0) {
             F(0xFC, s32) = 3;
             F(0x118, s32) = 0;
         }
         break;
     case 3:
         if (F(0x100, s32) != 0) {
-            if (F(0x170, void *) != NULL) {
-                free_chcr_resources((u8 *)(F(0x170, void *)), 1);
-                F(0x170, void *) = NULL;
+            if (preview != NULL) {
+                free_chcr_resources((u8 *)(preview), 1);
+                preview = NULL;
             }
             F(0xFC, s32) = F(0x100, s32) - 1;
             F(0x100, s32) = 0;
@@ -257,7 +257,7 @@ void TAdChrSelPlayerGC::run_task() {
     status = TAdPlyStatusGC::get_index();
     if (status != NULL) {
         status->set_load_state(F(0xFC, s32));
-        status->set_status_param((saddr)(F(0x170, void *)));
+        status->set_status_param(preview);
     }
 }
 
@@ -294,25 +294,25 @@ void TAdChrSelPlayerGC::update_chara_making() {
     push_matrix();
     post_translate_matrix((u8 *)&position);
     rotate_matrix_y(0, rotation_y);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)m_170->get_status_sub()));
-    draw_model_with_arg((void *)m_170->get_field_4a4());
+    TObjFish::set_global_param(preview->get_body_texlist());
+    draw_model_with_arg((void *)preview->get_body_model());
     push_matrix_from((void *)get_joint_matrix(0x3A));
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)m_170->get_status_data()));
-    TObjPlayer::play_phase_transition_sound(m_170->get_field_4a0());
+    TObjFish::set_global_param(preview->get_other_texlist());
+    TObjPlayer::play_phase_transition_sound(preview->get_head_model());
     pop_matrix();
-    if (m_170->get_field_49c() != 0U) {
+    if (preview->get_cap_model() != 0U) {
         push_matrix_from((void *)get_joint_matrix(0x3B));
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)m_170->get_chara_making_data()));
+        TObjFish::set_global_param(preview->get_head_texlist());
         TCharaMaking::enable_making();
-        TObjPlayer::play_phase_transition_sound(m_170->get_field_49c());
+        TObjPlayer::play_phase_transition_sound(preview->get_cap_model());
         TCharaMaking::clear_flag_bit0();
         pop_matrix();
     }
-    if (m_170->get_field_498() != 0U) {
+    if (preview->get_hair_model() != 0U) {
         push_matrix_from((void *)get_joint_matrix(0x3B));
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((saddr)m_170->get_chara_making_data()));
+        TObjFish::set_global_param(preview->get_head_texlist());
         TCharaMaking::enable_making();
-        TObjPlayer__sub_802E0580(this, m_170->get_field_498(), visual_record);
+        TObjPlayer__sub_802E0580(this, preview->get_hair_model(), visual_record);
         TCharaMaking::clear_flag_bit0();
         pop_matrix();
     }

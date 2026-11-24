@@ -23,12 +23,20 @@ class CharacterPreview {
 public:
     CharacterPreview(TObject *parent, void *visual, s32 load_slot);
 
+    s32 get_hair_model();
+    NJS_TEXLIST *get_head_texlist();
+    s32 get_cap_model();
+    s32 get_head_model();
+    NJS_TEXLIST *get_other_texlist();
+    s32 get_body_model();
+    NJS_TEXLIST *get_body_texlist();
+
     TChCrLoadReq *request;
     CharacterAppearanceFields appearance;
     CharacterPreviewTextures head_textures;
     CharacterPreviewTextures other_textures;
     CharacterPreviewTextures body_textures;
-    s32 part_models[3];
+    s32 part_models[3];  // hair, cap, head (TChCrLoadReq fills them)
     s32 body_model;
     u32 completion_flags;
 };

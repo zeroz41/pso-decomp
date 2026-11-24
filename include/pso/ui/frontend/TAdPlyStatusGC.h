@@ -6,6 +6,7 @@
 #include "pso/ui/frontend/TAdGuideButtonGC.h"
 
 class TWindowBase;
+class CharacterPreview;
 
 struct TAdPlyStatusGC : public TObject {
     TAdPlyStatusGC(TObject *parent, s32 window_offset_index);
@@ -16,14 +17,8 @@ struct TAdPlyStatusGC : public TObject {
     s32 prev_state;
     GuideButtonSpec buttons[2];
     TWindowBase *window;
-    s32 get_field_498();
-    void*get_chara_making_data();
-    s32 get_field_49c();
-    s32 get_field_4a0();
-    void*get_status_data();
-    saddr get_field_4a4();
-    void*get_status_sub();
-    void set_status_param(int load_afs);
+    // Shows preview's character in the status window once it has loaded.
+    void set_status_param(CharacterPreview *preview);
     static TAdPlyStatusGC *get_index();
     static void set_status_index(int a0, int a1);
     void close_window(s32 index);
@@ -39,4 +34,6 @@ struct TAdPlyStatusGC : public TObject {
 LAYOUT_ASSERT(TAdPlyStatusGC_size, sizeof(TAdPlyStatusGC) == 0x70);
 
 extern "C" TAdPlyStatusGC *ply_status_gc_instance;
+// The character the status window shows (set_status_param).
+extern CharacterPreview *ply_status_preview;
 #endif

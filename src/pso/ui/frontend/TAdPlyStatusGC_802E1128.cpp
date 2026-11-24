@@ -1,21 +1,21 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
+#include "pso/ui/charcreate/CharacterPreview.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 
-s32 TAdPlyStatusGC::get_field_498() { return *(s32*)((char*)this + 0x498); }
-void*TAdPlyStatusGC::get_chara_making_data() { return (char*)this + 0x1b8; }
-s32 TAdPlyStatusGC::get_field_49c() { return *(s32*)((char*)this + 0x49c); }
-s32 TAdPlyStatusGC::get_field_4a0() { return *(s32*)((char*)this + 0x4a0); }
-void*TAdPlyStatusGC::get_status_data() { return (char*)this + 0x324; }
-saddr TAdPlyStatusGC::get_field_4a4() { return *(s32*)((char*)this + 0x4a4); }
-void*TAdPlyStatusGC::get_status_sub() { return (char*)this + 0x490; }
+s32 CharacterPreview::get_hair_model() { return part_models[0]; }
+NJS_TEXLIST *CharacterPreview::get_head_texlist() { return &head_textures.list; }
+s32 CharacterPreview::get_cap_model() { return part_models[1]; }
+s32 CharacterPreview::get_head_model() { return part_models[2]; }
+NJS_TEXLIST *CharacterPreview::get_other_texlist() { return &other_textures.list; }
+s32 CharacterPreview::get_body_model() { return body_model; }
+NJS_TEXLIST *CharacterPreview::get_body_texlist() { return &body_textures.list; }
 
-    extern int ply_status_chcr_load_afs;
-void TAdPlyStatusGC::set_status_param(int load_afs) { ply_status_chcr_load_afs = load_afs; }
+void TAdPlyStatusGC::set_status_param(CharacterPreview *preview) { ply_status_preview = preview; }
 
 TAdPlyStatusGC *TAdPlyStatusGC::get_index() {  return ply_status_gc_instance; }
 

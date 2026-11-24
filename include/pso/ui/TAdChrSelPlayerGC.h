@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 class TAdPlyStatusGC;
+class CharacterPreview;
 
 // One player model of the multi-player character select; get_or_create_player
 // keeps them in multi_chr_select_player_slot_table.
@@ -36,7 +37,7 @@ public:
     u8 pad_152[0x2];
     s32 m_154;
     u8 pad_158[0x18];
-    TAdPlyStatusGC *m_170;
+    CharacterPreview *preview;  // the character being shown, while it loads and after
 };
 extern TAdChrSelPlayerGC *multi_chr_select_player_slot_table[4];
 LAYOUT_ASSERT(CharacterSelectPlayerSpinOffset, offsetof(TAdChrSelPlayerGC, spin_model) == 0x11C);
