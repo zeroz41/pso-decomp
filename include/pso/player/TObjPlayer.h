@@ -1132,6 +1132,7 @@ struct TObjPlayer : public TObjChara {
     void *copy_pair_fields(void *command);
     void send_swapped_packet_6x30();
     void send_6x30_change_player_level();
+    void swap_inventory_items(s32 first_id, s32 second_id);
     void build_6x30_change_level_packet();
     void bswap_body_dwords2();
     void *copy_pair_fields2(void *src);

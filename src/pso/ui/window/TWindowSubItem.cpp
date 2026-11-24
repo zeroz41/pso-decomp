@@ -55,7 +55,6 @@ struct ItemData_80279754 {
 };
 
 extern "C" {
-s32 TObjPlayer__sub_801B7B58(int, int, int);
 }
 
 void add_item_purpose_actions(TWindowSubItem *arg0, saddr arg1, saddr arg2);
@@ -660,7 +659,7 @@ void TWindowSubItem::use_selected_item() {
     s32 player;
     player = (saddr)get_player_by_client_id(this->client_id);
     if (player != 0) {
-        TObjPlayer__sub_801B7B58(player, (int) (this->item_list->get_cursor_value()), this->item_list->get_selected_entry());
+        ((TObjPlayer *)player)->swap_inventory_items((int) (this->item_list->get_cursor_value()), this->item_list->get_selected_entry());
     }
 }
 

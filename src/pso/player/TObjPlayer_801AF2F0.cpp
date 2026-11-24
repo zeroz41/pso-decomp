@@ -488,8 +488,6 @@ struct Color_801B6964 { f32 r, g, b, a; };
 
 struct Buf1C { u8 pad[0x1C]; };
 
-struct P_801B7B58 { u8 pad[0xD00]; void *fD00; };
-
 struct Pkt_801B7EB8 {
     u8 hdr[2];
     u16 client;
@@ -728,7 +726,6 @@ void TObjPlayer__sub_801B5AF8(saddr player, s32 index);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 void handle_6x99(void);
 void handle_6x98(void);
-void TObjPlayer__sub_801B7B58(P_801B7B58 *player, s32 key, s32 second_key);
 s32 can_destroy_with_parents__10TObjPlayerFUi(uaddr obj);
 s32 fn_801B7CEC(u8 *player, s8 kind, s8 group, s8 index);
 void send_6x28_feed_mag(void *chara, s32 mag_id, s32 fed_item_id);
@@ -2745,15 +2742,15 @@ s32 can_destroy_with_parents__10TObjPlayerFUi(uaddr obj) {
     return 0;
 }
 
-void TObjPlayer__sub_801B7B58(P_801B7B58 *player, s32 key, s32 second_key) {
-    if (TObjPlayer::is_locally_controlled(player) == 0) {
+void TObjPlayer::swap_inventory_items(s32 first_id, s32 second_id) {
+    if (TObjPlayer::is_locally_controlled(this) == 0) {
         return;
     }
-    if (key == -1 || second_key == -1) {
+    if (first_id == -1 || second_id == -1) {
         return;
     }
-    if (player->fD00 != 0) {
-        TObjPlayer__sub_801D47EC((TPlyItem *)player->fD00, key, second_key);
+    if (this->inventory_objects != NULL) {
+        TObjPlayer__sub_801D47EC(this->inventory_objects, first_id, second_id);
     }
 }
 
