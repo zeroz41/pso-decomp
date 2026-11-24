@@ -1838,7 +1838,7 @@ void send_6x55_intra_map_warp(u16 id, const Vec *destination, s32 yaw) {
 void TObjPlayer::init_flags_vec4() { set_indexed_flags((saddr)((void*)0), (saddr)((void*)1)); ((TObjPlayer *)((char*)this + 0x608))->set_vec4_const(); }
 
 void TObjPlayer::update_warp_relocation() {
-    s32 pos;
+    Vec pos;
     f32 var_f2;
     f32 var_f31;
     s32 temp;
@@ -1859,7 +1859,7 @@ void TObjPlayer::update_warp_relocation() {
                 this->play_sound_if_on_floor(0x40003206);
             }
             if (TObjPlayer::is_locally_controlled(this) != 0) {
-                calc_circle_offset_pos(this->rotation_y + 0x8000, this->get_position_ptr(), (Vec *)&pos, 10.0f);
+                calc_circle_offset_pos(this->rotation_y + 0x8000, this->get_position_ptr(), &pos, 10.0f);
                 send_6x3e_to_all_players(&pos, this->rotation_y);
                 reset_cameras_to_actor(this, 1);
             }

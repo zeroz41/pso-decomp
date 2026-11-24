@@ -35,7 +35,7 @@ PartnerDialogueSet partner_dialogue_table[4];
 int partner_chatter_flags;
 extern "C" {
 void set_arrival_override_coords(u16, s32, f32, f32, f32);
-void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
+void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading);
 }
 
 // Compiled with -inline off,deferred: the functions are written in reverse of their
@@ -140,7 +140,7 @@ void send_npc_control_notify_players(s32 controller_id, s32 npc_client_id, s32 n
     cmd.send();
 }
 
-void create_default_companion(u16 leader, s32 appearance, u8 *pos, s32 heading) {
+void create_default_companion(u16 leader, s32 appearance, Vec *pos, s32 heading) {
     G_NPCControl_6x69 cmd;
     cmd.init();
     cmd.npc_client_id = 0xFFFF;
@@ -148,12 +148,12 @@ void create_default_companion(u16 leader, s32 appearance, u8 *pos, s32 heading) 
     cmd.command = 0;
     cmd.npc_type = appearance;
     cmd.npc_client_id = 1;
-    set_arrival_override_coords((s32)(1U), heading, *(f32 *)((s8 *)pos + 0), *(f32 *)((s8 *)pos + 4), *(f32 *)((s8 *)pos + 8));
+    set_arrival_override_coords(1, heading, pos->x, pos->y, pos->z);
     cmd.send();
     send_6x24_teleport_player(cmd.npc_client_id, pos, heading);
 }
 
-void create_companion(u16 leader, u16 slot, s32 appearance, f32 *p, s32 heading) {
+void create_companion(u16 leader, u16 slot, s32 appearance, Vec *pos, s32 heading) {
     G_NPCControl_6x69 cmd;
     cmd.init();
     cmd.controller_id = leader;
@@ -161,16 +161,15 @@ void create_companion(u16 leader, u16 slot, s32 appearance, f32 *p, s32 heading)
     cmd.command = 0;
     cmd.npc_type = appearance;
     cmd.npc_client_id = slot;
-    set_arrival_override_coords(cmd.npc_client_id, heading, p[0], p[1], p[2]);
+    set_arrival_override_coords(cmd.npc_client_id, heading, pos->x, pos->y, pos->z);
     cmd.send();
-    send_6x24_teleport_player(cmd.npc_client_id, p, heading);
+    send_6x24_teleport_player(cmd.npc_client_id, pos, heading);
 }
 
-void send_npc_control_create(u16 controller_id, u16 npc_client_id, s32 npc_type, u8 *pos, s32 heading) {
+void send_npc_control_create(u16 controller_id, u16 npc_client_id, s32 npc_type, Vec *pos, s32 heading) {
     s32 client;
     G_NPCControl_6x69 cmd;
     s32 i;
-    const Vec *at;
     cmd.init();
     cmd.controller_id = controller_id;
     i = 0;
@@ -184,8 +183,7 @@ void send_npc_control_create(u16 controller_id, u16 npc_client_id, s32 npc_type,
         }
     }
     cmd.npc_client_id = npc_client_id;
-    at = (const Vec *)pos;
-    set_arrival_override_coords(cmd.npc_client_id, heading, at->x, at->y, at->z);
+    set_arrival_override_coords(cmd.npc_client_id, heading, pos->x, pos->y, pos->z);
     cmd.send();
 }
 
@@ -303,7 +301,7 @@ void apply_to_players(s32 value, const Vec *pos, s32 heading) {
     } while (client < 4);
 }
 
-void send_6x3e_to_all_players(void *pos, s32 angle) {
+void send_6x3e_to_all_players(const Vec *pos, s32 angle) {
     G_StopAtPosition_6x3E cmd;
     s32 i;
     TObjPlayer *player;
@@ -317,7 +315,7 @@ void send_6x3e_to_all_players(void *pos, s32 angle) {
             }
             ((TNpcPlayer *)&cmd)->init_6x3E_packet();
             cmd.header.client_id = player->get_entity_id();
-            VecCopy((Vec *)&cmd.pos, (const Vec *)pos);
+            VecCopy((Vec *)&cmd.pos, pos);
             cmd.angle = angle;
             cmd.is_near_enemy = near_enemy;
             ((TNpcPlayer *)&cmd)->send_6x3E();
@@ -377,7 +375,7 @@ void disable_partner_chatter() { partner_chatter_flags |= 2; }
 
 void enable_partner_chatter() { partner_chatter_flags &= ~2; }
 
-void send_stop_at_position(u16 id, void *pos, s32 angle) {
+void send_stop_at_position(u16 id, const Vec *pos, s32 angle) {
     G_StopAtPosition_6x3E cmd;
     s16 near_enemy;
     TObjPlayer *player;
@@ -389,7 +387,7 @@ void send_stop_at_position(u16 id, void *pos, s32 angle) {
             near_enemy = 1;
         }
         cmd.header.client_id = id;
-        VecCopy((Vec *)&cmd.pos, (const Vec *)pos);
+        VecCopy((Vec *)&cmd.pos, pos);
         cmd.angle = angle;
         cmd.is_near_enemy = near_enemy;
         ((TNpcPlayer *)&cmd)->send_6x3E();
