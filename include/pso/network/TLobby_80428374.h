@@ -11,14 +11,17 @@ typedef union ModemFieldSlot {
 
 typedef struct ModemSessionState {
     const char **subst;
-    u8 pad04[4];
+    s16 subst_count;
+    u8 pad06[2];
     char *strbuf;
-    u8 pad0C[2];
+    s16 strbuf_count;
     s16 strstride;
     ModemFieldSlot *fields;
-    u8 pad14[4];
+    s16 field_count;
+    u8 pad16[2];
     s16 *ints;
-    u8 pad1C[4];
+    s16 int_count;
+    u8 pad1E[2];
     u8 *line;   // current script line (inferred)
     u8 *token;  // current parsed token (inferred)
     u8 *cmd;
@@ -26,15 +29,24 @@ typedef struct ModemSessionState {
     u8 *expect;
     u8 *window;
     u8 *rxbuf;
-    u8 pad3C[0xA];
+    s16 line_len;
+    s16 token_len;
+    s16 cmd_len;
+    s16 out_len;
+    s16 expect_len;
     s16 window_len;
     s16 rxlen;
-    u8 pad4A[0x16];
+    u8 pad4A[2];
+    struct ModemConfig *config; /* the defaults copied into each session's modem settings */
+    u8 pad50[0x10];
 } ModemSessionState;
 LAYOUT_ASSERT(ModemFieldSlot_size, sizeof(ModemFieldSlot) == 4);
 LAYOUT_ASSERT(ModemSessionState_size, sizeof(ModemSessionState) == 0x60);
 LAYOUT_ASSERT(ModemSessionState_fields_offset, offsetof(ModemSessionState, fields) == 0x10);
 LAYOUT_ASSERT(ModemSessionState_line_offset, offsetof(ModemSessionState, line) == 0x20);
+LAYOUT_ASSERT(ModemSessionState_config_offset, offsetof(ModemSessionState, config) == 0x4C);
+/* The modem script interpreter's state (TLobby_80428374.c); init_modem_buffer_config sets its buffers. */
+extern ModemSessionState lobby_net_session_state;
 
 typedef struct ModemRequest {
     s16 type;
@@ -47,32 +59,32 @@ LAYOUT_ASSERT(ModemRequest_size, sizeof(ModemRequest) == 0x10);
 LAYOUT_ASSERT(ModemRequest_timeout_offset, offsetof(ModemRequest, timeout) == 4);
 
 typedef struct ModemConfig {
-    s16 h0;
+    s16 h0;             /* set: send the init options (configure_modem_options) */
     s16 h2;
     s16 h4;
-    s16 h6;
+    s16 h6;             /* set: run hangup_script after hanging up */
     s16 numeric_result;
     u8 pad0A[2];
-    char *prefix0;
-    char *prefix1;
-    s32 w14;
-    s32 w18;
-    char *result_ok;
-    char *result_error;
-    char *result_busy;
-    char *result_no_dialtone;
-    char *result_no_carrier;
-    char *result_no_answer;
-    s32 w34;
+    const char *tone_dial_command;  /* "ATDT" */
+    const char *pulse_dial_command; /* "ATDP" */
+    const char *answer_command;     /* "ATA" */
+    const char *ok_response;
+    const char *connect_response;
+    const char *busy_response;
+    const char *error_response;
+    const char *delayed_response;
+    const char *no_carrier_response;
+    const char *no_dialtone_response;
+    const char *ring_response;
     u8 terminator;
     u8 pad39[3];
-    s32 w3C;
-    s32 w40;
-    char *w44;          /* the script run after hanging up (TLobby__sub_803FB6A0), when h6 is set */
+    const char *init_script;
+    const char *dial_script;
+    char *hangup_script; /* the script run after hanging up (TLobby__sub_803FB6A0), when h6 is set */
     char *s48;
-    s32 w4C;
-    s32 w50;
-    s32 w54;
+    s32 ms_mode;          /* configure_modem_options' arguments */
+    s32 error_correction;
+    s32 compression;
     s32 init_count;
     char *init_command; /* "AT+MS=V34\r" by default (connect_modem) */
 } ModemConfig;

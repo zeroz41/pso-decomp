@@ -65,7 +65,7 @@ void reset_boot_state(void) {
 
 LAYOUT_ASSERT(RecoveredGlobal_8042839C_lbl_805D0A40_size, sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60);
 s32 init_modem_session_config(void) {
-    init_modem_buffer_config((void *)&lobby_net_session_state);
+    init_modem_buffer_config(&lobby_net_session_state);
     return 0;
 }
 
@@ -375,12 +375,12 @@ s16 go_dial(ModemRequest *request) {
     out = (u8 **)((u8 *)state + offsetof(ModemSessionState, cmd));
     **out = 0;
     if (request->type == 0) {
-        if (config->prefix0 != NULL) {
-            NetCopyString((char *)*out, config->prefix0);
+        if (config->tone_dial_command != NULL) {
+            NetCopyString((char *)*out, config->tone_dial_command);
         }
     } else {
-        if (config->prefix1 != NULL) {
-            NetCopyString((char *)*out, config->prefix1);
+        if (config->pulse_dial_command != NULL) {
+            NetCopyString((char *)*out, config->pulse_dial_command);
         }
     }
     if (request->has_arg != 0) {
@@ -574,28 +574,28 @@ s16 TLobby__sub_804290D4(s32 idx) {
         if (WaitNstrRecv(*bufp + *lenp - 1, 1) != 0) {
             return 4;
         }
-        n = NetStringLength(config->result_ok);
-        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->result_ok, n) == 0) {
+        n = NetStringLength(config->connect_response);
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->connect_response, n) == 0) {
             goto L122;
         }
-        n = NetStringLength(config->result_error);
-        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->result_error, n) == 0) {
+        n = NetStringLength(config->busy_response);
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->busy_response, n) == 0) {
             return 2;
         }
-        n = NetStringLength(config->result_busy);
-        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->result_busy, n) == 0) {
+        n = NetStringLength(config->error_response);
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->error_response, n) == 0) {
             return 2;
         }
-        n = NetStringLength(config->result_no_dialtone);
-        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->result_no_dialtone, n) == 0) {
+        n = NetStringLength(config->delayed_response);
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->delayed_response, n) == 0) {
             return 2;
         }
-        n = NetStringLength(config->result_no_carrier);
-        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->result_no_carrier, n) == 0) {
+        n = NetStringLength(config->no_carrier_response);
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->no_carrier_response, n) == 0) {
             return 3;
         }
-        n = NetStringLength(config->result_no_answer);
-        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->result_no_answer, n) == 0) {
+        n = NetStringLength(config->no_dialtone_response);
+        if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->no_dialtone_response, n) == 0) {
             return 3;
         }
     }

@@ -761,21 +761,21 @@ s32 connect_modem(s32 idx, s16 id) {
     modem.h4 = 1;
     modem.h6 = 0;
     modem.numeric_result = 0;
-    modem.prefix0 = 0;
-    modem.prefix1 = 0;
-    modem.w14 = 0;
-    modem.w18 = 0;
-    modem.result_ok = 0;
-    modem.result_error = 0;
-    modem.result_busy = 0;
-    modem.result_no_dialtone = 0;
-    modem.result_no_carrier = 0;
-    modem.result_no_answer = 0;
-    modem.w34 = 0;
+    modem.tone_dial_command = 0;
+    modem.pulse_dial_command = 0;
+    modem.answer_command = 0;
+    modem.ok_response = 0;
+    modem.connect_response = 0;
+    modem.busy_response = 0;
+    modem.error_response = 0;
+    modem.delayed_response = 0;
+    modem.no_carrier_response = 0;
+    modem.no_dialtone_response = 0;
+    modem.ring_response = 0;
     modem.terminator = '\r';
-    modem.w3C = 0;
-    modem.w40 = 0;
-    modem.w44 = 0;
+    modem.init_script = 0;
+    modem.dial_script = 0;
+    modem.hangup_script = 0;
     modem.s48 = "B5";
     len = strlen("AT+MS=V34");
     memset(command, 0, sizeof(command));
@@ -816,9 +816,9 @@ s32 connect_modem(s32 idx, s16 id) {
     default:
         break;
     }
-    modem.w4C = 2;
-    modem.w50 = 0;
-    modem.w54 = 0;
+    modem.ms_mode = 2;
+    modem.error_correction = 0;
+    modem.compression = 0;
     copy_name_buffer(&modem);
     cfg.flags = 1;
     cfg.wait = 0;

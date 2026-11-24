@@ -8225,17 +8225,17 @@ force_active:
   - lbl_8058DC00
   - quest_convert_string
   - ppp_auth_buffers
-  - lbl_805A9A90
-  - lbl_805A9AF0
-  - lbl_805A9B70
-  - lbl_805A9BF0
-  - lbl_805A9C70
-  - lbl_805A9CF0
-  - lbl_805A9D70
-  - lbl_805A9DF0
-  - lbl_805A9E70
-  - lbl_805A9E80
-  - lbl_805AA080
+  - modem_default_config
+  - modem_rx_buf
+  - modem_window_buf
+  - modem_expect_buf
+  - modem_out_buf
+  - modem_cmd_buf
+  - modem_token_buf
+  - modem_line_buf
+  - modem_script_fields
+  - modem_script_strings
+  - modem_script_subst
   - ipv6_raw_sockets
   - lbl_805B38D4
   - lbl_805B399C

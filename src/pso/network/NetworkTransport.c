@@ -9,6 +9,7 @@
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/netcfg.h"
 #include "pso/network/TLobby_80426CAC.h"
+#include "pso/network/TLobby_80428374.h"
 
 #include "types.h"
 
@@ -54,18 +55,6 @@ typedef struct A_803F8314 {
     char *name;
 } A_803F8314;
 
-typedef struct Sub_803F77E4 {
-    s16 f0; s16 f2; s16 f4; s16 f6; s16 f8; u8 padA[2];
-    void *fC; void *f10; void *f14; void *f18; void *f1C; void *f20; void *f24; void *f28;
-    void *f2C; void *f30; void *f34; s8 f38; u8 pad39[3]; void *f3C; void *f40; s32 f44;
-} Sub_803F77E4;
-
-typedef struct Obj_803F77E4 {
-    u8 *f0; s16 f4; u8 *f8; s16 fC; s16 fE; u8 *f10; s16 f14; void *f18; s16 f1C;
-    u8 *f20; u8 *f24; u8 *f28; u8 *f2C; u8 *f30; u8 *f34; u8 *f38;
-    s16 f3C; s16 f3E; s16 f40; s16 f42; s16 f44; s16 f46; s16 f48;
-    Sub_803F77E4 *f4C;
-} Obj_803F77E4;
 
 void net_sleep_ms(s32);
 s32 TLobby__sub_80428094(s16);
@@ -101,8 +90,8 @@ s32 send_ring_mutex;
 NetThreadHandle queue_thread_handle;
 /* inferred: PppLink.used for the 4 packet slots init_buffer_desc_b hands out */
 s16 packet_buffer_used[4];
-/* inferred: one in-use flag per modem buffer, the 4 that init_modem_buffer_config hands out (like PppLink.used) */
-s16 modem_buffer_used[4];
+/* the modem script's integer variables (ModemSessionState.ints) */
+s16 modem_script_ints[4];
 
 __declspec(section ".sdata2") const char modem_tone_dial_command[] = "ATDT";
 __declspec(section ".sdata2") const char modem_pulse_dial_command[] = "ATDP";
@@ -116,17 +105,17 @@ __declspec(section ".sdata2") const char modem_ring_response[] = "RING";
 __declspec(section ".sdata2") const char modem_default_connect_argument[] = "00";
 
 static PppAuthBuffers ppp_auth_buffers;
-static u8 lbl_805A9A90[0x60];
-static u8 lbl_805A9AF0[0x80];
-static u8 lbl_805A9B70[0x80];
-static u8 lbl_805A9BF0[0x80];
-static u8 lbl_805A9C70[0x80];
-static u8 lbl_805A9CF0[0x80];
-static u8 lbl_805A9D70[0x80];
-static u8 lbl_805A9DF0[0x80];
-static u8 lbl_805A9E70[0x10];
-static u8 lbl_805A9E80[0x200];
-static u8 lbl_805AA080[0x18];
+static ModemConfig modem_default_config;
+static u8 modem_rx_buf[0x80];
+static u8 modem_window_buf[0x80];
+static u8 modem_expect_buf[0x80];
+static u8 modem_out_buf[0x80];
+static u8 modem_cmd_buf[0x80];
+static u8 modem_token_buf[0x80];
+static u8 modem_line_buf[0x80];
+static ModemFieldSlot modem_script_fields[4];
+static char modem_script_strings[4][0x80];
+static const char *modem_script_subst[6];
 static NetworkPacketBufferStorage network_packet_buffer_storage;
 static u8 pppoe_discovery_name_storage[2][256];
 static const char modem_no_carrier_response[] = "NO CARRIER";
@@ -182,53 +171,51 @@ void TLobby__sub_803F77E0(void) {
 
 }
 
-void init_modem_buffer_config(void *config) {
-    Obj_803F77E4 *o = (Obj_803F77E4 *)config;
-
-    o->f0 = lbl_805AA080;
-    o->f4 = 6;
-    o->f8 = lbl_805A9E80;
-    o->fC = 4;
-    o->fE = 0x80;
-    o->f10 = lbl_805A9E70;
-    o->f14 = 4;
-    o->f18 = modem_buffer_used;
-    o->f1C = 4;
-    o->f20 = lbl_805A9DF0;
-    o->f24 = lbl_805A9D70;
-    o->f28 = lbl_805A9CF0;
-    o->f2C = lbl_805A9C70;
-    o->f30 = lbl_805A9BF0;
-    o->f34 = lbl_805A9B70;
-    o->f38 = lbl_805A9AF0;
-    o->f3C = 0x80;
-    o->f3E = 0x80;
-    o->f40 = 0x80;
-    o->f42 = 0x80;
-    o->f44 = 0x80;
-    o->f46 = 0x80;
-    o->f48 = 0x80;
-    o->f4C = (Sub_803F77E4 *)(lbl_805A9A90);
-    o->f4C->f0 = 1;
-    o->f4C->f2 = 1;
-    o->f4C->f4 = 1;
-    o->f4C->f6 = 0;
-    o->f4C->f8 = 1;
-    o->f4C->fC = (void *)modem_tone_dial_command;
-    o->f4C->f10 = (void *)modem_pulse_dial_command;
-    o->f4C->f14 = (void *)modem_answer_command;
-    o->f4C->f18 = (void *)modem_ok_response;
-    o->f4C->f1C = (void *)modem_connect_response;
-    o->f4C->f20 = (void *)modem_busy_response;
-    o->f4C->f24 = (void *)modem_error_response;
-    o->f4C->f28 = (void *)modem_delayed_response;
-    o->f4C->f2C = (void *)modem_no_carrier_response;
-    o->f4C->f30 = (void *)modem_no_dialtone_response;
-    o->f4C->f34 = (void *)modem_ring_response;
-    o->f4C->f38 = 0xD;
-    o->f4C->f3C = (void *)modem_initialization_script;
-    o->f4C->f40 = (void *)modem_dial_script;
-    o->f4C->f44 = 0;
+void init_modem_buffer_config(ModemSessionState *state) {
+    state->subst = modem_script_subst;
+    state->subst_count = 6;
+    state->strbuf = modem_script_strings[0];
+    state->strbuf_count = 4;
+    state->strstride = 0x80;
+    state->fields = modem_script_fields;
+    state->field_count = 4;
+    state->ints = modem_script_ints;
+    state->int_count = 4;
+    state->line = modem_line_buf;
+    state->token = modem_token_buf;
+    state->cmd = modem_cmd_buf;
+    state->out = modem_out_buf;
+    state->expect = modem_expect_buf;
+    state->window = modem_window_buf;
+    state->rxbuf = modem_rx_buf;
+    state->line_len = 0x80;
+    state->token_len = 0x80;
+    state->cmd_len = 0x80;
+    state->out_len = 0x80;
+    state->expect_len = 0x80;
+    state->window_len = 0x80;
+    state->rxlen = 0x80;
+    state->config = &modem_default_config;
+    state->config->h0 = 1;
+    state->config->h2 = 1;
+    state->config->h4 = 1;
+    state->config->h6 = 0;
+    state->config->numeric_result = 1;
+    state->config->tone_dial_command = modem_tone_dial_command;
+    state->config->pulse_dial_command = modem_pulse_dial_command;
+    state->config->answer_command = modem_answer_command;
+    state->config->ok_response = modem_ok_response;
+    state->config->connect_response = modem_connect_response;
+    state->config->busy_response = modem_busy_response;
+    state->config->error_response = modem_error_response;
+    state->config->delayed_response = modem_delayed_response;
+    state->config->no_carrier_response = modem_no_carrier_response;
+    state->config->no_dialtone_response = modem_no_dialtone_response;
+    state->config->ring_response = modem_ring_response;
+    state->config->terminator = 0xD;
+    state->config->init_script = modem_initialization_script;
+    state->config->dial_script = modem_dial_script;
+    state->config->hangup_script = 0;
 }
 
 void TLobby__sub_803F7980(void) {

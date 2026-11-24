@@ -51,15 +51,13 @@ s32 NetControl(s32 cmd, s32 arg) {
     return -1;
 }
 
-typedef struct H_803FB120 { u8 pad[0x28]; u8 *name; u8 pad2C[0x20]; void *v4C; } H_803FB120;
-extern H_803FB120 lobby_net_session_state;
 
 s16 TLobby__sub_803FAEDC(NetSession *cfg) {
     u32 plen;
     u8 *p;
-    u8 **pname = &lobby_net_session_state.name;
+    u8 **pname = &lobby_net_session_state.cmd;
     u32 len;
-    u8 *buf = lobby_net_session_state.name;
+    u8 *buf = lobby_net_session_state.cmd;
 
     if (cfg->phone_number == NULL) {
         return 1;
@@ -121,7 +119,7 @@ s16 ppp_init(void) {
     p = &net_session;
     i = 0;
     while (i < 1) {
-        NetMemcpy(&p->modem, lobby_net_session_state.v4C, sizeof(ModemConfig));
+        NetMemcpy(&p->modem, lobby_net_session_state.config, sizeof(ModemConfig));
         i++;
         p++;
     }
@@ -145,7 +143,7 @@ ModemConfig *TLobby__sub_803FB110(void) {
 u8 *copy_name_buffer(void *src) {
     NetSession *g = &net_session;
     if (src == 0) {
-        NetMemcpy(&g->modem, lobby_net_session_state.v4C, sizeof(ModemConfig));
+        NetMemcpy(&g->modem, lobby_net_session_state.config, sizeof(ModemConfig));
     } else {
         NetMemcpy(&g->modem, src, sizeof(ModemConfig));
     }
@@ -348,8 +346,8 @@ s32 TLobby__sub_803FB6A0(void) {
     lobby_modem_abort_flag = 0;
     lobby_modem_connect_state = 7;
     close_all_connections();
-    if (sess->modem.h6 != 0 && sess->modem.w44 != NULL && NetStringLength(sess->modem.w44) != 0) {
-        modem_run_script((u8 *)sess->modem.w44, sess);
+    if (sess->modem.h6 != 0 && sess->modem.hangup_script != NULL && NetStringLength(sess->modem.hangup_script) != 0) {
+        modem_run_script((u8 *)sess->modem.hangup_script, sess);
     }
     if (lbl_805D7A7E != 0) {
         close_network_transport();
@@ -397,7 +395,7 @@ s32 ppp_open_sub(void) {
             LOBBY_ABORT(1, 8);
         }
         if (g->modem.h0 != 0) {
-            rc = configure_modem_options(g->modem.w4C, g->modem.w50, g->modem.w54, g->modem.init_count, g->modem.init_command);
+            rc = configure_modem_options(g->modem.ms_mode, g->modem.error_correction, g->modem.compression, g->modem.init_count, g->modem.init_command);
         } else {
             rc = configure_modem_options(0, 0, 0, 0, 0);
         }

@@ -27,7 +27,7 @@ s32 TLobby__sub_803F767C(void);
 /* inferred: returns the secret ppp_auth_secrets holds for a peer name, or NULL */
 const char *TLobby__sub_803F7684(const char *name);
 
-void init_modem_buffer_config(void* config);
+void init_modem_buffer_config(struct ModemSessionState *state);
 struct PppAuthState;
 struct PppPapState;
 struct PppBuffers;
