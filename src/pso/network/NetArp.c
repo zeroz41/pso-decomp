@@ -99,7 +99,7 @@ s16 forward_net_op_5args(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen
     return register_arp_interface(handler, socket, htype, ptype, hlen, haddr, plen, paddr);
 }
 
-extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c);
+s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c);
 s32 arp_init(void)
 {
     ArpState *tbl = &arp_state;
@@ -185,7 +185,7 @@ inline ArpEntry *scan_arp_entries(ArpEntry *peer, s16 n, u8 ff, u8 *p2) {
     }
     return 0;
 }
-extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
+s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
 {
   ArpState *t = &arp_state;
   ArpHeader *pp;

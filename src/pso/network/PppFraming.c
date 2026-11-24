@@ -662,7 +662,7 @@ s32 ppp_link_input(u8 *src, int len, int id) {
             *flags = 1;
             n = ((s16)len < *lim) ? (s16)len : *lim;
             NetMemcpy(dst, src, n);
-            link_input((saddr)dst, n, lobby_net_buffer_desc_b.id, idx, lobby_net_buffer_desc_b.protocols[idx].type);
+            link_input(dst, n, lobby_net_buffer_desc_b.id, idx, lobby_net_buffer_desc_b.protocols[idx].type);
             return 0;
         }
         flags++;

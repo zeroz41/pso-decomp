@@ -208,7 +208,7 @@ s16 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn) {
     return 0;
 }
 
-void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol) {
+void NetEnqueueProtocolMessage(u8 *payload, s16 detail, s16 first, s16 second, u16 protocol) {
     NetProtocolMessage message;
     message.first = first;
     message.second = second;

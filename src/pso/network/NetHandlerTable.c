@@ -31,13 +31,13 @@ s16 insert_link_handler(NetLinkDriverFn *fns, s16 kind);
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-void link_input(s32 msg, s16 len, s16 idx, s16 second, u16 type) {
+void link_input(u8 *msg, s16 len, s16 idx, s16 second, u16 type) {
     if (idx < 0 || idx >= lobby_handler_table_desc.count) {
         return;
     }
     switch (type) {
     default:
-        ((void (*)(s16, s32))lobby_handler_table_desc.list[idx].release_frame)(second, msg);
+        ((void (*)(s16, u8 *))lobby_handler_table_desc.list[idx].release_frame)(second, msg);
         break;
     case 0x800:
     case 0x806:
@@ -170,9 +170,9 @@ s16 dispatch_handler_by_index(s16 idx, s32 handle, void *addr, void *pkt) {
     return fn(handle, addr, pkt);
 }
 
-s32 dispatch_handler_by_id(s16 first, s32 second, s32 payload) {
+s32 dispatch_handler_by_id(s16 first, s32 second, u8 *payload) {
     LobbyHandler *e;
-    s32 (*fn)(s32, s32);
+    s32 (*fn)(s32, u8 *);
 
     if (first < 0 || first > lobby_handler_table_desc.count) {
         return -0x10F;

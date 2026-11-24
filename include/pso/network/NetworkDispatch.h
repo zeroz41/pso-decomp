@@ -7,7 +7,7 @@
 #include <stddef.h>
 
 /* A protocol handler: NetRunProtocolDispatchLoop passes it a message's payload, detail, first and second fields. */
-typedef void (*NetProtocolHandler)(s32, s16, s16, s16);
+typedef void (*NetProtocolHandler)(u8 *, s16, s16, s16);
 
 typedef struct NetProtocolHandlerEntry {
     s16 used;
@@ -45,8 +45,8 @@ s16 NetInitializeDispatcher(void);
 void NetYieldOutsideDispatcherThread(void);
 void NetRunProtocolDispatchLoop(void);
 void NetRunTimerDispatchLoop(void);
-void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol);
-s32 dispatch_handler_by_id(s16 first, s32 second, s32 payload);
+void NetEnqueueProtocolMessage(u8 *payload, s16 detail, s16 first, s16 second, u16 protocol);
+s32 dispatch_handler_by_id(s16 first, s32 second, u8 *payload);
 s32 dispatcher_term(void);
 #ifdef __cplusplus
 }
@@ -57,7 +57,7 @@ typedef struct NetProtocolMessage {
     s16 second;
     u16 protocol;
     s16 detail;
-    s32 payload;
+    u8 *payload;
 } NetProtocolMessage;
 
 #define NET_DISPATCH_OFFSET(type, member, value) \

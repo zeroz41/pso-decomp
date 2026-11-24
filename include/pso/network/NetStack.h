@@ -99,7 +99,7 @@ void netbuf_copy_by_ref(NetBufferRef *dst, NetBufferRef *src, s32 len);
 s16 ipv6_transmit(NetPacket *packet, NetIPv6SendParameters *params, s16 iface, u8 *link_address);
 u16 calc_ipv6_pseudo_header_checksum(const struct IPv6Address *src, const struct IPv6Address *dst, u8 next_header, const struct NetPacket *pkt, s16 flag);
 void lobby_timer_add(PppFsmTimer *timer, s32 period);
-void link_input(s32 msg, s16 len, s16 idx, s16 second, u16 type);
+void link_input(u8 *msg, s16 len, s16 idx, s16 second, u16 type);
 s32 arp_free_interface(s16 id);
 s16 link_packet_length(void *pkt);
 s32 link_packet_copy(void *self, void *arr_);

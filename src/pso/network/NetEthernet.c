@@ -189,7 +189,7 @@ u8 *dix_input(s16 dev, s16 mode, s16 length, EthernetFrameHeader *frame) {
             OSRestoreInterrupts(lvl);
             return NULL;
         } else {
-            link_input((saddr)(slot->frame + sizeof(EthernetFrameHeader)), slot->len - sizeof(EthernetFrameHeader), slot->link, slot->socket, key);
+            link_input(slot->frame + sizeof(EthernetFrameHeader), slot->len - sizeof(EthernetFrameHeader), slot->link, slot->socket, key);
             return NULL;
         }
     }

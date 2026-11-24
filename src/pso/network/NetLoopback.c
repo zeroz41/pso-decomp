@@ -88,7 +88,7 @@ s32 send_loopback_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
         if (*used == 0) {
             *used = 1;
             link_packet_copy(slot, pkt);
-            link_input((saddr)slot, len, g->handler, idx, g->protos[idx].type);
+            link_input(slot, len, g->handler, idx, g->protos[idx].type);
             return 0;
         }
         slot += g->slot_size;
@@ -122,7 +122,7 @@ s32 forward_loopback_packet(id, unused, arr)
         if (*cnt == 0) {
             *cnt = 1;
             link_packet_copy(base, arr);
-            link_input((saddr)base, len, p->handler, id, p->protos[id].type);
+            link_input(base, len, p->handler, id, p->protos[id].type);
             return 0;
         }
         base += sz;
