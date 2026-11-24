@@ -78,6 +78,7 @@ void sndSetAuxProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA,
                                   SND_AUX_CALLBACK auxB, void *userB, u8 midiB, SND_SEQID seqIDB);
 void sndAuxCallbackReverbHI(u8 reason, SND_AUX_INFO *info, void *user);
 void sndAuxCallbackChorus(u8 reason, SND_AUX_INFO *info, void *user);
+u32 sndAuxCallbackPrepareChorus(SND_AUX_CHORUS *chorus);
 }
 
 #endif

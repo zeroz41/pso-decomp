@@ -5,6 +5,7 @@ struct AdxfHandle;
 struct Vec;
 
 #include "types.h"
+#include "musyx/musyx.h"
 #include <stddef.h>
 
 struct Ent_8023FCC0 {
@@ -31,10 +32,7 @@ public:
     f32 reverb_damping;
     f32 reverb_pre_delay;
     f32 reverb_crosstalk;
-    u8 chorus[0x90];              // MusyX SND_AUX_CHORUS work area
-    u32 chorus_base_delay;        // SND_AUX_CHORUS.baseDelay
-    u32 chorus_variation;
-    u32 chorus_period;
+    SND_AUX_CHORUS chorus;
     f32 reverb_level;
     s32 voice_volume_adjustment;
     s32 age;

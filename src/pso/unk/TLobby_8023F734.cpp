@@ -917,7 +917,6 @@ s32 TLobby::reset_sound_state() {
 }
 extern "C" {
 void sndAuxCallbackPrepareReverbHI(void *rev);
-u32 sndAuxCallbackPrepareChorus(void *ch);
 s32 TLobby__sub_801E3E9C(s32 id, const char *name, void *buf, s32 size);
 }
 
@@ -951,12 +950,12 @@ s32 init_sound_aux_effects(SoundControlState *self) {
     self->reverb_coloration = 0.9f;
     self->reverb_crosstalk = 0.0f;
     self->reverb_mix = 1.0f;
-    self->chorus_base_delay = 15;
-    self->chorus_variation = 0;
-    self->chorus_period = 500;
+    self->chorus.baseDelay = 15;
+    self->chorus.variation = 0;
+    self->chorus.period = 500;
     sndAuxCallbackPrepareReverbHI(self);
-    sndAuxCallbackPrepareChorus(self->chorus);
-    sndSetAuxProcessingCallbacks(0, sndAuxCallbackReverbHI, self, 0xFF, 0, sndAuxCallbackChorus, self->chorus, 0xFF,
+    sndAuxCallbackPrepareChorus(&self->chorus);
+    sndSetAuxProcessingCallbacks(0, sndAuxCallbackReverbHI, self, 0xFF, 0, sndAuxCallbackChorus, &self->chorus, 0xFF,
                                  0);
     memset(lbl_80517E44, 0, 38 * sizeof(void *));
     for (i = 0; i < 38; i++) {
