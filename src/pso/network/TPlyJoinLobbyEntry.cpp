@@ -10,7 +10,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
-#include "pso/unk/TUnk_804A7008.h"
+#include "pso/unk/TLobbyIdleTimer.h"
 #include "pso/system/date.h"
 #include "pso/system/memory.h"
 #include "pso/system/byteswap.h"
@@ -304,7 +304,7 @@ const char join_lobby_ddplanet_server_host[] = "ddplanet.sega.co.jp";
 LobbyServerAddress join_lobby_server_table[2] = { { join_lobby_game04_server_host, 0x238F }, { join_lobby_game04_server_host, 0x238F } };
 LobbyServerAddress lbl_804A6FE8[2] = { { join_lobby_ss702_server_host, 0x238C }, { join_lobby_ss702_server_host, 0x238C } };
 LobbyServerAddress lbl_804A6FF8[2] = { { join_lobby_ddplanet_server_host, 0x2329 }, { join_lobby_ddplanet_server_host, 0x2329 } };
-void *lbl_804A7008[6] = { 0, 0, (void *)__dt__13TUnk_804A7008Fv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
+void *lbl_804A7008[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
 
 u32 TLobby::join_entries_dtor_registration[3];
 u32 TLobby::join_entries[3252];
@@ -355,7 +355,7 @@ void TLobby::send_game_character() {
     send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &d, &a, b, e, c);
 }
 void TLobby::update_idle_timeout(void *object) {
-    TUnk_804A7008 *t = (TUnk_804A7008 *)object;
+    TLobbyIdleTimer *t = (TLobbyIdleTimer *)object;
     NJS_POINT2 tmp = lbl_8043EE28[0];
     DateStamp ds;
     u32 limit;
@@ -403,7 +403,7 @@ void TLobby::update_idle_timeout(void *object) {
 }
 
 u8 *init_idle_timeout_timer(u8 *timer, saddr parent) {
-    TUnk_804A7008 *t = (TUnk_804A7008 *)timer;
+    TLobbyIdleTimer *t = (TLobbyIdleTimer *)timer;
     DateStamp date;
     __ct__7TObjectFP7TObject((void *)timer, (void *)parent);
     *(void ***)((s8 *)timer + 0x18) = lbl_804A7008;
