@@ -80,7 +80,7 @@ s32 validate_6x3F_set_position(G_SetPosition_6x3F *packet) {
     if (packet->floor > 0x12) {
         return 0;
     }
-    return vec_has_nonfinite((Vec *)&packet->pos) ? 0 : 1;
+    return vec_has_nonfinite(&packet->pos) ? 0 : 1;
 }
 
 s32 validate_6x3E_stop_at_position(G_StopAtPosition_6x3E *packet) {
@@ -95,7 +95,7 @@ s32 validate_6x3E_stop_at_position(G_StopAtPosition_6x3E *packet) {
     if (packet->floor > 0x12) {
         return 0;
     }
-    return vec_has_nonfinite((Vec *)&packet->pos) ? 0 : 1;
+    return vec_has_nonfinite(&packet->pos) ? 0 : 1;
 }
 s32 validate_6x88_restore_shrunken_player(G_ClientIDHeader *packet) {
     return validate_subcommand_client(packet) ? 1 : 0;
@@ -250,7 +250,7 @@ s32 validate_6x2A_drop_item(G_DropItem_6x2A *packet) {
     if ((floor < 0) || (floor > 0x12)) {
         return 0;
     }
-    return vec_has_nonfinite((Vec *)&packet->pos) ? 0 : 1;
+    return vec_has_nonfinite(&packet->pos) ? 0 : 1;
 }
 
 s32 validate_6xAC(G_DeleteMultipleInventoryItems_6xAC *packet) {
@@ -305,7 +305,7 @@ s32 validate_6x24_teleport_player(G_TeleportPlayer_6x24 *packet) {
     if (validate_subcommand_client(&packet->header) == 0) {
         return 0;
     }
-    return vec_has_nonfinite((Vec *)&packet->pos) ? 0 : 1;
+    return vec_has_nonfinite(&packet->pos) ? 0 : 1;
 }
 
 s32 validate_6x23_set_player_visible(G_ClientIDHeader *packet) {

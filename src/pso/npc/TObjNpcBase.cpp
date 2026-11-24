@@ -185,7 +185,7 @@ void TObjNpcBase::update_conversation() {
             request_action(0);
             pkt1.init();
             pkt1.header.client_id = ((TObjBase *)(target))->get_entity_id();
-            VecCopy((Vec *)&pkt1.pos, &((TObjBase *)target)->position);
+            VecCopy(&pkt1.pos, &((TObjBase *)target)->position);
             pkt1.angle = ang + 0x8000;
             pkt1.send();
             break;
@@ -196,7 +196,7 @@ void TObjNpcBase::update_conversation() {
                 request_action(0);
                 pkt2.init();
                 pkt2.header.client_id = ((TObjBase *)(target))->get_entity_id();
-                VecCopy((Vec *)&pkt2.pos, &((TObjBase *)target)->position);
+                VecCopy(&pkt2.pos, &((TObjBase *)target)->position);
                 pkt2.angle = rotation_y + 0x8000;
                 pkt2.send();
             } else {

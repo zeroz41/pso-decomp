@@ -1950,7 +1950,7 @@ void handle_6x21_inter_level_warp(G_InterLevelWarp_6x21 *command) {
     init_6x21_inter_level_warp_packet((u8 *)&m);
     m = *command;
     ((TObjPlayer *)(&m))->bswap_warp_packet();
-    if (validate_6x21_inter_level_warp(&m.header) != 0) {
+    if (validate_6x21_inter_level_warp(&m) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
             if ((((TObjChara *)p)->obj_isState2_324() != 0) && (m.floor != ((TObjPlayer *)p)->get_floor())) {
@@ -1985,7 +1985,7 @@ void handle_6x1F_set_player_floor(G_SetPlayerFloor_6x1F *command) {
     init_6x1F_floor_packet((u8 *)&m);
     m = *command;
     ((TObjPlayer *)(&m))->bswap_set_floor_packet();
-    if (validate_6x1F_set_player_floor(&m.header) != 0) {
+    if (validate_6x1F_set_player_floor(&m) != 0) {
         p = get_player_by_client_id(m.header.client_id);
         if (p != NULL) {
             ((TObjPlayer *)p)->set_floor_index(get_floor_area(m.floor));
@@ -2017,7 +2017,7 @@ void handle_6x20_set_position(G_SetPosition_6x20 *command) {
     ((TObjPlayer *)(&m))->init_cmd_6x20();
     TObjPlayer__sub_801C1664((u8 *)&m, (u8 *)command);
     ((TObjPlayer *)(&m))->bswap_pkt_u32x5();
-    if (validate_6x20_set_position((G_ClientIDHeader *)&m) != 0) {
+    if (validate_6x20_set_position((G_SetPosition_6x20 *)&m) != 0) {
         p = (Player_801BA838 *)get_player_by_client_id(m.slot);
         if (p != NULL) {
             ((TObjBase *)p)->set_position_from(m.vec);
@@ -6363,7 +6363,7 @@ void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {
     init_packet_6x90_set_player_battle_team((u8 *)&cmd);
     TFontSmallLobby__sub_801C03E0(reinterpret_cast<G_SetPlayerBattleTeam_6x90 *>(&cmd), command);
     ((TFontSmallLobby *)(&cmd))->bswap_6x90_set_player_battle_team();
-    if (validate_6x90_set_player_battle_team((G_ClientIDHeader *)&cmd) == 0) {
+    if (validate_6x90_set_player_battle_team((G_SetPlayerBattleTeam_6x90 *)&cmd) == 0) {
         return;
     }
     p = (u8 *)get_player_by_client_id((u16)cmd.client);
@@ -6485,7 +6485,7 @@ void handle_6x8F_add_battle_damage_scores(G_AddBattleDamageScores_6x8F *command)
     ((TFontSmallLobby *)(&pkt))->init_packet_6x8f_battle_damage();
     TFontSmallLobby__sub_801C030C(&pkt, command);
     ((TFontSmallLobby *)(&pkt))->bswap_battle_damage_packet();
-    if (validate_6x8F_add_battle_damage_scores((G_ClientIDHeader *)&pkt) == 0) {
+    if (validate_6x8F_add_battle_damage_scores((G_AddBattleDamageScores_6x8F *)&pkt) == 0) {
         return;
     }
     player = (u8 *)get_player_by_client_id((u16)pkt.client);
@@ -6894,7 +6894,7 @@ void handle_6x9B_level_up_all_techniques(G_LevelUpAllTechniques_6x9B *command) {
     ((TFontSmallLobby *)(&m))->init_packet_6x9b_level_up();
     TFontSmallLobby__sub_801C01DC(reinterpret_cast<G_LevelUpAllTechniques_6x9B *>(&m), reinterpret_cast<G_LevelUpAllTechniques_6x9B *>(raw));
     bswap_g_client_id_header(&m);
-    if (validate_6x9B_level_up_all_techniques((G_ClientIDHeader *)&m) != 0) {
+    if (validate_6x9B_level_up_all_techniques((G_LevelUpAllTechniques_6x9B *)&m) != 0) {
         p = (u8 *)get_player_by_client_id((u16)m.id);
         if (p != NULL) {
             ((TObjPlayer *)(p + 0x428))->level_up_all_techniques(m.level);

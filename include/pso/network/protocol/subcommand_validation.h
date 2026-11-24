@@ -3,6 +3,7 @@
 
 #include "pso/network/protocol/protocol_types.h"
 
+struct G_AddBattleDamageScores_6x8F;
 struct G_Attack_6x43_6x44_6x45;
 struct G_ChangePlayerHP_6x2F;
 struct G_CreateLobbyChair_6xAB;
@@ -13,14 +14,19 @@ struct G_DropItem_6x2A;
 struct G_EquipItem_6x25;
 struct G_HitByEnemy_6x4B_6x4C;
 struct G_ImposeHold_6x2C;
+struct G_InterLevelWarp_6x21;
 struct G_IntraMapWarp_6x55;
+struct G_LevelUpAllTechniques_6x9B;
 struct G_LobbyAnimation_6x58;
 struct G_MoveToPosition_6x41_6x42;
 struct G_PhotonBlast_6x37;
 struct G_PlaceTrap_6x83;
 struct G_RevivePlayer_6x33;
 struct G_SetAnimationState_6x52;
+struct G_SetPlayerBattleTeam_6x90;
+struct G_SetPlayerFloor_6x1F;
 struct G_SetPlayerPositionAndAngle_6x56;
+struct G_SetPosition_6x20;
 struct G_SetPosition_6x3F;
 struct G_StopAtPosition_6x3E;
 struct G_TeleportPlayer_6x24;
@@ -92,18 +98,18 @@ s32 validate_6x25_equip_item(G_EquipItem_6x25 *packet);
 s32 validate_6x24_teleport_player(G_TeleportPlayer_6x24 *packet);
 s32 validate_6x23_set_player_visible(G_ClientIDHeader *packet);
 s32 validate_6x22_set_player_invisible(G_ClientIDHeader *packet);
-s32 validate_6x21_inter_level_warp(G_ClientIDHeader *packet);
-s32 validate_6x20_set_position(G_ClientIDHeader *packet);
-s32 validate_6x1F_set_player_floor(G_ClientIDHeader *packet);
+s32 validate_6x21_inter_level_warp(G_InterLevelWarp_6x21 *packet);
+s32 validate_6x20_set_position(G_SetPosition_6x20 *packet);
+s32 validate_6x1F_set_player_floor(G_SetPlayerFloor_6x1F *packet);
 s32 validate_6x82_enable_drop_weapon_on_death(G_ClientIDHeader *packet);
 s32 validate_6x81_disable_drop_weapon_on_death(G_ClientIDHeader *packet);
 s32 validate_6x7B_disable_stealth_suit_effect(G_ClientIDHeader *packet);
 s32 validate_6x7A_enable_stealth_suit_effect(G_ClientIDHeader *packet);
-s32 validate_6x90_set_player_battle_team(G_ClientIDHeader *packet);
-s32 validate_6x8F_add_battle_damage_scores(G_ClientIDHeader *packet);
+s32 validate_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *packet);
+s32 validate_6x8F_add_battle_damage_scores(G_AddBattleDamageScores_6x8F *packet);
 s32 validate_6x1C_disable_pk_mode_for_player(G_ClientIDHeader *packet);
 s32 validate_6x1B_enable_pk_mode_for_player(G_ClientIDHeader *packet);
-s32 validate_6x9B_level_up_all_techniques(G_ClientIDHeader *packet);
+s32 validate_6x9B_level_up_all_techniques(G_LevelUpAllTechniques_6x9B *packet);
 extern "C" {
 s32 validate_subcommand_client(G_ClientIDHeader *packet);
 // TRUE when an attack's target count is 0 to 10 (validate_attack_target_list).
