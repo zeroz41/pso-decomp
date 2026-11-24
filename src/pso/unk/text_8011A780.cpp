@@ -102,10 +102,10 @@ void handle_box_drop_directive(G_SpecializableItemDropRequest_6xA2 *request) {
             id = build_item_id(row.drop_id_base);
             row.drop_id_base = 0xFFFF;
             TLobby::apply_table_entry(source, &row);
-            set.scale.z = request->param3;
-            set.set_params[0] = request->param4;
-            set.set_params[1] = request->param5;
-            set.set_params[2] = request->param6;
+            set.scale.z = request->scale_z;
+            set.set_params[0] = request->set_params[0];
+            set.set_params[1] = request->set_params[1];
+            set.set_params[2] = request->set_params[2];
             item.unpack_from_item(&set);
             if (0.0f == set.scale.z) {
                 const u8 data0 = item.data1.data_u8[0];

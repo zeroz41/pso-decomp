@@ -1261,10 +1261,10 @@ void TObjChara::request_box_item_drop(const Vec *, s32 random_item) {
                     drop.ignore_def = random_item;
                     drop.entity_index = set_index;
                     extended.effective_area = get_current_floor_area();
-                    packet.param3 = scale.z;
-                    packet.param4 = set_params[0];
-                    packet.param5 = set_params[1];
-                    packet.param6 = set_params[2];
+                    packet.scale_z = scale.z;
+                    packet.set_params[0] = set_params[0];
+                    packet.set_params[1] = set_params[1];
+                    packet.set_params[2] = set_params[2];
                     packet.send();
                 }
             }
@@ -1381,10 +1381,10 @@ void G_SpecializableItemDropRequest_6xA2::send() {
 
 void G_SpecializableItemDropRequest_6xA2::bswap() {
     bswap_6x60_drop_request_fields(this);
-    bswap_32(reinterpret_cast<u32 *>(&param3));
-    bswap_32(reinterpret_cast<u32 *>(&param4));
-    bswap_32(reinterpret_cast<u32 *>(&param5));
-    bswap_32(reinterpret_cast<u32 *>(&param6));
+    bswap_32(reinterpret_cast<u32 *>(&scale_z));
+    bswap_32(reinterpret_cast<u32 *>(&set_params[0]));
+    bswap_32(reinterpret_cast<u32 *>(&set_params[1]));
+    bswap_32(reinterpret_cast<u32 *>(&set_params[2]));
 }
 
 G_SpecializableItemDropRequest_6xA2 *G_SpecializableItemDropRequest_6xA2::init() {

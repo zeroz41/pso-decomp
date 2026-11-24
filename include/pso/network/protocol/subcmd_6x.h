@@ -909,10 +909,9 @@ struct G_StandardDropItemRequest_PC_V3_BB_6x60 {
 
 struct G_SpecializableItemDropRequest_6xA2 {
  struct G_StandardDropItemRequest_PC_V3_BB_6x60 __base_G_StandardDropItemRequest_PC_V3_BB_6x60;
- f32 param3;
- s32 param4;
- s32 param5;
- s32 param6;
+ // The box's object set entry: scale.z and set_params (params 3-6 of the .dat entry).
+ f32 scale_z;
+ s32 set_params[3];
  G_SpecializableItemDropRequest_6xA2 *init();
  void bswap();
  void send();
