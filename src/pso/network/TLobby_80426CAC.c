@@ -70,8 +70,6 @@ void TLobby__sub_80427378(PppoeSlot *e);
 s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len);
 s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len);
 
-#define arg0 ((s32)argp)
-#undef arg0
 
 
 s16 build_ethernet_frame_header(void *frame, void *dst_mac, void *src_mac, u16 type, u8 code, u16 session, u16 len) {
@@ -577,9 +575,9 @@ s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
     return ret;
 }
 
-s32 skip_pppoe_tags(s32 slot, u8 *tags, u16 arg2) {
+s32 skip_pppoe_tags(s32 slot, u8 *tags, u16 tags_len) {
     u8 *p = tags;
-    u16 len = arg2;
+    u16 len = tags_len;
     u16 a;
     u16 b;
     u8 pad[4];

@@ -21,7 +21,7 @@ void complete_pending_request(s16 id, s16 event);
 void tick_connection_timeouts(void);
 s32 append_to_list(DnsHost *o, DnsAddr *n);
 NetworkAddress *find_next_active_record(DnsQuery *a);
-void reset_connection_requests(DnsPtr *o_, s16 arg1);
+void reset_connection_requests(DnsPtr *o, s16 status);
 
 extern void TLobby__sub_8040B1C4(void *);
 extern void TLobby__sub_8040BE40(DnsQuery *self, s16 a, s16 b);
@@ -50,7 +50,7 @@ typedef struct DnsQuestion {
 LAYOUT_ASSERT(DnsQueryHeader_size_check, sizeof(DnsQueryHeader) == DNS_HEADER_SIZE);
 LAYOUT_ASSERT(DnsQuestion_size_check, sizeof(DnsQuestion) == DNS_QUESTION_FIXED_SIZE);
 
-s32 dns_compare_addr(DnsAddr *arg0, DnsAddr *arg1);
+s32 dns_compare_addr(DnsAddr *node, DnsAddr *rec);
 
 s32 TLobby__sub_8040B838(u8 *dst, char *src, s32 max);
 
@@ -1232,7 +1232,7 @@ s32 close_and_reset_connection(DnsQuery *self) {
     return var_r31;
 }
 
-void reset_connection_requests(DnsPtr *o, s16 arg1) {
+void reset_connection_requests(DnsPtr *o, s16 status) {
     s16 i;
     DnsQuery *e;
 
@@ -1246,7 +1246,7 @@ void reset_connection_requests(DnsPtr *o, s16 arg1) {
             e->status = -0x42;
             e->outstanding = 0;
             e->req.ptr.entry = 0;
-            dispatch_request_callback(e, arg1);
+            dispatch_request_callback(e, status);
         }
         i++;
         e++;

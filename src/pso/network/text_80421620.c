@@ -93,14 +93,14 @@ s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt);
 s32 TLobby__sub_8041E5E4(int, void *, u16);
 s16 copy_ipv4_interface_addresses(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, s32) */
 s16 TLobby__sub_80412058(s16, void *, int, void *);
-s16 TLobby__sub_80422F70(s16 arg0, s32 hdr_src, s32 len, saddr arg3);
+s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, saddr buf);
 s32 OSDisableInterrupts();
 s32 OSRestoreInterrupts(int);
 s16 bring_down_ipv4_interface(s16);
 s16 TLobby__sub_80412210(s16);
 s16 AT_IP4_IfUp(s32, s32, s32, s16);
 s16 TLobby__sub_80412CA4(void *, s16, s16, s16, s32);
-s16 if_config(s16 arg0, P_8042315C *p);
+s16 if_config(s16 iface, P_8042315C *p);
 s32 avetcp_term(void) {
     TLobby__sub_80419A7C();
     TLobby__sub_80409AA8();

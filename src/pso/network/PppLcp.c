@@ -325,7 +325,7 @@ s16 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
                 last = hdr[0];
             }
         }
-        r = parse_lcp_option((saddr)&src, (u8 *)opts, (u8 *)local, hdr, 0);
+        r = parse_lcp_option(&src, opts, local, hdr, 0);
         if (r == -1) {
             return -1;
         }
@@ -432,7 +432,7 @@ s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
         if (remaining < 0) {
             return -1;
         }
-        r = parse_lcp_option((saddr)&src, (u8 *)opts, (u8 *)&opts->remote, hdr, 1);
+        r = parse_lcp_option(&src, opts, &opts->remote, hdr, 1);
         if (r == -1) {
             return -1;
         }
@@ -472,17 +472,16 @@ s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
 #define rd16_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 2) != 2 ? -1 : read_network_u16_be(lcp_read_value_buffer))
 #define rd32_804012E0(src) (ppp_buffer_read((void *)(src), lcp_read_value_buffer, 4) != 4 ? 0 : TLobby__sub_80402AFC(lcp_read_value_buffer))
 #define rd8_804012E0(src) (ppp_buffer_read((void *)(src), lobby_read_byte_buffer, 1) != 1 ? -1 : (s16)lobby_read_byte_buffer[0])
-s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4) {
+s16 parse_lcp_option(PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 remote) {
     s16 len;
     s16 res;
     s32 t;
     s16 lim;
-    LcpSide *side = (LcpSide *)arg2;
     res = 2;
     len = hdr[1] - 2;
     switch (hdr[0]) {
     case 1:
-        side->got.mru = rd16_804012E0(arg0);
+        side->got.mru = rd16_804012E0(src);
         len -= 2;
         if (side->got.mru < 0x80) {
             side->got.mru = 0x80;
@@ -491,17 +490,17 @@ s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4) {
             side->got.mru = 0x1000;
             res = 3;
         }
-        if (arg4 != 0 && (side->want.mask & 2) && side->got.mru > (lim = side->want.mru)) {
+        if (remote != 0 && (side->want.mask & 2) && side->got.mru > (lim = side->want.mru)) {
             side->got.mru = lim;
             res = 3;
         }
         break;
     case 2:
-        side->got.accm = rd32_804012E0(arg0);
+        side->got.accm = rd32_804012E0(src);
         len -= 4;
         if (lbl_805D7A7A != 0) {
             res = 4;
-        } else if (arg4 == 0 || (side->want.mask & 4)) {
+        } else if (remote == 0 || (side->want.mask & 4)) {
             u32 v = side->got.accm | side->want.accm;
             if (side->got.accm != v) {
                 side->got.accm = v;
@@ -510,10 +509,10 @@ s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4) {
         }
         break;
     case 3:
-        side->got.auth_proto = rd16_804012E0(arg0);
+        side->got.auth_proto = rd16_804012E0(src);
         len -= 2;
         if (side->got.auth_proto == 0xC223) {
-            side->got.chap_alg = (s8)rd8_804012E0(arg0);
+            side->got.chap_alg = (s8)rd8_804012E0(src);
             len -= 1;
         }
         if (side->want.f15 != 0) {
@@ -528,7 +527,7 @@ s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4) {
                 hdr[1] = 4;
                 while (len > 0) {
                     len--;
-                    if (rd8_804012E0(arg0) == -1) {
+                    if (rd8_804012E0(src) == -1) {
                         return -1;
                     }
                 }
@@ -547,9 +546,9 @@ s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4) {
         }
         break;
     case 5:
-        side->got.magic = rd32_804012E0(arg0);
+        side->got.magic = rd32_804012E0(src);
         len -= 4;
-        if (side->got.magic == 0 || ((LcpOpts *)opts)->remote.got.magic == ((LcpOpts *)opts)->local.got.magic) {
+        if (side->got.magic == 0 || opts->remote.got.magic == opts->local.got.magic) {
             get_time_ms(&t);
             res = 3;
             side->got.magic += t;
@@ -580,9 +579,9 @@ s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4) {
     if (len < 0) {
         return -1;
     }
-    if (arg4 == 0 && len > 0) {
+    if (remote == 0 && len > 0) {
         while (len-- > 0) {
-            if (rd8_804012E0(arg0) == -1) {
+            if (rd8_804012E0(src) == -1) {
                 return -1;
             }
         }

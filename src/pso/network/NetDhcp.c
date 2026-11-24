@@ -561,7 +561,7 @@ s32 dhcp_request_step(void) {
     }
     return dhcp_state;
 }
-s16 dhcp_handle_reply(s16 arg0, NetworkReceivePrefix *arg1);
+s16 dhcp_handle_reply(s16 mode, NetworkReceivePrefix *record);
 /* One step of the DHCP discover state machine (dhcp_step). */
 s32 dhcp_discover_step(void) {
     s32 now;
@@ -717,18 +717,17 @@ s32 get_task_count(void) {
 
 
 void parse_dhcp_lease_times(u8 *packet) {
-    u8 *arg0 = packet;
     u8 *p;
     s32 v;
     s32 w;
 
-    if (find_dhcp_option(arg0, 0x33, &p) == 4) {
+    if (find_dhcp_option(packet, 0x33, &p) == 4) {
         NetMemcpy(&v, p, 4);
         w = v;
         dhcp_set_option(7, 4, &w);
         get_time_seconds((s32 *)&dhcp_lease_start);
         dhcp_lease_expiry = dhcp_lease_start + dhcp_lease_time;
-        if (find_dhcp_option(arg0, 0x3A, &p) == 4) {
+        if (find_dhcp_option(packet, 0x3A, &p) == 4) {
             NetMemcpy(&v, p, 4);
             w = v;
             dhcp_set_option(8, 4, &w);
@@ -736,7 +735,7 @@ void parse_dhcp_lease_times(u8 *packet) {
             dhcp_set_option(8, 0, NULL);
             dhcp_renewal_time = dhcp_lease_time >> 1;
         }
-        if (find_dhcp_option(arg0, 0x3B, &p) == 4) {
+        if (find_dhcp_option(packet, 0x3B, &p) == 4) {
             NetMemcpy(&v, p, 4);
             w = v;
             dhcp_set_option(9, 4, &w);
@@ -792,7 +791,7 @@ s32 find_dhcp_option(u8 *p, u8 tag, u8 **out) {
     return 0;
 }
 
-s16 DHCP_get_gateway(void *arg0, s32 *router) {
+s16 DHCP_get_gateway(void *ignored, s32 *router) {
     dhcp_error = 0;
     if (dhcp_state != 3 && dhcp_state != 4 && dhcp_state != 5) {
         dhcp_error = 2;
@@ -804,7 +803,7 @@ s16 DHCP_get_gateway(void *arg0, s32 *router) {
     return 0;
 }
 
-s16 DHCP_get_dns(void *arg0, char *domain, s32 *dns1, s32 *dns2) {
+s16 DHCP_get_dns(void *ignored, char *domain, s32 *dns1, s32 *dns2) {
     dhcp_error = 0;
     if (dhcp_state != 3 && dhcp_state != 4 && dhcp_state != 5) {
         dhcp_error = 2;
@@ -824,14 +823,14 @@ s16 DHCP_get_dns(void *arg0, char *domain, s32 *dns1, s32 *dns2) {
 
 #pragma push
 #pragma opt_propagation off
-s16 dhcp_handle_reply(s16 arg0, NetworkReceivePrefix *arg1) {
+s16 dhcp_handle_reply(s16 mode, NetworkReceivePrefix *record) {
     DhcpClientBuffers *g = &dhcp_buffers;
     BootpPacket *pk;
     u8 *q;
     u8 *p;
 
-    if (arg0 == 0) {
-        arg1->buf = (u8 *)&g->received;
+    if (mode == 0) {
+        record->buf = (u8 *)&g->received;
         return 0;
     }
     pk = &g->received.hdr;
@@ -864,21 +863,21 @@ s16 dhcp_handle_reply(s16 arg0, NetworkReceivePrefix *arg1) {
         break;
     case 2:
         if (dhcp_reply_received == 0 && find_dhcp_option(q, 0x35, &p) == 1 && *p == 5) {
-            NetMemcpy(&g->reply, &g->received, arg1->len);
+            NetMemcpy(&g->reply, &g->received, record->len);
             dhcp_reply_received = 1;
         }
         break;
     case 4:
         if (dhcp_reply_received == 0 && find_dhcp_option(q, 0x35, &p) == 1 && *p == 5 &&
             dhcp_client_addr == pk->yiaddr) {
-            NetMemcpy(&g->reply, &g->received, arg1->len);
+            NetMemcpy(&g->reply, &g->received, record->len);
             dhcp_reply_received = 1;
         }
         break;
     case 5:
         if (dhcp_reply_received == 0 && find_dhcp_option(q, 0x35, &p) == 1 && *p == 5 &&
             dhcp_client_addr == pk->yiaddr) {
-            NetMemcpy(&g->reply, &g->received, arg1->len);
+            NetMemcpy(&g->reply, &g->received, record->len);
             dhcp_reply_received = 1;
         }
         break;
@@ -912,9 +911,9 @@ s32 DHCP_release(s32 session, s32 ip, s32 retries) {
     return 0;
 }
 
-s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 lease_time, void *arg3, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
+s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 lease_time, void *ignored, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
     s32 state;
-    if (DHCP_request(iface, arg1, lease_time, arg3, address, netmask, broadcast, retries) != 0) {
+    if (DHCP_request(iface, arg1, lease_time, ignored, address, netmask, broadcast, retries) != 0) {
         return -1;
     }
     do {
@@ -930,7 +929,7 @@ s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 lease_time, void *arg3, s
     return 0;
 }
 
-s32 DHCP_request(s16 iface, s32 arg1, s32 lease_time, void *arg3, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
+s32 DHCP_request(s16 iface, s32 arg1, s32 lease_time, void *ignored, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
     dhcp_error = 0;
     if (dhcp_state != 0) {
         dhcp_error = 2;

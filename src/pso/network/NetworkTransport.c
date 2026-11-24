@@ -56,7 +56,6 @@ void subtract_network_queue_timeout(s32 elapsed_ms);
 void set_lobby_map_state_code(s32 code);
 NetSendChunk *get_next_send_chunk(void);
 s32 AT_SetWorkArea(u8 *data, s32 size);
-s32 AT_GetInitParam(NetTransportParams *arg0);
 void TLobby__sub_803F76F0(void);
 void TLobby__sub_803F778C(void);
 void TLobby__sub_803F77E0(void);

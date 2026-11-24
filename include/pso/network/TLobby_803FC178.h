@@ -84,7 +84,6 @@ void init_net_state_c(void);
 s32 init_net_subsystem_block(void);
 s32 mark_ready(PppProtoBlocks *blocks);
 s32 mark_sub_ready(PppProtoBlocks *blocks);
-s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4);
 void queue_command_81(PppFsm *fsm);
 s32 read_2_bytes(void *self, void *src);
 void reset_connection_slot(PppFsm *self);

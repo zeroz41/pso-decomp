@@ -70,7 +70,7 @@ void TLobby__sub_804050DC(s16 poll_ms);
 s32 TLobby__sub_804062A0(s16 command);
 s16 TLobby__sub_80406624(s32 a, s32 b, u16 code, PppFrame *frame);
 s16 reset_network_timer_list(void);
-s16 arp_resolve_and_send(s16 idx, void *name, void *arg2);
+s16 arp_resolve_and_send(s16 idx, void *name, void *pkt);
 s32 TLobby__sub_80409AA8(void);
 s16 NetIPv4IsBroadcast(u32 address, s16 iface);
 void lobby_timer_start(PppFsmTimer *timer);
@@ -119,7 +119,7 @@ s16 get_ipv4_interface_mtu(s16);                       /* NetIpv4Route.c */
 s32 TLobby__sub_8040F8A4(u32 dst, u32 new_gateway, u32 mask, u32 flags, u32 old_gateway); /* NetIpv4Route.c */
 /* ARP (src/pso/network/NetArp.c). */
 s32 TLobby__sub_80407418(s16 id);
-s16 forward_net_op_5args(s16, s16, s16, s16, s16, s32, s16, s32);
+s16 forward_net_op_5args(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, s32 haddr, s16 plen, s32 paddr);
 /* The handler table (src/pso/network/NetHandlerTable.c). */
 s16 TLobby__sub_80409CE0(s16 idx, s32 handle, s32 op, void *addr);
 s16 TLobby__sub_80409D7C(s16 idx, s32 handle, s32 op, void *addr);

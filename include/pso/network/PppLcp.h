@@ -68,4 +68,7 @@ typedef struct LcpState {
 LAYOUT_ASSERT(LcpState_size_check, sizeof(LcpState) == 0xA8);
 extern LcpState lcp_state;
 
+/* Reads one option of a received Configure-Request (remote 1) or Configure-Nak (remote 0) from *src into side. */
+s16 parse_lcp_option(struct PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 remote);
+
 #endif

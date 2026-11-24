@@ -14,7 +14,7 @@ s16 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b);
 s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt);
 s32 TLobby__sub_80408F2C(s16 id, u8 *pkt);
 s32 TLobby__sub_80408FD8(s16 idx, s16 mode, u8 *data);
-s32 TLobby__sub_80409130(s16 arg0, s16 arg1, s32 arg2);
+s32 TLobby__sub_80409130(s16 id, s16 op, s32 addr);
 s32 TLobby__sub_8040920C(s16 id, u8 *dst);
 s32 TLobby__sub_804092FC(s16 idx);
 s32 TLobby__sub_8040939C(s16 idx);
@@ -386,15 +386,15 @@ s32 TLobby__sub_80408FD8(s16 idx, s16 mode, u8 *data) {
     return -2;
 }
 
-s32 TLobby__sub_80409130(s16 arg0, s16 arg1, s32 arg2) {
+s32 TLobby__sub_80409130(s16 id, s16 op, s32 addr) {
     s32 h;
     EthSocket *e;
 
-    if (arg0 < 0 || arg0 >= ethernet_state.nsockets) {
+    if (id < 0 || id >= ethernet_state.nsockets) {
         return -0x111;
     }
     e = ethernet_state.sockets;
-    e += arg0;
+    e += id;
     if (e->used == 0) {
         return -2;
     }
@@ -404,11 +404,11 @@ s32 TLobby__sub_80409130(s16 arg0, s16 arg1, s32 arg2) {
         if ((s16)h < 0) {
             return -2;
         }
-        if (arg1 == 1) {
-            return dispatch_slot_b(h, arg2);
+        if (op == 1) {
+            return dispatch_slot_b(h, addr);
         }
-        if (arg1 == 2) {
-            return dispatch_slot_a(h, arg2);
+        if (op == 2) {
+            return dispatch_slot_a(h, addr);
         }
         return -2;
     default:

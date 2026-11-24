@@ -158,8 +158,8 @@ void TLobby__sub_803FD958(PppFsm *fsm) {
     }
 }
 
-void update_countdown_state(PppFsm *arg0) {
-    PppFsm *fsm = (PppFsm *)(u8 *)arg0;
+void update_countdown_state(PppFsm *self) {
+    PppFsm *fsm = (PppFsm *)(u8 *)self;
     switch (fsm->state) {
     case 2:
     case 3:

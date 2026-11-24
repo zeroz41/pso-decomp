@@ -31,7 +31,7 @@ s32 arp_init(void);
 void TLobby__sub_804073B8(void);
 s32 arp_remove_alias(s16, saddr);
 s32 arp_add_alias(s16, saddr);
-s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, saddr f, s16 g, saddr h);
+s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, saddr haddr, s16 plen, saddr paddr);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -95,8 +95,8 @@ s16 forward_net_op(s16 idx, u8 *name, u8 *pkt) {
     return arp_resolve_and_send(idx, name, pkt);
 }
 
-s16 forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s16 arg6, s32 arg7) {
-    return register_arp_interface(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+s16 forward_net_op_5args(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, s32 haddr, s16 plen, s32 paddr) {
+    return register_arp_interface(handler, socket, htype, ptype, hlen, haddr, plen, paddr);
 }
 
 extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c);
@@ -488,39 +488,39 @@ inline ArpIface *findfree_80407F20(ArpIface *base) {
     return NULL;
 }
 
-s16 register_arp_interface(s16 a, s16 b, s16 c, s16 d, s16 e, saddr f, s16 g, saddr h)
+s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, saddr haddr, s16 plen, saddr paddr)
 {
     ArpIface *base;
     ArpIface *slot;
     s16 res;
     s16 idx;
 
-    if (a < 0) {
+    if (handler < 0) {
         return -1;
     }
-    res = TLobby__sub_8040A044(a, 0x806, g, (u32 *)h);
+    res = TLobby__sub_8040A044(handler, 0x806, plen, (u32 *)paddr);
     if (res < 0) {
         return res;
     }
     base = arp_state.ifaces;
     slot = findfree_80407F20(base);
     if (slot == NULL) {
-        call_entry_callback(a, res);
+        call_entry_callback(handler, res);
         return -0x10d;
     }
     slot->used = 1;
     idx = (s16)(slot - base);
-    slot->handler = a;
-    slot->socket = b;
+    slot->handler = handler;
+    slot->socket = socket;
     slot->arp_socket = res;
     slot->index = idx;
-    slot->htype = c;
-    slot->ptype = d;
-    slot->hlen = e;
-    slot->plen = g;
+    slot->htype = htype;
+    slot->ptype = ptype;
+    slot->hlen = hlen;
+    slot->plen = plen;
     slot->f10 = 0;
-    NetMemcpy(slot->haddr, (void *)f, e);
-    NetMemcpy(slot->paddr, (void *)h, g);
+    NetMemcpy(slot->haddr, (void *)haddr, hlen);
+    NetMemcpy(slot->paddr, (void *)paddr, plen);
     slot->aliases = NULL;
     return idx;
 }

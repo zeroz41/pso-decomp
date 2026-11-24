@@ -12,7 +12,7 @@ typedef void (*ExiSendCompletionCallback)(u8 status);
 extern "C" {
 #endif
 void TLobby__sub_80429AC8(void);
-void TLobby__sub_8042B58C(u32 arg0, s32 arg1);
+void TLobby__sub_8042B58C(u32 alloc_callback, s32 receive_callback);
 void TLobby__sub_8042BA48(u16 *types, s32 count);
 /* The EXI Ethernet adapter driver. */
 void wake_network_thread(void);

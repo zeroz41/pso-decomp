@@ -644,11 +644,10 @@ void copy_6_byte_config(void *out) {
 }
 
 void copy_mac_address(void *address) {
-    saddr arg0 = (saddr)address;
-    memcpy(exi_mac_address, (void *)arg0, 6);
+    memcpy(exi_mac_address, address, 6);
 }
 
-void TLobby__sub_8042B58C(u32 arg0, s32 arg1) {
+void TLobby__sub_8042B58C(u32 alloc_callback, s32 receive_callback) {
     u8 sp43;
     u8 sp42;
     s16 sp40;
@@ -678,9 +677,9 @@ void TLobby__sub_8042B58C(u32 arg0, s32 arg1) {
         OSSleepThread(&network_thread_queue);
         OSRestoreInterrupts(e);
     }
-    exi_receive_alloc_callback = arg0;
-    exi_receive_callback = arg1;
-    if (arg0 == 0U) {
+    exi_receive_alloc_callback = alloc_callback;
+    exi_receive_callback = receive_callback;
+    if (alloc_callback == 0U) {
         sp43 = 0;
         sp3C = 0xC0000800;
         EXISelect(0, 2, 5);

@@ -53,16 +53,16 @@ LAYOUT_ASSERT(DhcpClientBuffers_received, offsetof(DhcpClientBuffers, received) 
 LAYOUT_ASSERT(DhcpClientBuffers_size, sizeof(DhcpClientBuffers) == 0x1194);
 
 s32 get_task_count(void);
-s32 DHCP_request(s16 iface, s32 arg1, s32 lease_time, void *arg3,
+s32 DHCP_request(s16 iface, s32 arg1, s32 lease_time, void *ignored,
                  s32 *address, s32 *netmask, s32 *broadcast, s32 retries);
-s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 lease_time, void *arg3,
+s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 lease_time, void *ignored,
                                s32 *address, s32 *netmask, s32 *broadcast, s32 retries);
 void parse_dhcp_lease_times(u8 *packet);
 s32 dhcp_set_option(s16 id, s16 len, void *value);
 s16 DHCP_hostname(char *hostname);
 s16 TLobby__sub_8042474C(s32 *lease, s32 *renew, s32 *rebind);
-s16 DHCP_get_gateway(void *arg0, s32 *router);
-s16 DHCP_get_dns(void *arg0, char *domain, s32 *dns1, s32 *dns2);
+s16 DHCP_get_gateway(void *ignored, s32 *router);
+s16 DHCP_get_dns(void *ignored, char *domain, s32 *dns1, s32 *dns2);
 s32 find_dhcp_option(u8 *packet, u8 tag, u8 **out);
 #ifdef __cplusplus
 }

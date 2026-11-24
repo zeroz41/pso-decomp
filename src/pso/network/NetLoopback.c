@@ -157,35 +157,35 @@ s32 release_loopback_slot(s16 id, u8 *addr) {
     return -0x110;
 }
 
-s32 TLobby__sub_8041549C(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s32 TLobby__sub_8041549C(s16 idx) {
+    if ((idx != 0) && (idx != 1)) {
         return -0x110;
     }
     return 0;
 }
 
-s32 TLobby__sub_804154C0(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s32 TLobby__sub_804154C0(s16 idx) {
+    if ((idx != 0) && (idx != 1)) {
         return -0x110;
     }
     return 0;
 }
 
-s32 TLobby__sub_804154E4(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s32 TLobby__sub_804154E4(s16 idx) {
+    if ((idx != 0) && (idx != 1)) {
         return -0x110;
     }
     return 0;
 }
 
-s32 TLobby__sub_80415508(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s32 TLobby__sub_80415508(s16 idx) {
+    if ((idx != 0) && (idx != 1)) {
         return -0x110;
     }
     return 0;
 }
-s16 get_slot_offset_or_default(s16 arg0) {
-    if ((arg0 != 0) && (arg0 != 1)) {
+s16 get_slot_offset_or_default(s16 idx) {
+    if ((idx != 0) && (idx != 1)) {
         return -0x110;
     }
     return network_loopback_state.slot_size;
