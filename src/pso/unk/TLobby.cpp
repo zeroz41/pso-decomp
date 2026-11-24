@@ -523,14 +523,14 @@ void TLobby::open_udp_socket_for_player(s32 client) {
 void handle_6x71_unblock_game_join(void) {
     TPlyJoinLobbyEntry *e;
     s32 *pend;
-    u8 *p;
+    TObjPlayer *p;
     saddr i;
 
     if (lobby_floor_reload_pending == 0) {
-        p = reinterpret_cast<u8 *>(create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)));
-        ((TLobby *)(p + 0xDAC))->copy_header_struct(&TLobby::protocol_instance->m_guildcard_tag);
-        ((TObjPlayer *)p)->reset_motion_fields();
-        strncpy(lobby_player_names[local_client_id], ((TObjPlayer *)p)->get_name(), 0x10);
+        p = create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
+        ((TLobby *)&p->m_dac)->copy_header_struct(&TLobby::protocol_instance->m_guildcard_tag);
+        p->reset_motion_fields();
+        strncpy(lobby_player_names[local_client_id], p->get_name(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
         pend = (s32 *)game_join_pending_clients;
         for (i = 0; i < 4; i++) {
@@ -539,9 +539,9 @@ void handle_6x71_unblock_game_join(void) {
                 if (get_player_by_client_id(i) == NULL) {
                     e = (TPlyJoinLobbyEntry *)TLobby::join_entries;
                     e += i;
-                    p = reinterpret_cast<u8 *>(create_player_object(i, 4, &e->char_data));
-                    ((TLobby *)(p + 0xDAC))->copy_header_struct(e);
-                    ((TObjPlayer *)p)->reset_motion_fields();
+                    p = create_player_object(i, 4, &e->char_data);
+                    ((TLobby *)&p->m_dac)->copy_header_struct(e);
+                    p->reset_motion_fields();
                     TLobby::open_udp_socket_for_player(i);
                     lobby_debug_printf_stub(lobby_debug_burst_player_format, i);
                 } else {
@@ -1446,60 +1446,48 @@ void TLobby::close_all_windows() {
     lobby_state = 0;
 }
 void TLobby::destroy_lobby_ui() {
-    void *temp;
-    temp = card_list_window;
-    if (temp != 0) {
-        ((TWindowBase *)temp)->close();
-        card_list_window = 0U;
+    if (card_list_window != NULL) {
+        card_list_window->close();
+        card_list_window = NULL;
     }
-    temp = download_list_window;
-    if (temp != 0) {
-        ((TWindowBase *)temp)->close();
-        download_list_window = 0U;
+    if (download_list_window != NULL) {
+        download_list_window->close();
+        download_list_window = NULL;
     }
-    temp = list_window;
-    if (temp != 0) {
-        ((TWindowBase *)temp)->close();
-        list_window = 0U;
+    if (list_window != NULL) {
+        list_window->close();
+        list_window = NULL;
     }
-    temp = current_dialog_window;
-    if (temp != 0) {
-        ((TWindowBase *)temp)->close();
-        current_dialog_window = 0U;
+    if (current_dialog_window != NULL) {
+        current_dialog_window->close();
+        current_dialog_window = NULL;
     }
-    temp = join_entry_window_obj;
-    if (temp != 0) {
-        ((TWindowBase *)temp)->close();
-        join_entry_window_obj = 0U;
+    if (join_entry_window_obj != NULL) {
+        join_entry_window_obj->close();
+        join_entry_window_obj = NULL;
     }
-    temp = TLobby_warp_menu_window;
-    if (temp != 0) {
-        ((TWindowBase *)temp)->close();
+    if (TLobby_warp_menu_window != NULL) {
+        TLobby_warp_menu_window->close();
         TLobby_warp_menu_window = NULL;
     }
-    temp = lobby_com_card_window;
-    if (temp != 0) {
-        ((TWindowBase *)temp)->close();
+    if (lobby_com_card_window != NULL) {
+        lobby_com_card_window->close();
         lobby_com_card_window = NULL;
     }
-    temp = lobby_make_team_menu_window;
-    if (temp != 0) {
-        ((TWindowBase *)temp)->close();
+    if (lobby_make_team_menu_window != NULL) {
+        lobby_make_team_menu_window->close();
         lobby_make_team_menu_window = NULL;
     }
-    temp = lobby_make_team_window;
-    if (temp != 0) {
-        ((s32 (*)(void *))queue_destruction__7TObjectFv)(temp);
+    if (lobby_make_team_window != NULL) {
+        queue_destruction__7TObjectFv(lobby_make_team_window);
         lobby_make_team_window = NULL;
     }
-    temp = lobby_keyboard_prompt_window;
-    if (temp != 0) {
-        ((s32 (*)(void *))queue_destruction__7TObjectFv)(temp);
+    if (lobby_keyboard_prompt_window != NULL) {
+        queue_destruction__7TObjectFv(lobby_keyboard_prompt_window);
         lobby_keyboard_prompt_window = NULL;
     }
-    temp = lobby_scroll_text_window;
-    if (temp != 0) {
-        ((s32 (*)(void *))queue_destruction__7TObjectFv)(temp);
+    if (lobby_scroll_text_window != NULL) {
+        queue_destruction__7TObjectFv(lobby_scroll_text_window);
         lobby_scroll_text_window = NULL;
     }
     lobby_state = 0xE;
@@ -2263,7 +2251,7 @@ void TLobby::make_players() {
     TObjPlayer *q;
     if (TLobby__sub_801A3E8C() != 0) {
         p = create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
-        ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct(&protocol_instance->m_guildcard_tag);
+        ((TLobby *)&p->m_dac)->copy_header_struct(&protocol_instance->m_guildcard_tag);
         p->reset_motion_fields();
         strncpy(lobby_player_names[local_client_id], p->get_name(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
@@ -2284,7 +2272,7 @@ void TLobby::make_players() {
         }
     } else if (local_client_id == designated_client_id) {
         p = create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
-        ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct(&protocol_instance->m_guildcard_tag);
+        ((TLobby *)&p->m_dac)->copy_header_struct(&protocol_instance->m_guildcard_tag);
         p->reset_motion_fields();
         strncpy(lobby_player_names[local_client_id], p->get_name(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
@@ -2341,15 +2329,15 @@ void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, 
 void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s32 unused) {
     s32 j;
     s32 i;
-    u8 *plr;
+    TObjPlayer *plr;
     void *room;
 
     for (i = 0; i < count; i++) {
         if (self_id == records[i].client_id) {
             if (get_player_by_client_id(self_id) == NULL) {
-                plr = reinterpret_cast<u8 *>(create_player_object(self_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)));
-                ((TLobby *)(plr + 0xDAC))->copy_header_struct(&records[i]);
-                ((TObjPlayer *)plr)->reset_motion_fields();
+                plr = create_player_object(self_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
+                ((TLobby *)&plr->m_dac)->copy_header_struct(&records[i]);
+                plr->reset_motion_fields();
                 lobby_debug_printf_stub(lobby_debug_my_player_format, self_id);
                 lobby_debug_printf_stub(lobby_list_savedata_format, sizeof(records->char_data));
             } else {
@@ -2360,9 +2348,9 @@ void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s3
     for (j = 0; j < count; j++) {
         if (self_id != records[j].client_id) {
             if (get_player_by_client_id(records[j].client_id) == NULL) {
-                plr = reinterpret_cast<u8 *>(create_player_object(records[j].client_id, 4, reinterpret_cast<TPlyCharData *>(records[j].char_data)));
-                ((TLobby *)(plr + 0xDAC))->copy_header_struct(&records[j]);
-                ((TObjPlayer *)plr)->reset_motion_fields();
+                plr = create_player_object(records[j].client_id, 4, reinterpret_cast<TPlyCharData *>(records[j].char_data));
+                ((TLobby *)&plr->m_dac)->copy_header_struct(&records[j]);
+                plr->reset_motion_fields();
                 lobby_debug_printf_stub(lobby_debug_create_player_format, records[j].client_id);
             } else {
                 lobby_debug_printf_stub(lobby_debug_duplicate_player_format, records[j].client_id);
@@ -2384,7 +2372,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
     G_DoneLoadingIntoGame_6x72 pkt;
     TObjPlayer *p;
     TPacket *n;
-    u8 *plr;
+    TObjPlayer *plr;
     if (lobby_state != 0xE && lobby_state != 0xF) {
         return;
     }
@@ -2442,9 +2430,9 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
     if (get_player_by_client_id(local_client_id) != NULL) {
         TLobby::send_6x70_player_data(e.client_id);
         if (get_player_by_client_id(e.client_id) == NULL) {
-            plr = reinterpret_cast<u8 *>(create_player_object(e.client_id, 4, reinterpret_cast<TPlyCharData *>(e.char_data)));
-            ((TLobby *)(plr + 0xDAC))->copy_header_struct(&e);
-            ((TObjPlayer *)plr)->reset_motion_fields();
+            plr = create_player_object(e.client_id, 4, reinterpret_cast<TPlyCharData *>(e.char_data));
+            ((TLobby *)&plr->m_dac)->copy_header_struct(&e);
+            plr->reset_motion_fields();
             TLobby::open_udp_socket_for_player(e.client_id);
             lobby_debug_printf_stub(lobby_debug_burst_player_format, e.client_id);
         }
@@ -2499,7 +2487,7 @@ TPlyJoinLobbyEntry::~TPlyJoinLobbyEntry() {}
 void TLobby::on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id) {
     Entry_8013634C e;
     TObjPlayer *p;
-    u8 *plr;
+    TObjPlayer *plr;
     copy_join_lobby_entry((u8 *)&e, (u8 *)entries);
     designated_client_id = leader_id;
     if (e.client_id == local_client_id) {
@@ -2513,9 +2501,9 @@ void TLobby::on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id) {
         lobby_debug_printf_stub(lobby_debug_delete_player_format, e.client_id);
     }
     strncpy(lobby_player_names[e.client_id], e.name, 0x10);
-    plr = reinterpret_cast<u8 *>(create_player_object(e.client_id, 4, reinterpret_cast<TPlyCharData *>(e.char_data)));
-    ((TLobby *)(plr + 0xDAC))->copy_header_struct(&e);
-    ((TObjPlayer *)plr)->reset_motion_fields();
+    plr = create_player_object(e.client_id, 4, reinterpret_cast<TPlyCharData *>(e.char_data));
+    ((TLobby *)&plr->m_dac)->copy_header_struct(&e);
+    plr->reset_motion_fields();
     lobby_debug_printf_stub(lobby_debug_burst_player_format, e.client_id);
     ((TPlyJoinLobbyEntry *)&e)->~TPlyJoinLobbyEntry();
 }
@@ -2764,35 +2752,35 @@ void render_idle_timeout(void) {  }
 void TLobby::bswap_6x6E_sync_game_state(void*p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 s32 TLobby::open_hard_keyboard(void *p) { return TWindowKeyBoardHard::test_card_flag((saddr)p, 0x40000); }
 void TLobby::bswap_player_data(void *data) {
-    u8 *p = (u8 *)data;
+    PlayerSyncRecord *record = (PlayerSyncRecord *)data;
     s32 i;
-    bswap_16((u16 *)p);
-    bswap_16((u16 *)(p + 2));
-    bswap_32((u32 *)(p + 4));
-    bswap_32((u32 *)(p + 8));
-    bswap_32((u32 *)(p + 0xC));
-    bswap_32((u32 *)(p + 0x10));
-    bswap_32((u32 *)(p + 0x14));
-    bswap_32((u32 *)(p + 0x18));
-    bswap_32((u32 *)(p + 0x1C));
-    bswap_16((u16 *)(p + 0x20));
-    bswap_16((u16 *)(p + 0x22));
-    bswap_16((u16 *)(p + 0x24));
-    bswap_16((u16 *)(p + 0x26));
+    bswap_16(&record->client_id);
+    bswap_16((u16 *)&record->room_id);
+    bswap_32(&record->game_flags);
+    bswap_32((u32 *)&record->position.x);
+    bswap_32((u32 *)&record->position.y);
+    bswap_32((u32 *)&record->position.z);
+    bswap_32((u32 *)&record->angle[0]);
+    bswap_32((u32 *)&record->angle[1]);
+    bswap_32((u32 *)&record->angle[2]);
+    bswap_16((u16 *)&record->phase);
+    bswap_16((u16 *)&record->current_hp);
+    bswap_16((u16 *)&record->hp_material_bonus);
+    bswap_16((u16 *)&record->tp_material_bonus);
     for (i = 0; i < 5; i++) {
-        ((TLobby *)(&((struct S_8013A348 *)p)->h[i]))->bswap_header_3words();
+        ((TLobby *)&record->status_effects[i])->bswap_header_3words();
     }
-    bswap_32((u32 *)(p + 0x64));
-    ((TLobby *)(p + 0x68))->bswap_fields();
-    bswap_u32_pair((void *)(p + 0x70));
-    bswap_telepipe_record((void *)(p + 0x78));
-    bswap_32((u32 *)(p + 0x94));
-    bswap_32((u32 *)(p + 0xAC));
-    bswap_32((u32 *)(p + 0x488));
-    bswap_32((u32 *)(p + 0xB0));
-    bswap__15disp_data_part2Fv((saddr)(p + 0xC8));
-    bswap__12player_statsFv((void *)(p + 0x118));
-    TLobby::bswap_inventory((void*)(p + 0x13C));
+    bswap_32(&record->language);
+    ((TLobby *)&record->player_tag)->bswap_fields();
+    bswap_u32_pair(&record->unknown_a6);
+    bswap_telepipe_record(&record->telepipe);
+    bswap_32(&record->death_flags);
+    bswap_32(&record->area);
+    bswap_32(&record->floor);
+    bswap_32(&record->player_flags);
+    bswap__15disp_data_part2Fv((saddr)&record->visual);
+    bswap__12player_statsFv(&record->stats);
+    TLobby::bswap_inventory(&record->item_count);
 }
 void TLobby::bswap_inventory(void*p) { bswap_32((u32 *)p); { int i; for (i = 0; i < 30; i++) { ((TPlyInventoryItem *)((char*)p + 0x4 + i * 28))->bswap(); } } }
 void TLobby::set_player_count(int a0) { lobby_player_count = a0; }
