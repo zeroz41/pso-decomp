@@ -1752,7 +1752,7 @@ force_active:
   - TTecRaBarta_class_name
   - __ct__10TTecRaFoieFlP3VecP3Vecl
   - TTecRaFoie_class_name
-  - TTecRaZonde__band_profile_table
+  - razonde_band_emitter_table
   - __ct__11TTecRaZondeFlP3Vecl
   - TTecRaZonde_class_name
   - __ct__9TTecRestaFPvPvPvl
@@ -7639,9 +7639,9 @@ force_active:
   - lbl_8044DA6C
   - lbl_8044DA84
   - lbl_8044DAF0
-  - lbl_8044DB08
-  - lbl_8044DB14
-  - lbl_8044DB2C
+  - razonde_emitters_low
+  - razonde_emitters_mid
+  - razonde_emitters_high
   - lbl_8044E688
   - lbl_8044E6B0
   - lbl_8044E6C4

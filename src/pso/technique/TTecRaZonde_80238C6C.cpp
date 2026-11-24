@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecRaZonde.h"
+#include "pso/technique/TechniqueEmitter.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
 #include "pso/technique/TFireExplosion.h"
@@ -36,49 +37,23 @@
 
 extern "C" {
 f32 vector_length(void *);
-#pragma push
-#pragma opt_common_subs off
-
-
-#pragma pop
-
-
 }
 
-struct Entry_80238C6C { s32 entry; u8 pad[8]; };
-
-struct Profile_80238C6C { struct Entry_80238C6C *entries; u32 count; };
-
-extern const Entry_80238C6C lbl_8044DB08[1] = {{147}};
-extern const Entry_80238C6C lbl_8044DB14[2] = {{170}, {173}};
-extern const Entry_80238C6C lbl_8044DB2C[2] = {{171}, {174}};
-extern const Profile_80238C6C TTecRaZonde__band_profile_table[6] = {
-    {(Entry_80238C6C *)lbl_8044DB08, 1}, {(Entry_80238C6C *)lbl_8044DB08, 1}, {(Entry_80238C6C *)lbl_8044DB08, 1},
-    {(Entry_80238C6C *)lbl_8044DB14, 2}, {(Entry_80238C6C *)lbl_8044DB14, 2}, {(Entry_80238C6C *)lbl_8044DB2C, 2},
+// Per band: the particle emitters spawn_effects places along the bolt points.
+extern const TechniqueEmitter razonde_emitters_low[1] = {{147}};
+extern const TechniqueEmitter razonde_emitters_mid[2] = {{170}, {173}};
+extern const TechniqueEmitter razonde_emitters_high[2] = {{171}, {174}};
+extern const TechniqueEmitterSet razonde_band_emitter_table[6] = {
+    {razonde_emitters_low, 1}, {razonde_emitters_low, 1}, {razonde_emitters_low, 1},
+    {razonde_emitters_mid, 2}, {razonde_emitters_mid, 2}, {razonde_emitters_high, 2},
 };
 const char *TTecRaZonde_class_name = "TTecRaZonde";
 
-struct Self_80238C6C {
-    u8 pad0[0x7A];
-    s16 band;
-    u8 pad1[0xEC - 0x7C];
-    s32 *emitters;
-    Vec points[8];
-};
-
-extern "C" {
-
-
-#pragma push
-#pragma opt_common_subs off
-#pragma pop
-
 void TTecRaZonde::spawn_effects(Vec *) {
-    struct Self_80238C6C *self = (struct Self_80238C6C *)this;
     u32 i;
-    self->emitters = (s32 *)mem_alloc(TTecRaZonde__band_profile_table[self->band].count * 4);
-    for (i = 0; i < TTecRaZonde__band_profile_table[self->band].count; i++) {
-        self->emitters[i] = (saddr)create_particle_emitter(&self->points[i], TTecRaZonde__band_profile_table[self->band].entries[i].entry);
+    emitters = (TParticleCtrl **)mem_alloc(razonde_band_emitter_table[band].count * sizeof(TParticleCtrl *));
+    for (i = 0; i < razonde_band_emitter_table[band].count; i++) {
+        emitters[i] = create_particle_emitter(&bolt_points[i], razonde_band_emitter_table[band].emitters[i].entry);
     }
 }
 
@@ -102,39 +77,20 @@ void TTecRaZonde::apply_to_target(TObjChara *target) {
     target->receive_direct_attack((void *)this->source, hit, 0, 8, -1);
 }
 
-}
-
-struct Tec_802393D0 { u8 pad[0x20]; f32 pos[3]; u8 pad2c[0xA6 - 0x2C]; s16 band; };
-
-struct RBurst_80238F84 { s32 entry; s32 flags; f32 scale; };
-
-struct RProfile_80238F84 { RBurst_80238F84 *entries; u32 count; };
-
-extern "C" {
 void TTecRaZonde::create(void *source, void *origin, s32 level) {
     new TTecRaZonde((saddr)source, (Vec *)origin, level);
 }
 
-}
-struct Self_80238EC8 {
-    u8 pad0[0x18];
-    void *vtable;
-    u8 pad1[0x7A - 0x1C];
-    s16 band;
-    u8 pad2[0xEC - 0x7C];
-    void **objs;
-};
 TTecRaZonde::~TTecRaZonde() {
     u32 i;
-    for (i = 0; i < ((RProfile_80238F84 *)TTecRaZonde__band_profile_table)[((Self_80238EC8 *)this)->band].count; i++) {
-        if (((Self_80238EC8 *)this)->objs[i] != 0) {
-            ((TObject *)(((Self_80238EC8 *)this)->objs[i]))->queue_destruction();
-            ((Self_80238EC8 *)this)->objs[i] = 0;
+    for (i = 0; i < razonde_band_emitter_table[band].count; i++) {
+        if (emitters[i] != NULL) {
+            emitters[i]->queue_destruction();
+            emitters[i] = NULL;
         }
     }
-    mem_free(((Self_80238EC8 *)this)->objs);
+    mem_free(emitters);
 }
-
 
 void TTecRaZonde::render() {  }
 
@@ -149,12 +105,12 @@ void TTecRaZonde::run_task() {
         queue_destruction();
         return;
     }
-    for (i = 0; i < TTecRaZonde__band_profile_table[this->band].count; i++) {
+    for (i = 0; i < razonde_band_emitter_table[this->band].count; i++) {
         if (this->sourceId < 12) {
             if (i == 1) {
-                create_timed_particle_emitter((u8 *)this->source + 0x2FC, TTecRaZonde__band_profile_table[this->band].entries[i].entry, 0, 60);
+                create_timed_particle_emitter((u8 *)this->source + 0x2FC, razonde_band_emitter_table[this->band].emitters[i].entry, 0, 60);
             } else {
-                spawn_particle_effect((const Vec *)((u8 *)this->source + 0x2FC), TTecRaZonde__band_profile_table[this->band].entries[i].entry);
+                spawn_particle_effect((const Vec *)((u8 *)this->source + 0x2FC), razonde_band_emitter_table[this->band].emitters[i].entry);
             }
         }
     }
@@ -251,9 +207,8 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(sour
 #pragma pop
 
 void TTecResta::play_launch_sound() {
-    Tec_802393D0 *self = (Tec_802393D0 *)this;
     s32 h;
-    switch (self->band) {
+    switch (band) {
     case 0:
     case 1:
         h = play_sound_effect(0x4002AB0E, &position, 0, 0);

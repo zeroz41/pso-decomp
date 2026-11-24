@@ -5,6 +5,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecRaBarta.h"
+#include "pso/technique/TechniqueEmitter.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/unk/TLobby_8001EF5C.h"
@@ -30,38 +31,26 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 
-// Per band (TObjPlayer::get_level_tier): the particle emitters spawn_effects places; flag 0x40 scales the
-// emitter by scale, flag 0x20 attaches the technique model numbered by the high half of flags.
-struct RaBartaEmitter {
-    u32 entry;
-    u32 flags;
-    f32 scale;
-};
-
-struct RaBartaEmitterSet {
-    const RaBartaEmitter *emitters;
-    u32 count;
-};
-
-extern const RaBartaEmitter rabarta_band_emitters_0[3] = {{473, 0, 0.0f}, {475, 0, 0.0f}, {479, 0x20060, 1.0f}};
-extern const RaBartaEmitter rabarta_band_emitters_1[3] = {{473, 0, 0.0f}, {475, 0x40, 1.2f}, {404, 0x20060, 1.2f}};
-extern const RaBartaEmitter rabarta_band_emitters_2[3] = {{473, 0, 0.0f}, {475, 0x40, 1.2f}, {405, 0x20060, 1.4f}};
-extern const RaBartaEmitter rabarta_band_emitters_3[3] = {{473, 0, 0.0f}, {406, 0, 0.0f}, {409, 0x30060, 1.6f}};
-extern const RaBartaEmitter rabarta_band_emitters_4[3] = {{473, 0, 0.0f}, {406, 0x40, 1.2f}, {410, 0x30060, 1.8f}};
-extern const RaBartaEmitter rabarta_band_emitters_5[3] = {{473, 0, 0.0f}, {407, 0, 0.0f}, {411, 0x40060, 1.0f}};
-extern const RaBartaEmitterSet rabarta_band_emitter_table[6] = {
+// Per band: the particle emitters spawn_effects places.
+extern const TechniqueEmitter rabarta_band_emitters_0[3] = {{473, 0, 0.0f}, {475, 0, 0.0f}, {479, 0x20060, 1.0f}};
+extern const TechniqueEmitter rabarta_band_emitters_1[3] = {{473, 0, 0.0f}, {475, 0x40, 1.2f}, {404, 0x20060, 1.2f}};
+extern const TechniqueEmitter rabarta_band_emitters_2[3] = {{473, 0, 0.0f}, {475, 0x40, 1.2f}, {405, 0x20060, 1.4f}};
+extern const TechniqueEmitter rabarta_band_emitters_3[3] = {{473, 0, 0.0f}, {406, 0, 0.0f}, {409, 0x30060, 1.6f}};
+extern const TechniqueEmitter rabarta_band_emitters_4[3] = {{473, 0, 0.0f}, {406, 0x40, 1.2f}, {410, 0x30060, 1.8f}};
+extern const TechniqueEmitter rabarta_band_emitters_5[3] = {{473, 0, 0.0f}, {407, 0, 0.0f}, {411, 0x40060, 1.0f}};
+extern const TechniqueEmitterSet rabarta_band_emitter_table[6] = {
     {rabarta_band_emitters_0, 3}, {rabarta_band_emitters_1, 3}, {rabarta_band_emitters_2, 3},
     {rabarta_band_emitters_3, 3}, {rabarta_band_emitters_4, 3}, {rabarta_band_emitters_5, 3},
 };
 // The extra effect band 5 spawns above the point, raised by rabarta_top_effect_height.
-extern const RaBartaEmitter rabarta_top_effect = {470, 0x10828, 0.0f};
+extern const TechniqueEmitter rabarta_top_effect = {470, 0x10828, 0.0f};
 const char *TTecRaBarta_class_name = "TTecRaBarta";
 __declspec(section ".sdata2") extern const f32 rabarta_top_effect_height;
 
 void TTecRaBarta::spawn_effects(Vec *pos) {
     u32 i;
     Vec point;
-    const RaBartaEmitter *binding;
+    const TechniqueEmitter *binding;
     emitters = (TParticleCtrl **)mem_alloc(rabarta_band_emitter_table[band].count * sizeof(TParticleCtrl *));
     for (i = 0; i < rabarta_band_emitter_table[band].count; i++) {
         VecCopy(&point, &((TObjBase *)source)->position);
@@ -82,7 +71,7 @@ void TTecRaBarta::spawn_effects(Vec *pos) {
     }
     if (band == 5) {
         Vec top;
-        const RaBartaEmitter *effect = &rabarta_top_effect;
+        const TechniqueEmitter *effect = &rabarta_top_effect;
         f32 height = rabarta_top_effect_height;
         u32 model;
         TParticleCtrl *emitter;

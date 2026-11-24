@@ -4,13 +4,15 @@
 #include "types.h"
 #include "pso/technique/TTecCircle.h"
 
+class TParticleCtrl;
+
 struct TTecRaZonde : public TTecCircle {
     TTecRaZonde(saddr source, Vec *origin, s32 level);
     virtual ~TTecRaZonde();
     virtual void spawn_effects(Vec *pos);
     virtual void apply_to_target(TObjChara *);
     virtual void run_task();
-    u32 m_ec;
+    TParticleCtrl **emitters;  // one per razonde_band_emitter_table[band] entry
     void calc_damage();
     static void create(void *source, void *origin, s32 level);
     virtual void render();
