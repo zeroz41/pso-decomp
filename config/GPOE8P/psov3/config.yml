@@ -14496,7 +14496,7 @@ force_active:
   - render_lights__19TODoorFourLightBaseFv
   - render_low_detail__12TBoss1DragonFv
   - render_map_sections__6TSceneFv
-  - render_matrix_chain__10TObjPlayerFPv
+  - render_matrix_chain__FP10NJS_OBJECT
   - render_model__13TBoss5GryphonFv
   - render_model__5TItemFv
   - render_model_if_visible__13TObjEneMorfosFv

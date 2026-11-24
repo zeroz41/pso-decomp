@@ -1586,7 +1586,7 @@ pso/player/TObjPlayer_801D8ADC.cpp
 pso/player/TObjPlayer_801D95B8.cpp
 pso/player/TObjPlayerTechniqueLevels.cpp
 pso/player/PlayerTechniqueState.cpp
-pso/player/TObjPlayer_801E2D1C.cpp
+pso/render/GinjaMotionDraw.cpp
 pso/player/TObjPlayer_8023E480.cpp
 pso/player/TObjPlayer_8029F694.cpp
 pso/player/TObjPlayer_802A1440.cpp

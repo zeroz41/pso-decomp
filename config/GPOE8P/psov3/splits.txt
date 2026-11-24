@@ -5048,7 +5048,7 @@ pso/system/data/pso_date.cpp:
 	.text       start:0x801E283C end:0x801E2D1C
 	.rodata     start:0x804496D0 end:0x80449730
 
-pso/player/TObjPlayer_801E2D1C.cpp:
+pso/render/GinjaMotionDraw.cpp:
 	.text       start:0x801E2D1C end:0x801E2EFC
 
 pso/effect/particle/EffectRender.cpp:

@@ -138,7 +138,7 @@ int getDateStamp(DateStamp* out) {
     return 1;
 }
 
-#include "pso/player/TObjPlayer.h"
+#include "pso/render/GinjaMotionDraw.h"
 
 extern "C" {
 
@@ -155,6 +155,6 @@ void draw_ginja_motion_link(NJS_OBJECT *model, NJS_MOTION_LINK *link, f32 frame)
     ModelDrawContext *g = model_draw_context;
     g->draw = draw_ginja_model_lists;
     prepare_ginja_model();
-    TObjPlayer::render_model_tree(model);
+    render_model_tree(model);
     end_ginja_model_draw();
 }

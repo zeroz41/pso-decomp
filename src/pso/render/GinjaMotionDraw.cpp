@@ -3,8 +3,7 @@
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/animation/MotionContext.h"
 #include "types.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801E2D1C.h"
+#include "pso/render/GinjaMotionDraw.h"
 #include "pso/render/GinjaView.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/ModelDrawContext.h"
@@ -17,12 +16,12 @@
 
 void end_ginja_model_draw();
 
-void TObjPlayer::render_model_tree(void *model) {
+void render_model_tree(NJS_OBJECT *model) {
     Mtx34 normal_matrix;
     Mtx34 inverse;
     NJS_OBJECT *node;
 
-    node = (NJS_OBJECT *)model;
+    node = model;
     do {
         push_matrix();
         apply_motion_node_transform(node);
@@ -37,7 +36,7 @@ void TObjPlayer::render_model_tree(void *model) {
             model_draw_context->draw(node->model);
         }
         if (node->child != NULL) {
-            TObjPlayer::render_model_tree(node->child);
+            render_model_tree(node->child);
         }
         pop_matrix();
         node = node->sibling;
@@ -50,16 +49,16 @@ void draw_ginja_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     g = model_draw_context;
     g->draw = draw_ginja_model_lists;
     prepare_ginja_model();
-    TObjPlayer::render_matrix_chain(model);
+    render_matrix_chain(model);
     end_ginja_model_draw();
 }
 
-void TObjPlayer::render_matrix_chain(void *model) {
+void render_matrix_chain(NJS_OBJECT *model) {
     Mtx34 normal_matrix;
     Mtx34 inverse;
     NJS_OBJECT *node;
 
-    node = (NJS_OBJECT *)model;
+    node = model;
     do {
         push_matrix();
         compose_motion_node_matrix(node);
@@ -74,7 +73,7 @@ void TObjPlayer::render_matrix_chain(void *model) {
             model_draw_context->draw(node->model);
         }
         if (node->child != NULL) {
-            TObjPlayer::render_matrix_chain(node->child);
+            render_matrix_chain(node->child);
         }
         pop_matrix();
         node = node->sibling;
