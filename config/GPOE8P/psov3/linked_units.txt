@@ -2188,7 +2188,6 @@ pso/map/area/AreaVersus02.cpp
 pso/ui/window/WindowHelpItemCallbackEntries.cpp
 pso/quest/QuestOpcodeHandlersData.cpp
 pso/quest/challenge/ChallengeModeData.cpp
-pso/network/TPlyJoinLobbyEntryData.cpp
 pso/player/TObjPlayer_801AF2F0Data.cpp
 pso/ui/window/TWindowHelpItem_802540ACData.cpp
 pso/ui/window/TWindowMainMenuData.cpp

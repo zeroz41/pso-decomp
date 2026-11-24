@@ -3027,13 +3027,10 @@ pso/network/TPlyJoinLobbyEntry.cpp:
 	.bss        start:0x80506A60 end:0x8050BEC0
 	.sdata      start:0x805D2CA8 end:0x805D2CB0
 	.sbss       start:0x805D5580 end:0x805D5640
-	.sdata2     start:0x805DB0A8 end:0x805DB0B0
-
-pso/network/TPlyJoinLobbyEntryData.cpp:
-	.sdata2     start:0x805DB0B0 end:0x805DB0B8
+	.sdata2     start:0x805DB0A8 end:0x805DB0C0
 
 pso/network/TPlyJoinLobbySdata2.cpp:
-	.sdata2     start:0x805DB0B8 end:0x805DB0C8
+	.sdata2     start:0x805DB0C0 end:0x805DB0C8
 
 pso/ui/hud/TMainCursor.cpp:
 	.text       start:0x8013AE18 end:0x8013F264
