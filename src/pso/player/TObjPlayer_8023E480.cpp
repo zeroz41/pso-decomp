@@ -83,7 +83,7 @@ s32 bind_gvm_texture_list(const char *name, NJS_TEXLIST *texlist) {
     }
     memset(lbl_805D63C0, 0, 0x1800);
     bind_texture_name_table(&temporary_texture_list, lbl_805D63C0, lbl_805D63C4, 0x200);
-    if (TLobby::load_texture_pvm_file(name, &temporary_texture_list) == -1) {
+    if (psoLoadTexturePvmFile(name, &temporary_texture_list) == -1) {
         return 0;
     }
     n = texlist->nbTexture;

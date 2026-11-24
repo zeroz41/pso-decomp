@@ -17,7 +17,7 @@ public:
     static s32 get_resource_file_size(const char *filename);
     static u8 *load_file(const char *name);
     static s32 read_whole_file(const char *name, u8 *dst);
-    static s32 load_sct_file(const char *name, u8 *dst);
+    static s32 gsSctLoadFile(const char *name, u8 *dst);
     void read_sectors_sync(s32 sector_count, void *destination);
     static void reset();
     s32 get_file_size();

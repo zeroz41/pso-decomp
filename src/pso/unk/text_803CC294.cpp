@@ -416,7 +416,7 @@ inline s32 open_803CD16C(AdxfHandle *s, s32 partition, s32 arg1) {
         return -3;
     }
     s->archive_start_sector = b;
-    h = adxstm_open_fname_range__6TLobbyFPviiii(filename, a, b, c, 0);
+    h = ADXSTM_OpenFnameRange(filename, a, b, c, 0);
     s->stream = h;
     if (h == 0) {
         TLobby::notify_error("E0110902:can't open file.(ADXF_OpenAfs)");

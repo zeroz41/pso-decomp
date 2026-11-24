@@ -1397,7 +1397,7 @@ u8 *load_disc_file(const char *filename) {
 
 s32 read_disc_file_sectors(const char *filename, void *destination) {
     disc_read_filename = filename;
-    return TGStream::load_sct_file(filename, (u8 *)destination);
+    return TGStream::gsSctLoadFile(filename, (u8 *)destination);
 }
 
 s32 get_resource_file_size(const char *filename) {

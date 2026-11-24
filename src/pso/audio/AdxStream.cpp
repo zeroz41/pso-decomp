@@ -367,7 +367,7 @@ inline AdxStreamFile *alloc_803C8E28(saddr arg, CvFsHandle *h, s32 f10, s32 size
     p->used = 1;
     return p;
 }
-AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, saddr arg) {
+AdxStreamFile *ADXSTM_OpenFnameRangeExRt(const char *name, s32 mode, s32 off, s32 nsect, saddr arg) {
     CvFsHandle *h;
     AdxStreamFile *p;
     h = cvFsOpen(name, mode, 0);
@@ -407,7 +407,7 @@ inline AdxStreamFile *alloc_803C8F5C(s32 arg, CvFsHandle *h, s32 f10, s32 size) 
     p->used = 1;
     return p;
 }
-AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg) {
+AdxStreamFile *ADXSTM_OpenFnameRange(const char *name, s32 mode, s32 off, s32 nsect, s32 arg) {
     CvFsHandle *h;
     AdxStreamFile *p;
     h = cvFsOpen(name, mode, 0);

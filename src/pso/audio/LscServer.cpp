@@ -62,7 +62,7 @@ inline void wait_803D1D28(LscStream *lsc_stream) {
     LscQueueEntry *entry = &lsc_stream->entries[lsc_stream->read_index];
     if (lsc_stream->queued_count > 0) {
         if (lsc_stream->file_handle == 0) {
-            lsc_stream->file_handle = adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(entry->filename, entry->open_mode, entry->range_offset, entry->range_length, (saddr)lsc_stream->stream);
+            lsc_stream->file_handle = ADXSTM_OpenFnameRangeExRt(entry->filename, entry->open_mode, entry->range_offset, entry->range_length, (saddr)lsc_stream->stream);
             if (lsc_stream->file_handle == 0) {
                 TLobby::log_printf("E0004: Can not open '%s'", entry->filename);
             }

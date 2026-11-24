@@ -29,6 +29,8 @@ struct TRecvInfoBoard;
 struct TRecvChoiceSearchOptions;
 struct ChoiceSearchResultList;
 s32 psoLoadTexture(NJS_TEXLIST *texlist);
+s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist);
+s32 LoadBmlExec(BmlResource *bml, const char *name);
 
 struct TLobbyFloorItemEntry {
     u8 n;
@@ -122,7 +124,6 @@ struct TLobby : public TObject {
     static f32 calc_phase_offset();
     static s32 get_internet_beat();
     static s32 get_clock_frames();
-    static s32 load_bml_exec(BmlResource *bml, const char *name);
     static void free_chr_select_data();
     static void init_download_buffers();
     static s32 get_game_mode();
@@ -715,7 +716,6 @@ struct TLobby : public TObject {
     void update_battle_sync(s32 t);
     static void send_battle_mode_data(void * _w0);
     void bswap_switch_activate_token();
-    static s32 load_texture_pvm_file(const char *name, NJS_TEXLIST *texlist);
     static unsigned char read_packet_byte();
     static void close_windows();
     static void clear_quest_vm_flag();
@@ -909,8 +909,6 @@ struct TLobby : public TObject {
     static void add_lobby_members(TPlyJoinLobbyEntry *, int, int, int);
     static void *adxf_open(unsigned int, int);
     static s32 adxf_open_file(int, void *, int, void *);
-    static void *adxstm_open_fname_range(void *, int, int, int, int);
-    static void *adxstm_open_fname_range_ex_rt(void *, int, int, int, int);
     static void adxt_trap_entry_update(void *);
     static void alloc_work_buffer();
     static void broadcast_to_players(int, int);

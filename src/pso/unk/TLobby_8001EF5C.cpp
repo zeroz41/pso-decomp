@@ -171,11 +171,11 @@ extern "C" void *allocate_bml_chunk(BmlResource *resource, u8 *file, u32 *offset
     return load_nj_chunk_model_resource(file, offset, tag);
 }
 
-void BmlResource::load_texture_sub(const char *filename, s32 index) {
+void BmlResource::LoadTextureSub(const char *filename, s32 index) {
     char buf[0x20];
     s32 size;
     TLobby::change_file_extension(buf, const_cast<char *>(filename), const_cast<char *>("gvm"));
-    size = TGStream::load_sct_file(buf, lobby_download_buffer);
+    size = TGStream::gsSctLoadFile(buf, lobby_download_buffer);
     if (size > 0x40000) {
         TLobby::debug_print("LoadTextureSub: %s too large.", buf);
     } else if (size > 0) {
@@ -197,7 +197,7 @@ void BmlResource::set_flag_and_notify() {
     }
 }
 
-s32 TLobby::load_bml_exec(BmlResource *bml, const char *name) {
+s32 LoadBmlExec(BmlResource *bml, const char *name) {
     s32 n;
     switch (bml->load_state) {
     case 0:
@@ -536,7 +536,7 @@ s32 LoadBinModelSub(BmlResource *resource, u32 size, s32 index, u8 *bytes) {
     return 1;
 }
 
-s32 BmlResource::load_bin_motion(const char *name, s32 index) {
+s32 BmlResource::LoadBinMotion(const char *name, s32 index) {
     u32 offset;
     s32 tag;
     s32 size;
@@ -559,7 +559,7 @@ s32 BmlResource::load_bin_motion(const char *name, s32 index) {
     return 1;
 }
 
-s32 BmlResource::load_bin_model(const char *name, s32 index) {
+s32 BmlResource::LoadBinModel(const char *name, s32 index) {
     s32 size;
     models[index].model = NULL;
     models[index].texlist = NULL;
@@ -574,7 +574,7 @@ s32 BmlResource::load_bin_model(const char *name, s32 index) {
     read_disc_file_sectors(name, lobby_download_buffer);
     LoadBinModelSub(this, size, index, lobby_download_buffer);
     if (models[index].texlist != NULL) {
-        load_texture_sub(name, index);
+        LoadTextureSub(name, index);
     }
     return 1;
 }
@@ -767,7 +767,7 @@ BmlResource::BmlResource(s32 kind, BmlResourceDescriptor *descriptor, BmlLoadCal
             for (s32 i = 0; i < model_count; i++, rec++) {
                 if (models[i].texlist != NULL) {
                     strncpy(name, rec->name, 0x20);
-                    load_texture_sub(name, i);
+                    LoadTextureSub(name, i);
                 }
             }
         }
@@ -788,7 +788,7 @@ static inline void load_models(BmlResource *resource, const char *const *list) {
     s32 i;
     const char *const *p;
     for (p = list, i = 0; *p != 0; p++, i++) {
-        resource->load_bin_model(*p, i);
+        resource->LoadBinModel(*p, i);
     }
 }
 
@@ -796,7 +796,7 @@ static inline void load_motions(BmlResource *resource, const char *const *list) 
     s32 i;
     const char *const *p;
     for (p = list, i = 0; *p != 0; p++, i++) {
-        resource->load_bin_motion(*p, i);
+        resource->LoadBinMotion(*p, i);
     }
 }
 

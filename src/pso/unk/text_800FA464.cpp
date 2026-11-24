@@ -95,7 +95,7 @@ void process_async_file_reads(void) {
         }
         break;
     case 4:
-        if (TLobby::load_bml_exec(async_file_read_current_request->mode, async_file_read_current_request->name) != 0) {
+        if (LoadBmlExec(async_file_read_current_request->mode, async_file_read_current_request->name) != 0) {
             TLobby::pop_and_close();
             async_file_read_state = 0;
         }

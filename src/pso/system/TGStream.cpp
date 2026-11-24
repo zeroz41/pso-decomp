@@ -158,7 +158,7 @@ s32 TGStream::read_whole_file(const char *name, u8 *dst) {
     return size;
 }
 
-s32 TGStream::load_sct_file(const char *name, u8 *dst) {
+s32 TGStream::gsSctLoadFile(const char *name, u8 *dst) {
     TGStream stream((void *)name, 1);
     s32 size;
     s32 sectors;

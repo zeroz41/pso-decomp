@@ -120,7 +120,7 @@ void broadcast_subcommand(void *cmd) {
 
 void TLobby::bswap_switch_activate_token() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 
-s32 TLobby::load_texture_pvm_file(const char *name, NJS_TEXLIST *texlist) {
+s32 psoLoadTexturePvmFile(const char *name, NJS_TEXLIST *texlist) {
     char path[0x40];
     u8 *buf;
     s32 allocated;
@@ -147,7 +147,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, NJS_TEXLIST *texlist) {
     } else {
         buf = (u8 *)TLobby::tmp_buf_use_req("LoadTexturePvm");
     }
-    TGStream::load_sct_file((const char *)path, buf);
+    TGStream::gsSctLoadFile((const char *)path, buf);
     ret = load_gvm_texture_archive(buf, texlist);
     if (allocated != 0) {
         safe_free(buf);
@@ -221,7 +221,7 @@ NJS_TEXLIST *LoadPvmFileTls(const char *name) {
     } else {
         buf = TLobby::tmp_buf_use_req("LoadPvmFileTls");
     }
-    TGStream::load_sct_file(name, buf);
+    TGStream::gsSctLoadFile(name, buf);
     count = TLanguage::read_file_header(buf, &hdr);
     if (count == 0) {
         if (big != NULL) {
