@@ -50,23 +50,21 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/render/render_util.h"
 
 disp_data_part2 *npc_player_char_data_buffer;
 s32 quest_npc_visual_pending;
 
 extern "C" {
 
-f32 horizontal_distance_squared(void *, void *);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void * __ct__12TPlyCharDataFv(void *self);
 void deliver_partner_chatter(TNpcPlayer *self);
 void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out);
 s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2);
-s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, void *pos, u16 id, f32 range);
+s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range);
 bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 id);
 s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1);
-s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2);
-void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self);
 void set_technique_seed_level(PlayerTechniqueState *techniques, s16 technique, u8 level);
 void reset_partner_counter(saddr counters, s32 index);
 void increment_partner_counter(saddr counters, s32 index);
@@ -1344,7 +1342,7 @@ void TNpcPlayer::decide_action() {
                 return;
             }
             ai_flags = temp_r3 & 0xFFFFFDFF;
-            if (((f32 (*)(void *, void *))horizontal_distance_squared)(&goal, &self_view->player->position) < 900.0f) {
+            if (horizontal_distance_squared(&goal, &self_view->player->position) < 900.0f) {
                 change_ai_state(8);
                 return;
             }
@@ -1405,7 +1403,7 @@ void TNpcPlayer::decide_action() {
                 }
             } else {
                 ai_flags = temp_r3_3 & 0xFFFFFDFF;
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&goal, &self_view->player->position) < 900.0f) {
+                if (horizontal_distance_squared(&goal, &self_view->player->position) < 900.0f) {
                     change_ai_state(8);
                 } else if (escort_leader != 0) {
                     if (attack_delay == 0) {
@@ -1440,8 +1438,8 @@ void TNpcPlayer::decide_action() {
 }
 
 s32 TNpcPlayer::update_follow_target() {
-    if (((s32 (*)())needs_movement__10TNpcPlayerFPvPvi)() != 0) {
-        ((s32 (*)(void *))select_path_waypoint__10TNpcPlayerFv)(this);
+    if (needs_movement() != 0) {
+        select_path_waypoint();
         if (check_movement_progress() != 0) {
             VecCopy(&move_target, &steer_point);
             if ((u32) ai_state != 2U) {
@@ -1460,7 +1458,7 @@ s32 TNpcPlayer::update_follow_target() {
 
 s32 TNpcPlayer::check_return_to_leader() {
     NpcPlayerView *t;
-    u8 *o;
+    TObjChara *o;
     f32 r2;
 
     t = self_view->target_list();
@@ -1478,10 +1476,10 @@ s32 TNpcPlayer::check_return_to_leader() {
         if (t->target_count != 0) {
             ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 5);
             if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 5, 3) != 0) {
-                o = (u8 *)find_active_entity_by_id(t->targets[0].entity_id);
+                o = (TObjChara *)find_active_entity_by_id(t->targets[0].entity_id);
                 ai_flags &= ~0x8000;
                 if (o != 0) {
-                    if (((f32 (*)(void *, void *))horizontal_distance_squared)(o + 0x38, &self_view->player->position) < ai_params.block_range * ai_params.block_range) {
+                    if (horizontal_distance_squared(&o->position, &self_view->player->position) < ai_params.block_range * ai_params.block_range) {
                         ai_flags |= 0x8080;
                     }
                 }
@@ -1522,7 +1520,7 @@ s32 TNpcPlayer::choose_attack_target() {
                 goal.x = tgt->position.x;
                 goal.y = self_view->player->body_center.y;
                 goal.z = tgt->position.z;
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&goal, &self_view->player->position) < (10.0f + ai_params.attack_range) * (10.0f + ai_params.attack_range)) {
+                if (horizontal_distance_squared(&goal, &self_view->player->position) < (10.0f + ai_params.attack_range) * (10.0f + ai_params.attack_range)) {
                     ai_flags |= 0x1000;
                 }
                 ai_flags &= ~0x40;
@@ -1590,7 +1588,7 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
             ent = (TObjBase *)find_active_entity_by_id(tgt->targets[0].entity_id);
             self->ai_flags &= ~0x8000;
             if (ent != NULL) {
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&ent->position, &self->self_view->player->position) < self->ai_params.block_range * self->ai_params.block_range) {
+                if (horizontal_distance_squared(&ent->position, &self->self_view->player->position) < self->ai_params.block_range * self->ai_params.block_range) {
                     VecCopy(&self->goal, &ent->position);
                     self->ai_flags |= 0x8080;
                     return 1;
@@ -1986,7 +1984,7 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
 
 #pragma push
 #pragma fp_contract on
-void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
+void TNpcPlayer::select_path_waypoint() {
     Vec midpoint;
     Vec hit;
     Vec route;
@@ -1997,148 +1995,148 @@ void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
     f32 half;
     s32 clear;
 
-    actor = self->self_view->player;
-    dir.x = self->goal.x - actor->body_center.x;
-    dir.y = self->goal.y - actor->body_center.y;
-    dir.z = self->goal.z - actor->body_center.z;
+    actor = self_view->player;
+    dir.x = goal.x - actor->body_center.x;
+    dir.y = goal.y - actor->body_center.y;
+    dir.z = goal.z - actor->body_center.z;
     len = ((f32 (*)(void *))vector_length)(&dir);
     if (0.0f != len) {
         normalize_vector(&dir);
     }
-    actor = self->self_view->player;
+    actor = self_view->player;
     half = len / 2.0f;
     midpoint.x = half * dir.x + actor->body_center.x;
     midpoint.y = half * dir.y + actor->body_center.y;
     midpoint.z = half * dir.z + actor->body_center.z;
-    if (((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_find_wall_segment)(self, &actor->body_center, &self->goal, &hit, &normal) != 0) {
+    if (((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_find_wall_segment)(this, &actor->body_center, &goal, &hit, &normal) != 0) {
         Vec shortcut = {0.0f, 0.0f, 0.0f};
-        clear = ((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *, Vec *))partner_route_around_wall)(self, &self->self_view->player->body_center, &hit, &normal, &route, &shortcut);
-        if (!(self->ai_flags & 1)) {
+        clear = ((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *, Vec *))partner_route_around_wall)(this, &self_view->player->body_center, &hit, &normal, &route, &shortcut);
+        if (!(ai_flags & 1)) {
             if (clear != 0) {
-                VecCopy(&self->waypoint, &shortcut);
+                VecCopy(&waypoint, &shortcut);
             } else {
-                VecCopy(&self->waypoint, &route);
-                self->waypoint.y = self->goal.y;
+                VecCopy(&waypoint, &route);
+                waypoint.y = goal.y;
                 Vec clipped;
-                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->goal, &self->waypoint, &clipped) != 0) {
-                    VecCopy(&self->waypoint, &clipped);
+                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(this, &goal, &waypoint, &clipped) != 0) {
+                    VecCopy(&waypoint, &clipped);
                 }
             }
-            self->waypoint_dir.x = self->goal.x - self->waypoint.x;
-            self->waypoint_dir.y = 0.0f;
-            self->waypoint_dir.z = self->goal.z - self->waypoint.z;
-            if (0.0f != ((f32 (*)(void *))vector_length)(&self->waypoint_dir)) {
-                normalize_vector(&self->waypoint_dir);
+            waypoint_dir.x = goal.x - waypoint.x;
+            waypoint_dir.y = 0.0f;
+            waypoint_dir.z = goal.z - waypoint.z;
+            if (0.0f != ((f32 (*)(void *))vector_length)(&waypoint_dir)) {
+                normalize_vector(&waypoint_dir);
             }
-            self->ai_flags |= 1;
+            ai_flags |= 1;
         }
         if (clear != 0) {
-            self->detour_frames = 0;
-            if (self->ai_flags & 2) {
+            detour_frames = 0;
+            if (ai_flags & 2) {
                 Vec d1;
-                actor = self->self_view->player;
-                d1.x = self->steer_point.x - actor->position.x;
+                actor = self_view->player;
+                d1.x = steer_point.x - actor->position.x;
                 d1.y = 0.0f;
-                d1.z = self->steer_point.z - actor->position.z;
+                d1.z = steer_point.z - actor->position.z;
                 if (((f32 (*)(void *))vector_length)(&d1) <= 1.5f) {
-                    VecCopy(&self->steer_point, &shortcut);
-                    self->ai_flags &= ~2;
+                    VecCopy(&steer_point, &shortcut);
+                    ai_flags &= ~2;
                 }
             } else {
-                VecCopy(&self->steer_point, &shortcut);
+                VecCopy(&steer_point, &shortcut);
             }
-        } else if (self->ai_flags & 2) {
+        } else if (ai_flags & 2) {
             Vec d2;
-            actor = self->self_view->player;
-            d2.x = self->steer_point.x - actor->position.x;
+            actor = self_view->player;
+            d2.x = steer_point.x - actor->position.x;
             d2.y = 0.0f;
-            d2.z = self->steer_point.z - actor->position.z;
+            d2.z = steer_point.z - actor->position.z;
             if (((f32 (*)(void *))vector_length)(&d2) <= 5.0f) {
                 Vec clipped2;
-                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->self_view->player->body_center, &route, &clipped2) != 0) {
-                    VecCopy(&self->steer_point, &clipped2);
+                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(this, &self_view->player->body_center, &route, &clipped2) != 0) {
+                    VecCopy(&steer_point, &clipped2);
                 } else {
-                    VecCopy(&self->steer_point, &route);
+                    VecCopy(&steer_point, &route);
                 }
-                self->ai_flags &= ~2;
-                self->detour_frames = 0;
+                ai_flags &= ~2;
+                detour_frames = 0;
             }
-            self->detour_frames++;
-            if (self->detour_frames >= 100) {
-                self->detour_frames = 100;
+            detour_frames++;
+            if (detour_frames >= 100) {
+                detour_frames = 100;
             }
         } else {
             Vec d3;
-            self->detour_frames = 0;
-            actor = self->self_view->player;
-            d3.x = self->steer_point.x - actor->position.x;
+            detour_frames = 0;
+            actor = self_view->player;
+            d3.x = steer_point.x - actor->position.x;
             d3.y = 0.0f;
-            d3.z = self->steer_point.z - actor->position.z;
-            self->steer_point.x = self->waypoint.x;
-            self->steer_point.y = self->waypoint.y;
-            self->steer_point.z = self->waypoint.z;
+            d3.z = steer_point.z - actor->position.z;
+            steer_point.x = waypoint.x;
+            steer_point.y = waypoint.y;
+            steer_point.z = waypoint.z;
             if (((f32 (*)(void *))vector_length)(&d3) < 1.0f) {
-                self->detour_frames = 0;
-                self->steer_point.x = 40.0f * self->waypoint_dir.x + self->waypoint.x;
-                self->steer_point.y = 40.0f * self->waypoint_dir.y + self->waypoint.y;
-                self->steer_point.z = 40.0f * self->waypoint_dir.z + self->waypoint.z;
-                self->ai_flags |= 2;
-                self->ai_flags &= ~1;
+                detour_frames = 0;
+                steer_point.x = 40.0f * waypoint_dir.x + waypoint.x;
+                steer_point.y = 40.0f * waypoint_dir.y + waypoint.y;
+                steer_point.z = 40.0f * waypoint_dir.z + waypoint.z;
+                ai_flags |= 2;
+                ai_flags &= ~1;
             }
         }
         return;
     }
-    if (self->self_view->get_status() & 0x20) {
-        if (self->route_around_object((Vec *)(&route)) != 0 && self->stuck_frames < 30) {
-            VecCopy(&self->steer_point, &route);
+    if (self_view->get_status() & 0x20) {
+        if (route_around_object((Vec *)(&route)) != 0 && stuck_frames < 30) {
+            VecCopy(&steer_point, &route);
         } else {
-            if (self->still_frames > 15) {
-                self->stuck_frames = 0;
+            if (still_frames > 15) {
+                stuck_frames = 0;
             }
-            VecCopy(&self->steer_point, &midpoint);
+            VecCopy(&steer_point, &midpoint);
         }
-    } else if (self->self_view->get_status() & 0x80) {
-        VecCopy(&self->steer_point, &midpoint);
-    } else if (self->stuck_frames >= 15 && self->stuck_frames < 30) {
+    } else if (self_view->get_status() & 0x80) {
+        VecCopy(&steer_point, &midpoint);
+    } else if (stuck_frames >= 15 && stuck_frames < 30) {
         Vec d4;
         Vec detour;
-        NpcPlayerView *view = self->self_view;
+        NpcPlayerView *view = self_view;
         actor = view->player;
         d4.x = actor->position.x - view->last_position.x;
         d4.y = actor->position.y - view->last_position.y;
         d4.z = actor->position.z - view->last_position.z;
-        ((void (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_compute_stalled_detour)(self, &actor->position, &self->goal, &d4, &detour);
-        VecCopy(&self->steer_point, &detour);
+        ((void (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_compute_stalled_detour)(this, &actor->position, &goal, &d4, &detour);
+        VecCopy(&steer_point, &detour);
     } else {
-        if (self->still_frames > 15) {
-            self->stuck_frames = 0;
+        if (still_frames > 15) {
+            stuck_frames = 0;
         }
-        VecCopy(&self->steer_point, &midpoint);
+        VecCopy(&steer_point, &midpoint);
     }
-    self->ai_flags &= ~1;
-    self->detour_frames = 0;
+    ai_flags &= ~1;
+    detour_frames = 0;
 }
 #pragma pop
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2) {
-    f32 temp_f1;
-    f32 var_f31;
-    if (self->ai_flags & 0x10) {
+s32 TNpcPlayer::needs_movement() {
+    f32 distance_sq;
+    f32 range;
+    if (ai_flags & 0x10) {
         return 1;
     }
-    var_f31 = 12.0f + self->ai_params.max_distance_from_player;
-    if (var_f31 >= 40.0f) {
-        var_f31 = 40.0f;
+    range = 12.0f + ai_params.max_distance_from_player;
+    if (range >= 40.0f) {
+        range = 40.0f;
     }
-    temp_f1 = ((f32 (*)(void *, void *, int))horizontal_distance_squared)(&self->goal, &self->self_view->player->position, _w2);
-    self->escort_distance_sq = temp_f1;
-    if (temp_f1 >= (var_f31 * var_f31)) {
+    distance_sq = horizontal_distance_squared(&goal, &self_view->player->position);
+    escort_distance_sq = distance_sq;
+    if (distance_sq >= (range * range)) {
         return 1;
     }
-    self->ai_flags = self->ai_flags & 0xFFFFFEFF;
+    ai_flags = ai_flags & 0xFFFFFEFF;
     return 0;
 }
 #pragma pop
@@ -2160,7 +2158,7 @@ void TNpcPlayer::render() {  }
 #pragma fp_contract on
 s32 TNpcPlayer::check_movement_progress() {
     s8 temp_r3;
-    if (((f32 (*)(void *, void *))horizontal_distance_squared)(&move_target, &steer_point) <= 100.0f) {
+    if (horizontal_distance_squared(&move_target, &steer_point) <= 100.0f) {
         return 0;
     }
     temp_r3 = stuck_frames;
@@ -2449,7 +2447,7 @@ s32 NpcPlayerView::scan_nearby_enemies(Vec *pos, f32 range) {
     return found;
 }
 
-s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, void *pos, u16 id, f32 range) {
+s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range) {
     TObjCollidable *actor;
     s32 found;
     s32 i;

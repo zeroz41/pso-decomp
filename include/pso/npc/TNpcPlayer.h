@@ -146,6 +146,8 @@ struct TNpcPlayer : public TObject {
     static bool is_small_obstacle(f32 size);
     static bool is_hp_low(f32 hp, f32 max_hp);
     s32 check_movement_progress();
+    s32 needs_movement();
+    void select_path_waypoint();
     void init_follow_target();
     void update_condition_flags();
     void init_state();
