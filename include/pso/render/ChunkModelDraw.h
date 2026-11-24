@@ -14,7 +14,7 @@ void draw_chunk_model(void *model);
 extern "C" {
 void draw_chunk_object(void *child);
 }
-void set_chunk_alpha_compare_ref(int ref);
+void set_chunk_alpha_compare_ref(u8 ref);
 void set_chunk_blend(u32 x);
 void set_chunk_blend_depth_mode(s32 header, s32 textured);
 void set_strip_lighting_chan_ctrl(u32 flags);

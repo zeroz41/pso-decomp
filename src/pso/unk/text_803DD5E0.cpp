@@ -26,8 +26,6 @@ s32 (*texture_loaders[4])(NJS_TEXLIST *, s32) = {
     read_gvrt_file_header, load_texture_from_memory, create_texture_from_input, reference_texture_by_global_index,
 };
 
-extern s32 ginja_draw_flags;
-
 void set_ginja_draw_flags(s32 flags) {
     ginja_draw_flags = flags;
 }

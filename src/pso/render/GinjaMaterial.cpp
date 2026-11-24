@@ -28,7 +28,6 @@ typedef void (*GinjaPreCallback)(s32 first);
 typedef void (*GinjaPostCallback)(u8 first);
 
 extern "C" {
-extern u32 ginja_draw_flags;
 void set_ginja_vertex_arrays(GinjaVertexArray *array);
 extern GinjaMaterialCache ginja_material_cache;
 extern GXTexCoordID ginja_texcoord_ids[];
