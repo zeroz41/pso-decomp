@@ -60,31 +60,31 @@ f32 boss2_breakup_water_level = boss2_water_level;
 #pragma opt_common_subs off
 #pragma fp_contract on
 s32 TObjPlayer__sub_8002EDCC(BreakupPiece *piece) {
-    f32 temp_f1;
-    f32 temp_f2;
+    f32 vel_y;
+    f32 pos_y;
     f32 x;
     f32 z;
     s32 state;
     s32 spin;
-    s32 var_r30;
-    var_r30 = 0;
+    s32 sank;
+    sank = 0;
     state = piece->state;
     spin = piece->spin;
     switch (state) {
     case 0:
         piece->vel.y = (piece->vel.y - breakup_gravity);
         vec3_add_to(&piece->pos, &piece->vel);
-        temp_f1 = piece->vel.y;
-        if (temp_f1 < breakup_zero) {
-            temp_f2 = piece->pos.y;
-            if (temp_f2 < breakup_floor_height) {
+        vel_y = piece->vel.y;
+        if (vel_y < breakup_zero) {
+            pos_y = piece->pos.y;
+            if (pos_y < breakup_floor_height) {
                 x = piece->pos.x;
                 z = piece->pos.z;
                 if ((x <= boss2_platform_max) && (x >= boss2_platform_min) && (z <= 76.0f) && (z >= (-75.0f))) {
-                    piece->vel.y = (temp_f1 * breakup_bounce_factor);
+                    piece->vel.y = (vel_y * breakup_bounce_factor);
                     piece->state = 2;
-                } else if (temp_f2 < boss2_water_level) {
-                    var_r30 = 1;
+                } else if (pos_y < boss2_water_level) {
+                    sank = 1;
                     piece->state = 1;
                 }
             }
@@ -108,7 +108,7 @@ s32 TObjPlayer__sub_8002EDCC(BreakupPiece *piece) {
         piece->pos.z = (piece->pos.z + piece->vel.z);
         break;
     }
-    return var_r30;
+    return sank;
 }
 #pragma pop
 
