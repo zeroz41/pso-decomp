@@ -1275,7 +1275,7 @@ struct TObjPlayer : public TObjChara {
     // Calls callback with each occupied entry of the player table.
     static void for_each_player_slot(void (*callback)(void *));
     static void send_code50_packet(int);
-    static void send_object_id_packet(int);
+    static void send_object_id_packet(TObjPlayer *player);
     void update_action_state();
     static void release_control_lock(void *);
     s32 reset_volopt_state();

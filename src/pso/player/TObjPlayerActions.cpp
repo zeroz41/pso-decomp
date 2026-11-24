@@ -2736,8 +2736,7 @@ G_ShieldAttack_6x4A &G_ShieldAttack_6x4A::operator=(const G_ShieldAttack_6x4A &s
     return *this;
 }
 
-void TObjPlayer::send_object_id_packet(int player_addr) {
-    TObjPlayer *player = (TObjPlayer *)player_addr;
+void TObjPlayer::send_object_id_packet(TObjPlayer *player) {
     G_ShieldAttack_6x4A sp8;
 
     if ((player == NULL) || (player->obj_isState2_324() == 0)) {
@@ -2794,7 +2793,7 @@ void TObjPlayer::run_guard_reaction_phase(s16 phase) {
         guard_reaction_phase8_nop();
         return;
       case 5:
-        TObjPlayer::send_object_id_packet((saddr)this);
+        TObjPlayer::send_object_id_packet(this);
         return;
       case 0:
         this->start_use_item_action();
