@@ -28,7 +28,6 @@ u8 TObjPlayer__sub_801BEBE4(void *p);
 u8 TObjPlayer__sub_801BEC10(void *p);
 u8 TObjPlayer__sub_801BEC3C(void *p);
 void __sinit_TObjPlayer_801BDF5C_cpp(void);
-s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1);
 }
 // --- end of C functions
 

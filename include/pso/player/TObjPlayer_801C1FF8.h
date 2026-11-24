@@ -15,7 +15,6 @@ u8 get_byte_13b(void *p);
 u8 get_byte_11f(void *p);
 u8 get_byte_103(void *p);
 u8 get_byte_e7(void *p);
-s32 get_field_0_s32(void *p);
 void *fn_801C2308(void *arg0, s16 arg1);
 void *fn_801C2360(void *arg0);
 }

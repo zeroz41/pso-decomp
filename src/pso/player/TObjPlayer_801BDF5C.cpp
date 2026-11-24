@@ -31,6 +31,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/PlayerCharDataEntry.h"
 
 
 extern "C" {
@@ -38,8 +39,8 @@ extern "C" {
 
 u8 *TObjPlayer::create_player_instance(s32 arg0, saddr player) {
     u8 *p;
-    p = (u8 *)new TObjPlayer(tl_03, arg0 & 0xFFFF, get_field_0_s32((void *)player), ((TObjPlayer *)player)->get_char_data());
-    ((TLobby *)(p + 0xDAC))->copy_header_struct((void *)((TObjPlayer *)player)->get_sub_obj());
+    p = (u8 *)new TObjPlayer(tl_03, arg0 & 0xFFFF, ((PlayerCharDataEntry *)player)->get_role(), ((PlayerCharDataEntry *)player)->get_char_data());
+    ((TLobby *)(p + 0xDAC))->copy_header_struct(((PlayerCharDataEntry *)player)->get_lobby_header());
     ((TObjPlayer *)p)->reset_motion_fields();
     return p;
 }
@@ -105,7 +106,7 @@ extern u8 TObjPlayer__char_data_array[];
 void __destroy_arr(void *arr, void *dtor, u32 size, u32 n);
 void __register_global_object(void *obj, void *dtor, void *chain);
 void *__construct_array(void *, void *, void *, u32, u32);
-void init_char_data__10TObjPlayerFv(void *);
+void construct__19PlayerCharDataEntryFv(void *);
 
 }
 
@@ -119,12 +120,12 @@ u8 TObjPlayer__char_data_array[0x42C * 0xC];
 void __sinit_TObjPlayer_801BDF5C_cpp(void) {
     __construct_array(TObjPlayer__arrival_override_table, (void *)TObjPlayer__sub_801BFF80, NULL, 0x14, 0xC);
     ((TObjPlayer *)lobby_rule_settings)->reset_lobby_settings();
-    __construct_array(TObjPlayer__char_data_array, (void *)init_char_data__10TObjPlayerFv, (void *)destroy_char_data__10TObjPlayerFis, 0x42C, 0xC);
+    __construct_array(TObjPlayer__char_data_array, (void *)construct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
     __register_global_object(NULL, (void *)TObjPlayer::destroy_char_data_array, lbl_8050EA64);
 }
 
 void TObjPlayer::destroy_char_data_array() {
-    __destroy_arr(TObjPlayer__char_data_array, (void *)destroy_char_data__10TObjPlayerFis, 0x42c, 0xc);
+    __destroy_arr(TObjPlayer__char_data_array, (void *)__dt__19PlayerCharDataEntryFv, 0x42c, 0xc);
 }
 
 
@@ -134,15 +135,7 @@ extern "C" {
 
 int add_photon_blast_chain_charge(void*);
 
-s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1) {
-    if (arg0 != 0) {
-        ((TPlyCharData *)(arg0 + 0xC))->~TPlyCharData();
-        if (arg1 > 0) {
-            ::operator delete((void *)arg0);
-        }
-    }
-    return arg0;
-}
+PlayerCharDataEntry::~PlayerCharDataEntry() {}
 
 void TObjPlayer::get_pos(saddr out) {
     this->get_anim_node_position(0x3A, (Vec *)out);

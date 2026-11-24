@@ -9,6 +9,14 @@
 // One of the 12 characters kept for the player slots (TObjPlayer__char_data_array);
 // TObjPlayer::create builds the slot's player from it.
 struct PlayerCharDataEntry {
+    // The element constructor __construct_array builds each entry with.
+    PlayerCharDataEntry *construct();
+    ~PlayerCharDataEntry();
+    int has_character();
+    u8 *get_lobby_header();
+    TPlyCharData *get_char_data();
+    s32 get_role();
+
     s32 role;              // the control role the player is created with
     u8 lobby_header[8];    // copied into the created player (TLobby::copy_header_struct)
     TPlyCharData char_data;
@@ -16,7 +24,5 @@ struct PlayerCharDataEntry {
 };
 
 LAYOUT_ASSERT(PlayerCharDataEntrySize, sizeof(PlayerCharDataEntry) == 0x42C);
-
-extern PlayerCharDataEntry TObjPlayer__char_data_array[12];
 
 #endif

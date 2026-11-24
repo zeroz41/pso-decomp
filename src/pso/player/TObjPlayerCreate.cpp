@@ -248,8 +248,8 @@ void TObjPlayer::create_active_players() {
     slot = 0;
     entry = TObjPlayer__char_data_array;
     do {
-        if (((TObjPlayer *)entry)->check_flag_at_428() != 0) {
-            create(slot & 0xFFFF, (saddr)entry);
+        if (entry->has_character() != 0) {
+            create(slot & 0xFFFF, entry);
         }
         slot++;
         entry++;
@@ -281,10 +281,10 @@ TObjPlayer *create_remote_player_object(void *record) {
     return new TObjPlayer(tl_03, (PlayerSyncRecord *)record);
 }
 
-s32 TObjPlayer::create(u32 slot, saddr player) {
+s32 TObjPlayer::create(u32 slot, PlayerCharDataEntry *entry) {
     TObjPlayer *created;
 
-    created = new TObjPlayer(tl_03, slot & 0xFFFF, get_field_0_s32((void *)player), ((TObjPlayer *)player)->get_char_data());
-    ((TLobby *)&created->m_dac)->copy_header_struct(((TObjPlayer *)player)->get_sub_obj());
+    created = new TObjPlayer(tl_03, slot & 0xFFFF, entry->get_role(), entry->get_char_data());
+    ((TLobby *)&created->m_dac)->copy_header_struct(entry->get_lobby_header());
     return (s32)created;
 }

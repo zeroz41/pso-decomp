@@ -307,8 +307,8 @@ int TKeyBoardControl__sub_8000F828(void);
 void TAdSinglePlyChrSelectGC__sub_801C5120(void);
 void TAdSinglePlyChrSelectGC__sub_801C5158(void);
 void *__construct_new_array(void *, void *, void *, s32, s32);
-s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1);
-void init_char_data__10TObjPlayerFv(void);
+void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
+void construct__19PlayerCharDataEntryFv(void);
 
 void *get_window_layout_position(s32);
 void TLobby__sub_801C3AF4(Lobby_801C3AF4 *self);
@@ -984,7 +984,7 @@ void TLobby__sub_801C3AF4(Lobby_801C3AF4 *self) {
 void TLobby::init_char_slots() {
     battle_mode_data_ptr = 0;
     lbl_805D5D9C = TKeyBoardControl__sub_8000F828() == 1 ? 0x19 : 0x1E;
-    lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), (void *)init_char_data__10TObjPlayerFv, (void *)destroy_char_data__10TObjPlayerFis, 0x42C, 0xC);
+    lobby_char_slot_array = __construct_new_array(mem_alloc(0x3220), (void *)construct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
     TAdSinglePlyChrSelectGC__sub_801C5158();
     clear_battle_player_ready_flags();
     battle_ctrl_default_value = 1;
@@ -993,7 +993,7 @@ void TLobby::init_char_slots() {
 
 void TLobby__sub_801C3A40(void) {
     if (lobby_char_slot_array != 0) {
-        __destroy_new_array(lobby_char_slot_array, (void *)destroy_char_data__10TObjPlayerFis);
+        __destroy_new_array(lobby_char_slot_array, (void *)__dt__19PlayerCharDataEntryFv);
         lobby_char_slot_array = 0;
     }
 }

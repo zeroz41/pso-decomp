@@ -7,6 +7,7 @@
 #include "pso/player/TPlyItem.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerCharDataEntry.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/CapturedTargetList.h"
 
@@ -121,11 +122,11 @@ u8 get_byte_e7(void* p) { return *(u8*)((char*)p + 0xe7); }
 void PhotonChairSeat::set_owner_id(u16 id) { owner_id = id; }
 PhotonChairSeat::PhotonChairSeat() { reset(); }
 
-int TObjPlayer::check_flag_at_428() { return test_flags_any((s32 *)((char*)this + 0x428), 1); }
-void*TObjPlayer::get_sub_obj() { return (char*)this + 0x4; }
-TPlyCharData *TObjPlayer::get_char_data() { return reinterpret_cast<TPlyCharData *>(reinterpret_cast<u8 *>(this) + 0xC); }
-s32 get_field_0_s32(void* p) { return *(s32*)((char*)p + 0x0); }
-void*TObjPlayer::init_char_data() { ((TObjPlayer *)((char*)this + 0x4))->clear_header_struct(); __ct__12TPlyCharDataFv((saddr)((char*)this + 0xc)); __ct__8FlagWordFv(((char*)this + 0x428)); *(int*)(this) = 0; return this; }
+int PlayerCharDataEntry::has_character() { return test_flags_any((s32 *)&flags, 1); }
+u8 *PlayerCharDataEntry::get_lobby_header() { return lobby_header; }
+TPlyCharData *PlayerCharDataEntry::get_char_data() { return &char_data; }
+s32 PlayerCharDataEntry::get_role() { return role; }
+PlayerCharDataEntry *PlayerCharDataEntry::construct() { ((TObjPlayer *)lobby_header)->clear_header_struct(); __ct__12TPlyCharDataFv((saddr)&char_data); __ct__8FlagWordFv(&flags); role = 0; return this; }
 
 void *fn_801C2308(void *arr, s16 arg1) {
     if (arr != 0) {

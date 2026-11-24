@@ -38,6 +38,7 @@ class TPlyInventoryItem;
 struct TechniqueContactList;
 struct TUnk_801D8A4C;
 struct PlayerSyncRecord;
+struct PlayerCharDataEntry;
 struct TLockOnCursor;
 struct TMovie;
 struct CapturedTargetList;
@@ -517,7 +518,7 @@ struct TObjPlayer : public TObjChara {
     void update_action_animation();
     void update_input_and_draw();
     void free_chara_making();
-    static s32 create(u32 slot, saddr player);
+    static s32 create(u32 slot, PlayerCharDataEntry *entry);
     static void free_shared_data();
     static void finalize_shared();
     static void init_shared();
@@ -585,10 +586,6 @@ struct TObjPlayer : public TObjChara {
     u32 unpack_u32_hi();
     u32 unpack_u32_lo();
     s32 get_slot_value_checked(s32 i);
-    int check_flag_at_428();
-    void*get_sub_obj();
-    TPlyCharData *get_char_data();
-    void*init_char_data();
     s8 calc_class_stat_boost_index(s8 arg1, s32 arg2);
     s32 consume_trap_count(s32 arg1, s32 arg2);
     s32 clamp_char_at(s32 arg1);
