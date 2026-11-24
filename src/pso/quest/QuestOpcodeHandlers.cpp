@@ -4859,7 +4859,7 @@ void qst_op_npc_param() {
     s.support_technique_level = qst_registers[i++];
     s.attack_probability = qst_registers[i++];
     s.attack_technique_probability = qst_registers[i++];
-    s.unknown_24 = qst_registers[i];
+    s.escort_keep_distance = qst_registers[i];
 
     s.copy_entry_by_index(arg);
 }

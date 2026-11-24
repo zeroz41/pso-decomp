@@ -58,10 +58,10 @@ s32 quest_npc_visual_pending;
 
 extern "C" {
 
-s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
-void * __ct__12TPlyCharDataFv(void *self);
+s32 __dt__12TPlyCharDataFv(s32 object, s16 free_flags);
+void * __ct__12TPlyCharDataFv(void *object);
 s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range);
-s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 id);
+s32 try_update_target_flag__10TNpcPlayerFPvi(NpcPlayerView *view, s32 id);
 void set_technique_seed_level(PlayerTechniqueState *techniques, s16 technique, u8 level);
 void reset_partner_counter(PartnerCounters *counters, s32 index);
 void increment_partner_counter(PartnerCounters *counters, s32 index);
@@ -1219,7 +1219,7 @@ void TNpcPlayer::AiParams::copy(AiParams *src) {
     support_technique_level = src->support_technique_level;
     attack_probability = src->attack_probability;
     attack_technique_probability = src->attack_technique_probability;
-    unknown_24 = src->unknown_24;
+    escort_keep_distance = src->escort_keep_distance;
 }
 
 TNpcPlayer::TNpcPlayer(u16 leader_id, u16 self_id, int template_id, s32 escort, TObject *parent) : TObject(parent) {
@@ -1536,7 +1536,7 @@ s32 TNpcPlayer::calc_follow_goal() {
     TObjPlayer *obj_player;
     if (escort_leader != 0) {
         if (ai_params.technique_flags & 0x80) {
-            keep_distance = ai_params.unknown_24;
+            keep_distance = ai_params.escort_keep_distance;
             if (escort_distance_sq <= (keep_distance * keep_distance)) {
                 obj_player = self_view->player;
                 dir.x = goal.x - obj_player->position.x;
@@ -1546,8 +1546,8 @@ s32 TNpcPlayer::calc_follow_goal() {
                 if (0.0f != vector_length(&dir)) {
                     normalize_vector(&dir);
                 }
-                goal.x = -((ai_params.unknown_24 * dir.x) - goal.x);
-                goal.z = -((ai_params.unknown_24 * dir.z) - goal.z);
+                goal.x = -((ai_params.escort_keep_distance * dir.x) - goal.x);
+                goal.z = -((ai_params.escort_keep_distance * dir.z) - goal.z);
                 goal.y = self_view->player->body_center.y;
             } else {
                 VecCopy(&goal, &leader_view->player->body_center);
@@ -2232,8 +2232,7 @@ s32 NpcPlayerView::scan_targets(f32 range) {
     return 0;
 }
 
-s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 id) {
-    NpcPlayerView *view = (NpcPlayerView *)arg0;
+s32 try_update_target_flag__10TNpcPlayerFPvi(NpcPlayerView *view, s32 id) {
     TObjPlayer *obj_player;
 
     obj_player = view->player;

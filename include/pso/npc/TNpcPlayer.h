@@ -95,7 +95,7 @@ struct TNpcPlayer : public TObject {
         u8 support_technique_level;
         u8 attack_probability;
         u8 attack_technique_probability;
-        f32 unknown_24;
+        f32 escort_keep_distance;  // inferred: calc_follow_goal holds an escort partner this far short of its goal
         void copy(AiParams *src);
         void copy_entry_by_index(s32 index);
     };
