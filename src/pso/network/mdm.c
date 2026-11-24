@@ -81,16 +81,22 @@ typedef struct ModemWaitToneModeNames {
 
 static ModemConnectionInfo modem_connection_info;
 static ModemResponseState modem_command_response_state;
-typedef struct ModemRegs_805D7C90 { u16 f0; u16 f2; u8 f4; u8 f5; u8 f6; u8 f7; } ModemRegs_805D7C90;
-OSThreadQueue lbl_805D7CA0;
-s32 lbl_805D7C9C;
-s32 lbl_805D7C98;
-ModemRegs_805D7C90 lbl_805D7C90;
+typedef struct ModemRegisterConfig {
+    u16 recv_threshold;
+    u16 send_threshold;
+    u8 interrupt_mask;
+    u8 reg13_value;
+    u8 pad_6[2];
+} ModemRegisterConfig;
+OSThreadQueue modem_exi_queue;
+s32 modem_in_recv_callback;
+s32 modem_line_state;
+ModemRegisterConfig modem_register_config;
 static ModemSendState modem_send_state;
 static ModemRecvState modem_recv_state;
 
 void wake_load_thread(s32 chan, OSContext *context) {
-    OSWakeupThread(&lbl_805D7CA0);
+    OSWakeupThread(&modem_exi_queue);
 }
 
 static OSResetFunctionInfo modem_reset_function_info = {
@@ -160,7 +166,7 @@ static inline void ModemLockExi(void) {
             OSRestoreInterrupts(enabled);
             break;
         }
-        OSSleepThread(&lbl_805D7CA0);
+        OSSleepThread(&modem_exi_queue);
         OSRestoreInterrupts(enabled);
     }
 }
@@ -233,17 +239,17 @@ void fn_8042C124(s32 chan, OSContext *context) {
     modem_recv_state.received += modem_recv_state.length;
     modem_recv_state.buffer += modem_recv_state.length;
     EXIDeselect(0);
-    ModemWriteRegister(1, lbl_805D7C90.f4);
+    ModemWriteRegister(1, modem_register_config.interrupt_mask);
     EXIUnlock(0);
-    if (modem_recv_state.capacity - modem_recv_state.received < lbl_805D7C90.f0 || modem_recv_state.f10 == 1) {
+    if (modem_recv_state.capacity - modem_recv_state.received < modem_register_config.recv_threshold || modem_recv_state.f10 == 1) {
         modem_recv_state.f10 = 0;
         modem_recv_state.f14 = 0;
         if (modem_recv_state.callback != NULL) {
             callback = modem_recv_state.callback;
             modem_recv_state.callback = NULL;
-            lbl_805D7C9C = 1;
+            modem_in_recv_callback = 1;
             callback(modem_recv_state.received);
-            lbl_805D7C9C = 0;
+            modem_in_recv_callback = 0;
         }
         modem_recv_state.received = 0;
     }
@@ -256,7 +262,7 @@ void fn_8042C2E4(s32 chan, OSContext *context) {
 
     if (EXILock(0, 2, fn_8042C2E4) != 0) {
         status = ModemReadRegister(2);
-        status &= lbl_805D7C90.f4;
+        status &= modem_register_config.interrupt_mask;
         if (status == 0) {
             EXIUnlock(0);
         } else {
@@ -268,14 +274,14 @@ void fn_8042C2E4(s32 chan, OSContext *context) {
             case 26:
                 if (modem_recv_state.f34 == 0) {
                     modem_recv_state.f38 = 1;
-                    lbl_805D7C90.f4 &= ~0x20;
-                    ModemWriteRegister(1, lbl_805D7C90.f4);
+                    modem_register_config.interrupt_mask &= ~0x20;
+                    ModemWriteRegister(1, modem_register_config.interrupt_mask);
                     EXIUnlock(0);
                 } else if (modem_recv_state.f14 != 0) {
-                    fn_8042BF6C(lbl_805D7C90.f0);
+                    fn_8042BF6C(modem_register_config.recv_threshold);
                 } else {
-                    lbl_805D7C90.f4 &= ~0x20;
-                    ModemWriteRegister(1, lbl_805D7C90.f4);
+                    modem_register_config.interrupt_mask &= ~0x20;
+                    ModemWriteRegister(1, modem_register_config.interrupt_mask);
                     EXIUnlock(0);
                 }
                 break;
@@ -283,7 +289,7 @@ void fn_8042C2E4(s32 chan, OSContext *context) {
                 modem_recv_state.available = ModemReadRegister(0xB) << 8;
                 modem_recv_state.available += ModemReadRegister(0xC);
                 if (modem_recv_state.available == 0 || modem_recv_state.f14 == 0) {
-                    ModemWriteRegister(1, lbl_805D7C90.f4);
+                    ModemWriteRegister(1, modem_register_config.interrupt_mask);
                     EXIUnlock(0);
                 } else {
                     if (modem_recv_state.capacity - modem_recv_state.received < modem_recv_state.available) {
@@ -309,13 +315,13 @@ void fn_8042C2E4(s32 chan, OSContext *context) {
                 }
                 EXIDeselect(0);
                 parse_modem_command_response();
-                ModemWriteRegister(1, lbl_805D7C90.f4);
+                ModemWriteRegister(1, modem_register_config.interrupt_mask);
                 EXIUnlock(0);
                 if (modem_command_response_state.done == 1 && modem_command_response_state.callback != NULL) {
                     modem_command_response_state.done = 0;
-                    lbl_805D7C9C = 1;
+                    modem_in_recv_callback = 1;
                     modem_command_response_state.callback(modem_command_response_state.result);
-                    lbl_805D7C9C = 0;
+                    modem_in_recv_callback = 0;
                 }
                 break;
             }
@@ -340,7 +346,7 @@ void parse_modem_command_response(void) {
         len = p - line;
         if (len == 2 && memcmp(line, "OK", 2) == 0) {
         } else if (len > 7 && memcmp(line, "CONNECT", 7) == 0) {
-            lbl_805D7C98 = 3;
+            modem_line_state = 3;
             if (modem_command_response_state.callback != NULL) {
                 modem_command_response_state.done = 1;
                 modem_command_response_state.result = 3;
@@ -359,19 +365,19 @@ void parse_modem_command_response(void) {
             sscanf((char *)line + 5, "%d,%d", &modem_connection_info.transmit_rate, &modem_connection_info.receive_rate);
         } else if ((len == 4 && memcmp(line, "ATE0", 4) == 0) || (len == 5 && memcmp(line, "ERROR", 5) == 0)) {
         } else if (len == 10 && memcmp(line, "NO CARRIER", 10) == 0) {
-            lbl_805D7C98 = 1;
+            modem_line_state = 1;
             if (modem_command_response_state.callback != NULL) {
                 modem_command_response_state.done = 1;
                 modem_command_response_state.result = 1;
             }
         } else if (len == 11 && memcmp(line, "NO DIALTONE", 11) == 0) {
-            lbl_805D7C98 = 1;
+            modem_line_state = 1;
             if (modem_command_response_state.callback != NULL) {
                 modem_command_response_state.done = 1;
                 modem_command_response_state.result = 0;
             }
         } else if (len == 4 && memcmp(line, "BUSY", 4) == 0) {
-            lbl_805D7C98 = 1;
+            modem_line_state = 1;
             if (modem_command_response_state.callback != NULL) {
                 modem_command_response_state.done = 1;
                 modem_command_response_state.result = 2;
@@ -382,19 +388,19 @@ void parse_modem_command_response(void) {
                 modem_command_response_state.result = 4;
             }
         } else if (len == 9 && memcmp(line, "NO ANSWER", 9) == 0) {
-            lbl_805D7C98 = 1;
+            modem_line_state = 1;
             if (modem_command_response_state.callback != NULL) {
                 modem_command_response_state.done = 1;
                 modem_command_response_state.result = 5;
             }
         } else if (len >= 7 && memcmp(line, "DELAYED", 7) == 0) {
-            lbl_805D7C98 = 1;
+            modem_line_state = 1;
             if (modem_command_response_state.callback != NULL) {
                 modem_command_response_state.done = 1;
                 modem_command_response_state.result = 6;
             }
         } else if (len == 11 && memcmp(line, "BLACKLISTED", 11) == 0) {
-            lbl_805D7C98 = 1;
+            modem_line_state = 1;
             if (modem_command_response_state.callback != NULL) {
                 modem_command_response_state.done = 1;
                 modem_command_response_state.result = 7;
@@ -497,7 +503,7 @@ static inline BOOL ModemSetupCommands(char *buf, const char *country) {
     ModemRunCommand(modem_setup_commands[0]);
     ModemRunCommand(modem_setup_commands[1]);
 
-    value = lbl_805D7C90.f4;
+    value = modem_register_config.interrupt_mask;
     cmd = 0x4100;
     selected = EXISelect(0, 2, 4);
     EXIImm(0, &cmd, 2, EXI_WRITE, NULL);
@@ -517,20 +523,20 @@ s32 modem_init(const char *country) {
     u32 id;
 
     ModemLockExi();
-    lbl_805D7C98 = 0;
-    lbl_805D7C90.f0 = 0x1E0;
-    lbl_805D7C90.f2 = 0x21;
-    lbl_805D7C90.f4 = 0x62;
-    lbl_805D7C90.f5 = 5;
+    modem_line_state = 0;
+    modem_register_config.recv_threshold = 0x1E0;
+    modem_register_config.send_threshold = 0x21;
+    modem_register_config.interrupt_mask = 0x62;
+    modem_register_config.reg13_value = 5;
     memset(&modem_connection_info, 0, sizeof(modem_connection_info));
     memset(&modem_recv_state, 0, sizeof(modem_recv_state));
     memset(&modem_send_state, 0, sizeof(modem_send_state));
-    OSInitThreadQueue(&lbl_805D7CA0);
-    lbl_805D7C9C = 0;
+    OSInitThreadQueue(&modem_exi_queue);
+    modem_in_recv_callback = 0;
     modem_recv_state.f10 = 0;
     modem_command_response_state.done = 0;
     modem_command_response_state.length = 0;
-    lbl_805D7C98 = 1;
+    modem_line_state = 1;
     modem_recv_state.f14 = 0;
     modem_recv_state.f38 = 0;
     modem_send_state.busy = 0;
@@ -550,13 +556,13 @@ s32 modem_init(const char *country) {
     }
 
     ModemWriteCommand(0x8000);
-    ModemWriteRegister(0x13, lbl_805D7C90.f5);
+    ModemWriteRegister(0x13, modem_register_config.reg13_value);
     ModemWriteRegister(0x06, 0x32);
     ModemWriteRegister(0x07, 0x40);
-    ModemWriteRegister(0x10, lbl_805D7C90.f0 >> 8);
-    ModemWriteRegister(0x11, lbl_805D7C90.f0);
-    ModemWriteRegister(0x0E, lbl_805D7C90.f2 >> 8);
-    ModemWriteRegister(0x0F, lbl_805D7C90.f2);
+    ModemWriteRegister(0x10, modem_register_config.recv_threshold >> 8);
+    ModemWriteRegister(0x11, modem_register_config.recv_threshold);
+    ModemWriteRegister(0x0E, modem_register_config.send_threshold >> 8);
+    ModemWriteRegister(0x0F, modem_register_config.send_threshold);
 
     ModemSetupCommands((char *)command_buffer, country);
     EXISetExiCallback(2, fn_8042C2E4);
@@ -607,14 +613,14 @@ s32 modem_send_at_command(char *cmd) {
 void modem_hangup(void) {
     s32 e;
     memset(&modem_connection_info, 0, sizeof(modem_connection_info));
-    lbl_805D7C98 = 1;
+    modem_line_state = 1;
     e = OSDisableInterrupts();
     for (;;) {
         if (EXILock(0, 2, wake_load_thread) == 1) {
             OSRestoreInterrupts(e);
             break;
         }
-        OSSleepThread(&lbl_805D7CA0);
+        OSSleepThread(&modem_exi_queue);
         OSRestoreInterrupts(e);
     }
     modem_write_string("ATH0\r");
@@ -669,8 +675,8 @@ s32 fn_8042D7E0(u8 *buf) {
         modem_recv_state.f34 = 0;
         modem_recv_state.f38 = 0;
         ModemLockExi();
-        lbl_805D7C90.f4 |= 0x20;
-        ModemWriteRegister(0x01, lbl_805D7C90.f4);
+        modem_register_config.interrupt_mask |= 0x20;
+        ModemWriteRegister(0x01, modem_register_config.interrupt_mask);
         ModemWriteRegister(0x13, 0);
         ModemWriteRegister(0x10, 0);
         ModemWriteRegister(0x11, 1);
@@ -736,8 +742,8 @@ s32 fn_8042D7E0(u8 *buf) {
     }
     EXIDeselect(0);
 
-    lbl_805D7C90.f4 |= 0x20;
-    ModemWriteRegister(0x01, lbl_805D7C90.f4);
+    modem_register_config.interrupt_mask |= 0x20;
+    ModemWriteRegister(0x01, modem_register_config.interrupt_mask);
     EXIUnlock(0);
     return len;
 }
@@ -748,7 +754,7 @@ s32 fn_8042DD70(u8 *data, s32 length, void (*callback)(s32 sent)) {
     if (modem_send_state.busy != 0) {
         return -4;
     }
-    if (lbl_805D7C98 != 3) {
+    if (modem_line_state != 3) {
         return -7;
     }
     modem_send_state.busy = 1;
@@ -776,7 +782,7 @@ void fn_8042DE20(void) {
     u32 cmd;
 
     data = modem_send_state.data;
-    max = 0x201 - lbl_805D7C90.f2;
+    max = 0x201 - modem_register_config.send_threshold;
     length = modem_send_state.remaining;
     if (length >= max) {
         length = max;
@@ -836,21 +842,21 @@ void fn_8042DF4C(s32 chan, OSContext *context) {
     }
     EXIDeselect(0);
     if (modem_send_state.remaining > 0) {
-        modem_send_state.data += 0x201 - lbl_805D7C90.f2;
-        lbl_805D7C90.f4 |= 0x10;
+        modem_send_state.data += 0x201 - modem_register_config.send_threshold;
+        modem_register_config.interrupt_mask |= 0x10;
     } else {
         modem_send_state.busy = 0;
         modem_send_state.data = NULL;
-        lbl_805D7C90.f4 &= ~0x10;
+        modem_register_config.interrupt_mask &= ~0x10;
     }
-    ModemWriteRegister(1, lbl_805D7C90.f4);
+    ModemWriteRegister(1, modem_register_config.interrupt_mask);
     EXIUnlock(0);
     if (modem_send_state.remaining == 0 && modem_send_state.callback != NULL) {
         callback = modem_send_state.callback;
         modem_send_state.callback = NULL;
-        lbl_805D7C9C = 1;
+        modem_in_recv_callback = 1;
         callback(modem_send_state.length);
-        lbl_805D7C9C = 0;
+        modem_in_recv_callback = 0;
     }
 }
 
@@ -860,15 +866,15 @@ s32 fn_8042E184(void) {
     if (modem_send_state.busy == 1) {
         return 1;
     }
-    if (lbl_805D7C9C == 0) {
+    if (modem_in_recv_callback == 0) {
         ModemLockExi();
     }
     space = ModemReadRegister(9) << 8;
     space += ModemReadRegister(0xA);
-    if (lbl_805D7C9C == 0) {
+    if (modem_in_recv_callback == 0) {
         EXIUnlock(0);
     }
-    if (space < lbl_805D7C90.f2) {
+    if (space < modem_register_config.send_threshold) {
         return 0;
     }
     return 1;
@@ -888,7 +894,7 @@ s32 modem_dial(const char *number, s32 mode, void (*callback)(s32 result)) {
     if (mode <= 0 || mode > 3) {
         return -2;
     }
-    if (lbl_805D7C98 == 3) {
+    if (modem_line_state == 3) {
         return -3;
     }
     modem_command_response_state.callback = callback;
@@ -907,7 +913,7 @@ s32 modem_dial(const char *number, s32 mode, void (*callback)(s32 result)) {
     }
     strcat(buf, number);
     strcat(buf, "\r");
-    lbl_805D7C98 = 2;
+    modem_line_state = 2;
     ModemLockExi();
     modem_write_string(buf);
     EXIUnlock(0);
@@ -915,9 +921,9 @@ s32 modem_dial(const char *number, s32 mode, void (*callback)(s32 result)) {
 }
 
 void fn_8042E488(s32 value) {
-    lbl_805D7C90.f5 = value;
+    modem_register_config.reg13_value = value;
     ModemLockExi();
-    ModemWriteRegister(0x13, lbl_805D7C90.f5);
+    ModemWriteRegister(0x13, modem_register_config.reg13_value);
     EXIUnlock(0);
 }
 
@@ -967,7 +973,7 @@ s32 copy_default_and_get_state(ModemConnectionInfo *out) {
     if (out != NULL) {
         *out = modem_connection_info;
     }
-    return lbl_805D7C98;
+    return modem_line_state;
 }
 
 s32 MDMWaitToneMode(s32 mode) {
@@ -985,8 +991,8 @@ s32 MDMWaitToneMode(s32 mode) {
 }
 
 BOOL send_modem_hangup(BOOL final) {
-    if (final == 0 && lbl_805D7C98 == 3) {
-        lbl_805D7C98 = 1;
+    if (final == 0 && modem_line_state == 3) {
+        modem_line_state = 1;
         if (EXILock(0, 2U, NULL) == 0) {
             return 1;
         }
