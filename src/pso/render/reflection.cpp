@@ -55,7 +55,7 @@ extern "C" {
 void reflect_matrix_in_plane(s32 mode, void *plane);
 }
 
-s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
+s32 find_reflective_floor(saddr pos, u8 *plane) {
   Vec probe;
   s32 area;
   s32 mask;
@@ -67,7 +67,7 @@ s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
   {
     mask = 0x4000;
   }
-  VecCopy(&probe, (const Vec *)arg0);
+  VecCopy(&probe, (const Vec *)pos);
   probe.y += 35.0f;
   hit = csnVecterUnder(&probe, mask);
   if (hit != 0)
@@ -77,14 +77,14 @@ s32 fn_8029E7BC(saddr arg0, u8 *arg1) {
     {
       return 0;
     }
-    if (arg1 != 0)
+    if (plane != 0)
     {
-      *((f32 *) (arg1 + 0)) = contact->point.x;
-      *((f32 *) (arg1 + 4)) = hit->contact->point.y;
-      *((f32 *) (arg1 + 8)) = hit->contact->point.z;
-      *((f32 *) (arg1 + 0xC)) = hit->contact->normal.x;
-      *((f32 *) (arg1 + 0x10)) = hit->contact->normal.y;
-      *((f32 *) (arg1 + 0x14)) = hit->contact->normal.z;
+      *((f32 *) (plane + 0)) = contact->point.x;
+      *((f32 *) (plane + 4)) = hit->contact->point.y;
+      *((f32 *) (plane + 8)) = hit->contact->point.z;
+      *((f32 *) (plane + 0xC)) = hit->contact->normal.x;
+      *((f32 *) (plane + 0x10)) = hit->contact->normal.y;
+      *((f32 *) (plane + 0x14)) = hit->contact->normal.z;
     }
     return 1;
   }
@@ -110,7 +110,7 @@ s32 push_player_reflection_matrix(u16 client_id, s32 clip) {
     if (player == 0U) {
         return 0;
     }
-    if (fn_8029E7BC(player + 0x2FC, (u8 *)sp8) == 0) {
+    if (find_reflective_floor(player + 0x2FC, (u8 *)sp8) == 0) {
         return 0;
     }
     if (clip != 0) {
@@ -225,7 +225,7 @@ struct Ray_8029EC3C { Vec o; Vec d; };
 extern "C" {
 #pragma push
 #pragma fp_contract on
-s32 fn_8029EC3C(Vec *pos, s32 mask) {
+s32 reflect_matrix_at_floor(Vec *pos, s32 mask) {
     Ray_8029EC3C ray;
     Vec a;
     Vec b;
@@ -284,7 +284,7 @@ s32 fn_8029EC3C(Vec *pos, s32 mask) {
 
 }
 
-void TObjPlayer__sub_8029EE2C(void) { TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D65F0)); load_list_texture((saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)2)); }
+void load_reflection_texture(void) { TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lbl_805D65F0)); load_list_texture((saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)0), (saddr)((void*)2)); }
 
 struct Cam_8029EFFC { Vec pos; Vec scale; };
 
@@ -371,7 +371,7 @@ void TUnk_804DC7C4::render_shadows() {
     {
         Vec off = p->pos2FC;
         off.y += 10.0f;
-        hit = fn_8029E7BC((saddr)&off, (u8 *)&reflect_pos);
+        hit = find_reflective_floor((saddr)&off, (u8 *)&reflect_pos);
     }
     if (is_boss_area() != 0) {
         hit = 1;
@@ -450,7 +450,7 @@ void TUnk_804DC7C4::render_shadows() {
             push_matrix();
             push_matrix();
             VecCopy((Vec *)(&tmp), (const Vec *)(&p->pos2FC));
-            r = fn_8029EC3C(&tmp, 0x4000);
+            r = reflect_matrix_at_floor(&tmp, 0x4000);
             if (r == 1) {
                 ((TMainTask *)((u8 *)&main_task))->render_object_layers(0);
             }
@@ -474,7 +474,7 @@ void TUnk_804DC7C4::render() {  }
 void TUnk_804DC7C4::run_task() {
     TScene::set_id(TObjPlayer::setup_projection_texture);
     TScene::set_active_scene(TObjPlayer::clear_state_if_flag80);
-    TScene::set_instance(TObjPlayer__sub_8029EE2C);
+    TScene::set_instance(load_reflection_texture);
 }
 
 TUnk_804DC7C4::~TUnk_804DC7C4() {

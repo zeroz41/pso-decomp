@@ -20,7 +20,7 @@ public:
     // The TEffIndirectSampler(0x28, 1, tl_05) indirect effect task (name inferred).
     TObject *indirect_effect;
     // Floor point the reflection ray hits and the plane normal (0,1,0)
-    // (names inferred from render_shadows / fn_8029E7BC).
+    // (names inferred from render_shadows / find_reflective_floor).
     Vec reflect_pos;
     Vec reflect_normal;
 };

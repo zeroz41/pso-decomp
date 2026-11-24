@@ -16187,7 +16187,7 @@ force_active:
   - explode__13TUnk_8049442CFv
   - explode__19TObjGyaranzoMissileFv
   - update_fade_in__16TObjEneMerillLiaFv
-  - sub_800D741C__13TUnk_80494938Fv
+  - update_fade_alpha__13TUnk_80494938Fv
   - hit_enemy__22TObjEnePanarmsAtkColliFP9TObjChara
   - draw_body__22TObjEneSlimeTailAttackFv
   - render_trail__15TObjEneSlimeOneFv

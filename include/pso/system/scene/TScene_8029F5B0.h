@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void fn_8029F5B0(s32 a0, s32 func, s32 a2, s32 mtx);
+void fn_8029F5B0(s32 dst_coord, s32 func, s32 src_param, s32 mtx);
 }
 
 #endif

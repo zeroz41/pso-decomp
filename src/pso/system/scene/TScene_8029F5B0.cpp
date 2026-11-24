@@ -14,8 +14,9 @@ s32 GXCopyTex(void *, s32);
 s32 GXSetZMode(s32, s32, s32);
 s32 GXSetTexCoordGen2(s32, s32, s32, s32, s32, s32);
 
-void fn_8029F5B0(s32 a0, s32 func, s32 a2, s32 mtx) {
-    GXSetTexCoordGen2(a0, func, a2, mtx, 0, 0x7D);
+// The body of the SDK's GXSetTexCoordGen (GXGeometry.h): no normalisation, identity post-transform.
+void fn_8029F5B0(s32 dst_coord, s32 func, s32 src_param, s32 mtx) {
+    GXSetTexCoordGen2(dst_coord, func, src_param, mtx, 0, 0x7D);
 }
 }
 
