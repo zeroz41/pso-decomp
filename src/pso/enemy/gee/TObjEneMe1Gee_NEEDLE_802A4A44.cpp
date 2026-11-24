@@ -77,7 +77,7 @@ void TObjEneMe1Gee_NEEDLE::render() {
 }
 
 void TObjEneMe1Gee_NEEDLE::run_task() {
-    owner = (uaddr)find_entity_by_id(owner_id);
+    owner = find_entity_by_id(owner_id);
     if (owner == 0) {
         TObject::queue_destruction();
         return;

@@ -228,6 +228,7 @@ u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg
 
 #include "pso/camera/TCameraFollow.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/PlayerTaskEffects.h"
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 chunk_polygon_flags_or_mask;
 
@@ -244,7 +245,6 @@ extern "C" {
 s32 get_current_floor();
 s16 obj_getS16_2BA(u8 *p);
 extern Arrival_801C5F84 TObjPlayer__arrival_override_table[12];
-void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z);
 void set_arrival_override_pos(u16 idx, s32 yaw, void *pos);
 int copy_subcommand_header(void *);
 }

@@ -79,11 +79,11 @@ void init_character_stats_for_level(s32 cls, TPlyCharData *c, s32 level) {
     c->m_stats.meseta = 300;
     c->m_inventory.m_hp_materials_used = 0;
     c->m_inventory.m_tp_materials_used = 0;
-    ((TObjPlayer *)c)->set_flag_e7(0);
-    ((TObjPlayer *)c)->set_flag_103(0);
-    ((TObjPlayer *)c)->set_action_flags(0);
-    ((TObjPlayer *)c)->set_byte_13b(0);
-    ((TObjPlayer *)c)->set_field_157(0);
+    c->set_power_materials_used(0);
+    c->set_mind_materials_used(0);
+    c->set_evade_materials_used(0);
+    c->set_def_materials_used(0);
+    c->set_luck_materials_used(0);
 }
 
 void init_new_character_stats(TPlyCharData *character) {

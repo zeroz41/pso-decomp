@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
@@ -20,6 +19,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/SoundEffect.h"
 
 
 void TBoss5GryphonTornado::get_target_direction(Vec *dir) {

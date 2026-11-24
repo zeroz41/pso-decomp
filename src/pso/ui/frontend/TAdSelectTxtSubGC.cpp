@@ -87,10 +87,4 @@ TAdSelectTxtSubGC *__ct__17TAdSelectTxtSubGCFP7TObjectP17TAdSelectTxtEntry(TAdSe
 extern "C" {
 int TObjNpcHosa__sub_802A39B0(void) {  return ad_select_text_texture_handle; }
 
-
-void *TObjNpcHosa__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
-    return new TObjNpcHosa(control, set_data);
-}
-
 }

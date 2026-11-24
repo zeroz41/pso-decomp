@@ -36,7 +36,6 @@ public:
 LAYOUT_ASSERT(TAdSelectTxtSubGC_size, sizeof(TAdSelectTxtSubGC) == 0x88);
 
 extern "C" {
-void *TObjNpcHosa__create(void *set_data);
 int TObjNpcHosa__sub_802A39B0(void);
 }
 

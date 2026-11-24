@@ -1,8 +1,7 @@
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -34,7 +33,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/base/TObjBase.h"
@@ -85,7 +83,7 @@ void TObjEneBm3Fly::load_resources() {
     {
         NpcAnimationBinding binding = bm3_fly_resource_binding_desc;
         binding.motions = bm3_fly_nest_resources->motions;
-        NpcModelRegistry::register_animated_chunk(7, bm3_fly_nest_resources->models[0].model, bm3_fly_nest_resources->models[0].texlist, &binding, bm3_fly_collider_params[0].radius, 15.0f);
+        TObjNpcEnemy::register_animated_chunk(7, bm3_fly_nest_resources->models[0].model, bm3_fly_nest_resources->models[0].texlist, &binding, bm3_fly_collider_params[0].radius, 15.0f);
     }
 }
 

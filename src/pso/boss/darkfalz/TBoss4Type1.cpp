@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
@@ -61,7 +60,6 @@
 #include "pso/camera/TCameraFollow.h"
 #include "pso/boss/darkfalz/TObjDFJisin.h"
 #include "pso/boss/darkfalz/TObjDFHorming.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/object/base/TObjBase.h"
 
 // One row of boss4_type1_motion_states: the playback kind (update_boss4_phase_timer: 0 loop,

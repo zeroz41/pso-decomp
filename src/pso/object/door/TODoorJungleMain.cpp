@@ -1,5 +1,4 @@
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -53,7 +52,6 @@ struct AnimationMotion;
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/TLobby_8001EF5C.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/player/PlayerSlots.h"
 

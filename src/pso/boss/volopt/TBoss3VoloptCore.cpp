@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
@@ -555,7 +554,7 @@ void TBoss3VoloptCore::update_orbit_state() {
             drop_angle = orbit_angle;
             this->update_if_active(9);
         }
-        play_persistent_sound((s32)(0x4003BC05), this, &position, (s32)(0), (s32)(0));
+        play_persistent_sound(0x4003BC05, this, &position, 0, 0);
         break;
     case -1:
         break;
@@ -664,7 +663,7 @@ void TBoss3VoloptCore::update_topple_state() {
         }
         break;
     case 3:
-        play_persistent_sound((s32)(0x4003BC05), this, &position, (s32)(0), (s32)(0));
+        play_persistent_sound(0x4003BC05, this, &position, 0, 0);
         advance_animation();
         orbit_angle -= get_orbit_speed(0);
         sweep_angle -= get_orbit_speed(0);

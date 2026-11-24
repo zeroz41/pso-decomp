@@ -102,6 +102,7 @@
 #include "pso/object/door/TODoorBase.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
+#include "pso/npc/NpcPartnerControl.h"
 
 
 void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
@@ -157,7 +158,7 @@ void TLobby::reset_quest_state() {
     TTecLuker::apply_all_players();
     TLobby::reset_item_id_counters();
     TLobby::reset_floor_items();
-    TNpcPlayer::enable_all_battle_ctrl();
+    delete_npc_players();
     if (quest_mission_manager != NULL) {
         quest_mission_manager->queue_destruction();
     }

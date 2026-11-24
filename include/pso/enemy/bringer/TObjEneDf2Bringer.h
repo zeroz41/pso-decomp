@@ -7,6 +7,7 @@
 #include "pso/render/TUnk_80490470.h"
 
 class AreaAttackHistory;
+struct BmlResource;
 class TUnk_804928CC;
 class TObjEneDf2Bringer_Eff_TpAbsorb1;
 class TAttackTraceStrip;
@@ -68,6 +69,7 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     static void free_resources();
     static void *create(void *set_data);
     static void load_resources();
+    static BmlResource *resource_bundle;
     void spawn_offset_particle();
     void spawn_particle_if_in_band();
     void update_if_in_band();

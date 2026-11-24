@@ -20,6 +20,12 @@ struct G_CastTechniqueParams_6x47 {
 struct G_CastTechnique_6x47 {
     G_CastTechnique_6x47();
 
+    // Bytes actually sent: the header, the parameters and target_count targets.
+    u8 get_size();
+    void bswap();
+    // Sets the header size, byte-swaps and sends the packet.
+    void send();
+
     G_ClientIDHeader header;
     G_CastTechniqueParams_6x47 params;
     PhotonBlastTarget targets[10];

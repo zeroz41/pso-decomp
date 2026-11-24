@@ -77,6 +77,7 @@
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
+#include "pso/npc/NpcPartnerControl.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -404,7 +405,7 @@ void TLobby::free_objects() {
     clear_switch_table();
     TTecLuker::apply_all_players();
     TLobby::reset_floor_items();
-    TNpcPlayer::enable_all_battle_ctrl();
+    delete_npc_players();
     if (quest_mission_manager != NULL) {
         quest_mission_manager->queue_destruction();
     }

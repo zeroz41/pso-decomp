@@ -356,11 +356,11 @@ void *capture_lockon_targets(Self_801D32A0 *self, Pl_801D32A0 *player) {
     self->f2c = cur->x3c;
     n = ((TLockOnCursor *)(cur->lock))->get_target();
     e = self->targets.entries;
-    ((TNpcPlayer *)(&self->targets))->set_state(n);
+    self->targets.set_count(n);
     for (i = 0; i != n; i++) {
         obj = TObjPlayer__sub_80116620(cur->lock, i);
-        ((TNpcPlayer *)e)->set_field_0(get_type_id__10TObjPlayerFv(obj));
-        ((TNpcPlayer *)e)->set_field2(((TObjPlayer *)obj)->get_obj_id());
+        e->set_uid(((TObjPlayer *)obj)->get_type_id());
+        e->set_collider_index(((TObjPlayer *)obj)->get_obj_id());
         e++;
     }
     ((TMainCursor *)(player->cursor))->set_cursor_pos(self->targets.entries[0].uid, self->targets.entries[0].collider_index);

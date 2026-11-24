@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/SoundEffect.h"
@@ -34,6 +33,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/SoundEffect.h"
 
 
 #pragma readonly_strings on
@@ -368,9 +368,9 @@ void TObjLuker::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
     u8 position[0xC];
-    u8 *p;
+    TObjPlayer *p;
     s32 flag;
-    p = (u8 *)get_player_by_client_id(this->m_a8);
+    p = get_player_by_client_id(this->m_a8);
     if (p != NULL) {
         update_floor_name_windows();
         open_destination_windows();
@@ -385,13 +385,13 @@ void TObjLuker::run_task() {
         return;
     }
     if (this->m_a8 != 0xFFFF && p != NULL) {
-        if (TTecLuker__sub_8023401C(p + 0x830) != 0) {
+        if (TTecLuker__sub_8023401C(&p->telepipe) != 0) {
             *(s16 *)&this->m_ae = 1;
             if (*(s32 *)&this->m_b4 != 0 && *(void * *)&this->m_a4 == NULL) {
                 *(void * *)&this->m_a4 = new TUnk_804CCA0C(&this->position, this->m_a8, tl_07);
                 *(s32 *)&this->m_b4 = 0;
             }
-            play_persistent_sound(0x4002B219, arg0, reinterpret_cast<const Vec *>(&this->position), 0, 0);
+            play_persistent_sound(0x4002B219, arg0, &this->position, 0, 0);
             switch (this->m_b0) {
             case 0:
                 sp8 = 0;
@@ -403,8 +403,8 @@ void TObjLuker::run_task() {
                             this->m_aa = this->m_a8;
                         }
                     } else {
-                        p = (u8 *)get_player_by_client_id(local_client_id);
-                        if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 &&
+                        p = get_player_by_client_id(local_client_id);
+                        if (p != NULL && p->is_controls_locked() == 0 &&
                             test_pressed_buttons_packed(&controller_input_state.controllers[sp8], 4) != 0) {
                             flag = 1;
                         }
@@ -413,9 +413,9 @@ void TObjLuker::run_task() {
                         this->m_b0 = 1;
                         offset_point_toward_camera(&this->position, (Vec *)position, 10.0f);
                         spawn_particle_effect((const Vec *)position, 0xB3);
-                        p = (u8 *)get_player_by_client_id(local_client_id);
+                        p = get_player_by_client_id(local_client_id);
                         if (p != NULL) {
-                            TObjPlayer::play_effect_default((saddr)p, 0xA);
+                            send_impose_hold(p, 0xA);
                             play_sound_effect(0x40022D1A, &this->position, 0, 0);
                         }
                         TWindowCtrl::init_all_slots();

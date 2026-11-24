@@ -7,6 +7,7 @@
 enum {
     CURSOR_ACTION_NONE = 0,
     CURSOR_ACTION_TALK = 1,      // quest consoles and monuments (TOQuestTalkBase)
+    CURSOR_ACTION_NPC_TALK = 2,  // town and quest NPCs (TObjNpcBase)
     CURSOR_ACTION_USE = 3,       // keys, consoles, monuments
     CURSOR_ACTION_PICK_UP = 4,   // items
     CURSOR_ACTION_TELEPIPE = 6,
@@ -17,6 +18,7 @@ struct CursorAction {
 
     CursorAction();
     void set_talk();
+    void set_npc_talk();
     void set_use();
     void set_pick_up();
     void set_telepipe();

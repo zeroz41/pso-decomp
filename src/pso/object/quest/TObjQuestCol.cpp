@@ -34,6 +34,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/npc/NpcPartnerControl.h"
 
 extern NJS_ARGB debug_color_green_half_alpha;
 extern NJS_ARGB debug_color_purple_half_alpha;
@@ -428,7 +429,7 @@ TQuestThread *TObjQuestColApcINW::vfunc_16() {
 
 void fn_8019608C(void) {
     if (quest_collision_warp_pending != 0) {
-        TNpcPlayer::send_warp_toward_player(1, &quest_col_apc_warp_target_pos);
+        send_warp_toward_player(1, &quest_col_apc_warp_target_pos);
     }
 }
 

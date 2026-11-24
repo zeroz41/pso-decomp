@@ -14,5 +14,6 @@ int ret_801D26AC(void);
 void freeze_players_for_photon_blast(s16 arg0, u16 *arg1);
 // The TPlayerReadyCallback that queue_player_injured_pose queues: enters the death state.
 void init_subobject(TObjPlayer *player);
+void queue_player_injured_pose(TObjPlayer *player);
 
 #endif

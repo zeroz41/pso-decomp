@@ -5,11 +5,12 @@
 
 class TObjBoss5PillarDemo;
 class TObjBoss5PillarCtrl;
+class TObjBoss5FloorStone;
 
 class TObjBoss5Ctrl : public TObject {
 public:
     TObject *floor_grass;
-    TObject *floor_stone;
+    TObjBoss5FloorStone *floor_stone;
     TObjBoss5PillarCtrl *pillar_controller;
     TObjBoss5PillarDemo *pillar_demo;
     s16 sound_countdown;

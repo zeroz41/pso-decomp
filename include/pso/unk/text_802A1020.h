@@ -3,6 +3,9 @@
 
 #include "types.h"
 
+// Set by verify_game_file_integrity when a disc file's size or CRC differs from file_integrity_table.
+extern s32 game_files_modified_flag;
+
 s32 verify_game_file_integrity(void);
 
 // --- C functions defined in text_802A1020.cpp ---

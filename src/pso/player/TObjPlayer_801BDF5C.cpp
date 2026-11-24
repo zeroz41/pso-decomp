@@ -576,13 +576,13 @@ u8 TObjPlayer::get_mag_level() { return *(u8*)((char*)this + 0x338); }
 void TObjPlayer__sub_801BE7B4(void* p, u8 v) { *(u8*)((char*)p + 0x293) = v; }
 u8 TObjPlayer::get_luck_materials_used() { return materials.get_luck_used(); }
 void TObjPlayer__sub_801BE7E0(void* p, u8 v) { *(u8*)((char*)p + 0x277) = v; }
-u8 TObjPlayer::get_equip_flags() { return materials.get_def_used(); }
+u8 TObjPlayer::get_def_materials_used() { return materials.get_def_used(); }
 void TObjPlayer__sub_801BE80C(void* p, u8 v) { *(u8*)((char*)p + 0x25b) = v; }
-u8 TObjPlayer::get_inventory_state() { return materials.get_evade_used(); }
+u8 TObjPlayer::get_evade_materials_used() { return materials.get_evade_used(); }
 void TObjPlayer__sub_801BE838(void* p, u8 v) { *(u8*)((char*)p + 0x23f) = v; }
-u8 TObjPlayer::get_field_374_state() { return materials.get_mind_used(); }
+u8 TObjPlayer::get_mind_materials_used() { return materials.get_mind_used(); }
 void TObjPlayer__sub_801BE864(void* p, u8 v) { *(u8*)((char*)p + 0x223) = v; }
-u8 TObjPlayer::get_field_374() { return materials.get_power_used(); }
+u8 TObjPlayer::get_power_materials_used() { return materials.get_power_used(); }
 
 }
 

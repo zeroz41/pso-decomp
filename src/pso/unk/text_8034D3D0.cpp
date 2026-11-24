@@ -1,6 +1,4 @@
-#include "pso/npc/TNpcPlayer_8034DAA0.h"
 #include "types.h"
-#include "pso/unk/text_8034D3D0.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/effect/TDuelEffectString.h"
@@ -88,18 +86,6 @@ s32 TBoss8Dragon::eval_bezier_curve(CurvePathPoint *pts, int count, int closed, 
 }
 #pragma pop
 
-struct PartnerText_8034D9E0 {
-    const char *text[6];
-    s32 kind[6];
-};
-
-struct PartnerText_8034DA38
-{
-  const char *text[6];
-  s32 kind[6];
-};
-
-struct PartnerText_8034D9E0 partner_dialogue_table[4];
 extern "C" {
 
 #pragma push
@@ -168,34 +154,3 @@ s32 fn_8034D790(CurvePathPoint *e, f32 scale, s32 n, s32 count, s32 closed, Vec 
 }
 }
 #pragma pop
-const char *get_partner_custom_text(s32 kind, u16 player) {
-    s32 i;
-    if (player >= 4) {
-        return NULL;
-    }
-    for (i = 0; i < 6; i++) {
-        if (kind == partner_dialogue_table[player].kind[i]) {
-            return partner_dialogue_table[player].text[i];
-        }
-    }
-    return NULL;
-}
-typedef struct PartnerText_8034DA38 PartnerText_8034DA38;
-void set_partner_dialogue_override(const char *text, s32 kind, u16 player) {
-  s32 i;
-  long long off;
-  if (player >= 4)
-  {
-    return;
-  }
-  off = player * 0x30;
-  for (i = 0; i < 6; i++)
-  {
-    if ((((struct PartnerText_8034DA38 *)&partner_dialogue_table)[player].kind[i] == 25) || (kind == ((struct PartnerText_8034DA38 *)&partner_dialogue_table)[player].kind[i]))
-    {
-      ((struct PartnerText_8034DA38 *) (((u8 *) ((struct PartnerText_8034DA38 *)&partner_dialogue_table)) + off))->kind[i] = kind;
-      ((struct PartnerText_8034DA38 *)&partner_dialogue_table)[player].text[i] = text;
-      return;
-    }
-  }
-}

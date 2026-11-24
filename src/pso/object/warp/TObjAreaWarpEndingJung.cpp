@@ -92,6 +92,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/TScreenFadeOut.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/npc/NpcPartnerControl.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -601,7 +602,7 @@ void TObjAreaWarp::handle_area_selection() {
 void TObjAreaWarp::confirm_area_transfer(TObjPlayer *player) {
     floor_transition_state.set_next_floor((int) (this->dest_floor), (int) (get_floor_map_terrain(this->dest_floor)));
     ((s32 (*)(void))mark_area_change_pending)();
-    TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
+    send_inter_level_warp_all(floor_transition_state.get_next_floor());
     send_6x21_inter_level_warp(player, (floor_transition_state.get_next_floor()));
     ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x40003205, 0U, 0, 0);
 }
@@ -613,7 +614,7 @@ void handle_6x94_inter_level_warp(game_command_header *command) {
         floor_transition_state.set_next_floor(packet->floor, get_floor_map_terrain(packet->floor));
         mark_area_change_pending();
         TWindowCtrl::suppress_slot(local_client_id);
-        TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
+        send_inter_level_warp_all(floor_transition_state.get_next_floor());
         TObjPlayer *p = get_player_by_client_id(local_client_id);
         if (p != 0) {
             send_6x21_inter_level_warp(p, (s32)(floor_transition_state.get_next_floor()));
@@ -838,7 +839,7 @@ void TObjAreaWarpQuest::confirm_area_transfer(TObjPlayer *player) {
             }
         }
     }
-    TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
+    send_inter_level_warp_all(floor_transition_state.get_next_floor());
     send_6x21_inter_level_warp(player, (s32)(floor_transition_state.get_next_floor()));
 }
 

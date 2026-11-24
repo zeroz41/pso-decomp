@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -22,7 +21,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 // Stored in the object name field by the constructor.
 const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
