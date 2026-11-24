@@ -199,7 +199,7 @@ s32 init_player_join_record(void *);
 void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const NJS_POINT2 card_list_message_window_size[1];
-void fn_80338D58(void *list, s32 flag, const char *name, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 index);
+void fn_80338D58(void *list, s32 flag, const char *name, s32 player_count, s32 max_players, s32 difficulty, s32 mark, s32 level, s32 index);
 extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
 void handle_chat_message__11TWindowCtrlFPc(char *);
@@ -238,7 +238,7 @@ s32 TLobby::idle_timeout_active;
 s32 TLobby::block_number;
 s32 TLobby::lobby_number;
 s32 TLobby::join_lobby_idle_timer;
-s32 TLobby::data_805D55B8;
+s32 TLobby::lobby_block_high;
 s32 TLobby::login_pending_flag;
 s32 lbl_805D55C0;
 s32 lobby_login_result_flag;
@@ -286,11 +286,11 @@ u8 lobby_scroll_text_buffer[0x1000];
 
 extern "C" {
 void __dt__7TObjectFv(void *, int);
-void *__dt__15TLobbyIdleTimerFv(void *object, s16 arg1) {
+void *__dt__15TLobbyIdleTimerFv(void *object, s16 dtor_flags) {
     if (object != NULL) {
         *(s32 **)((s8 *)object + 0x18) = (s32 *)lbl_804A7008;
         __dt__7TObjectFv(object, 0);
-        if (arg1 > 0) {
+        if (dtor_flags > 0) {
             TObject::operator delete(object);
         }
     }
@@ -1785,7 +1785,7 @@ TLobby::~TLobby() {
     block_number = 0;
     lobby_number = 0;
     join_lobby_idle_timer = 0;
-    data_805D55B8 = 0;
+    lobby_block_high = 0;
     login_pending_flag = 1;
     lbl_805D55C0 = 0;
     player_setup_pending = 0;
@@ -2274,7 +2274,7 @@ void TLobby::make_players() {
 
 #pragma push
 #pragma opt_propagation off
-void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, int leader, int lobby, int block, int arg6, int event_theme) {
+void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, int leader, int lobby, int block, int block_high, int event_theme) {
     s32 v4;
     TObjPlayer *p;
     saddr i;
@@ -2288,7 +2288,7 @@ void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, 
     join_state_flag = 1;
     lobby_number = lobby;
     block_number = block;
-    data_805D55B8 = arg6;
+    lobby_block_high = block_high;
     TLobby::set_player_count(0);
     room_change_pending = 0;
     designated_client_id = leader;
@@ -2659,7 +2659,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     block_number = 0;
     lobby_number = 0;
     join_lobby_idle_timer = 0;
-    data_805D55B8 = 0;
+    lobby_block_high = 0;
     login_pending_flag = 1;
     lbl_805D55C0 = 0;
     lobby_login_result_flag = 0;

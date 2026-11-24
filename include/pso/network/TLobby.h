@@ -893,7 +893,7 @@ struct TLobby : public TObject {
     static s32 room_change_pending;  // set by send_room_change, cleared when the lobby is entered
     static s32 login_pending_flag;
     static s32 lobby_entered_flag;
-    static s32 data_805D55B8;  // the 0x67 lobby join packet's byte after block_number; never read
+    static s32 lobby_block_high;  // high byte of the 0x67 lobby join packet's block number; never read
     static u32 join_entries_dtor_registration[3];
 };
 
