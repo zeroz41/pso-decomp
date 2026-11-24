@@ -34,7 +34,6 @@ extern "C" {
 void update_photon_chair__10TObjPlayerFv(void *player);
 s8 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, const StatusEffect *src);
-int TObjPlayer__sub_801BEF60(PlayerPadBinding *binding, int value);
 u8 TObjPlayer__sub_801BEB8C(PlayerSyncRecord *record);
 u8 TObjPlayer__sub_801BEBB8(PlayerSyncRecord *record);
 u8 TObjPlayer__sub_801BEBE4(PlayerSyncRecord *record);
@@ -231,7 +230,7 @@ void TObjPlayer::init_player_data(void *src) {
     bodies->offset.y = TObjPlayer__data_805DC28C * stat_block->proportions;
 }
 
-int TObjPlayer::is_flag_set_550(void *record) { return TObjPlayer__sub_801BEF60(&pad_binding, 0); }
+void TObjPlayer::init_remote_pad_binding(PlayerSyncRecord *record) { pad_binding.set_controller(NULL); }
 
 void TObjPlayer::reset_pad_binding() {}
 
@@ -243,7 +242,7 @@ void TObjPlayer::init_control_mode(s32 role) {
         pad_binding.init(get_entity_id(), controller_port);
         return;
     }
-    TObjPlayer__sub_801BEF60(&pad_binding, 0);
+    pad_binding.set_controller(NULL);
 }
 
 void TObjPlayer::init_data_table_ptr() {

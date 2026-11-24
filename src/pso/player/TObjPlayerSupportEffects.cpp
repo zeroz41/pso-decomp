@@ -7,7 +7,6 @@ extern "C" {
 s32 TObjPlayer__sub_801AF868(TObjPlayer *player);
 s32 check_flag_800000__10TObjPlayerFPv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
-void TObjPlayer__sub_801BEF60(PlayerPadBinding *binding, s32 value);
 }
 
 s32 TObjPlayer::get_card_window_field_244() {
@@ -22,7 +21,7 @@ void TObjPlayer::init_local_pad_binding() {
 
 void TObjPlayer::stop_force_if_alive() {
     if (TObjPlayer::is_locally_controlled(this) != 0) {
-        TObjPlayer__sub_801BEF60(&pad_binding, 0);
+        pad_binding.set_controller(NULL);
     }
 }
 

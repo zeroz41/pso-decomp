@@ -24,6 +24,7 @@ struct PlayerPadBinding {
     // Lets / stops the player use the buttons in mask (enabled_buttons).
     void enable_buttons(u32 mask);
     void disable_buttons(u32 mask);
+    void set_controller(ControllerInputContext *context);
     ControllerInputContext *get_controller();
 
     u16 entity_id;

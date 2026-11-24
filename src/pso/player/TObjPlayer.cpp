@@ -53,7 +53,6 @@ extern "C" {
 void TObjPlayer__sub_801BEEE0(void* p, void* q);
 void TObjPlayer__sub_801BEF30(void* p, void* q);
 void TObjPlayer__sub_801BEF44(void* p, void* q);
-void TObjPlayer__sub_801BEF60(void* p, s32 v);
 int create_attached_oneshot_emitter(void*, u16, int);
 int emit_player_particle(void*, int, int);
 void* TObjPlayer__sub_801BF31C(void* p);
@@ -381,7 +380,7 @@ void PlayerHandParticles::prepare_heavy_attack_particles() {
 
 void PlayerFollowParticles::prepare_heavy_attack_particles_default() { hands.prepare_heavy_attack_particles(); }
 
-void TObjPlayer__sub_801BEF60(void* p, s32 v) { *(s32*)((char*)p + 0xc) = v; }
+void PlayerPadBinding::set_controller(ControllerInputContext *context) { controller = context; }
 
 void TObjPlayer__sub_801BEF44(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(f32*)((char*)p + 0x4) = *(f32*)((char*)q + 0x4); *(u32*)((char*)p + 0x8) = *(u32*)((char*)q + 0x8); }
 

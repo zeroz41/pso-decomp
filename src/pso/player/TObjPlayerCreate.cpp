@@ -140,7 +140,7 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     this->update_position(record);
     clear_lock_on_cursor(record);
     init_model_buffer_and_actions(record);
-    is_flag_set_550(record);
+    init_remote_pad_binding(record);
     init_session_technique_caps(record);
     this->init_from_source(record);
     init_session_area_sync(record);
