@@ -40,17 +40,6 @@ typedef struct STREAM_INFO {
     u32 nextStreamHandle;
 } STREAM_INFO;
 
-typedef struct SAMPLE_INFO {
-    u32 info;
-    void *addr;
-    void *extraData;
-    u32 offset;
-    u32 length;
-    u32 loop;
-    u32 loopLength;
-    u8 compType;
-} SAMPLE_INFO;
-
 static STREAM_INFO streamInfo[64];
 static u8 streamCallCnt;
 static u8 streamCallDelay;

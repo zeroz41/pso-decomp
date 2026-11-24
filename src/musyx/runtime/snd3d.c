@@ -138,9 +138,9 @@ void CheckRoomStatus(void) {
                 room->curMVol = has_listener ? 0x7f0000 : 0;
 
                 if (room->curMVol * 1.2014794e-07f >= 0.5) {
-                    synthActivateStudio(room->studio, 1, 0);
+                    synthActivateStudio(room->studio, 1, SND_STUDIO_TYPE_STD);
                 } else {
-                    synthActivateStudio(room->studio, 0, 0);
+                    synthActivateStudio(room->studio, 0, SND_STUDIO_TYPE_STD);
                 }
 
                 if (room->activateReverb != 0) {
@@ -155,9 +155,9 @@ void CheckRoomStatus(void) {
                     }
 
                     if (room->curMVol * 1.2014794e-07f >= 0.5) {
-                        synthActivateStudio(room->studio, 1, 0);
+                        synthActivateStudio(room->studio, 1, SND_STUDIO_TYPE_STD);
                     } else {
-                        synthActivateStudio(room->studio, 0, 0);
+                        synthActivateStudio(room->studio, 0, SND_STUDIO_TYPE_STD);
                     }
                 }
 
@@ -168,9 +168,9 @@ void CheckRoomStatus(void) {
                         room->flags &= ~0x40000000;
                     }
                     if (room->curMVol * 1.2014794e-07f >= 0.5) {
-                        synthActivateStudio(room->studio, 1, 0);
+                        synthActivateStudio(room->studio, 1, SND_STUDIO_TYPE_STD);
                     } else {
-                        synthActivateStudio(room->studio, 0, 0);
+                        synthActivateStudio(room->studio, 0, SND_STUDIO_TYPE_STD);
                     }
                 }
             }

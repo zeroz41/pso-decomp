@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "musyx/musyx.h"
+#include "musyx/runtime/hw_dspctrl.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,8 +11,6 @@ extern "C" {
 
 #if defined(MUSYX_RUNTIME_A_H)
 typedef Ent_803BA228 FX_TAB;
-typedef ADSR_VARS_803B41C8 ADSRVars;
-typedef Envelope_803B431C MusyxEnvelope;
 #endif
 
 #if !defined(MUSYX_RUNTIME_A_H) && !defined(MUSYX_RUNTIME_B_H)
@@ -80,46 +79,6 @@ typedef struct FX_TAB {
     u8 key;
     u8 vGroup;
 } FX_TAB;
-
-typedef struct ADSRVars {
-    u8 mode;
-    u8 state;
-    u32 cnt;
-    s32 currentVolume;
-    s32 currentIndex;
-    s32 currentDelta;
-    union {
-        struct {
-            u32 aTime;
-            u32 dTime;
-            u16 sLevel;
-            u32 rTime;
-            u16 cutOff;
-            u8 aMode;
-        } dls;
-        struct {
-            u32 aTime;
-            u32 dTime;
-            u16 sLevel;
-            u32 rTime;
-        } linear;
-    } data;
-} ADSRVars;
-
-typedef struct MusyxEnvelope {
-    u8 mode;
-    u8 phase;
-    u8 pad[2];
-    u32 remaining;
-    u32 level;
-    u32 logLevel;
-    s32 step;
-    u32 attack;
-    u32 decay;
-    u16 sustain;
-    u16 pad2;
-    u32 release;
-} MusyxEnvelope;
 
 typedef struct SynthMacroStep {
     u32 para[2];
@@ -270,7 +229,7 @@ typedef struct SynthVoice {
     u8 pbLowerKeyRange;
     u8 pbUpperKeyRange;
     u16 pbLast;
-    ADSRVars pitchADSR;
+    ADSR_VARS pitchADSR;
     s16 pitchADSRRange;
     u16 curPitch;
     struct {
@@ -494,7 +453,7 @@ void hwDisableIrq(void);
 void hwEnableIrq(void);
 void hwDisableHRTF(void);
 void hwSetAUXProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, SND_AUX_CALLBACK auxB, void *userB);
-void hwActivateStudio(u8 studio, s32 isMaster, s32 type);
+void hwActivateStudio(u8 studio, u32 isMaster, SND_STUDIO_TYPE type);
 void hwDeactivateStudio(u8 studio);
 u32 hwIsActive(s32 voice);
 void hwOff(s32 voice);
@@ -518,7 +477,7 @@ void hwExitStream(u8 streamHandle);
 void hwSetPriority(s32 voice, s32 prio);
 u8 hwGetTimeOffset(void);
 void hwFrameDone(void);
-void hwSetMesgCallback(s32 cb);
+void hwSetMesgCallback(SND_MESSAGE_CALLBACK callback);
 void *hwTransAddr(void *samples);
 void hwSyncSampleMem(void);
 void hwSaveSample(SynthSampleHeader **header, uaddr *data);
@@ -666,9 +625,9 @@ void macSampleEndNotify(SynthVoice *svoice);
 s16 varGet(SynthVoice *svoice, u32 isExCtrl, u32 index);
 
 u32 adsrConvertTimeCents(s32 timeCents);
-u32 adsrSetup(ADSRVars *adsr);
-u32 adsrHandleLowPrecision(void *adsr, void *start, void *delta);
-s32 adsrRelease(MusyxEnvelope *e);
+u32 adsrSetup(ADSR_VARS *adsr);
+u32 adsrHandleLowPrecision(ADSR_VARS *adsr, u16 *adsr_start, u16 *adsr_delta);
+u32 adsrRelease(ADSR_VARS *adsr);
 u32 vsSampleStartNotify(u8 voice);
 void vsSampleEndNotify(u32 pubID);
 
@@ -702,7 +661,7 @@ u16 inpGetAuxA(u8 studio, u8 index, u8 midi, u8 midiSet);
 u16 inpGetAuxB(u8 studio, u8 index, u8 midi, u8 midiSet);
 
 u32 aramGetStreamBufferAddress(u8 channel, u32 *outLen);
-void hwSetVirtualSampleLoopBuffer(s32 voice, s32 addr, s32 len);
+void hwSetVirtualSampleLoopBuffer(s32 voice, uaddr addr, u32 len);
 u16 hwGetSampleID(s32 voice);
 u8 hwGetSampleType(s32 voice);
 u32 hwGetVirtualSampleState(s32 voice);

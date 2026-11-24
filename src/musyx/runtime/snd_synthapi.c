@@ -120,7 +120,7 @@ void sndSetAuxProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA,
 }
 #pragma push
 #pragma opt_common_subs on
-void synthActivateStudio(u8 studio, u32 isMaster, u32 type) {
+void synthActivateStudio(u8 studio, u32 isMaster, SND_STUDIO_TYPE type) {
     hwDisableIrq();
     synthAuxACallback[studio] = 0;
     synthAuxBCallback[studio] = 0;

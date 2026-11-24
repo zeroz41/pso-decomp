@@ -2,7 +2,7 @@
 
 extern "C" {
 
-Rec_803B59E4 dspStudio[8];
+DSPstudioinfo dspStudio[8];
 
 u32 dspARAMZeroBuffer;
 u16 *dspCmdLastLoad;
@@ -17,8 +17,8 @@ u32 dspHRTFOn;
 void *dspHrtfHistoryBuffer;
 s32 *dspSurround;
 void *dspITDBuffer;
-DSPvoice_803B5500 *dspVoice;
-s32 (*salMessageCallback)(s32, s32);
+DSPvoice *dspVoice;
+SND_MESSAGE_CALLBACK salMessageCallback;
 
 
 #pragma push
@@ -38,7 +38,7 @@ u32 salInitDspCtrl(u8 numVoices, u8 numStudios, u32 defaultStudioDPL2) {
         if ((dspSurround = (s32 *)salMalloc(160 * sizeof(s32)))) {
             memset(dspSurround, 0, 160 * sizeof(s32));
             DCFlushRange(dspSurround, 160 * sizeof(long));
-            if ((dspVoice = (DSPvoice_803B5500 *)salMalloc(salNumVoices * sizeof(DSPvoice_803B5500)))) {
+            if ((dspVoice = (DSPvoice *)salMalloc(salNumVoices * sizeof(DSPvoice)))) {
                 if ((dspITDBuffer = salMalloc(salNumVoices * 64))) {
                     DCInvalidateRange(dspITDBuffer, salNumVoices * 64);
                     itdPtr = (uaddr)dspITDBuffer;
@@ -46,23 +46,23 @@ u32 salInitDspCtrl(u8 numVoices, u8 numStudios, u32 defaultStudioDPL2) {
                         dspVoice[i].state = 0;
                         dspVoice[i].postBreak = 0;
                         dspVoice[i].startupBreak = 0;
-                        dspVoice[i].lastUpdatePitch = 0xff;
-                        dspVoice[i].lastUpdateVol = 0xff;
-                        dspVoice[i].lastUpdateVolA = 0xff;
-                        dspVoice[i].lastUpdateVolB = 0xff;
-                        dspVoice[i].pb = (_PB_803B5500 *)salMalloc(sizeof(_PB_803B5500));
-                        memset(dspVoice[i].pb, 0, sizeof(_PB_803B5500));
+                        dspVoice[i].lastUpdate.pitch = 0xff;
+                        dspVoice[i].lastUpdate.vol = 0xff;
+                        dspVoice[i].lastUpdate.volA = 0xff;
+                        dspVoice[i].lastUpdate.volB = 0xff;
+                        dspVoice[i].pb = (_PB *)salMalloc(sizeof(_PB));
+                        memset(dspVoice[i].pb, 0, sizeof(_PB));
                         dspVoice[i].patchData = salMalloc(0x80);
                         dspVoice[i].pb->currHi = ((uaddr)dspVoice[i].pb >> 16);
                         dspVoice[i].pb->currLo = (u16)(uaddr)dspVoice[i].pb;
-                        dspVoice[i].pb->updateDataHi = ((uaddr)dspVoice[i].patchData >> 16);
-                        dspVoice[i].pb->updateDataLo = ((u16)(uaddr)dspVoice[i].patchData);
-                        dspVoice[i].pb->itdBufferHi = ((u32)itdPtr >> 16);
-                        dspVoice[i].pb->itdBufferLo = ((u16)itdPtr);
+                        dspVoice[i].pb->update.dataHi = ((uaddr)dspVoice[i].patchData >> 16);
+                        dspVoice[i].pb->update.dataLo = ((u16)(uaddr)dspVoice[i].patchData);
+                        dspVoice[i].pb->itd.bufferHi = ((u32)itdPtr >> 16);
+                        dspVoice[i].pb->itd.bufferLo = ((u16)itdPtr);
                         dspVoice[i].itdBuffer = (void *)itdPtr;
                         itdPtr += 0x40;
                         dspVoice[i].virtualSampleID = 0xFFFFFFFF;
-                        DCStoreRangeNoSync(dspVoice[i].pb, sizeof(_PB_803B5500));
+                        DCStoreRangeNoSync(dspVoice[i].pb, sizeof(_PB));
                         for (j = 0; j < 5; ++j) {
                             dspVoice[i].changed[j] = 0;
                         }
@@ -70,7 +70,7 @@ u32 salInitDspCtrl(u8 numVoices, u8 numStudios, u32 defaultStudioDPL2) {
 
                     for (i = 0; i < salMaxStudioNum; ++i) {
                         dspStudio[i].state = 0;
-                        if (!(dspStudio[i].spb = salMalloc(0x36))) {
+                        if (!(dspStudio[i].spb = (_SPB *)salMalloc(sizeof(_SPB)))) {
                             return 0;
                         }
 
@@ -93,7 +93,7 @@ u32 salInitDspCtrl(u8 numVoices, u8 numStudios, u32 defaultStudioDPL2) {
                         dspStudio[i].hostDPopSum.lB = dspStudio[i].hostDPopSum.rB = dspStudio[i].hostDPopSum.sB = 0;
                         DCFlushRangeNoSync(dspStudio[i].spb, 0x36);
                     }
-                    salActivateStudio(0, 1, defaultStudioDPL2 != 0 ? 1 : 0);
+                    salActivateStudio(0, 1, defaultStudioDPL2 ? SND_STUDIO_TYPE_DPL2 : SND_STUDIO_TYPE_STD);
                     if (!(dspHrtfHistoryBuffer = salMalloc(0x100))) {
                         return 0;
                     }
@@ -119,7 +119,7 @@ void salInitHRTFBuffer(void) {
 #pragma opt_common_subs on
 #pragma bool off
 
-void salActivateStudio(u8 studio, u32 isMaster, u32 type) {
+void salActivateStudio(u8 studio, u32 isMaster, SND_STUDIO_TYPE type) {
     memset(dspStudio[studio].main[0], 0, 0x3c00);
     DCFlushRangeNoSync(dspStudio[studio].main[0], 0x3c00);
     memset(dspStudio[studio].spb, 0, 0x36);
@@ -146,7 +146,7 @@ void salActivateStudio(u8 studio, u32 isMaster, u32 type) {
 #pragma pop
 
 void salDeactivateStudio(u8 i) {
-    dspStudio[i].f50 = 0;
+    dspStudio[i].state = 0;
 }
 
 #pragma push
@@ -198,53 +198,53 @@ u32 salCheckVolErrorAndResetDelta(u16 *dsp_vol, u16 *dsp_delta, u16 *last_vol, u
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-static inline void AddDpop_803B5AF8(s32 *sum, s16 delta) {
+static inline void AddDpop(s32 *sum, s16 delta) {
     *sum += (int)delta;
     *sum = (*sum > 0x7fffff) ? 0x7fffff : (*sum < -0x7fffff ? -0x7fffff : *sum);
 }
 
-void HandleDepopVoice(DSPstudioinfo_803B5AF8 *stp, DSPvoice_803B5AF8 *dsp_vptr) {
-    _PB_803B5AF8 *pb;
+void HandleDepopVoice(DSPstudioinfo *stp, DSPvoice *dsp_vptr) {
+    _PB *pb;
     dsp_vptr->postBreak = 0;
     dsp_vptr->pb->state = 0;
     pb = dsp_vptr->pb;
 
-    AddDpop_803B5AF8(&stp->hostDPopSum.l, pb->dpop.aL);
-    AddDpop_803B5AF8(&stp->hostDPopSum.r, pb->dpop.aR);
+    AddDpop(&stp->hostDPopSum.l, pb->dpop.aL);
+    AddDpop(&stp->hostDPopSum.r, pb->dpop.aR);
 
     if ((pb->mixerCtrl & 0x04) != 0) {
-        AddDpop_803B5AF8(&stp->hostDPopSum.s, pb->dpop.aS);
+        AddDpop(&stp->hostDPopSum.s, pb->dpop.aS);
     }
 
     if ((pb->mixerCtrl & 0x01) != 0) {
-        AddDpop_803B5AF8(&stp->hostDPopSum.lA, pb->dpop.aAuxAL);
-        AddDpop_803B5AF8(&stp->hostDPopSum.rA, pb->dpop.aAuxAR);
+        AddDpop(&stp->hostDPopSum.lA, pb->dpop.aAuxAL);
+        AddDpop(&stp->hostDPopSum.rA, pb->dpop.aAuxAR);
 
         if ((pb->mixerCtrl & 0x14) != 0) {
-            AddDpop_803B5AF8(&stp->hostDPopSum.sA, pb->dpop.aAuxAS);
+            AddDpop(&stp->hostDPopSum.sA, pb->dpop.aAuxAS);
         }
     }
 
     if ((pb->mixerCtrl & 0x12) != 0) {
-        AddDpop_803B5AF8(&stp->hostDPopSum.lB, pb->dpop.aAuxBL);
-        AddDpop_803B5AF8(&stp->hostDPopSum.rB, pb->dpop.aAuxBR);
+        AddDpop(&stp->hostDPopSum.lB, pb->dpop.aAuxBL);
+        AddDpop(&stp->hostDPopSum.rB, pb->dpop.aAuxBR);
 
         if ((pb->mixerCtrl & 0x4) != 0) {
-            AddDpop_803B5AF8(&stp->hostDPopSum.sB, pb->dpop.aAuxBS);
+            AddDpop(&stp->hostDPopSum.sB, pb->dpop.aAuxBS);
         }
     }
 }
 
 #pragma pop
 
-void SortVoices(Ent_803B5DB0 **v, s32 left, s32 right) {
-    Ent_803B5DB0 **pm;
+void SortVoices(DSPvoice **v, s32 left, s32 right) {
+    DSPvoice **pm;
     s32 i;
     s32 last;
-    Ent_803B5DB0 *t;
-    Ent_803B5DB0 *e;
-    Ent_803B5DB0 **pl;
-    Ent_803B5DB0 **pi;
+    DSPvoice *t;
+    DSPvoice *e;
+    DSPvoice **pl;
+    DSPvoice **pi;
 
     if (left >= right) {
         return;
@@ -257,7 +257,7 @@ void SortVoices(Ent_803B5DB0 **v, s32 left, s32 right) {
     last = left;
     for (i = left + 1; i <= right; i++) {
         e = v[i];
-        if (e->key < (*pl)->key) {
+        if (e->prio < (*pl)->prio) {
             last++;
             t = v[last];
             v[last] = e;
@@ -272,7 +272,6 @@ void SortVoices(Ent_803B5DB0 **v, s32 left, s32 right) {
     SortVoices(v, last + 1, right);
 }
 
-#define dspStudio ((DSPstudioinfo *)dspStudio)
 u32 __OSBusClock AT_ADDRESS(0x800000F8);
 
 const u16 dspMixerCycles[32] = {
@@ -286,301 +285,6 @@ u16 dspSRCCycles[3][3] = {
     {3700, 3700, 1115},
 };
 
-typedef enum {
-  SND_STUDIO_TYPE_STD = 0,
-  SND_STUDIO_TYPE_DPL2,
-  SND_STUDIO_TYPE_RESERVED1,
-  SND_STUDIO_TYPE_RESERVED2
-} SND_STUDIO_TYPE;
-typedef struct DSPADPCMblock {
-  signed short Y0;
-  signed short Y1;
-  unsigned char PS;
-  unsigned char reserved;
-} DSPADPCMblock;
-typedef struct DSPADPCMplusInfo {
-  unsigned short numCoef;
-  unsigned char initialPS;
-  unsigned char loopPS;
-  signed short loopY0;
-  signed short loopY1;
-  signed short coefTab[8][2];
-  DSPADPCMblock blk[1];
-} DSPADPCMplusInfo;
-typedef struct ADSR_VARS {
-  u8 mode;
-  u8 state;
-  u32 cnt;
-  s32 currentVolume;
-  s32 currentIndex;
-  s32 currentDelta;
-  union data {
-    struct _dls {
-      u32 aTime;
-      u32 dTime;
-      u16 sLevel;
-      u32 rTime;
-      u16 cutOff;
-      u8 aMode;
-    } dls;
-    struct _linear {
-      u32 aTime;
-      u32 dTime;
-      u16 sLevel;
-      u32 rTime;
-    } linear;
-  } data;
-} ADSR_VARS;
-typedef struct SAMPLE_INFO {
-  u32 info;
-  void* addr;
-  void* extraData;
-  u32 offset;
-  u32 length;
-  u32 loop;
-  u32 loopLength;
-  u8 compType;
-} SAMPLE_INFO;
-typedef struct _PBMIX {
-  u16 vL;
-  u16 vDeltaL;
-  u16 vR;
-  u16 vDeltaR;
-  u16 vAuxAL;
-  u16 vDeltaAuxAL;
-  u16 vAuxAR;
-  u16 vDeltaAuxAR;
-  u16 vAuxBL;
-  u16 vDeltaAuxBL;
-  u16 vAuxBR;
-  u16 vDeltaAuxBR;
-  u16 vAuxBS;
-  u16 vDeltaAuxBS;
-  u16 vS;
-  u16 vDeltaS;
-  u16 vAuxAS;
-  u16 vDeltaAuxAS;
-} _PBMIX;
-typedef struct _PBITD {
-  u16 flag;
-  u16 bufferHi;
-  u16 bufferLo;
-  u16 shiftL;
-  u16 shiftR;
-  u16 targetShiftL;
-  u16 targetShiftR;
-} _PBITD;
-typedef struct _PBUPDATE {
-  u16 updNum[5];
-  u16 dataHi;
-  u16 dataLo;
-} _PBUPDATE;
-typedef struct _PBDPOP {
-  u16 aL;
-  u16 aAuxAL;
-  u16 aAuxBL;
-  u16 aR;
-  u16 aAuxAR;
-  u16 aAuxBR;
-  u16 aS;
-  u16 aAuxAS;
-  u16 aAuxBS;
-} _PBDPOP;
-typedef struct _PBVE {
-  u16 currentVolume;
-  u16 currentDelta;
-} _PBVE;
-typedef struct _PBFIR {
-  u16 numCoefs;
-  u16 coefsHi;
-  u16 coefsLo;
-} _PBFIR;
-typedef struct _PBADDR {
-  u16 loopFlag;
-  u16 format;
-  u16 loopAddressHi;
-  u16 loopAddressLo;
-  u16 endAddressHi;
-  u16 endAddressLo;
-  u16 currentAddressHi;
-  u16 currentAddressLo;
-} _PBADDR;
-typedef struct _PBADPCM {
-  u16 a[8][2];
-  u16 gain;
-  u16 pred_scale;
-  u16 yn1;
-  u16 yn2;
-} _PBADPCM;
-typedef struct _PBSRC {
-  u16 ratioHi;
-  u16 ratioLo;
-  u16 currentAddressFrac;
-  u16 last_samples[4];
-} _PBSRC;
-typedef struct _PBADPCMLOOP {
-  u16 loop_pred_scale;
-  u16 loop_yn1;
-  u16 loop_yn2;
-} _PBADPCMLOOP;
-typedef struct _PB {
-  u16 nextHi;
-  u16 nextLo;
-  u16 currHi;
-  u16 currLo;
-  u16 srcSelect;
-  u16 coefSelect;
-  u16 mixerCtrl;
-  u16 state;
-  u16 loopType;
-  _PBMIX mix;
-  _PBITD itd;
-  _PBUPDATE update;
-  _PBDPOP dpop;
-  _PBVE ve;
-  _PBFIR fir;
-  _PBADDR addr;
-  _PBADPCM adpcm;
-  _PBSRC src;
-  _PBADPCMLOOP adpcmLoop;
-  u16 streamLoopCnt;
-} _PB;
-typedef struct VSampleInfo {
-  void* loopBufferAddr;
-  u32 loopBufferLength;
-  u8 inLoopBuffer;
-} VSampleInfo;
-typedef struct _SPB {
-  u16 dpopLHi;
-  u16 dpopLLo;
-  u16 dpopLDelta;
-  u16 dpopRHi;
-  u16 dpopRLo;
-  u16 dpopRDelta;
-  u16 dpopSHi;
-  u16 dpopSLo;
-  u16 dpopSDelta;
-  u16 dpopALHi;
-  u16 dpopALLo;
-  u16 dpopALDelta;
-  u16 dpopARHi;
-  u16 dpopARLo;
-  u16 dpopARDelta;
-  u16 dpopASHi;
-  u16 dpopASLo;
-  u16 dpopASDelta;
-  u16 dpopBLHi;
-  u16 dpopBLLo;
-  u16 dpopBLDelta;
-  u16 dpopBRHi;
-  u16 dpopBRLo;
-  u16 dpopBRDelta;
-  u16 dpopBSHi;
-  u16 dpopBSLo;
-  u16 dpopBSDelta;
-} _SPB;
-typedef struct DSPvoice {
-  _PB* pb;
-  void* patchData;
-  void* itdBuffer;
-  struct DSPvoice* next;
-  struct DSPvoice* prev;
-  struct DSPvoice* nextAlien;
-  u32 mesgCallBackUserValue;
-  u32 prio;
-  u32 currentAddr;
-  u32 changed[5];
-  u32 pitch[5];
-  u16 volL;
-  u16 volR;
-  u16 volS;
-  u16 volLa;
-  u16 volRa;
-  u16 volSa;
-  u16 volLb;
-  u16 volRb;
-  u16 volSb;
-  u16 lastVolL;
-  u16 lastVolR;
-  u16 lastVolS;
-  u16 lastVolLa;
-  u16 lastVolRa;
-  u16 lastVolSa;
-  u16 lastVolLb;
-  u16 lastVolRb;
-  u16 lastVolSb;
-  u16 smp_id;
-  SAMPLE_INFO smp_info;
-  VSampleInfo vSampleInfo;
-  u8 streamLoopPS;
-  ADSR_VARS adsr;
-  u16 srcTypeSelect;
-  u16 srcCoefSelect;
-  u16 itdShiftL;
-  u16 itdShiftR;
-  u8 singleOffset;
-  struct {
-    u32 posHi;
-    u32 posLo;
-    u32 pitch;
-  } playInfo;
-  struct {
-    u8 pitch;
-    u8 vol;
-    u8 volA;
-    u8 volB;
-  } lastUpdate;
-  u32 virtualSampleID;
-  u8 state;
-  u8 postBreak;
-  u8 startupBreak;
-  u8 studio;
-  u32 flags;
-} DSPvoice;
-typedef struct DSPhostDPop {
-  s32 l;
-  s32 r;
-  s32 s;
-  s32 lA;
-  s32 rA;
-  s32 sA;
-  s32 lB;
-  s32 rB;
-  s32 sB;
-} DSPhostDPop;
-typedef struct DSPinput {
-  u8 studio;
-  u16 vol;
-  u16 volA;
-  u16 volB;
-  SND_STUDIO_INPUT* desc;
-} DSPinput;
-typedef struct DSPstudioinfo {
-  _SPB* spb;
-  DSPhostDPop hostDPopSum;
-  s32* main[2];
-  s32* auxA[3];
-  s32* auxB[3];
-  DSPvoice* voiceRoot;
-  DSPvoice* alienVoiceRoot;
-  u8 state;
-  u8 isMaster;
-  u8 numInputs;
-  SND_STUDIO_TYPE type;
-  DSPinput in[7];
-  SND_AUX_CALLBACK auxAHandler;
-  SND_AUX_CALLBACK auxBHandler;
-  void* auxAUser;
-  void* auxBUser;
-} DSPstudioinfo;
-typedef struct SNDADPCMinfo {
-  u16 numCoef;
-  u8 initialPS;
-  u8 loopPS;
-  s16 loopY0;
-  s16 loopY1;
-  s16 coefTab[8][2];
-} SNDADPCMinfo;
 
 #pragma push
 #pragma opt_common_subs on
@@ -610,10 +314,6 @@ static inline void sal_update_hostplayinfo(DSPvoice *dsp_vptr) {
   } else {
     dsp_vptr->playInfo.posHi += (pitch >> 16);
   }
-}
-static inline void AddDpop(s32 *sum, s16 delta) {
-  *sum += (int)delta;
-  *sum = (*sum > 0x7fffff) ? 0x7fffff : (*sum < -0x7fffff ? -0x7fffff : *sum);
 }
 static inline void DoDepopFade(s32 *dspStart, s16 *dspDelta, s32 *hostSum) {
   if (*hostSum <= -160) {
@@ -681,19 +381,19 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
       for (dsp_vptr = stp->voiceRoot; dsp_vptr; dsp_vptr = next_dsp_vptr) {
         next_dsp_vptr = dsp_vptr->next;
         if ((dsp_vptr->postBreak != 0) || ((dsp_vptr->changed[0] & 0x20) != 0)) {
-          HandleDepopVoice((DSPstudioinfo_803B5AF8 *)stp, (DSPvoice_803B5AF8 *)dsp_vptr);
+          HandleDepopVoice(stp, dsp_vptr);
           if (dsp_vptr->virtualSampleID != -1) {
-            salSynthSendMessage((u8 *)dsp_vptr, 3);
+            salSynthSendMessage(dsp_vptr, 3);
           }
           if ((dsp_vptr->state != 1) || (dsp_vptr->startupBreak != 0)) {
-            salDeactivateVoice((Ent_803B89B4 *)dsp_vptr);
+            salDeactivateVoice(dsp_vptr);
             dsp_vptr->startupBreak = 0;
           }
         }
       }
       dsp_vptr = stp->alienVoiceRoot;
       while (dsp_vptr) {
-        HandleDepopVoice((DSPstudioinfo_803B5AF8 *)stp, (DSPvoice_803B5AF8 *)dsp_vptr);
+        HandleDepopVoice(stp, dsp_vptr);
         dsp_vptr = dsp_vptr->nextAlien;
       }
       stp->alienVoiceRoot = 0;
@@ -752,7 +452,7 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
         voices[v] = dsp_vptr;
       }
       voiceNum = (int)v;
-      SortVoices((Ent_803B5DB0 **)voices, 0, voiceNum - 1);
+      SortVoices(voices, 0, voiceNum - 1);
       procVoiceFlag = 0;
       for (v = voiceNum; v > 0; v--) {
         dsp_vptr = voices[v - 1];
@@ -765,9 +465,9 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
           if (dsp_vptr->state == 1) {
             dsp_vptr->virtualSampleID = -1;
             dsp_vptr->pb->ve.currentDelta = 0x8000;
-            if (adsrSetup((u8 *)&dsp_vptr->adsr) != 0) {
-              salSynthSendMessage((u8 *)dsp_vptr, 0);
-              salDeactivateVoice((Ent_803B89B4 *)dsp_vptr);
+            if (adsrSetup(&dsp_vptr->adsr) != 0) {
+              salSynthSendMessage(dsp_vptr, 0);
+              salDeactivateVoice(dsp_vptr);
               continue;
             }
             dsp_vptr->virtualSampleID = -1;
@@ -775,10 +475,10 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
             case 5:
               dsp_vptr->vSampleInfo.loopBufferLength = 0;
               dsp_vptr->virtualSampleID =
-                  salSynthSendMessage((u8 *)dsp_vptr, 2);
+                  salSynthSendMessage(dsp_vptr, 2);
               if (dsp_vptr->vSampleInfo.loopBufferLength == 0) {
-                salSynthSendMessage((u8 *)dsp_vptr, 1);
-                salDeactivateVoice((Ent_803B89B4 *)dsp_vptr);
+                salSynthSendMessage(dsp_vptr, 1);
+                salDeactivateVoice(dsp_vptr);
                 continue;
               }
               break;
@@ -1001,13 +701,13 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
           }
           if ((dsp_vptr->smp_info.loopLength == 0) &&
               (dsp_vptr->playInfo.posHi >= dsp_vptr->smp_info.length)) {
-            salSynthSendMessage((u8 *)dsp_vptr, 0);
-            salDeactivateVoice((Ent_803B89B4 *)dsp_vptr);
+            salSynthSendMessage(dsp_vptr, 0);
+            salDeactivateVoice(dsp_vptr);
             continue;
           }
-          if (((dsp_vptr->changed[0] & 0x10) != 0) && (adsrSetup((u8 *)&dsp_vptr->adsr) != 0)) {
-            salSynthSendMessage((u8 *)dsp_vptr, 0);
-            salDeactivateVoice((Ent_803B89B4 *)dsp_vptr);
+          if (((dsp_vptr->changed[0] & 0x10) != 0) && (adsrSetup(&dsp_vptr->adsr) != 0)) {
+            salSynthSendMessage(dsp_vptr, 0);
+            salDeactivateVoice(dsp_vptr);
             continue;
           }
           if ((dsp_vptr->changed[0] & 1) != 0) {
@@ -1155,7 +855,7 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
           dsp_vptr->currentAddr = (pb->addr.currentAddressHi << 0x10) | pb->addr.currentAddressLo;
         block_186:
           if ((dsp_vptr->changed[mix_start] & 0x40) != 0) {
-            adsrRelease((struct Envelope_803B431C *)&dsp_vptr->adsr);
+            adsrRelease(&dsp_vptr->adsr);
           }
           if ((dsp_vptr->changed[mix_start] & 8) != 0) {
             pb->src.ratioHi = dsp_vptr->pitch[mix_start] >> 0x10;
@@ -1184,8 +884,8 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
               pptr[1] = 0;
               pptr += 2;
               pb->update.updNum[s]++;
-              salSynthSendMessage((u8 *)dsp_vptr, 0);
-              salDeactivateVoice((Ent_803B89B4 *)dsp_vptr);
+              salSynthSendMessage(dsp_vptr, 0);
+              salDeactivateVoice(dsp_vptr);
               break;
             } else {
               if (rampResetOffsetFlags[s] != 0) {
@@ -1200,11 +900,11 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
                 }
               }
               if ((dsp_vptr->changed[s] & 0x20) != 0) {
-                adsrStartRelease((ADSR_VARS_803B41C8 *)&dsp_vptr->adsr, 10);
+                adsrStartRelease(&dsp_vptr->adsr, 10);
                 dsp_vptr->postBreak = 1;
               } else if (dsp_vptr->postBreak == 0) {
                 if ((dsp_vptr->changed[s] & 0x40) != 0) {
-                  adsrRelease((struct Envelope_803B431C *)&dsp_vptr->adsr);
+                  adsrRelease(&dsp_vptr->adsr);
                 }
                 if ((dsp_vptr->changed[s] & 8) != 0) {
                   ;
@@ -1241,8 +941,8 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
             }
           }
           if (VoiceDone != 0) {
-            salSynthSendMessage((u8 *)dsp_vptr, 0);
-            salDeactivateVoice((Ent_803B89B4 *)dsp_vptr);
+            salSynthSendMessage(dsp_vptr, 0);
+            salDeactivateVoice(dsp_vptr);
           }
           DCStoreRangeNoSync(dsp_vptr->patchData, (uaddr)pptr - (uaddr)dsp_vptr->patchData);
           cyclesUsed += dspMixerCycles[pb->mixerCtrl] + 0x4FE;
@@ -1260,26 +960,26 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
           }
           if (cyclesUsed > (__OSBusClock / 400)) {
             if ((newVoice == 0) && (VoiceDone == 0)) {
-              HandleDepopVoice((DSPstudioinfo_803B5AF8 *)stp, (DSPvoice_803B5AF8 *)dsp_vptr);
+              HandleDepopVoice(stp, dsp_vptr);
             }
-            salDeactivateVoice((Ent_803B89B4 *)dsp_vptr);
-            salSynthSendMessage((u8 *)dsp_vptr, 1);
+            salDeactivateVoice(dsp_vptr);
+            salSynthSendMessage(dsp_vptr, 1);
             for (v = v - 1; v > 0; v--) {
               if (voices[v - 1]->state == 2) {
-                HandleDepopVoice((DSPstudioinfo_803B5AF8 *)stp, (DSPvoice_803B5AF8 *)voices[v - 1]);
+                HandleDepopVoice(stp, voices[v - 1]);
               }
-              salDeactivateVoice((Ent_803B89B4 *)voices[v - 1]);
-              salSynthSendMessage((u8 *)voices[v - 1], 1);
+              salDeactivateVoice(voices[v - 1]);
+              salSynthSendMessage(voices[v - 1], 1);
             }
             for (st1 = st + 1; st1 < salMaxStudioNum; st1++) {
               if (dspStudio[st1].state == 1) {
                 for (dsp_vptr = dspStudio[st1].voiceRoot; dsp_vptr; dsp_vptr = next_dsp_vptr) {
                   next_dsp_vptr = dsp_vptr->next;
                   if (dsp_vptr->state == 2) {
-                    HandleDepopVoice((DSPstudioinfo_803B5AF8 *)&dspStudio[st1], (DSPvoice_803B5AF8 *)dsp_vptr);
+                    HandleDepopVoice(&dspStudio[st1], dsp_vptr);
                   }
-                  salDeactivateVoice((Ent_803B89B4 *)dsp_vptr);
-                  salSynthSendMessage((u8 *)dsp_vptr, 1);
+                  salDeactivateVoice(dsp_vptr);
+                  salSynthSendMessage(dsp_vptr, 1);
                 }
               }
             }
@@ -1538,45 +1238,41 @@ void salBuildCommandList(s16 *dest, u32 nsDelay) {
 
 #pragma pop
 
-#undef dspStudio
 
-s32 salSynthSendMessage(u8 *arg0, s32 arg1) {
-    struct Fields_arg0 { u8 pad_0[24]; s32 field_18; };
-    if (((s32 (*)(s32, s32)) salMessageCallback) == NULL) {
-        return 0;
-    }
-    return salMessageCallback(arg1, ((Fields_arg0*)arg0)->field_18);
+u32 salSynthSendMessage(DSPvoice *dsp_vptr, u32 mesg) {
+    return salMessageCallback == NULL ? 0 : salMessageCallback(mesg, dsp_vptr->mesgCallBackUserValue);
 }
+
 #pragma push
 #pragma opt_common_subs on
-void salActivateVoice(Ent_803B8910 *dsp_vptr, u8 studio) {
-    if (dsp_vptr->active != 0) {
-        salDeactivateVoice((Ent_803B89B4 *)dsp_vptr);
-        dsp_vptr->flags |= 0x20;
+void salActivateVoice(DSPvoice *dsp_vptr, u8 studio) {
+    if (dsp_vptr->state != 0) {
+        salDeactivateVoice(dsp_vptr);
+        dsp_vptr->changed[0] |= 0x20;
     }
-    dsp_vptr->fED = 0;
-    if ((dsp_vptr->next = (Ent_803B8910 *)dspStudio[studio].voiceRoot) != 0) {
+    dsp_vptr->postBreak = 0;
+    if ((dsp_vptr->next = dspStudio[studio].voiceRoot) != NULL) {
         dsp_vptr->next->prev = dsp_vptr;
     }
-    dsp_vptr->prev = 0;
+    dsp_vptr->prev = NULL;
     dspStudio[studio].voiceRoot = dsp_vptr;
-    dsp_vptr->fEE = 0;
-    dsp_vptr->active = 1;
-    dsp_vptr->idx = studio;
+    dsp_vptr->startupBreak = 0;
+    dsp_vptr->state = 1;
+    dsp_vptr->studio = studio;
 }
 #pragma pop
 
-void salDeactivateVoice(Ent_803B89B4 *arg0) {
-    if (arg0->active != 0) {
-        if (arg0->prev != 0) {
-            arg0->prev->next = arg0->next;
+void salDeactivateVoice(DSPvoice *dsp_vptr) {
+    if (dsp_vptr->state != 0) {
+        if (dsp_vptr->prev != NULL) {
+            dsp_vptr->prev->next = dsp_vptr->next;
         } else {
-            dspStudio[arg0->idx].head = arg0->next;
+            dspStudio[dsp_vptr->studio].voiceRoot = dsp_vptr->next;
         }
-        if (arg0->next != 0) {
-            arg0->next->prev = arg0->prev;
+        if (dsp_vptr->next != NULL) {
+            dsp_vptr->next->prev = dsp_vptr->prev;
         }
-        arg0->active = 0;
+        dsp_vptr->state = 0;
     }
 }
 
@@ -1612,34 +1308,34 @@ s32 salRemoveStudioInput(DSPstudioinfo *stp, SND_STUDIO_INPUT *desc) {
 }
 
 void salHandleAuxProcessing(void) {
-    s32 bufs[3];
-    u8 i;
-    Voice_803B8B40 *v;
-    saddr buf;
+    u8 st;
+    s32 *work;
+    DSPstudioinfo *sp;
+    SND_AUX_INFO ai;
 
-    i = 0;
-    v = (Voice_803B8B40 *)dspStudio;
-    while (i < salMaxStudioNum) {
-        if (v->b50 == 1) {
-            if (v->cbA != 0) {
-                buf = v->bufA[(salAuxFrame + 2) % 3];
-                bufs[0] = buf;
-                bufs[1] = buf + 0x280;
-                bufs[2] = buf + 0x500;
-                v->cbA(0, bufs, v->argA, salAuxFrame + 2);
-                DCFlushRangeNoSync((void *)buf, 0x780);
+    st = 0;
+    sp = dspStudio;
+    while (st < salMaxStudioNum) {
+        if (sp->state == 1) {
+            if (sp->auxAHandler != NULL) {
+                work = sp->auxA[(salAuxFrame + 2) % 3];
+                ai.data.bufferUpdate.left = work;
+                ai.data.bufferUpdate.right = work + 0xa0;
+                ai.data.bufferUpdate.surround = work + 0x140;
+                sp->auxAHandler(0, &ai, sp->auxAUser);
+                DCFlushRangeNoSync(work, 0x780);
             }
-            if (v->i54 == 0 && v->cbB != 0) {
-                buf = v->bufB[(salAuxFrame + 2) % 3];
-                bufs[0] = buf;
-                bufs[1] = buf + 0x280;
-                bufs[2] = buf + 0x500;
-                v->cbB(0, bufs, v->argB, salAuxFrame + 2);
-                DCFlushRangeNoSync((void *)buf, 0x780);
+            if (sp->type == SND_STUDIO_TYPE_STD && sp->auxBHandler != NULL) {
+                work = sp->auxB[(salAuxFrame + 2) % 3];
+                ai.data.bufferUpdate.left = work;
+                ai.data.bufferUpdate.right = work + 0xa0;
+                ai.data.bufferUpdate.surround = work + 0x140;
+                sp->auxBHandler(0, &ai, sp->auxBUser);
+                DCFlushRangeNoSync(work, 0x780);
             }
         }
-        i++;
-        v++;
+        st++;
+        sp++;
     }
 }
 

@@ -70,7 +70,7 @@ s32 hwInit(uaddr frq, s32 numVoices, s32 numStudios, u32 flags) {
     hwInitIrq();
     salFrame = 0;
     salAuxFrame = 0;
-    salMessageCallback = 0;
+    salMessageCallback = NULL;
     if (salInitAi(snd_handle_irq, flags, (u32 *)frq) != 0 &&
         salInitDspCtrl(numVoices, numStudios, (flags & 1) != 0) != 0 &&
         salInitDsp(flags) != 0) {
@@ -89,41 +89,41 @@ u8 hwGetTimeOffset(void) {
 }
 
 bool hwIsActive(s32 i) {
-    return (*(Slot_803BCCE0 * *)&dspVoice)[i].fec != 0;
+    return dspVoice[i].state != 0;
 }
 
-void hwSetMesgCallback(s32 arg0) {
-    salMessageCallback = arg0;
+void hwSetMesgCallback(SND_MESSAGE_CALLBACK callback) {
+    salMessageCallback = callback;
 }
 
 void hwSetPriority(s32 i, s32 v) {
-    (*(Slot_803BCD08 * *)&dspVoice)[i].f1c = v;
+    dspVoice[i].prio = v;
 }
 
-void hwInitSamplePlayback(s32 n, s16 smpID, Blk_803BCD1C *newsmp, u32 set_defadsr, s32 prio, s32 callbackUserValue, u32 setSRC, u8 itdMode) {
+void hwInitSamplePlayback(s32 n, s16 smpID, SAMPLE_INFO *newsmp, u32 set_defadsr, s32 prio, s32 callbackUserValue, u32 setSRC, u8 itdMode) {
     u8 i;
     s32 flags = 0;
     for (i = 0; i <= (u8)salTimeOffset; i++) {
-        flags |= SLOTS_803BCD1C[n].f24[i] & 0x20;
-        SLOTS_803BCD1C[n].f24[i] = 0;
+        flags |= dspVoice[n].changed[i] & 0x20;
+        dspVoice[n].changed[i] = 0;
     }
-    SLOTS_803BCD1C[n].f24[0] = flags;
-    SLOTS_803BCD1C[n].f1c = prio;
-    SLOTS_803BCD1C[n].f18 = callbackUserValue;
-    SLOTS_803BCD1C[n].ff0 = 0;
-    SLOTS_803BCD1C[n].f70 = smpID;
-    SLOTS_803BCD1C[n].f74 = *newsmp;
+    dspVoice[n].changed[0] = flags;
+    dspVoice[n].prio = prio;
+    dspVoice[n].mesgCallBackUserValue = callbackUserValue;
+    dspVoice[n].flags = 0;
+    dspVoice[n].smp_id = smpID;
+    dspVoice[n].smp_info = *newsmp;
     if (set_defadsr != 0) {
-        SLOTS_803BCD1C[n].fa4 = 0;
-        SLOTS_803BCD1C[n].fb8 = 0;
-        SLOTS_803BCD1C[n].fbc = 0;
-        SLOTS_803BCD1C[n].fc0 = 0x7FFF;
-        SLOTS_803BCD1C[n].fc4 = 0;
+        dspVoice[n].adsr.mode = 0;
+        dspVoice[n].adsr.data.linear.aTime = 0;
+        dspVoice[n].adsr.data.linear.dTime = 0;
+        dspVoice[n].adsr.data.linear.sLevel = 0x7FFF;
+        dspVoice[n].adsr.data.linear.rTime = 0;
     }
-    SLOTS_803BCD1C[n].fe4 = 0xFF;
-    SLOTS_803BCD1C[n].fe5 = 0xFF;
-    SLOTS_803BCD1C[n].fe6 = 0xFF;
-    SLOTS_803BCD1C[n].fe7 = 0xFF;
+    dspVoice[n].lastUpdate.pitch = 0xFF;
+    dspVoice[n].lastUpdate.vol = 0xFF;
+    dspVoice[n].lastUpdate.volA = 0xFF;
+    dspVoice[n].lastUpdate.volB = 0xFF;
     if (setSRC != 0) {
         hwSetSRCType(n, 0);
         hwSetPolyPhaseFilter(n, 1);
@@ -138,152 +138,154 @@ void hwBreak(s32 i) {
     dspVoice[i].changed[(u8)salTimeOffset] |= 0x20;
 }
 
-void hwSetADSR(s32 n, void *arg1, u8 mode) {
-    u32 v;
+void hwSetADSR(s32 n, void *_adsr, u8 mode) {
+    u32 sl;
+    ADSR_INFO *adsr = (ADSR_INFO *)_adsr;
     switch (mode) {
-    case 0: {
-        ArgA_803BCF18 *a = (ArgA_803BCF18 *)arg1;
-        SLOTS_803BCF18[n].fa4 = 0;
-        SLOTS_803BCF18[n].fb8 = a->f0;
-        SLOTS_803BCF18[n].fbc = a->f2;
-        if ((v = a->f4 << 3) > 0x7FFF) {
-            v = 0x7FFF;
+    case 0:
+        dspVoice[n].adsr.mode = 0;
+        dspVoice[n].adsr.data.linear.aTime = adsr->data.linear.atime;
+        dspVoice[n].adsr.data.linear.dTime = adsr->data.linear.dtime;
+        if ((sl = adsr->data.linear.slevel << 3) > 0x7FFF) {
+            sl = 0x7FFF;
         }
-        SLOTS_803BCF18[n].fc0 = v;
-        SLOTS_803BCF18[n].fc4 = a->f6;
+        dspVoice[n].adsr.data.linear.sLevel = sl;
+        dspVoice[n].adsr.data.linear.rTime = adsr->data.linear.rtime;
         break;
-    }
     case 1:
-    case 2: {
-        ArgB_803BCF18 *b = (ArgB_803BCF18 *)arg1;
-        SLOTS_803BCF18[n].fa4 = 1;
-        SLOTS_803BCF18[n].fca = 0;
+    case 2:
+        dspVoice[n].adsr.mode = 1;
+        dspVoice[n].adsr.data.dls.aMode = 0;
         if (mode == 1) {
-            SLOTS_803BCF18[n].fb8 = adsrConvertTimeCents(b->f0);
-            SLOTS_803BCF18[n].fbc = adsrConvertTimeCents(b->f4);
-            if ((v = b->f8 >> 2) > 0x3FF) {
-                v = 0x3FF;
+            dspVoice[n].adsr.data.dls.aTime = adsrConvertTimeCents(adsr->data.dls.atime);
+            dspVoice[n].adsr.data.dls.dTime = adsrConvertTimeCents(adsr->data.dls.dtime);
+            if ((sl = adsr->data.dls.slevel >> 2) > 0x3FF) {
+                sl = 0x3FF;
             }
-            SLOTS_803BCF18[n].fc0 = 0xC1 - dspScale2IndexTab[v];
+            dspVoice[n].adsr.data.dls.sLevel = 0xC1 - dspScale2IndexTab[sl];
         } else {
-            SLOTS_803BCF18[n].fb8 = (u16)b->f0;
-            SLOTS_803BCF18[n].fbc = (u16)b->f4;
-            SLOTS_803BCF18[n].fc0 = b->f8;
+            dspVoice[n].adsr.data.dls.aTime = (u16)adsr->data.dls.atime;
+            dspVoice[n].adsr.data.dls.dTime = (u16)adsr->data.dls.dtime;
+            dspVoice[n].adsr.data.dls.sLevel = adsr->data.dls.slevel;
         }
-        SLOTS_803BCF18[n].fc4 = b->fa;
+        dspVoice[n].adsr.data.dls.rTime = adsr->data.dls.rtime;
         break;
     }
-    }
-    SLOTS_803BCF18[n].f24 |= 0x10;
+    dspVoice[n].changed[0] |= 0x10;
 }
 
-void hwSetVirtualSampleLoopBuffer(s32 i, s32 a, s32 b) {
-    (*(Slot_803BD0C8 * *)&dspVoice)[i].f94 = a; (*(Slot_803BD0C8 * *)&dspVoice)[i].f98 = b;
+void hwSetVirtualSampleLoopBuffer(s32 voice, uaddr addr, u32 len) {
+    dspVoice[voice].vSampleInfo.loopBufferAddr = (void *)addr;
+    dspVoice[voice].vSampleInfo.loopBufferLength = len;
 }
 
 u8 hwGetVirtualSampleState(s32 i) {
-    return (*(Slot_803BD0E8 * *)&dspVoice)[i].f9c;
+    return dspVoice[i].vSampleInfo.inLoopBuffer;
 }
 
 u8 hwGetSampleType(s32 i) {
-    return (*(Slot_803BD0FC * *)&dspVoice)[i].f90;
+    return dspVoice[i].smp_info.compType;
 }
 
 u16 hwGetSampleID(s32 i) {
-    return (*(Slot_803BD110 * *)&dspVoice)[i].f70;
+    return dspVoice[i].smp_id;
 }
 
 void hwSetStreamLoopPS(s32 i, u8 v) {
-    (*(Slot_803BD124 * *)&dspVoice)[i].fa0 = v;
+    dspVoice[i].streamLoopPS = v;
 }
 
-void hwStart(s32 i, s32 x) {
-    (*(Slot_803BD138 * *)&dspVoice)[i].fd4 = salTimeOffset; salActivateVoice(&(*(Slot_803BD138 * *)&dspVoice)[i], x);
+void hwStart(s32 i, u8 studio) {
+    dspVoice[i].singleOffset = salTimeOffset;
+    salActivateVoice(&dspVoice[i], studio);
 }
 
 void hwKeyOff(s32 i) {
-    (*(Slot_803BD174 * *)&dspVoice)[i].f24[(u8)salTimeOffset] |= 0x40;
+    dspVoice[i].changed[(u8)salTimeOffset] |= 0x40;
 }
 
 void hwSetPitch(s32 i, u16 v) {
-    Slot_803BD19C *s = &((Slot_803BD19C *)dspVoice)[i];
+    DSPvoice *dsp_vptr = &dspVoice[i];
     if (v >= 0x4000U) {
         v = 0x3FFF;
     }
-    if (s->fe4 == 0xFF || s->f38[s->fe4] != (u32)((v * 0x10) & 0xFFFF0)) {
-        s->f38[(u8)salTimeOffset] = (v * 0x10) & 0xFFFF0;
-        s->f24[(u8)salTimeOffset + 0] |= 8;
-        s->fe4 = salTimeOffset;
+    if (dsp_vptr->lastUpdate.pitch == 0xFF || dsp_vptr->pitch[dsp_vptr->lastUpdate.pitch] != (u32)((v * 0x10) & 0xFFFF0)) {
+        dsp_vptr->pitch[(u8)salTimeOffset] = (v * 0x10) & 0xFFFF0;
+        dsp_vptr->changed[(u8)salTimeOffset] |= 8;
+        dsp_vptr->lastUpdate.pitch = salTimeOffset;
     }
 }
 
-void hwSetSRCType(s32 index, u8 entry) {
-    TLobbySlot_803BD214 *slot = &((TLobbySlot_803BD214 *)dspVoice)[index];
-    slot->code_cc = ((u16 *)&lbl_805D4638)[entry];
-    slot->flags |= 0x100;
+void hwSetSRCType(s32 v, u8 salSRCType) {
+    DSPvoice *dsp_vptr = &dspVoice[v];
+    dsp_vptr->srcTypeSelect = lbl_805D4638[salSRCType];
+    dsp_vptr->changed[0] |= 0x100;
 }
-void hwSetPolyPhaseFilter(s32 index, u8 entry) {
-    TLobbySlot_803BD214 *slot = &((TLobbySlot_803BD214 *)dspVoice)[index];
-    slot->code_ce = ((u16 *)&lbl_805D4640)[entry];
-    slot->flags |= 0x80;
+void hwSetPolyPhaseFilter(s32 v, u8 salCoefSel) {
+    DSPvoice *dsp_vptr = &dspVoice[v];
+    dsp_vptr->srcCoefSelect = lbl_805D4640[salCoefSel];
+    dsp_vptr->changed[0] |= 0x80;
 }
 
 void hwSetITDMode(s32 i, u8 mode) {
     if (mode == 0) {
-        (*(Slot_803BD26C **)&dspVoice)[i].ff0 |= 0x80000000;
-        (*(Slot_803BD26C **)&dspVoice)[i].fd0 = 0x10;
-        (*(Slot_803BD26C **)&dspVoice)[i].fd2 = 0x10;
+        dspVoice[i].flags |= 0x80000000;
+        dspVoice[i].itdShiftL = 0x10;
+        dspVoice[i].itdShiftR = 0x10;
         return;
     }
-    (*(Slot_803BD26C **)&dspVoice)[i].ff0 &= 0x7FFFFFFF;
+    dspVoice[i].flags &= 0x7FFFFFFF;
 }
 
-void hwSetVolume(s32 voice, u32 volumeCurve, u32 pan, s32 surroundPan, f32 direct, f32 auxiliaryA, f32 auxiliaryB) {
-    SoundMixVoice *state = ((SoundMixVoice *)dspVoice) + voice;
-    SoundMixCurveOutput out[3];
-    s32 left, right, surround;
-    if (direct >= 1.0f) direct = 1.0f;
-    if (auxiliaryA >= 1.0f) auxiliaryA = 1.0f;
-    if (auxiliaryB >= 1.0f) auxiliaryB = 1.0f;
-    salCalcVolume(volumeCurve, out, pan, surroundPan, (state->flags & 0x80000000) != 0,
-        dspStudio[state->studio].mode == 1, direct, auxiliaryA, auxiliaryB);
-    left = 32767.0f * out[0].left;
-    right = 32767.0f * out[0].right;
-    surround = 32767.0f * out[0].surround;
-    if (state->dirty[0] == 0xFF || state->coefficients[0].left != (u16)left || state->coefficients[0].right != (u16)right || state->coefficients[0].surround != (u16)surround) {
-        state->coefficients[0].left = left;
-        state->coefficients[0].right = right;
-        state->coefficients[0].surround = surround;
-        state->changed |= 1;
-        state->dirty[0] = 0;
+#pragma push
+#pragma bool off
+void hwSetVolume(s32 v, u8 table, u32 pan, s32 span, f32 vol, f32 auxa, f32 auxb) {
+    DSPvoice *dsp_vptr = &dspVoice[v];
+    SAL_VOLINFO vi;
+    s32 il, ir, is;
+    if (vol >= 1.0f) vol = 1.0f;
+    if (auxa >= 1.0f) auxa = 1.0f;
+    if (auxb >= 1.0f) auxb = 1.0f;
+    salCalcVolume(table, &vi, vol, pan, span, auxa, auxb, (dsp_vptr->flags & 0x80000000) != 0,
+        dspStudio[dsp_vptr->studio].type == SND_STUDIO_TYPE_DPL2);
+    il = 32767.0f * vi.volL;
+    ir = 32767.0f * vi.volR;
+    is = 32767.0f * vi.volS;
+    if (dsp_vptr->lastUpdate.vol == 0xFF || dsp_vptr->volL != (u16)il || dsp_vptr->volR != (u16)ir || dsp_vptr->volS != (u16)is) {
+        dsp_vptr->volL = il;
+        dsp_vptr->volR = ir;
+        dsp_vptr->volS = is;
+        dsp_vptr->changed[0] |= 1;
+        dsp_vptr->lastUpdate.vol = 0;
     }
-    left = 32767.0f * out[1].left;
-    right = 32767.0f * out[1].right;
-    surround = 32767.0f * out[1].surround;
-    if (state->dirty[1] == 0xFF || state->coefficients[1].left != (u16)left || state->coefficients[1].right != (u16)right || state->coefficients[1].surround != (u16)surround) {
-        state->coefficients[1].left = left;
-        state->coefficients[1].right = right;
-        state->coefficients[1].surround = surround;
-        state->changed |= 2;
-        state->dirty[1] = 0;
+    il = 32767.0f * vi.volAuxAL;
+    ir = 32767.0f * vi.volAuxAR;
+    is = 32767.0f * vi.volAuxAS;
+    if (dsp_vptr->lastUpdate.volA == 0xFF || dsp_vptr->volLa != (u16)il || dsp_vptr->volRa != (u16)ir || dsp_vptr->volSa != (u16)is) {
+        dsp_vptr->volLa = il;
+        dsp_vptr->volRa = ir;
+        dsp_vptr->volSa = is;
+        dsp_vptr->changed[0] |= 2;
+        dsp_vptr->lastUpdate.volA = 0;
     }
-    left = 32767.0f * out[2].left;
-    right = 32767.0f * out[2].right;
-    surround = 32767.0f * out[2].surround;
-    if (state->dirty[2] == 0xFF || state->coefficients[2].left != (u16)left || state->coefficients[2].right != (u16)right || state->coefficients[2].surround != (u16)surround) {
-        state->coefficients[2].left = left;
-        state->coefficients[2].right = right;
-        state->coefficients[2].surround = surround;
-        state->changed |= 4;
-        state->dirty[2] = 0;
+    il = 32767.0f * vi.volAuxBL;
+    ir = 32767.0f * vi.volAuxBR;
+    is = 32767.0f * vi.volAuxBS;
+    if (dsp_vptr->lastUpdate.volB == 0xFF || dsp_vptr->volLb != (u16)il || dsp_vptr->volRb != (u16)ir || dsp_vptr->volSb != (u16)is) {
+        dsp_vptr->volLb = il;
+        dsp_vptr->volRb = ir;
+        dsp_vptr->volSb = is;
+        dsp_vptr->changed[0] |= 4;
+        dsp_vptr->lastUpdate.volB = 0;
     }
-    if (state->flags & 0x80000000) {
-        const u16 *t = &lbl_8047C420[(u8)(pan >> 16)];
-        state->leftDelay = *t;
-        state->rightDelay = 0x20 - *t;
-        state->changed |= 0x200;
+    if (dsp_vptr->flags & 0x80000000) {
+        const u16 *itd = &lbl_8047C420[(u8)(pan >> 16)];
+        dsp_vptr->itdShiftL = *itd;
+        dsp_vptr->itdShiftR = 0x20 - *itd;
+        dsp_vptr->changed[0] |= 0x200;
     }
 }
+#pragma pop
 
 void hwOff(s32 arg0) {
     salDeactivateVoice(&dspVoice[arg0]);
@@ -296,8 +298,8 @@ void hwSetAUXProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, 
     dspStudio[studio].auxBUser = userB;
 }
 
-void hwActivateStudio(u8 i, s32 a, s32 b) {
-    salActivateStudio(i, a, b);
+void hwActivateStudio(u8 studio, u32 isMaster, SND_STUDIO_TYPE type) {
+    salActivateStudio(studio, isMaster, type);
 }
 
 void hwDeactivateStudio(u8 i) {
@@ -313,32 +315,31 @@ void hwRemoveInput(u8 studio, SND_STUDIO_INPUT *in_desc) {
 }
 
 
-#define SLOTS_803BD694 (*(Slot_803BD694 **)&dspVoice)
-u32 hwGetPos(s32 arg0) {
-    u32 r;
-    u32 rem;
-    if (SLOTS_803BD694[arg0].fec != 2) {
+u32 hwGetPos(s32 v) {
+    u32 pos;
+    u32 off;
+    if (dspVoice[v].state != 2) {
         return 0;
     }
-    switch (SLOTS_803BD694[arg0].f90) {
+    switch (dspVoice[v].smp_info.compType) {
     case 0:
     case 1:
     case 4:
     case 5:
-        r = ((SLOTS_803BD694[arg0].f20 - SLOTS_803BD694[arg0].f78 * 2) >> 4) * 14;
-        rem = SLOTS_803BD694[arg0].f20 & 0xF;
-        if (rem >= 2) {
-            r = r + (rem - 2);
+        pos = ((dspVoice[v].currentAddr - (uaddr)dspVoice[v].smp_info.addr * 2) >> 4) * 14;
+        off = dspVoice[v].currentAddr & 0xF;
+        if (off >= 2) {
+            pos = pos + (off - 2);
         }
         break;
     case 3:
-        r = SLOTS_803BD694[arg0].f20 - SLOTS_803BD694[arg0].f78;
+        pos = dspVoice[v].currentAddr - (uaddr)dspVoice[v].smp_info.addr;
         break;
     case 2:
-        r = SLOTS_803BD694[arg0].f20 - (SLOTS_803BD694[arg0].f78 >> 1);
+        pos = dspVoice[v].currentAddr - ((uaddr)dspVoice[v].smp_info.addr >> 1);
         break;
     }
-    return r;
+    return pos;
 }
 
 void hwFlushStream(u8 *base, u32 offset, u32 len, u8 i, void *cb, void *arg) {
@@ -441,7 +442,7 @@ s32 hwGetVirtualSampleID(s32 arg0) {
 }
 
 bool hwVoiceInStartup(s32 i) {
-    return (*(Slot_803BDA2C * *)&dspVoice)[i].fec == 1;
+    return dspVoice[i].state == 1;
 }
 
 }
