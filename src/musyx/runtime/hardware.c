@@ -1,4 +1,5 @@
 #include "musyx/runtime/musyx_runtime_b.h"
+#pragma bool off
 
 extern "C" {
 
@@ -88,7 +89,7 @@ u8 hwGetTimeOffset(void) {
     return (u8)salTimeOffset;
 }
 
-bool hwIsActive(s32 i) {
+u32 hwIsActive(s32 i) {
     return dspVoice[i].state != 0;
 }
 
@@ -237,8 +238,6 @@ void hwSetITDMode(s32 i, u8 mode) {
     dspVoice[i].flags &= 0x7FFFFFFF;
 }
 
-#pragma push
-#pragma bool off
 void hwSetVolume(s32 v, u8 table, u32 pan, s32 span, f32 vol, f32 auxa, f32 auxb) {
     DSPvoice *dsp_vptr = &dspVoice[v];
     SAL_VOLINFO vi;
@@ -285,7 +284,6 @@ void hwSetVolume(s32 v, u8 table, u32 pan, s32 span, f32 vol, f32 auxa, f32 auxb
         dsp_vptr->changed[0] |= 0x200;
     }
 }
-#pragma pop
 
 void hwOff(s32 arg0) {
     salDeactivateVoice(&dspVoice[arg0]);
@@ -441,7 +439,7 @@ s32 hwGetVirtualSampleID(s32 arg0) {
     return dspVoice[arg0].virtualSampleID;
 }
 
-bool hwVoiceInStartup(s32 i) {
+u32 hwVoiceInStartup(s32 i) {
     return dspVoice[i].state == 1;
 }
 
