@@ -190,7 +190,9 @@ s32 is_item_light_interaction_blocked();
 s32 check_path_obstructed(void *, void *);
 f32 atan2_float(f32 y, f32 x);
 s32 lappy_variant_id;
+}
 BmlResource *rappy_bml_resource;
+extern "C" {
 NJS_OBJECT *rappy_visibility_node;
 NJS_TEXLIST *rappy_alternate_texture_list;
 }
