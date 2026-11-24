@@ -71,7 +71,6 @@ s16 PP_chap_monitor(PppFsm *c, s32 timeout) {
 }
 
 struct PppChapAuthenticationState;
-struct N_80405298;
 PppChapAuthenticationState ppp_chap_authentication_state;
 PppAuthState chap_state;
 /* The challenge length and the response reader's scratch byte (.sbss 805D7A98), in reverse definition order. */
@@ -113,7 +112,7 @@ void TLobby__sub_803FC318(PppProtoBlocks *connection) {
         fsm->f6 = fsm->f7;
         timer->callback = TLobby__sub_803FC728;
         timer->arg = fsm;
-        lobby_timer_add((N_80405298 *)timer, fsm->proto->timeout);
+        lobby_timer_add(timer, fsm->proto->timeout);
     }
 }
 
@@ -244,7 +243,7 @@ void TLobby__sub_803FC728(PppFsm *c) {
     if (c->retries != 0) {
         buf = TLobby__sub_80401B20(chap_state.p1C, chap->len);
         ppp_fsm_send_packet(c, 2, chap->id, buf);
-        lobby_timer_start((u8 *)&c->timer);
+        lobby_timer_start(&c->timer);
         c->retries--;
         return;
     }
@@ -441,7 +440,7 @@ void chap_recv_challenge(PppFsm *connection, PppHeader *header, PppFrame *source
     chap->len = string_length + 0x11;
     reply = TLobby__sub_80401B20(chap_state.p1C, chap->len);
     ppp_fsm_send_packet(connection, 2, chap->id, reply);
-    lobby_timer_start((u8 *)&connection->timer);
+    lobby_timer_start(&connection->timer);
     connection->retries--;
     if (connection->f6 != 0) {
         connection->f6--;

@@ -36,7 +36,7 @@ s16 AT_TCP_Connect(s16 handle, void *addr, s16 port);
 s16 tcp_get_socket_handle(s16 i);
 s16 validate_tcp_handle(s16 i);
 
-u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, u8 *arg3, s16 arg4);
+u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 arg2, NetPacket *arg3, s16 arg4);
 s16 TLobby__sub_8041D368(TcpTcb *tcb);
 s32 get_snd_space(TcpTcb *tcb);
 TcpTcb *TLobby__sub_8041B5C0(TcpTcb *tcb);
@@ -598,7 +598,7 @@ send:
         m->fragments[m->fragment_count].length = header_bytes;
         set_value_and_enable(&m->fragments[m->fragment_count].buffer, (saddr)th);
         m->fragment_count++;
-        th->sum = TLobby__sub_8040D8F0(tp->local, tp->remote, 6, (u8 *)m, 1);
+        th->sum = TLobby__sub_8040D8F0(tp->local, tp->remote, 6, m, 1);
         if (tp->force == 0 || tp->timers[1] == 0) {
             win = tp->snd_nxt;
             if (flags & 2) {
@@ -733,7 +733,7 @@ s16 TLobby__sub_8041B3D4(void *a, void *b, u16 c, u16 d, s32 e, s32 f, u8 g_m) {
     NetMemcpy(ph, p7, 2);
     NetMemcpy(&hdr.h2, p8, 2);
     set_value_and_enable(&pkt->fragments[0].buffer, (saddr)&hdr);
-    src.h1 = ((s16)TLobby__sub_8040D8F0(b, a, (s8)(6), (u8 *)pkt, (s16)(1)));
+    src.h1 = ((s16)TLobby__sub_8040D8F0(b, a, (s8)(6), pkt, (s16)(1)));
     NetMemcpy(ph, &src.h1, 2);
     if (dispatch_by_addr_family(pkt, (NetworkAddress *)a, (NetworkAddress *)b, buf + 4, buf + 4, 6) < 0) {
         release_entry(pkt);
@@ -910,7 +910,7 @@ s16 tcp_input(NetPacket *pkt, u8 *a, u8 *b) {
     if ((u32)pkt->total_bytes < sizeof(TcpHdr)) {
         return -1;
     }
-    if ((u16)TLobby__sub_8040D8F0(a, b, 6, (u8 *)pkt, 0)) {
+    if ((u16)TLobby__sub_8040D8F0(a, b, 6, pkt, 0)) {
         goto drop;
     }
     option_bytes = (s16)(len - (s32)sizeof(TcpHdr));
@@ -2234,7 +2234,7 @@ s16 AT_TCP_Connect(s16 handle, void *addr, s16 port) {
         NetDispatchSocketEvent((s16)(e - tcp_protocol_state.tcbs), e->event_ctx, 3, 0xC);
         return -6;
     }
-    if (is_addr_unspecified(e->local) != 0 && AT_IP_SetSrcFromDst((Out_8040D95C *)e->local, (In_8040D95C *)addr) < 0) {
+    if (is_addr_unspecified(e->local) != 0 && AT_IP_SetSrcFromDst((NetworkAddress *)e->local, (NetworkAddress *)addr) < 0) {
         NetDispatchSocketEvent((s16)(e - tcp_protocol_state.tcbs), e->event_ctx, 3, 0xC);
         return -6;
     }

@@ -36,13 +36,18 @@ struct PppFsmProtocol {
     PppFsmCheck check_config_reject;
 };
 
-/* The FSM's retry timer (lobby_timer_add arms it). */
+/* The FSM's retry timer: lobby_timer_add links it into lobby_timer_list_head, lobby_timer_start arms it and
+ * process_expired_timers calls the callback once now - start_time passes timeout. */
 typedef void (*PppFsmTimerCallback)(PppFsm *fsm);
 typedef struct PppFsmTimer {
-    u8 pad0[0x10];
+    struct PppFsmTimer *next;
+    u32 period;                 /* 0x04: lobby_timer_add */
+    u32 timeout;                /* 0x08: the period, at least 1 */
+    s32 start_time;             /* 0x0C: get_time_ms */
     PppFsmTimerCallback callback;
     PppFsm *arg;
-    u8 pad18[4];
+    u8 state;                   /* 0x18: 0 stopped, 1 running, 2 firing */
+    u8 pad19[3];
 } PppFsmTimer;
 
 /* PAP's options block (PppFsm.opts): the peer id and password sent in an authenticate request, and the message of

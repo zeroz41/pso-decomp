@@ -19,9 +19,7 @@
 #include "pso/network/PppBuffer.h"
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
-typedef struct Timer_804051CC Timer_804051CC;
 typedef struct Lobby_804062A0 Lobby_804062A0;
-typedef struct Obj_80405304 Obj_80405304;
 s32 reset_socket_table(void);
 void run_net_thread_loop(void);
 void ppp_input_packet(PppFrame *arg0);
@@ -41,11 +39,10 @@ PppFrame *ppp_rx_frame_ptr;
 u8 ppp_input_byte;
 u8 lobby_ppp_read_buf[4];
 s32 lbl_805D7ACC;
-void *lobby_timer_list_head;
+PppFsmTimer *lobby_timer_list_head;
 
 #include <stddef.h>
 
-typedef struct Obj_80405304 { u8 pad[0x18]; u8 f18; } Obj_80405304;
 
 
 #include "pso/network/IPv6Send.h"
@@ -59,7 +56,6 @@ void net_sleep_ms(int);
 void pap_input(PppFsm *self, PppFrame *source);
 s32 TLobby__sub_804060B8(u8 *, int, int);
 
-struct N_80405298;
 
 void TLobby__sub_804050DC(s16 arg0) {
     net_thread_state.poll_ms = arg0;
@@ -99,35 +95,26 @@ void run_net_thread_loop(void) {
     }
 }
 
-struct Timer_804051CC {
-    struct Timer_804051CC *next;
-    u8 pad4[4];
-    u32 f8;
-    s32 fC;
-    void (*f10)(s32);
-    s32 f14;
-    u8 f18;
-};
 
 s32 ppp_poll_input(void);
 
 void process_expired_timers(void) {
     s32 now;
-    Timer_804051CC *t;
+    PppFsmTimer *t;
 
     lock_mutex(net_thread_state.mutex);
     ppp_poll_input();
     get_time_ms(&now);
-    t = (Timer_804051CC *)lobby_timer_list_head;
+    t = lobby_timer_list_head;
     while (t != NULL) {
-        if (t->f18 == 1 && (u32)(now - t->fC) > t->f8) {
-            if (t != NULL && t->f18 == 1) {
-                t->f18 = 0;
+        if (t->state == 1 && (u32)(now - t->start_time) > t->timeout) {
+            if (t != NULL && t->state == 1) {
+                t->state = 0;
             }
-            t->f18 = 2;
-            if (t->f10 != NULL) {
-                t->f18 = 0;
-                t->f10(t->f14);
+            t->state = 2;
+            if (t->callback != NULL) {
+                t->state = 0;
+                t->callback(t->arg);
             }
         }
         t = t->next;
@@ -135,56 +122,54 @@ void process_expired_timers(void) {
     unlock_mutex(net_thread_state.mutex);
 }
 
-void lobby_timer_add(N_80405298 *o, s32 v) {
-    N_80405298 *p, *n;
-    if (o == 0) {
+void lobby_timer_add(PppFsmTimer *timer, s32 period) {
+    PppFsmTimer *p, *n;
+    if (timer == 0) {
         return;
     }
-    o->f4 = v;
+    timer->period = period;
     if (lobby_timer_list_head == 0) {
-        lobby_timer_list_head = o;
-        o->next = 0;
+        lobby_timer_list_head = timer;
+        timer->next = 0;
     } else {
         p = lobby_timer_list_head;
         while ((n = p->next) != 0) {
-            if (p == o) {
-                o->b18 = 0;
+            if (p == timer) {
+                timer->state = 0;
                 return;
             }
             p = n;
         }
-        p->next = o;
-        o->next = 0;
+        p->next = timer;
+        timer->next = 0;
     }
-    o->b18 = 0;
+    timer->state = 0;
 }
 
-void lobby_timer_stop(void *arg0) {
-    Obj_80405304 *o = (Obj_80405304 *)arg0;
-    if (o == NULL || o->f18 != 1) {
+void lobby_timer_stop(PppFsmTimer *timer) {
+    if (timer == NULL || timer->state != 1) {
         return;
     }
-    o->f18 = 0;
+    timer->state = 0;
 }
 
-void lobby_timer_start(u8 *arg0) {
-    typedef struct Fields_arg0 { u8 pad_0[4]; u32 field_4; u32 field_8; u8 pad_C[4]; u32 field_10; u8 pad_14[4]; u8 field_18; } Fields_arg0;
-    u32 temp_r0_2;
-    u8 temp_r0;
-    if (arg0 != NULL) {
-        temp_r0 = ((Fields_arg0*)arg0)->field_18;
-        if ((temp_r0 == 1) && (arg0 != NULL) && (temp_r0 == 1)) {
-            ((Fields_arg0*)arg0)->field_18 = 0U;
+void lobby_timer_start(PppFsmTimer *timer) {
+    u32 period;
+    u8 state;
+    if (timer != NULL) {
+        state = timer->state;
+        if ((state == 1) && (timer != NULL) && (state == 1)) {
+            timer->state = 0U;
         }
-        temp_r0_2 = ((Fields_arg0*)arg0)->field_4;
-        if (temp_r0_2 != 0U) {
-            ((Fields_arg0*)arg0)->field_8 = temp_r0_2;
-            if ((u32) ((Fields_arg0*)arg0)->field_8 == 0U) {
-                ((Fields_arg0*)arg0)->field_8 = 1U;
+        period = timer->period;
+        if (period != 0U) {
+            timer->timeout = period;
+            if (timer->timeout == 0U) {
+                timer->timeout = 1U;
             }
-            get_time_ms((s32 *)((void *) (arg0 + 0xC)));
-            if ((u32) ((Fields_arg0*)arg0)->field_10 != 0U) {
-                ((Fields_arg0*)arg0)->field_18 = 1U;
+            get_time_ms(&timer->start_time);
+            if (timer->callback != NULL) {
+                timer->state = 1U;
             }
         }
     }

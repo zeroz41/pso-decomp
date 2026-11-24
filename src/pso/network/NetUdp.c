@@ -158,7 +158,7 @@ s16 AT_UDP_Send(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst
         NetDispatchSocketEvent(id, e->eventCallback, 2, 0x80);
         return -6;
     }
-    r = AT_IP_SetSrcFromDst((Out_8040D95C *)src, (In_8040D95C *)dst);
+    r = AT_IP_SetSrcFromDst(src, dst);
     if (r < 0) {
         return r;
     }

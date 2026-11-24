@@ -17,9 +17,7 @@
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
-typedef struct PH_8040EC38 PH_8040EC38;
-typedef struct P_8040EC38 P_8040EC38;
-u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag);
+u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, NetPacket *pkt, s16 flag);
 s32 init_ipv4_interfaces(void);
 
 #include <stddef.h>
@@ -677,11 +675,11 @@ s16 AT_IP4_Send(NetPacket *pkt, u32 dst, u32 src, u8 ttl, u8 tos, u8 df, u8 prot
   return 0;
 }
 #pragma pop
-typedef struct PH_8040EC38 { s32 src; s32 dst; u8 zero; s8 proto; u16 len; } PH_8040EC38;
-struct P_8040EC38 { u8 pad0[8]; s32 f8; s16 fC; };
+/* The IPv4 pseudo-header a TCP or UDP checksum covers (RFC 793, RFC 768). */
+typedef struct Ipv4PseudoHeader { s32 src; s32 dst; u8 zero; s8 proto; u16 len; } Ipv4PseudoHeader;
 
-u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag) {
-    PH_8040EC38 ph;
+u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, NetPacket *pkt, s16 flag) {
+    Ipv4PseudoHeader ph;
     u32 sum;
 
     ph.src = src;
@@ -689,9 +687,9 @@ u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag)
     ph.zero = 0;
     ph.proto = proto;
     if (flag == 0) {
-        ph.len = ((P_8040EC38 *)pkt)->f8 - ((P_8040EC38 *)pkt)->fC;
+        ph.len = pkt->total_bytes - pkt->fragments[0].length;
     } else {
-        ph.len = ((P_8040EC38 *)pkt)->f8;
+        ph.len = pkt->total_bytes;
     }
     sum = ones_complement_sum(&ph, 6);
     sum += packet_ones_complement_sum(pkt, flag);

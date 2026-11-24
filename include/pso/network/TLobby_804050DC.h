@@ -11,14 +11,12 @@
 #include "pso/network/NetArp.h"
 #include "pso/network/NetIpv4.h"
 #include "pso/network/IPv4Header.h"
+#include "pso/network/PppFsm.h"
 #include "pso/network/NetEthernet.h"
 
 /* TLobby_804050DC.c: connection records, the DNS resolver tables and socket start-up. */
 typedef struct Ipv4RawSocket Ipv4RawSocket;
 typedef struct Ipv4ProtocolState Ipv4ProtocolState;
-typedef struct N_80405298 N_80405298;
-typedef struct In_8040D95C In_8040D95C;
-typedef struct Out_8040D95C Out_8040D95C;
 typedef void (*NetLinkDriverFn)(void); /* one of the 11 entries of a link-layer driver (NetHandlerTable.c) */
 /* A raw IPv4 socket: ipv4_input hands it every packet of its protocol. */
 struct Ipv4RawSocket {
@@ -43,9 +41,6 @@ struct Ipv4ProtocolState {
     IPv4Header hdr;             /* 0x0C: header template of AT_IP4_Send */
     u8 pad20[8];
 };
-struct N_80405298 { N_80405298 *next; s32 f4; u8 pad8[0x18 - 8]; u8 b18; };
-struct In_8040D95C { s32 type; s32 f4; };
-struct Out_8040D95C { s32 type; u32 f4; };
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -78,18 +73,18 @@ s16 reset_network_timer_list(void);
 s16 arp_resolve_and_send(s16 idx, void *name, void *arg2);
 s32 TLobby__sub_80409AA8(void);
 s16 NetIPv4IsBroadcast(u32 arg0, s16 arg1);
-void lobby_timer_start(u8 *arg0);
+void lobby_timer_start(PppFsmTimer *timer);
 s16 ipv4_iface_for_address(u32 ip);
 s32 TLobby__sub_8040DD68(void);
 s32 shutdown_ipv4_routing(void);
 s32 NetIPv6Shutdown(void);
 s16 TLobby__sub_80409A3C(NetLinkDriverFn *fns, s16 kind);
-void lobby_timer_stop(void *arg0);
+void lobby_timer_stop(PppFsmTimer *timer);
 s16 AT_IP_GetMssFromDstSrc(u8 *remote, u8 *local);
 void netbuf_copy_by_ref(NetBufferRef *a, void *b, s32 v);
 s16 TLobby__sub_80410BA8(NetPacket *packet, NetIPv6SendParameters *params, s16 iface, u8 *link_address);
 u16 calc_ipv6_pseudo_header_checksum(const struct IPv6Address *src, const struct IPv6Address *dst, u8 next_header, const struct NetPacket *pkt, s16 flag);
-void lobby_timer_add(N_80405298 *o, s32 v);
+void lobby_timer_add(PppFsmTimer *timer, s32 period);
 void TLobby__sub_80409818(s32 msg, s16 len, s16 idx, s16 second, u16 type);
 s32 TLobby__sub_80408388(s16 id);
 s16 TLobby__sub_804098B4(void *pkt);
@@ -98,7 +93,7 @@ u8 *netbuf_ref_data(NetBufferRef *self);
 s16 TLobby__sub_80406328(saddr self, s16 type);
 s16 dispatch_handler_by_index(s16 id, s32 arg1, s32 arg2, s32 arg3);
 s16 dispatch_by_addr_family(NetPacket *pkt, NetworkAddress *dst, NetworkAddress *src, u8 *ip4_opts, void *ip6_opts, u8 proto);
-s16 AT_IP_SetSrcFromDst(Out_8040D95C *arg0, In_8040D95C *arg1);
+s16 AT_IP_SetSrcFromDst(NetworkAddress *src, NetworkAddress *dst);
 s16 is_multicast_address(NetworkAddress *addr, s16 arg1);
 s16 is_addr_unspecified(u8 *arg0);
 s16 AT_IP4_IsReachable(u32 ipv4, u32 arg1);

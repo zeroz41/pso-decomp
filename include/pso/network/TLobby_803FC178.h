@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/PppMd5.h"
+#include "pso/network/PppFsm.h"
 
 /* TLobby_803FC178.c: PPP (LCP/IPCP/CHAP/PAP, MD5), the connection state machine and the stack's buffer streams. */
 typedef struct RecoveredGlobal_803AA0C0_lbl_80556E88 RecoveredGlobal_803AA0C0_lbl_80556E88;
@@ -109,7 +110,7 @@ extern u8 vj_u16_buffer[2];
 extern u8 vj_byte_buffer[1];
 extern s16 lbl_805D7A7A;
 extern s16 lbl_805D7A7E;
-extern void *lobby_timer_list_head;
+extern PppFsmTimer *lobby_timer_list_head;
 extern s16 lbl_805D7A7C;
 extern s32 lobby_session_flags;
 extern u8 lcp_read_value_buffer[4];

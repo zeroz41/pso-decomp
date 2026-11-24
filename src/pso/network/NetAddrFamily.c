@@ -22,7 +22,7 @@
 #include <stddef.h>
 
 
-u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, void *pkt, s16 flag);
+u16 calc_pseudo_header_checksum(s32 src, s32 dst, s8 proto, NetPacket *pkt, s16 flag);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
@@ -41,50 +41,50 @@ s16 dispatch_by_addr_family(NetPacket *pkt, NetworkAddress *dst, NetworkAddress 
     }
 }
 
-u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 proto, u8 *pkt, s16 flag) {
+u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 proto, NetPacket *pkt, s16 flag) {
     NetworkAddress *src = (NetworkAddress *)arg0;
     NetworkAddress *dst = (NetworkAddress *)arg1;
     switch (src->family) {
     case 4:
         return calc_pseudo_header_checksum(src->ipv4, dst->ipv4, proto, pkt, flag);
     case 6:
-        return calc_ipv6_pseudo_header_checksum((const IPv6Address *)src->address, (const IPv6Address *)dst->address, proto, (const NetPacket *)pkt, flag);
+        return calc_ipv6_pseudo_header_checksum((const IPv6Address *)src->address, (const IPv6Address *)dst->address, proto, pkt, flag);
     case 0:
     default:
         return 0xFFFEU;
     }
 }
 
-s16 AT_IP_SetSrcFromDst(Out_8040D95C *out_8040_d95_c, In_8040D95C *in_8040_d95_c) {
+s16 AT_IP_SetSrcFromDst(NetworkAddress *src, NetworkAddress *dst) {
     Ipv4Route *rt;
     s16 ok;
 
-    switch (in_8040_d95_c->type) {
+    switch (dst->family) {
     case 4:
         {
-        u32 v = out_8040_d95_c->f4;
+        u32 v = src->ipv4;
         if (v != 0) {
             return 0;
         }
-        rt = AT_IP4_RouteSearch(in_8040_d95_c->f4, v);
+        rt = AT_IP4_RouteSearch(dst->ipv4, v);
         if (rt == NULL) {
             return -6;
         }
-        out_8040_d95_c->type = 4;
-        return AT_IP4_SrcAddrSel(&out_8040_d95_c->f4, rt->gateway, rt->iface);
+        src->family = 4;
+        return AT_IP4_SrcAddrSel(&src->ipv4, rt->gateway, rt->iface);
         }
     case 6:
-        ok = NetIPv6IsUnspecified((u8 *)&out_8040_d95_c->f4);
+        ok = NetIPv6IsUnspecified(src->address);
         if (ok == 0) {
             return 0;
         }
         {
-        Ipv6Route *rt = TLobby__sub_80413264(&in_8040_d95_c->f4, &out_8040_d95_c->f4);
+        Ipv6Route *rt = TLobby__sub_80413264(dst->address, src->address);
         if (rt == NULL) {
             return -6;
         }
-        out_8040_d95_c->type = 6;
-        return TLobby__sub_80411F1C(&out_8040_d95_c->f4, &in_8040_d95_c->f4, rt->iface);
+        src->family = 6;
+        return TLobby__sub_80411F1C(src->address, dst->address, rt->iface);
         }
     case 0:
     default:

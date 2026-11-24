@@ -104,7 +104,7 @@ void pap_init(u8 *arg0) {
         fsm->f6 = fsm->f7;
         timer->callback = handle_request_timeout;
         timer->arg = fsm;
-        lobby_timer_add((N_80405298 *)timer, fsm->proto->timeout);
+        lobby_timer_add(timer, fsm->proto->timeout);
     }
 }
 

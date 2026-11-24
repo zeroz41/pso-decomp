@@ -358,7 +358,7 @@ void init_net_state_entry(PppFsm *entry) {
     s8 *entry_s8 = (s8 *)entry;
   s8 *new_var;
   new_var = (s8 *) (((s8 *) entry_s8) + ((0, 0)));
-  lobby_timer_stop((void *)((void *) (((u8 *) entry_s8) + 0x10)));
+  lobby_timer_stop(&entry->timer);
   *new_var = 5;
 }
 
