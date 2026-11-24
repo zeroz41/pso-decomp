@@ -13,8 +13,6 @@
 
 struct Tec_801D7DA4 { u8 pad[0x10]; s16 cost; };
 
-struct TItemData_801D8044 { u8 kind; u8 type; u8 sub; u8 pad[0x11]; };
-
 struct TObjPlayer_801D8044 {
     u8 pad0[0x428];
     u8 slots[0x4ac - 0x428];
@@ -125,7 +123,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
     return 0;
 }
 bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 kind, u8 arg) {
-    TItemData_801D8044 item;
+    TItemData item;
     TItem *w;
     switch (kind) {
     case 0:
@@ -156,73 +154,73 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
         }
         break;
     case 4:
-        ((TItemData *)(&item))->init();
-        item.kind = 3;
+        item.init();
+        item.data1.data_u8[0] = 3;
         switch (arg) {
         case 0:
-            item.type = 0;
-            item.sub = 0;
+            item.data1.data_u8[1] = 0;
+            item.data1.data_u8[2] = 0;
             break;
         case 1:
-            item.type = 0;
-            item.sub = 1;
+            item.data1.data_u8[1] = 0;
+            item.data1.data_u8[2] = 1;
             break;
         case 2:
-            item.type = 0;
-            item.sub = 2;
+            item.data1.data_u8[1] = 0;
+            item.data1.data_u8[2] = 2;
             break;
         case 3:
             if (((TObjPlayer *)self)->is_android() != 0) {
                 return 0;
             }
-            item.type = 1;
-            item.sub = 0;
+            item.data1.data_u8[1] = 1;
+            item.data1.data_u8[2] = 0;
             break;
         case 4:
             if (((TObjPlayer *)self)->is_android() != 0) {
                 return 0;
             }
-            item.type = 1;
-            item.sub = 1;
+            item.data1.data_u8[1] = 1;
+            item.data1.data_u8[2] = 1;
             break;
         case 5:
             if (((TObjPlayer *)self)->is_android() != 0) {
                 return 0;
             }
-            item.type = 1;
-            item.sub = 2;
+            item.data1.data_u8[1] = 1;
+            item.data1.data_u8[2] = 2;
             break;
         case 6:
             if (((TObjPlayer *)self)->is_android() != 0) {
                 return 0;
             }
-            item.type = 6;
-            item.sub = 0;
+            item.data1.data_u8[1] = 6;
+            item.data1.data_u8[2] = 0;
             break;
         case 7:
             if (((TObjPlayer *)self)->is_android() != 0) {
                 return 0;
             }
-            item.type = 6;
-            item.sub = 1;
+            item.data1.data_u8[1] = 6;
+            item.data1.data_u8[2] = 1;
             break;
         case 8:
-            item.type = 3;
+            item.data1.data_u8[1] = 3;
             break;
         case 9:
-            item.type = 4;
+            item.data1.data_u8[1] = 4;
             break;
         case 10:
-            item.type = 5;
+            item.data1.data_u8[1] = 5;
             break;
         case 11:
-            item.type = 7;
+            item.data1.data_u8[1] = 7;
             break;
         case 12:
             if (((TObjPlayer *)self)->is_android() != 0) {
                 return 0;
             }
-            item.type = 8;
+            item.data1.data_u8[1] = 8;
             break;
         }
         if (arg < 0xd || arg > 0x10) {
