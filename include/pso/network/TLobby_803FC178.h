@@ -117,7 +117,7 @@ extern u8 lobby_read_byte_buffer[1];
 extern u8 lcp_read_byte_buffer;
 extern s16 lobby_modem_connect_state;
 extern s16 ppp_auth_failed;
-extern s16 lbl_805D7A82;
+extern s16 lobby_modem_error;
 extern PppChapAuthenticationState ppp_chap_authentication_state;
 extern const char chap_protocol_name[5];
 extern const char chap_failure_message[7];

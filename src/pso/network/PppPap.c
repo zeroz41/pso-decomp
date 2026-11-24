@@ -40,9 +40,9 @@ s16 PP_pap_monitor(void *arg0, u32 timeout) {
             update_connection_state(c->sub + 4);
             c->abort = 0;
             if (ppp_auth_failed != 0) {
-                lbl_805D7A82 = 6;
+                lobby_modem_error = 6;
             } else {
-                lbl_805D7A82 = 5;
+                lobby_modem_error = 5;
             }
             lobby_modem_connect_state = 8;
             return -1;

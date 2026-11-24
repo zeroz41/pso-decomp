@@ -483,10 +483,10 @@ s32 ppp_poll_input(void)
   tail:
   if ((((u16) (lobby_modem_connect_state - 3)) <= 1) && (is_transport_connected() == 0))
   {
-    if ((((u32) lbl_805D7A8C) != 0) && (lobby_modem_connect_state == 4))
+    if ((((u32) lobby_modem_callback) != 0) && (lobby_modem_connect_state == 4))
     {
       unlock_mutex(net_thread_state.mutex);
-      ((void (*)(s32, s32)) lbl_805D7A8C)(-1, 0);
+      ((void (*)(s32, s32)) lobby_modem_callback)(-1, 0);
       lock_mutex(net_thread_state.mutex);
     }
     lobby_modem_connect_state = 5;

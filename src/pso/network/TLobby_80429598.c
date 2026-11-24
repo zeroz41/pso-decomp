@@ -54,31 +54,31 @@ typedef struct RecvDescriptor {
 } RecvDescriptor;
 
 /* CodeWarrior lays these uninitialised globals out last-defined first: .sbss 0x805D7C30-0x805D7C90. */
-s32 lbl_805D7C88;
-s32 lbl_805D7C84;
+s32 exi_send_tail_length;
+s32 exi_send_dma_length;
 s32 exi_send_size;
-u8 *lbl_805D7C7C;
-u16 lbl_805D7C7A; /* receive ring read page */
-u16 lbl_805D7C78; /* receive ring write page */
-u8 *lbl_805D7C74;
-RecvDescriptor lbl_805D7C6C;
+u8 *exi_send_data;
+u16 exi_receive_read_page; /* receive ring read page */
+u16 exi_receive_write_page; /* receive ring write page */
+u8 *exi_receive_buffer;
+RecvDescriptor exi_receive_descriptor;
 u32 exi_dma_write_length;
 s32 exi_dma_read_length;
-volatile RecvDescriptor lbl_805D7C5C;
+volatile RecvDescriptor bba_descriptor;
 s32 lbl_805D7C58;
-ExiSendCompletionCallback lbl_805D7C54;
+ExiSendCompletionCallback exi_send_callback;
 saddr exi_receive_callback;
-uaddr lbl_805D7C4C;
-s32 lbl_805D7C48;
-u16 *lbl_805D7C44; /* accepted ethertypes (lbl_805D7C48 entries) */
+uaddr exi_receive_alloc_callback;
+s32 exi_accepted_type_count;
+u16 *exi_accepted_types; /* accepted ethertypes (exi_accepted_type_count entries) */
 s32 exi_send_started_flag;
 OSThreadQueue network_thread_queue;
-u8 lbl_805D7C36; /* adapter revision id */
+u8 bba_revision_id; /* adapter revision id */
 u8 exi_mac_address[6];
 
 u8 ethernet_broadcast_address[6] = {255, 255, 255, 255, 255, 255};
-u16 lbl_805D4836 = 53511;
-u8 lbl_805D4838 = 78;
+u16 bba_device_id = 53511;
+u8 bba_acstart = 78;
 u32 TLobby__sub_8042BA8C(void *);
 void TLobby__sub_80429648(void);
 void TLobby__sub_80429B8C(s32 chan, OSContext *ctx);
@@ -198,10 +198,10 @@ static inline u32 bba_calc_response(u32 val) {
     u8 i[4];
     u8 devid[2];
     memcpy(i, &val, 4);
-    memcpy(devid, &lbl_805D4836, 2);
-    c0 = (i[0] + i[1] * 0xC1 + 0x18 + lbl_805D7C36) ^ (i[3] * i[2] + 0x90);
+    memcpy(devid, &bba_device_id, 2);
+    c0 = (i[0] + i[1] * 0xC1 + 0x18 + bba_revision_id) ^ (i[3] * i[2] + 0x90);
     c1 = (i[1] + i[2] + 0x90) ^ (i[0] + (c0 - 0xC1));
-    c2 = (i[2] + 0xC8) ^ (c0 + ((devid[0] + lbl_805D7C36 * 0x23) ^ 0x19));
+    c2 = (i[2] + 0xC8) ^ (c0 + ((devid[0] + bba_revision_id * 0x23) ^ 0x19));
     c3 = (i[0] + 0xC1) ^ (i[3] + ((devid[1] + 0xC8) ^ 0x90));
     return (c0 << 24) | (c1 << 16) | (c2 << 8) | c3;
 }
@@ -209,7 +209,7 @@ static inline u32 bba_calc_response(u32 val) {
 static inline void bba_challenge(void) {
     u32 challenge;
     u32 response;
-    bba_cmd_out8(0x05, lbl_805D4838);
+    bba_cmd_out8(0x05, bba_acstart);
     bba_cmd_ins(0x08, &challenge, 4);
     response = bba_calc_response(challenge);
     bba_cmd_outs(0x09, &response, 4);
@@ -258,11 +258,11 @@ static inline RecvDescriptor bba_read_descriptor(u32 reg) {
     u8 hdr[4];
     u8 status;
     bba_ins(reg, hdr, 4);
-    lbl_805D7C5C.next = hdr[0] | ((hdr[1] & 0xF) << 8);
-    lbl_805D7C5C.length = ((hdr[2] << 4) & 0xFF0) | ((hdr[1] >> 4) & 0xF);
+    bba_descriptor.next = hdr[0] | ((hdr[1] & 0xF) << 8);
+    bba_descriptor.length = ((hdr[2] << 4) & 0xFF0) | ((hdr[1] >> 4) & 0xF);
     status = hdr[3];
-    lbl_805D7C5C.status = status;
-    return lbl_805D7C5C;
+    bba_descriptor.status = status;
+    return bba_descriptor;
 }
 
 /* Drains the receive ring: hands each frame whose type is accepted to the receive callback and starts its DMA. */
@@ -276,26 +276,26 @@ void TLobby__sub_80429648(void) {
 
     exi_dma_write_length = 0;
     exi_dma_read_length = 0;
-    while (lbl_805D7C7A != lbl_805D7C78) {
-        page = (lbl_805D7C7A & 0xFF) << 8;
-        lbl_805D7C6C = bba_read_descriptor(page);
+    while (exi_receive_read_page != exi_receive_write_page) {
+        page = (exi_receive_read_page & 0xFF) << 8;
+        exi_receive_descriptor = bba_read_descriptor(page);
         bba_ins(page + 0x10, &type, 2);
-        if (lbl_805D7C48 > 0) {
-            for (i = 0; i < lbl_805D7C48; i++) {
-                if (lbl_805D7C44[i] == type) {
+        if (exi_accepted_type_count > 0) {
+            for (i = 0; i < exi_accepted_type_count; i++) {
+                if (exi_accepted_types[i] == type) {
                     break;
                 }
             }
-            if (i == lbl_805D7C48) {
+            if (i == exi_accepted_type_count) {
                 goto skip;
             }
         }
-        if (lbl_805D7C4C != 0) {
-            status = lbl_805D7C6C.status;
-            lbl_805D7C74 = ((u8 *(*)(u16, u16, u8))lbl_805D7C4C)(type, lbl_805D7C6C.length, status);
-            if (lbl_805D7C74 != NULL) {
+        if (exi_receive_alloc_callback != 0) {
+            status = exi_receive_descriptor.status;
+            exi_receive_buffer = ((u8 *(*)(u16, u16, u8))exi_receive_alloc_callback)(type, exi_receive_descriptor.length, status);
+            if (exi_receive_buffer != NULL) {
                 data = page + 4;
-                len = lbl_805D7C6C.length;
+                len = exi_receive_descriptor.length;
                 if (data + len > 0x1000) {
                     exi_dma_write_length = (page - 0xFFC) + len;
                     exi_dma_read_length = len - exi_dma_write_length;
@@ -308,10 +308,10 @@ void TLobby__sub_80429648(void) {
             }
         }
     skip:
-        lbl_805D7C7A = lbl_805D7C6C.next;
+        exi_receive_read_page = exi_receive_descriptor.next;
     }
 
-    bba_out16(0x18, lbl_805D7C78);
+    bba_out16(0x18, exi_receive_write_page);
     bba_out8(0x09, 2);
     bba_cmd_out8(0x02, 0xF8);
     EXIUnlock(0);
@@ -348,19 +348,19 @@ void TLobby__sub_80429AC8(void) {
         DCInvalidateRange(exi_dma_write_buffer, (exi_dma_write_length + 0x1F) & ~0x1F);
     }
     if ((u32)exi_receive_callback != 0) {
-        memcpy(lbl_805D7C74, exi_dma_buffer, exi_dma_read_length);
+        memcpy(exi_receive_buffer, exi_dma_buffer, exi_dma_read_length);
         if (exi_dma_write_length != 0) {
-            memcpy(lbl_805D7C74 + exi_dma_read_length, exi_dma_write_buffer, exi_dma_write_length);
+            memcpy(exi_receive_buffer + exi_dma_read_length, exi_dma_write_buffer, exi_dma_write_length);
         }
-        ((void (*)(u8 *, u16))exi_receive_callback)(lbl_805D7C74, lbl_805D7C6C.length);
+        ((void (*)(u8 *, u16))exi_receive_callback)(exi_receive_buffer, exi_receive_descriptor.length);
     }
-    lbl_805D7C7A = lbl_805D7C6C.next;
+    exi_receive_read_page = exi_receive_descriptor.next;
     TLobby__sub_80429648();
 }
 static inline void bba_recv(void) {
     lbl_805D0AA0.pad_48++;
-    lbl_805D7C78 = bba_in16(0x16);
-    lbl_805D7C7A = bba_in16(0x18);
+    exi_receive_write_page = bba_in16(0x16);
+    exi_receive_read_page = bba_in16(0x18);
     TLobby__sub_80429648();
 }
 
@@ -479,8 +479,8 @@ void TLobby__sub_80429B8C(s32 chan, OSContext *ctx) {
     bba_cmd_out8(0x02, 0xF8);
     EXIUnlock(0);
     if (notify != 0) {
-        callback = lbl_805D7C54;
-        lbl_805D7C54 = 0;
+        callback = exi_send_callback;
+        exi_send_callback = 0;
         callback(status);
     }
 }
@@ -551,9 +551,9 @@ s32 init_bba_exi_adapter(void *arg) {
     }
     exi_send_started_flag = 0;
     memset(&lbl_805D0AA0.pad_48, 0, 0x24);
-    lbl_805D7C44 = 0;
-    lbl_805D7C48 = 0;
-    lbl_805D7C4C = 0;
+    exi_accepted_types = 0;
+    exi_accepted_type_count = 0;
+    exi_receive_alloc_callback = 0;
     exi_receive_callback = 0;
     cid = bba_cmd_in32(0x00);
     if (cid != 0x04020200) {
@@ -567,9 +567,9 @@ s32 init_bba_exi_adapter(void *arg) {
         OSReport("MAC ADDRESS is 0xffffff\n");
         return -2;
     }
-    lbl_805D7C36 = bba_cmd_in8(0x01);
-    bba_cmd_outs(0x04, &lbl_805D4836, 2);
-    bba_cmd_out8(0x05, lbl_805D4838);
+    bba_revision_id = bba_cmd_in8(0x01);
+    bba_cmd_outs(0x04, &bba_device_id, 2);
+    bba_cmd_out8(0x05, bba_acstart);
     val = bba_in8(0x5B);
     val &= ~0x80;
     bba_out8(0x5B, val);
@@ -590,12 +590,12 @@ s32 init_bba_exi_adapter(void *arg) {
 void start_exi_send(u8 *data, s32 len, ExiSendCompletionCallback callback) {
     s32 var_r3;
     s32 var_r4;
-    lbl_805D7C7C = data;
+    exi_send_data = data;
     var_r3 = 0;
     exi_send_size = len;
     var_r4 = 0;
     exi_send_started_flag = 1;
-    lbl_805D7C54 = callback;
+    exi_send_callback = callback;
     exi_start_send_dma(0, NULL);
 }
 
@@ -606,14 +606,14 @@ void exi_start_send_dma(s32 chan, OSContext *ctx) {
         if (exi_send_size < 0x3C) {
             exi_send_size = 0x3C;
         }
-        lbl_805D7C84 = exi_send_size & ~0x1F;
-        lbl_805D7C88 = exi_send_size - lbl_805D7C84;
-        DCStoreRange(lbl_805D7C7C, lbl_805D7C84);
+        exi_send_dma_length = exi_send_size & ~0x1F;
+        exi_send_tail_length = exi_send_size - exi_send_dma_length;
+        DCStoreRange(exi_send_data, exi_send_dma_length);
         cmd = 0xC0004800;
         EXISelect(0, 2, 5);
         EXIImm(0, &cmd, 4, 1, 0);
         EXISync(0);
-        EXIDma(0, lbl_805D7C7C, lbl_805D7C84, 1, TLobby__sub_8042B434);
+        EXIDma(0, exi_send_data, exi_send_dma_length, 1, TLobby__sub_8042B434);
     }
 }
 
@@ -624,8 +624,8 @@ void TLobby__sub_8042B434(s32 chan, OSContext *ctx) {
     s32 cmd1;
     u8 pad[4];
     s32 bits;
-    if (lbl_805D7C88 != 0) {
-        EXIImmEx(0, lbl_805D7C7C + lbl_805D7C84, lbl_805D7C88, 1);
+    if (exi_send_tail_length != 0) {
+        EXIImmEx(0, exi_send_data + exi_send_dma_length, exi_send_tail_length, 1);
     }
     EXIDeselect(0);
     cmd0 = 0x80000000;
@@ -685,7 +685,7 @@ void TLobby__sub_8042B58C(u32 arg0, s32 arg1) {
         OSSleepThread(&network_thread_queue);
         OSRestoreInterrupts(e);
     }
-    lbl_805D7C4C = arg0;
+    exi_receive_alloc_callback = arg0;
     exi_receive_callback = arg1;
     if (arg0 == 0U) {
         sp43 = 0;
@@ -782,8 +782,8 @@ s32 poll_exi_status(s32 *status) {
 
 void TLobby__sub_8042BA48(u16 *types, s32 count) {
     s32 e = OSDisableInterrupts();
-    lbl_805D7C44 = types;
-    lbl_805D7C48 = count;
+    exi_accepted_types = types;
+    exi_accepted_type_count = count;
     OSRestoreInterrupts(e);
 }
 

@@ -53,9 +53,9 @@ s16 PP_chap_monitor(PppFsm *c, s32 timeout) {
         if (is_timed_out() != 0 || c->abort != 0 || *sub == 4) {
             c->abort = 0;
             if (ppp_auth_failed != 0) {
-                lbl_805D7A82 = 6;
+                lobby_modem_error = 6;
             } else {
-                lbl_805D7A82 = 5;
+                lobby_modem_error = 5;
             }
             lobby_modem_connect_state = 8;
             return -1;

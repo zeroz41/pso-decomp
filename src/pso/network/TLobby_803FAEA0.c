@@ -16,12 +16,12 @@ s16 TLobby__sub_803FB358(NetLinkStatus *status);
  * last-defined first. */
 s32 lbl_805D7A94;
 s32 lbl_805D7A90;
-saddr lbl_805D7A8C;
+saddr lobby_modem_callback;
 s16 lobby_modem_connect_state;
 s16 lbl_805D7A88;
 s16 lobby_modem_abort_flag;
 s16 lbl_805D7A84;
-s16 lbl_805D7A82;
+s16 lobby_modem_error;
 s16 ppp_auth_failed;
 s16 lbl_805D7A7E;
 s16 lbl_805D7A7C;
@@ -39,8 +39,8 @@ typedef struct LobbyPkt_803FB7A4 {
 } LobbyPkt_803FB7A4;
 LAYOUT_ASSERT(LobbyPkt_803FB7A4_size, sizeof(LobbyPkt_803FB7A4) == 0x18);
 
-#define LOBBY_NOTIFY() do { if (g->cb != NULL) { unlock_mutex(net_thread_state.mutex); g->cb(lbl_805D7A82, 0); lock_mutex(net_thread_state.mutex); } } while (0)
-#define LOBBY_ABORT(code, st) do { lbl_805D7A82 = (code); lobby_modem_connect_state = (st); LOBBY_NOTIFY(); return 0; } while (0)
+#define LOBBY_NOTIFY() do { if (g->cb != NULL) { unlock_mutex(net_thread_state.mutex); g->cb(lobby_modem_error, 0); lock_mutex(net_thread_state.mutex); } } while (0)
+#define LOBBY_ABORT(code, st) do { lobby_modem_error = (code); lobby_modem_connect_state = (st); LOBBY_NOTIFY(); return 0; } while (0)
 
 s32 NetControl(s32 cmd, s32 arg) {
     switch (cmd) {
@@ -129,7 +129,7 @@ s16 ppp_init(void) {
     lbl_805D7A88 = 0;
     lobby_modem_abort_flag = 0;
     lbl_805D7A84 = 0;
-    lbl_805D7A82 = 0;
+    lobby_modem_error = 0;
     lbl_805D7A7E = 0;
     if (reset_network_timer_list() == 0) {
         TLobby__sub_804061FC(0);
@@ -161,7 +161,7 @@ s32 ppp_stop(NetWaitParam *param) {
     s32 t;
 
     lock_mutex(net_thread_state.mutex);
-    lbl_805D7A8C = 0;
+    lobby_modem_callback = 0;
     if (lbl_805D7A84 != 0) {
         lobby_modem_abort_flag = 1;
         lobby_modem_connect_state = 6;
@@ -265,7 +265,7 @@ s16 TLobby__sub_803FB358(NetLinkStatus *status)
   NetMemcpy(status->addr[3], &v1, 4);
   status->state = lobby_modem_connect_state;
   status->w8 = lobby_modem_reply_value;
-  status->h6 = lbl_805D7A82;
+  status->h6 = lobby_modem_error;
   status->hC = lbl_805D7A84;
   unlock_mutex(net_thread_state.mutex);
   return 0;
@@ -302,11 +302,11 @@ s16 NetApplyConnectionConfig(NetConnectCfg *cfg) {
     g->wBC = cfg->w58;
     NetMemcpy(g->bufC0, cfg->b5C, 8);
     NetMemcpy(g->bufC8, cfg->b64, 8);
-    lbl_805D7A82 = 0;
+    lobby_modem_error = 0;
     lobby_modem_connect_state = 1;
     lbl_805D7A88 = 1;
     lbl_805D7A90 = g->flags;
-    lbl_805D7A8C = (saddr)g->cb;
+    lobby_modem_callback = (saddr)g->cb;
     if (g->flags & 4)
     {
       lbl_805D7A7A = 1;
@@ -384,9 +384,9 @@ s32 ppp_open_sub(void) {
     rc = ppp_begin_connect(0, 0, g->h80, g->h7E, g->h7C, 1, g->modem.s48, g->flags & 4);
     if (rc != 0 || lobby_modem_abort_flag != 0) {
         if (lobby_modem_abort_flag != 0) {
-            lbl_805D7A82 = 0xd;
+            lobby_modem_error = 0xd;
         } else {
-            lbl_805D7A82 = 1;
+            lobby_modem_error = 1;
         }
         lobby_modem_connect_state = 8;
         LOBBY_NOTIFY();
@@ -435,9 +435,9 @@ s32 ppp_open_sub(void) {
             flag = lobby_modem_abort_flag;
             if ((s16)flag != 0 || (u32)(t1 - t0) > (u32)timeout) {
                 if ((s16)flag != 0) {
-                    lbl_805D7A82 = 0xd;
+                    lobby_modem_error = 0xd;
                 } else {
-                    lbl_805D7A82 = 0xc;
+                    lobby_modem_error = 0xc;
                 }
                 lobby_modem_connect_state = 8;
                 LOBBY_NOTIFY();
@@ -460,8 +460,8 @@ L242:
         if (lobby_modem_connect_state != 1) {
             if (g->cb != NULL) {
                 unlock_mutex(net_thread_state.mutex);
-                lbl_805D7A82 = 1;
-                g->cb(lbl_805D7A82, 0);
+                lobby_modem_error = 1;
+                g->cb(lobby_modem_error, 0);
                 lock_mutex(net_thread_state.mutex);
             }
             return 0;
