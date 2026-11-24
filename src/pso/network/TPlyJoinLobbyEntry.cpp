@@ -2879,7 +2879,7 @@ u8 *copy_char_data(u8 *dst, u8 *src) {
     temp_r4 = (src + 0x348);
     *(ByteBlock_24 *)((saddr) temp_r6 + 4) = *(const ByteBlock_24 *)((saddr) temp_r4 + 4);
     *(ByteBlock_50 *)((dst + 0x36C) + 4) = *(const ByteBlock_50 *)((src + 0x36C) + 4);
-    ((TPlyGuildCardTag *)(dst + 0x3C0))->copy_full(src + 0x3C0);
+    ((TPlyCharData *)dst)->m_config.copy_full(&((TPlyCharData *)src)->m_config);
     temp_r5 = (dst + 0x404);
     temp_r4_2 = (src + 0x404);
     *(ByteBlock_14 *)((saddr) temp_r5 + 4) = *(const ByteBlock_14 *)((saddr) temp_r4_2 + 4);
@@ -2889,12 +2889,23 @@ u8 *copy_char_data(u8 *dst, u8 *src) {
 #pragma pop
 
 
-void *TPlyGuildCardTag::copy_full(void *source) {
-    copy(source);
-    ((TPlyGuildCardTag *)((char *)this + 36))->copy((void *)((char *)source + 36));
+TPlyDispConfig *TPlyDispConfig::copy_full(TPlyDispConfig *src) {
+    m_smth.copy(&src->m_smth);
+    m_smth1.copy(&src->m_smth1);
     return this;
 }
-void*TPlyGuildCardTag::copy(void* a1) { *(void**)(this) = *(void**)((char*)a1 + 0x0); copy_guild_card_tag_triplet((void *)((char*)this + 0x4), (void *)((char*)a1 + 0x4)); copy_guild_card_tag_triplet((void *)((char*)this + 0x8), (void *)((char*)a1 + 0x8)); copy_guild_card_tag_triplet((void *)((char*)this + 0xc), (void *)((char*)a1 + 0xc)); copy_guild_card_tag_triplet((void *)((char*)this + 0x10), (void *)((char*)a1 + 0x10)); copy_guild_card_tag_triplet((void *)((char*)this + 0x14), (void *)((char*)a1 + 0x14)); copy_guild_card_tag_triplet((void *)((char*)this + 0x18), (void *)((char*)a1 + 0x18)); copy_guild_card_tag_triplet((void *)((char*)this + 0x1c), (void *)((char*)a1 + 0x1c)); copy_guild_card_tag_triplet((void *)((char*)this + 0x20), (void *)((char*)a1 + 0x20)); return this; }
+TPlyDispConfigSmth *TPlyDispConfigSmth::copy(TPlyDispConfigSmth *src) {
+    m_mbr_0x0 = src->m_mbr_0x0;
+    copy_guild_card_tag_triplet(&m_tags[0], &src->m_tags[0]);
+    copy_guild_card_tag_triplet(&m_tags[1], &src->m_tags[1]);
+    copy_guild_card_tag_triplet(&m_tags[2], &src->m_tags[2]);
+    copy_guild_card_tag_triplet(&m_tags[3], &src->m_tags[3]);
+    copy_guild_card_tag_triplet(&m_tags1[0], &src->m_tags1[0]);
+    copy_guild_card_tag_triplet(&m_tags1[1], &src->m_tags1[1]);
+    copy_guild_card_tag_triplet(&m_tags1[2], &src->m_tags1[2]);
+    copy_guild_card_tag_triplet(&m_tags1[3], &src->m_tags1[3]);
+    return this;
+}
 void copy_guild_card_tag_triplet(void *dst, void *src) {
     *(u8 *)((s8 *)dst + 0) = (u8) *(u8 *)((s8 *)src + 0);
     *(u8 *)((s8 *)dst + 1) = (u8) *(u8 *)((s8 *)src + 1);

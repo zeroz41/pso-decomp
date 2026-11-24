@@ -5335,7 +5335,7 @@ force_active:
   - copy_from__24CharacterPreviewLoadArgsFPC24CharacterPreviewLoadArgs
   - copy__14QuestVmContextFP14QuestVmContext
   - copy__15DepthAlphaStateFP15DepthAlphaState
-  - copy__16TPlyGuildCardTagFPv
+  - copy__18TPlyDispConfigSmthFP18TPlyDispConfigSmth
   - copy__6TMovieFPv
   - copy__23Boss5GryphonMotionEntryFP23Boss5GryphonMotionEntry
   - copy_all_data__6TLobbyFii
