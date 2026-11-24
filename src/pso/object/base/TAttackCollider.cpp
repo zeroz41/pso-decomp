@@ -39,13 +39,13 @@ void TAttackCollider::area_attack_receive_direct(TObjChara *target, const f32 *r
 
 #pragma push
 #pragma fp_contract on
-void TAttackCollider::area_attack_apply_recoil(TObjChara *target, f32 s) {
+void TAttackCollider::area_attack_apply_recoil(TObjChara *target, f32 recoil) {
     Vec v;
     VecCopy(&v, &target->position);
     subtract_vector(&v, &position);
     normalize_vector_xz(&v);
-    target->velocity.x = v.x * s + target->velocity.x;
-    target->velocity.z = v.z * s + target->velocity.z;
+    target->velocity.x = v.x * recoil + target->velocity.x;
+    target->velocity.z = v.z * recoil + target->velocity.z;
 }
 #pragma pop
 
