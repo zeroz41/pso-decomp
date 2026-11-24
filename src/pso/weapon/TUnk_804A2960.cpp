@@ -102,7 +102,7 @@ void frozen_shooter_freeze_hit(int arg0, u8 *arg1) {
 }
 #pragma pop
 
-void TUnk_804A2960::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TUnk_804A2960::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     if (skip_freeze == 0) {
         desc->hit_effect = (void *)frozen_shooter_freeze_hit;
     }

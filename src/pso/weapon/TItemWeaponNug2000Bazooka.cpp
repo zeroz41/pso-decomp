@@ -5,7 +5,7 @@
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 
-void TItemWeaponNug2000Bazooka::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TItemWeaponNug2000Bazooka::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->hit_effect = (void *)spawn_nug2000_hit_explosion;
     desc->wall_effect = (void *)TAdVIConfigGC::apply_config_if_valid;
     desc->spin[0] = -0x4000;

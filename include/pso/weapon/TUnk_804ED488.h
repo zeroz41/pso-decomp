@@ -9,7 +9,7 @@ public:
     virtual ~TUnk_804ED488();
     virtual void emit_marker_effects();
     virtual void update_weapon();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
 };
 
 TItem *create_dark_flow(u8 *item);

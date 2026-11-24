@@ -14,7 +14,7 @@
 
 extern "C" void get_weapon_color__11TItemWeaponFPv(void *, void *);
 
-void TItemWeaponSRankCard::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TItemWeaponSRankCard::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     NJS_ARGB color;
     desc->scale = 5.0f;
     desc->spin[2] = 0xC000;

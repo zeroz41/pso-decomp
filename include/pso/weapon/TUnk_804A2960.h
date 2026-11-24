@@ -10,7 +10,7 @@ public:
     virtual ~TUnk_804A2960();
     virtual void emit_marker_effects();
     virtual void on_equipped();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
 
     s32 unk_1f8;     // 10 for item index 1, else 1; the descriptor's +0x10
     s32 skip_freeze; // set by the item index 1 shot: the descriptor gets no frozen_shooter_freeze_hit

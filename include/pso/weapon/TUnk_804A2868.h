@@ -10,7 +10,7 @@ class TUnk_804A2868 : public TItemWeapon {
 public:
     TUnk_804A2868(TObject *parent, u8 *item);
     virtual ~TUnk_804A2868();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
 
     s32 unk_1f8; // 10 for item index 1, else 1; copied to the descriptor's +0x10
 };

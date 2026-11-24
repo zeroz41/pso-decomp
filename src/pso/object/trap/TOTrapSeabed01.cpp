@@ -346,7 +346,7 @@ void TOTrapSeabed01::check_hold_player() {
         target = held;
         if (target != NULL) {
             distance = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
-            dist -= TObjPlayer__sub_8017A1A4(held, 0);
+            dist -= held->get_body_radius(0);
             if (distance < dist * dist) {
                 if (TRaderMapCore::is_not_split_screen() == 1) {
                     send_6x2C_impose_hold(held, &position, -1, 0, dist);

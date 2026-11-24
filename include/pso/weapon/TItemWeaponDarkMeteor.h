@@ -12,7 +12,7 @@ public:
     virtual void emit_marker_effects();
     virtual void update_attack();
     virtual void update_idle();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
     virtual void transform_model_node();
     // Spun by update_idle and update_attack; transform_model_node rotates the model about z by it.
     s32 rotation_z;

@@ -2638,7 +2638,7 @@ CsnHit *TObjPlayer::apply_wall_response() {
         Vec to;
         angle = (s32)(10430.38043493439 * atan2_float(velocity.x, velocity.z));
         speed = vector_length(&velocity);
-        reach = speed + TObjPlayer__sub_8017A1A4(this, 0);
+        reach = speed + get_body_radius(0);
         dx = reach * sin_table_lookup(angle);
         dz = reach * cos_table_lookup(angle);
         from.x = position.x;
@@ -2656,7 +2656,7 @@ CsnHit *TObjPlayer::apply_wall_response() {
     WallRayResult *blocked;
     Vec *offset;
     s32 i;
-    f32 radius = TObjPlayer__sub_8017A1A4(this, 0);
+    f32 radius = get_body_radius(0);
     Vec move;
     WallRayQuery query;
     Vec rays[8];

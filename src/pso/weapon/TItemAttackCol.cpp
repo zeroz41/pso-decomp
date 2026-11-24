@@ -350,7 +350,7 @@ void reset_attack_params(S_802E451C *s_802_e451_c) {
     s_802_e451_c->pad_24 = 0;
 }
 
-Desc_8011E5C4 *TObjPlayer__sub_802E449C(Desc_8011E5C4 *params) {
+WeaponEffectDescriptor *TObjPlayer__sub_802E449C(WeaponEffectDescriptor *params) {
     reset_attack_params(params);
     params->flags = 0;
     params->model = NULL;
@@ -371,11 +371,11 @@ Desc_8011E5C4 *TObjPlayer__sub_802E449C(Desc_8011E5C4 *params) {
     return params;
 }
 
-void TItemAttackCol::create(TObject *parent, Desc_8011E5C4 *params) {
+void TItemAttackCol::create(TObject *parent, WeaponEffectDescriptor *params) {
     new TItemAttackCol(parent, params);
 }
 
-TItemAttackCol::TItemAttackCol(TObject *parent, Desc_8011E5C4 *params) : TUnk_804E355C(parent, params) {
+TItemAttackCol::TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params) : TUnk_804E355C(parent, params) {
     m_name = TItemAttackCol__name;
     VecCopy(&start_position, &params->position);
     if (params->flags & 1) {

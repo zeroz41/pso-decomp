@@ -135,7 +135,7 @@ void TItemWeaponCard::update_weapon() {
     }
 }
 
-void TItemWeaponCard::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TItemWeaponCard::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     NJS_ARGB color;
     desc->scale = effect_scale;
     desc->spin[2] = 0xC000;
@@ -227,7 +227,7 @@ TItemWeaponDancingHitogata::TItemWeaponDancingHitogata(TObject *parent, u8 *item
 void TItemWeaponDancingHitogata::on_equipped() {
     orbit_timer = 0;
     orbit_count = 0;
-    orbit_radius = 5.0f + TObjPlayer__sub_8017A1A4(owner, 0);
+    orbit_radius = 5.0f + owner->get_body_radius(0);
     orbit_angle = 0;
     update_orbit_points();
 }
@@ -343,7 +343,7 @@ void TItemWeaponDancingHitogata::spawn_throw_effect(Vec *pos) {
     spawn_hitogata_particle(pos);
 }
 
-void TItemWeaponDancingHitogata::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TItemWeaponDancingHitogata::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     TItemWeaponCard::init_weapon_effect_descriptor(desc);
     desc->speed = 5.0f;
 }
@@ -387,7 +387,7 @@ TItemWeaponAmoreRose::TItemWeaponAmoreRose(TObject *parent, u8 *item) : TItemWea
     hit_effect = (void *)create_needle_effect;
 }
 
-void TItemWeaponAmoreRose::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TItemWeaponAmoreRose::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     TItemWeaponCard::init_weapon_effect_descriptor(desc);
     desc->spin[0] = 0x8000;
 }
@@ -399,7 +399,7 @@ TItemWeaponGalWind::TItemWeaponGalWind(TObject *parent, u8 *item) : TItemWeaponC
     wall_effect = (void *)create_needle_pos_effect;
 }
 
-void TItemWeaponGalWind::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TItemWeaponGalWind::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     TItemWeaponCard::init_weapon_effect_descriptor(desc);
     if (is_mode_two_and_ready() != 0) {
         ((TItemWeapon *)this)->drain_owner_hp_fraction(0.07f);

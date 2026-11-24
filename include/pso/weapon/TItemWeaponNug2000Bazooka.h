@@ -8,7 +8,7 @@ class TItemWeaponNug2000Bazooka : public TItemWeapon {
 public:
     virtual ~TItemWeaponNug2000Bazooka();
     virtual void emit_marker_effects();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
     TItemWeaponNug2000Bazooka(TObject *parent, u8 *item);
 };
 

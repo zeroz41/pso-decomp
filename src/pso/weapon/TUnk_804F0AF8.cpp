@@ -119,14 +119,14 @@ void TUnk_804F0A00::transform_model_node() {
     }
 }
 
-void TUnk_804F0A00::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TUnk_804F0A00::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->hit_effect = (void *)TObjPlayer::spawn_fire_explosion_at_item;
     desc->wall_effect = (void *)TObjPlayer::spawn_fire_explosion_for_item;
     desc->flags |= 0x80;
 }
 
 void TObjPlayer::spawn_fire_explosion(uaddr item_weapon, saddr a1) {
-    Desc_8011E5C4 info;
+    WeaponEffectDescriptor info;
     TObjPlayer__sub_802E449C(&info);
     ((TItemWeapon *)item_weapon)->fill_status_info(&info);
     VecCopy(&info.position, (const Vec *)a1);

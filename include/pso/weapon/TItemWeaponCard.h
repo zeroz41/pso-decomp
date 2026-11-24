@@ -19,7 +19,7 @@ public:
     virtual void emit_marker_effects();
     virtual void draw_held_model();
     virtual void update_weapon();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
     virtual void transform_model_node();
     // Run by emit_marker_effects at the throw point after the shots: the cane
     // effect on the first step of a combo.
@@ -27,9 +27,9 @@ public:
 
     u32 fan_flags;      // bit 0 while the attack stage is 2: draw the two extra cards
     s32 effect_id;      // TItemEffCane::create's effect: 445, 341 or 447
-    f32 effect_scale;   // the shot's scale (Desc_8011E5C4::scale)
-    void *wall_effect;  // called where the shot hits a wall (Desc_8011E5C4::wall_effect)
-    void *hit_effect;   // called on the target the shot hits (Desc_8011E5C4::hit_effect)
+    f32 effect_scale;   // the shot's scale (WeaponEffectDescriptor::scale)
+    void *wall_effect;  // called where the shot hits a wall (WeaponEffectDescriptor::wall_effect)
+    void *hit_effect;   // called on the target the shot hits (WeaponEffectDescriptor::hit_effect)
 };
 
 // Weapon 0x8C00 and every card group without its own class.
@@ -65,7 +65,7 @@ public:
     virtual void draw_held_model();
     virtual void update_weapon();
     virtual void on_equipped();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
     virtual void spawn_throw_effect(Vec *pos);
     // Places the circling copies around the owner's body centre.
     void update_orbit_points();
@@ -93,7 +93,7 @@ class TItemWeaponAmoreRose : public TItemWeaponCard {
 public:
     TItemWeaponAmoreRose(TObject *parent, u8 *item);
     virtual ~TItemWeaponAmoreRose();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
 };
 
 // Weapon 0x9600: on the third step of a combo it costs 7% of the owner's HP
@@ -102,7 +102,7 @@ class TItemWeaponGalWind : public TItemWeaponCard {
 public:
     TItemWeaponGalWind(TObject *parent, u8 *item);
     virtual ~TItemWeaponGalWind();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
     // The hit_effect: spawn_hit_particle on the struck body's surface.
     static void spawn_hit_effect(s32 item_id, ActorBodyHit *hit, Vec *dir);
     static TParticleCtrl *spawn_hit_particle(Vec *pos);

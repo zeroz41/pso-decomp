@@ -21,7 +21,7 @@ void TUnk_804E24F0::transform_model_node() {
     }
 }
 
-void TUnk_804E24F0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TUnk_804E24F0::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     u8 sp8[16];
     desc->flags |= 0x11C;
     get_weapon_color__11TItemWeaponFPv(sp8, this);

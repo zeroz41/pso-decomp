@@ -78,7 +78,7 @@ struct TItemWeapon : public TItemEquipBase {
     // Run last by on_equip and on_unequip; subclasses reset their own state.
     virtual void on_equipped();
     virtual void on_unequipped();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
     // Run for each node of the weapon model as draw_weapon_model draws it
     // (apply_weapon_node_material), to move or turn that node.
     virtual void transform_model_node();

@@ -68,8 +68,8 @@ const char *TOTrapAncient01__class_name = "TOTrapAncient01";
 
 extern const char *TObjPlayer_name;
 
-f32 TObjPlayer__sub_8017A1A4(TObjCollidable *actor, s32 body) {
-    return actor->bodies[body].radius;
+f32 TObjCollidable::get_body_radius(s32 body) {
+    return bodies[body].radius;
 }
 
 #pragma push
@@ -243,7 +243,7 @@ void TOTrapAncient01::vfunc_81() {
             target = player;
             if (target != NULL) {
                 dist = horizontal_distance_squared(&((TObjBase *)target)->position, &position);
-                this->dist -= TObjPlayer__sub_8017A1A4(player, 0);
+                this->dist -= player->get_body_radius(0);
                 if (dist < this->dist * this->dist) {
                     if (target->is_locally_controlled() != 0) {
                         send_6x2C_impose_hold(player, &position, -1, 0, this->dist);

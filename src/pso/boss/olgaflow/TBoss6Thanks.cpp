@@ -291,7 +291,7 @@ s32 any_player_has_listed_equipment(void) {
     return 0;
 }
 
-void TUnk_804F1EC8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TUnk_804F1EC8::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     f32 color[4];
     desc->flags |= 0x1C;
     get_weapon_color__11TItemWeaponFPv(color, this);

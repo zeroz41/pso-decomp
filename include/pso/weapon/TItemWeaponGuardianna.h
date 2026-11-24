@@ -9,7 +9,7 @@ public:
     TItemWeaponGuardianna(TObject *parent, u8 *item);
     virtual ~TItemWeaponGuardianna();
     virtual void emit_marker_effects();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
 };
 
 TItem *create_guardianna(u8 *item);

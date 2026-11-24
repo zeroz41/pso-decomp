@@ -11,7 +11,7 @@ public:
     virtual void update_idle();
     virtual void update_attack();
     virtual void emit_marker_effects();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
     virtual void transform_model_node();
     f32 muzzle_offset;
 };

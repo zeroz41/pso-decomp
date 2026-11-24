@@ -14,7 +14,7 @@ public:
     virtual void update_weapon();
     virtual void draw_held_model();
     virtual void emit_marker_effects();
-    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
+    virtual void init_weapon_effect_descriptor(WeaponEffectDescriptor *desc);
     // The cane effect at the throw, on the first step of a combo only.
     void create_cane_if_ready(Vec *pos);
 

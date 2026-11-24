@@ -8,7 +8,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804ED488::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TUnk_804ED488::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->range = 160.0f;
     desc->particle = 474;
 }

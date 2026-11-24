@@ -81,7 +81,7 @@ void TItemWeaponDarkMeteor::emit_marker_effects() {
     launch_shot((u8 *)&origin, 4, -0x2000, 1);
 }
 
-void TItemWeaponDarkMeteor::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TItemWeaponDarkMeteor::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->flags |= 0x400;
     desc->particle = 0x12;
 }

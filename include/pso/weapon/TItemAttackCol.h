@@ -17,7 +17,7 @@ typedef void (*TItemAttackColHitWall)(s32 item_id, Vec *position, Vec *velocity)
 typedef void (*TItemAttackColHitObject)(s32 item_id, s32 *hit, Vec *velocity);
 
 struct TItemAttackCol : public TUnk_804E355C {
-    TItemAttackCol(TObject *parent, Desc_8011E5C4 *params);
+    TItemAttackCol(TObject *parent, WeaponEffectDescriptor *params);
     virtual ~TItemAttackCol();
     virtual void vfunc_7();
     void check_object_hits();
@@ -26,7 +26,7 @@ struct TItemAttackCol : public TUnk_804E355C {
     Vec velocity;
     f32 range_sq;
     FlagWord hit_wall_flags;
-    u32 flags;          // Desc_8011E5C4::flags
+    u32 flags;          // WeaponEffectDescriptor::flags
     uaddr model;          // NJS_OBJECT render draws, 0 for none
     NJS_TEXLIST *texlist; // set_texlist before drawing it
     s32 rotation[3];    // heading the model is drawn at
@@ -45,7 +45,7 @@ struct TItemAttackCol : public TUnk_804E355C {
     void move_with_collision(void *to);
     virtual void render();
     virtual void run_task();
-    static void create(TObject *parent, Desc_8011E5C4 *params);
+    static void create(TObject *parent, WeaponEffectDescriptor *params);
 };
 
 LAYOUT_ASSERT(TItemAttackCol_size, sizeof(TItemAttackCol) == 0x144);

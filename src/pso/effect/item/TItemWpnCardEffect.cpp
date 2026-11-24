@@ -289,7 +289,7 @@ void TItemWeaponGuardianna::emit_marker_effects() {
         TItemEffCane::spawn(tl_05, this, 4);
     }
 }
-void TItemWeaponGuardianna::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TItemWeaponGuardianna::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->particle = 0x176;
     desc->hit_effect = (void *)TObjPlayer::start_guardianna_hit_card;
     desc->wall_effect = (void *)start_guardianna_wall_card;

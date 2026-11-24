@@ -76,7 +76,7 @@ void TItemWeaponPanzerFaust::transform_model_node() {
     }
 }
 
-void TItemWeaponPanzerFaust::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TItemWeaponPanzerFaust::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {
     desc->hit_effect = (void *)spawn_faust_hit_explosion;
     desc->wall_effect = (void *)spawn_faust_wall_explosion;
     desc->spin[0] = -0x4000;
@@ -87,7 +87,7 @@ void TItemWeaponPanzerFaust::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) 
 
 void spawn_faust_explosion(TItemWeapon *weapon, const Vec &pos) {
     if (weapon->get_item_index() == 1) {
-        Desc_8011E5C4 info;
+        WeaponEffectDescriptor info;
         TObjPlayer__sub_802E449C(&info);
         weapon->fill_status_info(&info);
         VecCopy(&info.position, &pos);

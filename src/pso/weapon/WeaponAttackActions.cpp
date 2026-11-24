@@ -183,7 +183,7 @@ u8 *TItemWeapon::trace_from_owner(u8 *point) {
 
 void TItemWeapon::transform_model_node() {  }
 
-void TItemWeapon::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {}
+void TItemWeapon::init_weapon_effect_descriptor(WeaponEffectDescriptor *desc) {}
 
 void TItemWeapon::on_unequipped() {  }
 
@@ -329,7 +329,7 @@ void TItemWeaponTsumikiri::spawn_pg_effect(const Vec *origin, saddr item, f32 ra
 
 void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
     Vec v;
-    Desc_8011E5C4 atk;
+    WeaponEffectDescriptor atk;
     f32 *scale;
     CapturedTargetList *state;
     CapturedTarget *item;
