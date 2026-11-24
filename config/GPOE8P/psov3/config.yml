@@ -1586,7 +1586,7 @@ force_active:
   - __ct__14TObjJungleBirdFP7TObjectPv
   - __ct__13TObjJungleEbiFP7TObjectPv
   - __ct__17TObjSeabedDolphinFP7TObjectPv
-  - TObjPlayer__sub_802C4648
+  - set_save_time__12TPlyCharDataFUl
   - TObjPlayer__sub_802E0468
   - TObjPlayer__sub_802E0580
   - TObjPlayer__sub_802E75B8
@@ -5131,7 +5131,7 @@ force_active:
   - cleanup_fmt2_materials__6TSceneFv
   - cleanup_materials__6TSceneFv
   - clearState__12TBoss1DragonFv
-  - clear_30_slots__10TObjPlayerFv
+  - clear_technique_level_overflows__12TPlyCharDataFv
   - clear__14PadRumbleLevelFv
   - clear__15PadRumbleEffectFv
   - clear_active_flag__8TFogCtrlFv
@@ -6103,7 +6103,7 @@ force_active:
   - explode_damage_players__10TBoss6MineFv
   - explosive_machine_model_archive
   - explosive_machine_resource_desc
-  - export_player_record__10TObjPlayerFPvPv
+  - copy_from_player__12TPlyCharDataFP10TObjPlayer
   - f064_wordmojitex_eng_gvp
   - f064_wordmojitex_fre_gvp
   - f064_wordmojitex_ger_gvp
@@ -16419,7 +16419,7 @@ force_active:
   - set_frame_count_from_motion__12TMotionModelFv
   - sync_hp__9TBoss6MagFv
   - sync_hp_apply_damage__9TBoss6MagFv
-  - sync_state__10TObjPlayerFi
+  - capture_local_player_state__FP12TPlyCharData
   - synthAddJob
   - synthHWMessageHandler
   - synthJobTableIndex
@@ -16683,7 +16683,7 @@ force_active:
   - update_attacking__12TObjEneLappyFv
   - update_auto__14CreationCameraFv
   - update_backdrop_transition__17TWindowMainMenu1PFv
-  - update_battle__10TObjPlayerFi
+  - capture_local_player__FP12TPlyCharData
   - update_battle_cleanup_flag__10TChallengeFv
   - update_battle_control_on_unlock__10TObjPlayerFPvPvPvl
   - update_battle_intro__6TLobbyFPv

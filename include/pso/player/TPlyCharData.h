@@ -8,6 +8,8 @@
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/TPlyDispData.h"
 
+class TObjPlayer;
+
 class TPlyCharData {
 public:
     TPlyCharData();
@@ -45,6 +47,24 @@ public:
     // Cast level of technique `tech` up to 14; the levels above it are kept in m_present[2] of inventory slot `tech`.
     u8 *technique_level(s32 tech);
     u8 *technique_level_overflow(s32 tech);
+    void set_technique_level(s32 tech, u8 level);
+    void set_technique_level_overflow(s32 tech, u8 level);
+    u8 *get_technique_levels();
+    // Copies `player`'s stats, inventory, look and palettes into this record.
+    void copy_from_player(TObjPlayer *player);
+    // copy_from_player of the player of `client`; 0 when that client has no player.
+    s32 capture_client_player(u16 client);
+    void clear_inventory();
+    void set_mag_level(u8 level);
+    void set_battle_mode(u8 mode);
+    void set_field_18f(u8 value);
+    void set_pending_action(u32 action);
+    void set_save_time(u32 seconds);
+    // set_save_time with the current date in seconds.
+    void stamp_save_time();
+    void clear_technique_level_overflows();
+    // Every technique back to its starting level, with no overflow.
+    void reset_technique_levels();
 };
 
 LAYOUT_ASSERT(PlyCharDataSize, sizeof(TPlyCharData) == 0x41C);

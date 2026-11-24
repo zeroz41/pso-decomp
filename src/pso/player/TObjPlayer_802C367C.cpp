@@ -5,39 +5,45 @@
 #include "pso/unk/text_802C3AC0.h"
 #include "pso/player/TObjPlayer.h"
 
-typedef struct S_802C3720 {
-    u8 pad0[0x3A4];
-    u32 f3A4;
-} S_802C3720;
-
-extern "C" {
-int TObjPlayer__sub_802C456C(void*, s32, void*);
-}
 int init_character_action_config(void*);
 extern "C" {
 s32 TObjPlayer__sub_802C46E0(s32, s32, s32, s32, s32);
 
-int init_new_character_data(void* p) { *(unsigned char*)(p) = 0; ((TObjPlayer *)p)->clear_item_slots(); init_character_action_config((char*)p + 0x3c0); init_class_starting_inventory(p); ((TObjPlayer *)p)->m_36c = 300; ((TObjPlayer *)p)->set_action_state((u8)(1)); return 1; }
+int init_new_character_data(void *data) {
+    TPlyCharData *record = (TPlyCharData *)data;
+    record->m_inventory.m_num_items = 0;
+    record->clear_inventory();
+    init_character_action_config(&record->m_config);
+    init_class_starting_inventory(record);
+    record->m_stats.meseta = 300;
+    record->set_mag_level(1);
+    return 1;
+}
 
-void TObjPlayer::clear_30_slots() { { int i; for (i = 0; i < 30; i++) { TObjPlayer__sub_802C456C(this, i, (void*)0); } } }
+void TPlyCharData::clear_technique_level_overflows() {
+    int i;
+    for (i = 0; i < 30; i++) {
+        set_technique_level_overflow(i, 0);
+    }
+}
 
-void TObjPlayer::reset_action_palette() {
+void TPlyCharData::reset_technique_levels() {
     s32 i;
-    s8 *p;
-    p = (s8 *)((TObjPlayer *)this)->get_action_data();
+    u8 *p;
+    p = get_technique_levels();
     for (i = 0; i < 0x14; i++) {
         *p = TObjPlayer::get_item_count_max();
         p++;
     }
-    if (((S_802C3720 *)this)->f3A4 & 0x80) {
-        ((TObjPlayer *)((S_802C3720 *)this))->set_action_palette_slot(0, 0);
+    if (m_disp_part2.v1_flags & 0x80) {
+        set_technique_level(0, 0);
     }
-    ((TObjPlayer *)((S_802C3720 *)this))->clear_30_slots();
+    clear_technique_level_overflows();
 }
 
-void init_technique_levels(s32 flags, s8 *counts) {
+void init_technique_levels(s32 flags, u8 *counts) {
     s32 i;
-    s8 *p = counts;
+    u8 *p = counts;
     for (i = 0; i < 0x14; i++, p++) {
         *p = TObjPlayer::get_item_count_max();
     }
