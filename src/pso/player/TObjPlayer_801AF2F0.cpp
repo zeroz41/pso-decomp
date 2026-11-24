@@ -906,7 +906,6 @@ void play_voice_pair__10TObjPlayerFPv(TObjPlayer *player);
 bool TObjPlayer__sub_801AF694(TObjPlayer *player, s32 kind);
 void set_flags_a00__10TObjPlayerFPv(void *object);
 void TObjPlayer__sub_801AF904(s32 arg0);
-void clamp_stats__10TObjPlayerFiPv(saddr arg0, void *arg1);
 s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 s8 TObjPlayer__sub_801AFDBC(s8 cls);
@@ -6437,165 +6436,124 @@ f32 TObjPlayer::receive_physical_attack(void *attacker, f32 scale) {
     return TObjChara::receive_physical_attack(attacker, scale);
 }
 
-void clamp_stats__10TObjPlayerFiPv(saddr player, void *arg1) {
-    s16 temp_r0;
-    s16 temp_r0_2;
-    s16 temp_r0_3;
-    s16 temp_r0_4;
-    s16 temp_r0_5;
-    s16 temp_r0_6;
-    s16 temp_r0_7;
-    s16 temp_r3;
-    s16 temp_r3_2;
-    s16 temp_r3_3;
-    s16 temp_r3_4;
-    s16 temp_r3_5;
-    s16 temp_r3_6;
-    s16 temp_r3_7;
-    s16 temp_r4;
+void TObjPlayer::clamp_stats(player_stats *out, player_stats *class_stats) {
+    s16 extra;
     s32 max_level;
-    s32 temp_r28_2;
-    s32 temp_r28_3;
-    s32 current_state_field;
-    s32 temp_r4_2;
-    const player_stats *class_stat_caps;
-    void *temp_r31;
+    s32 value;
+    s32 max_exp;
+    s32 meseta;
+    const player_stats *caps;
+    player_stats *stats;
 
-    temp_r31 = ((TObjPlayer *)player)->get_stats();
-    class_stat_caps = get_class_stat_caps(get_class_index__10TObjPlayerFv((TObjPlayer *)player));
-    temp_r4 = *(s16 *)((s8 *)temp_r31 + 0);
-    if (temp_r4 < 0) {
-        *(s16 *)((s8 *)arg1 + 0) = 1;
-        ((TObjPlayer *)player)->clamp_stat_41c();
+    stats = get_stats();
+    caps = get_class_stat_caps(get_class_index__10TObjPlayerFv(this));
+    if (stats->stats.atp < 0) {
+        out->stats.atp = 1;
+        clamp_stat_41c();
+    } else if (stats->stats.atp > caps->stats.atp) {
+        out->stats.atp = caps->stats.atp;
+        clamp_stat_41c();
     } else {
-        temp_r0 = *(s16 *)((s8 *)class_stat_caps + 0);
-        if (temp_r4 > temp_r0) {
-            *(s16 *)((s8 *)arg1 + 0) = temp_r0;
-            ((TObjPlayer *)player)->clamp_stat_41c();
-        } else {
-            *(s16 *)((s8 *)arg1 + 0) = temp_r4;
-        }
+        out->stats.atp = stats->stats.atp;
     }
-    temp_r3 = *(s16 *)((s8 *)temp_r31 + 2);
-    if (temp_r3 < 0) {
-        *(s16 *)((s8 *)arg1 + 2) = 1;
-        ((TObjPlayer *)player)->clamp_stat_41c();
+    if (stats->stats.mst < 0) {
+        out->stats.mst = 1;
+        clamp_stat_41c();
+    } else if (stats->stats.mst > caps->stats.mst) {
+        out->stats.mst = caps->stats.mst;
+        clamp_stat_41c();
     } else {
-        temp_r0_2 = *(s16 *)((s8 *)class_stat_caps + 2);
-        if (temp_r3 > temp_r0_2) {
-            *(s16 *)((s8 *)arg1 + 2) = temp_r0_2;
-            ((TObjPlayer *)player)->clamp_stat_41c();
-        } else {
-            *(s16 *)((s8 *)arg1 + 2) = temp_r3;
-        }
+        out->stats.mst = stats->stats.mst;
     }
-    temp_r3_2 = *(s16 *)((s8 *)temp_r31 + 4);
-    if (temp_r3_2 < 0) {
-        *(s16 *)((s8 *)arg1 + 4) = 1;
-        ((TObjPlayer *)player)->clamp_stat_41c();
+    if (stats->stats.evp < 0) {
+        out->stats.evp = 1;
+        clamp_stat_41c();
+    } else if (stats->stats.evp > caps->stats.evp) {
+        out->stats.evp = caps->stats.evp;
+        clamp_stat_41c();
     } else {
-        temp_r0_3 = *(s16 *)((s8 *)class_stat_caps + 4);
-        if (temp_r3_2 > temp_r0_3) {
-            *(s16 *)((s8 *)arg1 + 4) = temp_r0_3;
-            ((TObjPlayer *)player)->clamp_stat_41c();
-        } else {
-            *(s16 *)((s8 *)arg1 + 4) = temp_r3_2;
-        }
+        out->stats.evp = stats->stats.evp;
     }
-    if (*(s16 *)((s8 *)temp_r31 + 6) < 0) {
-        *(s16 *)((s8 *)arg1 + 6) = 1;
-        ((TObjPlayer *)player)->clamp_stat_41c();
+    if (stats->stats.hp < 0) {
+        out->stats.hp = 1;
+        clamp_stat_41c();
     }
-    temp_r3_3 = *(s16 *)((s8 *)temp_r31 + 6);
-    temp_r0_4 = *(s16 *)((s8 *)class_stat_caps + 6);
-    if (temp_r3_3 > temp_r0_4) {
-        *(s16 *)((s8 *)arg1 + 6) = temp_r0_4;
-        ((TObjPlayer *)player)->clamp_stat_41c();
+    if (stats->stats.hp > caps->stats.hp) {
+        out->stats.hp = caps->stats.hp;
+        clamp_stat_41c();
     } else {
-        *(s16 *)((s8 *)arg1 + 6) = temp_r3_3;
+        out->stats.hp = stats->stats.hp;
     }
-    temp_r3_4 = *(s16 *)((s8 *)temp_r31 + 8);
-    if (temp_r3_4 < 0) {
-        *(s16 *)((s8 *)arg1 + 8) = 1;
-        ((TObjPlayer *)player)->clamp_stat_41c();
+    if (stats->stats.dfp < 0) {
+        out->stats.dfp = 1;
+        clamp_stat_41c();
+    } else if (stats->stats.dfp > caps->stats.dfp) {
+        out->stats.dfp = caps->stats.dfp;
+        clamp_stat_41c();
     } else {
-        temp_r0_5 = *(s16 *)((s8 *)class_stat_caps + 8);
-        if (temp_r3_4 > temp_r0_5) {
-            *(s16 *)((s8 *)arg1 + 8) = temp_r0_5;
-            ((TObjPlayer *)player)->clamp_stat_41c();
-        } else {
-            *(s16 *)((s8 *)arg1 + 8) = temp_r3_4;
-        }
+        out->stats.dfp = stats->stats.dfp;
     }
-    temp_r3_5 = *(s16 *)((s8 *)temp_r31 + 0xA);
-    if (temp_r3_5 < 0) {
-        *(s16 *)((s8 *)arg1 + 0xA) = 1;
-        ((TObjPlayer *)player)->clamp_stat_41c();
+    if (stats->stats.ata < 0) {
+        out->stats.ata = 1;
+        clamp_stat_41c();
+    } else if (stats->stats.ata > caps->stats.ata) {
+        out->stats.ata = caps->stats.ata;
+        clamp_stat_41c();
     } else {
-        temp_r0_6 = *(s16 *)((s8 *)class_stat_caps + 0xA);
-        if (temp_r3_5 > temp_r0_6) {
-            *(s16 *)((s8 *)arg1 + 0xA) = temp_r0_6;
-            ((TObjPlayer *)player)->clamp_stat_41c();
-        } else {
-            *(s16 *)((s8 *)arg1 + 0xA) = temp_r3_5;
-        }
+        out->stats.ata = stats->stats.ata;
     }
-    temp_r3_6 = *(s16 *)((s8 *)temp_r31 + 0xC);
-    if (temp_r3_6 < 0) {
-        *(s16 *)((s8 *)arg1 + 0xC) = 1;
-        ((TObjPlayer *)player)->clamp_stat_41c();
+    if (stats->stats.lck < 0) {
+        out->stats.lck = 1;
+        clamp_stat_41c();
+    } else if (stats->stats.lck > caps->stats.lck) {
+        out->stats.lck = caps->stats.lck;
+        clamp_stat_41c();
     } else {
-        temp_r0_7 = *(s16 *)((s8 *)class_stat_caps + 0xC);
-        if (temp_r3_6 > temp_r0_7) {
-            *(s16 *)((s8 *)arg1 + 0xC) = temp_r0_7;
-            ((TObjPlayer *)player)->clamp_stat_41c();
-        } else {
-            *(s16 *)((s8 *)arg1 + 0xC) = temp_r3_6;
-        }
+        out->stats.lck = stats->stats.lck;
     }
-    temp_r3_7 = *(s16 *)((s8 *)temp_r31 + 0xE);
-    if (temp_r3_7 < 0) {
-        *(s16 *)((s8 *)arg1 + 0xE) = 1;
-        ((TObjPlayer *)player)->clamp_stat_41c();
+    extra = stats->mbr_0xe;
+    if (extra < 0) {
+        out->mbr_0xe = 1;
+        clamp_stat_41c();
     } else {
-        *(s16 *)((s8 *)arg1 + 0xE) = temp_r3_7;
+        out->mbr_0xe = extra;
     }
-    *(f32 *)((s8 *)arg1 + 0x10) = (f32) *(f32 *)((s8 *)temp_r31 + 0x10);
-    *(f32 *)((s8 *)arg1 + 0x14) = (f32) *(f32 *)((s8 *)temp_r31 + 0x14);
-    temp_r28_2 = *(s32 *)((s8 *)temp_r31 + 0x18);
+    out->proportions = stats->proportions;
+    out->mbr_0x14 = stats->mbr_0x14;
+    value = stats->level;
     max_level = TObjPlayer::get_max_level();
-    if (temp_r28_2 < 0) {
-        *(s32 *)((s8 *)arg1 + 0x18) = 0;
-        ((TObjPlayer *)player)->set_flag_41c_bit1();
-    } else if (temp_r28_2 > max_level) {
-        *(s32 *)((s8 *)arg1 + 0x18) = max_level;
-        ((TObjPlayer *)player)->set_flag_41c_bit1();
+    if (value < 0) {
+        out->level = 0;
+        set_flag_41c_bit1();
+    } else if (value > max_level) {
+        out->level = max_level;
+        set_flag_41c_bit1();
     } else {
-        *(s32 *)((s8 *)arg1 + 0x18) = temp_r28_2;
+        out->level = value;
     }
-    temp_r28_2 = *(s32 *)((s8 *)temp_r31 + 0x1C);
-    current_state_field = TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv((TObjPlayer *)player), max_level);
-    if (temp_r28_2 < 0) {
-        *(s32 *)((s8 *)arg1 + 0x1C) = 0;
-        ((TObjPlayer *)player)->check_flag_at_41c();
-    } else if (temp_r28_2 > current_state_field) {
-        *(s32 *)((s8 *)arg1 + 0x1C) = current_state_field;
-        ((TObjPlayer *)player)->check_flag_at_41c();
+    value = stats->exp;
+    max_exp = TObjPlayer::get_current_state_field(get_class_index__10TObjPlayerFv(this), max_level);
+    if (value < 0) {
+        out->exp = 0;
+        check_flag_at_41c();
+    } else if (value > max_exp) {
+        out->exp = max_exp;
+        check_flag_at_41c();
     } else {
-        *(s32 *)((s8 *)arg1 + 0x1C) = temp_r28_2;
+        out->exp = value;
     }
-    temp_r4_2 = *(s32 *)((s8 *)temp_r31 + 0x20);
-    if (temp_r4_2 < 0) {
-        *(s32 *)((s8 *)arg1 + 0x20) = 0;
-        ((TObjPlayer *)player)->check_stat_flag_41c();
+    meseta = stats->meseta;
+    if (meseta < 0) {
+        out->meseta = 0;
+        check_stat_flag_41c();
         return;
     }
-    if (temp_r4_2 > 0xF423F) {
-        *(s32 *)((s8 *)arg1 + 0x20) = 0xF423F;
-        ((TObjPlayer *)player)->check_stat_flag_41c();
+    if (meseta > 999999) {
+        out->meseta = 999999;
+        check_stat_flag_41c();
         return;
     }
-    *(s32 *)((s8 *)arg1 + 0x20) = temp_r4_2;
+    out->meseta = meseta;
 }
 
 void TObjPlayer__sub_801AF904(s32 arg0) {

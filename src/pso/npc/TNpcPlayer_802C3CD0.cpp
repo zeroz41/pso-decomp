@@ -13,7 +13,6 @@
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
-void clamp_stats__10TObjPlayerFiPv(void *, void *, s32);
 u8 TObjPlayer__sub_801C0124(void *, s16);
 saddr reset(void *);
 }
@@ -52,7 +51,7 @@ void TObjPlayer::export_character_data(TPlyCharData *character) {
     character->set_def_materials_used(get_def_materials_used());
     character->set_luck_materials_used(get_luck_materials_used());
     TLobby::copy_data(&character->m_stats, get_stats());
-    clamp_stats__10TObjPlayerFiPv(this, &character->m_stats, (saddr)get_class_stat_entry((u8 *)this));
+    clamp_stats(&character->m_stats, get_class_stat_entry((u8 *)this));
     copy_player_visual_record(&character->m_disp_part2, name);
     copy_disp_config(&character->m_config, &action_palettes);
     for (j = 0; j < 0x13; j++) {
@@ -126,7 +125,7 @@ void TObjPlayer::export_state_to_record(TPlyCharData *record) {
     record->set_evade_materials_used(get_evade_materials_used());
     record->set_def_materials_used(get_def_materials_used());
     record->set_luck_materials_used(get_luck_materials_used());
-    clamp_stats__10TObjPlayerFiPv(this, &record->m_stats, (saddr)get_class_stat_entry((u8 *)this));
+    clamp_stats(&record->m_stats, get_class_stat_entry((u8 *)this));
     copy_player_visual_record(&record->m_disp_part2, name);
     copy_disp_config(&record->m_config, &action_palettes);
     for (k = 0; k < 19; k++) {

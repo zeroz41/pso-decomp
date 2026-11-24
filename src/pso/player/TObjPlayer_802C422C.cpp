@@ -73,7 +73,6 @@ void TObjPlayer__sub_802C4648(Obj_802C4648 *self, u32 v);
 void TObjPlayer__sub_802C4668(O_802C4668 *self, u32 c);
 s32 copy_player_visual_record(void *, void *);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
-s32 clamp_stats__10TObjPlayerFiPv(void *, void *, void *);
 u8 TObjPlayer__sub_801C0124(void *, s16);
 int init_action_config__10TObjPlayerFv(void*);
 int set_palette_entry__20TWindowActionPaletteFlllll(void*);
@@ -87,7 +86,7 @@ void export_player_record__10TObjPlayerFPvPv(TPlyCharData *record, u8 *arg1) {
     copy_player_visual_record(&record->m_disp_part2, arg1 + 0x85C);
     record->m_inventory.m_num_items = reinterpret_cast<TObjPlayer *>(arg1)->query_state_if_present(record->m_inventory.get_items());
     ((TObjPlayer *)arg1)->inventory_objects->set_flag_and_update((TObjPlayer *)arg1);
-    clamp_stats__10TObjPlayerFiPv(arg1, &record->m_stats, (void *) (TObjPlayer::get_class_stat_entry((u8 *)arg1)));
+    ((TObjPlayer *)arg1)->clamp_stats(&record->m_stats, TObjPlayer::get_class_stat_entry(arg1));
     record->m_inventory.m_hp_materials_used = ((TObjPlayer *)arg1)->get_hp_material_points();
     record->m_inventory.m_tp_materials_used = ((TObjPlayer *)arg1)->get_tp_materials_clamped();
     record->set_power_materials_used(((TObjPlayer *)arg1)->get_power_materials_used());
