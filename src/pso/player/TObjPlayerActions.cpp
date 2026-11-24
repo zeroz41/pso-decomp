@@ -3544,7 +3544,7 @@ void TObjPlayer::enter_attack_stage3() {
     this->attack_state.begin(this, 2, 2);
     this->setup_attack_stage();
     this->set_action_state(7, this->get_model_state());
-    TObjPlayer::apply_speed_scale((saddr)this, (f32) (((f32 (*)(void *))get_action_rate_entry)(this) * this->attack_state.get_attack_speed()));
+    apply_speed_scale((f32) (((f32 (*)(void *))get_action_rate_entry)(this) * this->attack_state.get_attack_speed()));
 }
 
 }
@@ -3668,7 +3668,7 @@ void TObjPlayer::enter_attack_stage2() {
     this->attack_state.begin(this, 1, 1);
     this->setup_attack_stage();
     this->set_action_state(6, this->get_state());
-    TObjPlayer::apply_speed_scale((saddr)this, (f32) (((f32 (*)(void *))get_action_rate_entry)(this) * this->attack_state.get_attack_speed()));
+    apply_speed_scale((f32) (((f32 (*)(void *))get_action_rate_entry)(this) * this->attack_state.get_attack_speed()));
 }
 
 }
@@ -4142,7 +4142,7 @@ void TObjPlayer::enter_attack_stage1() {
     this->attack_state.begin(this, 0, 0);
     this->setup_attack_stage();
     this->set_action_state(5, this->call_subobject_m15());
-    TObjPlayer::apply_speed_scale((saddr)this, (f32) (((f32 (*)(void *))get_action_rate_entry)(this) * this->attack_state.get_attack_speed()));
+    apply_speed_scale((f32) (((f32 (*)(void *))get_action_rate_entry)(this) * this->attack_state.get_attack_speed()));
 }
 
 }

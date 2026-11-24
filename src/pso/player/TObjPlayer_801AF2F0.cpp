@@ -4467,36 +4467,26 @@ s32 build_player_equipment_requirement_stats(TObjPlayer *self, PlayerRequirement
 #pragma push
 #pragma scheduling off
 s32 build_player_class_stat_template(TObjPlayer *player, PlayerRequirementStats *out) {
-  TObjPlayer *new_var;
-  unsigned int new_var2;
-  s32 temp_r30;
-  s32 temp_r31;
-  if (player == 0)
-  {
-    if (!player)
-    {
+    ActorParamBlock *defense;
+
+    if (player == 0) {
+        return 0;
     }
-    return 0;
-  }
-  temp_r31 = (saddr)get_class_defense_template(player);
-  new_var = player;
-  temp_r30 = temp_r31;
-  new_var2 = (int) temp_r30;
-  temp_r31 = (saddr)get_class_attack_template(new_var);
-  out->set(new_var, TObjPlayer::get_class_stat_entry((u8 *)new_var), (AttackParams *)temp_r31, (ActorParamBlock *)new_var2);
-  return 1;
+    defense = get_class_defense_template(player);
+    out->set(player, TObjPlayer::get_class_stat_entry((u8 *)player), get_class_attack_template(player), defense);
+    return 1;
 }
 #pragma pop
 
-void TObjPlayer::apply_speed_scale(int actor, f32 farg0) {
+void TObjPlayer::apply_speed_scale(f32 speed) {
     f32 scale;
 
-    if (((TObjPlayer *)actor)->is_flag30_8_set() != 0) {
-        scale = player_half * farg0;
+    if (is_flag30_8_set() != 0) {
+        scale = player_half * speed;
     } else {
-        scale = farg0;
+        scale = speed;
     }
-    ((TObjMotion *)actor)->set_override_speed(scale);
+    set_override_speed(scale);
 }
 
 s32 calc_scaled_value__10TObjPlayerFii(TObjPlayer *player, s32 value) {

@@ -11835,7 +11835,7 @@ handle_6x0C_add_or_remove_status_effect__FP35G_AddOrRemoveStatusEffect_6x0C_6x0D
 send_status_effect_add__10TObjPlayerF17StatStatusReceipt = .text:0x801B2E04; // type:function size:0x64
 get_next_level_exp__10TObjPlayerFv = .text:0x801B2E68; // type:function size:0x7C
 calc_scaled_value__10TObjPlayerFii = .text:0x801B2EE4; // type:function size:0x84
-apply_speed_scale__10TObjPlayerFif = .text:0x801B2F68; // type:function size:0x60
+apply_speed_scale__10TObjPlayerFf = .text:0x801B2F68; // type:function size:0x60
 build_player_class_stat_template = .text:0x801B2FC8; // type:function size:0x70
 build_player_equipment_requirement_stats = .text:0x801B3038; // type:function size:0x64
 recover_player_full = .text:0x801B309C; // type:function size:0x20

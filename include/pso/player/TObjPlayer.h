@@ -1182,7 +1182,7 @@ struct TObjPlayer : public TObjChara {
     void delete_multiple_inventory_items(s32 *item_ids, s32 count);
     static s32 is_key_machine_ready();
     void recover_full();
-    static void apply_speed_scale(int, f32);
+    void apply_speed_scale(f32 speed);
     static s32 test_ordered_anim_markers(void *, f32, f32);
     void remove_status_effect(StatStatusReceipt effect);
     void send_status_effect_remove(StatStatusReceipt effect);
