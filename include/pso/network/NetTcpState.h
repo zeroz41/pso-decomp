@@ -6,6 +6,7 @@
 #include "pso/network/IPv6Send.h"
 #include "pso/network/SocketEvents.h"
 #include "pso/network/UdpRuntime.h"
+#include "pso/network/NetworkRuntime.h"
 
 typedef struct TcpTcb TcpTcb;
 
@@ -44,7 +45,7 @@ typedef struct TcpWait {
     u8 flags; /* 1 active, 2 a thread waits, 4 done, 8 callback mode */
     u8 count;
     s16 status;
-    s32 thread;
+    NetThreadHandle thread;
 } TcpWait;
 LAYOUT_ASSERT(TcpWait_size_check, sizeof(TcpWait) == 8);
 /* A TCP control block (0x544 bytes; tcp_protocol_state.tcbs[]). */

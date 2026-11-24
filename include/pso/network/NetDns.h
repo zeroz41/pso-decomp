@@ -4,6 +4,7 @@
  * carves its pools out of one static block; dns_init clears them. */
 #include "types.h"
 #include "pso/network/UdpRuntime.h"
+#include "pso/network/NetworkRuntime.h"
 #include <stddef.h>
 
 #ifdef __cplusplus
@@ -97,6 +98,8 @@ typedef struct DnsPtrRequest {
     DnsPtr *entry;              /* 0x0C */
 } DnsPtrRequest;
 
+#define DNS_NO_WAITER ((NetThreadHandle)-1)
+
 /* A query (the handle the resolver's callers get is its index). */
 typedef struct DnsQuery {
     s16 active;
@@ -105,7 +108,7 @@ typedef struct DnsQuery {
     s16 id;                     /* 0x06: transaction id */
     s16 kind;                   /* 0x08: the DNS query type, 1 A or 12 PTR */
     s16 timer;                  /* 0x0A: seconds to the next retry */
-    u32 waiter;                 /* 0x0C: thread waiting for the answer, -1 = none */
+    NetThreadHandle waiter;     /* 0x0C: thread waiting for the answer, DNS_NO_WAITER = none */
     s16 status;                 /* 0x10: tries while running, the error once failed (< 0) */
     s16 outstanding;            /* 0x12 */
     s16 server;                 /* 0x14 */

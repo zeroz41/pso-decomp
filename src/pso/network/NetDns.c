@@ -146,7 +146,7 @@ s16 dns_init(void) {
             p->active = 0;
             p->socket = -1;
             p->id = 0;
-            p->waiter = -1;
+            p->waiter = DNS_NO_WAITER;
             p->status = -65;
             p->outstanding = 0;
             p->msg = 0;
@@ -214,11 +214,11 @@ extern s16 dns_get_addr(s16 idx, void *buf, s16 *len, void *buf2, s16 *len2, uad
     if (mode == 0) {
         lock_at_sem();
         if (e->status > 0 || e->outstanding > 0) {
-            if (e->waiter != 0xFFFFFFFF) {
+            if (e->waiter != DNS_NO_WAITER) {
                 unlock_at_sem();
                 return -2;
             }
-            NetStoreCurrentThread((s32 *)&e->waiter);
+            NetStoreCurrentThread(&e->waiter);
             unlock_at_sem();
             NetSuspendCurrentThread();
         } else {
@@ -1223,9 +1223,9 @@ s32 close_and_reset_connection(DnsQuery *self) {
     self->kind = 0;
     self->status = -0x41;
     self->outstanding = 0;
-    if (self->waiter != 0xFFFFFFFFU) {
+    if (self->waiter != DNS_NO_WAITER) {
         resume_thread(self->waiter);
-        self->waiter = -1;
+        self->waiter = DNS_NO_WAITER;
     }
     unlock_at_sem();
     return result;
@@ -1467,16 +1467,16 @@ void dispatch_request_callback(DnsQuery *connection, s16 status) {
         if (a->cb == NULL) {
             if (status != 0) {
                 lock_at_sem();
-                if (connection->waiter != 0xFFFFFFFFU) {
+                if (connection->waiter != DNS_NO_WAITER) {
                     resume_thread(connection->waiter);
-                    connection->waiter = -1;
+                    connection->waiter = DNS_NO_WAITER;
                 }
                 unlock_at_sem();
                 return;
             }
-            if (connection->waiter != 0xFFFFFFFFU) {
+            if (connection->waiter != DNS_NO_WAITER) {
                 resume_thread(connection->waiter);
-                connection->waiter = -1;
+                connection->waiter = DNS_NO_WAITER;
             }
             return;
         }
@@ -1497,16 +1497,16 @@ void dispatch_request_callback(DnsQuery *connection, s16 status) {
         if (b->cb == NULL) {
             if (status != 0) {
                 lock_at_sem();
-                if (connection->waiter != 0xFFFFFFFFU) {
+                if (connection->waiter != DNS_NO_WAITER) {
                     resume_thread(connection->waiter);
-                    connection->waiter = -1;
+                    connection->waiter = DNS_NO_WAITER;
                 }
                 unlock_at_sem();
                 return;
             }
-            if (connection->waiter != 0xFFFFFFFFU) {
+            if (connection->waiter != DNS_NO_WAITER) {
                 resume_thread(connection->waiter);
-                connection->waiter = -1;
+                connection->waiter = DNS_NO_WAITER;
             }
             return;
         }

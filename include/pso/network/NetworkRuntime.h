@@ -4,7 +4,8 @@
 #include "types.h"
 #include <stddef.h>
 
-typedef uaddr NetThreadHandle;
+/* A thread the stack created (AT_CreateTask) or a caller waiting on it. */
+typedef struct OSThread *NetThreadHandle;
 /* A mutex handle from create_mutex: the address of its slot's OSMutex, kept and compared as an unsigned word (NetReleaseMutex). */
 typedef uaddr NetMutexHandle;
 typedef struct NetworkThreadSlot NetworkThreadSlot;
@@ -67,7 +68,7 @@ void send_message_queue(u32 handle, void *source, s32 size);
 void unlock_mutex(NetMutexHandle mutex);
 void lock_mutex(NetMutexHandle mutex);
 void signal_alarm_queue(void* alarm);
-void resume_thread(saddr thread);
+void resume_thread(NetThreadHandle thread);
 void AT_TerminateTask(NetThreadHandle thread);
 void AT_DeleteTask(NetThreadHandle thread);
 /* The thread key is the original native address word stored by the pool. */
@@ -80,7 +81,7 @@ void ipv6cp_opening(struct PppFsm *entry);
 void NetIPv6CPCancelTimer(struct PppFsm *entry);
 void NetYieldThread(void);
 void NetStoreTick(s32* tick);
-void NetStoreCurrentThread(s32* thread);
+void NetStoreCurrentThread(NetThreadHandle *thread);
 void NetSuspendCurrentThread(void);
 void AT_StartTask(NetThreadHandle thread);
 void NetReceiveMessage(u32 handle, void* destination, s32 size);

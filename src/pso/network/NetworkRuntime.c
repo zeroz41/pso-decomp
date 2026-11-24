@@ -72,7 +72,7 @@ s16 AT_InitializeRTOS(void)
   {
     lobby_thread_pool_base[i].active = 0;
     slot = &lobby_thread_pool_base[i];
-    slot->key = (NetThreadHandle)&slot->thread;
+    slot->key = &slot->thread;
   }
 
   for (i = 0; i < 0x40; i++)

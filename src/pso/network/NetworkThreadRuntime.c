@@ -31,8 +31,8 @@ u8 ppp_option_word_buf[4];
 #define PCO_RD32(p) (ppp_buffer_read((p), ppp_option_word_buf, 4) != 4 ? 0 : read_network_u32_be(ppp_option_word_buf))
 #define PCO_RD8(p) (ppp_buffer_read((p), ppp_option_byte_buf, 1) != 1 ? -1 : (s16)ppp_option_byte_buf[0])
 
-void NetStoreCurrentThread(s32 *thread) {
-    *thread = (saddr)OSGetCurrentThread();
+void NetStoreCurrentThread(NetThreadHandle *thread) {
+    *thread = OSGetCurrentThread();
 }
 
 void net_sleep_ms(s32 ms) {
@@ -85,8 +85,8 @@ void NetYieldThread(void) {
     OSYieldThread();
 }
 
-void resume_thread(saddr thread) {
-    OSResumeThread((OSThread*)thread);
+void resume_thread(NetThreadHandle thread) {
+    OSResumeThread(thread);
 }
 
 void NetSuspendCurrentThread(void) {
@@ -95,13 +95,13 @@ void NetSuspendCurrentThread(void) {
 
 /* Cancels the thread unless it already terminated. */
 void AT_TerminateTask(NetThreadHandle thread) {
-    if (OSIsThreadTerminated((OSThread *)thread) == 0) {
-        OSCancelThread((OSThread *)thread);
+    if (OSIsThreadTerminated(thread) == 0) {
+        OSCancelThread(thread);
     }
 }
 
 void AT_StartTask(NetThreadHandle thread) {
-    OSResumeThread((OSThread*)thread);
+    OSResumeThread(thread);
 }
 
 void AT_DeleteTask(NetThreadHandle thread) {
@@ -149,7 +149,7 @@ s16 AT_CreateTask(NetThreadEntry entry, NetThreadHandle *out_key) {
 #pragma push
 #pragma opt_propagation off
 void *run_current_thread_callback(void *unused) {
-    uaddr key = (uaddr)OSGetCurrentThread();
+    NetThreadHandle key = OSGetCurrentThread();
     NetworkThreadSlot *p;
     u16 n = lobby_thread_pool_count;
     NetworkThreadSlot *base = lobby_thread_pool_base;

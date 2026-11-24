@@ -76,7 +76,7 @@ s16 NetInitializeDispatcher(void) {
 
 extern void NetYieldOutsideDispatcherThread(void) {
     NetworkDispatchState *g = &network_dispatch_state;
-    s32 self;
+    NetThreadHandle self;
 
     NetStoreCurrentThread(&self);
     if (self != g->thread_ids[0] && self != g->thread_ids[1]) {

@@ -319,13 +319,13 @@ s32 write_ring_buffer(u8 *src, s32 len) {
     s32 first;
     s32 over;
     s32 end;
-    s32 thread;
+    NetThreadHandle thread;
     u8 pad[8];
     thread = queue_thread_handle;
     lock_mutex(send_ring_mutex);
     if (lobby_ring_buffer_size - lobby_send_ring_pending_bytes < len) {
         unlock_mutex(send_ring_mutex);
-        if (OSIsThreadSuspended((OSThread *)thread) == 1) {
+        if (OSIsThreadSuspended(thread) == 1) {
             resume_thread(queue_thread_handle);
         }
         return 0;
@@ -343,7 +343,7 @@ s32 write_ring_buffer(u8 *src, s32 len) {
     }
     lobby_send_ring_pending_bytes += len;
     unlock_mutex(send_ring_mutex);
-    if (OSIsThreadSuspended((OSThread *)thread) == 1) {
+    if (OSIsThreadSuspended(thread) == 1) {
         resume_thread(queue_thread_handle);
     }
     return 1;

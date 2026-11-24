@@ -58,10 +58,10 @@ static struct {
 } lobby_net_channel_table;
 
 void reset_message_thread(void) {
-    if (lobby_message_thread_handle != 0) {
+    if (lobby_message_thread_handle != NULL) {
         AT_TerminateTask(lobby_message_thread_handle);
         AT_DeleteTask(lobby_message_thread_handle);
-        lobby_message_thread_handle = 0;
+        lobby_message_thread_handle = NULL;
     }
     NetUnregisterTimer(update_exi_status);
     network_link_status_cache = -1;
