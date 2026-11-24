@@ -4413,6 +4413,8 @@ s32 TObjPlayer::get_clamped_index() {
     return temp_r3;
 }
 
+}
+
 void TObjPlayer::init_trait_flags() {
     this->target_attribute_mask = 0;
     if (get_class_flags() & CLASS_FLAG_ANDROID) {
@@ -4423,8 +4425,6 @@ void TObjPlayer::init_trait_flags() {
     if (get_class_flags() & CLASS_FLAG_RANGER) {
         this->add_flags_2e4(0x20);
     }
-}
-
 }
 
 void send_impose_hold(TObjPlayer *player, int frames) {
