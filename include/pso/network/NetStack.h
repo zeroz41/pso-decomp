@@ -141,8 +141,15 @@ s16 link_get_interface_id(s16 idx, void *dst);
 s32 link_get_address(s16 idx, s32 handle, void *dst);
 s16 link_get_address_length(s16, s32);
 /* ICMP (src/pso/network/NetIcmp.c). */
+typedef struct Icmp4Header {
+    u8 type;
+    u8 code;
+    u16 checksum;
+    u32 unused; /* the error messages send it as 0 */
+} Icmp4Header;
+LAYOUT_ASSERT(Icmp4Header_size_check, sizeof(Icmp4Header) == 8);
 s16 icmp_input(NetPacket *pkt, u32 src, u32 dst);
-s16 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id);
+s16 icmp_send_error(Icmp4Header *icmp, IPv4Header *ip, s16 len, s16 iface);
 u16 ones_complement_sum(void *data, s16 n);
 /* ICMPv6 (src/pso/network/NetIcmp6.c). */
 s16 NetIPv6HandleIcmpMessage(struct NetPacket *pkt, u8 *src, u8 *dst, u8 hop_limit, s16 iface);

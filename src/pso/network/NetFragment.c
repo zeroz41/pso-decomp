@@ -386,16 +386,11 @@ s16 fragment_send_time_exceeded(NetFragPacket *pkt) {
     total = pkt->hdr_len + pkt->first->len;
     switch (type) {
     case 4: {
-        struct {
-            u8 type;
-            u8 code;
-            u16 checksum;
-            u32 unused;
-        } msg;
+        Icmp4Header msg;
         msg.type = 0xb;
         msg.code = 1;
         msg.unused = 0;
-        return icmp_send_error((u8 *)&msg, q, total, pkt->iface);
+        return icmp_send_error(&msg, (IPv4Header *)q, total, pkt->iface);
     }
     case 6: {
         NetIcmpv6Header msg;

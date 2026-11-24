@@ -150,16 +150,16 @@ s16 icmp_input(NetPacket *pkt, u32 src, u32 dst)
   return 0;
 }
 
-s16 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id)
+s16 icmp_send_error(Icmp4Header *p, IPv4Header *b, s16 x, s16 id)
 {
   NetPacket *pkt;
   s32 lim;
   s16 r;
-  if ((NetIPv4IsUnspecified(*((u32 *)(b + 0xc))) || NetIPv4IsLoopback(*((s32 *)(b + 0xc)))) || (NetIPv4IsBroadcast(*((u32 *)(b + 0xc)), id) != 0))
+  if ((NetIPv4IsUnspecified(b->src) || NetIPv4IsLoopback(b->src)) || (NetIPv4IsBroadcast(b->src, id) != 0))
   {
     return -1;
   }
-  if (NetIPv4IsBroadcast(*((u32 *)(b + 0x10)), id))
+  if (NetIPv4IsBroadcast(b->dst, id))
   {
     return -1;
   }
@@ -168,7 +168,7 @@ s16 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id)
   {
     return -1;
   }
-  lim = (s16) ((b[0] << 2) & 0x3C);
+  lim = (s16) ((b->ver_ihl << 2) & 0x3C);
   lim = lim + 8;
   x = (x < lim) ? (x) : (lim);
   pkt->fragment_count = 0;
@@ -180,20 +180,13 @@ s16 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id)
   pkt->fragments[pkt->fragment_count].length = 8;
   set_value_and_enable(&pkt->fragments[pkt->fragment_count].buffer, p);
   pkt->fragment_count += 1;
-  *((u16 *)(p + 2)) = 0;
-  *((u16 *)(p + 2)) = calc_ip_checksum(pkt, 1);
-  r = AT_IP4_Send(pkt, *((u32 *)(b + 0xc)), *((u32 *)(b + 0x10)), 0, 0, 0, 1);
+  p->checksum = 0;
+  p->checksum = calc_ip_checksum(pkt, 1);
+  r = AT_IP4_Send(pkt, b->src, b->dst, 0, 0, 0, 1);
   release_entry(pkt);
   return r;
 }
 
-typedef struct Icmp4Header {
-    u8 type;
-    u8 code;
-    u16 checksum;
-    u8 rest[4];
-} Icmp4Header;
-LAYOUT_ASSERT(Icmp4Header_size_check, sizeof(Icmp4Header) == 8);
 s16 icmp_send(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt) {
     NetBufferRef ref;
     Icmp4Header hdr;

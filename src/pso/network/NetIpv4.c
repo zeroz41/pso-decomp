@@ -88,12 +88,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
   s16 found;
   NetworkAddress src;
   NetworkAddress dst;
-  struct
-  {
-    u8 type;
-    u8 code;
-    s32 unused;
-  } err;
+  Icmp4Header err;
   u8 *dp;
   s16 r;
   u8 *data;
@@ -235,7 +230,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
             err.type = 3;
             err.code = 3;
             err.unused = 0;
-            r = icmp_send_error((u8 *) (&err), ip, len, iface);
+            r = icmp_send_error(&err, h, len, iface);
             if (reassembled == 1)
             {
               release_packet_fragments(pkt);
@@ -296,7 +291,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
   err.type = 3;
   err.code = 2;
   err.unused = 0;
-  icmp_send_error((u8 *) (&err), ip, len, iface);
+  icmp_send_error(&err, (IPv4Header *)ip, len, iface);
   if (reassembled == 1)
   {
     release_packet_fragments(pkt);
