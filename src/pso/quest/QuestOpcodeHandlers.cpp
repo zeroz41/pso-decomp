@@ -1131,8 +1131,8 @@ void qst_op_open_pack_select() {
 void qst_op_prepare_gba_rom_from_disk(void) {
     const char *filename = reinterpret_cast<const char *>(qst_args[0]);
     TLobby::free_luker_object();
-    TLobby::send_data(filename);
-    TLobby::set_send_buffer(gba_download_data_buffer, static_cast<s32>(gba_download_data_size));
+    gba_download_load_file(filename);
+    gba_joyboot_set_send_buffer(gba_download_data_buffer, static_cast<s32>(gba_download_data_size));
     TLobby::clear_quest_vm_flag();
 }
 
@@ -1397,11 +1397,11 @@ void qst_op_add_damage_to(void) {
     new TQuestDamageTask(client_id, tl_03, damage);
 }
 
-void qst_op_gba_update_dl_graph(void) { TLobby::get_selected_slot(); }
+void qst_op_gba_update_dl_graph(void) { gba_download_update_graph(); }
 
-void qst_op_gba_destroy_dl_graph(void) { TLobby::destroy_singleton(); }
+void qst_op_gba_destroy_dl_graph(void) { gba_download_destroy_graph(); }
 
-void qst_op_gba_create_dl_graph(void) { TLobby::init_graph(); }
+void qst_op_gba_create_dl_graph(void) { gba_download_create_graph(); }
 
 void qst_op_enable_movement2() {
     TObjPlayer *player = get_player_by_client_id((u16)qst_args[0]);
@@ -1975,7 +1975,7 @@ void qst_op_start_or_update_gba_joyboot(s32 idx) {
     }
 }
 
-void qst_op_prepare_gba_rom_from_download() { update_alloc_size__6TLobbyFv((void*)0); TLobby::set_send_buffer(gba_download_data_buffer, static_cast<s32>(gba_download_data_size)); }
+void qst_op_prepare_gba_rom_from_download() { update_alloc_size__6TLobbyFv((void*)0); gba_joyboot_set_send_buffer(gba_download_data_buffer, static_cast<s32>(gba_download_data_size)); }
 
 void qst_op_get_dl_status(s32 reg) {
     if (TLobby::get_lobby_count() != 0) {

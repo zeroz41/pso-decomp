@@ -4775,7 +4775,7 @@ force_active:
   - calc_highlight_scale__12TChCrTagNameFPv
   - calc_hit_zone_index__16TBoss3VoloptCoreFv
   - calc_i8_tiled_texel_offset__FUcUcUl
-  - calc_joyboot_checksum__6TLobbyFv
+  - gba_calc_joyboot_checksum__Fv
   - calc_large_tp__13TUnk_8049FE00Fv
   - calc_lightning_scatter_direction__12TTecZondeEffFlP3Vec
   - calc_loading_cursor_pos
@@ -16025,7 +16025,7 @@ force_active:
   - start_effect__14TItemEquipBaseFUlUl
   - capture_symbol_chat__18TSymbolChatCaptureFUsl
   - start_fade__9TAdFadeGCFPv
-  - start_gba_joyboot__6TLobbyFv
+  - gba_start_joyboot__Fv
   - start_get_type_async
   - start_handle_6x78_entry__FUs
   - start_hp_text_color_transition__20TWindowSubStatusDispFv

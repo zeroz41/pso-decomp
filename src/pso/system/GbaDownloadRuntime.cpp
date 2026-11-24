@@ -31,7 +31,7 @@ const u8 joyboot_game_code[4] = {'G', 'P', 'O', 'E'};
 u32 SIProbe(s32);
 
 
-void TLobby::destroy_singleton() {
+void gba_download_destroy_graph() {
     if ((u32) gba_download_graph != 0U) {
         ((TObject *)gba_download_graph)->queue_destruction();
         gba_download_graph = 0U;
@@ -39,7 +39,7 @@ void TLobby::destroy_singleton() {
     *(s8 *)((s8 *)TLobby__data_805434A8 + 7) = 0;
 }
 
-void TLobby::init_graph() {
+void gba_download_create_graph() {
     uaddr temp_r3;
 
     if ((u32) gba_download_graph == 0U) {
@@ -51,7 +51,7 @@ void TLobby::init_graph() {
     }
 }
 
-void TLobby::free_buffer() {
+void gba_download_free_buffer() {
     if (gba_download_data_buffer != NULL) {
         xfree(gba_download_data_buffer);
         gba_download_data_buffer = NULL;
@@ -59,7 +59,7 @@ void TLobby::free_buffer() {
     gba_download_data_size = 0;
 }
 
-void TLobby::alloc_buffer() {
+void gba_download_alloc_buffer() {
     gba_download_data_buffer = NULL;
     gba_download_data_size = 0;
     gba_download_data_buffer = static_cast<u8 *>(xmalloc(0x40000));
@@ -89,7 +89,7 @@ void gba_joyboot_transfer_callback(s32 channel, s32 arg1) {
     }
 }
 
-void TLobby::send_data(const char *filename) {
+void gba_download_load_file(const char *filename) {
     u32 resource_file_size;
 
     resource_file_size = get_resource_file_size(filename);
@@ -124,7 +124,7 @@ void TLobby::update_alloc_size() {
 
 void gba_init(void) { GBAInit(); }
 
-u8 TLobby::get_selected_slot() {
+u8 gba_download_update_graph() {
     u8 percentp;
 
     if (TLobby__sub_801F34F8() == 3) {
@@ -174,7 +174,7 @@ void stamp_joyboot_image(s32 arg0, s32 arg1) {
 }
 #pragma pop
 
-void TLobby::calc_joyboot_checksum() {
+void gba_calc_joyboot_checksum() {
     u8 *q;
     s32 i;
     u8 *data = gba_joyboot_send_buffer;
@@ -193,7 +193,7 @@ void TLobby::calc_joyboot_checksum() {
     data[k] = c;
 }
 
-s32 TLobby::start_gba_joyboot() {
+s32 gba_start_joyboot() {
     if (GBAJoyBootAsync(3, 0, 4, gba_joyboot_send_buffer, gba_joyboot_send_length, &gba_joyboot_status, gba_joyboot_transfer_callback) == 0) {
         TLobby__data_805D6CCC = 3;
         return 1;
@@ -233,12 +233,12 @@ void update_gba_joyboot_transfer(void) {
     case 1:
         stamp_joyboot_image(*(u16 *)&lbl_805D6CDA - 1, lbl_805D6CD9);
         TLobby__sub_8032CDC0();
-        TLobby::calc_joyboot_checksum();
+        gba_calc_joyboot_checksum();
         TLobby__data_805434A8[0].phase = 2;
         break;
     case 2:
         if (TLobby__data_805434A8[0].device_present != 0) {
-            TLobby::start_gba_joyboot();
+            gba_start_joyboot();
             if (TLobby__sub_801F34F8() != 1) {
                 TLobby__data_805434A8[0].phase = 3;
             }
@@ -262,9 +262,9 @@ void update_gba_joyboot_transfer(void) {
 #pragma optimization_level 1
 #pragma dont_inline on
 
-void TLobby::set_send_buffer(u8 *arg0, s32 arg1) {
-    gba_joyboot_send_buffer = arg0;
-    gba_joyboot_send_length = arg1;
+void gba_joyboot_set_send_buffer(u8 *buffer, s32 length) {
+    gba_joyboot_send_buffer = buffer;
+    gba_joyboot_send_length = length;
     gba_joyboot_status = 0;
     reset_joyboot_state(TLobby__data_805434A8);
     TLobby__data_805D6CCC = 0;

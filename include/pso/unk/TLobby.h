@@ -71,9 +71,6 @@ struct TLobby : public TObject {
     static s32 clear_record_flags_a();
     static s32 clear_record_flags_b();
     static void free_nodes_with_id(uaddr root);
-    static void calc_joyboot_checksum();
-    static s32 start_gba_joyboot();
-    static void set_send_buffer(u8 *arg0, s32 arg1);
     static void set_6264_and_call_2244B0(int a0, int a1);
     static void generate_shop_inventory(s32 idx);
     static void free_all_rocks();
@@ -504,13 +501,7 @@ struct TLobby : public TObject {
     static void release_used_slots();
     static s32 read_afs_toc(s32 id);
 
-    static void destroy_singleton();
-    static void init_graph();
-    static void free_buffer();
-    static void alloc_buffer();
-    static void send_data(const char *filename);
     static void update_alloc_size();
-    static u8 get_selected_slot();
     void bswap_challenge_dead_flag();
     void send_and_handle_60_wrapper();
     void byteswap_challenge_time_packet();
