@@ -12,8 +12,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_801DF280.h"
 
-LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D4_trade_result_packet) == 0xBC9C);
-LAYOUT_ASSERT(TradeAdvanceCallbackOffset, offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D1_advance_trade_state_packet) == 0xBCA0);
+LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D4_trade_result_packet) == 0xBC9C);
+LAYOUT_ASSERT(TradeAdvanceCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D1_advance_trade_state_packet) == 0xBCA0);
 LAYOUT_ASSERT(ProtocolConnectedOffset, offsetof(TProtocol, m_connected) == 0x1910);
 LAYOUT_ASSERT(PacketHeaderSize, sizeof(packet_header) == 4);
 LAYOUT_ASSERT(PacketFlagsOffset, offsetof(packet_header, flags) == 1);
@@ -54,7 +54,7 @@ void TProtocol::handle_cmd_AB(packet &pkt) {
     }
 }
 
-void TProtocol::send_statistic(u16 id, u16 arg1, u16 arg2, u32 *values) {
+void TProtocol::send_statistic(u16 id, u16 first_label, u16 second_label, u32 *values) {
     TSendQuestStatistic pkt;
     s32 i;
 
@@ -64,8 +64,8 @@ void TProtocol::send_statistic(u16 id, u16 arg1, u16 arg2, u32 *values) {
     pkt.header.size = sizeof(pkt);
     pkt.id = id;
     pkt.unused = 0;
-    pkt.arg1 = arg1;
-    pkt.arg2 = arg2;
+    pkt.first_label = first_label;
+    pkt.second_label = second_label;
     for (i = 0; i < 8; i++) {
         pkt.values[i] = values[i];
     }
@@ -241,9 +241,7 @@ void TProtocol::send_text_packet_c7(char *str) {
     }
 }
 
-void TProtocol::send_c6_packet(void *blocked_senders) {
-    TBlockedSenders *senders = (TBlockedSenders *)blocked_senders;
-
+void TProtocol::send_c6_packet(TBlockedSenders *senders) {
     if (m_connected != 0) {
         senders->header.command = 0xC6;
         senders->header.size = sizeof(*senders);
@@ -374,7 +372,7 @@ s32 TProtocol::set_server_info(const char *serial_v1, const char *access_key_v1,
                                const char *access_key, const char *host, u16 port) {
     s32 error;
 
-    error = resolve_domain((char *)host);
+    error = resolve_domain(host);
     set_port(port);
     if (error != 0) {
         return 2;
@@ -1981,8 +1979,8 @@ void TSendQuestStatistic::bswap() {
     header.bswap();
     bswap_16(&id);
     bswap_16(&unused);
-    bswap_16(&arg1);
-    bswap_16(&arg2);
+    bswap_16(&first_label);
+    bswap_16(&second_label);
     for (i = 0; i < 8; i++) {
         bswap_32(&values[i]);
     }

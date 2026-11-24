@@ -44,7 +44,7 @@ public:
     virtual short send(u8 *data) = 0;
     virtual short send(u8 *data, size_t size) = 0;
 
-    int resolve_domain(char *domain);
+    int resolve_domain(const char *domain);
     void set_ip_address(u32 addr);
     void set_port(short port);
     int is_empty();

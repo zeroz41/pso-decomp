@@ -333,7 +333,7 @@ void TSocket::set_ip_address(u32 addr) {
     m_dst_addr.addr_bytes[0] = ptr[3];
 }
 
-int TSocket::resolve_domain(char *domain) {
+int TSocket::resolve_domain(const char *domain) {
     s32 ret;
     s16 result;
     s32 i;

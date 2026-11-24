@@ -175,8 +175,8 @@ struct TSendQuestStatistic {
     packet_header header;
     u16 id;
     u16 unused;
-    u16 arg1;
-    u16 arg2;
+    u16 first_label;
+    u16 second_label;
     u32 values[8];
 
     void bswap();
@@ -397,7 +397,7 @@ public:
     void send_simple_mail(TChatMessage &message);
 
     void send_quest_barrier();
-    void send_statistic(u16 id, u16 arg1, u16 arg2, u32 *values);
+    void send_statistic(u16 id, u16 first_label, u16 second_label, u32 *values);
     void send_download_head(u8 flags, const char *filename);
     void send_trade_list(TTradeList *list);
     void send_message_box_closed();
@@ -414,7 +414,7 @@ public:
     void send_server_time_accepted();
     void send_quest_menu_closed();
     void send_6F_burst_done();
-    void send_c6_packet(void *lobby);
+    void send_c6_packet(TBlockedSenders *senders);
     void send_text_packet_c7(char *str);
     void send_text_packet_D9(char *str);
     s32 send_login_9e_extended(void *player_name, int udp_disabled);
