@@ -58,7 +58,7 @@ s32 TObjPlayer::is_palette_entry_displayable(u8 kind, u8 sub) {
         }
         return 1;
     case 3:
-        if (((TObjPlayer *)&technique_state)->test_bit1_at_10() != 0 || test_actor_flags(0x20006) != 0 || get_camera_field() == 0) {
+        if (technique_state.test_flag_2() != 0 || test_actor_flags(0x20006) != 0 || get_camera_field() == 0) {
             return 0;
         }
         if (tp - calc_technique_parameters(tec = sub, get_cast_technique_level(&technique_state, sub), get_entity_id())->tp_cost < 0) {

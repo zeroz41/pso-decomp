@@ -436,7 +436,6 @@ typedef struct Player_801CB1B0 {
 extern "C" {
 
 void set_technique_id__20PlayerTechniqueStateFs(void *, s32);
-s32 TObjPlayer__sub_80082300(void *);
 s32 copy_attack_targets(void *, void *);
 s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(TObjPlayer *player, TObjChara *target, s32 damage);
@@ -480,8 +479,6 @@ void TObjPlayer__sub_801D28DC(void* p);
 u8 * copy_6x4c_hit_by_enemy_packet__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
 int is_alt_photon_blast_bank_empty__10TObjPlayerFPv(void* p);
 u8 *TObjPlayer__sub_801D2BB8(u8 *arg0, u8 *arg1);
-void TObjPlayer__sub_801D2CAC(u8 *arg0);
-void TObjPlayer__sub_801D2CC4(void* p, f32 v);
 int is_pb_palette_bank_empty(void*);
 u8 get_cast_technique_level(void *techs, s16 tech);
 s32 set_technique_level_entry(void *, s32, u8);
@@ -3261,7 +3258,7 @@ s32 TObjPlayer::can_equip_item(s32 tech) {
 }
 
 s32 TObjPlayer::can_start_technique(s32 tech) {
-    if (((TObjPlayer *)&this->technique_state)->test_bit1_at_10() != 0 ||
+    if (technique_state.test_flag_2() != 0 ||
         this->test_actor_flags(0x20006) != 0 ||
         this->test_actor_flags(0x2000000) != 0 ||
         this->test_action_mask(0x11E) == 0 ||
@@ -3301,22 +3298,22 @@ void TObjPlayer::update_technique_cast() {
         this->set_state_flags(0x80);
         create_technique_charge_light((s16) (technique_state.get_or_init_field_4()),this);
         technique_state.set_technique_state(calc_technique_parameters(technique_state.get_or_init_field_4(), technique_state.get_castable_technique_level(), this->get_entity_id())->pad_12);
-        ((s32 (*)(void *, f32))TObjPlayer__sub_801D2CC4)(&this->technique_state, 0.05f);
+        technique_state.set_charge_step(0.05f);
         break;
     case 1:
         if (this->is_flag_b0_4() == 0) {
             this->motion_flags = (s32) (this->motion_flags | 0x40);
-            this->frame = (f32) (this->frame + ((TObjPlayer *)&this->technique_state)->get_float_14());
-            if (((TObjPlayer *)&this->technique_state)->get_float_14() > 0.0f) {
+            this->frame = (f32) (this->frame + technique_state.get_charge_step());
+            if (technique_state.get_charge_step() > 0.0f) {
                 if (this->frame >= 0.2f) {
-                    ((s32 (*)(void *, f32))TObjPlayer__sub_801D2CC4)(&this->technique_state, -0.05f);
+                    technique_state.set_charge_step(-0.05f);
                 }
             } else if (this->frame < 0.0f) {
-                ((s32 (*)(void *, f32))TObjPlayer__sub_801D2CC4)(&this->technique_state, 0.05f);
+                technique_state.set_charge_step(0.05f);
             }
         }
-        ((s32 (*)(void *))TObjPlayer__sub_801D2CAC)(&this->technique_state);
-        if (TObjPlayer__sub_80082300(&this->technique_state) < 0) {
+        technique_state.decrement_state();
+        if (technique_state.get_state() < 0) {
             this->phase = 2;
             this->motion_flags = (s32) (this->motion_flags & 0xFFFFFFBF);
         }
@@ -3332,8 +3329,8 @@ void TObjPlayer::update_technique_cast() {
         }
         break;
     case 4:
-        ((s32 (*)(void *))TObjPlayer__sub_801D2CAC)(&this->technique_state);
-        if (TObjPlayer__sub_80082300(&this->technique_state) < 0) {
+        technique_state.decrement_state();
+        if (technique_state.get_state() < 0) {
             this->phase = 5;
             this->requested_action = this->get_idle_animation();
             this->resume_motion();
@@ -6274,16 +6271,14 @@ void PlayerTechniqueState::set_technique_state(s32 v) { state = v; }
 void PlayerTechniqueState::set_level(u8 v) { level = v; }
 #pragma pop
 
-int TObjPlayer::test_bit1_at_10() { return ((int (*)(void*, int))test_flags_any)((void*)((char*)this + 0x10), 2); }
+s32 PlayerTechniqueState::test_flag_2() { return test_flags_any(&flags.bits, 2); }
 
-void TObjPlayer__sub_801D2CAC(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0xC) = (s32) (*(s32 *)((s8 *)arg0 + 0xC) - 1);
-}
+void PlayerTechniqueState::decrement_state() { state--; }
 extern int fold_flush_28;
 
-f32 TObjPlayer::get_float_14() { return *(f32*)((char*)this + 0x14); }
+f32 PlayerTechniqueState::get_charge_step() { return charge_step; }
 
-void TObjPlayer__sub_801D2CC4(void* p, f32 v) { *(f32*)((char*)p + 0x14) = v; }
+void PlayerTechniqueState::set_charge_step(f32 step) { charge_step = step; }
 
 PhotonBlastTarget *PlayerTechniqueState::get_technique_data() { return targets; }
 
