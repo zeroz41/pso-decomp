@@ -40,35 +40,18 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer_803E18C0.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/technique/TechniqueParams.h"
 
 extern "C" {
 void rotate_matrix_y(s32, s32);
 }
 extern u8 identity_matrix[];
 
-struct Text_8014E250 { char text[0x36]; };
-
-
-typedef struct Line_8014EE98 { Vec p; Vec d; } Line_8014EE98;
-
-
-struct Msg_80150DE8 { u8 hdr[2]; u16 type; f32 x; f32 z; };
-
-
-struct Msg_80150E44 { u8 hdr[2]; u16 type; f32 x; f32 z; u32 flags; };
-
-
 extern "C" {
 
 
-struct Obj_801528A8 { u8 pad[0x5c]; u8 arr[1]; };
-
-
-struct Tec_80150B90 { u8 pad[0x10]; s16 f10; };
-
-
-
-struct N_80152C8C { u8 pad0[7]; s8 count; u32 pos[1]; };
 disp_data_part2 *npc_player_char_data_buffer;
 s32 quest_npc_visual_pending;
 
@@ -89,7 +72,7 @@ bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 id);
 s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1);
 s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2);
 void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self);
-void set_technique_seed_level(Obj_801528A8 *self, s16 i, u8 v);
+void set_technique_seed_level(PlayerTechniqueState *self, s16 i, u8 v);
 void reset_partner_counter(saddr arg0, s32 arg1);
 void increment_partner_counter(saddr arg0, s32 arg1);
 int get_partner_counter(saddr arg0, s32 arg1);
@@ -103,14 +86,13 @@ s32 free_collision_body_parts(u32);
 void init_collision_body_parts(void *, void *, s32);
 s32 try_send_6x27_use_item(s32, s32, void *);
 s8 get_cast_technique_level(void *, s16);
-Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
 void __register_global_object(void *obj, void *dtor, void *link);
 void matrix_mult_vec(s32, Vec *, Vec *);
 f32 vec3_dot(Vec *, Vec *);
 f32 vector_length(Vec *);
-void project_point_onto_line(void *, Line_8014EE98 *, Vec *);
 
 extern int registered_entity_count;
+struct Text_8014E250 { char text[0x36]; };
 extern Text_8014E250 npc_partner_dialogue_state[];
 
 void copy_player_visual_record(void *, void *);
@@ -937,11 +919,11 @@ u8 get_6x47_cast_packet_size(u8 *arg0) {
 }
 
 void TNpcPlayer::byteswap_positions() {
-    N_80152C8C *arg0 = (N_80152C8C *)this;
+    G_CastTechnique_6x47 *arg0 = (G_CastTechnique_6x47 *)this;
     s32 i;
     ((G_ClientIDHeader *)arg0)->bswap();
-    for (i = 0; i < arg0->count; i++) {
-        ((TNpcPlayer *)(&arg0->pos[i]))->byteswap_pos();
+    for (i = 0; i < arg0->params.target_count; i++) {
+        ((TNpcPlayer *)(&arg0->targets[i]))->byteswap_pos();
     }
 }
 
@@ -1065,8 +1047,8 @@ void reset_partner_counter(saddr arg0, s32 arg1) {
     *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0) = 0;
 }
 
-void set_technique_seed_level(Obj_801528A8 *self, s16 i, u8 v) {
-    self->arr[i] = v;
+void set_technique_seed_level(PlayerTechniqueState *self, s16 i, u8 v) {
+    self->levels[i] = v;
 }
 
 void __sinit_TNpcPlayer_cpp() {
@@ -1790,12 +1772,12 @@ void TNpcPlayer::deliver_partner_action() {
 #pragma pop
 
 void TNpcPlayer::send_walk_request() {
-    Msg_80150E44 m;
+    G_WalkToPosition_6x40 m;
     init_6x40_walk_packet(&m);
     if (self_view != 0) {
-        m.type = self_view->get_client_id();
-        m.x = move_target.x;
-        m.z = move_target.z;
+        m.header.client_id = self_view->get_client_id();
+        m.pos.x = move_target.x;
+        m.pos.z = move_target.z;
         m.flags = 0;
         if (self_view->player->actorFlags & 0x100000) {
             m.flags |= 8;
@@ -1805,12 +1787,12 @@ void TNpcPlayer::send_walk_request() {
 }
 
 void TNpcPlayer::send_run_request() {
-    Msg_80150DE8 m;
+    G_MoveToPosition_6x41_6x42 m;
     ((TNpcPlayer *)(&m))->reset_move_state();
     if (self_view != 0) {
-        m.type = self_view->get_client_id();
-        m.x = move_target.x;
-        m.z = move_target.z;
+        m.header.client_id = self_view->get_client_id();
+        m.pos.x = move_target.x;
+        m.pos.z = move_target.z;
         ((TNpcPlayer *)(&m))->reset_model();
     }
 }
@@ -1819,7 +1801,7 @@ void TNpcPlayer::update_combat_action() {
     s32 tier;
     s32 alt;
     s32 id;
-    Tec_80150B90 *tec;
+    TechniqueParams *tec;
     u32 fl;
     f32 diff;
     f32 mx;
@@ -1855,7 +1837,7 @@ void TNpcPlayer::update_combat_action() {
         }
         id = npc_player_combat_action_table[tier][alt];
         tec = calc_technique_parameters(id, *(s8 *)&ai_params.attack_technique_level, 0xFFFF);
-        diff = (f32)(get_actor_tp((u8 *)self_view->player) - tec->f10);
+        diff = (f32)(get_actor_tp((u8 *)self_view->player) - tec->tp_cost);
         mx = (f32)obj_getS16_2BA((u8 *)self_view->player);
         if (diff / mx <= 0.2f && 0.0f != mx) {
             request_chatter(3);
@@ -2586,7 +2568,7 @@ s32 partner_find_wall_segment(saddr arg0, saddr from, saddr to, saddr arg3, sadd
 #pragma fp_contract on
 #pragma opt_common_subs off
 s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2) {
-    Line_8014EE98 line;
+    Line line;
     Vec dir;
     Vec perp;
     Vec hit;
@@ -2608,9 +2590,9 @@ s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec 
         perp.x = -perp.x;
         perp.z = -perp.z;
     }
-    line.p.x = self->self_view->player->body_center.x;
-    line.p.y = self->self_view->player->body_center.y;
-    line.p.z = self->self_view->player->body_center.z;
+    line.o.x = self->self_view->player->body_center.x;
+    line.o.y = self->self_view->player->body_center.y;
+    line.o.z = self->self_view->player->body_center.z;
     line.d.x = perp.x;
     line.d.y = 0.0f;
     line.d.z = perp.z;
@@ -2814,8 +2796,8 @@ void TNpcPlayer::calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, 
     Vec second;
     Vec center1;
     Vec center2;
-    Line_8014EE98 line1;
-    Line_8014EE98 line2;
+    Line line1;
+    Line line2;
     f32 len1;
     f32 len2;
     f32 dist1;
@@ -2837,13 +2819,13 @@ void TNpcPlayer::calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, 
     if (len2 != 0.0f) {
         normalize_vector(&second);
     }
-    line1.p.x = b->x;
-    line1.p.y = b->y;
-    line1.p.z = b->z;
+    line1.o.x = b->x;
+    line1.o.y = b->y;
+    line1.o.z = b->z;
     line1.d.x = first.x;
     line1.d.y = first.y;
     line1.d.z = first.z;
-    dist1 = ((f32 (*)(Vec *, Line_8014EE98 *, Vec *))project_point_onto_line)(pos, &line1, &point1);
+    dist1 = ((f32 (*)(Vec *, Line *, Vec *))project_point_onto_line)(pos, &line1, &point1);
     center1.x = 0.5f * (a->x + b->x);
     center1.y = 0.5f * (a->y + b->y);
     center1.z = 0.5f * (a->z + b->z);
@@ -2851,13 +2833,13 @@ void TNpcPlayer::calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, 
     if (reach1 < 0.0f) {
         reach1 = 0.5f * len1;
     }
-    line2.p.x = d->x;
-    line2.p.y = d->y;
-    line2.p.z = d->z;
+    line2.o.x = d->x;
+    line2.o.y = d->y;
+    line2.o.z = d->z;
     line2.d.x = second.x;
     line2.d.y = second.y;
     line2.d.z = second.z;
-    dist2 = ((f32 (*)(Vec *, Line_8014EE98 *, Vec *))project_point_onto_line)(pos, &line2, &point2);
+    dist2 = ((f32 (*)(Vec *, Line *, Vec *))project_point_onto_line)(pos, &line2, &point2);
     center2.x = 0.5f * (a->x + b->x);
     center2.y = 0.5f * (a->y + b->y);
     center2.z = 0.5f * (a->z + b->z);
