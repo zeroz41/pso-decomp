@@ -1740,7 +1740,7 @@ pso/object/TDeadSpot.cpp:
 	.sdata      start:0x805D2A98 end:0x805D2AA0
 	.sdata2     start:0x805DA388 end:0x805DA3C0
 
-pso/npc/TNpcPlayer_800D87A8.cpp:
+pso/npc/EntityLookup.cpp:
 	.text       start:0x800D87A8 end:0x800D8830
 
 pso/effect/GroundContactSound.cpp:

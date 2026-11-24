@@ -56,7 +56,6 @@
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/TObjNpcSoldierMacho.h"
-#include "pso/npc/TObjNpcKenkyu2_802FEA38.h"
 #include "pso/npc/TObjNpcARW00.h"
 #include "pso/npc/TObjNpcExpertBase.h"
 #include "pso/npc/TObjNpcHosa2.h"
