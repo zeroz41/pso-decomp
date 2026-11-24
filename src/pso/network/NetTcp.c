@@ -51,9 +51,7 @@ void TLobby__sub_8041E8A8(s16 idx);
 void TLobby__sub_8041D584(TcpTcb *tcb, TcpHdr *th, TcpSeqRange *blocks, s16 n);
 s32 NetTCPInit(void);
 
-struct Self_803FDA68;
 
-struct V_803FE600;
 
 TcpState tcp_protocol_state;
 

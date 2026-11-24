@@ -11,7 +11,6 @@
 #include "types.h"
 #include "pso/network/TLobby_803FCF44.h"
 
-struct Self_803FD85C;
 
 #include <stddef.h>
 
@@ -19,9 +18,7 @@ struct Self_803FD85C;
 #include "pso/network/NetStackTypes.h"
 void net_sleep_ms(s32 ms);
 
-struct Self_803FDA68;
 
-struct V_803FE600;
 
 NetworkDispatchState network_dispatch_state;
 

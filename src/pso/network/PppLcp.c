@@ -110,7 +110,7 @@ s16 apply_lcp_config_to_sides(PppFsm *state, LcpConfig *config) {
     u32 w;
     pp = pad;
 
-    TLobby__sub_803FE600((O_803FE600 *)s);
+    TLobby__sub_803FE600(s);
     PP_doppp_active(s);
     *s->sub = 1;
     if (*s->sub >= 1) {

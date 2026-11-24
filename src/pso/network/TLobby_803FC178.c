@@ -13,9 +13,7 @@ void update_connection_state(void *arg0);
 #include "pso/network/TLobby_804048E8.h"
 #include "pso/network/NetworkTransport.h"
 
-struct Self_803FD74C;
 
-struct Self_803FD85C;
 
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"

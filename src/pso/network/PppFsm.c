@@ -500,9 +500,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, PppFrame *payload)
     }
 }
 #pragma pop
-void TLobby__sub_803FE600(O_803FE600 *o) {
-    PppFsm *fsm = (PppFsm *)o;
-
+void TLobby__sub_803FE600(PppFsm *fsm) {
     fsm->state = (fsm->f2 & 0xC0) ? 1 : 0;
     fsm->retries = fsm->f4;
     fsm->f6 = fsm->f7;

@@ -11,70 +11,11 @@
 
 /* Shared by the PPP files split out of TLobby_803FCF44.c: NetPppLink.c, PppFsm.c, PppIpcp.c, PppLcp.c, PppBuffer.c,
  * PppMd5.c, NetByteOrder.c, PppPap.c, PppControl.c and PppVj.c (CHAP is TLobby_803FC178.c). */
-typedef struct Self_803FD74C Self_803FD74C;
-typedef struct Tbl_803FD74C Tbl_803FD74C;
-typedef struct Self_803FD85C Self_803FD85C;
-typedef struct Tbl_803FD85C Tbl_803FD85C;
 struct PppFsm;
 struct PppHeader;
 typedef struct O_80400ACC O_80400ACC;
-typedef struct Self_803FDA68 Self_803FDA68;
-typedef struct Tbl_803FDA68 Tbl_803FDA68;
-typedef struct V_803FE600 V_803FE600;
-typedef struct O_803FE600 O_803FE600;
-typedef struct Blk_803FF48C Blk_803FF48C;
-typedef union U_803FF48C U_803FF48C;
 typedef struct PppPapAuthenticationState PppPapAuthenticationState;
-struct Self_803FD74C {
-    u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
-    s16 f8; u8 padA[6];
-    u8 f10[0x1C];
-    Tbl_803FD74C *tbl;
-    void *f30;
-};
-struct Tbl_803FD74C {
-    u8 pad[0x20];
-    void (*f20)(Self_803FD74C *);
-};
-struct Self_803FD85C {
-    u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
-    u8 pad8[8];
-    u8 f10[0x1C];
-    Tbl_803FD85C *tbl;
-    void *f30;
-};
-struct Tbl_803FD85C {
-    u8 pad[0x14];
-    void (*f14)(Self_803FD85C *, Tbl_803FD85C *);
-    u8 pad18[8];
-    void (*f20)(Self_803FD85C *, Tbl_803FD85C *);
-};
 struct O_80400ACC { u8 b0; u8 b1; u8 b2; u8 pad3[0x108 - 3]; s32 f108; };
-struct Self_803FDA68 {
-    u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
-    s16 f8; u8 padA[6];
-    u8 f10[0x1C];
-    Tbl_803FDA68 *tbl;
-    void *f30;
-};
-struct Tbl_803FDA68 {
-    u8 pad[0x14];
-    void (*f14)(Self_803FDA68 *, Tbl_803FDA68 *);
-    u8 pad18[0xC];
-    void (*f24)(Self_803FDA68 *, Tbl_803FDA68 *);
-    void *(*f28)(Self_803FDA68 *, Tbl_803FDA68 *);
-};
-struct V_803FE600 {
-    u8 pad[0x14];
-    void (*fn)(O_803FE600 *, V_803FE600 *);
-};
-struct O_803FE600 {
-    u8 b0; u8 b1; u8 b2; u8 b3; u8 b4; u8 b5; u8 b6; u8 b7;
-    u8 pad8[0x2C - 8];
-    V_803FE600 *p2C;
-};
-struct Blk_803FF48C { s32 w[9]; };
-union U_803FF48C { s16 h4; Blk_803FF48C src; };
 struct PppPapAuthenticationState {
     PppFsmProtocol proto;
     PapOptions options;
@@ -91,7 +32,7 @@ u32 TLobby__sub_803FE9F8(u32 sum, PppFrame* buf, u16 count);
 void TLobby__sub_803FD0C0(void);
 /* Called across the PPP files; each line names its defining file. */
 void TLobby__sub_803FD694(PppFsm *fsm); /* PppFsm.c */
-void TLobby__sub_803FE600(O_803FE600 *o); /* PppFsm.c */
+void TLobby__sub_803FE600(PppFsm *fsm); /* PppFsm.c */
 s16 TLobby__sub_803FED78(PppFsm *self); /* PppIpcp.c */
 struct LcpConfig;
 s16 apply_lcp_config_to_sides(PppFsm *state, struct LcpConfig *config); /* PppLcp.c */
