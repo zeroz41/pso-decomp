@@ -10,8 +10,8 @@ void GXGetViewportv(f32 *vp);
 void GXProject(f32 x, f32 y, f32 z, f32 mtx[3][4], f32 *pm, f32 *vp, f32 *sx, f32 *sy, f32 *sz);
 void project_world_to_screen(u8 *mtx, Vec *pos, f32 *out);
 
-void scale_matrix_vec3(u8 *matrix, u8 *arg1) {
-    const Vec *scale = (const Vec *)arg1;
+void scale_matrix_vec3(u8 *matrix, u8 *vec) {
+    const Vec *scale = (const Vec *)vec;
     scale_matrix((MtxP)matrix, scale->x, scale->y, scale->z);
 }
 
@@ -21,23 +21,23 @@ asm f32 vector_length(const Vec *v) {
 
 #pragma push
 #pragma scheduling off
-void rotate_matrix_about_axis(u8 *arg0, saddr arg1, s32 angle) {
+void rotate_matrix_about_axis(u8 *matrix, saddr axis, s32 angle) {
     GC_Mtx rotation;
     MtxP m;
-    if (arg0 == 0) {
+    if (matrix == 0) {
         m = *current_matrix;
     } else {
-        m = (MtxP)arg0;
+        m = (MtxP)matrix;
     }
     if (angle != 0) {
-        PSMTXRotAxisRad(rotation, (Vec *)arg1, 9.587378008291125e-05 * angle);
+        PSMTXRotAxisRad(rotation, (Vec *)axis, 9.587378008291125e-05 * angle);
         PSMTXConcat(m, rotation, m);
     }
 }
 #pragma pop
 
-void translate_matrix_vec3(u8 *matrix, u8 *arg1) {
-    const Vec *offset = (const Vec *)arg1;
+void translate_matrix_vec3(u8 *matrix, u8 *vec) {
+    const Vec *offset = (const Vec *)vec;
     translate_matrix((uaddr)matrix, offset->x, offset->y, offset->z);
 }
 

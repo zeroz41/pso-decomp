@@ -847,11 +847,11 @@ void BattleMusicState::reset_ring() { ((FlagWord *)&flags)->clear(1); set_lock_t
 
 void TObjPlayer::set_vec4_const() { *(float*)((char*)this + 0x1c) = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->texlist = 1.0f; *(float *)&this->room = 1.0f; }
 
-void save_render_material_state(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0) = (s32) model_render_flags;
-    *(s32 *)((s8 *)arg0 + 4) = (s32) chunk_polygon_flags_and_mask;
-    *(s32 *)((s8 *)arg0 + 8) = (s32) chunk_polygon_flags_or_mask;
-    copy_argb((NJS_ARGB *)(arg0 + 0xC), (NJS_ARGB *)model_material_color);
+void save_render_material_state(u8 *state) {
+    *(s32 *)((s8 *)state + 0) = (s32) model_render_flags;
+    *(s32 *)((s8 *)state + 4) = (s32) chunk_polygon_flags_and_mask;
+    *(s32 *)((s8 *)state + 8) = (s32) chunk_polygon_flags_or_mask;
+    copy_argb((NJS_ARGB *)(state + 0xC), (NJS_ARGB *)model_material_color);
 }
 
 void TObjPlayer::write_ids() { set_model_render_flags((saddr)this->m_name); set_chunk_material_override_pair((saddr)(*(void**)((char*)this + 0x4)), (saddr)this->m_prev); set_constant_material((const NJS_ARGB *)(((char*)this + 0xc))); }
