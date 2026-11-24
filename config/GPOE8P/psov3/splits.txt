@@ -4837,29 +4837,12 @@ pso/effect/photon/TPhotonYoulla.cpp:
 	.sbss       start:0x805D5D60 end:0x805D5D68
 	.sdata2     start:0x805DC260 end:0x805DC278
 
-pso/player/TObjPlayer_801AF2F0Data.cpp:
-	.sdata2     start:0x805DC278 end:0x805DC280
-
-pso/player/PlayerSdata2Block1.cpp:
-	.sdata2     start:0x805DC280 end:0x805DC2E0
-
-pso/player/TObjPlayerMaterials.cpp:
-	.text       start:0x801AEB84 end:0x801AEE10
-
-pso/player/TObjPlayer_801AEE10.cpp:
-	.text       start:0x801AEE10 end:0x801AEF80
-
-pso/player/TObjPlayerSupportEffects.cpp:
-	.text       start:0x801AEF80 end:0x801AF290
-
 pso/player/TObjPlayer_801AF2F0.cpp:
-	.text       start:0x801AF290 end:0x801BC140
+	.text       start:0x801AEB84 end:0x801BC194
 	.rodata     start:0x80446F20 end:0x80446F70
 	.data       start:0x804C3BA8 end:0x804C3E38
 	.sdata      start:0x805D3530 end:0x805D3538
-
-pso/player/TObjPlayerPosition.cpp:
-	.text       start:0x801BC140 end:0x801BC194
+	.sdata2     start:0x805DC278 end:0x805DC2E0
 
 pso/player/TObjPlayer_801BC194.cpp:
 	.text       start:0x801BC194 end:0x801BC5D4

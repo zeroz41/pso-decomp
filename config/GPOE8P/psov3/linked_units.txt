@@ -1192,7 +1192,6 @@ pso/ui/window/TWindowDD_80348C54.cpp
 pso/ui/window/TWindowDD_8034AF68.cpp
 pso/ui/window/TWindowDeposit.cpp
 pso/ui/window/TWindowDuelResult.cpp
-pso/player/PlayerSdata2Block1.cpp
 pso/player/PlayerSharedSbss.cpp
 pso/ui/window/TWindowDuelResult_801C2528.cpp
 pso/ui/window/TWindowEffectLight.cpp
@@ -1594,11 +1593,7 @@ pso/player/TObjPlayer_8011CEC0.cpp
 pso/player/TObjPlayer_8011E214.cpp
 pso/object/base/TObjCollidable.cpp
 pso/player/TObjPlayer_80178150.cpp
-pso/player/TObjPlayerMaterials.cpp
-pso/player/TObjPlayer_801AEE10.cpp
-pso/player/TObjPlayerSupportEffects.cpp
 pso/player/TObjPlayer_801AF2F0.cpp
-pso/player/TObjPlayerPosition.cpp
 pso/player/TObjPlayer_801BC194.cpp
 pso/player/TObjPlayerInit.cpp
 pso/player/TObjPlayerCreate.cpp
@@ -2188,7 +2183,6 @@ pso/map/area/AreaVersus02.cpp
 pso/ui/window/WindowHelpItemCallbackEntries.cpp
 pso/quest/QuestOpcodeHandlersData.cpp
 pso/quest/challenge/ChallengeModeData.cpp
-pso/player/TObjPlayer_801AF2F0Data.cpp
 pso/ui/window/TWindowHelpItem_802540ACData.cpp
 pso/ui/window/TWindowMainMenuData.cpp
 pso/system/prs.cpp
