@@ -220,8 +220,16 @@ struct G_CreateInventoryItem_PC_V3_BB_6x2B {
 
 struct G_CreateLobbyChair_6xAB {
  struct G_ClientIDHeader header;
- u16 animation_number;
- u16 flags;
+ s16 animation_number;
+ u16 flags; // bit 0: the sender has a keyboard; bit 1: the alternate chair animation
+ void init();
+ void bswap();
+ void send();
+ G_CreateLobbyChair_6xAB &operator=(G_CreateLobbyChair_6xAB &src);
+ s32 has_keyboard();
+ s32 uses_alt_chair();
+ void set_keyboard();
+ void set_alt_chair();
 };
 
 // Sent by TBoss4DarkFalz::send_action_packet / send_code_25_4, read by
@@ -539,8 +547,14 @@ struct G_LevelUpAllTechniques_6x9B {
 
 struct G_LobbyAnimation_6x58 {
  struct G_ClientIDHeader header;
- u16 animation_number;
- u16 flags;
+ s16 animation_number;
+ u16 flags; // bit 0: the sender has a keyboard
+ void init();
+ void bswap();
+ void send();
+ G_LobbyAnimation_6x58 &operator=(G_LobbyAnimation_6x58 &src);
+ s32 has_keyboard();
+ void set_keyboard();
 };
 
 struct G_MedicalCenterReviveAllPlayers_6x32 {
@@ -615,7 +629,11 @@ struct G_PartialPlayerData_DCProtos_6x1E {
 struct G_PhotonBlast_6x37 {
  struct G_ClientIDHeader header;
  s16 amount;
- u16 unused;
+ s16 unused;
+ void init();
+ void bswap();
+ void send();
+ G_PhotonBlast_6x37 &operator=(G_PhotonBlast_6x37 &src);
 };
 
 struct G_PickUpItemRequest_6x5A {
@@ -663,10 +681,16 @@ struct G_PlayerDied_6x4D {
 
 struct G_PlayerRevivable_6x4E {
  struct G_ClientIDHeader header;
+ void init();
+ void send();
+ G_PlayerRevivable_6x4E &operator=(const G_PlayerRevivable_6x4E &src);
 };
 
 struct G_PlayerRevived_6x4F {
  struct G_ClientIDHeader header;
+ void init();
+ void send();
+ G_PlayerRevived_6x4F &operator=(const G_PlayerRevived_6x4F &src);
 };
 
 struct G_ReleaseHold_6x2D {
@@ -711,9 +735,13 @@ struct G_SendGuildCard_PC_6x06 {
 
 struct G_SetAnimationState_6x52 {
  struct G_ClientIDHeader header;
- u16 animation;
- u16 unknown_a2;
- u32 angle;
+ s16 animation;
+ s16 state;
+ s32 angle;
+ void init();
+ void bswap();
+ void send();
+ G_SetAnimationState_6x52 &operator=(G_SetAnimationState_6x52 &src);
 };
 
 struct G_SetAnimationState_6xAE {
@@ -789,7 +817,11 @@ struct G_SetEntitySetFlags_6x76 {
 struct G_SetKillerEntityID_6x89 {
  struct G_ClientIDHeader header;
  u16 killer_entity_id;
- u16 unused;
+ s16 unused;
+ void init();
+ void bswap();
+ void send();
+ G_SetKillerEntityID_6x89 &operator=(G_SetKillerEntityID_6x89 &src);
 };
 
 struct G_SetOrClearPlayerFlags_6x2E {
@@ -807,8 +839,10 @@ struct G_SetPhotonBlastReadyFlag_6x39 {
 
 struct G_SetPlayerAngle_6x51 {
  struct G_ClientIDHeader header;
- u16 angle;
- u8 unused[2];
+ u32 angle_y;
+ void init();
+ void bswap();
+ void send();
 };
 
 struct G_SetPlayerBattleTeam_6x90 {
@@ -825,7 +859,11 @@ struct G_SetPlayerFloor_6x1F {
 struct G_SetPlayerPositionAndAngle_6x56 {
  struct G_ClientIDHeader header;
  u32 angle_y;
- struct VectorXYZF pos;
+ Vec pos;
+ void init();
+ void bswap();
+ void send();
+ G_SetPlayerPositionAndAngle_6x56 &operator=(G_SetPlayerPositionAndAngle_6x56 &src);
 };
 
 struct G_SetPlayerVisibility_6x22_6x23 {
@@ -878,6 +916,9 @@ struct G_SetTelepipeState_6x68 {
 
 struct G_ShieldAttack_6x4A {
  struct G_ClientIDHeader header;
+ void init();
+ void send();
+ G_ShieldAttack_6x4A &operator=(const G_ShieldAttack_6x4A &src);
 };
 
 struct G_ShowChallengeTimeRecordsWindow_6x8A {
@@ -932,6 +973,10 @@ struct G_StopAtPosition_6x3E {
 struct G_SwitchInteraction_6x50 {
  struct G_ClientIDHeader header;
  u32 angle_y;
+ void init();
+ void bswap();
+ void send();
+ G_SwitchInteraction_6x50 &operator=(const G_SwitchInteraction_6x50 &src);
 };
 
 struct G_SymbolChat_6x07 {
@@ -1035,6 +1080,22 @@ struct G_TurnOrMoveLobbyChair_6xAF_6xB0 {
  u32 angle;
 };
 
+// 6xAF: turn the lobby chair toward the stick angle.
+struct G_TurnLobbyChair_6xAF : G_TurnOrMoveLobbyChair_6xAF_6xB0 {
+ void init();
+ void bswap();
+ void send();
+ G_TurnLobbyChair_6xAF &operator=(const G_TurnOrMoveLobbyChair_6xAF_6xB0 &src);
+};
+
+// 6xB0: move the lobby chair along the stick angle.
+struct G_MoveLobbyChair_6xB0 : G_TurnOrMoveLobbyChair_6xAF_6xB0 {
+ void init();
+ void bswap();
+ void send();
+ G_MoveLobbyChair_6xB0 &operator=(const G_TurnOrMoveLobbyChair_6xAF_6xB0 &src);
+};
+
 struct G_UnblockGameJoin_6x71 {
  struct G_UnusedHeader header;
 };
@@ -1060,6 +1121,9 @@ struct G_Unknown_6x36 {
 
 struct G_Unknown_6x53 {
  struct G_ClientIDHeader header;
+ void init();
+ void send();
+ G_Unknown_6x53 &operator=(const G_Unknown_6x53 &src);
 };
 
 struct G_Unknown_6x54 {
@@ -1068,6 +1132,9 @@ struct G_Unknown_6x54 {
 
 struct G_Unknown_6x57 {
  struct G_ClientIDHeader header;
+ void init();
+ void send();
+ G_Unknown_6x57 &operator=(const G_Unknown_6x57 &src);
 };
 
 struct G_Unknown_6x78 {

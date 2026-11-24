@@ -1365,6 +1365,7 @@ struct TObjPlayer : public TObjChara {
     void finish_chair_sit_down();
     void lobby_animation_phase1_nop();
     void send_6x58_lobby_animation();
+    void send_6x57();
     void lobby_animation_phase8_nop();
     void lobby_animation_phase2_nop();
     void enter_off_floor_state();
