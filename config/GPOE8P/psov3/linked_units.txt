@@ -672,8 +672,6 @@ pso/ui/charcreate/TChCrTagPlBack.cpp
 pso/ui/charcreate/TChCrTagPlGraphic.cpp
 pso/quest/challenge/TChallenge.cpp
 pso/ui/charcreate/TCharaMaking.cpp
-pso/ui/chat/TChatMessage.cpp
-pso/ui/chat/TChatMessage_801DF918.cpp
 pso/system/save/TCheckMemoryCard.cpp
 pso/ui/city/TCheckRoomSequence.cpp
 pso/ui/city/TCheckRoomSequence_8021E464.cpp
@@ -910,7 +908,6 @@ pso/ui/hud/TMainCursor_801D7A78.cpp
 pso/ui/hud/TMainCursor_801D7AC8.cpp
 pso/map/TMapCsnCtrl.cpp
 pso/ui/city/TMedicalCenterSequence.cpp
-pso/ui/window/TMessageBox.cpp
 pso/object/TMotorcycle.cpp
 pso/system/movie/TMovie.cpp
 pso/enemy/TNeedleShoot.cpp
@@ -1056,8 +1053,6 @@ pso/player/TPlyGuildCardTag_801E09C4.cpp
 pso/network/TPlyJoinGame.cpp
 pso/network/TPlyJoinLobby.cpp
 pso/network/TPlyJoinLobbyEntry.cpp
-pso/network/TPlyJoinLobbyEntry_801DFA18.cpp
-pso/network/TPlyJoinLobby_801DF9C8.cpp
 pso/player/TPlyPhotonChair.cpp
 pso/network/TPlyRecvLogin.cpp
 pso/player/TPlySmth.cpp
@@ -1083,10 +1078,7 @@ pso/ui/hud/TRaderMapCore.cpp
 pso/ui/hud/TRaderMapCore_8030A808.cpp
 pso/network/TRecvDownload.cpp
 pso/network/TRecvDownloadHead.cpp
-pso/network/TRecvGenerateID.cpp
 pso/network/TRecvPort.cpp
-pso/network/TRecvPsoData.cpp
-pso/network/TRecvPsoDataLong.cpp
 pso/network/TRegister.cpp
 pso/system/save/TSaveChCr.cpp
 pso/system/scene/TScene.cpp
@@ -1399,8 +1391,6 @@ pso/network/NetAuthSecrets.c
 pso/network/NetworkTransport.c
 pso/network/TGameProtocol.cpp
 pso/network/TProtocol.cpp
-pso/network/TProtocol_801DFA5C.cpp
-pso/network/TProtocol_801DFCAC.cpp
 pso/network/TProtocol_801E08CC.cpp
 pso/network/TTcpSocket.cpp
 pso/network/TTcpSocket_801E0BB4.cpp
@@ -1906,8 +1896,6 @@ pso/unk/text_801D7238.cpp
 pso/unk/text_801D7BF4.cpp
 pso/unk/text_801D9870.cpp
 pso/unk/text_801D98F8.cpp
-pso/unk/text_801DF280.cpp
-pso/unk/text_801DFC3C.cpp
 pso/unk/text_801E051C.cpp
 pso/unk/text_801E078C.cpp
 pso/unk/text_801E0C08.cpp

@@ -5086,47 +5086,11 @@ pso/player/PlayerTechniqueState.cpp:
 	.sdata2     start:0x805DC408 end:0x805DC410
 
 pso/network/TProtocol.cpp:
-	.text       start:0x801D9E50 end:0x801DF280
+	.text       start:0x801D9E50 end:0x801DFF38
 	.rodata     start:0x80449568 end:0x80449640
 	.data       start:0x804C4A50 end:0x804C5238
 	.sdata      start:0x805D3570 end:0x805D3580
 	.sbss       start:0x805D5E18 end:0x805D5E30
-
-pso/unk/text_801DF280.cpp:
-	.text       start:0x801DF280 end:0x801DF8DC
-
-pso/ui/chat/TChatMessage.cpp:
-	.text       start:0x801DF8DC end:0x801DF918
-
-pso/ui/chat/TChatMessage_801DF918.cpp:
-	.text       start:0x801DF918 end:0x801DF9C8
-
-pso/network/TPlyJoinLobby_801DF9C8.cpp:
-	.text       start:0x801DF9C8 end:0x801DFA18
-
-pso/network/TPlyJoinLobbyEntry_801DFA18.cpp:
-	.text       start:0x801DFA18 end:0x801DFA5C
-
-pso/network/TProtocol_801DFA5C.cpp:
-	.text       start:0x801DFA5C end:0x801DFB88
-
-pso/network/TRecvGenerateID.cpp:
-	.text       start:0x801DFB88 end:0x801DFBFC
-
-pso/network/TRecvPsoDataLong.cpp:
-	.text       start:0x801DFBFC end:0x801DFC1C
-
-pso/network/TRecvPsoData.cpp:
-	.text       start:0x801DFC1C end:0x801DFC3C
-
-pso/unk/text_801DFC3C.cpp:
-	.text       start:0x801DFC3C end:0x801DFCAC
-
-pso/network/TProtocol_801DFCAC.cpp:
-	.text       start:0x801DFCAC end:0x801DFED0
-
-pso/ui/window/TMessageBox.cpp:
-	.text       start:0x801DFED0 end:0x801DFF38
 
 pso/network/TRegister.cpp:
 	.text       start:0x801DFF38 end:0x801E0110
