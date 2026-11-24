@@ -77,6 +77,7 @@
 #include "pso/unk/text_80129D18.h"
 #include "pso/unk/text_8012AE50.h"
 #include "pso/unk/text_8012C268.h"
+#include "pso/weapon/TItemWeaponDarkMeteor.h"
 #include "pso/weapon/TItemWeaponTsumikiri.h"
 #include "pso/unk/text_8035D444.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
@@ -328,7 +329,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TUnk_804F0AF8::create,
     TObjPlayer__sub_803265C0,
     create_dark_flow,
-    TObjPlayer::create_state_34_alt,
+    create_dark_meteor_weapon,
     dark_bridge_create,
     TObjPlayer::create_state_1536,
     TObjPlayer::create_rappys_fan,

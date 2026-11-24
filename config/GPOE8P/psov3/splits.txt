@@ -9832,7 +9832,7 @@ pso/unk/text_80357058.cpp:
 	.sbss       start:0x805D6F20 end:0x805D6F24
 	.sdata2     start:0x805E0028 end:0x805E0048
 
-pso/player/TObjPlayer_80357734.cpp:
+pso/weapon/TItemWeaponDarkMeteor.cpp:
 	.text       start:0x80357734 end:0x80357B2C
 	.data       start:0x804F14A8 end:0x804F15C4
 

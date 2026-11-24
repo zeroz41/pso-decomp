@@ -1669,7 +1669,7 @@ pso/player/TObjPlayer_8033E910.cpp
 pso/player/PlayerPadBinding.cpp
 pso/player/Palettex.cpp
 pso/weapon/TItemWeaponTsumikiri.cpp
-pso/player/TObjPlayer_80357734.cpp
+pso/weapon/TItemWeaponDarkMeteor.cpp
 pso/player/TObjPlayer_80357B2C.cpp
 pso/player/TObjPlayer_80362E60.cpp
 pso/player/TObjPlayer_80363BE0.cpp

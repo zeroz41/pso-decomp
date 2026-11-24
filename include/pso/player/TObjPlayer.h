@@ -923,7 +923,6 @@ struct TObjPlayer : public TObjChara {
     static void create_network_object(s32 item_id, u32 *hit, saddr direction);
     void free_indexed_entry(s32 _w1);
     void copy_node_record(saddr arg1);
-    static TItem *create_state_34_alt(u8 *item);
     static void update_battle_control_on_unlock(void *player, void *target, void *pos, s32 phase);
     static void create_cane_if_ready(saddr item, void *position);
     static void create_cleanup_object(void *arg0);
