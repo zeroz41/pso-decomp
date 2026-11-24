@@ -1805,7 +1805,7 @@ pso/ui/charcreate/TObjCMHexTile.cpp
 pso/boss/darkfalz/TObjDFJisin.cpp
 pso/boss/darkfalz/TBoss4Type2_800522CC.cpp
 pso/object/TObjLiveMonitor.cpp
-pso/weapon/TUnk_804E1BB0.cpp
+pso/weapon/TItemWeaponMusashi.cpp
 pso/weapon/TUnk_804E24F0.cpp
 pso/ui/window/TWindowRoom.cpp
 pso/ui/window/TWindowSubTradeMessage.cpp

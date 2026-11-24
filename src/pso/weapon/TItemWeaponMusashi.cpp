@@ -1,9 +1,9 @@
 #include "types.h"
-#include "pso/weapon/TUnk_804E1BB0.h"
+#include "pso/weapon/TItemWeaponMusashi.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_80120908.h"
 
-void TUnk_804E1BB0::reserved_53() {
+void TItemWeaponMusashi::reserved_53() {
     NJS_OBJECT *second;
     NJS_OBJECT *model;
     saddr weapon = (saddr)this;
@@ -20,15 +20,15 @@ void TUnk_804E1BB0::reserved_53() {
     item_model = model;
 }
 
-TUnk_804E1BB0::TUnk_804E1BB0(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponMusashi::TItemWeaponMusashi(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(513);
 }
 
-TItem *TUnk_804E1BB0::create(u8 *item) {
+TItem *TItemWeaponMusashi::create(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804E1BB0(tl_05, item);
+        return new TItemWeaponMusashi(tl_05, item);
     }
     return NULL;
 }
 
-TUnk_804E1BB0::~TUnk_804E1BB0() {}
+TItemWeaponMusashi::~TItemWeaponMusashi() {}

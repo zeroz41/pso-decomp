@@ -8087,7 +8087,7 @@ pso/ui/frontend/TAdMultiSelGameModeGC_802D5098.cpp:
 pso/ui/frontend/TAdMultiPlyChrSelectGC_802D50A0.cpp:
 	.text       start:0x802D50A0 end:0x802D5108
 
-pso/weapon/TUnk_804E1BB0.cpp:
+pso/weapon/TItemWeaponMusashi.cpp:
 	.text       start:0x802D5108 end:0x802D526C
 	.data       start:0x804E1BB0 end:0x804E1CA8
 

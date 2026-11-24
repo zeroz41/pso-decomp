@@ -130,7 +130,7 @@
 #include "pso/weapon/TUnk_804A6BD0.h"
 #include "pso/weapon/TUnk_804A6CC8.h"
 #include "pso/weapon/TUnk_804A6DC0.h"
-#include "pso/weapon/TUnk_804E1BB0.h"
+#include "pso/weapon/TItemWeaponMusashi.h"
 #include "pso/weapon/TUnk_804ECDC0.h"
 #include "pso/weapon/TUnk_804ECFB0.h"
 #include "pso/weapon/TUnk_804ED1A0.h"
@@ -314,7 +314,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TObjPlayer::create_shot_state,
     TObjPlayer::create_srank_common_weapon,
     create_s_rank_j_cutter_weapon,
-    TUnk_804E1BB0::create,
+    TItemWeaponMusashi::create,
     create_common_weapon,
     TUnk_804E24F0::create,
     TObjPlayer::create_object_by_type,
