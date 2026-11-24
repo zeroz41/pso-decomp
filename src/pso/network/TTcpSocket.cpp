@@ -52,14 +52,11 @@ struct at_ip_addr {
 };
 
 void func_80019A68();
-void controller_stuff();
-void render_tick();
 extern "C" {
 short tcp_connect(short nh, struct at_ip_addr *addr, u16 port, struct at_ip_option *option);
 short tcp_send(short nh, void (*notify)(short size, short sock_fd), char bufnum, struct send_buffs *sb);
 int tcp_stat(short nh, short *stat, short *backlog, u32 *sendwin, u32 *recvwin);
 }
-int get_link_status();
 char *get_sock_status_name(short code);
 
 TTcpSocket::~TTcpSocket() {
@@ -300,7 +297,6 @@ int TTcpSocket::open() {
 
 extern "C" {
 s32 get_csn_group_flags(s32);
-s16 dns_get_addr(s16, void *, void *, int, void *, int);
 }
 
 int TSocket::is_empty() {
@@ -341,10 +337,9 @@ int TSocket::resolve_domain(const char *domain) {
     s16 count;
     s16 handle;
     char buf[0x20];
-    u32 sp10[4];
-    s32 spC;
-    s16 spA;
-    s16 sp8;
+    NetworkAddress addr;
+    s16 addr_count;
+    s16 cname_length;
 
     start = buf;
     memset(start, 0, 0x20);
@@ -352,12 +347,12 @@ int TSocket::resolve_domain(const char *domain) {
     if (get_csn_group_flags(buf[0]) != 0) {
         handle = dns_open_addr(start, (s8)NetStringLength(start), 4);
         if (handle >= 0) {
-            spC = 4;
+            addr.family = 4;
             count = 0;
-            spA = 1;
-            sp8 = 0;
+            addr_count = 1;
+            cname_length = 0;
             do {
-                result = dns_get_addr(handle, &spC, &spA, 0, &sp8, -1);
+                result = dns_get_addr(handle, &addr, &addr_count, nullptr, &cname_length, -1);
                 count++;
                 if (count > 0x1518) {
                     break;
@@ -368,16 +363,16 @@ int TSocket::resolve_domain(const char *domain) {
                     break;
                 }
                 main_task.begin_frame();
-                ((TMainTask *)(&main_task))->run_tl_camera_tasks();
+                main_task.run_tl_camera_tasks();
                 main_task.render();
                 main_task.render_screen_overlay();
-                func_80019A68__Fv();
+                func_80019A68();
                 render_tick();
             } while (result == -1);
             switch (result) {
             case 0:
-                bswap_32(sp10);
-                set_ip_address(sp10[0]);
+                bswap_32(&addr.ipv4);
+                set_ip_address(addr.ipv4);
                 ret = 0;
                 break;
             case -66:

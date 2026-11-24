@@ -180,6 +180,9 @@ s32 build_dns_query_a(DnsQuery *query, char *name, s16 length);
 s32 close_and_reset_connection(DnsQuery *connection);
 void dispatch_request_callback(DnsQuery *connection, s16 status);
 s16 dns_open_addr(char *name, s16 len, s32 type);
+// Hands the query's answer to the caller: up to *len addresses into buf, the canonical name into buf2.
+// mode 0 waits, -1 polls (-1 while the query runs), anything else is a callback.
+s16 dns_get_addr(s16 idx, void *buf, s16 *len, void *buf2, s16 *len2, uaddr mode);
 
 s16 dns_parse_reply(DnsQuery *self);
 s16 dns_remove_addr(DnsHost *host, DnsAddr *addr);
