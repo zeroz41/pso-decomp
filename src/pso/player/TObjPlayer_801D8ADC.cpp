@@ -30,9 +30,12 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-typedef struct Rec_801D8F0C { f32 a, b, c; } Rec_801D8F0C;
-
-typedef struct Rec_801D8F60 { f32 a, b, c; } Rec_801D8F60;
+// Photon blast motion frames of one weapon handle.
+struct PhotonBlastMotionTiming {
+    f32 hold_frame;
+    f32 upper_bound;
+    f32 complete_threshold;
+};
 
 extern "C" {
 s32 TObjPlayer__sub_801AFDBC(s32);
@@ -43,8 +46,8 @@ s32 TBoss4DarkFalz__sub_801D94C0(void* p);
 int load_encrypted_archive_data(const char *);
 }
 int ply_level_table;
-f32 lookup_attack_marker(s32, s16, s16, s32);
-extern Rec_801D8F0C *photon_blast_motion_timing_tables[6];
+f32 lookup_attack_marker(s32 handle, s16 falz_phase, s16 strike_count, s32 class_flags);
+extern PhotonBlastMotionTiming *photon_blast_motion_timing_tables[6];
 extern const s32 (*player_footstep_floor_table[3])[5];
 extern const Rec_8044821C *player_clamped_index_table_pointers[3];
 extern const Rec_8044845C *player_anim_table_pointers[3];
@@ -56,65 +59,29 @@ extern const Vec *guild_return_position_table_by_episode[];
 
 
 s32 *TObjPlayer::get_getup_protection_ticks() {
-    s32 *arg0 = (s32 *)this;
-    s32 *var_r31;
-    s32 *var_r3;
-    var_r31 = arg0;
     if (get_main_phase() == 0xF) {
-        var_r3 = var_r31;
-        if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
-            var_r3 = (s32 *)player_getup_protection_ticks_table_flagged;
-            var_r3 = (s32 *)player_getup_protection_ticks_table_flagged;
-            var_r3 = (s32 *)(*(saddr *)((s8 *)player_getup_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
-            return var_r3;
+        if (obj_isState3_324() != 0) {
+            return (s32 *)player_getup_protection_ticks_table_flagged[game_difficulty_selection];
         }
-        var_r3 = (s32 *)player_getup_protection_ticks_table;
-        var_r3 = (s32 *)player_getup_protection_ticks_table;
-        var_r3 = (s32 *)(*(saddr *)((s8 *)player_getup_protection_ticks_table + (game_difficulty_selection * 4)));
-        return var_r3;
+        return (s32 *)player_getup_protection_ticks_table[game_difficulty_selection];
     }
-    var_r3 = var_r31;
-    if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
-        var_r3 = (s32 *)getup_protection_ticks_table_b;
-        var_r3 = (s32 *)getup_protection_ticks_table_b;
-        var_r3 = (s32 *)(*(saddr *)((s8 *)getup_protection_ticks_table_b + (game_difficulty_selection * 4)));
-        return var_r3;
+    if (obj_isState3_324() != 0) {
+        return (s32 *)getup_protection_ticks_table_b[game_difficulty_selection];
     }
-    var_r3 = (s32 *)getup_protection_ticks_table_a;
-    var_r3 = (s32 *)getup_protection_ticks_table_a;
-    var_r3 = (s32 *)(*(saddr *)((s8 *)getup_protection_ticks_table_a + (game_difficulty_selection * 4)));
-    return var_r3;
+    return (s32 *)getup_protection_ticks_table_a[game_difficulty_selection];
 }
 
 s32 *TObjPlayer::get_hurt_protection_ticks() {
-    s32 *arg0 = (s32 *)this;
-    s32 *var_r31;
-    s32 *var_r3;
-    var_r31 = arg0;
     if (get_main_phase() == 0xF) {
-        var_r3 = var_r31;
-        if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
-            var_r3 = (s32 *)hurt_protection_ticks_table;
-            var_r3 = (s32 *)hurt_protection_ticks_table;
-            var_r3 = (s32 *)(*(saddr *)((s8 *)hurt_protection_ticks_table + (game_difficulty_selection * 4)));
-            return var_r3;
+        if (obj_isState3_324() != 0) {
+            return (s32 *)hurt_protection_ticks_table[game_difficulty_selection];
         }
-        var_r3 = (s32 *)player_hurt_protection_ticks_table_phase15;
-        var_r3 = (s32 *)player_hurt_protection_ticks_table_phase15;
-        var_r3 = (s32 *)(*(saddr *)((s8 *)player_hurt_protection_ticks_table_phase15 + (game_difficulty_selection * 4)));
-        return var_r3;
+        return (s32 *)player_hurt_protection_ticks_table_phase15[game_difficulty_selection];
     }
-    var_r3 = var_r31;
-    if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
-        var_r3 = (s32 *)player_hurt_protection_ticks_table_flagged;
-        var_r3 = (s32 *)player_hurt_protection_ticks_table_flagged;
-        var_r3 = (s32 *)(*(saddr *)((s8 *)player_hurt_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
-        return var_r3;
+    if (obj_isState3_324() != 0) {
+        return (s32 *)player_hurt_protection_ticks_table_flagged[game_difficulty_selection];
     }
-    var_r3 = (s32 *)player_hurt_protection_ticks_table;
-    var_r3 = (s32 *)player_hurt_protection_ticks_table;
-    var_r3 = (s32 *)(*(saddr *)((s8 *)player_hurt_protection_ticks_table + (game_difficulty_selection * 4)));
-    return var_r3;
+    return (s32 *)player_hurt_protection_ticks_table[game_difficulty_selection];
 }
 
 s32 TObjPlayer::get_lobby_entry_yaw() {
@@ -179,23 +146,23 @@ s32 TObjPlayer::get_footstep_floor_index() {
 }
 
 f32 TObjPlayer::get_photon_blast_complete_threshold() {
-  return ((Rec_801D8F0C * *)&photon_blast_motion_timing_tables)[has_valid_handle()][get_handle_value()].c;
+    return photon_blast_motion_timing_tables[has_valid_handle()][get_handle_value()].complete_threshold;
 }
 
 f32 TObjPlayer::get_photon_blast_upper_bound() {
-  return ((Rec_801D8F60 * *)&photon_blast_motion_timing_tables)[has_valid_handle()][get_handle_value()].b;
+    return photon_blast_motion_timing_tables[has_valid_handle()][get_handle_value()].upper_bound;
 }
 
 f32 TObjPlayer::get_photon_blast_hold_frame() {
-  s32 offset = get_handle_value() * 0xC;
-  u8 *table = (u8 *)photon_blast_motion_timing_tables[has_valid_handle()];
-  return *(f32 *)(table + offset);
+    s32 offset = get_handle_value() * sizeof(PhotonBlastMotionTiming);
+    const u8 *table = (const u8 *)photon_blast_motion_timing_tables[has_valid_handle()];
+    return ((const PhotonBlastMotionTiming *)(table + offset))->hold_frame;
 }
 
 f32 TObjPlayer::get_attack_recovery_count() {
     s32 falz_phase;
     falz_phase = get_falz_phase();
-    return (f32) (s8) *(u8 *)((s8 *)((u8 *)(((u8 *)attack_recovery_count_table + (this->get_handle_value() * 3))) + falz_phase) + 0);
+    return (f32)(s8)attack_recovery_count_table[get_handle_value()][falz_phase];
 }
 
 #pragma push
@@ -214,24 +181,24 @@ f32 TObjPlayer::select_normal_attack_marker() {
 
 #pragma pop
 
-f32 lookup_attack_marker(s32 arg0, s16 falz_phase, s16 arg2, s32 class_flags) {
-    switch (arg0) {
+f32 lookup_attack_marker(s32 handle, s16 falz_phase, s16 strike_count, s32 class_flags) {
+    switch (handle) {
     case 3:
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table_dagger + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
+        return attack_marker_table_dagger[strike_count][falz_phase];
     case 14:
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table_double_saber + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
+        return attack_marker_table_double_saber[strike_count][falz_phase];
     case 15:
         if (class_flags & CLASS_FLAG_MALE) {
-            return *(f32 *)((s8 *)((u8 *)(((u8 *)twin_sword_male_marker_table + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
+            return twin_sword_male_marker_table[strike_count][falz_phase];
         }
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)twin_sword_female_marker_table + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
+        return twin_sword_female_marker_table[strike_count][falz_phase];
     default:
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table + (arg0 * 0xC))) + (falz_phase * 4)) + 0);
+        return attack_marker_table[handle][falz_phase];
     }
 }
 
 // .data
-Rec_801D8F0C lbl_804C46B0[19] = {
+PhotonBlastMotionTiming lbl_804C46B0[19] = {
     { 20.0f, 22.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
@@ -252,7 +219,7 @@ Rec_801D8F0C lbl_804C46B0[19] = {
     { 28.0f, 30.0f, 42.0f },
     { 30.0f, 32.0f, 46.0f },
 };
-Rec_801D8F0C lbl_804C4794[19] = {
+PhotonBlastMotionTiming lbl_804C4794[19] = {
     { 24.0f, 26.0f, 40.0f },
     { 24.0f, 26.0f, 46.0f },
     { 16.0f, 18.0f, 44.0f },
@@ -273,7 +240,7 @@ Rec_801D8F0C lbl_804C4794[19] = {
     { 26.0f, 28.0f, 44.0f },
     { 28.0f, 30.0f, 42.0f },
 };
-Rec_801D8F0C lbl_804C4878[19] = {
+PhotonBlastMotionTiming lbl_804C4878[19] = {
     { 28.0f, 30.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
@@ -294,7 +261,7 @@ Rec_801D8F0C lbl_804C4878[19] = {
     { 26.0f, 28.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
 };
-Rec_801D8F0C *photon_blast_motion_timing_tables[6] = {
+PhotonBlastMotionTiming *photon_blast_motion_timing_tables[6] = {
     lbl_804C46B0, lbl_804C4794, lbl_804C4878,
     lbl_804C46B0, lbl_804C4794, lbl_804C4794,
 };
