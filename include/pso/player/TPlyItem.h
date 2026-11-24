@@ -53,11 +53,11 @@ public:
 };
 class TPlyItem : public TObject {
 public:
-    s16 pad_1C;
+    s16 item_count;
     u16 pad_1E;
     TUnk_804C445C list;
-    TItemList *pad_1C4;
-    TObject *pad_1C8;
+    TItemList *item_list;
+    TObject *item_root;
     TPlyItem(TObject *parent);
     virtual ~TPlyItem();
     int run_and_get_result(s32 *out);
@@ -83,7 +83,7 @@ LAYOUT_ASSERT(PlacementItemOffset, offsetof(PendingItemDrop, item) == 8);
 LAYOUT_ASSERT(PlacementSlotsOffset, offsetof(TUnk_804C4444, entries) == 4);
 LAYOUT_ASSERT(PlacementPositionsOffset, offsetof(TUnk_804C4450, positions) == 0x28);
 LAYOUT_ASSERT(PlacementRecordsOffset, offsetof(TUnk_804C445C, records) == 0xA8);
-LAYOUT_ASSERT(PlayerInventoryListOffset, offsetof(TPlyItem, pad_1C4) == 0x1C4);
+LAYOUT_ASSERT(PlayerInventoryListOffset, offsetof(TPlyItem, item_list) == 0x1C4);
 LAYOUT_ASSERT(PlayerPlacementPoolOffset, offsetof(TPlyItem, list) == 0x20);
 
 extern "C" {

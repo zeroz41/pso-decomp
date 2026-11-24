@@ -341,7 +341,7 @@ void TItemList::reduce_owner_matched_items() {
 
 TPlyItem::TPlyItem(TObject *parent) : TObject(parent) {
     m_name = TPlyItem_name_ref;
-    pad_1C = 0;
+    item_count = 0;
     pad_1E = 0;
 }
 
@@ -350,7 +350,7 @@ TPlyItem::~TPlyItem() {}
 TItemList *TPlyItem::start_inventory_update(int key) {
     inventory_update_field_d8_key = key;
     inventory_walk_progress_count = 0;
-    return pad_1C4->find_inventory_item_by_field_d8();
+    return item_list->find_inventory_item_by_field_d8();
 }
 
 void TItemList::destroy_subobjects_recursive() {
@@ -372,21 +372,21 @@ void TItemList::destroy_subobjects_recursive() {
 void TPlyItem::destroy_subobjects(TObjPlayer *player) {
     item_reduce_target_player = player;
     inventory_walk_progress_count = 0;
-    pad_1C4->destroy_subobjects_recursive();
-    pad_1C4->queue_destruction();
-    pad_1C8->run_tasks();
-    pad_1C8->run_tasks();
-    pad_1C8->queue_destruction();
+    item_list->destroy_subobjects_recursive();
+    item_list->queue_destruction();
+    item_root->run_tasks();
+    item_root->run_tasks();
+    item_root->queue_destruction();
 }
 
 TItemList *TPlyItem::set_mode_and_refresh_object(void *data) {
     inventory_search_item_data = data;
-    return find_matching_inventory_item_node(pad_1C4);
+    return find_matching_inventory_item_node(item_list);
 }
 
 TItemList *TPlyItem::find_first_inventory_entry(TItemData *data) {
     inventory_search_item_data = data;
-    return pad_1C4->find_inventory_item_matching_data();
+    return item_list->find_inventory_item_matching_data();
 }
 
 s32 TPlyItem::count_items_by_id(TItemData *data) {
@@ -405,47 +405,47 @@ s32 TPlyItem::count_items_by_id(TItemData *data) {
     }
     inventory_search_item_data = data;
     inventory_walk_visit_count = 0;
-    pad_1C4->count_items_recursive();
+    item_list->count_items_recursive();
     return inventory_walk_visit_count;
 }
 
 void TPlyItem::set_flag_and_update(TObjPlayer *player) {
     item_reduce_target_player = player;
-    pad_1C4->unequip_invalid_items_recursive();
+    item_list->unequip_invalid_items_recursive();
 }
 
 int TPlyItem::apply_shop_judgment(TItem **out) {
     player_owner_collect_cursor = out;
     inventory_walk_visit_count = 0;
-    pad_1C4->collect_alive_owners();
+    item_list->collect_alive_owners();
     return inventory_walk_visit_count;
 }
 
 int TPlyItem::count_matching_items(TItem **out) {
     player_owner_collect_cursor = out;
     inventory_walk_visit_count = 0;
-    pad_1C4->collect_item_owners_recursive();
+    item_list->collect_item_owners_recursive();
     return inventory_walk_visit_count;
 }
 
 int TPlyItem::set_globals_and_notify(TObjPlayer *player, PendingItemDrop *out) {
     player_item_collect_cursor = out;
     inventory_walk_visit_count = 0;
-    TObjPlayer__sub_801D52A8(pad_1C4);
+    TObjPlayer__sub_801D52A8(item_list);
     return inventory_walk_visit_count;
 }
 
 void TPlyItem::set_globals_and_update(TObjPlayer *player, int kind) {
     item_reduce_target_player = player;
     item_reduce_owner_match_field_ec = kind;
-    pad_1C4->reduce_child_item_amounts();
+    item_list->reduce_child_item_amounts();
 }
 
 void TLobby__sub_801D4C28(TPlyItem *inventory, TObjPlayer *player, int item_type, int item_group) {
     item_reduce_target_player = player;
     item_reduce_owner_match_field_ec = item_type;
     reduce_owner_match_id = item_group;
-    inventory->pad_1C4->reduce_owner_matched_items();
+    inventory->item_list->reduce_owner_matched_items();
 }
 
 s32 TPlyItem::use_item(TObjPlayer *player, s32 key, s32 amount) {
@@ -476,8 +476,8 @@ void TPlyItem::reduce_item_amount(TObjPlayer *player, TItemList *slot, s32 amoun
         if (is_item_equipped(item) != 0) {
             player->unequip_item(item);
         }
-        count = pad_1C;
-        pad_1C = (count - 1);
+        count = item_count;
+        item_count = (count - 1);
         item->destroy();
         slot->queue_destruction();
     }
@@ -492,8 +492,8 @@ void TPlyItem::remove_equipped_item(TObjPlayer *player, TItemList *slot) {
         if (is_item_equipped(item) != 0) {
             player->unequip_item(item);
         }
-        count = pad_1C;
-        pad_1C = (count - 1);
+        count = item_count;
+        item_count = (count - 1);
         item->destroy();
         slot->queue_destruction();
     }
@@ -537,8 +537,8 @@ s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, 
     }
     item->room = player->get_room();
     item->place_on_ground(client, position, 0);
-    count = pad_1C;
-    pad_1C = (count - 1);
+    count = item_count;
+    item_count = (count - 1);
     node->queue_destruction();
     return 1;
 }
@@ -546,14 +546,14 @@ s32 TPlyItem::update_inventory_item(TObjPlayer *player, s32 key, f32 *position, 
 int TPlyItem::run_state_query(TPlyInventoryItem *out) {
     owned_item_export_cursor = out;
     inventory_walk_visit_count = 0;
-    pad_1C4->count_owned_items();
+    item_list->count_owned_items();
     return inventory_walk_visit_count;
 }
 
 int TPlyItem::run_and_get_result(s32 *out) {
     TObjPlayer__owner_field_write_cursor = out;
     inventory_walk_visit_count = 0;
-    pad_1C4->collect_owner_fields_recursive();
+    item_list->collect_owner_fields_recursive();
     return inventory_walk_visit_count;
 }
 
@@ -662,16 +662,16 @@ extern "C" s32 TObjPlayer__sub_801D4368(TPlyItem *ply) {
     TItemList *node;
     s32 checked;
 
-    if (ply->pad_1C4 == NULL) {
+    if (ply->item_list == NULL) {
         return 0;
     }
-    if (TItemList::is_item_valid(ply->pad_1C4) == 0) {
+    if (TItemList::is_item_valid(ply->item_list) == 0) {
         return 0;
     }
-    if (ply->pad_1C > 30 || ply->pad_1C < 1) {
+    if (ply->item_count > 30 || ply->item_count < 1) {
         return 0;
     }
-    recs = new InventorySortBuffer(ply->pad_1C);
+    recs = new InventorySortBuffer(ply->item_count);
     if (recs == NULL) {
         return 0;
     }
@@ -680,20 +680,20 @@ extern "C" s32 TObjPlayer__sub_801D4368(TPlyItem *ply) {
         return 0;
     }
     counted = 0;
-    node = (TItemList *)ply->pad_1C4->m_down;
+    node = (TItemList *)ply->item_list->m_down;
     while (node != NULL) {
         if (TItemList::is_item_valid(node) != 0 && node->get_owner_if_alive() != NULL) {
             counted++;
         }
         node = (TItemList *)node->m_next;
     }
-    if (counted != ply->pad_1C) {
+    if (counted != ply->item_count) {
         delete recs;
         return 0;
     }
     filled = 0;
     rec = recs->items;
-    node_filled = (TItemList *)ply->pad_1C4->m_down;
+    node_filled = (TItemList *)ply->item_list->m_down;
     while (node_filled != NULL) {
         if (TItemList::is_item_valid(node_filled) != 0 && (owner = node_filled->get_owner_if_alive()) != NULL) {
             rec->val = owner;
@@ -706,7 +706,7 @@ extern "C" s32 TObjPlayer__sub_801D4368(TPlyItem *ply) {
     recs->sort_by_key();
     checked = 0;
     rec_checked = recs->items;
-    node_checked = (TItemList *)ply->pad_1C4->m_down;
+    node_checked = (TItemList *)ply->item_list->m_down;
     while (node_checked != NULL) {
         if (TItemList::is_item_valid(node_checked) != 0 && node_checked->get_owner_if_alive() != NULL && rec_checked->val != NULL) {
             rec_checked++;
@@ -719,7 +719,7 @@ extern "C" s32 TObjPlayer__sub_801D4368(TPlyItem *ply) {
         return 0;
     }
     rec_assigned = recs->items;
-    node_assigned = (TItemList *)ply->pad_1C4->m_down;
+    node_assigned = (TItemList *)ply->item_list->m_down;
     while (node_assigned != NULL) {
         if (TItemList::is_item_valid(node_assigned) != 0 && node_assigned->get_owner_if_alive() != NULL) {
             if (rec_assigned->val != NULL) {

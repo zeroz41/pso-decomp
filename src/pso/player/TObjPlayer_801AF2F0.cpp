@@ -2115,7 +2115,7 @@ s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
         }
         void *node_3581 = this->inventory_objects->set_mode_and_refresh_object(item);
         if (node_3581 == 0) {
-            if (this->inventory_objects->pad_1C >= 30) {
+            if (this->inventory_objects->item_count >= 30) {
                 return 0;
             }
             return ((TItemData *)item)->get_max_stack_size();
@@ -2129,7 +2129,7 @@ s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
         max = ((TItemData *)item)->get_stack_count();
         return (n < max) ? 0 : n;
     }
-    return this->inventory_objects->pad_1C < 30;
+    return this->inventory_objects->item_count < 30;
 }
 
 s32 TObjPlayer::can_pickup_item_by_id(TItem *item) {
@@ -2161,7 +2161,7 @@ s32 TObjPlayer::can_pickup_item(TItemData *item_data) {
         goto block_7;
     }
 block_7:
-    if (this->inventory_objects->pad_1C >= 0x1E) {
+    if (this->inventory_objects->item_count >= 0x1E) {
         return 0;
     }
     return 1;
@@ -2194,14 +2194,14 @@ u32 TObjPlayer::pickup_item(TItem *item) {
     case 0:
     case 1:
     case 2:
-        list = new TItemList(this->inventory_objects->pad_1C4);
+        list = new TItemList(this->inventory_objects->item_list);
         break;
     case 3:
         if (TObjPlayer__sub_801C1AC8((u8 *)item) != 0) {
             item->copy_to_item_data((TItemData *)&item_data);
             id = (saddr)this->inventory_objects->set_mode_and_refresh_object(&item_data);
             if (id == 0) {
-                list = new TItemList(this->inventory_objects->pad_1C4);
+                list = new TItemList(this->inventory_objects->item_list);
                 break;
             }
             n = item->get_amount();
@@ -2215,7 +2215,7 @@ u32 TObjPlayer::pickup_item(TItem *item) {
             item->destroy();
             return 0;
         }
-        list = new TItemList(this->inventory_objects->pad_1C4);
+        list = new TItemList(this->inventory_objects->item_list);
         break;
     }
     if (list != NULL) {
@@ -2223,7 +2223,7 @@ u32 TObjPlayer::pickup_item(TItem *item) {
         inv = *(u8 * *)&this->inventory_objects;
         TObjPlayer__sub_801C1B0C((u8 *)item, (*(s16 *)((s8 *)inv + 0x1C))++);
         item->set_mode(1);
-        ((TObject *)item)->set_parent(this->inventory_objects->pad_1C8);
+        ((TObject *)item)->set_parent(this->inventory_objects->item_root);
         item->set_owner_client(this->get_entity_id());
         return (uaddr)list;
     }
@@ -2533,13 +2533,13 @@ void TObjPlayer::create_inventory() {
     if ((void *) this->inventory_objects == NULL) {
         this->inventory_objects = new TPlyItem(this);
     }
-    this->inventory_objects->pad_1C4 = new TItemList((TObject *)this->inventory_objects);
+    this->inventory_objects->item_list = new TItemList((TObject *)this->inventory_objects);
     object = (u8 *)(((u8 * (*)(s32))__nw__7TObjectFUl)(0x1C));
     inventory = object;
     if (inventory != NULL) {
         inventory = (u8 *)(__ct__7TObjectFP7TObject(object, this));
     }
-    this->inventory_objects->pad_1C8 = (TObject *)inventory;
+    this->inventory_objects->item_root = (TObject *)inventory;
     TObjPlayer__sub_801BF8F8((s32 *)(((u8 *)this) + 0xD04));
 }
 
