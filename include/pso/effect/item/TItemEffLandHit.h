@@ -6,8 +6,8 @@
 #include "pso/system/vector.h"
 
 // A Vec copied as three words.
-struct VecWords { s32 x; s32 y; s32 z; };
-union VecBits { VecWords w; Vec f; };
+struct HitPositionWords { s32 x; s32 y; s32 z; };
+union HitPosition { HitPositionWords w; Vec f; };
 
 class TItem;
 class TItemWeapon;

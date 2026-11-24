@@ -13,8 +13,8 @@
 #pragma push
 #pragma opt_propagation off
 void spawn_hit_particle_trio(Vec *pos) {
-    VecWords *src = (VecWords *)pos;
-    VecBits v;
+    HitPositionWords *src = (HitPositionWords *)pos;
+    HitPosition v;
     s32 z;
     s32 y;
     s32 x;
