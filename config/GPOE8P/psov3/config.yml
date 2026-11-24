@@ -698,7 +698,7 @@ force_active:
   - __dt__12TChallenge4PFv
   - TLobby__sub_8029A16C
   - TLobby__sub_802A7640
-  - zero_pair_fields
+  - clear__21PlayerMotionAramEntryFv
   - stamp_joyboot_image
   - probe_gba_device
   - TLobby__sub_8032CDC0
@@ -6624,7 +6624,7 @@ force_active:
   - get_evolution_stage__8TItemMagFv
   - get_evp__22PlayerAttackControllerFv
   - get_falz_phase__10TObjPlayerFv
-  - get_field_04__6TLobbyFv
+  - get_size__21PlayerMotionAramEntryFv
   - get_variant__11TBoss6Type2Fv
   - get_field_2__9TTecLukerFPv
   - prompt_was_accepted__16TCheckMemoryCardFv
@@ -6683,7 +6683,7 @@ force_active:
   - get_orbit_speed__16TBoss3VoloptCoreFl
   - get_pad_rumble_client__Fl
   - get_pad_rumble_effect_slots__Fv
-  - get_param__6TLobbyFv
+  - get_aram_addr__21PlayerMotionAramEntryFv
   - get_param__8TFogCtrlFv
   - get_part_group__12TBoss3VoloptFl
   - get_part_id__12TBoss3VoloptFl
@@ -15358,7 +15358,7 @@ force_active:
   - send_obj_position_event__10TEndingPicFl
   - send_packed_action__11TBoss4Type3Flll
   - send_packet_60__6TLobbyFi
-  - send_packet__6TLobbyFllll
+  - load_motion__13TUnk_804DDD28Fllll
   - send_partner_attack_stage_request__10TNpcPlayerFv
   - send_position__12TBoss3VoloptFP10TObjPlayerP3Vecl
   - send_position_update__6TLobbyFv

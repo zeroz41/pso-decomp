@@ -28,6 +28,8 @@ struct QuestDownloadFile {
     u32 decompressed_size;
     u32 seed;
     u8 data[1];
+
+    u32 decrypt(s32 size, void *dst, u32 capacity);
 };
 
 // Decrypts and decompresses a downloaded quest file into dst; returns the

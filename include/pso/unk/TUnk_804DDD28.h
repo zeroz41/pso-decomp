@@ -99,6 +99,7 @@ public:
     virtual BmlMotionEntry *vfunc_76(); // Motion list used when the player changes lobby animation state.
     virtual s32 *get_state_table(s32);
     void copy_motion_pair(void*);
+    s32 load_motion(s32 set, s32 index, s32 size, s32 aram_addr);
     s32 load_action_motion_pairs(s32, s32, s32);
 };
 

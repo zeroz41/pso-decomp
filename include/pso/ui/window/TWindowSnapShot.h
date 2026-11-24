@@ -26,6 +26,12 @@ const char *get_player_motion_filename(void);
 struct PlayerMotionAramEntry {
     s32 aram_addr;
     s32 size;
+
+    void clear();
+    void set_size(s32 v);
+    void set_aram_addr(s32 v);
+    s32 get_aram_addr();
+    s32 get_size();
 };
 
 LAYOUT_ASSERT(PlayerMotionAramEntry_size, sizeof(PlayerMotionAramEntry) == 8);

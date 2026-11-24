@@ -21,6 +21,8 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/AramPool.h"
+#include "pso/item/drop/TItemDrop_800F93F0.h"
+#include "pso/quest/TQuestListVM.h"
 
 // This TU's .rodata, .sdata and .sbss: each sits between TLobby_802A7290's and
 // TWindowSnapShot's sections, padded to an 8-byte unit boundary.
@@ -31,14 +33,7 @@ const char *player_motion_data_filename_ptr = "PlyMotionData.rlc";
 
 int player_action_provider_selector;
 
-struct _VBase802A78E4_802a78e4_802A7848 { char pad[8]; };
-struct _VObj802A78E4_802a78e4_802A7848 : _VBase802A78E4_802a78e4_802A7848 { virtual s32 m0(s32, s32); };
-
 extern "C" {
-void zero_pair_fields(void* p);
-void set_slot_size(void *p, s32 v);
-void set_slot_offset(void *p, s32 v);
-saddr TItemDrop__sub_800F9448(saddr arg0, s32 size);
 void set_motion_variant(void* p, s32 _w1);
 int matches_loaded_motion(void* p);
 int match_coordinate_pair(void*);
@@ -60,31 +55,31 @@ s32 TLobby::get_hold_effect_size_by_type() {
         return 0;
     }
 }
-s32 TLobby::send_packet(s32 arg1, s32 arg2, s32 size, s32 arg4) {
-    s32 temp_r31;
-    s32 temp_r31_2;
-    u8 *buf;
+s32 TUnk_804DDD28::load_motion(s32 set, s32 index, s32 size, s32 aram_addr) {
+    s32 result;
+    s32 aligned;
+    QuestDownloadFile *file;
     s32 dst;
-    temp_r31_2 = (size + 0x1F) & 0xFFFFFFE0;
-    buf = (u8 *)mem_alloc(temp_r31_2);
-    if (buf == 0) {
+    aligned = (size + 0x1F) & 0xFFFFFFE0;
+    file = (QuestDownloadFile *)mem_alloc(aligned);
+    if (file == 0) {
         return 0;
     }
-    read_player_motion(arg4, buf, temp_r31_2);
-    dst = ((_VObj802A78E4_802a78e4_802A7848*)this)->m0(arg1, arg2);
-    temp_r31 = ((TLobby *)buf)->write_packet_header(size, dst, 0x4000);
-    mem_free(buf);
-    return temp_r31;
+    read_player_motion(aram_addr, file, aligned);
+    dst = get_cell_address(set, index);
+    result = file->decrypt(size, (void *)dst, 0x4000);
+    mem_free(file);
+    return result;
 }
 
-s32 TUnk_804DDD28::load_action_motion_pairs(s32 arg1, s32 id, s32 flags) {
-    PlayerMotionAramEntry sp8;
+s32 TUnk_804DDD28::load_action_motion_pairs(s32 set, s32 id, s32 flags) {
+    PlayerMotionAramEntry entry;
     const s32 *slots;
     s32 i;
-    s32 f4;
-    s32 pkt;
+    s32 size;
+    s32 decrypted_size;
     u8 *dst;
-    s32 *drop;
+    s32 *root;
     if (this->vfunc_4() == 0U) {
         return 0;
     }
@@ -92,16 +87,16 @@ s32 TUnk_804DDD28::load_action_motion_pairs(s32 arg1, s32 id, s32 flags) {
     if (slots == NULL) {
         return 0;
     }
-    zero_pair_fields(&sp8);
+    entry.clear();
     dst = (u8 *)this->get_state_table(id);
     for (i = 0; i < this->vfunc_75(); i++) {
-        get_player_motion_entry(*slots, &sp8);
-        f4 = ((TLobby *)(&sp8))->get_field_04();
-        pkt = ((TLobby *)this)->send_packet(arg1, i, f4, ((TLobby *)(&sp8))->get_param());
-        if (pkt != 0) {
-            drop = (s32 *)TItemDrop__sub_800F9448(this->get_cell_address(arg1, i), pkt);
+        get_player_motion_entry(*slots, &entry);
+        size = entry.get_size();
+        decrypted_size = load_motion(set, i, size, entry.get_aram_addr());
+        if (decrypted_size != 0) {
+            root = (s32 *)relocate_rel_data((void *)this->get_cell_address(set, i), decrypted_size);
         }
-        ((TUnk_804DDD28 *)dst)->copy_motion_pair(*(void **)drop);
+        ((TUnk_804DDD28 *)dst)->copy_motion_pair(*(void **)root);
         slots++;
         dst += 8;
     }
@@ -120,10 +115,12 @@ const s32 *TUnk_804DDD28::vfunc_8(s32, s32) { return NULL; }
 int TUnk_804DDD28::vfunc_9(s32, s32, s32) { return 0; }
 void TUnk_804DDD28::vfunc_14() {  }
 int TUnk_804DDD28::vfunc_75() { return 0; }
-s32 TLobby::get_param() { return *(s32 *)&this->m_name; }
-s32 TLobby::get_field_04() { return *(s32 *)&this->m_flags; }
-void zero_pair_fields(void* p) { *(s32*)((char*)p + 0x0) = 0; *(s32*)((char*)p + 0x4) = 0; }
 }
+
+s32 PlayerMotionAramEntry::get_aram_addr() { return aram_addr; }
+s32 PlayerMotionAramEntry::get_size() { return size; }
+void PlayerMotionAramEntry::clear() { aram_addr = 0; size = 0; }
+
 void free_player_motion_directory() {
     if (player_motion_directory != NULL) {
         mem_free(player_motion_directory);
@@ -165,8 +162,8 @@ void get_player_motion_entry(s32 index, PlayerMotionAramEntry *entry) {
     RlcDirectoryEntry *dir;
     dir = (RlcDirectoryEntry *)((u8 *)player_motion_directory + player_motion_directory->get_directory_offset());
     dir = dir + index;
-    set_slot_offset(entry, player_motion_aram_addr + dir->get_offset());
-    set_slot_size(entry, dir->get_size());
+    entry->set_aram_addr(player_motion_aram_addr + dir->get_offset());
+    entry->set_size(dir->get_size());
 }
 
 void read_player_motion(s32 aram_addr, void *dest, s32 size) {

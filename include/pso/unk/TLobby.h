@@ -156,7 +156,6 @@ struct TLobby : public TObject {
     void bswap_enemy_state();
     static void wait_ready_loop();
     static s32 run_disk_error_check();
-    u32 write_packet_header(s32 size, s32 dst, u32 capacity);
     s32 alloc_download_quest(s32 size, s32 *out_size);
     static void run_frame();
     static void free_static_buffer(void* a0);
@@ -403,9 +402,6 @@ struct TLobby : public TObject {
     static void set_photon_chair_flag(int photon_chair_flag);
     void set_field_4(s32 v);
     static s32 get_hold_effect_size_by_type();
-    s32 send_packet(s32 arg1, s32 arg2, s32 size, s32 arg4);
-    s32 get_param();
-    s32 get_field_04();
     static void *create_mist_ctrl(void *parent, void *arg1);
     void set_trade_field_4(s32 arg1);
     void update_both_halves();

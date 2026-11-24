@@ -1,6 +1,5 @@
 #include "pso/system/RlcArchive.h"
 #include "types.h"
-#include "pso/ui/window/TWindowSnapShot_802A5B2C.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/system/TGStream.h"
@@ -146,5 +145,5 @@ int get_rlc_header_size() { return 32; }
 void RlcArchive::set_mode(s32 v) { error = v; }
 s32 RlcArchive::get_buffer_size() { return file_size; }
 s32 RlcArchive::has_resource_size() { return (u8)(file_size != 0); }
-void set_slot_size(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
-void set_slot_offset(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
+void PlayerMotionAramEntry::set_size(s32 v) { size = v; }
+void PlayerMotionAramEntry::set_aram_addr(s32 v) { aram_addr = v; }
