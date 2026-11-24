@@ -63,7 +63,7 @@ int test_flags_any(void*, int);
 u8 TObjPlayer__sub_801BF460(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF488(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1);
-void emit_idle_water_effect(saddr arg0);
+void emit_idle_water_effect(saddr particles);
 void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1);
 }
 void* get_surface_contact_point(void* p);
@@ -329,8 +329,8 @@ int PlayerFollowParticles::emit_movement_effect() { return hands.emit_movement_e
 
 void* get_surface_contact_point(void* p) { return (char*)p + 0x24; }
 
-void emit_idle_water_effect(saddr arg0) {
-    emit_idle_water_splash((arg0 + 4), (saddr)(get_surface_contact_point((void*)arg0)));
+void emit_idle_water_effect(saddr particles) {
+    emit_idle_water_splash((particles + 4), (saddr)(get_surface_contact_point((void*)particles)));
 }
 
 #pragma push
