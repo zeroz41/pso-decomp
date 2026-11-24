@@ -835,7 +835,6 @@ struct TObjPlayer : public TObjChara {
     void initialize_player_data();
     void init_item_counts_max();
     static void play_particle_at_active_slot(s32 kind, s32 sampler, s32 scale, s32 alternate, s32 unused, s32 second);
-    void clear_30_slots();
     static void setup_effect_slots(s32 arg0, saddr arg1);
     static void begin_action_from_char_select();
     void export_character_data(TPlyCharData *character);
@@ -846,14 +845,7 @@ struct TObjPlayer : public TObjChara {
     void apply_pending_action(saddr arg1);
     static void sync_char_select_state();
     static void init_battle_selection();
-    void set_action_state(u8 v);
     void set_action_state(s16 state, s16 value);
-    void clear_item_slots();
-    void set_action_palette_slot(s32 i, u8 v);
-    void*get_action_data();
-    void set_field_1ab(u8 v);
-    void set_field_18f(u8 v);
-    void set_current_time();
     void clear_flag_80000();
     void set_flag_80000();
     // The ending movie's finish callback: TMovie::run_task calls it with the movie.
@@ -1185,7 +1177,6 @@ struct TObjPlayer : public TObjChara {
     static void free_shared_lobby_data();
     f32 select_normal_attack_marker();
     static void update_all_units(s32 levels, s32 level);
-    void reset_action_palette();
     void *do_action_447();
     // A hit callback of TUnk_804E1CA8 (its pad_208).
     static void do_action_447_from_packet(void *item, void *hit, void *dir);
@@ -1417,7 +1408,6 @@ struct TObjPlayer : public TObjChara {
     s32 is_action_channel_available(s32 arg1);
     void notify_lobby();
     short query_child_state2();
-    s32 try_assign_battle_ctrl(u16 client);
     s32 update_aim_target();
     s32 update_combat_stats();
     void update_timer_state();
