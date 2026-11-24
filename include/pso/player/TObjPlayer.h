@@ -769,7 +769,6 @@ struct TObjPlayer : public TObjChara {
     void bswap_field4_sub();
     void*build_packet_header();
     void *copy_6x40_walk_to_position_packet(void *pkt);
-    void set_action_flag_40();
     void set_field_d4_and_flag_200(f32 value);
     void set_action_flag();
     void bswap_field_u32();
@@ -1393,7 +1392,6 @@ struct TObjPlayer : public TObjChara {
     int create_photon_chair();
     void set_chair_seated();
     void clear_lobby_pose_hold();
-    void set_frame(f32 v);
     s32 get_lobby_entry_yaw();
     u8 * get_cast_motion_record();
     static void restore_model_render_state();
