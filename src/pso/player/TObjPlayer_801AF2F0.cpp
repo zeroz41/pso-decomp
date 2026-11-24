@@ -19,6 +19,7 @@
 #include "pso/render/ChunkMaterialState.h"
 
 #include "pso/render/ChunkModelDraw.h"
+#include "pso/player/PlayerTaskEffects.h"
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/data/FlagWord.h"
@@ -620,7 +621,6 @@ void set_equip_slot_entry(saddr, s32, s32);
 s32 is_action_id_none(s32);
 u8 TObjPlayer__sub_801C0124(void *, s16);
 void *__ct__12StatusEffectFv(void *);
-s32 set_arrival_override_pos(u16, int, int);
 u32 create_lobby_marker__10TObjPlayerFsSc(u16 a0 = 0, s32 a1 = 0);
 void release_all_players_control_lock(void);
 s32 check_conditions__10TObjPlayerFv(void *, s16);
@@ -4499,7 +4499,7 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
 
 void TObjPlayer::prepare_hospital_return() {
     send_6x21_inter_level_warp(this, 0);
-    set_arrival_override_pos(this->get_entity_id(), get_hospital_yaw(), (saddr)((TObjPlayer *)this)->get_hospital_position());
+    set_arrival_override_pos(this->get_entity_id(), get_hospital_yaw(), (const Vec *)this->get_hospital_position());
     this->set_state_flags(0x800);
     this->set_battle_flag(0);
     apply_to_players((s32)(floor_transition_state.get_next_floor()), get_npc_lobby_entry_position(), get_npc_lobby_entry_yaw());
@@ -4519,7 +4519,7 @@ void TLobby::player_flag_1() { ((TObjPlayer *)this)->set_battle_flag(1); }
 void prepare_guild_return__10TObjPlayerFPv(void *player) {
     floor_transition_state.set_next_floor(0, get_floor_map_terrain(0));
     mark_area_change_pending();
-    set_arrival_override_pos(((TObjBase *)((saddr) player))->get_entity_id(), ((TObjPlayer *)player)->get_guild_return_yaw(), (saddr)((TObjPlayer *)player)->get_guild_return_position());
+    set_arrival_override_pos(((TObjBase *)((saddr) player))->get_entity_id(), ((TObjPlayer *)player)->get_guild_return_yaw(), ((TObjPlayer *)player)->get_guild_return_position());
     ((TObjPlayer *)player)->set_state_flags(0x800);
     ((TObjPlayer *)player)->set_battle_flag(1);
     send_6x21_inter_level_warp((TObjPlayer *)player, floor_transition_state.get_next_floor());

@@ -20,10 +20,10 @@ struct ArrivalOverride {
 // Clears an override: inactive, heading 0, at the origin.
 void init_arrival_override(ArrivalOverride *entry);
 
-extern "C" {
-extern ArrivalOverride TObjPlayer__arrival_override_table[12];
+extern ArrivalOverride player_arrival_overrides[12];
+
+// Overrides where player `slot` appears on the next floor: at `pos`, facing `heading`.
 void set_arrival_override_pos(u16 slot, s32 heading, const Vec *pos);
-}
 
 // Overrides where player `slot` appears on the next floor: at (x, y, z),
 // facing `heading`.

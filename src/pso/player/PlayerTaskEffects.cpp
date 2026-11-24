@@ -539,9 +539,9 @@ void clear_movement_history(MovementHistory *history) {
 
 
 void set_arrival_override_pos(u16 slot, s32 heading, const Vec *pos) {
-    TObjPlayer__arrival_override_table[slot].active = 1;
-    TObjPlayer__arrival_override_table[slot].heading = heading;
-    VecCopy(&TObjPlayer__arrival_override_table[slot].pos, pos);
+    player_arrival_overrides[slot].active = 1;
+    player_arrival_overrides[slot].heading = heading;
+    VecCopy(&player_arrival_overrides[slot].pos, pos);
 }
 
 #pragma push
@@ -550,8 +550,8 @@ void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z) {
     s32 offset;
     ArrivalOverride *entry;
     offset = slot * sizeof(ArrivalOverride);
-    ((ArrivalOverride *)((u8 *)TObjPlayer__arrival_override_table + offset))->active = 1;
-    entry = (ArrivalOverride *)((u8 *)TObjPlayer__arrival_override_table + offset);
+    ((ArrivalOverride *)((u8 *)player_arrival_overrides + offset))->active = 1;
+    entry = (ArrivalOverride *)((u8 *)player_arrival_overrides + offset);
     entry->heading = heading;
     entry->pos.x = x;
     entry->pos.y = y;

@@ -77,7 +77,7 @@ void TObjPlayer::place_on_area_entry() {
         if (p != NULL) {
             this->set_position_from(p);
         } else {
-            e = &TObjPlayer__arrival_override_table[((TObjBase *)(arg0))->get_entity_id()];
+            e = &player_arrival_overrides[((TObjBase *)(arg0))->get_entity_id()];
             if (this->obj_isState2_324() == 0 && e->get_active() == 1) {
                 e->set_active(0);
                 this->rotation_y = e->get_heading();

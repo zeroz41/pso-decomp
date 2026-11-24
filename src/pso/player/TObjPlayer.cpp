@@ -134,7 +134,7 @@ void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
 
 }
 
-ArrivalOverride TObjPlayer__arrival_override_table[12];
+ArrivalOverride player_arrival_overrides[12];
 u8 player_slot_table[0x30];
 u8 lobby_rule_settings[0x24];
 u8 lbl_8050EA64[0xC];
@@ -142,7 +142,7 @@ u8 TObjPlayer__char_data_array[0x42C * 0xC];
 
 
 void __sinit_TObjPlayer_cpp() {
-    __construct_array(TObjPlayer__arrival_override_table, (void *)init_arrival_override, NULL, sizeof(ArrivalOverride), 12);
+    __construct_array(player_arrival_overrides, (void *)init_arrival_override, NULL, sizeof(ArrivalOverride), 12);
     ((TObjPlayer *)lobby_rule_settings)->reset_lobby_settings();
     __construct_array(TObjPlayer__char_data_array, (void *)construct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
     __register_global_object(NULL, (void *)TObjPlayer::destroy_char_data_array, lbl_8050EA64);
