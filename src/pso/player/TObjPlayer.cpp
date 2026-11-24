@@ -67,9 +67,9 @@
 #include "pso/player/CapturedTargetList.h"
 #include "pso/player/PlayerTelepipe.h"
 
-u8 *TObjPlayer::create_player_instance(s32 arg0, saddr player) {
+u8 *TObjPlayer::create_player_instance(s32 slot, saddr player) {
     u8 *p;
-    p = (u8 *)new TObjPlayer(tl_03, arg0 & 0xFFFF, ((PlayerCharDataEntry *)player)->get_role(), ((PlayerCharDataEntry *)player)->get_char_data());
+    p = (u8 *)new TObjPlayer(tl_03, slot & 0xFFFF, ((PlayerCharDataEntry *)player)->get_role(), ((PlayerCharDataEntry *)player)->get_char_data());
     ((TLobby *)(p + 0xDAC))->copy_header_struct(((PlayerCharDataEntry *)player)->get_lobby_header());
     ((TObjPlayer *)p)->reset_motion_fields();
     return p;
@@ -288,15 +288,15 @@ u8 TObjPlayer::get_power_materials_used() { return materials.get_power_used(); }
 struct Inv_801BE890 { s32 f0; TPlyInventoryItem items[0x1E]; };
 
 extern "C" {
-Inv_801BE890 *init_inventory_list__10TObjPlayerFPv(Inv_801BE890 *arg0);
+Inv_801BE890 *init_inventory_list__10TObjPlayerFPv(Inv_801BE890 *list);
 
-Inv_801BE890 *init_inventory_list__10TObjPlayerFPv(Inv_801BE890 *arg0) {
+Inv_801BE890 *init_inventory_list__10TObjPlayerFPv(Inv_801BE890 *list) {
     s32 i;
-    arg0->f0 = 0;
+    list->f0 = 0;
     for (i = 0; i < 0x1E; i++) {
-        arg0->items[i].init();
+        list->items[i].init();
     }
-    return arg0;
+    return list;
 }
 
 void TObjPlayer::set_move_mode(s32 v) { this->m_3dc = v; }
@@ -438,11 +438,11 @@ void emit_idle_water_effect(saddr particles);
 void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1);
 }
 void* get_surface_contact_point(void* p);
-void emit_grass_footstep_effect(saddr arg0);
+void emit_grass_footstep_effect(saddr step);
 void emit_water_step_particles(saddr owner, saddr position);
-void emit_water_footstep_effect(saddr arg0);
+void emit_water_footstep_effect(saddr step);
 void emit_sand_step_particles(saddr owner, saddr position);
-void emit_sand_footstep_effect(saddr arg0);
+void emit_sand_footstep_effect(saddr step);
 void emit_idle_water_splash(s32 owner, saddr position);
 void emit_photon_blast_feedback_effects(saddr owner, u16 target_id);
 extern "C" {
@@ -674,16 +674,16 @@ void* TObjPlayer__sub_801BF31C(void* p) { return (char*)p + 0x18; }
 
 int TObjPlayer::emit_grass_footstep_particle(int position) { return emit_player_particle(this, position, 570); }
 
-void emit_grass_footstep_effect(saddr arg0) {
-    ((TObjPlayer *)(arg0 + 4))->emit_grass_footstep_particle((int)((saddr) (TObjPlayer__sub_801BF31C((void*)arg0))));
+void emit_grass_footstep_effect(saddr step) {
+    ((TObjPlayer *)(step + 4))->emit_grass_footstep_particle((int)((saddr) (TObjPlayer__sub_801BF31C((void*)step))));
 }
 
-void emit_water_footstep_effect(saddr arg0) {
-    emit_water_step_particles((arg0 + 4), (saddr)(get_surface_contact_point((void*)arg0)));
+void emit_water_footstep_effect(saddr step) {
+    emit_water_step_particles((step + 4), (saddr)(get_surface_contact_point((void*)step)));
 }
 
-void emit_sand_footstep_effect(saddr arg0) {
-    emit_sand_step_particles((arg0 + 4), (saddr)(get_surface_contact_point((void*)arg0)));
+void emit_sand_footstep_effect(saddr step) {
+    emit_sand_step_particles((step + 4), (saddr)(get_surface_contact_point((void*)step)));
 }
 
 void TObjPlayer::check_hit_by_id_431_from_packet() {
@@ -1740,11 +1740,11 @@ void PhotonBlastGauge::set_client_id(u16 id) { client_id = id; }
 
 PhotonBlastGauge::~PhotonBlastGauge() {}
 
-s32 TObjPlayer::free_owned_buffer_b(saddr arg0, s16 arg1) {
-    if ((arg0 != 0) && (arg1 > 0)) {
+s32 TObjPlayer::free_owned_buffer_b(saddr buffer, s16 flags) {
+    if ((buffer != 0) && (flags > 0)) {
         __dl__FPv();
     }
-    return arg0;
+    return buffer;
 }
 
 struct O_801C21D4 { u8 pad[0x3a1]; u8 id; u8 pad2[0x408 - 0x3a2]; u8 arr[1]; };

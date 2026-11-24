@@ -315,7 +315,7 @@ struct TObjPlayer : public TObjChara {
     void set_flags_bit2();
     void set_flags_bit1();
     void clear_flag_1_at_1c();
-    static s32 free_owned_buffer_b(saddr arg0, s16 arg1);
+    static s32 free_owned_buffer_b(saddr buffer, s16 flags);
     static void*get_pmt_record(int i);
     static void*get_item_pmt_record(int type, int id);
     static void*get_pmt_record_by_type_id(int type, int id);
@@ -382,7 +382,6 @@ struct TObjPlayer : public TObjChara {
     s32 test_action_40000();
     s32 test_action_80000();
     int is_inactive();
-    static void set_visibility_flags_by_count(void *arg0, s32 arg1);
     s16 get_atp();
     s16 get_atp_range();
     static void update_effect_sequence(NJS_OBJECT *);
@@ -524,7 +523,6 @@ struct TObjPlayer : public TObjChara {
     u32 unpack_u32_hi();
     u32 unpack_u32_lo();
     s32 get_slot_value_checked(s32 i);
-    s8 calc_class_stat_boost_index(s8 arg1, s32 arg2);
     static s32 decrement_clamp(s32 *value, s32 amount);
     void set_visible_flag();
     s32 check_flag_04000000();
@@ -809,7 +807,6 @@ struct TObjPlayer : public TObjChara {
     static void create_aux_object(s32 item_id, u32 *hit, saddr direction);
     static void create_network_object(s32 item_id, u32 *hit, saddr direction);
     void free_indexed_entry(s32 _w1);
-    void copy_node_record(saddr arg1);
     static void update_battle_control_on_unlock(void *player, void *target, void *pos, s32 phase);
     static void create_cleanup_object(void *parent);
     static void free_static_buffer();
@@ -871,7 +868,7 @@ struct TObjPlayer : public TObjChara {
     void init_idle_animation();
     static void create_active_players();
     static void refresh_player_lobby_headers();
-    static u8 *create_player_instance(s32 arg0, saddr player);
+    static u8 *create_player_instance(s32 slot, saddr player);
     static void alloc_shared_buffers();
     static void destroy_char_data_array();
     static s8 get_rule_field_0();
@@ -882,7 +879,6 @@ struct TObjPlayer : public TObjChara {
     static void update_particle_by_phase(NJS_OBJECT *);
     void draw_blob_shadows();
     void set_flag_8_if_check_passes();
-    u8 *construct_freeze_shell(u8 *arg1, u8 *arg2);
     static void create_tec_zonde(void *source, void *origin, void *targets, s32 level);
     static void new_child_object(u16 player_id);
     int is_flag_b0_4();
@@ -1003,7 +999,6 @@ struct TObjPlayer : public TObjChara {
     s16 add_dfp(s32 amount);
     s16 add_stat(s32 amount);
     void update_aim_angle(s32 aim);
-    void copy_stats(void *arg1);
     void clamp_stats(player_stats *out, player_stats *class_stats);
     static void notify_volopt_if_ready(void* p);
     void spawn_level_change_feedback(const char *message);
