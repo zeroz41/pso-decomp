@@ -426,7 +426,7 @@ s32 queue_timeout_message(s16 dev, u8 *packet, s16 timeout) {
 }
 
 /* Copies the 6-byte local address; the device argument must be 0 (else -0x113). */
-s32 get_local_address(s16 dev, void *out) {
+s16 get_local_address(s16 dev, void *out) {
     u8 *src;
     if (dev != 0) {
         return -0x113;
@@ -507,7 +507,7 @@ s32 remove_rec_by_handle(s16 dev, u16 handle) {
 }
 #pragma pop
 
-s32 open_channel_checked(s16 dev, u16 ether_type) {
+s16 open_channel_checked(s16 dev, u16 ether_type) {
     EthernetReceiveFilter *g;
     if (dev != 0) {
         return -0x113;
@@ -552,7 +552,7 @@ u8 *alloc_receive_frame(u16 key, s32 len, u8 status) {
     return ret;
 }
 
-s32 open_ethernet_device(s16 dev) {
+s16 open_ethernet_device(s16 dev) {
     EthernetReceiveFilter *g;
     if (dev != 0) {
         return -0x113;

@@ -269,12 +269,12 @@ void term_dix_config(EthernetState *cfg) {
 }
 
 void init_net_func_table(EthernetState *cfg) {
-    eth_driver.init = (s16 (*)(s16))open_ethernet_device;
-    eth_driver.open = (s16 (*)(s16, u16))open_channel_checked;
+    eth_driver.init = open_ethernet_device;
+    eth_driver.open = open_channel_checked;
     eth_driver.close = remove_rec_by_handle;
     eth_driver.add_multicast = add_multicast_address;
     eth_driver.remove_multicast = consume_item_count_by_id;
-    eth_driver.get_address = (s16 (*)(s16, void *))get_local_address;
+    eth_driver.get_address = get_local_address;
     eth_driver.send = queue_timeout_message;
     cfg->ndrivers = 1;
     cfg->nlinks = 1;
