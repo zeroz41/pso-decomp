@@ -83,7 +83,9 @@ void TLobby__sub_8024259C(saddr arg0);
 void TLobby__sub_8024285C(void);
 s32 advance_rng__6TLobbyFv(void *arg0);
 char *build_text_from_comma_list__6TLobbyFv(char *list);
+}
 s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 index);
+extern "C" {
 s32 start_voice_fade(struct Voice_80241FD8 *v, s32 step);
 }
 void fade_out_sound_slot(s32 slot, s32 step);
@@ -104,8 +106,8 @@ s32 reset_sound_state__6TLobbyFv(u8 *arg0);
 void send_find_user_self_tag__6TLobbyFl(s32 arg0);
 void set_clamped_field27c__6TLobbyFf(void *arg0, f32 farg0);
 void set_menu_index__6TLobbyFl(void *p, s32 v);
-void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
 }
+void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
 void set_sound_slot_special_scale(s32 slot, f32 scale);
 extern "C" {
 char *skip_to_comma_field__6TLobbyFPcll(char *s, s32 a, s32 b);
@@ -152,8 +154,8 @@ s32 reset_sound_state__6TLobbyFv(u8 *arg0);
 void send_find_user_self_tag__6TLobbyFl(s32 arg0);
 void set_clamped_field27c__6TLobbyFf(void *arg0, f32 farg0);
 void set_menu_index__6TLobbyFl(void *p, s32 v);
-void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
 }
+void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
 void set_sound_slot_special_scale(s32 slot, f32 scale);
 extern "C" {
 char *skip_to_comma_field__6TLobbyFPcll(char *s, s32 a, s32 b);

@@ -95,6 +95,7 @@ int qst_label_address(int label);
 #include "pso/object/switch/TOChatSensor.h"
 #include "pso/object/collision/TOSymbolchatColli.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
+#include "pso/unk/TLobby_801C25B4.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/network/client_id.h"
@@ -751,7 +752,6 @@ struct Item_801EBF30 {
     u32 f10;
 };
 
-struct E_801EB484 { s32 a; s32 b; };
 
 struct Pkt_801ED300 {
     u8 cmd;
@@ -775,7 +775,6 @@ struct Pkt_801ED360 {
     u8 e;
 };
 
-struct E_801EB4C4 { s16 a; s16 b; s32 c; };
 
 struct Ctx_801EB508 { u8 pad[0x10]; u8 buf[0xFD]; };
 
@@ -970,8 +969,6 @@ void TObjPlayer__sub_80354DAC(u16 client_index);
 void activate_palettex(u16 client_index);
 }
 
-extern E_801EB484 duel_result_table[];
-extern int battle_ctrl_default_value;
 int quest_active_flag;
 int evt2_random_enemies_mode;
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 fn_801F3480;
@@ -2615,13 +2612,13 @@ void qst_op_disable_win_pfx(void) { battle_ctrl_default_value = 0; }
 void qst_op_enable_win_pfx(void) { battle_ctrl_default_value = 1; }
 
 void qst_op_ba_get_score(u8 src, u8 dst) {
-    E_801EB484 e = duel_result_table[qst_registers[src]];
-    qst_registers[dst] = e.b;
+    BattleRanking e = duel_result_table[qst_registers[src]];
+    qst_registers[dst] = e.score;
 }
 
 void qst_op_ba_get_place(u8 a0, u8 a1) {
-    E_801EB4C4 e = ((E_801EB4C4 *)&duel_result_table)[qst_registers[a0]];
-    qst_registers[a1] = e.b;
+    BattleRanking e = duel_result_table[qst_registers[a0]];
+    qst_registers[a1] = e.place;
 }
 
 void qst_op_set_eventflag32() {

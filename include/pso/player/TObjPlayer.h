@@ -1472,6 +1472,10 @@ LAYOUT_ASSERT(TObjPlayer_size, sizeof(TObjPlayer) == 0xDB8);
 
 void set_flag_400000(TObjPlayer *player);
 
+class TDeathTintFade;
+// Runs when a dying player's tint fade reaches full: the player of the fade's viewport goes down.
+void complete_deferred_player_death(TDeathTintFade *fade);
+
 // Sends 6x2D: releases the movement hold on the player.
 void send_release_hold(TObjPlayer *player);
 // Sends 6x2C: holds the player in place for `frames` frames (-1: until released).

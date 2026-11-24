@@ -1,4 +1,5 @@
 #define PSO_SDK_COMPACT_MATH
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/system/data/pso_date.h"
 #include "pso/system/save/CardFileInfo.h"
 #include <stdio.h>
@@ -27,9 +28,8 @@ s32 card_result_code;
     int card_wait_state;
 extern "C" {
 s32 mount_memcard(saddr);
-const CardBannerFileNames memory_card_banner_filenames = {{"vms_sys.tp", "vms_icon1.tp", "vms_icon2.tp", "vms_down.tp", "vms_capt.tp", "vms_net.tp"}};
-u32 calc_crc32_bitwise(u8 *, u32);
 }
+const CardBannerFileNames memory_card_banner_filenames = {{"vms_sys.tp", "vms_icon1.tp", "vms_icon2.tp", "vms_down.tp", "vms_capt.tp", "vms_net.tp"}};
 extern u8 *memcard_work_areas[];
 extern CARDFileInfo memcard_file_info;
 extern CARDStat memcard_file_status;

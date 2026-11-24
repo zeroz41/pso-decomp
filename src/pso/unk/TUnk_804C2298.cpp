@@ -29,7 +29,6 @@ typedef struct WindowPos {
 
 extern "C" {
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv(void);
-s32 pso_system_load_gc(void);
 void *__ct__10TAdTitleGCFP7TObjectl(void *, void *, int);
 }
 

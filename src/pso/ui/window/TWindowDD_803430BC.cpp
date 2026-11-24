@@ -1,6 +1,7 @@
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/TWindowWordSelectMode.h"
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowDD_WS_String.h"
@@ -63,7 +64,7 @@ struct Win_803438C4 {
     s32 idx;
     Sub_803438C4 *subs[(0x7C - 0x24) / 4];
     uaddr x7C;
-    uaddr x80;
+    TWindowWordSelectMode *x80;
     u8 pad84[0x94 - 0x84];
     s32 x94;
     u8 pad98[0xA8 - 0x98];
@@ -453,7 +454,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
   s32 v;
   self->m_name = word_select_type_name_pointer;
   self->f1C = (floor = lbl_805D6E24);
-  build_item_list__9TWindowDDFPv(this);
+  build_item_list();
   *((u8 *) TWindowDD__work_buffer) = 0;
   self->fA0 = 0;
   {
@@ -638,7 +639,7 @@ void TWindowDD::run_task() {
         done = 0;
         if (((TWindowDD *)w)->test_input_flag_4() != 0) {
             if (w->x80 != 0) {
-                switch (TWindowDD__sub_80340820((void *)w->x80)) {
+                switch (w->x80->get_selected_row()) {
                 case 0:
                     TWindowDD::play_sound();
                     TWindowDD__sub_803484C4(w);
@@ -665,7 +666,7 @@ void TWindowDD::run_task() {
         }
         if (done != 0) {
             w->xA8 = 0;
-            TWindowDD__sub_80340910((void *)w->x80);
+            w->x80->hide_selection();
             TWindowDD__sub_80341AF8((saddr)cur);
             if (w->xC4 > 0) {
                 TWindowDD__sub_80347CC8(w, &w->xC4);
@@ -823,13 +824,13 @@ void TWindowDD__sub_803435A0(u8 *arg0) {
     temp_r3_5 = *(s32 *)((s8 *)temp_r31 + 0);
     if (!(temp_r3_5 & 8)) {
         if (temp_r3_5 & 1) {
-            *(s32 *)((s8 *)arg0 + 0x90) = dispatch_by_window_mode(reinterpret_cast<TWindowDD *>(arg0), (int) (*(s32 *)((s8 *)arg0 + 0xB4)), (int) (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
+            *(s32 *)((s8 *)arg0 + 0x90) = dispatch_by_window_mode(reinterpret_cast<TWindowDD *>(arg0), (*(s32 *)((s8 *)arg0 + 0xB4)), (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
             if ((temp_r3 = TWindowDD__sub_80347AD4(arg0, 2, *(s32 *)((s8 *)arg0 + 0x90))) != NULL) {
                 ((TWindowDD *)temp_r3)->set_pos_and_data(TWindowDD__data_805DFC10);
             }
             TWindowDD__sub_80347F48((arg0));
         } else {
-            *(s32 *)((s8 *)arg0 + 0x90) = dispatch_by_window_mode(reinterpret_cast<TWindowDD *>(arg0), (int) (*(s32 *)((s8 *)arg0 + 0xB4)), (int) (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
+            *(s32 *)((s8 *)arg0 + 0x90) = dispatch_by_window_mode(reinterpret_cast<TWindowDD *>(arg0), (*(s32 *)((s8 *)arg0 + 0xB4)), (*(s32 *)((s8 *)arg0 + 0x8C)), 0);
             if ((temp_r3 = TWindowDD__sub_80347AD4(arg0, 2, *(s32 *)((s8 *)arg0 + 0x90))) != NULL) {
                 ((TWindowDD *)temp_r3)->set_pos_and_data(lbl_805DFB80);
             }

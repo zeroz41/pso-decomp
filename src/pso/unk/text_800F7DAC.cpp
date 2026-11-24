@@ -112,7 +112,7 @@ void TScreenFadeIn::run_task() {
 }
 #pragma pop
 
-TDeathTintFade::TDeathTintFade(TObject *parent, void (*callback)(), s32 viewport_index) : TScreenFade(parent) {
+TDeathTintFade::TDeathTintFade(TObject *parent, void (*callback)(TDeathTintFade *fade), s32 viewport_index) : TScreenFade(parent) {
     this->callback = callback;
     alpha = 0.0f;
     color[1] = 0;
@@ -130,7 +130,7 @@ void TDeathTintFade::run_task() {
     if (alpha >= 128.0f) {
         alpha = 128.0f;
         if (callback != NULL) {
-            callback();
+            callback(this);
         }
         suspend_update();
     }

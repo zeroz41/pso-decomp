@@ -7,12 +7,13 @@
 // goes to the window of viewport_index, then the callback runs.
 class TDeathTintFade : public TScreenFade {
 public:
-    TDeathTintFade(TObject *parent, void (*callback)(), s32 viewport_index);
+    TDeathTintFade(TObject *parent, void (*callback)(TDeathTintFade *fade), s32 viewport_index);
     virtual ~TDeathTintFade();
     virtual void run_task();
     virtual void render();
+    s32 get_viewport_index();
     s32 viewport_index; // passed to TWindowCtrlMain::set_value
-    void (*callback)(); // called once alpha reaches 128
+    void (*callback)(TDeathTintFade *fade); // called once alpha reaches 128
 };
 LAYOUT_ASSERT(TDeathTintFade_size, sizeof(TDeathTintFade) == 0x2C);
 

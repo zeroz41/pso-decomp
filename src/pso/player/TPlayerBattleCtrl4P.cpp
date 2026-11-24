@@ -891,8 +891,8 @@ s32 TPlayerBattleCtrl4P::calculate_rankings() {
             for (j = i + 1; j < n; j++) {
                 if (split_screen_battle_rankings[j].client_id != 0xFFFF && split_screen_battle_rankings[i].score < split_screen_battle_rankings[j].score) {
                     BattleRanking tmp = split_screen_battle_rankings[i];
-                    TLobby__sub_801C36E4(&split_screen_battle_rankings[i], &split_screen_battle_rankings[j]);
-                    TLobby__sub_801C36E4(&split_screen_battle_rankings[j], &tmp);
+                    copy_battle_ranking(&split_screen_battle_rankings[i], &split_screen_battle_rankings[j]);
+                    copy_battle_ranking(&split_screen_battle_rankings[j], &tmp);
                 }
             }
         }
@@ -1172,8 +1172,8 @@ s32 are_split_screen_battle_players_tied(void) {
     }
     return result;
 }
-s32 *get_split_screen_battle_rankings(void) {
-    return (s32 *)split_screen_battle_rankings;
+BattleRanking *get_split_screen_battle_rankings(void) {
+    return split_screen_battle_rankings;
 }
 
 u8 TPlayerBattleCtrl4P::is_battle_mode_active() {

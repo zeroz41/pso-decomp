@@ -662,7 +662,6 @@ found:
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
-extern "C" {
 s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 index) {
     u8 *t = (u8 *)&sound_bank_file_sizes;
     s32 result = -1;
@@ -702,6 +701,7 @@ s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 
 #pragma pop
 
 #pragma pop
+extern "C" {
 
 s32 TLobby__sub_8023FFB8(SoundControlState *self, int id);
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);

@@ -1,4 +1,5 @@
 #include "pso/system/SoundEffect.h"
+#include "pso/unk/TLobby_8023F734.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer.h"
@@ -96,9 +97,10 @@ void TLobby__sub_8022644C(void);
 void set_menu_index_main__6TLobbyFPUc(void);
 int TLobby__sub_80226308(void);
 void TTecRaFoie__sub_80226254(void);
-void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration);
+}
 
 int TLobby::get_lobby_data() {  return lbl_805D6280; }
+extern "C" {
 
 void TLobby__sub_8022614C(s32 gain) {
     set_menu_index_main__6TLobbyFPUc();

@@ -35,15 +35,12 @@
 #include "pso/unk/text_8023F160.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
 // Functions and data of other units that have no shared declaration with the signature these calls use.
 extern "C" {
 s32 get_memcard_free_files(s32 chan);
 s32 start_memcard_format(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-s32 load_guild_card_save(void);
-s32 load_system_file(s32 arg0);
-int TAdSinglePlyChrSelectGC__sub_801FD990(s32 chan);
-void init_timestamped_data(void);
 }
 
 // One entry per state: enter is called by change_state, run by run_task every frame.

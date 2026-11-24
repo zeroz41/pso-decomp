@@ -58,7 +58,7 @@ struct disp_data_part2 {
 };
 
 inline void TPlyDispConfigSmth::bswap() {
-    bswap_32(&m_mbr_0x0);
+    bswap_32(&bank);
     for (int i = 0; i < 4; ++i) {
         m_tags[i].bswap();
         m_tags1[i].bswap();

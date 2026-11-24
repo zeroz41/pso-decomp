@@ -45,11 +45,11 @@ TUnk_804C3E60::TUnk_804C3E60(TObject *parent, s32 gain, s32 duration) : TObject(
     TLobby::set_and_notify(gain);
 }
 
-s32 *TWindowDuelResult__sub_801C257C(void) {
+}
+
+BattleRanking *get_battle_rankings(void) {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         return get_split_screen_battle_rankings();
     }
-    return &duel_result_table.value;
-}
-
+    return duel_result_table;
 }

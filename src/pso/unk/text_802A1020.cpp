@@ -15,6 +15,7 @@
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/Language.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/ControllerInput.h"
@@ -30,7 +31,6 @@ extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();
 s32 request_queued_main_phase();
 void request_main_phase(s32 arg0);
-s32 init_fresh_character_card();
 void TKeyBoardControl__sub_8000F90C(s32 arg0);
 void set_queued_main_phase(s32 queued_main_phase);
 u8 *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void (*)(s32), s32, s32, s32);

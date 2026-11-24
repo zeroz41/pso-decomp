@@ -407,8 +407,6 @@ void alloc_battle_param_tables(void) {
     load_battle_param_entry();
     lobby_instance = 0;
 }
-extern "C" {
-
 void ActorParamBlock::swap_endian() {
     bswap_16(reinterpret_cast<u16 *>(&values[0]));
     bswap_16(reinterpret_cast<u16 *>(&values[1]));
@@ -441,6 +439,7 @@ void AttackParams::byteswap_packet() {
     bswap_32(reinterpret_cast<u32 *>(pad_14 + 20));
     bswap_32(reinterpret_cast<u32 *>(pad_14 + 24));
 }
+extern "C" {
 
 void bswap__12player_statsFv(void *arg0) {
     bswap_16((u16 *)arg0);
@@ -507,6 +506,7 @@ s32 TLobby__sub_8001E75C(void *arg0) {
 }
 
 s32 __cvt_fp2unsigned(f32);
+}
 
 s32 TLobby::calc_alpha_shifted(f32 alpha) {
     return __cvt_fp2unsigned(255.0f * alpha) << 0x18;
@@ -592,6 +592,7 @@ s32 TLobby::get_clock_frames() {
   t += base;
   return t;
 }
+extern "C" {
 
 void TLobby__sub_8001E998(f32 x, f32 position1Y, f32 farg2, f32 farg3) {
     f32 scale;

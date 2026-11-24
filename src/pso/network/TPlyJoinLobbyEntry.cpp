@@ -2863,7 +2863,7 @@ TPlyDispConfig *TPlyDispConfig::copy_full(TPlyDispConfig *src) {
     return this;
 }
 TPlyDispConfigSmth *TPlyDispConfigSmth::copy(TPlyDispConfigSmth *src) {
-    m_mbr_0x0 = src->m_mbr_0x0;
+    bank = src->bank;
     copy_guild_card_tag_triplet(&m_tags[0], &src->m_tags[0]);
     copy_guild_card_tag_triplet(&m_tags[1], &src->m_tags[1]);
     copy_guild_card_tag_triplet(&m_tags[2], &src->m_tags[2]);

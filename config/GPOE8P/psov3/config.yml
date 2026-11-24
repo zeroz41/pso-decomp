@@ -3855,7 +3855,7 @@ force_active:
   - alloc_char_records__23TAdSinglePlyChrSelectGCFPv
   - alloc_download_buffer__17TCharSaveSequenceFv
   - alloc_download_quest__6TLobbyFlPl
-  - alloc_global_buffer
+  - alloc_global_buffer__Fv
   - allocate_bml_chunk
   - alloc_lobby_action_motion_buffer__Fv
   - allocate_network_info_cipher_key__FPUc
@@ -4702,7 +4702,7 @@ force_active:
   - bswap_stats__10TObjPlayerFv
   - bswap_u32
   - bswap_udp_test_header__6TLobbyFv
-  - buffer_init
+  - buffer_init__Fv
   - build_6x05_write_switch_flag__FPv
   - init__17G_NPCControl_6x69Fv
   - build_6x75_update_quest_flag_dc__FPv
@@ -5137,7 +5137,7 @@ force_active:
   - clear_active_flag__8TFogCtrlFv
   - clear_all_entries__6TLobbyFPv
   - clear_alt_model_flag__10TObjPlayerFv
-  - clear_battle_player_ready_flags
+  - clear_battle_player_ready_flags__Fv
   - clear_bit__16Boss6WaveArcMaskFl
   - clear_buffer__17TCharSaveSequenceFv
   - clear_four_slots__12TChallenge4PFv
@@ -6367,8 +6367,8 @@ force_active:
   - fn_8019F9AC
   - alloc_player_ids__Fl
   - __sinit_OfflineGameScene_cpp
-  - fn_801C1E98
-  - fn_801C1EE8
+  - clear_bank__18TPlyDispConfigSmthFv
+  - set_bank__18TPlyDispConfigSmthFv
   - fn_801C1F40
   - fn_801C4CE0
   - __sinit_text_801D34E0_cpp
@@ -6552,7 +6552,7 @@ force_active:
   - game_join_player_records
   - game_start_background_texture_list
   - game_start_player_instance
-  - game_state_load
+  - game_state_load__Fv
   - gather_player_contacts__19TTecPlayerInfluenceFP14TObjCollidableP13CollisionBodyPv
   - gb_advance_collision_body_parts
   - gba_joyboot_transfer_callback__Fll
@@ -6722,7 +6722,7 @@ force_active:
   - get_sock_status_name__Fs
   - get_speaker_balloon_anchor__11TWindowCtrlFUsPfPl
   - get_time_limit__19TPlayerBattleCtrl4PFv
-  - get_split_screen_character_save_record
+  - get_split_screen_character_save_record__Fi
   - get_state__17TOSymbolchatColliFv
   - clear_attack_history__19TBoss8DragonEffTailFv
   - get_stats_atp_max__9TObjCharaFv
@@ -7012,7 +7012,7 @@ force_active:
   - init_battle_round__17TPlayerBattleCtrlFv
   - init_body_sub__14TObjEneDolmOlmFv
   - init_bolt_points__12TTecZondeEffFv
-  - init_buffer
+  - init_buffer__Fv
   - init_cast__9TTecRestaFv
   - __ct__17CharacterFileSlotFv
   - __ct__18TPlyJoinLobbyEntryFv
@@ -7061,7 +7061,7 @@ force_active:
   - __ct__19PlayerHandParticlesFv
   - init_follow_target__10TNpcPlayerFv
   - init_forward__19TItemDisconnectCtrlFv
-  - init_fresh_character_slot
+  - init_fresh_character_slot__Fl
   - __ct__13TUnk_804A62F8FP7TObjectPUc
   - init_from_table_entry__9TObjGrassFl
   - init_gauge_entry__20TWindowSubStatusDispFv
@@ -8829,7 +8829,7 @@ force_active:
   - light_node__13TOCapsuleLabo
   - light_slot_mask_table
   - load_all_floor_event_sets__6TLobbyFv
-  - load_and_verify_data
+  - load_and_verify_data__Fl
   - load_battle_params__11TBoss6Type2Fv
   - LoadBinModel__11BmlResourceFPCcl
   - LoadBinModelCallBack__FP19BmlModelLoadRequest
@@ -13968,7 +13968,7 @@ force_active:
   - record_camera_angle_samples__18TObjEneEpsilonBodyFP10NJS_OBJECT
   - record_camera_path_point__13TObjEneMorfosFP10NJS_OBJECT
   - record_hit__22TObjFogCollisionPoisonFll
-  - record_local_battle_placement
+  - record_local_battle_placement__FPv
   - record_local_damage_if_enabled__FPvPvl
   - recv_banner__9TProtocolFR6packet
   - recv_banner_head__9TProtocolFR6packet
@@ -17098,7 +17098,7 @@ force_active:
   - wake_leader__13TObjEneMe1GeeFv
   - update_pillar_heal_state__15TBoss3VoloptP02Fv
   - update_play_time__23TAdSinglePlyChrSelectGCFv
-  - update_player_battle_ctrl_state
+  - update_player_battle_ctrl_state__FPv
   - update_player_hp_ratios__13TObjWarnChimeFv
   - update_player_window__6TLobbyFv
   - update_plot_timer__14TBoss6PlotFalzFv

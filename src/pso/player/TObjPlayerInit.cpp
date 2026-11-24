@@ -100,7 +100,7 @@ void TObjPlayer::init_action_provider() {
     reset_state();
     ::set_flag_400000(this);
     if (TObjPlayer::get_player_count() == 1) {
-        set_player_pk_mode_flag((u8 *)&m_828);
+        set_player_pk_mode_flag(&m_828);
     }
 }
 
