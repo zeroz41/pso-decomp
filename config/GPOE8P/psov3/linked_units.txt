@@ -1658,13 +1658,8 @@ pso/player/TObjPlayer_801D84A8.cpp
 pso/player/TObjPlayer_801D84CC.cpp
 pso/player/TObjPlayer_801D8ADC.cpp
 pso/player/TObjPlayer_801D95B8.cpp
-pso/player/TObjPlayer_801D9908.cpp
-pso/player/TObjPlayer_801D9964.cpp
-pso/player/TObjPlayer_801D9988.cpp
-pso/player/TObjPlayer_801D9A04.cpp
-pso/player/TObjPlayer_801D9B18.cpp
-pso/player/TObjPlayer_801D9E08.cpp
-pso/player/TObjPlayer_801D9E10.cpp
+pso/player/TObjPlayerTechniqueLevels.cpp
+pso/player/PlayerTechniqueState.cpp
 pso/player/TObjPlayer_801E2D1C.cpp
 pso/player/TObjPlayer_8023E480.cpp
 pso/player/TObjPlayer_8029F694.cpp
@@ -1950,9 +1945,6 @@ pso/unk/text_801D94C8.cpp
 pso/unk/text_801D9514.cpp
 pso/unk/text_801D9870.cpp
 pso/unk/text_801D98F8.cpp
-pso/player/TObjPlayer_801D999C.cpp
-pso/player/TObjPlayer_801D9AD0.cpp
-pso/player/TObjPlayer_801D9CE0.cpp
 pso/unk/text_801D9E50.cpp
 pso/network/TProtocol_801D9EB4.cpp
 pso/network/TProtocol_801D9F50.cpp

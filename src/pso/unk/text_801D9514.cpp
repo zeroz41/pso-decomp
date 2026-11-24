@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_801D9E08.h"
+#include "pso/player/PlayerTechniqueState.h"
 #include "pso/unk/text_801D9514.h"
 
 extern "C" {
@@ -12,7 +12,7 @@ u8 TObjPlayer__sub_801D9514(s32 cls, s16 tech) {
 
 void TObjPlayer__sub_801D955C(u8 *techs, s32 cls) {
     s32 i;
-    s32 n = TObjPlayer__sub_801D9E08();
+    s32 n = PlayerTechniqueState::technique_count();
     for (i = 0; i < n; ) {
         techs[i + 0x5C] = TObjPlayer__sub_801D9514(cls, i);
         i++;

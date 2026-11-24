@@ -41,7 +41,13 @@ public:
     u8 pad_48[0x14];
     u8 levels[0x14];
     u8 caps[0x14];
+
+    static s32 technique_count();
+    PhotonBlastTarget *get_target(s32 slot);
+    void clear_technique_level(s16 technique);
 };
+
+extern "C" void TObjPlayer__sub_801D9E10(PlayerTechniqueState *techs, s16 value);
 
 LAYOUT_ASSERT(PlayerTechniqueStateSize, sizeof(PlayerTechniqueState) == 0x84);
 LAYOUT_ASSERT(PlayerTechniqueStateLevels, offsetof(PlayerTechniqueState, levels) == 0x5C);

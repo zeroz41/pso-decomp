@@ -5119,36 +5119,12 @@ pso/unk/text_801D9870.cpp:
 pso/unk/text_801D98F8.cpp:
 	.text       start:0x801D98F8 end:0x801D9908
 
-pso/player/TObjPlayer_801D9908.cpp:
-	.text       start:0x801D9908 end:0x801D9964
+pso/player/TObjPlayerTechniqueLevels.cpp:
+	.text       start:0x801D9908 end:0x801D9B18
 
-pso/player/TObjPlayer_801D9964.cpp:
-	.text       start:0x801D9964 end:0x801D9988
-
-pso/player/TObjPlayer_801D9988.cpp:
-	.text       start:0x801D9988 end:0x801D999C
-
-pso/player/TObjPlayer_801D999C.cpp:
-	.text       start:0x801D999C end:0x801D9A04
-
-pso/player/TObjPlayer_801D9A04.cpp:
-	.text       start:0x801D9A04 end:0x801D9AD0
-
-pso/player/TObjPlayer_801D9AD0.cpp:
-	.text       start:0x801D9AD0 end:0x801D9B18
-
-pso/player/TObjPlayer_801D9B18.cpp:
-	.text       start:0x801D9B18 end:0x801D9CE0
-
-pso/player/TObjPlayer_801D9CE0.cpp:
-	.text       start:0x801D9CE0 end:0x801D9E08
+pso/player/PlayerTechniqueState.cpp:
+	.text       start:0x801D9B18 end:0x801D9E50
 	.sdata2     start:0x805DC408 end:0x805DC410
-
-pso/player/TObjPlayer_801D9E08.cpp:
-	.text       start:0x801D9E08 end:0x801D9E10
-
-pso/player/TObjPlayer_801D9E10.cpp:
-	.text       start:0x801D9E10 end:0x801D9E50
 
 pso/unk/text_801D9E50.cpp:
 	.text       start:0x801D9E50 end:0x801D9EB4
