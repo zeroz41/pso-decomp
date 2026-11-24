@@ -915,7 +915,7 @@ s32 tcp_gather_send_data(u32 offset, u32 length, NetPacket *packet, TcpTcb *cont
         netbuf_ref_advance(&output_tail->buffer, ring_offset);
         partial_length = control->req.in_use - ring_offset;
         partial_total = packet->total_bytes;
-        output_tail->length = (u16)partial_length;
+        output_tail->length = partial_length;
         packet->total_bytes = partial_total + (s16)partial_length;
     }
     return 0;

@@ -267,7 +267,7 @@ s16 NetApplyConnectionConfig(NetConnectCfg *cfg) {
   NetSession *g = &net_session;
   NetStoreTick(&cfg->start_tick);
   lock_mutex(net_thread_state.mutex);
-  if (((s16) ppp_session_active) == 0)
+  if (ppp_session_active == 0)
   {
     g->flags = cfg->flags;
     g->ip_mode = cfg->ip_mode;

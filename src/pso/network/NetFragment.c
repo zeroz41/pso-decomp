@@ -520,7 +520,7 @@ found:
     NetMemcpy(&e->src, src, sizeof(NetworkAddress));
     e->ident = ident;
     e->have_last = 0;
-    e->ttl = (u8)ttl;
+    e->ttl = ttl;
     e->next = 0;
     e->last = 0;
     e->first = 0;

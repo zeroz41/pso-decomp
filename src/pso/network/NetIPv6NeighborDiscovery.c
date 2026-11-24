@@ -240,7 +240,7 @@ s16 NetIPv6SendUnspecifiedSourceNeighborSolicitation(u8 *addr, s16 idx) {
     free_entry->fragment_count = 0;
     free_entry->total_bytes = 0;
     NetMemset(&params.source, 0, 0x10);
-    NetIPv6MakeSolicitedNodeMulticastAddress(params.destination.bytes, (u8 *)addr);
+    NetIPv6MakeSolicitedNodeMulticastAddress(params.destination.bytes, addr);
     ret = NetIPv6EmitNeighborSolicitation(free_entry, addr, &params, idx, NULL);
     release_entry(free_entry);
     return ret;

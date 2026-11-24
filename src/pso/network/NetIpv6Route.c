@@ -1342,7 +1342,7 @@ s16 NetIPv6IsAnycastAddress(void *self, s16 idx) {
     if (ok) {
         return 0;
     }
-    if ((s16)idx < 0 || idx >= tbl->count) {
+    if (idx < 0 || idx >= tbl->count) {
         e = NULL;
     } else {
         e = tbl->ifaces;

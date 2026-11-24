@@ -39,7 +39,7 @@ s16 wait_for_ipcp_open(PppFsm *self) {
     blocks = self->blocks;
     self->abort = 0;
     ipv6cp_state = &ppp_proto_blocks.ipv6cp;
-    ipv6cp = (PppFsm *)ipv6cp_state;
+    ipv6cp = ipv6cp_state;
     ipv6cp->abort = 0;
     p = (PppFsm *)ipv6cp_state;
     pd = &net_thread_state;

@@ -521,8 +521,8 @@ s32 recv_network_frame(u16 max_len, void *lobby, u16 *out_len) {
 
 /* Sends a frame over PPPoE or the modem send ring; returns 5 on failure. */
 s32 send_network_frame(u16 len, u8 *src) {
-    if ((s16) network_pppoe_transport_enabled != 0) {
-        if ((s16) net_slot_id < 0) {
+    if (network_pppoe_transport_enabled != 0) {
+        if (net_slot_id < 0) {
             return 5;
         }
         if (pppoe_send_session_frame(net_slot_id, src, len) < 0) {
@@ -536,8 +536,8 @@ s32 send_network_frame(u16 len, u8 *src) {
 
 void close_network_transport(void) {
     s32 tries;
-    if ((s16) network_pppoe_transport_enabled != 0) {
-        if ((s16) net_slot_id >= 0) {
+    if (network_pppoe_transport_enabled != 0) {
+        if (net_slot_id >= 0) {
             pppoe_close(net_slot_id);
             tries = 0;
 retry_close:
