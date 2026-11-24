@@ -224,7 +224,7 @@ void TObjGoGoBall::update_goal_checks(u16 id) {
         }
     }
     if ((gogo_ball_sync_state.goal_flags & 2 || gogo_ball_sync_state.goal_flags & 1 || gogo_ball_sync_state.goal_flags & 0x20 || gogo_ball_sync_state.goal_flags & 0x10) && !(gogo_ball_sync_state.goal_flags & 8) && !(gogo_ball_sync_state.goal_flags & 4)) {
-        TWindowCtrl::open(get_entity_id(), (saddr)"\tC4Goal", 0x1B);
+        TWindowCtrl::open(get_entity_id(), "\tC4Goal", 0x1B);
     }
     if (!(gogo_ball_sync_state.goal_flags & 0x33) && scored != 0) {
         scored = 0;
@@ -233,7 +233,7 @@ void TObjGoGoBall::update_goal_checks(u16 id) {
     if ((0.0f) == len) {
         if (resting == 0) {
             rest_count++;
-            TWindowCtrl::open(get_entity_id(), (saddr)"Go!", 0x1B);
+            TWindowCtrl::open(get_entity_id(), "Go!", 0x1B);
         }
         resting = 1;
     } else {
@@ -281,7 +281,7 @@ void TObjGoGoBall::run_task() {
         p.y += gogo_ball_configuration.radius;
         spawn_particle_effect_with_flags(&p, 0x45, 0x40);
         spawn_particle_effect_with_flags(&p, 0x46, 0x40);
-        TWindowCtrl::open(this->get_entity_id(), (saddr)"Good Bye", 0x1B);
+        TWindowCtrl::open(this->get_entity_id(), "Good Bye", 0x1B);
         queue_destruction();
         return;
     }

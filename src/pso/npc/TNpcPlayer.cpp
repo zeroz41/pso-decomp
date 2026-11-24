@@ -2908,11 +2908,11 @@ void TNpcPlayer::deliver_partner_chatter() {
     if (id != 0xFFFF) {
         text = (char *)get_partner_custom_text(chatter_id, id);
         if (text != 0) {
-            TWindowCtrl::open(id, (saddr)text, 0x1B);
+            TWindowCtrl::open(id, text, 0x1B);
         } else {
             text = npc_partner_dialogue_state[chatter_id].text;
             if (text[0] != 0) {
-                TWindowCtrl::open(id, (saddr)text, 0x1B);
+                TWindowCtrl::open(id, text, 0x1B);
             }
         }
     }
