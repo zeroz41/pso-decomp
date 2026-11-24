@@ -483,7 +483,7 @@ void start_stream_playback(AdxtPlayer *player, SjRingBuffer *sj) {
     player->base_vblank = lbl_805D7540;
 }
 
-void TLobby__sub_803CA194(AdxtPlayer *player) {
+void adx_destroy_stream_player(AdxtPlayer *player) {
     s32 i;
     if (player == NULL) {
         return;
@@ -556,10 +556,10 @@ void TLobby__sub_803CA194(AdxtPlayer *player) {
     TLobby::release_ref();
 }
 
-AdxtPlayer *adx_create_stream_player(s32 n, s32 base, s32 size) {
+AdxtPlayer *adx_create_stream_player(s32 n, void *work, s32 size) {
     AdxtPlayer *c;
-    s32 aligned = (base + 0x3F) & ~0x3F;
-    s32 rem = size - (aligned - base);
+    s32 aligned = ((saddr)work + 0x3F) & ~0x3F;
+    s32 rem = size - (aligned - (saddr)work);
     s32 i;
     s32 t;
     for (i = 0; i < 16; i++) {
@@ -583,26 +583,26 @@ AdxtPlayer *adx_create_stream_player(s32 n, s32 base, s32 size) {
     c->input_sj = NULL;
     c->input_ring = sj_ring_buffer_create((void *)c->input_buf_addr, c->input_buf_size, c->input_extra_size);
     if (c->input_ring == NULL) {
-        TLobby__sub_803CA194(c);
+        adx_destroy_stream_player(c);
         return NULL;
     }
     for (i = 0; i < n; i++) {
         c->output_rings[i] = sj_ring_buffer_create((void *)(c->output_buf_addr + c->output_stride * i * 2), c->output_buf_size * 2, (c->output_stride - c->output_buf_size) * 2);
         if (c->output_rings[i] == NULL) {
-            TLobby__sub_803CA194(c);
+            adx_destroy_stream_player(c);
             return NULL;
         }
     }
     if ((c->input_state = alloc_audio_stream_state(c->input_ring, n, c->output_rings)) == NULL) {
-        TLobby__sub_803CA194(c);
+        adx_destroy_stream_player(c);
         return NULL;
     }
     if ((c->rna_handle = TLobby::run_step_5210(c->output_rings, n)) == NULL) {
-        TLobby__sub_803CA194(c);
+        adx_destroy_stream_player(c);
         return NULL;
     }
     if ((c->lsc_stream = LSC_Create(c->input_ring)) == NULL) {
-        TLobby__sub_803CA194(c);
+        adx_destroy_stream_player(c);
         return NULL;
     }
     c->server_freq = 0x3C;

@@ -54,8 +54,8 @@ void TLobby__sub_803C5B50(AdxtPlayer *player, s32 arg1, s32 arg2, s32 arg3) {
     TLobby::clear_net_buffer_1680();
 }
 
-void TLobby__sub_803C5D00(AdxtPlayer *player) {
-    lsc_get_queued_stream_count(player->lsc_stream);
+s32 TLobby__sub_803C5D00(AdxtPlayer *player) {
+    return lsc_get_queued_stream_count(player->lsc_stream);
 }
 
 s32 lbl_805D7548;
@@ -76,19 +76,18 @@ void TLobby__sub_803C5D24(AdxtPlayer *player) {
 }
 static const char lbl_8047C5D8[] = "E0071301 ADXT_EntryAfs: can't entry ";
 extern char music_stream_afs_filename_buffer[];
-void ADXT_EntryAfs(u8 *arg0, s32 arg1, s32 arg2);
-void ADXT_EntryAfs(u8 *arg0, s32 arg1, s32 arg2) {
+void ADXT_EntryAfs(AdxtPlayer *player, s32 partition_id, s32 file_id) {
     char buf[16];
     s32 a;
     s32 b;
     s32 c;
     LscStream *h;
-    h = ((AdxtPlayer *)arg0)->lsc_stream;
-    if (TLobby::get_afs_file_info(arg1, arg2, music_stream_afs_filename_buffer, &a, &b, &c) == 0) {
+    h = player->lsc_stream;
+    if (TLobby::get_afs_file_info(partition_id, file_id, music_stream_afs_filename_buffer, &a, &b, &c) == 0) {
         lsc_enqueue_range(h, music_stream_afs_filename_buffer, a, b, c);
         return;
     }
-    TLobby::format_number_pair(arg1, arg2, buf, 0x10);
+    TLobby::format_number_pair(partition_id, file_id, buf, 0x10);
     TLobby::report_adx_error(lbl_8047C5D8, buf);
 }
 

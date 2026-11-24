@@ -21,6 +21,8 @@ s32 TLobby__sub_803C97B8(AdxtPlayer *player);
 void TLobby__sub_803C97F4(AdxtPlayer *player, s32 *pos, s32 *rate);
 s32 TLobby__sub_803C9CB0(AdxtPlayer *player);
 void TLobby__sub_803C9DB4(AdxtPlayer *player);
+void adx_destroy_stream_player(AdxtPlayer *player);
+AdxtPlayer *adx_create_stream_player(s32 n, void *work, s32 size);
 s32 adx_get_data_start_offset(u16 *hdr, s32 size, s32 *out_offset);
 void inl_803C9608(void);
 }
