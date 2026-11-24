@@ -10,13 +10,8 @@
 #include "types.h"
 #include "pso/unk/text_803D31A4.h"
 
-static inline AdxtPlayer *adxt_player_from_lobby(void *self) {
-    return (AdxtPlayer *)self;
-}
-
-void TLobby::adxt_start_mem_idx(u8 *table_data, s32 entry_index) {
-    AdxtPlayer *player = adxt_player_from_lobby(this);
-    s32 ring_handle;
+void ADXT_StartMemIdx(AdxtPlayer *player, u8 *table_data, s32 entry_index) {
+    saddr ring_handle;
     stop_audio_stream((u8 *)player);
     if (entry_index >= ((AdxtMemTableEntry *)table_data)[0].length || entry_index < 0) {
         return;
@@ -28,7 +23,7 @@ void TLobby::adxt_start_mem_idx(u8 *table_data, s32 entry_index) {
         TLobby::notify_error("E8101207: can't create sj (ADXT_StartMemIdx)");
         return;
     }
-    start_stream_playback(ring_handle);
+    start_stream_playback(player, ring_handle);
     player->source_type = 2;
     player->sync_mode_flag = 0;
     TLobby::release_ref();

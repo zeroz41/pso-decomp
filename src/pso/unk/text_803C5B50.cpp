@@ -6,6 +6,7 @@
 #include <string.h>
 #include "pso/audio/AdxEncoder.h"
 #include "pso/audio/AdxStreamRuntime.h"
+#include "pso/audio/AdxtInternal.h"
 #include "pso/audio/LscStream.h"
 
 #include "types.h"
@@ -64,7 +65,7 @@ void TLobby__sub_803C5D24(AdxStreamPlayer *player) {
     lsc = player->lsc;
     TLobby__sub_803C9DB4((u8 *)player);
     TLobby::init_once();
-    ((TLobby *)player)->start_stream_playback(player->file_buffer);
+    start_stream_playback((AdxtPlayer *)player, player->file_buffer);
     player->input->interface->reset(player->input);
     player->play_mode = 4;
     lsc_set_min_buffer_bytes(lsc, player->min_sectors << 0xB);

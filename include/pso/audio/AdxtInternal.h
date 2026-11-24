@@ -35,7 +35,7 @@ struct AdxtPlayer {
     AdxStreamFile *stream_file;    /* 0x08 */
     saddr rna_handle;              /* 0x0C */
     SjRingBuffer *input_ring;      /* 0x10 */
-    AdxtNotifyObj *notify_obj;     /* 0x14 */
+    saddr input_sj;                /* 0x14 */
     SjRingBuffer *output_rings[2]; /* 0x18 */
     saddr input_buf_addr;          /* 0x20 */
     s32 input_buf_size;            /* 0x24 */
@@ -91,6 +91,9 @@ typedef void (*AdxtStopHook)(void);
 
 extern "C" {
 void configure_audio_stream_output(AdxtPlayer *player);
+void start_stream_playback(AdxtPlayer *player, saddr sj);
+void ADXT_SetOutPan(AdxtPlayer *player, s32 ch, s32 pan);
+void ADXT_StartMemIdx(AdxtPlayer *player, u8 *table_data, s32 entry_index);
 void ADXT_StartFname(AdxtPlayer *player, const char *name);
 }
 

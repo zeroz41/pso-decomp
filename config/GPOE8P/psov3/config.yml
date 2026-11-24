@@ -17811,7 +17811,7 @@ force_active:
   - "TLobby__sub_803C96B0"
   - "TLobby__sub_803C96E0"
   - "adx_get_data_start_offset"
-  - "adxt_set_out_pan__6TLobbyFls"
+  - "ADXT_SetOutPan"
   - "apply_if_v2__6TLobbyFv"
   - "check_packet_header_8001__6TLobbyFPUslPl"
   - "set_rate_mode__6TLobbyFl"

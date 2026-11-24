@@ -1,5 +1,6 @@
 #include <string.h>
 #include "pso/system/ResourceFile.h"
+#include "pso/audio/AdxtInternal.h"
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/unk/TLobby.h"
@@ -22,7 +23,6 @@ char *lobby_current_slot_entry = "";
 
 extern "C" {
     extern int lbl_805D62B8;
-void ADXT_StartFname(s32, char *);
 void TLobby__sub_803C94DC(u8 *arg0, s32 arg1);
 s32 TLobby__sub_803C9CB0(s32);
 void *lbl_805D62D8;
@@ -123,7 +123,7 @@ void TLoadCtrl__sub_80226DA0(s32 index) {
         /* the original marks the stream busy while evaluating the call's arguments */
         read_disc_file_sectors(bgm_stream_files[index],
                                (lbl_805D6330 = 1, buf = lbl_80514C60[0]));
-        ((TLobby *)lbl_804CB850[1])->adxt_start_mem_idx((u8 *)buf, 0);
+        ADXT_StartMemIdx((AdxtPlayer *)lbl_804CB850[1], (u8 *)buf, 0);
         ((TLobby *)lbl_804CB850[1])->set_field_40_and_notify(get_music_base_gain());
         TLobby__sub_803C94DC((u8 *)lbl_804CB850[1], 0);
     }
@@ -267,7 +267,7 @@ void stop_cue_stream(void) {
 
 void play_cue_stream_file(const char *name) {
     if ((void *)lbl_804CB850[2] != NULL) {
-        ADXT_StartFname(lbl_804CB850[2], (char *)name);
+        ADXT_StartFname((AdxtPlayer *)lbl_804CB850[2], name);
     }
 }
 void TLobby__sub_802272B4(void) {
@@ -539,7 +539,7 @@ void play_area_music(char *name) {
         music_fade_slot_index = 0;
     }
     lbl_805D371C = music_fade_slot_index + 1;
-    ADXT_StartFname(lbl_804CB850[music_fade_slot_index], name);
+    ADXT_StartFname((AdxtPlayer *)lbl_804CB850[music_fade_slot_index], name);
     TLobby__sub_803C94DC((u8 *)lbl_804CB850[music_fade_slot_index], 0);
     TLobby::close_option_window();
     lbl_805D62E0 = 0;

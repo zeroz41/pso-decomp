@@ -813,11 +813,8 @@ struct TLobby : public TObject {
     s16 get_field_60();
     void set_field_6d(s8 arg1);
     void set_field_40_and_notify(s32 arg1);
-    void adxt_set_out_pan(s32 arg1, s16 arg2);
     s32 apply_if_v2();
     static void set_rate_mode(s32 rate_mode);
-    void start_stream_playback(s32 arg1);
-    void adxt_start_mem_idx(u8 *arg1, s32 arg2);
     void apply_sync_item_state();
     s32 lz_compress_packet(void *src, s32 size, s32 *hdr);
     void assign_object_ids(s32 arg1, void *arg2);
