@@ -21,7 +21,6 @@ extern "C" {
 s32 get_main_phase();
 }
 extern "C" {
-s32 is_key_machine_ready__10TObjPlayerFv();
 u8 *find_player_arrival_set(void *, s32);
 s32 TObjPlayer__sub_801BF954(void *, int);
 s32 TObjPlayer__sub_801BF95C(void *);
@@ -39,7 +38,7 @@ void TObjPlayer::place_on_area_entry() {
 
     if (get_main_phase() == 0xE && TObjPlayer::is_single_screen() == 0 &&
         TObjPlayer::is_locally_controlled(arg0) != 0 && this->has_active_camera_event() == 0 &&
-        this->check_flag(0x100000) == 0 && is_key_machine_ready__10TObjPlayerFv() != 0) {
+        this->check_flag(0x100000) == 0 && TObjPlayer::is_key_machine_ready() != 0) {
         this->set_state_flags(0x100000);
         this->set_position_from(this->get_lobby_entry_ptr());
         this->rotation_y = ((TObjPlayer *)arg0)->get_lobby_entry_yaw();

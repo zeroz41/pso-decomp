@@ -243,7 +243,7 @@ public:
     s16 phase;
     u8 pad_32A[0x2];
     s16 hp;
-    u16 tp;
+    s16 tp;
     u8 unk_330[0x4];
 };
 

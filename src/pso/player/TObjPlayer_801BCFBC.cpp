@@ -7,11 +7,11 @@
 #include "pso/player/TObjPlayer_801BD314.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/ui/font/TFontSmallLobby.h"
 
 
 extern "C" {
 
-s32 is_lobby_floor_15__15TFontSmallLobbyFv();
 s32 test_flags_any(void *, s32);
 s32 is_on_current_floor__10TObjPlayerFi(void *);
 
@@ -36,7 +36,7 @@ void TObjPlayer::update_action_animation() {
             this->revive_or_spawn_marker();
             return;
         }
-        if ((is_lobby_floor_15__15TFontSmallLobbyFv() != 0) && (((TPlyPhotonChair *)arg0)->is_mounted() != 0)) {
+        if ((TFontSmallLobby::is_lobby_floor_15() != 0) && (((TPlyPhotonChair *)arg0)->is_mounted() != 0)) {
             run_action_state_phase(0x18, 0);
             return;
         }
