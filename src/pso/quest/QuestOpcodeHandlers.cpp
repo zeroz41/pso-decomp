@@ -119,6 +119,7 @@ int qst_label_address(int label);
 #include "pso/system/TTokenList.h"
 #include "pso/unk/TScreenFadeOut.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/player/TObjPlayer_801C7430.h"
 u8 *qst_code;
 s32 *qst_function_table;
 s32 *qst_registers;
@@ -4707,10 +4708,6 @@ void qst_op_npc_crp(u8 first) {
     TLobby::clear_quest_vm_flag();
 }
 
-extern "C" {
-void queue_player_injured_pose(s32 player);
-}
-
 void qst_op_npc_crptalk_id(u8 first) {
     f32 pos[3];
     TObjPlayer *player;
@@ -4735,7 +4732,7 @@ void qst_op_npc_crptalk_id(u8 first) {
         set_arrival_override_coords(slot, heading, pos[0], pos[1], pos[2]);
         player->reset_motion_fields();
         if (injured == 1) {
-            queue_player_injured_pose((saddr)player);
+            queue_player_injured_pose(player);
             set_player_quest_control_flag(player);
         }
     }
@@ -4764,7 +4761,7 @@ void qst_op_npc_crptalk(u8 first) {
         set_arrival_override_coords(3, heading, pos[0], pos[1], pos[2]);
         player->reset_motion_fields();
         if (injured == 1) {
-            queue_player_injured_pose((saddr)player);
+            queue_player_injured_pose(player);
             set_player_quest_control_flag(player);
         }
     }
