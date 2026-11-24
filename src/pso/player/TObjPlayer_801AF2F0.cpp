@@ -1441,31 +1441,31 @@ void TObjPlayer::draw_head_attachments() {
         set_default_alpha_blend();
         pop_matrix();
     }
-    if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x8B0) != 0U) {
+    if (this->head_model != NULL) {
         this->get_joint_matrix(0x3B);
         ((s32 (*)(void))push_matrix_from)();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *) (((u8 *)this) + 0xA1C)));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->head_textures));
         if (this->m_flags & 0x400) {
             set_shadow_material_state();
         }
         TCharaMaking::enable_making();
-        draw_chunk_object((void *)(*(uaddr *)((s8 *)((u8 *)this) + 0x8B0)));
+        draw_chunk_object(this->head_model);
         TCharaMaking::clear_flag_bit0();
         set_default_alpha_blend();
         pop_matrix();
     }
-    if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x8AC) != 0U) {
+    if (this->hair_model != NULL) {
         this->get_joint_matrix(0x3B);
         ((s32 (*)(void))push_matrix_from)();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *) (((u8 *)this) + 0xA1C)));
+        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->head_textures));
         special_color = 0;
         if (this->m_flags & 0x400) {
             special_color = 1;
         }
         TCharaMaking::enable_making();
         f32 alpha = this->render_material_state.get_alpha();
-        TCharaMaking__draw_colored_hair(alpha, (s32)*(u32 *)((s8 *)((u8 *)this) + 0x8AC),
-            (CharacterAppearanceFields *)(((u8 *)this) + 0x85C), special_color);
+        TCharaMaking__draw_colored_hair(alpha, (s32)this->hair_model,
+            (CharacterAppearanceFields *)this->name, special_color);
         TCharaMaking::clear_flag_bit0();
         set_default_alpha_blend();
         pop_matrix();
@@ -3335,31 +3335,31 @@ void TObjPlayer::recalc_stats() {
 }
 
 s16 TObjPlayer::add_stat(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0)), (s16)(*((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))));
+    return add_stat_clamped(amount, &this->stat_block->stats.atp, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.atp);
 }
 
 s16 TObjPlayer::add_dfp(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0) + 8), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 8)));
+    return add_stat_clamped(amount, &this->stat_block->stats.dfp, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.dfp);
 }
 
 s16 TObjPlayer::add_hp(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0) + 6), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 6)));
+    return add_stat_clamped(amount, &this->stat_block->stats.hp, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.hp);
 }
 
 s16 TObjPlayer::add_mst(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0) + 2), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 2)));
+    return add_stat_clamped(amount, &this->stat_block->stats.mst, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.mst);
 }
 
 s16 TObjPlayer::add_ata(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0) + 0xA), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 0xA)));
+    return add_stat_clamped(amount, &this->stat_block->stats.ata, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.ata);
 }
 
 s16 TObjPlayer::add_evp(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0) + 4), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 4)));
+    return add_stat_clamped(amount, &this->stat_block->stats.evp, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.evp);
 }
 
 s16 TObjPlayer::add_lck(s32 amount) {
-    return add_stat_clamped(amount, (s16 *)(*(saddr *)((s8 *)this + 0x2B0) + 0xC), (s16)(*(s16 *)((s8 *)(((s16 *)TObjPlayer::get_class_stat_entry((u8 *)this))) + 0xC)));
+    return add_stat_clamped(amount, &this->stat_block->stats.lck, TObjPlayer::get_class_stat_entry((u8 *)this)->stats.lck);
 }
 
 s16 TObjPlayer::add_stat_clamped(s32 amount, s16 *stat, s16 max) {
