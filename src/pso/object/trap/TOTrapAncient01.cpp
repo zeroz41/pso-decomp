@@ -66,7 +66,7 @@ static CollisionBody trap_ancient01_collision_body[1] = {
 };
 const char *TOTrapAncient01__class_name = "TOTrapAncient01";
 
-extern const char *lbl_805D3530;
+extern const char *TObjPlayer_name;
 
 f32 TObjPlayer__sub_8017A1A4(TObjCollidable *actor, s32 body) {
     return actor->bodies[body].radius;
@@ -278,7 +278,7 @@ void TOTrapAncient01::vfunc_82() {
             if (obj_is_hit_receivable(p) == 0) {
                 break;
             }
-            if (reinterpret_cast<TObject *>(p)->check_value_equals(lbl_805D3530) == 0) {
+            if (reinterpret_cast<TObject *>(p)->check_value_equals(TObjPlayer_name) == 0) {
                 break;
             }
             p->receive_direct_attack(this, payload, NULL, -1, -1);

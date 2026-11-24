@@ -62,7 +62,7 @@ s32 get_main_phase();
 extern "C" {
 TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot);
 void *consume_telepipe_arrival(u16, void *);
-extern const f32 TObjPlayer__data_805DC278;
+extern const f32 player_zero;
 
 void TObjPlayer::place_on_area_entry() {
     u8 *arg0 = (u8 *)this;
@@ -95,7 +95,7 @@ void TObjPlayer::place_on_area_entry() {
                     this->set_position_from(&other->position);
                     this->rotation_y = other->rotation_y;
                 } else {
-                    this->set_position(TObjPlayer__data_805DC278, TObjPlayer__data_805DC278, TObjPlayer__data_805DC278);
+                    this->set_position(player_zero, player_zero, player_zero);
                 }
             }
         }
@@ -141,8 +141,8 @@ void TObjPlayer::init_from_data(void* a1) { init_action_provider(); *(short *)&t
 // The init_* / release_* steps the TObjPlayer constructors and destructor run
 // for each part of the player.
 
-extern const f32 TObjPlayer__data_805DC278;
-extern const f32 TObjPlayer__data_805DC28C;
+extern const f32 player_zero;
+extern const f32 player_half;
 
 extern "C" {
 // Defined with the player's main code (TObjPlayer.cpp, TObjPlayer_801AF2F0.cpp, TObjPlayer_801BDF5C.cpp).
@@ -167,12 +167,12 @@ void TObjPlayer::reset_state() {
     m_3f4 = 0;
     target_heading = 0;
     m_3ec = 0;
-    move_target.z = TObjPlayer__data_805DC278;
-    move_target.y = TObjPlayer__data_805DC278;
-    move_target.x = TObjPlayer__data_805DC278;
-    velocity.z = TObjPlayer__data_805DC278;
-    velocity.y = TObjPlayer__data_805DC278;
-    velocity.x = TObjPlayer__data_805DC278;
+    move_target.z = player_zero;
+    move_target.y = player_zero;
+    move_target.x = player_zero;
+    velocity.z = player_zero;
+    velocity.y = player_zero;
+    velocity.x = player_zero;
     death_sink.reset();
 }
 
@@ -195,12 +195,12 @@ void TObjPlayer::init_action_provider() {
     regen_timer = 0;
     reset_entrance_id();
     ((TObjPlayer *)((u8 *)this + 0x66C))->set_vec3_const();
-    frame_timer = TObjPlayer__data_805DC278;
+    frame_timer = player_zero;
     state_flags = 0;
     set_input_mode(0);
     set_move_mode(0);
     lobby_animation = -1;
-    lobby_animation_frame = TObjPlayer__data_805DC278;
+    lobby_animation_frame = player_zero;
     set_battle_flag(0);
     controller_input = NULL;
     inventory_objects = NULL;
@@ -337,7 +337,7 @@ void TObjPlayer::init_player_data(void *src) {
     ((TLobby *)((u8 *)this + 0xD8C))->copy_entry((void *)get_class_defense_template(this));
     tp_factor = get_tp_class_factor();
     recalc_combat_stats(stat_block, &attack_stats, &resistance_stats, get_class_hp_factor(), tp_factor);
-    bodies->offset.y = TObjPlayer__data_805DC28C * stat_block->proportions;
+    bodies->offset.y = player_half * stat_block->proportions;
 }
 
 void TObjPlayer::init_remote_pad_binding(PlayerSyncRecord *record) { pad_binding.set_controller(NULL); }
@@ -411,7 +411,7 @@ extern "C" {
 s32 test_flags_any(void *, s32);
 s32 is_on_current_floor__10TObjPlayerFi(void *);
 
-extern const f32 TObjPlayer__data_805DC294;
+extern const f32 player_one;
 
 void TObjPlayer::update_action_animation() {
     u8 *arg0 = (u8 *)this;
@@ -428,7 +428,7 @@ void TObjPlayer::update_action_animation() {
             } else {
                 this->restart_death_pose();
             }
-            death_sink.set_progress(TObjPlayer__data_805DC294);
+            death_sink.set_progress(player_one);
             this->revive_or_spawn_marker();
             return;
         }
@@ -573,7 +573,7 @@ typedef struct Player_801BD0C0 {
 } Player_801BD0C0;
 
 extern "C" {
-extern const f32 TObjPlayer__data_805DC278;
+extern const f32 player_zero;
 
 void TObjPlayer::apply_motion_entry() {
     Player_801BD0C0 *self = (Player_801BD0C0 *)this;
@@ -590,7 +590,7 @@ void TObjPlayer::apply_motion_entry() {
         ((TObjMotion *)self)->set_motion_interpolation_flag();
     }
     if (this->frame >= this->frame_count) {
-        this->frame = TObjPlayer__data_805DC278;
+        this->frame = player_zero;
     }
 }
 
@@ -668,7 +668,7 @@ TObjPlayer::~TObjPlayer() {
 extern "C" {
 void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record);
 void TObjPlayer__sub_801BBB70(void *, void *);
-extern const char *lbl_805D3530;
+extern const char *TObjPlayer_name;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
@@ -693,7 +693,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     __ct__8FlagWordFv(((char *)this + 2136));
     TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
     ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
-    this->m_name = lbl_805D3530;
+    this->m_name = TObjPlayer_name;
     this->init_action_provider();
     this->entity_id = 0;
     this->setup_control_role(7);
@@ -724,7 +724,7 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     __ct__8FlagWordFv(((char *)this + 2136));
     TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
     ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
-    this->m_name = lbl_805D3530;
+    this->m_name = TObjPlayer_name;
     this->init_from_data(record);
     this->setup_control_role(4);
     init_body_parts(&record->visual);
@@ -765,7 +765,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     __ct__8FlagWordFv((((u8 *)this) + 0x858));
     TObjPlayer::reset_and_return((saddr)((((u8 *)this) + 0xD04)));
     ((TObjPlayer *)(((u8 *)this) + 0xDAC))->clear_header_struct();
-    m_name = lbl_805D3530;
+    m_name = TObjPlayer_name;
     this->init_action_provider();
     this->entity_id = slot;
     this->setup_control_role(role);

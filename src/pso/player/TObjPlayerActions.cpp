@@ -595,7 +595,7 @@ const f64 lbl_80447128 = 0.1;
 const f64 lbl_80447148 = 10430.38043493439;
 extern f32 player_feedback_light_color[];
 extern void *player_slot_table[];
-extern const char *lbl_805D3530;
+extern const char *TObjPlayer_name;
 extern const char *TWindowReturnCity__class_name;
 
 }
@@ -2081,7 +2081,7 @@ void TObjPlayer::enter_death_state() {
     if (TTecCtrl::is_technique_ready() != 0) {
         entity = reinterpret_cast<TObjCollidable *>(find_entity_by_id(this->get_attacker_id()));
         if (entity != NULL) {
-            if (entity->check_value_equals(lbl_805D3530) != 0) {
+            if (entity->check_value_equals(TObjPlayer_name) != 0) {
                 entity_id = (u16)this->get_entity_id();
                 other = (u16)((TObjBase *)entity)->get_entity_id();
                 if (other != entity_id) {

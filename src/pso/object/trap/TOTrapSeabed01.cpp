@@ -56,7 +56,7 @@ struct SeabedTrapFragmentSpawn {
     s32 angle_y;
 };
 
-extern const char *lbl_805D3530;
+extern const char *TObjPlayer_name;
 
 const char *seabed_trap_model_filenames[] = {
     "obj_o_seaturigane2.gj",
@@ -368,7 +368,7 @@ int TOTrapSeabed01::deliver_attack_hits(f32) {
     for (i = 0; i < 16; i++) {
         chara = (TObjChara *)TObjPlayer::get_battle_param(i);
         if (TObjPlayer::is_valid_and_active((uaddr)chara) != 0 &&
-            chara->check_value_equals(lbl_805D3530) != 0) {
+            chara->check_value_equals(TObjPlayer_name) != 0) {
             chara->receive_direct_attack(this, payload, NULL, -1, -1);
             if (payload.kind < 5) {
                 chara->apply_knockback_from_attacker((u8 *)this, 0.0f);
