@@ -2063,13 +2063,9 @@ void TObjPlayer::request_revival_if_not_dead() {
 }
 
 void TObjPlayer::check_reopen_return_city_window() {
-  unsigned short new_var;
-  uaddr temp_r3;
-  new_var = (s32) this->get_entity_id();
-  TWindowCtrl::disable_client_main_menu(new_var);
-  temp_r3 = this->return_city_window;
-  new_var = 0U;
-  if ((temp_r3 != new_var) && ((((TObject *)temp_r3)->all_parents_unqueued_for_destruction() == 0) || (reinterpret_cast<TObject *>(return_city_window)->check_value_equals(TWindowReturnCity::class_name) == 0)))
+  TWindowCtrl::disable_client_main_menu((u16)this->get_entity_id());
+  uaddr window = this->return_city_window;
+  if ((window != 0) && ((((TObject *)window)->all_parents_unqueued_for_destruction() == 0) || (reinterpret_cast<TObject *>(return_city_window)->check_value_equals(TWindowReturnCity::class_name) == 0)))
   {
     this->return_city_window = 0U;
   }
@@ -2113,7 +2109,7 @@ void TObjPlayer::run_death_state_phase(s16 phase) {
   }
 }
 
-void TObjPlayer::exit_fall_reaction(void* p) { clear_velocity(p); }
+void TObjPlayer::exit_fall_reaction() { clear_velocity(this); }
 
 void TObjPlayer::update_fall_reaction() {
     f32 frame_timer;
@@ -2269,7 +2265,7 @@ void TObjPlayer::run_fall_reaction_phase(s16 phase) {
         update_fall_reaction();
         return;
     case 6:
-        TObjPlayer::exit_fall_reaction(this);
+        exit_fall_reaction();
         break;
     }
 }
@@ -4612,20 +4608,20 @@ void handle_6x40_walk_to_position(G_WalkToPosition_6x40 *command) {
 extern "C" {
 
 void TObjPlayer::send_6x40_walk_to_position() {
-    Npc_801D00B0 *arg0 = (Npc_801D00B0 *)this;
+    Npc_801D00B0 *self_view = (Npc_801D00B0 *)this;
     Msg_801D00B0 m;
     if (update_combat_stats() != 0) {
-        calc_movement_target(arg0->f3f0, &arg0->x, &arg0->z);
-        ((FlagWord *)(arg0->sub))->reset();
-        if (((TObjCollidable *)arg0)->test_actor_flags(0x100000) != 0) {
-            ((FlagWord *)(arg0->sub))->set(8);
+        calc_movement_target(self_view->f3f0, &self_view->x, &self_view->z);
+        ((FlagWord *)(self_view->sub))->reset();
+        if (((TObjCollidable *)self_view)->test_actor_flags(0x100000) != 0) {
+            ((FlagWord *)(self_view->sub))->set(8);
         }
-        if ((arg0 == NULL) || (((TObjChara *)arg0)->obj_isState2_324() == 0)) {
+        if ((self_view == NULL) || (((TObjChara *)self_view)->obj_isState2_324() == 0)) {
             ((G_WalkToPosition_6x40 *)&m)->init();
-            m.f2 = ((TObjBase *)arg0)->get_entity_id();
-            m.x = arg0->x;
-            m.z = arg0->z;
-            m.v = ((FlagWord *)(arg0->sub))->get_bits();
+            m.f2 = ((TObjBase *)self_view)->get_entity_id();
+            m.x = self_view->x;
+            m.z = self_view->z;
+            m.v = ((FlagWord *)(self_view->sub))->get_bits();
             ((G_WalkToPosition_6x40 *)&m)->send();
         }
     }

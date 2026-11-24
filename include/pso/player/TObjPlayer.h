@@ -594,7 +594,7 @@ struct TObjPlayer : public TObjChara {
     void set_death_marker_pos();
     void request_revival_if_not_dead();
     void check_reopen_return_city_window();
-    static void exit_fall_reaction(void* p);
+    void exit_fall_reaction();
     void update_fall_reaction();
     void begin_fall_reaction();
     void complete_fall_reaction();
