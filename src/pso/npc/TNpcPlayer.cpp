@@ -43,11 +43,12 @@
 #include "pso/player/TObjPlayer_803E18C0.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/technique/TechniqueParams.h"
-
-extern "C" {
-void rotate_matrix_y(s32, s32);
-}
-extern u8 identity_matrix[];
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_8034D3D0.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 
@@ -56,13 +57,9 @@ disp_data_part2 *npc_player_char_data_buffer;
 s32 quest_npc_visual_pending;
 
 
-f32 atan2_float(f32 y, f32 x);
-s16 get_actor_tp(u8 *p);
-s16 obj_getS16_2BA(u8 *p);
-f32 fabs_float(f32);
+f32 horizontal_distance_squared(void *, void *);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void * __ct__12TPlyCharDataFv(void *self);
-f32 horizontal_distance_squared(void *, void *);
 void TNpcPlayer__sub_8014DC3C(void *, s32);
 void deliver_partner_chatter(TNpcPlayer *self);
 void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out);
@@ -87,9 +84,6 @@ void init_collision_body_parts(void *, void *, s32);
 s32 try_send_6x27_use_item(s32, s32, void *);
 s8 get_cast_technique_level(void *, s16);
 void __register_global_object(void *obj, void *dtor, void *link);
-void matrix_mult_vec(s32, Vec *, Vec *);
-f32 vec3_dot(Vec *, Vec *);
-f32 vector_length(Vec *);
 
 extern int registered_entity_count;
 struct Text_8014E250 { char text[0x36]; };
@@ -125,7 +119,6 @@ void bswap_6x44_packet(void* p);
 void bswap_6x43_packet(void* p);
 u8 get_6x47_cast_packet_size(u8 *arg0);
 int get_registered_object_count(void);
-const char *get_partner_custom_text(s32 kind, u16 player);
 TNpcPlayer::AiParams npc_player_ai_templates[64] = {
     {0x0, 0x4, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 13.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0xf, 0x0, 50.0f},
     {0x1, 0xc, TECHNIQUE_FLAGS_BARTA_GIBARTA, 100.0f, 10.0f, 15.0f, 35.0f, 25.0f, 100.0f, 0x0, 0x9, 0x19, 0x5a, 50.0f},
