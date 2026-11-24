@@ -2,9 +2,9 @@
 #define PSO_NPC_TOBJNPCHRM00_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
-struct TObjNpcHRM00 : public TUnk_804A9F50 {
+struct TObjNpcHRM00 : public TObjNpcMale {
     TObjNpcHRM00(TObject *parent, void *set_data);
     virtual ~TObjNpcHRM00();
     static void destroy_resources();

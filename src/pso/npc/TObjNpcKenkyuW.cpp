@@ -4,7 +4,7 @@
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 #include "pso/npc/TObjNpcKenkyuW.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
@@ -101,7 +101,7 @@ void TObjNpcKenkyuW::load_resource_instance() {
 TObjNpcKenkyuW::~TObjNpcKenkyuW() {}
 
 
-TObjNpcKenkyuW::TObjNpcKenkyuW(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+TObjNpcKenkyuW::TObjNpcKenkyuW(TObject *parent, void *arg2) : TObjNpcMale(parent) {
     ((TObject *)this)->m_name = TObjNpcKenkyuW__name;
     ((TObjNpcKenkyuW *)this)->apply_set_data(arg2);
     init_position_vectors();

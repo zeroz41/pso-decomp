@@ -5,7 +5,7 @@
 #include "pso/npc/TObjNpcKenkyu2.h"
 #include "pso/npc/TObjNpcKenkyu2_802FEA38.h"
 #include "pso/npc/TObjNpcHosa2.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -38,7 +38,7 @@ void TObjNpcKenkyu2::load_shared_resource() {
 
 TObjNpcKenkyu2::~TObjNpcKenkyu2() {}
 
-TObjNpcKenkyu2::TObjNpcKenkyu2(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+TObjNpcKenkyu2::TObjNpcKenkyu2(TObject *parent, void *arg2) : TObjNpcMale(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) name;
     ((TObjNpcKenkyu2 *)this)->apply_set_data(arg2);
     init_position_vectors();

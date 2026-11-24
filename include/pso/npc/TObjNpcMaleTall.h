@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCMALETALL_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 struct BmlResource;
 
-struct TObjNpcMaleTall : public TUnk_804A9F50 {
+struct TObjNpcMaleTall : public TObjNpcMale {
     TObjNpcMaleTall(TObject *parent, void *set_data);
     virtual ~TObjNpcMaleTall();
     static void destroy_instance();

@@ -2,9 +2,9 @@
 #define PSO_NPC_TOBJNPCHRM01_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
-struct TObjNpcHRM01 : public TUnk_804A9F50 {
+struct TObjNpcHRM01 : public TObjNpcMale {
     TObjNpcHRM01(TObject *parent, void *set_data);
     virtual ~TObjNpcHRM01();
     static void free_shared_objects();

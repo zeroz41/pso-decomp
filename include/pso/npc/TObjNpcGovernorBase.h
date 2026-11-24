@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCGOVERNORBASE_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 struct BmlResource;
 
-struct TObjNpcGovernorBase : public TUnk_804A9F50 {
+struct TObjNpcGovernorBase : public TObjNpcMale {
     TObjNpcGovernorBase(TObject *parent, void *set_data);
     virtual ~TObjNpcGovernorBase();
     static void free_shared_data();

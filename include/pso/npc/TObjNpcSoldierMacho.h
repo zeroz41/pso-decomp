@@ -2,12 +2,12 @@
 #define PSO_NPC_TOBJNPCSOLDIERMACHO_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 struct BmlResource;
 struct BmlResourceDescriptor;
 
-struct TObjNpcSoldierMacho : public TUnk_804A9F50 {
+struct TObjNpcSoldierMacho : public TObjNpcMale {
     TObjNpcSoldierMacho(TObject *parent, void *set_data);
     virtual ~TObjNpcSoldierMacho();
     static void unload_static_data();

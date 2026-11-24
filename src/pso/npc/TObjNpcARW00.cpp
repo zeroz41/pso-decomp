@@ -4,7 +4,7 @@
 #include "pso/npc/TObjNpcARW00.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/npc/TUnk_804A8640.h"
+#include "pso/npc/TObjNpcFemale.h"
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
@@ -45,7 +45,7 @@ void TObjNpcARW00::load_resources() {
 TObjNpcARW00::~TObjNpcARW00() {}
 
 
-TObjNpcARW00::TObjNpcARW00(TObject *parent, void *arg2) : TUnk_804A8640(parent) {
+TObjNpcARW00::TObjNpcARW00(TObject *parent, void *arg2) : TObjNpcFemale(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) name;
     ((TObjNpcARW00 *)this)->apply_set_data(arg2);
     init_position_vectors();

@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCFEMALECHILD_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A8640.h"
+#include "pso/npc/TObjNpcFemale.h"
 
 struct BmlResource;
 
-struct TObjNpcFemaleChild : public TUnk_804A8640 {
+struct TObjNpcFemaleChild : public TObjNpcFemale {
     TObjNpcFemaleChild(TObject *parent, void *set_data);
     virtual ~TObjNpcFemaleChild();
     static void release_static_instance();

@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCMALECHILD_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 struct BmlResource;
 
-struct TObjNpcMaleChild : public TUnk_804A9F50 {
+struct TObjNpcMaleChild : public TObjNpcMale {
     TObjNpcMaleChild(TObject *parent, void *set_data);
     virtual ~TObjNpcMaleChild();
     static void release_static_instance();

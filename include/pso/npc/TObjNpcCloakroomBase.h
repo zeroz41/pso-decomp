@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCCLOAKROOMBASE_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A8640.h"
+#include "pso/npc/TObjNpcFemale.h"
 
 struct BmlResource;
 
-struct TObjNpcCloakroomBase : public TUnk_804A8640 {
+struct TObjNpcCloakroomBase : public TObjNpcFemale {
     TObjNpcCloakroomBase(TObject *parent, void *set_data);
     virtual ~TObjNpcCloakroomBase();
     virtual void play_voice();

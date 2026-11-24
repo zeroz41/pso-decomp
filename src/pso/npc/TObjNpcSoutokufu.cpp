@@ -6,7 +6,7 @@
 #include "pso/unk/text_80066F10.h"
 #include "types.h"
 #include "pso/npc/TObjNpcSoutokufu.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -47,7 +47,7 @@ void TObjNpcSoutokufu::load_shared_resource() {
 TObjNpcSoutokufu::~TObjNpcSoutokufu() {}
 
 
-TObjNpcSoutokufu::TObjNpcSoutokufu(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+TObjNpcSoutokufu::TObjNpcSoutokufu(TObject *parent, void *arg2) : TObjNpcMale(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) name;
     ((TObjNpcSoutokufu *)this)->apply_set_data(arg2);
     init_position_vectors();

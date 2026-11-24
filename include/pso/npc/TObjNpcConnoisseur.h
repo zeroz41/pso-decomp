@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCCONNOISSEUR_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 struct BmlResource;
 
-struct TObjNpcConnoisseur : public TUnk_804A9F50 {
+struct TObjNpcConnoisseur : public TObjNpcMale {
     TObjNpcConnoisseur(TObject *parent, void *set_data);
     virtual ~TObjNpcConnoisseur();
     static void destroy_instance();

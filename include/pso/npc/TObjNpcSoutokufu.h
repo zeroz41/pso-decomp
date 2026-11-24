@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCSOUTOKUFU_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 struct BmlResource;
 
-struct TObjNpcSoutokufu : public TUnk_804A9F50 {
+struct TObjNpcSoutokufu : public TObjNpcMale {
     TObjNpcSoutokufu(TObject *parent, void *set_data);
     virtual ~TObjNpcSoutokufu();
     static void close_dialog_window();

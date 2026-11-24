@@ -2,9 +2,9 @@
 #define PSO_NPC_TOBJNPCARM00_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
-struct TObjNpcARM00 : public TUnk_804A9F50 {
+struct TObjNpcARM00 : public TObjNpcMale {
     TObjNpcARM00(TObject *parent, void *set_data);
     virtual ~TObjNpcARM00();
     virtual void play_voice();

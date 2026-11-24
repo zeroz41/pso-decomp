@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCNURSEBASE_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A8640.h"
+#include "pso/npc/TObjNpcFemale.h"
 
 struct BmlResource;
 
-struct TObjNpcNurseBase : public TUnk_804A8640 {
+struct TObjNpcNurseBase : public TObjNpcFemale {
     TObjNpcNurseBase(TObject *parent, void *set_data);
     virtual ~TObjNpcNurseBase();
     static void free_shared_data();

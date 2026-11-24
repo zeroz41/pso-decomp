@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCFEMALEFAT_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A8640.h"
+#include "pso/npc/TObjNpcFemale.h"
 
 struct BmlResource;
 
-struct TObjNpcFemaleFat : public TUnk_804A8640 {
+struct TObjNpcFemaleFat : public TObjNpcFemale {
     TObjNpcFemaleFat(TObject *parent, void *set_data);
     virtual ~TObjNpcFemaleFat();
     static void free_static_model();

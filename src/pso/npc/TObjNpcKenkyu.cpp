@@ -4,7 +4,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcKenkyu.h"
 #include "pso/npc/TObjNpcSoutokufu.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -43,7 +43,7 @@ void TObjNpcKenkyu::load_shared_resource() {
 }
 TObjNpcKenkyu::~TObjNpcKenkyu() {}
 
-TObjNpcKenkyu::TObjNpcKenkyu(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+TObjNpcKenkyu::TObjNpcKenkyu(TObject *parent, void *arg2) : TObjNpcMale(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) name;
     ((TObjNpcKenkyu *)this)->apply_set_data(arg2);
     init_position_vectors();

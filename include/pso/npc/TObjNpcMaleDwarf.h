@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCMALEDWARF_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 struct BmlResource;
 
-struct TObjNpcMaleDwarf : public TUnk_804A9F50 {
+struct TObjNpcMaleDwarf : public TObjNpcMale {
     TObjNpcMaleDwarf(TObject *parent, void *set_data);
     virtual ~TObjNpcMaleDwarf();
     static void unload_static_data();

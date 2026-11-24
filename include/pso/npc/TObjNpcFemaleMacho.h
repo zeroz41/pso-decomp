@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCFEMALEMACHO_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A8640.h"
+#include "pso/npc/TObjNpcFemale.h"
 
 struct BmlResource;
 
-struct TObjNpcFemaleMacho : public TUnk_804A8640 {
+struct TObjNpcFemaleMacho : public TObjNpcFemale {
     TObjNpcFemaleMacho(TObject *parent, void *set_data);
     virtual ~TObjNpcFemaleMacho();
     static void close_dialog_window();

@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCSECRETARYBASE_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A8640.h"
+#include "pso/npc/TObjNpcFemale.h"
 
 struct BmlResource;
 
-struct TObjNpcSecretaryBase : public TUnk_804A8640 {
+struct TObjNpcSecretaryBase : public TObjNpcFemale {
     TObjNpcSecretaryBase(TObject *parent, void *set_data);
     virtual ~TObjNpcSecretaryBase();
     static void free_static_data();

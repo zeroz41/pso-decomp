@@ -3338,7 +3338,7 @@ pso/npc/TObjNpcExpertBase.cpp:
 	.sdata      start:0x805D2D68 end:0x805D2D70
 	.sbss       start:0x805D5750 end:0x805D5758
 
-pso/npc/TUnk_804A8640.cpp:
+pso/npc/TObjNpcFemale.cpp:
 	.text       start:0x80149C44 end:0x80149D40
 	.rodata     start:0x8043F810 end:0x8043F830
 	.data       start:0x804A8640 end:0x804A87B8
@@ -3393,7 +3393,7 @@ pso/npc/TObjNpcFemaleTall.cpp:
 	.sdata      start:0x805D2DA0 end:0x805D2DA8
 	.sbss       start:0x805D5790 end:0x805D5798
 
-pso/npc/TUnk_804A92A8.cpp:
+pso/npc/TObjNpcFomarl.cpp:
 	.text       start:0x8014AA28 end:0x8014AB24
 	.rodata     start:0x8043F9C8 end:0x8043F9E8
 	.data       start:0x804A92A8 end:0x804A9420
@@ -3447,7 +3447,7 @@ pso/npc/TObjNpcLappy.cpp:
 	.data       start:0x804A9D08 end:0x804A9F50
 	.sdata      start:0x805D2DD8 end:0x805D2DE0
 
-pso/npc/TUnk_804A9F50.cpp:
+pso/npc/TObjNpcMale.cpp:
 	.text       start:0x8014B808 end:0x8014B904
 	.rodata     start:0x8043FB50 end:0x8043FB70
 	.data       start:0x804A9F50 end:0x804AA0C8

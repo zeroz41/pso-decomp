@@ -39,7 +39,7 @@ void TObjNpcNFW01::load_resources() {
 
 TObjNpcNFW01::~TObjNpcNFW01() {}
 
-TObjNpcNFW01::TObjNpcNFW01(TObject *parent, void *set_data) : TUnk_804A8640(parent) {
+TObjNpcNFW01::TObjNpcNFW01(TObject *parent, void *set_data) : TObjNpcFemale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

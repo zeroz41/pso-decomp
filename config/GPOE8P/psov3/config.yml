@@ -3246,7 +3246,7 @@ force_active:
   - __vt__13TUnk_804A66D8
   - __vt__13TUnk_804A68C8
   - __vt__13TUnk_804A6DC0
-  - __vt__13TUnk_804A8640
+  - __vt__13TObjNpcFemale
   - __vt__13TUnk_804AF7B0
   - __vt__17TNpcPlayerSpawner
   - __vt__13TUnk_804B7C1C
@@ -16553,7 +16553,7 @@ force_active:
   - tombstone_name_label_offset_table
   - tombstone_position_table
   - tombstone_resource_descriptor
-  - town_npc_animation_init_data
+  - action_table__13TObjNpcFomarl
   - town_player_motion_clip_index_tables
   - trace_from_owner__11TItemWeaponFPUc
   - trade_message_class_name

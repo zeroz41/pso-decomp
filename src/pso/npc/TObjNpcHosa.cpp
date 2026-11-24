@@ -4,7 +4,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcHosa.h"
 #include "pso/npc/TObjNpcKenkyuW.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -44,7 +44,7 @@ void TObjNpcHosa::load_static_resource() {
 }
 TObjNpcHosa::~TObjNpcHosa() {}
 
-TObjNpcHosa::TObjNpcHosa(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+TObjNpcHosa::TObjNpcHosa(TObject *parent, void *arg2) : TObjNpcMale(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) name;
     ((TObjNpcHosa *)this)->apply_set_data(arg2);
     init_position_vectors();

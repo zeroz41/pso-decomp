@@ -2,7 +2,7 @@
 #define PSO_NPC_TOBJNPCNGCBASE_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 struct BmlResource;
 struct BmlResourceDescriptor;
@@ -14,7 +14,7 @@ struct NpcBodyResourceSlot {
 };
 
 // The GameCube-only story NPCs: one class, a body model per NPC type loaded per area.
-struct TObjNpcNgcBase : public TUnk_804A9F50 {
+struct TObjNpcNgcBase : public TObjNpcMale {
     TObjNpcNgcBase(TObject *parent, void *set_data, BmlResource *resource);
     virtual ~TObjNpcNgcBase();
     static void free_shared_resources();

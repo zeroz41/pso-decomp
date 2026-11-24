@@ -3,7 +3,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "types.h"
 #include "pso/npc/TObjNpcExpertBase.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -40,7 +40,7 @@ void TObjNpcExpertBase::load_shared_resource() {
 }
 TObjNpcExpertBase::~TObjNpcExpertBase() {}
 
-TObjNpcExpertBase::TObjNpcExpertBase(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+TObjNpcExpertBase::TObjNpcExpertBase(TObject *parent, void *arg2) : TObjNpcMale(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) name;
     ((TObjNpcExpertBase *)this)->apply_set_data(arg2);
     init_position_vectors();

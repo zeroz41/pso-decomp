@@ -33,7 +33,7 @@ void TObjNpcMaleDwarf::load_shared_resource() {
 
 TObjNpcMaleDwarf::~TObjNpcMaleDwarf() {}
 
-TObjNpcMaleDwarf::TObjNpcMaleDwarf(TObject *parent, void *set_data) : TUnk_804A9F50(parent) {
+TObjNpcMaleDwarf::TObjNpcMaleDwarf(TObject *parent, void *set_data) : TObjNpcMale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

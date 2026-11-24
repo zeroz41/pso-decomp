@@ -2,9 +2,9 @@
 #define PSO_NPC_TOBJNPCNFM00_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
-struct TObjNpcNFM00 : public TUnk_804A9F50 {
+struct TObjNpcNFM00 : public TObjNpcMale {
     TObjNpcNFM00(TObject *parent, void *set_data);
     virtual ~TObjNpcNFM00();
     static void free_resources();

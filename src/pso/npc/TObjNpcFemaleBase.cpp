@@ -31,7 +31,7 @@ void TObjNpcFemaleBase::load_shared_resource() {
 
 TObjNpcFemaleBase::~TObjNpcFemaleBase() {}
 
-TObjNpcFemaleBase::TObjNpcFemaleBase(TObject *parent, void *set_data) : TUnk_804A8640(parent) {
+TObjNpcFemaleBase::TObjNpcFemaleBase(TObject *parent, void *set_data) : TObjNpcFemale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

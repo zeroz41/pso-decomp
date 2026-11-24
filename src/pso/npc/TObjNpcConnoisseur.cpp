@@ -2,7 +2,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcConnoisseur.h"
 #include "pso/npc/TObjNpcExpertBase.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -74,7 +74,7 @@ void TObjNpcConnoisseur::load_section_motion() {
 
 TObjNpcConnoisseur::~TObjNpcConnoisseur() {}
 
-TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, void *arg2) : TObjNpcMale(parent) {
     ((TObjNpcConnoisseur *)this)->m_name = name;
     ((TObjNpcConnoisseur *)this)->apply_set_data(arg2);
     init_position_vectors();

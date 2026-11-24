@@ -33,7 +33,7 @@ void TObjNpcNurseBase::load_shared_data() {
 
 TObjNpcNurseBase::~TObjNpcNurseBase() {}
 
-TObjNpcNurseBase::TObjNpcNurseBase(TObject *parent, void *set_data) : TUnk_804A8640(parent) {
+TObjNpcNurseBase::TObjNpcNurseBase(TObject *parent, void *set_data) : TObjNpcFemale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

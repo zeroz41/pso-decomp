@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCKENKYU_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 struct BmlResource;
 
-struct TObjNpcKenkyu : public TUnk_804A9F50 {
+struct TObjNpcKenkyu : public TObjNpcMale {
     TObjNpcKenkyu(TObject *parent, void *set_data);
     virtual ~TObjNpcKenkyu();
     static void free_static_model();

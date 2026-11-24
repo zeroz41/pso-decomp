@@ -3,7 +3,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcCloakroomBase.h"
 #include "pso/npc/TObjNpcConnoisseur.h"
-#include "pso/npc/TUnk_804A8640.h"
+#include "pso/npc/TObjNpcFemale.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/player/TObjPlayer.h"
@@ -54,7 +54,7 @@ void TObjNpcCloakroomBase::load_shared_resource() {
 }
 TObjNpcCloakroomBase::~TObjNpcCloakroomBase() {}
 
-TObjNpcCloakroomBase::TObjNpcCloakroomBase(TObject *parent, void *arg2) : TUnk_804A8640(parent) {
+TObjNpcCloakroomBase::TObjNpcCloakroomBase(TObject *parent, void *arg2) : TObjNpcFemale(parent) {
     *(s32 *)((s8 *)this + 0) = (saddr) name;
     ((TObjNpcCloakroomBase *)this)->apply_set_data(arg2);
     init_position_vectors();

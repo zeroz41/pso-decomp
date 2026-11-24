@@ -240,7 +240,7 @@ TObjNpcNgcBase::~TObjNpcNgcBase() {}
 
 const char *TObjNpcNgcBase::class_name = "TObjNpcNgcBase";
 
-TObjNpcNgcBase::TObjNpcNgcBase(TObject *parent, void *set_data, BmlResource *resource) : TUnk_804A9F50(parent) {
+TObjNpcNgcBase::TObjNpcNgcBase(TObject *parent, void *set_data, BmlResource *resource) : TObjNpcMale(parent) {
     m_name = class_name;
     apply_set_data(set_data);
     init_position_vectors();

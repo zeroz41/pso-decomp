@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCMALEFAT_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 struct BmlResource;
 
-struct TObjNpcMaleFat : public TUnk_804A9F50 {
+struct TObjNpcMaleFat : public TObjNpcMale {
     TObjNpcMaleFat(TObject *parent, void *set_data);
     virtual ~TObjNpcMaleFat();
     static void free_static_model();

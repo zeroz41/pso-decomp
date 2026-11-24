@@ -2,9 +2,9 @@
 #define PSO_NPC_TOBJNPCHFW01_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A92A8.h"
+#include "pso/npc/TObjNpcFomarl.h"
 
-struct TObjNpcHFW01 : public TUnk_804A92A8 {
+struct TObjNpcHFW01 : public TObjNpcFomarl {
     TObjNpcHFW01(TObject *parent, void *set_data);
     virtual ~TObjNpcHFW01();
     static void free_static_resources();

@@ -31,7 +31,7 @@ void TObjNpcFemaleDwarf::load_static_resource() {
 
 TObjNpcFemaleDwarf::~TObjNpcFemaleDwarf() {}
 
-TObjNpcFemaleDwarf::TObjNpcFemaleDwarf(TObject *parent, void *set_data) : TUnk_804A8640(parent) {
+TObjNpcFemaleDwarf::TObjNpcFemaleDwarf(TObject *parent, void *set_data) : TObjNpcFemale(parent) {
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();

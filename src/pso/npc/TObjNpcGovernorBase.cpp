@@ -4,7 +4,7 @@
 #include "pso/npc/TObjNpcGovernorBase.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 #include "pso/npc/TObjNpcHFW00.h"
 #include "pso/unk/TLobby.h"
@@ -47,7 +47,7 @@ void TObjNpcGovernorBase::load_shared_resource() {
 TObjNpcGovernorBase::~TObjNpcGovernorBase() {}
 
 
-TObjNpcGovernorBase::TObjNpcGovernorBase(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
+TObjNpcGovernorBase::TObjNpcGovernorBase(TObject *parent, void *arg2) : TObjNpcMale(parent) {
     ((TObject *)this)->m_name = name;
     ((TObjNpcGovernorBase *)this)->apply_set_data(arg2);
     init_position_vectors();

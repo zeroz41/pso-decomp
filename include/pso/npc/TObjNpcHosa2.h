@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCHOSA2_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 struct BmlResource;
 
-struct TObjNpcHosa2 : public TUnk_804A9F50 {
+struct TObjNpcHosa2 : public TObjNpcMale {
     TObjNpcHosa2(TObject *parent, void *set_data);
     virtual ~TObjNpcHosa2();
     static void close_dialog_window();

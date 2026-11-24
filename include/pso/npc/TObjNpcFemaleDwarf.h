@@ -2,11 +2,11 @@
 #define PSO_NPC_TOBJNPCFEMALEDWARF_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A8640.h"
+#include "pso/npc/TObjNpcFemale.h"
 
 struct BmlResource;
 
-struct TObjNpcFemaleDwarf : public TUnk_804A8640 {
+struct TObjNpcFemaleDwarf : public TObjNpcFemale {
     TObjNpcFemaleDwarf(TObject *parent, void *set_data);
     virtual ~TObjNpcFemaleDwarf();
     static void unload_static_data();
