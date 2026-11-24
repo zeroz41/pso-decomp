@@ -5388,7 +5388,7 @@ force_active:
   - copy_character_selection_request
   - copy_from__21BmlResourceDescriptorFRC21BmlResourceDescriptor
   - copy_ring_buffer_window__15TObjBoss2TunnelFv
-  - copy_rotation_to_current_matrix
+  - copy_rotation_to_current_matrix__FPA3_A4_Cf
   - copy_save_data__23TAdSinglePlyChrSelectGCFP13CharacterFileP13CharacterFile
   - copy_spawn_params__13TBoss5GryphonFP28G_GalGryphonBossActions_6xA0
   - copy_stat_block__17TWindowSetLevelUpFl

@@ -3,6 +3,13 @@
 
 #include "types.h"
 
+// Called once a Ginja model draw ends (install_depth_alpha_state sets it).
+typedef void (*GinjaDrawEndCallback)(void);
+extern GinjaDrawEndCallback ginja_draw_end_callback;
+void set_ginja_draw_end_callback(GinjaDrawEndCallback callback);
+void set_ginja_post_tev_stage_count(s32 x);
+void set_ginja_post_texgen_count(s32 x);
+
 extern "C" {
 void draw_ginja_model(void *model);
 void draw_ginja_object(void *child);

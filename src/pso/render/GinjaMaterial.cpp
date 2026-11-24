@@ -16,7 +16,6 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
-#include "pso/player/TObjPlayer_803DC834.h"
 #include "pso/unk/text_803DC86C.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/render/GinjaTextureMatrices.h"

@@ -40,7 +40,6 @@
 
 // Defined at the end of the file, where the original places it with the other out-of-line helpers.
 static void set_tex_coord_gen(GXTexCoordID dst_coord, GXTexGenType func, GXTexGenSrc src_param, u32 mtx);
-#include "pso/player/TObjPlayer_803DC834.h"
 #include <stddef.h>
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
