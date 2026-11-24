@@ -46,7 +46,7 @@ int ply_level_table;
 f32 lookup_attack_marker(s32 handle, s16 falz_phase, s16 strike_count, s32 class_flags);
 extern PhotonBlastMotionTiming *photon_blast_motion_timing_tables[6];
 extern const s32 (*player_footstep_floor_table[3])[5];
-extern const Rec_8044821C *player_clamped_index_table_pointers[3];
+extern const TObjMotionAction *player_clamped_index_table_pointers[3];
 extern const Rec_8044845C *player_anim_table_pointers[3];
 extern const Rec_804484EC *player_cast_motion_record_table[6];
 extern const TPlyInventoryItem *class_starting_inventory_table[12];
@@ -265,7 +265,7 @@ PhotonBlastMotionTiming *photon_blast_motion_timing_tables[6] = {
 const s32 (*player_footstep_floor_table[3])[5] = {
     footstep_floor_table_default, footstep_floor_table_cast, footstep_floor_table_racast,
 };
-const Rec_8044821C *player_clamped_index_table_pointers[3] = {
+const TObjMotionAction *player_clamped_index_table_pointers[3] = {
     lbl_8044821C, lbl_804482DC, lbl_8044839C,
 };
 const Rec_8044845C *player_anim_table_pointers[3] = {

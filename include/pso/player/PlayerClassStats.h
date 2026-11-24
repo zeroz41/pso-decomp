@@ -2,6 +2,8 @@
 #define PSO_PLAYER_CLASS_STATS_H
 #include "pso/player/TPlyDispData.h"
 
+#include "pso/object/base/TObjMotion.h"
+#include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TPlyInventory.h"
 #include <dolphin/mtx/GeoTypes.h>
 
@@ -9,25 +11,6 @@ struct PlayerProfessionStatFactors { f32 hp; f32 tp; };
 
 // Record types of the class/motion tables; layouts from the original bytes and
 // the accessors' strides, field meanings unknown.
-struct Rec_804475B0 {
-    s16 unk0;
-    s16 unk2;
-    s16 unk4;
-    s16 unk6;
-    f32 unk8;
-    s32 unkC;
-    f32 unk10;
-    u8 pad_14[0x1C];
-};
-
-struct Rec_8044821C {
-    u16 unk0;
-    u16 unk2;
-    s32 unk4;
-    f32 unk8;
-    u32 unkC;
-};
-
 struct Rec_8044845C {
     s16 unk0;
     s16 unk2;
@@ -44,8 +27,8 @@ struct Rec_804484EC {
 extern const PlayerProfessionStatFactors player_profession_stat_factors[3];
 extern const player_stats player_class_stat_caps[12];
 extern stats* player_class_base_stat_tables[12];
-extern const u8 class_defense_template_table[12][0x20];
-extern const Rec_804475B0 class_attack_template_table[12];
+extern const ActorParamBlock class_defense_template_table[12];
+extern const AttackParams class_attack_template_table[12];
 extern const f32 attack_marker_table[19][3];
 extern const f32 attack_marker_table_dagger[3][3];
 extern const f32 attack_marker_table_double_saber[4][3];
@@ -55,9 +38,9 @@ extern const u8 attack_recovery_count_table[20][3];
 extern const s32 footstep_floor_table_default[36][5];
 extern const s32 footstep_floor_table_cast[36][5];
 extern const s32 footstep_floor_table_racast[36][5];
-extern const Rec_8044821C lbl_8044821C[12];
-extern const Rec_8044821C lbl_804482DC[12];
-extern const Rec_8044821C lbl_8044839C[12];
+extern const TObjMotionAction lbl_8044821C[12];
+extern const TObjMotionAction lbl_804482DC[12];
+extern const TObjMotionAction lbl_8044839C[12];
 extern const Rec_8044845C lbl_8044845C[12];
 extern const Rec_8044845C lbl_8044848C[12];
 extern const Rec_8044845C lbl_804484BC[12];

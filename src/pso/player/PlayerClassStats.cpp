@@ -53,20 +53,20 @@ LAYOUT_ASSERT(StatsSize, sizeof(stats)==14);
 LAYOUT_ASSERT(PlayerStatsSize, sizeof(player_stats)==36);
 LAYOUT_ASSERT(ProfessionFactorsSize, sizeof(PlayerProfessionStatFactors)==8);
 
-extern const u8 class_defense_template_table[12][0x20] = { 0 };
-extern const Rec_804475B0 class_attack_template_table[12] = {
-    { 5, 10, 650, 0, 30.0f, 0x2000, 10.0f },
-    { 5, 10, 610, 0, 20.0f, 0x2000, 10.0f },
-    { 5, 10, 610, 0, 20.0f, 0x2000, 10.0f },
-    { 1, 5, 760, 0, 20.0f, 0x2000, 10.0f },
-    { 1, 5, 710, 0, 20.0f, 0x2000, 10.0f },
-    { 1, 5, 730, 0, 20.0f, 0x2000, 10.0f },
-    { 1, 3, 620, 0, 20.0f, 0x2000, 10.0f },
-    { 1, 3, 600, 0, 20.0f, 0x2000, 10.0f },
-    { 1, 3, 600, 0, 20.0f, 0x2000, 10.0f },
-    { 5, 10, 680, 0, 20.0f, 0x2000, 10.0f },
-    { 1, 3, 620, 0, 20.0f, 0x2000, 10.0f },
-    { 1, 5, 680, 0, 20.0f, 0x2000, 10.0f },
+extern const ActorParamBlock class_defense_template_table[12] = { 0 };
+extern const AttackParams class_attack_template_table[12] = {
+    { 5, 10, 650, {}, 30.0f, 0x2000, 10.0f },
+    { 5, 10, 610, {}, 20.0f, 0x2000, 10.0f },
+    { 5, 10, 610, {}, 20.0f, 0x2000, 10.0f },
+    { 1, 5, 760, {}, 20.0f, 0x2000, 10.0f },
+    { 1, 5, 710, {}, 20.0f, 0x2000, 10.0f },
+    { 1, 5, 730, {}, 20.0f, 0x2000, 10.0f },
+    { 1, 3, 620, {}, 20.0f, 0x2000, 10.0f },
+    { 1, 3, 600, {}, 20.0f, 0x2000, 10.0f },
+    { 1, 3, 600, {}, 20.0f, 0x2000, 10.0f },
+    { 5, 10, 680, {}, 20.0f, 0x2000, 10.0f },
+    { 1, 3, 620, {}, 20.0f, 0x2000, 10.0f },
+    { 1, 5, 680, {}, 20.0f, 0x2000, 10.0f },
 };
 extern const f32 attack_marker_table[19][3] = {
     { 17.0f, 19.0f, 19.0f },
@@ -230,7 +230,7 @@ extern const s32 footstep_floor_table_racast[36][5] = {
     { 0x40003b08, 0x3c07, 0x40004419, 0x40004e1f, 0x40003b08 },
     { 0x40003b08, 0x3c07, 0x40004419, 0x40004e1f, 0x40003b08 },
 };
-extern const Rec_8044821C lbl_8044821C[12] = {
+extern const TObjMotionAction lbl_8044821C[12] = {
     { 1, 0, 0, 0.0001f, 0x20000000 },
     { 1, 0, 0, 0.0001f, 0x20000000 },
     { 1, 0, 1, 0.0001f, 0x20000000 },
@@ -244,7 +244,7 @@ extern const Rec_8044821C lbl_8044821C[12] = {
     { 1, 0, 6, 0.0001f, 0x20000000 },
     { 1, 0, 7, 0.0001f, 0x20000000 },
 };
-extern const Rec_8044821C lbl_804482DC[12] = {
+extern const TObjMotionAction lbl_804482DC[12] = {
     { 1, 0, 8, 0.0001f, 0x20000000 },
     { 1, 0, 0, 0.0001f, 0x20000000 },
     { 1, 0, 9, 0.0001f, 0x20000000 },
@@ -258,7 +258,7 @@ extern const Rec_8044821C lbl_804482DC[12] = {
     { 1, 0, 14, 0.0001f, 0x20000000 },
     { 1, 0, 15, 0.0001f, 0x20000000 },
 };
-extern const Rec_8044821C lbl_8044839C[12] = {
+extern const TObjMotionAction lbl_8044839C[12] = {
     { 1, 0, 16, 0.0001f, 0x20000000 },
     { 1, 0, 0, 0.0001f, 0x20000000 },
     { 1, 0, 17, 0.0001f, 0x20000000 },
