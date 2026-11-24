@@ -7,15 +7,15 @@
 
 /* The start-up parameters (AT_SetInitParam) and the sizes derived from them. */
 typedef struct NetTransportParams {
-    s16 a;
-    s16 b;
-    u16 player_count;
-    u16 room_count;
-    s32 e;
-    s32 f;
-    s32 ring_buffer_size;
-    u32 h;
-    u32 i;
+    s16 with_ethernet;      /* nonzero: reserve the Ethernet message thread */
+    s16 with_ppp;           /* nonzero: reserve the PPP and modem queue threads and the send ring */
+    u16 udp_socket_count;   /* 0x44 bytes each */
+    u16 tcp_socket_count;   /* 0x544 bytes each, plus a send and a receive buffer */
+    s32 tcp_buffer_size;    /* each TCP socket's send and receive buffer: 0x400..0xFFFF */
+    s32 thread_stack_size;
+    s32 ring_buffer_size;   /* the PPP send ring */
+    u32 buffer_pool_size;   /* each half of the modem buffer pool */
+    u32 modem_ring_size;
 } NetTransportParams;
 
 /* open_network_transport's request (configure_and_open_network_transport). */
@@ -64,17 +64,17 @@ void init_thread_poll_config(struct NetThreadState *t);
 void lcp_connect_hook(void);
 s32 get_transport_input_count(s16 *out);
 /* The stored start-up parameters (NetConfig.c), one per NetTransportParams field. */
-extern s16 net_param_a;
-extern s16 net_param_b;
-extern u16 net_param_player_count;
-extern u16 net_param_room_count;
-extern s32 net_param_word_e;
-extern s32 net_param_word_f;
+extern s16 net_param_with_ethernet;
+extern s16 net_param_with_ppp;
+extern u16 net_param_udp_socket_count;
+extern u16 net_param_tcp_socket_count;
+extern s32 net_param_tcp_buffer_size;
+extern s32 net_param_thread_stack_size;
 extern s32 net_param_ring_buffer_size;
-extern u32 net_param_word_h;
-extern u32 net_param_word_i;
-extern void *net_transport_buffer_ptr_a; /* the UDP control blocks */
-extern void *net_transport_buffer_ptr_b; /* the TCP control blocks */
+extern u32 net_param_buffer_pool_size;
+extern u32 net_param_modem_ring_size;
+extern void *net_udp_socket_storage; /* the UDP control blocks */
+extern void *net_tcp_socket_storage; /* the TCP control blocks */
 
 /* Empty in this build; each layer's term step still hands over its configuration record. */
 void term_ppp_auth_config(void *cfg);

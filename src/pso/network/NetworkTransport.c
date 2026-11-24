@@ -635,20 +635,20 @@ s32 AT_SetWorkArea(u8 *data, s32 size) {
     s32 header_size;
     uaddr after_tables;
     end = (uaddr)(data + size);
-    header_size = AT_GetInitParam((NetTransportParams *)((saddr)&params));
+    header_size = AT_GetInitParam(&params);
     if (size < 0) {
         return -1;
     }
     if (size < header_size) {
         return -1;
     }
-    net_transport_buffer_ptr_a = data;
-    cur = data + params.player_count * 0x44;
+    net_udp_socket_storage = data;
+    cur = data + params.udp_socket_count * 0x44;
     if ((uaddr)cur > end) {
         return -1;
     }
-    net_transport_buffer_ptr_b = cur;
-    cur += params.room_count * 0x544;
+    net_tcp_socket_storage = cur;
+    cur += params.tcp_socket_count * 0x544;
     if ((uaddr)cur > end) {
         return -1;
     }
@@ -656,7 +656,7 @@ s32 AT_SetWorkArea(u8 *data, s32 size) {
     if (after_tables == 0) {
         return -1;
     }
-    if (params.b != 0 && compute_range_end(&params, after_tables, end) == 0) {
+    if (params.with_ppp != 0 && compute_range_end(&params, after_tables, end) == 0) {
         return -1;
     }
     return 0;
@@ -666,52 +666,51 @@ s32 AT_SetWorkArea(u8 *data, s32 size) {
 #pragma push
 #pragma opt_common_subs off
 s32 AT_SetInitParam(NetTransportParams *params) {
-    u8 *raw = (u8 *)params;
     s32 e;
-    if ((u16) params->player_count > 0x200U) {
+    if ((u16) params->udp_socket_count > 0x200U) {
         return -1;
     }
-    if ((u16) params->room_count > 0x400U) {
+    if ((u16) params->tcp_socket_count > 0x400U) {
         return -1;
     }
-    e = params->e;
+    e = params->tcp_buffer_size;
     if ((e < 0x400) || (e > 0xFFFF)) {
         return -1;
     }
-    net_param_a = params->a;
-    net_param_b = *(s16 *)((s8 *)raw + 2);
-    net_param_player_count = params->player_count;
-    net_param_room_count = params->room_count;
-    net_param_word_e = params->e;
-    net_param_word_f = params->f;
+    net_param_with_ethernet = params->with_ethernet;
+    net_param_with_ppp = params->with_ppp;
+    net_param_udp_socket_count = params->udp_socket_count;
+    net_param_tcp_socket_count = params->tcp_socket_count;
+    net_param_tcp_buffer_size = params->tcp_buffer_size;
+    net_param_thread_stack_size = params->thread_stack_size;
     net_param_ring_buffer_size = params->ring_buffer_size;
-    net_param_word_h = params->h;
-    net_param_word_i = *(s32 *)((s8 *)raw + 0x18);
-    return AT_GetInitParam((NetTransportParams *)(0));
+    net_param_buffer_pool_size = params->buffer_pool_size;
+    net_param_modem_ring_size = params->modem_ring_size;
+    return AT_GetInitParam(NULL);
 }
 #pragma pop
 
 s32 AT_GetInitParam(NetTransportParams *out) {
     NetTransportParams local;
-    s32 rooms_size;
-    s32 players_size;
+    s32 tcp_sockets_size;
+    s32 udp_sockets_size;
     s32 total;
     if (out == NULL) {
         out = &local;
     }
-    out->a = net_param_a;
-    out->b = net_param_b;
-    out->player_count = net_param_player_count;
-    players_size = net_param_player_count * 0x44;
-    out->room_count = net_param_room_count;
-    rooms_size = net_param_room_count * 0x544;
+    out->with_ethernet = net_param_with_ethernet;
+    out->with_ppp = net_param_with_ppp;
+    out->udp_socket_count = net_param_udp_socket_count;
+    udp_sockets_size = net_param_udp_socket_count * 0x44;
+    out->tcp_socket_count = net_param_tcp_socket_count;
+    tcp_sockets_size = net_param_tcp_socket_count * 0x544;
     out->ring_buffer_size = net_param_ring_buffer_size;
-    total = players_size + rooms_size;
+    total = udp_sockets_size + tcp_sockets_size;
     total += net_param_ring_buffer_size;
-    out->e = net_param_word_e;
-    out->f = net_param_word_f;
-    out->h = net_param_word_h;
-    out->i = net_param_word_i;
+    out->tcp_buffer_size = net_param_tcp_buffer_size;
+    out->thread_stack_size = net_param_thread_stack_size;
+    out->buffer_pool_size = net_param_buffer_pool_size;
+    out->modem_ring_size = net_param_modem_ring_size;
     total += calc_work_area_size(out);
     return total;
 }

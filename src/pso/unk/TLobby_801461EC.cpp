@@ -423,9 +423,9 @@ s32 TLobby__sub_80146908() {
     s32 size;
     NetSetDefaultThreadPriority(0x10);
     size = AT_GetInitParam(&params);
-    params.room_count = 1;
-    params.e = 0x1000;
-    params.f = 0x3000;
+    params.tcp_socket_count = 1;
+    params.tcp_buffer_size = 0x1000;
+    params.thread_stack_size = 0x3000;
     AT_SetInitParam(&params);
     lbl_805D5700 = (uaddr)xmalloc(size);
     if (lbl_805D5700 != 0) {

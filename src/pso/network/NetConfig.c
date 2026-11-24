@@ -30,12 +30,12 @@ typedef struct Big_803F8AD8 {
 
 /* The start-up parameters AT_SetInitParam stores (one per NetTransportParams field) with their
  * defaults, and the thread priority NetSetDefaultThreadPriority sets. */
-s16 net_param_a = 1;
-u16 net_param_player_count = 8;
-u16 net_param_room_count = 8;
-s32 net_param_word_e = 0x2000;
-s16 net_param_b = 1;
-s32 net_param_word_f = 0x2000;
+s16 net_param_with_ethernet = 1;
+u16 net_param_udp_socket_count = 8;
+u16 net_param_tcp_socket_count = 8;
+s32 net_param_tcp_buffer_size = 0x2000;
+s16 net_param_with_ppp = 1;
+s32 net_param_thread_stack_size = 0x2000;
 s32 net_param_ring_buffer_size = 0x2000;
 s32 net_default_thread_priority = 0x10;
 
@@ -47,10 +47,10 @@ u16 lobby_buffer_slot_count;
 s32 lbl_805D7A5C;
 s16 loopback_slot_used[2];
 s16 dns_resolver_timeouts[3];
-u32 net_param_word_i;
-u32 net_param_word_h;
-void *net_transport_buffer_ptr_b;
-void *net_transport_buffer_ptr_a;
+u32 net_param_modem_ring_size;
+u32 net_param_buffer_pool_size;
+void *net_tcp_socket_storage;
+void *net_udp_socket_storage;
 
 static u32 lobby_net_config_block[4722];
 static Ipv6Header ipv6_interface_config;
@@ -103,19 +103,19 @@ void term_tcp_config(TcpState *cfg) {
 }
 
 void init_params(TcpState *cfg) {
-    cfg->count = net_param_room_count;
-    cfg->snd_bufsize = net_param_word_e;
-    cfg->rcv_bufsize = net_param_word_e;
+    cfg->count = net_param_tcp_socket_count;
+    cfg->snd_bufsize = net_param_tcp_buffer_size;
+    cfg->rcv_bufsize = net_param_tcp_buffer_size;
     cfg->ack_ticks = 0x64;
-    cfg->tcbs = net_transport_buffer_ptr_b;
+    cfg->tcbs = net_tcp_socket_storage;
 }
 
 void term_udp_config(void *cfg) {
 }
 
 void init_udp_control_config(UdpRuntimeState *cfg) {
-    cfg->count = net_param_player_count;
-    cfg->entries = net_transport_buffer_ptr_a;
+    cfg->count = net_param_udp_socket_count;
+    cfg->entries = net_udp_socket_storage;
 }
 
 void term_ipv6_config(void *cfg) {
@@ -288,13 +288,13 @@ u8 *layout_buffers(NetTransportParams *h, u8 *p, u8 *end) {
     LobbyBufferSlot *e;
     NetworkThreadSlot *f;
     s32 i;
-    u16 n = h->room_count;
+    u16 n = h->tcp_socket_count;
     lobby_thread_pool_count = 2;
     lobby_buffer_slot_count = n * 2;
-    if (h->a != 0) {
+    if (h->with_ethernet != 0) {
         lobby_thread_pool_count += 1;
     }
-    if (h->b != 0) {
+    if (h->with_ppp != 0) {
         lobby_thread_pool_count += 2;
     }
     lobby_buffer_slots = (LobbyBufferSlot *)p;
@@ -305,9 +305,9 @@ u8 *layout_buffers(NetTransportParams *h, u8 *p, u8 *end) {
     e = lobby_buffer_slots;
     for (i = 0; i < lobby_buffer_slot_count; i++, e++) {
         e->active = 0;
-        e->size = h->e;
+        e->size = h->tcp_buffer_size;
         e->addr = (uaddr)p;
-        p += h->e;
+        p += h->tcp_buffer_size;
         if (p > end) {
             return NULL;
         }
@@ -319,33 +319,33 @@ u8 *layout_buffers(NetTransportParams *h, u8 *p, u8 *end) {
     }
     f = lobby_thread_pool_base;
     for (i = 0; i < lobby_thread_pool_count; i++, f++) {
-        f->stack_size = h->f;
+        f->stack_size = h->thread_stack_size;
         f->stack = p;
-        p += h->f;
+        p += h->thread_stack_size;
         if (p > end) {
             return NULL;
         }
     }
-    if (h->h != 0) {
+    if (h->buffer_pool_size != 0) {
         lobby_buffer_pool_base = p;
-        p += h->h;
+        p += h->buffer_pool_size;
         if (p > end) {
             return NULL;
         }
         lobby_second_buffer_pool_base = p;
-        p += h->h;
+        p += h->buffer_pool_size;
         if (p > end) {
             return NULL;
         }
-        lobby_buffer_pool_size = h->h;
+        lobby_buffer_pool_size = h->buffer_pool_size;
     }
-    if (h->i != 0) {
+    if (h->modem_ring_size != 0) {
         lobby_modem_ring_base = p;
-        p += h->i;
+        p += h->modem_ring_size;
         if (p > end) {
             return NULL;
         }
-        lobby_modem_ring_size = h->i;
+        lobby_modem_ring_size = h->modem_ring_size;
     }
     return p;
 }
@@ -353,16 +353,16 @@ u8 *layout_buffers(NetTransportParams *h, u8 *p, u8 *end) {
 s32 calc_work_area_size(NetTransportParams *h) {
     s32 n = 2;
     s32 size;
-    if (h->a != 0) {
+    if (h->with_ethernet != 0) {
         n = 3;
     }
-    if (h->b != 0) {
+    if (h->with_ppp != 0) {
         n += 2;
     }
-    size = (h->f + 0x328) * n;
-    size += (h->e + 12) * h->room_count * 2;
-    size += h->h * 2;
-    size += h->i;
+    size = (h->thread_stack_size + 0x328) * n;
+    size += (h->tcp_buffer_size + 12) * h->tcp_socket_count * 2;
+    size += h->buffer_pool_size * 2;
+    size += h->modem_ring_size;
     return size;
 }
 
