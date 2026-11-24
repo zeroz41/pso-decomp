@@ -392,8 +392,8 @@ TObjPlayer*TPlayerSoul::get_player() {
 }
 
 void TObjPlayer::revive_or_spawn_marker() {
-    if ((check_flag_0x8000() != 0) || (obj_isState3_324() != 0) || (is_script_controlled() != 0)) {
-        clear_flag_8000();
+    if ((check_quest_control_flag() != 0) || (obj_isState3_324() != 0) || (is_script_controlled() != 0)) {
+        clear_quest_control_flag();
         return;
     }
     new TPlayerSoul(tl_06, get_entity_id());
@@ -773,8 +773,8 @@ TPlayerLobbyMarker::~TPlayerLobbyMarker() {}
 
 void TObjPlayer::set_visible_flag() { set_state_flags(0x200000); }
 s32 TObjPlayer::check_flag_04000000() { return check_flag((saddr)((void*)4194304)); }
-void TObjPlayer::clear_flag_8000() { clear_state_flags((saddr)((void*)32768)); }
-s32 TObjPlayer::check_flag_0x8000() { return check_flag(0x8000); }
+void TObjPlayer::clear_quest_control_flag() { clear_state_flags(0x8000); }
+s32 TObjPlayer::check_quest_control_flag() { return check_flag(0x8000); }
 PlayerRestoreSizePacket *PlayerRestoreSizePacket::copy_from(const PlayerRestoreSizePacket &source) {
     copy_subcommand_header(this, const_cast<PlayerRestoreSizePacket *>(&source));
     return this;

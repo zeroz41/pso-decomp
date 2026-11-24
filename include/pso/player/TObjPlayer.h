@@ -532,8 +532,8 @@ struct TObjPlayer : public TObjChara {
     void copy_offset_position(void *chara);
     void set_visible_flag();
     s32 check_flag_04000000();
-    void clear_flag_8000();
-    s32 check_flag_0x8000();
+    void clear_quest_control_flag();
+    s32 check_quest_control_flag();
     s32 interpolate_angle(s32 from_angle, s32 to_angle, s32 *step);
     void update_state_group();
     void start_action_18();
