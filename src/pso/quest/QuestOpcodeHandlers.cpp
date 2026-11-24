@@ -1945,11 +1945,11 @@ void qst_op_run_to_coord(u8 regs) {
     z = qst_registers[i++];
     id = qst_registers[i];
     if (get_player_by_client_id(id) != 0) {
-        ((TNpcPlayer *)(&m))->reset_move_state();
+        ((G_MoveToPosition_6x41_6x42 *)&m)->init();
         m.id = id;
         m.x = x;
         m.z = z;
-        ((TNpcPlayer *)(&m))->reset_model();
+        ((G_MoveToPosition_6x41_6x42 *)&m)->send();
     }
 }
 
@@ -4609,7 +4609,7 @@ void qst_op_pl_walk(u8 regs) {
     player = qst_registers[i];
     obj = (Obj_801F09EC *)get_player_by_client_id(player);
     if (obj != NULL) {
-        init_6x40_walk_packet(&cmd);
+        ((G_WalkToPosition_6x40 *)&cmd)->init();
         cmd.player = player;
         cmd.x = x;
         cmd.z = z;
@@ -4617,7 +4617,7 @@ void qst_op_pl_walk(u8 regs) {
         if (obj->f30 & 0x100000) {
             cmd.flags |= 8;
         }
-        ((TNpcPlayer *)(&cmd))->sync_from_lobby();
+        ((G_WalkToPosition_6x40 *)&cmd)->send();
     }
 }
 

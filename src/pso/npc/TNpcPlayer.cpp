@@ -75,8 +75,6 @@ s32 npc_counter_reset_if_reached(saddr arg0, s32 arg1);
 void init_6x45_attack_packet(u8 *arg0);
 void init_6x44_attack_packet(u8 *arg0);
 void init_6x43_attack_packet(u8 *arg0);
-void set_state__10TNpcPlayerFPvs(void* p, s16 v);
-void set_type__10TNpcPlayerFPvs(void* p, s16 v);
 s32 free_collision_body_parts(u32);
 void init_collision_body_parts(void *, void *, s32);
 s32 try_send_6x27_use_item(s32, s32, void *);
@@ -116,7 +114,6 @@ s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2);
 void bswap_6x45_packet(void* p);
 void bswap_6x44_packet(void* p);
 void bswap_6x43_packet(void* p);
-u8 get_6x47_cast_packet_size(u8 *arg0);
 int get_registered_object_count(void);
 TNpcPlayer::AiParams npc_player_ai_templates[64] = {
     {0x0, 0x4, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 13.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0xf, 0x0, 50.0f},
@@ -863,11 +860,14 @@ void PhotonBlastTarget::reset() {
 
 PhotonBlastTarget::PhotonBlastTarget() { reset(); }
 
-void set_type__10TNpcPlayerFPvs(void* p, s16 v) { *(s16*)((char*)p + 0x0) = v; }
+void PhotonBlastTarget::set_entity_id(s32 id) { entity_id = id; }
 
-void set_state__10TNpcPlayerFPvs(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
+void PhotonBlastTarget::set_index(s16 part) { index = part; }
 
-void TNpcPlayer::byteswap_pos() { bswap_16((u16 *)this); bswap_16((u16 *)((char*)this + 0x2)); }
+void PhotonBlastTarget::bswap() {
+    bswap_16(&entity_id);
+    bswap_16((u16 *)&index);
+}
 
 void TNpcPlayer::set_state(s32 v) { *(s32*)((char*)this + 0x0) = v; }
 
@@ -875,24 +875,41 @@ void TNpcPlayer::set_field_0(s16 v) { *(s16*)((char*)this + 0x0) = v; }
 
 void TNpcPlayer::set_field2(s16 v) { *(s16*)((char*)this + 0x2) = v; }
 
-void init_6x40_walk_packet(void *cmd) {
-    G_WalkToPosition_6x40 *packet = (G_WalkToPosition_6x40 *)cmd;
-    packet->pos.z = 0.0f;
-    packet->pos.x = 0.0f;
-    packet->flags = 0;
-    packet->header.subcommand = 0x40;
-    packet->header.size = 4;
+void G_WalkToPosition_6x40::init() {
+    pos.z = 0.0f;
+    pos.x = 0.0f;
+    flags = 0;
+    header.subcommand = 0x40;
+    header.size = 4;
 }
 
-void TNpcPlayer::swap_endian() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); bswap_32((u32 *)((char*)this + 0xc)); }
+void G_WalkToPosition_6x40::bswap() {
+    header.bswap();
+    pos.bswap();
+    bswap_32(&flags);
+}
 
-void TNpcPlayer::sync_from_lobby() { swap_endian(); ((TLobby *)this)->update_players(); }
+void G_WalkToPosition_6x40::send() {
+    bswap();
+    broadcast_subcommand(this);
+}
 
-void TNpcPlayer::reset_move_state() { *(float*)((char*)this + 0x8) = 0.0f; *(float*)((char*)this + 0x4) = 0.0f; *(unsigned char*)((char*)this + 0x0) = 66; *(unsigned char*)((char*)this + 0x1) = 3; }
+void G_MoveToPosition_6x41_6x42::init() {
+    pos.z = 0.0f;
+    pos.x = 0.0f;
+    header.subcommand = 0x42;
+    header.size = 3;
+}
 
-void TNpcPlayer::init_model() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); }
+void G_MoveToPosition_6x41_6x42::bswap() {
+    header.bswap();
+    pos.bswap();
+}
 
-void TNpcPlayer::reset_model() { init_model(); ((TLobby *)this)->update_players(); }
+void G_MoveToPosition_6x41_6x42::send() {
+    bswap();
+    broadcast_subcommand(this);
+}
 
 G_CastTechniqueParams_6x47::G_CastTechniqueParams_6x47() {
     target_count = 0;
@@ -906,24 +923,22 @@ G_CastTechnique_6x47::G_CastTechnique_6x47() {
     header.size = sizeof(G_CastTechnique_6x47) / 4;
 }
 
-u8 get_6x47_cast_packet_size(u8 *arg0) {
-    return (u8) (0x30 - ((0xA - (s8) *(u8 *)((s8 *)arg0 + 7)) * 4));
+u8 G_CastTechnique_6x47::get_size() {
+    return sizeof(G_CastTechnique_6x47) - (10 - params.target_count) * sizeof(PhotonBlastTarget);
 }
 
-void TNpcPlayer::byteswap_positions() {
-    G_CastTechnique_6x47 *arg0 = (G_CastTechnique_6x47 *)this;
+void G_CastTechnique_6x47::bswap() {
     s32 i;
-    ((G_ClientIDHeader *)arg0)->bswap();
-    for (i = 0; i < arg0->params.target_count; i++) {
-        ((TNpcPlayer *)(&arg0->targets[i]))->byteswap_pos();
+    header.bswap();
+    for (i = 0; i < params.target_count; i++) {
+        targets[i].bswap();
     }
 }
 
-void TNpcPlayer::finalize_and_send_packet() {
-    u8 *arg0 = (u8 *)this;
-    *(s8 *)((s8 *)arg0 + 1) = (s8) ((((u32)get_6x47_cast_packet_size(arg0)) >> 2U) & 0x3F);
-    byteswap_positions();
-    send_subcommand((u8 *)(arg0));
+void G_CastTechnique_6x47::send() {
+    header.size = (get_size() >> 2) & 0x3F;
+    bswap();
+    send_subcommand(this);
 }
 
 void init_6x43_attack_packet(u8 *arg0) {
@@ -935,7 +950,7 @@ void init_6x43_attack_packet(u8 *arg0) {
 
 void bswap_6x43_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
-void TNpcPlayer::update_lobby() { bswap_6x43_packet(this); ((TLobby *)this)->update_players(); }
+void TNpcPlayer::update_lobby() { bswap_6x43_packet(this); broadcast_subcommand(this); }
 
 void init_6x44_attack_packet(u8 *arg0) {
     *(s16 *)((s8 *)arg0 + 4) = 0;
@@ -946,7 +961,7 @@ void init_6x44_attack_packet(u8 *arg0) {
 
 void bswap_6x44_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
-void TNpcPlayer::update_players() { bswap_6x44_packet(this); ((TLobby *)this)->update_players(); }
+void TNpcPlayer::update_players() { bswap_6x44_packet(this); broadcast_subcommand(this); }
 
 void init_6x45_attack_packet(u8 *arg0) {
     *(s16 *)((s8 *)arg0 + 4) = 0;
@@ -957,7 +972,7 @@ void init_6x45_attack_packet(u8 *arg0) {
 
 void bswap_6x45_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
 
-void TNpcPlayer::update() { bswap_6x45_packet(this); ((TLobby *)this)->update_players(); }
+void TNpcPlayer::update() { bswap_6x45_packet(this); broadcast_subcommand(this); }
 
 void PartnerCounters::clear() {
     s32 i;
@@ -1765,7 +1780,7 @@ void TNpcPlayer::deliver_partner_action() {
 
 void TNpcPlayer::send_walk_request() {
     G_WalkToPosition_6x40 m;
-    init_6x40_walk_packet(&m);
+    m.init();
     if (self_view != 0) {
         m.header.client_id = self_view->get_client_id();
         m.pos.x = move_target.x;
@@ -1774,18 +1789,18 @@ void TNpcPlayer::send_walk_request() {
         if (self_view->player->actorFlags & 0x100000) {
             m.flags |= 8;
         }
-        ((TNpcPlayer *)(&m))->sync_from_lobby();
+        m.send();
     }
 }
 
 void TNpcPlayer::send_run_request() {
     G_MoveToPosition_6x41_6x42 m;
-    ((TNpcPlayer *)(&m))->reset_move_state();
+    m.init();
     if (self_view != 0) {
         m.header.client_id = self_view->get_client_id();
         m.pos.x = move_target.x;
         m.pos.z = move_target.z;
-        ((TNpcPlayer *)(&m))->reset_model();
+        m.send();
     }
 }
 
@@ -1864,14 +1879,14 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
                 ai_flags |= 0x10000;
             }
             cmd.params.level = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, s32))set_type__10TNpcPlayerFPvs)(cmd.targets, leader_view->get_client_id());
-            set_state__10TNpcPlayerFPvs(cmd.targets, 0);
+            cmd.targets[0].set_entity_id(leader_view->get_client_id());
+            cmd.targets[0].set_index(0);
         } else {
             cmd.params.level = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, self_view->get_target_id());
-            set_state__10TNpcPlayerFPvs(cmd.targets, self_view->get_target_collider());
+            cmd.targets[0].set_entity_id((u16)self_view->get_target_id());
+            cmd.targets[0].set_index(self_view->get_target_collider());
         }
-        ((TNpcPlayer *)(&cmd))->finalize_and_send_packet();
+        cmd.send();
     }
 }
 

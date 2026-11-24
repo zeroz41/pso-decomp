@@ -258,7 +258,7 @@ void TObjGoGoBall::send_local_player_walk() {
     f32 x;
     f32 z;
     TObjPlayer *p;
-    init_6x40_walk_packet(&pkt);
+    pkt.init();
     p = get_player_by_client_id(local_client_id);
     if (p != 0) {
         pkt.header.client_id = local_client_id;
@@ -266,7 +266,7 @@ void TObjGoGoBall::send_local_player_walk() {
         pkt.pos.x = x;
         pkt.pos.z = z;
         pkt.flags = 0;
-        ((TNpcPlayer *)(&pkt))->sync_from_lobby();
+        pkt.send();
     }
 }
 

@@ -528,6 +528,10 @@ struct G_ModifyTradeProposal_6xA6 {
 struct G_MoveToPosition_6x41_6x42 {
  struct G_ClientIDHeader header;
  struct VectorXZF pos;
+ // Clears the position and sets the 6x42 header.
+ void init();
+ void bswap();
+ void send();
 };
 
 // 6x69: quest NPC partner control (create, release or take over an NPC player).
@@ -1104,6 +1108,10 @@ struct G_WalkToPosition_6x40 {
  struct G_ClientIDHeader header;
  struct VectorXZF pos;
  u32 flags;
+ // Clears the packet and sets its header (subcommand 0x40, size 4).
+ void init();
+ void bswap();
+ void send();
 };
 
 struct G_WriteSwitchFlag_6x05 {
