@@ -882,7 +882,7 @@ extern f32 TObjPlayer__data_805DC294;
 extern const f32 TObjPlayer__data_805DC2BC;
 extern Vec lbl_8050BF60;
 extern Color_801B6964 player_feedback_light_color[];
-extern void *player_slot_table[];
+extern TObjPlayer *player_slot_table[];
 const char *lbl_805D3530 = "TObjPlayer";
 extern s32 lbl_805D55C0;
 extern s32 lobby_player_count;
@@ -1303,7 +1303,7 @@ s32 TObjPlayer::setup_control_role(s32 role) {
 void TObjPlayer::unregister() {
     clear_links();
     this->unregister_sub();
-    ((s32 *)&player_slot_table)[(u16)((TObjBase *)((saddr)this))->get_entity_id()] = 0;
+    player_slot_table[(u16)this->get_entity_id()] = NULL;
 }
 
 void TObjPlayer::run_task() {
@@ -1674,7 +1674,7 @@ TObjPlayer *get_player_by_client_id(s32 i) {
     if (i < 0 || i >= 12) {
         return 0;
     }
-    return static_cast<TObjPlayer *>(player_slot_table[i]);
+    return player_slot_table[i];
 }
 
 s32 TObjPlayer::register_player_slot() {
@@ -4084,7 +4084,7 @@ void submit_cursor_candidate(void *self) {
     TObjPlayer *o;
     TObjPlayer **pp;
     if (self != 0) {
-        pp = (TObjPlayer **)player_slot_table;
+        pp = player_slot_table;
         for (i = 0; i < 4; i++) {
             o = *pp++;
             if (o != 0 && o->lock_on_cursor != 0) {
@@ -4242,11 +4242,11 @@ void TObjPlayer::send_code50_packet(int player) {
 
 void handle_6x32_medical_center_revive_all_players(void) {
     s32 i;
-    void *p;
-    void **pp = player_slot_table;
+    TObjPlayer *p;
+    TObjPlayer **pp = player_slot_table;
     for (i = 0; i < 4; i++, pp++) {
         p = *pp;
-        if (p != NULL && ((TObjChara *)p)->obj_isState3_324() != 0) {
+        if (p != NULL && p->obj_isState3_324() != 0) {
             TObjPlayer::recover_full(p);
         }
     }
@@ -5320,8 +5320,8 @@ int TObjPlayer::check_flag_40000() {
 
 void TObjPlayer::for_each_player_slot(void (*callback)(void *)) {
     s32 i;
-    void **p;
-    p = (void **)((s32 *)&player_slot_table);
+    TObjPlayer **p;
+    p = player_slot_table;
     for (i = 0; i < 12; i++, p++) {
         if (*p != NULL) {
             callback(*p);
@@ -5338,7 +5338,7 @@ void foreach_player__10TObjPlayerFv(s32 (*callback)(u32)) {
 
     fn = callback;
     i = 0;
-    slots = ((s32 *)&player_slot_table);
+    slots = (s32 *)player_slot_table;
     slot = 0;
     do {
         player = slots[slot];
@@ -5846,7 +5846,7 @@ void TLobby__sub_801B09A4(void) {
 }
 
 s32 TLobby::count_members() {
-    void **p = player_slot_table;
+    TObjPlayer **p = player_slot_table;
     s32 n = 0;
     s32 i;
     for (i = 0; i < 12; i++) {
