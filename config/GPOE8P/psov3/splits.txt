@@ -11441,11 +11441,8 @@ pso/render/ModelDrawContext.cpp:
 pso/render/MaterialAlphaCompare.cpp:
 	.text       start:0x803DCDA8 end:0x803DCDB0
 
-pso/unk/text_803DCDB0.cpp:
-	.text       start:0x803DCDB0 end:0x803DCDFC
-
-pso/unk/text_803DCDFC.cpp:
-	.text       start:0x803DCDFC end:0x803DD5E0
+pso/render/gjSystem.c:
+	.text       start:0x803DCDB0 end:0x803DD5E0
 	.data       start:0x804FC668 end:0x804FC688
 	.bss        start:0x8058CE40 end:0x8058D528
 	.sdata      start:0x805D46C8 end:0x805D46D0

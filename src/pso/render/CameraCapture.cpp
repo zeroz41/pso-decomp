@@ -4,6 +4,7 @@
 #pragma readonly_strings on
 
 #include "types.h"
+#include "pso/render/gjSystem.h"
 #include "pso/math/InverseTrig.h"
 #include <dolphin/mtx.h>
 #include <dolphin/gx/GXFrameBuffer.h>
@@ -97,7 +98,6 @@ NJS_TEXLIST shadow_map_texture_list = {&shadow_map_texture_entry, 1};
 // Where the shadow-map pass looks from: 102.4 units ahead of the camera, at its height.
 Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 
-extern GXRenderModeObj *active_gx_render_mode;
 
 #include "pso/system/task/TMainTask.h"
 #include "pso/camera/TLiveCameraView.h"

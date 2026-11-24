@@ -83,7 +83,7 @@
 #include "pso/unk/TLobby_80228154.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
-#include "pso/unk/text_803DCDFC.h"
+#include "pso/render/gjSystem.h"
 #include "pso/unk/text_8006EF90.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/map/area/AreaScene.h"
@@ -442,7 +442,7 @@ void TLobby::teardown_scene() {
 }
 
 void run_offline_game_frame(void) {
-    func_803DCDFC();
+    begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
     TLobby__sub_8007EB20("Condition E%d", enemy_condition_count * 0xC);
@@ -474,7 +474,7 @@ void run_offline_game_frame(void) {
 }
 
 void run_offline_transfer_frame(void) {
-    func_803DCDFC();
+    begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
     TLobby__sub_8007EB20("Condition E%d", enemy_condition_count * 0xC);

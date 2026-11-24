@@ -23,7 +23,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdBackTxtGC.h"
 #include "pso/map/area/AreaScene.h"
-#include "pso/unk/text_803DCDFC.h"
+#include "pso/render/gjSystem.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/ControllerInput.h"
@@ -109,7 +109,7 @@ void TLogo::init_logo_scene() {
 }
 
 void TLogo::run_frame() {
-    func_803DCDFC__Fv();
+    begin_gx_frame();
     Vec a = {0.0f, 0.0f, 0.0f};
     Vec b = {0.0f, 0.0f, -100.0f};
     activate_camera_mode(9);

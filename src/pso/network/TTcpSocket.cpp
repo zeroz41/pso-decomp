@@ -19,7 +19,7 @@
 #include "pso/network/TUdpSocket.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/text_803DCDFC.h"
+#include "pso/render/gjSystem.h"
 
 // Game code; structure adapted from pso-gc-reference, verified against PsoV3.dol.
 
@@ -54,7 +54,6 @@ struct at_ip_addr {
 void func_80019A68();
 void controller_stuff();
 void render_tick();
-void func_803DCDFC();
 extern "C" {
 short tcp_connect(short nh, struct at_ip_addr *addr, u16 port, struct at_ip_option *option);
 short tcp_send(short nh, void (*notify)(short size, short sock_fd), char bufnum, struct send_buffs *sb);
@@ -265,7 +264,7 @@ int TTcpSocket::open() {
 			return -1;
 		} else {
 			for (;;) {
-				func_803DCDFC();
+				begin_gx_frame();
 				controller_stuff();
 				if (short status = stat()) {
 					log(get_sock_status_name(status));
@@ -363,7 +362,7 @@ int TSocket::resolve_domain(const char *domain) {
                 if (count > 0x1518) {
                     break;
                 }
-                func_803DCDFC__Fv();
+                begin_gx_frame();
                 controller_stuff();
                 if (static_cast<s8>(func_801A5E54()) != 0) {
                     break;

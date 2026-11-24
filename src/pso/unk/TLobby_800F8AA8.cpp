@@ -14,7 +14,7 @@
 #include "pso/system/data/pso_date.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_803DCDFC.h"
+#include "pso/render/gjSystem.h"
 
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -1042,7 +1042,7 @@ s32 TLobby::run_disk_error_check() {
     }
     switch (status) {
     case -1:
-        func_803DCDFC__Fv();
+        begin_gx_frame();
         set_perspective_projection_from_fov(0x3555, (1.1333334f), (1.0f), (2.1e+04f));
         if (lobby_font_texture_loaded != 0) {
             ((TLobby *)0)->draw_fullscreen_texture_quad();
@@ -1057,7 +1057,7 @@ s32 TLobby::run_disk_error_check() {
         }
         break;
     case 4:
-        func_803DCDFC__Fv();
+        begin_gx_frame();
         set_perspective_projection_from_fov(0x3555, (1.1333334f), (1.0f), (2.1e+04f));
         controller_stuff();
         if (lobby_font_texture_loaded != 0) {
@@ -1070,7 +1070,7 @@ s32 TLobby::run_disk_error_check() {
         }
         break;
     case 5:
-        func_803DCDFC__Fv();
+        begin_gx_frame();
         set_perspective_projection_from_fov(0x3555, (1.1333334f), (1.0f), (2.1e+04f));
         controller_stuff();
         if (lobby_font_texture_loaded != 0) {
@@ -1085,7 +1085,7 @@ s32 TLobby::run_disk_error_check() {
         }
         break;
     case 6:
-        func_803DCDFC__Fv();
+        begin_gx_frame();
         set_perspective_projection_from_fov(0x3555, (1.1333334f), (1.0f), (2.1e+04f));
         controller_stuff();
         if (lobby_font_texture_loaded != 0) {
@@ -1100,7 +1100,7 @@ s32 TLobby::run_disk_error_check() {
         }
         break;
     case 11:
-        func_803DCDFC__Fv();
+        begin_gx_frame();
         set_perspective_projection_from_fov(0x3555, (1.1333334f), (1.0f), (2.1e+04f));
         if (lobby_font_texture_loaded != 0) {
             ((TLobby *)4)->draw_fullscreen_texture_quad();
@@ -1423,7 +1423,7 @@ s32 read_disc_file(const char *filename, void *destination) {
 void TLobby::run_frame() {
     TObject *fade_task;
 
-    func_803DCDFC__Fv();
+    begin_gx_frame();
     TLobby__sub_800F8F34();
     tl_su->run_tasks();
     tl_camera->run_tasks();

@@ -3,12 +3,11 @@
 
 #include "types.h"
 #include <dolphin/mtx.h>
+#include "pso/render/gjSystem.h"
 
 // The matrix stack's transforms (text_803D853C .. text_803D96A8) that the
 // other module headers do not declare yet. A NULL matrix is the current one.
 extern "C" {
-// The identity matrix push_matrix_from starts a fresh stack entry from.
-extern Mtx34 identity_matrix;
 void rotate_matrix_x(MtxP matrix, s32 angle);
 void rotate_matrix_z(MtxP matrix, s32 angle);
 void scale_matrix(MtxP matrix, f32 x, f32 y, f32 z);

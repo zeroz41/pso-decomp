@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/gjSystem.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/render/GinjaView.h"
 #include "pso/render/RenderSbssGlobals.h"
@@ -7,7 +8,6 @@
 #undef PSO_SDK_COMPACT_MATH
 #include <dolphin/mtx.h>
 
-extern GXRenderModeObj *active_gx_render_mode;
 
 // Maps (x, y, 1) / -w of a screen-space vertex onto the view the projection draws with.
 void load_screen_space_matrix() {

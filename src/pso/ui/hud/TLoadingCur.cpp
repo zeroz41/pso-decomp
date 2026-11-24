@@ -19,7 +19,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/unk/text_803DCDFC.h"
+#include "pso/render/gjSystem.h"
 
 #pragma push
 #pragma readonly_strings on

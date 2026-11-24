@@ -14,7 +14,7 @@
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/CameraCapture.h"
-#include "pso/unk/text_803DCDFC.h"
+#include "pso/render/gjSystem.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowMessage.h"
@@ -980,7 +980,7 @@ s32 take_snapshot(void) {
                     if (t > limit) {
                         t = limit;
                     }
-                    func_803DCDFC__Fv();
+                    begin_gx_frame();
                     controller_stuff();
                     main_task.run_tl_camera_tasks();
                     pos[0] = 192.0f;
@@ -1286,7 +1286,7 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 message) {
     frames = 0;
     for (;;) {
         frames++;
-        func_803DCDFC__Fv();
+        begin_gx_frame();
         controller_stuff();
         if (camera_ctrl_instance != NULL) {
             camera_ctrl_instance->setup_default_view(0);
@@ -1340,7 +1340,7 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
     pad = &controller_physical_port_bank.controllers[3];
     for (;;) {
         frames++;
-        func_803DCDFC__Fv();
+        begin_gx_frame();
         controller_stuff();
         if (camera_ctrl_instance != NULL) {
             camera_ctrl_instance->setup_default_view(0);

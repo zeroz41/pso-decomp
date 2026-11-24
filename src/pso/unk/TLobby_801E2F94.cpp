@@ -16,6 +16,7 @@
 #include "pso/system/main_loop.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "types.h"
+#include "pso/render/gjSystem.h"
 #include "pso/ui/keyboard/KeyboardKeyState.h"
 #include <dolphin/os/OSCache.h>
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
@@ -485,8 +486,6 @@ s32 TLobby__sub_801E3E9C(s32 arg0, saddr arg1, saddr arg2);
 s32 TKeyBoardControl__sub_801E3E24(s32 arg0, saddr arg1, saddr arg2);
 void TKeyBoardControl__sub_8000F7FC(void);
 
-void fn_803DCEC8(void);
-void fn_803DCF0C(void);
 
 void TObjPlayer::render_tree(void *model) {
     void *var_r31;
@@ -519,8 +518,8 @@ void render_tick(void) {
     GXSetViewport((0.0f), (0.0f), (6.4e+02f), (4.8e+02f), (0.0f), (1.0f));
     set_cull_none();
     TParticleCtrl::end_effect_render();
-    fn_803DCEC8();
-    fn_803DCF0C();
+    copy_efb_to_framebuffer();
+    present_frame();
     TKeyBoardControl__sub_8000F7FC();
 }
 

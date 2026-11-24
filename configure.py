@@ -1586,7 +1586,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         # sit before the function's int->double conversion constants (0x805E0E40); only deferred compilation emits that order.
         "pso/render/GinjaPerspective.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-inline off,deferred")},
         # -sdata 4: its last .bss object (0x8058D520) is 8 bytes.
-        "pso/unk/text_803DCDFC.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-sdata 4")},
+        "pso/render/gjSystem.c": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-sdata 4")},
         # Saves registers through _savegpr_N everywhere (no stmw in the unit).
         "pso/unk/text_803E2D70.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-use_lmw_stmw off")},
         "pso/render/ChunkModelDraw.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-use_lmw_stmw off")},

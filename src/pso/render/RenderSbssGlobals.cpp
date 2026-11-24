@@ -19,7 +19,7 @@ GC_Mtx *matrix_stack_limit;
 GC_Mtx *matrix_stack_base;
 GC_Mtx *current_matrix;
 u32 *shape_vertex_buffer;
-u32 lbl_805D777C;
+f32 lbl_805D777C;
 u32 chunk_polygon_flags_or_mask;
 u32 chunk_polygon_flags_and_mask;
 u32 ginja_draw_flags;

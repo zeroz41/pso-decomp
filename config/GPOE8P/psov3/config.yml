@@ -8325,7 +8325,7 @@ force_active:
   - lbl_805D4630
   - lbl_805D4638
   - lbl_805D4640
-  - lbl_805D46C8
+  - video_black_pending
   - record_table_buffer
   - slot_table_buffer
   - boss1_dragon_lift_accel

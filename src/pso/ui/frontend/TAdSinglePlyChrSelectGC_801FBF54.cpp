@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer_802C367C.h"
 #include "pso/player/TPlyCharData.h"
 #include "types.h"
+#include "pso/render/gjSystem.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/ui/window/TWindowShortListCtrl_8026E7DC.h"
 #include "pso/unk/text_801F498C.h"
@@ -1781,7 +1782,6 @@ s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 s32 get_field_118__22TAdEnterSerialAccessGCFv();
 void TLobby__sub_80269C90(void);
 void TLobby__sub_80269CA4(s32);
-void func_803DCDFC__Fv(void);
 s32 TAdSinglePlyChrSelectGC__sub_801FDA4C();
 
 
@@ -1855,7 +1855,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
     if (check != NULL) {
         check->select_main_window_controller();
         while (1) {
-            func_803DCDFC__Fv();
+            begin_gx_frame();
             check->run_task();
             if (check->is_card_ready() != 0) {
                 break;
@@ -1890,7 +1890,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
         }
         w->complete_reveal();
         while (1) {
-            func_803DCDFC__Fv();
+            begin_gx_frame();
             controller_stuff();
             TLobby::wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();
@@ -1913,7 +1913,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
     TAdSinglePlyChrSelectGC__sub_801FDA4C();
     card_load_sequence_state = 6;
     while (1) {
-        func_803DCDFC__Fv();
+        begin_gx_frame();
         controller_stuff();
         TAdSinglePlyChrSelectGC::run_save_load_sequence();
         TAdSinglePlyChrSelectGC::render_frame();
@@ -1944,7 +1944,7 @@ s32 TAdSinglePlyChrSelectGC::save_character_to_card() {
     w->complete_reveal();
     if (result == 0) {
         while (1) {
-            func_803DCDFC__Fv();
+            begin_gx_frame();
             controller_stuff();
             TLobby::wait_ready_loop();
             TAdSinglePlyChrSelectGC::render_frame();

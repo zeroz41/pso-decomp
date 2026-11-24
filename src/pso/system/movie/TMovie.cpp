@@ -1,6 +1,7 @@
 #include "pso/system/RelModuleBuffer.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/render/gjSystem.h"
 #include "pso/render/GinjaView.h"
 #include <stddef.h>
 #include <string.h>
@@ -33,11 +34,8 @@ void fn_801449F0(void);
 s32 DVDCheckDisk();
 s32 set_queued_main_phase(s32);
 s8 get_opening_movie_purpose();
-void func_803DCDFC__Fv(void);
 }
 
-extern saddr video_initial_draw_framebuffer;
-extern saddr video_initial_display_framebuffer;
 extern int opening_movie_selector;
 extern unsigned char main_menu_scene_active_flag;
 
@@ -391,7 +389,7 @@ void TMovie::run_task() {
     }
     render_tick();
     render_tick();
-    TMovie::calc_frame_buffer_size((saddr)((void *)video_initial_display_framebuffer), (saddr)((void *)video_initial_draw_framebuffer));
+    TMovie::calc_frame_buffer_size((saddr)video_initial_display_framebuffer, (saddr)video_initial_draw_framebuffer);
     txt = NULL;
     if (is_ending_sequence_active() != 0) {
         txt = new TAdEndText(this);
@@ -400,13 +398,13 @@ void TMovie::run_task() {
         if (this->check_skip_input() != 0) {
             break;
         }
-        func_803DCDFC__Fv();
+        begin_gx_frame();
         controller_stuff();
         TKeyBoardControl::update_input_frame();
         this->player->decode_frame();
         if (*(s32 *)&this->m_48 != 0) {
             this->player->update_stop();
-            TMovie::run_callback();
+            run_frame_update_callback();
         } else {
             Vec eye = movie_camera_eye;
             Vec at = movie_camera_target;

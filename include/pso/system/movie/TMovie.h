@@ -37,7 +37,6 @@ struct TMovie : public TObject {
     void free_buffer();
     void render_until_finished();
     s32 check_skip_input();
-    static void run_callback();
     static TMovie *close(TMovie *movie, short dealloc);
 };
 

@@ -2,6 +2,7 @@
 #include "pso/unk/TLobby_802A7290.h"
 #include "pso/system/scene/TEndingC.h"
 #include "types.h"
+#include "pso/render/gjSystem.h"
 #include "pso/unk/text_8008C4F4.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
@@ -34,7 +35,6 @@ extern "C" {
 extern const char TEnding__class_name_string[] = "TEnding";
 s32 TKeyBoardControl__sub_8000F92C();
 void request_main_phase(s32 arg0);
-void func_803DCDFC__Fv(void);
 }
 void create_player_ending_motion(void);
 
@@ -67,7 +67,7 @@ void process_async_file_reads(void);
 void update_sound_request_slots(void);
 void run_game_frame(void) {
     s32 *var_r3;
-    func_803DCDFC__Fv();
+    begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
     var_r3 = (s32 *)&main_task;

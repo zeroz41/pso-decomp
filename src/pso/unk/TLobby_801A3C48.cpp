@@ -9,6 +9,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "types.h"
+#include "pso/render/gjSystem.h"
 #include "pso/unk/TLobby_801A3C48.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/system/debug_print.h"
@@ -124,7 +125,6 @@ s32 clear_keyboard_key_state();
 int request_main_phase(int);
 s32 TLobby__sub_8006EF90();
 
-s32 func_803DCDFC__Fv();
 s32 cleanup__6TLobbyFv();
 s32 PPCSync();
 extern s32 lbl_805D5718;
@@ -330,7 +330,7 @@ void TLobby::send_and_handle() { TLobby::blocking_vsync(); }
 
 void TLobby::blocking_vsync() {
     TLoadCtrl::set_field1C(0);
-    func_803DCDFC__Fv();
+    begin_gx_frame();
     if ((s32) lbl_805D5718 != 0) {
         main_task.begin_frame();
         main_task.run_tl_camera_tasks();
@@ -592,7 +592,7 @@ void cleanup_online_lobby_scene(void) {
 
 void TLobby::run_lobby_frame() {
     s32 temp_r0;
-    func_803DCDFC__Fv();
+    begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
     main_task.begin_frame();
@@ -641,7 +641,7 @@ void TLobby::run_lobby_frame() {
 
 void TLobby::run_main_frame() {
     s32 temp_r0;
-    func_803DCDFC__Fv();
+    begin_gx_frame();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
     main_task.begin_frame();
@@ -734,7 +734,7 @@ void run_online_lobby_scene(void) {
     TAdDialingGC__sub_80328730();
     TLoadCtrl::set_field1C(0);
     while (TAdDialingGC__sub_801A4C9C() != 0) {
-        func_803DCDFC__Fv();
+        begin_gx_frame();
         controller_stuff();
         TKeyBoardControl::update_input_frame();
         main_task.begin_frame();

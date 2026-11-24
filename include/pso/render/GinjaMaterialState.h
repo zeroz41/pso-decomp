@@ -46,7 +46,8 @@ struct NJS_TEXNAME {
 
 // A render context: render_contexts holds six, select_render_context makes one current.
 typedef struct GinjaSceneState {
-  u8 reserved0[8];
+  u32 reserved00;
+  u32 reserved04;
   GinjaTextureHeader *texture_header; /* image of the texture set_texture_num selected */
   u32 blend_mode; /* +0x0C: GX blend factors, source in bits 29-31, destination in bits 26-28 */
   u32 reserved10;
@@ -56,4 +57,16 @@ typedef struct GinjaSceneState {
   NJS_TEXLIST *textures;
   u32 reserved24;
 } GinjaSceneState;
+
+// The six render contexts (gjSystem.c).
+extern GinjaSceneState render_contexts[6];
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+// Resets a render context to the default blend mode, no texture and no palette.
+void init_render_context(GinjaSceneState *context);
+#ifdef __cplusplus
+}
+#endif
 #endif
