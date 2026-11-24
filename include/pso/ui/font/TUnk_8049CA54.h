@@ -7,7 +7,7 @@ class TUnk_8049CA54 : public TFontSmallHelp {
 public:
     virtual ~TUnk_8049CA54();
     virtual void run_task();
-    u8 unk_60[0x4];
+    s32 card_status_bits;
 };
 LAYOUT_ASSERT(TUnk_8049CA54_size, sizeof(TUnk_8049CA54) == 0x64);
 

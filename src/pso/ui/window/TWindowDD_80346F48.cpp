@@ -20,10 +20,13 @@ struct DD_80346FE4 {
 extern "C" {
 extern char **TWindowDD__player_name_buffers;
 extern DD_80346FE4 *TWindowDD__word_select_lists;
-int build_item_list__9TWindowDDFPv(void);
 
     extern short lbl_805D6E24;
-void TWindowDD::reset_selection() { *(short*)((char*)this + 0x1c) = -1; lbl_805D6E24 = -1; build_item_list__9TWindowDDFPv(); }
+void TWindowDD::reset_selection() {
+    menu_index = -1;
+    lbl_805D6E24 = -1;
+    build_item_list__9TWindowDDFPv(this);
+}
 
 void TWindowDD::update_selected_id() {
     s16 *msg = (s16 *)this;

@@ -322,9 +322,9 @@ force_active:
   - update_idle_state__12TBoss1DragonFUl
   - clamp_step_in_radius__12TBoss1DragonFfff
   - update_flap_effect__12TBoss1DragonFv
-  - setup_v2_instance__12TBoss1DragonFP3VecPUcl
-  - emit_v2_effect_at_position__12TBoss1DragonFPv
-  - emit_v2_enemy_effect__12TBoss1DragonFP3VecPUcP17AreaAttackHistory
+  - setup_v2_instance__12TBoss1DragonFPC3VecP18DragonAttackParamsP17AreaAttackHistory
+  - emit_v2_effect_at_position__12TBoss1DragonFPC18DragonAttackParams
+  - emit_v2_enemy_effect__12TBoss1DragonFPC3VecPC18DragonAttackParamsP17AreaAttackHistory
   - apply_trail_attack__12TBoss1DragonFv
   - set_burrow_height__12TBoss1DragonFv
   - set_flight_height__12TBoss1DragonFv

@@ -65,7 +65,7 @@ void TTecGrants::vfunc_6(void *target_arg) {
     Damage_802386F8 d;
     d.kind = 0x4;
     d.power = this->power;
-    ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 0x9, -1, self);
+    ((VObj_802386F8 *)target)->m21((s32)this->source, d, (s32)this->attack_context, 0x9, -1, self);
 }
 typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
@@ -103,7 +103,7 @@ TTecGrants::~TTecGrants() {
 }
 
 TTecGrants::TTecGrants(saddr arg1, saddr origin, saddr target_list, saddr level) : TTecCircle(arg1, origin, level) {
-    *(s32 *)&m_name = tec_grants_class_name;
+    m_name = (const char *)tec_grants_class_name;
     init_parameters();
     copy_technique_target_list(&targets, (TargetCursorList *)target_list);
     m_148 = 0;

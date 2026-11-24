@@ -392,7 +392,7 @@ void TLobby::copy_table_entries(u32 size) {
     s32 n = size >> 3;
     s32 i;
     if (n <= 0x12) {
-        switch ((*(s32 *)&selected_episode)) {
+        switch (selected_episode) {
         case 1:
             for (i = 0; i < n; i++, src += 2) {
                 floor_map_registry[i].terrain = src[0];
@@ -415,7 +415,7 @@ void randomize_adventure_maps(void) {
   s32 main_phase;
   s32 i;
   var_r31 = floor_map_registry;
-  TAdStorySelectGC::set_state((saddr)((void*)((*(saddr *)&selected_episode))));
+  TAdStorySelectGC::set_state((saddr)selected_episode);
   main_phase = get_main_phase();
   if (TRaderMapCore::is_not_split_screen() == 1)
   {

@@ -28,8 +28,6 @@ struct Stack_80253268 {
 #pragma dont_inline off
 typedef struct MagData_80253564 { u8 b[16]; } MagData_80253564;
 
-typedef struct Callback_80253564 { u8 bytes[0xc]; } Callback_80253564;
-
 #pragma inline_depth(1)
 #pragma auto_inline on
 #pragma dont_inline off
@@ -50,7 +48,6 @@ void draw_action_palette_icon(void *, int, u16);
 void text_builder_append();
 }
 extern u8 lbl_804CF4E4[];
-extern Callback_80253564 TWindowHelpItem__photon_blast_update_callback;
 extern u8 TWindowHelpItem__description_text_layout[];
 extern V3_802531A4 TWindowHelpItem__description_update_callback;
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
@@ -149,7 +146,7 @@ void TWindowHelpItem::update_tech_disk_details() {
         ((TWindowHelpItem *)e2)->reset_float_field();
         ((TWindowHelpItem *)e4)->reset_float_field();
         ((TWindowHelpItem *)e6)->reset_float_field();
-        *(s32 *)(e3 + 0x20) = ((TItemData *)(*(void **)(((u8 *)this) + 0x68)))->get_technique_level();
+        ((HelpItemLevelEntry *)e3)->value = ((TItemData *)(*(void **)(((u8 *)this) + 0x68)))->get_technique_level();
     }
 }
 
@@ -166,7 +163,7 @@ void TWindowHelpItem::sub_802534B0() {
     set_text_entry_string((e), (uaddr)(get_shared_text_buffer()), 0x20);
     ((TWindowHelpItem *)e)->reset_float_field();
     e2 = (u8 *)((TWindowBase *)this)->get_array_entry(1);
-    *(s32 *)(e2 + 0x10) = (u8)((TItemData *)(*(void **)(((u8 *)this) + 0x68)))->calc_display_grade();
+    ((HelpItemStarRowEntry *)e2)->stars = (u8)((TItemData *)(*(void **)(((u8 *)this) + 0x68)))->calc_display_grade();
 }
 
 void TWindowHelpItem__vt11(u8 *window) {
@@ -178,7 +175,7 @@ void TWindowHelpItem__vt11(u8 *window) {
         reinterpret_cast<WindowLayoutEntries *>(window + 0x24),
         reinterpret_cast<const void *>(lbl_804CF4E4),
         *(s16 *)((s8 *)window + 0x20));
-    *(Callback_80253564 *) (window + 0xB0) = TWindowHelpItem__photon_blast_update_callback;
+    ((TWindowHelpItem *)window)->m_callback = TWindowHelpItem__photon_blast_update_callback;
     TItemData::deserialize_mag(*(void **)((s8 *)window + 0x68), &mag);
     for (slot = 0; slot < 3; slot++) {
         blast = ((MagStats *)(&mag))->get_photon_blast(slot);

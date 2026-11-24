@@ -191,7 +191,7 @@ s32 check_path_obstructed(void *, void *);
 f32 atan2_float(f32 y, f32 x);
 s32 lappy_variant_id;
 BmlResource *rappy_bml_resource;
-s32 *rappy_visibility_node;
+NJS_OBJECT *rappy_visibility_node;
 NJS_TEXLIST *rappy_alternate_texture_list;
 }
 
@@ -308,9 +308,9 @@ void TObjEneLappy::render() {
     s32 detail;
     if (test_actor_flags(0x02000000) == 0) {
         if (this->lappy_flags & LAPPY_NODE_VISIBLE) {
-            *rappy_visibility_node &= 0xFFFFFFF7;
+            rappy_visibility_node->evalflags &= ~NJD_EVAL_HIDE;
         } else {
-            *rappy_visibility_node |= 8;
+            rappy_visibility_node->evalflags |= NJD_EVAL_HIDE;
         }
         detail = this->classify_actor_view_detail(150.0f, 400.0f, 10.0f);
         if (detail != 0) {
@@ -914,18 +914,18 @@ void *TObjEneLappy::create(void *set) {
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-__declspec(section ".data") saddr lappy_boss_stats_handles[2];
-__declspec(section ".data") saddr lappy_boss_stats_ptrs_b[2];
-__declspec(section ".data") saddr lappy_object_handles[2];
+__declspec(section ".data") player_stats *lappy_boss_stats_handles[2];
+__declspec(section ".data") AttackParams *lappy_boss_stats_ptrs_b[2];
+__declspec(section ".data") ActorParamBlock *lappy_object_handles[2];
 __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 }
 
 void TObjEneLappy::free_resources() {
     if (TLobby::get_instance() == 0) {
-        if (rappy_alternate_texture_list != NULL) {
+        if (rappy_alternate_texture_list != 0) {
             release_texture_list(rappy_alternate_texture_list);
-            TAdSinglePlyChrSelectGC::safe_free((uaddr)rappy_alternate_texture_list);
-            rappy_alternate_texture_list = NULL;
+            TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<saddr>(rappy_alternate_texture_list));
+            rappy_alternate_texture_list = 0;
         }
     } else {
         rappy_alternate_texture_list = NULL;
@@ -994,11 +994,11 @@ void TObjEneLappy::load_resources() {
     } else {
         rappy_alternate_texture_list = rappy_bml_resource->models[1].texlist;
     }
-    rappy_visibility_node = (s32 *)find_model_node((uaddr)rappy_bml_resource->models[0].model, 0x12);
+    rappy_visibility_node = find_model_node(rappy_bml_resource->models[0].model, 0x12);
     for (i = 0; i < 2; i++) {
-        lappy_boss_stats_handles[i] = (saddr)TLobby::register_boss(i + 0x18);
-        lappy_boss_stats_ptrs_b[i] = (saddr)TLobby::dispatch_shared_handler_b(i + 0x18);
-        lappy_object_handles[i] = (saddr)TLobby::register_object(i + 0x18);
+        lappy_boss_stats_handles[i] = TLobby::register_boss(i + 0x18);
+        lappy_boss_stats_ptrs_b[i] = TLobby::dispatch_shared_handler_b(i + 0x18);
+        lappy_object_handles[i] = TLobby::register_object(i + 0x18);
         lappy_variant_speed_ptr_table[i] = (f32 *)TLobby::dispatch_shared_handler_a(i + 0x18);
     }
     {
@@ -1075,7 +1075,7 @@ TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) 
     if (random_ratio() < 0.002f) {
         variant = 1;
         if (TLobby::get_instance() == 1) {
-            rappy_visibility_node = (s32 *)find_model_node((uaddr)rappy_bml_resource->models[1].model, 0x12);
+            rappy_visibility_node = find_model_node(rappy_bml_resource->models[1].model, 0x12);
         }
     }
     if (variant == 0) {
@@ -1120,7 +1120,7 @@ TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) 
         actorFlags &= ~0x800000;
         bodies->flags &= ~1;
     }
-    bind_enemy_combat_stats((u8 *)(lappy_boss_stats_handles[variant]), (u8 *)(lappy_boss_stats_ptrs_b[variant]), (u8 *)(lappy_object_handles[variant]));
+    bind_enemy_combat_stats(lappy_boss_stats_handles[variant], lappy_boss_stats_ptrs_b[variant], lappy_object_handles[variant]);
     apply_variant_speeds();
     hp = hpmax;
     tp = tpmax;
@@ -1133,7 +1133,7 @@ TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) 
     add_flags_2e4(1);
     actorFlags |= 0x40000;
     action_table = lappy_motion_actions;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);

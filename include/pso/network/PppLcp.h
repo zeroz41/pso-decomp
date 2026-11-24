@@ -45,11 +45,17 @@ LAYOUT_ASSERT(LcpOpts_size_check, sizeof(LcpOpts) == 0x68);
    larger connect record. */
 typedef struct LcpConfig {
     u32 accm;
-    s16 f4;
+    union {
+        s16 f4;
+        u16 f4_u;
+    };
     u16 auth_mode;
     u32 magic;
     u16 mru;
-    s16 fE;
+    union {
+        s16 fE;
+        u16 fE_u;
+    };
 } LcpConfig;
 LAYOUT_ASSERT(LcpConfig_size_check, sizeof(LcpConfig) == 0x10);
 

@@ -39,7 +39,6 @@ const char *obj_chip_class_name_ptr = "TObjChip";
 
 }
 
-void rotate_matrix_yxz(saddr matrix, s32 arg1, s32 arg2, s32 arg3);
 
 // Built with -inline off,deferred: functions are written last to first.
 
@@ -104,7 +103,6 @@ TObjChip::TObjChip(TObject *parent, TObjChipSpawnParams *params) : TObject(paren
         pad_230 = 0;
     }
 }
-
 TObjChip::~TObjChip() {}
 
 void TObjChip::run_task() {

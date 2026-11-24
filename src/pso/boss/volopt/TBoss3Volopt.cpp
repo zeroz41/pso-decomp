@@ -1433,7 +1433,7 @@ void handle_6x17_set_entity_position_and_angle(TBoss3VoloptPositionPacket *packe
         actor->rotation_y = packet->rotation_y;
         actor->refresh_collision_body_centers();
         if ((s32)packet->id == local_client_id) {
-            reset_cameras_to_actor(actor, 0);
+            reset_cameras_to_actor(static_cast<TObjPlayer *>(actor), 0);
         }
     }
 }

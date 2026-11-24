@@ -101,7 +101,7 @@ TObjMotionAction wolf_action_table[19] = {
 
 const char *bm5_wolf_class_name = "TObjEneBm5Wolf";
 
-static const NpcAnimationBinding bm5_wolf_spawn_descriptor = { NULL, reinterpret_cast<TObjMotionAction *>(wolf_action_table), 0, 1, 19 };
+static const NpcAnimationBinding bm5_wolf_spawn_descriptor = { NULL, wolf_action_table, 0, 1, 19 };
 
 __declspec(section ".data") u8 *TObjEneBm5Wolf__stat_params[2];
 __declspec(section ".data") u8 *wolf_stat_handle_a_table[2];
@@ -229,9 +229,9 @@ void TObjEneBm5Wolf::load_resources() {
     }
     {
     NpcAnimationBinding sp = bm5_wolf_spawn_descriptor;
-    sp.motions = reinterpret_cast<BmlMotionEntry *>(TObjEneBm5Wolf__bml_resource->motions);
-    NpcModelRegistry::register_animated_chunk(9, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[1].model), TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
-    NpcModelRegistry::register_animated_chunk(10, reinterpret_cast<void *>(TObjEneBm5Wolf__bml_resource->models[0].model), TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
+    sp.motions = TObjEneBm5Wolf__bml_resource->motions;
+    NpcModelRegistry::register_animated_chunk(9, TObjEneBm5Wolf__bml_resource->models[1].model, TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
+    NpcModelRegistry::register_animated_chunk(10, TObjEneBm5Wolf__bml_resource->models[0].model, TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
     }
 }
 
@@ -288,13 +288,13 @@ TObjEneBm5Wolf::TObjEneBm5Wolf(TObject *parent, void *set_data) : TObjEneDD_ST(p
     select_subtype();
     init_position_vectors();
     init_model(TObjEneBm5Wolf__collider_params, 1);
-    set_action_table((saddr)((void *)wolf_action_table));
-    set_motion_list((saddr)TObjEneBm5Wolf__bml_resource->motions);
+    set_action_table(wolf_action_table);
+    set_motion_list(TObjEneBm5Wolf__bml_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
     n = is_leader;
-    reset_hp(TObjEneBm5Wolf__stat_params[n != 0], wolf_stat_handle_a_table[n != 0], wolf_stat_handle_b_table[n != 0]);
+    reset_hp(reinterpret_cast<player_stats *>(TObjEneBm5Wolf__stat_params[n != 0]), reinterpret_cast<AttackParams *>(wolf_stat_handle_a_table[n != 0]), reinterpret_cast<ActorParamBlock *>(wolf_stat_handle_b_table[n != 0]));
     set_state_flag_1();
     movementParameters = bm5_wolf_decision_row;
     if (is_leader != 0) {

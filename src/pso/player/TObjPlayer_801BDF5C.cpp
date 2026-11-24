@@ -55,16 +55,15 @@ extern "C" {
 uaddr TObjPlayer__shared_photon_blast_state;
 s32 lobby_player_count;
 extern uaddr TObjPlayer__shared_model_buffer;
-extern uaddr player_shared_buffer_base;
 
 void TObjPlayer::free_shared_data() {
     if ((u32) TObjPlayer__shared_photon_blast_state != 0U) {
         fn_801C2308((void *)TObjPlayer__shared_photon_blast_state, 1);
         TObjPlayer__shared_photon_blast_state = 0U;
     }
-    if ((u32) player_shared_buffer_base != 0U) {
-        mem_free((void*)player_shared_buffer_base);
-        player_shared_buffer_base = 0U;
+    if (player_shared_buffer_base != NULL) {
+        mem_free(player_shared_buffer_base);
+        player_shared_buffer_base = NULL;
     }
     if ((u32) TObjPlayer__shared_model_buffer != 0U) {
         mem_free((void*)TObjPlayer__shared_model_buffer);
@@ -79,8 +78,8 @@ void TObjPlayer::alloc_shared_buffers() {
     if ((u32) TObjPlayer__shared_model_buffer == 0U) {
         TObjPlayer__shared_model_buffer = (uaddr)mem_alloc((uaddr)(0x9000));
     }
-    if ((u32) player_shared_buffer_base == 0U) {
-        player_shared_buffer_base = (uaddr)mem_alloc((uaddr)(0x4800));
+    if (player_shared_buffer_base == NULL) {
+        player_shared_buffer_base = static_cast<PlayerJointMatrixSet *>(mem_alloc(12 * sizeof(PlayerJointMatrixSet)));
     }
     if ((u32) TObjPlayer__shared_photon_blast_state == 0U) {
         temp_r3 = (saddr)::operator new(0x60);

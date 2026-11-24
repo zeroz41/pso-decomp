@@ -1,3 +1,4 @@
+#include "pso/unk/text_80066F10.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
@@ -134,8 +135,6 @@ TBoss5GryphonSnarl::TBoss5GryphonSnarl(TObject *parent, void *arg2) : TObject(pa
 
 void TBoss5GryphonSnarl::release_effect_table() {  }
 
-extern void *lbl_805D4DD8;
-extern uaddr boss5_common_texture_list;
 
 void TBoss5GryphonSnarl::select_effect_table() {
     switch (TBoss8Dragon__sub_8005D700()) {
@@ -146,11 +145,11 @@ void TBoss5GryphonSnarl::select_effect_table() {
 }
 
 void TLobby__sub_80066EC0(void) {
-    if (boss5_common_texture_list != 0U) {
-        release_texture_list(reinterpret_cast<NJS_TEXLIST *>(boss5_common_texture_list));
-        TAdSinglePlyChrSelectGC::safe_free(boss5_common_texture_list);
-        boss5_common_texture_list = 0U;
+    if (boss5_common_texture_list != NULL) {
+        release_texture_list(boss5_common_texture_list);
+        TAdSinglePlyChrSelectGC::safe_free(reinterpret_cast<uaddr>(boss5_common_texture_list));
+        boss5_common_texture_list = NULL;
     }
-    delete (BmlResource *)lbl_805D4DD8;
+    delete lbl_805D4DD8;
     lbl_805D4DD8 = 0;
 }

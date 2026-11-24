@@ -28,7 +28,6 @@ struct FloatColor { f32 a, r, g, b; };
 
 struct ByteColor { u8 r, g, b, a; };
 
-typedef struct { f32 m[3][4]; } Mtx_803DC994;
 struct ChunkNode_803E2F78 {
     u32 flags;
     s32 obj;
@@ -86,7 +85,7 @@ s32 __cvt_fp2unsigned(f32);
 void rotate_matrix_by_node_angles(void *, int);
 void scale_current_matrix(void *);
 void post_translate_matrix(void *);
-extern u8 chunk_object_current_matrix[];
+extern GC_Mtx chunk_object_current_matrix;
 void transform_point_by_current_matrix(u8 *, u8 *);
 void rotate_vector_by_current_matrix(u8 *, u8 *);
 void draw_strip_list_pos_nrm__10TObjPlayerFPvPvUi(s16 *list, Vtx_803E36C4 *verts, u32 info);
@@ -111,18 +110,17 @@ extern s32 chunk_previous_strip_flags;
 #pragma push
 #pragma peephole off
 #pragma scheduling off
-void TObjPlayer::copy_matrix3x3_for_chunk_tree() {
-    struct Mtx_803DC994 *src = (struct Mtx_803DC994 *)this;
-    struct Mtx_803DC994 *dst = (struct Mtx_803DC994 *)current_matrix;
-    dst->m[0][0] = src->m[0][0];
-    dst->m[0][1] = src->m[0][1];
-    dst->m[0][2] = src->m[0][2];
-    dst->m[1][0] = src->m[1][0];
-    dst->m[1][1] = src->m[1][1];
-    dst->m[1][2] = src->m[1][2];
-    dst->m[2][0] = src->m[2][0];
-    dst->m[2][1] = src->m[2][1];
-    dst->m[2][2] = src->m[2][2];
+void TObjPlayer::copy_matrix3x3_for_chunk_tree(const GC_Mtx *src) {
+    GC_Mtx *dst = current_matrix;
+    (*dst)[0][0] = (*src)[0][0];
+    (*dst)[0][1] = (*src)[0][1];
+    (*dst)[0][2] = (*src)[0][2];
+    (*dst)[1][0] = (*src)[1][0];
+    (*dst)[1][1] = (*src)[1][1];
+    (*dst)[1][2] = (*src)[1][2];
+    (*dst)[2][0] = (*src)[2][0];
+    (*dst)[2][1] = (*src)[2][1];
+    (*dst)[2][2] = (*src)[2][2];
 }
 #pragma pop
 
@@ -135,7 +133,7 @@ void transform_chunk_object_tree(void *arg0, void (*cb)(void *)) {
         flags = node->flags;
         r = 0;
         if (flags & 0x800) {
-            get_current_matrix(chunk_object_current_matrix);
+            get_current_matrix(&chunk_object_current_matrix);
         }
         if ((flags & 7) == 7) {
             if (!(flags & 8)) {
@@ -151,7 +149,7 @@ void transform_chunk_object_tree(void *arg0, void (*cb)(void *)) {
             }
             if (!(flags & 2)) {
                 if (flags & 0x1000) {
-                    ((TObjPlayer *)chunk_object_current_matrix)->copy_matrix3x3_for_chunk_tree();
+                    TObjPlayer::copy_matrix3x3_for_chunk_tree(&chunk_object_current_matrix);
                 } else if (flags & 0x400) {
                     apply_quat_rotation(node->f34, (f32 *)node->ang);
                 } else {
@@ -1019,7 +1017,7 @@ void clear_chunk_render_flags() {
 }
 
 
-u8 chunk_object_current_matrix[0x30];
+GC_Mtx chunk_object_current_matrix;
 
 s32 chunk_previous_strip_flags;
 u32 chunk_strip_dirty_flags;

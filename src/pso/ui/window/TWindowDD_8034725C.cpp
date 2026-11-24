@@ -438,7 +438,7 @@ void TWindowDD::update_selection_state() {
 void TWindowDD__sub_80347C50(W_80347C50 *self) {
     s32 next;
 
-    next = dispatch_by_window_mode((u8 *)self, self->window_mode, self->entry_id,
+    next = dispatch_by_window_mode(reinterpret_cast<TWindowDD *>(self), self->window_mode, self->entry_id,
                                                                    self->child[self->depth]->get_field_68());
     if (next != self->list_id) {
         self->list_id = next;
@@ -664,28 +664,23 @@ struct W_80348520 {
 extern "C" {
 s32 copy_chat_entry__9TWindowDDFPvPv(int, void *);
 s32 reset_selection__9TWindowDDFv(void *, void *);
-s32 TWindowDD__sub_8034435C(u8 *, u32, s32, s32);
-s32 TWindowDD__sub_80344568(u8 *, u32, s32, s32);
-s32 TWindowDD__sub_80344774(u8 *, u32, s32, s32);
-s32 TWindowDD__sub_80346434(u8 *, u32, s32, s32);
-s32 TWindowDD__sub_80346640(u8 *, u32, s32, s32);
 
 int TWindowDD::test_input_flag_4() { return TWindowDD_check_input_mask((char*)this + 0x1c, 4); }
 
 extern s32 TWindowDD__window_mode;
 
-s32 dispatch_by_window_mode(u8 *window_dd, u32 window_mode, s32 entry_id, s32 value_index) {
+s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index) {
     switch ((s32) TWindowDD__window_mode) {
     case 0:
-        return TWindowDD__sub_80346640(window_dd, window_mode, entry_id, value_index);
+        return TWindowDD__sub_80346640(window, window_mode, entry_id, value_index);
     default:
-        return TWindowDD__sub_80346434(window_dd, window_mode, entry_id, value_index);
+        return TWindowDD__sub_80346434(window, window_mode, entry_id, value_index);
     case 4:
-        return TWindowDD__sub_80344774(window_dd, window_mode, entry_id, value_index);
+        return TWindowDD__sub_80344774(window, window_mode, entry_id, value_index);
     case 2:
-        return TWindowDD__sub_80344568(window_dd, window_mode, entry_id, value_index);
+        return TWindowDD__sub_80344568(window, window_mode, entry_id, value_index);
     case 3:
-        return TWindowDD__sub_8034435C(window_dd, window_mode, entry_id, value_index);
+        return TWindowDD__sub_8034435C(window, window_mode, entry_id, value_index);
     }
 }
 
@@ -988,7 +983,6 @@ s32 TWindowDD::get_draw_count(void **hud_texlist) {
     return **(s32 **)((s8 *)(*(void **)((s8 *)(*hud_texlist) + 0x20)) + 0xC);
 }
 
-extern s32 TWindowDD__ws_data_table;
 extern s32 twindowdd_entry_count;
 
 #pragma push
@@ -1036,7 +1030,7 @@ saddr TWindowDD::get_entry(s32 arg0) {
     if ((arg0 < 0) || (arg0 >= (s32) twindowdd_entry_count)) {
         return 0;
     }
-    return TWindowDD__ws_data_table + (arg0 * 8);
+    return reinterpret_cast<saddr>(&TWindowDD__ws_data_table[arg0]);
 }
 
 }

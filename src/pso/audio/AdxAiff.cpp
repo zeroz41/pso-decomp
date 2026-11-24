@@ -59,7 +59,7 @@ static inline s32 adxb_parse_aiff_stream_header(void *ptr, void *hdr, void *size
     o->m_24 = 0;
     o->m_34 = 0;
     o->m_30 = 0;
-    o->m_2C = 0;
+    o->loop_start_byte = 0;
     o->m_28 = 0;
     o->m_20 = 0;
     o->stream_channels = o->channels;

@@ -28,10 +28,10 @@
 
 #pragma readonly_strings on
 
-void* get_player_entry__6TLobbyFii(int a0, int a1);
-void* TLobby__sub_8001E270(int a0, int a1);
-void* TLobby__sub_8001E2A8(int a0, int a1);
-void* get_entry__6TLobbyFii(int a0, int a1);
+BattleMovementParams *get_player_entry__6TLobbyFii(int a0, int a1);
+AttackParams *TLobby__sub_8001E270(int a0, int a1);
+player_stats *TLobby__sub_8001E2A8(int a0, int a1);
+ActorParamBlock *get_entry__6TLobbyFii(int a0, int a1);
 
 struct Ent_8001D768 { u32 f0; u32 f4; u32 f8; u32 fc; };
 
@@ -262,50 +262,12 @@ s32 *get_shared_text_buffer(void) {
     return &text_builder_buffer.value;
 }
 
-typedef struct File_8001DC30 File_8001DC30;
-typedef struct Pair_8001DC30 Pair_8001DC30;
-typedef struct Params_8001DC30 Params_8001DC30;
-typedef struct Pkt_8001DC30 Pkt_8001DC30;
-typedef struct Stats_8001DC30 Stats_8001DC30;
-typedef struct Sw_8001DC30 Sw_8001DC30;
-struct Stats_8001DC30
-{
-  u8 b[0x24];
-};
-struct Pkt_8001DC30
-{
-  u8 b[0x30];
-};
-struct Sw_8001DC30
-{
-  u8 b[0x20];
-};
-struct Pair_8001DC30
-{
-  u32 a[6];
-  u32 b[6];
-};
-struct Params_8001DC30
-{
-  Stats_8001DC30 stats[0x60];
-  Pkt_8001DC30 pkts[0x60];
-  Sw_8001DC30 sw[0x60];
-  Pair_8001DC30 pairs[0x60];
-};
-struct File_8001DC30
-{
-  Stats_8001DC30 stats[4][0x60];
-  Pkt_8001DC30 pkts[4][0x60];
-  Sw_8001DC30 sw[4][0x60];
-  Pair_8001DC30 pairs[4][0x60];
-};
 void load_battle_param_entry(void) {
   s32 idx;
   const char *name;
-  File_8001DC30 *file;
-  Params_8001DC30 *dst;
-  Params_8001DC30 *new_var;
-  s32 off;
+  BattleParameterFile *file;
+  BattleParameterBank *dst;
+  BattleParameterBank *new_var;
   name = "BattleParamEntry.dat";
   if (TObjEneDD::is_main_phase_15() != 0)
   {
@@ -327,7 +289,7 @@ void load_battle_param_entry(void) {
       name = "BattleParamEntry_lab_on.dat";
     }
   }
-  file = (File_8001DC30 *) mem_alloc(0xF600);
+  file = (BattleParameterFile *) mem_alloc(sizeof(BattleParameterFile));
   if (file != 0)
   {
     read_disc_file(name, file);
@@ -335,7 +297,7 @@ void load_battle_param_entry(void) {
     new_var = (dst = battle_parameter_buffer);
     move_data((void *)((dst->stats)), (const void *)(file->stats[idx]), sizeof(dst->stats));
     {
-      Stats_8001DC30 *p = ((0, dst))->stats;
+      player_stats *p = ((0, dst))->stats;
       s32 i;
       for (i = 0; i < 0x60; i++)
       {
@@ -344,39 +306,39 @@ void load_battle_param_entry(void) {
       }
 
     }
-    move_data((void *)((new_var->pkts)), (const void *)((void *) ((((saddr) file) + 0x3600) + (idx * 0x1200))), sizeof(dst->pkts));
+    move_data((void *)((new_var->attacks)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, attacks)) + (idx * (saddr)sizeof(dst->attacks)))), sizeof(dst->attacks));
     {
-      Pkt_8001DC30 *p = new_var->pkts;
+      AttackParams *p = new_var->attacks;
       s32 i;
       for (i = 0; i < 0x60; i++)
       {
-        ((TLobby *)p)->byteswap_packet();
+        p->byteswap_packet();
         p++;
       }
 
     }
-    move_data((void *)((new_var->sw)), (const void *)((void *) ((((saddr) file) + 0x7E00) + (idx * 0xC00))), sizeof(dst->sw));
+    move_data((void *)((new_var->resistances)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, resistances)) + (idx * (saddr)sizeof(dst->resistances)))), sizeof(dst->resistances));
     {
       s32 i;
-      Sw_8001DC30 *p = new_var->sw;
+      ActorParamBlock *p = new_var->resistances;
       for (i = 0; i < 0x60; i++)
       {
-        ((TLobby *)p)->swap_endian();
+        p->swap_endian();
         p++;
       }
 
     }
-    move_data((void *)((new_var->pairs)), (const void *)((void *) ((((saddr) file) + 0xAE00) + (1152 * (4 * idx)))), sizeof(dst->pairs));
+    move_data((void *)((new_var->movement)), (const void *)((void *) ((((saddr) file) + offsetof(BattleParameterFile, movement)) + ((saddr)sizeof(dst->movement) * idx))), sizeof(dst->movement));
     {
       s32 i;
-      Pair_8001DC30 *p = new_var->pairs;
+      BattleMovementParams *p = new_var->movement;
       for (i = 0; i < 0x60; i++)
       {
         s32 j;
         for (j = 0; j < 6; j++)
         {
-          bswap_32(&p->a[j]);
-          bswap_32(&p->b[j]);
+          bswap_32(&p->words.floats[j]);
+          bswap_32(&p->words.integers[j]);
         }
 
         p++;
@@ -522,21 +484,21 @@ u8 is_valid_player_index__6TLobbyFi(s32 arg0) {
     return (u8)var_r0;
 }
 
-void*TLobby::dispatch_shared_handler_a(s32 index) { return TLobby::get_player_entry(battle_parameter_difficulty, index); }
+BattleMovementParams *TLobby::dispatch_shared_handler_a(s32 index) { return TLobby::get_player_entry(battle_parameter_difficulty, index); }
 
-void* get_player_entry__6TLobbyFii(int a0, int a1) {  return battle_param_movement + a1 * 48; }
+BattleMovementParams *get_player_entry__6TLobbyFii(int a0, int a1) {  return &battle_param_movement[a1]; }
 
-void*TLobby::register_object(s32 index) { return TLobby::get_entry(battle_parameter_difficulty, index); }
+ActorParamBlock *TLobby::register_object(s32 index) { return TLobby::get_entry(battle_parameter_difficulty, index); }
 
-void* get_entry__6TLobbyFii(int a0, int a1) {  return battle_param_resistances + a1 * 32; }
+ActorParamBlock *get_entry__6TLobbyFii(int a0, int a1) {  return &battle_param_resistances[a1]; }
 
-void*TLobby::dispatch_shared_handler_b(s32 index) { return TLobby__sub_8001E270(battle_parameter_difficulty, index); }
+AttackParams *TLobby::dispatch_shared_handler_b(s32 index) { return TLobby__sub_8001E270(battle_parameter_difficulty, index); }
 
-void* TLobby__sub_8001E270(int a0, int a1) {  return battle_param_attacks + a1 * 48; }
+AttackParams *TLobby__sub_8001E270(int a0, int a1) {  return &battle_param_attacks[a1]; }
 
-void*TLobby::register_boss(s32 index) { return TLobby__sub_8001E2A8(battle_parameter_difficulty, index); }
+player_stats *TLobby::register_boss(s32 index) { return TLobby__sub_8001E2A8(battle_parameter_difficulty, index); }
 
-void* TLobby__sub_8001E2A8(int a0, int a1) {  return battle_param_stats + a1 * 36; }
+player_stats *TLobby__sub_8001E2A8(int a0, int a1) {  return &battle_param_stats[a1]; }
 
 void set_difficulty__6TLobbyFi(s32 arg0) {
     battle_param_lab_variant = arg0;
@@ -586,16 +548,17 @@ void TLobby::free_boss4_rock() {
 }
 
 void alloc_battle_param_tables(void) {
-    u8 *buf = (u8 *)mem_alloc(0x3d80);
+    u8 *buf = (u8 *)mem_alloc(sizeof(BattleParameterBank));
     s32 i;
-    for (i = 0; i < 0x3d80; i++) {
+    for (i = 0; i < sizeof(BattleParameterBank); i++) {
         buf[i] = 0;
     }
-    battle_parameter_buffer = (Params_8001DC30 *)buf;
-    battle_param_stats = buf;
-    battle_param_attacks = buf + 0xd80;
-    battle_param_resistances = buf + 0x1f80;
-    battle_param_movement = buf + 0x2b80;
+    BattleParameterBank *bank = (BattleParameterBank *)buf;
+    battle_parameter_buffer = bank;
+    battle_param_stats = bank->stats;
+    battle_param_attacks = bank->attacks;
+    battle_param_resistances = bank->resistances;
+    battle_param_movement = bank->movement;
     TLobby::clamp_difficulty(game_difficulty_selection);
     TLobby::get_instance();
     ((s32 (*)(void))set_difficulty__6TLobbyFi)();
@@ -604,9 +567,38 @@ void alloc_battle_param_tables(void) {
 }
 extern "C" {
 
-void TLobby::swap_endian() { bswap_16((u16 *)this); bswap_16((u16 *)((char*)this + 0x2)); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_16((u16 *)((char*)this + 0x8)); bswap_16((u16 *)((char*)this + 0xa)); bswap_32((u32 *)((char*)this + 0xc)); bswap_32((u32 *)((char*)this + 0x10)); bswap_32((u32 *)((char*)this + 0x14)); bswap_32((u32 *)((char*)this + 0x18)); bswap_32((u32 *)((char*)this + 0x1c)); }
+void ActorParamBlock::swap_endian() {
+    bswap_16(reinterpret_cast<u16 *>(&values[0]));
+    bswap_16(reinterpret_cast<u16 *>(&values[1]));
+    bswap_16(reinterpret_cast<u16 *>(&values[2]));
+    bswap_16(reinterpret_cast<u16 *>(&values[3]));
+    bswap_16(reinterpret_cast<u16 *>(&values[4]));
+    bswap_16(reinterpret_cast<u16 *>(&values[5]));
+    bswap_32(reinterpret_cast<u32 *>(pad_c));
+    bswap_32(reinterpret_cast<u32 *>(pad_c + 4));
+    bswap_32(reinterpret_cast<u32 *>(pad_c + 8));
+    bswap_32(reinterpret_cast<u32 *>(pad_c + 12));
+    bswap_32(reinterpret_cast<u32 *>(&value_1c));
+}
 
-void TLobby::byteswap_packet() { bswap_16((u16 *)this); bswap_16((u16 *)((char*)this + 0x2)); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); bswap_32((u32 *)((char*)this + 0x10)); bswap_16((u16 *)((char*)this + 0x14)); bswap_16((u16 *)((char*)this + 0x16)); bswap_16((u16 *)((char*)this + 0x18)); bswap_16((u16 *)((char*)this + 0x1a)); bswap_32((u32 *)((char*)this + 0x1c)); bswap_32((u32 *)((char*)this + 0x20)); bswap_32((u32 *)((char*)this + 0x24)); bswap_32((u32 *)((char*)this + 0x28)); bswap_32((u32 *)((char*)this + 0x2c)); }
+void AttackParams::byteswap_packet() {
+    bswap_16(reinterpret_cast<u16 *>(&atp_min));
+    bswap_16(reinterpret_cast<u16 *>(&atp_max));
+    bswap_16(reinterpret_cast<u16 *>(&ata));
+    bswap_16(reinterpret_cast<u16 *>(pad_6));
+    bswap_32(reinterpret_cast<u32 *>(&attack_range));
+    bswap_32(reinterpret_cast<u32 *>(&attack_angle));
+    bswap_32(reinterpret_cast<u32 *>(&damage_radius));
+    bswap_16(reinterpret_cast<u16 *>(pad_14));
+    bswap_16(reinterpret_cast<u16 *>(pad_14 + 2));
+    bswap_16(reinterpret_cast<u16 *>(pad_14 + 4));
+    bswap_16(reinterpret_cast<u16 *>(pad_14 + 6));
+    bswap_32(reinterpret_cast<u32 *>(pad_14 + 8));
+    bswap_32(reinterpret_cast<u32 *>(pad_14 + 12));
+    bswap_32(reinterpret_cast<u32 *>(pad_14 + 16));
+    bswap_32(reinterpret_cast<u32 *>(pad_14 + 20));
+    bswap_32(reinterpret_cast<u32 *>(pad_14 + 24));
+}
 
 void bswap__12player_statsFv(void *arg0) {
     bswap_16((u16 *)arg0);

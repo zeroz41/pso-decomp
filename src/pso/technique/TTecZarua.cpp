@@ -58,7 +58,7 @@ void TTecZarua::calc_range() {
     u8 *arg0 = (u8 *)this;
     TechniqueParams *params = calc_technique_parameters(0xC, this->level, 0xFFFF);
     ((TechniqueParams *)(arg0 + 0x88))->copy(params);
-    this->power = (f32) (*(s16 *)&this->m_ac * this->level);
+    this->power = (f32)(this->base_power * this->level);
 }
 
 void TTecZarua::vfunc_6(void *target_arg) {
@@ -67,7 +67,7 @@ void TTecZarua::vfunc_6(void *target_arg) {
     Damage_802386F8 d;
     d.kind = 0xc;
     d.power = this->power;
-    ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 0xc, -1, self);
+    ((VObj_802386F8 *)target)->m21((s32)this->source, d, (s32)this->attack_context, 0xc, -1, self);
 }
 
 void TTecZarua::create_instance(saddr source, Vec *pos, Vec *target, saddr level) {

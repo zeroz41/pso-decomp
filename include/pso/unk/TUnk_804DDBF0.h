@@ -1,11 +1,12 @@
 #ifndef PSO_UNK_TUNK_804DDBF0_H
 #define PSO_UNK_TUNK_804DDBF0_H
 #include "types.h"
+#include "pso/system/BmlResource.h"
 #include "pso/unk/TUnk_804DDD28.h"
 
 class TUnk_804DDBF0 : public TUnk_804DDD28 {
 public:
-    u8 pad_C[0x80];
+    BmlMotionEntry motions[16];
     TUnk_804DDBF0();
     virtual s32 get_cell_address(s32, s32);
     virtual ~TUnk_804DDBF0();
@@ -34,7 +35,7 @@ public:
     virtual int vfunc_17();
     virtual int vfunc_4();
     virtual s32 *get_state_table(s32);
-    virtual int vfunc_76();
+    virtual BmlMotionEntry *vfunc_76();
 };
 LAYOUT_ASSERT(TUnk_804DDBF0_size, sizeof(TUnk_804DDBF0) == 0x8C);
 

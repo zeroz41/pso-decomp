@@ -195,10 +195,10 @@ void init_quest_script_context(QuestBinHeader *h, QuestVmContext *c) {
     for (i = 0; i < n; i++) {
         bswap_32__FPUl(&c->function_table[i]);
     }
-    (*(s8 *)&TLobby__data_805D5EA8) = 0;
-    (*(s8 *)&TLobby__data_805D5EA9) = 0;
-    (*(s16 *)&TLobby__data_805D5EAA) = 0;
-    (*(s16 *)&TLobby__data_805D5EAC) = 0;
+    TLobby__data_805D5EA8 = 0;
+    TLobby__data_805D5EA9 = 0;
+    TLobby__data_805D5EAA = 0;
+    TLobby__data_805D5EAC = 0;
     c->item_name_entry = NULL;
     c->item_name_select = NULL;
     c->item_ok_window = NULL;

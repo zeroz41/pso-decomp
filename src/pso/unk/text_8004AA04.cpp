@@ -41,7 +41,7 @@ void ModelNodeTables::init(const ModelNodeSpec *specs, s32 spec_count) {
     }
     for (i = 0; i < count; i++) {
         r = &specs[i];
-        t = (NJS_OBJECT *)find_model_node((saddr)get_bml_model(h, r->model), r->node);
+        t = find_model_node(get_bml_model(h, r->model), r->node);
         items[i] = new StripBufferPair(t, r->texture_filter);
     }
 }

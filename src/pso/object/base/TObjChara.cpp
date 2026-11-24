@@ -600,7 +600,6 @@ struct ObjFlags {
 
 struct O_80019664 { u8 f0; u8 f1; u8 pad[2]; u16 f4; u8 f6; u8 f7; };
 struct Obj_80014B5C { u8 pad0[0x30]; u32 f30; u8 pad34[0x254 - 0x34]; u8 f254[0x330 - 0x254]; u32 f330; };
-struct StatStatusReceipt_80014E74 { s32 kind; f32 power; };
 
 void shutdown_and_reset_system(void);
 void init_game_systems(void);
@@ -2383,7 +2382,7 @@ void TObjChara::clear_harmful_statuses() {
 #pragma push
 #pragma fp_contract on
 void TObjChara::apply_attack_stat_status(void *arg1_arg) {
-    StatStatusReceipt_80014E74 *arg1 = (StatStatusReceipt_80014E74 *)arg1_arg;
+    StatStatusReceipt *arg1 = (StatStatusReceipt *)arg1_arg;
     f32 var_f31;
     f32 temp_f30;
     f32 status_effect_amount;
@@ -2420,7 +2419,7 @@ void TObjChara::apply_attack_stat_status(void *arg1_arg) {
 }
 
 void TObjChara::apply_defense_stat_status(void *receipt_arg) {
-    StatStatusReceipt_80014E74 *receipt = (StatStatusReceipt_80014E74 *)receipt_arg;
+    StatStatusReceipt *receipt = (StatStatusReceipt *)receipt_arg;
     f32 temp_f31;
     f32 var_f30;
     f32 status_effect_amount;

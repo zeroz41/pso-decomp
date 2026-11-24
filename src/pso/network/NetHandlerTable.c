@@ -91,11 +91,12 @@ s16 TLobby__sub_804098B4(void *pkt) {
 inline s32 calc_80409908(void *self, u8 *arr) {
     u8 tmp[0x10];
     u8 *p;
+    s32 *meta = (s32 *)arr;
     saddr acc;
     s16 n;
     s32 sum;
     sum = 0;
-    n = (s16)*(s32 *)(arr + 4);
+    n = (s16)meta[1];
     acc = (saddr)self;
     p = arr + n * 12;
     while (n > 0) {
@@ -106,8 +107,8 @@ inline s32 calc_80409908(void *self, u8 *arr) {
         p -= 12;
         n--;
     }
-    if ((s16)sum != (s16)*(s32 *)(arr + 8)) return sum;
-    return (s16)*(s32 *)(arr + 8);
+    if ((s16)sum != (s16)meta[2]) return sum;
+    return (s16)meta[2];
 }
 
 s32 TLobby__sub_80409908(void *self, void *arr_) {

@@ -1,3 +1,4 @@
+#include "pso/unk/text_803D853C.h"
 #include "pso/camera/RadarMapViewState.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/unk/text_803D96A8.h"
@@ -283,7 +284,6 @@ extern "C" {
 void rotate_matrix_y(void *, s32);
 void setup_overhead_projection__13TRaderMapCoreFv(s32 arg0, Cam_801F9314 *arg1);
 }
-void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
 extern "C" {
 
 extern Color_801FAAEC radar_map_backdrop_color;

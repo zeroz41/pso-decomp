@@ -313,7 +313,7 @@ s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
         adxf->state = 3;
     } else {
         set_adx_stream_size_sectors(adxf->stream, adxf->read_sector_count);
-        set_scroll_position__6TLobbyFl(adxf->stream, -1);
+        set_adx_stream_end_sector(adxf->stream, -1);
         set_buffer__6TLobbyFPPv(adxf->stream, sj);
         set_field_10_and_notify__6TLobbyFl(adxf->stream, adxf->archive_start_sector + adxf->sector_position);
         set_adx_max_read_sectors(adxf->stream, adxf->requested_read_sectors);
@@ -356,7 +356,7 @@ s32 adxf_read_sj32(AdxfHandle *adxf, s32 nsct, SjRingBuffer *sj) {
         adxf->state = 3;
     } else {
         set_adx_stream_size_sectors(adxf->stream, adxf->read_sector_count);
-        set_scroll_position__6TLobbyFl(adxf->stream, -1);
+        set_adx_stream_end_sector(adxf->stream, -1);
         set_buffer__6TLobbyFPPv(adxf->stream, sj);
         set_field_10_and_notify__6TLobbyFl(adxf->stream, adxf->archive_start_sector + adxf->sector_position);
         set_adx_max_read_sectors(adxf->stream, adxf->requested_read_sectors);

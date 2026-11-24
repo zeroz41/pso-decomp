@@ -490,7 +490,7 @@ s32 TUnk_804E4B24::is_in_camera_range() {
 void TUnk_804E4B24::update_collision() {
     set_matrix_identity((u8 *)matrix);
     translate_matrix_vec3((u8 *)matrix, (u8 *)&position);
-    rotate_matrix_yxz((saddr)matrix, rotation_x, rotation_y, rotation_z);
+    rotate_matrix_yxz(matrix, rotation_x, rotation_y, rotation_z);
 }
 
 TObjBoss7TunnelCol::TObjBoss7TunnelCol(TObject *parent) : TObjCollidable(parent) {

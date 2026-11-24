@@ -126,13 +126,13 @@ const char *canadin_leader_fade_sequence_table[5] = {
     "abaaabababbac",
     "ababababaabbaabbababaabaabaaabbbbc",
 };
-const DragonAttackParams canadin_discharge_attack_params = { 3, 5.0f, 3.0f, 3.0f, 1 };
-const DragonAttackParams canadin_self_destruct_attack_params = { 3, 10.0f, 20.0f, 3.0f, 1 };
+const DragonAttackParams canadin_discharge_attack_params = { 3, 5.0f, 3.0f, {3.0f, 1} };
+const DragonAttackParams canadin_self_destruct_attack_params = { 3, 10.0f, 20.0f, {3.0f, 1} };
 const char *TObjEneMe1Canadin__class_name = "TObjEneMe1Canadin";
 const char *TObjEneMe1CanadinLeader__class_name = "TObjEneMe1CanadinLeader";
-saddr canadin_boss_stat_handle_table[3];
-saddr canadin_shared_handler_b_table[3];
-saddr canadin_object_handle_table[3];
+player_stats *canadin_boss_stat_handle_table[3];
+AttackParams *canadin_shared_handler_b_table[3];
+ActorParamBlock *canadin_object_handle_table[3];
 TObjEneMe1CanadinParams *canadin_shared_handler_a_table[3];
 Vec canadin_node_origin;
 
@@ -145,8 +145,8 @@ Vec canadin_node_origin;
 // two NPC copies.
 void TObjEneMe1Canadin::load_resources() {
     s32 i;
-    s32 model;
-    s32 model2;
+    NJS_OBJECT *model;
+    NJS_OBJECT *model2;
     void *p;
 
     canadin_node_origin.x = 0.0f;
@@ -158,9 +158,9 @@ void TObjEneMe1Canadin::load_resources() {
         bm_ene_me1_mb_resource = load_enemy_bml_resource(&bm_ene_me1_mb_resource_descriptor);
     }
     for (i = 0; i < 3; i++) {
-        canadin_boss_stat_handle_table[i] = (saddr)TLobby::register_boss(canadin_base_stat_ids[i]);
-        canadin_shared_handler_b_table[i] = (saddr)TLobby::dispatch_shared_handler_b(canadin_attack_stat_ids[i]);
-        canadin_object_handle_table[i] = (saddr)TLobby::register_object(canadin_resist_stat_ids[i]);
+        canadin_boss_stat_handle_table[i] = TLobby::register_boss(canadin_base_stat_ids[i]);
+        canadin_shared_handler_b_table[i] = TLobby::dispatch_shared_handler_b(canadin_attack_stat_ids[i]);
+        canadin_object_handle_table[i] = TLobby::register_object(canadin_resist_stat_ids[i]);
         canadin_shared_handler_a_table[i] = (TObjEneMe1CanadinParams *)TLobby::dispatch_shared_handler_a(canadin_param_ids[i]);
     }
     TObjEneMe1Canadin__render_node_index = 0;
@@ -168,17 +168,17 @@ void TObjEneMe1Canadin::load_resources() {
     canadin_leader_breakup_model = (TBreakUpMdlData *)p;
     p = new TBreakUpMdlData((saddr)bm_ene_me1_mb_resource->models[0].model);
     canadin_breakup_model = (TBreakUpMdlData *)p;
-    model = (saddr)bm_ene_me1_mb_resource->models[1].model;
-    canadin_leader_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 3))->model)->polygon_list + 2);
-    canadin_leader_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model, 2))->model)->polygon_list + 2);
-    model2 = (saddr)bm_ene_me1_mb_resource->models[0].model;
-    canadin_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model2, 3))->model)->polygon_list + 2);
-    canadin_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)((NJS_OBJECT *)find_model_node(model2, 2))->model)->polygon_list + 2);
+    model = bm_ene_me1_mb_resource->models[1].model;
+    canadin_leader_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model, 3)->model)->polygon_list + 2);
+    canadin_leader_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model, 2)->model)->polygon_list + 2);
+    model2 = bm_ene_me1_mb_resource->models[0].model;
+    canadin_node3_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model2, 3)->model)->polygon_list + 2);
+    canadin_node2_diffuse = (s32 *)(((NJS_CNK_MODEL *)find_model_node(model2, 2)->model)->polygon_list + 2);
     TObjPlayer::init_alt_model();
     s16 ids[2] = { 0x17, 0x18 };
-    NpcAnimationBinding params = { reinterpret_cast<BmlMotionEntry *>(bm_ene_me1_mb_resource->motions), reinterpret_cast<TObjMotionAction *>(canadin_action_table), 0, 0, 7 };
+    NpcAnimationBinding params = { bm_ene_me1_mb_resource->motions, canadin_action_table, 0, 0, 7 };
     for (i = 0; i < 2; i++) {
-        NpcModelRegistry::register_animated_chunk(ids[i], reinterpret_cast<void *>(bm_ene_me1_mb_resource->models[i].model), bm_ene_me1_mb_resource->models[1].texlist, &params, 8.0f, 15.0f);
+        NpcModelRegistry::register_animated_chunk(ids[i], bm_ene_me1_mb_resource->models[i].model, bm_ene_me1_mb_resource->models[1].texlist, &params, 8.0f, 15.0f);
     }
 }
 
@@ -238,12 +238,12 @@ void TObjEneMe1Canadin::setup_enemy() {
     init_position_vectors();
     this->select_model();
     init_model(&canadin_collision_body, 1);
-    set_action_table((saddr)canadin_action_table);
-    set_motion_list((saddr)bm_ene_me1_mb_resource->motions);
+    set_action_table(canadin_action_table);
+    set_motion_list(bm_ene_me1_mb_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    reset_hp((u8 *)canadin_boss_stat_handle_table[kind], (u8 *)canadin_shared_handler_b_table[kind], (u8 *)canadin_object_handle_table[kind]);
+    reset_hp(canadin_boss_stat_handle_table[kind], canadin_shared_handler_b_table[kind], canadin_object_handle_table[kind]);
     set_state_flag_4();
     movementParameters = &canadin_setup_param_block;
     initialize_enemy_state(0x1C);

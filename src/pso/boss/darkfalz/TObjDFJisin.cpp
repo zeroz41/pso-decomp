@@ -374,10 +374,10 @@ extern "C" {
 void TObjDFTenchuFuru::capture_matrix_by_frame(NJS_OBJECT *) {
     switch (matrix_node_index) {
     case 0x3B:
-        get_current_matrix(df_captured_matrix_pair[0]);
+        get_current_matrix(&df_captured_matrix_pair[0]);
         break;
     case 0x3A:
-        get_current_matrix(df_captured_matrix_pair[1]);
+        get_current_matrix(&df_captured_matrix_pair[1]);
         break;
     }
     matrix_node_index += 1;

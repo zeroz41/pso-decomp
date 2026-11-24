@@ -93,7 +93,7 @@ extern const f32 gryphon_lightning_points_per_unit;
 
 #pragma push
 #pragma fp_contract on
-TBoss5GryphonLightningEff::TBoss5GryphonLightningEff(TObject *parent, TBoss5GryphonLightningSegment *segments,
+TBoss5GryphonLightningEff::TBoss5GryphonLightningEff(TObject *parent, CurvePathPoint *segments,
                                                      int segment_count, f32 from, f32 to, f32 scale)
     : TTecZondeEff(parent, 0x30000000, 4, scale) {
     Vec v;

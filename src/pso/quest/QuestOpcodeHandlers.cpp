@@ -1,3 +1,5 @@
+#include "pso/math/CurvePathPoint.h"
+#include "pso/system/ResourceFile.h"
 #include "pso/system/GbaDownloadRuntime.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include <stdio.h>
@@ -59,6 +61,7 @@ s32 qst_call_stack_pop(void);
 int qst_label_address(int label);
 #include "pso/quest/QuestOpcodeTables.h"
 #include "types.h"
+#include "pso/player/PlayerAttackParams.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/camera/CreationCamera.h"
@@ -962,8 +965,6 @@ s32 TLobby__sub_802924B4(Item_801EBF30 *, u16);
 s32 TLobby__sub_8029299C();
 s32 TLobby__sub_80292A34();
 s32 TLobby__sub_8032CDEC();
-s32 fn_8034D3D0(u8 *, f32, s32, s32, s32, Vec *, s32);
-s32 fn_8034D790(u8 *, f32, s32, s32, s32, Vec *);
 int notify_all_battle_players__10TObjPlayerFv(void*);
 int update_4p_battle_ctrls__10TObjPlayerFv(void*);
 int update_alloc_size__6TLobbyFv(void*);
@@ -1761,17 +1762,17 @@ void qst_op_compute_bezier_curve_point() {
     f32 f8 = g->f8;
     s32 fC = g->fC;
     s32 out = g->out;
-    u8 *pts;
+    CurvePathPoint *pts;
     s32 i;
     s32 ret;
     s32 j;
     Vec *dst;
-    pts = (u8 *)((uaddr (*)(void *, int))qst_label_address)((void *)(uaddr)(u16)g->id, (saddr)g);
+    pts = (CurvePathPoint *)((uaddr (*)(void *, int))qst_label_address)((void *)(uaddr)(u16)g->id, (saddr)g);
     if (pts == NULL) {
         return;
     }
     for (i = 0; i < count; i++) {
-        ((TLobby *)(pts + i * 0x10))->bswap_4x32();
+        reinterpret_cast<TLobby *>(&pts[i])->bswap_4x32();
     }
     ret = fn_8034D3D0(pts, f4, count, f8, fC, &v, 100);
     dst = (Vec *)&qst_registers[out];
@@ -1780,7 +1781,7 @@ void qst_op_compute_bezier_curve_point() {
     dst->z = v.z;
     *(s32 *)&((f32 *)qst_registers)[out + 3] = ret;
     for (j = 0; j < count; j++) {
-        ((TLobby *)(pts + j * 0x10))->bswap_4x32();
+        reinterpret_cast<TLobby *>(&pts[j])->bswap_4x32();
     }
     return;
 }
@@ -1793,17 +1794,17 @@ void qst_op_get_vector_from_path() {
     f32 f8 = g->f8;
     s32 fC = g->fC;
     s32 out = g->out;
-    u8 *pts;
+    CurvePathPoint *pts;
     s32 i;
     s32 ret;
     s32 j;
     Vec *dst;
-    pts = (u8 *)((uaddr (*)(void *, int))qst_label_address)((void *)(uaddr)(u16)g->id, (saddr)g);
+    pts = (CurvePathPoint *)((uaddr (*)(void *, int))qst_label_address)((void *)(uaddr)(u16)g->id, (saddr)g);
     if (pts == NULL) {
         return;
     }
     for (i = 0; i < count; i++) {
-        ((TLobby *)(pts + i * 0x10))->bswap_4x32();
+        reinterpret_cast<TLobby *>(&pts[i])->bswap_4x32();
     }
     ret = fn_8034D790(pts, f4, count, f8, fC, &v);
     dst = (Vec *)&qst_registers[out];
@@ -1812,7 +1813,7 @@ void qst_op_get_vector_from_path() {
     dst->z = v.z;
     *(s32 *)&((f32 *)qst_registers)[out + 3] = ret;
     for (j = 0; j < count; j++) {
-        ((TLobby *)(pts + j * 0x10))->bswap_4x32();
+        reinterpret_cast<TLobby *>(&pts[j])->bswap_4x32();
     }
     return;
 }
@@ -2406,23 +2407,23 @@ void qst_op_set_enemy_movement_data(s32 label) {
 }
 
 void qst_op_set_enemy_resist_data(s32 label) {
-    ByteBlock_20 packet;
+    ActorParamBlock packet;
     uaddr data_addr;
     data_addr = ((int (*)(int))qst_label_address)(label);
     if (data_addr != 0U) {
-        packet = *(const ByteBlock_20 *)(data_addr - 4 + 4);
-        ((TLobby *)(&packet))->swap_endian();
+        *reinterpret_cast<ByteBlock_20 *>(&packet) = *reinterpret_cast<const ByteBlock_20 *>(data_addr);
+        packet.swap_endian();
         TLobby__sub_8001DE30(&packet);
     }
 }
 
 void qst_op_set_enemy_attack_data(s32 label) {
-    ByteBlock_30 packet;
+    AttackParams packet;
     uaddr data_addr;
     data_addr = ((int (*)(int))qst_label_address)(label);
     if (data_addr != 0U) {
-        packet = *(const ByteBlock_30 *)(data_addr - 4 + 4);
-        ((TLobby *)(&packet))->byteswap_packet();
+        *reinterpret_cast<ByteBlock_30 *>(&packet) = *reinterpret_cast<const ByteBlock_30 *>(data_addr);
+        packet.byteswap_packet();
         TLobby::copy_all_entries(&packet);
     }
 }

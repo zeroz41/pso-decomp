@@ -13,7 +13,7 @@ TUnk_804F1C58::TUnk_804F1C58(TObject *parent, void *model) : TObject(parent) {
     frame = 0.0f;
     pad_30 = 0;
     node_count = count_tree_nodes((NJS_OBJECT *)model);
-    node_matrices = mem_alloc(node_count * 0x30);
+    node_matrices = static_cast<GC_Mtx *>(mem_alloc(node_count * sizeof(GC_Mtx)));
     pad_34 = 0;
     node_callback = 0;
 }

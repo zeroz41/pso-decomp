@@ -5,6 +5,7 @@
 #include "types.h"
 #include "pso/audio/AdxCallbacks.h"
 
+struct AudioStreamInputState;
 struct LscStream;
 struct SjRingBuffer;
 
@@ -14,8 +15,8 @@ typedef struct AdxStreamPlayer {
     s8 stat;
     s8 play_mode;
     u8 pad_3;
-    saddr f4;
-    AdxStreamFile *f8;
+    AudioStreamInputState *input_state;
+    AdxStreamFile *file;
     saddr fC;
     s32 file_buffer;
     SjRingBuffer *input;
@@ -26,7 +27,9 @@ typedef struct AdxStreamPlayer {
     s32 f48;
     u8 pad_4C[0x60 - 0x4C];
     s16 f60;
-    u8 pad_62[0x70 - 0x62];
+    u8 pad_62[0x6C - 0x62];
+    s8 loop_flag;
+    u8 pad_6D[0x70 - 0x6D];
     s8 f70;
     u8 f71;
     s8 f72;
@@ -39,7 +42,7 @@ typedef struct AdxStreamPlayer {
     u8 pad_A4[0xA8 - 0xA4];
 } AdxStreamPlayer;
 LAYOUT_ASSERT(AdxStreamPlayerSize, sizeof(AdxStreamPlayer) == 0xA8);
-LAYOUT_ASSERT(AdxStreamPlayerFileOffset, offsetof(AdxStreamPlayer, f8) == 8);
+LAYOUT_ASSERT(AdxStreamPlayerFileOffset, offsetof(AdxStreamPlayer, file) == 8);
 
 extern "C" {
 AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg);

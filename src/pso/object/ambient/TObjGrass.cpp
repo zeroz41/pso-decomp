@@ -411,7 +411,7 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     subtype = 0;
     init_from_table_entry(variant);
     action_table = TObjGrass__grass_type_param_table;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     if ((0.0f) < parameters[1]) {
         m_39c = 2;
     } else {
@@ -422,7 +422,7 @@ TObjGrass::TObjGrass(TObject *parent, void *set_data) : TObjEnemy(parent) {
     set_requested_action(requested_action);
     init_collision_body_parts(this, &((E2C_800BF924 *)lbl_80492A00)[variant], 1);
     m_39e = 0;
-    bind_enemy_combat_stats((u8 *)lbl_805D5140, (u8 *)TObjGrass__bml_resource[m_39e], (u8 *)grass_combat_stats_handle);
+    bind_enemy_combat_stats(reinterpret_cast<player_stats *>(lbl_805D5140), reinterpret_cast<AttackParams *>(TObjGrass__bml_resource[m_39e]), reinterpret_cast<ActorParamBlock *>(grass_combat_stats_handle));
     movementParameters = &((E1C_800BF924 *)lbl_804929E4)[variant];
     referenceHp = hp;
     update_prev_position();
@@ -480,7 +480,7 @@ void TObjGrass::load_resources() {
     {
         NpcAnimationBinding binding = grass_spawn_descriptor;
         binding.motions = TObjGrass__resource_bundle->motions;
-        NpcModelRegistry::register_animated_chunk(0x35, reinterpret_cast<void *>(TObjGrass__resource_bundle->models[0].model),
+        NpcModelRegistry::register_animated_chunk(0x35, TObjGrass__resource_bundle->models[0].model,
             TObjGrass__resource_bundle->models[0].texlist, &binding, 10.0f, 0.0f);
     }
 }
@@ -1005,7 +1005,7 @@ void TObjGrass::update_chase_target(void *arg0_) {
 #define TBL TObjGrass__bml_resource
 #define T318 attack_params
 #define IN_RANGE() (dist <= (r + T318->get_attack_range()) * (r + T318->get_attack_range()) && ang <= T318->get_attack_angle())
-#define BIND(n) m_39e = (n); bind_enemy_combat_stats(NULL, (u8 *)TBL[m_39e], NULL); return 1;
+#define BIND(n) m_39e = (n); bind_enemy_combat_stats(NULL, reinterpret_cast<AttackParams *>(TBL[m_39e]), NULL); return 1;
 
 s32 TObjGrass::is_target_in_attack_range() {
     f32 dist;

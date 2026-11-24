@@ -221,10 +221,10 @@ TObjEneDubchik::TObjEneDubchik(TObject *parent, void *set_data) : TObjEnemyCusto
     state36C = *(s16 *)((u8 *)set_data + 0x3E);
     init_level_stats(variant);
     action_table = dubchik_action_table;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     init_collision_body_parts(this, dubchik_collision_body, 1);
     movementParameters = &dubchik_movement;
-    bind_enemy_combat_stats(dubchik_base_params_by_variant[variant], dubchik_attack_params_by_variant[variant], dubchik_resistance_params_by_variant[variant]);
+    bind_enemy_combat_stats(reinterpret_cast<player_stats *>(dubchik_base_params_by_variant[variant]), reinterpret_cast<AttackParams *>(dubchik_attack_params_by_variant[variant]), reinterpret_cast<ActorParamBlock *>(dubchik_resistance_params_by_variant[variant]));
     load_params();
     requested_action = 5;
     set_animation(requested_action);
@@ -284,7 +284,7 @@ void TObjEneDubchik::load_resources() {
     void *p;
     s32 m;
     s32 i;
-    uaddr mdl;
+    NJS_OBJECT *mdl;
     NJS_OBJECT *n;
     if (TObjEneDD::check_v2_mode() != 0) {
         dubchik_resource = load_enemy_bml_resource_named(&bm_ene_dubchik_resource_descriptor, (const char *)dubchik_bml_filename());
@@ -298,12 +298,12 @@ void TObjEneDubchik::load_resources() {
     } else {
         dubchik_variant_texlist = load_gvm_texture_file(dubchik_gvm_filename());
     }
-    n = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[1].model, 0x17);
+    n = find_model_node(dubchik_resource->models[1].model, 0x17);
     n->sibling = NULL;
     init_fake_tec_texlist();
-    lbl_805D509C = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[0].model, 0x15);
-    lbl_805D50A0 = (NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[0].model, 0x2A);
-    ((NJS_OBJECT *)find_model_node((uaddr)dubchik_resource->models[1].model, 0x15))->evalflags |= NJD_EVAL_HIDE;
+    lbl_805D509C = find_model_node(dubchik_resource->models[0].model, 0x15);
+    lbl_805D50A0 = find_model_node(dubchik_resource->models[0].model, 0x2A);
+    find_model_node(dubchik_resource->models[1].model, 0x15)->evalflags |= NJD_EVAL_HIDE;
     p = new TBreakUpMdlData((saddr)dubchik_resource->models[0].model);
     breakup_model_ptr = p;
     p = new SampledMotionPoints(2, 28.0f, 35.0f, 1.0f);
@@ -326,9 +326,9 @@ void TObjEneDubchik::load_resources() {
         dubchik_resistance_params_by_variant[i] = (u8 *)TLobby::register_object(i + 0x1B);
         dubchik_behavior_params_by_variant[i] = (TObjEneDubchikBehaviorParams *)TLobby::dispatch_shared_handler_a(i + 0x1B);
     }
-    mdl = (uaddr)dubchik_resource->models[0].model;
+    mdl = dubchik_resource->models[0].model;
     for (i = 0; i < 3; i++) {
-        nodes[i] = (NJS_OBJECT *)find_model_node(mdl, dubchik_part_root_node_ids[i]);
+        nodes[i] = find_model_node(mdl, dubchik_part_root_node_ids[i]);
     }
     collect_visible_nodes(nodes[0], dubchik_part0_nodes);
     collect_visible_nodes(nodes[1], dubchik_part1_nodes);

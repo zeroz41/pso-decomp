@@ -35,13 +35,13 @@ void *TWindowCtrl__sub_8024FB80(s8 i) {
 TWindowEffectParty::TWindowEffectParty(TObject *object, s8 arg2, s8 arg3, void *idx) : TObject(object) {
     Pos_8024FAD8 p;
     *(s32 *)this = ((saddr)TWindowEffectParty__name);
-    *(s8 *)&this->m_1d = arg2;
-    TWindowEffectParty::set_slot_position((saddr)this, (s32)(*(s8 *)&this->m_1d), (void *)(((u8 *)this) + 0x20));
-    *(s8 *)&this->m_1e = arg3;
-    TWindowEffectParty::set_slot_position((saddr)this, (s32)(*(s8 *)&this->m_1e), (void *)(((u8 *)this) + 0x28));
+    this->source_slot = arg2;
+    TWindowEffectParty::set_slot_position((saddr)this, (s32)this->source_slot, &this->pos_x);
+    this->target_slot = arg3;
+    TWindowEffectParty::set_slot_position((saddr)this, (s32)this->target_slot, &this->target_x);
     this->calc_effect_position(&p);
     this->m_particle = spawn_continuous_particle_effect_with_flags((void *)&p, (saddr)idx, (s32)(0xC0));
-    *(s8 *)&this->m_1c = 0;
+    this->state = 0;
 }
 
 TWindowEffectParty::~TWindowEffectParty() {
@@ -54,27 +54,27 @@ void TWindowEffectParty::run_task() {
 
     void *window;
 
-    temp_r3 = this->m_1e;
+    temp_r3 = this->target_slot;
     if (((s8) temp_r3 > 0) && (((window = TWindowCtrl__sub_8024FB80(temp_r3 - 1)) == 0) || (((TWindowBase *)window)->sub_80244994() == 0))) {
         queue_destruction();
         return;
     }
-    switch ((s8) this->m_1c) {
+    switch (this->state) {
     case 0:
-        this->m_1c = 1U;
+        this->state = 1;
     case 1:
-        if (step_toward_target(296.0f, *(f32 *)&this->_pad24) != 0) {
-            this->m_1c = 2U;
+        if (step_toward_target(296.0f, this->pos_y) != 0) {
+            this->state = 2;
         }
         break;
     case 2:
-        if (step_toward_target(296.0f, *(f32 *)&this->_pad2C) != 0) {
-            this->m_1c = 3U;
+        if (step_toward_target(296.0f, this->target_y) != 0) {
+            this->state = 3;
         }
         break;
     case 3:
-        if (step_toward_target(*(f32 *)&this->m_28, *(f32 *)&this->_pad2C) != 0) {
-            this->m_1c = 4U;
+        if (step_toward_target(this->target_x, this->target_y) != 0) {
+            this->state = 4;
         }
         break;
     case 4:
@@ -161,9 +161,10 @@ void TWindowEffectParty::set_slot_position(s32 arg0, s32 arg1, void *window_sub_
 }
 
 void TWindowEffectParty::calc_effect_position(void *arg1) {
-    *(f32 *)((s8 *)arg1 + 0) = (f32) *(f32 *)&this->m_20;
-    *(f32 *)((s8 *)arg1 + 4) = (f32) *(f32 *)&this->_pad24;
-    *(f32 *)((s8 *)arg1 + 8) = (f32) (-1.0f / get_scale__15TWindowCtrlMainFv(local_client_id));
+    f32 *out = (f32 *)arg1;
+    out[0] = this->pos_x;
+    out[1] = this->pos_y;
+    out[2] = (f32)(-1.0f / get_scale__15TWindowCtrlMainFv(local_client_id));
 }
 
 s32 TWindowEffectParty::step_toward_target(f32 farg0, f32 farg1) {

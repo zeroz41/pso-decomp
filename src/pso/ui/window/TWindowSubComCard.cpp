@@ -1671,8 +1671,8 @@ void TWindowSubComCard::set_selected_card(s32 card_index) {
     u8 *card_data;
     saddr guild_card_record;
     Rec_80272290 *cnt;
-    if (*(s32 *)&this->m_28 != card_index) {
-        *(s32 *)&this->m_28 = card_index;
+    if ((s32)this->m_28 != card_index) {
+        this->m_28 = (uaddr)card_index;
         cnt = (Rec_80272290 *)TWindowSubComCard::get_com_count();
         card_data = cnt[card_index].f4;
         load_selected_guild_card_record((saddr)card_data, card_index * 0xD4);
@@ -1684,7 +1684,7 @@ void TWindowSubComCard::set_selected_card(s32 card_index) {
         text_builder_append((u8 *)(((void* (*)(int))TWindowSubComCard__sub_8027523C)(guild_card_record)));
         text_builder_append((u8 *)"\n");
         text_builder_append((u8 *)(reinterpret_cast<GuildCardRecord *>(guild_card_record)->get_card_data_ptr()));
-        ((TWindowMessage *)(*(saddr *)&this->message_window))->append_line((saddr)get_shared_text_buffer(), 0x82);
+        ((TWindowMessage *)this->message_window)->append_line((saddr)get_shared_text_buffer(), 0x82);
     }
 }
 

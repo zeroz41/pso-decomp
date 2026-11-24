@@ -71,12 +71,13 @@ void TObjPlayer::place_on_area_entry() {
     this->set_position_history_entry(0, this->position.x, this->position.z);
     clear_movement_history((MovementHistory *)&this->m_6ac);
     if (TObjPlayer::is_single_screen() != 0) {
-        reset_cameras_to_actor(arg0, 0);
+        reset_cameras_to_actor(this, 0);
     } else if (this->sub_801A1DDC() != 0) {
-        if (TObjPlayer::is_locally_controlled(arg0) == 0 && (p = get_player_by_client_id(local_client_id)) != NULL) {
-            reset_cameras_to_actor(p, 0);
+        TObjPlayer *player;
+        if (TObjPlayer::is_locally_controlled(arg0) == 0 && (player = get_player_by_client_id(local_client_id)) != NULL) {
+            reset_cameras_to_actor(player, 0);
         } else {
-            reset_cameras_to_actor(arg0, 0);
+            reset_cameras_to_actor(this, 0);
         }
     }
 }

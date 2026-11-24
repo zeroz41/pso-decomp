@@ -18,16 +18,6 @@ struct TBoss3VoloptP01Collision {
     u32 flags;
 };
 
-struct TBoss3VoloptChunk {
-    u8 pad_0[0x4];
-    u8 *color;
-};
-
-struct TBoss3VoloptChunkList {
-    u8 pad_0[0x4];
-    TBoss3VoloptChunk *first;
-};
-
 struct TBoss3VoloptModelNode {
     u8 pad_0[0x4];
     void *root;

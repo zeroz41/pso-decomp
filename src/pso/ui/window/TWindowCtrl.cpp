@@ -272,9 +272,9 @@ void *__ct__17TWindowCtrlPlayerFP7TObjectl(void *, void *, s32);
 LAYOUT_ASSERT(WindowCtrlFlagsOffset, offsetof(TWindowCtrl, flags) == 0x1C);
 LAYOUT_ASSERT(WindowCtrlChildOffset, offsetof(TWindowCtrl, m_3c) == 0x3C);
 
-s32 TWindowSimpleStatus::get_width() { return (s16)(*(s16 *)&this->client_index); }
+s32 TWindowSimpleStatus::get_width() { return this->client_index; }
 
-s16 TWindowFukidasi::get_field_20() { return *(s16 *)&(this->client_index); }
+s16 TWindowFukidasi::get_field_20() { return this->client_index; }
 
 s32 TWindowCtrl::is_visible() { return this->flags & 0x1; }
 

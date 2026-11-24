@@ -19,6 +19,7 @@ struct AttackParams {
     u8 pad_14[0x1C];
 
     s16 get_ata();
+    void byteswap_packet();
     f32 get_attack_range();
     void set_attack_range(f32 range);
     s32 get_attack_angle();
@@ -43,6 +44,8 @@ struct ActorParamBlock {
     s16 values[6];
     u8 pad_c[0x10];
     s32 value_1c;
+
+    void swap_endian();
 };
 
 class TObjChara;

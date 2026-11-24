@@ -92,11 +92,11 @@ void TObjEneBalClawClaw::init() {
     this->m_name = balclaw_claw_class_name;
     this->motion_list = balclaw_bml_resource->motions;
     this->action_table = balclaw_claw_actions;
-    this->set_action_table((saddr)this->action_table);
+    this->set_action_table(this->action_table);
     init_collision_body_parts(this, &TObjEneBalClawClaw__collision_body_template, 1);
     this->variant = 0;
     this->movementParameters = &balclaw_claw_movement;
-    this->bind_enemy_combat_stats(balclaw_claw_base_params[0], balclaw_claw_attack_params[0], balclaw_claw_resistance_params[0]);
+    this->bind_enemy_combat_stats(reinterpret_cast<player_stats *>(balclaw_claw_base_params[0]), reinterpret_cast<AttackParams *>(balclaw_claw_attack_params[0]), reinterpret_cast<ActorParamBlock *>(balclaw_claw_resistance_params[0]));
     this->load_params();
     this->requested_action = 0;
     this->set_animation(this->requested_action);
@@ -715,10 +715,10 @@ void TObjEneBalClawClaw::update_retreat() {
 
 // Registers the claw model (claw_body) and action table with the NPC model registry.
 void TObjEneBalClawClaw::load_resources() {
-    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(balclaw_bml_resource->motions), reinterpret_cast<TObjMotionAction *>(balclaw_claw_actions), 0, 1, 7 };
+    NpcAnimationBinding binding = { balclaw_bml_resource->motions, balclaw_claw_actions, 0, 1, 7 };
     BmlModelEntry *models;
     models = balclaw_bml_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x14, reinterpret_cast<void *>(models[2].model), models[2].texlist, &binding,
+    NpcModelRegistry::register_animated_chunk(0x14, models[2].model, models[2].texlist, &binding,
                             TObjEneBalClawClaw__collision_body_template.radius, 15.0f);
 }
 

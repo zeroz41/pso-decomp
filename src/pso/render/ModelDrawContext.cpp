@@ -3,6 +3,7 @@
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/animation/MotionContext.h"
 #include "types.h"
+#include "pso/unk/text_803D853C.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/RenderSbssGlobals.h"
@@ -34,7 +35,7 @@ __declspec(section ".rodata") extern const u32 cached_blend_factor_table[];
 void init_render_context(C_803DCBF0 *arg0);
 extern RecoveredCallback_1268626c296b motion_node_draw_callback;
 __declspec(section ".rodata") extern const Tbl_803DCC34 gx_blend_mode_table;
-extern s32 node_saved_matrix[];
+extern GC_Mtx node_saved_matrix;
 void set_model_node_callback(ModelNodeCallback callback) {
     model_node_callback = callback;
 }
@@ -51,7 +52,6 @@ void draw_ginja_model_with_motion(void *model, void *motion, f32 frame) {
     }
 }
 }
-void get_current_matrix(void *m);
 #pragma push
 #pragma peephole off
 #pragma scheduling off
@@ -96,7 +96,7 @@ void traverse_model_node_tree(NJS_OBJECT *node, s32 (*draw)(void *model)) {
     do {
         uaddr f = node->evalflags;
         if (f & 0x800) {
-            get_current_matrix((node_saved_matrix));
+            get_current_matrix(&node_saved_matrix);
         }
         if ((f & 7) == 7) {
             if (!(f & 8)) {
@@ -112,7 +112,7 @@ void traverse_model_node_tree(NJS_OBJECT *node, s32 (*draw)(void *model)) {
             }
             if (!(f & 2)) {
                 if (f & 0x1000) {
-                    copy_rotation_to_current_matrix((struct Mtx_803DC994 *) (node_saved_matrix));
+                    copy_rotation_to_current_matrix(reinterpret_cast<struct Mtx_803DC994 *>(&node_saved_matrix));
                 } else if (f & 0x400) {
                     apply_quat_rotation(node->quat_w, (f32 *)node->ang);
                 } else {
@@ -197,5 +197,5 @@ __declspec(section ".rodata") extern const Tbl_803DCC34 gx_blend_mode_table = {{
 __declspec(section ".rodata") extern const u32 cached_blend_factor_table[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 
 
-s32 node_saved_matrix[12];
+GC_Mtx node_saved_matrix;
 

@@ -14,9 +14,6 @@
 struct RecoveredGlobal_8006F5B0_lbl_8048C9D8 { s32 value; u8 remaining[0x744]; };
 LAYOUT_ASSERT(RecoveredGlobal_8006F5B0_lbl_8048C9D8_size, sizeof(RecoveredGlobal_8006F5B0_lbl_8048C9D8) == 0x748);
 
-struct G_8006F2CC { u8 pad[0x28]; s32 x28; };
-
-
 extern RecoveredGlobal_8006F5B0_lbl_8048C9D8 challenge_mode_state;
 s32 TLobby::calc_challenge_time_limit() {
     s32 valid_slot;
@@ -32,29 +29,14 @@ s32 TLobby::calc_challenge_time_limit() {
 }
 void TLobby::advance_state_if_flag_set() {
     if (TLobby::is_flag_set() != 0) {
-        switch ((*(G_8006F2CC *)&challenge_mode_state).x28) {
+        switch (((ChallengePhaseView *)&challenge_mode_state)->phase) {
         case 0:
-            (*(G_8006F2CC *)&challenge_mode_state).x28 = 1;
+            ((ChallengePhaseView *)&challenge_mode_state)->phase = 1;
             break;
         }
     }
 }
 
-
-struct Entry_8006F48C {
-    char key[12];
-    char name[12];
-    s32 id;
-};
-
-struct Table_8006F48C {
-    u8 pad0[0x18];
-    s32 defaultId;
-    s32 count;
-    u8 pad20[0x30];
-    char defaultName[12];
-    Entry_8006F48C entries[1];
-};
 
 struct Win_8006F48C {
     u8 pad0[0x21C4];
@@ -62,17 +44,6 @@ struct Win_8006F48C {
     u8 pad21C6[0x229C - 0x21C6];
     char name[11];
     char term;
-};
-
-struct Entry_8006F38C {
-    s32 value;
-    u32 mask;
-    u8 pad[0x14];
-};
-
-struct Table_8006F38C {
-    u8 pad[0x21C];
-    Entry_8006F38C entries[3];
 };
 
 extern "C" {
@@ -104,15 +75,12 @@ s32 is_id_out_of_range__6TLobbyFi(s32 arg0) {
     return 0;
 }
 
-#define TBL_8006F48C (*(Table_8006F48C *)&challenge_mode_state)
-
-#define TBL_8006F38C (*(Table_8006F38C *)&challenge_mode_state)
 s32 TLobby__sub_8006F38C(s32 total) {
     s32 lo;
     s32 hi;
     u32 *flags;
     s32 i;
-    Entry_8006F38C *e;
+    ChallengeRankEntry *e;
     uaddr w;
     lo = TWindowSubStatusDisp::calc_entry_offset(-1);
     hi = TWindowSubStatusDisp::calc_layout_hash(-1);
@@ -124,7 +92,7 @@ s32 TLobby__sub_8006F38C(s32 total) {
     }
     w = get_character_save_record(0xFFFF) + 0x21C4;
     flags = TWindowSubStatusDisp__sub_8006F134((void *)w, -1);
-    for (i = 2, e = &TBL_8006F38C.entries[2]; i >= 0; i--, e--) {
+    for (i = 2, e = &((ChallengeRankTableView *)&challenge_mode_state)->entries[2]; i >= 0; i--, e--) {
         if (e->value != 0 && e->value >= total) {
             if (e->value < lo || e->value > hi) {
                 return -4;
@@ -145,18 +113,18 @@ void TLobby__sub_8006F48C(void) {
     char key[12];
     Win_8006F48C *win;
     s32 i;
-    Entry_8006F48C *e;
+    ChallengeStageEntry *e;
     win = (Win_8006F48C *)get_character_save_record(0xFFFF);
     if (TWindowSubStatusDisp::resolve_player_slot(-1) != 0) {
         return;
     }
-    if (TBL_8006F48C.defaultName[0] == 0) {
+    if (((ChallengeStageTableView *)&challenge_mode_state)->defaultName[0] == 0) {
         return;
     }
-    if (TBL_8006F48C.count > 0) {
+    if (((ChallengeStageTableView *)&challenge_mode_state)->count > 0) {
         decode_obfuscated_string(cur, win->name, 12);
-        for (i = 0; i < TBL_8006F48C.count; i++) {
-            e = &TBL_8006F48C.entries[i];
+        for (i = 0; i < ((ChallengeStageTableView *)&challenge_mode_state)->count; i++) {
+            e = &((ChallengeStageTableView *)&challenge_mode_state)->entries[i];
             decode_obfuscated_string(key, e, 12);
             if (strncmp(key, cur, 12) == 0) {
                 strncpy(win->name, e->name, 11);
@@ -166,9 +134,9 @@ void TLobby__sub_8006F48C(void) {
             }
         }
     }
-    strncpy(win->name, TBL_8006F48C.defaultName, 11);
+    strncpy(win->name, ((ChallengeStageTableView *)&challenge_mode_state)->defaultName, 11);
     win->term = 0;
-    win->id = TLobby__sub_80071640(TBL_8006F48C.defaultId);
+    win->id = TLobby__sub_80071640(((ChallengeStageTableView *)&challenge_mode_state)->defaultId);
 }
 
 s32 TLobby__sub_8006F5B0(saddr clear_time) {

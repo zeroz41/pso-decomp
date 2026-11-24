@@ -53,11 +53,11 @@ TAdPlyPltAnimCtrlGC::~TAdPlyPltAnimCtrlGC() {
 
 void TAdPlyPltAnimCtrlGC::run_task() {
     TAdPlyPltAnimGC *p;
-    if (*(s32 *)&this->m_1c == 0) {
+    if ((s32)this->m_1c == 0) {
         return;
     }
     (this->m_20)++;
-    switch ((u32)*(s32 *)&this->m_1c) {
+    switch (this->m_1c) {
     case 0:
         break;
     case 1:
@@ -65,7 +65,7 @@ void TAdPlyPltAnimCtrlGC::run_task() {
             if ((p = TAdPlyPltAnimCtrlGC::get_table_value(0)) != NULL) {
                 p->start_anim_rect(&this->m_24);
             }
-            *(s32 *)&this->m_1c = 2;
+            this->m_1c = 2;
         }
         break;
     case 2:
@@ -73,7 +73,7 @@ void TAdPlyPltAnimCtrlGC::run_task() {
             if ((p = TAdPlyPltAnimCtrlGC::get_table_value(1)) != NULL) {
                 p->start_anim_rect(&this->m_24);
             }
-            *(s32 *)&this->m_1c = 3;
+            this->m_1c = 3;
         }
         break;
     case 3:
@@ -81,7 +81,7 @@ void TAdPlyPltAnimCtrlGC::run_task() {
             if ((p = TAdPlyPltAnimCtrlGC::get_table_value(2)) != NULL) {
                 p->start_anim_rect(&this->m_24);
             }
-            *(s32 *)&this->m_1c = 4;
+            this->m_1c = 4;
         }
         break;
     case 4:
@@ -89,7 +89,7 @@ void TAdPlyPltAnimCtrlGC::run_task() {
             if ((p = TAdPlyPltAnimCtrlGC::get_table_value(3)) != NULL) {
                 p->start_anim_rect(&this->m_24);
             }
-            *(s32 *)&this->m_1c = 5;
+            this->m_1c = 5;
         }
         break;
     case 5:
@@ -97,12 +97,12 @@ void TAdPlyPltAnimCtrlGC::run_task() {
             if ((p = TAdPlyPltAnimCtrlGC::get_table_value(4)) != NULL) {
                 p->start_anim_rect(&this->m_24);
             }
-            *(s32 *)&this->m_1c = 6;
+            this->m_1c = 6;
         }
         break;
     case 6:
         if (this->m_20 > 0x1A) {
-            *(s32 *)&this->m_1c = 7;
+            this->m_1c = 7;
         }
         break;
     case 7:

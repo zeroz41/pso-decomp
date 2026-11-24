@@ -108,13 +108,13 @@ u8 *TAdVIConfigGC::init(const Vec *position, f32 radius) {
     u8 *arg0 = (u8 *)this;
     VecCopy((Vec *)&this->m_prev, position);
     *(f32 *)&this->m_name = (f32) (radius * radius);
-    *(s32 *)&this->m_24 = 0;
+    this->m_24 = 0;
     memset((u8 *)&this->m_28, 0, 0x60);
     *(s32 *)&this->m_flags = TLobby::count_members();
     *(s32 *)&this->m_down = 0;
     *(s32 *)((s8 *)arg0 + 0x18) = 0;
     ((TAdVIConfigGC *)arg0)->open_player_names_window();
-    *(s32 *)&this->m_1c = 0;
+    this->m_1c = 0;
     return arg0;
 }
 

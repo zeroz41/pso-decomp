@@ -21,7 +21,7 @@ struct TWindowDD : public TObject
     TWindowDD(TObject *parent, void *arg2);
     virtual ~TWindowDD();
     virtual void run_task();
-    u16 m_1c;
+    s16 menu_index;
     u8 _pad1E[0x2];
     s32 m_20;
     u32 m_24[8];
@@ -47,7 +47,7 @@ struct TWindowDD : public TObject
     u32 m_c0;
     u8 m_c4[0x1C];
     u8 m_e0[0x1C];
-    u16 m_fc;
+    s16 selected_word;
     u8 _padFE[0x2];
     u32 m_100;
     u32 m_104;
@@ -158,7 +158,15 @@ s32 TWindowDD_check_input_mask(void *input_context, s32 mask);
 extern "C" {
 void *__dt__21TWindowWordSelectModeFv(void *arg0, s16 arg1);
 void measure_message_text_width_default(void *entry);
-s32 dispatch_by_window_mode(u8 *window_dd, u32 window_mode, s32 entry_id, s32 value_index);
+extern TWindowDDValueList *TWindowDD__ws_data_base;
+extern TWindowDDValueList *TWindowDD__ws_data_table;
+void build_item_list__9TWindowDDFPv(TWindowDD *window);
+s32 TWindowDD__sub_8034435C(TWindowDD *window, u32 mode, s32 entry_id, s32 value_index);
+s32 TWindowDD__sub_80344568(TWindowDD *window, u32 mode, s32 entry_id, s32 value_index);
+s32 TWindowDD__sub_80344774(TWindowDD *window, u32 mode, s32 entry_id, s32 value_index);
+s32 TWindowDD__sub_80346434(TWindowDD *window, u32 mode, s32 entry_id, s32 value_index);
+s32 TWindowDD__sub_80346640(TWindowDD *window, u32 mode, s32 entry_id, s32 value_index);
+s32 dispatch_by_window_mode(TWindowDD *window, u32 window_mode, s32 entry_id, s32 value_index);
 void TWindowDD__sub_80344114(void);
 }
 

@@ -178,7 +178,7 @@ struct Obj_8018B030 : VBase_8018B030 {
     u8 pad80[0xB8 - 0x80];
     s16 anim;
     u8 padba[0xD8 - 0xBA];
-    void *animTbl;
+    TObjMotionAction *animTbl;
     BmlMotionEntry *motion_list;
     u8 pade0[0x2FC - 0xE0];
     Vec pos2fc;
@@ -370,7 +370,7 @@ TContainerAncient01::TContainerAncient01(TObject *parent, void *set_data) : TObj
     this->model = reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TContainerAncient01__bml_resource, 0));
     this->texlist = get_bml_texlist((BmlResource *)TContainerAncient01__bml_resource, 0);
     this->action_table = TContainerAncient01__anim_table;
-    this->set_action_table((saddr)((void *) (this->action_table)));
+    this->set_action_table(this->action_table);
     this->motion_list = TContainerAncient01__bml_resource->motions;
     this->requested_action = 0;
     this->set_animation((this->requested_action));
@@ -680,8 +680,8 @@ TContainerAncient01R::TContainerAncient01R(TObject *parent, void *set_data) : TO
     self->m5(set_data);
     self->x34 = (saddr)get_bml_model((BmlResource *)TContainerAncient01R__bml_resource, 0);
     self->x24 = (saddr)get_bml_texlist((BmlResource *)TContainerAncient01R__bml_resource, 0);
-    self->animTbl = (void *)TContainerAncient01__anim_table;
-    ((TObjMotion *)self)->set_action_table((saddr)self->animTbl);
+    self->animTbl = TContainerAncient01__anim_table;
+    ((TObjMotion *)self)->set_action_table(self->animTbl);
     self->motion_list = TContainerAncient01R__bml_resource->motions;
     self->anim = 0;
     ((TObjMotion *)self)->set_animation(self->anim);

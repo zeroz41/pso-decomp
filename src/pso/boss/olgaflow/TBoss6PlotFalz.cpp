@@ -740,12 +740,12 @@ void Boss6ScrollStrips::free_buffer_pairs() {
 }
 
 void Boss6ScrollStrips::build_tables(const Boss6StripDesc *descs, s32 n) {
-    saddr h;
+    BmlResource *h;
     s32 i;
     const Boss6StripDesc *r;
     NJS_OBJECT *t;
     s32 j;
-    h = (saddr)TBoss6PlotFalz::get_scene_archive();
+    h = TBoss6PlotFalz::get_scene_archive();
     if (h == 0 || descs == NULL || n < 1) {
         return;
     }
@@ -759,7 +759,7 @@ void Boss6ScrollStrips::build_tables(const Boss6StripDesc *descs, s32 n) {
     }
     for (i = 0; i < count; i++) {
         r = &descs[i];
-        t = (NJS_OBJECT *)find_model_node((uaddr)get_bml_model((BmlResource *)h, r->model), r->node);
+        t = find_model_node(get_bml_model(h, r->model), r->node);
         items[i] = new StripBufferPair(t, r->texture_filter);
     }
 }
@@ -796,7 +796,6 @@ void TBoss6PlotFalz::refresh_players_equipment() {
     }
 }
 }
-void reset_cameras_to_actor(void *, s32);
 
 #pragma push
 #pragma fp_contract on
@@ -810,16 +809,16 @@ void place_players_in_warp_circle(void) {
         step = 0x2000 / (registered_player_count - 1);
     }
     for (i = 0; i < registered_player_count; i++) {
-        void *p = TObjPlayer::get_player_data(i);
-        if (p != NULL && ((TObjPlayer *)p)->get_area() == 0x1F) {
+        TObjPlayer *p = TObjPlayer::get_player_data(i);
+        if (p != NULL && p->get_area() == 0x1F) {
             Vec pos = boss6_plot_falz_warp_circle_center;
             pos.x += 350.0f * sin_table_lookup(ang);
             pos.z += 350.0f * cos_table_lookup(ang);
-            ((TObjMotion *)p)->set_position_from(&pos);
-            ((TObjBase *)p)->save_previous_position();
-            *(s32 *)((u8 *)((TObjBase *)p)->get_rotation() + 4) = ang + 0x8000;
-            ((TObjPlayer *)p)->refresh_equipment_slot();
-            if (TObjPlayer::is_locally_controlled((void *)p) != 0) {
+            p->set_position_from(&pos);
+            p->save_previous_position();
+            *(s32 *)((u8 *)p->get_rotation() + 4) = ang + 0x8000;
+            p->refresh_equipment_slot();
+            if (TObjPlayer::is_locally_controlled(p) != 0) {
                 reset_cameras_to_actor(p, 0);
             }
             ang += step;
@@ -979,7 +978,7 @@ TBoss6PlotFalz::TBoss6PlotFalz(TObject *parent, void *set_data) : TObjEnemy(pare
     base_params = (u8 *)TLobby::register_boss(0x2C);
     attack_params = (u8 *)TLobby::dispatch_shared_handler_b(0x2C);
     resistance_params = (u8 *)TLobby::register_object(0x2C);
-    bind_enemy_combat_stats(base_params, attack_params, resistance_params);
+    bind_enemy_combat_stats(reinterpret_cast<player_stats *>(base_params), reinterpret_cast<AttackParams *>(attack_params), reinterpret_cast<ActorParamBlock *>(resistance_params));
     register_entity_by_id((u8 *)this);
     actorFlags = (s32) (actorFlags | 0x02000000);
     set_visible_flag();

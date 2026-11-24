@@ -289,10 +289,10 @@ void TLobby__sub_803F9FAC(PppProtoBlocks *connection) {
     base->name = "IPv6cp";
     base->proto = 0x8057;
     base->h6 = 0xFE;
-    base->b8 = 4;
-    base->b9 = 5;
-    base->bA = 5;
-    base->bB = 5;
+    base->tx_counter_index = 4;
+    base->max_request_attempts = 5;
+    base->max_peer_attempts = 5;
+    base->max_terminate_attempts = 5;
     base->timeout = 0xBB8;
     base->release_resources = TLobby__sub_803FA234;
     base->reset_options = TLobby__sub_803FA2A8;
@@ -316,7 +316,7 @@ void TLobby__sub_803F9FAC(PppProtoBlocks *connection) {
     blk->peer.current = *src;
     blk->peer.requested = *src;
     blk->peer.flags = ipv6cp_default_option_flags;
-    TLobby__sub_803FD694((u8 *)sub);
+    TLobby__sub_803FD694(sub);
 }
 
 s16 clear_flag_bit4(s32 unused, Ipv6cpOptions *opts) {

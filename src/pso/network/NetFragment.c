@@ -625,28 +625,30 @@ u16 ones_complement_sum(void *data, s16 n) {
         sum += *(u16*)p;
         n--;
         while (n > 8) {
-            sum += *(u16*)(p + 8);
-            sum += *(u16*)(p + 2);
-            sum += *(u16*)(p + 4);
-            sum += *(u16*)(p + 6);
-            sum += *(u16*)(p + 16);
-            sum += *(u16*)(p + 10);
-            sum += *(u16*)(p + 12);
-            sum += *(u16*)(p + 14);
+            u16 *w = (u16 *)p;
+            sum += w[4];
+            sum += w[1];
+            sum += w[2];
+            sum += w[3];
+            sum += w[8];
+            sum += w[5];
+            sum += w[6];
+            sum += w[7];
             p += 16;
             n -= 8;
         }
         p += 2;
     }
     while (n >= 8) {
-        sum += *(u16*)(p + 0);
-        sum += *(u16*)(p + 2);
-        sum += *(u16*)(p + 4);
-        sum += *(u16*)(p + 6);
-        sum += *(u16*)(p + 8);
-        sum += *(u16*)(p + 10);
-        sum += *(u16*)(p + 12);
-        sum += *(u16*)(p + 14);
+        u16 *w = (u16 *)p;
+        sum += w[0];
+        sum += w[1];
+        sum += w[2];
+        sum += w[3];
+        sum += w[4];
+        sum += w[5];
+        sum += w[6];
+        sum += w[7];
         p += 16;
         n -= 8;
     }

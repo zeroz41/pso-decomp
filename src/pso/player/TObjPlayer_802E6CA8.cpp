@@ -198,7 +198,7 @@ TBoss7JointBreakUp::TBoss7JointBreakUp(TObject *parent, Vec *position, s32 index
         n = -1;
     }
     if (n > 0) {
-        alloc_breakup_model((s32)find_model_node((uaddr)TBoss7DeRolLeC::get_archive_model(3), n));
+        alloc_breakup_model((s32)find_model_node(static_cast<NJS_OBJECT *>(TBoss7DeRolLeC::get_archive_model(3)), n));
         scale_node_positions();
         p = (Piece_802E72DC *)pieces;
         for (i = 0; i < count; i++, p++) {

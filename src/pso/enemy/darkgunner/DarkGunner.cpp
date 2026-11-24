@@ -134,11 +134,11 @@ struct Raw_800A10A0 { u8 b[12]; };
 
 
 extern "C" {
-saddr TObjEneDarkGunner__base_params_by_variant[1];
+player_stats *TObjEneDarkGunner__base_params_by_variant[1];
 
-saddr TObjEneDarkGunner__attack_params_by_variant[1];
+AttackParams *TObjEneDarkGunner__attack_params_by_variant[1];
 
-saddr TObjEneDarkGunner__resistance_params_by_variant[1];
+ActorParamBlock *TObjEneDarkGunner__resistance_params_by_variant[1];
 
 
 
@@ -334,14 +334,14 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     VecCopy(&move_destination, &position);
     set_fields_24_34_from_global((void *)1);
     motion_list = TObjEneDarkGunner::bml_resource->motions;
-    action_table = (TObjMotionAction *)dark_gunner_action_table;
-    set_action_table((saddr)action_table);
+    action_table = dark_gunner_action_table;
+    set_action_table(action_table);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
     init_collision_body_parts(this, dark_gunner_collision_bodies, 1);
     movementParameters = dark_gunner_movement_params;
-    bind_enemy_combat_stats((u8 *)TObjEneDarkGunner__base_params_by_variant[variant], (u8 *)TObjEneDarkGunner__attack_params_by_variant[variant], (u8 *)TObjEneDarkGunner__resistance_params_by_variant[variant]);
+    bind_enemy_combat_stats(TObjEneDarkGunner__base_params_by_variant[variant], TObjEneDarkGunner__attack_params_by_variant[variant], TObjEneDarkGunner__resistance_params_by_variant[variant]);
     load_params();
     hp = hpmax;
     tp = tpmax;
@@ -364,7 +364,7 @@ TObjEneDarkGunner::TObjEneDarkGunner(TObject *parent, void *set_data) : TObjEnem
     {
         NpcAnimationBinding atk = dark_gunner_attack_binding_desc;
         atk.motions = TObjEneDarkGunner::bml_resource->motions;
-        NpcModelRegistry::register_animated_chunk(0x19, reinterpret_cast<void *>(TObjEneDarkGunner::bml_resource->models[1].model), TObjEneDarkGunner::bml_resource->models[1].texlist, &atk, 10.0f, 0.0f);
+        NpcModelRegistry::register_animated_chunk(0x19, TObjEneDarkGunner::bml_resource->models[1].model, TObjEneDarkGunner::bml_resource->models[1].texlist, &atk, 10.0f, 0.0f);
     }
 }
 }
@@ -399,9 +399,9 @@ void load_darkgunner_effect_resources() {
     TEneEffHamon::init_fish_effects();
     TObjEneDarkGunner__effect_resource = load_gvm_texture_file("re5_b_gunner_body_pika.gvm");
     for (i = 0; i < 1; i++) {
-        TObjEneDarkGunner__base_params_by_variant[i] = (saddr)TLobby::register_boss(30 + i);
-        TObjEneDarkGunner__attack_params_by_variant[i] = (saddr)TLobby::dispatch_shared_handler_b(30 + i);
-        TObjEneDarkGunner__resistance_params_by_variant[i] = (saddr)TLobby::register_object(30 + i);
+        TObjEneDarkGunner__base_params_by_variant[i] = TLobby::register_boss(30 + i);
+        TObjEneDarkGunner__attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(30 + i);
+        TObjEneDarkGunner__resistance_params_by_variant[i] = TLobby::register_object(30 + i);
     }
     TObjEneDarkGunner__behavior_params = (TObjEneDarkGunnerBehaviorParams *)TLobby::dispatch_shared_handler_a(30);
 }

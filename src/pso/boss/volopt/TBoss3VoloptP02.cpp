@@ -67,21 +67,6 @@ s32 submit_cursor_candidate(void *, int);
 }
 
 
-struct NjModel {
-    void *vlist;
-    u8 *plist;
-};
-
-struct NjObject {
-    u32 evalflags;
-    NjModel *model;
-    f32 pos[3];
-    s32 ang[3];
-    f32 scl[3];
-    NjObject *child;
-    NjObject *sibling;
-};
-
 struct VoloptMovementParams {
     f32 radius;
     f32 scale;
@@ -139,12 +124,12 @@ static inline s32 min_s32(s32 a, s32 b) { return (a < b) ? a : b; }
 static u8 lbl_804FF008[0x28];
 static s16 wave_delays[3];
 static TBreakUpMdlData *breakup_models[5];
-static u32 *breakup_flags_a[32];
-static u32 *breakup_flags_b[16];
-static u32 *breakup_flags_c[16];
-static u32 *breakup_flags_d[16];
-static NjObject *chain_nodes_a[5];
-static NjObject *chain_nodes_b[5];
+static NJS_OBJECT *breakup_flags_a[32];
+static NJS_OBJECT *breakup_flags_b[16];
+static NJS_OBJECT *breakup_flags_c[16];
+static NJS_OBJECT *breakup_flags_d[16];
+static NJS_OBJECT *chain_nodes_a[5];
+static NJS_OBJECT *chain_nodes_b[5];
 
 static void *boss_stat_handle;
 static void *shared_handler_b;
@@ -153,11 +138,11 @@ VoloptP02Params *volopt_p02_params;
 static s32 *part_params;
 BmlResource *volopt_p02_resources;
 static TBreakUpMdlData *breakup_model;
-static NjObject *model_node_44;
-static NjObject *model_node_39;
-static NjObject *model_node_27;
-static NjObject *model_node_3c;
-static NjObject *model_node_3f;
+static NJS_OBJECT *model_node_44;
+static NJS_OBJECT *model_node_39;
+static NJS_OBJECT *model_node_27;
+static NJS_OBJECT *model_node_3c;
+static NJS_OBJECT *model_node_3f;
 static u8 *node_44_color;
 static u8 *node_27_color;
 static u8 *node_3f_color;
@@ -217,7 +202,7 @@ void TBoss3VoloptP02::init_params() {
     m_name = TBoss3VoloptP02_name;
     motion_list = volopt_p02_resources->motions;
     action_table = action_entries;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     init_collision_body_parts(this, collision_bodies, 5);
     variant = 0;
     movementParameters = &movement_params;
@@ -276,9 +261,8 @@ void *TBoss3VoloptP02::create(void *set_data) {
 
 void TBoss3VoloptP02::load_resources() {
     TBreakUpMdlData *model;
-    s32 root;
-    NjObject *nodes[5];
-    NjObject *parts[5];
+    NJS_OBJECT *nodes[5];
+    NJS_OBJECT *parts[5];
     s32 i;
     s32 j;
     s32 n;
@@ -286,48 +270,48 @@ void TBoss3VoloptP02::load_resources() {
     volopt_p02_resources = boss3_volopt_resources;
     model = new TBreakUpMdlData((saddr)volopt_p02_resources->models[19].model);
     breakup_model = model;
-    root = (saddr)volopt_p02_resources->models[20].model;
-    ((NjObject *)find_model_node(root, 0x44))->evalflags |= 8;
-    ((NjObject *)find_model_node(root, 0x39))->evalflags |= 8;
-    ((NjObject *)find_model_node(root, 0x27))->evalflags |= 8;
-    ((NjObject *)find_model_node(root, 0x3C))->evalflags |= 8;
-    ((NjObject *)find_model_node(root, 0x3F))->evalflags |= 8;
+    NJS_OBJECT *const root = volopt_p02_resources->models[20].model;
+    find_model_node(root, 0x44)->evalflags |= 8;
+    find_model_node(root, 0x39)->evalflags |= 8;
+    find_model_node(root, 0x27)->evalflags |= 8;
+    find_model_node(root, 0x3C)->evalflags |= 8;
+    find_model_node(root, 0x3F)->evalflags |= 8;
     for (i = 0; i < 5; i++) {
-        nodes[i] = (NjObject *)find_model_node(root, part_breakup_node_ids[i]);
+        nodes[i] = find_model_node(root, part_breakup_node_ids[i]);
     }
     for (j = 0; j < 5; j++) {
         nodes[j]->sibling = NULL;
         model = new TBreakUpMdlData((saddr)nodes[j]);
         breakup_models[j] = model;
     }
-    root = (saddr)volopt_p02_resources->models[19].model;
+    NJS_OBJECT *const render_root = volopt_p02_resources->models[19].model;
     for (i = 0; i < 5; i++) {
-        parts[i] = (NjObject *)find_model_node(root, part_breakup_node_ids[i]);
+        parts[i] = find_model_node(render_root, part_breakup_node_ids[i]);
     }
-    n = collect_visible_nodes((NJS_OBJECT *)parts[0], (NJS_OBJECT **)breakup_flags_a);
-    collect_visible_nodes((NJS_OBJECT *)parts[1], (NJS_OBJECT **)&breakup_flags_a[n]);
-    n = collect_visible_nodes((NJS_OBJECT *)parts[2], (NJS_OBJECT **)breakup_flags_b);
-    breakup_flags_b[n] = (u32 *)find_model_node(root, 0x3B);
-    breakup_flags_b[n + 1] = (u32 *)find_model_node(root, 0x3C);
+    n = collect_visible_nodes(parts[0], breakup_flags_a);
+    collect_visible_nodes(parts[1], &breakup_flags_a[n]);
+    n = collect_visible_nodes(parts[2], breakup_flags_b);
+    breakup_flags_b[n] = find_model_node(render_root, 0x3B);
+    breakup_flags_b[n + 1] = find_model_node(render_root, 0x3C);
     breakup_flags_b[n + 2] = NULL;
-    n = collect_visible_nodes((NJS_OBJECT *)parts[3], (NJS_OBJECT **)breakup_flags_c);
-    breakup_flags_c[n] = (u32 *)find_model_node(root, 0x3A);
+    n = collect_visible_nodes(parts[3], breakup_flags_c);
+    breakup_flags_c[n] = find_model_node(render_root, 0x3A);
     breakup_flags_c[n + 1] = NULL;
-    collect_visible_nodes((NJS_OBJECT *)parts[4], (NJS_OBJECT **)breakup_flags_d);
-    model_node_44 = (NjObject *)find_model_node(root, 0x44);
-    model_node_39 = (NjObject *)find_model_node(root, 0x39);
-    model_node_27 = (NjObject *)find_model_node(root, 0x27);
-    model_node_3c = (NjObject *)find_model_node(root, 0x3C);
-    model_node_3f = (NjObject *)find_model_node(root, 0x3F);
+    collect_visible_nodes(parts[4], breakup_flags_d);
+    model_node_44 = find_model_node(render_root, 0x44);
+    model_node_39 = find_model_node(render_root, 0x39);
+    model_node_27 = find_model_node(render_root, 0x27);
+    model_node_3c = find_model_node(render_root, 0x3C);
+    model_node_3f = find_model_node(render_root, 0x3F);
     for (j = 0; j < 5; j++) {
-        chain_nodes_a[j] = (NjObject *)find_model_node(root, chain_node_ids_a[j]);
+        chain_nodes_a[j] = find_model_node(render_root, chain_node_ids_a[j]);
     }
     for (j = 0; j < 5; j++) {
-        chain_nodes_b[j] = (NjObject *)find_model_node(root, chain_node_ids_b[j]);
+        chain_nodes_b[j] = find_model_node(render_root, chain_node_ids_b[j]);
     }
-    node_44_color = model_node_44->model->plist;
-    node_27_color = model_node_27->model->plist;
-    node_3f_color = model_node_3f->model->plist;
+    node_44_color = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(model_node_44->model)->polygon_list);
+    node_27_color = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(model_node_27->model)->polygon_list);
+    node_3f_color = reinterpret_cast<u8 *>(static_cast<NJS_CNK_MODEL *>(model_node_3f->model)->polygon_list);
     boss_stat_handle = TLobby::register_boss(0x25);
     shared_handler_b = TLobby::dispatch_shared_handler_b(0x25);
     object_handle = TLobby::register_object(0x25);
@@ -1190,7 +1174,7 @@ void TBoss3VoloptP02::spawn_breakup_models() {
         TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[0], (saddr)&part_breakup_params, texlist, (saddr)&pos, rotation_y);
         get_anim_node_position(0x12, &pos);
         TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[1], (saddr)&part_breakup_params, texlist, (saddr)&pos, rotation_y);
-        hide_model_nodes((NJS_OBJECT **)breakup_flags_a);
+        hide_model_nodes(breakup_flags_a);
     }
 }
 #pragma pop
@@ -1208,7 +1192,7 @@ void TBoss3VoloptP02::break_off_part_b() {
         render_anim_model_at_pos();
         get_anim_node_position(0x32, &pos);
         TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[2], (saddr)&part_breakup_params, texlist, (saddr)&pos, rotation_y);
-        hide_model_nodes((NJS_OBJECT **)breakup_flags_b);
+        hide_model_nodes(breakup_flags_b);
         play_sound_effect(0x4003A80F, &position, 0, 1);
     }
 }
@@ -1227,7 +1211,7 @@ void TBoss3VoloptP02::break_off_part_c() {
         render_anim_model_at_pos();
         get_anim_node_position(0x22, &pos);
         TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[3], (saddr)&part_breakup_params, texlist, (saddr)&pos, rotation_y);
-        hide_model_nodes((NJS_OBJECT **)breakup_flags_c);
+        hide_model_nodes(breakup_flags_c);
         play_sound_effect(0x4003A80F, &position, 0, 1);
     }
 }
@@ -1242,7 +1226,7 @@ void TBoss3VoloptP02::trigger_breakup() {
         render_anim_model_at_pos();
         get_anim_node_position(0x29, &pos);
         TBoss3Volopt::create_breakup_mdl((saddr)breakup_models[4], (saddr)&part_breakup_params, texlist, (saddr)&body_center, rotation_y);
-        hide_model_nodes((NJS_OBJECT **)breakup_flags_d);
+        hide_model_nodes(breakup_flags_d);
         play_sound_effect(0x4003A80F, &position, 0, 1);
     }
 }
@@ -1253,24 +1237,24 @@ void TBoss3VoloptP02::trigger_breakup() {
 // statics is what makes this file's .bss pool before load_resources does.
 void TBoss3VoloptP02::apply_broken_part_visibility() {
     if (behavior_flags & 0x10000) {
-        hide_model_nodes((NJS_OBJECT **)breakup_flags_a);
+        hide_model_nodes(breakup_flags_a);
     } else {
-        show_model_nodes((NJS_OBJECT **)breakup_flags_a);
+        show_model_nodes(breakup_flags_a);
     }
     if (behavior_flags & 0x20000) {
-        hide_model_nodes((NJS_OBJECT **)breakup_flags_b);
+        hide_model_nodes(breakup_flags_b);
     } else {
-        show_model_nodes((NJS_OBJECT **)breakup_flags_b);
+        show_model_nodes(breakup_flags_b);
     }
     if (behavior_flags & 0x40000) {
-        hide_model_nodes((NJS_OBJECT **)breakup_flags_c);
+        hide_model_nodes(breakup_flags_c);
     } else {
-        show_model_nodes((NJS_OBJECT **)breakup_flags_c);
+        show_model_nodes(breakup_flags_c);
     }
     if (behavior_flags & 0x80000) {
-        hide_model_nodes((NJS_OBJECT **)breakup_flags_d);
+        hide_model_nodes(breakup_flags_d);
     } else {
-        show_model_nodes((NJS_OBJECT **)breakup_flags_d);
+        show_model_nodes(breakup_flags_d);
     }
 }
 

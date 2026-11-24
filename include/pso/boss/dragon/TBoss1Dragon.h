@@ -267,9 +267,9 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     f32 clamp_step_in_radius(f32 dir_x, f32 dir_z, f32 step);
     void update_flap_effect();
     void apply_trail_attack();
-    void setup_v2_instance(Vec *position, u8 *params, saddr history);
-    void emit_v2_effect_at_position(void *params);
-    void emit_v2_enemy_effect(Vec *position, u8 *params, AreaAttackHistory *history);
+    void setup_v2_instance(const Vec *position, DragonAttackParams *params, AreaAttackHistory *history);
+    void emit_v2_effect_at_position(const DragonAttackParams *params);
+    void emit_v2_enemy_effect(const Vec *position, const DragonAttackParams *params, AreaAttackHistory *history);
     void set_burrow_height();
     void set_flight_height();
 };

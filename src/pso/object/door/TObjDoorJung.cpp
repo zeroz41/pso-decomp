@@ -109,12 +109,12 @@ void load_door_jung_resources(void) {
 }
 
 void TObjDoorJung::clamp_state() {
-    *(s32 *)&this->unk_D4 = (s32) *(s32 *)&this->set_params[1];
-    if ((s32) *(s32 *)&this->unk_D4 < 0) {
-        *(s32 *)&this->unk_D4 = 0;
+    this->active_light_count = this->set_params[1];
+    if (this->active_light_count < 0) {
+        this->active_light_count = 0;
     }
-    if ((s32) *(s32 *)&this->unk_D4 > 4) {
-        *(s32 *)&this->unk_D4 = 4;
+    if (this->active_light_count > 4) {
+        this->active_light_count = 4;
     }
 }
 
@@ -137,7 +137,7 @@ void TObjDoorJung::render() {
             lbl_805D5BDC = actor_frame_tick;
             PPCSync();
         }
-        for (i = 0; i < *(s32 *)&this->unk_D4; i++) {
+        for (i = 0; i < this->active_light_count; i++) {
             if (is_current_floor_switch_set((u16)(this->switch_id + i)) == 1) {
                 if (lbl_805D5BE8 >= 0) {
                     set_ginja_model_texture_slot(reinterpret_cast<void *>(TObjDoorJung__child_table[i]), static_cast<u16>(lbl_805D5BE8));
@@ -146,7 +146,7 @@ void TObjDoorJung::render() {
                 set_ginja_model_texture_slot(reinterpret_cast<void *>(TObjDoorJung__child_table[i]), static_cast<u16>(lbl_805D5BE4));
             }
         }
-        for (j = *(s32 *)&this->unk_D4; j < 4; j++) {
+        for (j = this->active_light_count; j < 4; j++) {
             if (lbl_805D5BE8 >= 0) {
                 set_ginja_model_texture_slot(reinterpret_cast<void *>(TObjDoorJung__child_table[j]), static_cast<u16>(lbl_805D5BE8));
             }

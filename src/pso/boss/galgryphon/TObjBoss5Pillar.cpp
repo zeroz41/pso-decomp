@@ -1,3 +1,4 @@
+#include "pso/unk/text_80066F10.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/galgryphon/TObjBoss5Pillar.h"
@@ -19,15 +20,13 @@
 
 extern "C" {
 const char *lbl_805D3B40 = "TObjBoss5Pillar";
-extern BmlResource *lbl_805D4DD8;
 
-extern s32 boss5_common_texture_list;
 }
 
 void TObjBoss5Pillar::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         push_matrix();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(boss5_common_texture_list));
+        TObjFish::set_global_param(boss5_common_texture_list);
         post_translate_matrix(&this->position.x);
         if (this->state != 3) {
             fn_8028ADDC(this->smoke);

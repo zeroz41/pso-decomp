@@ -66,16 +66,30 @@ CollisionBody panbara_collision_body[1] = {
 };
 
 /* The two halves' motions, picked by the half's index through panbara_motion_params_by_half. */
-PanarmsMotionParam panbara_pal_motion_params[10] = {
-    { 0x10000, 0x18, 0.8f, 0 }, { 0x10000, 0x1b, 0.7f, 0 }, { 0x10000, 0x15, 1.0f, 0 }, { 0x30000, 0, 0.8f, 0 },
-    { 0x30000, 0x14, 0.8f, 0 }, { 0x30000, 0xa, 1.3f, 0 },  { 0x30000, 0xd, 0.7f, 0 },  { 0x30000, 0x10, 0.7f, 0 },
-    { 0x30000, 0x12, 0.7f, 0 }, { 0x30000, 6, 0.6f, 0 },
+TObjMotionAction panbara_pal_motion_params[10] = {
+    { MOTION_MODE_LOOP, 0, 24, 0.8f, 0 },
+    { MOTION_MODE_LOOP, 0, 27, 0.7f, 0 },
+    { MOTION_MODE_LOOP, 0, 21, 1.0f, 0 },
+    { MOTION_MODE_ONCE, 0, 0, 0.8f, 0 },
+    { MOTION_MODE_ONCE, 0, 20, 0.8f, 0 },
+    { MOTION_MODE_ONCE, 0, 10, 1.3f, 0 },
+    { MOTION_MODE_ONCE, 0, 13, 0.7f, 0 },
+    { MOTION_MODE_ONCE, 0, 16, 0.7f, 0 },
+    { MOTION_MODE_ONCE, 0, 18, 0.7f, 0 },
+    { MOTION_MODE_ONCE, 0, 6, 0.6f, 0 },
 };
 
-PanarmsMotionParam panbara_par_motion_params[10] = {
-    { 0x10000, 0x19, 0.8f, 0 }, { 0x10000, 0x1c, 0.7f, 0 }, { 0x10000, 0x16, 1.0f, 0 }, { 0x30000, 1, 0.8f, 0 },
-    { 0, 0, 0.0f, 0 },          { 0x30000, 0xb, 1.3f, 0 },  { 0x30000, 0xe, 0.7f, 0 },  { 0x30000, 0x11, 0.7f, 0 },
-    { 0x30000, 0x13, 0.7f, 0 }, { 0x30000, 7, 0.6f, 0 },
+TObjMotionAction panbara_par_motion_params[10] = {
+    { MOTION_MODE_LOOP, 0, 25, 0.8f, 0 },
+    { MOTION_MODE_LOOP, 0, 28, 0.7f, 0 },
+    { MOTION_MODE_LOOP, 0, 22, 1.0f, 0 },
+    { MOTION_MODE_ONCE, 0, 1, 0.8f, 0 },
+    { 0, 0, 0, 0.0f, 0 },
+    { MOTION_MODE_ONCE, 0, 11, 1.3f, 0 },
+    { MOTION_MODE_ONCE, 0, 14, 0.7f, 0 },
+    { MOTION_MODE_ONCE, 0, 17, 0.7f, 0 },
+    { MOTION_MODE_ONCE, 0, 19, 0.7f, 0 },
+    { MOTION_MODE_ONCE, 0, 7, 0.6f, 0 },
 };
 
 // The TU's .rodata, in this order (the functions that read each table come in the same order in this last-to-first
@@ -217,7 +231,7 @@ ModelNodePositionEntry panbara_capture_nodes[2] = {
     { -1 },
 };
 
-PanarmsMotionParam *panbara_motion_params_by_half[2] = { panbara_pal_motion_params, panbara_par_motion_params };
+TObjMotionAction *panbara_motion_params_by_half[2] = { panbara_pal_motion_params, panbara_par_motion_params };
 
 s32 panarms_turn_delta_table[2] = { 0x4000, -0x4000 };
 
@@ -257,8 +271,8 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
     model = (void *)get_bml_model((BmlResource *)TObjEnePanarms__entry_params_resource, panbara_model_index_by_half[half_index]);
     VecCopy(&prev_position, VecCopy(&home_position, VecCopy(&center, &position)));
     collision_body_parts = init_collision_body_parts(this, panbara_collision_body, 1);
-    set_action_table((saddr)panbara_motion_params_by_half[half_index]);
-    set_motion_list((saddr)TObjEnePanarms__entry_params_resource->motions);
+    set_action_table(panbara_motion_params_by_half[half_index]);
+    set_motion_list(TObjEnePanarms__entry_params_resource->motions);
     set_animation(0);
     set_requested_action(0);
     VecCopy(&body_center, &position);
@@ -266,12 +280,12 @@ TObjEnePanBARA::TObjEnePanBARA(TObject *parent, void *setData, s32 index) : TObj
     target = NULL;
     switch (half_index) {
     case 0:
-        bind_enemy_combat_stats((u8 *)TLobby::register_boss(50), (u8 *)TLobby::dispatch_shared_handler_b(50),
-                                (u8 *)TLobby::register_object(50));
+        bind_enemy_combat_stats(TLobby::register_boss(50), TLobby::dispatch_shared_handler_b(50),
+                                TLobby::register_object(50));
         break;
     case 1:
-        bind_enemy_combat_stats((u8 *)TLobby::register_boss(51), (u8 *)TLobby::dispatch_shared_handler_b(51),
-                                (u8 *)TLobby::register_object(51));
+        bind_enemy_combat_stats(TLobby::register_boss(51), TLobby::dispatch_shared_handler_b(51),
+                                TLobby::register_object(51));
         break;
     default:
         return;
@@ -1033,7 +1047,7 @@ void TObjEnePanBARA::update_dead() {
     Vec v;
     f32 f;
     this->action_timer--;
-    static f32 panarms_particle_frame_window = panbara_pal_motion_params[6].unk_8;
+    static f32 panarms_particle_frame_window = panbara_pal_motion_params[6].speed;
     f = this->frame;
     if (f >= 24.0f && f < 24.0f + panarms_particle_frame_window) {
         VecCopy(&v, &shadow_position);
@@ -1357,15 +1371,15 @@ void TObjEnePanBARA::update_action_timer() {
 }
 
 void TObjEnePanarms::spawn_npc_pair() {
-    NpcAnimationBinding binding_a = { NULL, reinterpret_cast<TObjMotionAction *>(panbara_pal_motion_params), 0, 1, 10 };
+    NpcAnimationBinding binding_a = { NULL, panbara_pal_motion_params, 0, 1, 10 };
     BmlMotionEntry *motions = TObjEnePanarms__entry_params_resource->motions;
     binding_a.motions = reinterpret_cast<BmlMotionEntry *>(motions);
-    NpcAnimationBinding binding_b = { NULL, reinterpret_cast<TObjMotionAction *>(panbara_par_motion_params), 0, 1, 10 };
+    NpcAnimationBinding binding_b = { NULL, panbara_par_motion_params, 0, 1, 10 };
     binding_b.motions = reinterpret_cast<BmlMotionEntry *>(motions);
     BmlModelEntry *models = TObjEnePanarms__entry_params_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x24, reinterpret_cast<void *>(models[1].model), models[1].texlist, &binding_a, 7.5f, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x24, models[1].model, models[1].texlist, &binding_a, 7.5f, 0.0f);
     models = TObjEnePanarms__entry_params_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x25, reinterpret_cast<void *>(models[2].model), models[2].texlist, &binding_b, 7.5f, 0.0f);
+    NpcModelRegistry::register_animated_chunk(0x25, models[2].model, models[2].texlist, &binding_b, 7.5f, 0.0f);
 }
 
 int TObjEnePanarms::find_nearest_enemy_with_flag(Vec *direction, f32 range) {

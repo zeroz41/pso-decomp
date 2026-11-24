@@ -38,7 +38,7 @@ TUnk_80491478::TUnk_80491478(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *tex
     m_ae = 0;
     node = part_model_nodes[index];
     m_d8 = texlist;
-    m_c8 = find_model_node((uaddr)dubchik_resource->models[1].model, node);
+    m_c8 = find_model_node(dubchik_resource->models[1].model, node);
     target = &parent->part_offsets[index];
     VecCopy(&pos, VecCopy(&origin, offset));
     m_e8 = 3.0f + parent->position.y;
@@ -140,7 +140,7 @@ void TUnk_80491478::render() {
     rotate_matrix_y(0, rot_y);
     scale_matrix(0, 1.3f, 1.3f, 1.3f);
     model_render_flags &= 0xFFFFFBFF;
-    draw_chunk_object((void *)m_c8);
+    draw_chunk_object(m_c8);
     pop_matrix();
 }
 

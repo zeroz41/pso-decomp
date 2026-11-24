@@ -1,3 +1,5 @@
+#include "pso/unk/text_80066F10.h"
+#include "pso/system/BmlResource.h"
 #include "pso/boss/galgryphon/TObjBoss5FloorStone.h"
 
 #include "types.h"
@@ -8,13 +10,11 @@
 #pragma readonly_strings on
 
 
-extern void *lbl_805D4DD8;
-extern void *boss5_common_texture_list;
 const char *TObjBoss5FloorStone__name = "TObjBoss5FloorStone";
 
 void TObjBoss5FloorStone::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
-        draw_shadowed_object((NJS_TEXLIST *)boss5_common_texture_list, (NJS_OBJECT *)(*(saddr *)((s8 *)(*(void **)((s8 *)lbl_805D4DD8 + 0x42C)) + 0x58)));
+    draw_shadowed_object(boss5_common_texture_list, lbl_805D4DD8->models[5].model);
     }
 }
 

@@ -467,7 +467,7 @@ inline s32 cmpfam_8040ADE8(u32 family, u8 *a, u8 *b) {
     }
 }
 extern s16 TLobby__sub_8040ADE8(u8 *self) {
-    u8 *g;
+    DnsResolverState *g;
     s16 ret;
     s16 i;
     u8 *p;
@@ -483,10 +483,10 @@ extern s16 TLobby__sub_8040ADE8(u8 *self) {
         return -2;
     }
     net_lock();
-    g = (u8 *)&dns_resolver_state;
-    p = *(u8 **)(g + 0x14);
+    g = &dns_resolver_state;
+    p = (u8 *)g->servers;
     slot = NULL;
-    for (i = 0; i < *(s16 *)(g + 0x10); i++, p += 0x14) {
+    for (i = 0; i < g->nservers; i++, p += 0x14) {
         if (*(u32 *)p == 0) {
             if (slot == NULL) {
                 ret = i;

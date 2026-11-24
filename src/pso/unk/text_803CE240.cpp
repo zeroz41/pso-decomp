@@ -33,8 +33,8 @@ void TLobby__sub_803CE2A0(AixPlayer *player) {
     if (player->state == 1) {
         if (TLobby__sub_803CE1F4(demuxer) == 2) {
             get_entry_pair(demuxer, player->segment = player->start_segment, &offset, &size);
-            set_scroll_offset__6TLobbyFl(player->stream, (long long)(offset / 2048));
-            set_scroll_position__6TLobbyFl(player->stream, (offset + size) / 2048);
+            seek_adx_stream_sector(player->stream, (long long)(offset / 2048));
+            set_adx_stream_end_sector(player->stream, (offset + size) / 2048);
             set_adx_stream_completion(player->stream, update_file_stream_range, player);
             set_client_slot(demuxer, 0);
             if ((s32)player->loop == 1 || (s32)player->continue_segments == 1) {

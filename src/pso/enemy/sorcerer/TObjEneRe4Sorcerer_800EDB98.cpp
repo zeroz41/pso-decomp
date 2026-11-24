@@ -265,8 +265,8 @@ void TObjEneRe4Sorcerer::load_resources() {
     TObjEneRe4Bit::load_resources();
     TObjEneRe4Sorcerer__uv_scroll_buffer = new StripBufferPair(sorcerer_bml_resource->models->model, 2);
     NpcAnimationBinding p = re4_sorcerer_spawn_descriptor;
-    p.motions = reinterpret_cast<BmlMotionEntry *>(sorcerer_bml_resource->motions);
-    NpcModelRegistry::register_animated_chunk((s16)0x2A, reinterpret_cast<void *>(sorcerer_bml_resource->models->model), sorcerer_bml_resource->models->texlist, &p, re4_sorcerer_collision_body_part_table[0].radius, 15.0f);
+    p.motions = sorcerer_bml_resource->motions;
+    NpcModelRegistry::register_animated_chunk((s16)0x2A, sorcerer_bml_resource->models->model, sorcerer_bml_resource->models->texlist, &p, re4_sorcerer_collision_body_part_table[0].radius, 15.0f);
 }
 
 TObjEneRe4Sorcerer *TObjEneRe4Sorcerer::create() {
@@ -307,12 +307,12 @@ void TObjEneRe4Sorcerer::init_enemy() {
     models = sorcerer_bml_resource->models;
     texlist = models->texlist;
     this->init_model(re4_sorcerer_collision_body_part_table, 1);
-    set_action_table((saddr)re4_sorcerer_action_params);
-    set_motion_list((saddr)sorcerer_bml_resource->motions);
+    set_action_table(re4_sorcerer_action_params);
+    set_motion_list(sorcerer_bml_resource->motions);
     requested_action = 0;
     set_animation(requested_action);
     set_requested_action(requested_action);
-    reset_hp(TObjEneRe4Sorcerer__base_params, TObjEneRe4Sorcerer__attack_params, TObjEneRe4Sorcerer__resistance_params);
+    reset_hp(reinterpret_cast<player_stats *>(TObjEneRe4Sorcerer__base_params), reinterpret_cast<AttackParams *>(TObjEneRe4Sorcerer__attack_params), reinterpret_cast<ActorParamBlock *>(TObjEneRe4Sorcerer__resistance_params));
     set_state_8();
     movementParameters = &re4_sorcerer_init_params;
     initialize_enemy_state(0x1F);

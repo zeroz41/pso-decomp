@@ -121,9 +121,9 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 
 // inferred: the per-variant tables load_resources fetches from TLobby (register_boss,
 // dispatch_shared_handler_b, register_object; boss5_gryphon_base/attack/resistance_params twins)
-saddr nano_drago_base_params;
-saddr nano_drago_attack_params;
-saddr nano_drago_resistance_params;
+player_stats *nano_drago_base_params;
+AttackParams *nano_drago_attack_params;
+ActorParamBlock *nano_drago_resistance_params;
 s32 lbl_805D5254;
 BmlResource *nano_drago_entry_params_resource;
 // Filled by update_attack_parameters, read by the NanoDrago projectiles.
@@ -186,11 +186,11 @@ TObjEneNanoDrago::TObjEneNanoDrago(TObject *parent, void *setData) : TObjEnemyCu
     state36C = *(s16 *)((s8 *)setData + 0x3E);
     load_entry_params_nanodrago(variant);
     action_table = nanodrago_action_table;
-    set_action_table((saddr)action_table);
+    set_action_table(action_table);
     init_collision_body_parts(this, nano_drago_bodies, 2);
     bodies[1].flags &= ~1;
     movementParameters = &nano_drago_movement;
-    bind_enemy_combat_stats((u8 *)nano_drago_base_params, (u8 *)nano_drago_attack_params, (u8 *)nano_drago_resistance_params);
+    bind_enemy_combat_stats(nano_drago_base_params, nano_drago_attack_params, nano_drago_resistance_params);
     update_attack_parameters();
     requested_action = 0;
     set_animation(requested_action);
@@ -236,13 +236,13 @@ void TObjEneNanoDrago::load_resources() {
 
     resource = (u8 *)new BmlResource(1, &bm_ene_nanodrago_resource_descriptor, 0, 0, NULL);
     nano_drago_entry_params_resource = (BmlResource *)resource;
-    nano_drago_base_params = (saddr)TLobby::register_boss(0x1A);
-    nano_drago_attack_params = (saddr)TLobby::dispatch_shared_handler_b(0x1A);
-    nano_drago_resistance_params = (saddr)TLobby::register_object(0x1A);
+    nano_drago_base_params = TLobby::register_boss(0x1A);
+    nano_drago_attack_params = TLobby::dispatch_shared_handler_b(0x1A);
+    nano_drago_resistance_params = TLobby::register_object(0x1A);
     lbl_805D5254 = (saddr)TLobby::dispatch_shared_handler_a(0x1A);
-    NpcAnimationBinding binding = { reinterpret_cast<BmlMotionEntry *>(nano_drago_entry_params_resource->motions), reinterpret_cast<TObjMotionAction *>(nanodrago_action_table), 0, 1, 12 };
+    NpcAnimationBinding binding = { nano_drago_entry_params_resource->motions, nanodrago_action_table, 0, 1, 12 };
     modelEntries = nano_drago_entry_params_resource->models;
-    NpcModelRegistry::register_animated_chunk((s16)(0x22), reinterpret_cast<void *>(modelEntries[0].model), modelEntries[0].texlist, &binding, (f32)(15.0f), (f32)(0.0f));
+    NpcModelRegistry::register_animated_chunk((s16)(0x22), modelEntries[0].model, modelEntries[0].texlist, &binding, (f32)(15.0f), (f32)(0.0f));
 }
 void TObjEneNanoDrago::free_resources() {
     if ((uaddr) nano_drago_entry_params_resource != 0U) {

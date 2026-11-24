@@ -14,10 +14,10 @@ struct TAdFloorLoadCamGC : public TObject {
     u8 _pad2C[0x8];
     void* m_34;
     u8 _pad38[0x8];
-    void* m_40;
+    f32 up_x;
     virtual void render();
     virtual void run_task();
-    u8 unk_44[0x4];
+    f32 up_y;
     f32 m_48;
 };
 

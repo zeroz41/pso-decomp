@@ -42,7 +42,7 @@ void TWindowSubStatusDisp::get_player() {
 #pragma opt_common_subs off
 #pragma optimize_for_size off
 void draw_textured_quad_at_depth(f32 *q, f32 depth) {
-    u32 color = (*(u32 *)&constant_material_color);
+    u32 color = (u32)constant_material_color;
     f32 z = -1.0f / depth;
     f32 x0 = q[0] * z;
     f32 x1 = q[2] * z;
@@ -68,7 +68,7 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth) {
 #pragma scheduling off
 void DVDConvertEntrynumToPath(f32 *q) {
     f32 z = -1.0f / q[2];
-    u32 color = (*(u32 *)&constant_material_color);
+    u32 color = (u32)constant_material_color;
     f32 y0, x0, u0, v0;
     f32 x1, y1, u1, v1;
     f32 x3, y3, u3, v3;
@@ -131,7 +131,7 @@ void set_draw_texture_and_color(s32 idx, s32 color) {
 #pragma scheduling off
 #pragma peephole off
 void set_constant_material_color(u32 x) {
-    (*(u32 *)&constant_material_color) = ((x & 0xFFFFFF) << 8) | ((x & 0xFF000000) >> 24);
+    constant_material_color = (s32)(((x & 0xFFFFFF) << 8) | ((x & 0xFF000000) >> 24));
 }
 #pragma pop
 

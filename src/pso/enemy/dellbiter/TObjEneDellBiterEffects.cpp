@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/enemy/AreaAttackContact.h"
 #include "pso/enemy/dellbiter/TObjEneDellBiter_Eff_Rush.h"
 #include "pso/enemy/dellbiter/TObjEneDellBiter_Eff_TpAbsorb1.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -16,15 +17,9 @@
 extern "C" {
 }
 
-// The first argument of TUnk_804928CC::call_vt13_with_default (contents {3.0f, 3}; fields unknown).
-struct DelbiterTpAbsorbHitParams {
-    f32 unk_0;
-    s32 unk_4;
-};
-
 const char *TObjEneDellBiter_Eff_Rush__name = "TObjEneDellBiter_Eff_Rush";
 const char *TObjEneDellBiter_Eff_TpAbsorb1__class_name = "TObjEneDellBiter_Eff_TpAbsorb1";
-extern const DelbiterTpAbsorbHitParams dell_biter_tp_absorb_hit_params = {3.0f, 3};
+extern const AreaAttackContact dell_biter_tp_absorb_hit_params = {3.0f, 3};
 extern const DirectAttackPayload dell_biter_tp_absorb_attack = {0, 20.0f};
 
 #pragma fp_contract on

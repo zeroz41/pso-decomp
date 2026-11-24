@@ -69,8 +69,6 @@ s32 chat_accept_submission(saddr submission) {
 
 void send_chat_shortcut(void) { ((int (*)()) get_chat_shortcut)(); ((int (*)()) chat_accept_submission)(); }
 
-struct ByteBlock_50 { u8 bytes[0x50]; };
-
 #pragma inline_depth(1)
 #pragma auto_inline on
 #pragma dont_inline off
@@ -90,7 +88,7 @@ s32 store_chat_shortcut(s32 index, s32 arg1) { return TAdSinglePlyChrSelectGC__s
 
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1) {
     TAdSinglePlyChrSelectGC__sub_80076DF4((void*)arg0, (void*)arg1);
-    *(ByteBlock_50 *)(arg0 + 4) = *(const ByteBlock_50 *)(arg1 + 4);
+    ((ChatShortcutRecordCopy *)arg0)->body = ((const ChatShortcutRecordCopy *)arg1)->body;
     return arg0;
 }
 

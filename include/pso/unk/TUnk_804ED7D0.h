@@ -15,7 +15,7 @@ public:
     virtual int vfunc_11();
     virtual int vfunc_5(s32);
     virtual int vfunc_6(s32, s32, s32);
-    virtual int vfunc_76();
+    virtual BmlMotionEntry *vfunc_76();
     virtual int vfunc_75();
     virtual int vfunc_72();
     virtual int vfunc_71();

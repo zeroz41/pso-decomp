@@ -63,13 +63,13 @@ extern TObjMotionAction TObjEneRecon__animation_entries[6];
 // Breakup-model parameters TObjEneRecon::state_death hands to TBoss3Volopt::create_breakup_mdl.
 extern const TBoss3VoloptBreakupParams recon_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
 const char *TObjEneRecon_name_ref = "TObjEneRecon";
-extern const NpcAnimationBinding recon_anim_binding = { NULL, reinterpret_cast<TObjMotionAction *>(TObjEneRecon__animation_entries), 1, 1, 6 };
+extern const NpcAnimationBinding recon_anim_binding = { NULL, TObjEneRecon__animation_entries, 1, 1, 6 };
 // Scale of the ground shadow render draws under the Recon.
 extern const Vec recon_shadow_scale = { 0.8f, 1.0f, 0.8f };
 
-saddr TObjEneRecon__base_params;
-saddr TObjEneRecon__attack_params;
-saddr TObjEneRecon__resistance_params;
+player_stats *TObjEneRecon__base_params;
+AttackParams *TObjEneRecon__attack_params;
+ActorParamBlock *TObjEneRecon__resistance_params;
 ReconParams *TObjEneRecon__behavior_params;
 BmlResource *TObjEneRecon__recobox_static_instance;
 TBreakUpMdlData *boss3_volopt_instance;
@@ -78,18 +78,18 @@ Vec *recon_model_matrix_ptr;
 
 
 void TObjEneRecon::render_shadows() {
-  saddr bml_model;
+  NJS_OBJECT *bml_model;
   if (TObjEneRecon__recobox_static_instance != NULL)
   {
-    s32 bml_texlist;
-    bml_model = (saddr)get_bml_model((BmlResource *)TObjEneRecon__recobox_static_instance, 2);
-    bml_texlist = (saddr)get_bml_texlist((BmlResource *)TObjEneRecon__recobox_static_instance, 2);
+    NJS_TEXLIST *bml_texlist;
+    bml_model = get_bml_model(TObjEneRecon__recobox_static_instance, 2);
+    bml_texlist = get_bml_texlist(TObjEneRecon__recobox_static_instance, 2);
     push_matrix();
     translate_matrix(0, position.x, position.y, position.z);
     rotate_matrix_zyx(0, this->rotation_x, this->rotation_y, this->rotation_z);
     scale_matrix(0, 1.5f, 1.5f, 1.5f);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(bml_texlist));
-    draw_chunk_object((void *)bml_model);
+    TObjFish::set_global_param(bml_texlist);
+    draw_chunk_object(bml_model);
     pop_matrix();
   }
 }
@@ -936,7 +936,7 @@ void TObjEneRecon::select_next_target() {
 
 s32 TObjEneRecon::is_in_strike_range() {
     f32 facing;
-    if ((destination_distance < (5.0f + ((AttackParams *)TObjEneRecon__attack_params)->get_attack_range())) && (fabs_float((f32) (hover_height - destination.y)) < 1.0f)) {
+    if ((destination_distance < (5.0f + TObjEneRecon__attack_params->get_attack_range())) && (fabs_float((f32) (hover_height - destination.y)) < 1.0f)) {
         facing = vec3_dot(&velocity, &destination_direction);
         if (facing >= cos_table_lookup(attack_params->get_attack_angle())) {
             return 1;
@@ -1103,9 +1103,9 @@ void TObjEneRecon::load_resources() {
   boss3_volopt_instance = new TBreakUpMdlData((long)(saddr)TObjEneRecon__recobox_static_instance->models->model);
   recon_intro_stage = 0;
   recon_model_matrix_ptr = 0;
-  TObjEneRecon__base_params = (saddr)TLobby::register_boss(0x42);
-  TObjEneRecon__attack_params = (saddr)TLobby::dispatch_shared_handler_b(0x42);
-  TObjEneRecon__resistance_params = (saddr)TLobby::register_object(0x42);
+  TObjEneRecon__base_params = TLobby::register_boss(0x42);
+  TObjEneRecon__attack_params = TLobby::dispatch_shared_handler_b(0x42);
+  TObjEneRecon__resistance_params = TLobby::register_object(0x42);
   TObjEneRecon__behavior_params = (ReconParams *)TLobby::dispatch_shared_handler_a(0x42);
   TObjEneReconBomb::load_resources();
   NpcAnimationBinding binding = recon_anim_binding;
@@ -1153,12 +1153,12 @@ void TObjEneRecon::init_state() {
     model = TObjEneRecon__recobox_static_instance->models->model;
     texlist = TObjEneRecon__recobox_static_instance->models->texlist;
     init_model(&TObjEneRecon__collision_body_template, 1);
-    set_action_table((saddr)TObjEneRecon__animation_entries);
-    set_motion_list((saddr)TObjEneRecon__recobox_static_instance->motions);
+    set_action_table(TObjEneRecon__animation_entries);
+    set_motion_list(TObjEneRecon__recobox_static_instance->motions);
     this->requested_action = 0;
     set_animation((this->requested_action));
     set_requested_action((int) (this->requested_action));
-    reset_hp((u8 *)TObjEneRecon__base_params, (u8 *)TObjEneRecon__attack_params, (u8 *)TObjEneRecon__resistance_params);
+    reset_hp(TObjEneRecon__base_params, TObjEneRecon__attack_params, TObjEneRecon__resistance_params);
     set_state_flag_4();
     movementParameters = (void *) TObjEneRecon__ai_parameters;
     initialize_enemy_state(0x44);

@@ -43,7 +43,7 @@ void TObjPlayer::init_action_provider() {
     *(s32 *)&this->inventory_objects = 0;
     this->lock_on_cursor = NULL;
     (*(s32 *)&this->joint_matrices) = 0;
-    this->m_db4 = 0;
+    this->item_node_matrices = NULL;
     this->set_floor_index(0xF);
     this->set_floor(0xF);
     this->m_54c = 0;

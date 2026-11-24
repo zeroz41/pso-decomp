@@ -80,9 +80,9 @@
 
 
 extern "C" {
-saddr dellbiter_boss_stat_handle;
-saddr TObjEneDellBiter__shared_handler_param;
-saddr dellbiter_object_stat_handle;
+player_stats *dellbiter_boss_stat_handle;
+AttackParams *TObjEneDellBiter__shared_handler_param;
+ActorParamBlock *dellbiter_object_stat_handle;
 DelbiterMovementParameters * TObjEneDellBiter__movement_params;
 uaddr TObjEneDellBiter__shared_model_resource;
 s32 TObjEneDellBiter__demo_script_step;
@@ -156,9 +156,9 @@ void TObjEneDellBiter::load_resources() {
     } else {
         TObjEneDellBiter__shared_model_resource = (uaddr)load_enemy_bml_resource(&dell_biter_bml_resource);
     }
-    dellbiter_boss_stat_handle = (saddr)TLobby::register_boss(0xD);
-    TObjEneDellBiter__shared_handler_param = (saddr)TLobby::dispatch_shared_handler_b(0xD);
-    dellbiter_object_stat_handle = (saddr)TLobby::register_object(0xD);
+    dellbiter_boss_stat_handle = TLobby::register_boss(0xD);
+    TObjEneDellBiter__shared_handler_param = TLobby::dispatch_shared_handler_b(0xD);
+    dellbiter_object_stat_handle = TLobby::register_object(0xD);
     TObjEneDellBiter__movement_params = (DelbiterMovementParameters *)TLobby::dispatch_shared_handler_a(0xD);
     TObjEneDellBiter__demo_script_step = 0;
     TObjEneDellBiter__demo_rotate_x_angle = 0;
@@ -170,8 +170,8 @@ void TObjEneDellBiter::load_resources() {
         NJS_OBJECT *object = (NJS_OBJECT *)resource->models->model;
         TObjEneDellBiter__scrolling_uv_polygon_list = (saddr)((NJS_CNK_MODEL *)object->child->model)->polygon_list;
         TObjEneDellBiter__last_uv_scroll_tick = 0;
-        NpcAnimationBinding attack = { reinterpret_cast<BmlMotionEntry *>(resource->motions), reinterpret_cast<TObjMotionAction *>(dell_biter_param_table), 0, 1, 10 };
-        NpcModelRegistry::register_animated_chunk((s16)0x46, reinterpret_cast<void *>(resource->models->model), resource->models->texlist,
+        NpcAnimationBinding attack = { resource->motions, dell_biter_param_table, 0, 1, 10 };
+        NpcModelRegistry::register_animated_chunk((s16)0x46, resource->models->model, resource->models->texlist,
             &attack, dell_biter_collision_bodies[0].radius, 0.0f);
     }
 }
@@ -208,12 +208,12 @@ void TObjEneDellBiter::init_params() {
     texlist = ((BmlResource *)TObjEneDellBiter__shared_model_resource)->models->texlist;
     init_model((CollisionBody *)dell_biter_collision_bodies, 1);
     bodies->flags |= 0x400000;
-    set_action_table((saddr)&dell_biter_param_table);
-    set_motion_list((saddr)((BmlResource *)TObjEneDellBiter__shared_model_resource)->motions);
+    set_action_table(dell_biter_param_table);
+    set_motion_list(((BmlResource *)TObjEneDellBiter__shared_model_resource)->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);
-    reset_hp((u8 *)dellbiter_boss_stat_handle, (u8 *)TObjEneDellBiter__shared_handler_param, (u8 *)dellbiter_object_stat_handle);
+    reset_hp(dellbiter_boss_stat_handle, TObjEneDellBiter__shared_handler_param, dellbiter_object_stat_handle);
     set_state_8();
     movementParameters = &TObjEneDellBiter__param_table;
     initialize_enemy_state(0x48);
@@ -412,7 +412,7 @@ void TObjEneDellBiter::update_contact_attacks() {
         attack_bodies[1]->rotation_y = rotation_y;
         VecCopy(&attack_bodies[1]->position, &part_positions[1]);
         attack_bodies[1]->refresh_collision_body_centers();
-        DelbiterContactAttack attack = { get_attack_params_atp_min((void *)TObjEneDellBiter__shared_handler_param), 1 };
+        DelbiterContactAttack attack = { get_attack_params_atp_min(TObjEneDellBiter__shared_handler_param), 1 };
         if (is_confused() != 0) {
             attack.flags |= 2;
         }

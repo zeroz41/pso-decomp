@@ -19,4 +19,10 @@ void TObjBoss5PillarDemo__sub_8028ACE0(void);
 void TObjBoss5PillarDemo__sub_8028ACE4(void);
 }
 
+struct NJS_OBJECT;
+extern "C" {
+void clear_child_target_refs(NJS_OBJECT *root, NJS_OBJECT *target);
+void clear_chain_flags(NJS_OBJECT *root, NJS_OBJECT *target);
+}
+
 #endif

@@ -61,19 +61,19 @@ s32 close_all_connections(void) {
 }
 
 s16 negotiate_ipcp_and_ipv6cp(void) {
-    u8 *g = (u8 *)&ppp_proto_blocks;
-    u8 *p = g + 0xD4;
+    PppProtoBlocks *connection = &ppp_proto_blocks;
+    PppFsm *ipv6cp = &connection->ipv6cp;
     s16 st = lbl_805D7A7C;
-    u8 *q;
+    PppFsm *ipcp;
 
-    if ((st == 6 || st == 0) && TLobby__sub_803FF304(p) != 0) {
+    if ((st == 6 || st == 0) && TLobby__sub_803FF304(ipv6cp) != 0) {
         return -0x11;
     }
-    q = g + 0x6C;
-    if (TLobby__sub_803FF304(q) != 0) {
+    ipcp = &connection->ipcp;
+    if (TLobby__sub_803FF304(ipcp) != 0) {
         return -0x11;
     }
-    if (TLobby__sub_803FED78(q) != 0) {
+    if (TLobby__sub_803FED78(ipcp) != 0) {
         return -0x11;
     }
     return 0;
@@ -141,11 +141,11 @@ s32 ipcp_configure_all_options(s16 vj_disabled, s32 addr_local, s32 addr_peer, s
 
 s16 chap_connect(u8 *chap_name, u8 *chap_secret, s32 timeout) {
     u8 *g = (u8 *)&ppp_proto_blocks;
-    u8 *c = g + 0xA0;
+    PppFsm *chap = &ppp_proto_blocks.chap;
     s16 r;
     s16 st;
-    TLobby__sub_803FC684(chap_name, chap_secret, c);
-    r = PP_chap_monitor((PppFsm *)c, timeout);
+    TLobby__sub_803FC684(chap_name, chap_secret, chap);
+    r = PP_chap_monitor(chap, timeout);
     if (r < 0) {
         if (r == -0x12) {
             return -0x12;

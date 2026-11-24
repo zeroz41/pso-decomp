@@ -110,7 +110,7 @@ TLoadCtrl::TLoadCtrl(saddr task) : TObject((TObject *)((void *)task)) {
     TLoadCtrl__fade_task = 0;
     this->m_20 = 0;
     this->m_name = TLoadCtrl__class_name;
-    if (((u32) (*(u32 *)&TLoadCtrl__loading_mode) == 0U) || ((u32) (*(u32 *)&TLoadCtrl__loading_mode) == 1U)) {
+    if (((u32)TLoadCtrl__loading_mode == 0U) || ((u32)TLoadCtrl__loading_mode == 1U)) {
         temp_r3 = (saddr)TObject::operator new(0x38);
         var_r0 = temp_r3;
         if (var_r0 != 0) {

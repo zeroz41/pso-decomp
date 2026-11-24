@@ -65,7 +65,7 @@ TWindowQuantity::TWindowQuantity(s32 arg1) : TWindowBase((u8 *)&quantity_window_
     e0 = (u8 *)this->get_array_entry(0);
     e1 = (u8 *)this->get_array_entry(1);
     set_text_entry_string(e0, id, 0);
-    *(f32 *)(e1 + 8) = 24.0f + (12.0f + (8.0f + n));
+    ((f32 *)e1)[2] = 24.0f + (12.0f + (8.0f + n));
     target_size[0] = TWindowSubStatusDisp::get_base_y(width);
     this->save_position();
     if (TCameraCtrl::get_camera_id() > 2) {

@@ -358,7 +358,7 @@ void TWindowSubStatusDisp::run_task() {
     TWindowSubStatusDisp *arg0 = (TWindowSubStatusDisp *)this;
   if (!((arg0->window_flags) & 2))
   {
-    *(s32 *)&arg0->open_tick = 0x01000000;
+    arg0->open_tick = 0x01000000;
   }
   if ((handle_list_page_flip_input(arg0->m_68) != 0) || ((arg0->page) != ((s16) (*(s16 *)&arg0->m_62))))
   {

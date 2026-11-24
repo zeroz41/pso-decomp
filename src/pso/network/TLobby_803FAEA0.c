@@ -483,9 +483,9 @@ L242:
     } else {
         pkt.lcp.accm = 0xA0000;
         /* These session inputs are loaded as unsigned halfwords. */
-        *(u16 *)&pkt.lcp.f4 = g->uA0;
+        pkt.lcp.f4_u = g->uA0;
         pkt.lcp.mru = g->mtu;
-        *(u16 *)&pkt.lcp.fE = g->uA2;
+        pkt.lcp.fE_u = g->uA2;
         mode = g->hA4;
     }
     pkt.lcp.auth_mode = g->h98;

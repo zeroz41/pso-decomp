@@ -702,11 +702,11 @@ void TObjCityMapWarp::render() {
         if (is_field88_zero() != 0) {
             draw_ginja_object((void *)city_common_model_archive->models[13].model);
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)city_common_model_archive->models[3].model, city_common_model_archive->motions[7].motion, *(f32 *)&this->unk_FC);
+            draw_ginja_model_with_motion((void *)city_common_model_archive->models[3].model, city_common_model_archive->motions[7].motion, this->animation_frame);
             TParticleCtrl::end_effect_render();
         } else {
             TParticleCtrl::begin_effect_render();
-            draw_ginja_model_with_motion((void *)city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, *(f32 *)&this->unk_FC);
+            draw_ginja_model_with_motion((void *)city_common_model_archive->models[1].model, city_common_model_archive->motions[6].motion, this->animation_frame);
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();
