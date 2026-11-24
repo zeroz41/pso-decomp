@@ -54,7 +54,7 @@ void process_trade_target__10TObjPlayerFiPv(saddr player, TItemData *item_data) 
         s32 val_ext = (s32)val;
         TItem *slot_item = (TItem *)TObjPlayer::get_slot_value((s32 *)(player + 0xD04), val_ext);
         if (slot_item != NULL) {
-            TObjPlayer::send_6x29_delete_item((void *)player, slot_item->get_item_id(), 1);
+            TObjPlayer::send_6x29_delete_item((TObjPlayer *)player, slot_item->get_item_id(), 1);
             set_equip_slot_entry(player + 0xD04, val_ext, 0);
         }
         if (((TObjPlayer *)player)->pickup_item((TItem *)item) != 0U) {

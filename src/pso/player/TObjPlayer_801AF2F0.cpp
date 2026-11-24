@@ -2230,20 +2230,20 @@ u32 TObjPlayer::pickup_item(TItem *item) {
     return 0;
 }
 
-void TObjPlayer::send_6x29_delete_item(void *obj, int a, int b) {
+void TObjPlayer::send_6x29_delete_item(TObjPlayer *player, s32 item_id, s32 count) {
     Cmd_801B8DE8 cmd;
-    if (((TObjPlayer *)obj)->is_in_lobby() != 0) {
+    if (player->is_in_lobby() != 0) {
         return;
     }
-    if (obj != 0 && ((TObjChara *)obj)->obj_isState2_324() != 0) {
+    if (player != NULL && player->obj_isState2_324() != 0) {
         return;
     }
     ((TObjPlayer *)(&cmd))->init_cmd_6x29();
-    cmd.id = ((TObjBase *)(obj))->get_entity_id();
-    cmd.a = a;
-    cmd.b = b;
+    cmd.id = player->get_entity_id();
+    cmd.a = item_id;
+    cmd.b = count;
     ((TObjPlayer *)(&cmd))->bswap_body_dwords3_and_send();
-    ((TObjPlayer *)obj)->send_unequip_held_item();
+    player->send_unequip_held_item();
 }
 void handle_6x29_delete_inventory_item(G_DeleteInventoryItem_6x29 *command) {
     L_801B8D68 cmd;
@@ -2376,17 +2376,17 @@ void handle_6x83_place_trap(G_PlaceTrap_6x83 *command) {
 }
 
 
-void TObjPlayer::send_6x2A_drop_item(void *player, s32 source, void *pos, s32 item_id) {
+void TObjPlayer::send_6x2A_drop_item(TObjPlayer *player, s32 source, void *pos, s32 item_id) {
     Cmd_801B8870 cmd;
-    if (((TObjPlayer *)player)->is_in_lobby() == 0 && (player == NULL || ((TObjChara *)player)->obj_isState2_324() == 0)) {
+    if (player->is_in_lobby() == 0 && (player == NULL || player->obj_isState2_324() == 0)) {
         ((TObjPlayer *)(&cmd))->init_6x2A();
-        cmd.client = ((TObjBase *)((saddr)player))->get_entity_id();
+        cmd.client = player->get_entity_id();
         cmd.a = source;
         cmd.b = item_id;
         cmd.floor = ((s16 (*)(void))get_current_floor)();
         VecCopy((Vec *)&cmd.pos, (const Vec *)pos);
         ((TObjPlayer *)(&cmd))->bswap_fields_and_send();
-        ((TObjPlayer *)player)->send_unequip_held_item();
+        player->send_unequip_held_item();
     }
 }
 
@@ -2468,7 +2468,7 @@ s32 TObjPlayer::try_add_sale_meseta(s32 item_id, s32 amount, s32 count) {
 }
 #pragma pop
 
-void delete_item(void *player, s32 id, s32 count) { TObjPlayer::send_6x29_delete_item(player, id, count); }
+void delete_item(void *player, s32 id, s32 count) { TObjPlayer::send_6x29_delete_item((TObjPlayer *)player, id, count); }
 }
 
 void TObjPlayer::request_inventory_item(TItemData* item) {

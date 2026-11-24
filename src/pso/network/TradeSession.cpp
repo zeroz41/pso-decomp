@@ -321,7 +321,7 @@ void TLobby::apply_trade_items() {
                                 remove_list_entry_by_id(id);
                                 flag = 1;
                             }
-                            TObjPlayer::send_6x29_delete_item((void *)player, (s32)id, (s32)count);
+                            TObjPlayer::send_6x29_delete_item((TObjPlayer *)player, (s32)id, (s32)count);
                         }
                     }
                 }
