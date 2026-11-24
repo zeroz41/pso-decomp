@@ -29,6 +29,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
 #include "pso/network/protocol/cast_packets.h"
+#include "pso/quest/challenge/ChallengeRecord.h"
 
 struct G_6x70_Base_DCNTE {
  u16 client_id;
@@ -750,7 +751,7 @@ struct G_SetChallengeDeadFlag_6x9D {
 };
 
 struct G_SetChallengeRecordsBase_6x7C {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;
  u16 client_id;
  u8 unused[2];
 };
@@ -762,7 +763,10 @@ struct G_SetChallengeRecords_PC_6x7C {
 
 struct G_SetChallengeRecords_V3_6x7C {
  struct G_SetChallengeRecordsBase_6x7C __base_G_SetChallengeRecordsBase_6x7C;
- u8 records[0x100];
+ ChallengeRecord records;
+ G_SetChallengeRecords_V3_6x7C();
+ void bswap();
+ void send();
 };
 
 struct G_SetEnemyLowGameFlagsUltimate_6x9C {

@@ -2028,7 +2028,7 @@ void TRecvChallengeData::bswap() {
 }
 void TPlyChallenge::bswap() {
     bswap_32(&client_id);
-    ((TLobby *)&challenge)->bswap_challenge_battle_records();
+    challenge.bswap();
     bswap_16(&battle_place_count_1);
     bswap_16(&battle_place_count_2);
     bswap_16(&battle_place_count_3);

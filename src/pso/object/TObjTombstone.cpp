@@ -323,7 +323,7 @@ void TObjTombstone::format_player_name() {
 }
 
 void TObjTombstone::format_label() {
-    sprintf(this->labels[1], "%s%d", get_message_text(0x4D), this->record.unk_4);
+    sprintf(this->labels[1], "%s%d", get_message_text(0x4D), this->record.deaths);
     this->labels[1][0x2F] = 0;
 }
 

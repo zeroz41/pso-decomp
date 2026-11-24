@@ -3,9 +3,8 @@
 
 #include "types.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeModeState.h"
 
-
-extern s32 challenge_mode_state[];
 
 int TLobby__sub_8006EF90(void) { return 1; }
 u8 *TLobby::get_stage_table_entry(s32 arg0, s32 arg1) {
@@ -24,7 +23,7 @@ s32 TLobby::get_online_result_value() {
     s32 f = TLobby::is_flag_set();
     s32 r = -1;
     if (f) {
-        r = challenge_mode_state[0];
+        r = challenge_mode_state.stage;
     }
     return r;
 }

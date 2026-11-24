@@ -634,13 +634,6 @@ struct TLobby : public TObject {
     void send_state();
     void byteswap_challenge_packet();
     void send_challenge_packet();
-    void bswap_6x7C_packet();
-    void send_6x7C_packet();
-    void init_pkt_cmd_7C();
-    void bswap_challenge_battle_records();
-    void bswap_fields_0_4();
-    void bswap_fields_4_8_12();
-    void bswap_packet_field();
     static s32 is_ready_to_draw();
     static void send_45_and_close_windows(void * _w0);
     static void show_ctrl_and_play_effect(void* a0);

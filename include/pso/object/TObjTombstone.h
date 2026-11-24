@@ -4,6 +4,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/object/base/TObjMotion.h"
+#include "pso/object/TObjTombstoneRecord.h"
 
 // The challenge-mode drop chances of a tombstone (inferred: quest opcode
 // qst_op_set_cmode_grave_rates passes its registers to set_tombstone_drop_rates,
@@ -17,49 +18,6 @@ struct TObjTombstoneDropRates {
 
 extern "C" void set_tombstone_drop_rates(TObjTombstoneDropRates *rates);
 
-// What TLobby::create_tombstone spawns a tombstone from (inferred layout:
-// three bytes copied to the record, then its position).
-struct TObjTombstoneSpot {
-    s8 phase;
-    s8 layout;
-    s8 floor;
-    u8 unk_3;
-    Vec position;
-};
-
-// What a tombstone is set up from (setup copies it whole; the copy is the
-// compiler's assignment operator, 0x80076390).
-struct TObjTombstoneRecord {
-    s8 phase;
-    s8 layout;
-    u8 floor;  // compared with get_current_floor
-    u8 unk_3;
-    s16 unk_4;
-    s16 unk_6;
-    u32 date;      // year-2000 << 28 | month << 24 | day << 16 | hour << 8 | minute
-    s32 rt_index;  // passed to enemy_name_for_rt_index
-    Vec position;
-    char display_name[0x14];
-    char unit_name[0x20];
-};
-
-// The per-player Challenge bank stores the full grave record and the floor-only
-// spot consecutively. The other Challenge card fields are owned by their readers.
-struct ChallengeTombstonePlayerSlot {
-    s32 active;
-    u8 reserved_004[0x60];
-    TObjTombstoneRecord record;
-    TObjTombstoneSpot spot;
-    u8 reserved_0C4[0x40];
-};
-
-LAYOUT_ASSERT(TombstoneSpotSize, sizeof(TObjTombstoneSpot) == 0x10);
-LAYOUT_ASSERT(TombstoneSpotPositionOffset, offsetof(TObjTombstoneSpot, position) == 4);
-LAYOUT_ASSERT(TombstoneRecordSize, sizeof(TObjTombstoneRecord) == 0x50);
-LAYOUT_ASSERT(TombstoneRecordPositionOffset, offsetof(TObjTombstoneRecord, position) == 0x10);
-LAYOUT_ASSERT(ChallengeTombstoneSlotSize, sizeof(ChallengeTombstonePlayerSlot) == 0x104);
-LAYOUT_ASSERT(ChallengeTombstoneRecordOffset, offsetof(ChallengeTombstonePlayerSlot, record) == 0x64);
-LAYOUT_ASSERT(ChallengeTombstoneSpotOffset, offsetof(ChallengeTombstonePlayerSlot, spot) == 0xB4);
 
 void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObjTombstoneSpot *source);
 

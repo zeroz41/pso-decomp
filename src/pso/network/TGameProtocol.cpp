@@ -86,7 +86,6 @@ void handle_6x71_unblock_game_join();
 void handle_6x72_done_loading_into_game();
 void handle_6x73_exit_quest();
 void handle_6x74_word_select(u8 *arg0);
-extern "C" void handle_6x7C_set_challenge_records();
 extern "C" void handle_6x7D_set_battle_mode_data();
 struct game_command_header;
 extern "C" void handle_6x80_trigger_trap(game_command_header *command);

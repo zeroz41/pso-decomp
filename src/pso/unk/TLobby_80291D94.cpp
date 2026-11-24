@@ -214,7 +214,7 @@ int TLobby__sub_80292268(void) { return 1; }
 
 s32 TLobby__sub_80292270(s32 seed, s32 card) {
     s32 r;
-    if (is_challenge_mode_active() == 0 || challenge4p_mode_state.pad_0 == -1 ||
+    if (is_challenge_mode_active() == 0 || challenge4p_mode_state.stage == -1 ||
         (u32)get_character_save_record((u16)card) == 0) {
         challenge4p_mode_state.pad_14 = -4;
         return -4;
@@ -432,7 +432,7 @@ void TLobby::clamp_and_store_layout_index(s32 arg0) {
     if ((var_r31 < 0) || (var_r31 >= layout_id)) {
         var_r31 = 0;
     }
-    challenge4p_mode_state.pad_0 = var_r31;
+    challenge4p_mode_state.stage = var_r31;
 }
 
 s32 TLobby__sub_8029299C(void) {
@@ -519,12 +519,12 @@ s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id) {
     s32 idx;
     s32 limit;
     s32 ok;
-    if (win == NULL || challenge4p_mode_state.pad_0 < 0 || challenge4p_mode_state.pad_0 >= layout) {
+    if (win == NULL || challenge4p_mode_state.stage < 0 || challenge4p_mode_state.stage >= layout) {
         return 0;
     }
     arr = TWindowSubStatusDisp__sub_8006F0D8((ChallengeRecord *)(win + 0x21C4), id);
     ok = 0;
-    idx = challenge4p_mode_state.pad_0 * 4;
+    idx = challenge4p_mode_state.stage * 4;
     if (*(s32 *)((u8 *)arr + idx) == 0) {
         ok = 1;
     } else {
@@ -606,7 +606,7 @@ s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
     total = TWindowSubStatusDisp__sub_80071988(card, id);
     if (total != 0) {
         record = (ChallengeRecord *)(get_character_save_record(card) + 0x21C4);
-        total -= TLobby::get_valid_slot(TWindowSubStatusDisp__sub_8006F0D8(record, id)[challenge4p_mode_state.pad_0]);
+        total -= TLobby::get_valid_slot(TWindowSubStatusDisp__sub_8006F0D8(record, id)[challenge4p_mode_state.stage]);
         total += seed;
         result = TLobby__sub_80292AB4(total, card, id);
         next = result + 1;
@@ -777,11 +777,11 @@ extern "C" {
 void TLobby__sub_80293218(s32 client) {
     TObjPlayer *p = reinterpret_cast<TObjPlayer *>(((uaddr)get_player_by_client_id(client)));
     if (p != NULL) {
-        ChallengeTombstonePlayerSlot *r = (ChallengeTombstonePlayerSlot *)&challenge4p_mode_state.client_records[client];
-        if (r->active != 0) {
-            TObjTombstoneSpot *spot = &r->spot;
+        ChallengeClientRecords *r = &challenge4p_mode_state.client_records[client];
+        if (r->present != 0) {
+            TObjTombstoneSpot *spot = &r->records.tombstone_spot;
             spot->phase = TWindowSubStatusDisp::resolve_player_slot(-1);
-            spot->layout = challenge4p_mode_state.pad_0;
+            spot->layout = challenge4p_mode_state.stage;
             spot->floor = challenge4p_mode_state.current_floor;
             VecCopy(&spot->position, &p->position);
             u8 *w = reinterpret_cast<u8 *>(get_character_save_record(client)) + 0x2274;
@@ -810,15 +810,15 @@ extern "C++" void copy_tombstone_spot(TObjTombstoneSpot *destination, const TObj
 
 void TLobby::spawn_player_tombstones2() {
     saddr i;
-    ChallengeTombstonePlayerSlot *r;
+    ChallengeClientRecords *r;
     const TObjTombstoneSpot *t;
     TLobby::reset_tombstone_values();
     for (i = 0; i < 4; i++) {
-        r = (ChallengeTombstonePlayerSlot *)&challenge4p_mode_state.client_records[i];
-        if (r->active != 0 && get_player_by_client_id(i) != NULL) {
-            t = &r->spot;
+        r = &challenge4p_mode_state.client_records[i];
+        if (r->present != 0 && get_player_by_client_id(i) != NULL) {
+            t = &r->records.tombstone_spot;
             if (t->phase == TWindowSubStatusDisp::resolve_player_slot(-1) &&
-                t->layout == challenge4p_mode_state.pad_0 &&
+                t->layout == challenge4p_mode_state.stage &&
                 t->floor == challenge4p_mode_state.current_floor) {
                 TLobby::create_tombstone(tl_07, i, t);
             }

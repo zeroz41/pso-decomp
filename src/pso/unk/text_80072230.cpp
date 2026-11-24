@@ -30,11 +30,7 @@ struct Stack_80072308 {
     u8 trailing_storage[0x8];
 };
 
-struct Pkt_800725E0 { u8 pad[4]; u16 f4; u8 pad2[0x102]; };
-
 struct Stack_800722AC { s32 sp8; s32 spC; s32 sp10; s32 sp14; };
-
-struct Pkt7C_80072230 { u32 hdr; u16 id; u8 pad6[2]; ChallengeRecord recs; };
 
 extern "C" {
 void TLobby__sub_800728FC(u8 *arg0);
@@ -44,9 +40,7 @@ void TLobby__sub_80072758(u8 *arg0);
 void TLobby__sub_80072724(TLobby *lobby);
 void TLobby__sub_800722AC(s32 arg0);
 void TLobby__sub_80072618(void);
-void handle_6x7C_set_challenge_records(Pkt7C_80072230 *pkt);
 void TLobby__sub_800727A0(void *player);
-
 }
 void handle_6x9D_set_challenge_dead_flag(G_SetChallengeDeadFlag_6x9D *command) {
     s32 idx;
@@ -156,14 +150,14 @@ void TLobby::send_challenge_with_value(s32 arg0, s32 arg1) {
     ((TLobby *)(&stack.sp8))->send_challenge_packet();
 }
 
-void handle_6x7C_set_challenge_records(Pkt7C_80072230 *pkt) {
+void handle_6x7C_set_challenge_records(G_SetChallengeRecords_V3_6x7C *command) {
     s32 id;
     ChallengeClientRecords *rec;
     if (TLobby::is_flag_set() == 0) {
         return;
     }
-    ((TLobby *)pkt)->bswap_6x7C_packet();
-    id = pkt->id;
+    command->bswap();
+    id = command->__base_G_SetChallengeRecordsBase_6x7C.client_id;
     if (id == local_client_id) {
         return;
     }
@@ -179,14 +173,13 @@ void handle_6x7C_set_challenge_records(Pkt7C_80072230 *pkt) {
         TLobby::send_challenge_records((uaddr)challenge_task);
     }
     rec->present = 1;
-    rec->records = pkt->recs;
+    rec->records = command->records;
 }
 
 void TChallenge::send_6x7c_reset() {
-    Pkt_800725E0 pkt;
-    ((TLobby *)(&pkt))->init_pkt_cmd_7C();
-    pkt.f4 = 0xFFFF;
-    ((TLobby *)(&pkt))->send_6x7C_packet();
+    G_SetChallengeRecords_V3_6x7C packet;
+    packet.__base_G_SetChallengeRecordsBase_6x7C.client_id = 0xFFFF;
+    packet.send();
 }
 
 void TLobby__sub_80072618(void) {
@@ -204,8 +197,7 @@ void TLobby__sub_80072618(void) {
 
 void TLobby::send_challenge_records(u32 _w0) {
     G_SetChallengeRecords_V3_6x7C packet;
-    ((TLobby *)(&packet.__base_G_SetChallengeRecordsBase_6x7C.header))->init_pkt_cmd_7C();
     packet.__base_G_SetChallengeRecordsBase_6x7C.client_id = (s16) local_client_id;
-    *(ChallengeRecord *)packet.records = *(ChallengeRecord *)(get_character_save_record(0xFFFF) + 0x21C4);
-    ((TLobby *)(&packet.__base_G_SetChallengeRecordsBase_6x7C.header))->send_6x7C_packet();
+    packet.records = *(ChallengeRecord *)(get_character_save_record(0xFFFF) + 0x21C4);
+    packet.send();
 }

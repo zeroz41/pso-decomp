@@ -6,6 +6,7 @@
 #include "pso/macros.h"
 #include "pso/forward.h"
 #include "pso/network/protocol/protocol.h"
+#include "pso/quest/challenge/ChallengeRecord.h"
 #include "pso/ui/TMenuList.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TPlyClientConfig.h"
@@ -524,16 +525,11 @@ public:
 	};
 };
 
-// A player's challenge-mode records (newserv PlayerRecordsChallengeV3).
-struct TPlyChallengeRecords {
-	u8 pad_0[0x100];
-};
-
 // One player's records as the C5 packet and the 61/98 player data carry them
 // (newserv PlayerRecordsEntry_V3). The battle counts are separate fields.
 struct TPlyChallenge {
 	u32 client_id;
-	TPlyChallengeRecords challenge;
+	ChallengeRecord challenge;  // newserv PlayerRecordsChallengeV3
 	u16 battle_place_count_1;
 	u16 battle_place_count_2;
 	u16 battle_place_count_3;
