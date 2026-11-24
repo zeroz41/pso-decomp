@@ -527,7 +527,6 @@ s32 is_action_id_none(int);
 s32 get_vobj_state_28__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 u8 TObjPlayer__sub_801C010C(const PlayerTechniqueState *state, s32 technique);
-void TObjPlayer__sub_801C75A4(u8 *player);
 void TObjPlayer__sub_801C7874(TObjPlayer *player);
 void handle_6xB1(void);
 void TObjPlayer__deactivate_off_floor_body(void* p);
@@ -537,7 +536,6 @@ void handle_6x36(void);
 void handle_6x48_cast_technique_complete(void *arg);
 s32 TObjPlayer__sub_801CFBFC(u8 *arg0);
 void send_idle_return_event__10TObjPlayerFPvPvs(void *arg0, const Vec *arg1, s16 arg2);
-int TObjPlayer__sub_801D0DAC(void* p);
 void TObjPlayer__sub_801D0E74(void* p);
 G_IntraMapWarp_6x55 *TObjPlayer__sub_801D0EA0(G_IntraMapWarp_6x55 *destination, G_IntraMapWarp_6x55 *source);
 void TObjPlayer__sub_801D0F70(void* p);
@@ -566,6 +564,8 @@ int is_pb_palette_bank_empty(void*);
 u8 get_cast_technique_level(void *techs, s16 tech);
 s32 set_technique_level_entry(void *, s32, u8);
 }
+// Turns the player toward its chair seat and moves it along its velocity.
+void turn_toward_chair_seat(TObjPlayer *player);
 int is_android_player(void* p);
 void remove_photon_blast_participant(s32 id);
 void send_photon_blast_targets_packet(u8 *player);
@@ -628,18 +628,18 @@ void TObjPlayer::update_state_group() {
     set_motion_list(action_provider->get_current_motion_list());
 }
 
-void TObjPlayer__sub_801C75A4(u8 *player) {
-    s32 sp8;
+void turn_toward_chair_seat(TObjPlayer *player) {
+    s32 step;
     f32 length;
-    ((TObjPlayer *)player)->rotation_y = ((TObjPlayer *)player)->interpolate_angle(((TObjPlayer *)player)->rotation_y, TObjPlayer__sub_801D0DAC(player), &sp8);
-    length = normalize_vector_safe((Vec *)(player + 0x308)) - 0.04f;
+    player->rotation_y = player->interpolate_angle(player->rotation_y, player->get_chair_target_angle(), &step);
+    length = normalize_vector_safe(&player->velocity) - 0.04f;
     if (length < 0.04f) {
-        clear_velocity((void *) (player));
+        clear_velocity(player);
     } else {
-        calc_direction_vector((int) (((TObjPlayer *)player)->rotation_y), (Vec *)((void *) (player + 0x308)), (f32) (length));
+        calc_direction_vector(player->rotation_y, &player->velocity, length);
     }
-    if (((TObjPlayer *)player)->resolve_move_collision() == 0U) {
-        ((TObjPlayer *)player)->apply_velocity();
+    if (player->resolve_move_collision() == 0U) {
+        player->apply_velocity();
     }
 }
 
@@ -785,7 +785,7 @@ void TObjPlayer::run_lobby_chair_state_phase(s16 phase) {
         this->start_action_18();
         return;
       case 1:
-        ((s32 (*)(void))TObjPlayer__sub_801C75A4)();
+        ((s32 (*)(void))turn_toward_chair_seat)();
         return;
       case 6:
         this->update_state_group();
@@ -5143,7 +5143,7 @@ void TObjPlayer::clear_anim_flag() { this->state_flags &= 0xf7ffffff; }
 
 void TObjPlayer::clear_state_flag() { this->state_flags &= 0xefffffff; }
 
-int TObjPlayer__sub_801D0DAC(void* p) { return ((TObjPlayer *)p)->chair_seat.get_target_angle(); }
+s32 TObjPlayer::get_chair_target_angle() { return chair_seat.get_target_angle(); }
 
 short TObjPlayer::start_action18_sub() { return chair_seat.get_animation(); }
 
