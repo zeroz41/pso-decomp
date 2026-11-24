@@ -11,7 +11,7 @@ public:
     TSymbolChatCapture(TObject *parent);
     virtual ~TSymbolChatCapture();
     virtual void run_task();
-    void get_recent_symbol_chat(u16 slot, saddr buf);
+    void get_recent_symbol_chat(u16 slot, SymbolChatPayload *buf);
     void capture_symbol_chat(u16 slot, saddr src);
 
     SymbolChatPayload *entries;

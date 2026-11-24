@@ -18,6 +18,7 @@ struct SymbolChatPayload {
     SymbolChatPart parts[12];
 
     void byteswap_entry();
+    void clear();
 };
 
 LAYOUT_ASSERT(SymbolChatPartSize, sizeof(SymbolChatPart) == 4);

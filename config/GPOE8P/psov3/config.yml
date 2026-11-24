@@ -468,7 +468,7 @@ force_active:
   - get_part_set_index__13TUnk_804E4BF0Fl
   - is_hiding_camera_target__12TBoss8DragonFv
   - get_player_target__18TObjLiveCameraCtrlFv
-  - TBoss8Dragon__sub_8036AF50
+  - draw_wait_icon_quad__FPfPfll
   - TCameraCtrl__sub_800677D4
   - clear_pose_snap_flags__11TCameraCtrlFv
   - __dt__11TCameraCtrlFv
@@ -8415,7 +8415,7 @@ force_active:
   - lbl_805D6DC8
   - boss6_rock_damage
   - lbl_805D6FB8
-  - lbl_805D7000
+  - network_wait_icon_frame
   - lbl_805D7020
   - lbl_805D718C
   - lbl_805D72D8
@@ -15353,7 +15353,7 @@ force_active:
   - send_position_update__6TLobbyFv
   - send_run_request__10TNpcPlayerFv
   - send_selected_character__6TLobbyFv
-  - get_recent_symbol_chat__18TSymbolChatCaptureFUsl
+  - get_recent_symbol_chat__18TSymbolChatCaptureFUsP17SymbolChatPayload
   - send_srank_stat_extra__13TUnk_804A4948FUll
   - send_srank_stat_extra_to_locks__13TUnk_804A4948Fv
   - send__17G_NPCControl_6x69Fv

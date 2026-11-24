@@ -307,7 +307,7 @@ pso/boss/goldragon/TBoss8Dragon_800BC53C.cpp
 pso/boss/goldragon/TBoss8Dragon_8028A8F8.cpp
 pso/boss/goldragon/TBoss8Dragon_802F3348.cpp
 pso/boss/goldragon/TBoss8Dragon_80359A7C.cpp
-pso/boss/goldragon/TBoss8Dragon_8036AEF8.cpp
+pso/network/NetworkWaitIcon.cpp
 pso/boss/dragon/TObjBoss1Crater.cpp
 pso/boss/dragon/TObjBoss1Floor.cpp
 pso/boss/derolle/TObjBoss2CeilJunk.cpp

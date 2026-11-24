@@ -8,18 +8,14 @@
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-extern "C" {
-s32 TLobby__sub_8036B1AC(saddr payload);
-}
-
 TSymbolChatCapture *slot_entity_dispatcher_instance;
 
-void TLobby::send_slot_entity_or_local(u16 slot, s32 buf) {
+void TLobby::send_slot_entity_or_local(u16 slot, SymbolChatPayload *buf) {
     if (slot_entity_dispatcher_instance != NULL && slot < 4) {
         slot_entity_dispatcher_instance->get_recent_symbol_chat(slot, buf);
         return;
     }
-    TLobby__sub_8036B1AC(buf);
+    buf->clear();
 }
 
 void TLobby::dispatch_by_index(u16 slot, int src) {
@@ -28,12 +24,12 @@ void TLobby::dispatch_by_index(u16 slot, int src) {
     }
 }
 
-void TSymbolChatCapture::get_recent_symbol_chat(u16 slot, saddr buf) {
+void TSymbolChatCapture::get_recent_symbol_chat(u16 slot, SymbolChatPayload *buf) {
     if (entries != NULL) {
-        TLobby::copy_symbol_chat_entry((void *)buf, &entries[slot]);
+        TLobby::copy_symbol_chat_entry(buf, &entries[slot]);
         return;
     }
-    TLobby__sub_8036B1AC(buf);
+    buf->clear();
 }
 
 void TSymbolChatCapture::capture_symbol_chat(u16 slot, saddr src) {
@@ -50,7 +46,7 @@ void TSymbolChatCapture::run_task() {
         if (timers[i] != 0) {
             timers[i]--;
             if (timers[i] == 0) {
-                TLobby__sub_8036B1AC((saddr)&entries[i]);
+                entries[i].clear();
             }
         }
     }
@@ -66,7 +62,7 @@ TSymbolChatCapture::TSymbolChatCapture(TObject *parent) : TObject(parent) {
     entries = (SymbolChatPayload *)mem_alloc(4 * sizeof(SymbolChatPayload));
     if (entries != NULL) {
         for (i = 0; i != 4; i++) {
-            TLobby__sub_8036B1AC((saddr)&entries[i]);
+            entries[i].clear();
             timers[i] = 0;
         }
     } else {

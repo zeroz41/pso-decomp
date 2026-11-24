@@ -46,6 +46,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/item/drop/TItemDropSub.h"
 #include "pso/unk/TLobby.h"
+#include "pso/ui/chat/SymbolChatPayload.h"
 #include "pso/network/TProtocol.h"
 #include "pso/map/TSetManager.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
@@ -563,11 +564,11 @@ void qst_op_get_item_stackability() {
 void qst_op_create_symbol_chat_capture_buffer() { TLobby::create_singleton((void *)tl_01); }
 
 void qst_op_get_recent_symbol_chat() {
-    u8 buf[0x3C];
+    SymbolChatPayload buf;
     u8 idx;
     idx = (u8) qst_args[1];
-    TLobby::send_slot_entity_or_local((u16) qst_args[0], (saddr) buf);
-    memcpy(&qst_registers[(u8)idx], buf, 0x3C);
+    TLobby::send_slot_entity_or_local((u16) qst_args[0], &buf);
+    memcpy(&qst_registers[(u8)idx], &buf, sizeof(buf));
 }
 
 void qst_op_get_guildcard_num(void) {

@@ -11,6 +11,7 @@ struct EnemySetRecord;
 struct ShortMailEntry;
 struct player_stats;
 struct AttackParams;
+struct SymbolChatPayload;
 struct ActorParamBlock;
 union BattleMovementParams;
 #include "pso/audio/AdxCallbacks.h"
@@ -825,7 +826,7 @@ struct TLobby : public TObject {
     static s32 parse_color_code(char *s);
     s32 init_guild_card_tag();
     static void dispatch_command(s32 op);
-    static void send_slot_entity_or_local(u16 slot, s32 buf);
+    static void send_slot_entity_or_local(u16 slot, SymbolChatPayload *buf);
     void destroy_matching_children();
     static void finish_chr_select_scene_init();
     void start_duel_battle();
