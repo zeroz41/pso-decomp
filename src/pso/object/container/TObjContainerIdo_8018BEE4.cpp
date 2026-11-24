@@ -96,7 +96,7 @@ void TObjContainerIdo::render() {
     if (update_object_view_visibility(4e+02f, 2e+02f) != 0) {
         fading = 0;
         if (TRaderMapCore::is_not_split_screen() == 0) {
-            fading = fade.updateFromCamera(&position.x);
+            fading = fade.updateFromCamera(&position);
         }
         if (fading != 0) {
             fade.set_flags_and_apply_damage_color();

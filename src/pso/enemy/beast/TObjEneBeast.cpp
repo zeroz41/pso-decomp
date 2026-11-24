@@ -201,7 +201,7 @@ void TObjEneBeast::render() {
     fade = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
         camera_fades[cam].update();
-        fade = camera_fades[cam].updateFromCamera(&body_center.x);
+        fade = camera_fades[cam].updateFromCamera(&body_center);
     }
     saved_model_render_flags = model_render_flags;
     select_actor_lighting(this);

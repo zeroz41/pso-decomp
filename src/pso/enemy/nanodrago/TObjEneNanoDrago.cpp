@@ -364,7 +364,7 @@ void TObjEneNanoDrago::render() {
         saved_model_render_flags = model_render_flags;
         fade = &cameraFades[cameraIndex];
         fade->update();
-        if (fade->updateFromCamera((const f32*)(&body_center)) != 0) {
+        if (fade->updateFromCamera(&body_center) != 0) {
             fade->set_flags_and_apply_damage_color();
             if (defer_render() != 0) {
                 model_render_flags = saved_model_render_flags;

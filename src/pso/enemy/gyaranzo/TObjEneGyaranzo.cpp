@@ -394,7 +394,7 @@ void TObjEneGyaranzo::render() {
             saved_model_render_flags = model_render_flags;
             fade = &camera_fades[camera];
             fade->update_fast();
-            if (fade->updateFromCamera(&body_center.x) != 0) {
+            if (fade->updateFromCamera(&body_center) != 0) {
                 fade->set_flags_and_apply_damage_color();
                 if (defer_render() != 0) {
                     model_render_flags = saved_model_render_flags;

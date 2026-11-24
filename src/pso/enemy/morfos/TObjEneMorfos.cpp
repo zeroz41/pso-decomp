@@ -1161,7 +1161,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     RenderFadeState *part;
     part = &part_fades[idx];
     part->update();
-    vis = part->updateFromCamera((const f32 *)&body_center);
+    vis = part->updateFromCamera(&body_center);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
     TObjPlayer::toggle_particle_effect();
     push_matrix();

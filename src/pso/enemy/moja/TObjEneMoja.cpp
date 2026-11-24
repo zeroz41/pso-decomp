@@ -389,7 +389,7 @@ void TObjEneMoja::render() {
     model_render_flags = id | 1;
     fade->update();
     draw = 1;
-    if (fade->updateFromCamera((const f32 *)&position) == 1) {
+    if (fade->updateFromCamera(&position) == 1) {
         fade->set_flags_and_apply_damage_color();
         if (defer_render() != 0) {
             draw = 0;
@@ -418,7 +418,7 @@ void TObjEneMoja::render() {
         clear_motion_packed_rotation();
     }
     model_render_flags &= ~1;
-    if (fade->updateFromCamera((const f32 *)&position) == 1) {
+    if (fade->updateFromCamera(&position) == 1) {
         fade->clear_flag_and_notify();
     }
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;

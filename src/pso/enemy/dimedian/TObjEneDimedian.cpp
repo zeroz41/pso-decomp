@@ -225,7 +225,7 @@ void TObjEneDimedian::render() {
     fading = 0;
     if (TObjEneDD::check_v2_mode() != 0) {
         camera_fades[camera].update();
-        fading = camera_fades[camera].updateFromCamera(&body_center.x);
+        fading = camera_fades[camera].updateFromCamera(&body_center);
     }
     select_actor_lighting(this);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));

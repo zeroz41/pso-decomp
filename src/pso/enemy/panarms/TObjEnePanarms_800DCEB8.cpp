@@ -369,7 +369,7 @@ void TObjEnePanarms::render() {
     saved_model_render_flags = model_render_flags;
     fade = &this->fades[cam];
     fade->update();
-    if (fade->updateFromCamera(&this->body_center.x) != 0) {
+    if (fade->updateFromCamera(&this->body_center) != 0) {
         fade->set_flags_and_apply_damage_color();
         draw_now = 1;
         if (defer_render() != 0) {

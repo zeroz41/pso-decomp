@@ -339,7 +339,7 @@ void TObjEneGibbles::render() {
     }
     if (vis != 0) {
         this->fades[cam].update();
-        fade = this->fades[cam].updateFromCamera(&body_center.x);
+        fade = this->fades[cam].updateFromCamera(&body_center);
         select_actor_lighting(this);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix_from(NULL);

@@ -1171,7 +1171,7 @@ void TObjEneBm9Mericarol::render() {
     }
     fade = &camera_fades[cam];
     fade->update();
-    vis = fade->updateFromCamera(&body_center.x);
+    vis = fade->updateFromCamera(&body_center);
     if (this->mode == 0xC) {
         return;
     }

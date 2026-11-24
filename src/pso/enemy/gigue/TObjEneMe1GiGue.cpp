@@ -378,7 +378,7 @@ void TObjEneMe1GiGue::render() {
         return;
     }
     saved_model_render_flags = model_render_flags;
-    if (cameraFade.updateFromCamera(&body_center.x) != 0) {
+    if (cameraFade.updateFromCamera(&body_center) != 0) {
         cameraFade.set_flags_and_apply_damage_color();
         if (defer_render() != 0) {
             model_render_flags = saved_model_render_flags;

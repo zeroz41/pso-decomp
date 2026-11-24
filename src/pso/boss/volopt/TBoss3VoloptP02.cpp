@@ -394,7 +394,7 @@ void TBoss3VoloptP02::run_state() {
 
 void TBoss3VoloptP02::render() {
     if (!(actorFlags & 0x02000000) && (this->update_object_view_visibility(400.0f, 40.0f) != 0)) {
-        if (fade.updateFromCamera((const f32 *)&body_center) != 0) {
+        if (fade.updateFromCamera(&body_center) != 0) {
             fade.set_flags_and_apply_damage_color();
         }
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));

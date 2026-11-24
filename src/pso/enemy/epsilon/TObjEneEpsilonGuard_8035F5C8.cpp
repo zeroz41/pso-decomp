@@ -973,7 +973,7 @@ void TObjEneEpsilonBody::draw_with_fade(s32 detail) {
     set_guard_part_colors(&color);
     r = &fades[i];
     r->update();
-    if (r->updateFromCamera(&body_center.x) != 0) {
+    if (r->updateFromCamera(&body_center) != 0) {
         r->set_flags_and_apply_damage_color();
         if (!((s32)main_task.get_task_flags() & 0x200)) {
             model_render_flags = saved_model_render_flags;
@@ -1034,7 +1034,7 @@ void TObjEneEpsilonBody::draw_with_fade(s32 detail) {
     }
     pop_matrix();
     update_primary_light();
-    if (r->updateFromCamera(&body_center.x) != 0) {
+    if (r->updateFromCamera(&body_center) != 0) {
         r->clear_flag_and_notify();
     } else if ((fade.has_visible_opacity() != 0) && (fade.has_partial_opacity() != 0)) {
         fade.clear_flag_and_notify();

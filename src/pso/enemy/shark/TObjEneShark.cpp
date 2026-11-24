@@ -222,7 +222,7 @@ void TObjEneShark::render() {
   {
     RenderFadeState *f = &camera_fades[mode];
     f->update();
-    fade = f->updateFromCamera(&body_center.x);
+    fade = f->updateFromCamera(&body_center);
   }
   select_actor_lighting(this);
   model_render_flags |= 1;

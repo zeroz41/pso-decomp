@@ -1484,7 +1484,7 @@ void TObjEneDellBiter::render() {
         draw = 1;
         camera_fade = &camera_fades[cam];
         camera_fade->update();
-        cam = camera_fade->updateFromCamera((const f32*)(&body_center));
+        cam = camera_fade->updateFromCamera(&body_center);
         if (flags & 2) {
             fade.set_flags_and_apply_damage_color();
             if (defer_render() != 0) {

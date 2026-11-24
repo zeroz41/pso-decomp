@@ -345,7 +345,7 @@ void TObjEneBm5GibonU::render() {
         fade = 0;
         if (is_leader != 0) {
             camera_fades[cam].update();
-            fade = camera_fades[cam].updateFromCamera(&body_center.x);
+            fade = camera_fades[cam].updateFromCamera(&body_center);
         }
         if (TObjEneDD::is_main_phase_15() != 0) {
             vis = classify_actor_view_detail(view_detail_near_depth, view_detail_far_depth, 20.0f);
