@@ -52,6 +52,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/player/PlayerTrapCounts.h"
 #include <dolphin/os/OSTime.h>
+#include "pso/unk/TLobby_801A3C48.h"
 // The placement ordinals show_score_results prints; their strings open the unit's .sdata2.
 #pragma push
 char *lobby_rank_ordinal_text_table[] = {"1st", "2nd", "3rd", "4th"};
@@ -341,7 +342,6 @@ void TLobby__sub_801C38E8(void *arg0);
 
 s32 check_team_balance__6TLobbyFPvi(Lobby_801C484C *self, s32 arg1);
 void TKeyBoardControl__sub_8000F950(void);
-extern s16 TLobby__data_805D5CE8;
 extern s32 evt2_random_enemies_mode;
 void TAdSinglePlyChrSelectGC__sub_801C50C0(u16);
 u16 TAdSinglePlyChrSelectGC__sub_801C50CC();
@@ -797,7 +797,7 @@ void TLobby::end_battle_mode_cleanup() {
         TLobby::clear_counter();
         evt2_random_enemies_mode = 0;
         TKeyBoardControl__sub_8000F950();
-        TLobby__data_805D5CE8 = 1;
+        lobby_floor_reload_pending = 1;
         ((TObject *)this)->queue_destruction();
         break;
     case -1:

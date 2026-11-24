@@ -93,6 +93,14 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/network/protocol/choice_search.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
+#include "pso/quest/challenge/TChallenge.h"
+#include "pso/unk/TLobby_801A3C48.h"
+#include "pso/unk/text_801F43B4.h"
+#include "pso/unk/TLobby_80209524.h"
+#include "pso/object/TObjControl.h"
+#include "pso/ui/city/THunterGuildSeqOffline_80213788.h"
+#include "pso/ui/TLevelSelect.h"
 
 #pragma readonly_strings on
 
@@ -132,17 +140,6 @@ struct Stack_80135598 {
 };
 struct RecoveredGlobal_80135198_lbl_804A7008 { s32 value; u8 remaining[0x14]; };
 LAYOUT_ASSERT(RecoveredGlobal_80135198_lbl_804A7008_size, sizeof(RecoveredGlobal_80135198_lbl_804A7008) == 0x18);
-struct Stack_80135974 {
-    s32 sp8;
-    s32 spC;
-    u8 trailing_storage[0x1FC];
-};
-struct RecoveredGlobal_80135974_lbl_805127F8 { s32 value; u8 remaining[0x1FC]; };
-LAYOUT_ASSERT(RecoveredGlobal_80135974_lbl_805127F8_size, sizeof(RecoveredGlobal_80135974_lbl_805127F8) == 0x200);
-struct RecoveredGlobal_8013561C_lbl_805127F8 {
-    s32 value;
-    u8 remaining[0x1FC];
-};
 struct Row_80135208 { u8 pad[8]; u32 ip_addr; s32 client_id; char name[16]; };
 /* 6x70: an extended subcommand header and the sending player's sync record. */
 struct PlayerSyncPacket {
@@ -162,18 +159,6 @@ struct GameMenuEntry {
     s8 flags;
 };
 typedef struct { u8 pad0[5]; u8 kind; u8 pad6[6]; u8 name[0x8C]; } Ent_80135E7C;
-typedef struct {
-    u32 kb;
-    u8 pad[0x14];
-} A_80134E30;
-typedef struct {
-    u8 pad[0x4];
-    ChallengeRecord b;
-    u16 h[7];
-    u32 w0;
-    u32 w1;
-} D_80134E30;
-LAYOUT_ASSERT(RecoveredGlobal_8013561C_lbl_805127F8_size, sizeof(RecoveredGlobal_8013561C_lbl_805127F8) == 0x200);
 struct Hdr_80136A8C {
     u8 pad0[0xAC];
     s32 fAC;
@@ -186,17 +171,6 @@ typedef struct LobbyServerAddress {
     const char *host;
     s32 port;
 } LobbyServerAddress;
-typedef struct {
-    u32 kb;
-    u8 pad[0x14];
-} A_80137384;
-typedef struct {
-    u8 pad[0x4];
-    ChallengeRecord b;
-    u16 h[7];
-    u32 w0;
-    u32 w1;
-} D_80137384;
 struct H_8013A348 { u8 b[12]; };
 struct S_8013A348 { u8 pad[0x28]; struct H_8013A348 h[5]; };
 struct ByteBlock_10 { u8 bytes[0x10]; };
@@ -225,20 +199,13 @@ s32 init_player_join_record(void *);
 void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 u8 * get_character_save_record(u32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 TLobby__data_805D4E30;
-extern const NJS_POINT2 lbl_8043EE20[1];
+extern const NJS_POINT2 card_list_message_window_size[1];
 void fn_80338D58(void *list, s32 flag, const char *name, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 index);
-extern NJS_POINT2 lbl_8043EE28[1];
-extern RecoveredGlobal_80135974_lbl_805127F8 quest_story_flags_by_difficulty;
-extern s32 game_difficulty_selection;
-extern s32 quest_download_active;
+extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
-extern s16 TLobby__data_805D5CE8;
-void *__ct__11TWindowRoomFPc(void *self, char *title);
 void handle_chat_message__11TWindowCtrlFPc(char *);
 void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s32 unused);
-s32 clear_lobby_flag__10TObjPlayerFPv();
 const char *TWindowMakeTeam__sub_80264B24(TWindowMakeTeam *window);
 const char *TWindowMakeTeam__sub_80264B38(TWindowMakeTeam *window);
 void show_card_list_message(void *msg);
@@ -249,9 +216,6 @@ void handle_trade_received_items(TTradeList *trade_list);
 void __register_global_object(int, void *, void *);
 void __construct_array(void *, void *, void *, int, int);
 void __destroy_arr(void *block, void *dtor, u32 size, u32 n);
-extern int lobby_player_count;
-extern int item_drop_server_seed;
-extern int area_random_seed;
 }
 void bswap_object_source_record(void *);
 void set_area_random_seed(int a0);
@@ -305,16 +269,16 @@ const char join_lobby_game04_server_host[] = "game04.st-pso.games.sega.net";
 const char join_lobby_ss702_server_host[] = "ss702.sonicteam.com";
 const char join_lobby_ddplanet_server_host[] = "ddplanet.sega.co.jp";
 LobbyServerAddress join_lobby_server_table[2] = { { join_lobby_game04_server_host, 0x238F }, { join_lobby_game04_server_host, 0x238F } };
-LobbyServerAddress lbl_804A6FE8[2] = { { join_lobby_ss702_server_host, 0x238C }, { join_lobby_ss702_server_host, 0x238C } };
-LobbyServerAddress lbl_804A6FF8[2] = { { join_lobby_ddplanet_server_host, 0x2329 }, { join_lobby_ddplanet_server_host, 0x2329 } };
+LobbyServerAddress join_lobby_ss702_server_table[2] = { { join_lobby_ss702_server_host, 0x238C }, { join_lobby_ss702_server_host, 0x238C } };
+LobbyServerAddress join_lobby_ddplanet_server_table[2] = { { join_lobby_ddplanet_server_host, 0x2329 }, { join_lobby_ddplanet_server_host, 0x2329 } };
 void *lbl_804A7008[6] = { 0, 0, (void *)__dt__15TLobbyIdleTimerFv, (void *)TLobby::update_idle_timeout, (void *)render_idle_timeout, (void *)render_shadows__7TObjectFv };
 
 u32 TLobby::join_entries_dtor_registration[3];
 u32 TLobby::join_entries[3252];
-u32 lbl_80509D3C[8];
+char lobby_room_title[0x20];
 TPlyChallenge lobby_player_status_records[12];
 char lobby_ship_name[0x28];
-u32 lbl_8050AAD4[5];
+char selected_game_name[0x14];
 LobbyPlayerName lobby_player_names[12];
 s32 game_join_pending_clients[4];
 Row_80135208 game_join_player_records[4];
@@ -341,19 +305,11 @@ TQuestThread *TLobby__sub_80134A20(void *p) { return TQuestThread::create_in_roo
 
 
 
-void clear_state(void);
-extern "C" {
-
-
-
-void TLobby::dispatch_by_index(s32 arg0) {
-    s32 var_r3;
-
-    var_r3 = arg0;
-    if ((var_r3 > 3) || (var_r3 < 0)) {
-        var_r3 = 0;
+void TLobby::dispatch_by_index(s32 index) {
+    if (index > 3 || index < 0) {
+        index = 0;
     }
-    switch (var_r3) {
+    switch (index) {
     case 0:
         clear_state();
         return;
@@ -425,7 +381,6 @@ void TLobby::install_game_join_handlers() {
     protocol_instance->m_recv_handlers.handle_64_recv_start_game3 = (recv_packet_handler_handle_64_recv_start_game3)TLobby::handle_game_join;
     protocol_instance->m_recv_handlers.handle_65_recv_burst_game = TLobby::on_game_player_add;
 }
-}
 
 
 
@@ -460,17 +415,17 @@ void TLobby::reset_lobby_state() {
 
 
 void TLobby::send_game_character() {
-    A_80134E30 a;
+    TPlyChoiceSearchConfig choice_search_config;
     u8 b[0x7C];
     char c[0xAC];
-    D_80134E30 d;
+    TPlyChallenge challenge;
     u8 e[0x204];
     u8 *card;
     TAdSinglePlyChrSelectGC::init();
     card = get_character_save_record(0xFFFF);
-    memset(&a, 0, sizeof(a));
-    a.kb = TLobby::open_hard_keyboard((void *)(saddr)local_client_id) != 0 ? 1 : 0;
-    TLobby__sub_80077798(card + 0x22EC, &a);
+    memset(&choice_search_config, 0, sizeof(choice_search_config));
+    choice_search_config.disabled = TLobby::open_hard_keyboard((void *)(saddr)local_client_id) != 0 ? 1 : 0;
+    TLobby__sub_80077798(card + 0x22EC, &choice_search_config);
     memset(c, 0, sizeof(c));
     strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
     memset(b, 0, sizeof(b));
@@ -480,22 +435,22 @@ void TLobby::send_game_character() {
         e[1] = 1;
         strncpy((char *)e + 4, (char *)TLobby::get_card_window_area(), 0x200);
     }
-    memset(&d, 0, sizeof(d));
-    d.b = *(ChallengeRecord *)(card + 0x21C4);
-    d.h[0] = *(u16 *)(card + 0x21A8);
-    d.h[1] = *(u16 *)(card + 0x21AA);
-    d.h[2] = *(u16 *)(card + 0x21AC);
-    d.h[3] = *(u16 *)(card + 0x21AE);
-    d.h[4] = *(u16 *)(card + 0x21B0);
-    d.h[5] = *(u16 *)(card + 0x21B2);
-    d.h[6] = *(u16 *)(card + 0x21B4);
-    d.w0 = *(u32 *)(card + 0x21B8);
-    d.w1 = *(u32 *)(card + 0x21BC);
-    send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &d, &a, b, e, c);
+    memset(&challenge, 0, sizeof(challenge));
+    challenge.challenge = *(ChallengeRecord *)(card + 0x21C4);
+    challenge.battle_place_count_1 = *(u16 *)(card + 0x21A8);
+    challenge.battle_place_count_2 = *(u16 *)(card + 0x21AA);
+    challenge.battle_place_count_3 = *(u16 *)(card + 0x21AC);
+    challenge.battle_place_count_4 = *(u16 *)(card + 0x21AE);
+    challenge.battle_disconnect_count = *(u16 *)(card + 0x21B0);
+    challenge.pad_10E = *(u16 *)(card + 0x21B2);
+    challenge.pad_110 = *(u16 *)(card + 0x21B4);
+    challenge.pad_114 = *(u32 *)(card + 0x21B8);
+    challenge.pad_118 = *(u32 *)(card + 0x21BC);
+    send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &challenge, &choice_search_config, b, e, c);
 }
 void TLobby::update_idle_timeout(void *object) {
     TLobbyIdleTimer *t = (TLobbyIdleTimer *)object;
-    NJS_POINT2 tmp = lbl_8043EE28[0];
+    NJS_POINT2 tmp = idle_timeout_window_size[0];
     DateStamp ds;
     u32 limit;
     u32 elapsed;
@@ -573,7 +528,7 @@ void handle_6x71_unblock_game_join(void) {
     u8 *p;
     saddr i;
 
-    if (TLobby__data_805D5CE8 == 0) {
+    if (lobby_floor_reload_pending == 0) {
         p = reinterpret_cast<u8 *>(create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)));
         ((TLobby *)(p + 0xDAC))->copy_header_struct(&TLobby::protocol_instance->m_guildcard_tag);
         ((TObjPlayer *)p)->reset_motion_fields();
@@ -617,7 +572,7 @@ void handle_6x70_sync_player_disp_and_inventory(PlayerSyncPacket *pkt) {
     TObjPlayer *plr;
     PlayerSyncRecord *disp;
     TObjPlayer *p;
-    if (TLobby__data_805D5CE8 == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
+    if (lobby_floor_reload_pending == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         disp = &pkt->record;
         TLobby::bswap_player_data(disp);
         if (disp->client_id != local_client_id) {
@@ -651,8 +606,8 @@ void TLobby::send_6x70_player_data(int size) {
 #pragma push
 #pragma peephole off
 void handle_6x6F_set_quest_flags_v2(saddr pkt) {
-    if (((s16) TLobby__data_805D5CE8 == 0) && (((s32) TLobby::lobby_state == 0xE) || ((s32) TLobby::lobby_state == 0xF))) {
-        memcpy((void *) (&(*(RecoveredGlobal_8013561C_lbl_805127F8 *)&quest_story_flags_by_difficulty).value), (void *)(pkt + 4), 0x200);
+    if (((s16) lobby_floor_reload_pending == 0) && (((s32) TLobby::lobby_state == 0xE) || ((s32) TLobby::lobby_state == 0xF))) {
+        memcpy(quest_story_flags_by_difficulty, (void *)(pkt + 4), 0x200);
     }
 }
 #pragma pop
@@ -663,7 +618,7 @@ void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
   void *tmp;
   GameStateSyncScratch *buf;
   s32 n;
-  if ((TLobby__data_805D5CE8 == 0) && ((TLobby::lobby_state == 0xE) || (TLobby::lobby_state == 0xF)))
+  if ((lobby_floor_reload_pending == 0) && ((TLobby::lobby_state == 0xE) || (TLobby::lobby_state == 0xF)))
   {
     lobby_debug_printf_stub(lobby_debug_rcv_set_flag_format, pkt->total_size);
     buf = static_cast<GameStateSyncScratch *>(::operator new(sizeof(GameStateSyncScratch)));
@@ -697,7 +652,7 @@ void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt) {
     s32 len;
     u8 *buf;
     void *tmp;
-    if (TLobby__data_805D5CE8 == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
+    if (lobby_floor_reload_pending == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         len = pkt->total_size - 8;
         lobby_debug_printf_stub(lobby_debug_rcv_item_condition_format, pkt->total_size);
         buf = (u8 *)mem_alloc(0x8000);
@@ -718,7 +673,7 @@ void handle_6x6C_sync_game_state(CompressedSyncPacket *pkt) {
     QuestObjectEntry *p;
     s32 n;
     s32 i;
-    if (TLobby__data_805D5CE8 == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
+    if (lobby_floor_reload_pending == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         n = pkt->total_size - 8;
         lobby_debug_printf_stub(lobby_debug_rcv_object_condition_format, pkt->total_size);
         p = (QuestObjectEntry *)::operator new(0x7230);
@@ -740,7 +695,7 @@ void handle_6x6B_sync_game_state(CompressedSyncPacket *pkt) {
     EnemyStateRecord *p;
     s32 n;
     s32 i;
-    if (TLobby__data_805D5CE8 == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
+    if (lobby_floor_reload_pending == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
         n = pkt->total_size - 8;
         lobby_debug_printf_stub(lobby_debug_rcv_enemy_condition_format, pkt->total_size);
         p = (EnemyStateRecord *)::operator new(0x7230);
@@ -758,12 +713,10 @@ void handle_6x6B_sync_game_state(CompressedSyncPacket *pkt) {
 }
 
 void send_6x6F_quest_flags(saddr size) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80135974, sp8) == 0x0);
-    LAYOUT_ASSERT(spC_offset, offsetof(Stack_80135974, spC) == 0x4);
-    Stack_80135974 stack;
-    init_6x6F_quest_flags_packet(&stack.sp8);
-    memcpy(&stack.spC, &quest_story_flags_by_difficulty.value, 0x200);
-    TLobby::bswap_and_handle_packet(&stack.sp8, size);
+    G_SetQuestFlags_V2_V3_6x6F packet;
+    init_6x6F_quest_flags_packet(&packet);
+    memcpy(packet.quest_flags, quest_story_flags_by_difficulty, sizeof(packet.quest_flags));
+    TLobby::bswap_and_handle_packet(&packet, size);
 }
 void TLobby::send_6x6E_sync_game_state(int size) {
     s32 n;
@@ -909,7 +862,7 @@ void show_card_list_message(void *msg) {
         TLobby::card_list_window = 0;
     }
     if (TLobby::lobby_state == 0x11) {
-        NJS_POINT2 p = lbl_8043EE20[0];
+        NJS_POINT2 p = card_list_message_window_size[0];
         TLobby::card_list_window = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0xC9)), (const f32 *)(&p), 1);
         TLobby::card_list_window->append_line((saddr)((char *)msg + 4), (int)3);
         TLobby::card_list_window->set_depth(37000.0f);
@@ -1590,7 +1543,7 @@ void update_state_with_location(void) {
     if (TLobby::join_lobby_controller != NULL) {
         if ((s32) TLobby::player_setup_pending == 0) {
             if ((s32) TLobby::lobby_state != 0xC) {
-                sprintf((char *)lobby_join_message_buffer, (const char *)TLobby::get_seq_phase(7), lbl_80509D3C);
+                sprintf((char *)lobby_join_message_buffer, (const char *)TLobby::get_seq_phase(7), lobby_room_title);
                 show_dialog_value_line((saddr)lobby_join_message_buffer);
                 TLobby::current_dialog_window->reparent_to_main_ctrl();
                 TLobby::init_player_window_effect();
@@ -1818,8 +1771,9 @@ void TLobby::init_player_window_effect() {
     TWindowCtrl::suppress_slot(local_client_id);
 }
 void TLobby::update_player_window() {
-    if (get_player_by_client_id(local_client_id) != NULL) {
-        clear_lobby_flag__10TObjPlayerFPv();
+    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    if (player != NULL) {
+        TObjPlayer::clear_lobby_flag(player);
     }
     TWindowCtrl::unsuppress_slot(local_client_id);
 }
@@ -1857,7 +1811,7 @@ TLobby::~TLobby() {
     player_setup_pending = 0;
     lobby_selected_game_list_index = 0;
     join_lobby_controller = NULL;
-    TLobby__data_805D4E30 = 0;
+    game_challenge_mode = 0;
 }
 void TLobby::destroy_all_objects() {
     if (card_list_window != NULL) {
@@ -2089,16 +2043,16 @@ void TLobby::handle_login_result(unsigned int result) {
     }
 }
 void TLobby::send_selected_character() {
-    A_80137384 a;
+    TPlyChoiceSearchConfig choice_search_config;
     u8 b[0x7C];
     char c[0xAC];
-    D_80137384 d;
+    TPlyChallenge challenge;
     u8 e[0x204];
     u8 *card;
     card = get_character_save_record(0xFFFF);
-    memset(&a, 0, sizeof(a));
-    a.kb = TLobby::open_hard_keyboard((void *)(saddr)local_client_id) != 0 ? 1 : 0;
-    TLobby__sub_80077798(card + 0x22EC, &a);
+    memset(&choice_search_config, 0, sizeof(choice_search_config));
+    choice_search_config.disabled = TLobby::open_hard_keyboard((void *)(saddr)local_client_id) != 0 ? 1 : 0;
+    TLobby__sub_80077798(card + 0x22EC, &choice_search_config);
     memset(c, 0, sizeof(c));
     strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
     memset(b, 0, sizeof(b));
@@ -2108,18 +2062,18 @@ void TLobby::send_selected_character() {
         e[1] = 1;
         strncpy((char *)e + 4, (char *)TLobby::get_card_window_area(), 0x200);
     }
-    memset(&d, 0, sizeof(d));
-    d.b = *(ChallengeRecord *)(card + 0x21C4);
-    d.h[0] = *(u16 *)(card + 0x21A8);
-    d.h[1] = *(u16 *)(card + 0x21AA);
-    d.h[2] = *(u16 *)(card + 0x21AC);
-    d.h[3] = *(u16 *)(card + 0x21AE);
-    d.h[4] = *(u16 *)(card + 0x21B0);
-    d.h[5] = *(u16 *)(card + 0x21B2);
-    d.h[6] = *(u16 *)(card + 0x21B4);
-    d.w0 = *(u32 *)(card + 0x21B8);
-    d.w1 = *(u32 *)(card + 0x21BC);
-    send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &d, &a, b, e, c);
+    memset(&challenge, 0, sizeof(challenge));
+    challenge.challenge = *(ChallengeRecord *)(card + 0x21C4);
+    challenge.battle_place_count_1 = *(u16 *)(card + 0x21A8);
+    challenge.battle_place_count_2 = *(u16 *)(card + 0x21AA);
+    challenge.battle_place_count_3 = *(u16 *)(card + 0x21AC);
+    challenge.battle_place_count_4 = *(u16 *)(card + 0x21AE);
+    challenge.battle_disconnect_count = *(u16 *)(card + 0x21B0);
+    challenge.pad_10E = *(u16 *)(card + 0x21B2);
+    challenge.pad_110 = *(u16 *)(card + 0x21B4);
+    challenge.pad_114 = *(u32 *)(card + 0x21B8);
+    challenge.pad_118 = *(u32 *)(card + 0x21BC);
+    send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &challenge, &choice_search_config, b, e, c);
 }
 void TLobby::queue_static_object_destruction() {
     join_lobby_controller->queue_destruction();
@@ -2256,8 +2210,8 @@ void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected
     }
     ((TWindowMenuIconLine *)w)->calc_content_extent();
     TLobby::list_window = (TWindowMenuIconLine *)w;
-    memset(lbl_8050AAD4, 0, 0x11);
-    strncpy((char *)lbl_8050AAD4, selected->name, 0x11);
+    memset(selected_game_name, 0, 0x11);
+    strncpy(selected_game_name, selected->name, 0x11);
 }
 void TLobby::handle_game_join(void *data) {
     TPlyJoinGame *pkt = (TPlyJoinGame *)data;
@@ -2277,7 +2231,7 @@ void TLobby::handle_game_join(void *data) {
     designated_client_id = pkt->leader_id;
     join_state_flag = pkt->disable_udp;
     TLobby::set_player_count(pkt->battle_mode);
-    TLobby__data_805D4E30 = pkt->challenge_mode;
+    game_challenge_mode = pkt->challenge_mode;
     game_difficulty_selection = pkt->difficulty;
     event_theme_id = pkt->event;
     set_area_random_seed(pkt->rare_seed);
@@ -2422,17 +2376,14 @@ void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s3
         lobby_player_construction_window->queue_destruction();
         lobby_player_construction_window = NULL;
     }
-    sprintf((char *)lbl_80509D3C, lobby_list_block_range_format, lobby_ship_name, TLobby::block_number, TLobby::lobby_number + 1);
-    room = TObject::operator new(sizeof(TWindowRoom));
-    if (room != NULL) {
-        room = __ct__11TWindowRoomFPc(room, (char *)lbl_80509D3C);
-    }
+    sprintf(lobby_room_title, lobby_list_block_range_format, lobby_ship_name, TLobby::block_number, TLobby::lobby_number + 1);
+    room = new TWindowRoom(lobby_room_title);
     lobby_player_construction_window = (TObject *)room;
     TLobby::close_all_windows();
 }
 void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int disable_udp) {
     Entry_8013634C e;
-    s32 pkt;
+    G_DoneLoadingIntoGame_6x72 pkt;
     TObjPlayer *p;
     TPacket *n;
     u8 *plr;
@@ -2535,7 +2486,7 @@ void TLobby::remove_player(unsigned int client, int new_leader_id, int join_stat
     }
     strncpy(lobby_player_names[client], "", 0x10);
     if (lobby_state == 0xE) {
-        TLobby__data_805D5CE8 = 1;
+        lobby_floor_reload_pending = 1;
     }
     if (current_dialog_window != 0) {
         current_dialog_window->close();
@@ -2670,11 +2621,11 @@ void TLobby::run_join_lobby_connect(int parent) {
             CONNECT_TO_LOBBY_SERVER(res, join_lobby_server_table)
             break;
         case 2:
-            CONNECT_TO_LOBBY_SERVER(res, lbl_804A6FE8)
+            CONNECT_TO_LOBBY_SERVER(res, join_lobby_ss702_server_table)
             break;
         case 3:
         default:
-            CONNECT_TO_LOBBY_SERVER(res, lbl_804A6FF8)
+            CONNECT_TO_LOBBY_SERVER(res, join_lobby_ddplanet_server_table)
             break;
         }
         if (win != NULL) {
@@ -2738,7 +2689,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     player_setup_pending = 0;
     local_client_id = 0;
     designated_client_id = 0;
-    memset(lbl_80509D3C, 0, 0x20);
+    memset(lobby_room_title, 0, sizeof(lobby_room_title));
     memset(lobby_player_names, 0, 0xC0);
     memset(lobby_player_status_records, 0, sizeof(lobby_player_status_records));
     protocol = new TProtocol(this, 0x36, current_language, TLobby::init_serial_access(), (char *)get_access_key_input_buffer(), (char *)get_password_input_buffer());
@@ -2791,7 +2742,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_D8_infoboard_packet = TLobby::handle_info_board;
     protocol_instance->m_recv_handlers.handle_DA_lobby_event_packet = TLobby::set_lobby_event_theme;
     protocol_instance->m_recv_handlers.handle_AB_quest_stats_response_packet = (recv_packet_handler_handle_AB_quest_stats_response_packet)TLobby__sub_80134A20;
-    TLobby__data_805D4E30 = 0;
+    game_challenge_mode = 0;
 }
 saddr TLobby::get_seq_phase(int id) { return get_online_message_text(id); }
 void lobby_init_hook(void) {  }
@@ -2866,12 +2817,18 @@ void TLobby::bswap_and_handle_packet(void *packet, int client_id) {
     bswap_client_id_header((G_ClientIDHeader *)packet);
     ((game_command *)packet)->send_to_client(client_id);
 }
-void init_6x6F_quest_flags_packet(void* p) { *(u8*)((char*)p + 0x0) = 111; *(u8*)((char*)p + 0x1) = 129; }
+void init_6x6F_quest_flags_packet(G_SetQuestFlags_V2_V3_6x6F *packet) {
+    packet->header.subcommand = 0x6F;
+    packet->header.size = sizeof(G_SetQuestFlags_V2_V3_6x6F) / 4;
+}
 void TLobby::send_packet_60(void *packet) {
     bswap_client_id_header((G_ClientIDHeader *)packet);
     send_subcommand(packet);
 }
-void init_6x72_resume_packet(void* p) { *(u8*)((char*)p + 0x0) = 114; *(u8*)((char*)p + 0x1) = 1; }
+void init_6x72_resume_packet(G_DoneLoadingIntoGame_6x72 *packet) {
+    packet->header.subcommand = 0x72;
+    packet->header.size = sizeof(G_DoneLoadingIntoGame_6x72) / 4;
+}
 void *TLobby::copy_member_record(void *to, void *from) {
     Rec_8013A5D4 *dst = (Rec_8013A5D4 *)to;
     Rec_8013A5D4 *src = (Rec_8013A5D4 *)from;
@@ -3080,8 +3037,8 @@ __declspec(section ".ctors") static void *const __sinit_TPlyJoinLobbyEntry_cpp_r
 
 
 
-__declspec(section ".rodata") const NJS_POINT2 lbl_8043EE20[1] = { { 332.0f, 200.0f } };
-__declspec(section ".rodata") NJS_POINT2 lbl_8043EE28[1] = { { 342.0f, 144.0f } };
+__declspec(section ".rodata") const NJS_POINT2 card_list_message_window_size[1] = { { 332.0f, 200.0f } };
+__declspec(section ".rodata") NJS_POINT2 idle_timeout_window_size[1] = { { 342.0f, 144.0f } };
 __declspec(section ".rodata") const char lobby_debug_udp_open_format[] = "udp open %d %d.%d.%d.%d";
 __declspec(section ".rodata") const char lobby_debug_make_player_format[] = "Make Player %d";
 __declspec(section ".rodata") const char lobby_debug_burst_player_format[] = "burst player %d";

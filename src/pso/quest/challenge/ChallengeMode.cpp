@@ -34,7 +34,7 @@ LAYOUT_ASSERT(TChallenge_size, sizeof(TChallenge) == 0x30);
 
 TChallenge *challenge_task;
 s32 challenge_task_created;
-s32 TLobby__data_805D4E30;
+s32 game_challenge_mode;
 
 typedef void (TChallenge::*Step_80070674)(void);
 

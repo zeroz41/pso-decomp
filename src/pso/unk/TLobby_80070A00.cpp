@@ -27,17 +27,16 @@ extern s32 challenge_mode_state[];
 
 
 extern s32 challenge_task_created;
-extern s32 TLobby__data_805D4E30;
 
 void TLobby::init_on_main_phase() {
     challenge_task_created = 0;
     if (challenge_task == NULL) {
         if (get_main_phase() != 0xF) {
-            TLobby__data_805D4E30 = 0;
+            game_challenge_mode = 0;
             return;
         }
         TLobby::start_lobby_name_request();
-        if ((s32) TLobby__data_805D4E30 != 0) {
+        if ((s32) game_challenge_mode != 0) {
             challenge_task = static_cast<TChallenge *>(TChallenge::create());
             challenge_task_created = 1;
             TObjTombstone::load_resources();

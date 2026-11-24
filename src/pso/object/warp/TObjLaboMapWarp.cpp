@@ -80,6 +80,7 @@
 #include "pso/network/client_id.h"
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/unk/TLobby_801A3C48.h"
 
 s32 get_story_flag(s32);
 
@@ -110,7 +111,6 @@ s32 rotate_matrix_y(s32, s32);
 extern void request_active_window_close();
 
 
-extern s16 TLobby__data_805D5CE8;
 
 
 }
@@ -638,7 +638,7 @@ void TObjCityAreaWarp::debug_print_area_num() { this->do_warp(); }
 
 void TObjCityAreaWarp::confirm_area_transfer(TObjPlayer *) {
     play_sound_effect(0x40003205, 0, 0, 0);
-    TLobby__data_805D5CE8 = 1;
+    lobby_floor_reload_pending = 1;
 }
 
 TObjCityMapWarp::TObjCityMapWarp(TObject *parent, void *set_data) : TObjMapWarp(parent, set_data) {

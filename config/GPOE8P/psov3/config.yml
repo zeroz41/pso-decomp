@@ -664,7 +664,7 @@ force_active:
   - show_dialog_value_line
   - lobby_init_hook__Fv
   - render_idle_timeout__Fv
-  - init_6x6F_quest_flags_packet__FPv
+  - init_6x6F_quest_flags_packet__FP26G_SetQuestFlags_V2_V3_6x6F
   - TLobby__sub_8013FF64
   - TLobby__sub_80182E60
   - alloc_enemy_ids__Fl
@@ -6971,7 +6971,7 @@ force_active:
   - indirect_recipe_buffer
   - info_icon_texture
   - init_6x04_packet__FP25G_SwitchStateChanged_6x05
-  - init_6x72_resume_packet
+  - init_6x72_resume_packet__FP26G_DoneLoadingIntoGame_6x72
   - __ct__15PartnerCountersFv
   - init__12TQuestListVMFv
   - __ct__13TObjEneMe1GeeFP7TObjectPvl
@@ -7517,8 +7517,8 @@ force_active:
   - lbl_8043EE08
   - lbl_8043EE10
   - lbl_8043EE18
-  - lbl_8043EE20
-  - lbl_8043EE28
+  - card_list_message_window_size
+  - idle_timeout_window_size
   - lobby_debug_udp_open_format
   - lobby_debug_make_player_format
   - lobby_debug_burst_player_format
@@ -8180,8 +8180,8 @@ force_active:
   - lbl_805010E0
   - lbl_80501114
   - item_blank_texture_name
-  - lbl_80509D3C
-  - lbl_8050AAD4
+  - lobby_room_title
+  - selected_game_name
   - lbl_8050BED0
   - npc_player_visual_record
   - npc_player_char_data

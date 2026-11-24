@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/unk/TLobby.h"
+#include "pso/network/protocol/subcmd_6x.h"
 
 class TProtocol;
 struct TAdScrollWinGC;
@@ -28,7 +29,8 @@ void handle_error(s32 text);
 void update_state_with_location(void);
 void lobby_init_hook(void);
 void render_idle_timeout(void);
-void init_6x6F_quest_flags_packet(void *p);
+void init_6x6F_quest_flags_packet(G_SetQuestFlags_V2_V3_6x6F *packet);
+void init_6x72_resume_packet(G_DoneLoadingIntoGame_6x72 *packet);
 void *copy_disp_config(void *dst, void *src);
 void *copy_disp_config_palette(void *p, void *a1);
 
@@ -50,7 +52,6 @@ void handle_6x6F_set_quest_flags_v2(saddr pkt);
 void handle_6x71_unblock_game_join(void);
 void handle_6x72_done_loading_into_game(void);
 extern "C" {
-void init_6x72_resume_packet(void *p);
 void open_lobby_warp_menu__6TLobbyFv(void);
 void process_deferred_player_setup__6TLobbyFv(void);
 void reset_state_flags__6TLobbyFv(void);

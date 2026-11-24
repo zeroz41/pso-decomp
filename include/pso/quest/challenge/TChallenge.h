@@ -38,4 +38,6 @@ struct TChallenge : public TObject {
 LAYOUT_ASSERT(TChallenge_size, sizeof(TChallenge) == 0x30);
 
 extern TChallenge *challenge_task;
+// The challenge-mode flag of the game being joined (command 64).
+extern s32 game_challenge_mode;
 #endif
