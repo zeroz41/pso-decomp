@@ -1101,9 +1101,27 @@ def typed_casts(blanked: "_Blanked") -> list[TypedCast]:
 def redundant_casts(blanked: "_Blanked") -> list[tuple[int, str]]:
     """(line, cast) of each cast of a variable, or of its address, to the type it already has: `(T *)&t` for `T t`,
     `(T)t` for `T t`. A cast that changes nothing is left from a decompiler or from a retyping."""
+    code = blanked()
     return [(blanked.line(c.offset), c.text) for c in typed_casts(blanked)
             if c.declared and not c.member and c.name != "this" and c.cast == c.declared
-            and (c.depth == c.declared_depth + c.address or (c.array and c.depth == c.declared_depth + 1))]
+            and (c.depth == c.declared_depth + c.address or (c.array and c.depth == c.declared_depth + 1))
+            and not (c.depth and _pointee_qualifiers(code[_declaration_start(code, c.declared_at):c.declared_at])
+                     - _pointee_qualifiers(c.text[:c.text.index(")")]))]
+
+
+_QUALIFIER = re.compile(r"\b(const|volatile)\b")
+
+
+def _pointee_qualifiers(text: str) -> set[str]:
+    """The const and volatile of what a declaration's or a cast's pointer points to: before its last *, or all of
+    it when it has none (`const T t`, whose address is a `const T *`)."""
+    star = text.rfind("*")
+    return set(_QUALIFIER.findall(text[:star] if star >= 0 else text))
+
+
+def _declaration_start(code: str, at: int) -> int:
+    """Offset where the declaration of the name at `at` begins: after the ; { } ( or , before it."""
+    return max(code.rfind(mark, 0, at) for mark in ";{}(,") + 1
 
 
 _CONST_VOID = re.compile(r"\bconst\s+void\s*\*\s*(?:const\s+)?$")   # a read-only buffer of any type
