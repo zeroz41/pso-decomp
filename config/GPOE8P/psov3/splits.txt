@@ -4081,11 +4081,8 @@ pso/object/switch/TOSwitchItem.cpp:
 	.sdata      start:0x805D3180 end:0x805D3184
 	.sdata2     start:0x805DBA10 end:0x805DBA18
 
-pso/player/TObjPlayer_80178150.cpp:
-	.text       start:0x80178178 end:0x801782A0
-
 pso/object/switch/TOSwitchTimer.cpp:
-	.text       start:0x801782A0 end:0x8017866C
+	.text       start:0x80178178 end:0x8017866C
 	.rodata     start:0x80442C90 end:0x80442CA0
 	.data       start:0x804B4518 end:0x804B454C
 	.sdata      start:0x805D3188 end:0x805D3190

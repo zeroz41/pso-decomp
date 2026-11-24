@@ -8,7 +8,81 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TMainTask.h"
+#include <stddef.h>
+#include "pso/object/switch/TOChatSensor.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/network/protocol/SubcommandHandlers.h"
 #pragma readonly_strings on
+
+struct Stack_801781D8 {
+    s32 sp8;
+    s16 spC;
+    u16 spE;
+    s8 sp10;
+    u8 pad_11[0x3];
+    s32 sp14;
+    s16 sp18;
+    u16 sp1A;
+    s8 sp1C;
+};
+
+void clear_floor_switch_flag(u32 id, s16 floor);
+void set_floor_switch_flag(u32 id, s16 floor);
+void handle_6x93_set_switch_flag_from_timer(G_SetSwitchFlagFromTimer_6x93 *command) {
+    ((TOChatSensor *)command)->swap_state_endian();
+    if (command->should_set == 1) {
+        set_floor_switch_flag(command->switch_flag_num, command->switch_flag_floor);
+    } else if (command->switch_flag_floor != get_current_floor()) {
+        clear_floor_switch_flag(command->switch_flag_num, command->switch_flag_floor);
+    }
+}
+extern "C" {
+
+#pragma push
+#pragma opt_common_subs off
+#pragma opt_propagation off
+void TOSwitchTimer::send_switch_states() {
+    u8 *arg0 = (u8 *)this;
+    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801781D8, sp8) == 0x0);
+    LAYOUT_ASSERT(spC_offset, offsetof(Stack_801781D8, spC) == 0x4);
+    LAYOUT_ASSERT(spE_offset, offsetof(Stack_801781D8, spE) == 0x6);
+    LAYOUT_ASSERT(sp10_offset, offsetof(Stack_801781D8, sp10) == 0x8);
+    LAYOUT_ASSERT(sp14_offset, offsetof(Stack_801781D8, sp14) == 0xC);
+    LAYOUT_ASSERT(sp18_offset, offsetof(Stack_801781D8, sp18) == 0x10);
+    LAYOUT_ASSERT(sp1A_offset, offsetof(Stack_801781D8, sp1A) == 0x12);
+    LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_801781D8, sp1C) == 0x14);
+    Stack_801781D8 stack;
+    u16 *var_r30;
+    s32 i;
+    if ((u32) this->m_98 == 0U) {
+        if ((u16) this->m_a8 < 0x100U) {
+            ((TOChatSensor *)(&stack.sp14))->init_packet_type();
+            stack.sp18 = this->m_b4;
+            stack.sp1A = this->m_a8;
+            stack.sp1C = 0;
+            ((TOChatSensor *)(&stack.sp14))->send_state();
+            clear_floor_switch_flag((this->m_a8), (this->m_b4));
+        }
+    } else {
+        var_r30 = (u16 *)(arg0 + 0xAA);
+        i = 0;
+        do {
+            if ((u16) *var_r30 < 0x100U) {
+                ((TOChatSensor *)(&stack.sp8))->init_packet_type();
+                stack.spC = this->m_b4;
+                stack.spE = *var_r30;
+                stack.sp10 = 1;
+                ((TOChatSensor *)(&stack.sp8))->send_state();
+            }
+            i += 1;
+            var_r30 = (u16 *)((u8 *)var_r30 + (2));
+        } while (i != 3);
+    }
+}
+}
+#pragma pop
+
+
 
 void TOSwitchTimer::sub_801782A0() {
     s32 i;
