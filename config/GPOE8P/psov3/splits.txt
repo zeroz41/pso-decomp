@@ -4954,7 +4954,7 @@ pso/player/TObjPlayerActions.cpp:
 	.data       start:0x804C4020 end:0x804C43E8
 	.sdata2     start:0x805DC360 end:0x805DC3B8
 
-pso/player/TObjPlayer_801D2E20.cpp:
+pso/player/PlayerAttackController.cpp:
 	.text       start:0x801D2E20 end:0x801D34E0
 	.sdata2     start:0x805DC3B8 end:0x805DC3C8
 

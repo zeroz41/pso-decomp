@@ -8,7 +8,7 @@
 #include "pso/weapon/TUnk_804A5B20.h"
 #include "pso/player/TObjPlayer_8012D8E4.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_801D2E20.h"
+#include "pso/player/PlayerAttackController.h"
 #include "pso/object/base/TObjBase.h"
 #define SLICER_LAUNCH_STATE_OUT_OF_LINE
 #include "pso/weapon/SlicerLaunchState.h"

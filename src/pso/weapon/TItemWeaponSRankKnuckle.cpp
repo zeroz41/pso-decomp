@@ -8,7 +8,7 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/player/TObjPlayer_801D2E20.h"
+#include "pso/player/PlayerAttackController.h"
 
 extern "C" {
 extern s32 knuckle_marker_joint_table[];

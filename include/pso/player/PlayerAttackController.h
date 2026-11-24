@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/CapturedTargetList.h"
+#include <dolphin/mtx.h>
 struct TObjPlayer;
 
 // The player's attack state block (TObjPlayer::attack_state).
@@ -56,4 +57,24 @@ extern f32 attack_combo_accuracy_multipliers[4];
 
 extern "C" void queue_physical_attack_input(PlayerAttackController *controller,
                                             TObjPlayer *player, s32 channel, s16 maximum_stage);
+
+extern "C" {
+
+// --- functions defined in PlayerAttackController.cpp ---
+s32 TObjPlayer__sub_801D2EE8(s16 stage);
+s16 TObjPlayer__sub_801D2F0C(void *record);
+s16 TObjPlayer__sub_801D2F4C(s16 *stage_ptr);
+s32 TObjPlayer__sub_801D2F8C(s16 stage);
+void apply_anim_action__10TObjPlayerFPvi(u8 *controller, saddr player);
+s32 get_first_target_position__10TObjPlayerFPvPv(void *controller, Vec *out);
+void *capture_lockon_targets(PlayerAttackController *controller, TObjPlayer *player);
+s32 *TObjPlayer__sub_801D345C(void *p);
+void handle_6x54(void);
+void handle_6x8C(void);
+void handle_6x65(void);
+void handle_6x8B(void);
+void handle_6x64(void);
+}
+void begin_player_attack(u8 *controller, s32 arg1, s16 stage, s32 arg3);
+
 #endif

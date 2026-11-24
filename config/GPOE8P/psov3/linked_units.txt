@@ -1610,7 +1610,7 @@ pso/player/TObjPlayer_801C0808.cpp
 pso/player/TObjPlayer_801C1FF8.cpp
 pso/player/PlayerTrapCounts.cpp
 pso/player/TObjPlayerActions.cpp
-pso/player/TObjPlayer_801D2E20.cpp
+pso/player/PlayerAttackController.cpp
 pso/player/PlayerItemDrops.cpp
 pso/player/TObjPlayer_801D6BC8.cpp
 pso/player/TObjPlayer_801D6C4C.cpp

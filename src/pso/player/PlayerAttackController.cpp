@@ -13,7 +13,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/TObjPlayerActions.h"
-#include "pso/player/TObjPlayer_801D2E20.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
@@ -41,6 +40,15 @@
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/vector.h"
+
+struct Cur_801D32A0 { u8 pad[0x28]; f32 x28; f32 x2c; f32 x30; u8 pad2[8]; f32 x3c; u8 pad3[0x5C]; u8 lock[4]; };
+
+extern "C" {
+Cur_801D32A0 *TObjPlayer__sub_801B57E8(TObjPlayer *player);
+void *get_anim_field_c__10TObjPlayerFPv(void *p);
+void *TObjPlayer__sub_80116620(void *, s32);
+}
 
 #pragma readonly_strings on
 
@@ -178,36 +186,36 @@ s32 get_first_target_position__10TObjPlayerFPvPv(void *controller, Vec *out) {
     if (o == NULL) {
         return 0;
     }
-    ((void (*)(Vec *, Vec *))VecCopy__FP3VecPC3Vec)(out, &o->recs[s->idx].pos);
+    VecCopy(out, &o->recs[s->idx].pos);
     return 1;
 }
 
-void *capture_lockon_targets(Self_801D32A0 *self, Pl_801D32A0 *player) {
+void *capture_lockon_targets(PlayerAttackController *controller, TObjPlayer *player) {
     Cur_801D32A0 *cur;
     s32 n;
     CapturedTarget *e;
     s32 i;
     void *obj;
-    if (player->cursor == 0) return 0;
-    self->targets.clear_lockon_list();
+    if (player->lock_on_cursor == 0) return 0;
+    controller->lockon_targets.clear_lockon_list();
     cur = TObjPlayer__sub_801B57E8(player);
     if (cur == 0) return 0;
     if (get_cursor_palette_mode(cur) != 2) return 0;
-    self->f20 = cur->x28;
-    self->f24 = cur->x2c;
-    self->f28 = cur->x30;
-    self->f2c = cur->x3c;
+    controller->pad_20[0] = cur->x28;
+    controller->pad_20[1] = cur->x2c;
+    controller->pad_20[2] = cur->x30;
+    controller->pad_20[3] = cur->x3c;
     n = ((TLockOnCursor *)(cur->lock))->get_target();
-    e = self->targets.entries;
-    self->targets.set_count(n);
+    e = controller->lockon_targets.entries;
+    controller->lockon_targets.set_count(n);
     for (i = 0; i != n; i++) {
         obj = TObjPlayer__sub_80116620(cur->lock, i);
         e->set_uid(((TObjPlayer *)obj)->get_type_id());
         e->set_collider_index(((TObjPlayer *)obj)->get_obj_id());
         e++;
     }
-    ((TMainCursor *)(player->cursor))->set_cursor_pos(self->targets.entries[0].uid, self->targets.entries[0].collider_index);
-    return &self->targets;
+    ((TMainCursor *)(player->lock_on_cursor))->set_cursor_pos(controller->lockon_targets.entries[0].uid, controller->lockon_targets.entries[0].collider_index);
+    return &controller->lockon_targets;
 }
 
 void PlayerAttackController::reset() {

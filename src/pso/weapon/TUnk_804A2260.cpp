@@ -19,7 +19,7 @@
 #include "pso/player/CapturedTargetList.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_801D2E20.h"
+#include "pso/player/PlayerAttackController.h"
 
 extern "C" f32 *get_weapon_range_record(void *, s32);
 

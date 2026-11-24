@@ -29,7 +29,6 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/TObjPlayerActions.h"
-#include "pso/player/TObjPlayer_801D2E20.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/weapon/SpecialProjectileWeapons_80124760.h"
@@ -390,7 +389,7 @@ typedef struct Msg_801D08B0 {
     s16 f6;
     s16 f8;
     s16 fa;
-    u8 vec[12];
+    Vec vec;
 } Msg_801D08B0;
 
 typedef struct Msg_801D094C {
@@ -400,12 +399,12 @@ typedef struct Msg_801D094C {
     s16 f6;
     s16 f8;
     s16 fa;
-    u8 vec[12];
+    Vec vec;
 } Msg_801D094C;
 
 typedef struct Player_801D094C {
     u8 pad0[0x38];
-    u8 vec[12];
+    Vec vec;
     u8 pad44[0x60 - 0x44];
     s32 f60;
 } Player_801D094C;
@@ -545,12 +544,13 @@ void release_all_players_control_lock(void);
 void handle_6x36(void);
 void handle_6x48_cast_technique_complete(void *arg);
 s32 TObjPlayer__sub_801CFBFC(u8 *arg0);
-void send_idle_return_event__10TObjPlayerFPvPvs(void *arg0, void *arg1, s16 arg2);
+void send_idle_return_event__10TObjPlayerFPvPvs(void *arg0, const Vec *arg1, s16 arg2);
 int TObjPlayer__sub_801D0DAC(void* p);
 void TObjPlayer__sub_801D0E74(void* p);
 G_IntraMapWarp_6x55 *TObjPlayer__sub_801D0EA0(G_IntraMapWarp_6x55 *destination, G_IntraMapWarp_6x55 *source);
 void TObjPlayer__sub_801D0F70(void* p);
-int copy_position__10TObjPlayerFPv(void* p);
+Vec *copy_position__10TObjPlayerFPv(void *p, const Vec *src);
+void *get_anim_field_c__10TObjPlayerFPv(void *p);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(TObjPlayer *player, u8 level, s32 i);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
 u8 * copy_6x4b_hit_by_enemy_packet__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
@@ -4123,7 +4123,7 @@ extern "C" {
 
 void TObjPlayer::send_attack_target_packet() {
     s16 sp8[0x14];
-    if (((this->obj_isState2_324() == 0) || (this->reset_volopt_state() != 0)) && ((this->obj_isState3_324() != 0) || (((u32 (*)(void *, void *))capture_lockon_targets)(&this->attack_state, this) != 0U)) && (this->is_body_collision_inactive() == 0) && ((this == NULL) || (this->obj_isState2_324() == 0))) {
+    if (((this->obj_isState2_324() == 0) || (this->reset_volopt_state() != 0)) && ((this->obj_isState3_324() != 0) || (capture_lockon_targets(&this->attack_state, this) != 0)) && (this->is_body_collision_inactive() == 0) && ((this == NULL) || (this->obj_isState2_324() == 0))) {
         ((TObjPlayer *)sp8)->build_packet_header();
         sp8[1] = this->get_entity_id();
         copy_attack_targets((void *) (&sp8[2]), (void *) (((TObjPlayer *)&this->attack_state)->get_state_ptr()));
@@ -4968,7 +4968,7 @@ extern "C" {
 
 void TObjPlayer::update_position_from_target() { ((int (*)(void*, void*, void*))send_idle_return_event__10TObjPlayerFPvPvs)(this, (char*)this + 0x38, *(void**)((char*)this + 0x60)); }
 
-void send_idle_return_event__10TObjPlayerFPvPvs(void *player, void *arg1, s16 arg2) {
+void send_idle_return_event__10TObjPlayerFPvPvs(void *player, const Vec *arg1, s16 arg2) {
     Msg_801D08B0 m;
     s32 t;
     if ((player == NULL) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
@@ -4979,7 +4979,7 @@ void send_idle_return_event__10TObjPlayerFPvPvs(void *player, void *arg1, s16 ar
         m.f6 = arg2;
         m.f8 = ((TObjPlayer *)player)->get_floor();
         m.fa = ((TObjBase *)player)->get_room();
-        VecCopy__FP3VecPC3Vec(m.vec, arg1);
+        VecCopy(&m.vec, arg1);
         TObjPlayer__sub_801C18E0(&m);
     }
 }
@@ -4998,7 +4998,7 @@ void TObjPlayer::send_6x3E_stop_at_position() {
         ((TObjPlayer *)arg0)->sync_current_area();
         m.f8 = ((TObjPlayer *)arg0)->get_floor();
         m.fa = ((TObjBase *)arg0)->get_room();
-        VecCopy__FP3VecPC3Vec(m.vec, arg0->vec);
+        VecCopy(&m.vec, &arg0->vec);
         ((G_StopAtPosition_6x3E *)(&m))->send();
     }
 }
@@ -5200,7 +5200,7 @@ void TObjPlayer__sub_801D0F70(void* p) { *(u32*)((char*)p + 0x334) |= 0x200; }
 
 void*TObjPlayer::get_field4_ptr() { return (char*)this + 0x4; }
 
-int copy_position__10TObjPlayerFPv(void* p) { return ((int (*)(void*))VecCopy__FP3VecPC3Vec)((char*)p + 0x4); }
+Vec *copy_position__10TObjPlayerFPv(void *p, const Vec *src) { return VecCopy((Vec *)((char *)p + 0x4), src); }
 
 void TObjPlayer::set_float_param(s16 arg1) {
     this->photon_blast_gauge.set_field_3c((f32) (s32) arg1);

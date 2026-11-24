@@ -11,7 +11,7 @@
 #include "pso/unk/text_80120908.h"
 #include "pso/unk/text_80126A34.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_801D2E20.h"
+#include "pso/player/PlayerAttackController.h"
 
 // ---- pso/unk/text_80126740
 
