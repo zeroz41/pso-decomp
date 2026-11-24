@@ -48,7 +48,6 @@ s32 is_flag30_8_set__10TObjPlayerFi(saddr);
 
 
 extern "C" {
-extern s32 local_client_id;
 void handle_6x87_shrink_player(const PlayerShrinkPacket* input);
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 }
@@ -57,16 +56,8 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 extern "C" {
 BOOL fn_801C6F2C(u8 *arg0);
 s32 TObjPlayer__sub_801BF914(s32);
-s32 scale_matrix(s32, f32, f32, f32);
 s32 translate_matrix_vec3(s32, s32);
-s32 rotate_matrix_y(s32, s32);
 s32 draw_chunk_object();
-extern u8 shared_effect_texture_list[];
-extern u8 saved_model_draw_color[];
-extern u8 model_material_color[];
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-s32 get_client_id(void);
 s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 }
 
@@ -100,8 +91,13 @@ s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
 #include "pso/camera/TCameraFollow.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/PlayerTaskEffects.h"
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 chunk_polygon_flags_or_mask;
+#include "pso/render/model_render_state.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/effect/TEffect.h"
+#include "pso/ui/hud/TMainCursor_8013DF5C.h"
+#include "pso/network/client_id.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 struct Arrival_801C5F84 {
@@ -111,8 +107,6 @@ struct Arrival_801C5F84 {
 };
 
 extern "C" {
-s32 get_current_floor();
-s16 obj_getS16_2BA(u8 *p);
 extern Arrival_801C5F84 TObjPlayer__arrival_override_table[12];
 void set_arrival_override_pos(u16 idx, s32 yaw, void *pos);
 }
@@ -163,22 +157,13 @@ TPlayerLobbyMarker *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(TPlayerLobbyMarker *
 }
 
 
-extern "C" {
 u16 PlayerScaleState::get_actor_id() { return actor_id; }
 
-}
 
-
-extern "C" {
 void PlayerCameraOffset::set(f32 x, f32 y, f32 z) { this->x = x; this->y = y; this->z = z; }
 
-}
 
-
-extern "C" {
 Vec *PlayerCameraOffset::get() { return this; }
-
-}
 
 
 void PlayerMoveSpeed::set_run_counter(s32 v) { run_counter = v; }
@@ -207,11 +192,8 @@ void BattleMusicState::clear_target_lock_flag() { ((FlagWord *)&flags)->clear(1)
 void BattleMusicState::set_lock_timer(s32 v) { timer = v; }
 
 
-extern "C" {
 BOOL fn_801C6F2C(u8 *arg0) {
     return *(s32 *)((s8 *)arg0 + 4) == 1;
-}
-
 }
 
 
@@ -232,39 +214,27 @@ s32 ContactSurfaceState::get_contact_surface_type() {
 }
 
 
-extern "C" {
 void *TUnk_804DDD28::operator new(size_t size) { return obj_heap->heap_alloc(size); }
 
-}
 
-
-extern "C" {
 void TUnk_804DDD28::operator delete(void *p) { obj_heap->heap_free(p); }
 
-}
 
-
-extern "C" {
 s32 TObjPlayer__sub_801C6DAC(u8 *arg0) {
-    *(u8 **)((s8 *)arg0 + 4) = (u8 *)get_player_by_client_id((u16)get_client_id());
+    *(u8 **)((s8 *)arg0 + 4) = (u8 *)get_player_by_client_id(get_client_id(arg0));
     if (*(u8 **)((s8 *)arg0 + 4) != NULL) {
         return 1;
     }
     return 0;
 }
 
-}
 
-
-extern "C" {
 TPlayerLobbyMarker *TObjPlayer::create_lobby_marker(s16 client, s8 material_index) {
     TObjPlayer *player = get_player_by_client_id((u16)client);
     if (player == NULL) {
         return NULL;
     }
     return new TPlayerLobbyMarker(player, client, material_index);
-}
-
 }
 
 
@@ -277,16 +247,16 @@ void TPlayerLobbyMarker::render() {
         push_matrix();
         TParticleCtrl::begin_effect_render();
         saved_model_render_flags = model_render_flags;
-        copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(shared_effect_texture_list));
+        copy_argb(&saved_model_draw_color, &model_material_color);
+        TObjFish::set_global_param(&shared_effect_texture_list);
         model_render_flags |= 0x11;
         translate_matrix_vec3(0, TObjPlayer__sub_801BF914(player + 0x84C));
-        rotate_matrix_y(0, camera_ctrl_instance->yaw + rotation);
-        scale_matrix(0, 1.3f, 1.3f, 1.3f);
+        rotate_matrix_y(NULL, camera_ctrl_instance->yaw + rotation);
+        scale_matrix(NULL, 1.3f, 1.3f, 1.3f);
         set_constant_material(&player_lobby_marker_color_table[get_material_index()]);
         TMainCursor::get_cursor_state();
         draw_chunk_object();
-        copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
+        copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -299,7 +269,6 @@ u8 TPlayerLobbyMarker::get_material_index() {
 }
 
 
-extern "C" {
 void PlayerScaleState::request_shrink() {
     TObjPlayer* player = get_player_by_client_id(get_actor_id());
     if (!player || !((TObjChara *)player)->obj_isState2_324()) {
@@ -312,19 +281,13 @@ void PlayerScaleState::request_shrink() {
     }
 }
 
-}
 
-
-extern "C" {
 void PlayerScaleState::shrink(f32 scalar) {
     flags.set(1);
     this->scalar = scalar;
 }
 
-}
 
-
-extern "C" {
 void handle_6x87_shrink_player(const PlayerShrinkPacket* input) {
     PlayerShrinkPacket packet;
     packet.copy_from(input);
@@ -336,10 +299,7 @@ void handle_6x87_shrink_player(const PlayerShrinkPacket* input) {
     }
 }
 
-}
 
-
-extern "C" {
 void PlayerScaleState::request_size_restore() {
     TObjPlayer* player = get_player_by_client_id(get_actor_id());
     if (!player || !((TObjChara *)player)->obj_isState2_324()) {
@@ -349,16 +309,10 @@ void PlayerScaleState::request_size_restore() {
     }
 }
 
-}
 
-
-extern "C" {
 void PlayerScaleState::clear_shrink_flag() { flags.clear(1); }
 
-}
 
-
-extern "C" {
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input) {
     PlayerRestoreSizePacket packet;
     packet.copy_from(input);
@@ -370,16 +324,11 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input) {
     }
 }
 
-}
 
-
-extern "C" {
 void PlayerScaleState::update_camera() {
   camera.position.set(0.0f, 0.6f * (25.43f * get_scalar()), 45.42f * get_scalar());
   camera.target.set(0.0f, 19.8f * get_scalar(), -5.0f);
   request_follow_camera_offsets(camera.target.get(), camera.position.get(), 0xFFFF);
-}
-
 }
 
 
@@ -414,14 +363,11 @@ void PlayerMoveSpeed::update(TObjPlayer *player) { set_speed(calc_speed(player))
 void PlayerMoveSpeed::update(TObjPlayer *player, f32 speed) { set_speed(calc_speed(player, speed)); }
 
 
-extern "C" {
 saddr TObjPlayer::get_slot_value(void *equipped_items, int slot) {
     if (slot < 0 || slot >= 13) {
         return 0;
     }
     return ((s32 *)equipped_items)[slot];
-}
-
 }
 
 
@@ -448,15 +394,12 @@ TObjPlayer*TPlayerSoul::get_player() {
     return (TObjPlayer*)get_player_by_client_id(player_id);
 }
 
-extern "C" {
 void TObjPlayer::revive_or_spawn_marker() {
     if ((check_flag_0x8000() != 0) || (obj_isState3_324() != 0) || (is_script_controlled() != 0)) {
         clear_flag_8000();
         return;
     }
     new TPlayerSoul(tl_06, get_entity_id());
-}
-
 }
 
 TPlayerSoul::TPlayerSoul(TObject* parent, u16 id) : TPlayerParticleOwner(parent) {
@@ -493,11 +436,8 @@ void TPlayerSoul::run_task() {
     }
 }
 
-extern "C" {
 void TObjPlayer::new_child_object(u16 arg0) {
     new TPlayerLevelFeedback(tl_07, arg0);
-}
-
 }
 
 TPlayerLevelFeedback::TPlayerLevelFeedback(TObject* parent, u16 id) : TObject(parent) {
@@ -600,8 +540,6 @@ void clear_movement_history(MovementHistory *history) {
     }
 }
 
-extern "C" s16 TObjPlayer__sub_800194E8(s32, s16);
-extern "C" s16 get_attack_params_atp_max(void *p);
 
 void set_arrival_override_pos(u16 idx, s32 yaw, void *pos) {
     TObjPlayer__arrival_override_table[idx].active = 1;
@@ -711,7 +649,7 @@ void save_render_material_state(u8 *state) {
     *(s32 *)((s8 *)state + 0) = (s32) model_render_flags;
     *(s32 *)((s8 *)state + 4) = (s32) chunk_polygon_flags_and_mask;
     *(s32 *)((s8 *)state + 8) = (s32) chunk_polygon_flags_or_mask;
-    copy_argb((NJS_ARGB *)(state + 0xC), (NJS_ARGB *)model_material_color);
+    copy_argb((NJS_ARGB *)(state + 0xC), &model_material_color);
 }
 
 void TObjPlayer::write_ids() { set_model_render_flags((saddr)this->m_name); set_chunk_material_override_pair((saddr)(*(void**)((char*)this + 0x4)), (saddr)this->m_prev); set_constant_material((const NJS_ARGB *)(((char*)this + 0xc))); }
