@@ -2038,7 +2038,7 @@ pso/unk/text_8036BDA0.cpp
 pso/unk/text_8036BF10.cpp
 pso/unk/text_8036F764.cpp
 pso/unk/text_80396328.cpp
-pso/unk/text_8039739C.cpp
+PowerPC_EABI_Support/MSL/MSL_C/PPC_EABI/Src/GCN_Mem_Alloc.c
 pso/audio/GcrnaBridgeTeardown.cpp
 pso/unk/text_803CC134.cpp
 pso/unk/text_803CC294.cpp

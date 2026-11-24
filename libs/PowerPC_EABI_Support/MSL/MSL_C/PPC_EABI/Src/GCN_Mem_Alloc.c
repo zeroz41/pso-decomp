@@ -1,15 +1,5 @@
-#ifndef PSO_SDK_COMPACT_MATH
-#define PSO_SDK_COMPACT_MATH 1
-#endif
-#include "types.h"
-#include "pso/unk/text_8039739C.h"
 #include <dolphin/os.h>
 
-extern "C" {
-#pragma push
-#pragma readonly_strings on
-#pragma inline_depth(1)
-#pragma dont_inline off
 inline static void InitDefaultHeap(void) {
     void *arenaLo;
     void *arenaHi;
@@ -35,6 +25,4 @@ void __sys_free(void *ptr) {
         InitDefaultHeap();
     }
     OSFreeToHeap(__OSCurrHeap, ptr);
-}
-#pragma pop
 }

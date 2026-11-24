@@ -1436,9 +1436,6 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # 1.3.2 keeps approach_vector_fixed_distance's early-out copy unscheduled.
     "pso/render/render_util.cpp": {"mw_version": "GC/1.3.2", "cflags": [*_switch(cflags_pso, "-fp_contract on"), "-DPSO_SDK_COMPACT_MATH"]},
     "pso/render/render_util_head.cpp": {"mw_version": "GC/1.3.2", "cflags": [*_switch(cflags_pso, "-fp_contract on"), "-DPSO_SDK_COMPACT_MATH"]},
-    # Metrowerks' GCN_Mem_Alloc.c (runtime library code at -O4,p); belongs
-    # in the runtime lib under its own name.
-    "pso/unk/text_8039739C.cpp": {"cflags": _switch(cflags_pso, "-O4,p")},
     "pso/quest/QuestOpcodeHandlers.cpp": {"cflags": _switch(cflags_pso, "-inline on", "-str reuse,readonly")},
     "pso/quest/TQuestThread.cpp": {"cflags": _switch(cflags_pso, "-inline on")},
     # The quest-list vtable precedes its switch table: deferred, written from
@@ -1999,6 +1996,10 @@ if args.target == "psov3":
         RuntimeLib(
             "MSL_C.PPCEABI.bare.H",
             [
+                # GCN_Mem_Alloc.c: unpooled string literals; the Dolphin OS heap API
+                Unit("PowerPC_EABI_Support/MSL/MSL_C/PPC_EABI/Src/GCN_Mem_Alloc.c",
+                     cflags=[*(f for f in cflags_runtime if f != "-str reuse,pool,readonly"),
+                             "-str reuse,readonly", "-i libs/dolphin/include", "-DPSO_SDK_COMPACT_MATH"]),
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/abort_exit.c"),
                 # alloc.c: only GC/1.3 emits `li -5; and` where 1.3.2+ use rlwinm
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/alloc.c",
