@@ -64,7 +64,9 @@
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/unk/text_80354BE4.h"
-
+#include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
+#include "pso/player/TForceOperate.h"
+#include "pso/player/TObjPlayer_8022C6C4.h"
 
 #pragma readonly_strings on
 
@@ -910,7 +912,6 @@ typedef struct Player_801CB1B0 {
 extern "C" {
 
 void set_technique_id__20PlayerTechniqueStateFs(void *, s32);
-s32 test_flags_any(void *, int);
 s32 TObjPlayer__sub_80082300(void *);
 s32 check_value_equals__13TUnk_804B6C24CFl(saddr, void *);
 s32 copy_attack_targets(void *, void *);
@@ -1057,8 +1058,6 @@ int is_android_player(void* p);
 void bswap_6x45_packet(void *p);
 void bswap_6x44_packet(void *p);
 void bswap_6x43_packet(void *p);
-void init_6x40_walk_packet(void *cmd);
-void reset_player_appearance_opacity(void *a0);
 void remove_photon_blast_participant(s32 id);
 void send_photon_blast_targets_packet(u8 *player);
 void init_6x48_cast_complete_packet(u8 *arg0);
@@ -1067,7 +1066,6 @@ void send_6x46_attack_finished(u8 *arg0);
 u8 get_6x46_strike_packet_size(saddr arg0);
 f32 get_attack_controller_rate(void* p);
 void emit_heavy_attack_particles(saddr owner, u16 target_id);
-void create_technique_charge_light(u32 kind, void *owner);
 void release_photon_blast_requests(void *registry);
 extern "C" {
 s32 fn_8036B798(void *);
@@ -2543,7 +2541,7 @@ void TObjPlayer::send_6x4E_player_revivable(saddr arg0) {
 
 void TObjPlayer::update_action_render() {
     u8 *arg0 = (u8 *)this;
-    if (test_flags_any((void *) (arg0 + 0x858), 1) != 0) {
+    if (test_flags_any((s32 *)(void *) (arg0 + 0x858), 1) != 0) {
         this->requested_action = this->get_action_animation();
     } else {
         this->requested_action = this->get_model_field_m25();
@@ -2609,7 +2607,7 @@ void TObjPlayer::enter_death_state() {
     reset_on_death();
     clear_velocity(this);
     this->phase = 0;
-    if (test_flags_any((void *) (arg0 + 0x858), 1) != 0) {
+    if (test_flags_any((s32 *)(void *) (arg0 + 0x858), 1) != 0) {
         this->set_action_state(0xF, (s32)(((s16 (*)(void))ret_801D26AC)()));
         this->restart_death_pose();
     } else {
@@ -2683,7 +2681,7 @@ void TObjPlayer::prepare_death() {
             ((FlagWord *)(arg0 + 0x858))->set(2);
         }
     }
-    if (test_flags_any((u8 *)&this->m_858, 1) == 0) {
+    if (test_flags_any((s32 *)&this->m_858, 1) == 0) {
         this->drop_items_on_death();
     }
     if (is_flag_400_set__10TObjPlayerFPv(arg0) != 0) {
@@ -4268,7 +4266,7 @@ void TObjPlayer::finish_attack_stage3() {
             run_action_state_phase(1, 5);
         }
     } else if (this->motion_flags & 0x10) {
-        if (test_flags_any(get_anim_field_c__10TObjPlayerFPv(arg0 + 0x7CC), 1) != 0) {
+        if (test_flags_any((s32 *)get_anim_field_c__10TObjPlayerFPv(arg0 + 0x7CC), 1) != 0) {
             this->phase = 4;
             this->requested_action = this->get_idle_animation();
             ((s32 (*)(void *))clear_status_bit6__10TObjPlayerFPv)(this);
@@ -4754,7 +4752,7 @@ void TObjPlayer::update_anim_action() {
             ((s32 (*)(void *, void *))apply_anim_action__10TObjPlayerFPvi)(arg0 + 0x7CC, arg0);
         }
     } else {
-        if (test_flags_any(get_anim_field_c__10TObjPlayerFPv(arg0 + 0x7CC), 8) == 0) {
+        if (test_flags_any((s32 *)get_anim_field_c__10TObjPlayerFPv(arg0 + 0x7CC), 8) == 0) {
             if (is_passing_frame(select_normal_attack_marker()) != 0) {
                 send_attack_target_packet();
                 increment_burst_counter((u8 *)&this->attack_state);
@@ -6670,7 +6668,7 @@ void PhotonBlastGauge::check_photon_blast_flag() { ((FlagWord *)&flags)->set(8);
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int PhotonBlastGauge::check_flag_clear() { return test_flags_any(&flags, 1) == 0; }
+int PhotonBlastGauge::check_flag_clear() { return test_flags_any(&flags.bits, 1) == 0; }
 #pragma pop
 
 #pragma push
@@ -6683,7 +6681,7 @@ int PhotonBlastGauge::check_flag_clear() { return test_flags_any(&flags, 1) == 0
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-int PhotonBlastGauge::is_blast_launched() { return test_flags_any(&flags, 8); }
+int PhotonBlastGauge::is_blast_launched() { return test_flags_any(&flags.bits, 8); }
 #pragma pop
 
 #pragma push

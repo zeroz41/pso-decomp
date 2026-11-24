@@ -127,6 +127,9 @@
 #include "pso/unk/TLobby_801C25B4.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
+#include "pso/network/protocol/subcommand_validation.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/unk/text_801C53D4.h"
 
 #pragma readonly_strings on
 
@@ -1326,7 +1329,6 @@ void set_photon_blast_kind(void *, s16);
 s32 fn_801C1F1C(s32);
 void *__ct__12StatusEffectFv(void *);
 void init_player_telepipe_record(void *);
-void fn_801C5420(void *, s32);
 int fn_801C543C(void*);
 void TObjPlayer__sub_801C5780(void *, s32, s32);
 s32 set_arrival_override_pos(u16, int, int);
@@ -1362,8 +1364,6 @@ s32 fn_8036B748(void *);
 s32 fn_8036B770(void *);
 s32 TWindowCtrl__sub_8024A228(u16);
 void __construct_array(void *, void *(*)(void *), void *, u32, u32);
-f32 vector_length(void*);
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 
 extern saddr TOMineTrap__data_805D3080;
 extern const char *TObjPlayer__player_set_class_name;
@@ -1403,7 +1403,6 @@ s16 item_equip_attach_equip_flag_table[10] = {0x3E, 0x3F, 0x18, 0x24, 0x32, 0x23
 
 struct Ent_801AF868 { u16 id; s16 val; u32 pad; };
 void obj_copyVec2_0(u8 *d, u8 *s);
-void set_shadow_material_state(void);
 void emit_sand_footstep_effect(saddr arg0);
 void emit_water_footstep_effect(saddr arg0);
 void emit_grass_footstep_effect(saddr arg0);
@@ -1411,38 +1410,7 @@ void init_6x27_use_item_cmd(u8 *arg0);
 void init_6x1F_floor_packet(u8 *arg0);
 void init_6x21_inter_level_warp_packet(u8 *arg0);
 void refill_trap_counts(saddr arg0, s32 arg1, s32 arg2);
-void update_player_appear_fade(u8 *arg0);
-void save_render_material_state(u8 *arg0);
 s32 player_auxiliary_surfaces_enabled();
-s32 validate_6x0E_clear_negative_status_effects(G_ClientIDHeader *packet);
-s32 validate_6xA1_revive_player_v3(G_ClientIDHeader *packet);
-s32 validate_6x31_use_medical_center(G_ClientIDHeader *packet);
-s32 validate_6x30_change_player_level(G_ClientIDHeader *packet);
-s32 validate_6x2F_change_player_hp(G_ClientIDHeader *packet);
-s32 validate_6x2E_set_or_clear_player_flags(G_ClientIDHeader *packet);
-s32 validate_6x2D_release_hold(G_ClientIDHeader *packet);
-s32 validate_6x2C_impose_hold(G_ClientIDHeader *packet);
-s32 validate_6x2B_create_inventory_item(G_ClientIDHeader *packet);
-s32 validate_6x2A_drop_item(G_ClientIDHeader *packet);
-s32 validate_6xAC(G_ClientIDHeader *packet);
-s32 validate_6x29_delete_inventory_item(G_ClientIDHeader *packet);
-s32 validate_6x28_feed_mag(G_ClientIDHeader *packet);
-s32 validate_6x27_use_item(G_ClientIDHeader *packet);
-s32 validate_6x26_unequip_item(G_ClientIDHeader *packet);
-s32 validate_6x25_equip_item(G_ClientIDHeader *packet);
-s32 validate_6x24_teleport_player(G_ClientIDHeader *packet);
-s32 validate_6x21_inter_level_warp(G_ClientIDHeader *packet);
-s32 validate_6x20_set_position(G_ClientIDHeader *packet);
-s32 validate_6x1F_set_player_floor(G_ClientIDHeader *packet);
-s32 validate_6x82_enable_drop_weapon_on_death(G_ClientIDHeader *packet);
-s32 validate_6x81_disable_drop_weapon_on_death(G_ClientIDHeader *packet);
-s32 validate_6x7B_disable_stealth_suit_effect(G_ClientIDHeader *packet);
-s32 validate_6x7A_enable_stealth_suit_effect(G_ClientIDHeader *packet);
-s32 validate_6x90_set_player_battle_team(G_ClientIDHeader *packet);
-s32 validate_6x8F_add_battle_damage_scores(G_ClientIDHeader *packet);
-s32 validate_6x1C_disable_pk_mode_for_player(G_ClientIDHeader *packet);
-s32 validate_6x1B_enable_pk_mode_for_player(G_ClientIDHeader *packet);
-s32 validate_6x9B_level_up_all_techniques(G_ClientIDHeader *packet);
 
 // The level-up light colour and direction (spawn_level_change_feedback).
 extern const f32 lbl_805DC2A0;
@@ -1450,10 +1418,8 @@ extern const f32 lbl_805DC2A4;
 extern const f32 lbl_805DC2A8;
 extern const f32 lbl_805DC2AC;
 struct Pkt_801B1B08 { u16 f0; u16 client; u32 pad; };
-s32 validate_6x23_set_player_visible(G_ClientIDHeader *packet);
 
 struct Pkt_801B1C00 { u16 f0; u16 client; u32 pad; };
-s32 validate_6x22_set_player_invisible(G_ClientIDHeader *packet);
 struct Pl_801B0B88;
 extern "C" {
 void set_invisible__10TObjPlayerFv(Pkt_801B1C00 *, void *);
@@ -1471,7 +1437,6 @@ struct Unk_801B67C4 {
 };
 
 struct Pkt_801B8908 { u16 f0; u16 client; s16 a; s16 b; };
-s32 validate_6x83_place_trap(G_ClientIDHeader *packet);
 struct Cand_801BBE54 { s16 val; Obj_801BC068 *obj; };
 struct Cmd_801BBE54 { u16 hdr; u16 client; s32 area; u8 pos[12]; };
 extern "C" {
@@ -3426,7 +3391,7 @@ void calc_move_velocity__10TObjPlayerFPvPvf(void *arg0, void *arg1, f32 farg0) {
     *(f32 *)((s8 *)arg1 + 8) = (f32) (farg0 * ((f32 (*)(s32, f32))cos_table_lookup)(angle, temp_f1));
 }
 
-void TObjPlayer::calc_move(void* a1, void* a2) { vector_length(this); ((int (*)(void*, void*))calc_move_velocity__10TObjPlayerFPvPvf)(a1, a2); }
+void TObjPlayer::calc_move(void* a1, void* a2) { void *raw = this; vector_length((const Vec *)raw); ((int (*)(void*, void*))calc_move_velocity__10TObjPlayerFPvPvf)(a1, a2); }
 
 // Pushes the move in velocity off the walls it runs into: slides it along a
 // wall it meets at a shallow angle, steps around a corner. Returns the wall
@@ -6320,7 +6285,7 @@ void TLobby::apply_battle_rules_to_players() {
             ((TObjPlayer *)p)->set_meseta(0);
         }
         if (((TLobby *)q)->clamp_value_below_2() == 1) {
-            fn_801C5420(p->f7C8, TObjPlayer__sub_801D6D28(q));
+            fn_801C5420((s32 *)p->f7C8, TObjPlayer__sub_801D6D28(q));
         }
         if (TLobby__sub_801D6F94(q) == 1) {
             TLobby__sub_801D4C28((TPlyItem *)p->fD00, reinterpret_cast<TObjPlayer *>(p), 3, 9);
