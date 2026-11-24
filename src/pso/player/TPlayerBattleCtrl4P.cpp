@@ -47,6 +47,18 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/map/area/AreaScene.h"
+#include "pso/ui/window/TWindowActionPalette_801C1890.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/unk/TLobby_801D726C.h"
+#include "pso/unk/text_8020B5CC.h"
+#include "pso/unk/text_8020BC50.h"
+#include "pso/unk/text_8024AD30.h"
+#include "pso/unk/text_8024ACEC.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/window/WindowLayout.h"
+#include <dolphin/os/OSTime.h>
 
 extern "C" s32 check_player_flag1__10TObjPlayerFv(void);
 
@@ -57,22 +69,12 @@ struct BattleTeamTotals { s32 team[2]; };
 extern "C" {
 TPlayerBattleCtrl4P *TPlayerBattleCtrl4P__instance;
 u8 TLobby__sub_801D7100(void *);
-extern u8 lobby_rule_settings[];
-s32 TLobby__sub_801C19D0(void *);
-s32 TAdSinglePlyChrSelectGC__sub_801FCE6C();
-int obj_getPtr2B0_20(u8 *p);
-f32 fn_801C19A4(void *);
-s32 TWindowDuelResult__sub_801C19AC(f32 *arg0);
 extern s32 TDeadSpot__class_name;
 s32 obj_set_flag_20000();
-s64 OSGetTime(void);
 void obj_clear_flag30_20000(TObjBase *actor);
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
-s32 set_player_team_id(void *, int);
 s32 fn_801D6D8C(void *, u8, int);
-s32 fn_801D726C(void *, s32);
-s32 fn_801D72B0(void *, s32);
 extern const f32 lbl_805D3538;
 extern const f32 lbl_805D353C;
 extern const f32 lbl_805D3540;
@@ -83,23 +85,15 @@ extern const f32 lbl_805D3550;
 extern const f32 lbl_805D5DC4;
 extern const f32 lbl_805D5DC8;
 void TLobby__sub_801B09A4(void);
-void TLobby__sub_8020BB18(void);
-void TLobby__sub_8020BCE4(void);
-void end_player_keyboard_hold(saddr client_id);
-void begin_player_keyboard_hold(saddr client_id);
 void request_active_window_close(void);
 }
 extern const char *TPlayerBattleCtrl4P_player_name_formats[];
 extern s16 battle_event_second_table[];
-extern s32 local_client_id;
 s32 TPlayerBattleCtrl4P__init_flag;
 BattleRanking split_screen_battle_rankings[4];
 extern "C" {
-void *create_window_menu_default(void *, int);
-void *get_window_layout_position(int);
+void *create_window_menu_default(const NJS_POINT2 *pos, int entries);
 void TLobby__sub_801036CC();
-void TLobby__sub_8020BC50();
-void TKeyBoardControl__sub_8000F950(void);
 s32 reset_players();
 char team_matchup_message_buffer[256];
 }
@@ -216,7 +210,7 @@ const char *TPlayerBattleCtrl4P_player_name_formats[4] = {
 void TPlayerBattleCtrl4P::open_intro_window() {
     if (this->intro_window == NULL) {
         BattleIntroWindowSize size = {328.0f, 166.0f};
-        this->intro_window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x52)), (const f32 *)(&size), 1);
+        this->intro_window = TWindowMessage::create(get_window_layout_position(0x52), (const f32 *)(&size), 1);
     }
     lbl_805D6AB0 = 0;
     set_phase_state(1);
@@ -428,7 +422,7 @@ void TPlayerBattleCtrl4P::update_rematch_menu() {
     static const BattleIntroWindowSize size = {216.0f, 84.0f};
     if (TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
         if (intro_window == NULL) {
-            intro_window = TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0x53)), (const f32 *)(&size), 1);
+            intro_window = TWindowMessage::create(get_window_layout_position(0x53), (const f32 *)(&size), 1);
             if (intro_window != NULL) {
                 ((TWindowMessage *)intro_window)->append_line((saddr)message_table[0], 0x80);
             }
@@ -785,7 +779,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 arg1) {
     TLobby::set_byte9_clamped(((s32 *)&lobby_rule_settings), rule_data[8]);
     TLobby::set_field_b(((s32 *)&lobby_rule_settings), rule_data[0xA]);
     TLobby::set_clamped_field_c(((s32 *)&lobby_rule_settings), rule_data[0xB]);
-    fn_801D72B0(((s32 *)&lobby_rule_settings), ((s8 *) rule_data)[0xC]);
+    fn_801D72B0(lobby_rule_settings, ((s8 *) rule_data)[0xC]);
     for (i = 0; i < 4; i++)
     {
       fn_801D6D8C(((s32 *)&lobby_rule_settings), rule_data[i + 0xD], i);
@@ -797,7 +791,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 arg1) {
     ((TLobby *)((s32 *)&lobby_rule_settings))->set_validated_field_0x11((u8)(((u8) (*((s32 *) (((s8 *) rule_data) + 0x1C))))));
     ((TLobby *)((s32 *)&lobby_rule_settings))->set_clamped_index((s16)(((s16) (*((s32 *) (((s8 *) rule_data) + 0x20))))));
     ((TLobby *)((s32 *)&lobby_rule_settings))->set_clamped_value_1c((saddr)((*((s32 *) (((s8 *) rule_data) + 0x24)))));
-    fn_801D726C(((s32 *)&lobby_rule_settings), ((u8) (*((s16 *) (((s8 *) rule_data) + 0x28)))));
+    fn_801D726C(lobby_rule_settings, ((u8) (*((s16 *) (((s8 *) rule_data) + 0x28)))));
     flag = 0;
     if ((((s32) rule_data[9]) == 1) && (TLobby::get_game_mode() == 4))
     {
