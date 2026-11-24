@@ -27,15 +27,14 @@
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-s16 icmp_input(u8 *self, u32 d, u32 c)
+s16 icmp_input(NetPacket *pkt, u32 src, u32 dst)
 {
   NetPacketFragment *p;
   NetBufferRef stream;
   u8 hdr[8];
-  u32 *new_var;
   u8 ip[24];
   u8 udp[8];
-  u8 addr[4];
+  u32 addr;
   u8 pad[12];
   NetPacketFragment *q;
   s16 r;
@@ -45,11 +44,10 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
   unsigned int a;
   u32 net;
   u32 mask;
-  NetPacket *pkt = (NetPacket *)self;
   rec = &pkt->fragments[1];
   set_value_and_enable(&stream, hdr);
   netbuf_copy_by_ref(&stream, &rec->buffer, 8);
-  if (calc_ip_checksum((NetPacket *)self, 0) != 0)
+  if (calc_ip_checksum(pkt, 0) != 0)
   {
     return -1;
   }
@@ -88,7 +86,7 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
       q++;
     }
 
-      r = icmp_send(0, 0, c, d, out);
+      r = icmp_send(0, 0, dst, src, out);
       if (r < 0)
     {
       release_entry(out);
@@ -126,19 +124,18 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
       case 0:
 
       case 2:
-        NetMemcpy(addr, hdr + 4, 4);
+        NetMemcpy(&addr, hdr + 4, 4);
         a = *((u32 *)(ip + 16));
         net = ((a & 0x80000000) == 0) ? (a & 0xFF000000) : (((a & 0xC0000000) == 0x80000000) ? (a & 0xFFFF0000) : (((a & 0xE0000000) == 0xC0000000) ? (a & 0xFFFFFF00) : (0)));
-        new_var = (u32 *) addr;
         mask = ((a & 0x80000000) == 0) ? (0xFF000000) : (((a & 0xC0000000) == 0x80000000) ? (0xFFFF0000) : (((a & 0xE0000000) == 0xC0000000) ? (0xFFFFFF00) : (0)));
-        route4_redirect(net, *new_var, mask, 2, d);
+        route4_redirect(net, addr, mask, 2, src);
         break;
 
       case 1:
 
       case 3:
-        NetMemcpy(addr, hdr + 4, 4);
-        route4_redirect(*((u32 *)(ip + 16)), *((u32 *) addr), -1, 6, d);
+        NetMemcpy(&addr, hdr + 4, 4);
+        route4_redirect(*((u32 *)(ip + 16)), addr, -1, 6, src);
         break;
 
     }

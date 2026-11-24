@@ -141,7 +141,7 @@ s16 link_get_interface_id(s16 idx, void *dst);
 s32 link_get_address(s16 idx, s32 handle, void *dst);
 s16 link_get_address_length(s16, s32);
 /* ICMP (src/pso/network/NetIcmp.c). */
-s16 icmp_input(u8 *self, u32 d, u32 c);
+s16 icmp_input(NetPacket *pkt, u32 src, u32 dst);
 s16 icmp_send_error(u8 *p, u8 *b, s16 x, s16 id);
 u16 ones_complement_sum(void *data, s16 n);
 /* ICMPv6 (src/pso/network/NetIcmp6.c). */

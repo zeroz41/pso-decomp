@@ -190,7 +190,7 @@ s16 ipv4_input(u8 *ip, s16 len, s16 iface)
   {
     case 1:
       found = 1;
-      if (icmp_input((u8 *) pkt, src.ipv4, dst.ipv4) < 0)
+      if (icmp_input(pkt, src.ipv4, dst.ipv4) < 0)
       {
         if (reassembled == 1)
         {
