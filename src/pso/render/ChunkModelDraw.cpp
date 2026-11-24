@@ -31,15 +31,6 @@
 #include <dolphin/gx/GXVert.h>
 #undef PSO_SDK_COMPACT_MATH
 
-// Ninja chunk flags used here: the strip head's use-alpha bit and the texture-id chunk's
-// flip/clamp bits and id field.
-#define NJD_FST_UA (0x08 << NJD_FST_SHIFT)
-#define NJD_FFL_U 0x8000U
-#define NJD_FFL_V 0x4000U
-#define NJD_FCL_U 0x2000U
-#define NJD_FCL_V 0x1000U
-#define NJD_TID_MASK 0x1FFF
-
 
 
 struct ChunkNode_803E2F78 {

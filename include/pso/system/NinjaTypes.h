@@ -118,7 +118,15 @@ struct NJS_ARGB {
 // Strip chunk flags (the head's high byte).
 #define NJD_FST_SHIFT 8
 #define NJD_FST_IL (0x01 << NJD_FST_SHIFT)  // ignore light
+#define NJD_FST_UA (0x08 << NJD_FST_SHIFT)  // use alpha
 #define NJD_FST_ENV (0x40 << NJD_FST_SHIFT) // environment mapping
+
+// Texture-id chunk flags (the head's high byte) and the id field of its data.
+#define NJD_FFL_U 0x8000U  // flip U
+#define NJD_FFL_V 0x4000U  // flip V
+#define NJD_FCL_U 0x2000U  // clamp U
+#define NJD_FCL_V 0x1000U  // clamp V
+#define NJD_TID_MASK 0x1FFF
 
 // Material attribute bits (texture addressing).
 #define NJD_FLAG_FLIP_U 0x40000
