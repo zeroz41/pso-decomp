@@ -3,7 +3,6 @@
 #include "types.h"
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcKenkyu2.h"
-#include "pso/npc/TObjNpcKenkyu2_802FEA38.h"
 #include "pso/npc/TObjNpcHosa2.h"
 #include "pso/npc/TObjNpcMale.h"
 #include "pso/system/BmlResourceDescriptor.h"

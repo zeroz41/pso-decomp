@@ -1,6 +1,0 @@
-#ifndef PSO_NPC_TOBJNPCKENKYU2_802FEA38_H
-#define PSO_NPC_TOBJNPCKENKYU2_802FEA38_H
-
-#include "types.h"
-
-#endif
