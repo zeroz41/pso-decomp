@@ -297,8 +297,8 @@ void queue_thread_main(void) {
         }
         queue_timeout_remaining = p->length;
         for (;;) {
-            if (TAdSinglePlyChrSelectGC__sub_8042E184() == 0) {
-                if (TAdSinglePlyChrSelectGC__sub_8042DD70(p->data, p->length, subtract_network_queue_timeout) == 1) {
+            if (fn_8042E184() == 0) {
+                if (fn_8042DD70(p->data, p->length, subtract_network_queue_timeout) == 1) {
                     break;
                 }
             }
@@ -539,7 +539,7 @@ s32 recv_network_frame(u16 max_len, void *lobby, u16 *out_len) {
             }
         }
     } else {
-        s32 result = TAdSinglePlyChrSelectGC__sub_8042D7E0(lobby);
+        s32 result = fn_8042D7E0(lobby);
         if (result < 0) {
             *out_len = 0;
         } else {
@@ -624,7 +624,7 @@ s32 open_network_transport(A_803F8314 *cfg) {
         ret = modem_init(name);
         lock_mutex(net_thread_state.mutex);
         if (ret == 1) {
-            TAdSinglePlyChrSelectGC__sub_8042E488(5);
+            fn_8042E488(5);
             if (TLobby__sub_803F96AC(&send_ring_mutex) < 0) {
                 return 2;
             }

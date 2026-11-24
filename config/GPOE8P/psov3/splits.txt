@@ -11900,7 +11900,7 @@ pso/network/TLobby_80429598.c:
 	.sdata      start:0x805D4830 end:0x805D4840
 	.sbss       start:0x805D7C30 end:0x805D7C90
 
-pso/network/ModemRuntime.cpp:
+pso/network/mdm.c:
 	.text       start:0x8042BF48 end:0x8042E8C4
 	.rodata     start:0x804801F8 end:0x80480240
 	.data       start:0x804FDA20 end:0x804FDAD0

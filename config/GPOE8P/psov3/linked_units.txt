@@ -1398,7 +1398,7 @@ pso/system/data/pso_const_ids3.cpp
 pso/system/data/pso_const_ids4.cpp
 pso/system/data/pso_const_ids5.cpp
 pso/system/data/pso_date.cpp
-pso/network/ModemRuntime.cpp
+pso/network/mdm.c
 pso/network/NetDhcp.c
 pso/network/NetworkInfoCodec.cpp
 pso/network/NetworkInfoLoader.cpp

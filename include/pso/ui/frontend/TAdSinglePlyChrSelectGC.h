@@ -48,8 +48,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static void try_load_system_file();
     static s32 wait_for_card_load(s32 chan);
     static void format_challenge_stage_times(s32 lobby, s32 challenge_id);
-    static void wake_load_thread(s32 channel, OSContext *context);
-    static BOOL send_modem_hangup(BOOL final);
     static void free_singleton_805D65C0();
     static s32 check_slot_flags(s32 arg0, u32 arg1);
     void cleanup();
