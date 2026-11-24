@@ -41,22 +41,14 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/system/vector.h"
-
-struct Cur_801D32A0 { u8 pad[0x28]; f32 x28; f32 x2c; f32 x30; u8 pad2[8]; f32 x3c; u8 pad3[0x5C]; u8 lock[4]; };
+#include "pso/object/base/CollisionActorLookup.h"
 
 extern "C" {
-Cur_801D32A0 *TObjPlayer__sub_801B57E8(TObjPlayer *player);
-void *get_anim_field_c__10TObjPlayerFPv(void *p);
-void *TObjPlayer__sub_80116620(void *, s32);
+LockOnActionSlot *TObjPlayer__sub_801B57E8(TObjPlayer *player);
+LockOnTargetRecord *TObjPlayer__sub_80116620(LockOnTargetRecordList *records, s32 index);
 }
 
 #pragma readonly_strings on
-
-struct Rec_801D3224 { u8 pad[0x1C]; Vec pos; u8 pad28[4]; };
-
-struct Obj_801D3224 { u8 pad[0xA4]; Rec_801D3224 *recs; };
-
-struct Slot_801D3224 { s16 a; s16 idx; };
 
 void CapturedTargetList::clear_lockon_list() {
     s32 i;
@@ -76,171 +68,166 @@ void PlayerAttackController::advance_and_clamp_state() {
 
 s16 PlayerAttackController::get_validated_attack_stage() {
     s16 stage = pending_stage;
-    if (TObjPlayer__sub_801D2EE8(stage) == 0) {
+    if (is_valid_attack_stage(stage) == 0) {
         stage = 0;
     }
     return stage;
 }
 
-s32 TObjPlayer__sub_801D2EE8(s16 stage) {
+s32 is_valid_attack_stage(s16 stage) {
     if ((stage < 0) || (stage >= 3)) {
         return 0;
     }
     return 1;
 }
 
-s16 TObjPlayer__sub_801D2F0C(void *record) {
-    s16 stage;
-    stage = *(s16 *)((s8 *)record + 2);
-    if (TObjPlayer__sub_801D2F8C(stage) == 0) {
-        stage = 0;
+s16 PlayerAttackController::get_validated_queued_kind() {
+    s16 kind;
+    kind = queued_kind;
+    if (is_valid_attack_kind(kind) == 0) {
+        kind = 0;
     }
-    return stage;
+    return kind;
 }
 
-s16 TObjPlayer__sub_801D2F4C(s16 *stage_ptr) {
-    s16 stage;
-    stage = *stage_ptr;
-    if (TObjPlayer__sub_801D2F8C(stage) == 0) {
-        stage = 0;
+s16 PlayerAttackController::get_validated_attack_kind() {
+    s16 kind;
+    kind = attack_kind;
+    if (is_valid_attack_kind(kind) == 0) {
+        kind = 0;
     }
-    return stage;
+    return kind;
 }
 
-s32 TObjPlayer__sub_801D2F8C(s16 stage) {
-    if ((stage < 0) || (stage >= 3)) {
+s32 is_valid_attack_kind(s16 kind) {
+    if ((kind < 0) || (kind >= 3)) {
         return 0;
     }
     return 1;
 }
 
-void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, s32 kind, s16 maximum_stage) {
-    s16 t;
-    if (((int (*)(void*, int))test_flags_any)((void*)(((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self)))), 2) == 0 ||
-        self->is_flag32_clear() == 0) {
-        ((FlagWord *)((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self))))->set(4);
+void PlayerAttackController::queue_physical_attack_input(TObjPlayer *player, s32 channel, s16 maximum_stage) {
+    s16 kind;
+    if (test_flags_any(&get_flags()->bits, 2) == 0 || is_flag32_clear() == 0) {
+        get_flags()->set(4);
     }
-    if (((int (*)(void*, int))test_flags_any)((void*)(((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self)))), 2) != 0 &&
-        ((int (*)(void*, int))test_flags_any)((void*)(((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self)))), 4) == 0) {
-        ((FlagWord *)((void *)get_anim_field_c__10TObjPlayerFPv((void*)(self))))->set(1);
-        self->advance_and_clamp_state();
-        if (self->get_validated_attack_stage() > maximum_stage) {
-            self->set_saved_attack_stage(maximum_stage);
+    if (test_flags_any(&get_flags()->bits, 2) != 0 && test_flags_any(&get_flags()->bits, 4) == 0) {
+        get_flags()->set(1);
+        advance_and_clamp_state();
+        if (get_validated_attack_stage() > maximum_stage) {
+            set_saved_attack_stage(maximum_stage);
         }
-        t = ((TObjPlayer *)obj)->get_action_palette_entry(kind);
-        ((TObjPlayer *)obj)->set_action_palette_state_mode(2);
-        ((TObjPlayer *)self)->set_attack_target((s16)(t));
-        TWindowCtrl::dispatch_to_child((u16)obj->get_entity_id(), kind);
+        kind = player->get_action_palette_entry(channel);
+        player->set_action_palette_state_mode(2);
+        set_queued_kind(kind);
+        TWindowCtrl::dispatch_to_child((u16)player->get_entity_id(), channel);
     }
 }
 
-s32 TObjPlayer::update_if_flag8_set() {
-    if (((int (*)(void*, int))test_flags_any)((void*)((saddr)this + 0xC), 8) != 0) {
-        return tick_countdown_timer();
+s32 PlayerAttackController::tick_burst_recovery() {
+    if (test_flags_any(&flags, 8) != 0) {
+        return tick_recovery_timer();
     }
     return 0;
 }
 
-s32 TObjPlayer::tick_countdown_timer() {
+s32 PlayerAttackController::tick_recovery_timer() {
     s32 remaining;
 
-    remaining = *(s32 *)((s8 *)this + 0x1C) - 1;
-    *(s32 *)((s8 *)this + 0x1C) = remaining;
+    remaining = recovery_timer - 1;
+    recovery_timer = remaining;
     if (remaining < 0) {
-        ((FlagWord *)((u8 *)this + 0xC))->set(1);
+        ((FlagWord *)&flags)->set(1);
         return 1;
     }
     return 0;
 }
 
-void apply_anim_action__10TObjPlayerFPvi(u8 *controller, saddr player) {
-    ((FlagWord *)((void *) (controller + 0xC)))->set(2);
-    *(s32 *)((s8 *)controller + 0x1C) = (s32) ((TObjPlayer *)player)->get_attack_recovery_count();
-    ((TObjPlayer *)player)->clear_flag_128();
+void PlayerAttackController::register_strike(TObjPlayer *player) {
+    ((FlagWord *)&flags)->set(2);
+    recovery_timer = (s32)player->get_attack_recovery_count();
+    player->clear_flag_128();
 }
 
-void begin_player_attack(u8 *controller, s32 arg1, s16 stage, s32 arg3) {
-  s8 *new_var;
-  ((PlayerAttackController *)controller)->set_saved_attack_stage((s16)(stage));
-  *((s32 *) (((s8 *) controller) + 0x14)) = arg3;
-  *((s16 *) (((s8 *) controller) + 0x12)) = 0;
-  new_var = (s8 *) controller;
-  *((s32 *) (((s8 *) controller) + 0x18)) = 0;
-  ((FlagWord *)((void *) (controller + 0xC)))->clear(0x1F);
-  *((s32 *) (new_var + 0x1C)) = 6;
-  *((f32 *) (new_var + 4)) = (f32) (*((f32 *) (((s8 *) controller) + 8)));
-  if ((s16) (*((s16 *) (((s8 *) controller) + 0))))
-  {
-    *((f32 *) (((s8 *) controller) + 4)) *= 1.25f;
-  }
+void PlayerAttackController::begin(TObjPlayer *player, s32 stage, s32 begun) {
+    set_saved_attack_stage(stage);
+    begun_stage = begun;
+    hit_count = 0;
+    burst_count = 0;
+    ((FlagWord *)&flags)->clear(0x1F);
+    recovery_timer = 6;
+    attack_speed = evp_scale;
+    if (attack_kind) {
+        attack_speed *= 1.25f;
+    }
 }
 
-s32 get_first_target_position__10TObjPlayerFPvPv(void *controller, Vec *out) {
-    Slot_801D3224 *s = (Slot_801D3224 *)TObjPlayer__sub_801D345C((void*)(controller));
-    u16 uid = ((CapturedTarget *)s)->get_uid();
-    Obj_801D3224 *o;
+s32 PlayerAttackController::get_first_target_position(Vec *out) {
+    CapturedTarget *target = get_first_target();
+    u16 uid = target->get_uid();
+    TObjCollidable *actor;
     if (uid == 0xFFFF) {
         return 0;
     }
-    o = ((Obj_801D3224 * (*)(u16))find_entity_by_id)(uid);
-    if (o == NULL) {
+    actor = find_entity_by_id(uid);
+    if (actor == NULL) {
         return 0;
     }
-    VecCopy(out, &o->recs[s->idx].pos);
+    VecCopy(out, &actor->bodies[target->collider_index].center);
     return 1;
 }
 
-void *capture_lockon_targets(PlayerAttackController *controller, TObjPlayer *player) {
-    Cur_801D32A0 *cur;
-    s32 n;
-    CapturedTarget *e;
+CapturedTargetList *PlayerAttackController::capture_lockon_targets(TObjPlayer *player) {
+    LockOnActionSlot *slot;
+    s32 count;
+    CapturedTarget *entry;
     s32 i;
-    void *obj;
+    LockOnTargetRecord *record;
     if (player->lock_on_cursor == 0) return 0;
-    controller->lockon_targets.clear_lockon_list();
-    cur = TObjPlayer__sub_801B57E8(player);
-    if (cur == 0) return 0;
-    if (get_cursor_palette_mode(cur) != 2) return 0;
-    controller->pad_20[0] = cur->x28;
-    controller->pad_20[1] = cur->x2c;
-    controller->pad_20[2] = cur->x30;
-    controller->pad_20[3] = cur->x3c;
-    n = ((TLockOnCursor *)(cur->lock))->get_target();
-    e = controller->lockon_targets.entries;
-    controller->lockon_targets.set_count(n);
-    for (i = 0; i != n; i++) {
-        obj = TObjPlayer__sub_80116620(cur->lock, i);
-        e->set_uid(((TObjPlayer *)obj)->get_type_id());
-        e->set_collider_index(((TObjPlayer *)obj)->get_obj_id());
-        e++;
+    lockon_targets.clear_lockon_list();
+    slot = TObjPlayer__sub_801B57E8(player);
+    if (slot == 0) return 0;
+    if (get_cursor_palette_mode(slot) != 2) return 0;
+    lock_range = slot->lock_range;
+    horizontal_cone_cos = slot->horizontal_cone_cos;
+    vertical_cone_cos = slot->vertical_cone_cos;
+    cone_apex_offset = slot->cone_apex_offset;
+    count = ((TLockOnCursor *)&slot->target_records)->get_target();
+    entry = lockon_targets.entries;
+    lockon_targets.set_count(count);
+    for (i = 0; i != count; i++) {
+        record = TObjPlayer__sub_80116620(&slot->target_records, i);
+        entry->set_uid(((TObjPlayer *)record)->get_type_id());
+        entry->set_collider_index(record->get_part());
+        entry++;
     }
-    ((TMainCursor *)(player->lock_on_cursor))->set_cursor_pos(controller->lockon_targets.entries[0].uid, controller->lockon_targets.entries[0].collider_index);
-    return &controller->lockon_targets;
+    ((TMainCursor *)(player->lock_on_cursor))->set_cursor_pos(lockon_targets.entries[0].uid, lockon_targets.entries[0].collider_index);
+    return &lockon_targets;
 }
 
 void PlayerAttackController::reset() {
     queued_kind = 0;
     attack_kind = 0;
-    pad_4 = 1.0f;
+    attack_speed = 1.0f;
     hit_count = 0;
     pending_stage = 0;
-    pad_14[0] = 0;
-    pad_14[1] = 0;
-    pad_14[2] = 0;
-    pad_20[0] = 20.0f;
-    pad_20[1] = 1.0f;
-    pad_20[2] = 1.0f;
-    pad_20[3] = 0.0f;
+    begun_stage = 0;
+    burst_count = 0;
+    recovery_timer = 0;
+    lock_range = 20.0f;
+    horizontal_cone_cos = 1.0f;
+    vertical_cone_cos = 1.0f;
+    cone_apex_offset = 0.0f;
     lockon_targets.clear_lockon_list();
 }
 
-s16 TObjPlayer::get_obj_id() { return *(s16*)((char*)this + 0x2); }
+s16 LockOnTargetRecord::get_part() { return part; }
 
 void PlayerAttackController::set_saved_attack_stage(s16 stage) { pending_stage = stage; }
 
 int PlayerAttackController::is_flag32_clear() { return test_flags_any(&flags, 32) == 0; }
 
-s32 *TObjPlayer__sub_801D345C(void *p) { return (s32 *)((CapturedTargetList *)((char*)p + 0x30))->get_captured_target_entry(0); }
+CapturedTarget *PlayerAttackController::get_first_target() { return lockon_targets.get_captured_target_entry(0); }
 
 void TObjPlayer::set_action_palette_state_mode(u8 mode) {
     set_player_action_palette_mode(&action_palette_state, mode);

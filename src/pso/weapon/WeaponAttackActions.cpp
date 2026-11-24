@@ -123,7 +123,6 @@ struct Self_8011EDFC {
 
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 TObjChara *resolve_hittable_target(s32, s32);
-s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 void * __ct__17TItemEffectWeaponFll(void *, u32, u32);
 u32 __cvt_fp2unsigned(f32);
 f32 xyz_distance(void *, void *);
@@ -168,7 +167,7 @@ void TItemWeapon::restore_action_type() {
 }
 
 void TItemWeapon::remap_extra_attack_type() {
-    if ((this->test_weapon_flags(0x20) != 0U) && (TObjPlayer__sub_801D2F4C((s16 *)(*(saddr *)((s8 *)this + 0xF0) + 0x7CC)) == 2)) {
+    if ((this->test_weapon_flags(0x20) != 0U) && (((PlayerAttackController *)(*(saddr *)((s8 *)this + 0xF0) + 0x7CC))->get_validated_attack_kind() == 2)) {
         if (this->test_weapon_flags(0x100000) != 0U) {
             ((TObjPlayer *)(*(saddr *)((s8 *)this + 0xF0) + 0x7CC))->set_action_type((s16)0);
         } else {

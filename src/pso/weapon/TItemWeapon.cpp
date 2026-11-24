@@ -294,7 +294,6 @@ TItem *create_weapon_for_item(u8 *item) {
 }
 
 // ---- pso/player/TObjPlayer_8012105C
-s16 TObjPlayer__sub_801D2F4C(s16 *);
 
 void TObjPlayer__sub_8012105C(void) {  }
 void TObjPlayer__sub_80121060(void) {  }
@@ -310,7 +309,7 @@ void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s3
 
 void TObjPlayer::set_model_param(s16 v) { *(s16 *)&this->unk_118 = v; }
 void TObjPlayer::set_model_id(s16 v) { this->m_116 = v; }
-s16 TObjPlayer::is_status_subsystem_ready() { return TObjPlayer__sub_801D2F4C((s16 *)((char*)this + 0x7cc)); }
+s16 TObjPlayer::is_status_subsystem_ready() { return attack_state.get_validated_attack_kind(); }
 CapturedTargetList *TObjPlayer::get_extended_state() { return (CapturedTargetList *)((TObjPlayer *)((char*)this + 0x7cc))->get_state_ptr(); }
 f32 TObjPlayer::query_extended_state() { return attack_state.get_attack_damage_scale(); }
 int TObjPlayer::test_flag30_bit0x100000() { return test_actor_flags((uaddr)((void*)1048576)); }

@@ -150,7 +150,7 @@ NJS_TEXLIST *technique_texture_list;
     if (((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, 0)))->get_type_id() != 0xFFFF) { \
         set_target__20PlayerTechniqueStateFlls(slots, 0,                                                \
             ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, 0)))->get_type_id(),           \
-            ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, 0)))->get_obj_id());           \
+            ((LockOnTargetRecord *)(TObjPlayer__sub_80116620(&c->target_records, 0)))->get_part());           \
         slots->set_tech_level(1);                                      \
     }
 
@@ -630,7 +630,7 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
             if (((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_type_id() != 0xFFFF) {
                 set_target__20PlayerTechniqueStateFlls(slots, n,
                     ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_type_id(),
-                    ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_obj_id());
+                    ((LockOnTargetRecord *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_part());
                 n++;
             }
         }
@@ -651,7 +651,7 @@ void capture_technique_targets(int kind, TObjPlayer *owner) {
         for (i = 0; i < ((TLockOnCursor *)(&c->target_records))->get_target(); i++) {
             set_target__20PlayerTechniqueStateFlls(slots, n,
                 ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_type_id(),
-                ((TObjPlayer *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_obj_id());
+                ((LockOnTargetRecord *)(TObjPlayer__sub_80116620(&c->target_records, n)))->get_part());
             n++;
         }
         slots->set_tech_level(n);

@@ -20,7 +20,7 @@ void TUnk_804A4338::emit_marker_effects() {
     tec.item_id = get_item_id();
     tec.texlist = texlist;
     tec.model = second_model;
-    tec.attack_kind = TObjPlayer__sub_801D2F4C((s16 *)&owner->attack_state);
+    tec.attack_kind = owner->attack_state.get_validated_attack_kind();
     tec.combo_stage = owner->attack_state.get_validated_attack_stage();
     tec.damage_multiplier = owner->query_extended_state();
     tec.color.a = 1.0f;

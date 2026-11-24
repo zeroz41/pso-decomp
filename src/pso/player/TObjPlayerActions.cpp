@@ -549,7 +549,6 @@ void TObjPlayer__sub_801D0E74(void* p);
 G_IntraMapWarp_6x55 *TObjPlayer__sub_801D0EA0(G_IntraMapWarp_6x55 *destination, G_IntraMapWarp_6x55 *source);
 void TObjPlayer__sub_801D0F70(void* p);
 Vec *copy_position__10TObjPlayerFPv(void *p, const Vec *src);
-void *get_anim_field_c__10TObjPlayerFPv(void *p);
 void clamp_and_set_unit_value__10TObjPlayerFiUci(TObjPlayer *player, u8 level, s32 i);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
 u8 * copy_6x4b_hit_by_enemy_packet__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
@@ -570,7 +569,6 @@ int is_alt_photon_blast_bank_empty__10TObjPlayerFPv(void* p);
 u8 *TObjPlayer__sub_801D2BB8(u8 *arg0, u8 *arg1);
 void TObjPlayer__sub_801D2CAC(u8 *arg0);
 void TObjPlayer__sub_801D2CC4(void* p, f32 v);
-int on_attack_finished__10TObjPlayerFPv(void* p);
 int is_pb_palette_bank_empty(void*);
 u8 get_cast_technique_level(void *techs, s16 tech);
 s32 set_technique_level_entry(void *, s32, u8);
@@ -582,7 +580,6 @@ void init_6x48_cast_complete_packet(u8 *arg0);
 void init_6x8D_technique_level_packet(u8 *arg0);
 void send_6x46_attack_finished(u8 *arg0);
 u8 get_6x46_strike_packet_size(saddr arg0);
-f32 get_attack_controller_rate(void* p);
 void emit_heavy_attack_particles(saddr owner, u16 target_id);
 extern "C" {
 s32 is_palettex_activated(u16);
@@ -3670,12 +3667,12 @@ void TObjPlayer::update_attack_stage3() { this->update_attack_stage(); }
 void TObjPlayer::enter_attack_stage3() {
     this->action_state = 7;
     this->run_action_state_phase(this->mode, 6);
-    ((TObjPlayer *)&this->attack_state)->set_action_type(TObjPlayer__sub_801D2F0C(&this->attack_state));
-    update_player_action_palette(this, static_cast<u8>(TObjPlayer__sub_801D2F4C(&this->attack_state.attack_kind)));
-    ((s32 (*)(void *, void *, int, int))begin_player_attack)(&this->attack_state, this, 2, 2);
+    ((TObjPlayer *)&this->attack_state)->set_action_type(this->attack_state.get_validated_queued_kind());
+    update_player_action_palette(this, static_cast<u8>(this->attack_state.get_validated_attack_kind()));
+    this->attack_state.begin(this, 2, 2);
     this->setup_attack_stage();
     this->set_action_state(7, this->get_model_state());
-    TObjPlayer::apply_speed_scale((saddr)this, (f32) (((f32 (*)(void *))get_action_rate_entry)(this) * get_attack_controller_rate(&this->attack_state)));
+    TObjPlayer::apply_speed_scale((saddr)this, (f32) (((f32 (*)(void *))get_action_rate_entry)(this) * this->attack_state.get_attack_speed()));
 }
 
 }
@@ -3692,7 +3689,7 @@ void handle_6x45_attack(G_Attack_6x43_6x44_6x45 *command) {
     if (player->reset_volopt_state() == 0) return;
     if (player->test_action_mask(0x8200) != 0) return;
     ((TObjPlayer *)&player->attack_state)->set_action_type(pkt.kind);
-        ((TObjPlayer *)&player->attack_state)->set_attack_target(pkt.kind);
+        player->attack_state.set_queued_kind(pkt.kind);
     player->target_heading = pkt.heading;
     player->run_action_state_phase(7, 0);
 }
@@ -3719,7 +3716,7 @@ void TObjPlayer::send_attack_stage3_request() {
             cmd.init();
             cmd.header.client_id = this->get_entity_id();
             cmd.angle_y = temp_r31;
-            cmd.action_type = TObjPlayer__sub_801D2F0C(&this->attack_state);
+            cmd.action_type = this->attack_state.get_validated_queued_kind();
             cmd.send();
         }
     }
@@ -3734,7 +3731,7 @@ void TObjPlayer::finish_attack_stage3() {
             run_action_state_phase(1, 5);
         }
     } else if (this->motion_flags & 0x10) {
-        if (test_flags_any((s32 *)get_anim_field_c__10TObjPlayerFPv(arg0 + 0x7CC), 1) != 0) {
+        if (test_flags_any(&this->attack_state.get_flags()->bits, 1) != 0) {
             this->phase = 4;
             this->requested_action = this->get_idle_animation();
             this->resume_motion();
@@ -3794,12 +3791,12 @@ void TObjPlayer::update_attack_stage2() { this->update_attack_stage(); }
 void TObjPlayer::enter_attack_stage2() {
     this->action_state = 6;
     this->run_action_state_phase(this->mode, 6);
-    ((TObjPlayer *)&this->attack_state)->set_action_type(TObjPlayer__sub_801D2F0C(&this->attack_state));
-    update_player_action_palette(this, static_cast<u8>(TObjPlayer__sub_801D2F4C(&this->attack_state.attack_kind)));
-    ((s32 (*)(void *, void *, int, int))begin_player_attack)(&this->attack_state, this, 1, 1);
+    ((TObjPlayer *)&this->attack_state)->set_action_type(this->attack_state.get_validated_queued_kind());
+    update_player_action_palette(this, static_cast<u8>(this->attack_state.get_validated_attack_kind()));
+    this->attack_state.begin(this, 1, 1);
     this->setup_attack_stage();
     this->set_action_state(6, this->get_state());
-    TObjPlayer::apply_speed_scale((saddr)this, (f32) (((f32 (*)(void *))get_action_rate_entry)(this) * get_attack_controller_rate(&this->attack_state)));
+    TObjPlayer::apply_speed_scale((saddr)this, (f32) (((f32 (*)(void *))get_action_rate_entry)(this) * this->attack_state.get_attack_speed()));
 }
 
 }
@@ -3816,7 +3813,7 @@ void handle_6x44_attack(G_Attack_6x43_6x44_6x45 *command) {
     if (player->reset_volopt_state() == 0) return;
     if (player->test_action_mask(0x8200) != 0) return;
     ((TObjPlayer *)&player->attack_state)->set_action_type(pkt.kind);
-        ((TObjPlayer *)&player->attack_state)->set_attack_target(pkt.kind);
+        player->attack_state.set_queued_kind(pkt.kind);
     player->target_heading = pkt.heading;
     player->run_action_state_phase(6, 0);
 }
@@ -3843,7 +3840,7 @@ void TObjPlayer::send_attack_stage2_request() {
             cmd.init();
             cmd.header.client_id = this->get_entity_id();
             cmd.angle_y = temp_r31;
-            cmd.action_type = TObjPlayer__sub_801D2F0C(&this->attack_state);
+            cmd.action_type = this->attack_state.get_validated_queued_kind();
             cmd.send();
         }
     }
@@ -3858,7 +3855,7 @@ void TObjPlayer::finish_attack_stage2() {
             run_action_state_phase(1, 5);
         }
     } else if ((this->motion_flags & 0x10) &&
-               ((s32 (*)(void *, s32))test_flags_any)(get_anim_field_c__10TObjPlayerFPv(self->act), 1) != 0) {
+               test_flags_any(&this->attack_state.get_flags()->bits, 1) != 0) {
         switch (attack_state.get_validated_attack_stage()) {
         case 0:
         case 1:
@@ -3878,7 +3875,7 @@ void TObjPlayer::check_attack_stage2_input() {
 
     temp_r3 = select_attack_palette_slot();
     if (temp_r3 != -1) {
-        ((s32 (*)(s32, s32, s32, s32))queue_physical_attack_input)(((saddr)this) + 0x7CC, ((saddr)this), temp_r3, 2);
+        this->attack_state.queue_physical_attack_input(this, temp_r3, 2);
     }
 }
 
@@ -3922,7 +3919,7 @@ void TObjPlayer::run_attack_stage2_phase(s16 phase) {
 
 void TObjPlayer::start_attack_preparation() {
     u8 *arg0 = (u8 *)this;
-    switch (((s16 (*)(void *))TObjPlayer__sub_801D2F4C)(arg0 + 0x7CC)) {
+    switch (this->attack_state.get_validated_attack_kind()) {
     case 0:
         this->phase = 3;
         break;
@@ -3956,7 +3953,7 @@ void TObjPlayer::start_attack_preparation() {
 void TObjPlayer::setup_attack_stage() {
     u8 *arg0 = (u8 *)this;
     this->phase = 0;
-    switch (((s16 (*)(void *))TObjPlayer__sub_801D2F4C)(arg0 + 0x7CC)) {
+    switch (this->attack_state.get_validated_attack_kind()) {
     case 0:
         if (attack_state.get_validated_attack_stage() == 0) {
             set_field_d4_and_flag_200(0.5f);
@@ -4010,7 +4007,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             continue;
         }
         f32 accuracy;
-        if (TObjPlayer__sub_801D2F4C((s16 *)&attack_state) == 2 && get_equipped_weapon(this) != NULL &&
+        if (attack_state.get_validated_attack_kind() == 2 && get_equipped_weapon(this) != NULL &&
             get_equipped_weapon(this)->is_identified() == 0) {
             if ((f32)get_ata() < 0.0f) {
                 accuracy = 0.0f;
@@ -4023,7 +4020,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
         if (target->roll_physical_accuracy(this, collider, accuracy) != 0) {
             s32 damage;
             f32 dealt;
-            switch (TObjPlayer__sub_801D2F4C((s16 *)&attack_state)) {
+            switch (attack_state.get_validated_attack_kind()) {
             case 0:
                 damage = target->receive_physical_attack(this, damage_scale * attack_state.get_attack_damage_scale());
                 gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(this, damage));
@@ -4063,7 +4060,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                 ((TObjPlayer *)target)->show_miss_for_collider(collider);
                 break;
             default:
-                switch (TObjPlayer__sub_801D2F4C((s16 *)&attack_state)) {
+                switch (attack_state.get_validated_attack_kind()) {
                 case 2:
                     if (target->roll_physical_accuracy(this, collider,
                                                        attack_state.calc_attack_stage_multiplier(2)) != 0) {
@@ -4107,7 +4104,7 @@ void handle_6x46_attack_finished(G_AttackFinished_Header_6x46 *command) {
     ((TObjPlayer *)packet)->bswap_field4_sub();
     if (validate_6x46_attack_finished((G_ClientIDHeader *)packet) != 0 && (pl = get_player_by_client_id((u16)packet[1])) != NULL) {
         if (pl->is_in_tl03_state() != 0 && pl->reset_volopt_state() != 0) {
-            ((s32 (*)(void *, void *))on_attack_finished__10TObjPlayerFPv)((u8 *)pl + 0x7CC, &packet[2]);
+            pl->attack_state.set_lockon_targets(&packet[2]);
             it = TObjPlayer::get_equipped_weapon(pl);
             if (it != NULL) {
                 it->perform_action();
@@ -4123,7 +4120,7 @@ extern "C" {
 
 void TObjPlayer::send_attack_target_packet() {
     s16 sp8[0x14];
-    if (((this->obj_isState2_324() == 0) || (this->reset_volopt_state() != 0)) && ((this->obj_isState3_324() != 0) || (capture_lockon_targets(&this->attack_state, this) != 0)) && (this->is_body_collision_inactive() == 0) && ((this == NULL) || (this->obj_isState2_324() == 0))) {
+    if (((this->obj_isState2_324() == 0) || (this->reset_volopt_state() != 0)) && ((this->obj_isState3_324() != 0) || (this->attack_state.capture_lockon_targets(this) != 0)) && (this->is_body_collision_inactive() == 0) && ((this == NULL) || (this->obj_isState2_324() == 0))) {
         ((TObjPlayer *)sp8)->build_packet_header();
         sp8[1] = this->get_entity_id();
         copy_attack_targets((void *) (&sp8[2]), (void *) (((TObjPlayer *)&this->attack_state)->get_state_ptr()));
@@ -4173,15 +4170,15 @@ void TObjPlayer::update_by_state() {
     switch (((TObjPlayer *)this)->get_handle_value()) {
     case 0:
         if (this->motion_flags & 0x10) {
-            ((TObjPlayer *)&this->attack_state)->set_flag_1_at_c();
+            this->attack_state.end_swing();
         }
         return;
     case 8:
-        ((TObjPlayer *)&this->attack_state)->update_if_flag8_set();
+        this->attack_state.tick_burst_recovery();
         return;
     default:
         if (this->motion_flags & 0x10) {
-            ((TObjPlayer *)&this->attack_state)->tick_countdown_timer();
+            this->attack_state.tick_recovery_timer();
         }
         break;
     }
@@ -4210,17 +4207,17 @@ void TObjPlayer::update_anim_action() {
     if (this->get_handle_value() != 8) {
         if (is_passing_frame(select_normal_attack_marker()) != 0) {
             send_attack_target_packet();
-            ((TObjPlayer *)&this->attack_state)->increment_strike_counter();
-            ((s32 (*)(void *, void *))apply_anim_action__10TObjPlayerFPvi)(arg0 + 0x7CC,this);
+            this->attack_state.increment_hit_count();
+            this->attack_state.register_strike(this);
         }
     } else {
-        if (test_flags_any((s32 *)get_anim_field_c__10TObjPlayerFPv(arg0 + 0x7CC), 8) == 0) {
+        if (test_flags_any(&this->attack_state.get_flags()->bits, 8) == 0) {
             if (is_passing_frame(select_normal_attack_marker()) != 0) {
                 send_attack_target_packet();
                 increment_burst_counter((u8 *)&this->attack_state);
                 if (get_burst_counter(&this->attack_state) >= 3) {
-                    ((FlagWord *)get_anim_field_c__10TObjPlayerFPv(arg0 + 0x7CC))->set(8);
-                    ((s32 (*)(void *, void *))apply_anim_action__10TObjPlayerFPvi)(arg0 + 0x7CC,this);
+                    this->attack_state.get_flags()->set(8);
+                    this->attack_state.register_strike(this);
                     pause_motion();
                     this->motion_flags = (s32) (this->motion_flags | 0x10);
                 }
@@ -4244,12 +4241,12 @@ void TObjPlayer::update_attack_stage() {
     case 4:
         return;
     case 2:
-        temp_r31 = ((TObjPlayer *)&this->attack_state)->get_field_1c() - 1;
+        temp_r31 = this->attack_state.get_recovery_timer() - 1;
         if (temp_r31 < 0) {
             this->phase = 3;
             this->resume_motion();
         }
-        ((TObjPlayer *)&this->attack_state)->set_action_type(temp_r31);
+        this->attack_state.set_recovery_timer(temp_r31);
         return;
     case 3:
         this->update_anim_action();
@@ -4278,10 +4275,10 @@ void TObjPlayer::enter_attack_stage1() {
     this->action_state = 5;
     this->run_action_state_phase(this->mode, 6);
     clear_velocity(this);
-    ((s32 (*)(void *, void *, int, int))begin_player_attack)(&this->attack_state, this, 0, 0);
+    this->attack_state.begin(this, 0, 0);
     this->setup_attack_stage();
     this->set_action_state(5, this->call_subobject_m15());
-    TObjPlayer::apply_speed_scale((saddr)this, (f32) (((f32 (*)(void *))get_action_rate_entry)(this) * get_attack_controller_rate(&this->attack_state)));
+    TObjPlayer::apply_speed_scale((saddr)this, (f32) (((f32 (*)(void *))get_action_rate_entry)(this) * this->attack_state.get_attack_speed()));
 }
 
 }
@@ -4307,8 +4304,8 @@ void TObjPlayer::request_normal_attack_stage1() {
     G_Attack_6x43 cmd;
     s16 temp_r31;
     s32 var_r4;
-    if ((this->reset_volopt_state() != 0) && (((u32 (*)(void *, void *))capture_lockon_targets)((void *) (arg0 + 0x7CC), (void *) (arg0)) != 0U)) {
-        if (((s32 (*)(void *, void *))get_first_target_position__10TObjPlayerFPvPv)((void *) (arg0 + 0x7CC), (void *) (&sp10)) != 0) {
+    if ((this->reset_volopt_state() != 0) && (this->attack_state.capture_lockon_targets(this) != 0)) {
+        if (this->attack_state.get_first_target_position((Vec *)&sp10) != 0) {
             var_r4 = calc_angle_to(((TObjPlayer *)arg0)->get_position_ptr(), (Vec *)sp10);
         } else {
             var_r4 = ((TObjPlayer *)arg0)->rotation_y;
@@ -4318,7 +4315,7 @@ void TObjPlayer::request_normal_attack_stage1() {
             cmd.init();
             cmd.header.client_id = ((TObjBase *)(arg0))->get_entity_id();
             cmd.angle_y = temp_r31;
-            cmd.action_type = ((s16 (*)(void *))TObjPlayer__sub_801D2F4C)((void *) (arg0 + 0x7CC));
+            cmd.action_type = this->attack_state.get_validated_attack_kind();
             cmd.send();
         }
     }
@@ -4334,7 +4331,7 @@ void TObjPlayer::finish_attack_stage1() {
             run_action_state_phase(1, 5);
         }
     } else if ((this->motion_flags & 0x10) &&
-               ((s32 (*)(void *, s32))test_flags_any)(get_anim_field_c__10TObjPlayerFPv(self->act), 1) != 0) {
+               test_flags_any(&this->attack_state.get_flags()->bits, 1) != 0) {
         switch (attack_state.get_validated_attack_stage()) {
         case 0:
             this->phase = 4;
@@ -4355,7 +4352,7 @@ void TObjPlayer::update_active_item() {
 
     temp_r3 = select_attack_palette_slot();
     if (temp_r3 != -1) {
-        ((s32 (*)(s32, s32, s32, s32))queue_physical_attack_input)(arg0 + 0x7CC, arg0, temp_r3, 1);
+        this->attack_state.queue_physical_attack_input(this, temp_r3, 1);
     }
 }
 
@@ -6438,12 +6435,12 @@ PhotonBlastTarget *PlayerTechniqueState::get_technique_data() { return targets; 
 void PlayerTechniqueState::set_tech_override(u8 v) { level_override = v; }
 #pragma pop
 
-f32 get_attack_controller_rate(void* p) { return *(f32*)((char*)p + 0x4); }
+f32 PlayerAttackController::get_attack_speed() { return attack_speed; }
 
 
-void TObjPlayer::set_attack_target(s16 v) { *(s16*)((char*)this + 0x2) = v; }
+void PlayerAttackController::set_queued_kind(s16 kind) { queued_kind = kind; }
 
-void* get_anim_field_c__10TObjPlayerFPv(void* p) { return (char*)p + 0xc; }
+FlagWord *PlayerAttackController::get_flags() { return (FlagWord *)&flags; }
 
 #pragma push
 #pragma inline_depth(1)
@@ -6460,19 +6457,16 @@ f32 PlayerAttackController::calc_attack_stage_multiplier(s32 kind) {
 }
 extern int fold_flush_29;
 
-int on_attack_finished__10TObjPlayerFPv(void* p) { return ((int (*)(void*))copy_attack_targets)((char*)p + 0x30); }
+void PlayerAttackController::set_lockon_targets(void *src) { copy_attack_targets(&lockon_targets, src); }
 
-void TObjPlayer::set_flag_1_at_c() { ((FlagWord *)((void*)((char*)this + 0xc)))->set(1); }
+void PlayerAttackController::end_swing() { ((FlagWord *)&flags)->set(1); }
 
-void TObjPlayer::increment_strike_counter() {
-    u8 *arg0 = (u8 *)this;
-    *(s16 *)((s8 *)arg0 + 0x12) = (s16) (*(s16 *)((s8 *)arg0 + 0x12) + 1);
-}
+void PlayerAttackController::increment_hit_count() { hit_count++; }
 extern int fold_flush_30;
 
-void TObjPlayer::set_action_type(s32 v) { *(s32*)((char*)this + 0x1c) = v; }
+void PlayerAttackController::set_recovery_timer(s32 frames) { recovery_timer = frames; }
 
-s32 TObjPlayer::get_field_1c() { return *(s32*)((char*)this + 0x1c); }
+s32 PlayerAttackController::get_recovery_timer() { return recovery_timer; }
 
 void TObjPlayer::request_heavy_attack_particles() {
     u16 *arg0 = (u16 *)this;
