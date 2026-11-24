@@ -171,12 +171,10 @@ struct InventoryCreatePacket_801B849C {
 
 struct Stats_801B96BC { s16 atp; s16 pad2[0x11]; };
 
-struct Out_801B96BC { s16 a; s16 b; };
-
 extern "C" {
-s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, s16 *out, u8 *incoming);
+s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, PlayerRequirementStats *out, u8 *incoming);
 s32 is_item_equipped(TItem *item);
-s32 preview_unequip_stats__10TObjPlayerFv(TObjPlayer *self, Out_801B96BC *out, s32 key);
+s32 preview_unequip_stats__10TObjPlayerFv(TObjPlayer *self, PlayerRequirementStats *out, s32 key);
 }
 
 typedef struct Msg_801CD6BC {
@@ -384,7 +382,6 @@ struct S801B5200_801B3FD8 { s8 b[2]; s16 h; };
 
 struct Color_801B6964 { f32 r, g, b, a; };
 
-struct Buf1C { u8 pad[0x1C]; };
 
 struct Pkt_801B7EB8 {
     u8 hdr[2];
@@ -594,7 +591,7 @@ void *handle_set_visible__10TObjPlayerFi(void *dst, void *src);
 void send_6x2F_change_player_hp(s32 id, s32 client, s32 hp);
 void *clear_negative_status_effects__10TObjPlayerFi(void *dst, void *src);
 s32 calc_scaled_value__10TObjPlayerFii(TObjPlayer *player, s32 value);
-s32 build_player_class_stat_template(saddr player, saddr out);
+s32 build_player_class_stat_template(TObjPlayer *player, PlayerRequirementStats *out);
 void prepare_guild_return__10TObjPlayerFPv(void *player);
 void handle_6x34(void);
 void complete_deferred_player_death(void);
@@ -1786,7 +1783,7 @@ void TObjPlayer::unequip_all_units() {
 
 #pragma push
 #pragma fp_contract on
-s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, s16 *out, u8 *incoming) {
+s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, PlayerRequirementStats *out, u8 *incoming) {
     Base_801B9954 b;
     Attack_801B9954 a;
     Defense_801B9954 d;
@@ -1832,7 +1829,7 @@ s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, s16 *out, u8 *incomi
     b.field[4] = clamp_s32(b.field[4], 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[4]);
     b.field[5] = clamp_s32(b.field[5], 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[5]);
     b.field[6] = clamp_s32(b.field[6], 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[6]);
-    set_params__10TObjPlayerFPvPvPviPv(out, player, reinterpret_cast<player_stats *>(&b), reinterpret_cast<AttackParams *>(&a), reinterpret_cast<ActorParamBlock *>(&d));
+    out->set(player, reinterpret_cast<player_stats *>(&b), reinterpret_cast<AttackParams *>(&a), reinterpret_cast<ActorParamBlock *>(&d));
     rate = player->get_status_effect_amount(2);
     {
         s16 range;
@@ -1842,10 +1839,10 @@ s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, s16 *out, u8 *incomi
         atp = (s32)((f32)sl * rate + (f32)(sl + get_attack_params_atp_min(&a)));
         }
         range = get_attack_params_atp_max(&a) - get_attack_params_atp_min(&a);
-        out[0] = atp + (s32)((f32)range * rate + (f32)range);
+        out->atp = atp + (s32)((f32)range * rate + (f32)range);
     }
     rate = player->get_status_effect_amount(3);
-    out[1] = (s32)((f32)out[1] * rate + (f32)out[1]);
+    out->dfp = (s32)((f32)out->dfp * rate + (f32)out->dfp);
     return 1;
     }
     return 0;
@@ -1854,7 +1851,7 @@ s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, s16 *out, u8 *incomi
 
 #pragma push
 #pragma fp_contract on
-s32 preview_unequip_stats__10TObjPlayerFv(TObjPlayer *self, Out_801B96BC *out, s32 key) {
+s32 preview_unequip_stats__10TObjPlayerFv(TObjPlayer *self, PlayerRequirementStats *out, s32 key) {
     u8 a[0x34];
     Stats_801B96BC c;
     u8 b[0x20];
@@ -1886,7 +1883,7 @@ s32 preview_unequip_stats__10TObjPlayerFv(TObjPlayer *self, Out_801B96BC *out, s
             }
         }
     }
-    set_params__10TObjPlayerFPvPvPviPv(out, self, (player_stats *)&c, (AttackParams *)a, (ActorParamBlock *)b);
+    out->set(self, (player_stats *)&c, (AttackParams *)a, (ActorParamBlock *)b);
     k = self->get_status_effect_amount(2);
     i = c.atp;
     {
@@ -1894,10 +1891,10 @@ s32 preview_unequip_stats__10TObjPlayerFv(TObjPlayer *self, Out_801B96BC *out, s
         base = (s32)((f32)sl * k + (f32)(sl + (s16)get_attack_params_atp_min(a)));
     }
     d = get_attack_params_atp_max(a) - get_attack_params_atp_min(a);
-    out->a = base + (s32)((f32)d * k + (f32)d);
+    out->atp = base + (s32)((f32)d * k + (f32)d);
     {
         f32 k2 = self->get_status_effect_amount(3);
-        out->b = (f32)out->b * k2 + (f32)out->b;
+        out->dfp = (f32)out->dfp * k2 + (f32)out->dfp;
     }
     return 2;
 }
@@ -2948,9 +2945,9 @@ void TObjPlayer::update_status_effects() {
 }
 
 void TObjPlayer::check_level_up() {
-    struct Buf1C before;
-    struct Buf1C after;
-    struct Buf1C gain;
+    PlayerLevelStats before;
+    PlayerLevelStats after;
+    PlayerLevelStats gain;
     s32 i;
     u8 *removed_item;
     s32 j;
@@ -2971,9 +2968,9 @@ void TObjPlayer::check_level_up() {
                     }
                     j += 1;
                 } while (j < 0xD);
-                init_shield_params(&before, (u8 *)this, this->stat_block, this->attack_params, param_block);
+                before.set(this, this->stat_block, this->attack_params, param_block);
                 this->apply_exp_level_growth();
-                init_shield_params(&after, (u8 *)this, this->stat_block, this->attack_params, param_block);
+                after.set(this, this->stat_block, this->attack_params, param_block);
                 i = 0;
                 do {
                     added_item = (u8 *)TObjPlayer::get_slot_value(this->equipped_items, i);
@@ -2982,7 +2979,7 @@ void TObjPlayer::check_level_up() {
                     }
                     i += 1;
                 } while (i < 0xD);
-                ((TObjPlayer *)(&before))->calc_pos_delta(&after, &gain);
+                before.calc_delta(&after, &gain);
                 TWindowCtrl::create_level_up_window((saddr)&gain, ((TObjBase *)this)->get_entity_id());
                 this->send_6x30_change_player_level();
             }
@@ -4596,16 +4593,16 @@ void recover_player_full(void *player) { ((TObjPlayer *)player)->recover_full();
 #pragma scheduling off
 #pragma scheduling on
 s32 build_player_equipment_requirement_stats(TObjPlayer *self, PlayerRequirementStats *player_requirement_stats) {
-    set_params__10TObjPlayerFPvPvPviPv(player_requirement_stats, self, self->get_stats(),
-                                       get_class_attack_template(self), get_class_defense_template(self));
+    player_requirement_stats->set(self, self->get_stats(), get_class_attack_template(self),
+                                  get_class_defense_template(self));
     return 1;
 }
 #pragma pop
 
 #pragma push
 #pragma scheduling off
-s32 build_player_class_stat_template(saddr player, saddr out) {
-  void *new_var;
+s32 build_player_class_stat_template(TObjPlayer *player, PlayerRequirementStats *out) {
+  TObjPlayer *new_var;
   unsigned int new_var2;
   s32 temp_r30;
   s32 temp_r31;
@@ -4616,12 +4613,12 @@ s32 build_player_class_stat_template(saddr player, saddr out) {
     }
     return 0;
   }
-  temp_r31 = (saddr)get_class_defense_template((TObjPlayer *)player);
-  new_var = (void *) player;
+  temp_r31 = (saddr)get_class_defense_template(player);
+  new_var = player;
   temp_r30 = temp_r31;
   new_var2 = (int) temp_r30;
-  temp_r31 = (saddr)get_class_attack_template((TObjPlayer *)new_var);
-  set_params__10TObjPlayerFPvPvPviPv((void *) out, new_var, TObjPlayer::get_class_stat_entry((u8 *)new_var), (AttackParams *)temp_r31, (ActorParamBlock *)new_var2);
+  temp_r31 = (saddr)get_class_attack_template(new_var);
+  out->set(new_var, TObjPlayer::get_class_stat_entry((u8 *)new_var), (AttackParams *)temp_r31, (ActorParamBlock *)new_var2);
   return 1;
 }
 #pragma pop

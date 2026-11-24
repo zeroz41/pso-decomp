@@ -565,38 +565,38 @@ void set_arrival_override_coords(u16 slot, s32 heading, f32 x, f32 y, f32 z) {
 }
 #pragma pop
 
-void set_params__10TObjPlayerFPvPvPviPv(void *out, void *player, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
+void PlayerRequirementStats::set(TObjPlayer *player, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
     s16 defense;
 
-    *(s16 *)((s8 *)out + 0) = (s16) (base_stats->stats.atp + get_attack_params_atp_max(attack_stats));
+    atp = base_stats->stats.atp + get_attack_params_atp_max(attack_stats);
     defense = base_stats->stats.dfp;
-    *(s16 *)((s8 *)out + 2) = (s16) (defense + resistance_stats->value_1c);
-    *(s16 *)((s8 *)out + 4) = (s16) base_stats->stats.mst;
-    *(s16 *)((s8 *)out + 6) = (s16) (0.1f * (f32) (base_stats->stats.ata + ((AttackParams *)(saddr)attack_stats)->get_ata()));
-    *(s16 *)((s8 *)out + 8) = (s16) (base_stats->stats.evp + resistance_stats->values[0]);
-    *(s16 *)((s8 *)out + 0xA) = (s16) base_stats->stats.lck;
-    *(s16 *)((s8 *)out + 0xC) = (s16) resistance_stats->values[1];
-    *(s16 *)((s8 *)out + 0xE) = (s16) resistance_stats->values[2];
-    *(s16 *)((s8 *)out + 0x10) = (s16) resistance_stats->values[3];
-    *(s16 *)((s8 *)out + 0x12) = (s16) resistance_stats->values[4];
-    *(s16 *)((s8 *)out + 0x14) = (s16) resistance_stats->values[5];
+    dfp = defense + resistance_stats->value_1c;
+    mst = base_stats->stats.mst;
+    ata = 0.1f * (f32)(base_stats->stats.ata + attack_stats->get_ata());
+    evp = base_stats->stats.evp + resistance_stats->values[0];
+    lck = base_stats->stats.lck;
+    resist[0] = resistance_stats->values[1];
+    resist[1] = resistance_stats->values[2];
+    resist[2] = resistance_stats->values[3];
+    resist[3] = resistance_stats->values[4];
+    resist[4] = resistance_stats->values[5];
 }
 
-void init_shield_params(void *out, void *player, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
-    set_params__10TObjPlayerFPvPvPviPv(out, player, base_stats, attack_stats, resistance_stats);
-    *(s16 *)((s8 *)out + 0x16) = ((TObjChara *)player)->get_hpmax();
-    *(s16 *)((s8 *)out + 0x18) = obj_getS16_2BA((u8 *)player);
+void PlayerLevelStats::set(TObjPlayer *player, player_stats *base_stats, AttackParams *attack_stats, ActorParamBlock *resistance_stats) {
+    PlayerRequirementStats::set(player, base_stats, attack_stats, resistance_stats);
+    hp_max = player->get_hpmax();
+    tp_max = obj_getS16_2BA((u8 *)player);
 }
 
-void TObjPlayer::calc_pos_delta(void *other, void *delta) {
-    *(s16 *)((s8 *)delta + 0) = (s16) (*(s16 *)((s8 *)other + 0) - *(s16 *)((s8 *)this + 0));
-    *(s16 *)((s8 *)delta + 2) = (s16) (*(s16 *)((s8 *)other + 2) - *(s16 *)((s8 *)this + 2));
-    *(s16 *)((s8 *)delta + 4) = (s16) (*(s16 *)((s8 *)other + 4) - *(s16 *)&this->m_flags);
-    *(s16 *)((s8 *)delta + 6) = (s16) (*(s16 *)((s8 *)other + 6) - *(s16 *)&this->m_id);
-    *(s16 *)((s8 *)delta + 8) = (s16) (*(s16 *)((s8 *)other + 8) - *(s16 *)((s8 *)this + 8));
-    *(s16 *)((s8 *)delta + 0xA) = (s16) (*(s16 *)((s8 *)other + 0xA) - *(s16 *)((s8 *)this + 0xA));
-    *(s16 *)((s8 *)delta + 0x16) = (s16) (*(s16 *)((s8 *)other + 0x16) - *(s16 *)((s8 *)this + 0x16));
-    *(s16 *)((s8 *)delta + 0x18) = (s16) (*(s16 *)((s8 *)other + 0x18) - *(s16 *)((s8 *)this + 0x18));
+void PlayerLevelStats::calc_delta(PlayerLevelStats *after, PlayerLevelStats *delta) {
+    delta->atp = after->atp - atp;
+    delta->dfp = after->dfp - dfp;
+    delta->mst = after->mst - mst;
+    delta->ata = after->ata - ata;
+    delta->evp = after->evp - evp;
+    delta->lck = after->lck - lck;
+    delta->hp_max = after->hp_max - hp_max;
+    delta->tp_max = after->tp_max - tp_max;
 }
 
 #pragma fp_contract on
