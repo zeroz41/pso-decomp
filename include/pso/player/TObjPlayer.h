@@ -20,6 +20,7 @@ struct NJS_OBJECT;
 #include "pso/player/RenderMaterialState.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/PlayerAttackController.h"
+#include "pso/player/PlayerTelepipe.h"
 #include "pso/player/PlayerStats.h"
 #include "pso/player/BattleMusicState.h"
 #include "pso/player/ContactSurfaceState.h"
@@ -258,8 +259,7 @@ struct TObjPlayer : public TObjChara {
     PlayerAttackController attack_state;  // the attack accuracy/damage-scale block
     void* m_828;
     u8 _pad82C[0x4];
-    void* telepipe;  // the player's telepipe record (TTecLuker::init_fields, send_telepipe_packet)
-    u8 _pad834[0x18];
+    PlayerTelepipe telepipe;  // TTecLuker::init_fields, send_telepipe_packet
     Vec marker_position;  // above the head (copy_offset_position), where the lobby marker is drawn
     void* m_858;
     char name[0x1C];

@@ -10,6 +10,7 @@
 #include "pso/player/PlayerCharDataEntry.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/CapturedTargetList.h"
+#include "pso/player/PlayerTelepipe.h"
 
 struct E_801C2154 { u8 pad[7]; char v; u8 pad2[0x14]; };
 
@@ -25,7 +26,6 @@ struct O_801C21C4 { E_801C21C4 recs[8]; };
 
 struct O_801C21D4 { u8 pad[0x3a1]; u8 id; u8 pad2[0x408 - 0x3a2]; u8 arr[1]; };
 
-struct S_801C20A4 { u16 f0; s16 f2; s32 f4; f32 f8; f32 fC; f32 f10; s32 f14; u8 f18[1]; };
 
 extern "C" {
 u8 get_record_byte_at(O_801C21C4 *self, s32 i);
@@ -35,7 +35,6 @@ void __construct_array(void *, void *, void *, int, int);
 void __ct__18PhotonBlastRequestFv(void);
 void __dt__18PhotonBlastRequestFv(void);
 extern const f32 TObjPlayer__data_805DC278;
-S_801C20A4 *init_player_telepipe_record(S_801C20A4 *arg0);
 s32 test_flags_any(s32 *flags, s32 mask);
 
 extern const f32 TObjPlayer__data_805DC294;
@@ -57,17 +56,17 @@ void PendingItemDrop::set_source_id(s32 id) { source_id = id; }
 PendingItemDrop::PendingItemDrop() {}
 Unk_801C2098::Unk_801C2098() { state = 0; }
 
-S_801C20A4 *init_player_telepipe_record(S_801C20A4 *arg0) {
-    __ct__8FlagWordFv((arg0->f18));
-    arg0->f0 = 0xFFFF;
-    arg0->f4 = 0;
-    arg0->f8 = TObjPlayer__data_805DC278;
-    arg0->fC = TObjPlayer__data_805DC278;
-    arg0->f10 = TObjPlayer__data_805DC278;
-    arg0->f14 = 0;
-    arg0->f2 = 0;
-    ((TTecLuker *)(arg0->f18))->set_state(0xFFFF);
-    return arg0;
+PlayerTelepipe *init_player_telepipe_record(PlayerTelepipe *telepipe) {
+    __ct__8FlagWordFv(&telepipe->flags);
+    telepipe->state.owner_client_id = 0xFFFF;
+    telepipe->state.room_id = 0;
+    telepipe->state.pos.x = TObjPlayer__data_805DC278;
+    telepipe->state.pos.y = TObjPlayer__data_805DC278;
+    telepipe->state.pos.z = TObjPlayer__data_805DC278;
+    telepipe->state.angle_y = 0;
+    telepipe->state.floor = 0;
+    ((TTecLuker *)&telepipe->flags)->set_state(0xFFFF);
+    return telepipe;
 }
 
 void set_field_0_s32(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }

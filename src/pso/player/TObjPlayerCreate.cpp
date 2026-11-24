@@ -74,7 +74,6 @@ TObjPlayer::~TObjPlayer() {
 
 extern "C" {
 void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record);
-void init_player_telepipe_record(void *);
 void TObjPlayer__sub_801BBB70(void *, void *);
 extern const char *lbl_805D3530;
 }
@@ -96,7 +95,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
     attack_state.init();
     TObjPlayer__sub_801C1A00(((char *)this + 2088));
-    init_player_telepipe_record((void *)((char *)this + 2096));
+    init_player_telepipe_record(&telepipe);
     TObjPlayer__sub_801BFB4C(&marker_position);
     __ct__8FlagWordFv(((char *)this + 2136));
     TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
@@ -127,7 +126,7 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
     attack_state.init();
     TObjPlayer__sub_801C1A00(((char *)this + 2088));
-    init_player_telepipe_record((void *)((char *)this + 2096));
+    init_player_telepipe_record(&telepipe);
     TObjPlayer__sub_801BFB4C(&marker_position);
     __ct__8FlagWordFv(((char *)this + 2136));
     TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
@@ -168,7 +167,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     ((TObjPlayer *)(((u8 *)this) + 0x7C8))->clear_base();
     attack_state.init();
     TObjPlayer__sub_801C1A00((void *) (((u8 *)this) + 0x828));
-    init_player_telepipe_record((void *) (((u8 *)this) + 0x830));
+    init_player_telepipe_record(&telepipe);
     TObjPlayer__sub_801BFB4C(&marker_position);
     __ct__8FlagWordFv((((u8 *)this) + 0x858));
     TObjPlayer::reset_and_return((saddr)((((u8 *)this) + 0xD04)));
