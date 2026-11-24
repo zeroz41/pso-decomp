@@ -1152,7 +1152,7 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 flags, NetI
     NetBufferRef cur;
     Ipv6NdNeighbor *e;
     u8 *p6;
-    void netbuf_copy_by_ref(NetBufferRef *, void *, int);
+    void netbuf_copy_by_ref(NetBufferRef *, NetBufferRef *, int);
     if (NetIPv6IsMulticast(address) != 0) {
         return -0x10E;
     }
