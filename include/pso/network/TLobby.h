@@ -549,7 +549,6 @@ struct TLobby : public TObject {
     static s32 set_dns_servers();
     void update_battle_sync(s32 t);
     static void send_battle_mode_data(void * _w0);
-    void bswap_switch_activate_token();
     static unsigned char read_packet_byte();
     static void close_windows();
     static void clear_quest_vm_flag();

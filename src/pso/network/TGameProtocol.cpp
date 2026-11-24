@@ -275,7 +275,7 @@ void handle_6x9E_player_camera_shutter_sound(void) {
 }
 
 void handle_6x04_legacy_activate_switch_by_token(G_LegacyActivateSwitchByToken_6x04 *packet) {
-    ((TLobby *)packet)->bswap_switch_activate_token();
+    packet->bswap();
     TObjDoorKey__sub_8018FAEC(packet->header.param, packet->switch_token);
 }
 
@@ -339,24 +339,24 @@ void TPsoDataBuf::recv_pso_data_buf(size_t size) {
 // The commands a packet received: m_buffer_offset walks m_packet_buffer up to m_size.
 void dispatch_pso_data_commands(TPacket *packet) {
     char msg[0x80];
-    G_ParameterHeader *command;
+    extended_game_command_header *command;
     s32 i;
     while (packet->m_buffer_offset < packet->m_size) {
-        command = (G_ParameterHeader *)&packet->m_packet_buffer[packet->m_buffer_offset];
+        command = (extended_game_command_header *)&packet->m_packet_buffer[packet->m_buffer_offset];
         for (i = 0; pso_command_dispatch_table[i].command != 0; i++) {
-            if (command->subcommand == pso_command_dispatch_table[i].command) {
-                sprintf(msg, "RcvPsoData %d %d", command->subcommand, command->size);
+            if ((u8)command->header.command == pso_command_dispatch_table[i].command) {
+                sprintf(msg, "RcvPsoData %d %d", (u8)command->header.command, command->header.size);
                 debug_print(msg);
                 if (pso_command_dispatch_table[i].area_mask & subcommand_area_masks[get_current_floor_area()]) {
-                    pso_command_dispatch_table[i].handle((game_command_header *)command);
+                    pso_command_dispatch_table[i].handle(&command->header);
                 }
                 break;
             }
         }
-        if (command->size != 0) {
-            packet->m_buffer_offset += command->size * 4;
+        if (command->header.size != 0) {
+            packet->m_buffer_offset += command->header.size * 4;
         } else {
-            packet->m_buffer_offset += ((extended_game_command_header *)command)->size;
+            packet->m_buffer_offset += command->size;
         }
     }
 }

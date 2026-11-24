@@ -525,6 +525,7 @@ struct G_LegacyActivateSwitchByToken_6x04 {
  struct G_ParameterHeader header;
  u16 switch_token;
  u16 unused;
+ void bswap();
 };
 
 struct G_LegacyKillEnemy_6x09 {
