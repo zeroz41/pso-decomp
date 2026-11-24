@@ -172,7 +172,7 @@ void lobby_timer_start(PppFsmTimer *timer) {
 
 s32 NetTcpReadHeader(ParsedTcpHeader *record, PppFrame **pp)
 {
-  struct Hdr_804053B8
+  struct TcpWireHeader
   {
     u16 src_port;   /* the TCP header (RFC 793) */
     u16 dst_port;

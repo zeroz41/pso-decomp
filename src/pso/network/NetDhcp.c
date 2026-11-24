@@ -19,12 +19,13 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-typedef struct Req_804250A8 {
-    s32 a;
-    s32 b;
-    s32 c;
-    s32 d;
-} Req_804250A8;
+/* The IPv4 head of an if_config request (IfConfigRequest without the IPv6 part). */
+typedef struct Ipv4IfConfig {
+    s32 family; /* 4 */
+    s32 addr;
+    s32 mask;
+    s32 broadcast;
+} Ipv4IfConfig;
 
 
 s16 if_config(s16 iface, void *req);
@@ -1037,9 +1038,9 @@ s32 dhcp_set_interface_mode(s32 mode) {
     u8 pad0[4];
     u8 buf[0x1c];
     s32 buf2[3];
-    struct Req_804250A8 req;
+    struct Ipv4IfConfig req;
     u8 pad[0x10];
-    struct Req_804250A8 req2;
+    struct Ipv4IfConfig req2;
     s32 ret;
     s32 r;
 
@@ -1048,16 +1049,16 @@ s32 dhcp_set_interface_mode(s32 mode) {
     if (ret != mode) {
         switch (mode) {
         case 1:
-            req.a = 4;
-            req.b = 0;
-            req.c = -1;
-            req.d = -1;
+            req.family = 4;
+            req.addr = 0;
+            req.mask = -1;
+            req.broadcast = -1;
             if (if_config(dhcp_iface, &req) != 0) {
                 if_down(dhcp_iface, 4);
-                req2.a = 4;
-                req2.b = 0;
-                req2.c = -1;
-                req2.d = -1;
+                req2.family = 4;
+                req2.addr = 0;
+                req2.mask = -1;
+                req2.broadcast = -1;
                 if (if_config(dhcp_iface, &req2) != 0) {
                     dhcp_error = 3;
                     r = 0;

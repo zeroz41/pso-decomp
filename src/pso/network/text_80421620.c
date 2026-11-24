@@ -22,24 +22,29 @@ enum SocketHandleTag {
     SOCKET_TAG_MASK = 0xC00
 };
 
-typedef struct Stack_80421AD8 {
+/* What a raw socket callback receives with a packet: the receive prefix and the packet's addresses. */
+typedef struct RawIpv4Receive {
     NetworkReceivePrefix receive;
-    s32 sp24;
-    s32 sp28;
-} Stack_80421AD8;
+    s32 src; /* the IPv4 source and destination addresses */
+    s32 dst;
+} RawIpv4Receive;
 
-typedef struct Stack_80421938 {
+typedef struct RawIpv6Receive {
     NetworkReceivePrefix receive;
     u8 src[0x10];
     u8 dst[0x10];
-} Stack_80421938;
+} RawIpv6Receive;
 
-LAYOUT_ASSERT(Stack_80421938_src_offset, offsetof(Stack_80421938, src) == 8);
-LAYOUT_ASSERT(Stack_80421938_dst_offset, offsetof(Stack_80421938, dst) == 0x18);
-LAYOUT_ASSERT(Stack_80421938_size, sizeof(Stack_80421938) == 0x28);
+LAYOUT_ASSERT(RawIpv6Receive_src_offset, offsetof(RawIpv6Receive, src) == 8);
+LAYOUT_ASSERT(RawIpv6Receive_dst_offset, offsetof(RawIpv6Receive, dst) == 0x18);
+LAYOUT_ASSERT(RawIpv6Receive_size, sizeof(RawIpv6Receive) == 0x28);
 
 
-typedef struct IpAddr_80422B8C { u32 family; u8 a[0xC]; } IpAddr_80422B8C;
+/* The IP options tcp_connect takes (AVE-TCP at_ip_option, see TTcpSocket.cpp): family 4 or 6, then the options. */
+typedef struct NetIpOption {
+    u32 family;
+    u8 opts[0xC];
+} NetIpOption;
 
 
 
@@ -73,7 +78,7 @@ u32 network_stack_init_count;
 s16 tcp_start_receive(s32 handle, NetBufferRef *destination, s16 len, TcpCompletion callback);
 void tcp_set_ip_options(int, void *, void *); /* declared here with an s32 1st argument; the definition takes s16 */
 s32 AT_TCP_Connect(int, void *, s16); /* declared here with an s32 return and 1st argument; the definition is s16 (s16, void *, s16) */
-s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt);
+s32 tcp_connect(s32 a, NetworkAddress *addr, u16 port, NetIpOption *opt);
 s32 tcp_pcbbind(int, void *, u16);
 s16 copy_ipv4_interface_addresses(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, void *) */
 s16 copy_ipv6_interface_addresses(s16, void *, int, void *);
@@ -219,7 +224,7 @@ s16 set_at_timer(NetTimerCallback callback, s32 interval) {
 }
 
 s32 raw_socket_deliver(NetPacket *pkt, u8 *src, u8 *dst, NetworkReceiveCallback cb, s16 index) {
-    Stack_80421938 s;
+    RawIpv6Receive s;
     s.receive.socket = index | 0xC00;
     s.receive.len = pkt->total_bytes - pkt->fragments[0].length;
     s.receive.buf = NULL;
@@ -248,16 +253,16 @@ s32 route4_add(saddr dst, saddr mask, saddr gateway) {
 }
 
 s32 raw_socket_deliver_ipv4(NetPacket *pkt, u32 src, u32 dst, NetworkReceiveCallback cb, s16 flags) {
-    LAYOUT_ASSERT(Stack_80421AD8_receive_offset, offsetof(Stack_80421AD8, receive) == 0);
-    LAYOUT_ASSERT(Stack_80421AD8_size, sizeof(Stack_80421AD8) == 0x10);
-    LAYOUT_ASSERT(sp24_offset, offsetof(Stack_80421AD8, sp24) == 0x8);
-    LAYOUT_ASSERT(sp28_offset, offsetof(Stack_80421AD8, sp28) == 0xC);
-    Stack_80421AD8 stack;
+    LAYOUT_ASSERT(RawIpv4Receive_receive_offset, offsetof(RawIpv4Receive, receive) == 0);
+    LAYOUT_ASSERT(RawIpv4Receive_size, sizeof(RawIpv4Receive) == 0x10);
+    LAYOUT_ASSERT(RawIpv4Receive_src_offset, offsetof(RawIpv4Receive, src) == 0x8);
+    LAYOUT_ASSERT(RawIpv4Receive_dst_offset, offsetof(RawIpv4Receive, dst) == 0xC);
+    RawIpv4Receive stack;
     stack.receive.socket = flags | 0x800;
     stack.receive.len = pkt->total_bytes - pkt->fragments[0].length;
     stack.receive.buf = NULL;
-    stack.sp24 = src;
-    stack.sp28 = dst;
+    stack.src = src;
+    stack.dst = dst;
     if (cb != NULL) {
         deliver_to_receive_callback(cb, &stack.receive, pkt);
     }
@@ -751,8 +756,8 @@ s32 complete_accept_request(s16 idx, TcpAcceptCallback cb, s16 code, NetworkAddr
     return 0;
 }
 
-s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt) {
-    IpAddr_80422B8C tmp;
+s32 tcp_connect(s32 a, NetworkAddress *addr, u16 port, NetIpOption *opt) {
+    NetIpOption tmp;
     s32 r;
     NetworkDispatchState *g;
     void *p;
@@ -777,12 +782,12 @@ s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt) {
     }
     switch (addr->family) {
     case 4:
-        p = opt->a;
-        opt = (IpAddr_80422B8C *)tmp.a;
+        p = opt->opts;
+        opt = (NetIpOption *)tmp.opts;
         break;
     case 6:
-        p = tmp.a;
-        opt = (IpAddr_80422B8C *)opt->a;
+        p = tmp.opts;
+        opt = (NetIpOption *)opt->opts;
         break;
     case 5:
     default:
