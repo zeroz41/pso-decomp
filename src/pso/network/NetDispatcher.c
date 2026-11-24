@@ -46,7 +46,7 @@ s32 dispatcher_term(void) {
 }
 
 s16 NetInitializeDispatcher(void) {
-    s32 *p4 = &network_dispatch_state.queue_handle;
+    NetQueueHandle *p4 = &network_dispatch_state.queue_handle;
     NetThreadHandle *p8;
     NetThreadHandle *p12;
     if (create_message_queue(p4) < 0) {

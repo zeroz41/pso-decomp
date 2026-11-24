@@ -6,8 +6,10 @@
 
 /* A thread the stack created (AT_CreateTask) or a caller waiting on it. */
 typedef struct OSThread *NetThreadHandle;
-/* A mutex handle from create_mutex: the address of its slot's OSMutex, kept and compared as an unsigned word (NetReleaseMutex). */
-typedef uaddr NetMutexHandle;
+/* A mutex from create_mutex: its slot's OSMutex. */
+typedef struct OSMutex *NetMutexHandle;
+/* A message queue from create_message_queue: its slot's OSMessageQueue. */
+typedef struct OSMessageQueue *NetQueueHandle;
 typedef struct NetworkThreadSlot NetworkThreadSlot;
 typedef void (*NetThreadEntry)(void);
 typedef struct PppFrame PppFrame;
@@ -62,9 +64,9 @@ s16 AT_InitializeRTOS(void);
 s32 AT_TerminateRTOS(void);
 void get_time_seconds(s32* out);
 void get_time_ms(s32* out);
-s16 create_message_queue(s32 *out);
-void clear_slot_for_handle(u32 handle);
-void send_message_queue(u32 handle, void *source, s32 size);
+s16 create_message_queue(NetQueueHandle *out);
+void clear_slot_for_handle(NetQueueHandle handle);
+void send_message_queue(NetQueueHandle handle, void *source, s32 size);
 void unlock_mutex(NetMutexHandle mutex);
 void lock_mutex(NetMutexHandle mutex);
 void signal_alarm_queue(void* alarm);
@@ -84,7 +86,7 @@ void NetStoreTick(s32* tick);
 void NetStoreCurrentThread(NetThreadHandle *thread);
 void NetSuspendCurrentThread(void);
 void AT_StartTask(NetThreadHandle thread);
-void NetReceiveMessage(u32 handle, void* destination, s32 size);
+void NetReceiveMessage(NetQueueHandle handle, void* destination, s32 size);
 void NetReleaseMutex(NetMutexHandle handle);
 
 s16 NetIPv4IsLoopback(s32 address);

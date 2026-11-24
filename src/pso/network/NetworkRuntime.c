@@ -85,36 +85,36 @@ s16 AT_InitializeRTOS(void)
   mutex = (NetworkMutexSlot *) network_mutex_slot_table;
   /* Keep the first table address assignment in the store to preserve register allocation. */
   (first_mutex = network_mutex_slot_table)->active = 0;
-  network_mutex_slot_table[0].handle = (uaddr)&mutex->mutex;
+  network_mutex_slot_table[0].handle = &mutex->mutex;
   mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + sizeof(NetworkMutexSlot)));
   mutex->active = 0;
   third_mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + 2 * sizeof(NetworkMutexSlot)));
-  mutex->handle = (uaddr)&mutex->mutex;
+  mutex->handle = &mutex->mutex;
   mutex = third_mutex;
   fourth_mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + 3 * sizeof(NetworkMutexSlot)));
   mutex->active = 0;
-  mutex->handle = (uaddr)&mutex->mutex;
+  mutex->handle = &mutex->mutex;
   mutex = fourth_mutex;
   mutex->active = 0;
-  mutex->handle = (uaddr)&mutex->mutex;
+  mutex->handle = &mutex->mutex;
   mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + 4 * sizeof(NetworkMutexSlot)));
   mutex->active = 0;
-  mutex->handle = (uaddr)&mutex->mutex;
+  mutex->handle = &mutex->mutex;
   mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + 5 * sizeof(NetworkMutexSlot)));
   mutex->active = 0;
-  mutex->handle = (uaddr)&mutex->mutex;
+  mutex->handle = &mutex->mutex;
   mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + 6 * sizeof(NetworkMutexSlot)));
   mutex->active = 0;
-  mutex->handle = (uaddr)&mutex->mutex;
+  mutex->handle = &mutex->mutex;
   mutex = (NetworkMutexSlot *)((uaddr)alarm_base + (MUTEX_SLOTS_OFFSET + 7 * sizeof(NetworkMutexSlot)));
   mutex->active = 0;
-  mutex->handle = (uaddr)&mutex->mutex;
+  mutex->handle = &mutex->mutex;
   message_queue = (NetworkMessageQueueSlot *)message_queue_base;
   message_queue->active = 0;
-  message_queue->handle = (uaddr)&message_queue->queue;
+  message_queue->handle = &message_queue->queue;
   message_queue = (NetworkMessageQueueSlot *)((uaddr)alarm_base + (MESSAGE_QUEUE_SLOTS_OFFSET + sizeof(NetworkMessageQueueSlot)));
   message_queue->active = 0;
-  message_queue->handle = (uaddr)&message_queue->queue;
+  message_queue->handle = &message_queue->queue;
   for (i = 0; i < lobby_buffer_slot_count; i++)
   {
     lobby_buffer_slots[i].active = 0;
@@ -149,7 +149,7 @@ void NetStoreTick(s32 *tick) {
     *tick = OSGetTick();
 }
 
-void NetReceiveMessage(u32 handle, void* destination, s32 size) {
+void NetReceiveMessage(NetQueueHandle handle, void* destination, s32 size) {
     s32 slotIndex;
     OSMessage message;
     s32 index;
@@ -169,7 +169,7 @@ void NetReceiveMessage(u32 handle, void* destination, s32 size) {
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_dead_assignments off
-void send_message_queue(u32 handle, void *source, s32 size)
+void send_message_queue(NetQueueHandle handle, void *source, s32 size)
 {
   u8 *base;
   u8 *slot;
@@ -209,7 +209,7 @@ void send_message_queue(u32 handle, void *source, s32 size)
 }
 #pragma pop
 
-void clear_slot_for_handle(u32 handle) {
+void clear_slot_for_handle(NetQueueHandle handle) {
     s32 index;
     index = 0;
     if (handle != network_message_queue_slot_table[0].handle) {
@@ -228,7 +228,7 @@ NetworkMessageQueueSlot network_message_queue_slot_table[2];
 #pragma push
 #pragma optimize_for_size off
 #pragma use_lmw_stmw off
-s16 create_message_queue(s32 *out) {
+s16 create_message_queue(NetQueueHandle *out) {
     NetworkMessageQueueSlot *s;
     s32 i;
     s32 off;
@@ -248,11 +248,11 @@ s16 create_message_queue(s32 *out) {
 #pragma pop
 
 void unlock_mutex(NetMutexHandle mutex) {
-    OSUnlockMutex((OSMutex*)mutex);
+    OSUnlockMutex(mutex);
 }
 
 void lock_mutex(NetMutexHandle mutex) {
-    OSLockMutex((OSMutex*)mutex);
+    OSLockMutex(mutex);
 }
 
 void NetReleaseMutex(NetMutexHandle handle) {

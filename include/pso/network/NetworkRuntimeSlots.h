@@ -40,7 +40,7 @@ typedef struct NetworkMessageSlot {
 } NetworkMessageSlot;
 typedef struct NetworkMessageQueueSlot {
     s32 active;
-    u32 handle;
+    NetQueueHandle handle;
     OSMessageQueue queue;
     NetworkMessageSlot messages[32];
     OSMessage pending[32];
