@@ -702,7 +702,6 @@ struct TObjPlayer : public TObjChara {
     int is_action_flag_28();
     void set_anim_flag();
     void clear_flag_200();
-    void*get_field4_ptr();
     void set_float_param(s16 arg1);
     void init_field_4();
     void *init_6x4D_packet();
