@@ -12,7 +12,6 @@ struct NJS_OBJECT;
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D8F74.h"

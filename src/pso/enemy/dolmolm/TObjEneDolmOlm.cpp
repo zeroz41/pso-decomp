@@ -51,7 +51,6 @@
 #include "pso/effect/GroundContactSound.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 

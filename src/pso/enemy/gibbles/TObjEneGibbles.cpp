@@ -49,7 +49,6 @@ struct NJS_OBJECT;
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"

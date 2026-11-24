@@ -1,4 +1,3 @@
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"

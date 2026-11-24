@@ -16,7 +16,6 @@
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/ChunkModelDraw.h"

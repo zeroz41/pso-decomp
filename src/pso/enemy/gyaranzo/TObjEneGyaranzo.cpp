@@ -22,7 +22,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"

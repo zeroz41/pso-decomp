@@ -62,7 +62,6 @@ struct NJS_OBJECT;
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/render/render_util.h"
 #include "pso/render/BlobShadow.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"

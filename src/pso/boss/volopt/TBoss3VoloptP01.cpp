@@ -24,7 +24,6 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/volopt/TObjVoloptShutter.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D96A8.h"

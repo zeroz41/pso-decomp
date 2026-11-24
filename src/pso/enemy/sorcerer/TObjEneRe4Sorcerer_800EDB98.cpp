@@ -30,7 +30,7 @@
 
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 
 #include "pso/system/vector.h"
 

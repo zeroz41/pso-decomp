@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 

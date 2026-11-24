@@ -29,7 +29,7 @@ s32 MaterialShadeFade::decay_value_toward_floor() {
 // ---- pso/player/TObjPlayer_800A0408
 
 #include "pso/object/TObjControl.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/system/memory.h"
 
 

@@ -36,7 +36,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/render/model_render_state.h"

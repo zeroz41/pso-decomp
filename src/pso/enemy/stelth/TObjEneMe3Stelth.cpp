@@ -35,7 +35,6 @@
 #include "pso/technique/TTecGiFoie.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/system/NinjaTypes.h"

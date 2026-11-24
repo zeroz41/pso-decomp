@@ -24,7 +24,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/SampledMotionPoints.h"

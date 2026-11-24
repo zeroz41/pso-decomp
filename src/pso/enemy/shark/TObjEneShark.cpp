@@ -19,7 +19,6 @@
 #include "pso/system/AreaSound.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/moja/TObjEneMoja.h"

@@ -12,7 +12,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/TDeadSpot.h"
 #include "pso/unk/TUnk_804949D8.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"

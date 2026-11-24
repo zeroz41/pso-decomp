@@ -54,7 +54,6 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/render/NinjaUtil.h"
