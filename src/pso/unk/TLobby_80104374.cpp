@@ -143,7 +143,6 @@
 #include "pso/item/TItemTimerEvent.h"
 #include "pso/item/TItemTexLoad.h"
 #include "pso/effect/item/TItemEffectWeapon.h"
-#include "pso/item/drop/TItemDrop_80105D0C.h"
 #include "pso/unk/TLobby_80103F5C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/item/drop/TItemDropSub_80107B74.h"

@@ -4,9 +4,10 @@
 #include "types.h"
 
 // A subtractive random number generator: 55 words of lagged state and the
-// seed. The constructor seeds it with 0.
+// seed. The default constructor seeds it with 0.
 struct SubtractiveRng {
     SubtractiveRng();
+    SubtractiveRng(u32 seed);
     u32 state[58];
 };
 LAYOUT_ASSERT(SubtractiveRng_size, sizeof(SubtractiveRng) == 0xE8);

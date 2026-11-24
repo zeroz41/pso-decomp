@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_8011C000.h"
-#include "pso/item/drop/TItemDrop_80105D0C.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/drop/TItemDrop.h"
@@ -26,7 +25,7 @@
 void *item_pmt;
 
 void *item_pmt_tbl;
-TObject *item_mgr;
+TItemDrop *item_mgr;
 
 const char *item_pmt_filename_descriptor = "ItemPMT.prs";
 
@@ -183,27 +182,27 @@ void TObjPlayer::register_item_drop() {
     Thing *p = (Thing *) this;
 
     if (p != 0 && item_mgr != 0 && p->a == 1 && p->b == 1) {
-        TItemDrop::set_drop_index(item_mgr, p);
+        item_mgr->set_drop_index((TItemData *)p);
     }
 }
 
 #define PMT_8011C234 ((Pmt_8011C234 *)item_pmt_tbl)
-void find_tool_pmt_base_id(s32 arg0, u8 *arg1) {
+void find_tool_pmt_base_id(s32 tool_id, u8 *item) {
     s32 found;
     u8 i;
     u8 j;
-    if (arg1 == NULL) {
+    if (item == NULL) {
         return;
     }
     found = 0;
     for (i = 0; i != 0x18 && found != 1; i++) {
         for (j = 0; j != PMT_8011C234->rows[i].count && found != 1; j++) {
             PmtEnt_8011C234 *e = &PMT_8011C234->rows[i].ents[j];
-            if (e->id == arg0) {
-                arg1[0] = 3;
+            if (e->id == tool_id) {
+                item[0] = 3;
                 found = 1;
-                arg1[1] = i;
-                arg1[2] = j;
+                item[1] = i;
+                item[2] = j;
             }
         }
     }
@@ -211,14 +210,14 @@ void find_tool_pmt_base_id(s32 arg0, u8 *arg1) {
 
 f32 TObjPlayer::get_drop_random_float(u32 arg0) {
     if (item_mgr != NULL) {
-        return ((f32 (*)(u8 *, u32))roll_table_ratio__9TItemDropFPvUi)((u8 *)item_mgr, arg0);
+        return item_mgr->roll_table_ratio(arg0);
     }
     return 3.0517578e-05f * (f32) rand();
 }
 
 void roll_item_channel_below(u32 count, s32 arg1) {
     if (item_mgr != NULL) {
-        ((TItemDrop *)item_mgr)->roll_channel_below(count, arg1);
+        item_mgr->roll_channel_below(count, arg1);
         return;
     }
     __cvt_fp2unsigned((f32) count * TObjPlayer::get_drop_random_float(arg1));
@@ -232,7 +231,7 @@ void TObjPlayer::drop_item_from_slot(s32 area, s32 slot, saddr item) {
         normalize_drop_area(&sp8);
         idx = sp8 - 1;
         sp8 = idx;
-        select_enemy_drop__9TItemDropFPviiPv(reinterpret_cast<u8 *>(item_mgr), area, idx, reinterpret_cast<TItemData *>(item));
+        item_mgr->select_enemy_drop(area, idx, (TItemData *)item);
     }
 }
 void TObjPlayer::drop_item(s32 slot, saddr item) {
@@ -243,7 +242,7 @@ void TObjPlayer::drop_item(s32 slot, saddr item) {
         normalize_drop_area(&sp8);
         off = sp8 - 1;
         sp8 = off;
-        select_box_item__9TItemDropFiiPv((s32)(*(u32 *)&item_mgr), (s32)off, (u8 *)item);
+        item_mgr->select_box_item(off, (TItemData *)item);
     }
 }
 void TObjPlayer::drop_meseta_from_slot(s32 slot, saddr item) {
@@ -254,7 +253,7 @@ void TObjPlayer::drop_meseta_from_slot(s32 slot, saddr item) {
         normalize_drop_area(&sp8);
         idx = sp8 - 1;
         sp8 = idx;
-        ((TItemDrop *)item_mgr)->generate_drop_item((s32)idx, (u8 *)item);
+        item_mgr->generate_drop_item(idx, (TItemData *)item);
     }
 }
 
@@ -607,5 +606,5 @@ void load_item_pmt() {
 
 void load_items() {
     load_item_pmt();
-    item_mgr = (TObject *)create_drop__9TItemDropFi(0);
+    item_mgr = TItemDrop::create_drop(NULL);
 }
