@@ -2,7 +2,7 @@
 #include "pso/player/PlayerRequirementStats.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/player/PlayerActionProvider.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/PlayerScaleState.h"
@@ -214,10 +214,10 @@ s32 ContactSurfaceState::get_contact_surface_type() {
 }
 
 
-void *TUnk_804DDD28::operator new(size_t size) { return obj_heap->heap_alloc(size); }
+void *PlayerActionProvider::operator new(size_t size) { return obj_heap->heap_alloc(size); }
 
 
-void TUnk_804DDD28::operator delete(void *p) { obj_heap->heap_free(p); }
+void PlayerActionProvider::operator delete(void *p) { obj_heap->heap_free(p); }
 
 
 s32 TObjPlayer__sub_801C6DAC(u8 *target) {

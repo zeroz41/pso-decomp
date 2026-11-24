@@ -7,8 +7,8 @@
 #include "pso/player/PlayerSyncRecord.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
-#include "pso/unk/TUnk_804ED7D0.h"
-#include "pso/unk/TUnk_804DDBF0.h"
+#include "pso/player/LobbyPlayerActionProvider.h"
+#include "pso/player/GamePlayerActionProvider.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/PlayerClassTechniques.h"
 #include "pso/player/PlayerRequirementStats.h"
@@ -66,9 +66,9 @@ void TObjPlayer::release_child_object() {
 
 void TObjPlayer::init_action_provider() {
     if (TObjPlayer::get_hold_effect_count() == 1) {
-        action_provider = new TUnk_804DDBF0;
+        action_provider = new GamePlayerActionProvider;
     } else if (TObjPlayer::get_hold_effect_count() == 0) {
-        action_provider = new TUnk_804ED7D0;
+        action_provider = new LobbyPlayerActionProvider;
     }
     m_33b = 0;
     unk_33A[0] = 0;

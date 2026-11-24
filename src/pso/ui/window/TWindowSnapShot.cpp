@@ -5,7 +5,7 @@
 #include "pso/system/RlcArchive.h"
 #include "pso/system/ControllerInputState.h"
 #include "types.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/player/PlayerActionProvider.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/player/TObjPlayer.h"

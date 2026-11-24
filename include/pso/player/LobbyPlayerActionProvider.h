@@ -1,13 +1,13 @@
-#ifndef PSO_UNK_TUNK_804ED7D0_H
-#define PSO_UNK_TUNK_804ED7D0_H
+#ifndef PSO_PLAYER_LOBBYPLAYERACTIONPROVIDER_H
+#define PSO_PLAYER_LOBBYPLAYERACTIONPROVIDER_H
 #include "types.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/player/PlayerActionProvider.h"
 
-class TUnk_804ED7D0 : public TUnk_804DDD28 {
+class LobbyPlayerActionProvider : public PlayerActionProvider {
 public:
-    TUnk_804ED7D0();
+    LobbyPlayerActionProvider();
     virtual s32 get_cell_address(s32, s32);
-    virtual ~TUnk_804ED7D0();
+    virtual ~LobbyPlayerActionProvider();
     virtual const s32 *vfunc_8(s32, s32);
     virtual int vfunc_9(s32, s32, s32);
     virtual int vfunc_12();
@@ -73,6 +73,6 @@ public:
     virtual int get_run_action();
     virtual s32 *get_state_table(s32);
 };
-LAYOUT_ASSERT(TUnk_804ED7D0_size, sizeof(TUnk_804ED7D0) == 0xC);
+LAYOUT_ASSERT(LobbyPlayerActionProvider_size, sizeof(LobbyPlayerActionProvider) == 0xC);
 
 #endif

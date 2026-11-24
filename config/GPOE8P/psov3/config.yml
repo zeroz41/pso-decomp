@@ -5366,7 +5366,7 @@ force_active:
   - copy_from__18TextureUvAnimationFP18TextureUvAnimation
   - copy_matrix__22TObjTombstoneDropRatesFPC22TObjTombstoneDropRates
   - copy_member_record__6TLobbyFPvPv
-  - copy_motion_pair__13TUnk_804DDD28FPv
+  - copy_motion_pair__20PlayerActionProviderFPv
   - copy_move_params__23TObjOnlineEndingHexMoveFP19EndingHexLineParamsPC19EndingHexLineParams
   - copy_network_info_cipher_block__FPUlPUl
   - copy_network_info_config_string__FPcPcUlUl
@@ -15358,7 +15358,7 @@ force_active:
   - send_obj_position_event__10TEndingPicFl
   - send_packed_action__11TBoss4Type3Flll
   - send_packet_60__6TLobbyFi
-  - load_motion__13TUnk_804DDD28Fllll
+  - load_motion__20PlayerActionProviderFllll
   - send_partner_attack_stage_request__10TNpcPlayerFv
   - send_position__12TBoss3VoloptFP10TObjPlayerP3Vecl
   - send_position_update__6TLobbyFv

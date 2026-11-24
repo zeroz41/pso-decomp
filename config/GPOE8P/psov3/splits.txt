@@ -7836,7 +7836,7 @@ pso/object/seabed/TObjSeabedSuisoBrakable.cpp:
 	.rodata     start:0x80466CE0 end:0x80466D10
 	.bss        start:0x80540AC0 end:0x80540AF0
 
-pso/unk/TLobby_802A7290.cpp:
+pso/player/GamePlayerActionProvider.cpp:
 	.text       start:0x802A7290 end:0x802A7798
 	.rodata     start:0x80466D10 end:0x8046FB90
 	.data       start:0x804DD830 end:0x804DDD28
@@ -7845,7 +7845,7 @@ pso/unk/TLobby_802A7290.cpp:
 pso/system/data/pso_const_ids3.cpp:
 	.text       start:0x802A7798 end:0x802A7848
 
-pso/unk/TUnk_804DDD28.cpp:
+pso/player/PlayerActionProvider.cpp:
 	.text       start:0x802A7848 end:0x802A7D68
 	.rodata     start:0x8046FB90 end:0x8046FBA8
 	.data       start:0x804DDD28 end:0x804DDE60

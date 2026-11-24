@@ -1,10 +1,10 @@
-#ifndef PSO_UNK_TUNK_804DDD28_H
-#define PSO_UNK_TUNK_804DDD28_H
+#ifndef PSO_PLAYER_PLAYERACTIONPROVIDER_H
+#define PSO_PLAYER_PLAYERACTIONPROVIDER_H
 #include "types.h"
 
 struct BmlMotionEntry;
 
-// The two-word record TUnk_804DDD28 starts with: its constructor 0x802A7318
+// The two-word record PlayerActionProvider starts with: its constructor 0x802A7318
 // clears both words, its destructor is 0x801D3518.
 class TUnk_802A7318 {
 public:
@@ -14,16 +14,16 @@ public:
     u32 m_4;
 };
 
-// Base of the player action providers (TUnk_804DDBF0, TUnk_804ED7D0) that
+// Base of the player action providers (GamePlayerActionProvider, LobbyPlayerActionProvider) that
 // TObjPlayer::init_action_provider creates; allocated from obj_heap.
-class TUnk_804DDD28 {
+class PlayerActionProvider {
 public:
     TUnk_802A7318 unk_0;
-    TUnk_804DDD28();
+    PlayerActionProvider();
     static void *operator new(size_t size);
     static void operator delete(void *p);
     virtual s32 get_cell_address(s32, s32);
-    virtual ~TUnk_804DDD28();
+    virtual ~PlayerActionProvider();
     virtual int vfunc_4();
     virtual int vfunc_5(s32);
     virtual int vfunc_6(s32, s32, s32);

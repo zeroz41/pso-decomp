@@ -29,7 +29,7 @@ struct PhotonBlastRequestSlot;
 #include "pso/player/MovementHold.h"
 #include "pso/player/PhotonChairSeat.h"
 #include "pso/player/PlayerActionPaletteState.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/player/PlayerActionProvider.h"
 
 struct TItemData;
 struct PhotonBlastRequest;
@@ -194,8 +194,9 @@ struct TObjPlayer : public TObjChara {
     s32 m_36c;
     s32 regen_timer;  // frames toward the next regeneration tick (tick_regen_timer)
     MaterialUsage materials;
-    // Inferred: the action provider init_action_provider creates (TUnk_804DDBF0 or TUnk_804ED7D0).
-    TUnk_804DDD28 *action_provider;
+    // Inferred: the action provider init_action_provider creates
+    // (GamePlayerActionProvider or LobbyPlayerActionProvider).
+    PlayerActionProvider *action_provider;
     PlayerFollowParticles follow_particles;
     s32 m_3b4;
     TPlayerLobbyMarker *lobby_marker;  // set_lobby_marker creates it on the lobby floor

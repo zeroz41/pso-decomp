@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
-#include "pso/unk/TUnk_804DDBF0.h"
+#include "pso/player/GamePlayerActionProvider.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/player/PlayerActionProvider.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
@@ -2641,21 +2641,21 @@ s32 TLobby::validate_handle(s32 *arg0) {
 }
 TUnk_802A7318::TUnk_802A7318() { m_0 = 0; m_4 = 0; }
 
-s32 TUnk_804DDBF0::get_cell_address(s32 arg1, s32 arg2) {
+s32 GamePlayerActionProvider::get_cell_address(s32 arg1, s32 arg2) {
     return player_action_motion_buffer + ((arg2 + (arg1 * vfunc_75())) << 0xE);
 }
 
-void TUnk_804DDBF0::vfunc_14() {
+void GamePlayerActionProvider::vfunc_14() {
     reinterpret_cast<NJS_MOTION *>(motions[get_attack1_action()].motion)->inp_fn |= 0x80;
     reinterpret_cast<NJS_MOTION *>(motions[get_attack2_action()].motion)->inp_fn |= 0x80;
     reinterpret_cast<NJS_MOTION *>(motions[get_attack3_action()].motion)->inp_fn |= 0x80;
 }
 
-int TUnk_804DDBF0::vfunc_9(s32 a, s32 b, s32 c) {
+int GamePlayerActionProvider::vfunc_9(s32 a, s32 b, s32 c) {
     return player_motion_clip_roots_b[a][b][c];
 }
 
-const s32 *TUnk_804DDBF0::vfunc_8(s32 arg1, s32 variant) {
+const s32 *GamePlayerActionProvider::vfunc_8(s32 arg1, s32 variant) {
     if (((s32)TLobby__sub_802A7278(arg1)) == 0) {
         return NULL;
     }
@@ -2664,7 +2664,7 @@ const s32 *TUnk_804DDBF0::vfunc_8(s32 arg1, s32 variant) {
     }
     return NULL;
 }
-int TUnk_804DDBF0::vfunc_7(s32 arg1, s32 variant) {
+int GamePlayerActionProvider::vfunc_7(s32 arg1, s32 variant) {
     if (((s32)TLobby__sub_802A7278(arg1)) == 0) {
         return 0;
     }
@@ -2673,7 +2673,7 @@ int TUnk_804DDBF0::vfunc_7(s32 arg1, s32 variant) {
     }
     return 0;
 }
-int TUnk_804DDBF0::vfunc_6(s32 arg1, s32 id, s32 flags) {
+int GamePlayerActionProvider::vfunc_6(s32 arg1, s32 id, s32 flags) {
     s32 temp_r3;
     if (matches_loaded_motion(this, id, flags) != 0) {
         return 1;
@@ -2687,7 +2687,7 @@ int TUnk_804DDBF0::vfunc_6(s32 arg1, s32 id, s32 flags) {
     return temp_r3;
 }
 
-int TUnk_804DDBF0::vfunc_5(s32 arg1) {
+int GamePlayerActionProvider::vfunc_5(s32 arg1) {
     s32 a = ((TObjPlayer *)this)->is_handle_valid();
     s32 b = ((TObjPlayer *)this)->sub_802a7290_fwd();
     s32 r = load_action_motion_pairs(arg1, a, b);
@@ -2712,8 +2712,8 @@ void TLobby::alloc_boss4rock_buffer() {
 void disable_and_free_boss4rock_buffer(void) { TLobby__sub_802A7640(); TLobby::set_photon_chair_flag(0); }
 void TLobby::enable_and_refresh() { TLobby::set_photon_chair_flag(1); TLobby::alloc_boss4rock_buffer(); }
 
-TUnk_804DDBF0::~TUnk_804DDBF0() {}
-TUnk_804DDBF0::TUnk_804DDBF0() {}
-s32 *TUnk_804DDBF0::get_state_table(s32) { return reinterpret_cast<s32 *>(motions); }
-BmlMotionEntry *TUnk_804DDBF0::vfunc_76() { return motions; }
-int TUnk_804DDBF0::vfunc_4() {  return (*(int *)&player_action_motion_buffer); }
+GamePlayerActionProvider::~GamePlayerActionProvider() {}
+GamePlayerActionProvider::GamePlayerActionProvider() {}
+s32 *GamePlayerActionProvider::get_state_table(s32) { return reinterpret_cast<s32 *>(motions); }
+BmlMotionEntry *GamePlayerActionProvider::vfunc_76() { return motions; }
+int GamePlayerActionProvider::vfunc_4() {  return (*(int *)&player_action_motion_buffer); }

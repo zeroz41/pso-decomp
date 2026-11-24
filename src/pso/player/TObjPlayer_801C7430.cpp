@@ -22,7 +22,7 @@
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/player/PlayerActionProvider.h"
 #include "pso/technique/TTecReverserEff.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
@@ -6264,101 +6264,101 @@ void TObjPlayer::set_action_flag() {
     this->motion_flags |= 0x80;
 }
 
-int TUnk_804DDD28::vfunc_68() { return -1; }
+int PlayerActionProvider::vfunc_68() { return -1; }
 
-int TUnk_804DDD28::vfunc_67() { return -1; }
+int PlayerActionProvider::vfunc_67() { return -1; }
 
 int ret_801D26AC(void) { return -1; }
 
-int TUnk_804DDD28::vfunc_72() { return -1; }
+int PlayerActionProvider::vfunc_72() { return -1; }
 
-int TUnk_804DDD28::vfunc_71() { return -1; }
+int PlayerActionProvider::vfunc_71() { return -1; }
 
-int TUnk_804DDD28::vfunc_70() { return -1; }
+int PlayerActionProvider::vfunc_70() { return -1; }
 
-int TUnk_804DDD28::vfunc_69() { return -1; }
+int PlayerActionProvider::vfunc_69() { return -1; }
 
-int TUnk_804DDD28::vfunc_66() { return -1; }
+int PlayerActionProvider::vfunc_66() { return -1; }
 
-int TUnk_804DDD28::vfunc_65() { return -1; }
+int PlayerActionProvider::vfunc_65() { return -1; }
 
-int TUnk_804DDD28::vfunc_64() { return -1; }
+int PlayerActionProvider::vfunc_64() { return -1; }
 
-int TUnk_804DDD28::vfunc_63() { return -1; }
+int PlayerActionProvider::vfunc_63() { return -1; }
 
-int TUnk_804DDD28::vfunc_62() { return -1; }
+int PlayerActionProvider::vfunc_62() { return -1; }
 
-int TUnk_804DDD28::vfunc_61() { return -1; }
+int PlayerActionProvider::vfunc_61() { return -1; }
 
-int TUnk_804DDD28::vfunc_60() { return -1; }
+int PlayerActionProvider::vfunc_60() { return -1; }
 
-int TUnk_804DDD28::vfunc_59() { return -1; }
+int PlayerActionProvider::vfunc_59() { return -1; }
 
-int TUnk_804DDD28::vfunc_58() { return -1; }
+int PlayerActionProvider::vfunc_58() { return -1; }
 
-int TUnk_804DDD28::vfunc_57() { return -1; }
+int PlayerActionProvider::vfunc_57() { return -1; }
 
-int TUnk_804DDD28::vfunc_56() { return -1; }
+int PlayerActionProvider::vfunc_56() { return -1; }
 
-int TUnk_804DDD28::vfunc_55() { return -1; }
+int PlayerActionProvider::vfunc_55() { return -1; }
 
-int TUnk_804DDD28::vfunc_54() { return -1; }
+int PlayerActionProvider::vfunc_54() { return -1; }
 
-int TUnk_804DDD28::vfunc_53() { return -1; }
+int PlayerActionProvider::vfunc_53() { return -1; }
 
-int TUnk_804DDD28::vfunc_52() { return -1; }
+int PlayerActionProvider::vfunc_52() { return -1; }
 
-int TUnk_804DDD28::vfunc_51() { return -1; }
+int PlayerActionProvider::vfunc_51() { return -1; }
 
-int TUnk_804DDD28::vfunc_50() { return -1; }
+int PlayerActionProvider::vfunc_50() { return -1; }
 
-int TUnk_804DDD28::vfunc_49() { return -1; }
+int PlayerActionProvider::vfunc_49() { return -1; }
 
-int TUnk_804DDD28::vfunc_48() { return -1; }
+int PlayerActionProvider::vfunc_48() { return -1; }
 
-int TUnk_804DDD28::vfunc_47() { return -1; }
+int PlayerActionProvider::vfunc_47() { return -1; }
 
-int TUnk_804DDD28::vfunc_46() { return -1; }
+int PlayerActionProvider::vfunc_46() { return -1; }
 
-int TUnk_804DDD28::vfunc_45() { return -1; }
+int PlayerActionProvider::vfunc_45() { return -1; }
 
-int TUnk_804DDD28::vfunc_44() { return -1; }
+int PlayerActionProvider::vfunc_44() { return -1; }
 
-int TUnk_804DDD28::vfunc_43() { return -1; }
+int PlayerActionProvider::vfunc_43() { return -1; }
 
-int TUnk_804DDD28::vfunc_42() { return -1; }
+int PlayerActionProvider::vfunc_42() { return -1; }
 
-int TUnk_804DDD28::vfunc_41() { return -1; }
+int PlayerActionProvider::vfunc_41() { return -1; }
 
-int TUnk_804DDD28::vfunc_40() { return -1; }
+int PlayerActionProvider::vfunc_40() { return -1; }
 
-int TUnk_804DDD28::vfunc_39() { return -1; }
+int PlayerActionProvider::vfunc_39() { return -1; }
 
-int TUnk_804DDD28::vfunc_20() { return -1; }
+int PlayerActionProvider::vfunc_20() { return -1; }
 
-int TUnk_804DDD28::vfunc_38() { return -1; }
+int PlayerActionProvider::vfunc_38() { return -1; }
 
-int TUnk_804DDD28::vfunc_37() { return -1; }
+int PlayerActionProvider::vfunc_37() { return -1; }
 
-int TUnk_804DDD28::vfunc_36() { return -1; }
+int PlayerActionProvider::vfunc_36() { return -1; }
 
-int TUnk_804DDD28::vfunc_35() { return -1; }
+int PlayerActionProvider::vfunc_35() { return -1; }
 
-int TUnk_804DDD28::vfunc_34() { return -1; }
+int PlayerActionProvider::vfunc_34() { return -1; }
 
-int TUnk_804DDD28::vfunc_33() { return -1; }
+int PlayerActionProvider::vfunc_33() { return -1; }
 
-int TUnk_804DDD28::vfunc_32() { return -1; }
+int PlayerActionProvider::vfunc_32() { return -1; }
 
-int TUnk_804DDD28::vfunc_31() { return -1; }
+int PlayerActionProvider::vfunc_31() { return -1; }
 
-int TUnk_804DDD28::vfunc_25() { return -1; }
+int PlayerActionProvider::vfunc_25() { return -1; }
 
-int TUnk_804DDD28::vfunc_22() { return -1; }
+int PlayerActionProvider::vfunc_22() { return -1; }
 
-int TUnk_804DDD28::vfunc_15() { return -1; }
+int PlayerActionProvider::vfunc_15() { return -1; }
 
-int TUnk_804DDD28::vfunc_23() { return -1; }
+int PlayerActionProvider::vfunc_23() { return -1; }
 
 #pragma push
 #pragma inline_depth(1)

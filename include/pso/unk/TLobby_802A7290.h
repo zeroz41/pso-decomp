@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-// --- C functions defined in TLobby_802A7290.cpp ---
+// --- C functions defined in GamePlayerActionProvider.cpp ---
 extern "C" {
 void TLobby__sub_802A7640(void);
 void *TLobby__sub_802A7780(void *p);

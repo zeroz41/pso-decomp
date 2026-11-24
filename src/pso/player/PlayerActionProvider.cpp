@@ -1,10 +1,10 @@
-// TUnk_804DDD28, the base of the player action providers: its constructor,
+// PlayerActionProvider, the base of the player action providers: its constructor,
 // destructor and key function (get_cell_address), so its table is emitted here.
 #include <string.h>
 #include "pso/system/RlcArchive.h"
 #include "pso/system/ControllerInputState.h"
 #include "types.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/player/PlayerActionProvider.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSnapShot.h"
 #include "pso/player/TObjPlayer.h"
@@ -24,7 +24,7 @@
 #include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "pso/quest/TQuestListVM.h"
 
-// This TU's .rodata, .sdata and .sbss: each sits between TLobby_802A7290's and
+// This TU's .rodata, .sdata and .sbss: each sits between GamePlayerActionProvider's and
 // TWindowSnapShot's sections, padded to an 8-byte unit boundary.
 #pragma push
 #pragma readonly_strings on
@@ -55,7 +55,7 @@ s32 TLobby::get_hold_effect_size_by_type() {
         return 0;
     }
 }
-s32 TUnk_804DDD28::load_motion(s32 set, s32 index, s32 size, s32 aram_addr) {
+s32 PlayerActionProvider::load_motion(s32 set, s32 index, s32 size, s32 aram_addr) {
     s32 result;
     s32 aligned;
     QuestDownloadFile *file;
@@ -72,7 +72,7 @@ s32 TUnk_804DDD28::load_motion(s32 set, s32 index, s32 size, s32 aram_addr) {
     return result;
 }
 
-s32 TUnk_804DDD28::load_action_motion_pairs(s32 set, s32 id, s32 flags) {
+s32 PlayerActionProvider::load_action_motion_pairs(s32 set, s32 id, s32 flags) {
     PlayerMotionAramEntry entry;
     const s32 *slots;
     s32 i;
@@ -96,25 +96,25 @@ s32 TUnk_804DDD28::load_action_motion_pairs(s32 set, s32 id, s32 flags) {
         if (decrypted_size != 0) {
             root = (s32 *)relocate_rel_data((void *)this->get_cell_address(set, i), decrypted_size);
         }
-        ((TUnk_804DDD28 *)dst)->copy_motion_pair(*(void **)root);
+        ((PlayerActionProvider *)dst)->copy_motion_pair(*(void **)root);
         slots++;
         dst += 8;
     }
     return 1;
 }
 
-void TUnk_804DDD28::copy_motion_pair(void*q) { this->unk_0.m_0 = *(u32*)((char*)q + 0x0); this->unk_0.m_4 = *(u32*)((char*)q + 0x4); }
+void PlayerActionProvider::copy_motion_pair(void*q) { this->unk_0.m_0 = *(u32*)((char*)q + 0x0); this->unk_0.m_4 = *(u32*)((char*)q + 0x4); }
 
-TUnk_804DDD28::~TUnk_804DDD28() {}
+PlayerActionProvider::~PlayerActionProvider() {}
 
-TUnk_804DDD28::TUnk_804DDD28() {}
+PlayerActionProvider::PlayerActionProvider() {}
 
-s32 TUnk_804DDD28::get_cell_address(s32, s32) { return 0; }
-int TUnk_804DDD28::vfunc_4() { return 0; }
-const s32 *TUnk_804DDD28::vfunc_8(s32, s32) { return NULL; }
-int TUnk_804DDD28::vfunc_9(s32, s32, s32) { return 0; }
-void TUnk_804DDD28::vfunc_14() {  }
-int TUnk_804DDD28::vfunc_75() { return 0; }
+s32 PlayerActionProvider::get_cell_address(s32, s32) { return 0; }
+int PlayerActionProvider::vfunc_4() { return 0; }
+const s32 *PlayerActionProvider::vfunc_8(s32, s32) { return NULL; }
+int PlayerActionProvider::vfunc_9(s32, s32, s32) { return 0; }
+void PlayerActionProvider::vfunc_14() {  }
+int PlayerActionProvider::vfunc_75() { return 0; }
 }
 
 s32 PlayerMotionAramEntry::get_aram_addr() { return aram_addr; }

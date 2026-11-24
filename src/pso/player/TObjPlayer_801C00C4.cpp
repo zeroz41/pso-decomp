@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/player/PlayerActionProvider.h"
 #include "pso/player/PlayerTechniqueState.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -16,8 +16,8 @@ u8 is_action_id_none(s32 animation_number) {
 
 int TObjPlayer::get_hold_effect_count() { return player_action_provider_selector; }
 
-int TUnk_804DDD28::vfunc_7(s32, s32) { return 0; }
-BmlMotionEntry *TUnk_804DDD28::vfunc_76() { return NULL; }
+int PlayerActionProvider::vfunc_7(s32, s32) { return 0; }
+BmlMotionEntry *PlayerActionProvider::vfunc_76() { return NULL; }
 
 u8 TObjPlayer__sub_801C010C(const PlayerTechniqueState *techs, s16 technique) {
     return techs->levels[technique];
