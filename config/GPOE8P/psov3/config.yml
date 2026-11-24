@@ -8381,8 +8381,8 @@ force_active:
   - lbl_805D6270
   - lbl_805D62D8
   - lbl_805D62DC
-  - lbl_805D63C0
-  - lbl_805D63C4
+  - temporary_texture_entries
+  - temporary_texture_names
   - lbl_805D6440
   - lbl_805D6448
   - lbl_805D6449

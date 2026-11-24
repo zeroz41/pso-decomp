@@ -30,8 +30,8 @@
 
 struct InwardOrbitDir { s32 x, y, z; };
 
-static const Vec lbl_804793D8 = {0.0f, -1.0f, 0.0f};
-static const InwardOrbitDir lbl_804793E4 = {0, 0, 0x4000};
+static const Vec zonde_bolt_direction = {0.0f, -1.0f, 0.0f};
+static const InwardOrbitDir inward_orbit_particle_dir = {0, 0, 0x4000};
 
 
 struct Strike_80357B2C {
@@ -155,7 +155,7 @@ TUnk_804F166C::TUnk_804F166C(TObject *parent, Vec *pos, s32 start_angle) : TObje
     angle = start_angle - 0x4000;
     frames_left = 10;
     update_inward_orbit_point();
-    InwardOrbitDir dir = lbl_804793E4;
+    InwardOrbitDir dir = inward_orbit_particle_dir;
     particle = (TParticleCtrl *)spawn_continuous_particle_with_direction(&point, &dir, 10);
 }
 #pragma pop
@@ -334,7 +334,7 @@ void weapon_special_lightning_bolt_effect(TObjPlayer *player, TObjBase *target, 
         VecCopy((Vec *)&v, pos);
         v.y += 100.0f;
         {
-            Vec t = lbl_804793D8;
+            Vec t = zonde_bolt_direction;
             new TTecZondeEff((TObject *)tl_07, &v, &t, 0x14000000, 0x14, 100.0f, 1.8f);
         }
     }

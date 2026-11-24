@@ -74,15 +74,6 @@ extern const char *TDeadSpot__class_name;
 s32 TObjEneRe4Sorcerer__sub_801E3F14(int);
 void TObjEneRe4Sorcerer__sub_801E3F18(void);
 s32 fn_801D6D8C(void *, u8, int);
-extern const f32 lbl_805D3538;
-extern const f32 lbl_805D353C;
-extern const f32 lbl_805D3540;
-extern const f32 lbl_805D3544;
-extern const f32 lbl_805D3548;
-extern const f32 lbl_805D354C;
-extern const f32 lbl_805D3550;
-extern const f32 lbl_805D5DC4;
-extern const f32 lbl_805D5DC8;
 void TLobby__sub_801B09A4(void);
 void request_active_window_close(void);
 }
@@ -801,16 +792,16 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
       p = (uaddr)get_player_by_client_id(j);
       if (p != 0)
       {
-        ((TLobby *)(p + 0x78C))->set_scale(lbl_805D3538);
-        ((TLobby *)(p + 0x78C))->set_pos_z(lbl_805D3548);
-        ((TLobby *)(p + 0x77C))->set_scale(lbl_805D353C);
-        ((TLobby *)(p + 0x77C))->set_pos_z(lbl_805D5DC4);
-        ((TLobby *)(p + 0x75C))->set_scale(lbl_805D3540);
-        ((TLobby *)(p + 0x75C))->set_pos_z(lbl_805D354C);
-        ((TLobby *)(p + 0x76C))->set_scale(lbl_805D3544);
-        ((TLobby *)(p + 0x76C))->set_pos_z(lbl_805D3550);
-        ((TLobby *)(p + 0x79C))->set_scale(lbl_805D5DC8);
-        ((TLobby *)(p + 0x79C))->set_pos_z(lbl_805D5DC8);
+        ((TLobby *)(p + 0x78C))->set_scale(battle_player_give_damage_score);
+        ((TLobby *)(p + 0x78C))->set_pos_z(battle_enemy_give_damage_score);
+        ((TLobby *)(p + 0x77C))->set_scale(battle_player_take_damage_score);
+        ((TLobby *)(p + 0x77C))->set_pos_z(battle_enemy_take_damage_score);
+        ((TLobby *)(p + 0x75C))->set_scale(battle_player_kill_score);
+        ((TLobby *)(p + 0x75C))->set_pos_z(battle_enemy_kill_score);
+        ((TLobby *)(p + 0x76C))->set_scale(battle_player_death_score);
+        ((TLobby *)(p + 0x76C))->set_pos_z(battle_enemy_death_score);
+        ((TLobby *)(p + 0x79C))->set_scale(battle_meseta_score);
+        ((TLobby *)(p + 0x79C))->set_pos_z(battle_meseta_score);
       }
     }
     TLobby::set_section_id(lobby_rule_settings, 1);

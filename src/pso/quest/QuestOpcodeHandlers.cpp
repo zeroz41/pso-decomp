@@ -984,14 +984,14 @@ extern QuestPlayerNameBuffer quest_player_name_buffer;
 struct QuestPlayerClassNameBuffer { s32 value; u8 remaining[0xC]; };
 extern QuestPlayerClassNameBuffer quest_player_class_name_buffer;
 extern u8 quest_board_handlers[];
-extern f32 lbl_805D3538;
-extern f32 lbl_805D353C;
-extern f32 lbl_805D3540;
-extern f32 lbl_805D3544;
-extern f32 lbl_805D3548;
+extern f32 battle_player_give_damage_score;
+extern f32 battle_player_take_damage_score;
+extern f32 battle_player_kill_score;
+extern f32 battle_player_death_score;
+extern f32 battle_enemy_give_damage_score;
 extern saddr resource_decompress_buffer;
 extern s32 game_difficulty_selection;
-extern f32 lbl_805D5DC4;
+extern f32 battle_enemy_take_damage_score;
 
 void qst_op_va_end() {
     qst_op_stack_popm(1, 7);
@@ -3180,70 +3180,70 @@ void qst_op_ba_set_trap_count(s32 reg) {
     }
 }
 
-extern f32 lbl_805D5DC8;
+extern f32 battle_meseta_score;
 void qst_op_ba_meseta_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
     v += (f32)qst_registers[(u8)b] / (f32)qst_registers[(u8)++b];
-    lbl_805D5DC8 = v;
+    battle_meseta_score = v;
 }
 
-extern f32 lbl_805D3550;
+extern f32 battle_enemy_death_score;
 void qst_op_ba_enemy_death_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
     v += (f32)qst_registers[(u8)b] / (f32)qst_registers[(u8)++b];
-    lbl_805D3550 = v;
+    battle_enemy_death_score = v;
 }
 
-extern f32 lbl_805D354C;
+extern f32 battle_enemy_kill_score;
 void qst_op_ba_enemy_kill_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
     v += (f32)qst_registers[(u8)b] / (f32)qst_registers[(u8)++b];
-    lbl_805D354C = v;
+    battle_enemy_kill_score = v;
 }
 
 void qst_op_ba_player_death_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
     v += (f32)qst_registers[(u8)b] / (f32)qst_registers[(u8)++b];
-    lbl_805D3544 = v;
+    battle_player_death_score = v;
 }
 
 void qst_op_ba_player_kill_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
     v += (f32)qst_registers[(u8)b] / (f32)qst_registers[(u8)++b];
-    lbl_805D3540 = v;
+    battle_player_kill_score = v;
 }
 
 void qst_op_ba_enemy_take_damage_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
     v += (f32)qst_registers[(u8)b] / (f32)qst_registers[(u8)++b];
-    lbl_805D5DC4 = v;
+    battle_enemy_take_damage_score = v;
 }
 
 void qst_op_ba_enemy_give_damage_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
     v += (f32)qst_registers[(u8)b] / (f32)qst_registers[(u8)++b];
-    lbl_805D3548 = v;
+    battle_enemy_give_damage_score = v;
 }
 
 void qst_op_ba_player_take_damage_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
     v += (f32)qst_registers[(u8)b] / (f32)qst_registers[(u8)++b];
-    lbl_805D353C = v;
+    battle_player_take_damage_score = v;
 }
 
 void qst_op_ba_player_give_damage_score(s32 a) {
     s32 b = a + 1;
     f32 v = (f32)qst_registers[(u8)a];
     v += (f32)qst_registers[(u8)b] / (f32)qst_registers[(u8)++b];
-    lbl_805D3538 = v;
+    battle_player_give_damage_score = v;
 }
 
 void qst_op_set_cmode_base_time(s32 reg) {

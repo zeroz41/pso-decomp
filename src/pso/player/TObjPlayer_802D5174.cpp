@@ -261,7 +261,7 @@ void TUnk_804E21F8::update_weapon() {
     sub_802D577C();
 }
 
-__declspec(section ".rodata") Vec lbl_8047259C = { 0 };
+__declspec(section ".rodata") Vec ring_point_template = { 0 };
 __declspec(section ".rodata") Vec player_pb_zero_vec_block = { 0 };
 void TUnk_804E21F8::sub_802D577C() {
     Vec *axis_base;
@@ -280,7 +280,7 @@ void TUnk_804E21F8::sub_802D577C() {
         count = n;
         origin = pad_20c;
         center = &owner->body_center.x;
-        point_base = &lbl_8047259C;
+        point_base = &ring_point_template;
         axis_base = &player_pb_zero_vec_block;
         tilt = 0x31C7;
         step = 0x10000 / n;
@@ -378,12 +378,12 @@ void TObjPlayer::spawn_hit_particles_at_vec(s32 arg0, saddr arg1, saddr dir) {
     spawn_hit_particles__10TObjPlayerFiPv((saddr)&pos, (const Vec *)dir);
 }
 
-extern const f64 lbl_804725B8[1] = { 10430.38043493439 };
+extern const f64 radians_to_angle_scale[1] = { 10430.38043493439 };
 void spawn_hit_particles__10TObjPlayerFiPv(saddr pos, const Vec *dir) {
     s32 angles[3];
     create_timed_particle_emitter((void *)pos, 0x1EF, 0, 0xF);
     angles[0] = 0;
-    angles[1] = (s32)(lbl_804725B8[0] * atan2_float(dir->x, dir->z));
+    angles[1] = (s32)(radians_to_angle_scale[0] * atan2_float(dir->x, dir->z));
     angles[2] = 0;
     {
         TParticleCtrl *particle = create_timed_particle_emitter_with_angles((void *)pos, angles, 0x1B8, 0, 0xF, 4);

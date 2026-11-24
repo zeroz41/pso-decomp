@@ -66,8 +66,8 @@ s32 lbl_805D5DB4;
 void *lobby_char_slot_array;
 u8 battle_player_ready_flags[4];
 s32 battle_ctrl_default_value;
-f32 lbl_805D5DC4;
-f32 lbl_805D5DC8;
+f32 battle_enemy_take_damage_score;
+f32 battle_meseta_score;
 
 typedef struct Lobby_801C2898 {
     u8 pad0[0x268];
@@ -93,13 +93,13 @@ struct S801C295C_801C25B4 { s32 f0; s8 f4; s8 pad[0x13]; };
 void build_6x7D_set_battle_mode_data(void *p);
 
 // "TPlayerBattleCtrl" opens the unit's .rodata, ahead of the pairs below.
-f32 lbl_805D3538 = 0.05f;
-f32 lbl_805D353C = 0.02f;
-f32 lbl_805D3540 = 10.0f;
-f32 lbl_805D3544 = 7.0f;
-f32 lbl_805D3548 = 0.01f;
-f32 lbl_805D354C = 3.0f;
-f32 lbl_805D3550 = 7.0f;
+f32 battle_player_give_damage_score = 0.05f;
+f32 battle_player_take_damage_score = 0.02f;
+f32 battle_player_kill_score = 10.0f;
+f32 battle_player_death_score = 7.0f;
+f32 battle_enemy_give_damage_score = 0.01f;
+f32 battle_enemy_kill_score = 3.0f;
+f32 battle_enemy_death_score = 7.0f;
 const char *TPlayerBattleCtrl__name = "TPlayerBattleCtrl";
 extern "C" {
 __declspec(section ".rodata") u32 lbl_80446F94[2] = { 0x43A40000, 0x43260000 };
@@ -889,16 +889,16 @@ void TLobby::apply_game_settings(s32 arg0, s32 arg1) {
         for (s32 i = 0; i < 4; i++) {
             uaddr p = player_slot_table[i];
             if (p != 0U) {
-                ((TLobby *)(p + 0x78C))->set_scale(lbl_805D3538);
-                ((TLobby *)(p + 0x78C))->set_pos_z(lbl_805D3548);
-                ((TLobby *)(p + 0x77C))->set_scale(lbl_805D353C);
-                ((TLobby *)(p + 0x77C))->set_pos_z(lbl_805D5DC4);
-                ((TLobby *)(p + 0x75C))->set_scale(lbl_805D3540);
-                ((TLobby *)(p + 0x75C))->set_pos_z(lbl_805D354C);
-                ((TLobby *)(p + 0x76C))->set_scale(lbl_805D3544);
-                ((TLobby *)(p + 0x76C))->set_pos_z(lbl_805D3550);
-                ((TLobby *)(p + 0x79C))->set_scale(lbl_805D5DC8);
-                ((TLobby *)(p + 0x79C))->set_pos_z(lbl_805D5DC8);
+                ((TLobby *)(p + 0x78C))->set_scale(battle_player_give_damage_score);
+                ((TLobby *)(p + 0x78C))->set_pos_z(battle_enemy_give_damage_score);
+                ((TLobby *)(p + 0x77C))->set_scale(battle_player_take_damage_score);
+                ((TLobby *)(p + 0x77C))->set_pos_z(battle_enemy_take_damage_score);
+                ((TLobby *)(p + 0x75C))->set_scale(battle_player_kill_score);
+                ((TLobby *)(p + 0x75C))->set_pos_z(battle_enemy_kill_score);
+                ((TLobby *)(p + 0x76C))->set_scale(battle_player_death_score);
+                ((TLobby *)(p + 0x76C))->set_pos_z(battle_enemy_death_score);
+                ((TLobby *)(p + 0x79C))->set_scale(battle_meseta_score);
+                ((TLobby *)(p + 0x79C))->set_pos_z(battle_meseta_score);
             }
         }
         TLobby::set_section_id(lobby_rule_settings, 1);
