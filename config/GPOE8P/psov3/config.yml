@@ -1556,7 +1556,7 @@ force_active:
   - __ct__22PhotonBlastRequestSlotFv
   - __as__22PhotonBlastRequestSlotFR22PhotonBlastRequestSlot
   - init_body_parts__10TObjPlayerFPv
-  - __sinit_TObjPlayer_801BDF5C_cpp
+  - __sinit_TObjPlayer_cpp
   - TObjPlayer__sub_801BF31C
   - set_timer__19ContactSurfaceStateFl
   - has_water_or_sand__19ContactSurfaceStateFl

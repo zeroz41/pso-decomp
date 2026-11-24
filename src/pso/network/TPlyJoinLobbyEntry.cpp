@@ -71,7 +71,6 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/map/TSetManager.h"
-#include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/network/client_id.h"

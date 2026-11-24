@@ -1,10 +1,11 @@
 #include "pso/player/PlayerState.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TObjPlayer_802C367C.h"
 #include "pso/item/InventoryEntryCopy.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_801BDF5C.h"
+#include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_802C3B14.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
@@ -49,7 +50,7 @@ void TObjPlayer::copy_mag_level_to_record(u8 *record) {
 void TObjPlayer::apply_pending_action(saddr arg1) {
     saddr arg0 = (saddr)this;
     TPlyCharData *record = (TPlyCharData *)arg1;
-    s32 temp = TObjPlayer__sub_801BFFA0((void *)(arg0 + 0x41C));
+    s32 temp = ((FlagWord *)(arg0 + 0x41C))->get_bits();
     if (temp != 0) {
         record->set_pending_action(temp);
         record->stamp_save_time();

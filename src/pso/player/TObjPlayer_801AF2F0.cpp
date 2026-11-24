@@ -5,6 +5,7 @@
 #include "pso/player/PlayerLevelTable.h"
 #include "pso/unk/text_8024AB98.h"
 #include "pso/player/PlayerState.h"
+#include "pso/player/PlayerSyncRecord.h"
 #include "pso/player/PlayerHoldPacket.h"
 #include "pso/system/SoundEffect.h"
 // Built with -inline off,deferred (configure.py): CodeWarrior emits deferred functions
@@ -115,12 +116,9 @@
 #include "pso/system/MainPhaseState.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
-#include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/ui/font/TFontSmallLobby_801C013C.h"
-#include "pso/player/TObjPlayer_801BDF5C.h"
-#include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -621,7 +619,6 @@ int TObjPlayer__sub_801BF47C(void*);
 int TObjPlayer__sub_801BF488(void*);
 int TObjPlayer__sub_801BF4A0(void*);
 void set_equip_slot_entry(saddr, s32, s32);
-void TObjPlayer__sub_801BF8F8(s32 *p);
 s32 is_action_id_none(s32);
 u8 TObjPlayer__sub_801C0124(void *, s16);
 f32 fn_801C19A4(void *);
@@ -936,9 +933,9 @@ void TObjPlayer::setup_fresh_player_state(u8 *char_data) {
     scale_state.set_actor_id(this->get_entity_id());
     TObjPlayer::disable_drop_weapon_on_death(this);
     TPlyCharData *record = reinterpret_cast<TPlyCharData *>(char_data);
-    *(s8 *)&this->unk_338 = get_byte_173(record);
-    this->m_339 = get_byte_18f(record);
-    *(s8 *)&this->unk_33A = get_byte_1ab(record);
+    *(s8 *)&this->unk_338 = record->get_class_flag_0();
+    this->m_339 = record->get_class_flag_1();
+    *(s8 *)&this->unk_33A = record->get_class_flag_2();
 }
 
 void TObjPlayer::sub_801BB950() {
@@ -988,9 +985,9 @@ void TObjPlayer::sub_801BB950() {
 }
 
 void TObjPlayer::init_class_flags(saddr char_data) {
-    *(s8 *)&this->unk_338 = TObjPlayer__sub_801BEB4C((void *)char_data);
-    this->m_339 = TObjPlayer__sub_801BEB44((void *)char_data);
-    *(s8 *)&this->unk_33A = TObjPlayer__sub_801BEB3C((void *)char_data);
+    *(s8 *)&this->unk_338 = ((PlayerSyncRecord *)char_data)->get_class_flag_0();
+    this->m_339 = ((PlayerSyncRecord *)char_data)->get_class_flag_1();
+    *(s8 *)&this->unk_33A = ((PlayerSyncRecord *)char_data)->get_class_flag_2();
 }
 
 void TObjPlayer::sub_801BB8B0(u8 *arg1) {
@@ -1560,7 +1557,7 @@ s32 TObjPlayer::end_camera_pan() {
 }
 
 void TObjPlayer__sub_801BA42C(void) {
-    ((s32 (*)(void *))foreach_player__10TObjPlayerFv)((void *)TObjPlayer__sub_801BEABC);
+    ((s32 (*)(void *))foreach_player__10TObjPlayerFv)((void *)end_player_camera_pan);
     release_all_players_control_lock();
 }
 
@@ -2195,7 +2192,7 @@ void TObjPlayer::request_item_drop(s32 key, s32 count) {
     if (owner->get_amount() - count > 0) {
         item.id = -1;
     }
-    insert_item_node(&inventory_objects->list, (Vec *)TObjPlayer__sub_801BF914(&marker_position), this, (TItemData *)&item, id);
+    insert_item_node(&inventory_objects->list, get_marker_position(&marker_position), this, (TItemData *)&item, id);
 }
 
 void TObjPlayer::request_meseta_drop(s32 amount) {
@@ -2207,7 +2204,7 @@ void TObjPlayer::request_meseta_drop(s32 amount) {
         set_action_flag_2();
         ((TItemData *)(&stack.sp8))->init_meseta(amount);
         stack.sp14 = -1;
-        insert_item_node(&inventory_objects->list, (Vec *)TObjPlayer__sub_801BF914(&marker_position), this, (TItemData *)&stack.sp8, -1);
+        insert_item_node(&inventory_objects->list, get_marker_position(&marker_position), this, (TItemData *)&stack.sp8, -1);
     }
 }
 
@@ -2298,7 +2295,7 @@ void TObjPlayer::drop_items_on_death() {
         if (obj_getPtr2B0_20((u8 *)this)!=0) {
             record=&records[count];
             record->set_source_id(-1);
-            item=get_ptr_8(reinterpret_cast<TPlyInventoryItem *>(record));
+            item=reinterpret_cast<TPlyInventoryItem *>(record)->get_data();
             item->init_meseta(obj_getPtr2B0_20((u8 *)this));
             count+=1;
             item->id=-1;
@@ -2416,7 +2413,7 @@ void TObjPlayer::create_inventory() {
         inventory = (u8 *)(__ct__7TObjectFP7TObject(object, this));
     }
     this->inventory_objects->item_root = (TObject *)inventory;
-    TObjPlayer__sub_801BF8F8((s32 *)(((u8 *)this) + 0xD04));
+    clear_equip_slots((s32 *)(((u8 *)this) + 0xD04));
 }
 
 void TObjPlayer::bind_saved_inventory_equipment(TObjPlayer *player, TPlyInventoryItem *records, int count) {
@@ -3562,24 +3559,24 @@ void TObjPlayer::select_class_action_provider() {
       case 3:
       case 4:
       case 7:
-        TObjPlayer::forward_801C210C(this->action_provider, 0);
+        action_provider->set_body_type(0);
         return;
       case 1:
       case 5:
       case 8:
-        TObjPlayer::forward_801C210C(this->action_provider, 1);
+        action_provider->set_body_type(1);
         return;
       case 6:
-        TObjPlayer::forward_801C210C(this->action_provider, 2);
+        action_provider->set_body_type(2);
         return;
       case 9:
-        TObjPlayer::forward_801C210C(this->action_provider, 4);
+        action_provider->set_body_type(4);
         return;
       case 10:
-        TObjPlayer::forward_801C210C(this->action_provider, 3);
+        action_provider->set_body_type(3);
         return;
       case 11:
-        TObjPlayer::forward_801C210C(this->action_provider, 5);
+        action_provider->set_body_type(5);
         break;
     }
   }
@@ -3738,7 +3735,7 @@ Obj_801B4FD8 *init_player_join_record(Obj_801B4FD8 *self) {
     __construct_array(self->f28, __ct__12StatusEffectFv, 0, 0xC, 5);
     ((TObjPlayer *)(self->f68))->clear_header_struct();
     ((PlayerPkState *)self->f70)->init();
-    init_player_telepipe_record(&self->telepipe);
+    self->telepipe.init();
     __ct__8FlagWordFv((self->f94));
     self->f98.init();
     init_inventory_list__10TObjPlayerFPv(self->f13C);
@@ -3799,11 +3796,11 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     TLobby::copy_data(dst->f118, src->f2B0);
     dst->f24 = ((TObjPlayer *)src)->get_hp_bonus();
     dst->f26 = ((TObjPlayer *)src)->get_tp_bonus();
-    TObjPlayer__sub_801BE864(dst, ((TObjPlayer *)src)->get_power_materials_used());
-    TObjPlayer__sub_801BE838(dst, ((TObjPlayer *)src)->get_mind_materials_used());
-    TObjPlayer__sub_801BE80C(dst, ((TObjPlayer *)src)->get_evade_materials_used());
-    TObjPlayer__sub_801BE7E0(dst, ((TObjPlayer *)src)->get_def_materials_used());
-    TObjPlayer__sub_801BE7B4(dst, ((TObjPlayer *)src)->get_luck_materials_used());
+    ((PlayerSyncRecord *)dst)->set_power_materials_used(((TObjPlayer *)src)->get_power_materials_used());
+    ((PlayerSyncRecord *)dst)->set_mind_materials_used(((TObjPlayer *)src)->get_mind_materials_used());
+    ((PlayerSyncRecord *)dst)->set_evade_materials_used(((TObjPlayer *)src)->get_evade_materials_used());
+    ((PlayerSyncRecord *)dst)->set_def_materials_used(((TObjPlayer *)src)->get_def_materials_used());
+    ((PlayerSyncRecord *)dst)->set_luck_materials_used(((TObjPlayer *)src)->get_luck_materials_used());
     for (i = 0; i < 0x13; i++) {
         TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(src->f428, i), &dst->fB4[i], dst->f142[i].b);
     }
@@ -3818,14 +3815,14 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
         pl->set_hp_clamped(a);
         pl->set_tp(b);
         encode_player_record_inventory(dst);
-        v = TObjPlayer__sub_801BFFA0(src->f41C);
+        v = ((FlagWord *)src->f41C)->get_bits();
         dst->f142[0].b[1] = v;
         dst->f142[1].b[1] = v >> 8;
         dst->f142[2].b[1] = v >> 16;
         dst->f142[3].b[1] = v >> 24;
-        TObjPlayer__sub_801BE7A4(dst, pl->get_mag_level());
-        TObjPlayer__sub_801BE794(dst, pl->get_byte_339());
-        TObjPlayer__sub_801BE784(dst, pl->get_battle_mode());
+        ((PlayerSyncRecord *)dst)->set_class_flag_0(pl->get_mag_level());
+        ((PlayerSyncRecord *)dst)->set_class_flag_1(pl->get_byte_339());
+        ((PlayerSyncRecord *)dst)->set_class_flag_2(pl->get_battle_mode());
     }
     TLobby::bswap_player_data(dst);
 }
@@ -3850,7 +3847,7 @@ void TObjPlayer::apply_material_color_override() {
 }
 
 void TObjPlayer::clear_action_flag() {
-    if ((is_field_0_positive(&this->inventory_objects->list.count) == 0) && (((TObjPlayer *)this)->is_action_active() != 0U)) {
+    if ((is_count_positive(&this->inventory_objects->list.count) == 0) && (((TObjPlayer *)this)->is_action_active() != 0U)) {
         this->clear_flag_0x2();
         send_release_hold(this);
     }

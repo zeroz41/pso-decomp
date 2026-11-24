@@ -99,7 +99,6 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/object/door/TODoorBase.h"
 #include "pso/unk/TLobby_800F8AA8.h"
-#include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerActionProvider.h"
 

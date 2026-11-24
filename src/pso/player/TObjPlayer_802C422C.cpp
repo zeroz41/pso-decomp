@@ -13,7 +13,6 @@
 #include "pso/unk/TLobby_802A0F3C.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 
-#include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/network/client_id.h"
 
 extern "C" {

@@ -1,5 +1,6 @@
 #include "pso/unk/text_800F9B84.h"
 #include "pso/player/PlayerState.h"
+#include "pso/player/PlayerTaskEffects.h"
 #include "types.h"
 #include "pso/unk/text_801D40D4.h"
 #include "pso/player/TObjPlayer_801D84CC.h"
@@ -137,8 +138,8 @@ void create_player_ending_motion(void) { TObjPlayer::alloc_shared_buffers(); pla
 TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(parent, src) {
     set_floor_index(1);
     set_floor_index(1);
-    VecCopy(&position, (const Vec *)((TObjPlayer *)src->pose)->get_sub_object());
-    rotation_y = ((TObjPlayer *)src->pose)->get_lock_timer();
+    VecCopy(&position, ((ArrivalOverride *)src->pose)->get_pos());
+    rotation_y = ((ArrivalOverride *)src->pose)->get_heading();
     select_class_action_provider();
     joint_matrices = TObjPlayer__shared_model_buffer + this->get_entity_id() * 0xC00;
     init_motion((TObjMotionAction *)get_table_entry_by_clamped_index(), *player_ending_motion_object, 1);
@@ -159,7 +160,7 @@ void TObjPlayer__sub_801D8A38(void* entry) { *(short*)((char*)entry + 0x0) = 1; 
 
 TUnk_801D8A4C::TUnk_801D8A4C() {
     TObjPlayer::init_inventory_items((saddr)items);
-    TObjPlayer__sub_801BFF80(pose);
+    init_arrival_override((ArrivalOverride *)pose);
     TObjPlayer__sub_801D8A38(&pad_C0);
 }
 

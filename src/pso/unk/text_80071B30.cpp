@@ -7,7 +7,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/unk/TLobby.h"

@@ -511,8 +511,6 @@ struct TObjPlayer : public TObjChara {
     void set_mind_materials_used(u8 v);
     void set_power_materials_used(u8 v);
     void*reset_sub_status_disp();
-    void*get_sub_object();
-    s32 get_lock_timer();
     void set_vec3_const();
     static s32 reset_and_return(saddr p);
     void clear_base();
@@ -521,7 +519,6 @@ struct TObjPlayer : public TObjChara {
     void*set_vec4_const_wrapper();
     int sub_802a7290_fwd();
     int is_handle_valid();
-    static void forward_801C210C(void *provider, int id);
     static u8 get_item_count_max();
     u8 get_field_5();
     u8 get_byte_4();

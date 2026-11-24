@@ -11,6 +11,7 @@ struct FlagWord {
     void reset();
     void set(u32 mask);
     void clear(u32 mask);
+    s32 get_bits();
 };
 
 extern "C" {

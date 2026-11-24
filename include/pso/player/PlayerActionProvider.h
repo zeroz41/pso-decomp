@@ -18,6 +18,7 @@ public:
     int matches(s32 body_type, s32 motion_type);
     s32 get_motion_type();
     s32 get_body_type();
+    void set_body_type(s32 body_type);
     void set_motion_type(s32 motion_type);
     s32 body_type;
     s32 motion_type;
@@ -117,6 +118,7 @@ public:
     virtual BmlMotionEntry *get_motion_list(s32 body_type);
     s32 load_motion(s32 set, s32 index, s32 size, s32 aram_addr);
     s32 load_action_motion_pairs(s32 set, s32 body_type, s32 motion_type);
+    void set_body_type(s32 body_type);
     void set_motion_type(s32 motion_type);
     int matches_motion_key(s32 body_type, s32 motion_type);
 };

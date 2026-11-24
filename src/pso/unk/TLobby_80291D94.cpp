@@ -21,7 +21,6 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/object/TObjTombstone.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"

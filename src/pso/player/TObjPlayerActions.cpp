@@ -65,7 +65,6 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/hud/TMainCursor_8013DF5C.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/player/Palettex.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
@@ -4766,7 +4765,7 @@ void TObjPlayer::send_6x40_walk_to_position() {
             m.f2 = ((TObjBase *)arg0)->get_entity_id();
             m.x = arg0->x;
             m.z = arg0->z;
-            m.v = TObjPlayer__sub_801BFFA0(arg0->sub);
+            m.v = ((FlagWord *)(arg0->sub))->get_bits();
             ((G_WalkToPosition_6x40 *)&m)->send();
         }
     }

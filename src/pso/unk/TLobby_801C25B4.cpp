@@ -28,7 +28,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_801BDF5C.h"
 
 #include "types.h"
 #include "pso/unk/text_801C23A8.h"

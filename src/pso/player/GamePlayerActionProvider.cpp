@@ -2686,7 +2686,7 @@ int GamePlayerActionProvider::load_motion_set(s32 set, s32 body_type, s32 motion
     if (matches_motion_key(body_type, motion_type) != 0) {
         return 1;
     }
-    TObjPlayer::forward_801C210C(this, body_type);
+    set_body_type(body_type);
     set_motion_type(motion_type);
     loaded = load_action_motion_pairs(set, body_type, motion_type);
     if (loaded != 0) {

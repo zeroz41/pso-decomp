@@ -48,6 +48,19 @@ struct PlayerSyncRecord {
     u8 get_evade_materials_used();
     u8 get_mind_materials_used();
     u8 get_power_materials_used();
+    void set_luck_materials_used(u8 v);
+    void set_def_materials_used(u8 v);
+    void set_evade_materials_used(u8 v);
+    void set_mind_materials_used(u8 v);
+    void set_power_materials_used(u8 v);
+
+    // TObjPlayer's class flag bytes (init_class_flags), kept in the last m_present byte of items 13-15.
+    u8 get_class_flag_0();
+    u8 get_class_flag_1();
+    u8 get_class_flag_2();
+    void set_class_flag_0(u8 v);
+    void set_class_flag_1(u8 v);
+    void set_class_flag_2(u8 v);
 };
 
 LAYOUT_ASSERT(PlayerSyncRecordHpOffset, offsetof(PlayerSyncRecord, current_hp) == 0x22);

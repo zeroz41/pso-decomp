@@ -38,6 +38,10 @@ public:
     void set_mind_materials_used(u8 count);
     void set_power_materials_used(u8 count);
     u8 get_luck_materials_used();
+    // TObjPlayer's class flag bytes (init_class_flags), kept in the last m_present byte of items 13-15.
+    u8 get_class_flag_0();
+    u8 get_class_flag_1();
+    u8 get_class_flag_2();
     u8 get_def_materials_used();
     u8 get_evade_materials_used();
     u8 get_mind_materials_used();

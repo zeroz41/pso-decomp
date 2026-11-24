@@ -2086,7 +2086,7 @@ void qst_op_check_for_hacking(u8 out) {
         qst_registers[out] |= 8;
     }
     player = ((u8 *)get_player_by_client_id(local_client_id));
-    if (player != NULL && static_cast<u32>(TObjPlayer__sub_801BFFA0(player + 0x41C)) != 0) {
+    if (player != NULL && static_cast<u32>(((FlagWord *)(player + 0x41C))->get_bits()) != 0) {
         qst_registers[out] |= 0x10;
     }
 }

@@ -10,7 +10,15 @@ struct ArrivalOverride {
     s32 active;
     s32 heading;
     Vec pos;
+
+    Vec *get_pos();
+    s32 get_heading();
+    void set_active(s32 v);
+    s32 get_active();
 };
+
+// Clears an override: inactive, heading 0, at the origin.
+void init_arrival_override(ArrivalOverride *entry);
 
 extern "C" {
 extern ArrivalOverride TObjPlayer__arrival_override_table[12];

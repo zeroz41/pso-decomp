@@ -1,4 +1,5 @@
 #include "pso/player/PlayerState.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/text_803D96A8.h"
@@ -663,7 +664,7 @@ const Vec *consume_telepipe_arrival(u16 slot, s32 *heading) {
     }
     p = (Player_80233E78 *)get_player_by_client_id(slot);
     if (p != 0) {
-        owner = TObjPlayer__sub_801BFFA0(p->arrival);
+        owner = ((FlagWord *)p->arrival)->get_bits();
         if (owner == 0xffff) {
             return 0;
         }

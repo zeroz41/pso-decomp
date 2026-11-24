@@ -25,10 +25,8 @@
 #include "pso/player/PlayerClassTechniques.h"
 #include "pso/player/PlayerRequirementStats.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyDispData.h"
-#include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TPlyCharData.h"
@@ -82,10 +80,10 @@ void TObjPlayer::place_on_area_entry() {
             this->set_position_from(p);
         } else {
             e = &TObjPlayer__arrival_override_table[((TObjBase *)(arg0))->get_entity_id()];
-            if (this->obj_isState2_324() == 0 && TObjPlayer__sub_801BF95C(e) == 1) {
-                TObjPlayer__sub_801BF954(e, 0);
-                this->rotation_y = ((TObjPlayer *)e)->get_lock_timer();
-                this->set_position_from(((TObjPlayer *)e)->get_sub_object());
+            if (this->obj_isState2_324() == 0 && e->get_active() == 1) {
+                e->set_active(0);
+                this->rotation_y = e->get_heading();
+                this->set_position_from(e->get_pos());
             } else {
                 other = find_player_arrival_set(this, ((TObjBase *)(arg0))->get_entity_id());
                 if (other != NULL) {
@@ -142,7 +140,7 @@ extern const f32 player_zero;
 extern const f32 player_half;
 
 extern "C" {
-// Defined with the player's main code (TObjPlayer.cpp, TObjPlayer_801AF2F0.cpp, TObjPlayer_801BDF5C.cpp).
+// Defined with the player's main code (TObjPlayer.cpp, TObjPlayer_801AF2F0.cpp).
 void update_photon_chair__10TObjPlayerFv(void *player);
 s8 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, const StatusEffect *src);
@@ -550,8 +548,8 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
     attack_state.init();
     pk_state.init();
-    init_player_telepipe_record(&telepipe);
-    TObjPlayer__sub_801BFB4C(&marker_position);
+    telepipe.init();
+    clear_marker_position(&marker_position);
     __ct__8FlagWordFv(((char *)this + 2136));
     TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
     ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
@@ -581,8 +579,8 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
     attack_state.init();
     pk_state.init();
-    init_player_telepipe_record(&telepipe);
-    TObjPlayer__sub_801BFB4C(&marker_position);
+    telepipe.init();
+    clear_marker_position(&marker_position);
     __ct__8FlagWordFv(((char *)this + 2136));
     TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
     ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
@@ -622,8 +620,8 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     ((TObjPlayer *)(((u8 *)this) + 0x7C8))->clear_base();
     attack_state.init();
     pk_state.init();
-    init_player_telepipe_record(&telepipe);
-    TObjPlayer__sub_801BFB4C(&marker_position);
+    telepipe.init();
+    clear_marker_position(&marker_position);
     __ct__8FlagWordFv((((u8 *)this) + 0x858));
     TObjPlayer::reset_and_return((saddr)((((u8 *)this) + 0xD04)));
     ((TObjPlayer *)(((u8 *)this) + 0xDAC))->clear_header_struct();

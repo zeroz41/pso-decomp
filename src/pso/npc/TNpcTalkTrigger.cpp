@@ -13,7 +13,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/player/TObjPlayerActions.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 
