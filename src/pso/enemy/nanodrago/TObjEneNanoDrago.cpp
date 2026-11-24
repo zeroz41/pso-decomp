@@ -29,6 +29,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/render_util.h"
+#include "pso/enemy/nanodrago/TUnk_80494E48.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/AngleUnits.h"
@@ -82,7 +83,6 @@ LAYOUT_ASSERT(NanoDrago_toggle_offset, offsetof(TObjEneNanoDrago, alternateBeam)
 struct BeamRotation { s32 x, y, z; };
 
 
-extern "C" void TObjPlayer__sub_800DCD04(void *, void *, int, void *, s32, int);
 extern "C" s32 construct_beam_effect__10TObjPlayerFPvPvPviPv(u32, void *, void *, u8, void *);
 
 #pragma push
@@ -127,11 +127,11 @@ s32 lbl_805D5254;
 BmlResource *nano_drago_entry_params_resource;
 // Filled by update_attack_parameters, read by the NanoDrago projectiles.
 f32 lbl_805D525C;
-f32 lbl_805D5260;
-f32 lbl_805D5264;
-f32 lbl_805D5268;
+f32 nano_drago_beam_speed;
+f32 nano_drago_beam_homing;
+f32 nano_drago_beam_homing_gain;
 s32 lbl_805D526C;
-s32 lbl_805D5270;
+s32 nano_drago_beam_power;
 
 __declspec(section ".data") const char *bm_ene_nanodrago_model_names[2] = {
     "bm6_s_drc_body.nj", NULL,
@@ -987,10 +987,9 @@ void TObjEneNanoDrago::spawn_beam_particle(s32 i) {
     spawn_directional_particle(&beamOrigins[i], &v, 0xfd);
 }
 void TObjEneNanoDrago::spawn_targeted_beam(s32 targetIndex) {
-    BeamRotation rotation;
+    Angle3 rotation;
     s32 originIndex;
     s32 spreadAngle;
-    void *beam;
     if (find_entity_by_id(beamTargetIds[targetIndex]) != 0) {
         originIndex = targetIndex & 1;
         rotation.x = 0;
@@ -1000,10 +999,7 @@ void TObjEneNanoDrago::spawn_targeted_beam(s32 targetIndex) {
         }
         rotation.y = rotation_y + spreadAngle;
         rotation.z = 0;
-        beam = (void *)TObject::operator new(0x104);
-        if (beam != 0) {
-            TObjPlayer__sub_800DCD04(beam, &beamOrigins[originIndex], beamTargetIds[targetIndex], &rotation, targetIndex * 3, entity_id);
-        }
+        new TUnk_80494E48(&beamOrigins[originIndex], beamTargetIds[targetIndex], &rotation, targetIndex * 3, entity_id);
     }
 }
 void TObjEneNanoDrago::request_growth() {
@@ -1135,11 +1131,11 @@ void TObjEneNanoDrago::capture_beam_origins() {
 void TObjEneNanoDrago::update_attack_parameters() {
     saddr self = (saddr)this;
     lbl_805D525C = TObjPlayer__sub_800DC434((self), 1);
-    lbl_805D5260 = TObjPlayer__sub_800DC434((self), 2);
-    lbl_805D5264 = TObjPlayer__sub_800DC434((self), 3);
-    lbl_805D5268 = TObjPlayer__sub_800DC434((self), 4);
+    nano_drago_beam_speed = TObjPlayer__sub_800DC434((self), 2);
+    nano_drago_beam_homing = TObjPlayer__sub_800DC434((self), 3);
+    nano_drago_beam_homing_gain = TObjPlayer__sub_800DC434((self), 4);
     lbl_805D526C = TObjPlayer__sub_800DC420((void *)self, 0);
-    lbl_805D5270 = TObjPlayer__sub_800DC420((void *)self, 1);
+    nano_drago_beam_power = TObjPlayer__sub_800DC420((void *)self, 1);
 }
 
 #pragma push

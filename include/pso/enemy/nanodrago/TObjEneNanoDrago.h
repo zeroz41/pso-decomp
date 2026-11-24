@@ -71,4 +71,10 @@ struct TObjEneNanoDrago : public TObjEnemyCustom {
 };
 
 LAYOUT_ASSERT(TObjEneNanoDrago_size, sizeof(TObjEneNanoDrago) == 0x47C);
+// The homing beam parameters update_attack_parameters reads from the attack table.
+extern f32 nano_drago_beam_speed;       // the beam's speed, also its hit radius
+extern f32 nano_drago_beam_homing;      // the beam's starting steering pull
+extern f32 nano_drago_beam_homing_gain; // added to the pull every frame in flight
+extern s32 nano_drago_beam_power;       // the direct attack's power
+
 #endif

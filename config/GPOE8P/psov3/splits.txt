@@ -1762,7 +1762,7 @@ pso/unk/text_800DC420.cpp:
 	.data       start:0x80494E10 end:0x80494E48
 	.sdata2     start:0x805DA478 end:0x805DA480
 
-pso/player/TObjPlayer_800DCC90.cpp:
+pso/enemy/nanodrago/TUnk_80494E48.cpp:
 	.text       start:0x800DC9EC end:0x800DCEB8
 	.rodata     start:0x8043C920 end:0x8043C948
 	.data       start:0x80494E48 end:0x80494E80
