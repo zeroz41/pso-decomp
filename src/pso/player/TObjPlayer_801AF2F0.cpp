@@ -486,26 +486,7 @@ struct S801B5200_801B3FD8 { s8 b[2]; s16 h; };
 
 struct Color_801B6964 { f32 r, g, b, a; };
 
-typedef struct Msg_801B6C30 {
-    u8 pad0[2];
-    s16 f2;
-    s16 f4[6];
-    s16 f10;
-    s16 f12;
-} Msg_801B6C30;
-
-typedef struct Src_801B6C30 {
-    s16 v[6];
-} Src_801B6C30;
-
-typedef struct Player_801B6C30 {
-    u8 pad0[0x2B0];
-    Src_801B6C30 *src;
-} Player_801B6C30;
-
 struct Buf1C { u8 pad[0x1C]; };
-
-struct Player_801B6C30;
 
 struct P_801B7B58 { u8 pad[0xD00]; void *fD00; };
 
@@ -744,7 +725,6 @@ void submit_cursor_candidate(void *self);
 void *TObjPlayer__sub_801B57E8(TObjPlayer *player);
 void TObjPlayer__sub_801B5A44(saddr player, s32 secondary, s32 i, s32 action, s32 param);
 void TObjPlayer__sub_801B5AF8(saddr player, s32 index);
-void send_6x30_change_player_level(Player_801B6C30 *player);
 void calc_move_velocity(const Vec *direction, Vec *out, f32 speed);
 void handle_6x99(void);
 void handle_6x98(void);
@@ -3116,7 +3096,7 @@ void TObjPlayer::check_level_up() {
                 } while (i < 0xD);
                 ((TObjPlayer *)(&before))->calc_pos_delta(&after, &gain);
                 TWindowCtrl::create_level_up_window((saddr)&gain, ((TObjBase *)this)->get_entity_id());
-                send_6x30_change_player_level((Player_801B6C30 *)((struct Player_801B6C30 *) ((u8 *)this)));
+                this->send_6x30_change_player_level();
             }
         }
     }
@@ -3152,22 +3132,21 @@ s32 TObjPlayer::apply_exp_level_growth() {
     return 1;
 }
 
-void send_6x30_change_player_level(Player_801B6C30 *player) {
-    Msg_801B6C30 m;
-    Src_801B6C30 *s;
-    TObjPlayer *pl = (TObjPlayer *)player;
-    if ((pl->reset_volopt_state() != 0) && ((player == NULL) || (((TObjChara *)player)->obj_isState2_324() == 0))) {
+void TObjPlayer::send_6x30_change_player_level() {
+    G_ChangePlayerLevel_6x30 m;
+    player_stats *stats;
+    if ((this->reset_volopt_state() != 0) && ((this == NULL) || (this->obj_isState2_324() == 0))) {
         ((TObjPlayer *)(&m))->build_6x30_change_level_packet();
-        m.f2 = ((s16)((TObjBase *)(player))->get_entity_id());
-        s = player->src;
-        m.f4[0] = s->v[0];
-        m.f4[1] = s->v[1];
-        m.f4[2] = s->v[2];
-        m.f4[3] = s->v[3];
-        m.f4[4] = s->v[4];
-        m.f4[5] = s->v[5];
-        m.f10 = pl->clamp_nested_index();
-        m.f12 = 0;
+        m.header.client_id = this->get_entity_id();
+        stats = this->stat_block;
+        m.atp = stats->stats.atp;
+        m.mst = stats->stats.mst;
+        m.evp = stats->stats.evp;
+        m.hp = stats->stats.hp;
+        m.dfp = stats->stats.dfp;
+        m.ata = stats->stats.ata;
+        m.level = this->clamp_nested_index();
+        m.is_level_down = 0;
         ((TObjPlayer *)(&m))->send_swapped_packet_6x30();
     }
 }
