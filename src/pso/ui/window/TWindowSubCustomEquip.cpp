@@ -106,7 +106,6 @@ WindowDescriptor lbl_804D1488 = {
 };
 
 extern "C" {
-s32 can_use_palette_action__10TObjPlayerFPvUcUc(void *, u8, u8);
 int TWindowSubCustomEquip__sub_80275DA8(void* p);
 
 int TWindowSubCustomEquip::is_selected() { return this->m_60 & 0x1; }
@@ -166,14 +165,14 @@ void TWindowSubCustomEquip::draw_cursor(WindowDrawContext *context) {
 }
 
 void TWindowSubCustomEquip::update_palette_slot(s32 arg1, u16 kind, u16 index) {
-    void *pl;
+    TObjPlayer *pl;
     WindowSpritePart *icon;
     TUnk_804CF9C8 *label;
     pl = get_player_by_client_id(this->client_index);
     if (pl != NULL) {
         icon = static_cast<WindowSpritePart *>(get_array_entry(lbl_8044F738[arg1]));
         label = static_cast<TUnk_804CF9C8 *>(get_array_entry(lbl_8044F740[arg1]));
-        if (can_use_palette_action__10TObjPlayerFPvUcUc(pl, kind, index) != 0) {
+        if (pl->can_use_palette_action(kind, index) != 0) {
             icon->color = -1;
         } else {
             icon->color = 0xFF404040;

@@ -1129,6 +1129,8 @@ struct TObjPlayer : public TObjChara {
     static void update_party_cursors(saddr cursors, s32 result);
     void init_action_config();
     s32 can_use_palette_action_for_entry(u32 obj);
+    s32 is_palette_entry_displayable(u8 kind, u8 sub);
+    s32 can_use_palette_action(u8 kind, u8 arg);
     static void set_animation_from_data(saddr player, s32 picture);
     static void assign_lobby_slot_if_flagged(saddr player, void *records);
     static void free_shared_lobby_data();

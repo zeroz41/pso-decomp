@@ -18,6 +18,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
@@ -54,7 +55,6 @@ extern "C" {
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, s32, f32);
 void *reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
 const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
-s32 can_use_palette_action__10TObjPlayerFPvUcUc(s32, u8, u8);
 
 void TWindowSubCustomSelect::handle_cancel() {
     if (is_active() == 0) {
@@ -142,7 +142,7 @@ void TWindowSubCustomSelect::draw_cursor(WindowDrawContext *context) {
 #pragma opt_loop_invariants off
 void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
     u32 i;
-    s32 p;
+    TObjPlayer *p;
     Ent_802776D0 *e;
     s16 id;
     s16 sub;
@@ -152,8 +152,8 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
     f32 y;
     f32 fx;
     f32 fy;
-    p = (saddr)get_player_by_client_id((this->client_index));
-    if (p == 0) {
+    p = get_player_by_client_id(this->client_index);
+    if (p == NULL) {
         return;
     }
     e = reinterpret_cast<Ent_802776D0 *>(m_78);
@@ -176,7 +176,7 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
         background->y = 8.0f + fy;
         id = e->id;
         sub = e->sub;
-        if (can_use_palette_action__10TObjPlayerFPvUcUc(p, id, sub) != 0) {
+        if (p->can_use_palette_action(id, sub) != 0) {
             icon->color = -1;
         } else {
             icon->color = 0xFF404040;

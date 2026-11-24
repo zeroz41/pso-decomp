@@ -46,33 +46,32 @@ s32 get_cursor_pos__20TWindowShortListCtrlFv(s32);
 void set_selected_index__21TWindowSubComCardListFs(s32, s32);
 
 s32 get_technique_name(s16);
-s32 can_use_palette_action__10TObjPlayerFPvUcUc(u32, s32, u8);
 s32 add_text_entry__11TWindowMenuFllll(s32, s32, s32, s16, s32);
 s32 add_text_entry__11TWindowMenuFlll(s32, s32, s32, s16);
 
 void TWindowSubTechnique::get_current_selection(s16 *arg0, s32 *arg1, s32 client) { TWindowSubTechnique::get_selection(arg0, arg1, client); }
 
 s32 TWindowSubTechnique::is_technique_available(s32 sub, s32 client) {
-    saddr player;
-    player = (saddr)get_player_by_client_id(client);
-    if (player == 0) {
+    TObjPlayer *player;
+    player = get_player_by_client_id(client);
+    if (player == NULL) {
         return 0;
     }
     if (is_current_area_item_enabled() == 0) {
         return 0;
     }
     if (TWindowSubTechnique::lookup_technique(sub, client) != 0) {
-        return is_palette_entry_displayable__10TObjPlayerFv((u8 *)player, (u8)(3), (u8)((u8) sub));
+        return player->is_palette_entry_displayable(3, sub);
     }
     return 0;
 }
 
 s32 TWindowSubTechnique::lookup_technique(s32 arg0, s32 client) {
-    u32 temp = (uaddr)get_player_by_client_id(client);
-    if (temp == 0U) {
+    TObjPlayer *player = get_player_by_client_id(client);
+    if (player == NULL) {
         return 0;
     }
-    return can_use_palette_action__10TObjPlayerFPvUcUc(temp, 3, (u8) arg0);
+    return player->can_use_palette_action(3, arg0);
 }
 void TWindowSubTechnique::draw_technique_row(s32 id, s32 client, s32 list) {
     s32 technique_name;
