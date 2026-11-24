@@ -203,7 +203,7 @@ s16 NetIPv6OutputToDestination(NetPacket *packet, IPv6Address *destination, s16 
 s16 NetIPv6OutputToLinkAddress(NetPacket *packet, u8 *link_address, s16 iface);
 s16 ipv6_iface_for_address(void *self);
 s16 buffer_pool_free(NetBufferRef *self);
-s16 buffer_pool_alloc(void *out_, int size, s16 owner);
+s16 buffer_pool_alloc(NetBufferRef *ref, int size, s16 owner);
 s16 NetCompareBitsBackward(u8 *lhs, u8 *rhs, s16 bits);
 s16 NetCompareBitPrefix(u8 *a, u8 *b, s16 bits);
 s16 NetIPv6GetAddressScopeClass(u8 *a);
