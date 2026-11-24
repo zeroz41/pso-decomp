@@ -21,7 +21,7 @@
 
 #pragma readonly_strings on
 
-const char *TNeedleShoot__name = "TNeedleShoot";
+const char *TNeedleShoot::class_name = "TNeedleShoot";
 
 TechniqueContactList technique_contact_list;
 
@@ -285,7 +285,7 @@ TNeedleShoot::TNeedleShoot(s32 owner, Vec *from, Vec *to) : TObject(tl_06) {
     f32 dx;
     f32 dz;
     f32 dy;
-    m_name = TNeedleShoot__name;
+    m_name = class_name;
     owner_id = 0xFFFF;
     dx = to->x - from->x;
     dz = to->z - from->z;

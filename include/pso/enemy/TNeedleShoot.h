@@ -13,6 +13,7 @@ class TObjBase;
 
 struct TNeedleShoot : public TObject {
     TNeedleShoot(s32 owner, Vec *from, Vec *to);
+    static const char *class_name;
     virtual ~TNeedleShoot();
     // Called when the shot meets a wall (check_wall_hit) or check_target_hit finds no contact list.
     virtual void on_wall_hit();
