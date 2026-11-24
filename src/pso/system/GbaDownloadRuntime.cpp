@@ -25,11 +25,12 @@ u8 *gba_joyboot_send_buffer;
 u8 gba_joyboot_status;
 unsigned char lbl_805D6CD9;
 short lbl_805D6CDA;
-// The game code the GBA program header carries at 0xAC (calc_joyboot_checksum copies it in).
+// The game code the GBA program header carries at 0xAC (gba_calc_joyboot_checksum copies it in).
 const u8 joyboot_game_code[4] = {'G', 'P', 'O', 'E'};
 
 u32 SIProbe(s32);
 
+}
 
 void gba_download_destroy_graph() {
     if ((u32) gba_download_graph != 0U) {
@@ -64,7 +65,6 @@ void gba_download_alloc_buffer() {
     gba_download_data_size = 0;
     gba_download_data_buffer = static_cast<u8 *>(xmalloc(0x40000));
     gba_download_data_size = 0;
-}
 }
 
 void gba_joyboot_transfer_callback(s32 channel, s32 arg1) {
@@ -173,6 +173,7 @@ void stamp_joyboot_image(s32 arg0, s32 arg1) {
     }
 }
 #pragma pop
+}
 
 void gba_calc_joyboot_checksum() {
     u8 *q;
@@ -200,7 +201,6 @@ s32 gba_start_joyboot() {
     }
     TLobby__data_805D6CCC = 1;
     return 0;
-}
 }
 
 void probe_gba_device(void) {
