@@ -1454,7 +1454,7 @@ void handle_6x53(G_Unknown_6x53 *command) {
 extern "C" {
 
 G_Unknown_6x53 &G_Unknown_6x53::operator=(const G_Unknown_6x53 &src) {
-    copy_subcommand_header(this, (void *)&src);
+    copy_subcommand_header(this, &src);
     return *this;
 }
 
@@ -1747,7 +1747,7 @@ void handle_6x4F_player_revived(G_PlayerRevived_6x4F *command) {
 extern "C" {
 
 G_PlayerRevived_6x4F &G_PlayerRevived_6x4F::operator=(const G_PlayerRevived_6x4F &src) {
-    copy_subcommand_header(this, (void *)&src);
+    copy_subcommand_header(this, &src);
     return *this;
 }
 
@@ -1933,7 +1933,7 @@ void handle_6x4E_player_revivable(G_PlayerRevivable_6x4E *command) {
 extern "C" {
 
 G_PlayerRevivable_6x4E &G_PlayerRevivable_6x4E::operator=(const G_PlayerRevivable_6x4E &src) {
-    copy_subcommand_header(this, (void *)&src);
+    copy_subcommand_header(this, &src);
     return *this;
 }
 
@@ -2671,7 +2671,7 @@ void handle_6x4A_shield_attack(G_ShieldAttack_6x4A *command) {
 extern "C" {
 
 G_ShieldAttack_6x4A &G_ShieldAttack_6x4A::operator=(const G_ShieldAttack_6x4A &src) {
-    copy_subcommand_header(this, (void *)&src);
+    copy_subcommand_header(this, &src);
     return *this;
 }
 
@@ -5186,7 +5186,7 @@ void G_MoveLobbyChair_6xB0::bswap() {
 }
 
 G_MoveLobbyChair_6xB0 &G_MoveLobbyChair_6xB0::operator=(const G_TurnOrMoveLobbyChair_6xAF_6xB0 &src) {
-    copy_subcommand_header(this, (void *)&src);
+    copy_subcommand_header(this, &src);
     angle = src.angle;
     return *this;
 }
@@ -5203,7 +5203,7 @@ void G_TurnLobbyChair_6xAF::bswap() {
 }
 
 G_TurnLobbyChair_6xAF &G_TurnLobbyChair_6xAF::operator=(const G_TurnOrMoveLobbyChair_6xAF_6xB0 &src) {
-    copy_subcommand_header(this, (void *)&src);
+    copy_subcommand_header(this, &src);
     angle = src.angle;
     return *this;
 }
@@ -5287,7 +5287,7 @@ void G_LobbyAnimation_6x58::send() {
 void G_LobbyAnimation_6x58::set_keyboard() { flags |= 1; }
 
 G_Unknown_6x57 &G_Unknown_6x57::operator=(const G_Unknown_6x57 &src) {
-    copy_subcommand_header(this, (void *)&src);
+    copy_subcommand_header(this, &src);
     return *this;
 }
 
@@ -5313,7 +5313,7 @@ void G_SetPlayerPositionAndAngle_6x56::bswap() {
 #pragma inline_depth(1)
 #pragma dont_inline off
 G_SetPlayerPositionAndAngle_6x56 &G_SetPlayerPositionAndAngle_6x56::operator=(G_SetPlayerPositionAndAngle_6x56 &src) {
-    copy_subcommand_header(this, (void *)&src);
+    copy_subcommand_header(this, &src);
     angle_y = src.angle_y;
     *(ByteBlock_C *)&pos = *(ByteBlock_C *)&src.pos;
     return *this;
@@ -5377,7 +5377,7 @@ void G_SetAnimationState_6x52::bswap() {
 }
 
 G_SetAnimationState_6x52 &G_SetAnimationState_6x52::operator=(G_SetAnimationState_6x52 &src) {
-    copy_subcommand_header(this, (void *)&src);
+    copy_subcommand_header(this, &src);
     animation = src.animation;
     state = src.state;
     angle = src.angle;
@@ -5502,7 +5502,7 @@ void G_SwitchInteraction_6x50::bswap() {
 }
 
 G_SwitchInteraction_6x50 &G_SwitchInteraction_6x50::operator=(const G_SwitchInteraction_6x50 &src) {
-    copy_subcommand_header(this, (void *)&src);
+    copy_subcommand_header(this, &src);
     angle_y = src.angle_y;
     return *this;
 }

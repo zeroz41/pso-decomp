@@ -776,7 +776,7 @@ s32 TObjPlayer::check_flag_04000000() { return check_flag((saddr)((void*)4194304
 void TObjPlayer::clear_quest_control_flag() { clear_state_flags(0x8000); }
 s32 TObjPlayer::check_quest_control_flag() { return check_flag(0x8000); }
 PlayerRestoreSizePacket *PlayerRestoreSizePacket::copy_from(const PlayerRestoreSizePacket &source) {
-    copy_subcommand_header(this, const_cast<PlayerRestoreSizePacket *>(&source));
+    copy_subcommand_header(this, &source);
     return this;
 }
 
@@ -796,7 +796,7 @@ void PlayerShrinkPacket::byte_swap() {
 }
 
 PlayerShrinkPacket *PlayerShrinkPacket::copy_from(const PlayerShrinkPacket &source) {
-    copy_subcommand_header(this, const_cast<PlayerShrinkPacket *>(&source));
+    copy_subcommand_header(this, &source);
     scalar = source.scalar;
     return this;
 }

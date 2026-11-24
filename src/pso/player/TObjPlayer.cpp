@@ -1065,7 +1065,7 @@ G_LevelUpAllTechniques_6x9B &G_LevelUpAllTechniques_6x9B::operator=(G_LevelUpAll
     return *this;
 }
 
-void* copy_subcommand_header(void* p, void* source) { assign_subcommand_header(p, source); return p; }
+void* copy_subcommand_header(void* p, const void* source) { assign_subcommand_header(p, const_cast<void *>(source)); return p; }
 
 void assign_subcommand_header(void *destination, void *source) {
     u8 *out = static_cast<u8 *>(destination);

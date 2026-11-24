@@ -58,7 +58,7 @@ struct G_ClientIDHeader {
 // Header helpers every 6x packet's send and operator= call with the packet itself.
 extern "C" {
 void bswap_g_client_id_header(void *header);
-void *copy_subcommand_header(void *dst, void *src);
+void *copy_subcommand_header(void *dst, const void *src);
 void assign_subcommand_header(void *dst, void *src);
 }
 
