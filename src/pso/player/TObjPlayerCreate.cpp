@@ -47,6 +47,10 @@
 #include "pso/object/TObjWaitEntryHairMoveSim.h"
 
 extern u8 *TObjPlayer__shared_model_buffer;
+extern u32 shared_state_flags[2];
+extern const f32 player_zero;
+extern const f32 player_half;
+extern const f32 player_one;
 
 extern "C" {
 
@@ -55,10 +59,8 @@ s32 get_main_phase();
 extern "C" {
 TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot);
 void *consume_telepipe_arrival(u16, void *);
-extern const f32 player_zero;
 
 void TObjPlayer::place_on_area_entry() {
-    u8 *arg0 = (u8 *)this;
     void *p;
     ArrivalOverride *e;
     TObjPlayerSet *other;
@@ -71,19 +73,19 @@ void TObjPlayer::place_on_area_entry() {
         this->rotation_y = get_lobby_entry_yaw();
         send_impose_hold(this, 0x1E);
         TObjPlayer::set_camera_mode(3);
-        new TForceOperate(tl_02, ((TObjBase *)(arg0))->get_entity_id());
+        new TForceOperate(tl_02, get_entity_id());
     } else if (this->obj_isState2_324() == 0) {
-        p = consume_telepipe_arrival(((TObjBase *)(arg0))->get_entity_id(), (u8 *)&this->rotation_y);
+        p = consume_telepipe_arrival(get_entity_id(), (u8 *)&this->rotation_y);
         if (p != NULL) {
             this->set_position_from(p);
         } else {
-            e = &player_arrival_overrides[((TObjBase *)(arg0))->get_entity_id()];
+            e = &player_arrival_overrides[get_entity_id()];
             if (this->obj_isState2_324() == 0 && e->get_active() == 1) {
                 e->set_active(0);
                 this->rotation_y = e->get_heading();
                 this->set_position_from(e->get_pos());
             } else {
-                other = find_player_arrival_set(this, ((TObjBase *)(arg0))->get_entity_id());
+                other = find_player_arrival_set(this, get_entity_id());
                 if (other != NULL) {
                     this->set_position_from(&other->position);
                     this->rotation_y = other->rotation_y;
@@ -134,8 +136,6 @@ void TObjPlayer::init_from_data(void* a1) { init_action_provider(); *(short *)&t
 // The init_* / release_* steps the TObjPlayer constructors and destructor run
 // for each part of the player.
 
-extern const f32 player_zero;
-extern const f32 player_half;
 
 extern "C" {
 // Defined with the player's main code (TObjPlayer.cpp, TObjPlayer_801AF2F0.cpp).
@@ -378,7 +378,6 @@ void TObjPlayer::destroy_child() {
 
 extern "C" {
 
-extern u32 shared_state_flags[2];
 
 void TObjPlayer::load_character_state(TPlyCharData *record) {
     u8 count;
@@ -404,7 +403,6 @@ extern "C" {
 s32 test_flags_any(void *, s32);
 s32 is_on_current_floor__10TObjPlayerFi(void *);
 
-extern const f32 player_one;
 
 void TObjPlayer::update_action_animation() {
     u8 *arg0 = (u8 *)this;
@@ -436,7 +434,6 @@ void TObjPlayer::update_action_animation() {
 }
 
 extern "C" {
-extern const f32 player_zero;
 
 void TObjPlayer::apply_motion_entry() {
     TObjMotionAction *a;

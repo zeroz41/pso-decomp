@@ -80,14 +80,16 @@ TObjPlayer *create_player_object(s32 slot, s32 role, TPlyCharData *record) {
     return new TObjPlayer(tl_03, slot, role, record);
 }
 
-extern "C" {
 
 
-PhotonBlastRegistry *TObjPlayer__shared_photon_blast_state;
-s32 lobby_player_count;
+extern const f32 player_zero;
+extern const f32 player_one;
 extern u8 *TObjPlayer__shared_model_buffer;
 extern s32 lbl_805D5D7C;
 extern u32 shared_state_flags[2];
+
+PhotonBlastRegistry *TObjPlayer__shared_photon_blast_state;
+s32 lobby_player_count;
 
 void TObjPlayer::free_shared_data() {
     if (TObjPlayer__shared_photon_blast_state != NULL) {
@@ -116,9 +118,7 @@ void TObjPlayer::alloc_shared_buffers() {
     }
 }
 
-}
-
-    extern unsigned char lobby_rule_settings[];
+extern unsigned char lobby_rule_settings[];
 void TObjPlayer::finalize_shared() { TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(0)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; ((TLobby *)lobby_rule_settings)->reset_settings_to_default(); shared_state_flags[0] = 0; TLockOnCursor::free_cursor_resources(); free_player_motion_directory(); TPlayerFootStamp::free_instance(); TObjPlayer::free_shared_data(); }
 
 void TObjPlayer::init_shared() { TObjPlayer::alloc_shared_buffers(); TLobby::set_player_count((saddr)(0)); TObjPlayer::set_shared_count((saddr)(1)); TObjPlayer::set_shared_flag((saddr)(0)); lbl_805D5D7C = 0; alloc_player_motion_directory(); load_player_motion_data(); copy_player_motion_directory(); upload_player_motion_data(); free_player_motion_archive(); load_target_cursor_models(); load_player_footstamp(); reset_client_quest_slot_table(); shared_state_flags[0] = 0; }
@@ -391,7 +391,6 @@ u8 PlayerSyncRecord::get_power_materials_used() { return items[8].m_present[3]; 
 
 
 
-extern const f32 player_zero;
 int TPlyPhotonChair::is_mounted() { return (*(u32*)((char*)this + 0x334) >> 26) & 0x1; }
 
 void PhotonBlastAim::reset() {
@@ -449,9 +448,7 @@ extern "C" {
 void TObjPlayer__sub_801BF47C(void* p);
 int shared_count;
 int shared_flag;
-extern const f32 player_zero;
 }
-extern const float player_one;
 
 #pragma defer_codegen on
 ContactSurfaceFlags::~ContactSurfaceFlags() {}
@@ -1191,7 +1188,6 @@ G_TeleportPlayer_6x24 &G_TeleportPlayer_6x24::operator=(G_TeleportPlayer_6x24 &s
 
 extern "C" {
 
-extern const f32 player_zero;
 
 void G_TeleportPlayer_6x24::init() {
     angle_y = 0;
@@ -1741,9 +1737,7 @@ extern "C" {
 s32 __ct__12TPlyCharDataFv(s32 arg0);
 u8 get_record_byte_at(TPlyCharData *data, s32 tech);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
-extern const f32 player_zero;
 
-extern const f32 player_one;
 
 PlayerAttackController *PlayerAttackController::init() {
     __ct__8FlagWordFv(&flags);
