@@ -34,7 +34,7 @@ void TLobby::adxt_start_mem_idx(u8 *table_data, s32 entry_index) {
     TLobby::release_ref();
 }
 
-void start_audio_stream_file(AdxtPlayer *player, const char *name) {
+void ADXT_StartFname(AdxtPlayer *player, const char *name) {
     stop_audio_stream((u8 *)player);
     TLobby::init_once();
     if ((player->stream_file = ADXSTM_OpenFnameEx(name, (saddr)player->input_ring)) == 0) {

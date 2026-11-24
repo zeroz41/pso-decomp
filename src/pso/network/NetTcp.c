@@ -36,18 +36,18 @@ s16 AT_TCP_Connect(s16 handle, NetworkAddress *addr, s16 port);
 s16 tcp_get_socket_handle(s16 i);
 s16 validate_tcp_handle(s16 i);
 
-s16 TLobby__sub_8041D368(TcpTcb *tcb);
+s16 tcp_sack_empty(TcpTcb *tcb);
 s32 get_snd_space(TcpTcb *tcb);
-TcpTcb *TLobby__sub_8041B5C0(TcpTcb *tcb);
+TcpTcb *tcp_close(TcpTcb *tcb);
 
-s32 TLobby__sub_8041EB74(TcpTcb *tcb);
-s16 TLobby__sub_8041ECA4(TcpTcb *tcb);
-void TLobby__sub_8041A3CC(void);
-void TLobby__sub_8041A5B4(void);
-s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s16 timer);
-s16 TLobby__sub_8041B3D4(NetworkAddress *dst, NetworkAddress *src_addr, u16 sport, u16 dport, s32 seq, s32 ack, u8 flags);
-void TLobby__sub_8041E8A8(s16 idx);
-void TLobby__sub_8041D584(TcpTcb *tcb, TcpHdr *th, TcpSeqRange *blocks, s16 n);
+s32 tcp_free_rcv_buf(TcpTcb *tcb);
+s16 tcp_alloc_snd_buf(TcpTcb *tcb);
+void tcp_fasttimo(void);
+void tcp_slowtimo(void);
+s32 tcp_timers(TcpTcb *tcb, s16 timer);
+s16 tcp_respond(NetworkAddress *dst, NetworkAddress *src_addr, u16 sport, u16 dport, s32 seq, s32 ack, u8 flags);
+void tcp_init_tcb(s16 idx);
+void tcp_sack_doack(TcpTcb *tcb, TcpHdr *th, TcpSeqRange *blocks, s16 n);
 s32 NetTCPInit(void);
 
 
@@ -59,10 +59,10 @@ TcpState tcp_protocol_state;
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-s32 TLobby__sub_8041A1D8(void) {
-    NetUnregisterTimer(TLobby__sub_8041A5B4);
-    NetUnregisterTimer(TLobby__sub_8041A3CC);
-    TLobby__sub_803F8794((void *)&tcp_protocol_state);
+s32 tcp_term(void) {
+    NetUnregisterTimer(tcp_slowtimo);
+    NetUnregisterTimer(tcp_fasttimo);
+    term_tcp_config((void *)&tcp_protocol_state);
     tcp_protocol_state.count = 0;
     return 0;
 }
@@ -119,13 +119,13 @@ s32 NetTCPInit(void) {
     tcp_protocol_state.backoff[10] = 0x40;
     tcp_protocol_state.backoff[11] = 0x40;
     tcp_protocol_state.backoff[12] = 0x40;
-    NetRegisterTimer(500, (s16)(1), (NetTimerCallback)(TLobby__sub_8041A5B4));
-    NetRegisterTimer(100, (s16)(1), (NetTimerCallback)(TLobby__sub_8041A3CC));
+    NetRegisterTimer(500, (s16)(1), (NetTimerCallback)(tcp_slowtimo));
+    NetRegisterTimer(100, (s16)(1), (NetTimerCallback)(tcp_fasttimo));
     return 0;
 }
 #pragma pop
 
-extern void TLobby__sub_8041A3CC(void) {
+extern void tcp_fasttimo(void) {
     TcpState *g = &tcp_protocol_state;
     s16 i;
     TcpTcb *e;
@@ -143,7 +143,7 @@ extern void TLobby__sub_8041A3CC(void) {
     }
 }
 
-void TLobby__sub_8041A498(TcpTcb *tcp_tcb, s16 error) {
+void tcp_drop(TcpTcb *tcp_tcb, s16 error) {
     s16 idx = tcp_tcb - tcp_protocol_state.tcbs;
 
     if (tcp_tcb->t_state >= 3) {
@@ -163,12 +163,12 @@ void TLobby__sub_8041A498(TcpTcb *tcp_tcb, s16 error) {
         NetDispatchSocketEvent(idx, tcp_tcb->event_ctx, 3, 0xA);
         break;
     }
-    if (TLobby__sub_8041B5C0(tcp_tcb) != 0) {
+    if (tcp_close(tcp_tcb) != 0) {
         tcp_tcb->t_state = -1;
     }
 }
 
-extern void TLobby__sub_8041A5B4(void) {
+extern void tcp_slowtimo(void) {
     TcpState *g = (TcpState *)&tcp_protocol_state;
     TcpTcb *tcb;
     s16 i;
@@ -182,7 +182,7 @@ extern void TLobby__sub_8041A5B4(void) {
                 if (tcb->timers[j] > 0) {
                     tcb->timers[j]--;
                     if (tcb->timers[j] == 0) {
-                        TLobby__sub_8041A6A4(tcb, j);
+                        tcp_timers(tcb, j);
                     }
                 }
             }
@@ -197,7 +197,7 @@ extern void TLobby__sub_8041A5B4(void) {
 
 #pragma push
 #pragma opt_common_subs on
-extern s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s16 timer) {
+extern s32 tcp_timers(TcpTcb *tcb, s16 timer) {
     TcpState *g = &tcp_protocol_state;
     s16 keep;
     s32 win;
@@ -209,14 +209,14 @@ extern s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s16 timer) {
         if (tcb->t_state != 10 && tcb->idle <= g->maxidle) {
             tcb->timers[3] = g->keepintvl;
         } else {
-            TLobby__sub_8041B5C0(tcb);
+            tcp_close(tcb);
         }
         break;
     case 0:
         tcb->rxtshift++;
         if (tcb->rxtshift > 12) {
             tcb->rxtshift = 12;
-            TLobby__sub_8041A498(tcb, 4);
+            tcp_drop(tcb, 4);
             break;
         }
         rexmt = (tcb->srtt >> 3) + tcb->rttvar;
@@ -270,7 +270,7 @@ extern s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s16 timer) {
             if (tcb->idle >= keep + ((g->maxidle < keep * 8) ? g->maxidle : keep * 8)) {
                 goto drop;
             }
-            TLobby__sub_8041B3D4(&tcb->remote, &tcb->local, tcb->hdr.sport, tcb->hdr.dport, tcb->snd_una - 1, tcb->rcv_nxt, 16);
+            tcp_respond(&tcb->remote, &tcb->local, tcb->hdr.sport, tcb->hdr.dport, tcb->snd_una - 1, tcb->rcv_nxt, 16);
             tcb->timers[2] = (g->keepintvl < tcb->keepidle) ? g->keepintvl : tcb->keepidle;
         } else if (keep != 0) {
             tcb->timers[2] = keep;
@@ -279,7 +279,7 @@ extern s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s16 timer) {
         }
         break;
     drop:
-        TLobby__sub_8041A498(tcb, 4);
+        tcp_drop(tcb, 4);
         break;
     }
     return 0;
@@ -293,7 +293,7 @@ void clear_position(TcpTcb *tcb) {
     tcb->timers[3] = 0;
 }
 
-s32 TLobby__sub_8041D460(TcpTcb *tcb, s32 *p1, s32 *p2);
+s32 tcp_sack_next_hole(TcpTcb *tcb, s32 *p1, s32 *p2);
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation off
@@ -336,7 +336,7 @@ s16 AT_TCP_Rawsend(TcpTcb *tp)
     if (tp->t_state < 0) {
         return -1;
     }
-    if (TLobby__sub_8040DA54(&tp->remote, &tp->local) == 0) {
+    if (AT_IP_IsReachable(&tp->remote, &tp->local) == 0) {
         NetDispatchSocketEvent((s16)(tp - ts->tcbs), tp->event_ctx, 3, 0xc);
         return -6;
     }
@@ -368,7 +368,7 @@ s16 AT_TCP_Rawsend(TcpTcb *tp)
         sendalot = 0;
         len = 0;
         if (tp->recover != tp->snd_una) {
-            retransmit_length = TLobby__sub_8041D460(tp, &sack_start, &sack_end);
+            retransmit_length = tcp_sack_next_hole(tp, &sack_start, &sack_end);
             len = retransmit_length;
             if (len != 0) {
                 sendalot = 1;
@@ -597,7 +597,7 @@ send:
         m->fragments[m->fragment_count].length = header_bytes;
         set_value_and_enable(&m->fragments[m->fragment_count].buffer, (saddr)th);
         m->fragment_count++;
-        th->sum = TLobby__sub_8040D8F0(&tp->local, &tp->remote, 6, m, 1);
+        th->sum = calc_transport_checksum(&tp->local, &tp->remote, 6, m, 1);
         if (tp->force == 0 || tp->timers[1] == 0) {
             win = tp->snd_nxt;
             if (flags & 2) {
@@ -616,7 +616,7 @@ send:
                 if ((s32)(last - tp->snd_nxt) > 0) {
                     tp->snd_nxt += len;
                 } else {
-                    TLobby__sub_8041D398(tp, first, last);
+                    tcp_sack_mark_rexmit(tp, first, last);
                 }
             }
             if ((s32)(tp->snd_nxt - tp->snd_max) > 0) {
@@ -658,7 +658,7 @@ send:
     return 0;
 }
 #pragma pop
-s16 TLobby__sub_8041B3D4(NetworkAddress *dst, NetworkAddress *src_addr, u16 sport, u16 dport, s32 seq, s32 ack, u8 flags) {
+s16 tcp_respond(NetworkAddress *dst, NetworkAddress *src_addr, u16 sport, u16 dport, s32 seq, s32 ack, u8 flags) {
     TcpHdr src;
     TcpHdr hdr;
     void *p1;
@@ -674,7 +674,7 @@ s16 TLobby__sub_8041B3D4(NetworkAddress *dst, NetworkAddress *src_addr, u16 spor
     u8 buf[0x10];
 
     NetMemset(buf, 0, 0x10);
-    if (!TLobby__sub_8040DA54(dst, src_addr)) {
+    if (!AT_IP_IsReachable(dst, src_addr)) {
         return -1;
     }
     src.sport = sport;
@@ -712,7 +712,7 @@ s16 TLobby__sub_8041B3D4(NetworkAddress *dst, NetworkAddress *src_addr, u16 spor
     NetMemcpy(ph, p7, 2);
     NetMemcpy(&hdr.urp, p8, 2);
     set_value_and_enable(&pkt->fragments[0].buffer, (saddr)&hdr);
-    src.sum = ((s16)TLobby__sub_8040D8F0(src_addr, dst, (s8)(6), pkt, (s16)(1)));
+    src.sum = ((s16)calc_transport_checksum(src_addr, dst, (s8)(6), pkt, (s16)(1)));
     NetMemcpy(ph, &src.sum, 2);
     if (dispatch_by_addr_family(pkt, dst, src_addr, buf + 4, buf + 4, 6) < 0) {
         release_entry(pkt);
@@ -722,7 +722,7 @@ s16 TLobby__sub_8041B3D4(NetworkAddress *dst, NetworkAddress *src_addr, u16 spor
     return 0;
 }
 
-extern TcpTcb *TLobby__sub_8041B5C0(TcpTcb *self) {
+extern TcpTcb *tcp_close(TcpTcb *self) {
     TcpState *g = &tcp_protocol_state;
     s16 idx;
     s32 tmp;
@@ -739,7 +739,7 @@ extern TcpTcb *TLobby__sub_8041B5C0(TcpTcb *self) {
             self->flags |= 0x20;
         }
         close_if_open(self);
-        TLobby__sub_8041EB74(self);
+        tcp_free_rcv_buf(self);
         idx = self->listener;
         tmp = (u32)idx;
         if (tmp != 0xffff) {
@@ -763,14 +763,14 @@ extern TcpTcb *TLobby__sub_8041B5C0(TcpTcb *self) {
     return self;
 }
 
-extern s16 TLobby__sub_8041B724(TcpTcb *tp) {
+extern s16 AT_TCP_Mss(TcpTcb *tp) {
     s32 mss = AT_IP_GetMssFromDstSrc(&tp->remote, &tp->local);
 
     return tp->maxseg < mss ? tp->maxseg : mss;
 }
 
-s16 TLobby__sub_8041EC14(TcpTcb *tcb);
-extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, NetworkAddress *a, NetworkAddress *b) {
+s16 tcp_alloc_rcv_buf(TcpTcb *tcb);
+extern TcpTcb *tcp_newconn(TcpTcb *self, TcpHdr *th, NetworkAddress *a, NetworkAddress *b) {
     u16 v;
     TcpTcb *dst;
     s32 w;
@@ -779,7 +779,7 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, NetworkAddress *a,
     u8 *sp;
 
     if (self->backlog <= self->pending) return NULL;
-    idx = TLobby__sub_8041E780();
+    idx = tcp_alloc_tcb();
     if (idx < 0) return NULL;
 
     dst = tcp_protocol_state.tcbs;
@@ -812,11 +812,11 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, NetworkAddress *a,
 
     dst->snd_bufsize = self->snd_bufsize;
     dst->rcv_bufsize = self->rcv_bufsize;
-    if (TLobby__sub_8041ECA4(dst) < 0) {
+    if (tcp_alloc_snd_buf(dst) < 0) {
         dst->state = 0;
         return NULL;
     }
-    if (TLobby__sub_8041EC14(dst) < 0) {
+    if (tcp_alloc_rcv_buf(dst) < 0) {
         close_if_open(dst);
         dst->state = 0;
         return NULL;
@@ -832,7 +832,7 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, NetworkAddress *a,
     dst->maxseg = self->maxseg;
     return dst;
 }
-extern s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, TcpHdr *th);
+extern s32 tcp_dooptions(TcpTcb *self, u8 *data, s16 total, TcpHdr *th);
 #define TCP_IDX(tp) ((s16)((TcpTcb *)(tp) - tcp_protocol_state.tcbs))
 #define TCP_MIN(a, b) ((a) < (b) ? (a) : (b))
 #define TCP_MAX(a, b) ((a) > (b) ? (a) : (b))
@@ -888,7 +888,7 @@ s16 tcp_input(NetPacket *pkt, NetworkAddress *remote, NetworkAddress *local) {
     if ((u32)pkt->total_bytes < sizeof(TcpHdr)) {
         return -1;
     }
-    if (TLobby__sub_8040D8F0(remote, local, 6, pkt, 0)) {
+    if (calc_transport_checksum(remote, local, 6, pkt, 0)) {
         goto drop;
     }
     option_bytes = (s16)(len - (s32)sizeof(TcpHdr));
@@ -978,7 +978,7 @@ retry:
         found->timers[2] = found->keepidle;
     }
     if (body != 0 && found->t_state != 1) {
-        TLobby__sub_8041D0C8(found, body, blen, ti);
+        tcp_dooptions(found, body, blen, ti);
     }
     found->rcv_wnd = (u16)(found->rcv_adv - found->rcv_nxt);
     switch (found->t_state) {
@@ -996,12 +996,12 @@ retry:
         if (is_multicast_address(local, 0) == 1) {
             goto drop;
         }
-        ent_new = TLobby__sub_8041B774(found, ti, remote, local);
+        ent_new = tcp_newconn(found, ti, remote, local);
         if (ent_new == 0) {
             goto drop;
         }
         if (body != 0) {
-            TLobby__sub_8041D0C8(ent_new, body, blen, ti);
+            tcp_dooptions(ent_new, body, blen, ti);
         }
         if (flag) {
             ent_new->iss = flag;
@@ -1040,7 +1040,7 @@ retry:
             {
                 int listener_index = found - tcp_protocol_state.tcbs;
                 int accepted_index = ent_new - tcp_protocol_state.tcbs;
-                TLobby__sub_80422AB8(listener_index,
+                complete_accept_request(listener_index,
                                      found->accept_cb,
                                      accepted_index, &ent_new->remote,
                                      (s32)(ent_new)->hdr.sport, (s32)(ent_new)->hdr.dport);
@@ -1057,7 +1057,7 @@ retry:
         if (kind & 4) {
             NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 0xa);
             if (ack) {
-                TLobby__sub_8041A498(found, 1);
+                tcp_drop(found, 1);
             }
             goto drop;
         }
@@ -1078,7 +1078,7 @@ retry:
         if (ack && (s32)(found->snd_una - found->iss) > 0) {
             NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 1);
             found->t_state = 4;
-            found->maxseg = TLobby__sub_8041B724(found);
+            found->maxseg = AT_TCP_Mss(found);
             switch (found->initial_window) {
             case 1:
                 found->snd_cwnd = found->maxseg;
@@ -1159,7 +1159,7 @@ retry:
                 flag = found->rcv_nxt + 0x1F400;
                 NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 4);
                 found->flags |= 0x80;
-                TLobby__sub_8041B5C0(found);
+                tcp_close(found);
                 goto retry;
             }
             if (found->rcv_wnd == 0 && hdr.seq == found->rcv_nxt) {
@@ -1183,7 +1183,7 @@ retry:
             NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 4);
             set_thread_state_and_resume(TCP_IDX(found), found->send_done, -5);
             set_slot_state_and_resume(TCP_IDX(found), found->recv_done, -5);
-            if (TLobby__sub_8041B5C0(found) != 0) {
+            if (tcp_close(found) != 0) {
                 found->t_state = -1;
             }
             goto drop;
@@ -1192,7 +1192,7 @@ retry:
         case 10:
             NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 4);
             found->flags |= 0x80;
-            TLobby__sub_8041B5C0(found);
+            tcp_close(found);
             goto drop;
         }
     }
@@ -1209,7 +1209,7 @@ retry:
         }
         NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 1);
         found->t_state = 4;
-        found->maxseg = TLobby__sub_8041B724(found);
+        found->maxseg = AT_TCP_Mss(found);
         switch (found->initial_window) {
         case 1:
             found->snd_cwnd = found->maxseg;
@@ -1244,7 +1244,7 @@ retry:
                     u32 onxt = found->snd_nxt;
                     u32 win = TCP_MIN(found->snd_wnd, found->snd_cwnd) / 2 / found->maxseg;
 
-                    if (TLobby__sub_8041D368(found) == 0) {
+                    if (tcp_sack_empty(found) == 0) {
                         found->recover = found->snd_nxt;
                         found->dupacks--;
                         goto newreno;
@@ -1278,7 +1278,7 @@ retry:
             if (rem == 0 && hdr.win <= found->snd_wnd) {
                 if (hdr.ack != found->snd_una) {
                     acked = hdr.ack - found->snd_una;
-                    TLobby__sub_8041FFF8(acked, found);
+                    tcp_drop_acked_data(acked, found);
                     found->snd_wnd -= acked;
                     if (hdr.win > found->snd_wnd) {
                         found->snd_wnd = hdr.win;
@@ -1386,7 +1386,7 @@ retry:
                 n = acked;
                 ourfinisacked = 0;
             }
-            TLobby__sub_8041FFF8(n, found);
+            tcp_drop_acked_data(n, found);
             found->snd_wnd -= (u16)n;
         }
         found->snd_una = hdr.ack;
@@ -1409,7 +1409,7 @@ retry:
                     close_if_open(found);
                 }
                 if ((u32)get_rcv_count(found) == 0) {
-                    TLobby__sub_8041EB74(found);
+                    tcp_free_rcv_buf(found);
                 }
                 clear_position(found);
                 found->timers[3] = 0x78;
@@ -1418,7 +1418,7 @@ retry:
         case 8:
             if (ourfinisacked) {
                 NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 4);
-                TLobby__sub_8041B5C0(found);
+                tcp_close(found);
                 goto drop;
             }
             break;
@@ -1462,7 +1462,7 @@ step6:
             found->rcv_nxt += rem;
             off = len + total;
             if (!(found->shutdown & 0x04)) {
-                TLobby__sub_8041F204(pkt, off, found);
+                tcp_append_rcvbuf(pkt, off, found);
             }
             if (found->ack_now == 0) {
                 if (found->ack_delay == 0) {
@@ -1474,7 +1474,7 @@ step6:
             goto L1397;
         } else {
             if ((s32)(hdr.seq - found->rcv_nxt) > 0) {
-                TLobby__sub_8041F914(pkt, (len + total) & 0xffff, found, ti);
+                tcp_reass(pkt, (len + total) & 0xffff, found, ti);
             }
             kind &= ~1;
             found->flags |= 1;
@@ -1488,7 +1488,7 @@ L1397:
     }
     NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 2);
     if (!(found->flags & 0x08)) {
-        TLobby__sub_8041F11C(found);
+        tcp_notify_receiver(found);
         found->flags |= 1;
         found->rcv_nxt += 1;
     }
@@ -1507,7 +1507,7 @@ L1397:
             close_if_open(found);
         }
         if ((u32)get_rcv_count(found) == 0) {
-            TLobby__sub_8041EB74(found);
+            tcp_free_rcv_buf(found);
         }
         clear_position(found);
         found->timers[3] = 0x78;
@@ -1538,7 +1538,7 @@ dropwithreset:
         goto drop;
     }
     if (kind & 0x10) {
-        if (TLobby__sub_8041B3D4(remote, local, hdr.dport, hdr.sport, hdr.ack, 0, 4) < 0) {
+        if (tcp_respond(remote, local, hdr.dport, hdr.sport, hdr.ack, 0, 4) < 0) {
             return -1;
         }
     } else {
@@ -1547,7 +1547,7 @@ dropwithreset:
         }
         {
             u32 reset_ack = rem + hdr.seq;
-            if (TLobby__sub_8041B3D4(remote, local, hdr.dport, hdr.sport, 0, reset_ack, 0x14) < 0) {
+            if (tcp_respond(remote, local, hdr.dport, hdr.sport, 0, reset_ack, 0x14) < 0) {
                 return -1;
             }
         }
@@ -1560,10 +1560,10 @@ drop:
 #pragma pop
 #pragma pop
 
-s16 TLobby__sub_8041D524(TcpTcb *tcb, s32 x);
+s16 tcp_sack_rexmit_before(TcpTcb *tcb, s32 x);
 #pragma push
 #pragma opt_common_subs on
-s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, TcpHdr *th)
+s32 tcp_dooptions(TcpTcb *self, u8 *data, s16 total, TcpHdr *th)
 {
   s32 n;
   s16 done = 0;
@@ -1630,8 +1630,8 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, TcpHdr *th)
             }
           }
 
-          TLobby__sub_8041D584(self, th, tbl, n);
-          if (TLobby__sub_8041D524(self, last) != 0)
+          tcp_sack_doack(self, th, tbl, n);
+          if (tcp_sack_rexmit_before(self, last) != 0)
           {
             self->edge = self->snd_una;
           }
@@ -1645,7 +1645,7 @@ s32 TLobby__sub_8041D0C8(TcpTcb *self, u8 *data, s16 total, TcpHdr *th)
     data += sz;
   }
 
-  self->maxseg = ((self->peer_mss) < ((s16) TLobby__sub_8041B724(self))) ? (self->peer_mss) : ((s16) TLobby__sub_8041B724(self));
+  self->maxseg = ((self->peer_mss) < ((s16) AT_TCP_Mss(self))) ? (self->peer_mss) : ((s16) AT_TCP_Mss(self));
   return 0;
 }
 #pragma pop
@@ -1676,7 +1676,7 @@ void insert_item_at(TcpTcb *o, s16 idx, s32 a, s32 b) {
     o->seg_top++;
 }
 
-s16 TLobby__sub_8041D368(TcpTcb *tcb) {
+s16 tcp_sack_empty(TcpTcb *tcb) {
     if (tcb->seg_top == -1) {
         return 1;
     }
@@ -1688,7 +1688,7 @@ void reset_slot_index(TcpTcb *tcb) {
     tcb->edge = tcb->una;
 }
 
-void TLobby__sub_8041D398(TcpTcb *tp, s32 first, s32 last) {
+void tcp_sack_mark_rexmit(TcpTcb *tp, s32 first, s32 last) {
     s16 i;
     s32 start;
 
@@ -1728,7 +1728,7 @@ void TLobby__sub_8041D398(TcpTcb *tp, s32 first, s32 last) {
     }
 }
 
-s32 TLobby__sub_8041D460(TcpTcb *tp, s32 *start, s32 *end) {
+s32 tcp_sack_next_hole(TcpTcb *tp, s32 *start, s32 *end) {
     s16 n = tp->seg_top;
     s16 i;
 
@@ -1754,7 +1754,7 @@ s32 TLobby__sub_8041D460(TcpTcb *tp, s32 *start, s32 *end) {
     return 0;
 }
 
-s16 TLobby__sub_8041D524(TcpTcb *tcb, s32 x) {
+s16 tcp_sack_rexmit_before(TcpTcb *tcb, s32 x) {
     s16 n = tcb->seg_top;
     s16 i;
     if (n == -1) { return 0; }
@@ -1777,7 +1777,7 @@ inline void remove_8041D584(TcpTcb *tcb, s16 idx) {
 }
 #pragma push
 #pragma opt_common_subs on
-void TLobby__sub_8041D584(TcpTcb *tcb, TcpHdr *th, TcpSeqRange *blocks, s16 n) {
+void tcp_sack_doack(TcpTcb *tcb, TcpHdr *th, TcpSeqRange *blocks, s16 n) {
     s16 i;
     s16 j;
     s32 d;
@@ -1932,7 +1932,7 @@ s16 tcp_get_socket_handle(s16 i) {
 
 #pragma push
 #pragma pool_data off
-s32 TLobby__sub_8041DBD4(s16 handle, NetBufferRef *destination, s32 len, TcpCompletion callback) {
+s32 tcp_start_receive(s16 handle, NetBufferRef *destination, s32 len, TcpCompletion callback) {
     s16 r;
     TcpTcb *e;
 
@@ -1956,7 +1956,7 @@ s32 TLobby__sub_8041DBD4(s16 handle, NetBufferRef *destination, s32 len, TcpComp
         }
         break;
     }
-    return TLobby__sub_8041ED8C(e, destination, len, callback);
+    return tcp_user_receive(e, destination, len, callback);
 }
 #pragma pop
 
@@ -1989,19 +1989,19 @@ s16 tcp_start_send(s16 id, NetPacket *req, TcpCompletion completion, u8 urgent) 
     if (v > 5 && (e->shutdown & 8)) {
         return -4;
     }
-    TLobby__sub_80420BD0(req, e, completion);
+    tcp_queue_send_request(req, e, completion);
     if (urgent != 0) {
         e->snd_up = e->snd_nxt + req->total_bytes;
     }
     ret = AT_TCP_Rawsend(e);
-    TLobby__sub_8041FFF8(0, e);
+    tcp_drop_acked_data(0, e);
     return ret;
 }
 #pragma pop
 
 #pragma push
 #pragma pool_data off
-s32 TLobby__sub_8041DE1C(s16 i, s16 opt, u32 *val) {
+s32 tcp_set_option(s16 i, s16 opt, u32 *val) {
     s16 r;
     TcpState *g;
     TcpTcb *tcb;
@@ -2144,7 +2144,7 @@ s32 mark_connection_closed(s16 id) {
     e += id;
     e->t_state = 0;
     e->flags |= 0x80;
-    TLobby__sub_8041B5C0(e);
+    tcp_close(e);
     return 0;
 }
 #pragma pop
@@ -2178,7 +2178,7 @@ s32 abort_tcp_connection(s16 id) {
 }
 #pragma pop
 
-extern void TLobby__sub_8041E2EC(s16 idx, void *a, void *b) {
+extern void tcp_set_ip_options(s16 idx, void *a, void *b) {
     TcpTcb *e;
 
     e = tcp_protocol_state.tcbs;
@@ -2187,7 +2187,7 @@ extern void TLobby__sub_8041E2EC(s16 idx, void *a, void *b) {
     NetMemcpy(e->ip6_opts, b, sizeof(e->ip6_opts));
 }
 
-u16 TLobby__sub_8041EA14(void);
+u16 tcp_next_ephemeral_port(void);
 #pragma push
 #pragma opt_propagation off
 #pragma push
@@ -2208,7 +2208,7 @@ s16 AT_TCP_Connect(s16 handle, NetworkAddress *addr, s16 port) {
     }
     e = tcp_protocol_state.tcbs;
     e += handle;
-    if (TLobby__sub_8040DA54(addr, &e->local) == 0) {
+    if (AT_IP_IsReachable(addr, &e->local) == 0) {
         NetDispatchSocketEvent((s16)(e - tcp_protocol_state.tcbs), e->event_ctx, 3, 0xC);
         return -6;
     }
@@ -2217,18 +2217,18 @@ s16 AT_TCP_Connect(s16 handle, NetworkAddress *addr, s16 port) {
         return -6;
     }
     if (e->hdr.sport == 0) {
-        e->hdr.sport = TLobby__sub_8041EA14();
+        e->hdr.sport = tcp_next_ephemeral_port();
     }
     NetMemcpy(&e->remote, addr, sizeof(e->remote));
     e->hdr.dport = port;
-    if (TLobby__sub_8041B724(e) < 0) {
+    if (AT_TCP_Mss(e) < 0) {
         return -6;
     }
-    r = TLobby__sub_8041ECA4(e);
+    r = tcp_alloc_snd_buf(e);
     if (r < 0) {
         return r;
     }
-    r = TLobby__sub_8041EC14(e);
+    r = tcp_alloc_rcv_buf(e);
     if (r < 0) {
         close_if_open(e);
         return r;
@@ -2252,7 +2252,7 @@ s16 AT_TCP_Connect(s16 handle, NetworkAddress *addr, s16 port) {
 }
 #pragma pop
 
-extern s32 TLobby__sub_8041E590(s16 idx) {
+extern s32 tcp_unlink_listener(s16 idx) {
     TcpTcb *ents;
     s16 l;
     TcpTcb *t;
@@ -2272,7 +2272,7 @@ extern s32 TLobby__sub_8041E590(s16 idx) {
     return 0;
 }
 
-extern s32 TLobby__sub_8041E5E4(s16 idx, NetworkAddress *a, u16 id) {
+extern s32 tcp_pcbbind(s16 idx, NetworkAddress *a, u16 id) {
     s16 i;
     TcpTcb *e;
     TcpState *g;
@@ -2304,7 +2304,7 @@ extern s32 TLobby__sub_8041E5E4(s16 idx, NetworkAddress *a, u16 id) {
         return -6;
     }
     if (id == 0) {
-        e->hdr.sport = TLobby__sub_8041EA14();
+        e->hdr.sport = tcp_next_ephemeral_port();
     } else {
         p = g->tcbs;
         for (i = 0; i < g->count; i++) {
@@ -2312,7 +2312,7 @@ extern s32 TLobby__sub_8041E5E4(s16 idx, NetworkAddress *a, u16 id) {
                 if (is_addr_unspecified(a) != 0 || is_addr_unspecified(&p->local) != 0 ||
                     compare_sockaddr(&p->local, a) == 0) {
                     if (p->t_state == 10 && (p->flags & 0x80) != 0) {
-                        TLobby__sub_8041B5C0(p);
+                        tcp_close(p);
                     } else {
                         return -3;
                     }
@@ -2325,7 +2325,7 @@ extern s32 TLobby__sub_8041E5E4(s16 idx, NetworkAddress *a, u16 id) {
     NetMemcpy(&e->local, a, sizeof(e->local));
     return 0;
 }
-s16 TLobby__sub_8041E780(void)
+s16 tcp_alloc_tcb(void)
 {
   TcpState *g_m = (TcpState *) (*(u8(*)[])&tcp_protocol_state);
   TcpTcb *rec;
@@ -2350,7 +2350,7 @@ s16 TLobby__sub_8041E780(void)
     if (rec->state == 0)
     {
       NetMemset(rec, 0, sizeof(TcpTcb));
-      TLobby__sub_8041E8A8(idx);
+      tcp_init_tcb(idx);
       return idx;
     }
     if ((rec->t_state == 10) && ((rec->flags & 0x80) != 0))
@@ -2373,9 +2373,9 @@ s16 TLobby__sub_8041E780(void)
 
   if (best != NULL)
   {
-    TLobby__sub_8041B5C0(best);
+    tcp_close(best);
     NetMemset(best, 0, sizeof(TcpTcb));
-    TLobby__sub_8041E8A8(bestIdx);
+    tcp_init_tcb(bestIdx);
     return bestIdx;
   }
   return -0x103;
@@ -2385,7 +2385,7 @@ s16 TLobby__sub_8041E780(void)
 
 #pragma push
 #pragma pool_data off
-void TLobby__sub_8041E8A8(s16 idx) {
+void tcp_init_tcb(s16 idx) {
     TcpTcb *t;
     TcpSeqRange *p;
     s16 i;
@@ -2431,7 +2431,7 @@ void TLobby__sub_8041E8A8(s16 idx) {
 }
 #pragma pop
 
-u16 TLobby__sub_8041EA14(void)
+u16 tcp_next_ephemeral_port(void)
 {
     s32 tmp;
     TcpTcb *e;
@@ -2484,11 +2484,11 @@ s16 validate_tcp_handle(s16 i) {
     return 0;
 }
 
-s32 TLobby__sub_8041EB74(TcpTcb *tcb) {
+s32 tcp_free_rcv_buf(TcpTcb *tcb) {
     if (tcb->rcv_buf.kind == 0) {
         return -1;
     }
-    TLobby__sub_8041579C(&tcb->rcv_alloc);
+    buffer_pool_free(&tcb->rcv_alloc);
     tcb->rcv_buf.kind = 0;
     return 0;
 }
@@ -2497,16 +2497,16 @@ s32 close_if_open(TcpTcb *tcb) {
     if (tcb->snd_buf.kind == 0) {
         return -1;
     }
-    TLobby__sub_8041579C(&tcb->snd_alloc);
+    buffer_pool_free(&tcb->snd_alloc);
     tcb->snd_buf.kind = 0;
     return 0;
 }
 
-s16 TLobby__sub_8041EC14(TcpTcb *tcb) {
+s16 tcp_alloc_rcv_buf(TcpTcb *tcb) {
     s32 spC[3];
 
     if (tcb->rcv_buf.kind == 0) {
-        if (TLobby__sub_80415954(&spC[0], tcb->rcv_bufsize, 1) < 0) {
+        if (buffer_pool_alloc(&spC[0], tcb->rcv_bufsize, 1) < 0) {
             return -0x102;
         }
         init_msg(&tcb->rcv_alloc, spC[0]);
@@ -2521,12 +2521,12 @@ s16 TLobby__sub_8041EC14(TcpTcb *tcb) {
     return 0;
 }
 
-s16 TLobby__sub_8041ECA4(TcpTcb *tcb) {
+s16 tcp_alloc_snd_buf(TcpTcb *tcb) {
     unsigned char off;
     s32 spC;
 
     if (tcb->snd_buf.kind == 0) {
-        if (TLobby__sub_80415954(&spC, tcb->snd_bufsize, 1) < 0) {
+        if (buffer_pool_alloc(&spC, tcb->snd_bufsize, 1) < 0) {
             return -0x102;
         }
         init_msg(&tcb->snd_alloc, spC);

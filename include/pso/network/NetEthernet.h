@@ -23,13 +23,13 @@ typedef struct EthDriver {
 /* A driver as registered with the dispatcher. */
 typedef struct EthLink {
     s16 used;
-    s16 id;                     /* 0x02: its handler index (TLobby__sub_80409A3C) */
+    s16 id;                     /* 0x02: its handler index (register_link_handler) */
     s16 dev;                    /* 0x04 */
     u8 mac[6];                  /* 0x06 */
     u8 *frame;                  /* 0x0C: the frame being sent */
 } EthLink;
 
-/* An EtherType bound on a link (TLobby__sub_804094B8). */
+/* An EtherType bound on a link (dix_attach_protocol). */
 typedef struct EthSocket {
     s16 used;
     s16 link;                   /* 0x02: EthLink.id */

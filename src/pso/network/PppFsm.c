@@ -20,7 +20,7 @@ void update_countdown_state(PppFsm *);
 
 /* The PPP FCS-16 lookup table of RFC 1662 (fcstab), which the HDLC framing (ppp_poll_input, ppp_output_frame)
  * reads. .data 804FD3A8, just before this file's jump tables; owner inferred: no TU between NetworkThreadRuntime.c
- * and this one has other .data, and this file holds the stack's other checksum code (TLobby__sub_803FE934). */
+ * and this one has other .data, and this file holds the stack's other checksum code (ip_pseudo_header_checksum). */
 u16 ppp_fcs16_table[256] = {
     0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,
     0x8c48, 0x9dc1, 0xaf5a, 0xbed3, 0xca6c, 0xdbe5, 0xe97e, 0xf8f7,
@@ -59,7 +59,7 @@ u16 ppp_fcs16_table[256] = {
 /* How many PPP protocols have reached the opened state (5); IPCP's wait stops at 2 (.sbss 805D7AA0). */
 s32 ppp_opened_count;
 
-void TLobby__sub_803FD694(PppFsm *fsm) {
+void fsm_init(PppFsm *fsm) {
     PppFsmTimer *timer;
     timer = &fsm->timer;
     fsm->max_request_attempts = fsm->proto->max_request_attempts;
@@ -110,7 +110,7 @@ void update_connection_state(PppFsm *fsm) {
     }
 }
 
-void TLobby__sub_803FD85C(PppFsm *fsm) {
+void fsm_lowerdown(PppFsm *fsm) {
     if (fsm->opts != NULL) {
         switch (fsm->state) {
         case 2:
@@ -134,7 +134,7 @@ void TLobby__sub_803FD85C(PppFsm *fsm) {
     }
 }
 
-void TLobby__sub_803FD958(PppFsm *fsm) {
+void fsm_open(PppFsm *fsm) {
     if (fsm->opts != NULL && (fsm->flags & 0xC0)) {
         switch (fsm->state) {
         case 0:
@@ -222,7 +222,7 @@ static inline s16 read_packet_header(PppHeader *dst, PppFrame **src, s32 with_ex
 #pragma opt_common_subs on
 #pragma dont_inline off
 #pragma inline_depth(4)
-void TLobby__sub_803FDBF8(PppFsm *fsm, PppFrame *payload)
+void fsm_input(PppFsm *fsm, PppFrame *payload)
 {
     PppHeader hdr;
     s16 rc;
@@ -234,7 +234,7 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, PppFrame *payload)
         return;
     }
     hdr.len -= 4;
-    TLobby__sub_80401CAC(&payload, hdr.len);
+    ppp_buffer_truncate(&payload, hdr.len);
     switch (hdr.code) {
     case 1:
         switch (fsm->state) {
@@ -492,14 +492,14 @@ void TLobby__sub_803FDBF8(PppFsm *fsm, PppFrame *payload)
     }
 }
 #pragma pop
-void TLobby__sub_803FE600(PppFsm *fsm) {
+void fsm_reset(PppFsm *fsm) {
     fsm->state = (fsm->flags & 0xC0) ? 1 : 0;
     fsm->retries = fsm->max_request_attempts;
     fsm->peer_attempts_left = fsm->max_peer_attempts;
     fsm->proto->reset_options(fsm);
 }
 
-s16 TLobby__sub_803FE658(PppFsm *fsm) {
+s16 fsm_send_config_request(PppFsm *fsm) {
     u8 count;
 
     count = fsm->retries;
@@ -591,18 +591,18 @@ s16 ppp_fsm_send_packet(PppFsm *self, u8 code, int reply_identifier, PppFrame *p
         s16 count = link->tx_counts[fsm->proto->tx_counter_index];
         link->tx_counts[fsm->proto->tx_counter_index] = count + 1;
     }
-    return TLobby__sub_80406624(0, 0, fsm->proto->proto, payload);
+    return ppp_output_protocol(0, 0, fsm->proto->proto, payload);
 }
 #pragma pop
-void TLobby__sub_803FE820(PppFsm *fsm) {
+void fsm_restart_timer(PppFsm *fsm) {
     lobby_timer_start(&fsm->timer);
 }
 
-s16 TLobby__sub_803FE844(PppFsm *fsm, PppHeader *header, PppFrame *frame) {
+s16 fsm_noop_check(PppFsm *fsm, PppHeader *header, PppFrame *frame) {
     return 0;
 }
 
-void TLobby__sub_803FE84C(PppFsm *fsm) {
+void fsm_noop_action(PppFsm *fsm) {
 
 }
 
@@ -620,7 +620,7 @@ s32 read_2_bytes(void *self, void *src) {
     return 0;
 }
 
-s16 TLobby__sub_803FE8BC(PppHeader *dst, PppFrame **src) {
+s16 fsm_read_header(PppHeader *dst, PppFrame **src) {
     u8 buf[4];
     if (dst == 0) {
         return -1;
@@ -634,19 +634,19 @@ s16 TLobby__sub_803FE8BC(PppHeader *dst, PppFrame **src) {
     return 0;
 }
 
-u16 TLobby__sub_803FE934(u8* p, PppFrame *buf, u16 count) {
+u16 ip_pseudo_header_checksum(u8* p, PppFrame *buf, u16 count) {
     u32 sum = 0;
     s32 i;
     if (p != NULL) {
         i = 6; while (i--) { sum += *p++ << 8; sum += *p++; }
     }
-    sum = TLobby__sub_803FE9F8(sum, buf, count);
+    sum = ip_checksum_accumulate(sum, buf, count);
     sum = (sum >> 16) + (sum & 0xFFFF);
     sum += sum >> 16;
     return ~sum & 0xFFFF;
 }
 
-u32 TLobby__sub_803FE9F8(u32 sum, PppFrame* buf, u16 count) {
+u32 ip_checksum_accumulate(u32 sum, PppFrame* buf, u16 count) {
     s16 n;
     u16 last;
     s32 odd;
@@ -675,7 +675,7 @@ u32 TLobby__sub_803FE9F8(u32 sum, PppFrame* buf, u16 count) {
     return sum;
 }
 
-s32 TLobby__sub_803FEA88(ParsedIpHeader *out, PppFrame **src) {
+s32 NetIPv4ReadHeader(ParsedIpHeader *out, PppFrame **src) {
     PppFrame *e = *src;
     IPv4Header h;
     u32 hl;
@@ -771,7 +771,7 @@ PppFrame *NetIPv4WriteHeader(ParsedIpHeader *ip, PppFrame *frame, s32 preserve_c
         u32 m = (u16)n;
         NetMemcpy(data, hdr, m);
         if ((u16)preserve_checksum == 0) {
-            sum = TLobby__sub_803FE9F8(0, frame, n);
+            sum = ip_checksum_accumulate(0, frame, n);
             sum = (sum >> 16) + (sum & 0xFFFF);
             sum = (sum >> 16) + sum;
             hdr->cksum = ~sum;

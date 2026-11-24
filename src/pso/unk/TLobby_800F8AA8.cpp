@@ -987,7 +987,7 @@ void TLobby::wait_ready_loop() {
 loop_1:
     if (TLobby::run_disk_error_check() != 1) {
         if (get_main_phase() == 0xF) {
-            TLobby__sub_801384E4();
+            update_state_with_location();
         }
         TAdPlayerLoadGC::set_state(1);
         (*(s8 *)&lobby_wait_ready_flag) = 1;

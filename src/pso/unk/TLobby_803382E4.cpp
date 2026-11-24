@@ -233,4 +233,4 @@ void TLobby::update_pulse_colors(s32 arg0) {
 
 void TWindowSubStatusDisp__sub_803386F0(void) { TObjPlayer::free_if_valid(info_icon_texture); }
 
-void load_info_icon(void) { info_icon_texture = (saddr)load_gvm_texture_file("InfoIcon.gvm"); }
+void load_info_icon(void) { info_icon_texture = (saddr)LoadPvmFileTls("InfoIcon.gvm"); }

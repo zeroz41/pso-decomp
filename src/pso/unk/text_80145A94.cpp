@@ -41,7 +41,7 @@ s32 load_network_info(void) {
     s32 start;
     found = 0;
     lbl_805D56CC = 0;
-    TLobby__sub_8042EE4C((s32 *)&status);
+    get_network_adapter_type((s32 *)&status);
     if (status == 5) {
         status = 4;
     }
@@ -170,7 +170,7 @@ s32 load_network_info(void) {
 }
 s32 TLobby__sub_80145DB4(s32 arg0) {
     s32 sp8;
-    TLobby__sub_8042EE4C(&sp8);
+    get_network_adapter_type(&sp8);
     switch (sp8) {
     case 0:
     case 1:

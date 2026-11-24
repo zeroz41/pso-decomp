@@ -12,7 +12,7 @@ struct NetworkAddress;
 typedef void (*NetSocketEventCallback)(s16 handle, s16 event);
 void NetDispatchSocketEvent(s16 handle, NetSocketEventCallback callback, s32 protocol, s16 event);
 typedef void (*TcpAcceptCallback)(s16 accepted, s16 listener, struct NetworkAddress *address, s32 port);
-s32 TLobby__sub_80422AB8(s16 listener, TcpAcceptCallback callback, s16 accepted, struct NetworkAddress *address, s32 local_port, s32 remote_port);
+s32 complete_accept_request(s16 listener, TcpAcceptCallback callback, s16 accepted, struct NetworkAddress *address, s32 local_port, s32 remote_port);
 #ifdef __cplusplus
 }
 #endif

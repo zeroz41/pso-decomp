@@ -17,8 +17,8 @@
 #pragma pool_data off
 
 extern "C" {
-s32 fn_8042EAD4(u8 *arg0, u32 arg1);
-void fn_8042EBA4(DolHeader *, s32);
+s32 set_shared_memory_data(u8 *arg0, u32 arg1);
+void launch_iwanaga_dol(DolHeader *, s32);
 extern s32 resource_decompress_buffer;
 }
 // The switcher.dol pages: the modem check (TAdTrialModemChkGC__sub_8007FA24) and the dial screen
@@ -60,13 +60,13 @@ void init_disc_error_messages(void) {
     lbl_805D4EC4 = z;
     disc_error_code = p[-0x55d0];
     p[-0x55d0] = z;
-    TAdTrialModemChkGC__sub_8042EC14();
+    init_shared_memory();
     fn_8042EF48(0);
-    fn_8042ED98(4, disc_error_message_text);
-    fn_8042ED98(1, disc_error_insert_disc_text);
-    fn_8042ED98(0, disc_error_cover_open_text);
-    fn_8042ED98(2, disc_error_wrong_disc_text);
-    fn_8042ED98(3, disc_error_read_failed_text);
+    set_disc_error_message(4, disc_error_message_text);
+    set_disc_error_message(1, disc_error_insert_disc_text);
+    set_disc_error_message(0, disc_error_cover_open_text);
+    set_disc_error_message(2, disc_error_wrong_disc_text);
+    set_disc_error_message(3, disc_error_read_failed_text);
 }
 #pragma pop
 
@@ -86,8 +86,8 @@ s32 launch_switcher_dol(const char *url) {
     GXDrawDone();
     memset(buf, 0, 0xFF);
     strcpy(buf, url);
-    fn_8042EAD4((u8 *)buf, strlen(buf) + 1);
-    fn_8042EBA4((DolHeader *) v, r);
+    set_shared_memory_data((u8 *)buf, strlen(buf) + 1);
+    launch_iwanaga_dol((DolHeader *) v, r);
     return 1;
 }
 

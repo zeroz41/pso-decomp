@@ -221,7 +221,7 @@ void TOKeyMachine01::load_assets() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_ki_doa_panel_resource_descriptor, 0, 0, NULL);
     TOKeyMachine01__resource_bundle = resource;
     TOKeyMachine01__texture_lists = (NJS_TEXLIST **)mem_alloc(2 * sizeof(*TOKeyMachine01__texture_lists));
-    TOKeyMachine01__texture_lists[0] = load_gvm_texture_file("fs_obj_ki_doa_panel_r.gvm");
+    TOKeyMachine01__texture_lists[0] = LoadPvmFileTls("fs_obj_ki_doa_panel_r.gvm");
     TOKeyMachine01__texture_lists[1] = TOKeyMachine01__resource_bundle->models[0].texlist;
 }
 

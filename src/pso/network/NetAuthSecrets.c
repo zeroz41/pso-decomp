@@ -12,23 +12,23 @@ typedef struct PppAuthSecret {
     const char *secret;
 } PppAuthSecret;
 
-/* The name/secret pairs TLobby__sub_803F7684 looks a peer up in: one test account. */
+/* The name/secret pairs ppp_find_auth_secret looks a peer up in: one test account. */
 PppAuthSecret ppp_auth_secrets[] = {
     {"test", "hogehoge"},
     {NULL, NULL},
 };
 
 /* inferred: the shutdown hook ppp_term calls while it stops the stack */
-void TLobby__sub_803F7678(void) {
+void ppp_term_hook(void) {
 
 }
 
 /* inferred: the start-up hook ppp_init calls */
-s32 TLobby__sub_803F767C(void) {
+s32 ppp_init_hook(void) {
     return 0;
 }
 
-const char *TLobby__sub_803F7684(const char *name) {
+const char *ppp_find_auth_secret(const char *name) {
     PppAuthSecret *p;
     for (p = ppp_auth_secrets; p->name != NULL; p++) {
         if (NetCompareStrings(name, p->name) == 0) {

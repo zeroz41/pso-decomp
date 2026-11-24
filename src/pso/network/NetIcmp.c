@@ -29,7 +29,7 @@
 
 s16 icmp_input(u8 *self, u32 d, u32 c)
 {
-  s16 TLobby__sub_8040CFE8(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt);
+  s16 icmp_send(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt);
   NetPacketFragment *p;
   NetBufferRef stream;
   u8 hdr[8];
@@ -89,7 +89,7 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
       q++;
     }
 
-      r = TLobby__sub_8040CFE8(0, 0, c, d, out);
+      r = icmp_send(0, 0, c, d, out);
       if (r < 0)
     {
       release_entry(out);
@@ -111,7 +111,7 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
       case 17:
         set_value_and_enable(&stream, (saddr) udp);
         netbuf_copy_by_ref(&stream, &rec->buffer, 8);
-        TLobby__sub_80420D38(*((u16 *) udp), hdr[1]);
+        udp_ctlinput(*((u16 *) udp), hdr[1]);
         break;
 
     }
@@ -132,14 +132,14 @@ s16 icmp_input(u8 *self, u32 d, u32 c)
         net = ((a & 0x80000000) == 0) ? (a & 0xFF000000) : (((a & 0xC0000000) == 0x80000000) ? (a & 0xFFFF0000) : (((a & 0xE0000000) == 0xC0000000) ? (a & 0xFFFFFF00) : (0)));
         new_var = (u32 *) addr;
         mask = ((a & 0x80000000) == 0) ? (0xFF000000) : (((a & 0xC0000000) == 0x80000000) ? (0xFFFF0000) : (((a & 0xE0000000) == 0xC0000000) ? (0xFFFFFF00) : (0)));
-        TLobby__sub_8040F8A4(net, *new_var, mask, 2, d);
+        route4_redirect(net, *new_var, mask, 2, d);
         break;
 
       case 1:
 
       case 3:
         NetMemcpy(addr, hdr + 4, 4);
-        TLobby__sub_8040F8A4(*((u32 *)(ip + 16)), *((u32 *) addr), -1, 6, d);
+        route4_redirect(*((u32 *)(ip + 16)), *((u32 *) addr), -1, 6, d);
         break;
 
     }
@@ -198,7 +198,7 @@ typedef struct Icmp4Header {
     u8 rest[4];
 } Icmp4Header;
 LAYOUT_ASSERT(Icmp4Header_size_check, sizeof(Icmp4Header) == 8);
-s16 TLobby__sub_8040CFE8(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt) {
+s16 icmp_send(u8 type, u8 code, u32 src, u32 dst, NetPacket *pkt) {
     NetBufferRef ref;
     Icmp4Header hdr;
 

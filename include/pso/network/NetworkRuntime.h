@@ -12,7 +12,7 @@ typedef struct PppFrame PppFrame;
  * data and count len down. */
 struct PppFrame { u8 *data; u16 len; };
 LAYOUT_ASSERT(PppFrame_size_check, sizeof(struct PppFrame) == 8);
-/* An IPv6CP option set: the mask of the options it holds, then their values (TLobby__sub_803FACD8 appends the options
+/* An IPv6CP option set: the mask of the options it holds, then their values (append_masked_ipv6cp_options appends the options
  * a mask selects). */
 typedef struct Ipv6cpOptionSet {
     s16 mask;
@@ -46,7 +46,7 @@ struct PppHeader;
 typedef struct NetThreadState {
     s32 mutex;
     NetThreadHandle thread;                 /* 0x04 */
-    s16 poll_ms;                /* 0x08: 40 (TLobby__sub_803F79B0), set by TLobby__sub_804050DC */
+    s16 poll_ms;                /* 0x08: 40 (init_thread_poll_config), set by set_net_poll_interval */
     u8 padA[6];
 } NetThreadState;
 LAYOUT_ASSERT(NetThreadState_size_check, sizeof(NetThreadState) == 0x10);
@@ -54,33 +54,33 @@ LAYOUT_ASSERT(NetThreadState_size_check, sizeof(NetThreadState) == 0x10);
 extern "C" {
 #endif
 extern NetThreadState net_thread_state;
-s16 TLobby__sub_803F8E9C(void);
+s16 AT_InitializeRTOS(void);
 /* NetworkRuntime.c: the stack's OS layer (time, mutexes, threads, alarms, message queues) and string helpers. */
-s32 cancel_pending_alarms(void);
+s32 AT_TerminateRTOS(void);
 void get_time_seconds(s32* out);
 void get_time_ms(s32* out);
-s16 TLobby__sub_803F94F0(s32 *out);
+s16 create_message_queue(s32 *out);
 void clear_slot_for_handle(u32 handle);
-void TLobby__sub_803F9344(u32 handle, void *source, s32 size);
+void send_message_queue(u32 handle, void *source, s32 size);
 void unlock_mutex(saddr mutex);
 void lock_mutex(saddr mutex);
 void signal_alarm_queue(void* alarm);
 void resume_thread(saddr thread);
-void cancel_thread_if_running(void* thread);
-void deactivate_entry_by_key(u32 key);
+void AT_TerminateTask(void* thread);
+void AT_DeleteTask(u32 key);
 /* The thread key is the original native address word stored by the pool. */
-s16 TLobby__sub_803F9B94(NetThreadEntry entry, NetThreadHandle *out_key);
+s16 AT_CreateTask(NetThreadEntry entry, NetThreadHandle *out_key);
 void *run_current_thread_callback(void *unused);
 s32 NetSetDefaultThreadPriority(s32 priority);
 s16 check_connection_status(struct PppFsm *fsm);
 s16 clear_flag_bit4(s32 unused, Ipv6cpOptions *options);
-void init_net_state_entry(struct PppFsm *entry);
+void ipv6cp_opening(struct PppFsm *entry);
 void NetIPv6CPCancelTimer(struct PppFsm *entry);
 void NetYieldThread(void);
 void NetStoreTick(s32* tick);
 void NetStoreCurrentThread(s32* thread);
 void NetSuspendCurrentThread(void);
-void NetResumeThread(uaddr thread);
+void AT_StartTask(uaddr thread);
 void NetReceiveMessage(u32 handle, void* destination, s32 size);
 void NetReleaseMutex(u32 handle);
 
@@ -100,14 +100,14 @@ s32 NetMemcmp(void* left, void* right, int size);
 void NetMemcpy(void* destination, void* source, int size);
 void NetMemset(void* destination, int value, int size);
 
-void TLobby__sub_803FA234(struct PppFsm *fsm);
-void TLobby__sub_803FA238(struct PppFsm *entry);
-void TLobby__sub_803FA280(struct PppFsm *fsm);
+void ipv6cp_release_resources(struct PppFsm *fsm);
+void ipv6cp_start_negotiation(struct PppFsm *entry);
+void ipv6cp_link_closed(struct PppFsm *fsm);
 extern s32 net_default_thread_priority;
-void TLobby__sub_803FA2A8(struct PppFsm *o);
+void ipv6cp_reset_options(struct PppFsm *o);
 s16 verify_message_sequence(struct PppFsm *fsm, struct PppHeader *msg, PppFrame *expected);
-void TLobby__sub_803FADA0(PppFrame **pbuf, Ipv6cpOptionSet *opts, s32 type, s32 total_len, void *src);
-void TLobby__sub_803FACD8(uaddr *self, Ipv6cpOptionSet *opts, s32 mask);
+void append_ipv6cp_option(PppFrame **pbuf, Ipv6cpOptionSet *opts, s32 type, s32 total_len, void *src);
+void append_masked_ipv6cp_options(uaddr *self, Ipv6cpOptionSet *opts, s32 mask);
 #ifdef __cplusplus
 }
 #endif

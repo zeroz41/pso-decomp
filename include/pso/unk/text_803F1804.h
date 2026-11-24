@@ -4,14 +4,14 @@
 #include "types.h"
 
 extern "C" {
-void fn_803F1804(s32 arg0, void *arg1);
-uaddr fn_803F1864(uaddr arg0);
+void call_si_polling_callback(s32 arg0, void *arg1);
+uaddr set_si_polling_callback(uaddr arg0);
 }
 
 // --- C functions defined in text_803F1804.cpp ---
 extern "C" {
-void fn_803F1804(s32 arg0, void *arg1);
-uaddr fn_803F1864(uaddr arg0);
+void call_si_polling_callback(s32 arg0, void *arg1);
+uaddr set_si_polling_callback(uaddr arg0);
 }
 // --- end of C functions
 

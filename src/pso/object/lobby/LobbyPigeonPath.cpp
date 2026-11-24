@@ -348,7 +348,7 @@ s32 TObjSeabedDolphin::update_path_steering() {
 
 void TObjSeabedDolphin::load_static_resource() {
     seabed_dolphin_bml_archive = new BmlResource(5, &bm_obj_seabed_dolphin_resource_descriptor, 0, 0, NULL);
-    seabed_dolphin_texture_handle = load_gvm_texture_file("obj_seabed_dolphin.gvm");
+    seabed_dolphin_texture_handle = LoadPvmFileTls("obj_seabed_dolphin.gvm");
     NpcAnimationBinding binding = seabed_dolphin_anim_binding;
     binding.motions = seabed_dolphin_bml_archive->motions;
     TObjNpcEnemy::register_animated_chunk(0x40,
@@ -535,7 +535,7 @@ s32 TObjJungleEbi::update_path_follow_rotation(void *, f32) {
 
 void TObjJungleEbi::load_static_resource() {
     jungle_ebi_model_resource = new BmlResource(5, &bm_obj_jungle_ebi_resource_descriptor, 0, 0, NULL);
-    jungle_ebi_texture_gvm_handle = load_gvm_texture_file("obj_jungle_ebi.gvm");
+    jungle_ebi_texture_gvm_handle = LoadPvmFileTls("obj_jungle_ebi.gvm");
 }
 
 void TObjJungleEbi::destroy_instance() {
@@ -690,7 +690,7 @@ s32 TObjJungleBird::update_path_steering() {
 
 void TObjJungleBird::load_static_resource() {
     jungle_bird_bml_resource = new BmlResource(5, &bm_obj_jungle_bird_resource_descriptor, 0, 0, NULL);
-    lobby_pigeon_texture_gvm = load_gvm_texture_file("obj_jungle_bird.gvm");
+    lobby_pigeon_texture_gvm = LoadPvmFileTls("obj_jungle_bird.gvm");
 }
 
 void TObjJungleBird::destroy_instance() {
@@ -855,7 +855,7 @@ s32 TObjJungleKamome::update_path_steering() {
 
 void TObjJungleKamome::load_static_resource() {
     lobby_kamome_model_resource = new BmlResource(5, &bm_obj_jungle_kamome_resource_descriptor, 0, 0, NULL);
-    lobby_kamome_texture_gvm_handle = load_gvm_texture_file("obj_jungle_kamome.gvm");
+    lobby_kamome_texture_gvm_handle = LoadPvmFileTls("obj_jungle_kamome.gvm");
 }
 
 void TObjJungleKamome::destroy_instance() {

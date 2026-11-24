@@ -35,7 +35,7 @@ void TObjNpcNFM01::free_resources() {
 
 void TObjNpcNFM01::load_resources() {
     model_object = static_cast<void **>(create_named_object("npc_h01_data.rel"));
-    texture_handle = load_gvm_texture_file("n_h01_e_body.gvm");
+    texture_handle = LoadPvmFileTls("n_h01_e_body.gvm");
 }
 
 TObjNpcNFM01::~TObjNpcNFM01() {}

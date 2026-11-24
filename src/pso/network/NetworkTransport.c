@@ -50,18 +50,18 @@ typedef struct NetSendChunk {
 LAYOUT_ASSERT(NetSendChunkSize, sizeof(NetSendChunk) == 8);
 
 void net_sleep_ms(s32);
-s32 TLobby__sub_80428094(s16);
+s32 pppoe_close(s16);
 void run_net_thread_loop(void);
 void subtract_network_queue_timeout(s32 elapsed_ms);
 void set_lobby_map_state_code(s32 code);
 NetSendChunk *get_next_send_chunk(void);
 s32 AT_SetWorkArea(u8 *data, s32 size);
-void TLobby__sub_803F76F0(void);
-void TLobby__sub_803F778C(void);
-void TLobby__sub_803F77E0(void);
-void TLobby__sub_803F7980(void);
-void TLobby__sub_803F79AC(void);
-void TLobby__sub_803F79BC(void);
+void term_ppp_auth_config(void);
+void term_pap_config(void);
+void term_modem_session_config(void);
+void term_ppp_link_config(void);
+void term_net_thread_config(void);
+void term_ppp_buffers_config(void);
 u32 compute_range_end(NetTransportParams *params, s32 base, u32 limit);
 
 /* CodeWarrior emits these .sbss globals in reverse order of definition. */
@@ -113,7 +113,7 @@ static const char modem_no_dialtone_response[] = "NO DIALTONE";
 static const char modem_initialization_script[] = "send \"AT&FE0\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATS0=1\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATW2\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATX3&C1&D2\\r\"\nwait \"OK\\r\\n\",3\n";
 static const char modem_dial_script[] = "dial \"%t\"\n";
 
-void TLobby__sub_803F76F0(void) {
+void term_ppp_auth_config(void) {
 
 }
 
@@ -141,7 +141,7 @@ void init_net_buffer_table(PppAuthState *auth) {
     auth->timeout_secs = 3;
 }
 
-void TLobby__sub_803F778C(void) {
+void term_pap_config(void) {
 
 }
 
@@ -157,7 +157,7 @@ void init_net_block_620_params(PppPapState *pap) {
     pap->timeout_secs = 3;
 }
 
-void TLobby__sub_803F77E0(void) {
+void term_modem_session_config(void) {
 
 }
 
@@ -208,7 +208,7 @@ void init_modem_buffer_config(ModemSessionState *state) {
     state->config->hangup_script = 0;
 }
 
-void TLobby__sub_803F7980(void) {
+void term_ppp_link_config(void) {
 
 }
 
@@ -219,15 +219,15 @@ void init_buffer_desc_b(PppLink *link) {
     link->size = 0x5DC;
 }
 
-void TLobby__sub_803F79AC(void) {
+void term_net_thread_config(void) {
 
 }
 
-void TLobby__sub_803F79B0(NetThreadState *t) {
+void init_thread_poll_config(NetThreadState *t) {
     t->poll_ms = 0x28;
 }
 
-void TLobby__sub_803F79BC(void) {
+void term_ppp_buffers_config(void) {
 
 }
 
@@ -250,17 +250,17 @@ void init_net_buffer_desc(PppBuffers *bufs) {
 
 void stop_network_thread(void) {
     lock_mutex(net_thread_state.mutex);
-    cancel_thread_if_running((void *)net_thread_state.thread);
-    deactivate_entry_by_key(net_thread_state.thread);
+    AT_TerminateTask((void *)net_thread_state.thread);
+    AT_DeleteTask(net_thread_state.thread);
     unlock_mutex(net_thread_state.mutex);
     NetReleaseMutex(net_thread_state.mutex);
 }
 
 void start_network_thread(void) {
-    if (TLobby__sub_803F96AC(&net_thread_state.mutex) < 0 || TLobby__sub_803F9B94(run_net_thread_loop, &net_thread_state.thread) < 0) {
+    if (create_mutex(&net_thread_state.mutex) < 0 || AT_CreateTask(run_net_thread_loop, &net_thread_state.thread) < 0) {
         return;
     }
-    NetResumeThread(net_thread_state.thread);
+    AT_StartTask(net_thread_state.thread);
 }
 
 /* Send thread: takes chunks from the send ring and hands them to the modem, waiting for each to drain. */
@@ -274,8 +274,8 @@ void queue_thread_main(void) {
         }
         queue_timeout_remaining = p->length;
         for (;;) {
-            if (fn_8042E184() == 0) {
-                if (fn_8042DD70(p->data, p->length, subtract_network_queue_timeout) == 1) {
+            if (ModemCanSend() == 0) {
+                if (ModemSend(p->data, p->length, subtract_network_queue_timeout) == 1) {
                     break;
                 }
             }
@@ -401,7 +401,7 @@ s32 map_state_to_code(const char *number, s16 kind) {
         return -1;
     }
     lobby_map_state_code = 4;
-    if (modem_dial(number, mode, set_lobby_map_state_code) != 1) {
+    if (MDMDial(number, mode, set_lobby_map_state_code) != 1) {
         return -1;
     }
     return 0;
@@ -453,7 +453,7 @@ s32 configure_modem_options(s32 ms_mode, s32 error_correction, s32 compression, 
         if (cmd_len > 0x3FU) {
             return -1;
         }
-        result = modem_send_at_command(cmd);
+        result = MDMATCommand(cmd);
         if (result != 1 && result != -8) {
             return -1;
         }
@@ -477,7 +477,7 @@ s32 send_atx_command_mode(s32 extended) {
     return -1;
 }
 
-void TLobby__sub_803F808C(void) {
+void lcp_connect_hook(void) {
 
 }
 
@@ -499,7 +499,7 @@ u16 is_transport_connected(void) {
     return 0;
 }
 
-s32 TLobby__sub_803F811C(s16 *out) {
+s32 get_transport_input_count(s16 *out) {
     *out = 0;
     return 0;
 }
@@ -516,7 +516,7 @@ s32 recv_network_frame(u16 max_len, void *lobby, u16 *out_len) {
             }
         }
     } else {
-        s32 result = fn_8042D7E0(lobby);
+        s32 result = ModemRecv(lobby);
         if (result < 0) {
             *out_len = 0;
         } else {
@@ -532,7 +532,7 @@ s32 send_network_frame(u16 len, u8 *src) {
         if ((s16) net_slot_id < 0) {
             return 5;
         }
-        if (TLobby__sub_80427F48(net_slot_id, src, len) < 0) {
+        if (pppoe_send_session_frame(net_slot_id, src, len) < 0) {
             return 5;
         }
         goto block_7;
@@ -548,7 +548,7 @@ void close_network_transport(void) {
     s32 tries;
     if ((s16) network_pppoe_transport_enabled != 0) {
         if ((s16) net_slot_id >= 0) {
-            TLobby__sub_80428094(net_slot_id);
+            pppoe_close(net_slot_id);
             tries = 0;
 retry_close:
             net_sleep_ms(0xA);
@@ -559,18 +559,18 @@ retry_close:
                 }
             }
             if (get_pppoe_session_id(net_slot_id) != -1) {
-                TLobby__sub_80428094(net_slot_id);
+                pppoe_close(net_slot_id);
             }
             net_slot_id = -1;
             goto after_close;
         }
     } else {
-        cancel_thread_if_running((void *)queue_thread_handle);
-        deactivate_entry_by_key((u32) queue_thread_handle);
+        AT_TerminateTask((void *)queue_thread_handle);
+        AT_DeleteTask((u32) queue_thread_handle);
         NetReleaseMutex(send_ring_mutex);
 after_close:
         if ((u32) (copy_default_and_get_state(NULL) - 2) <= 1U) {
-            modem_hangup();
+            MDMHangUp();
         }
     }
 }
@@ -586,7 +586,7 @@ s32 open_network_transport(NetTransportOpenCfg *cfg) {
         network_pppoe_transport_enabled = 1;
         names->name[0] = 0;
         names->service[0] = 0;
-        net_slot_id = TLobby__sub_804281DC(names);
+        net_slot_id = pppoe_open(names);
         if (net_slot_id < 0) {
             return 2;
         }
@@ -598,17 +598,17 @@ s32 open_network_transport(NetTransportOpenCfg *cfg) {
             name = (char *)modem_default_connect_argument;
         }
         unlock_mutex(net_thread_state.mutex);
-        ret = modem_init(name);
+        ret = MDMInit(name);
         lock_mutex(net_thread_state.mutex);
         if (ret == 1) {
-            fn_8042E488(5);
-            if (TLobby__sub_803F96AC(&send_ring_mutex) < 0) {
+            ModemSetFwt(5);
+            if (create_mutex(&send_ring_mutex) < 0) {
                 return 2;
             }
-            if (TLobby__sub_803F9B94(queue_thread_main, &queue_thread_handle) < 0) {
+            if (AT_CreateTask(queue_thread_main, &queue_thread_handle) < 0) {
                 return 2;
             }
-            NetResumeThread(queue_thread_handle);
+            AT_StartTask(queue_thread_handle);
         } else {
             return 2;
         }
@@ -719,6 +719,6 @@ s32 AT_GetInitParam(NetTransportParams *out) {
     out->f = net_param_word_f;
     out->h = net_param_word_h;
     out->i = net_param_word_i;
-    total += TLobby__sub_803F8D24(out);
+    total += calc_work_area_size(out);
     return total;
 }

@@ -60,7 +60,7 @@ s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 lease_time, void *ignored
 void parse_dhcp_lease_times(u8 *packet);
 s32 dhcp_set_option(s16 id, s16 len, void *value);
 s16 DHCP_hostname(char *hostname);
-s16 TLobby__sub_8042474C(s32 *lease, s32 *renew, s32 *rebind);
+s16 dhcp_get_lease_times(s32 *lease, s32 *renew, s32 *rebind);
 s16 DHCP_get_gateway(void *ignored, s32 *router);
 s16 DHCP_get_dns(void *ignored, char *domain, s32 *dns1, s32 *dns2);
 s32 find_dhcp_option(u8 *packet, u8 tag, u8 **out);

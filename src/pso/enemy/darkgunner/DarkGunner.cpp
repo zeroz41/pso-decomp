@@ -389,7 +389,7 @@ void load_darkgunner_effect_resources() {
     TObjEneDarkGunner__cly_line_polygons = ((NJS_CNK_MODEL *)get_bml_model(TObjEneDarkGunner::bml_resource, 0)->model)->polygon_list;
     init_fake_tec_texlist();
     TEneEffHamon::init_fish_effects();
-    TObjEneDarkGunner__effect_resource = load_gvm_texture_file("re5_b_gunner_body_pika.gvm");
+    TObjEneDarkGunner__effect_resource = LoadPvmFileTls("re5_b_gunner_body_pika.gvm");
     for (i = 0; i < 1; i++) {
         TObjEneDarkGunner__base_params_by_variant[i] = TLobby::register_boss(30 + i);
         TObjEneDarkGunner__attack_params_by_variant[i] = TLobby::dispatch_shared_handler_b(30 + i);

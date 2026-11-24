@@ -20,21 +20,21 @@ typedef struct LobbyHandler LobbyHandler;
 
 #include <stddef.h>
 
-/* A link-layer driver, registered by TLobby__sub_8040A2BC from 11 functions: loopback (register_loopback_handlers,
-   always entry 0), PPP (TLobby__sub_803FD10C) and Ethernet (init_net_sockets).  Each function is called by one
+/* A link-layer driver, registered by insert_link_handler from 11 functions: loopback (register_loopback_handlers,
+   always entry 0), PPP (ppp_link_init) and Ethernet (init_net_sockets).  Each function is called by one
    dispatcher (named after the slot); get_lladdr_len..multicast_ctl only when flags & 4. */
 struct LobbyHandler {
     s16 active;
     s16 flags;                                     /* 0x02: as registered: 1 loopback, 2 PPP, 0x7C Ethernet */
-    s16 (*get_interface_id)(s16 idx, void *dst);   /* 0x04: TLobby__sub_8040A0C0 */
-    s16 (*open)(s16 idx, u32 a, s16 b, u32 *c);    /* 0x08: TLobby__sub_8040A044; opens a channel for an EtherType */
+    s16 (*get_interface_id)(s16 idx, void *dst);   /* 0x04: link_get_interface_id */
+    s16 (*open)(s16 idx, u32 a, s16 b, u32 *c);    /* 0x08: link_attach_protocol; opens a channel for an EtherType */
     s32 (*close)(s16);                             /* 0x0C: call_entry_callback; frees the channel */
     s16 (*get_mtu)(s32);                           /* 0x10: invoke_socket_callback; Ethernet 1500 */
-    s16 (*get_lladdr_len)(s32);                    /* 0x14: TLobby__sub_80409EB0; Ethernet 6 */
-    s32 (*get_lladdr)(s32, s32);                   /* 0x18: TLobby__sub_80409E18; copies the MAC */
-    s16 (*alias_ctl)(s32, s32, void *);            /* 0x1C: TLobby__sub_80409D7C; 1 adds, 2 removes an ARP alias */
-    s16 (*multicast_ctl)(s32, s32, void *);        /* 0x20: TLobby__sub_80409CE0; 1 joins, 2 leaves a multicast group */
-    s32 (*release_frame)(s32, s32);                /* 0x24: dispatch_handler_by_id; frees a received frame; TLobby__sub_80409818 calls it
+    s16 (*get_lladdr_len)(s32);                    /* 0x14: link_get_address_length; Ethernet 6 */
+    s32 (*get_lladdr)(s32, s32);                   /* 0x18: link_get_address; copies the MAC */
+    s16 (*alias_ctl)(s32, s32, void *);            /* 0x1C: link_update_address; 1 adds, 2 removes an ARP alias */
+    s16 (*multicast_ctl)(s32, s32, void *);        /* 0x20: link_update_multicast; 1 joins, 2 leaves a multicast group */
+    s32 (*release_frame)(s32, s32);                /* 0x24: dispatch_handler_by_id; frees a received frame; link_input calls it
                                                       as void (s16, s32) */
     s16 (*op28)(s32, s32, s32);                    /* 0x28: dispatch_handler_by_index */
     s16 (*output)(s32, s32, s32, s32);             /* 0x2C: call_handler_by_index */
@@ -46,14 +46,14 @@ extern LobbyHandlerTable lobby_handler_table_desc; /* defined at the end of the 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 
-s16 TLobby__sub_8040A2BC(NetLinkDriverFn *fns, s16 kind);
-s32 TLobby__sub_80409AD8(void);
+s16 insert_link_handler(NetLinkDriverFn *fns, s16 kind);
+s32 handler_table_init(void);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-void TLobby__sub_80409818(s32 msg, s16 len, s16 idx, s16 second, u16 type) {
+void link_input(s32 msg, s16 len, s16 idx, s16 second, u16 type) {
     if (idx < 0 || idx >= lobby_handler_table_desc.count) {
         return;
     }
@@ -84,7 +84,7 @@ inline s16 packet_length_804098B4(NetPacket *pkt) {
     }
     return pkt->total_bytes;
 }
-s16 TLobby__sub_804098B4(void *pkt) {
+s16 link_packet_length(void *pkt) {
     return packet_length_804098B4(pkt);
 }
 
@@ -110,7 +110,7 @@ inline s32 calc_80409908(void *self, NetPacket *pkt) {
     return (s16)pkt->total_bytes;
 }
 
-s32 TLobby__sub_80409908(void *self, void *arr_) {
+s32 link_packet_copy(void *self, void *arr_) {
     return calc_80409908(self, arr_);
 }
 s32 clear_table_entry_locked(s16 idx) {
@@ -128,24 +128,24 @@ s32 clear_table_entry_locked(s16 idx) {
     return ret;
 }
 
-s16 TLobby__sub_80409A3C(NetLinkDriverFn *fns, s16 kind) {
+s16 register_link_handler(NetLinkDriverFn *fns, s16 kind) {
     s16 id;
     lock_mutex(network_dispatch_state.lock_handle);
-    id = TLobby__sub_8040A2BC(fns, kind);
+    id = insert_link_handler(fns, kind);
     unlock_mutex(network_dispatch_state.lock_handle);
     return id;
 }
 
-s32 TLobby__sub_80409AA8(void) {
-    TLobby__sub_803F8A9C(&lobby_handler_table_desc);
+s32 handler_table_term(void) {
+    term_handler_table_config(&lobby_handler_table_desc);
     lobby_handler_table_desc.count = 0;
     return 0;
 }
 
-s32 TLobby__sub_80409AD8(void) {
+s32 handler_table_init(void) {
     s16 i;
     LobbyHandler *e;
-    TLobby__sub_803F8AA0(&lobby_handler_table_desc);
+    init_handler_table_config(&lobby_handler_table_desc);
     e = lobby_handler_table_desc.list;
     i = 0;
     while (i < lobby_handler_table_desc.count) {
@@ -211,7 +211,7 @@ s32 dispatch_handler_by_id(s16 first, s32 second, s32 payload) {
     return fn(second, payload);
 }
 
-s16 TLobby__sub_80409CE0(s16 idx, s32 def, s32 op, void *tex) {
+s16 link_update_multicast(s16 idx, s32 def, s32 op, void *tex) {
     LobbyHandler *e;
     s16 (*fn)(s32, s32, void *);
 
@@ -233,7 +233,7 @@ s16 TLobby__sub_80409CE0(s16 idx, s32 def, s32 op, void *tex) {
     return fn(def, op, tex);
 }
 
-s16 TLobby__sub_80409D7C(s16 idx, s32 def, s32 op, void *tex) {
+s16 link_update_address(s16 idx, s32 def, s32 op, void *tex) {
     LobbyHandler *e;
     s16 (*fn)(s32, s32, void *);
 
@@ -255,7 +255,7 @@ s16 TLobby__sub_80409D7C(s16 idx, s32 def, s32 op, void *tex) {
     return fn(def, op, tex);
 }
 
-s32 TLobby__sub_80409E18(s16 idx, s32 handle, s32 dst) {
+s32 link_get_address(s16 idx, s32 handle, s32 dst) {
     LobbyHandler *e;
     s32 (*fn)(s32, s32);
 
@@ -277,7 +277,7 @@ s32 TLobby__sub_80409E18(s16 idx, s32 handle, s32 dst) {
     return fn(handle, dst);
 }
 
-s16 TLobby__sub_80409EB0(s16 idx, s32 handle) {
+s16 link_get_address_length(s16 idx, s32 handle) {
     LobbyHandler *e;
     s16 (*fn)(s32);
 
@@ -335,7 +335,7 @@ s32 call_entry_callback(s16 i, s16 arg) {
 }
 #pragma pop
 
-s16 TLobby__sub_8040A044(s16 idx, u32 a, s16 b, u32 *c) {
+s16 link_attach_protocol(s16 idx, u32 a, s16 b, u32 *c) {
     LobbyHandler *e;
     if (idx < 0 || idx > lobby_handler_table_desc.count) {
         return -0x10F;
@@ -351,7 +351,7 @@ s16 TLobby__sub_8040A044(s16 idx, u32 a, s16 b, u32 *c) {
     return e->open(idx, a, b, c);
 }
 
-s16 TLobby__sub_8040A0C0(s16 idx, void *a)
+s16 link_get_interface_id(s16 idx, void *a)
 {
     LobbyHandler *e;
 
@@ -417,7 +417,7 @@ s16 is_socket_flag_set(s16 i) {
 }
 #pragma pop
 
-extern s16 TLobby__sub_8040A2BC(NetLinkDriverFn *fns, s16 kind) {
+extern s16 insert_link_handler(NetLinkDriverFn *fns, s16 kind) {
     LobbyHandler *e;
     s16 i;
 

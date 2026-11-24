@@ -54,7 +54,7 @@ void TObjPlayer::export_character_data(TPlyCharData *character) {
     TLobby::copy_data(&character->m_stats, get_stats());
     clamp_stats__10TObjPlayerFiPv(this, &character->m_stats, (saddr)get_class_stat_entry((u8 *)this));
     copy_player_visual_record(&character->m_disp_part2, name);
-    TObjPlayer__sub_8013A748(&character->m_config, &action_palettes);
+    copy_disp_config(&character->m_config, &action_palettes);
     for (j = 0; j < 0x13; j++) {
         overflow = character->technique_level_overflow(j);
         split_capped_value(TObjPlayer__sub_801C0124(&technique_state, j),
@@ -128,7 +128,7 @@ void TObjPlayer::export_state_to_record(TPlyCharData *record) {
     record->set_luck_materials_used(get_luck_materials_used());
     clamp_stats__10TObjPlayerFiPv(this, &record->m_stats, (saddr)get_class_stat_entry((u8 *)this));
     copy_player_visual_record(&record->m_disp_part2, name);
-    TObjPlayer__sub_8013A748(&record->m_config, &action_palettes);
+    copy_disp_config(&record->m_config, &action_palettes);
     for (k = 0; k < 19; k++) {
         overflow = record->technique_level_overflow(k);
         split_capped_value(TObjPlayer__sub_801C0124(&technique_state, k), record->technique_level(k), overflow);

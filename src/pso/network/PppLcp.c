@@ -51,7 +51,7 @@ s16 wait_for_connection(PppFsm *c) {
     return 0;
 }
 
-PppFrame *TLobby__sub_8040172C(PppFsm *c);
+PppFrame *build_lcp_config_request(PppFsm *c);
 s16 recv_lcp_config_reject(PppFsm *fsm, PppHeader *msg, PppFrame *src);
 s16 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, PppFrame *src);
 s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src);
@@ -77,7 +77,7 @@ void init_lcp_protocol(PppProtoBlocks *conn)
   proto->link_opened = setup_auth_after_lcp_negotiation;
   proto->link_closed = reset_connection_slot;
   proto->finish_termination = queue_command_81;
-  proto->build_config_request = TLobby__sub_8040172C;
+  proto->build_config_request = build_lcp_config_request;
   proto->check_config_request = recv_lcp_config_request;
   proto->check_config_ack = verify_lcp_config_ack;
   proto->check_config_nak = recv_lcp_config_nak;
@@ -90,7 +90,7 @@ void init_lcp_protocol(PppProtoBlocks *conn)
   area->remote.want = *tbl;
   area->remote.got = *tbl;
   area->remote.mask = 0x1AE;
-  TLobby__sub_803FD694(e);
+  fsm_init(e);
 }
 
 s16 apply_lcp_config_to_sides(PppFsm *state, LcpConfig *config) {
@@ -109,7 +109,7 @@ s16 apply_lcp_config_to_sides(PppFsm *state, LcpConfig *config) {
     u32 w;
     pp = pad;
 
-    TLobby__sub_803FE600(s);
+    fsm_reset(s);
     PP_doppp_active(s);
     s->blocks->phase = 1;
     if (s->blocks->phase >= 1) {
@@ -175,7 +175,7 @@ s16 apply_lcp_config_to_sides(PppFsm *state, LcpConfig *config) {
         } else {
             q->mask &= ~0x100;
         }
-        TLobby__sub_803FD958(s);
+        fsm_open(s);
     }
     return 0;
 }
@@ -195,22 +195,22 @@ void setup_auth_after_lcp_negotiation(PppFsm *c) {
     if (info->local.got.mask & 8) {
         switch (info->local.got.auth_proto) {
         case 0xC023:
-            set_active(c->blocks);
+            PP_pap_local(c->blocks);
             break;
         case 0xC223:
-            mark_sub_ready(c->blocks);
-            set_active_flag(c->blocks);
+            PP_chap_local(c->blocks);
+            PP_chap_remote(c->blocks);
             break;
         }
     }
     if (info->remote.got.mask & 8) {
         switch (info->remote.got.auth_proto) {
         case 0xC023:
-            mark_ready(c->blocks);
+            PP_pap_remote(c->blocks);
             break;
         case 0xC223:
-            set_active_flag(c->blocks);
-            mark_sub_ready(c->blocks);
+            PP_chap_remote(c->blocks);
+            PP_chap_local(c->blocks);
             break;
         }
     }
@@ -219,7 +219,7 @@ void setup_auth_after_lcp_negotiation(PppFsm *c) {
         st->phase = 3;
         get_time_ms((s32 *)&now);
         st->network_time = (s16)(now / 1000);
-        TLobby__sub_803FD958(&st->ipcp);
+        fsm_open(&st->ipcp);
     }
 }
 
@@ -229,7 +229,7 @@ void start_ipcp_after_auth(PppProtoBlocks *blocks) {
         blocks->phase = 3;
         get_time_ms((s32 *)&t);
         blocks->network_time = (s16)(t / 1000);
-        TLobby__sub_803FD958(&blocks->ipcp);
+        fsm_open(&blocks->ipcp);
     }
 }
 
@@ -237,12 +237,12 @@ void reset_connection_slot(PppFsm *self) {
     PppProtoBlocks *sub;
     sub = self->blocks;
     sub->phase = 4;
-    TLobby__sub_803FD85C(&sub->ipcp);
+    fsm_lowerdown(&sub->ipcp);
     PP_pap_down(&sub->pap);
 }
 
 void queue_command_81(PppFsm *fsm) {
-    TLobby__sub_804062A0(0x81);
+    ppp_link_event(0x81);
 }
 
 void mark_lcp_starting(PppFsm *fsm) {
@@ -336,13 +336,13 @@ s16 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
     return 0;
 }
 #pragma pop
-void TLobby__sub_804017D8(PppFrame **pbuf, LcpVals *vals, u8 type, u8 len, PppFrame **src);
+void append_lcp_option(PppFrame **pbuf, LcpVals *vals, u8 type, u8 len, PppFrame **src);
 inline void add_lcp_options(PppFrame **pbuf, LcpVals *vals, s16 mask) {
     s16 i;
     i = 1;
     while (i <= 8) {
         if (mask & (1 << i)) {
-            TLobby__sub_804017D8(pbuf, vals, i, lcp_option_lengths[i], 0);
+            append_lcp_option(pbuf, vals, i, lcp_option_lengths[i], 0);
         }
         i++;
     }
@@ -437,7 +437,7 @@ s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
         if (r != 4 && hdr[0] <= 8) {
             opts->remote.got.mask |= 1 << hdr[0];
         }
-        TLobby__sub_804017D8(&reply, &opts->remote.got, hdr[0], hdr[1], &src);
+        append_lcp_option(&reply, &opts->remote.got, hdr[0], hdr[1], &src);
         if (r >= 3) {
             ppp_fsm_send_packet(fsm, status, msg->id, reply);
         }
@@ -462,7 +462,7 @@ s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
 
 /* Read an option value from the frame: -1 (0 for 32 bits) when the frame is too short. */
 #define READ_OPTION_U16(src) (ppp_buffer_read(src, lcp_read_value_buffer, 2) != 2 ? -1 : read_network_u16_be(lcp_read_value_buffer))
-#define READ_OPTION_U32(src) (ppp_buffer_read(src, lcp_read_value_buffer, 4) != 4 ? 0 : TLobby__sub_80402AFC(lcp_read_value_buffer))
+#define READ_OPTION_U32(src) (ppp_buffer_read(src, lcp_read_value_buffer, 4) != 4 ? 0 : read_network_u32_be(lcp_read_value_buffer))
 #define READ_OPTION_U8(src) (ppp_buffer_read(src, lobby_read_byte_buffer, 1) != 1 ? -1 : (s16)lobby_read_byte_buffer[0])
 s16 parse_lcp_option(PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 remote) {
     s16 len;
@@ -584,7 +584,7 @@ s16 parse_lcp_option(PppFrame **src, LcpOpts *opts, LcpSide *side, u8 *hdr, s16 
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-PppFrame *TLobby__sub_8040172C(PppFsm *c) {
+PppFrame *build_lcp_config_request(PppFsm *c) {
     PppFrame *obj;
     LcpOpts *s;
     s = c->opts;
@@ -598,7 +598,7 @@ PppFrame *TLobby__sub_8040172C(PppFsm *c) {
 }
 #pragma pop
 
-void TLobby__sub_804017D8(PppFrame **pbuf, LcpVals *vals, u8 type, u8 len, PppFrame **src) {
+void append_lcp_option(PppFrame **pbuf, LcpVals *vals, u8 type, u8 len, PppFrame **src) {
     PppFrame *p;
     u8 *out;
     u8 *cnt;

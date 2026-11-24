@@ -160,7 +160,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, NJS_TEXLIST *texlist) {
     return ret;
 }
 
-s32 pso_load_texture(NJS_TEXLIST *texlist) {
+s32 psoLoadTexture(NJS_TEXLIST *texlist) {
     s32 r;
     s32 ret;
     TLobby::pump_frames();
@@ -197,7 +197,7 @@ struct GvmFileHeader {
 
 u8 *TLanguage__read_cursor;
 
-NJS_TEXLIST *load_gvm_texture_file(const char *name) {
+NJS_TEXLIST *LoadPvmFileTls(const char *name) {
     s32 count;
     s32 i;
     NJS_TEXLIST *res;

@@ -23,17 +23,17 @@ typedef struct NetTransportOpenCfg {
     s32 settings[6];  /* mapped from configure_and_open_network_transport's arguments; open_network_transport does not read them */
     s16 reserved;     /* always 0 */
     s16 use_pppoe;    /* nonzero: open the PPPoE transport instead of dialling the modem */
-    char *modem_name; /* modem_init's argument; NULL uses "00" */
+    char *modem_name; /* MDMInit's argument; NULL uses "00" */
 } NetTransportOpenCfg;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 /* The start-up and shutdown hooks and the peer-secret lookup (NetAuthSecrets.c). */
-void TLobby__sub_803F7678(void);
-s32 TLobby__sub_803F767C(void);
+void ppp_term_hook(void);
+s32 ppp_init_hook(void);
 /* inferred: returns the secret ppp_auth_secrets holds for a peer name, or NULL */
-const char *TLobby__sub_803F7684(const char *name);
+const char *ppp_find_auth_secret(const char *name);
 
 void init_modem_buffer_config(struct ModemSessionState *state);
 s32 open_network_transport(NetTransportOpenCfg *cfg);
@@ -59,9 +59,9 @@ u16 is_transport_connected(void);
 s32 recv_network_frame(u16 max_len, void *lobby, u16 *out_len);
 s32 send_network_frame(u16 len, u8 *src);
 struct NetThreadState;
-void TLobby__sub_803F79B0(struct NetThreadState *t);
-void TLobby__sub_803F808C(void);
-s32 TLobby__sub_803F811C(s16 *out);
+void init_thread_poll_config(struct NetThreadState *t);
+void lcp_connect_hook(void);
+s32 get_transport_input_count(s16 *out);
 /* The stored start-up parameters (TLobby_803F86BC.c), one per NetTransportParams field. */
 extern s16 net_param_a;
 extern s16 net_param_b;

@@ -80,7 +80,7 @@ typedef struct ModemConfig {
     u8 pad39[3];
     const char *init_script;
     const char *dial_script;
-    char *hangup_script; /* the script run after hanging up (TLobby__sub_803FB6A0), when hangup is set */
+    char *hangup_script; /* the script run after hanging up (ppp_hangup), when hangup is set */
     char *s48;
     s32 ms_mode;          /* configure_modem_options' arguments */
     s32 error_correction;
@@ -102,7 +102,7 @@ typedef struct NetSession {
     char *password;             /* 0x10 */
     char *phone_number;         /* 0x14 */
     void (*cb)(s16, s32);       /* 0x18: status callback */
-    ModemConfig modem;          /* 0x1C: a copy of the default (ppp_init, copy_name_buffer) */
+    ModemConfig modem;          /* 0x1C: a copy of the default (ppp_init, ppp_set_modem_property) */
     s16 h7C;                    /* 0x7C: NetConnectCfg.h18 .. h20 */
     s16 h7E;
     s16 h80;
@@ -139,11 +139,11 @@ extern "C" {
 s32 init_modem_session_config(void);
 s16 modem_run_script(u8 *script, NetSession *sess);
 s16 go_wait(ModemRequest *req);
-s16 modem_script_send(void);
+s16 go_send(void);
 s16 go_dial(ModemRequest *request);
 s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next);
 void modem_script_store_field(s16 type, s16 index, u8 *src, s16 *nstr, s16 *nint);
-s16 TLobby__sub_804290D4(s32 idx);
+s16 WaitStringConnect(s32 idx);
 void reset_boot_state(void);
 s16 wait_timeout_loop(ModemRequest *request);
 void cancel_alarm_b(void);

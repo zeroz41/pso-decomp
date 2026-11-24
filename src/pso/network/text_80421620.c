@@ -44,17 +44,17 @@ typedef struct IpAddr_80422B8C { u32 family; u8 a[0xC]; } IpAddr_80422B8C;
 typedef struct P_8042315C { s32 type; s32 a; s32 b; s32 c; s32 pad10; s16 n; s16 m; s32 d; s32 pad1C; } P_8042315C;
 
 
-s32 TLobby__sub_8041112C(void);
+s32 NetIPv6ShutdownRouting(void);
 void NetIPv6ShutdownNeighborDiscovery(void);
-s32 TLobby__sub_80418A7C(void);
-s32 TLobby__sub_8041A1D8(void);
-void TLobby__sub_80421FB8(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *pkt);
+s32 fragment_term(void);
+s32 tcp_term(void);
+void deliver_to_receive_callback(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *pkt);
 s32 route4_del(saddr dst, saddr mask, saddr gateway);
 s32 NetIPv4AddRoute(void *, void *, void *, s16, u8, u16); /* declared s32 here; the definition is s16 (u32, u32, u32, s16, u8, u16) */
 s32 route4_add(saddr dst, saddr mask, saddr gateway);
 s32 mark_connection_closed(s32);
-s16 TLobby__sub_8041DE1C(s16, s16, u32 *); /* declared s16 here; the definition returns s32 */
-void TLobby__sub_8041E590(s16);
+s16 tcp_set_option(s16, s16, u32 *); /* declared s16 here; the definition returns s32 */
+void tcp_unlink_listener(s16);
 s32 get_tcp_stat(int, void *, void *, void *, void *);
 s16 validate_tcp_handle(int);
 s32 tcp_stat(s32 a, s16 *b, s16 *c, u32 *d, u32 *e);
@@ -62,11 +62,11 @@ s16 tcp_get_socket_handle(int);
 s32 abort_tcp_connection(int);
 void OSReport(const char *, ...);
 s16 reset_socket_table();
-s16 TLobby__sub_80409AD8();
+s16 handler_table_init();
 s16 init_ipv4_interfaces();
 s16 init_ipv4_routing();
 s16 NetIPv6Init();
-s16 TUdpSocket__sub_8041118C();
+s16 NetIPv6InitRouting();
 s16 NetIPv6InitNeighborDiscovery();
 s16 init_packet_fragment_pools();
 s16 NetTCPInit();
@@ -86,35 +86,35 @@ const u8 *const avetcp_version_banner_ptr = avetcp_version_banner;
 const char avetcp_version[] = "<< Network SDK - avetcp.a  Ver.1.16.1 build:Oct 23 2002 17:47:54>>\n";
 u32 network_stack_init_count;
 /* This C library caller passes a full register for the handle and a signed halfword length. */
-s16 TLobby__sub_8041DBD4(s32 handle, NetBufferRef *destination, s16 len, TcpCompletion callback);
-void TLobby__sub_8041E2EC(int, void *, void *); /* declared here with an s32 1st argument; the definition takes s16 */
+s16 tcp_start_receive(s32 handle, NetBufferRef *destination, s16 len, TcpCompletion callback);
+void tcp_set_ip_options(int, void *, void *); /* declared here with an s32 1st argument; the definition takes s16 */
 s32 AT_TCP_Connect(int, void *, s16); /* declared here with an s32 return and 1st argument; the definition is s16 (s16, void *, s16) */
 s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt);
-s32 TLobby__sub_8041E5E4(int, void *, u16);
+s32 tcp_pcbbind(int, void *, u16);
 s16 copy_ipv4_interface_addresses(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, s32) */
-s16 TLobby__sub_80412058(s16, void *, int, void *);
-s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, saddr buf);
+s16 copy_ipv6_interface_addresses(s16, void *, int, void *);
+s16 if_get(s16 iface, s32 hdr_src, s32 len, saddr buf);
 s32 OSDisableInterrupts();
 s32 OSRestoreInterrupts(int);
 s16 bring_down_ipv4_interface(s16);
-s16 TLobby__sub_80412210(s16);
+s16 bring_down_ipv6_interface(s16);
 s16 AT_IP4_IfUp(s32, s32, s32, s16);
-s16 TLobby__sub_80412CA4(void *, s16, s16, s16, s32);
+s16 bring_up_ipv6_interface(void *, s16, s16, s16, s32);
 s16 if_config(s16 iface, P_8042315C *p);
 s32 avetcp_term(void) {
-    TLobby__sub_80419A7C();
-    TLobby__sub_80409AA8();
+    dispatcher_term();
+    handler_table_term();
     NetIPv6ShutdownNeighborDiscovery();
-    TLobby__sub_8041112C();
+    NetIPv6ShutdownRouting();
     shutdown_ipv4_routing();
     NetIPv6Shutdown();
-    TLobby__sub_8040DD68();
-    TLobby__sub_80418A7C();
+    ipv4_term();
+    fragment_term();
     reset_stack_module();
-    TLobby__sub_8041A1D8();
+    tcp_term();
     shutdown_network_handle();
     reset_net_value();
-    TLobby__sub_80419A00();
+    rtos_term();
     return 0;
 }
 
@@ -129,9 +129,9 @@ s16 avetcp_init(void) {
         OSReport(avetcp_version);
     }
     ++network_stack_init_count;
-    result = TLobby__sub_80419A34();
+    result = rtos_init();
     if (result >= 0) {
-        result = TLobby__sub_80415690();
+        result = buffer_pool_init();
         if (result >= 0) {
             result = reset_socket_table();
             if (result >= 0) {
@@ -147,17 +147,17 @@ s16 avetcp_init(void) {
                                 if (result >= 0) {
                                     result = init_ipv4_routing();
                                     if (result >= 0) {
-                                        result = TUdpSocket__sub_8041118C();
+                                        result = NetIPv6InitRouting();
                                         if (result >= 0) {
                                             result = NetIPv6InitNeighborDiscovery();
                                             if (result >= 0) {
-                                                result = TLobby__sub_80409AD8();
+                                                result = handler_table_init();
                                                 if (result >= 0) {
                                                     result = NetInitializeDispatcher();
                                                     if (result >= 0) {
                                                         return 0;
                                                     }
-                                                    TLobby__sub_80409AA8();
+                                                    handler_table_term();
                                                     goto block_19;
                                                 }
 block_19:
@@ -165,7 +165,7 @@ block_19:
                                                 goto block_20;
                                             }
 block_20:
-                                            TLobby__sub_8041112C();
+                                            NetIPv6ShutdownRouting();
                                             goto block_21;
                                         }
 block_21:
@@ -177,11 +177,11 @@ block_22:
                                     goto block_23;
                                 }
 block_23:
-                                TLobby__sub_8040DD68();
+                                ipv4_term();
                                 goto block_24;
                             }
 block_24:
-                            TLobby__sub_80418A7C();
+                            fragment_term();
                             goto block_25;
                         }
 block_25:
@@ -189,7 +189,7 @@ block_25:
                         goto block_26;
                     }
 block_26:
-                    TLobby__sub_8041A1D8();
+                    tcp_term();
                     goto block_27;
                 }
 block_27:
@@ -201,22 +201,22 @@ block_28:
             goto block_29;
         }
 block_29:
-        TLobby__sub_80419A00();
+        rtos_term();
         goto block_30;
     }
 block_30:
     return result;
 }
 
-s32 net_unlock(void) {
+s32 unlock_at_sem(void) {
     unlock_mutex(network_dispatch_state.lock_handle);
     return 0;
 }
-s32 net_lock(void) {
+s32 lock_at_sem(void) {
     lock_mutex(network_dispatch_state.lock_handle);
     return 0;
 }
-s32 net_unregister_timer(NetTimerCallback timer) {
+s32 reset_at_timer(NetTimerCallback timer) {
     s32 result;
     if (timer == 0) {
         return -2;
@@ -227,7 +227,7 @@ s32 net_unregister_timer(NetTimerCallback timer) {
     return result;
 }
 
-s16 net_register_timer(NetTimerCallback callback, s32 interval) {
+s16 set_at_timer(NetTimerCallback callback, s32 interval) {
     s16 result;
     if (callback == 0) {
         return -2;
@@ -249,7 +249,7 @@ s32 raw_socket_deliver(NetPacket *pkt, u8 *src, u8 *dst, NetworkReceiveCallback 
     NetMemcpy(s.src, src, 0x10);
     NetMemcpy(s.dst, dst, 0x10);
     if (cb != NULL) {
-        TLobby__sub_80421FB8(cb, &s.receive, pkt);
+        deliver_to_receive_callback(cb, &s.receive, pkt);
     }
     return 0;
 }
@@ -257,7 +257,7 @@ s32 raw_socket_deliver(NetPacket *pkt, u8 *src, u8 *dst, NetworkReceiveCallback 
 s32 route4_del(saddr dst, saddr mask, saddr gateway) {
     s32 result;
     lock_mutex(network_dispatch_state.lock_handle);
-    result = TLobby__sub_8040F9CC(dst, mask, gateway, 0);
+    result = ipv4_route_delete(dst, mask, gateway, 0);
     unlock_mutex(network_dispatch_state.lock_handle);
     return result;
 }
@@ -282,7 +282,7 @@ s32 raw_socket_deliver_ipv4(NetPacket *pkt, u32 src, u32 dst, NetworkReceiveCall
     stack.sp24 = src;
     stack.sp28 = dst;
     if (cb != NULL) {
-        TLobby__sub_80421FB8(cb, &stack.receive, pkt);
+        deliver_to_receive_callback(cb, &stack.receive, pkt);
     }
     return 0;
 }
@@ -407,7 +407,7 @@ s16 udp_open(void *src, s32 sport, void *dst, s32 dport, NetSocketEventCallback 
     return h;
 }
 
-s16 TLobby__sub_80421F10(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
+s16 udp_deliver(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
                            u16 port, NetUdpReceiveCallback cb, s16 socket_index) {
     UdpDatagram s;
     s.receive.socket = socket_index | UDP_SOCKET_TAG;
@@ -417,12 +417,12 @@ s16 TLobby__sub_80421F10(NetPacket *pkt, NetworkAddress *src, NetworkAddress *ds
     NetMemcpy(&s.dst, dst, sizeof(NetworkAddress));
     s.port = port;
     if (cb != NULL) {
-        TLobby__sub_80421FB8(cb, &s.receive, pkt);
+        deliver_to_receive_callback(cb, &s.receive, pkt);
     }
     return 0;
 }
 
-void TLobby__sub_80421FB8(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *o) {
+void deliver_to_receive_callback(NetworkReceiveCallback cb, NetworkReceivePrefix *hdr, NetPacket *o) {
     s32 i;
     u8 *buf;
     s16 len;
@@ -498,10 +498,10 @@ s16 tcp_receive(s32 a, TcpCompletion cb, s32 len, void *buf) {
     s->waits[0].flags |= 1;
     if (s->flags & 0x40) {
         s->waits[0].flags |= 8;
-        r = TLobby__sub_8041DBD4(a, &destination, len, cb);
+        r = tcp_start_receive(a, &destination, len, cb);
         s->waits[0].flags &= ~8;
     } else {
-        r = TLobby__sub_8041DBD4(a, &destination, len, cb);
+        r = tcp_start_receive(a, &destination, len, cb);
     }
     if (r < 0) {
         s->waits[0].flags &= ~1;
@@ -691,7 +691,7 @@ s16 tcp_get_opt(s16 nh, s16 type, u32 *opt) {
         return -2;
     }
     lock_mutex(network_dispatch_state.lock_handle);
-    r = TLobby__sub_8041DE1C(nh, type, opt);
+    r = tcp_set_option(nh, type, opt);
     unlock_mutex(network_dispatch_state.lock_handle);
     return r;
 }
@@ -748,7 +748,7 @@ s32 tcp_abort(s32 a) {
     return r;
 }
 
-s32 TLobby__sub_80422AB8(s16 idx, TcpAcceptCallback cb, s16 code, NetworkAddress *name, s32 local_port, s32 remote_port) {
+s32 complete_accept_request(s16 idx, TcpAcceptCallback cb, s16 code, NetworkAddress *name, s32 local_port, s32 remote_port) {
     TcpTcb *s = tcp_protocol_state.tcbs;
     s16 i2;
     s16 v;
@@ -757,7 +757,7 @@ s32 TLobby__sub_80422AB8(s16 idx, TcpAcceptCallback cb, s16 code, NetworkAddress
         i2 = (int)idx;
         if (code >= 0) {
             v = (s32)code;
-            TLobby__sub_8041E590(code);
+            tcp_unlink_listener(code);
         } else {
             v = code;
         }
@@ -821,7 +821,7 @@ s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt) {
         unlock_mutex(g->lock_handle);
         return -9;
     }
-    TLobby__sub_8041E2EC(a, p, opt);
+    tcp_set_ip_options(a, p, opt);
     r = AT_TCP_Connect(a, addr, port);
     unlock_mutex(g->lock_handle);
     return r;
@@ -847,7 +847,7 @@ s32 tcp_bind(s32 a, void *addr, u16 port) {
         unlock_mutex(g->lock_handle);
         return -9;
     }
-    r = TLobby__sub_8041E5E4(a, addr, port);
+    r = tcp_pcbbind(a, addr, port);
     unlock_mutex(g->lock_handle);
     return r;
 }
@@ -855,7 +855,7 @@ s32 tcp_bind(s32 a, void *addr, u16 port) {
 s16 tcp_create(void) {
     s16 handle;
     lock_mutex(network_dispatch_state.lock_handle);
-    handle = TLobby__sub_8041E780();
+    handle = tcp_alloc_tcb();
     unlock_mutex(network_dispatch_state.lock_handle);
     return handle;
 }
@@ -900,7 +900,7 @@ void NetDispatchSocketEvent(s16 v, NetSocketEventCallback cb, s32 type, s16 code
     }
 }
 
-s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, saddr buf) {
+s16 if_get(s16 iface, s32 hdr_src, s32 len, saddr buf) {
     NetBufferRef ref;
     s16 first;
     s16 second;
@@ -916,7 +916,7 @@ s16 TLobby__sub_80422F70(s16 iface, s32 hdr_src, s32 len, saddr buf) {
         total = first;
         len -= first * 0x1C;
     }
-    second = TLobby__sub_80412058(iface, &ref, (int)len, (void *)buf);
+    second = copy_ipv6_interface_addresses(iface, &ref, (int)len, (void *)buf);
     if (second > 0) {
         total += second;
     }
@@ -947,7 +947,7 @@ s16 if_down(s16 idx, s32 op) {
         if (tmp < 0) {
             result = tmp;
         }
-        tmp2 = TLobby__sub_80412210(idx);
+        tmp2 = bring_down_ipv6_interface(idx);
         if (tmp2 < 0) {
             result = tmp2;
         }
@@ -956,7 +956,7 @@ s16 if_down(s16 idx, s32 op) {
         result = bring_down_ipv4_interface(idx);
         break;
     case 6:
-        result = TLobby__sub_80412210(idx);
+        result = bring_down_ipv6_interface(idx);
         break;
     default:
         result = -2;
@@ -983,7 +983,7 @@ s16 if_config(s16 iface, P_8042315C *p) {
         if (p->n < 0 || p->n > 0x80) {
             result = -2;
         } else {
-            result = TLobby__sub_80412CA4(&p->a, p->n, p->m, iface, p->d);
+            result = bring_up_ipv6_interface(&p->a, p->n, p->m, iface, p->d);
         }
         break;
     case 5:
@@ -996,7 +996,7 @@ s16 if_config(s16 iface, P_8042315C *p) {
     return result;
 }
 
-s32 TLobby__sub_8042325C(s32 a, s32 b, s32 c, s32 (*fn)(s32, s32, s32)) {
+s32 invoke_routing_event_callback(s32 a, s32 b, s32 c, s32 (*fn)(s32, s32, s32)) {
     s32 r = 0;
     if (fn != NULL) {
         r = fn(a, b, c);

@@ -1,7 +1,7 @@
 #ifndef PSO_NETWORK_NETDNS_H
 #define PSO_NETWORK_NETDNS_H
 /* The DNS resolver (dns_resolver_state, src/pso/network/TLobby_804050DC.c).  init_net_config sets its limits and
- * carves its pools out of one static block; init_net_tables clears them. */
+ * carves its pools out of one static block; dns_init clears them. */
 #include "types.h"
 #include "pso/network/UdpRuntime.h"
 #include <stddef.h>
@@ -24,7 +24,7 @@ typedef struct DnsAddr {
     NetworkAddress addr;        /* 0x04: family 4 IPv4, 6 IPv6 */
     u16 rtype;                  /* 0x18: DNS_TYPE_A or DNS_TYPE_AAAA */
     u8 pad1A[2];
-    s32 ttl;                    /* 0x1C: seconds; counted down by TLobby__sub_8040B3B4, dropped at 0 */
+    s32 ttl;                    /* 0x1C: seconds; counted down by dns_expire_cache, dropped at 0 */
     struct DnsAddr *next;       /* 0x20 */
     struct DnsHost *host;       /* 0x24 */
 } DnsAddr;

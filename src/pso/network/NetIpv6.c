@@ -33,7 +33,7 @@
 
 s32 NetIPv6Shutdown(void) {
     release_slot_by_id(0x86DD);
-    TLobby__sub_803F87DC(&ipv6_protocol_state);
+    term_ipv6_config(&ipv6_protocol_state);
     ipv6_protocol_state.nsockets = 0;
     return 0;
 }
@@ -154,7 +154,7 @@ s32 ipv6_input(u8 *ip, int len, s16 id) {
         return -1;
     }
     total_len = min_s32(((Ipv6Header *) ip)->payload_length + sizeof(Ipv6Header), (s16) len);
-    if (TLobby__sub_804136CC(iface) == 0) {
+    if (NetIPv6IsLoopbackInterface(iface) == 0) {
         if (ipv6_iface_for_address(((Ipv6Header *) ip)->dst.bytes) < 0) {
             if (NetIPv6IsMulticast(((Ipv6Header *) ip)->dst.bytes) == 0) {
                 if (ipv6_forward(ip, ip, total_len, iface) == 0) {
@@ -411,7 +411,7 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
     }
     return -1;
   }
-  hit = TLobby__sub_80413264(self + 0x18, self + 8);
+  hit = NetIPv6LookupRoute(self + 0x18, self + 8);
   if (hit == ((void *) 0))
   {
     if ((flag == 0) || (flags == 0))
@@ -460,13 +460,13 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
   e->fragment_count = e->fragment_count + 1;
   NetMemcpy(&params.source, self + 8, sizeof(params.source));
   NetMemcpy(&params.destination, self + 0x18, sizeof(params.destination));
-  if ((NetIPv6IsMulticast(dst) == 0) && (TLobby__sub_804136AC(hit->iface) != 0))
+  if ((NetIPv6IsMulticast(dst) == 0) && (NetIPv6InterfaceNeedsResolution(hit->iface) != 0))
   {
-    r21 = TLobby__sub_80415D0C(e, dst, &params, hit->iface);
+    r21 = NetIPv6NeighborOutput(e, dst, &params, hit->iface);
   }
   else
   {
-    r21 = TLobby__sub_80410BA8(e, &params, hit->iface, 0);
+    r21 = ipv6_transmit(e, &params, hit->iface, 0);
   }
   release_entry(e);
   return r21;
@@ -524,13 +524,13 @@ s16 ipv6_process_options(u8* p, s16 n, u8* self, s16 c, s16 d) {
     return 0;
 }
 
-s16 TLobby__sub_80410A98(NetPacket *pkt, void *dst, void *src, NetIPv6SendOptions *opts, u8 proto) {
+s16 ipv6_output(NetPacket *pkt, void *dst, void *src, NetIPv6SendOptions *opts, u8 proto) {
     NetIPv6SendOptions defaults;
     NetIPv6SendParameters params;
     Ipv6Route *route;
     u8 *next_hop;
 
-    route = TLobby__sub_80413264(dst, src);
+    route = NetIPv6LookupRoute(dst, src);
     if (route == NULL) {
         return -6;
     }
@@ -549,14 +549,14 @@ s16 TLobby__sub_80410A98(NetPacket *pkt, void *dst, void *src, NetIPv6SendOption
     params.next_header = proto;
     NetMemcpy(&params.source, src, sizeof(params.source));
     NetMemcpy(&params.destination, dst, sizeof(params.destination));
-    if (!NetIPv6IsMulticast(next_hop) && TLobby__sub_804136AC(route->iface)) {
-        return TLobby__sub_80415D0C(pkt, next_hop, &params, route->iface);
+    if (!NetIPv6IsMulticast(next_hop) && NetIPv6InterfaceNeedsResolution(route->iface)) {
+        return NetIPv6NeighborOutput(pkt, next_hop, &params, route->iface);
     }
-    return TLobby__sub_80410BA8(pkt, &params, route->iface, NULL);
+    return ipv6_transmit(pkt, &params, route->iface, NULL);
 }
 
-s16 TLobby__sub_80410D6C(NetPacket *packet, Ipv6Header *hdr, s16 iface, u8 *link_address, u32 room);
-s16 TLobby__sub_80410BA8(NetPacket *packet, NetIPv6SendParameters *params, s16 iface, u8 *link_address)
+s16 ipv6_fragment_output(NetPacket *packet, Ipv6Header *hdr, s16 iface, u8 *link_address, u32 room);
+s16 ipv6_transmit(NetPacket *packet, NetIPv6SendParameters *params, s16 iface, u8 *link_address)
 {
   Ipv6ProtocolState *base = &ipv6_protocol_state;
   s32 new_var;
@@ -599,7 +599,7 @@ s16 TLobby__sub_80410BA8(NetPacket *packet, NetIPv6SendParameters *params, s16 i
   }
   NetMemcpy(&slot->src, &params->source, sizeof(IPv6Address));
   NetMemcpy(&slot->dst, &params->destination, sizeof(IPv6Address));
-  ret = TLobby__sub_80411C44(params->destination.bytes, iface);
+  ret = NetIPv6GetPathMtu(params->destination.bytes, iface);
   if (ret < 0)
   {
     return ret;
@@ -609,7 +609,7 @@ s16 TLobby__sub_80410BA8(NetPacket *packet, NetIPv6SendParameters *params, s16 i
   new_var = n;
   if (used > ((u32) n))
   {
-    return TLobby__sub_80410D6C(packet, slot, iface, link_address, new_var);
+    return ipv6_fragment_output(packet, slot, iface, link_address, new_var);
   }
   packet->total_bytes += sizeof(Ipv6Header);
   packet->fragments[packet->fragment_count].length = sizeof(Ipv6Header);
@@ -617,14 +617,14 @@ s16 TLobby__sub_80410BA8(NetPacket *packet, NetIPv6SendParameters *params, s16 i
   packet->fragment_count += 1;
   if (NetIPv6IsMulticast(params->destination.bytes))
   {
-    return TLobby__sub_804112B8(packet, &params->destination, iface);
+    return NetIPv6OutputToDestination(packet, &params->destination, iface);
   }
-  return TLobby__sub_8041123C(packet, link_address, iface);
+  return NetIPv6OutputToLinkAddress(packet, link_address, iface);
 }
 
 #pragma push
 #pragma opt_common_subs on
-s16 TLobby__sub_80410D6C(NetPacket *packet, Ipv6Header *hdr, s16 iface, u8 *link_address, u32 room)
+s16 ipv6_fragment_output(NetPacket *packet, Ipv6Header *hdr, s16 iface, u8 *link_address, u32 room)
 {
     NetPacket iov;
     Ipv6FragmentHeader fh;
@@ -698,9 +698,9 @@ s16 TLobby__sub_80410D6C(NetPacket *packet, Ipv6Header *hdr, s16 iface, u8 *link
         set_value_and_enable(&iovp->fragments[iov.fragment_count].buffer, (saddr)hdr);
         iov.fragment_count++;
         if (NetIPv6IsMulticast(hdr->dst.bytes)) {
-            r = TLobby__sub_804112B8(iovp, &hdr->dst, iface);
+            r = NetIPv6OutputToDestination(iovp, &hdr->dst, iface);
         } else {
-            r = TLobby__sub_8041123C(iovp, link_address, iface);
+            r = NetIPv6OutputToLinkAddress(iovp, link_address, iface);
         }
         if (r < 0) {
             break;

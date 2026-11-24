@@ -39,15 +39,15 @@ extern "C" {
 extern NetworkDispatchState network_dispatch_state;
 s32 register_protocol_handler(u16 type, NetProtocolHandler fn);
 s32 release_slot_by_id(u16 a);
-void TLobby__sub_80419A00(void);
-s16 TLobby__sub_80419A34(void);
+void rtos_term(void);
+s16 rtos_init(void);
 s16 NetInitializeDispatcher(void);
 void NetYieldOutsideDispatcherThread(void);
 void NetRunProtocolDispatchLoop(void);
 void NetRunTimerDispatchLoop(void);
 void NetEnqueueProtocolMessage(s32 payload, s16 detail, s16 first, s16 second, u16 protocol);
 s32 dispatch_handler_by_id(s16 first, s32 second, s32 payload);
-s32 TLobby__sub_80419A7C(void);
+s32 dispatcher_term(void);
 #ifdef __cplusplus
 }
 #endif

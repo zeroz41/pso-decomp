@@ -514,7 +514,7 @@ saddr TWindowOptionCtrl::create_serial_info_window(const NJS_POINT2 *pos, s32 ki
     case 0:
         ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)((saddr)TWindowOptionCtrl::text_or_default((const char *)(TAdEnterSerialAccessGC__sub_80321874()))), (u32)0);
         ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x17)), (const char *)((saddr)TWindowOptionCtrl::text_or_default((const char *)(TAdEnterSerialAccessGC__sub_803217B8()))), (u32)0);
-        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x18)), (const char *)((saddr)TWindowOptionCtrl::text_or_default((const char *)(TAdEnterPasswordGC__sub_8013ADE4()))), (u32)0);
+        ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x18)), (const char *)((saddr)TWindowOptionCtrl::text_or_default((const char *)(get_password_input_buffer()))), (u32)0);
         break;
     case 1:
         ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)((saddr)TWindowOptionCtrl::text_or_default((const char *)(TAdEnterSerialAccessGC__sub_80321738()))), (u32)0);

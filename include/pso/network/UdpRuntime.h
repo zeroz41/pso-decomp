@@ -49,7 +49,7 @@ typedef struct send_buffs {
 } send_buffs;
 LAYOUT_ASSERT(send_buffs_size_check, sizeof(send_buffs) == 8);
 
-/* A received datagram, as TLobby__sub_80421F10 hands it to the socket's receive callback: first with mode 0 (the
+/* A received datagram, as udp_deliver hands it to the socket's receive callback: first with mode 0 (the
    callback sets buf, or returns nonzero to drop it), then with mode 1 once len bytes are copied to buf. */
 typedef struct UdpDatagram {
     NetworkReceivePrefix receive;
@@ -83,7 +83,7 @@ extern "C" {
 extern UdpRuntimeState udp_runtime_state;
 struct NetPacket;
 s16 udp_input(struct NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 iface);
-s16 TLobby__sub_80421F10(struct NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
+s16 udp_deliver(struct NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst,
                            u16 port, NetUdpReceiveCallback cb, s16 socket_index);
 s32 NetUdpClose(s16 handle);
 s16 NetUdpConnect(s16 handle, NetworkAddress* remoteAddress, s32 port,
@@ -92,7 +92,7 @@ s16 udp_open(void *src, s32 sport, void *dst, s32 dport, NetSocketEventCallback 
              NetUdpReceiveCallback callback);
 s16 udp_send(s32 handle, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendOptions *options, s8 count,
              send_buffs *buffers);
-s32 TLobby__sub_80420D38(u16 src_port, u8 code);
+s32 udp_ctlinput(u16 src_port, u8 code);
 s16 NetUdpCreate(void);
 s16 NetUdpBind(s16 handle, NetworkAddress* localAddress, s32 port);
 u16 NetUdpAllocateEphemeralPort(void);

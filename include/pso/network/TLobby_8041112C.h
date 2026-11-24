@@ -151,7 +151,7 @@ struct NetFragPacket {
     NetFragment *first;  /* 0x2C */
     NetFragment *last;   /* 0x30 */
 };
-/* packet_fragment_pool_state: TLobby__sub_803F89A4 fills 0x00-0x0F. */
+/* packet_fragment_pool_state: init_fragment_pool_config fills 0x00-0x0F. */
 struct NetFragPool {
     s16 npackets;           /* 0x00 */
     s16 nfrags;             /* 0x02 */
@@ -169,7 +169,7 @@ LAYOUT_ASSERT(NetFragPool_size_check, sizeof(NetFragPool) == 0x18);
 #ifdef __cplusplus
 extern "C" {
 #endif
-s16 TLobby__sub_80415690(void);
+s16 buffer_pool_init(void);
 extern LoopbackState network_loopback_state;
 extern NetBufferPool network_buffer_pool_state;
 extern Ipv6NdState ipv6_neighbor_discovery_state;
@@ -185,52 +185,52 @@ s32 release_packet_fragments(NetPacket *a);
 void tick_entry_timers(void);
 void update_timeout_entries(void);
 void NetIPv6ApplyNeighborDiscoveryDefaults(Ipv6NdState *nd);
-s16 TLobby__sub_80413230(u8 *dst, saddr src);
-s16 TLobby__sub_804145D4(void *out, s16 idx);
-s16 TLobby__sub_804136AC(s16 i);
-s16 TLobby__sub_804136CC(s16 i);
+s16 NetIPv6IsReachable(u8 *dst, saddr src);
+s16 NetIPv6GetLinkLocalAddress(void *out, s16 idx);
+s16 NetIPv6InterfaceNeedsResolution(s16 i);
+s16 NetIPv6IsLoopbackInterface(s16 i);
 s16 NetIPv6IsLoopback(u8 *address);
 s16 NetIPv6IsUnspecified(u8 *bytes);
 s16 NetIPv6CompareAddresses(u8 *a, u8 *b);
 s16 register_loopback_handlers(void);
 void init_loopback(void);
-void TLobby__sub_8041615C(void);
+void NetIPv6TickRouters(void);
 void NetIPv6TickNeighborCache(void);
 void NetIPv6TickNeighborDiscovery(void);
 s16 NetIPv6EmitNeighborSolicitation(NetPacket *pkt, u8 *target, NetIPv6SendParameters *params, s16 iface, u8 *lladdr);
 s16 NetIPv6SendUnspecifiedSourceNeighborSolicitation(u8 *addr, s16 idx);
-s16 TLobby__sub_804112B8(NetPacket *packet, IPv6Address *destination, s16 iface);
-s16 TLobby__sub_8041123C(NetPacket *packet, u8 *link_address, s16 iface);
+s16 NetIPv6OutputToDestination(NetPacket *packet, IPv6Address *destination, s16 iface);
+s16 NetIPv6OutputToLinkAddress(NetPacket *packet, u8 *link_address, s16 iface);
 s16 ipv6_iface_for_address(void *self);
-s16 TLobby__sub_8041579C(NetBufferRef *self);
-s16 TLobby__sub_80415954(void *out_, int size, s16 owner);
+s16 buffer_pool_free(NetBufferRef *self);
+s16 buffer_pool_alloc(void *out_, int size, s16 owner);
 s16 NetCompareBitsBackward(u8 *lhs, u8 *rhs, s16 bits);
 s16 NetCompareBitPrefix(u8 *a, u8 *b, s16 bits);
 s16 NetIPv6GetAddressScopeClass(u8 *a);
-s16 TLobby__sub_8041347C(u8 *src, s16 id, u8 *key, s16 a, s16 b, s16 c);
+s16 NetIPv6AddRoute(u8 *src, s16 id, u8 *key, s16 a, s16 b, s16 c);
 s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *dst, u8 *addr);
 s32 loopback_shutdown(void);
 s32 init_ipv6_all_routers_multicast_address(u8 *address, s8 scope);
 u8 init_ipv6_all_nodes_multicast_address(u8 *address, s8 scope);
-s16 TLobby__sub_80416F58(NetPacketFragment *self, s32 n, void *out, s16 iface);
-s16 TLobby__sub_80417028(void *self, void *a, void *b, s16 iface);
+s16 NetIPv6ParseNeighborSolicitationOptions(NetPacketFragment *self, s32 n, void *out, s16 iface);
+s16 NetIPv6AnswerNeighborSolicitation(void *self, void *a, void *b, s16 iface);
 s16 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *addr, s16 id);
 s16 NetIPv6GetInterfaceLinkLayerAddress(s32 dst, s16 dst_size, s16 id);
 s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 flags, NetIPv6SendParameters *params, s16 iface);
 s16 NetIPv6IsLinkLocal(u8 *address);
-s32 TLobby__sub_8041549C(s16 idx);
-s32 TLobby__sub_804154C0(s16 idx);
-s32 TLobby__sub_804154E4(s16 idx);
-s32 TLobby__sub_80415508(s16 idx);
-s16 TLobby__sub_80411F1C(void *out, void *dst, s16 idx);
-s16 TLobby__sub_80415D0C(NetPacket *a, u8 *b, NetIPv6SendParameters *c, s16 d);
-s16 TLobby__sub_80411C44(u8 *addr, s16 idx);
-s32 TLobby__sub_80411604(s16 id, int n, void *pp);
-s16 TLobby__sub_80413AA0(void *self, s16 id);
-s16 TLobby__sub_80413C0C(void *self, s16 id);
-s16 TLobby__sub_804137FC(void *addr, s16 idx);
-s16 TLobby__sub_80413D78(void *self, s16 idx);
-s16 TLobby__sub_80413F0C(void *self, s16 id);
+s32 loopback_update_multicast(s16 idx);
+s32 loopback_update_address(s16 idx);
+s32 loopback_get_address(s16 idx);
+s32 loopback_get_address_length(s16 idx);
+s16 NetIPv6SelectSourceAddress(void *out, void *dst, s16 idx);
+s16 NetIPv6NeighborOutput(NetPacket *a, u8 *b, NetIPv6SendParameters *c, s16 d);
+s16 NetIPv6GetPathMtu(u8 *addr, s16 idx);
+s32 NetIPv6HandleRoutingEvent(s16 id, int n, void *pp);
+s16 NetIPv6IsValidAddress(void *self, s16 id);
+s16 NetIPv6IsTentativeAddress(void *self, s16 id);
+s16 NetIPv6IsOwnAddress(void *addr, s16 idx);
+s16 NetIPv6IsAnycastAddress(void *self, s16 idx);
+s16 NetIPv6IsSolicitedNodeAddress(void *self, s16 id);
 #ifdef __cplusplus
 }
 #endif

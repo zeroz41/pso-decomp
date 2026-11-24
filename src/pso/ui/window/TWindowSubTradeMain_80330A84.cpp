@@ -180,7 +180,7 @@ TWindowSubTradeMain::TWindowSubTradeMain(TWindowMainMenu *parent, s32 client) : 
 TWindowSubTradeMain::~TWindowSubTradeMain() {
     Plr_803310BC *player;
 
-    TLobby__sub_802D29E8((uaddr)this);
+    release_trade_main_window((uaddr)this);
     TLobby::check_flags_and_proceed();
     void *tmp_player;
     if ((tmp_player = (void *)get_player_by_client_id(this->client_id)) != 0U) {
@@ -322,7 +322,7 @@ void TWindowSubTradeMain::run_task() {
             o->help = 0;
         }
         entry = (void *)((TWindowMenuIconLine *)o->list)->get_cursor_value();
-        n = get_state__19TWindowSubTradeMainFv(TLobby__sub_802D298C(), entry);
+        n = get_state__19TWindowSubTradeMainFv(get_trade_list_items(), entry);
         if (n <= 1) {
             TWindowSubTradeMain::draw_request((void *)entry, (void *)1);
             o->state = 9;
@@ -697,7 +697,7 @@ saddr TWindowSubTradeMain::create_trade_window() {
     w = reinterpret_cast<saddr>(create_equip_kind_window((saddr)get_window_layout_position(0x60), &trade_window_pos, ((Self_80331178 *)this)->client));
     ((TWindowMenuIconLine *)w)->ensure_status_display(p->m10());
     ((TWindowSubTradeMain *)w)->set_trade_state(0);
-    ((TWindowMenuIconLine *)w)->refresh_trade_item_list((TradeItemEntry *)(TLobby__sub_802D299C()));
+    ((TWindowMenuIconLine *)w)->refresh_trade_item_list((TradeItemEntry *)(get_trade_offer_items()));
     ((TWindowSubTradeMain *)w)->close();
     ((TWindowBase *)w)->set_depth(TWindowSubEquip__sub_80263AF8((u8 *)(((Self_80331178 *)this)->f2c), 0));
     return w;
@@ -724,7 +724,7 @@ saddr TWindowSubTradeMain::create_list() {
 
     equip_kind_window = reinterpret_cast<saddr>(create_equip_kind_window((saddr)get_window_layout_position(0x64), &trade_list_window_pos, this->client_id));
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
-    ((TWindowMenuIconLine *)equip_kind_window)->refresh_trade_item_list((TradeItemEntry *)(TLobby__sub_802D298C()));
+    ((TWindowMenuIconLine *)equip_kind_window)->refresh_trade_item_list((TradeItemEntry *)(get_trade_list_items()));
     ((TWindowBase *)equip_kind_window)->set_depth(TWindowSubEquip__sub_80263AF8(reinterpret_cast<u8 *>(parent_menu), 2));
     return equip_kind_window;
 }
@@ -888,7 +888,7 @@ void TWindowSubTradeMain::update_position_if_changed(saddr owner, u8 *window, u8
 
 void TWindowSubTradeMain::update_trade_window() {
     if ((u32) this->offer != 0U) {
-        ((TWindowMenuIconLine *)(this->offer))->refresh_trade_item_list((TradeItemEntry *)(TLobby__sub_802D299C()));
+        ((TWindowMenuIconLine *)(this->offer))->refresh_trade_item_list((TradeItemEntry *)(get_trade_offer_items()));
         ((TWindowSubTradeMain *)(this->offer))->set_trade_state(3);
     }
 }

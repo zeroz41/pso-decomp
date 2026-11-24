@@ -91,7 +91,7 @@ typedef void (*AdxtStopHook)(void);
 
 extern "C" {
 void configure_audio_stream_output(AdxtPlayer *player);
-void start_audio_stream_file(AdxtPlayer *player, const char *name);
+void ADXT_StartFname(AdxtPlayer *player, const char *name);
 }
 
 #endif

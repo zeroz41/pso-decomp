@@ -6,7 +6,7 @@
 s32 TLobby__sub_8014618C(void) {
     s32 status;
 
-    TLobby__sub_8042EE4C(&status);
+    get_network_adapter_type(&status);
     switch (status) {
     case 0:
     case 1:

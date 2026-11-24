@@ -1093,7 +1093,7 @@ typedef struct List_801BC068 {
 extern "C" {
 s32 check_value_equals__13TUnk_804B6C24CFl(void *, s32);
 void copy_player_visual_record(void *, void *);
-void TObjPlayer__sub_8013A748(void *);
+void copy_disp_config(void *);
 u16 get_id__11TMainCursorFv(void* p);
 s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
@@ -1523,7 +1523,7 @@ void TObjPlayer::init_action_palette_defaults(saddr player) {
 }
 
 void TObjPlayer::init_player_substructs(u8 *data) {
-    TObjPlayer__sub_8013A748((void *)((char *)this + 1280));
+    copy_disp_config((void *)((char *)this + 1280));
     TObjPlayer::init_action_palette_defaults((saddr)this);
 }
 

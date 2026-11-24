@@ -505,7 +505,7 @@ extern u32 crc32_table[];
 #pragma peephole off
 #pragma optimization_level 2
 
-u32 fn_803F4D10(u32 crc, u8 *buf, s32 len) {
+u32 update_crc32(u32 crc, u8 *buf, s32 len) {
     s32 i;
     for (i = 0; i < len; i++) {
         crc = (crc >> 8) ^ crc32_table[(u8)(crc ^ buf[i])];
@@ -515,7 +515,7 @@ u32 fn_803F4D10(u32 crc, u8 *buf, s32 len) {
 #pragma pop
 
 u32 calc_crc32(saddr buf, s32 len) {
-    return fn_803F4D10(0xFFFFFFFF, (u8 *)buf, len) ^ 0xFFFFFFFF;
+    return update_crc32(0xFFFFFFFF, (u8 *)buf, len) ^ 0xFFFFFFFF;
 }
 
 u32 crc32_table[256] = {

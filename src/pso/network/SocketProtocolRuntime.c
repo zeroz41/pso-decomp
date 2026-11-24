@@ -8,9 +8,9 @@
 #include "pso/network/NetTcpState.h"
 #include "pso/network/text_80421620.h"
 
-void TLobby__sub_8041F66C(TcpTcb *o);
+void tcp_reass_advance(TcpTcb *o);
 
-s32 TLobby__sub_8041ED8C(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCompletion callback) {
+s32 tcp_user_receive(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCompletion callback) {
     s16 idx = self - tcp_protocol_state.tcbs;
     s32 m;
     u32 k;
@@ -106,7 +106,7 @@ s32 TLobby__sub_8041ED8C(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCo
     return 0;
 }
 
-s32 TLobby__sub_8041F11C(TcpTcb *self) {
+s32 tcp_notify_receiver(TcpTcb *self) {
     s16 idx = self - tcp_protocol_state.tcbs;
     while (self->rcv_user.kind != 0) {
         self->rcv_user.kind = 0;
@@ -119,7 +119,7 @@ s32 TLobby__sub_8041F11C(TcpTcb *self) {
     return 0;
 }
 
-s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self)
+s32 tcp_append_rcvbuf(NetPacket *pkt, u16 x, TcpTcb *self)
 {
     s16 idx;
     s16 i;
@@ -252,7 +252,7 @@ zero:
             i++;
         }
 fin:
-        TLobby__sub_8041F66C(self);
+        tcp_reass_advance(self);
         return 0;
     }
     return -1;
@@ -265,7 +265,7 @@ static inline u32 reassembly_length(const TcpSeqRange *range) {
     return range->end - range->start;
 }
 
-void TLobby__sub_8041F66C(TcpTcb *o) {
+void tcp_reass_advance(TcpTcb *o) {
     s16 i;
     s16 cnt;
     s16 j;
@@ -322,7 +322,7 @@ inline void sack_remove_8041F914(TcpTcb *o, s16 idx) {
 
 /* Queues an out-of-order segment: copies it into the receive ring at its sequence offset and merges its range into
    the SACK/reassembly list.  Returns -1 when the connection no longer receives (f204_b6). */
-s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
+s32 tcp_reass(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
     if (!o->f204_b6) {
     u32 i;
     u32 skip;
@@ -387,11 +387,11 @@ s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
     seq = th->seq;
     end = seq + total;
     if (o->reasm_n == -1) {
-        TLobby__sub_8041FDA0(o, 0, seq, end);
+        tcp_reass_insert_block(o, 0, seq, end);
         o->last_reasm = 0;
     } else {
         if ((s32)(seq - o->reasm[0].start) <= 0) {
-            TLobby__sub_8041FDA0(o, 0, seq, end);
+            tcp_reass_insert_block(o, 0, seq, end);
             j = 0;
         } else {
             for (j = 1; j <= o->reasm_n; j++) {
@@ -405,7 +405,7 @@ s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
                         o->reasm[j - 1].end = end;
                         j--;
                     } else {
-                        TLobby__sub_8041FDA0(o, j, seq, end);
+                        tcp_reass_insert_block(o, j, seq, end);
                     }
                     break;
                 }
@@ -420,7 +420,7 @@ s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
                     o->reasm[j - 1].end = end;
                     j--;
                 } else {
-                    TLobby__sub_8041FDA0(o, j, seq, end);
+                    tcp_reass_insert_block(o, j, seq, end);
                 }
             }
         }
@@ -436,14 +436,14 @@ s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
         }
     }
 done:
-    TLobby__sub_8041FED4(o);
+    tcp_update_sack_blocks(o);
     return 0;
     }
     return -1;
 }
 #pragma pop
 
-void TLobby__sub_8041FDA0(TcpTcb *o, s16 idx, u32 start, u32 end) {
+void tcp_reass_insert_block(TcpTcb *o, s16 idx, u32 start, u32 end) {
     s16 i;
     if (idx < 0) {
         return;
@@ -487,7 +487,7 @@ void expire_timeout_entries(TcpTcb *o) {
     }
 }
 
-void TLobby__sub_8041FED4(TcpTcb *tcb) {
+void tcp_update_sack_blocks(TcpTcb *tcb) {
     const s16 last = sizeof(tcb->sack) / sizeof(tcb->sack[0]) - 1;
     u32 start;
     u32 end;
@@ -529,7 +529,7 @@ void TLobby__sub_8041FED4(TcpTcb *tcb) {
 #pragma push
 #pragma dont_inline on
 #pragma opt_lifetimes off
-s32 TLobby__sub_8041FFF8(u32 acknowledged, TcpTcb *control) {
+s32 tcp_drop_acked_data(u32 acknowledged, TcpTcb *control) {
     struct SendRingPosition { s32 read_index; } ring;
     TcpSendRequest request;
     NetBufferRef cursor;
@@ -922,7 +922,7 @@ s32 tcp_gather_send_data(u32 offset, u32 length, NetPacket *packet, TcpTcb *cont
 }
 #pragma pop
 
-s32 TLobby__sub_80420BD0(NetPacket *req, TcpTcb *s, TcpCompletion done) {
+s32 tcp_queue_send_request(NetPacket *req, TcpTcb *s, TcpCompletion done) {
     u32 v;
     if (s->f204_b7 == 1) {
         /* The inner test repeats the outer one, so the else never runs. */

@@ -75,8 +75,8 @@ void TLobby__sub_803C5D24(AdxStreamPlayer *player) {
 }
 static const char lbl_8047C5D8[] = "E0071301 ADXT_EntryAfs: can't entry ";
 extern char music_stream_afs_filename_buffer[];
-void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2);
-void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2) {
+void ADXT_EntryAfs(u8 *arg0, s32 arg1, s32 arg2);
+void ADXT_EntryAfs(u8 *arg0, s32 arg1, s32 arg2) {
     char buf[16];
     s32 a;
     s32 b;

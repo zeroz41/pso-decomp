@@ -24,7 +24,7 @@ typedef struct RecoveredGlobal_8042839C_lbl_805D0A40 {
 #pragma auto_inline off
 #pragma dont_inline off
 
-s32 TLobby__sub_803F77E0(void *);
+s32 term_modem_session_config(void *);
 ModemSessionState lobby_net_session_state;
 /* The session's and the buffer pool's small state (.sbss 805D7BD0-805D7C30). This compiler lays .sbss out in
  * reverse definition order, so the last address comes first. */
@@ -60,7 +60,7 @@ s16 send_network_bytes(void *, s32);
 
 
 void reset_boot_state(void) {
-    TLobby__sub_803F77E0((s32 *)&lobby_net_session_state);
+    term_modem_session_config((s32 *)&lobby_net_session_state);
 }
 
 LAYOUT_ASSERT(RecoveredGlobal_8042839C_lbl_805D0A40_size, sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60);
@@ -195,7 +195,7 @@ s16 modem_run_script(u8 *script, NetSession *sess) {
             ret = go_dial(&sess->req);
             break;
         case 1:
-            ret = modem_script_send();
+            ret = go_send();
             break;
         case 2:
             ret = go_wait(&sess->req);
@@ -306,7 +306,7 @@ s16 go_wait(ModemRequest *req) {
     }
     return 0;
 }
-s16 modem_script_send(void) {
+s16 go_send(void) {
     const char *const *keys;
     s32 di;
     s32 si;
@@ -367,7 +367,7 @@ s16 go_dial(ModemRequest *request) {
     u16 avail;
 
     state = &lobby_net_session_state;
-    config = TLobby__sub_803FB110();
+    config = ppp_get_modem_property();
     if (config == NULL) {
         return -3;
     }
@@ -421,7 +421,7 @@ s16 go_dial(ModemRequest *request) {
     if (send_network_bytes(*out, (u16)NetStringLength((const char *)*out)) != 0) {
         return 4;
     }
-    return TLobby__sub_804290D4(request->timeout);
+    return WaitStringConnect(request->timeout);
 }
 
 #pragma push
@@ -543,7 +543,7 @@ s16 modem_script_next_token(u8 *src, u8 *dst, u8 **next) {
     return 1;
 }
 
-s16 TLobby__sub_804290D4(s32 idx) {
+s16 WaitStringConnect(s32 idx) {
     s16 *lenp;
     u8 **bufp;
     ModemConfig *config;
@@ -555,7 +555,7 @@ s16 TLobby__sub_804290D4(s32 idx) {
     s32 n;
     u8 ch;
 
-    config = TLobby__sub_803FB110();
+    config = ppp_get_modem_property();
     if (config == NULL) {
         return 1;
     }
@@ -680,7 +680,7 @@ s16 init_buffer_pool(void) {
     lbl_805D7BF4 = (saddr)lobby_buffer_pool_base;
     lobby_buffer_pool_end = (saddr)(lobby_buffer_pool_base + lobby_buffer_pool_size);
     lbl_805D7BFC = lobby_buffer_pool_size;
-    if (TLobby__sub_803F96AC(&lobby_buffer_pool_alarm_handle) < 0) {
+    if (create_mutex(&lobby_buffer_pool_alarm_handle) < 0) {
         return -1;
     }
     reset_buffer_pool();

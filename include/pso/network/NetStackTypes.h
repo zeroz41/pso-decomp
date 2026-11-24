@@ -101,9 +101,9 @@ typedef struct PppBuffers {
     u8 *pool;                   /* 0x04: npool buffers of pool_words words (init_net_buffer_entry) */
     s16 npool;                  /* 0x08 */
     s16 pool_words;             /* 0x0A */
-    PppFrame *packet;           /* 0x0C: TLobby__sub_80401B20's */
+    PppFrame *packet;           /* 0x0C: ppp_buffer_from_bytes's */
     PppFrame *frame_out;        /* 0x10: the HDLC frame being sent */
-    PppFrame *ip_out;           /* 0x14: the IP packet being sent (TLobby__sub_803FD21C) */
+    PppFrame *ip_out;           /* 0x14: the IP packet being sent (ppp_link_send_packet) */
     PppFrame *frame_in;         /* 0x18: the frame being received */
     PppFrame *reply;            /* 0x1C: ppp_fsm_send_packet's packet when it is given none */
     s16 packet_words;           /* 0x20: the sizes of packet .. reply, in words */

@@ -28,7 +28,7 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
 #include "pso/network/NetStackTypes.h"
 
 s32 arp_init(void);
-void TLobby__sub_804073B8(void);
+void arp_start(void);
 s32 arp_remove_alias(s16, saddr);
 s32 arp_add_alias(s16, saddr);
 s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen, saddr haddr, s16 plen, saddr paddr);
@@ -38,12 +38,12 @@ s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hl
 #pragma inline_depth(4)
 
 void age_arp_cache(void);
-s32 TLobby__sub_80407358(void) {
+s32 arp_term(void) {
     ArpState *g = &arp_state;
     s32 tmp[2];
     release_slot_by_id(0x806);
     NetUnregisterTimer(age_arp_cache);
-    TLobby__sub_803F8A24(g);
+    term_arp_config(g);
     g->nentries = 0;
     g->nifaces = 0;
     g->nholds = 0;
@@ -51,7 +51,7 @@ s32 TLobby__sub_80407358(void) {
     return 0;
 }
 
-void TLobby__sub_804073B8(void) {
+void arp_start(void) {
     arp_init();
 }
 
@@ -63,7 +63,7 @@ s32 dispatch_slot_b(s16 id, s32 pkey) {
     return arp_add_alias(id, pkey);
 }
 
-s32 TLobby__sub_80407418(s16 id) {
+s32 unregister_arp_interface(s16 id) {
     ArpState *t = &arp_state;
     ArpIface *e;
     s16 ok;
@@ -87,7 +87,7 @@ s32 TLobby__sub_80407418(s16 id) {
         return -2;
     }
     call_entry_callback(e->handler, e->arp_socket);
-    TLobby__sub_80408388(id);
+    arp_free_interface(id);
     return 0;
 }
 
@@ -150,7 +150,7 @@ s32 arp_init(void)
     return 0;
 }
 
-s16 TLobby__sub_804082AC(ArpIface *iface, ArpFields *f, void *haddr);
+s16 arp_match_own_address(ArpIface *iface, ArpFields *f, void *haddr);
 inline ArpIface *FindHit_80407640(ArpState *t, s16 b, s16 c) {
     ArpIface *hit;
     s16 i;
@@ -224,7 +224,7 @@ extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
     find_or_add_peer_entry(hit->handler, hit->socket, hit->plen, in.spa, hit->hlen, in.sha, 2);
   }
   if (pp->op == 1) {
-    if (TLobby__sub_804082AC(hit, &in, buf) > 0) {
+    if (arp_match_own_address(hit, &in, buf) > 0) {
       r = alloc_packet_with_header(&out, hit);
       if (r != NULL) {
         out.hdr->op = 2;
@@ -498,7 +498,7 @@ s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hl
     if (handler < 0) {
         return -1;
     }
-    res = TLobby__sub_8040A044(handler, 0x806, plen, (u32 *)paddr);
+    res = link_attach_protocol(handler, 0x806, plen, (u32 *)paddr);
     if (res < 0) {
         return res;
     }
@@ -626,7 +626,7 @@ NetPacket *alloc_packet_with_header(ArpFields *f, ArpIface *iface) {
     return pkt;
 }
 
-s16 TLobby__sub_804082AC(ArpIface *iface, ArpFields *f, void *haddr) {
+s16 arp_match_own_address(ArpIface *iface, ArpFields *f, void *haddr) {
     s16 i;
     ArpAlias *p;
 
@@ -652,7 +652,7 @@ s16 TLobby__sub_804082AC(ArpIface *iface, ArpFields *f, void *haddr) {
     return -1;
 }
 
-s32 TLobby__sub_80408388(s16 id) {
+s32 arp_free_interface(s16 id) {
     ArpState *t = &arp_state;
     ArpIface *e;
     ArpAlias *n;

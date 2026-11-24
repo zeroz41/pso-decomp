@@ -4,10 +4,10 @@
 #include "types.h"
 
 extern "C" {
-void TPlyGuildCardTag__sub_8013ACA4(void *arg0, void *arg1);
-void TQuestListOnline__sub_8013ACF4(s32 state);
+void copy_guild_card_tag_triplet(void *arg0, void *arg1);
+void set_quest_list_online_state(s32 state);
 void __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *arg0, void *arg1);
-void fn_8013ACE4(int a0);
+void set_item_drop_server_seed(int a0);
 }
 
 #endif

@@ -8,33 +8,33 @@
 #include "pso/network/netcfg.h"
 #include "pso/network/TLobby_804050DC.h"
 
-s32 TLobby__sub_8040878C(void);
+s32 dix_clear_links(void);
 s16 init_net_sockets(void);
 s16 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b);
 s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt);
-s32 TLobby__sub_80408F2C(s16 id, u8 *pkt);
-s32 TLobby__sub_80408FD8(s16 idx, s16 mode, u8 *data);
-s32 TLobby__sub_80409130(s16 id, s16 op, s32 addr);
-s32 TLobby__sub_8040920C(s16 id, u8 *dst);
-s32 TLobby__sub_804092FC(s16 idx);
-s32 TLobby__sub_8040939C(s16 idx);
-s32 TLobby__sub_804093EC(s16 idx);
-s16 TLobby__sub_804094B8(s16 a, u16 b, s16 c, void *k);
-s32 TLobby__sub_8040970C(s16 idx, u8 *dst);
+s32 dix_free_buffer(s16 id, u8 *pkt);
+s32 dix_update_multicast(s16 idx, s16 mode, u8 *data);
+s32 dix_update_address(s16 id, s16 op, s32 addr);
+s32 dix_get_address(s16 id, u8 *dst);
+s32 dix_get_address_length(s16 idx);
+s32 dix_get_mtu(s16 idx);
+s32 dix_detach_protocol(s16 idx);
+s16 dix_attach_protocol(s16 a, u16 b, s16 c, void *k);
+s32 dix_get_interface_id(s16 idx, u8 *dst);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-void flush_flags_step(void) {
-    TLobby__sub_8040878C();
+void dix_term(void) {
+    dix_clear_links();
 }
 
-s16 run_connect_step(void) {
+s16 dix_init(void) {
     return init_net_sockets();
 }
 
-s32 TLobby__sub_8040878C(void) {
+s32 dix_clear_links(void) {
     EthernetState *tbl = (0, (void *)&ethernet_state);
     s16 n;
     s16 i;
@@ -53,7 +53,7 @@ s32 TLobby__sub_8040878C(void) {
     tbl->nlinks = 0;
     tbl->nsockets = 0;
     tbl->nslots = 0;
-    TLobby__sub_803F8AB8(tbl);
+    term_dix_config(tbl);
     return 0;
 }
 
@@ -72,15 +72,15 @@ s16 init_net_sockets(void) {
     NetMemset(*pe, 0, ethernet_state.nlinks * sizeof(EthLink));
     NetMemset(ethernet_state.sockets, 0, ethernet_state.nsockets * sizeof(EthSocket));
     NetMemset(ethernet_state.slots, 0, ethernet_state.nslots * sizeof(EthFrameSlot));
-    fns[0] = (NetLinkDriverFn)TLobby__sub_8040970C;
-    fns[1] = (NetLinkDriverFn)TLobby__sub_804094B8;
-    fns[2] = (NetLinkDriverFn)TLobby__sub_804093EC;
-    fns[3] = (NetLinkDriverFn)TLobby__sub_8040939C;
-    fns[4] = (NetLinkDriverFn)TLobby__sub_804092FC;
-    fns[5] = (NetLinkDriverFn)TLobby__sub_8040920C;
-    fns[6] = (NetLinkDriverFn)TLobby__sub_80409130;
-    fns[7] = (NetLinkDriverFn)TLobby__sub_80408FD8;
-    fns[8] = (NetLinkDriverFn)TLobby__sub_80408F2C;
+    fns[0] = (NetLinkDriverFn)dix_get_interface_id;
+    fns[1] = (NetLinkDriverFn)dix_attach_protocol;
+    fns[2] = (NetLinkDriverFn)dix_detach_protocol;
+    fns[3] = (NetLinkDriverFn)dix_get_mtu;
+    fns[4] = (NetLinkDriverFn)dix_get_address_length;
+    fns[5] = (NetLinkDriverFn)dix_get_address;
+    fns[6] = (NetLinkDriverFn)dix_update_address;
+    fns[7] = (NetLinkDriverFn)dix_update_multicast;
+    fns[8] = (NetLinkDriverFn)dix_free_buffer;
     fns[9] = (NetLinkDriverFn)forward_socket_op_by_handle;
     fns[10] = (NetLinkDriverFn)send_ethernet_frame;
     first = -1;
@@ -97,7 +97,7 @@ s16 init_net_sockets(void) {
         } else {
             return -0x111;
         }
-        r = TLobby__sub_80409A3C(fns, 0x7C);
+        r = register_link_handler(fns, 0x7C);
         if (r < 0) {
             return r;
         }
@@ -122,7 +122,7 @@ inline EthSocket *find_socket(EthSocket *ent, s16 n, s16 dev, u16 type) {
     }
     return 0;
 }
-saddr TLobby__sub_804089A8(s16 dev, s16 mode, s16 b, EthernetFrameHeader *frame) {
+saddr dix_input(s16 dev, s16 mode, s16 b, EthernetFrameHeader *frame) {
     EthernetState *tbl = &ethernet_state;
     EthSocket *ent;
     EthSocket *base;
@@ -189,7 +189,7 @@ saddr TLobby__sub_804089A8(s16 dev, s16 mode, s16 b, EthernetFrameHeader *frame)
             OSRestoreInterrupts(lvl);
             return 0;
         } else {
-            TLobby__sub_80409818((saddr)(slot->frame + sizeof(EthernetFrameHeader)), slot->len - sizeof(EthernetFrameHeader), slot->link, slot->socket, key);
+            link_input((saddr)(slot->frame + sizeof(EthernetFrameHeader)), slot->len - sizeof(EthernetFrameHeader), slot->link, slot->socket, key);
             return 0;
         }
     }
@@ -257,19 +257,19 @@ s32 send_ethernet_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     default:
         return -2;
     }
-    c->frame = TLobby__sub_8042558C(0x5EA);
+    c->frame = alloc_packet_buffer_locked(0x5EA);
     if (c->frame == NULL) {
         return 0;
     }
     NetMemcpy(hdr.source, c->mac, 6);
     hdr.ether_type = e->type;
     NetMemcpy(c->frame, &hdr, sizeof(hdr));
-    len = TLobby__sub_804098B4(pkt);
+    len = link_packet_length(pkt);
     if (len > 0x5DC) {
         clear_message_entry(c->frame);
         return -2;
     }
-    TLobby__sub_80409908(c->frame + sizeof(EthernetFrameHeader), pkt);
+    link_packet_copy(c->frame + sizeof(EthernetFrameHeader), pkt);
     if (len + 0xE < 0x3C) {
         len = 0x2E;
     }
@@ -307,7 +307,7 @@ s16 forward_socket_op_by_handle(s16 id, u8 *a, u8 *b) {
     }
 }
 
-s32 TLobby__sub_80408F2C(s16 id, u8 *pkt) {
+s32 dix_free_buffer(s16 id, u8 *pkt) {
     EthernetState *t = &ethernet_state;
     EthFrameSlot *b;
     u8 *data;
@@ -338,7 +338,7 @@ s32 TLobby__sub_80408F2C(s16 id, u8 *pkt) {
     return -2;
 }
 
-s32 TLobby__sub_80408FD8(s16 idx, s16 mode, u8 *data) {
+s32 dix_update_multicast(s16 idx, s16 mode, u8 *data) {
     EthernetState *tbl = &ethernet_state;
     EthSocket *e;
     EthDriver *fn;
@@ -386,7 +386,7 @@ s32 TLobby__sub_80408FD8(s16 idx, s16 mode, u8 *data) {
     return -2;
 }
 
-s32 TLobby__sub_80409130(s16 id, s16 op, s32 addr) {
+s32 dix_update_address(s16 id, s16 op, s32 addr) {
     s32 h;
     EthSocket *e;
 
@@ -418,7 +418,7 @@ s32 TLobby__sub_80409130(s16 id, s16 op, s32 addr) {
     }
 }
 
-s32 TLobby__sub_8040920C(s16 id, u8 *dst) {
+s32 dix_get_address(s16 id, u8 *dst) {
     EthernetState *t = &ethernet_state;
     EthLink *p;
     EthSocket *e;
@@ -445,7 +445,7 @@ s32 TLobby__sub_8040920C(s16 id, u8 *dst) {
     }
     return 0;
 }
-s32 TLobby__sub_804092FC(s16 idx) {
+s32 dix_get_address_length(s16 idx) {
     EthernetState *tbl = &ethernet_state;
     EthSocket *e;
     EthLink *p;
@@ -479,7 +479,7 @@ found:
     return 6;
 }
 
-s32 TLobby__sub_8040939C(s16 idx) {
+s32 dix_get_mtu(s16 idx) {
     EthSocket *e;
     if (idx < 0 || idx >= ethernet_state.nsockets) {
         return -0x111;
@@ -492,7 +492,7 @@ s32 TLobby__sub_8040939C(s16 idx) {
     return 0x5dc;
 }
 
-s32 TLobby__sub_804093EC(s16 idx) {
+s32 dix_detach_protocol(s16 idx) {
     EthernetState *tbl = &ethernet_state;
     EthSocket *e;
     EthDriver *ent;
@@ -509,7 +509,7 @@ s32 TLobby__sub_804093EC(s16 idx) {
     }
     v = e->iface;
     if ((s16)v >= 0) {
-        TLobby__sub_80407418((s16)v);
+        unregister_arp_interface((s16)v);
     }
     ent = tbl->drivers;
     ent += e->dev;
@@ -527,7 +527,7 @@ s32 TLobby__sub_804093EC(s16 idx) {
 
 #pragma push
 #pragma opt_propagation off
-s16 TLobby__sub_804094B8(s16 a, u16 b, s16 c, void *k) {
+s16 dix_attach_protocol(s16 a, u16 b, s16 c, void *k) {
     EthernetState *g = &ethernet_state;
     EthLink *p1;
     EthSocket *p3;
@@ -616,7 +616,7 @@ fail:
 }
 #pragma pop
 
-s32 TLobby__sub_8040970C(s16 idx, u8 *dst) {
+s32 dix_get_interface_id(s16 idx, u8 *dst) {
     EthernetState *tbl;
     EthLink *p;
     u8 buf[6];

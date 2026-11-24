@@ -60,15 +60,15 @@ extern u8 pppoe_message_queue[];
 extern u8 lbl_805CF240[];
 
 PppoeSlot *find_pppoe_slot_by_session_id(u8 *frame, u16 frame_len);
-s16 TLobby__sub_8042787C(PppoeSlot *e, u8 *p, u16 len);
-s16 TLobby__sub_80426D80(PppoeSlot *e);
-s32 TLobby__sub_80426574(s32);
-s16 TLobby__sub_80426EB8(PppoeSlot *e);
-s16 TLobby__sub_804270C0(PppoeSlot *self);
-PppoeSlot *TLobby__sub_80427B6C(u8 *p, u16 len);
-void TLobby__sub_80427378(PppoeSlot *e);
+s16 pppoe_parse_pads_tags(PppoeSlot *e, u8 *p, u16 len);
+s16 pppoe_send_discovery(PppoeSlot *e);
+s32 detach_pppoe_protocols(s32);
+s16 pppoe_build_padr_tags(PppoeSlot *e);
+s16 pppoe_build_padi_tags(PppoeSlot *self);
+PppoeSlot *pppoe_find_slot_by_host_uniq(u8 *p, u16 len);
+void pppoe_process_slot(PppoeSlot *e);
 s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len);
-s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len);
+s16 pppoe_parse_pado_tags(PppoeSlot *e, u8 *p, u16 len);
 
 
 
@@ -202,7 +202,7 @@ inline s16 put_end_of_list3(u8 **p) {
 
 #pragma push
 #pragma opt_propagation off
-s16 TLobby__sub_80426D80(PppoeSlot *e) {
+s16 pppoe_send_discovery(PppoeSlot *e) {
     void *src;
     u8 *p;
     s16 n;
@@ -214,7 +214,7 @@ s16 TLobby__sub_80426D80(PppoeSlot *e) {
     switch (e->state) {
     case 0:
     case 1:
-        n = TLobby__sub_804270C0(e);
+        n = pppoe_build_padi_tags(e);
         if (n >= 0) {
             src = e->broadcast_mac;
             type = 0x8863;
@@ -224,7 +224,7 @@ s16 TLobby__sub_80426D80(PppoeSlot *e) {
         goto out;
     case 2:
     case 3:
-        n = TLobby__sub_80426EB8(e);
+        n = pppoe_build_padr_tags(e);
         if (n >= 0) {
             src = e->ac_mac;
             type = 0x8863;
@@ -258,7 +258,7 @@ out:
     return n;
 }
 #pragma pop
-s16 TLobby__sub_80426EB8(PppoeSlot *e) {
+s16 pppoe_build_padr_tags(PppoeSlot *e) {
     u8 *p;
     s16 n;
     s16 total;
@@ -286,7 +286,7 @@ s16 TLobby__sub_80426EB8(PppoeSlot *e) {
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_lifetimes off
-s16 TLobby__sub_804270C0(PppoeSlot *self) {
+s16 pppoe_build_padi_tags(PppoeSlot *self) {
     u8 pad1[4];
     u8 *p;
     u16 w[8];
@@ -386,7 +386,7 @@ inline void restart_timer(PppoeSlot *e, s16 retries, s32 timeout) {
     e->retries = retries;
 }
 
-void TLobby__sub_80427378(PppoeSlot *self) {
+void pppoe_process_slot(PppoeSlot *self) {
     u16 a;
     u16 q;
     u8 *w;
@@ -399,7 +399,7 @@ void TLobby__sub_80427378(PppoeSlot *self) {
     switch (self->state) {
     case 0:
         if (self->retries > 0) {
-            r = TLobby__sub_80426440();
+            r = pppoe_terminate_hook();
             if (r >= 0) {
                 u16 h;
                 if (self->reused) {
@@ -423,7 +423,7 @@ void TLobby__sub_80427378(PppoeSlot *self) {
                     }
                 }
                 self->id = 0;
-                r = TLobby__sub_80426D80(self);
+                r = pppoe_send_discovery(self);
                 if (r < 0) {
                     return;
                 }
@@ -449,7 +449,7 @@ void TLobby__sub_80427378(PppoeSlot *self) {
     case 3:
         if (self->retries > 0) {
             u16 h;
-            r = TLobby__sub_80426D80(self);
+            r = pppoe_send_discovery(self);
             if (r >= 0) {
                 h = self->frame_len;
                 post_send_message(self->frame, h);
@@ -494,7 +494,7 @@ s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
     NetMemcpy(&cmd, base + 1, 1);
     switch (cmd) {
     case 0x7:
-        p = TLobby__sub_80427B6C(sub, id);
+        p = pppoe_find_slot_by_host_uniq(sub, id);
         if (p == NULL) {
             ret = 0;
             break;
@@ -506,13 +506,13 @@ s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
         p->timeout = 0;
         NetMemcpy(p->rx_frame, frame, frame_len);
         p->rx_frame_len = frame_len;
-        ret = TLobby__sub_80427988(p, p->rx_frame + 0x14, id);
+        ret = pppoe_parse_pado_tags(p, p->rx_frame + 0x14, id);
         if (ret <= 0) {
             break;
         }
         p->ac_mac = p->rx_frame + 6;
         p->state = 2;
-        ret = TLobby__sub_80426D80(p);
+        ret = pppoe_send_discovery(p);
         if (ret < 0) {
             break;
         }
@@ -530,7 +530,7 @@ s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
         *(s16 *)((u8 *)p + 6) = 2;
         break;
     case 0x65:
-        p = TLobby__sub_80427B6C(sub, id);
+        p = pppoe_find_slot_by_host_uniq(sub, id);
         if (p == NULL) {
             ret = 0;
             break;
@@ -540,7 +540,7 @@ s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
             break;
         }
         p->timeout = 0;
-        ret = TLobby__sub_8042787C(p, sub, id);
+        ret = pppoe_parse_pads_tags(p, sub, id);
         if (ret <= 0) {
             break;
         }
@@ -558,7 +558,7 @@ s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
         skip_pppoe_tags((saddr)p, sub, id);
         if (p->state == 4) {
             p->state = 5;
-            ret = TLobby__sub_80426D80(p);
+            ret = pppoe_send_discovery(p);
             if (ret >= 0) {
                 u16 sz = p->frame_len;
                 ret = post_send_message(p->frame, sz);
@@ -566,7 +566,7 @@ s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
             break;
         }
         if (p->state != -1) {
-            TLobby__sub_80426574(0);
+            detach_pppoe_protocols(0);
         }
         p->state = -1;
         ret = 0;
@@ -595,7 +595,7 @@ s32 skip_pppoe_tags(s32 slot, u8 *tags, u16 tags_len) {
     return 0;
 }
 
-s16 TLobby__sub_8042787C(PppoeSlot *e, u8 *p, u16 len) {
+s16 pppoe_parse_pads_tags(PppoeSlot *e, u8 *p, u16 len) {
     s16 result = 1;
     u8 *cur = p;
     u16 type;
@@ -633,7 +633,7 @@ done:
     return result;
 }
 
-s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len) {
+s16 pppoe_parse_pado_tags(PppoeSlot *e, u8 *p, u16 len) {
     s16 result = 0;
     u8 *cur;
     u16 type;
@@ -696,7 +696,7 @@ done:
     return result;
 }
 
-PppoeSlot *TLobby__sub_80427B6C(u8 *p, u16 len) {
+PppoeSlot *pppoe_find_slot_by_host_uniq(u8 *p, u16 len) {
     PppoeSlot *e;
     PppoeSlot *ret = NULL;
     u8 *cur = p;
@@ -781,7 +781,7 @@ static inline void check_80427D40(void) {
     get_time_ms(&now);
     for (p = lobby_pppoe_slot_table.slots, i = 0; i < 1; p++, i++) {
         if (p->state != -1 && p->timeout != 0 && now - p->last > p->timeout) {
-            TLobby__sub_80427378(p);
+            pppoe_process_slot(p);
         }
     }
 }
@@ -836,7 +836,7 @@ s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen) {
 }
 #pragma pop
 
-s16 TLobby__sub_80427F48(s16 slot, u8 *frame, u16 len) {
+s16 pppoe_send_session_frame(s16 slot, u8 *frame, u16 len) {
     PppoeSlot *e;
     u8 *hdr;
     u16 type;
@@ -877,7 +877,7 @@ s16 TLobby__sub_80427F48(s16 slot, u8 *frame, u16 len) {
     return post_send_message(frame, frame_len);
 }
 
-s32 TLobby__sub_80428094(s16 slot) {
+s32 pppoe_close(s16 slot) {
     PppoeSlot *e;
     if (slot < 0 || slot >= 1) {
         return -1;
@@ -886,19 +886,19 @@ s32 TLobby__sub_80428094(s16 slot) {
     switch (e->state) {
     case 0:
         if (e->state != -1) {
-            TLobby__sub_80426574(0);
+            detach_pppoe_protocols(0);
         }
         e->state = -1;
         break;
     case 1:
         if (e->state != -1) {
-            TLobby__sub_80426574(0);
+            detach_pppoe_protocols(0);
         }
         e->state = -1;
         break;
     case 2:
         if (e->state != -1) {
-            TLobby__sub_80426574(0);
+            detach_pppoe_protocols(0);
         }
         e->state = -1;
         break;
@@ -907,14 +907,14 @@ s32 TLobby__sub_80428094(s16 slot) {
         break;
     case 4:
         e->state = 5;
-        if (TLobby__sub_80426D80(e) >= 0) {
+        if (pppoe_send_discovery(e) >= 0) {
             u16 frame_len = e->frame_len;
             post_send_message((e->frame), frame_len);
         }
         break;
     case 5:
         if (e->state != -1) {
-            TLobby__sub_80426574(0);
+            detach_pppoe_protocols(0);
         }
         if (e->id != 0) {
             e->state = 6;
@@ -926,7 +926,7 @@ s32 TLobby__sub_80428094(s16 slot) {
     return 0;
 }
 
-s16 TLobby__sub_804281DC(PppoeNames *names) {
+s16 pppoe_open(PppoeNames *names) {
     PppoeSlot *tbl;
     PppoeSlot *p;
     PppoeSlot *e;
@@ -935,7 +935,7 @@ s16 TLobby__sub_804281DC(PppoeNames *names) {
     s16 i;
     s16 slot;
     s16 set;
-    s16 TLobby__sub_80426660(u8 *); /* declared s16 here; the definition returns s32 */
+    s16 open_pppoe_adapter(u8 *); /* declared s16 here; the definition returns s32 */
 
     tbl = (0, (PppoeSlot *)&lobby_pppoe_slot_table);
     set = 0;
@@ -956,7 +956,7 @@ s16 TLobby__sub_804281DC(PppoeNames *names) {
     if (e == NULL) {
         return -1;
     }
-    if (TLobby__sub_80426660((u8 *)&tbl[1]) < 0) {
+    if (open_pppoe_adapter((u8 *)&tbl[1]) < 0) {
         return -1;
     }
     e->names = *names;
@@ -978,11 +978,11 @@ s16 TLobby__sub_804281DC(PppoeNames *names) {
     return slot;
 }
 
-s32 TLobby__sub_80428358(void) {
+s32 pppoe_term_rtos(void) {
     return 0;
 }
 
-s16 TLobby__sub_80428360(s32 unused) {
+s16 pppoe_init_rtos(s32 unused) {
     lobby_pppoe_slot_table.slots[0].state = -1;
     return 0;
 }

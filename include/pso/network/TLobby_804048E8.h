@@ -7,7 +7,7 @@
 /* TLobby_804048E8.c: the stack's connection list (node pools). */
 
 
-/* An IPv4 header decoded by TLobby__sub_803FEA88. */
+/* An IPv4 header decoded by NetIPv4ReadHeader. */
 typedef struct ParsedIpHeader {
     u32 src;
     u32 dst;
@@ -87,14 +87,14 @@ LAYOUT_ASSERT(PppVjCompressionState_size, sizeof(PppVjCompressionState) == 0x38)
 #ifdef __cplusplus
 extern "C" {
 #endif
-void TLobby__sub_80405000(PppVjCompressionState *state);
+void vj_release_state(PppVjCompressionState *state);
 PppVjCompressionState *init_net_list(s16 count1, s16 count2);
-s16 TLobby__sub_804040E0(PppVjCompressionState *state, PppFrame **frame);
-s32 TLobby__sub_804048E8(PppVjCompressionState *state, PppFrame **frame, s16 compress_cid);
-s32 TLobby__sub_803FEA88(ParsedIpHeader *out, PppFrame **src);
+s16 sl_uncompress_tcp(PppVjCompressionState *state, PppFrame **frame);
+s32 sl_compress_tcp(PppVjCompressionState *state, PppFrame **frame, s16 compress_cid);
+s32 NetIPv4ReadHeader(ParsedIpHeader *out, PppFrame **src);
 PppFrame *NetIPv4WriteHeader(ParsedIpHeader *ip, PppFrame *frame, s32 preserve_checksum);
-s32 TLobby__sub_804053B8(ParsedTcpHeader *record, PppFrame **frame);
-PppFrame *TLobby__sub_8040555C(ParsedTcpHeader *record, PppFrame *frame, u8 *checksum_state);
+s32 NetTcpReadHeader(ParsedTcpHeader *record, PppFrame **frame);
+PppFrame *NetTcpWriteHeader(ParsedTcpHeader *record, PppFrame *frame, u8 *checksum_state);
 #ifdef __cplusplus
 }
 #endif

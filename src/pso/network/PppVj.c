@@ -16,14 +16,14 @@
 u8 vj_byte_buffer[1];
 u8 vj_u16_buffer[2];
 
-s16 TLobby__sub_80403F4C(PppVjCompressionState *o, PppFrame **spp) {
+s16 vj_remember_uncompressed(PppVjCompressionState *o, PppFrame **spp) {
     ParsedIpHeader a;
     ParsedTcpHeader b;
     PppVjConnectionState *e;
     u8 c;
 
-    TLobby__sub_803FEA88(&a, spp);
-    TLobby__sub_804053B8(&b, spp);
+    NetIPv4ReadHeader(&a, spp);
+    NetTcpReadHeader(&b, spp);
     c = a.proto;
     if (c > o->max) {
         o->in_errors++;
@@ -39,7 +39,7 @@ s16 TLobby__sub_80403F4C(PppVjCompressionState *o, PppFrame **spp) {
     a.proto = 6;
     e->a = a;
     e->b = b;
-    *spp = TLobby__sub_8040555C(&b, *spp, NULL);
+    *spp = NetTcpWriteHeader(&b, *spp, NULL);
     *spp = NetIPv4WriteHeader(&a, *spp, 1);
     o->in_uncompressed++;
     return (s16)(s64)get_field_4(*spp);
@@ -78,7 +78,7 @@ inline s32 vj_read_u16(PppFrame **src) {
     }
     return read_network_u16_be(vj_u16_buffer);
 }
-s16 TLobby__sub_804040E0(PppVjCompressionState *comp, PppFrame **src) {
+s16 sl_uncompress_tcp(PppVjCompressionState *comp, PppFrame **src) {
     ParsedTcpHeader *th;
     PppVjConnectionState *cs;
     s16 changes;
@@ -184,7 +184,7 @@ s16 TLobby__sub_804040E0(PppVjCompressionState *comp, PppFrame **src) {
     }
     len = get_field_4(*src) + 40 + cs->a.optlen;
     cs->a.len = len;
-    *src = TLobby__sub_8040555C(th, *src, NULL);
+    *src = NetTcpWriteHeader(th, *src, NULL);
     *src = NetIPv4WriteHeader(&cs->a, *src, 0);
     return len;
 

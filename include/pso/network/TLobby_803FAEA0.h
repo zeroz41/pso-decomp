@@ -46,7 +46,7 @@ typedef struct NetConnectCfg {
     u8 peer_interface_id[8];
 } NetConnectCfg;
 
-/* Link state filled by NetGetLinkStatus (state 0 down, 4 up, 5/8 failed, 6 disconnecting). */
+/* Link state filled by ppp_stat (state 0 down, 4 up, 5/8 failed, 6 disconnecting). */
 typedef struct NetLinkStatus {
     s16 link_up;
     s16 ppp_up;
@@ -71,7 +71,7 @@ typedef struct NetWaitParam {
 
 /* ppp_proto_blocks: the lobby session's PPP protocol control blocks. close_all_connections
    resets the five PppFsm records one at a time and hands them to the connect routines
-   (wait_for_connection, apply_lcp_config_to_sides, PP_chap_monitor). TLobby__sub_803FB6A0 reads
+   (wait_for_connection, apply_lcp_config_to_sides, PP_chap_monitor). ppp_hangup reads
    the busy byte, and the tail carries the byte count and the drop counters. */
 struct PppProtoBlocks {
     u8 phase;               /* 0x00: the link phase (RFC 1661): 0 dead, 1 establish, 2 authenticate, 3 network,
@@ -114,27 +114,27 @@ LAYOUT_ASSERT(PppProtoBlocks_rx_alloc_drops_offset, offsetof(PppProtoBlocks, rx_
 #ifdef __cplusplus
 extern "C" {
 #endif
-s32 NetControl(s32 cmd, s32 arg);
+s32 ppp_get_opt(s32 cmd, s32 arg);
 s32 ppp_term(void);
 s16 ppp_init(void);
 struct ModemConfig;
-struct ModemConfig *TLobby__sub_803FB110(void);
-s16 TLobby__sub_803FB358(NetLinkStatus *status);
-u8 *copy_name_buffer(void *src);
-s16 NetGetLinkStatus(NetLinkStatus *status);
+struct ModemConfig *ppp_get_modem_property(void);
+s16 ppp_get_link_status(NetLinkStatus *status);
+u8 *ppp_set_modem_property(void *src);
+s16 ppp_stat(NetLinkStatus *status);
 s32 ppp_stop(NetWaitParam *param);
 s32 ppp_start(NetConnectCfg *cfg);
 s16 NetApplyConnectionConfig(NetConnectCfg *config);
 s16 get_remaining(s32 elapsed);
 s32 is_timed_out(void);
-s32 TLobby__sub_803FB6A0(void);
+s32 ppp_hangup(void);
 s32 ppp_open_sub(void);
 void ppp_set_auth(u16 protocol);
 extern s16 ppp_session_active;
 extern s16 ppp_open_requested;
 extern saddr lobby_modem_callback;
-void TLobby__sub_803FC318(PppProtoBlocks *connection);
-void TLobby__sub_803F9FAC(PppProtoBlocks *connection);
+void PP_chap_init(PppProtoBlocks *connection);
+void init_ipv6cp_protocol(PppProtoBlocks *connection);
 extern PppProtoBlocks ppp_proto_blocks;
 extern s16 lobby_modem_abort_flag;
 extern s32 lobby_modem_reply_value;

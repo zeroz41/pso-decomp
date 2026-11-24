@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-u8 *fn_8013AAD4(u8 *arg0, u8 *arg1);
+u8 *copy_char_data(u8 *arg0, u8 *arg1);
 }
 
 // --- C functions defined in text_8013AAD4.cpp ---
 extern "C" {
-u8 *fn_8013AAD4(u8 *arg0, u8 *arg1);
+u8 *copy_char_data(u8 *arg0, u8 *arg1);
 }
 // --- end of C functions
 

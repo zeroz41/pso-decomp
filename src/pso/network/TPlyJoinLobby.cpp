@@ -27,7 +27,7 @@ u8 *__ct__13TPlyJoinLobbyFRC13TPlyJoinLobby(u8 *arg0, u8 *arg1) {
     *(u8 *)((s8 *)arg0 + 0xE) = (u8) *(u8 *)((s8 *)arg1 + 0xE);
     *(u8 *)((s8 *)arg0 + 0xF) = (u8) *(u8 *)((s8 *)arg1 + 0xF);
     do {
-        TLobby__sub_8013AA64((u8 *)var_r30, (u8 *)var_r29);
+        copy_join_lobby_entry((u8 *)var_r30, (u8 *)var_r29);
         var_r30 += 0x43C;
         var_r29 += 0x43C;
     } while (var_r30 < (uaddr)(arg0 + 0x32E0));

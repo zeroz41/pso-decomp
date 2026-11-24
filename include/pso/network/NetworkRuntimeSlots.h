@@ -56,7 +56,7 @@ LAYOUT_ASSERT(NetworkMessageQueueSlot_queue_offset, offsetof(NetworkMessageQueue
 #ifdef __cplusplus
 extern "C" {
 #endif
-s16 TLobby__sub_803F96AC(s32 *out);
+s16 create_mutex(s32 *out);
 extern NetworkAlarmSlot lobby_alarm_slot_table[64];
 extern NetworkMutexSlot network_mutex_slot_table[8];
 extern NetworkMessageQueueSlot network_message_queue_slot_table[2];

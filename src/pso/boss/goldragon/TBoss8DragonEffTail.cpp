@@ -121,5 +121,5 @@ void TBoss8DragonEffTail::free_statics() {
 
 void TBoss8DragonEffTail::load_statics() {
     boss8_eff_tail_bml_resource = load_enemy_bml_resource((BmlResourceDescriptor *)&bm_obj_boss1_common_j_resource_descriptor);
-    dragon_tail_gvm_texture_handle = load_gvm_texture_file(obj_boss1_common_j_texture_filename);
+    dragon_tail_gvm_texture_handle = LoadPvmFileTls(obj_boss1_common_j_texture_filename);
 }

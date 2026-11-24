@@ -34,9 +34,9 @@ extern Ipv4ProtocolState ipv4_protocol_state;
 #pragma inline_depth(4)
 
 
-s32 TLobby__sub_8040DD68(void) {
+s32 ipv4_term(void) {
     release_slot_by_id(0x800);
-    TLobby__sub_803F892C((void *)(&ipv4_protocol_state.nsockets));
+    term_ipv4_config((void *)(&ipv4_protocol_state.nsockets));
     ipv4_protocol_state.nsockets = 0;
     return 0;
 }
@@ -47,7 +47,7 @@ s32 init_ipv4_interfaces(void) {
     Ipv4RawSocket *e;
     Ipv4ProtocolState *g = &ipv4_protocol_state;
 
-    TLobby__sub_803F8930(g);
+    init_ipv4_raw_socket_config(g);
     e = g->sockets;
     for (i = 0; i < g->nsockets; i++) {
         e->tag[0] = 'I';

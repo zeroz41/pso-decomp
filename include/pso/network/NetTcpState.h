@@ -57,21 +57,21 @@ struct TcpTcb {
     u8 shutdown;  /* 0x04 receive side shut, 0x08 send side shut (read as BSD's SS_CANTRCVMORE/SS_CANTSENDMORE); nothing sets them */
     /* 0x01 send an ACK now, 0x04 no send delay (option 0x2008), 0x08 FIN received, 0x10 FIN sent, 0x20 the close
        event was dispatched, 0x40 receive and send complete through callbacks (option 0x2020), 0x80 release the TCB
-       when it closes (TLobby__sub_8041B5C0) */
+       when it closes (tcp_close) */
     u8 flags;
     u8 force;
     u8 dupacks; /* duplicate ACKs received in a row (fast retransmit) */
-    u8 error; /* why the connection was dropped (TLobby__sub_8041A498) */
+    u8 error; /* why the connection was dropped (tcp_drop) */
     u8 padF;
     /* send buffer: a ring of snd_bufsize bytes, plus up to 12 queued user buffers. While f204_b7 is set the ring holds
        16-byte TcpSendRequest records instead: snd_count counts them, snd_head is the index of
        the oldest. */
     NetBufferRef snd_buf;
-    NetBufferRef snd_alloc; /* the block behind snd_buf, freed by TLobby__sub_8041579C */
+    NetBufferRef snd_alloc; /* the block behind snd_buf, freed by buffer_pool_free */
     u32 snd_count; /* bytes in the ring, from the oldest unacknowledged one (records while f204_b7 is set) */
     u32 snd_head; /* ring offset of the oldest unacknowledged byte (record index while f204_b7 is set) */
     u32 snd_tail; /* ring offset where the next queued byte goes */
-    NetPacket req; /* the queued send request (TLobby__sub_80420BD0) */
+    NetPacket req; /* the queued send request (tcp_queue_send_request) */
     /* receive buffer: a ring of rcv_bufsize bytes, read into rcv_user */
     NetBufferRef rcv_buf;
     NetBufferRef rcv_alloc; /* the block behind rcv_buf */
@@ -122,7 +122,7 @@ struct TcpTcb {
     TcpHdr hdr; /* template for outgoing segments: sport is the local port, dport the remote one */
     NetworkAddress remote;
     NetworkAddress local;
-    /* [0] tcp_receive, [2] tcp_send, [3] TLobby__sub_80422AB8. [1] counts the queued send requests still outstanding;
+    /* [0] tcp_receive, [2] tcp_send, [3] complete_accept_request. [1] counts the queued send requests still outstanding;
        complete_request_callback stores a queued request's status in [1] but marks [2] done. */
     TcpWait waits[4];
     s16 backlog; /* no more connections are accepted while pending is at it */
@@ -136,7 +136,7 @@ struct TcpTcb {
     u8 ip6_opts[0xC]; /* dispatch_by_addr_family's IPv6 send options */
     u8 sack_flags; /* 1 SACK enabled (option 0x2002), 2 the peer sent SACK-permitted */
     u8 pad2E9[3];
-    s32 rexmit_bytes; /* bytes resent from the scoreboard: TLobby__sub_8041D398 adds each resent range, ACKs take them off */
+    s32 rexmit_bytes; /* bytes resent from the scoreboard: tcp_sack_mark_rexmit adds each resent range, ACKs take them off */
     s32 pipe; /* estimate of the bytes in flight during fast recovery (RFC 3517) */
     u32 recover; /* snd_nxt when fast recovery began; ACKs below it are partial (NewReno, RFC 6582) */
     TcpSeqRange sack[5]; /* SACK blocks to report */
@@ -195,27 +195,27 @@ extern TcpState tcp_protocol_state;
 
 s16 AT_TCP_Rawsend(TcpTcb *tcb);
 /* NetTcp.c: claim a free TCB, else the state-10 one with the smallest timers[3]; returns its index or -0x103. */
-s16 TLobby__sub_8041E780(void);
+s16 tcp_alloc_tcb(void);
 /* NetTcp.c: account the resent range [first, last) against the retransmit scoreboard (segs[]). */
-void TLobby__sub_8041D398(TcpTcb *tp, s32 first, s32 last);
+void tcp_sack_mark_rexmit(TcpTcb *tp, s32 first, s32 last);
 /* NetTcp.c: start sending a queued packet on connection arg0. */
 s16 tcp_start_send(s16 id, NetPacket *req, TcpCompletion completion, u8 urgent);
 
 /* SocketProtocolRuntime.c: the TCP send and receive queues. */
-s32 TLobby__sub_8041ED8C(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCompletion callback);
-s32 TLobby__sub_8041F11C(TcpTcb *self);
+s32 tcp_user_receive(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCompletion callback);
+s32 tcp_notify_receiver(TcpTcb *self);
 void expire_timeout_entries(TcpTcb *tcb);
-s32 TLobby__sub_8041F204(NetPacket *pkt, u16 x, TcpTcb *self);
-s32 TLobby__sub_8041F914(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th);
-void TLobby__sub_8041FDA0(TcpTcb *tcb, s16 index, u32 start, u32 end);
-void TLobby__sub_8041FED4(TcpTcb *tcb);
-s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self);
+s32 tcp_append_rcvbuf(NetPacket *pkt, u16 x, TcpTcb *self);
+s32 tcp_reass(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th);
+void tcp_reass_insert_block(TcpTcb *tcb, s16 index, u32 start, u32 end);
+void tcp_update_sack_blocks(TcpTcb *tcb);
+s32 tcp_drop_acked_data(u32 len, TcpTcb *self);
 /* Add len bytes of queued send data, starting off bytes past the oldest unacknowledged byte, to pkt's fragment list
    (as buffer references, no copy; BSD tcp_output's m_copy). The fragments are stored last first. Returns -1 when off
    is past the queued data, or (while f204_b7 is set) when len is 0 or the ring is empty. */
 s32 tcp_gather_send_data(u32 off, u32 len, NetPacket *pkt, TcpTcb *tp);
 s16 tcp_input(NetPacket *pkt, NetworkAddress *remote, NetworkAddress *local);
-s32 TLobby__sub_80420BD0(NetPacket *req, TcpTcb *s, TcpCompletion done);
+s32 tcp_queue_send_request(NetPacket *req, TcpTcb *s, TcpCompletion done);
 #ifdef __cplusplus
 }
 #endif

@@ -10,20 +10,20 @@
 s32 init_packet_fragment_pools(void);
 
 
-NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, u8 ttl);
-s32 TLobby__sub_80419470(NetworkAddress *src, u32 ident);
-s16 TLobby__sub_80419374(NetFragPacket *pkt);
-s32 TLobby__sub_8041979C(void);
+NetFragPacket *fragment_alloc_packet(NetworkAddress *src, s32 ident, u8 ttl);
+s32 fragment_remove_packet(NetworkAddress *src, u32 ident);
+s16 fragment_send_time_exceeded(NetFragPacket *pkt);
+s32 fragment_flush(void);
 saddr reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16 frag_off, u16 frag_len, u8 more, s16 iface);
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-s32 TLobby__sub_80418A7C(void) {
+s32 fragment_term(void) {
     NetFragPool *g = &packet_fragment_pool_state;
     NetUnregisterTimer(update_timeout_entries);
-    TLobby__sub_803F89A0(g);
+    term_fragment_config(g);
     g->npackets = 0;
     g->nfrags = 0;
     return 0;
@@ -35,7 +35,7 @@ s32 init_packet_fragment_pools(void) {
     NetFragment *b;
     NetFragPool *g = &packet_fragment_pool_state;
 
-    TLobby__sub_803F89A4(&packet_fragment_pool_state);
+    init_fragment_pool_config(&packet_fragment_pool_state);
     g->tail = 0;
     g->head = 0;
     a = g->packets;
@@ -67,14 +67,14 @@ s32 release_packet_fragments(NetPacket *a) {
     u32 i;
     NetPacket *b = a;
     for (i = 0; i < b->fragment_count; i++) {
-        TLobby__sub_80406B6C(&b->fragments[i].buffer);
+        netbuf_release(&b->fragments[i].buffer);
     }
     return 0;
 }
 
 s32 fragment_input(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress* src, u16 frag_off, u8 more, s16 iface)
 {
-    NetFragPacket *TLobby__sub_8041955C(NetworkAddress *, s32, u8); /* declared here with other parameter types; the definition is NetFragPacket * (NetworkAddress *, s32, s32) */
+    NetFragPacket *fragment_alloc_packet(NetworkAddress *, s32, u8); /* declared here with other parameter types; the definition is NetFragPacket * (NetworkAddress *, s32, s32) */
     NetFragPool* base = &packet_fragment_pool_state;
     s16 count;
     s32 ret;
@@ -88,13 +88,13 @@ s32 fragment_input(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, Netwo
             if (ret == 0) {
                 return 0;
             }
-            TLobby__sub_80419470(src, ident);
+            fragment_remove_packet(src, ident);
             return ret;
         }
         node = node->next;
         count++;
     }
-    node = TLobby__sub_8041955C(src, ident, ttl);
+    node = fragment_alloc_packet(src, ident, ttl);
     if (node == NULL) {
         return 0;
     }
@@ -102,7 +102,7 @@ s32 fragment_input(u8* self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, Netwo
     if (ret == 0) {
         return 0;
     }
-    TLobby__sub_80419470(src, ident);
+    fragment_remove_packet(src, ident);
     return ret;
 }
 
@@ -193,9 +193,9 @@ saddr reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16
     set_value_and_enable(&src, (saddr)self);
     if (frag_off == 0) {
         first_len = (total = frag_len + hdr_len);
-        if (TLobby__sub_80415954(&frag->data, first_len, 2) < 0) {
+        if (buffer_pool_alloc(&frag->data, first_len, 2) < 0) {
             reset_other_connection_lists(node);
-            if (TLobby__sub_80415954(&frag->data, first_len, 2) < 0) {
+            if (buffer_pool_alloc(&frag->data, first_len, 2) < 0) {
                 frag->used = 0;
                 frag->next = 0;
                 return 0;
@@ -204,9 +204,9 @@ saddr reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16
         netbuf_copy_by_ref(&frag->data, &src, total);
     } else {
         len = frag_len;
-        if (TLobby__sub_80415954(&frag->data, len, 2) < 0) {
+        if (buffer_pool_alloc(&frag->data, len, 2) < 0) {
             reset_other_connection_lists(node);
-            if (TLobby__sub_80415954(&frag->data, len, 2) < 0) {
+            if (buffer_pool_alloc(&frag->data, len, 2) < 0) {
                 frag->used = 0;
                 frag->next = 0;
                 return 0;
@@ -234,7 +234,7 @@ saddr reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16
             cur = first;
             next = f;
             if (f == 0) {
-                TLobby__sub_80406B6C(&frag->data);
+                netbuf_release(&frag->data);
                 frag->used = 0;
                 frag->next = 0;
                 return 0;
@@ -247,7 +247,7 @@ saddr reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16
                     break;
                 }
                 if (off == cur_off) {
-                    TLobby__sub_80406B6C(&frag->data);
+                    netbuf_release(&frag->data);
                     frag->used = 0;
                     frag->next = 0;
                     break;
@@ -269,7 +269,7 @@ saddr reassemble_fragment_packet(NetFragPacket *node, u8 *self, u16 hdr_len, u16
     }
     pkt = (NetPacket *)alloc_free_entry();
     if (pkt == 0) {
-        TLobby__sub_8041979C();
+        fragment_flush();
         return 0;
     }
     pkt->fragment_count = 0;
@@ -337,13 +337,13 @@ void update_timeout_entries(void) {
             prev = cur;
             cur = cur->next;
         } else {
-            TLobby__sub_80419374(cur);
+            fragment_send_time_exceeded(cur);
             p = cur->first;
             m = 0;
             while (p != NULL && m < g->nfrags) {
                 q = p;
                 p = p->next;
-                TLobby__sub_80406B6C(&q->data);
+                netbuf_release(&q->data);
                 q->used = 0;
                 m++;
                 q->next = 0;
@@ -368,7 +368,7 @@ void update_timeout_entries(void) {
 
 /* Sends the ICMP (family 4) or ICMPv6 (family 6) "fragment reassembly time exceeded" error for pkt, if its
    first fragment has arrived. */
-s16 TLobby__sub_80419374(NetFragPacket *pkt) {
+s16 fragment_send_time_exceeded(NetFragPacket *pkt) {
     u8 *q;
     s32 type;
     s16 total;
@@ -410,7 +410,7 @@ s16 TLobby__sub_80419374(NetFragPacket *pkt) {
     }
 }
 
-s32 TLobby__sub_80419470(NetworkAddress *src, u32 ident) {
+s32 fragment_remove_packet(NetworkAddress *src, u32 ident) {
     NetFragPool* tbl = &packet_fragment_pool_state;
     NetFragPacket** headp;
     s16 count;
@@ -449,7 +449,7 @@ s32 TLobby__sub_80419470(NetworkAddress *src, u32 ident) {
 #pragma push
 #pragma opt_propagation off
 /* Takes a free datagram for (src, ident), freeing everything else if none is left, and appends it to the list. */
-NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, u8 ttl) {
+NetFragPacket *fragment_alloc_packet(NetworkAddress *src, s32 ident, u8 ttl) {
     NetFragPacket *e;
     NetFragPacket **ent;
     NetFragPool *base;
@@ -483,7 +483,7 @@ NetFragPacket *TLobby__sub_8041955C(NetworkAddress *src, s32 ident, u8 ttl) {
     e = 0;
 found:
     if (e == 0) {
-        TLobby__sub_8041979C();
+        fragment_flush();
         e = *ent;
         n2 = base->npackets;
         i = 0;
@@ -545,7 +545,7 @@ s32 reset_other_connection_lists(NetFragPacket *self) {
             while (p != NULL) {
                 cur = p;
                 p = p->next;
-                TLobby__sub_80406B6C(&cur->data);
+                netbuf_release(&cur->data);
                 cur->used = 0;
                 cur->next = 0;
             }
@@ -561,7 +561,7 @@ s32 reset_other_connection_lists(NetFragPacket *self) {
 }
 
 /* Frees every datagram and fragment. */
-s32 TLobby__sub_8041979C(void) {
+s32 fragment_flush(void) {
     NetFragPacket *e;
     s16 n;
     s16 n2;
@@ -583,7 +583,7 @@ s32 TLobby__sub_8041979C(void) {
     e2 = base->frags;
     while (n2 > 0) {
         if (e2->used == 1) {
-            TLobby__sub_80406B6C(&e2->data);
+            netbuf_release(&e2->data);
             e2->used = 0;
             e2->next = 0;
         }

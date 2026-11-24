@@ -49,21 +49,21 @@ PppFsmTimer *lobby_timer_list_head;
 #include "pso/network/PppLcp.h"
 #include "pso/network/PppIpcp.h"
 
-s32 TLobby__sub_803F79AC(void *);
+s32 term_net_thread_config(void *);
 
 void net_sleep_ms(int);
-void pap_input(PppFsm *self, PppFrame *source);
-s32 TLobby__sub_804060B8(u8 *, int, int);
+void PP_pap_proc(PppFsm *self, PppFrame *source);
+s32 ppp_link_input(u8 *, int, int);
 
 
-void TLobby__sub_804050DC(s16 poll_ms) {
+void set_net_poll_interval(s16 poll_ms) {
     net_thread_state.poll_ms = poll_ms;
 }
 void init_net_block_18A0(void) {
-    TLobby__sub_803F79AC(&net_thread_state);
+    term_net_thread_config(&net_thread_state);
 }
 s32 run_net_init_step(void) {
-    TLobby__sub_803F79B0(&net_thread_state);
+    init_thread_poll_config(&net_thread_state);
     return 0;
 }
 
@@ -77,7 +77,7 @@ void run_net_thread_loop(void) {
     for (;;) {
         if (lobby_modem_abort_flag != 0) {
             lock_mutex(g->mutex);
-            TLobby__sub_803FB6A0();
+            ppp_hangup();
             unlock_mutex(g->mutex);
             continue;
         }
@@ -174,7 +174,7 @@ void lobby_timer_start(PppFsmTimer *timer) {
     }
 }
 
-s32 TLobby__sub_804053B8(ParsedTcpHeader *record, PppFrame **pp)
+s32 NetTcpReadHeader(ParsedTcpHeader *record, PppFrame **pp)
 {
   struct Hdr_804053B8
   {
@@ -286,7 +286,7 @@ typedef struct ChecksumObj {
     u16 count;
 } ChecksumObj;
 
-PppFrame *TLobby__sub_8040555C(ParsedTcpHeader *record, PppFrame *frame, u8 *obj) {
+PppFrame *NetTcpWriteHeader(ParsedTcpHeader *record, PppFrame *frame, u8 *obj) {
     TcpHeaderOut hdr;
     u32 n = 0;
     PppFrame *buf;
@@ -345,7 +345,7 @@ PppFrame *TLobby__sub_8040555C(ParsedTcpHeader *record, PppFrame *frame, u8 *obj
     len = (u16)(n + 0x14);
     NetMemcpy(dst, hp, len);
     if (obj != NULL) {
-        hp->checksum = TLobby__sub_803FE934(obj, buf, ((ChecksumObj *)obj)->count);
+        hp->checksum = ip_pseudo_header_checksum(obj, buf, ((ChecksumObj *)obj)->count);
     }
     NetMemcpy(dst, hp, len);
     return buf;
@@ -364,7 +364,7 @@ s32 ppp_poll_input(void)
   PppBuffers *base;
   if (lobby_modem_connect_state == 10)
   {
-    if (TLobby__sub_804290D4(0x7fff) == 0)
+    if (WaitStringConnect(0x7fff) == 0)
     {
       lobby_modem_connect_state = 1;
     }
@@ -429,7 +429,7 @@ s32 ppp_poll_input(void)
       if (((ppp_rx_frame_ptr != 0) && (ppp_rx_frame_ptr->len < 0x800)) && (ppp_rx_fcs == 0xf0b8))
       {
         n = get_field_4(ppp_rx_frame_ptr) - 2;
-        TLobby__sub_80401CAC(&ppp_rx_frame_ptr, n);
+        ppp_buffer_truncate(&ppp_rx_frame_ptr, n);
         get_time_ms(&ppp_last_io_ms);
         ppp_input_packet(ppp_rx_frame_ptr);
         ppp_rx_frame_ptr = 0;
@@ -548,14 +548,14 @@ void ppp_input_packet(PppFrame *frame) {
             G->rx_err_drops++;
             return;
         }
-        TLobby__sub_804060B8(frame->data, frame->len, 0x800);
+        ppp_link_input(frame->data, frame->len, 0x800);
         return;
     case 0x57:
         if (G->ipv6cp.state != 5) {
             G->rx_err_drops++;
             return;
         }
-        TLobby__sub_804060B8(frame->data, frame->len, -0x7923);
+        ppp_link_input(frame->data, frame->len, -0x7923);
         return;
     case 0x2D:
         if (G->ipcp.state != 5) {
@@ -566,11 +566,11 @@ void ppp_input_packet(PppFrame *frame) {
             G->rx_err_drops++;
             return;
         }
-        if (TLobby__sub_804040E0(((IpcpConfig *)G->ipcp.opts)->net_list, &frame) <= 0) {
+        if (sl_uncompress_tcp(((IpcpConfig *)G->ipcp.opts)->net_list, &frame) <= 0) {
             G->rx_err_drops++;
             return;
         }
-        TLobby__sub_804060B8(frame->data, frame->len, 0x800);
+        ppp_link_input(frame->data, frame->len, 0x800);
         return;
     case 0x2F:
         if (G->ipcp.state != 5) {
@@ -581,15 +581,15 @@ void ppp_input_packet(PppFrame *frame) {
             G->rx_err_drops++;
             return;
         }
-        if (TLobby__sub_80403F4C(((IpcpConfig *)G->ipcp.opts)->net_list, &frame) <= 0) {
+        if (vj_remember_uncompressed(((IpcpConfig *)G->ipcp.opts)->net_list, &frame) <= 0) {
             G->rx_err_drops++;
             return;
         }
-        TLobby__sub_804060B8(frame->data, frame->len, 0x800);
+        ppp_link_input(frame->data, frame->len, 0x800);
         return;
     case 0xC021:
         G->rx_lcp++;
-        TLobby__sub_803FDBF8(&G->lcp, frame);
+        fsm_input(&G->lcp, frame);
         return;
     case 0xC023:
         if (G->phase != 2 && G->phase != 3) {
@@ -600,7 +600,7 @@ void ppp_input_packet(PppFrame *frame) {
             return;
         }
         G->rx_pap++;
-        pap_input(&G->pap, frame);
+        PP_pap_proc(&G->pap, frame);
         return;
     case 0xC223:
         if (G->phase != 2 && G->phase != 3) {
@@ -619,7 +619,7 @@ void ppp_input_packet(PppFrame *frame) {
             return;
         }
         G->rx_ipcp++;
-        TLobby__sub_803FDBF8(&G->ipcp, frame);
+        fsm_input(&G->ipcp, frame);
         return;
     case 0x8057:
         if (G->phase != 3) {
@@ -630,7 +630,7 @@ void ppp_input_packet(PppFrame *frame) {
             FWD_80405A74()
         }
         G->rx_ipv6cp++;
-        TLobby__sub_803FDBF8(&G->ipv6cp, frame);
+        fsm_input(&G->ipv6cp, frame);
         return;
     default:
         FWD_80405A74()
@@ -639,7 +639,7 @@ void ppp_input_packet(PppFrame *frame) {
 
 #pragma push
 #pragma opt_common_subs on
-s32 TLobby__sub_804060B8(u8 *src, int len, int id) {
+s32 ppp_link_input(u8 *src, int len, int id) {
     s16 i;
     s16 idx;
     s16 n;
@@ -667,7 +667,7 @@ s32 TLobby__sub_804060B8(u8 *src, int len, int id) {
             *flags = 1;
             n = ((s16)len < *lim) ? (s16)len : *lim;
             NetMemcpy(dst, src, n);
-            TLobby__sub_80409818((saddr)dst, n, lobby_net_buffer_desc_b.id, idx, lobby_net_buffer_desc_b.protocols[idx].type);
+            link_input((saddr)dst, n, lobby_net_buffer_desc_b.id, idx, lobby_net_buffer_desc_b.protocols[idx].type);
             return 0;
         }
         flags++;
@@ -676,7 +676,7 @@ s32 TLobby__sub_804060B8(u8 *src, int len, int id) {
     return 0;
 }
 #pragma pop
-s32 TLobby__sub_804061FC(void)
+s32 ppp_init_protocols(void)
 {
   u8 *p;
   s32 z;
@@ -691,19 +691,19 @@ s32 TLobby__sub_804061FC(void)
   NetMemset((PppProtoBlocks *)q, 0, 0x144);
   p[0] = z;
   init_lcp_protocol((PppProtoBlocks *)new_var);
-  pap_init((PppProtoBlocks *)new_var);
-  TLobby__sub_803FC318((PppProtoBlocks *)new_var);
-  TLobby__sub_803FEF4C((PppProtoBlocks *)new_var);
-  TLobby__sub_803F9FAC((PppProtoBlocks *)new_var);
+  PP_pap_init((PppProtoBlocks *)new_var);
+  PP_chap_init((PppProtoBlocks *)new_var);
+  init_ipcp_protocol((PppProtoBlocks *)new_var);
+  init_ipv6cp_protocol((PppProtoBlocks *)new_var);
   if (p[0] == 0)
   {
     p[0] = 1;
   }
-  TLobby__sub_803FD958(&((PppProtoBlocks *)p)->lcp);
+  fsm_open(&((PppProtoBlocks *)p)->lcp);
   return 0;
 }
 
-s32 TLobby__sub_804062A0(s16 command) {
+s32 ppp_link_event(s16 command) {
     PppProtoBlocks *l = &ppp_proto_blocks;
 
     switch (command) {
@@ -711,10 +711,10 @@ s32 TLobby__sub_804062A0(s16 command) {
         if (l->phase == 0) {
             l->phase = 1;
         }
-        TLobby__sub_803FD958(&l->lcp);
+        fsm_open(&l->lcp);
         return 0;
     case 0x81:
-        TLobby__sub_803FD85C(&l->lcp);
+        fsm_lowerdown(&l->lcp);
         l->phase = 0;
         return 0;
     default:
@@ -723,7 +723,7 @@ s32 TLobby__sub_804062A0(s16 command) {
 }
 
 s16 ppp_output_frame(PppFrame *);
-s16 TLobby__sub_80406328(saddr self, s16 type) {
+s16 ppp_output_datagram(saddr self, s16 type) {
     PppFrame *sv = (PppFrame *)self;
     PppFrame *me = (PppFrame *)self;
     s32 ty = type;
@@ -779,7 +779,7 @@ s16 TLobby__sub_80406328(saddr self, s16 type) {
         if (lobby_session_flags & 2) {
             s16 r;
             if (!(e->local.got.flags & 4)) goto skip;
-            r = TLobby__sub_804048E8(e->net_list, &sv, e->peer.got.vj_comp_slot);
+            r = sl_compress_tcp(e->net_list, &sv, e->peer.got.vj_comp_slot);
             switch (r) {
             case 0x40: tag = 0x21; break;
             case 0x80: tag = 0x2d; break;
@@ -791,7 +791,7 @@ s16 TLobby__sub_80406328(saddr self, s16 type) {
         } else {
             s16 r;
             if (!(e->peer.got.flags & 4)) goto skip;
-            r = TLobby__sub_804048E8(e->net_list, &sv, e->peer.got.vj_comp_slot);
+            r = sl_compress_tcp(e->net_list, &sv, e->peer.got.vj_comp_slot);
             switch (r) {
             case 0x40: tag = 0x21; break;
             case 0x80: tag = 0x2d; break;
@@ -826,7 +826,7 @@ skip:
     }
 }
 
-s16 TLobby__sub_80406624(s32 a, s32 b, u16 code, PppFrame *self) {
+s16 ppp_output_protocol(s32 a, s32 b, u16 code, PppFrame *self) {
     s32 pad[4];
     u16 r30;
     PppFrame *r29;
@@ -984,7 +984,7 @@ s16 ppp_output_frame(PppFrame *p) {
 #pragma pop
 
 s32 shutdown_network_handle(void) {
-    TLobby__sub_803F8A08(&lobby_udp_socket_table);
+    term_packet_pool_config(&lobby_udp_socket_table);
     lobby_udp_socket_table.count = 0;
     return 0;
 }
@@ -995,7 +995,7 @@ s32 reset_socket_table(void) {
     s16 n;
     s16 i;
     NetPacket *p;
-    TLobby__sub_803F8A0C(&lobby_udp_socket_table);
+    init_packet_pool_config(&lobby_udp_socket_table);
     n = lobby_udp_socket_table.count;
     p = lobby_udp_socket_table.packets;
     for (i = 0; i < n; i++, p++) {
@@ -1005,7 +1005,7 @@ s32 reset_socket_table(void) {
 }
 #pragma pop
 
-s32 TLobby__sub_80406B6C(NetBufferRef *o) {
+s32 netbuf_release(NetBufferRef *o) {
     if (o != 0) {
         switch (o->kind) {
         case 1:
@@ -1013,7 +1013,7 @@ s32 TLobby__sub_80406B6C(NetBufferRef *o) {
             break;
         case 2:
         case 4:
-            if (TLobby__sub_8041579C(o) < 0) {
+            if (buffer_pool_free(o) < 0) {
                 return -1;
             }
             return 0;

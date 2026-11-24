@@ -192,25 +192,25 @@ force_active:
   - open_or_create_memcard_file
   - __ct__19TAdPlyPltAnimCtrlGCFP7TObject
   - TAdPlyPltAnimCtrlGC__sub_80355168
-  - TLobby__sub_8041A3CC
-  - TLobby__sub_8041A498
-  - TLobby__sub_8041A5B4
-  - TLobby__sub_8041A6A4
-  - TLobby__sub_8041B3D4
-  - TLobby__sub_8041B5C0
-  - TLobby__sub_8041B724
-  - TLobby__sub_8041B774
-  - TLobby__sub_8041D0C8
-  - TLobby__sub_8041D368
-  - TLobby__sub_8041D398
-  - TLobby__sub_8041D460
-  - TLobby__sub_8041D524
-  - TLobby__sub_8041D584
-  - TLobby__sub_8041E8A8
-  - TLobby__sub_8041EA14
-  - TLobby__sub_8041EB74
-  - TLobby__sub_8041EC14
-  - TLobby__sub_8041ECA4
+  - tcp_fasttimo
+  - tcp_drop
+  - tcp_slowtimo
+  - tcp_timers
+  - tcp_respond
+  - tcp_close
+  - AT_TCP_Mss
+  - tcp_newconn
+  - tcp_dooptions
+  - tcp_sack_empty
+  - tcp_sack_mark_rexmit
+  - tcp_sack_next_hole
+  - tcp_sack_rexmit_before
+  - tcp_sack_doack
+  - tcp_init_tcb
+  - tcp_next_ephemeral_port
+  - tcp_free_rcv_buf
+  - tcp_alloc_rcv_buf
+  - tcp_alloc_snd_buf
   - TQuestVmDownLoadServer__sub_803E9A74
   - TQuestVmDownLoadServer__sub_803E9FFC
   - TQuestVmDownLoadServer__sub_803EA1A8
@@ -654,17 +654,17 @@ force_active:
   - __sinit_TLobby_80103F5C_cpp
   - init_idle_timeout_timer
   - show_card_list_message
-  - TLobby__sub_80135FFC
-  - TLobby__sub_80136E68
-  - TLobby__sub_801371B0
-  - TLobby__sub_80137228
-  - TLobby__sub_80137C10
+  - handle_generate_id
+  - handle_game_list
+  - handle_lobby_text
+  - handle_server_message
+  - handle_error
   - queue_join_entry_exit_on_input
   - show_join_entry_message
   - show_dialog_value_line
-  - TLobby__sub_8013A16C
-  - TLobby__sub_8013A2DC
-  - TLobby__sub_8013A578
+  - lobby_init_hook
+  - render_idle_timeout
+  - init_6x6F_quest_flags_packet
   - TLobby__sub_8013FF64
   - TLobby__sub_80182E60
   - alloc_enemy_ids__Fl
@@ -717,11 +717,11 @@ force_active:
   - copy_u16_bytes
   - DHCP_request
   - dhcp_get_option
-  - TLobby__sub_80425D88
-  - TLobby__sub_80426110
-  - TLobby__sub_80426190
-  - TLobby__sub_804262CC
-  - TLobby__sub_80426AAC
+  - signal_network_message
+  - add_receive_protocol
+  - apply_receive_filter
+  - open_bba_receive_filter
+  - alloc_receive_frame
   - TLobby_warp_menu_window
   - get_list_clear_task__13TUnk_8013F08CFv
   - get_end_task__13TUnk_8013F08CFv
@@ -1546,7 +1546,7 @@ force_active:
   - __ct__13TUnk_804A4C78FP7TObjectPUc
   - __ct__21TItemShootRocketPunchFP22TItemWeaponRocketPunchPC3VecPC3Vecf
   - __ct__13TUnk_804A5930FP7TObjectPUc
-  - TObjPlayer__sub_8013A788
+  - copy_disp_config_palette
   - collect_body_contacts__FP16CollisionBodySetll
   - set_battle_param_slot__Fii
   - copy_collision_box__FP12CollisionBoxPC12CollisionBox
@@ -1662,7 +1662,7 @@ force_active:
   - TPlyCharData__global_destructor_registration
   - class_name__22TPlyFollowParticleCtrl
   - __ct__23PlayerHandParticlesBaseFv
-  - TPlyGuildCardTag__sub_8013ACA4
+  - copy_guild_card_tag_triplet
   - copy_lobby_entry__FPvPv
   - TPlyOnCreated__name
   - TPlyPhotonChair__shared_model_resource
@@ -4176,8 +4176,8 @@ force_active:
   - bg_lightning_texture_handle
   - bgm_adx_filename_table
   - big_tuitate_collision_body
-  - bind_bml_model
-  - bind_bml_motion
+  - LoadBinModelSub
+  - LoadBinMotionSub
   - bind_collision_body_parts
   - bind_controller_devices
   - bind_motion_channel_samplers__FPC10NJS_MOTIONf
@@ -6441,8 +6441,8 @@ force_active:
   - get_flag_word_mask__FlPUl
   - get_texture_buffer_size
   - fn_803DD3C8
-  - fn_803F1804
-  - fn_803F4D10
+  - call_si_polling_callback
+  - update_crc32
   - spawn_particle_f3__11TObjDFJisinFPC3Vec
   - forest_box_collision_body_parts
   - forest_rel_filename_table
@@ -8832,9 +8832,9 @@ force_active:
   - load_and_verify_data
   - load_battle_params__11TBoss6Type2Fv
   - load_bin_model__11BmlResourceFPCcl
-  - load_bin_model_callback__FP19BmlModelLoadRequest
+  - LoadBinModelCallBack__FP19BmlModelLoadRequest
   - load_bin_motion__11BmlResourceFPCcl
-  - load_bin_motion_callback__FP20BmlMotionLoadRequest
+  - LoadBinMotionCallBack__FP20BmlMotionLoadRequest
   - load_chr_select_slot__23TAdSinglePlyChrSelectGCFv
   - load_downloaded_quest__12TQuestListVMFv
   - load_enemy_set_file__FlPCc

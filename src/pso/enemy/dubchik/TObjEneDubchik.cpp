@@ -293,9 +293,9 @@ void TObjEneDubchik::load_resources() {
     }
     dubchik_texlist = dubchik_resource->models[1].texlist;
     if (TObjEneDD::check_v2_mode() != 0) {
-        dubchik_variant_texlist = load_gvm_texture_file(dubchik_v2_gvm_filename());
+        dubchik_variant_texlist = LoadPvmFileTls(dubchik_v2_gvm_filename());
     } else {
-        dubchik_variant_texlist = load_gvm_texture_file(dubchik_gvm_filename());
+        dubchik_variant_texlist = LoadPvmFileTls(dubchik_gvm_filename());
     }
     n = find_model_node(dubchik_resource->models[1].model, 0x17);
     n->sibling = NULL;

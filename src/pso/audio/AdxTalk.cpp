@@ -814,7 +814,7 @@ Ch_803CA3C4 *adx_create_stream_player(s32 n, s32 base, s32 size) {
         TLobby__sub_803CA194((Obj_803CA194 *)c);
         return NULL;
     }
-    if ((c->f94 = lsc_create(c->sj_handle)) == NULL) {
+    if ((c->f94 = LSC_Create(c->sj_handle)) == NULL) {
         TLobby__sub_803CA194((Obj_803CA194 *)c);
         return NULL;
     }

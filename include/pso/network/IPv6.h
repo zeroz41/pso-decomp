@@ -52,14 +52,14 @@ typedef struct Ipv6Iface {
     s16 prefix_len;
     s16 dad_state;
     s16 f18;
-    s16 flags; /* flag word: TLobby__sub_80413D78 tests bit 0; TLobby__sub_80412CA4 sets it from its request */
+    s16 flags; /* flag word: NetIPv6IsAnycastAddress tests bit 0; bring_up_ipv6_interface sets it from its request */
     s16 scope;
     s16 dad_count;
     s16 dad_timer;
     s16 rs_count;
     s16 rs_timer;
     s16 mtu;
-    void *callback; /* event callback: TLobby__sub_8042325C calls it as (iface, event, data) */
+    void *callback; /* event callback: invoke_routing_event_callback calls it as (iface, event, data) */
     Ipv6AddrNode *addrs;
 } Ipv6Iface;
 LAYOUT_ASSERT(Ipv6Iface_size_check, sizeof(Ipv6Iface) == 0x30);
@@ -171,7 +171,7 @@ extern "C" {
 extern Ipv6State ipv6_address_routing_state;
 extern Ipv6ProtocolState ipv6_protocol_state;
 /* The route for dst (src picks the interface), or NULL. */
-Ipv6Route *TLobby__sub_80413264(void *dst, void *src);
+Ipv6Route *NetIPv6LookupRoute(void *dst, void *src);
 /* The MTU of interface `iface`. */
 s16 get_iface_mtu(s16 iface);
 #ifdef __cplusplus

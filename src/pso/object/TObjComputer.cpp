@@ -103,13 +103,13 @@ void load_computer_resources(void) {
     case AREA_SEASIDE_NIGHT: case AREA_TOWER:
         p = new BmlResource(5, (BmlResourceDescriptor *)&fs_obj_tanmatu02_resource_descriptor, 0, 0, NULL);
         TObjComputer__model_archive = p;
-        TObjComputer__texture_gvm_handle = load_gvm_texture_file("fs_obj_tanmatu02.gvm");
+        TObjComputer__texture_gvm_handle = LoadPvmFileTls("fs_obj_tanmatu02.gvm");
         computer_uv_scroll_phase = 0;
         break;
     default:
         p = new BmlResource(5, (BmlResourceDescriptor *)&fe_obj_tanmatu02_resource_descriptor, 0, 0, NULL);
         TObjComputer__model_archive = p;
-        TObjComputer__texture_gvm_handle = load_gvm_texture_file("fe_obj_computer.gvm");
+        TObjComputer__texture_gvm_handle = LoadPvmFileTls("fe_obj_computer.gvm");
         computer_uv_scroll_phase = 1;
         break;
     }

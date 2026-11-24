@@ -262,11 +262,11 @@ void TWindowSubTradeMain::draw_request(void *key, void *amount) {
 Half_802D38B4 trade_window_state[2];
 extern "C" {
 
-u8 *TLobby__sub_802D298C(void) {
+u8 *get_trade_list_items(void) {
     return (u8 *)trade_window_state[0].lists[1];
 }
 
-u8 *TLobby__sub_802D299C(void) {
+u8 *get_trade_offer_items(void) {
     return (u8 *)trade_window_state[1].lists[0];
 }
 
@@ -284,7 +284,7 @@ s32 clear_trade_message_controller_if_owner(uaddr window) {
 
 int set_trade_message_controller(saddr a0) { trade_message_controller = a0; return 1; }
 
-s32 TLobby__sub_802D29E8(uaddr window) {
+s32 release_trade_main_window(uaddr window) {
     if ((uaddr) trade_main_window != window) {
         return 0;
     }
@@ -301,7 +301,7 @@ s32 claim_trade_main_window(uaddr window) {
 }
 
 
-s32 TLobby__sub_802D2A2C(uaddr window) {
+s32 release_trade_sub_window(uaddr window) {
     if ((uaddr) TLobby__data_805D6894 != window) {
         return 0;
     }
@@ -309,7 +309,7 @@ s32 TLobby__sub_802D2A2C(uaddr window) {
     return 1;
 }
 
-s32 TLobby__sub_802D2A50(uaddr window) {
+s32 claim_trade_sub_window(uaddr window) {
     if ((uaddr) TLobby__data_805D6894 != 0U) {
         return 0;
     }

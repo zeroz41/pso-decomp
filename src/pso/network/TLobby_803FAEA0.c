@@ -11,7 +11,7 @@
 #include "pso/network/TLobby_80428374.h"
 #include "pso/network/TLobby_803FAEA0.h"
 
-s16 TLobby__sub_803FB358(NetLinkStatus *status);
+s16 ppp_get_link_status(NetLinkStatus *status);
 /* The session's small state (.sbss 805D7A78-805D7A98), in reverse definition order: this compiler lays .sbss out
  * last-defined first. */
 s32 ppp_last_io_ms;
@@ -42,17 +42,17 @@ LAYOUT_ASSERT(LobbyPkt_803FB7A4_size, sizeof(LobbyPkt_803FB7A4) == 0x18);
 #define LOBBY_NOTIFY() do { if (g->cb != NULL) { unlock_mutex(net_thread_state.mutex); g->cb(lobby_modem_error, 0); lock_mutex(net_thread_state.mutex); } } while (0)
 #define LOBBY_ABORT(code, st) do { lobby_modem_error = (code); lobby_modem_connect_state = (st); LOBBY_NOTIFY(); return 0; } while (0)
 
-s32 NetControl(s32 cmd, s32 arg) {
+s32 ppp_get_opt(s32 cmd, s32 arg) {
     switch (cmd) {
     case 1:
-        TLobby__sub_804050DC(arg);
+        set_net_poll_interval(arg);
         return 0;
     }
     return -1;
 }
 
 
-s16 TLobby__sub_803FAEDC(NetSession *cfg) {
+s16 ppp_set_dial_string(NetSession *cfg) {
     u32 plen;
     u8 *p;
     u8 **pname = &lobby_net_session_state.cmd;
@@ -89,16 +89,16 @@ s32 ppp_term(void) {
     stop_network_thread();
     init_net_state_a();
     init_net_block_620();
-    TLobby__sub_803F7678();
+    ppp_term_hook();
     reset_boot_state();
-    TLobby__sub_803FD0C0();
+    ppp_link_term();
     init_net_block_18A0();
     init_net_state_c();
     return 0;
 }
 
-s16 TLobby__sub_803FD10C(void);
-void TLobby__sub_804061FC(int);
+s16 ppp_link_init(void);
+void ppp_init_protocols(int);
 
 s16 ppp_init(void) {
     s16 i;
@@ -107,12 +107,12 @@ s16 ppp_init(void) {
 
     init_net_subsystem_block();
     run_net_init_step();
-    ret = TLobby__sub_803FD10C();
+    ret = ppp_link_init();
     if (ret < 0) {
         return -1;
     }
     init_modem_session_config();
-    TLobby__sub_803F767C();
+    ppp_init_hook();
     init_net_block_620_secondary();
     init_net_state_b();
     NetMemset(&net_session, 0, sizeof(net_session));
@@ -130,17 +130,17 @@ s16 ppp_init(void) {
     lobby_modem_error = 0;
     network_transport_open = 0;
     if (reset_network_timer_list() == 0) {
-        TLobby__sub_804061FC(0);
+        ppp_init_protocols(0);
     }
     start_network_thread();
     return ret;
 }
 
-ModemConfig *TLobby__sub_803FB110(void) {
+ModemConfig *ppp_get_modem_property(void) {
     return &net_session.modem;
 }
 
-u8 *copy_name_buffer(void *src) {
+u8 *ppp_set_modem_property(void *src) {
     NetSession *g = &net_session;
     if (src == 0) {
         NetMemcpy(&g->modem, lobby_net_session_state.config, sizeof(ModemConfig));
@@ -150,8 +150,8 @@ u8 *copy_name_buffer(void *src) {
     return (u8 *)&g->modem;
 }
 
-s16 NetGetLinkStatus(NetLinkStatus *status) {
-    return TLobby__sub_803FB358(status);
+s16 ppp_stat(NetLinkStatus *status) {
+    return ppp_get_link_status(status);
 }
 
 s32 ppp_stop(NetWaitParam *param) {
@@ -173,7 +173,7 @@ s32 ppp_stop(NetWaitParam *param) {
     }
     for (t = 0; t < 300000; t += 200) {
         net_sleep_ms(200);
-        TLobby__sub_803FB358(&status);
+        ppp_get_link_status(&status);
         if (status.state == 0) {
             return 0;
         }
@@ -196,7 +196,7 @@ s32 ppp_start(NetConnectCfg *cfg) {
     }
     for (t = 0; t < 300000; t += 200) {
         net_sleep_ms(200);
-        TLobby__sub_803FB358(&status);
+        ppp_get_link_status(&status);
         switch (status.state) {
         case 4:
             return 0;
@@ -216,7 +216,7 @@ void NetMemcpy(void* destination, void* source, int size);
 #pragma cplusplus off
 #pragma dont_inline off
 #pragma dont_inline off
-s16 TLobby__sub_803FB358(NetLinkStatus *status)
+s16 ppp_get_link_status(NetLinkStatus *status)
 {
   u8 *base;
   IpcpConfig *b;
@@ -330,7 +330,7 @@ s32 is_timed_out(void) {
 
 s32 close_all_connections(void);
 
-s32 TLobby__sub_803FB6A0(void) {
+s32 ppp_hangup(void) {
     PppProtoBlocks *blocks = &ppp_proto_blocks;
     NetSession *sess = &net_session;
     PppFsm *lcp = &blocks->lcp;
@@ -407,7 +407,7 @@ s32 ppp_open_sub(void) {
             goto L242;
         }
         if (g->modem.dial != 0) {
-            ret = TLobby__sub_803FAEDC(g);
+            ret = ppp_set_dial_string(g);
             if (ret != 0) {
                 LOBBY_ABORT(ret, 8);
             }

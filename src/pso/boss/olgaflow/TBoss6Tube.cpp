@@ -220,7 +220,7 @@ void TBoss6Tube::free_resources() {
 void TBoss6Tube::load_resources() {
     TBoss6Tube::reset_state();
     boss6_tube_bml_resource = new BmlResource(5, &boss06_tube_dat_resource_descriptor, 0, 0, NULL);
-    boss6_tube_texture_list = load_gvm_texture_file("boss06_tube_dat.gvm");
+    boss6_tube_texture_list = LoadPvmFileTls("boss06_tube_dat.gvm");
     if (boss6_tube_bml_resource != NULL && boss6_tube_texture_list != NULL) {
         return;
     }

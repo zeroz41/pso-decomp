@@ -35,11 +35,11 @@ void load_dragon_ground_assets(void) {
     switch (TBoss1Dragon::isV2Mode()) {
     case 0:
         dragon_ground_resource = load_enemy_bml_resource(&dragon_ground_resource_descriptor);
-        dragon_common_texture_list = load_gvm_texture_file(dragon_common_texture_filename);
+        dragon_common_texture_list = LoadPvmFileTls(dragon_common_texture_filename);
         break;
     case 1:
         dragon_ground_resource = load_enemy_bml_resource_named(&dragon_ground_resource_descriptor, dragon_common_alternate_bml_filename);
-        dragon_common_texture_list = load_gvm_texture_file(dragon_common_alternate_texture_filename);
+        dragon_common_texture_list = LoadPvmFileTls(dragon_common_alternate_texture_filename);
         break;
     }
 }

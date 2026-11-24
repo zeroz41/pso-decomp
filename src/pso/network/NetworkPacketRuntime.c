@@ -73,7 +73,7 @@ static inline u8 *alloc_packet_buffer(u32 size) {
     return buf;
 }
 
-u8 *TLobby__sub_8042558C(u32 size) {
+u8 *alloc_packet_buffer_locked(u32 size) {
     u8 *buf;
     lock_mutex((saddr)network_packet_mutex);
     buf = alloc_packet_buffer(size);
@@ -81,7 +81,7 @@ u8 *TLobby__sub_8042558C(u32 size) {
     return buf;
 }
 
-u8 *TLobby__sub_80425640(u32 size) {
+u8 *alloc_rx_packet_buffer(u32 size) {
     s16 i;
     u8 *buf = NULL;
     if (size > NETWORK_PACKET_BUFFER_BYTES) {
@@ -100,7 +100,7 @@ u8 *TLobby__sub_80425640(u32 size) {
     return buf;
 }
 
-NetworkPacketBufferDescriptor *TLobby__sub_804256B8(u8 *packet) {
+NetworkPacketBufferDescriptor *find_packet_buffer_locked(u8 *packet) {
     NetworkPacketBufferDescriptor *e;
     lock_mutex((saddr)network_packet_mutex);
     e = find_804253F8(packet);
@@ -128,7 +128,7 @@ void cancel_alarm_a(void) {
 
 s16 initialize_network_packet_pool(void) {
     s32 i;
-    if (TLobby__sub_803F96AC(&network_packet_mutex) < 0) {
+    if (create_mutex(&network_packet_mutex) < 0) {
         return -1;
     } else {
     for (i = 0; (0x20) > (i); i++) {

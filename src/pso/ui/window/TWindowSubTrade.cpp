@@ -55,12 +55,12 @@ TWindowSubTrade::TWindowSubTrade(TWindowMainMenu *parent, s32 client) : TObject(
     this->m_player_list = NULL;
     this->m_message_window = NULL;
     this->m_confirm_prompt = NULL;
-    TLobby__sub_802D2A50((uaddr)this);
+    claim_trade_sub_window((uaddr)this);
     this->m_1c = 0;
 }
 
 TWindowSubTrade::~TWindowSubTrade() {
-    TLobby__sub_802D2A2C((uaddr)this);
+    release_trade_sub_window((uaddr)this);
     TLobby::check_flags_and_proceed();
     if (this->m_confirm_prompt != NULL) {
         ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();

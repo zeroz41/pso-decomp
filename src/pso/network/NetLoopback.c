@@ -16,7 +16,7 @@ s32 loopback_shutdown(void) {
     u8 unused[8];
     clear_table_entry_locked(network_loopback_state.handler);
     network_loopback_state.handler = -1;
-    TLobby__sub_803F8B78(&network_loopback_state);
+    term_loopback_config(&network_loopback_state);
     network_loopback_state.slot_count = 0;
     return 0;
 }
@@ -40,15 +40,15 @@ s16 register_loopback_handlers(void)
     tbl[1] = (NetLinkDriverFn)alloc_conn_slot;
     tbl[2] = (NetLinkDriverFn)clear_conn_slot;
     tbl[3] = (NetLinkDriverFn)get_slot_offset_or_default;
-    tbl[4] = (NetLinkDriverFn)TLobby__sub_80415508;
-    tbl[5] = (NetLinkDriverFn)TLobby__sub_804154E4;
-    tbl[6] = (NetLinkDriverFn)TLobby__sub_804154C0;
-    tbl[7] = (NetLinkDriverFn)TLobby__sub_8041549C;
+    tbl[4] = (NetLinkDriverFn)loopback_get_address_length;
+    tbl[5] = (NetLinkDriverFn)loopback_get_address;
+    tbl[6] = (NetLinkDriverFn)loopback_update_address;
+    tbl[7] = (NetLinkDriverFn)loopback_update_multicast;
     tbl[8] = (NetLinkDriverFn)release_loopback_slot;
     tbl[9] = (NetLinkDriverFn)forward_loopback_packet;
     tbl[10] = (NetLinkDriverFn)send_loopback_frame;
 
-    r = TLobby__sub_80409A3C(tbl, 1);
+    r = register_link_handler(tbl, 1);
     if (r < 0) {
         return r;
     }
@@ -78,7 +78,7 @@ s32 send_loopback_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     if (idx != 0 && idx != 1) {
         return -0x110;
     }
-    len = TLobby__sub_804098B4(pkt);
+    len = link_packet_length(pkt);
     if (g->slot_size < len) {
         return -0x110;
     }
@@ -87,8 +87,8 @@ s32 send_loopback_frame(s16 idx, s16 mode, u8 *addr, void *pkt) {
     for (i = 0; i < g->slot_count; i++, used++) {
         if (*used == 0) {
             *used = 1;
-            TLobby__sub_80409908(slot, pkt);
-            TLobby__sub_80409818((saddr)slot, len, g->handler, idx, g->protos[idx].type);
+            link_packet_copy(slot, pkt);
+            link_input((saddr)slot, len, g->handler, idx, g->protos[idx].type);
             return 0;
         }
         slot += g->slot_size;
@@ -111,7 +111,7 @@ s32 forward_loopback_packet(id, unused, arr)
     if (id != 0 && id != 1) {
         return -0x110;
     }
-    len = TLobby__sub_804098B4(arr);
+    len = link_packet_length(arr);
     if (p->slot_size < len) {
         return -0x110;
     }
@@ -121,8 +121,8 @@ s32 forward_loopback_packet(id, unused, arr)
     for (i = 0; i < p->slot_count; i++, cnt++) {
         if (*cnt == 0) {
             *cnt = 1;
-            TLobby__sub_80409908(base, arr);
-            TLobby__sub_80409818((saddr)base, len, p->handler, id, p->protos[id].type);
+            link_packet_copy(base, arr);
+            link_input((saddr)base, len, p->handler, id, p->protos[id].type);
             return 0;
         }
         base += sz;
@@ -157,28 +157,28 @@ s32 release_loopback_slot(s16 id, u8 *addr) {
     return -0x110;
 }
 
-s32 TLobby__sub_8041549C(s16 idx) {
+s32 loopback_update_multicast(s16 idx) {
     if ((idx != 0) && (idx != 1)) {
         return -0x110;
     }
     return 0;
 }
 
-s32 TLobby__sub_804154C0(s16 idx) {
+s32 loopback_update_address(s16 idx) {
     if ((idx != 0) && (idx != 1)) {
         return -0x110;
     }
     return 0;
 }
 
-s32 TLobby__sub_804154E4(s16 idx) {
+s32 loopback_get_address(s16 idx) {
     if ((idx != 0) && (idx != 1)) {
         return -0x110;
     }
     return 0;
 }
 
-s32 TLobby__sub_80415508(s16 idx) {
+s32 loopback_get_address_length(s16 idx) {
     if ((idx != 0) && (idx != 1)) {
         return -0x110;
     }

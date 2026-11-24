@@ -39,7 +39,7 @@ s32 get_network_info_file_size(void);
 s32 get_network_info_card_key(int channel, u8 *key);
 u32 calc_crc32(saddr buf, s32 len);
 extern "C" {
-u32 fn_803F4D10(u32 crc, u8 *buf, s32 len);
+u32 update_crc32(u32 crc, u8 *buf, s32 len);
 }
 
 s32 get_network_config_backup_mode(void);

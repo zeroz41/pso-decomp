@@ -28,7 +28,7 @@ struct TPlyChallenge;
 struct TRecvInfoBoard;
 struct TRecvChoiceSearchOptions;
 struct ChoiceSearchResultList;
-s32 pso_load_texture(NJS_TEXLIST *texlist);
+s32 psoLoadTexture(NJS_TEXLIST *texlist);
 
 struct TLobbyFloorItemEntry {
     u8 n;

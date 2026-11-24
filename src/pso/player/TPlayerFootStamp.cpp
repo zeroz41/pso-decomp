@@ -61,7 +61,7 @@ void TPlayerFootStamp::select_texture(s32 num) {
 }
 
 void load_player_footstamp(void) {
-    player_footstamp_texture_gvm_handle = load_gvm_texture_file("player_footstamp.GVM");
+    player_footstamp_texture_gvm_handle = LoadPvmFileTls("player_footstamp.GVM");
 }
 
 void TPlayerFootStamp::free_instance() {

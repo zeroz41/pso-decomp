@@ -5,6 +5,6 @@
 
 struct NJS_TEXLIST;
 
-NJS_TEXLIST *load_gvm_texture_file(const char *filename);
+NJS_TEXLIST *LoadPvmFileTls(const char *filename);
 
 #endif

@@ -22,7 +22,7 @@ void init_msg(NetBufferRef *ref, s32 value);
 /* Advances a buffer reference by n bytes (TLobby_804050DC.c). */
 void netbuf_ref_advance(NetBufferRef *ref, s32 n);
 /* Frees the block behind a buffer reference of kind 2 or 4 (TLobby_804050DC.c). */
-s32 TLobby__sub_80406B6C(NetBufferRef *ref);
+s32 netbuf_release(NetBufferRef *ref);
 #ifdef __cplusplus
 }
 #endif

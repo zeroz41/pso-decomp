@@ -32,7 +32,7 @@ s32 init_ipv4_routing(void);
 #pragma inline_depth(4)
 
 s32 shutdown_ipv4_routing(void) {
-    TLobby__sub_803F8958((void *)&ipv4_address_routing_state);
+    term_ipv4_routing_config((void *)&ipv4_address_routing_state);
     ipv4_address_routing_state.nroutes = 0;
     ipv4_address_routing_state.nifaces = 0;
     ipv4_address_routing_state.max_aliases = 0;
@@ -209,8 +209,8 @@ extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s3
         n++;
         len -= sizeof(rec);
     }
-    if (TLobby__sub_80409EB0(idx, ifc->handle) <= 6) {
-        TLobby__sub_80409E18(idx, ifc->handle, buf);
+    if (link_get_address_length(idx, ifc->handle) <= 6) {
+        link_get_address(idx, ifc->handle, buf);
     }
     return count;
 }
@@ -239,7 +239,7 @@ extern s32 bring_down_ipv4_interface(s16 id) {
         if (is_socket_flag_set(id) == 0 && getfirst_8040F1A0(pn, pb, &addr)) {
             drop_8040F1A0(g, nd->addr, addr);
         }
-        TLobby__sub_80409D7C(id, b->handle, 2, &nd->addr);
+        link_update_address(id, b->handle, 2, &nd->addr);
         {
             Ipv4Alias *next = nd->next;
             nd->f0 = 0;
@@ -300,7 +300,7 @@ extern s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx) {
         return -2;
     }
     ifc->state = 1;
-    ifc->handle = TLobby__sub_8040A044(idx, 0x800, 4, &addr);
+    ifc->handle = link_attach_protocol(idx, 0x800, 4, &addr);
     if (ifc->handle < 0) {
         ifc->state = 0;
         return ifc->handle;
@@ -427,7 +427,7 @@ Ipv4Route *AT_IP4_RouteSearch(u32 dst, u32 src) {
     return NULL;
 }
 
-s32 TLobby__sub_8040F8A4(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
+s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
 {
   Ipv4RoutingState *tbl = &ipv4_address_routing_state;
   u32 new_var;
@@ -487,7 +487,7 @@ s32 TLobby__sub_8040F8A4(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gatewa
   return 0;
 }
 
-s32 TLobby__sub_8040F9CC(u32 dst, u32 mask, u32 gateway, s32 flag) {
+s32 ipv4_route_delete(u32 dst, u32 mask, u32 gateway, s32 flag) {
     Ipv4RoutingState *tbl = &ipv4_address_routing_state;
     Ipv4Route *e = tbl->routes;
     s16 i;
@@ -735,7 +735,7 @@ s16 *get_active_entry_by_index(s16 iface) {
 }
 #pragma pop
 
-s16 TLobby__sub_8040FEE4(s32 lhs, s32 rhs) {
+s16 compare_ipv4_addr(s32 lhs, s32 rhs) {
     s32 temp_r0;
     temp_r0 = lhs - rhs;
     if (temp_r0 < 0) {

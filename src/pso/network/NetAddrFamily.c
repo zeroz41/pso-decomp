@@ -34,14 +34,14 @@ s16 dispatch_by_addr_family(NetPacket *pkt, NetworkAddress *dst, NetworkAddress 
     case 4:
         return AT_IP4_Send(pkt, dst->ipv4, src->ipv4, ip4_opts[0], ip4_opts[1], ip4_opts[2], proto);
     case 6:
-        return TLobby__sub_80410A98(pkt, dst->address, src->address, ip6_opts, proto);
+        return ipv6_output(pkt, dst->address, src->address, ip6_opts, proto);
     case 0:
     default:
         return -2;
     }
 }
 
-u16 TLobby__sub_8040D8F0(NetworkAddress *src, NetworkAddress *dst, s8 proto, NetPacket *pkt, s16 flag) {
+u16 calc_transport_checksum(NetworkAddress *src, NetworkAddress *dst, s8 proto, NetPacket *pkt, s16 flag) {
     switch (src->family) {
     case 4:
         return calc_pseudo_header_checksum(src->ipv4, dst->ipv4, proto, pkt, flag);
@@ -77,12 +77,12 @@ s16 AT_IP_SetSrcFromDst(NetworkAddress *src, NetworkAddress *dst) {
             return 0;
         }
         {
-        Ipv6Route *rt = TLobby__sub_80413264(dst->address, src->address);
+        Ipv6Route *rt = NetIPv6LookupRoute(dst->address, src->address);
         if (rt == NULL) {
             return -6;
         }
         src->family = 6;
-        return TLobby__sub_80411F1C(src->address, dst->address, rt->iface);
+        return NetIPv6SelectSourceAddress(src->address, dst->address, rt->iface);
         }
     case 0:
     default:
@@ -90,12 +90,12 @@ s16 AT_IP_SetSrcFromDst(NetworkAddress *src, NetworkAddress *dst) {
     }
 }
 
-s16 TLobby__sub_8040DA54(NetworkAddress *dst, NetworkAddress *src) {
+s16 AT_IP_IsReachable(NetworkAddress *dst, NetworkAddress *src) {
     switch (dst->family) {
     case 4:
         return AT_IP4_IsReachable(dst->ipv4, src->ipv4);
     case 6:
-        return TLobby__sub_80413230(dst->address, (saddr)src->address);
+        return NetIPv6IsReachable(dst->address, (saddr)src->address);
     default:
     case 0:
         return -2;
@@ -151,7 +151,7 @@ s16 compare_sockaddr(NetworkAddress *a, NetworkAddress *b) {
         if (b->family != 4) {
             return -1;
         }
-        return TLobby__sub_8040FEE4(a->ipv4, b->ipv4);
+        return compare_ipv4_addr(a->ipv4, b->ipv4);
     case 6:
         if (b->family != 6) {
             return -1;
@@ -184,7 +184,7 @@ s16 AT_IP_GetMssFromDstSrc(NetworkAddress *remote, NetworkAddress *local) {
         }
         return mtu - 0x28;
     case 6:
-        rt = TLobby__sub_80413264(remote->address, local->address);
+        rt = NetIPv6LookupRoute(remote->address, local->address);
         if (rt == NULL) {
             return -6;
         }

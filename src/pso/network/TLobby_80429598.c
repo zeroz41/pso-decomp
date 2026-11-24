@@ -17,7 +17,7 @@
 #pragma dont_inline off
 
 /* Adapter state: the receive message queue and the interrupt statistics, one counter per cause of the NIC's
- * interrupt register (0x09) as TLobby__sub_80429B8C services them. */
+ * interrupt register (0x09) as bba_exi_interrupt services them. */
 typedef struct BbaState {
     OSMessageQueue queue;
     OSMessage queue_msgs[10];
@@ -37,7 +37,7 @@ static BbaState bba_state;
 static u8 exi_dma_buffer[0x600];
 static u8 exi_dma_write_buffer[0xC00];
 
-void TLobby__sub_8042B434(s32 chan, OSContext *ctx);
+void bba_send_dma_done(s32 chan, OSContext *ctx);
 
 /* A receive ring page header: the next page, the frame length and the receive status. */
 typedef struct RecvDescriptor {
@@ -72,9 +72,9 @@ u8 exi_mac_address[6];
 u8 ethernet_broadcast_address[6] = {255, 255, 255, 255, 255, 255};
 u16 bba_device_id = 53511;
 u8 bba_acstart = 78;
-u32 TLobby__sub_8042BA8C(void *);
-void TLobby__sub_80429648(void);
-void TLobby__sub_80429B8C(s32 chan, OSContext *ctx);
+u32 bba_multicast_hash(void *);
+void bba_receive_next_frame(void);
+void bba_exi_interrupt(s32 chan, OSContext *ctx);
 
 void wake_network_thread(void) {
     OSWakeupThread(&network_thread_queue);
@@ -209,7 +209,7 @@ static inline void bba_challenge(void) {
 }
 
 /* The same writes as bba_outs/bba_out8 (0xC0000000 | reg << 8) and bba_cmd_out8 (0x4000 | reg << 8), with the
-   command word passed in: TLobby__sub_80429648's frame has these locals, not the bba_* ones. */
+   command word passed in: bba_receive_next_frame's frame has these locals, not the bba_* ones. */
 inline void exi8_w32_16(u32 cmd, u16 val) {
     u16 v = val;
     u32 c = cmd;
@@ -259,7 +259,7 @@ static inline RecvDescriptor bba_read_descriptor(u32 reg) {
 }
 
 /* Drains the receive ring: hands each frame whose type is accepted to the receive callback and starts its DMA. */
-void TLobby__sub_80429648(void) {
+void bba_receive_next_frame(void) {
     u16 page;
     u16 type;
     s32 i;
@@ -318,7 +318,7 @@ void start_exi_dma_read(u16 reg) {
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd, 4, 1, 0);
     EXISync(0);
-    EXIDma(0, exi_dma_buffer, len, 0, exi_dma_write_length != 0 ? start_exi_dma_write : (EXICallback)TLobby__sub_80429AC8);
+    EXIDma(0, exi_dma_buffer, len, 0, exi_dma_write_length != 0 ? start_exi_dma_write : (EXICallback)bba_receive_dma_done);
 }
 
 void start_exi_dma_write(s32 chan, OSContext *ctx) {
@@ -330,10 +330,10 @@ void start_exi_dma_write(s32 chan, OSContext *ctx) {
     EXISelect(0, 2, 5);
     EXIImm(0, &cmd, 4, 1, 0);
     EXISync(0);
-    EXIDma(0, exi_dma_write_buffer, len, 0, (EXICallback)TLobby__sub_80429AC8);
+    EXIDma(0, exi_dma_write_buffer, len, 0, (EXICallback)bba_receive_dma_done);
 }
 
-void TLobby__sub_80429AC8(void) {
+void bba_receive_dma_done(void) {
     u8 pad[8];
     EXIDeselect(0);
     DCInvalidateRange(exi_dma_buffer, (exi_dma_read_length + 0x1F) & ~0x1F);
@@ -348,16 +348,16 @@ void TLobby__sub_80429AC8(void) {
         ((void (*)(u8 *, u16))exi_receive_callback)(exi_receive_buffer, exi_receive_descriptor.length);
     }
     exi_receive_read_page = exi_receive_descriptor.next;
-    TLobby__sub_80429648();
+    bba_receive_next_frame();
 }
 static inline void bba_recv(void) {
     bba_state.rx_count++;
     exi_receive_write_page = bba_in16(0x16);
     exi_receive_read_page = bba_in16(0x18);
-    TLobby__sub_80429648();
+    bba_receive_next_frame();
 }
 
-void TLobby__sub_80429B8C(s32 chan, OSContext *ctx) {
+void bba_exi_interrupt(s32 chan, OSContext *ctx) {
     u8 ir;
     s32 notify;
     u8 status;
@@ -365,7 +365,7 @@ void TLobby__sub_80429B8C(s32 chan, OSContext *ctx) {
     ExiSendCompletionCallback callback;
 
     notify = 0;
-    if (EXILock(0, 2, TLobby__sub_80429B8C) == 0) {
+    if (EXILock(0, 2, bba_exi_interrupt) == 0) {
         return;
     }
     ir = bba_cmd_in8(0x03);
@@ -574,7 +574,7 @@ s32 init_bba_exi_adapter(void *arg) {
     bba_out8(0x50, 0x80);
     bba_out8(0x08, 0);
     bba_cmd_out8(0x02, 0xF8);
-    EXISetExiCallback(2, TLobby__sub_80429B8C);
+    EXISetExiCallback(2, bba_exi_interrupt);
     EXIUnlock(0);
     return 1;
 }
@@ -606,11 +606,11 @@ void exi_start_send_dma(s32 chan, OSContext *ctx) {
         EXISelect(0, 2, 5);
         EXIImm(0, &cmd, 4, 1, 0);
         EXISync(0);
-        EXIDma(0, exi_send_data, exi_send_dma_length, 1, TLobby__sub_8042B434);
+        EXIDma(0, exi_send_data, exi_send_dma_length, 1, bba_send_dma_done);
     }
 }
 
-void TLobby__sub_8042B434(s32 chan, OSContext *ctx) {
+void bba_send_dma_done(s32 chan, OSContext *ctx) {
     u8 val;
     u8 out;
     s32 cmd0;
@@ -647,7 +647,7 @@ void copy_mac_address(void *address) {
     memcpy(exi_mac_address, address, 6);
 }
 
-void TLobby__sub_8042B58C(u32 alloc_callback, s32 receive_callback) {
+void bba_set_receive_callbacks(u32 alloc_callback, s32 receive_callback) {
     u8 sp43;
     u8 sp42;
     s16 sp40;
@@ -772,14 +772,14 @@ s32 poll_exi_status(s32 *status) {
     return 0;
 }
 
-void TLobby__sub_8042BA48(u16 *types, s32 count) {
+void bba_set_receive_filter_types(u16 *types, s32 count) {
     s32 e = OSDisableInterrupts();
     exi_accepted_types = types;
     exi_accepted_type_count = count;
     OSRestoreInterrupts(e);
 }
 
-u32 TLobby__sub_8042BA8C(void *addr) {
+u32 bba_multicast_hash(void *addr) {
     u8 *p = (u8 *)addr;
     u32 crc;
     u8 c;
@@ -856,7 +856,7 @@ void enable_network_multicast_address(void *address) {
   }
   else
   {
-    bit = (u16)TLobby__sub_8042BA8C(address);
+    bit = (u16)bba_multicast_hash(address);
     addr = ((u32) ((u16) (((u8) (bit / 8)) + 0x26))) << 8;
     read_command = addr | 0x80000000;
     cmd2 = read_command;

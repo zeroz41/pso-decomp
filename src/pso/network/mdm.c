@@ -171,7 +171,7 @@ static inline void ModemLockExi(void) {
     }
 }
 
-void fn_8042BF6C(s32 length) {
+void ModemStartRecv(s32 length) {
     BOOL selected;
     u32 cmd;
     u8 *body;
@@ -215,13 +215,13 @@ void fn_8042BF6C(s32 length) {
     }
     if (modem_recv_state.body_length > 0) {
         EXIDma(0, modem_recv_state.body, modem_recv_state.body_length, EXI_READ,
-               fn_8042C124);
+               ModemRecvCallback);
     } else {
-        fn_8042C124(0, NULL);
+        ModemRecvCallback(0, NULL);
     }
 }
 
-void fn_8042C124(s32 chan, OSContext *context) {
+void ModemRecvCallback(s32 chan, OSContext *context) {
     s32 offset;
     s32 count;
     void (*callback)(s32);
@@ -255,12 +255,12 @@ void fn_8042C124(s32 chan, OSContext *context) {
     }
 }
 
-void fn_8042C2E4(s32 chan, OSContext *context) {
+void ModemExiHandler(s32 chan, OSContext *context) {
     u8 status;
     u32 cmd;
     s32 count;
 
-    if (EXILock(0, 2, fn_8042C2E4) != 0) {
+    if (EXILock(0, 2, ModemExiHandler) != 0) {
         status = ModemReadRegister(2);
         status &= modem_register_config.interrupt_mask;
         if (status == 0) {
@@ -269,7 +269,7 @@ void fn_8042C2E4(s32 chan, OSContext *context) {
             ModemWriteRegister(1, 0);
             switch (__cntlzw(status)) {
             case 27:
-                fn_8042DE20();
+                ModemSendChunk();
                 break;
             case 26:
                 if (modem_recv_state.f34 == 0) {
@@ -278,7 +278,7 @@ void fn_8042C2E4(s32 chan, OSContext *context) {
                     ModemWriteRegister(1, modem_register_config.interrupt_mask);
                     EXIUnlock(0);
                 } else if (modem_recv_state.f14 != 0) {
-                    fn_8042BF6C(modem_register_config.recv_threshold);
+                    ModemStartRecv(modem_register_config.recv_threshold);
                 } else {
                     modem_register_config.interrupt_mask &= ~0x20;
                     ModemWriteRegister(1, modem_register_config.interrupt_mask);
@@ -296,7 +296,7 @@ void fn_8042C2E4(s32 chan, OSContext *context) {
                         modem_recv_state.available = modem_recv_state.capacity - modem_recv_state.received;
                     }
                     modem_recv_state.short_read = 1;
-                    fn_8042BF6C(modem_recv_state.available);
+                    ModemStartRecv(modem_recv_state.available);
                 }
                 break;
             case 30:
@@ -514,7 +514,7 @@ static inline BOOL ModemSetupCommands(char *buf, const char *country) {
     return selected;
 }
 
-s32 modem_init(const char *country) {
+s32 MDMInit(const char *country) {
     // Keep the command text in eight-byte-aligned storage. Its character view
     // is used by the string routines and EXI immediate transfers. The 0x88-byte
     // storage extent fits the native frame; the original text limit is unknown.
@@ -565,20 +565,20 @@ s32 modem_init(const char *country) {
     ModemWriteRegister(0x0F, modem_register_config.send_threshold);
 
     ModemSetupCommands((char *)command_buffer, country);
-    EXISetExiCallback(2, fn_8042C2E4);
+    EXISetExiCallback(2, ModemExiHandler);
     OSRegisterResetFunction(&modem_reset_function_info);
     EXIUnlock(0);
     return 1;
 }
 #pragma pop
 
-// AT commands a caller may not send through modem_send_at_command.
+// AT commands a caller may not send through MDMATCommand.
 char *modem_exi_ptr_table[22] = {
     "Z", "+V", "+G", "&F", "&Y", "&W", "&Z", "E", "Q", "V", "W",
     "L", "M", "&V", "\\V", "*B", "*D", "+MS?", "#UD", "S24", "S95", "!",
 };
 
-s32 modem_send_at_command(char *cmd) {
+s32 MDMATCommand(char *cmd) {
     u32 length;
     u32 i;
     char c;
@@ -610,7 +610,7 @@ s32 modem_send_at_command(char *cmd) {
     return result;
 }
 
-void modem_hangup(void) {
+void MDMHangUp(void) {
     s32 e;
     memset(&modem_connection_info, 0, sizeof(modem_connection_info));
     modem_line_state = 1;
@@ -649,7 +649,7 @@ void modem_write_string(char *str) {
     EXIDeselect(0);
 }
 
-s32 fn_8042D7E0(u8 *buf) {
+s32 ModemRecv(u8 *buf) {
     u8 *head;
     u8 *body;
     u8 *tail;
@@ -750,7 +750,7 @@ s32 fn_8042D7E0(u8 *buf) {
 
 #pragma push
 #pragma opt_common_subs off
-s32 fn_8042DD70(u8 *data, s32 length, void (*callback)(s32 sent)) {
+s32 ModemSend(u8 *data, s32 length, void (*callback)(s32 sent)) {
     if (modem_send_state.busy != 0) {
         return -4;
     }
@@ -762,18 +762,18 @@ s32 fn_8042DD70(u8 *data, s32 length, void (*callback)(s32 sent)) {
     modem_send_state.length = length;
     modem_send_state.remaining = length;
     modem_send_state.callback = callback;
-    fn_8042DDE4(0, NULL);
+    ModemSendLockCallback(0, NULL);
     return 1;
 }
 #pragma pop
 
-void fn_8042DDE4(s32, OSContext *) {
-    if (EXILock(0, 2U, fn_8042DDE4) != 0) {
-        fn_8042DE20();
+void ModemSendLockCallback(s32, OSContext *) {
+    if (EXILock(0, 2U, ModemSendLockCallback) != 0) {
+        ModemSendChunk();
     }
 }
 
-void fn_8042DE20(void) {
+void ModemSendChunk(void) {
     s32 length;
     u8 *data;
     u8 *body;
@@ -814,10 +814,10 @@ void fn_8042DE20(void) {
     }
     EXISelect(0, 2, 4);
     cmd = 0x68000000 | ((u16)length << 8);
-    EXIImm(0, &cmd, 4, EXI_WRITE, fn_8042DF4C);
+    EXIImm(0, &cmd, 4, EXI_WRITE, ModemSendCallback);
 }
 
-void fn_8042DF4C(s32 chan, OSContext *context) {
+void ModemSendCallback(s32 chan, OSContext *context) {
     s32 offset;
     s32 count;
     void (*callback)(s32);
@@ -830,7 +830,7 @@ void fn_8042DF4C(s32 chan, OSContext *context) {
     }
     if (modem_send_state.body_length > 0) {
         EXIDma(0, modem_send_state.body, modem_send_state.body_length, EXI_WRITE,
-               fn_8042DF4C);
+               ModemSendCallback);
         modem_send_state.body_length = 0;
         return;
     }
@@ -860,7 +860,7 @@ void fn_8042DF4C(s32 chan, OSContext *context) {
     }
 }
 
-s32 fn_8042E184(void) {
+s32 ModemCanSend(void) {
     u16 space;
 
     if (modem_send_state.busy == 1) {
@@ -880,13 +880,13 @@ s32 fn_8042E184(void) {
     return 1;
 }
 
-// The two AT&P commands are edited in place by modem_send_at_command.
+// The two AT&P commands are edited in place by MDMATCommand.
 static char modem_tone_dial_prefix[5] = "ATDT";
 static char modem_pulse_ratio_default_command[7] = "AT&P0\r";
 static char modem_pulse_dial_prefix[5] = "ATDP";
 static char modem_pulse_ratio_alt_command[7] = "AT&P2\r";
 
-s32 modem_dial(const char *number, s32 mode, void (*callback)(s32 result)) {
+s32 MDMDial(const char *number, s32 mode, void (*callback)(s32 result)) {
     char buf[0x40];
     s32 result;
 
@@ -903,11 +903,11 @@ s32 modem_dial(const char *number, s32 mode, void (*callback)(s32 result)) {
         strcpy(buf, modem_tone_dial_prefix);
         break;
     case 2:
-        result = modem_send_at_command(modem_pulse_ratio_default_command);
+        result = MDMATCommand(modem_pulse_ratio_default_command);
         strcpy(buf, modem_pulse_dial_prefix);
         break;
     case 3:
-        result = modem_send_at_command(modem_pulse_ratio_alt_command);
+        result = MDMATCommand(modem_pulse_ratio_alt_command);
         strcpy(buf, modem_pulse_dial_prefix);
         break;
     }
@@ -920,7 +920,7 @@ s32 modem_dial(const char *number, s32 mode, void (*callback)(s32 result)) {
     return 1;
 }
 
-void fn_8042E488(s32 value) {
+void ModemSetFwt(s32 value) {
     modem_register_config.reg13_value = value;
     ModemLockExi();
     ModemWriteRegister(0x13, modem_register_config.reg13_value);
@@ -937,7 +937,7 @@ s32 MDMConnectMode(s32 mode) {
     strcpy(buf, "AT+MS=");
     strcat(buf, names.name[mode]);
     strcat(buf, "\r");
-    result = modem_send_at_command(buf);
+    result = MDMATCommand(buf);
     return 1;
 }
 
@@ -951,7 +951,7 @@ s32 MDMErrorCorrectMode(s32 mode) {
     strcpy(buf, "AT+ES=");
     strcat(buf, names.name[mode]);
     strcat(buf, "\r");
-    result = modem_send_at_command(buf);
+    result = MDMATCommand(buf);
     return 1;
 }
 
@@ -965,7 +965,7 @@ s32 MDMCompressMode(s32 mode) {
     strcpy(buf, "AT%C");
     strcat(buf, names.name[mode]);
     strcat(buf, "\r");
-    result = modem_send_at_command(buf);
+    result = MDMATCommand(buf);
     return 1;
 }
 
@@ -986,7 +986,7 @@ s32 MDMWaitToneMode(s32 mode) {
     strcpy(buf, "ATX");
     strcat(buf, names.name[mode]);
     strcat(buf, "\r");
-    result = modem_send_at_command(buf);
+    result = MDMATCommand(buf);
     return 1;
 }
 
@@ -1002,6 +1002,6 @@ BOOL send_modem_hangup(BOOL final) {
     return 1;
 }
 
-struct LaunchDolContext *fn_8042E8B8(void) {
+struct LaunchDolContext *get_launch_dol_context(void) {
     return (struct LaunchDolContext *)0x80003100;
 }

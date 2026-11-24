@@ -28,7 +28,7 @@ typedef struct Req_804250A8 {
 
 typedef struct P_8042315C { s32 type; s32 a; s32 b; s32 c; s32 pad10; s16 n; s16 m; s32 d; s32 pad1C; } P_8042315C;
 
-s16 TLobby__sub_80422F70(s16 iface, void *hdr_src, s32 len, void *buf);
+s16 if_get(s16 iface, void *hdr_src, s32 len, void *buf);
 s16 if_config(s16 iface, void *req);
 DhcpClientBuffers dhcp_buffers;
 extern u8 dhcp_domain_name[0x100]; /* defined at the end of the file */
@@ -76,7 +76,7 @@ volatile s32 dhcp_state = -2;
 s32 dhcp_discover_step(void);
 s32 dhcp_request_step(void);
 s32 dhcp_release_step(void);
-void TLobby__sub_80423298(void) {
+void dhcp_poll(void) {
     s32 now;
     s32 elapsed;
     u32 secs;
@@ -131,7 +131,7 @@ void TLobby__sub_80423298(void) {
 
 void parse_dhcp_lease_times(u8 *packet);
 
-s32 TLobby__sub_80423440(BootpPacket *pkt) {
+s32 dhcp_store_ack_options(BootpPacket *pkt) {
     u8 *opts = (u8 *)&pkt->cookie;
     u8 *p;
     s32 net;
@@ -523,7 +523,7 @@ s32 dhcp_request_step(void) {
             if (dhcp_state == 1 || dhcp_state == 2 || dhcp_state == 6) {
                 dhcp_interface_mode = dhcp_set_interface_mode(0);
             }
-            TLobby__sub_80423440(&dhcp_buffers.reply.hdr);
+            dhcp_store_ack_options(&dhcp_buffers.reply.hdr);
             dhcp_step = 0;
             dhcp_state = 3;
         } else if (dhcp_state == 2) {
@@ -749,7 +749,7 @@ void parse_dhcp_lease_times(u8 *packet) {
     }
 }
 
-s16 TLobby__sub_8042474C(s32 *lease, s32 *renew, s32 *rebind) {
+s16 dhcp_get_lease_times(s32 *lease, s32 *renew, s32 *rebind) {
     dhcp_error = 0;
     if (dhcp_state == 3 || dhcp_state == 4 || dhcp_state == 5) {
         if (dhcp_get_option(7, lease) != 0) {
@@ -887,7 +887,7 @@ s16 dhcp_handle_reply(s16 mode, NetworkReceivePrefix *record) {
 #pragma pop
 
 void dhcp_stop(void) {
-    NetUnregisterTimer(TLobby__sub_80423298);
+    NetUnregisterTimer(dhcp_poll);
     if (dhcp_socket != -1) {
         udp_close(dhcp_socket);
         dhcp_socket = -1;
@@ -994,7 +994,7 @@ static inline s32 dhcp_open_interface(s16 iface) {
     if (if_config(iface, addr) < 0) {
         return -1;
     }
-    if (TLobby__sub_80422F70(iface, addr, 0x1C, dhcp_client_hw_addr) < 0) {
+    if (if_get(iface, addr, 0x1C, dhcp_client_hw_addr) < 0) {
         if_down(iface, 4);
         return -1;
     }
@@ -1008,7 +1008,7 @@ s16 DHCP_init(s16 iface) {
         dhcp_error = 3;
         return -1;
     }
-    NetRegisterTimer(50, 0, TLobby__sub_80423298);
+    NetRegisterTimer(50, 0, dhcp_poll);
     return 0;
 }
 
@@ -1046,7 +1046,7 @@ s32 dhcp_set_interface_mode(s32 mode) {
     s32 ret;
     s32 r;
 
-    ret = (s16)TLobby__sub_80422F70(dhcp_iface, buf, 0x1c, (u8 *)buf2 + 0x28) < 0 ? 0 : 1;
+    ret = (s16)if_get(dhcp_iface, buf, 0x1c, (u8 *)buf2 + 0x28) < 0 ? 0 : 1;
     r = ret;
     if (ret != mode) {
         switch (mode) {

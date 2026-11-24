@@ -12,8 +12,8 @@ void increment_ref_and_set_flag__6TLobbyFPv(void *context);
 struct BmlModelLoadRequest;
 struct BmlMotionLoadRequest;
 struct AnimationMotion;
-void load_bin_model_callback(BmlModelLoadRequest *request);
-void load_bin_motion_callback(BmlMotionLoadRequest *request);
+void LoadBinModelCallBack(BmlModelLoadRequest *request);
+void LoadBinMotionCallBack(BmlMotionLoadRequest *request);
 
 // --- C functions defined in TLobby_8001EF5C.cpp ---
 extern "C" {

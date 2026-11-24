@@ -77,7 +77,7 @@ void exec_vsync_servers(void);
 void vblank_thread_loop(void);
 s32 adx_get_data_start_offset(u16 *arg0, s32 arg1, s32 *arg2);
 }
-void append_music_stream_segment(u8 *arg0, s32 arg1, s32 arg2);
+void ADXT_EntryAfs(u8 *arg0, s32 arg1, s32 arg2);
 extern "C" {
 void inl_803C9608(void);
 }

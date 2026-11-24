@@ -28,7 +28,7 @@ u8 ppp_option_byte_buf[1];
 u8 ppp_option_word_buf[4];
 
 #define PCO_RD16(p) (ppp_buffer_read((p), ppp_option_word_buf, 2) != 2 ? -1 : read_network_u16_be(ppp_option_word_buf))
-#define PCO_RD32(p) (ppp_buffer_read((p), ppp_option_word_buf, 4) != 4 ? 0 : TLobby__sub_80402AFC(ppp_option_word_buf))
+#define PCO_RD32(p) (ppp_buffer_read((p), ppp_option_word_buf, 4) != 4 ? 0 : read_network_u32_be(ppp_option_word_buf))
 #define PCO_RD8(p) (ppp_buffer_read((p), ppp_option_byte_buf, 1) != 1 ? -1 : (s16)ppp_option_byte_buf[0])
 
 void NetStoreCurrentThread(s32 *thread) {
@@ -94,18 +94,18 @@ void NetSuspendCurrentThread(void) {
 }
 
 /* Cancels the thread unless it already terminated. */
-void cancel_thread_if_running(void *thread) {
+void AT_TerminateTask(void *thread) {
     saddr handle = (saddr)thread;
     if (OSIsThreadTerminated((OSThread*)thread) == 0) {
         OSCancelThread((OSThread*)handle);
     }
 }
 
-void NetResumeThread(uaddr thread) {
+void AT_StartTask(uaddr thread) {
     OSResumeThread((OSThread*)thread);
 }
 
-void deactivate_entry_by_key(u32 key) {
+void AT_DeleteTask(u32 key) {
     NetworkThreadSlot *p;
     u16 n = lobby_thread_pool_count;
     NetworkThreadSlot *base = lobby_thread_pool_base;
@@ -120,7 +120,7 @@ void deactivate_entry_by_key(u32 key) {
     }
 }
 
-s16 TLobby__sub_803F9B94(NetThreadEntry entry, NetThreadHandle *out_key) {
+s16 AT_CreateTask(NetThreadEntry entry, NetThreadHandle *out_key) {
     u16 n = lobby_thread_pool_count;
     NetworkThreadSlot *tbl = lobby_thread_pool_base;
     s32 i;
@@ -273,11 +273,11 @@ Ipv6cpOptionSet ipv6cp_default_options = {0};
 /* inferred: the default option mask of both IPv6CP option blocks, one bit per option type (6: types 1 and 2, the
  * types ipv6cp_option_lengths gives lengths 10 and 6, Interface-Identifier and IPv6-Compression-Protocol). */
 s16 ipv6cp_default_option_flags = 6;
-PppFrame *TLobby__sub_803FABDC(PppFsm *self);
-s16 TLobby__sub_803FA4A4(PppFsm *self, PppHeader *src, PppFrame *h);
-s16 TLobby__sub_803FA7B0(PppFsm *self, PppHeader *src, PppFrame *h);
-s16 TLobby__sub_803FA318(PppFsm *self, PppHeader *src, PppFrame *h);
-void TLobby__sub_803F9FAC(PppProtoBlocks *connection) {
+PppFrame *build_ipv6cp_config_request(PppFsm *self);
+s16 recv_ipv6cp_config_nak(PppFsm *self, PppHeader *src, PppFrame *h);
+s16 recv_ipv6cp_config_request(PppFsm *self, PppHeader *src, PppFrame *h);
+s16 recv_ipv6cp_config_reject(PppFsm *self, PppHeader *src, PppFrame *h);
+void init_ipv6cp_protocol(PppProtoBlocks *connection) {
     Ipv6cpOptionSet *src = &ipv6cp_default_options;
     PppFsmProtocol *base = &ppp_ipv6cp_protocol_state.proto;
     PppFsm *sub;
@@ -291,17 +291,17 @@ void TLobby__sub_803F9FAC(PppProtoBlocks *connection) {
     base->max_peer_attempts = 5;
     base->max_terminate_attempts = 5;
     base->timeout = 0xBB8;
-    base->release_resources = TLobby__sub_803FA234;
-    base->reset_options = TLobby__sub_803FA2A8;
-    base->start_negotiation = TLobby__sub_803FA238;
-    base->link_opened = init_net_state_entry;
-    base->link_closed = TLobby__sub_803FA280;
+    base->release_resources = ipv6cp_release_resources;
+    base->reset_options = ipv6cp_reset_options;
+    base->start_negotiation = ipv6cp_start_negotiation;
+    base->link_opened = ipv6cp_opening;
+    base->link_closed = ipv6cp_link_closed;
     base->finish_termination = NetIPv6CPCancelTimer;
-    base->build_config_request = TLobby__sub_803FABDC;
-    base->check_config_request = TLobby__sub_803FA7B0;
+    base->build_config_request = build_ipv6cp_config_request;
+    base->check_config_request = recv_ipv6cp_config_request;
     base->check_config_ack = verify_message_sequence;
-    base->check_config_nak = TLobby__sub_803FA4A4;
-    base->check_config_reject = TLobby__sub_803FA318;
+    base->check_config_nak = recv_ipv6cp_config_nak;
+    base->check_config_reject = recv_ipv6cp_config_reject;
 
     sub = &connection->ipv6cp;
     sub->blocks = connection;
@@ -313,7 +313,7 @@ void TLobby__sub_803F9FAC(PppProtoBlocks *connection) {
     blk->peer.current = *src;
     blk->peer.requested = *src;
     blk->peer.flags = ipv6cp_default_option_flags;
-    TLobby__sub_803FD694(sub);
+    fsm_init(sub);
 }
 
 s16 clear_flag_bit4(s32 unused, Ipv6cpOptions *opts) {
@@ -342,16 +342,16 @@ s16 NetIPv6CPSetInterfaceIdentifier(Ipv6cpOptions *state, u8 *ident) {
     return 0;
 }
 
-void TLobby__sub_803FA234(PppFsm *fsm) {
+void ipv6cp_release_resources(PppFsm *fsm) {
 
 }
 
-void TLobby__sub_803FA238(PppFsm *entry) {
+void ipv6cp_start_negotiation(PppFsm *entry) {
     *((s8 *)entry + 0xA) = 0;
     *(s8 *)((s8 *)entry + 0xB) = 0;
 }
 
-void init_net_state_entry(PppFsm *entry) {
+void ipv6cp_opening(PppFsm *entry) {
     s8 *entry_s8 = (s8 *)entry;
   s8 *new_var;
   new_var = (s8 *) (((s8 *) entry_s8) + ((0, 0)));
@@ -359,7 +359,7 @@ void init_net_state_entry(PppFsm *entry) {
   *new_var = 5;
 }
 
-void TLobby__sub_803FA280(PppFsm *fsm) {
+void ipv6cp_link_closed(PppFsm *fsm) {
 
 }
 
@@ -367,7 +367,7 @@ void NetIPv6CPCancelTimer(PppFsm *entry) {
     lobby_timer_stop(&entry->timer);
 }
 
-void TLobby__sub_803FA2A8(PppFsm *o) {
+void ipv6cp_reset_options(PppFsm *o) {
     Ipv6cpConfig *q = o->opts;
     q->local.requested = q->local.current;
     q->local.requested.words[2] = q->peer.current.words[0];
@@ -380,7 +380,7 @@ void TLobby__sub_803FA2A8(PppFsm *o) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-s16 TLobby__sub_803FA318(PppFsm *self, PppHeader *src, PppFrame *h) {
+s16 recv_ipv6cp_config_reject(PppFsm *self, PppHeader *src, PppFrame *h) {
     Ipv6cpConfig *m = self->opts;
     s32 cnt = src->len;
     s16 k;
@@ -421,7 +421,7 @@ s16 NetIPv6CPParseConfigureOption(PppFrame **self, Ipv6cpConfig *out, Ipv6cpOpti
 #pragma dont_inline off
 #pragma inline_depth(4)
 #pragma opt_common_subs on
-s16 TLobby__sub_803FA4A4(PppFsm *self, PppHeader *src, PppFrame *h) {
+s16 recv_ipv6cp_config_nak(PppFsm *self, PppHeader *src, PppFrame *h) {
     Ipv6cpConfig *bits;
     Ipv6cpOptions *p;
     s32 cnt;
@@ -473,7 +473,7 @@ inline uaddr build_requested_options(Ipv6cpOptions *opts) {
     if (t == 0) {
         return v;
     }
-    TLobby__sub_803FACD8(&t, &opts->requested, opts->requested.mask);
+    append_masked_ipv6cp_options(&t, &opts->requested, opts->requested.mask);
     v = t;
     return v;
 }
@@ -518,7 +518,7 @@ s16 verify_message_sequence(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-s16 TLobby__sub_803FA7B0(PppFsm *self, PppHeader *src, PppFrame *h)
+s16 recv_ipv6cp_config_request(PppFsm *self, PppHeader *src, PppFrame *h)
 {
   u32 sh;
   PppFrame *blk;
@@ -562,7 +562,7 @@ s16 TLobby__sub_803FA7B0(PppFsm *self, PppHeader *src, PppFrame *h)
       sh = ppp_configure_option_bit(pair[0]);
       m->peer.requested.mask |= 1 << sh;
     }
-    TLobby__sub_803FADA0(&blk, &m->peer.requested, pair[0], pair[1], &h);
+    append_ipv6cp_option(&blk, &m->peer.requested, pair[0], pair[1], &h);
     if (res > 3)
     {
       ppp_fsm_send_packet(self, state, src->id, blk);
@@ -659,7 +659,7 @@ s16 NetIPv6CPParseConfigureOption(PppFrame **self, Ipv6cpConfig *out, Ipv6cpOpti
 
 /* Option lengths indexed by IPv6CP option number. */
 u8 ipv6cp_option_lengths[16] = {0x00, 0x0A, 0x06, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x00, 0x06, 0x00, 0x00, 0x00, 0x00};
-PppFrame *TLobby__sub_803FABDC(PppFsm *self) {
+PppFrame *build_ipv6cp_config_request(PppFsm *self) {
     s16 i;
     s16 bits;
     u8 *s;
@@ -682,7 +682,7 @@ PppFrame *TLobby__sub_803FABDC(PppFsm *self) {
     s = ipv6cp_option_lengths + 1;
     for (i = 1; i < 0x20; i++) {
         if (bits & (1 << i)) {
-            TLobby__sub_803FADA0(&obj, &p->local.requested, (i < 8) ? i : ((i < 0x20) ? i + 0x78 : 0), *s, NULL);
+            append_ipv6cp_option(&obj, &p->local.requested, (i < 8) ? i : ((i < 0x20) ? i + 0x78 : 0), *s, NULL);
         }
         s++;
     }
@@ -703,7 +703,7 @@ inline s32 optnum_803FACD8(s32 bit) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-void TLobby__sub_803FACD8(uaddr *self, Ipv6cpOptionSet *opts, s32 mask)
+void append_masked_ipv6cp_options(uaddr *self, Ipv6cpOptionSet *opts, s32 mask)
 {
   s16 new_var;
   s16 i;
@@ -721,13 +721,13 @@ void TLobby__sub_803FACD8(uaddr *self, Ipv6cpOptionSet *opts, s32 mask)
   {
     if (m & (1 << i))
     {
-      TLobby__sub_803FADA0((PppFrame **) self, opts, optnum_803FACD8(i), ipv6cp_option_lengths[i], 0);
+      append_ipv6cp_option((PppFrame **) self, opts, optnum_803FACD8(i), ipv6cp_option_lengths[i], 0);
     }
   }
 
 }
 #pragma pop
-void TLobby__sub_803FADA0(PppFrame **pbuf, Ipv6cpOptionSet *opts, s32 type, s32 total_len, void *src) {
+void append_ipv6cp_option(PppFrame **pbuf, Ipv6cpOptionSet *opts, s32 type, s32 total_len, void *src) {
     u8 *p;
     PppFrame *b;
     s16 n;

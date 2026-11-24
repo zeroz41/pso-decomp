@@ -300,7 +300,7 @@ int TTcpSocket::open() {
 
 extern "C" {
 s32 get_csn_group_flags(s32);
-s16 TLobby__sub_8040A698(s16, void *, void *, int, void *, int);
+s16 dns_get_addr(s16, void *, void *, int, void *, int);
 }
 
 int TSocket::is_empty() {
@@ -357,7 +357,7 @@ int TSocket::resolve_domain(const char *domain) {
             spA = 1;
             sp8 = 0;
             do {
-                result = TLobby__sub_8040A698(handle, &spC, &spA, 0, &sp8, -1);
+                result = dns_get_addr(handle, &spC, &spA, 0, &sp8, -1);
                 count++;
                 if (count > 0x1518) {
                     break;
@@ -401,7 +401,7 @@ int TSocket::resolve_domain(const char *domain) {
                 ret = 6;
                 break;
             }
-            close_connection_by_index(handle);
+            dns_close(handle);
         } else {
             set_ip_address(0);
             ret = 4;
