@@ -389,7 +389,6 @@ struct TObjPlayer : public TObjChara {
     void clear_header_struct();
     static void set_com_card_window(s32 client);
     static s32 check_demo_mode();
-    static s32 is_locally_controlled(void *player);
     static TItem *get_equipped_weapon(void *player);  // equipped_items[6]
     static TObjPlayer *get_player_data(int index);
     void queue_destruction();
@@ -613,7 +612,7 @@ struct TObjPlayer : public TObjChara {
     void send_6x4F_revived();
     void update_timer_action();
     void update_active_state();
-    static void send_6x4E_player_revivable(saddr arg0);
+    void send_6x4E_player_revivable();
     void update_action_render();
     void reset_on_death();
     void exit_death_state();
@@ -786,7 +785,7 @@ struct TObjPlayer : public TObjChara {
     s32 tick_countdown_timer();
     s16 get_obj_id();
     void set_action_palette_state_mode(u8 mode);
-    static void clear_flag_128(void* p);
+    void clear_flag_128();
     static s32 decrement_timer(s32 *timer);
     static void reset_particle_ctrl(s32 *ctrl);
     void*init_sub_objects();
@@ -1164,7 +1163,7 @@ struct TObjPlayer : public TObjChara {
     void bswap_and_send_set_floor();
     void bswap_warp_packet();
     void update_warp_relocation();
-    static s32 try_camera_action(saddr player, s32 arg1);
+    s32 try_camera_action(s32 tech);
     void bswap_entry_list();
     static void update_party_cursors(saddr cursors, s32 result);
     void init_action_config();
@@ -1274,9 +1273,8 @@ struct TObjPlayer : public TObjChara {
     // Calls callback with each occupied entry of the player table.
     static void for_each_player_slot(void (*callback)(void *));
     static void send_code50_packet(int);
-    static void send_object_id_packet(TObjPlayer *player);
+    void send_object_id_packet();
     void update_action_state();
-    static void release_control_lock(void *);
     s32 reset_volopt_state();
     s32 is_flag30_8_set();
     s32 is_flag30_10_set();
