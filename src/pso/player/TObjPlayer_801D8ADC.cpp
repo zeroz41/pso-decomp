@@ -58,27 +58,27 @@ extern const Vec *guild_return_position_table_by_episode[];
 s32 *TObjPlayer::get_getup_protection_ticks() {
     if (get_main_phase() == 0xF) {
         if (obj_isState3_324() != 0) {
-            return (s32 *)player_getup_protection_ticks_table_flagged[game_difficulty_selection];
+            return (s32 *)(saddr)player_getup_protection_ticks_table_flagged[game_difficulty_selection];
         }
-        return (s32 *)player_getup_protection_ticks_table[game_difficulty_selection];
+        return (s32 *)(saddr)player_getup_protection_ticks_table[game_difficulty_selection];
     }
     if (obj_isState3_324() != 0) {
-        return (s32 *)getup_protection_ticks_table_b[game_difficulty_selection];
+        return (s32 *)(saddr)getup_protection_ticks_table_b[game_difficulty_selection];
     }
-    return (s32 *)getup_protection_ticks_table_a[game_difficulty_selection];
+    return (s32 *)(saddr)getup_protection_ticks_table_a[game_difficulty_selection];
 }
 
 s32 *TObjPlayer::get_hurt_protection_ticks() {
     if (get_main_phase() == 0xF) {
         if (obj_isState3_324() != 0) {
-            return (s32 *)hurt_protection_ticks_table[game_difficulty_selection];
+            return (s32 *)(saddr)hurt_protection_ticks_table[game_difficulty_selection];
         }
-        return (s32 *)player_hurt_protection_ticks_table_phase15[game_difficulty_selection];
+        return (s32 *)(saddr)player_hurt_protection_ticks_table_phase15[game_difficulty_selection];
     }
     if (obj_isState3_324() != 0) {
-        return (s32 *)player_hurt_protection_ticks_table_flagged[game_difficulty_selection];
+        return (s32 *)(saddr)player_hurt_protection_ticks_table_flagged[game_difficulty_selection];
     }
-    return (s32 *)player_hurt_protection_ticks_table[game_difficulty_selection];
+    return (s32 *)(saddr)player_hurt_protection_ticks_table[game_difficulty_selection];
 }
 
 s32 TObjPlayer::get_lobby_entry_yaw() {
