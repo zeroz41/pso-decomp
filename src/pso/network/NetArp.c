@@ -232,7 +232,7 @@ extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
         NetMemcpy(out.tha, in.sha, hit->hlen);
         NetMemcpy(out.spa, in.tpa, hit->plen);
         NetMemcpy(out.tpa, in.spa, hit->plen);
-        call_handler_by_index(hit->handler, c, 0, (saddr)in.sha, (saddr)r);
+        call_handler_by_index(hit->handler, c, 0, in.sha, r);
         if (r != NULL) {
           release_entry(r);
         }
@@ -313,7 +313,7 @@ inline void send_arp_request(ArpIface *e, void *name) {
         NetMemcpy(o.spa, e->paddr, e->plen);
         NetMemset(o.tha, 0, e->hlen);
         NetMemcpy(o.tpa, name, e->plen);
-        call_handler_by_index(e->handler, e->arp_socket, 1, 0, (saddr)r);
+        call_handler_by_index(e->handler, e->arp_socket, 1, 0, r);
         if (r != NULL) {
             release_entry(r);
         }
@@ -336,7 +336,7 @@ s16 arp_resolve_and_send(s16 idx, void *name, void *pkt) {
     if (p != NULL) {
         p->timer = t->timeout;
         if (p->state != 1) {
-            ret = call_handler_by_index(e->handler, e->socket, 0, (saddr)p->haddr, (saddr)pkt);
+            ret = call_handler_by_index(e->handler, e->socket, 0, p->haddr, pkt);
         } else {
             if (p->hold != NULL) {
                 release_hold(p);
@@ -702,7 +702,7 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
                 p->total_bytes = e->hold->len;
                 p->fragments[0].length = e->hold->len;
                 set_value_and_enable(&p->fragments[0].buffer, e->hold->data);
-                call_handler_by_index(handler, socket, 0, (saddr)e->haddr, (saddr)p);
+                call_handler_by_index(handler, socket, 0, e->haddr, p);
                 release_entry(p);
             }
         }

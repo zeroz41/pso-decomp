@@ -71,9 +71,9 @@ extern s16 AT_IP4_PktSend(NetPacket *self, u32 key, s16 id) {
         return -6;
     }
     if (key == 0 || is_ipv4_broadcast(id, key)) {
-        return call_handler_by_index(id, e->handle, 1, (saddr)&key, (saddr)self);
+        return call_handler_by_index(id, e->handle, 1, &key, self);
     }
-    return dispatch_handler_by_index(id, e->handle, (saddr)&key, (saddr)self);
+    return dispatch_handler_by_index(id, e->handle, &key, self);
 }
 #pragma push
 #pragma opt_common_subs on

@@ -65,7 +65,7 @@ s16 NetIPv6OutputToLinkAddress(NetPacket *packet, u8 *link_address, s16 iface) {
     if (ifc->state != 1) {
         return -6;
     }
-    return call_handler_by_index(iface, ifc->handle, 0, (saddr)link_address, (saddr)packet);
+    return call_handler_by_index(iface, ifc->handle, 0, link_address, packet);
 }
 
 s16 NetIPv6OutputToDestination(NetPacket *packet, IPv6Address *destination, s16 iface) {
@@ -77,7 +77,7 @@ s16 NetIPv6OutputToDestination(NetPacket *packet, IPv6Address *destination, s16 
     if (ifc->state != 1) {
         return -6;
     }
-    return call_handler_by_index(iface, ifc->handle, 2, (saddr)destination, (saddr)packet);
+    return call_handler_by_index(iface, ifc->handle, 2, destination, packet);
 }
 
 s32 NetIPv6HandleRoutingEvent(s16 id, int n, void *pp);
