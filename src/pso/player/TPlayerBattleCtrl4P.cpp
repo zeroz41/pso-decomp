@@ -766,7 +766,7 @@ void TPlayerBattleCtrl4P::apply_rule_configuration(s32 use_rules) {
     ((TObjPlayer *)lobby_rule_settings)->set_level(((s8 *) rule_data)[0x12]);
     TLobby::set_field_0xE(lobby_rule_settings, rule_data[0x13]);
     ((TLobby *)lobby_rule_settings)->set_volume((u8)(((u8) (*((s32 *) (((s8 *) rule_data) + 0x18))))));
-    ((TLobby *)lobby_rule_settings)->set_validated_field_0x11((u8)(((u8) (*((s32 *) (((s8 *) rule_data) + 0x1C))))));
+    ((TLobby *)lobby_rule_settings)->set_max_tech_level((u8)(((u8) (*((s32 *) (((s8 *) rule_data) + 0x1C))))));
     ((TLobby *)lobby_rule_settings)->set_clamped_index((s16)(((s16) (*((s32 *) (((s8 *) rule_data) + 0x20))))));
     ((TLobby *)lobby_rule_settings)->set_clamped_value_1c((saddr)((*((s32 *) (((s8 *) rule_data) + 0x24)))));
     fn_801D726C(lobby_rule_settings, ((u8) (*((s16 *) (((s8 *) rule_data) + 0x28)))));

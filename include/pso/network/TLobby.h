@@ -258,7 +258,7 @@ struct TLobby : public TObject {
     void send_6x7D_set_battle_mode_data();
     void update_all_children();
     void set_volume(u8 vol);
-    void set_validated_field_0x11(u8 value);
+    void set_max_tech_level(u8 level);
     s16 clamp_player_index();
     void set_clamped_index(s16 level);
     void set_clamped_value_1c(s32 value);

@@ -856,7 +856,7 @@ void TLobby::apply_game_settings(s32 owner, s32 use_config) {
         ((TObjPlayer *)lobby_rule_settings)->set_level(CFG->lvl);
         TLobby::set_field_0xE(lobby_rule_settings, CFG->d13);
         ((TLobby *)lobby_rule_settings)->set_volume((u8) CFG->vol);
-        ((TLobby *)lobby_rule_settings)->set_validated_field_0x11((u8) CFG->v1c);
+        ((TLobby *)lobby_rule_settings)->set_max_tech_level((u8) CFG->v1c);
         ((TLobby *)lobby_rule_settings)->set_clamped_index((s16) CFG->v20);
         ((TLobby *)lobby_rule_settings)->set_clamped_value_1c(CFG->v24);
         fn_801D726C(lobby_rule_settings, (u8) CFG->v28);

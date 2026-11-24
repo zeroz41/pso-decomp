@@ -57,14 +57,14 @@ u8 TLobby__sub_801D6DDC(void *arg0) {
     return v;
 }
 
-void TLobby::set_validated_field_0x11(u8 value) {
-    u8 var_r31;
+void TLobby::set_max_tech_level(u8 level) {
+    u8 max_level;
 
-    var_r31 = value;
-    if ((TObjPlayer::is_invalid_slot(var_r31) == 0) && (var_r31 > 0x1DU)) {
-        var_r31 = 0;
+    max_level = level;
+    if ((TObjPlayer::is_invalid_slot(max_level) == 0) && (max_level > 0x1DU)) {
+        max_level = 0;
     }
-    *(u8 *)((s8 *)this + 0x11) = var_r31;
+    *(u8 *)((s8 *)this + 0x11) = max_level;
 }
 
 s16 TLobby::clamp_player_index() {
