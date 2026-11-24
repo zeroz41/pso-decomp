@@ -1545,6 +1545,11 @@ struct TObjPlayer : public TObjChara {
     s32 get_regen_timer();
     int is_motion_paused();
     // End of placeholder-named members.
+
+    // Per-part init steps: from a joining player's record and from a saved character.
+    void init_session_technique_caps(void *record);
+    void init_saved_technique_caps(TPlyCharData *record);
+    void init_session_area_sync(void *record);
 };
 
 #include <stddef.h>

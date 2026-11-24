@@ -73,8 +73,6 @@ TObjPlayer::~TObjPlayer() {
 
 extern "C" {
 void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record);
-void init_session_technique_caps__10TObjPlayerFPvPv(void *, void *);
-void TObjPlayer__sub_801BCAB0(void *, void *);
 void init_player_telepipe_record(void *);
 void TObjPlayer__sub_801BBB70(void *, void *);
 extern const char *lbl_805D3530;
@@ -142,9 +140,9 @@ TObjPlayer::TObjPlayer(TObject *parent, void *record) : TObjChara(parent) {
     clear_lock_on_cursor(record);
     init_model_buffer_and_actions(record);
     is_flag_set_550(record);
-    init_session_technique_caps__10TObjPlayerFPvPv(this, record);
+    init_session_technique_caps(record);
     this->init_from_source((u8 *)record);
-    TObjPlayer__sub_801BCAB0(this, record);
+    init_session_area_sync(record);
     init_battle(record);
     TObjPlayer__sub_801BBB70(this, record);
     this->init_class_flags((saddr)record);
@@ -153,7 +151,6 @@ TObjPlayer::TObjPlayer(TObject *parent, void *record) : TObjChara(parent) {
 }
 
 extern "C" {
-s32 TObjPlayer__sub_801BCA14(void *, void *);
 u8 get_byte_157(void *);
 u8 get_byte_13b(void *);
 u8 get_byte_11f(void *);
@@ -199,7 +196,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     this->create_lockon_cursor();
     this->sub_801BD318();
     this->init_control_mode(role);
-    TObjPlayer__sub_801BCA14(this, record);
+    init_saved_technique_caps(record);
     init_player_substructs(reinterpret_cast<u8 *>(&record->m_config));
     this->load_character_state(record);
     this->update_if_active();

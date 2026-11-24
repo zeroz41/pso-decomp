@@ -150,46 +150,43 @@ void TObjPlayer::assign_owner_ids() {
     chair_seat.set_owner_id(get_entity_id());
 }
 
-extern "C" {
 // A remote player's technique levels (with their bonus) and status effects.
-void init_session_technique_caps__10TObjPlayerFPvPv(TObjPlayer *player, PlayerSessionTechniques *src) {
+void TObjPlayer::init_session_technique_caps(void *record) {
+    PlayerSessionTechniques *src = (PlayerSessionTechniques *)record;
     s32 i;
 
-    TObjPlayer__sub_801C1F78(&player->photon_blast_gauge, player->get_entity_id());
-    init_class_technique_caps(&player->technique_state, get_class_index__10TObjPlayerFv(player));
-    ((TObjPlayer *)&player->technique_state)->copy_all_technique_entries((void *)0x1D);
+    TObjPlayer__sub_801C1F78(&photon_blast_gauge, get_entity_id());
+    init_class_technique_caps(&technique_state, get_class_index__10TObjPlayerFv(this));
+    ((TObjPlayer *)&technique_state)->copy_all_technique_entries((void *)0x1D);
     for (i = 0; i < 0x13; i++) {
-        set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(player, src->technique_levels[i] + src->technique_bonus[i].level_bonus, i);
+        set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(this, src->technique_levels[i] + src->technique_bonus[i].level_bonus, i);
     }
     for (i = 0; i < 5; i++) {
-        TObjPlayer__sub_801BEF44(&player->status_effects[i], &src->status_effects[i]);
+        TObjPlayer__sub_801BEF44(&status_effects[i], &src->status_effects[i]);
     }
-}
 }
 
 void TObjPlayer::reset_technique_caps() {}
 
 void TObjPlayer::release_technique_caps() {}
 
-extern "C" {
-s32 get_record_byte_at(void *record, s32 index);
+extern "C" s32 get_record_byte_at(void *record, s32 index);
 
 // A saved character's technique levels.
-void TObjPlayer__sub_801BCA14(TObjPlayer *player, void *record) {
+void TObjPlayer::init_saved_technique_caps(TPlyCharData *record) {
     s32 i;
 
-    TObjPlayer__sub_801C1F78(&player->photon_blast_gauge, player->get_entity_id());
-    init_class_technique_caps(&player->technique_state, get_class_index__10TObjPlayerFv(player));
-    ((TObjPlayer *)&player->technique_state)->copy_all_technique_entries((void *)0x1D);
+    TObjPlayer__sub_801C1F78(&photon_blast_gauge, get_entity_id());
+    init_class_technique_caps(&technique_state, get_class_index__10TObjPlayerFv(this));
+    ((TObjPlayer *)&technique_state)->copy_all_technique_entries((void *)0x1D);
     i = 0;
     do {
-        set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(player, ((TObjPlayer *)record)->get_slot_value_checked(i) + get_record_byte_at(record, i), i);
+        set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(this, ((TObjPlayer *)record)->get_slot_value_checked(i) + get_record_byte_at(record, i), i);
         i += 1;
     } while (i < 0x13);
 }
 
-void TObjPlayer__sub_801BCAB0(void) {}
-}
+void TObjPlayer::init_session_area_sync(void *record) {}
 
 void TObjPlayer::update_state() {
     if (obj_isState2_324() != 0) {
