@@ -2,10 +2,9 @@
 #include "pso/ui/frontend/TAdDialingGC_801A4C90.h"
 #include "pso/unk/TUnk_804C2298.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
+#include "pso/player/PlayerActionProvider.h"
 
-extern int player_action_provider_selector;
-
-void TAdDialingGC__sub_801A4C90(void) { player_action_provider_selector = 1; }
+void select_game_player_actions(void) { player_action_provider_selector = 1; }
 
 TAdDialingGC *TAdDialingGC__sub_801A4C9C(void) {
     return TAdDialingGC__instance;

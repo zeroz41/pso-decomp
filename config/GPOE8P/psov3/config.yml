@@ -632,7 +632,7 @@ force_active:
   - lobby_player_names
   - player_setup_pending__6TLobby
   - state_handler_pmf_table
-  - TLobby__sub_8001D9E8
+  - clear__9AramBlockFv
   - TLobby__sub_8001DBD8
   - TLobby__sub_8001DF58
   - TLobby__sub_8001E270
@@ -697,8 +697,8 @@ force_active:
   - refresh_challenge_windows__12TChallenge4PFv
   - __dt__12TChallenge4PFv
   - TLobby__sub_8029A16C
-  - TLobby__sub_802A7640
-  - zero_pair_fields
+  - free_game_action_motion_buffer__Fv
+  - clear__21PlayerMotionAramEntryFv
   - stamp_joyboot_image
   - probe_gba_device
   - TLobby__sub_8032CDC0
@@ -3848,7 +3848,7 @@ force_active:
   - aim_toward_point__11TBoss6Type2FPC3Vec
   - alerted_state__14TObjEneBm5WolfFl
   - all_children_gone__18TObjEneEpsilonBodyFv
-  - alloc_boss4rock_buffer__6TLobbyFv
+  - alloc_game_action_motion_buffer__Fv
   - alloc_boss_target_slot__16TBoss3VoloptCoreFv
   - alloc_breakup_model__13TBoss7BreakUpFP10NJS_OBJECT
   - alloc_breakup_piece_records__15TBreakUpMdlDataFP10NJS_OBJECT
@@ -3857,7 +3857,7 @@ force_active:
   - alloc_download_quest__6TLobbyFlPl
   - alloc_global_buffer
   - allocate_bml_chunk
-  - alloc_work_buffer__6TLobbyFv
+  - alloc_lobby_action_motion_buffer__Fv
   - allocate_network_info_cipher_key__Fl
   - allocate_trail_buffer__17TItemEffectWeaponFv
   - allow_rendering_shadows__7TObjectFv
@@ -5366,7 +5366,7 @@ force_active:
   - copy_from__18TextureUvAnimationFP18TextureUvAnimation
   - copy_matrix__22TObjTombstoneDropRatesFPC22TObjTombstoneDropRates
   - copy_member_record__6TLobbyFPvPv
-  - copy_motion_pair__13TUnk_804DDD28FPv
+  - copy_motion_pair__20PlayerActionProviderFPv
   - copy_move_params__23TObjOnlineEndingHexMoveFP19EndingHexLineParamsPC19EndingHexLineParams
   - copy_network_info_cipher_block__FPUlPUl
   - copy_network_info_config_string__FPcPcUlUl
@@ -6190,7 +6190,7 @@ force_active:
   - find_free_chat_log_slot__6TLobbyFv
   - find_free_file_names__22TQuestVmDownLoadServerFv
   - find_free_pad_rumble_effect_slot__Fv
-  - find_free_pool_entry__6TLobbyFPv
+  - find_unused_block__8AramPoolFv
   - find_free_slot__6TLobbyFv
   - find_gsl_entry__FPCcl
   - find_gsl_entry__FPv
@@ -6481,7 +6481,7 @@ force_active:
   - free_objects__6TLobbyFv
   - free_parts__13TBoss5GryphonFv
   - free_resources__14TObjEneIllGillFv
-  - free_singleton_805D6C80__6TLobbyFv
+  - free_lobby_action_motion_buffer__Fv
   - free_team_buffers__6TLobbyFv
   - freeze_shell_grow__13TUnk_8048E1A4Fv
   - freeze_shell_hold__13TUnk_8048E1A4Fv
@@ -6624,7 +6624,7 @@ force_active:
   - get_evolution_stage__8TItemMagFv
   - get_evp__22PlayerAttackControllerFv
   - get_falz_phase__10TObjPlayerFv
-  - get_field_04__6TLobbyFv
+  - get_size__21PlayerMotionAramEntryFv
   - get_variant__11TBoss6Type2Fv
   - get_field_2__9TTecLukerFPv
   - prompt_was_accepted__16TCheckMemoryCardFv
@@ -6683,7 +6683,7 @@ force_active:
   - get_orbit_speed__16TBoss3VoloptCoreFl
   - get_pad_rumble_client__Fl
   - get_pad_rumble_effect_slots__Fv
-  - get_param__6TLobbyFv
+  - get_aram_addr__21PlayerMotionAramEntryFv
   - get_param__8TFogCtrlFv
   - get_part_group__12TBoss3VoloptFl
   - get_part_id__12TBoss3VoloptFl
@@ -8408,7 +8408,7 @@ force_active:
   - lbl_805D6AB0
   - recobox_attack_params
   - recobox_behavior_params
-  - lbl_805D6C80
+  - lobby_action_motion_buffer
   - lbl_805D6D80
   - lbl_805D6D84
   - lbl_805D6D88
@@ -8997,7 +8997,7 @@ force_active:
   - member_check_name_ptr
   - memcard_check_snapshot
   - menu_font_render_rects
-  - merge_adjacent_free_blocks__6TLobbyFv
+  - merge_free_blocks__8AramPoolFv
   - message_tag_error
   - message_thread_loop__6TLobbyFv
   - message_window_position
@@ -9408,7 +9408,7 @@ force_active:
   - play_voice__12TObjNpcARW00Fv
   - play_voice__20TObjNpcCloakroomBaseFv
   - play_walk_sound__12TObjEneLappyFv
-  - player_action_motion_buffer
+  - game_action_motion_buffer
   - player_anim_table_pointers
   - player_asset_PLATEX_AFS
   - player_asset_PLBTEX_AFS
@@ -15358,7 +15358,7 @@ force_active:
   - send_obj_position_event__10TEndingPicFl
   - send_packed_action__11TBoss4Type3Flll
   - send_packet_60__6TLobbyFi
-  - send_packet__6TLobbyFllll
+  - load_motion__20PlayerActionProviderFllll
   - send_partner_attack_stage_request__10TNpcPlayerFv
   - send_position__12TBoss3VoloptFP10TObjPlayerP3Vecl
   - send_position_update__6TLobbyFv
@@ -15380,7 +15380,7 @@ force_active:
   - send_switch_changed__8TOKeyColFl
   - send_switch_on__12TOSwitchItemFv
   - send_trade_busy_reply__Fl
-  - send_type2_event__6TLobbyFlll
+  - read_player_motion__FlPvl
   - send_walk_request__10TNpcPlayerFv
   - sensor_ancient01_model_resource
   - sensor_general_shared_bml_archive
@@ -15574,7 +15574,7 @@ force_active:
   - set_selected_card__17TWindowSubComCardFl
   - set_selection_index__18TObjItemNameSelectFi
   - set_slot_min_clamped_value__16TObjEneMe3StelthFlf
-  - set_slot_position__6TLobbyFii
+  - get_player_motion_entry__FlP21PlayerMotionAramEntry
   - set_sound_effect_gain__19TWindowSoundBalanceFs
   - set_speed_params__12TObjEneLappyFl
   - set_split_screen_name__6TLobbyFi

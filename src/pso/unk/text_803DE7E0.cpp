@@ -1,7 +1,6 @@
 #include "types.h"
 #include <string.h>
 #include "pso/unk/text_803DE7E0.h"
-#include "pso/unk/text_803DE864.h"
 #include "pso/unk/text_803DE8BC.h"
 #include "pso/system/AllocatorCallbacks.h"
 #include "pso/system/memory.h"
@@ -44,8 +43,8 @@ void * xmalloc(u32 bytes) {
 }
 #pragma pop
 
-u8 *fn_803DE864(s32 a, s32 b) {
-    return (u8 *)global_allocator->allocate_zeroed(a, b);
+void *xcalloc(s32 count, s32 size) {
+    return global_allocator->allocate_zeroed(count, size);
 }
 
 #pragma push

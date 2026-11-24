@@ -42,7 +42,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
-#include "pso/unk/TLobby_802A7290.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/ui/window/TWindowCtrl.h"
@@ -80,6 +79,7 @@
 #include "pso/network/client_id.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/object/base/ActorCollision.h"
+#include "pso/player/PlayerActionProvider.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -132,7 +132,6 @@ s32 unlock_main_warp_destination();
 s32 load_area_scene_and_init(void *);
 s32 run_load_callback_table(void *, s32);
 void TLobby__sub_801A3E94(void);
-s32 TAdDialingGC__sub_801A4C90();
 s32 TKeyBoardControl__sub_8000F90C(int);
 int set_queued_main_phase(int);
 s32 run_join_lobby_connect__6TLobbyFi(void *);
@@ -161,7 +160,7 @@ void clear_received_symbol_chat(void);
 // back to front (TLobby::call_funcs_reverse).
 FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
     {TAdSelectGameModeGC__sub_802C478C, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
-    {TLobby::enable_and_refresh, disable_and_free_boss4rock_buffer},
+    {init_game_player_actions, release_game_player_actions},
     {TObjPlayer::init_shared, TObjPlayer::finalize_shared},
     {TLobby::clear_story_flags_and_reset_camera, TLobby::clear_story_flag_list},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
@@ -512,7 +511,7 @@ void change_floor_reload_area(void) {
     if (new_game_setup_flags & 1) {
         new_game_setup_flags &= ~1;
         reset_enemy_and_object_ids();
-        TAdDialingGC__sub_801A4C90();
+        select_game_player_actions();
         TLobby__sub_80207E24(game_variations, 0x80);
         apply_phase_keyboard_mode();
         run_load_callback_table(lobby_area_reload_callbacks, sizeof(lobby_area_reload_callbacks));
@@ -580,7 +579,7 @@ void cleanup_online_lobby_scene(void) {
         run_area_scene_cleanup(&floor_transition_state);
     }
     TLobby::free_single_player_chr_select();
-    TLobby::update_photon_chairs();
+    release_lobby_player_actions();
     TLobby::call_funcs_reverse(lobby_area_reload_callbacks, sizeof(lobby_area_reload_callbacks));
     TLobby::call_funcs_reverse(online_lobby_scene_callback_table, sizeof(online_lobby_scene_callback_table));
     local_client_id = 0;

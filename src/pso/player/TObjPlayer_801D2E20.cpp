@@ -8,7 +8,7 @@
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/TUnk_804DDD28.h"
+#include "pso/player/PlayerActionProvider.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerActionPaletteState.h"

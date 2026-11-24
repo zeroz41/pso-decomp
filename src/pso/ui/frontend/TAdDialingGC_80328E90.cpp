@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_802A0F3C.h"
-#include "pso/unk/TUnk_804ED7D0.h"
+#include "pso/player/LobbyPlayerActionProvider.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdTitleTexGC.h"
@@ -21,7 +21,7 @@ void TAdDialingGC::open() {
     TLobby__sub_802A5154();
 }
 
-int TUnk_804ED7D0::get_run_action() {
+int LobbyPlayerActionProvider::get_run_action() {
     s32 t = ((TObjPlayer *)this)->is_handle_valid();
     s32 r = 2;
     if (t == 2) {
@@ -30,7 +30,7 @@ int TUnk_804ED7D0::get_run_action() {
     return r;
 }
 
-int TUnk_804ED7D0::vfunc_22() {
+int LobbyPlayerActionProvider::vfunc_22() {
     s32 t = ((TObjPlayer *)this)->is_handle_valid();
     s32 r = 1;
     if (t == 2) {
@@ -39,7 +39,7 @@ int TUnk_804ED7D0::vfunc_22() {
     return r;
 }
 
-int TUnk_804ED7D0::vfunc_23() {
+int LobbyPlayerActionProvider::vfunc_23() {
     return ((((TObjPlayer *)this)->is_handle_valid() - 2) == 0) ? 3 : 0;
 }
 

@@ -34,7 +34,6 @@
 #include "pso/map/FloorArea.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
-#include "pso/unk/TLobby_802A7290.h"
 #include "pso/unk/text_803000C8.h"
 #include "pso/unk/TLobby_80300098.h"
 #include "pso/unk/TLobby_80291D94.h"
@@ -102,6 +101,7 @@
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/npc/NpcPartnerControl.h"
+#include "pso/player/PlayerActionProvider.h"
 
 
 void TLobby::reset_keyboard_input() { TKeyBoardControl::reset(); TKeyBoardControl__sub_8000F92C(); clear_keyboard_key_state(); TKeyBoardControl__sub_8000F95C(); TLobby::clear_counter(); }
@@ -191,7 +191,7 @@ s32 TCameraCtrl::get_camera_no() {
 // back to front (TLobby::call_funcs_reverse).
 FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TAdSelectGameModeGC__sub_802C478C, (FloorResourceCallback)TAdSelectGameModeGC::call_enable_camera},
-    {TLobby::enable_and_refresh, disable_and_free_boss4rock_buffer},
+    {init_game_player_actions, release_game_player_actions},
     {TObjPlayer::init_shared, TObjPlayer::finalize_shared},
     {fn_803000C8, TLobby__sub_803000A0},
     {prepare_adventure_maps, TLobby__sub_802075F4},

@@ -1143,15 +1143,15 @@ void fn_800F93B4(char *filename, GslArchiveEntry *entries, s32 count) {
 TUnk_8049C658::~TUnk_8049C658() {}
 
 
-saddr TItemDrop__sub_800F9448(saddr data, s32 size) {
+void *relocate_rel_data(void *data, s32 size) {
     TUnk_8049C658 file;
 
     if (size > 0) {
         file.data = (u8 *)data;
         file.size = size;
-        return (saddr)apply_rel_relocations(&file);
+        return apply_rel_relocations(&file);
     }
-    return 0;
+    return NULL;
 }
 
 void *load_relocatable_file(const char *name, void *buffer) {
@@ -1202,18 +1202,18 @@ u32 decrypt_quest_data(void *src, s32 size, void *dst, u32 capacity) {
     return decompressed_size;
 }
 
-u32 TLobby::write_packet_header(s32 size, s32 dst, u32 capacity) {
+u32 QuestDownloadFile::decrypt(s32 size, void *dst, u32 capacity) {
     s32 rng[60];
-    u32 v0 = (u32)*(s32 *)&this->m_name;
-    s32 v4 = *(s32 *)&this->m_flags;
+    u32 v0 = decompressed_size;
+    s32 v4 = seed;
 
     if (v0 > capacity) {
         return 0U;
     }
     __ct__14SubtractiveRngFv(rng);
     subtractive_rng_seed(rng, v4);
-    subtractive_rng_xor_buffer(rng, (u32 *)&this->m_prev, size - 8);
-    prs_decompress_buffer((saddr)&this->m_prev, dst);
+    subtractive_rng_xor_buffer(rng, (u32 *)data, size - 8);
+    prs_decompress_buffer((saddr)data, (saddr)dst);
     return v0;
 }
 

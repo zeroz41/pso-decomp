@@ -12,10 +12,11 @@
 #include "pso/ui/frontend/TAdMcSelectGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_802A0F3C.h"
+#include "pso/player/PlayerActionProvider.h"
 
 // Load and release hooks run by run_load_callback_table / call_funcs_reverse.
 void (*lobby_floor_scene_callbacks[12])(void) = {
-    TLobby::update_photon_chair, TLobby::update_photon_chairs,
+    init_lobby_player_actions, release_lobby_player_actions,
     TLobby::alloc_download_server, TLobby::free_single_player_chr_select,
     register_texture_f256_ad_pic_2, TAdSinglePlyChrSelectGC::free_global,
     register_texture_f256_backtext, TAdSinglePlyChrSelectGC::free_singleton_805D65C0,

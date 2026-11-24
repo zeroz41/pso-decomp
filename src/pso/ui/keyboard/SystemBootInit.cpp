@@ -319,7 +319,7 @@ void init_game_systems(void) {
     TLobby::wait_for_sound_init();
     load_info_icon();
     alloc_item_drop_memory_pool();
-    TWindowSnapShot::alloc_buffer();
+    alloc_player_motion_aram();
     TAdWarningBaseGC::init_heap();
     TLobby::load_ask_dictionary();
     request_chara_making_archives();
