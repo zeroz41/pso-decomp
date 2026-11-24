@@ -104,7 +104,7 @@ void TObjPlayer::place_on_area_entry() {
     this->calc_attach_pos();
     ((TObjPlayer *)(arg0 + 0x84C))->copy_offset_position(arg0);
     this->set_position_history_entry(0, this->position.x, this->position.z);
-    clear_movement_history((MovementHistory *)&this->m_6ac);
+    clear_movement_history(&this->movement_history);
     if (TObjPlayer::is_single_screen() != 0) {
         reset_cameras_to_actor(this, 0);
     } else if (this->sub_801A1DDC() != 0) {
@@ -216,7 +216,7 @@ void TObjPlayer::init_action_provider() {
     reset_state();
     ::set_flag_400000(this);
     if (TObjPlayer::get_player_count() == 1) {
-        set_player_pk_mode_flag((u8 *)&m_828);
+        set_player_pk_mode_flag((u8 *)&pk_state);
     }
 }
 

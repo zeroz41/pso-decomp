@@ -872,7 +872,6 @@ void *TObjPlayer__sub_801BFAD4(void *timer, s16 flags) {
 #pragma pop
 
 extern "C" {
-int clear_movement_history(void*);
 
 s32 TObjPlayer::reset_and_return(saddr p) {
     TObjPlayer__sub_801BF8F8((s32 *)p);
@@ -886,7 +885,7 @@ void TObjPlayer__sub_801BFB4C(Vec *position) {
 }
 
 void TObjPlayer::clear_base() { *(s32*)((char*)this + 0x0) = 0; }
-void*TObjPlayer::forward_release() { clear_movement_history(this); return this; }
+void*TObjPlayer::forward_release() { clear_movement_history((MovementHistory *)this); return this; }
 void*TObjPlayer::set_vec3_const_wrapper() { set_vec3_const(); return this; }
 
 }

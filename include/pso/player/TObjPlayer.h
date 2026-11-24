@@ -27,6 +27,9 @@ struct PhotonBlastRequestSlot;
 #include "pso/player/BattleMusicState.h"
 #include "pso/player/ContactSurfaceState.h"
 #include "pso/player/MovementHold.h"
+#include "pso/player/MovementHistory.h"
+#include "pso/player/PlayerAppearFade.h"
+#include "pso/player/PlayerPkState.h"
 #include "pso/player/PhotonChairSeat.h"
 #include "pso/player/PlayerActionPaletteState.h"
 #include "pso/player/PlayerActionProvider.h"
@@ -238,8 +241,7 @@ struct TObjPlayer : public TObjChara {
     PlayerDeathSink death_sink;
     RenderMaterialState render_material_state;
     u8 unk_628[0xC];
-    void* m_634;
-    u8 _pad638[0x4];
+    PlayerAppearFade appear_fade;
     BattleMusicState battle_music;
     ProtectionTimer protection;  // frames the player cannot be hurt
     u8 _pad648[0x4];
@@ -251,8 +253,7 @@ struct TObjPlayer : public TObjChara {
     u8 _pad670[0x8];
     PlayerNpcControl npc_control;
     CollisionBody collision_body;
-    void* m_6ac;
-    u8 _pad6B0[0x80];
+    MovementHistory movement_history;
     MovementHold movement_hold;
     void* m_744;
     u8 _pad748[0xC];
@@ -261,8 +262,7 @@ struct TObjPlayer : public TObjChara {
     s8 trap_counts[4];  // per trap kind, refilled from the class table (refill_trap_counts)
     void* m_7c8;
     PlayerAttackController attack_state;  // the attack accuracy/damage-scale block
-    void* m_828;
-    u8 _pad82C[0x4];
+    PlayerPkState pk_state;
     PlayerTelepipe telepipe;  // TTecLuker::init_fields, TelepipeState::send_telepipe_packet
     Vec marker_position;  // above the head (copy_offset_position), where the lobby marker is drawn
     void* m_858;
@@ -380,7 +380,6 @@ struct TObjPlayer : public TObjChara {
     s32 check_flag(s32 flag);
     // Set while a menu window holds the player's input, with the action buttons masked.
     s32 is_controls_locked();
-    static s32 check_flag_800000(void *player);
     static s32 check_flag_01000000(void *player);
     static void sync_player_globals();
     static void begin_alpha_blend(f32 alpha);
@@ -973,7 +972,6 @@ struct TObjPlayer : public TObjChara {
     void play_photon_blast_feedback();
     static void spawn_effect(saddr player);
     void draw();
-    static void draw(void *player, f32 at_frame);
     void set_state_flag_604B();
     static s32 update_small_font(saddr arg0, void * command);
     static void send_disable_pk_mode(TObjPlayer *player);

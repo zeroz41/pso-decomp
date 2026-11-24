@@ -894,14 +894,14 @@ void TObjPlayer::init_collision_body() {
     switch (this->control_state) {
     case 1:
     case 2:
-        if (get_type__10TObjPlayerFPv(&this->m_828) == 0) {
+        if (get_type__10TObjPlayerFPv(&this->pk_state) == 0) {
             this->collision_body.flags = 0x200B;
         } else {
             this->collision_body.flags = 0x2003;
         }
         break;
     case 3:
-        if (get_type__10TObjPlayerFPv(&this->m_828) == 0) {
+        if (get_type__10TObjPlayerFPv(&this->pk_state) == 0) {
             this->collision_body.flags = 0x604B;
         } else {
             this->collision_body.flags = 0x6043;
@@ -1159,7 +1159,7 @@ void TObjPlayer::run_task() {
     ((TObjPlayer *)&marker_position)->copy_offset_position(this);
     if (test_actor_flags(0x800) != 0) {
         refresh_collision_body_centers();
-    } else if (get_type__10TObjPlayerFPv(&m_828) == 0) {
+    } else if (get_type__10TObjPlayerFPv(&pk_state) == 0) {
         switch (control_state) {
         case 1:
             refresh_collision_body_centers();
@@ -1653,9 +1653,9 @@ call3:
             run_action_state_phase(0x16, 0);
             return;
         }
-        if ((TObjPlayer__sub_801BF918((u8 *)&this->m_634) != 0) && (this->is_body_collision_inactive() != 0) && (this->test_action_mask(4) != 0)) {
+        if ((TObjPlayer__sub_801BF918((u8 *)&this->appear_fade) != 0) && (this->is_body_collision_inactive() != 0) && (this->test_action_mask(4) != 0)) {
             ::set_flag_400000(this);
-            ((TObjPlayer *)&this->m_634)->enter_battle_state();
+            ((TObjPlayer *)&this->appear_fade)->enter_battle_state();
         }
         run_action_state_phase(this->mode, 8);
         return;
@@ -2900,19 +2900,19 @@ void TObjPlayer::update_position_history() {
     s32 index;
 
     if ((this->prev_position.x != this->position.x) || (this->prev_position.z != this->position.z)) {
-        index = *(s32 *)((s8 *)this + 0x6AC) + 1;
-        *(s32 *)((s8 *)this + 0x6AC) = index;
+        index = this->movement_history.index + 1;
+        this->movement_history.index = index;
         if (index >= 0x10) {
-            *(s32 *)((s8 *)this + 0x6AC) = 0;
+            this->movement_history.index = 0;
         }
-        this->set_position_history_entry(*(s32 *)((s8 *)this + 0x6AC), this->position.x, this->position.z);
+        this->set_position_history_entry(this->movement_history.index, this->position.x, this->position.z);
     }
     VecCopy(&this->prev_position, &this->position);
     this->contact_surface.update_field8();
 }
 
 void TObjPlayer::update_status_effects() {
-  update_player_appear_fade(((u8 *)&this->m_634));
+  update_player_appear_fade(((u8 *)&this->appear_fade));
   update_target_lock();
   if ((this->is_actor_cadence_frame(3)) != 0)
   {
@@ -3309,12 +3309,12 @@ void TObjPlayer::rewind_position_history() {
     Vec pos;
     s32 index;
     CsnHit *hit;
-    index = *(s32 *)((s8 *)this + 0x6AC) - 1;
-    *(s32 *)((s8 *)this + 0x6AC) = index;
+    index = this->movement_history.index - 1;
+    this->movement_history.index = index;
     if (index < 0) {
-        *(s32 *)((s8 *)this + 0x6AC) = 0xF;
+        this->movement_history.index = 0xF;
     }
-    get_position_history_entry(*(s32 *)((s8 *)this + 0x6AC), &pos.x, &pos.z);
+    get_position_history_entry(this->movement_history.index, &pos.x, &pos.z);
     pos.y = this->position.y;
     hit = csnVectorUnder(&pos, this->ground_candidates.groups, 0x41);
     if (hit != NULL) {
@@ -5231,7 +5231,7 @@ s16 TObjPlayer::get_mode_animation(u32 mode) {
     }
 }
 
-int TObjPlayer::get_field_828() { return ((int (*)(void*))get_type__10TObjPlayerFPv)(&this->m_828); }
+int TObjPlayer::get_field_828() { return ((int (*)(void*))get_type__10TObjPlayerFPv)(&this->pk_state); }
 
 void TObjPlayer::send_enable_pk_mode(TObjPlayer *player) {
     s8 pkt[8];
@@ -5264,7 +5264,7 @@ void TObjPlayer::set_state_flag_6043() {
     } else {
         this->collision_body.flags = 0x2003;
     }
-    set_player_pk_mode_flag((u8 *)&this->m_828);
+    set_player_pk_mode_flag((u8 *)&this->pk_state);
 }
 
 void TObjPlayer::send_disable_pk_mode(TObjPlayer *player) {
@@ -5301,7 +5301,7 @@ void TObjPlayer::set_state_flag_604B() {
     } else {
         this->collision_body.flags = 0x200B;
     }
-    fn_801C19E8((u8 *)&this->m_828);
+    fn_801C19E8((u8 *)&this->pk_state);
 }
 
 void *TObjPlayer::find_revival_item() {
@@ -5468,7 +5468,7 @@ void TObjPlayer::refresh_equipment_slot() {
 }
 
 void TObjPlayer::update_photon_chair() {
-    ((TObjPlayer *)((saddr)this + 0x634))->enter_battle_state();
+    ((TObjPlayer *)&this->appear_fade)->enter_battle_state();
     if (this->obj_isState2_324() != 0) {
         this->clear_flag_400000();
     }
