@@ -289,8 +289,6 @@ struct Pkt_801B5254 {
     f32 f10;
 };
 
-struct Rec12_801B4CE4 { u8 b[0xC]; };
-
 struct Rec1C_801B4CE4 { u8 b[0x1C]; };
 
 struct Src_801B4CE4 {
@@ -300,7 +298,7 @@ struct Src_801B4CE4 {
     u8 pad34[0x38 - 0x34];
     u8 pos38[0x5C - 0x38];
     u8 f5C[0x254 - 0x5C];
-    Rec12_801B4CE4 f254[5];
+    StatusEffect f254[5];
     u8 pad290[0x2B0 - 0x290];
     u8 *f2B0;
     u8 pad2B4[0x326 - 0x2B4];
@@ -312,7 +310,8 @@ struct Src_801B4CE4 {
     u8 pad338[0x41C - 0x338];
     u8 f41C[0x428 - 0x41C];
     u8 f428[0x730 - 0x428];
-    u8 f730[0x828 - 0x730];
+    MovementHold f730;
+    u8 pad744[0x828 - 0x744];
     u8 f828[0x830 - 0x828];
     u8 f830[0x858 - 0x830];
     u8 f858[0x85C - 0x858];
@@ -332,7 +331,7 @@ struct Dst_801B4CE4 {
     s16 f22;
     s16 f24;
     s16 f26;
-    Rec12_801B4CE4 f28[5];
+    StatusEffect f28[5];
     s32 f64;
     u8 f68[8];
     u8 f70[8];
@@ -516,10 +515,10 @@ void TObjPlayer__sub_801BBB70(void);
 void clear_flag_4000_callback__10TObjPlayerFv(TObjPlayer *);
 InventoryItemList *__ct__17InventoryItemListFv(void *list);
 s32 TObjPlayer__sub_801BE8F4(void *, s32, s32);
-void TObjPlayer__sub_801BEEAC(void *, void *);
+void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 void TObjPlayer__sub_801BEEE0(void *, void *);
 void TObjPlayer__sub_801BEF30(void *, void *);
-void TObjPlayer__sub_801BEF44(void *, void *);
+void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
 s32 TObjPlayer__sub_801BF3A0(void *, void *);
 s32 copy_vec_at_18__10TObjPlayerFv(void *, void *);
 s32 set_material_index__18TPlayerLobbyMarkerFUc(u32 a0 = 0, s32 a1 = 0);
@@ -3658,7 +3657,7 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     TObjPlayer__sub_801BEF30(dst->f70, src->f828);
     ((TObjPlayer *)(dst->f78))->copy_player_record_header(src->f830);
     TObjPlayer__sub_801BEEE0(dst->f94, src->f858);
-    TObjPlayer__sub_801BEEAC(&dst->f98, src->f730);
+    TObjPlayer__sub_801BEEAC(&dst->f98, &src->f730);
     dst->fAC = ((TObjPlayer *)src)->get_area();
     dst->f488 = ((TObjPlayer *)src)->get_floor();
     dst->fB0 = src->f334;

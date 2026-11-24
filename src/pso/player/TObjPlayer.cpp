@@ -421,7 +421,7 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 extern "C" {
 void TObjPlayer__sub_801BEEE0(void* p, void* q);
 void TObjPlayer__sub_801BEF30(void* p, void* q);
-void TObjPlayer__sub_801BEF44(void* p, void* q);
+void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
 int create_attached_oneshot_emitter(void*, u16, int);
 int emit_player_particle(void*, int, int);
 void* TObjPlayer__sub_801BF31C(void* p);
@@ -431,7 +431,7 @@ u8 TObjPlayer__sub_801BF460(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF488(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1);
 void emit_idle_water_effect(saddr particles);
-void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1);
+void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 }
 void* get_surface_contact_point(void* p);
 void emit_grass_footstep_effect(saddr step);
@@ -747,7 +747,11 @@ void PlayerFollowParticles::prepare_heavy_attack_particles_default() { hands.pre
 
 void PlayerPadBinding::set_controller(ControllerInputContext *context) { controller = context; }
 
-void TObjPlayer__sub_801BEF44(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(f32*)((char*)p + 0x4) = *(f32*)((char*)q + 0x4); *(u32*)((char*)p + 0x8) = *(u32*)((char*)q + 0x8); }
+void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src) {
+    dst->type = src->type;
+    dst->amount = src->amount;
+    dst->timer = src->timer;
+}
 
 void TObjPlayer__sub_801BEF30(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 
@@ -763,12 +767,12 @@ void TObjPlayer::copy_player_record_header(u8 *src) {
 
 void TObjPlayer__sub_801BEEE0(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
 
-void TObjPlayer__sub_801BEEAC(u8 *dst, u8 *src) {
-    *(s16 *)((s8 *)dst + 0) = (s16) *(s16 *)((s8 *)src + 0);
-    *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
-    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
-    *(f32 *)((s8 *)dst + 8) = (f32) *(f32 *)((s8 *)src + 8);
-    __memcpy(dst + 0xC, src + 0xC, 8);
+void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src) {
+    dst->frames = src->frames;
+    dst->effect_type = src->effect_type;
+    dst->unused = src->unused;
+    dst->radius_sq = src->radius_sq;
+    __memcpy(&dst->center_x, &src->center_x, 8);
 }
 
 G_RemoveStatusEffect_6x0D &G_RemoveStatusEffect_6x0D::operator=(G_RemoveStatusEffect_6x0D &src) {

@@ -10,7 +10,7 @@
 struct MovementHold {
     s16 frames;       // frames left; negative when no hold is running
     s16 effect_type;  // the TObjEneHoldEffect type shown on the held player
-    u8 pad_4[0x4];
+    s32 unused;       // copied with the hold, never read or set by the game
     f32 radius_sq;    // compared with the squared distance to the centre
     f32 center_x;
     f32 center_z;
