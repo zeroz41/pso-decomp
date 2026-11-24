@@ -1,5 +1,5 @@
-#ifndef PSO_PLAYER_TUNK_80491478_H
-#define PSO_PLAYER_TUNK_80491478_H
+#ifndef PSO_ENEMY_DUBCHIK_TDUBCHIKPART_H
+#define PSO_ENEMY_DUBCHIK_TDUBCHIKPART_H
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -7,10 +7,10 @@ class TObjEneDubchik;
 class TeneFakeTecThunderEff;
 
 // One of the parts a TObjEneDubchik falls apart into (TObjEneDubchik::update_fall_apart news one per part).
-class TUnk_80491478 : public TObjCollidable {
+class TDubchikPart : public TObjCollidable {
 public:
-    TUnk_80491478(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *texlist, Vec *offset);
-    virtual ~TUnk_80491478();
+    TDubchikPart(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *texlist, Vec *offset);
+    virtual ~TDubchikPart();
     virtual void run_task();
     virtual void render();
     // TObjEneDubchik::update_fall_apart calls these on its parts.
@@ -33,6 +33,6 @@ public:
     f32 range;   // 30, or the distance to the csnLookAt hit less 5 (at least 10) (inferred)
     Vec pos;     // where it is drawn (render's post_translate_matrix)
 };
-LAYOUT_ASSERT(TUnk_80491478_size, sizeof(TUnk_80491478) == 0xFC);
+LAYOUT_ASSERT(TDubchikPart_size, sizeof(TDubchikPart) == 0xFC);
 
 #endif

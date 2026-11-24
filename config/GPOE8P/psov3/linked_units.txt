@@ -1564,8 +1564,8 @@ pso/boss/derolle/TBoss2BreakUp.cpp
 pso/boss/derolle/RandomAngle.cpp
 pso/player/TObjPlayer_80080750.cpp
 pso/render/CameraCapture.cpp
-pso/player/TUnk_80491460.cpp
-pso/player/TUnk_80491478.cpp
+pso/enemy/dubchik/TDubchikShot.cpp
+pso/enemy/dubchik/TDubchikPart.cpp
 pso/player/TObjPlayer_800BBE90.cpp
 pso/enemy/flower/TObjEneRe2Flower_Bomb.cpp
 pso/render/RenderFadeState_800D7BFC.cpp

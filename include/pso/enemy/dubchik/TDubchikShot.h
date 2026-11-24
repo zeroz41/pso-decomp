@@ -1,5 +1,5 @@
-#ifndef PSO_PLAYER_TUNK_80491460_H
-#define PSO_PLAYER_TUNK_80491460_H
+#ifndef PSO_ENEMY_DUBCHIK_TDUBCHIKSHOT_H
+#define PSO_ENEMY_DUBCHIK_TDUBCHIKSHOT_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
@@ -10,10 +10,10 @@ class TObjPlayer;
 // The shot a TObjEneDubchik fires (TObjEneDubchik::update_shoot news one): it flies straight
 // along the shooter's heading, stops at a wall or after 150 units, and hits the first
 // player it passes within 7 units of.
-class TUnk_80491460 : public TObject {
+class TDubchikShot : public TObject {
 public:
-    TUnk_80491460(void *start, s32 angle, s32 source, s32 power);
-    virtual ~TUnk_80491460();
+    TDubchikShot(void *start, s32 angle, s32 source, s32 power);
+    virtual ~TDubchikShot();
     virtual void run_task();
     void try_hit_target(TObjPlayer *player);
     Vec pos;
@@ -26,6 +26,6 @@ public:
     saddr source;     // the shooter, passed to receive_direct_attack
     s32 power;
 };
-LAYOUT_ASSERT(TUnk_80491460_size, sizeof(TUnk_80491460) == 0x6C);
+LAYOUT_ASSERT(TDubchikShot_size, sizeof(TDubchikShot) == 0x6C);
 
 #endif

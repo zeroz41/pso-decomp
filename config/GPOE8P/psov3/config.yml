@@ -16575,7 +16575,7 @@ force_active:
   - try_enter_low_hp_state__13TObjEneMorfosFv
   - run_death_reaction__11TBoss4BishiFv
   - try_generate_rare_item__9TItemDropFiPvPv
-  - try_hit_target__13TUnk_80491460FP10TObjPlayer
+  - try_hit_target__12TDubchikShotFP10TObjPlayer
   - try_open__11TObjDoaEx01Fv
   - try_relocate_on_timer__15TObjEneDelDepthFv
   - try_spawn_child__12TObjEneSlimeFPv

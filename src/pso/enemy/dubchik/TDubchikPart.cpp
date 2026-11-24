@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TUnk_80491478.h"
+#include "pso/enemy/dubchik/TDubchikPart.h"
 #include "pso/enemy/dubchik/TObjEneDubchik.h"
 #include "pso/system/BmlResource.h"
 #include "pso/effect/enemy/TeneFakeTecThunderEff.h"
@@ -28,7 +28,7 @@ static const s32 part_model_nodes[3] = {0x14, 0x2B, 0x17};
 // functions (and the vtables, by key function) in reverse definition order.
 #pragma defer_codegen on
 
-TUnk_80491478::TUnk_80491478(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *texlist, Vec *offset) : TObjCollidable(tl_06) {
+TDubchikPart::TDubchikPart(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *texlist, Vec *offset) : TObjCollidable(tl_06) {
     Vec v;
     Vec out;
     CsnHit *hit;
@@ -62,7 +62,7 @@ TUnk_80491478::TUnk_80491478(s32 index, TObjEneDubchik *parent, NJS_TEXLIST *tex
     }
 }
 
-TUnk_80491478::~TUnk_80491478() {
+TDubchikPart::~TDubchikPart() {
     if (thunder_effect != NULL) {
         thunder_effect->queue_destruction();
         thunder_effect = NULL;
@@ -71,7 +71,7 @@ TUnk_80491478::~TUnk_80491478() {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_80491478::run_task() {
+void TDubchikPart::run_task() {
     f32 t;
     f32 step;
     f32 dist_sq;
@@ -132,7 +132,7 @@ void TUnk_80491478::run_task() {
 }
 #pragma pop
 
-void TUnk_80491478::render() {
+void TDubchikPart::render() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(dubchik_texlist));
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(m_d8));
     push_matrix();
@@ -144,14 +144,14 @@ void TUnk_80491478::render() {
     pop_matrix();
 }
 
-s32 TUnk_80491478::get_action_priority() {
+s32 TDubchikPart::get_action_priority() {
     if (m_ae == 3) {
         return 1;
     }
     return 0;
 }
 
-void TUnk_80491478::cancel_action() {
+void TDubchikPart::cancel_action() {
     if (get_action_priority() != 1) {
         if (thunder_effect != NULL) {
             thunder_effect->set_cancel_flag();

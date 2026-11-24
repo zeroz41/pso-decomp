@@ -1,6 +1,6 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/player/TUnk_80491460.h"
+#include "pso/enemy/dubchik/TDubchikShot.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/task/TMainTask.h"
@@ -19,7 +19,7 @@
 // functions in reverse definition order.
 #pragma defer_codegen on
 
-TUnk_80491460::TUnk_80491460(void *start, s32 angle, s32 source, s32 power) : TObject(tl_06) {
+TDubchikShot::TDubchikShot(void *start, s32 angle, s32 source, s32 power) : TObject(tl_06) {
     VecCopy(&pos, (Vec *)start);
     VecCopy(&prev_pos, (Vec *)start);
     distance = 0.0f;
@@ -38,13 +38,13 @@ TUnk_80491460::TUnk_80491460(void *start, s32 angle, s32 source, s32 power) : TO
     this->power = power;
 }
 
-TUnk_80491460::~TUnk_80491460() {
+TDubchikShot::~TDubchikShot() {
     if (particle != NULL) {
         particle->queue_destruction();
     }
 }
 
-void TUnk_80491460::run_task() {
+void TDubchikShot::run_task() {
     s32 i;
     vec3_add_to(&pos, &velocity);
     frame = frame + 1;
@@ -69,7 +69,7 @@ void TUnk_80491460::run_task() {
     }
 }
 
-void TUnk_80491460::try_hit_target(TObjPlayer *player) {
+void TDubchikShot::try_hit_target(TObjPlayer *player) {
     if (player != NULL && !(player->actorFlags & 0xA00) && !(xz_distance_squared(&pos, &player->body_center) > 49.0f)) {
         DirectAttackPayload hit = {0, 0.0f};
         hit.power = power;
