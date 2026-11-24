@@ -185,9 +185,9 @@ force_active:
   - TAdMultiSaveGC__sub_802FF314
   - banner_buffers
   - memcard_file_info
-  - TAdPlayerLoadGC__network_config_buffer
-  - TAdPlayerLoadGC__network_info_payload_buffer
-  - TAdPlayerLoadGC__player_load_value
+  - network_config_buffer
+  - network_info_payload_buffer
+  - network_config_backup_mode
   - mount_memcard
   - open_or_create_memcard_file
   - __ct__19TAdPlyPltAnimCtrlGCFP7TObject
