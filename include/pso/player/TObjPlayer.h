@@ -346,7 +346,6 @@ struct TObjPlayer : public TObjChara {
     void set_meseta(s32 meseta);
     void copy_player_record_header(u8 *src);
     void check_hit_by_id_431_from_packet();
-    int emit_grass_footstep_particle(int position);
     void emit_photon_blast_feedback_from_packet();
     int copy_vec_at_18();
     u16 get_attacker_id();

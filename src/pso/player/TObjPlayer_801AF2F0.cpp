@@ -563,7 +563,7 @@ void reset_client_quest_slot_table(void);
 s32 fn_8036B748(void *);
 s32 fn_8036B770(void *);
 s32 TWindowCtrl__sub_8024A228(u16);
-void __construct_array(void *, void *(*)(void *), void *, u32, u32);
+void *__construct_array(void *, void *, void *, u32, u32);
 
 extern const char *TOMineTrap__data_805D3080;
 extern const char *TObjPlayer__player_set_class_name;
@@ -598,9 +598,9 @@ extern RecoveredGlobal_8000F7FC_lbl_80515F48 start_freeze_self__10TObjPlayerFv;
 s16 item_equip_attach_equip_flag_table[10] = {0x3E, 0x3F, 0x18, 0x24, 0x32, 0x23, 0x30, 0x0A, 0x13, 0x00};
 
 void obj_copyVec2_0(u8 *d, u8 *s);
-void emit_sand_footstep_effect(saddr step);
-void emit_water_footstep_effect(saddr step);
-void emit_grass_footstep_effect(saddr step);
+void emit_sand_footstep_effect(PlayerFollowParticles *particles);
+void emit_water_footstep_effect(PlayerFollowParticles *particles);
+void emit_grass_footstep_effect(PlayerFollowParticles *particles);
 s32 player_auxiliary_surfaces_enabled();
 
 // The level-up light colour and direction (spawn_level_change_feedback).
@@ -3608,7 +3608,7 @@ s32 TObjPlayer::is_outside_movement_hold(f32 *pos) {
 
 Obj_801B4FD8 *init_player_join_record(Obj_801B4FD8 *self) {
     s32 i;
-    __construct_array(self->f28, __ct__12StatusEffectFv, 0, 0xC, 5);
+    __construct_array(self->f28, (void *)__ct__12StatusEffectFv, NULL, sizeof(StatusEffect), 5);
     ((TObjPlayer *)(self->f68))->clear_header_struct();
     ((PlayerPkState *)self->f70)->init();
     self->telepipe.init();
@@ -3990,13 +3990,13 @@ void TObjPlayer::emit_footstep_effect(f32 at_frame, f32 farg1) {
         contact_surface_type = this->contact_surface.get_contact_surface_type();
         switch (contact_surface_type) {
         case 1:
-            emit_grass_footstep_effect((saddr)&this->follow_particles);
+            emit_grass_footstep_effect(&this->follow_particles);
             return;
         case 2:
-            emit_water_footstep_effect((saddr)&this->follow_particles);
+            emit_water_footstep_effect(&this->follow_particles);
             return;
         case 3:
-            emit_sand_footstep_effect((saddr)&this->follow_particles);
+            emit_sand_footstep_effect(&this->follow_particles);
             return;
         case 4:
             this->update_foot_stamp(marker);

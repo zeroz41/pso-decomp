@@ -478,7 +478,7 @@ void TObjPlayer::update_input_and_draw() {
 void TObjPlayer::release_motion() {  }
 
 extern "C" {
-int copy_player_visual_record(void *dst, void *src);
+void copy_player_visual_record(void *dst, void *src);
 }
 
 void TObjPlayer::init_model_and_idle_pose() {

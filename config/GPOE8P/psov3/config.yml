@@ -5953,7 +5953,7 @@ force_active:
   - duel_start_countdown_effect_pos
   - eff_indirect_update_and_flush__16TEffIndirectCtrlFv
   - emit_deband_support_effect__19PlayerHandParticlesFUs
-  - emit_grass_footstep_particle__10TObjPlayerFi
+  - emit_grass_footstep_particle__19PlayerHandParticlesFPC3Vec
   - emit_jellen_support_effect__19PlayerHandParticlesFv
   - emit_marker_effects__13TUnk_804A0DB0Fv
   - emit_marker_effects__13TUnk_804A204CFv
@@ -5975,8 +5975,8 @@ force_active:
   - emit_marker_effects__20TItemWeaponTsumikiriFv
   - emit_part_attack_effect__13TBoss5GryphonFi
   - emit_photon_blast_feedback_effects__FlUs
-  - emit_player_model_particle__Fllll
-  - emit_player_sprite_particle__Flll
+  - emit_player_model_particle__FP19PlayerHandParticlesPC3Vecll
+  - emit_player_sprite_particle__FP19PlayerHandParticlesPC3Vecl
   - emit_shifta_support_effect__19PlayerHandParticlesFv
   - emit_zalure_support_effect__19PlayerHandParticlesFUs
   - empty_post_damage_hook__FPvPv
@@ -6727,7 +6727,7 @@ force_active:
   - clear_attack_history__19TBoss8DragonEffTailFv
   - get_stats_atp_max__9TObjCharaFv
   - get_subcard_field1c__11TWindowChatFv
-  - get_surface_contact_point__FPv
+  - get_surface_contact_point__FP21PlayerFollowParticles
   - get_table_entry__11TBoss6Type2Fi
   - get_table_entry__19TContainerAncient01Fi
   - get_table_entry_by_clamped_index__10TObjPlayerFv

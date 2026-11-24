@@ -128,16 +128,16 @@ TParticleCtrl *create_attached_oneshot_emitter(void *owner, u16 target_id, s32 i
     return particle;
 }
 
-s32 emit_player_model_particle(saddr owner, saddr position, saddr entry, s32 model) {
-    TParticleCtrl *emitter = emit_player_particle((void *)owner, (const Vec *)position, entry);
+TParticleCtrl *emit_player_model_particle(PlayerHandParticles *owner, const Vec *position, s32 id, s32 model) {
+    TParticleCtrl *emitter = emit_player_particle(owner, position, id);
     if (emitter) {
         attach_particle_model(emitter, TParticleCtrl::get_particle_model(model), TParticleCtrl::get_instance(), 0, 1, 1.0f);
     }
-    return (saddr)emitter;
+    return emitter;
 }
 
-void emit_player_sprite_particle(s32 owner, saddr position, s32 id) {
-    spawn_particle_effect_with_flags((const Vec *)position, id, 0x2000);
+void emit_player_sprite_particle(PlayerHandParticles *owner, const Vec *position, s32 id) {
+    spawn_particle_effect_with_flags(position, id, 0x2000);
 }
 
 PlayerHandParticles::PlayerHandParticles() {
@@ -155,19 +155,19 @@ void PlayerHandParticles::create_right_hand(TObjBase *owner) {
     right_hand = new TPlyPtclObjectRightHand(owner);
 }
 
-void emit_water_step_particles(saddr owner, saddr position) {
+void emit_water_step_particles(PlayerHandParticles *owner, const Vec *position) {
     emit_player_model_particle(owner, position, 0x237, 2);
     emit_player_model_particle(owner, position, 0x239, 0);
-    emit_player_particle((void *)owner, (const Vec *)position, 0x238);
+    emit_player_particle(owner, position, 0x238);
 }
 
-void emit_sand_step_particles(saddr owner, saddr position) {
+void emit_sand_step_particles(PlayerHandParticles *owner, const Vec *position) {
     emit_player_model_particle(owner, position, 0x23D, 2);
     emit_player_model_particle(owner, position, 0x23F, 0);
-    emit_player_particle((void *)owner, (const Vec *)position, 0x23E);
+    emit_player_particle(owner, position, 0x23E);
 }
 
-void emit_idle_water_splash(s32 owner, s32 position) {
+void emit_idle_water_splash(PlayerHandParticles *owner, const Vec *position) {
     emit_player_sprite_particle(owner, position, 0xA2);
     emit_player_model_particle(owner, position, 0xA6, 2);
 }

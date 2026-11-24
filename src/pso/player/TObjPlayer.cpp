@@ -60,6 +60,7 @@
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/item/TItemList.h"
 #include "pso/system/vector.h"
+#include "pso/player/TObjPlayer_80309D80.h"
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/PlayerLevelTable.h"
@@ -419,24 +420,19 @@ extern "C" {
 void TObjPlayer__sub_801BEEE0(void* p, void* q);
 void TObjPlayer__sub_801BEF30(void* p, void* q);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
-int create_attached_oneshot_emitter(void*, u16, int);
-int emit_player_particle(void*, int, int);
-void* TObjPlayer__sub_801BF31C(void* p);
+Vec *TObjPlayer__sub_801BF31C(PlayerFollowParticles *particles);
 void TObjPlayer__sub_801BF3A0(PlayerFollowParticles *particles, const Vec *point);
 int VecCopy__FP3VecPC3Vec(void*);
 u8 TObjPlayer__sub_801BF460(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF488(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1);
-void emit_idle_water_effect(saddr particles);
+void emit_idle_water_effect(PlayerFollowParticles *particles);
 void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 }
-void* get_surface_contact_point(void* p);
-void emit_grass_footstep_effect(saddr step);
-void emit_water_step_particles(saddr owner, saddr position);
-void emit_water_footstep_effect(saddr step);
-void emit_sand_step_particles(saddr owner, saddr position);
-void emit_sand_footstep_effect(saddr step);
-void emit_idle_water_splash(s32 owner, saddr position);
+Vec *get_surface_contact_point(PlayerFollowParticles *particles);
+void emit_grass_footstep_effect(PlayerFollowParticles *particles);
+void emit_water_footstep_effect(PlayerFollowParticles *particles);
+void emit_sand_footstep_effect(PlayerFollowParticles *particles);
 void emit_photon_blast_feedback_effects(saddr owner, u16 target_id);
 extern "C" {
 void TObjPlayer__sub_801BF47C(void* p);
@@ -663,20 +659,20 @@ void TObjPlayer::emit_photon_blast_feedback_from_packet() {
     emit_photon_blast_feedback_effects((saddr)((s8 *)arg0 + 4), *arg0);
 }
 
-void* TObjPlayer__sub_801BF31C(void* p) { return (char*)p + 0x18; }
+Vec *TObjPlayer__sub_801BF31C(PlayerFollowParticles *particles) { return &particles->contact_points[1]; }
 
-int TObjPlayer::emit_grass_footstep_particle(int position) { return emit_player_particle(this, position, 570); }
+TParticleCtrl *PlayerHandParticles::emit_grass_footstep_particle(const Vec *position) { return emit_player_particle(this, position, 570); }
 
-void emit_grass_footstep_effect(saddr step) {
-    ((TObjPlayer *)(step + 4))->emit_grass_footstep_particle((int)((saddr) (TObjPlayer__sub_801BF31C((void*)step))));
+void emit_grass_footstep_effect(PlayerFollowParticles *particles) {
+    particles->hands.emit_grass_footstep_particle(TObjPlayer__sub_801BF31C(particles));
 }
 
-void emit_water_footstep_effect(saddr step) {
-    emit_water_step_particles((step + 4), (saddr)(get_surface_contact_point((void*)step)));
+void emit_water_footstep_effect(PlayerFollowParticles *particles) {
+    emit_water_step_particles(&particles->hands, get_surface_contact_point(particles));
 }
 
-void emit_sand_footstep_effect(saddr step) {
-    emit_sand_step_particles((step + 4), (saddr)(get_surface_contact_point((void*)step)));
+void emit_sand_footstep_effect(PlayerFollowParticles *particles) {
+    emit_sand_step_particles(&particles->hands, get_surface_contact_point(particles));
 }
 
 void TObjPlayer::check_hit_by_id_431_from_packet() {
@@ -688,10 +684,10 @@ int PlayerHandParticles::emit_movement_effect(u16 target_id) { return TObjPlayer
 
 int PlayerFollowParticles::emit_movement_effect() { return hands.emit_movement_effect(owner_id); }
 
-void* get_surface_contact_point(void* p) { return (char*)p + 0x24; }
+Vec *get_surface_contact_point(PlayerFollowParticles *particles) { return &particles->contact_points[2]; }
 
-void emit_idle_water_effect(saddr particles) {
-    emit_idle_water_splash((particles + 4), (saddr)(get_surface_contact_point((void*)particles)));
+void emit_idle_water_effect(PlayerFollowParticles *particles) {
+    emit_idle_water_splash(&particles->hands, get_surface_contact_point(particles));
 }
 
 #pragma push
@@ -726,9 +722,9 @@ int PlayerHandParticles::emit_deband_support_effect(u16 target_id) { return TObj
 
 int PlayerFollowParticles::emit_deband_support() { return hands.emit_deband_support_effect(owner_id); }
 
-int PlayerHandParticles::emit_zalure_support_effect(u16 target_id) { return create_attached_oneshot_emitter(this, target_id, 508); }
+TParticleCtrl *PlayerHandParticles::emit_zalure_support_effect(u16 target_id) { return create_attached_oneshot_emitter(this, target_id, 508); }
 
-int PlayerFollowParticles::emit_zalure_support() { return hands.emit_zalure_support_effect(owner_id); }
+TParticleCtrl *PlayerFollowParticles::emit_zalure_support() { return hands.emit_zalure_support_effect(owner_id); }
 
 #pragma push
 #pragma fp_contract on
