@@ -4,6 +4,17 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 
+struct RenderCounterState {
+    s32 base;
+    s32 stride;
+    s32 double_stride;
+    s32 cursor_a;
+    s32 cursor_b;
+    f32 frame;
+    s32 shape_aux;
+    s32 count;
+};
+
 extern "C" {
 void TObjPlayer__sub_803E500C(void *motA, s32 keyA, void *motB, s32 keyB, f32 t, u32 *src, u32 * *out);
 void TObjPlayer__sub_803E5378(s32 n);

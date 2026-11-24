@@ -67,7 +67,7 @@ s32 TWindowChat::sub_80247080() {
         return 0;
     }
     this->set_active_flag();
-    temp_r31 = (s32 *)(*(saddr *)&this->result + 4);
+    temp_r31 = (s32 *)((saddr)this->result + 4);
     *temp_r31 = ((TWindowChat *)(this->symbolChatWindow))->forward_card_at_1c();
     if (this->flags & 0x80) {
         TWindowChat::open_symbol_chat((s32 *)temp_r31)->update_selected_symbol();
@@ -78,7 +78,7 @@ s32 TWindowChat::sub_80247080() {
 s32 TWindowChat::sub_80247128() {
     s32 mode_code;
     uaddr temp_r3;
-    temp_r3 = *(u32 *)&this->wordSelectWindow;
+    temp_r3 = (uaddr)this->wordSelectWindow;
     if (temp_r3 == 0U) {
         return 0;
     }
@@ -101,7 +101,7 @@ s32 TWindowChat::sub_80247128() {
 
 s32 TWindowChat::submit_keyboard_input() {
     u8 *arg0 = (u8*)this;
-    uaddr kb = *(u32 *)&this->composer;
+    uaddr kb = (uaddr)this->composer;
     if (kb == 0U) {
         return 0;
     }

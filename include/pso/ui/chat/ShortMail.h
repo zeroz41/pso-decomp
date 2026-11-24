@@ -5,6 +5,14 @@
 
 #include <stddef.h>
 
+struct ShortMailPacketBuffer {
+    u8 header[4];
+    u8 sender_tag[8];
+    char sender_name[16];
+    s32 target_card_id;
+    u8 body[0x208];
+};
+
 struct ShortMailEntry {
     s32 sender_card_id;
     u32 sequence_id;

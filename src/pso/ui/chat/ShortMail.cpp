@@ -19,8 +19,6 @@ struct O_80225B90 { u8 pad[0x20]; char name[1]; };
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct Tag_80225828 { u8 b[0x228]; };
-
 typedef struct Item_8022525C
 {
   u8 b0;
@@ -69,14 +67,17 @@ int lobby_short_mail_entry_count;
 void try_close__6TLobbyFPv(void* p) { if (((TLobby *)p)->is_name_too_long() == 0) { TLobby__sub_80225A08(p); } }
 
 void TLobby::send_simple_mail(s32 arg0, void *src) {
-    Tag_80225828 t;
+    union {
+        ShortMailPacketBuffer pkt;
+        u8 b[0x228];
+    } t;
     saddr mode;
     ((TLobby *)(&t))->init_guild_card_tag();
     if (protocol_instance != NULL) {
         mode = TWindowSubComCard::get_keyboard_mode();
         __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&t.b[4], &protocol_instance->m_guildcard_tag);
         strncpy((char *)&t.b[0xC], reinterpret_cast<GuildCardEntry *>(mode)->get_name(), 0x17);
-        *(s32 *)&t.b[0x1C] = arg0;
+        t.pkt.target_card_id = arg0;
         t.b[0x23] = 0;
         strncpy((char *)&t.b[0x20], (char *)src, 0xAB);
         t.b[0xCB] = 0;

@@ -455,18 +455,11 @@ struct TLobby : public TObject {
     static void free_singleton_805D7018();
     void *reset_counters();
     s32 get_offset_58();
-    s32 dispatch_field4_event();
-    s32 send_with_offset4_alt();
-    s32 notify_client();
     s32 send_packet_by_id();
     s32 notify_field_4_alt();
     s32 send_packet_by_id_2();
     s32 send_with_offset4();
     s32 notify_field_4();
-    void set_field_44(s32 arg1);
-    void set_field_40(s32 arg1);
-    void set_field_3c(s32 arg1);
-    void set_count(s32 arg1);
     void reset_flag();
     void set_network_result(s32 arg1);
     void set_param_and_notify(s32 arg1);
@@ -489,7 +482,6 @@ struct TLobby : public TObject {
     s32 get_entry_id();
     s32 get_field_34();
     s32 get_field30();
-    s32 get_field_2c();
     s32 get_field_28();
     s16 get_slot();
     s32 get_packet_flag_for_state();

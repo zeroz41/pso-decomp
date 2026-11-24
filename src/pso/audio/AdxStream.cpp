@@ -176,7 +176,7 @@ void update_adx_stream_read(AdxStreamFile *file) {
     }
 }
 
-void set_scroll_position__6TLobbyFl(AdxStreamFile *file, s32 sector) {
+void set_adx_stream_end_sector(AdxStreamFile *file, s32 sector) {
     if (sector >= 0) {
         file->sectors = sector;
         return;
@@ -228,7 +228,7 @@ s32 get_file_offset_relative__6TLobbyFv(AdxStreamFile *file) {
     return 0;
 }
 
-s32 set_scroll_offset__6TLobbyFl(AdxStreamFile *file, s32 offset) {
+s32 seek_adx_stream_sector(AdxStreamFile *file, s32 offset) {
     cvFsSeek(file->handle, file->f10 + offset, 0);
     return cvFsTell(file->handle) - file->f10;
 }

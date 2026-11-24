@@ -222,9 +222,8 @@ s32 TLobby::get_field30() {
     return *(s32 *)((s8 *)arg0 + 0x30);
 }
 
-s32 TLobby::get_field_2c() {
-    u8 *arg0 = (u8 *)this;
-    return *(s32 *)((s8 *)arg0 + 0x2C);
+s32 AdxbDecoder::get_loop_start_byte() {
+    return loop_start_byte;
 }
 
 s32 TLobby::get_field_28() {
@@ -341,7 +340,7 @@ s32 TRK__write_aram(void *arg0p, void *hdr, void *size) {
     }
     h->id->calc_adx_coeffs_at_offset(h->rate, h->m_1C);
     TLobby__sub_803CB570((u8 *)h->id, (u8 *)&sp18, (s16 *)&sp14);
-    sub_803C46DC((u8 *)hdr, (saddr)size, &h->m_20, &h->m_24, &h->m_26, &h->m_28, &h->m_2C, &h->m_30, &h->m_34);
+    sub_803C46DC((u8 *)hdr, (saddr)size, &h->m_20, &h->m_24, &h->m_26, &h->m_28, &h->loop_start_byte, &h->m_30, &h->m_34);
     h->m_A8 = 0;
 block_11:
     temp_r3 = h->m_4C;

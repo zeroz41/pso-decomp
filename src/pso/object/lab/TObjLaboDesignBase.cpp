@@ -224,8 +224,15 @@ TObjLaboDesignBase::~TObjLaboDesignBase() {
 }
 
 TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, s32 state) : TObjCollidable(parent) {
-    struct CopyStack_80365210 { u8 bytes[0x3C]; };
-    CopyStack_80365210 copy_storage_80365210;
+    union {
+        u8 bytes[0x3C];
+        struct {
+            u8 pad[0x24];
+            f32 x;
+            f32 y;
+            f32 z;
+        } extents;
+    } copy_storage;
     s32 temp_r0;
     m_name = TObjLaboDesignBase_class_name;
     apply_object_set_data(set_data);
@@ -238,11 +245,11 @@ TObjLaboDesignBase::TObjLaboDesignBase(TObject *parent, void *set_data, s32 stat
     map_csn = NULL;
     temp_r0 = this->state;
     if ((temp_r0 == 3) || (temp_r0 == 4)) {
-        *(ByteBlock_3C *)(copy_storage_80365210.bytes) = *(const ByteBlock_3C *)set_data;
-        (*(f32 *)(copy_storage_80365210.bytes + 0x24)) = 40.0f;
-        (*(f32 *)(copy_storage_80365210.bytes + 0x28)) = 20.0f;
-        (*(f32 *)(copy_storage_80365210.bytes + 0x2C)) = 10.0f;
-        map_csn = TObjMapCsn::create(copy_storage_80365210.bytes);
+        *(ByteBlock_3C *)(copy_storage.bytes) = *(const ByteBlock_3C *)set_data;
+        copy_storage.extents.x = 40.0f;
+        copy_storage.extents.y = 20.0f;
+        copy_storage.extents.z = 10.0f;
+        map_csn = TObjMapCsn::create(copy_storage.bytes);
     }
 }
 

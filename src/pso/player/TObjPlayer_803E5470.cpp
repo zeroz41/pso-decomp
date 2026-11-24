@@ -259,12 +259,12 @@ void TObjPlayer__sub_803E500C(void *motA, s32 keyA, void *motB, s32 keyB, f32 t,
 void TObjPlayer__sub_803E5378(s32 n) {
     s32 w = n * 4;
     s32 a;
-    *(s32 *)(lbl_805D7818 + 0x4) = w;
-    *(s32 *)(lbl_805D7818 + 0x8) = w + w;
-    a = *(s32 *)(lbl_805D7818 + 0x0);
-    *(s32 *)(lbl_805D7818 + 0xc) = a;
-    *(s32 *)(lbl_805D7818 + 0x10) = a + *(s32 *)(lbl_805D7818 + 0x4);
-    *(s32 *)(lbl_805D7818 + 0x1c) = 0;
+    ((RenderCounterState *)lbl_805D7818)->stride = w;
+    ((RenderCounterState *)lbl_805D7818)->double_stride = w + w;
+    a = ((RenderCounterState *)lbl_805D7818)->base;
+    ((RenderCounterState *)lbl_805D7818)->cursor_a = a;
+    ((RenderCounterState *)lbl_805D7818)->cursor_b = a + ((RenderCounterState *)lbl_805D7818)->stride;
+    ((RenderCounterState *)lbl_805D7818)->count = 0;
 }
 #pragma pop
 

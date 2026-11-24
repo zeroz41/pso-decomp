@@ -211,7 +211,7 @@ void set_scene_fog_distances(f32 farg0, f32 farg1) {
 
 struct G_803E2010 { u8 pad[0x44]; f32 f44; f32 f48; };
 extern G_803E2010 scene_projection_state;
-typedef struct { u8 r, g, b, a; } Col_803E2010;
+typedef Rgb_803E1FC8 Col_803E2010;
 extern "C" {
 void GXSetFog(s32, f32, f32, f32, f32, Col_803E2010);
 }
@@ -233,5 +233,5 @@ void apply_scene_fog(void) {
     } else {
         type = 0;
     }
-    GXSetFog(type, scene_fog_start_distance, scene_fog_end_distance, scene_projection_state.f44, scene_projection_state.f48, *(Col_803E2010 *)&scene_fog_color);
+    GXSetFog(type, scene_fog_start_distance, scene_fog_end_distance, scene_projection_state.f44, scene_projection_state.f48, scene_fog_color);
 }

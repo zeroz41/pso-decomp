@@ -3,6 +3,16 @@
 
 #include "types.h"
 
+struct TPlyRecvLoginClientConfigCopy {
+    u8 data[0x20];
+};
+
+struct TPlyRecvLoginCopy {
+    u8 header[4];
+    u8 tag[8];
+    TPlyRecvLoginClientConfigCopy client_config;
+};
+
 extern "C" {
 s32 __ct__13TPlyRecvLoginFRC13TPlyRecvLogin(saddr arg0, saddr arg1);
 void bswap__13TPlyRecvLoginFv(saddr arg0);

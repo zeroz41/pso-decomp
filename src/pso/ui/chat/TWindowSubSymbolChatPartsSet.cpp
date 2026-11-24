@@ -276,16 +276,16 @@ void TWindowSubSymbolChatPartsSet::handle_cursor_input() {
     camera_ctrl = &controller_input_state.controllers[0];
     if ((test_previous_buttons_packed(camera_ctrl, 0xF0) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0xF0) != 0)) {
         if ((test_previous_buttons_packed(camera_ctrl, 0x80) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x80) != 0)) {
-            *(s16 *)&this->cursor_x = (s16) (*(s16 *)&this->cursor_x + 1);
+            this->cursor_x = (s16)(this->cursor_x + 1);
         }
         if ((test_previous_buttons_packed(camera_ctrl, 0x40) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x40) != 0)) {
-            *(s16 *)&this->cursor_x = (s16) (*(s16 *)&this->cursor_x - 1);
+            this->cursor_x = (s16)(this->cursor_x - 1);
         }
         if ((test_previous_buttons_packed(camera_ctrl, 0x10) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x10) != 0)) {
-            *(s16 *)&this->cursor_y = (s16) (*(s16 *)&this->cursor_y - 1);
+            this->cursor_y = (s16)(this->cursor_y - 1);
         }
         if ((test_previous_buttons_packed(camera_ctrl, 0x20) != 0) || (test_previous_buttons_color(&controller_input_state.keyboard, 0x20) != 0)) {
-            *(s16 *)&this->cursor_y = (s16) (*(s16 *)&this->cursor_y + 1);
+            this->cursor_y = (s16)(this->cursor_y + 1);
         }
         switch ((s8)w->f69) {
         case 0:
@@ -335,7 +335,7 @@ void TWindowSubSymbolChatPartsSet::render() {
     copy_vec2((&sp10), c_arg + 0x10);
     copy_vec2((&sp8), c_arg + 0x28);
     if ((s32) *(s32 *)((s8 *)c_arg + 0x30) < 0) {
-        *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) *(s32 *)&this->open_tick / 7.5f);
+        *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) this->open_tick / 7.5f);
         *(f32 *)((s8 *)c_arg + 0x2C) = (f32) *(f32 *)((s8 *)c_arg + 0x28);
     }
     draw_quest_message_frame((void *)c_arg);
@@ -370,7 +370,7 @@ void TWindowSubSymbolChatPartsSet::run_task() {
     }
     toggle_selected_part();
     ((TWindowSubSymbolChatPartsSet *)arg0)->sub_8028625C();
-    if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
+    if ((f32) this->open_tick >= 7.5f) {
         this->heading_display->update_subwindow();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();

@@ -11,7 +11,10 @@ class LobbyListEntry;
 template <> class TMenuList<LobbyListEntry, 16, 0> {
 public:
     TMenuList(const TMenuList &o);
-    packet_header header;
+    union {
+        packet_header header;
+        LobbyListHeaderCopy raw_header;
+    };
     u8 entries[16 * sizeof(LobbyListEntry)];
 };
 
@@ -28,7 +31,7 @@ TMenuList<LobbyListEntry, 16, 0>::TMenuList(const TMenuList &o) {
     u8 *d = entries;
     const u8 *s = o.entries;
     end = entries + 16 * 0xC;
-    *(u32 *)&header = *(const u32 *)&o.header;
+    raw_header = o.raw_header;
     do {
         copy_lobby_entry(d, (void *)s);
         d += 0xC;

@@ -3,15 +3,15 @@
 
 #include "types.h"
 
-struct WsDataHeader { u32 f0; s32 f4; };
+struct TWindowDDValueList;
 
 // Recent word-select ids (push_recent_id) and the two ws data tables init_ws_data_tables checked.
 struct WsRecentState {
     s16 ids[16];
-    WsDataHeader *a;
-    WsDataHeader *b;
-    u32 a0;
-    u32 b0;
+    TWindowDDValueList *a;
+    TWindowDDValueList *b;
+    s16 *a0;
+    s16 *b0;
     s32 n;
 };
 

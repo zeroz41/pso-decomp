@@ -178,7 +178,6 @@ void TObjPlayer::send_use_item_cmd() { bswap_cmd_u32(); send_subcommand((u8 *)th
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_78 { u8 bytes[0x78]; };
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -321,7 +320,7 @@ void TObjPlayer::byteswap_data() { ((G_ClientIDHeader *)this)->bswap(); bswap_32
 u8 *TObjPlayer__sub_801C1268(u8 *arg0, u8 *source) {
     copy_subcommand_header(arg0, source);
     *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)source + 4);
-    *(ByteBlock_78 *)(arg0 + 4 + 4) = *(const ByteBlock_78 *)((source + 4) + 4);
+    ((SubcmdPacketCopy6xAC *)arg0)->body = ((const SubcmdPacketCopy6xAC *)source)->body;
     return arg0;
 }
 

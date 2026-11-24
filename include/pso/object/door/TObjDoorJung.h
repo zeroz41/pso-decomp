@@ -11,7 +11,7 @@ struct TObjDoorJung : public TODoorBase {
     virtual void update_door_switch_state();
     virtual void run_task();
     virtual void render();
-    u8 unk_D4[0x4];
+    s32 active_light_count;
     static void free_buffers();
     static void *create(void *set_data);
 };

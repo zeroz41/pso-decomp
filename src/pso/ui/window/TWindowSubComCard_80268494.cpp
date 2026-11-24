@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/TWindowMenuInfomation.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -38,7 +39,7 @@ void TWindowMenuInfomation::mark_entry_by_id(s32 entry_id) {
         e = (u8 *)get_array_entry(i);
         if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && entry_id == ((TWindowSubComCard *)e)->get_entry_id()) {
             *(u16 *)e |= 1;
-            *(s32 *)(e + 0x24) = -1;
+            ((WindowTextEntry *)e)->color = -1;
         }
     }
 }
@@ -49,7 +50,7 @@ void TWindowMenuInfomation::disable_entry_by_id(s32 id) {
         e = (u8 *)get_array_entry(i);
         if (e != 0 && ((TWindowSubComCard *)e)->is_flag_4_set() != 0 && id == ((TWindowSubComCard *)e)->get_entry_id()) {
             *(u16 *)e &= 0xFFFE;
-            *(s32 *)(e + 0x24) = 0xFF909090;
+            ((WindowTextEntry *)e)->color = 0xFF909090;
         }
     }
 }

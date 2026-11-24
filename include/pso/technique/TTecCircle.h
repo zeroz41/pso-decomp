@@ -34,11 +34,15 @@ public:
     u8 pad_94[0x14];
     s16 m_a8;
     u8 pad_AA[0x2];
-    s32 m_ac;
+    s16 base_power;
+    u8 pad_AE[0x2];
     u8 pad_B0[0x4];
     u16 sourceId;
     u8 pad_B6[0x2];
-    saddr m_b8;
+    union {
+        saddr m_b8;
+        saddr attack_context;
+    };
     CollisionBody collisionBody;
     TObjCollidable *collidable;
 };

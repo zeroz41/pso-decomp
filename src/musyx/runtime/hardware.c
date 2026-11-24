@@ -43,7 +43,7 @@ void snd_handle_irq(void) {
     salAuxFrame = (salAuxFrame + 1) % 3;
     for (v = 0; v < salNumVoices; ++v) {
         for (i = 0; i < 5; ++i) {
-            (*(Slot_803BCAA0 **)&dspVoice)[v].changed[i] = 0;
+            dspVoice[v].changed[i] = 0;
         }
     }
     hwIRQLeaveCritical();
@@ -85,7 +85,7 @@ void hwSetTimeOffset(s8 arg0) {
     salTimeOffset = arg0;
 }
 u8 hwGetTimeOffset(void) {
-    return (*(u8 *)&salTimeOffset);
+    return (u8)salTimeOffset;
 }
 
 bool hwIsActive(s32 i) {
@@ -132,11 +132,10 @@ void hwInitSamplePlayback(s32 n, s16 smpID, Blk_803BCD1C *newsmp, u32 set_defads
 }
 
 void hwBreak(s32 i) {
-    Slot_803BCEC8 *s = &(*(Slot_803BCEC8 **)&dspVoice)[i];
-    if (s->fec == 1 && (u8)salTimeOffset == 0) {
-        s->fee = 1;
+    if (dspVoice[i].state == 1 && (u8)salTimeOffset == 0) {
+        dspVoice[i].startupBreak = 1;
     }
-    (*(Slot_803BCEC8 **)&dspVoice)[i].f24[(u8)salTimeOffset] |= 0x20;
+    dspVoice[i].changed[(u8)salTimeOffset] |= 0x20;
 }
 
 void hwSetADSR(s32 n, void *arg1, u8 mode) {
@@ -207,7 +206,7 @@ void hwKeyOff(s32 i) {
 }
 
 void hwSetPitch(s32 i, u16 v) {
-    Slot_803BD19C *s = &(*(Slot_803BD19C **)&dspVoice)[i];
+    Slot_803BD19C *s = &((Slot_803BD19C *)dspVoice)[i];
     if (v >= 0x4000U) {
         v = 0x3FFF;
     }
@@ -240,7 +239,7 @@ void hwSetITDMode(s32 i, u8 mode) {
 }
 
 void hwSetVolume(s32 voice, u32 volumeCurve, u32 pan, s32 surroundPan, f32 direct, f32 auxiliaryA, f32 auxiliaryB) {
-    SoundMixVoice *state = (*(SoundMixVoice **)&dspVoice) + voice;
+    SoundMixVoice *state = ((SoundMixVoice *)dspVoice) + voice;
     SoundMixCurveOutput out[3];
     s32 left, right, surround;
     if (direct >= 1.0f) direct = 1.0f;
@@ -312,6 +311,7 @@ void hwAddInput(u8 studio, SND_STUDIO_INPUT *in_desc) {
 void hwRemoveInput(u8 studio, SND_STUDIO_INPUT *in_desc) {
     salRemoveStudioInput(&dspStudio[studio], in_desc);
 }
+
 
 #define SLOTS_803BD694 (*(Slot_803BD694 **)&dspVoice)
 u32 hwGetPos(s32 arg0) {

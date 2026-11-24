@@ -67,10 +67,10 @@ void init_lcp_protocol(u8 *conn)
   proto->name = "Lcp";
   proto->proto = 0xC021;
   proto->h6 = 0xFFE;
-  proto->b8 = 0;
-  proto->b9 = 20;
-  proto->bA = 10;
-  proto->bB = 3;
+  proto->tx_counter_index = 0;
+  proto->max_request_attempts = 20;
+  proto->max_peer_attempts = 10;
+  proto->max_terminate_attempts = 3;
   proto->timeout = 1000;
   proto->release_resources = lcp_noop_callback;
   proto->reset_options = reset_lcp_options;
@@ -91,7 +91,7 @@ void init_lcp_protocol(u8 *conn)
   area->remote.want = *tbl;
   area->remote.got = *tbl;
   area->remote.mask = 0x1AE;
-  TLobby__sub_803FD694((u8 *)e);
+  TLobby__sub_803FD694(e);
 }
 
 s16 apply_lcp_config_to_sides(PppFsm *state, LcpConfig *config) {
@@ -676,13 +676,13 @@ break;
 }
 while ((rem--) > 0)
 {
-if (((s16) (ppp_buffer_read((void *)((u8 *) flag), (void *)(&(*(u8*)&lobby_read_byte_buffer)), 1))) != 1)
+if (((s16) (ppp_buffer_read((void *)((u8 *) flag), (void *)lobby_read_byte_buffer, 1))) != 1)
 {
 c = -1;
 }
 else
 {
-c = (s16) (*(u8*)&lobby_read_byte_buffer);
+c = (s16) lobby_read_byte_buffer[0];
 }
 *(out++) = c;
 }

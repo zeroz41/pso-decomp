@@ -142,19 +142,26 @@ void *TObjTuitate::create(void *set_data) {
 #pragma opt_common_subs off
 #define arg0 ((u8 *)this)
 TObjTuitate::TObjTuitate(TObject *parent, void *arg2) : TObjCollidable(parent) {
-    struct CopyStack_8019AF6C { u8 bytes[0x3C]; };
-    CopyStack_8019AF6C copy_storage_8019AF6C;
+    union {
+        u8 bytes[0x3C];
+        struct {
+            u8 pad[0x24];
+            f32 x;
+            f32 y;
+            f32 z;
+        } extents;
+    } copy_storage;
     __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0xAC)));
     *(saddr *)((s8 *)arg0 + 0) = (saddr) TObjTuitate__class_name;
     ((TObjTuitate *)(arg0))->apply_object_set_data((void *)((saddr)arg2));
     init_collision_body_parts(arg0, TObjTuitate__collision_parts, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    *(ByteBlock_3C *)(copy_storage_8019AF6C.bytes) = *(const ByteBlock_3C *)(((saddr)arg2 - 4) + 4);
-    (*(f32 *)(copy_storage_8019AF6C.bytes + 0x24)) = 32.0f;
-    (*(f32 *)(copy_storage_8019AF6C.bytes + 0x28)) = 2e+01f;
-    (*(f32 *)(copy_storage_8019AF6C.bytes + 0x2C)) = 12.0f;
-    *(TObjMapCsn **)((s8 *)arg0 + 0xC8) = TObjMapCsn::create(copy_storage_8019AF6C.bytes);
+    *(ByteBlock_3C *)(copy_storage.bytes) = *(const ByteBlock_3C *)(((saddr)arg2 - 4) + 4);
+    copy_storage.extents.x = 32.0f;
+    copy_storage.extents.y = 2e+01f;
+    copy_storage.extents.z = 12.0f;
+    *(TObjMapCsn **)((s8 *)arg0 + 0xC8) = TObjMapCsn::create(copy_storage.bytes);
     ((RenderFadeState *)((u8 *)arg0 + 0xAC))->activate_and_dispatch();
 }
 #undef arg0
@@ -195,7 +202,7 @@ void TObjTuitate::render() {
     TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjTuitate__bml_resource, 0));
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));
+    rotate_matrix_y(0, rotation_y);
     draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TObjTuitate__bml_resource, 0)));
     pop_matrix();
     if (fading != 0) {
@@ -224,19 +231,26 @@ void *TObjBigTuitate::create(void *set_data) {
 #pragma opt_common_subs off
 #define arg0 ((u8 *)this)
 TObjBigTuitate::TObjBigTuitate(TObject *parent, void *arg2) : TObjCollidable(parent) {
-    struct CopyStack_8019ABE8 { u8 bytes[0x3C]; };
-    CopyStack_8019ABE8 copy_storage_8019ABE8;
+    union {
+        u8 bytes[0x3C];
+        struct {
+            u8 pad[0x24];
+            f32 x;
+            f32 y;
+            f32 z;
+        } extents;
+    } copy_storage;
     __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0xAC)));
     *(saddr *)((s8 *)arg0 + 0) = (saddr) TObjBigTuitate__name;
     ((TObjBigTuitate *)(arg0))->apply_object_set_data((void *)((saddr)arg2));
     init_collision_body_parts(arg0, big_tuitate_collision_body, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    *(ByteBlock_3C *)(copy_storage_8019ABE8.bytes) = *(const ByteBlock_3C *)(((saddr)arg2 - 4) + 4);
-    (*(f32 *)(copy_storage_8019ABE8.bytes + 0x24)) = 32.0f;
-    (*(f32 *)(copy_storage_8019ABE8.bytes + 0x28)) = 4e+01f;
-    (*(f32 *)(copy_storage_8019ABE8.bytes + 0x2C)) = 12.0f;
-    *(TObjMapCsn **)((s8 *)arg0 + 0xC8) = TObjMapCsn::create(copy_storage_8019ABE8.bytes);
+    *(ByteBlock_3C *)(copy_storage.bytes) = *(const ByteBlock_3C *)(((saddr)arg2 - 4) + 4);
+    copy_storage.extents.x = 32.0f;
+    copy_storage.extents.y = 4e+01f;
+    copy_storage.extents.z = 12.0f;
+    *(TObjMapCsn **)((s8 *)arg0 + 0xC8) = TObjMapCsn::create(copy_storage.bytes);
     ((RenderFadeState *)((u8 *)arg0 + 0xAC))->activate_and_dispatch();
 }
 #undef arg0
@@ -277,7 +291,7 @@ void TObjBigTuitate::render() {
     TObjFish::set_global_param(get_bml_texlist((BmlResource *)TObjBigTuitate__bml_resource, 0));
     push_matrix();
     post_translate_matrix(&position.x);
-    rotate_matrix_y(0, *(s32 *)(arg0 + 0x60));
+    rotate_matrix_y(0, rotation_y);
     draw_ginja_object(reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TObjBigTuitate__bml_resource, 0)));
     pop_matrix();
     if (fading != 0) {

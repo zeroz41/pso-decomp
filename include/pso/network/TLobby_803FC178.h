@@ -109,7 +109,7 @@ extern u8 lbl_805D7AC0[2];
 extern u8 lbl_805D7AC4[1];
 extern s16 lbl_805D7A7A;
 extern s16 lbl_805D7A7E;
-extern saddr lobby_timer_list_head;
+extern void *lobby_timer_list_head;
 extern s16 lbl_805D7A7C;
 extern s32 lbl_805D7A90;
 extern u8 lcp_read_value_buffer[4];
@@ -125,7 +125,7 @@ extern s32 lbl_805D7AA0; /* PppFsm.c */
 extern u16 lbl_805D7A9A;
 extern u8 chap_read_byte_buffer;
 s16 PP_chap_monitor(PppFsm *c, s32 timeout);
-s32 TLobby__sub_803FC684(u8 *arg0, u8 *chap_secret, u8 *arg2);
+s32 TLobby__sub_803FC684(u8 *source, u8 *chap_secret, PppFsm *fsm);
 void TLobby__sub_803FC728(PppFsm *c);
 s16 chap_recv_response(PppFsm *fsm, PppHeader *header, PppFrame *source);
 void chap_recv_challenge(PppFsm *connection, PppHeader *header, PppFrame *source);

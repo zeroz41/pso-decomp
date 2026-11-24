@@ -3,6 +3,24 @@
 
 #include "types.h"
 
+struct TRegisterHeaderCopy {
+    u8 bytes[4];
+};
+
+struct QuestListEntryNameCopy {
+    u8 data[0x20];
+};
+
+struct QuestListEntryDescCopy {
+    u8 data[0x70];
+};
+
+struct QuestListEntryCopy {
+    u8 tag[8];
+    QuestListEntryNameCopy name;
+    QuestListEntryDescCopy short_description;
+};
+
 extern "C" {
 s32 __ct__14QuestListEntryFRC14QuestListEntry(saddr arg0, saddr arg1);
 s32 __ct__9TRegisterFv(saddr arg0);

@@ -58,15 +58,12 @@ u16 ppp_fcs16_table[256] = {
 /* How many PPP protocols have reached the opened state (5); IPCP's wait stops at 2 (.sbss 805D7AA0). */
 s32 lbl_805D7AA0;
 
-void TLobby__sub_803FD694(u8 *arg0) {
+void TLobby__sub_803FD694(PppFsm *fsm) {
     PppFsmTimer *timer;
-    PppFsm *fsm;
-
-    fsm = (PppFsm *)arg0;
     timer = &fsm->timer;
-    fsm->f4 = fsm->proto->b9;
-    fsm->f7 = fsm->proto->bA;
-    fsm->f5 = fsm->proto->bB;
+    fsm->f4 = fsm->proto->max_request_attempts;
+    fsm->f7 = fsm->proto->max_peer_attempts;
+    fsm->f5 = fsm->proto->max_terminate_attempts;
     fsm->state = (fsm->f2 & 0xC0) ? 1 : 0;
     fsm->retries = fsm->f4;
     fsm->f6 = fsm->f7;
@@ -601,8 +598,8 @@ s16 ppp_fsm_send_packet(PppFsm *self, u8 code, int reply_identifier, PppFrame *p
         return -1;
     }
     {
-        s16 count = link->transmitted[fsm->proto->b8];
-        link->transmitted[fsm->proto->b8] = count + 1;
+        s16 count = link->transmitted[fsm->proto->tx_counter_index];
+        link->transmitted[fsm->proto->tx_counter_index] = count + 1;
     }
     return TLobby__sub_80406624(0, 0, fsm->proto->proto, payload);
 }

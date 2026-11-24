@@ -24,7 +24,7 @@ struct AdxbDecoder {
     s16 m_24;
     s16 m_26;
     s32 m_28;
-    s32 m_2C;
+    s32 loop_start_byte;
     s32 m_30;
     s32 m_34;
     s32 m_38;
@@ -61,6 +61,8 @@ struct AdxbDecoder {
     s16 m_AA;
     u32 m_AC;
     u8 pad_B0[0x8];
+
+    s32 get_loop_start_byte();
 };
 LAYOUT_ASSERT(AdxbDecoder_size_check, sizeof(AdxbDecoder) == 0xB8);
 

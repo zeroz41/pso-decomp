@@ -59,7 +59,7 @@ void TTecJelin::init_tech_params() {
     TechniqueParams *res;
     res = calc_technique_parameters(0xB, this->level, 0xFFFF);
     ((TechniqueParams *)(arg0 + 0x88))->copy((TechniqueParams *)res);
-    this->power = (f32) (*(s16 *)&this->m_ac * this->level);
+    this->power = (f32)(this->base_power * this->level);
 }
 
 void TTecJelin::vfunc_6(void *target_arg) {
@@ -68,7 +68,7 @@ void TTecJelin::vfunc_6(void *target_arg) {
     Damage_802386F8 d;
     d.kind = 0xb;
     d.power = this->power;
-    ((VObj_802386F8 *)target)->m21(*(s32 *)(self + 0x1C), d, *(s32 *)(self + 0xB8), 0xb, -1, self);
+    ((VObj_802386F8 *)target)->m21((s32)this->source, d, (s32)this->attack_context, 0xb, -1, self);
 }
 
 void TTecJelin::create(saddr source, saddr pos, saddr target, s32 level) {

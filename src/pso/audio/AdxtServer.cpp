@@ -3,6 +3,7 @@
 #include "pso/unk/text_803D2F1C.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
+#include "pso/audio/AudioStreamInput.h"
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/LscStream.h"
 #include "pso/audio/SjRingBuffer.h"
@@ -31,7 +32,7 @@ struct VT_803CB20C {
 struct Strm_803CB20C { VT_803CB20C *vt; };
 
 struct Obj_803CB20C {
-    u8 pad0[2]; u8 f2; u8 pad3; saddr f4; u32 f8; u8 padC[8]; Strm_803CB20C *f14;
+    u8 pad0[2]; u8 f2; u8 pad3; AudioStreamInputState *input_state; u32 f8; u8 padC[8]; Strm_803CB20C *f14;
     u8 pad18[0x4C - 0x18]; s32 f4C; s32 f50; u8 pad54[0x6C - 0x54]; s8 f6C;
     u8 pad6D[0x90 - 0x6D]; s32 f90;
 };
@@ -49,12 +50,6 @@ void TLobby__sub_803CA8B4(AdxStreamPlayer *);
 
 s32 TLobby__sub_803C9740(u8 *arg0);
 s32 trigger_sub_task__6TLobbyFv(saddr, s32);
-s32 set_field_44__6TLobbyFl(int, int);
-s32 set_field_40__6TLobbyFl(int, int);
-s32 set_field_3c__6TLobbyFl(int, int);
-s32 set_count__6TLobbyFl(int, int);
-s32 dispatch_field4_event__6TLobbyFv(int);
-s32 notify_client__6TLobbyFv(int);
 
 extern "C" {
 s32 audio_stream_get_output_samples(u8 *lobby);
@@ -69,7 +64,7 @@ struct Strm_803CAB38 {
     s8 f1;
     u8 f2;
     s8 f3;
-    saddr f4;
+    AudioStreamInputState *input_state;
     AdxStreamFile *file;
     saddr fc;
     u8 pad10[0x28];
@@ -113,8 +108,8 @@ s32 lbl_805D7580;
 inline void prep_803CA8B4(AdxStreamPlayer *self) {
     s32 n;
     s32 i;
-    if (audio_stream_get_state(self->f4) == 3) {
-        n = ((TLobby *)self->f4)->send_with_offset4();
+    if (audio_stream_get_state(reinterpret_cast<saddr>(self->input_state)) == 3) {
+        n = reinterpret_cast<TLobby *>(self->input_state)->send_with_offset4();
         lbl_805D7580 = n;
         for (i = 0; i < n; i++) {
             lbl_805D757C = self->f18[i]->interface->get_available(self->f18[i], 1);
@@ -131,7 +126,7 @@ inline void prep_803CA8B4(AdxStreamPlayer *self) {
 // Inferred: CRI adxt_stat_playing (start playback once enough is decoded; pad the end with silence).
 inline void dec_803CA8B4(AdxStreamPlayer *self) {
     saddr rna = self->fC;
-    saddr sjd = self->f4;
+    AudioStreamInputState *sjd = self->input_state;
     s32 i;
     s32 avail;
     s32 nbyte;
@@ -141,8 +136,8 @@ inline void dec_803CA8B4(AdxStreamPlayer *self) {
     SjChunk ck;
     avail = TLobby::query_available_size((TLobby *)rna);
     size = TLobby__sub_803CBFF0(rna);
-    if (avail >= self->f48 * 2 || size <= ((TLobby *)sjd)->notify_field_4_alt() ||
-        audio_stream_get_state(self->f4) == 3) {
+    if (avail >= self->f48 * 2 || size <= reinterpret_cast<TLobby *>(sjd)->notify_field_4_alt() ||
+        audio_stream_get_state(reinterpret_cast<saddr>(self->input_state)) == 3) {
         if (self->f70 == 0) {
             if (self->f72 == 0) {
                 TLobby__sub_803CC030(rna, 1);
@@ -153,7 +148,7 @@ inline void dec_803CA8B4(AdxStreamPlayer *self) {
         }
         self->f71 = 1;
     }
-    if (audio_stream_get_state(self->f4) == 3) {
+    if (audio_stream_get_state(reinterpret_cast<saddr>(self->input_state)) == 3) {
         nch = TLobby__sub_803C9740((u8 *)self);
         nbyte = self->f48 * nch * 2;
         for (i = 0; i < nch; i++) {
@@ -186,7 +181,7 @@ void TLobby__sub_803CA8B4(AdxStreamPlayer *self) {
     } else if (stat == 4) {
         end_803CA8B4(self);
     }
-    if (self->f8 != NULL && get_adx_stream_status(self->f8) == 4) {
+    if (self->file != NULL && get_adx_stream_status(self->file) == 4) {
         self->f60 = -1;
         self->stat = 6;
     }
@@ -201,69 +196,69 @@ void TLobby__sub_803CA8B4(AdxStreamPlayer *self) {
 
 void adxt_stat_decinfo(Strm_803CAB38 *self) {
 #define arg0 ((u8 *)self)
-    saddr t = self->f4;
+    AudioStreamInputState *input_state = self->input_state;
     s32 k;
     s32 n1;
     char buf[32];
 
-    if (audio_stream_get_state(t) == 2) {
-        s32 v = ((TLobby *)t)->send_with_offset4();
+    if (audio_stream_get_state(reinterpret_cast<saddr>(input_state)) == 2) {
+        s32 v = reinterpret_cast<TLobby *>(input_state)->send_with_offset4();
         if (v > self->f3) {
             TLobby::format_number_pair(v, self->f3, buf, 0x10);
             TLobby::report_adx_error("E9081001 adxt_stat_decinfo: can't play this number of channels", buf);
             stop_audio_stream(arg0);
             return;
         }
-        n1 = ((TLobby *)t)->notify_field_4();
-        k = TLobby__sub_803BFEE8(t);
+        n1 = reinterpret_cast<TLobby *>(input_state)->notify_field_4();
+        k = TLobby__sub_803BFEE8(reinterpret_cast<saddr>(input_state));
         if (k > 0) {
             self->f48 = (n1 / self->f38) * 3;
         } else {
             self->f48 = ((n1 / self->f38) * 3) / 2;
         }
         {
-            s32 a = ((TLobby *)t)->notify_field_4_alt() * 2;
+            s32 a = reinterpret_cast<TLobby *>(input_state)->notify_field_4_alt() * 2;
             self->f48 = a * ((self->f48 + a) / a);
         }
-        ((TLobby *)t)->set_network_result(self->f48);
+        reinterpret_cast<TLobby *>(input_state)->set_network_result(self->f48);
         if (k > 0) {
             if ((s32) self->f2 == 2) {
                 self->f50 = 0;
             } else {
-                s32 x = TLobby__sub_803BFE58(t);
+                s32 x = TLobby__sub_803BFE58(reinterpret_cast<saddr>(input_state));
                 s32 pages;
                 self->f50 = 0x800 - x % 0x800;
                 pages = (x + 0x7FF) / 0x800;
                 self->f50 = self->f50 % 0x800;
                 self->f8c = pages;
-                set_scroll_position__6TLobbyFl(self->file, pages);
+                set_adx_stream_end_sector(self->file, pages);
                 set_adx_stream_completion(self->file, TLobby__sub_803CB194, arg0);
             }
-            s32 e = ((TLobby *)t)->dispatch_field4_event();
+            s32 e = input_state->get_loop_end_sample();
             self->f90 = e;
-            ((TLobby *)t)->set_field_3c(e);
-            ((TLobby *)t)->set_field_44(0);
-            ((TLobby *)t)->set_field_40(0);
-            audio_stream_set_notify_callback((u8 *)t, (saddr)adxt_trap_entry_update__6TLobbyFPv, (saddr)arg0);
+            input_state->set_notify_sample_count(e);
+            input_state->set_notify_bytes(0);
+            input_state->set_notify_count(0);
+            audio_stream_set_notify_callback(reinterpret_cast<u8 *>(input_state), (saddr)adxt_trap_entry_update__6TLobbyFPv, (saddr)arg0);
         } else {
             if (self->file != NULL) {
-                set_scroll_position__6TLobbyFl(self->file, 0x7FFFFFFF);
+                set_adx_stream_end_sector(self->file, 0x7FFFFFFF);
             }
-            ((TLobby *)t)->set_field_3c(((TLobby *)t)->send_packet_by_id());
-            ((TLobby *)t)->set_field_44(0);
-            ((TLobby *)t)->set_field_40(0);
-            audio_stream_set_notify_callback((u8 *)t, (saddr)TLobby__sub_803CAEB4, (saddr)arg0);
+            input_state->set_notify_sample_count(reinterpret_cast<TLobby *>(input_state)->send_packet_by_id());
+            input_state->set_notify_bytes(0);
+            input_state->set_notify_count(0);
+            audio_stream_set_notify_callback(reinterpret_cast<u8 *>(input_state), (saddr)TLobby__sub_803CAEB4, (saddr)arg0);
         }
-        k = ((TLobby *)t)->notify_field_4();
-        n1 = ((TLobby *)t)->send_with_offset4();
-        s32 pid = ((TLobby *)t)->send_packet_by_id();
-        s32 p2 = ((TLobby *)t)->send_packet_by_id_2();
+        k = reinterpret_cast<TLobby *>(input_state)->notify_field_4();
+        n1 = reinterpret_cast<TLobby *>(input_state)->send_with_offset4();
+        s32 pid = reinterpret_cast<TLobby *>(input_state)->send_packet_by_id();
+        s32 p2 = reinterpret_cast<TLobby *>(input_state)->send_packet_by_id_2();
         TLobby__sub_803CBF30(self->fc, p2);
         TLobby__sub_803CBF90(self->fc, k);
         TLobby__sub_803CBFB0(self->fc, n1);
         TLobby__sub_803CBF0C(self->fc, pid);
         trigger_sub_task__6TLobbyFv(self->fc, self->f40);
-        if (((TLobby *)self->f4)->send_with_offset4() == 1) {
+        if (reinterpret_cast<TLobby *>(self->input_state)->send_with_offset4() == 1) {
             if (self->f42 == -0x80) {
                 SBF50(self->fc, 0, 0);
             } else {
@@ -284,8 +279,8 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
         if (self->f74 != NULL) {
             ((TLobby *)(self->f74))->set_packet_flags(k);
         }
-        if (audio_stream_get_format(t) == 2) {
-            s32 o = ((TLobby *)t)->get_offset_58();
+        if (audio_stream_get_format(reinterpret_cast<saddr>(input_state)) == 2) {
+            s32 o = reinterpret_cast<TLobby *>(input_state)->get_offset_58();
             run_step_4430__6TLobbyFv(self->fc, o);
         }
         TLobby::dispatch_packet((GcrnaStream *)(self->fc), 1);
@@ -329,6 +324,7 @@ s32 process_audio_stream_input(int);
 
 void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
   saddr lobby = o->lobby;
+  AudioStreamInputState *input_state = reinterpret_cast<AudioStreamInputState *>(lobby);
   Ring_803CAEB4 *ring = o->ring;
   SjChunk a;
   SjChunk c;
@@ -395,42 +391,40 @@ void TLobby__sub_803CAEB4(Conn_803CAEB4 *o) {
       return;
     }
     ((TLobby *)lobby)->set_network_result(o->f48);
-    ((TLobby *)lobby)->set_field_3c(((TLobby *)lobby)->send_packet_by_id());
-    ((TLobby *)lobby)->set_field_44(0);
-    ((TLobby *)lobby)->set_field_40(0);
+    input_state->set_notify_sample_count(((TLobby *)lobby)->send_packet_by_id());
+    input_state->set_notify_bytes(0);
+    input_state->set_notify_count(0);
   }
 }
 
 }
 
 void TLobby__sub_803CB194(void *context) {
-    u8 *arg0 = static_cast<u8 *>(context);
-    s32 temp_r3;
-    u8 *lobby;
-    lobby = (u8 *)(*(u8 **)((s8 *)arg0 + 8));
-    temp_r3 = ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->send_with_offset4_alt();
-    if ((s8) *(u8 *)((s8 *)arg0 + 0x6C) == 0) {
-        set_field_3c__6TLobbyFl((int) (*(s32 *)((s8 *)arg0 + 4)), -1);
-        set_scroll_position__6TLobbyFl(*(AdxStreamFile **)(arg0 + 8), 0x7FFFFFFF);
+    AdxStreamPlayer *player = static_cast<AdxStreamPlayer *>(context);
+    AdxStreamFile *file = player->file;
+    s32 loop_start_byte = player->input_state->get_loop_start_byte();
+    if (player->loop_flag == 0) {
+        player->input_state->set_notify_sample_count(-1);
+        set_adx_stream_end_sector(player->file, 0x7FFFFFFF);
         return;
     }
-    set_scroll_offset__6TLobbyFl((AdxStreamFile *)lobby, temp_r3 / 2048);
+    seek_adx_stream_sector(file, loop_start_byte / 2048);
 }
 
 void adxt_trap_entry_update__6TLobbyFPv(Obj_803CB20C *arg0) {
     Buf_803CB20C b;
     Strm_803CB20C *s;
-    s32 off;
     s32 total;
-    saddr id;
+    AudioStreamInputState *input;
+    s32 off;
     s32 c;
-    id = arg0->f4;
+    input = arg0->input_state;
     s = arg0->f14;
-    c = notify_client__6TLobbyFv(id);
-    off = ((TLobby *)id)->send_with_offset4_alt();
-    total = dispatch_field4_event__6TLobbyFv(id);
+    c = input->get_loop_start_sample();
+    off = input->get_loop_start_byte();
+    total = input->get_loop_end_sample();
     if (arg0->f8 == 0U && arg0->f6C == 0) {
-        ((TLobby *)arg0->f4)->set_field_3c(-1);
+        arg0->input_state->set_notify_sample_count(-1);
         return;
     }
     s->vt->lock(s, 1, arg0->f50, &b);
@@ -438,10 +432,10 @@ void adxt_trap_entry_update__6TLobbyFPv(Obj_803CB20C *arg0) {
         TLobby::notify_error("E8101201 adxt_trap_entry: not enough data");
     }
     s->vt->commit(s, 0, &b);
-    set_field_40__6TLobbyFl(id, 0);
-    set_field_3c__6TLobbyFl(id, arg0->f90 = total - c);
-    set_field_44__6TLobbyFl(id, off);
-    set_count__6TLobbyFl(id, c);
+    input->set_notify_count(0);
+    input->set_notify_sample_count(arg0->f90 = total - c);
+    input->set_notify_bytes(off);
+    input->set_decoded_samples(c);
     if ((s32)arg0->f2 == 2) {
         s->vt->m14(s);
         s->vt->lock(s, 1, off, &b);

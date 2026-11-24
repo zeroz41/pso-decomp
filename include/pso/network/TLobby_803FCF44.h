@@ -90,15 +90,15 @@ extern PppPapAuthenticationState ppp_pap_authentication_state;
 u32 TLobby__sub_803FE9F8(u32 sum, PppFrame* buf, u16 count);
 void TLobby__sub_803FD0C0(void);
 /* Called across the PPP files; each line names its defining file. */
-void TLobby__sub_803FD694(u8 *arg0); /* PppFsm.c */
+void TLobby__sub_803FD694(PppFsm *fsm); /* PppFsm.c */
 void TLobby__sub_803FE600(O_803FE600 *o); /* PppFsm.c */
-s16 TLobby__sub_803FED78(u8 *self); /* PppIpcp.c */
+s16 TLobby__sub_803FED78(PppFsm *self); /* PppIpcp.c */
 struct LcpConfig;
 s16 apply_lcp_config_to_sides(PppFsm *state, struct LcpConfig *config); /* PppLcp.c */
 s32 TLobby__sub_80401ABC(u8 *self_m, void *dst, s32 n); /* PppBuffer.c */
 
 void TLobby__sub_803FE820(saddr arg0);
-s16 TLobby__sub_803FF304(u8 *lobby);
+s16 TLobby__sub_803FF304(PppFsm *fsm);
 void TLobby__sub_803FF468(PppFsm *arg0);
 void TLobby__sub_803FD85C(void *arg0);
 s16 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, char *modem_name, s32 no_modem);
