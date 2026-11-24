@@ -861,7 +861,6 @@ struct TObjPlayer : public TObjChara {
     void free_indexed_entry(s32 _w1);
     void copy_node_record(saddr arg1);
     static void update_battle_control_on_unlock(void *player, void *target, void *pos, s32 phase);
-    static void create_cane_if_ready(saddr item, void *position);
     static void create_cleanup_object(void *arg0);
     static void free_static_buffer();
     static void alloc_and_run_object();
