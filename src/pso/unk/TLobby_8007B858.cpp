@@ -55,7 +55,6 @@
 #include "pso/unk/TLobby_800F8AA8.h"
 
 void load_particle_entry_resources(void);
-void init_partner_dialogue(void);
 void load_technique_resources(void);
 
 
@@ -88,7 +87,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {clear_legacy_enemy_kill_flags, release_legacy_enemy_kill_flags},
     {load_particle_entry_resources, TParticleCtrl::free_all},
     {TFogCtrl::update_fog_entries, TFogCtrl::release_fog_entries},
-    {init_partner_dialogue, TNpcPlayer__sub_8034EDB8},
+    {init_partner_dialogue, release_partner_dialogue},
     {TLobby__sub_80191270, TLobby__sub_80191264},
     {TLobby__sub_8007BBEC, TLobby__sub_8007BBF8},
     {reset_and_init_capture_texture, reset_and_release_capture_texture},

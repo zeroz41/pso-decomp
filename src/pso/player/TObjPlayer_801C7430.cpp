@@ -56,6 +56,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/CapturedTargetList.h"
+#include "pso/npc/NpcPartnerControl.h"
 
 
 #pragma readonly_strings on
@@ -1859,7 +1860,7 @@ void TObjPlayer::update_warp_relocation() {
             }
             if (TObjPlayer::is_locally_controlled(this) != 0) {
                 calc_circle_offset_pos(this->rotation_y + 0x8000, this->get_position_ptr(), (Vec *)&pos, 10.0f);
-                TNpcPlayer::send_6x3e_to_all_players(&pos, this->rotation_y);
+                send_6x3e_to_all_players(&pos, this->rotation_y);
                 reset_cameras_to_actor(this, 1);
             }
         }

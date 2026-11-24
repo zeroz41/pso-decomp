@@ -95,6 +95,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_801D94C8.h"
+#include "pso/npc/NpcPartnerControl.h"
 
 #pragma readonly_strings on
 
@@ -1377,9 +1378,6 @@ void text_builder_append(u8 *str);
 u32 __nw__7TObjectFUl(s32);
 u8 * __ct__7TObjectFP7TObject(void *, void *);
 s32 get_battle_ctrl_default__6TLobbyFv();
-s32 get_party_yaw();
-u8 *get_party_position(void);
-s32 TNpcPlayer__get_lobby_entry_yaw();
 void run_palettex_callback(u16);
 s32 is_palettex_activated(u16);
 void reset_client_quest_slot_table(void);
@@ -5295,7 +5293,7 @@ void complete_deferred_player_death(void) {
             ((TObjPlayer *)p)->prepare_hospital_return();
             floor_transition_state.set_next_floor(0, get_floor_map_terrain(0));
             ((s32 (*)(void))mark_area_change_pending)();
-            TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
+            send_inter_level_warp_all(floor_transition_state.get_next_floor());
             return;
         }
         ((TObjPlayer *)p)->create_return_city_window();
@@ -5311,7 +5309,7 @@ void TObjPlayer::prepare_hospital_return() {
     set_arrival_override_pos(this->get_entity_id(), get_hospital_yaw(), (saddr)((TObjPlayer *)this)->get_hospital_position());
     this->set_state_flags(0x800);
     this->set_battle_flag(0);
-    TNpcPlayer::apply_to_players((s32)(floor_transition_state.get_next_floor()), (void *)(TNpcPlayer::get_lobby_entry_ptr()), (s32)(TNpcPlayer__get_lobby_entry_yaw()));
+    apply_to_players((s32)(floor_transition_state.get_next_floor()), get_npc_lobby_entry_position(), get_npc_lobby_entry_yaw());
 }
 
 void handle_6x34(void) {  }
@@ -5332,7 +5330,7 @@ void prepare_guild_return__10TObjPlayerFPv(void *player) {
     ((TObjPlayer *)player)->set_state_flags(0x800);
     ((TObjPlayer *)player)->set_battle_flag(1);
     send_6x21_inter_level_warp((TObjPlayer *)player, floor_transition_state.get_next_floor());
-    TNpcPlayer::apply_to_players((s32)(floor_transition_state.get_next_floor()), (void *)(get_party_position()), (s32)(get_party_yaw()));
+    apply_to_players((s32)(floor_transition_state.get_next_floor()), get_party_position(), get_party_yaw());
 }
 #pragma pop
 
