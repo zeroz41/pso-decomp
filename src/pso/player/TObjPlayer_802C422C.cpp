@@ -15,8 +15,6 @@ extern "C" {
 
 TObjPlayer *get_local_player();
 
-void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1);
-
 extern s32 local_client_id;
 
 s32 sync_state__10TObjPlayerFi(saddr arg0) {
@@ -26,7 +24,7 @@ s32 sync_state__10TObjPlayerFi(saddr arg0) {
         TPlyOnCreated::create((u16)local_client_id, fn_802C4748);
         return 0;
     }
-    export_state_to_record__10TObjPlayerFPvPv((u8 *)player, (s8 *)arg0);
+    ((TObjPlayer *)player)->export_state_to_record((TPlyCharData *)arg0);
     return 1;
 }
 

@@ -922,6 +922,8 @@ struct TObjPlayer : public TObjChara {
     void clear_30_slots();
     static void setup_effect_slots(s32 arg0, saddr arg1);
     static void begin_action_from_char_select();
+    void export_character_data(TPlyCharData *character);
+    void export_state_to_record(TPlyCharData *record);
     void copy_battle_mode(u8 *player);
     void copy_byte_339_to_record(u8 *player);
     void copy_mag_level_to_record(u8 *player);

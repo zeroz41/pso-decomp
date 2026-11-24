@@ -1,6 +1,5 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/client_id.h"
-#include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -398,7 +397,7 @@ TPlayerBattleCtrl::TPlayerBattleCtrl(TObject *parent) : TObject(parent) {
     text = (current_language == LANGUAGE_JAPANESE) ? player_battle_ctrl_text_japanese : player_battle_ctrl_text_english;
     player = get_local_player();
     if (player != NULL) {
-        export_character_data__10TObjPlayerFPvPv(player, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
+        player->export_character_data(TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
     }
     TLobby::stop_audio_streams();
     pad_64 = 0;
