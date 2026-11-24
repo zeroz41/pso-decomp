@@ -339,12 +339,12 @@ void TNpcPlayer::send_6x3e_to_all_players(void *pos, s32 angle) {
             if (player->test_actor_flags(0x100000) != 0) {
                 near_enemy = 1;
             }
-            ((TNpcPlayer *)&cmd)->init_6x3E_packet();
+            cmd.init();
             cmd.header.client_id = player->get_entity_id();
             VecCopy((Vec *)&cmd.pos, (const Vec *)pos);
             cmd.angle = angle;
             cmd.is_near_enemy = near_enemy;
-            ((TNpcPlayer *)&cmd)->send_6x3E();
+            cmd.send();
         }
     }
 }
@@ -405,7 +405,7 @@ void TNpcPlayer::send_stop_at_position(u16 id, void *pos, s32 angle) {
     G_StopAtPosition_6x3E cmd;
     s16 near_enemy;
     TObjPlayer *player;
-    ((TNpcPlayer *)&cmd)->init_6x3E_packet();
+    cmd.init();
     player = get_player_by_client_id(id);
     near_enemy = 0;
     if (player != NULL) {
@@ -416,7 +416,7 @@ void TNpcPlayer::send_stop_at_position(u16 id, void *pos, s32 angle) {
         VecCopy((Vec *)&cmd.pos, (const Vec *)pos);
         cmd.angle = angle;
         cmd.is_near_enemy = near_enemy;
-        ((TNpcPlayer *)&cmd)->send_6x3E();
+        cmd.send();
     }
 }
 
@@ -453,7 +453,7 @@ void quest_player_look_at_partner(u16 src) {
     if (partner == NULL) {
         return;
     }
-    ((TNpcPlayer *)&cmd)->init_6x3E_packet();
+    cmd.init();
     near_enemy = 0;
     if (player->test_actor_flags(0x100000) != 0) {
         near_enemy = 1;
@@ -465,9 +465,9 @@ void quest_player_look_at_partner(u16 src) {
     cmd.angle = angle;
     cmd.is_near_enemy = near_enemy;
     if (near_enemy == 1) {
-        ((TNpcPlayer *)&cmd)->send_6x3E();
+        cmd.send();
     } else {
-        ((TNpcPlayer *)&cmd)->send_6x3E();
+        cmd.send();
     }
 }
 
@@ -484,14 +484,14 @@ void quest_player_face_actor(u16 src, u16 dst) {
     if (target == NULL) {
         return;
     }
-    ((TNpcPlayer *)&cmd)->init_6x3E_packet();
+    cmd.init();
     player->test_actor_flags(0x100000);
     angle = (s32)((65536.0 / (2.0 * 3.141592f)) *
                   atan2_float(target->position.x - player->position.x, target->position.z - player->position.z));
     cmd.header.client_id = src;
     VecCopy((Vec *)&cmd.pos, &player->position);
     cmd.angle = angle;
-    ((TNpcPlayer *)&cmd)->send_6x3E();
+    cmd.send();
 }
 
 void TNpcPlayer::play_effect(int client) {

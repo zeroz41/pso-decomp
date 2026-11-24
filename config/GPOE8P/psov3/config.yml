@@ -1417,8 +1417,8 @@ force_active:
   - model_resource__12TObjNpcARM00
   - name__12TObjNpcARM00
   - texture_list__12TObjNpcARM00
-  - TObjNpcBase__name
-  - TObjNpcBase__sub_80149368
+  - class_name__11TObjNpcBase
+  - set_npc_talk__12CursorActionFv
   - __ct__20TObjNpcCloakroomBaseFP7TObjectPv
   - name__20TObjNpcCloakroomBase
   - static_instance__20TObjNpcCloakroomBase
@@ -16231,8 +16231,8 @@ force_active:
   - sub_8012B1F0__13TUnk_804A4C78Fs
   - sub_8012B1F8__13TUnk_804A4C78Fv
   - sub_80140F44__11TMapCsnCtrlFv
-  - sub_80149358__11TObjNpcBaseFl
-  - sub_80149360__11TObjNpcBaseFl
+  - set_object_number__11TObjNpcBaseFl
+  - set_message_label__11TObjNpcBaseFl
   - sub_80156A68__14TObjCollidableFv
   - sub_80158604__13TObjMapObjectFv
   - sub_8015860C__6TOBindFv
