@@ -3,14 +3,14 @@
 
 #include "types.h"
 
-class TLobby;
+struct AdxDecoderChannel;
 
 // One ADXB decoder ("ADXB_DecodeHeaderAdx"), shared by the ADX, SPSD, AIFF and AU decoders.
 struct AdxbDecoder {
     s16 used;
     s16 m_02;
     s32 state;
-    TLobby *id;
+    AdxDecoderChannel *channel;
     s8 m_0C;
     s8 bits;
     s8 channels;
@@ -20,15 +20,15 @@ struct AdxbDecoder {
     s32 samples;
     s16 m_1C;
     u8 pad_1E[0x2];
-    s32 m_20;
-    s16 m_24;
-    s16 m_26;
-    s32 m_28;
+    s32 loop_enabled;
+    s16 loop_type;
+    s16 loop_count;
+    s32 loop_start_sample;
     s32 loop_start_byte;
-    s32 m_30;
-    s32 m_34;
+    s32 loop_end_sample;
+    s32 loop_end_byte;
     s32 m_38;
-    s16 *m_3C;
+    s16 *output_buffer;
     s32 wrap_len;    // samples; data past it is copied back to the buffer start
     s32 wrap_offset; // second channel's offset for that copy
     s16 m_48;
@@ -48,7 +48,7 @@ struct AdxbDecoder {
     s16 m_7C;
     s16 m_7E;
     u8 *m_80;
-    s32 m_84;
+    s32 source_offset; // inferred: never read here, zeroed with n and bytes by set_source
     void (*read)(s32, s32 *, s32 *, s32 *);
     saddr readArg;
     void (*done)(s32, s32, s32);
@@ -57,12 +57,25 @@ struct AdxbDecoder {
     s32 m_9C;
     s32 n;
     s32 bytes;
-    s16 m_A8;
+    s16 format;
     s16 m_AA;
-    u32 m_AC;
+    void *ahx_handle; // "can't play AHX data by this handle" when null
     u8 pad_B0[0x8];
 
+    static AdxbDecoder *alloc_record(s32 channels, saddr buffer, s32 size, s32 wrap_offset);
+    void clear_record();
+    void invoke_notify_callback();
+    void set_source(u8 *data, s32 size);
+    s32 get_state();
+    s32 get_format();
+    s32 get_loop_type();
+    s32 get_loop_start_sample();
     s32 get_loop_start_byte();
+    s32 get_loop_end_sample();
+    s32 get_loop_end_byte();
+    s16 *get_output_buffer();
+    s32 get_decoded_samples();
+    s32 get_decoded_bytes();
     s32 get_packet_flag_for_state();
 };
 LAYOUT_ASSERT(AdxbDecoder_size_check, sizeof(AdxbDecoder) == 0xB8);

@@ -5,6 +5,7 @@
 #include "pso/unk/TLobby_803C1A58.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxbDecoder.h"
+#include "pso/audio/AdxExpand.h"
 #include "pso/audio/AiffHeader.h"
 
 extern "C" {
@@ -55,17 +56,17 @@ static inline s32 adxb_parse_aiff_stream_header(void *ptr, void *hdr, void *size
     o->m_1C = 0;
     o->m_4A = 0;
     o->m_48 = 0;
-    o->m_26 = 0;
-    o->m_24 = 0;
-    o->m_34 = 0;
-    o->m_30 = 0;
+    o->loop_count = 0;
+    o->loop_type = 0;
+    o->loop_end_byte = 0;
+    o->loop_end_sample = 0;
     o->loop_start_byte = 0;
-    o->m_28 = 0;
-    o->m_20 = 0;
+    o->loop_start_sample = 0;
+    o->loop_enabled = 0;
     o->stream_channels = o->channels;
     o->stream_block_bytes = o->block_bytes;
     o->stream_block_samples = o->block_samples;
-    o->buf = o->m_3C;
+    o->buf = o->output_buffer;
     o->bufLen = o->wrap_len;
     o->rOff = o->wrap_offset;
     o->m_7C = o->m_48;
@@ -73,7 +74,7 @@ static inline s32 adxb_parse_aiff_stream_header(void *ptr, void *hdr, void *size
     o->m_80 = o->m_4C;
     o->m_9C = 0;
     o->m_98 = 0;
-    o->m_A8 = 3;
+    o->format = 3;
     if (o->bits == 8) {
         o->m_AA = 1;
     } else {
@@ -99,7 +100,7 @@ void TLobby::dispatch_network_state() {
 
 void adxb_decode_aiff_pcm8(AdxbDecoder *o) {
     u8 *src = o->src;
-    if (o->state == 1 && o->id->get_client_count() == 0) {
+    if (o->state == 1 && o->channel->get_state() == 0) {
         s16 *l;
         s16 *r;
         s32 i;
@@ -141,7 +142,7 @@ void adxb_decode_aiff_pcm16(AdxbDecoder *o) {
     u16 *r;
     s32 i;
     s32 n;
-    if (o->state == 1 && o->id->get_client_count() == 0) {
+    if (o->state == 1 && o->channel->get_state() == 0) {
         o->read(o->readArg, &o->pos, &o->avail, &o->x78);
         n = o->bufLen - o->pos;
         if (n > o->avail) {

@@ -17,6 +17,17 @@ struct AdxDecoderChannel {
     s16 delay_samples[4];
     s16 coef_k0;
     s16 coef_k1;
+
+    static void clear_pool();
+    void update_receive_check();
+    s32 get_decoded_count();
+    void clear_done_state();
+    void reset_client_state();
+    s32 post_request(s32 src, s32 nblk, s32 out_left, s32 out_right);
+    s32 try_post_command(s32 src, s32 nblk, s32 out_buf);
+    s32 get_state();
+    void clear_record_data();
+    void calc_adx_coeffs_at_offset(s32 rate, s32 cutoff);
 };
 LAYOUT_ASSERT(AdxDecoderChannel_size, sizeof(AdxDecoderChannel) == 0x34);
 
@@ -24,8 +35,8 @@ LAYOUT_ASSERT(AdxDecoderChannel_size, sizeof(AdxDecoderChannel) == 0x34);
 extern "C" {
 extern AdxDecoderChannel adx_decoder_channel_pool[16];
 extern s32 adx_expand_odd_result_flag;
-void TLobby__sub_803CB4A4(u8 *channel_buf);
-void TLobby__sub_803CB570(u8 *channel_buf, u8 *header, s16 *out_coefs);
+void TLobby__sub_803CB4A4(AdxDecoderChannel *channel);
+void TLobby__sub_803CB570(AdxDecoderChannel *channel, u8 *header, s16 *out_coefs);
 AdxDecoderChannel *adx_allocate_decoder_channel(void);
 u32 dispatch_receive_update__6TLobbyFv(int src, int nblk, int out_left, void *dly_left,
                                        int out_right, void *dly_right, int k0, int k1);

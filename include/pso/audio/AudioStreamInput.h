@@ -3,7 +3,7 @@
 
 #include "pso/audio/SjRingBuffer.h"
 
-class TLobby;
+struct AdxbDecoder;
 
 // Names inferred from the decode step (decode_audio_stream_step) and the setup in alloc_audio_stream_state.
 struct AudioStreamInputState {
@@ -11,7 +11,7 @@ struct AudioStreamInputState {
     s8 state;
     u8 channels;
     char stop_when_drained;
-    TLobby *decoder;
+    AdxbDecoder *decoder;
     SjRingBuffer *source;
     SjRingBuffer *rings[2];
     SjChunk src_chunk;

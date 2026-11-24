@@ -7,14 +7,14 @@
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxbDecoder.h"
+#include "pso/audio/AdxExpand.h"
 
 extern "C" {
 AdxbDecoder adx_channel_record_pool[16];
 void TLobby__sub_803C19D8(void *);
-uaddr adx_allocate_decoder_channel();
 
 void TLobby__sub_803C34F4(AdxbDecoder *h) {
-    s16 s = h->m_A8;
+    s16 s = h->format;
     if (s == 0) {
         TLobby__sub_803C3570(h);
     } else if (s == 10) {
@@ -40,7 +40,7 @@ void TLobby__sub_803C3570(AdxbDecoder *o) {
     int room;
     s32 width;
     s32 blk;
-    if (o->state == 1 && o->id->get_client_count() == 0) {
+    if (o->state == 1 && o->channel->get_state() == 0) {
         s32 room_ext;
         s32 pad;
         s32 channels;
@@ -90,21 +90,21 @@ void TLobby__sub_803C3570(AdxbDecoder *o) {
             n = room_ext;
         }
         if (o->stream_channels == 2) {
-            TLobby *lobby = o->id;
+            AdxDecoderChannel *channel = o->channel;
             s16 *dst = o->buf;
             dst += o->pos;
-            lobby->post_request((saddr)o->src, n * 2, (saddr)dst, (saddr)(dst + o->rOff));
-            TLobby__sub_803CB4A4((u8 *)lobby);
+            channel->post_request((saddr)o->src, n * 2, (saddr)dst, (saddr)(dst + o->rOff));
+            TLobby__sub_803CB4A4(channel);
         } else {
-            TLobby *lobby = o->id;
-            lobby->try_post_command((saddr)o->src, n, (saddr)(o->buf + o->pos));
-            TLobby__sub_803CB4A4((u8 *)lobby);
+            AdxDecoderChannel *channel = o->channel;
+            channel->try_post_command((saddr)o->src, n, (saddr)(o->buf + o->pos));
+            TLobby__sub_803CB4A4(channel);
         }
         o->state = 2;
     }
     if (o->state == 2) {
-        o->id->update_receive_check();
-        if (o->id->get_client_count() == 3) {
+        o->channel->update_receive_check();
+        if (o->channel->get_state() == 3) {
             s32 last;
             s32 rOff;
             s32 size;
@@ -119,7 +119,7 @@ void TLobby__sub_803C3570(AdxbDecoder *o) {
             buf = o->buf;
             size = o->wrap_len;
             rOff = o->wrap_offset;
-            s32 got = o->id->get_size();
+            s32 got = o->channel->get_decoded_count();
             s32 nblk = last / blk;
             s32 channels = o->stream_channels;
             s32 n = (got * blk) / channels;
@@ -150,7 +150,7 @@ void TLobby__sub_803C3570(AdxbDecoder *o) {
                     }
                 }
             }
-            o->id->reset_field_0C();
+            o->channel->clear_done_state();
             o->done(o->doneArg, o->bytes, o->n);
             o->state = 3;
         }
@@ -159,20 +159,18 @@ void TLobby__sub_803C3570(AdxbDecoder *o) {
 #pragma pop
 
 
-s32 TLobby::get_field_a0() {
-    u8 *arg0 = (u8 *)this;
-    return *(s32 *)((s8 *)arg0 + 0xA0);
+s32 AdxbDecoder::get_decoded_samples() {
+    return n;
 }
 
-s32 TLobby::get_field_0xa4() {
-    u8 *arg0 = (u8 *)this;
-    return *(s32 *)((s8 *)arg0 + 0xA4);
+s32 AdxbDecoder::get_decoded_bytes() {
+    return bytes;
 }
 
 void TLobby__sub_803C3984(u8 *arg0) {
     AdxbDecoder *h = (AdxbDecoder *)arg0;
     if (h->state == 3) {
-        h->id->reset_field_0C();
+        h->channel->clear_done_state();
         h->m_9C = 0;
         h->state = 0;
     }
@@ -180,7 +178,7 @@ void TLobby__sub_803C3984(u8 *arg0) {
 
 void TLobby__sub_803C39CC(u8 *arg0) {
     AdxbDecoder *h = (AdxbDecoder *)arg0;
-    h->id->reset_client_state();
+    h->channel->reset_client_state();
     h->state = 0;
 }
 
@@ -191,49 +189,44 @@ void TLobby__sub_803C3A04(u8 *arg0) {
     }
 }
 
-void TLobby::init_scroll(s32 arg1, s32 arg2) {
-    u8 *arg0 = (u8 *)this;
-    if (*(s16 *)((s8 *)arg0 + 0xA8) == 0) {
-        *(s32 *)((s8 *)arg0 + 0x50) = arg1;
-        *(s32 *)((s8 *)arg0 + 0x54) = (s32) (arg2 / (s8) *(u8 *)((s8 *)arg0 + 0xF));
-        *(s32 *)((s8 *)arg0 + 0x84) = 0;
-        *(s32 *)((s8 *)arg0 + 0xA0) = 0;
-        *(s32 *)((s8 *)arg0 + 0xA4) = 0;
+void AdxbDecoder::set_source(u8 *data, s32 size) {
+    if (format == 0) {
+        src = data;
+        maxLen = size / block_bytes;
+        source_offset = 0;
+        n = 0;
+        bytes = 0;
         return;
     }
-    *(s32 *)((s8 *)arg0 + 0x50) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x54) = (s32) (arg2 / (s32) (((s8) *(u8 *)((s8 *)arg0 + 0xD) / 8) * (s8) *(u8 *)((s8 *)arg0 + 0xE)));
-    *(s32 *)((s8 *)arg0 + 0x84) = 0;
-    *(s32 *)((s8 *)arg0 + 0xA0) = 0;
-    *(s32 *)((s8 *)arg0 + 0xA4) = 0;
+    src = data;
+    maxLen = size / ((bits / 8) * channels);
+    source_offset = 0;
+    n = 0;
+    bytes = 0;
 }
 
-s32 TLobby::get_entry_id() {
-    return *(s32 *)&this->m_flags;
+s32 AdxbDecoder::get_state() {
+    return state;
 }
 
-s32 TLobby::get_field_34() {
-    u8 *arg0 = (u8 *)this;
-    return *(s32 *)((s8 *)arg0 + 0x34);
+s32 AdxbDecoder::get_loop_end_byte() {
+    return loop_end_byte;
 }
 
-s32 TLobby::get_field30() {
-    u8 *arg0 = (u8 *)this;
-    return *(s32 *)((s8 *)arg0 + 0x30);
+s32 AdxbDecoder::get_loop_end_sample() {
+    return loop_end_sample;
 }
 
 s32 AdxbDecoder::get_loop_start_byte() {
     return loop_start_byte;
 }
 
-s32 TLobby::get_field_28() {
-    u8 *arg0 = (u8 *)this;
-    return *(s32 *)((s8 *)arg0 + 0x28);
+s32 AdxbDecoder::get_loop_start_sample() {
+    return loop_start_sample;
 }
 
-s32 TLobby::get_slot() {
-    u8 *arg0 = (u8 *)this;
-    return *(s16 *)((s8 *)arg0 + 0x24);
+s32 AdxbDecoder::get_loop_type() {
+    return loop_type;
 }
 
 s32 TLobby__sub_803C3ABC(u8 *adxb_decoder) {
@@ -245,7 +238,7 @@ s32 TLobby__sub_803C3AC4(u8 *adxb_decoder) {
 }
 
 s32 AdxbDecoder::get_packet_flag_for_state() {
-    s16 s = m_A8;
+    s16 s = format;
     if (s == 0) {
         return 0x10;
     }
@@ -275,14 +268,12 @@ s32 TLobby__sub_803C3B44(u8 *adxb_decoder) {
     return ((AdxbDecoder *)adxb_decoder)->rate;
 }
 
-s32 TLobby::get_field_a8() {
-    u8 *arg0 = (u8 *)this;
-    return *(s16 *)((s8 *)arg0 + 0xA8);
+s32 AdxbDecoder::get_format() {
+    return format;
 }
 
-s32 TLobby::get_field_0x3c() {
-    u8 *arg0 = (u8 *)this;
-    return *(s32 *)((s8 *)arg0 + 0x3C);
+s16 *AdxbDecoder::get_output_buffer() {
+    return output_buffer;
 }
 
 void TLobby__sub_803C3B5C(u8 *arg0, void (*arg1)(s32, s32 *, s32 *, s32 *), saddr arg2) {
@@ -321,14 +312,14 @@ s32 TRK__write_aram(void *arg0p, void *hdr, void *size) {
         return 0;
     }
     if (h->m_0C > 4) {
-        if (h->m_AC == 0U) {
+        if (h->ahx_handle == NULL) {
             TLobby::report_adx_error("E1060101 ADXB_DecodeHeaderAdx: ", "can't play AHX data by this handle");
             return 0;
         }
         h->bits = 8;
         h->block_bytes = (u8)(h->channels * 0xC0);
         h->block_samples = 0x60;
-        h->m_A8 = 0xA;
+        h->format = 0xA;
         goto block_11;
     }
     if (TLobby__sub_803C48C8((u8 *)hdr, (saddr)size, (u16 *)&h->m_1C) < 0) {
@@ -337,16 +328,16 @@ s32 TRK__write_aram(void *arg0p, void *hdr, void *size) {
     if (((TLobby *)hdr)->parse_header_loop_points((saddr)size, (u16 *)&sp18, (u16 *)&sp14) < 0) {
         return 0;
     }
-    h->id->calc_adx_coeffs_at_offset(h->rate, h->m_1C);
-    TLobby__sub_803CB570((u8 *)h->id, (u8 *)&sp18, (s16 *)&sp14);
-    sub_803C46DC((u8 *)hdr, (saddr)size, &h->m_20, &h->m_24, &h->m_26, &h->m_28, &h->loop_start_byte, &h->m_30, &h->m_34);
-    h->m_A8 = 0;
+    h->channel->calc_adx_coeffs_at_offset(h->rate, h->m_1C);
+    TLobby__sub_803CB570(h->channel, (u8 *)&sp18, (s16 *)&sp14);
+    sub_803C46DC((u8 *)hdr, (saddr)size, &h->loop_enabled, &h->loop_type, &h->loop_count, &h->loop_start_sample, &h->loop_start_byte, &h->loop_end_sample, &h->loop_end_byte);
+    h->format = 0;
 block_11:
     temp_r3 = h->m_4C;
     h->stream_channels = h->channels;
     h->stream_block_bytes = h->block_bytes;
     h->stream_block_samples = h->block_samples;
-    h->buf = h->m_3C;
+    h->buf = h->output_buffer;
     h->bufLen = h->wrap_len;
     h->rOff = h->wrap_offset;
     h->m_7C = h->m_48;
@@ -357,23 +348,22 @@ block_11:
     return sp10;
 }
 
-void TLobby::clear_record() {
-    u8 *arg0 = (u8 *)this;
-    if (arg0 != NULL) {
-        ((TLobby *)(*(saddr *)&this->m_prev))->clear_record_data();
-        memset(arg0, 0, 0xB8);
-        *(s16 *)&this->m_name = 0;
+void AdxbDecoder::clear_record() {
+    if (this != NULL) {
+        channel->clear_record_data();
+        memset(this, 0, sizeof(AdxbDecoder));
+        used = 0;
     }
 }
 
 inline void free_803C3E88(AdxbDecoder *r) {
     if (r != NULL) {
-        r->id->clear_record_data();
+        r->channel->clear_record_data();
         memset(r, 0, sizeof(AdxbDecoder));
         r->used = 0;
     }
 }
-AdxbDecoder *TLobby::alloc_record(s32 channels, saddr arg1, s32 size, s32 arg3) {
+AdxbDecoder *AdxbDecoder::alloc_record(s32 channels, saddr buffer, s32 size, s32 wrap_offset) {
     s32 i;
     AdxbDecoder *r;
     for (i = 0; i < 16; i++) {
@@ -387,15 +377,15 @@ AdxbDecoder *TLobby::alloc_record(s32 channels, saddr arg1, s32 size, s32 arg3) 
     r = &adx_channel_record_pool[i];
     memset(r, 0, sizeof(AdxbDecoder));
     r->used = 1;
-    r->id = (TLobby *)adx_allocate_decoder_channel();
-    if (r->id == 0) {
+    r->channel = adx_allocate_decoder_channel();
+    if (r->channel == NULL) {
         free_803C3E88(r);
         return NULL;
     }
     r->m_38 = channels;
-    r->m_3C = (s16 *)arg1;
+    r->output_buffer = (s16 *)buffer;
     r->wrap_len = size;
-    r->wrap_offset = arg3;
+    r->wrap_offset = wrap_offset;
     r->read = (void (*)(s32, s32 *, s32 *, s32 *))get_progress_info__6TLobbyFPvPvPvPv;
     r->readArg = (saddr)r;
     r->done = (void (*)(s32, s32, s32))TLobby__sub_803C4020;
@@ -414,10 +404,10 @@ s32 get_progress_info__6TLobbyFPvPvPvPv(u8 *arg0, s32 *arg1, s32 *arg2, s32 *arg
     *arg1 = h->m_9C;
     *arg2 = h->wrap_len - h->m_9C;
     *arg3 = h->samples - h->m_98;
-    return (saddr)h->m_3C;
+    return (saddr)h->output_buffer;
 }
 void TLobby__sub_803C406C(void) {
-    TLobby::clear_buffer_340();
+    AdxDecoderChannel::clear_pool();
     memset(adx_channel_record_pool, 0, sizeof(adx_channel_record_pool));
 }
 

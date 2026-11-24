@@ -4,6 +4,7 @@
 #include "pso/unk/TLobby_803C1A58.h"
 #include "pso/unk/TLobby.h"
 #include "pso/audio/AdxbDecoder.h"
+#include "pso/audio/AdxExpand.h"
 
 extern "C" {
 
@@ -16,7 +17,7 @@ s32 TLobby::is_spsd_header() {
 
 void TLobby__sub_803C40D0(AdxbDecoder *o) {
     u16 *src = (u16 *)o->src;
-    if (o->state == 1 && o->id->get_client_count() == 0) {
+    if (o->state == 1 && o->channel->get_state() == 0) {
         s16 *l;
         s16 *r;
         s32 i;
@@ -61,17 +62,17 @@ s32 TLobby__sub_803C43A8(void *decoder, void *hdr, void *size) {
     o->m_1C = 0;
     o->m_4A = 0;
     o->m_48 = 0;
-    o->m_26 = 0;
-    o->m_24 = 0;
-    o->m_34 = 0;
-    o->m_30 = 0;
+    o->loop_count = 0;
+    o->loop_type = 0;
+    o->loop_end_byte = 0;
+    o->loop_end_sample = 0;
     o->loop_start_byte = 0;
-    o->m_28 = 0;
-    o->m_20 = 0;
+    o->loop_start_sample = 0;
+    o->loop_enabled = 0;
     o->stream_channels = o->channels;
     o->stream_block_bytes = o->block_bytes;
     o->stream_block_samples = o->block_samples;
-    o->buf = o->m_3C;
+    o->buf = o->output_buffer;
     o->bufLen = o->wrap_len;
     o->rOff = o->wrap_offset;
     o->m_7C = o->m_48;
@@ -79,7 +80,7 @@ s32 TLobby__sub_803C43A8(void *decoder, void *hdr, void *size) {
     o->m_80 = o->m_4C;
     o->m_9C = 0;
     o->m_98 = 0;
-    o->m_A8 = 2;
+    o->format = 2;
     memset(o->m_4C, 0, 4);
     return len;
 }

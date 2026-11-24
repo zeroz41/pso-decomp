@@ -10,6 +10,7 @@ struct LscStream;
 struct SjRingBuffer;
 
 struct AdxtPlayer;
+struct AdxDecoderChannel;
 
 extern "C" {
 AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg);
@@ -33,8 +34,8 @@ s32 TLobby__sub_803C97B8(AdxtPlayer *player);
 s32 TLobby__sub_803C9CB0(AdxtPlayer *player);
 void TLobby__sub_803C9DB4(AdxtPlayer *player);
 void TLobby__sub_803CB194(void *context);
-void TLobby__sub_803CB4A4(u8 *arg0);
-void TLobby__sub_803CB570(u8 *arg0, u8 *arg1, s16 *arg2);
+void TLobby__sub_803CB4A4(AdxDecoderChannel *channel);
+void TLobby__sub_803CB570(AdxDecoderChannel *channel, u8 *header, s16 *out_coefs);
 void setup_adx_file_systems(s32 *arg0);
 void fs_error_notify(s32 context, const char *message, void *detail);
 void exec_adx_server(void);
@@ -69,8 +70,8 @@ s32 TLobby__sub_803C97B8(AdxtPlayer *player);
 s32 TLobby__sub_803C9CB0(AdxtPlayer *player);
 void TLobby__sub_803C9DB4(AdxtPlayer *player);
 void TLobby__sub_803CB194(void *context);
-void TLobby__sub_803CB4A4(u8 *arg0);
-void TLobby__sub_803CB570(u8 *arg0, u8 *arg1, s16 *arg2);
+void TLobby__sub_803CB4A4(AdxDecoderChannel *channel);
+void TLobby__sub_803CB570(AdxDecoderChannel *channel, u8 *header, s16 *out_coefs);
 void setup_adx_file_systems(s32 *arg0);
 void fs_error_notify(s32 context, const char *message, void *detail);
 void exec_adx_server(void);
