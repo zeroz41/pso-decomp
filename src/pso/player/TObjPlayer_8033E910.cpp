@@ -9,6 +9,9 @@
 #include "pso/unk/TUnk_804EFA88.h"
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaTextureMatrices.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/MaterialAlphaCompare.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -51,12 +54,6 @@ const char *player_battle_ctrl_text_english[7] = {
 struct ByteBlock_C { u8 bytes[0xc]; };
 
 
-extern "C" {
-s32 rotate_matrix_by_node_angles(void *, int);
-s32 post_translate_matrix(void *);
-void draw_ginja_object(saddr);
-void set_material_alpha_compare_reference(s32 reference);
-}
 f32 calc_camera_fov_degrees(void);
 void set_ginja_post_texgen_count(s32 x);
 void set_ginja_post_tev_stage_count(s32 x);
@@ -123,13 +120,13 @@ void TUnk_804EFA88::render() {
         set_depth_buffer_settings_1();
         set_draw_list_mask(3);
         push_matrix();
-        post_translate_matrix(this->entries[i].a);
-        rotate_matrix_by_node_angles(this->entries[i].b, 1);
+        post_translate_matrix((const f32 *)this->entries[i].a);
+        rotate_matrix_by_node_angles((const s32 *)this->entries[i].b, 1);
         play_indirect_effect_recipe(this->entries[i].effect_kind, 1, 1);
         ((void (*)(void *))init_particle_effect__10TObjPlayerFv)(this);
         ((void (*)(void *))setup_projection_tex_matrix__10TObjPlayerFv)(this);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->entries[i].p18));
-        draw_ginja_object((this->entries[i].p1C));
+        draw_ginja_object((void *)(this->entries[i].p1C));
         pop_matrix();
         reset_indirect_tev(1);
         ((void (*)(void *))reset_effects__10TObjPlayerFv)(this);

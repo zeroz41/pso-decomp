@@ -13,6 +13,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_80226070.h"
+#include "pso/system/SoundEffect.h"
 
 
 struct Bar_80256C00 {
@@ -35,10 +36,6 @@ struct Gauge_802571B4 {
 };
 
 struct Gauge_80256E0C { u8 p0[0x14]; f32 max; };
-
-extern "C" {
-extern const f32 lbl_805DCE58;
-}
 
 struct Gauge_80257784 {
     u16 flags;

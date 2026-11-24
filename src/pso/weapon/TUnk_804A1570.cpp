@@ -6,14 +6,9 @@
 #include "pso/unk/text_80120908.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/MatrixStack.h"
 
-extern "C" {
-
-int scale_current_matrix(void*);
-
-}
-
-void TUnk_804A1570::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { scale_current_matrix(&scale); } }
+void TUnk_804A1570::vfunc_60() { if (TObjPlayer::get_player_list() == 1) { scale_current_matrix(&scale.x); } }
 
 void TUnk_804A1570::update_idle() {
     if (1e-05f < scale.z) {

@@ -14,6 +14,10 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/network/client_id.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 
  extern const Vec lbl_8043C920 = {0.0f, 0.0f, 0.0f};
@@ -51,13 +55,9 @@ struct Me_800DC9EC {
 };
 
 extern "C" { u8 *find_entity_by_id(s16);
-s32 subtract_vector(void *, void *);
-s32 vec3_add_to(void *, void *);
-u32 csnVector(void *, void *, int);
 extern const f32 lbl_805D5260;
 extern const f32 lbl_805D5268;
 extern s32 lbl_805D5270;
-extern s32 local_client_id;
 void TUnk_80494E48::run_task() {
     Vec dir;
     void *att;
@@ -152,9 +152,7 @@ extern "C" {
 void __ct__14TObjCollidableFP7TObject(void *, void *);
 void matrix_mult_vec(s32, Vec *, Vec *);
 void rotate_matrix_y(s32, s32);
-void rotate_matrix_x(s32, s32);
 extern s32 __vt__13TUnk_80494E48[];
-extern u8 identity_matrix[];
 extern f32 lbl_805D5264;
 extern void *tl_04;
 Obj_800DCD04 *TObjPlayer__sub_800DCD04(Obj_800DCD04 *self, Vec *pos, s16 id, s32 *rot, s32 arg4, s16 arg5);

@@ -9,6 +9,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
 
 const char *TMapCsnCtrl__class_name = "TMapCsnCtrl";
 
@@ -28,9 +29,6 @@ Vec map_csn_box_face_normals[8] = {
 s32 map_csn_collision_flag_table[5] = {0, 0x8000, 0x8900, 0x800, 0x2000};
 
 extern "C" {
-s32 translate_matrix_vec3(int, void *);
-s32 rotate_vector_by_matrix(int, void *, void *);
-
 void TObjMapCsn::render() {  }
 
 
@@ -91,7 +89,7 @@ s32 TObjMapCsn::build_box_triangles() {
     corners[7].y = 0.0f;
     corners[7].z = -(0.5f * scale.z);
     push_matrix_from(identity_matrix);
-    translate_matrix_vec3(0, &position);
+    translate_matrix_vec3(0, (u8 *)&position);
     rotate_matrix_y(0, rotation_y);
     for (i = 0; i < 8; i++) {
         matrix_mult_vec(0, &corners[i], &collision_vertices[i]);

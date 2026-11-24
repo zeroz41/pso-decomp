@@ -29,6 +29,8 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/window/WindowLayout.h"
+#include <stdlib.h>
+#include "pso/map/area/AreaScene.h"
 
 struct Disp_8026F9F4 { u8 p0[0x20]; s16 id; u8 p1[0x42]; void *windows[5]; };
 
@@ -79,10 +81,9 @@ WindowDescriptor simple_status_window_layout = {
 };
 
 extern "C" {
-void TWindowComCard__set_column(u8 *arg0, s32 arg1);
-void *TWindowComCard__sub_80249ED8(void *, void *, void *, s32, s32, s32);
 void draw_photon_blast_fan(saddr, NJS_POINT2 *, Params_80270244 *, u32, f32, s32, s32, f32);
 void draw_photon_blast_gauge_ring(s32 arg0, Params_80270244 *arg1, const NJS_POINT2 *arg2, f32 farg0, f32 farg1);
+}
 struct VtBase4_8026f71c_more_8026f8cc_0 { void *vtable; };
 
 struct VObj3_8026f71c_more_8026f8cc_0 : VtBase4_8026f71c_more_8026f8cc_0 { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); };
@@ -139,6 +140,7 @@ struct Slots_80270060 { s32 type[4]; u32 id[4]; };
 
 struct Rect_80270394 { f32 x0; f32 y0; f32 x1; f32 y1; f32 u0; f32 v0; f32 u1; f32 v1; };
 
+extern "C" {
 s32 get_photon_blast_chain(Slots_80270060 *);
 s32 TLobby__sub_801C19D0(void *);
 s32 TWindowSubComCard__sub_802452DC(s32);
@@ -150,12 +152,9 @@ s32 get_status_effect_icon_index(u32 arg0);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 extern "C" {
 void update_lockon_window(u8 *arg0);
-s32 rand(void);
 void begin_screen_draw(s32 mode);
 s32 draw_textured_quad_at_depth(Rect_80270394 *, f32);
 void set_draw_texture_and_color(s32 idx, s32 color);
-
-extern s32 lobby_rule_settings[];
 
 void TWindowSubStatusDisp::start_hp_text_color_transition() {
     u8 *arg0 = (u8 *)this;
@@ -539,7 +538,6 @@ void TWindowSimpleStatus::draw_background(u8 *ctx) {
 }
 
 extern "C" {
-extern u8 __vt__19TWindowSimpleStatus[];
 s32 update_hp_tp_level__20TWindowSubStatusDispFv();
 
 void TWindowSimpleStatus::render() {

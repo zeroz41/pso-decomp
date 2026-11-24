@@ -16,6 +16,11 @@
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/network/client_id.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
 
 
 struct D_800DC420 { u8 pad[0x18]; s32 arr[1]; };
@@ -57,14 +62,9 @@ extern D_800DC448 *nano_drago_entry_params_resource;
 s32 is_split_screen();
 extern const f32 lbl_805D525C;
 extern s32 lbl_805D526C;
-extern s32 local_client_id;
 void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 *obj, void *attacker);
-u32 csnVector(void *, void *, int);
-s32 vec3_add_to(void *, void *);
 f32 atan2_float(f32, f32);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
-f32 vector_length(void *);
-s32 subtract_vector(void *, void *);
 extern s32 __vt__13TUnk_80494E10[];
 extern s32 tl_06;
 TUnk_80494E10 *construct_beam_effect__10TObjPlayerFPvPvPviPv(TUnk_80494E10 *beam, Vec *pos, Vec *target, s32 trail, void *owner);

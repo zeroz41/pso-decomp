@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
 #include "pso/render/render_util.h"
+#include <dolphin/os/OSCache.h>
 
 #pragma readonly_strings on
 
@@ -22,10 +23,9 @@ const u32 text_control_color_palette[10] = {
 };
 
 extern "C" {
-s32 DCFlushRange(void *, int);
 extern s32 menu_font_upload_flags;
 extern u8 menu_font_upload_epoch;
-extern "C" u8 lbl_8050C090[];
+extern u8 lbl_8050C090[];
 __declspec(section ".data") void *menu_font_texture_list[2] = {
     (void *)&lbl_8050C090, (void *)0x2,
 };
@@ -77,7 +77,8 @@ struct MenuGlyphEntry {
 
 
 extern "C" {
-void DCStoreRange(void *, u32);
+u32 get_font_char_advance(u16 c);
+u16 map_char_to_font_code(u16 c);
 u32 calc_text_width(char *s);
 u32 calc_fullwidth_text_width(char *s);
 void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f32 scale);

@@ -7,10 +7,10 @@
 #include "pso/unk/text_803CC294.h"
 #include "pso/unk/TLobby.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/item/TItemData.h"
 
 extern "C" {
 void prs_decompress_alloc(void *, void *, s32);
-void *lookup_item_pmt_record(u8 *item);
 void TLobby__sub_801E3E9C(s32, const char*, void*, s32);
 extern const char item_kt_archive_filename[] = "ItemKT.afs";
 extern const char TItemTexLoad_class_name[] = "TItemTexLoad";

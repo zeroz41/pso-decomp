@@ -41,6 +41,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
+#include "pso/system/MatrixStack.h"
 
 #pragma readonly_strings on
 
@@ -109,7 +110,6 @@ extern const TObjChipParams container_jung_enemy_spawn_params_b = {
 extern "C" {
 u32 init_collision_body_parts(void *, saddr, s32);
 s32 free_collision_body_parts(void *);
-s32 post_translate_matrix(void *);
 }
 
 struct Obj_8018CBF0 { u8 pad0[0x84]; s32 id; };
@@ -178,7 +178,7 @@ void TObjContainerJung::vfunc_81() {
         case 0:
             TObjFish::set_global_param(jungle_container_textures);
             push_matrix();
-            post_translate_matrix((u8 *)&this->position);
+            post_translate_matrix(&this->position.x);
             rotate_matrix_y(0, this->rotation_y);
             scale_matrix(0, 0.85f, 0.85f, 0.85f);
             draw_ginja_object((void *)get_bml_model(jungle_container_archive, 0));
@@ -312,7 +312,7 @@ void TObjContainerJungEx::vfunc_81() {
     case 0:
         TObjFish::set_global_param(TObjContainerJungEx::get_textures(0));
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, 0.85f, 0.85f, 0.85f);
         draw_ginja_object((void *)TObjContainerJungEx::get_model(0));
@@ -452,7 +452,7 @@ void TObjContainerJungEnemy::vfunc_81() {
     case 0:
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, 0.85f, 0.85f, 0.85f);
         draw_ginja_object(this->body_model);

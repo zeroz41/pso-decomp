@@ -21,6 +21,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -111,7 +112,7 @@ struct Parts_80285B84 {
     saddr sub8C;
 };
 
-s32 play_sound_effect(s32, s32, s32, s32);
+void clamp_list_scroll_offset(s32, NJS_POINT2 *, NJS_POINT2 *);
 void fn_80285314(Win_802857C4 *, Rect_802857C4 *);
 void fn_802855C4(Win_802857C4 *, Rect_802857C4 *);
 void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(void *, void *, void *, u16, s32, s32, s32, s32);

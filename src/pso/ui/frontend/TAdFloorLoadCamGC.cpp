@@ -6,6 +6,8 @@
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/ControllerInputState.h"
 
 struct Cam_8034BE5C {
     u8 pad0[0x1C];
@@ -17,12 +19,8 @@ struct Cam_8034BE5C {
     Vec up;
 };
 
-struct Pad_8034BE5C { u8 pad0[0x34]; s16 tilt; u8 pad36[4]; s16 speed; };
-
 extern "C" {
 const char *lbl_805D4340 = "TAdFloorLoadCamGC";
-f32 vec_squared_length(u8 *arg0);
-extern Pad_8034BE5C controller_physical_port_bank;
 extern const f32 lbl_805DFDB8;
 
 u16 fn_8034BE30(void* p) { return *(u16*)((char*)p + 0x24); }
@@ -54,8 +52,8 @@ void TAdFloorLoadCamGC::run_task() {
     s32 a;
     activate_camera_mode(9);
     s->ticks++;
-    tilt = controller_physical_port_bank.tilt;
-    s->angle += (s32)((*(const f32 *)&lbl_805DFDA8) * (f32)(s32)((*(const f32 *)&lbl_805DFDAC) * (f32)controller_physical_port_bank.speed)) / 10 + 0x1B4;
+    tilt = controller_physical_port_bank.controllers[0].stick_x;
+    s->angle += (s32)((*(const f32 *)&lbl_805DFDA8) * (f32)(s32)((*(const f32 *)&lbl_805DFDAC) * (f32)controller_physical_port_bank.controllers[0].cstick_y)) / 10 + 0x1B4;
     a = s->angle;
     if (a >= 0x10000) {
         a -= 0x10000;
@@ -83,7 +81,7 @@ void TAdFloorLoadCamGC::run_task() {
     s->up.y += dy;
     s->up.z += dz;
     VecCopy((Vec *)&up, (const Vec *)&s->up);
-    if (vec_squared_length((u8 *)&s->up) == (*(const f32 *)&lbl_805DFDB8)) {
+    if (vec_squared_length(&s->up) == (*(const f32 *)&lbl_805DFDB8)) {
         up.y = 1.0f;
     } else {
         normalize_vector(&up);

@@ -26,6 +26,8 @@
 #include "pso/ui/window/TWindowSubShortCut.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/unk/TUnk_804CE7D0.h"
+#include "pso/network/client_id.h"
+#include "pso/ui/window/WindowLayout.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -34,10 +36,8 @@ const char *window_chat_type_name_pointer = "TWindowChat";
 extern "C" {
 saddr TAdSinglePlyChrSelectGC__sub_80076D9C(saddr arg0, saddr arg1);
 int get_chat_shortcut(s32 index);
-extern s32 local_client_id;
 saddr fn_8002AE08(s32);
 void send_chat_shortcut(s32);
-saddr get_window_layout_position(int);
 s32 TWindowChat__sub_80247D50(TWindowKeyBoardHard *keyboard);
 int TWindowChat__sub_80247DAC(void* p);
     extern int chat_help_color_table[];
@@ -326,7 +326,7 @@ void TWindowChat::handle_chat_input() {
 void TWindowChat::open_next_input_window() {
     if (flags & 2) {
         *static_cast<s32 *>(result) = 1;
-        copy_vec2(composer->target_position, reinterpret_cast<void *>(get_window_layout_position(0xB7)));
+        copy_vec2(composer->target_position, (void *)(get_window_layout_position(0xB7)));
         composer->tween_ticks = 3;
         return;
     }
@@ -335,7 +335,7 @@ void TWindowChat::open_next_input_window() {
         *static_cast<s32 *>(result) = 1;
         softKeyboard = new TWindowKeyBoardSoft(composer, local_client_id);
         softKeyboard->set_flag60_bit1();
-        copy_vec2(composer->target_position, reinterpret_cast<void *>(get_window_layout_position(0xB8)));
+        copy_vec2(composer->target_position, (void *)(get_window_layout_position(0xB8)));
         composer->tween_ticks = 3;
         hardKeyboard->sub_8025EC04();
         return;

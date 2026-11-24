@@ -151,7 +151,6 @@ extern "C" {
 typedef struct Obj_80237310 Obj_80237310;
 typedef struct Owner_80237310 Owner_80237310;
 
-extern "C" {
 extern const Emitter_80237494 lbl_8044D920[3] = {{473, 0, 0.0f}, {475, 0, 0.0f}, {479, 0x20060, 1.0f}};
 extern const Emitter_80237494 lbl_8044D944[3] = {{473, 0, 0.0f}, {475, 0x40, 1.2f}, {404, 0x20060, 1.2f}};
 extern const Emitter_80237494 lbl_8044D968[3] = {{473, 0, 0.0f}, {475, 0x40, 1.2f}, {405, 0x20060, 1.4f}};
@@ -165,7 +164,6 @@ extern const Profile_80237494 rabarta_band_emitter_table[6] = {
 extern const Emitter_80237494 lbl_8044DA28 = {470, 0x10828, 0.0f};
 const char *TTecRaBarta_class_name = "TTecRaBarta";
 __declspec(section ".sdata2") extern const f32 lbl_805DC8C4;
-}
 typedef struct Emitter_80237494 Emitter_80237494;
 typedef struct Profile_80237494 Profile_80237494;
 typedef struct Rabarta_80237494 Rabarta_80237494;

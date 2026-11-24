@@ -31,14 +31,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 
-// Matrix-stack, vector and animation helpers and unowned globals without a usable header:
-// text_803D96A8.h/text_803D853C.h/MatrixTransforms.h/TObjMotion.h includers declare these with
-// conflicting private prototypes, the globals have no owning unit yet, and the
-// MSL headers are not on this unit's include path (rand).
-extern "C" {
-extern Mtx34 identity_matrix;
-}
-
 // The whole unit is built with deferred inlining, so the compiler emits the
 // functions in reverse order: the last function here sits first in the DOL.
 

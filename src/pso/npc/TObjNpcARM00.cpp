@@ -17,7 +17,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaTexture.h"
-#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 

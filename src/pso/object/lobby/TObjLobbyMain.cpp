@@ -15,6 +15,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaUvScroll.h"
+#include "pso/render/ModelDrawContext.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
@@ -30,7 +31,6 @@
 #pragma readonly_strings on
 
 extern "C" {
-void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 extern s32 actor_frame_tick;
 }
 

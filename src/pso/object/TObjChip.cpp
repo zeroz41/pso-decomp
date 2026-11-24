@@ -10,9 +10,12 @@
 
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/render/GinjaMaterial.h"
+#include "pso/render/model_render_state.h"
+#include "pso/render/render_util.h"
+#include "pso/system/MatrixStack.h"
 
 extern "C" {
-void draw_ginja_object(void *child);
 void set_color_blend_mode(int, int, int, int, s32, s32);
 }
 
@@ -28,15 +31,6 @@ void set_color_blend_mode(int, int, int, int, s32, s32);
 struct ByteBlock_C { u8 bytes[0xc]; };
 struct Color_8017FE58 { f32 a; s32 b; s32 c; s32 d; };
 extern "C" {
-s32 post_translate_matrix(void *);
-void project_world_to_screen(int, Vec *, NJS_POINT2 *, Vec *);
-extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 
 #pragma readonly_strings on
 const char *obj_chip_class_name_ptr = "TObjChip";
@@ -142,7 +136,7 @@ s32 TObjChip::is_in_view(Vec *center, f32 max_depth, f32 radius) {
         v.x = center->x - camera_right.x * radius;
         v.y = center->y + camera_right.y * radius;
         v.z = center->z + camera_right.z * radius;
-        project_world_to_screen(0, &v, &o1, &camera_right);
+        project_world_to_screen(0, &v, &o1.x);
         if (o1.x < 0.0f) {
             return 0;
         }
@@ -150,7 +144,7 @@ s32 TObjChip::is_in_view(Vec *center, f32 max_depth, f32 radius) {
         v.x = center->x + camera_right.x * radius;
         v.y = center->y - camera_right.y * radius;
         v.z = center->z - camera_right.z * radius;
-        project_world_to_screen(0, &v, &o2, &camera_right);
+        project_world_to_screen(0, &v, &o2.x);
         if (o2.x > 640.0f) {
             return 0;
         }
@@ -281,12 +275,12 @@ void TObjChip::draw_chips() {
                 col.a = c->alpha;
                 set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
                 push_matrix();
-                post_translate_matrix(&c->pos);
+                post_translate_matrix(&c->pos.x);
                 rotate_matrix_yxz(0, c->rotation[0], c->rotation[1], c->rotation[2]);
                 scale_matrix(0, params.scale, params.scale, params.scale);
                 draw_chunk_object(params.model);
                 pop_matrix();
-                set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+                set_constant_material(&chunk_material_color_half_alpha_f32);
             }
             model_render_flags = saved_model_render_flags;
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -294,7 +288,7 @@ void TObjChip::draw_chips() {
         } else {
             for (s32 i = 0; i < params.count; i++, c++) {
                 push_matrix();
-                post_translate_matrix(&c->pos);
+                post_translate_matrix(&c->pos.x);
                 rotate_matrix_yxz(0, c->rotation[0], c->rotation[1], c->rotation[2]);
                 scale_matrix(0, params.scale, params.scale, params.scale);
                 draw_chunk_object(params.model);
@@ -312,12 +306,12 @@ void TObjChip::draw_chips() {
             col.a = c->alpha;
             set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
             push_matrix();
-            post_translate_matrix(&c->pos);
+            post_translate_matrix(&c->pos.x);
             rotate_matrix_yxz(0, c->rotation[0], c->rotation[1], c->rotation[2]);
             scale_matrix(0, params.scale, params.scale, params.scale);
             draw_chunk_object(params.model);
             pop_matrix();
-            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+            set_constant_material(&chunk_material_color_half_alpha_f32);
         }
         model_render_flags = saved_model_render_flags;
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -325,7 +319,7 @@ void TObjChip::draw_chips() {
     } else {
         for (s32 i = 0; i < params.count; i++, c++) {
             push_matrix();
-            post_translate_matrix(&c->pos);
+            post_translate_matrix(&c->pos.x);
             rotate_matrix_yxz(0, c->rotation[0], c->rotation[1], c->rotation[2]);
             scale_matrix(0, params.scale, params.scale, params.scale);
             draw_chunk_object(params.model);
@@ -347,12 +341,12 @@ void TObjChip::vfunc_12() {
             NJS_ARGB color = { p->alpha, 1.0f, 1.0f, 1.0f };
             set_constant_material(&color);
             push_matrix();
-            post_translate_matrix(&p->pos);
+            post_translate_matrix(&p->pos.x);
             rotate_matrix_yxz(0, p->rotation[0], p->rotation[1], p->rotation[2]);
             scale_matrix(0, params.scale, params.scale, params.scale);
             draw_ginja_object(params.model);
             pop_matrix();
-            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+            set_constant_material(&chunk_material_color_half_alpha_f32);
         }
         model_render_flags = saved_model_render_flags;
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -360,7 +354,7 @@ void TObjChip::vfunc_12() {
     } else {
         for (j = 0; j < params.count; j++, p++) {
             push_matrix();
-            post_translate_matrix(&p->pos);
+            post_translate_matrix(&p->pos.x);
             rotate_matrix_yxz(0, p->rotation[0], p->rotation[1], p->rotation[2]);
             scale_matrix(0, params.scale, params.scale, params.scale);
             draw_ginja_object(params.model);

@@ -25,6 +25,7 @@ struct TWindowShortCut;
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/ui/window/WindowLayout.h"
 
 #pragma readonly_strings on
 
@@ -36,7 +37,6 @@ s32 clear_chat_shortcut();
 s32 store_chat_shortcut(s32 arg0, s32 arg1);
 extern "C" {
 u32 *get_chat_shortcut();
-
 }
 
 const char *TWindowSubShortCut__class_name = "TWindowSubShortCut";
@@ -157,7 +157,7 @@ void TWindowSubShortCut::run_task() {
             this->chat_window = 0U;
         }
         if ((u32) this->m_3c == 0U) {
-            *(void * *)&this->m_3c = (void *)new TWindowShortCut((s32)(get_window_layout_position(0x73)), this->m_24, (s32 *)((u8 *)arg0 + 0x40));
+            *(void * *)&this->m_3c = (void *)new TWindowShortCut((s32)((saddr)get_window_layout_position(0x73)), this->m_24, (s32 *)((u8 *)arg0 + 0x40));
         }
         if ((u32) this->confirm_window == 0U) {
             this->confirm_window = open_confirm_prompt();
@@ -232,7 +232,7 @@ s32 TWindowSubShortCut::open_menu() {
 s32 TWindowSubShortCut::open_confirm_prompt() {
     Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
     saddr r = (saddr)TWindowMessageYesNo::create((void *)(arg0), arg0->client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
+    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(r), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3D)), (s32)((saddr)get_window_layout_position(0x75)), 205.0f);
     ((TWindowMessageYesNo *)r)->set_choice_menu_flag70_bit10();
     return r;
 }
@@ -241,7 +241,7 @@ s32 TWindowSubShortCut::open_confirm_message() {
     saddr dialog;
 
     dialog = (saddr)TWindowMessageYesNo::create((void *)(this), this->client_id, 0, 0);
-    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
+    open_yes_no_prompt(reinterpret_cast<TWindowMessageYesNo *>(dialog), (uaddr)(TWindowSubStatusDisp::get_message_10(0x20)), (saddr)(TWindowSubStatusDisp::get_message_10(0x3e)), (s32)((saddr)get_window_layout_position(0x76)), 205.0f);
     ((TWindowMessageYesNo *)dialog)->set_menu_selected_index(1);
     ((TWindowMessageYesNo *)dialog)->set_choice_menu_flag70_bit10();
     return dialog;

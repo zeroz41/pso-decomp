@@ -20,6 +20,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/player/PlayerRequirementStats.h"
 
 
 #pragma inline_depth(1)
@@ -225,7 +226,6 @@ extern const f32 lbl_805DCE08;
 extern const f32 lbl_805DCDEC;
 extern const f32 lbl_805DCE0C;
 extern "C" {
-s32 build_player_equipment_requirement_stats(s32, Stats_80254CE4 *);
 void update_requirements__15TWindowHelpItemFv(Help_80254CE4 *self);
 void update_stat_comparison__15TWindowHelpItemFv(Help_802549B0 *self);
 extern "C" void TWindowHelpItem__vt0(HelpItem_802551C4 *self);
@@ -776,15 +776,15 @@ void update_requirements__15TWindowHelpItemFv(Help_80254CE4 *self) {
         return;
     }
     if (pmt->req_atp != 0) {
-        if (build_player_equipment_requirement_stats(pl, &st) != 0) {
+        if (build_player_equipment_requirement_stats((TObjPlayer *)pl, (PlayerRequirementStats *)&st) != 0) {
             *(s32 *)(entry + 0x20) = st.atp;
         }
     } else if (pmt->req_mst != 0) {
-        if (build_player_equipment_requirement_stats(pl, &st) != 0) {
+        if (build_player_equipment_requirement_stats((TObjPlayer *)pl, (PlayerRequirementStats *)&st) != 0) {
             *(s32 *)(entry + 0x20) = st.mst;
         }
     } else if (pmt->req_ata != 0) {
-        if (build_player_equipment_requirement_stats(pl, &st) != 0) {
+        if (build_player_equipment_requirement_stats((TObjPlayer *)pl, (PlayerRequirementStats *)&st) != 0) {
             *(s32 *)(entry + 0x20) = st.ata;
         }
     }

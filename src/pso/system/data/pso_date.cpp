@@ -4,6 +4,7 @@
 #include "pso/system/data/pso_date.h"
 #include "pso/render/GinjaView.h"
 #include "pso/system/date.h"
+#include "dolphin/os/OSReset.h"
 #include "dolphin/os/OSTime.h"
 
 #pragma inline_depth(1)
@@ -141,7 +142,6 @@ int getDateStamp(DateStamp* out) {
 
 extern "C" {
 
-int OSResetSystem(int, int, int);
 int VIWaitForRetrace(void);
 int VIFlush(void);
 int VISetBlack(int);

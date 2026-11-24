@@ -1,5 +1,6 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/protocol/subcmd_6x.h"
+#include "pso/network/protocol/subcommand_validation_player.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
@@ -33,12 +34,7 @@ s16 PhotonBlastGauge::get_valid_index() {
     return index;
 }
 
-extern "C" {
-s32 get_current_floor();
-s32 validate_6x39_set_photon_blast_ready_flag(void *);
-s32 validate_6x3B_clear_temporary_photon_blast_state_flags(void *);
-s32 validate_6x3A_clear_photon_blast_ready_flag(void *);
-}
+extern "C" s32 get_current_floor();
 
 void PhotonBlastGauge::set_section_index(s16 count) {
     s16 clamped;
@@ -56,7 +52,7 @@ void handle_6x3B_clear_temporary_photon_blast_state_flags(saddr src) {
     pkt.init_pkt_cmd_3B();
     pkt.load_subcommand_header((void *)src);
     bswap_g_client_id_header(&pkt);
-    if (validate_6x3B_clear_temporary_photon_blast_state_flags(&pkt) != 0) {
+    if (validate_6x3B_clear_temporary_photon_blast_state_flags(&pkt.header) != 0) {
         player = get_player_by_client_id(pkt.header.client_id);
         if (player != NULL) {
             player->photon_blast_gauge.clear_photon_blast_state();
@@ -82,7 +78,7 @@ void handle_6x3A_clear_photon_blast_ready_flag(saddr src) {
     pkt.init_6x3A_packet();
     pkt.clear_photon_blast_ready_flag((void *)src);
     bswap_g_client_id_header(&pkt);
-    if (validate_6x3A_clear_photon_blast_ready_flag(&pkt) != 0) {
+    if (validate_6x3A_clear_photon_blast_ready_flag(&pkt.header) != 0) {
         player = get_player_by_client_id(pkt.header.client_id);
         if (player != NULL) {
             player->photon_blast_gauge.set_bit1_at_40();
@@ -108,7 +104,7 @@ void handle_6x39_set_photon_blast_ready_flag(saddr src) {
     pkt.init_6x39_packet();
     pkt.handle_photon_blast_ready((void *)src);
     bswap_g_client_id_header(&pkt);
-    if (validate_6x39_set_photon_blast_ready_flag(&pkt) != 0) {
+    if (validate_6x39_set_photon_blast_ready_flag(&pkt.header) != 0) {
         player = get_player_by_client_id(pkt.header.client_id);
         if ((player != NULL) && (is_current_area_item_enabled() != 0)) {
             player_floor = player->get_floor();
@@ -126,10 +122,6 @@ void PhotonBlastGauge::send_6x39_photon_blast_ready() {
     pk.init_6x39_packet();
     pk.header.client_id = client_id;
     pk.update_and_send_60();
-}
-
-extern "C" {
-s32 validate_6x38_donate_to_photon_blast(void *);
 }
 
 s32 PhotonBlastGauge::is_ready() {
@@ -151,7 +143,7 @@ void handle_6x38_donate_to_photon_blast(saddr src) {
     cmd.init_subcommand_6x38();
     cmd.copy_packet_header_6x38((void *)src);
     cmd.bswap_fields();
-    if (validate_6x38_donate_to_photon_blast(&cmd) != 0) {
+    if (validate_6x38_donate_to_photon_blast(&cmd.header) != 0) {
         player = get_player_by_client_id(cmd.header.client_id);
         if ((player != NULL) && (is_current_area_item_enabled() != 0)) {
             if (get_current_floor() == player->get_floor()) {

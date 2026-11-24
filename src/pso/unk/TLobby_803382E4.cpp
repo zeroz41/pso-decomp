@@ -25,6 +25,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/TLanguage_801E4874.h"
+#include "pso/render/GinjaTexture.h"
 
 
 // These records are consecutive in the overlay data, beginning at lbl_804EF1B8.

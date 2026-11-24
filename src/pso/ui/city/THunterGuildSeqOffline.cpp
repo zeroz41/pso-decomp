@@ -27,6 +27,7 @@ struct VObj_802133C4_80212D9C : Base_802133C4_80212D9C {
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/text_8022350C.h"
+#include "pso/ui/window/WindowLayout.h"
 
 #pragma readonly_strings on
 struct Stack_802130AC {
@@ -54,7 +55,6 @@ struct Guild_8021317C : Base_8021317C {
 };
 
 extern "C" {
-saddr get_window_layout_position(s32);
 s32 THunterGuildSeqOffline__quest_result_callbacks[4];
 s32 THunterGuildSeqOffline__instance_table[4];
 THunterGuildSeqOffline *THunterGuildSeqOffline__active_instance;

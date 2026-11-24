@@ -1,6 +1,10 @@
 #include "types.h"
 #include <string.h>
 #include "pso/unk/SharedMemory.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/os/OSCache.h>
+#include <dolphin/os/OSReset.h>
+#undef PSO_SDK_COMPACT_MATH
 
 s32 lbl_805D7CA8;
 
@@ -19,10 +23,6 @@ s32 lbl_805D7CA8;
 // (nofralloc) per the TRK_MINNOW/musyx orig_asm precedent, byte-exact.
 
 extern "C" {
-
-void DCStoreRange(void*, u32);
-void ICInvalidateRange(void*, u32);
-int OSResetSystem(int, int, int);
 
 asm void LaunchDol(register LaunchDolContext *context) {
 #include "orig_asm/pso/unk/text_8042E8C4/LaunchDol.inc"

@@ -84,10 +84,6 @@ struct Tec_8022BD74 {
     u32 fe8;
 };
 
-extern "C" {
-
-}
-
 const TechniqueEmitterSourceRow lbl_8044CC78[3] = {
     {0x190, 2, 1.0f}, {0x191, 0, 1.0f}, {0x192, 0, 1.0f},
 };

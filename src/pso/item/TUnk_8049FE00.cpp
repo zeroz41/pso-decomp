@@ -4,10 +4,10 @@
 #include "pso/item/TUnk_8049FE00.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
+#include "pso/ui/TLevelSelect.h"
 
 extern "C" {
 int obj_getS16_2BA(void*);
-extern s32 game_difficulty_selection;
 }
 
 int TUnk_8049FE00::get_max_tp() { return obj_getS16_2BA(this->owner); }

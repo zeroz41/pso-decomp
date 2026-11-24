@@ -35,6 +35,9 @@ struct UV_80262038 {
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/network/client_id.h"
+#include "pso/render/ColorLineList.h"
 
 WindowDescriptor soft_keyboard_window_and_action_data = { {307.0f, 161.0f}, 50040.0f, NULL, 0x803 };
 
@@ -712,7 +715,7 @@ void TWindowKeyBoardSoft::sub_80261DD8(WindowDrawContext *ctx) {
     ctx->scale_point_about_pivot(&v[3].x);
     v[4].x = v[0].x;
     v[4].y = v[0].y;
-    draw_color_lines(&d, 5, 0x14, depth);
+    draw_color_lines((ColorLineList *)&d, 5, 0x14, depth);
 }
 
 void TWindowKeyBoardSoft::draw_key_frame(WindowDrawContext *context, f32 x0, f32 y, f32 w, f32 scale, u32 color, s32 idx) {
@@ -874,9 +877,6 @@ void TWindowKeyBoardSoft::run_task() {
 }
 
 #pragma pop
-
-extern "C" {
-}
 
 TWindowKeyBoardSoft::~TWindowKeyBoardSoft() {}
 

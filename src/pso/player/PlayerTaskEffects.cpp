@@ -27,6 +27,13 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/network/client_id.h"
+#include "pso/network/protocol/protocol_types.h"
+#include "pso/network/protocol/subcommand_validation_player.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/effect/TEffect.h"
+#include "pso/render/model_render_state.h"
 
 extern "C" {
 
@@ -64,14 +71,6 @@ s32 is_on_current_floor__10TObjPlayerFi(VO_801C6408*);
 
 }
 
-extern "C" {
-
-
-
-
-
-}
-
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerParticleOwner.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -99,11 +98,8 @@ s32 is_flag30_8_set__10TObjPlayerFi(saddr);
 
 
 extern "C" {
-extern s32 local_client_id;
-int validate_6x87_shrink_player(PlayerShrinkPacket*);
 void handle_6x87_shrink_player(const PlayerShrinkPacket* input);
 void bswap_g_client_id_header(void *p);
-int validate_6x88_restore_shrunken_player(PlayerRestoreSizePacket*);
 void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 }
 
@@ -119,14 +115,8 @@ BOOL fn_801C6F2C(u8 *arg0);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_801C6FF8_lbl_804C4008 __vt__18TPlayerLobbyMarker;
 u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg3);
-s32 scale_matrix(s32, f32, f32, f32);
 s32 rotate_matrix_y(s32, s32);
 s32 draw_chunk_object();
-extern u8 shared_effect_texture_list[];
-extern u8 saved_model_draw_color[];
-extern u8 model_material_color[];
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg3);
 s32 get_client_id(void);
 s32 TObjPlayer__sub_801C6DAC(u8 *arg0);
@@ -227,8 +217,6 @@ u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg
 #include "pso/camera/TCameraFollow.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/PlayerTaskEffects.h"
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 chunk_polygon_flags_or_mask;
 
 
 
@@ -415,8 +403,8 @@ void TPlayerLobbyMarker::render() {
         push_matrix();
         TParticleCtrl::begin_effect_render();
         saved_model_render_flags = model_render_flags;
-        copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(shared_effect_texture_list));
+        copy_argb(&saved_model_draw_color, &model_material_color);
+        TObjFish::set_global_param(&shared_effect_texture_list);
         model_render_flags |= 0x11;
         translate_matrix_vec3(0, reinterpret_cast<u8 *>(TObjPlayer__sub_801BF914(&reinterpret_cast<TObjPlayer *>(player)->m_84c)));
         rotate_matrix_y(0, camera_ctrl_instance->yaw + rotation);
@@ -424,7 +412,7 @@ void TPlayerLobbyMarker::render() {
         set_constant_material(&player_lobby_marker_color_table[get_material_index()]);
         TMainCursor::get_cursor_state();
         draw_chunk_object();
-        copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
+        copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();
         pop_matrix();
@@ -469,7 +457,7 @@ void handle_6x87_shrink_player(const PlayerShrinkPacket* input) {
     packet.initialize();
     packet.copy_from(*input);
     packet.byte_swap();
-    if (validate_6x87_shrink_player(&packet)) {
+    if (validate_6x87_shrink_player(&packet.header)) {
         TObjPlayer* player = get_player_by_client_id(packet.header.client_id);
         if (player && TObjPlayer::check_camera_mode())
             player->scale_state.shrink(packet.scalar);
@@ -505,7 +493,7 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input) {
     packet.initialize();
     packet.copy_from(*input);
     bswap_g_client_id_header(&packet.header);
-    if (validate_6x88_restore_shrunken_player(&packet)) {
+    if (validate_6x88_restore_shrunken_player(&packet.header)) {
         TObjPlayer* player = get_player_by_client_id(packet.header.client_id);
         if (player && TObjPlayer::check_camera_mode())
             player->scale_state.clear_shrink_flag();
@@ -742,7 +730,6 @@ void clear_movement_history(MovementHistory *history) {
     }
 }
 
-extern "C" s16 TObjPlayer__sub_800194E8(s32, s16);
 extern "C" s16 get_attack_params_atp_max(void *p);
 
 void set_arrival_override_pos(u16 idx, s32 yaw, void *pos) {
@@ -853,7 +840,7 @@ void save_render_material_state(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) model_render_flags;
     *(s32 *)((s8 *)arg0 + 4) = (s32) chunk_polygon_flags_and_mask;
     *(s32 *)((s8 *)arg0 + 8) = (s32) chunk_polygon_flags_or_mask;
-    copy_argb((NJS_ARGB *)(arg0 + 0xC), (NJS_ARGB *)model_material_color);
+    copy_argb((NJS_ARGB *)(arg0 + 0xC), &model_material_color);
 }
 
 void TObjPlayer::write_ids() { set_model_render_flags((saddr)this->m_name); set_chunk_material_override_pair((saddr)(*(void**)((char*)this + 0x4)), (saddr)this->m_prev); set_constant_material((const NJS_ARGB *)(((char*)this + 0xc))); }

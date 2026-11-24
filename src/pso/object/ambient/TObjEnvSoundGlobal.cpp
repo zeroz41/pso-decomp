@@ -78,8 +78,6 @@ const Row_80190AA0 *environment_sound_tables_by_area[36] = {
     NULL, NULL, lbl_80445820, lbl_80445820,
 };
 
-
-
 #define F(o) (*(f32 *)(self + (o)))
 #define S(o) (*(s32 *)(self + (o)))
 
@@ -93,12 +91,7 @@ const Row_80190AA0 *environment_sound_tables_by_area[36] = {
 #include "pso/unk/text_80190884.h"
 
 #include "pso/ui/hud/TRaderMapCore.h"
-
-extern "C" {
-
-
-}
-
+#include "pso/render/NinjaUtil.h"
 
 #include "pso/unk/text_80190940.h"
 #include "pso/system/task/TMainTask.h"

@@ -37,6 +37,7 @@
 #include "pso/ui/window/TWindowCtrl_8024ADAC.h"
 #include "pso/unk/text_8024AB98.h"
 #include "pso/unk/text_8024AB54.h"
+#include "pso/ui/window/WindowLayout.h"
 
 const char *TWindowSubTradeMain__name = "TWindowSubTradeMain";
 
@@ -83,7 +84,6 @@ public:
 struct Self_80331178 { u8 pad[0x28]; s32 client; saddr f2c; };
 
 extern "C" {
-saddr get_window_layout_position(s32);
 void TWindowSubTradeMain__sub_803323A8(void *);
 void TWindowSubTradeMain__sub_803323B8(void *);
 TWindowInputNumber *__ct__18TWindowInputNumberFPvllls(TWindowInputNumber *, void *, s32, s32, s32, s16);
@@ -130,7 +130,6 @@ struct TWindowSubTradeMain_8033162C {
 extern "C" {
 s32 get_state__19TWindowSubTradeMainFv(void *, void *);
 void TWindowSubTradeMain__sub_803323C8(void *);
-void fn_8027B2A8(void *);
 }
 
 typedef struct RecoveredFields_80331434_arg0 RecoveredFields_80331434_arg0;
@@ -624,7 +623,7 @@ void TWindowSubTradeMain::render() {  }
 saddr TWindowSubTradeMain::build_trade_menu() {
     u8 *arg0 = (u8 *)this;
   saddr titled_window_menu;
-  titled_window_menu = create_titled_window_menu((int) ((s32 (*)(int))get_window_layout_position)(0x5C), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x26)), (int) ((RecoveredFields_80331520_arg0 *) arg0)->field_28);
+  titled_window_menu = create_titled_window_menu((int) ((s32)(saddr)get_window_layout_position(0x5C)), 5, (0, (saddr)TWindowSubStatusDisp::get_message_10(0x26)), (int) ((RecoveredFields_80331520_arg0 *) arg0)->field_28);
   ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xDA)), 6, 3);
   ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xDB)), 6, 0xA);
   ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
@@ -638,7 +637,7 @@ saddr TWindowSubTradeMain::build_trade_menu() {
 saddr TWindowSubTradeMain::create_trade_menu() {
     u8 *arg0 = (u8 *)this;
   saddr titled_window_menu;
-  titled_window_menu = create_titled_window_menu((int) ((s32 (*)(int))get_window_layout_position)(0x5E), 4, (0, (saddr)TWindowSubStatusDisp::get_message_10(0xDD)), (int) ((RecoveredFields_80331434_arg0 *) arg0)->field_28);
+  titled_window_menu = create_titled_window_menu((int) ((s32)(saddr)get_window_layout_position(0x5E)), 4, (0, (saddr)TWindowSubStatusDisp::get_message_10(0xDD)), (int) ((RecoveredFields_80331434_arg0 *) arg0)->field_28);
   ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xDC)), 6, 0x11);
   ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0xE3)), 6, 0x16);
   ((TWindowMenu *)titled_window_menu)->add_text_entry((saddr) TWindowSubStatusDisp::get_message_10(0xDE), 6, 0x1A, (int) 0xFFEE946E);
@@ -653,7 +652,7 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_yes_no() {
     open_yes_no_prompt(window,
         reinterpret_cast<uaddr>(TWindowSubStatusDisp::get_message_10(0x20)),
         reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xE6)),
-        get_window_layout_position(0x5F), 282.0f);
+        (s32)(saddr)get_window_layout_position(0x5F), 282.0f);
     window->set_menu_selected_index(1);
     return window;
 }
@@ -674,7 +673,7 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_option_dialog_thunk(saddr message
 
 TWindowMessageYesNo *TWindowSubTradeMain::open_option_dialog(saddr message) {
     TWindowMessageYesNo *dialog = TWindowMessageYesNo::create(this, client_id, NULL, NULL);
-    initialize_option_dialog(dialog, message, get_window_layout_position(0x5F), 282.0f);
+    initialize_option_dialog(dialog, message, (saddr)get_window_layout_position(0x5F), 282.0f);
     return dialog;
 }
 
@@ -683,7 +682,7 @@ TWindowMessageYesNo *TWindowSubTradeMain::open_confirm_prompt() {
     open_yes_no_prompt(window,
         reinterpret_cast<uaddr>(TWindowSubStatusDisp::get_message_10(0x20)),
         reinterpret_cast<saddr>(TWindowSubStatusDisp::get_message_10(0xE4)),
-        get_window_layout_position(0x5F), 282.0f);
+        (s32)(saddr)get_window_layout_position(0x5F), 282.0f);
     window->set_menu_selected_index(1);
     return window;
 }
@@ -695,7 +694,7 @@ saddr TWindowSubTradeMain::create_trade_window() {
     if (p == NULL) {
         return 0;
     }
-    w = reinterpret_cast<saddr>(create_equip_kind_window(get_window_layout_position(0x60), &trade_window_pos, ((Self_80331178 *)this)->client));
+    w = reinterpret_cast<saddr>(create_equip_kind_window((saddr)get_window_layout_position(0x60), &trade_window_pos, ((Self_80331178 *)this)->client));
     ((TWindowMenuIconLine *)w)->ensure_status_display(p->m10());
     ((TWindowSubTradeMain *)w)->set_trade_state(0);
     ((TWindowMenuIconLine *)w)->refresh_trade_item_list((TradeItemEntry *)(TLobby__sub_802D299C()));
@@ -711,7 +710,7 @@ saddr TWindowSubTradeMain::open_trade_equip_window() {
     if (p == NULL) {
         return 0;
     }
-    w = reinterpret_cast<saddr>(create_equip_kind_window(get_window_layout_position(0x61), &trade_equip_window_pos, ((Self_803310BC *)this)->client));
+    w = reinterpret_cast<saddr>(create_equip_kind_window((saddr)get_window_layout_position(0x61), &trade_equip_window_pos, ((Self_803310BC *)this)->client));
     ((TWindowMenuIconLine *)w)->ensure_status_display(p->m10());
     ((TWindowSubTradeMain *)w)->set_trade_state(0);
     ((TWindowMenuIconLine *)w)->refresh_trade_item_list((TradeItemEntry *)(get_trade_window_state()));
@@ -723,7 +722,7 @@ saddr TWindowSubTradeMain::open_trade_equip_window() {
 saddr TWindowSubTradeMain::create_list() {
     saddr equip_kind_window;
 
-    equip_kind_window = reinterpret_cast<saddr>(create_equip_kind_window(get_window_layout_position(0x64), &trade_list_window_pos, this->client_id));
+    equip_kind_window = reinterpret_cast<saddr>(create_equip_kind_window((saddr)get_window_layout_position(0x64), &trade_list_window_pos, this->client_id));
     ((TWindowMenuIconLine *)equip_kind_window)->ensure_status_display((saddr)TWindowSubStatusDisp::get_message_10(0x24));
     ((TWindowMenuIconLine *)equip_kind_window)->refresh_trade_item_list((TradeItemEntry *)(TLobby__sub_802D298C()));
     ((TWindowBase *)equip_kind_window)->set_depth(TWindowSubEquip__sub_80263AF8(reinterpret_cast<u8 *>(parent_menu), 2));

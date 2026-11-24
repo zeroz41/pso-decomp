@@ -10,10 +10,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-
-extern "C" {
-extern s32 game_difficulty_selection;
-}
+#include "pso/ui/TLevelSelect.h"
 
 TUnk_804C4540 *ending_player;
 s8 player_light_index;

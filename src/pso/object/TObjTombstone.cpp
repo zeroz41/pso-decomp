@@ -39,13 +39,13 @@
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
+#include <dolphin/base/PPCArch.h>
 
 struct Off_800753DC { s16 x, y; };
 
 extern "C" {
 
 
-s32 PPCSync();
 u32 calc_text_width(const char *);
 void draw_menu_font_string(const char *, u32, s32, f32, f32, f32);
 const char *get_message_text(s32);

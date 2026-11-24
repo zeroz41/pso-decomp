@@ -2,11 +2,11 @@
 #include "pso/map/FloorPopulation.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/base/CollisionActorLookup.h"
 struct Pkt_8020BD50 { u8 hdr[2]; u16 id; s16 area; s16 flags; };
 
 extern "C" {
 s32 get_current_floor();
-void *find_entity_by_id(u16 id);
 void TLobby__sub_8020BCE4(void);
 extern TObject *tl_02;
 extern TObject *tl_05;
@@ -101,8 +101,6 @@ void handle_6x76_set_entity_set_flags(Pkt_8020BD50 *pkt) {
 
 struct Pkt_8020BF14 { u8 hdr[2]; s16 a; s16 b; s16 c; };
 
-extern "C" {
-}
 void build_6x76_set_entity_set_flags(void *);
 void send_6x76_set_entity_set_flags(void *arg0, s16 arg1);
 

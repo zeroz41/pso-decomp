@@ -25,14 +25,13 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-void post_translate_matrix(const Vec *v);
-extern GC_Mtx identity_matrix;
 }
 
 
@@ -73,7 +72,7 @@ void TUnk_80484AFC::explode_and_destroy() {
 void TUnk_80484AFC::render() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(textures));
     push_matrix();
-    post_translate_matrix(&position);
+    post_translate_matrix(&position.x);
     rotate_matrix_x(0, rotation_x);
     rotate_matrix_y(0, rotation_y);
     model_render_flags &= ~0x400;

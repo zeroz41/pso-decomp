@@ -26,6 +26,8 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowLayout.h"
 
 struct Obj_80275DB4 { u8 pad[0x60]; char f60; u8 pad2[0x6c - 0x61]; void *f6c; };
 
@@ -273,7 +275,6 @@ f32 TWindowSubCustomEquip__ring_scale;
 u8 TWindowSubCustomEquip__bank_ring_init_done;
 f32 lbl_805D6478;
 u8 lbl_805D647C;
-s32 play_sound_effect(s32, s32, s32, s32);
 
 
 void set_relative_pos(NJS_POINT2 *position, WindowSpritePart *entry) {
@@ -519,9 +520,7 @@ TWindowSubCustomEquip::~TWindowSubCustomEquip() {
     TWindowSubStatusDisp::destroy_status_display(reinterpret_cast<saddr>(m_6c), 1);
 }
 
-u8 *get_window_layout_position(s32 index);
-
-TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_804D1488, slot, get_window_layout_position(0xF)) {
+TWindowSubCustomEquip::TWindowSubCustomEquip(s32 slot) : TWindowBase((u8 *)&lbl_804D1488, slot, (u8 *)get_window_layout_position(0xF)) {
     void *heading;
     this->m_name = TWindowSubCustomEquip__name;
     this->client_index = slot;

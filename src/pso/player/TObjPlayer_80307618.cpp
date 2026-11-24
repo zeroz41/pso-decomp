@@ -12,6 +12,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/movie/TMovie.h"
+#include "pso/ui/TLevelSelect.h"
 
 // Built with -inline off,deferred: functions are written last to first.
 
@@ -20,7 +21,6 @@ extern NJS_TEXLIST shared_capture_texture_list;
 void set_queued_main_phase(s32 queued_main_phase);
 void request_main_phase(s32 arg0);
 void *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void *, s32, s32, s32);
-extern s32 game_difficulty_selection;
 }
 extern s32 ending_movie_active_flag;
 

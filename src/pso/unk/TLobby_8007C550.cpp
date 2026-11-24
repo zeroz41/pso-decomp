@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/unk/TLobby_8007C550.h"
+#include "pso/system/SubtractiveRng.h"
 
 extern "C" {
 u32 subtractive_rng_next(void *self);
-s32 subtractive_rng_seed(void*, int);
 
 s32 __ct__14SubtractiveRngFv(void* rng) {
     subtractive_rng_seed(rng, 0);

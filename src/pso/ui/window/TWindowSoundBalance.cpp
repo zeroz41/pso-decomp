@@ -19,6 +19,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 

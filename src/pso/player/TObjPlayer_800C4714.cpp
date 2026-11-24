@@ -22,6 +22,8 @@
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/AngleLookup.h"
 #include "pso/object/base/CollisionActorLookup.h"
 
 
@@ -48,12 +50,9 @@ typedef struct Obj_800C55E0 {
 } Obj_800C55E0;
 
 extern "C" {
-s32 vec3_add_to(void *, void *);
 s32 is_area_attack_target_eligible(saddr, s32);
 
 u8 *__ct__13TUnk_804928CCFP7TObjectP8TObjBase(u8 *arg0, s32 arg1, u32 arg2);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 void *destroy_and_free__21TObjEneRe2Flower_BombFs(void *arg0, s16 arg1);
 void render__21TObjEneRe2Flower_BombFv(u8 *arg0);
 
@@ -64,7 +63,6 @@ typedef struct Rot_800C4754 {
 } Rot_800C4754;
 
 extern "C" {
-
 
 void vfunc_6__8TObjBaseFPsl();
 void interact__14TObjCollidableFUs();

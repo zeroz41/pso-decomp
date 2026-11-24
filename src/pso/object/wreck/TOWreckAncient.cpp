@@ -30,6 +30,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"
 
 // The wreck family is one TU built with -inline off,deferred: its code runs Brakable05, Brakable, 07, 06, 05,
@@ -133,12 +134,6 @@ extern const TObjChipParams TOWreckAncientBrakable__debris_param_table = {
 BmlResource *wreck_ancient_bml_resource;
 BmlResource *wreck_ancient_brakable_bml_resource;
 
-extern "C" {
-
-
-s32 post_translate_matrix(void *);
-}
-
 // --- TOWreckAncient ---
 
 TOWreckAncient::TOWreckAncient(s32 model_index) : TObjCollidable(tl_05) {
@@ -177,7 +172,7 @@ void TOWreckAncient::free_statics() {
 void TOWreckAncient::render() {
     if (update_object_view_visibility(view_far_depth, view_radius) != 0) {
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         draw_ginja_object(model);

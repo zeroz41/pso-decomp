@@ -14,6 +14,7 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
+#include "pso/system/SoundEffect.h"
 
 typedef struct G_802C6A10 { s32 value; u8 remaining[0xC]; } G_802C6A10;
 

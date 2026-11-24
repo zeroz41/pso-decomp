@@ -8,10 +8,8 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/network/client_id.h"
 
-
-extern "C" {
-extern s32 local_client_id;
 
 void TUnk_804F1A78::run_task() {
     s16 mode;
@@ -99,6 +97,4 @@ TUnk_804F1A78::TUnk_804F1A78(TObject *parent, void *set_data, s32 hp) : TBoss8Dr
     this->finalHpThreshold = -1;
     this->hp = hp;
     this->hpmax = hp;
-}
-
 }

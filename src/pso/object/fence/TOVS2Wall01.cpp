@@ -24,6 +24,8 @@
 #include "pso/object/TOVS2Wreck01.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaModel.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TOVS2.h"
 #include "pso/unk/TLobby_801E43E4.h"
@@ -260,13 +262,6 @@ struct VObj_14_1eb8da : VBase_14_1eb8da {
     virtual s32 m7();
 };
 extern "C" {
-s32 post_translate_matrix(void *);
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 int submit_cursor_candidate(void*, int);
 // ---- TOVS2Wall01_8017C7A4
 #pragma defer_codegen on
@@ -342,7 +337,7 @@ void TOVS2::render() {
     this->m_cc = this->update_object_view_visibility(this->view_range, this->model_radius);
     if ((s32) this->m_cc == 1) {
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);
@@ -451,7 +446,7 @@ void TOVS2Wall01::render() {
             ((VObj_14_1eb8da *)(arg0 + (832)))->m6(chunk_polygon_flags_and_mask, model_render_flags);
         }
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_object(this->model);

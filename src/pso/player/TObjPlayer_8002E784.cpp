@@ -23,19 +23,15 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/render/model_render_state.h"
 
 extern "C" {
-s32 rotate_matrix_z(int, int);
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-s32 rotate_matrix_x(int, int);
-void set_chunk_material_override_pair(s32 first, s32 second);
 s32 matrix_mult_vec(int, void *, void *);
-void set_matrix_identity(u8 *matrix);
-void rotate_vector_by_matrix(int, void *, void *);
-void scale_matrix(int, f32, f32, f32);
-f32 vec3_add_to(void *, void *);
-extern u32 model_render_flags;
-extern u32 saved_model_render_flags;
+void set_chunk_material_override_pair(s32 first, s32 second);
 extern const f32 breakup_unit;
 extern const f32 breakup_zero;
 extern const f32 breakup_bounce_factor;

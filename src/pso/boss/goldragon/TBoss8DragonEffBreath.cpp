@@ -9,12 +9,12 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/TObjControl.h"
+#include "pso/system/MatrixOps.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 const char *TBoss8DragonEffBreath__name = "TBoss8DragonEffBreath";
-s32 vec3_add_to(void *, void *);
 
 void TBoss8DragonEffBreath::render() {  }
 

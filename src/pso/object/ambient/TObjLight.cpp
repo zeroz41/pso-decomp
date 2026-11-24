@@ -28,6 +28,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/render/NinjaUtil.h"
 
 typedef struct Actor_80193FE8 {
     u8 pad0[0x28];

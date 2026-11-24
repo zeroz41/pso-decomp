@@ -43,6 +43,8 @@
 #include "pso/unk/text_8018A3E0.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/object/TMotorcycle.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
 #include "pso/object/container/TContainerAncient01.h"
@@ -57,7 +59,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaTexture.h"
 
-struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
+struct Obj_80188884 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x28 - 0xC]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
 struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 struct Obj_8018860C {
     u8 pad[0x38];
@@ -65,14 +67,15 @@ struct Obj_8018860C {
     u8 pad44[0x326 - 0x44];
     s16 state;
 };
-struct Obj_80188C8C { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
+struct Obj_80188C8C { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x28 - 0xC]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
 struct Obj_8018990C { u8 pad[0x38]; f32 x, y, z; u8 pad44[0x326 - 0x44]; s16 f326; };
 struct Obj_801895A4 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
-struct CE_80189614 { u8 pad[0x34]; saddr f34; u8 f38[0x28]; s32 angle; u8 pad2[0x326 - 0x64]; s16 mode; };
+struct CE_80189614 { u8 pad[0x34]; saddr f34; f32 f38[3]; u8 pad44[0x28 - 0xC]; s32 angle; u8 pad2[0x326 - 0x64]; s16 mode; };
 struct Box_80189A50 {
     u8 pad00[0x34];
     saddr model;
-    u8 pos[0x28];
+    f32 pos[3];
+    u8 pad44[0x28 - 0xC];
     s32 rot;
     u8 pad64[0x326 - 0x64];
     s16 state;
@@ -306,7 +309,6 @@ TObjChipParams *forest_box_debris_secondary;
 BmlResource *container_breakup_model_archive;
 NJS_TEXLIST *container_breakup_textures;
 extern "C" {
-void post_translate_matrix(const void *);
 extern const f32 lbl_805DBCF8;
 u32 init_collision_body_parts(void *, void *, s32);
 s32 free_collision_body_parts(void *);
@@ -828,7 +830,7 @@ void TObjContainerNoItem::vfunc_81() {
         case 0:
         TObjFish::set_global_param(forest_box_textures);
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         scale_matrix(0, lbl_805DBCFC, lbl_805DBCFC, lbl_805DBCFC);
         draw_ginja_box_tree((u8 *)(*(saddr *)((s8 *)arg0 + 0x34)));

@@ -37,6 +37,7 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];
@@ -53,10 +54,6 @@ struct Ply_800F7118 {
     u8 pad350[0x36C - 0x350];
     s32 f36C;
 };
-extern "C" {
-
-
-extern uaddr TObjPlayer__data_8050D460[];
 
 struct Msg_800F641C { u8 code; u8 size; u16 id; s32 arg; };
 
@@ -81,6 +78,11 @@ struct B_800F698C {
     s16 f0; u8 pad2[4]; u16 f6; s16 f8; s16 fA; u8 padC[4]; Vec v10; Vec v1C; f32 f28[5]; s16 f3C; s16 f3E;
 };
 
+
+extern "C" {
+
+
+extern uaddr TObjPlayer__data_8050D460[];
 
 
 
@@ -121,9 +123,6 @@ s32 fn_801B0480(void *, void *, s32);
 s32 draw_player_status(void *, void *, const char *);
 
 s32 submit_cursor_candidate(void *, int);
-
-
-s32 minimap_render_dot(void *, int, int, int);
 
 }
 

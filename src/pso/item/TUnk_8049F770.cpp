@@ -5,10 +5,10 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/ui/TLevelSelect.h"
 
 extern "C" {
 s32 get_item_index__5TItemFv(void *);
-extern s32 game_difficulty_selection;
 }
 
 // Monomate and dimate heal their PMT amount plus half of it per difficulty

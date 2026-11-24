@@ -10,12 +10,12 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/SubtractiveRng.h"
 #include "pso/object/base/TObjBase.h"
 
 extern "C" {
 // TObjPlayer_80011014.h declares these, but its calc_random_ratio prototype takes no rng.
 BOOL is_split_screen(void);
-void subtractive_rng_seed(void *, s32);
 }
 
 TUnk_804E4BF0 *boss8_dragon_leader_part;

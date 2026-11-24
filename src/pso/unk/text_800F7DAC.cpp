@@ -18,6 +18,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/network/client_id.h"
 
 
 extern "C" {
@@ -26,7 +27,6 @@ u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 u32 prs_decompress(int, int, int, int);
 
-extern s32 local_client_id;
 }
 
 TScreenFadeController *screen_fade_controller;

@@ -30,6 +30,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/scene/OfflineGameScene.h"
+#include "pso/system/SoundEffect.h"
 
 
 struct S8_802C4944 { f32 a, b; };

@@ -5,6 +5,7 @@
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/vector.h"
+#include "pso/math/MatrixVector.h"
 #include "pso/technique/TTecZonde.h"
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/player/TObjPlayer.h"
@@ -42,7 +43,6 @@ struct Strike_80357B2C {
 
 extern "C" {
 void dispatch_weapon_special_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase);
-f32 vector_length(void *);
 
 }
 void spawn_scattered_lightning_strikes(u8 *arg0, s32 arg1);

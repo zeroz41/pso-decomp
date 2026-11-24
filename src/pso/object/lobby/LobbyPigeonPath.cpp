@@ -27,6 +27,8 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>
+#include "pso/render/GinjaTexture.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -119,9 +121,6 @@ extern const f64 lbl_80471960[1] = {10430.38043493439};
 
 extern "C" {
 
-
-s32 post_translate_matrix(void *);
-
 struct Ent_802C1FD0 { s32 a; f32 b; f32 c; s32 d; s32 e; };
 struct Ent_802C26E4 { s32 a; f32 b; f32 c; s32 d; s32 e; s32 f; };
 
@@ -132,7 +131,6 @@ typedef struct { f32 m[3][4]; } Mtx_802C17FC;
 
 
 void matrix_mult_vec(void *, void *, void *);
-
 }
 
 #include "pso/ui/frontend/TAdStorySelectGC.h"
@@ -202,7 +200,7 @@ void TObjPathObj::draw_line_strip(NJS_OBJECT *node, AnimationMotion *motion, f32
         frame += step;
         more = sample_clamped_path_position(node, motion, &to, frame);
         push_matrix();
-        post_translate_matrix(&position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         debug_draw_line(&from, &to, 0xF0F0F0FF, 0xF0F0F0FF);
         pop_matrix();
@@ -260,9 +258,9 @@ void TObjSeabedDolphin::draw() {
     }
     TObjFish::set_global_param(seabed_dolphin_texture_handle);
     push_matrix();
-    post_translate_matrix(&this->position);
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    post_translate_matrix(&this->path_position);
+    post_translate_matrix(&this->path_position.x);
     rotate_matrix_y(0, this->path_yaw);
     rotate_matrix_z(0, this->path_roll);
     set_motion_packed_rotation();
@@ -428,9 +426,9 @@ void TObjJungleEbi::draw() {
     }
     TObjFish::set_global_param(jungle_ebi_texture_gvm_handle);
     push_matrix();
-    post_translate_matrix(&this->position);
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    post_translate_matrix(&this->path_position);
+    post_translate_matrix(&this->path_position.x);
     rotate_matrix_y(0, this->path_yaw);
     rotate_matrix_z(0, this->path_roll);
     draw_model_motion(this->model, this->motion, this->motion_frame);
@@ -604,9 +602,9 @@ void TObjJungleBird::draw() {
     }
     TObjFish::set_global_param(lobby_pigeon_texture_gvm);
     push_matrix();
-    post_translate_matrix(&this->position);
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    post_translate_matrix(&this->path_position);
+    post_translate_matrix(&this->path_position.x);
     rotate_matrix_y(0, this->path_yaw);
     rotate_matrix_z(0, this->path_roll);
     draw_model_motion(this->model, this->motion, this->motion_frame);
@@ -769,9 +767,9 @@ void TObjJungleKamome::draw() {
     }
     TObjFish::set_global_param(lobby_kamome_texture_gvm_handle);
     push_matrix();
-    post_translate_matrix(&this->position);
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
-    post_translate_matrix(&this->path_position);
+    post_translate_matrix(&this->path_position.x);
     rotate_matrix_y(0, this->path_yaw);
     rotate_matrix_z(0, this->path_roll);
     draw_model_motion(this->model, this->motion, this->motion_frame);
@@ -969,9 +967,9 @@ void TObjLobbyPigeon::draw() {
     return;
   TObjFish::set_global_param(lobby_pigeon_lobby_type);
   push_matrix();
-  post_translate_matrix(&this->position);
+  post_translate_matrix(&this->position.x);
   rotate_matrix_y(0, this->rotation_y);
-  post_translate_matrix(&this->path_position);
+  post_translate_matrix(&this->path_position.x);
   rotate_matrix_y(0, this->path_yaw);
   rotate_matrix_z(0, this->path_roll);
   if (this->phase != 3)

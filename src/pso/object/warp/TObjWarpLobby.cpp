@@ -27,6 +27,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/client_id.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 
 #pragma readonly_strings on
@@ -76,8 +77,6 @@ extern "C" {
 void request_active_window_close(void);
 s32 create_window_menu_default(f32 *, s32, f32);
 
-s32 post_translate_matrix(void *);
-
 NJS_TEXLIST *lobby_warp_textures;
 
 void TObjWarpLobby::open_lobby_menu() {
@@ -99,7 +98,7 @@ void TObjWarpLobby::render() {
     if ((show_beam != 0) && (this->update_object_view_visibility(4e+02f, 2e+01f) != 0)) {
         TObjFish::set_global_param(lobby_warp_textures);
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         TParticleCtrl::begin_effect_render();
         draw_ginja_model_with_motion((NJS_OBJECT *)lobby_warp_bml_resource->models[0].model, lobby_warp_bml_resource->motions[0].motion, this->beam_frame);

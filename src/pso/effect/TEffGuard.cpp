@@ -3,8 +3,8 @@
 #include "pso/effect/TEffGuard.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
-#include "pso/system/task/TObject.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/system/task/TObject.h"
 #pragma readonly_strings on
 const char *TEffGuard::class_name = "TEffGuard";
 

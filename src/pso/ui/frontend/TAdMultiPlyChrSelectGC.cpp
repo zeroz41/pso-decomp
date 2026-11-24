@@ -49,6 +49,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
+#include "pso/system/SoundEffect.h"
 
 
 extern "C" {

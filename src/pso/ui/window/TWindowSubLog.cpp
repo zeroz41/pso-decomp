@@ -14,6 +14,7 @@
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 

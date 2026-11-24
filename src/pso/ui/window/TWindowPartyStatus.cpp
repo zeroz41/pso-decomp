@@ -15,6 +15,8 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/unk/text_8030C340.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/network/client_id.h"
 
 
 #pragma readonly_strings on
@@ -37,10 +39,8 @@ extern "C" {
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
-saddr get_window_layout_position(int);
 s32 TWindowSimpleStatus__ct(void *, int, void *, void *);
 extern s32 __vt__18TWindowPartyStatus[];
-extern s32 local_client_id;
 s32 update_lockon_window();
 }
 void update_status_help_item(saddr arg0);

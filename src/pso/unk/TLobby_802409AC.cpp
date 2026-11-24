@@ -23,6 +23,7 @@
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
+#include <dolphin/os/OSInterrupt.h>
 
 
 typedef struct Src_8024220C
@@ -148,8 +149,6 @@ struct Sound_80241798 {
 extern "C" {
 s32 sndFXCtrl(int, int, int);
 s32 sndFXKeyOff(int);
-s32 OSDisableInterrupts(void);
-s32 OSRestoreInterrupts(s32);
 void TLobby__sub_80240F3C(SoundRequestVoice *);
 u32 sndFXStartParaInfo(u16, u8, u8, u8, Params_80240B64 *);
 u32 sndFXCheck(u32);

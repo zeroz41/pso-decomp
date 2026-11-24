@@ -102,6 +102,7 @@ void TTecZonde::vfunc_8(void *arg1_arg) {
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/math/MatrixVector.h"
 
 struct Seg_8023C79C { Vec a; Vec b; f32 len; };
 struct Zonde_8023C79C {

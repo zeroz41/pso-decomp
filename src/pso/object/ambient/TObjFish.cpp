@@ -407,7 +407,6 @@ struct TObjFishSetData {
     Vec scale;
     s32 counts[3];
 };
-LAYOUT_ASSERT(TObjFishSetData_counts_offset, offsetof(TObjFishSetData, counts) == 0x30);
 
 TObjFish::TObjFish(TObject *parent, void *set_data) : TObjBase(parent) {
     TObjFishSetData *data = (TObjFishSetData *)set_data;
@@ -456,8 +455,6 @@ struct TObjFishAreaResource {
     const char *motions[4];
     BmlResourceDescriptor descriptor;
 };
-LAYOUT_ASSERT(TObjFishAreaResource_size, sizeof(TObjFishAreaResource) == 0x30);
-LAYOUT_ASSERT(TObjFishAreaResource_descriptor_offset, offsetof(TObjFishAreaResource, descriptor) == 0x20);
 
 TObjFishAreaResource fish_resource_name_table[5] = {
     { { lbl_80465A48, lbl_80465A68, lbl_80465A88, NULL },

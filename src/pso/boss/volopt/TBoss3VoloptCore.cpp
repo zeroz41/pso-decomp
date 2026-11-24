@@ -19,6 +19,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/math/MatrixVector.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
@@ -39,8 +40,6 @@ struct TBoss3VoloptOrbitSpeeds {
 };
 
 extern "C" {
-void set_matrix_identity(s32 matrix, f32 scale);
-void rotate_vector_by_matrix(saddr matrix, Vec *src, Vec *dst);
 }
 
 #pragma readonly_strings on
@@ -471,7 +470,7 @@ void TBoss3VoloptCore::update_orbit_position() {
     radius = orbit_radius;
     position.x = radius;
     position.z = 0.0f;
-    set_matrix_identity(0, radius);
+    set_matrix_identity(0);
     rotate_matrix_y(0, orbit_angle);
     rotate_vector_by_matrix(0, &position, &position);
     pop_matrix();

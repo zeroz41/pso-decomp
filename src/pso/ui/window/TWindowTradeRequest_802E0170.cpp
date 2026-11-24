@@ -17,11 +17,9 @@
 #include "pso/unk/text_8024AC64.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
+#include "pso/ui/window/WindowLayout.h"
 
-extern "C" {
-extern s32 local_client_id;
-u8 *get_window_layout_position(s32);
-}
 void text_builder_reset(void);
 extern "C" {
 const char *TWindowTradeRequest__name = "TWindowTradeRequest";
@@ -84,7 +82,7 @@ TWindowTradeRequest::TWindowTradeRequest(TObject *parent) : TObject(parent) {
     }
     text_builder_append((u8 *)TWindowSubStatusDisp::get_message_10(0xD9));
     dialog = TWindowMessageYesNo::create(this, local_client_id, NULL, NULL);
-    u8 *position = get_window_layout_position(0xB2);
+    u8 *position = (u8 *)get_window_layout_position(0xB2);
     dialog->open_yes_no_prompt_with_text(reinterpret_cast<saddr>(get_shared_text_buffer()),
         reinterpret_cast<saddr>(position), 260.0f);
     dialog->set_choice_menu_flag70_bit10();

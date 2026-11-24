@@ -40,10 +40,10 @@
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
+#include "pso/map/area/AreaScene.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
-s32 TLobby__sub_801403B4(s32);
 }
 void init_music_sequencer(s32);
 void init_area_lights(void);

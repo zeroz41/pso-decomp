@@ -25,6 +25,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/MatrixStack.h"
 
 struct TargetEntityPosition {
     u8 pad[0x1c];
@@ -57,14 +58,12 @@ void rocket_punch_wall_impact(u32 layer, u32 weapon, u32 target, uaddr pos) {
         play_sound_effect(0x4001C112, 0, 0, 0);
     }
 }
-extern "C" s32 post_translate_matrix(void *);
 
 void TItemShootRocketPunch::render() {
-    u8 *self = (u8 *)this;
     if ((TItemShootModel::is_owner_alive() != 0) && ((uaddr) this->model != 0U) && ((uaddr) this->texture_list != 0U)) {
         push_matrix();
         set_texlist(this->texture_list);
-        post_translate_matrix(self + 0x1C);
+        post_translate_matrix(&this->m_pos.x);
         rotate_matrix_y(0, this->m_count);
         rotate_matrix_x(0, this->m_28 - 0x4000);
         draw_ginja_object(this->model);

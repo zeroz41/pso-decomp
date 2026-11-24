@@ -1,15 +1,13 @@
 #include "pso/system/MatrixStack.h"
 #include "types.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D9650.h"
 #include "dolphin/mtx.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/system/MatrixOps.h"
 
 extern "C" {
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
-
 void rotate_matrix_z(MtxP matrix, s32 angle) {
     // Game angles have 65536 units per turn. The original uses a single-precision pi.
     const f64 radians_per_angle_unit = 2.0 * 3.141592f / 65536.0;

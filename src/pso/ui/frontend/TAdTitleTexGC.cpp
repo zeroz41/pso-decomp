@@ -11,6 +11,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/charcreate/TObjCMAssignMenu.h"
 #include "pso/unk/TLobby.h"
+#include "pso/render/GinjaTexture.h"
 
 // Built with -inline off,deferred: .text comes out last function first, so the functions are written
 // in reverse address order; the data below stays in source order.
@@ -35,8 +36,6 @@ saddr lbl_805D6668;
 
 extern "C" {
 
-void release_texture_list(void*);
-
 extern const s32 current_language;
 
 s32 load_streamed_prs_texture(s32 name, s32 texlist);
@@ -60,7 +59,7 @@ void TLobby__sub_802A5154(void) {
 
 void TLobby::free_dialing_gc() {
     if ((u32) lbl_805D6668 != 0U) {
-        release_texture_list((void*)lbl_805D6668);
+        release_texture_list((NJS_TEXLIST *)lbl_805D6668);
         lbl_805D6668 = 0U;
     }
 }

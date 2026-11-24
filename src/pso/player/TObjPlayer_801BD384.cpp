@@ -14,6 +14,7 @@
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/player/TUnk_804C4540.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/TObjWaitEntryHairMoveSim.h"
 
 
 extern "C" {
@@ -31,7 +32,6 @@ void TObjPlayer::sub_801BD318() {
 }
 
 int copy_player_visual_record(void *dst, void *src);
-s32 fn_800FE73C(TObjPlayer *player);
 
 void TObjPlayer::init_body_parts(void *visual) { update_body_parts(visual); }
 void TObjPlayer::reset_body_parts() {  }

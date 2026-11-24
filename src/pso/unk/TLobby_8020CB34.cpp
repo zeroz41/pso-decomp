@@ -3,10 +3,6 @@
 #include "pso/unk/TLobby_8020B334.h"
 #include "pso/unk/TLobby.h"
 
-extern "C" {
-
-u8 *create_set_object_from_row(void *);
-
 struct VObj8020 {
     char pad[0x18];
     virtual void m0();
@@ -15,6 +11,11 @@ struct VObj8020 {
     virtual void m3();
     virtual void m4(s32, s32);
 };
+
+extern "C" {
+
+u8 *create_set_object_from_row(void *);
+
 extern s32 quest_object_entries;
 
 s32 TLobby::spawn_objects_at_pos(s16 arg0, s16 arg1) {

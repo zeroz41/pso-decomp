@@ -6,6 +6,7 @@
 #include "pso/boss/goldragon/TObjBoss8Piller.h"
 #include "pso/camera/TObjLiveCamera.h"
 #include "pso/object/TObjLiveMonitor.h"
+#include "pso/map/area/AreaScene.h"
 
 // Load and release hooks in pairs, run forwards by run_load_callback_table and backwards by call_funcs_reverse.
 void (*static_resource_callback_table[10])(void) = {
@@ -17,7 +18,6 @@ void (*static_resource_callback_table[10])(void) = {
 };
 
 extern "C" {
-s32 run_load_callback_table(void *, int);
 void fn_802FE9E0(void) {
     TLobby::call_funcs_reverse((void*)static_resource_callback_table, (unsigned int)(sizeof(static_resource_callback_table)));
 }

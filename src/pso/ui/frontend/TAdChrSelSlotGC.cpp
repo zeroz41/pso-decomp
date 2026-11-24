@@ -31,13 +31,12 @@ NJS_TEXLIST *const lbl_80471D50[6] = { &lbl_804E0B60, &lbl_804E0B4C, &lbl_804E0B
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/vector.h"
+#include "pso/render/GinjaTexture.h"
 
 extern "C" {
 uaddr lbl_805D67F0;
 f32 char_select_slot_quad_width, char_select_slot_quad_height;
 extern const s32 current_language;
-void release_texture_list(void*);
-void restore_saved_depth_alpha_state(void);
 
 }
 
@@ -173,7 +172,7 @@ TAdChrSelSlotGC::TAdChrSelSlotGC(TObject*object) : TObject((TObject*)(object)) {
 
 void TLobby__sub_802C78EC(void) {
     if ((u32) lbl_805D67F0 != 0U) {
-        release_texture_list((void*)lbl_805D67F0);
+        release_texture_list((NJS_TEXLIST *)lbl_805D67F0);
         lbl_805D67F0 = 0U;
     }
 }

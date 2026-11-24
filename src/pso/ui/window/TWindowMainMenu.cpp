@@ -14,6 +14,8 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/network/client_id.h"
+#include "pso/ui/window/WindowLayout.h"
 
 struct TWindowSubItem;
 
@@ -63,7 +65,6 @@ struct E_80263DBC { s16 a; s32 b; };
 struct Obj_80263DBC { u8 pad[0x28]; E_80263DBC arr[4]; u8 pad2[0x50 - 0x48]; s16 f50; s16 f52; u8 pad3[0x5c - 0x54]; u32 f5c; };
 extern "C" {
 s32 is_trade_range_bit_set(s32);
-extern s32 local_client_id;
 s32 select_main_menu_item_10(s32);
 }
 

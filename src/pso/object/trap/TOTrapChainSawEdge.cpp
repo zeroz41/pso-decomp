@@ -51,10 +51,15 @@
 
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/network/client_id.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/ui/TLevelSelect.h"
 
 #pragma readonly_strings on
 extern "C" {
 NJS_TEXLIST *fn_802C9924(s32 index);
+}
 
 
 typedef struct P_802C86D4 {
@@ -123,13 +128,11 @@ struct VObj_802C936C : Base_802C936C {
 
 
 
+extern "C" {
 s8 get_current_floor(int);
 
 f32 fabs_float(f32);
 
-
-
-u8 is_current_floor_switch_set(s32 id);
 
 
 void TParticleCtrl__sub_802C8464(NJS_OBJECT *arg0);
@@ -145,15 +148,8 @@ void TOTrapChainSawDamage__sub_802C9C00(u8 *arg0, s32 arg1);
 void rotate_matrix_y(int, void *);
 
 
-void post_translate_matrix(void *);
-
-
 NJS_OBJECT *seabed_suiso_linked_switch_counts[5];
 NJS_OBJECT *seabed_suiso_switch_counts[5];
-
-extern s32 local_client_id;
-
-extern s32 game_difficulty_selection;
 
 
 const char *chainsaw_ginja_model_filenames[6] = {
@@ -211,7 +207,7 @@ CollisionBody chain_saw_collision_body_part_table[2][2] = {
 
 static const f32 lbl_805DE620 = -1.0f;
 
-extern "C" { BmlResource *lbl_805D6808; }
+BmlResource *lbl_805D6808;
 
 }
 
@@ -602,7 +598,7 @@ void TOTrapChainSawDamage::update_state() {
 void TOTrapChainSawDamage::vfunc_25() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(void **)((s8 *)this + 0x24)));
     push_matrix();
-    post_translate_matrix((void *)((char *)this + 56));
+    post_translate_matrix(&this->position.x);
     push_matrix();
     rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
@@ -715,7 +711,7 @@ void TOTrapChainSawKey::vfunc_14() {
 void TOTrapChainSawKey::vfunc_25() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(void **)((s8 *)this + 0x24)));
     push_matrix();
-    post_translate_matrix((void *)((char *)this + 56));
+    post_translate_matrix(&this->position.x);
     push_matrix();
     rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
@@ -814,7 +810,7 @@ void TOTrapChainSawEdge::update_sweep() {
 void TOTrapChainSawEdge::vfunc_25() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(void **)((s8 *)this + 0x24)));
     push_matrix();
-    post_translate_matrix((void *)((char *)this + 56));
+    post_translate_matrix(&this->position.x);
     push_matrix();
     rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));

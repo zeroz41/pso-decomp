@@ -10,14 +10,16 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowMenu.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/gx.h>
+#undef PSO_SDK_COMPACT_MATH
 
 extern "C" {
-s32 GXSetTexCoordGen2(s32, s32, s32, s32, s32, s32);
 s32 create_window_menu_default(const void *, s32);
 }
 
 void set_tex_coord_gen2(s32 arg0, s32 func, s32 arg2, s32 mtx) {
-    GXSetTexCoordGen2(arg0, func, arg2, mtx, 0, 0x7D);
+    GXSetTexCoordGen2((GXTexCoordID)arg0, (GXTexGenType)func, (GXTexGenSrc)arg2, mtx, 0, 0x7D);
 }
 void TLobby__sub_8033EE38(void* p) { *(s32*)((char*)p + 0x18) = 0; *(s32*)((char*)p + 0x1c) = 0; }
 void TAdMcCheckGC::render() {  }

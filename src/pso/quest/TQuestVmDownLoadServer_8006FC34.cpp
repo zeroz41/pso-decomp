@@ -11,6 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_8026A14C.h"
+#include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
 
 struct Table_8006FE7C {
@@ -36,7 +37,6 @@ extern void *tl_07;
 char *TLobby__sub_80070ACC(u8, u8, s32);
 Unit_8006FC7C *find_entity_by_id(void);
 extern char lbl_8043857C[];
-extern s32 local_client_id;
 void TQuestVmDownLoadServer::split_time_hms(s32 arg0, s32 *arg1, s32 *arg2, s32 *arg3) {
     *arg1 = arg0 / 3600;
     if ((s32) *arg1 > 0x63) {

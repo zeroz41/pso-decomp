@@ -23,15 +23,10 @@
 #include "pso/unk/text_8011BE50.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
 
 // Built with -inline off,deferred: functions are written last to first.
-
-extern "C" {
-s32 post_translate_matrix(void *);
-s32 rotate_matrix_z(s32, s32);
-s32 rotate_matrix_x(s32, s32);
-s32 vec3_add_to(void *, void *);
-}
 
 void TUnk_804A5D28::emit_marker_effects() { m_1fc = 1; }
 
@@ -125,7 +120,7 @@ void TWeaponCasing::render() {
         if (child != 0U) {
             set_texlist(((TItem *)equipped_item)->get_texlist());
             push_matrix();
-            post_translate_matrix(&position);
+            post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);
             rotate_matrix_x(0, rotation_x);
             rotate_matrix_z(0, rotation_z);

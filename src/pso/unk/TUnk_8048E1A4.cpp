@@ -29,6 +29,7 @@
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/render/model_render_state.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 
 
@@ -82,8 +83,6 @@ saddr freeze_shell_bml_resource;
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
 
 void TUnk_8048E1A4::freeze_shell_hold() {
     TObjCollidable *owner;

@@ -6,10 +6,10 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TTextureWave.h"
+#include "pso/render/GinjaTexture.h"
 
 extern "C" {
 
-s32 release_texture_list(s32);
 
 void TTextureWave::advance_wrapped_cursor() {
     s32 temp_r0;
@@ -24,7 +24,7 @@ void TTextureWave::advance_wrapped_cursor() {
 }
 
 TTextureWave::~TTextureWave() {
-    release_texture_list(this->m_3c);
+    release_texture_list(reinterpret_cast<NJS_TEXLIST *>(this->m_3c));
     safe_free(reinterpret_cast<void *>(this->m_44));
 }
 

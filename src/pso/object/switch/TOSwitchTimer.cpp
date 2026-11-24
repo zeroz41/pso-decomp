@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/object/switch/TOSwitchTimer.h"
+#include "pso/object/switch/TSwitch.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
@@ -8,10 +9,6 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TMainTask.h"
 #pragma readonly_strings on
-
-extern "C" {
-u8 is_current_floor_switch_set(s32 id);
-}
 
 void TOSwitchTimer::sub_801782A0() {
     s32 i;

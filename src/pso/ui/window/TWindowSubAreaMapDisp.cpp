@@ -24,6 +24,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/network/client_id.h"
 
 #pragma readonly_strings on
 
@@ -65,9 +66,6 @@ WindowDescriptor TWindowSubAreaMapDisp__window_parameters = {
     {610.0f, 188.0f}, 50150.0f, NULL, 3,
 };
 
-extern "C" {
-extern RecoveredGlobal_80271C6C___vt__21TWindowSubAreaMapDisp __vt__21TWindowSubAreaMapDisp;
-}
 void text_builder_reset(void);
 extern "C" {
 const char *TWindowSubAreaMapDisp__name = "TWindowSubAreaMapDisp";
@@ -178,7 +176,9 @@ TWindowSubAreaMapDisp::~TWindowSubAreaMapDisp() {
     }
     TWindowSubStatusDisp::destroy_status_display(reinterpret_cast<saddr>(heading), 1);
 }
+}
 LAYOUT_ASSERT(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp_size, sizeof(RecoveredGlobal_80271D00___vt__21TWindowSubAreaMapDisp) == 0x1C);
+extern "C" {
 TWindowSubAreaMapDisp::TWindowSubAreaMapDisp() : TWindowBase((u8 *)&TWindowSubAreaMapDisp__window_parameters, (s16)((s16) local_client_id), (u8 *)(get_window_layout_position(0x59))) {
     s32 temp_r3;
     TWindowSubStatusDisp *display;

@@ -4,9 +4,9 @@
 #include "pso/unk/TUnk_804ED7D0.h"
 #include "pso/ui/frontend/TAdDialingGC.h"
 #include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdTitleTexGC.h"
 
 extern "C" {
-void TLobby__sub_802A5154(void);
 
 
 void TAdDialingGC::close() {

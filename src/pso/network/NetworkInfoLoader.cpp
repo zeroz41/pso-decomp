@@ -1,5 +1,6 @@
 #include "types.h"
 #include <string.h>
+#include <dolphin/os/OSAlloc.h>
 #include "pso/ui/frontend/TAdPlayerLoadGC_803F339C.h"
 
 #pragma scheduling off
@@ -65,10 +66,7 @@ extern char default_network_entry_name[];
 extern char lbl_804FCF04[];
 extern char lbl_804FCF18[];
 extern u32 lobby_net_config_mode;
-void *OSAllocFromHeap(s32 heap, u32 size);
-void OSFreeToHeap(s32 heap, void *p);
 }
-extern s32 __OSCurrHeap;
 
 extern u8 TAdPlayerLoadGC__network_info_payload_buffer[];
 extern u8 network_info_trailer_buffer[];

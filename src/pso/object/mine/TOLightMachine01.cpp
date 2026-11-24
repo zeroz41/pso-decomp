@@ -8,6 +8,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaModel.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -35,7 +36,6 @@ BmlResource *TOLightMachine01__shared_bml_archive;
 NJS_OBJECT *light_machine_ginja_model_handle;
 NJS_TEXLIST *light_machine_ginja_param;
 const char *TOLightMachine01__name = "TOLightMachine01";
-s32 post_translate_matrix(void *);
 
 void TOLightMachine01::run_task() {
     this->m_a8 = (s32) (this->m_a8 + this->m_a4);
@@ -47,7 +47,7 @@ void TOLightMachine01::run_task() {
 void TOLightMachine01::render() {
     if (this->update_object_view_visibility(view_range, this->m_94) != 0) {
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
         draw_ginja_model(((NJS_OBJECT *)model)->model);

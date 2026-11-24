@@ -14,6 +14,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/WindowMenuFactory.h"
+#include "pso/ui/window/WindowLayout.h"
+#include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/quest/challenge/TChallenge4PResult.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/player/TObjPlayer.h"
@@ -48,7 +50,6 @@ struct Challenge4PItemCode {
 extern "C" {
 
 s32 TWindowSubComCard__sub_80265500(u32);
-saddr get_window_layout_position(s32);
 s32 fn_8034BE30(TChallenge4PResult *);
 
 }
@@ -67,11 +68,9 @@ extern "C" {
 
 
 
-void obj_set_flag_20000(TObjPlayer *);
 void get_player_result__18TChallenge4PResultFPv(TObjPlayer *, s32);
 void fn_8034BE48(TObjPlayer *);
 void request_active_window_close();
-void obj_clear_flag30_20000(TObjPlayer *);
 void fn_8034BE38(TObjPlayer *);
 void update_entries__18TChallenge4PResultFii(saddr arg0, s32 arg1);
 s32 __ct__18TChallenge4PResultFP7TObjectUsl(void *, s32, int, s32);
@@ -251,7 +250,7 @@ void TChallenge4PResult::init_timer() {
 void TChallenge4PResult::show_message(saddr text_handle) {
     if (message_window == NULL) {
         f32 pos[2] = {332.0f, 80.0f};
-        message_window = (TWindowMessagePage *)TWindowMessagePage::create(get_window_layout_position(0x40), (saddr)pos, 1, slot_index);
+        message_window = (TWindowMessagePage *)TWindowMessagePage::create((s32)get_window_layout_position(0x40), (saddr)pos, 1, slot_index);
     }
     if (message_window != NULL) {
         ((TWindowMessagePage *)message_window)->set_message((void *)text_handle, 0x81);

@@ -15,14 +15,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
 #pragma readonly_strings on
 
 struct Obj_802AF64C { u8 pad[0x38]; Vec pos; u8 pad2[0x90 - 0x44]; void *x90; };
 
 extern "C" {
-s32 vec3_add_to(void *, void *);
 extern Vec lbl_804707E8;
-extern u8 identity_matrix[];
 void TObjMistCtrl::sub_802AF64C() {
     Obj_802AF64C *arg0 = (Obj_802AF64C *)this;
     Vec v = lbl_804707E8;
@@ -34,7 +33,7 @@ void TObjMistCtrl::sub_802AF64C() {
     v.x *= 60.0f;
     v.y *= 60.0f;
     v.z *= 60.0f;
-    vec3_add_to(&v, &camera_ctrl_instance->pos.x);
+    vec3_add_to(&v, &camera_ctrl_instance->pos);
     VecCopy((Vec *)&arg0->pos, (const Vec *)&v);
     if (arg0->x90 != NULL) {
         ((TParticleCtrl *)arg0->x90)->set_position(&arg0->pos);

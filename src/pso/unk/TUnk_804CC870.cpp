@@ -33,6 +33,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/technique/TechniqueRingwaveList.h"
+#include "pso/system/MatrixOps.h"
 
 // ---- pso/unk/text_80232934
 
@@ -41,7 +42,6 @@ struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
 
 extern "C" {
 
-void scale_matrix(s32, f32, f32, f32);
 void draw_ginja_object(void);
 
 // ---- pso/unk/text_80232AA4

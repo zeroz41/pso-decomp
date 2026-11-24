@@ -32,6 +32,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/vector.h"
+#include "pso/system/SoundEffect.h"
 #pragma push
 #pragma readonly_strings on
 

@@ -26,7 +26,6 @@
 #include "pso/system/SoundEffect.h"
 
 extern "C" {
-extern GC_Mtx identity_matrix;
 }
 
 static const Vec volopt_shot_forward = {0.0f, 0.0f, 0.0f};

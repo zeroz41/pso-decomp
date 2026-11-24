@@ -1,8 +1,10 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#define PSO_SDK_COMPACT_MATH
+#include <math.h>
+#undef PSO_SDK_COMPACT_MATH
 
 extern "C" {
-f64 floor(f64);
 #pragma push
 #pragma scheduling off
 f32 TWindowSubComCard::trunc_float(f32 value) {

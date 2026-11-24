@@ -95,6 +95,9 @@ struct Obj_801547E0;
 #include "pso/unk/TLobby.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/math/ScratchVectors.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/render/render_util.h"
 
 union ObjectSavedState_801548A8 {
     u32 word;
@@ -115,15 +118,12 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 s32 vec3_add_to(void *, void *);
 s32 rotate_matrix_y(int, int);
-s32 rotate_vector_by_current_matrix(void *, void *);
 extern f32 identity_matrix[12];
 u8 * TObjPlayer__sub_80155028(saddr arg0, saddr arg1);
 s32 build_collision_box_corners(Vec pos, s32 facing, CollisionBody *body, CollisionBox *out);
 s32 subtract_vector(void *, void *);
 extern s32 enable_v2_features;
-extern Vec scratch_vec;
 f32 atan2_float(f32 y, f32 x);
-s32 angle_difference_abs(s32, s32);
 }
 extern saddr quest_object_entries;
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
@@ -140,8 +140,6 @@ void TObjPlayer__sub_8015434C(CollisionBodySet *set, s32 start, s32 count);
 void TObjPlayer__sub_8015431C(u8 *set);
 int TObjPlayer__sub_80154E28(int a0, int a1);
 void TObjPlayer__sub_80156934(void);
-f32 horizontal_distance_squared(void *, void *);
-s32 angle_diff_s16(s32 a, s32 b);
 extern saddr TObjPlayer__data_8050D460[];
 void *__construct_new_array(void *, void (*)(void *), void *, s32, s32);
 Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src, s32 count);
@@ -231,7 +229,7 @@ void TObjPlayer__sub_8015434C(CollisionBodySet *set, s32 start, s32 count) {
                     CollisionSphere other_sphere;
                     hit = NULL;
                     if (TObjPlayer::check_flags(flags, other_body->flags)) {
-                        rotate_vector_by_current_matrix(other_body, &offset);
+                        rotate_vector_by_current_matrix(&other_body->offset, &offset);
                         other_body->center.x = other_pos.x + offset.x;
                         other_body->center.y = other_pos.y + offset.y;
                         other_body->center.z = other_pos.z + offset.z;
@@ -637,7 +635,7 @@ s32 resolve_actor_sphere_contact(u8 *actor, s32 other, saddr contact) {
     f32 tangentScale;
     s32 var_r31;
     u16 temp_r3;
-    if (horizontal_distance_squared(actor + 0x38, actor + 0x44) < 9.9999994e-11f) {
+    if (horizontal_distance_squared(&((TObjBase *)actor)->position, &((TObjBase *)actor)->prev_position) < 9.9999994e-11f) {
         return 0;
     }
     VecCopy__FP3VecPC3Vec((void *)&displacement, (void *)(contact + 0x1C));

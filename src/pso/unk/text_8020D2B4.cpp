@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixTransforms.h"
 
 
 struct RecoveredGlobal_8020D2B4_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
@@ -44,7 +45,6 @@ extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 void *find_scene_room_by_id(s32 room);
 void apply_room_transform_to_enemy_rows(SpawnRecord_8020D36C *rows, s32 count);

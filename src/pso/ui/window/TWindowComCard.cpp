@@ -23,11 +23,11 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/object/TObjLuker.h"
+#include "pso/network/client_id.h"
 
 
 extern "C" {
 s32 TWindowSubComCard__sub_8007B070(s32);
-extern s32 local_client_id;
 void TWindowComCard__sub_80249920(saddr arg0, s32 arg1, s32 arg2);
 s8 TWindowComCard__sub_80249C18(void* p);
 s8 TWindowComCard__sub_80249C20(void* p);

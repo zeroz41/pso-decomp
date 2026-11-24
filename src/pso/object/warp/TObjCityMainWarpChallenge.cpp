@@ -36,6 +36,7 @@
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_8024ACEC.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D8F74.h"
@@ -54,7 +55,6 @@ s32 is_local_client_floor_leader(s32);
 void fn_80248994(TWindowBase *list, u32 color, s32 pos);
 void request_active_window_close(void);
 extern s32 city_main_warp_destination_id;
-s32 post_translate_matrix(void *);
 
 TObjCityMainWarpChallenge::TObjCityMainWarpChallenge(TObject *parent, void *set_data) : TObjAreaWarp(parent, set_data) {
     m_name = lbl_805D32B8;
@@ -130,7 +130,7 @@ void TObjCityMainWarpChallenge::render() {
 block_4:
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(city_common_texture_list));
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
+        post_translate_matrix(&this->position.x);
         rotate_matrix_y(0, this->rotation_y);
         draw_ginja_object((void *)city_common_model_archive->models[12].model);
         TParticleCtrl::begin_effect_render();

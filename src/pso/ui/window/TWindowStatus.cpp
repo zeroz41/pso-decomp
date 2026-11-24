@@ -19,6 +19,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8026F6DC.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
 const char *TWindowStatus__name = "TWindowStatus";
@@ -37,10 +38,6 @@ void set_draw_texture_and_color(s32 idx, s32 color);
 
 s32 draw_right_aligned_number(void *);
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp);
-
-
-
-saddr get_window_layout_position(s32);
 
 }
 void update_status_help_item(saddr arg0);

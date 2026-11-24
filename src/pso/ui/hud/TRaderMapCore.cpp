@@ -60,6 +60,12 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_80207DA8.h"
+#include "pso/render/NinjaUtil.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/render/model_render_state.h"
+#include "pso/network/client_id.h"
 
 typedef struct RadarInitPiece_801F9474 {
     s16 id, flags;
@@ -202,24 +208,12 @@ s32 minimap_render_dot(Vec *arg0, s32 arg1, s16 arg2, s32 arg3);
 }
 void update_radar_auto_discovery(TRaderMapCore *core, s32 arg1, void *arg2);
 extern "C" {
-void rotate_vector_by_matrix(void *, Vec *, Vec *);
 void rotate_matrix_y(void *, s32);
-extern u8 identity_matrix[];
 }
 extern "C" {
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 
 extern Color_801FAAEC radar_map_backdrop_color;
-extern u8 saved_model_draw_color[];
-extern u8 model_material_color[];
-extern s32 saved_model_render_flags;
-extern s32 saved_chunk_polygon_flags_and_mask;
-extern s32 saved_chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_or_mask;
-extern s32 chunk_polygon_flags_and_mask;
-extern s32 model_render_flags;
 void TRaderMapCore__sub_801F967C(TRaderMapCore *self, u32 color);
-void scale_matrix(s32, f32, f32, f32);
 s32 get_current_floor(void);
 s32 TLobby__sub_801C19D0(void *);
 // Marker colours (a, r, g, b) per player slot: red, green, yellow, blue.
@@ -229,9 +223,7 @@ static const Vec4_801F9E9C radar_player_slot_color_table[4] = {
     { 1.0f, 1.0f, 1.0f, 0.0f },
     { 1.0f, 0.0f, 0.0f, 1.0f },
 };
-extern s32 local_client_id;
 NJS_POINT2 TRaderMapCore__sub_801F9D38(TRaderMapCore *self);
-void GXSetViewport(f32, f32, f32, f32, f32, f32);
 
 int __dt__5THeapFv(void*, void*);
 s32 is_card_flag_set__19TWindowKeyBoardHardFv(s32);
@@ -692,7 +684,7 @@ void TRaderMapCore::render_region_records(s32 mode) {
     Rec_801FAAEC *r;
     s32 i;
     saved_model_render_flags = model_render_flags;
-    copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
+    copy_argb(&saved_model_draw_color, &model_material_color);
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags |= arg0->m_194;
@@ -723,7 +715,7 @@ void TRaderMapCore::render_region_records(s32 mode) {
     }
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-    copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
+    copy_argb(&model_material_color, &saved_model_draw_color);
     model_render_flags = saved_model_render_flags;
 }
 

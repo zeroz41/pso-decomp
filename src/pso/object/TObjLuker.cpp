@@ -33,7 +33,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowLayout.h"
 
 
 #pragma readonly_strings on
@@ -93,8 +93,7 @@ struct Luker_801A1260
 extern "C" {
 void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 s32 is_split_screen(void);
-void *get_window_layout_position(s32 a);
-void *create_window_menu_default(void *p, s32 a);
+void *create_window_menu_default(const void *p, s32 a);
 f32 horizontal_distance_squared(void *, void *);
 s32 TTecLuker__sub_8023401C(void *);
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);

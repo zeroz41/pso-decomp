@@ -17,14 +17,15 @@
 #include "types.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/network/client_id.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-saddr get_window_layout_position(int, f32);
 void TMedicalCenterMes__sub_80216260(void);
 
 extern const char *TMedicalCenterMes__class_name;
 extern s32 TMedicalCenterMes__slot_flags[4];
-extern s32 local_client_id;
 }
 
 
@@ -153,7 +154,7 @@ void TMedicalCenterSequence::open_greeting_window() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
-    create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
+    create_message_window((saddr)get_window_layout_position(0x2C), (saddr)pos);
     display_shop_message(0x1F, 1);
     m_2c = (TWindowBase *)create_meseta_window((u16)get_player_entity_id());
     set_state(2);

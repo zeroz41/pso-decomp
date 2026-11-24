@@ -31,6 +31,8 @@
 #include "pso/system/vector.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/render/GinjaTexture.h"
 
 
 struct UV_8024503C { f32 u, v; };
@@ -139,7 +141,6 @@ void TWindowSubComCard__sub_80245A10(u8 *card, s32 row, WindowDrawContext *r, f3
 
 struct Rect_802455CC { f32 x, y, w, h; u8 pad10[0x20 - 0x10]; f32 px, py, sx, sy; u8 pad30[0x38 - 0x30]; f32 depth; };
 
-s32 play_sound_effect(s32, s32, s32, s32);
 int TWindowSubComCard__sub_80244774(void);
 void fn_802449E0(u8 *object);
 int TWindowFukidasi__sub_8024695C(void *p);

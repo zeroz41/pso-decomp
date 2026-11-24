@@ -15,6 +15,7 @@
 #include "pso/unk/TUnk_804949F4.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
@@ -53,11 +54,8 @@ struct Mark_800D8314 {
     f32 scale;
 };
 extern "C" {
-f32 vec3_add_to(void *, void *);
 extern const f32 lbl_805DA380;
 u32 __cvt_fp2unsigned(f32);
-s32 rotate_matrix_z(int, int);
-s32 rotate_matrix_x(int, int);
 
 #pragma push
 #pragma readonly_strings on
@@ -294,7 +292,7 @@ void TUnk_804949F4::vfunc_6() {
   stack.y = lbl_805DA380;
   stack.x = x;
   stack.z = radius * cos_table_lookup((int) angle);
-  vec3_add_to(&stack.x, (u8 *)&position);
+  vec3_add_to(&stack, &position);
   emitter->set_position(&stack.x);
 }
 
@@ -326,7 +324,7 @@ void TUnk_804949D8::vfunc_6() {
     stack.y = lbl_805DA380;
     stack.x = x;
     stack.z = radius * cos_table_lookup(angle);
-    vec3_add_to(&stack.x, (u8 *)&position);
+    vec3_add_to(&stack, &position);
     TObjBoss2Tunnel::adjust_to_ground(&stack, &stack);
     emitter->set_position(&stack.x);
 }

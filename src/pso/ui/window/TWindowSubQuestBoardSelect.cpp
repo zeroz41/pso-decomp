@@ -18,6 +18,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma push
 #pragma readonly_strings on
@@ -193,8 +194,6 @@ void TWindowSubQuestBoardSelect__sub_8027D444(TWindowSubQuestBoardSelect *self, 
     v[2].y = v[1].y;
     draw_color_lines(&d, 3, 0x10, depth);
 }
-
-void play_sound_effect(s32, s32, s32, s32);
 
 void TWindowSubQuestBoardSelect::handle_cancel() {
     if (is_open() == 0) {

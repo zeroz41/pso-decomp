@@ -1,3 +1,4 @@
+#include <dolphin/os/OSCache.h>
 #include "pso/ui/UISprite.h"
 #include "types.h"
 #include "pso/render/GinjaUvScroll.h"
@@ -16,7 +17,6 @@ struct Vtx_8023E0FC { f32 x, y, z, u, v; s32 color; };
 struct Info_8023E0FC { f32 x, y, z; f32 dx1, dy1, dx2, dy2; f32 pad; f32 u, v, du1, dv1, du2, dv2; u8 pad2[8]; };
 
 extern "C" {
-void DCFlushRangeNoSync(void *, u32);
 
 s32 has_texture_scroll_entry(const GinjaDrawRecord *record, u16 id) {
     s32 found = 0;

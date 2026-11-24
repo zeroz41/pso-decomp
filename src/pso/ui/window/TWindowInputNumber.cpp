@@ -44,7 +44,6 @@ WindowDescriptor window_input_number_layout = {
 
 extern "C" {
 
-
 void TWindowInputNumber::mark_confirmed() {
     if (!(this->inputFlags & 8) && (TWindowInputNumber::is_confirmed() == 0)) {
         this->inputFlags = (u16) (this->inputFlags | 4);

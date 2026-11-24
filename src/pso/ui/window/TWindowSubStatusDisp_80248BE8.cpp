@@ -15,11 +15,10 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
+#include "pso/network/client_id.h"
 
 extern "C" {
 s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
-
-extern s32 local_client_id;
 
 u8 *TWindowSubStatusDisp__sub_80248BE8(saddr parent, saddr size, s32 client) {
     TShopJudgmentItemWindow__sub_80267F9C((void *)size, 0x5);

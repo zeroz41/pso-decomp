@@ -17,6 +17,7 @@ struct TWindowSubComCard;
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/vector.h"
+#include "pso/system/SoundEffect.h"
 
 struct UV_802AD538 { f32 u, v; };
 

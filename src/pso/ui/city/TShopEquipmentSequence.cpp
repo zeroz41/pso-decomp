@@ -21,9 +21,9 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/unk/text_8022350C.h"
+#include "pso/ui/window/WindowLayout.h"
 
 extern "C" {
-saddr get_window_layout_position(int, f32);
 s32 TShopEquipmentSequence__slot_active_flags[4];
 extern const char *TShopEquipmentSequence__class_name;
 TShopEquipmentSequence *lbl_805D6228;
@@ -134,7 +134,7 @@ void TShopEquipmentSequence::open_greeting() {
     f32 pos[2];
     pos[0] = 332.0f;
     pos[1] = 80.0f;
-    create_message_window(get_window_layout_position(0x2C, 332.0f), (saddr)pos);
+    create_message_window((saddr)get_window_layout_position(0x2C), (saddr)pos);
     display_shop_message(0x27, 1);
     meseta_window = (TWindowBase *)create_meseta_window((s32)(unsigned short)get_player_entity_id());
     set_state(2);

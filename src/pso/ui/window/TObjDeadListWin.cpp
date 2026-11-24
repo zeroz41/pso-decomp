@@ -14,8 +14,8 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/network/client_id.h"
 extern "C" {
-extern s32 local_client_id;
 extern const char TObjDeadListWin_class_name[] = "TObjDeadListWin";
 const char* TObjDeadListWin_name = TObjDeadListWin_class_name;
 __declspec(section ".data") f32 dead_list_window_position[2] = {210.0f, 100.0f};

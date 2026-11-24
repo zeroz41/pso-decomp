@@ -13,6 +13,7 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/render/render_util.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/unk/text_80193524.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D8F74.h"
@@ -65,7 +66,6 @@ struct Node_80193188 { u32 flags; void *model; u8 pad8[0x24]; Node_80193188 *chi
 struct Fence_80193188 { u8 pad0[0x8C]; s32 f8C; u8 pad90[0x2C]; Node_80193188 *fBC; Node_80193188 *fC0; saddr bml_motion; void *fC8[12]; };
 
 extern "C" {
-void post_translate_matrix(void *);
 
 s32 TObjLazerFence4::update_object_view_visibility(f32 farg0, f32 farg1) {
     u8 *arg0 = (u8 *)this;
@@ -109,7 +109,7 @@ void TObjLazerFence4::init_models() {
 void TObjLazerFence4::draw() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lazer_fence_norm_texture_list));
     push_matrix();
-    post_translate_matrix((void *)((char *)this + 56));
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     draw_ginja_object(this->m_c0);
     pop_matrix();
@@ -133,7 +133,7 @@ void TObjLazerFence4::draw_model() {
   while (i < 0xC);
   TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(lazer_fence_norm_texture_list));
   push_matrix();
-  post_translate_matrix((u8 *)&this->position);
+  post_translate_matrix(&this->position.x);
   rotate_matrix_y(0, this->rotation_y);
   draw_ginja_object(this->m_c0);
   TParticleCtrl::begin_effect_render();

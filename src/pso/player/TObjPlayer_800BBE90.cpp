@@ -1,5 +1,6 @@
 #include "pso/object/base/HitEligibility.h"
 #include "pso/system/vector.h"
+#include "pso/math/MatrixTransforms.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/object/base/TObjMotion.h"
@@ -11,7 +12,6 @@
 
 
 extern "C" {
-void subtract_vector(Vec *a, Vec *b);
 s32 is_area_attack_target_eligible(void *, int);
 
 

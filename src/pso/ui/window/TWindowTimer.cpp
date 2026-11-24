@@ -18,6 +18,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/system/vector.h"
+#include "pso/ui/window/WindowLayout.h"
 
 #pragma readonly_strings on
 
@@ -46,7 +47,6 @@ struct TimerEntry {
 };
 
 extern "C" {
-saddr get_window_layout_position(s32);
 void init_timer_window_layout(TWindowTimer *self);
 void init_timer_window_layout_alt(TWindowTimer *self);
 
@@ -86,11 +86,11 @@ void TWindowTimer::update_chat_parts() {
     saddr window_layout_position;
 
     if (this->flags & 1) {
-        window_layout_position = get_window_layout_position(0xA9);
+        window_layout_position = (saddr)get_window_layout_position(0xA9);
     } else if ((TWindowSubShortMail::is_active() != 0) || (is_com_card_active() != 0) || (is_guild_card_receive_active() != 0)) {
-        window_layout_position = get_window_layout_position(0xA8);
+        window_layout_position = (saddr)get_window_layout_position(0xA8);
     } else {
-        window_layout_position = get_window_layout_position(0x22);
+        window_layout_position = (saddr)get_window_layout_position(0x22);
     }
     copy_vec2(target_position, (void*)window_layout_position);
 }

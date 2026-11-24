@@ -10,8 +10,8 @@
 #include "pso/player/TPlyItem.h"
 #include "pso/weapon/WeaponSpecialSelection.h"
 #include "pso/object/base/TObjBase.h"
-
-struct Tec_801D7DA4 { u8 pad[0x10]; s16 cost; };
+#include "pso/technique/TechniqueParams.h"
+#include "pso/network/client_id.h"
 
 struct TItemData_801D8044 { u8 kind; u8 type; u8 sub; u8 pad[0x11]; };
 
@@ -24,7 +24,6 @@ struct TObjPlayer_801D8044 {
 
 extern "C" {
 u8 get_cast_technique_level(void *, int);
-Tec_801D7DA4 *calc_technique_parameters(s32, s32, u16);
 s32 get_game_play_mode();
 
 s32 TObjPlayer__sub_801AF694(void *, s32);
@@ -73,7 +72,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
         if (((TObjPlayer *)(player + 0x428))->test_bit1_at_10() != 0 || ((TObjCollidable *)player)->test_actor_flags(0x20006) != 0 || ((TObjPlayer *)player)->get_camera_field() == 0) {
             return 0;
         }
-        if (*(s16 *)(player + 0x32E) - calc_technique_parameters(tec = sub, get_cast_technique_level(player + 0x428, sub), ((TObjBase *)(player))->get_entity_id())->cost < 0) {
+        if (*(s16 *)(player + 0x32E) - calc_technique_parameters(tec = sub, get_cast_technique_level(player + 0x428, sub), ((TObjBase *)(player))->get_entity_id())->tp_cost < 0) {
             return 0;
         }
         switch (tec) {
@@ -320,8 +319,6 @@ void TObjPlayer::set_animation_from_data(saddr arg0, s32 picture) {
     TObjPlayer__sub_801D8664(arg0, *(s16 *)((s8 *)anim_table_entry + 0), *(s16 *)((s8 *)anim_table_entry + 2));
     ((TUnk_804C4540 *)arg0)->set_animation_default(picture);
 }
-
-extern s32 local_client_id;
 
 void TObjPlayer::assign_lobby_slot_if_flagged(saddr player, void *records) {
     if (*(s32 *)((s8 *)records + 4) & 8) {

@@ -14,12 +14,12 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
 #include "pso/render/ModelDrawContext.h"
+#include "pso/system/MatrixStack.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 const char *lbl_805D3B40 = "TObjBoss5Pillar";
-s32 post_translate_matrix(void *);
 
 }
 
@@ -27,7 +27,7 @@ void TObjBoss5Pillar::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         push_matrix();
         TObjFish::set_global_param(boss5_common_texture_list);
-        post_translate_matrix(&this->position);
+        post_translate_matrix(&this->position.x);
         if (this->state != 3) {
             fn_8028ADDC(this->smoke);
             draw_ginja_model_with_motion(this->models[0], this->motions[0], this->frame);

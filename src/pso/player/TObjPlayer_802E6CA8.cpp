@@ -23,13 +23,17 @@
 #include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
+#include "pso/unk/text_803E2F28.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
 
 struct Col_802E6CB0 { f32 a; f32 b; f32 c; f32 d; };
 
 struct Col_802E708C { f32 a; f32 b; f32 c; f32 d; };
 
 extern "C" {
-f32 vec3_add_to(void *, void *);
 extern const f32 lbl_805DE9CC;
 extern const f32 lbl_805DE9D0;
 extern const f32 lbl_805DE9E8;
@@ -38,15 +42,9 @@ extern const float lbl_805DE9F0;
 extern const f32 lbl_805DE9FC;
 extern const f32 lbl_805DEA00;
 extern const f32 lbl_805DEA04;
-s32 rotate_matrix_z(int, s32);
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z);
-s32 rotate_matrix_x(int, s32);
-void set_chunk_material_override_pair(s32 first, s32 second);
 f32 lerp__9TDeadSpotFff(f32, f32);
 f32 rand_signed_unit();
 s32 matrix_mult_vec(int, void *, void *);
-void set_matrix_identity(u8 *matrix);
-s32 rotate_vector_by_matrix(int, void *, void *);
 extern const f32 lbl_805DE9C8;
 extern const f32 lbl_805DE9D4;
 extern const f32 lbl_805DE9D8;
@@ -56,7 +54,6 @@ extern Col_802E708C lbl_80472C80;
 extern Vec lbl_80472C90;
 extern const f32 lbl_805DE9F8;
 extern s32 lbl_80472C68[6];
-s32 scale_matrix(int, f32, f32, f32);
 extern const f32 lbl_805DE9E4;
 
 }

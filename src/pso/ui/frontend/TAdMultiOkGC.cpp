@@ -4,8 +4,9 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/system/SoundEffect.h"
 extern "C" {
-void release_texture_list(void *);
 const char multi_confirm_texture_archive_name[] = "f064_multiconfirm";
 void *multi_confirm_texture_entries[3] = { (void *)multi_confirm_texture_archive_name, 0, 0 };
 struct MultiConfirmTextureList { void *entries; u32 count; };
@@ -27,7 +28,7 @@ void load_multi_confirm_textures(void) { multi_confirm_texture_list = (saddr)&mu
 
 void free_multi_confirm_textures(void) {
     if ((u32) multi_confirm_texture_list != 0U) {
-        release_texture_list((void*)multi_confirm_texture_list);
+        release_texture_list((NJS_TEXLIST *)multi_confirm_texture_list);
         multi_confirm_texture_list = 0U;
     }
 }

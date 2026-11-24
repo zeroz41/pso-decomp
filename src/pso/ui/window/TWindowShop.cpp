@@ -12,12 +12,12 @@
 #include "pso/network/client_id.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/WindowLayout.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 
-u8 *get_window_layout_position(s32);
 
 const char *TWindowShop__class_name = "TWindowShop";
 
@@ -105,6 +105,6 @@ TWindowShop::TWindowShop(u8 *parent, s32 title, u32 count, u8 *descriptor)
 }
 
 TWindowShop::TWindowShop(s32 title, u32 count, s32 client)
-    : TWindowMenuIconLine(get_window_layout_position(0x26), count, client) {
+    : TWindowMenuIconLine((u8 *)get_window_layout_position(0x26), count, client) {
     init_list_window(title);
 }
