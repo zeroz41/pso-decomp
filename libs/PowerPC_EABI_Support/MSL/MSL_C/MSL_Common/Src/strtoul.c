@@ -339,20 +339,12 @@ int atoi(const char* str) {
 
 #include "MSL_C/ansi_fp.h"
 #include "MSL_C/locale.h"
-extern float __float_huge[];
-extern float __float_nan[];
-extern unsigned int __double_huge[];
-extern unsigned int __extended_min[];
-extern unsigned int __extended_max[];
-#define HUGE_VALF (*__float_huge)
-#define NAN (*__float_nan)
+#include "MSL_C/MSL_Common/float.h"
 #define HUGE_VAL (*(double*)__double_huge)
 #define LDBL_MIN (*(double*)__extended_min)
 #define LDBL_MAX (*(double*)__extended_max)
 #define LDBL_MAX_EXP 1024
 #define LDBL_MANT_DIG 53
-#define DBL_MAX_10_EXP 308
-#define DBL_MIN_10_EXP (-307)
 #define SHRT_MAX 32767
 #define SHRT_MIN (-32768)
 #define TARGET_FLOAT_BITS 64

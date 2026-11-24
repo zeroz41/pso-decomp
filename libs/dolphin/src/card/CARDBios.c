@@ -612,7 +612,7 @@ void CARDInit(void) {
             OSInitThreadQueue(&card->threadQueue);
             OSCreateAlarm(&card->alarm);
         }
-        __CARDSetDiskID((void*)OSPhysicalToCached(0));
+        __CARDSetDiskID(OSPhysicalToCached(0));
 
         OSRegisterResetFunction(&ResetFunctionInfo);
     }
