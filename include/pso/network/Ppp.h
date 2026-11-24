@@ -41,6 +41,8 @@ void fsm_restart_timer(PppFsm *fsm);
 s16 ipcp_open(PppFsm *fsm);
 void ipcp_finish_termination(PppFsm *fsm);
 void fsm_lowerdown(PppFsm *fsm);
+/* Declared without a prototype: the PPP open paths pass it an argument it ignores. */
+s32 ppp_init_protocols();
 s16 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, char *modem_name, s32 no_modem);
 s16 ppp_fsm_send_packet(PppFsm *fsm, u8 code, int reply_identifier, PppFrame *payload);
 s16 fsm_send_config_request(PppFsm *fsm);

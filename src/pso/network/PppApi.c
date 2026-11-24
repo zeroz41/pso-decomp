@@ -50,7 +50,6 @@ s32 ppp_get_opt(s32 cmd, s32 arg) {
     return -1;
 }
 
-
 s16 ppp_set_dial_string(NetSession *cfg) {
     u32 plen;
     u8 *p;
@@ -95,8 +94,6 @@ s32 ppp_term(void) {
     init_net_state_c();
     return 0;
 }
-
-void ppp_init_protocols(int);
 
 s16 ppp_init(void) {
     s16 i;
@@ -322,7 +319,6 @@ s32 is_timed_out(void) {
     }
     return 0;
 }
-
 
 s32 ppp_hangup(void) {
     PppProtoBlocks *blocks = &ppp_proto_blocks;

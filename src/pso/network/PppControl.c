@@ -46,7 +46,6 @@ s16 send_network_bytes(u8 *src, u16 len) {
     return 0;
 }
 
-void ppp_init_protocols(int);
 s32 close_all_connections(void) {
     fsm_lowerdown(&ppp_proto_blocks.ipv6cp);
     fsm_lowerdown(&ppp_proto_blocks.ipcp);
