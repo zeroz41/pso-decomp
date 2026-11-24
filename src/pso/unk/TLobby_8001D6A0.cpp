@@ -9,7 +9,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/text_803DE864.h"
 #include "pso/system/date.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/memory.h"

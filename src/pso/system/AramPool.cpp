@@ -6,7 +6,6 @@
 #include "pso/system/AramPool.h"
 #include "pso/system/memory.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/text_803DE864.h"
 
 volatile s32 aram_dma_pending;
 
@@ -155,7 +154,7 @@ AramPool::AramPool(s32 aram_addr, s32 size, s32 max_blocks) {
     AramBlock *head;
     AramBlock *first;
 
-    m_blocks = (AramBlock *)fn_803DE864(max_blocks, sizeof(AramBlock));
+    m_blocks = (AramBlock *)xcalloc(max_blocks, sizeof(AramBlock));
     if (m_blocks != NULL) {
         m_block_count = max_blocks;
         rounded = (size + 0x1F) & ~0x1F;
