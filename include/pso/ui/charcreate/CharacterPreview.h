@@ -22,6 +22,9 @@ struct CharacterPreviewTextures {
 class CharacterPreview {
 public:
     CharacterPreview(TObject *parent, void *visual, s32 load_slot);
+    ~CharacterPreview();
+    // Nonzero once every part has loaded (completion_flags all clear).
+    int is_loaded();
 
     s32 get_hair_model();
     NJS_TEXLIST *get_head_texlist();

@@ -10,7 +10,6 @@
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
-#include "pso/boss/galgryphon/TObjBoss5Pillar_8028B714.h"
 #include "pso/ui/frontend/TAdMultiConfirmGC_802E03D0.h"
 
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
@@ -149,7 +148,7 @@ TAdChrSelPlayerGC::~TAdChrSelPlayerGC() {
         joint_matrices = NULL;
     }
     if (preview != NULL) {
-        free_chcr_resources((u8 *)preview, 1);
+        delete preview;
         preview = NULL;
         TAdPlyStatusGC *status = TAdPlyStatusGC::get_index();
         if (status != NULL) {
@@ -166,7 +165,7 @@ void TAdChrSelPlayerGC::run_task() {
     switch (F(0xFC, s32)) {
     case 0:
         if (preview != NULL) {
-            free_chcr_resources((u8 *)(preview), 1);
+            delete preview;
             preview = NULL;
         }
         if (F(0x100, s32) != 0) {
@@ -176,7 +175,7 @@ void TAdChrSelPlayerGC::run_task() {
         break;
     case 1:
         if (preview != NULL) {
-            free_chcr_resources((u8 *)(preview), 1);
+            delete preview;
             preview = NULL;
         }
         if (F(0x100, s32) != 0) {
@@ -217,12 +216,12 @@ void TAdChrSelPlayerGC::run_task() {
     case 2:
         if (F(0x100, s32) != 0) {
             if (preview != NULL) {
-                free_chcr_resources((u8 *)(preview), 1);
+                delete preview;
                 preview = NULL;
             }
             F(0xFC, s32) = F(0x100, s32) - 1;
             F(0x100, s32) = 0;
-        } else if (((TChCrLoadAfs *)(preview))->is_unloaded() != 0) {
+        } else if (preview->is_loaded() != 0) {
             F(0xFC, s32) = 3;
             F(0x118, s32) = 0;
         }
@@ -230,7 +229,7 @@ void TAdChrSelPlayerGC::run_task() {
     case 3:
         if (F(0x100, s32) != 0) {
             if (preview != NULL) {
-                free_chcr_resources((u8 *)(preview), 1);
+                delete preview;
                 preview = NULL;
             }
             F(0xFC, s32) = F(0x100, s32) - 1;

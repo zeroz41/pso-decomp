@@ -90,7 +90,7 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
     s32 i;
 
     ((TWindowBase *)window_base)->draw_window_frame(arg1);
-    if (ply_status_preview != NULL && ((TChCrLoadAfs *)ply_status_preview)->is_unloaded() != 0 && TAdPlyStatusGC__is_shown != 0 &&
+    if (ply_status_preview != NULL && ply_status_preview->is_loaded() != 0 && TAdPlyStatusGC__is_shown != 0 &&
         ply_status_preview->get_body_texlist()->textures->texaddr != 0) {
         box = TAdPlyStatusGC__status_window_box;
         box.v[0] = TAdPlyStatusGC__status_window_box.v[0] + OFF_8033F3D8.x;

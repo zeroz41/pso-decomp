@@ -13,8 +13,6 @@
 #include "pso/unk/TLobby.h"
 #include <string.h>
 
-int TChCrLoadAfs::is_unloaded() { return *(u32*)((char*)this + 0x4a8) == 0; }
-
 extern "C" s32 chcr_load_afs_busy_flag;
 
 void TChCrLoadAfs::release_load_slot() {

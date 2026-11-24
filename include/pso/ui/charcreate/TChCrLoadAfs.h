@@ -30,8 +30,6 @@ public:
     s32 is_load_complete();
     u8 *get_load_buffer();
     static TChCrLoadAfs *create(TObject *parent, u32 archive, u32 entry);
-public:
-    int is_unloaded();
 };
 
 LAYOUT_ASSERT(TChCrLoadAfs_size, sizeof(TChCrLoadAfs) == 0x38);

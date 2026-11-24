@@ -7388,14 +7388,11 @@ pso/boss/galgryphon/TObjBoss5Pillar.cpp:
 pso/boss/galgryphon/TObjBoss5Pillar_8028B6C0.cpp:
 	.text       start:0x8028B6C0 end:0x8028B714
 
-pso/boss/galgryphon/TObjBoss5Pillar_8028B714.cpp:
-	.text       start:0x8028B714 end:0x8028B810
-
 pso/ui/charcreate/CharacterPreview.cpp:
-	.text       start:0x8028B810 end:0x8028B8B8
+	.text       start:0x8028B714 end:0x8028B8C8
 
 pso/ui/charcreate/TChCrLoadAfs.cpp:
-	.text       start:0x8028B8B8 end:0x8028C054
+	.text       start:0x8028B8C8 end:0x8028C054
 	.rodata     start:0x80450D18 end:0x80450D48
 	.data       start:0x804D3650 end:0x804D36C8
 	.sdata      start:0x805D3B48 end:0x805D3B50

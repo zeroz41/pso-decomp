@@ -331,7 +331,6 @@ pso/boss/galgryphon/TObjBoss5PillarDemo.cpp
 pso/boss/galgryphon/TObjBoss5PillarSmoke.cpp
 pso/boss/galgryphon/TObjBoss5Pillar_8028B08C.cpp
 pso/boss/galgryphon/TObjBoss5Pillar_8028B6C0.cpp
-pso/boss/galgryphon/TObjBoss5Pillar_8028B714.cpp
 pso/ui/charcreate/CharacterPreview.cpp
 pso/boss/barbaray/TObjBoss7Dust.cpp
 pso/boss/barbaray/TObjBoss7RaftSplash.cpp
