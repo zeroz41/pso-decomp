@@ -19,6 +19,8 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/network/protocol/SubcommandHandlers.h"
 
 
 #pragma readonly_strings on
@@ -28,18 +30,6 @@ const char *TOAttackableCol__name = "TOAttackableCol";
 
 void set_floor_switch_flag(u32 id, s16 floor);
 
-
-struct Msg_801575AC {
-    u16 cmd;
-    u16 room;
-    s32 id;
-    s32 type;
-    u16 state;
-    u16 f0E;
-    u16 f10;
-    u8 flag;
-    s8 player;
-};
 
 struct SetEntry_80157454 { s16 id; s16 value; };
 
@@ -110,26 +100,26 @@ void TOAttackableCol::init_params() {
     }
 }
 
-void handle_6x91_update_attackable_col_state(Msg_801575AC *msg) {
+void handle_6x91_update_attackable_col_state(G_UpdateAttackableColState_6x91 *command) {
     TOAttackableCol *col;
     s32 mode;
 
-    if (msg != NULL) {
-        ((TOAttackableCol *)msg)->bswap_state();
-        if (msg->room != 0xFFFF && msg->room >= 0x4000) {
-            col = (TOAttackableCol *)find_entity_by_id(msg->room);
+    if (command != NULL) {
+        ((TOAttackableCol *)command)->bswap_state();
+        if (command->header.entity_id != 0xFFFF && command->header.entity_id >= 0x4000) {
+            col = (TOAttackableCol *)find_entity_by_id(command->header.entity_id);
             if (col != NULL) {
                 if (reinterpret_cast<TObject *>(col)->check_value_equals(TOAttackableCol__name) != 0) {
                     SetEntry_80157454 saved;
-                    switch (msg->state) {
+                    switch (command->is_destroyed) {
                     case 0:
                         mode = col->mode;
                         if (mode != 1) {
                             if ((mode >= 1) || (mode < 0)) {
                                 col->mode = 0;
                             }
-                            if (msg->f0E < TOAttackableCol__sub_80157C28(col)) {
-                                TOAttackableCol__sub_80157C20(col, msg->f0E);
+                            if (command->remaining_hits < TOAttackableCol__sub_80157C28(col)) {
+                                TOAttackableCol__sub_80157C20(col, command->remaining_hits);
                             }
                         }
                         break;
@@ -144,12 +134,12 @@ void handle_6x91_update_attackable_col_state(Msg_801575AC *msg) {
                     col->vfunc_6(&saved.id, 0);
                 }
             } else {
-                SetEntry_80157454 entry = quest_object_entries[msg->type];
-                entry.id = msg->id;
-                TLobby::apply_table_entry(msg->type, &entry);
+                SetEntry_80157454 entry = quest_object_entries[command->object_index];
+                entry.id = command->flags;
+                TLobby::apply_table_entry(command->object_index, &entry);
             }
-            if (msg->flag == 1 && msg->f10 < 0x100 && msg->player < 18) {
-                set_floor_switch_flag(msg->f10, msg->player);
+            if (command->should_set == 1 && command->switch_flag_num < 0x100 && command->floor < 18) {
+                set_floor_switch_flag(command->switch_flag_num, command->floor);
             }
         }
     }
@@ -157,7 +147,7 @@ void handle_6x91_update_attackable_col_state(Msg_801575AC *msg) {
 
 void TOAttackableCol::send_state_change(u16 state) {
     Obj_801575AC *self = (Obj_801575AC *)this;
-    Msg_801575AC msg;
+    G_UpdateAttackableColState_6x91 msg;
     s16 id;
     u8 *parent;
     id = this->mode;
@@ -165,19 +155,19 @@ void TOAttackableCol::send_state_change(u16 state) {
     parent = *(u8 * *)&this->set_entry;
     if (parent != NULL) {
         init_6x91_subcommand(&msg);
-        msg.room = this->entity_id;
-        msg.id = id;
-        msg.type = *(s16 *)(parent + 4);
-        msg.state = state;
-        msg.f0E = this->m_33c;
+        msg.header.entity_id = this->entity_id;
+        msg.flags = id;
+        msg.object_index = *(s16 *)(parent + 4);
+        msg.is_destroyed = state;
+        msg.remaining_hits = this->m_33c;
         if (this->label == 0 && self->f348 >= 0 && state == 1) {
-            msg.f10 = self->f348;
-            msg.flag = 1;
+            msg.switch_flag_num = self->f348;
+            msg.should_set = 1;
         } else {
-            msg.flag = 0;
-            msg.f10 = 0;
+            msg.should_set = 0;
+            msg.switch_flag_num = 0;
         }
-        msg.player = get_current_floor();
+        msg.floor = get_current_floor();
         ((TOAttackableCol *)(&msg))->broadcast_state();
     }
 }

@@ -38,6 +38,8 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/network/protocol/SubcommandHandlers.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];
@@ -55,13 +57,7 @@ struct Ply_800F7118 {
     s32 f36C;
 };
 
-struct Msg_800F641C { u8 code; u8 size; u16 id; s32 arg; };
-
 struct Obj_800F641C { u8 pad[0x1c]; u16 id; };
-
-struct Msg_800F6464 { u8 pad0[2]; u16 f2; u16 f4; s16 f6; u32 f8; };
-
-struct Msg_800F62E0 { u8 pad0[2]; u16 id; s32 flags; };
 
 typedef struct TObjPlayer_800F6B68 {
     u8 pad[0x2D6];
@@ -77,8 +73,6 @@ struct A_800F698C {
 struct B_800F698C {
     s16 f0; u8 pad2[4]; u16 f6; s16 f8; s16 fA; u8 padC[4]; Vec v10; Vec v1C; f32 f28[5]; s16 f3C; s16 f3E;
 };
-
-
 extern "C" {
 
 
@@ -100,9 +94,7 @@ s32 get_current_floor();
 
 
 
-void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0);
 
-void handle_6x0A_update_enemy_state(Msg_800F6464 *arg0);
 
 void award_enemy_experience__9TObjEnemyFl(u8 *arg0, s32 arg1);
 
@@ -123,7 +115,6 @@ s32 fn_801B0480(void *, void *, s32);
 s32 draw_player_status(void *, void *, const char *);
 
 s32 submit_cursor_candidate(void *, int);
-
 }
 
 void init_6x9C_enemy_low_game_flags_packet(u8 *arg0);
@@ -752,7 +743,7 @@ s32 TObjEnemy::sync_enemy_state(s32 status) {
 
 void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
     EnemyStateRecord state;
-    Msg_800F6464 msg;
+    G_UpdateEnemyState_6x0A msg;
     u32 new_flags;
     if (((EnemyStateRecord *)state_in) != NULL) {
         state.copy_header(static_cast<const EnemyStateRecord *>(state_in));
@@ -760,11 +751,11 @@ void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
         return;
     }
     init_6x0A_enemy_state_packet(&msg);
-    msg.f2 = this->entity_id;
-    msg.f4 = ((Ene_800F6510 *)this)->f2C;
-    msg.f6 = state.damage;
+    msg.header.entity_id = this->entity_id;
+    msg.enemy_index = ((Ene_800F6510 *)this)->f2C;
+    msg.total_damage = state.damage;
     if (game_difficulty_selection == 3) {
-        msg.f8 = state.flags & ~0x3F;
+        msg.game_flags = state.flags & ~0x3F;
         new_flags = state.flags & 0x3F;
         new_flags &= ~((Ene_800F6510 *)this)->low_game_flags;
         if (new_flags != 0) {
@@ -772,57 +763,57 @@ void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
             ((Ene_800F6510 *)this)->low_game_flags = state.flags & 0x3F;
         }
     } else {
-        msg.f8 = state.flags;
+        msg.game_flags = state.flags;
     }
     send_6x0A_enemy_state_packet(&msg);
 }
 
-void handle_6x0A_update_enemy_state(Msg_800F6464 *arg0) {
+void handle_6x0A_update_enemy_state(G_UpdateEnemyState_6x0A *command) {
     EnemyStateRecord sp;
     u16 idx;
     TObjEnemy *e;
-    ((TLobby *)arg0)->bswap_enemy_state();
-    idx = arg0->f4;
+    ((TLobby *)command)->bswap_enemy_state();
+    idx = command->enemy_index;
     sp.copy_header(&TLobby__data_805D6144[idx]);
-    sp.damage = arg0->f6;
+    sp.damage = command->total_damage;
     if (game_difficulty_selection == 3) {
         sp.flags &= 0x3F;
-        sp.flags = (arg0->f8 & ~0x3F) | sp.flags;
+        sp.flags = (command->game_flags & ~0x3F) | sp.flags;
     } else {
-        sp.flags = arg0->f8;
+        sp.flags = command->game_flags;
     }
     TObjEnemy::apply_by_index(idx, &sp);
-    e = (TObjEnemy *)get_enemy_entity(arg0->f2);
+    e = (TObjEnemy *)get_enemy_entity(command->header.entity_id);
     if (e != NULL) {
         e->apply_hit_message_flags(&sp);
     }
 }
 
 void TObjEnemy::send_6x9C_enemy_low_game_flags(s32 arg) {
-    Msg_800F641C msg;
+    G_SetEnemyLowGameFlagsUltimate_6x9C msg;
     init_6x9C_enemy_low_game_flags_packet((u8 *)&msg);
-    msg.id = ((Obj_800F641C *)this)->id;
-    msg.arg = arg;
+    msg.header.entity_id = ((Obj_800F641C *)this)->id;
+    msg.status_effect_flags = arg;
     ((TLobby *)(&msg))->broadcast_state();
 }
 
-void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0) {
+void handle_6x9C_set_enemy_low_game_flags_ultimate(G_SetEnemyLowGameFlagsUltimate_6x9C *command) {
     TObjChara *e;
     s32 flags;
-    if (arg0 == NULL) {
+    if (command == NULL) {
         return;
     }
     if (game_difficulty_selection != 3) {
         return;
     }
-    ((TLobby *)arg0)->bswap_field();
-    if (arg0->id < 0x1000) {
+    ((TLobby *)command)->bswap_field();
+    if (command->header.entity_id < 0x1000) {
         return;
     }
-    if (arg0->id >= 0x4000) {
+    if (command->header.entity_id >= 0x4000) {
         return;
     }
-    e = (TObjChara *)find_active_entity_by_id(arg0->id);
+    e = (TObjChara *)find_active_entity_by_id(command->header.entity_id);
     if (e == NULL) {
         return;
     }
@@ -832,7 +823,7 @@ void handle_6x9C_set_enemy_low_game_flags_ultimate(Msg_800F62E0 *arg0) {
     if (e->test_actor_flags(0x800) != 0) {
         return;
     }
-    flags = arg0->flags;
+    flags = command->status_effect_flags;
     if (e->test_actor_flags(flags) != 0) {
         return;
     }

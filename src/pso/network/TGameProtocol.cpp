@@ -39,6 +39,7 @@
 #include "pso/unk/text_801F3774.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/player/PlayerSubcommandHandlers.h"
+#include "pso/network/protocol/SubcommandHandlers.h"
 
 struct TBoss3Volopt;
 struct TLobby;
@@ -56,7 +57,6 @@ s32 dispatching_own_subcommand;
 
 void handle_6x05_write_switch_flag(void *arg0);
 extern "C" void handle_6x07_symbol_chat();
-extern "C" void handle_6x0A_update_enemy_state();
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
 extern "C" void handle_6x18_vol_opt2_boss_actions();
 extern "C" void handle_6x32_medical_center_revive_all_players();
@@ -70,7 +70,6 @@ extern "C" void handle_6x41_move_to_position();
 extern "C" void handle_6x48_cast_technique_complete(void *arg);
 extern "C" void handle_6x54();
 extern "C" void handle_6x57(G_Unknown_6x57 *arg0);
-extern "C" void handle_6x5A_pick_up_item_request();
 extern "C" void handle_6x5F_drop_item();
 void handle_6x62();
 extern "C" void handle_6x64();
@@ -87,7 +86,6 @@ void handle_6x71_unblock_game_join();
 void handle_6x72_done_loading_into_game();
 void handle_6x73_exit_quest();
 void handle_6x74_word_select(u8 *arg0);
-extern "C" void handle_6x76_set_entity_set_flags();
 extern "C" void handle_6x7C_set_challenge_records();
 extern "C" void handle_6x7D_set_battle_mode_data();
 struct game_command_header;
@@ -98,21 +96,16 @@ extern "C" void handle_6x8A_show_challenge_time_records_window();
 extern "C" void handle_6x8B();
 extern "C" void handle_6x8C();
 extern "C" void handle_6x8E();
-extern "C" void handle_6x91_update_attackable_col_state();
 void handle_6x92(u8 *arg0);
-extern "C" void handle_6x93_set_switch_flag_from_timer();
 extern "C" void handle_6x95_set_challenge_time();
 void handle_6x96();
 extern "C" void handle_6x98();
 extern "C" void handle_6x99();
-extern "C" void handle_6x9A_update_entity_stat();
-extern "C" void handle_6x9C_set_enemy_low_game_flags_ultimate();
 extern "C" void handle_6x9D_set_challenge_dead_flag();
 void handle_6xA7();
 void handle_6xA8_gol_dragon_boss_actions(void *arg0);
 void handle_6xA9_barba_ray_boss_actions(void *arg0);
 void handle_6xAA_barba_ray_boss_actions(void *arg0);
-extern "C" void handle_6xAD_olga_flow_subordinate_boss_actions();
 extern "C" void handle_6xB1();
 u32 lbl_804C5238[10] = { 0 };
 

@@ -23,10 +23,10 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/network/protocol/SubcommandHandlers.h"
 
 
-// G_PickUpItem_6x59::G_PickUpItem_6x59() on a command built here.
-extern "C" void *__ct__17G_PickUpItem_6x59Fv(void *cmd);
 // FloorItem::FloorItem() on a record built here.
 extern "C" void *__ct__9FloorItemFv(void *item);
 struct Stack_8011AED8 {
@@ -39,10 +39,6 @@ struct Stack_8011AED8 {
     s32 sp18;
     u8 trailing_storage[0x10];
 };
-
-struct Msg_8011A9D8 { u8 pad[2]; u16 u2; u32 u4; s16 s8; };
-
-struct Cmd_8011A9D8 { u8 pad[2]; u16 a; u16 b; s16 c; u32 d; };
 
 struct BoxDrop_8011A868 {
     u8 cmd; u8 size; u16 pad2; u8 client; u8 area; s16 source;
@@ -59,7 +55,6 @@ s32 *item_sync_counter_table;
 s32 *item_id_counter_table;
 void handle_box_drop_directive(G_SpecializableItemDropRequest_6xA2 *request);
 extern "C" {
-void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg);
 s32 spawn_dropped_item_from_msg(void *, int);
 void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt);
 }
@@ -143,16 +138,15 @@ void handle_6x5C_destroy_floor_item(void *lobby) {
     remove_item_condition(*(s32 *)((s8 *)lobby + 8), *(s32 *)((s8 *)lobby + 4));
 }
 
-void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg) {
-    ((G_PickUpItemRequest_6x5A *)msg)->bswap();
-    if (find_item_condition(msg->s8, msg->u4) != 0) {
-        Cmd_8011A9D8 cmd;
-        __ct__17G_PickUpItem_6x59Fv(&cmd);
-        cmd.a = msg->u2;
-        cmd.b = msg->u2;
-        cmd.c = msg->s8;
-        cmd.d = msg->u4;
-        ((G_PickUpItem_6x59 *)&cmd)->send();
+void handle_6x5A_pick_up_item_request(G_PickUpItemRequest_6x5A *command) {
+    command->bswap();
+    if (find_item_condition(command->floor, command->item_id) != 0) {
+        G_PickUpItem_6x59 cmd;
+        cmd.header.client_id = command->header.client_id;
+        cmd.client_id2 = command->header.client_id;
+        cmd.floor = command->floor;
+        cmd.item_id = command->item_id;
+        cmd.send();
     }
 }
 

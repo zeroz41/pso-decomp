@@ -438,6 +438,13 @@ struct G_HitByEnemy_6x4B_6x4C {
  struct VectorXZF velocity;
 };
 
+struct G_UpdateEnemyState_6x0A {
+ struct G_EntityIDHeader header;
+ u16 enemy_index;
+ s16 total_damage;
+ u32 game_flags;
+};
+
 struct G_UpdateObjectState_6x0B {
  struct G_EntityIDHeader header;
  u32 flags;
@@ -592,7 +599,7 @@ struct G_OlgaFlowBossActions_6xA4_6xA5 {
 
 struct G_OlgaFlowSubordinateBossActions_6xAD {
  struct G_UnusedHeader header;
- u8 unknown_a1[0x40];
+ s8 actions[0x40];
 };
 
 struct G_PartialPlayerData_DCProtos_6x1E {
@@ -613,7 +620,7 @@ struct G_PhotonBlast_6x37 {
 struct G_PickUpItemRequest_6x5A {
  struct G_ClientIDHeader header;
  u32 item_id;
- u16 floor;
+ s16 floor;
  u16 unused;
  G_PickUpItemRequest_6x5A();
  void bswap();
@@ -754,7 +761,7 @@ struct G_SetChallengeRecords_V3_6x7C {
 
 struct G_SetEnemyLowGameFlagsUltimate_6x9C {
  struct G_EntityIDHeader header;
- u32 status_effect_flags;
+ s32 status_effect_flags;
 };
 
 struct G_SetEntityPositionAndAngle_6x17 {
@@ -765,8 +772,8 @@ struct G_SetEntityPositionAndAngle_6x17 {
 
 struct G_SetEntitySetFlags_6x76 {
  struct G_EntityIDHeader header;
- u16 floor;
- u16 flags;
+ s16 floor;
+ s16 flags;
 };
 
 struct G_SetKillerEntityID_6x89 {
@@ -838,7 +845,7 @@ struct G_SetQuestFlags_V2_V3_6x6F {
 
 struct G_SetSwitchFlagFromTimer_6x93 {
  struct G_UnusedHeader header;
- u16 switch_flag_floor;
+ s16 switch_flag_floor;
  u16 switch_flag_num;
  u8 should_set;
  u8 unused[3];
@@ -1063,13 +1070,12 @@ struct G_Unknown_6x92 {
  f32 value;
 };
 
-struct G_UpdateAttackableColState_6x91 {
- struct G_UpdateObjectState_6x0B __base_G_UpdateObjectState_6x0B;
+struct G_UpdateAttackableColState_6x91 : G_UpdateObjectState_6x0B {
  u16 is_destroyed;
  u16 remaining_hits;
  u16 switch_flag_num;
  u8 should_set;
- u8 floor;
+ s8 floor;
 };
 
 struct G_UpdateEntityStat_6x9A {
