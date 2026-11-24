@@ -7,7 +7,6 @@ struct TObjPlayer;
 struct TItem;
 extern "C" {
 s32 TLobby__sub_801C19D0(void *p);
-void TObjPlayer__sub_801C18E0(void *p);
 void TObjPlayer__sub_801C19C8(void *p, f32 v);
 void *TObjPlayer__sub_801C1A00(void *p);
 void TObjPlayer__sub_801C1A30(void *p);
@@ -37,7 +36,6 @@ void fn_801C1F40(s32 *arg0);
 f32 get_lock_target_distance_sq(void *p);
 u16 get_lock_target_id(void *p);
 }
-void init_6x21_inter_level_warp_packet(u8 *arg0);
 extern "C" {
 s32 is_action_channel_active(s32 *arg0, s32 arg1);
 s32 is_item_equipped(TItem *item);

@@ -57,7 +57,6 @@
 #include "pso/ui/font/TFontSmallLobby.h"
 #include <string.h>
 #include "pso/network/protocol/packet_classes.h"
-#include "pso/player/TObjPlayer_801C0808.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/InventoryEntryCopy.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
@@ -427,10 +426,6 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct Pos_801D2964 { u8 bytes[0x8]; };
-
-struct Pkt_801D2964 { u8 hdr[4]; Pos_801D2964 pos; };
-
 extern "C" {
 void TObjPlayer__sub_801BEEE0(void* p, void* q);
 void TObjPlayer__sub_801BEF30(void* p, void* q);
@@ -786,15 +781,15 @@ void TObjPlayer__sub_801BEEAC(u8 *dst, u8 *src) {
     __memcpy(dst + 0xC, src + 0xC, 8);
 }
 
-void *TObjPlayer::copy_6x0d_status_effect_packet(void *command) {
-    copy_subcommand_header(this, command);
-    __memcpy(&((Pkt_801D2964 *)this)->pos, &((Pkt_801D2964 *)command)->pos, 8);
-    return this;
+G_RemoveStatusEffect_6x0D &G_RemoveStatusEffect_6x0D::operator=(G_RemoveStatusEffect_6x0D &src) {
+    copy_subcommand_header(this, &src);
+    __memcpy(&effect, &src.effect, sizeof(effect));
+    return *this;
 }
 
-void TObjPlayer::bswap_status_effect_data() {
-    bswap_32((u32 *)this);
-    bswap_32((u32 *)((void *)((char *)this + 4)));
+void StatusEffectChange::bswap() {
+    bswap_32(&effect_type);
+    bswap_32(&unknown_a1);
 }
 
 void TObjPlayer::sub_801BEE2C(s16 v) { this->hp_bonus = v; }
@@ -1061,12 +1056,6 @@ u8 TObjPlayer::get_item_count_max() { return 255; }
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_C { u8 bytes[0xc]; };
-
-struct O_801C0708 { u8 a; u8 b; u8 pad[2]; s32 c; u16 d; u16 e; };
-
-struct O_801C0350 { u8 a; u8 b; u8 pad[2]; u16 c; u16 d; };
-
 extern "C" {
 void __copy(void *, void *, int);
 void TFontSmallLobby__sub_801C013C(void* p) { ((FlagWord *)((void*)((char*)p + 0x10)))->clear(2); }
@@ -1081,11 +1070,11 @@ extern "C" {
 
 void bswap_g_client_id_header(void* p) { ((G_ClientIDHeader *)p)->bswap(); }
 
-void *TFontSmallLobby__sub_801C01DC(G_LevelUpAllTechniques_6x9B *arg0, G_LevelUpAllTechniques_6x9B *source) {
-    copy_subcommand_header(arg0, source);
-    arg0->num_levels = source->num_levels;
-    __copy(arg0->unused, source->unused, 3);
-    return arg0;
+G_LevelUpAllTechniques_6x9B &G_LevelUpAllTechniques_6x9B::operator=(G_LevelUpAllTechniques_6x9B &src) {
+    copy_subcommand_header(this, &src);
+    num_levels = src.num_levels;
+    __copy(unused, (void *)src.unused, 3);
+    return *this;
 }
 
 void* copy_subcommand_header(void* p, void* source) { assign_subcommand_header(p, source); return p; }
@@ -1102,116 +1091,118 @@ void assign_subcommand_header(void *destination, void *source) {
 #endif
 }
 
-void TFontSmallLobby::init_packet_6x9b_level_up() {
-    u8 *arg0 = (u8 *)this;
-    *(s8 *)((s8 *)arg0 + 4) = 0;
-    *(s8 *)((s8 *)arg0 + 5) = 0;
-    *(s8 *)((s8 *)arg0 + 6) = 0;
-    *(s8 *)((s8 *)arg0 + 7) = 0;
-    *(u8 *)((s8 *)arg0 + 0) = 0x9B;
-    *(s8 *)((s8 *)arg0 + 1) = 2;
+void G_LevelUpAllTechniques_6x9B::init() {
+    num_levels = 0;
+    unused[0] = 0;
+    unused[1] = 0;
+    unused[2] = 0;
+    header.subcommand = 0x9B;
+    header.size = 2;
 }
 
-void send_6x9B_level_up_all_techniques(void* p) { bswap_g_client_id_header(p); send_subcommand((u8 *)p); }
+void G_LevelUpAllTechniques_6x9B::send() { bswap_g_client_id_header(this); send_subcommand(this); }
 
-void TFontSmallLobby::bswap_battle_damage_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
+void G_AddBattleDamageScores_6x8F::bswap() { header.bswap(); bswap_16(&target_entity_id); bswap_16((u16 *)&amount); }
 
-void* TFontSmallLobby__sub_801C030C(void* p, void* source) { copy_subcommand_header(p, source); *(short*)((char*)p + 0x4) = *(unsigned short*)((char*)source + 0x4); *(short*)((char*)p + 0x6) = *(short*)((char*)source + 0x6); return p; }
-
-void TFontSmallLobby::init_packet_6x8f_battle_damage() {
-    O_801C0350 *p = (O_801C0350 *)this;
-    p->c = 0xFFFF;
-    p->d = 0;
-    p->a = 0x8f;
-    p->b = 2;
+G_AddBattleDamageScores_6x8F &G_AddBattleDamageScores_6x8F::operator=(G_AddBattleDamageScores_6x8F &src) {
+    copy_subcommand_header(this, &src);
+    target_entity_id = src.target_entity_id;
+    amount = src.amount;
+    return *this;
 }
 
-void send_6x8F_add_battle_damage_scores(void* p) { ((TFontSmallLobby *)p)->bswap_battle_damage_packet(); ((game_command *)p)->send(); }
-
-void TFontSmallLobby::bswap_6x90_set_player_battle_team() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
-
-void *TFontSmallLobby__sub_801C03E0(G_SetPlayerBattleTeam_6x90 *arg0, G_SetPlayerBattleTeam_6x90 *source) {
-    copy_subcommand_header(arg0, source);
-    arg0->team_number = source->team_number;
-    return arg0;
+void G_AddBattleDamageScores_6x8F::init() {
+    target_entity_id = 0xFFFF;
+    amount = 0;
+    header.subcommand = 0x8F;
+    header.size = 2;
 }
 
-void init_packet_6x90_set_player_battle_team(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 4) = 0;
-    *(u8 *)((s8 *)arg0 + 0) = 0x90;
-    *(s8 *)((s8 *)arg0 + 1) = 2;
+void G_AddBattleDamageScores_6x8F::send() { bswap(); ((game_command *)this)->send(); }
+
+void G_SetPlayerBattleTeam_6x90::bswap() { header.bswap(); bswap_32(&team_number); }
+
+G_SetPlayerBattleTeam_6x90 &G_SetPlayerBattleTeam_6x90::operator=(G_SetPlayerBattleTeam_6x90 &src) {
+    copy_subcommand_header(this, &src);
+    team_number = src.team_number;
+    return *this;
 }
 
-void init_packet_6x82_enable_drop_weapon_on_death(void* p) { *(u8*)((char*)p + 0x0) = 130; *(u8*)((char*)p + 0x1) = 1; }
-
-void send_6x82_enable_drop_weapon_on_death(void* p) { bswap_g_client_id_header(p); send_subcommand((u8 *)p); }
-
-void init_packet_6x81_disable_drop_weapon_on_death(void* p) { *(u8*)((char*)p + 0x0) = 129; *(u8*)((char*)p + 0x1) = 1; }
-
-void TFontSmallLobby::send_font_state_msg() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
-
-void init_packet_6x7B_disable_stealth_suit_effect(void* p) { *(u8*)((char*)p + 0x0) = 123; *(u8*)((char*)p + 0x1) = 1; }
-
-void send_6x7B_disable_stealth_suit_effect(void* p) { bswap_g_client_id_header(p); send_subcommand((u8 *)p); }
-
-void init_packet_6x7A_enable_stealth_suit_effect(void* p) { *(u8*)((char*)p + 0x0) = 122; *(u8*)((char*)p + 0x1) = 1; }
-
-void TLobby::cleanup_small_font() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
-
-void init_packet_6x1C_disable_pk_mode_for_player(void* p) { *(u8*)((char*)p + 0x0) = 28; *(u8*)((char*)p + 0x1) = 1; }
-
-void send_6x1C_disable_pk_mode_for_player(void* p) { bswap_g_client_id_header(p); send_subcommand((u8 *)p); }
-
-void init_packet_6x1B_enable_pk_mode_for_player(void* p) { *(u8*)((char*)p + 0x0) = 27; *(u8*)((char*)p + 0x1) = 1; }
-
-void send_6x1B_enable_pk_mode_for_player(void* p) { bswap_g_client_id_header(p); send_subcommand((u8 *)p); }
-
-void init_packet_6x23_set_player_visible(void* p) { *(u8*)((char*)p + 0x0) = 35; *(u8*)((char*)p + 0x1) = 1; }
-
-void send_6x23_set_player_visible(void* p) { bswap_g_client_id_header(p); send_subcommand((u8 *)p); }
-
-void fn_801C0630(void* p) { *(u8*)((char*)p + 0x0) = 34; *(u8*)((char*)p + 0x1) = 1; }
-
-void fn_801C0644(void* p) { bswap_g_client_id_header(p); send_subcommand((u8 *)p); }
-
-void TObjPlayer::bswap_change_hp_packet() {
-    ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)((void *)((char *)this + 4)));
-    bswap_16((u16 *)((void *)((char *)this + 8)));
-    bswap_16((u16 *)((void *)((char *)this + 10)));
+void G_SetPlayerBattleTeam_6x90::init() {
+    team_number = 0;
+    header.subcommand = 0x90;
+    header.size = 2;
 }
 
-void *TObjPlayer__sub_801C06BC(G_ChangePlayerHP_6x2F *arg0, G_ChangePlayerHP_6x2F *source) {
-    copy_subcommand_header(arg0, source);
-    arg0->type = source->type;
-    arg0->amount = source->amount;
-    arg0->client_id = source->client_id;
-    return arg0;
+void G_EnableDropWeaponOnDeath_6x82::init() { header.subcommand = 0x82; header.size = 1; }
+
+void G_EnableDropWeaponOnDeath_6x82::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+
+void G_DisableDropWeaponOnDeath_6x81::init() { header.subcommand = 0x81; header.size = 1; }
+
+void G_DisableDropWeaponOnDeath_6x81::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+
+void G_DisableStealthSuitEffect_6x7B::init() { header.subcommand = 0x7B; header.size = 1; }
+
+void G_DisableStealthSuitEffect_6x7B::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+
+void G_EnableStealthSuitEffect_6x7A::init() { header.subcommand = 0x7A; header.size = 1; }
+
+void G_EnableStealthSuitEffect_6x7A::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+
+void G_DisablePKModeForPlayer_6x1C::init() { header.subcommand = 0x1C; header.size = 1; }
+
+void G_DisablePKModeForPlayer_6x1C::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+
+void G_EnablePKModeForPlayer_6x1B::init() { header.subcommand = 0x1B; header.size = 1; }
+
+void G_EnablePKModeForPlayer_6x1B::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+
+void G_SetPlayerVisible_6x23::init() { header.subcommand = 0x23; header.size = 1; }
+
+void G_SetPlayerVisible_6x23::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+
+void G_SetPlayerInvisible_6x22::init() { header.subcommand = 0x22; header.size = 1; }
+
+void G_SetPlayerInvisible_6x22::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+
+void G_ChangePlayerHP_6x2F::bswap() {
+    header.bswap();
+    bswap_32((u32 *)&type);
+    bswap_16((u16 *)&amount);
+    bswap_16(&client_id);
 }
 
-void TObjPlayer::init_6x2F_packet_header() {
-    O_801C0708 *p = (O_801C0708 *)this;
-    p->c = 0;
-    p->d = 0;
-    p->e = 0xFFFF;
-    p->a = 0x2f;
-    p->b = 3;
+G_ChangePlayerHP_6x2F &G_ChangePlayerHP_6x2F::operator=(G_ChangePlayerHP_6x2F &src) {
+    copy_subcommand_header(this, &src);
+    type = src.type;
+    amount = src.amount;
+    client_id = src.client_id;
+    return *this;
 }
 
-void TObjPlayer__sub_801C0734(void* p) { ((TObjPlayer *)p)->bswap_change_hp_packet(); send_subcommand((u8 *)p); }
-
-void TObjPlayer::byteswap_packet_body() {
-    ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)((void *)((char *)this + 4)));
-    bswap_32((u32 *)((void *)((char *)this + 8)));
-    bswap_32((u32 *)((void *)((char *)this + 12)));
-    bswap_32((u32 *)((void *)((char *)this + 16)));
+void G_ChangePlayerHP_6x2F::init() {
+    type = 0;
+    amount = 0;
+    client_id = 0xFFFF;
+    header.subcommand = 0x2F;
+    header.size = 3;
 }
-u8 *TObjPlayer__sub_801C07B4(u8 *arg0, u8 *source) {
-    copy_subcommand_header(arg0, source);
-    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)source + 4);
-    *(ByteBlock_C *)((saddr) arg0 + 8) = *(const ByteBlock_C *)((saddr) source + 8);
-    return arg0;
+
+void G_ChangePlayerHP_6x2F::send() { bswap(); send_subcommand(this); }
+
+void G_TeleportPlayer_6x24::bswap() {
+    header.bswap();
+    bswap_32(&angle_y);
+    bswap_32((u32 *)&pos.x);
+    bswap_32((u32 *)&pos.y);
+    bswap_32((u32 *)&pos.z);
+}
+G_TeleportPlayer_6x24 &G_TeleportPlayer_6x24::operator=(G_TeleportPlayer_6x24 &src) {
+    copy_subcommand_header(this, &src);
+    angle_y = src.angle_y;
+    __memcpy(&pos, &src.pos, sizeof(pos));
+    return *this;
 }
 
 }
@@ -1226,322 +1217,332 @@ extern "C" {
 
 extern const f32 player_zero;
 
-void TObjPlayer::init_cmd_6x24() {
-    *(s32 *)((s8 *)this + 4) = 0;
-    *(f32 *)((s8 *)this + 0x10) = (f32) player_zero;
-    *(f32 *)((s8 *)this + 0xC) = (f32) player_zero;
-    *(f32 *)((s8 *)this + 8) = (f32) player_zero;
-    *(s8 *)((s8 *)this + 0) = 0x24;
-    *(s8 *)((s8 *)this + 1) = 5;
+void G_TeleportPlayer_6x24::init() {
+    angle_y = 0;
+    pos.z = player_zero;
+    pos.y = player_zero;
+    pos.x = player_zero;
+    header.subcommand = 0x24;
+    header.size = 5;
 }
 
-void TObjPlayer::send_lobby_update() { ((TObjPlayer *)this)->byteswap_packet_body(); send_subcommand((u8 *)this); }
-void TObjPlayer::bswap_status_effect() { ((G_ClientIDHeader *)this)->bswap(); ((TObjPlayer *)((char*)this + 0x4))->bswap_status_effect_data(); }
-void TObjPlayer::set_code_13_3() { *(u8*)((char*)this + 0x0) = 13; *(u8*)((char*)this + 0x1) = 3; }
-void TObjPlayer::update_and_send() { bswap_status_effect(); send_subcommand((u8 *)this); }
-void TObjPlayer::set_code_14_1() { *(u8*)((char*)this + 0x0) = 14; *(u8*)((char*)this + 0x1) = 1; }
-void apply_status_effect__10TObjPlayerFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); ((TObjPlayer *)((char*)p + 0x4))->bswap_status_effect_data(); }
-void *TObjPlayer__sub_801C092C(void *packet, void *src) {
-    copy_subcommand_header(packet, src);
-    ((Pkt_801D2964 *)packet)->pos = ((Pkt_801D2964 *)src)->pos;
-    return packet;
+void G_TeleportPlayer_6x24::send() { bswap(); send_subcommand(this); }
+void G_RemoveStatusEffect_6x0D::bswap() { header.bswap(); effect.bswap(); }
+void G_RemoveStatusEffect_6x0D::init() { header.subcommand = 0x0D; header.size = 3; }
+void G_RemoveStatusEffect_6x0D::send() { bswap(); send_subcommand(this); }
+void G_ClearNegativeStatusEffects_6x0E::init() { header.subcommand = 0x0E; header.size = 1; }
+void G_AddStatusEffect_6x0C::bswap() { header.bswap(); effect.bswap(); }
+G_AddStatusEffect_6x0C &G_AddStatusEffect_6x0C::operator=(G_AddStatusEffect_6x0C &src) {
+    copy_subcommand_header(this, &src);
+    __memcpy(&effect, &src.effect, sizeof(effect));
+    return *this;
+}
+void G_AddStatusEffect_6x0C::init() { header.subcommand = 0x0C; header.size = 3; }
+void G_AddStatusEffect_6x0C::send() { bswap(); send_subcommand(this); }
+void G_RevivePlayer_V3_BB_6xA1::init() { header.subcommand = 0xA1; header.size = 1; }
+void G_RevivePlayer_V3_BB_6xA1::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_MedicalCenterReviveAllPlayers_6x32::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_MedicalCenterReviveAllPlayers_6x32::init() { header.subcommand = 0x32; header.size = 1; }
+void G_UseMedicalCenter_6x31::init() { header.subcommand = 0x31; header.size = 1; }
+void G_UseMedicalCenter_6x31::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_ReleaseHold_6x2D::init() { header.subcommand = 0x2D; header.size = 1; }
+void G_ReleaseHold_6x2D::send() { bswap_g_client_id_header(this); send_subcommand(this); }
+void G_ImposeHold_6x2C::bswap() { header.bswap(); bswap_16(&unknown_a1); bswap_16(&unknown_a2); bswap_32((u32 *)&trigger_radius2); pos.bswap(); }
+void G_ImposeHold_6x2C::init() {
+    unknown_a1 = 0;
+    unknown_a2 = 0;
+    pos.z = player_zero;
+    pos.x = player_zero;
+    header.subcommand = 0x2C;
+    header.size = 5;
 }
 
-void TObjPlayer::set_code_12_3() { *(u8*)((char*)this + 0x0) = 12; *(u8*)((char*)this + 0x1) = 3; }
-void TObjPlayer::reinit_update_sub4_and_send() { apply_status_effect__10TObjPlayerFPv(this); send_subcommand((u8 *)this); }
-void TObjPlayer::set_code_161_1() { *(u8*)((char*)this + 0x0) = 161; *(u8*)((char*)this + 0x1) = 1; }
-void TObjPlayer::update_font() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
-void TObjPlayer::send_font_state() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
-void TObjPlayer::set_code_50_1() { *(u8*)((char*)this + 0x0) = 50; *(u8*)((char*)this + 0x1) = 1; }
-void TObjPlayer::set_code_49_1() { *(u8*)((char*)this + 0x0) = 49; *(u8*)((char*)this + 0x1) = 1; }
-void TObjPlayer::bswap_font_lobby() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
-void TObjPlayer::set_code_45_1() { *(u8*)((char*)this + 0x0) = 45; *(u8*)((char*)this + 0x1) = 1; }
-void TObjPlayer::send_lobby_update_font() { bswap_g_client_id_header(this); send_subcommand((u8 *)this); }
-void bswap_pkt_u16x2_u32__10TObjPlayerFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); bswap_32((u32 *)((char*)p + 0x10)); ((VectorXZF *)((char*)p + 0x8))->bswap(); }
-void TObjPlayer::build_6x2C_impose_hold_packet() {
-    this->m_flags = 0;
-    this->m_id = 0;
-    *(f32 *)((s8 *)((u8 *)this) + 0xC) = (f32) player_zero;
-    *(f32 *)((s8 *)((u8 *)this) + 8) = (f32) player_zero;
-    *(s8 *)((s8 *)((u8 *)this) + 0) = 0x2C;
-    *(s8 *)((s8 *)((u8 *)this) + 1) = 5;
+void G_ImposeHold_6x2C::send() {
+    bswap();
+    send_subcommand(this);
+}
+void G_SetOrClearPlayerFlags_6x2E::bswap() {
+    header.bswap();
+    bswap_32(&and_mask);
+    bswap_32(&or_mask);
+}
+G_SetOrClearPlayerFlags_6x2E &G_SetOrClearPlayerFlags_6x2E::operator=(G_SetOrClearPlayerFlags_6x2E &src) {
+    copy_subcommand_header(this, &src);
+    and_mask = src.and_mask;
+    or_mask = src.or_mask;
+    return *this;
 }
 
-void TObjPlayer::bswap_and_send_packet() {
-    bswap_pkt_u16x2_u32__10TObjPlayerFPv(this);
-    send_subcommand((u8 *)this);
+void G_SetOrClearPlayerFlags_6x2E::init() {
+    and_mask = 0;
+    or_mask = 0;
+    header.subcommand = 0x2E;
+    header.size = 3;
 }
-void TObjPlayer::bswap_body_dwords() {
-    ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)((char *)this + 4));
-    bswap_32((u32 *)((char *)this + 8));
+
+void G_ChangePlayerLevel_6x30::send() { bswap(); send_subcommand(this); }
+
+void G_ChangePlayerLevel_6x30::bswap() {
+    header.bswap();
+    bswap_16((u16 *)&atp);
+    bswap_16((u16 *)&mst);
+    bswap_16((u16 *)&evp);
+    bswap_16((u16 *)&hp);
+    bswap_16((u16 *)&dfp);
+    bswap_16((u16 *)&ata);
+    bswap_16((u16 *)&level);
+    bswap_16((u16 *)&is_level_down);
 }
-void *TObjPlayer::copy_pair_fields(void *command) {
-    copy_subcommand_header(this, command);
-    *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)command + 4);
-    *(s32 *)((s8 *)this + 8) = (s32) *(s32 *)((s8 *)command + 8);
+
+void G_ChangePlayerLevel_6x30::init() {
+    atp = 0;
+    mst = 0;
+    evp = 0;
+    hp = 0;
+    dfp = 0;
+    ata = 0;
+    level = 0;
+    is_level_down = 0;
+    header.subcommand = 0x30;
+    header.size = 5;
+}
+
+void G_FeedMag_6x28::bswap() {
+    header.bswap();
+    bswap_32(&mag_item_id);
+    bswap_32(&fed_item_id);
+}
+G_FeedMag_6x28 &G_FeedMag_6x28::operator=(G_FeedMag_6x28 &src) {
+    copy_subcommand_header(this, &src);
+    mag_item_id = src.mag_item_id;
+    fed_item_id = src.fed_item_id;
+    return *this;
+}
+
+void G_FeedMag_6x28::init() {
+    mag_item_id = -1;
+    fed_item_id = -1;
+    header.subcommand = 0x28;
+    header.size = 3;
+}
+
+void G_FeedMag_6x28::send() { bswap(); send_subcommand(this); }
+
+void G_UseItem_6x27::bswap() {
+    header.bswap();
+    bswap_32(&item_id);
+}
+G_UseItem_6x27 &G_UseItem_6x27::operator=(G_UseItem_6x27 &src) {
+    copy_subcommand_header(this, &src);
+    item_id = src.item_id;
+    return *this;
+}
+}
+
+void G_UseItem_6x27::init() {
+    item_id = -1;
+    header.subcommand = 0x27;
+    header.size = 2;
+}
+
+void G_UseItem_6x27::send() { bswap(); send_subcommand(this); }
+
+
+void G_CreateInventoryItem_PC_V3_BB_6x2B::bswap() {
+    header.bswap();
+    item_data.bswap();
+}
+
+G_CreateInventoryItem_PC_V3_BB_6x2B &G_CreateInventoryItem_PC_V3_BB_6x2B::operator=(G_CreateInventoryItem_PC_V3_BB_6x2B &src) {
+    G_CreateInventoryItem_DC_6x2B::operator=(src);
+    unused1 = src.unused1;
+    equip_item = src.equip_item;
+    *(u16 *)unused2 = *(const u16 *)src.unused2;
+    return *this;
+}
+
+G_CreateInventoryItem_DC_6x2B &G_CreateInventoryItem_DC_6x2B::operator=(G_CreateInventoryItem_DC_6x2B &src) {
+    copy_subcommand_header(this, &src);
+    __memcpy(&item_data, &src.item_data, sizeof(item_data));
+    return *this;
+}
+
+G_CreateInventoryItem_PC_V3_BB_6x2B *G_CreateInventoryItem_PC_V3_BB_6x2B::init() {
+    G_CreateInventoryItem_DC_6x2B::init();
+    header.subcommand = 0x2B;
+    unused1 = 2;
+    equip_item = 0;
+    unused2[0] = 0;
+    unused2[1] = 0;
+    header.size = 7;
     return this;
 }
 
-void TObjPlayer__sub_801C0C04(G_SetOrClearPlayerFlags_6x2E *packet) {
-    packet->and_mask = 0;
-    packet->or_mask = 0;
-    packet->header.subcommand = 0x2E;
-    packet->header.size = 3;
+void G_CreateInventoryItem_DC_6x2B::init() { header.subcommand = 0x2B; header.size = 6; }
+
+void G_CreateInventoryItem_PC_V3_BB_6x2B::send() { bswap(); send_subcommand(this); }
+
+void G_DropItem_6x2A::bswap() {
+    header.bswap();
+    bswap_16((u16 *)&floor);
+    bswap_16((u16 *)&amount);
+    bswap_32(&item_id);
+    bswap_32((u32 *)&pos.x);
+    bswap_32((u32 *)&pos.y);
+    bswap_32((u32 *)&pos.z);
 }
 
-void TObjPlayer::send_swapped_packet_6x30() { swap_endian__10TObjPlayerFi((saddr)this); send_subcommand((u8 *)this); }
-
-void swap_endian__10TObjPlayerFi(saddr packet) {
-    ((G_ClientIDHeader *)packet)->bswap();
-    bswap_16((u16 *)(packet + 4));
-    bswap_16((u16 *)(packet + 6));
-    bswap_16((u16 *)(packet + 8));
-    bswap_16((u16 *)(packet + 0xA));
-    bswap_16((u16 *)(packet + 0xC));
-    bswap_16((u16 *)(packet + 0xE));
-    bswap_16((u16 *)(packet + 0x10));
-    bswap_16((u16 *)(packet + 0x12));
+G_DropItem_6x2A &G_DropItem_6x2A::operator=(G_DropItem_6x2A &src) {
+    copy_subcommand_header(this, &src);
+    amount = src.amount;
+    floor = src.floor;
+    item_id = src.item_id;
+    __memcpy(&pos, &src.pos, sizeof(pos));
+    return *this;
 }
 
-void TObjPlayer::build_6x30_change_level_packet() {
-    this->m_flags = 0;
-    this->m_id = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 8) = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 0xA) = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 0xC) = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 0xE) = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 0x10) = 0;
-    *(s16 *)((s8 *)((u8 *)this) + 0x12) = 0;
-    *(s8 *)((s8 *)((u8 *)this) + 0) = 0x30;
-    *(s8 *)((s8 *)((u8 *)this) + 1) = 5;
+void G_DropItem_6x2A::init() {
+    amount = 0;
+    floor = 0;
+    item_id = -1;
+    pos.z = player_zero;
+    pos.y = player_zero;
+    pos.x = player_zero;
+    header.subcommand = 0x2A;
+    header.size = 6;
 }
 
-void TObjPlayer::bswap_body_dwords2() {
-    ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)((char *)this + 4));
-    bswap_32((u32 *)((char *)this + 8));
-}
-void *TObjPlayer::copy_pair_fields2(void *src) {
-    copy_subcommand_header(this, src);
-    *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)src + 4);
-    *(s32 *)((s8 *)this + 8) = (s32) *(s32 *)((s8 *)src + 8);
-    return this;
-}
+void G_DropItem_6x2A::send() { bswap(); send_subcommand(this); }
 
-void TObjPlayer__sub_801C0D7C(G_FeedMag_6x28 *packet) {
-    packet->mag_item_id = -1;
-    packet->fed_item_id = -1;
-    packet->header.subcommand = 0x28;
-    packet->header.size = 3;
+void G_PlaceTrap_6x83::bswap() { header.bswap(); bswap_16((u16 *)&trap_type); bswap_16((u16 *)&trap_index); }
+
+G_PlaceTrap_6x83 &G_PlaceTrap_6x83::operator=(G_PlaceTrap_6x83 &src) {
+    copy_subcommand_header(this, &src);
+    trap_type = src.trap_type;
+    trap_index = src.trap_index;
+    return *this;
 }
 
-void TObjPlayer::bswap_and_send_body_dwords2() { bswap_body_dwords2(); send_subcommand((u8 *)this); }
-
-void TObjPlayer::bswap_cmd_u32() {
-    ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)((char *)this + 4));
-}
-void *TObjPlayer::copy_field_4(void *src) {
-    copy_subcommand_header(this, src);
-    *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)src + 4);
-    return this;
-}
+void G_PlaceTrap_6x83::init() {
+  trap_type = 0;
+  trap_index = 0;
+  header.subcommand = 0x83;
+  header.size = 2;
 }
 
-void init_6x27_use_item_cmd(u8 *packet) {
-    *(s32 *)((s8 *)packet + 4) = -1;
-    *(s8 *)((s8 *)packet + 0) = 0x27;
-    *(s8 *)((s8 *)packet + 1) = 2;
+void G_PlaceTrap_6x83::send() { bswap(); send_subcommand(this); }
+
+void G_DeleteMultipleInventoryItems_6xAC::bswap() { header.bswap(); bswap_32((u32 *)&num_items); { int i; for (i = 0; i < 30; i++) { bswap_32(&item_ids.id[i]); } } }
+
+G_DeleteMultipleInventoryItems_6xAC &G_DeleteMultipleInventoryItems_6xAC::operator=(G_DeleteMultipleInventoryItems_6xAC &src) {
+    copy_subcommand_header(this, &src);
+    num_items = src.num_items;
+    item_ids = src.item_ids;
+    return *this;
 }
 
-void TObjPlayer::send_use_item_cmd() { bswap_cmd_u32(); send_subcommand((u8 *)this); }
-
-
-struct ByteBlock_14 { u8 bytes[0x14]; };
-
-struct O_801C12C8 { u8 a; u8 b; u8 pad[2]; s32 c; s32 arr[30]; };
-
-void TObjPlayer::bswap_cmd_item_data() {
-    ((G_ClientIDHeader *)this)->bswap();
-    ((TItemData *)((char *)this + 4))->bswap();
-}
-
-void*TObjPlayer::copy(void* src) { TObjPlayer__sub_801C0F10((u8 *)this, (u8 *)src); *(unsigned char*)((char*)this + 0x18) = *(unsigned char*)((char*)src + 0x18); *(unsigned char*)((char*)this + 0x19) = *(unsigned char*)((char*)src + 0x19); *(short*)((char*)this + 0x1a) = *(unsigned short*)((char*)src + 0x1a); return this; }
-
-u8 *TObjPlayer__sub_801C0F10(u8 *packet, u8 *src) {
-    copy_subcommand_header(packet, src);
-    *(ByteBlock_14 *)((saddr) packet + 4) = *(const ByteBlock_14 *)((saddr) src + 4);
-    return packet;
-}
-
-void*TObjPlayer::init_pkt_6x2B() { set_code_43_6(); *(unsigned char*)(this) = 43; *(unsigned char*)((char*)this + 0x18) = 2; *(unsigned char*)((char*)this + 0x19) = 0; *(unsigned char*)((char*)this + 0x1a) = 0; *(unsigned char*)((char*)this + 0x1b) = 0; *(unsigned char*)((char*)this + 0x1) = 7; return this; }
-
-void TObjPlayer::set_code_43_6() { *(u8*)((char*)this + 0x0) = 43; *(u8*)((char*)this + 0x1) = 6; }
-
-void TObjPlayer::send_cmd_item_data() { bswap_cmd_item_data(); send_subcommand((u8 *)this); }
-
-void bswap_fields__10TObjPlayerFi(saddr packet) {
-    ((G_ClientIDHeader *)packet)->bswap();
-    bswap_16((u16 *)(packet + 6));
-    bswap_16((u16 *)(packet + 4));
-    bswap_32((u32 *)(packet + 8));
-    bswap_32((u32 *)(packet + 0xC));
-    bswap_32((u32 *)(packet + 0x10));
-    bswap_32((u32 *)(packet + 0x14));
-}
-
-u8 *TObjPlayer__sub_801C106C(u8 *packet, u8 *src) {
-    copy_subcommand_header(packet, src);
-    *(s16 *)((s8 *)packet + 4) = (s16) *(s16 *)((s8 *)src + 4);
-    *(s16 *)((s8 *)packet + 6) = (s16) *(s16 *)((s8 *)src + 6);
-    *(s32 *)((s8 *)packet + 8) = (s32) *(s32 *)((s8 *)src + 8);
-    *(ByteBlock_C *)((saddr) packet + 0xC) = *(const ByteBlock_C *)((saddr) src + 0xC);
-    return packet;
-}
-
-void TObjPlayer::init_6x2A() {
-    this->m_flags = 0;
-    this->m_id = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 8) = -1;
-    *(f32 *)((s8 *)((u8 *)this) + 0x14) = (f32) player_zero;
-    *(f32 *)((s8 *)((u8 *)this) + 0x10) = (f32) player_zero;
-    *(f32 *)((s8 *)((u8 *)this) + 0xC) = (f32) player_zero;
-    *(s8 *)((s8 *)((u8 *)this) + 0) = 0x2A;
-    *(s8 *)((s8 *)((u8 *)this) + 1) = 6;
-}
-
-void TObjPlayer::bswap_fields_and_send() { bswap_fields__10TObjPlayerFi((saddr)this); send_subcommand((u8 *)this); }
-
-void TObjPlayer::bswap_body_words() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
-
-void *TObjPlayer::copy_short_fields(void *source) {
-    copy_subcommand_header(this, source);
-    this->m_flags = (s16) *(s16 *)((s8 *)source + 4);
-    this->m_id = (s16) *(s16 *)((s8 *)source + 6);
-    return this;
-}
-
-void TObjPlayer::init_trap_packet() {
-  this->m_flags = 0;
-  this->m_id = 0;
-  *(u8 *)((s8 *)this + 0) = 0x83;
-  *(s8 *)((s8 *)this + 1) = 2;
-}
-
-void TObjPlayer::bswap_body_words_and_send() { bswap_body_words(); send_subcommand((u8 *)this); }
-
-void TObjPlayer::byteswap_data() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); { int i; for (i = 0; i < 30; i++) { bswap_32((u32 *)((char*)this + 0x8 + i * 4)); } } }
-
-u8 *TObjPlayer__sub_801C1268(u8 *packet, u8 *src) {
-    copy_subcommand_header(packet, src);
-    *(s32 *)((s8 *)packet + 4) = (s32) *(s32 *)((s8 *)src + 4);
-    ((SubcmdPacketCopy6xAC *)packet)->body = ((const SubcmdPacketCopy6xAC *)src)->body;
-    return packet;
-}
-
-void TObjPlayer::init_6xAC_packet() {
+void G_DeleteMultipleInventoryItems_6xAC::init() {
     s32 i;
-    ((O_801C12C8 *)this)->c = 0;
+    num_items = 0;
     for (i = 0; i < 30; i++) {
-        ((O_801C12C8 *)this)->arr[i] = -1;
+        item_ids.id[i] = -1;
     }
-    ((O_801C12C8 *)this)->a = 0xac;
-    ((O_801C12C8 *)this)->b = 0x20;
+    header.subcommand = 0xAC;
+    header.size = 0x20;
 }
 
-void TObjPlayer::bswap_body_dwords3() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
+void G_DeleteInventoryItem_6x29::bswap() { header.bswap(); bswap_32(&item_id); bswap_32(&amount); }
 
-void *TObjPlayer::copy_pair_fields3(void *source) {
-    copy_subcommand_header(this, source);
-    *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)source + 4);
-    *(s32 *)((s8 *)this + 8) = (s32) *(s32 *)((s8 *)source + 8);
-    return this;
+G_DeleteInventoryItem_6x29 &G_DeleteInventoryItem_6x29::operator=(G_DeleteInventoryItem_6x29 &src) {
+    copy_subcommand_header(this, &src);
+    item_id = src.item_id;
+    amount = src.amount;
+    return *this;
 }
 
-void TObjPlayer::init_cmd_6x29() {
-    *(s32 *)((s8 *)this + 4) = -1;
-    *(s32 *)((s8 *)this + 8) = 0;
-    *(s8 *)((s8 *)this + 0) = 0x29;
-    *(s8 *)((s8 *)this + 1) = 3;
+void G_DeleteInventoryItem_6x29::init() {
+    item_id = -1;
+    amount = 0;
+    header.subcommand = 0x29;
+    header.size = 3;
 }
 
-void TObjPlayer::bswap_body_dwords3_and_send() { bswap_body_dwords3(); send_subcommand((u8 *)this); }
+void G_DeleteInventoryItem_6x29::send() { bswap(); send_subcommand(this); }
 
-void TObjPlayer::bswap_body_dwords4_and_send() { bswap_body_dwords4(); send_subcommand((u8 *)this); }
+void G_UnequipItem_6x26::send() { bswap(); send_subcommand(this); }
 
-void TObjPlayer::bswap_body_dwords4() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
+void G_UnequipItem_6x26::bswap() { header.bswap(); bswap_32(&item_id); bswap_32((u32 *)&equip_slot); }
 
-void TObjPlayer::init_cmd_6x26() {
-    *(s32 *)((s8 *)this + 4) = -1;
-    *(s32 *)((s8 *)this + 8) = 0;
-    *(s8 *)((s8 *)this + 0) = 0x26;
-    *(s8 *)((s8 *)this + 1) = 3;
+void G_UnequipItem_6x26::init() {
+    item_id = -1;
+    equip_slot = 0;
+    header.subcommand = 0x26;
+    header.size = 3;
 }
 
-void TObjPlayer::bswap_body_dwords5() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
+void G_EquipItem_6x25::bswap() { header.bswap(); bswap_32(&item_id); bswap_32((u32 *)&equip_slot); }
 
-void *TObjPlayer::copy_pair_fields4(void *source) {
-    copy_subcommand_header(this, source);
-    *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)source + 4);
-    *(s32 *)((s8 *)this + 8) = (s32) *(s32 *)((s8 *)source + 8);
-    return this;
+G_EquipItem_6x25 &G_EquipItem_6x25::operator=(G_EquipItem_6x25 &src) {
+    copy_subcommand_header(this, &src);
+    item_id = src.item_id;
+    equip_slot = src.equip_slot;
+    return *this;
 }
 
-void TObjPlayer::init_command() {
-    *(s32 *)((s8 *)this + 4) = -1;
-    *(s32 *)((s8 *)this + 8) = 0;
-    *(s8 *)((s8 *)this + 0) = 0x25;
-    *(s8 *)((s8 *)this + 1) = 3;
+void G_EquipItem_6x25::init() {
+    item_id = -1;
+    equip_slot = 0;
+    header.subcommand = 0x25;
+    header.size = 3;
 }
 
-void TObjPlayer::bswap_body_dwords5_and_send() { bswap_body_dwords5(); send_subcommand((u8 *)this); }
+void G_EquipItem_6x25::send() { bswap(); send_subcommand(this); }
 
-void TObjPlayer::bswap_pkt_u16x2_u32x2() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); }
+void G_SetAnimationState_6xAE::bswap() { header.bswap(); bswap_16((u16 *)&animation_number); bswap_16(&unused); bswap_32(&player_flags); bswap_32((u32 *)&animation_timer); }
 
-void *TObjPlayer::copy_from(void *source) {
-    copy_subcommand_header(this, source);
-    this->m_flags = (s16) *(s16 *)((s8 *)source + 4);
-    this->m_id = (u16) *(u16 *)((s8 *)source + 6);
-    *(s32 *)((s8 *)this + 8) = (s32) *(s32 *)((s8 *)source + 8);
-    *(f32 *)((s8 *)this + 0xC) = (f32) *(f32 *)((s8 *)source + 0xC);
-    return this;
+G_SetAnimationState_6xAE &G_SetAnimationState_6xAE::operator=(G_SetAnimationState_6xAE &src) {
+    copy_subcommand_header(this, &src);
+    animation_number = src.animation_number;
+    unused = src.unused;
+    player_flags = src.player_flags;
+    animation_timer = src.animation_timer;
+    return *this;
 }
 
-void TObjPlayer::build_6xAE_set_animation_state_packet() {
-    this->m_flags = 0;
-    this->m_id = 0;
-    *(s32 *)((s8 *)((u8 *)this) + 8) = 0;
-    *(f32 *)((s8 *)((u8 *)this) + 0xC) = (f32) player_zero;
-    *(u8 *)((s8 *)((u8 *)this) + 0) = 0xAE;
-    *(s8 *)((s8 *)((u8 *)this) + 1) = 4;
+void G_SetAnimationState_6xAE::init() {
+    animation_number = 0;
+    unused = 0;
+    player_flags = 0;
+    animation_timer = player_zero;
+    header.subcommand = 0xAE;
+    header.size = 4;
 }
 
-void TObjPlayer::bswap_pkt_u32x5() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); bswap_32((u32 *)((char*)this + 0x10)); bswap_32((u32 *)((char*)this + 0x14)); }
+void G_SetPosition_6x20::bswap() { header.bswap(); bswap_32((u32 *)&floor); bswap_32((u32 *)&pos.x); bswap_32((u32 *)&pos.y); bswap_32((u32 *)&pos.z); bswap_32(&angle_y); }
 
-u8 *TObjPlayer__sub_801C1664(u8 *packet, u8 *src) {
-    copy_subcommand_header(packet, src);
-    *(s32 *)((s8 *)packet + 4) = (s32) *(s32 *)((s8 *)src + 4);
-    *(ByteBlock_C *)((saddr) packet + 8) = *(const ByteBlock_C *)((saddr) src + 8);
-    *(s32 *)((s8 *)packet + 0x14) = (s32) *(s32 *)((s8 *)src + 0x14);
-    return packet;
+G_SetPosition_6x20 &G_SetPosition_6x20::operator=(G_SetPosition_6x20 &src) {
+    copy_subcommand_header(this, &src);
+    floor = src.floor;
+    __memcpy(&pos, &src.pos, sizeof(pos));
+    angle_y = src.angle_y;
+    return *this;
 }
 
-void TObjPlayer::init_cmd_6x20() {
-    *(s32 *)((s8 *)this + 4) = 0;
-    *(f32 *)((s8 *)this + 0x10) = (f32) player_zero;
-    *(f32 *)((s8 *)this + 0xC) = (f32) player_zero;
-    *(f32 *)((s8 *)this + 8) = (f32) player_zero;
-    *(s32 *)((s8 *)this + 0x14) = 0;
-    *(s8 *)((s8 *)this + 0) = 0x20;
-    *(s8 *)((s8 *)this + 1) = 6;
+void G_SetPosition_6x20::init() {
+    floor = 0;
+    pos.z = player_zero;
+    pos.y = player_zero;
+    pos.x = player_zero;
+    angle_y = 0;
+    header.subcommand = 0x20;
+    header.size = 6;
 }
 
-void TObjPlayer::send_player_floor_packet(u32 client) { bswap_pkt_u16x2_u32x2(); ((game_command *)this)->send_to_client(client); }
+void G_SetAnimationState_6xAE::send_to(u32 client) { bswap(); ((game_command *)this)->send_to_client(client); }
 
-void TObjPlayer::send_player_floor_packet_u32x5() { bswap_pkt_u32x5(); ((game_command *)this)->send(); }
+void G_SetPosition_6x20::send() { bswap(); ((game_command *)this)->send(); }
 
-void TObjPlayer::bswap_set_floor_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
+void G_SetPlayerFloor_6x1F::bswap() { header.bswap(); bswap_32((u32 *)&floor); }
 
 G_SetPlayerFloor_6x1F &G_SetPlayerFloor_6x1F::operator=(const G_SetPlayerFloor_6x1F &src) {
     copy_subcommand_header(this, (void *)&src);
@@ -1549,15 +1550,15 @@ G_SetPlayerFloor_6x1F &G_SetPlayerFloor_6x1F::operator=(const G_SetPlayerFloor_6
     return *this;
 }
 
-void init_6x1F_floor_packet(u8 *packet) {
-    *(s32 *)((s8 *)packet + 4) = 0;
-    *(s8 *)((s8 *)packet + 0) = 0x1F;
-    *(s8 *)((s8 *)packet + 1) = 2;
+void G_SetPlayerFloor_6x1F::init() {
+    floor = 0;
+    header.subcommand = 0x1F;
+    header.size = 2;
 }
 
-void TObjPlayer::bswap_and_send_set_floor() { bswap_set_floor_packet(); ((game_command *)this)->send(); }
+void G_SetPlayerFloor_6x1F::send() { bswap(); ((game_command *)this)->send(); }
 
-void TObjPlayer::bswap_warp_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
+void G_InterLevelWarp_6x21::bswap() { header.bswap(); bswap_32((u32 *)&floor); }
 
 G_InterLevelWarp_6x21 &G_InterLevelWarp_6x21::operator=(const G_InterLevelWarp_6x21 &src) {
     copy_subcommand_header(this, (void *)&src);
@@ -1579,36 +1580,34 @@ int TWindowActionPalette__sub_801C1C20(void* p);
 void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i);
 }
 
-void init_6x21_inter_level_warp_packet(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 4) = 0;
-    *(s8 *)((s8 *)arg0 + 0) = 0x21;
-    *(s8 *)((s8 *)arg0 + 1) = 2;
+void G_InterLevelWarp_6x21::init() {
+    floor = 0;
+    header.subcommand = 0x21;
+    header.size = 2;
 }
 
-void TObjPlayer::send_warp_packet() { bswap_warp_packet(); send_subcommand((u8 *)this); }
+void G_InterLevelWarp_6x21::send() { bswap(); send_subcommand(this); }
 
-void TObjPlayer__sub_801C18E0(void* p) { ((TObjPlayer *)p)->byteswap_set_position_cmd(); send_subcommand((u8 *)p); }
+void G_SetPosition_6x3F::send() { bswap(); send_subcommand(this); }
 
-void TObjPlayer::byteswap_set_position_cmd() {
-    saddr arg0 = (saddr)this;
-    ((G_ClientIDHeader *)this)->bswap();
-    bswap_16((u16 *)(arg0 + 4));
-    bswap_16((u16 *)(arg0 + 6));
-    bswap_16((u16 *)(arg0 + 8));
-    bswap_16((u16 *)(arg0 + 0xA));
-    bswap_32((u32 *)(arg0 + 0xC));
-    bswap_32((u32 *)(arg0 + 0x10));
-    bswap_32((u32 *)(arg0 + 0x14));
+void G_SetPosition_6x3F::bswap() {
+    header.bswap();
+    bswap_16((u16 *)&is_near_enemy);
+    bswap_16(&angle);
+    bswap_16((u16 *)&floor);
+    bswap_16((u16 *)&room);
+    bswap_32((u32 *)&pos.x);
+    bswap_32((u32 *)&pos.y);
+    bswap_32((u32 *)&pos.z);
 }
 
-void TObjPlayer::init_set_position_packet() {
-    u8 *arg0 = (u8 *)this;
-    this->m_flags = 0;
-    this->m_id = 0;
-    *(s16 *)((s8 *)arg0 + 8) = -1;
-    *(s16 *)((s8 *)arg0 + 0xA) = -1;
-    *(s8 *)((s8 *)arg0 + 0) = 0x3F;
-    *(s8 *)((s8 *)arg0 + 1) = 6;
+void G_SetPosition_6x3F::init() {
+    is_near_enemy = 0;
+    angle = 0;
+    floor = -1;
+    room = -1;
+    header.subcommand = 0x3F;
+    header.size = 6;
 }
 
 f32 fn_801C19A4(void* p) { return *(f32*)((char*)p + 0xc); }

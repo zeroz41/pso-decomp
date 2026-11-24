@@ -1526,12 +1526,12 @@ void TObjPlayer::send_name_and_state() {
         a.init();
         a.header.client_id = this->get_entity_id();
         a.send();
-        ((TObjPlayer *)(&b))->init_6x2F_packet_header();
+        ((G_ChangePlayerHP_6x2F *)&b)->init();
         b.f2 = ((s16)this->get_entity_id());
         b.f4 = 0;
         b.f8 = ((s16)this->get_actor_hp());
         b.fa = ((s16)this->get_entity_id());
-        TObjPlayer__sub_801C0734(&b);
+        ((G_ChangePlayerHP_6x2F *)&b)->send();
     }
 }
 
@@ -4899,9 +4899,9 @@ void TObjPlayer::start_animation() {
 void handle_6x3F_set_position(G_SetPosition_6x3F *command) {
     Msg_801D0634 m;
     Player_801D0634 *p;
-    ((TObjPlayer *)(&m))->init_set_position_packet();
+    ((G_SetPosition_6x3F *)&m)->init();
     ((void (*)(void *, void *))TObjPlayer__sub_801D2540)(&m, command);
-    ((TObjPlayer *)(&m))->byteswap_set_position_cmd();
+    ((G_SetPosition_6x3F *)&m)->bswap();
     if (validate_6x3F_set_position((G_SetPosition_6x3F *)&m) != 0) {
         p = (Player_801D0634 *)get_player_by_client_id(m.id);
         if (p != NULL) {
@@ -4971,14 +4971,14 @@ void send_idle_return_event__10TObjPlayerFPvPvs(void *player, const Vec *arg1, s
     s32 t;
     if ((player == NULL) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
         t = ((TObjCollidable *)player)->test_actor_flags(0x100000) != 0 ? 1 : 0;
-        ((TObjPlayer *)(&m))->init_set_position_packet();
+        ((G_SetPosition_6x3F *)&m)->init();
         m.f2 = ((TObjBase *)player)->get_entity_id();
         m.f4 = t;
         m.f6 = arg2;
         m.f8 = ((TObjPlayer *)player)->get_floor();
         m.fa = ((TObjBase *)player)->get_room();
         VecCopy(&m.vec, arg1);
-        TObjPlayer__sub_801C18E0(&m);
+        ((G_SetPosition_6x3F *)&m)->send();
     }
 }
 

@@ -86,7 +86,6 @@ struct TLobby : public TObject {
     static s32 level_to_reward(s32 shop_weapon_stock_level);
     static void clear_slot_field_f10(s32 a, s32 b);
     static void free_lobby_resources();
-    void cleanup_small_font();
     static void stop_audio_streams();
     static void set_pre_retrace_callback();
     static void shutdown_buffers();
