@@ -3,9 +3,11 @@
 
 #include "types.h"
 
+class TPlyDispConfigSmth;
+
 class TPlyCharData;
 extern "C" {
-int TObjPlayer__sub_802C46E0(void *p);
+void TObjPlayer__sub_802C46E0(TPlyDispConfigSmth *palette, s32 row, s32 index, s32 mode, u16 slot);
 }
 int init_character_action_config(void *p);
 // Save the local player into `record`; 0 when there is no local player.

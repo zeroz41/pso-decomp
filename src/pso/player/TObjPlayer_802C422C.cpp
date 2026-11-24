@@ -19,7 +19,6 @@ extern "C" {
 s32 copy_player_visual_record(void *, void *);
 u8 TObjPlayer__sub_801C0124(void *, s16);
 int init_action_config__10TObjPlayerFv(void*);
-int set_palette_entry__20TWindowActionPaletteFlllll(void*);
 }
 
 // Saves the local player into `record`. With no local player yet it asks for one and returns 0.
@@ -150,7 +149,7 @@ void TPlyCharData::mark_game_files_modified() { m_inventory.m_items[0].m_present
 
 int init_character_action_config(void* p) { return init_action_config__10TObjPlayerFv((char*)p + 0x24); }
 
-int TObjPlayer__sub_802C46E0(void* p) { return set_palette_entry__20TWindowActionPaletteFlllll(p); }
+void TObjPlayer__sub_802C46E0(TPlyDispConfigSmth *palette, s32 row, s32 index, s32 mode, u16 slot) { palette->set_tag(row, index, mode, slot); }
 
 void TObjPlayer::clear_flag_80000() { clear_state_flags((saddr)((void*)524288)); }
 void TObjPlayer::set_flag_80000() { set_state_flags((uaddr)((void*)524288)); }

@@ -245,7 +245,7 @@ void TObjPlayer::assign_owner_ids() {
 void TObjPlayer::init_session_technique_caps(PlayerSyncRecord *record) {
     s32 i;
 
-    TObjPlayer__sub_801C1F78(&photon_blast_gauge, get_entity_id());
+    photon_blast_gauge.set_client_id(get_entity_id());
     init_class_technique_caps(&technique_state, get_class_index__10TObjPlayerFv(this));
     ((TObjPlayer *)&technique_state)->copy_all_technique_entries((void *)0x1D);
     for (i = 0; i < 0x13; i++) {
@@ -266,7 +266,7 @@ extern "C" s32 get_record_byte_at(void *record, s32 index);
 void TObjPlayer::init_saved_technique_caps(TPlyCharData *record) {
     s32 i;
 
-    TObjPlayer__sub_801C1F78(&photon_blast_gauge, get_entity_id());
+    photon_blast_gauge.set_client_id(get_entity_id());
     init_class_technique_caps(&technique_state, get_class_index__10TObjPlayerFv(this));
     ((TObjPlayer *)&technique_state)->copy_all_technique_entries((void *)0x1D);
     i = 0;

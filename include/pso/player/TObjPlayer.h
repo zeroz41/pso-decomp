@@ -972,7 +972,7 @@ struct TObjPlayer : public TObjChara {
     s32 has_action_palette_entry();
     static s32 is_effect_channel_active(saddr player, s32 index);
     static void refresh_party_cursors(saddr arg0);
-    void set_action_palette_entry(s32 secondary, s32 valid, s32 idx, s32 arg4, s32 arg5);
+    void set_action_palette_entry(s32 secondary, s32 valid, s32 idx, s32 mode, u16 slot);
     void select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3);
     saddr refresh_effect();
     void update_ground_contact();
@@ -1088,7 +1088,7 @@ struct TObjPlayer : public TObjChara {
     static bool is_slot_within_limit(s32 cls, s32 tech, u8 level);
     s32 can_use_camera_field();
     void init_parts();
-    s32 get_action_palette_entry(s32 index);
+    u16 get_action_palette_entry(s32 index);
     int is_action_active();
     u8 get_battle_mode();
     u8 get_byte_339();

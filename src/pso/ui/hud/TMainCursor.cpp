@@ -863,7 +863,7 @@ void TMainCursor::set_cursor_color(s32 arg0, saddr player, saddr main_cursor) {
 
 s32 TMainCursor::get_action_cursor_priority(void *arg0, saddr player, s32 index) {
     u16 kind;
-    u16 sub;
+    s32 sub;
     kind = TObjPlayer__sub_801B5AF8((TObjPlayer *)player, index);
     sub = ((TObjPlayer *)player)->get_action_palette_entry(index);
     switch (kind) {
@@ -883,7 +883,7 @@ s32 TMainCursor::get_action_cursor_priority(void *arg0, saddr player, s32 index)
         }
         break;
     case 4:
-        if (TObjPlayer::is_effect_channel_active(player, index) != 0 && is_current_area_item_enabled() != 0 && ((TObjPlayer *)player)->test_action_mask(0x43001E) != 0 && ((s32)sub == 0xA || (s32)sub == 9)) {
+        if (TObjPlayer::is_effect_channel_active(player, index) != 0 && is_current_area_item_enabled() != 0 && ((TObjPlayer *)player)->test_action_mask(0x43001E) != 0 && (sub == 0xA || sub == 9)) {
             return 0xF;
         }
         break;

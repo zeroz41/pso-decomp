@@ -56,7 +56,6 @@ struct Ctx_80243B6C { f32 x; f32 y; u8 pad8[0x34 - 0x8]; s32 tex; };
 extern "C" {
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
-u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
 s32 is_palettex_activated(u16 client_index);
 s32 TObjPlayer__sub_80354C7C(u16);
 s32 TWindowSubComCard__sub_802452DC(int);
@@ -189,22 +188,22 @@ void TWindowActionPalette::run_task() {
     }
     v = select_action_palette_and_apply__10TObjPlayerFlll(player, 0, 0, 0);
     if (v == 0) {
-        v = get_entry_by_index__20TWindowActionPaletteFPll(effect, 1);
-        update_slot_sprites(0, TWindowActionPalette::get_slot_type_for_index((s32 *)effect, 1), v);
+        v = ((TPlyDispConfigSmth *)effect)->get_current_tag_slot(1);
+        update_slot_sprites(0, ((TPlyDispConfigSmth *)effect)->get_current_tag_mode(1), v);
     } else {
         update_slot_sprites(0, 7, v);
     }
-    if (is_palettex_activated((u16)client_index) != 0 && ((TWindowActionPalette *)((u8 *)player + 0x500))->handle_input_forward() != 0) {
+    if (is_palettex_activated((u16)client_index) != 0 && ((TPlyDispConfig *)((u8 *)player + 0x500))->is_primary_first_bank() != 0) {
         update_slot_icon(1, 7, 7);
     } else {
-        v = get_entry_by_index__20TWindowActionPaletteFPll(effect, 2);
-        update_slot_sprites(1, TWindowActionPalette::get_slot_type_for_index((s32 *)effect, 2), v);
+        v = ((TPlyDispConfigSmth *)effect)->get_current_tag_slot(2);
+        update_slot_sprites(1, ((TPlyDispConfigSmth *)effect)->get_current_tag_mode(2), v);
     }
-    v = get_entry_by_index__20TWindowActionPaletteFPll(effect, 3);
-    update_slot_sprites(2, TWindowActionPalette::get_slot_type_for_index((s32 *)effect, 3), v);
+    v = ((TPlyDispConfigSmth *)effect)->get_current_tag_slot(3);
+    update_slot_sprites(2, ((TPlyDispConfigSmth *)effect)->get_current_tag_mode(3), v);
     target = TObjPlayer::get_current_target_id();
     if (target == 0xFFFF || target == client_index || player->get_photon_blast_charge() <= 0) {
-        if (((TWindowActionPalette *)((u8 *)player + 0x500))->handle_input_forward() != 0) {
+        if (((TPlyDispConfig *)((u8 *)player + 0x500))->is_primary_first_bank() != 0) {
             if (is_split_screen() != 0) {
                 set_bank_panel_art(3);
             } else {

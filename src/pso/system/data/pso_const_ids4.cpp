@@ -1,11 +1,7 @@
 #include "types.h"
 #include "pso/system/data/pso_const_ids4.h"
-#include "pso/ui/window/TWindowActionPalette.h"
+#include "pso/player/TPlyDispConfig.h"
 
-extern "C" {
-void set_slot_mode__20TWindowActionPaletteFllll(void *, int, int, int);
-void set_palette_entry__20TWindowActionPaletteFlllll(void *, s32, s32, s32, u16);
-}
 
 void assign_photon_blast_palette_slot(u8 *palettes, s32 arg1) {
     s32 ids[3] = {1, 2, 3};
@@ -13,8 +9,8 @@ void assign_photon_blast_palette_slot(u8 *palettes, s32 arg1) {
     s32 i;
     for (i = 0; i < 3; i++) {
         id = ids[i];
-        if ((u16)TWindowActionPalette::get_slot_type((void *)(palettes + 0x24), 1, id) == 0) {
-            set_palette_entry__20TWindowActionPaletteFlllll(palettes + 0x24, 1, id, 5, arg1);
+        if (((TPlyDispConfigSmth *)(palettes + 0x24))->get_tag_mode(1, id) == 0) {
+            ((TPlyDispConfigSmth *)(palettes + 0x24))->set_tag(1, id, 5, arg1);
             return;
         }
     }
@@ -25,7 +21,7 @@ void assign_default_photon_blast_palette_slots(u8 *palettes) {
     s32 i;
     i = 0;
     do {
-        set_slot_mode__20TWindowActionPaletteFllll(palettes + 0x24, 1, tbl[i], 0);
+        ((TPlyDispConfigSmth *)(palettes + 0x24))->set_tag_mode(1, tbl[i], 0);
         i++;
     } while (i < 3);
 }

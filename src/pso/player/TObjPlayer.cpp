@@ -1554,8 +1554,6 @@ G_InterLevelWarp_6x21 &G_InterLevelWarp_6x21::operator=(const G_InterLevelWarp_6
     return *this;
 }
 
-struct O_801C1C68 { u8 pad[4]; u8 a[0x10]; u8 b[0x10]; };
-
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -1563,10 +1561,6 @@ struct C_801C1BA8 { u32 w[5]; };
 
 struct S_801C1BA8 { u8 a; u8 b; u8 c; u8 d; s32 e; C_801C1BA8 f; };
 
-extern "C" {
-int TWindowActionPalette__sub_801C1C20(void* p);
-void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i);
-}
 
 void G_InterLevelWarp_6x21::init() {
     floor = 0;
@@ -1645,11 +1639,11 @@ void TObjPlayer::set_flags_bit1() { ((FlagWord *)((char*)this + 0x1c))->set(1); 
 
 void TObjPlayer::clear_flag_1_at_1c() { ((FlagWord *)((char*)this + 0x1c))->clear(1); }
 
-s32 fn_801C1B88(void* p) { return *(s32*)((char*)p + 0x0); }
+s32 TUnk_8013EF0C::get_candidate_part_index() { return candidate_part_index; }
 
-f32 get_lock_target_distance_sq(void* p) { return *(f32*)((char*)p + 0x8); }
+f32 TUnk_8013EF0C::get_published_target_dist() { return published_target_dist; }
 
-u16 get_lock_target_id(void* p) { return *(u16*)((char*)p + 0x4); }
+u16 TUnk_8013EF0C::get_published_target_id() { return published_target_id; }
 
 s32 fn_801C1BA0(void* p) { return *(s32*)((char*)p + 0x24); }
 
@@ -1665,91 +1659,84 @@ TPlyInventoryItem *fn_801C1BA8(TPlyInventoryItem *destination, const TPlyInvento
     return destination;
 }
 
-int TWindowActionPalette::handle_input_forward() { return TWindowActionPalette__sub_801C1C20(this); }
+int TPlyDispConfig::is_primary_first_bank() { return m_smth.is_first_bank(); }
 
-int TWindowActionPalette__sub_801C1C20(void* p) { return *(u32*)((char*)p + 0x0) == 0; }
+int TPlyDispConfigSmth::is_first_bank() { return m_mbr_0x0 == 0; }
 
-s32 TWindowActionPalette::is_channel_active_at(saddr arg0, s32 i, s32 arg2) {
-    s32 *p = (s32 *)((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
-    return ((TMainCursor *)(p + arg2))->is_channel_active();
+s32 TPlyDispConfigSmth::is_channel_active_at(s32 row, s32 index) {
+    return ((TMainCursor *)(get_row(row) + index))->is_channel_active();
 }
 
-void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i) {
-    if (i == 0) {
-        return self->a;
+gc_tag *TPlyDispConfigSmth::get_row(s32 row) {
+    if (row == 0) {
+        return m_tags;
     }
-    return self->b;
+    return m_tags1;
 }
 
-s32 is_action_channel_active(s32 *arg0, s32 arg1) {
-    return TWindowActionPalette::is_channel_active_at((saddr) arg0, *arg0, arg1);
+s32 TPlyDispConfigSmth::is_channel_active(s32 index) {
+    return is_channel_active_at(m_mbr_0x0, index);
 }
 
-void TWindowActionPalette::set_palette_entry(saddr arg0, s32 i, s32 arg2, s32 arg3, s32 arg4) {
-    s32 *p = (s32 *)((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
-    ActionPaletteTag *tag = reinterpret_cast<ActionPaletteTag *>(p + arg2);
-    set_action_palette_tag_mode(tag, static_cast<u8>(arg3));
-    set_action_palette_tag_slot(tag, static_cast<u8>(arg4));
+void TPlyDispConfigSmth::set_tag(s32 row, s32 index, s32 mode, u16 slot) {
+    ActionPaletteTag *tag = get_row(row) + index;
+    set_action_palette_tag_mode(tag, static_cast<u8>(mode));
+    set_action_palette_tag_slot(tag, static_cast<u8>(slot));
 }
 
-void TWindowActionPalette::set_slot_by_index(saddr arg0, s32 i, s32 arg2, s32 arg3) {
-    s32 *p = (s32 *)((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
-    set_action_palette_tag_slot(reinterpret_cast<ActionPaletteTag *>(p + arg2), static_cast<u8>(arg3));
+void TPlyDispConfigSmth::set_tag_slot(s32 row, s32 index, s32 slot) {
+    set_action_palette_tag_slot(get_row(row) + index, static_cast<u8>(slot));
 }
 
-void TWindowActionPalette::set_slot_mode(saddr arg0, s32 i, s32 arg2, s32 arg3) {
-    s32 *p = (s32 *)((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
-    set_action_palette_tag_mode(reinterpret_cast<ActionPaletteTag *>(p + arg2), static_cast<u8>(arg3));
+void TPlyDispConfigSmth::set_tag_mode(s32 row, s32 index, s32 mode) {
+    set_action_palette_tag_mode(get_row(row) + index, static_cast<u8>(mode));
 }
 
-u16 TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2) {
-    s32 *p = (s32 *)((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(arg0), i));
-    return get_action_palette_tag_slot(reinterpret_cast<const ActionPaletteTag *>(p + arg2));
+u16 TPlyDispConfigSmth::get_tag_slot(s32 row, s32 index) {
+    return get_action_palette_tag_slot(get_row(row) + index);
 }
 
-void TWindowActionPalette::get_entry_by_index(s32 *arg0, s32 arg1) {
-    TWindowActionPalette__sub_801C1D7C((s32)((saddr) arg0), (s32)(*arg0), arg1);
+u16 TPlyDispConfigSmth::get_current_tag_slot(s32 index) {
+    return get_tag_slot(m_mbr_0x0, index);
 }
 
-u16 TWindowActionPalette::get_slot_type(void *effect, s32 i, s32 id) {
-  saddr new_var;
-  new_var = ((saddr)TWindowActionPalette__sub_801C1C68((O_801C1C68 *)(effect), i));
-  return get_action_palette_tag_mode(reinterpret_cast<const ActionPaletteTag *>(new_var + id * 4));
+u16 TPlyDispConfigSmth::get_tag_mode(s32 row, s32 index) {
+    return get_action_palette_tag_mode(get_row(row) + index);
 }
 
-u16 TWindowActionPalette::get_slot_type_for_index(s32 *effect, s32 id) {
-    return TWindowActionPalette::get_slot_type(effect, (s32)(*effect), id);
+u16 TPlyDispConfigSmth::get_current_tag_mode(s32 index) {
+    return get_tag_mode(m_mbr_0x0, index);
 }
 
-void* ref_primary_action_palette(void* p) { return p; }
+TPlyDispConfigSmth *TPlyDispConfig::get_primary() { return &m_smth; }
 
-void* ref_secondary_action_palette(void* p) { return (char*)p + 0x24; }
+TPlyDispConfigSmth *TPlyDispConfig::get_secondary() { return &m_smth1; }
 
-int test_photon_blast_modifier(void* p) { return TWindowActionPalette__sub_801C1C20((char*)p + 0x24); }
+int TPlyDispConfig::is_secondary_first_bank() { return m_smth1.is_first_bank(); }
 
-void clear_secondary_action_palette_bank(void* p) { fn_801C1E98((void*)((char*)p + 0x24)); }
+void TPlyDispConfig::clear_secondary_bank() { m_smth1.clear_bank(); }
 
-void fn_801C1E98(void* p) { *(s32*)((char*)p + 0x0) = 0; }
+void TPlyDispConfigSmth::clear_bank() { m_mbr_0x0 = 0; }
 
-void clear_primary_action_palette_bank(void* p) { fn_801C1E98(p); }
+void TPlyDispConfig::clear_primary_bank() { m_smth.clear_bank(); }
 
-void set_secondary_action_palette_bank(void* p) { fn_801C1EE8((void*)((char*)p + 0x24)); }
+void TPlyDispConfig::set_secondary_bank() { m_smth1.set_bank(); }
 
-void fn_801C1EE8(void* p) { *(s32*)((char*)p + 0x0) = 1; }
+void TPlyDispConfigSmth::set_bank() { m_mbr_0x0 = 1; }
 
-void set_primary_action_palette_bank(void* p) { fn_801C1EE8(p); }
+void TPlyDispConfig::set_primary_bank() { m_smth.set_bank(); }
 
-void set_photon_blast_kind(void* p, s16 v) { *(s16*)((char*)p + 0x2) = v; }
+void PhotonBlastGauge::set_blast(s16 v) { blast = v; }
 
-void fn_801C1F1C(void* p) { fn_801C1F40((s32 *)((char*)p + 0x4c)); }
+void PhotonBlastGauge::decrement_donation_state() { donation.decrement_state(); }
 
-void fn_801C1F40(s32 *arg0) {
-    *arg0 -= 1;
+void PhotonBlastDonation::decrement_state() {
+    state -= 1;
 }
 
 int PhotonBlastGauge::has_ready_flag() { return test_flags_any(&flags.bits, 2); }
 
-void TObjPlayer__sub_801C1F78(void* p, u16 v) { *(s16*)((char*)p + 0x0) = v; }
+void PhotonBlastGauge::set_client_id(u16 id) { client_id = id; }
 
 PhotonBlastGauge::~PhotonBlastGauge() {}
 

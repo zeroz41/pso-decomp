@@ -626,22 +626,7 @@ void TObjPlayer__sub_801C19C8(void *p, f32 v);
 void fn_801C19E0(void *, s32);
 s32 TObjPlayer__sub_801C1AC8(void *);
 s32 TObjPlayer__sub_801C1B0C(void *, int);
-s32 fn_801C1B88(void *p);
-f32 get_lock_target_distance_sq(void *p);
-u16 get_lock_target_id(void *p);
 s32 fn_801C1BA0();
-s32 is_action_channel_active(s32, s32);
-u8 *TWindowActionPalette__sub_801C1D7C(saddr arg0, s32 i, s32 arg2);
-s32 get_entry_by_index__20TWindowActionPaletteFPll(s32, s32);
-void *ref_primary_action_palette(void *p);
-void *ref_secondary_action_palette(void *p);
-int test_photon_blast_modifier(void *p);
-void clear_secondary_action_palette_bank(void *p);
-void clear_primary_action_palette_bank(void *p);
-void set_secondary_action_palette_bank(void *p);
-void set_primary_action_palette_bank(void *p);
-void set_photon_blast_kind(void *p, s16 v);
-void fn_801C1F1C(void *p);
 void *__ct__12StatusEffectFv(void *);
 s32 set_arrival_override_pos(u16, int, int);
 u32 create_lobby_marker__10TObjPlayerFsSc(u16 a0 = 0, s32 a1 = 0);
@@ -1915,9 +1900,9 @@ s32 TObjPlayer::update_target_lock() {
     if (cursor == NULL) {
         return 0;
     }
-    lock_target_id = get_lock_target_id(&cursor->nearest_target);
-    lock_target_distance_sq = get_lock_target_distance_sq(&this->lock_on_cursor->nearest_target);
-    fn_801C1B88(&this->lock_on_cursor->nearest_target);
+    lock_target_id = cursor->nearest_target.get_published_target_id();
+    lock_target_distance_sq = this->lock_on_cursor->nearest_target.get_published_target_dist();
+    this->lock_on_cursor->nearest_target.get_candidate_part_index();
     if (!(this->actorFlags & 0x100000)) {
         if ((u16) lock_target_id == 0xFFFF) {
             return 0;
@@ -3349,14 +3334,14 @@ s32 TObjPlayer::check_actor_blocking_move() {
 void TObjPlayer::update_ground_contact() {
     if (this->is_locally_controlled() != 0) {
         if (pad_binding.is_button_held(fn_8002AE08(this->get_entity_id())) != 0) {
-            set_primary_action_palette_bank(&this->action_palettes);
+            action_palettes.set_primary_bank();
             if (this->photon_blast_gauge.has_ready_flag() != 0) {
-                set_secondary_action_palette_bank(&this->action_palettes);
+                action_palettes.set_secondary_bank();
             }
         } else {
-            clear_primary_action_palette_bank(&this->action_palettes);
+            action_palettes.clear_primary_bank();
             if (this->photon_blast_gauge.has_ready_flag() != 0) {
-                clear_secondary_action_palette_bank(&this->action_palettes);
+                action_palettes.clear_secondary_bank();
             }
         }
         TObjPlayer::refresh_party_cursors((saddr)this);
@@ -3409,52 +3394,52 @@ void TObjPlayer::select_contextual_pickup_action() {
 
 saddr TObjPlayer::refresh_effect() {
     if (this->photon_blast_gauge.has_ready_flag() != 0) {
-        if (test_photon_blast_modifier(&this->action_palettes) != 0) {
-            return (saddr)ref_primary_action_palette(&this->action_palettes);
+        if (action_palettes.is_secondary_first_bank() != 0) {
+            return (saddr)action_palettes.get_primary();
         }
-        return (saddr)ref_secondary_action_palette(&this->action_palettes);
+        return (saddr)action_palettes.get_secondary();
     }
-    return (saddr)ref_primary_action_palette(&this->action_palettes);
+    return (saddr)action_palettes.get_primary();
 }
 
 TPlyDispConfigSmth *TObjPlayer::select_action_palette(int secondary) {
     if (secondary == 1) {
-        return (TPlyDispConfigSmth *)ref_secondary_action_palette(&action_palettes);
+        return action_palettes.get_secondary();
     }
-    return (TPlyDispConfigSmth *)ref_primary_action_palette(&action_palettes);
+    return action_palettes.get_primary();
 }
 
 #pragma push
 #pragma fp_contract on
 void TObjPlayer__sub_801B5AF8(saddr player, s32 index) {
-    TWindowActionPalette::get_slot_type_for_index((s32 *)(((TObjPlayer *)player)->refresh_effect()), (s32)index);
+    ((TPlyDispConfigSmth *)((TObjPlayer *)player)->refresh_effect())->get_current_tag_mode(index);
 }
 #pragma pop
 #pragma push
 #pragma fp_contract on
-s32 TObjPlayer::get_action_palette_entry(s32 index) {
-    return get_entry_by_index__20TWindowActionPaletteFPll(this->refresh_effect(), index);
+u16 TObjPlayer::get_action_palette_entry(s32 index) {
+    return ((TPlyDispConfigSmth *)this->refresh_effect())->get_current_tag_slot(index);
 }
 #pragma pop
 
 #pragma push
 #pragma scheduling off
 void TObjPlayer::select_action_palette_and_apply(s32 secondary, s32 arg2, s32 arg3) {
-    TWindowActionPalette__sub_801C1D7C((saddr)this->select_action_palette(secondary), arg2, arg3);
+    this->select_action_palette(secondary)->get_tag_slot(arg2, arg3);
 }
 #pragma pop
 
 #pragma push
 #pragma scheduling off
 void TObjPlayer__sub_801B5A44(saddr player, s32 secondary, s32 i, s32 action, s32 param) {
-    TWindowActionPalette::set_slot_by_index((saddr)((TObjPlayer*)player)->select_action_palette(secondary), i, action, param);
+    ((TObjPlayer *)player)->select_action_palette(secondary)->set_tag_slot(i, action, param);
 }
 #pragma pop
 
 #pragma push
 #pragma scheduling off
-void TObjPlayer::set_action_palette_entry(s32 secondary, s32 valid, s32 idx, s32 arg4, s32 arg5) {
-    TWindowActionPalette::set_palette_entry((saddr)this->select_action_palette(secondary), valid, idx, arg4, arg5);
+void TObjPlayer::set_action_palette_entry(s32 secondary, s32 valid, s32 idx, s32 mode, u16 slot) {
+    this->select_action_palette(secondary)->set_tag(valid, idx, mode, slot);
 }
 #pragma pop
 
@@ -3468,7 +3453,7 @@ void TObjPlayer::refresh_party_cursors(saddr player) {
 #pragma push
 #pragma fp_contract on
 s32 TObjPlayer::is_effect_channel_active(saddr player, s32 index) {
-    return is_action_channel_active(((TObjPlayer *)player)->refresh_effect(), index);
+    return ((TPlyDispConfigSmth *)((TObjPlayer *)player)->refresh_effect())->is_channel_active(index);
 }
 #pragma pop
 
@@ -3485,7 +3470,7 @@ s32 TObjPlayer::is_action_channel_available(s32 channel) {
         goto block_5;
     }
 block_5:
-    return is_action_channel_active(this->refresh_effect(), channel);
+    return ((TPlyDispConfigSmth *)this->refresh_effect())->is_channel_active(channel);
 }
 #pragma pop
 
@@ -3951,7 +3936,7 @@ void TObjPlayer::update_target() {
         this->photon_blast_gauge.reset_targets();
         return;
     }
-    fn_801C1F1C(&this->photon_blast_gauge);
+    this->photon_blast_gauge.decrement_donation_state();
     if (this->can_use_action() != 0) {
         this->photon_blast_gauge.draw_party_label(this, current_target_id);
     }
@@ -4218,7 +4203,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
         break;
     case 5:
         if (check_conditions__10TObjPlayerFv(this, act) != 0) {
-            set_photon_blast_kind(&this->photon_blast_gauge, act);
+            this->photon_blast_gauge.set_blast(act);
             run_action_state_phase(9, 5);
             return 1;
         }
@@ -4250,7 +4235,7 @@ s32 TObjPlayer::handle_palette_button_input() {
             return 1;
         }
     } else if (pad_binding.is_button_pressed(0x400) != 0 && ((int (*)(void *, s32))get_result_entry__18TChallenge4PResultFPv)(this, 2) != 0) {
-        if (is_palettex_activated(this->get_entity_id()) != 0 && ((TWindowActionPalette *)&this->action_palettes)->handle_input_forward() != 0) {
+        if (is_palettex_activated(this->get_entity_id()) != 0 && this->action_palettes.is_primary_first_bank() != 0) {
             if (TObjPlayer::is_player_valid_target(this->get_entity_id()) != 0) {
                 run_palettex_callback(this->get_entity_id());
             }

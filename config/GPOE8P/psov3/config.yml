@@ -1764,7 +1764,7 @@ force_active:
   - __ct__9TTecSiftaFPvPvl
   - TTecSlicer__ct
   - __ct__9TTecZondeFlPUcPUcl
-  - TWindowActionPalette__sub_801C1C20
+  - is_first_bank__18TPlyDispConfigSmthFv
   - TWindowChat__sub_80247D50
   - TWindowChat__sub_80247DAC
   - TWindowComCard__class_name
@@ -6367,9 +6367,9 @@ force_active:
   - fn_8019F9AC
   - alloc_player_ids__Fl
   - __sinit_OfflineGameScene_cpp
-  - fn_801C1E98
-  - fn_801C1EE8
-  - fn_801C1F40
+  - clear_bank__18TPlyDispConfigSmthFv
+  - set_bank__18TPlyDispConfigSmthFv
+  - decrement_state__19PhotonBlastDonationFv
   - fn_801C4CE0
   - __sinit_text_801D34E0_cpp
   - fn_801D371C
@@ -7264,7 +7264,7 @@ force_active:
   - is_card_file_missing_a__12TAdTimeSetGCFv
   - is_card_file_missing_b__12TAdTimeSetGCFv
   - is_challenge_lobby__6TLobbyFv
-  - is_channel_active_at__20TWindowActionPaletteFlll
+  - is_channel_active_at__18TPlyDispConfigSmthFll
   - is_confirm_pressed__11TOKeyCave01Fv
   - is_confirm_pressed__14TOKeyAncient03Fv
   - is_confirm_pressed__14TOKeyMachine01Fv

@@ -143,6 +143,9 @@ public:
     void set_published_target_id(u16 id);
     u16 get_candidate_target_id();
     void reset();
+    s32 get_candidate_part_index();
+    f32 get_published_target_dist();
+    u16 get_published_target_id();
 };
 
 struct TLockOnCursor : public TObject {

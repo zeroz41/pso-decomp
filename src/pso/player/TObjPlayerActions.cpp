@@ -3098,7 +3098,7 @@ void handle_6x49_execute_photon_blast(G_ExecutePhotonBlast_Header_6x49 *command)
                 PhotonBlastTarget *src;
                 ((PhotonBlastGauge *)p->pb)->start_photon_blast_action();
                 TObjPlayer::apply_photon_blast(cmd.header.client_id, cmd.params.photon_blast);
-                set_photon_blast_kind(p->pb, cmd.params.photon_blast);
+                ((PhotonBlastGauge *)p->pb)->set_blast(cmd.params.photon_blast);
                 count = cmd.params.target_count;
                 ((PhotonBlastGauge *)p->pb)->set_section_index(count);
                 ((TObjPlayer *)p)->set_float_param(cmd.params.pb_meter_value);
