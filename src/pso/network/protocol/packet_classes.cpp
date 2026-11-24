@@ -14,7 +14,6 @@ QuestListEntry *__ct__14QuestListEntryFRC14QuestListEntry(QuestListEntry *dst, c
 LobbyListEntry *__ct__14LobbyListEntryFRC14LobbyListEntry(LobbyListEntry *dst, const LobbyListEntry *src);
 GameListEntry *__ct__13GameListEntryFRC13GameListEntry(GameListEntry *dst, const GameListEntry *src);
 TPlyJoinLobbyData *__ct__17TPlyJoinLobbyDataFRC17TPlyJoinLobbyData(TPlyJoinLobbyData *dst, const TPlyJoinLobbyData *src);
-TPlyMeetUserExtension *copy_ply_meet_user_extension(TPlyMeetUserExtension *dst, const TPlyMeetUserExtension *src);
 }
 
 void TRegister::bswap() {
@@ -82,9 +81,9 @@ void TRecvPort::bswap() {
     bswap_16((u16 *)&port);
 }
 
-extern "C" TUserAns *__ct__8TUserAnsFRC8TUserAns(TUserAns *dst, const TUserAns *src) {
+extern "C" TUserAns *__ct__8TUserAnsFRC8TUserAns(TUserAns *dst, TUserAns *src) {
     __memcpy(&dst->header, &src->header, sizeof(dst->header));
-    __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&dst->tag, (void *)&src->tag);
+    __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&dst->tag, &src->tag);
     dst->found_guildcard = src->found_guildcard;
     __memcpy(&dst->recv_port, &src->recv_port, sizeof(dst->recv_port));
     __memcpy(dst->location, src->location, sizeof(dst->location));
@@ -191,7 +190,7 @@ void TPlyJoinLobbyData::bswap() {
     bswap_32(&client_id);
 }
 
-extern "C" TPlyStartGame *__ct__13TPlyStartGameFRC13TPlyStartGame(TPlyStartGame *dst, const TPlyStartGame *src) {
+extern "C" TPlyStartGame *__ct__13TPlyStartGameFRC13TPlyStartGame(TPlyStartGame *dst, TPlyStartGame *src) {
     __memcpy(&dst->header, &src->header, sizeof(dst->header));
     __ct__17TPlyJoinLobbyDataFRC17TPlyJoinLobbyData(&dst->lobby_data[0], &src->lobby_data[0]);
     __ct__17TPlyJoinLobbyDataFRC17TPlyJoinLobbyData(&dst->lobby_data[1], &src->lobby_data[1]);

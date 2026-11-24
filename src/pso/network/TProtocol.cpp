@@ -9,14 +9,13 @@
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/network/TLobby.h"
-#include "pso/network/protocol/packet_swaps.h"
 #include "pso/player/TPlyClientConfig.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/item/TItemData.h"
 #include "pso/network/TPlyMeetUserExtension.h"
 #include "pso/system/memory.h"
-#include "pso/ui/window/TMessageBox.h"
+#include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 
 LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D4_trade_result_packet) == 0xBC9C);
 LAYOUT_ASSERT(TradeAdvanceCallbackOffset, offsetof(TProtocol, m_recv_handlers.handle_D1_advance_trade_state_packet) == 0xBCA0);
@@ -273,7 +272,7 @@ s32 TProtocol::send_login_9e_extended(void *player_name, int udp_disabled) {
     pkt.header.command = 0x9E;
     pkt.header.flags = m_udp_disabled;
     pkt.header.size = sizeof(pkt);
-    __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&pkt.tag, &m_guildcard_tag);
+    pkt.tag = m_guildcard_tag;
     pkt.hardware_id = m_smth;
     pkt.sub_version = m_sub_version;
     pkt.language = m_language;
@@ -309,7 +308,7 @@ void TProtocol::handle_cmd_02(packet &pkt) {
         memset(&tmp2, 0, sizeof(tmp2));
         tmp2.header.command = 0x9E;
         tmp2.header.flags = m_udp_disabled;
-        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&tmp2.tag, &m_guildcard_tag);
+        tmp2.tag = m_guildcard_tag;
         tmp2.hardware_id = m_smth;
         tmp2.sub_version = m_sub_version;
         tmp2.language = m_language;
@@ -409,7 +408,7 @@ void TProtocol::send_lobby_name_request() {
 
 void TProtocol::handle_cmd_8A(packet &pkt) {
     TRecvLobbyName tmp = as(TRecvLobbyName &, pkt);
-    bswap_cmd_8a_header(&tmp);
+    tmp.bswap();
     if (m_recv_handlers.handle_8A_lobby_name_packet != NULL) {
         m_recv_handlers.handle_8A_lobby_name_packet(tmp.name);
     }
@@ -425,25 +424,25 @@ void TProtocol::send_lobby_arrow(int arrow) {
 }
 
 // The lobby registers a no-argument function as the 88 handler; the protocol passes it the list.
-typedef void (*arrow_color_list_handler)(void *list);
+typedef void (*arrow_color_list_handler)(TArrowColorList *list);
 
 void TProtocol::handle_cmd_88(packet &pkt) {
-    char list[0xC4];
+    char list[sizeof(TArrowColorList)];
     arrow_color_list_handler handler;
 
-    copy_entry_table((s32 *)list, (s32 *)&pkt);
-    bswap_cmd_88_body(list);
+    copy_arrow_color_list((TArrowColorList *)list, (TArrowColorList *)&pkt);
+    ((TArrowColorList *)list)->bswap();
     handler = (arrow_color_list_handler)m_recv_handlers.handle_88_player_arrow_color_list_packet;
     if (handler != NULL) {
-        handler(list);
+        handler((TArrowColorList *)list);
     }
 }
 
 void TProtocol::handle_cmd_C4(packet &pkt) {
     char results[sizeof(ChoiceSearchResultList)];
 
-    copy_cmd_c4_entry_table((s32 *)results, (s32 *)&pkt);
-    bswap_cmd_c4_body(results);
+    copy_choice_search_result_list((ChoiceSearchResultList *)results, (ChoiceSearchResultList *)&pkt);
+    ((ChoiceSearchResultList *)results)->bswap();
     if (m_recv_handlers.handle_C4_choice_search_reply_packet != NULL) {
         m_recv_handlers.handle_C4_choice_search_reply_packet((ChoiceSearchResultList *)results);
     }
@@ -477,7 +476,7 @@ void TProtocol::send_choice_search_parameters(TPlyChoiceSearchConfig &parameters
 
 void TProtocol::handle_cmd_C0(packet &pkt) {
     TRecvChoiceSearchOptions tmp = as(TRecvChoiceSearchOptions &, pkt);
-    bswap_c0_lobby_entries(&tmp);
+    tmp.bswap();
     if (m_recv_handlers.handle_C0_choice_search_option_packet != NULL) {
         m_recv_handlers.handle_C0_choice_search_option_packet(&tmp);
     }
@@ -509,7 +508,7 @@ void TProtocol::handle_cmd_B1(packet &pkt) {
     lobby_state_flags = (lobby_state_flags & ~0xFF) | (low & 0xFF);
     lobby_state_flags = (lobby_state_flags & ~0xFF00) | ((mid << 8) & 0xFF00);
     lobby_state_flags = (lobby_state_flags & ~0xFF0000) | ((high << 16) & 0xFF0000);
-    bswap_packet_header_cmd_b1(&recv);
+    recv.bswap();
     handler = (server_time_handler)m_recv_handlers.handle_B1_current_time_packet;
     if (handler != NULL) {
         handler(recv.time);
@@ -582,19 +581,8 @@ void TProtocol::handle_cmd_97(packet &pkt) {
 
 // ---- pso/network/TProtocol_801DB684
 
-#include "pso/ui/chat/TChatMessage.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include <stddef.h>
-
-struct CharacterSaveInfoPacket {
-    packet_header header;
-    C_CharSaveInfo_DCv2_PC_V3_BB_96 payload;
-};
-
-struct ChangeShipOrBlockPacket {
-    packet_header header;
-    C_ChangeShipOrBlock_A0_A1 payload;
-};
 
 LAYOUT_ASSERT(CharacterSaveInfoPacket_size, sizeof(CharacterSaveInfoPacket) == 0xC);
 LAYOUT_ASSERT(ChangeShipOrBlockPacket_size, sizeof(ChangeShipOrBlockPacket) == 0x1C);
@@ -606,9 +594,9 @@ void TProtocol::send_character_save_info(int creation_timestamp, int event_count
     packet.header.command = 0x96;
     packet.header.flags = 0;
     packet.header.size = sizeof(packet);
-    packet.payload.creation_timestamp = creation_timestamp;
-    packet.payload.event_counter = event_counter;
-    bswap_save_packet((saddr)&packet);
+    packet.creation_timestamp = creation_timestamp;
+    packet.event_counter = event_counter;
+    packet.bswap();
     send((u8 *)&packet, sizeof(packet));
 }
 
@@ -624,29 +612,25 @@ void TProtocol::send_quest_menu_request() {
 }
 
 void TProtocol::send_block_list_request() {
-    ChangeShipOrBlockPacket packet;
-    u8 pad[8];
     if (m_connected != 0) {
-        construct_change_ship_block_packet((saddr)&packet);
+        ChangeShipOrBlockPacket packet;
         memset(&packet, 0, sizeof(packet));
         packet.header.command = 0xA1;
         packet.header.size = sizeof(packet);
-        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&packet.payload, &m_guildcard_tag);
-        bswap_change_ship_block_packet(&packet);
+        packet.tag = m_guildcard_tag;
+        packet.bswap();
         send((u8 *)&packet, sizeof(packet));
     }
 }
 
 void TProtocol::send_ship_list_request() {
-    ChangeShipOrBlockPacket packet;
-    u8 pad[8];
     if (m_connected != 0) {
-        construct_change_ship_block_packet((saddr)&packet);
+        ChangeShipOrBlockPacket packet;
         memset(&packet, 0, sizeof(packet));
         packet.header.command = 0xA0;
         packet.header.size = sizeof(packet);
-        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&packet.payload, &m_guildcard_tag);
-        bswap_change_ship_block_packet(&packet);
+        packet.tag = m_guildcard_tag;
+        packet.bswap();
         send((u8 *)&packet, sizeof(packet));
     }
 }
@@ -656,7 +640,7 @@ void TProtocol::send_simple_mail(TChatMessage &message) {
         message.header.command = 0x81;
         message.header.flags = 0;
         message.header.size = 0x220;
-        bswap__12TChatMessageFv((saddr)&message);
+        message.bswap();
         send((u8 *)&message, 0x220);
     }
 }
@@ -2029,76 +2013,13 @@ void TPlyMeetUserExtension::bswap() {
     for (int i = 0; i < 8; ++i) {
         tags[i].bswap();
     }
-    bswap_32(&mbr_0x40);
+    bswap_32(&unknown);
 }
 
 void TRecvPsoRegistConnect::bswap() {
     header.bswap();
     bswap_32(&server_key);
     bswap_32(&client_key);
-}
-
-struct RecoveredFields_801DF394_arg0
-{
-  s32 field_0;
-};
-
-struct RecoveredFields_801DF394_arg1
-{
-  s32 field_0;
-};
-
-struct RecoveredFields_801DF4FC_arg0
-{
-  s32 field_0;
-};
-
-struct RecoveredFields_801DF4FC_arg1
-{
-  s32 field_0;
-};
-
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-struct W4_801DF558 { u32 w[4]; };
-
-struct W8_801DF558 { u32 w[8]; };
-
-struct W12_801DF558 { u32 w[12]; };
-
-struct T3_801DF558 { u32 w[3]; };
-
-struct Entry_801DF558 {
-    u32 a;
-    W4_801DF558 b;
-    W8_801DF558 c;
-    W12_801DF558 d;
-    T3_801DF558 e;
-    u8 ext[0x64];
-};
-
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-struct W4_801DF61C { s32 v[4]; };
-
-struct Copy_801DF61C { W4_801DF61C a; W4_801DF61C b; };
-
-struct Tag_801DF61C { u8 b[8]; };
-
-struct Obj_801DF61C {
-    Tag_801DF61C tags[8];
-    s32 w;
-    Copy_801DF61C c;
-};
-
-extern "C" {
-int bswap_32__FPUl(void* a0);
-s32 bswap_16__FPUs(s32);
-int __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void*);
-Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src);
-s32 __ct__16TPlyGuildCardTagFv(s32);
 }
 
 void TSendVerifyLicense::bswap() {
@@ -2108,88 +2029,91 @@ void TSendVerifyLicense::bswap() {
 }
 
 TSendVerifyLicense::TSendVerifyLicense() {}
-void bswap_cmd_8a_header(void *p) { ((packet_header *)p)->bswap(); }
-void bswap_cmd_88_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 16; i++) { bswap_cmd_88_marker_record((void*)((char*)p + 0x4 + i * 12)); } } }
+void TRecvLobbyName::bswap() { header.bswap(); }
 
-void bswap_cmd_88_marker_record(void* p) { ((TPlyGuildCardTag *)p)->bswap(); bswap_32((u32 *)((char*)p + 0x8)); }
-
-typedef struct RecoveredFields_801DF394_arg0 RecoveredFields_801DF394_arg0;
-typedef struct RecoveredFields_801DF394_arg1 RecoveredFields_801DF394_arg1;
-
-s32 *copy_entry_table(s32 *arg0, s32 *arg1) {
-  uaddr var_r30;
-  saddr var_r29;
-  var_r30 = (uaddr) (((u8 *) arg0) + 4);
-  var_r29 = (saddr) (((u8 *) arg1) + 4);
-  ((RecoveredFields_801DF394_arg0 *) arg0)->field_0 = ((RecoveredFields_801DF394_arg1 *) arg1)->field_0;
-  do
-  {
-    copy_cmd_88_marker_record((void*)var_r30, (void*)var_r29);
-    var_r30 += 0xC;
-    var_r29 += 0xC;
-  }
-  while (var_r30 < ((uaddr) (((u8 *) arg0) + 0xC4)));
-  return arg0;
+void TArrowColorList::bswap() {
+    header.bswap();
+    for (int i = 0; i < 16; i++) {
+        entries[i].bswap();
+    }
 }
 
-void* copy_cmd_88_marker_record(void* p, void* a1) { __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(p); *(void**)((char*)p + 0x8) = *(void**)((char*)a1 + 0x8); return p; }
-void bswap_cmd_c4_body(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 32; i++) { bswap_cmd_c4_entry((void *)((char*)p + 0x4 + i * 212)); } } }
-
-void bswap_cmd_c4_entry(void *arg0) {
-    bswap_32((u32 *)arg0);
-    bswap_cmd_c4_reconnect_command((saddr)((void *)((char *)arg0 + 100)));
-    ((TPlyMeetUserExtension *)((char *)arg0 + 112))->bswap();
+void TArrowColorEntry::bswap() {
+    tag.bswap();
+    bswap_32(&color);
 }
 
-void bswap_cmd_c4_reconnect_command(saddr arg0) {
-    ((packet_header *)arg0)->bswap();
-    ((s32)bswap_32__FPUl((void*)(arg0 + 4)));
-    bswap_16__FPUs(arg0 + 8);
-    bswap_16__FPUs(arg0 + 0xA);
-}
-
-typedef struct RecoveredFields_801DF4FC_arg0 RecoveredFields_801DF4FC_arg0;
-typedef struct RecoveredFields_801DF4FC_arg1 RecoveredFields_801DF4FC_arg1;
-s32 *copy_cmd_c4_entry_table(s32 *arg0, s32 *arg1) {
-  u8 *dst;
-  u8 *src;
-  dst = (u8 *)arg0 + 4;
-  src = (u8 *)arg1 + 4;
-  ((RecoveredFields_801DF4FC_arg0 *) arg0)->field_0 = ((RecoveredFields_801DF4FC_arg1 *) arg1)->field_0;
-  do
-  {
-    copy_cmd_c4_entry(dst, src);
-    dst += 0xD4;
-    src += 0xD4;
-  }
-  while (dst < (u8 *)arg0 + 0x1A84);
-  return arg0;
-}
-
-struct Obj_801DF61C;
-void *copy_cmd_c4_entry(void *dst, void *src) {
-    Entry_801DF558 *d = (Entry_801DF558 *)dst;
-    Entry_801DF558 *s = (Entry_801DF558 *)src;
-    d->a = s->a;
-    d->b = s->b;
-    d->c = s->c;
-    d->d = s->d;
-    d->e = s->e;
-    copy_ply_meet_user_extension((Obj_801DF61C *)d->ext, (Obj_801DF61C *)s->ext);
+TArrowColorList *copy_arrow_color_list(TArrowColorList *dst, TArrowColorList *src) {
+    TArrowColorEntry *d = dst->entries;
+    TArrowColorEntry *s = src->entries;
+    __memcpy(&dst->header, &src->header, sizeof(packet_header));
+    do {
+        copy_arrow_color_entry(d, s);
+        d++;
+        s++;
+    } while (d < dst->entries + 16);
     return dst;
 }
 
-Obj_801DF61C *copy_ply_meet_user_extension(Obj_801DF61C *dst, Obj_801DF61C *src) {
-    Tag_801DF61C *d = dst->tags;
-    Tag_801DF61C *s = src->tags;
+TArrowColorEntry *copy_arrow_color_entry(TArrowColorEntry *dst, TArrowColorEntry *src) {
+    __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&dst->tag, &src->tag);
+    dst->color = src->color;
+    return dst;
+}
+
+void ChoiceSearchResultList::bswap() {
+    header.bswap();
+    for (int i = 0; i < 32; i++) {
+        entries[i].bswap();
+    }
+}
+
+void ChoiceSearchResult::bswap() {
+    bswap_32(&guildcard_number);
+    reconnect.bswap();
+    extension.bswap();
+}
+
+void ChoiceSearchReconnect::bswap() {
+    header.bswap();
+    bswap_32(&address);
+    bswap_16(&port);
+    bswap_16(&unused);
+}
+
+ChoiceSearchResultList *copy_choice_search_result_list(ChoiceSearchResultList *dst, ChoiceSearchResultList *src) {
+    ChoiceSearchResult *d = dst->entries;
+    ChoiceSearchResult *s = src->entries;
+    __memcpy(&dst->header, &src->header, sizeof(packet_header));
     do {
-        ((int (*)(void *, void *))__ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag)(d, s);
+        copy_choice_search_result(d, s);
+        d++;
+        s++;
+    } while (d < dst->entries + 32);
+    return dst;
+}
+
+ChoiceSearchResult *copy_choice_search_result(ChoiceSearchResult *dst, ChoiceSearchResult *src) {
+    dst->guildcard_number = src->guildcard_number;
+    __memcpy(dst->name, src->name, sizeof(dst->name));
+    __memcpy(dst->info, src->info, sizeof(dst->info));
+    __memcpy(dst->location, src->location, sizeof(dst->location));
+    __memcpy(&dst->reconnect, &src->reconnect, sizeof(dst->reconnect));
+    copy_ply_meet_user_extension(&dst->extension, &src->extension);
+    return dst;
+}
+
+TPlyMeetUserExtension *copy_ply_meet_user_extension(TPlyMeetUserExtension *dst, TPlyMeetUserExtension *src) {
+    TPlyGuildCardTag *d = dst->tags;
+    TPlyGuildCardTag *s = src->tags;
+    do {
+        __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(d, s);
         d++;
         s++;
     } while (d < dst->tags + 8);
-    dst->w = src->w;
-    dst->c.a = src->c.a;
-    dst->c.b = src->c.b;
+    dst->unknown = src->unknown;
+    __memcpy(dst->player_name, src->player_name, sizeof(dst->player_name));
+    __memcpy(dst->player_name2, src->player_name2, sizeof(dst->player_name2));
     return dst;
 }
 
@@ -2200,45 +2124,48 @@ void ChoiceSearchPacket::bswap() {
 void TPlyChoiceSearchConfig::bswap() {
     bswap_32(&disabled);
     for (int i = 0; i < 5; i++) {
-        bswap_u16_pair_field(&entries[i]);
+        entries[i].bswap();
     }
 }
 
-void bswap_u16_pair_field(void* p) { bswap_16((u16 *)p); bswap_16((u16 *)((void*)((char*)p + 0x2))); }
+void TPlyChoiceSearchConfig::Entry::bswap() {
+    bswap_16(&parent_choice_id);
+    bswap_16(&choice_id);
+}
 
 TPlyChoiceSearchConfig *copy_choice_search_parameters(TPlyChoiceSearchConfig *dst, const TPlyChoiceSearchConfig *src) {
     *dst = *src;
     return dst;
 }
 
-void bswap_c0_lobby_entries(void* p) { ((packet_header *)p)->bswap(); { int i; for (i = 0; i < 56; i++) { bswap_c0_choice_search_entry((void*)((char*)p + 0x4 + i * 32)); } } }
-
-void bswap_c0_choice_search_entry(void* p) { bswap_u16_pair_field(p); }
-
-void bswap_packet_header_cmd_b1(void *p) { ((packet_header *)p)->bswap(); }
-
-void bswap_save_packet(saddr arg0) {
-    ((packet_header *)arg0)->bswap();
-    ((s32)bswap_32__FPUl((void*)(arg0 + 4)));
-    ((s32)bswap_32__FPUl((void*)(arg0 + 8)));
+void TRecvChoiceSearchOptions::bswap() {
+    header.bswap();
+    for (int i = 0; i < 56; i++) {
+        entries[i].bswap();
+    }
 }
 
-void bswap_change_ship_block_packet(void* p) { ((packet_header *)p)->bswap(); ((TPlyGuildCardTag *)((char*)p + 0x4))->bswap(); }
+void ChoiceSearchOption::bswap() { choice.bswap(); }
 
-s32 construct_change_ship_block_packet(s32 arg0) {
-    __ct__16TPlyGuildCardTagFv(arg0 + 4);
-    return arg0;
+void TRecvServerTime::bswap() { header.bswap(); }
+
+void CharacterSaveInfoPacket::bswap() {
+    header.bswap();
+    bswap_32(&creation_timestamp);
+    bswap_32(&event_counter);
 }
 
-extern "C" {
-
-
-void bswap__12TChatMessageFv(saddr arg0) {
-    ((packet_header *)arg0)->bswap();
-    ((TPlyGuildCardTag *)(arg0 + 4))->bswap();
-    bswap_32((u32 *)(arg0 + 0x1C));
+void ChangeShipOrBlockPacket::bswap() {
+    header.bswap();
+    tag.bswap();
 }
 
+ChangeShipOrBlockPacket::ChangeShipOrBlockPacket() {}
+
+void TChatMessage::bswap() {
+    header.bswap();
+    tag.bswap();
+    bswap_32(&to_guildcard_number);
 }
 
 LAYOUT_ASSERT(RegistConnectHeaderOffset, offsetof(TSendPsoRegistConnect, header) == 0);
@@ -2378,14 +2305,9 @@ void TSendAction<1>::bswap() {
 
 TSendAction<1>::TSendAction() {}
 
-extern "C" {
-
-
-void bswap__11TMessageBoxFv(saddr arg0) {
-    ((packet_header *)arg0)->bswap();
-    ((TPlyGuildCardTag *)(arg0 + 4))->bswap();
-}
-
+void TMessageBox::bswap() {
+    header.bswap();
+    tag.bswap();
 }
 
 TMessageBox::TMessageBox() {}

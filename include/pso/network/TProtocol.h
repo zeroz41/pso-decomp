@@ -129,7 +129,28 @@ union packet {
 struct TRecvLobbyName {
     packet_header header;
     char name[16];
+
+    void bswap();
 };
+
+// 88: one player's lobby arrow colour.
+struct TArrowColorEntry {
+    TPlyGuildCardTag tag;
+    u32 color;
+
+    void bswap();
+};
+
+// 88: the lobby arrow colours of the players in the lobby.
+struct TArrowColorList {
+    packet_header header;
+    TArrowColorEntry entries[16];
+
+    void bswap();
+};
+
+TArrowColorList *copy_arrow_color_list(TArrowColorList *dst, TArrowColorList *src);
+TArrowColorEntry *copy_arrow_color_entry(TArrowColorEntry *dst, TArrowColorEntry *src);
 
 // B1: the server's current time as text; the bytes after it carry the lobby state flags.
 struct TRecvServerTime {
@@ -138,6 +159,28 @@ struct TRecvServerTime {
     s8 time_flags_low;
     s8 time_flags_mid;
     s8 time_flags_high;
+
+    void bswap();
+};
+
+// 96: the character's creation time and save counter, sent before it is saved.
+struct CharacterSaveInfoPacket {
+    packet_header header;
+    u32 creation_timestamp;
+    u32 event_counter;
+
+    void bswap();
+};
+
+// A0/A1: ask for the ship or block list.
+struct ChangeShipOrBlockPacket {
+    ChangeShipOrBlockPacket();
+
+    packet_header header;
+    TPlyGuildCardTag tag;
+    u8 unused[0x10];
+
+    void bswap();
 };
 
 // D8: the info boards of the players in the lobby.

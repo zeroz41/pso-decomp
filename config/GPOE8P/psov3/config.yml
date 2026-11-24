@@ -4681,7 +4681,7 @@ force_active:
   - bswap__31G_DropStackedItem_PC_V3_BB_6x5DFv
   - bswap_and_handle_packet__6TLobbyFii
   - bswap_and_send_extended_subcommand
-  - bswap_cmd_88_marker_record__FPv
+  - bswap__16TArrowColorEntryFv
   - bswap_data__10LightEntryFv
   - bswap_dragon_boss_fields__10TObjPlayerFv
   - bswap_enemy_set_row_fields__FPv
@@ -6373,12 +6373,12 @@ force_active:
   - __sinit_text_801D34E0_cpp
   - fn_801D371C
   - fn_801D6AB4
-  - copy_cmd_88_marker_record__FPvPv
-  - bswap_cmd_c4_entry__FPv
-  - bswap_cmd_c4_reconnect_command__Fl
-  - copy_cmd_c4_entry__FPvPv
-  - bswap_u16_pair_field__FPv
-  - bswap_c0_choice_search_entry__FPv
+  - copy_arrow_color_entry__FP16TArrowColorEntryP16TArrowColorEntry
+  - bswap__18ChoiceSearchResultFv
+  - bswap__21ChoiceSearchReconnectFv
+  - copy_choice_search_result__FP18ChoiceSearchResultP18ChoiceSearchResult
+  - bswap__Q222TPlyChoiceSearchConfig5EntryFv
+  - bswap__18ChoiceSearchOptionFv
   - bswap__14QuestListEntryFv
   - __sinit_packet_classes_cpp
   - fn_801F6520

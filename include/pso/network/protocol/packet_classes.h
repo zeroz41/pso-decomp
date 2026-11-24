@@ -187,11 +187,7 @@ public:
     u32 to_guildcard_number;
     char text[512];
 public:
-    void bswap() {
-        header.bswap();
-        tag.bswap();
-        bswap_32(&to_guildcard_number);
-    };
+    void bswap();
 };
 
 class TRecvPort {
@@ -465,10 +461,7 @@ public:
 	TPlyGuildCardTag tag;
 	char mesg[512];
 public:
-	void bswap() {
-		header.bswap();
-		tag.bswap();
-	};
+	void bswap();
 };
 
 class TSendDownloadHead {
@@ -531,6 +524,8 @@ struct TPlyChoiceSearchConfig {
 	struct Entry {
 		u16 parent_choice_id;
 		u16 choice_id;
+
+		void bswap();
 	} entries[5];
 
 	void bswap();

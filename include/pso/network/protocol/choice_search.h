@@ -14,19 +14,32 @@ struct ChoiceSearchPacket {
     void bswap();
 };
 
-extern "C" TPlyChoiceSearchConfig *copy_choice_search_parameters(TPlyChoiceSearchConfig *dst, const TPlyChoiceSearchConfig *src);
+TPlyChoiceSearchConfig *copy_choice_search_parameters(TPlyChoiceSearchConfig *dst, const TPlyChoiceSearchConfig *src);
 
-// C0: one choice the server offers; parent_choice_id 0 marks a category.
+// C0: one choice the server offers; a parent_choice_id of 0 marks a category.
 struct ChoiceSearchOption {
-    u16 parent_choice_id;
-    u16 choice_id;
+    TPlyChoiceSearchConfig::Entry choice;
     char text[0x1C];
+
+    void bswap();
 };
 
 // C0: the choice search options the server offers; header.flags is the entry count.
 struct TRecvChoiceSearchOptions {
     packet_header header;
     ChoiceSearchOption entries[56];
+
+    void bswap();
+};
+
+// C4: the command that reconnects to the server a found player is on.
+struct ChoiceSearchReconnect {
+    packet_header header;
+    u32 address;
+    u16 port;
+    u16 unused;
+
+    void bswap();
 };
 
 // C4: one player the choice search found.
@@ -37,8 +50,10 @@ struct ChoiceSearchResult {
     char name[16];
     char info[32];
     char location[48];
-    u8 pad_64[0xC];
+    ChoiceSearchReconnect reconnect;
     TPlyMeetUserExtension extension;
+
+    void bswap();
 };
 
 // C4: the choice-search results the server sends.
@@ -47,7 +62,12 @@ struct ChoiceSearchResultList {
 
     packet_header header;
     ChoiceSearchResult entries[32];
+
+    void bswap();
 };
+
+ChoiceSearchResultList *copy_choice_search_result_list(ChoiceSearchResultList *dst, ChoiceSearchResultList *src);
+ChoiceSearchResult *copy_choice_search_result(ChoiceSearchResult *dst, ChoiceSearchResult *src);
 
 // The last C0 options and C4 results the server sent (allocated on first receipt).
 extern TRecvChoiceSearchOptions *choice_search_options;
@@ -64,6 +84,7 @@ LAYOUT_ASSERT(ChoiceSearchConfigSize, sizeof(TPlyChoiceSearchConfig) == 0x18);
 LAYOUT_ASSERT(ChoiceSearchEntriesOffset, offsetof(TPlyChoiceSearchConfig, entries) == 4);
 LAYOUT_ASSERT(ChoiceSearchPacketSize, sizeof(ChoiceSearchPacket) == 0x1C);
 LAYOUT_ASSERT(ChoiceSearchPayloadOffset, offsetof(ChoiceSearchPacket, parameters) == 4);
+LAYOUT_ASSERT(ChoiceSearchReconnectOffset, offsetof(ChoiceSearchResult, reconnect) == 0x64);
 LAYOUT_ASSERT(ChoiceSearchResultSize, sizeof(ChoiceSearchResult) == 0xD4);
 LAYOUT_ASSERT(ChoiceSearchResultListSize, sizeof(ChoiceSearchResultList) == 0x1A84);
 
