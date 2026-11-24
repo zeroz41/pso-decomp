@@ -359,11 +359,6 @@ struct Pair_801B2D88 { u32 a; u32 b; };
 
 struct Eff_801B2CE4 { u16 f0; u16 f2; u32 f4; u32 f8; };
 
-struct Player_801B3DD4 {
-    u8 pad0[0x60];
-    s32 f60;
-};
-
 struct S801B4430_801b4430_801B3FD8 { s8 b[2]; s16 h; };
 
 struct S801B44EC_801b44ec_801B3FD8 { s8 b[2]; s16 h; };
@@ -601,10 +596,6 @@ typedef struct Cmd_801B8870 {
     Vec pos;
 } Cmd_801B8870;
 
-struct Data_801B855C { u8 pad[0x20]; s32 meseta; };
-
-struct Player_801B855C { u8 pad[0x2B0]; Data_801B855C *data; };
-
 LAYOUT_ASSERT(DeathPlayerInventoryOffset, offsetof(PlayerDeathItemFields,inventory_owner)==0xD00);
 
 struct L_801B8CB0 { u16 f0; u16 f2; s32 f4; u8 f8[0x78]; };
@@ -612,16 +603,6 @@ struct L_801B8CB0 { u16 f0; u16 f2; s32 f4; u8 f8[0x78]; };
 struct Cmd_801B8DE8 { u8 hdr[2]; s16 id; s32 a; s32 b; };
 
 struct L_801B8D68 { u16 f0; u16 f2; s32 f4; s32 f8; };
-
-struct Inv_801B91F0 {
-    u8 pad0[0x1C];
-    s16 count;
-};
-
-struct Player_801B91F0 {
-    u8 pad0[0xD00];
-    Inv_801B91F0 *inv;
-};
 
 
 typedef struct Cmd_801B9634 { u8 hdr[2]; s16 client; s32 val; } Cmd_801B9634;
@@ -711,30 +692,8 @@ struct Sp8Struct_801baa00 {
 
 struct Msg_801BAB1C { u16 cmd; u16 id; s32 value; u8 pad8[8]; };
 
-struct Player_801BB524 { u8 pad[0x30]; u32 flags; u8 pad34[0x324 - 0x34]; s16 control; };
-
 struct O_801BC050 { u16 a; u16 pad; s32 b; };
 
-struct Body_801BBD58 {
-    Vec offset;
-    f32 radius;
-    f32 radius2;
-    s32 kind;
-    s32 flags;
-    Vec center;
-    f32 extra;
-};
-
-struct Player_801BBD58 {
-    u8 pad[0x38];
-    Vec pos;
-    u8 pad44[0x324 - 0x44];
-    s16 control;
-    u8 pad326[0x680 - 0x326];
-    Body_801BBD58 body;
-    u8 pad6ac[0x828 - 0x6AC];
-    u8 f828[4];
-};
 
 typedef struct Msg_801BC068 {
     u8 pad0[2];
@@ -1097,38 +1056,37 @@ void TObjPlayer::send_respawn_position() {
 }
 
 void TObjPlayer::init_collision_body() {
-    Player_801BBD58 *self = (Player_801BBD58 *)this;
-    self->body.offset.x = TObjPlayer__data_805DC278;
-    self->body.offset.y = TObjPlayer__data_805DC278;
-    self->body.offset.z = TObjPlayer__data_805DC278;
-    self->body.radius = lbl_805DC2B0;
-    self->body.radius2 = lbl_805DC2B0;
-    self->body.kind = 0;
+    this->collision_body.offset.x = TObjPlayer__data_805DC278;
+    this->collision_body.offset.y = TObjPlayer__data_805DC278;
+    this->collision_body.offset.z = TObjPlayer__data_805DC278;
+    this->collision_body.radius = lbl_805DC2B0;
+    this->collision_body.half_width = lbl_805DC2B0;
+    this->collision_body.shape = 0;
     switch (this->control_state) {
     case 1:
     case 2:
-        if (get_type__10TObjPlayerFPv(self->f828) == 0) {
-            self->body.flags = 0x200B;
+        if (get_type__10TObjPlayerFPv(&this->m_828) == 0) {
+            this->collision_body.flags = 0x200B;
         } else {
-            self->body.flags = 0x2003;
+            this->collision_body.flags = 0x2003;
         }
         break;
     case 3:
-        if (get_type__10TObjPlayerFPv(self->f828) == 0) {
-            self->body.flags = 0x604B;
+        if (get_type__10TObjPlayerFPv(&this->m_828) == 0) {
+            this->collision_body.flags = 0x604B;
         } else {
-            self->body.flags = 0x6043;
+            this->collision_body.flags = 0x6043;
         }
         break;
     case 6:
-        self->body.flags = 0x16043;
+        this->collision_body.flags = 0x16043;
         break;
     }
-    self->body.center.x = self->pos.x;
-    self->body.center.y = self->pos.y;
-    self->body.center.z = self->pos.z;
-    self->body.extra = TObjPlayer__data_805DC278;
-    ((TObjCollidable *)self)->set_collision_body(&self->body);
+    this->collision_body.center.x = this->position.x;
+    this->collision_body.center.y = this->position.y;
+    this->collision_body.center.z = this->position.z;
+    this->collision_body.unk_28 = TObjPlayer__data_805DC278;
+    this->set_collision_body(&this->collision_body);
 }
 
 void TObjPlayer::clear_links() { this->clear_collision_bodies(); }
@@ -1337,19 +1295,19 @@ void TObjPlayer::reset_motion_fields() {
 s32 TObjPlayer::setup_control_role(s32 role) {
     this->set_control_role(role);
     if (role < 4) {
-        ((Player_801BB524 *)this)->control = 1;
+        this->control_state = 1;
     } else if (role == 4) {
-        ((Player_801BB524 *)this)->control = 2;
+        this->control_state = 2;
     } else if (role == 5) {
-        ((Player_801BB524 *)this)->control = 3;
+        this->control_state = 3;
     } else if (role == 6) {
-        ((Player_801BB524 *)this)->control = 6;
+        this->control_state = 6;
     } else if (role == 7) {
-        ((Player_801BB524 *)this)->control = 7;
+        this->control_state = 7;
     } else {
         return 0;
     }
-    ((Player_801BB524 *)this)->flags |= 0x10000000;
+    this->actorFlags |= 0x10000000;
     init_collision_body();
     return register_player_slot() != 1 ? 1 : 0;
 }
@@ -2234,9 +2192,9 @@ s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
         if (item[0] == 4) {
             return 1;
         }
-        void *node_3581 = ((TPlyItem *)(((Player_801B91F0 *)this)->inv))->set_mode_and_refresh_object(item);
+        void *node_3581 = this->inventory_objects->set_mode_and_refresh_object(item);
         if (node_3581 == 0) {
-            if (((Player_801B91F0 *)this)->inv->count >= 30) {
+            if (this->inventory_objects->pad_1C >= 30) {
                 return 0;
             }
             return ((TItemData *)item)->get_max_stack_size();
@@ -2250,7 +2208,7 @@ s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
         max = ((TItemData *)item)->get_stack_count();
         return (n < max) ? 0 : n;
     }
-    return ((Player_801B91F0 *)this)->inv->count < 30;
+    return this->inventory_objects->pad_1C < 30;
 }
 
 s32 TObjPlayer::can_pickup_item_by_id(TItem *item) {
@@ -2581,10 +2539,10 @@ s32 try_buy_item(saddr player, void *item) {
 #pragma opt_propagation off
 s32 TObjPlayer::try_add_sale_meseta(s32 item_id, s32 amount, s32 count) {
     s32 max = 999999;
-    if (max < ((Player_801B855C *)this)->data->meseta + amount) {
+    if (max < this->stat_block->meseta + amount) {
         return 0;
     }
-    ((TObjPlayer *)((Player_801B855C *)this))->add_meseta((s32)amount);
+    this->add_meseta((s32)amount);
     send_6x29_delete_item(this, item_id, count);
     return 1;
 }
@@ -4449,7 +4407,7 @@ s32 TObjPlayer::execute_palette_action(s32 mode, void *target) {
         ((TObjPlayer *)(self + 0x7CC))->set_action_type(act);
         if (this->check_mode_action(act) != 0) {
             if (pad_binding.get_stick_magnitude() >= lbl_805DC290) {
-                ((Player_801B3DD4 *)this)->f60 = ((s32 (*)(void *, s32))calc_scaled_value__10TObjPlayerFii)(this, pad_binding.get_stick_angle());
+                this->rotation_y = ((s32 (*)(void *, s32))calc_scaled_value__10TObjPlayerFii)(this, pad_binding.get_stick_angle());
             }
             run_action_state_phase(5, 5);
             return 1;
