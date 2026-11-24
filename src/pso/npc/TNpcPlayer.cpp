@@ -2262,10 +2262,10 @@ s32 NpcPlayerView::update_hp_change() {
     return damage ? 1 : 0;
 }
 
-// Dead-stripped from the DOL: no code of it survives, only its literal (0.2 at
-// 0x805DB218, pooled between init_ai_state's 19.0 and partner_view_update_hp_change's
-// 0.3). It is the low-HP test hp_change and partner_view_update_conditions make
-// against a fifth of the maximum. Name inferred from that role.
+// Dead-stripped from the DOL: no code of it survives, only its literal (0.2,
+// pooled between init_ai_state's 19.0 and partner_view_update_hp_change's 0.3).
+// It is the low-HP test hp_change and partner_view_update_conditions make against
+// a fifth of the maximum. Name inferred from that role.
 bool TNpcPlayer::is_hp_low(f32 hp, f32 max_hp) {
     return hp <= 0.2f * max_hp;
 }
@@ -2797,7 +2797,7 @@ void TNpcPlayer::calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, 
 }
 
 // Dead-stripped from the DOL: no code of it survives, only its literals (0.5 and
-// 12.0 at 0x805DB1F8/0x805DB1FC, pooled between partner_clip_path_point's 10.0 and
+// 12.0, pooled between partner_clip_path_point's 10.0 and
 // calc_box_escape_axis's 7.0). It is the half-size limit under which
 // route_around_object walks around an obstacle instead of escaping its box.
 // Name inferred from that role.
