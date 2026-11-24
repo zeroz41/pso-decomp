@@ -85,7 +85,7 @@ void TObjPlayer::init_action_provider() {
     set_input_mode(0);
     set_move_mode(0);
     lobby_animation = -1;
-    *(f32 *)&m_3c4 = TObjPlayer__data_805DC278;
+    lobby_animation_frame = TObjPlayer__data_805DC278;
     set_battle_flag(0);
     controller_input = NULL;
     inventory_objects = NULL;
@@ -95,7 +95,7 @@ void TObjPlayer::init_action_provider() {
     set_floor_index(0xF);
     set_floor(0xF);
     m_54c = 0;
-    *(s32 *)&unk_3B8 = 0;
+    lobby_marker = NULL;
     *(s32 *)&unk_420 = 0;
     controller_port = 0;
     reset_state();

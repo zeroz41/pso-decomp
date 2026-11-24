@@ -34,6 +34,7 @@ struct SceneSectionAngles;
 
 struct TItem;
 class TPlyItem;
+class TPlayerLobbyMarker;
 class TUnk_804C445C;
 class TPlyInventoryItem;
 struct TechniqueContactList;
@@ -194,11 +195,11 @@ struct TObjPlayer : public TObjChara {
     TUnk_804DDD28 *action_provider;
     PlayerFollowParticles follow_particles;
     s32 m_3b4;
-    u8 unk_3B8[0x4];
+    TPlayerLobbyMarker *lobby_marker;  // set_lobby_marker creates it on the lobby floor
     s32 language;
     s16 lobby_animation;
     u8 pad_3c2[0x2];
-    s32 m_3c4;
+    f32 lobby_animation_frame;  // frame the lobby animation (action state 0x17) resumes at
     u8 unk_3C8[0x4];
     u32 m_3cc;
     s32 controller_port; // 0-3, set by init_control_mode for a local player
