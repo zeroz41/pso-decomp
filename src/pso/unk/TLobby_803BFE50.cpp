@@ -369,7 +369,7 @@ void audio_stream_start(AudioStreamInputState *st) {
 }
 void AudioStreamInputState::set_network_result(s32 result) {
     max_samples = result;
-    TLobby__sub_803C1A00((u8 *)decoder, result);
+    decoder->set_max_samples(result);
 }
 void AudioStreamInputState::set_param_and_notify(SjRingBuffer *sj) {
     source = sj;
@@ -718,9 +718,9 @@ s32 TLobby__sub_803C1780(u8 *buffer, s32 size, s16 *data_offset,
 void TLobby__sub_803C19D8(void) {
     lbl_805D7510();
 }
-void TLobby__sub_803C1A00(u8 *arg0, s32 arg1) {
-    *(s32 *)((s8 *)arg0 + 0xB0) = arg1;
-    *(u32 *)((s8 *)arg0 + 0xB4) = (u32) (arg1 / 96);
+void AdxbDecoder::set_max_samples(s32 limit) {
+    max_samples = limit;
+    max_sample_units = (u32)(limit / 96);
 }
 void AdxbDecoder::invoke_notify_callback() {
     if (ahx_handle != NULL) {

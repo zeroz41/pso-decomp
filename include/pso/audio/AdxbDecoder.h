@@ -60,11 +60,13 @@ struct AdxbDecoder {
     s16 format;
     s16 m_AA;
     void *ahx_handle; // "can't play AHX data by this handle" when null
-    u8 pad_B0[0x8];
+    s32 max_samples;      // the stream input's max_samples
+    s32 max_sample_units; // max_samples / 96
 
     static AdxbDecoder *alloc_record(s32 channels, saddr buffer, s32 size, s32 wrap_offset);
     void clear_record();
     void invoke_notify_callback();
+    void set_max_samples(s32 limit);
     void set_source(u8 *data, s32 size);
     s32 get_state();
     s32 get_format();
