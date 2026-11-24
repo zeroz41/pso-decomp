@@ -365,18 +365,6 @@ struct S801B44EC_801b44ec_801B3FD8 { s8 b[2]; s16 h; };
 
 struct S801B4630_801B3FD8 { s8 b[2]; s16 h; };
 
-struct Cursor_801B4A18 { u8 pad[0x124]; };
-
-struct Menu_801B4A18 { u8 pad[0x5c]; Cursor_801B4A18 cursors[4]; };
-
-struct Owner_801B4A18 { u8 pad[0x424]; Menu_801B4A18 *menu; };
-
-struct Slot_801B4AC8 { u8 pad[0x124]; };
-
-struct Cursor_801B4AC8 { u8 pad[0x5C]; Slot_801B4AC8 slots[4]; u8 pad4ec[0x510 - 0x4EC]; u8 f510; };
-
-struct Player_801B4AC8 { u8 pad[0x424]; Cursor_801B4AC8 *cursor; };
-
 struct pkt_801B5164 {
     u8 hdr[2];
     u16 player_id;
@@ -4074,17 +4062,17 @@ void TObjPlayer::update_facing_vector() {
 
 void submit_target_to_player_cursor(void *target, s32 id) {
     s32 i;
-    Player_801B4AC8 *player;
-    Slot_801B4AC8 *entry;
+    TObjPlayer *player;
+    LockOnActionSlot *entry;
     if (target == NULL || (u16)id == 0xFFFF || (u16)id >= 0x1000) {
         return;
     }
-    player = (Player_801B4AC8 *)get_player_by_client_id((u16)id);
-    if (player != NULL && player->cursor != NULL) {
+    player = (TObjPlayer *)get_player_by_client_id((u16)id);
+    if (player != NULL && player->lock_on_cursor != NULL) {
         for (i = 0; i < 4; i++) {
-            entry = &player->cursor->slots[i];
+            entry = &player->lock_on_cursor->action_slots[i];
             if (((TMainCursor *)entry)->get_selected_entry() != 0) {
-                TMainCursor::try_add_target_candidate(entry, target, player, &player->cursor->f510);
+                TMainCursor::try_add_target_candidate(entry, target, player, &player->lock_on_cursor->nearest_target);
             }
         }
     }
@@ -4093,17 +4081,17 @@ void submit_target_to_player_cursor(void *target, s32 id) {
 void submit_cursor_candidate(void *self) {
     s32 j;
     s32 i;
-    Owner_801B4A18 *o;
-    Owner_801B4A18 **pp;
+    TObjPlayer *o;
+    TObjPlayer **pp;
     if (self != 0) {
-        pp = ((Owner_801B4A18 * *)&player_slot_table);
+        pp = (TObjPlayer **)player_slot_table;
         for (i = 0; i < 4; i++) {
             o = *pp++;
-            if (o != 0 && o->menu != 0) {
+            if (o != 0 && o->lock_on_cursor != 0) {
                 for (j = 0; j < 4; j++) {
-                    Cursor_801B4A18 *c = &o->menu->cursors[j];
+                    LockOnActionSlot *c = &o->lock_on_cursor->action_slots[j];
                     if (((TMainCursor *)c)->get_selected_entry() != 0) {
-                        TMainCursor::try_add_target_candidate(c, self, o, (u8 *)o->menu + 0x510);
+                        TMainCursor::try_add_target_candidate(c, self, o, &o->lock_on_cursor->nearest_target);
                     }
                 }
             }
@@ -4112,18 +4100,18 @@ void submit_cursor_candidate(void *self) {
 }
 
 s32 TObjPlayer::get_battle_ctrl_id(u16 client) {
-    u32 cursor;
-    void *player;
+    TLockOnCursor *cursor;
+    TObjPlayer *player;
 
-    player = get_player_by_client_id(client);
+    player = (TObjPlayer *)get_player_by_client_id(client);
     if (player == NULL) {
         return 0xFFFF;
     }
-    cursor = *(u32 *)((s8 *)player + 0x424);
-    if (cursor == 0U) {
+    cursor = player->lock_on_cursor;
+    if (cursor == NULL) {
         return 0xFFFF;
     }
-    return ((s32 (*)(s32))get_id__11TMainCursorFv)(cursor + 0x4F8);
+    return ((s32 (*)(void *))get_id__11TMainCursorFv)(&cursor->selection.target);
 }
 
 void TObjPlayer::update_subsystems() {
@@ -4448,7 +4436,7 @@ s32 TObjPlayer::handle_palette_button_input() {
         s32 mode;
         void *target;
         if (has_action_palette_entry() != 0) {
-            target = find_entity_by_id(((TMainCursor *)((u8 *)this->lock_on_cursor + 0x4F8))->get_id());
+            target = find_entity_by_id(((TMainCursor *)&this->lock_on_cursor->selection.target)->get_id());
             mode = 0;
         } else {
             target = 0;
