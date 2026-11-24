@@ -24,6 +24,7 @@
 #include "pso/system/PadRumble.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/boss/darkfalz/TBoss4Zanzo.h"
+#include "pso/boss/darkfalz/TBoss4Type1.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -1113,3 +1114,14 @@ void TBoss4Zanzo::render() {
     }
 }
 #pragma pop
+
+Vec *TObjPlayer::get_position_ptr() { return &this->position; }
+
+// Dark Falz's first form ignores every status ailment.
+void TBoss4Type1::clear_harmful_statuses() {}
+void TBoss4Type1::apply_shock_status() {}
+void TBoss4Type1::apply_movement_ailment(s32) {}
+void TBoss4Type1::apply_confusion_status() {}
+void TBoss4Type1::apply_slow_status() {}
+void TBoss4Type1::apply_paralysis() {}
+void TBoss4Type1::apply_poison_status() {}
