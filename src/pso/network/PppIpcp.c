@@ -285,7 +285,7 @@ void ipcp_reset_options(PppFsm *o) {
     q->peer.flags = q->peer.flags | q->peer.want.flags;
 }
 
-inline u32 optbit_803FFB84(u16 bit) {
+inline u32 ppp_option_bit(u16 bit) {
     if (bit < 8) {
         return bit;
     }
@@ -646,7 +646,7 @@ s16 ipcp_merge_config_options(void *cursor, IpcpConfig *cfg, IpcpSide *side, u8 
         break;
     }
 
-    if (!(side->flags & (1 << optbit_803FFB84(hdr[0])))) {
+    if (!(side->flags & (1 << ppp_option_bit(hdr[0])))) {
         res = 4;
     }
     if (len < 0) {
@@ -695,7 +695,7 @@ done:
     return blk;
 }
 
-inline s32 optnum_80400270(s32 bit) {
+inline s32 ppp_option_type(s32 bit) {
     if (bit < 8) {
         return bit;
     }
@@ -721,7 +721,7 @@ void append_masked_ipcp_options(uaddr *self, void *opt, s32 mask) {
     m = (new_var = (s16)mask);
     for (i = 1; i < 0x20; i++) {
         if (m & (1 << i)) {
-            append_ipcp_option((PppFrame **)self, (IpcpOptions *)opt, optnum_80400270(i), ipcp_option_lengths[i], 0);
+            append_ipcp_option((PppFrame **)self, (IpcpOptions *)opt, ppp_option_type(i), ipcp_option_lengths[i], 0);
         }
     }
 }

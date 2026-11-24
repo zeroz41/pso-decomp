@@ -70,7 +70,7 @@ void link_input(s32 msg, s16 len, s16 idx, s16 second, u16 type) {
     }
 }
 
-inline s16 packet_length_804098B4(NetPacket *pkt) {
+inline s16 packet_length(NetPacket *pkt) {
     NetPacketFragment *f;
     s16 n;
     s16 total = 0;
@@ -86,10 +86,10 @@ inline s16 packet_length_804098B4(NetPacket *pkt) {
     return pkt->total_bytes;
 }
 s16 link_packet_length(void *pkt) {
-    return packet_length_804098B4(pkt);
+    return packet_length(pkt);
 }
 
-inline s32 calc_80409908(void *self, NetPacket *pkt) {
+inline s32 copy_packet_out(void *self, NetPacket *pkt) {
     u8 tmp[0x10];
     NetPacketFragment *p;
     saddr acc;
@@ -112,7 +112,7 @@ inline s32 calc_80409908(void *self, NetPacket *pkt) {
 }
 
 s32 link_packet_copy(void *self, void *arr_) {
-    return calc_80409908(self, arr_);
+    return copy_packet_out(self, arr_);
 }
 s32 clear_table_entry_locked(s16 idx) {
     s32 ret;

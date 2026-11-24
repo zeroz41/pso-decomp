@@ -20,7 +20,7 @@ s32 network_packet_mutex;
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-static inline NetworkPacketBufferDescriptor *find_804253F8(u8 *packet) {
+static inline NetworkPacketBufferDescriptor *find_packet_descriptor(u8 *packet) {
     s32 i;
     for (i = 0; i < 0x20; i++) {
         if (network_packet_buffer_descriptors[i].in_use != 0 && network_packet_buffer_descriptors[i].data <= packet &&
@@ -47,7 +47,7 @@ void clear_message_entry(u8 *packet) {
 }
 
 void release_entry_by_id(u8 *packet) {
-    NetworkPacketBufferDescriptor *e = find_804253F8(packet);
+    NetworkPacketBufferDescriptor *e = find_packet_descriptor(packet);
     if (e != NULL) {
         e->in_use = 0;
         e->queued_length = 0;
@@ -103,7 +103,7 @@ u8 *alloc_rx_packet_buffer(u32 size) {
 NetworkPacketBufferDescriptor *find_packet_buffer_locked(u8 *packet) {
     NetworkPacketBufferDescriptor *e;
     lock_mutex((saddr)network_packet_mutex);
-    e = find_804253F8(packet);
+    e = find_packet_descriptor(packet);
     unlock_mutex((saddr)network_packet_mutex);
     return e;
 }

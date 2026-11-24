@@ -449,7 +449,7 @@ s32 dns_clear_server(void) {
     return cnt;
 }
 
-inline s32 cmpfam_8040ADE8(u32 family, u8 *a, u8 *b) {
+inline s32 addr_compare(u32 family, u8 *a, u8 *b) {
     switch (family) {
     case 4:
         if (*(u32 *)b != 4) {
@@ -498,7 +498,7 @@ extern s16 dns_set_server(u8 *self) {
         if (family != *(u32 *)p) {
             continue;
         }
-        if (cmpfam_8040ADE8(family, self, p) == 0) {
+        if (addr_compare(family, self, p) == 0) {
             ret = -2;
             slot = NULL;
             break;
@@ -687,7 +687,7 @@ extern void dns_expire_cache(void) {
 }
 
 extern s16 dns_parse_reply(DnsQuery *self);
-inline DnsQuery *find_8040B4BC(DnsResolverState *base, NetworkReceivePrefix *req) {
+inline DnsQuery *find_query_for_request(DnsResolverState *base, NetworkReceivePrefix *req) {
     s16 count;
     s16 key;
     s16 i;
@@ -718,7 +718,7 @@ s16 AT_DNS_UdpReceiver(s16 mode, NetworkReceivePrefix *req)
   {
     return 1;
   }
-  e = find_8040B4BC(base, req);
+  e = find_query_for_request(base, req);
   if (e == ((void *) 0))
   {
     return 1;
@@ -763,7 +763,7 @@ s16 AT_DNS_UdpReceiver(s16 mode, NetworkReceivePrefix *req)
   return 0;
 }
 
-inline DnsQuery *find_8040B654(s16 id) {
+inline DnsQuery *find_query_by_socket(s16 id) {
     DnsResolverState *g = (DnsResolverState *)&dns_resolver_state;
     s16 n;
     DnsQuery *e;
@@ -782,7 +782,7 @@ inline DnsQuery *find_8040B654(s16 id) {
 void complete_pending_request(s16 id, s16 event) {
     DnsQuery *e;
 
-    if ((e = find_8040B654(id)) != NULL) {
+    if ((e = find_query_by_socket(id)) != NULL) {
         e->timer = 1;
         if (e->status < 0) {
             dispatch_request_callback(e, 0);
@@ -1145,7 +1145,7 @@ extern s32 dns_expand_name(DnsQuery *self, u8 *p, s32 n, u8 *dst)
 }
 #pragma pop
 
-inline void cancel_8040BE40(DnsPtr *o, s16 b) {
+inline void cancel_ptr_queries(DnsPtr *o, s16 b) {
     DnsResolverState *base = &dns_resolver_state;
     s16 i;
     DnsQuery *e;
@@ -1181,7 +1181,7 @@ extern void dns_complete_query(DnsQuery *self, s16 a, s16 b)
             o->state = 0;
             o->ttl = 0;
             o->name[0] = 0;
-            cancel_8040BE40(o, b);
+            cancel_ptr_queries(o, b);
         }
         break;
     }
@@ -1190,7 +1190,7 @@ extern void dns_complete_query(DnsQuery *self, s16 a, s16 b)
     dispatch_request_callback(self, b);
 }
 
-inline s32 close_8040BF38(DnsQuery *query, s32 id) {
+inline s32 close_query_socket(DnsQuery *query, s32 id) {
     s32 r;
     if ((s16)id < 0) {
         return 0;
@@ -1204,7 +1204,7 @@ s32 close_and_reset_connection(DnsQuery *self) {
     DnsBuffer *reply;
     s32 temp_r3;
     s32 var_r31;
-    var_r31 = close_8040BF38(self, self->socket);
+    var_r31 = close_query_socket(self, self->socket);
     lock_at_sem();
     message = self->msg;
     if (message != NULL) {

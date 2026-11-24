@@ -774,7 +774,7 @@ s16 get_pppoe_session_id(s16 slot) {
 
 #pragma push
 #pragma inline_depth(4)
-static inline void check_80427D40(void) {
+static inline void check_pppoe_timeouts(void) {
     s32 now;
     PppoeSlot *p;
     s16 i;
@@ -795,7 +795,7 @@ s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen) {
     PppoeSlot *e;
     s16 ret;
     u8 *src;
-    check_80427D40();
+    check_pppoe_timeouts();
     if (recv_pppoe_message(&pkt, &id) == 0) {
         if (outLen != NULL) {
             *outLen = 0;

@@ -326,7 +326,7 @@ ret:
 }
 #pragma pop
 
-static inline s16 chk_804105E0(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u8 *prev) {
+static inline s16 process_hop_by_hop(u8 *p, s16 lim, s16 ctx, s16 l, s16 rem, u8 *q, u8 *prev) {
     NetIcmpv6Header error;
     if (l != rem + 0x28) {
         error.type = ICMP6_PARAM_PROB;
@@ -377,7 +377,7 @@ extern s16 ipv6_forward(u8 *self, u8 *p, s16 lim, s16 ctx)
     switch (state)
     {
       case 0:
-        if (chk_804105E0(p, lim, ctx, l, rem, q, prev) < 0)
+        if (process_hop_by_hop(p, lim, ctx, l, rem, q, prev) < 0)
       {
         return -1;
       }

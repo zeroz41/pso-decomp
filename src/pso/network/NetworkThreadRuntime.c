@@ -690,7 +690,7 @@ done:
     return obj;
 }
 
-inline s32 optnum_803FACD8(s32 bit) {
+inline s32 ppp_option_type(s32 bit) {
     if (bit < 8) {
         return bit;
     }
@@ -721,7 +721,7 @@ void append_masked_ipv6cp_options(uaddr *self, Ipv6cpOptionSet *opts, s32 mask)
   {
     if (m & (1 << i))
     {
-      append_ipv6cp_option((PppFrame **) self, opts, optnum_803FACD8(i), ipv6cp_option_lengths[i], 0);
+      append_ipv6cp_option((PppFrame **) self, opts, ppp_option_type(i), ipv6cp_option_lengths[i], 0);
     }
   }
 

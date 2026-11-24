@@ -278,22 +278,22 @@ void handle_request_timeout(PppFsm *self) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline s32 valid_80403308(PppFrame **s) {
+inline s32 frame_valid(PppFrame **s) {
     s32 r = 0;
     if (s != NULL && *s != NULL) {
         r = 1;
     }
     return r;
 }
-inline s32 avail_80403308(PppFrame **s) {
+inline s32 frame_has_byte(PppFrame **s) {
     s32 r = 0;
-    if (valid_80403308(s) && (*s)->len > 1) {
+    if (frame_valid(s) && (*s)->len > 1) {
         r = 1;
     }
     return r;
 }
-inline s32 get_80403308(PppFrame **s) {
-    if (avail_80403308(s)) {
+inline s32 frame_get_byte(PppFrame **s) {
+    if (frame_has_byte(s)) {
         (*s)->len--;
         return *(*s)->data++;
     }
@@ -320,7 +320,7 @@ s16 pap_recv_auth_request(PppFsm *fsm, PppHeader *header, PppFrame *val) {
         p1 = pap_state.peer_id;
         out = p1;
         for (cnt = ch; cnt-- > 0;) {
-            *out++ = get_80403308(&val);
+            *out++ = frame_get_byte(&val);
         }
         *out = 0;
     }
@@ -332,7 +332,7 @@ s16 pap_recv_auth_request(PppFsm *fsm, PppHeader *header, PppFrame *val) {
         p2 = pap_state.password;
         out = p2;
         for (cnt = ch; cnt-- > 0;) {
-            *out++ = get_80403308(&val);
+            *out++ = frame_get_byte(&val);
         }
         *out = 0;
     }

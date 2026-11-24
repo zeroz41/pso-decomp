@@ -266,7 +266,7 @@ s16 NetIPv6SendRouterSolicitation(s16 iface) {
     return temp_r31;
 }
 
-inline u8 *find_nbr_8041615C(Ipv6NdState *g, u8 *addr) {
+inline u8 *find_neighbor_slot(Ipv6NdState *g, u8 *addr) {
     s16 n = g->nneighbors;
     Ipv6NdNeighbor *nb = g->neighbors;
     for (; n > 0; n--, nb++) {
@@ -303,7 +303,7 @@ extern void NetIPv6TickRouters(void) {
     if (expired == NULL) {
         return;
     }
-    nb = (Ipv6NdNeighbor *)find_nbr_8041615C(g, expired->addr);
+    nb = (Ipv6NdNeighbor *)find_neighbor_slot(g, expired->addr);
     if (nb != NULL) {
         nb->flags &= ~0x80;
     }
@@ -569,7 +569,7 @@ s16 NetIPv6FindTargetLinkLayerAddressOption(NetPacketFragment *o, s32 len, u8 **
     return 0;
 }
 
-inline Ipv6NdNeighbor *FindEnt_80416994(Ipv6NdState *g, void *name) {
+inline Ipv6NdNeighbor *find_neighbor(Ipv6NdState *g, void *name) {
     s16 n = g->nneighbors;
     Ipv6NdNeighbor *e = g->neighbors;
     for (; n > 0; n--, e++) {
@@ -580,12 +580,12 @@ inline Ipv6NdNeighbor *FindEnt_80416994(Ipv6NdState *g, void *name) {
     return 0;
 }
 
-inline void ClearPeer_80416994(Ipv6NdRouter *p) {
+inline void clear_router(Ipv6NdRouter *p) {
     p->used = 0;
     p->uses = 0;
 }
 
-inline Ipv6NdRouter *ScanPeers_80416994(Ipv6NdState *g, void *name) {
+inline Ipv6NdRouter *forget_router(Ipv6NdState *g, void *name) {
     s16 m;
     Ipv6NdRouter *p;
     Ipv6NdRouter *hit;
@@ -595,7 +595,7 @@ inline Ipv6NdRouter *ScanPeers_80416994(Ipv6NdState *g, void *name) {
     for (; m > 0; m--, p++) {
         if (p->used == 1) {
             if (NetMemcmp(p->addr, name, 0x10) == 0) {
-                ClearPeer_80416994(p);
+                clear_router(p);
             } else {
                 hit = p;
             }
@@ -618,7 +618,7 @@ s16 NetIPv6ApplyNeighborAdvertisement(NetIcmpv6NeighborAdvertisement *msg, u8 *n
     if (NetIPv6IsValidAddress(msg->target.bytes, id) != 0) {
         return 0;
     }
-    e = FindEnt_80416994(g, msg->target.bytes);
+    e = find_neighbor(g, msg->target.bytes);
     if (e == 0) {
         return 0;
     }
@@ -631,7 +631,7 @@ s16 NetIPv6ApplyNeighborAdvertisement(NetIcmpv6NeighborAdvertisement *msg, u8 *n
             } else {
                 Ipv6NdRouter *hit;
                 e->flags |= ~0x80;
-                hit = ScanPeers_80416994(g, msg->target.bytes);
+                hit = forget_router(g, msg->target.bytes);
                 if (hit == 0) {
                     a.addr = msg->target.bytes;
                     NetIPv6HandleRoutingEvent(id, 9, &a);
@@ -718,7 +718,7 @@ s16 NetIPv6ApplyNeighborAdvertisement(NetIcmpv6NeighborAdvertisement *msg, u8 *n
     return 0;
 }
 
-inline Ipv6NdRouter *FindPeer2_80417494(s16 *cnt, Ipv6NdRouter **list, void *name) {
+inline Ipv6NdRouter *find_router_in(s16 *cnt, Ipv6NdRouter **list, void *name) {
     s16 n = *cnt;
     Ipv6NdRouter *p = *list;
     for (; n > 0; n--, p++) {
@@ -729,7 +729,7 @@ inline Ipv6NdRouter *FindPeer2_80417494(s16 *cnt, Ipv6NdRouter **list, void *nam
     return 0;
 }
 
-inline Ipv6NdRouter *ScanPeers2_80417494(s16 *cnt, Ipv6NdRouter **list, void *name) {
+inline Ipv6NdRouter *forget_router_in(s16 *cnt, Ipv6NdRouter **list, void *name) {
     s16 m;
     Ipv6NdRouter *p;
     Ipv6NdRouter *hit;
@@ -974,7 +974,7 @@ extern s16 NetIPv6ParseRouterAdvertisementOptions(NetPacketFragment *self, s32 n
 
   if (payload == ((void *) 0))
   {
-    Ipv6NdNeighbor *e2 = FindEnt_80416994(&ipv6_neighbor_discovery_state, dst);
+    Ipv6NdNeighbor *e2 = find_neighbor(&ipv6_neighbor_discovery_state, dst);
     if (e2 != 0)
     {
       e2->flags |= 0x80;
@@ -1006,14 +1006,14 @@ s16 NetIPv6UpdateDefaultRouter(NetIcmpv6RouterAdvertisement *buf, u8 *a, s16 c) 
     m = buf;
     aa = a;
     cc = c;
-    p = FindPeer2_80417494(pc, pl, aa);
+    p = find_router_in(pc, pl, aa);
     if (p == 0) {
         if (m->router_lifetime != 0) {
             NetIPv6UpdateRouterEntry(aa, m, cc);
             loc.s1 = aa;
             NetIPv6HandleRoutingEvent(cc, 5, &loc.s1);
         } else {
-            e = FindEnt_80416994(g, aa);
+            e = find_neighbor(g, aa);
             if (e != 0) {
                 e->flags &= ~0x80;
             }
@@ -1036,11 +1036,11 @@ s16 NetIPv6UpdateDefaultRouter(NetIcmpv6RouterAdvertisement *buf, u8 *a, s16 c) 
         }
     } else {
         Ipv6NdRouter *hit;
-        e = FindEnt_80416994(g, aa);
+        e = find_neighbor(g, aa);
         if (e != 0) {
             e->flags &= ~0x80;
         }
-        if ((hit = ScanPeers2_80417494(pc, pl, aa)) == 0) {
+        if ((hit = forget_router_in(pc, pl, aa)) == 0) {
             loc.s1 = aa;
             NetIPv6HandleRoutingEvent(cc, 6, &loc.s1);
         } else {
@@ -1452,7 +1452,7 @@ s16 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *
 }
 #pragma pop
 
-inline saddr notify_804182DC(Ipv6NdNeighbor *e) {
+inline saddr send_pending_packet(Ipv6NdNeighbor *e) {
     NetPacket *nw;
     nw = alloc_free_entry();
     if (nw == 0) {
@@ -1506,7 +1506,7 @@ extern Ipv6NdNeighbor *NetIPv6UpdateNeighborLinkAddress(void *a, void *b, s16 le
         e->lladdr_len = n;
         NetMemcpy(e->lladdr, b, e->lladdr_len);
         if (e->nud == 0 && e->pending != 0) {
-            notify_804182DC(e);
+            send_pending_packet(e);
             e->pending->used = 0;
             e->pending = 0;
         }
@@ -1704,7 +1704,7 @@ extern s32 NetIPv6UpdateRouterEntry(void *addr, NetIcmpv6RouterAdvertisement *ra
   return 0;
 }
 
-inline Ipv6NdNeighbor *find_804188E4(Ipv6NdState *g, Ipv6NdPending *e) {
+inline Ipv6NdNeighbor *find_pending_owner(Ipv6NdState *g, Ipv6NdPending *e) {
     s16 n = g->nneighbors;
     Ipv6NdNeighbor *r = g->neighbors;
     while (n > 0) {
@@ -1750,7 +1750,7 @@ Ipv6NdPending *NetIPv6SelectPendingPacketSlot(void) {
         free_->used = 1;
         return free_;
     }
-    r = find_804188E4(g, best);
+    r = find_pending_owner(g, best);
     if (r != NULL) {
         r->pending = NULL;
     }

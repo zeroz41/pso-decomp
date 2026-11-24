@@ -308,7 +308,7 @@ void tcp_reass_advance(TcpTcb *o) {
     }
 }
 
-inline void sack_remove_8041F914(TcpTcb *o, s16 idx) {
+inline void reasm_remove(TcpTcb *o, s16 idx) {
     s16 j;
     if (idx < 0 || o->reasm_n < 0 || idx > o->reasm_n) {
         return;
@@ -427,11 +427,11 @@ s32 tcp_reass(NetPacket *pkt, u16 x, TcpTcb *o, TcpHdr *th) {
         o->last_reasm = j;
         while (j + 1 <= o->reasm_n && (s32)(o->reasm[j].end - o->reasm[j + 1].start) >= 0) {
             if ((s32)(o->reasm[j].end - o->reasm[j + 1].end) >= 0) {
-                sack_remove_8041F914(o, j + 1);
+                reasm_remove(o, j + 1);
             } else {
                 o->reasm_total += o->reasm[j + 1].end - o->reasm[j].end;
                 o->reasm[j].end = o->reasm[j + 1].end;
-                sack_remove_8041F914(o, j + 1);
+                reasm_remove(o, j + 1);
             }
         }
     }

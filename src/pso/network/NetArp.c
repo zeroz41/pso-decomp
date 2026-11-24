@@ -151,7 +151,7 @@ s32 arp_init(void)
 }
 
 s16 arp_match_own_address(ArpIface *iface, ArpFields *f, void *haddr);
-inline ArpIface *FindHit_80407640(ArpState *t, s16 b, s16 c) {
+inline ArpIface *find_arp_iface(ArpState *t, s16 b, s16 c) {
     ArpIface *hit;
     s16 i;
     s16 n;
@@ -168,7 +168,7 @@ inline ArpIface *FindHit_80407640(ArpState *t, s16 b, s16 c) {
     return NULL;
 }
 
-inline s16 CheckPkt_80407640(ArpHeader *pkt, ArpIface *hit) {
+inline s16 arp_header_valid(ArpHeader *pkt, ArpIface *hit) {
     if (NetMemcmp(pkt, &hit->htype, 6) == 0) {
         if (pkt->op == 1 || pkt->op == 2) {
             return 1;
@@ -177,7 +177,7 @@ inline s16 CheckPkt_80407640(ArpHeader *pkt, ArpIface *hit) {
     return -1;
 }
 
-inline ArpEntry *FindPeer_80407640(ArpEntry *peer, s16 n, u8 ff, u8 *p2) {
+inline ArpEntry *scan_arp_entries(ArpEntry *peer, s16 n, u8 ff, u8 *p2) {
     for (; n > 0; n--, peer++) {
         if (peer->plen == ff && peer->state != 0 && NetMemcmp(peer->paddr, p2, peer->plen) == 0) {
             return peer;
@@ -202,12 +202,12 @@ extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
   if (b < 0) {
     return -1;
   }
-  hit = FindHit_80407640(t, b, c);
+  hit = find_arp_iface(t, b, c);
   if (hit == NULL) {
     return -1;
   }
   pp = (ArpHeader *) pkt;
-  if (CheckPkt_80407640(pp, hit) < 0) {
+  if (arp_header_valid(pp, hit) < 0) {
     return -1;
   }
   in.hdr = pp;
@@ -219,7 +219,7 @@ extern s32 arp_handle_packet(void *pkt, s16 a, s16 b, s32 c)
   in.tha = p2;
   p2 += hit->hlen;
   in.tpa = p2;
-  peer = FindPeer_80407640(t->entries, t->nentries, hit->plen, in.spa);
+  peer = scan_arp_entries(t->entries, t->nentries, hit->plen, in.spa);
   if (peer != NULL) {
     find_or_add_peer_entry(hit->handler, hit->socket, hit->plen, in.spa, hit->hlen, in.sha, 2);
   }
@@ -271,7 +271,7 @@ void age_arp_cache(void) {
 
 void arp_hold_packet(ArpEntry *entry, NetPacket *pkt);
 
-inline ArpIface *Lookup_8040799C(ArpState *t, s16 idx) {
+inline ArpIface *arp_iface_at(ArpState *t, s16 idx) {
     ArpIface *list = t->ifaces;
     s16 ok;
     if (idx >= 0 && idx < t->nifaces) {
@@ -285,7 +285,7 @@ inline ArpIface *Lookup_8040799C(ArpState *t, s16 idx) {
     return NULL;
 }
 
-inline ArpEntry *Find_8040799C(ArpState *t, u8 k, void *name) {
+inline ArpEntry *find_arp_entry(ArpState *t, u8 k, void *name) {
     s16 n = t->nentries;
     ArpEntry *p = t->entries;
     for (; n > 0; n--, p++) {
@@ -296,7 +296,7 @@ inline ArpEntry *Find_8040799C(ArpState *t, u8 k, void *name) {
     return NULL;
 }
 
-inline void Clear_8040799C(ArpEntry *p) {
+inline void release_hold(ArpEntry *p) {
     if (p->hold != NULL) {
         p->hold->entry = NULL;
         p->hold->len = 0;
@@ -304,7 +304,7 @@ inline void Clear_8040799C(ArpEntry *p) {
     }
 }
 
-inline void Send_8040799C(ArpIface *e, void *name) {
+inline void send_arp_request(ArpIface *e, void *name) {
     ArpFields o;
     NetPacket *r = alloc_packet_with_header(&o, e);
     if (r != NULL) {
@@ -327,23 +327,23 @@ s16 arp_resolve_and_send(s16 idx, void *name, void *pkt) {
     s16 ret;
     ArpEntry *np;
 
-    e = Lookup_8040799C(t, idx);
+    e = arp_iface_at(t, idx);
     if (e == NULL) {
         return -2;
     }
     ret = 0;
-    p = Find_8040799C(t, e->plen, name);
+    p = find_arp_entry(t, e->plen, name);
     if (p != NULL) {
         p->timer = t->timeout;
         if (p->state != 1) {
             ret = call_handler_by_index(e->handler, e->socket, 0, (saddr)p->haddr, (saddr)pkt);
         } else {
             if (p->hold != NULL) {
-                Clear_8040799C(p);
+                release_hold(p);
                 p->hold = NULL;
             }
             arp_hold_packet(p, pkt);
-            Send_8040799C(e, name);
+            send_arp_request(e, name);
             p->timer = t->retry;
         }
     } else {
@@ -351,7 +351,7 @@ s16 arp_resolve_and_send(s16 idx, void *name, void *pkt) {
         NetMemset(buf, 0, 6);
         np = find_or_add_peer_entry(e->handler, e->socket, e->plen, name, e->hlen, buf, 1);
         arp_hold_packet(np, pkt);
-        Send_8040799C(e, name);
+        send_arp_request(e, name);
         np->timer = t->retry;
     }
     return ret;
@@ -408,20 +408,7 @@ s32 arp_remove_alias(s16 id, saddr key) {
     return -1;
 }
 
-inline ArpIface *lookup2_80407D98(ArpState *t, s16 idx) {
-    ArpIface *list = t->ifaces;
-    s16 ok;
-    if (idx >= 0 && idx < t->nifaces) {
-        ok = 1;
-    } else {
-        ok = -1;
-    }
-    if (ok >= 0) {
-        return list + idx;
-    }
-    return NULL;
-}
-inline ArpAlias *alloc2_80407D98(ArpState *t, s16 *count) {
+inline ArpAlias *alloc_arp_alias(ArpState *t, s16 *count) {
     ArpAlias *p = t->aliases;
     s16 n = *count;
     for (; n > 0; n--, p++) {
@@ -444,14 +431,14 @@ s32 arp_add_alias(s16 id, saddr pkey) {
     ArpState *t = &arp_state;
     s16 k;
 
-    e = lookup2_80407D98(t, id);
+    e = arp_iface_at(t, id);
     if (e == NULL) {
         return -1;
     }
     if (e->used == 0) {
         return -1;
     }
-    node = alloc2_80407D98(t, max = &t->naliases);
+    node = alloc_arp_alias(t, max = &t->naliases);
     if (node == NULL) {
         return -1;
     }
@@ -476,7 +463,7 @@ s32 arp_add_alias(s16 id, saddr pkey) {
     return 0;
 }
 
-inline ArpIface *findfree_80407F20(ArpIface *base) {
+inline ArpIface *find_free_arp_iface(ArpIface *base) {
     ArpIface *p;
     s16 i;
     p = base;
@@ -503,7 +490,7 @@ s16 register_arp_interface(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hl
         return res;
     }
     base = arp_state.ifaces;
-    slot = findfree_80407F20(base);
+    slot = find_free_arp_iface(base);
     if (slot == NULL) {
         call_entry_callback(handler, res);
         return -0x10d;
@@ -678,20 +665,7 @@ s32 arp_free_interface(s16 id) {
     return -1;
 }
 
-inline ArpEntry *find_80408428(ArpState *t, u8 plen, void *paddr) {
-    s16 n = t->nentries;
-    ArpEntry *e = t->entries;
-    while (n > 0) {
-        if (e->plen == plen && e->state != 0 && NetMemcmp(e->paddr, paddr, e->plen) == 0) {
-            return e;
-        }
-        n--;
-        e++;
-    }
-    return NULL;
-}
-
-inline void detach_80408428(ArpEntry *e) {
+inline void detach_hold(ArpEntry *e) {
     if (e->hold != NULL) {
         e->hold->entry = NULL;
         e->hold->len = 0;
@@ -705,7 +679,7 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
     ArpEntry *e;
     NetPacket *p;
 
-    e = find_80408428(t, plen, paddr);
+    e = find_arp_entry(t, plen, paddr);
     if (e != NULL) {
         e->timer = t->timeout;
         if (haddr == NULL) {
@@ -732,7 +706,7 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
                 release_entry(p);
             }
         }
-        detach_80408428(e);
+        detach_hold(e);
         return e;
     }
     if (haddr == NULL) {
@@ -745,7 +719,7 @@ ArpEntry *find_or_add_peer_entry(s16 handler, s32 socket, u8 plen, void *paddr, 
             e = find_oldest_peer_entry(0);
         }
         if (e->hold != NULL) {
-            detach_80408428(e);
+            detach_hold(e);
         }
         e->state = 0;
         e->timer = 0;

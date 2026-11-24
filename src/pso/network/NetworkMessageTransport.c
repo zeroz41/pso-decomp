@@ -353,7 +353,7 @@ u16 recv_pppoe_message(u8 **out_data, u16 *out_len) {
     return 0;
 }
 
-static inline s16 remove_rec_80426998(u16 key) {
+static inline s16 remove_receive_protocol(u16 key) {
     s32 i;
     EthernetReceiveFilter *o = &lobby_net_channel_table.filter;
     EthernetProtocolRegistration *p = o->protocols;
@@ -374,7 +374,7 @@ s32 detach_pppoe_protocols(void) {
     s32 i;
     NetworkPacketBufferDescriptor *msg;
 
-    remove_rec_80426998(0x8864);
+    remove_receive_protocol(0x8864);
     p = o->protocols;
     for (i = 5; i != 0; i--, p++) {
         if (p->delivery_mode != 0 && p->ether_type == 0x8863) {
@@ -503,7 +503,7 @@ s32 remove_rec_by_handle(s16 dev, u16 handle) {
     if (dev != 0) {
         return -0x113;
     }
-    if (remove_rec_80426998(handle) < 0) {
+    if (remove_receive_protocol(handle) < 0) {
         return -0x113;
     }
     return 0;

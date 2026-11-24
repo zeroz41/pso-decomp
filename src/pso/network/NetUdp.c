@@ -62,7 +62,7 @@ s32 udp_ctlinput(u16 src_port, u8 code) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline void add_item_80420FC8(NetPacket *pkt, void *data, s32 len) {
+inline void append_fragment(NetPacket *pkt, void *data, s32 len) {
     s32 n = pkt->fragment_count;
     s32 off = pkt->total_bytes;
     pkt->fragments[n].length = len;
@@ -162,7 +162,7 @@ s16 AT_UDP_Send(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst
         return r;
     }
     e->length = pkt->total_bytes + 8;
-    add_item_80420FC8(pkt, &e->sourcePort, 8);
+    append_fragment(pkt, &e->sourcePort, 8);
     e->checksum = 0;
     e->checksum = calc_transport_checksum(src, dst, 0x11, pkt, 1);
     return dispatch_by_addr_family(pkt, dst, src, opt->ipv4, &opt->ipv6, 0x11);

@@ -482,22 +482,22 @@ s32 ppp_poll_input(void)
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline s32 valid_80405A74(PppFrame **s) {
+inline s32 frame_valid(PppFrame **s) {
     s32 r = 0;
     if (s != NULL && *s != NULL) {
         r = 1;
     }
     return r;
 }
-inline s32 avail_80405A74(PppFrame **s) {
+inline s32 frame_has_byte(PppFrame **s) {
     s32 r = 0;
-    if (valid_80405A74(s) && (*s)->len > 1) {
+    if (frame_valid(s) && (*s)->len > 1) {
         r = 1;
     }
     return r;
 }
-inline s32 get_80405A74(PppFrame **s) {
-    if (avail_80405A74(s)) {
+inline s32 frame_get_byte(PppFrame **s) {
+    if (frame_has_byte(s)) {
         (*s)->len--;
         return *(*s)->data++;
     }
@@ -506,7 +506,8 @@ inline s32 get_80405A74(PppFrame **s) {
     }
     return (s16)ppp_input_byte;
 }
-#define FWD_80405A74()                                                       \
+/* Counts the frame as dropped and answers it with an LCP Protocol-Reject (code 8). */
+#define SEND_PROTOCOL_REJECT()                                               \
     G->rx_drops++;                                                           \
     t = alloc_from_buffer(frame, 4);                                          \
     p = t->data;                                                             \
@@ -538,9 +539,9 @@ void ppp_input_packet(PppFrame *frame) {
         ppp_buffer_read(&frame, lobby_ppp_read_buf, 2) == 2) {
         read_network_u16_be(lobby_ppp_read_buf);
     }
-    code = (u16)get_80405A74(&frame);
+    code = (u16)frame_get_byte(&frame);
     if (!(code & 1)) {
-        code = (code << 8) | get_80405A74(&frame);
+        code = (code << 8) | frame_get_byte(&frame);
     }
     switch (code) {
     case 0x21:
@@ -627,13 +628,13 @@ void ppp_input_packet(PppFrame *frame) {
             return;
         }
         if (ppp_ip_mode != 6 && (s16)(s32)ppp_ip_mode) {
-            FWD_80405A74()
+            SEND_PROTOCOL_REJECT()
         }
         G->rx_ipv6cp++;
         fsm_input(&G->ipv6cp, frame);
         return;
     default:
-        FWD_80405A74()
+        SEND_PROTOCOL_REJECT()
     }
 }
 
@@ -945,7 +946,7 @@ s16 ppp_output_frame(PppFrame *p) {
     } else {
         *out++ = 0x7e;
         ppp->tx_packets += 1;
-        while ((c = get_80405A74(&p)) != -1) {
+        while ((c = frame_get_byte(&p)) != -1) {
             crc = (u16)(((u16)crc >> 8) ^ ppp_fcs16_table[((u16)crc ^ c) & 0xff]);
             if ((c < 0x20 && (accm & (1 << c))) || c == 0x7d || c == 0x7e) {
                 *out++ = 0x7d;

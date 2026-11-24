@@ -1765,7 +1765,7 @@ s16 tcp_sack_rexmit_before(TcpTcb *tcb, s32 x) {
     return 0;
 }
 
-inline void remove_8041D584(TcpTcb *tcb, s16 idx) {
+inline void scoreboard_remove(TcpTcb *tcb, s16 idx) {
     s16 n = tcb->seg_top;
     s16 i;
     if (n >= 0 && idx >= 0 && idx <= n) {
@@ -1803,7 +1803,7 @@ void tcp_sack_doack(TcpTcb *tcb, TcpHdr *th, TcpSeqRange *blocks, s16 n) {
                 tcb->edge = tcb->segs[0].edge;
                 tcb->stamp = tcb->segs[0].stamp;
                 tcb->una = tcb->segs[0].end;
-                remove_8041D584(tcb, 0);
+                scoreboard_remove(tcb, 0);
                 continue;
             }
             if (SEQ_GEQ(th->ack, tcb->segs[0].start)) {
@@ -1893,13 +1893,13 @@ void tcp_sack_doack(TcpTcb *tcb, TcpHdr *th, TcpSeqRange *blocks, s16 n) {
                 if (tcb->segs[j + 1].edge - tcb->segs[j].end > 0) {
                     tcb->rexmit_bytes -= d;
                     tcb->segs[j].edge = tcb->segs[j + 1].edge;
-                    remove_8041D584(tcb, j + 1);
+                    scoreboard_remove(tcb, j + 1);
                     if (tcb->rexmit_bytes < 0) {
                         tcb->rexmit_bytes = 0;
                     }
                 } else {
                     tcb->rexmit_bytes -= tcb->segs[j + 1].edge - tcb->segs[j + 1].end;
-                    remove_8041D584(tcb, j + 1);
+                    scoreboard_remove(tcb, j + 1);
                     if (tcb->rexmit_bytes < 0) {
                         tcb->rexmit_bytes = 0;
                     }
@@ -1907,7 +1907,7 @@ void tcp_sack_doack(TcpTcb *tcb, TcpHdr *th, TcpSeqRange *blocks, s16 n) {
             } else {
                 tcb->segs[j].end = tcb->segs[j + 1].end;
                 tcb->segs[j].edge = tcb->segs[j + 1].edge;
-                remove_8041D584(tcb, j + 1);
+                scoreboard_remove(tcb, j + 1);
             }
         }
     }
