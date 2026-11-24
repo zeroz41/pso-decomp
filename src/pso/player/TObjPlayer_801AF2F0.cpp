@@ -5060,6 +5060,8 @@ s32 TObjPlayer::create_return_city_window() {
 
 void TObjPlayer::stop_battle() { this->set_battle_flag(0); }
 
+}
+
 void complete_deferred_player_death(TDeathTintFade *fade) {
     u8 lvl;
     s16 aim;
@@ -5117,6 +5119,7 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
     ((TObjPlayer *)p)->create_return_city_window();
     TObjPlayer::send_6x4E_player_revivable((saddr)p);
 }
+extern "C" {
 
 void TObjPlayer::prepare_hospital_return() {
     send_6x21_inter_level_warp(this, 0);
