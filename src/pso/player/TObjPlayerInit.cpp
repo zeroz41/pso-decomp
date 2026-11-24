@@ -63,9 +63,9 @@ void TObjPlayer::reset_state() {
     ((TObjPlayer *)((u8 *)this + 0x7CC))->reset_movement_state();
     movement_hold.reset();
     ((TObjPlayer *)((u8 *)this + 0x608))->set_vec4_const();
-    *(s32 *)&unk_548 = 0;
+    death_fade = NULL;
     action_palette_state.init_tag();
-    *(s32 *)((u8 *)this + 0x3D4) = 0;
+    freeze_escape_step = 0;
     clear_state_flags(0x283);
     m_3f4 = 0;
     target_heading = 0;
@@ -138,9 +138,9 @@ void TObjPlayer::reset_area_entry_state() {
 }
 
 void TObjPlayer::destroy_owned_object() {
-    if (*(u32 *)&unk_548 != 0) {
-        (*(TObject **)&unk_548)->queue_destruction();
-        *(s32 *)&unk_548 = 0;
+    if (death_fade != NULL) {
+        death_fade->queue_destruction();
+        death_fade = NULL;
     }
 }
 

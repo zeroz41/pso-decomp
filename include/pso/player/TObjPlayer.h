@@ -199,7 +199,7 @@ struct TObjPlayer : public TObjChara {
     u8 unk_3C8[0x4];
     u32 m_3cc;
     s32 controller_port; // 0-3, set by init_control_mode for a local player
-    u8 unk_3D4[0x4];
+    s32 freeze_escape_step; // added to the freeze timer on each stick escape (negative)
     s32 m_3d8;
     s32 m_3dc;
     s32 current_area;
@@ -220,7 +220,7 @@ struct TObjPlayer : public TObjChara {
     PlayerTechniqueState technique_state;
     PhotonBlastGauge photon_blast_gauge;
     TPlyDispConfig action_palettes;
-    u8 unk_548[0x4];
+    TObject *death_fade; // the TDeathTintFade of a dying player
     saddr m_54c;
     PlayerPadBinding pad_binding;
     PlayerScaleState scale_state;
