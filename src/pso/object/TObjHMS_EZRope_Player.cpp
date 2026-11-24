@@ -51,6 +51,10 @@ extern s32 model_render_flags;
 
 // Built with -inline off,deferred: functions are emitted last to first, so they are written in reverse.
 
+saddr TObjMotion::get_joint_matrix(s32 joint) {
+    return (saddr)this->joint_matrices + (joint * 0x30);
+}
+
 TObjEZRopeBase::TObjEZRopeBase(TObject *parent) : TObject(parent) {
     m_name = TObjEZRopeBase__name;
     segment_count = 0;

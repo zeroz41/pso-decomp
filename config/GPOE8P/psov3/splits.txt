@@ -2057,14 +2057,11 @@ pso/object/TObjEZBoneRotBase.cpp:
 	.sdata2     start:0x805DAA40 end:0x805DAA54
 
 pso/object/TObjHMS_EZRope_Player.cpp:
-	.text       start:0x800FEFCC end:0x800FFA88
+	.text       start:0x800FEFCC end:0x800FFA98
 	.rodata     start:0x8043DF18 end:0x8043DF48
 	.data       start:0x8049DCF0 end:0x8049DD60
 	.sdata      start:0x805D2B50 end:0x805D2B58
 	.sdata2     start:0x805DAA58 end:0x805DAA68
-
-pso/player/TObjPlayer_800FFA88.cpp:
-	.text       start:0x800FFA88 end:0x800FFA98
 
 pso/object/TObjTailsTailsMove.cpp:
 	.text       start:0x800FFA98 end:0x800FFE04

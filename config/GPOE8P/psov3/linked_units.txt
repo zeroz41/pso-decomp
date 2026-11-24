@@ -1622,7 +1622,6 @@ pso/render/GinjaTextureEntryCopy.cpp
 pso/player/TObjPlayer_800EBE2C.cpp
 pso/player/TObjPlayer_800F0810.cpp
 pso/object/TObjHMS_EZRope_Player.cpp
-pso/player/TObjPlayer_800FFA88.cpp
 pso/player/TObjPlayer_8010853C.cpp
 pso/player/TObjPlayer_80108854.cpp
 pso/player/TObjPlayer_80109344.cpp
