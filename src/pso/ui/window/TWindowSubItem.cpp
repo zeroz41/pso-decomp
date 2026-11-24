@@ -54,9 +54,6 @@ struct ItemData_80279754 {
     u8 b[0x14];
 };
 
-extern "C" {
-}
-
 void add_item_purpose_actions(TWindowSubItem *arg0, saddr arg1, saddr arg2);
 
 extern "C" {
