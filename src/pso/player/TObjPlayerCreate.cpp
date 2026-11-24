@@ -594,7 +594,7 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     init_session_area_sync(record);
     init_battle(record);
     TObjPlayer__sub_801BBB70(this, record);
-    this->init_class_flags((saddr)record);
+    this->init_class_flags(record);
     TObjPlayer__sub_801BB85C(this, (u8 *)record);
     this->hp = record->current_hp;
 }

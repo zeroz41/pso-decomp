@@ -918,10 +918,10 @@ void TObjPlayer::sub_801BB950() {
   reset_client_quest_slot_table();
 }
 
-void TObjPlayer::init_class_flags(saddr char_data) {
-    *(s8 *)&this->unk_338 = ((PlayerSyncRecord *)char_data)->get_class_flag_0();
-    this->m_339 = ((PlayerSyncRecord *)char_data)->get_class_flag_1();
-    *(s8 *)&this->unk_33A = ((PlayerSyncRecord *)char_data)->get_class_flag_2();
+void TObjPlayer::init_class_flags(PlayerSyncRecord *record) {
+    *(s8 *)&this->unk_338 = record->get_class_flag_0();
+    this->m_339 = record->get_class_flag_1();
+    *(s8 *)&this->unk_33A = record->get_class_flag_2();
 }
 
 void TObjPlayer::sub_801BB8B0(u8 *arg1) {

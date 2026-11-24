@@ -160,7 +160,7 @@ struct TObjPlayer : public TObjChara {
     void update_lock_on_cursor();
     void clear_lock_on_cursor(void *data);
     void setup_fresh_player_state(u8 *);
-    void init_class_flags(saddr);
+    void init_class_flags(PlayerSyncRecord *record);
     void sub_801BB8B0(u8 *);
     s32 setup_control_role(s32);
     bool is_target_in_facing_cone(void *);
