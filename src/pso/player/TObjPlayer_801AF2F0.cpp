@@ -223,13 +223,6 @@ typedef struct Msg_801B1E54 {
 struct Eff_801B2C04 { u16 f0; u16 f2; StatStatusReceipt effect; };
 
 
-struct Pkt_801B1D8C {
-    u8 hdr[4];
-    s32 type;
-    s16 amount;
-    u16 client;
-};
-
 struct Pkt_801B1EE0 {
     u8 hdr[2];
     u16 slot;
@@ -4897,30 +4890,30 @@ void send_6x2F_change_player_hp(s32 id, s32 client, s32 hp) {
 }
 
 void handle_6x2F_change_player_hp(G_ChangePlayerHP_6x2F *command) {
-    Pkt_801B1D8C pkt;
-    uaddr player;
-    ((G_ChangePlayerHP_6x2F *)&pkt)->init();
-    *(G_ChangePlayerHP_6x2F *)&pkt = *command;
-    ((G_ChangePlayerHP_6x2F *)&pkt)->bswap();
-    if (validate_6x2F_change_player_hp((G_ChangePlayerHP_6x2F *)&pkt) == 0) {
+    G_ChangePlayerHP_6x2F pkt;
+    TObjPlayer *player;
+    pkt.init();
+    pkt = *command;
+    pkt.bswap();
+    if (validate_6x2F_change_player_hp(&pkt) == 0) {
         return;
     }
-    player = (uaddr)get_player_by_client_id(pkt.client);
+    player = get_player_by_client_id(pkt.client_id);
     if (player == 0) {
         return;
     }
-    if (((TObjCollidable *)player)->test_actor_flags(0x800) != 0) {
+    if (player->test_actor_flags(0x800) != 0) {
         return;
     }
     switch (pkt.type) {
     case 0:
-        ((TObjPlayer *)player)->set_hp_clamped(pkt.amount);
+        player->set_hp_clamped(pkt.amount);
         break;
     case 1:
-        add_actor_hp((TObjChara *)player, pkt.amount);
+        add_actor_hp(player, pkt.amount);
         break;
     case 2:
-        add_actor_hp((TObjChara *)player, *(s16 *)(player + 0x2B8));
+        add_actor_hp(player, player->hpmax);
         break;
     }
 }
