@@ -149,8 +149,8 @@ s32 TObjPlayer::vfunc_79() { return 0; }
 s32 TObjPlayer::check_camera_mode() {
     return (u8)((u8) (is_quest_active() == 1));
 }
-void TObjPlayer::set_regen_timer(s32 v) { this->pad_370 = v; }
-s32 TObjPlayer::get_regen_timer() { return this->pad_370; }
+void TObjPlayer::set_regen_timer(s32 v) { this->regen_timer = v; }
+s32 TObjPlayer::get_regen_timer() { return this->regen_timer; }
 int TObjPlayer::is_newman() { return (this->class_flags & CLASS_FLAG_NEWMAN) != 0; }
 int TObjPlayer::is_android() { return (this->class_flags & CLASS_FLAG_ANDROID) != 0; }
 void TObjPlayer::check_stat_flag_41c() { ((FlagWord *)((char*)this + 0x41c))->set(32); }

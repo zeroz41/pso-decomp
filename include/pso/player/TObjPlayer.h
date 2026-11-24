@@ -187,7 +187,7 @@ struct TObjPlayer : public TObjChara {
     PhotonChairSeat chair_seat;
     ContactSurfaceState contact_surface;
     s32 m_36c;
-    s32 pad_370;
+    s32 regen_timer;  // frames toward the next regeneration tick (tick_regen_timer)
     MaterialUsage materials;
     // Inferred: the action provider init_action_provider creates (TUnk_804DDBF0 or TUnk_804ED7D0).
     TUnk_804DDD28 *action_provider;

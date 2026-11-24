@@ -83,7 +83,7 @@ void TObjPlayer::init_action_provider() {
     unk_338[0] = 0;
     action_state = 0;
     m_36c = 0;
-    pad_370 = 0;
+    regen_timer = 0;
     reset_entrance_id();
     ((TObjPlayer *)((u8 *)this + 0x66C))->set_vec3_const();
     frame_timer = TObjPlayer__data_805DC278;
@@ -228,7 +228,7 @@ void TObjPlayer::init_player_data(void *src) {
     ((TLobby *)((u8 *)this + 0xD8C))->copy_entry((void *)get_class_defense_template(this));
     tp_factor = get_tp_class_factor();
     recalc_combat_stats(stat_block, &attack_stats, &resistance_stats, get_class_hp_factor(), tp_factor);
-    *(f32 *)((u8 *)bodies + 4) = TObjPlayer__data_805DC28C * stat_block->proportions;
+    bodies->offset.y = TObjPlayer__data_805DC28C * stat_block->proportions;
 }
 
 int TObjPlayer::is_flag_set_550(void *record) { return TObjPlayer__sub_801BEF60(&pad_binding, 0); }
