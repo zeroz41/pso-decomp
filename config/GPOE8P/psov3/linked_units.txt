@@ -788,7 +788,6 @@ pso/unk/TLobby_801D3518.cpp
 pso/unk/TLobby_801D6BF8.cpp
 pso/unk/TLobby_801D6DC4.cpp
 pso/unk/TLobby_801D726C.cpp
-pso/unk/TLobby_801DA7DC.cpp
 pso/unk/TLobby_801DEFC4.cpp
 pso/unk/TLobby_801E2F94.cpp
 pso/unk/TLobby_801E43E4.cpp
@@ -1409,13 +1408,6 @@ pso/network/NetAuthSecrets.c
 pso/network/NetworkTransport.c
 pso/network/TGameProtocol.cpp
 pso/network/TProtocol.cpp
-pso/network/TProtocol_801DB1B4.cpp
-pso/network/TProtocol_801D9EEC.cpp
-pso/network/TProtocol_801DA140.cpp
-pso/network/TProtocol_801DA240.cpp
-pso/network/TProtocol_801DAFD0.cpp
-pso/network/TProtocol_801DB0AC.cpp
-pso/network/TProtocol_801DB34C.cpp
 pso/network/TProtocol_801DFA5C.cpp
 pso/network/TProtocol_801DFCAC.cpp
 pso/network/TProtocol_801E08CC.cpp
@@ -1923,13 +1915,6 @@ pso/unk/text_801D7238.cpp
 pso/unk/text_801D7BF4.cpp
 pso/unk/text_801D9870.cpp
 pso/unk/text_801D98F8.cpp
-pso/unk/text_801D9E50.cpp
-pso/network/TProtocol_801D9EB4.cpp
-pso/network/TProtocol_801D9F50.cpp
-pso/network/TProtocol_801DB034.cpp
-pso/network/TProtocol_801DB10C.cpp
-pso/network/TProtocol_801DB2D4.cpp
-pso/network/TProtocol_801DB3CC.cpp
 pso/unk/text_801DF280.cpp
 pso/unk/text_801DFC3C.cpp
 pso/unk/text_801E051C.cpp

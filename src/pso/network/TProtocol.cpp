@@ -1,3 +1,631 @@
+#include "types.h"
+#include "pso/network/TProtocol.h"
+
+void TProtocol::send_keepalive() {
+    packet_header tmp;
+    tmp.command = 0x1D;
+    tmp.flags = 0;
+    tmp.size = sizeof(tmp);
+    tmp.bswap();
+    send((u8 *)&tmp, sizeof(tmp));
+}
+
+#include "types.h"
+#include "pso/network/TProtocol.h"
+#include "pso/quest/TQuestListOnline.h"
+
+void TProtocol::handle_cmd_AC(packet &pkt) {
+    if (pkt.pkt.header.flags == 0) {
+        TQuestListOnline::handle_quest_ready();
+        return;
+    }
+    this->m_is_invalid_packet = 1;
+}
+
+#include "pso/network/TProtocol.h"
+
+void TProtocol::send_quest_barrier() {
+    packet_header header;
+    header.command = 0xAC;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+
+// ---- pso/network/TProtocol_801D9F50
+#include "types.h"
+#include <string.h>
+#include "pso/network/TProtocol.h"
+
+void TProtocol::handle_cmd_AB(packet &pkt) {
+    void *protocol = &pkt;
+    s32 (*temp_r12)(u16);
+
+    ((TProtocol *)protocol)->bswap_cmd_AB();
+    temp_r12 = *(s32 (**)(u16))((s8 *)this + 0xBC94);
+    if (temp_r12 != NULL) {
+        temp_r12(((TProtocol *)protocol)->m_flags);
+    }
+}
+
+// ---- pso/unk/text_801D9FA0
+
+struct VBase_18_801D9FA0 { char pad[0x18]; };
+
+struct VObj_18_801D9FA0 : VBase_18_801D9FA0 {
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual void m8(void *, s32);
+};
+
+struct Pkt_801D9FA0 {
+    u8 cmd;
+    u8 flag;
+    u16 size;
+    s16 a;
+    s16 b;
+    s16 c;
+    s16 d;
+    u32 data[8];
+};
+
+extern "C" {
+void send_statistic_aa(VObj_18_801D9FA0 *obj, s16 a, s16 c, s16 d, u32 *src);
+void send_statistic_aa(VObj_18_801D9FA0 *obj, s16 a, s16 c, s16 d, u32 *src) {
+    Pkt_801D9FA0 pkt;
+    s32 i;
+    memset(&pkt, 0, 0x2C);
+    pkt.cmd = 0xAA;
+    pkt.flag = 0;
+    pkt.size = 0x2C;
+    pkt.a = a;
+    pkt.b = 0;
+    pkt.c = c;
+    pkt.d = d;
+    for (i = 0; i < 8; i++) {
+        pkt.data[i] = src[i];
+    }
+    ((TProtocol *)(&pkt))->bswap_packet();
+    obj->m8(&pkt, 0x2C);
+}
+
+}
+
+// ---- pso/network/TProtocol_801DA054
+
+#include "pso/network/protocol/protocol.h"
+#include "pso/network/TProtocol_801E08CC.h"
+
+void TProtocol::handle_cmd_9F(packet &) {
+    TSendClientConfig reply;
+    memset(&reply, 0, sizeof(reply));
+    reply.header.command = 0x9F;
+    reply.header.size = sizeof(reply);
+    reply.config = m_client_config;
+    reply.bswap();
+    send((u8 *)&reply, sizeof(reply));
+}
+
+void TProtocol::handle_cmd_DA(packet &pkt) {
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    if (m_recv_handlers.handle_DA_lobby_event_packet != NULL) {
+        m_recv_handlers.handle_DA_lobby_event_packet(header.flags);
+    }
+}
+
+void TProtocol::handle_cmd_D7(packet &) {
+    set_lobby_count_value();
+}
+
+#include "pso/network/TProtocol.h"
+#include "pso/network/TProtocol_801DA140.h"
+
+extern "C" void bswap__17TSendDownloadHeadFv(TSendDownloadHead *);
+
+void send_download_head_d7(TProtocol *self, s8 flags, const char *filename) {
+    TSendDownloadHead pkt;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0xD7;
+    pkt.header.flags = flags;
+    strncpy(pkt.filename, filename, sizeof(pkt.filename));
+    pkt.header.size = sizeof(pkt);
+    strncpy(pkt.filename, filename, sizeof(pkt.filename));
+    bswap__17TSendDownloadHeadFv(&pkt);
+    self->send((u8 *)&pkt, sizeof(pkt));
+}
+
+void TProtocol::send_message_box_closed() {
+    packet_header header;
+    header.command = 0xD6;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+
+#include <stdio.h>
+#include "pso/network/TProtocol.h"
+#include "pso/unk/TLobby.h"
+#include <stddef.h>
+LAYOUT_ASSERT(TradeResultCallbackOffset, offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D4_trade_result_packet) == 0xBC9C);
+LAYOUT_ASSERT(TradeAdvanceCallbackOffset, offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D1_advance_trade_state_packet) == 0xBCA0);
+LAYOUT_ASSERT(TradeHeaderSize, sizeof(packet_header) == 4);
+LAYOUT_ASSERT(TradeStateOffset, offsetof(packet_header, flags) == 1);
+
+/* TProtocol's globals. Its code is split over several files; this is the first whose data sits where these do (the
+ * strings ahead of its trade-list log formats in .rodata). */
+packet *server_packet;
+u32 new_ip_addr;
+u16 new_port;
+s32 lobby_state_flags;
+const char *lobby_server_greeting_text = "DreamCast Lobby Server. Copyright SEGA Enterprises. 1999";
+const char *port_map_copyright = "DreamCast Port Map. Copyright SEGA Enterprises. 1999";
+OBJECT_NAME(TProtocol);
+
+
+#include "types.h"
+struct VBase_18_801DA4A0 { char pad[0x18]; };
+
+struct VObj_18_801DA4A0 : VBase_18_801DA4A0 {
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual void m8(void *, s32);
+};
+
+
+#include <string.h>
+extern "C" {
+void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, TTradeList *src);
+
+void TProtocol::handle_cmd_D5(packet &pkt) {
+    TPlyText<0x1000> tmp = as(TPlyText<0x1000> &, pkt);
+    if (m_recv_handlers.handle_1A_D5_recv_text != NULL) {
+        m_recv_handlers.handle_1A_D5_recv_text(tmp.text);
+    }
+}
+}
+
+void TProtocol::send_cancel_trade() {
+    packet_header header;
+    header.command = 0xD4;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+
+void TProtocol::recv_trade_result(packet &pkt) {
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    if (m_recv_handlers.handle_D4_trade_result_packet != 0) {
+        m_recv_handlers.handle_D4_trade_result_packet(header.flags);
+    }
+}
+
+void TProtocol::handle_cmd_D3(packet &pkt) {
+    char message[0x80];
+    TTradeList trade_list = as(TTradeList &, pkt);
+    trade_list.bswap();
+    sprintf(message, "RcvTradeList %d %d", trade_list.item_count, trade_list.target_client_id);
+    if (m_recv_handlers.handle_D3_execute_trade_packet != NULL) {
+        m_recv_handlers.handle_D3_execute_trade_packet(&trade_list);
+    }
+}
+void TProtocol::send_trade_ready() {
+    packet_header header;
+    header.command = 0xD2;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+
+void TProtocol::recv_advance_trade_state(packet &pkt) {
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    if (m_recv_handlers.handle_D1_advance_trade_state_packet != 0) {
+        m_recv_handlers.handle_D1_advance_trade_state_packet(header.flags);
+    }
+}
+
+extern "C" {
+
+void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, TTradeList *src) {
+    char message[0x80];
+    sprintf(message, "SndTradeList %d %d", src->item_count, src->target_client_id);
+    TTradeList pkt = *src;
+    pkt.header.command = 0xD0;
+    pkt.header.flags = 0;
+    pkt.header.size = sizeof(pkt);
+    pkt.bswap();
+    obj->m8(&pkt, sizeof(pkt));
+}
+
+void TProtocol::send_text_packet_D9(char *str) {
+    TPlyText<172> pkt;
+    s32 n;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0xD9;
+    pkt.header.flags = 0;
+    char *t = pkt.text;
+    strncpy(t, str, sizeof(pkt.text));
+    n = (strlen(t) + 8) & ~3;
+    pkt.header.size = n;
+    pkt.bswap();
+    send((u8 *)&pkt, n);
+}
+
+void TProtocol::handle_cmd_D8(packet &pkt) {
+    TRecvInfoBoard tmp = as(TRecvInfoBoard &, pkt);
+    tmp.bswap();
+    if (m_recv_handlers.handle_D8_infoboard_packet != NULL) {
+        m_recv_handlers.handle_D8_infoboard_packet(&tmp);
+    }
+}
+
+}
+
+void TProtocol::send_info_board_request() {
+    packet_header header;
+    memset(&header, 0, sizeof(header));
+    header.command = 0xD8;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+
+void TProtocol::send_disable_auto_reply() {
+    packet_header header;
+    header.command = 0xC8;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+void TProtocol::send_text_packet_c7(char *str) {
+    if (m_connected != 0) {
+    TPlyText<512> pkt;
+    s32 n;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0xC7;
+    pkt.header.flags = 0;
+    char *t = pkt.text;
+    strncpy(t, str, sizeof(pkt.text) - 1);
+    n = (strlen(t) + 8) & ~3;
+    pkt.header.size = n;
+    pkt.bswap();
+    send((u8 *)&pkt, n);
+    }
+}
+
+#include "types.h"
+#include <string.h>
+#include "pso/player/TPlySmth.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
+#include "pso/unk/TLobby.h"
+#include "pso/network/TProtocol.h"
+#include "pso/network/protocol/protocol.h"
+#include "pso/network/PSOV3EncryptionTCP.h"
+
+void TProtocol::send_c6_packet(void *lobby) {
+    if (m_connected != 0) {
+        *(u8 *)((s8 *)lobby + 0) = 0xC6;
+        *(s16 *)((s8 *)lobby + 2) = 0x7C;
+        ((TBlockedSenders *)lobby)->bswap();
+        send((u8 *)lobby, 0x7C);
+    }
+}
+
+void TProtocol::handle_cmd_C5(packet &pkt) {
+    TRecvChallengeData tmp = as(TRecvChallengeData &, pkt);
+    tmp.bswap();
+    if (m_recv_handlers.handle_C5_player_challenge_data_packet != NULL) {
+        m_recv_handlers.handle_C5_player_challenge_data_packet(tmp.records, tmp.header.flags);
+    }
+}
+
+s32 TProtocol::send_login_9e_extended(void *player_name, int udp_disabled) {
+    memset(m_player_name, 0, 0x10);
+    strncpy(m_player_name, (const char *)player_name, 0x10);
+    m_udp_disabled = udp_disabled;
+    TSendLogin pkt;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0x9E;
+    pkt.header.flags = m_udp_disabled;
+    pkt.header.size = sizeof(pkt);
+    __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&pkt.tag, &m_guildcard_tag);
+    pkt.hardware_id = m_smth;
+    pkt.sub_version = m_sub_version;
+    pkt.language = m_language;
+    pkt.client_config = m_client_config;
+    strncpy(pkt.serial_number_v1, m_serial_number_v1, sizeof(pkt.serial_number_v1));
+    strncpy(pkt.access_key_v1, m_access_key_v1, sizeof(pkt.access_key_v1));
+    strncpy(pkt.serial_number, m_serial_number2, sizeof(pkt.serial_number));
+    strncpy(pkt.access_key, m_access_key2, sizeof(pkt.access_key));
+    strncpy(pkt.serial_number2, m_serial_number, sizeof(pkt.serial_number2));
+    strncpy(pkt.access_key2, m_access_key, sizeof(pkt.access_key2));
+    strncpy(pkt.name, m_player_name, sizeof(pkt.name));
+    pkt.bswap();
+    send((u8 *)&pkt, sizeof(pkt));
+    return 0;
+}
+
+void TProtocol::handle_cmd_9C(packet &pkt) {
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    m_regist_state = header.flags;
+    if (m_recv_handlers.handle_92_9C_register_response_packet != NULL) {
+        m_recv_handlers.handle_92_9C_register_response_packet(header.flags);
+    }
+}
+void TProtocol::handle_cmd_02(packet &pkt) {
+    TRecvPsoRegistConnect tmp = as(TRecvPsoRegistConnect &, pkt);
+    tmp.bswap();
+    if (!strcmp(lobby_server_greeting_text, tmp.copyright)) {
+        m_recv_crypt.reset(tmp.server_key);
+        m_send_crypt.reset(tmp.client_key);
+        m_is_encrypted = true;
+        TSendLogin tmp2;
+        memset(&tmp2, 0, sizeof(tmp2));
+        tmp2.header.command = 0x9E;
+        tmp2.header.flags = m_udp_disabled;
+        __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&tmp2.tag, &m_guildcard_tag);
+        tmp2.hardware_id = m_smth;
+        tmp2.sub_version = m_sub_version;
+        tmp2.language = m_language;
+        strncpy(tmp2.serial_number_v1, m_serial_number_v1, sizeof(tmp2.serial_number_v1));
+        strncpy(tmp2.access_key_v1, m_access_key_v1, sizeof(tmp2.access_key_v1));
+        strncpy(tmp2.serial_number, m_serial_number2, sizeof(tmp2.serial_number));
+        strncpy(tmp2.access_key, m_access_key2, sizeof(tmp2.access_key));
+        strncpy(tmp2.serial_number2, m_serial_number, sizeof(tmp2.serial_number2));
+        strncpy(tmp2.access_key2, m_access_key, sizeof(tmp2.access_key2));
+        strncpy(tmp2.name, m_player_name, sizeof(tmp2.name));
+        tmp2.client_config = m_client_config;
+        if (m_has_meet_user_settings != 0) {
+            tmp2.is_extended = 1;
+            tmp2.extension = meet_user_settings;
+            tmp2.header.size = sizeof(tmp2);
+            tmp2.bswap();
+            send((u8 *)&tmp2, sizeof(tmp2));
+        } else {
+            tmp2.header.size = offsetof(TSendLogin, extension);
+            tmp2.bswap();
+            send((u8 *)&tmp2, offsetof(TSendLogin, extension));
+        }
+    } else {
+        close();
+    }
+    m_has_meet_user_settings = 0;
+}
+
+void TProtocol::handle_cmd_9A(packet &pkt) {
+    packet_header header = pkt.pkt.header;
+    header.bswap();
+    m_regist_state = header.flags;
+    if (m_recv_handlers.handle_18_90_9A_recv_pso_regist_check != NULL) {
+        m_recv_handlers.handle_18_90_9A_recv_pso_regist_check(header.flags);
+    }
+}
+
+void TProtocol::handle_cmd_9B(packet &pkt) {
+    TRecvPsoRegistConnect tmp = as(TRecvPsoRegistConnect &, pkt);
+    tmp.bswap();
+    if (!strcmp(port_map_copyright, tmp.copyright)) {
+        m_recv_crypt.reset(tmp.server_key);
+        m_send_crypt.reset(tmp.client_key);
+        m_is_encrypted = true;
+        TSendVerifyLicense tmp2;
+        memset(&tmp2, 0, sizeof(tmp2));
+        tmp2.header.command = 0xDB;
+        tmp2.header.size = sizeof(tmp2);
+        strncpy(tmp2.serial_number_v1, m_serial_number_v1, sizeof(tmp2.serial_number_v1));
+        strncpy(tmp2.access_key_v1, m_access_key_v1, sizeof(tmp2.access_key_v1));
+        strncpy(tmp2.serial_number, m_serial_number2, sizeof(tmp2.serial_number));
+        strncpy(tmp2.access_key, m_access_key2, sizeof(tmp2.access_key));
+        tmp2.hardware_id = m_smth;
+        tmp2.sub_version = m_sub_version;
+        strncpy(tmp2.serial_number2, m_serial_number, sizeof(tmp2.serial_number2));
+        strncpy(tmp2.access_key2, m_access_key, sizeof(tmp2.access_key2));
+        strncpy(tmp2.password, m_password, sizeof(tmp2.password));
+        tmp2.bswap();
+        send(as(u8 *, &tmp2), sizeof(tmp2));
+    } else {
+        close();
+    }
+}
+
+extern "C" void set_port__7TSocketFUl(TSocket *socket, s16 port);
+
+s32 TProtocol::set_server_info(const char *serial_v1, const char *access_key_v1, const char *serial,
+                               const char *access_key, const char *host, u16 port) {
+    s32 error;
+
+    error = resolve_domain((char *)host);
+    set_port__7TSocketFUl(this, port);
+    if (error != 0) {
+        return 2;
+    }
+    memset(m_serial_number_v1, 0, 0x11);
+    memset(m_access_key_v1, 0, 0x11);
+    memset(m_serial_number2, 0, 0x11);
+    memset(m_access_key2, 0, 0x11);
+    strncpy(m_serial_number_v1, serial_v1, 8);
+    strncpy(m_access_key_v1, access_key_v1, 0xC);
+    strncpy(m_serial_number2, serial, 8);
+    strncpy(m_access_key2, access_key, 0xC);
+    if (open() < 0) {
+        return 1;
+    }
+    recv();
+    return 0;
+}
+
+#include "pso/network/TProtocol.h"
+
+void TProtocol::send_lobby_name_request() {
+    packet_header header;
+    header.command = 0x8A;
+    header.flags = 0;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+
+#include "types.h"
+#include "pso/network/TProtocol.h"
+#include "pso/unk/text_801DF280.h"
+
+void TProtocol::handle_cmd_8A(packet &pkt) {
+    TRecvLobbyName tmp = as(TRecvLobbyName &, pkt);
+    bswap_cmd_8a_header(&tmp);
+    if (m_recv_handlers.handle_8A_lobby_name_packet != NULL) {
+        m_recv_handlers.handle_8A_lobby_name_packet(tmp.name);
+    }
+}
+
+#include "pso/network/TProtocol.h"
+
+void TProtocol::send_lobby_arrow(int arrow) {
+    packet_header header;
+    header.command = 0x89;
+    header.flags = arrow;
+    header.size = sizeof(header);
+    header.bswap();
+    send((u8*)&header, sizeof(header));
+}
+
+#include "types.h"
+#include "pso/network/TProtocol.h"
+
+#include "pso/unk/text_801DF280.h"
+
+// The lobby registers a no-argument function as the 88 handler; the protocol passes it the list.
+typedef void (*arrow_color_list_handler)(void *list);
+
+void TProtocol::handle_cmd_88(packet &pkt) {
+    char list[0xC4];
+    arrow_color_list_handler handler;
+
+    copy_entry_table((s32 *)list, (s32 *)&pkt);
+    bswap_cmd_88_body(list);
+    handler = (arrow_color_list_handler)m_recv_handlers.handle_88_player_arrow_color_list_packet;
+    if (handler != NULL) {
+        handler(list);
+    }
+}
+
+void TProtocol::handle_cmd_C4(packet &pkt) {
+    char results[sizeof(ChoiceSearchResultList)];
+
+    copy_cmd_c4_entry_table((s32 *)results, (s32 *)&pkt);
+    bswap_cmd_c4_body(results);
+    if (m_recv_handlers.handle_C4_choice_search_reply_packet != NULL) {
+        m_recv_handlers.handle_C4_choice_search_reply_packet((ChoiceSearchResultList *)results);
+    }
+}
+
+#include "pso/network/TProtocol.h"
+#include "pso/unk/text_801DF280.h"
+
+LAYOUT_ASSERT(ProtocolConnectedOffset, offsetof(TProtocol, m_connected) == 0x1910);
+
+void TProtocol::send_choice_search(TPlyChoiceSearchConfig &parameters) {
+    ChoiceSearchPacket packet;
+    if (m_connected != 0) {
+        memset(&packet, 0, sizeof(packet));
+        packet.header.command = 0xC3;
+        packet.header.flags = 0;
+        packet.header.size = sizeof(packet);
+        copy_choice_search_parameters(&packet.parameters, &parameters);
+        packet.bswap();
+        send((u8*)&packet, sizeof(packet));
+    }
+}
+
+void TProtocol::send_choice_search_parameters(TPlyChoiceSearchConfig &parameters) {
+    ChoiceSearchPacket packet;
+    if (m_connected != 0) {
+        memset(&packet, 0, sizeof(packet));
+        packet.header.command = 0xC2;
+        packet.header.flags = 0;
+        packet.header.size = sizeof(packet);
+        copy_choice_search_parameters(&packet.parameters, &parameters);
+        packet.bswap();
+        send((u8*)&packet, sizeof(packet));
+    }
+}
+
+#include "types.h"
+#include "pso/network/TProtocol.h"
+#include "pso/unk/text_801DF280.h"
+
+void TProtocol::handle_cmd_C0(packet &pkt) {
+    TRecvChoiceSearchOptions tmp = as(TRecvChoiceSearchOptions &, pkt);
+    bswap_c0_lobby_entries(&tmp);
+    if (m_recv_handlers.handle_C0_choice_search_option_packet != NULL) {
+        m_recv_handlers.handle_C0_choice_search_option_packet(&tmp);
+    }
+}
+
+#include "pso/network/TProtocol.h"
+#include <stddef.h>
+LAYOUT_ASSERT(ProtocolConnectedOffset, offsetof(TProtocol, m_connected) == 0x1910);
+LAYOUT_ASSERT(PacketHeaderSize, sizeof(packet_header) == 4);
+LAYOUT_ASSERT(PacketFlagsOffset, offsetof(packet_header, flags) == 1);
+LAYOUT_ASSERT(PacketSizeOffset, offsetof(packet_header, size) == 2);
+
+void TProtocol::send_choice_search_options_request() {
+    packet_header header;
+    if (m_connected != 0) {
+        memset(&header, 0, sizeof(header));
+        header.command = 0xC0;
+        header.flags = 0;
+        header.size = sizeof(header);
+        header.bswap();
+        send((u8*)&header, sizeof(header));
+    }
+}
+
+#include "types.h"
+#include "pso/network/TProtocol.h"
+#include "pso/unk/text_801DF280.h"
+
+// The lobby registers a no-argument function as the B1 handler; the protocol passes it the time text.
+typedef void (*server_time_handler)(char *time);
+
+void TProtocol::handle_cmd_B1(packet &pkt) {
+    TRecvServerTime recv = as(TRecvServerTime &, pkt);
+    server_time_handler handler;
+    s32 low = recv.time_flags_low;
+    s32 mid = recv.time_flags_mid;
+    s32 high = recv.time_flags_high;
+
+    lobby_state_flags = 0;
+    lobby_state_flags = (lobby_state_flags & ~0xFF) | (low & 0xFF);
+    lobby_state_flags = (lobby_state_flags & ~0xFF00) | ((mid << 8) & 0xFF00);
+    lobby_state_flags = (lobby_state_flags & ~0xFF0000) | ((high << 16) & 0xFF0000);
+    bswap_packet_header_cmd_b1(&recv);
+    handler = (server_time_handler)m_recv_handlers.handle_B1_current_time_packet;
+    if (handler != NULL) {
+        handler(recv.time);
+    }
+}
+
 // ---- pso/network/TProtocol_801DB474
 #include "pso/network/TProtocol.h"
 
@@ -1473,3 +2101,4 @@ void TProtocol::bswap_packet() { ((packet_header *)this)->bswap(); bswap_16((u16
 void TSendClientConfig::bswap() { header.bswap(); }
 
 }
+

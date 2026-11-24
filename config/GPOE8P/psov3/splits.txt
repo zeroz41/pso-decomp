@@ -5085,59 +5085,12 @@ pso/player/PlayerTechniqueState.cpp:
 	.text       start:0x801D9B18 end:0x801D9E50
 	.sdata2     start:0x805DC408 end:0x805DC410
 
-pso/unk/text_801D9E50.cpp:
-	.text       start:0x801D9E50 end:0x801D9EB4
-
-pso/network/TProtocol_801D9EB4.cpp:
-	.text       start:0x801D9EB4 end:0x801D9EEC
-
-pso/network/TProtocol_801D9EEC.cpp:
-	.text       start:0x801D9EEC end:0x801D9F50
-
-pso/network/TProtocol_801D9F50.cpp:
-	.text       start:0x801D9F50 end:0x801DA140
-
-pso/network/TProtocol_801DA140.cpp:
-	.text       start:0x801DA140 end:0x801DA240
-
-pso/network/TProtocol_801DA240.cpp:
-	.text       start:0x801DA240 end:0x801DA7DC
-	.rodata     start:0x80449568 end:0x80449610
-	.sdata      start:0x805D3570 end:0x805D3580
-	.sbss       start:0x805D5E18 end:0x805D5E28
-
-pso/unk/TLobby_801DA7DC.cpp:
-	.text       start:0x801DA7DC end:0x801DAFD0
-
-pso/network/TProtocol_801DAFD0.cpp:
-	.text       start:0x801DAFD0 end:0x801DB034
-
-pso/network/TProtocol_801DB034.cpp:
-	.text       start:0x801DB034 end:0x801DB0AC
-
-pso/network/TProtocol_801DB0AC.cpp:
-	.text       start:0x801DB0AC end:0x801DB10C
-
-pso/network/TProtocol_801DB10C.cpp:
-	.text       start:0x801DB10C end:0x801DB1B4
-
-pso/network/TProtocol_801DB1B4.cpp:
-	.text       start:0x801DB1B4 end:0x801DB2D4
-
-pso/network/TProtocol_801DB2D4.cpp:
-	.text       start:0x801DB2D4 end:0x801DB34C
-
-pso/network/TProtocol_801DB34C.cpp:
-	.text       start:0x801DB34C end:0x801DB3CC
-
-pso/network/TProtocol_801DB3CC.cpp:
-	.text       start:0x801DB3CC end:0x801DB474
-
 pso/network/TProtocol.cpp:
-	.text       start:0x801DB474 end:0x801DEF7C
-	.rodata     start:0x80449610 end:0x80449640
+	.text       start:0x801D9E50 end:0x801DEF7C
+	.rodata     start:0x80449568 end:0x80449640
 	.data       start:0x804C4A50 end:0x804C5238
-	.sbss       start:0x805D5E28 end:0x805D5E30
+	.sdata      start:0x805D3570 end:0x805D3580
+	.sbss       start:0x805D5E18 end:0x805D5E30
 
 pso/player/TPlyClientConfig.cpp:
 	.text       start:0x801DEF7C end:0x801DEFA4
