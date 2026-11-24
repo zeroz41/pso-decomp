@@ -234,16 +234,16 @@ TPlayerLobbyMarker *TObjPlayer::create_lobby_marker(s16 client, s8 material_inde
 void TPlayerLobbyMarker::run_task() { rotation += 0x800; }
 
 void TPlayerLobbyMarker::render() {
-    saddr player;
-    player = (saddr)get_player_by_client_id(player_id);
-    if ((player != 0) && (((TObject *)player)->all_parents_unqueued_for_destruction() != 0) && (get_material_index() != 0) && (((TObjPlayer *)player)->is_body_collision_inactive() == 0)) {
+    TObjPlayer *player;
+    player = get_player_by_client_id(player_id);
+    if ((player != NULL) && (player->all_parents_unqueued_for_destruction() != 0) && (get_material_index() != 0) && (player->is_body_collision_inactive() == 0)) {
         push_matrix();
         TParticleCtrl::begin_effect_render();
         saved_model_render_flags = model_render_flags;
         copy_argb(&saved_model_draw_color, &model_material_color);
         TObjFish::set_global_param(&shared_effect_texture_list);
         model_render_flags |= 0x11;
-        translate_matrix_vec3(0, reinterpret_cast<u8 *>(get_marker_position(&reinterpret_cast<TObjPlayer *>(player)->marker_position)));
+        translate_matrix_vec3(0, reinterpret_cast<u8 *>(get_marker_position(&player->marker_position)));
         rotate_matrix_y(NULL, camera_ctrl_instance->yaw + rotation);
         scale_matrix(NULL, 1.3f, 1.3f, 1.3f);
         set_constant_material(&player_lobby_marker_color_table[get_material_index()]);
@@ -733,15 +733,15 @@ TForceOperate::TForceOperate(TObject *parent, u16 id) : TObject(parent) {
 }
 
 void TForceOperate::run_task() {
-    void *state;
+    TObjPlayer *player;
     TObjCollidable *entity;
 
     if (TObjPlayer__sub_801C6DAC((u8 *)&m_1c) != 0) {
-        state = (void *)((TMainCursor *)(&m_1c))->get_state();
-        if ((((TObjPlayer *)state)->is_target_valid() != 0) && (((TObjPlayer *)state)->has_action_palette_entry() != 0)) {
-            entity = find_entity_by_id(((TMainCursor *)&((TObjPlayer *)state)->lock_on_cursor->selection.target)->get_id());
+        player = (TObjPlayer *)((TMainCursor *)(&m_1c))->get_state();
+        if ((player->is_target_valid() != 0) && (player->has_action_palette_entry() != 0)) {
+            entity = find_entity_by_id(((TMainCursor *)&player->lock_on_cursor->selection.target)->get_id());
             if (entity != NULL) {
-                entity->interact(((TObjBase *)((saddr)state))->get_entity_id());
+                entity->interact(player->get_entity_id());
                 queue_destruction();
             }
         }
