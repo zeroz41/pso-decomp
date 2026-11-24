@@ -4582,10 +4582,10 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     TLobby::copy_data(dst->f118, src->f2B0);
     dst->f24 = ((TObjPlayer *)src)->get_hp_bonus();
     dst->f26 = ((TObjPlayer *)src)->get_tp_bonus();
-    TObjPlayer__sub_801BE864(dst, ((TObjPlayer *)src)->get_field_374());
-    TObjPlayer__sub_801BE838(dst, ((TObjPlayer *)src)->get_field_374_state());
-    TObjPlayer__sub_801BE80C(dst, ((TObjPlayer *)src)->get_inventory_state());
-    TObjPlayer__sub_801BE7E0(dst, ((TObjPlayer *)src)->get_equip_flags());
+    TObjPlayer__sub_801BE864(dst, ((TObjPlayer *)src)->get_power_materials_used());
+    TObjPlayer__sub_801BE838(dst, ((TObjPlayer *)src)->get_mind_materials_used());
+    TObjPlayer__sub_801BE80C(dst, ((TObjPlayer *)src)->get_evade_materials_used());
+    TObjPlayer__sub_801BE7E0(dst, ((TObjPlayer *)src)->get_def_materials_used());
     TObjPlayer__sub_801BE7B4(dst, ((TObjPlayer *)src)->get_luck_materials_used());
     for (i = 0; i < 0x13; i++) {
         TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(src->f428, i), &dst->fB4[i], (s8 *)&dst->f142[i]);

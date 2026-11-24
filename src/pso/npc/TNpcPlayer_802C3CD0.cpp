@@ -48,11 +48,11 @@ void TObjPlayer::export_character_data(TPlyCharData *character) {
     }
     character->m_inventory.m_hp_materials_used = get_hp_material_points();
     character->m_inventory.m_tp_materials_used = get_tp_materials_clamped();
-    ((TObjPlayer *)character)->set_flag_e7(get_field_374());
-    ((TObjPlayer *)character)->set_flag_103(get_field_374_state());
-    ((TObjPlayer *)character)->set_action_flags(get_inventory_state());
-    ((TObjPlayer *)character)->set_byte_13b(get_equip_flags());
-    ((TObjPlayer *)character)->set_field_157(get_luck_materials_used());
+    character->set_power_materials_used(get_power_materials_used());
+    character->set_mind_materials_used(get_mind_materials_used());
+    character->set_evade_materials_used(get_evade_materials_used());
+    character->set_def_materials_used(get_def_materials_used());
+    character->set_luck_materials_used(get_luck_materials_used());
     TLobby::copy_data(&character->m_stats, get_stats());
     clamp_stats__10TObjPlayerFiPv(this, &character->m_stats, (saddr)get_class_stat_entry((u8 *)this));
     copy_player_visual_record(&character->m_disp_part2, name);
@@ -123,11 +123,11 @@ void TObjPlayer::export_state_to_record(TPlyCharData *record) {
     }
     record->m_inventory.m_hp_materials_used = get_hp_material_points();
     record->m_inventory.m_tp_materials_used = get_tp_materials_clamped();
-    ((TObjPlayer *)record)->set_flag_e7(get_field_374());
-    ((TObjPlayer *)record)->set_flag_103(get_field_374_state());
-    ((TObjPlayer *)record)->set_action_flags(get_inventory_state());
-    ((TObjPlayer *)record)->set_byte_13b(get_equip_flags());
-    ((TObjPlayer *)record)->set_field_157(get_luck_materials_used());
+    record->set_power_materials_used(get_power_materials_used());
+    record->set_mind_materials_used(get_mind_materials_used());
+    record->set_evade_materials_used(get_evade_materials_used());
+    record->set_def_materials_used(get_def_materials_used());
+    record->set_luck_materials_used(get_luck_materials_used());
     clamp_stats__10TObjPlayerFiPv(this, &record->m_stats, (saddr)get_class_stat_entry((u8 *)this));
     copy_player_visual_record(&record->m_disp_part2, name);
     TObjPlayer__sub_8013A748(&record->m_config, &action_palettes);
@@ -145,7 +145,7 @@ void TObjPlayer::export_state_to_record(TPlyCharData *record) {
     set_tp(tp);
     record->m_inventory.m_language = get_language();
     if (TObjPlayer__sub_802A1018() != 0) {
-        ((TObjPlayer *)record)->set_flag_40();
+        record->mark_game_files_modified();
     }
     apply_pending_action((saddr)record);
     copy_mag_level_to_record((u8 *)record);
