@@ -21,9 +21,7 @@ extern "C" {
 #endif
 void wake_load_thread(s32 chan, struct OSContext *context);
 BOOL send_modem_hangup(BOOL final);
-void fn_8042BF6C(s32 length);
 void fn_8042C124(s32 chan, struct OSContext *context);
-void fn_8042C2E4(s32 chan, struct OSContext *context);
 void parse_modem_command_response(void);
 s32 modem_wait_ok_or_error(void);
 s32 modem_init(const char *country);
