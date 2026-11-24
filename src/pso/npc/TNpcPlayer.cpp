@@ -1120,7 +1120,7 @@ TNpcPlayer::TNpcPlayer(u16 leader_id, u16 self_id, int template_id, TObject *par
     m_name = TNpcPlayer::name;
     chatter_id = 0x19;
     in_combat = 0;
-    pad_20 = 0;
+    m_20 = 0;
     move_target.x = 0.0f;
     move_target.y = 0.0f;
     move_target.z = 0.0f;
@@ -1130,9 +1130,9 @@ TNpcPlayer::TNpcPlayer(u16 leader_id, u16 self_id, int template_id, TObject *par
     goal.x = 0.0f;
     goal.y = 0.0f;
     goal.z = 0.0f;
-    pad_C4 = 0;
-    pad_C8 = 0;
-    pad_CC = 0;
+    m_c4 = 0;
+    m_c8 = 0;
+    m_cc = 0;
     template_index = template_id;
     ai_flags = 0;
     ai_state = 0;
@@ -1156,7 +1156,7 @@ void TNpcPlayer::AiParams::copy(AiParams *src) {
     base_level = src->base_level;
     technique_flags = src->technique_flags;
     enemy_lock_on_range = src->enemy_lock_on_range;
-    pad_0C = src->pad_0C;
+    unknown_0C = src->unknown_0C;
     max_distance_from_player = src->max_distance_from_player;
     enemy_unlock_range = src->enemy_unlock_range;
     block_range = src->block_range;
@@ -1172,7 +1172,7 @@ TNpcPlayer::TNpcPlayer(u16 leader_id, u16 self_id, int template_id, s32 escort, 
     m_name = TNpcPlayer::name;
     chatter_id = 0x19;
     in_combat = 0;
-    pad_20 = 0;
+    m_20 = 0;
     move_target.x = 0.0f;
     move_target.y = 0.0f;
     move_target.z = 0.0f;
@@ -1182,9 +1182,9 @@ TNpcPlayer::TNpcPlayer(u16 leader_id, u16 self_id, int template_id, s32 escort, 
     goal.x = 0.0f;
     goal.y = 0.0f;
     goal.z = 0.0f;
-    pad_C4 = 0;
-    pad_C8 = 0;
-    pad_CC = 0;
+    m_c4 = 0;
+    m_c8 = 0;
+    m_cc = 0;
     template_index = template_id;
     ai_flags = 0;
     ai_state = 0;
