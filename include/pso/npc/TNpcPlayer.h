@@ -8,21 +8,45 @@
 
 class TObjPlayer;
 
-// One entry of Unk_8014F844's sorted list of nearby targets.
-struct Unk_8014F844Entry {
+// One entry of NpcPlayerView's sorted list of nearby targets.
+struct NpcPlayerViewTarget {
+    void copy(NpcPlayerViewTarget *src);
+
     u32 entity_id;
     s32 collider;     // collision body index
     f32 distance_sq;  // squared horizontal distance
 };
 
-// The 0x108-byte record TNpcPlayer allocates twice (m_74, m_78).
-struct Unk_8014F844 {
-    Unk_8014F844(s32 id);
+// What a partner NPC tracks about one player: its own (self_view) or the one it follows
+// (leader_view): the enemies in range, its condition flags and an obstacle probe.
+struct NpcPlayerView {
+    NpcPlayerView(s32 id);
+    ~NpcPlayerView();
+    s32 is_player_lost();
+    s32 update_hp_change();
+    s32 update_conditions();
+    s32 can_recover(s32 kind, s32 allow_item);
+    s32 scan_targets(f32 range);
+    s32 check_moved();
+    s32 scan_nearby_enemies(Vec *pos, f32 range);
+    void sort_targets(NpcPlayerViewTarget *entries, s32 lo, s32 hi);
+    s32 partition_targets(NpcPlayerViewTarget *a, int lo, int hi);
+    s32 probe_obstacles();
+    s32 get_target_collider();
+    u32 get_target_id();
+    u16 get_client_id();
+    u32 get_prev_target_id();
+    u32 get_condition();
+    void copy_target(NpcPlayerViewTarget *src, NpcPlayerViewTarget *dst);
+    u32 get_status();
+    void clear_flags();
+    NpcPlayerView *target_list();
+    void set_target(u32 id, s32 collider);
 
     s32 target_count;
-    Unk_8014F844Entry targets[10];  // nearest first (quick_sort)
-    s32 target_id;        // entity the player attacks
-    s32 prev_target_id;
+    NpcPlayerViewTarget targets[10];  // nearest first (sort_targets)
+    u32 target_id;        // entity the player attacks
+    u32 prev_target_id;
     s32 target_collider;  // collision body index of target_id
     s16 last_hp;
     u16 client_id;        // client id of the player it watches
@@ -36,7 +60,7 @@ struct Unk_8014F844 {
     CollisionBody obstacle_body;  // body of the obstacle probe hit
     s32 obstacle_angle;
 };
-LAYOUT_ASSERT(Unk_8014F844_size, sizeof(Unk_8014F844) == 0x108);
+LAYOUT_ASSERT(NpcPlayerView_size, sizeof(NpcPlayerView) == 0x108);
 
 // Eleven per-action counters the partner AI steps and tests.
 struct PartnerCounters {
@@ -93,8 +117,8 @@ struct TNpcPlayer : public TObject {
     f32 leader_distance_sq;
     PartnerCounters partner_counters;
     u8 _pad72[0x2];
-    Unk_8014F844 *leader_view;  // the player the partner follows
-    Unk_8014F844 *self_view;    // the partner's own player
+    NpcPlayerView *leader_view;  // the player the partner follows
+    NpcPlayerView *self_view;    // the partner's own player
     u32 ai_state;
     u32 ai_flags;
     s32 escort_leader;
@@ -118,11 +142,8 @@ struct TNpcPlayer : public TObject {
     void handle_action(s32 arg1);
     void request_chatter(u32 arg1);
     static const char *name;
-    static void quick_sort(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static bool is_small_obstacle(f32 size);
     static bool is_hp_low(f32 hp, f32 max_hp);
-    void *dt(s16 arg1);
-    s32 try_attack(s32 arg1, s32 arg2);
     s32 check_movement_progress();
     void init_follow_target();
     void update_condition_flags();
@@ -136,10 +157,6 @@ struct TNpcPlayer : public TObject {
     void decide_action();
     static TPlyCharData *build_npc_player_record(s32 arg0);
     static void ensure_rock_singleton();
-    s32 get_npc_state();
-    s32 get_condition();
-    s32 get_action_state();
-    void reset_fields_8c();
     void update();
     void update_players();
     void update_lobby();

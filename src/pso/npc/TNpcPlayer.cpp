@@ -84,27 +84,16 @@ void TNpcPlayer__sub_8014DC3C(void *, s32);
 void deliver_partner_chatter(TNpcPlayer *self);
 void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out);
 s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2);
-s32 partner_probe_obstacles(Unk_8014F844 *view);
-s32 partition_sort_entries__10TNpcPlayerFiPvii(s32 self, Unk_8014F844Entry *a, s32 lo, s32 hi);
-s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, u16 id, f32 range);
-s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 range);
+s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, void *pos, u16 id, f32 range);
 bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 id);
 s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1);
-s32 check_and_set_reached__10TNpcPlayerFPv(void *arg0);
 s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2);
 void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self);
 void set_technique_seed_level(Obj_801528A8 *self, s16 i, u8 v);
 void reset_partner_counter(saddr arg0, s32 arg1);
 void increment_partner_counter(saddr arg0, s32 arg1);
-s32 TNpcPlayer__sub_801528DC(void* p);
-u16 get_npc_type__10TNpcPlayerFPv(void* p);
 int get_partner_counter(saddr arg0, s32 arg1);
 s32 npc_counter_reset_if_reached(saddr arg0, s32 arg1);
-s32 TNpcPlayer__sub_80152978(void* p);
-void copy_transform_second__10TNpcPlayerFPvPvPv(void* p, void* a1, void* a2);
-void copy_transform__10TNpcPlayerFPvPv(void* p, void* q);
-void TNpcPlayer__sub_80152A30(void);
-void TNpcPlayer__sub_80152A34(u8 *arg0, s32 arg1, s32 arg2);
 void init_6x45_attack_packet(u8 *arg0);
 void init_6x44_attack_packet(u8 *arg0);
 void init_6x43_attack_packet(u8 *arg0);
@@ -145,10 +134,6 @@ __declspec(section ".ctors") static void *const npc_player_global_initializer = 
 }
 s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out);
 s32 partner_find_wall_segment(saddr arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4);
-s32 refresh_npc_view_actor_lost(void *arg0);
-s32 partner_view_update_hp_change(void *arg0);
-s32 partner_view_update_conditions(u8 *arg0);
-s32 partner_view_check_moved(u8 *arg0);
 void partner_observe_surroundings(TNpcPlayer *npc_player);
 int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
 void set_partner_counter(saddr arg0, s32 arg1, s16 arg2);
@@ -1009,13 +994,13 @@ void PartnerCounters::clear() {
 
 PartnerCounters::PartnerCounters() { clear(); }
 
-void TNpcPlayer__sub_80152A34(u8 *arg0, s32 arg1, s32 arg2) {
-    *(s32 *)((s8 *)arg0 + 0x80) = (s32) *(s32 *)((s8 *)arg0 + 0x7C);
-    *(s32 *)((s8 *)arg0 + 0x7C) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x84) = arg2;
+void NpcPlayerView::set_target(u32 id, s32 collider) {
+    prev_target_id = target_id;
+    target_id = id;
+    target_collider = collider;
 }
 
-void TNpcPlayer__sub_80152A30(void) {  }
+NpcPlayerView *NpcPlayerView::target_list() { return this; }
 
 s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2) {
     if (((s32 (*)(void))is_partner_counter_reached)() != 0) {
@@ -1025,17 +1010,24 @@ s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2) {
     return 0;
 }
 
-void TNpcPlayer::reset_fields_8c() { *(s32*)((char*)this + 0x8c) = 0; *(s32*)((char*)this + 0x90) = 0; }
+void NpcPlayerView::clear_flags() {
+    status = 0;
+    condition = 0;
+}
 
-s32 TNpcPlayer::get_action_state() { return *(s32*)((char*)this + 0x8c); }
+u32 NpcPlayerView::get_status() { return status; }
 
-void copy_transform__10TNpcPlayerFPvPv(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); *(f32*)((char*)p + 0x8) = *(f32*)((char*)q + 0x8); }
+void NpcPlayerViewTarget::copy(NpcPlayerViewTarget *src) {
+    entity_id = src->entity_id;
+    collider = src->collider;
+    distance_sq = src->distance_sq;
+}
 
-void copy_transform_second__10TNpcPlayerFPvPvPv(void* p, void* a1, void* a2) { ((int (*)(void*))copy_transform__10TNpcPlayerFPvPv)(a2); }
+void NpcPlayerView::copy_target(NpcPlayerViewTarget *src, NpcPlayerViewTarget *dst) { dst->copy(src); }
 
-s32 TNpcPlayer::get_condition() { return *(s32*)((char*)this + 0x90); }
+u32 NpcPlayerView::get_condition() { return condition; }
 
-s32 TNpcPlayer__sub_80152978(void* p) { return *(s32*)((char*)p + 0x80); }
+u32 NpcPlayerView::get_prev_target_id() { return prev_target_id; }
 
 void set_partner_counter(saddr arg0, s32 arg1, s16 arg2) {
     *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0) = arg2;
@@ -1057,11 +1049,11 @@ int get_partner_counter(saddr arg0, s32 arg1) {
     return *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0);
 }
 
-u16 get_npc_type__10TNpcPlayerFPv(void* p) { return *(u16*)((char*)p + 0x8a); }
+u16 NpcPlayerView::get_client_id() { return client_id; }
 
-s32 TNpcPlayer::get_npc_state() { return *(s32*)((char*)this + 0x7c); }
+u32 NpcPlayerView::get_target_id() { return target_id; }
 
-s32 TNpcPlayer__sub_801528DC(void* p) { return *(s32*)((char*)p + 0x84); }
+s32 NpcPlayerView::get_target_collider() { return target_collider; }
 
 void increment_partner_counter(saddr arg0, s32 arg1) {
     saddr temp_r5;
@@ -1217,8 +1209,8 @@ TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, TObject *parent) : TObject(parent
     stuck_frames = 0;
     attack_delay = 0;
     still_frames = 0;
-    leader_view = new Unk_8014F844(a);
-    self_view = new Unk_8014F844(b);
+    leader_view = new NpcPlayerView(a);
+    self_view = new NpcPlayerView(b);
     ai_params.copy(&npc_player_ai_templates[template_index]);
     if (self_view != 0 && self_view->player != 0) {
         VecCopy(&goal, &self_view->player->position);
@@ -1269,8 +1261,8 @@ TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, s32 arg4, TObject *parent) : TObj
     stuck_frames = 0;
     attack_delay = 0;
     still_frames = 0;
-    leader_view = new Unk_8014F844(a);
-    self_view = new Unk_8014F844(b);
+    leader_view = new NpcPlayerView(a);
+    self_view = new NpcPlayerView(b);
     ai_params.copy(&npc_player_ai_templates[template_index]);
     if (self_view != 0 && self_view->player != 0) {
         VecCopy(&goal, &self_view->player->position);
@@ -1281,35 +1273,35 @@ TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, s32 arg4, TObject *parent) : TObj
 
 TNpcPlayer::~TNpcPlayer() {
     uaddr player;
-    Unk_8014F844 *view;
-    Unk_8014F844 *partner;
+    NpcPlayerView *view;
+    NpcPlayerView *partner;
     view = leader_view;
     if (view != NULL) {
-        ((TNpcPlayer *)view)->dt(1);
+        delete view;
         leader_view = NULL;
     }
     partner = self_view;
     if (partner != NULL) {
-        player = (uaddr)get_player_by_client_id(get_npc_type__10TNpcPlayerFPv(partner));
+        player = (uaddr)get_player_by_client_id(partner->get_client_id());
         if (player != 0U) {
             TObjPlayer::send_item_pickup_request((saddr)player);
         }
-        ((TNpcPlayer *)self_view)->dt(1);
+        delete self_view;
         self_view = NULL;
     }
 }
 
 void TNpcPlayer::run_task() {
-    Unk_8014F844 *owner;
+    NpcPlayerView *owner;
     owner = leader_view;
     if (owner == NULL || self_view == NULL) {
         return;
     }
-    if (refresh_npc_view_actor_lost(owner) != 0) {
+    if (owner->is_player_lost() != 0) {
         queue_destruction();
         return;
     }
-    if (refresh_npc_view_actor_lost(self_view) != 0) {
+    if (self_view->is_player_lost() != 0) {
         queue_destruction();
         return;
     }
@@ -1351,7 +1343,7 @@ void TNpcPlayer::decide_action() {
     }
     switch (in_combat) {
     case 0:
-        if (((TNpcPlayer *)self_view)->get_action_state() & 2) {
+        if (self_view->get_status() & 2) {
             in_combat = 1;
             change_ai_state(0);
             return;
@@ -1453,7 +1445,7 @@ void TNpcPlayer::decide_action() {
             }
             change_ai_state(1);
         }
-        if (!(((TNpcPlayer *)self_view)->get_action_state() & 2)) {
+        if (!(self_view->get_status() & 2)) {
             in_combat = 0;
         }
         return;
@@ -1480,17 +1472,17 @@ s32 TNpcPlayer::update_follow_target() {
 }
 
 s32 TNpcPlayer::check_return_to_leader() {
-    Unk_8014F844 *t;
+    NpcPlayerView *t;
     u8 *o;
     f32 r2;
 
-    t = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(self_view);
+    t = self_view->target_list();
     r2 = ai_params.enemy_unlock_range * ai_params.enemy_unlock_range;
-    if (((TNpcPlayer *)leader_view)->get_action_state() & 2) {
+    if (leader_view->get_status() & 2) {
         ai_flags &= ~0x100;
         return 0;
     }
-    if (((TNpcPlayer *)self_view)->get_condition() & 8) {
+    if (self_view->get_condition() & 8) {
         ai_flags |= 0x100;
         return 1;
     }
@@ -1519,14 +1511,14 @@ s32 TNpcPlayer::check_return_to_leader() {
 
 s32 TNpcPlayer::choose_attack_target() {
     s32 i;
-    Unk_8014F844 *view;
+    NpcPlayerView *view;
     TObjBase *tgt;
-    view = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(self_view);
+    view = self_view->target_list();
     if (view->target_count >= 3) {
         ai_flags |= 0x2000;
         ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 6);
         if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 6, 100) != 0) {
-            if (((TNpcPlayer *)self_view)->get_condition() & 8) {
+            if (self_view->get_condition() & 8) {
                 request_chatter(1);
             } else {
                 request_chatter(0);
@@ -1539,7 +1531,7 @@ s32 TNpcPlayer::choose_attack_target() {
         for (i = 0; i < view->target_count; i++) {
             if (((s32 (*)(void *, u32))is_target_line_clear__10TNpcPlayerFPvUs)(self_view, view->targets[i].entity_id) != 0) {
                 tgt = (TObjBase *)find_active_entity_by_id(view->targets[0].entity_id);
-                ((void (*)(void *, u32, s32))TNpcPlayer__sub_80152A34)(self_view, view->targets[i].entity_id, view->targets[i].collider);
+                self_view->set_target(view->targets[i].entity_id, view->targets[i].collider);
                 goal.x = tgt->position.x;
                 goal.y = self_view->player->body_center.y;
                 goal.z = tgt->position.z;
@@ -1596,15 +1588,15 @@ s32 TNpcPlayer::calc_follow_goal() {
 s32 TNpcPlayer::select_recovery_action(s32 arg1) {
     TNpcPlayer * self = this;
     u8 flags = 0;
-    Unk_8014F844 *tgt;
+    NpcPlayerView *tgt;
     TObjBase *ent;
-    if (((TNpcPlayer *)self->self_view)->get_action_state() & 4) {
+    if (self->self_view->get_status() & 4) {
         flags |= 1;
     }
-    if (arg1 != 0 && (((TNpcPlayer *)self->leader_view)->get_action_state() & 4) && self->escort_leader == 0) {
+    if (arg1 != 0 && (self->leader_view->get_status() & 4) && self->escort_leader == 0) {
         flags |= 2;
     }
-    tgt = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(self->self_view);
+    tgt = self->self_view->target_list();
     if (arg1 != 0 && tgt->target_count != 0 && (flags & 2)) {
         ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 5);
         if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 5, 0x1E) != 0) {
@@ -1621,9 +1613,9 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
     }
     if (flags == 3) {
         self->ai_flags |= 0x200;
-        if (((TNpcPlayer *)self->self_view)->get_condition() & 2) {
-            if (((TNpcPlayer *)self->self_view)->try_attack(2, 1) != 0) {
-                if (((TNpcPlayer *)self->self_view)->get_condition() & 0x20) {
+        if (self->self_view->get_condition() & 2) {
+            if (self->self_view->can_recover(2, 1) != 0) {
+                if (self->self_view->get_condition() & 0x20) {
                     self->recovery_action = 2;
                     return 1;
                 }
@@ -1632,9 +1624,9 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
                     return 1;
                 }
             }
-        } else if (((TNpcPlayer *)self->self_view)->get_condition() & 8) {
-            if (((TNpcPlayer *)self->self_view)->try_attack(0, 1) != 0) {
-                if (((TNpcPlayer *)self->self_view)->get_condition() & 0x20) {
+        } else if (self->self_view->get_condition() & 8) {
+            if (self->self_view->can_recover(0, 1) != 0) {
+                if (self->self_view->get_condition() & 0x20) {
                     self->recovery_action = 0;
                     return 1;
                 }
@@ -1649,8 +1641,8 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
                 ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 8);
                 ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 8, 0x5DC);
             }
-        } else if (((TNpcPlayer *)self->self_view)->get_condition() & 0x10) {
-            if (((TNpcPlayer *)self->self_view)->try_attack(1, 1) != 0) {
+        } else if (self->self_view->get_condition() & 0x10) {
+            if (self->self_view->can_recover(1, 1) != 0) {
                 self->recovery_action = 1;
                 return 1;
             }
@@ -1659,14 +1651,14 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
         }
     }
     if (flags == 2) {
-        if (((TNpcPlayer *)self->self_view)->get_action_state() & 2) {
+        if (self->self_view->get_status() & 2) {
             return 0;
         }
         VecCopy(&self->goal, &self->leader_view->player->body_center);
         self->ai_flags |= 0x20;
-        if (((TNpcPlayer *)self->leader_view)->get_condition() & 2) {
-            if (((TNpcPlayer *)self->self_view)->try_attack(2, 0) != 0) {
-                if (((TNpcPlayer *)self->self_view)->get_condition() & 0x20) {
+        if (self->leader_view->get_condition() & 2) {
+            if (self->self_view->can_recover(2, 0) != 0) {
+                if (self->self_view->get_condition() & 0x20) {
                     self->recovery_action = 2;
                     return 1;
                 }
@@ -1675,9 +1667,9 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
                     return 1;
                 }
             }
-        } else if (((TNpcPlayer *)self->leader_view)->get_condition() & 0x800) {
-            if (((TNpcPlayer *)self->self_view)->try_attack(0, 0) != 0) {
-                if (((TNpcPlayer *)self->self_view)->get_condition() & 0x20) {
+        } else if (self->leader_view->get_condition() & 0x800) {
+            if (self->self_view->can_recover(0, 0) != 0) {
+                if (self->self_view->get_condition() & 0x20) {
                     self->recovery_action = 0;
                     return 1;
                 }
@@ -1690,9 +1682,9 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
     }
     if (flags == 1) {
         self->ai_flags |= 0x200;
-        if (((TNpcPlayer *)self->self_view)->get_condition() & 2) {
-            if (((TNpcPlayer *)self->self_view)->try_attack(2, 1) != 0) {
-                if (((TNpcPlayer *)self->self_view)->get_condition() & 0x20) {
+        if (self->self_view->get_condition() & 2) {
+            if (self->self_view->can_recover(2, 1) != 0) {
+                if (self->self_view->get_condition() & 0x20) {
                     self->recovery_action = 2;
                     return 1;
                 }
@@ -1701,9 +1693,9 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
                     return 1;
                 }
             }
-        } else if (((TNpcPlayer *)self->self_view)->get_condition() & 8) {
-            if (((TNpcPlayer *)self->self_view)->try_attack(0, 1) != 0) {
-                if (((TNpcPlayer *)self->self_view)->get_condition() & 0x20) {
+        } else if (self->self_view->get_condition() & 8) {
+            if (self->self_view->can_recover(0, 1) != 0) {
+                if (self->self_view->get_condition() & 0x20) {
                     self->recovery_action = 0;
                     return 1;
                 }
@@ -1718,8 +1710,8 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
                 ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 8);
                 ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 8, 0x5DC);
             }
-        } else if (((TNpcPlayer *)self->self_view)->get_condition() & 0x10) {
-            if (((TNpcPlayer *)self->self_view)->try_attack(1, 1) != 0) {
+        } else if (self->self_view->get_condition() & 0x10) {
+            if (self->self_view->can_recover(1, 1) != 0) {
                 self->recovery_action = 1;
                 return 1;
             }
@@ -1801,7 +1793,7 @@ void TNpcPlayer::send_walk_request() {
     Msg_80150E44 m;
     init_6x40_walk_packet(&m);
     if (self_view != 0) {
-        m.type = get_npc_type__10TNpcPlayerFPv(self_view);
+        m.type = self_view->get_client_id();
         m.x = move_target.x;
         m.z = move_target.z;
         m.flags = 0;
@@ -1816,7 +1808,7 @@ void TNpcPlayer::send_run_request() {
     Msg_80150DE8 m;
     ((TNpcPlayer *)(&m))->reset_move_state();
     if (self_view != 0) {
-        m.type = get_npc_type__10TNpcPlayerFPv(self_view);
+        m.type = self_view->get_client_id();
         m.x = move_target.x;
         m.z = move_target.z;
         ((TNpcPlayer *)(&m))->reset_model();
@@ -1832,13 +1824,13 @@ void TNpcPlayer::update_combat_action() {
     f32 diff;
     f32 mx;
 
-    if (((u32 (*)(void *))TNpcPlayer__sub_80152978)(self_view) == 0xFFFF) {
+    if (self_view->get_prev_target_id() == 0xFFFF) {
         return;
     }
     if (self_view->player->can_perform_physical_action() == 0) {
         return;
     }
-    if (!(ai_params.technique_flags & 0x40) && !(((TNpcPlayer *)self_view)->get_condition() & 0x10)) {
+    if (!(ai_params.technique_flags & 0x40) && !(self_view->get_condition() & 0x10)) {
         fl = ai_params.technique_flags;
         if (fl & 4) {
             tier = 0;
@@ -1849,7 +1841,7 @@ void TNpcPlayer::update_combat_action() {
         } else {
             tier = 0;
         }
-        if ((ai_flags & 0x2000) && (((TNpcPlayer *)self_view)->get_condition() & 0x1000)) {
+        if ((ai_flags & 0x2000) && (self_view->get_condition() & 0x1000)) {
             alt = 1;
         } else {
             alt = 0;
@@ -1890,7 +1882,7 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
         request_chatter(2);
     }
     if (TObjPlayer::try_camera_action((saddr)actor, (s32)kind) != 0) {
-        cmd.header.client_id = get_npc_type__10TNpcPlayerFPv(self_view);
+        cmd.header.client_id = self_view->get_client_id();
         cmd.params.technique_number = kind;
         cmd.params.target_count = 1;
         if (kind == 15 || kind == 16) {
@@ -1898,20 +1890,20 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
                 ai_flags |= 0x10000;
             }
             cmd.params.level = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, ((s32 (*)(void *))get_npc_type__10TNpcPlayerFPv)(leader_view));
+            ((void (*)(void *, s32))set_type__10TNpcPlayerFPvs)(cmd.targets, leader_view->get_client_id());
             set_state__10TNpcPlayerFPvs(cmd.targets, 0);
         } else {
             cmd.params.level = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, ((TNpcPlayer *)self_view)->get_npc_state());
-            set_state__10TNpcPlayerFPvs(cmd.targets, TNpcPlayer__sub_801528DC(self_view));
+            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, self_view->get_target_id());
+            set_state__10TNpcPlayerFPvs(cmd.targets, self_view->get_target_collider());
         }
         ((TNpcPlayer *)(&cmd))->finalize_and_send_packet();
     }
 }
 
 void TNpcPlayer::init_state() {
-    ((TNpcPlayer *)leader_view)->reset_fields_8c();
-    ((TNpcPlayer *)self_view)->reset_fields_8c();
+    leader_view->clear_flags();
+    self_view->clear_flags();
     switch (init_step) {
     case 0:
         init_follow_target();
@@ -1922,9 +1914,9 @@ void TNpcPlayer::init_state() {
 }
 
 void TNpcPlayer::update_condition_flags() {
-    ((s32 (*)(s32))partner_view_check_moved)((saddr)leader_view);
-    ((s32 (*)(s32))partner_view_update_conditions)((saddr)leader_view);
-    if (((TNpcPlayer *)leader_view)->get_condition() & 2) {
+    leader_view->check_moved();
+    leader_view->update_conditions();
+    if (leader_view->get_condition() & 2) {
         if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 0xA) == 0) {
             request_chatter(9);
         }
@@ -1932,8 +1924,8 @@ void TNpcPlayer::update_condition_flags() {
     } else {
         ((s32 (*)(void *, s32))reset_partner_counter)(partner_counters.count, 0xA);
     }
-    if (((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)leader_view, 30.0f) != 0) {
-        if (((TNpcPlayer *)leader_view)->get_condition() & 8) {
+    if (leader_view->scan_targets(30.0f) != 0) {
+        if (leader_view->get_condition() & 8) {
             if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 9) == 0) {
                 request_chatter(0xC);
             }
@@ -1952,25 +1944,25 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
     s32 temp_r3_2;
     TObjPlayer *obj_player;
     TObjPlayer *temp_r3;
-    Unk_8014F844 *temp_r3_3;
+    NpcPlayerView *temp_r3_3;
     obj_player = npc_player->leader_view->player;
     npc_player->leader_distance_sq = horizontal_distance_squared(&obj_player->position, &npc_player->self_view->player->position);
     if (npc_player->escort_leader != 0) {
-        ((s32 (*)(void *, s32, f32))try_update_target_flag__10TNpcPlayerFPvi)(npc_player->self_view, get_npc_type__10TNpcPlayerFPv(npc_player->leader_view), npc_player->ai_params.enemy_lock_on_range);
+        ((s32 (*)(void *, s32, f32))try_update_target_flag__10TNpcPlayerFPvi)(npc_player->self_view, npc_player->leader_view->get_client_id(), npc_player->ai_params.enemy_lock_on_range);
     } else {
-        ((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)npc_player->self_view, npc_player->ai_params.enemy_lock_on_range);
+        npc_player->self_view->scan_targets(npc_player->ai_params.enemy_lock_on_range);
     }
-    ((s32 (*)(s32))partner_view_update_conditions)((saddr)npc_player->self_view);
+    npc_player->self_view->update_conditions();
     x = npc_player->goal.x;
     temp_r3 = npc_player->self_view->player;
     npc_player->self_view->goal_angle = (s32)(10430.38043493439 * atan2_float(x - temp_r3->position.x, npc_player->goal.z - temp_r3->position.z));
-    ((s32 (*)(void *))partner_probe_obstacles)(npc_player->self_view);
-    if (partner_view_update_hp_change(npc_player->self_view) != 0) {
-        if (((TNpcPlayer *)npc_player->self_view)->get_condition() & 0x40) {
+    npc_player->self_view->probe_obstacles();
+    if (npc_player->self_view->update_hp_change() != 0) {
+        if (npc_player->self_view->get_condition() & 0x40) {
             npc_player->request_chatter(0xE);
-        } else if (((TNpcPlayer *)npc_player->self_view)->get_condition() & 0x80) {
+        } else if (npc_player->self_view->get_condition() & 0x80) {
             npc_player->request_chatter(0xF);
-        } else if (((TNpcPlayer *)npc_player->self_view)->get_condition() & 0x200) {
+        } else if (npc_player->self_view->get_condition() & 0x200) {
             if (npc_player->ai_state != 8U) {
                 temp_r3_2 = npc_player->ai_flags;
                 if (temp_r3_2 & 0x10000) {
@@ -1983,9 +1975,9 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
             npc_player->request_chatter(0x10);
         }
     }
-    if (((s32 (*)(s32))partner_view_check_moved)((saddr)npc_player->self_view) == 0) {
+    if (npc_player->self_view->check_moved() == 0) {
         if (npc_player->ai_state == 1U) {
-            if (((TNpcPlayer *)npc_player->self_view)->get_action_state() & 0x80) {
+            if (npc_player->self_view->get_status() & 0x80) {
                 npc_player->stuck_frames = 0;
                 npc_player->still_frames = 0;
                 return;
@@ -2109,7 +2101,7 @@ void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
         }
         return;
     }
-    if (((TNpcPlayer *)self->self_view)->get_action_state() & 0x20) {
+    if (self->self_view->get_status() & 0x20) {
         if (self->route_around_object((Vec *)(&route)) != 0 && self->stuck_frames < 30) {
             VecCopy(&self->steer_point, &route);
         } else {
@@ -2118,12 +2110,12 @@ void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
             }
             VecCopy(&self->steer_point, &midpoint);
         }
-    } else if (((TNpcPlayer *)self->self_view)->get_action_state() & 0x80) {
+    } else if (self->self_view->get_status() & 0x80) {
         VecCopy(&self->steer_point, &midpoint);
     } else if (self->stuck_frames >= 15 && self->stuck_frames < 30) {
         Vec d4;
         Vec detour;
-        Unk_8014F844 *view = self->self_view;
+        NpcPlayerView *view = self->self_view;
         actor = view->player;
         d4.x = actor->position.x - view->last_position.x;
         d4.y = actor->position.y - view->last_position.y;
@@ -2204,14 +2196,13 @@ s32 TNpcPlayer::check_movement_progress() {
 }
 #pragma pop
 
-s32 partner_view_check_moved(u8 *arg0) {
-    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
+s32 NpcPlayerView::check_moved() {
     Vec d;
     f32 temp_f1;
     f32 *prev_position_ptr;
     f32 *position_ptr;
-    prev_position_ptr = (f32 *)view->player->get_prev_position_ptr();
-    position_ptr = (f32 *)view->player->get_position_ptr();
+    prev_position_ptr = (f32 *)player->get_prev_position_ptr();
+    position_ptr = (f32 *)player->get_position_ptr();
     if ((prev_position_ptr == NULL) || (position_ptr == NULL)) {
         return 0;
     }
@@ -2220,40 +2211,40 @@ s32 partner_view_check_moved(u8 *arg0) {
     temp_f1 = position_ptr[2];
     d.z = temp_f1 - prev_position_ptr[2];
     if (((f32 (*)(void *, f32))vector_length)(&d, temp_f1) > 0.4f) {
-        view->status = view->status | 1;
+        status = status | 1;
         return 1;
     }
     return 0;
 }
 
-s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
-    switch (arg1) {
+s32 NpcPlayerView::can_recover(s32 kind, s32 allow_item) {
+    switch (kind) {
     case 0:
-        if ((arg2 != 0) && (((Unk_8014F844 *)this)->player->find_inventory_item_id(3, 0) != -1)) {
-            ((Unk_8014F844 *)this)->condition = ((Unk_8014F844 *)this)->condition | 0x20;
+        if ((allow_item != 0) && (player->find_inventory_item_id(3, 0) != -1)) {
+            condition = condition | 0x20;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->player, 0xF) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)player, 0xF) != 0) {
             return 1;
         }
         break;
     case 1:
-        if (((Unk_8014F844 *)this)->player->find_inventory_item_id(3, 1) != -1) {
-            ((Unk_8014F844 *)this)->condition = ((Unk_8014F844 *)this)->condition | 0x20;
+        if (player->find_inventory_item_id(3, 1) != -1) {
+            condition = condition | 0x20;
             return 1;
         }
         break;
     case 2:
-        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->player, 0x10) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)player, 0x10) != 0) {
             return 1;
         }
         break;
     case 3:
-        if (((Unk_8014F844 *)this)->player->find_inventory_item_id(3, 6) != -1) {
-            ((Unk_8014F844 *)this)->condition = ((Unk_8014F844 *)this)->condition | 0x20;
+        if (player->find_inventory_item_id(3, 6) != -1) {
+            condition = condition | 0x20;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->player, 0x11) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)player, 0x11) != 0) {
             return 1;
         }
         break;
@@ -2261,17 +2252,16 @@ s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
     return 0;
 }
 
-s32 check_and_set_reached__10TNpcPlayerFPv(void *arg0) {
-    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
-    if (((s32 (*)(void *, void *))scan_nearby_enemies__10TNpcPlayerFPvPvf)(view, &view->player->position) != 0) {
-        view->status = view->status | 2;
+s32 NpcPlayerView::scan_targets(f32 range) {
+    if (scan_nearby_enemies(&player->position, range) != 0) {
+        status = status | 2;
         return 1;
     }
     return 0;
 }
 
 s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1) {
-    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
+    NpcPlayerView *view = (NpcPlayerView *)arg0;
     TObjPlayer *obj_player;
 
     obj_player = view->player;
@@ -2282,8 +2272,7 @@ s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1) {
     return 0;
 }
 
-s32 partner_view_update_conditions(u8 *arg0) {
-    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
+s32 NpcPlayerView::update_conditions() {
     f32 temp_f1;
     f32 temp_f2;
     f32 actor_hp;
@@ -2291,68 +2280,68 @@ s32 partner_view_update_conditions(u8 *arg0) {
     s32 actorFlags;
     s32 var_r31;
     var_r31 = 0;
-    actor_hp = (f32)((TObjChara *)view->player)->get_actor_hp();
-    temp_f1 = actor_hp / (f32)((TObjChara *)view->player)->get_hpmax();
-    if (view->status & 2) {
+    actor_hp = (f32)((TObjChara *)player)->get_actor_hp();
+    temp_f1 = actor_hp / (f32)((TObjChara *)player)->get_hpmax();
+    if (status & 2) {
         if (temp_f1 <= 0.25f) {
             var_r31 = 1;
-            view->condition = view->condition | 8;
-            view->status = view->status | 4;
+            condition = condition | 8;
+            status = status | 4;
         }
         if (temp_f1 <= 0.75f) {
             var_r31 = 1;
-            view->condition = view->condition | 0x1000;
+            condition = condition | 0x1000;
         }
     } else if (temp_f1 <= 0.75f) {
         var_r31 = 1;
-        view->condition = view->condition | 8;
-        view->status = view->status | 4;
+        condition = condition | 8;
+        status = status | 4;
     }
     if (temp_f1 <= 0.1f) {
         var_r31 = 1;
-        view->condition = view->condition | 0x800;
-        view->status = view->status | 4;
+        condition = condition | 0x800;
+        status = status | 4;
     }
-    actorFlags = view->player->actorFlags;
+    actorFlags = player->actorFlags;
     if ((actorFlags & 1) || (actorFlags & 2) || (actorFlags & 0x10)) {
         var_r31 = 1;
-        view->condition = view->condition | 2;
-        view->status = view->status | 4;
+        condition = condition | 2;
+        status = status | 4;
     }
-    actor_tp = (f32)get_actor_tp((u8 *)view->player);
-    temp_f2 = (f32)obj_getS16_2BA((u8 *)view->player);
+    actor_tp = (f32)get_actor_tp((u8 *)player);
+    temp_f2 = (f32)obj_getS16_2BA((u8 *)player);
     if (((actor_tp / temp_f2) <= 0.2f) && (0.0f != temp_f2)) {
-        view->status = view->status | 4;
-        view->condition = view->condition | 0x10;
+        status = status | 4;
+        condition = condition | 0x10;
     }
     return var_r31;
 }
 
-s32 partner_view_update_hp_change(void *arg0) {
+s32 NpcPlayerView::update_hp_change() {
     s16 temp_r0;
     s16 actor_hp;
     s16 hpmax;
     s16 temp_r4;
-    actor_hp = ((TObjChara *)((Unk_8014F844 *)arg0)->player)->get_actor_hp();
-    hpmax = ((TObjChara *)((Unk_8014F844 *)arg0)->player)->get_hpmax();
-    if (((Unk_8014F844 *)arg0)->last_hp <= 0) {
-        ((Unk_8014F844 *)arg0)->last_hp = actor_hp;
+    actor_hp = ((TObjChara *)player)->get_actor_hp();
+    hpmax = ((TObjChara *)player)->get_hpmax();
+    if (last_hp <= 0) {
+        last_hp = actor_hp;
         return 0;
     }
-    temp_r4 = ((Unk_8014F844 *)arg0)->last_hp;
+    temp_r4 = last_hp;
     temp_r0 = (s16)(temp_r4 - actor_hp);
     if (temp_r4 >= (s32)(actor_hp - 1)) {
         if ((f32)temp_r0 > (0.3f * (f32)hpmax)) {
-            ((Unk_8014F844 *)arg0)->condition = ((Unk_8014F844 *)arg0)->condition | 0x40;
+            condition = condition | 0x40;
         } else if ((f32)temp_r0 > (0.2f * (f32)hpmax)) {
-            ((Unk_8014F844 *)arg0)->condition = ((Unk_8014F844 *)arg0)->condition | 0x80;
+            condition = condition | 0x80;
         } else if ((f32)temp_r0 > (0.01f * (f32)hpmax)) {
-            ((Unk_8014F844 *)arg0)->condition = ((Unk_8014F844 *)arg0)->condition | 0x100;
+            condition = condition | 0x100;
         }
     } else {
-        ((Unk_8014F844 *)arg0)->condition = ((Unk_8014F844 *)arg0)->condition | 0x200;
+        condition = condition | 0x200;
     }
-    ((Unk_8014F844 *)arg0)->last_hp = actor_hp;
+    last_hp = actor_hp;
     return temp_r0 ? 1 : 0;
 }
 
@@ -2364,7 +2353,7 @@ bool TNpcPlayer::is_hp_low(f32 hp, f32 max_hp) {
     return hp <= 0.2f * max_hp;
 }
 
-Unk_8014F844::Unk_8014F844(s32 id) {
+NpcPlayerView::NpcPlayerView(s32 id) {
     s32 i;
     player = (TObjPlayer *)find_entity_by_id(id);
     last_position.x = 0.0f;
@@ -2398,11 +2387,10 @@ Unk_8014F844::Unk_8014F844(s32 id) {
 
 #pragma push
 #pragma fp_contract on
-s32 refresh_npc_view_actor_lost(void *arg0) {
-    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
+s32 NpcPlayerView::is_player_lost() {
     TObjPlayer *v;
-    view->player = get_player_by_client_id(view->client_id);
-    v = view->player;
+    player = get_player_by_client_id(client_id);
+    v = player;
     if (v == NULL) {
         return 1;
     }
@@ -2410,30 +2398,24 @@ s32 refresh_npc_view_actor_lost(void *arg0) {
 }
 #pragma pop
 
-void *TNpcPlayer::dt(s16 arg1) {
-    if (this != NULL) {
-        if (((Unk_8014F844 *)this)->probe != NULL) {
-            free_collision_body_parts((uaddr)((Unk_8014F844 *)this)->probe);
-            ((TObject *)((Unk_8014F844 *)this)->probe)->queue_destruction();
-            ((Unk_8014F844 *)this)->probe = NULL;
-        }
-        if (arg1 > 0) {
-            ::operator delete(this);
-        }
+NpcPlayerView::~NpcPlayerView() {
+    if (probe != NULL) {
+        free_collision_body_parts((uaddr)probe);
+        probe->queue_destruction();
+        probe = NULL;
     }
-    return this;
 }
 
 bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 id) {
     Vec target;
     TObjPlayer *obj_player;
     VecCopy(&target, &((TObjChara *)find_active_entity_by_id(id))->body_center);
-    obj_player = ((Unk_8014F844 *)arg0)->player;
+    obj_player = ((NpcPlayerView *)arg0)->player;
     target.y = obj_player->body_center.y;
     return csnVector(&obj_player->body_center, &target, 0x2100) == NULL;
 }
 
-s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 range) {
+s32 NpcPlayerView::scan_nearby_enemies(Vec *pos, f32 range) {
     Vec origin;
     TObjCollidable *actor;
     s32 found;
@@ -2442,12 +2424,12 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 r
     s32 j;
     f32 d;
     found = 0;
-    ((TObjBase *)(view->player))->get_room();
+    ((TObjBase *)(player))->get_room();
     VecCopy(&origin, (const Vec *)pos);
-    view->target_count = 0;
+    target_count = 0;
     for (j = 0; j < 10; j++) {
-        view->targets[j].entity_id = 0xFFFF;
-        view->targets[j].distance_sq = 0.0f;
+        targets[j].entity_id = 0xFFFF;
+        targets[j].distance_sq = 0.0f;
     }
     i = TLobby::get_game_mode();
     range = range * range;
@@ -2466,21 +2448,21 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 r
             d = horizontal_distance_squared(&origin, &actor->bodies[c].center);
             if (d < range) {
                 found = 1;
-                view->targets[view->target_count].entity_id = actor->get_entity_id();
-                view->targets[view->target_count].distance_sq = d;
-                view->targets[view->target_count].collider = c;
-                if (view->target_count >= 9) {
+                targets[target_count].entity_id = actor->get_entity_id();
+                targets[target_count].distance_sq = d;
+                targets[target_count].collider = c;
+                if (target_count >= 9) {
                     break;
                 }
-                view->target_count++;
+                target_count++;
             }
         }
     }
-    TNpcPlayer::quick_sort((saddr)view, (saddr)&view->targets[0], 0, view->target_count - 1);
+    sort_targets(&targets[0], 0, target_count - 1);
     return found;
 }
 
-s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, u16 id, f32 range) {
+s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, void *pos, u16 id, f32 range) {
     TObjCollidable *actor;
     s32 found;
     s32 i;
@@ -2513,22 +2495,22 @@ s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, u16 
             }
         }
     }
-    TNpcPlayer::quick_sort((saddr)view, (saddr)&view->targets[0], 0, view->target_count - 1);
+    view->sort_targets(&view->targets[0], 0, view->target_count - 1);
     return found;
 }
 
-void TNpcPlayer::quick_sort(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 temp_r3;
+void NpcPlayerView::sort_targets(NpcPlayerViewTarget *entries, s32 lo, s32 hi) {
+    s32 pivot;
 
-    if (arg2 < arg3) {
-        temp_r3 = ((s32 (*)(void))partition_sort_entries__10TNpcPlayerFiPvii)();
-        TNpcPlayer::quick_sort(arg0, arg1, arg2, temp_r3 - 1);
-        TNpcPlayer::quick_sort(arg0, arg1, temp_r3 + 1, arg3);
+    if (lo < hi) {
+        pivot = partition_targets(entries, lo, hi);
+        sort_targets(entries, lo, pivot - 1);
+        sort_targets(entries, pivot + 1, hi);
     }
 }
 
-s32 partition_sort_entries__10TNpcPlayerFiPvii(s32 self, Unk_8014F844Entry *a, s32 lo, s32 hi) {
-    Unk_8014F844Entry tmp;
+s32 NpcPlayerView::partition_targets(NpcPlayerViewTarget *a, int lo, int hi) {
+    NpcPlayerViewTarget tmp;
     f32 pivot;
     s32 i;
     s32 j;
@@ -2544,42 +2526,42 @@ s32 partition_sort_entries__10TNpcPlayerFiPvii(s32 self, Unk_8014F844Entry *a, s
         if (i >= j || i >= 10 || j >= 10) {
             break;
         }
-        ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[i], &tmp);
-        ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[j], &a[i]);
-        ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &tmp, &a[j]);
+        copy_target(&a[i], &tmp);
+        copy_target(&a[j], &a[i]);
+        copy_target(&tmp, &a[j]);
     }
-    ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[i], &tmp);
-    ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[hi], &a[i]);
-    ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &tmp, &a[hi]);
+    copy_target(&a[i], &tmp);
+    copy_target(&a[hi], &a[i]);
+    copy_target(&tmp, &a[hi]);
     return i;
 }
 
-s32 partner_probe_obstacles(Unk_8014F844 *view) {
+s32 NpcPlayerView::probe_obstacles() {
     s32 i;
     TObjCollidable *actor;
     CollisionBody *contact;
-    TObjCollidable *probe;
-    probe = view->probe;
-    if (probe == NULL) {
+    TObjCollidable *sweep;
+    sweep = probe;
+    if (sweep == NULL) {
         return 0;
     }
-    VecCopy(&probe->position, &view->player->position);
-    view->probe->rotation_y = view->goal_angle;
+    VecCopy(&sweep->position, &player->position);
+    probe->rotation_y = goal_angle;
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + ((s32 (*)(void))get_registered_object_count)(); i++) {
         actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
         if ((actor != NULL) && !(actor->actorFlags & 0x80000000)) {
-            contact = (CollisionBody *)view->probe->find_actor_body_contact((u8 *)actor, 10000.0f);
+            contact = (CollisionBody *)probe->find_actor_body_contact((u8 *)actor, 10000.0f);
             if (contact != NULL) {
                 if (actor->actorFlags & 0x40000000) {
                     if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {
-                        copy_collision_body(&view->obstacle_body, contact);
-                        view->obstacle_angle = actor->rotation_y;
-                        view->status |= 0x20;
+                        copy_collision_body(&obstacle_body, contact);
+                        obstacle_angle = actor->rotation_y;
+                        status |= 0x20;
                         return 1;
                     }
                 } else if (actor->actorFlags & 0x20000000) {
                     if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {
-                        view->status |= 0x80;
+                        status |= 0x80;
                         return 1;
                     }
                 }
@@ -2991,9 +2973,9 @@ void TNpcPlayer::handle_action(s32 arg1) {
     s32 player;
     s32 temp_r3_2;
     s32 temp_r3_3;
-    Unk_8014F844 *temp_r5;
-    Unk_8014F844 *temp_r5_2;
-    Unk_8014F844 *temp_r5_3;
+    NpcPlayerView *temp_r5;
+    NpcPlayerView *temp_r5_2;
+    NpcPlayerView *temp_r5_3;
 
     switch (arg1) {
     case 0:
@@ -3052,7 +3034,7 @@ void TNpcPlayer::change_ai_state(u32 arg1) {
 void TNpcPlayer::dispatch_action(s32 arg1) {
     switch (arg1) {
     case 0:
-        if (((TNpcPlayer *)self_view)->get_condition() & 0x20) {
+        if (self_view->get_condition() & 0x20) {
             handle_action(arg1);
         } else {
             request_technique_cast(0xF);
@@ -3062,20 +3044,20 @@ void TNpcPlayer::dispatch_action(s32 arg1) {
         }
         return;
     case 1:
-        if (((TNpcPlayer *)self_view)->get_condition() & 0x20) {
+        if (self_view->get_condition() & 0x20) {
             handle_action(arg1);
             return;
         }
         break;
     case 2:
-        if (((TNpcPlayer *)self_view)->get_condition() & 0x20) {
+        if (self_view->get_condition() & 0x20) {
             handle_action(arg1);
             return;
         }
         request_technique_cast(0x10);
         return;
     case 3:
-        if (((TNpcPlayer *)self_view)->get_condition() & 0x20) {
+        if (self_view->get_condition() & 0x20) {
             handle_action(arg1);
             return;
         }
