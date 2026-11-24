@@ -5041,7 +5041,7 @@ force_active:
   - check_trigger__11TOFenceBaseFv
   - check_sound_admission__FPC3Vecl
   - check_type_and_enabled__FPC6gc_tagUcUc
-  - check_valid_state__6TLobbyFi
+  - get_gender__25LobbyPlayerActionProviderFv
   - check_vector_bit__15TObjEneMe1GiGueFP3Vec
   - choose_attack__13TObjEneBm3FlyFPv
   - choose_attack_heading_sector__11TBoss4Type3Fv
@@ -5366,7 +5366,7 @@ force_active:
   - copy_from__18TextureUvAnimationFP18TextureUvAnimation
   - copy_matrix__22TObjTombstoneDropRatesFPC22TObjTombstoneDropRates
   - copy_member_record__6TLobbyFPvPv
-  - copy_motion_pair__20PlayerActionProviderFPv
+  - __as__14BmlMotionEntryFR14BmlMotionEntry
   - copy_move_params__23TObjOnlineEndingHexMoveFP19EndingHexLineParamsPC19EndingHexLineParams
   - copy_network_info_cipher_block__FPUlPUl
   - copy_network_info_config_string__FPcPcUlUl
@@ -7139,7 +7139,7 @@ force_active:
   - __ct__14TDrawableModelFv
   - init_plate_rects__20TAdChrSelMovePlateGCFv
   - init_player__13TUnk_804E3008FPvPvPvPv
-  - init_player_forward__6TLobbyFv
+  - __sinit_LobbyPlayerActionProvider_cpp
   - init__16PlayerScaleStateFv
   - init_player_window_effect__6TLobbyFv
   - __ct__13TUnk_804A64E8FP7TObjectPUc
@@ -7357,7 +7357,7 @@ force_active:
   - is_target_line_clear__13NpcPlayerViewFUl
   - is_target_unobstructed__9TObjCharaFPC3Vec
   - is_valid_player_index__6TLobbyFi
-  - is_valid_state__6TLobbyFPvi
+  - get_gender__25LobbyPlayerActionProviderFl
   - is_value_out_of_range__6TLobbyFl
   - is_visible__14TBoss7CrawfishFv
   - is_visible__18CameraDistanceFadeFv
@@ -8110,7 +8110,7 @@ force_active:
   - recobox_low_model_names
   - lbl_804ED690
   - lbl_804ED6DC
-  - lbl_804ED728
+  - lobby_action_tables
   - lbl_804ED730
   - lbl_804ED77C
   - lbl_804ED990
@@ -8209,7 +8209,7 @@ force_active:
   - lbl_80543050
   - lbl_805430A4
   - lbl_805430BC
-  - lbl_805430E8
+  - lobby_male_motions
   - lbl_805432A8
   - lbl_805434D0
   - morfos_attack_params
@@ -15445,7 +15445,7 @@ force_active:
   - set_owner__20TObjEneBm5GibonUNodeFP16TObjEneBm5GibonU
   - set_owner_id__15TPlyPhotonChairFl
   - set_close_up__13TCameraFollowFl
-  - set_field_4__6TLobbyFl
+  - set_motion_type__15PlayerMotionKeyFl
   - set_field_60__15TWindowCallBackFPFPvPv_v
   - set_cursor__18TWindowSubItemListFs
   - set_motion__12TMotionModelFP10NJS_MOTION

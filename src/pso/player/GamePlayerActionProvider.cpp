@@ -2612,94 +2612,97 @@ const s32 ** player_motion_clip_roots_b[6] = {
 };
 s32 game_action_motion_buffer;
 
-extern "C" {
-void set_motion_variant(void *p, s32 _w1);
-s32 matches_loaded_motion(void *, s32, s32);
-int match_coordinate_pair(u8 *pair, s32 a, s32 b) {
-    u8 match = 0;
-    if (a == ((s32 *)pair)[0] && b == ((s32 *)pair)[1]) {
-        match = 1;
+int PlayerMotionKey::matches(s32 body_type, s32 motion_type) {
+    bool match = false;
+    if (body_type == this->body_type && motion_type == this->motion_type) {
+        match = true;
     }
     return match;
 }
-int is_valid_player_motion_variant(u32 variant) {
-    return variant < 19 ? true : false;
+
+int is_valid_motion_type(u32 motion_type) {
+    return motion_type < 19 ? true : false;
 }
 
-int TLobby__sub_802A7278(u32 arg0) {
-    return arg0 < 6 ? true : false;
+int is_valid_body_type(u32 body_type) {
+    return body_type < 6 ? true : false;
 }
 
-s32 TLobby::get_valid_child() {
-    if (is_valid_player_motion_variant(*(saddr *)&this->m_flags) != 0) {
-        return *(s32 *)&this->m_flags;
+s32 PlayerMotionKey::get_motion_type() {
+    if (is_valid_motion_type(motion_type) != 0) {
+        return motion_type;
     }
     return 0;
 }
-s32 TLobby::validate_handle(s32 *arg0) {
-    if (TLobby__sub_802A7278(*arg0) != 0) {
-        return *arg0;
+
+s32 PlayerMotionKey::get_body_type() {
+    if (is_valid_body_type(body_type) != 0) {
+        return body_type;
     }
     return 0;
 }
-TUnk_802A7318::TUnk_802A7318() { m_0 = 0; m_4 = 0; }
 
-s32 GamePlayerActionProvider::get_cell_address(s32 arg1, s32 arg2) {
-    return game_action_motion_buffer + ((arg2 + (arg1 * vfunc_75())) << 0xE);
+PlayerMotionKey::PlayerMotionKey() {
+    body_type = 0;
+    motion_type = 0;
 }
 
-void GamePlayerActionProvider::vfunc_14() {
+s32 GamePlayerActionProvider::get_cell_address(s32 set, s32 slot) {
+    return game_action_motion_buffer + ((slot + (set * get_motion_count())) << 0xE);
+}
+
+void GamePlayerActionProvider::mark_attack_motions() {
     reinterpret_cast<NJS_MOTION *>(motions[get_attack1_action()].motion)->inp_fn |= 0x80;
     reinterpret_cast<NJS_MOTION *>(motions[get_attack2_action()].motion)->inp_fn |= 0x80;
     reinterpret_cast<NJS_MOTION *>(motions[get_attack3_action()].motion)->inp_fn |= 0x80;
 }
 
-int GamePlayerActionProvider::vfunc_9(s32 a, s32 b, s32 c) {
-    return player_motion_clip_roots_b[a][b][c];
+int GamePlayerActionProvider::get_motion_file(s32 body_type, s32 motion_type, s32 slot) {
+    return player_motion_clip_roots_b[body_type][motion_type][slot];
 }
 
-const s32 *GamePlayerActionProvider::vfunc_8(s32 arg1, s32 variant) {
-    if (((s32)TLobby__sub_802A7278(arg1)) == 0) {
+const s32 *GamePlayerActionProvider::get_motion_files(s32 body_type, s32 motion_type) {
+    if (is_valid_body_type(body_type) == 0) {
         return NULL;
     }
-    if (((s32)is_valid_player_motion_variant(variant)) != 0) {
-        return player_motion_clip_roots_b[arg1][variant];
+    if (is_valid_motion_type(motion_type) != 0) {
+        return player_motion_clip_roots_b[body_type][motion_type];
     }
     return NULL;
 }
-int GamePlayerActionProvider::vfunc_7(s32 arg1, s32 variant) {
-    if (((s32)TLobby__sub_802A7278(arg1)) == 0) {
-        return 0;
+
+const TObjMotionAction *GamePlayerActionProvider::get_motion_actions(s32 body_type, s32 motion_type) {
+    if (is_valid_body_type(body_type) == 0) {
+        return NULL;
     }
-    if (((s32)is_valid_player_motion_variant(variant)) != 0) {
-        return (saddr)player_motion_category_table[arg1][variant];
+    if (is_valid_motion_type(motion_type) != 0) {
+        return player_motion_category_table[body_type][motion_type];
     }
-    return 0;
+    return NULL;
 }
-int GamePlayerActionProvider::vfunc_6(s32 arg1, s32 id, s32 flags) {
-    s32 temp_r3;
-    if (matches_loaded_motion(this, id, flags) != 0) {
+
+int GamePlayerActionProvider::load_motion_set(s32 set, s32 body_type, s32 motion_type) {
+    s32 loaded;
+    if (matches_motion_key(body_type, motion_type) != 0) {
         return 1;
     }
-    TObjPlayer::forward_801C210C(this, id);
-    set_motion_variant(this, flags);
-    temp_r3 = load_action_motion_pairs(arg1, id, flags);
-    if (temp_r3 != 0) {
-        this->vfunc_14();
+    TObjPlayer::forward_801C210C(this, body_type);
+    set_motion_type(motion_type);
+    loaded = load_action_motion_pairs(set, body_type, motion_type);
+    if (loaded != 0) {
+        mark_attack_motions();
     }
-    return temp_r3;
+    return loaded;
 }
 
-int GamePlayerActionProvider::vfunc_5(s32 arg1) {
-    s32 a = ((TObjPlayer *)this)->is_handle_valid();
-    s32 b = ((TObjPlayer *)this)->sub_802a7290_fwd();
-    s32 r = load_action_motion_pairs(arg1, a, b);
-    if (r != 0) {
-        this->vfunc_14();
+int GamePlayerActionProvider::load_motions(s32 set) {
+    s32 body_type = ((TObjPlayer *)this)->is_handle_valid();
+    s32 motion_type = ((TObjPlayer *)this)->sub_802a7290_fwd();
+    s32 loaded = load_action_motion_pairs(set, body_type, motion_type);
+    if (loaded != 0) {
+        mark_attack_motions();
     }
-    return r;
-}
-
+    return loaded;
 }
 
 void free_game_action_motion_buffer() {
@@ -2716,9 +2719,9 @@ void init_game_player_actions() { set_player_action_provider_selector(1); alloc_
 
 GamePlayerActionProvider::~GamePlayerActionProvider() {}
 GamePlayerActionProvider::GamePlayerActionProvider() {}
-s32 *GamePlayerActionProvider::get_state_table(s32) { return reinterpret_cast<s32 *>(motions); }
+BmlMotionEntry *GamePlayerActionProvider::get_motion_list(s32) { return motions; }
 BmlMotionEntry *GamePlayerActionProvider::vfunc_76() { return motions; }
-int GamePlayerActionProvider::vfunc_4() {  return (*(int *)&game_action_motion_buffer); }
+int GamePlayerActionProvider::get_motion_buffer() { return game_action_motion_buffer; }
 
 int GamePlayerActionProvider::vfunc_15() { return 0; }
 int GamePlayerActionProvider::get_technique_action() { return 1; }
@@ -2736,9 +2739,9 @@ int GamePlayerActionProvider::get_death_action() { return 12; }
 int GamePlayerActionProvider::get_interact_action() { return 13; }
 int GamePlayerActionProvider::get_photon_blast_action() { return 14; }
 int GamePlayerActionProvider::get_run_action() { return 15; }
-int GamePlayerActionProvider::vfunc_75() { return 16; }
-int PlayerActionProvider::vfunc_11() { return 0; }
-int PlayerActionProvider::vfunc_13() { return 0; }
-int PlayerActionProvider::vfunc_12() { return 0; }
+int GamePlayerActionProvider::get_motion_count() { return 16; }
+int PlayerActionProvider::is_male(s32) { return 0; }
+int PlayerActionProvider::is_female(s32) { return 0; }
+int PlayerActionProvider::is_female() { return 0; }
 int PlayerActionProvider::vfunc_73() { return -1; }
 int PlayerActionProvider::vfunc_74() { return -1; }

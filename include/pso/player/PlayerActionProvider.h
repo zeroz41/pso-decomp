@@ -4,14 +4,23 @@
 
 struct BmlMotionEntry;
 
-// The two-word record PlayerActionProvider starts with: its constructor clears
-// both words.
-class TUnk_802A7318 {
+struct TObjMotionAction;
+
+// Body types are 0-5 and weapon motion types 0-18.
+int is_valid_motion_type(u32 motion_type);
+int is_valid_body_type(u32 body_type);
+
+// The body type and weapon motion type a provider's motion set was loaded for.
+class PlayerMotionKey {
 public:
-    TUnk_802A7318();
-    ~TUnk_802A7318();
-    u32 m_0;
-    u32 m_4;
+    PlayerMotionKey();
+    ~PlayerMotionKey();
+    int matches(s32 body_type, s32 motion_type);
+    s32 get_motion_type();
+    s32 get_body_type();
+    void set_motion_type(s32 motion_type);
+    s32 body_type;
+    s32 motion_type;
 };
 
 // Base of the player action providers (GamePlayerActionProvider,
@@ -19,23 +28,23 @@ public:
 // allocated from obj_heap.
 class PlayerActionProvider {
 public:
-    TUnk_802A7318 unk_0;
+    PlayerMotionKey key;
     PlayerActionProvider();
     static void *operator new(size_t size);
     static void operator delete(void *p);
     virtual s32 get_cell_address(s32, s32);
     virtual ~PlayerActionProvider();
-    virtual int vfunc_4();
-    virtual int vfunc_5(s32);
-    virtual int vfunc_6(s32, s32, s32);
-    virtual int vfunc_7(s32, s32);
-    virtual const s32 *vfunc_8(s32, s32);
-    virtual int vfunc_9(s32, s32, s32);
-    virtual int vfunc_10();
-    virtual int vfunc_11();
-    virtual int vfunc_12();
-    virtual int vfunc_13();
-    virtual void vfunc_14();
+    virtual int get_motion_buffer();
+    virtual int load_motions(s32 set);
+    virtual int load_motion_set(s32 set, s32 body_type, s32 motion_type);
+    virtual const TObjMotionAction *get_motion_actions(s32 body_type, s32 motion_type);
+    virtual const s32 *get_motion_files(s32 body_type, s32 motion_type);
+    virtual int get_motion_file(s32 body_type, s32 motion_type, s32 slot);
+    virtual int is_male();
+    virtual int is_male(s32 body_type);
+    virtual int is_female();
+    virtual int is_female(s32 body_type);
+    virtual void mark_attack_motions();
     virtual int vfunc_15();
     virtual int get_technique_action();
     virtual int get_attack1_action();
@@ -96,12 +105,13 @@ public:
     virtual int vfunc_72();
     virtual int vfunc_73();
     virtual int vfunc_74();
-    virtual int vfunc_75();
+    virtual int get_motion_count();
     virtual BmlMotionEntry *vfunc_76(); // Motion list used when the player changes lobby animation state.
-    virtual s32 *get_state_table(s32);
-    void copy_motion_pair(void*);
+    virtual BmlMotionEntry *get_motion_list(s32 body_type);
     s32 load_motion(s32 set, s32 index, s32 size, s32 aram_addr);
-    s32 load_action_motion_pairs(s32, s32, s32);
+    s32 load_action_motion_pairs(s32 set, s32 body_type, s32 motion_type);
+    void set_motion_type(s32 motion_type);
+    int matches_motion_key(s32 body_type, s32 motion_type);
 };
 
 extern const char *player_motion_data_filename_ptr;

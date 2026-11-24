@@ -18,6 +18,7 @@ LAYOUT_ASSERT(BmlModelEntry_texlist_offset, offsetof(BmlModelEntry, texlist) == 
 
 struct AnimationMotion;
 struct BmlMotionEntry {
+    BmlMotionEntry &operator=(BmlMotionEntry &other);
     u32 unknown;
     AnimationMotion *motion;
 };

@@ -841,6 +841,7 @@ pso/unk/TLobby_80300098.cpp
 pso/unk/TLobby_8030A6A8.cpp
 pso/unk/TLobby_8030A834.cpp
 pso/player/LobbyPlayerActionProvider.cpp
+pso/player/LobbyPlayerActions.cpp
 pso/unk/TLobby_80335E7C.cpp
 pso/ui/charcreate/TChCrTagOccHeader.cpp
 pso/unk/text_803369C8.cpp

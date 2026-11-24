@@ -998,11 +998,11 @@ u8 *TObjPlayer::copy_hold_params(u8 *src) {
 }
 
 s16 TBoss7Crawfish::get_floor() { return this->requested_action; }
-s32 *PlayerActionProvider::get_state_table(s32) { return 0; }
-int PlayerActionProvider::vfunc_10() { return 0; }
-int PlayerActionProvider::vfunc_5(s32) { return 0; }
-int TObjPlayer::sub_802a7290_fwd() { return ((TLobby *)this)->get_valid_child(); }
-int TObjPlayer::is_handle_valid() { return TLobby::validate_handle((s32 *)this); }
+BmlMotionEntry *PlayerActionProvider::get_motion_list(s32) { return 0; }
+int PlayerActionProvider::is_male() { return 0; }
+int PlayerActionProvider::load_motions(s32) { return 0; }
+int TObjPlayer::sub_802a7290_fwd() { return ((PlayerMotionKey *)this)->get_motion_type(); }
+int TObjPlayer::is_handle_valid() { return ((PlayerMotionKey *)this)->get_body_type(); }
 
 // Data-only unit split off the shared player model buffers at 0x805D5D78.
 // Plain uninitialized globals (-sdata 8) land in .sbss; the referencing unit
@@ -1014,7 +1014,7 @@ u8 *TObjPlayer__shared_model_buffer;
 PlayerJointMatrixSet *player_shared_buffer_base;
 u32 shared_state_flags[2];
 
-int PlayerActionProvider::vfunc_6(s32, s32, s32) { return 0; }
+int PlayerActionProvider::load_motion_set(s32, s32, s32) { return 0; }
 int PlayerActionProvider::get_death_action() { return -1; }
 int PlayerActionProvider::get_knockdown_action() { return -1; }
 int PlayerActionProvider::get_hurt_action() { return -1; }
@@ -1042,7 +1042,7 @@ int get_player_action_provider_selector() { return player_action_provider_select
 
 extern "C" {
 
-int PlayerActionProvider::vfunc_7(s32, s32) { return 0; }
+const TObjMotionAction *PlayerActionProvider::get_motion_actions(s32, s32) { return 0; }
 BmlMotionEntry *PlayerActionProvider::vfunc_76() { return NULL; }
 
 u8 TObjPlayer__sub_801C010C(const PlayerTechniqueState *techs, s16 technique) {

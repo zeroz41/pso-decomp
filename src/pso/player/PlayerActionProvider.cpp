@@ -21,6 +21,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/AramPool.h"
+#include "pso/system/BmlResource.h"
 #include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "pso/quest/TQuestListVM.h"
 
@@ -33,17 +34,11 @@ const char *player_motion_data_filename_ptr = "PlyMotionData.rlc";
 
 int player_action_provider_selector;
 
-extern "C" {
-void set_motion_variant(void* p, s32 _w1);
-int matches_loaded_motion(void* p);
-int match_coordinate_pair(void*);
-
-void set_motion_variant(void* p, s32 _w1) { ((TLobby *)p)->set_field_4(_w1); }
-int matches_loaded_motion(void* p) { return match_coordinate_pair(p); }
-}
+void PlayerActionProvider::set_motion_type(s32 motion_type) { key.set_motion_type(motion_type); }
+int PlayerActionProvider::matches_motion_key(s32 body_type, s32 motion_type) { return key.matches(body_type, motion_type); }
 
 void set_player_action_provider_selector(int selector) { player_action_provider_selector = selector; }
-void TLobby::set_field_4(s32 v) { *(s32 *)&this->m_flags = v; }
+void PlayerMotionKey::set_motion_type(s32 motion_type) { this->motion_type = motion_type; }
 s32 get_player_action_motion_count() {
     s32 selector;
     selector = get_player_action_provider_selector();
@@ -75,49 +70,53 @@ s32 PlayerActionProvider::load_motion(s32 set, s32 index, s32 size, s32 aram_add
     return result;
 }
 
-s32 PlayerActionProvider::load_action_motion_pairs(s32 set, s32 id, s32 flags) {
+s32 PlayerActionProvider::load_action_motion_pairs(s32 set, s32 body_type, s32 motion_type) {
     PlayerMotionAramEntry entry;
     const s32 *slots;
     s32 i;
     s32 size;
     s32 decrypted_size;
-    u8 *dst;
-    s32 *root;
-    if (this->vfunc_4() == 0U) {
+    BmlMotionEntry *dst;
+    BmlMotionEntry **root;
+    if (this->get_motion_buffer() == 0U) {
         return 0;
     }
-    slots = this->vfunc_8(id, flags);
+    slots = this->get_motion_files(body_type, motion_type);
     if (slots == NULL) {
         return 0;
     }
     entry.clear();
-    dst = (u8 *)this->get_state_table(id);
-    for (i = 0; i < this->vfunc_75(); i++) {
+    dst = this->get_motion_list(body_type);
+    for (i = 0; i < this->get_motion_count(); i++) {
         get_player_motion_entry(*slots, &entry);
         size = entry.get_size();
         decrypted_size = load_motion(set, i, size, entry.get_aram_addr());
         if (decrypted_size != 0) {
-            root = (s32 *)relocate_rel_data((void *)this->get_cell_address(set, i), decrypted_size);
+            root = (BmlMotionEntry **)relocate_rel_data((void *)this->get_cell_address(set, i), decrypted_size);
         }
-        ((PlayerActionProvider *)dst)->copy_motion_pair(*(void **)root);
+        *dst = **root;
         slots++;
-        dst += 8;
+        dst++;
     }
     return 1;
 }
 
-void PlayerActionProvider::copy_motion_pair(void*q) { this->unk_0.m_0 = *(u32*)((char*)q + 0x0); this->unk_0.m_4 = *(u32*)((char*)q + 0x4); }
+BmlMotionEntry &BmlMotionEntry::operator=(BmlMotionEntry &other) {
+    unknown = other.unknown;
+    motion = other.motion;
+    return *this;
+}
 
 PlayerActionProvider::~PlayerActionProvider() {}
 
 PlayerActionProvider::PlayerActionProvider() {}
 
 s32 PlayerActionProvider::get_cell_address(s32, s32) { return 0; }
-int PlayerActionProvider::vfunc_4() { return 0; }
-const s32 *PlayerActionProvider::vfunc_8(s32, s32) { return NULL; }
-int PlayerActionProvider::vfunc_9(s32, s32, s32) { return 0; }
-void PlayerActionProvider::vfunc_14() {  }
-int PlayerActionProvider::vfunc_75() { return 0; }
+int PlayerActionProvider::get_motion_buffer() { return 0; }
+const s32 *PlayerActionProvider::get_motion_files(s32, s32) { return NULL; }
+int PlayerActionProvider::get_motion_file(s32, s32, s32) { return 0; }
+void PlayerActionProvider::mark_attack_motions() {}
+int PlayerActionProvider::get_motion_count() { return 0; }
 }
 
 s32 PlayerMotionAramEntry::get_aram_addr() { return aram_addr; }

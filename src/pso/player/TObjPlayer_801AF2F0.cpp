@@ -6101,7 +6101,7 @@ s32 TObjPlayer::get_controller_port() { return this->controller_port; }
 
 void TObjPlayer::set_action_provider_variant(s16 variant) {
     if (variant != ((TObjPlayer *)action_provider)->sub_802a7290_fwd() && fn_8000F740(&main_phase_state) != 0) {
-        action_provider->vfunc_6(get_entity_id(), has_valid_handle(), variant);
+        action_provider->load_motion_set(get_entity_id(), has_valid_handle(), variant);
         this->apply_motion_entry();
     }
 }
@@ -6359,16 +6359,16 @@ f32 TObjPlayer::get_battle_value(u16 client, s16 technique) {
 
 void TObjPlayer::load_action_motions(u16 entity_id) {
     if (action_provider) {
-        action_provider->vfunc_5(entity_id);
+        action_provider->load_motions(entity_id);
     }
 }
 
 void TObjPlayer::update_facing_from_lock() {
-    if (action_provider->vfunc_10() != 0) {
-        set_motion_list(reinterpret_cast<BmlMotionEntry *>(action_provider->get_state_table(1)));
+    if (action_provider->is_male() != 0) {
+        set_motion_list(action_provider->get_motion_list(1));
         return;
     }
-    set_motion_list(reinterpret_cast<BmlMotionEntry *>(action_provider->get_state_table(0)));
+    set_motion_list(action_provider->get_motion_list(0));
 }
 
 s32 TObjPlayer::get_regen_interval(s32 timer) {

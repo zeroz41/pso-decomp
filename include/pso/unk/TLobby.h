@@ -396,9 +396,6 @@ struct TLobby : public TObject {
     static void free_chr_select_slots();
     static void free_dialog_global();
     static void free_dialing_gc();
-    s32 get_valid_child();
-    static s32 validate_handle(s32 *arg0);
-    void set_field_4(s32 v);
     static void *create_mist_ctrl(void *parent, void *arg1);
     static void forward_npc_enemy();
     static unsigned char get_trade_mode();
@@ -406,11 +403,6 @@ struct TLobby : public TObject {
     static s32 is_camera_ctrl_active();
     static s32 is_ready();
     static int get_online_ready_flag();
-    static void apply_state_6c84();
-    static s32 test_flag_2_at_6c84();
-    static void init_object_flag();
-    static s32 test_flag_1_at_6c84();
-    static void clear_flag_at_6c84();
     static NJS_SPRITE *get_record(int index);
     static void queue_destruction_and_cleanup(TObject *fade);
     void set_flag_and_clear_download();
@@ -702,7 +694,6 @@ struct TLobby : public TObject {
     static void update_scene_alt();
     static s32 is_multi_ready();
     static void update_game_modes();
-    static void init_player_forward();
     static void release_indexed_entry(s32 arg0);
     static void free_global_buffers();
     void fill_guild_card_from_char(s32 index);
@@ -829,7 +820,6 @@ struct TLobby : public TObject {
     static s32 change_file_extension(void *, void *, void *);
     static void check_bin_model_loaded(void *, void *);
     static s32 check_team_balance(void *, int);
-    static void check_valid_state(int);
     static void close_all_windows(void *);
     static void close_all_windows();
     static void close_and_send_text_list();
@@ -886,7 +876,6 @@ struct TLobby : public TObject {
     static u8 is_challenge_lobby();
     static s32 is_id_out_of_range(int);
     static u8 is_valid_player_index(int);
-    static s32 is_valid_state(void *, int);
     static s32 load_floor_enemy_group_entries(int, void *, unsigned int);
     static u8 lookup_key_value(char);
     static s32 mix_seed(u16);
