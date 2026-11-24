@@ -46,7 +46,6 @@ struct SceneSectionAngles;
 struct TItem;
 class TPlyItem;
 class TPlayerLobbyMarker;
-class TUnk_804C445C;
 class TPlyInventoryItem;
 struct TechniqueContactList;
 struct TUnk_801D8A4C;
@@ -185,7 +184,6 @@ struct TObjPlayer : public TObjChara {
     s32 setup_control_role(s32);
     bool is_target_in_facing_cone(void *);
     void create_inventory();
-    static void insert_item_node(TUnk_804C445C *pool, Vec *position, TObjPlayer *owner, TItemData *item, s32 id);
     void select_contextual_pickup_action();
     void init_trait_flags();
     void update_facing_vector();
