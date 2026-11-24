@@ -1877,7 +1877,7 @@ void TObjPlayer::render_body_pass(f32 f) {
     u8 *self = (u8 *)this;
     ((TObjBase *)self)->clear_actor_flags((u32)0x08000000);
     TParticleCtrl::end_effect_render();
-    select_actor_lighting((TObjBase *)self);
+    select_actor_lighting(this);
     if (((s32 (*)(void *))check_flag_800000__10TObjPlayerFPv)(self) != 0 && ((TObjChara *)self)->obj_isState2_324() != 0) {
         TObjPlayer::draw(self, ((TObjChara *)self)->get_frame());
     } else if (!(*(u16 *)(self + 4) & 0x400)) {
@@ -1911,9 +1911,10 @@ void render__10TObjPlayerFv(u8 *player) {
                     restore_render_scissor(1);
                 }
             } else {
-                ((TObjBase *)player)->clear_actor_flags((u32)0x08000000);
+                TObjBase *base = (TObjBase *)player;
+                base->clear_actor_flags((u32)0x08000000);
                 TParticleCtrl::end_effect_render();
-                select_actor_lighting((TObjBase *)player);
+                select_actor_lighting(base);
                 if ((((s32 (*)(void *))check_flag_800000__10TObjPlayerFPv)(player) != 0) && (((TObjChara *)player)->obj_isState2_324() != 0)) {
                     TObjPlayer::draw(player, ((TObjChara *)player)->get_frame());
                 } else if (!(((TObjPlayer *)player)->m_flags & 0x400)) {
@@ -4514,17 +4515,20 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
             e->add_equip_stats(1);
         }
     }
-    ((TObjPlayer *)src)->set_hp_clamped(a);
-    ((TObjPlayer *)src)->set_tp(b);
-    encode_player_record_inventory(dst);
-    v = TObjPlayer__sub_801BFFA0(src->f41C);
-    dst->f142[0].b[1] = v;
-    dst->f142[1].b[1] = v >> 8;
-    dst->f142[2].b[1] = v >> 16;
-    dst->f142[3].b[1] = v >> 24;
-    TObjPlayer__sub_801BE7A4(dst, ((TObjPlayer *)src)->get_mag_level());
-    TObjPlayer__sub_801BE794(dst, ((TObjPlayer *)src)->get_byte_339());
-    TObjPlayer__sub_801BE784(dst, ((TObjPlayer *)src)->get_battle_mode());
+    {
+        TObjPlayer *pl = (TObjPlayer *)src;
+        pl->set_hp_clamped(a);
+        pl->set_tp(b);
+        encode_player_record_inventory(dst);
+        v = TObjPlayer__sub_801BFFA0(src->f41C);
+        dst->f142[0].b[1] = v;
+        dst->f142[1].b[1] = v >> 8;
+        dst->f142[2].b[1] = v >> 16;
+        dst->f142[3].b[1] = v >> 24;
+        TObjPlayer__sub_801BE7A4(dst, pl->get_mag_level());
+        TObjPlayer__sub_801BE794(dst, pl->get_byte_339());
+        TObjPlayer__sub_801BE784(dst, pl->get_battle_mode());
+    }
     TLobby::bswap_player_data(dst);
 }
 
