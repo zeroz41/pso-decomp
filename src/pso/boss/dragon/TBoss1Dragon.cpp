@@ -5305,3 +5305,9 @@ void TBoss1Dragon::render_low_detail() {
 s32 TBoss1Dragon::isV2Mode() {
     return TObjEneDD::check_v2_mode() ? 1 : 0;
 }
+
+void copy_xyz(void *dst, void *src) {
+    ((u32 *)dst)[0] = ((u32 *)src)[0];
+    ((u32 *)dst)[1] = ((u32 *)src)[1];
+    ((u32 *)dst)[2] = ((u32 *)src)[2];
+}

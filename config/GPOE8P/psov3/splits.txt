@@ -161,11 +161,8 @@ pso/unk/TLobby_8001EF5C.cpp:
 	.sbss       start:0x805D4AC8 end:0x805D4AF0
 	.sdata2     start:0x805D7F10 end:0x805D7F18
 
-pso/player/TObjPlayer_80020898.cpp:
-	.text       start:0x80020898 end:0x800208B4
-
 pso/boss/dragon/TBoss1Dragon.cpp:
-	.text       start:0x800208B4 end:0x8002B108
+	.text       start:0x80020898 end:0x8002B108
 	.ctors      start:0x80433F24 end:0x80433F28
 	.rodata     start:0x80434E80 end:0x804353B0
 	.data       start:0x80480CE0 end:0x80481B90

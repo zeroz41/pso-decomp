@@ -1560,7 +1560,6 @@ pso/weapon/TItemWeaponFist.cpp
 pso/player/TObjPlayer.cpp
 pso/player/TObjPlayerSet.cpp
 pso/object/base/TObjChara.cpp
-pso/player/TObjPlayer_80020898.cpp
 pso/player/TObjPlayer_8002E784.cpp
 pso/player/TObjPlayer_8002EF8C.cpp
 pso/player/TObjPlayer_80052374.cpp
