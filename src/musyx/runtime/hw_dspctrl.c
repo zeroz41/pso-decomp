@@ -162,9 +162,9 @@ u32 salCheckVolErrorAndResetDelta(u16 *dsp_vol, u16 *dsp_delta, u16 *last_vol, u
 
     if (targetVol != *last_vol) {
         d = (s16)targetVol - (s16)*last_vol;
-        if ((s16)d >= 32 && (s16)d < 160) {
-            x = (s16)d >> 5;
-            if ((s16)x < 5) {
+        if (d >= 32 && d < 160) {
+            x = d >> 5;
+            if (x < 5) {
                 resetFlags[x] |= resetMask;
             }
 
@@ -173,8 +173,8 @@ u32 salCheckVolErrorAndResetDelta(u16 *dsp_vol, u16 *dsp_delta, u16 *last_vol, u
             return 1;
         }
 
-        if (-32 >= (s16)d && -160 < (s16)d) {
-            x = -(s16)d >> 5;
+        if (-32 >= d && -160 < d) {
+            x = -d >> 5;
             if (x < 5) {
                 resetFlags[x] |= resetMask;
             }
@@ -183,7 +183,7 @@ u32 salCheckVolErrorAndResetDelta(u16 *dsp_vol, u16 *dsp_delta, u16 *last_vol, u
             return 1;
         }
 
-        if (targetVol == 0 && (s16)d > -32) {
+        if (targetVol == 0 && d > -32) {
             *dsp_vol = *last_vol = 0;
         }
     }

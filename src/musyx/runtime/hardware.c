@@ -341,7 +341,7 @@ u32 hwGetPos(s32 v) {
     return pos;
 }
 
-void hwFlushStream(u8 *base, u32 offset, u32 len, u8 hwStreamHandle, void *cb, void *arg) {
+void hwFlushStream(u8 *base, u32 offset, u32 len, u8 hwStreamHandle, ARAMTransferCallback callback, u32 user) {
     u32 length;
     u32 addr;
     u8 *p;
@@ -351,7 +351,7 @@ void hwFlushStream(u8 *base, u32 offset, u32 len, u8 hwStreamHandle, void *cb, v
     len = (len + 0x1F) & ~0x1F;
     p = base + offset;
     DCStoreRange(p, len);
-    aramUploadData(p, addr + offset, len, 1, cb, arg);
+    aramUploadData(p, addr + offset, len, 1, callback, user);
 }
 
 u8 hwInitStream(u32 size) {

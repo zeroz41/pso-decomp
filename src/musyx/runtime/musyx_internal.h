@@ -418,6 +418,8 @@ extern CtrlDest inpAuxB[8][4];
 extern u8 dspScale2IndexTab[];
 extern f32 dspDLSVolTab[];
 
+typedef void (*ARAMTransferCallback)(u32);
+
 void hwDisableIrq(void);
 void hwEnableIrq(void);
 void hwDisableHRTF(void);
@@ -434,7 +436,7 @@ void hwInitSamplePlayback(s32 v, u16 smpID, SAMPLE_INFO *newsmp, u32 set_defadsr
 void hwSetPitch(s32 v, u16 speed);
 void hwStart(s32 v, u8 studio);
 void hwKeyOff(s32 v);
-void hwFlushStream(u8 *base, u32 offset, u32 len, u8 hwStreamHandle, void *cb, void *arg);
+void hwFlushStream(u8 *base, u32 offset, u32 len, u8 hwStreamHandle, ARAMTransferCallback callback, u32 user);
 void hwSetStreamLoopPS(s32 voice, u8 ps);
 u8 hwInitStream(u32 size);
 void hwExitStream(u8 id);
@@ -711,15 +713,14 @@ u32 hwVoiceInStartup(s32 v);
 void hwBreak(s32 vid);
 
 f32 *salMalloc(s32 bytes);
-void salFree(saddr addr);
+void salFree(void *addr);
 void aramQueueCallback(uaddr ptr);
-void aramUploadData(u8 *src, u32 dst, u32 len, s32 dir, void *cb, void *arg);
+void aramUploadData(u8 *src, u32 dst, u32 len, s32 dir, ARAMTransferCallback callback, u32 user);
 void aramSyncTransferQueue(void);
 void InitStreamBuffers(void);
 
 #if defined(_DOLPHIN_AR_H)
 typedef u8 *(*ARAMUploadCallback)(u8 *, u32);
-typedef void (*ARAMTransferCallback)(u32);
 
 typedef struct ARAMTransferJob {
     ARQRequest arq;

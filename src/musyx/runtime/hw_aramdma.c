@@ -34,7 +34,7 @@ void aramQueueCallback(uaddr ptr) {
     --aramQueue->valid;
 }
 
-void aramUploadData(u8 *src, u32 dst, u32 len, s32 dir, void *cb, void *arg) {
+void aramUploadData(u8 *src, u32 dst, u32 len, s32 dir, ARAMTransferCallback callback, u32 user) {
     ARAMTransferQueue *q;
     s32 lvl;
     q = (u32)dir != 0 ? &aramQueueHi : &aramQueueLo;
@@ -48,8 +48,8 @@ void aramUploadData(u8 *src, u32 dst, u32 len, s32 dir, void *cb, void *arg) {
             q->queue[q->write].arq.dest = dst;
             q->queue[q->write].arq.length = len;
             q->queue[q->write].arq.callback = aramQueueCallback;
-            q->queue[q->write].callback = (ARAMTransferCallback)cb;
-            q->queue[q->write].user = (u32)arg;
+            q->queue[q->write].callback = callback;
+            q->queue[q->write].user = user;
             ARQPostRequest(&q->queue[q->write].arq, q->queue[q->write].arq.owner,
                            q->queue[q->write].arq.type, q->queue[q->write].arq.priority,
                            q->queue[q->write].arq.source, q->queue[q->write].arq.dest,
@@ -100,7 +100,7 @@ void aramInit(u32 length) {
     aramQueueInit();
     aramUploadData((u8 *)tmpMem, aramBase, sizeof(s16) * 640, 0, 0, 0);
     aramSyncTransferQueueInline();
-    salFree((saddr)tmpMem);
+    salFree(tmpMem);
     aramTop = aramBase + length;
     if (aramTop > ARGetSize()) {
         aramTop = ARGetSize();
