@@ -1157,7 +1157,6 @@ s32 handle_set_visible__10TObjPlayerFi(s32 arg0);
 void handle_6x2F_change_player_hp(saddr command);
 void send_6x2F_change_player_hp(s32 id, s32 client, s32 hp);
 void handle_6x24_teleport_player(saddr command);
-void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 s32 is_flag30_10_set__10TObjPlayerFi(saddr actor);
 s32 is_flag30_8_set__10TObjPlayerFi(saddr actor);
 void remove_status_effect__10TObjPlayerFUiPv(uaddr, Pair_801B2C04 *);
@@ -1436,6 +1435,8 @@ extern s32 model_render_flags;
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 start_freeze_self__10TObjPlayerFv;
 
 }
+
+void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading);
 
 s16 item_equip_attach_equip_flag_table[10] = {0x3E, 0x3F, 0x18, 0x24, 0x32, 0x23, 0x30, 0x0A, 0x13, 0x00};
 
@@ -1811,7 +1812,7 @@ void TObjPlayer::reset_motion_fields() {
             if (is_single_screen() == 0) {
                 this->set_meseta(0);
             }
-            ((s32 (*)(u16, s32, s32))send_6x24_teleport_player)(this->get_entity_id(), (saddr)this->get_hospital_position(), this->get_hospital_yaw());
+            send_6x24_teleport_player(this->get_entity_id(), (const Vec *)this->get_hospital_position(), this->get_hospital_yaw());
             this->set_state_flags(0x800);
             this->set_battle_flag(0);
         }
@@ -5759,17 +5760,21 @@ void TObjPlayer::resend_status_effects() {
     }
 }
 
-void send_6x24_teleport_player(u16 slot, void *pos, s32 heading) {
+}
+
+void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading) {
     struct pkt_801B1FA4 pkt;
     ((TObjPlayer *)(&pkt))->init_cmd_6x24();
     TObjChara *chara = (TObjChara *)get_player_by_client_id(slot);
     if (chara != NULL && chara->obj_isState2_324() == 0) {
         pkt.slot = slot;
         pkt.heading = heading;
-        VecCopy((Vec *)&pkt.pos, (const Vec *)pos);
+        VecCopy(&pkt.pos, pos);
         ((TObjPlayer *)(&pkt))->send_lobby_update();
     }
 }
+
+extern "C" {
 
 void handle_6x24_teleport_player(saddr command) {
     Pkt_801B1EE0 pkt;

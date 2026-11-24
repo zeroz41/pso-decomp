@@ -18,6 +18,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -33,10 +34,6 @@ PartnerRemark npc_partner_dialogue_state[25] = { 0 };
 
 PartnerDialogueSet partner_dialogue_table[4];
 int partner_chatter_flags;
-extern "C" {
-void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading);
-}
-
 // Compiled with -inline off,deferred: the functions are written in reverse of their
 // address order (the .text order is the reverse of the source order).
 
