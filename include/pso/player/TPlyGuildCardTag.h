@@ -34,12 +34,7 @@ class TPlyGuildCardTag {
 public:
     TPlyGuildCardTag();
 
-    TPlyGuildCardTag(u16 tag2, u32 guildcard_number) {
-        m_tag0 = 0;
-        m_tag1 = 0;
-        m_tag2 = tag2;
-        m_guildcard_number = guildcard_number;
-    };
+    TPlyGuildCardTag(u16 tag2, u32 guildcard_number);
 
     int operator==(TPlyGuildCardTag &other) {
         return (m_tag1 == other.m_tag1) &&
@@ -57,9 +52,5 @@ public:
 public:
     static void bswap_lobby_entry(void *entry);
 };
-
-extern "C" {
-void __ct__16TPlyGuildCardTagFUsUl(void *tag, s16 tag2, s32 guildcard_number);
-}
 
 #endif
