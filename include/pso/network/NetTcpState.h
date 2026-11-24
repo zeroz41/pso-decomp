@@ -136,8 +136,8 @@ struct TcpTcb {
     u8 sack_flags; /* 1 SACK enabled (option 0x2002), 2 the peer sent SACK-permitted */
     u8 pad2E9[3];
     s32 rexmit_bytes; /* bytes resent from the scoreboard: TLobby__sub_8041D398 adds each resent range, ACKs take them off */
-    s32 f2F0;
-    u32 f2F4;
+    s32 pipe; /* estimate of the bytes in flight during fast recovery (RFC 3517) */
+    u32 recover; /* snd_nxt when fast recovery began; ACKs below it are partial (NewReno, RFC 6582) */
     TcpSeqRange sack[5]; /* SACK blocks to report */
     s16 seg_top; /* index of the last used entry of segs[], -1 when segs[] is empty */
     u8 pad322[2];
