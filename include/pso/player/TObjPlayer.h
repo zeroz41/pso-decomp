@@ -315,7 +315,6 @@ struct TObjPlayer : public TObjChara {
     void set_vec4_const();
     static void init_matrix_stack(s32 arg0, s32 arg1);
     static void render_tree(void *model);
-    void draw_compass_sprite(s32 idx, s32 color, s32 flags, f32 z);
     void init_vec_record();
     s32 get_entrance_id();
     void copy_efb_to_texture();

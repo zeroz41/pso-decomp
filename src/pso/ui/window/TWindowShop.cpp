@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowScrollBar.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -16,8 +17,6 @@
 
 extern "C" {
 
-s32 draw_item_list_capacity(void *, int, int, int);
-s32 draw_window_scrollbar(void *, int, void *);
 u8 *get_window_layout_position(s32);
 
 const char *TWindowShop__class_name = "TWindowShop";
@@ -69,15 +68,15 @@ TWindowShop *TShopJudgmentItemWindow::open_default(s32 title) {
 #pragma push
 #pragma fp_contract on
 void TWindowShop::render() {
-    saddr context;
+    WindowDrawContext *context;
     s32 n;
     void *p;
-    context = reinterpret_cast<saddr>(get_draw_context());
-    draw_window_frame((void *)context);
+    context = get_draw_context();
+    draw_window_frame(context);
     draw_visible_window_entries(
         this,
         reinterpret_cast<const WindowLayoutEntries *>((u8 *)this + 0x24),
-        reinterpret_cast<WindowDrawContext *>(context));
+        context);
     if (!(this->state_flags & 0x80)) {
         draw_selected_list_entry(context);
     }
@@ -87,11 +86,11 @@ void TWindowShop::render() {
     }
     p = this->status_display;
     if (p != NULL) {
-        ((TWindowSubStatusDisp *)((void *)(p)))->forward_render((void *)(context));
+        ((TWindowSubStatusDisp *)((void *)(p)))->forward_render(context);
     }
     p = this->scroll_bar;
     if (p != NULL) {
-        draw_window_scrollbar(p, context, (u8 *)&this->scroll_offset[0]);
+        draw_window_scrollbar(scroll_bar, context, scroll_offset);
     }
 }
 #pragma pop

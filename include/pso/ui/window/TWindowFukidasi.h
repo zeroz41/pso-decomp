@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
 
+struct RotatedQuadSpriteRect;
+
 class TWindowFukidasi : public TWindowAddition {
 public:
     void init_flags(s32 flags);
@@ -10,9 +12,10 @@ public:
     virtual ~TWindowFukidasi();
     virtual void run_task();
     void update_reveal_timer();
-    void draw_body(void *, u32, f32 *, f32);
-    void draw_body_row(void *, void *, f32, f32, f32, f32);
-    void draw_tail(void *, u32, f32 *, f32);
+    void draw_body(WindowDrawContext *context, u32 color, f32 *offset, f32 depth);
+    void draw_body_row(RotatedQuadSpriteRect *slice, WindowDrawContext *context, f32 offset_x, f32 row_top, f32 width, f32 height);
+    void draw_tail(WindowDrawContext *context, u32 color, f32 *offset, f32 depth);
+    void draw_name_plate(WindowDrawContext *context, u32 color);
     void init_balloon(u16 speaker, s32 text, s32 client, f32 scale);
     s32 clamp_position(void *, f32);
     void set_color(u16);

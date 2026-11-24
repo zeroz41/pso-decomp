@@ -15,7 +15,7 @@ void fn_80255A38(TWindowHelpItem *item);
 void fn_80255A38(TWindowHelpItem *item) {
     item->entry_list.destroy_all_items();
     item->m_60 &= ~1;
-    item->m_68 = 0;
+    item->active_item = NULL;
     item->m_6c = 0;
     item->m_70 = 0;
     item->m_9c = -1;

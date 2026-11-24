@@ -5,22 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/ActionPaletteTag.h"
 
-// A sprite part of a window (layout record type 6): position, texture rectangle, colour.
-struct Icon_80243630 {
-    u8 pad0[0x8];
-    f32 x;
-    f32 y;
-    f32 w;
-    f32 h;
-    u8 pad18[0x1C - 0x18];
-    f32 u0;
-    f32 v0;
-    f32 u1;
-    f32 v1;
-    s32 color;
-    u8 pad30[0x34 - 0x30];
-    s32 kind;
-};
+class WindowSpritePart;
 
 struct TWindowActionPalette : public TWindowBase {
     TWindowActionPalette(s32 slot);
@@ -56,11 +41,11 @@ struct TWindowActionPalette : public TWindowBase {
     static u16 get_slot_type_for_index(s32 *effect, s32 id);
 };
 
-struct TWindowHelpItem;
+class TUnk_804CF9C8;
 
 extern "C" {
-void draw_action_palette_icon(Icon_80243630 *icon, u16 group, u16 index);
-void update_palette_item_count_label(TWindowHelpItem *label, Icon_80243630 *icon, u16 group, u16 index, s32 client_id);
+void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index);
+void update_palette_item_count_label(TUnk_804CF9C8 *label, WindowSpritePart *icon, u16 group, u16 index, s32 client_id);
 void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot);
 }
 s32 get_palette_consumable_count(u16 slot, s32 client_id);

@@ -2,6 +2,8 @@
 #define PSO_UNK_WINDOWLAYOUTRECORD_H
 
 #include "types.h"
+
+struct NJS_TEXLIST;
 #include <stddef.h>
 
 // Records of a window layout table (cols, rows, then cols * rows records), read by
@@ -62,7 +64,7 @@ struct SpritePartLayoutRecord {
     f32 v;
     f32 depth;
     s32 color;
-    s32 *texture_list_slot;
+    NJS_TEXLIST **texture_list_slot;
     s32 texture;
     s32 flags;
 };
@@ -78,7 +80,7 @@ struct DirectSpritePartLayoutRecord {
     f32 v1;
     f32 depth;
     s32 color;
-    s32 *texture_list_slot;
+    NJS_TEXLIST **texture_list_slot;
     s32 texture;
     s32 flags;
 };

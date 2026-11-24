@@ -3,6 +3,11 @@
 
 #include "types.h"
 
+extern "C" {
+void *mem_alloc(u32 bytes);
+void mem_free(void *allocation);
+}
+
 void move_words(void *destination, const void *source, s32 count);
 
 void xfree(void *p);

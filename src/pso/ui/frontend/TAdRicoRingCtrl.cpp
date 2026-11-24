@@ -1,5 +1,3 @@
-#include "pso/system/BmlResource.h"
-#include "pso/render/ColorLineList.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/TriangleFan3D.h"
@@ -48,10 +46,10 @@ u32 rico_ring_quad_colors[4] = { 0xB0, 0xB0, 0xB0, 0xB0 };
 NJS_POINT3 rico_ring_quad_vertices[4] = { 0.0f };
 NJS_POINT3COL rico_ring_quad = { rico_ring_quad_vertices, rico_ring_quad_colors, NULL, 4 };
 // inferred: the screen rectangle and colours of the fade TAdRicoRingCtrl::render draws in 2D
-ColorLineVertex rico_ring_fade_positions[4] = {
+NJS_POINT2 rico_ring_fade_positions[4] = {
     {350.0f, 0.0f}, {640.0f, 0.0f}, {640.0f, 600.0f}, {350.0f, 600.0f},
 };
-u32 rico_ring_fade_colors[4];
+NJS_COLOR rico_ring_fade_colors[4];
 const char *TAdRicoRing__class_name = "TAdRicoRing";
 const char *TAdRicoRingCtrl__class_name = "TAdRicoRingCtrl";
 
@@ -300,13 +298,13 @@ void TAdRicoRingCtrl::render() {
     draw_tri_fan_3d(&rico_ring_quad, 4, 6);
     t = fade;
     if (t > 0.0f) {
-        ColorLineList args = { rico_ring_fade_positions, rico_ring_fade_colors, 0, 4 };
+        NJS_POINT2COL args = { rico_ring_fade_positions, rico_ring_fade_colors, NULL, 4 };
         u32 cnt = __cvt_fp2unsigned(255.0f * t);
         s32 i;
         for (i = 0; i < 4; i++) {
-            rico_ring_fade_colors[i] = cnt;
+            rico_ring_fade_colors[i].color = cnt;
         }
-        draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&args), 4, 6, -2.0f);
+        draw_polygon_2d(&args, 4, 6, -2.0f);
     }
 }
 #pragma pop

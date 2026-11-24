@@ -25,7 +25,7 @@ public:
     f32 maximum;
     f32 target;
 
-    TWindowStatusGauge *init_from(StatusGaugeLayout *source, s32 client);
+    TWindowStatusGauge(StatusGaugeLayout *source, s32 client);
     void draw_status_gauge_bar(WindowDrawContext *context, NJS_POINT2 *position, f32 depth, f32 length);
 };
 

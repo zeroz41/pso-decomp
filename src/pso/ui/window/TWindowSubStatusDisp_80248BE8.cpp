@@ -1,3 +1,4 @@
+#include "pso/ui/window/WindowScrollBar.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
@@ -17,7 +18,6 @@
 
 extern "C" {
 s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
-s32 draw_window_scrollbar(s32, s32, void *);
 
 extern s32 local_client_id;
 
@@ -34,12 +34,12 @@ void TWindowCheckBox::render() {
     WindowDrawContext *context = get_draw_context();
     draw_window_frame(context);
     draw_visible_window_entries(this, &entry_list, context);
-    draw_selected_list_entry((saddr)context);
+    draw_selected_list_entry(context);
     if (status_display != NULL) {
         ((TWindowSubStatusDisp *)status_display)->forward_render(context);
     }
     if (scroll_bar != NULL) {
-        draw_window_scrollbar((saddr)scroll_bar, (saddr)context, scroll_offset);
+        draw_window_scrollbar(scroll_bar, context, scroll_offset);
     }
 }
 
@@ -47,7 +47,7 @@ void TWindowCheckBox::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
     uaddr temp_r3;
-    uaddr temp_r3_2;
+    WindowScrollBar *temp_r3_2;
     ControllerInputContext *input;
     ControllerInputContext *temp_r29_2;
     ControllerInputContext *context;
@@ -84,9 +84,9 @@ void TWindowCheckBox::run_task() {
         if (temp_r3 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
         }
-        temp_r3_2 = (uaddr)scroll_bar;
-        if (temp_r3_2 != 0U) {
-            ((TWindowSubStatusDisp *)temp_r3_2)->increment_counter();
+        temp_r3_2 = scroll_bar;
+        if (temp_r3_2 != NULL) {
+            temp_r3_2->increment_counter();
         }
     }
     ((TWindowDD *)arg0)->initialize_subwindow();

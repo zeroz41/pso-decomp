@@ -3,14 +3,8 @@
 
 #include "types.h"
 
-extern "C" {
-s32 fn_8025373C(u8 *self);
-}
+struct TWindowHelpItem;
 
-// --- C functions defined in text_8025373C.cpp ---
-extern "C" {
-s32 fn_8025373C(u8 *self);
-}
-// --- end of C functions
+extern "C" s32 fn_8025373C(TWindowHelpItem *self);
 
 #endif

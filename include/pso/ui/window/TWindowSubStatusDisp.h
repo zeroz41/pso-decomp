@@ -51,7 +51,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void dispatch_page_init();
     void set_count_ratio_text(s32 arg1, s32 arg2);
     void clear_visible_flag();
-    void increment_counter();
     static s32 destroy_allocation(s32 arg0, s16 arg1);
 
     static s32 get_status_index(u16 client_index);
@@ -89,7 +88,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void set_text(uaddr arg1, s32 string, s32 arg3);
     void set_text(uaddr arg1, s32 arg2);
     void refresh_selected_entry(s32 arg1);
-    void add_status_entry(s8 arg1, s32 src, s32 item);
     void init_scroll_pos();
     int is_flag80_set();
     void add_text_entry(s32 arg1, s32 arg2);

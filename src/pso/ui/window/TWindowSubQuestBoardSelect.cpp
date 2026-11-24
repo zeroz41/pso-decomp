@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/ColorLineList.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "types.h"
@@ -43,7 +44,6 @@ struct Entry_8027D444 {
 struct Ent_8027D6A0 { u8 pad0[0x20]; u8 f20[0x30]; };
 
 
-extern s32 hud_texlist;
 
 // inferred: window_sub_quest_board_select_layout_entries, the layout table
 // TWindowSubQuestBoardSelect__window_parameters points at (two text entries, six slot sprites).

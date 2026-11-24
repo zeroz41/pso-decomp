@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include <stdio.h>
 #include <string.h>
@@ -28,7 +29,6 @@
 
 extern "C" {
 void fn_8025DE10(void *context, NJS_POINT2 *cursor);
-s32 play_sound_effect(int, int, int, int);
 }
 
 char lbl_80543010[0x40];

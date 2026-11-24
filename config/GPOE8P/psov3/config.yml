@@ -1847,7 +1847,7 @@ force_active:
   - gray_out_battle_item_entries__18TWindowSubItemListFv
   - TWindowSubLog__class_name
   - get_photon_blast_name
-  - TWindowSubMag__sub_8027C0E8
+  - is_cancelled__19TWindowSubMagPhotonFv
   - TWindowSubQuestBoardSelect__sub_8027D444
   - TWindowSubShortCutList__ct
   - find_target_user__19TWindowSubShortMailFv
@@ -3896,7 +3896,7 @@ force_active:
   - apply_armor_effect_flags__13TItemProArmorFv
   - apply_attack_params__16TObjEneRe7BeruraFiPv
   - apply_attack_stat_status__13TObjEneRe4BitFPv
-  - apply_balance__19TWindowSoundBalanceFPv
+  - apply_balance__19TWindowSoundBalanceFP17WindowDrawContext
   - add_shock_immunity__Fi
   - apply_blend_mode_1__10TObjPlayerFv
   - apply_bonuses
@@ -4783,7 +4783,7 @@ force_active:
   - calc_lunge_aim__14TObjEneBm5WolfFPv
   - calc_move_state__12TObjEneSaverFv
   - calc_move_vector__17TObjEneMe1CanadinFP3Vec
-  - calc_offset__17TWindowSubComCardFv
+  - get_close_progress__11TWindowBaseFv
   - calc_orb_positions__18TObjEneRe4SorcererFv
   - calc_parameters__11TTecRaBartaFv
   - calc_params__11TTecGiBartaFv
@@ -5152,7 +5152,7 @@ force_active:
   - clear_field2A0__22TQuestVmDownLoadServerFP17TMCFormatSequence
   - clear_field_d8__14TOTrapChainSawFv
   - clear_log_active__15TWindowMainMenuFv
-  - clear_flag60_bit8__13TWindowSubMagFv
+  - clear_flag60_bit8__15TWindowHelpItemFv
   - clear_flag70_bit80__19TWindowSubTechniqueFv
   - clear_flag_and_notify__18CameraDistanceFadeFv
   - clear_flag_and_release__14TWindowSubItemFv
@@ -5814,8 +5814,8 @@ force_active:
   - draw_color_palette__24TWindowSubSymbolChatHelpFPv
   - draw_color_quad_2d__FPvPvi
   - draw_current_pic__10TEndingPicFv
-  - draw_cursor__19TWindowSubMagPhotonFPv
-  - draw_cursor__22TWindowSubCustomSelectFPUc
+  - draw_cursor__19TWindowSubMagPhotonFP17WindowDrawContext
+  - draw_cursor__22TWindowSubCustomSelectFP17WindowDrawContext
   - draw_debug_info__12TObjNpcEnemyFv
   - draw_debug_line__18TObjEneEpsilonBodyFv
   - draw_dialing_status__12TAdDialingGCFv
@@ -5894,7 +5894,7 @@ force_active:
   - draw_record_with_camera__19TAdTrialAgreementGCFlll
   - draw_screen__22TAdEnterSerialAccessGCFPvPv
   - draw_segment__15TEffStarLight2DFP15ColorLineVertexP15ColorLineVertexP15ColorLineVertexP15ColorLineVertexl
-  - draw_selected_bar__11TWindowMenuFPUc
+  - draw_selected_bar__11TWindowMenuFP17WindowDrawContext
   - draw_selected_entry__20TWindowSubSymbolChatFv
   - draw_selected_part_cursor__28TWindowSubSymbolChatPartsSetFPv
   - draw_serial_chars__22TAdEnterSerialAccessGCFPv
@@ -6659,7 +6659,7 @@ force_active:
   - get_owner_id__22TPlyFollowParticleCtrlFv
   - get_list_item8__24TShopEquipmentListWindowFv
   - get_lobby_theme_clamped__16TObjCurtainLobbyFv
-  - get_mag_state__13TWindowSubMagFv
+  - get_mag_state__15TWindowHelpItemFv
   - get_body__14ShortMailEntryFv
   - get_material_index__18TPlayerLobbyMarkerFv
   - get_material_limit_for_class__Fl
@@ -6710,7 +6710,7 @@ force_active:
   - get_result__16TObjItemOKWindowFv
   - get_result__18TObjItemNameSelectFv
   - get_rock_entry__10TBoss6RockFl
-  - get_selected_blast__13TWindowSubMagFv
+  - get_selected_blast__19TWindowSubMagPhotonFv
   - get_selected_entry__18TWindowSubItemListFv
   - get_selected_guild_card_record__Fv
   - get_seq_phase__6TLobbyFi
@@ -14034,7 +14034,7 @@ force_active:
   - refresh_invincibility__8TItemMagFv
   - refresh_item_list__20TShopArmorListWindowFv
   - refresh_label__11TChCrEffTagFv
-  - refresh_mail_list__19TWindowSubShortMailFPv
+  - refresh_mail_list__19TWindowSubShortMailFP19TWindowMenuIconLine
   - refresh_names__15TObjDeadListWinFv
   - refresh_npc_view_actor_lost__FPv
   - refresh_palette_slots__21TWindowSubCustomEquipFv
@@ -15476,7 +15476,7 @@ force_active:
   - set_flag3c8_bit8__13TObjEneMe1GeeFv
   - set_flag3c8_bit8__17TObjEneMe1CanadinFv
   - set_log_active__15TWindowMainMenuFv
-  - set_flag60_bit8__13TWindowSubMagFv
+  - set_flag60_bit8__15TWindowHelpItemFv
   - set_flag62_bit8__19TWindowKeyBoardBaseFv
   - set_flag_10__21TWindowMenuInfomationFv
   - set_flag_270__6TLobbyFPv
@@ -16289,7 +16289,7 @@ force_active:
   - sub_80271F04__17TWindowSubComCardFPvll
   - sub_802721D8__17TWindowSubComCardFv
   - sub_802730E0__17TWindowSubComCardFv
-  - sub_80275F08__21TWindowSubCustomEquipFPv
+  - get_cursor_origin__21TWindowSubCustomEquipFP10NJS_POINT2
   - sub_8027D230__26TWindowSubQuestBoardSelectFv
   - sub_80281C60__20TWindowSubSymbolChatFv
   - sub_80281CC4__20TWindowSubSymbolChatFv

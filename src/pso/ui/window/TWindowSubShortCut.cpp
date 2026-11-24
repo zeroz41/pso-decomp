@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/ui/window/WindowMenuFactory.h"
+#include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShortCut.h"
 #include "pso/ui/window/TWindowSubShortCut.h"
@@ -31,14 +31,11 @@ struct TWindowShortCut;
 struct Win_8027DBB8 { u8 pad[0x20]; saddr client_id; };
 
 extern "C" {
-saddr get_window_layout_position(s32 a0);
 s32 clear_chat_shortcut();
 }
 s32 store_chat_shortcut(s32 arg0, s32 arg1);
 extern "C" {
-void open_com_card_list__18TWindowSubShortCutFv(void *arg0);
 u32 *get_chat_shortcut();
-saddr get_window_layout_position(s32 a0 = 0);
 
 }
 
@@ -64,7 +61,7 @@ TWindowSubShortCut::~TWindowSubShortCut() {
     if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowMessageYesNo *)(*(void **)((s8 *)this + 0x34)))->close(); this->confirm_window = 0; }
     if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x3C)))->close(); this->m_3c = 0; }
     if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->menu = 0; }
-    if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close(); this->com_card_list = 0; }
+    if (com_card_list != NULL) { com_card_list->close(); com_card_list = NULL; }
 }
 
 void TWindowSubShortCut::run_task() {
@@ -89,19 +86,19 @@ void TWindowSubShortCut::run_task() {
             ((TWindowBase *)this->menu)->close();
             this->menu = 0U;
         }
-        if ((u32) this->com_card_list == 0U) {
-            this->com_card_list = ((s32 (*)(void *))open_com_card_list__18TWindowSubShortCutFv)(arg0);
+        if (com_card_list == NULL) {
+            com_card_list = open_com_card_list();
         }
-        ((TWindowSubShortCutList *)(this->com_card_list))->refresh_entries();
-        ((TWindowMenuIconLine *)(this->com_card_list))->clear_decided();
+        com_card_list->refresh_entries();
+        com_card_list->clear_decided();
         this->state = 2U;
     case 2:
-        if (((TWindowMenuIconLine *)(this->com_card_list))->is_cancelled() != 0) {
+        if (com_card_list->is_cancelled() != 0) {
             parent_menu->on_submenu_closed();
             this->state = 0xBU;
             return;
         }
-        if (((TWindowMenuIconLine *)(this->com_card_list))->is_decided() != 0) {
+        if (com_card_list->is_decided() != 0) {
             this->state = 3U;
         }
         break;
@@ -131,10 +128,10 @@ void TWindowSubShortCut::run_task() {
             ((TWindowBase *)this->menu)->close();
             this->menu = 0U;
         }
-        if ((u32) this->com_card_list != 0U) {
-            this->m_24 = ((TWindowMenuIconLine *)this->com_card_list)->get_cursor_value();
-            ((TWindowBase *)this->com_card_list)->close();
-            this->com_card_list = 0U;
+        if (com_card_list != NULL) {
+            this->m_24 = com_card_list->get_cursor_value();
+            com_card_list->close();
+            this->com_card_list = NULL;
         }
         if ((u32) this->chat_window == 0U) {
             void *chat = new TWindowChat((TObject *)arg0, (u8 *)&this->m_40);
@@ -194,7 +191,7 @@ void TWindowSubShortCut::run_task() {
         }
         if (((TWindowMessageYesNo *)(this->confirm_window))->is_child_visible() != 0) {
             if (((TWindowMessageYesNo *)(this->confirm_window))->get_selected_value() == 0) {
-                ((TWindowMenuIconLine *)this->com_card_list)->get_cursor_value();
+                com_card_list->get_cursor_value();
                 clear_chat_shortcut();
                 this->state = 1U;
                 return;
@@ -209,18 +206,17 @@ void TWindowSubShortCut::run_task() {
 
 void TWindowSubShortCut::render() {  }
 
-void TWindowSubShortCut::open_com_card_list() {
-    saddr tmp = get_window_layout_position(0x72);
-    ((TWindowSubShortCutList *)tmp)->create((void *)this->m_24);
+TWindowSubShortCutList *TWindowSubShortCut::open_com_card_list() {
+    return TWindowSubShortCutList::create(get_window_layout_position(0x72), static_cast<s32>(m_24));
 }
 
 s32 TWindowSubShortCut::open_menu() {
     saddr list;
     u32 *chat_shortcut;
 
-    ((TWindowMenuIconLine *)this->com_card_list)->get_cursor_value();
+    com_card_list->get_cursor_value();
     chat_shortcut = get_chat_shortcut();
-    list = create_titled_window_menu_default(get_window_layout_position(0x74), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x2C));
+    list = create_titled_window_menu_default(reinterpret_cast<saddr>(get_window_layout_position(0x74)), 2, (saddr)TWindowSubStatusDisp::get_message_10(0x2C));
     ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x7E)), 6, 5);
     if ((u32) *chat_shortcut != 0U) {
         ((TWindowMenu *)list)->add_text_entry((saddr)(TWindowSubStatusDisp::get_message_10(0x5A)), 6, 9);

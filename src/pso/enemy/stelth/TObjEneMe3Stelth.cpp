@@ -83,7 +83,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
-#include "pso/ui/frontend/TAdEnterPasswordGC.h"
+#include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on
@@ -1592,7 +1592,7 @@ void TObjEneMe3Stelth::render() {
     } else {
         mode = 0;
     }
-    if (stealthed != 0 && is_split_screen() == 0 && dispatch_input_to_instance__18TAdEnterPasswordGCFi((saddr)this) != 0) {
+    if (stealthed != 0 && is_split_screen() == 0 && TUnk_804EDAC0::dispatch_input_to_instance(this) != 0) {
         return;
     }
     if (mode != 0) {

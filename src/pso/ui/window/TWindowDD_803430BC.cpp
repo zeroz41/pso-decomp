@@ -553,7 +553,7 @@ TWindowDD::TWindowDD(TObject *parent, void *arg2) : TObject(parent) {
       TWindowDD__sub_803412A0((TWindowDD_WS_String *)q);
     }
   }
-  TWindowDD::format_message(self->fC4, (void *)TWindowDD__work_buffer, local_client_id);
+  TWindowDD::format_message(reinterpret_cast<WordSelectMessage *>(self->fC4), reinterpret_cast<char *>(TWindowDD__work_buffer), local_client_id);
   {
     a.x = lbl_805DFBF0;
     a.y = lbl_805DFBF4;

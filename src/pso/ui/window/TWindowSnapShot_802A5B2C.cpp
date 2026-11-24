@@ -8,10 +8,6 @@
 #include <string.h>
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
-extern "C" {
-void *mem_alloc(u32 size);
-
-}
 
 u32 RlcDirectoryEntry::get_size() { return read_be32(size_be); }
 u32 RlcDirectoryEntry::get_offset() { return read_be32(offset_be); }

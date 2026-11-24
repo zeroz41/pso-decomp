@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include <string.h>
 #include "pso/ui/window/WindowDrawContext.h"
@@ -26,10 +27,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/PlayerSlots.h"
 
-extern "C" {
-void mem_free(void *);
-s32 mem_alloc(s32);
-}
 
 // Screen x, y of each item icon slot (indexed by get_entry_ptr).
 extern const f32 status_disp_item_icon_coord_table[51][2] = {
@@ -100,7 +97,6 @@ void ItemListRow::finalize_state() {
     }
 }
 
-void mem_free(void *p);
 
 void ItemListRow::reset() {
     this->status_icon = 0x33;
@@ -656,7 +652,7 @@ saddr ItemListRow::replace_owned_string(saddr src, saddr buf, s32 mask, s32 copy
     }
     if ((u32)src != 0 && copy != 0) {
         n = (s32)measure_string_len((const char *)(src));
-        buf = mem_alloc(n + 1);
+        buf = reinterpret_cast<saddr>(mem_alloc(n + 1U));
         strncpy((char *)buf, (const char *)src, n + 1);
         this->flags |= mask;
     } else {
@@ -685,7 +681,6 @@ void ItemListRow::calc_row_width() {
 
 void*TWindowSubStatusDisp::get_entry_ptr(int a0) {  return (char*)status_disp_item_icon_coord_table + (unsigned char)(a0) * 8; }
 
-extern s32 hud_texlist;
 extern const f32 lbl_805DCF1C;
 
 void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon, s32 style, f32 depth) {
@@ -699,7 +694,7 @@ void draw_item_list_icon(WindowDrawContext *win, ItemListPosition *pos, s32 icon
     if ((u8)icon != 0x33) {
         p = pos;
         begin_screen_draw(1);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+        TObjFish::set_global_param(hud_texlist);
         set_draw_texture_and_color(1, style);
         entry = (f32 *)TWindowSubStatusDisp::get_entry_ptr(icon);
         offset = lbl_805DCF14;

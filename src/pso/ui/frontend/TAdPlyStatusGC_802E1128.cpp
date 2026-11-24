@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/npc/TNpcPlayer_8028B810.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdPlyStatusGC.h"
 
@@ -6,16 +7,17 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-s32 TAdPlyStatusGC::get_field_498() { return *(s32*)((char*)this + 0x498); }
-void*TAdPlyStatusGC::get_chara_making_data() { return (char*)this + 0x1b8; }
-s32 TAdPlyStatusGC::get_field_49c() { return *(s32*)((char*)this + 0x49c); }
-s32 TAdPlyStatusGC::get_field_4a0() { return *(s32*)((char*)this + 0x4a0); }
-void*TAdPlyStatusGC::get_status_data() { return (char*)this + 0x324; }
-saddr TAdPlyStatusGC::get_field_4a4() { return *(s32*)((char*)this + 0x4a4); }
-void*TAdPlyStatusGC::get_status_sub() { return (char*)this + 0x490; }
+s32 CharacterPreviewLoadData::get_hair_model() { return part_models[0]; }
+NJS_TEXLIST *CharacterPreviewLoadData::get_chara_making_data() { return &head_textures.list; }
+s32 CharacterPreviewLoadData::get_head_model() { return part_models[1]; }
+s32 CharacterPreviewLoadData::get_attachment_model() { return part_models[2]; }
+NJS_TEXLIST *CharacterPreviewLoadData::get_status_data() { return &other_textures.list; }
+saddr CharacterPreviewLoadData::get_body_model() { return body_model; }
+NJS_TEXLIST *CharacterPreviewLoadData::get_status_sub() { return &body_textures.list; }
 
-    extern int ply_status_chcr_load_afs;
-void TAdPlyStatusGC::set_status_param(int load_afs) { ply_status_chcr_load_afs = load_afs; }
+void TAdPlyStatusGC::set_status_param(CharacterPreviewLoadData *load_afs) {
+    ply_status_chcr_load_afs = load_afs;
+}
 
 TAdPlyStatusGC *TAdPlyStatusGC::get_index() {  return ply_status_gc_instance; }
 

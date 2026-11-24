@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/ui/charcreate/TChCrLoadAfs.h"
+#include "pso/npc/TNpcPlayer_8028B810.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/TObjLuker.h"
@@ -33,14 +33,13 @@ extern s32 TAdPlyStatusGC__is_shown;
 void draw_status_window__14TAdPlyStatusGCFPvPv(void *arg0, void *arg1);
 TWindowBase *TAdPlyStatusGC__sub_8033F8B0(void *arg0, const void *arg1);
 saddr get_localized_text_entry(s32 arg0, s32 arg1);
-extern saddr ply_status_chcr_load_afs;
 s32 *TAdSinglePlyChrSelectGC__sub_801FE3E4(u32 i);
 s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
 }
 extern "C" {
 extern u32 ply_status_index;
 TAdPlyStatusGC *ply_status_gc_instance;
-saddr ply_status_chcr_load_afs;
+CharacterPreviewLoadData *ply_status_chcr_load_afs;
 s32 TAdPlyStatusGC__window_offset_index;
 u32 ply_status_index;
 s32 TAdPlyStatusGC__is_shown;
@@ -80,8 +79,6 @@ void TAdPlyStatusGC::render() { if (TMainTask::get_render_pass() != 1) { set_col
 #pragma dont_inline off
 struct Box_8033F3D8 { f32 v[8]; };
 struct Item_8033F3D8 { s8 valid; u8 pad[0xF]; };
-struct Status_8033F3D8 { u8 pad[8]; u32 f8; };
-
 void draw_window_frame__11TWindowBaseFPv(void *);
 void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
     Item_8033F3D8 items[3];
@@ -91,14 +88,14 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
     s32 i;
 
     ((TWindowBase *)window_base)->draw_window_frame(arg1);
-    if ((u32)ply_status_chcr_load_afs != 0 && ((TChCrLoadAfs *)ply_status_chcr_load_afs)->is_unloaded() != 0 && TAdPlyStatusGC__is_shown != 0 &&
-        (*(Status_8033F3D8 **)((TAdPlyStatusGC *)ply_status_chcr_load_afs)->get_status_sub())->f8 != 0) {
+    if (ply_status_chcr_load_afs != NULL && ply_status_chcr_load_afs->is_unloaded() != 0 && TAdPlyStatusGC__is_shown != 0 &&
+        ply_status_chcr_load_afs->get_status_sub()->textures[0].texture != NULL) {
         box = TAdPlyStatusGC__status_window_box;
         box.v[0] = TAdPlyStatusGC__status_window_box.v[0] + OFF_8033F3D8.x;
         box.v[2] = TAdPlyStatusGC__status_window_box.v[2] + OFF_8033F3D8.x;
         box.v[1] = TAdPlyStatusGC__status_window_box.v[1] + OFF_8033F3D8.y;
         box.v[3] = TAdPlyStatusGC__status_window_box.v[3] + OFF_8033F3D8.y;
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((Status_8033F3D8 **)((TAdPlyStatusGC *)ply_status_chcr_load_afs)->get_status_sub()));
+        TObjFish::set_global_param(ply_status_chcr_load_afs->get_status_sub());
         begin_screen_draw(1);
         set_draw_texture_and_color(0, -1);
         draw_textured_quad_at_depth((f32 *)&box, 0.8f);

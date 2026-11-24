@@ -1,25 +1,26 @@
-#include "types.h"
-#include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/npc/TNpcPlayer_8028B810.h"
+#include "pso/ui/charcreate/TChCrLoadReq.h"
 
 extern "C" {
-s32 copy_player_visual_record(void *, void *);
-s32 TCharaMaking__bind_appearance_texture_lists(void *, void *, void *, void *);
 
-u8 *init_appearance_load_request__10TNpcPlayerFPvPvii(u8 *arg0, u8 *parent, saddr arg2, s32 arg3) {
+void copy_player_visual_record(void *, const void *);
+
+CharacterPreviewLoadData *init_appearance_load_request__10TNpcPlayerFPvPvii(
+    CharacterPreviewLoadData *data, TObject *parent, CharacterAppearanceFields *appearance, s32 slot) {
     CharacterPreviewLoadArgs args;
-    copy_player_visual_record(arg0 + 4, (void *)arg2);
-    *(s32 *)((s8 *)arg0 + 0x4A8) = 0xFF;
-    TCharaMaking__bind_appearance_texture_lists(arg0 + 0x54, arg0 + 0x1C0, arg0 + 0x32C, arg0 + 4);
-    args.appearance = (CharacterAppearanceFields *)(arg0 + 4);
-    args.completion_flags = (u32 *)(arg0 + 0x4A8);
-    args.load_slot = arg3;
-    args.body_model = (s32 *)(arg0 + 0x4A4);
-    args.part_models = (s32 *)(arg0 + 0x498);
-    args.body_textures = (NJS_TEXLIST *)(arg0 + 0x490);
-    args.other_textures = (NJS_TEXLIST *)(arg0 + 0x324);
-    args.head_textures = (NJS_TEXLIST *)(arg0 + 0x1B8);
-    *(TChCrLoadReq **)arg0 = create_ch_cr_load_req((TObject *)parent, &args);
-    return arg0;
+    copy_player_visual_record(&data->appearance, appearance);
+    data->completion_flags = 0xFF;
+    TCharaMaking__bind_appearance_texture_lists(
+        &data->head_textures, &data->other_textures, &data->body_textures, &data->appearance);
+    args.appearance = &data->appearance;
+    args.completion_flags = &data->completion_flags;
+    args.load_slot = slot;
+    args.body_model = &data->body_model;
+    args.part_models = data->part_models;
+    args.body_textures = &data->body_textures.list;
+    args.other_textures = &data->other_textures.list;
+    args.head_textures = &data->head_textures.list;
+    data->request = create_ch_cr_load_req(parent, &args);
+    return data;
 }
 }

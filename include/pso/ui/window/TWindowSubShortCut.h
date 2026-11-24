@@ -6,17 +6,19 @@
 
 struct TWindowMainMenu;
 
+struct TWindowSubShortCutList;
+
 struct TWindowSubShortCut : public TObject {
     TWindowSubShortCut(TObject *object, void *arg2);
     virtual ~TWindowSubShortCut();
-    void open_com_card_list();
+    TWindowSubShortCutList *open_com_card_list();
     u8 state;
     u8 unk_1D[0x1];
     u16 m_1e;
     uaddr client_id;
     uaddr m_24;
     TWindowMainMenu *parent_menu;
-    uaddr com_card_list;
+    TWindowSubShortCutList *com_card_list;
     uaddr menu;
     uaddr confirm_window;
     uaddr chat_window;

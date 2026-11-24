@@ -4,7 +4,7 @@
 #include "pso/system/task/TObject.h"
 
 // Created by TLobby::create_tasks outside split screen. TObjEneMe3Stelth, TOTrapAncient02 and TOTrapSeabed01
-// queue themselves from their render() through TAdEnterPasswordGC::dispatch_input_to_instance; render() then
+// queue themselves from their render() through dispatch_input_to_instance; render() then
 // renders every queued object once and empties the queue (a deferred render list; role inferred).
 class TUnk_804EDAC0 : public TObject {
 public:
@@ -13,6 +13,7 @@ public:
     virtual void render();
     void clear_password();                // empties the queue
     void update_children();               // renders each queued object whose parents are not being destroyed
+    static s32 dispatch_input_to_instance(TObject *object);
     void sub_8032BC94(TObject *object);   // appends to the queue while it has room
     s32 get_confirm_state();              // nonzero while render() runs
 

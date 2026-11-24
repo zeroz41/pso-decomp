@@ -27,7 +27,6 @@ const char *TObjRaderCol__name = "TObjRaderCol";
 const char *TObjRaderHideCol__name = "TObjRaderHideCol";
 const char *TObjRaderIcon__name = "TObjRaderIcon";
 void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0);
-void add_radar_scaled_gate(void *, u32, u16, s32, s32, f32);
 u8 is_current_floor_switch_set(u16);
 
 }
@@ -212,13 +211,13 @@ void TObjRaderIcon::run_task() {
             }
         }
         if (all == 1) {
-            add_radar_scaled_gate(arg0->pos, 0xFF00FF00, arg0->f60, 0, 0, arg0->f9C);
+            add_radar_scaled_gate(&position, 0xFF00FF00, arg0->f60, 0, 0, arg0->f9C);
         } else {
-            add_radar_scaled_gate(arg0->pos, 0xFFFF0000, arg0->f60, 0, 0, arg0->f9C);
+            add_radar_scaled_gate(&position, 0xFFFF0000, arg0->f60, 0, 0, arg0->f9C);
         }
         break;
     case 1:
-        add_radar_scaled_gate(arg0->pos, arg0->fA0, arg0->f60, 0, 0, arg0->f9C);
+        add_radar_scaled_gate(&position, arg0->fA0, arg0->f60, 0, 0, arg0->f9C);
         break;
     }
 }

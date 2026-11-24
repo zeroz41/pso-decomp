@@ -6,6 +6,7 @@
 #include "pso/ui/frontend/TAdGuideButtonGC.h"
 
 class TWindowBase;
+struct CharacterPreviewLoadData;
 
 struct TAdPlyStatusGC : public TObject {
     TAdPlyStatusGC(TObject *parent, s32 window_offset_index);
@@ -16,14 +17,7 @@ struct TAdPlyStatusGC : public TObject {
     s32 prev_state;
     GuideButtonSpec buttons[2];
     TWindowBase *window;
-    s32 get_field_498();
-    void*get_chara_making_data();
-    s32 get_field_49c();
-    s32 get_field_4a0();
-    void*get_status_data();
-    saddr get_field_4a4();
-    void*get_status_sub();
-    void set_status_param(int load_afs);
+    void set_status_param(CharacterPreviewLoadData *load_afs);
     static TAdPlyStatusGC *get_index();
     static void set_status_index(int a0, int a1);
     void close_window(s32 index);

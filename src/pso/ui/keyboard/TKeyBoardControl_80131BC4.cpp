@@ -1,10 +1,8 @@
+#include "pso/system/memory.h"
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 
-extern "C" {
-void *mem_alloc(u32 size);
-}
 
 char *TKeyBoardControl::realloc_buffer() {
     char *out;

@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/render/GinjaTextureInput.h"
 #pragma defer_codegen on
 
@@ -115,7 +116,6 @@ NJS_TEXLIST shadow_map_texture_list = {&shadow_map_texture_entry, 1};
 Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 
 extern "C" {
-extern s32 hud_texlist;
 }
 
 #include "pso/system/task/TMainTask.h"
@@ -955,7 +955,7 @@ void TObjPlayer::draw_capture_caption_bar() {
     Stack_80082C30 stack;
     f32 y;
     f32 x;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(0, -1);
     begin_screen_draw(1);
     x = 192.0f;

@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/save/CardSaveFile.h"
 #include "pso/system/ResourceFile.h"
 #include "types.h"
@@ -226,7 +227,6 @@ struct SnapshotFrameBuffer {
 extern "C" {
 extern s32 lbl_805D49B4;
 s8 func_801A5E54__Fv(void);
-extern s32 hud_texlist;
 }
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
@@ -767,7 +767,7 @@ void draw_snapshot_capture_overlay(void) {
     TObjBoss2Tunnel::setup_projected_color_draw(1);
     TObjBoss2Tunnel::draw_projected_quads(v, 4);
     TObjBoss2Tunnel::reset_player_state();
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(1, -1);
     begin_screen_draw(1);
     q.x0 = snapshot_frame_center.x - 27.0f;

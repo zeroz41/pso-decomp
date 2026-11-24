@@ -1,5 +1,6 @@
 #pragma defer_codegen on
 
+#include "pso/system/SoundEffect.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
@@ -17,7 +18,6 @@
 extern "C" {
 saddr get_localized_text_entry(s32);
 s32 start_memcard_format(int, int, int, int, int);
-s32 play_sound_effect(int, int, int, int);
 extern s32 local_client_id;
 extern saddr tl_01;
 

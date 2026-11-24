@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowSubEquipKind.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
@@ -43,7 +44,6 @@ extern "C" {
 s32 canSetMenuCursorAction(s32, s32, u8, u8);
 s32 try_send_6x27_use_item(void *player, s32 key);
 s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
-void play_sound_effect(int, int, int, int);
 s32 TWindowCtrl__sub_8024A228(saddr);
 saddr get_window_layout_position(int);
 s32 end_player_keyboard_hold(saddr);

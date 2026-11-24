@@ -7,19 +7,14 @@
 extern "C" {
 
 void * TObjNpcAHM01__create(void *set_data);
-void mem_free(void *p);
-void *mem_alloc(u32 size);
 }
 
-void xfree(void *p);
-void *xmalloc(u32 size);
-
-void mem_free(void *p) {
-    if (p != NULL) {
-        xfree(p);
+void mem_free(void *allocation) {
+    if (allocation != NULL) {
+        xfree(allocation);
     }
 }
-void *mem_alloc(u32 size) { return xmalloc(size); }
+void *mem_alloc(u32 bytes) { return xmalloc(bytes); }
 
 extern void *tl_04;
 

@@ -1,44 +1,36 @@
-#include "types.h"
 #include "pso/boss/galgryphon/TObjBoss5Pillar_8028B714.h"
+#include "pso/npc/TNpcPlayer_8028B810.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/memory.h"
-#include "pso/ui/charcreate/TChCrLoadAfs.h"
+#include "pso/ui/charcreate/TChCrLoadReq.h"
 
-struct SubBase { char pad[0x18]; };
-struct SubObj : SubBase { virtual void m0(int); virtual void m1(int); virtual void m2(int); };
-
-u8 *free_chcr_resources(u8 *arg0, s16 arg1) {
-    SubObj *temp_r3;
-
-    if (arg0 != NULL) {
-        if (((void *) *(void **)((s8 *)arg0 + 0) != NULL) && (((TChCrLoadAfs *)arg0)->is_unloaded() == 0)) {
-            temp_r3 = (SubObj *) (*(void **)((s8 *)arg0 + 0));
-            if (temp_r3 != NULL) {
-                temp_r3->m0(1);
-            }
-            *(void **)((s8 *)arg0 + 0) = NULL;
+CharacterPreviewLoadData *free_chcr_resources(CharacterPreviewLoadData *data, s16 release_storage) {
+    if (data != NULL) {
+        if (data->request != NULL && data->is_unloaded() == 0) {
+            delete data->request;
+            data->request = NULL;
         }
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x54) != 0) {
-            if (!(*(s32 *)((s8 *)arg0 + 0x4A8) & 1)) {
-                free_texture_if_valid((NJS_TEXLIST *)(arg0 + 0x1B8));
+        if (data->head_textures.present != 0) {
+            if (!(data->completion_flags & 1)) {
+                free_texture_if_valid(&data->head_textures.list);
             }
-            *(s32 *)((s8 *)arg0 + 0x54) = 0;
+            data->head_textures.present = 0;
         }
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x1C0) != 0) {
-            if (!(*(s32 *)((s8 *)arg0 + 0x4A8) & 2)) {
-                free_texture_if_valid((NJS_TEXLIST *)(arg0 + 0x324));
+        if (data->other_textures.present != 0) {
+            if (!(data->completion_flags & 2)) {
+                free_texture_if_valid(&data->other_textures.list);
             }
-            *(s32 *)((s8 *)arg0 + 0x1C0) = 0;
+            data->other_textures.present = 0;
         }
-        if ((s32) *(s32 *)((s8 *)arg0 + 0x32C) != 0) {
-            if (!(*(s32 *)((s8 *)arg0 + 0x4A8) & 4)) {
-                free_texture_if_valid((NJS_TEXLIST *)(arg0 + 0x490));
+        if (data->body_textures.present != 0) {
+            if (!(data->completion_flags & 4)) {
+                free_texture_if_valid(&data->body_textures.list);
             }
-            *(s32 *)((s8 *)arg0 + 0x32C) = 0;
+            data->body_textures.present = 0;
         }
-        if (arg1 > 0) {
-            ::operator delete((arg0));
+        if (release_storage > 0) {
+            ::operator delete(data);
         }
     }
-    return arg0;
+    return data;
 }

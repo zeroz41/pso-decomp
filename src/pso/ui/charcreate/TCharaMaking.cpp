@@ -7,6 +7,7 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CharacterAppearanceTables.h"
+#include "pso/ui/charcreate/CharacterCreationTextureCache.h"
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
@@ -72,10 +73,6 @@ const s32 lbl_8045122C[19] = {
     16, 17, 14, 14, 14, 14, 14,
 };
 
-struct OutputSlot {u8 *name; unsigned int field4,field8;};
-
-struct TextureOutput {int loaded; u8 names[8][32]; struct OutputSlot slots[8]; struct OutputSlot *entries; int count;};
-
 struct P_8028DCCC { f32 a; f32 b; };
 
 
@@ -116,7 +113,6 @@ P_8028DCCC character_proportion_height_table[12] = {
 };
 
 extern "C" {
-void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureOutput *texture_output, TextureOutput *body, CharacterAppearanceFields *appearance);
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0);
 }
 CharacterAppearanceFields *get_class_appearance_preset(s32 arg0);
@@ -251,7 +247,10 @@ void TCharaMaking::update_body_parts() {
     u8 *arg0 = (u8 *)this;
     validate_player_visual_record(arg0 + 0x85C);
     *(f32 *)((s8 *)arg0 + 0xD48) = calc_character_height((CharacterAppearanceFields *)(arg0 + 0x85C));
-    ((s32 (*)(void *, void *, void *, void *))TCharaMaking__bind_appearance_texture_lists)(arg0 + 0x8B8, arg0 + 0xA24, arg0 + 0xB90, arg0 + 0x85C);
+    TCharaMaking__bind_appearance_texture_lists(reinterpret_cast<CharacterTextureLoadSet *>(arg0 + 0x8B8),
+        reinterpret_cast<CharacterTextureLoadSet *>(arg0 + 0xA24),
+        reinterpret_cast<CharacterTextureLoadSet *>(arg0 + 0xB90),
+        reinterpret_cast<CharacterAppearanceFields *>(arg0 + 0x85C));
     TChCrLoadReq::create(arg0);
 }
 
@@ -360,7 +359,7 @@ s32 validate_player_visual_record(void *arg0) {
 void TCharaMaking::clear_flag_bit0() { restore_alpha_ref(); model_render_flags = (model_render_flags & 0xfffffffe); }
 
 void TCharaMaking::enable_making() { model_render_flags = (model_render_flags | 0x1); set_alpha_ref_override((u8)31); }
-void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureOutput *texture_output, TextureOutput *body, CharacterAppearanceFields *appearance) {
+void TCharaMaking__bind_appearance_texture_lists(CharacterTextureLoadSet *hair, CharacterTextureLoadSet *head, CharacterTextureLoadSet *body, CharacterAppearanceFields *appearance) {
   CharacterClassAppearance *definition;
   CharacterTextureList **hairTextures;
   CharacterTextureList **headTextures;
@@ -368,7 +367,7 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
   CharacterClassAppearance *new_var;
   CharacterTextureList *temp_r6_2;
   new_var = &class_appearance_table[character_display_index(reinterpret_cast<uaddr>(appearance))];
-  output->loaded = 0;
+  hair->present = 0;
   definition = new_var;
   hairTextures = definition->hairTextures;
   if (hairTextures != 0)
@@ -376,23 +375,23 @@ void TCharaMaking__bind_appearance_texture_lists(TextureOutput *output, TextureO
     source = hairTextures[appearance->hair];
     if (source != 0)
     {
-      ((TCharaMaking *)output)->build_appearance_texture_names(appearance, definition, source);
-      output->loaded = 1;
+      hair->build_appearance_texture_names(appearance, definition, source);
+      hair->present = 1;
     }
   }
-  texture_output->loaded = 0;
+  head->present = 0;
   headTextures = definition->headTextures;
   if (headTextures != 0)
   {
     temp_r6_2 = headTextures[appearance->head];
     if (temp_r6_2 != 0)
     {
-      ((TCharaMaking *)texture_output)->build_appearance_texture_names(appearance, definition, temp_r6_2);
-      texture_output->loaded = 1;
+      head->build_appearance_texture_names(appearance, definition, temp_r6_2);
+      head->present = 1;
     }
   }
-  ((TCharaMaking *)body)->build_appearance_texture_names(appearance, definition, definition->bodyTextures);
-  body->loaded = 1;
+  body->build_appearance_texture_names(appearance, definition, definition->bodyTextures);
+  body->present = 1;
 }
 s32 TCharaMaking__sub_8028E3A0(f32 *arg0) {
     if (arg0[0] < 0.0f || arg0[0] >= 1.0f || arg0[1] < 0.0f || arg0[1] >= 1.0f) {
@@ -432,23 +431,23 @@ s32 character_display_index(uaddr appearance_record) {
 }
 
 }
-void TCharaMaking::build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
+void CharacterTextureLoadSet::build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
     if (source->count <= 8) {
         int index;
-        OutputSlot *slot;
-        u8 **entry;
-        u8 *name;
-        slot = ((TextureOutput *)this)->entries = ((TextureOutput *)this)->slots;
+        NJS_TEXNAME *slot;
+        const char **entry;
+        char *name;
+        slot = list.textures = entries;
         index = 0;
-        ((TextureOutput *)this)->count = source->count;
-        entry = (u8 **)source->entries;
+        list.nbTexture = source->count;
+        entry = source->entries;
         for (; index < source->count; ++index, ++entry, ++slot) {
-            name = ((TextureOutput *)this)->names[index];
-            strlen((const char *)(*entry));
-            strncpy((char *)name, (const char *)(*entry), 31);
+            name = names[index];
+            strlen(*entry);
+            strncpy(name, *entry, 31);
             name[31] = 0;
             if (definition->counts[0] > 0) {
-                char *digit = (char *)&name[6];
+                char *digit = &name[6];
                 if (*digit++ != '0' || *digit != '0') {
                 switch ((s8)name[4]) {
                 case 'b': case 't':
@@ -473,9 +472,9 @@ void TCharaMaking::build_appearance_texture_names(CharacterAppearanceFields *app
                 if (appearance->flags & 1 || (s8)appearance->section == -1) name[8] = 'z';
                 else name[8] = appearance->section + 'a';
             }
-            slot->name = name;
-            slot->field8 = 0;
-            slot->field4 = 0;
+            slot->filename = name;
+            slot->texaddr = 0;
+            slot->attr = 0;
         }
     }
 }

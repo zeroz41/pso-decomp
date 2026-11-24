@@ -12,7 +12,6 @@
 #include "pso/unk/text_80222C28.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowAddition.h"
-#include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/city/TShopWindowBase.h"
@@ -160,7 +159,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
             this->cursor = this->entry_count - 1;
         }
         this->item_list->calc_content_extent();
-        ((TWindowSubShortCutList *)(this->item_list))->set_cursor_index(this->cursor);
+        this->item_list->set_cursor_index(this->cursor);
         this->item_list->clear_decided();
     }
     if (this->help_window == NULL) {

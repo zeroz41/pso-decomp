@@ -10,7 +10,7 @@ s32 TAdChrSelASlotGC::get_state() { return state; }
 void TAdChrSelASlotGC::set_state(s32 value) { state = value; }
 
 void TAdChrSelPlayerGC::set_field_100(s32 value) {
-    m_100 = value;
+    pending_state = value;
 }
 
 void copy_vec2__FPvPv(NJS_POINT2 *target, const NJS_POINT2 *source);

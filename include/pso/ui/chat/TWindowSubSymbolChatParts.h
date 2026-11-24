@@ -23,7 +23,8 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
     u8 m_71;
     u8 cursor_col;
     u8 cursor_row;
-    u8 _pad74[0x2];
+    s8 row_count;
+    u8 pad_75;
     s16 item_count;
     s8 *selection;
     s32 *m_7c;
@@ -42,19 +43,12 @@ struct TWindowSubSymbolChatParts : public TWindowAddition {
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_size, sizeof(TWindowSubSymbolChatParts) == 0x90);
 
 extern "C" {
-void fn_80284C04(u8 *arg0);
+void fn_80284C04(TWindowSubSymbolChatParts *parts);
 void render__25TWindowSubSymbolChatPartsFv(u8 *window_sub_symbol_chat_parts);
 }
 void select_symbol_chat_slot(TWindowSubSymbolChatParts *parts);
 
-// --- C functions defined in TWindowSubSymbolChatParts.cpp ---
-extern "C" {
-void fn_80284C04(u8 *arg0);
-void render__25TWindowSubSymbolChatPartsFv(u8 *window_sub_symbol_chat_parts);
-}
-void select_symbol_chat_slot(TWindowSubSymbolChatParts *parts);
-// --- end of C functions
-
+LAYOUT_ASSERT(TWindowSubSymbolChatParts_row_count_offset, offsetof(TWindowSubSymbolChatParts, row_count) == 0x74);
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_selection_offset, offsetof(TWindowSubSymbolChatParts, selection) == 0x78);
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_m_7c_offset, offsetof(TWindowSubSymbolChatParts, m_7c) == 0x7C);
 LAYOUT_ASSERT(TWindowSubSymbolChatParts_m_80_offset, offsetof(TWindowSubSymbolChatParts, m_80) == 0x80);

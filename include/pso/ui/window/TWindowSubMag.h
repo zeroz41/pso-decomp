@@ -6,6 +6,9 @@
 
 struct TWindowMainMenu;
 struct TWindowLoadItemTexture;
+struct TWindowHelpItem;
+struct TWindowSubMagPhoton;
+struct TItemData;
 
 struct TWindowSubMag : public TObject {
     TWindowSubMag(TWindowMainMenu *parent, s32 client);
@@ -20,14 +23,14 @@ struct TWindowSubMag : public TObject {
     u8 pad_22[0x2];
     u32 displayed_item;
     s32 client_id;
-    uaddr mag;
+    TItemData *mag;
     TWindowMainMenu *parent;
     void *list;
     void *list2;
     void *card;
-    void *help;
+    TWindowHelpItem *help;
     TWindowLoadItemTexture *slotwin;
-    void *photon;
+    TWindowSubMagPhoton *photon;
     void *message;
 
     static const char *class_name;
@@ -40,11 +43,6 @@ struct TWindowSubMag : public TObject {
     void *create_action_menu(s32 id);
     saddr create_list();
     saddr setup_list();
-    s32 get_selected_blast();
-    void set_flag60_bit8();
-    void clear_flag60_bit8();
-    s32 get_mag_state();
-    void start_scroll(f32 farg0);
     static void feed_mag(void* p, void* a1, void* a2);
 };
 

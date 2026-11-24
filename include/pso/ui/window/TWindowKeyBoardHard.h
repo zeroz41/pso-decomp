@@ -20,10 +20,10 @@ struct TWindowKeyBoardHard : public TWindowBase {
     u16 lookup_key_char(u8);
     int sub_80260438();
     int sub_8026042C();
-    u32 m_60;
+    u32 input_flags;
     u32 m_64;
     s32 m_68;
-    u32 m_6c;
+    u32 accent_index;
     TWindowKeyBoardBase *m_control;
     void release_keyboard();
     virtual void render();

@@ -7,7 +7,7 @@ extern "C" {
 extern uaddr window_dd_buffer_a;
 
 void TWindowDD::open(void *message, u16 speaker) {
-    format_message(message, (void *)window_dd_buffer_a, speaker);
+    format_message(static_cast<WordSelectMessage *>(message), reinterpret_cast<char *>(window_dd_buffer_a), speaker);
     TWindowCtrl::open(speaker, window_dd_buffer_a, 0x4F);
 }
 

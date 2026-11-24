@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/unk/text_8026934C.h"
 #include "types.h"
@@ -858,7 +859,6 @@ void copy_bank_from_card_window(s32 slot) {
 #pragma pop
 extern "C" {
 
-void mem_free(void *p);
 
 #pragma push
 #pragma optimization_level 1

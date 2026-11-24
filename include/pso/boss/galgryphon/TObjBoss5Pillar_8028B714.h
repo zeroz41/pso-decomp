@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-u8 *free_chcr_resources(u8 *arg0, s16 arg1);
+struct CharacterPreviewLoadData;
+
+CharacterPreviewLoadData *free_chcr_resources(CharacterPreviewLoadData *data, s16 release_storage);
 
 #endif

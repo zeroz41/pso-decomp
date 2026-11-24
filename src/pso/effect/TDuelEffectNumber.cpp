@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/effect/TDuelEffectNumber.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -13,7 +14,6 @@
 #include "pso/system/task/TObject.h"
 
 extern "C" {
-extern s32 hud_texlist;
 }
 
 const char *TDuelEffectNumber::class_name = "TDuelEffectNumber";
@@ -94,7 +94,7 @@ void TDuelEffectNumber::render() {
     calc_digit_uv(&quad, digit);
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(6, -1);
     draw_digit(&quad);
     draw_echo(&quad);

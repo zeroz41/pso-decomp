@@ -1,3 +1,6 @@
+#include "pso/system/SoundEffect.h"
+#include "pso/ui/window/WindowSpritePart.h"
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/item/MagStats.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "types.h"
@@ -32,29 +35,24 @@
 #pragma push
 #pragma readonly_strings on
 
-struct Win_8027C188 { u8 pad[0x64]; s32 pb[3]; void *mag; };
-
-struct Win_8027C13C { u8 pad[0x61]; s8 sel; };
-
 extern "C" {
 void draw_action_palette_icon(void *e, s32 a, u16 b);
 extern const s8 lbl_805DD678[4] = { 1, 2, 0, 0 };
 extern const u8 lbl_805DD67C[4] = { 3, 1, 2, 0 };
 
-void TWindowSubMagPhoton::get_cursor_origin(void *xy) {
-    Win_8027C13C *w = (Win_8027C13C *)this;
-    void *e = (void *)((TWindowBase *)w)->get_array_entry(lbl_805DD67C[w->sel]);
-    ((TWindowSubCustomEquip *)xy)->set_relative_pos(e);
+void TWindowSubMagPhoton::get_cursor_origin(NJS_POINT2 *position) {
+    WindowSpritePart *entry = static_cast<WindowSpritePart *>(get_array_entry(lbl_805DD67C[static_cast<s8>(selected_blast_index)]));
+    set_relative_pos(position, entry);
 }
 
 void TWindowSubMagPhoton::init_photon_blast_entries() {
-    u8 mag[16];
+    MagStats stats;
     s32 i;
-    ((MagStats *)mag)->init();
-    TItemData::deserialize_mag(((Win_8027C188 *)this)->mag, mag);
+    stats.init();
+    TItemData::deserialize_mag(mag_item, &stats);
     for (i = 0; i < 3; i++) {
-        s32 blast = ((MagStats *)mag)->get_photon_blast(i);
-        ((Win_8027C188 *)this)->pb[lbl_805DD678[i]] = blast;
+        s32 blast = stats.get_photon_blast(i);
+        photon_blasts[lbl_805DD678[i]] = blast;
         void *e = (void *)this->get_array_entry(i + 1);
         if (blast != -1) {
             draw_action_palette_icon(e, 5, blast);
@@ -69,7 +67,6 @@ void TWindowSubMagPhoton::init_photon_blast_entries() {
 const char *TWindowSubMagPhoton::class_name = "TWindowSubMagPhoton";
 #pragma pop
 
-extern s32 hud_texlist;
 
 // inferred: window_sub_mag_photon_layout_entries, the layout table
 // TWindowSubMagPhoton__layout_descriptor points at (a frame sprite and three photon blast icons).
@@ -91,12 +88,6 @@ WindowDescriptor TWindowSubMagPhoton__layout_descriptor = {
     {186.0f, 160.0f}, 50050.0f, &window_sub_mag_photon_layout_entries, 3,
 };
 
-struct Win_8027C4C8 { u8 pad[0x62]; s16 f62; };
-
-extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
-void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, int, f32);
-}
 extern "C" {
 
 void TWindowSubMagPhoton::handle_cancel() {
@@ -117,45 +108,45 @@ void TWindowSubMagPhoton::update_selection_input() {
     ControllerInputContext *window_choice_setting;
     window_choice_setting = &controller_input_state.controllers[is_player_input_active(((s32) this->client_index))];
     if ((test_buttons_press_or_repeat(window_choice_setting, 0xF0, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0xF0, 6, 1) != 0)) {
-        play_sound_effect(0x54100, (s32)(0U), 0, 0);
+        play_sound_effect(0x54100, NULL, 0, 0);
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x10, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x10, 6, 1) != 0)) {
-            this->m_61 = (this->m_61 + 1);
+            this->selected_blast_index = (this->selected_blast_index + 1);
         }
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x20, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x20, 6, 1) != 0)) {
-            this->m_61 = (this->m_61 - 1);
+            this->selected_blast_index = (this->selected_blast_index - 1);
         }
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x80, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x80, 6, 1) != 0)) {
-            this->m_61 = (this->m_61 + 1);
+            this->selected_blast_index = (this->selected_blast_index + 1);
         }
         if ((test_buttons_press_or_repeat(window_choice_setting, 0x40, 6, 1) != 0) || (test_buttons_press_or_repeat(&controller_input_state.keyboard, 0x40, 6, 1) != 0)) {
-            this->m_61 = (this->m_61 - 1);
+            this->selected_blast_index = (this->selected_blast_index - 1);
         }
-        temp_r3 = this->m_61;
+        temp_r3 = this->selected_blast_index;
         if ((s8) temp_r3 < 0) {
-            this->m_61 = (temp_r3 + 3);
+            this->selected_blast_index = (temp_r3 + 3);
         }
-        temp_r3_2 = this->m_61;
+        temp_r3_2 = this->selected_blast_index;
         if ((s8) temp_r3_2 >= 3) {
-            this->m_61 = (temp_r3_2 - 3);
+            this->selected_blast_index = (temp_r3_2 - 3);
         }
     }
 }
 
-void TWindowSubMagPhoton::draw_cursor(void *arg1) {
-    u8 xy[16];
-    get_cursor_origin(xy);
-    ((void (*)(f32, void *, void *, int))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, arg1, xy, ((Win_8027C4C8 *)this)->f62);
+void TWindowSubMagPhoton::draw_cursor(WindowDrawContext *context) {
+    NJS_POINT2 position;
+    get_cursor_origin(&position);
+    TWindowSubCustomEquip::draw_cursor_sprite(0.8f, context, &position, cursor_frame);
 }
 
 void TWindowSubMagPhoton::render() {
-    saddr ctx;
-    ctx = reinterpret_cast<saddr>(draw_default_entry());
-    draw_window_frame((void *)ctx);
+    WindowDrawContext *ctx;
+    ctx = draw_default_entry();
+    draw_window_frame(ctx);
     draw_visible_window_entries(
         this,
         &this->entry_list,
-        reinterpret_cast<WindowDrawContext *>(ctx));
-    draw_cursor((void *)ctx);
+        ctx);
+    draw_cursor(ctx);
 }
 
 void TWindowSubMagPhoton::run_task() {
@@ -175,21 +166,21 @@ void TWindowSubMagPhoton::run_task() {
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
-    this->m_62 = (this->m_62 + 1);
+    this->cursor_frame = (this->cursor_frame + 1);
 }
 
 TWindowSubMagPhoton::~TWindowSubMagPhoton() {}
 
-TWindowSubMagPhoton::TWindowSubMagPhoton(void *position, s32 mag_state, s32 client)
+TWindowSubMagPhoton::TWindowSubMagPhoton(const NJS_POINT2 *position, TItemData *mag_state, s32 client)
     : TWindowBase((u8 *)&TWindowSubMagPhoton__layout_descriptor, client, (u8 *)position) {
     m_name = class_name;
-    copy_vec2(target_position, position);
+    copy_vec2(target_position, const_cast<NJS_POINT2 *>(position));
     save_position();
     client_index = client;
-    m_70 = mag_state;
+    mag_item = mag_state;
     m_60 = 0;
-    m_61 = 1;
-    m_62++;
+    selected_blast_index = 1;
+    cursor_frame++;
     init_photon_blast_entries();
 }
 }

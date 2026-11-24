@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 
+struct NJS_POINT2;
+
 class TWindowDD_WS_Word : public TWindowBase {
 public:
     TWindowDD_WS_Word(s32 list_id, s32 visible_count);
@@ -10,6 +12,7 @@ public:
     virtual void render();
     virtual void run_task();
     void add_scroll_offset(int offset);
+    void get_cursor_pos(NJS_POINT2 *position);
     s32 sub_80341AC0();
     s32 can_scroll(s32);
     s32 sub_80342268();

@@ -16,7 +16,7 @@ public:
     virtual void run_task();
     virtual void render();
     virtual void init(u32, s32);
-    void draw_selected_list_entry(saddr);
+    void draw_selected_list_entry(WindowDrawContext *context);
     void update_scroll_offset();
     void clamp_item_list_scroll();
     void center_list_selection();
@@ -33,6 +33,9 @@ public:
     int is_cancelled();
     void clear_decided();
     void reset_list();
+    void set_flag70_bit10();
+    void start_scroll(f32 height);
+    void add_status_entry(s8 flags, s32 src, s32 item);
     void add_list_entry(u8 icon, s32 src, s32 item);
     void add_list_entry(TItem *item, s32 index);
     void add_item(TItem *item, s32 price, s32 index);
@@ -69,6 +72,7 @@ public:
     void refresh_weapon_shortcut_list();
     saddr get_cursor_value();
     s16 get_cursor_index();
+    void set_cursor_index(s16 index);
     void calc_content_extent();
     void clamp_scroll_offset();
     void disable_cancel();

@@ -33,7 +33,7 @@ struct TWindowKeyBoardBase : public TWindowBase {
     s32 candidate_index;
     s32 candidate_count;
     s32 candidate_bytes_remaining;
-    u32 m_b4;
+    u32 composition_flags;
     virtual void render();
     virtual void run_task();
     void insert_character(u16 code);
