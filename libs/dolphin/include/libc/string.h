@@ -7,8 +7,8 @@
 extern "C" {
 #endif
 
-void *memcpy(void *dest, const void *src, size_t n);
-void *memset(void *dest, int c, size_t n);
+void *memcpy(void *dst, const void *src, size_t size);
+void *memset(void *dst, int val, size_t size);
 size_t strlen(const char *s);
 long strtol(const char *str, char **end, int base);
 char *strcpy(char *dest, const char *src);
