@@ -10,16 +10,13 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/render/GinjaTexture.h"
 
 #pragma readonly_strings on
-
 
 const char *TObjNpcHFW00::name = "TObjNpcHFW00";
 uaddr TObjNpcHFW00::shared_resource_obj;
 NJS_TEXLIST *TObjNpcHFW00::texture_handle;
-
-extern "C" {
-void release_texture_list(void*);
 
 void *TObjNpcHFW00::create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
@@ -43,16 +40,14 @@ void TObjNpcHFW00::load_resources() {
     texture_handle = load_gvm_texture_file("n_g00_body.gvm");
 }
 
-}
 TObjNpcHFW00::~TObjNpcHFW00() {}
 
-
-TObjNpcHFW00::TObjNpcHFW00(TObject *parent, void *arg2) : TObjNpcFomarl(parent) {
-    *(s32 *)((s8 *)this + 0) = (saddr) name;
-    ((TObjNpcHFW00 *)this)->apply_set_data(arg2);
+TObjNpcHFW00::TObjNpcHFW00(TObject *parent, void *set_data) : TObjNpcFomarl(parent) {
+    this->m_name = name;
+    this->apply_set_data(set_data);
     init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&shared_resource_obj);
-    ((TObjNpcHFW00 *)this)->texlist = texture_handle;
-    ((TObjNpcBase *)this)->setup_common();
+    this->model = *(void **)shared_resource_obj;
+    this->texlist = texture_handle;
+    this->setup_common();
 }
 

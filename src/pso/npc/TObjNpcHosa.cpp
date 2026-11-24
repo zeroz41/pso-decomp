@@ -21,7 +21,6 @@ void *TObjNpcHosa::create(void *set_data) {
     return new TObjNpcHosa(control, set_data);
 }
 
-extern "C" {
 extern const char *bm_npc_hosa_motion_names[1];
 __declspec(section ".data") const char *bm_npc_hosa_model_names[2] = { "hosa_hone_body.nj", NULL };
 BmlResourceDescriptor npc_hosa_resource_descriptor = { "bm_npc_hosa.bml", bm_npc_hosa_model_names, bm_npc_hosa_motion_names, 1, 0 };
@@ -41,15 +40,14 @@ void TObjNpcHosa::load_static_resource() {
     static_model_resource = new BmlResource(1, &npc_hosa_resource_descriptor, 0, 0, NULL);
 }
 
-}
 TObjNpcHosa::~TObjNpcHosa() {}
 
-TObjNpcHosa::TObjNpcHosa(TObject *parent, void *arg2) : TObjNpcMale(parent) {
-    *(s32 *)((s8 *)this + 0) = (saddr) name;
-    ((TObjNpcHosa *)this)->apply_set_data(arg2);
+TObjNpcHosa::TObjNpcHosa(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+    this->m_name = name;
+    this->apply_set_data(set_data);
     init_position_vectors();
     model = get_bml_model(static_model_resource, 0);
     texlist = get_bml_texlist(static_model_resource, 0);
-    ((TObjNpcBase *)this)->setup_common();
+    this->setup_common();
 }
 

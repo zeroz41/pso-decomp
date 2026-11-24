@@ -18,9 +18,6 @@ void *TObjNpcExpertBase::create(void *set_data) {
     return new TObjNpcExpertBase(control, set_data);
 }
 
-extern "C" {
-extern const char *bm_n_hakase_i_body_motion_names[1];
-extern const char *bm_n_hakase_i_body_model_names[2];
 const char *bm_n_hakase_i_body_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_n_hakase_i_body_model_names[2] = { "n_hakase_i_body.nj", NULL };
 BmlResourceDescriptor bm_n_hakase_i_body_resource_descriptor = { "bm_n_hakase_i_body.bml", bm_n_hakase_i_body_model_names, bm_n_hakase_i_body_motion_names, 1, 0 };
@@ -37,15 +34,14 @@ void TObjNpcExpertBase::load_shared_resource() {
     shared_resource = new BmlResource(1, &bm_n_hakase_i_body_resource_descriptor, 0, 0, NULL);
 }
 
-}
 TObjNpcExpertBase::~TObjNpcExpertBase() {}
 
-TObjNpcExpertBase::TObjNpcExpertBase(TObject *parent, void *arg2) : TObjNpcMale(parent) {
-    *(s32 *)((s8 *)this + 0) = (saddr) name;
-    ((TObjNpcExpertBase *)this)->apply_set_data(arg2);
+TObjNpcExpertBase::TObjNpcExpertBase(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+    this->m_name = name;
+    this->apply_set_data(set_data);
     init_position_vectors();
     model = shared_resource->models->model;
     texlist = shared_resource->models->texlist;
-    ((TObjNpcBase *)this)->setup_common();
+    this->setup_common();
 }
 

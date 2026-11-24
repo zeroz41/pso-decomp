@@ -74,12 +74,12 @@ void TObjNpcConnoisseur::load_section_motion() {
 
 TObjNpcConnoisseur::~TObjNpcConnoisseur() {}
 
-TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, void *arg2) : TObjNpcMale(parent) {
-    ((TObjNpcConnoisseur *)this)->m_name = name;
-    ((TObjNpcConnoisseur *)this)->apply_set_data(arg2);
+TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+    this->m_name = name;
+    this->apply_set_data(set_data);
     init_position_vectors();
     model = instance->models->model;
     texlist = instance->models->texlist;
-    ((TObjNpcBase *)this)->setup_common();
+    this->setup_common();
 }
 

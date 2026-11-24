@@ -27,7 +27,6 @@ BmlResourceDescriptor bm_n_soutoku_i_body_resource_descriptor = {
 const char *TObjNpcGovernorBase::name = "TObjNpcGovernorBase";
 BmlResource *TObjNpcGovernorBase::shared_resource;
 
-
 void *TObjNpcGovernorBase::create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcGovernorBase(control, set_data);
@@ -46,13 +45,12 @@ void TObjNpcGovernorBase::load_shared_resource() {
 
 TObjNpcGovernorBase::~TObjNpcGovernorBase() {}
 
-
-TObjNpcGovernorBase::TObjNpcGovernorBase(TObject *parent, void *arg2) : TObjNpcMale(parent) {
+TObjNpcGovernorBase::TObjNpcGovernorBase(TObject *parent, void *set_data) : TObjNpcMale(parent) {
     ((TObject *)this)->m_name = name;
-    ((TObjNpcGovernorBase *)this)->apply_set_data(arg2);
+    this->apply_set_data(set_data);
     init_position_vectors();
     model = shared_resource->models->model;
     texlist = shared_resource->models->texlist;
-    ((TObjNpcBase *)this)->setup_common();
+    this->setup_common();
 }
 

@@ -22,16 +22,11 @@ void *TObjNpcSoutokufu::create(void *set_data) {
     return new TObjNpcSoutokufu(control, set_data);
 }
 
-extern "C" {
-extern const char *bm_npc_soutokufu_motion_names[1];
-extern const char *bm_npc_soutokufu_model_names[2];
 const char *bm_npc_soutokufu_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_npc_soutokufu_model_names[2] = { "soutokufu_body.nj", NULL };
 BmlResourceDescriptor bm_npc_soutokufu_resource_descriptor = { "bm_npc_soutokufu.bml", bm_npc_soutokufu_model_names, bm_npc_soutokufu_motion_names, 1, 0 };
 const char *TObjNpcSoutokufu::name = "TObjNpcSoutokufu";
 BmlResource *TObjNpcSoutokufu::shared_model_resource;
-}
-
 
 void TObjNpcSoutokufu::close_dialog_window() {
     if (shared_model_resource != NULL) {
@@ -46,14 +41,13 @@ void TObjNpcSoutokufu::load_shared_resource() {
 
 TObjNpcSoutokufu::~TObjNpcSoutokufu() {}
 
-
-TObjNpcSoutokufu::TObjNpcSoutokufu(TObject *parent, void *arg2) : TObjNpcMale(parent) {
-    *(s32 *)((s8 *)this + 0) = (saddr) name;
-    ((TObjNpcSoutokufu *)this)->apply_set_data(arg2);
+TObjNpcSoutokufu::TObjNpcSoutokufu(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+    this->m_name = name;
+    this->apply_set_data(set_data);
     init_position_vectors();
     model = get_bml_model(shared_model_resource, 0);
     texlist = get_bml_texlist(shared_model_resource, 0);
-    ((TObjNpcBase *)this)->setup_common();
+    this->setup_common();
 }
 
 void TBoss8Dragon::trigger_switches_in_range(TObject *floor_stone, const Vec *pos, const DragonAttackParams *params) {
