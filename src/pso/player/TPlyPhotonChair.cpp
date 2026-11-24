@@ -10,8 +10,8 @@
 #include "pso/ui/hud/TMainCursor_8013F104.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/TUnk_804A7488.h"
-#include "pso/unk/TUnk_804A7478.h"
+#include "pso/object/base/TDrawableModel.h"
+#include "pso/object/base/TMotionModel.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/MatrixStack.h"
@@ -166,23 +166,23 @@ int TPlyPhotonChair__sub_8035B520(void* p) { return ((TPlyPhotonChair *)p)->owne
 u16 TPlyPhotonChair::get_owner_id() { return owner_id; }
 void TPlyPhotonChair::set_owner_id(s32 owner_id) { this->owner_id = owner_id; }
 void TUnk_804A7254::get_color(NJS_ARGB *out) { copy_argb(out, &color); }
-void TUnk_804A7478::set_speed(f32 speed) { this->speed = speed; }
-void TUnk_804A7478::play_to_end() { state = 2; }
+void TMotionModel::set_speed(f32 speed) { this->speed = speed; }
+void TMotionModel::play_to_end() { state = 2; }
 
-void TUnk_804A7478::set_frame_count_from_motion() {
+void TMotionModel::set_frame_count_from_motion() {
     if (motion != NULL) {
         frame_count = motion->nbFrame;
     }
 }
 
-void TUnk_804A7478::set_motion(NJS_MOTION *motion) { this->motion = motion; }
-void TUnk_804A7488::set_model(void *model) { this->model = model; }
+void TMotionModel::set_motion(NJS_MOTION *motion) { this->motion = motion; }
+void TDrawableModel::set_model(void *model) { this->model = model; }
 
-TUnk_804A7478::TUnk_804A7478() {
+TMotionModel::TMotionModel() {
     reset();
 }
 
-void TUnk_804A7478::reset() {
+void TMotionModel::reset() {
     motion = NULL;
     frame = 0.0f;
     frame_count = 0.0f;
@@ -190,11 +190,11 @@ void TUnk_804A7478::reset() {
     state = 0;
 }
 
-TUnk_804A7488::TUnk_804A7488() {
+TDrawableModel::TDrawableModel() {
     reset();
 }
 
-void TUnk_804A7488::reset() { model = NULL; }
+void TDrawableModel::reset() { model = NULL; }
 
 extern uaddr chao_npc_instance_handle;
 

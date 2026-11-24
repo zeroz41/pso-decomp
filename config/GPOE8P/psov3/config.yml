@@ -1667,7 +1667,7 @@ force_active:
   - copy_lobby_entry__FPvPv
   - TPlyOnCreated__name
   - TPlyPhotonChair__shared_model_resource
-  - TPlyPhotonChair__sub_8035B56C
+  - set_speed__12TMotionModelFf
   - class_name__22TPlyPtclObjectLeftHand
   - class_name__23TPlyPtclObjectRightHand
   - TQuestBgmCtrl__area_bgm_index
@@ -6666,13 +6666,13 @@ force_active:
   - get_max_difficulty_for_party_level__21TAdMultiSelGameModeGCFv
   - get_max_tp__13TUnk_8049FE00Fv
   - get_message_10__17TWindowSubComCardFl
-  - get_model__13TUnk_804A7488Fv
+  - get_model__14TDrawableModelFv
   - get_model__15TORockJungleS01Fl
   - get_model__17TOTrapChainSawKeyFl
   - get_model__23TObjSeabedSuisoBrakableFi
   - get_model_by_index__17TObjContainerJungFl
   - get_model_variant__8TItemMagFv
-  - get_motion__13TUnk_804A7478Fv
+  - get_motion__12TMotionModelFv
   - get_motion__17TOTrapChainSawKeyFl
   - get_move_done_result__24TObjWaitEntryHairMoveSimFPv
   - get_network_config_card_channel__Fv
@@ -6979,7 +6979,7 @@ force_active:
   - __ct__13TObjEneMe1GeeFP7TObjectPvl
   - init__13TObjEneRe4BitFPv
   - init__13TUnk_804835D8Fv
-  - init__13TUnk_804A7478Fv
+  - __ct__12TMotionModelFv
   - init__13TUnk_804F28E0FlPv
   - init__15PSOV3EncryptionFUl
   - init__15TObjEneDelDepthFv
@@ -7138,7 +7138,7 @@ force_active:
   - __ct__11TLightGlareFPvP7TObject
   - init_parts__11TBoss6Type2Fv
   - init_parts__13TObjTombstoneFv
-  - init_parts__13TUnk_804A7488Fv
+  - __ct__14TDrawableModelFv
   - init_plate_rects__20TAdChrSelMovePlateGCFv
   - init_player__13TUnk_804E3008FPvPvPvPv
   - init_player_forward__6TLobbyFv
@@ -14279,7 +14279,7 @@ force_active:
   - render__15TObjLazerFence4Fv
   - render__15TObjLiveMonitorFv
   - render__15TObjSuisouLobbyFv
-  - render__15TPlyPhotonChairFPvPv
+  - get_color__13TUnk_804A7254FP8NJS_ARGB
   - render__15TPlyPhotonChairFv
   - render__15TWindowCtrlMainFv
   - render__16TAdChrSelASlotGCFv
@@ -15459,12 +15459,12 @@ force_active:
   - set_field4__6TSceneFv
   - set_owner__18TObjEneBm5WolfNodeFP14TObjEneBm5Wolf
   - set_owner__20TObjEneBm5GibonUNodeFP16TObjEneBm5GibonU
-  - set_field90__15TPlyPhotonChairFl
+  - set_owner_id__15TPlyPhotonChairFl
   - set_close_up__13TCameraFollowFl
   - set_field_4__6TLobbyFl
   - set_field_60__15TWindowCallBackFPFPvPv_v
   - set_cursor__18TWindowSubItemListFs
-  - set_field_8__15TPlyPhotonChairFl
+  - set_motion__12TMotionModelFP10NJS_MOTION
   - set_fields_24_34_from_global__17TObjEneDarkGunnerFPv
   - set_fields_554__11TBoss6Type2Fv
   - set_flag1e_bit80__18TWindowSubShortCutFv
@@ -15598,7 +15598,7 @@ force_active:
   - set_state_by_timer__14TObjEneBm5WolfFi
   - order_activation__13TObjEneMe1GeeFP9TObjCharal
   - set_state_flags__18TObjEneRe4SorcererFPv
-  - set_state_ready__15TPlyPhotonChairFv
+  - play_to_end__12TMotionModelFv
   - set_subs_visible__8TItemMagFl
   - set_symbol_chat_face_sprite__FPvUc
   - set_talk__12CursorActionFv
@@ -15614,7 +15614,7 @@ force_active:
   - set_tev_stage_mode__Fl
   - set_gogo_ball_score__Fll
   - set_triggers__8TItemMagFPCUcPCUc
-  - set_type__15TPlyPhotonChairFl
+  - set_model__14TDrawableModelFPv
   - set_owner_id__21PlayerFollowParticlesFUs
   - set_type_dragon__10TObjPlayerFv
   - set_next_floor_index__12Obj_80515BA0Fl
@@ -16115,7 +16115,7 @@ force_active:
   - step_ground_technique_projectile__8TTecShotFv
   - step_line__23TObjOnlineEndingHexLineFv
   - step_placement_search__13TUnk_804C4498Fv
-  - stop__13TUnk_804A7478Fv
+  - stop__12TMotionModelFv
   - stop_adx_audio__14TBoss6PlotFalzFv
   - stop_effect__14TItemEquipBaseFUl
   - stop_if_advanced__6TMovieFv
@@ -16386,8 +16386,8 @@ force_active:
   - sub_8034BA2C__18TChallenge4PResultFv
   - sub_80351DF8__16TLobbyEventThemeFl
   - create_map_csn__10TBoss6RockFv
-  - sub_8035B610__13TUnk_804A7478Fv
-  - sub_8035B66C__13TUnk_804A7488Fv
+  - reset__12TMotionModelFv
+  - reset__14TDrawableModelFv
   - sub_8035D8B0__9TBoss6DPBFv
   - update_effect_attack__19TObjEneEpsilonGuardFv
   - get_immune_special_kind__18TObjEneEpsilonBodyFv
@@ -16432,7 +16432,7 @@ force_active:
   - symbol_chat_part_size_table
   - symbol_chat_part_uv_table
   - symbol_chat_parts_color_table
-  - sync_field10_from_child__15TPlyPhotonChairFv
+  - set_frame_count_from_motion__12TMotionModelFv
   - sync_hp__9TBoss6MagFv
   - sync_hp_apply_damage__9TBoss6MagFv
   - sync_state__10TObjPlayerFi

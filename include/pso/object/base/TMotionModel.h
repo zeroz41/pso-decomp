@@ -1,11 +1,12 @@
-#ifndef PSO_UNK_TUNK_804A7478_H
-#define PSO_UNK_TUNK_804A7478_H
+#ifndef PSO_OBJECT_BASE_TMOTIONMODEL_H
+#define PSO_OBJECT_BASE_TMOTIONMODEL_H
 #include "types.h"
-#include "pso/unk/TUnk_804A7488.h"
+#include "pso/object/base/TDrawableModel.h"
 #include "pso/system/NinjaTypes.h"
 
-// A model part that plays one motion: TPlyPhotonChair's two seat halves.
-class TUnk_804A7478 : public TUnk_804A7488 {
+// A chunk model drawn posed by one motion at its current frame
+// (TPlyPhotonChair's two seat halves).
+class TMotionModel : public TDrawableModel {
 public:
     NJS_MOTION *motion;
     f32 frame;
@@ -13,7 +14,7 @@ public:
     f32 speed;
     s32 state;  // 0 loop, 1 stopped, 2 play to the end and stop
     virtual void draw_model();
-    virtual ~TUnk_804A7478();
+    virtual ~TMotionModel();
     // Steps the frame back (forward) by speed, looping, or stops at the
     // first (last) frame in state 2.
     void play_backward();
@@ -21,7 +22,7 @@ public:
     f32 get_frame();
     NJS_MOTION *get_motion();
     void stop();
-    TUnk_804A7478();
+    TMotionModel();
     void reset();
     void set_motion(NJS_MOTION *motion);
     // frame_count = the motion's frame count.
@@ -30,6 +31,6 @@ public:
     void play_to_end();
 };
 
-LAYOUT_ASSERT(TUnk_804A7478Size, sizeof(TUnk_804A7478) == 0x1C);
+LAYOUT_ASSERT(TMotionModel_size, sizeof(TMotionModel) == 0x1C);
 
 #endif
