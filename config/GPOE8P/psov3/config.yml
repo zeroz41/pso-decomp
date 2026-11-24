@@ -2503,7 +2503,7 @@ force_active:
   - __dt__18TGbaAramUploadTaskFv
   - __dt__13TUnk_804EE470Fv
   - __dt__16TTitleBackgroundFv
-  - __dt__13TUnk_804EFA88Fv
+  - __dt__23TIndirectEffectDrawTaskFv
   - __dt__15TItemEffPGModelFv
   - __dt__13TUnk_804F0C48Fv
   - __dt__13TUnk_804F0D1CFv
@@ -3271,7 +3271,7 @@ force_active:
   - __vt__19TEffIndirectSampler
   - __vt__18TGbaAramUploadTask
   - __vt__13TUnk_804EE470
-  - __vt__13TUnk_804EFA88
+  - __vt__23TIndirectEffectDrawTask
   - __vt__15TItemEffPGModel
   - __vt__13TUnk_804F0C48
   - __vt__13TUnk_804F0D1C
@@ -5370,7 +5370,7 @@ force_active:
   - copy_move_params__23TObjOnlineEndingHexMoveFP19EndingHexLineParamsPC19EndingHexLineParams
   - copy_network_info_cipher_block__FPUlPUl
   - copy_network_info_config_string__FPcPcUlUl
-  - copy_node_record__10TObjPlayerFl
+  - __as__18IndirectDrawRecordFR18IndirectDrawRecord
   - copy_pair__11TBoss4Type3FPv
   - copy_pair__18TObjEnvSoundGlobalFPvPv
   - copy_pair__6TLobbyFPvPv
@@ -7132,7 +7132,7 @@ force_active:
   - init_params__19TBoss3VoloptMonitorFv
   - init_params__20TBoss3VoloptHiraisinFv
   - init_behavior_params__16TObjEneMerillLiaFv
-  - init_particle_effect__10TObjPlayerFv
+  - bind_capture_texture__23TIndirectEffectDrawTaskFv
   - __ct__11TLightGlareFPvP7TObject
   - init_parts__11TBoss6Type2Fv
   - init_parts__13TObjTombstoneFv
@@ -8411,7 +8411,7 @@ force_active:
   - lbl_805D6D84
   - lbl_805D6D88
   - lbl_805D6D90
-  - lbl_805D6DA0
+  - indirect_draw_task
   - lbl_805D6DC8
   - boss6_rock_damage
   - equipped_weapon_draw_queue
@@ -14584,7 +14584,7 @@ force_active:
   - reset_display__15TObjEneSlimeOneFv
   - reset_display_state__15TObjEneSlimeOneFv
   - reset_effect_entries__18TAdChrMoveEffectGCFv
-  - reset_effects__10TObjPlayerFv
+  - reset_projection_tex_matrix__23TIndirectEffectDrawTaskFv
   - reset_effects__11TBoss6Type1Fv
   - reset_ending_state__14TBoss6PlotFalzFv
   - reset_entries_and_format_name__13TObjTombstoneFv
@@ -15621,7 +15621,7 @@ force_active:
   - setup_indirect_tev_ordinary__FP16TEffIndirectCtrllll
   - setup_list__13TWindowSubMagFv
   - setup_mode_menu__21TAdMultiChgGameModeGCFPvl
-  - setup_projection_tex_matrix__10TObjPlayerFv
+  - setup_projection_tex_matrix__23TIndirectEffectDrawTaskFv
   - setup_projection_texture__10TObjPlayerFlll
   - setup_sound__18TObjEnvSoundGlobalFv
   - setup_state__14TBoss7TentacleFv

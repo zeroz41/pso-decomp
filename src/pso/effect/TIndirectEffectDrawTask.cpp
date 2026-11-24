@@ -3,10 +3,12 @@
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/player/TObjPlayer_8033E910.h"
 #include "pso/weapon/TItemWeaponSBerillsHands.h"
-#include "pso/unk/TUnk_804EFA88.h"
+#include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/render/render_util.h"
+#include "pso/render/CameraCapture.h"
+#include "pso/render/GinjaDrawUtil.h"
+#include "pso/player/TObjPlayer_803DC834.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/MaterialAlphaCompare.h"
@@ -16,7 +18,6 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/TEffIndirectSampler.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby_8033ECB0.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/ambient/TObjFish.h"
 #define PSO_SDK_COMPACT_MATH
@@ -54,31 +55,31 @@ const char *player_battle_ctrl_text_english[7] = {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_C { u8 bytes[0xc]; };
 
 
-f32 calc_camera_vertical_fov(void);
-void set_ginja_post_texgen_count(s32 x);
-void set_ginja_post_tev_stage_count(s32 x);
-void load_current_pos_matrix(s32 arg0);
-void load_current_tex_matrix(s32 i);
-void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
+void TIndirectEffectDrawTask::bind_capture_texture() {
+    TObjFish::set_global_param(get_shared_capture_texture_list());
+    load_list_texture(0, 0, 0, 2);
+}
 
-void init_particle_effect__10TObjPlayerFv(void) { TObjFish::set_global_param(get_shared_capture_texture_list()); load_list_texture(0, 0, 0, 2); }
+void TIndirectEffectDrawTask::reset_projection_tex_matrix() {
+    set_ginja_post_tev_stage_count(0);
+    set_ginja_post_texgen_count(0);
+    set_global_effect_state(0);
+    model_render_flags &= ~0x80000;
+}
 
-void reset_effects__10TObjPlayerFv(void) { set_ginja_post_tev_stage_count((saddr)(0)); set_ginja_post_texgen_count((saddr)(0)); set_global_effect_state((saddr)(0)); model_render_flags = (model_render_flags & 0xfff7ffff); }
-
-void setup_projection_tex_matrix__10TObjPlayerFv(void) {
+void TIndirectEffectDrawTask::setup_projection_tex_matrix() {
     GinjaMatrix mtx;
-    f32 spC;
-    f32 sp8;
+    f32 offset_x;
+    f32 offset_y;
     f32 fovY;
     if (camera_ctrl_instance != NULL) {
         push_matrix();
-        calc_projection_screen_offset(&spC, &sp8);
-        fovY = (f32) (0.0054931640625 * calc_camera_vertical_fov());
+        calc_projection_screen_offset(&offset_x, &offset_y);
+        fovY = 0.0054931640625 * calc_camera_vertical_fov();
         if (TCameraCtrl::is_view_offset() != 0) {
-            C_MTXLightPerspective(mtx, fovY, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
+            C_MTXLightPerspective(mtx, fovY, 1.1333334f, 0.5f, -0.5f, 0.5f - offset_x, 0.5f - offset_y);
         } else {
             C_MTXLightPerspective(mtx, fovY, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
         }
@@ -92,30 +93,26 @@ void setup_projection_tex_matrix__10TObjPlayerFv(void) {
         model_render_flags |= 0x80000;
         set_ginja_post_tev_stage_count(1);
         set_ginja_post_texgen_count(1);
-        set_global_effect_state((saddr)((1)));
+        set_global_effect_state(1);
     }
 }
 
-void TObjPlayer::free_indexed_entry(s32 _w1) {
-    s32 temp_r0;
-
-    temp_r0 = (this->m_20);
-    if (temp_r0 < 0x10) {
-        ((TObjPlayer *)(*(saddr *)((s8 *)this + 0x1C) + (temp_r0 * 0x24)))->copy_node_record(_w1);
+void TIndirectEffectDrawTask::store_record(IndirectDrawRecord *record) {
+    if (entry_count < 0x10) {
+        entries[entry_count] = *record;
     }
 }
-void TObjPlayer::copy_node_record(saddr arg1) {
-    saddr arg0 = (saddr)this;
-    *(ByteBlock_C *)(arg0) = *(const ByteBlock_C *)(arg1);
-    *(ByteBlock_C *)(arg0 + 0xC) = *(const ByteBlock_C *)(arg1 + 0xC);
-    *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
-    *(s32 *)((s8 *)arg0 + 0x1C) = (s32) *(s32 *)((s8 *)arg1 + 0x1C);
-    *(u16 *)((s8 *)arg0 + 0x20) = (u16) *(u16 *)((s8 *)arg1 + 0x20);
-    *(u8 *)((s8 *)arg0 + 0x22) = (u8) *(u8 *)((s8 *)arg1 + 0x22);
-    *(u8 *)((s8 *)arg0 + 0x23) = (u8) *(u8 *)((s8 *)arg1 + 0x23);
+IndirectDrawRecord &IndirectDrawRecord::operator=(IndirectDrawRecord &other) {
+    placement = other.placement;
+    texlist = other.texlist;
+    model = other.model;
+    scene = other.scene;
+    effect_kind = other.effect_kind;
+    pad_23 = other.pad_23;
+    return *this;
 }
 
-void TUnk_804EFA88::render() {
+void TIndirectEffectDrawTask::render() {
     s32 i;
     for (i = 0; i < this->entry_count; i++) {
         request_indirect_effect(this->entries[i].effect_kind);
@@ -123,20 +120,20 @@ void TUnk_804EFA88::render() {
         set_depth_buffer_settings_1();
         set_draw_list_mask(3);
         push_matrix();
-        post_translate_matrix((const f32 *)this->entries[i].a);
-        rotate_matrix_by_node_angles((const s32 *)this->entries[i].b, 1);
+        post_translate_matrix(&this->entries[i].placement.position.x);
+        rotate_matrix_by_node_angles(&this->entries[i].placement.angles.x, 1);
         play_indirect_effect_recipe(this->entries[i].effect_kind, 1, 1);
-        ((void (*)(void *))init_particle_effect__10TObjPlayerFv)(this);
-        ((void (*)(void *))setup_projection_tex_matrix__10TObjPlayerFv)(this);
+        bind_capture_texture();
+        setup_projection_tex_matrix();
         TObjFish::set_global_param(this->entries[i].texlist);
         draw_ginja_object(this->entries[i].model);
         pop_matrix();
         reset_indirect_tev(1);
-        ((void (*)(void *))reset_effects__10TObjPlayerFv)(this);
+        reset_projection_tex_matrix();
     }
 }
 
-void TUnk_804EFA88::run_task() {
+void TIndirectEffectDrawTask::run_task() {
     s32 i;
     if (this->entries == 0) {
         this->queue_destruction();
@@ -149,17 +146,17 @@ void TUnk_804EFA88::run_task() {
 }
 
 
-TUnk_804EFA88 *lbl_805D6DA0;
+static TIndirectEffectDrawTask *indirect_draw_task;
 
-TUnk_804EFA88::~TUnk_804EFA88() {
+TIndirectEffectDrawTask::~TIndirectEffectDrawTask() {
     if (this->entries != NULL) {
         mem_free(this->entries);
     }
-    lbl_805D6DA0 = 0;
+    indirect_draw_task = 0;
 }
 
 
-TUnk_804EFA88::TUnk_804EFA88(TObject *parent) : TObject(parent) {
+TIndirectEffectDrawTask::TIndirectEffectDrawTask(TObject *parent) : TObject(parent) {
     s32 i;
     entry_count = 0;
     entries = (IndirectDrawRecord *)mem_alloc(0x240);
@@ -168,19 +165,19 @@ TUnk_804EFA88::TUnk_804EFA88(TObject *parent) : TObject(parent) {
             clear_draw_record(&entries[i]);
         }
     }
-    lbl_805D6DA0 = this;
+    indirect_draw_task = this;
 }
 
-void TLobby::release_indexed_entry(s32 arg0) {
-    if (lbl_805D6DA0 != NULL && lbl_805D6DA0->entry_count < 0x10) {
-        ((TObjPlayer *)lbl_805D6DA0)->free_indexed_entry(arg0);
-        lbl_805D6DA0->entry_count = lbl_805D6DA0->entry_count + 1;
+void TIndirectEffectDrawTask::queue_record(IndirectDrawRecord *record) {
+    if (indirect_draw_task != NULL && indirect_draw_task->entry_count < 0x10) {
+        indirect_draw_task->store_record(record);
+        indirect_draw_task->entry_count = indirect_draw_task->entry_count + 1;
     }
 }
 
-void TLobby__sub_8033EDF8(void) { lbl_805D6DA0 = 0; }
+void TIndirectEffectDrawTask::clear_instance_on_floor_free() { indirect_draw_task = 0; }
 
-void TLobby__sub_8033EE04(void) { lbl_805D6DA0 = 0; }
+void TIndirectEffectDrawTask::clear_instance_on_floor_load() { indirect_draw_task = 0; }
 
 // The SDK's GXSetTexCoordGen out of line: no normalisation, identity post-transform.
 static void set_tex_coord_gen(GXTexCoordID dst_coord, GXTexGenType func, GXTexGenSrc src_param, u32 mtx) {

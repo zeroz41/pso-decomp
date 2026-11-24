@@ -9236,7 +9236,7 @@ pso/boss/olgaflow/TBoss6Demo21_TYPE2_DEAD.cpp:
 	.sdata      start:0x805D42B0 end:0x805D42B4
 	.sdata2     start:0x805DFA98 end:0x805DFABC
 
-pso/player/TObjPlayer_8033E910.cpp:
+pso/effect/TIndirectEffectDrawTask.cpp:
 	.text       start:0x8033E910 end:0x8033EE38
 	.rodata     start:0x80478190 end:0x804783B8
 	.data       start:0x804EFA50 end:0x804EFAA0

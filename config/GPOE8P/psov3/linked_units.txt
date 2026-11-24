@@ -1616,7 +1616,7 @@ pso/ui/frontend/EndingSequence.cpp
 pso/weapon/TItemWeaponNug2000Bazooka.cpp
 pso/player/PhotonBlastRequests.cpp
 pso/player/MaterialUsage.cpp
-pso/player/TObjPlayer_8033E910.cpp
+pso/effect/TIndirectEffectDrawTask.cpp
 pso/player/PlayerPadBinding.cpp
 pso/player/Palettex.cpp
 pso/weapon/TItemWeaponTsumikiri.cpp

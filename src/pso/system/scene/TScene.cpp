@@ -14,6 +14,7 @@
 #include "pso/system/scene/TSceneMaterial.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/TEffIndirectCtrl.h"
+#include "pso/effect/TIndirectEffectDrawTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -106,11 +107,9 @@ void rotate_matrix_y(s32, s32);
 
 struct Model_8020533C { u8 pad0[4]; TEffIndirect *tex; s32 sampler; u8 padC[2]; u8 scale; u8 effect_id; };
 
-struct Lobby_8020533C { Vec v; SceneSectionAngles a; void *param; SceneMaterialNode *node; s16 scene; u8 id; };
 
 
 
-void release_indexed_entry__6TLobbyFl(Lobby_8020533C *);
 }
 
 
@@ -1441,19 +1440,19 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
             } else if (e->flags & 0x400) {
                 Model_8020533C *m = (Model_8020533C *)e->node;
                 if (m != NULL && TMainTask::get_render_pass() == 1) {
-                    Lobby_8020533C l;
-                    l.v.x = node->position[0];
-                    l.v.y = node->position[1];
-                    l.v.z = node->position[2];
-                    vec3_add_to(&l.v, (const Vec *)scene_material_section->position);
-                    l.a.x = node->angles[0] + scene_material_section->angles[0];
-                    l.a.y = node->angles[1] + scene_material_section->angles[1];
-                    l.a.z = node->angles[2] + scene_material_section->angles[2];
-                    l.param = (void *)scene_material_root->texlist;
-                    l.node = node;
+                    IndirectDrawRecord l;
+                    l.placement.position.x = node->position[0];
+                    l.placement.position.y = node->position[1];
+                    l.placement.position.z = node->position[2];
+                    vec3_add_to(&l.placement.position, (const Vec *)scene_material_section->position);
+                    l.placement.angles.x = node->angles[0] + scene_material_section->angles[0];
+                    l.placement.angles.y = node->angles[1] + scene_material_section->angles[1];
+                    l.placement.angles.z = node->angles[2] + scene_material_section->angles[2];
+                    l.texlist = (NJS_TEXLIST *)scene_material_root->texlist;
+                    l.model = node;
                     l.scene = scene_material_root->flags;
-                    l.id = m->effect_id;
-                    release_indexed_entry__6TLobbyFl(&l);
+                    l.effect_kind = m->effect_id;
+                    TIndirectEffectDrawTask::queue_record(&l);
                 }
             } else {
                 Model_8020533C *m = (Model_8020533C *)e->node;

@@ -694,7 +694,6 @@ struct TLobby : public TObject {
     static void update_scene_alt();
     static s32 is_multi_ready();
     static void update_game_modes();
-    static void release_indexed_entry(s32 arg0);
     static void free_global_buffers();
     void fill_guild_card_from_char(s32 index);
     void roll_item_grind_bonus();
