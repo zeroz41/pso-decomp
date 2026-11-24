@@ -1049,7 +1049,9 @@ struct TObjPlayer : public TObjChara {
     void render_body_pass(f32 f);
     void draw_body(s32 detail);
     void draw_projected_shadow(Vec *scale, s32 force_draw);
-    void sub_801BAC48();
+    // Empty; every render path calls it after drawing the body, inside the
+    // saved material state.
+    void draw_body_overlay();
     s32 is_in_lobby();
     s32 check_flag_800000();
     void draw(f32 at_frame);
@@ -1366,7 +1368,8 @@ extern "C" {
 void send_6x25_equip_item(TObjPlayer *player, s32 item_id, s32 slot);
 void assign_inventory_item_ids(TObjPlayer *player, TPlyInventoryItem *records, s32 count);
 void rebuild_player_inventory(TObjPlayer *player);
-// Empty; pickup_item calls it as an item joins the inventory, with the slot it takes.
-void TObjPlayer__sub_801C1B0C(TItem *item, s32 slot);
 }
+
+// Empty; pickup_item calls it as an item joins the inventory, with the slot it takes.
+void on_inventory_item_added(TItem *item, s32 slot);
 #endif

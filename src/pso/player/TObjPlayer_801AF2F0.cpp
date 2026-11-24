@@ -1077,7 +1077,7 @@ void TObjPlayer::render_shadows() {
             draw_body((s32)f);
             render_material_state.save();
             apply_material_color_override();
-            sub_801BAC48();
+            draw_body_overlay();
             render_material_state.restore();
         }
         TParticleCtrl::end_effect_render();
@@ -1099,7 +1099,7 @@ void TObjPlayer::render_body_pass(f32 f) {
     render_material_state.save();
     apply_material_color_override();
     set_draw_list_mask(1);
-    sub_801BAC48();
+    draw_body_overlay();
     render_material_state.restore();
     restore_scene_lighting();
 }
@@ -1130,7 +1130,7 @@ void TObjPlayer::render() {
                 render_material_state.save();
                 apply_material_color_override();
                 set_draw_list_mask(1);
-                sub_801BAC48();
+                draw_body_overlay();
                 render_material_state.restore();
                 restore_scene_lighting();
             }
@@ -1141,7 +1141,7 @@ void TObjPlayer::render() {
             clear_motion_packed_rotation();
             render_material_state.save();
             apply_material_color_override();
-            sub_801BAC48();
+            draw_body_overlay();
             render_material_state.restore();
         }
     } else {
@@ -1150,7 +1150,7 @@ void TObjPlayer::render() {
         clear_motion_packed_rotation();
         render_material_state.save();
         apply_material_color_override();
-        sub_801BAC48();
+        draw_body_overlay();
         render_material_state.restore();
     }
 }
@@ -1239,7 +1239,7 @@ void TObjPlayer::draw_head_attachments() {
     }
 }
 
-void TObjPlayer::sub_801BAC48() {}
+void TObjPlayer::draw_body_overlay() {}
 
 void TObjPlayer::draw_projected_shadow(Vec *scale, s32 force_draw) {
     Vec v;
@@ -1960,7 +1960,7 @@ u32 TObjPlayer::pickup_item(TItem *item) {
     if (this->can_pickup_item_by_id(item) == 0) {
         return 0;
     }
-    ((void (*)(void *))TObjPlayer__sub_801C1B0C)(item);
+    ((void (*)(void *))on_inventory_item_added)(item);
     list = 0;
     switch (item->get_item_type()) {
     case 0:
@@ -1993,7 +1993,7 @@ u32 TObjPlayer::pickup_item(TItem *item) {
     if (list != NULL) {
         ((TItemList *)list)->set_field_1c(item);
         inv = *(u8 * *)&this->inventory_objects;
-        TObjPlayer__sub_801C1B0C(item, (*(s16 *)((s8 *)inv + 0x1C))++);
+        on_inventory_item_added(item, (*(s16 *)((s8 *)inv + 0x1C))++);
         item->set_mode(1);
         ((TObject *)item)->set_parent(this->inventory_objects->item_root);
         item->set_owner_client(this->get_entity_id());

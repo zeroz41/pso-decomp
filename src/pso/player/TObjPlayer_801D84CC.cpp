@@ -108,7 +108,7 @@ void TUnk_804C4540::render() {
         render_material_state.restore();
         draw_head_attachments();
         pop_matrix();
-        sub_801BAC48();
+        draw_body_overlay();
         restore_scene_lighting();
         return;
     }

@@ -1615,7 +1615,7 @@ s32 TItem::is_stackable() {
     return is_item_stackable(get_item_type(), get_item_group());
 }
 
-void TObjPlayer__sub_801C1B0C(TItem *item, s32 slot) {}
+void on_inventory_item_added(TItem *item, s32 slot) {}
 
 void TObjPlayer::set_flags_bit2() { ((FlagWord *)((char*)this + 0x1c))->set(2); }
 
