@@ -562,9 +562,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/ui/frontend/TAdDialingMessageWindow.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/frontend/TAdSubPlyItemGC_802D6BEC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/TLogo.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    # vtables come out 1BB0, 1CA8, the create_object_by_type jump table, then
-    # 1E08..23F0 (text order of their dtors): written last to first, deferred.
-    "pso/player/TObjPlayer_802D5174.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # vtables come out TItemWeaponGalWind, the create jump table, then Talis ..
+    # TItemWeaponCard (text order of their dtors): written last to first, deferred.
+    "pso/weapon/TItemWeaponCard.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # vtables come out TUnk_804E70A8 then TUnk_804E71A0: written last to first, deferred.
     # -sdata 4: the 8-byte shared_capture_texture_list is addressed outside small data.
     "pso/ui/frontend/EndingSequence.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},

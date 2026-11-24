@@ -5734,8 +5734,8 @@ force_active:
   - display_guild_message__12TQuestListVMFll
   - display_message__12TQuestListVMFPCcl
   - distribute_part_damage__15TBoss3VoloptP02Fv
-  - do_action_447__10TObjPlayerFv
-  - do_action_447_from_packet__10TObjPlayerFPvPvPv
+  - spawn_hit_particle__18TItemWeaponGalWindFP3Vec
+  - spawn_hit_effect__18TItemWeaponGalWindFlP12ActorBodyHitP3Vec
   - do_src1
   - do_src2
   - do_voice_portamento
@@ -15971,11 +15971,8 @@ force_active:
   - spawn_hamon_effects__17TObjEneDarkGunnerFllf
   - spawn_hit_effects__11TBoss6Type2Fv
   - spawn_hit_particle_trio__FP3Vec
-  - spawn_hit_particles__10TObjPlayerFiPv
-  - spawn_hit_particles_at__10TObjPlayerFiii
-  - spawn_hit_particles_at_vec__10TObjPlayerFiii
+  - spawn_hit_particles__24TItemWeaponSectionIdCardFP3VecPC3Vec
   - spawn_impact_crater__12TBoss1DragonFP3Vec
-  - spawn_item__10TObjPlayerFi
   - spawn_item_follow_effect__FP7TObjectP11TItemWeaponll
   - spawn_landing_effect__16TObjEneBm5GibonUFP3Vec
   - spawn_laser__12TPhotonPillaFv
@@ -16317,7 +16314,7 @@ force_active:
   - update_proximity_state__15TObjEneMe1GiGueFv
   - update_idle_state__15TObjEneMe1GiGueFv
   - sub_802D4E08__23TAdSinglePlyChrSelectGCFv
-  - sub_802D577C__13TUnk_804E21F8Fv
+  - update_orbit_points__26TItemWeaponDancingHitogataFv
   - is_not_jungle_grass__12TObjNpcEnemyFv
   - init_model_animation__17TAdChrSelPlayerGCFv
   - sub_802E1F14__12TAdTimeSetGCFv

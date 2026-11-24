@@ -8028,7 +8028,7 @@ pso/weapon/TItemWeaponMusashi.cpp:
 	.text       start:0x802D5108 end:0x802D526C
 	.data       start:0x804E1BB0 end:0x804E1CA8
 
-pso/player/TObjPlayer_802D5174.cpp:
+pso/weapon/TItemWeaponCard.cpp:
 	.text       start:0x802D526C end:0x802D6348
 	.rodata     start:0x80472590 end:0x804725C0
 	.data       start:0x804E1CA8 end:0x804E24F0

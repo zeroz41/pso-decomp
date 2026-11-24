@@ -361,7 +361,7 @@ void TObjGoGoBall::render() {
     scale_matrix(0, rate, rate, rate);
     set_constant_material((const NJS_ARGB *)((&color)));
     if (vec_squared_length(&dir)) {
-        rotate_matrix_about_axis((u8 *)(0), (saddr)&dir, roll);
+        rotate_matrix_about_axis(NULL, &dir, roll);
     }
     rotate_matrix_y(0, heading);
     if (lobby_gvm_texture_handles != 0 && gogo_ball_bml_resource != 0) {

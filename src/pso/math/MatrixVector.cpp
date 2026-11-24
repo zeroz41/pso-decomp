@@ -21,7 +21,7 @@ asm f32 vector_length(const Vec *v) {
 
 #pragma push
 #pragma scheduling off
-void rotate_matrix_about_axis(u8 *matrix, saddr axis, s32 angle) {
+void rotate_matrix_about_axis(u8 *matrix, const Vec *axis, s32 angle) {
     GC_Mtx rotation;
     MtxP m;
     if (matrix == 0) {
@@ -30,7 +30,7 @@ void rotate_matrix_about_axis(u8 *matrix, saddr axis, s32 angle) {
         m = (MtxP)matrix;
     }
     if (angle != 0) {
-        PSMTXRotAxisRad(rotation, (Vec *)axis, 9.587378008291125e-05 * angle);
+        PSMTXRotAxisRad(rotation, axis, 9.587378008291125e-05 * angle);
         PSMTXConcat(m, rotation, m);
     }
 }

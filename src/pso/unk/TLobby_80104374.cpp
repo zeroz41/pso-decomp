@@ -127,6 +127,7 @@
 #include "pso/weapon/TUnk_804A6CC8.h"
 #include "pso/weapon/TUnk_804A6DC0.h"
 #include "pso/weapon/TItemWeaponMusashi.h"
+#include "pso/weapon/TItemWeaponCard.h"
 #include "pso/weapon/TUnk_804ECDC0.h"
 #include "pso/weapon/TUnk_804ECFB0.h"
 #include "pso/weapon/TUnk_804ED1A0.h"
@@ -312,17 +313,17 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponMusashi::create,
     create_common_weapon,
     TUnk_804E24F0::create,
-    TObjPlayer::create_object_by_type,
+    TItemWeaponCard::create,
     create_nug2000_bazooka,
     create_s_berills_hands_weapon,
     create_sword_weapon,
     create_saber_weapon,
     TObjPlayer::create_gi_gue_bazooka,
     create_guardianna,
-    TObjPlayer::create_object_by_type,
+    TItemWeaponCard::create,
     create_morning_glory,
     TObjPlayer::create_vtable_1f8_state,
-    TObjPlayer::create_object_by_type,
+    TItemWeaponCard::create,
     create_common_weapon,
     TUnk_804F0810::create,
     TObjPlayer::create_vtable_variant,
@@ -336,7 +337,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TObjPlayer::create_rappys_fan,
     create_common_weapon,
     alloc_and_init_obj_effect,
-    TObjPlayer::create_object_by_type,
+    TItemWeaponCard::create,
     TObjPlayer__sub_80128308,
     TUnk_804F28E0::create,
     TItemWeaponSRankCard::create,
