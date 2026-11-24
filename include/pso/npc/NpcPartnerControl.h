@@ -20,8 +20,6 @@ struct PartnerRemark {
 };
 
 extern PartnerRemark npc_partner_dialogue_state[25];
-// Bit 2 silences the partners' chatter (TNpcPlayer::disable_partner_chatter).
-extern s32 partner_chatter_flags;
 
 // Custom partner remarks per player: up to six texts, each keyed by a remark kind (25 = free slot).
 struct PartnerDialogueSet {

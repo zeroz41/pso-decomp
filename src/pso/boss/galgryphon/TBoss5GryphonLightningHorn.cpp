@@ -70,7 +70,7 @@ s32 TBoss5GryphonLightningHorn::clamp_to_segment(Vec *from, Vec *dir, Vec *to, f
 #pragma pop
 
 void TBoss5GryphonLightningHorn::apply_lightning_effect() {
-    Line_803E18C0 ray;
+    Line ray;
     Vec pos;
     Vec wing;
     Vec hit;

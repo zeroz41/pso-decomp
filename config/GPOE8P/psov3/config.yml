@@ -1411,80 +1411,80 @@ force_active:
   - __ct__18TObjMapWarpAncientFP7TObjectPv
   - class_name__11TObjMapWarp
   - class_name__10TObjMotion
-  - TObjNpcAHM01__name
-  - TObjNpcAHM01__shared_object
-  - TObjNpcAHM01__texture_handle
-  - TObjNpcARM00__model_resource
-  - TObjNpcARM00__name
-  - TObjNpcARM00__texture_list
+  - name__12TObjNpcAHM01
+  - shared_object__12TObjNpcAHM01
+  - texture_handle__12TObjNpcAHM01
+  - model_resource__12TObjNpcARM00
+  - name__12TObjNpcARM00
+  - texture_list__12TObjNpcARM00
   - TObjNpcBase__name
   - TObjNpcBase__sub_80149368
   - __ct__20TObjNpcCloakroomBaseFP7TObjectPv
-  - TObjNpcCloakroomBase__name
-  - TObjNpcCloakroomBase__static_instance
-  - TObjNpcConnoisseur__name
+  - name__20TObjNpcCloakroomBase
+  - static_instance__20TObjNpcCloakroomBase
+  - name__18TObjNpcConnoisseur
   - TObjNpcEnemy__collision_body_parts
   - __ct__12TObjNpcEnemyFP7TObjectPv
   - TObjNpcEnemy__entry_table
   - TObjNpcEnemy_class_name
-  - TObjNpcExpertBase__name
-  - TObjNpcExpertBase__shared_resource
+  - name__17TObjNpcExpertBase
+  - shared_resource__17TObjNpcExpertBase
   - __ct__17TObjNpcFemaleBaseFP7TObjectPv
-  - TObjNpcGovernorBase__name
-  - TObjNpcGovernorBase__shared_resource
-  - TObjNpcHFW01__name
-  - TObjNpcHHM00__body_texture_gvm_handle
-  - TObjNpcHHM00__model_object
-  - TObjNpcHHM00__name
-  - TObjNpcHRM00__body_texture_gvm
-  - TObjNpcHRM00__name
-  - TObjNpcHRM00__named_object_resource
-  - TObjNpcHRM01__body_texture_gvm_handle
-  - TObjNpcHRM01__name
-  - TObjNpcHRM01__shared_object_resource
-  - TObjNpcHosa2__name
-  - TObjNpcHosa2__shared_model_resource
-  - TObjNpcHosa__name
-  - TObjNpcHosa__static_model_resource
+  - name__19TObjNpcGovernorBase
+  - shared_resource__19TObjNpcGovernorBase
+  - name__12TObjNpcHFW01
+  - body_texture_gvm_handle__12TObjNpcHHM00
+  - model_object__12TObjNpcHHM00
+  - name__12TObjNpcHHM00
+  - body_texture_gvm__12TObjNpcHRM00
+  - name__12TObjNpcHRM00
+  - named_object_resource__12TObjNpcHRM00
+  - body_texture_gvm_handle__12TObjNpcHRM01
+  - name__12TObjNpcHRM01
+  - shared_object_resource__12TObjNpcHRM01
+  - name__12TObjNpcHosa2
+  - shared_model_resource__12TObjNpcHosa2
+  - name__11TObjNpcHosa
+  - static_model_resource__11TObjNpcHosa
   - TObjNpcHosa__sub_802A39B0
-  - TObjNpcKenkyu2__name
-  - TObjNpcKenkyu2__resource_descriptor
-  - TObjNpcKenkyu2__shared_model_resource
-  - TObjNpcKenkyu__name
-  - TObjNpcKenkyu__static_model
-  - TObjNpcMaleBase__name
-  - TObjNpcMaleBase__shared_bml_archive
-  - TObjNpcMaleChild__name
-  - TObjNpcMaleChild__shared_model_resource
-  - TObjNpcMaleDwarf__name
-  - TObjNpcMaleDwarf__shared_model_resource
-  - TObjNpcMaleMacho__name
-  - TObjNpcMaleMacho__static_model_resource
-  - TObjNpcMaleOld__name
-  - TObjNpcMaleOld__shared_model_resource
-  - TObjNpcMaleTall__name
-  - TObjNpcMaleTall__shared_model_resource
+  - name__14TObjNpcKenkyu2
+  - resource_descriptor__14TObjNpcKenkyu2
+  - shared_model_resource__14TObjNpcKenkyu2
+  - name__13TObjNpcKenkyu
+  - static_model__13TObjNpcKenkyu
+  - name__15TObjNpcMaleBase
+  - shared_bml_archive__15TObjNpcMaleBase
+  - name__16TObjNpcMaleChild
+  - shared_model_resource__16TObjNpcMaleChild
+  - name__16TObjNpcMaleDwarf
+  - shared_model_resource__16TObjNpcMaleDwarf
+  - name__16TObjNpcMaleMacho
+  - static_model_resource__16TObjNpcMaleMacho
+  - name__14TObjNpcMaleOld
+  - shared_model_resource__14TObjNpcMaleOld
+  - name__15TObjNpcMaleTall
+  - shared_model_resource__15TObjNpcMaleTall
   - __ct__11TObjNpcMojaFP7TObjectPv
-  - TObjNpcNFW01__name
-  - TObjNpcNHW00__name
-  - TObjNpcNHW00__shared_named_model_object
-  - TObjNpcNHW00__texture_gvm_handle
-  - TObjNpcNHW01__model_object
-  - TObjNpcNHW01__name
-  - TObjNpcNHW01__texture_handle
-  - TObjNpcNgcBase__data_805439A8
-  - TObjNpcNurseBase__name
-  - TObjNpcNurseBase__shared_model_resource
-  - TObjNpcSecretaryBase__name
-  - TObjNpcSecretaryBase__static_model_resource
-  - TObjNpcSoldierBase__body_resource_desc
-  - TObjNpcSoldierBase__name
-  - TObjNpcSoldierBase__shared_model_resource
-  - TObjNpcSoldierMacho__body_resource_desc
-  - TObjNpcSoldierMacho__name
-  - TObjNpcSoldierMacho__shared_model_resource
-  - TObjNpcSoutokufu__name
-  - TObjNpcSoutokufu__shared_model_resource
+  - body_resources__14TObjNpcNgcBase
+  - name__12TObjNpcNFW01
+  - name__12TObjNpcNHW00
+  - shared_named_model_object__12TObjNpcNHW00
+  - texture_gvm_handle__12TObjNpcNHW00
+  - model_object__12TObjNpcNHW01
+  - name__12TObjNpcNHW01
+  - texture_handle__12TObjNpcNHW01
+  - name__16TObjNpcNurseBase
+  - shared_model_resource__16TObjNpcNurseBase
+  - name__20TObjNpcSecretaryBase
+  - static_model_resource__20TObjNpcSecretaryBase
+  - body_resource_desc__18TObjNpcSoldierBase
+  - name__18TObjNpcSoldierBase
+  - shared_model_resource__18TObjNpcSoldierBase
+  - body_resource_desc__19TObjNpcSoldierMacho
+  - name__19TObjNpcSoldierMacho
+  - shared_model_resource__19TObjNpcSoldierMacho
+  - name__16TObjNpcSoutokufu
+  - shared_model_resource__16TObjNpcSoutokufu
   - online_ending_hex_direction_table
   - hex_line_params__23TObjOnlineEndingHexLine
   - copy_ending_hex_point__FP14EndingHexPointPC14EndingHexPoint
@@ -3246,7 +3246,7 @@ force_active:
   - __vt__13TUnk_804A66D8
   - __vt__13TUnk_804A68C8
   - __vt__13TUnk_804A6DC0
-  - __vt__13TUnk_804A8640
+  - __vt__13TObjNpcFemale
   - __vt__13TUnk_804AF7B0
   - __vt__17TNpcPlayerSpawner
   - __vt__13TUnk_804B7C1C
@@ -16553,7 +16553,7 @@ force_active:
   - tombstone_name_label_offset_table
   - tombstone_position_table
   - tombstone_resource_descriptor
-  - town_npc_animation_init_data
+  - action_table__13TObjNpcFomarl
   - town_player_motion_clip_index_tables
   - trace_from_owner__11TItemWeaponFPUc
   - trade_message_class_name

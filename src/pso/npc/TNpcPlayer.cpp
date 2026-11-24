@@ -1,5 +1,6 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/player/TPlyCharData.h"
+#include "pso/player/TPlyInventory.h"
 #include <stdlib.h>
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/system/ResourceFile.h"
@@ -39,71 +40,40 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
-
-extern "C" {
-void rotate_matrix_y(s32, s32);
-}
-extern u8 identity_matrix[];
-
-struct Text_8014E250 { char text[0x36]; };
-
-
-typedef struct Line_8014EE98 { Vec p; Vec d; } Line_8014EE98;
-
-
-struct Msg_80150DE8 { u8 hdr[2]; u16 type; f32 x; f32 z; };
-
-
-struct Msg_80150E44 { u8 hdr[2]; u16 type; f32 x; f32 z; u32 flags; };
-
+#include "pso/player/TObjPlayer_803E18C0.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/technique/TechniqueParams.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/npc/NpcPartnerControl.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 
 
-struct Obj_801528A8 { u8 pad[0x5c]; u8 arr[1]; };
-
-
-struct Tec_80150B90 { u8 pad[0x10]; s16 f10; };
-
-
-
-struct N_80152C8C { u8 pad0[7]; s8 count; u32 pos[1]; };
 disp_data_part2 *npc_player_char_data_buffer;
-s32 TNpcPlayer__data_805D5864;
+s32 quest_npc_visual_pending;
 
 
-f32 atan2_float(f32 y, f32 x);
-s16 get_actor_tp(u8 *p);
-s16 obj_getS16_2BA(u8 *p);
-f32 fabs_float(f32);
+f32 horizontal_distance_squared(void *, void *);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void * __ct__12TPlyCharDataFv(void *self);
-f32 horizontal_distance_squared(void *, void *);
 void TNpcPlayer__sub_8014DC3C(void *, s32);
 void deliver_partner_chatter(TNpcPlayer *self);
 void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out);
 s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2);
-s32 partner_probe_obstacles(Unk_8014F844 *view);
-s32 partition_sort_entries__10TNpcPlayerFiPvii(s32 self, Unk_8014F844Entry *a, s32 lo, s32 hi);
-s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, u16 id, f32 range);
-s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 range);
+s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, void *pos, u16 id, f32 range);
 bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 id);
 s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1);
-s32 check_and_set_reached__10TNpcPlayerFPv(void *arg0);
 s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2);
 void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self);
-void set_technique_seed_level(Obj_801528A8 *self, s16 i, u8 v);
+void set_technique_seed_level(PlayerTechniqueState *self, s16 i, u8 v);
 void reset_partner_counter(saddr arg0, s32 arg1);
 void increment_partner_counter(saddr arg0, s32 arg1);
-s32 TNpcPlayer__sub_801528DC(void* p);
-u16 get_npc_type__10TNpcPlayerFPv(void* p);
 int get_partner_counter(saddr arg0, s32 arg1);
 s32 npc_counter_reset_if_reached(saddr arg0, s32 arg1);
-s32 TNpcPlayer__sub_80152978(void* p);
-void copy_transform_second__10TNpcPlayerFPvPvPv(void* p, void* a1, void* a2);
-void copy_transform__10TNpcPlayerFPvPv(void* p, void* q);
-void TNpcPlayer__sub_80152A30(void);
-void TNpcPlayer__sub_80152A34(u8 *arg0, s32 arg1, s32 arg2);
 void init_6x45_attack_packet(u8 *arg0);
 void init_6x44_attack_packet(u8 *arg0);
 void init_6x43_attack_packet(u8 *arg0);
@@ -113,31 +83,24 @@ s32 free_collision_body_parts(u32);
 void init_collision_body_parts(void *, void *, s32);
 s32 try_send_6x27_use_item(s32, s32, void *);
 s8 get_cast_technique_level(void *, s16);
-Tec_80150B90 * calc_technique_parameters(s32, s32, s32);
 void __register_global_object(void *obj, void *dtor, void *link);
-void matrix_mult_vec(s32, Vec *, Vec *);
-f32 vec3_dot(Vec *, Vec *);
-f32 vector_length(Vec *);
-void project_point_onto_line(void *, Line_8014EE98 *, Vec *);
 
 extern int registered_entity_count;
-extern Text_8014E250 npc_partner_dialogue_state[];
 
 void copy_player_visual_record(void *, void *);
-extern s32 TNpcPlayer__data_805D5864;
 
-disp_data_part2 lbl_8050CF68;
+disp_data_part2 npc_player_visual_record;
 u32 npc_player_ply_char_data_global[3];
-u32 lbl_8050CFC4[263];
-disp_data_part2 lbl_8050D3E0;
+u32 npc_player_char_data[263];
+disp_data_part2 quest_npc_visual_record;
 
 // Combat action ids by tier, read by TNpcPlayer::update_combat_action.
 static const s32 npc_player_combat_action_table[3][2] = {{0, 1}, {3, 4}, {6, 8}};
 
-const char *lbl_805D2E70 = "npcplayerchar.dat";
-const char *TNpcPlayer__name = "TNpcPlayer";
+const char *npc_player_char_file_name = "npcplayerchar.dat";
+const char *TNpcPlayer::name = "TNpcPlayer";
 
-// lbl_8050CFC4 is constructed by __sinit_TNpcPlayer_cpp, spelled out below because
+// npc_player_char_data is constructed by __sinit_TNpcPlayer_cpp, spelled out below because
 // the original's static initializer precedes the out-of-line helpers at the end
 // of this file, which no compiler-generated __sinit reproduces.
 void __sinit_TNpcPlayer_cpp();
@@ -145,10 +108,6 @@ __declspec(section ".ctors") static void *const npc_player_global_initializer = 
 }
 s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out);
 s32 partner_find_wall_segment(saddr arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4);
-s32 refresh_npc_view_actor_lost(void *arg0);
-s32 partner_view_update_hp_change(void *arg0);
-s32 partner_view_update_conditions(u8 *arg0);
-s32 partner_view_check_moved(u8 *arg0);
 void partner_observe_surroundings(TNpcPlayer *npc_player);
 int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
 void set_partner_counter(saddr arg0, s32 arg1, s16 arg2);
@@ -158,85 +117,7 @@ void bswap_6x44_packet(void* p);
 void bswap_6x43_packet(void* p);
 u8 get_6x47_cast_packet_size(u8 *arg0);
 int get_registered_object_count(void);
-const char *get_partner_custom_text(s32 kind, u16 player);
-extern void *lbl_804AC690[35];
-extern void *lbl_804AC71C[35];
-extern void *lbl_804AC7A8[35];
-extern void *lbl_804AC834[35];
-extern void *lbl_804AC8C0[35];
-extern void *lbl_804AC94C[70];
-extern void *lbl_804ACA64[28];
-extern void *lbl_804ACAD4[35];
-extern void *lbl_804ACB60[35];
-extern void *lbl_804ACBEC[35];
-extern void *lbl_804ACC78[35];
-extern void *lbl_804ACD04[35];
-extern void *lbl_804ACD90[35];
-extern void *lbl_804ACE1C[35];
-extern void *lbl_804ACEA8[35];
-extern void *lbl_804ACF34[35];
-extern void *lbl_804ACFC0[35];
-extern void *lbl_804AD04C[35];
-extern void *lbl_804AD0D8[35];
-extern void *lbl_804AD164[35];
-extern void *lbl_804AD1F0[70];
-extern void *lbl_804AD308[35];
-extern void *lbl_804AD394[35];
-extern void *lbl_804AD420[35];
-extern void *lbl_804AD4AC[35];
-extern void *lbl_804AD538[35];
-extern void *lbl_804AD5C4[35];
-extern void *lbl_804AD650[35];
-extern void *lbl_804AD6DC[35];
-extern void *lbl_804AD768[35];
-extern void *lbl_804AD7F4[35];
-extern void *lbl_804AD880[35];
-extern void *lbl_804AD90C[35];
-extern void *lbl_804AD998[35];
-extern void *lbl_804ADA24[35];
-extern void *lbl_804ADAB0[35];
-extern void *lbl_804ADB3C[35];
-extern void *lbl_804ADBC8[35];
-extern void *lbl_804ADC54[35];
-extern void *lbl_804ADCE0[35];
-extern void *lbl_804ADD6C[70];
-extern void *lbl_804ADE84[28];
-extern void *lbl_804ADEF4[35];
-extern void *lbl_804ADF80[35];
-extern void *lbl_804AE00C[35];
-extern void *lbl_804AE098[35];
-extern void *lbl_804AE124[35];
-extern void *lbl_804AE1B0[35];
-extern void *lbl_804AE23C[35];
-extern void *lbl_804AE2C8[70];
-extern void *lbl_804AE3E0[35];
-extern void *lbl_804AE46C[35];
-extern void *lbl_804AE4F8[35];
-extern void *lbl_804AE584[35];
-extern void *lbl_804AE610[70];
-extern void *lbl_804AE728[35];
-extern void *lbl_804AE7B4[35];
-extern void *lbl_804AE840[35];
-extern void *lbl_804AE8CC[35];
-extern void *lbl_804AE958[35];
-extern void *lbl_804AE9E4[35];
-extern void *lbl_804AEA70[35];
-extern void *lbl_804AEAFC[35];
-extern void *lbl_804AEB88[35];
-extern void *lbl_804AEC14[35];
-extern void *lbl_804AECA0[35];
-extern void *lbl_804AED2C[35];
-extern void *lbl_804AEDB8[35];
-extern void *lbl_804AEE44[35];
-extern void *lbl_804AEED0[35];
-extern void *lbl_804AEF5C[35];
-extern void *lbl_804AEFE8[35];
-extern void *lbl_804AF074[35];
-extern void *lbl_804AF100[35];
-extern void *lbl_804AF18C[35];
-extern void *lbl_804AF218[35];
-extern void *npc_player_template_table[35];
-TNpcPlayer::AiParams TNpcPlayer__template_table[64] = {
+TNpcPlayer::AiParams npc_player_ai_templates[64] = {
     {0x0, 0x4, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 13.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0xf, 0x0, 50.0f},
     {0x1, 0xc, TECHNIQUE_FLAGS_BARTA_GIBARTA, 100.0f, 10.0f, 15.0f, 35.0f, 25.0f, 100.0f, 0x0, 0x9, 0x19, 0x5a, 50.0f},
     {0x2, 0x14, TECHNIQUE_FLAGS_BARTA_GIBARTA, 100.0f, 10.0f, 15.0f, 40.0f, 30.0f, 100.0f, 0x2, 0x9, 0x1e, 0x50, 50.0f},
@@ -302,969 +183,642 @@ TNpcPlayer::AiParams TNpcPlayer__template_table[64] = {
     {0x3e, 0x9, TECHNIQUE_FLAGS_FOIE_GIFOIE, 60.0f, 10.0f, 25.0f, 45.0f, 30.0f, 30.0f, 0x9, 0x9, 0x32, 0x50, 50.0f},
     {0x3f, 0x9, TECHNIQUE_FLAGS_FOIE_GIFOIE, 60.0f, 10.0f, 25.0f, 45.0f, 30.0f, 30.0f, 0x1, 0x9, 0x1e, 0x32, 50.0f},
 };
-void *lbl_804AC690[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x60000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010200, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020200, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x70000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x70000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AC71C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x10000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010500, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020500, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AC7A8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xa0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020300, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x70000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AC834[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010500, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020500, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AC8C0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020700, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AC94C[70] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x20100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x80200, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1011a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x8, (void *)0x1021800,
-    (void *)0x0, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3000100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x0, (void *)0x3010100, (void *)0x30000, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACA64[28] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3010000,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACAD4[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xd0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020b00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACB60[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xe0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACBEC[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x110000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010d00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACC78[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x150000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020600, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACD04[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x30100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010000, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x10000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACD90[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x100100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACE1C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xf0000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010e00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020e00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACEA8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x90100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010000, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020800, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x10000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACF34[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010e00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020e00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACFC0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xa0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011700, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021700, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD04C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x60200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010c00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD0D8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x1b0000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011700, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD164[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x50200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021600, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD1F0[70] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010200, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x20000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x40200, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1011300, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x8, (void *)0x1021300,
-    (void *)0x0, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3000100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x0, (void *)0x3010100, (void *)0x50000, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD308[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x10100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021300, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD394[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021300, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD420[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x20200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011500, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021800, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD4AC[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x40100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020800, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x20000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD538[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x160000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD5C4[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x140000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010e00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020e00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD650[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x200000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD6DC[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x80100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x20000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x20000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD768[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x10000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010100, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020100, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x10000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD7F4[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xa0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020600, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x10000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD880[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xd0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011700, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021800, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD90C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x30200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021600, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD998[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x110000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011a00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADA24[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x10000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x10000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADAB0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x60100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADB3C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x10100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADBC8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xa0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020b00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADC54[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADCE0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010d00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADD6C[70] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x20200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010d00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x80300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1011a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x8, (void *)0x1021d00,
-    (void *)0x0, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3000100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x0, (void *)0x3010100, (void *)0x30000, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADE84[28] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010d00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3010100,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADEF4[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xd0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010c00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADF80[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xe0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011800, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE00C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x110100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021300, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE098[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x150000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020b00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE124[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x30200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010200, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020e00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE1B0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x100100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010c00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE23C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xf0000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021300, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE2C8[70] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x90200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010200, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x90300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1011a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x8, (void *)0x1021d00,
-    (void *)0x0, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3000100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x0, (void *)0x3010100, (void *)0x50000, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE3E0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xa0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021b00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE46C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x60300, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE4F8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x1b0000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE584[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x50300, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE610[70] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020600, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x40300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1011900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x8, (void *)0x1021900,
-    (void *)0x0, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3000100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x0, (void *)0x3010100, (void *)0x50000, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE728[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x10200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011800, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021800, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE7B4[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70300, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE840[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x20300, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE8CC[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x40200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE958[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x160000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE9E4[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x140000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEA70[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x200100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010c00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEAFC[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x80200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020b00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x20000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEB88[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x10200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010500, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020500, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEC14[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xa0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010800, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020800, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x10000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AECA0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xd0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AED2C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x30300, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011a00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEDB8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x110100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011a00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEE44[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x10000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x10000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEED0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x80600, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEF5C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0500, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011a00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021b00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEFE8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x970000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011800, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AF074[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x8b0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AF100[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x150100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AF18C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xd0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011800, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AF218[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70400, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *npc_player_template_table[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x890300, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AF330[64] = {
-    (void *)&lbl_804AC690, (void *)&lbl_804ACA64, (void *)&lbl_804ACFC0, (void *)&lbl_804AD5C4,
-    (void *)&lbl_804AD04C, (void *)&lbl_804AEED0, (void *)&lbl_804AEFE8, (void *)&lbl_804AD04C,
-    (void *)&lbl_804ACFC0, (void *)&lbl_804ACB60, (void *)&lbl_804AC71C, (void *)&lbl_804ACAD4,
-    (void *)&lbl_804AD998, (void *)&lbl_804ACC78, (void *)&lbl_804AD5C4, (void *)&lbl_804AC834,
-    (void *)&lbl_804AC7A8, (void *)&lbl_804AD0D8, (void *)&lbl_804ACFC0, (void *)&lbl_804AC8C0,
-    (void *)&lbl_804ACD04, (void *)&lbl_804AD4AC, (void *)&lbl_804AD768, (void *)&lbl_804AD1F0,
-    (void *)&lbl_804AD1F0, (void *)&lbl_804ACEA8, (void *)&lbl_804AC71C, (void *)&lbl_804AC690,
-    (void *)&lbl_804AC8C0, (void *)&lbl_804AC834, (void *)&lbl_804AD164, (void *)&lbl_804AD7F4,
-    (void *)&lbl_804ACE1C, (void *)&lbl_804ACE1C, (void *)&npc_player_template_table, (void *)&lbl_804AD880,
-    (void *)&lbl_804ADA24, (void *)&lbl_804AF074, (void *)&lbl_804ACBEC, (void *)&lbl_804ACC78,
-    (void *)&lbl_804AC94C, (void *)&lbl_804AD308, (void *)&lbl_804ACFC0, (void *)&lbl_804AD394,
-    (void *)&lbl_804AD308, (void *)&lbl_804AD04C, (void *)&lbl_804AD90C, (void *)&lbl_804AD650,
-    (void *)&lbl_804AD394, (void *)&lbl_804AC834, (void *)&lbl_804AD0D8, (void *)&lbl_804AD6DC,
-    (void *)&lbl_804AD6DC, (void *)&lbl_804ACD90, (void *)&lbl_804AD6DC, (void *)&lbl_804AD5C4,
-    (void *)&lbl_804AD0D8, (void *)&lbl_804AD538, (void *)&lbl_804AD04C, (void *)&lbl_804AC94C,
-    (void *)&lbl_804AD420, (void *)&lbl_804AD420, (void *)&lbl_804ACEA8, (void *)&lbl_804AD538,
-};
-void *lbl_804AF430[64] = {
-    (void *)&lbl_804ADAB0, (void *)&lbl_804ADE84, (void *)&lbl_804AE3E0, (void *)&lbl_804AE9E4,
-    (void *)&lbl_804AE46C, (void *)&lbl_804AEED0, (void *)&lbl_804AEFE8, (void *)&lbl_804AE46C,
-    (void *)&lbl_804AE3E0, (void *)&lbl_804ADF80, (void *)&lbl_804ADB3C, (void *)&lbl_804ADEF4,
-    (void *)&lbl_804AEDB8, (void *)&lbl_804AE098, (void *)&lbl_804AE9E4, (void *)&lbl_804ACF34,
-    (void *)&lbl_804ADBC8, (void *)&lbl_804AE4F8, (void *)&lbl_804AE3E0, (void *)&lbl_804ADCE0,
-    (void *)&lbl_804AE124, (void *)&lbl_804AE8CC, (void *)&lbl_804AEB88, (void *)&lbl_804AE610,
-    (void *)&lbl_804AE610, (void *)&lbl_804AE2C8, (void *)&lbl_804ADB3C, (void *)&lbl_804ADAB0,
-    (void *)&lbl_804ADCE0, (void *)&lbl_804ADC54, (void *)&lbl_804AE584, (void *)&lbl_804AEC14,
-    (void *)&lbl_804AE23C, (void *)&lbl_804AE23C, (void *)&npc_player_template_table, (void *)&lbl_804AECA0,
-    (void *)&lbl_804AEE44, (void *)&lbl_804AF074, (void *)&lbl_804AE00C, (void *)&lbl_804AE098,
-    (void *)&lbl_804ADD6C, (void *)&lbl_804AE728, (void *)&lbl_804AE3E0, (void *)&lbl_804AE7B4,
-    (void *)&lbl_804AE728, (void *)&lbl_804AE46C, (void *)&lbl_804AED2C, (void *)&lbl_804AEA70,
-    (void *)&lbl_804AE7B4, (void *)&lbl_804AE7B4, (void *)&lbl_804AE4F8, (void *)&lbl_804AEAFC,
-    (void *)&lbl_804AEAFC, (void *)&lbl_804AE1B0, (void *)&lbl_804AEAFC, (void *)&lbl_804AE9E4,
-    (void *)&lbl_804AE3E0, (void *)&lbl_804AE958, (void *)&lbl_804AE46C, (void *)&lbl_804ADD6C,
-    (void *)&lbl_804AE840, (void *)&lbl_804AE840, (void *)&lbl_804AE2C8, (void *)&lbl_804AE958,
-};
-void *lbl_804AF530[64] = {
-    (void *)&lbl_804ADAB0, (void *)&lbl_804ADE84, (void *)&lbl_804AE3E0, (void *)&lbl_804AE9E4,
-    (void *)&lbl_804AE46C, (void *)&lbl_804AEED0, (void *)&lbl_804AEFE8, (void *)&lbl_804AE46C,
-    (void *)&lbl_804AEF5C, (void *)&lbl_804ADF80, (void *)&lbl_804ADB3C, (void *)&lbl_804AF18C,
-    (void *)&lbl_804AEDB8, (void *)&lbl_804AF100, (void *)&lbl_804AE9E4, (void *)&lbl_804AF218,
-    (void *)&lbl_804AEF5C, (void *)&lbl_804AE4F8, (void *)&lbl_804AE3E0, (void *)&lbl_804ADCE0,
-    (void *)&lbl_804AE124, (void *)&lbl_804AE8CC, (void *)&lbl_804AEB88, (void *)&lbl_804AE610,
-    (void *)&lbl_804AE610, (void *)&lbl_804AE2C8, (void *)&lbl_804ADB3C, (void *)&lbl_804ADAB0,
-    (void *)&lbl_804ADCE0, (void *)&lbl_804ADC54, (void *)&lbl_804AE584, (void *)&lbl_804AEC14,
-    (void *)&lbl_804AE23C, (void *)&lbl_804AE23C, (void *)&npc_player_template_table, (void *)&lbl_804AF18C,
-    (void *)&lbl_804AEE44, (void *)&lbl_804AF074, (void *)&lbl_804AE00C, (void *)&lbl_804AF100,
-    (void *)&lbl_804ADD6C, (void *)&lbl_804AE728, (void *)&lbl_804AE3E0, (void *)&lbl_804AE7B4,
-    (void *)&lbl_804AE728, (void *)&lbl_804AE46C, (void *)&lbl_804AED2C, (void *)&lbl_804AEA70,
-    (void *)&lbl_804AE7B4, (void *)&lbl_804AE7B4, (void *)&lbl_804AE4F8, (void *)&lbl_804AEAFC,
-    (void *)&lbl_804AEAFC, (void *)&lbl_804AE1B0, (void *)&lbl_804AEAFC, (void *)&lbl_804AE9E4,
-    (void *)&lbl_804AE4F8, (void *)&lbl_804AE958, (void *)&lbl_804AE46C, (void *)&lbl_804ADD6C,
-    (void *)&lbl_804AE840, (void *)&lbl_804AE840, (void *)&lbl_804AE2C8, (void *)&lbl_804AE958,
-};
-void *lbl_804AF630[64] = {
-    (void *)&lbl_804ADAB0, (void *)&lbl_804ADE84, (void *)&lbl_804AE3E0, (void *)&lbl_804AE9E4,
-    (void *)&lbl_804AE46C, (void *)&lbl_804AEED0, (void *)&lbl_804AEFE8, (void *)&lbl_804AE46C,
-    (void *)&lbl_804AEF5C, (void *)&lbl_804ADF80, (void *)&lbl_804ADB3C, (void *)&lbl_804AF18C,
-    (void *)&lbl_804AEDB8, (void *)&lbl_804AF100, (void *)&lbl_804AE9E4, (void *)&lbl_804AF218,
-    (void *)&lbl_804AEF5C, (void *)&lbl_804AE4F8, (void *)&lbl_804AE3E0, (void *)&lbl_804ADCE0,
-    (void *)&lbl_804AE124, (void *)&lbl_804AE8CC, (void *)&lbl_804AEB88, (void *)&lbl_804AE610,
-    (void *)&lbl_804AE610, (void *)&lbl_804AE2C8, (void *)&lbl_804ADB3C, (void *)&lbl_804ADAB0,
-    (void *)&lbl_804ADCE0, (void *)&lbl_804ADC54, (void *)&lbl_804AE584, (void *)&lbl_804AEC14,
-    (void *)&lbl_804AE23C, (void *)&lbl_804AE23C, (void *)&npc_player_template_table, (void *)&lbl_804AF18C,
-    (void *)&lbl_804AEE44, (void *)&lbl_804AF074, (void *)&lbl_804AE00C, (void *)&lbl_804AF100,
-    (void *)&lbl_804ADD6C, (void *)&lbl_804AE728, (void *)&lbl_804AE3E0, (void *)&lbl_804AE7B4,
-    (void *)&lbl_804AE728, (void *)&lbl_804AE46C, (void *)&lbl_804AED2C, (void *)&lbl_804AEA70,
-    (void *)&lbl_804AE7B4, (void *)&lbl_804AE7B4, (void *)&lbl_804AE4F8, (void *)&lbl_804AEAFC,
-    (void *)&lbl_804AEAFC, (void *)&lbl_804AE1B0, (void *)&lbl_804AEAFC, (void *)&lbl_804AE9E4,
-    (void *)&lbl_804AE4F8, (void *)&lbl_804AE958, (void *)&lbl_804AE46C, (void *)&lbl_804ADD6C,
-    (void *)&lbl_804AE840, (void *)&lbl_804AE840, (void *)&lbl_804AE2C8, (void *)&lbl_804AE958,
+TPlyInventoryItem npc_normal_set_00[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_10[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_16[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_15[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_19[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_40[10] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 0, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_01[4] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_11[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xd, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_09[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xe, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_38[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_13[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_20[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xa, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_53[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x10, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_32[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xf, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_25[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 9, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_15[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_02[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x17, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x17, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_04[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 6, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_17[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x17, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_30[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 5, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x16, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_23[10] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 0, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_41[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_43[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_60[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x15, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_21[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_57[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_03[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_47[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_51[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 8, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_22[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_31[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_35[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xd, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x17, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_46[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x16, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x16, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_12[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_36[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_00[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_10[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_16[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_29[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_19[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_40[10] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 0, 8, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_01[4] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_11[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xd, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_09[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xe, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_38[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x11, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_13[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_20[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_53[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x10, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_32[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xf, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_25[10] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 9, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xa, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 0, 9, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_02[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_04[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 6, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_17[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_30[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_23[10] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 0, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_41[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_43[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_60[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_21[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_57[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_03[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_47[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x20, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_51[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_22[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_31[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_35[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xd, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_46[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_12[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x11, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_36[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_05[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 8, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1c, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_very_hard_set_08[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_06[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x97, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_37[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x8b, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1c, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_very_hard_set_13[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x15, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1c, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_very_hard_set_11[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xd, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_very_hard_set_15[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1c, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_34[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x89, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1c, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem *npc_player_equipment_normal[64] = {
+    npc_normal_set_00, npc_normal_set_01, npc_normal_set_02, npc_normal_set_03,
+    npc_normal_set_04, npc_normal_set_05, npc_normal_set_06, npc_normal_set_04,
+    npc_normal_set_02, npc_normal_set_09, npc_normal_set_10, npc_normal_set_11,
+    npc_normal_set_12, npc_normal_set_13, npc_normal_set_03, npc_normal_set_15,
+    npc_normal_set_16, npc_normal_set_17, npc_normal_set_02, npc_normal_set_19,
+    npc_normal_set_20, npc_normal_set_21, npc_normal_set_22, npc_normal_set_23,
+    npc_normal_set_23, npc_normal_set_25, npc_normal_set_10, npc_normal_set_00,
+    npc_normal_set_19, npc_normal_set_15, npc_normal_set_30, npc_normal_set_31,
+    npc_normal_set_32, npc_normal_set_32, npc_normal_set_34, npc_normal_set_35,
+    npc_normal_set_36, npc_normal_set_37, npc_normal_set_38, npc_normal_set_13,
+    npc_normal_set_40, npc_normal_set_41, npc_normal_set_02, npc_normal_set_43,
+    npc_normal_set_41, npc_normal_set_04, npc_normal_set_46, npc_normal_set_47,
+    npc_normal_set_43, npc_normal_set_15, npc_normal_set_17, npc_normal_set_51,
+    npc_normal_set_51, npc_normal_set_53, npc_normal_set_51, npc_normal_set_03,
+    npc_normal_set_17, npc_normal_set_57, npc_normal_set_04, npc_normal_set_40,
+    npc_normal_set_60, npc_normal_set_60, npc_normal_set_25, npc_normal_set_57,
+};
+TPlyInventoryItem *npc_player_equipment_hard[64] = {
+    npc_hard_set_00, npc_hard_set_01, npc_hard_set_02, npc_hard_set_03,
+    npc_hard_set_04, npc_normal_set_05, npc_normal_set_06, npc_hard_set_04,
+    npc_hard_set_02, npc_hard_set_09, npc_hard_set_10, npc_hard_set_11,
+    npc_hard_set_12, npc_hard_set_13, npc_hard_set_03, npc_hard_set_15,
+    npc_hard_set_16, npc_hard_set_17, npc_hard_set_02, npc_hard_set_19,
+    npc_hard_set_20, npc_hard_set_21, npc_hard_set_22, npc_hard_set_23,
+    npc_hard_set_23, npc_hard_set_25, npc_hard_set_10, npc_hard_set_00,
+    npc_hard_set_19, npc_hard_set_29, npc_hard_set_30, npc_hard_set_31,
+    npc_hard_set_32, npc_hard_set_32, npc_normal_set_34, npc_hard_set_35,
+    npc_hard_set_36, npc_normal_set_37, npc_hard_set_38, npc_hard_set_13,
+    npc_hard_set_40, npc_hard_set_41, npc_hard_set_02, npc_hard_set_43,
+    npc_hard_set_41, npc_hard_set_04, npc_hard_set_46, npc_hard_set_47,
+    npc_hard_set_43, npc_hard_set_43, npc_hard_set_17, npc_hard_set_51,
+    npc_hard_set_51, npc_hard_set_53, npc_hard_set_51, npc_hard_set_03,
+    npc_hard_set_02, npc_hard_set_57, npc_hard_set_04, npc_hard_set_40,
+    npc_hard_set_60, npc_hard_set_60, npc_hard_set_25, npc_hard_set_57,
+};
+TPlyInventoryItem *npc_player_equipment_very_hard[64] = {
+    npc_hard_set_00, npc_hard_set_01, npc_hard_set_02, npc_hard_set_03,
+    npc_hard_set_04, npc_normal_set_05, npc_normal_set_06, npc_hard_set_04,
+    npc_very_hard_set_08, npc_hard_set_09, npc_hard_set_10, npc_very_hard_set_11,
+    npc_hard_set_12, npc_very_hard_set_13, npc_hard_set_03, npc_very_hard_set_15,
+    npc_very_hard_set_08, npc_hard_set_17, npc_hard_set_02, npc_hard_set_19,
+    npc_hard_set_20, npc_hard_set_21, npc_hard_set_22, npc_hard_set_23,
+    npc_hard_set_23, npc_hard_set_25, npc_hard_set_10, npc_hard_set_00,
+    npc_hard_set_19, npc_hard_set_29, npc_hard_set_30, npc_hard_set_31,
+    npc_hard_set_32, npc_hard_set_32, npc_normal_set_34, npc_very_hard_set_11,
+    npc_hard_set_36, npc_normal_set_37, npc_hard_set_38, npc_very_hard_set_13,
+    npc_hard_set_40, npc_hard_set_41, npc_hard_set_02, npc_hard_set_43,
+    npc_hard_set_41, npc_hard_set_04, npc_hard_set_46, npc_hard_set_47,
+    npc_hard_set_43, npc_hard_set_43, npc_hard_set_17, npc_hard_set_51,
+    npc_hard_set_51, npc_hard_set_53, npc_hard_set_51, npc_hard_set_03,
+    npc_hard_set_17, npc_hard_set_57, npc_hard_set_04, npc_hard_set_40,
+    npc_hard_set_60, npc_hard_set_60, npc_hard_set_25, npc_hard_set_57,
+};
+TPlyInventoryItem *npc_player_equipment_ultimate[64] = {
+    npc_hard_set_00, npc_hard_set_01, npc_hard_set_02, npc_hard_set_03,
+    npc_hard_set_04, npc_normal_set_05, npc_normal_set_06, npc_hard_set_04,
+    npc_very_hard_set_08, npc_hard_set_09, npc_hard_set_10, npc_very_hard_set_11,
+    npc_hard_set_12, npc_very_hard_set_13, npc_hard_set_03, npc_very_hard_set_15,
+    npc_very_hard_set_08, npc_hard_set_17, npc_hard_set_02, npc_hard_set_19,
+    npc_hard_set_20, npc_hard_set_21, npc_hard_set_22, npc_hard_set_23,
+    npc_hard_set_23, npc_hard_set_25, npc_hard_set_10, npc_hard_set_00,
+    npc_hard_set_19, npc_hard_set_29, npc_hard_set_30, npc_hard_set_31,
+    npc_hard_set_32, npc_hard_set_32, npc_normal_set_34, npc_very_hard_set_11,
+    npc_hard_set_36, npc_normal_set_37, npc_hard_set_38, npc_very_hard_set_13,
+    npc_hard_set_40, npc_hard_set_41, npc_hard_set_02, npc_hard_set_43,
+    npc_hard_set_41, npc_hard_set_04, npc_hard_set_46, npc_hard_set_47,
+    npc_hard_set_43, npc_hard_set_43, npc_hard_set_17, npc_hard_set_51,
+    npc_hard_set_51, npc_hard_set_53, npc_hard_set_51, npc_hard_set_03,
+    npc_hard_set_17, npc_hard_set_57, npc_hard_set_04, npc_hard_set_40,
+    npc_hard_set_60, npc_hard_set_60, npc_hard_set_25, npc_hard_set_57,
 };
 
 
-extern s32 partner_chatter_flags;
 
 
 void TUnk_804AF7B0::run_task() {
@@ -1356,11 +910,11 @@ u8 get_6x47_cast_packet_size(u8 *arg0) {
 }
 
 void TNpcPlayer::byteswap_positions() {
-    N_80152C8C *arg0 = (N_80152C8C *)this;
+    G_CastTechnique_6x47 *arg0 = (G_CastTechnique_6x47 *)this;
     s32 i;
     ((G_ClientIDHeader *)arg0)->bswap();
-    for (i = 0; i < arg0->count; i++) {
-        ((TNpcPlayer *)(&arg0->pos[i]))->byteswap_pos();
+    for (i = 0; i < arg0->params.target_count; i++) {
+        ((TNpcPlayer *)(&arg0->targets[i]))->byteswap_pos();
     }
 }
 
@@ -1413,13 +967,13 @@ void PartnerCounters::clear() {
 
 PartnerCounters::PartnerCounters() { clear(); }
 
-void TNpcPlayer__sub_80152A34(u8 *arg0, s32 arg1, s32 arg2) {
-    *(s32 *)((s8 *)arg0 + 0x80) = (s32) *(s32 *)((s8 *)arg0 + 0x7C);
-    *(s32 *)((s8 *)arg0 + 0x7C) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x84) = arg2;
+void NpcPlayerView::set_target(u32 id, s32 collider) {
+    prev_target_id = target_id;
+    target_id = id;
+    target_collider = collider;
 }
 
-void TNpcPlayer__sub_80152A30(void) {  }
+NpcPlayerView *NpcPlayerView::target_list() { return this; }
 
 s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2) {
     if (((s32 (*)(void))is_partner_counter_reached)() != 0) {
@@ -1429,17 +983,24 @@ s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2) {
     return 0;
 }
 
-void TNpcPlayer::reset_fields_8c() { *(s32*)((char*)this + 0x8c) = 0; *(s32*)((char*)this + 0x90) = 0; }
+void NpcPlayerView::clear_flags() {
+    status = 0;
+    condition = 0;
+}
 
-s32 TNpcPlayer::get_action_state() { return *(s32*)((char*)this + 0x8c); }
+u32 NpcPlayerView::get_status() { return status; }
 
-void copy_transform__10TNpcPlayerFPvPv(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); *(f32*)((char*)p + 0x8) = *(f32*)((char*)q + 0x8); }
+void NpcPlayerViewTarget::copy(NpcPlayerViewTarget *src) {
+    entity_id = src->entity_id;
+    collider = src->collider;
+    distance_sq = src->distance_sq;
+}
 
-void copy_transform_second__10TNpcPlayerFPvPvPv(void* p, void* a1, void* a2) { ((int (*)(void*))copy_transform__10TNpcPlayerFPvPv)(a2); }
+void NpcPlayerView::copy_target(NpcPlayerViewTarget *src, NpcPlayerViewTarget *dst) { dst->copy(src); }
 
-s32 TNpcPlayer::get_condition() { return *(s32*)((char*)this + 0x90); }
+u32 NpcPlayerView::get_condition() { return condition; }
 
-s32 TNpcPlayer__sub_80152978(void* p) { return *(s32*)((char*)p + 0x80); }
+u32 NpcPlayerView::get_prev_target_id() { return prev_target_id; }
 
 void set_partner_counter(saddr arg0, s32 arg1, s16 arg2) {
     *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0) = arg2;
@@ -1461,11 +1022,11 @@ int get_partner_counter(saddr arg0, s32 arg1) {
     return *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0);
 }
 
-u16 get_npc_type__10TNpcPlayerFPv(void* p) { return *(u16*)((char*)p + 0x8a); }
+u16 NpcPlayerView::get_client_id() { return client_id; }
 
-s32 TNpcPlayer::get_npc_state() { return *(s32*)((char*)this + 0x7c); }
+u32 NpcPlayerView::get_target_id() { return target_id; }
 
-s32 TNpcPlayer__sub_801528DC(void* p) { return *(s32*)((char*)p + 0x84); }
+s32 NpcPlayerView::get_target_collider() { return target_collider; }
 
 void increment_partner_counter(saddr arg0, s32 arg1) {
     saddr temp_r5;
@@ -1477,12 +1038,12 @@ void reset_partner_counter(saddr arg0, s32 arg1) {
     *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0) = 0;
 }
 
-void set_technique_seed_level(Obj_801528A8 *self, s16 i, u8 v) {
-    self->arr[i] = v;
+void set_technique_seed_level(PlayerTechniqueState *self, s16 i, u8 v) {
+    self->levels[i] = v;
 }
 
 void __sinit_TNpcPlayer_cpp() {
-    __register_global_object(__ct__12TPlyCharDataFv(lbl_8050CFC4), (void *)__dt__12TPlyCharDataFv, npc_player_ply_char_data_global);
+    __register_global_object(__ct__12TPlyCharDataFv(npc_player_char_data), (void *)__dt__12TPlyCharDataFv, npc_player_ply_char_data_global);
 }
 
 void TNpcPlayer::ensure_rock_singleton() {
@@ -1497,13 +1058,13 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 arg0) {
     s32 lvl;
     u16 base;
 
-    if (TNpcPlayer__data_805D5864 != 0) {
-        TNpcPlayer__data_805D5864 = 0;
-        copy_player_visual_record(&lbl_8050CF68, &lbl_8050D3E0);
+    if (quest_npc_visual_pending != 0) {
+        quest_npc_visual_pending = 0;
+        copy_player_visual_record(&npc_player_visual_record, &quest_npc_visual_record);
     } else {
-        copy_player_visual_record(&lbl_8050CF68, &npc_player_char_data_buffer[arg0]);
+        copy_player_visual_record(&npc_player_visual_record, &npc_player_char_data_buffer[arg0]);
     }
-    bswap__15disp_data_part2Fv((saddr)&lbl_8050CF68);
+    bswap__15disp_data_part2Fv((saddr)&npc_player_visual_record);
     mem_free(npc_player_char_data_buffer);
     mode = game_difficulty_selection;
     npc_player_char_data_buffer = NULL;
@@ -1512,7 +1073,7 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 arg0) {
     } else {
         diff = 2;
     }
-    base = TNpcPlayer__template_table[arg0].base_level;
+    base = npc_player_ai_templates[arg0].base_level;
     lvl = base + diff * 25;
     if (mode == 3) {
         lvl = base + 150;
@@ -1522,23 +1083,23 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 arg0) {
     }
     switch (mode) {
     case 0:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF330[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 1:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF430[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 2:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF530[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 3:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF630[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     default:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF530[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[arg0], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     }
-    copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(lbl_8050CFC4)->m_disp_part2, &lbl_8050CF68);
-    return reinterpret_cast<TPlyCharData *>(lbl_8050CFC4);
+    copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(npc_player_char_data)->m_disp_part2, &npc_player_visual_record);
+    return reinterpret_cast<TPlyCharData *>(npc_player_char_data);
 }
 
 TPlyCharData *load_npc_player_template(s32 index) {
@@ -1551,14 +1112,14 @@ TPlyCharData *load_npc_player_template(s32 index) {
         return NULL;
     }
     npc_player_char_data_buffer = static_cast<disp_data_part2 *>(mem_alloc(64 * sizeof(disp_data_part2)));
-    if (TNpcPlayer__data_805D5864 != 0) {
-        TNpcPlayer__data_805D5864 = 0;
-        copy_player_visual_record(&lbl_8050CF68, &lbl_8050D3E0);
+    if (quest_npc_visual_pending != 0) {
+        quest_npc_visual_pending = 0;
+        copy_player_visual_record(&npc_player_visual_record, &quest_npc_visual_record);
     } else {
-        read_disc_file(lbl_805D2E70, (void *)npc_player_char_data_buffer);
-        copy_player_visual_record(&lbl_8050CF68, &npc_player_char_data_buffer[index]);
+        read_disc_file(npc_player_char_file_name, (void *)npc_player_char_data_buffer);
+        copy_player_visual_record(&npc_player_visual_record, &npc_player_char_data_buffer[index]);
     }
-    bswap__15disp_data_part2Fv((saddr)&lbl_8050CF68);
+    bswap__15disp_data_part2Fv((saddr)&npc_player_visual_record);
     mem_free(npc_player_char_data_buffer);
     mode = game_difficulty_selection;
     npc_player_char_data_buffer = NULL;
@@ -1567,7 +1128,7 @@ TPlyCharData *load_npc_player_template(s32 index) {
     } else {
         diff = 2;
     }
-    base = TNpcPlayer__template_table[index].base_level;
+    base = npc_player_ai_templates[index].base_level;
     lvl = base + diff * 25;
     if (mode == 3) {
         lvl = base + 150;
@@ -1577,58 +1138,58 @@ TPlyCharData *load_npc_player_template(s32 index) {
     }
     switch (mode) {
     case 0:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF330[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 1:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF430[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 2:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF530[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     case 3:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF630[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     default:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF330[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(npc_player_visual_record.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], (s32)lvl, (TPlyCharData *)npc_player_char_data);
         break;
     }
-    copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(lbl_8050CFC4)->m_disp_part2, &lbl_8050CF68);
-    return reinterpret_cast<TPlyCharData *>(lbl_8050CFC4);
+    copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(npc_player_char_data)->m_disp_part2, &npc_player_visual_record);
+    return reinterpret_cast<TPlyCharData *>(npc_player_char_data);
 }
 
 TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, TObject *parent) : TObject(parent) {
-    m_name = TNpcPlayer__name;
-    m_24 = 0x19;
-    m_1c = 0;
+    m_name = TNpcPlayer::name;
+    chatter_id = 0x19;
+    in_combat = 0;
     m_20 = 0;
-    m_ac.x = 0.0f;
-    m_ac.y = 0.0f;
-    m_ac.z = 0.0f;
-    m_d0.x = 0.0f;
-    m_d0.y = 0.0f;
-    m_d0.z = 0.0f;
-    m_dc.x = 0.0f;
-    m_dc.y = 0.0f;
-    m_dc.z = 0.0f;
+    move_target.x = 0.0f;
+    move_target.y = 0.0f;
+    move_target.z = 0.0f;
+    steer_point.x = 0.0f;
+    steer_point.y = 0.0f;
+    steer_point.z = 0.0f;
+    goal.x = 0.0f;
+    goal.y = 0.0f;
+    goal.z = 0.0f;
     m_c4 = 0;
     m_c8 = 0;
     m_cc = 0;
-    m_2c = kind;
-    m_80 = 0;
-    m_7c = 0;
-    m_88 = 0.0f;
-    m_58 = 0.0f;
-    m_8c = 0;
-    m_8e = 0;
-    m_8d = 0;
-    m_74 = new Unk_8014F844(a);
-    m_78 = new Unk_8014F844(b);
-    ai_params.copy(&TNpcPlayer__template_table[m_2c]);
-    if (m_78 != 0 && m_78->m_94 != 0) {
-        VecCopy(&m_dc, &m_78->m_94->position);
+    template_index = kind;
+    ai_flags = 0;
+    ai_state = 0;
+    escort_distance_sq = 0.0f;
+    leader_distance_sq = 0.0f;
+    stuck_frames = 0;
+    attack_delay = 0;
+    still_frames = 0;
+    leader_view = new NpcPlayerView(a);
+    self_view = new NpcPlayerView(b);
+    ai_params.copy(&npc_player_ai_templates[template_index]);
+    if (self_view != 0 && self_view->player != 0) {
+        VecCopy(&goal, &self_view->player->position);
         init_equipment();
     }
-    m_84 = 0;
+    escort_leader = 0;
 }
 
 void TNpcPlayer::AiParams::copy(AiParams *src) {
@@ -1649,78 +1210,78 @@ void TNpcPlayer::AiParams::copy(AiParams *src) {
 }
 
 TNpcPlayer::TNpcPlayer(u16 a, u16 b, int kind, s32 arg4, TObject *parent) : TObject(parent) {
-    m_name = TNpcPlayer__name;
-    m_24 = 0x19;
-    m_1c = 0;
+    m_name = TNpcPlayer::name;
+    chatter_id = 0x19;
+    in_combat = 0;
     m_20 = 0;
-    m_ac.x = 0.0f;
-    m_ac.y = 0.0f;
-    m_ac.z = 0.0f;
-    m_d0.x = 0.0f;
-    m_d0.y = 0.0f;
-    m_d0.z = 0.0f;
-    m_dc.x = 0.0f;
-    m_dc.y = 0.0f;
-    m_dc.z = 0.0f;
+    move_target.x = 0.0f;
+    move_target.y = 0.0f;
+    move_target.z = 0.0f;
+    steer_point.x = 0.0f;
+    steer_point.y = 0.0f;
+    steer_point.z = 0.0f;
+    goal.x = 0.0f;
+    goal.y = 0.0f;
+    goal.z = 0.0f;
     m_c4 = 0;
     m_c8 = 0;
     m_cc = 0;
-    m_2c = kind;
-    m_80 = 0;
-    m_7c = 0;
-    m_88 = 0.0f;
-    m_58 = 0.0f;
-    m_8c = 0;
-    m_8e = 0;
-    m_8d = 0;
-    m_74 = new Unk_8014F844(a);
-    m_78 = new Unk_8014F844(b);
-    ai_params.copy(&TNpcPlayer__template_table[m_2c]);
-    if (m_78 != 0 && m_78->m_94 != 0) {
-        VecCopy(&m_dc, &m_78->m_94->position);
+    template_index = kind;
+    ai_flags = 0;
+    ai_state = 0;
+    escort_distance_sq = 0.0f;
+    leader_distance_sq = 0.0f;
+    stuck_frames = 0;
+    attack_delay = 0;
+    still_frames = 0;
+    leader_view = new NpcPlayerView(a);
+    self_view = new NpcPlayerView(b);
+    ai_params.copy(&npc_player_ai_templates[template_index]);
+    if (self_view != 0 && self_view->player != 0) {
+        VecCopy(&goal, &self_view->player->position);
         init_equipment();
     }
-    m_84 = arg4;
+    escort_leader = arg4;
 }
 
 TNpcPlayer::~TNpcPlayer() {
     uaddr player;
-    Unk_8014F844 *view;
-    Unk_8014F844 *partner;
-    view = m_74;
+    NpcPlayerView *view;
+    NpcPlayerView *partner;
+    view = leader_view;
     if (view != NULL) {
-        ((TNpcPlayer *)view)->dt(1);
-        m_74 = NULL;
+        delete view;
+        leader_view = NULL;
     }
-    partner = m_78;
+    partner = self_view;
     if (partner != NULL) {
-        player = (uaddr)get_player_by_client_id(get_npc_type__10TNpcPlayerFPv(partner));
+        player = (uaddr)get_player_by_client_id(partner->get_client_id());
         if (player != 0U) {
             TObjPlayer::send_item_pickup_request((saddr)player);
         }
-        ((TNpcPlayer *)m_78)->dt(1);
-        m_78 = NULL;
+        delete self_view;
+        self_view = NULL;
     }
 }
 
 void TNpcPlayer::run_task() {
-    Unk_8014F844 *owner;
-    owner = m_74;
-    if (owner == NULL || m_78 == NULL) {
+    NpcPlayerView *owner;
+    owner = leader_view;
+    if (owner == NULL || self_view == NULL) {
         return;
     }
-    if (refresh_npc_view_actor_lost(owner) != 0) {
+    if (owner->is_player_lost() != 0) {
         queue_destruction();
         return;
     }
-    if (refresh_npc_view_actor_lost(m_78) != 0) {
+    if (self_view->is_player_lost() != 0) {
         queue_destruction();
         return;
     }
-    if ((m_78->m_94->is_inactive() != 0) && ((m_78->m_94 == NULL) || (((TObjPlayer *)m_78->m_94)->get_npc_controller() != 0xFFFF))) {
+    if ((self_view->player->is_inactive() != 0) && ((self_view->player == NULL) || (((TObjPlayer *)self_view->player)->get_npc_controller() != 0xFFFF))) {
         init_state();
-        if (!(m_74->m_94->actorFlags & 0x800)) {
-            if (m_78->m_94->actorFlags & 0x800) {
+        if (!(leader_view->player->actorFlags & 0x800)) {
+            if (self_view->player->actorFlags & 0x800) {
                 if (((s32 (*)(void *, int, int))clamp_partner_counter)(partner_counters.count, 3, 0x400) != 0) {
                     request_chatter(5);
                 } else if (((s32 (*)(void *, int, int))is_partner_counter_reached)(partner_counters.count, 3, 0) != 0) {
@@ -1753,23 +1314,23 @@ void TNpcPlayer::decide_action() {
         change_ai_state(1);
         return;
     }
-    switch (m_1c) {
+    switch (in_combat) {
     case 0:
-        if (((TNpcPlayer *)m_78)->get_action_state() & 2) {
-            m_1c = 1;
+        if (self_view->get_status() & 2) {
+            in_combat = 1;
             change_ai_state(0);
             return;
         }
-        m_80 = m_80 & 0xFFFFFEFF;
+        ai_flags = ai_flags & 0xFFFFFEFF;
         if (select_recovery_action(1) != 0) {
-            temp_r3 = m_80;
+            temp_r3 = ai_flags;
             if (temp_r3 & 0x200) {
                 request_chatter(0x13);
                 change_ai_state(8);
                 return;
             }
-            m_80 = temp_r3 & 0xFFFFFDFF;
-            if (((f32 (*)(void *, void *))horizontal_distance_squared)(&m_dc, &m_78->m_94->position) < 900.0f) {
+            ai_flags = temp_r3 & 0xFFFFFDFF;
+            if (((f32 (*)(void *, void *))horizontal_distance_squared)(&goal, &self_view->player->position) < 900.0f) {
                 change_ai_state(8);
                 return;
             }
@@ -1779,37 +1340,37 @@ void TNpcPlayer::decide_action() {
         }
         calc_follow_goal();
         change_ai_state(1);
-        m_8e = 0;
+        attack_delay = 0;
         return;
     case 1:
         var_f31 = 1.0f;
-        if (m_80 & 0x8000) {
+        if (ai_flags & 0x8000) {
             var_f31 = 2.0f;
         }
-        if ((m_78->m_94->can_perform_physical_action() != 0) && (m_8e == 0)) {
+        if ((self_view->player->can_perform_physical_action() != 0) && (attack_delay == 0)) {
             temp_f1 = fabs_float(10.0f * (3.0517578125e-05f * (f32) rand()));
             temp_f0 = 0.1f * (f32) ai_params.attack_probability;
             temp_f0 *= var_f31;
             if (temp_f1 < temp_f0) {
-                m_8e = 0;
+                attack_delay = 0;
             } else {
-                m_8e = (s16) (10.0f * (temp_f1 - temp_f0));
+                attack_delay = (s16) (10.0f * (temp_f1 - temp_f0));
             }
         }
-        m_8e = (s16) (m_8e - 1);
-        if (m_8e < 0) {
-            m_8e = 0;
+        attack_delay = (s16) (attack_delay - 1);
+        if (attack_delay < 0) {
+            attack_delay = 0;
         }
-        if ((check_return_to_leader() != 0) && (m_84 == 0)) {
+        if ((check_return_to_leader() != 0) && (escort_leader == 0)) {
             if (select_recovery_action(0) != 0) {
                 request_chatter(0x13);
                 change_ai_state(8);
-                m_80 = m_80 & 0xFFFFFF7F;
+                ai_flags = ai_flags & 0xFFFFFF7F;
             } else {
-                temp_r3_2 = m_80;
+                temp_r3_2 = ai_flags;
                 if (temp_r3_2 & 0x80) {
-                    m_80 = temp_r3_2 & 0xFFFFFF7F;
-                    if (m_8e == 0) {
+                    ai_flags = temp_r3_2 & 0xFFFFFF7F;
+                    if (attack_delay == 0) {
                         change_ai_state(2);
                     }
                 } else {
@@ -1819,21 +1380,21 @@ void TNpcPlayer::decide_action() {
             }
         } else if (select_recovery_action(1) != 0) {
             ((s32 (*)(void *, int))reset_partner_counter)((void *) (partner_counters.count), 8);
-            temp_r3_3 = m_80;
+            temp_r3_3 = ai_flags;
             if (temp_r3_3 & 0x200) {
                 request_chatter(0x13);
                 change_ai_state(8);
             } else if (temp_r3_3 & 0x80) {
-                m_80 = temp_r3_3 & ~0x280;
-                if (m_8e == 0) {
+                ai_flags = temp_r3_3 & ~0x280;
+                if (attack_delay == 0) {
                     change_ai_state(2);
                 }
             } else {
-                m_80 = temp_r3_3 & 0xFFFFFDFF;
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&m_dc, &m_78->m_94->position) < 900.0f) {
+                ai_flags = temp_r3_3 & 0xFFFFFDFF;
+                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&goal, &self_view->player->position) < 900.0f) {
                     change_ai_state(8);
-                } else if (m_84 != 0) {
-                    if (m_8e == 0) {
+                } else if (escort_leader != 0) {
+                    if (attack_delay == 0) {
                         change_ai_state(2);
                     }
                 } else {
@@ -1841,24 +1402,24 @@ void TNpcPlayer::decide_action() {
                     change_ai_state(1);
                 }
             }
-        } else if ((choose_attack_target() != 0) && (m_8e == 0)) {
-            if (m_80 & 0x1000) {
+        } else if ((choose_attack_target() != 0) && (attack_delay == 0)) {
+            if (ai_flags & 0x1000) {
                 change_ai_state(2);
-                m_80 = m_80 & 0xFFFFEFFF;
+                ai_flags = ai_flags & 0xFFFFEFFF;
             } else {
                 change_ai_state(1);
             }
-            m_80 = m_80 & 0xFFFFEFFF;
+            ai_flags = ai_flags & 0xFFFFEFFF;
         } else {
-            if (m_84 != 0) {
+            if (escort_leader != 0) {
                 calc_follow_goal();
             } else {
-                VecCopy(&m_dc, &m_78->m_94->position);
+                VecCopy(&goal, &self_view->player->position);
             }
             change_ai_state(1);
         }
-        if (!(((TNpcPlayer *)m_78)->get_action_state() & 2)) {
-            m_1c = 0;
+        if (!(self_view->get_status() & 2)) {
+            in_combat = 0;
         }
         return;
     }
@@ -1868,94 +1429,94 @@ s32 TNpcPlayer::update_follow_target() {
     if (((s32 (*)())needs_movement__10TNpcPlayerFPvPvi)() != 0) {
         ((s32 (*)(void *))select_path_waypoint__10TNpcPlayerFv)(this);
         if (check_movement_progress() != 0) {
-            VecCopy(&m_ac, &m_d0);
-            if ((u32) m_7c != 2U) {
+            VecCopy(&move_target, &steer_point);
+            if ((u32) ai_state != 2U) {
                 change_ai_state(1);
             }
         } else {
-            VecCopy(&m_ac, &m_78->m_94->position);
+            VecCopy(&move_target, &self_view->player->position);
         }
         return 1;
     }
-    if ((m_80 & 0x20) && ((u32) m_7c != 8U)) {
+    if ((ai_flags & 0x20) && ((u32) ai_state != 8U)) {
         change_ai_state(0);
     }
     return 0;
 }
 
 s32 TNpcPlayer::check_return_to_leader() {
-    Unk_8014F844 *t;
+    NpcPlayerView *t;
     u8 *o;
     f32 r2;
 
-    t = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(m_78);
+    t = self_view->target_list();
     r2 = ai_params.enemy_unlock_range * ai_params.enemy_unlock_range;
-    if (((TNpcPlayer *)m_74)->get_action_state() & 2) {
-        m_80 &= ~0x100;
+    if (leader_view->get_status() & 2) {
+        ai_flags &= ~0x100;
         return 0;
     }
-    if (((TNpcPlayer *)m_78)->get_condition() & 8) {
-        m_80 |= 0x100;
+    if (self_view->get_condition() & 8) {
+        ai_flags |= 0x100;
         return 1;
     }
-    if (m_58 >= r2) {
-        m_80 |= 0x100;
+    if (leader_distance_sq >= r2) {
+        ai_flags |= 0x100;
         if (t->target_count != 0) {
             ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 5);
             if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 5, 3) != 0) {
                 o = (u8 *)find_active_entity_by_id(t->targets[0].entity_id);
-                m_80 &= ~0x8000;
+                ai_flags &= ~0x8000;
                 if (o != 0) {
-                    if (((f32 (*)(void *, void *))horizontal_distance_squared)(o + 0x38, &m_78->m_94->position) < ai_params.block_range * ai_params.block_range) {
-                        m_80 |= 0x8080;
+                    if (((f32 (*)(void *, void *))horizontal_distance_squared)(o + 0x38, &self_view->player->position) < ai_params.block_range * ai_params.block_range) {
+                        ai_flags |= 0x8080;
                     }
                 }
             }
         }
         return 1;
     }
-    if (m_80 & 0x100) {
+    if (ai_flags & 0x100) {
         return 1;
     }
-    m_80 &= ~0x100;
+    ai_flags &= ~0x100;
     return 0;
 }
 
 s32 TNpcPlayer::choose_attack_target() {
     s32 i;
-    Unk_8014F844 *view;
+    NpcPlayerView *view;
     TObjBase *tgt;
-    view = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(m_78);
+    view = self_view->target_list();
     if (view->target_count >= 3) {
-        m_80 |= 0x2000;
+        ai_flags |= 0x2000;
         ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 6);
         if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 6, 100) != 0) {
-            if (((TNpcPlayer *)m_78)->get_condition() & 8) {
+            if (self_view->get_condition() & 8) {
                 request_chatter(1);
             } else {
                 request_chatter(0);
             }
         }
     } else {
-        m_80 &= ~0x2000;
+        ai_flags &= ~0x2000;
     }
     if (view->target_count != 0) {
         for (i = 0; i < view->target_count; i++) {
-            if (((s32 (*)(void *, u32))is_target_line_clear__10TNpcPlayerFPvUs)(m_78, view->targets[i].entity_id) != 0) {
+            if (((s32 (*)(void *, u32))is_target_line_clear__10TNpcPlayerFPvUs)(self_view, view->targets[i].entity_id) != 0) {
                 tgt = (TObjBase *)find_active_entity_by_id(view->targets[0].entity_id);
-                ((void (*)(void *, u32, s32))TNpcPlayer__sub_80152A34)(m_78, view->targets[i].entity_id, view->targets[i].collider);
-                m_dc.x = tgt->position.x;
-                m_dc.y = m_78->m_94->body_center.y;
-                m_dc.z = tgt->position.z;
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&m_dc, &m_78->m_94->position) < (10.0f + ai_params.attack_range) * (10.0f + ai_params.attack_range)) {
-                    m_80 |= 0x1000;
+                self_view->set_target(view->targets[i].entity_id, view->targets[i].collider);
+                goal.x = tgt->position.x;
+                goal.y = self_view->player->body_center.y;
+                goal.z = tgt->position.z;
+                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&goal, &self_view->player->position) < (10.0f + ai_params.attack_range) * (10.0f + ai_params.attack_range)) {
+                    ai_flags |= 0x1000;
                 }
-                m_80 &= ~0x40;
+                ai_flags &= ~0x40;
                 return 1;
             }
         }
         request_chatter(8);
-        m_80 |= 0x40;
+        ai_flags |= 0x40;
     }
     return 0;
 }
@@ -1968,30 +1529,30 @@ s32 TNpcPlayer::calc_follow_goal() {
     f32 z;
     f32 temp_f2;
     TObjPlayer *obj_player;
-    if (m_84 != 0) {
+    if (escort_leader != 0) {
         if (ai_params.technique_flags & 0x80) {
             temp_f0 = ai_params.unknown_24;
-            if (m_88 <= (temp_f0 * temp_f0)) {
-                obj_player = m_78->m_94;
-                dir.x = m_dc.x - obj_player->position.x;
-                temp_f2 = m_dc.z;
+            if (escort_distance_sq <= (temp_f0 * temp_f0)) {
+                obj_player = self_view->player;
+                dir.x = goal.x - obj_player->position.x;
+                temp_f2 = goal.z;
                 z = temp_f2 - obj_player->position.z;
                 dir.y = 0.0f;
                 dir.z = z;
                 if (0.0f != vector_length(&dir)) {
                     normalize_vector(&dir);
                 }
-                m_dc.x = -((ai_params.unknown_24 * dir.x) - m_dc.x);
-                m_dc.z = -((ai_params.unknown_24 * dir.z) - m_dc.z);
-                m_dc.y = m_78->m_94->body_center.y;
+                goal.x = -((ai_params.unknown_24 * dir.x) - goal.x);
+                goal.z = -((ai_params.unknown_24 * dir.z) - goal.z);
+                goal.y = self_view->player->body_center.y;
             } else {
-                VecCopy(&m_dc, &m_74->m_94->body_center);
+                VecCopy(&goal, &leader_view->player->body_center);
             }
         } else {
-            VecCopy(&m_dc, &m_74->m_94->body_center);
+            VecCopy(&goal, &leader_view->player->body_center);
         }
     } else {
-        VecCopy(&m_dc, &m_74->m_94->body_center);
+        VecCopy(&goal, &leader_view->player->body_center);
     }
     return 1;
 }
@@ -2000,50 +1561,50 @@ s32 TNpcPlayer::calc_follow_goal() {
 s32 TNpcPlayer::select_recovery_action(s32 arg1) {
     TNpcPlayer * self = this;
     u8 flags = 0;
-    Unk_8014F844 *tgt;
+    NpcPlayerView *tgt;
     TObjBase *ent;
-    if (((TNpcPlayer *)self->m_78)->get_action_state() & 4) {
+    if (self->self_view->get_status() & 4) {
         flags |= 1;
     }
-    if (arg1 != 0 && (((TNpcPlayer *)self->m_74)->get_action_state() & 4) && self->m_84 == 0) {
+    if (arg1 != 0 && (self->leader_view->get_status() & 4) && self->escort_leader == 0) {
         flags |= 2;
     }
-    tgt = ((Unk_8014F844 *(*)(void *))TNpcPlayer__sub_80152A30)(self->m_78);
+    tgt = self->self_view->target_list();
     if (arg1 != 0 && tgt->target_count != 0 && (flags & 2)) {
         ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 5);
         if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 5, 0x1E) != 0) {
             ent = (TObjBase *)find_active_entity_by_id(tgt->targets[0].entity_id);
-            self->m_80 &= ~0x8000;
+            self->ai_flags &= ~0x8000;
             if (ent != NULL) {
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&ent->position, &self->m_78->m_94->position) < self->ai_params.block_range * self->ai_params.block_range) {
-                    VecCopy(&self->m_dc, &ent->position);
-                    self->m_80 |= 0x8080;
+                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&ent->position, &self->self_view->player->position) < self->ai_params.block_range * self->ai_params.block_range) {
+                    VecCopy(&self->goal, &ent->position);
+                    self->ai_flags |= 0x8080;
                     return 1;
                 }
             }
         }
     }
     if (flags == 3) {
-        self->m_80 |= 0x200;
-        if (((TNpcPlayer *)self->m_78)->get_condition() & 2) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(2, 1) != 0) {
-                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
-                    self->m_92 = 2;
+        self->ai_flags |= 0x200;
+        if (self->self_view->get_condition() & 2) {
+            if (self->self_view->can_recover(2, 1) != 0) {
+                if (self->self_view->get_condition() & 0x20) {
+                    self->recovery_action = 2;
                     return 1;
                 }
                 if (!(self->ai_params.technique_flags & 0x40)) {
-                    self->m_92 = 2;
+                    self->recovery_action = 2;
                     return 1;
                 }
             }
-        } else if (((TNpcPlayer *)self->m_78)->get_condition() & 8) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(0, 1) != 0) {
-                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
-                    self->m_92 = 0;
+        } else if (self->self_view->get_condition() & 8) {
+            if (self->self_view->can_recover(0, 1) != 0) {
+                if (self->self_view->get_condition() & 0x20) {
+                    self->recovery_action = 0;
                     return 1;
                 }
                 if (!(self->ai_params.technique_flags & 0x40)) {
-                    self->m_92 = 0;
+                    self->recovery_action = 0;
                     return 1;
                 }
             } else {
@@ -2053,9 +1614,9 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
                 ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 8);
                 ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 8, 0x5DC);
             }
-        } else if (((TNpcPlayer *)self->m_78)->get_condition() & 0x10) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(1, 1) != 0) {
-                self->m_92 = 1;
+        } else if (self->self_view->get_condition() & 0x10) {
+            if (self->self_view->can_recover(1, 1) != 0) {
+                self->recovery_action = 1;
                 return 1;
             }
         } else {
@@ -2063,56 +1624,56 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
         }
     }
     if (flags == 2) {
-        if (((TNpcPlayer *)self->m_78)->get_action_state() & 2) {
+        if (self->self_view->get_status() & 2) {
             return 0;
         }
-        VecCopy(&self->m_dc, &self->m_74->m_94->body_center);
-        self->m_80 |= 0x20;
-        if (((TNpcPlayer *)self->m_74)->get_condition() & 2) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(2, 0) != 0) {
-                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
-                    self->m_92 = 2;
+        VecCopy(&self->goal, &self->leader_view->player->body_center);
+        self->ai_flags |= 0x20;
+        if (self->leader_view->get_condition() & 2) {
+            if (self->self_view->can_recover(2, 0) != 0) {
+                if (self->self_view->get_condition() & 0x20) {
+                    self->recovery_action = 2;
                     return 1;
                 }
                 if (!(self->ai_params.technique_flags & 0x40)) {
-                    self->m_92 = 2;
+                    self->recovery_action = 2;
                     return 1;
                 }
             }
-        } else if (((TNpcPlayer *)self->m_74)->get_condition() & 0x800) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(0, 0) != 0) {
-                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
-                    self->m_92 = 0;
+        } else if (self->leader_view->get_condition() & 0x800) {
+            if (self->self_view->can_recover(0, 0) != 0) {
+                if (self->self_view->get_condition() & 0x20) {
+                    self->recovery_action = 0;
                     return 1;
                 }
                 if (!(self->ai_params.technique_flags & 0x40)) {
-                    self->m_92 = 0;
+                    self->recovery_action = 0;
                     return 1;
                 }
             }
         }
     }
     if (flags == 1) {
-        self->m_80 |= 0x200;
-        if (((TNpcPlayer *)self->m_78)->get_condition() & 2) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(2, 1) != 0) {
-                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
-                    self->m_92 = 2;
+        self->ai_flags |= 0x200;
+        if (self->self_view->get_condition() & 2) {
+            if (self->self_view->can_recover(2, 1) != 0) {
+                if (self->self_view->get_condition() & 0x20) {
+                    self->recovery_action = 2;
                     return 1;
                 }
                 if (!(self->ai_params.technique_flags & 0x40)) {
-                    self->m_92 = 2;
+                    self->recovery_action = 2;
                     return 1;
                 }
             }
-        } else if (((TNpcPlayer *)self->m_78)->get_condition() & 8) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(0, 1) != 0) {
-                if (((TNpcPlayer *)self->m_78)->get_condition() & 0x20) {
-                    self->m_92 = 0;
+        } else if (self->self_view->get_condition() & 8) {
+            if (self->self_view->can_recover(0, 1) != 0) {
+                if (self->self_view->get_condition() & 0x20) {
+                    self->recovery_action = 0;
                     return 1;
                 }
                 if (!(self->ai_params.technique_flags & 0x40)) {
-                    self->m_92 = 0;
+                    self->recovery_action = 0;
                     return 1;
                 }
             } else {
@@ -2122,9 +1683,9 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
                 ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 8);
                 ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 8, 0x5DC);
             }
-        } else if (((TNpcPlayer *)self->m_78)->get_condition() & 0x10) {
-            if (((TNpcPlayer *)self->m_78)->try_attack(1, 1) != 0) {
-                self->m_92 = 1;
+        } else if (self->self_view->get_condition() & 0x10) {
+            if (self->self_view->can_recover(1, 1) != 0) {
+                self->recovery_action = 1;
                 return 1;
             }
         }
@@ -2138,19 +1699,19 @@ void TNpcPlayer::deliver_partner_action() {
     Vec d;
     f32 len;
 
-    if ((m_80 & 4) && !(partner_chatter_flags & 2)) {
+    if ((ai_flags & 4) && !(partner_chatter_flags & 2)) {
         deliver_partner_chatter(this);
     }
-    if (m_78->m_94->test_action_mask(2) == 0) {
+    if (self_view->player->test_action_mask(2) == 0) {
         return;
     }
-    switch (m_7c) {
+    switch (ai_state) {
     case 0:
-        VecCopy(&m_ac, VecCopy(&m_d0, &m_dc));
+        VecCopy(&move_target, VecCopy(&steer_point, &goal));
         increment_partner_counter((saddr)partner_counters.count, 4);
         if ((s16)get_partner_counter((saddr)partner_counters.count, 4) == 5401) {
-            m_80 &= ~4;
-            m_24 = 25;
+            ai_flags &= ~4;
+            chatter_id = 25;
             set_partner_counter((saddr)partner_counters.count, 4, 0);
         }
         if (clamp_partner_counter((saddr)partner_counters.count, 4, 5400) != 0) {
@@ -2158,23 +1719,23 @@ void TNpcPlayer::deliver_partner_action() {
         }
         break;
     case 1:
-        d.x = m_ac.x - m_78->m_94->position.x;
+        d.x = move_target.x - self_view->player->position.x;
         d.y = 0.0f;
-        d.z = m_ac.z - m_78->m_94->position.z;
+        d.z = move_target.z - self_view->player->position.z;
         len = vector_length(&d);
         if (len <= 1.0f) {
             return;
         }
-        if (m_78->m_94->actorFlags & 0x100000) {
+        if (self_view->player->actorFlags & 0x100000) {
             send_walk_request();
         } else if (len <= ai_params.max_distance_from_player) {
-            if (!(m_80 & 8)) {
+            if (!(ai_flags & 8)) {
                 send_walk_request();
             } else {
                 send_run_request();
             }
         } else {
-            m_80 |= 8;
+            ai_flags |= 8;
             send_run_request();
         }
         break;
@@ -2184,32 +1745,32 @@ void TNpcPlayer::deliver_partner_action() {
     case 4:
         break;
     case 8:
-        dispatch_action(m_92);
+        dispatch_action(recovery_action);
         break;
     }
-    if (m_7c != 2) {
+    if (ai_state != 2) {
         reset_partner_counter((saddr)partner_counters.count, 1);
         reset_partner_counter((saddr)partner_counters.count, 5);
-        m_80 &= ~0x8000;
+        ai_flags &= ~0x8000;
     }
-    if (m_7c != 1) {
-        m_80 &= ~8;
+    if (ai_state != 1) {
+        ai_flags &= ~8;
     }
-    if (m_7c != 0) {
+    if (ai_state != 0) {
         reset_partner_counter((saddr)partner_counters.count, 4);
     }
 }
 #pragma pop
 
 void TNpcPlayer::send_walk_request() {
-    Msg_80150E44 m;
+    G_WalkToPosition_6x40 m;
     init_6x40_walk_packet(&m);
-    if (m_78 != 0) {
-        m.type = get_npc_type__10TNpcPlayerFPv(m_78);
-        m.x = m_ac.x;
-        m.z = m_ac.z;
+    if (self_view != 0) {
+        m.header.client_id = self_view->get_client_id();
+        m.pos.x = move_target.x;
+        m.pos.z = move_target.z;
         m.flags = 0;
-        if (m_78->m_94->actorFlags & 0x100000) {
+        if (self_view->player->actorFlags & 0x100000) {
             m.flags |= 8;
         }
         ((TNpcPlayer *)(&m))->sync_from_lobby();
@@ -2217,12 +1778,12 @@ void TNpcPlayer::send_walk_request() {
 }
 
 void TNpcPlayer::send_run_request() {
-    Msg_80150DE8 m;
+    G_MoveToPosition_6x41_6x42 m;
     ((TNpcPlayer *)(&m))->reset_move_state();
-    if (m_78 != 0) {
-        m.type = get_npc_type__10TNpcPlayerFPv(m_78);
-        m.x = m_ac.x;
-        m.z = m_ac.z;
+    if (self_view != 0) {
+        m.header.client_id = self_view->get_client_id();
+        m.pos.x = move_target.x;
+        m.pos.z = move_target.z;
         ((TNpcPlayer *)(&m))->reset_model();
     }
 }
@@ -2231,18 +1792,18 @@ void TNpcPlayer::update_combat_action() {
     s32 tier;
     s32 alt;
     s32 id;
-    Tec_80150B90 *tec;
+    TechniqueParams *tec;
     u32 fl;
     f32 diff;
     f32 mx;
 
-    if (((u32 (*)(void *))TNpcPlayer__sub_80152978)(m_78) == 0xFFFF) {
+    if (self_view->get_prev_target_id() == 0xFFFF) {
         return;
     }
-    if (m_78->m_94->can_perform_physical_action() == 0) {
+    if (self_view->player->can_perform_physical_action() == 0) {
         return;
     }
-    if (!(ai_params.technique_flags & 0x40) && !(((TNpcPlayer *)m_78)->get_condition() & 0x10)) {
+    if (!(ai_params.technique_flags & 0x40) && !(self_view->get_condition() & 0x10)) {
         fl = ai_params.technique_flags;
         if (fl & 4) {
             tier = 0;
@@ -2253,7 +1814,7 @@ void TNpcPlayer::update_combat_action() {
         } else {
             tier = 0;
         }
-        if ((m_80 & 0x2000) && (((TNpcPlayer *)m_78)->get_condition() & 0x1000)) {
+        if ((ai_flags & 0x2000) && (self_view->get_condition() & 0x1000)) {
             alt = 1;
         } else {
             alt = 0;
@@ -2267,13 +1828,13 @@ void TNpcPlayer::update_combat_action() {
         }
         id = npc_player_combat_action_table[tier][alt];
         tec = calc_technique_parameters(id, *(s8 *)&ai_params.attack_technique_level, 0xFFFF);
-        diff = (f32)(get_actor_tp((u8 *)m_78->m_94) - tec->f10);
-        mx = (f32)obj_getS16_2BA((u8 *)m_78->m_94);
+        diff = (f32)(get_actor_tp((u8 *)self_view->player) - tec->tp_cost);
+        mx = (f32)obj_getS16_2BA((u8 *)self_view->player);
         if (diff / mx <= 0.2f && 0.0f != mx) {
             request_chatter(3);
         }
-        m_80 &= ~0x2000;
-        if (TObjPlayer::try_camera_action((saddr)m_78->m_94, (s32)id) != 0) {
+        ai_flags &= ~0x2000;
+        if (TObjPlayer::try_camera_action((saddr)self_view->player, (s32)id) != 0) {
             TNpcPlayer__sub_8014DC3C(this, id);
             return;
         }
@@ -2285,7 +1846,7 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
     G_CastTechnique_6x47 cmd;
     u8 *actor;
 
-    actor = (u8 *)m_78->m_94;
+    actor = (u8 *)self_view->player;
     if (kind == 15 || kind == 16) {
         request_chatter(0x16);
     } else if (kind == 0 || kind == 3 || kind == 6) {
@@ -2294,41 +1855,41 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
         request_chatter(2);
     }
     if (TObjPlayer::try_camera_action((saddr)actor, (s32)kind) != 0) {
-        cmd.header.client_id = get_npc_type__10TNpcPlayerFPv(m_78);
+        cmd.header.client_id = self_view->get_client_id();
         cmd.params.technique_number = kind;
         cmd.params.target_count = 1;
         if (kind == 15 || kind == 16) {
             if (kind == 15) {
-                m_80 |= 0x10000;
+                ai_flags |= 0x10000;
             }
             cmd.params.level = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, ((s32 (*)(void *))get_npc_type__10TNpcPlayerFPv)(m_74));
+            ((void (*)(void *, s32))set_type__10TNpcPlayerFPvs)(cmd.targets, leader_view->get_client_id());
             set_state__10TNpcPlayerFPvs(cmd.targets, 0);
         } else {
             cmd.params.level = get_cast_technique_level(actor + 0x428, kind);
-            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, ((TNpcPlayer *)m_78)->get_npc_state());
-            set_state__10TNpcPlayerFPvs(cmd.targets, TNpcPlayer__sub_801528DC(m_78));
+            ((void (*)(void *, u16))set_type__10TNpcPlayerFPvs)(cmd.targets, self_view->get_target_id());
+            set_state__10TNpcPlayerFPvs(cmd.targets, self_view->get_target_collider());
         }
         ((TNpcPlayer *)(&cmd))->finalize_and_send_packet();
     }
 }
 
 void TNpcPlayer::init_state() {
-    ((TNpcPlayer *)m_74)->reset_fields_8c();
-    ((TNpcPlayer *)m_78)->reset_fields_8c();
-    switch (m_28) {
+    leader_view->clear_flags();
+    self_view->clear_flags();
+    switch (init_step) {
     case 0:
         init_follow_target();
-        m_28 = 1;
+        init_step = 1;
     case 1:
         return;
     }
 }
 
 void TNpcPlayer::update_condition_flags() {
-    ((s32 (*)(s32))partner_view_check_moved)((saddr)m_74);
-    ((s32 (*)(s32))partner_view_update_conditions)((saddr)m_74);
-    if (((TNpcPlayer *)m_74)->get_condition() & 2) {
+    leader_view->check_moved();
+    leader_view->update_conditions();
+    if (leader_view->get_condition() & 2) {
         if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 0xA) == 0) {
             request_chatter(9);
         }
@@ -2336,8 +1897,8 @@ void TNpcPlayer::update_condition_flags() {
     } else {
         ((s32 (*)(void *, s32))reset_partner_counter)(partner_counters.count, 0xA);
     }
-    if (((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)m_74, 30.0f) != 0) {
-        if (((TNpcPlayer *)m_74)->get_condition() & 8) {
+    if (leader_view->scan_targets(30.0f) != 0) {
+        if (leader_view->get_condition() & 8) {
             if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 9) == 0) {
                 request_chatter(0xC);
             }
@@ -2356,29 +1917,29 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
     s32 temp_r3_2;
     TObjPlayer *obj_player;
     TObjPlayer *temp_r3;
-    Unk_8014F844 *temp_r3_3;
-    obj_player = npc_player->m_74->m_94;
-    npc_player->m_58 = horizontal_distance_squared(&obj_player->position, &npc_player->m_78->m_94->position);
-    if (npc_player->m_84 != 0) {
-        ((s32 (*)(void *, s32, f32))try_update_target_flag__10TNpcPlayerFPvi)(npc_player->m_78, get_npc_type__10TNpcPlayerFPv(npc_player->m_74), npc_player->ai_params.enemy_lock_on_range);
+    NpcPlayerView *temp_r3_3;
+    obj_player = npc_player->leader_view->player;
+    npc_player->leader_distance_sq = horizontal_distance_squared(&obj_player->position, &npc_player->self_view->player->position);
+    if (npc_player->escort_leader != 0) {
+        ((s32 (*)(void *, s32, f32))try_update_target_flag__10TNpcPlayerFPvi)(npc_player->self_view, npc_player->leader_view->get_client_id(), npc_player->ai_params.enemy_lock_on_range);
     } else {
-        ((s32 (*)(s32, f32))check_and_set_reached__10TNpcPlayerFPv)((saddr)npc_player->m_78, npc_player->ai_params.enemy_lock_on_range);
+        npc_player->self_view->scan_targets(npc_player->ai_params.enemy_lock_on_range);
     }
-    ((s32 (*)(s32))partner_view_update_conditions)((saddr)npc_player->m_78);
-    x = npc_player->m_dc.x;
-    temp_r3 = npc_player->m_78->m_94;
-    npc_player->m_78->m_98 = (s32)(10430.38043493439 * atan2_float(x - temp_r3->position.x, npc_player->m_dc.z - temp_r3->position.z));
-    ((s32 (*)(void *))partner_probe_obstacles)(npc_player->m_78);
-    if (partner_view_update_hp_change(npc_player->m_78) != 0) {
-        if (((TNpcPlayer *)npc_player->m_78)->get_condition() & 0x40) {
+    npc_player->self_view->update_conditions();
+    x = npc_player->goal.x;
+    temp_r3 = npc_player->self_view->player;
+    npc_player->self_view->goal_angle = (s32)(10430.38043493439 * atan2_float(x - temp_r3->position.x, npc_player->goal.z - temp_r3->position.z));
+    npc_player->self_view->probe_obstacles();
+    if (npc_player->self_view->update_hp_change() != 0) {
+        if (npc_player->self_view->get_condition() & 0x40) {
             npc_player->request_chatter(0xE);
-        } else if (((TNpcPlayer *)npc_player->m_78)->get_condition() & 0x80) {
+        } else if (npc_player->self_view->get_condition() & 0x80) {
             npc_player->request_chatter(0xF);
-        } else if (((TNpcPlayer *)npc_player->m_78)->get_condition() & 0x200) {
-            if (npc_player->m_7c != 8U) {
-                temp_r3_2 = npc_player->m_80;
+        } else if (npc_player->self_view->get_condition() & 0x200) {
+            if (npc_player->ai_state != 8U) {
+                temp_r3_2 = npc_player->ai_flags;
                 if (temp_r3_2 & 0x10000) {
-                    npc_player->m_80 = temp_r3_2 & 0xFFFEFFFF;
+                    npc_player->ai_flags = temp_r3_2 & 0xFFFEFFFF;
                 } else {
                     npc_player->request_chatter(0x11);
                 }
@@ -2387,24 +1948,24 @@ void partner_observe_surroundings(TNpcPlayer *npc_player) {
             npc_player->request_chatter(0x10);
         }
     }
-    if (((s32 (*)(s32))partner_view_check_moved)((saddr)npc_player->m_78) == 0) {
-        if (npc_player->m_7c == 1U) {
-            if (((TNpcPlayer *)npc_player->m_78)->get_action_state() & 0x80) {
-                npc_player->m_8c = 0;
-                npc_player->m_8d = 0;
+    if (npc_player->self_view->check_moved() == 0) {
+        if (npc_player->ai_state == 1U) {
+            if (npc_player->self_view->get_status() & 0x80) {
+                npc_player->stuck_frames = 0;
+                npc_player->still_frames = 0;
                 return;
             }
-            npc_player->m_8d = (s8)(npc_player->m_8d + 1);
-            if (npc_player->m_8d > 0x1E) {
-                npc_player->m_8d = 0x1E;
+            npc_player->still_frames = (s8)(npc_player->still_frames + 1);
+            if (npc_player->still_frames > 0x1E) {
+                npc_player->still_frames = 0x1E;
             }
-            npc_player->m_8c = (s8)(npc_player->m_8c + 1);
+            npc_player->stuck_frames = (s8)(npc_player->stuck_frames + 1);
         }
     } else {
-        temp_r3_3 = npc_player->m_78;
-        VecCopy(&temp_r3_3->m_9c, &temp_r3_3->m_94->prev_position);
-        npc_player->m_8c = 0;
-        npc_player->m_8d = 0;
+        temp_r3_3 = npc_player->self_view;
+        VecCopy(&temp_r3_3->last_position, &temp_r3_3->player->prev_position);
+        npc_player->stuck_frames = 0;
+        npc_player->still_frames = 0;
     }
 }
 #pragma pop
@@ -2422,126 +1983,126 @@ void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
     f32 half;
     s32 clear;
 
-    actor = self->m_78->m_94;
-    dir.x = self->m_dc.x - actor->body_center.x;
-    dir.y = self->m_dc.y - actor->body_center.y;
-    dir.z = self->m_dc.z - actor->body_center.z;
+    actor = self->self_view->player;
+    dir.x = self->goal.x - actor->body_center.x;
+    dir.y = self->goal.y - actor->body_center.y;
+    dir.z = self->goal.z - actor->body_center.z;
     len = ((f32 (*)(void *))vector_length)(&dir);
     if (0.0f != len) {
         normalize_vector(&dir);
     }
-    actor = self->m_78->m_94;
+    actor = self->self_view->player;
     half = len / 2.0f;
     midpoint.x = half * dir.x + actor->body_center.x;
     midpoint.y = half * dir.y + actor->body_center.y;
     midpoint.z = half * dir.z + actor->body_center.z;
-    if (((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_find_wall_segment)(self, &actor->body_center, &self->m_dc, &hit, &normal) != 0) {
+    if (((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_find_wall_segment)(self, &actor->body_center, &self->goal, &hit, &normal) != 0) {
         Vec shortcut = {0.0f, 0.0f, 0.0f};
-        clear = ((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *, Vec *))partner_route_around_wall)(self, &self->m_78->m_94->body_center, &hit, &normal, &route, &shortcut);
-        if (!(self->m_80 & 1)) {
+        clear = ((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *, Vec *))partner_route_around_wall)(self, &self->self_view->player->body_center, &hit, &normal, &route, &shortcut);
+        if (!(self->ai_flags & 1)) {
             if (clear != 0) {
-                VecCopy(&self->m_a0, &shortcut);
+                VecCopy(&self->waypoint, &shortcut);
             } else {
-                VecCopy(&self->m_a0, &route);
-                self->m_a0.y = self->m_dc.y;
+                VecCopy(&self->waypoint, &route);
+                self->waypoint.y = self->goal.y;
                 Vec clipped;
-                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->m_dc, &self->m_a0, &clipped) != 0) {
-                    VecCopy(&self->m_a0, &clipped);
+                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->goal, &self->waypoint, &clipped) != 0) {
+                    VecCopy(&self->waypoint, &clipped);
                 }
             }
-            self->m_94.x = self->m_dc.x - self->m_a0.x;
-            self->m_94.y = 0.0f;
-            self->m_94.z = self->m_dc.z - self->m_a0.z;
-            if (0.0f != ((f32 (*)(void *))vector_length)(&self->m_94)) {
-                normalize_vector(&self->m_94);
+            self->waypoint_dir.x = self->goal.x - self->waypoint.x;
+            self->waypoint_dir.y = 0.0f;
+            self->waypoint_dir.z = self->goal.z - self->waypoint.z;
+            if (0.0f != ((f32 (*)(void *))vector_length)(&self->waypoint_dir)) {
+                normalize_vector(&self->waypoint_dir);
             }
-            self->m_80 |= 1;
+            self->ai_flags |= 1;
         }
         if (clear != 0) {
-            self->m_90 = 0;
-            if (self->m_80 & 2) {
+            self->detour_frames = 0;
+            if (self->ai_flags & 2) {
                 Vec d1;
-                actor = self->m_78->m_94;
-                d1.x = self->m_d0.x - actor->position.x;
+                actor = self->self_view->player;
+                d1.x = self->steer_point.x - actor->position.x;
                 d1.y = 0.0f;
-                d1.z = self->m_d0.z - actor->position.z;
+                d1.z = self->steer_point.z - actor->position.z;
                 if (((f32 (*)(void *))vector_length)(&d1) <= 1.5f) {
-                    VecCopy(&self->m_d0, &shortcut);
-                    self->m_80 &= ~2;
+                    VecCopy(&self->steer_point, &shortcut);
+                    self->ai_flags &= ~2;
                 }
             } else {
-                VecCopy(&self->m_d0, &shortcut);
+                VecCopy(&self->steer_point, &shortcut);
             }
-        } else if (self->m_80 & 2) {
+        } else if (self->ai_flags & 2) {
             Vec d2;
-            actor = self->m_78->m_94;
-            d2.x = self->m_d0.x - actor->position.x;
+            actor = self->self_view->player;
+            d2.x = self->steer_point.x - actor->position.x;
             d2.y = 0.0f;
-            d2.z = self->m_d0.z - actor->position.z;
+            d2.z = self->steer_point.z - actor->position.z;
             if (((f32 (*)(void *))vector_length)(&d2) <= 5.0f) {
                 Vec clipped2;
-                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->m_78->m_94->body_center, &route, &clipped2) != 0) {
-                    VecCopy(&self->m_d0, &clipped2);
+                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->self_view->player->body_center, &route, &clipped2) != 0) {
+                    VecCopy(&self->steer_point, &clipped2);
                 } else {
-                    VecCopy(&self->m_d0, &route);
+                    VecCopy(&self->steer_point, &route);
                 }
-                self->m_80 &= ~2;
-                self->m_90 = 0;
+                self->ai_flags &= ~2;
+                self->detour_frames = 0;
             }
-            self->m_90++;
-            if (self->m_90 >= 100) {
-                self->m_90 = 100;
+            self->detour_frames++;
+            if (self->detour_frames >= 100) {
+                self->detour_frames = 100;
             }
         } else {
             Vec d3;
-            self->m_90 = 0;
-            actor = self->m_78->m_94;
-            d3.x = self->m_d0.x - actor->position.x;
+            self->detour_frames = 0;
+            actor = self->self_view->player;
+            d3.x = self->steer_point.x - actor->position.x;
             d3.y = 0.0f;
-            d3.z = self->m_d0.z - actor->position.z;
-            self->m_d0.x = self->m_a0.x;
-            self->m_d0.y = self->m_a0.y;
-            self->m_d0.z = self->m_a0.z;
+            d3.z = self->steer_point.z - actor->position.z;
+            self->steer_point.x = self->waypoint.x;
+            self->steer_point.y = self->waypoint.y;
+            self->steer_point.z = self->waypoint.z;
             if (((f32 (*)(void *))vector_length)(&d3) < 1.0f) {
-                self->m_90 = 0;
-                self->m_d0.x = 40.0f * self->m_94.x + self->m_a0.x;
-                self->m_d0.y = 40.0f * self->m_94.y + self->m_a0.y;
-                self->m_d0.z = 40.0f * self->m_94.z + self->m_a0.z;
-                self->m_80 |= 2;
-                self->m_80 &= ~1;
+                self->detour_frames = 0;
+                self->steer_point.x = 40.0f * self->waypoint_dir.x + self->waypoint.x;
+                self->steer_point.y = 40.0f * self->waypoint_dir.y + self->waypoint.y;
+                self->steer_point.z = 40.0f * self->waypoint_dir.z + self->waypoint.z;
+                self->ai_flags |= 2;
+                self->ai_flags &= ~1;
             }
         }
         return;
     }
-    if (((TNpcPlayer *)self->m_78)->get_action_state() & 0x20) {
-        if (self->route_around_object((Vec *)(&route)) != 0 && self->m_8c < 30) {
-            VecCopy(&self->m_d0, &route);
+    if (self->self_view->get_status() & 0x20) {
+        if (self->route_around_object((Vec *)(&route)) != 0 && self->stuck_frames < 30) {
+            VecCopy(&self->steer_point, &route);
         } else {
-            if (self->m_8d > 15) {
-                self->m_8c = 0;
+            if (self->still_frames > 15) {
+                self->stuck_frames = 0;
             }
-            VecCopy(&self->m_d0, &midpoint);
+            VecCopy(&self->steer_point, &midpoint);
         }
-    } else if (((TNpcPlayer *)self->m_78)->get_action_state() & 0x80) {
-        VecCopy(&self->m_d0, &midpoint);
-    } else if (self->m_8c >= 15 && self->m_8c < 30) {
+    } else if (self->self_view->get_status() & 0x80) {
+        VecCopy(&self->steer_point, &midpoint);
+    } else if (self->stuck_frames >= 15 && self->stuck_frames < 30) {
         Vec d4;
         Vec detour;
-        Unk_8014F844 *view = self->m_78;
-        actor = view->m_94;
-        d4.x = actor->position.x - view->m_9c.x;
-        d4.y = actor->position.y - view->m_9c.y;
-        d4.z = actor->position.z - view->m_9c.z;
-        ((void (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_compute_stalled_detour)(self, &actor->position, &self->m_dc, &d4, &detour);
-        VecCopy(&self->m_d0, &detour);
+        NpcPlayerView *view = self->self_view;
+        actor = view->player;
+        d4.x = actor->position.x - view->last_position.x;
+        d4.y = actor->position.y - view->last_position.y;
+        d4.z = actor->position.z - view->last_position.z;
+        ((void (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_compute_stalled_detour)(self, &actor->position, &self->goal, &d4, &detour);
+        VecCopy(&self->steer_point, &detour);
     } else {
-        if (self->m_8d > 15) {
-            self->m_8c = 0;
+        if (self->still_frames > 15) {
+            self->stuck_frames = 0;
         }
-        VecCopy(&self->m_d0, &midpoint);
+        VecCopy(&self->steer_point, &midpoint);
     }
-    self->m_80 &= ~1;
-    self->m_90 = 0;
+    self->ai_flags &= ~1;
+    self->detour_frames = 0;
 }
 #pragma pop
 
@@ -2551,31 +2112,31 @@ void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
 s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2) {
     f32 temp_f1;
     f32 var_f31;
-    if (self->m_80 & 0x10) {
+    if (self->ai_flags & 0x10) {
         return 1;
     }
     var_f31 = 12.0f + self->ai_params.max_distance_from_player;
     if (var_f31 >= 40.0f) {
         var_f31 = 40.0f;
     }
-    temp_f1 = ((f32 (*)(void *, void *, int))horizontal_distance_squared)(&self->m_dc, &self->m_78->m_94->position, _w2);
-    self->m_88 = temp_f1;
+    temp_f1 = ((f32 (*)(void *, void *, int))horizontal_distance_squared)(&self->goal, &self->self_view->player->position, _w2);
+    self->escort_distance_sq = temp_f1;
     if (temp_f1 >= (var_f31 * var_f31)) {
         return 1;
     }
-    self->m_80 = self->m_80 & 0xFFFFFEFF;
+    self->ai_flags = self->ai_flags & 0xFFFFFEFF;
     return 0;
 }
 #pragma pop
 
 void TNpcPlayer::init_follow_target() {
-    TObjPlayer *t = m_74->m_94;
+    TObjPlayer *t = leader_view->player;
     Vec off = {0.0f, 0.0f, 18.0f};
     if (t != NULL) {
-        m_d0.x = m_74->m_94->position.x + off.x;
-        m_d0.y = m_74->m_94->position.y + off.y;
-        m_d0.z = m_74->m_94->position.z + off.z;
-        VecCopy(&m_ac, &m_74->m_94->position);
+        steer_point.x = leader_view->player->position.x + off.x;
+        steer_point.y = leader_view->player->position.y + off.y;
+        steer_point.z = leader_view->player->position.z + off.z;
+        VecCopy(&move_target, &leader_view->player->position);
     }
 }
 
@@ -2585,13 +2146,13 @@ void TNpcPlayer::render() {  }
 #pragma fp_contract on
 s32 TNpcPlayer::check_movement_progress() {
     s8 temp_r3;
-    if (((f32 (*)(void *, void *))horizontal_distance_squared)(&m_ac, &m_d0) <= 100.0f) {
+    if (((f32 (*)(void *, void *))horizontal_distance_squared)(&move_target, &steer_point) <= 100.0f) {
         return 0;
     }
-    temp_r3 = m_8c;
+    temp_r3 = stuck_frames;
     if (temp_r3 > 0x1E) {
-        m_8c = 0x1EU;
-        m_80 = m_80 | 0x4000;
+        stuck_frames = 0x1EU;
+        ai_flags = ai_flags | 0x4000;
         if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 7) == 0) {
             request_chatter(7);
         }
@@ -2599,23 +2160,22 @@ s32 TNpcPlayer::check_movement_progress() {
         ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 7, 0x12C);
         return 0;
     }
-    if ((temp_r3 == 0) && (m_80 & 0x4000)) {
+    if ((temp_r3 == 0) && (ai_flags & 0x4000)) {
         ((s32 (*)(void *, int))reset_partner_counter)(partner_counters.count, 7);
         request_chatter(0x18);
-        m_80 = m_80 & 0xFFFFBFFF;
+        ai_flags = ai_flags & 0xFFFFBFFF;
     }
     return 1;
 }
 #pragma pop
 
-s32 partner_view_check_moved(u8 *arg0) {
-    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
+s32 NpcPlayerView::check_moved() {
     Vec d;
     f32 temp_f1;
     f32 *prev_position_ptr;
     f32 *position_ptr;
-    prev_position_ptr = (f32 *)view->m_94->get_prev_position_ptr();
-    position_ptr = (f32 *)view->m_94->get_position_ptr();
+    prev_position_ptr = (f32 *)player->get_prev_position_ptr();
+    position_ptr = (f32 *)player->get_position_ptr();
     if ((prev_position_ptr == NULL) || (position_ptr == NULL)) {
         return 0;
     }
@@ -2624,40 +2184,40 @@ s32 partner_view_check_moved(u8 *arg0) {
     temp_f1 = position_ptr[2];
     d.z = temp_f1 - prev_position_ptr[2];
     if (((f32 (*)(void *, f32))vector_length)(&d, temp_f1) > 0.4f) {
-        view->m_8c = view->m_8c | 1;
+        status = status | 1;
         return 1;
     }
     return 0;
 }
 
-s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
-    switch (arg1) {
+s32 NpcPlayerView::can_recover(s32 kind, s32 allow_item) {
+    switch (kind) {
     case 0:
-        if ((arg2 != 0) && (((Unk_8014F844 *)this)->m_94->find_inventory_item_id(3, 0) != -1)) {
-            ((Unk_8014F844 *)this)->m_90 = ((Unk_8014F844 *)this)->m_90 | 0x20;
+        if ((allow_item != 0) && (player->find_inventory_item_id(3, 0) != -1)) {
+            condition = condition | 0x20;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->m_94, 0xF) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)player, 0xF) != 0) {
             return 1;
         }
         break;
     case 1:
-        if (((Unk_8014F844 *)this)->m_94->find_inventory_item_id(3, 1) != -1) {
-            ((Unk_8014F844 *)this)->m_90 = ((Unk_8014F844 *)this)->m_90 | 0x20;
+        if (player->find_inventory_item_id(3, 1) != -1) {
+            condition = condition | 0x20;
             return 1;
         }
         break;
     case 2:
-        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->m_94, 0x10) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)player, 0x10) != 0) {
             return 1;
         }
         break;
     case 3:
-        if (((Unk_8014F844 *)this)->m_94->find_inventory_item_id(3, 6) != -1) {
-            ((Unk_8014F844 *)this)->m_90 = ((Unk_8014F844 *)this)->m_90 | 0x20;
+        if (player->find_inventory_item_id(3, 6) != -1) {
+            condition = condition | 0x20;
             return 1;
         }
-        if (TObjPlayer::try_camera_action((saddr)((Unk_8014F844 *)this)->m_94, 0x11) != 0) {
+        if (TObjPlayer::try_camera_action((saddr)player, 0x11) != 0) {
             return 1;
         }
         break;
@@ -2665,29 +2225,27 @@ s32 TNpcPlayer::try_attack(s32 arg1, s32 arg2) {
     return 0;
 }
 
-s32 check_and_set_reached__10TNpcPlayerFPv(void *arg0) {
-    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
-    if (((s32 (*)(void *, void *))scan_nearby_enemies__10TNpcPlayerFPvPvf)(view, &view->m_94->position) != 0) {
-        view->m_8c = view->m_8c | 2;
+s32 NpcPlayerView::scan_targets(f32 range) {
+    if (scan_nearby_enemies(&player->position, range) != 0) {
+        status = status | 2;
         return 1;
     }
     return 0;
 }
 
 s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1) {
-    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
+    NpcPlayerView *view = (NpcPlayerView *)arg0;
     TObjPlayer *obj_player;
 
-    obj_player = view->m_94;
+    obj_player = view->player;
     if (((s32 (*)(void *, void *, s32, TObjPlayer *))find_parts_in_range__10TNpcPlayerFPvPvif)(view, &obj_player->position, arg1, obj_player) != 0) {
-        view->m_8c = view->m_8c | 2;
+        view->status = view->status | 2;
         return 1;
     }
     return 0;
 }
 
-s32 partner_view_update_conditions(u8 *arg0) {
-    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
+s32 NpcPlayerView::update_conditions() {
     f32 temp_f1;
     f32 temp_f2;
     f32 actor_hp;
@@ -2695,68 +2253,68 @@ s32 partner_view_update_conditions(u8 *arg0) {
     s32 actorFlags;
     s32 var_r31;
     var_r31 = 0;
-    actor_hp = (f32)((TObjChara *)view->m_94)->get_actor_hp();
-    temp_f1 = actor_hp / (f32)((TObjChara *)view->m_94)->get_hpmax();
-    if (view->m_8c & 2) {
+    actor_hp = (f32)((TObjChara *)player)->get_actor_hp();
+    temp_f1 = actor_hp / (f32)((TObjChara *)player)->get_hpmax();
+    if (status & 2) {
         if (temp_f1 <= 0.25f) {
             var_r31 = 1;
-            view->m_90 = view->m_90 | 8;
-            view->m_8c = view->m_8c | 4;
+            condition = condition | 8;
+            status = status | 4;
         }
         if (temp_f1 <= 0.75f) {
             var_r31 = 1;
-            view->m_90 = view->m_90 | 0x1000;
+            condition = condition | 0x1000;
         }
     } else if (temp_f1 <= 0.75f) {
         var_r31 = 1;
-        view->m_90 = view->m_90 | 8;
-        view->m_8c = view->m_8c | 4;
+        condition = condition | 8;
+        status = status | 4;
     }
     if (temp_f1 <= 0.1f) {
         var_r31 = 1;
-        view->m_90 = view->m_90 | 0x800;
-        view->m_8c = view->m_8c | 4;
+        condition = condition | 0x800;
+        status = status | 4;
     }
-    actorFlags = view->m_94->actorFlags;
+    actorFlags = player->actorFlags;
     if ((actorFlags & 1) || (actorFlags & 2) || (actorFlags & 0x10)) {
         var_r31 = 1;
-        view->m_90 = view->m_90 | 2;
-        view->m_8c = view->m_8c | 4;
+        condition = condition | 2;
+        status = status | 4;
     }
-    actor_tp = (f32)get_actor_tp((u8 *)view->m_94);
-    temp_f2 = (f32)obj_getS16_2BA((u8 *)view->m_94);
+    actor_tp = (f32)get_actor_tp((u8 *)player);
+    temp_f2 = (f32)obj_getS16_2BA((u8 *)player);
     if (((actor_tp / temp_f2) <= 0.2f) && (0.0f != temp_f2)) {
-        view->m_8c = view->m_8c | 4;
-        view->m_90 = view->m_90 | 0x10;
+        status = status | 4;
+        condition = condition | 0x10;
     }
     return var_r31;
 }
 
-s32 partner_view_update_hp_change(void *arg0) {
+s32 NpcPlayerView::update_hp_change() {
     s16 temp_r0;
     s16 actor_hp;
     s16 hpmax;
     s16 temp_r4;
-    actor_hp = ((TObjChara *)((Unk_8014F844 *)arg0)->m_94)->get_actor_hp();
-    hpmax = ((TObjChara *)((Unk_8014F844 *)arg0)->m_94)->get_hpmax();
-    if (((Unk_8014F844 *)arg0)->m_88 <= 0) {
-        ((Unk_8014F844 *)arg0)->m_88 = actor_hp;
+    actor_hp = ((TObjChara *)player)->get_actor_hp();
+    hpmax = ((TObjChara *)player)->get_hpmax();
+    if (last_hp <= 0) {
+        last_hp = actor_hp;
         return 0;
     }
-    temp_r4 = ((Unk_8014F844 *)arg0)->m_88;
+    temp_r4 = last_hp;
     temp_r0 = (s16)(temp_r4 - actor_hp);
     if (temp_r4 >= (s32)(actor_hp - 1)) {
         if ((f32)temp_r0 > (0.3f * (f32)hpmax)) {
-            ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x40;
+            condition = condition | 0x40;
         } else if ((f32)temp_r0 > (0.2f * (f32)hpmax)) {
-            ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x80;
+            condition = condition | 0x80;
         } else if ((f32)temp_r0 > (0.01f * (f32)hpmax)) {
-            ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x100;
+            condition = condition | 0x100;
         }
     } else {
-        ((Unk_8014F844 *)arg0)->m_90 = ((Unk_8014F844 *)arg0)->m_90 | 0x200;
+        condition = condition | 0x200;
     }
-    ((Unk_8014F844 *)arg0)->m_88 = actor_hp;
+    last_hp = actor_hp;
     return temp_r0 ? 1 : 0;
 }
 
@@ -2768,45 +2326,44 @@ bool TNpcPlayer::is_hp_low(f32 hp, f32 max_hp) {
     return hp <= 0.2f * max_hp;
 }
 
-Unk_8014F844::Unk_8014F844(s32 id) {
+NpcPlayerView::NpcPlayerView(s32 id) {
     s32 i;
-    m_94 = (TObjPlayer *)find_entity_by_id(id);
-    m_9c.x = 0.0f;
-    m_9c.y = 0.0f;
-    m_9c.z = 0.0f;
-    m_8c = 0;
-    m_90 = 0;
-    m_8a = id;
-    m_88 = -1;
-    m_84 = 0;
+    player = (TObjPlayer *)find_entity_by_id(id);
+    last_position.x = 0.0f;
+    last_position.y = 0.0f;
+    last_position.z = 0.0f;
+    status = 0;
+    condition = 0;
+    client_id = id;
+    last_hp = -1;
+    target_collider = 0;
     target_count = 0;
     for (i = 0; i < 10; i++) {
         targets[i].entity_id = 0xFFFF;
         targets[i].distance_sq = 0.0f;
     }
-    m_104 = 0;
-    m_ac.offset.x = 0.0f;
-    m_ac.offset.y = 0.0f;
-    m_ac.offset.z = 5.0f;
-    m_ac.radius = 19.0f;
-    m_ac.half_width = 5.0f;
-    m_ac.shape = 0;
-    m_ac.flags = 0x1103;
-    m_a8 = new TObjCollidable(tl_05);
-    if (m_a8 != 0) {
-        init_collision_body_parts(m_a8, &m_ac, 1);
+    obstacle_angle = 0;
+    probe_body.offset.x = 0.0f;
+    probe_body.offset.y = 0.0f;
+    probe_body.offset.z = 5.0f;
+    probe_body.radius = 19.0f;
+    probe_body.half_width = 5.0f;
+    probe_body.shape = 0;
+    probe_body.flags = 0x1103;
+    probe = new TObjCollidable(tl_05);
+    if (probe != 0) {
+        init_collision_body_parts(probe, &probe_body, 1);
     }
-    m_7c = 0xFFFF;
-    m_80 = 0xFFFF;
+    target_id = 0xFFFF;
+    prev_target_id = 0xFFFF;
 }
 
 #pragma push
 #pragma fp_contract on
-s32 refresh_npc_view_actor_lost(void *arg0) {
-    Unk_8014F844 *view = (Unk_8014F844 *)arg0;
+s32 NpcPlayerView::is_player_lost() {
     TObjPlayer *v;
-    view->m_94 = get_player_by_client_id(view->m_8a);
-    v = view->m_94;
+    player = get_player_by_client_id(client_id);
+    v = player;
     if (v == NULL) {
         return 1;
     }
@@ -2814,30 +2371,24 @@ s32 refresh_npc_view_actor_lost(void *arg0) {
 }
 #pragma pop
 
-void *TNpcPlayer::dt(s16 arg1) {
-    if (this != NULL) {
-        if (((Unk_8014F844 *)this)->m_a8 != NULL) {
-            free_collision_body_parts((uaddr)((Unk_8014F844 *)this)->m_a8);
-            ((TObject *)((Unk_8014F844 *)this)->m_a8)->queue_destruction();
-            ((Unk_8014F844 *)this)->m_a8 = NULL;
-        }
-        if (arg1 > 0) {
-            ::operator delete(this);
-        }
+NpcPlayerView::~NpcPlayerView() {
+    if (probe != NULL) {
+        free_collision_body_parts((uaddr)probe);
+        probe->queue_destruction();
+        probe = NULL;
     }
-    return this;
 }
 
 bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 id) {
     Vec target;
     TObjPlayer *obj_player;
     VecCopy(&target, &((TObjChara *)find_active_entity_by_id(id))->body_center);
-    obj_player = ((Unk_8014F844 *)arg0)->m_94;
+    obj_player = ((NpcPlayerView *)arg0)->player;
     target.y = obj_player->body_center.y;
     return csnVector(&obj_player->body_center, &target, 0x2100) == NULL;
 }
 
-s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 range) {
+s32 NpcPlayerView::scan_nearby_enemies(Vec *pos, f32 range) {
     Vec origin;
     TObjCollidable *actor;
     s32 found;
@@ -2846,12 +2397,12 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 r
     s32 j;
     f32 d;
     found = 0;
-    ((TObjBase *)(view->m_94))->get_room();
+    ((TObjBase *)(player))->get_room();
     VecCopy(&origin, (const Vec *)pos);
-    view->target_count = 0;
+    target_count = 0;
     for (j = 0; j < 10; j++) {
-        view->targets[j].entity_id = 0xFFFF;
-        view->targets[j].distance_sq = 0.0f;
+        targets[j].entity_id = 0xFFFF;
+        targets[j].distance_sq = 0.0f;
     }
     i = TLobby::get_game_mode();
     range = range * range;
@@ -2870,21 +2421,21 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(Unk_8014F844 *view, void *pos, f32 r
             d = horizontal_distance_squared(&origin, &actor->bodies[c].center);
             if (d < range) {
                 found = 1;
-                view->targets[view->target_count].entity_id = actor->get_entity_id();
-                view->targets[view->target_count].distance_sq = d;
-                view->targets[view->target_count].collider = c;
-                if (view->target_count >= 9) {
+                targets[target_count].entity_id = actor->get_entity_id();
+                targets[target_count].distance_sq = d;
+                targets[target_count].collider = c;
+                if (target_count >= 9) {
                     break;
                 }
-                view->target_count++;
+                target_count++;
             }
         }
     }
-    TNpcPlayer::quick_sort((saddr)view, (saddr)&view->targets[0], 0, view->target_count - 1);
+    sort_targets(&targets[0], 0, target_count - 1);
     return found;
 }
 
-s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, u16 id, f32 range) {
+s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, void *pos, u16 id, f32 range) {
     TObjCollidable *actor;
     s32 found;
     s32 i;
@@ -2917,22 +2468,22 @@ s32 find_parts_in_range__10TNpcPlayerFPvPvif(Unk_8014F844 *view, void *pos, u16 
             }
         }
     }
-    TNpcPlayer::quick_sort((saddr)view, (saddr)&view->targets[0], 0, view->target_count - 1);
+    view->sort_targets(&view->targets[0], 0, view->target_count - 1);
     return found;
 }
 
-void TNpcPlayer::quick_sort(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
-    s32 temp_r3;
+void NpcPlayerView::sort_targets(NpcPlayerViewTarget *entries, s32 lo, s32 hi) {
+    s32 pivot;
 
-    if (arg2 < arg3) {
-        temp_r3 = ((s32 (*)(void))partition_sort_entries__10TNpcPlayerFiPvii)();
-        TNpcPlayer::quick_sort(arg0, arg1, arg2, temp_r3 - 1);
-        TNpcPlayer::quick_sort(arg0, arg1, temp_r3 + 1, arg3);
+    if (lo < hi) {
+        pivot = partition_targets(entries, lo, hi);
+        sort_targets(entries, lo, pivot - 1);
+        sort_targets(entries, pivot + 1, hi);
     }
 }
 
-s32 partition_sort_entries__10TNpcPlayerFiPvii(s32 self, Unk_8014F844Entry *a, s32 lo, s32 hi) {
-    Unk_8014F844Entry tmp;
+s32 NpcPlayerView::partition_targets(NpcPlayerViewTarget *a, int lo, int hi) {
+    NpcPlayerViewTarget tmp;
     f32 pivot;
     s32 i;
     s32 j;
@@ -2948,42 +2499,42 @@ s32 partition_sort_entries__10TNpcPlayerFiPvii(s32 self, Unk_8014F844Entry *a, s
         if (i >= j || i >= 10 || j >= 10) {
             break;
         }
-        ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[i], &tmp);
-        ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[j], &a[i]);
-        ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &tmp, &a[j]);
+        copy_target(&a[i], &tmp);
+        copy_target(&a[j], &a[i]);
+        copy_target(&tmp, &a[j]);
     }
-    ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[i], &tmp);
-    ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &a[hi], &a[i]);
-    ((s32 (*)(s32, Unk_8014F844Entry *, Unk_8014F844Entry *))copy_transform_second__10TNpcPlayerFPvPvPv)(self, &tmp, &a[hi]);
+    copy_target(&a[i], &tmp);
+    copy_target(&a[hi], &a[i]);
+    copy_target(&tmp, &a[hi]);
     return i;
 }
 
-s32 partner_probe_obstacles(Unk_8014F844 *view) {
+s32 NpcPlayerView::probe_obstacles() {
     s32 i;
     TObjCollidable *actor;
     CollisionBody *contact;
-    TObjCollidable *probe;
-    probe = view->m_a8;
-    if (probe == NULL) {
+    TObjCollidable *sweep;
+    sweep = probe;
+    if (sweep == NULL) {
         return 0;
     }
-    VecCopy(&probe->position, &view->m_94->position);
-    view->m_a8->rotation_y = view->m_98;
+    VecCopy(&sweep->position, &player->position);
+    probe->rotation_y = goal_angle;
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + ((s32 (*)(void))get_registered_object_count)(); i++) {
         actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
         if ((actor != NULL) && !(actor->actorFlags & 0x80000000)) {
-            contact = (CollisionBody *)view->m_a8->find_actor_body_contact((u8 *)actor, 10000.0f);
+            contact = (CollisionBody *)probe->find_actor_body_contact((u8 *)actor, 10000.0f);
             if (contact != NULL) {
                 if (actor->actorFlags & 0x40000000) {
                     if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {
-                        copy_collision_body(&view->m_d8, contact);
-                        view->m_104 = actor->rotation_y;
-                        view->m_8c |= 0x20;
+                        copy_collision_body(&obstacle_body, contact);
+                        obstacle_angle = actor->rotation_y;
+                        status |= 0x20;
                         return 1;
                     }
                 } else if (actor->actorFlags & 0x20000000) {
                     if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {
-                        view->m_8c |= 0x80;
+                        status |= 0x80;
                         return 1;
                     }
                 }
@@ -3008,7 +2559,7 @@ s32 partner_find_wall_segment(saddr arg0, saddr from, saddr to, saddr arg3, sadd
 #pragma fp_contract on
 #pragma opt_common_subs off
 s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2) {
-    Line_8014EE98 line;
+    Line line;
     Vec dir;
     Vec perp;
     Vec hit;
@@ -3030,13 +2581,13 @@ s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec 
         perp.x = -perp.x;
         perp.z = -perp.z;
     }
-    line.p.x = self->m_78->m_94->body_center.x;
-    line.p.y = self->m_78->m_94->body_center.y;
-    line.p.z = self->m_78->m_94->body_center.z;
+    line.o.x = self->self_view->player->body_center.x;
+    line.o.y = self->self_view->player->body_center.y;
+    line.o.z = self->self_view->player->body_center.z;
     line.d.x = perp.x;
     line.d.y = 0.0f;
     line.d.z = perp.z;
-    project_point_onto_line(&self->m_dc, &line, &hit);
+    project_point_onto_line(&self->goal, &line, &hit);
     s = 1.5f * len;
     if (s <= 20.0f) {
         s = 20.0f;
@@ -3044,14 +2595,14 @@ s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec 
     out->x = perp.x * s + from->x;
     out->y = from->y;
     out->z = perp.z * s + from->z;
-    VecCopy(&tmp, &self->m_74->m_94->body_center);
+    VecCopy(&tmp, &self->leader_view->player->body_center);
     if (csnVector(&tmp, &hit, 0x2100) != NULL) {
         hit.x = 5.0f * perp.x + hit.x;
         hit.z = 5.0f * perp.z + hit.z;
         return 0;
     }
-    v.x = self->m_74->m_94->body_center.x - hit.x;
-    v.z = self->m_74->m_94->body_center.z - hit.z;
+    v.x = self->leader_view->player->body_center.x - hit.x;
+    v.z = self->leader_view->player->body_center.z - hit.z;
     v.y = 0.0f;
     if (0.0f != vector_length(&v)) {
         normalize_vector(&v);
@@ -3097,7 +2648,7 @@ void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d
     } else {
         VecCopy(&dir, &a);
     }
-    if (self->m_8c >= 0x14) {
+    if (self->stuck_frames >= 0x14) {
         out->x = -((20.0f * dir.x) - from->x);
         out->y = from->y;
         out->z = -((20.0f * dir.z) - from->z);
@@ -3118,10 +2669,10 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
     Vec to;
     Vec toSelf;
     f32 r;
-    copy_collision_body(&info, &self->m_78->m_d8);
+    copy_collision_body(&info, &self->self_view->obstacle_body);
     if (info.shape == 0 || info.shape == 0 ||
         (info.half_width <= 12.0f && info.shape == 1 && info.half_width == info.radius)) {
-        TObjPlayer *t = self->m_78->m_94;
+        TObjPlayer *t = self->self_view->player;
         r = 20.0f + info.radius;
         to.x = t->position.x - info.center.x;
         to.y = 0.0f;
@@ -3132,9 +2683,9 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
         if (0.0f != vector_length(&perp)) {
             normalize_vector(&perp);
         }
-        toSelf.x = self->m_dc.x - info.center.x;
+        toSelf.x = self->goal.x - info.center.x;
         toSelf.y = 0.0f;
-        toSelf.z = self->m_dc.z - info.center.z;
+        toSelf.z = self->goal.z - info.center.z;
         if (0.0f != vector_length(&toSelf)) {
             normalize_vector(&toSelf);
         }
@@ -3154,7 +2705,7 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
         out->x = r * perp.x + info.center.x;
         out->y = r * perp.y + info.center.y;
         out->z = r * perp.z + info.center.z;
-        if (self->m_8c > 10) {
+        if (self->stuck_frames > 10) {
             out->x = info.center.x - r * perp.x;
             out->y = info.center.y - r * perp.y;
             out->z = info.center.z - r * perp.z;
@@ -3175,7 +2726,7 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
         a.x *= info.radius;
         b.z *= info.half_width;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, self->m_78->m_104 + 0x4000);
+        rotate_matrix_y(0, self->self_view->obstacle_angle + 0x4000);
         matrix_mult_vec(0, &a, &a);
         matrix_mult_vec(0, &b, &b);
         pop_matrices(1);
@@ -3191,28 +2742,28 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
         c3.x = info.center.x - b.x;
         c3.y = info.center.y - b.y;
         c3.z = info.center.z - b.z;
-        dir.x = self->m_74->m_94->position.x - info.center.x;
-        dir.y = self->m_74->m_94->position.y - info.center.y;
-        dir.z = self->m_74->m_94->position.z - info.center.z;
+        dir.x = self->leader_view->player->position.x - info.center.x;
+        dir.y = self->leader_view->player->position.y - info.center.y;
+        dir.z = self->leader_view->player->position.z - info.center.z;
         if (0.0f != vector_length(&dir)) {
             normalize_vector(&dir);
         }
-        self->calc_box_escape_axis(&c0, &c1, &c2, &c3, &self->m_78->m_94->position, &axis, &dist);
+        self->calc_box_escape_axis(&c0, &c1, &c2, &c3, &self->self_view->player->position, &axis, &dist);
         VecCopy(&esc, &axis);
         if (vec3_dot(&dir, &esc) < 0.0f) {
             esc.x = -esc.x;
             esc.z = -esc.z;
         }
         r = dist;
-        out->x = r * esc.x + self->m_78->m_94->position.x;
-        out->y = r * esc.y + self->m_78->m_94->body_center.y;
-        out->z = r * esc.z + self->m_78->m_94->position.z;
-        if (partner_clip_path_point(self, &self->m_78->m_94->body_center.x, &out->x, &clip.x) != 0) {
+        out->x = r * esc.x + self->self_view->player->position.x;
+        out->y = r * esc.y + self->self_view->player->body_center.y;
+        out->z = r * esc.z + self->self_view->player->position.z;
+        if (partner_clip_path_point(self, &self->self_view->player->body_center.x, &out->x, &clip.x) != 0) {
             out->x = clip.x;
             out->y = clip.y;
             out->z = clip.z;
         }
-        if (self->m_8c > 15) {
+        if (self->stuck_frames > 15) {
             alt.x = esc.z;
             alt.y = 0.0f;
             alt.z = esc.x;
@@ -3220,9 +2771,9 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
                 alt.x = -alt.x;
                 alt.z = -alt.z;
             }
-            out->x = r * alt.x + self->m_78->m_94->position.x;
-            out->y = self->m_78->m_94->body_center.y;
-            out->z = r * alt.z + self->m_78->m_94->position.z;
+            out->x = r * alt.x + self->self_view->player->position.x;
+            out->y = self->self_view->player->body_center.y;
+            out->z = r * alt.z + self->self_view->player->position.z;
         }
     }
     return 1;
@@ -3236,8 +2787,8 @@ void TNpcPlayer::calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, 
     Vec second;
     Vec center1;
     Vec center2;
-    Line_8014EE98 line1;
-    Line_8014EE98 line2;
+    Line line1;
+    Line line2;
     f32 len1;
     f32 len2;
     f32 dist1;
@@ -3259,13 +2810,13 @@ void TNpcPlayer::calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, 
     if (len2 != 0.0f) {
         normalize_vector(&second);
     }
-    line1.p.x = b->x;
-    line1.p.y = b->y;
-    line1.p.z = b->z;
+    line1.o.x = b->x;
+    line1.o.y = b->y;
+    line1.o.z = b->z;
     line1.d.x = first.x;
     line1.d.y = first.y;
     line1.d.z = first.z;
-    dist1 = ((f32 (*)(Vec *, Line_8014EE98 *, Vec *))project_point_onto_line)(pos, &line1, &point1);
+    dist1 = ((f32 (*)(Vec *, Line *, Vec *))project_point_onto_line)(pos, &line1, &point1);
     center1.x = 0.5f * (a->x + b->x);
     center1.y = 0.5f * (a->y + b->y);
     center1.z = 0.5f * (a->z + b->z);
@@ -3273,13 +2824,13 @@ void TNpcPlayer::calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, 
     if (reach1 < 0.0f) {
         reach1 = 0.5f * len1;
     }
-    line2.p.x = d->x;
-    line2.p.y = d->y;
-    line2.p.z = d->z;
+    line2.o.x = d->x;
+    line2.o.y = d->y;
+    line2.o.z = d->z;
     line2.d.x = second.x;
     line2.d.y = second.y;
     line2.d.z = second.z;
-    dist2 = ((f32 (*)(Vec *, Line_8014EE98 *, Vec *))project_point_onto_line)(pos, &line2, &point2);
+    dist2 = ((f32 (*)(Vec *, Line *, Vec *))project_point_onto_line)(pos, &line2, &point2);
     center2.x = 0.5f * (a->x + b->x);
     center2.y = 0.5f * (a->y + b->y);
     center2.z = 0.5f * (a->z + b->z);
@@ -3365,29 +2916,29 @@ void TNpcPlayer::request_chatter(u32 arg1) {
 void deliver_partner_chatter(TNpcPlayer *self) {
     u32 id;
     char *text;
-    if (self->m_24 >= 0x19) {
-        self->m_80 &= ~4;
-        self->m_24 = 0x19;
+    if (self->chatter_id >= 0x19) {
+        self->ai_flags &= ~4;
+        self->chatter_id = 0x19;
         return;
     }
     if (TObjPlayer::is_any_teammate_in_state() != 0) {
         return;
     }
-    id = self->m_78->m_94->get_entity_id();
+    id = self->self_view->player->get_entity_id();
     if (id != 0xFFFF) {
-        text = (char *)get_partner_custom_text(self->m_24, id);
+        text = (char *)get_partner_custom_text(self->chatter_id, id);
         if (text != 0) {
             TWindowCtrl::open(id, (saddr)text, 0x1B);
         } else {
-            text = npc_partner_dialogue_state[self->m_24].text;
+            text = npc_partner_dialogue_state[self->chatter_id].text;
             if (text[0] != 0) {
                 TWindowCtrl::open(id, (saddr)text, 0x1B);
             }
         }
     }
-    self->m_80 &= ~4;
+    self->ai_flags &= ~4;
     if (((s32 (*)(void *, s32, s32))npc_counter_reset_if_reached)(self->partner_counters.count, 0, 0x190) != 0) {
-        self->m_24 = 0x19;
+        self->chatter_id = 0x19;
     }
 }
 
@@ -3395,59 +2946,59 @@ void TNpcPlayer::handle_action(s32 arg1) {
     s32 player;
     s32 temp_r3_2;
     s32 temp_r3_3;
-    Unk_8014F844 *temp_r5;
-    Unk_8014F844 *temp_r5_2;
-    Unk_8014F844 *temp_r5_3;
+    NpcPlayerView *temp_r5;
+    NpcPlayerView *temp_r5_2;
+    NpcPlayerView *temp_r5_3;
 
     switch (arg1) {
     case 0:
-        player = m_78->m_94->find_inventory_item_id(3, 0);
+        player = self_view->player->find_inventory_item_id(3, 0);
         if (player != -1) {
-            temp_r5 = m_78;
-            try_send_6x27_use_item((saddr)temp_r5->m_94, player, temp_r5);
-            m_80 = m_80 | 0x10000;
+            temp_r5 = self_view;
+            try_send_6x27_use_item((saddr)temp_r5->player, player, temp_r5);
+            ai_flags = ai_flags | 0x10000;
         }
         break;
     case 1:
-        temp_r3_2 = m_78->m_94->find_inventory_item_id(3, 1);
+        temp_r3_2 = self_view->player->find_inventory_item_id(3, 1);
         if (temp_r3_2 != -1) {
-            temp_r5_2 = m_78;
-            try_send_6x27_use_item((saddr)temp_r5_2->m_94, temp_r3_2, temp_r5_2);
+            temp_r5_2 = self_view;
+            try_send_6x27_use_item((saddr)temp_r5_2->player, temp_r3_2, temp_r5_2);
             return;
         }
         break;
     case 2:
-        temp_r3_3 = m_78->m_94->find_inventory_item_id(3, 6);
+        temp_r3_3 = self_view->player->find_inventory_item_id(3, 6);
         if (temp_r3_3 != -1) {
-            temp_r5_3 = m_78;
-            try_send_6x27_use_item((saddr)temp_r5_3->m_94, temp_r3_3, temp_r5_3);
+            temp_r5_3 = self_view;
+            try_send_6x27_use_item((saddr)temp_r5_3->player, temp_r3_3, temp_r5_3);
         }
         break;
     }
 }
 
 void TNpcPlayer::change_ai_state(u32 arg1) {
-    m_7c = arg1;
-    m_80 = m_80 & 0xFFFFEFFF;
+    ai_state = arg1;
+    ai_flags = ai_flags & 0xFFFFEFFF;
     switch (arg1) {
     case 0:
-        m_80 = m_80 & 0xFFFFFFCF;
-        VecCopy(&m_dc, &m_78->m_94->body_center);
+        ai_flags = ai_flags & 0xFFFFFFCF;
+        VecCopy(&goal, &self_view->player->body_center);
         return;
     case 1:
-        m_80 = m_80 & 0xFFFFFFEF;
-        m_80 = m_80 | 0x20;
+        ai_flags = ai_flags & 0xFFFFFFEF;
+        ai_flags = ai_flags | 0x20;
         return;
     case 2:
-        m_80 = m_80 & 0xFFFFFFDF;
-        m_80 = m_80 | 0x10;
+        ai_flags = ai_flags & 0xFFFFFFDF;
+        ai_flags = ai_flags | 0x10;
         return;
     case 8:
-        VecCopy(&m_dc, &m_78->m_94->body_center);
+        VecCopy(&goal, &self_view->player->body_center);
         return;
     case 16:
-        m_80 = m_80 & 0xFFFFFFEF;
-        m_80 = m_80 | 0x20;
+        ai_flags = ai_flags & 0xFFFFFFEF;
+        ai_flags = ai_flags | 0x20;
     default:
         return;
     }
@@ -3456,30 +3007,30 @@ void TNpcPlayer::change_ai_state(u32 arg1) {
 void TNpcPlayer::dispatch_action(s32 arg1) {
     switch (arg1) {
     case 0:
-        if (((TNpcPlayer *)m_78)->get_condition() & 0x20) {
+        if (self_view->get_condition() & 0x20) {
             handle_action(arg1);
         } else {
             request_technique_cast(0xF);
         }
-        if (m_80 & 0x200) {
+        if (ai_flags & 0x200) {
             request_chatter(0x13);
         }
         return;
     case 1:
-        if (((TNpcPlayer *)m_78)->get_condition() & 0x20) {
+        if (self_view->get_condition() & 0x20) {
             handle_action(arg1);
             return;
         }
         break;
     case 2:
-        if (((TNpcPlayer *)m_78)->get_condition() & 0x20) {
+        if (self_view->get_condition() & 0x20) {
             handle_action(arg1);
             return;
         }
         request_technique_cast(0x10);
         return;
     case 3:
-        if (((TNpcPlayer *)m_78)->get_condition() & 0x20) {
+        if (self_view->get_condition() & 0x20) {
             handle_action(arg1);
             return;
         }

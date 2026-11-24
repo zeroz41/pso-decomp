@@ -2,7 +2,7 @@
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcConnoisseur.h"
 #include "pso/npc/TObjNpcExpertBase.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -12,6 +12,11 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+
+void *TObjNpcConnoisseur::create(void *set_data) {
+    TObjControl *control = new TObjControl(tl_04);
+    return new TObjNpcConnoisseur(control, set_data);
+}
 
 const char *bm_n_kanteib_i_body_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_n_kanteib_i_body_model_names[2] = { "n_kanteib_i_body_1.nj", NULL };
@@ -50,38 +55,31 @@ BmlResourceDescriptor *tekker_descriptor_selector_table[10] = {
     &bm_n_kanteio_i_body_resource_descriptor, &bm_n_kanteit2_i_body_resource_descriptor,
     &bm_n_kanteio2_i_body_resource_descriptor, &bm_n_kanteib2_i_body_resource_descriptor,
 };
-const char *TObjNpcConnoisseur__name = "TObjNpcConnoisseur";
-
+const char *TObjNpcConnoisseur::name = "TObjNpcConnoisseur";
 
 s32 lbl_805D5748;
-BmlResource *TObjNpcConnoisseur__instance;
+BmlResource *TObjNpcConnoisseur::instance;
 
 void TObjNpcConnoisseur::destroy_instance() {
-    if (TObjNpcConnoisseur__instance != NULL) {
-        delete TObjNpcConnoisseur__instance;
-        TObjNpcConnoisseur__instance = NULL;
+    if (instance != NULL) {
+        delete instance;
+        instance = NULL;
     }
 }
 
 void TObjNpcConnoisseur::load_section_motion() {
     lbl_805D5748 = leader_selection.get_section_id();
-    TObjNpcConnoisseur__instance = new BmlResource(1, (BmlResourceDescriptor *)tekker_descriptor_selector_table[lbl_805D5748], 0, 0, NULL);
+    instance = new BmlResource(1, (BmlResourceDescriptor *)tekker_descriptor_selector_table[lbl_805D5748], 0, 0, NULL);
 }
 
 TObjNpcConnoisseur::~TObjNpcConnoisseur() {}
 
-
-TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
-    ((TObjNpcConnoisseur *)this)->m_name = TObjNpcConnoisseur__name;
+TObjNpcConnoisseur::TObjNpcConnoisseur(TObject *parent, void *arg2) : TObjNpcMale(parent) {
+    ((TObjNpcConnoisseur *)this)->m_name = name;
     ((TObjNpcConnoisseur *)this)->apply_set_data(arg2);
     init_position_vectors();
-    model = TObjNpcConnoisseur__instance->models->model;
-    texlist = TObjNpcConnoisseur__instance->models->texlist;
+    model = instance->models->model;
+    texlist = instance->models->texlist;
     ((TObjNpcBase *)this)->setup_common();
-}
-
-void *TObjNpcExpertBase__create(void *set_data) {
-    TObjControl *control = new TObjControl(tl_04);
-    return new TObjNpcExpertBase(control, set_data);
 }
 

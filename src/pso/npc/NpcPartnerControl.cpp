@@ -32,7 +32,7 @@ PartnerRemark npc_partner_dialogue_state[25] = { 0 };
 #pragma opt_pointer_analysis on
 
 PartnerDialogueSet partner_dialogue_table[4];
-s32 partner_chatter_flags;
+int partner_chatter_flags;
 extern "C" {
 void set_arrival_override_coords(u16, s32, f32, f32, f32);
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
@@ -41,7 +41,6 @@ void handle_6x69_npc_control(G_NPCControl_6x69 *cmd);
 
 }
 void quest_remove_npc_player(u16 client);
-extern s32 TNpcPlayer__data_805D5864;
 void init_partner_dialogue(void);
 void quest_player_look_at_partner(u16 src);
 void notify_partner_room_cleared(s32 room);
@@ -107,7 +106,7 @@ void init_partner_dialogue(void) {
     s32 j;
     partner_chatter_flags = 0;
     clear_partner_dialogue_flags();
-    TNpcPlayer__data_805D5864 = 0;
+    quest_npc_visual_pending = 0;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 6; j++) {
             partner_dialogue_table[i].text[j] = 0;
@@ -561,7 +560,7 @@ s32 TObjBase::is_active() {
 }
 
 void TNpcPlayer::AiParams::copy_entry_by_index(s32 index) {
-    TNpcPlayer__template_table[index].copy(this);
+    npc_player_ai_templates[index].copy(this);
 }
 
 // Indexed by TLobby::get_instance().
