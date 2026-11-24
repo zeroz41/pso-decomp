@@ -27212,7 +27212,7 @@ decrypt_network_info_cipher_block__FPUlP22NetworkInfoCipherBlockP22NetworkInfoCi
 bind_network_info_cipher_pool__FPUll = .text:0x803F7404; // type:function size:0x20
 clear_network_info_cipher_pool__Fv = .text:0x803F7424; // type:function size:0x14
 decrypt_network_info_cipher_blocks__FPUlPUclPUc = .text:0x803F7438; // type:function size:0x94
-allocate_network_info_cipher_key__Fl = .text:0x803F74CC; // type:function size:0x194
+allocate_network_info_cipher_key__FPUc = .text:0x803F74CC; // type:function size:0x194
 release_network_info_cipher_key__FPUl = .text:0x803F7660; // type:function size:0x18
 ppp_term_hook = .text:0x803F7678; // type:function size:0x4
 ppp_init_hook = .text:0x803F767C; // type:function size:0x8

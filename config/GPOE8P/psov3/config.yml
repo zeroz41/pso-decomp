@@ -3858,7 +3858,7 @@ force_active:
   - alloc_global_buffer
   - allocate_bml_chunk
   - alloc_work_buffer__6TLobbyFv
-  - allocate_network_info_cipher_key__Fl
+  - allocate_network_info_cipher_key__FPUc
   - allocate_trail_buffer__17TItemEffectWeaponFv
   - allow_rendering_shadows__7TObjectFv
   - alt_model

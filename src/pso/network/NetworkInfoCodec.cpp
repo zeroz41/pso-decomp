@@ -104,13 +104,13 @@ s32 parse_network_info_config_line(char *s, u32 n, NetworkInfoConfig *q) {
     buf[4] = 0;
     i = atoi(&buf[3]);
     if (strncmp(s, network_info_config_key_iver, 4) == 0) {
-        q->v0 = parse_network_info_config_decimal((char *)(s), n);
+        q->v0 = parse_network_info_config_decimal(s, n);
     } else if (strncmp(s, network_info_config_key_cnum, 4) == 0) {
-        q->v2 = parse_network_info_config_decimal((char *)(s), n);
+        q->v2 = parse_network_info_config_decimal(s, n);
     } else if (strncmp(s, network_info_config_key_mnum, 4) == 0) {
-        q->v4 = parse_network_info_config_decimal((char *)(s), n);
+        q->v4 = parse_network_info_config_decimal(s, n);
     } else if (strncmp(s, network_info_config_key_bnum, 4) == 0) {
-        q->v6 = parse_network_info_config_decimal((char *)(s), n);
+        q->v6 = parse_network_info_config_decimal(s, n);
     }
     if (network_info_config_field_handled == 0 && i < 6) {
         if (strncmp(s, network_info_config_key_nam, 3) == 0) {
@@ -270,19 +270,19 @@ s32 parse_network_info_config_hex(char *s, u32 n) {
 #pragma optimization_level 2
 #pragma scheduling off
 #pragma peephole off
-s32 copy_network_info_config_string(char *dest, char *arg1, u32 num, u32 arg3) {
+s32 copy_network_info_config_string(char *dest, char *line, u32 num, u32 size) {
     if (num <= 4) {
         *dest = 0;
     } else {
         num -= 5;
-        if (num > arg3) {
-            strncpy(dest, arg1 + 5, arg3);
-            char c = dest[arg3 - 1];
+        if (num > size) {
+            strncpy(dest, line + 5, size);
+            char c = dest[size - 1];
             if ((u8)c >= 0x80) {
-                dest[arg3 - 1] = 0;
+                dest[size - 1] = 0;
             }
         } else {
-            strncpy(dest, arg1 + 5, num);
+            strncpy(dest, line + 5, num);
         }
     }
     network_info_config_field_handled = 1;
@@ -294,7 +294,6 @@ s32 copy_network_info_config_string(char *dest, char *arg1, u32 num, u32 arg3) {
 
 extern NetworkInfoCipherPoolBinding network_info_cipher_pool_binding;
 extern NetworkInfoCipherWorkspace network_info_cipher_workspace;
-s32 decode_network_info_payload(u8 *arg0, u8 *payload, u32 size, NetworkInfoConfig *config);
 
 #pragma push
 #pragma scheduling off
@@ -326,12 +325,12 @@ s32 parse_hex_string(char *s) {
 #pragma push
 #pragma use_lmw_stmw off
 #pragma scheduling off
-s32 decode_network_info_payload(u8 *src, u8 *payload, u32 size, NetworkInfoConfig *config) {
+s32 decode_network_info_payload(u8 *key_data, u8 *payload, u32 size, NetworkInfoConfig *config) {
     u32 *key;
     u32 i;
     s32 r;
     bind_network_info_cipher_pool((u32 *)&network_info_cipher_workspace, 1);
-    key = allocate_network_info_cipher_key((saddr)src);
+    key = allocate_network_info_cipher_key(key_data);
     for (i = 0; i < size; i += 0x10) {
         if (decrypt_network_info_cipher_blocks(key, (u8 *)(payload + i), 0x10, (u8 *)(payload + i)) != 0) {
             return -1;
@@ -360,12 +359,12 @@ void copy_network_info_cipher_block(u32 *dst, u32 *src) {
 #pragma scheduling off
 #pragma peephole off
 #pragma optimization_level 2
-void decrypt_network_info_cipher_round(u32 *arg0, u32 *arg1) {
-    u32 t = arg1[3];
-    arg1[3] = ~(arg1[0] ^ ((arg0[1] - arg1[1]) >> 1));
-    arg1[0] = arg0[3] ^ arg1[1];
-    arg1[1] = ~(arg1[2] ^ ((arg0[2] + t) >> 1));
-    arg1[2] = arg0[0] ^ t;
+void decrypt_network_info_cipher_round(u32 *key, u32 *block) {
+    u32 t = block[3];
+    block[3] = ~(block[0] ^ ((key[1] - block[1]) >> 1));
+    block[0] = key[3] ^ block[1];
+    block[1] = ~(block[2] ^ ((key[2] + t) >> 1));
+    block[2] = key[0] ^ t;
 }
 #pragma pop
 
@@ -374,13 +373,13 @@ void decrypt_network_info_cipher_round(u32 *arg0, u32 *arg1) {
 #pragma peephole off
 #pragma optimization_level 2
 void decrypt_network_info_cipher_block(u32 *key, NetworkInfoCipherBlock *src, NetworkInfoCipherBlock *dst) {
-    u32 sp8[4];
+    u32 block[4];
     s32 i;
-    copy_network_info_cipher_block(sp8, (u32 *)src);
+    copy_network_info_cipher_block(block, (u32 *)src);
     for (i = 4; i > 0; i--) {
-        decrypt_network_info_cipher_round(key + (i - 1) * 4 + 1, sp8);
+        decrypt_network_info_cipher_round(key + (i - 1) * 4 + 1, block);
     }
-    copy_network_info_cipher_block((u32 *)dst, sp8);
+    copy_network_info_cipher_block((u32 *)dst, block);
 }
 #pragma pop
 
@@ -434,7 +433,7 @@ s32 decrypt_network_info_cipher_blocks(u32 *key, u8 *src, s32 len, u8 *dst) {
 #pragma scheduling off
 #pragma peephole off
 #pragma optimization_level 2
-u32 *allocate_network_info_cipher_key(saddr src) {
+u32 *allocate_network_info_cipher_key(u8 *key_data) {
     s32 i;
     u32 *b;
     u32 mask;
@@ -454,7 +453,7 @@ u32 *allocate_network_info_cipher_key(saddr src) {
     }
     slot = (u32 *)&((NetworkInfoCipherPoolView *)network_info_cipher_pool_binding.pool)->slots[i];
     *slot = 1 << i;
-    copy_network_info_cipher_block(slot + 1, (u32 *)src);
+    copy_network_info_cipher_block(slot + 1, (u32 *)key_data);
     for (i = 0; i < 3; i++) {
         a = &((NetworkInfoCipherKey *)slot)->keys[i][0];
         b = &((NetworkInfoCipherKey *)slot)->keys[i + 1][0];
