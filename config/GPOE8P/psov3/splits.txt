@@ -8899,21 +8899,15 @@ pso/ui/frontend/TAdDialingGC_80328E50.cpp:
 	.text       start:0x80328E50 end:0x80328E90
 
 pso/ui/frontend/TAdDialingGC_80328E90.cpp:
-	.text       start:0x80328E90 end:0x80328F7C
+	.text       start:0x80328E90 end:0x80328EE8
 
 pso/player/LobbyPlayerActionProvider.cpp:
-	.text       start:0x80328F7C end:0x80329478
+	.text       start:0x80328EE8 end:0x803296C4
 	.ctors      start:0x80433FE8 end:0x80433FEC
 	.rodata     start:0x804767D0 end:0x80477090
 	.data       start:0x804ED690 end:0x804ED908
 	.bss        start:0x805430E8 end:0x80543468
 	.sbss       start:0x805D6C80 end:0x805D6C88
-
-pso/system/data/pso_const_ids.cpp:
-	.text       start:0x80329478 end:0x80329600
-
-pso/unk/TLobby_80329600.cpp:
-	.text       start:0x80329600 end:0x803296C4
 
 pso/ui/frontend/TAdAgreementBaseGC.cpp:
 	.text       start:0x803296C4 end:0x80329BB8
