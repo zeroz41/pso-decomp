@@ -478,49 +478,6 @@ void ItemListRow::init_status_entry(u8 category_icon, u32 src, s32 item) {
 
 }
 
-#define CAT2(a,b) a##b
-#define CAT(a,b) CAT2(a,b)
-#define PADV virtual void CAT(f,__LINE__)();
-struct Base_80258F34 { char pad[0x18]; };
-
-struct V_80258F34 : Base_80258F34 {
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    virtual s32 m10();
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    PADV
-    virtual s32 m34();
-};
-
 extern "C" {
 void ItemListRow::set_inventory_item(TItem *item, s32 count, s32 sid) {
     s32 item_data;
@@ -563,7 +520,7 @@ void ItemListRow::init_item_row(TItem *item, s32 arg2) {
     select_item_icon(item_data, item->get_item_type(), item->get_item_group(), item->is_wrapped());
     this->label = (char *)replace_owned_string((saddr)item->get_name(), (saddr)this->label, 8, 1);
     if (item->is_stackable() != 0) {
-        s32 v = ((V_80258F34 *) item)->m34();
+        s32 v = item->get_amount();
         update_stat_line_if_positive(v);
     }
     update_item_icon_colors(item);
