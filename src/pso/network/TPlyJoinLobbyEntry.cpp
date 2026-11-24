@@ -1,5 +1,5 @@
 #include "pso/enemy/EnemyStateRecord.h"
-#include "pso/network/TUserAns.h"
+#include "pso/network/protocol/packet_classes.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/ui/window/WindowMenuFactory.h"
 #include "pso/unk/TLobby_801E43E4.h"

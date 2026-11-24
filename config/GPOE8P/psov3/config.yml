@@ -1696,7 +1696,7 @@ force_active:
   - TRKPostInterruptEvent
   - TRKValidMemory32
   - TRK_mainError
-  - bswap_generate_id_payload__FPv
+  - bswap__16TGenGuildCardTagFv
   - TSceneSora__ct
   - active_scene_callback
   - class_name__6TScene

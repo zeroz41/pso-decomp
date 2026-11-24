@@ -1,4 +1,4 @@
-#include "pso/network/TUserAns.h"
+#include "pso/network/protocol/packet_classes.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/GuildCardEntry.h"
 #include "pso/system/memory.h"

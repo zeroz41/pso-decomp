@@ -1,12 +1,5 @@
-#include "types.h"
-#include "pso/network/TRecvPsoData.h"
+#include "pso/network/protocol/packet_classes.h"
 
-extern "C" {
-
-s32 bswap__13packet_headerFv();
-
-void bswap__12TRecvPsoDataFv(void) {
-    bswap__13packet_headerFv();
-}
-
+void TRecvPsoData::bswap() {
+    header.bswap();
 }

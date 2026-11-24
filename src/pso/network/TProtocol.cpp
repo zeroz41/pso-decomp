@@ -912,28 +912,19 @@ void TProtocol::send_pso_data_long2(u32 flags, long_game_command &packet, size_t
 	}
 }
 
-struct Pkt_801DC084 {
-    u8 cmd;
-    u8 flag;
-    u16 size;
-    u8 data[0x400];
-};
-
-extern "C" {
-void bswap__12TRecvPsoDataFv(void *);
 
 void TProtocol::send_pso_data2(u32 flags, game_command &packet, u32 size) {
     char buf[0x80];
     sprintf(buf, "SndPsoData2 %d %d %d", packet.header.command, size, flags);
     if (this->m_connected != 0) {
-        Pkt_801DC084 pkt;
+        TRecvPsoData pkt;
         int packet_size;
-        pkt.cmd = 0x62;
-        pkt.flag = flags;
-        pkt.size = size + 4;
-        packet_size = pkt.size;
-        memcpy(pkt.data, &packet, size);
-        bswap__12TRecvPsoDataFv(&pkt);
+        pkt.header.command = 0x62;
+        pkt.header.flags = flags;
+        pkt.header.size = size + 4;
+        packet_size = pkt.header.size;
+        memcpy(&pkt.data.pkt, &packet, size);
+        pkt.bswap();
         this->send((u8 *)&pkt, packet_size);
     }
 }
@@ -942,14 +933,14 @@ void TProtocol::send_pso_data(game_command &packet, u32 size) {
     char buf[0x80];
     sprintf(buf, "SndPsoData %d %d", packet.header.command, size);
     if (this->m_connected != 0) {
-        Pkt_801DC084 pkt;
+        TRecvPsoData pkt;
         int packet_size;
-        pkt.cmd = 0x60;
-        pkt.flag = 0;
-        pkt.size = size + 4;
-        packet_size = pkt.size;
-        memcpy(pkt.data, &packet, size);
-        bswap__12TRecvPsoDataFv(&pkt);
+        pkt.header.command = 0x60;
+        pkt.header.flags = 0;
+        pkt.header.size = size + 4;
+        packet_size = pkt.header.size;
+        memcpy(&pkt.data.pkt, &packet, size);
+        pkt.bswap();
         this->send((u8 *)&pkt, packet_size);
     }
 }
@@ -958,7 +949,6 @@ struct List_801DC1E4 { u8 command; u8 flags; u16 size; u32 entries[30]; };
 struct Text_801DC1E4 { u8 command; u8 flags; u16 size; char text[0x200]; };
 struct Proto_801DC1E4 { u8 pad[0x1910]; s32 connected; u8 pad1914[0x74]; u8 char_data[0x41C]; };
 
-}
 s32 validate_player_visual_record(void *arg0);
 extern "C" {
 

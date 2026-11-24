@@ -168,10 +168,7 @@ public:
 public:
     TGenGuildCardTag() {};
 
-    void bswap() {
-        bswap_32(&guildcard_number);
-        bswap_16(&tag2);
-    };
+    void bswap();
 };
 
 class TRecvGenerateID {
@@ -180,11 +177,7 @@ public:
     u32 client_id;
     TGenGuildCardTag tag;
 public:
-    void bswap() {
-        header.bswap();
-        bswap_32(&client_id);
-        tag.bswap();
-    };
+    void bswap();
 };
 
 class TChatMessage {
@@ -202,31 +195,25 @@ public:
     };
 };
 
+class TRecvPort {
+public:
+    packet_header header;
+    u32 ip_addr;
+    short port;
+public:
+    void bswap();
+};
+
 class TUserAns {
 public:
     packet_header header;
     TPlyGuildCardTag tag;
     u32 found_guildcard;
-    struct {
-        packet_header header;
-        u32 ip_addr;
-        short port;
-        void bswap() {
-            header.bswap();
-            bswap_32(&ip_addr);
-            bswap_16(as(u16 *, &port));
-        };
-    } recv_port;
+    TRecvPort recv_port;
     char location[68];
     TPlyMeetUserExtension extension;
 public:
-    void bswap() {
-        header.bswap();
-        tag.bswap();
-        bswap_32(&found_guildcard);
-        recv_port.bswap();
-        extension.bswap();
-    };
+    void bswap();
 };
 
 class TRecvDownload {
@@ -236,10 +223,7 @@ public:
     u8 data[1024];
     u32 data_size;
 public:
-    void bswap() {
-        header.bswap();
-        bswap_32(&data_size);
-    };
+    void bswap();
 };
 
 class TRecvDownloadHead {
@@ -251,10 +235,7 @@ public:
     char filename[16];
     u32 file_size;
 public:
-    void bswap() {
-        header.bswap();
-        bswap_32(&file_size);
-    };
+    void bswap();
 };
 
 class TPlyJoinLobby {
@@ -435,9 +416,7 @@ public:
 	packet_header header;
 	TPsoDataLong data;
 public:
-	void bswap() {
-		header.bswap();
-	};
+	void bswap();
 };
 
 class TRecvPsoData {
@@ -445,9 +424,7 @@ public:
 	packet_header header;
 	TPsoData data;
 public:
-	void bswap() {
-		header.bswap();
-	};
+	void bswap();
 };
 
 template<int action_type = 0>
@@ -507,19 +484,6 @@ public:
 	void bswap() {
 		header.bswap();
 		tag.bswap();
-	};
-};
-
-class TRecvPort {
-public:
-	packet_header header;
-	u32 ip_addr;
-	short port;
-public:
-	void bswap() {
-		header.bswap();
-		bswap_32(&ip_addr);
-		bswap_16(as(u16 *, &port));
 	};
 };
 
