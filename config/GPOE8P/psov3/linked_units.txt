@@ -214,7 +214,6 @@ pso/boss/dragon/TBoss1DragonDemo.cpp
 pso/boss/dragon/TBoss1DragonEffBreath.cpp
 pso/boss/dragon/TBoss1DragonEffBullet.cpp
 pso/boss/dragon/TBoss1DragonEffTail.cpp
-pso/boss/dragon/TBoss1Dragon_800BC3C4.cpp
 pso/boss/derolle/TBoss2DeRolLe.cpp
 pso/boss/derolle/TBoss2Fin.cpp
 pso/boss/derolle/TBoss2Joint.cpp
@@ -1566,7 +1565,6 @@ pso/player/TObjPlayer_80080750.cpp
 pso/render/CameraCapture.cpp
 pso/enemy/dubchik/TDubchikShot.cpp
 pso/enemy/dubchik/TDubchikPart.cpp
-pso/player/TObjPlayer_800BBE90.cpp
 pso/enemy/flower/TObjEneRe2Flower_Bomb.cpp
 pso/render/RenderFadeState_800D7BFC.cpp
 pso/enemy/nanodrago/TObjNanoDragoTargetedBeam.cpp

@@ -23,8 +23,6 @@
 
 const char *TObjEneBm9Mericarol_Bomb__class_name = "TObjEneBm9Mericarol_Bomb";
 
-extern "C" s32 is_area_attack_target_eligible(void *, u32);
-
 s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr desc, void *object, f32 range) {
     s32 hit;
     u32 mask;
@@ -52,7 +50,7 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr des
                 break;
             }
             if (obj_is_hit_receivable(obj) != 0 && obj != this->owner &&
-                is_area_attack_target_eligible(this, obj->actorFlags) != 0 &&
+                is_target_eligible(obj->actorFlags) != 0 &&
                 !(fabs_float(pos.y - obj->body_center.y) > 3e+01f)) {
                 ok = 1;
                 if (object != 0 && attack_target_history_add((AreaAttackHistory *)object, obj) == 0) {

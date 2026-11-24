@@ -21,6 +21,7 @@ public:
     // Takes the firing actor and its room.
     void set_owner(TObjBase *actor);
     void set_position_from(const Vec *pos);
+    s32 is_target_eligible(u32 actor_flags);
     TObjBase *owner;   // the actor that fired this hitbox
 };
 LAYOUT_ASSERT(TUnk_804928CC_size, sizeof(TUnk_804928CC) == 0xB0);

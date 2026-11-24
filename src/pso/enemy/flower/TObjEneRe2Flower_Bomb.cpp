@@ -27,8 +27,6 @@
 #include "pso/math/AngleLookup.h"
 
 
-extern "C" s32 is_area_attack_target_eligible(saddr, s32);
-
 extern const DragonAttackParams flower_bomb_attack = { 0xF, 2.0f, 2.0f, { 0.0f, 1 } };
 const char *TObjEneRe2Flower_Bomb::class_name = "TObjEneRe2Flower_Bomb";
 
@@ -61,7 +59,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, saddr desc, 
                 break;
             }
             if (obj_is_hit_receivable(p) != 0 && p != this->owner &&
-                is_area_attack_target_eligible((saddr)this, p->actorFlags) != 0 &&
+                is_target_eligible(p->actorFlags) != 0 &&
                 !(fabs_float(start_position.y - p->body_center.y) > 30.0f)) {
                 ok = 1;
                 if (object != 0 && attack_target_history_add((AreaAttackHistory *)object, p) == 0) {
