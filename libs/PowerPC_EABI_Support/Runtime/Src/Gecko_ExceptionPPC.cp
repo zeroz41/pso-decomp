@@ -1,4 +1,4 @@
-#include "NMWException.h"
+#include "Runtime.PPCEABI.H/NMWException.h"
 #include "__ppc_eabi_linker.h"
 
 #pragma exceptions on

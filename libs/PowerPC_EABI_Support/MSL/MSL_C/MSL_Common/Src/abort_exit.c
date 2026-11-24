@@ -1,7 +1,7 @@
 #include "libc/stdlib.h"
 #include "abort_exit.h"
 #include "critical_regions.h"
-#include "NMWException.h"
+#include "Runtime.PPCEABI.H/NMWException.h"
 
 extern void (*_dtors[])(void);
 
