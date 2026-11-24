@@ -384,7 +384,7 @@ void TLobby::init_id_tables() {
     for (i = 0; i < 0xB50; i++) {
         s16 v = n + 0x100;
         n++;
-        TLobby__data_805D6144[i].drop_id = v;
+        enemy_state_records[i].drop_id = v;
     }
 }
 

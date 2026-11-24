@@ -160,7 +160,7 @@ s32 TObjEnemy::apply_by_index(s16 index, const EnemyStateRecord *record) {
     if (index > 0xB4F) {
         return 0;
     }
-    TLobby__data_805D6144[index].copy_header(record);
+    enemy_state_records[index].copy_header(record);
     return 1;
 }
 
@@ -774,7 +774,7 @@ void handle_6x0A_update_enemy_state(G_UpdateEnemyState_6x0A *command) {
     TObjEnemy *e;
     ((TLobby *)command)->bswap_enemy_state();
     idx = command->enemy_index;
-    sp.copy_header(&TLobby__data_805D6144[idx]);
+    sp.copy_header(&enemy_state_records[idx]);
     sp.damage = command->total_damage;
     if (game_difficulty_selection == 3) {
         sp.flags &= 0x3F;

@@ -343,10 +343,10 @@ s32 TObjEnemy::exchange_object_state(void *record, s16 mode) {
         return 0;
     }
     if (mode == 0) {
-        TLobby__data_805D6144[index].copy_header(static_cast<const EnemyStateRecord *>(record));
+        enemy_state_records[index].copy_header(static_cast<const EnemyStateRecord *>(record));
     }
     if (mode == 1) {
-        static_cast<EnemyStateRecord *>(record)->copy_header(&TLobby__data_805D6144[index]);
+        static_cast<EnemyStateRecord *>(record)->copy_header(&enemy_state_records[index]);
     }
     return 1;
 }

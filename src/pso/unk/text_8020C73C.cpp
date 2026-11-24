@@ -41,7 +41,7 @@ s32 TLobby::unhide_enemies_at(s32 floor, s32 arg1, s32 arg2) {
                 obj->set_index = set->placement.enemy_index;
                 obj->set_entry = set;
                 if (obj->set_index != -1) {
-                    obj->apply_enemy_state(&TLobby__data_805D6144[obj->set_index].flags);
+                    obj->apply_enemy_state(&enemy_state_records[obj->set_index].flags);
                 }
                 count++;
             } else {

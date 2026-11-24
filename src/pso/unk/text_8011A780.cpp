@@ -187,7 +187,7 @@ void process_enemy_drop_request(s32 area, s16 source, int client, s16 room, int 
     u32 id;
     if (source != -1) {
         TItemData item;
-        EnemyStateRecord row = TLobby__data_805D6144[source];
+        EnemyStateRecord row = enemy_state_records[source];
         if (row.drop_id != 0xFFFF) {
             id = build_item_id(row.drop_id);
             row.drop_id = 0xFFFF;
@@ -272,7 +272,7 @@ void handle_6x5F_drop_item(G_DropItem_DC_6x5F *pkt) {
     pkt->item.item.decode_from_network();
     s32 kind = pkt->item.source_type;
     if (kind == 1) {
-        EnemyStateRecord row = TLobby__data_805D6144[pkt->item.entity_index];
+        EnemyStateRecord row = enemy_state_records[pkt->item.entity_index];
         row.drop_id = 0xFFFF;
         TObjEnemy::apply_by_index(pkt->item.entity_index, &row);
     } else {

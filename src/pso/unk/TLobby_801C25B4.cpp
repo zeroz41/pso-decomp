@@ -790,9 +790,9 @@ void update_duel_result__6TLobbyFPv(u8 *arg0) {
 void TLobby::end_battle_mode_cleanup() {
     switch (*(s32 *)((u8 *)this + 0x20)) {
     case 0:
-        if (TLobby__idle_timeout_object != NULL) {
-            delete TLobby__idle_timeout_object;
-            TLobby__idle_timeout_object = NULL;
+        if (lobby_idle_timeout_window != NULL) {
+            delete lobby_idle_timeout_window;
+            lobby_idle_timeout_window = NULL;
         }
         TLobby::clear_counter();
         evt2_random_enemies_mode = 0;

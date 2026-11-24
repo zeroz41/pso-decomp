@@ -259,7 +259,7 @@ TAdScrollWinGC *lobby_scroll_text_window;
 s32 TLobby::player_setup_pending;
 s32 lobby_selected_game_list_index;
 TLobby * TLobby::join_lobby_controller;
-TWindowMessage *TLobby__idle_timeout_object;
+TWindowMessage *lobby_idle_timeout_window;
 
 const char *lobby_class_name = "TLobby";
 // Lobby server host names (each listed twice in its table).
@@ -455,14 +455,14 @@ void TLobby::update_idle_timeout(void *object) {
     getDateStamp(&ds);
     DateToSeconds(&ds, &t->now);
     if (has_window_task_root() == 0) {
-        TLobby__idle_timeout_object = 0;
+        lobby_idle_timeout_window = 0;
     }
     if (hardware_keyboard_state.has_any_key_pressed() != 0 || TKeyBoardControl::any_pad_input_active() != 0) {
         t->start = t->now;
         t->state = 0;
-        if (TLobby__idle_timeout_object != 0) {
-            delete TLobby__idle_timeout_object;
-            TLobby__idle_timeout_object = 0;
+        if (lobby_idle_timeout_window != 0) {
+            delete lobby_idle_timeout_window;
+            lobby_idle_timeout_window = 0;
         }
     }
     t->limit = ((TLobby *)(saddr)local_client_id)->get_table_entry_by_index();
@@ -471,20 +471,20 @@ void TLobby::update_idle_timeout(void *object) {
     case 0:
         if (t->limit != 0 && elapsed + 0x1E > t->limit) {
             t->state = 1;
-            if (TLobby__idle_timeout_object == 0 && has_window_task_root() != 0) {
+            if (lobby_idle_timeout_window == 0 && has_window_task_root() != 0) {
                 sprintf(lobby_idle_timeout_text_buffer, (const char *)TLobby::get_seq_phase(0x1F), t->limit - elapsed);
-                TLobby__idle_timeout_object = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0xCA)), (const f32 *)(&tmp), 1);
-                TLobby__idle_timeout_object->append_line((saddr)lobby_idle_timeout_text_buffer, (int)0x80);
-                TLobby__idle_timeout_object->set_depth(30000.0f);
-                TLobby__idle_timeout_object->complete_reveal();
+                lobby_idle_timeout_window = (TWindowMessage *)TWindowMessage::create((const NJS_POINT2 *)(get_window_layout_position(0xCA)), (const f32 *)(&tmp), 1);
+                lobby_idle_timeout_window->append_line((saddr)lobby_idle_timeout_text_buffer, (int)0x80);
+                lobby_idle_timeout_window->set_depth(30000.0f);
+                lobby_idle_timeout_window->complete_reveal();
             }
         }
         break;
     case 1:
         limit = t->limit;
         if (elapsed > limit) {
-            delete TLobby__idle_timeout_object;
-            TLobby__idle_timeout_object = 0;
+            delete lobby_idle_timeout_window;
+            lobby_idle_timeout_window = 0;
             idle_timeout_active = 1;
             queue_destruction__7TObjectFv(object);
         } else {
@@ -504,7 +504,7 @@ u8 *init_idle_timeout_timer(u8 *timer, saddr parent) {
     t->start = t->now;
     t->limit = ((TLobby *)(saddr)local_client_id)->get_table_entry_by_index();
     t->state = 0;
-    TLobby__idle_timeout_object = 0;
+    lobby_idle_timeout_window = 0;
     return timer;
 }
 
@@ -698,10 +698,10 @@ void handle_6x6B_sync_game_state(CompressedSyncPacket *pkt) {
         lobby_debug_printf_stub(lobby_debug_rcv_enemy_condition_format, pkt->total_size);
         p = (EnemyStateRecord *)::operator new(0x7230);
         if (p != NULL) {
-            r = ((u32)TLobby__sub_8013F810(p, pkt->data, n, TLobby__data_805D6144));
+            r = ((u32)TLobby__sub_8013F810(p, pkt->data, n, enemy_state_records));
             ::operator delete(p);
             n = r / sizeof(EnemyStateRecord);
-            p = TLobby__data_805D6144;
+            p = enemy_state_records;
             enemy_condition_count = n;
             for (i = 0; i < n; i++) {
                 p[i].bswap();
@@ -833,7 +833,7 @@ void TLobby::send_cmd_6B() {
         memset(buf, 0, 0x8000);
         tmp = ::operator new(0x7230);
         if (tmp != NULL) {
-            src = TLobby__data_805D6144;
+            src = enemy_state_records;
             size = enemy_condition_count * sizeof(EnemyStateRecord);
             n = size / sizeof(EnemyStateRecord);
             p = (EnemyStateRecord *)mem_alloc((s32)(n * sizeof(EnemyStateRecord)));

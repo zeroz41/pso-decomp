@@ -24,7 +24,7 @@ extern TWindowMenu *lobby_keyboard_prompt_window;
 extern TKeyBoardControl *lobby_keyboard_controller;
 extern TAdScrollWinGC *lobby_scroll_text_window;
 // The idle-timeout warning window TLobby::update_idle_timeout opens.
-extern TWindowMessage *TLobby__idle_timeout_object;
+extern TWindowMessage *lobby_idle_timeout_window;
 
 void handle_generate_id(void);
 void handle_lobby_text(s32 text);

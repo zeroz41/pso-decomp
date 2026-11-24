@@ -1211,7 +1211,7 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
                 (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
                  designated_client_id == local_client_id)) {
                 if (self->f2c != -1) {
-                    EnemyStateRecord e = TLobby__data_805D6144[self->f2c];
+                    EnemyStateRecord e = enemy_state_records[self->f2c];
                     if (e.drop_id != 0xFFFF) {
                         Pkt_80105538 pkt;
                         build_6x06_send_guild_card(&pkt);

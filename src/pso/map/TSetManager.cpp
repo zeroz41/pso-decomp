@@ -43,7 +43,7 @@ s16 floor_set_flags;
 FloorObjectSetRow *object_set_row_buffer;
 EnemySetRecord *enemy_set_row_buffer;
 QuestObjectEntry *quest_object_entries;
-EnemyStateRecord *TLobby__data_805D6144;
+EnemyStateRecord *enemy_state_records;
 s32 object_condition_count;
 s32 enemy_condition_count;
 
@@ -169,12 +169,12 @@ void reset_id_tables() {
             quest_object_entries[i].drop_id_base = t;
         }
     }
-    if (TLobby__data_805D6144 != 0) {
-        memset(TLobby__data_805D6144, 0, 0x87C0);
+    if (enemy_state_records != 0) {
+        memset(enemy_state_records, 0, 0x87C0);
         for (i = 0; i < 0xB50; i++) {
             s16 t = n + 0x100;
             n++;
-            TLobby__data_805D6144[i].drop_id = t;
+            enemy_state_records[i].drop_id = t;
         }
     }
 }
@@ -206,10 +206,10 @@ void clear_floor_population(void) {
             quest_object_entries[i].drop_id_base = n++ + 0x100;
         }
     }
-    if (TLobby__data_805D6144 != 0) {
-        memset(TLobby__data_805D6144, 0, 0x87C0);
+    if (enemy_state_records != 0) {
+        memset(enemy_state_records, 0, 0x87C0);
         for (i = 0; i < 0xB50; i++) {
-            TLobby__data_805D6144[i].drop_id = n++ + 0x100;
+            enemy_state_records[i].drop_id = n++ + 0x100;
         }
     }
     object_condition_count = 0;
@@ -279,9 +279,9 @@ void depart_floor_population() {
 }
 
 void free_item_drop_tables() {
-    if (TLobby__data_805D6144 != NULL) {
-        safe_free(TLobby__data_805D6144);
-        TLobby__data_805D6144 = NULL;
+    if (enemy_state_records != NULL) {
+        safe_free(enemy_state_records);
+        enemy_state_records = NULL;
     }
     if (quest_object_entries != NULL) {
         safe_free(quest_object_entries);
@@ -377,13 +377,13 @@ void init_item_drop_tables(void) {
     memset(floor_enemy_set_counts, 0, 0x48);
     memset(TLobby__data_80513D10, 0, 0x24);
     quest_object_entries = (QuestObjectEntry *)TQuestVmDownLoadServer__sub_8007EBDC(0xBA0, 4);
-    TLobby__data_805D6144 = (EnemyStateRecord *)TQuestVmDownLoadServer__sub_8007EBDC(0xB50, 0xC);
+    enemy_state_records = (EnemyStateRecord *)TQuestVmDownLoadServer__sub_8007EBDC(0xB50, 0xC);
     k = 0;
     for (i = 0; i < 0xBA0; i++) {
         quest_object_entries[i].drop_id_base = k++ + 0x100;
     }
     for (i = 0; i < 0xB50; i++) {
-        TLobby__data_805D6144[i].drop_id = k++ + 0x100;
+        enemy_state_records[i].drop_id = k++ + 0x100;
     }
     object_condition_count = 0;
     enemy_condition_count = 0;
