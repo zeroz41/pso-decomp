@@ -59,7 +59,7 @@ typedef struct Ipv6Iface {
     s16 rs_count;
     s16 rs_timer;
     s16 mtu;
-    void *callback; /* event callback: invoke_routing_event_callback calls it as (iface, event, data) */
+    Ipv6EventCallback callback;
     Ipv6AddrNode *addrs;
 } Ipv6Iface;
 LAYOUT_ASSERT(Ipv6Iface_size_check, sizeof(Ipv6Iface) == 0x30);
@@ -174,6 +174,7 @@ extern Ipv6ProtocolState ipv6_protocol_state;
 Ipv6Route *NetIPv6LookupRoute(void *dst, void *src);
 /* The MTU of interface `iface`. */
 s16 get_iface_mtu(s16 iface);
+s32 NetIPv6UpdatePathMtu(IPv6Address *addr, s16 mtu);
 #ifdef __cplusplus
 }
 #endif

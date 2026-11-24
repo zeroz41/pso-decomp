@@ -24,7 +24,7 @@ typedef struct IfConfigRequest {
             u8 addr[16];
             s16 prefix_len;
             s16 flags;
-            s32 arg; /* bring_up_ipv6_interface's last argument */
+            Ipv6EventCallback callback;
         } ipv6;
     };
     u8 pad1C[4];
@@ -35,6 +35,7 @@ s32 raw_socket_deliver_ipv4(struct NetPacket *pkt, u32 src, u32 dst, NetworkRece
 s16 avetcp_init(void);
 s16 tcp_receive(s32 handle, TcpCompletion callback, s32 length, void *buffer);
 s32 avetcp_term(void);
+s16 invoke_routing_event_callback(s16 iface, s32 event, void *data, Ipv6EventCallback fn);
 /* Complete a TCB's pending operation: wake the waiting thread or run its callback. */
 s32 set_slot_state_and_resume(s16 idx, TcpCompletion cb, s16 state);
 s32 set_thread_state_and_resume(s32 idx, TcpCompletion cb, s16 state);

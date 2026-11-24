@@ -371,7 +371,7 @@ s16 link_get_interface_id(s16 idx, void *a)
 
 #pragma push
 #pragma optimization_level 2
-s16 is_slot_flag_0x40_set(s16 i) {
+s16 link_solicits_routers(s16 i) {
     LobbyHandler *e;
     if (i < 0 || i > lobby_handler_table_desc.count) { return 0; }
     e = lobby_handler_table_desc.list;
@@ -383,7 +383,7 @@ s16 is_slot_flag_0x40_set(s16 i) {
 
 #pragma push
 #pragma optimization_level 2
-s16 is_slot_flag_0x20_set(s16 i) {
+s16 link_needs_resolution(s16 i) {
     LobbyHandler *e;
     if (i < 0 || i > lobby_handler_table_desc.count) { return 0; }
     e = lobby_handler_table_desc.list;
@@ -395,7 +395,7 @@ s16 is_slot_flag_0x20_set(s16 i) {
 
 #pragma push
 #pragma optimization_level 2
-s16 is_entry_flag10_set(s16 i) {
+s16 link_does_dad(s16 i) {
     LobbyHandler *e;
     if (i < 0 || i > lobby_handler_table_desc.count) { return 0; }
     e = lobby_handler_table_desc.list;
@@ -407,7 +407,7 @@ s16 is_entry_flag10_set(s16 i) {
 
 #pragma push
 #pragma optimization_level 2
-s16 is_socket_flag_set(s16 i) {
+s16 link_is_loopback(s16 i) {
     LobbyHandler *e;
     if (i < 0 || i > lobby_handler_table_desc.count) { return 0; }
     e = lobby_handler_table_desc.list;

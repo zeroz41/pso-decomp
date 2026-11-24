@@ -14,6 +14,7 @@
 #include "pso/network/Ppp.h"
 #include "pso/network/NetStack.h"
 #include "pso/network/NetIpv6Route.h"
+#include "pso/network/NetApi.h"
 
 #include <stddef.h>
 
@@ -30,7 +31,6 @@ s16 NetIPv6IsSolicitedNodeAddress(void *self, s16 id);
 #pragma dont_inline off
 #pragma inline_depth(4)
 
-extern s32 NetIPv6UpdatePathMtu(IPv6Address *addr, s32 mtu);
 
 void NetIPv6TickAddresses(void);
 s32 NetIPv6ShutdownRouting(void) {
@@ -82,11 +82,6 @@ s16 NetIPv6OutputToDestination(NetPacket *packet, IPv6Address *destination, s16 
 
 s32 NetIPv6HandleRoutingEvent(s16 id, int n, void *pp);
 s16 NetIPv6AutoconfigurePrefix(Ipv6NdPrefixEvent *pi, s16 idx);
-typedef struct Ipv6NdEvent {
-    u8 *addr;
-    s16 prefix_len;
-} Ipv6NdEvent;
-LAYOUT_ASSERT(Ipv6NdEvent_size_check, sizeof(Ipv6NdEvent) == 8);
 void NetIPv6TickAddresses(void) {
     Ipv6State *g = &ipv6_address_routing_state;
     s16 i;
@@ -216,29 +211,28 @@ inline void remove_prefix_route(Ipv6State *g, s16 len, u8 *addr, void *src) {
 
 s32 NetIPv6HandleRoutingEvent(s16 id, int n, void *pp)
 {
-  s16 invoke_routing_event_callback(s16, s32, void *, void *); /* declared with 4 parameters; the definition is s32 (s32, s32, s32, s32 (*fn)(s32, s32, s32)) */
-  void *h;
+  Ipv6EventCallback h;
   s16 i;
   Ipv6State *g = &ipv6_address_routing_state;
   Ipv6Route *ent;
   s16 t;
-  u8 *e;
-  u8 *p = (u8 *) pp;
+  Ipv6Iface *e;
+  Ipv6RoutingEvent *p = (Ipv6RoutingEvent *) pp;
   u8 a92[16];
-  s32 ret; /* results of the adds below, never checked; the original frame keeps both slots */
+  s32 ret;
   s16 err;
-  if ((id < 0) || (id >= (*((s16 *) (((u8 *) g) + offsetof(Ipv6State, count))))))
+  if ((id < 0) || (id >= g->count))
   {
     return -266;
   }
-  e = *((u8 **) (((u8 *) g) + offsetof(Ipv6State, ifaces)));
-  e += id * sizeof(Ipv6Iface);
-  if ((*((s16 *) e)) != 1)
+  e = g->ifaces;
+  e += id;
+  if (e->state != 1)
   {
     return -2;
   }
   t = 1;
-  if ((h = *((void **) (e + offsetof(Ipv6Iface, callback)))) != 0)
+  if ((h = e->callback) != 0)
   {
     t = invoke_routing_event_callback(id, n, p, h);
   }
@@ -250,9 +244,9 @@ s32 NetIPv6HandleRoutingEvent(s16 id, int n, void *pp)
     {
       if ((ent->state == 1) && (ent->type == 0))
       {
-        if (ent->prefix_len == (*((s16 *) (p + 4))))
+        if (ent->prefix_len == p->address.prefix_len)
         {
-          if (ipv6_addr_compare(&ent->gateway, *((void **) p)) == 0)
+          if (ipv6_addr_compare(&ent->gateway, p->address.addr) == 0)
           {
             ent->type = 1;
           }
@@ -260,7 +254,7 @@ s32 NetIPv6HandleRoutingEvent(s16 id, int n, void *pp)
         else
           if (ent->prefix_len == 128)
         {
-          if (ipv6_addr_compare(&ent->prefix, *((void **) p)) == 0)
+          if (ipv6_addr_compare(&ent->prefix, p->address.addr) == 0)
           {
             ent->type = 1;
           }
@@ -271,32 +265,32 @@ s32 NetIPv6HandleRoutingEvent(s16 id, int n, void *pp)
       break;
 
     case 1:
-      if ((*((s16 *) (e + offsetof(Ipv6Iface, dad_timer)))) > 0)
+      if (e->dad_timer > 0)
     {
-      *((s16 *) (e + offsetof(Ipv6Iface, dad_timer))) = 0;
+      e->dad_timer = 0;
     }
       break;
 
     case 2:
       if (t == 1)
     {
-      err = NetIPv6AutoconfigurePrefix((Ipv6NdPrefixEvent *) p, id);
+      err = NetIPv6AutoconfigurePrefix(&p->prefix, id);
     }
       break;
 
     case 3:
-      ipv6_protocol_state.hop_limit = p[4];
+      ipv6_protocol_state.hop_limit = p->hop_limit.hop_limit;
       break;
 
     case 4:
-      *((s16 *) (e + offsetof(Ipv6Iface, mtu))) = *((s32 *) (p + 4));
+      e->mtu = p->mtu.mtu;
       break;
 
     case 5:
       if (t == 1)
     {
       NetMemset(a92, 0, 16);
-      ret = NetIPv6AddRoute(a92, 0, *((u8 **) p), id, 2, 4);
+      ret = NetIPv6AddRoute(a92, 0, p->router.addr, id, 2, 4);
     }
       break;
 
@@ -304,7 +298,7 @@ s32 NetIPv6HandleRoutingEvent(s16 id, int n, void *pp)
       if (t == 1)
     {
       NetMemset(a92, 0, 16);
-      remove_prefix_route(g, 0, a92, *((u8 **) p));
+      remove_prefix_route(g, 0, a92, p->router.addr);
     }
       break;
 
@@ -312,8 +306,8 @@ s32 NetIPv6HandleRoutingEvent(s16 id, int n, void *pp)
       if (t == 1)
     {
       NetMemset(a92, 0, 16);
-      remove_prefix_route(g, 0, a92, *((u8 **) p));
-      ret = NetIPv6AddRoute(a92, 0, *((u8 **) (p + 4)), id, 2, 4);
+      remove_prefix_route(g, 0, a92, p->router.addr);
+      ret = NetIPv6AddRoute(a92, 0, p->router.next_router, id, 2, 4);
     }
       break;
 
@@ -328,15 +322,15 @@ s32 NetIPv6HandleRoutingEvent(s16 id, int n, void *pp)
       if (t == 1)
     {
       NetMemset(a92, 0, 16);
-      remove_prefix_route(g, 0, a92, *((u8 **) p));
+      remove_prefix_route(g, 0, a92, p->router.addr);
     }
       break;
 
     case 10:
       if (t == 1)
     {
-      remove_prefix_route(g, *((s16 *) (p + 4)), *((u8 **) p), *((u8 **) (p + 8)));
-      ret = NetIPv6AddRoute(*((u8 **) p), 128, *((u8 **) (p + 12)), id, 3, 4);
+      remove_prefix_route(g, p->redirect.prefix_len, p->redirect.destination, p->redirect.old_router);
+      ret = NetIPv6AddRoute(p->redirect.destination, 128, p->redirect.new_router, id, 3, 4);
     }
       break;
 
@@ -425,9 +419,7 @@ s16 NetIPv6GetPathMtu(u8 *addr, s16 idx) {
 
 /* Path MTU report for addr: restarts its cache entry's lifetime and lowers its MTU to mtu when mtu is 1280 or more.
    Returns 0, or -1 when mtu is below 40 or addr has no cache entry. */
-s32 NetIPv6UpdatePathMtu(addr, mtu)
-IPv6Address *addr;
-s16 mtu;
+s32 NetIPv6UpdatePathMtu(IPv6Address *addr, s16 mtu)
 {
     Ipv6State *G = &ipv6_address_routing_state;
     s16 i;
@@ -527,41 +519,41 @@ extern s32 copy_ipv6_interface_addresses(s16 id, NetBufferRef *self, s32 len, u8
         u8 addr[0x10];
         s16 prefix_len;
         s16 flags;
-        u32 callback;
+        Ipv6EventCallback callback;
     };
     s16 n;
     s32 i;
     struct Ipv6IfaceAddrRecord rec;
-    u8 *ent;
+    Ipv6Iface *ent;
     NetBufferRef ref;
     Ipv6AddrNode *cur;
-    u8 *st;
+    Ipv6State *st;
 
-    st = (u8 *)&ipv6_address_routing_state;
-    if (id < 0 || id >= *(s16 *)(st + offsetof(Ipv6State, count))) {
+    st = &ipv6_address_routing_state;
+    if (id < 0 || id >= st->count) {
         return -0x10A;
     }
-    ent = *(u8 **)(st + offsetof(Ipv6State, ifaces));
-    ent += id * sizeof(Ipv6Iface);
-    if (*(s16 *)ent != 1) {
+    ent = st->ifaces;
+    ent += id;
+    if (ent->state != 1) {
         return -2;
     }
     if ((u32)(s16)len < 0x1C) {
         return -2;
     }
     rec.kind = 6;
-    NetMemcpy(rec.addr, ent + offsetof(Ipv6Iface, addr), 0x10);
-    rec.prefix_len = *(s16 *)(ent + offsetof(Ipv6Iface, prefix_len));
-    rec.flags = *(s16 *)(ent + offsetof(Ipv6Iface, flags));
-    rec.callback = *(u32 *)(ent + offsetof(Ipv6Iface, callback));
+    NetMemcpy(rec.addr, ent->addr, 0x10);
+    rec.prefix_len = ent->prefix_len;
+    rec.flags = ent->flags;
+    rec.callback = ent->callback;
     set_value_and_enable(&ref, &rec);
     netbuf_copy_by_ref(self, &ref, 0x1C);
     netbuf_ref_advance(self, 0x1C);
-    cur = *(Ipv6AddrNode **)(ent + offsetof(Ipv6Iface, addrs));
+    cur = ent->addrs;
     i = 1;
     n = 0;
     len -= 0x1C;
-    while ((u32)(s16)len >= 0x1C && cur != NULL && n < *(s16 *)(st + offsetof(Ipv6State, max_addrs))) {
+    while ((u32)(s16)len >= 0x1C && cur != NULL && n < st->max_addrs) {
         rec.kind = 6;
         NetMemcpy(rec.addr, &cur->addr, 0x10);
         rec.prefix_len = cur->prefix_len;
@@ -575,8 +567,8 @@ extern s32 copy_ipv6_interface_addresses(s16 id, NetBufferRef *self, s32 len, u8
         n++;
         len -= 0x1C;
     }
-    if (link_get_address_length(id, *(s16 *)(ent + offsetof(Ipv6Iface, handle))) <= 6) {
-        link_get_address(id, *(s16 *)(ent + offsetof(Ipv6Iface, handle)), out);
+    if (link_get_address_length(id, ent->handle) <= 6) {
+        link_get_address(id, ent->handle, out);
     }
     return i;
 }
@@ -628,7 +620,7 @@ s16 bring_down_ipv6_interface(s16 idx) {
     count = 0;
     while (grp != NULL && count < g->max_addrs) {
         Ipv6AddrNode *next;
-        if (is_socket_flag_set(idx) == 0 && first_iface_addr(pn, pifs, d)) {
+        if (link_is_loopback(idx) == 0 && first_iface_addr(pn, pifs, d)) {
             NetIPv6CopyPrefix(b, 0x80, grp->addr);
             remove_host_route(g, b, d);
         }
@@ -643,7 +635,7 @@ s16 bring_down_ipv6_interface(s16 idx) {
         grp->next = NULL;
         grp = next;
     }
-    if (is_socket_flag_set(idx) == 0 && first_iface_addr(pn, pifs, d)) {
+    if (link_is_loopback(idx) == 0 && first_iface_addr(pn, pifs, d)) {
         NetIPv6CopyPrefix(a, 0x80, ifc->addr);
         remove_host_route(g, a, d);
     }
@@ -779,7 +771,7 @@ s16 NetIPv6AutoconfigurePrefix(Ipv6NdPrefixEvent *pi, s16 idx)
     *(s16 *)(pfx + offsetof(Ipv6AddrNode, autoconf)) = fl;
     *(s16 *)(pfx + offsetof(Ipv6AddrNode, flags)) = 0;
     *(u16 *)(pfx + offsetof(Ipv6AddrNode, scope)) = NetIPv6GetAddressScopeClass(new_addr);
-    if (is_entry_flag10_set(idx) != 0) {
+    if (link_does_dad(idx) != 0) {
         *(s16 *)(pfx + offsetof(Ipv6AddrNode, state)) = fl;
         fl = 0;
         *(s16 *)(pfx + offsetof(Ipv6AddrNode, dad_count)) = g->dad_count_init;
@@ -833,7 +825,7 @@ s16 NetIPv6AutoconfigurePrefix(Ipv6NdPrefixEvent *pi, s16 idx)
     }
     remove_prefix_route(g, pi->prefix_len, new_addr, new_addr);
 drop_route:
-    if (is_socket_flag_set(idx) == 0) {
+    if (link_is_loopback(idx) == 0) {
         remove_prefix_route(g, 128, new_addr, iface0_addr);
     }
 
@@ -848,7 +840,7 @@ release:
     return r;
 }
 
-s16 bring_up_ipv6_interface(u8 *addr, s16 plen, s16 x, s16 idx, saddr y)
+s16 bring_up_ipv6_interface(u8 *addr, s16 plen, s16 flags, s16 idx, Ipv6EventCallback callback)
 {
     Ipv6State *g = &ipv6_address_routing_state;
     s16 *pn;
@@ -865,7 +857,7 @@ s16 bring_up_ipv6_interface(u8 *addr, s16 plen, s16 x, s16 idx, saddr y)
     u8 tmp[16];
     u8 ll[16];
     u8 mcast[16];
-    s32 err; /* release-path callback result, never checked (80411604 keeps such results too) */
+    s32 err;
 
     if (idx < 0 || idx >= *(pn = &g->count)) {
         return -266;
@@ -910,9 +902,9 @@ s16 bring_up_ipv6_interface(u8 *addr, s16 plen, s16 x, s16 idx, saddr y)
     NetMemcpy(e->addr, tmp, 16);
     e->prefix_len = plen;
     e->autoconf = 0;
-    e->flags = x;
+    e->flags = flags;
     e->scope = NetIPv6GetAddressScopeClass(tmp);
-    if (is_entry_flag10_set(idx)) {
+    if (link_does_dad(idx)) {
         e->dad_state = 1;
         fl = 0;
         e->dad_count = g->dad_count_init;
@@ -923,16 +915,16 @@ s16 bring_up_ipv6_interface(u8 *addr, s16 plen, s16 x, s16 idx, saddr y)
         e->dad_count = 0;
         e->dad_timer = 0;
     }
-    if (is_slot_flag_0x40_set(idx)) {
+    if (link_solicits_routers(idx)) {
         e->rs_count = g->rs_count_init;
         e->rs_timer = g->rs_timer_init;
     } else {
         e->rs_count = 0;
         e->rs_timer = 0;
     }
-    e->callback = (void *)y;
+    e->callback = callback;
     e->addrs = NULL;
-    if (!is_socket_flag_set(idx)) {
+    if (!link_is_loopback(idx)) {
         found = first_iface_addr(pn, pifs, ll);
         if (found) {
             ret = NetIPv6AddRoute(tmp, 128, ll, 0, 3, 1);
@@ -968,11 +960,10 @@ s16 bring_up_ipv6_interface(u8 *addr, s16 plen, s16 x, s16 idx, saddr y)
 remove:
     remove_prefix_route(g, plen, tmp, tmp);
 remove_ll:
-    if (!is_socket_flag_set(idx)) {
+    if (!link_is_loopback(idx)) {
         remove_prefix_route(g, 128, tmp, ll);
     }
 release:
-    /* result never read: the original frame keeps its 4-byte slot (release-dead check) */
     err = call_entry_callback(idx, e->handle);
     e->state = 0;
     e->handle = 0;
@@ -1114,11 +1105,11 @@ s16 NetIPv6AddRoute(u8 *prefix, s16 prefix_len, u8 *gateway, s16 iface, s16 type
 
 s16 NetIPv6InterfaceNeedsResolution(s16 i)
 {
-    return is_slot_flag_0x20_set(i);
+    return link_needs_resolution(i);
 }
 
 s16 NetIPv6IsLoopbackInterface(s16 i) {
-    return is_socket_flag_set(i);
+    return link_is_loopback(i);
 }
 
 s16 ipv6_iface_for_address(void *self) {
@@ -1402,9 +1393,9 @@ s16 NetIPv6IsAnycastAddress(void *self, s16 idx) {
 s16 NetIPv6IsSolicitedNodeAddress(void *self, s16 id)
 {
     Ipv6State *base = &ipv6_address_routing_state;
-    u8 *e = NULL;
+    Ipv6Iface *e = NULL;
     s16 i;
-    u8 *p;
+    Ipv6AddrNode *p;
     u8 buf[16];
     s16 c;
     s32 r;
@@ -1418,19 +1409,19 @@ s16 NetIPv6IsSolicitedNodeAddress(void *self, s16 id)
     if (!ok) {
         return 0;
     }
-    if (id < 0 || (s16)id >= base->count) {
+    if (id < 0 || id >= base->count) {
         e = NULL;
     } else {
-        e = (u8 *)base->ifaces;
-        e += (s16)id * sizeof(Ipv6Iface);
-        if (*(s16 *)e != 1) {
+        e = base->ifaces;
+        e += id;
+        if (e->state != 1) {
             e = NULL;
         }
     }
     if (e == NULL) {
         return 0;
     }
-    NetIPv6MakeSolicitedNodeMulticastAddress(buf, e + offsetof(Ipv6Iface, addr));
+    NetIPv6MakeSolicitedNodeMulticastAddress(buf, e->addr);
     r = NetMemcmp(buf, self, 16);
     if (r < 0) {
         c = -1;
@@ -1442,10 +1433,10 @@ s16 NetIPv6IsSolicitedNodeAddress(void *self, s16 id)
     if (c == 0) {
         return 1;
     }
-    p = *(u8 **)(e + offsetof(Ipv6Iface, addrs));
+    p = e->addrs;
     i = 0;
     while (p != NULL && i < base->max_addrs) {
-        NetIPv6MakeSolicitedNodeMulticastAddress(buf, p + offsetof(Ipv6AddrNode, addr));
+        NetIPv6MakeSolicitedNodeMulticastAddress(buf, p->addr);
         r = NetMemcmp(buf, self, 16);
         if (r < 0) {
             c = -1;
@@ -1457,7 +1448,7 @@ s16 NetIPv6IsSolicitedNodeAddress(void *self, s16 id)
         if (c == 0) {
             return 1;
         }
-        p = *(u8 **)(p + offsetof(Ipv6AddrNode, next));
+        p = p->next;
         i++;
     }
     return 0;

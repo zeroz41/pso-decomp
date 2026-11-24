@@ -236,7 +236,7 @@ extern s16 bring_down_ipv4_interface(s16 id) {
     nd = b->aliases;
     cnt = 0;
     while (nd != NULL && cnt < g->max_aliases) {
-        if (is_socket_flag_set(id) == 0 && first_iface_addr(pn, pb, &addr)) {
+        if (link_is_loopback(id) == 0 && first_iface_addr(pn, pb, &addr)) {
             remove_iface_route(g, nd->addr, addr);
         }
         link_update_address(id, b->handle, 2, &nd->addr);
@@ -252,7 +252,7 @@ extern s16 bring_down_ipv4_interface(s16 id) {
             nd = next;
         }
     }
-    if (is_socket_flag_set(id) == 0 && first_iface_addr(pn, pb, &addr)) {
+    if (link_is_loopback(id) == 0 && first_iface_addr(pn, pb, &addr)) {
         remove_iface_route(g, b->addr, addr);
     }
     {
@@ -327,7 +327,7 @@ extern s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     found = 0;
     ifc->aliases = NULL;
     gateway = 0xFFFFFFFF;
-    if (is_socket_flag_set(idx) == 0 && !unspecified) {
+    if (link_is_loopback(idx) == 0 && !unspecified) {
         found = first_iface_addr(pn, pifs, &gateway);
         if (found) {
             found = NetIPv4AddRoute(addr, 0xFFFFFFFF, gateway, 0, 1, 0);
@@ -346,7 +346,7 @@ extern s16 AT_IP4_IfUp(u32 addr, u32 mask, u32 broadcast, s16 idx) {
     }
     err = NetIPv4AddRoute(addr & mask, mask, addr, 0, 1, 0);
     if (err < 0) {
-        if (is_socket_flag_set(idx) == 0 && gateway != 0xFFFFFFFF && !unspecified) {
+        if (link_is_loopback(idx) == 0 && gateway != 0xFFFFFFFF && !unspecified) {
             remove_iface_route(g, addr, gateway);
         }
         call_entry_callback(idx, ifc->handle);

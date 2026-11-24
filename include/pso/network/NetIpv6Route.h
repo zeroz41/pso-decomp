@@ -235,7 +235,7 @@ s16 NetIPv6IsSolicitedNodeAddress(void *self, s16 id);
 s16 NetIPv6IsPreferredAddress(void *addr, s16 idx);
 s16 NetIPv6IsOwnLinkLocalAddress(u8 *addr, s16 idx);
 s16 bring_down_ipv6_interface(s16 idx);
-s16 bring_up_ipv6_interface(u8 *addr, s16 plen, s16 x, s16 idx, saddr y);
+s16 bring_up_ipv6_interface(u8 *addr, s16 plen, s16 flags, s16 idx, Ipv6EventCallback callback);
 
 #ifdef __cplusplus
 }

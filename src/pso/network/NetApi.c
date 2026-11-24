@@ -965,7 +965,7 @@ s16 if_config(s16 iface, IfConfigRequest *req) {
         if (req->ipv6.prefix_len < 0 || req->ipv6.prefix_len > 0x80) {
             result = -2;
         } else {
-            result = bring_up_ipv6_interface(req->ipv6.addr, req->ipv6.prefix_len, req->ipv6.flags, iface, req->ipv6.arg);
+            result = bring_up_ipv6_interface(req->ipv6.addr, req->ipv6.prefix_len, req->ipv6.flags, iface, req->ipv6.callback);
         }
         break;
     case 5:
@@ -978,10 +978,10 @@ s16 if_config(s16 iface, IfConfigRequest *req) {
     return result;
 }
 
-s32 invoke_routing_event_callback(s32 a, s32 b, s32 c, s32 (*fn)(s32, s32, s32)) {
-    s32 r = 0;
+s16 invoke_routing_event_callback(s16 iface, s32 event, void *data, Ipv6EventCallback fn) {
+    s16 r = 0;
     if (fn != NULL) {
-        r = fn(a, b, c);
+        r = fn(iface, event, data);
     }
     return r;
 }
