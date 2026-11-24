@@ -749,7 +749,6 @@ pso/unk/TLobby_8004A90C.cpp
 pso/unk/TLobby_80067410.cpp
 pso/unk/TLobby_8006F278.cpp
 pso/unk/TLobby_80070A00.cpp
-pso/unk/TLobby_80072048.cpp
 pso/quest/challenge/ChallengeModeSdata.cpp
 pso/unk/TLobby_800726F0.cpp
 pso/unk/TLobby_8007340C.cpp
@@ -1057,10 +1056,8 @@ pso/player/TPlayerBattleCtrl4P.cpp
 pso/player/TPlayerBattleCtrl4P_801C4F70.cpp
 pso/player/TPlayerFootStamp.cpp
 pso/player/TPlyCharData.cpp
-pso/player/TPlyCharData_8007214C.cpp
 pso/player/TPlyCharData_801E0A04.cpp
 pso/player/TPlyClientConfig.cpp
-pso/player/TPlyDispConfig.cpp
 pso/player/TPlyDispConfigSmth.cpp
 pso/effect/particle/TPlyFollowParticleCtrl.cpp
 pso/player/TPlyGuildCardTag.cpp
@@ -1069,7 +1066,6 @@ pso/player/TPlyGuildCardTag_8007B434.cpp
 pso/player/TPlyGuildCardTag_8007B7EC.cpp
 pso/player/TPlyGuildCardTag_801E0284.cpp
 pso/player/TPlyGuildCardTag_801E09C4.cpp
-pso/player/TPlyInventoryItem_800721D4.cpp
 pso/network/TPlyJoinGame.cpp
 pso/network/TPlyJoinLobby.cpp
 pso/network/TPlyJoinLobbyEntry.cpp
@@ -1615,7 +1611,6 @@ pso/player/TObjPlayer_8002EF8C.cpp
 pso/player/TObjPlayer_80052374.cpp
 pso/player/TObjPlayer_80055678.cpp
 pso/player/TObjPlayer_800666B0.cpp
-pso/player/TObjPlayer_80072218.cpp
 pso/player/TObjPlayer_8007B4F8.cpp
 pso/player/TObjPlayer_80080750.cpp
 pso/player/TObjPlayer_80083594.cpp

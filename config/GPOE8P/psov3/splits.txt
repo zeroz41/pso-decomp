@@ -856,22 +856,7 @@ pso/ui/window/TObjCHTimeWin.cpp:
 	.sbss       start:0x805D4E40 end:0x805D4E44
 
 pso/player/TPlyCharData.cpp:
-	.text       start:0x80071DFC end:0x80071E4C
-
-pso/player/TPlyDispConfig.cpp:
-	.text       start:0x80071E4C end:0x80072048
-
-pso/unk/TLobby_80072048.cpp:
-	.text       start:0x80072048 end:0x8007214C
-
-pso/player/TPlyCharData_8007214C.cpp:
-	.text       start:0x8007214C end:0x800721D4
-
-pso/player/TPlyInventoryItem_800721D4.cpp:
-	.text       start:0x800721D4 end:0x80072218
-
-pso/player/TObjPlayer_80072218.cpp:
-	.text       start:0x80072218 end:0x80072230
+	.text       start:0x80071DFC end:0x80072230
 
 pso/unk/text_80072230.cpp:
 	.text       start:0x80072230 end:0x800726F0
