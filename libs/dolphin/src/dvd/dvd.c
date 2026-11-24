@@ -1,6 +1,5 @@
 
 
-#define LastState lbl_805D718C
 
 #include <dolphin.h>
 #include <dolphin/os.h>
@@ -32,7 +31,7 @@ static int ResetRequired;
 static int FirstTimeInBootrom;
 static int DVDInitialized;
 static OSAlarm ResetAlarm;
-void (* LastState)(struct DVDCommandBlock *);
+static void (*LastState)(DVDCommandBlock *);
 
 static void stateReadingFST();
 static void cbForStateReadingFST(unsigned long intType);

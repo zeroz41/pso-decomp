@@ -1,8 +1,8 @@
 #include <dolphin.h>
 #include <dolphin/mtx.h>
 
-const f32 lbl_805E0480 = 0.5f;
-const f32 lbl_805E0484 = 3.0f;
+const f32 c_half = 0.5f;
+const f32 c_three = 3.0f;
 
 asm void PSVECNormalize(const register Vec* vec1, register Vec* dst) {
 #include "orig_asm/mtx/vec/PSVECNormalize.inc"

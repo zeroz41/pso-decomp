@@ -13,8 +13,8 @@ extern f32 tanf(f32);
 
 static float Unit01[2] = { 0.0f, 1.0f };
 
-const f32 lbl_805E0450[1] = { 1.0f };
-const f32 lbl_805E0454[1] = { 0.0f };
+const f32 one_c[1] = { 1.0f };
+const f32 zero_c[1] = { 0.0f };
 
 
 asm void PSMTXIdentity(register GC_Mtx m) {
@@ -525,20 +525,20 @@ void C_MTXLightFrustum(GC_Mtx m, f32 t, f32 b, f32 l, f32 r, f32 n, f32 scaleS,
 {
 	f32 _tmp;
 
-	_tmp    = lbl_805E0450[0] / (r - l);
+	_tmp    = one_c[0] / (r - l);
 	m[0][0] = (scaleS * (2 * n * _tmp));
-	m[0][1] = lbl_805E0454[0];
+	m[0][1] = zero_c[0];
 	m[0][2] = (scaleS * (_tmp * (r + l))) - transS;
-	m[0][3] = lbl_805E0454[0];
-	_tmp    = lbl_805E0450[0] / (t - b);
-	m[1][0] = lbl_805E0454[0];
+	m[0][3] = zero_c[0];
+	_tmp    = one_c[0] / (t - b);
+	m[1][0] = zero_c[0];
 	m[1][1] = (scaleT * (2 * n * _tmp));
 	m[1][2] = (scaleT * (_tmp * (t + b))) - transT;
-	m[1][3] = lbl_805E0454[0];
-	m[2][0] = lbl_805E0454[0];
-	m[2][1] = lbl_805E0454[0];
+	m[1][3] = zero_c[0];
+	m[2][0] = zero_c[0];
+	m[2][1] = zero_c[0];
 	m[2][2] = -1;
-	m[2][3] = lbl_805E0454[0];
+	m[2][3] = zero_c[0];
 }
 
 void C_MTXLightPerspective(GC_Mtx m, f32 fovY, f32 aspect, f32 scaleS, f32 scaleT,
@@ -549,18 +549,18 @@ void C_MTXLightPerspective(GC_Mtx m, f32 fovY, f32 aspect, f32 scaleS, f32 scale
 
 	angle   = (0.5f * fovY);
 	angle   = angle * 0.017453293f;
-	cot     = lbl_805E0450[0] / tanf(angle);
+	cot     = one_c[0] / tanf(angle);
 	m[0][0] = (scaleS * (cot / aspect));
-	m[0][1] = lbl_805E0454[0];
+	m[0][1] = zero_c[0];
 	m[0][2] = -transS;
-	m[0][3] = lbl_805E0454[0];
-	m[1][0] = lbl_805E0454[0];
+	m[0][3] = zero_c[0];
+	m[1][0] = zero_c[0];
 	m[1][1] = (cot * scaleT);
 	m[1][2] = -transT;
-	m[1][3] = lbl_805E0454[0];
-	m[2][0] = lbl_805E0454[0];
-	m[2][1] = lbl_805E0454[0];
+	m[1][3] = zero_c[0];
+	m[2][0] = zero_c[0];
+	m[2][1] = zero_c[0];
 	m[2][2] = -1;
-	m[2][3] = lbl_805E0454[0];
+	m[2][3] = zero_c[0];
 }
 
