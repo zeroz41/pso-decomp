@@ -52,4 +52,6 @@ extern NJS_TEXLIST *multiplay_texture_f512_handle;
 // multiplay_texture_f512_handle as an integer.
 saddr get_multiplay_texture_list();
 
+void handle_6x92(u8 *packet);
+
 #endif

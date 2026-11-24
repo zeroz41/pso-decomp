@@ -17,4 +17,6 @@ extern const char *THunterGuildSeqOnlineTask__name;
 extern const char *THunterGuildSeqOnline_Server__name;
 extern const char *THunterGuildSeqOnline_Client__name;
 
+void handle_6x73_exit_quest(void);
+
 #endif
