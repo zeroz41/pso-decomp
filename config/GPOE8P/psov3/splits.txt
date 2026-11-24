@@ -645,14 +645,11 @@ pso/boss/galgryphon/TBoss5GryphonColli.cpp:
 	.sdata2     start:0x805D8ED0 end:0x805D8EE0
 
 pso/boss/galgryphon/TBoss5GryphonDemo.cpp:
-	.text       start:0x80066540 end:0x800666B0
+	.text       start:0x80066540 end:0x800666F8
 	.rodata     start:0x80437F28 end:0x80437F40
 	.data       start:0x804886E8 end:0x80488700
 	.sdata      start:0x805D2810 end:0x805D2818
 	.sdata2     start:0x805D8EE0 end:0x805D8EE4
-
-pso/player/TObjPlayer_800666B0.cpp:
-	.text       start:0x800666B0 end:0x800666F8
 
 pso/boss/galgryphon/TBoss5GryphonShockWave.cpp:
 	.text       start:0x800666F8 end:0x80066A88
@@ -1198,14 +1195,11 @@ pso/effect/TEffGuard.cpp:
 	.sdata      start:0x805D2918 end:0x805D2920
 
 pso/effect/TEffHit.cpp:
-	.text       start:0x800849F8 end:0x80084B84
+	.text       start:0x800849F8 end:0x80084BC4
 	.rodata     start:0x80439380 end:0x80439388
 	.data       start:0x8048E628 end:0x8048E640
 	.sdata      start:0x805D2920 end:0x805D2928
 	.sdata2     start:0x805D9448 end:0x805D9450
-
-pso/player/TObjPlayer_80084B84.cpp:
-	.text       start:0x80084B84 end:0x80084BC4
 
 pso/effect/TEffStarLight2D_Base.cpp:
 	.text       start:0x80084BC4 end:0x80085774
@@ -1322,7 +1316,7 @@ pso/enemy/balclaw/TObjEneBalClawClaw.cpp:
 	.sdata2     start:0x805D9688 end:0x805D96D8
 
 pso/enemy/beast/TObjEneBeast.cpp:
-	.text       start:0x80091CCC end:0x80092A7C
+	.text       start:0x80091CCC end:0x80092AE0
 	.rodata     start:0x80439BA0 end:0x80439DA0
 	.data       start:0x8048F2C8 end:0x8048F650
 	.sdata      start:0x805D2980 end:0x805D2988
@@ -1331,9 +1325,6 @@ pso/enemy/beast/TObjEneBeast.cpp:
 
 pso/enemy/berura/BeruraData.cpp:
 	.rodata     start:0x80439DA0 end:0x80439DC0
-
-pso/player/TObjPlayer_80092A7C.cpp:
-	.text       start:0x80092A7C end:0x80092AE0
 
 pso/enemy/beast/TObjEneBeast_80092AE0.cpp:
 	.text       start:0x80092AE0 end:0x80092B10
@@ -1362,16 +1353,13 @@ pso/effect/TBreakUpMdl.cpp:
 	.sdata2     start:0x805D97C8 end:0x805D97D8
 
 pso/enemy/bringer/TObjEneDf2Bringer.cpp:
-	.text       start:0x80097100 end:0x80099EF8
+	.text       start:0x80097100 end:0x80099F00
 	.rodata     start:0x80439F70 end:0x8043A128
 	.data       start:0x8048FA10 end:0x8048FE08
 	.bss        start:0x805008A8 end:0x805008B8
 	.sdata      start:0x805D29A0 end:0x805D29A8
 	.sbss       start:0x805D4FA8 end:0x805D4FD0
 	.sdata2     start:0x805D97D8 end:0x805D9850
-
-pso/player/TObjPlayer_80099EF8.cpp:
-	.text       start:0x80099EF8 end:0x80099F00
 
 pso/enemy/bringer/BringerEffects.cpp:
 	.text       start:0x80099F00 end:0x8009AB4C

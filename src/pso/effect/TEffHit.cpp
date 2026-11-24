@@ -44,3 +44,7 @@ TEffHit::TEffHit(const Vec* initial_position) : TEffect() {
     VecCopy(&position, initial_position);
     state = 0;
 }
+
+extern "C" void create_hit_effect__10TObjPlayerFPv(const Vec* position) {
+    new TEffHit(position);
+}

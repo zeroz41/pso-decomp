@@ -392,6 +392,12 @@ void TObjEneBeast::load_resources() {
 __declspec(section ".rodata") const char beast_a_bml_filename[25] = "bm_ene_re8_b_beast_a.bml"; // inferred: from the string
 
 #pragma defer_codegen on
+void TObjChara::init_position_vectors() {
+    VecCopy(&prev_position, VecCopy(&move_origin, VecCopy(&move_destination, &position)));
+}
+void TUnk_80493450::request_stand_action() { this->requested_action = 0; }
+int TUnk_80493450::test_flag_256() { return 0; }
+void TUnk_80493450::select_post_attack_mode() {  }
 TObjEneBeast::TObjEneBeast(TObject *parent, void *set_data) : TUnk_80493450(parent) {
     s32 i;
 

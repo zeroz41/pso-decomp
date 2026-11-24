@@ -142,6 +142,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/player/PlayerSlots.h"
 
 #pragma defer_codegen on
+s32 TItem::get_item_id() { return (s32)this->item_id; }
 
 
 
