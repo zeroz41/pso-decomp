@@ -1480,7 +1480,6 @@ pso/npc/TObjNpcNFW01.cpp
 pso/npc/TObjNpcNHW00.cpp
 pso/npc/TObjNpcNHW01.cpp
 pso/npc/TObjNpcNgcBase.cpp
-pso/npc/TObjNpcNgcBase_80358AE8.cpp
 pso/npc/TObjNpcNurseBase.cpp
 pso/npc/TObjNpcSecretaryBase.cpp
 pso/npc/TObjNpcSoldierBase.cpp

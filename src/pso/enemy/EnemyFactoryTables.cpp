@@ -62,6 +62,7 @@
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/npc/TObjNpcMoja.h"
+#include "pso/npc/TObjNpcNgcBase.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/boss/volopt/TBoss3VoloptMonitor.h"
@@ -105,20 +106,6 @@ void* TObjNpcEnemy__create(void* placement);
 void* create__15TObjEneDelDepthFPv(void* placement);
 void* TObjEneMe3SinowZoaReal__create(void* placement);
 void* create__13TObjEneMorfosFv(void* placement);
-void* create_variant_13__14TObjNpcNgcBaseFl(void* placement);
-void* TObjNpcNgcBase__create_nctrunk2(void* placement);
-void* TObjNpcNgcBase__create_nctrunk(void* placement);
-void* TObjNpcNgcBase__create_gunsinei(void* placement);
-void* TObjNpcNgcBase__create_ncman(void* placement);
-void* create_variant_8__14TObjNpcNgcBaseFl(void* placement);
-void* create_variant_7__14TObjNpcNgcBaseFl(void* placement);
-void* create_variant_6__14TObjNpcNgcBaseFl(void* placement);
-void* create_variant_5__14TObjNpcNgcBaseFl(void* placement);
-void* TObjNpcNgcBase__create_delta_w(void* placement);
-void* TObjNpcNgcBase__create_paganini_t(void* placement);
-void* TObjNpcNgcBase__create_leo_w(void* placement);
-void* TObjNpcNgcBase__create_karen_t(void* placement);
-void* TObjNpcNgcBase__create(void* placement);
 
 EnemyFactoryEntry enemy_factories_floor_00[40] = {
     { 0x0001, TObjNpcFemaleBase__create, 250000.0f, 0 },
@@ -354,17 +341,17 @@ EnemyFactoryEntry enemy_factories_floor_18[39] = {
     { 0x001D, TObjNpcCloakroomBase::create, 250000.0f, 0 },
     { 0x001F, TObjNpcNurseBase__create, 250000.0f, 0 },
     { 0x0020, TObjNpcSecretaryBase__create, 250000.0f, 0 },
-    { 0x00F2, TObjNpcNgcBase__create, 250000.0f, 0 },
-    { 0x00F3, TObjNpcNgcBase__create_karen_t, 250000.0f, 0 },
+    { 0x00F2, TObjNpcNgcBase::create_michel_t, 250000.0f, 0 },
+    { 0x00F3, TObjNpcNgcBase::create_karen_t, 250000.0f, 0 },
     { 0x0025, TObjNpcARM00__create, 250000.0f, 0 },
     { 0x0026, TObjNpcARW00__create, 250000.0f, 0 },
     { 0x0027, TObjNpcHFW00__create, 250000.0f, 0 },
     { 0x0028, TObjNpcNFM00__create, 250000.0f, 0 },
-    { 0x00F4, TObjNpcNgcBase__create_leo_w, 250000.0f, 0 },
-    { 0x00F5, TObjNpcNgcBase__create_paganini_t, 250000.0f, 0 },
-    { 0x00F6, TObjNpcNgcBase__create_delta_w, 250000.0f, 0 },
+    { 0x00F4, TObjNpcNgcBase::create_leo_w, 250000.0f, 0 },
+    { 0x00F5, TObjNpcNgcBase::create_paganini_t, 250000.0f, 0 },
+    { 0x00F6, TObjNpcNgcBase::create_delta_w, 250000.0f, 0 },
     { 0x0031, TObjNpcNFM01__create, 250000.0f, 0 },
-    { 0x00F7, create_variant_5__14TObjNpcNgcBaseFl, 250000.0f, 0 },
+    { 0x00F7, TObjNpcNgcBase::create_nol_t, 250000.0f, 0 },
     { 0x00D0, TObjNpcKenkyu__create, 250000.0f, 0 },
     { 0x00D1, TObjNpcSoutokufu__create, 250000.0f, 0 },
     { 0x00D2, TObjNpcHosa__create, 250000.0f, 0 },
@@ -372,14 +359,14 @@ EnemyFactoryEntry enemy_factories_floor_18[39] = {
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },
     { 0x00F0, TObjNpcHosa2__create, 250000.0f, 0 },
     { 0x00F1, TObjNpcKenkyu2__create, 250000.0f, 0 },
-    { 0x00F8, create_variant_6__14TObjNpcNgcBaseFl, 250000.0f, 0 },
-    { 0x00F9, create_variant_7__14TObjNpcNgcBaseFl, 250000.0f, 0 },
-    { 0x00FA, create_variant_8__14TObjNpcNgcBaseFl, 250000.0f, 0 },
-    { 0x00FB, TObjNpcNgcBase__create_ncman, 250000.0f, 0 },
-    { 0x00FC, TObjNpcNgcBase__create_gunsinei, 250000.0f, 0 },
-    { 0x00FD, TObjNpcNgcBase__create_nctrunk, 250000.0f, 0 },
-    { 0x00FE, TObjNpcNgcBase__create_nctrunk2, 250000.0f, 0 },
-    { 0x00FF, create_variant_13__14TObjNpcNgcBaseFl, 250000.0f, 0 },
+    { 0x00F8, TObjNpcNgcBase::create_elly_t, 250000.0f, 0 },
+    { 0x00F9, TObjNpcNgcBase::create_ncchild, 250000.0f, 0 },
+    { 0x00FA, TObjNpcNgcBase::create_ncwoman, 250000.0f, 0 },
+    { 0x00FB, TObjNpcNgcBase::create_ncman, 250000.0f, 0 },
+    { 0x00FC, TObjNpcNgcBase::create_gunsinei, 250000.0f, 0 },
+    { 0x00FD, TObjNpcNgcBase::create_nctrunk, 250000.0f, 0 },
+    { 0x00FE, TObjNpcNgcBase::create_nctrunk2, 250000.0f, 0 },
+    { 0x00FF, TObjNpcNgcBase::create_kenkyuw2, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
 
@@ -425,8 +412,8 @@ EnemyFactoryEntry enemy_factories_floors_23_24_25_26_27[12] = {
     { 0x00D8, TObjEneGibbles::create, 250000.0f, 0 },
     { 0x00D9, TObjEneMe1Gee::create, 250000.0f, 0 },
     { 0x00DA, TObjEneMe1GiGue::create, 250000.0f, 0 },
-    { 0x00F6, TObjNpcNgcBase__create_delta_w, 250000.0f, 0 },
-    { 0x00FD, TObjNpcNgcBase__create_nctrunk, 250000.0f, 0 },
+    { 0x00F6, TObjNpcNgcBase::create_delta_w, 250000.0f, 0 },
+    { 0x00FD, TObjNpcNgcBase::create_nctrunk, 250000.0f, 0 },
     { 0x0045, TObjNpcLappy__create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
@@ -439,7 +426,7 @@ EnemyFactoryEntry enemy_factories_floor_34[9] = {
     { 0x00D7, TObjEneBm5GibonU::create, 250000.0f, 0 },
     { 0x00D9, TObjEneMe1Gee::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },
-    { 0x00FD, TObjNpcNgcBase__create_nctrunk, 250000.0f, 0 },
+    { 0x00FD, TObjNpcNgcBase::create_nctrunk, 250000.0f, 0 },
     { 0x0045, TObjNpcLappy__create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
@@ -453,7 +440,7 @@ EnemyFactoryEntry enemy_factories_floor_35[11] = {
     { 0x00E0, create_TObjEneEpsilonBody, 250000.0f, 4 },
     { 0x0061, TObjEneRe2Flower::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },
-    { 0x00F6, TObjNpcNgcBase__create_delta_w, 250000.0f, 0 },
+    { 0x00F6, TObjNpcNgcBase::create_delta_w, 250000.0f, 0 },
     { 0x00E1, TObjEneIllGill::create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
@@ -466,7 +453,7 @@ EnemyFactoryEntry enemy_factories_floors_28_29[9] = {
     { 0x00DB, create__15TObjEneDelDepthFPv, 250000.0f, 0 },
     { 0x00DC, TObjEneDellBiter::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy__create, 250000.0f, 0 },
-    { 0x00F4, TObjNpcNgcBase__create_leo_w, 250000.0f, 0 },
+    { 0x00F4, TObjNpcNgcBase::create_leo_w, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
 
