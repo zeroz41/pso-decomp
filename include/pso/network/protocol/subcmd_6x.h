@@ -98,6 +98,26 @@ struct G_Attack_6x43_6x44_6x45 {
  u16 action_type; // the receiver passes it to the attack state's set_action_type
 };
 
+// The three stages of a physical attack combo (6x43, then 6x44, then 6x45),
+// one packet class each over the same fields.
+struct G_Attack_6x43 : G_Attack_6x43_6x44_6x45 {
+ void init();
+ void bswap();
+ void send();
+};
+
+struct G_Attack_6x44 : G_Attack_6x43_6x44_6x45 {
+ void init();
+ void bswap();
+ void send();
+};
+
+struct G_Attack_6x45 : G_Attack_6x43_6x44_6x45 {
+ void init();
+ void bswap();
+ void send();
+};
+
 // 6xA9/6xAA: Barba Ray (TBoss7DeRolLeC) action changes. The client swaps
 // their header through G_ClientIDHeader::bswap; client_id holds the boss's
 // entity id.

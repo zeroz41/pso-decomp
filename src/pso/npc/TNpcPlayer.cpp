@@ -50,6 +50,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/render_util.h"
 
 disp_data_part2 *npc_player_char_data_buffer;
@@ -67,16 +68,9 @@ void reset_partner_counter(PartnerCounters *counters, s32 index);
 void increment_partner_counter(PartnerCounters *counters, s32 index);
 s16 get_partner_counter(PartnerCounters *counters, s32 index);
 s32 npc_counter_reset_if_reached(PartnerCounters *counters, s32 index, s32 limit);
-void init_6x45_attack_packet(u8 *cmd);
-void init_6x44_attack_packet(u8 *cmd);
-void init_6x43_attack_packet(u8 *cmd);
-s32 free_collision_body_parts(u32);
-void init_collision_body_parts(void *, void *, s32);
 s32 try_send_6x27_use_item(s32, s32, void *);
 s8 get_cast_technique_level(void *, s16);
 void __register_global_object(void *obj, void *dtor, void *link);
-
-extern int registered_entity_count;
 
 void copy_player_visual_record(void *, void *);
 void __sinit_TNpcPlayer_cpp();
@@ -101,9 +95,6 @@ __declspec(section ".ctors") static void *const npc_player_global_initializer = 
 int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
 void set_partner_counter(saddr counters, s32 index, s16 value);
 s32 clamp_partner_counter(PartnerCounters *counters, s32 index, s32 limit);
-void bswap_6x45_packet(void* p);
-void bswap_6x44_packet(void* p);
-void bswap_6x43_packet(void* p);
 int get_registered_object_count(void);
 TNpcPlayer::AiParams npc_player_ai_templates[64] = {
     {0x0, 0x4, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 13.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0xf, 0x0, 50.0f},
@@ -931,38 +922,59 @@ void G_CastTechnique_6x47::send() {
     send_subcommand(this);
 }
 
-void init_6x43_attack_packet(u8 *cmd) {
-    *(s16 *)((s8 *)cmd + 4) = 0;
-    *(s16 *)((s8 *)cmd + 6) = 0;
-    *(s8 *)((s8 *)cmd + 0) = 0x43;
-    *(s8 *)((s8 *)cmd + 1) = 2;
+void G_Attack_6x43::init() {
+    angle_y = 0;
+    action_type = 0;
+    header.subcommand = 0x43;
+    header.size = 2;
 }
 
-void bswap_6x43_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
-
-void TNpcPlayer::update_lobby() { bswap_6x43_packet(this); broadcast_subcommand(this); }
-
-void init_6x44_attack_packet(u8 *cmd) {
-    *(s16 *)((s8 *)cmd + 4) = 0;
-    *(s16 *)((s8 *)cmd + 6) = 0;
-    *(s8 *)((s8 *)cmd + 0) = 0x44;
-    *(s8 *)((s8 *)cmd + 1) = 2;
+void G_Attack_6x43::bswap() {
+    header.bswap();
+    bswap_16(&angle_y);
+    bswap_16(&action_type);
 }
 
-void bswap_6x44_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
-
-void TNpcPlayer::update_players() { bswap_6x44_packet(this); broadcast_subcommand(this); }
-
-void init_6x45_attack_packet(u8 *cmd) {
-    *(s16 *)((s8 *)cmd + 4) = 0;
-    *(s16 *)((s8 *)cmd + 6) = 0;
-    *(s8 *)((s8 *)cmd + 0) = 0x45;
-    *(s8 *)((s8 *)cmd + 1) = 2;
+void G_Attack_6x43::send() {
+    bswap();
+    broadcast_subcommand(this);
 }
 
-void bswap_6x45_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
+void G_Attack_6x44::init() {
+    angle_y = 0;
+    action_type = 0;
+    header.subcommand = 0x44;
+    header.size = 2;
+}
 
-void TNpcPlayer::update() { bswap_6x45_packet(this); broadcast_subcommand(this); }
+void G_Attack_6x44::bswap() {
+    header.bswap();
+    bswap_16(&angle_y);
+    bswap_16(&action_type);
+}
+
+void G_Attack_6x44::send() {
+    bswap();
+    broadcast_subcommand(this);
+}
+
+void G_Attack_6x45::init() {
+    angle_y = 0;
+    action_type = 0;
+    header.subcommand = 0x45;
+    header.size = 2;
+}
+
+void G_Attack_6x45::bswap() {
+    header.bswap();
+    bswap_16(&angle_y);
+    bswap_16(&action_type);
+}
+
+void G_Attack_6x45::send() {
+    bswap();
+    broadcast_subcommand(this);
+}
 
 void PartnerCounters::clear() {
     s32 i;
@@ -2377,7 +2389,7 @@ s32 NpcPlayerView::is_player_lost() {
 
 NpcPlayerView::~NpcPlayerView() {
     if (probe != NULL) {
-        free_collision_body_parts((uaddr)probe);
+        free_collision_body_parts(probe);
         probe->queue_destruction();
         probe = NULL;
     }
@@ -2524,7 +2536,7 @@ s32 NpcPlayerView::probe_obstacles() {
     }
     VecCopy(&sweep->position, &player->position);
     probe->rotation_y = goal_angle;
-    for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + ((s32 (*)(void))get_registered_object_count)(); i++) {
+    for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + get_registered_object_count(); i++) {
         actor = (TObjCollidable *)TObjPlayer::get_player_data(i);
         if ((actor != NULL) && !(actor->actorFlags & 0x80000000)) {
             contact = (CollisionBody *)probe->find_actor_body_contact((u8 *)actor, 10000.0f);

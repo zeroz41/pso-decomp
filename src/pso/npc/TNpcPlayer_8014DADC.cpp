@@ -12,9 +12,6 @@ s32 npc_counter_reset_if_reached(PartnerCounters *counters, s32 index, s32 limit
 s16 get_partner_counter(PartnerCounters *counters, s32 index);
 void increment_partner_counter(PartnerCounters *counters, s32 index);
 void reset_partner_counter(PartnerCounters *counters, s32 index);
-void init_6x43_attack_packet(G_Attack_6x43_6x44_6x45 *cmd);
-void init_6x44_attack_packet(G_Attack_6x43_6x44_6x45 *cmd);
-void init_6x45_attack_packet(G_Attack_6x43_6x44_6x45 *cmd);
 void set_technique_seed_level(PlayerTechniqueState *techniques, s16 technique, u8 level);
 }
 void set_partner_counter(saddr counters, s32 index, s16 value);
@@ -52,14 +49,14 @@ void enable_quest_npc_visual() { quest_npc_visual_pending = 1; }
 void TNpcPlayer::partner_request_technique_cast(s32 kind) { request_technique_cast(kind); }
 
 void TNpcPlayer::send_partner_attack_stage_request() {
-    G_Attack_6x43_6x44_6x45 cmd43;
-    G_Attack_6x43_6x44_6x45 cmd44;
-    G_Attack_6x43_6x44_6x45 cmd45;
+    G_Attack_6x43 cmd43;
+    G_Attack_6x44 cmd44;
+    G_Attack_6x45 cmd45;
     TObjPlayer *player;
     TObjCollidable *target;
     switch (get_partner_counter(&partner_counters, 1)) {
     case 0:
-        init_6x43_attack_packet(&cmd43);
+        cmd43.init();
         if (self_view != NULL) {
             cmd43.header.client_id = self_view->get_client_id();
             cmd43.action_type = 0;
@@ -70,13 +67,13 @@ void TNpcPlayer::send_partner_attack_stage_request() {
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->set_count(1);
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_uid(self_view->get_target_id());
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_collider_index(self_view->get_target_collider());
-                ((TNpcPlayer *)&cmd43)->update_lobby();
+                cmd43.send();
                 increment_partner_counter(&partner_counters, 1);
             }
         }
         break;
     case 1:
-        init_6x44_attack_packet(&cmd44);
+        cmd44.init();
         if (self_view != NULL) {
             cmd44.header.client_id = self_view->get_client_id();
             cmd44.action_type = 1;
@@ -87,13 +84,13 @@ void TNpcPlayer::send_partner_attack_stage_request() {
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->set_count(1);
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_uid(self_view->get_target_id());
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_collider_index(self_view->get_target_collider());
-                ((TNpcPlayer *)&cmd44)->update_players();
+                cmd44.send();
                 increment_partner_counter(&partner_counters, 1);
             }
         }
         break;
     case 2:
-        init_6x45_attack_packet(&cmd45);
+        cmd45.init();
         if (self_view != NULL) {
             cmd45.header.client_id = self_view->get_client_id();
             cmd45.action_type = 1;
@@ -104,7 +101,7 @@ void TNpcPlayer::send_partner_attack_stage_request() {
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->set_count(1);
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_uid(self_view->get_target_id());
                 ((CapturedTargetList *)((TObjPlayer *)&player->attack_state)->get_state_ptr())->entries[0].set_collider_index(self_view->get_target_collider());
-                ((TNpcPlayer *)&cmd45)->update();
+                cmd45.send();
                 reset_partner_counter(&partner_counters, 1);
                 request_chatter(0xD);
             }
