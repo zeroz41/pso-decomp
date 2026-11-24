@@ -621,7 +621,7 @@ void set_equip_slot_entry(saddr, s32, s32);
 s32 is_action_id_none(s32);
 u8 TObjPlayer__sub_801C0124(void *, s16);
 void *__ct__12StatusEffectFv(void *);
-u32 create_lobby_marker__10TObjPlayerFsSc(u16 a0 = 0, s32 a1 = 0);
+u32 create__18TPlayerLobbyMarkerFsSc(u16 a0 = 0, s32 a1 = 0);
 void release_all_players_control_lock(void);
 s32 check_conditions__10TObjPlayerFv(void *, s16);
 s16 TObjPlayer__sub_801CFBFC(u8 *arg0);
@@ -6157,7 +6157,7 @@ u32 TObjPlayer::set_lobby_marker(s32 material) {
     }
     temp = *(u32 *)((s8 *)this + 0x3B8);
     if (temp == 0U) {
-        *(u32 *)((s8 *)this + 0x3B8) = create_lobby_marker__10TObjPlayerFsSc(this->get_entity_id(), material);
+        *(u32 *)((s8 *)this + 0x3B8) = create__18TPlayerLobbyMarkerFsSc(this->get_entity_id(), material);
     } else {
         set_material_index__18TPlayerLobbyMarkerFUc(temp, material);
     }

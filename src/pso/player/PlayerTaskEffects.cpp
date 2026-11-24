@@ -216,7 +216,7 @@ BOOL TUnk_8013E020::resolve_player() {
 }
 
 
-TPlayerLobbyMarker *TObjPlayer::create_lobby_marker(s16 client, s8 material_index) {
+TPlayerLobbyMarker *TPlayerLobbyMarker::create(s16 client, s8 material_index) {
     TObjPlayer *player = get_player_by_client_id((u16)client);
     if (player == NULL) {
         return NULL;
