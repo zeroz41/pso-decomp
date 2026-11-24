@@ -564,7 +564,6 @@ struct TObjPlayer : public TObjChara {
     s8 calc_class_stat_boost_index(s8 arg1, s32 arg2);
     static s32 decrement_clamp(s32 *value, s32 amount);
     void copy_offset_position(void *chara);
-    void calc_pos_delta(void *other, void *delta);
     void set_visible_flag();
     s32 check_flag_04000000();
     void clear_flag_8000();
