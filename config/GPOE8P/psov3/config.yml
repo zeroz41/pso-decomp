@@ -2477,7 +2477,7 @@ force_active:
   - __dt__13TUnk_804A68C8Fv
   - __dt__13TUnk_804A69C0Fv
   - __dt__13TUnk_804A6DC0Fv
-  - __dt__13TUnk_804AF7B0Fv
+  - __dt__29TObjFogCollisionPoison_TickerFv
   - __dt__17TNpcPlayerSpawnerFv
   - __dt__15TNpcTalkTriggerFv
   - __dt__13TUnk_804C4498Fv
@@ -3247,7 +3247,7 @@ force_active:
   - __vt__13TUnk_804A68C8
   - __vt__13TUnk_804A6DC0
   - __vt__13TObjNpcFemale
-  - __vt__13TUnk_804AF7B0
+  - __vt__29TObjFogCollisionPoison_Ticker
   - __vt__17TNpcPlayerSpawner
   - __vt__15TNpcTalkTrigger
   - __vt__13TUnk_804B97C0

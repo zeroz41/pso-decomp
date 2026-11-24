@@ -10,7 +10,6 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
-#include "pso/object/TUnk_804AF7B0.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/CapturedTargetList.h"
@@ -19,13 +18,11 @@
 #include "pso/map/FloorArea.h"
 #include "pso/map/CsnQuery.h"
 
-#include "pso/object/collision/TObjFogCollisionPoison.h"
 
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/object/collision/TObjFogCollision.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixStack.h"
@@ -787,37 +784,6 @@ TPlyInventoryItem *npc_player_equipment_ultimate[64] = {
     npc_hard_set_17, npc_hard_set_57, npc_hard_set_04, npc_hard_set_40,
     npc_hard_set_60, npc_hard_set_60, npc_hard_set_25, npc_hard_set_57,
 };
-
-
-
-
-void TUnk_804AF7B0::run_task() {
-    saddr up;
-
-    up = (saddr)m_up;
-    if (((TObjFogCollisionPoison *)up)->check_switch() != 0) {
-        if (((TObjFogCollision *)up)->check_collision(client) != 0) {
-            ((TObjFogCollisionPoison *)up)->record_poison_hit(client);
-            damage_timer++;
-            if (damage_timer >= damage_interval) {
-                ((TObjFogCollisionPoison *)up)->apply_poison_damage(client);
-                damage_timer = 0;
-                damage_interval = 0x1E;
-            }
-            contact_ticks++;
-        } else {
-            damage_interval = 0x96;
-            contact_ticks = 0;
-        }
-        if (contact_ticks == 1) {
-            TObjFogCollisionPoison__sub_801535D0(up);
-            return;
-        }
-        if (contact_ticks > 0x3C) {
-            TObjFogCollisionPoison__sub_80153520(up);
-        }
-    }
-}
 
 u16 TObjPlayer::get_npc_controller() { return npc_control.controller_client_id; }
 
