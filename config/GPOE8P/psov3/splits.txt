@@ -9071,7 +9071,7 @@ pso/ui/frontend/TAdDialingGC_80328E50.cpp:
 pso/ui/frontend/TAdDialingGC_80328E90.cpp:
 	.text       start:0x80328E90 end:0x80328F7C
 
-pso/unk/TLobby_80328F7C.cpp:
+pso/player/LobbyPlayerActionProvider.cpp:
 	.text       start:0x80328F7C end:0x80329478
 	.ctors      start:0x80433FE8 end:0x80433FEC
 	.rodata     start:0x804767D0 end:0x80477090

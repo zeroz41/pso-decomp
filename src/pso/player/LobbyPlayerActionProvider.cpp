@@ -309,7 +309,7 @@ void TLobby::init_player_forward() {
     __ct__8FlagWordFv((&lbl_805D6C84));
 }
 
-__declspec(section ".ctors") static void *const __sinit_TLobby_80328F7C_80329368_cpp_ref = (void *)TLobby::init_player_forward;
+__declspec(section ".ctors") static void *const __sinit_LobbyPlayerActionProvider_cpp_ref = (void *)TLobby::init_player_forward;
 
 #define IVS ((int (*)(void*))is_valid_state__6TLobbyFPvi)
 #define CVS ((int (*)(void*))check_valid_state__6TLobbyFi)
