@@ -46,7 +46,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_803E18C0.h"
+#include "pso/math/BoxCollision.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/PlayerSlots.h"
@@ -1010,17 +1010,17 @@ void TBoss6Type1::update_beam_attack() {
             v.y = 0.0f;
             VecCopy(&w, &node_points[9]);
             subtract_vector(&w, a);
-            line.o.x = a->x;
-            line.o.y = 0.0f;
-            line.o.z = a->z;
-            line.d.x = w.x;
-            line.d.y = 0.0f;
-            line.d.z = w.z;
+            line.origin.x = a->x;
+            line.origin.y = 0.0f;
+            line.origin.z = a->z;
+            line.direction.x = w.x;
+            line.direction.y = 0.0f;
+            line.direction.z = w.z;
             if (!(project_point_onto_line(&v, &line, &out) > 15.0f)) {
-                A.x = line.o.x;
-                A.y = line.o.z;
-                B.x = line.o.x + line.d.x;
-                B.z = line.o.z + line.d.z;
+                A.x = line.origin.x;
+                A.y = line.origin.z;
+                B.x = line.origin.x + line.direction.x;
+                B.z = line.origin.z + line.direction.z;
                 subtract_vector(&A, &out);
                 subtract_vector(&B, &out);
                 A.y = 0.0f;
@@ -1267,12 +1267,12 @@ void TBoss6Type1::check_laser_hits() {
         d0.y = 0.0f;
         VecCopy(&d3, &pl->position);
         d3.y = 0.0f;
-        line.o.x = 0.5f * (A.x + B.x);
-        line.o.y = 0.0f;
-        line.o.z = 0.5f * (A.z + B.z);
-        line.d.x = -sin_table_lookup(rotation_y);
-        line.d.y = 0.0f;
-        line.d.z = -cos_table_lookup(rotation_y);
+        line.origin.x = 0.5f * (A.x + B.x);
+        line.origin.y = 0.0f;
+        line.origin.z = 0.5f * (A.z + B.z);
+        line.direction.x = -sin_table_lookup(rotation_y);
+        line.direction.y = 0.0f;
+        line.direction.z = -cos_table_lookup(rotation_y);
         t = project_point_onto_line(&d3, &line, NULL);
         t = 0.5f * vector_length(&d0) - t;
         if (t <= 0.0f) {

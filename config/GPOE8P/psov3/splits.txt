@@ -11586,17 +11586,17 @@ pso/object/ambient/TObjLight_803DF220.cpp:
 	.data       start:0x804FC748 end:0x804FC780
 	.sdata2     start:0x805E0FD0 end:0x805E0FD8
 
-pso/player/TObjPlayer_803DF7A8.cpp:
+pso/math/BoxOverlap.cpp:
 	.text       start:0x803DF7A8 end:0x803E112C
 	.rodata     start:0x8047E438 end:0x8047E498
 	.sdata2     start:0x805E0FD8 end:0x805E1000
 
-pso/player/TObjPlayer_803E112C.cpp:
+pso/math/BoxSphereContact.cpp:
 	.text       start:0x803E112C end:0x803E18C0
 	.rodata     start:0x8047E498 end:0x8047E570
 	.sdata2     start:0x805E1000 end:0x805E1020
 
-pso/player/TObjPlayer_803E18C0.cpp:
+pso/math/PointLineDistance.cpp:
 	.text       start:0x803E18C0 end:0x803E1A58
 	.sdata2     start:0x805E1020 end:0x805E1038
 

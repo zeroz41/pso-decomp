@@ -1,13 +1,9 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_803DF7A8.h"
+#include "pso/math/BoxCollision.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include <dolphin/mtx/GeoTypes.h>
 #include <math.h>
 
-extern "C" {
-s32 quads_touch(Vec *a, Vec *b);
-s32 quad_projection_overlap_mask(Vec *a, Vec *b);
-extern const BoxFaces box_face_corner_index_table;
 const BoxFaces box_face_corner_index_table = {
     {{0, 1, 2, 3}, {4, 5, 6, 7}, {0, 3, 7, 4}, {2, 1, 5, 6}, {0, 4, 5, 1}, {3, 2, 6, 7}}};
 s32 test_aabb_overlap(Vec *minA, Vec *maxA, Vec *minB, Vec *maxB) {
@@ -32,9 +28,6 @@ s32 test_aabb_overlap(Vec *minA, Vec *maxA, Vec *minB, Vec *maxB) {
 #pragma push
 #pragma fp_contract off
 #pragma use_lmw_stmw off
-// A quad corner projected onto the XY, XZ or YZ plane.
-struct ProjectedPoint { f32 u, v; };
-s32 quad_corner_inside(ProjectedPoint *a, ProjectedPoint *b);
 
 #pragma push
 #pragma dont_inline off
@@ -118,7 +111,7 @@ s32 quad_corner_inside(ProjectedPoint *a, ProjectedPoint *b) {
 
 // 0.025f is the coordinate and slope tolerance.
 
-static inline f32 sqrtf_803DFB1C(f32 x) {
+static inline f32 quad_sqrtf(f32 x) {
     volatile f32 y;
     if (x > 0.0f) {
         f64 guess = __frsqrte(x);
@@ -239,15 +232,15 @@ s32 quads_touch(Vec *a, Vec *b) {
                 if (parallel == 0) {
                     onA = 0;
                     onB = 0;
-                    toPrev = sqrtf_803DFB1C((prevAu - hitUXY) * (prevAu - hitUXY) + (prevAv - hitV) * (prevAv - hitV));
-                    toCur = sqrtf_803DFB1C((curAu - hitUXY) * (curAu - hitUXY) + (curAv - hitV) * (curAv - hitV));
-                    length = sqrtf_803DFB1C(lengthSqAXY);
+                    toPrev = quad_sqrtf((prevAu - hitUXY) * (prevAu - hitUXY) + (prevAv - hitV) * (prevAv - hitV));
+                    toCur = quad_sqrtf((curAu - hitUXY) * (curAu - hitUXY) + (curAv - hitV) * (curAv - hitV));
+                    length = quad_sqrtf(lengthSqAXY);
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onA = 1;
                     }
-                    toPrev = sqrtf_803DFB1C((prevBuXY - hitUXY) * (prevBuXY - hitUXY) + (prevBvXY - hitV) * (prevBvXY - hitV));
-                    toCur = sqrtf_803DFB1C((curBuXY - hitUXY) * (curBuXY - hitUXY) + (curBvXY - hitV) * (curBvXY - hitV));
-                    length = sqrtf_803DFB1C((prevBuXY - curBuXY) * (prevBuXY - curBuXY) + (prevBvXY - curBvXY) * (prevBvXY - curBvXY));
+                    toPrev = quad_sqrtf((prevBuXY - hitUXY) * (prevBuXY - hitUXY) + (prevBvXY - hitV) * (prevBvXY - hitV));
+                    toCur = quad_sqrtf((curBuXY - hitUXY) * (curBuXY - hitUXY) + (curBvXY - hitV) * (curBvXY - hitV));
+                    length = quad_sqrtf((prevBuXY - curBuXY) * (prevBuXY - curBuXY) + (prevBvXY - curBvXY) * (prevBvXY - curBvXY));
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onB = 1;
                     }
@@ -330,15 +323,15 @@ s32 quads_touch(Vec *a, Vec *b) {
                 if (parallel == 0) {
                     onA = 0;
                     onB = 0;
-                    toPrev = sqrtf_803DFB1C((prevAuXZ - hitU) * (prevAuXZ - hitU) + (prevAvXZ - hitV) * (prevAvXZ - hitV));
-                    toCur = sqrtf_803DFB1C((curAuXZ - hitU) * (curAuXZ - hitU) + (curAvXZ - hitV) * (curAvXZ - hitV));
-                    length = sqrtf_803DFB1C(lengthSqAXZ);
+                    toPrev = quad_sqrtf((prevAuXZ - hitU) * (prevAuXZ - hitU) + (prevAvXZ - hitV) * (prevAvXZ - hitV));
+                    toCur = quad_sqrtf((curAuXZ - hitU) * (curAuXZ - hitU) + (curAvXZ - hitV) * (curAvXZ - hitV));
+                    length = quad_sqrtf(lengthSqAXZ);
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onA = 1;
                     }
-                    toPrev = sqrtf_803DFB1C((prevBuXZ - hitU) * (prevBuXZ - hitU) + (prevBvXZ - hitV) * (prevBvXZ - hitV));
-                    toCur = sqrtf_803DFB1C((curBuXZ - hitU) * (curBuXZ - hitU) + (curBvXZ - hitV) * (curBvXZ - hitV));
-                    length = sqrtf_803DFB1C((prevBuXZ - curBuXZ) * (prevBuXZ - curBuXZ) + (prevBvXZ - curBvXZ) * (prevBvXZ - curBvXZ));
+                    toPrev = quad_sqrtf((prevBuXZ - hitU) * (prevBuXZ - hitU) + (prevBvXZ - hitV) * (prevBvXZ - hitV));
+                    toCur = quad_sqrtf((curBuXZ - hitU) * (curBuXZ - hitU) + (curBvXZ - hitV) * (curBvXZ - hitV));
+                    length = quad_sqrtf((prevBuXZ - curBuXZ) * (prevBuXZ - curBuXZ) + (prevBvXZ - curBvXZ) * (prevBvXZ - curBvXZ));
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onB = 1;
                     }
@@ -427,15 +420,15 @@ s32 quads_touch(Vec *a, Vec *b) {
                 if (parallel == 0) {
                     onA = 0;
                     onB = 0;
-                    toPrev = sqrtf_803DFB1C((prevAuYZ - hitU) * (prevAuYZ - hitU) + (prevAvYZ - hitV) * (prevAvYZ - hitV));
-                    toCur = sqrtf_803DFB1C((curAuYZ - hitU) * (curAuYZ - hitU) + (curAv - hitV) * (curAv - hitV));
-                    length = sqrtf_803DFB1C(lengthSqAYZ);
+                    toPrev = quad_sqrtf((prevAuYZ - hitU) * (prevAuYZ - hitU) + (prevAvYZ - hitV) * (prevAvYZ - hitV));
+                    toCur = quad_sqrtf((curAuYZ - hitU) * (curAuYZ - hitU) + (curAv - hitV) * (curAv - hitV));
+                    length = quad_sqrtf(lengthSqAYZ);
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onA = 1;
                     }
-                    toPrev = sqrtf_803DFB1C((prevBu - hitU) * (prevBu - hitU) + (prevBv - hitV) * (prevBv - hitV));
-                    toCur = sqrtf_803DFB1C((curBu - hitU) * (curBu - hitU) + (curBv - hitV) * (curBv - hitV));
-                    length = sqrtf_803DFB1C((prevBu - curBu) * (prevBu - curBu) + (prevBv - curBv) * (prevBv - curBv));
+                    toPrev = quad_sqrtf((prevBu - hitU) * (prevBu - hitU) + (prevBv - hitV) * (prevBv - hitV));
+                    toCur = quad_sqrtf((curBu - hitU) * (curBu - hitU) + (curBv - hitV) * (curBv - hitV));
+                    length = quad_sqrtf((prevBu - curBu) * (prevBu - curBu) + (prevBv - curBv) * (prevBv - curBv));
                     if (0.025f + length >= toPrev + toCur - 0.025f) {
                         onB = 1;
                     }
@@ -565,4 +558,3 @@ s32 test_box_overlap(Vec *cornersA, Vec *cornersB) {
 }
 
 #pragma pop
-}

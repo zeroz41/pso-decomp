@@ -38,6 +38,7 @@
 #include "pso/effect/TEF_PvrWave.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/CameraCapture.h"
+#include "pso/math/BoxCollision.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -80,8 +81,6 @@ SceneMaterialSection *find_scene_room_by_id(s32 id);
 
 s32 TScene__sub_802040D4(TScene *scene, SceneMaterialNode *node, f32 depth, f32 near_depth);
 
-
-f32 project_point_onto_line(void *, void *, void *);
 
 
 
@@ -2059,7 +2058,7 @@ s32 TScene__sub_802040D4(TScene *scene, SceneMaterialNode *node, f32 f0, f32 f1)
 }
 
 s32 TScene::is_within_view_edge(Vec *pos, Vec *dir, Vec *edge, f32 radius) {
-    struct { Vec origin, direction; } line;
+    Line line;
     Vec closest;
     if (vec3_dot(dir, edge) < 0.0f) {
         return 0;

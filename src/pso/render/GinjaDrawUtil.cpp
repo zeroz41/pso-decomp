@@ -7,7 +7,7 @@
 #include "pso/render/GinjaView.h"
 #include "pso/render/RenderSbssGlobals.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/player/TObjPlayer_803E112C.h"
+#include "pso/math/BoxCollision.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_803DA798.h"
 

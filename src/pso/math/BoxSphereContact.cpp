@@ -2,16 +2,12 @@
 #define PSO_SDK_COMPACT_MATH
 #include <libc/math.h>
 #undef PSO_SDK_COMPACT_MATH
-#include "pso/player/TObjPlayer_803DF7A8.h"
-#include "pso/player/TObjPlayer_803E112C.h"
+#include "pso/math/BoxCollision.h"
 #include "pso/render/GinjaDrawUtil.h"
 
-extern "C" {
 #pragma push
 #pragma fp_contract off
 
-// The four edges of a face: corner slots 0-1, 1-2, 2-3, 3-0.
-struct FaceEdgeLoop { s32 v[5]; };
 inline const BoxFaces *box_faces() {
     static const BoxFaces box_face_vertex_index_table = {
         {{0, 1, 2, 3}, {4, 7, 6, 5}, {0, 3, 7, 4}, {2, 1, 5, 6}, {0, 4, 5, 1}, {3, 2, 6, 7}}};
@@ -159,7 +155,6 @@ s32 test_box_sphere_contact(Vec *corners, CollisionSphere *sphere) {
 #pragma pop
 
 #pragma pop
-}
 
 s32 spheres_overlap(CollisionSphere *a, CollisionSphere *b) {
     f32 dx;

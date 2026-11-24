@@ -1678,7 +1678,7 @@ pso/player/TObjPlayer_8035AFD0.cpp
 pso/player/TObjPlayer_80362E60.cpp
 pso/player/TObjPlayer_80363BE0.cpp
 pso/player/TObjPlayer_803DA204.cpp
-pso/player/TObjPlayer_803E18C0.cpp
+pso/math/PointLineDistance.cpp
 pso/render/GinjaDrawUtil.cpp
 pso/render/ScreenPrimitiveDraw.cpp
 pso/render/TexturedVertexDraw.cpp
@@ -2209,8 +2209,8 @@ pso/network/NetFragment.c
 pso/network/TLobby_8041112C.c
 pso/network/TLobby_804050DC.c
 pso/network/SocketProtocolRuntime.c
-pso/player/TObjPlayer_803E112C.cpp
-pso/player/TObjPlayer_803DF7A8.cpp
+pso/math/BoxSphereContact.cpp
+pso/math/BoxOverlap.cpp
 pso/network/TLobby_803FC178.c
 pso/network/PppFsm.c
 pso/network/PppPap.c
