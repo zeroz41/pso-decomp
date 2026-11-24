@@ -288,7 +288,7 @@ void TObjNpcEnemy::render() {
     u8 *arg0 = (u8 *)this;
     TObjNpcEnemyEntry *entry;
 
-    if ((this->entry != NULL) && (this->update_object_view_visibility(this->m_398, this->m_39c) != 0) && ((s32) this->m_390 == 1)) {
+    if ((this->entry != NULL) && (this->update_object_view_visibility(this->view_distance, this->view_radius) != 0) && ((s32) this->visible == 1)) {
         select_actor_lighting(this);
         if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
             model_render_flags |= 1;

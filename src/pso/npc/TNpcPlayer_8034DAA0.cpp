@@ -499,12 +499,12 @@ void TNpcPlayer::send_6x3e_to_all_players(void *pos, s32 arg) {
             if (((TObjCollidable *)p)->test_actor_flags(0x100000) != 0) {
                 flag = 1;
             }
-            ((TNpcPlayer *)(&pkt))->init_6x3E_packet();
+            ((G_StopAtPosition_6x3E *)(&pkt))->init();
             pkt.id = ((TObjBase *)(p))->get_entity_id();
             VecCopy((Vec *)&pkt.x, (const Vec *)pos);
             pkt.arg = arg;
             pkt.flag = flag;
-            ((TNpcPlayer *)(&pkt))->send_6x3E();
+            ((G_StopAtPosition_6x3E *)(&pkt))->send();
         }
     }
 }
@@ -567,7 +567,7 @@ void TNpcPlayer::send_stop_at_position(u16 id, void *pos, s32 arg) {
     struct Pkt_8034E3A0 pkt;
     s16 flag;
     u8 *p;
-    ((TNpcPlayer *)(&pkt))->init_6x3E_packet();
+    ((G_StopAtPosition_6x3E *)(&pkt))->init();
     p = (u8 *) get_player_by_client_id(id);
     flag = 0;
     if (p != NULL) {
@@ -578,7 +578,7 @@ void TNpcPlayer::send_stop_at_position(u16 id, void *pos, s32 arg) {
         VecCopy((Vec *)&pkt.x, (const Vec *)pos);
         pkt.arg = arg;
         pkt.flag = flag;
-        ((TNpcPlayer *)(&pkt))->send_6x3E();
+        ((G_StopAtPosition_6x3E *)(&pkt))->send();
     }
 }
 
@@ -615,7 +615,7 @@ void quest_player_look_at_partner(u16 src) {
     if (c == NULL) {
         return;
     }
-    ((TNpcPlayer *)(&pkt))->init_6x3E_packet();
+    ((G_StopAtPosition_6x3E *)(&pkt))->init();
     flag = 0;
     if (((TObjCollidable *)a)->test_actor_flags(0x100000) != 0) {
         flag = 1;
@@ -626,9 +626,9 @@ void quest_player_look_at_partner(u16 src) {
     pkt.arg = heading;
     pkt.flag = flag;
     if (flag == 1) {
-        ((TNpcPlayer *)(&pkt))->send_6x3E();
+        ((G_StopAtPosition_6x3E *)(&pkt))->send();
     } else {
-        ((TNpcPlayer *)(&pkt))->send_6x3E();
+        ((G_StopAtPosition_6x3E *)(&pkt))->send();
     }
 }
 
@@ -645,13 +645,13 @@ void quest_player_face_actor(u16 src, u16 dst) {
     if (c == NULL) {
         return;
     }
-    ((TNpcPlayer *)(&pkt))->init_6x3E_packet();
+    ((G_StopAtPosition_6x3E *)(&pkt))->init();
     ((TObjCollidable *)a)->test_actor_flags(0x100000);
     heading = (s32) ((65536.0 / (2.0 * 3.141592f)) * atan2_float(c->x - a->x, c->z - a->z));
     pkt.id = src;
     VecCopy((Vec *)&pkt.x, (const Vec *)&a->x);
     pkt.arg = heading;
-    ((TNpcPlayer *)(&pkt))->send_6x3E();
+    ((G_StopAtPosition_6x3E *)(&pkt))->send();
 }
 
 void TNpcPlayer::play_effect(int client) {

@@ -5474,9 +5474,9 @@ void handle_6x3F_set_position(void *command) {
 void handle_6x3E_stop_at_position(void *command) {
     Msg_801D0634 m;
     Player_801D0724 *p;
-    ((TNpcPlayer *)(&m))->init_6x3E_packet();
+    ((G_StopAtPosition_6x3E *)(&m))->init();
     ((void (*)(void *, void *))TObjPlayer__sub_801D25AC)(&m, command);
-    ((TNpcPlayer *)(&m))->bswap_6x3E();
+    ((G_StopAtPosition_6x3E *)(&m))->bswap();
     if (validate_6x3E_stop_at_position((G_ClientIDHeader *)&m) == 0) {
         return;
     }
@@ -5533,7 +5533,7 @@ void TObjPlayer::send_6x3E_stop_at_position() {
     s32 t;
     if ((arg0 == NULL) || (((TObjChara *)arg0)->obj_isState2_324() == 0)) {
         t = ((TObjCollidable *)arg0)->test_actor_flags(0x100000) != 0 ? 1 : 0;
-        ((TNpcPlayer *)(&m))->init_6x3E_packet();
+        ((G_StopAtPosition_6x3E *)(&m))->init();
         m.f2 = ((TObjBase *)arg0)->get_entity_id();
         m.f4 = t;
         m.f6 = this->rotation_y;
@@ -5542,7 +5542,7 @@ void TObjPlayer::send_6x3E_stop_at_position() {
         m.f8 = ((TObjPlayer *)arg0)->get_floor();
         m.fa = ((TObjBase *)arg0)->get_room();
         VecCopy__FP3VecPC3Vec(m.vec, arg0->vec);
-        ((TNpcPlayer *)(&m))->send_6x3E();
+        ((G_StopAtPosition_6x3E *)(&m))->send();
     }
 }
 
