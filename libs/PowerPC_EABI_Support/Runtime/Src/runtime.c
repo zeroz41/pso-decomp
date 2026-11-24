@@ -1,4 +1,3 @@
-
 #pragma ANSI_strict off
 #pragma tvectors off
 #pragma internal on

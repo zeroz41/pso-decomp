@@ -1,7 +1,3 @@
-
-
-#define __VIRetraceHandler vi___VIRetraceHandler
-
 #include <dolphin/vi.h>
 #include <dolphin/gx.h>
 #include <dolphin/hw_regs.h>

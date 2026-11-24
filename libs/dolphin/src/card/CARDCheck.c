@@ -1,5 +1,3 @@
-
-
 #include <dolphin.h>
 #include <dolphin/card.h>
 

@@ -1,5 +1,3 @@
-
-
 #include <dolphin.h>
 #include <dolphin/pad.h>
 #include <dolphin/si.h>

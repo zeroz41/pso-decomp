@@ -1,6 +1,3 @@
-
-
-
 #include <dolphin/ai.h>
 #include <dolphin/gx.h>
 #include <dolphin/hw_regs.h>

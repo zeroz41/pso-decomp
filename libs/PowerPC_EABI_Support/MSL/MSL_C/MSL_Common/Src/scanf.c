@@ -1,4 +1,3 @@
-
 #include "MSL_C/scanf.h"
 #include "MSL_C/ctype.h"
 #include "stdarg.h"

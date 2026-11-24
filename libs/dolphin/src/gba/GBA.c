@@ -1,5 +1,3 @@
-
-
 #include "gba/__gba.h"
 
 

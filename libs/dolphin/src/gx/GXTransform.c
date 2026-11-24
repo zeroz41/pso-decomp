@@ -1,6 +1,3 @@
-
-
-
 #include <dolphin/gx.h>
 #include <dolphin/mtx.h>
 #include <dolphin/os.h>

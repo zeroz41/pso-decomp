@@ -1,6 +1,3 @@
-
-
-
 #include <dolphin.h>
 #include <dolphin/card.h>
 #include <dolphin/exi.h>

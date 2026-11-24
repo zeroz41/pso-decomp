@@ -1,6 +1,3 @@
-
-
-
 #include <macros.h>
 #include <dolphin/ar.h>
 

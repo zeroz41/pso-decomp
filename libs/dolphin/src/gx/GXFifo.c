@@ -1,6 +1,3 @@
-
-
-
 #include <stddef.h>
 #include <dolphin/base/PPCArch.h>
 #include <dolphin/gx.h>

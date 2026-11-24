@@ -1,6 +1,3 @@
-
-
-
 #include <dolphin.h>
 #include <dolphin/os.h>
 #include <dolphin/si.h>

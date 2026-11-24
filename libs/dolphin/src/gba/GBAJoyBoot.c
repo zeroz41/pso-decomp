@@ -1,4 +1,3 @@
-
 #include "gba/__gba.h"
 
 static volatile u8 D54[] = {

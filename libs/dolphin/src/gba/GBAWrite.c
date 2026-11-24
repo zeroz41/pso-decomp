@@ -1,4 +1,3 @@
-
 #include "gba/__gba.h"
 #include <string.h>
 

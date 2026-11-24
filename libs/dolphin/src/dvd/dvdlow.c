@@ -1,6 +1,3 @@
-
-
-
 #include <dolphin.h>
 #include <dolphin/dvd.h>
 

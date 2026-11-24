@@ -1,4 +1,3 @@
-
 #include "gba/__gba.h"
 #include <dolphin/si.h>
 #include "os/sdk2002/__os.h"
