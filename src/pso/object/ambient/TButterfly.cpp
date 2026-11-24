@@ -246,4 +246,3 @@ void TButterfly::load_resources() {
     BmlResource *loaded = (BmlResource *)new BmlResource(1, &bm_o_abe_butterfly_resource_descriptor, 0, 0, NULL);
     butterfly_bml_resource = loaded;
 }
-

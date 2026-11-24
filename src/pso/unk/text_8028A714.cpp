@@ -23,4 +23,3 @@ u8 *fn_8028A78C(s32 index) {
     }
     return NULL;
 }
-

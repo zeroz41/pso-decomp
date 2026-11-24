@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #pragma readonly_strings on
 #include "types.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
@@ -267,7 +268,7 @@ void TBoss6Type1::init_move_attack() {
 }
 
 void TBoss6Type1::update_hit_timer() {
-    play_persistent_sound(0x40032614, (saddr)this, 0, 0, 0);
+    play_persistent_sound(0x40032614, this, 0, 0, 0);
     if ((s32)action_timer == 0x3C) {
         play_sound_effect(0x39403, &position, 0, 1);
     }
@@ -315,7 +316,7 @@ void TBoss6Type1::update_down_centop() {
     } else if (action_timer == 0xF) {
         VecCopy(&target_position.v, &down_centop_land_pos);
     }
-    play_persistent_sound(0x4003B012, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(0x4003B012, this, &position, 0, 0);
     if (--action_timer < 0) {
         set_action_state(0x1E);
     }
@@ -384,7 +385,7 @@ void TBoss6Type1::init_state() {
 }
 
 void TBoss6Type1::tick_trap_countdown() {
-    play_persistent_sound(0x40038F0F, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(0x40038F0F, this, &position, 0, 0);
     if (--action_timer < 0) {
         set_action_state(0x27);
     }
@@ -413,7 +414,7 @@ void TBoss6Type1::init_hp_and_state() {
 
 void TBoss6Type1::update_charge() {
     interpolate_pos_to_target(action_timer, action_duration);
-    play_persistent_sound(0x40038F0F, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(0x40038F0F, this, &position, 0, 0);
     if (--action_timer < 0) {
         set_action_state(0x27);
     }
@@ -482,7 +483,7 @@ void TBoss6Type1::update_fllsr_mv() {
         if (laser_scale > 0.0f) {
             sound = 0x4003AD0D;
         }
-        play_persistent_sound(sound, (saddr)this, (uaddr)&node_points[7], 0, 1);
+        play_persistent_sound(sound, this, &node_points[7], 0, 1);
     }
     if (laser_scale > 0.0f) {
         count_laser_frame();

@@ -17,4 +17,3 @@ s32 is_room_free_of_active_enemies(s32 floor, s16 room) {
     }
     return 1;
 }
-

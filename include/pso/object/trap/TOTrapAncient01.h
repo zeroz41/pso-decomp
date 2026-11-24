@@ -26,7 +26,7 @@ struct TOTrapAncient01 : public TOTrap {
     static void *create(void *set_data);
     static void release_static_resource();
     static void load_resources();
-    static s32 check_trigger_flag(saddr arg0, s32 flags);
+    static s32 check_trigger_flag(const Vec *position, s32 flags);
 };
 
 LAYOUT_ASSERT(TOTrapAncient01_size, sizeof(TOTrapAncient01) == 0x3C8);

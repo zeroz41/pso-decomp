@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcARM00.h"
@@ -22,7 +23,6 @@ uaddr TObjNpcARM00__model_resource;
 NJS_TEXLIST *TObjNpcARM00__texture_list;
 
 extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
 void release_texture_list(void*);
 
 void TObjNpcARM00::free_resources() {
@@ -56,8 +56,7 @@ TObjNpcARM00::TObjNpcARM00(TObject *parent, void *arg2) : TUnk_804A9F50(parent) 
 }
 
 void TObjNpcARM00::play_voice() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect(0x40003B08, arg0 + 0x38, 0, 0);
+    play_sound_effect(0x40003B08, &position, 0, 0);
 }
 
 

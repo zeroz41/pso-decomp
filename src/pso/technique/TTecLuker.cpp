@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -134,7 +135,6 @@ s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec *p, u16 unused);
 s32 is_split_screen();
 u8 *find_entity_by_id(u16);
 void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt);
-s32 play_persistent_sound(s32, void *, void *, s32, s32);
 f32 horizontal_distance_squared(void *, void *);
 s32 free_collision_body_parts(void *);
 s32 submit_cursor_candidate(void *, s32);
@@ -258,7 +258,7 @@ void TTecLuker::run_task() {
     u16 entity_id;
     u16 temp_r5;
     u8 *temp_r29;
-    u8 *player;
+    TObjPlayer *player;
     u8 *owner;
     TUnk_804C4450 *tgt;
     source = (uaddr)find_entity_by_id(sourceId);
@@ -307,10 +307,10 @@ void TTecLuker::run_task() {
         if ((get_player_by_client_id(traveller) != NULL) && (get_pipe_interaction_latch(field) != 0) && (are_players_gathered_near(&pipe_pos, 0, 10.0f) != 0)) {
             offset_point_toward_camera(&pipe_pos, (Vec *)&position, 10.0f);
             spawn_particle_effect((const Vec *)&position, 0xB3);
-            player = (u8 *)get_player_by_client_id(traveller);
+            player = get_player_by_client_id(traveller);
             if (player != NULL) {
                 TObjPlayer::play_effect_default((saddr)player, (int)0xA);
-                play_sound_effect(0x40022D1A, player + 0x38, 0, 0);
+                play_sound_effect(0x40022D1A, &player->position, 0, 0);
             }
             TWindowCtrl::init_all_slots();
             phase = 2;

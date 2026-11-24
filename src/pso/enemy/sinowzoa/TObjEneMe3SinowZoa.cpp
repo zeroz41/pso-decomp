@@ -2200,4 +2200,3 @@ s32 TObjEneMe3SinowZoa::check_floor_contact(const Vec *origin) {
 }
 
 }
-

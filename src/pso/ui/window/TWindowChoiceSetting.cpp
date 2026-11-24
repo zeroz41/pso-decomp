@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
@@ -30,7 +31,6 @@ struct Stack_80268A6C {
 extern "C" {
 s32 clamp_list_scroll_offset(int, void *, void *);
 s32 TWindowSubComCard__sub_8026906C(void);
-s32 play_sound_effect(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0);
 
 void TWindowMenuInfomation::request_close() {
     if (!(this->m_70 & 8) && (TWindowMenuInfomation::is_open() == 0)) {

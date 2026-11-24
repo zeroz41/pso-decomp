@@ -43,11 +43,11 @@ struct TObjGrass : public TObjEnemy {
     u32 m_3ac;
     TUnk_80494938 fade;
     TAttackTraceStrip *savers[2];  // attack traces; same type and role as TObjEneDubchik::saver (inferred name)
-    static void update_dying(void *arg0_);
+    void update_dying();
     static void update_camera_vec_by_stage(NJS_OBJECT *);
     void update();
     void update_web_attack();
-    static void update_chase_target(void *arg0_);
+    void update_chase_target();
     static void update_ai(void *arg0);
     virtual void render();
     virtual void run_task();

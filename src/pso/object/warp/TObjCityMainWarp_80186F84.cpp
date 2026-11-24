@@ -67,7 +67,7 @@ void TObjCityMainWarpChallenge::update_warp_sequence() {
     switch (arg0->state_step) {
     case 0:
         arg0->warp_countdown = 0x12C;
-        play_sound_effect(0x40003205, (u8 *)&arg0->position, 0, 0);
+        play_sound_effect(0x40003205, reinterpret_cast<const Vec *>((u8 *)&arg0->position), 0, 0);
         arg0->state_step = 1;
         arg0->model = (saddr)city_common_model_archive->models[0].model;
         arg0->motion = city_common_model_archive->motions[5].motion;

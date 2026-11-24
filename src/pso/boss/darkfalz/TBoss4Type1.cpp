@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
@@ -921,7 +922,7 @@ void TBoss4Type1::update_effect_positions() {
         }
     }
     model_nodes.scroll_strips();
-    play_persistent_sound(0x4003BC0E, (saddr)this, (uaddr)&position, 0x40, 2);
+    play_persistent_sound(0x4003BC0E, this, &position, 0x40, 2);
 }
 
 void TBoss4Type1::update_follow_camera_offsets() {
@@ -1025,7 +1026,7 @@ void TBoss4Type1::update_move_stnd_pos() {
         set_pos_from_scaled_offset(&a, &b);
     }
     calc_scaled_field(calc_slot_angle(prev_slot, prev_turn), calc_slot_angle(slot, turn));
-    play_persistent_sound(0x4003A80D, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(0x4003A80D, this, &position, 0, 0);
     if (--state_timer < 0) {
         prev_slot = slot;
         prev_turn = turn;
@@ -1161,7 +1162,7 @@ void TBoss4Type1::update_tech_charge() {
         }
     }
     if (anim_frame >= 8.0f && anim_frame <= 17.0f) {
-        play_persistent_sound(0x4003B512, (saddr)this, (uaddr)&position, 0, 1);
+        play_persistent_sound(0x4003B512, this, &position, 0, 1);
     }
     if (state_timer == 0x26) {
         if ((particle = spawn_particle_effect(ent, 0xFD)) != 0) {

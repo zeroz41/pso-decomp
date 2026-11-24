@@ -71,4 +71,3 @@ int TLobby::compare_file_extension(const char *ext) {
     }
     return -1;
 }
-

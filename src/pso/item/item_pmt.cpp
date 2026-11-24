@@ -307,7 +307,7 @@ void play_shield_sound_cue(Obj_8011C59C *cue) {
         off = ((idx & 0x7f) * 2 + 1) * 4;
         pos = cue->ptr + 0x38;
         if (a != 0) {
-            s32 r = play_sound_effect(a, pos, 0, 0);
+            s32 r = play_sound_effect(a, reinterpret_cast<const Vec *>(pos), 0, 0);
             if (*(s32 *)(tbl + off) != 0) {
                 set_sound_pitch_request(r, *(s32 *)(tbl + off), 0);
             }
@@ -367,7 +367,7 @@ void play_weapon_hit_sound(Ctx_8011C7C8 *c) {
                 }
             }
             if (k != 0) {
-                s32 handle = play_sound_effect(k, pos, 0, 0);
+                s32 handle = play_sound_effect(k, reinterpret_cast<const Vec *>(pos), 0, 0);
                 if (p != 0) {
                     set_sound_pitch_request(handle, p, 0);
                 }
@@ -398,7 +398,7 @@ void play_weapon_owner_sounds(Ctx_8011C7C8 *c) {
             s32 k = key[i];
             s32 p = pitch[i];
             if (k != 0) {
-                s32 handle = play_sound_effect(k, pos, 0, 0);
+                s32 handle = play_sound_effect(k, reinterpret_cast<const Vec *>(pos), 0, 0);
                 if (p != 0) {
                     set_sound_pitch_request(handle, p, 0);
                 }

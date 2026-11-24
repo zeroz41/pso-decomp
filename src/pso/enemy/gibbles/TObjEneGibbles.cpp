@@ -1802,4 +1802,3 @@ void TObjEneGibbles::set_min_clamped_entry_value(s32 action, f32 speed) {
     }
     gibbles_action_table[action].speed = speed;
 }
-

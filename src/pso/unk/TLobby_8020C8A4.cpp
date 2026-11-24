@@ -68,4 +68,3 @@ s32 TLobby::link_matching_objects(s16 arg0, s16 arg1) {
     }
     return var_r30;
 }
-

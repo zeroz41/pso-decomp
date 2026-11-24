@@ -337,4 +337,3 @@ void TBoss6SwordShot::damage_players_in_radius() {
         }
     }
 }
-

@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -316,7 +317,7 @@ void TObjEneBalClawClaw::update_chase() {
             reset_active_state();
             break;
         }
-        play_persistent_sound(0x4003B235, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4003B235, this, &position, 0, 0);
         update_enemy_wander_move(this, ((TObjChara *)target)->body_center, 1, ((EnemyMoveParams *)movementParameters)->min_distance);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         advance_animation();
@@ -349,7 +350,7 @@ void TObjEneBalClawClaw::update_damage() {
         velocity.z *= 0.9f;
         apply_actor_gravity(this, NULL, 0.0f);
         update_collisions();
-        play_persistent_sound(0x4003B235, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4003B235, this, &position, 0, 0);
         if (action_flags != 8) {
             actorFlags &= ~0x200;
             behavior_flags &= ~1;

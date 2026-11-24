@@ -36,4 +36,3 @@ void TLobby::fill_guild_card_from_char(s32 index) {
         }
     }
 }
-

@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -127,7 +128,7 @@ void TBoss6Demo11_TYPE1_DEAD::run_task() {
         break;
     }
     if (timer >= 0x89) {
-        play_persistent_sound(0x4003A424, (saddr)this, 0, 0, 0);
+        play_persistent_sound(0x4003A424, this, 0, 0, 0);
     }
     switch (timer) {
     case 0xE:

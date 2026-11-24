@@ -18,4 +18,3 @@ TWindowMessageScroll *open_message_scroll_window(const NJS_POINT2 *position, con
     TLobby__sub_80269C90();
     return window;
 }
-

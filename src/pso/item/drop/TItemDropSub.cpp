@@ -20,4 +20,3 @@ TItemDropSub::TItemDropSub(TObject *parent) : TObject(parent) {
     *(u32 *)((s8 *)item_drop_sub + 0x1C) = 10;
 }
 #undef item_drop_sub
-

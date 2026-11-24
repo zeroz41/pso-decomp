@@ -107,4 +107,3 @@ void TOSwitchAttack::init_params() {
         this->m_a4 = 1U;
     }
 }
-

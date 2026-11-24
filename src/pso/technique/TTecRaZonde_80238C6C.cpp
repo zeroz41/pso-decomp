@@ -45,7 +45,6 @@ struct RecoveredFields_80230D9C_arg0
 #pragma fp_contract on
 
 extern "C" {
-s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 f32 vector_length(void *);
 #pragma push
 #pragma opt_common_subs off
@@ -312,18 +311,18 @@ void TTecResta::play_launch_sound() {
     switch (self->band) {
     case 0:
     case 1:
-        h = play_sound_effect(0x4002AB0E, self->pos, 0, 0);
+        h = play_sound_effect(0x4002AB0E, &position, 0, 0);
         if (h >= 0) {
             set_sound_pitch_request(h, 0x100, 0);
         }
         break;
     case 2:
     case 3:
-        play_sound_effect(0x4002AB0E, self->pos, 0, 0);
+        play_sound_effect(0x4002AB0E, &position, 0, 0);
         break;
     case 4:
     case 5:
-        h = play_sound_effect(0x4002AB0E, self->pos, 0, 0);
+        h = play_sound_effect(0x4002AB0E, &position, 0, 0);
         if (h >= 0) {
             set_sound_pitch_request(h, -0x100, 0);
         }

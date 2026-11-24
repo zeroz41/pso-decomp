@@ -120,4 +120,3 @@ void TLobby::create_objects(s32 floor) {
         }
     }
 }
-

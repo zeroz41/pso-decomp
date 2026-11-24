@@ -342,4 +342,3 @@ void TOCtrlDubchik::clear_part_offsets() {
     part_spread = 0.0f;
     effect_scale = 0.0f;
 }
-

@@ -21,4 +21,3 @@ void TLobby::free_shared_objects() {
         green_door_bml_resource = NULL;
     }
 }
-

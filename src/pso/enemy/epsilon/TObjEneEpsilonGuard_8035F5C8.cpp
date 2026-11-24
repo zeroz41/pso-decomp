@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TUnk_804CCB28.h"
@@ -196,7 +197,7 @@ void TObjEneEpsilonBody::run_task() {
         transition_enemy_state(0);
     }
     if (mode != 9) {
-        play_persistent_sound(0x4003AD43, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4003AD43, this, &position, 0, 0);
     }
     update_body_colliders();
     update_position();
@@ -447,7 +448,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
                 action_timer = 2;
                 fire_timer = epsilon_body_shared_params->fire_fuse_frames;
             }
-            play_persistent_sound(0x4003BC47, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4003BC47, this, &position, 0, 0);
             break;
         }
         case 2:
@@ -712,7 +713,7 @@ void TObjEneEpsilonBody::handle_warp_state(s32 reason) {
                 color_step.g = (epsilon_body_colors[color_index].g - color.g) / 30.0f;
                 color_step.b = (epsilon_body_colors[color_index].b - color.b) / 30.0f;
             }
-            play_persistent_sound(0x4003A349, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4003A349, this, &position, 0, 0);
             break;
         case 1:
             action_timer--;
@@ -724,7 +725,7 @@ void TObjEneEpsilonBody::handle_warp_state(s32 reason) {
                 effect_scale = 1.0f;
                 action_step = 2;
             }
-            play_persistent_sound(0x4003A349, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4003A349, this, &position, 0, 0);
             break;
         case 2:
             effect_scale = effect_scale - 0.033333335f;
@@ -733,7 +734,7 @@ void TObjEneEpsilonBody::handle_warp_state(s32 reason) {
                 action_step = 3;
                 play_sound_effect(0x40039F4A, &position, 0, 0);
             } else {
-                play_persistent_sound(0x4003A349, (saddr)this, (uaddr)&position, 0, 0);
+                play_persistent_sound(0x4003A349, this, &position, 0, 0);
             }
             break;
         }

@@ -130,4 +130,3 @@ SampledMotionPoints::SampledMotionPoints(s32 points_per_sample, f32 start, f32 e
         points[i].z = 0.0f;
     }
 }
-

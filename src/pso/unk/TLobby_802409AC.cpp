@@ -46,24 +46,24 @@ extern "C" {
 s32 __as__21TPlyMeetUserExtensionFRC21TPlyMeetUserExtension(void *, void *);
 void load_selected_guild_card_record(Src_8024220C *arg0);
 }
-void TLobby::set_field0(void *owner) { ((SoundRequestVoice *)this)->owner = (SoundRequestOwner *)owner; }
+void SoundRequestVoice::set_field0(SoundControlState *owner) { this->owner = owner; }
 
 
-void TLobby::clamp_field9c(f32 scale) {
+void SoundRequestVoice::clamp_reverb(f32 scale) {
     f32 var_f1;
 
     var_f1 = scale;
     if (var_f1 < 0.0f) {
-        *(f32 *)((s8 *)this + 0x9C) = -1.0f;
+        reverb = -1.0f;
         return;
     }
     if (var_f1 > 1.0f) {
         var_f1 = 1.0f;
     }
-    *(f32 *)((s8 *)this + 0x9C) = var_f1;
+    reverb = var_f1;
 }
 
-void TLobby__sub_802409E4(void* p) { *(s16*)((char*)p + 0x92) = 5; }
+void TLobby__sub_802409E4(SoundRequestVoice *voice) { voice->refresh = 5; }
 
 extern "C" s32 sndFXCtrl14(u32 vid, u8 ctrl, u16 value);
 
@@ -78,34 +78,34 @@ void TLobby__sub_802409F0(SoundRequestVoice *v) {
     }
 }
 
-void update__6TLobbyFPv(void *arg0) {
+void SoundRequestVoice::update() {
     s32 temp_r0;
     s32 temp_r4;
 
-    if ((u32) (*(s32 *)((s8 *)arg0 + 0x80) + 0x77780000) == 0x8888U) {
-        *(s32 *)((s8 *)arg0 + 0x84) = 0;
-        *(s32 *)((s8 *)arg0 + 0x80) = 0;
-        *(s32 *)((s8 *)arg0 + 0x78) = (s32) *(s32 *)((s8 *)arg0 + 0x7C);
+    if ((u32) (pitchDuration + 0x77780000) == 0x8888U) {
+        pitchRemaining = 0;
+        pitchDuration = 0;
+        pitchSlide = (s32) pitchTarget;
     }
-    temp_r4 = *(s32 *)((s8 *)arg0 + 0x80);
+    temp_r4 = pitchDuration;
     if (temp_r4 > 0) {
-        temp_r0 = *(s32 *)((s8 *)arg0 + 0x84);
+        temp_r0 = pitchRemaining;
         if (temp_r0 <= 0) {
-            *(s32 *)((s8 *)arg0 + 0x84) = 0;
-            *(s32 *)((s8 *)arg0 + 0x80) = 0;
-            *(s32 *)((s8 *)arg0 + 0x78) = (s32) *(s32 *)((s8 *)arg0 + 0x7C);
+            pitchRemaining = 0;
+            pitchDuration = 0;
+            pitchSlide = (s32) pitchTarget;
         } else {
-            *(s32 *)((s8 *)arg0 + 0x78) = (s32) ((s32) (*(s32 *)((s8 *)arg0 + 0x7C) * (temp_r4 - temp_r0)) / temp_r4);
-            *(s32 *)((s8 *)arg0 + 0x84) = (s32) (*(s32 *)((s8 *)arg0 + 0x84) - ((TLobby *)(*(saddr *)((s8 *)arg0 + 0)))->get_field_308());
+            pitchSlide = (s32) ((s32) (pitchTarget * (temp_r4 - temp_r0)) / temp_r4);
+            pitchRemaining = (s32) (pitchRemaining - owner->get_field_308());
         }
     }
-    *(s32 *)((s8 *)arg0 + 0x64) = (s32) (*(s32 *)((s8 *)arg0 + 0x6C) + *(s32 *)((s8 *)arg0 + 0x70) + *(s32 *)((s8 *)arg0 + 0x78));
-    *(s32 *)((s8 *)arg0 + 0x64) = (s32) (*(s32 *)((s8 *)arg0 + 0x64) + 0x2000);
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x64) < 0) {
-        *(s32 *)((s8 *)arg0 + 0x64) = 0;
+    pitch = (s32) (pitchStatic + pitchMoving + pitchSlide);
+    pitch = (s32) (pitch + 0x2000);
+    if ((s32) pitch < 0) {
+        pitch = 0;
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x64) > 0x3FFF) {
-        *(s32 *)((s8 *)arg0 + 0x64) = 0x3FFF;
+    if ((s32) pitch > 0x3FFF) {
+        pitch = 0x3FFF;
     }
 }
 
@@ -156,17 +156,17 @@ extern s8 TLobby__data_805434A8[];
 void TLobby__sub_80241798(Sound_80241798 *arg0);
 }
 void calc_sound_spatial_params(SoundRequestVoice *);
-void send_voice_controller_updates(u8 *arg0);
+void send_voice_controller_updates(SoundRequestVoice *voice);
 
-s32 set_voice_pitch_slide(u8 *arg0, s32 arg1, s32 duration) {
+s32 set_voice_pitch_slide(SoundRequestVoice *voice, s32 target, s32 duration) {
     s32 var_r5;
     var_r5 = duration;
     if (var_r5 <= 0) {
         var_r5 = 0x88888888;
     }
-    *(s32 *)((s8 *)arg0 + 0x7C) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x80) = var_r5;
-    *(s32 *)((s8 *)arg0 + 0x84) = var_r5;
+    voice->pitchTarget = target;
+    voice->pitchDuration = var_r5;
+    voice->pitchRemaining = var_r5;
     return 0;
 }
 
@@ -181,7 +181,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
     switch (v->state) {
     case -1:
         v->age++;
-        v->effect = ((s32 (*)(SoundRequestOwner*, s32, s32, s32))resolve_sound_effect_bank)(v->owner, v->kind, v->bank, v->index);
+        v->effect = resolve_sound_effect_bank(v->owner, v->kind, v->bank, v->index);
         if (v->effect < 0) {
             v->state = 0;
             return 0;
@@ -196,8 +196,8 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         ((void (*)(SoundRequestVoice *))TLobby__sub_80240F38)(v);
         TLobby__sub_80240F3C(v);
         calc_sound_spatial_params(v);
-        ((TLobby *)v)->clamp_params();
-        TLobby::update(v);
+        v->clamp_params();
+        v->update();
         params.count = 1;
         params.ctl = ctl;
         ctl[0].type = 0x80;
@@ -206,7 +206,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
             level = OSDisableInterrupts();
         }
         v->token = sndFXStartParaInfo(v->effect, 0x7F, v->pan, v->studio, &params);
-        send_voice_controller_updates((u8 *)v);
+        send_voice_controller_updates(v);
         if (!(lobby_state_flags & 2) && TLobby__data_805434A8[7] == 0) {
             OSRestoreInterrupts(level);
         }
@@ -246,8 +246,8 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
         }
         v->refresh--;
         send_sound_request_reverb((SoundRequestVoice *)(v));
-        ((TLobby *)v)->clamp_params();
-        TLobby::update(v);
+        v->clamp_params();
+        v->update();
         if (sndFXCheck(v->token) == 0xFFFFFFFF) {
             if ((v->flags & 1) && v->refresh >= 0) {
                 sndFXKeyOff(v->token);
@@ -256,7 +256,7 @@ s32 tick_sound_voice(SoundRequestVoice *v) {
             }
             v->state = 0;
         } else {
-            send_voice_controller_updates((u8 *)v);
+            send_voice_controller_updates(v);
             TLobby__sub_802409F0(v);
             if ((v->flags & 1) && v->refresh < 0) {
                 sndFXKeyOff(v->token);
@@ -694,7 +694,7 @@ void send_sound_request_reverb(SoundRequestVoice *voice) {
     s32 amount;
     if (request < 0.0f) {
         if (voice->bank == 5 || (voice->flags & 0x10)) amount = 0;
-        else amount = s32(127.0f * voice->owner->reverb);
+        else amount = s32(127.0f * voice->owner->reverb_level);
     } else amount = s32(127.0f * request);
     if (voice->bank == 6) {
         switch (voice->index) {
@@ -709,51 +709,51 @@ void send_sound_request_reverb(SoundRequestVoice *voice) {
         sndFXCtrl(voice->token, 91, amount);
 }
 
-void send_voice_controller_updates(u8 *arg0) {
-    switch ((s32) *(s32 *)((s8 *)arg0 + 0xC)) {
+void send_voice_controller_updates(SoundRequestVoice *voice) {
+    switch (voice->kind) {
     case 0:
-    if ((*(s32 *)((s8 *)arg0 + 0x24)) != (s32) *(s32 *)((s8 *)arg0 + 0x28)) {
-        *(s32 *)((s8 *)arg0 + 0x24) = *(s32 *)((s8 *)arg0 + 0x28);
-        sndFXCtrl((int) (*(s32 *)((s8 *)arg0 + 0x20)), 7, (int) ((u8) *(s32 *)((s8 *)arg0 + 0x28)));
+    if ((voice->previousVolume) != voice->volume) {
+        voice->previousVolume = voice->volume;
+        sndFXCtrl((int) (voice->token), 7, (int) ((u8) voice->volume));
     }
-    if ((*(s32 *)((s8 *)arg0 + 0x2C)) != (s32) *(s32 *)((s8 *)arg0 + 0x30)) {
-        *(s32 *)((s8 *)arg0 + 0x2C) = *(s32 *)((s8 *)arg0 + 0x30);
-        sndFXCtrl((int) (*(s32 *)((s8 *)arg0 + 0x20)), 0xA, (int) ((u8) *(s32 *)((s8 *)arg0 + 0x30)));
+    if ((voice->previousPan) != voice->pan) {
+        voice->previousPan = voice->pan;
+        sndFXCtrl((int) (voice->token), 0xA, (int) ((u8) voice->pan));
     }
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x10) == 5) {
-        sndFXCtrl((int) (*(s32 *)((s8 *)arg0 + 0x20)), 0x83, (int) (0U));
+    if (voice->bank == 5) {
+        sndFXCtrl((int) (voice->token), 0x83, (int) (0U));
         return;
     }
-    if ((*(s32 *)((s8 *)arg0 + 0x34)) != (s32) *(s32 *)((s8 *)arg0 + 0x38)) {
-        *(s32 *)((s8 *)arg0 + 0x34) = *(s32 *)((s8 *)arg0 + 0x38);
-        sndFXCtrl((int) (*(s32 *)((s8 *)arg0 + 0x20)), 0x83, (int) ((u8) *(s32 *)((s8 *)arg0 + 0x38)));
+    if ((voice->previousSurround) != voice->surround) {
+        voice->previousSurround = voice->surround;
+        sndFXCtrl((int) (voice->token), 0x83, (int) ((u8) voice->surround));
     }
         break;
     }
 }
 
-void TLobby::clamp_params() {
-    *(s32 *)((s8 *)this + 0x28) = (((*(s32 *)((s8 *)this + 0x48) + *(s32 *)((s8 *)this + 0x40)) + *(s32 *)((s8 *)this + 0x3C)) + *(s32 *)((s8 *)this + 0x44)) + 0x7F;
-    *(s32 *)((s8 *)this + 0x30) = (s32) (0x40 - (*(s32 *)((s8 *)this + 0x50) + *(s32 *)((s8 *)this + 0x54)));
-    *(s32 *)((s8 *)this + 0x38) = (s32) ((*(s32 *)((s8 *)this + 0x58) + *(s32 *)((s8 *)this + 0x60)) + 0x40);
-    *(s32 *)((s8 *)this + 0x28) = (s32) (*(s32 *)((s8 *)this + 0x28) + *(s32 *)((s8 *)(*(void **)((s8 *)this + 0)) + 0x280));
-    if ((s32) *(s32 *)((s8 *)this + 0x28) < 0) {
-        *(s32 *)((s8 *)this + 0x28) = 0;
+void SoundRequestVoice::clamp_params() {
+    volume = (((fade + extra) + base) + spatial) + 0x7F;
+    pan = (s32) (0x40 - (panExtra + panSpatial));
+    surround = (s32) ((surroundExtra + surroundSpatial) + 0x40);
+    volume = (s32) (volume + owner->voice_volume_adjustment);
+    if (volume < 0) {
+        volume = 0;
     }
-    if ((s32) *(s32 *)((s8 *)this + 0x28) > 0x7F) {
-        *(s32 *)((s8 *)this + 0x28) = 0x7F;
+    if (volume > 0x7F) {
+        volume = 0x7F;
     }
-    if ((s32) *(s32 *)((s8 *)this + 0x30) < 0) {
-        *(s32 *)((s8 *)this + 0x30) = 0;
+    if (pan < 0) {
+        pan = 0;
     }
-    if ((s32) *(s32 *)((s8 *)this + 0x30) > 0x7F) {
-        *(s32 *)((s8 *)this + 0x30) = 0x7F;
+    if (pan > 0x7F) {
+        pan = 0x7F;
     }
-    if ((s32) *(s32 *)((s8 *)this + 0x38) < 0) {
-        *(s32 *)((s8 *)this + 0x38) = 0;
+    if (surround < 0) {
+        surround = 0;
     }
-    if ((s32) *(s32 *)((s8 *)this + 0x38) > 0x7F) {
-        *(s32 *)((s8 *)this + 0x38) = 0x7F;
+    if (surround > 0x7F) {
+        surround = 0x7F;
     }
 }
 
@@ -776,9 +776,9 @@ void calc_sound_spatial_params(SoundRequestVoice *v) {
             if (get_current_floor_area() == AREA_DARK_FALZ || get_current_floor_area() == AREA_OLGA_FLOW) {
                 range *= 2.0f;
             }
-            source.x = ((const Vec *)v->position)->x;
+            source.x = v->position->x;
             source.y = 0.0f;
-            source.z = ((const Vec *)v->position)->z;
+            source.z = v->position->z;
             if (is_split_screen()) {
                 dist = 10000.0f;
                 TCameraCtrl::get_camera_id();
@@ -819,14 +819,14 @@ void calc_sound_spatial_params(SoundRequestVoice *v) {
                 pan = 0;
             } else if (dist > 0.0f) {
                 // inferred: direction to the source, 0x10000 units per turn
-                f64 direction = 10430.38043493439 * atan2_float(((const Vec *)v->position)->z - camera_ctrl_instance->pos.z,
-                                                                ((const Vec *)v->position)->x - camera_ctrl_instance->pos.x);
+                f64 direction = 10430.38043493439 * atan2_float(v->position->z - camera_ctrl_instance->pos.z,
+                                                                v->position->x - camera_ctrl_instance->pos.x);
                 pan = (s8)(127.0f * -sin_table_lookup((s32)direction + camera_ctrl_instance->yaw + 0x4000));
             }
             if (is_split_screen() || (v->flags & 8)) {
                 surround = 0;
             } else {
-                const Vec *pos = (const Vec *)v->position;
+                const Vec *pos = v->position;
                 f64 direction = 10430.38043493439 * atan2_float(pos->z - listener.z, pos->x - listener.x);
                 s32 angle = (s32)direction + camera_ctrl_instance->yaw - 0x4000;
                 surround = (s32)(dist * (cos_table_lookup(angle) * ((TLobby *)(v->owner))->get_field_2a4()));
@@ -966,7 +966,7 @@ SoundRequestVoice::SoundRequestVoice() {
     owner = NULL;
     state = 0;
 }
-s32 TLobby::get_field_308() { return *(s32*)((char*)this + 0x308); }
+s32 SoundControlState::get_field_308() { return ms; }
 void TLobby::forward_8024273C(void *p) { TLobby__sub_8024273C(p); }
 
 void TLobby::send_find_user_self_tag(s32 gc_num) {

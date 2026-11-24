@@ -1,4 +1,5 @@
 #include "pso/math/CurvePathPoint.h"
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/system/BmlResourceLoader.h"
@@ -1075,7 +1076,7 @@ void TBoss8Dragon::play_effect_sound(s32 sound_id) {
 }
 
 void TBoss8Dragon::spawn_trap(s32 id) {
-    play_persistent_sound(id, (saddr)this, (uaddr)&this->sound_origin, 0, 0);
+    play_persistent_sound(id, this, &this->sound_origin, 0, 0);
 }
 
 void TBoss8Dragon::try_spawn_trap() {

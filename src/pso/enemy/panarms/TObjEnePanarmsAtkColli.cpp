@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -159,7 +160,7 @@ void TObjEnePanarmsAtkColli::run_task() {
         check_radius_collisions();
         return;
     case 1:
-        play_persistent_sound(remap_sound_for_area(0x4003BA2A), (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003BA2A), this, &position, 0, 0);
         sweep_segment_collisions();
         return;
     }

@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/system/NinjaTypes.h"
@@ -179,7 +180,7 @@ void TPhotonPilla::run_task() {
         apply_photon_blast_effects();
     }
     if (started != 0) {
-        play_persistent_sound(0x4002462F, (saddr)this, 0, 0, 0);
+        play_persistent_sound(0x4002462F, this, NULL, 0, 0);
     }
 }
 

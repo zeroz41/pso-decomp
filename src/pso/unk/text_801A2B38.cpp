@@ -43,4 +43,3 @@ void *TObjItemLight::create(void *set_data) {
 void *TObjCityMainWarpChallenge::create(void *set_data) {
     return new TObjCityMainWarpChallenge(tl_05, set_data);
 }
-

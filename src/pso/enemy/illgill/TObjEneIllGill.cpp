@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -1003,7 +1004,7 @@ void TObjEneIllGill::update_death_fall() {
       apply_actor_gravity((TObjEnemy *)self, (s32 *)(0), 0.0f);
       if (((TObjMotion *)self)->is_passing_frame((f32)(10.0f)) != 0)
     {
-      play_sound_effect(0x4003A351, (u8 *)&this->position, 0, 0);
+      play_sound_effect(0x4003A351, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
       this->phase = 2;
     }
       return;
@@ -1023,7 +1024,7 @@ void TObjEneIllGill::update_death_fall() {
     case 3:
       if (((TObjMotion *)self)->is_passing_frame((f32)(52.0f)) != 0)
     {
-      play_sound_effect(0x4003A358, (u8 *)&this->position, 0, 0);
+      play_sound_effect(0x4003A358, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
       TObjPlayer::apply_effect_variant_b((saddr)&position, 0xA);
       fn_800D911C(&position);
       this->phase = 4;
@@ -1131,7 +1132,7 @@ void TObjEneIllGill::update_shadow_attack() {
         }
         break;
     case 2:
-        play_persistent_sound((s32)(0x4003A356), (saddr)enemy, (uaddr)&position, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(0x4003A356), enemy, &position, (s32)(0), (s32)(0));
         apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), 0.0f);
         if (this->target != NULL) {
             Vec w;
@@ -1358,7 +1359,7 @@ void TObjEneIllGill::update_charge_attack() {
                 o->chargeFrames = c + 1;
             }
         }
-        play_persistent_sound((s32)(0x4003A34F), (saddr)o, (uaddr)&o->position, (s32)(0), (s32)(0));
+        play_persistent_sound((s32)(0x4003A34F), o, &o->position, (s32)(0), (s32)(0));
         if (o->primaryEffect != 0 && ((TObject *)(o->primaryEffect))->all_parents_unqueued_for_destruction() != 0) {
             ((TParticleCtrl *)o->primaryEffect)->set_position(&o->chargeEffectPosition1);
         }
@@ -1431,11 +1432,10 @@ void TObjIllGillKage::attack_target() {
 }
 
 void TObjIllGillKage::tick_persistent_sound() {
-    play_persistent_sound(0x4003A357, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(0x4003A357, this, &position, 0, 0);
     if (timer-- < 0) {
         this->state = 2;
     }
 }
 
 void TObjIllGillKage::queue_destruction() { TObject::queue_destruction(); }
-

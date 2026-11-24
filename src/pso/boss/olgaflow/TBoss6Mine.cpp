@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -241,7 +242,7 @@ void TBoss6Mine::state_2() {
         this->state_frames = 0;
         this->state = 3;
     }
-    play_persistent_sound(0x4003B21C, (saddr)this, (uaddr)&this->position, 0, 0);
+    play_persistent_sound(0x4003B21C, this, &this->position, 0, 0);
 }
 
 void TBoss6Mine::state_1() {

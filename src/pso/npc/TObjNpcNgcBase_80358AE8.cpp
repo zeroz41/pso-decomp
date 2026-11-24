@@ -465,4 +465,3 @@ void TObjNpcNgcBase::load_resources() {
         }
     }
 }
-

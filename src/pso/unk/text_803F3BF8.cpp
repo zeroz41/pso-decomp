@@ -89,4 +89,3 @@ s32 TLobby__sub_803F3D60(void) {
     set_network_config_card_channel(2);
     return 0;
 }
-
