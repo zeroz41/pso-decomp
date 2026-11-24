@@ -680,7 +680,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     ((TObjPlayer *)((char *)this + 1624))->reset_scale_vector();
     ((TObjPlayer *)((char *)this + 1644))->set_vec3_const_wrapper();
     npc_control.reset();
-    ((TObjPlayer *)((char *)this + 1708))->forward_release();
+    movement_history.init();
     movement_hold.init();
     ((TObjPlayer *)((char *)this + 1860))->init_vec_record();
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
@@ -711,7 +711,7 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     ((TObjPlayer *)((char *)this + 1624))->reset_scale_vector();
     ((TObjPlayer *)((char *)this + 1644))->set_vec3_const_wrapper();
     npc_control.reset();
-    ((TObjPlayer *)((char *)this + 1708))->forward_release();
+    movement_history.init();
     movement_hold.init();
     ((TObjPlayer *)((char *)this + 1860))->init_vec_record();
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
@@ -752,7 +752,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     ((TObjPlayer *)(((u8 *)this) + 0x658))->reset_scale_vector();
     ((TObjPlayer *)(((u8 *)this) + 0x66C))->set_vec3_const_wrapper();
     npc_control.reset();
-    ((TObjPlayer *)(((u8 *)this) + 0x6AC))->forward_release();
+    movement_history.init();
     movement_hold.init();
     ((TObjPlayer *)(((u8 *)this) + 0x744))->init_vec_record();
     ((TObjPlayer *)(((u8 *)this) + 0x754))->init_sub_objects();

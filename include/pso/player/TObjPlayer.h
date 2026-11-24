@@ -544,7 +544,6 @@ struct TObjPlayer : public TObjChara {
     void set_vec3_const();
     static s32 reset_and_return(saddr arg0);
     void clear_base();
-    void*forward_release();
     void*set_vec3_const_wrapper();
     void reset_scale_vector();
     u8 *construct_hurt_timer();
