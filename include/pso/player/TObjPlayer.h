@@ -894,7 +894,6 @@ struct TObjPlayer : public TObjChara {
     static s8 get_rule_field_0();
     void set_all_technique_levels(void *level);
     void copy_all_technique_entries(void *level);
-    static TItem *create_object_by_type(u8 *item);
     static void draw_effect();
     void draw_trail_pair();
     static void update_particle_by_phase(NJS_OBJECT *);
@@ -1136,9 +1135,6 @@ struct TObjPlayer : public TObjChara {
     static void free_shared_lobby_data();
     f32 select_normal_attack_marker();
     static void update_all_units(s32 levels, s32 level);
-    void *do_action_447();
-    // A hit callback of TUnk_804E1CA8 (its pad_208).
-    static void do_action_447_from_packet(void *item, void *hit, void *dir);
     static TItem *create_vtable_variant(u8 *item);
     static TItem *create_state_1536(u8 *item);
     static TItem *create_mode_floats_state(u8 *item);
@@ -1221,9 +1217,6 @@ struct TObjPlayer : public TObjChara {
     static saddr run_and_return_arg(saddr arg0);
     u8 get_mag_level();
     const Vec *get_guild_return_position();
-    void spawn_item();
-    static void spawn_hit_particles_at(s32 arg0, saddr hit, saddr dir);
-    static void spawn_hit_particles_at_vec(s32 arg0, saddr arg1, saddr dir);
     static void heap_alloc(void* a0);
     static TPlayerLobbyMarker *create_lobby_marker(s16 client, s8 material_index);
     s32 can_guard();
