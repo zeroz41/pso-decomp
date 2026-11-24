@@ -13,12 +13,59 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/movie/TMovie.h"
+#include "pso/system/main_loop.h"
+#include "pso/ui/frontend/TAdEndText.h"
+#include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/unk/TLobby.h"
+#include "pso/player/TObjPlayer_801A5AEC.h"
+#include "pso/unk/text_803DCDFC.h"
+#include "pso/unk/text_800FA464.h"
+#include "pso/render/GinjaView.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 // Built with -inline off,deferred: functions are written last to first.
 
 extern "C" {
 void *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void *, s32, s32, s32);
 }
+
+s32 ending_sequence_active;
+s32 ending_movie_active_flag;
+
+void start_ending_sequence(void) {
+    ending_sequence_active = 1;
+    set_screen_size(1.0f, 0.85f);
+    set_copy_clear_color_argb(0, 0, 0);
+    reset_controller_input_state();
+    set_queued_main_phase(2);
+    TKeyBoardControl__sub_8000F90C(2);
+    TAdEndText::load_ending_font();
+    TLobby::update_keyboard_menu();
+    TLobby::set_ending_callback();
+    new TEndingMovie;
+    render_tick();
+}
+
+void TKeyBoardControl::run_main_frame() {
+    func_803DCDFC__Fv();
+    controller_stuff();
+    TKeyBoardControl::update_input_frame();
+    main_task.begin_frame();
+    main_task.run_task();
+    main_task.render();
+    main_task.render_screen_overlay();
+    process_async_file_reads();
+    if (func_801A5E54__Fv() != 0) {
+        TKeyBoardControl__sub_8000F92C();
+    }
+    if (TQuestVmDownLoadServer::is_ready() != 0) {
+        request_main_phase(0);
+    }
+    render_tick();
+}
+
+void TAdEndText::cleanup() { ending_sequence_active = 0; main_task.delete_layer_children(); TLobby::free_ending_callback(); TLobby::free_keyboard_soft_resources(); TAdEndText::free_resources(); render_tick(); }
 
 TEndingMovie::TEndingMovie() : TObject(tl_04) {
     void *p;

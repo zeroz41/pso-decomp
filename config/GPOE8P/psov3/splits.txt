@@ -8665,16 +8665,12 @@ pso/ui/frontend/TAdGameStartBackGC.cpp:
 	.sbss       start:0x805D6A50 end:0x805D6A54
 	.sdata2     start:0x805DF078 end:0x805DF0A4
 
-pso/weapon/TItemWeaponSBerillsHands.cpp:
-	.text       start:0x803075EC end:0x80307A34
+pso/ui/frontend/EndingSequence.cpp:
+	.text       start:0x803075EC end:0x80307B70
 	.rodata     start:0x80475448 end:0x80475468
 	.data       start:0x804E70A8 end:0x804E71B8
-	.sdata2     start:0x805DF0A8 end:0x805DF0B0
-
-pso/ui/frontend/TAdEndText_80307A34.cpp:
-	.text       start:0x80307A34 end:0x80307B70
 	.sbss       start:0x805D6A58 end:0x805D6A60
-	.sdata2     start:0x805DF0B0 end:0x805DF0B8
+	.sdata2     start:0x805DF0A8 end:0x805DF0B8
 
 pso/object/warp/TObjAreaWarp_80307B70.cpp:
 	.text       start:0x80307B70 end:0x80307BE8

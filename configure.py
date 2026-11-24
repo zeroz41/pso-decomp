@@ -567,7 +567,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/player/TObjPlayer_802D5174.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # vtables come out TUnk_804E70A8 then TUnk_804E71A0: written last to first, deferred.
     # -sdata 4: the 8-byte shared_capture_texture_list is addressed outside small data.
-    "pso/weapon/TItemWeaponSBerillsHands.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
+    "pso/ui/frontend/EndingSequence.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
     # vtables come out TUnk_804A0568..0688 (text order of their vfunc_6) then
     # TItemTimerEvent: written last to first, deferred.
     "pso/item/TItemTimerEvent.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

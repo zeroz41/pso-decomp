@@ -607,7 +607,6 @@ pso/map/AreaEventSet.cpp
 pso/math/MatrixTransforms.cpp
 pso/math/MatrixVector.cpp
 pso/ui/frontend/TAdEndText.cpp
-pso/ui/frontend/TAdEndText_80307A34.cpp
 pso/ui/frontend/TAdGuideTxtGC.cpp
 pso/ui/frontend/TAdGuideTxtGC_802B17D4.cpp
 pso/ui/frontend/TAdMultiOkGC.cpp
@@ -1661,7 +1660,7 @@ pso/player/TObjPlayer_802C3B14.cpp
 pso/player/TObjPlayer_802C422C.cpp
 pso/player/TObjPlayer_802D5174.cpp
 pso/boss/barbaray/TBoss7BreakUp.cpp
-pso/weapon/TItemWeaponSBerillsHands.cpp
+pso/ui/frontend/EndingSequence.cpp
 pso/weapon/TItemWeaponNug2000Bazooka.cpp
 pso/player/TObjPlayer_803130BC.cpp
 pso/player/TObjPlayer_80337348.cpp
