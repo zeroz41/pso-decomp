@@ -9,7 +9,7 @@
 #include "pso/unk/TUnk_804ED7D0.h"
 #include "pso/unk/TUnk_804DDBF0.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/text_801D9514.h"
+#include "pso/player/PlayerClassTechniques.h"
 #include "pso/player/PlayerRequirementStats.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_801BE778.h"
@@ -31,7 +31,7 @@ extern const f32 TObjPlayer__data_805DC28C;
 extern "C" {
 // Defined with the player's main code (TObjPlayer.cpp, TObjPlayer_801AF2F0.cpp, TObjPlayer_801BDF5C.cpp).
 void update_photon_chair__10TObjPlayerFv(void *player);
-s32 get_class_index__10TObjPlayerFv(TObjPlayer *player);
+s8 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, const StatusEffect *src);
 int TObjPlayer__sub_801BEF60(PlayerPadBinding *binding, int value);
 u8 TObjPlayer__sub_801BEB8C(u8 *record);
@@ -156,7 +156,7 @@ void init_session_technique_caps__10TObjPlayerFPvPv(TObjPlayer *player, PlayerSe
     s32 i;
 
     TObjPlayer__sub_801C1F78(&player->photon_blast_gauge, player->get_entity_id());
-    TObjPlayer__sub_801D955C((u8 *)&player->technique_state, get_class_index__10TObjPlayerFv(player));
+    init_class_technique_caps(&player->technique_state, get_class_index__10TObjPlayerFv(player));
     ((TObjPlayer *)&player->technique_state)->copy_all_technique_entries((void *)0x1D);
     for (i = 0; i < 0x13; i++) {
         set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(player, src->technique_levels[i] + src->technique_bonus[i].level_bonus, i);
@@ -179,7 +179,7 @@ void TObjPlayer__sub_801BCA14(TObjPlayer *player, void *record) {
     s32 i;
 
     TObjPlayer__sub_801C1F78(&player->photon_blast_gauge, player->get_entity_id());
-    TObjPlayer__sub_801D955C((u8 *)&player->technique_state, get_class_index__10TObjPlayerFv(player));
+    init_class_technique_caps(&player->technique_state, get_class_index__10TObjPlayerFv(player));
     ((TObjPlayer *)&player->technique_state)->copy_all_technique_entries((void *)0x1D);
     i = 0;
     do {

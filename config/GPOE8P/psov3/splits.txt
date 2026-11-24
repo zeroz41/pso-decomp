@@ -5102,13 +5102,10 @@ pso/player/TObjPlayer_801D8ADC.cpp:
 	.sbss       start:0x805D5E10 end:0x805D5E18
 	.sdata2     start:0x805DC400 end:0x805DC408
 
-pso/unk/text_801D94C8.cpp:
-	.text       start:0x801D94C8 end:0x801D9514
+pso/player/PlayerClassTechniques.cpp:
+	.text       start:0x801D94C8 end:0x801D95B8
 	.rodata     start:0x804493E8 end:0x80449568
 	.data       start:0x804C4A20 end:0x804C4A50
-
-pso/unk/text_801D9514.cpp:
-	.text       start:0x801D9514 end:0x801D95B8
 
 pso/player/TObjPlayer_801D95B8.cpp:
 	.text       start:0x801D95B8 end:0x801D9870

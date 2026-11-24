@@ -1596,6 +1596,7 @@ pso/system/task/TObject_80019A50.cpp
 pso/weapon/TUnk_804A6DC0.cpp
 pso/player/PhotonBlastResults.cpp
 pso/player/PlayerClassStats.cpp
+pso/player/PlayerClassTechniques.cpp
 pso/player/PlayerTaskEffects.cpp
 pso/ui/city/THunterGuildSeqOnlineTask.cpp
 pso/ui/city/THunterGuildSeqOnlineTask_802156A0.cpp
@@ -1941,8 +1942,6 @@ pso/unk/text_801D6DB0.cpp
 pso/unk/text_801D7134.cpp
 pso/unk/text_801D7238.cpp
 pso/unk/text_801D7BF4.cpp
-pso/unk/text_801D94C8.cpp
-pso/unk/text_801D9514.cpp
 pso/unk/text_801D9870.cpp
 pso/unk/text_801D98F8.cpp
 pso/unk/text_801D9E50.cpp

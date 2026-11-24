@@ -6,7 +6,7 @@
 extern "C" {
 u8 get_cast_technique_level(void *techs, s16 technique);
 u8 TObjPlayer__sub_801C010C(void *techs, s32 technique);
-u8 TObjPlayer__sub_801D9514(s32 cls, s32 technique);
+u8 get_class_technique_cap(s32 cls, s32 technique);
 u8 get_effective_technique_level__10TObjPlayerFPvs(void *techs, s32 technique);
 }
 
@@ -35,7 +35,7 @@ bool TObjPlayer::is_slot_within_limit(s32 cls, s32 tech, u8 level) {
     if (TObjPlayer::is_invalid_slot(level) != 0) {
         return 1;
     }
-    return level <= TObjPlayer__sub_801D9514(cls, tech);
+    return level <= get_class_technique_cap(cls, tech);
 }
 
 s32 TObjPlayer::is_valid_technique_id(s16 technique) {
