@@ -937,7 +937,7 @@ pso/object/TOBind_801586B8.cpp
 pso/object/ambient/TOBiwaMushi.cpp
 pso/boss/darkfalz/TOBoss4.cpp
 pso/boss/darkfalz/TOBoss4Rock.cpp
-pso/boss/darkfalz/TOBoss4Rock_8035A7FC.cpp
+pso/render/TNodeMatrixRecorder.cpp
 pso/object/cave/TOCakeshopCave01.cpp
 pso/object/ruins/TOCapsuleAncient01.cpp
 pso/object/lab/TOCapsuleLabo.cpp
@@ -1671,9 +1671,6 @@ pso/player/TObjPlayer_80354EC8.cpp
 pso/player/TObjPlayer_80355A58.cpp
 pso/player/TObjPlayer_80357734.cpp
 pso/player/TObjPlayer_80357B2C.cpp
-pso/player/TObjPlayer_8035A630.cpp
-pso/player/TObjPlayer_8035A740.cpp
-pso/player/TObjPlayer_8035A778.cpp
 pso/player/TObjPlayer_8035AFD0.cpp
 pso/player/TObjPlayer_80362E60.cpp
 pso/player/TObjPlayer_80363BE0.cpp
@@ -2190,7 +2187,6 @@ pso/weapon/TItemAttackCol.cpp
 pso/unk/TLobby_803BFE50.cpp
 pso/unk/text_8020B5CC.cpp
 pso/unk/TUnk_804DDD28.cpp
-pso/unk/TUnk_804F1C58_8035A628.cpp
 pso/boss/barbaray/TBoss7Joint_802EE704.cpp
 pso/network/NetworkInfoRequests.cpp
 pso/unk/text_803F3BF8.cpp

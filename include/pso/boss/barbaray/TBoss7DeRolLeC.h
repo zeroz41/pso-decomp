@@ -17,7 +17,7 @@ struct TBoss7Joint;
 class TBoss7Tentacle;
 class TBoss7LaserLight;
 class AreaAttackHistory;
-class TUnk_804F1C58;
+class TNodeMatrixRecorder;
 class TParticleCtrl;
 class TUnk_804E4788;
 struct G_BarbaRayBossActions_6xA9;
@@ -189,7 +189,7 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     s32 splash_joint;             // when set, the joint the first splash pair moves to for one update
     TObject *crawfish_parent;     // the group spawned crawfish are children of
     TBoss7LaserPtcl *laser_ptcl;
-    TUnk_804F1C58 *node_recorder; // walks the body model with record_node_transforms each run_task
+    TNodeMatrixRecorder *node_recorder; // walks the body model with record_node_transforms each run_task
     TParticleCtrl *aimed_emitter; // effect 0x20F; destroy_child releases it, update_attached_orientation aims it
     Vec emitter_points[2];        // boss7_derolle_c_emitter_points: where aimed_emitter sits, and the point it is aimed away from
     u16 needle_targets[4];        // client ids of the players handle_tentacle_needle_barrage_state sends a TBoss7TentacleNeedle under

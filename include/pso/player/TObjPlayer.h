@@ -930,8 +930,6 @@ struct TObjPlayer : public TObjChara {
     void reset_field4();
     static TItem *create_state_34_alt(u8 *item);
     static void update_battle_control_on_unlock(void *player, void *target, void *pos, s32 phase);
-    void draw_node_tree(void *arg1);
-    void draw_node_tree_if_visible();
     static void create_cane_if_ready(saddr item, void *position);
     static void create_cleanup_object(void *arg0);
     static void free_static_buffer();

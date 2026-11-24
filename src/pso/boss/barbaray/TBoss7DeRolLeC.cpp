@@ -134,7 +134,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/enemy/AttackTargetHistory.h"
 
-#include "pso/unk/TUnk_804F1C58.h"
+#include "pso/render/TNodeMatrixRecorder.h"
 
 #include "pso/system/BmlResource.h"
 
@@ -723,9 +723,9 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
         mode = 1;
         dispatch_action(mode, 4);
     }
-    node_recorder = new TUnk_804F1C58(this, model);
+    node_recorder = new TNodeMatrixRecorder(this, static_cast<NJS_OBJECT *>(model));
     if (node_recorder != NULL) {
-        node_recorder->set_field_38(record_node_transforms);
+        node_recorder->set_node_callback(record_node_transforms);
     }
     aimed_emitter = NULL;
     emitter_points[0].x = 0.0f;
@@ -867,7 +867,7 @@ void TBoss7DeRolLeC::run_task() {
         rotate_matrix_by_node_angles(&rotation_x, 1);
         scale_current_matrix(&boss7_derolle_c_model_scale.x);
         this->reset_node_transforms();
-        node_recorder->apply_with_callback((NJS_MOTION *)current_motion, get_frame());
+        node_recorder->record_pose((NJS_MOTION *)current_motion, get_frame());
         pop_matrix();
         clear_motion_packed_rotation();
         calc_joint_positions();
@@ -3691,7 +3691,7 @@ void TBoss7DeRolLeC::render() {
                 boss7_derolle_c_hideable_node->child = boss7_derolle_c_hideable_node_child;
             }
             TObjPlayer::draw_effect();
-            ((TObjPlayer *)(this->node_recorder))->draw_node_tree_if_visible();
+            this->node_recorder->draw_recorded_pose();
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();
