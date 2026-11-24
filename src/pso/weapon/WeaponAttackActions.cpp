@@ -43,7 +43,6 @@ struct NJS_OBJECT;
 #include <stdlib.h>
 
 
-#include "pso/player/TObjPlayer_8011C000.h"
 #include "pso/system/task/TObject.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/unk/TLobby_80226070.h"

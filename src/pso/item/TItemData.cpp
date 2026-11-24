@@ -769,7 +769,7 @@ s32 TItemData::get_max_stack_size() {
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/unk/text_80104FCC.h"
-#include "pso/player/TObjPlayer_8011C000.h"
+#include "pso/item/item_pmt.h"
 #include "pso/player/TObjPlayer_80117DD8.h"
 #include "pso/network/client_id.h"
 #include "pso/item/item_param.h"

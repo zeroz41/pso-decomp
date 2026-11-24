@@ -55,7 +55,6 @@
 #include "pso/unk/text_80104FCC.h"
 #include "pso/item/TItemMenuCtrl.h"
 #include "pso/player/PlayerRequirementStats.h"
-#include "pso/player/TObjPlayer_8011C000.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/item/TItemMoney.h"

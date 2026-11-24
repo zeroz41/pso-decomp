@@ -6,7 +6,6 @@
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_8011C000.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/drop/TItemDrop.h"

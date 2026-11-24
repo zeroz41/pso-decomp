@@ -17,7 +17,7 @@
 #include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/player/TObjPlayer_8011C000.h"
+#include "pso/item/item_pmt.h"
 #include "pso/unk/text_8011B620.h"
 #include "pso/item/TItemData.h"
 #include "pso/system/task/TMainTask.h"

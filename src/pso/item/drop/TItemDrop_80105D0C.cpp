@@ -13,7 +13,7 @@
 #include "pso/ui/city/TShopEquipmentListWindow.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/player/TObjPlayer_8011C000.h"
+#include "pso/item/item_pmt.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/render_util.h"
 #include <stdlib.h>
