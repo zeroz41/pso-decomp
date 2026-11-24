@@ -1,47 +1,45 @@
 #include "types.h"
 #include "pso/player/PlayerTrapCounts.h"
-#include "pso/player/TObjPlayer.h"
 
-s32 decrement_clamped(s32 *value, s32 amount) {
-    *value -= amount;
-    if ((s32) *value < 0) {
-        *value = 0;
+s32 PlayerSonarStock::consume(s32 amount) {
+    count -= amount;
+    if (count < 0) {
+        count = 0;
         return 0;
     }
     return 1;
 }
 
-s32 fn_801C5404(s32 *value) {
-    s32 count;
-
-    count = *value;
-    if ((count < 0) || (count > 99)) {
+s32 PlayerSonarStock::get_count() {
+    s32 value = count;
+    if (value < 0 || value > 99) {
         return 0;
     }
-    return count;
+    return value;
 }
 
-void fn_801C5420(s32 *value, s32 count) {
-    if ((count < 0) || (count > 99)) {
-        count = 0;
+void PlayerSonarStock::set_count(s32 value) {
+    if (value < 0 || value > 99) {
+        value = 0;
     }
-    *value = count;
+    count = value;
 }
 
-bool fn_801C543C(s8 *counts, s32 kind) {
+bool PlayerTrapCounts::is_empty(s32 kind) {
     return counts[kind] <= 0;
 }
 
-void clear_trap_counts(s8 *counts) {
+void PlayerTrapCounts::clear() {
+    s8 *count = counts;
     s32 i;
 
     for (i = 4; i != 0; i -= 1) {
-        *counts = 0;
-        counts += 1;
+        *count = 0;
+        count += 1;
     }
 }
 
-s32 are_trap_counts_full(s8 *counts, s32 level, s8 char_class) {
+s32 PlayerTrapCounts::is_full(s32 level, s8 char_class) {
     s32 kind;
     s8 max;
     for (kind = 0; kind < 4; kind++) {
@@ -55,16 +53,14 @@ s32 are_trap_counts_full(s8 *counts, s32 level, s8 char_class) {
     return 1;
 }
 
-void refill_trap_counts(s8 *counts, s32 level, s32 char_class) {
+void PlayerTrapCounts::refill(s32 level, s8 char_class) {
     s32 kind;
     for (kind = 0; kind < 4; kind++) {
-        s8 capacity = ((s8 (*)(s32, s32, s32))calc_trap_capacity)(level, char_class, kind);
-        TObjPlayer__sub_801C5780(counts, capacity, kind);
+        s8 capacity = calc_trap_capacity(level, char_class, kind);
+        set_count(capacity, kind);
     }
 }
 
-// Only the android classes (HUcast, RAcast, RAcaseal, HUcaseal) carry traps;
-// their stock grows with level and is capped at 20.
 s8 calc_trap_capacity(s32 level, s8 char_class, s32 kind) {
     s32 level_number;
     s8 capacity;
@@ -139,8 +135,7 @@ s8 calc_trap_capacity(s32 level, s8 char_class, s32 kind) {
     return capacity;
 }
 
-s32 TObjPlayer::consume_trap_count(s32 amount, s32 kind) {
-    s8 *counts = (s8 *)this;
+s32 PlayerTrapCounts::consume(s32 amount, s32 kind) {
     counts[kind] = (u8)counts[kind] - amount;
     if (counts[kind] < 0) {
         counts[kind] = 0;
@@ -149,23 +144,21 @@ s32 TObjPlayer::consume_trap_count(s32 amount, s32 kind) {
     return 1;
 }
 
-s32 TObjPlayer::clamp_char_at(s32 kind) {
-    s8 *counts = (s8 *)this;
-    s8 c = counts[kind];
-    if (c < 0 || (s32)c > 20) {
+s8 PlayerTrapCounts::get_count(s32 kind) {
+    if (counts[kind] < 0 || counts[kind] > 20) {
         counts[kind] = 0;
     }
-    return (u8)(counts[kind]);
+    return counts[kind];
 }
 
-void TObjPlayer__sub_801C5780(s8 *counts, s8 count, s32 kind) {
-    if ((count < 0) || (count > 20)) {
+void PlayerTrapCounts::set_count(s8 count, s32 kind) {
+    if (count < 0 || count > 20) {
         count = 20;
     }
     counts[kind] = count;
 }
 
-s32 TObjPlayer::init_partial(saddr trap_counts) {
-    clear_trap_counts((s8 *)trap_counts);
-    return trap_counts;
+PlayerTrapCounts *PlayerTrapCounts::init() {
+    clear();
+    return this;
 }

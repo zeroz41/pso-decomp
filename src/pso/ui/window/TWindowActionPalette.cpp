@@ -54,7 +54,6 @@ struct Rect_80243B6C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 struct Ctx_80243B6C { f32 x; f32 y; u8 pad8[0x34 - 0x8]; s32 tex; };
 
 extern "C" {
-s8 clamp_char_at__10TObjPlayerFl(u32, s32);
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 u16 select_action_palette_and_apply__10TObjPlayerFlll(TObjPlayer *, int, int, int);
 u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
@@ -445,17 +444,17 @@ void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index) {
 #pragma fp_contract on
 void update_palette_item_count_label(TUnk_804CF9C8 *label, WindowSpritePart *icon, u16 group, u16 index, s32 client_id) {
     s32 v;
-    u32 p;
+    TObjPlayer *p;
     if (group != 4) {
         reinterpret_cast<TWindowHelpItem *>(label)->set_flag0_bit2();
         return;
     }
     if (index >= 0xD) {
-        p = (uaddr)get_player_by_client_id(client_id);
-        if (p == 0) {
+        p = get_player_by_client_id(client_id);
+        if (p == NULL) {
             v = 0;
         } else {
-            v = clamp_char_at__10TObjPlayerFl(p + 0x7C4, index - 0xD);
+            v = p->trap_counts.get_count(index - 0xD);
         }
     } else {
         v = TWindowHelpItem::get_help_value(index, client_id);
@@ -479,7 +478,7 @@ s32 get_palette_consumable_count(u16 slot, s32 client_id) {
         return -1;
     }
     if (slot >= 13) {
-        if ((s8)((TObjPlayer *)((uaddr)player + 0x7C4))->clamp_char_at(slot - 13) > 0) {
+        if (player->trap_counts.get_count(slot - 13) > 0) {
             return slot;
         }
         return -1;

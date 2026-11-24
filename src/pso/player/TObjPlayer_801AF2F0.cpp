@@ -56,7 +56,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_801D3554.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/text_801C5470.h"
 #include <stddef.h>
 #include "pso/player/PlayerRequirementStats.h"
 #include "pso/player/TPlyDispData.h"
@@ -2256,13 +2255,13 @@ s32 TObjPlayer::send_trap_packet(int kind) {
     if (is_action_available() == 0) {
         return 0;
     }
-    if ((s8)((TObjPlayer *)trap_counts)->clamp_char_at(trap) <= 0) {
+    if (trap_counts.get_count(trap) <= 0) {
         return 0;
     }
     ((TObjPlayer *)(&pkt))->init_trap_packet();
     pkt.client = (u16)((TObjBase *)this)->get_entity_id();
     pkt.a = trap;
-    pkt.b = (s8)((TObjPlayer *)trap_counts)->clamp_char_at(trap);
+    pkt.b = trap_counts.get_count(trap);
     ((TObjPlayer *)(&pkt))->bswap_body_words_and_send();
     return 1;
 }
@@ -2275,7 +2274,7 @@ void handle_6x83_place_trap(G_PlaceTrap_6x83 *command) {
     if (validate_6x83_place_trap((G_PlaceTrap_6x83 *)&pkt) != 0) {
         u8 *p = (u8 *)get_player_by_client_id(pkt.client);
         if (p != NULL && create_placed_trap__10TOMineTrapFUiss(p, pkt.a, pkt.b) != 0) {
-            ((TObjPlayer *)(p + 0x7C4))->consume_trap_count(1, pkt.a);
+            ((TObjPlayer *)p)->trap_counts.consume(1, pkt.a);
             if (((TObjChara *)p)->is_locally_controlled() != 0) {
                 TWindowCtrl::call_window_method_with_default_vec((u16)((TObjBase *)(p))->get_entity_id());
             }
@@ -5553,7 +5552,7 @@ void TLobby::apply_battle_rules_to_players() {
         }
         if (fn_801D7134(q) == 1) {
             for (j = 0; j < 4; j++) {
-                TObjPlayer__sub_801C5780(p->trap_counts, get_validated_array_value(q, j), j);
+                p->trap_counts.set_count(get_validated_array_value(q, j), j);
             }
         }
         switch (TLobby__sub_801D7100(q)) {
@@ -5592,7 +5591,7 @@ void TLobby::apply_battle_rules_to_players() {
             p->set_meseta(0);
         }
         if (((TLobby *)q)->clamp_value_below_2() == 1) {
-            fn_801C5420((s32 *)&p->m_7c8, TObjPlayer__sub_801D6D28(q));
+            p->sonar_stock.set_count(TObjPlayer__sub_801D6D28(q));
         }
         if (TLobby__sub_801D6F94(q) == 1) {
             TLobby__sub_801D4C28(p->inventory_objects, p, 3, 9);
@@ -6179,7 +6178,7 @@ s32 TObjPlayer::update_movement_by_screen() {
 }
 
 void TObjPlayer::refill_traps() {
-    refill_trap_counts(trap_counts, get_actor_level_index(), get_class_index__10TObjPlayerFv(this));
+    trap_counts.refill(get_actor_level_index(), get_class_index());
 }
 
 s32 TObjPlayer::is_alive_and_ready() {
@@ -6190,7 +6189,7 @@ s32 TObjPlayer::is_alive_and_ready() {
 }
 
 s32 TObjPlayer::are_traps_full() {
-    return are_trap_counts_full(trap_counts, get_actor_level_index(), get_class_index()) != 0 ? 1 : 0;
+    return trap_counts.is_full(get_actor_level_index(), get_class_index()) != 0 ? 1 : 0;
 }
 
 s32 TObjPlayer::is_action_available() {
@@ -6203,7 +6202,7 @@ s32 TObjPlayer::is_action_available() {
     return is_android() != 0 ? 1 : 0;
 }
 
-bool TObjPlayer__sub_801AF694(TObjPlayer *player, s32 kind) { return fn_801C543C(player->trap_counts, kind); }
+bool TObjPlayer__sub_801AF694(TObjPlayer *player, s32 kind) { return player->trap_counts.is_empty(kind); }
 
 u32 TObjPlayer::set_lobby_marker(s32 material) {
     u32 temp;

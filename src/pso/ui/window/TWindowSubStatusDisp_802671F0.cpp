@@ -216,15 +216,15 @@ void TWindowMenuIconLine::push_status_disp_entry(s32 count, s32 id) {
 void TWindowMenuIconLine::add_battle_stat_entry(s32 stat, s32 item, s32 gray_out) {
     s32 value;
     ItemListRow *row;
-    uaddr player;
+    TObjPlayer *player;
 
     if (entry_count < entry_capacity) {
-        player = (uaddr)get_player_by_client_id(client_index);
-        if (player != 0U) {
+        player = get_player_by_client_id(client_index);
+        if (player != NULL) {
             if (stat == 4) {
-                value = fn_801C5404((s32 *)(player + 0x7C8));
+                value = player->sonar_stock.get_count();
             } else {
-                value = (s8)((TObjPlayer *)(player + 0x7C4))->clamp_char_at(stat);
+                value = player->trap_counts.get_count(stat);
             }
             if (value > 0) {
                 row = (ItemListRow *)get_array_entry(entry_count);

@@ -57,7 +57,6 @@ struct ItemData_80279754 {
 void add_item_purpose_actions(TWindowSubItem *arg0, saddr arg1, saddr arg2);
 
 extern "C" {
-void decrement_clamped(void *, s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
 s32 close_sub_window__10TObjPlayerFv();
 s32 try_send_6x27_use_item(s32, s32);
@@ -383,7 +382,7 @@ void TWindowSubItem::run_task() {
             }
             p = (saddr)get_player_by_client_id(this->client_id);
             if (p != 0 && TWindowSubItem::is_usable(p) != 0 && TAdSinglePlyChrSelectGC::create_if_key_pressed() != 0) {
-                decrement_clamped((void *)(p + 0x7C8), 1);
+                ((TObjPlayer *)p)->sonar_stock.consume(1);
                 this->state = 1;
                 return;
             }

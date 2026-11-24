@@ -628,7 +628,7 @@ void TPlayerBattleCtrl4P::update() {
     do {
         player = get_player_by_client_id(j);
         if (player != NULL) {
-            clear_trap_counts(player->trap_counts);
+            player->trap_counts.clear();
         }
         j += 1;
     } while (j < 4);

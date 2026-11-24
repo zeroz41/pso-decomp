@@ -684,7 +684,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     movement_hold.init();
     ((TObjPlayer *)((char *)this + 1860))->init_vec_record();
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
-    TObjPlayer::init_partial((saddr)(((char *)this + 1988)));
+    trap_counts.init();
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
     attack_state.init();
     TObjPlayer__sub_801C1A00(((char *)this + 2088));
@@ -715,7 +715,7 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
     movement_hold.init();
     ((TObjPlayer *)((char *)this + 1860))->init_vec_record();
     ((TObjPlayer *)((char *)this + 1876))->init_sub_objects();
-    TObjPlayer::init_partial((saddr)(((char *)this + 1988)));
+    trap_counts.init();
     ((TObjPlayer *)((char *)this + 1992))->clear_base();
     attack_state.init();
     TObjPlayer__sub_801C1A00(((char *)this + 2088));
@@ -756,7 +756,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     movement_hold.init();
     ((TObjPlayer *)(((u8 *)this) + 0x744))->init_vec_record();
     ((TObjPlayer *)(((u8 *)this) + 0x754))->init_sub_objects();
-    TObjPlayer::init_partial((saddr)((((u8 *)this) + 0x7C4)));
+    trap_counts.init();
     ((TObjPlayer *)(((u8 *)this) + 0x7C8))->clear_base();
     attack_state.init();
     TObjPlayer__sub_801C1A00((void *) (((u8 *)this) + 0x828));

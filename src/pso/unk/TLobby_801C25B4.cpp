@@ -1333,7 +1333,7 @@ void TLobby::start_duel_battle() {
 void init__6TLobbyFPv(void *arg0) {
     saddr temp_r3;
     s32 i;
-    uaddr player;
+    TObjPlayer *player;
 
     ((TLobby *)arg0)->set_flag_270();
     TLobby::close_and_play_effect((u16) local_client_id, 1);
@@ -1351,9 +1351,9 @@ void init__6TLobbyFPv(void *arg0) {
     i = 0;
     *(s32 *)((s8 *)arg0 + 0x64) = 0;
     do {
-        player = (uaddr)get_player_by_client_id(i);
-        if (player != 0U) {
-            clear_trap_counts((s8 *)(player + 0x7C4));
+        player = get_player_by_client_id(i);
+        if (player != NULL) {
+            player->trap_counts.clear();
         }
         i += 1;
     } while (i < 4);

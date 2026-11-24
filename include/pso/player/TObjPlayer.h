@@ -24,6 +24,7 @@ struct PhotonBlastRequestSlot;
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/player/PlayerTelepipe.h"
+#include "pso/player/PlayerTrapCounts.h"
 #include "pso/player/BattleMusicState.h"
 #include "pso/player/ContactSurfaceState.h"
 #include "pso/player/MovementHold.h"
@@ -259,8 +260,8 @@ struct TObjPlayer : public TObjChara {
     u8 _pad748[0xC];
     void* m_754;
     u8 _pad758[0x6C];
-    s8 trap_counts[4];  // per trap kind, refilled from the class table (refill_trap_counts)
-    void* m_7c8;
+    PlayerTrapCounts trap_counts;
+    PlayerSonarStock sonar_stock;
     PlayerAttackController attack_state;  // the attack accuracy/damage-scale block
     PlayerPkState pk_state;
     PlayerTelepipe telepipe;  // TTecLuker::init_fields, TelepipeState::send_telepipe_packet
