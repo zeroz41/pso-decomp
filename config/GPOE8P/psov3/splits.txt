@@ -3579,7 +3579,7 @@ pso/npc/TObjNpcSoldierMacho.cpp:
 	.sbss       start:0x805D5858 end:0x805D5860
 
 pso/npc/TNpcPlayer.cpp:
-	.text       start:0x8014DADC end:0x8015302C
+	.text       start:0x8014DADC end:0x80152F50
 	.ctors      start:0x80433F84 end:0x80433F88
 	.rodata     start:0x8043FF68 end:0x8043FFE8
 	.data       start:0x804ABC90 end:0x804AF7B0
@@ -3589,7 +3589,7 @@ pso/npc/TNpcPlayer.cpp:
 	.sdata2     start:0x805DB1F0 end:0x805DB250
 
 pso/object/collision/TObjFogCollision.cpp:
-	.text       start:0x8015302C end:0x80154090
+	.text       start:0x80152F50 end:0x80154090
 	.rodata     start:0x8043FFE8 end:0x804400EB
 	.data       start:0x804AF7B0 end:0x804AF8A0
 	.bss        start:0x8050D430 end:0x8050D460
