@@ -94,8 +94,6 @@ struct TLobby : public TObject {
     void apply_lobby_markers();
     static s32 get_option_state();
     static void install_game_join_handlers();
-    static void send_or_handle_packet(void *arg0, void *arg1, void *arg2, void *arg3, u32 arg4);
-    void merge_adjacent_free_blocks();
     static void sync_auto_reply_state();
     void set_short_mail_text();
     static s32 set_flag_bit0(s32 arg0);
@@ -645,7 +643,6 @@ struct TLobby : public TObject {
     static void send_data(const char *filename);
     static void update_alloc_size();
     static u8 get_selected_slot();
-    u8 *init_memory_pool(s32 arg1, s32 arg2, s32 flags);
     static void init_on_main_phase();
     static void copy_state_block();
     static char *get_unit_list();
@@ -956,11 +953,9 @@ struct TLobby : public TObject {
     static void destroy_lobby_ui();
     static void disable_window_flags(void*);
     static void *find_chunk_by_id(void *, int);
-    static void *find_free_pool_entry(void *);
     static void *find_free_trade_slot(void *);
     static void *find_header_by_id(void *, int);
     static void *find_type5_header(void *, int);
-    static uaddr *free_and_delete(void *, s16);
     static saddr get_card_window_area();
     static ActorParamBlock *get_entry(int, int);
     static int get_flag_bit0();

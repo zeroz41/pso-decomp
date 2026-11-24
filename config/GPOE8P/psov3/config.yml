@@ -632,7 +632,7 @@ force_active:
   - lobby_player_names
   - player_setup_pending__6TLobby
   - state_handler_pmf_table
-  - TLobby__sub_8001D9E8
+  - clear__9AramBlockFv
   - TLobby__sub_8001DBD8
   - TLobby__sub_8001DF58
   - TLobby__sub_8001E270
@@ -6190,7 +6190,7 @@ force_active:
   - find_free_chat_log_slot__6TLobbyFv
   - find_free_file_names__22TQuestVmDownLoadServerFv
   - find_free_pad_rumble_effect_slot__Fv
-  - find_free_pool_entry__6TLobbyFPv
+  - find_unused_block__8AramPoolFv
   - find_free_slot__6TLobbyFv
   - find_gsl_entry__FPCcl
   - find_gsl_entry__FPv
@@ -8997,7 +8997,7 @@ force_active:
   - member_check_name_ptr
   - memcard_check_snapshot
   - menu_font_render_rects
-  - merge_adjacent_free_blocks__6TLobbyFv
+  - merge_free_blocks__8AramPoolFv
   - message_tag_error
   - message_thread_loop__6TLobbyFv
   - message_window_position

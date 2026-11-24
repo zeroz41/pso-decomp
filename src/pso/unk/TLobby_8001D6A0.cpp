@@ -25,6 +25,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/ui/TLevelSelect.h"
+#include "pso/system/AramPool.h"
 
 #pragma readonly_strings on
 
@@ -33,45 +34,21 @@ AttackParams *TLobby__sub_8001E270(int a0, int a1);
 player_stats *TLobby__sub_8001E2A8(int a0, int a1);
 ActorParamBlock *get_entry__6TLobbyFii(int a0, int a1);
 
-struct Ent_8001D768 { u32 f0; u32 f4; u32 f8; u32 fc; };
-
-struct Obj_8001D768 { Ent_8001D768 *ents; u32 count; };
-
-struct Node_8001D7AC { Node_8001D7AC *next; Node_8001D7AC *prev; u32 addr; u32 size; };
-
-struct Pool_8001D7AC { u8 pad[0x2C]; Node_8001D7AC *head; };
-
-struct Node_8001D808 { Node_8001D808 *next; Node_8001D808 *prev; u32 addr; u32 size; };
-
-struct Pool_8001D808 { u8 pad[0x2C]; Node_8001D808 *head; };
-
-struct Node_8001D6E0 { Node_8001D6E0 *next; Node_8001D6E0 *prev; u32 addr; u32 size; };
-
-struct Pool_8001D6E0 { u8 pad[0x2C]; Node_8001D6E0 *head; };
-
 extern "C" {
 extern s32 auto_reply_flags;
-Ent_8001D768 *find_free_pool_entry__6TLobbyFPv(Obj_8001D768 *self);
-void archive_pool_free(Pool_8001D7AC *pool, Node_8001D7AC *node);
-Node_8001D808 *archive_pool_alloc(Pool_8001D808 *pool, u32 size);
 
-
-s32 aram_read_sync__6TLobbyFllll(s32, s32);
-s32 aram_transfer_sync__6TLobbyFlUlll(s32, void *, s32);
-
-void TLobby::send_or_handle_packet(void *arg0, void *arg1, void *arg2, void *arg3, u32 arg4) {
-    if (arg4 == 0U) {
-        aram_transfer_sync__6TLobbyFlUlll(0, arg1, *(s32 *)((s8 *)arg2 + 8));
+void AramPool::transfer(void *src, void *dst, u32 size, u32 from_aram) {
+    if (from_aram == 0) {
+        TLobby::aram_transfer_sync(0, (uaddr)src, ((AramBlock *)dst)->addr, size);
         return;
     }
-    aram_read_sync__6TLobbyFllll(0, *(s32 *)((s8 *)arg1 + 8));
+    TLobby::aram_read_sync(0, ((AramBlock *)src)->addr, (saddr)dst, size);
 }
 
-void TLobby::merge_adjacent_free_blocks() {
-    Pool_8001D6E0 *pool = (Pool_8001D6E0 *)this;
-    Node_8001D6E0 *cur;
-    Node_8001D6E0 *n;
-    cur = pool->head->next;
+void AramPool::merge_free_blocks() {
+    AramBlock *cur;
+    AramBlock *n;
+    cur = m_free_list->next;
     while ((n = cur->next) != 0) {
         if (n->addr == cur->addr + cur->size) {
             cur->next = n->next;
@@ -79,48 +56,46 @@ void TLobby::merge_adjacent_free_blocks() {
             if (n->next != 0) {
                 n->next->prev = cur;
             }
-            TLobby__sub_8001D9E8(n);
+            n->clear();
         } else {
             cur = n;
         }
     }
 }
 
-Ent_8001D768 *find_free_pool_entry__6TLobbyFPv(Obj_8001D768 *self) {
+AramBlock *AramPool::find_unused_block() {
     u32 i;
-    if (self->ents != 0) {
-        for (i = 1; i < self->count; i++) {
-            if (self->ents[i].fc == 0) {
-                return &self->ents[i];
+    if (m_blocks != 0) {
+        for (i = 1; i < m_block_count; i++) {
+            if (m_blocks[i].size == 0) {
+                return &m_blocks[i];
             }
         }
     }
     return 0;
 }
 
-void archive_pool_free(Pool_8001D7AC *pool, Node_8001D7AC *node) {
-    Node_8001D7AC *prev;
-    Node_8001D7AC *cur;
-    for (prev = pool->head; (cur = prev->next) != 0; prev = cur) {
-        if (node->addr < cur->addr) {
-            prev->next = node;
-            node->next = cur;
-            node->prev = prev;
-            cur->prev = node;
-            ((TLobby *)pool)->merge_adjacent_free_blocks();
+void AramPool::free(AramBlock *block) {
+    AramBlock *prev;
+    AramBlock *cur;
+    for (prev = m_free_list; (cur = prev->next) != 0; prev = cur) {
+        if (block->addr < cur->addr) {
+            prev->next = block;
+            block->next = cur;
+            block->prev = prev;
+            cur->prev = block;
+            merge_free_blocks();
             return;
         }
     }
 }
 
-struct Ent_8001D768;
-struct Obj_8001D768;
-Node_8001D808 *archive_pool_alloc(Pool_8001D808 *pool, u32 size) {
+AramBlock *AramPool::alloc(u32 size) {
     u32 sz = (size + 0x1F) & ~0x1F;
-    Node_8001D808 *prev;
-    Node_8001D808 *cur;
-    Node_8001D808 *n;
-    for (prev = pool->head; (cur = prev->next) != 0; prev = cur) {
+    AramBlock *prev;
+    AramBlock *cur;
+    AramBlock *n;
+    for (prev = m_free_list; (cur = prev->next) != 0; prev = cur) {
         if (cur->size >= sz) {
             if (cur->size == sz) {
                 prev->next = cur->next;
@@ -132,7 +107,7 @@ Node_8001D808 *archive_pool_alloc(Pool_8001D808 *pool, u32 size) {
                 return cur;
             }
             if (cur->size > sz) {
-                n = (Node_8001D808 *)TLobby::find_free_pool_entry((Obj_8001D768 *)pool);
+                n = find_unused_block();
                 if (n != 0) {
                     n->next = 0;
                     n->prev = 0;
@@ -148,49 +123,47 @@ Node_8001D808 *archive_pool_alloc(Pool_8001D808 *pool, u32 size) {
     return 0;
 }
 
-uaddr *free_and_delete__6TLobbyFPvs(uaddr *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        if ((u32) *arg0 != 0U) {
-            xfree((void *)(*arg0));
-            *arg0 = 0U;
-        }
-        if (arg1 > 0) {
-            ::operator delete(arg0);
-        }
+AramPool::~AramPool() {
+    if (m_blocks != NULL) {
+        xfree(m_blocks);
+        m_blocks = NULL;
     }
-    return arg0;
 }
 
-u8 *TLobby::init_memory_pool(s32 arg1, s32 arg2, s32 flags) {
-    s32 prev;
-    u8 *temp_r3;
-    u8 *temp_r5;
+AramPool::AramPool(s32 aram_addr, s32 size, s32 max_blocks) {
+    s32 rounded;
+    AramBlock *head;
+    AramBlock *first;
 
-    *(void * *)&this->m_name = fn_803DE864(flags, 0x10);
-    if ((void *) *(void * *)&this->m_name != NULL) {
-        *(s32 *)&this->m_flags = flags;
-        prev = (arg2 + 0x1F) & 0xFFFFFFE0;
-        *(s32 *)&this->m_prev = prev;
-        temp_r3 = (unsigned char *) (*(void * *)&this->m_name);
-        *(void **)((s8 *)((u8 *)this) + 0x2C) = temp_r3;
-        temp_r5 = temp_r3 + 0x10;
-        *(void **)((s8 *)(*(void **)((s8 *)((u8 *)this) + 0x2C)) + 0) = temp_r5;
-        *(s32 *)((s8 *)(*(void **)((s8 *)((u8 *)this) + 0x2C)) + 4) = 0;
-        *(s32 *)((s8 *)(*(void **)((s8 *)((u8 *)this) + 0x2C)) + 8) = 0;
-        *(s32 *)((s8 *)(*(void **)((s8 *)((u8 *)this) + 0x2C)) + 0xC) = 0;
-        *(s32 *)((s8 *)temp_r5 + 0) = 0;
-        *(void **)((s8 *)temp_r5 + 4) = (void *) *(void * *)&this->m_name;
-        *(s32 *)((s8 *)temp_r5 + 8) = arg1;
-        *(s32 *)((s8 *)temp_r5 + 0xC) = prev;
+    m_blocks = (AramBlock *)fn_803DE864(max_blocks, sizeof(AramBlock));
+    if (m_blocks != NULL) {
+        m_block_count = max_blocks;
+        rounded = (size + 0x1F) & ~0x1F;
+        m_size = rounded;
+        head = m_blocks;
+        m_free_list = head;
+        first = head + 1;
+        m_free_list->next = first;
+        m_free_list->prev = 0;
+        m_free_list->addr = 0;
+        m_free_list->size = 0;
+        first->next = 0;
+        first->prev = m_blocks;
+        first->addr = aram_addr;
+        first->size = rounded;
     }
-    return ((u8 *)this);
 }
 
 void TLobby__sub_8001D9DC(void) {
     aram_dma_pending = 0;
 }
 
-void TLobby__sub_8001D9E8(void* p) { *(s32*)((char*)p + 0x4) = 0; *(s32*)((char*)p + 0x0) = 0; *(s32*)((char*)p + 0xc) = 0; *(s32*)((char*)p + 0x8) = 0; }
+void AramBlock::clear() {
+    prev = 0;
+    next = 0;
+    size = 0;
+    addr = 0;
+}
 
 void TLobby::sync_auto_reply_state() {
     if ((auto_reply_flags & 4) || (auto_reply_flags & 1) != ((auto_reply_flags >> 1) & 1)) {
