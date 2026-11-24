@@ -9,7 +9,6 @@ void TLobby__sub_8034DAA0(s32 client, u32 status);
 s32 TNpcPlayer__get_lobby_entry_yaw(void);
 void TNpcPlayer__sub_8034EDB8(void);
 }
-void build_6x69_npc_control(void *p);
 extern "C" {
 void clear_partner_dialogue_flags(void);
 u8 *get_party_position(void);
@@ -17,6 +16,15 @@ s32 get_party_yaw(void);
 }
 // --- end of C functions
 
+// Custom partner remarks per player: up to six texts, each keyed by a remark kind (25 = free slot).
+struct PartnerDialogueSet {
+    const char *text[6];
+    s32 kind[6];
+};
+
+extern PartnerDialogueSet partner_dialogue_table[4];
+
+const char *get_partner_custom_text(s32 kind, u16 player);
 void set_partner_dialogue_override(const char *text, s32 kind, u16 player);
 void set_partner_common_remark(s32 kind, const char *text);
 void show_partner_chatter_for_key(s16 key);

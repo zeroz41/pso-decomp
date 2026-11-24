@@ -9805,15 +9805,15 @@ pso/ui/window/TWindowSubInformationBoard.cpp:
 	.sdata2     start:0x805DFDD8 end:0x805DFDE4
 
 pso/unk/text_8034D3D0.cpp:
-	.text       start:0x8034D3D0 end:0x8034DAA0
+	.text       start:0x8034D3D0 end:0x8034D9E0
 	.rodata     start:0x80478C48 end:0x80478C50
-	.bss        start:0x805436B8 end:0x80543778
 	.sdata2     start:0x805DFDE8 end:0x805DFDF0
 
 pso/npc/TNpcPlayer_8034DAA0.cpp:
-	.text       start:0x8034DAA0 end:0x8034EFDC
+	.text       start:0x8034D9E0 end:0x8034EFDC
 	.rodata     start:0x80478C50 end:0x80478CB8
 	.data       start:0x804F0280 end:0x804F0810
+	.bss        start:0x805436B8 end:0x80543778
 	.sbss       start:0x805D6EA0 end:0x805D6EA4
 	.sdata2     start:0x805DFDF0 end:0x805DFDF8
 
