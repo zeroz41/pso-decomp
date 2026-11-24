@@ -249,21 +249,21 @@ s32 TLobby__sub_80411604(s16 id, int n, void *pp)
       ent = g->routes;
       for (i = 0; i < g->route_count; i++, ent++)
     {
-      if (((*((s16 *) ent)) == 1) && ((*((s16 *) &ent->type)) == 0))
+      if ((ent->state == 1) && (ent->type == 0))
       {
-        if ((*((s16 *) &ent->prefix_len)) == (*((s16 *) (p + 4))))
+        if (ent->prefix_len == (*((s16 *) (p + 4))))
         {
           if (cmp16_80411604(&ent->gateway, *((void **) p)) == 0)
           {
-            *((s16 *) &ent->type) = 1;
+            ent->type = 1;
           }
         }
         else
-          if ((*((s16 *) &ent->prefix_len)) == 128)
+          if (ent->prefix_len == 128)
         {
           if (cmp16_80411604(&ent->prefix, *((void **) p)) == 0)
           {
-            *((s16 *) &ent->type) = 1;
+            ent->type = 1;
           }
         }
       }
@@ -576,7 +576,7 @@ extern s32 TLobby__sub_80412058(s16 id, NetBufferRef *self, s32 len, u8 *out) {
         rec.kind = 6;
         NetMemcpy(rec.addr, &cur->addr, 0x10);
         rec.a = cur->prefix_len;
-        rec.b = cur->f18;
+        rec.b = cur->flags;
         rec.c = 0;
         set_value_and_enable(&ref, (saddr)&rec);
         netbuf_copy_by_ref(self, &ref, 0x1C);
@@ -859,7 +859,7 @@ s16 TLobby__sub_80412618(Ipv6NdPrefixEvent *pi, s16 idx)
     *(s16 *)(pfx + offsetof(Ipv6AddrNode, prefix_len)) = pi->prefix_len;
     fl = 1;
     *(s16 *)(pfx + offsetof(Ipv6AddrNode, f16)) = fl;
-    *(s16 *)(pfx + offsetof(Ipv6AddrNode, f18)) = 0;
+    *(s16 *)(pfx + offsetof(Ipv6AddrNode, flags)) = 0;
     *(u16 *)(pfx + offsetof(Ipv6AddrNode, scope)) = NetIPv6GetAddressScopeClass(new_addr);
     if (is_entry_flag10_set(idx) != 0) {
         *(s16 *)(pfx + offsetof(Ipv6AddrNode, state)) = fl;
@@ -1471,7 +1471,7 @@ s16 TLobby__sub_80413D78(void *self, s16 idx) {
             c = 0;
         }
         if (c == 0) {
-            if ((p->f18 & 1) == 0) {
+            if ((p->flags & 1) == 0) {
                 return 0;
             }
             return 1;
