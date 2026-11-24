@@ -331,20 +331,20 @@ s16 write_empty_tlv_header(u8 **p, PppoeSlot *e) {
 #pragma push
 #pragma opt_common_subs off
 s16 write_pppoe_ac_name_tag(u8 **cursor, PppoeSlot *slot) {
-    s16 sp12;
-    s16 sp10;
+    s16 tag_type;
+    s16 tag_len;
     s16 name_len;
     if (slot->names.name[0] == 0) {
         return 0;
     }
-    sp12 = 0x102;
-    NetMemcpy(*cursor, (&sp12), 2);
+    tag_type = 0x102;
+    NetMemcpy(*cursor, &tag_type, 2);
     *cursor += 2;
     name_len = NetStringLength((char *)slot->names.name);
-    sp10 = name_len;
-    NetMemcpy(*cursor, (&sp10), 2);
+    tag_len = name_len;
+    NetMemcpy(*cursor, &tag_len, 2);
     *cursor += 2;
-    NetMemcpy(*cursor, slot->names.name, (name_len));
+    NetMemcpy(*cursor, slot->names.name, name_len);
     *cursor += name_len;
     return name_len + 4;
 }

@@ -323,15 +323,15 @@ s16 clear_flag_bit4(s32 unused, Ipv6cpOptions *opts) {
 }
 
 s16 NetIPv6CPSetInterfaceIdentifier(Ipv6cpOptions *state, u8 *ident) {
-    s32 sp18;
-    s32 sp14;
-    s32 sp10;
-    NetMemset(&sp18, 0xFF, 8);
-    if (NetMemcmp(ident, &sp18, 8) != 0) {
-        NetMemcpy(&sp14, ident, 4);
-        NetMemcpy(&sp10, ident + 4, 4);
-        state->current.words[0] = sp14;
-        state->current.words[1] = sp10;
+    u8 all_ones[8];
+    s32 high;
+    s32 low;
+    NetMemset(all_ones, 0xFF, 8);
+    if (NetMemcmp(ident, all_ones, 8) != 0) {
+        NetMemcpy(&high, ident, 4);
+        NetMemcpy(&low, ident + 4, 4);
+        state->current.words[0] = high;
+        state->current.words[1] = low;
         state->current.mask = (s16) (state->current.mask | 2);
     } else {
         state->current.words[0] = 0;

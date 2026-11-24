@@ -751,7 +751,7 @@ s16 NetIPv6ParseRouterAdvertisementOptions(NetPacketFragment *self, s32 n, u8 *d
 
 s16 NetIPv6HandleNeighborSolicitation(NetPacket *pkt, u8 *src, u8 *dst, s16 iface) {
     NetBufferRef ref;
-    IPv6NeighborSolicitation sp18;
+    IPv6NeighborSolicitation ns;
     NetPacketFragment *hdr;
     u32 len;
     s16 r;
@@ -763,9 +763,9 @@ s16 NetIPv6HandleNeighborSolicitation(NetPacket *pkt, u8 *src, u8 *dst, s16 ifac
     if ((s16)NetIPv6IsUnspecified(src) && NetIPv6IsSolicitedNodeAddress(dst, iface) == 0) {
         return -1;
     }
-    set_value_and_enable(&ref, &sp18);
+    set_value_and_enable(&ref, &ns);
     netbuf_copy_by_ref(&ref, &hdr->buffer, 0x18);
-    if ((s16)NetIPv6IsMulticast(sp18.target.bytes)) {
+    if ((s16)NetIPv6IsMulticast(ns.target.bytes)) {
         return -1;
     }
     len -= 0x18;
@@ -776,7 +776,7 @@ s16 NetIPv6HandleNeighborSolicitation(NetPacket *pkt, u8 *src, u8 *dst, s16 ifac
             return r;
         }
     }
-    return NetIPv6AnswerNeighborSolicitation(&sp18, src, dst, iface);
+    return NetIPv6AnswerNeighborSolicitation(&ns, src, dst, iface);
 }
 
 extern s16 NetIPv6ParseNeighborSolicitationOptions(NetPacketFragment *self, s32 n, void *out, s16 iface)
@@ -867,7 +867,7 @@ s16 NetIPv6AnswerNeighborSolicitation(void *self, void *a, void *b, s16 iface) {
 
 s16 NetIPv6HandleRouterAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface) {
     NetBufferRef ref;
-    NetIcmpv6RouterAdvertisement sp18;
+    NetIcmpv6RouterAdvertisement ra;
     u32 n;
     NetPacketFragment *p;
     s16 r;
@@ -881,7 +881,7 @@ s16 NetIPv6HandleRouterAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface
     if (r == 0) {
         return -1;
     }
-    set_value_and_enable(&ref, &sp18);
+    set_value_and_enable(&ref, &ra);
     netbuf_copy_by_ref(&ref, &p->buffer, 0x10);
     n -= 0x10;
     if (n >= 8U) {
@@ -891,7 +891,7 @@ s16 NetIPv6HandleRouterAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface
             return r;
         }
     }
-    return NetIPv6UpdateDefaultRouter(&sp18, src, iface);
+    return NetIPv6UpdateDefaultRouter(&ra, src, iface);
 }
 
 #pragma push
