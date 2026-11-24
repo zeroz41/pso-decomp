@@ -48,7 +48,7 @@ void G_NPCControl_6x69::init() {
 
 void G_NPCControl_6x69::send() {
     bswap();
-    send_subcommand((u8 *)this);
+    send_subcommand(this);
 }
 
 void G_NPCControl_6x69::bswap() {
