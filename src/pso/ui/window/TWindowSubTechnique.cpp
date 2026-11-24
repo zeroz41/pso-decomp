@@ -124,7 +124,6 @@ s32 get_cast_technique_level(void *, int);
 s32 validate_and_clear_slot__10TObjPlayerFPvs(void *, int);
 }
 extern "C" {
-s32 try_equip_item__10TObjPlayerFii(saddr, s32);
 }
 void text_builder_reset(void);
 
@@ -253,7 +252,7 @@ void TWindowSubTechnique::run_task() {
             play_sound_effect(0x52F16, 0, 0, 0);
             rebuildTechniqueList((saddr)technique_menu, (s32)(category_menu->get_selected_value()));
             state = 1;
-        } else if (try_equip_item__10TObjPlayerFii((saddr)player, (s16)technique_menu->get_selected_value()) != 0) {
+        } else if (((TObjPlayer *)player)->try_equip_item((s16)technique_menu->get_selected_value()) != 0) {
             state = 1;
         }
         break;

@@ -137,7 +137,6 @@ struct Ent_8013B2C8 { s32 w; };
 extern "C" {
 void clear_target_cursor_list(void *);
 extern const f32 TMainCursor__data_805DB0C0;
-s32 can_start_technique__10TObjPlayerFPvi(TObjPlayer*, s32);
 s32 canSetMenuCursorAction(PaletteCursorOverride* cursor, TObjPlayer* player, u8 kind, u8 parameter);
 void copy_action_entry(void *arg0, void *arg1);
 s16 TMainCursor__sub_8013E298(void *p);
@@ -1552,7 +1551,7 @@ s32 canSetMenuCursorAction(PaletteCursorOverride* cursor, TObjPlayer* player, u8
         default: return 0;
         }
     case 3:
-        return can_start_technique__10TObjPlayerFPvi(player, parameter);
+        return player->can_start_technique(parameter);
     default:
         return 0;
     }

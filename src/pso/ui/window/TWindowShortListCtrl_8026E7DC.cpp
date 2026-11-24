@@ -45,7 +45,6 @@
 
 extern "C" {
 s32 try_send_6x27_use_item(void *player, s32 key);
-s32 try_equip_item__10TObjPlayerFii(u8 *, s32);
 s32 TWindowCtrl__sub_8024A228(saddr);
 s32 end_player_keyboard_hold(saddr);
 s32 TWindowCtrl__sub_8024A1A8();
@@ -301,7 +300,7 @@ void TWindowShortListCtrl::run_task() {
             queue_destruction();
             return;
         }
-        if (try_equip_item__10TObjPlayerFii(player, (s16)((TWindowMenu *)tech_window)->get_selected_value()) != 0) {
+        if (((TObjPlayer *)player)->try_equip_item((s16)((TWindowMenu *)tech_window)->get_selected_value()) != 0) {
             queue_destruction();
             return;
         }
