@@ -4705,7 +4705,7 @@ force_active:
   - bswap_udp_test_header__6TLobbyFv
   - buffer_init
   - build_6x05_write_switch_flag__FPv
-  - build_6x69_npc_control__FPv
+  - init__17G_NPCControl_6x69Fv
   - build_6x75_update_quest_flag_dc__FPv
   - build_6xAD_olga_flow_subordinate_boss_actions__FPv
   - build_beam_points__21TeneFakeTecThunderEffFv
@@ -4729,7 +4729,7 @@ force_active:
   - build_weapon_type_weights__9TItemDropFiPvi
   - byteswap_6x75_packet__6TLobbyFv
   - byteswap_entry__20TWindowSubSymbolChatFv
-  - byteswap_header__10TNpcPlayerFv
+  - bswap__17G_NPCControl_6x69Fv
   - byteswap_telepipe_packet__9TTecLukerFv
   - c2r$433
   - cache_fish_params__11TBoss6Type2Fv
@@ -15372,7 +15372,7 @@ force_active:
   - get_recent_symbol_chat__18TSymbolChatCaptureFUsl
   - send_srank_stat_extra__13TUnk_804A4948FUll
   - send_srank_stat_extra_to_locks__13TUnk_804A4948Fv
-  - send_state_60__10TNpcPlayerFv
+  - send__17G_NPCControl_6x69Fv
   - send_state__12TODoorCave01FPv
   - send_state_change__15TOAttackableColFUs
   - send_state_if_dirty__17TWindowSubComCardFv

@@ -187,13 +187,13 @@ struct TNpcPlayer : public TObject {
     static void send_6x3e_to_all_players(void *pos, s32 arg);
     static void apply_to_players(s32 value, void *arg1, s32 heading);
     static void send_inter_level_warp_all(s32 value);
-    static void send_npc_control_6x69(s32 arg0);
-    static void send_npc_stop_6x69(s32 arg0);
-    static void send_npc_control_create(u16 arg0, u16 arg1, s32 arg2, u8 *arg3, s32 heading);
+    static void send_npc_control_6x69(s32 controller_id);
+    static void send_npc_stop_6x69(s32 controller_id);
+    static void send_npc_control_create(u16 controller_id, u16 npc_client_id, s32 npc_type, u8 *pos, s32 heading);
     static void create_companion(u16 leader, u16 slot, s32 appearance, f32 *p, s32 heading);
     static void create_default_companion(u16 leader, s32 appearance, u8 *pos, s32 heading);
-    static void send_npc_control_notify_players(s32 arg0, s32 arg1, s32 arg2);
-    static void send_npc_create(s32 arg0, s32 arg1);
+    static void send_npc_control_notify_players(s32 controller_id, s32 npc_client_id, s32 npc_type);
+    static void send_npc_create(s32 controller_id, s32 npc_type);
     static void reset_player_lobby_model(u16 client);
     static void update_player_field(u16 client, s32 frames);
     static void end_camera_pan_for_client(u16 client);
