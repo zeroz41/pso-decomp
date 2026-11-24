@@ -250,7 +250,6 @@ void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void
 u8 * get_character_save_record(u32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 TLobby__data_805D4E30;
-extern const NJS_POINT2 lbl_8043EE18[1];
 extern const NJS_POINT2 lbl_8043EE20[1];
 void fn_80338D58(void *list, s32 flag, const char *name, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 index);
 extern NJS_POINT2 lbl_8043EE28[1];
@@ -261,17 +260,11 @@ void render_shadows__7TObjectFv();
 extern s16 TLobby__data_805D5CE8;
 void *__ct__11TWindowRoomFPc(void *self, char *title);
 void handle_chat_message__11TWindowCtrlFPc(char *);
-extern const NJS_POINT2 lbl_8043EE10[1];
-extern const NJS_POINT2 lbl_8043EE08[1];
 void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s32 unused);
-extern const NJS_POINT2 lbl_8043EE00[1];
 s32 clear_lobby_flag__10TObjPlayerFPv();
 const char *TWindowMakeTeam__sub_80264B24(TWindowMakeTeam *window);
 const char *TWindowMakeTeam__sub_80264B38(TWindowMakeTeam *window);
-extern const NJS_POINT2 lbl_8043EDF8[1];
-extern const NJS_POINT2 lbl_8043EDF0[1];
-extern const NJS_POINT2 lbl_8043EDE8[1];
 void show_card_list_message(void *msg);
 void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected);
 void receive_file_chunk__22TQuestVmDownLoadServerFv();
@@ -813,7 +806,7 @@ void show_card_list_message(void *msg) {
 #pragma defer_codegen on
 void TLobby::show_seq_phase_message(int id) {
     if (current_dialog_window == 0) {
-        NJS_POINT2 tmp = lbl_8043EDE8[0];
+        NJS_POINT2 tmp = { 342.0f, 144.0f };
         current_dialog_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc1), &tmp);
         current_dialog_window->set_depth(30001.0f);
     }
@@ -822,7 +815,7 @@ void TLobby::show_seq_phase_message(int id) {
 
 void show_dialog_value_line(saddr text) {
     if (TLobby::current_dialog_window == 0) {
-        NJS_POINT2 tmp = lbl_8043EDF0[0];
+        NJS_POINT2 tmp = { 342.0f, 144.0f };
         TLobby::current_dialog_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc1), &tmp);
         TLobby::current_dialog_window->set_depth(30001.0f);
     }
@@ -837,7 +830,7 @@ void TLobby::close_com_card_window() {
 
 void show_join_entry_message(s32 id) {
     if (TLobby::join_entry_window_obj == 0) {
-        NJS_POINT2 tmp = lbl_8043EDF8[0];
+        NJS_POINT2 tmp = { 558.0f, 224.0f };
         TLobby::join_entry_window_obj = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc2), &tmp);
     }
     TLobby::join_entry_window_obj->append_line((int)(TLobby::get_seq_phase(id)), (int)1);
@@ -1720,7 +1713,7 @@ void TLobby::update_player_window() {
 
 void handle_error(s32 text) {
     if (TLobby::download_list_window == 0) {
-        NJS_POINT2 tmp = lbl_8043EE00[0];
+        NJS_POINT2 tmp = { 224.0f, 188.0f };
         TLobby::download_list_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc6), &tmp);
     }
     TLobby::download_list_window->append_line((int)text, (int)3);
@@ -2052,7 +2045,7 @@ void TLobby::handle_state(int checksum_ok) {
 
 void handle_server_message(s32 text) {
     if (TLobby::download_list_window == 0) {
-        NJS_POINT2 tmp = lbl_8043EE08[0];
+        NJS_POINT2 tmp = { 224.0f, 188.0f };
         TLobby::download_list_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc7), &tmp);
     }
     TLobby::download_list_window->append_line((int)text, (int)3);
@@ -2060,7 +2053,7 @@ void handle_server_message(s32 text) {
 
 void handle_lobby_text(s32 text) {
     if (TLobby::join_entry_window_obj == 0) {
-        NJS_POINT2 tmp = lbl_8043EE10[0];
+        NJS_POINT2 tmp = { 558.0f, 224.0f };
         TLobby::join_entry_window_obj = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc8), &tmp);
     }
     TLobby::join_entry_window_obj->append_line((int)text, (int)3);
@@ -2511,7 +2504,7 @@ void TLobby::open_download_list_window(int count, void *entries) {
         download_list_window = 0;
     }
     {
-        NJS_POINT2 p = lbl_8043EE18[0];
+        NJS_POINT2 p = { 224.0f, 188.0f };
         w = get_window_layout_position(0xC7);
         download_list_window = (TWindowMessage *)TWindowMessage::create(w, (const f32 *)(&p), 1);
         download_list_window->append_line((saddr)((char *)list + 0x2C), (int)3);
@@ -2972,15 +2965,8 @@ __declspec(section ".ctors") static void *const __sinit_TPlyJoinLobbyEntry_cpp_r
 // Window positions copied by the message/menu openers above, and the lobby log and
 // menu strings; defined after their users so each is addressed on its own.
 
-__declspec(section ".rodata") const NJS_POINT2 lbl_8043EDE8[1] = { { 342.0f, 144.0f } };
-__declspec(section ".rodata") const NJS_POINT2 lbl_8043EDF0[1] = { { 342.0f, 144.0f } };
-__declspec(section ".rodata") const NJS_POINT2 lbl_8043EDF8[1] = { { 558.0f, 224.0f } };
-__declspec(section ".rodata") const NJS_POINT2 lbl_8043EE00[1] = { { 224.0f, 188.0f } };
 
-__declspec(section ".rodata") const NJS_POINT2 lbl_8043EE08[1] = { { 224.0f, 188.0f } };
-__declspec(section ".rodata") const NJS_POINT2 lbl_8043EE10[1] = { { 558.0f, 224.0f } };
 
-__declspec(section ".rodata") const NJS_POINT2 lbl_8043EE18[1] = { { 224.0f, 188.0f } };
 __declspec(section ".rodata") const NJS_POINT2 lbl_8043EE20[1] = { { 332.0f, 200.0f } };
 __declspec(section ".rodata") NJS_POINT2 lbl_8043EE28[1] = { { 342.0f, 144.0f } };
 __declspec(section ".rodata") const char lobby_debug_udp_open_format[] = "udp open %d %d.%d.%d.%d";
