@@ -28,6 +28,7 @@
 #include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/PlayerCharDataEntry.h"
+#include "pso/player/PlayerSyncRecord.h"
 
 extern "C" {
 // TObjPlayer.h declares the slot as s32; the call passes the u16 entity id unextended.
@@ -109,7 +110,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     this->init_data_table_ptr();
 }
 
-TObjPlayer::TObjPlayer(TObject *parent, void *record) : TObjChara(parent) {
+TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(parent) {
     ((TObjPlayer *)((char *)this + 1544))->set_vec4_const_wrapper();
     ((TObjPlayer *)((char *)this + 1588))->wrap_update();
     battle_music.reset_and_clear();
@@ -134,20 +135,20 @@ TObjPlayer::TObjPlayer(TObject *parent, void *record) : TObjChara(parent) {
     this->m_name = lbl_805D3530;
     this->init_from_data(record);
     this->setup_control_role(4);
-    init_body_parts((char *)record + 200);
-    this->load_char_data((u8 *)record);
-    this->update_position((saddr)record);
+    init_body_parts(&record->visual);
+    this->load_char_data(record);
+    this->update_position(record);
     clear_lock_on_cursor(record);
     init_model_buffer_and_actions(record);
     is_flag_set_550(record);
     init_session_technique_caps(record);
-    this->init_from_source((u8 *)record);
+    this->init_from_source(record);
     init_session_area_sync(record);
     init_battle(record);
     TObjPlayer__sub_801BBB70(this, record);
     this->init_class_flags((saddr)record);
     TObjPlayer__sub_801BB85C(this, (u8 *)record);
-    this->hp = *(s16 *)((s8 *)record + 0x22);
+    this->hp = record->current_hp;
 }
 
 extern "C" {
@@ -277,7 +278,7 @@ void TObjPlayer::refresh_player_lobby_headers() {
 
 TObjPlayer *create_remote_player_object(void *record) {
     decode_remote_player_inventory(record);
-    return new TObjPlayer(tl_03, record);
+    return new TObjPlayer(tl_03, (PlayerSyncRecord *)record);
 }
 
 s32 TObjPlayer::create(u32 slot, saddr player) {

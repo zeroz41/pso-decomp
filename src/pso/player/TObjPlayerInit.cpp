@@ -4,6 +4,7 @@
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/player/TObjPlayer_801BF918.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSyncRecord.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/unk/TUnk_804ED7D0.h"
@@ -34,27 +35,14 @@ void update_photon_chair__10TObjPlayerFv(void *player);
 s8 get_class_index__10TObjPlayerFv(TObjPlayer *player);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, const StatusEffect *src);
 int TObjPlayer__sub_801BEF60(PlayerPadBinding *binding, int value);
-u8 TObjPlayer__sub_801BEB8C(u8 *record);
-u8 TObjPlayer__sub_801BEBB8(u8 *record);
-u8 TObjPlayer__sub_801BEBE4(u8 *record);
-u8 TObjPlayer__sub_801BEC10(u8 *record);
-u8 TObjPlayer__sub_801BEC3C(u8 *record);
+u8 TObjPlayer__sub_801BEB8C(PlayerSyncRecord *record);
+u8 TObjPlayer__sub_801BEBB8(PlayerSyncRecord *record);
+u8 TObjPlayer__sub_801BEBE4(PlayerSyncRecord *record);
+u8 TObjPlayer__sub_801BEC10(PlayerSyncRecord *record);
+u8 TObjPlayer__sub_801BEC3C(PlayerSyncRecord *record);
 // TObjPlayer.h declares the tech index as int; the callers pass it as a short.
 void set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(TObjPlayer *player, u8 level, s16 tech);
 }
-
-// The parts of the remote player record (6x70) init_session_technique_caps reads.
-struct PlayerSessionTechniques {
-    u8 pad_0[0x28];
-    StatusEffect status_effects[5];
-    u8 pad_64[0xB4 - 0x64];
-    u8 technique_levels[0x13];
-    u8 pad_C7[0x142 - 0xC7];
-    struct {
-        u8 level_bonus;
-        u8 pad_1[0x1B];
-    } technique_bonus[0x13];
-};
 
 void TObjPlayer::reset_state() {
     ((FlagWord *)((u8 *)this + 0x858))->clear(2);
@@ -151,18 +139,17 @@ void TObjPlayer::assign_owner_ids() {
 }
 
 // A remote player's technique levels (with their bonus) and status effects.
-void TObjPlayer::init_session_technique_caps(void *record) {
-    PlayerSessionTechniques *src = (PlayerSessionTechniques *)record;
+void TObjPlayer::init_session_technique_caps(PlayerSyncRecord *record) {
     s32 i;
 
     TObjPlayer__sub_801C1F78(&photon_blast_gauge, get_entity_id());
     init_class_technique_caps(&technique_state, get_class_index__10TObjPlayerFv(this));
     ((TObjPlayer *)&technique_state)->copy_all_technique_entries((void *)0x1D);
     for (i = 0; i < 0x13; i++) {
-        set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(this, src->technique_levels[i] + src->technique_bonus[i].level_bonus, i);
+        set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(this, record->technique_levels[i] + record->items[i].m_present[2], i);
     }
     for (i = 0; i < 5; i++) {
-        TObjPlayer__sub_801BEF44(&status_effects[i], &src->status_effects[i]);
+        TObjPlayer__sub_801BEF44(&status_effects[i], &record->status_effects[i]);
     }
 }
 
@@ -209,16 +196,16 @@ void TObjPlayer::update_if_active() {
     }
 }
 
-void TObjPlayer::load_char_data(u8 *record) {
-    sub_801BEE2C(*(s16 *)(record + 0x24));
-    sub_801BEE24(*(s16 *)(record + 0x26));
+void TObjPlayer::load_char_data(PlayerSyncRecord *record) {
+    sub_801BEE2C(record->hp_material_bonus);
+    sub_801BEE24(record->tp_material_bonus);
     set_field_374(TObjPlayer__sub_801BEC3C(record));
     set_field_374_state(TObjPlayer__sub_801BEC10(record));
     set_inventory_state(TObjPlayer__sub_801BEBE4(record));
     set_equip_flags(TObjPlayer__sub_801BEBB8(record));
     set_luck_materials_used(TObjPlayer__sub_801BEB8C(record));
-    init_player_data(record + 0x118);
-    hp = *(s16 *)(record + 0x22);
+    init_player_data(&record->stats);
+    hp = record->current_hp;
     resend_status_effects();
 }
 
@@ -265,11 +252,11 @@ void TObjPlayer::init_data_table_ptr() {
     item_node_matrices = player_shared_buffer_base[get_entity_id()];
 }
 
-void TObjPlayer::init_from_source(u8 *record) {
+void TObjPlayer::init_from_source(PlayerSyncRecord *record) {
     inventory_objects = NULL;
     create_inventory();
     set_action_provider_variant(default_action_provider_variant());
-    bind_saved_inventory_equipment(this, reinterpret_cast<TPlyInventoryItem *>(record + 0x140), *(s32 *)(record + 0x13C));
+    bind_saved_inventory_equipment(this, record->items, record->item_count);
     item_node_matrices = player_shared_buffer_base[get_entity_id()];
 }
 

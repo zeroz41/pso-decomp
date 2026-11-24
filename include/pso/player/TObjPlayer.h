@@ -37,6 +37,7 @@ class TUnk_804C445C;
 class TPlyInventoryItem;
 struct TechniqueContactList;
 struct TUnk_801D8A4C;
+struct PlayerSyncRecord;
 struct TLockOnCursor;
 struct TMovie;
 struct CapturedTargetList;
@@ -81,7 +82,7 @@ typedef GC_Mtx PlayerJointMatrixSet[32];
 extern PlayerJointMatrixSet *player_shared_buffer_base;
 
 struct TObjPlayer : public TObjChara {
-    TObjPlayer(TObject *parent, void *arg2);
+    TObjPlayer(TObject *parent, PlayerSyncRecord *record);
     TObjPlayer(TObject *parent, TUnk_801D8A4C *src);
     TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record);
     // The key function: __vt__10TObjPlayer is emitted with the TU at 0x801AF290
@@ -132,10 +133,10 @@ struct TObjPlayer : public TObjChara {
     void set_input_mode(s32);
     void set_move_mode(s32);
     void set_move_mode_from_class_flags();
-    void init_from_source(u8 *);
+    void init_from_source(PlayerSyncRecord *record);
     void init_control_mode(s32);
     s32 get_controller_port();
-    void load_char_data(u8 *);
+    void load_char_data(PlayerSyncRecord *record);
     void destroy_owned_object();
     void init_collision_body();
     void create_lockon_cursor();
@@ -500,7 +501,7 @@ struct TObjPlayer : public TObjChara {
     static s32 is_player_valid_target(u16 client_index);
     void update_movement_effects();
     static int get_max_level();
-    void update_position(saddr record);
+    void update_position(PlayerSyncRecord *record);
     s32 has_active_camera_event();
     void init_from_data(void* a1);
     void reset_state();
@@ -1539,7 +1540,7 @@ struct TObjPlayer : public TObjChara {
     // End of placeholder-named members.
 
     // Per-part init steps: from a joining player's record and from a saved character.
-    void init_session_technique_caps(void *record);
+    void init_session_technique_caps(PlayerSyncRecord *record);
     void init_saved_technique_caps(TPlyCharData *record);
     void init_session_area_sync(void *record);
 };
