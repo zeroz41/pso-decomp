@@ -2621,8 +2621,20 @@ s32 game_action_motion_buffer;
 extern "C" {
 void set_motion_variant(void *p, s32 _w1);
 s32 matches_loaded_motion(void *, s32, s32);
-int is_valid_player_motion_variant(s32 variant = 0);
-int TLobby__sub_802A7278(s32 a0 = 0);
+int match_coordinate_pair(u8 *pair, s32 a, s32 b) {
+    u8 match = 0;
+    if (a == ((s32 *)pair)[0] && b == ((s32 *)pair)[1]) {
+        match = 1;
+    }
+    return match;
+}
+int is_valid_player_motion_variant(u32 variant) {
+    return variant < 19 ? true : false;
+}
+
+int TLobby__sub_802A7278(u32 arg0) {
+    return arg0 < 6 ? true : false;
+}
 
 s32 TLobby::get_valid_child() {
     if (is_valid_player_motion_variant(*(saddr *)&this->m_flags) != 0) {
@@ -2713,3 +2725,26 @@ GamePlayerActionProvider::GamePlayerActionProvider() {}
 s32 *GamePlayerActionProvider::get_state_table(s32) { return reinterpret_cast<s32 *>(motions); }
 BmlMotionEntry *GamePlayerActionProvider::vfunc_76() { return motions; }
 int GamePlayerActionProvider::vfunc_4() {  return (*(int *)&game_action_motion_buffer); }
+
+int GamePlayerActionProvider::vfunc_15() { return 0; }
+int GamePlayerActionProvider::get_technique_action() { return 1; }
+int GamePlayerActionProvider::get_attack1_action() { return 2; }
+int GamePlayerActionProvider::get_attack2_action() { return 3; }
+int GamePlayerActionProvider::get_attack3_action() { return 4; }
+int GamePlayerActionProvider::vfunc_20() { return 5; }
+int GamePlayerActionProvider::get_use_item_action() { return 6; }
+int GamePlayerActionProvider::vfunc_22() { return 7; }
+int GamePlayerActionProvider::vfunc_23() { return 8; }
+int GamePlayerActionProvider::get_knockdown_action() { return 9; }
+int GamePlayerActionProvider::vfunc_25() { return 10; }
+int GamePlayerActionProvider::get_hurt_action() { return 11; }
+int GamePlayerActionProvider::get_death_action() { return 12; }
+int GamePlayerActionProvider::get_interact_action() { return 13; }
+int GamePlayerActionProvider::get_photon_blast_action() { return 14; }
+int GamePlayerActionProvider::get_run_action() { return 15; }
+int GamePlayerActionProvider::vfunc_75() { return 16; }
+int PlayerActionProvider::vfunc_11() { return 0; }
+int PlayerActionProvider::vfunc_13() { return 0; }
+int PlayerActionProvider::vfunc_12() { return 0; }
+int PlayerActionProvider::vfunc_73() { return -1; }
+int PlayerActionProvider::vfunc_74() { return -1; }

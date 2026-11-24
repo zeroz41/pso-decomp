@@ -1371,7 +1371,6 @@ pso/quest/TQuestListOffline.cpp
 pso/effect/enemy/TeneFakeTecThunderEff.cpp
 pso/item/item_pmt.cpp
 pso/system/data/pso_const_ids.cpp
-pso/system/data/pso_const_ids3.cpp
 pso/system/data/pso_const_ids4.cpp
 pso/system/data/pso_date.cpp
 pso/network/mdm.c

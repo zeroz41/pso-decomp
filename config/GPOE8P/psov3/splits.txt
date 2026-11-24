@@ -7674,18 +7674,15 @@ pso/object/seabed/TObjSuisoChip.cpp:
 	.sdata2     start:0x805DDFF8 end:0x805DE018
 
 pso/object/seabed/TObjSeabedSuisoBrakable.cpp:
-	.text       start:0x802A6F40 end:0x802A7290
+	.text       start:0x802A6F40 end:0x802A7238
 	.rodata     start:0x80466CE0 end:0x80466D10
 	.bss        start:0x80540AC0 end:0x80540AF0
 
 pso/player/GamePlayerActionProvider.cpp:
-	.text       start:0x802A7290 end:0x802A7798
+	.text       start:0x802A7238 end:0x802A7848
 	.rodata     start:0x80466D10 end:0x8046FB90
 	.data       start:0x804DD830 end:0x804DDD28
 	.sbss       start:0x805D6680 end:0x805D6688
-
-pso/system/data/pso_const_ids3.cpp:
-	.text       start:0x802A7798 end:0x802A7848
 
 pso/player/PlayerActionProvider.cpp:
 	.text       start:0x802A7848 end:0x802A7D68
