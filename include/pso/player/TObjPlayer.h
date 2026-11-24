@@ -694,6 +694,7 @@ struct TObjPlayer : public TObjChara {
     void get_chair_state(s32 value);
     void clear_state_flag();
     short start_action18_sub();
+    s32 get_chair_target_angle();
     int get_action_flag();
     void forward_1D1044_at_34c(s16 value);
     int is_action_flag_28();
