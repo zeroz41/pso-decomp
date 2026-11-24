@@ -354,7 +354,7 @@ s16 write_pppoe_ac_name_tag(u8 **cursor, PppoeSlot *slot) {
     sp10 = name_len;
     NetMemcpy(*cursor, (&sp10), 2);
     *cursor += 2;
-    NetMemcpy(*cursor, (char *)slot->names.name, (name_len));
+    NetMemcpy(*cursor, slot->names.name, (name_len));
     *cursor += name_len;
     return name_len + 4;
 }

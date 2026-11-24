@@ -208,7 +208,6 @@ s32 ppp_start(NetConnectCfg *cfg) {
     return -1;
 }
 
-void NetMemcpy(void* destination, void* source, int size);
 #pragma push
 #pragma cplusplus off
 #pragma dont_inline off

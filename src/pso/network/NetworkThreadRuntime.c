@@ -233,7 +233,7 @@ void* NetMemmove(void* destination, const void* source, u32 size) {
     return memmove(destination, source, size);
 }
 
-s32 NetMemcmp(void* left, void* right, int size) {
+s32 NetMemcmp(const void *left, const void *right, int size) {
     return memcmp(left, right, size);
 }
 
@@ -241,7 +241,7 @@ void NetMemset(void* destination, int value, int size) {
     memset(destination, value, size);
 }
 
-void NetMemcpy(void* destination, void* source, int size) {
+void NetMemcpy(void *destination, const void *source, int size) {
     memcpy(destination, source, size);
 }
 

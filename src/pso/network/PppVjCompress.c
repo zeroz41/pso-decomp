@@ -15,7 +15,6 @@ PppVjConnectionState vj_tstate[16];
 u32 lbl_805C1890[4];
 #pragma pop
 
-void NetMemcpy(void *, void *, int);
 
 #pragma push
 #pragma dont_inline off

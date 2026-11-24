@@ -98,8 +98,8 @@ char* NetCopyString(char* destination, const char* source);
 u32 NetStringLength(const char* text);
 void* NetMemmove(void* destination, const void* source, u32 size);
 
-s32 NetMemcmp(void* left, void* right, int size);
-void NetMemcpy(void* destination, void* source, int size);
+s32 NetMemcmp(const void *left, const void *right, int size);
+void NetMemcpy(void *destination, const void *source, int size);
 void NetMemset(void* destination, int value, int size);
 
 void ipv6cp_release_resources(struct PppFsm *fsm);

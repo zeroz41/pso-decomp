@@ -716,8 +716,8 @@ extern u16 calc_ipv6_pseudo_header_checksum(const struct IPv6Address *src, const
     Ipv6PseudoHeader ph;
     u32 sum;
 
-    NetMemcpy(&ph.src, (void *)src, sizeof(IPv6Address));
-    NetMemcpy(&ph.dst, (void *)dst, sizeof(IPv6Address));
+    NetMemcpy(&ph.src, src, sizeof(IPv6Address));
+    NetMemcpy(&ph.dst, dst, sizeof(IPv6Address));
     ph.zero[0] = 0;
     ph.zero[1] = 0;
     ph.zero[2] = 0;

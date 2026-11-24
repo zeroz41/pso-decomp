@@ -319,18 +319,18 @@ s16 pppoe_terminate_hook(void) {
 }
 
 s16 post_send_message(void *data, u16 len) {
+    u32 size = len;
     u8 *buf;
     NetworkPacketBufferDescriptor *msg;
     u8 pad[8];
-    saddr src = (saddr)data;
-    buf = alloc_packet_buffer_locked(len);
+    buf = alloc_packet_buffer_locked(size);
     if (buf == NULL) {
         return -1;
     }
-    NetMemcpy((void *)buf, (void *)src, (saddr) (void *)len);
+    NetMemcpy(buf, data, size);
     msg = find_packet_buffer_locked(buf);
     if (msg != NULL) {
-        msg->queued_length = (s32)len;
+        msg->queued_length = size;
         OSSendMessage(&exi_send_queue.queue, msg, OS_MESSAGE_NOBLOCK);
     }
     return 0;

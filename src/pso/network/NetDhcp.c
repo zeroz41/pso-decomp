@@ -303,7 +303,7 @@ s32 dhcp_build_packet(DhcpMessage *packet) {
         *p++ = 0xC;
         m = len + 1;
         *p++ = m;
-        NetMemcpy(p, ((char *)&dhcp_hostname), m);
+        NetMemcpy(p, dhcp_hostname, m);
         p += m;
     }
     *p++ = 0xFF;

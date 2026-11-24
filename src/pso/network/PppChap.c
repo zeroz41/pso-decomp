@@ -424,7 +424,7 @@ void chap_recv_challenge(PppFsm *connection, PppHeader *header, PppFrame *source
     MD5Final(chap_state.response + 1, &context);
     {
         u32 response_name_length = string_length;
-        NetMemcpy(chap_state.response + 0x11, (void *)chap->name, response_name_length);
+        NetMemcpy(chap_state.response + 0x11, chap->name, response_name_length);
     }
     chap->id = header->id;
     chap->len = string_length + 0x11;

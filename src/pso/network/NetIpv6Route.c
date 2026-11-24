@@ -1287,7 +1287,7 @@ s16 NetIPv6IsTentativeAddress(void *self, s16 id) {
     if (e == NULL) {
         return 0;
     }
-    r = NetMemcmp(&e->addr, (u8 *)self, 16);
+    r = NetMemcmp(&e->addr, self, 16);
     if (r < 0) {
         c = -1;
     } else if (r > 0) {
@@ -1304,7 +1304,7 @@ s16 NetIPv6IsTentativeAddress(void *self, s16 id) {
     p = e->addrs;
     i = 0;
     while (p != NULL && (s16)i < tbl->max_addrs) {
-        r = NetMemcmp(&p->addr, (u8 *)self, 16);
+        r = NetMemcmp(&p->addr, self, 16);
         if (r < 0) {
             c = -1;
         } else if (r > 0) {
