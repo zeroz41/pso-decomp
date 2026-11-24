@@ -81,7 +81,6 @@ s32 __cvt_fp2unsigned(f32);
 extern GC_Mtx chunk_object_current_matrix;
 void draw_strip_list_pos_nrm(s16 *list, Vtx_803E36C4 *verts, u32 info);
 void GXSetChanCtrl(s32 chan, u8 enable, s32 ambSrc, s32 matSrc, u32 lightMask, s32 diffFn, s32 attnFn);
-extern u32 gx_chan_ctrl_light_mask;
 extern u32 chunk_has_vertex_colors;
 void draw_strip_pos_normal(s16 *list, Vtx_803E36C4 *verts, u32 info);
 void draw_triangle_strips(s16 *list, Vtx_803E36C4 *verts, u32 info);

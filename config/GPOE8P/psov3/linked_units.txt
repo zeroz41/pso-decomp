@@ -1530,7 +1530,7 @@ pso/object/ambient/TObjLight_80133568.cpp
 pso/technique/TTecFireCharge.cpp
 pso/object/TActorLight.cpp
 pso/technique/TTecSupportCharge.cpp
-pso/object/ambient/TObjLight_803DF220.cpp
+pso/system/TrailStrip.cpp
 pso/object/lobby/TObjLobbyMain.cpp
 pso/object/TObjLuker.cpp
 pso/object/TObjLuker_801329B0.cpp
@@ -2072,6 +2072,7 @@ pso/render/gjSystem.c
 pso/render/RenderSbssGlobals.cpp
 pso/render/RenderUtilSdata.cpp
 pso/unk/text_803DD5E0.cpp
+pso/render/gjLight.c
 pso/unk/text_803DE7E0.cpp
 pso/unk/text_803DEE48.cpp
 pso/unk/text_803DF204.cpp

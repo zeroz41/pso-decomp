@@ -8,7 +8,7 @@
 #include "pso/object/TUnk_804A6F78.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/object/ambient/TObjLight_803DF220.h"
+#include "pso/render/gjLight.h"
 #include "pso/system/memory.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"

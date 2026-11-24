@@ -1,5 +1,6 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/dvd.h>
+#include <dolphin/gx/GXStruct.h>
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GinjaTexture.h"
@@ -597,6 +598,6 @@ relocate:
     return buf;
 }
 
-s32 gx_light_objects[0x50];
+GXLightObj gx_light_objects[5];
 s16 *chunk_polygon_list_cache[0x7E];
 u8 gvrt_header_read_buffer[0x20];

@@ -9,6 +9,7 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/render/RenderSbssGlobals.h"
+#include "pso/unk/text_803DD5E0.h"
 #include "pso/system/MatrixOps.h"
 
 struct Ent_803DEBC8 { u32 mask; u32 val; };
@@ -38,12 +39,9 @@ extern s32 TKeyBoardControl__pad_status_buffer[];
 extern Ent_803DEBC8 pad_button_map_table[];
 u32 keyboard_pad_button_count = 12;
 extern ChunkMaterialColor model_material_color;
-extern u8 gx_light_objects[];
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-extern f32 light_position_distance;
-extern s32 gx_chan_ctrl_light_mask;
 void GXInitLightAttnK(void *, f32, f32, f32);
 extern Pad_803DEA18 TKeyBoardControl_prev_pad_state[4];
 s32 PADReset(u32);

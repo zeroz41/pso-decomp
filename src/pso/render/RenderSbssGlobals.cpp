@@ -24,6 +24,6 @@ u32 chunk_polygon_flags_or_mask;
 u32 chunk_polygon_flags_and_mask;
 u32 ginja_draw_flags;
 u32 model_render_flags;
-u32 light_position_distance;
+f32 light_position_distance;
 u32 gx_chan_ctrl_light_mask;
 u32 chunk_polygon_cache_pending[2];

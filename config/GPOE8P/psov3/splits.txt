@@ -11491,10 +11491,13 @@ pso/unk/TLobby_803DF1FC.cpp:
 pso/unk/text_803DF204.cpp:
 	.text       start:0x803DF204 end:0x803DF220
 
-pso/object/ambient/TObjLight_803DF220.cpp:
-	.text       start:0x803DF220 end:0x803DF7A8
+pso/render/gjLight.c:
+	.text       start:0x803DF220 end:0x803DF578
 	.data       start:0x804FC748 end:0x804FC780
 	.sdata2     start:0x805E0FD0 end:0x805E0FD8
+
+pso/system/TrailStrip.cpp:
+	.text       start:0x803DF578 end:0x803DF7A8
 
 pso/math/BoxOverlap.cpp:
 	.text       start:0x803DF7A8 end:0x803E112C
