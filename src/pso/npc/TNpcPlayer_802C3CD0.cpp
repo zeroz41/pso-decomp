@@ -117,7 +117,7 @@ void export_character_data__10TObjPlayerFPvPv(TObjPlayer *player, TPlyCharData *
     player->copy_battle_mode((u8 *)arg1);
     player->clear_flag_80000();
 }
-void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1) {
+void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *character) {
     Item_802C3F74 *items[30];
     s16 hp;
     s16 facing;
@@ -132,7 +132,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1) {
     saddr a;
     s32 m;
     ((TObjPlayer *)player)->set_flag_80000();
-    arg1[0] = ((TObjPlayer *)player)->query_state_if_present(reinterpret_cast<TPlyCharData *>(arg1)->m_inventory.get_items());
+    character[0] = ((TObjPlayer *)player)->query_state_if_present(reinterpret_cast<TPlyCharData *>(character)->m_inventory.get_items());
     hp = ((TObjChara *)player)->get_actor_hp();
     facing = get_actor_tp(player);
     p = items;
@@ -149,8 +149,8 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1) {
             n++;
         }
     }
-    arg1[0] = n;
-    rec = reinterpret_cast<saddr>(reinterpret_cast<TPlyCharData *>(arg1)->m_inventory.get_items());
+    character[0] = n;
+    rec = reinterpret_cast<saddr>(reinterpret_cast<TPlyCharData *>(character)->m_inventory.get_items());
     p = items;
     for (i = 0; i < 30; i++) {
         if (*p != NULL) {
@@ -161,19 +161,19 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1) {
         }
         rec += 0x1C;
     }
-    arg1[1] = ((TObjPlayer *)player)->get_hp_material_points();
-    arg1[2] = ((TObjPlayer *)player)->get_tp_materials_clamped();
-    ((TObjPlayer *)arg1)->set_flag_e7(((TObjPlayer *)player)->get_field_374());
-    ((TObjPlayer *)arg1)->set_flag_103(((TObjPlayer *)player)->get_field_374_state());
-    ((TObjPlayer *)arg1)->set_action_flags(((TObjPlayer *)player)->get_inventory_state());
-    ((TObjPlayer *)arg1)->set_byte_13b(((TObjPlayer *)player)->get_equip_flags());
-    ((TObjPlayer *)arg1)->set_field_157(((TObjPlayer *)player)->get_luck_materials_used());
-    clamp_stats__10TObjPlayerFiPv(player, arg1 + 0x34C, (saddr)TObjPlayer::get_class_stat_entry(player));
-    copy_player_visual_record(arg1 + 0x370, player + 0x85C);
-    TObjPlayer__sub_8013A748(arg1 + 0x3C0, player + 0x500);
+    character[1] = ((TObjPlayer *)player)->get_hp_material_points();
+    character[2] = ((TObjPlayer *)player)->get_tp_materials_clamped();
+    ((TObjPlayer *)character)->set_flag_e7(((TObjPlayer *)player)->get_field_374());
+    ((TObjPlayer *)character)->set_flag_103(((TObjPlayer *)player)->get_field_374_state());
+    ((TObjPlayer *)character)->set_action_flags(((TObjPlayer *)player)->get_inventory_state());
+    ((TObjPlayer *)character)->set_byte_13b(((TObjPlayer *)player)->get_equip_flags());
+    ((TObjPlayer *)character)->set_field_157(((TObjPlayer *)player)->get_luck_materials_used());
+    clamp_stats__10TObjPlayerFiPv(player, character + 0x34C, (saddr)TObjPlayer::get_class_stat_entry(player));
+    copy_player_visual_record(character + 0x370, player + 0x85C);
+    TObjPlayer__sub_8013A748(character + 0x3C0, player + 0x500);
     for (k = 0; k < 19; k++) {
-        a = (saddr)TObjPlayer__sub_802C4698((O_802C4698 *)arg1, k);
-        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(player + 0x428, k), TObjPlayer__sub_802C4688((O_802C4688 *)arg1, k), (s8 *)a);
+        a = (saddr)TObjPlayer__sub_802C4698((O_802C4698 *)character, k);
+        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(player + 0x428, k), TObjPlayer__sub_802C4688((O_802C4688 *)character, k), (s8 *)a);
     }
     for (m = 0; m != 13; m++) {
         item = (Item_802C3F74 *)((TObjPlayer *)player)->get_equipped_item(m);
@@ -183,14 +183,14 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1) {
     }
     ((TObjPlayer *)player)->set_hp_clamped(hp);
     ((TObjPlayer *)player)->set_tp(facing);
-    arg1[3] = ((TObjPlayer *)player)->get_language();
+    character[3] = ((TObjPlayer *)player)->get_language();
     if (TObjPlayer__sub_802A1018() != 0) {
-        ((TObjPlayer *)arg1)->set_flag_40();
+        ((TObjPlayer *)character)->set_flag_40();
     }
-    ((TObjPlayer *)player)->apply_pending_action((saddr)arg1);
-    ((TObjPlayer *)player)->copy_mag_level_to_record((u8 *)arg1);
-    ((TObjPlayer *)player)->copy_byte_339_to_record((u8 *)arg1);
-    ((TObjPlayer *)player)->copy_battle_mode((u8 *)arg1);
+    ((TObjPlayer *)player)->apply_pending_action((saddr)character);
+    ((TObjPlayer *)player)->copy_mag_level_to_record((u8 *)character);
+    ((TObjPlayer *)player)->copy_byte_339_to_record((u8 *)character);
+    ((TObjPlayer *)player)->copy_battle_mode((u8 *)character);
     ((TObjPlayer *)player)->clear_flag_80000();
 }
 

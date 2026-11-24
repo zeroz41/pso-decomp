@@ -707,6 +707,7 @@ struct TObjPlayer : public TObjChara {
     void update_if_flag_set();
     static void set_flag_0x100000(void* p);
     static void apply_velocity_if_free(saddr arg0);
+    static void apply_velocity_if_free(void *player);
     void complete_guard_reaction();
     void select_hit_action();
     static void create_photon_blast_party_effects(u16 id);
@@ -845,7 +846,7 @@ struct TObjPlayer : public TObjChara {
     void set_action_flag_40();
     void set_field_d4_and_flag_200(f32 value);
     void set_action_flag();
-    int bswap_field_u32();
+    void bswap_field_u32();
     void *copy_packet_pos_6x42(void *pkt);
     void bswap_u16_pair_list();
     void bswap_u16_pair();
@@ -1222,7 +1223,7 @@ struct TObjPlayer : public TObjChara {
     void calc_wall_slide_point(void *normal, void *arg2);
     void close_sub_window();
     s32 find_inventory_item_id(s8 arg1, s8 arg2);
-    s32 try_add_sale_meseta(s32 arg1, s32 amount, s32 count);
+    s32 try_add_sale_meseta(s32 item_id, s32 amount, s32 count);
     void drop_items_on_death();
     static void send_6x2A_drop_item(void *arg0, s32 source, void *arg2, s32 arg3);
     s32 send_trap_packet(int arg1_);
@@ -1558,7 +1559,7 @@ struct TObjPlayer : public TObjChara {
     static void restore_model_render_state();
     static void save_model_render_state();
     s32 can_equip_item(s32 tech);
-    int clear_links();
+    void clear_links();
     void ensure_default();
     int get_flag();
     s32 is_action_channel_available(s32 arg1);

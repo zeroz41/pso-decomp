@@ -15,7 +15,7 @@ extern "C" {
 
 TObjPlayer *get_local_player();
 
-void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *arg1);
+void export_state_to_record__10TObjPlayerFPvPv(u8 *player, s8 *character);
 
 extern s32 local_client_id;
 
