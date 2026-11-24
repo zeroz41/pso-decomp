@@ -13,9 +13,7 @@
  * PppMd5.c, NetByteOrder.c, PppPap.c, PppControl.c and PppVj.c (CHAP is TLobby_803FC178.c). */
 struct PppFsm;
 struct PppHeader;
-typedef struct O_80400ACC O_80400ACC;
 typedef struct PppPapAuthenticationState PppPapAuthenticationState;
-struct O_80400ACC { u8 b0; u8 b1; u8 b2; u8 pad3[0x108 - 3]; s32 f108; };
 struct PppPapAuthenticationState {
     PppFsmProtocol proto;
     PapOptions options;
@@ -41,11 +39,11 @@ s32 TLobby__sub_80401ABC(u8 *self_m, void *dst, s32 n); /* PppBuffer.c */
 void TLobby__sub_803FE820(saddr arg0);
 s16 TLobby__sub_803FF304(PppFsm *fsm);
 void TLobby__sub_803FF468(PppFsm *arg0);
-void TLobby__sub_803FD85C(void *arg0);
+void TLobby__sub_803FD85C(PppFsm *fsm);
 s16 ppp_begin_connect(s32 ignored, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, char *modem_name, s32 no_modem);
 s16 ppp_fsm_send_packet(PppFsm *fsm, u8 code, int reply_identifier, PppFrame *payload);
 s16 TLobby__sub_803FE658(PppFsm *fsm);
-void TLobby__sub_803FD958(u8 *arg0);
+void TLobby__sub_803FD958(PppFsm *fsm);
 void TLobby__sub_80401CAC(PppFrame **o, u16 v);
 u16 read_network_u16_be(u8 *p);
 u32 TLobby__sub_80402AFC(u8 *p);
@@ -77,7 +75,8 @@ PppFrame *build_avetcp_net_buffer(PppFsm *c);
 void TLobby__sub_803FDBF8(PppFsm *fsm, PppFrame *payload);
 s16 TLobby__sub_803FE8BC(PppHeader *dst, PppFrame **src);
 s16 pap_recv_auth_request(PppFsm *fsm, PppHeader *header, PppFrame *payload);
-void start_ipcp_after_auth(O_80400ACC *o);
+void start_ipcp_after_auth(PppProtoBlocks *blocks);
+void init_lcp_protocol(PppProtoBlocks *conn);
 PppFrame *TLobby__sub_80401B20(void *src, u16 n);
 void MD5Update(MD5Context *context, u8 *input, u32 inputLen);
 void MD5Final(u8 *dst, MD5Context *ctx);

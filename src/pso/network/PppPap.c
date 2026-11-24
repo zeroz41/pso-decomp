@@ -29,15 +29,15 @@ s32 init_net_block_620_secondary(void) {
 s16 PP_pap_monitor(void *arg0, u32 timeout) {
     PppFsm *c = (PppFsm *)arg0;
     NetThreadState *g;
-    u8 *sub;
+    PppProtoBlocks *blocks;
 
-    sub = c->sub;
+    blocks = c->blocks;
     g = &net_thread_state;
     c->abort = 0;
     while (c->state != 5) {
-        if (is_timed_out() != 0 || c->abort != 0 || *sub == 4) {
+        if (is_timed_out() != 0 || c->abort != 0 || blocks->phase == 4) {
             update_connection_state(c);
-            update_connection_state(c->sub + 4);
+            update_connection_state(&c->blocks->lcp);
             c->abort = 0;
             if (ppp_auth_failed != 0) {
                 lobby_modem_error = 6;
@@ -49,7 +49,7 @@ s16 PP_pap_monitor(void *arg0, u32 timeout) {
         }
         if (get_remaining(timeout) != 0) {
             update_connection_state(c);
-            update_connection_state(c->sub + 4);
+            update_connection_state(&c->blocks->lcp);
             return -0x12;
         }
         unlock_mutex(g->mutex);
@@ -62,7 +62,7 @@ s16 PP_pap_monitor(void *arg0, u32 timeout) {
 }
 
 PppFrame *TLobby__sub_80403634(PppFsm *fsm);
-void pap_init(u8 *arg0) {
+void pap_init(PppProtoBlocks *blocks) {
     PppPapAuthenticationState *g;
     PppFsmProtocol *p;
     PppFsm *fsm;
@@ -70,7 +70,7 @@ void pap_init(u8 *arg0) {
 
     g = &ppp_pap_authentication_state;
     p = &g->proto;
-    fsm = (PppFsm *)(arg0 + 0x38);
+    fsm = &blocks->pap;
     if (fsm->opts == NULL) {
         timer = &fsm->timer;
         p->name = "Pap";
@@ -93,37 +93,35 @@ void pap_init(u8 *arg0) {
         p->check_config_ack = TLobby__sub_803FE844;
         p->check_config_nak = TLobby__sub_803FE844;
         p->check_config_reject = TLobby__sub_803FE844;
-        fsm->sub = arg0;
+        fsm->blocks = blocks;
         fsm->proto = p;
         fsm->opts = &g->options;
-        fsm->f4 = fsm->proto->max_request_attempts;
-        fsm->f7 = fsm->proto->max_peer_attempts;
-        fsm->f5 = fsm->proto->max_terminate_attempts;
+        fsm->max_request_attempts = fsm->proto->max_request_attempts;
+        fsm->max_peer_attempts = fsm->proto->max_peer_attempts;
+        fsm->max_terminate_attempts = fsm->proto->max_terminate_attempts;
         fsm->state = 0;
-        fsm->retries = fsm->f4;
-        fsm->f6 = fsm->f7;
+        fsm->retries = fsm->max_request_attempts;
+        fsm->peer_attempts_left = fsm->max_peer_attempts;
         timer->callback = handle_request_timeout;
         timer->arg = fsm;
         lobby_timer_add(timer, fsm->proto->timeout);
     }
 }
 
-s32 mark_ready(void *self) {
-    u8 *link = (u8 *)self;
-    PppFsm *fsm = (PppFsm *)(link + 0x38);
+s32 mark_ready(PppProtoBlocks *blocks) {
+    PppFsm *fsm = &blocks->pap;
     fsm->state = 2;
-    fsm->f2 |= 0x20;
-    link[2] |= 0x20;
+    fsm->flags |= 0x20;
+    blocks->auth_pending |= 0x20;
     return 0;
 }
 
-void set_active(void *self) {
-    u8 *link = (u8 *)self;
-    PppFsm *fsm = (PppFsm *)(link + 0x38);
+void set_active(PppProtoBlocks *blocks) {
+    PppFsm *fsm = &blocks->pap;
     fsm->state = 1;
-    fsm->f2 |= 0x10;
-    link[2] |= 0x10;
-    fsm->retries = fsm->f4;
+    fsm->flags |= 0x10;
+    blocks->auth_pending |= 0x10;
+    fsm->retries = fsm->max_request_attempts;
 }
 
 #pragma push
@@ -171,14 +169,14 @@ static inline s16 pap_read_reply_message(PapOptions *options, u8 actual_id, u8 e
 }
 
 static inline void pap_auth_done(PppFsm *self, u32 pending_bit) {
-    u8 *link = self->sub;
-    ((u8 *)self)[2] &= ~pending_bit;
-    if (!(((u8 *)self)[2] & 0x30)) {
+    PppProtoBlocks *link = self->blocks;
+    self->flags &= ~pending_bit;
+    if (!(self->flags & 0x30)) {
         self->state = 5;
     }
     lobby_timer_stop(&self->timer);
-    link[2] &= ~pending_bit;
-    start_ipcp_after_auth((O_80400ACC *)link);
+    link->auth_pending &= ~pending_bit;
+    start_ipcp_after_auth(link);
 }
 void pap_input(PppFsm *self, PppFrame *source) {
     PppFsm *connection;
@@ -244,12 +242,9 @@ s32 TLobby__sub_80403168(u8 *source, u8 *pap_password, u8 *ppp_fsm) {
     return 0;
 }
 
-void PP_pap_down(void *self) {
-    PppFsm *fsm;
-
-    fsm = (PppFsm *)self;
+void PP_pap_down(PppFsm *fsm) {
     if (fsm->opts != NULL) {
-        fsm->f2 = 0;
+        fsm->flags = 0;
         switch (fsm->state) {
         case 0:
             break;
@@ -276,7 +271,7 @@ void handle_request_timeout(PppFsm *self) {
         return;
     }
     opts->message = (u8 *)"Request retry exceeded";
-    update_connection_state(fsm->sub + 4);
+    update_connection_state(&fsm->blocks->lcp);
     fsm->abort = 1;
 }
 
@@ -357,7 +352,7 @@ zero:
     }
 
     if (res == 0) {
-        ((PppFsmLink *)fsm->sub)->pap_peer_id = p1;
+        fsm->blocks->pap_peer_id = p1;
         ptr = (u8 *)" Welcome";
         st = 2;
     } else {
@@ -370,10 +365,10 @@ zero:
     ppp_fsm_send_packet(fsm, st, header->id, ent);
 
     if (st == 3) {
-        if (fsm->f6 != 0) {
-            fsm->f6--;
+        if (fsm->peer_attempts_left != 0) {
+            fsm->peer_attempts_left--;
         } else {
-            update_connection_state(fsm->sub + 4);
+            update_connection_state(&fsm->blocks->lcp);
         }
     }
     return st != 2;

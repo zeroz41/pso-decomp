@@ -53,7 +53,7 @@ s32 close_all_connections(void) {
     TLobby__sub_803FD85C(&ppp_proto_blocks.pap);
     TLobby__sub_803FD85C(&ppp_proto_blocks.chap);
     TLobby__sub_803FD85C(&ppp_proto_blocks.lcp);
-    ppp_proto_blocks.busy = 0;
+    ppp_proto_blocks.phase = 0;
     if (reset_network_timer_list() == 0) {
         TLobby__sub_804061FC(0);
     }

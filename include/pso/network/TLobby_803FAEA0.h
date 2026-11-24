@@ -73,18 +73,22 @@ typedef struct NetWaitParam {
    resets the five PppFsm records one at a time and hands them to the connect routines
    (wait_for_connection, apply_lcp_config_to_sides, PP_chap_monitor). TLobby__sub_803FB6A0 reads
    the busy byte, and the tail carries the byte count and the drop counters. */
-typedef struct PppProtoBlocks {
-    u8 busy;                /* 0x00: cleared by close_all_connections, set when the blocks are initialized */
-    u8 pad1[3];
+struct PppProtoBlocks {
+    u8 phase;               /* 0x00: the link phase (RFC 1661): 0 dead, 1 establish, 2 authenticate, 3 network,
+                               4 terminate; cleared by close_all_connections */
+    u8 next_identifier;     /* 0x01: the identifier of the next request any FSM sends */
+    u8 auth_pending;        /* 0x02: 0x10 and 0x20, authentications still running; network starts when both clear */
+    u8 pad3;
     PppFsm lcp;             /* 0x04: the connect record the caller passes the LcpConfig at the head of */
     PppFsm pap;             /* 0x38 */
     PppFsm ipcp;            /* 0x6C: its opts points at the IpcpConfig */
     PppFsm chap;            /* 0xA0 */
     PppFsm ipv6cp;          /* 0xD4 */
-    u8 tail_pad0[8];        /* 0x108 */
+    s32 network_time;       /* 0x108: the time in seconds the network phase began */
+    u8 *pap_peer_id;        /* 0x10C: the peer id PAP accepted */
     s32 tx_bytes;           /* 0x110 */
     s32 tx_packets;         /* 0x114 */
-    u8 tail_pad18[0xA];     /* 0x118 */
+    s16 tx_counts[5];       /* 0x118: frames sent per protocol (PppFsmProtocol.tx_counter_index) */
     s16 tx_drops;           /* 0x122 */
     s16 tx_alloc_drops;     /* 0x124 */
     u8 tail_pad26[0x0A];    /* 0x126 */
@@ -98,7 +102,7 @@ typedef struct PppProtoBlocks {
     s16 rx_err_drops;       /* 0x140 */
     s16 rx_alloc_drops;     /* 0x142 */
     u8 tail_pad44[4];       /* 0x144 */
-} PppProtoBlocks;
+};
 LAYOUT_ASSERT(PppProtoBlocks_size_check, sizeof(PppProtoBlocks) == 0x148);
 LAYOUT_ASSERT(PppProtoBlocks_tx_bytes_offset, offsetof(PppProtoBlocks, tx_bytes) == 0x110);
 LAYOUT_ASSERT(PppProtoBlocks_tx_drops_offset, offsetof(PppProtoBlocks, tx_drops) == 0x122);

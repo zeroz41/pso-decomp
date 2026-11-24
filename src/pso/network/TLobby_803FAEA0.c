@@ -338,7 +338,7 @@ s32 TLobby__sub_803FB6A0(void) {
     PppFsm *lcp = &blocks->lcp;
     update_connection_state(lcp);
     if (lcp->state == 6) {
-        while (blocks->busy != 0) {
+        while (blocks->phase != 0) {
             unlock_mutex(net_thread_state.mutex);
             process_expired_timers();
             net_sleep_ms(net_thread_state.poll_ms);

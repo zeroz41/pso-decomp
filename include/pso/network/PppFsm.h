@@ -4,6 +4,7 @@
 #include "types.h"
 
 typedef struct PppFsm PppFsm;
+typedef struct PppProtoBlocks PppProtoBlocks;
 struct PppHeader;
 struct PppFrame;
 
@@ -19,9 +20,9 @@ struct PppFsmProtocol {
     u16 proto;                  /* 0x04: 0xC023 PAP */
     u16 h6;
     u8 tx_counter_index;
-    u8 max_request_attempts; /* 0x09: copied to PppFsm.f4 */
-    u8 max_peer_attempts; /* 0x0A: copied to PppFsm.f7 */
-    u8 max_terminate_attempts; /* 0x0B: copied to PppFsm.f5 */
+    u8 max_request_attempts; /* 0x09: copied to PppFsm.max_request_attempts */
+    u8 max_peer_attempts; /* 0x0A: copied to PppFsm.max_peer_attempts */
+    u8 max_terminate_attempts; /* 0x0B: copied to PppFsm.max_terminate_attempts */
     s32 timeout;                /* 0x0C: in ms */
     PppFsmAction release_resources;
     PppFsmAction reset_options;
@@ -58,29 +59,19 @@ typedef struct PapOptions {
     u8 *message;
 } PapOptions;
 
-/* The link the FSM runs on (PppFsm.sub): the next request identifier and a count of packets sent per protocol. */
-typedef struct PppFsmLink {
-    u8 state;
-    u8 next_identifier;
-    u8 unknown02[0x10A];
-    u8 *pap_peer_id;            /* 0x10C */
-    u8 pad110[8];
-    s16 transmitted[4];         /* 0x118 */
-} PppFsmLink;
-
 struct PppFsm {
     u8 state;
     u8 id;                      /* 0x01: the identifier of the last request sent */
-    u8 f2;
+    u8 flags;                   /* 0x02: 0x80 restart and 0x40 passive pick Stopped over Initial; 0x10 and 0x20 auth pending */
     u8 retries;
-    u8 f4;
-    u8 f5;
-    u8 f6;
-    u8 f7;
+    u8 max_request_attempts;    /* 0x04: PppFsmProtocol.max_request_attempts; reloads retries */
+    u8 max_terminate_attempts;  /* 0x05: PppFsmProtocol.max_terminate_attempts */
+    u8 peer_attempts_left;      /* 0x06: counts down per peer request; at 0 the session is closed */
+    u8 max_peer_attempts;       /* 0x07: PppFsmProtocol.max_peer_attempts; reloads peer_attempts_left */
     s16 abort;                  /* 0x08: set when the FSM closes; the connect waits poll it */
     u8 padA;
     u8 ack_count;               /* 0x0B: the Configure-Acks the protocol's ack check accepted */
-    u8 *sub;                    /* 0x0C: the link the FSM runs on */
+    PppProtoBlocks *blocks;     /* 0x0C: the PPP session the FSM belongs to */
     PppFsmTimer timer;          /* 0x10 */
     PppFsmProtocol *proto;      /* 0x2C */
     void *opts;                 /* 0x30: the protocol's own state */

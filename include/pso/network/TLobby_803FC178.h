@@ -8,8 +8,6 @@
 
 /* TLobby_803FC178.c: PPP (LCP/IPCP/CHAP/PAP, MD5), the connection state machine and the stack's buffer streams. */
 typedef struct RecoveredGlobal_803AA0C0_lbl_80556E88 RecoveredGlobal_803AA0C0_lbl_80556E88;
-typedef struct Sub_803FC480 Sub_803FC480;
-typedef struct Obj_803FC480 Obj_803FC480;
 typedef struct PppChapAuthenticationState PppChapAuthenticationState;
 typedef struct RecoveredGlobal_803F88E4_lbl_805AEEB0 RecoveredGlobal_803F88E4_lbl_805AEEB0;
 typedef struct RecoveredFields_803F88E4_arg0 RecoveredFields_803F88E4_arg0;
@@ -18,8 +16,6 @@ struct RecoveredGlobal_803AA0C0_lbl_80556E88 {
     s32 value;
     u8 remaining[0xFC];
 };
-struct Sub_803FC480 { u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; };
-struct Obj_803FC480 { u8 f0; u8 f1; u8 f2; u8 pad3[0x9D]; Sub_803FC480 sub; };
 struct PppChapAuthenticationState {
     char peer_id[0x80];
     char secret[0x80];
@@ -86,18 +82,19 @@ void init_net_state_a(void);
 s32 init_net_state_b(void);
 void init_net_state_c(void);
 s32 init_net_subsystem_block(void);
-s32 mark_ready(void *self);
-s32 mark_sub_ready(void *obj);
+s32 mark_ready(PppProtoBlocks *blocks);
+s32 mark_sub_ready(PppProtoBlocks *blocks);
 s16 parse_lcp_option(saddr arg0, u8 *opts, u8 *arg2, u8 *hdr, s16 arg4);
 void queue_command_81(PppFsm *fsm);
 s32 read_2_bytes(void *self, void *src);
 void reset_connection_slot(PppFsm *self);
-void PP_pap_down(void *self);
+void PP_pap_down(PppFsm *fsm);
+void pap_init(PppProtoBlocks *blocks);
 void reset_lcp_options(PppFsm *self);
-void set_active(void *self);
-s32 set_active_flag(void *self);
+void set_active(PppProtoBlocks *blocks);
+s32 set_active_flag(PppProtoBlocks *blocks);
 s32 PP_doppp_active(void *self);
-void update_connection_state(void *arg0);
+void update_connection_state(PppFsm *fsm);
 struct LcpConfig;
 s16 lcp_connect(struct LcpConfig *cfg);
 s32 ipv6cp_set_interface_identifiers(s32 ignored, u8 *first_identifier, u8 *second_identifier);

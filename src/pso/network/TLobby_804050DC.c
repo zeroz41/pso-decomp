@@ -19,7 +19,6 @@
 #include "pso/network/PppBuffer.h"
 #include "pso/network/text_80421620.h"
 /* The object header the stack's records share (laid out like TObject's fields). */
-typedef struct Lobby_804062A0 Lobby_804062A0;
 s32 reset_socket_table(void);
 void run_net_thread_loop(void);
 void ppp_input_packet(PppFrame *arg0);
@@ -480,11 +479,6 @@ s32 ppp_poll_input(void)
   return 0;
 }
 #pragma pop
-struct Lobby_804062A0 {
-    u8 state;
-    u8 pad[3];
-    u8 sub[0x140];
-};
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -598,9 +592,9 @@ void ppp_input_packet(PppFrame *arg0) {
         TLobby__sub_803FDBF8(&G->lcp, arg0);
         return;
     case 0xC023:
-        if (G->busy != 2 && G->busy != 3) {
+        if (G->phase != 2 && G->phase != 3) {
             G->rx_err_drops++;
-            if (G->busy == 0) {
+            if (G->phase == 0) {
                 setup_auth_after_lcp_negotiation(&G->lcp);
             }
             return;
@@ -609,9 +603,9 @@ void ppp_input_packet(PppFrame *arg0) {
         pap_input(&G->pap, arg0);
         return;
     case 0xC223:
-        if (G->busy != 2 && G->busy != 3) {
+        if (G->phase != 2 && G->phase != 3) {
             G->rx_err_drops++;
-            if (G->busy == 0) {
+            if (G->phase == 0) {
                 setup_auth_after_lcp_negotiation(&G->lcp);
             }
             return;
@@ -620,7 +614,7 @@ void ppp_input_packet(PppFrame *arg0) {
         chap_input(&G->chap, arg0);
         return;
     case 0x8021:
-        if (G->busy != 3) {
+        if (G->phase != 3) {
             G->rx_err_drops++;
             return;
         }
@@ -628,7 +622,7 @@ void ppp_input_packet(PppFrame *arg0) {
         TLobby__sub_803FDBF8(&G->ipcp, arg0);
         return;
     case 0x8057:
-        if (G->busy != 3) {
+        if (G->phase != 3) {
             G->rx_err_drops++;
             return;
         }
@@ -682,8 +676,6 @@ s32 TLobby__sub_804060B8(u8 *src, int len, int id) {
     return 0;
 }
 #pragma pop
-void init_lcp_protocol(u8 *conn);
-void pap_init(u8 *arg0);
 s32 TLobby__sub_804061FC(void)
 {
   u8 *p;
@@ -693,13 +685,13 @@ s32 TLobby__sub_804061FC(void)
   z = 0;
   ppp_rx_read_ptr = (u8 *) z;
   /* CodeWarrior keeps the original register order when using the first member. */
-  p = &ppp_proto_blocks.busy;
+  p = &ppp_proto_blocks.phase;
   q = p;
   new_var = q;
   NetMemset((PppProtoBlocks *)q, 0, 0x144);
   p[0] = z;
-  init_lcp_protocol((u8 *)(PppProtoBlocks *)new_var);
-  pap_init((u8 *)(PppProtoBlocks *)new_var);
+  init_lcp_protocol((PppProtoBlocks *)new_var);
+  pap_init((PppProtoBlocks *)new_var);
   TLobby__sub_803FC318((PppProtoBlocks *)new_var);
   TLobby__sub_803FEF4C((PppProtoBlocks *)new_var);
   TLobby__sub_803F9FAC((PppProtoBlocks *)new_var);
@@ -707,23 +699,23 @@ s32 TLobby__sub_804061FC(void)
   {
     p[0] = 1;
   }
-  TLobby__sub_803FD958((u8 *)&((PppProtoBlocks *)p)->lcp);
+  TLobby__sub_803FD958(&((PppProtoBlocks *)p)->lcp);
   return 0;
 }
 
 s32 TLobby__sub_804062A0(s16 arg0) {
-    Lobby_804062A0 *l = (Lobby_804062A0 *)&ppp_proto_blocks;
+    PppProtoBlocks *l = &ppp_proto_blocks;
 
     switch (arg0) {
     case 0x82:
-        if (l->state == 0) {
-            l->state = 1;
+        if (l->phase == 0) {
+            l->phase = 1;
         }
-        TLobby__sub_803FD958(l->sub);
+        TLobby__sub_803FD958(&l->lcp);
         return 0;
     case 0x81:
-        TLobby__sub_803FD85C(l->sub);
-        l->state = 0;
+        TLobby__sub_803FD85C(&l->lcp);
+        l->phase = 0;
         return 0;
     default:
         return -1;
@@ -746,7 +738,7 @@ s16 TLobby__sub_80406328(saddr self, s16 type) {
             G->tx_drops++;
             return -1;
         }
-        if (G->busy == 0) {
+        if (G->phase == 0) {
             G->tx_drops++;
             return -1;
         }
@@ -767,7 +759,7 @@ s16 TLobby__sub_80406328(saddr self, s16 type) {
         return -1;
     }
     if (ty == 0x86dd) {
-        if (G->busy == 0) {
+        if (G->phase == 0) {
             G->tx_drops++;
             return -1;
         }
@@ -814,7 +806,7 @@ skip:
     {
         PppFrame *a = sv;
         G = &ppp_proto_blocks;
-        if (G->busy == 0) {
+        if (G->phase == 0) {
             G->tx_drops++;
             return -1;
         }
@@ -841,7 +833,7 @@ s16 TLobby__sub_80406624(s32 a, s32 b, u16 code, PppFrame *self) {
     u8 *p;
     PppFrame *ret;
 
-    if (ppp_proto_blocks.busy == 0) {
+    if (ppp_proto_blocks.phase == 0) {
         ppp_proto_blocks.tx_drops = ppp_proto_blocks.tx_drops + 1;
         return -1;
     }

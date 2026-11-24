@@ -41,11 +41,10 @@ s16 TLobby__sub_803FED78(PppFsm *self) {
     void *ipv6cp_state;
     PppFsm *ipv6cp;
     NetThreadState *pd;
-    u8 *obj;
+    PppProtoBlocks *blocks;
     s16 st;
-    s16 check_connection_status(void *); /* declared s16 here; the definition returns s32 */
     st = 1;
-    obj = self->sub;
+    blocks = self->blocks;
     self->abort = 0;
     ipv6cp_state = &ppp_proto_blocks.ipv6cp;
     ipv6cp = (PppFsm *)ipv6cp_state;
@@ -54,7 +53,7 @@ s16 TLobby__sub_803FED78(PppFsm *self) {
     pd = &net_thread_state;
     goto test;
     while (1) {
-        if (is_timed_out() != 0 || obj[0] == 4) {
+        if (is_timed_out() != 0 || blocks->phase == 4) {
             update_connection_state(self);
             self->abort = 0;
             p->abort = 0;
@@ -141,7 +140,7 @@ void TLobby__sub_803FEF4C(PppProtoBlocks *connection) {
     protocol->check_config_ack = TLobby__sub_803FF858;
     protocol->check_config_nak = TLobby__sub_803FF698;
     protocol->check_config_reject = TLobby__sub_803FF50C;
-    fsm->sub = (u8 *)connection;
+    fsm->blocks = connection;
     fsm->proto = protocol;
     fsm->opts = config;
     state->config.local.want = *src;
@@ -236,8 +235,8 @@ s16 ipcp_set_local_address(IpcpSide *side, s32 addr) {
 
 s16 TLobby__sub_803FF304(PppFsm *fsm) {
     PP_doppp_active(fsm);
-    if (*fsm->sub == 3) {
-        TLobby__sub_803FD958((u8 *)fsm);
+    if (fsm->blocks->phase == 3) {
+        TLobby__sub_803FD958(fsm);
     }
     return 0;
 }
@@ -476,8 +475,8 @@ s16 TLobby__sub_803FF9A4(PppFsm *self, PppHeader *src, PppFrame *bits) {
     }
 
     if (k == 3) {
-        if (self->f6 != 0) {
-            self->f6--;
+        if (self->peer_attempts_left != 0) {
+            self->peer_attempts_left--;
         } else {
             k = 4;
             ppp_fsm_send_packet(self, 4, src->id, buf);

@@ -246,20 +246,17 @@ void NetMemcpy(void* destination, void* source, int size) {
     memcpy(destination, source, size);
 }
 
-s16 check_connection_status(void *connection) {
-    u8 *conn = (u8 *)connection;
-    typedef struct Fields_arg0 { u8 field_0; u8 pad_1[7]; s16 field_8; u8 pad_A[2]; u8 * field_C; } Fields_arg0;
-    typedef struct Fields_temp_r31 { u8 field_0; } Fields_temp_r31;
-    u8 *peer;
-    peer = (u8 *)(((Fields_arg0*)conn)->field_C);
-    if ((is_timed_out() != 0) || (((Fields_temp_r31*)peer)->field_0 == 4)) {
-        ((Fields_arg0*)conn)->field_8 = 0;
+s16 check_connection_status(PppFsm *fsm) {
+    PppProtoBlocks *blocks;
+    blocks = fsm->blocks;
+    if ((is_timed_out() != 0) || (blocks->phase == 4)) {
+        fsm->abort = 0;
         return -1;
     }
-    if (((Fields_arg0*)conn)->field_8 != 0) {
+    if (fsm->abort != 0) {
         return -2;
     }
-    if (((Fields_arg0*)conn)->field_0 != 5) {
+    if (fsm->state != 5) {
         return 1;
     }
     return 0;
@@ -307,7 +304,7 @@ void TLobby__sub_803F9FAC(PppProtoBlocks *connection) {
     base->check_config_reject = TLobby__sub_803FA318;
 
     sub = &connection->ipv6cp;
-    sub->sub = (u8 *)connection;
+    sub->blocks = connection;
     sub->proto = base;
     blk = &ppp_ipv6cp_protocol_state.config;
     sub->opts = blk;
@@ -575,9 +572,9 @@ s16 TLobby__sub_803FA7B0(PppFsm *self, PppHeader *src, PppFrame *h)
 
   if (state == 3)
   {
-    if (self->f6 != 0)
+    if (self->peer_attempts_left != 0)
     {
-      self->f6--;
+      self->peer_attempts_left--;
     }
     else
     {

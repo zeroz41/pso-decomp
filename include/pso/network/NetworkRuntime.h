@@ -88,7 +88,7 @@ void deactivate_entry_by_key(u32 key);
 s16 TLobby__sub_803F9B94(NetThreadEntry entry, NetThreadHandle *out_key);
 void *run_current_thread_callback(void *unused);
 s32 NetSetDefaultThreadPriority(s32 priority);
-s16 check_connection_status(void *connection);
+s16 check_connection_status(struct PppFsm *fsm);
 s16 clear_flag_bit4(s32 unused, Ipv6cpOptions *options);
 void init_net_state_entry(struct PppFsm *entry);
 void NetIPv6CPCancelTimer(struct PppFsm *entry);

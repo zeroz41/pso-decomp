@@ -4,17 +4,16 @@
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/TLobby_803FCF44.h"
 #include "pso/network/PppFsm.h"
+#include "pso/network/TLobby_803FAEA0.h"
 #include "pso/network/TLobby_804050DC.h"
 #include "pso/network/TLobby_8041112C.h"
 #include "pso/network/PppLcp.h"
-typedef struct St_8040098C St_8040098C;
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
 extern s32 is_timed_out(void);
 extern void ppp_set_auth(u16 protocol);
 #include "pso/network/NetworkTransport.h"
 
-struct St_8040098C { s8 f0; u8 f1; u8 f2; u8 pad3[0x69]; u8 f6C[0x9C]; s32 f108; s32 f10C; };
 
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
@@ -33,12 +32,12 @@ u8 lcp_read_value_buffer[4];
 
 s16 wait_for_connection(PppFsm *c) {
     NetThreadState *g;
-    u8 *sub;
-    sub = c->sub;
+    PppProtoBlocks *blocks;
+    blocks = c->blocks;
     g = &net_thread_state;
     c->abort = 0;
     while (c->state != 5) {
-        if (is_timed_out() != 0 || c->abort != 0 || *sub == 4) {
+        if (is_timed_out() != 0 || c->abort != 0 || blocks->phase == 4) {
             update_connection_state(c);
             c->abort = 0;
             return -1;
@@ -58,10 +57,10 @@ s16 recv_lcp_config_nak(PppFsm *fsm, PppHeader *msg, PppFrame *src);
 s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src);
 s16 verify_lcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected);
 
-void init_lcp_protocol(u8 *conn)
+void init_lcp_protocol(PppProtoBlocks *conn)
 {
   PppFsmProtocol *proto = &lcp_state.proto;
-  PppFsm *e = (PppFsm *)(conn + 4);
+  PppFsm *e = &conn->lcp;
   LcpOpts *area = &lcp_state.opts;
   const LcpVals *tbl = &lcp_default_values;
   proto->name = "Lcp";
@@ -83,7 +82,7 @@ void init_lcp_protocol(u8 *conn)
   proto->check_config_ack = verify_lcp_config_ack;
   proto->check_config_nak = recv_lcp_config_nak;
   proto->check_config_reject = recv_lcp_config_reject;
-  e->sub = conn;
+  e->blocks = conn;
   e->proto = proto;
   e->opts = area;
   area->local.want = *tbl;
@@ -112,8 +111,8 @@ s16 apply_lcp_config_to_sides(PppFsm *state, LcpConfig *config) {
 
     TLobby__sub_803FE600(s);
     PP_doppp_active(s);
-    *s->sub = 1;
-    if (*s->sub >= 1) {
+    s->blocks->phase = 1;
+    if (s->blocks->phase >= 1) {
         id = msg->mru;
         p = t = s->opts;
         sid = (s16)id;
@@ -176,7 +175,7 @@ s16 apply_lcp_config_to_sides(PppFsm *state, LcpConfig *config) {
         } else {
             q->mask &= ~0x100;
         }
-        TLobby__sub_803FD958((u8 *)s);
+        TLobby__sub_803FD958(s);
     }
     return 0;
 }
@@ -187,59 +186,59 @@ void lcp_noop_callback(PppFsm *fsm) {
 
 void setup_auth_after_lcp_negotiation(PppFsm *c) {
     LcpOpts *info = c->opts;
-    St_8040098C *st;
+    PppProtoBlocks *st;
     u32 now;
 
-    ((St_8040098C *)c->sub)->f0 = 2;
-    ((St_8040098C *)c->sub)->f2 &= ~0x30;
-    ((St_8040098C *)c->sub)->f10C = 0;
+    c->blocks->phase = 2;
+    c->blocks->auth_pending &= ~0x30;
+    c->blocks->pap_peer_id = 0;
     if (info->local.got.mask & 8) {
         switch (info->local.got.auth_proto) {
         case 0xC023:
-            set_active(c->sub);
+            set_active(c->blocks);
             break;
         case 0xC223:
-            mark_sub_ready(c->sub);
-            set_active_flag(c->sub);
+            mark_sub_ready(c->blocks);
+            set_active_flag(c->blocks);
             break;
         }
     }
     if (info->remote.got.mask & 8) {
         switch (info->remote.got.auth_proto) {
         case 0xC023:
-            mark_ready(c->sub);
+            mark_ready(c->blocks);
             break;
         case 0xC223:
-            set_active_flag(c->sub);
-            mark_sub_ready(c->sub);
+            set_active_flag(c->blocks);
+            mark_sub_ready(c->blocks);
             break;
         }
     }
-    st = (St_8040098C *)c->sub;
-    if (!(st->f2 & 0x30)) {
-        st->f0 = 3;
+    st = c->blocks;
+    if (!(st->auth_pending & 0x30)) {
+        st->phase = 3;
         get_time_ms((s32 *)&now);
-        st->f108 = (s16)(now / 1000);
-        TLobby__sub_803FD958(st->f6C);
+        st->network_time = (s16)(now / 1000);
+        TLobby__sub_803FD958(&st->ipcp);
     }
 }
 
-void start_ipcp_after_auth(O_80400ACC *o) {
+void start_ipcp_after_auth(PppProtoBlocks *blocks) {
     u32 t;
-    if ((o->b2 & 0x30) == 0) {
-        o->b0 = 3;
+    if ((blocks->auth_pending & 0x30) == 0) {
+        blocks->phase = 3;
         get_time_ms((s32 *)&t);
-        o->f108 = (s16)(t / 1000);
-        TLobby__sub_803FD958((u8 *)o + 0x6C);
+        blocks->network_time = (s16)(t / 1000);
+        TLobby__sub_803FD958(&blocks->ipcp);
     }
 }
 
 void reset_connection_slot(PppFsm *self) {
-    s8 *sub;
-    sub = (s8 *)self->sub;
-    *sub = 4;
-    TLobby__sub_803FD85C(sub + 0x6C);
-    PP_pap_down((void *)(sub + 0x38));
+    PppProtoBlocks *sub;
+    sub = self->blocks;
+    sub->phase = 4;
+    TLobby__sub_803FD85C(&sub->ipcp);
+    PP_pap_down(&sub->pap);
 }
 
 void queue_command_81(PppFsm *fsm) {
@@ -247,7 +246,7 @@ void queue_command_81(PppFsm *fsm) {
 }
 
 void mark_lcp_starting(PppFsm *arg0) {
-    *arg0->sub = 1;
+    arg0->blocks->phase = 1;
 }
 
 void reset_lcp_options(PppFsm *self) {
@@ -454,9 +453,9 @@ s16 recv_lcp_config_request(PppFsm *fsm, PppHeader *msg, PppFrame *src) {
     }
     missing = opts->remote.want.mask & ~opts->remote.got.mask;
     if (status == 3) {
-        if (fsm->f6 != 0) {
+        if (fsm->peer_attempts_left != 0) {
             add_lcp_options(&reply, &opts->remote.got.mask, missing);
-            fsm->f6--;
+            fsm->peer_attempts_left--;
         } else {
             status = 4;
             ppp_fsm_send_packet(fsm, 4, msg->id, reply);
