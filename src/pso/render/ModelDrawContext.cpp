@@ -16,18 +16,17 @@
 
 typedef void (*RecoveredCallback_2be3cacebb2e)(void);
 
-struct Mtx_803DC994 { f32 m[3][4]; };
-
-struct Tbl_803DCC34 { u32 v[12]; };
+// The blend factor index of each colour blending mode, copied whole by set_color_blending_mode.
+struct BlendModeFactorTable { u32 factor[12]; };
 
 ModelNodeCallback model_node_callback;
 void flush_model_draw_queue(void);
 extern "C" {
 
 extern RecoveredCallback_2be3cacebb2e ginja_draw_end_callback;
-void copy_rotation_to_current_matrix(struct Mtx_803DC994 *src);
+void copy_rotation_to_current_matrix(const GC_Mtx *src);
 __declspec(section ".rodata") extern const u32 cached_blend_factor_table[];
-__declspec(section ".rodata") extern const Tbl_803DCC34 gx_blend_mode_table;
+__declspec(section ".rodata") extern const BlendModeFactorTable gx_blend_mode_table;
 extern GC_Mtx node_saved_matrix;
 void set_model_node_callback(ModelNodeCallback callback) {
     model_node_callback = callback;
@@ -71,20 +70,19 @@ void draw_ginja_motion_node_tree(NJS_OBJECT *node) {
 }
 #pragma pop
 
-void copy_rotation_to_current_matrix(struct Mtx_803DC994 *src) {
-    struct Mtx_803DC994 *dst = (struct Mtx_803DC994 *)current_matrix;
-    dst->m[0][0] = src->m[0][0];
-    dst->m[0][1] = src->m[0][1];
-    dst->m[0][2] = src->m[0][2];
-    dst->m[1][0] = src->m[1][0];
-    dst->m[1][1] = src->m[1][1];
-    dst->m[1][2] = src->m[1][2];
-    dst->m[2][0] = src->m[2][0];
-    dst->m[2][1] = src->m[2][1];
-    dst->m[2][2] = src->m[2][2];
+void copy_rotation_to_current_matrix(const GC_Mtx *src) {
+    GC_Mtx *dst = current_matrix;
+    (*dst)[0][0] = (*src)[0][0];
+    (*dst)[0][1] = (*src)[0][1];
+    (*dst)[0][2] = (*src)[0][2];
+    (*dst)[1][0] = (*src)[1][0];
+    (*dst)[1][1] = (*src)[1][1];
+    (*dst)[1][2] = (*src)[1][2];
+    (*dst)[2][0] = (*src)[2][0];
+    (*dst)[2][1] = (*src)[2][1];
+    (*dst)[2][2] = (*src)[2][2];
 }
 
-struct Mtx_803DC994;
 void traverse_model_node_tree(NJS_OBJECT *node, s32 (*draw)(void *model)) {
     do {
         uaddr f = node->evalflags;
@@ -105,7 +103,7 @@ void traverse_model_node_tree(NJS_OBJECT *node, s32 (*draw)(void *model)) {
             }
             if (!(f & 2)) {
                 if (f & 0x1000) {
-                    copy_rotation_to_current_matrix(reinterpret_cast<struct Mtx_803DC994 *>(&node_saved_matrix));
+                    copy_rotation_to_current_matrix(&node_saved_matrix);
                 } else if (f & 0x400) {
                     apply_quat_rotation(node->quat_w, (f32 *)node->ang);
                 } else {
@@ -163,15 +161,15 @@ void init_render_context(GinjaSceneState *context) {
 }
 
 void set_color_blending_mode(s32 target, s32 mode) {
-    Tbl_803DCC34 tbl = gx_blend_mode_table;
+    BlendModeFactorTable tbl = gx_blend_mode_table;
     if (mode == 0) {
         current_render_context->blend_mode = (current_render_context->blend_mode & 0x03FFFFFF) | 0xB0000000;
     } else if (mode == 0) {
         current_render_context->blend_mode = (current_render_context->blend_mode & 0x03FFFFFF) | 0x94000000;
     } else if (target == 0) {
-        current_render_context->blend_mode = (current_render_context->blend_mode & 0x1FFFFFFF) | (tbl.v[mode] << 29);
+        current_render_context->blend_mode = (current_render_context->blend_mode & 0x1FFFFFFF) | (tbl.factor[mode] << 29);
     } else {
-        current_render_context->blend_mode = (current_render_context->blend_mode & 0xE3FFFFFF) | (tbl.v[mode] << 26);
+        current_render_context->blend_mode = (current_render_context->blend_mode & 0xE3FFFFFF) | (tbl.factor[mode] << 26);
     }
 }
 
@@ -186,7 +184,7 @@ void apply_cached_blend_mode(s32 arg0) {
     }
 }
 
-__declspec(section ".rodata") extern const Tbl_803DCC34 gx_blend_mode_table = {{255, 255, 6, 2, 7, 3, 5, 3, 4, 2, 1, 0}};
+__declspec(section ".rodata") extern const BlendModeFactorTable gx_blend_mode_table = {{255, 255, 6, 2, 7, 3, 5, 3, 4, 2, 1, 0}};
 __declspec(section ".rodata") extern const u32 cached_blend_factor_table[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 
 
