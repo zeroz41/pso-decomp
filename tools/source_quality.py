@@ -29,6 +29,7 @@ import collections
 import dataclasses
 import itertools
 import json
+import math
 import re
 import subprocess
 import sys
@@ -114,17 +115,20 @@ CATALOG: tuple[Pattern, ...] = (
     _p("punned_deref", "Type-punned dereferences", "*(f32 *)&x, *(s32 *)(p + 0x18)",
        r"\*\s*\(\s*(?:(?:const|volatile)\s+)*[A-Za-z_][\w:]*(?:\s+[A-Za-z_]\w*)*\s*\*+\s*(?:const\s*)?\)\s*"
        r"(?:&|\(\s*[^()]*?\+\s*(?:0x[0-9A-Fa-f]+|\d+)\s*\))", "layout"),
-    _p("offset_member", "Offset-named fields", "unk_30, m_c, field_96, set_field_378, ->x7A",
+    _p("offset_member", "Offset-named fields", "unk_30, m_c, field_96, set_field_378, ->x7A, ->b9",
        r"\b(?:m_|unk_?|unknown_?|field_?|mbr_)" + _HEX_OFFSET +
        r"|\b[A-Za-z]\w*?_(?:field|unk|unknown)_?" + _HEX_OFFSET +
        r"|(?:->|\.)\s*f(?=[0-9A-Fa-f]*\d)[0-9A-Fa-f]{2,4}\b|\b[a-z]\w*Field_?(?=[0-9A-Fa-f]*\d)[0-9A-Fa-f]{1,4}\b"
        r"|(?:->|\.)\s*(?!f[0-9A-Fa-f]{2,4}\b)(?![usf](?:8|16|32|64)\b)(?!m[0-3][0-3]\b)(?!ip\d+\b)(?!sp[0-9A-F])"
-       r"[a-z]{1,2}(?=[0-9A-F])(?=[0-9A-Fa-f]*\d)[0-9A-Fa-f]{2,4}\b", "layout"),
+       r"[a-z]{1,2}(?=[0-9A-F])(?=[0-9A-Fa-f]*\d)[0-9A-Fa-f]{2,4}\b"
+       r"|(?:->|\.)\s*[bfhw][0-9A-F]\b", "layout"),   # one hex digit: byte, field, half or word at 0-F
     _p("pad_access", "Padding fields read or written", "p->pad_3E = 0", _NEVER, "layout"),
     _p("size_assert", "Hand-written size asserts", "typedef char check[sizeof(T) == 8 ? 1 : -1];", _NEVER,
        "layout"),
     _p("blob_type", "Size-named blob types", "ByteBlock_28", r"\bByteBlock_?(?:0x)?[0-9A-Fa-f]{1,4}\b", "layout",
        needle=r"ByteBlock"),
+    _p("overlay_type", "Structs only reached by casts", "struct PhaseView { u8 pad[0x28]; s32 phase; };", _NEVER,
+       "layout"),
     # types
     _p("fp_cast", "Function-pointer casts", "((void (*)(T *))p)(x)",
        r"\(\s*[A-Za-z_][\w:\s\*&<>,]*\(\s*\*+\s*\)\s*\([^()]*\)\s*\)\s*[\w(*&]", "types"),
@@ -149,6 +153,8 @@ CATALOG: tuple[Pattern, ...] = (
     _p("ptr_int_roundtrip", "Casts between pointers and integers", "(T *)(u32)p, (u32)(T *)p",
        r"\(\s*(?:const\s+)?[A-Za-z_]\w*\s*\*+\s*\)\s*\(\s*" + _INT_TYPE + r"\s*\)"
        r"|\(\s*" + _INT_TYPE + r"\s*\)\s*\(\s*(?:const\s+)?[A-Za-z_]\w*\s*\*+\s*\)", "types"),
+    _p("repeat_cast", "Values cast to one type again and again", "((TWidget *)p)->x = ((TWidget *)p)->y;", _NEVER,
+       "types"),
     # decompiler output
     _p("decomp_temp", "m2c temporaries", "temp_r3, var_f31", r"\b(?:temp|var)_[rfa]\d+(?:_\d+)?\b", "decompiler"),
     _p("stack_local", "Stack-slot locals", "sp1C", r"\bsp[0-9A-F]{1,3}\b", "decompiler"),
@@ -805,6 +811,31 @@ _SELF_PARAM = re.compile(r"[(,]\s*(?:const\s+)?[A-Za-z_][\w:]*\s*\*\s*(?:const\s
                          r"|\b[A-Za-z_][\w:]*\s*\*\s*(?!" + _SELF_THIS + r")self\s*=(?!\s*" + _THIS_INIT + r")")
 
 
+# (T *)value: a name or a member chain, bare or in parentheses, that is the whole operand (not called, indexed,
+# followed by -> or ., or by pointer arithmetic)
+_CAST_OF = re.compile(r"\(\s*(?:const\s+)?((?:(?:struct|class|union)\s+)?[A-Za-z_][\w:]*)\s*(\*+)\s*(?:const\s*)?\)\s*"
+                      r"(\(\s*)?(?<![\w.>])((?>[A-Za-z_]\w*(?:\s*(?:->|\.)\s*[A-Za-z_]\w*)*))(?(3)\s*\))"
+                      r"(?!\s*(?:[\w(\[.:]|->|[-+](?![-+=>])))")
+_BYTE_POINTEE = {"void", "u8", "s8", "char", "uint8_t", "int8_t", "byte"}
+
+
+def repeat_casts(blanked: "_Blanked") -> list[tuple[int, str]]:
+    """(line, cast) of each cast of one name or member chain to one pointer type that a function body makes more
+    than once: the value is declared as one type and used as another. Casts of this (this_cast), to byte and void
+    pointers (raw_offset and offset_cast count their arithmetic) and of call results are left out."""
+    code = blanked()
+    out = []
+    for start, stop in _outermost((d.open, d.end) for d in blanked.defs() if d.end > d.open):
+        seen = collections.defaultdict(list)
+        for match in _CAST_OF.finditer(code, start, stop):
+            pointee = re.sub(r"\b(?:struct|class|union)\s+", "", match[1])
+            value = re.sub(r"\s+", "", match[4])
+            if pointee not in _BYTE_POINTEE and not re.match(r"(?:this|NULL|nullptr)\b", value):
+                seen[f"({pointee} {match[2]}){value}"].append(match.start())
+        out += [(blanked.line(at), cast) for cast, offsets in seen.items() if len(offsets) > 1 for at in offsets]
+    return sorted(out)
+
+
 def self_params(rel: str, blanked: "_Blanked") -> list[tuple[int, str]]:
     """(line, declaration) of each `self` receiver in a C++ file: a member written as a C function."""
     if Path(rel).suffix.lower() not in CXX_FILES or "self" not in blanked.text:
@@ -1024,10 +1055,12 @@ PARSED = {
     "address_unit": lambda rel, text, blanked: [] if Path(rel).suffix.lower() in HEADER_SUFFIXES else
     address_unit(rel),
     "local_class": lambda rel, text, blanked: local_classes(rel, blanked),
+    "repeat_cast": lambda rel, text, blanked: repeat_casts(blanked) if "*)" in text else [],
 }
 # Checks judged over the whole tree (see relations()): they depend on more than one file, or on the config. A
 # header named after an address (address_unit) counts only when no unit has its name, since one rename fixes both.
-TREE_CHECKS = {"duplicate_class", "header_extern_c", "param_name_split", "address_unit", "misowned_member"}
+TREE_CHECKS = {"duplicate_class", "header_extern_c", "param_name_split", "address_unit", "misowned_member",
+               "overlay_type"}
 
 
 # --- per-file scan ----------------------------------------------------------------------------------------------
@@ -1070,6 +1103,8 @@ class FileScan:
     found: list[Finding] | None = None          # every catalog finding with its line, kept for changed files only
     c_functions: list[tuple[int, str]] = dataclasses.field(default_factory=list)   # header: (line, extern "C" fn)
     signatures: list = dataclasses.field(default_factory=list)   # see signatures()
+    overlays: list = dataclasses.field(default_factory=list)     # see plain_structs()
+    blobs: dict = dataclasses.field(default_factory=dict)        # struct of byte arrays declared here -> its size
 
 
 class _Blanked:
@@ -1197,7 +1232,7 @@ def scan_file(rel: str, text: str, keep: bool = False) -> FileScan:
         bodies.setdefault(name, blanked.line(offset))
     c_functions = extern_c_functions(text, blanked()) if header and "extern" in text else []
     return FileScan(counts, texts, this_casts, subobject_calls, dict(classes), aliases, bodies,
-                    found if keep else None, c_functions, signatures(blanked))
+                    found if keep else None, c_functions, signatures(blanked), *plain_structs(blanked))
 
 
 class ClassMap:
@@ -1263,14 +1298,117 @@ def duplicates(scans: dict[str, FileScan]) -> dict[str, list[Finding]]:
     return out
 
 
+_PAD_FIRST = re.compile(r"\s*(?:(?:unsigned|signed|const|volatile)\s+)*[A-Za-z_]\w*\s+"
+                        r"(?:pad|unk|padding|gap|reserved|_)\w*\s*\[")
+_BYTE_ARRAY = re.compile(r"\s*(?:const\s+)?(?:u8|s8|char|(?:un)?signed\s+char|u?int8_t)\s+\w+\s*((?:\[[^\]]+\]\s*)+)$")
+
+
+def plain_structs(blanked: _Blanked) -> tuple[list[tuple[str, int, str]], dict[str, int]]:
+    """Class bodies of plain fields (no member functions or nested bodies). Overlays: (name, line, `struct Name`) of
+    those that start with padding or are a single array, the shapes of a view over part of something else and of a
+    blob for copying bytes. Blobs: name -> size of those made only of byte arrays with literal sizes."""
+    out, blobs = [], {}
+    code = blanked()
+    for offset, keyword, name in blanked.bodies():
+        brace = code.index("{", offset)
+        inner = re.sub(r"\b(?:public|private|protected)\s*:(?!:)", "", code[brace + 1:_matching(code, brace)])
+        if re.search(r"[(){]", inner):
+            continue
+        fields = [field for field in inner.split(";") if field.strip()]
+        if len(fields) == 1 and fields[0].rstrip().endswith("]") or len(fields) > 1 and _PAD_FIRST.match(fields[0]):
+            out.append((name, blanked.line(offset), f"{keyword} {name}"))
+        arrays = [_BYTE_ARRAY.match(field) for field in fields]
+        if fields and all(arrays):
+            try:
+                blobs[name] = sum(math.prod(int(n, 0) for n in re.findall(r"\[\s*(\w+)\s*\]", a[1])) for a in arrays)
+            except ValueError:
+                pass
+    return out, blobs
+
+
+_BLOB_SIZE = re.compile(r"ByteBlock_?(?:0x)?([0-9A-Fa-f]{1,4})")
+
+
+def renamed_blobs(before: Iterable[FileScan], after: dict[str, FileScan],
+                  texts: dict[str, str]) -> dict[str, list[Finding]]:
+    """blob_type findings at each mention of a struct of byte arrays a change added in place of a size-named blob it
+    removed: `struct ByteBlock_78 { u8 bytes[0x78]; };` renamed `struct BodyCopy { u8 data[0x78]; };` is still a
+    blob. Only a change shows the rename, so these count in comparisons only."""
+    sizes = lambda scans: {int(size[1], 16) for scan in scans for f in scan.found
+                           if f.key == "blob_type" and (size := _BLOB_SIZE.search(f.text))}
+    gone = sizes(before) - sizes(after[rel] for rel in texts)
+    old = {name for scan in before for name in scan.bodies}
+    names = {name for rel in texts for name, size in after[rel].blobs.items() if size in gone and name not in old}
+    if not names:
+        return {}
+    mention = re.compile(r"\b(?:" + "|".join(map(re.escape, sorted(names))) + r")\b")
+    out = {}
+    for rel, text in texts.items():
+        if mention.search(text):
+            code = blank(text)
+            line = _line_index(code)
+            out[rel] = [Finding("blob_type", m[0], line(m.start())) for m in mention.finditer(code)]
+    return out
+
+
+_TAG = r"(?:(?:const|volatile|struct|class|union)\s+)*"
+
+
+def _type_use(code: str, start: int, end: int, name: str) -> str:
+    """How one mention of a class name uses it: "declaration" (its body, a forward declaration, a typedef), "size",
+    "cast" (a pointer cast to it, or a local holding one), or "typed" (anything else: a variable, member, parameter
+    or return type, a base, a scope)."""
+    before, after = code[max(0, start - 80):start], code[end:end + 160]
+    if (re.search(r"\b(?:class|struct|union)\s*$", before) and re.match(r"\s*(?:final\s*)?[:{;]", after)
+            or re.search(r"}\s*$", before) and re.match(r"\s*[;,]", after)
+            or re.search(r"\btypedef\s+(?:struct|class|union)\s+(?:\w+\s*)?$", before) and re.match(r"\s*\w*\s*;", after)):
+        return "declaration"
+    if re.search(r"\b(?:sizeof|alignof)\s*\(\s*" + _TAG + "$", before):
+        return "size"
+    if (re.search(r"\(\s*" + _TAG + "$", before) and re.match(r"\s*\*+\s*(?:const\s*)?\)", after)
+            or re.search(r"\b(?:static|reinterpret|const)_cast\s*<\s*" + _TAG + "$", before)):
+        return "cast"
+    if re.match(r"\s*\*\s*(?:const\s+)?\w+\s*=\s*(?:\(\s*" + _TAG + re.escape(name) + r"\s*\*|"
+                r"(?:static|reinterpret)_cast\s*<\s*" + _TAG + re.escape(name) + r"\b)", after):
+        return "cast"
+    return "typed"
+
+
+_CAST_TO = re.compile(r"(?:\(|_cast\s*<)\s*" + _TAG + r"([A-Za-z_]\w*)\s*\*")
+_IDENT = re.compile(r"[A-Za-z_]\w*")
+
+
+def overlay_types(texts: dict[str, str], scans: dict[str, FileScan]) -> dict[str, list[Finding]]:
+    """overlay_type findings by file: the overlays (plain_structs()) of the files in scans that no file of the
+    revision (texts) uses as a type, only casts other pointers to."""
+    names = {name for scan in scans.values() for name, _, _ in scan.overlays}
+    if names:   # only a name some text casts to can be an overlay
+        names &= {match[1] for text in texts.values() if "*" in text for match in _CAST_TO.finditer(text)}
+    cast, typed = set(), set()
+    for text in texts.values():
+        found = set(_IDENT.findall(text)) & names if names else None
+        if not found:
+            continue
+        code = blank(text)
+        for match in re.finditer(r"\b(?:" + "|".join(map(re.escape, sorted(found))) + r")\b", code):
+            if match[0] not in typed:
+                use = _type_use(code, match.start(), match.end(), match[0])
+                (cast if use == "cast" else typed if use == "typed" else set()).add(match[0])
+    out = collections.defaultdict(list)
+    for rel, scan in scans.items():
+        out[rel] += [Finding("overlay_type", text, line) for name, line, text in scan.overlays
+                     if name in cast and name not in typed]
+    return {rel: found for rel, found in out.items() if found}
+
+
 def relations(scans: dict[str, FileScan], config: "Config | None" = None,
               library: dict[str, list] | None = None,
               members: dict[str, list[Finding]] | None = None) -> dict[str, list[Finding]]:
     """Findings that depend on more than one file, by the file they are in: classes declared twice,
     extern "C" in headers on functions a C++ unit defines, parameters named differently in a prototype and its
     definition (library: signatures() of files read only to pair them), headers named after an address that no unit
-    shares a name with, members in the wrong class, and members that belong to another class (members:
-    misowned_members())."""
+    shares a name with, members in the wrong class, and the findings read again from the revision's texts
+    (members: text_relations())."""
     classes = ClassMap(scans.values())
     out = duplicates(scans)
     for rel, found in (members or {}).items():
@@ -1288,6 +1426,17 @@ def relations(scans: dict[str, FileScan], config: "Config | None" = None,
             found += [Finding("address_unit", name, line) for line, name in address_unit(rel)]
         if found:
             out[rel] += found
+    return dict(out)
+
+
+def text_relations(texts: dict[str, str], pairs: Iterable[tuple[str, str]],
+                   scans: dict[str, FileScan]) -> dict[str, list[Finding]]:
+    """Cross-file findings read again from the revision's texts, for the files in scans: misowned_members() and
+    overlay_types()."""
+    out = collections.defaultdict(list)
+    for found in (misowned_members(texts, pairs, scans), overlay_types(texts, scans)):
+        for rel, items in found.items():
+            out[rel] += items
     return dict(out)
 
 
@@ -1613,7 +1762,7 @@ def tree_report(repo: Repo, rev: str, top: int) -> dict:
     scans = {rel: scan_file(rel, text) for rel, text in texts.items() if counted(rel)}
     config = read_config(repo, rev)
     related = relations(scans, config, library((rel, t) for rel, t in texts.items() if not counted(rel)),
-                        misowned_members(texts, config.pairs, scans))
+                        text_relations(texts, config.pairs, scans))
     totals, per_file = collections.Counter(), {}
     for rel, scan in scans.items():
         found = related.get(rel, [])
@@ -1687,9 +1836,11 @@ def compare(repo: Repo, base: str, head: str) -> dict:
     # extern "C" in headers is judged against the head's config on both sides, so only header edits move it. A
     # member's class is judged against each side's own config, since a rename changes symbols.txt and source together.
     head_own = relations(head_scans, head_config, head_library,
-                         misowned_members(head_files, head_config.pairs, head_scans))
+                         text_relations(head_files, head_config.pairs, head_scans))
+    for rel, found in renamed_blobs(base_changed.values(), head_scans, head_text).items():
+        head_own[rel] = head_own.get(rel, []) + found
     base_own = relations(base_scans, head_config, base_library,
-                         misowned_members(base_files, base_config.pairs, base_scans))
+                         text_relations(base_files, base_config.pairs, base_scans))
     for found in head_own.values():
         head_totals.update(f.key for f in found)
     for found in base_own.values():
