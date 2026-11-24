@@ -239,18 +239,14 @@ extern "C" {
 void handle_quest_download_chunk__6TLobbyFv();
 void apply_lobby_markers__6TLobbyFv();
 void lobby_debug_printf_stub(const char *fmt, ...);
-extern const char lobby_debug_delete_player_format[];
-extern const char lobby_debug_burst_player_format[];
-extern const char lobby_debug_udp_close_player_format[];
-extern const char lobby_window_title_information[];
 s32 TLobby__sub_8013F810(void *, void *, s32, void *);
-void handle_6x6E_sync_game_state(Pkt_8013566C *arg0);
+void handle_6x6E_sync_game_state(Pkt_8013566C *pkt);
 void * get_current_floor();
 void TLobby__sub_80077798(void *, void *);
-void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0);
-void handle_6x6D_sync_game_state(Pkt_8013574C *arg0);
-void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0);
-void handle_6x6B_sync_game_state(Pkt_801358B4 *arg0);
+void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *pkt);
+void handle_6x6D_sync_game_state(Pkt_8013574C *pkt);
+void handle_6x6C_sync_game_state(Pkt_801357F8 *pkt);
+void handle_6x6B_sync_game_state(Pkt_801358B4 *pkt);
 void import_sync_records__6TLobbyFPs(void *, u16);
 s32 TLobby__sub_801A3E8C();
 s32 init_player_join_record(void *);
@@ -261,57 +257,28 @@ extern s32 TLobby__data_805D4E30;
 extern const char TLobby__data_805DB0B0[4];
 extern const Pair_80135E7C lbl_8043EE18[1];
 extern const Pair_80135E7C lbl_8043EE20[1];
-extern const char lobby_msg_information_counter[];
 void fn_80338D58(void *list, s32 flag, const char *name, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 index);
 extern NJS_POINT2 lbl_8043EE28[1];
-extern const char lobby_debug_udp_open_format[];
-extern const char lobby_debug_make_player_format[];
-extern const char lobby_debug_create_player_format[];
-extern const char lobby_debug_rcv_item_condition_format[];
-extern const char lobby_debug_rcv_object_condition_format[];
-extern const char lobby_debug_rcv_enemy_condition_format[];
-extern const char lobby_window_title_download[];
-extern const char lobby_debug_player_exit_format[];
-extern const char lobby_debug_burst_overwrite_format[];
-extern const char lobby_debug_udp_close_ip_format[];
-extern const char lobby_debug_lobby_start_format[];
-extern const char lobby_debug_game_start_format[];
-extern const char lobby_window_title_ship_select[];
-extern const char lobby_window_title_block_select[];
-extern const char lobby_list_header_block[];
 extern RecoveredGlobal_80135974_lbl_805127F8 quest_story_flags_by_difficulty;
 extern s32 game_difficulty_selection;
 extern s32 quest_download_active;
-extern const char lobby_debug_duplicate_player_format[];
 void render_shadows__7TObjectFv();
-extern const char lobby_debug_rcv_set_flag_format[];
 extern s16 TLobby__data_805D5CE8;
-extern const char lobby_debug_my_player_format[];
-extern const char lobby_list_savedata_format[];
-extern const char lobby_list_duplicate_my_player_format[];
-extern const char lobby_list_block_range_format[];
 void *__ct__11TWindowRoomFPc(void *self, char *title);
 void handle_chat_message__11TWindowCtrlFPc(char *);
 extern const NJS_POINT2 lbl_8043EE10[1];
 extern const NJS_POINT2 lbl_8043EE08[1];
-extern const char lobby_msg_registed[];
-extern const char lobby_msg_name_taken[];
-extern const char lobby_msg_regist_check_ok[];
-extern const char lobby_msg_login_success[];
 void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 void construct_lobby_players(Rec_801378AC *records, s32 count, int self_id, s32 unused);
 extern const NJS_POINT2 lbl_8043EE00[1];
 s32 clear_lobby_flag__10TObjPlayerFPv();
 extern s32 lbl_805DB0B4;
-extern const char lobby_window_title_block_jump[];
-extern const char lobby_window_title_ship_jump[];
 const char *TWindowMakeTeam__sub_80264B24(TWindowMakeTeam *window);
 const char *TWindowMakeTeam__sub_80264B38(TWindowMakeTeam *window);
 extern const NJS_POINT2 lbl_8043EDF8[1];
 extern const NJS_POINT2 lbl_8043EDF0[1];
 extern const f32 lbl_805DB0B8;
 extern const NJS_POINT2 lbl_8043EDE8[1];
-extern const char lobby_window_title_taisen_team[];
 s32 get_link_status__Fv(void);
 void show_card_list_message(void *msg);
 void TLobby__sub_80136E68(s32 count, Ent_80136E68 *entries, Ent_80136E68 *selected);
@@ -480,17 +447,17 @@ void TLobby::update_idle_timeout(void *object) {
     }
 }
 
-u8 *init_idle_timeout_timer(u8 *arg0, saddr parent) {
+u8 *init_idle_timeout_timer(u8 *timer, saddr parent) {
     s32 date;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)parent);
-    *(void ***)((s8 *)arg0 + 0x18) = lbl_804A7008;
+    __ct__7TObjectFP7TObject((void *)timer, (void *)parent);
+    *(void ***)((s8 *)timer + 0x18) = lbl_804A7008;
     getDateStamp((DateStamp *)(&date));
-    DateToSeconds((DateStamp *)(&date), (int *)(arg0 + 0x1C));
-    ((TUnk_804A7008 *)arg0)->m_20 = (s32) *(s32 *)((s8 *)arg0 + 0x1C);
-    *(s32 *)((s8 *)arg0 + 0x24) = ((TLobby *)(saddr)local_client_id)->get_table_entry_by_index();
-    ((TUnk_804A7008 *)arg0)->m_28 = 0;
+    DateToSeconds((DateStamp *)(&date), (int *)(timer + 0x1C));
+    ((TUnk_804A7008 *)timer)->m_20 = (s32) *(s32 *)((s8 *)timer + 0x1C);
+    *(s32 *)((s8 *)timer + 0x24) = ((TLobby *)(saddr)local_client_id)->get_table_entry_by_index();
+    ((TUnk_804A7008 *)timer)->m_28 = 0;
     TLobby__idle_timeout_object = 0;
-    return arg0;
+    return timer;
 }
 
 void TLobby::open_udp_socket_for_player(s32 client) {
@@ -554,12 +521,12 @@ void TLobby::send_6x71_to_player() {
     ((game_command *)&packet)->send_to_client(client_id);
 }
 
-void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0) {
+void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *pkt) {
     TObjPlayer *plr;
     Disp_801354AC *disp;
     TObjPlayer *p;
     if (TLobby__data_805D5CE8 == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
-        disp = &arg0->disp;
+        disp = &pkt->disp;
         TLobby::bswap_player_data(disp);
         if (disp->id != local_client_id) {
             p = get_player_by_client_id(disp->id);
@@ -591,14 +558,14 @@ void TLobby::send_6x70_player_data(int size) {
 
 #pragma push
 #pragma peephole off
-void handle_6x6F_set_quest_flags_v2(saddr arg0) {
+void handle_6x6F_set_quest_flags_v2(saddr pkt) {
     if (((s16) TLobby__data_805D5CE8 == 0) && (((s32) TLobby::lobby_state == 0xE) || ((s32) TLobby::lobby_state == 0xF))) {
-        memcpy((void *) (&(*(RecoveredGlobal_8013561C_lbl_805127F8 *)&quest_story_flags_by_difficulty).value), (void *)(arg0 + 4), 0x200);
+        memcpy((void *) (&(*(RecoveredGlobal_8013561C_lbl_805127F8 *)&quest_story_flags_by_difficulty).value), (void *)(pkt + 4), 0x200);
     }
 }
 #pragma pop
 
-void handle_6x6E_sync_game_state(Pkt_8013566C *arg0) {
+void handle_6x6E_sync_game_state(Pkt_8013566C *pkt) {
   u8 *new_var;
   u8 *new_var2;
   void *tmp;
@@ -606,7 +573,7 @@ void handle_6x6E_sync_game_state(Pkt_8013566C *arg0) {
   s32 n;
   if ((TLobby__data_805D5CE8 == 0) && ((TLobby::lobby_state == 0xE) || (TLobby::lobby_state == 0xF)))
   {
-    lobby_debug_printf_stub(lobby_debug_rcv_set_flag_format, arg0->len);
+    lobby_debug_printf_stub(lobby_debug_rcv_set_flag_format, pkt->len);
     buf = static_cast<GameStateSyncScratch *>(::operator new(sizeof(GameStateSyncScratch)));
     if (buf != 0)
     {
@@ -615,7 +582,7 @@ void handle_6x6E_sync_game_state(Pkt_8013566C *arg0) {
       {
         new_var2 = buf->payload;
         new_var = new_var2;
-        TLobby__sub_8013F810(tmp, arg0->data, arg0->len, buf);
+        TLobby__sub_8013F810(tmp, pkt->data, pkt->len, buf);
         ::operator delete(tmp);
         TLobby::bswap_6x6E_sync_game_state(buf);
         apply_floor_set_flags_packet(reinterpret_cast<FloorSetFlagsHeader *>(new_var), buf->floor_flags_size);
@@ -634,18 +601,18 @@ void handle_6x6E_sync_game_state(Pkt_8013566C *arg0) {
   }
 }
 
-void handle_6x6D_sync_game_state(Pkt_8013574C *arg0) {
+void handle_6x6D_sync_game_state(Pkt_8013574C *pkt) {
     s32 len;
     u8 *buf;
     void *tmp;
     if (TLobby__data_805D5CE8 == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
-        len = arg0->len - 8;
-        lobby_debug_printf_stub(lobby_debug_rcv_item_condition_format, arg0->len);
+        len = pkt->len - 8;
+        lobby_debug_printf_stub(lobby_debug_rcv_item_condition_format, pkt->len);
         buf = (u8 *)mem_alloc(0x8000);
         if (buf != NULL) {
             tmp = ::operator new(0x7230);
             if (tmp != NULL) {
-                TLobby__sub_8013F810(tmp, arg0->data + 0, len, buf);
+                TLobby__sub_8013F810(tmp, pkt->data + 0, len, buf);
                 ::operator delete(tmp);
             }
             ((TLobby *)buf)->apply_sync_item_state();
@@ -654,17 +621,17 @@ void handle_6x6D_sync_game_state(Pkt_8013574C *arg0) {
     }
 }
 
-void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0) {
+void handle_6x6C_sync_game_state(Pkt_801357F8 *pkt) {
     u32 r;
     QuestObjectEntry *p;
     s32 n;
     s32 i;
     if (TLobby__data_805D5CE8 == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
-        n = arg0->len - 8;
-        lobby_debug_printf_stub(lobby_debug_rcv_object_condition_format, arg0->len);
+        n = pkt->len - 8;
+        lobby_debug_printf_stub(lobby_debug_rcv_object_condition_format, pkt->len);
         p = (QuestObjectEntry *)::operator new(0x7230);
         if (p != NULL) {
-            r = ((u32)TLobby__sub_8013F810(p, arg0->data, n, quest_object_entries));
+            r = ((u32)TLobby__sub_8013F810(p, pkt->data, n, quest_object_entries));
             ::operator delete(p);
             n = r >> 2;
             p = quest_object_entries;
@@ -676,17 +643,17 @@ void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0) {
     }
 }
 
-void handle_6x6B_sync_game_state(Pkt_801358B4 *arg0) {
+void handle_6x6B_sync_game_state(Pkt_801358B4 *pkt) {
     u32 r;
     EnemyStateRecord *p;
     s32 n;
     s32 i;
     if (TLobby__data_805D5CE8 == 0 && (TLobby::lobby_state == 0xE || TLobby::lobby_state == 0xF)) {
-        n = arg0->len - 8;
-        lobby_debug_printf_stub(lobby_debug_rcv_enemy_condition_format, arg0->len);
+        n = pkt->len - 8;
+        lobby_debug_printf_stub(lobby_debug_rcv_enemy_condition_format, pkt->len);
         p = (EnemyStateRecord *)::operator new(0x7230);
         if (p != NULL) {
-            r = ((u32)TLobby__sub_8013F810(p, arg0->data, n, TLobby__data_805D6144));
+            r = ((u32)TLobby__sub_8013F810(p, pkt->data, n, TLobby__data_805D6144));
             ::operator delete(p);
             n = r / sizeof(EnemyStateRecord);
             p = TLobby__data_805D6144;
@@ -743,7 +710,7 @@ void TLobby::send_6x6E_sync_game_state(int size) {
 }
 
 void TLobby::send_6x6D_item_state() {
-    saddr arg0 = (saddr)this;
+    saddr client = (saddr)this;
     s32 n;
     s32 len;
     Pkt_80135AE0 *buf;
@@ -767,7 +734,7 @@ void TLobby::send_6x6D_item_state() {
         buf->flag = 0;
         buf->f2 = 0;
         buf->len = ((len + 3) & ~3) + 8;
-        bswap_and_send_extended_subcommand(buf, arg0);
+        bswap_and_send_extended_subcommand(buf, client);
         mem_free(buf);
     }
 }
@@ -781,7 +748,7 @@ void TLobby::send_compressed_packet_6c() {
     u32 n;
     u32 *p;
     u32 i;
-    saddr arg0 = (saddr)this;
+    saddr client = (saddr)this;
     buf = (Pkt_80135BD0 *)mem_alloc(0x8000);
     if (buf != NULL) {
         memset(buf, 0, 0x8000);
@@ -802,7 +769,7 @@ void TLobby::send_compressed_packet_6c() {
             buf->flag = 0;
             buf->f2 = 0;
             buf->len = ((len + 3) & ~3) + 8;
-            bswap_and_send_extended_subcommand(buf, arg0);
+            bswap_and_send_extended_subcommand(buf, client);
         }
         mem_free(buf);
     }
@@ -817,7 +784,7 @@ void TLobby::send_cmd_6B() {
     u32 n;
     EnemyStateRecord *p;
     u32 i;
-    saddr arg0 = (saddr)this;
+    saddr client = (saddr)this;
     buf = (Pkt_80135CD8 *)mem_alloc(0x8000);
     if (buf != NULL) {
         memset(buf, 0, 0x8000);
@@ -838,7 +805,7 @@ void TLobby::send_cmd_6B() {
             buf->flag = 0;
             buf->f2 = 0;
             buf->len = ((len + 3) & ~3) + 8;
-            bswap_and_send_extended_subcommand(buf, arg0);
+            bswap_and_send_extended_subcommand(buf, client);
         }
         mem_free(buf);
     }
@@ -867,13 +834,13 @@ void TLobby::show_seq_phase_message(int id) {
     current_dialog_window->append_line((int)(TLobby::get_seq_phase(id)), (int)1);
 }
 
-void show_dialog_value_line(saddr arg0) {
+void show_dialog_value_line(saddr text) {
     if (TLobby::current_dialog_window == 0) {
         NJS_POINT2 tmp = lbl_8043EDF0[0];
         TLobby::current_dialog_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc1), &tmp);
         TLobby::current_dialog_window->set_depth(lbl_805DB0B8);
     }
-    TLobby::current_dialog_window->append_line((int)arg0, (int)1);
+    TLobby::current_dialog_window->append_line((int)text, (int)1);
 }
 void TLobby::close_com_card_window() {
     if (current_dialog_window != 0U) {
@@ -1765,12 +1732,12 @@ void TLobby::update_player_window() {
     TWindowCtrl::unsuppress_slot(local_client_id);
 }
 
-void TLobby__sub_80137C10(s32 arg0) {
+void TLobby__sub_80137C10(s32 text) {
     if (TLobby::download_list_window == 0) {
         NJS_POINT2 tmp = lbl_8043EE00[0];
         TLobby::download_list_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc6), &tmp);
     }
-    TLobby::download_list_window->append_line((int)arg0, (int)3);
+    TLobby::download_list_window->append_line((int)text, (int)3);
     TLobby::lobby_state = 0x14;
     TQuestListOnline__sub_8013ACF4(0xb);
 }
@@ -1901,9 +1868,9 @@ void TLobby::handle_regist_check(int ok) {
         protocol_instance->send_regist();
     }
 }
-void TLobby::handle_verify_result(unsigned int arg0) {
+void TLobby::handle_verify_result(unsigned int result) {
     s32 option_state;
-    switch (arg0) {
+    switch (result) {
     case 0:
     case 2:
         lobby_debug_printf_stub(lobby_msg_regist_check_ok);
@@ -1974,9 +1941,9 @@ void TLobby::handle_register_name_result(int ok) {
         TLobby::reset_state(0xd);
     }
 }
-void TLobby::handle_register_result(int arg0) {
+void TLobby::handle_register_result(int registered) {
     s32 opt;
-    if (arg0 != 0) {
+    if (registered != 0) {
         lobby_debug_printf_stub(lobby_msg_registed);
         get_player_by_client_id(local_client_id);
         opt = TLobby::get_option_state();
@@ -1988,9 +1955,9 @@ void TLobby::handle_register_result(int arg0) {
     TLobby::dispatch_by_index(2);
     TLobby::reset_state(0x50);
 }
-void TLobby::handle_login_result(unsigned int arg0) {
+void TLobby::handle_login_result(unsigned int result) {
     s32 event_counter;
-    switch (arg0) {
+    switch (result) {
     case 0:
         lobby_debug_printf_stub(lobby_msg_login_success);
         TAdEnterSerialAccessGC::store_serial_access_key((saddr)protocol_instance->m_serial_number2, (saddr)protocol_instance->m_access_key2, (saddr)protocol_instance->m_password);
@@ -2073,10 +2040,10 @@ void TLobby::send_position_update() {
     temp_r4 = TAdSinglePlyChrSelectGC::get_player_count();
     protocol_instance->send_character_save_info(temp_r4, event_counter);
 }
-void TLobby::handle_state(int arg0) {
+void TLobby::handle_state(int checksum_ok) {
     s32 temp_r3;
 
-    if (arg0 != 0) {
+    if (checksum_ok != 0) {
         TAdSinglePlyChrSelectGC::save_online_character();
         temp_r3 = TLobby__sub_80146740();
         switch (temp_r3) {
@@ -2097,20 +2064,20 @@ void TLobby::handle_state(int arg0) {
     }
 }
 
-void TLobby__sub_80137228(s32 arg0) {
+void TLobby__sub_80137228(s32 text) {
     if (TLobby::download_list_window == 0) {
         NJS_POINT2 tmp = lbl_8043EE08[0];
         TLobby::download_list_window = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc7), &tmp);
     }
-    TLobby::download_list_window->append_line((int)arg0, (int)3);
+    TLobby::download_list_window->append_line((int)text, (int)3);
 }
 
-void TLobby__sub_801371B0(s32 arg0) {
+void TLobby__sub_801371B0(s32 text) {
     if (TLobby::join_entry_window_obj == 0) {
         NJS_POINT2 tmp = lbl_8043EE10[0];
         TLobby::join_entry_window_obj = (TWindowMessage *)create_message_window_for_size((NJS_POINT2 *)get_window_layout_position(0xc8), &tmp);
     }
-    TLobby::join_entry_window_obj->append_line((int)arg0, (int)3);
+    TLobby::join_entry_window_obj->append_line((int)text, (int)3);
     TLobby::lobby_state = 0x16;
 }
 void TLobby::disable_window_flags(void*flags) { TWindowCtrl::set_window_flags_off(local_client_id, (saddr)flags); }
@@ -2284,7 +2251,7 @@ void TLobby::make_players() {
 
 #pragma push
 #pragma opt_propagation off
-void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, int leader, int arg4, int arg5, int arg6, int arg7) {
+void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, int leader, int lobby, int block, int arg6, int event_theme) {
     s32 v4;
     TObjPlayer *p;
     saddr i;
@@ -2293,11 +2260,11 @@ void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, 
     TLobby::destroy_all_objects();
     lobby_debug_printf_stub(lobby_debug_lobby_start_format, client_id);
     local_client_id = client_id;
-    v4 = arg4;
+    v4 = lobby;
     lobby_entered_flag = 1;
     join_state_flag = 1;
-    lobby_number = arg4;
-    block_number = arg5;
+    lobby_number = lobby;
+    block_number = block;
     data_805D55B8 = arg6;
     TLobby::set_player_count(0);
     room_change_pending = 0;
@@ -2321,7 +2288,7 @@ void TLobby::handle_lobby_enter(TPlyJoinLobbyEntry *ents, int n, int client_id, 
     }
     TLobby::add_lobby_members(ents, n, client_id, leader);
     set_floor_map_variant((saddr)(get_current_floor()), v4);
-    event_theme_id = arg7;
+    event_theme_id = event_theme;
     activate_keyboard();
     protocol_instance->m_recv_handlers.handle_1A_D5_recv_text = (recv_packet_handler_handle_1A_D5_recv_text)TLobby__sub_801371B0;
 }
@@ -2458,11 +2425,11 @@ void handle_6x72_done_loading_into_game(void) {
     }
     main_task.resume_layers();
 }
-void TLobby::remove_player(unsigned int client, int arg1, int arg2) {
+void TLobby::remove_player(unsigned int client, int new_leader_id, int join_state) {
     TObjPlayer *p;
     TPacket *n;
-    designated_client_id = arg1;
-    join_state_flag = arg2;
+    designated_client_id = new_leader_id;
+    join_state_flag = join_state;
     p = get_player_by_client_id(client);
     if (p != NULL) {
         for (n = (TPacket *)game_protocol_instance->m_down; n != NULL; n = (TPacket *)n->m_next) {
@@ -2589,7 +2556,7 @@ void TLobby::send_logout() {
                                      TLobby::init_serial_access(), (const char *)get_access_key_input_buffer(), \
                                      s[1].host, s[1].port);                                     \
     }
-void TLobby::run_join_lobby_connect(int arg0) {
+void TLobby::run_join_lobby_connect(int parent) {
     Date_801399B8 date;
     void *p;
     void *win;
@@ -2601,7 +2568,7 @@ void TLobby::run_join_lobby_connect(int arg0) {
         DateToSeconds((DateStamp *)&date, (int *)&date_seconds);
         p = TObject::operator new(0x2C);
         if (p != NULL) {
-            init_idle_timeout_timer((u8 *)p, arg0);
+            init_idle_timeout_timer((u8 *)p, parent);
         }
         join_state_flag = 1;
         win = TLobby::create_dialing_message_window((void *)(get_connection_message_text(7)), (void *)1);
@@ -2957,9 +2924,9 @@ void __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *dst, void *src) {
 void fn_8013ACE4(int a0) { item_drop_server_seed = a0; }
 void set_area_random_seed(int a0) { area_random_seed = a0; }
 
-void TQuestListOnline__sub_8013ACF4(s32 arg0) {
+void TQuestListOnline__sub_8013ACF4(s32 state) {
     if (TQuestListOnline__instance != NULL) {
-        TQuestListOnline__instance->set_state(arg0);
+        TQuestListOnline__instance->set_state(state);
     }
 }
 
@@ -2986,8 +2953,8 @@ s32 *get_raw_serial_input_buffer(void) {
     return (s32 *)TAdEnterSerialAccessGC::raw_serial_buffer;
 }
 
-saddr get_connection_message_text(s32 arg0) {
-    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x30)) + (arg0 * 4));
+saddr get_connection_message_text(s32 id) {
+    return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x30)) + (id * 4));
 }
 
 }
