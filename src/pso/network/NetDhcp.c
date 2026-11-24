@@ -1035,16 +1035,16 @@ s32 ensure_dhcp_reply_socket(void) {
 #pragma dont_inline on
 #pragma use_lmw_stmw off
 s32 dhcp_set_interface_mode(s32 mode) {
-    u8 pad0[4];
+    u8 hw_addr[6];
     u8 buf[0x1c];
-    s32 buf2[3];
+    u8 pad1[0xc];
     struct Ipv4IfConfig req;
     u8 pad[0x10];
     struct Ipv4IfConfig req2;
     s32 ret;
     s32 r;
 
-    ret = (s16)if_get(dhcp_iface, buf, 0x1c, (u8 *)buf2 + 0x28) < 0 ? 0 : 1;
+    ret = (s16)if_get(dhcp_iface, buf, 0x1c, hw_addr) < 0 ? 0 : 1;
     r = ret;
     if (ret != mode) {
         switch (mode) {
