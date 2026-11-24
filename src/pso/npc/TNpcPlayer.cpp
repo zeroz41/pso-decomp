@@ -1120,7 +1120,7 @@ TNpcPlayer::TNpcPlayer(u16 leader_id, u16 self_id, int template_id, TObject *par
     m_name = TNpcPlayer::name;
     chatter_id = 0x19;
     in_combat = 0;
-    m_20 = 0;
+    pad_20 = 0;
     move_target.x = 0.0f;
     move_target.y = 0.0f;
     move_target.z = 0.0f;
@@ -1130,9 +1130,9 @@ TNpcPlayer::TNpcPlayer(u16 leader_id, u16 self_id, int template_id, TObject *par
     goal.x = 0.0f;
     goal.y = 0.0f;
     goal.z = 0.0f;
-    m_c4 = 0;
-    m_c8 = 0;
-    m_cc = 0;
+    pad_C4 = 0;
+    pad_C8 = 0;
+    pad_CC = 0;
     template_index = template_id;
     ai_flags = 0;
     ai_state = 0;
@@ -1156,7 +1156,7 @@ void TNpcPlayer::AiParams::copy(AiParams *src) {
     base_level = src->base_level;
     technique_flags = src->technique_flags;
     enemy_lock_on_range = src->enemy_lock_on_range;
-    unknown_0C = src->unknown_0C;
+    pad_0C = src->pad_0C;
     max_distance_from_player = src->max_distance_from_player;
     enemy_unlock_range = src->enemy_unlock_range;
     block_range = src->block_range;
@@ -1172,7 +1172,7 @@ TNpcPlayer::TNpcPlayer(u16 leader_id, u16 self_id, int template_id, s32 escort, 
     m_name = TNpcPlayer::name;
     chatter_id = 0x19;
     in_combat = 0;
-    m_20 = 0;
+    pad_20 = 0;
     move_target.x = 0.0f;
     move_target.y = 0.0f;
     move_target.z = 0.0f;
@@ -1182,9 +1182,9 @@ TNpcPlayer::TNpcPlayer(u16 leader_id, u16 self_id, int template_id, s32 escort, 
     goal.x = 0.0f;
     goal.y = 0.0f;
     goal.z = 0.0f;
-    m_c4 = 0;
-    m_c8 = 0;
-    m_cc = 0;
+    pad_C4 = 0;
+    pad_C8 = 0;
+    pad_CC = 0;
     template_index = template_id;
     ai_flags = 0;
     ai_state = 0;
@@ -1793,9 +1793,9 @@ void TNpcPlayer::update_combat_action() {
 
 void TNpcPlayer::request_technique_cast(s32 kind) {
     G_CastTechnique_6x47 cmd;
-    u8 *actor;
+    TObjPlayer *player;
 
-    actor = (u8 *)self_view->player;
+    player = self_view->player;
     if (kind == 15 || kind == 16) {
         request_chatter(0x16);
     } else if (kind == 0 || kind == 3 || kind == 6) {
@@ -1803,7 +1803,7 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
     } else {
         request_chatter(2);
     }
-    if (TObjPlayer::try_camera_action((saddr)actor, kind) != 0) {
+    if (TObjPlayer::try_camera_action((saddr)player, kind) != 0) {
         cmd.header.client_id = self_view->get_client_id();
         cmd.params.technique_number = kind;
         cmd.params.target_count = 1;
@@ -1811,11 +1811,11 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
             if (kind == 15) {
                 ai_flags |= 0x10000;
             }
-            cmd.params.level = get_cast_technique_level(actor + 0x428, kind);
+            cmd.params.level = get_cast_technique_level(&player->technique_state, kind);
             cmd.targets[0].set_entity_id(leader_view->get_client_id());
             cmd.targets[0].set_index(0);
         } else {
-            cmd.params.level = get_cast_technique_level(actor + 0x428, kind);
+            cmd.params.level = get_cast_technique_level(&player->technique_state, kind);
             cmd.targets[0].set_entity_id((u16)self_view->get_target_id());
             cmd.targets[0].set_index(self_view->get_target_collider());
         }
