@@ -4,7 +4,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/macros.h"
 #include "pso/player/PhotonChairSeat.h"
-#include "pso/player/TObjPlayer_801C7430.h"
+#include "pso/player/TObjPlayerActions.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"

@@ -28,7 +28,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerActionPaletteState.h"
-#include "pso/player/TObjPlayer_801C7430.h"
+#include "pso/player/TObjPlayerActions.h"
 #include "pso/player/TObjPlayer_801D2E20.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/technique/TechniqueParams.h"

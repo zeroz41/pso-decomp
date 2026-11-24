@@ -3,7 +3,7 @@
 #include "pso/item/TUnk_8049F8E0.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801C7430.h"
+#include "pso/player/TObjPlayerActions.h"
 #include "pso/object/base/TObjBase.h"
 
 extern "C" {

@@ -1,11 +1,11 @@
-#ifndef PSO_PLAYER_TOBJPLAYER_801C7430_H
-#define PSO_PLAYER_TOBJPLAYER_801C7430_H
+#ifndef PSO_PLAYER_TOBJPLAYERACTIONS_H
+#define PSO_PLAYER_TOBJPLAYERACTIONS_H
 
 #include "types.h"
 
 struct TObjPlayer;
 
-// --- functions defined in TObjPlayer_801C7430.cpp ---
+// --- functions defined in TObjPlayerActions.cpp ---
 extern "C" {
 void release_photon_blast_player_holds(u16 *p);
 void send_6x33_revive_player(u16 client_id, s16 type);

@@ -4948,7 +4948,7 @@ pso/player/PlayerTaskEffects.cpp:
 	.sdata      start:0x805D3558 end:0x805D3568
 	.sdata2     start:0x805DC320 end:0x805DC360
 
-pso/player/TObjPlayer_801C7430.cpp:
+pso/player/TObjPlayerActions.cpp:
 	.text       start:0x801C7430 end:0x801D2E20
 	.rodata     start:0x80447128 end:0x80447150
 	.data       start:0x804C4020 end:0x804C43E8

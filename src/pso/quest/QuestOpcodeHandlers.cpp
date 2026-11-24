@@ -126,7 +126,7 @@ int qst_label_address(int label);
 #include "pso/system/TTokenList.h"
 #include "pso/unk/TScreenFadeOut.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
-#include "pso/player/TObjPlayer_801C7430.h"
+#include "pso/player/TObjPlayerActions.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 u8 *qst_code;
 s32 *qst_function_table;
