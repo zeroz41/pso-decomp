@@ -1464,20 +1464,20 @@ step6:
             } else {
                 found->flags |= 1;
             }
-            goto L1397;
+            goto fin_check;
         } else {
             if ((s32)(hdr.seq - found->rcv_nxt) > 0) {
                 tcp_reass(pkt, (len + total) & 0xffff, found, ti);
             }
             kind &= ~1;
             found->flags |= 1;
-            goto L1397;
+            goto fin_check;
         }
     }
     kind &= ~1;
-L1397:
+fin_check:
     if (!(kind & 1)) {
-        goto L1469;
+        goto send_pending;
     }
     NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 2);
     if (!(found->flags & 0x08)) {
@@ -1509,7 +1509,7 @@ L1397:
         found->timers[3] = 0x78;
         break;
     }
-L1469:
+send_pending:
     if (changed != 0 || (found->flags & 1)) {
         AT_TCP_Rawsend(found);
     }

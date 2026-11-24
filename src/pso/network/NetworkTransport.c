@@ -528,12 +528,9 @@ s32 send_network_frame(u16 len, u8 *src) {
         if (pppoe_send_session_frame(net_slot_id, src, len) < 0) {
             return 5;
         }
-        goto block_7;
-    }
-    if (((u16)write_ring_buffer(src, (s32) len)) == 0) {
+    } else if (((u16)write_ring_buffer(src, (s32) len)) == 0) {
         return 5;
     }
-block_7:
     return 0;
 }
 

@@ -397,7 +397,7 @@ s32 ppp_open_sub(void) {
         }
         if (g->flags & 2) {
             lobby_modem_connect_state = 0xa;
-            goto L242;
+            goto await_link;
         }
         if (g->modem.dial != 0) {
             ret = ppp_set_dial_string(g);
@@ -439,7 +439,7 @@ s32 ppp_open_sub(void) {
             lock_mutex(net_thread_state.mutex);
         }
     }
-L242:
+await_link:
     if (g->flags & 2) {
         lobby_modem_connect_state = 0xa;
         while (lobby_modem_connect_state == 0xa) {
