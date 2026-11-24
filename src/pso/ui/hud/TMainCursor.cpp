@@ -513,7 +513,7 @@ void render__13TLockOnCursorFv(saddr arg0) {
                     p->get_entity_id() != 0xFFFF) {
                     o = (u8 *)find_entity_by_id(p->entity_id);
                     if (o != NULL) {
-                        e = *(s32 *)(o + 0xA4) + p->collider_index * 0x2C;
+                        e = *(s32 *)(o + 0xA4) + p->part * 0x2C;
                         if (e != 0) {
                             ((TLockOnCursor *)arg0)->renderSecondaryCursor((u8*)e, (s32)(get_cursor_palette_mode((void *)c)), (s32)(((TMainCursor *)c)->get_active()));
                         }
