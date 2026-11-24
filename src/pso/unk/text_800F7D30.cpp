@@ -7,7 +7,7 @@ extern "C" {
 
 u32 prs_decompress_alloc(s32 src, s32 dst) {
     u32 size;
-    TUnk_8036F868 *prs = new TUnk_8036F868;
+    PrsDecoder *prs = new PrsDecoder;
     if (prs != NULL) {
         size = prs->prs_decompress((u8 *)dst, (u8 *)src, 0);
     }
