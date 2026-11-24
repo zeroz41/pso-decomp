@@ -15,14 +15,11 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/player/TObjPlayer_801C7430.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 CollisionBody npc_player_collision_body_part = {{0.0f, 5.0f, 0.0f}, 7.0f, 50.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 int npc_proximity_target_id = -1;
-
-extern "C" {
-void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
-}
 
 #pragma defer_codegen on
 int hashi_versus2_flag;

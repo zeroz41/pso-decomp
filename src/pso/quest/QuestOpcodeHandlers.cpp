@@ -121,6 +121,7 @@ int qst_label_address(int label);
 #include "pso/unk/TScreenFadeOut.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/player/TObjPlayer_801C7430.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 u8 *qst_code;
 s32 *qst_function_table;
 s32 *qst_registers;
@@ -889,7 +890,6 @@ s32 TObjPlayer__sub_801AF904();
 void draw_small_label__15TFontSmallLobbyFi(saddr player);
 void TLobby__sub_801B1254(saddr player);
 s32 foreach_player__10TObjPlayerFv(s32 *);
-void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 s32 prepare_guild_return__10TObjPlayerFPv(void *player, s32);
 s32 player_flag_1__6TLobbyFv();
 s32 enable_action_input__10TObjPlayerFPv();
@@ -4710,7 +4710,7 @@ void qst_op_npc_crp(u8 first) {
 }
 
 void qst_op_npc_crptalk_id(u8 first) {
-    f32 pos[3];
+    Vec pos;
     TObjPlayer *player;
     int heading;
     int slot;
@@ -4718,9 +4718,9 @@ void qst_op_npc_crptalk_id(u8 first) {
     int i = first;
     u32 injured;
 
-    pos[0] = (f32)qst_registers[i++];
-    pos[1] = (f32)qst_registers[i++];
-    pos[2] = (f32)qst_registers[i++];
+    pos.x = (f32)qst_registers[i++];
+    pos.y = (f32)qst_registers[i++];
+    pos.z = (f32)qst_registers[i++];
     heading = (int)(182.04445f * (f32)qst_registers[i++]);
     injured = qst_registers[i++];
     appearance = qst_registers[i++];
@@ -4729,8 +4729,8 @@ void qst_op_npc_crptalk_id(u8 first) {
     player = new TObjPlayer((TObject *)tl_03, slot, 6, load_npc_player_template(appearance));
     if (player != NULL) {
         *(s16 *)((u8 *)player + 0x324) = 6;
-        send_6x24_teleport_player(slot, pos, heading);
-        set_arrival_override_coords(slot, heading, pos[0], pos[1], pos[2]);
+        send_6x24_teleport_player(slot, &pos, heading);
+        set_arrival_override_coords(slot, heading, pos.x, pos.y, pos.z);
         player->reset_motion_fields();
         if (injured == 1) {
             queue_player_injured_pose(player);
@@ -4741,16 +4741,16 @@ void qst_op_npc_crptalk_id(u8 first) {
 }
 
 void qst_op_npc_crptalk(u8 first) {
-    f32 pos[3];
+    Vec pos;
     TObjPlayer *player;
     int heading;
     int appearance;
     int i = first;
     u32 injured;
 
-    pos[0] = (f32)qst_registers[i++];
-    pos[1] = (f32)qst_registers[i++];
-    pos[2] = (f32)qst_registers[i++];
+    pos.x = (f32)qst_registers[i++];
+    pos.y = (f32)qst_registers[i++];
+    pos.z = (f32)qst_registers[i++];
     heading = (int)(182.04445f * (f32)qst_registers[i++]);
     injured = qst_registers[i++];
     appearance = qst_registers[i++];
@@ -4758,8 +4758,8 @@ void qst_op_npc_crptalk(u8 first) {
     player = new TObjPlayer((TObject *)tl_03, 3, 6, load_npc_player_template(appearance));
     if (player != NULL) {
         *(s16 *)((u8 *)player + 0x324) = 6;
-        send_6x24_teleport_player(3, pos, heading);
-        set_arrival_override_coords(3, heading, pos[0], pos[1], pos[2]);
+        send_6x24_teleport_player(3, &pos, heading);
+        set_arrival_override_coords(3, heading, pos.x, pos.y, pos.z);
         player->reset_motion_fields();
         if (injured == 1) {
             queue_player_injured_pose(player);

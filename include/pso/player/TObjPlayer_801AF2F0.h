@@ -20,4 +20,7 @@ void unequip_item__10TObjPlayerFiPv(TObjPlayer *player, TItem *item);
 void recover_player_full(void *player);
 }
 
+// 6x24: moves player `slot` to pos, facing heading.
+void send_6x24_teleport_player(u16 slot, const Vec *pos, s32 heading);
+
 #endif
