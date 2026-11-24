@@ -35,7 +35,7 @@ struct TObjNpcBase : public TObjEnemy {
     void set_object_number(s32 number);
     virtual void run_move_action();
     virtual void run_idle_action();
-    virtual s32 is_target_in_attack_range();
+    virtual s32 is_target_in_attack_range() { return 0; }
     virtual void refresh_target();
     u8 pad_374[0x10];
     s32 home_rotation_y;        // rotation_y on setup; update_standing turns back to it
