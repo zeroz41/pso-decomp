@@ -461,7 +461,7 @@ void TWindowSubComCard__sub_802452DC(s32 texture) {
     case 1:
         return;
     }
-    TLobby::reset_player_state();
+    end_screen_textured_draw();
     set_default_alpha_blend();
     init_tev_swap();
 }

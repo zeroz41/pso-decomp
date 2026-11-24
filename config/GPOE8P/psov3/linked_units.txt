@@ -896,8 +896,6 @@ pso/audio/GcrnaStatusBridge.cpp
 pso/audio/GcrnaChannelBridge.cpp
 pso/audio/GcrnaBufferQuery.cpp
 pso/unk/TLobby_803DE778.cpp
-pso/unk/TLobby_803DF1FC.cpp
-pso/unk/TLobby_803E2D50.cpp
 pso/network/TLobby_803F86BC.c
 pso/network/TLobby_803FAEA0.c
 pso/network/TLobby_804048E8.c
@@ -2074,7 +2072,6 @@ pso/unk/text_803DD5E0.cpp
 pso/render/gjLight.c
 pso/unk/text_803DE7E0.cpp
 pso/unk/text_803DEE48.cpp
-pso/unk/text_803DF204.cpp
 pso/render/SceneFog.cpp
 pso/render/nuReLoadTexture.c
 pso/render/ScreenSpaceMatrix.cpp

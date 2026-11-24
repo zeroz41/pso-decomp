@@ -522,8 +522,6 @@ struct TLobby : public TObject {
     static void set_callback(uaddr arg0, s32 arg1);
     u32 get_packet_size();
     u32 get_available_size();
-    static s32 calc_delta(s32 arg0, s32 arg1);
-    static void reset_player_state();
     static s32 aram_dma_blocking(s32 owner, s32 aram, saddr dest, s32 length);
     static s32 aram_read_sync(s32 owner, s32 aram, saddr dest, s32 length);
     static s32 aram_transfer_sync(s32 owner, uaddr source, s32 aram, s32 length);

@@ -11478,15 +11478,9 @@ pso/unk/text_803DEE48.cpp:
 	.text       start:0x803DEE48 end:0x803DEE6C
 
 pso/ui/window/TWindowSubStatusDisp_803DEE6C.cpp:
-	.text       start:0x803DEE6C end:0x803DF1FC
+	.text       start:0x803DEE6C end:0x803DF220
 	.sbss       start:0x805D77B0 end:0x805D77B4
 	.sdata2     start:0x805E0FC8 end:0x805E0FCC
-
-pso/unk/TLobby_803DF1FC.cpp:
-	.text       start:0x803DF1FC end:0x803DF204
-
-pso/unk/text_803DF204.cpp:
-	.text       start:0x803DF204 end:0x803DF220
 
 pso/render/gjLight.c:
 	.text       start:0x803DF220 end:0x803DF578
@@ -11548,11 +11542,8 @@ pso/boss/derolle/TObjBoss2Tunnel_803E2BAC.cpp:
 	.text       start:0x803E2BAC end:0x803E2D50
 	.sdata2     start:0x805E1080 end:0x805E1084
 
-pso/unk/TLobby_803E2D50.cpp:
-	.text       start:0x803E2D50 end:0x803E2D70
-
 pso/unk/text_803E2D70.cpp:
-	.text       start:0x803E2D70 end:0x803E2F28
+	.text       start:0x803E2D50 end:0x803E2F28
 	.sdata2     start:0x805E1088 end:0x805E1090
 
 pso/render/ChunkModelDraw.cpp:
