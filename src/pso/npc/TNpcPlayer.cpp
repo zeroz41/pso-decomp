@@ -1,5 +1,6 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/player/TPlyCharData.h"
+#include "pso/player/TPlyInventory.h"
 #include <stdlib.h>
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/system/ResourceFile.h"
@@ -159,83 +160,6 @@ void bswap_6x43_packet(void* p);
 u8 get_6x47_cast_packet_size(u8 *arg0);
 int get_registered_object_count(void);
 const char *get_partner_custom_text(s32 kind, u16 player);
-extern void *lbl_804AC690[35];
-extern void *lbl_804AC71C[35];
-extern void *lbl_804AC7A8[35];
-extern void *lbl_804AC834[35];
-extern void *lbl_804AC8C0[35];
-extern void *lbl_804AC94C[70];
-extern void *lbl_804ACA64[28];
-extern void *lbl_804ACAD4[35];
-extern void *lbl_804ACB60[35];
-extern void *lbl_804ACBEC[35];
-extern void *lbl_804ACC78[35];
-extern void *lbl_804ACD04[35];
-extern void *lbl_804ACD90[35];
-extern void *lbl_804ACE1C[35];
-extern void *lbl_804ACEA8[35];
-extern void *lbl_804ACF34[35];
-extern void *lbl_804ACFC0[35];
-extern void *lbl_804AD04C[35];
-extern void *lbl_804AD0D8[35];
-extern void *lbl_804AD164[35];
-extern void *lbl_804AD1F0[70];
-extern void *lbl_804AD308[35];
-extern void *lbl_804AD394[35];
-extern void *lbl_804AD420[35];
-extern void *lbl_804AD4AC[35];
-extern void *lbl_804AD538[35];
-extern void *lbl_804AD5C4[35];
-extern void *lbl_804AD650[35];
-extern void *lbl_804AD6DC[35];
-extern void *lbl_804AD768[35];
-extern void *lbl_804AD7F4[35];
-extern void *lbl_804AD880[35];
-extern void *lbl_804AD90C[35];
-extern void *lbl_804AD998[35];
-extern void *lbl_804ADA24[35];
-extern void *lbl_804ADAB0[35];
-extern void *lbl_804ADB3C[35];
-extern void *lbl_804ADBC8[35];
-extern void *lbl_804ADC54[35];
-extern void *lbl_804ADCE0[35];
-extern void *lbl_804ADD6C[70];
-extern void *lbl_804ADE84[28];
-extern void *lbl_804ADEF4[35];
-extern void *lbl_804ADF80[35];
-extern void *lbl_804AE00C[35];
-extern void *lbl_804AE098[35];
-extern void *lbl_804AE124[35];
-extern void *lbl_804AE1B0[35];
-extern void *lbl_804AE23C[35];
-extern void *lbl_804AE2C8[70];
-extern void *lbl_804AE3E0[35];
-extern void *lbl_804AE46C[35];
-extern void *lbl_804AE4F8[35];
-extern void *lbl_804AE584[35];
-extern void *lbl_804AE610[70];
-extern void *lbl_804AE728[35];
-extern void *lbl_804AE7B4[35];
-extern void *lbl_804AE840[35];
-extern void *lbl_804AE8CC[35];
-extern void *lbl_804AE958[35];
-extern void *lbl_804AE9E4[35];
-extern void *lbl_804AEA70[35];
-extern void *lbl_804AEAFC[35];
-extern void *lbl_804AEB88[35];
-extern void *lbl_804AEC14[35];
-extern void *lbl_804AECA0[35];
-extern void *lbl_804AED2C[35];
-extern void *lbl_804AEDB8[35];
-extern void *lbl_804AEE44[35];
-extern void *lbl_804AEED0[35];
-extern void *lbl_804AEF5C[35];
-extern void *lbl_804AEFE8[35];
-extern void *lbl_804AF074[35];
-extern void *lbl_804AF100[35];
-extern void *lbl_804AF18C[35];
-extern void *lbl_804AF218[35];
-extern void *npc_player_template_table[35];
 TNpcPlayer::AiParams TNpcPlayer__template_table[64] = {
     {0x0, 0x4, TECHNIQUE_FLAGS_NONE, 100.0f, 10.0f, 13.0f, 30.0f, 30.0f, 100.0f, 0x0, 0x9, 0xf, 0x0, 50.0f},
     {0x1, 0xc, TECHNIQUE_FLAGS_BARTA_GIBARTA, 100.0f, 10.0f, 15.0f, 35.0f, 25.0f, 100.0f, 0x0, 0x9, 0x19, 0x5a, 50.0f},
@@ -302,965 +226,639 @@ TNpcPlayer::AiParams TNpcPlayer__template_table[64] = {
     {0x3e, 0x9, TECHNIQUE_FLAGS_FOIE_GIFOIE, 60.0f, 10.0f, 25.0f, 45.0f, 30.0f, 30.0f, 0x9, 0x9, 0x32, 0x50, 50.0f},
     {0x3f, 0x9, TECHNIQUE_FLAGS_FOIE_GIFOIE, 60.0f, 10.0f, 25.0f, 45.0f, 30.0f, 30.0f, 0x1, 0x9, 0x1e, 0x32, 50.0f},
 };
-void *lbl_804AC690[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x60000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010200, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020200, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x70000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x70000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AC71C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x10000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010500, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020500, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AC7A8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xa0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020300, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x70000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AC834[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010500, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020500, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AC8C0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020700, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AC94C[70] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x20100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x80200, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1011a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x8, (void *)0x1021800,
-    (void *)0x0, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3000100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x0, (void *)0x3010100, (void *)0x30000, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACA64[28] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3010000,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACAD4[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xd0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020b00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACB60[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xe0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACBEC[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x110000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010d00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACC78[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x150000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020600, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACD04[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x30100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010000, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x10000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACD90[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x100100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACE1C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xf0000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010e00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020e00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACEA8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x90100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010000, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020800, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x10000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACF34[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010e00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020e00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ACFC0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xa0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011700, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021700, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD04C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x60200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010c00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD0D8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x1b0000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011700, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD164[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x50200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021600, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD1F0[70] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010200, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x20000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x40200, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1011300, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x8, (void *)0x1021300,
-    (void *)0x0, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3000100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x0, (void *)0x3010100, (void *)0x50000, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD308[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x10100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021300, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD394[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021300, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD420[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x20200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011500, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021800, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD4AC[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x40100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020800, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x20000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD538[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x160000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD5C4[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x140000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010e00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020e00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD650[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x200000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD6DC[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x80100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x20000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x20000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD768[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x10000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010100, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020100, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x10000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD7F4[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xa0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020600, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x10000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD880[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xd0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011700, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021800, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD90C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x30200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021600, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AD998[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x110000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011a00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADA24[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x10000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x10000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADAB0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x60100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADB3C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x10100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADBC8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xa0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020b00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADC54[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADCE0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010d00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADD6C[70] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x20200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010d00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x80300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1011a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x8, (void *)0x1021d00,
-    (void *)0x0, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3000100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x0, (void *)0x3010100, (void *)0x30000, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADE84[28] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010d00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3010100,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADEF4[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xd0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010c00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804ADF80[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xe0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011800, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE00C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x110100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021300, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE098[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x150000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020b00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE124[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x30200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010200, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020e00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE1B0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x100100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010c00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE23C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xf0000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021300, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE2C8[70] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x90200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010200, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x90300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1011a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x8, (void *)0x1021d00,
-    (void *)0x0, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3000100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x0, (void *)0x3010100, (void *)0x50000, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE3E0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xa0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021b00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE46C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x60300, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE4F8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x1b0000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE584[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x50300, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE610[70] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020600, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x40300, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1011900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x8, (void *)0x1021900,
-    (void *)0x0, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3000100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x0, (void *)0x3010100, (void *)0x50000, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE728[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x10200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011800, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021800, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE7B4[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70300, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE840[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x20300, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE8CC[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x40200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE958[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x160000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AE9E4[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x140000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011400, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021400, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEA70[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x200100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010c00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x30000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEAFC[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x80200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010600, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020b00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0x50000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0x20000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEB88[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x10200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010500, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020500, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEC14[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xa0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010800, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020800, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x30000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x10000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AECA0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xd0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011b00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010100, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AED2C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x30300, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011a00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021a00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000100,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x50000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEDB8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x110100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011a00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEE44[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1010900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1020900, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000000,
-    (void *)0x10000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010000, (void *)0x10000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEED0[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x80600, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEF5C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xc0500, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011a00, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021b00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AEFE8[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x970000, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011800, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AF074[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x8b0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AF100[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x150100, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AF18C[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0xd0200, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011800, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021d00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AF218[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x70400, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *npc_player_template_table[35] = {
-    (void *)0x1000000, (void *)0x8, (void *)0x890300, (void *)0x0,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0, (void *)0x1000000,
-    (void *)0x8, (void *)0x1011900, (void *)0x0, (void *)0x0,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1000000, (void *)0x8,
-    (void *)0x1021c00, (void *)0x0, (void *)0x0, (void *)0xffffffff,
-    (void *)0x0, (void *)0x1000000, (void *)0x0, (void *)0x3000200,
-    (void *)0xa0000, (void *)0x0, (void *)0xffffffff, (void *)0x0,
-    (void *)0x1000000, (void *)0x0, (void *)0x3010200, (void *)0xa0000,
-    (void *)0x0, (void *)0xffffffff, (void *)0x0,
-};
-void *lbl_804AF330[64] = {
-    (void *)&lbl_804AC690, (void *)&lbl_804ACA64, (void *)&lbl_804ACFC0, (void *)&lbl_804AD5C4,
-    (void *)&lbl_804AD04C, (void *)&lbl_804AEED0, (void *)&lbl_804AEFE8, (void *)&lbl_804AD04C,
-    (void *)&lbl_804ACFC0, (void *)&lbl_804ACB60, (void *)&lbl_804AC71C, (void *)&lbl_804ACAD4,
-    (void *)&lbl_804AD998, (void *)&lbl_804ACC78, (void *)&lbl_804AD5C4, (void *)&lbl_804AC834,
-    (void *)&lbl_804AC7A8, (void *)&lbl_804AD0D8, (void *)&lbl_804ACFC0, (void *)&lbl_804AC8C0,
-    (void *)&lbl_804ACD04, (void *)&lbl_804AD4AC, (void *)&lbl_804AD768, (void *)&lbl_804AD1F0,
-    (void *)&lbl_804AD1F0, (void *)&lbl_804ACEA8, (void *)&lbl_804AC71C, (void *)&lbl_804AC690,
-    (void *)&lbl_804AC8C0, (void *)&lbl_804AC834, (void *)&lbl_804AD164, (void *)&lbl_804AD7F4,
-    (void *)&lbl_804ACE1C, (void *)&lbl_804ACE1C, (void *)&npc_player_template_table, (void *)&lbl_804AD880,
-    (void *)&lbl_804ADA24, (void *)&lbl_804AF074, (void *)&lbl_804ACBEC, (void *)&lbl_804ACC78,
-    (void *)&lbl_804AC94C, (void *)&lbl_804AD308, (void *)&lbl_804ACFC0, (void *)&lbl_804AD394,
-    (void *)&lbl_804AD308, (void *)&lbl_804AD04C, (void *)&lbl_804AD90C, (void *)&lbl_804AD650,
-    (void *)&lbl_804AD394, (void *)&lbl_804AC834, (void *)&lbl_804AD0D8, (void *)&lbl_804AD6DC,
-    (void *)&lbl_804AD6DC, (void *)&lbl_804ACD90, (void *)&lbl_804AD6DC, (void *)&lbl_804AD5C4,
-    (void *)&lbl_804AD0D8, (void *)&lbl_804AD538, (void *)&lbl_804AD04C, (void *)&lbl_804AC94C,
-    (void *)&lbl_804AD420, (void *)&lbl_804AD420, (void *)&lbl_804ACEA8, (void *)&lbl_804AD538,
-};
-void *lbl_804AF430[64] = {
-    (void *)&lbl_804ADAB0, (void *)&lbl_804ADE84, (void *)&lbl_804AE3E0, (void *)&lbl_804AE9E4,
-    (void *)&lbl_804AE46C, (void *)&lbl_804AEED0, (void *)&lbl_804AEFE8, (void *)&lbl_804AE46C,
-    (void *)&lbl_804AE3E0, (void *)&lbl_804ADF80, (void *)&lbl_804ADB3C, (void *)&lbl_804ADEF4,
-    (void *)&lbl_804AEDB8, (void *)&lbl_804AE098, (void *)&lbl_804AE9E4, (void *)&lbl_804ACF34,
-    (void *)&lbl_804ADBC8, (void *)&lbl_804AE4F8, (void *)&lbl_804AE3E0, (void *)&lbl_804ADCE0,
-    (void *)&lbl_804AE124, (void *)&lbl_804AE8CC, (void *)&lbl_804AEB88, (void *)&lbl_804AE610,
-    (void *)&lbl_804AE610, (void *)&lbl_804AE2C8, (void *)&lbl_804ADB3C, (void *)&lbl_804ADAB0,
-    (void *)&lbl_804ADCE0, (void *)&lbl_804ADC54, (void *)&lbl_804AE584, (void *)&lbl_804AEC14,
-    (void *)&lbl_804AE23C, (void *)&lbl_804AE23C, (void *)&npc_player_template_table, (void *)&lbl_804AECA0,
-    (void *)&lbl_804AEE44, (void *)&lbl_804AF074, (void *)&lbl_804AE00C, (void *)&lbl_804AE098,
-    (void *)&lbl_804ADD6C, (void *)&lbl_804AE728, (void *)&lbl_804AE3E0, (void *)&lbl_804AE7B4,
-    (void *)&lbl_804AE728, (void *)&lbl_804AE46C, (void *)&lbl_804AED2C, (void *)&lbl_804AEA70,
-    (void *)&lbl_804AE7B4, (void *)&lbl_804AE7B4, (void *)&lbl_804AE4F8, (void *)&lbl_804AEAFC,
-    (void *)&lbl_804AEAFC, (void *)&lbl_804AE1B0, (void *)&lbl_804AEAFC, (void *)&lbl_804AE9E4,
-    (void *)&lbl_804AE3E0, (void *)&lbl_804AE958, (void *)&lbl_804AE46C, (void *)&lbl_804ADD6C,
-    (void *)&lbl_804AE840, (void *)&lbl_804AE840, (void *)&lbl_804AE2C8, (void *)&lbl_804AE958,
-};
-void *lbl_804AF530[64] = {
-    (void *)&lbl_804ADAB0, (void *)&lbl_804ADE84, (void *)&lbl_804AE3E0, (void *)&lbl_804AE9E4,
-    (void *)&lbl_804AE46C, (void *)&lbl_804AEED0, (void *)&lbl_804AEFE8, (void *)&lbl_804AE46C,
-    (void *)&lbl_804AEF5C, (void *)&lbl_804ADF80, (void *)&lbl_804ADB3C, (void *)&lbl_804AF18C,
-    (void *)&lbl_804AEDB8, (void *)&lbl_804AF100, (void *)&lbl_804AE9E4, (void *)&lbl_804AF218,
-    (void *)&lbl_804AEF5C, (void *)&lbl_804AE4F8, (void *)&lbl_804AE3E0, (void *)&lbl_804ADCE0,
-    (void *)&lbl_804AE124, (void *)&lbl_804AE8CC, (void *)&lbl_804AEB88, (void *)&lbl_804AE610,
-    (void *)&lbl_804AE610, (void *)&lbl_804AE2C8, (void *)&lbl_804ADB3C, (void *)&lbl_804ADAB0,
-    (void *)&lbl_804ADCE0, (void *)&lbl_804ADC54, (void *)&lbl_804AE584, (void *)&lbl_804AEC14,
-    (void *)&lbl_804AE23C, (void *)&lbl_804AE23C, (void *)&npc_player_template_table, (void *)&lbl_804AF18C,
-    (void *)&lbl_804AEE44, (void *)&lbl_804AF074, (void *)&lbl_804AE00C, (void *)&lbl_804AF100,
-    (void *)&lbl_804ADD6C, (void *)&lbl_804AE728, (void *)&lbl_804AE3E0, (void *)&lbl_804AE7B4,
-    (void *)&lbl_804AE728, (void *)&lbl_804AE46C, (void *)&lbl_804AED2C, (void *)&lbl_804AEA70,
-    (void *)&lbl_804AE7B4, (void *)&lbl_804AE7B4, (void *)&lbl_804AE4F8, (void *)&lbl_804AEAFC,
-    (void *)&lbl_804AEAFC, (void *)&lbl_804AE1B0, (void *)&lbl_804AEAFC, (void *)&lbl_804AE9E4,
-    (void *)&lbl_804AE4F8, (void *)&lbl_804AE958, (void *)&lbl_804AE46C, (void *)&lbl_804ADD6C,
-    (void *)&lbl_804AE840, (void *)&lbl_804AE840, (void *)&lbl_804AE2C8, (void *)&lbl_804AE958,
-};
-void *lbl_804AF630[64] = {
-    (void *)&lbl_804ADAB0, (void *)&lbl_804ADE84, (void *)&lbl_804AE3E0, (void *)&lbl_804AE9E4,
-    (void *)&lbl_804AE46C, (void *)&lbl_804AEED0, (void *)&lbl_804AEFE8, (void *)&lbl_804AE46C,
-    (void *)&lbl_804AEF5C, (void *)&lbl_804ADF80, (void *)&lbl_804ADB3C, (void *)&lbl_804AF18C,
-    (void *)&lbl_804AEDB8, (void *)&lbl_804AF100, (void *)&lbl_804AE9E4, (void *)&lbl_804AF218,
-    (void *)&lbl_804AEF5C, (void *)&lbl_804AE4F8, (void *)&lbl_804AE3E0, (void *)&lbl_804ADCE0,
-    (void *)&lbl_804AE124, (void *)&lbl_804AE8CC, (void *)&lbl_804AEB88, (void *)&lbl_804AE610,
-    (void *)&lbl_804AE610, (void *)&lbl_804AE2C8, (void *)&lbl_804ADB3C, (void *)&lbl_804ADAB0,
-    (void *)&lbl_804ADCE0, (void *)&lbl_804ADC54, (void *)&lbl_804AE584, (void *)&lbl_804AEC14,
-    (void *)&lbl_804AE23C, (void *)&lbl_804AE23C, (void *)&npc_player_template_table, (void *)&lbl_804AF18C,
-    (void *)&lbl_804AEE44, (void *)&lbl_804AF074, (void *)&lbl_804AE00C, (void *)&lbl_804AF100,
-    (void *)&lbl_804ADD6C, (void *)&lbl_804AE728, (void *)&lbl_804AE3E0, (void *)&lbl_804AE7B4,
-    (void *)&lbl_804AE728, (void *)&lbl_804AE46C, (void *)&lbl_804AED2C, (void *)&lbl_804AEA70,
-    (void *)&lbl_804AE7B4, (void *)&lbl_804AE7B4, (void *)&lbl_804AE4F8, (void *)&lbl_804AEAFC,
-    (void *)&lbl_804AEAFC, (void *)&lbl_804AE1B0, (void *)&lbl_804AEAFC, (void *)&lbl_804AE9E4,
-    (void *)&lbl_804AE4F8, (void *)&lbl_804AE958, (void *)&lbl_804AE46C, (void *)&lbl_804ADD6C,
-    (void *)&lbl_804AE840, (void *)&lbl_804AE840, (void *)&lbl_804AE2C8, (void *)&lbl_804AE958,
+TPlyInventoryItem npc_normal_set_00[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_10[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_16[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_15[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_19[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_40[10] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 0, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_01[4] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_11[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xd, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_09[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xe, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_38[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_13[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_20[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xa, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_53[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x10, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_32[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xf, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_25[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 9, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_15[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_02[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x17, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x17, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_04[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 6, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_17[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x17, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_30[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 5, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x16, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_23[10] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 0, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_41[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_43[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_60[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x15, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_21[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_57[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_03[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_47[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_51[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 8, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_22[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_31[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_35[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xd, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x17, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_46[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x16, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x16, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_12[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_36[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_00[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 6, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_10[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_16[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_29[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_19[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_40[10] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 0, 8, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_01[4] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_11[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xd, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xd, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_09[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xe, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_38[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x11, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_13[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_20[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xe, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_53[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x10, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_32[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xf, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x13, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_25[10] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 9, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xa, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 0, 9, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_02[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_04[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 6, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_17[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_30[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_23[10] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 0, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_41[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_43[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_60[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_21[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_57[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_03[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_47[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x20, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xc, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_51[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 8, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0xb, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_22[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_31[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xa, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_35[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xd, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_46[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 1, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_12[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x11, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_hard_set_36[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_05[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 8, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1c, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_very_hard_set_08[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xc, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x1a, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1b, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_06[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x97, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_37[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x8b, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1c, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_very_hard_set_13[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x15, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1c, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_very_hard_set_11[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0xd, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x18, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1d, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_very_hard_set_15[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 7, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1c, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem npc_normal_set_34[5] = {
+    { { 1, 0, 0, 0 }, 8, { { { 0, 0x89, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 1, 0x19, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 8, { { { 1, 2, 0x1c, 0, 0, 0, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 0, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+    { { 1, 0, 0, 0 }, 0, { { { 3, 1, 2, 0, 0, 0xa, 0, 0, 0, 0, 0, 0 } }, 0xffffffff, { { 0, 0, 0, 0 } } } },
+};
+TPlyInventoryItem *npc_player_equipment_normal[64] = {
+    npc_normal_set_00, npc_normal_set_01, npc_normal_set_02, npc_normal_set_03,
+    npc_normal_set_04, npc_normal_set_05, npc_normal_set_06, npc_normal_set_04,
+    npc_normal_set_02, npc_normal_set_09, npc_normal_set_10, npc_normal_set_11,
+    npc_normal_set_12, npc_normal_set_13, npc_normal_set_03, npc_normal_set_15,
+    npc_normal_set_16, npc_normal_set_17, npc_normal_set_02, npc_normal_set_19,
+    npc_normal_set_20, npc_normal_set_21, npc_normal_set_22, npc_normal_set_23,
+    npc_normal_set_23, npc_normal_set_25, npc_normal_set_10, npc_normal_set_00,
+    npc_normal_set_19, npc_normal_set_15, npc_normal_set_30, npc_normal_set_31,
+    npc_normal_set_32, npc_normal_set_32, npc_normal_set_34, npc_normal_set_35,
+    npc_normal_set_36, npc_normal_set_37, npc_normal_set_38, npc_normal_set_13,
+    npc_normal_set_40, npc_normal_set_41, npc_normal_set_02, npc_normal_set_43,
+    npc_normal_set_41, npc_normal_set_04, npc_normal_set_46, npc_normal_set_47,
+    npc_normal_set_43, npc_normal_set_15, npc_normal_set_17, npc_normal_set_51,
+    npc_normal_set_51, npc_normal_set_53, npc_normal_set_51, npc_normal_set_03,
+    npc_normal_set_17, npc_normal_set_57, npc_normal_set_04, npc_normal_set_40,
+    npc_normal_set_60, npc_normal_set_60, npc_normal_set_25, npc_normal_set_57,
+};
+TPlyInventoryItem *npc_player_equipment_hard[64] = {
+    npc_hard_set_00, npc_hard_set_01, npc_hard_set_02, npc_hard_set_03,
+    npc_hard_set_04, npc_normal_set_05, npc_normal_set_06, npc_hard_set_04,
+    npc_hard_set_02, npc_hard_set_09, npc_hard_set_10, npc_hard_set_11,
+    npc_hard_set_12, npc_hard_set_13, npc_hard_set_03, npc_hard_set_15,
+    npc_hard_set_16, npc_hard_set_17, npc_hard_set_02, npc_hard_set_19,
+    npc_hard_set_20, npc_hard_set_21, npc_hard_set_22, npc_hard_set_23,
+    npc_hard_set_23, npc_hard_set_25, npc_hard_set_10, npc_hard_set_00,
+    npc_hard_set_19, npc_hard_set_29, npc_hard_set_30, npc_hard_set_31,
+    npc_hard_set_32, npc_hard_set_32, npc_normal_set_34, npc_hard_set_35,
+    npc_hard_set_36, npc_normal_set_37, npc_hard_set_38, npc_hard_set_13,
+    npc_hard_set_40, npc_hard_set_41, npc_hard_set_02, npc_hard_set_43,
+    npc_hard_set_41, npc_hard_set_04, npc_hard_set_46, npc_hard_set_47,
+    npc_hard_set_43, npc_hard_set_43, npc_hard_set_17, npc_hard_set_51,
+    npc_hard_set_51, npc_hard_set_53, npc_hard_set_51, npc_hard_set_03,
+    npc_hard_set_02, npc_hard_set_57, npc_hard_set_04, npc_hard_set_40,
+    npc_hard_set_60, npc_hard_set_60, npc_hard_set_25, npc_hard_set_57,
+};
+TPlyInventoryItem *npc_player_equipment_very_hard[64] = {
+    npc_hard_set_00, npc_hard_set_01, npc_hard_set_02, npc_hard_set_03,
+    npc_hard_set_04, npc_normal_set_05, npc_normal_set_06, npc_hard_set_04,
+    npc_very_hard_set_08, npc_hard_set_09, npc_hard_set_10, npc_very_hard_set_11,
+    npc_hard_set_12, npc_very_hard_set_13, npc_hard_set_03, npc_very_hard_set_15,
+    npc_very_hard_set_08, npc_hard_set_17, npc_hard_set_02, npc_hard_set_19,
+    npc_hard_set_20, npc_hard_set_21, npc_hard_set_22, npc_hard_set_23,
+    npc_hard_set_23, npc_hard_set_25, npc_hard_set_10, npc_hard_set_00,
+    npc_hard_set_19, npc_hard_set_29, npc_hard_set_30, npc_hard_set_31,
+    npc_hard_set_32, npc_hard_set_32, npc_normal_set_34, npc_very_hard_set_11,
+    npc_hard_set_36, npc_normal_set_37, npc_hard_set_38, npc_very_hard_set_13,
+    npc_hard_set_40, npc_hard_set_41, npc_hard_set_02, npc_hard_set_43,
+    npc_hard_set_41, npc_hard_set_04, npc_hard_set_46, npc_hard_set_47,
+    npc_hard_set_43, npc_hard_set_43, npc_hard_set_17, npc_hard_set_51,
+    npc_hard_set_51, npc_hard_set_53, npc_hard_set_51, npc_hard_set_03,
+    npc_hard_set_17, npc_hard_set_57, npc_hard_set_04, npc_hard_set_40,
+    npc_hard_set_60, npc_hard_set_60, npc_hard_set_25, npc_hard_set_57,
+};
+TPlyInventoryItem *npc_player_equipment_ultimate[64] = {
+    npc_hard_set_00, npc_hard_set_01, npc_hard_set_02, npc_hard_set_03,
+    npc_hard_set_04, npc_normal_set_05, npc_normal_set_06, npc_hard_set_04,
+    npc_very_hard_set_08, npc_hard_set_09, npc_hard_set_10, npc_very_hard_set_11,
+    npc_hard_set_12, npc_very_hard_set_13, npc_hard_set_03, npc_very_hard_set_15,
+    npc_very_hard_set_08, npc_hard_set_17, npc_hard_set_02, npc_hard_set_19,
+    npc_hard_set_20, npc_hard_set_21, npc_hard_set_22, npc_hard_set_23,
+    npc_hard_set_23, npc_hard_set_25, npc_hard_set_10, npc_hard_set_00,
+    npc_hard_set_19, npc_hard_set_29, npc_hard_set_30, npc_hard_set_31,
+    npc_hard_set_32, npc_hard_set_32, npc_normal_set_34, npc_very_hard_set_11,
+    npc_hard_set_36, npc_normal_set_37, npc_hard_set_38, npc_very_hard_set_13,
+    npc_hard_set_40, npc_hard_set_41, npc_hard_set_02, npc_hard_set_43,
+    npc_hard_set_41, npc_hard_set_04, npc_hard_set_46, npc_hard_set_47,
+    npc_hard_set_43, npc_hard_set_43, npc_hard_set_17, npc_hard_set_51,
+    npc_hard_set_51, npc_hard_set_53, npc_hard_set_51, npc_hard_set_03,
+    npc_hard_set_17, npc_hard_set_57, npc_hard_set_04, npc_hard_set_40,
+    npc_hard_set_60, npc_hard_set_60, npc_hard_set_25, npc_hard_set_57,
 };
 
 
@@ -1522,19 +1120,19 @@ TPlyCharData *TNpcPlayer::build_npc_player_record(s32 arg0) {
     }
     switch (mode) {
     case 0:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF330[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
         break;
     case 1:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF430[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
         break;
     case 2:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF530[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
         break;
     case 3:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF630[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
         break;
     default:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF530[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[arg0], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
         break;
     }
     copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(lbl_8050CFC4)->m_disp_part2, &lbl_8050CF68);
@@ -1577,19 +1175,19 @@ TPlyCharData *load_npc_player_template(s32 index) {
     }
     switch (mode) {
     case 0:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF330[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
         break;
     case 1:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF430[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_hard[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
         break;
     case 2:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF530[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_very_hard[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
         break;
     case 3:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF630[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_ultimate[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
         break;
     default:
-        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)lbl_804AF330[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
+        TNpcPlayer::send_command(lbl_8050CF68.char_class, 5, (const TPlyInventoryItem *)npc_player_equipment_normal[index], (s32)lvl, (TPlyCharData *)lbl_8050CFC4);
         break;
     }
     copy_player_visual_record(&reinterpret_cast<TPlyCharData *>(lbl_8050CFC4)->m_disp_part2, &lbl_8050CF68);
