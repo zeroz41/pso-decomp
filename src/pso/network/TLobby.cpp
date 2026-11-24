@@ -1474,15 +1474,15 @@ void TLobby::destroy_lobby_ui() {
         lobby_make_team_menu_window = NULL;
     }
     if (lobby_make_team_window != NULL) {
-        queue_destruction__7TObjectFv(lobby_make_team_window);
+        lobby_make_team_window->queue_destruction();
         lobby_make_team_window = NULL;
     }
     if (lobby_keyboard_prompt_window != NULL) {
-        queue_destruction__7TObjectFv(lobby_keyboard_prompt_window);
+        lobby_keyboard_prompt_window->queue_destruction();
         lobby_keyboard_prompt_window = NULL;
     }
     if (lobby_scroll_text_window != NULL) {
-        queue_destruction__7TObjectFv(lobby_scroll_text_window);
+        lobby_scroll_text_window->queue_destruction();
         lobby_scroll_text_window = NULL;
     }
     lobby_state = 0xE;
