@@ -30,6 +30,8 @@ s32 consume_item_count_by_id(s16 channel, void *address);
 s32 add_multicast_address(s16 channel, void *address);
 s32 remove_rec_by_handle(s16 channel, u16 ether_type);
 s32 open_channel_checked(s16 channel, u16 ether_type);
+/* Declared without a prototype: the PPPoE client passes it an argument it ignores. */
+s32 detach_pppoe_protocols();
 void forward_to_channel(u8 *frame, s32 length);
 u8 *alloc_receive_frame(u16 type, s32 length, u8 status);
 s16 query_link_status(void);

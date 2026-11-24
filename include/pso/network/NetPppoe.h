@@ -24,6 +24,15 @@ s32 skip_pppoe_tags(PppoeSlot *slot, u8 *tags, u16 len);
 s16 get_pppoe_session_id(s16 slot);
 s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen);
 s16 pppoe_send_session_frame(s16 slot, u8 *frame, u16 len);
+PppoeSlot *find_pppoe_slot_by_session_id(u8 *frame, u16 frame_len);
+PppoeSlot *pppoe_find_slot_by_host_uniq(u8 *p, u16 len);
+s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len);
+void pppoe_process_slot(PppoeSlot *self);
+s16 pppoe_send_discovery(PppoeSlot *e);
+s16 pppoe_build_padi_tags(PppoeSlot *self);
+s16 pppoe_build_padr_tags(PppoeSlot *e);
+s16 pppoe_parse_pado_tags(PppoeSlot *e, u8 *p, u16 len);
+s16 pppoe_parse_pads_tags(PppoeSlot *e, u8 *p, u16 len);
 
 s32 pppoe_close(s16 slot);
 

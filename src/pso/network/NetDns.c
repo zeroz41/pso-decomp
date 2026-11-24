@@ -618,7 +618,7 @@ extern void dns_resend_query(void *arg)
         e->status = e->status + 1;
         return;
     }
-    if (*(s16 *)((u8 *)e + 8) == 1 && *(u32 *)((u8 *)e + 0x20) == 0) {
+    if (e->kind == 1 && e->req.lookup.family == 0) {
         e->timer = 2;
         e->outstanding = 1;
         return;

@@ -45,23 +45,13 @@ LAYOUT_ASSERT(PppoeSlot_rx_length_offset, offsetof(PppoeSlot, rx_frame_len) == 0
 /* lobby_pppoe_slot_table: the client's one session and the address received frames must be sent to. */
 typedef struct PppoeTable {
     PppoeSlot slots[1];
-    u8 mac[6];                  /* 0xE14: no code in this build writes it */
-    u8 padE1A[6];
+    u8 local_mac[6];            /* 0xE14: no code in this build writes them */
+    u8 broadcast_mac[6];
 } PppoeTable;
 LAYOUT_ASSERT(PppoeTable_size_check, sizeof(PppoeTable) == 0xE20);
 
 PppoeTable lobby_pppoe_slot_table;
 
-PppoeSlot *find_pppoe_slot_by_session_id(u8 *frame, u16 frame_len);
-s16 pppoe_parse_pads_tags(PppoeSlot *e, u8 *p, u16 len);
-s16 pppoe_send_discovery(PppoeSlot *e);
-s32 detach_pppoe_protocols(s32);
-s16 pppoe_build_padr_tags(PppoeSlot *e);
-s16 pppoe_build_padi_tags(PppoeSlot *self);
-PppoeSlot *pppoe_find_slot_by_host_uniq(u8 *p, u16 len);
-void pppoe_process_slot(PppoeSlot *e);
-s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len);
-s16 pppoe_parse_pado_tags(PppoeSlot *e, u8 *p, u16 len);
 
 
 
@@ -520,7 +510,7 @@ s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
         p->state = 3;
         get_time_ms((s32 *)&p->last);
         p->timeout = 3000;
-        *(s16 *)((u8 *)p + 6) = 2;
+        p->retries = 2;
         break;
     case 0x65:
         p = pppoe_find_slot_by_host_uniq(sub, id);
@@ -798,7 +788,7 @@ s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen) {
     NetMemcpy(&type, pkt + 0xC, 2);
     if (type != 0x8863 && type != 0x8864) {
         ret = 0;
-    } else if (NetMemcmp(pkt, lobby_pppoe_slot_table.mac, 6) != 0) {
+    } else if (NetMemcmp(pkt, lobby_pppoe_slot_table.local_mac, 6) != 0) {
         ret = 0;
     } else if (pkt[0xE] != 0x11) {
         ret = 0;
@@ -957,8 +947,8 @@ s16 pppoe_open(PppoeNames *names) {
     get_time_ms(&now);
     NetMemcpy(e->host_uniq, &stamp, 4);
     NetMemcpy(e->host_uniq + 4, &now, 4);
-    NetMemcpy(e->local_mac, (u8 *)&tbl[1], 6);
-    NetMemcpy(e->broadcast_mac, (u8 *)&tbl[1] + 6, 6);
+    NetMemcpy(e->local_mac, lobby_pppoe_slot_table.local_mac, 6);
+    NetMemcpy(e->broadcast_mac, lobby_pppoe_slot_table.broadcast_mac, 6);
     e->ac_cookie = NULL;
     e->relay_session_id = NULL;
     e->retries = 0;
