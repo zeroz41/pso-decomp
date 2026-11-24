@@ -8,6 +8,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/technique/TTecRaFoie.h"
+#include "pso/technique/TechniqueEmitter.h"
 #include "pso/player/TargetCursorList.h"
 #include "pso/technique/TFireExplosion.h"
 #include "pso/render/ChunkMaterialState.h"
@@ -26,29 +27,21 @@
 #include "pso/object/base/TObjBase.h"
 #pragma readonly_strings on
 
-struct RafoieBurst { s32 entry; s32 flags; f32 scale; };
+extern "C" s32 is_split_screen();
 
-struct RafoieBurstList { const RafoieBurst *entries; u32 count; };
-
-
-extern "C" {
-
-s32 is_split_screen();
-
-
-extern "C" {
-extern const RafoieBurst lbl_8044DA48[1] = {{494, 0, 1.0f}};
-extern const RafoieBurst lbl_8044DA54[2] = {{491, 0, 1.0f}, {494, 0, 1.0f}};
-extern const RafoieBurst lbl_8044DA6C[2] = {{393, 0, 1.0f}, {494, 0, 1.0f}};
-extern const RafoieBurst lbl_8044DA84[4] = {{396, 0, 1.0f}, {494, 0, 1.0f}, {482, 0x1000, 1.0f}, {486, 0x10, 1.0f}};
-extern const RafoieBurstList rafoie_burst_table[6] = {
-    {lbl_8044DA48, 1}, {lbl_8044DA48, 1}, {lbl_8044DA48, 1},
-    {lbl_8044DA54, 2}, {lbl_8044DA6C, 2}, {lbl_8044DA84, 4},
+// Per band: the particle bursts of the explosion. Flag 0x10 bursts at the explosion's position
+// instead of 8 above it, flag 0x1000 spawns it with particle flag 0x2000.
+extern const TechniqueEmitter rafoie_bursts_low[1] = {{494, 0, 1.0f}};
+extern const TechniqueEmitter rafoie_bursts_band_3[2] = {{491, 0, 1.0f}, {494, 0, 1.0f}};
+extern const TechniqueEmitter rafoie_bursts_band_4[2] = {{393, 0, 1.0f}, {494, 0, 1.0f}};
+extern const TechniqueEmitter rafoie_bursts_band_5[4] = {{396, 0, 1.0f}, {494, 0, 1.0f}, {482, 0x1000, 1.0f}, {486, 0x10, 1.0f}};
+extern const TechniqueEmitterSet rafoie_burst_table[6] = {
+    {rafoie_bursts_low, 1}, {rafoie_bursts_low, 1}, {rafoie_bursts_low, 1},
+    {rafoie_bursts_band_3, 2}, {rafoie_bursts_band_4, 2}, {rafoie_bursts_band_5, 4},
 };
 const char *TTecRaFoie_class_name = "TTecRaFoie";
 // The colour the burst fades to (all clear).
-extern const NJS_ARGB lbl_8044DAF0 = {0.0f, 0.0f, 0.0f, 0.0f};
-}
+extern const NJS_ARGB rafoie_fade_color = {0.0f, 0.0f, 0.0f, 0.0f};
 
 void TFireExplosion::spawn_rafoie_explosion_bursts() {
     Vec higher;
@@ -56,7 +49,7 @@ void TFireExplosion::spawn_rafoie_explosion_bursts() {
     VecCopy(&higher, &position);
     higher.y = (8.0f) + position.y;
     for (i = 0; i < rafoie_burst_table[band].count; i++) {
-        const RafoieBurst *row = &rafoie_burst_table[band].entries[i];
+        const TechniqueEmitter *row = &rafoie_burst_table[band].emitters[i];
         u16 mode = 0;
         void *p;
         if (row->flags & 0x1000) {
@@ -68,7 +61,7 @@ void TFireExplosion::spawn_rafoie_explosion_bursts() {
             p = spawn_particle_effect_with_flags(&higher, row->entry, mode);
         }
         if (p != NULL) {
-            ((TParticleCtrl *)p)->set_scale(rafoie_burst_table[band].entries[i].scale, rafoie_burst_table[band].entries[i].scale);
+            ((TParticleCtrl *)p)->set_scale(rafoie_burst_table[band].emitters[i].scale, rafoie_burst_table[band].emitters[i].scale);
         }
     }
 }
@@ -136,8 +129,6 @@ void TTecRaFoie::spawn_effects(Vec *) {
     }
 }
 
-}
-
 #include "pso/system/scene/TScene.h"
 #include "pso/technique/TTecAnti.h"
 
@@ -152,6 +143,8 @@ void post_translate_matrix(void *);
 void draw_ginja_object(void);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
+}
+
 #pragma push
 #pragma opt_common_subs off
 
@@ -229,7 +222,7 @@ void TFireExplosion::run_task() {
     if (age > 110) {
         queue_destruction();
     }
-    NJS_ARGB fade_color = lbl_8044DAF0;
+    NJS_ARGB fade_color = rafoie_fade_color;
     s = target_scale;
     target.x = s;
     target.y = s;
@@ -245,8 +238,6 @@ void TFireExplosion::run_task() {
     approach_alpha_clamped(&color.a, &fade_color.a, 0.035f);
 }
 #pragma pop
-
-}
 
 TFireExplosion::~TFireExplosion() {
 

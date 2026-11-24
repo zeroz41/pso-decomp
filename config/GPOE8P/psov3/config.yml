@@ -7634,11 +7634,11 @@ force_active:
   - rabarta_band_emitters_4
   - rabarta_band_emitters_5
   - rabarta_top_effect
-  - lbl_8044DA48
-  - lbl_8044DA54
-  - lbl_8044DA6C
-  - lbl_8044DA84
-  - lbl_8044DAF0
+  - rafoie_bursts_low
+  - rafoie_bursts_band_3
+  - rafoie_bursts_band_4
+  - rafoie_bursts_band_5
+  - rafoie_fade_color
   - razonde_emitters_low
   - razonde_emitters_mid
   - razonde_emitters_high
