@@ -193,9 +193,6 @@ struct Player_801CD078 { u8 pad[0x32E]; s16 tp; u8 pad330[0x428 - 0x330]; u8 tec
 
 
 
-struct Sub_801CD188 { u8 pad[0x508]; u16 f508; };
-
-struct Player_801CD188 { u8 pad[0xB0]; u32 flags; u8 padb4[0x424 - 0xB4]; Sub_801CD188 *sub; };
 
 typedef struct Msg1_801CD72C {
     u8 pad0[2];
@@ -223,32 +220,7 @@ struct Pkt_801CDAD8 { u8 cmd; u8 size; u16 player; s16 heading; s16 kind; };
 
 struct Pkt_801CDED4 { u8 cmd; u8 size; u16 player; s16 heading; s16 kind; };
 
-
-typedef struct Player_801CE068 {
-    u8 pad0[0xB0];
-    u32 flags;
-    u8 padb4[0xB8 - 0xB4];
-    s16 anim;
-    u8 padba[0x328 - 0xBA];
-    s16 state;
-    u8 pad32a[0x7CC - 0x32A];
-    u8 act[4];
-} Player_801CE068;
-
-
-
 struct Pkt_801CF128 { u8 cmd; u8 size; u16 player; s16 heading; s16 kind; };
-
-typedef struct Player_801CF2B0 {
-    u8 pad0[0xB0];
-    u32 flags;
-    u8 padb4[0xB8 - 0xB4];
-    s16 anim;
-    u8 padba[0x328 - 0xBA];
-    s16 state;
-    u8 pad32a[0x7CC - 0x32A];
-    u8 act[4];
-} Player_801CF2B0;
 
 struct Plr_801CF56C {
     u8 pad0[0x38];
@@ -3339,13 +3311,12 @@ s32 TObjPlayer::can_start_technique(s32 tech) {
 }
 
 void TObjPlayer::exit_technique_cast() {
-    Player_801CD188 *self = (Player_801CD188 *)this;
     this->motion_flags &= ~0x40;
-    ((TObjPlayer *)self)->clear_state_flags(0x80);
-    ((TObjBase *)self)->clear_actor_flags((u32)0x400000);
-    ((TObjPlayer *)self)->resume_motion();
-    if (self->sub != 0) {
-        self->sub->f508 = 0xFFFF;
+    clear_state_flags(0x80);
+    clear_actor_flags(0x400000);
+    resume_motion();
+    if (lock_on_cursor != NULL) {
+        lock_on_cursor->target_part.actor_id = 0xFFFF;
     }
 }
 
@@ -3638,7 +3609,7 @@ extern "C" {
 void TObjPlayer::send_attack_stage3_request() {
     G_Attack_6x45 cmd;
     s16 heading;
-    void *position;
+    Vec *position;
     s32 angle;
     TObjChara *target;
     TLockOnCursor *lock_on_cursor;
@@ -3647,11 +3618,11 @@ void TObjPlayer::send_attack_stage3_request() {
         target = resolve_hittable_target(lock_on_cursor->target_part.actor_id, lock_on_cursor->target_part.collider);
         if (target != NULL) {
             position = this->get_position_ptr();
-            angle = calc_angle_to((Vec *)position, &target->bodies[this->lock_on_cursor->target_part.collider].center);
+            angle = calc_angle_to(position, &target->bodies[this->lock_on_cursor->target_part.collider].center);
         } else {
             angle = this->rotation_y;
         }
-        heading = calc_scaled_value__10TObjPlayerFii(this, (int) (angle));
+        heading = calc_scaled_value__10TObjPlayerFii(this, angle);
         if ((this == NULL) || (this->obj_isState2_324() == 0)) {
             cmd.init();
             cmd.header.client_id = this->get_entity_id();
@@ -3762,7 +3733,7 @@ extern "C" {
 void TObjPlayer::send_attack_stage2_request() {
     G_Attack_6x44 cmd;
     s16 heading;
-    void *position;
+    Vec *position;
     s32 angle;
     TObjChara *target;
     TLockOnCursor *lock_on_cursor;
@@ -3771,11 +3742,11 @@ void TObjPlayer::send_attack_stage2_request() {
         target = resolve_hittable_target(lock_on_cursor->target_part.actor_id, lock_on_cursor->target_part.collider);
         if (target != NULL) {
             position = this->get_position_ptr();
-            angle = calc_angle_to((Vec *)position, &target->bodies[this->lock_on_cursor->target_part.collider].center);
+            angle = calc_angle_to(position, &target->bodies[this->lock_on_cursor->target_part.collider].center);
         } else {
             angle = this->rotation_y;
         }
-        heading = calc_scaled_value__10TObjPlayerFii(this, (int) (angle));
+        heading = calc_scaled_value__10TObjPlayerFii(this, angle);
         if ((this == NULL) || (this->obj_isState2_324() == 0)) {
             cmd.init();
             cmd.header.client_id = this->get_entity_id();
@@ -3789,9 +3760,8 @@ void TObjPlayer::send_attack_stage2_request() {
 void TObjPlayer::attack_stage2_phase8_nop() {  }
 
 void TObjPlayer::finish_attack_stage2() {
-    Player_801CE068 *self = (Player_801CE068 *)this;
     if (this->phase == 4) {
-        if (((TObjMotion *)self)->is_anim_finished() != 0) {
+        if (is_anim_finished() != 0) {
             run_action_state_phase(1, 5);
         }
     } else if ((this->motion_flags & 0x10) &&
@@ -3800,8 +3770,8 @@ void TObjPlayer::finish_attack_stage2() {
         case 0:
         case 1:
             this->phase = 4;
-            ((TObjPlayer *)self)->resume_motion();
-            this->requested_action = ((TObjPlayer *)self)->get_idle_animation();
+            resume_motion();
+            this->requested_action = get_idle_animation();
             break;
         case 2:
             run_action_state_phase(7, 5);
@@ -4239,22 +4209,21 @@ void handle_6x43_attack(G_Attack_6x43_6x44_6x45 *command) {
     player->run_action_state_phase(5, 0);
 }
 void TObjPlayer::request_normal_attack_stage1() {
-    u8* arg0 = reinterpret_cast<u8*>(this);
-    f32 target_pos[3];
+    Vec target_pos;
     G_Attack_6x43 cmd;
-    s16 temp_r31;
+    s16 heading;
     s32 angle;
     if ((this->reset_volopt_state() != 0) && (this->attack_state.capture_lockon_targets(this) != 0)) {
-        if (this->attack_state.get_first_target_position((Vec *)&target_pos) != 0) {
-            angle = calc_angle_to(((TObjPlayer *)arg0)->get_position_ptr(), (Vec *)target_pos);
+        if (this->attack_state.get_first_target_position(&target_pos) != 0) {
+            angle = calc_angle_to(get_position_ptr(), &target_pos);
         } else {
-            angle = ((TObjPlayer *)arg0)->rotation_y;
+            angle = this->rotation_y;
         }
-        temp_r31 = calc_scaled_value__10TObjPlayerFii((void *) (arg0), (int) (angle));
-        if ((arg0 == NULL) || (((TObjChara *)arg0)->obj_isState2_324() == 0)) {
+        heading = calc_scaled_value__10TObjPlayerFii(this, angle);
+        if ((this == NULL) || (obj_isState2_324() == 0)) {
             cmd.init();
-            cmd.header.client_id = ((TObjBase *)(arg0))->get_entity_id();
-            cmd.angle_y = temp_r31;
+            cmd.header.client_id = get_entity_id();
+            cmd.angle_y = heading;
             cmd.action_type = this->attack_state.get_validated_attack_kind();
             cmd.send();
         }
@@ -4265,9 +4234,8 @@ extern "C" {
 void TObjPlayer::attack_stage1_phase8_nop() {  }
 
 void TObjPlayer::finish_attack_stage1() {
-    Player_801CF2B0 *self = (Player_801CF2B0 *)this;
     if (this->phase == 4) {
-        if (((TObjMotion *)self)->is_anim_finished() != 0) {
+        if (is_anim_finished() != 0) {
             run_action_state_phase(1, 5);
         }
     } else if ((this->motion_flags & 0x10) &&
@@ -4275,8 +4243,8 @@ void TObjPlayer::finish_attack_stage1() {
         switch (attack_state.get_validated_attack_stage()) {
         case 0:
             this->phase = 4;
-            ((TObjPlayer *)self)->resume_motion();
-            this->requested_action = ((TObjPlayer *)self)->get_idle_animation();
+            resume_motion();
+            this->requested_action = get_idle_animation();
             break;
         case 1:
         case 2:
