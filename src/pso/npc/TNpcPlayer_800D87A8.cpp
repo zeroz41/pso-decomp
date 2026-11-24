@@ -12,14 +12,10 @@ TObjCollidable *get_valid_target_player(int id) {
     return NULL;
 }
 
-extern "C" {
 TObjCollidable *find_active_entity_by_id(u16 id) {
-    TObjCollidable *entity;
-    entity = find_entity_by_id(id);
+    TObjCollidable *entity = find_entity_by_id(id);
     if (TObjPlayer::is_valid_and_active((uaddr)entity) != 0) {
         return entity;
     }
-    return 0;
-}
-
+    return NULL;
 }

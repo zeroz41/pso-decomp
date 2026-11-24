@@ -12,39 +12,39 @@
 
 #pragma readonly_strings on
 
-const char *TObjNpcNHW00__name = "TObjNpcNHW00";
-void **TObjNpcNHW00__shared_named_model_object;
-NJS_TEXLIST *TObjNpcNHW00__texture_gvm_handle;
+const char *TObjNpcNHW00::name = "TObjNpcNHW00";
+void **TObjNpcNHW00::shared_named_model_object;
+NJS_TEXLIST *TObjNpcNHW00::texture_gvm_handle;
 
-void *TObjNpcNHW00__create(void *set_data) {
+void *TObjNpcNHW00::create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcNHW00(control, set_data);
 }
 
 void TObjNpcNHW00::free_static_resources() {
-    if (TObjNpcNHW00__texture_gvm_handle != NULL) {
-        release_texture_list(TObjNpcNHW00__texture_gvm_handle);
-        safe_free(TObjNpcNHW00__texture_gvm_handle);
-        TObjNpcNHW00__texture_gvm_handle = NULL;
+    if (texture_gvm_handle != NULL) {
+        release_texture_list(texture_gvm_handle);
+        safe_free(texture_gvm_handle);
+        texture_gvm_handle = NULL;
     }
-    if (TObjNpcNHW00__shared_named_model_object != NULL) {
-        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(TObjNpcNHW00__shared_named_model_object));
-        TObjNpcNHW00__shared_named_model_object = NULL;
+    if (shared_named_model_object != NULL) {
+        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(shared_named_model_object));
+        shared_named_model_object = NULL;
     }
 }
 
 void TObjNpcNHW00::load_resources() {
-    TObjNpcNHW00__shared_named_model_object = static_cast<void **>(create_named_object("npc_b00_data.rel"));
-    TObjNpcNHW00__texture_gvm_handle = load_gvm_texture_file("n_b00_body.gvm");
+    shared_named_model_object = static_cast<void **>(create_named_object("npc_b00_data.rel"));
+    texture_gvm_handle = load_gvm_texture_file("n_b00_body.gvm");
 }
 
 TObjNpcNHW00::~TObjNpcNHW00() {}
 
-TObjNpcNHW00::TObjNpcNHW00(TObject *parent, void *set_data) : TUnk_804A8640(parent) {
-    this->m_name = TObjNpcNHW00__name;
+TObjNpcNHW00::TObjNpcNHW00(TObject *parent, void *set_data) : TObjNpcFemale(parent) {
+    this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    model = *TObjNpcNHW00__shared_named_model_object;
-    this->texlist = TObjNpcNHW00__texture_gvm_handle;
+    this->model = *shared_named_model_object;
+    this->texlist = texture_gvm_handle;
     this->setup_common();
 }

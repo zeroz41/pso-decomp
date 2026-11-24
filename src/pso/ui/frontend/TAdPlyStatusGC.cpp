@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/npc/TNpcPlayer_8028B810.h"
+#include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/TObjLuker.h"
@@ -39,7 +39,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
 extern "C" {
 extern u32 ply_status_index;
 TAdPlyStatusGC *ply_status_gc_instance;
-CharacterPreviewLoadData *ply_status_chcr_load_afs;
+CharacterPreview *ply_status_chcr_load_afs;
 s32 TAdPlyStatusGC__window_offset_index;
 u32 ply_status_index;
 s32 TAdPlyStatusGC__is_shown;

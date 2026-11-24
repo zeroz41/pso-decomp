@@ -987,15 +987,15 @@ void TUnk_804C4468::run_task() {
                 if (r->source_id == -1) {
                     drop_stacked_item(&r->item, get_client_id(), (f32 *)get_ptr_0x44__9TItemListFPv(this));
                     TObjPlayer::send_6x29_delete_item(player, r->source_id, r->item.data2.data_u32);
-                    TObjPlayer::send_code_45_1(player);
+                    send_release_hold(player);
                 } else {
                     drop_stacked_item(&r->item, get_client_id(), (f32 *)get_ptr_0x44__9TItemListFPv(this));
                     TObjPlayer::send_6x29_delete_item(player, r->source_id, r->item.get_stack_count());
-                    TObjPlayer::send_code_45_1(player);
+                    send_release_hold(player);
                 }
             } else {
                 TObjPlayer::send_6x2A_drop_item(player, r->source_id, get_ptr_0x44__9TItemListFPv(this), r->item.get_stack_count());
-                TObjPlayer::send_code_45_1(player);
+                send_release_hold(player);
             }
         }
         break;

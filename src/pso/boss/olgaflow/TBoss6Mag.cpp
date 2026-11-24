@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -40,7 +39,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/effect/particle/ParticleFactory.h"
 
 // The particle effect each emitter slot plays, and the node it follows (-1 for the mag's position).

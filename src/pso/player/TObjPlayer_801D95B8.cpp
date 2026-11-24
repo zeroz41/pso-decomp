@@ -27,14 +27,14 @@ s16 PlayerTechniqueState::get_or_init_field_4() {
     return technique;
 }
 
-void TObjPlayer::split_capped_value(u8 level, u8 *arg1, s8 *arg2) {
+void TObjPlayer::split_capped_value(u8 level, u8 *capped, u8 *overflow) {
     if ((TObjPlayer::is_invalid_slot(level) != 0) || (level <= 0xEU)) {
-        *arg1 = level;
-        *arg2 = 0;
+        *capped = level;
+        *overflow = 0;
         return;
     }
-    *arg1 = 0xE;
-    *arg2 = level - 0xE;
+    *capped = 0xE;
+    *overflow = level - 0xE;
 }
 
 u8 PlayerTechniqueState::get_valid_technique() {

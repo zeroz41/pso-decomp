@@ -2,25 +2,20 @@
 #define PSO_NPC_TOBJNPCHOSA2_H
 
 #include "types.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
-struct TObjNpcHosa2 : public TUnk_804A9F50 {
+struct BmlResource;
+
+struct TObjNpcHosa2 : public TObjNpcMale {
     TObjNpcHosa2(TObject *parent, void *set_data);
     virtual ~TObjNpcHosa2();
     static void close_dialog_window();
     static void load_shared_resource();
+    static void *create(void *set_data);
+    static const char *name;
+    static BmlResource *shared_model_resource;
 };
 
 LAYOUT_ASSERT(TObjNpcHosa2_size, sizeof(TObjNpcHosa2) == 0x3B8);
-
-extern "C" {
-void *__dt__12TObjNpcHosa2Fv(void *arg0, s16 arg1);
-}
-
-// --- C functions defined in TObjNpcHosa2.cpp ---
-extern "C" {
-void *__dt__12TObjNpcHosa2Fv(void *arg0, s16 arg1);
-}
-// --- end of C functions
 
 #endif

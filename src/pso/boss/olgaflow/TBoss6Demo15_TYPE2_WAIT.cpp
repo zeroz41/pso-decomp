@@ -19,7 +19,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/TLobby.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"

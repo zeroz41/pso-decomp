@@ -155,9 +155,9 @@ s32 TWindowDD__window_mode;
 
 uaddr TWindowDD__work_buffer;
 
-uaddr window_dd_buffer_a;
+char *window_dd_buffer_a;
 
-uaddr window_dd_buffer_b;
+char *window_dd_buffer_b;
 
 uaddr TWindowDD__player_name_buffers;
 
@@ -347,14 +347,14 @@ void TWindowDD__sub_80344114(void) {
     }
     ws_data_load();
     TWindowDD__work_buffer = (uaddr)mem_alloc(0x80);
-    window_dd_buffer_a = (uaddr)mem_alloc(0x80);
+    window_dd_buffer_a = (char *)mem_alloc(0x80);
     memset((void *)TWindowDD__work_buffer, 0, 0x80);
-    memset((void *)window_dd_buffer_a, 0, 0x80);
-    window_dd_buffer_b = (uaddr)mem_alloc(0x120);
-    memset((void *)window_dd_buffer_b, 0, 0x120);
+    memset(window_dd_buffer_a, 0, 0x80);
+    window_dd_buffer_b = (char *)mem_alloc(0x120);
+    memset(window_dd_buffer_b, 0, 0x120);
     TWindowDD__player_name_buffers = (uaddr)mem_alloc(0x30);
     for (i = 0; i < 12; i++) {
-        ((char **)TWindowDD__player_name_buffers)[i] = (char *)window_dd_buffer_b + i * 0x18;
+        ((char **)TWindowDD__player_name_buffers)[i] = window_dd_buffer_b + i * 0x18;
         ((char **)TWindowDD__player_name_buffers)[i][0] = 0;
     }
     lbl_805D6E20 = (uaddr)mem_alloc(0x100);
@@ -411,13 +411,13 @@ void free_buffers__9TWindowDDFv(void) {
         mem_free((void*)TWindowDD__player_name_buffers);
         TWindowDD__player_name_buffers = 0U;
     }
-    if ((u32) window_dd_buffer_b != 0U) {
-        mem_free((void*)window_dd_buffer_b);
-        window_dd_buffer_b = 0U;
+    if (window_dd_buffer_b != NULL) {
+        mem_free(window_dd_buffer_b);
+        window_dd_buffer_b = NULL;
     }
-    if ((u32) window_dd_buffer_a != 0U) {
-        mem_free((void*)window_dd_buffer_a);
-        window_dd_buffer_a = 0U;
+    if (window_dd_buffer_a != NULL) {
+        mem_free(window_dd_buffer_a);
+        window_dd_buffer_a = NULL;
     }
     if ((u32) TWindowDD__work_buffer != 0U) {
         mem_free((void*)TWindowDD__work_buffer);

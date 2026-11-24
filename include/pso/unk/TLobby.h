@@ -851,7 +851,6 @@ struct TLobby : public TObject {
     void destroy_matching_children();
     static void finish_chr_select_scene_init();
     void start_duel_battle();
-    void update_players();
     static void destroy_download_server(TObject *fade);
     void send_compressed_packet_6c();
     void send_cmd_6B();

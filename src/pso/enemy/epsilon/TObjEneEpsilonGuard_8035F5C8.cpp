@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TBreakUpMdl.h"
@@ -36,7 +35,6 @@ struct NJS_OBJECT;
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/unk/text_803E2F28.h"
 #include "pso/object/base/TObjBase.h"

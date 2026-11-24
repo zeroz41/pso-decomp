@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include "pso/player/TObjPlayer_802A1440.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/player/TObjPlayer.h"
@@ -20,7 +19,7 @@ void TObjPlayer::copy_lobby_header(saddr player) {
     ((FlagWord *)((s8 *)arg0 + 0x428))->set(1);
     *arg0 = TAdSelectTxtGC__sub_802A16C0((void *)player);
     ((TLobby *)((s8 *)arg0 + 4))->copy_header_struct((void *) ((s8 *)player + 0xDAC));
-    export_character_data__10TObjPlayerFPvPv(reinterpret_cast<TObjPlayer *>(player), reinterpret_cast<TPlyCharData *>(reinterpret_cast<u8 *>(arg0) + 0xC));
+    reinterpret_cast<TObjPlayer *>(player)->export_character_data(reinterpret_cast<TPlyCharData *>(reinterpret_cast<u8 *>(arg0) + 0xC));
 }
 
 void TObjPlayer::initialize_player_data() { *(unsigned char*)((char*)this + 0x3) = 0; *(unsigned char*)((char*)this + 0x2) = 0; *(unsigned char*)((char*)this + 0x1) = 0; *(unsigned char*)(this) = 0; ((TPlyCharData *)this)->init_inventory_items(); ((TAdSelectTxtGC *)((char*)this + 0x34c))->reset_state(); clear_player_data_block((char*)this + 0x370); TObjPlayer__sub_802A1588((void*)((char*)this + 0x3c0)); init_item_counts_max(); }

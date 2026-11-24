@@ -2,7 +2,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -176,12 +176,12 @@ void TObjEneDelDepth::load_assets() {
     {
         NpcAnimationBinding info = { NULL, deldepth_motion_actions, 0, 0, 6 };
         info.motions = TObjEneDelDepth__shared_resource->motions;
-        NpcModelRegistry::register_animated_chunk((s16)0x47, TObjEneDelDepth__shared_resource->models[0].model, TObjEneDelDepth__shared_resource->models[0].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
+        TObjNpcEnemy::register_animated_chunk((s16)0x47, TObjEneDelDepth__shared_resource->models[0].model, TObjEneDelDepth__shared_resource->models[0].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
     }
     {
         NpcAnimationBinding info = { NULL, deldepth_motion_actions_b, 0, 0, 1 };
         info.motions = TObjEneDelDepth__shared_resource->motions;
-        NpcModelRegistry::register_animated_chunk((s16)0x48, TObjEneDelDepth__shared_resource->models[1].model, TObjEneDelDepth__shared_resource->models[1].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
+        TObjNpcEnemy::register_animated_chunk((s16)0x48, TObjEneDelDepth__shared_resource->models[1].model, TObjEneDelDepth__shared_resource->models[1].texlist, &info, TObjEneDelDepth_collision_body_parts[0].radius, 0.0f);
     }
     TObjEneDelDepth__tune_params = (DelDepthParameters *)TLobby::dispatch_shared_handler_a(0x30);
 }

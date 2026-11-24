@@ -29,7 +29,7 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/byteswap.h"
-#include "pso/object/TMotorcycle.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMapObject.h"
@@ -329,7 +329,7 @@ void TOVS2Wall01::load_resources() {
   saddr resource;
   resource = (saddr)new BmlResource(1, &bm_o_vs2_resource_descriptor, 0, 0, NULL);
   TOVS2Wall01__bml_resource = (BmlResource *)resource;
-  TMotorcycle::add_entry(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, 5)),
+  TObjNpcEnemy::register_ginja(0x3A, reinterpret_cast<NJS_OBJECT *>(get_bml_model((BmlResource *)TOVS2Wall01__bml_resource, 5)),
                         reinterpret_cast<NJS_TEXLIST *>(get_bml_texlist((BmlResource *)resource, 5)), 10.0f, 0.0f);
 }
 void TOVS2Wall01::release_model() {

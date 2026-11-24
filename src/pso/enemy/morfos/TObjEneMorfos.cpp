@@ -3,7 +3,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/AreaSound.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -172,7 +172,7 @@ void TObjEneMorfos::load_static_data() {
     TObjEneMorfosArm::init_global();
     {
         NpcAnimationBinding desc = { TObjEneMorfos__instance->motions, morfos_motion_param_table, 0, 0, 6 };
-        NpcModelRegistry::register_animated_chunk(0x4D, TObjEneMorfos__instance->models[1].model,
+        TObjNpcEnemy::register_animated_chunk(0x4D, TObjEneMorfos__instance->models[1].model,
                                 TObjEneMorfos__instance->models[1].texlist, &desc,
                                 8.0f, 0.0f);
     }

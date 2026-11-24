@@ -1,7 +1,5 @@
-#include "pso/system/PersistentSound.h"
 #include "types.h"
 #include "pso/object/door/TODoorBase.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/map/FloorArea.h"

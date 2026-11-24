@@ -153,6 +153,6 @@ void TLobby__sub_80066EC0(void) {
         safe_free(boss5_common_texture_list);
         boss5_common_texture_list = NULL;
     }
-    delete lbl_805D4DD8;
-    lbl_805D4DD8 = 0;
+    delete boss5_common_bml_resource;
+    boss5_common_bml_resource = 0;
 }

@@ -2,7 +2,7 @@
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/map/CsnGroundQuery.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
@@ -218,7 +218,7 @@ void TObjEneMerillLia::load_resources() {
         NpcAnimationBinding motions = { NULL, merill_lia_action_table, 0, 2, 12 };
         motions.motions = merill_lia_bml_resource->motions;
         for (i = 0; i < 2; i++) {
-            NpcModelRegistry::register_animated_chunk(ids[i], merill_lia_bml_resource->models[i].model,
+            TObjNpcEnemy::register_animated_chunk(ids[i], merill_lia_bml_resource->models[i].model,
                 merill_lia_bml_resource->models[i].texlist, &motions, merill_lia_collision_bodies[i].radius, 0.0f);
         }
     }

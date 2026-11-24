@@ -1,5 +1,5 @@
 #include "pso/render/NinjaUtil.h"
-#include "pso/system/PersistentSound.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/network/FloorEventCommand.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -102,7 +102,7 @@ extern "C" {
 
 #include "pso/unk/text_80190940.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/unk/TLobby_80207DA8.h"
 
 
@@ -174,10 +174,10 @@ void TObjEnvSound::run_task() {
         case 0:
             break;
         case 1:
-            play_persistent_sound((s32)this->m_98, arg0, &position, 0, 0);
+            play_persistent_sound((s32)this->m_98, this, &position, 0, 0);
             return;
         case 2:
-            play_persistent_sound((s32)this->m_98, arg0, &position, (s32)this->m_94, 2);
+            play_persistent_sound((s32)this->m_98, this, &position, (s32)this->m_94, 2);
             break;
         }
     }

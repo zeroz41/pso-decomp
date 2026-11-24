@@ -1,10 +1,9 @@
-#include "pso/system/PersistentSound.h"
 // Built -inline off,deferred: the functions are written from the last back.
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/switch/TOSensor.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/network/client_id.h"
 #include "pso/render/render_util.h"

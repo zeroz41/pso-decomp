@@ -9,6 +9,8 @@ struct CapturedTarget {
     s16 collider_index;
 
     void clear();
+    void set_uid(u16 id);
+    void set_collider_index(s16 index);
     s16 get_captured_target_collider_index();
     u16 get_uid();
 };
@@ -19,6 +21,7 @@ struct CapturedTargetList {
     CapturedTarget entries[10];
 
     void clear_lockon_list();
+    void set_count(s32 n);
     CapturedTarget *get_captured_target_entry(s32 i);
     s32 get_captured_target_count();
 };

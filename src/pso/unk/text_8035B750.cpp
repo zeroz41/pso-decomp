@@ -1,6 +1,6 @@
 #include "pso/system/BmlResource.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/text_8035B750.h"
 #include "pso/unk/text_8035B788.h"
@@ -39,11 +39,11 @@ void fn_8035B788(void) {
     {
         NpcAnimationBinding r = lbl_804798CC;
         r.motions = resource->motions;
-        NpcModelRegistry::register_animated_chunk((s16)0x11, resource->models->model, resource->models->texlist, &r, 10.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk((s16)0x11, resource->models->model, resource->models->texlist, &r, 10.0f, 0.0f);
     }
     {
         NpcAnimationBinding r = lbl_804798DC;
         r.motions = lbl_805D6F50->motions;
-        NpcModelRegistry::register_animated_chunk((s16)0x12, lbl_805D6F50->models->model, lbl_805D6F50->models->texlist, &r, 10.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk((s16)0x12, lbl_805D6F50->models->model, lbl_805D6F50->models->texlist, &r, 10.0f, 0.0f);
     }
 }

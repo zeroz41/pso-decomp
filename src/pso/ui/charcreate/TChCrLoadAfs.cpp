@@ -1,5 +1,5 @@
 #include "pso/system/memory.h"
-#include "pso/npc/TNpcPlayer_8028B810.h"
+#include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/render/GinjaTextureInput.h"
 #include "pso/system/Adxf.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -15,7 +15,7 @@
 #include "pso/unk/TLobby.h"
 #include <string.h>
 
-int CharacterPreviewLoadData::is_unloaded() { return completion_flags == 0; }
+int CharacterPreview::is_unloaded() { return completion_flags == 0; }
 
 extern "C" s32 chcr_load_afs_busy_flag;
 

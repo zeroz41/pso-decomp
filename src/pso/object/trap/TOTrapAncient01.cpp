@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
@@ -12,7 +11,7 @@
 #include "pso/object/trap/TOTrapAncient01.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/object/TMotorcycle.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -31,7 +30,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
@@ -132,7 +130,7 @@ TOTrapAncient01::~TOTrapAncient01() {
 void TOTrapAncient01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_o_trap_ancient01_resource_descriptor, 0, 0, NULL);
     TOTrapAncient01__bml_resource = resource;
-    TMotorcycle::add_entry(0x39, get_bml_model(TOTrapAncient01__bml_resource, 3),
+    TObjNpcEnemy::register_ginja(0x39, get_bml_model(TOTrapAncient01__bml_resource, 3),
                            get_bml_texlist(resource, 3), 20.0f, 0.0f);
 }
 
@@ -402,7 +400,7 @@ void TOTrapAncient01::release_trapped_player() {
             player = get_player_by_client_id(((TObjBase *)target)->get_entity_id());
             if (player != NULL) {
                 if (player->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1(player);
+                    send_release_hold(player);
                 }
                 obj_clear_flag30_20000(player);
             }
@@ -411,7 +409,7 @@ void TOTrapAncient01::release_trapped_player() {
         player = get_player_by_client_id(local_client_id);
         if (player != NULL) {
             if (player->check_player_flag1() != 0) {
-                TObjPlayer::send_code_45_1(player);
+                send_release_hold(player);
             }
             obj_clear_flag30_20000(player);
         }

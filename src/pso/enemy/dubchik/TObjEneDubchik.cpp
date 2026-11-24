@@ -1,5 +1,4 @@
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
@@ -7,7 +6,7 @@
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/render/TUnk_80494938.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -61,7 +60,6 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/object/base/TObjBase.h"
 
 extern "C" {
@@ -341,7 +339,7 @@ void TObjEneDubchik::load_resources() {
         d.motions = dubchik_resource->motions;
         for (j = 0; j < 2; j++) {
             BmlModelEntry *e = &dubchik_resource->models[j];
-            NpcModelRegistry::register_animated_chunk(ids[j], e->model, e->texlist, &d, 5.0f, 0.0f);
+            TObjNpcEnemy::register_animated_chunk(ids[j], e->model, e->texlist, &d, 5.0f, 0.0f);
         }
     }
 }

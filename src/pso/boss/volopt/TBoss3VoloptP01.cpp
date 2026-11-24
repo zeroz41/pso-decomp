@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
@@ -17,7 +16,6 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/technique/TTecGiZonde.h"

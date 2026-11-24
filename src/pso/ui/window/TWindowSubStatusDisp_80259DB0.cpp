@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "types.h"
 #include "pso/unk/TUnk_804CF9C8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80259DB0.h"
@@ -6,7 +5,7 @@
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 
 extern "C" {
 f32 fabs_float(f32, f32);
@@ -74,7 +73,7 @@ void TUnk_804CF9E0::update() {
     f32 temp_f30;
     if (this->target != this->current) {
         if (this->flags & 8) {
-            play_persistent_sound(0x44E03, this, 0, 0, 0);
+            play_persistent_sound(0x44E03, this, NULL, 0, 0);
         }
         target = this->target;
         temp_f30 = target - this->current;

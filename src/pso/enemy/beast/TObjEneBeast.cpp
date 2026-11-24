@@ -4,7 +4,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/SampledMotionPoints.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEnemyCustom.h"
@@ -378,7 +378,7 @@ void TObjEneBeast::load_resources() {
         NpcAnimationBinding q = { NULL, beast_action_table, 0, 2, 12 };
         q.motions = ene_beast_bml_resource->motions;
         for (i = 0; i < 3; i++) {
-            NpcModelRegistry::register_animated_chunk(ids[i], ene_beast_bml_resource->models[i].model,
+            TObjNpcEnemy::register_animated_chunk(ids[i], ene_beast_bml_resource->models[i].model,
                                             ene_beast_bml_resource->models[i].texlist, &q,
                                             beast_collision_body_table[i].radius, 0.0f);
         }

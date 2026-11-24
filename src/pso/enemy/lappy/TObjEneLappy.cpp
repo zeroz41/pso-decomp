@@ -1,6 +1,5 @@
 #include "pso/system/memory.h"
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -8,7 +7,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -179,7 +178,6 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
 // Kept here: the owner headers (TObjPlayer_80011014.h, text_800FD930.h)
 // give get_entity_id a u16 and is_item_light_interaction_blocked a bool
@@ -191,7 +189,9 @@ s32 is_item_light_interaction_blocked();
 s32 check_path_obstructed(void *, void *);
 f32 atan2_float(f32 y, f32 x);
 s32 lappy_variant_id;
+}
 BmlResource *rappy_bml_resource;
+extern "C" {
 NJS_OBJECT *rappy_visibility_node;
 NJS_TEXLIST *rappy_alternate_texture_list;
 }
@@ -1005,11 +1005,11 @@ void TObjEneLappy::load_resources() {
         BmlResource *res = rappy_bml_resource;
         NpcAnimationBinding d = lappy_resource_binding_desc;
         d.motions = res->motions;
-        NpcModelRegistry::register_animated_chunk(5, rappy_bml_resource->models[0].model, rappy_bml_resource->models[0].texlist, &d, 10.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(5, rappy_bml_resource->models[0].model, rappy_bml_resource->models[0].texlist, &d, 10.0f, 0.0f);
         if (TLobby::get_instance() == 0) {
-            NpcModelRegistry::register_animated_chunk(6, rappy_bml_resource->models[0].model, rappy_alternate_texture_list, &d, 10.0f, 0.0f);
+            TObjNpcEnemy::register_animated_chunk(6, rappy_bml_resource->models[0].model, rappy_alternate_texture_list, &d, 10.0f, 0.0f);
         } else {
-            NpcModelRegistry::register_animated_chunk(6, rappy_bml_resource->models[1].model, rappy_bml_resource->models[1].texlist, &d, 10.0f, 0.0f);
+            TObjNpcEnemy::register_animated_chunk(6, rappy_bml_resource->models[1].model, rappy_bml_resource->models[1].texlist, &d, 10.0f, 0.0f);
         }
     }
 }

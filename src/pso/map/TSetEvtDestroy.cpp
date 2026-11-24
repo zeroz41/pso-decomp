@@ -8,6 +8,8 @@
 
 #include "pso/map/TSetEvtDestroy.h"
 #include "pso/system/task/TObject.h"
+#include "pso/player/TUnk_804B6C24.h"
+#include "pso/npc/NpcPartnerControl.h"
 
 extern const char TSetEvtDestroy_class_name[] = "TSetEvtDestroy";
 const char* TSetEvtDestroy_name = TSetEvtDestroy_class_name;
@@ -26,7 +28,6 @@ void queue_destroy_event_descendants(TObject* root) {
     }
 }
 
-void notify_partner_room_cleared(s32);
 
 void TSetEvtDestroy::run_task() {
     switch (m_phase) {

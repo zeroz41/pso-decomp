@@ -9,7 +9,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/effect/GroundContactSound.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "types.h"
 #include "pso/item/TItem.h"
@@ -64,7 +64,6 @@
 #include "pso/render/render_util.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/npc/TObjNpcEnemy_803D8090.h"
 #include "pso/render/GinjaView.h"
 
 #include "pso/player/PlayerAttackParams.h"
@@ -225,10 +224,10 @@ void TObjEneMe3SinowZoa::load_resources() {
         info.motions = TObjEneMe3SinowZoa__bml_resource->motions;
         NpcAnimationBinding info_b = sinow_zoa_attack_binding_desc_b;
         info_b.motions = TObjEneMe3SinowZoa__bml_resource->motions;
-        NpcModelRegistry::register_animated_chunk(0x49, TObjEneMe3SinowZoa__bml_resource->models->model, TObjEneMe3SinowZoa__bml_resource->models->texlist, &info, 12.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x4A, TObjEneMe3SinowZoa__bml_resource->models->model, &TObjEneMe3SinowZoa__alternate_texture_list, &info, 12.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x4B, TObjEneMe3SinowZoa__bml_resource->models->model, TObjEneMe3SinowZoa__bml_resource->models->texlist, &info_b, 12.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x4C, TObjEneMe3SinowZoa__bml_resource->models->model, &TObjEneMe3SinowZoa__alternate_texture_list, &info_b, 12.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(0x49, TObjEneMe3SinowZoa__bml_resource->models->model, TObjEneMe3SinowZoa__bml_resource->models->texlist, &info, 12.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(0x4A, TObjEneMe3SinowZoa__bml_resource->models->model, &TObjEneMe3SinowZoa__alternate_texture_list, &info, 12.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(0x4B, TObjEneMe3SinowZoa__bml_resource->models->model, TObjEneMe3SinowZoa__bml_resource->models->texlist, &info_b, 12.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(0x4C, TObjEneMe3SinowZoa__bml_resource->models->model, &TObjEneMe3SinowZoa__alternate_texture_list, &info_b, 12.0f, 0.0f);
     }
 }
 

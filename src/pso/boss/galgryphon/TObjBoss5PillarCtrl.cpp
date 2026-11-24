@@ -44,14 +44,14 @@ TObjBoss5PillarCtrl::TObjBoss5PillarCtrl(TObject *parent) : TObject(parent) {
     m_name = TObjBoss5PillarCtrl__name;
     this->count = 0;
     this->pillars = NULL;
-    for (node = lbl_805D4DD8->models[2].model->child; node != NULL; node = node->sibling) {
+    for (node = boss5_common_bml_resource->models[2].model->child; node != NULL; node = node->sibling) {
         this->count++;
     }
     if (this->count <= 0) {
         queue_destruction();
         return;
     }
-    root = lbl_805D4DD8->models[2].model;
+    root = boss5_common_bml_resource->models[2].model;
     this->pillars = (TObjBoss5Pillar **)mem_alloc(this->count * 4);
     for (i = 0, node = root->child; i < this->count; i++) {
         this->pillars[i] = TObjBoss5Pillar::create((Vec *)node->pos);

@@ -581,7 +581,7 @@ void TBoss4DarkFalz::set_fade(s32 color, f32 alpha) {
         if (alpha > 1.0f) {
             alpha = 1.0f;
         }
-        fn_803594B4(fade, color, alpha);
+        fade->set_fade(color, alpha);
     }
 }
 void TBoss4DarkFalz::refresh_player_equipment() {

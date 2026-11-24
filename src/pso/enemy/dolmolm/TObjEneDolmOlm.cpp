@@ -5,7 +5,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnGroundQuery.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
@@ -251,7 +251,7 @@ void TObjEneDolmOlm::load_shared_resources() {
         NpcAnimationBinding d = { TObjEneDolmOlm__resource_bundle->motions, TObjEneDolmOlm__param_table, 0, 2, 12 };
         for (i = 0; i < 2; i++) {
             BmlModelEntry *e = &TObjEneDolmOlm__resource_bundle->models[i];
-            NpcModelRegistry::register_animated_chunk(ids[i], e->model, e->texlist, &d, dolmolm_collision_bodies[i].radius, 0.0f);
+            TObjNpcEnemy::register_animated_chunk(ids[i], e->model, e->texlist, &d, dolmolm_collision_bodies[i].radius, 0.0f);
         }
     }
 }

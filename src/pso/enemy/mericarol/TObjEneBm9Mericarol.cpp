@@ -1,7 +1,6 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -10,7 +9,6 @@
 #include "pso/effect/GroundContactSound.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
@@ -55,7 +53,6 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecKafun.h"
 #include "pso/player/TPlyDispData.h"
@@ -184,7 +181,7 @@ void TObjEneBm9Mericarol::load_resources() {
     {
         NpcAnimationBinding params = mericarol_animation_binding;
         params.motions = mericarol_bml->motions;
-        NpcModelRegistry::register_animated_chunk(0x42, mericarol_bml->models[0].model, mericarol_bml->models[0].texlist, &params,
+        TObjNpcEnemy::register_animated_chunk(0x42, mericarol_bml->models[0].model, mericarol_bml->models[0].texlist, &params,
             mericarol_collision_bodies[0].radius, 0.0f);
     }
 }
@@ -461,7 +458,7 @@ void TObjEneBm9Mericarol::init_size_tier_and_offsets() {
 s32 TObjEneBm9Mericarol::get_phase() { return phase; }
 
 void TObjEneBm9Mericarol::play_move_sound() {
-    play_persistent_sound((s32)(remap_sound_for_area(0x3A810)), this, &position, (s32)(0), (s32)(0));
+    play_persistent_sound((s32)(remap_sound_for_area(0x3A810)), this, &position, 0, 0);
 }
 
 void TObjEneBm9Mericarol::state_hidden(s32 reason) {

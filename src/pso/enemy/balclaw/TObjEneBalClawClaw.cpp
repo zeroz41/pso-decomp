@@ -1,10 +1,10 @@
 #include "pso/enemy/EnemyPlacement.h"
-#include "pso/system/PersistentSound.h"
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/AreaSound.h"
 #include "pso/object/base/TObjMotion.h"
@@ -33,7 +33,6 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -720,7 +719,7 @@ void TObjEneBalClawClaw::load_resources() {
     NpcAnimationBinding binding = { balclaw_bml_resource->motions, balclaw_claw_actions, 0, 1, 7 };
     BmlModelEntry *models;
     models = balclaw_bml_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x14, models[2].model, models[2].texlist, &binding,
+    TObjNpcEnemy::register_animated_chunk(0x14, models[2].model, models[2].texlist, &binding,
                             TObjEneBalClawClaw__collision_body_template.radius, 15.0f);
 }
 

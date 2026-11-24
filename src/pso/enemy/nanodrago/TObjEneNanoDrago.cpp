@@ -1,11 +1,10 @@
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/AreaSound.h"
 #include "pso/unk/text_800DC420.h"
@@ -37,7 +36,6 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/text_803E2F28.h"
 #include "pso/render/model_render_state.h"
@@ -243,7 +241,7 @@ void TObjEneNanoDrago::load_resources() {
     lbl_805D5254 = (saddr)TLobby::dispatch_shared_handler_a(0x1A);
     NpcAnimationBinding binding = { nano_drago_entry_params_resource->motions, nanodrago_action_table, 0, 1, 12 };
     modelEntries = nano_drago_entry_params_resource->models;
-    NpcModelRegistry::register_animated_chunk((s16)(0x22), modelEntries[0].model, modelEntries[0].texlist, &binding, (f32)(15.0f), (f32)(0.0f));
+    TObjNpcEnemy::register_animated_chunk((s16)(0x22), modelEntries[0].model, modelEntries[0].texlist, &binding, (f32)(15.0f), (f32)(0.0f));
 }
 void TObjEneNanoDrago::free_resources() {
     if ((uaddr) nano_drago_entry_params_resource != 0U) {

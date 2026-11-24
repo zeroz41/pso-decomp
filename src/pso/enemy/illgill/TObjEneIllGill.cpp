@@ -1,8 +1,7 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/player/PlayerAttackParams.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
@@ -46,7 +45,6 @@
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -137,7 +135,7 @@ void TObjEneIllGill::load_shared_resources() {
         NpcAnimationBinding pos = illGillAnimBinding;
         resource = illGillResource;
         pos.motions = resource->motions;
-        NpcModelRegistry::register_animated_chunk((s16)0x43, resource->models->model, resource->models->texlist, &pos, illGillCollisionBody.radius, 0.0f);
+        TObjNpcEnemy::register_animated_chunk((s16)0x43, resource->models->model, resource->models->texlist, &pos, illGillCollisionBody.radius, 0.0f);
     }
 }
 
@@ -1129,7 +1127,7 @@ void TObjEneIllGill::update_shadow_attack() {
         }
         break;
     case 2:
-        play_persistent_sound((s32)(0x4003A356), enemy, &position, (s32)(0), (s32)(0));
+        play_persistent_sound(0x4003A356, enemy, &position, 0, 0);
         apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), 0.0f);
         if (this->target != NULL) {
             Vec w;
@@ -1356,7 +1354,7 @@ void TObjEneIllGill::update_charge_attack() {
                 o->chargeFrames = c + 1;
             }
         }
-        play_persistent_sound((s32)(0x4003A34F), o, &o->position, (s32)(0), (s32)(0));
+        play_persistent_sound(0x4003A34F, o, &o->position, 0, 0);
         if (o->primaryEffect != 0 && ((TObject *)(o->primaryEffect))->all_parents_unqueued_for_destruction() != 0) {
             ((TParticleCtrl *)o->primaryEffect)->set_position(&o->chargeEffectPosition1);
         }

@@ -9,6 +9,8 @@
 struct Vec;
 class TObjChara;
 
+extern s32 registered_entity_count;
+
 extern "C" {
 // Gives the actor a copy of `count` collision bodies (once) and its contact
 // list; returns the actor's bodies.

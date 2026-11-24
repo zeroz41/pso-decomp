@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/EnemyBmlResource.h"
@@ -8,7 +7,8 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -139,7 +139,6 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/model_render_state.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/task/TMainTask.h"
@@ -153,7 +152,7 @@ player_stats *bringer_boss_stats_handle;
 AttackParams *bringer_boss_stats_ptr_b;
 ActorParamBlock *bringer_object_handle;
 BringerParameters *TObjEneDf2Bringer__params;
-BmlResource *TObjEneDf2Bringer__resource_bundle;
+BmlResource *TObjEneDf2Bringer::resource_bundle;
 s32 TObjEneDf2Bringer__render_node_index;
 s32 TObjEneDf2Bringer__render_rotation_x;
 Vec *TObjEneDf2Bringer__render_point_cursor;
@@ -206,11 +205,11 @@ void TObjEneDf2Bringer::load_resources() {
   bringer_camera_ctrl_target_vec.z = 0.0f;
   if (TObjEneDD::check_v2_mode() != 0)
   {
-    TObjEneDf2Bringer__resource_bundle = load_enemy_bml_resource_named(&bm_ene_df2_bringer_resource_descriptor, "bm_ene_df2_bringer_a.bml");
+    TObjEneDf2Bringer::resource_bundle = load_enemy_bml_resource_named(&bm_ene_df2_bringer_resource_descriptor, "bm_ene_df2_bringer_a.bml");
   }
   else
   {
-    TObjEneDf2Bringer__resource_bundle = load_enemy_bml_resource(&bm_ene_df2_bringer_resource_descriptor);
+    TObjEneDf2Bringer::resource_bundle = load_enemy_bml_resource(&bm_ene_df2_bringer_resource_descriptor);
   }
   bringer_boss_stats_handle = TLobby::register_boss(0xD);
   bringer_boss_stats_ptr_b = TLobby::dispatch_shared_handler_b(0xD);
@@ -235,7 +234,7 @@ void TObjEneDf2Bringer::load_resources() {
       offs[i].z = 0.0f;
     }
 
-    sampled->sample(TObjEneDf2Bringer__resource_bundle->models[0].model, (NJS_MOTION *)TObjEneDf2Bringer__resource_bundle->motions[bringer_motion_actions[4].motion].motion, ids, offs);
+    sampled->sample(TObjEneDf2Bringer::resource_bundle->models[0].model, (NJS_MOTION *)TObjEneDf2Bringer::resource_bundle->motions[bringer_motion_actions[4].motion].motion, ids, offs);
   }
   n = TObjEneDf2Bringer__trail_buffer->sample_count;
   seg = TObjEneDf2Bringer__trail_buffer->points;
@@ -258,11 +257,11 @@ void TObjEneDf2Bringer::load_resources() {
     p3->y = (d.y * s2) + p3->y;
     p3->z = (d.z * s2) + p3->z;
   }
-  TObjEneDf2Bringer__uv_scroll_buffer = new StripBufferPair(TObjEneDf2Bringer__resource_bundle->models[0].model, 1);
+  TObjEneDf2Bringer__uv_scroll_buffer = new StripBufferPair(TObjEneDf2Bringer::resource_bundle->models[0].model, 1);
   init_bringer_effect_tables();
   {
-    NpcAnimationBinding sp = { TObjEneDf2Bringer__resource_bundle->motions, bringer_motion_actions, 0, 1, 11 };
-    NpcModelRegistry::register_animated_chunk((s16)0x16, TObjEneDf2Bringer__resource_bundle->models[0].model, TObjEneDf2Bringer__resource_bundle->models[0].texlist, &sp, 7.0f, 0.0f);
+    NpcAnimationBinding sp = { TObjEneDf2Bringer::resource_bundle->motions, bringer_motion_actions, 0, 1, 11 };
+    TObjNpcEnemy::register_animated_chunk((s16)0x16, TObjEneDf2Bringer::resource_bundle->models[0].model, TObjEneDf2Bringer::resource_bundle->models[0].texlist, &sp, 7.0f, 0.0f);
   }
 }
 
@@ -282,9 +281,9 @@ void TObjEneDf2Bringer::free_resources() {
         delete TObjEneDf2Bringer__trail_buffer;
         TObjEneDf2Bringer__trail_buffer = NULL;
     }
-    if (TObjEneDf2Bringer__resource_bundle != NULL) {
-        delete TObjEneDf2Bringer__resource_bundle;
-        TObjEneDf2Bringer__resource_bundle = NULL;
+    if (TObjEneDf2Bringer::resource_bundle != NULL) {
+        delete TObjEneDf2Bringer::resource_bundle;
+        TObjEneDf2Bringer::resource_bundle = NULL;
     }
 }
 
@@ -307,11 +306,11 @@ void TObjEneDf2Bringer::init_enemy() {
     s32 i;
 
     init_position_vectors();
-    this->model = TObjEneDf2Bringer__resource_bundle->models[0].model;
-    this->texlist = TObjEneDf2Bringer__resource_bundle->models[0].texlist;
+    this->model = TObjEneDf2Bringer::resource_bundle->models[0].model;
+    this->texlist = TObjEneDf2Bringer::resource_bundle->models[0].texlist;
     init_model(bringer_collision_bodies, 1);
     set_action_table(bringer_motion_actions);
-    set_motion_list(TObjEneDf2Bringer__resource_bundle->motions);
+    set_motion_list(TObjEneDf2Bringer::resource_bundle->motions);
     this->requested_action = 0;
     set_animation(this->requested_action);
     set_requested_action(this->requested_action);

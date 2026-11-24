@@ -7,9 +7,11 @@
 #include <dolphin/mtx/GeoTypes.h>
 
 struct TechniqueContactList;
+class TObjBase;
 
 struct TNeedleShoot : public TObject {
     TNeedleShoot(TObjBase *owner, Vec *from, Vec *to);
+    static const char *class_name;
     virtual ~TNeedleShoot();
     // Called when the shot meets a wall (check_wall_hit) or check_target_hit finds no contact list.
     virtual void on_wall_hit();
@@ -44,15 +46,21 @@ struct TNeedleShoot : public TObject {
     Vec *get_shoot_data();
     void update_lifetime();
     void update_stopped();  // run_task step once active is cleared: calls queue_destruction
-    // Collects the technique contacts of the shot (contact_mode picks the collector) and calls on_wall_hit or
-    // on_target_hit. Defined with the KenkyuW unit, which owns its address.
-    void check_target_hit(s32);
+    // Empties technique_contact_list.
     void clear_technique_contacts();
     s32 is_hit_receivable_target(TObjCollidable *target);
-    TechniqueContactList *collect_technique_contacts_default(TObjBase *source);
-    TechniqueContactList *collect_technique_contacts_mode_two(TObjBase *source);
-    TechniqueContactList *collect_technique_contacts(TObjBase *source);
+    // The contact collectors check_target_hit picks by contact_mode: players the collider touches, skipping the
+    // shooter, into technique_contact_list; NULL when it touches a blocking object first.
+    TechniqueContactList *collect_contacts(TObjBase *src);
+    TechniqueContactList *collect_technique_contacts(TObjBase *src);
+    TechniqueContactList *collect_contacts_from_game_mode(TObjBase *src);
+    // Collects the technique contacts of the shot (contact_mode picks the collector) and calls on_wall_hit or
+    // on_target_hit.
+    void check_target_hit(s32);
 };
+
+// The contacts the last check_target_hit collected.
+extern TechniqueContactList technique_contact_list;
 
 LAYOUT_ASSERT(TNeedleShoot_size, sizeof(TNeedleShoot) == 0xBC);
 

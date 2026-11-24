@@ -70,7 +70,7 @@ struct TWindowCtrl : public TObject {
     s32 find_farthest_balloon_slot(u16 speaker);
     TWindowFukidasi *acquire_balloon_slot(u16 speaker, s32 flags, s32 client);
     s32 count_balloon_slots();
-    TWindowFukidasi *show_chat_balloon(u16 player, s32 flags, void *text, s32 client);
+    TWindowFukidasi *show_chat_balloon(u16 player, s32 flags, const char *text, s32 client);
     void handle_chat_message(char *arg1);
     static void init_all_slots();
     static void init_all_slots2();
@@ -85,8 +85,8 @@ struct TWindowCtrl : public TObject {
     static void release_slot(s8 *arg0);
     static void close_windows_by_flags(u16 flags);
     static s32 open_balloon(u16 player, u8 *arg1, s32 flags, s32 client);
-    static saddr open(u16 id, saddr text, s32 flags);
-    static int open_default(u16 id, s32 text);
+    static saddr open(u16 id, const char *text, s32 flags);
+    static int open_default(u16 id, const char *text);
     static void create_level_up_window(saddr stats, saddr client);
     static void set_window_flags(void *client_id, s32 flags, s32 arg2);
     static void set_window_flags_off(s32 client, s32 flags);

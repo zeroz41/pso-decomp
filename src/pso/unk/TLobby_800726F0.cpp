@@ -232,9 +232,10 @@ void TObjChallengeRetry::open_loss_menu() {
     }
 }
 void TLobby::send_45_and_close_windows(void * _w0) {
-    TObjPlayer *player = get_player_by_client_id(local_client_id);
+    TObjPlayer *player;
+    player = get_player_by_client_id(local_client_id);
     if ((player != NULL) && (player->check_player_flag1() != 0)) {
-        TObjPlayer::send_code_45_1(player);
+        send_release_hold(player);
     }
     TWindowCtrl::unsuppress_slot(local_client_id);
     TWindowCtrl::enable_client_main_menu(local_client_id);
@@ -244,8 +245,8 @@ void TLobby::play_default_effect(void* a0) { TWindowCtrl::disable_client_main_me
 void play_player_default_effect__6TLobbyFv(s32 _w0) {
     TObjPlayer *player;
     player = get_player_by_client_id(local_client_id);
-    if ((player != 0) && (((TObjPlayer *)player)->check_player_flag1() == 0)) {
-        TObjPlayer::play_effect_default(player, -1);
+    if ((player != NULL) && (player->check_player_flag1() == 0)) {
+        send_impose_hold(player, -1);
     }
 }
 u8 is_challenge_lobby__6TLobbyFv(void) {

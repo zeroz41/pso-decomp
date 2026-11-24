@@ -981,7 +981,7 @@ void TBoss6Type1::enable_parts() {
     }
 }
 void TBoss6Type1::update_beam_attack() {
-    Line_803E18C0 line;
+    Line line;
     Vec v;
     Vec w;
     Vec out;
@@ -1187,7 +1187,7 @@ void TBoss6Type1::check_laser_hits() {
     f32 prev;
     f32 t;
     Vec pts[5];
-    Line_803E18C0 line;
+    Line line;
     Vec A;
     Vec B;
     Vec mid;

@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/object/door/TODoorCave03.h"
 
 #include "pso/system/task/TMainTask.h"
@@ -7,7 +6,6 @@
 #include "pso/network/TProtocol.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/TLobby.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"

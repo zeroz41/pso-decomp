@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 
 extern "C" {
-extern uaddr window_dd_buffer_a;
+extern char *window_dd_buffer_a;
 
 void TWindowDD::open(void *message, u16 speaker) {
     format_message(static_cast<WordSelectMessage *>(message), reinterpret_cast<char *>(window_dd_buffer_a), speaker);

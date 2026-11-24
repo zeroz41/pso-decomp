@@ -30,7 +30,7 @@ void submit_chat_text(u8 *lobby) {
             Tag_80076BC8 tmp = *(Tag_80076BC8 *)&made;
             send_chat__9TProtocolFR16TPlyGuildCardTagPc(TLobby::protocol_instance, (TPlyGuildCardTag *)&tmp, lobby);
         } else {
-            TWindowCtrl::open(((TObjBase *)(player))->get_entity_id(), (saddr)lobby, 0xCB);
+            TWindowCtrl::open(((TObjBase *)(player))->get_entity_id(), (const char *)lobby, 0xCB);
         }
     }
 }

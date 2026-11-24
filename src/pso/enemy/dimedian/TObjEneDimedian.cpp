@@ -3,7 +3,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/unk/SampledMotionPoints.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -462,7 +462,7 @@ void TLobby::load_dimedian_resources() {
         s16 ids[3] = { 0x1B, 0x1C, 0x1D };
         NpcAnimationBinding anim = { dimedian_resource_ptr->motions, dimedian_action_table, 0, 2, 12 };
         for (i = 0; i < 3; i++) {
-            NpcModelRegistry::register_animated_chunk(ids[i], dimedian_resource_ptr->models[i].model, dimedian_resource_ptr->models[i].texlist, &anim,
+            TObjNpcEnemy::register_animated_chunk(ids[i], dimedian_resource_ptr->models[i].model, dimedian_resource_ptr->models[i].texlist, &anim,
                 dimedian_collision_body_table[i].radius, 0.0f);
         }
     }

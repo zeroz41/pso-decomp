@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/effect/photon/TPhotonGolla.h"
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
@@ -17,7 +16,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"

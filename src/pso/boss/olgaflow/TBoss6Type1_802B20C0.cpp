@@ -1,7 +1,5 @@
-#include "pso/system/PersistentSound.h"
 #pragma readonly_strings on
 #include "types.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/olgaflow/TBoss6Type1_802B20C0.h"
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
@@ -268,7 +266,7 @@ void TBoss6Type1::init_move_attack() {
 }
 
 void TBoss6Type1::update_hit_timer() {
-    play_persistent_sound(0x40032614, this, 0, 0, 0);
+    play_persistent_sound(0x40032614, this, NULL, 0, 0);
     if ((s32)action_timer == 0x3C) {
         play_sound_effect(0x39403, &position, 0, 1);
     }

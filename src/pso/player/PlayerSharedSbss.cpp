@@ -4,7 +4,7 @@
 // Plain uninitialized globals (-sdata 8) land in .sbss; the referencing unit
 // keeps these extern.
 
-u32 lbl_805D5D78;
+u32 town_npc_shared_resource;
 u32 lbl_805D5D7C;
 u32 TObjPlayer__shared_model_buffer;
 PlayerJointMatrixSet *player_shared_buffer_base;

@@ -258,7 +258,7 @@ struct TObjPlayer : public TObjChara {
     u8 _pad7EC[0x3C];
     void* m_828;
     u8 _pad82C[0x4];
-    void* m_830;
+    void* telepipe;  // the player's telepipe record (TTecLuker::init_fields, send_telepipe_packet)
     u8 _pad834[0x18];
     Vec m_84c;
     void* m_858;
@@ -883,7 +883,8 @@ struct TObjPlayer : public TObjChara {
     f32 get_class_hp_factor();
     int get_floor_surface_type();
     s32 get_falz_phase();
-    static void split_capped_value(u8 level, u8 *arg1, s8 *arg2);
+    s16 get_section_clamped();
+    static void split_capped_value(u8 level, u8 *capped, u8 *overflow);
     void level_up_all_techniques(s32 add);
     static u8 clamp_to_max(saddr arg0, u8 level, u8 arg2);
     static s32 validate_and_clear_slot(void *techs, s16 tech);
@@ -909,6 +910,8 @@ struct TObjPlayer : public TObjChara {
     void clear_30_slots();
     static void setup_effect_slots(s32 arg0, saddr arg1);
     static void begin_action_from_char_select();
+    void export_character_data(TPlyCharData *character);
+    void export_state_to_record(TPlyCharData *record);
     void copy_battle_mode(u8 *player);
     void copy_byte_339_to_record(u8 *player);
     void copy_mag_level_to_record(u8 *player);
@@ -920,15 +923,9 @@ struct TObjPlayer : public TObjChara {
     void clear_item_slots();
     void set_action_palette_slot(s32 i, u8 v);
     void*get_action_data();
-    void set_field_157(u8 v);
-    void set_byte_13b(u8 v);
-    void set_action_flags(u8 v);
-    void set_flag_103(u8 v);
-    void set_flag_e7(u8 v);
     void set_field_1ab(u8 v);
     void set_field_18f(u8 v);
     void set_current_time();
-    void set_flag_40();
     void clear_flag_80000();
     void set_flag_80000();
     static saddr get_instance();
@@ -951,8 +948,6 @@ struct TObjPlayer : public TObjChara {
     static void create_network_object(s32 item_id, u32 *hit, saddr direction);
     void free_indexed_entry(s32 _w1);
     void copy_node_record(saddr arg1);
-    static void notify_all_battle_players();
-    static void update_4p_battle_ctrls();
     void set_player_index(s32 v);
     void set_flag0_bits01();
     int clear_lock_flag();
@@ -1049,7 +1044,7 @@ struct TObjPlayer : public TObjChara {
     static void alloc_shared_buffers();
     static void destroy_char_data_array();
     static s8 get_rule_field_0();
-    static void set_slot_type_state(s32 arg0, s32 arg1, s16 arg2, s16 arg3);
+    static void set_slot_type_state(s32 arg0, s32 arg1, s32 arg2, s16 arg3);
     void set_all_technique_levels(void *level);
     void copy_all_technique_entries(void *arg1);
     static TItem *create_object_by_type(u8 *item);
@@ -1072,7 +1067,6 @@ struct TObjPlayer : public TObjChara {
     void set_flag_8_if_check_passes();
     u8 *construct_freeze_shell(u8 *arg1, u8 *arg2);
     static void create_tec_zonde(void *source, void *origin, void *targets, s32 level);
-    TechniqueContactList *collect_technique_contacts(void *src);
     static void new_child_object(u16 arg0);
     void create_item_eff_cane(TItem* item, s32 attachment, s32 effect_id);
     void spawn_cane_effect(TItem* item, s32 attachment);
@@ -1113,9 +1107,9 @@ struct TObjPlayer : public TObjChara {
     static void draw(void *player, f32 at_frame);
     void set_state_flag_604B();
     static s32 update_small_font(saddr arg0, void * command);
-    static void send_item_pickup_request(saddr player);
+    static void send_disable_pk_mode(TObjPlayer *player);
     void set_state_flag_6043();
-    static void notify_field1c(saddr arg0);
+    static void send_enable_pk_mode(TObjPlayer *player);
     int get_field_828();
     static void play_phase_transition_sound(saddr child);
     int check_flag_40000();
@@ -1153,9 +1147,7 @@ struct TObjPlayer : public TObjChara {
     void apply_material_color_override();
     static s32 get_battle_ctrl_flag(u16 id);
     s32 is_outside_movement_hold(f32 *pos);
-    static s32 draw_small_font(saddr arg0, void *command);
-    static void send_code_45_1(TObjPlayer *player);
-    static void play_effect_default(TObjPlayer *player, s32 effect_id);
+    static s32 draw_small_font(saddr arg0, void * command);
     static void play_effect(TObjPlayer *player, s32 effect_id, s32 mode);
     s32 get_clamped_index();
     void apply_input_mode();
@@ -1345,10 +1337,10 @@ struct TObjPlayer : public TObjChara {
     int is_action_active();
     u8 get_battle_mode();
     u8 get_byte_339();
-    u8 get_equip_flags();
-    u8 get_inventory_state();
-    u8 get_field_374_state();
-    u8 get_field_374();
+    u8 get_def_materials_used();
+    u8 get_evade_materials_used();
+    u8 get_mind_materials_used();
+    u8 get_power_materials_used();
     u8 get_luck_materials_used();
     void set_luck_materials_used(u8 v);
     static s32 clamp_index_to_max(s32 level);
@@ -1402,7 +1394,9 @@ struct TObjPlayer : public TObjChara {
     static void heap_alloc(void* a0);
     static u8 *create_lobby_marker(s16 client, s8 arg1);
     s32 can_guard();
-    static void clamp_and_set_unit_value(int, u8, int);
+    // Sets the player's cast level of technique `tech`, capped at the level it has learned.
+    static void set_technique_level_clamped(TObjPlayer *player, u8 level, int tech);
+    static void *get_element(void *, int);
     static void send_6x29_delete_item(void *, int, int);
     static s32 find_free_slot(void *, void *);
     static s32 fill_player_record(void *, void *);
@@ -1558,6 +1552,11 @@ LAYOUT_ASSERT(PlayerItemNodeMatricesOffset, offsetof(TObjPlayer, item_node_matri
 LAYOUT_ASSERT(TObjPlayer_size, sizeof(TObjPlayer) == 0xDB8);
 
 void set_flag_400000(TObjPlayer *player);
+
+// Sends 6x2D: releases the movement hold on the player.
+void send_release_hold(TObjPlayer *player);
+// Sends 6x2C: holds the player in place for `frames` frames (-1: until released).
+void send_impose_hold(TObjPlayer *player, int frames);
 
 // The owner joint each item attach slot hangs the equipped model from
 // (TItemEquipBase::set_attach_slot); defined with the player.

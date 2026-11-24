@@ -4,7 +4,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/camera/TCameraCtrl.h"
 
@@ -180,7 +180,7 @@ void TObjEneRecobox::load_resources() {
     {
         NpcAnimationBinding binding = recobox_resource_binding_desc;
         binding.motions = TObjEneRecobox__static_instance->motions;
-        NpcModelRegistry::register_animated_chunk(0xD, TObjEneRecobox__static_instance->models[1].model, TObjEneRecobox__static_instance->models[1].texlist, &binding, recobox_collision_body.radius, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(0xD, TObjEneRecobox__static_instance->models[1].model, TObjEneRecobox__static_instance->models[1].texlist, &binding, recobox_collision_body.radius, 0.0f);
     }
 }
 

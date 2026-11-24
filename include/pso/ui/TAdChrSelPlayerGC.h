@@ -5,7 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 
-struct CharacterPreviewLoadData;
+class CharacterPreview;
 
 // One player model of the multi-player character select; get_or_create_player
 // keeps them in multi_chr_select_player_slot_table.
@@ -34,7 +34,7 @@ public:
     s32 animation_ticks;
     s32 spin_model;
     CharacterAppearanceFields visual_record;
-    CharacterPreviewLoadData *preview_data;
+    CharacterPreview *preview_data;
 };
 extern TAdChrSelPlayerGC *multi_chr_select_player_slot_table[4];
 LAYOUT_ASSERT(CharacterSelectPlayerAppearanceOffset, offsetof(TAdChrSelPlayerGC, visual_record) == 0x120);

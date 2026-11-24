@@ -2,7 +2,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
@@ -85,7 +85,7 @@ void TObjEneEpsilonGuard::load_assets() {
     {
         NpcAnimationBinding binding = { NULL, epsilon_action_table, 0, 0, 1 };
         binding.motions = epsilon_bml_resource->motions;
-        NpcModelRegistry::register_animated_chunk(0x4E, epsilon_bml_resource->models->model, epsilon_bml_resource->models->texlist, &binding, 5.0f, 15.0f);
+        TObjNpcEnemy::register_animated_chunk(0x4E, epsilon_bml_resource->models->model, epsilon_bml_resource->models->texlist, &binding, 5.0f, 15.0f);
     }
 }
 

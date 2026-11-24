@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/effect/photon/TPhotonFarlla.h"
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
@@ -20,7 +19,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/map/FloorArea.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D8F74.h"
 
 #include "pso/player/TObjPlayer_80011014.h"

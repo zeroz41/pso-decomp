@@ -8,7 +8,7 @@
 #include "pso/technique/TTecZondeEff.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/map/CsnGroundQuery.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/BmlResource.h"
 
@@ -1980,8 +1980,8 @@ void TObjEneBm5GibonU::load_resources() {
     NpcAnimationBinding sp = TObjEneBm5GibonU__spawn_params;
     m = TObjEneBm5GibonU__model_archive;
     sp.motions = m->motions;
-    NpcModelRegistry::register_animated_chunk(0xE, m->models[0].model, m->models[0].texlist, &sp, gibon_collision_body_templates[0].radius, 0.0f);
-    NpcModelRegistry::register_animated_chunk(0xF, TObjEneBm5GibonU__model_archive->models[1].model, TObjEneBm5GibonU__model_archive->models[1].texlist, &sp, gibon_collision_body_templates[1].radius, 0.0f);
+    TObjNpcEnemy::register_animated_chunk(0xE, m->models[0].model, m->models[0].texlist, &sp, gibon_collision_body_templates[0].radius, 0.0f);
+    TObjNpcEnemy::register_animated_chunk(0xF, TObjEneBm5GibonU__model_archive->models[1].model, TObjEneBm5GibonU__model_archive->models[1].texlist, &sp, gibon_collision_body_templates[1].radius, 0.0f);
 }
 
 void *TObjEneBm5GibonU::create(void *set_data) {

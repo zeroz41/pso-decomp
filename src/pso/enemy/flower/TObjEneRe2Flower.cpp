@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/player/PlayerAttackParams.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "types.h"
 #include "pso/system/AreaSound.h"
@@ -154,7 +154,7 @@ void load_re2_flower_resources(void) {
     __memcpy(&binding, &re2_flower_animation_binding, sizeof(binding));
     binding.motions = re2_flower_bml_resource->motions;
     models = re2_flower_bml_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x37, models->model, models->texlist, &binding, lbl_805D9FBC, lbl_805D9FAC);
+    TObjNpcEnemy::register_animated_chunk(0x37, models->model, models->texlist, &binding, lbl_805D9FBC, lbl_805D9FAC);
 }
 
 void *TObjEneRe2Flower::create(void *setData) {

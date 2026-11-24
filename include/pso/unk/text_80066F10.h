@@ -6,7 +6,7 @@
 struct BmlResource;
 struct NJS_TEXLIST;
 
-extern BmlResource *lbl_805D4DD8;
+extern BmlResource *boss5_common_bml_resource;
 extern NJS_TEXLIST *boss5_common_texture_list;
 void load_boss5_common_assets(void);
 

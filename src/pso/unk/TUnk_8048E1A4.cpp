@@ -29,6 +29,7 @@
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 
 
 f32 TUnk_8048E1A4::receive_physical_attack(void *arg1, f32) {
@@ -85,25 +86,27 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 void TUnk_8048E1A4::freeze_shell_hold() {
-    TObjCollidable *target = find_active_entity_by_id(*(u16 *)((s8 *)this + 0x358));
-    if (target == NULL) {
+    TObjCollidable *owner;
+    TParticleCtrl *effect;
+    owner = find_active_entity_by_id(*(u16 *)((s8 *)this + 0x358));
+    if (owner == NULL) {
         return;
     }
     this->rotation_y += 0x10;
-    if (target->test_actor_flags(0x800) == 0) {
-        if (target->test_actor_flags(0x20) != 0) {
+    if (owner->test_actor_flags(0x800) == 0) {
+        if (owner->test_actor_flags(0x20) != 0) {
             return;
         }
     }
     *(s32 *)((s8 *)this + 0x334) = 2;
-    TParticleCtrl *p = spawn_particle_effect((const Vec *)((u8 *)this + 0x35C), 0x153);
-    if (p != 0) {
-        attach_particle_model(p, get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
+    effect = spawn_particle_effect((const Vec *)((u8 *)this + 0x35C), 0x153);
+    if (effect != NULL) {
+        attach_particle_model(effect, get_bml_model(technique_effect_bml, 5), technique_texture_list, 0, 0, 1.0f);
     }
-    p = spawn_particle_effect((const Vec *)((u8 *)this + 0x38), 0x33);
-    if (p != 0) {
-        attach_particle_model(p, get_bml_model((BmlResource *)freeze_shell_bml_resource, 0), get_bml_texlist((BmlResource *)freeze_shell_bml_resource, 1), get_bml_motion((BmlResource *)freeze_shell_bml_resource, 0), 0, 1.0f);
-        p->set_scale(this->scale.x, this->scale.y);
+    effect = spawn_particle_effect((const Vec *)((u8 *)this + 0x38), 0x33);
+    if (effect != NULL) {
+        attach_particle_model(effect, get_bml_model((BmlResource *)freeze_shell_bml_resource, 0), get_bml_texlist((BmlResource *)freeze_shell_bml_resource, 1), get_bml_motion((BmlResource *)freeze_shell_bml_resource, 0), 0, 1.0f);
+        effect->set_scale(this->scale.x, this->scale.y);
     }
     this->frame = 0.0f;
 }

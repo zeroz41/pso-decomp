@@ -29,7 +29,7 @@
 
 extern "C" {
 s32 dispatch_6x_subcommand(void *);
-s32 append_command_to_batch_buffer(void *, s32);
+s32 append_command_to_batch_buffer(void *, void *);
 u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
 s32 distort_texture_wave_image(void *);
 }
@@ -99,23 +99,22 @@ void send_subcommand(void *cmd) {
     dispatching_own_subcommand = 0;
 }
 
-void TLobby::update_players() {
-    TObject *packet;
-    saddr cmd = (saddr)this;
+void broadcast_subcommand(void *cmd) {
+    TObject *client;
 
-    if ((s32) join_state_flag == 1) {
-        send_subcommand((u8 *)cmd);
+    if ((s32) TLobby::join_state_flag == 1) {
+        send_subcommand(cmd);
         return;
     }
     if (game_protocol_instance != NULL) {
-        packet = game_protocol_instance->m_down;
-        while (packet != NULL) {
-            append_command_to_batch_buffer(packet, cmd);
-            packet = packet->m_next;
+        client = game_protocol_instance->m_down;
+        while (client != NULL) {
+            append_command_to_batch_buffer(client, cmd);
+            client = client->m_next;
         }
     }
     dispatching_own_subcommand = 1;
-    dispatch_6x_subcommand((void *)cmd);
+    dispatch_6x_subcommand(cmd);
     dispatching_own_subcommand = 0;
 }
 

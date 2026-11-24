@@ -5,9 +5,12 @@
 
 class TObjCollidable;
 
-// An active collision object in the entity table, or NULL.
-extern "C" TObjCollidable *find_active_entity_by_id(u16 id);
-// The active object in a battle slot, or NULL.
+// The player in battle slot `id` (TObjPlayer::get_battle_param), or 0 when that
+// slot is not a valid, active player.
 TObjCollidable *get_valid_target_player(int id);
+
+// The entity with id `id` (find_entity_by_id), or NULL when there is none or it
+// is not valid and active.
+TObjCollidable *find_active_entity_by_id(u16 id);
 
 #endif

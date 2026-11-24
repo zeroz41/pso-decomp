@@ -11,6 +11,8 @@ public:
     virtual ~TBoss4Fade();
     virtual void run_task();
     virtual void render();
+    // Fades the screen to color at alpha (0..1) this frame.
+    void set_fade(s32 color, f32 alpha);
 
     struct FadeFrame {
         s32 active;
@@ -29,7 +31,5 @@ LAYOUT_ASSERT(TBoss4Fade_frames_offset, offsetof(TBoss4Fade, frames) == 0x20);
 struct TBoss4DarkFalz;
 
 TBoss4Fade *create_boss4_fade();
-
-extern "C" void fn_803594B4(TBoss4Fade *fade, s32 color, f32 alpha);
 
 #endif

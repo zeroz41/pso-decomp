@@ -8,7 +8,7 @@
 #pragma defer_codegen on
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/npc/TNpcPlayer_8028B810.h"
+#include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/boss/galgryphon/TObjBoss5Pillar_8028B714.h"
 #include "pso/ui/frontend/TAdMultiConfirmGC_802E03D0.h"
 
@@ -156,7 +156,7 @@ TAdChrSelPlayerGC::~TAdChrSelPlayerGC() {
 }
 
 void TAdChrSelPlayerGC::run_task() {
-    CharacterPreviewLoadData *p;
+    CharacterPreview *p;
     TAdPlyStatusGC *status;
     s32 t;
     switch (state) {
@@ -183,28 +183,19 @@ void TAdChrSelPlayerGC::run_task() {
         switch (layout_mode) {
         case 0:
             copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
-            p = static_cast<CharacterPreviewLoadData *>(::operator new(sizeof(CharacterPreviewLoadData)));
-            if (p != NULL) {
-                p = init_appearance_load_request__10TNpcPlayerFPvPvii(p, this, &visual_record, 0);
-            }
+            p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
             rotation_y = 0xF3D5;
             break;
         case 1:
             copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_entry(status_index)->m_disp_part2);
-            p = static_cast<CharacterPreviewLoadData *>(::operator new(sizeof(CharacterPreviewLoadData)));
-            if (p != NULL) {
-                p = init_appearance_load_request__10TNpcPlayerFPvPvii(p, this, &visual_record, 0);
-            }
+            p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
             rotation_y = 0xF3D5;
             break;
         case 2:
             copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_index(0xFFFF)->m_disp_part2);
-            p = static_cast<CharacterPreviewLoadData *>(::operator new(sizeof(CharacterPreviewLoadData)));
-            if (p != NULL) {
-                p = init_appearance_load_request__10TNpcPlayerFPvPvii(p, this, &visual_record, 0);
-            }
+            p = new CharacterPreview(this, &visual_record, 0);
             preview_data = p;
             rotation_y = 0xF3D5;
             break;
@@ -212,10 +203,7 @@ void TAdChrSelPlayerGC::run_task() {
         case 4:
         case 5:
             copy_player_visual_record(&visual_record, &TAdSinglePlyChrSelectGC::get_char_table_entry(slot)->m_disp_part2);
-            p = static_cast<CharacterPreviewLoadData *>(::operator new(sizeof(CharacterPreviewLoadData)));
-            if (p != NULL) {
-                p = init_appearance_load_request__10TNpcPlayerFPvPvii(p, this, &visual_record, slot);
-            }
+            p = new CharacterPreview(this, &visual_record, slot);
             preview_data = p;
             break;
         }

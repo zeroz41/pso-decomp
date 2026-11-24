@@ -4,7 +4,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/CsnQuery.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/effect/GroundContactSound.h"
 #include "pso/player/PlayerAttackParams.h"
@@ -226,7 +226,7 @@ void TObjEneGibbles::load_resources() {
     TObjEneGibbles__ai_parameters = (GibblesAiParams *)TLobby::dispatch_shared_handler_a(0x3D);
     NpcAnimationBinding s = gibbles_resource_binding_desc;
     s.motions = TObjEneGibbles__resource_bundle->motions;
-    NpcModelRegistry::register_animated_chunk(0x44, TObjEneGibbles__resource_bundle->models->model, TObjEneGibbles__resource_bundle->models->texlist, &s, gibbles_collision_bodies[0].radius, 0.0f);
+    TObjNpcEnemy::register_animated_chunk(0x44, TObjEneGibbles__resource_bundle->models->model, TObjEneGibbles__resource_bundle->models->texlist, &s, gibbles_collision_bodies[0].radius, 0.0f);
 }
 
 void TObjEneGibbles::free_static() {

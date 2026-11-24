@@ -14,6 +14,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixStack.h"
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 
  extern const Vec lbl_8043C920 = {0.0f, 0.0f, 0.0f};
 typedef struct Parm_800DC4B4 {
@@ -50,7 +51,6 @@ struct Me_800DC9EC {
 };
 
 extern "C" { u8 *find_entity_by_id(s16);
-Obj_800DC4B4 *find_active_entity_by_id(u16);
 s32 subtract_vector(void *, void *);
 s32 vec3_add_to(void *, void *);
 u32 csnVector(void *, void *, int);

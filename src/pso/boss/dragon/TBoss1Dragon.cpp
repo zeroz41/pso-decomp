@@ -2,7 +2,7 @@
 #include "pso/system/SubtractiveRng.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
-#include "pso/system/PersistentSound.h"
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/boss/DragonAttackParams.h"
@@ -99,7 +99,6 @@ struct ByteBlock_C { u8 bytes[0xC]; };
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 struct DragonCaptureVectors { Vec vectors[3]; };
 // The Dragon's block from TLobby::dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers and the
 // landing radius its attacks put in their DragonAttackParams copies, the V2 speeds, and the body parts' defenses.

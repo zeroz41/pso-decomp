@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -6,7 +5,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/system/AreaSound.h"
 #include "pso/player/PlayerAttackParams.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/technique/TTecZarua.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
@@ -56,7 +55,6 @@
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/model_render_state.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/object/base/TObjBase.h"
@@ -249,7 +247,7 @@ void TObjEneMe1GiGue::load_resources() {
     TObjEneMe1GiGueBarrier::init_global();
     {
     NpcAnimationBinding binding = { gigue_resource->motions, gigue_enemy_param_table, 0, 1, 9 };
-    NpcModelRegistry::register_animated_chunk(0x41, gigue_resource->models->model, gigue_resource->models->texlist, &binding, gigue_collision_bodies[0].radius, 15.0f);
+    TObjNpcEnemy::register_animated_chunk(0x41, gigue_resource->models->model, gigue_resource->models->texlist, &binding, gigue_collision_bodies[0].radius, 15.0f);
     }
 }
 

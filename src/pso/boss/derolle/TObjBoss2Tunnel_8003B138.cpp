@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
@@ -16,7 +15,6 @@
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TUnk_804835D8.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
@@ -441,7 +439,7 @@ void TObjBoss2Tunnel::run_task() {
                 brake_end = brake_pos;
                 play_sound_effect(0x4003A80E, 0, 0, 0);
             } else {
-                play_persistent_sound(0x4003B20C, this, 0, 0, 0);
+                play_persistent_sound(0x4003B20C, this, NULL, 0, 0);
             }
         } else {
             f32 lim;
@@ -473,7 +471,7 @@ void TObjBoss2Tunnel::run_task() {
         break;
     }
     if (state == 1 || state == 2) {
-        play_persistent_sound(0x4003B20C, this, 0, 0, 0);
+        play_persistent_sound(0x4003B20C, this, NULL, 0, 0);
     }
     update_particles();
     if (TObjBoss2Tunnel__global_flags & 2) {

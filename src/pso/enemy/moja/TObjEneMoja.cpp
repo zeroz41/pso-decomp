@@ -5,7 +5,7 @@
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/SampledMotionPoints.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -256,7 +256,7 @@ void TObjEneMoja::load_resources() {
     s16 ids[3] = { 0x32, 0x33, 0x34 };
     NpcAnimationBinding binding = { moja_bml_resource->motions, moja_motion_actions, 0, 2, 9 };
     for (s32 i = 0; i < 3; i++) {
-        NpcModelRegistry::register_animated_chunk(ids[i], moja_bml_resource->models[i].model, moja_bml_resource->models[i].texlist,
+        TObjNpcEnemy::register_animated_chunk(ids[i], moja_bml_resource->models[i].model, moja_bml_resource->models[i].texlist,
             &binding, moja_collision_body.radius, 0.0f);
     }
 }

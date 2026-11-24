@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/memory.h"
 #include "pso/render/StripBufferPair.h"
@@ -6,7 +5,7 @@
 #include "pso/system/memory.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/system/AreaSound.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -49,7 +48,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/StripBufferPair.h"
@@ -254,7 +252,7 @@ void TObjEneRe7Berura::load_static_resources() {
     {
         NpcAnimationBinding atk = ene_re7_berura_attack_def;
         atk.motions = TObjEneRe7Berura__shared_resource->motions;
-        NpcModelRegistry::register_animated_chunk(0x15, TObjEneRe7Berura__shared_resource->models->model, TObjEneRe7Berura__shared_resource->models->texlist, &atk, 8.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(0x15, TObjEneRe7Berura__shared_resource->models->model, TObjEneRe7Berura__shared_resource->models->texlist, &atk, 8.0f, 0.0f);
     }
 }
 

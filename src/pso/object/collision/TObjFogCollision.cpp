@@ -9,9 +9,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TObject_8001A448.h"
-#include "pso/object/TUnk_804AF7B0.h"
 #include "pso/map/FloorArea.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/object/collision/TObjFogCollision.h"
 #include "pso/object/collision/TObjFogCollision_Manager.h"
 #include "pso/object/collision/TObjFogCollisionSwitch.h"
@@ -32,6 +30,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/SoundEffect.h"
 
 
 const char *TObjFogCollision__name = "TObjFogCollision";
@@ -270,10 +269,10 @@ TObjFogCollisionPoison::TObjFogCollisionPoison(TObject *arg1, void *set) : TObjF
     ((VObj_801537CC *)parent)->m11();
     if (is_split_screen() != 0) {
         for (i = 0; i != 4; i++) {
-            new TUnk_804AF7B0((TObject *)parent, i);
+            new TObjFogCollisionPoison_Ticker((TObject *)parent, i);
         }
     } else {
-        new TUnk_804AF7B0((TObject *)parent, local_client_id);
+        new TObjFogCollisionPoison_Ticker((TObject *)parent, local_client_id);
     }
 }
 
@@ -327,36 +326,34 @@ extern "C" {
 s32 send_6x2F_change_player_hp(s32, u16, s16);
 }
 
-void TObjFogCollisionPoison__sub_801535D0(s32 arg0) {
-    const TObjBase *actor = reinterpret_cast<const TObjBase *>(arg0);
+void TObjFogCollisionPoison::play_poison_sound() {
     switch (get_current_floor_area()) {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_sound_effect(0x4004C115, &actor->position, 0, 0);
+        play_sound_effect(0x4004C115, &position, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4004C123, &actor->position, 0, 0);
+        play_sound_effect(0x4004C123, &position, 0, 0);
         break;
     default:
-        play_sound_effect(0x4004C11B, &actor->position, 0, 0);
+        play_sound_effect(0x4004C11B, &position, 0, 0);
         break;
     }
 }
 
-void TObjFogCollisionPoison__sub_80153520(s32 actor) {
-    const TObjBase *source = reinterpret_cast<const TObjBase *>(actor);
+void TObjFogCollisionPoison::play_poison_persistent_sound() {
     switch (get_current_floor_area()) {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_persistent_sound(0x4004BC16, source, &source->position, 0, 0);
+        play_persistent_sound(0x4004BC16, this, &position, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_persistent_sound(0x4004BC24, source, &source->position, 0, 0);
+        play_persistent_sound(0x4004BC24, this, &position, 0, 0);
         break;
     default:
-        play_persistent_sound(0x4004BC1C, source, &source->position, 0, 0);
+        play_persistent_sound(0x4004BC1C, this, &position, 0, 0);
         break;
     }
 }
@@ -487,13 +484,41 @@ void TObjFogCollision_Manager::run_task() {
 
 // Per-client poison ticker under a TObjFogCollisionPoison (its constructor creates one
 // per client; callers pass the client as u16).
-TUnk_804AF7B0::TUnk_804AF7B0(TObject *parent, u16 client) : TObject(parent) {
+TObjFogCollisionPoison_Ticker::TObjFogCollisionPoison_Ticker(TObject *parent, u16 client) : TObject(parent) {
     this->client = client;
     damage_interval = 0x96;
     damage_timer = 0;
     contact_ticks = 0;
 }
 
-TUnk_804AF7B0::~TUnk_804AF7B0() {
+TObjFogCollisionPoison_Ticker::~TObjFogCollisionPoison_Ticker() {
 
+}
+
+void TObjFogCollisionPoison_Ticker::run_task() {
+    TObjFogCollisionPoison *poison;
+
+    poison = (TObjFogCollisionPoison *)m_up;
+    if (poison->check_switch() != 0) {
+        if (poison->check_collision(client) != 0) {
+            poison->record_poison_hit(client);
+            damage_timer++;
+            if (damage_timer >= damage_interval) {
+                poison->apply_poison_damage(client);
+                damage_timer = 0;
+                damage_interval = 0x1E;
+            }
+            contact_ticks++;
+        } else {
+            damage_interval = 0x96;
+            contact_ticks = 0;
+        }
+        if (contact_ticks == 1) {
+            poison->play_poison_sound();
+            return;
+        }
+        if (contact_ticks > 0x3C) {
+            poison->play_poison_persistent_sound();
+        }
+    }
 }

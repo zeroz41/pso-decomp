@@ -2,6 +2,7 @@
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
+#include "pso/boss/galgryphon/TObjBoss5FloorStone.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8028A8F8.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80067034.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
@@ -22,7 +23,7 @@ f32 TBoss8Dragon::calc_sq_offset(const DragonAttackParams *params, f32 padding) 
 
 void TBoss8Dragon__sub_80067074(const Vec *pos, const DragonAttackParams *params) {
     TObject *floor_grass;
-    TObject *floor_stone;
+    TObjBoss5FloorStone *floor_stone;
     if (boss5_ctrl_instance != NULL) {
         floor_grass = boss5_ctrl_instance->floor_grass;
         if (floor_grass != NULL) {
@@ -30,7 +31,7 @@ void TBoss8Dragon__sub_80067074(const Vec *pos, const DragonAttackParams *params
         }
         floor_stone = boss5_ctrl_instance->floor_stone;
         if (floor_stone != NULL) {
-            TBoss8Dragon::trigger_switches_in_range(floor_stone, pos, params);
+            floor_stone->trigger_switches_in_range(pos, params);
         }
     }
 }

@@ -7,7 +7,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/npc/TObjNpcARW00.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -16,53 +16,49 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 
+void *TObjNpcARM00::create(void *set_data) {
+    TObjControl *control = new TObjControl(tl_04);
+    return new TObjNpcARM00(control, set_data);
+}
 
-const char *TObjNpcARM00__name = "TObjNpcARM00";
-void **TObjNpcARM00__model_resource;
-NJS_TEXLIST *TObjNpcARM00__texture_list;
-
-extern "C" {
+const char *TObjNpcARM00::name = "TObjNpcARM00";
+void **TObjNpcARM00::model_resource;
+NJS_TEXLIST *TObjNpcARM00::texture_list;
 
 void TObjNpcARM00::free_resources() {
-    if (TObjNpcARM00__texture_list != NULL) {
-        release_texture_list(TObjNpcARM00__texture_list);
-        safe_free(TObjNpcARM00__texture_list);
-        TObjNpcARM00__texture_list = NULL;
+    if (texture_list != NULL) {
+        release_texture_list(texture_list);
+        safe_free(texture_list);
+        texture_list = NULL;
     }
-    if (TObjNpcARM00__model_resource != NULL) {
-        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(TObjNpcARM00__model_resource));
-        TObjNpcARM00__model_resource = NULL;
+    if (model_resource != NULL) {
+        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(model_resource));
+        model_resource = NULL;
     }
 }
 
 void TObjNpcARM00::load_resources() {
-    TObjNpcARM00__model_resource = static_cast<void **>(create_named_object("npc_e00_data.rel"));
-    TObjNpcARM00__texture_list = load_gvm_texture_file("n_e00_w_body.gvm");
+    model_resource = static_cast<void **>(create_named_object("npc_e00_data.rel"));
+    texture_list = load_gvm_texture_file("n_e00_w_body.gvm");
 }
 
-}
 TObjNpcARM00::~TObjNpcARM00() {}
 
-
-TObjNpcARM00::TObjNpcARM00(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
-    *(s32 *)((s8 *)this + 0) = (saddr) TObjNpcARM00__name;
-    ((TObjNpcARM00 *)this)->apply_set_data(arg2);
+TObjNpcARM00::TObjNpcARM00(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+    this->m_name = name;
+    this->apply_set_data(set_data);
     init_position_vectors();
-    model = *TObjNpcARM00__model_resource;
-    ((TObjNpcARM00 *)this)->texlist = TObjNpcARM00__texture_list;
-    ((TObjNpcBase *)this)->setup_common();
+    this->model = *model_resource;
+    this->texlist = texture_list;
+    this->setup_common();
 }
 
 void TObjNpcARM00::play_voice() {
     play_sound_effect(0x40003B08, &position, 0, 0);
-}
-
-
-void *TObjNpcARW00__create(void *set_data) {
-    TObjControl *control = new TObjControl(tl_04);
-    return new TObjNpcARW00(control, set_data);
 }
 

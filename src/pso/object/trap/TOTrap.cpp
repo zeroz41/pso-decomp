@@ -53,7 +53,7 @@ void TOTrap::vfunc_82() {
             if (v < 0x1000U) {
                 pl = get_player_by_client_id(v);
                 if (TObjPlayer::is_locally_controlled(pl) != 0 && pl->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1(pl);
+                    send_release_hold(pl);
                 }
             }
         }
@@ -137,7 +137,7 @@ f32 TOTrap::receive_physical_attack(void *source, f32) {
             if (id < 0x1000U) {
                 pl = get_player_by_client_id(id);
                 if (pl != NULL && TObjPlayer::is_locally_controlled(pl) != 0 && pl->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1(pl);
+                    send_release_hold(pl);
                 }
             }
         }

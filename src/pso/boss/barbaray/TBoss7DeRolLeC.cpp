@@ -1,5 +1,5 @@
 #include "pso/system/memory.h"
-#include "pso/system/PersistentSound.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 
@@ -127,7 +127,6 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 #include "pso/system/task/TObject_80019A50.h"
 

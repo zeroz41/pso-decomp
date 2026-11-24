@@ -396,7 +396,7 @@ void TBoss6PlotFalz::apply_fade_alpha(s32 color, f32 alpha) {
         if (alpha > 1.0f) {
             alpha = 1.0f;
         }
-        fn_803594B4(fade, color, alpha);
+        fade->set_fade(color, alpha);
     }
 }
 #pragma push

@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/effect/photon/TPhotonRainbow.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
@@ -26,7 +25,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/MaterialAlphaCompare.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/base/CollisionActorLookup.h"

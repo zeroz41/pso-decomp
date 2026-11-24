@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -8,7 +7,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/StripBufferPair.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/city/CityTraffic.h"
 #include "pso/object/city/CityTrafficTables.h"

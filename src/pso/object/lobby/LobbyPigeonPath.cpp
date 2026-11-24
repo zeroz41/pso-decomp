@@ -5,7 +5,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/animation/MotionContext.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/object/lobby/LobbyPigeonPath.h"
 
@@ -82,7 +82,7 @@ extern const Entry_802C2C48 seabed_dolphin_path_profiles[5] = {
     {4, 0.2f, 0.6f, 0.1f, 182},
 };
 // The dolphin's one action (mode 1, motion 5 at 0.6 speed); inferred name: the action table of
-// seabed_dolphin_anim_binding, which load_seabed_dolphin hands to NpcModelRegistry::register_animated_chunk.
+// seabed_dolphin_anim_binding, which load_seabed_dolphin hands to TObjNpcEnemy::register_animated_chunk.
 TObjMotionAction seabed_dolphin_actions[1] = {
     {1, 0, 5, 0.6f, 0},
 };
@@ -353,7 +353,7 @@ void TObjSeabedDolphin::load_static_resource() {
     seabed_dolphin_texture_handle = load_gvm_texture_file("obj_seabed_dolphin.gvm");
     NpcAnimationBinding binding = seabed_dolphin_anim_binding;
     binding.motions = seabed_dolphin_bml_archive->motions;
-    NpcModelRegistry::register_animated_chunk(0x40,
+    TObjNpcEnemy::register_animated_chunk(0x40,
         get_bml_model(seabed_dolphin_bml_archive, 0),
         seabed_dolphin_texture_handle, &binding, 16.0f, 10.0f);
 }

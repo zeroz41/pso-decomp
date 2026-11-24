@@ -19,7 +19,7 @@ void TObjBoss5FloorGrass::render() {
     if (TObjPlayer::is_any_teammate_in_state() == 0) {
         push_matrix();
         TObjFish::set_global_param(boss5_common_texture_list);
-        draw_ginja_object(lbl_805D4DD8->models[7].model);
+        draw_ginja_object(boss5_common_bml_resource->models[7].model);
         pop_matrix();
     }
 }

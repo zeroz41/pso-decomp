@@ -19,8 +19,12 @@ struct G_CastTechniqueParams_6x47 {
 // 6x47: a player casts a technique on up to ten targets.
 struct G_CastTechnique_6x47 {
     G_CastTechnique_6x47();
-    void byteswap_positions();
-    void finalize_and_send_packet();
+
+    // Bytes actually sent: the header, the parameters and target_count targets.
+    u8 get_size();
+    void bswap();
+    // Sets the header size, byte-swaps and sends the packet.
+    void send();
 
     G_ClientIDHeader header;
     G_CastTechniqueParams_6x47 params;

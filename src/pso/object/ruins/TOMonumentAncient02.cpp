@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "types.h"
 #include "pso/render/render_util.h"
 #include <stdlib.h>
@@ -9,7 +8,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/object/ruins/TOMonumentAncient02.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer_801542CC.h"

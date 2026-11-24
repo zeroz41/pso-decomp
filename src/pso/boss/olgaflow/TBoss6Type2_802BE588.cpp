@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6EffHyoui.h"
@@ -10,7 +9,6 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/player/PlayerSlots.h"
 

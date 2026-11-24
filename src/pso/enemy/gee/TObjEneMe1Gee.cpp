@@ -1,11 +1,10 @@
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/EnemyBmlResource.h"
 #include <stddef.h>
 #include <stdlib.h>
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/render/TUnk_80494938.h"
 #include "pso/math/FloatRounding.h"
@@ -53,7 +52,6 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/SoundEffect.h"
@@ -162,7 +160,7 @@ void TObjEneMe1Gee::load_resources() {
     {
         NpcAnimationBinding params = { NULL, TObjEneMe1Gee__motion_parameters, 0, 0, 4 };
         params.motions = TObjEneMe1Gee__resource_bundle->motions;
-        NpcModelRegistry::register_animated_chunk((s16)0x10, TObjEneMe1Gee__resource_bundle->models->model, TObjEneMe1Gee__resource_bundle->models->texlist, &params, 8.0f, 15.0f);
+        TObjNpcEnemy::register_animated_chunk((s16)0x10, TObjEneMe1Gee__resource_bundle->models->model, TObjEneMe1Gee__resource_bundle->models->texlist, &params, 8.0f, 15.0f);
     }
 }
 

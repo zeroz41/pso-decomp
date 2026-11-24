@@ -4,7 +4,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "types.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
@@ -231,7 +231,7 @@ void TObjEnePanarms::load_and_spawn_npc() {
     if (resource != NULL) {
         NpcAnimationBinding binding = panarms_npc_spawn_descriptor;
         binding.motions = resource->motions;
-        NpcModelRegistry::register_animated_chunk(0x23, resource->models[0].model,
+        TObjNpcEnemy::register_animated_chunk(0x23, resource->models[0].model,
             resource->models[0].texlist, &binding, 12.5f, 0.0f);
         TObjEnePanarms::spawn_npc_pair();
     }

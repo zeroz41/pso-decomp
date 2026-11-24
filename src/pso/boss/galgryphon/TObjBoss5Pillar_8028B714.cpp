@@ -1,10 +1,10 @@
 #include "pso/boss/galgryphon/TObjBoss5Pillar_8028B714.h"
-#include "pso/npc/TNpcPlayer_8028B810.h"
+#include "pso/ui/charcreate/CharacterPreview.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/memory.h"
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 
-CharacterPreviewLoadData *free_chcr_resources(CharacterPreviewLoadData *data, s16 release_storage) {
+CharacterPreview *free_chcr_resources(CharacterPreview *data, s16 release_storage) {
     if (data != NULL) {
         if (data->request != NULL && data->is_unloaded() == 0) {
             delete data->request;
