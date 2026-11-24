@@ -31,13 +31,13 @@ void TTecDeband::update_effect_params() {
     TechniqueParams *res;
     res = calc_technique_parameters(0xA, this->level, 0xFFFF);
     params.copy(res);
-    this->params.pad_00 = (f32) (this->params.pad_24 * this->level);
+    this->params.power = (f32) (this->params.power_per_level * this->level);
 }
 
 void TTecDeband::apply_to_player(TObjPlayer *player) {
     DirectAttackPayload hit;
     hit.kind = 0xA;
-    hit.power = params.pad_00;
+    hit.power = params.power;
     if (player->is_script_controlled() == 0) {
         player->receive_direct_attack((void *)source, hit, 0, 0xA, -1);
         if (is_split_screen() == 0) {
@@ -101,7 +101,7 @@ TTecDeband::TTecDeband(void *owner, void *pos, void *target_list, s32 level) : T
     update_effect_params();
     t = target;
     if (t != NULL) {
-        t->bodies->radius = 5.0f + params.pad_08;
+        t->bodies->radius = 5.0f + params.range;
     }
     if (source != 0U) {
         sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
@@ -120,7 +120,7 @@ TTecDeband::TTecDeband(void *owner, void *pos, s32 level) : TTecPlayerInfluence(
     update_effect_params();
     t = target;
     if (t != NULL) {
-        t->bodies->radius = 5.0f + params.pad_08;
+        t->bodies->radius = 5.0f + params.range;
     }
     if (source != 0U) {
         sourceId = ((TObjBase *)(saddr)source)->get_entity_id();

@@ -25,20 +25,6 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 
-struct RecoveredFields_802308A0_arg0
-{
-  u8 unknown_0[0x70];
-  f32 field_70;
-  u8 unknown_74[0x50];
-  s16 field_C4;
-  u8 unknown_C6[0x6];
-  f32 field_CC;
-  u8 unknown_D0[0x4];
-  f32 field_D4;
-  u8 unknown_D8[0x18];
-  s16 field_F0;
-};
-
 
 struct Row_802304A0 { u32 entry; u32 flags; f32 scale; };
 struct Band_802304A0 { const Row_802304A0 *rows; u32 count; };
@@ -213,25 +199,18 @@ void TTecGiBarta::create_particles() {
 }
 #pragma auto_inline off
 
-typedef struct RecoveredFields_802308A0_arg0 RecoveredFields_802308A0_arg0;
 void TTecGiBarta::calc_params() {
-    u8 *arg0 = (u8 *)this;
-  TechniqueParams *new_var;
-  new_var = calc_technique_parameters(4, (int) ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4, 0xFFFF);
-  ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
-  if ((((s16) ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
-  {
-    ((RecoveredFields_802308A0_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[4].base + (tech_high_level_linear_power_table[4].per_level * ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4));
-  }
-  else
-  {
-    ((RecoveredFields_802308A0_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_802308A0_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_802308A0_arg0 *) arg0)->field_F0 * ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4)));
-    if (TTecCtrl::is_technique_ready() != 0)
-    {
-      ((RecoveredFields_802308A0_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_802308A0_arg0 *) arg0)->field_CC * technique_scale_table[4].power);
+    TechniqueParams *scaled = calc_technique_parameters(4, level, 0xFFFF);
+    params.copy(scaled);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        params.power = (f32)(tech_high_level_linear_power_table[4].base + tech_high_level_linear_power_table[4].per_level * level);
+    } else {
+        params.power = params.power + (f32)(params.power_per_level * level);
+        if (TTecCtrl::is_technique_ready() != 0) {
+            params.power = params.power * technique_scale_table[4].power;
+        }
     }
-  }
-  ((RecoveredFields_802308A0_arg0 *) arg0)->field_70 = (f32) ((RecoveredFields_802308A0_arg0 *) arg0)->field_D4;
+    range = params.range;
 }
 
 void TTecGiBarta::apply_to_target(TObjChara *target) {
@@ -250,7 +229,7 @@ void TTecGiBarta::apply_to_target(TObjChara *target) {
         }
         DirectAttackPayload hit;
         hit.kind = 2;
-        hit.power = power;
+        hit.power = params.power;
         target->receive_direct_attack((void *)source, hit, contact, 4, -1);
     }
 }

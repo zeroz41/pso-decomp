@@ -59,7 +59,7 @@ void TTecSifta::update_effect_params() {
     TechniqueParams *res;
     res = calc_technique_parameters(0xD, this->level, 0xFFFF);
     params.copy(res);
-    this->params.pad_00 = (f32) (this->params.pad_24 * this->level);
+    this->params.power = (f32) (this->params.power_per_level * this->level);
 }
 
 void TTecSifta::create_instance(void *source, void *origin, void *targets, s32 level) {
@@ -74,7 +74,7 @@ void TTecSifta::apply_to_player(TObjPlayer *player) {
     DirectAttackPayload hit;
     if (player->is_script_controlled() == 0) {
         hit.kind = 9;
-        hit.power = params.pad_00;
+        hit.power = params.power;
         if (is_split_screen() == 0) {
             TWindowCtrl::show_party_effect(((TObjBase *)source)->get_entity_id(), player->get_entity_id(), 9);
         }
@@ -127,7 +127,7 @@ TTecSifta::TTecSifta(void *owner, void *pos, void *target_list, s32 level) : TTe
     update_effect_params();
     t = target;
     if (t != NULL) {
-        t->bodies->radius = 5.0f + params.pad_08;
+        t->bodies->radius = 5.0f + params.range;
     }
     if (source != 0U) {
         sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
@@ -146,7 +146,7 @@ TTecSifta::TTecSifta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(ow
     update_effect_params();
     t = target;
     if (t != NULL) {
-        t->bodies->radius = 5.0f + params.pad_08;
+        t->bodies->radius = 5.0f + params.range;
     }
     if (source != 0U) {
         sourceId = ((TObjBase *)(saddr)source)->get_entity_id();

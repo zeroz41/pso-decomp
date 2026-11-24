@@ -120,24 +120,18 @@ void TTecBarta::create_particle_emitters() {
 }
 
 void TTecBarta::init_parameters() {
-    u8 *arg0 = (u8 *)this;
-  saddr new_var;
-  new_var = (saddr) calc_technique_parameters(3, this->level, 0xFFFF);
-  ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
-  if (((this->level) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
-  {
-    this->power = (f32) (tech_high_level_linear_power_table[3].base + (tech_high_level_linear_power_table[3].per_level * (this->level)));
-  }
-  else
-  {
-    this->power = (f32) ((this->power) + ((f32) ((*((s16 *) (((s8 *) arg0) + 0xF0))) * (this->level))));
-    if (TTecCtrl::is_technique_ready() != 0)
-    {
-      this->power = (f32) ((this->power) * technique_scale_table[3].power);
+    TechniqueParams *scaled = calc_technique_parameters(3, level, 0xFFFF);
+    params.copy(scaled);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        params.power = (f32)(tech_high_level_linear_power_table[3].base + tech_high_level_linear_power_table[3].per_level * level);
+    } else {
+        params.power = params.power + (f32)(params.power_per_level * level);
+        if (TTecCtrl::is_technique_ready() != 0) {
+            params.power = params.power * technique_scale_table[3].power;
+        }
     }
-  }
-  this->speed = (f32) ((*((f32 *) (((s8 *) arg0) + 0xD0))) + ((f32) (((this->level) / 5) * 2)));
-  this->range = (f32) (*((f32 *) (((s8 *) arg0) + 0xD4)));
+    speed = params.speed + (f32)((level / 5) * 2);
+    range = params.range;
 }
 
 void TTecBarta::create(void *source, void *origin, void *aim, s32 level) {
@@ -164,7 +158,7 @@ void TTecBarta::apply_to_target(TObjChara *target) {
         }
         DirectAttackPayload hit;
         hit.kind = 19;
-        hit.power = power;
+        hit.power = params.power;
         target->receive_direct_attack((void *)source, hit, contact, 3, -1);
     }
 }

@@ -32,16 +32,6 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 
-struct RecoveredFields_80230D9C_arg0
-{
-  u8 unknown_0[0x78];
-  s16 field_78;
-  u8 unknown_7A[0xE];
-  f32 field_88;
-  u8 unknown_8C[0x20];
-  s16 field_AC;
-};
-
 #pragma fp_contract on
 
 extern "C" {
@@ -49,22 +39,11 @@ f32 vector_length(void *);
 #pragma push
 #pragma opt_common_subs off
 
-typedef struct RecoveredFields_80230D9C_arg0 RecoveredFields_80230D9C_arg0;
 
 #pragma pop
 
 
 }
-
-struct RecoveredFields_80238D10_arg0
-{
-  u8 unknown_0[0x78];
-  s16 field_78;
-  u8 unknown_7A[0xE];
-  f32 field_88;
-  u8 unknown_8C[0x20];
-  s16 field_AC;
-};
 
 struct Entry_80238C6C { s32 entry; u8 pad[8]; };
 
@@ -89,7 +68,6 @@ struct Self_80238C6C {
 
 extern "C" {
 
-typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
 #pragma push
 #pragma opt_common_subs off
@@ -105,25 +83,22 @@ void TTecRaZonde::vfunc_8(void *) {
 }
 
 void TTecRaZonde::calc_damage() {
-    u8 *arg0 = (u8 *)this;
-  TechniqueParams *new_var;
-  new_var = calc_technique_parameters(8, (int) ((RecoveredFields_80238D10_arg0 *) arg0)->field_78, 0xFFFF);
-  ((TechniqueParams *)(arg0 + 0x88))->copy((TechniqueParams *)new_var);
-  if ((((s16) ((RecoveredFields_80238D10_arg0 *) arg0)->field_78) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
-  {
-    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (tech_high_level_linear_power_table[8].base + (tech_high_level_linear_power_table[8].per_level * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78));
-    return;
-  }
-  ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 + ((f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_AC * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78)));
-  if (TTecCtrl::is_technique_ready() != 0)
-  {
-    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 * technique_scale_table[8].power);
-  }
+    TechniqueParams *scaled = calc_technique_parameters(8, level, 0xFFFF);
+    params.copy(scaled);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        params.power = (f32)(tech_high_level_linear_power_table[8].base + tech_high_level_linear_power_table[8].per_level * level);
+        return;
+    }
+    params.power = params.power + (f32)(params.power_per_level * level);
+    if (TTecCtrl::is_technique_ready()) {
+        params.power = params.power * technique_scale_table[8].power;
+    }
+
 }
 void TTecRaZonde::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 3;
-    hit.power = this->power;
+    hit.power = this->params.power;
     target->receive_direct_attack((void *)this->source, hit, 0, 8, -1);
 }
 
@@ -201,7 +176,7 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     m_name = TTecRaZonde_class_name;
     calc_damage();
     if (collidable != NULL) {
-        collidable->bodies->radius = (5.0f) + scope;
+        collidable->bodies->radius = (5.0f) + params.range;
     }
     vfunc_8(0);
     r = (0.0f);

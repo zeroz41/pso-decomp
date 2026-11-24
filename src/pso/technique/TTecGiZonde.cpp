@@ -65,44 +65,30 @@ struct Chain_80231C58 {
     Target_80231C58 targets[1];
 };
 
-struct RecoveredFields_8023C558_arg0
-{
-  u8 unknown_0[0xC4];
-  s16 field_C4;
-  u8 unknown_C6[0x6];
-  f32 field_CC;
-  u8 unknown_D0[0x20];
-  s16 field_F0;
-};
 
-
-typedef struct RecoveredFields_8023C558_arg0 RecoveredFields_8023C558_arg0;
 #pragma readonly_strings on
 
 const char *TTecGiZonde_name_ref = "TTecGiZonde";
 
 void TTecGiZonde::init_parameters() {
-    u8 *arg0 = (u8 *)this;
-  TechniqueParams *new_var;
-  new_var = calc_technique_parameters(0x7, (int) ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4, 0xFFFF);
-  ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
-  if ((((s16) ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
-  {
-    ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[7].base + (tech_high_level_linear_power_table[7].per_level * ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4));
-    return;
-  }
-  ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_F0 * ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4)));
-  if (TTecCtrl::is_technique_ready())
-  {
-    ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_CC * technique_scale_table[7].power);
-  }
+    TechniqueParams *scaled = calc_technique_parameters(7, level, 0xFFFF);
+    params.copy(scaled);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        params.power = (f32)(tech_high_level_linear_power_table[7].base + tech_high_level_linear_power_table[7].per_level * level);
+        return;
+    }
+    params.power = params.power + (f32)(params.power_per_level * level);
+    if (TTecCtrl::is_technique_ready()) {
+        params.power = params.power * technique_scale_table[7].power;
+    }
+
 }
 
 
 void TTecGiZonde::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 3;
-    hit.power = this->power;
+    hit.power = this->params.power;
     target->receive_direct_attack((void *)this->source, hit, 0, 7, -1);
 }
 

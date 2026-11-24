@@ -65,7 +65,7 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source
     this->m_name = TTecGiFoie__name;
     calc_params();
     if (this->collidable != NULL) {
-        this->collidable->bodies->radius = 5.0f + this->scope;
+        this->collidable->bodies->radius = 5.0f + this->params.range;
     }
     for (i = 0; i < 32; i++) {
         this->hitIds[i] = 0xFFFF;
@@ -149,7 +149,7 @@ void TTecGiFoie::run_task() {
             this->collidable->bodies->radius = 5.0f + distance;
         }
         apply_technique_to_area_targets();
-        if (distance >= this->scope) {
+        if (distance >= this->params.range) {
             queue_destruction();
         }
     }
@@ -181,7 +181,7 @@ void TTecGiFoie::apply_to_target(TObjChara *target) {
         }
         DirectAttackPayload hit;
         hit.kind = 1;
-        hit.power = power;
+        hit.power = params.power;
         target->receive_direct_attack((void *)source, hit, contact, 1, -1);
     }
 }
@@ -328,15 +328,15 @@ void TUnk_804CC800::run_task() {
 }
 
 void TTecGiFoie::calc_params() {
-    TechniqueParams *params = calc_technique_parameters(1, level, 0xFFFF);
-    ((TechniqueParams *)&power)->copy(params);
+    TechniqueParams *scaled = calc_technique_parameters(1, level, 0xFFFF);
+    params.copy(scaled);
     if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
-        power = (f32)(tech_high_level_linear_power_table[1].base + tech_high_level_linear_power_table[1].per_level * level);
+        params.power = (f32)(tech_high_level_linear_power_table[1].base + tech_high_level_linear_power_table[1].per_level * level);
         return;
     }
-    power = power + (f32)(((TechniqueParams *)&power)->pad_24 * level);
+    params.power = params.power + (f32)(params.power_per_level * level);
     if (TTecCtrl::is_technique_ready()) {
-        power = power * technique_scale_table[1].power;
+        params.power = params.power * technique_scale_table[1].power;
     }
 }
 

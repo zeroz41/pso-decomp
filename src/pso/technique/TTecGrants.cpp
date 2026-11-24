@@ -15,16 +15,6 @@
 #include "pso/player/TargetCursorList.h"
 #include "pso/object/base/TObjBase.h"
 
-struct RecoveredFields_80238D10_arg0
-{
-  u8 unknown_0[0x78];
-  s16 field_78;
-  u8 unknown_7A[0xE];
-  f32 field_88;
-  u8 unknown_8C[0x20];
-  s16 field_AC;
-};
-
 extern "C" {
 extern s32 tec_grants_class_name;
 
@@ -33,10 +23,9 @@ void TTecGrants::render() {  }
 void TTecGrants::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 0x4;
-    hit.power = this->power;
+    hit.power = this->params.power;
     target->receive_direct_attack((void *)this->source, hit, this->contact, 0x9, -1);
 }
-typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
 
 void TTecGrants::create(void *source, void *origin, void *targets, s32 level) {
     new TTecGrants((saddr)source, (saddr)origin, (saddr)targets, level);

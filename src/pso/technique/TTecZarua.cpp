@@ -31,13 +31,13 @@ void TTecZarua::calc_range() {
     u8 *arg0 = (u8 *)this;
     TechniqueParams *params = calc_technique_parameters(0xC, this->level, 0xFFFF);
     ((TechniqueParams *)(arg0 + 0x88))->copy(params);
-    this->power = (f32)(this->base_power * this->level);
+    this->params.power = (f32)(this->params.power_per_level * this->level);
 }
 
 void TTecZarua::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 0xc;
-    hit.power = this->power;
+    hit.power = this->params.power;
     target->receive_direct_attack((void *)this->source, hit, this->contact, 0xc, -1);
 }
 
@@ -79,7 +79,7 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
     calc_range();
     VecCopy(&position, pos);
     if (collidable != NULL) {
-        collidable->bodies->radius = scope;
+        collidable->bodies->radius = params.range;
     }
     switch (band) {
     case 0:
@@ -113,7 +113,7 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
     calc_range();
     VecCopy(&position, &this->target);
     if (collidable != NULL) {
-        collidable->bodies->radius = scope;
+        collidable->bodies->radius = params.range;
     }
     switch (band) {
     case 0:

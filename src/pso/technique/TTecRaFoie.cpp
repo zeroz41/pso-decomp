@@ -156,15 +156,15 @@ extern s32 model_render_flags;
 #pragma opt_common_subs off
 
 void TTecRaFoie::calc_area_parameters() {
-    TechniqueParams *params = calc_technique_parameters(2, level, 0xFFFF);
-    ((TechniqueParams *)&power)->copy(params);
+    TechniqueParams *scaled = calc_technique_parameters(2, level, 0xFFFF);
+    params.copy(scaled);
     if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
-        power = (f32)(tech_high_level_linear_power_table[2].base + tech_high_level_linear_power_table[2].per_level * level);
+        params.power = (f32)(tech_high_level_linear_power_table[2].base + tech_high_level_linear_power_table[2].per_level * level);
         return;
     }
-    power = power + (f32)(((TechniqueParams *)&power)->pad_24 * level);
+    params.power = params.power + (f32)(params.power_per_level * level);
     if (TTecCtrl::is_technique_ready()) {
-        power = power * technique_scale_table[2].power;
+        params.power = params.power * technique_scale_table[2].power;
     }
 }
 
@@ -303,7 +303,7 @@ TUnk_804CCB28::TUnk_804CCB28(f32 radius, const Vec *pos, s16 band, TObject *pare
 void TTecRaFoie::apply_to_target(TObjChara *target) {
     DirectAttackPayload attack;
     attack.kind = 1;
-    attack.power = power;
+    attack.power = params.power;
     target->receive_direct_attack((void *)source, attack, contact, 2, -1);
 }
 
@@ -398,7 +398,7 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCir
     clear_target_cursor_list(&m_targets);
     m_148 = 1;
     if (collidable != NULL) {
-        collidable->bodies->radius = scope;
+        collidable->bodies->radius = params.range;
     }
     if (this->source != 0) {
         sourceId = ((TObjBase *)this->source)->get_entity_id();
@@ -417,7 +417,7 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 le
         sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
     if (collidable != NULL) {
-        collidable->bodies->radius = scope;
+        collidable->bodies->radius = params.range;
     }
     vfunc_8(0);
     vfunc_9();

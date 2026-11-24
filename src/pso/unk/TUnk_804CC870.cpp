@@ -248,15 +248,15 @@ void TUnk_804CC870::render() {
 
 
 void TTecGrants::init_parameters() {
-    TechniqueParams *params = calc_technique_parameters(9, level, 0xFFFF);
-    ((TechniqueParams *)&power)->copy(params);
+    TechniqueParams *scaled = calc_technique_parameters(9, level, 0xFFFF);
+    params.copy(scaled);
     if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
-        power = (f32)(tech_high_level_linear_power_table[9].base + tech_high_level_linear_power_table[9].per_level * level);
+        params.power = (f32)(tech_high_level_linear_power_table[9].base + tech_high_level_linear_power_table[9].per_level * level);
         return;
     }
-    power = power + (f32)(((TechniqueParams *)&power)->pad_24 * level);
+    params.power = params.power + (f32)(params.power_per_level * level);
     if (TTecCtrl::is_technique_ready()) {
-        power = power * technique_scale_table[9].power;
+        params.power = params.power * technique_scale_table[9].power;
     }
 }
 

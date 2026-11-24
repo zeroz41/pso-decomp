@@ -251,7 +251,7 @@ void TTecRaBarta::apply_to_target(TObjChara *target) {
         }
         DirectAttackPayload hit;
         hit.kind = 2;
-        hit.power = power;
+        hit.power = params.power;
         target->receive_direct_attack((void *)source, hit, contact, 5, -1);
     }
 }
@@ -306,7 +306,7 @@ void TTecRaBarta::run_task() {
     }
     this->age = this->age + 1;
     apply_technique_to_area_targets();
-    if ((s32) this->age > (s16) this->m_a8) {
+    if ((s32) this->age > (s16) this->params.duration) {
         ((TObject *)arg0)->queue_destruction();
     }
 }
@@ -321,7 +321,7 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecC
     m_f0 = 1;
     VecCopy(&position, VecCopy(&target, pos));
     if (collidable != NULL) {
-        collidable->bodies->radius = scope;
+        collidable->bodies->radius = params.range;
     }
     for (i = 0; i < 32; i++) {
         hit_ids[i] = 0xFFFF;
@@ -341,7 +341,7 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     m_f0 = 0;
     calc_parameters();
     if (collidable != NULL) {
-        collidable->bodies->radius = scope;
+        collidable->bodies->radius = params.range;
     }
     for (i = 0; i < 32; i++) {
         hit_ids[i] = 0xFFFF;

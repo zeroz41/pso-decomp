@@ -3,6 +3,7 @@
 #include "types.h"
 #include "pso/effect/TEffect.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/technique/TechniqueParams.h"
 
 class TObjChara;
 struct TechniqueContactList;
@@ -32,15 +33,7 @@ public:
     s16 level;
     s16 band;  // TObjPlayer::get_level_tier(level)
     Vec target;  // where the circle travels to before it spreads
-    f32 power;  // the technique parameters (TechniqueParams) start here
-    u8 pad_8C[0x4];
-    f32 scope;  // the radius the area grows to
-    u8 pad_94[0x14];
-    s16 m_a8;
-    u8 pad_AA[0x2];
-    s16 base_power;
-    u8 pad_AE[0x2];
-    u8 pad_B0[0x4];
+    TechniqueParams params;  // calc_technique_parameters for the cast's level; range is the radius the area grows to
     u16 sourceId;
     u8 pad_B6[0x2];
     TechniqueContactBody *contact;  // the body of the target being hit

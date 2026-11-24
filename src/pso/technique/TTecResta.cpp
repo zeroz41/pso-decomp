@@ -43,7 +43,7 @@ Row_8023967C TTecResta__self_recovery_effect_table[3] = {
 void TTecReverser::apply_to_target(TObjChara *target) {
     DirectAttackPayload hit;
     hit.kind = 8;
-    hit.power = power;
+    hit.power = params.power;
     target->receive_direct_attack((void *)source, hit, 0, -1, -1);
     new TUnk_804CCA90(&target->position, 0x2D, 0x4002AD13, tl_07);
 }
@@ -55,7 +55,7 @@ TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(ow
     init_parameters();
     t = target;
     if (t != NULL) {
-        t->bodies->radius = 5.0f + params.pad_08;
+        t->bodies->radius = 5.0f + params.range;
     }
     if (source != 0U) {
         sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
@@ -76,7 +76,7 @@ TTecResta::TTecResta(void *owner, void *pos, void *target_list, s32 level) : TTe
     init_parameters();
     t = target;
     if (t != NULL) {
-        t->bodies->radius = 5.0f + params.pad_08;
+        t->bodies->radius = 5.0f + params.range;
     }
     if (source != 0U) {
         sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
@@ -132,7 +132,7 @@ void TTecResta::apply_to_player(TObjPlayer *player) {
         return;
     }
     hit.kind = 6;
-    hit.power = params.pad_00;
+    hit.power = params.power;
     if (is_split_screen() == 0) {
         TWindowCtrl::show_party_effect(((TObjBase *)source)->get_entity_id(), player->get_entity_id(), 6);
     }
@@ -208,15 +208,15 @@ void TTecResta::init_parameters() {
     TechniqueParams *res;
     res = calc_technique_parameters(0xF, level, 0xFFFF);
     params.copy(res);
-    params.pad_00 = params.pad_00 + (f32)(params.pad_24 * level);
+    params.power = params.power + (f32)(params.power_per_level * level);
     if (TTecCtrl::is_technique_ready() != 0) {
-        params.pad_00 *= technique_scale_table[15].power;
+        params.power *= technique_scale_table[15].power;
     }
 }
 
 f32 TTecResta::calc_heal_amount(s32 level) {
     f32 amount;
-    amount = calc_technique_parameters(0xF, level, 0xFFFF)->pad_00;
+    amount = calc_technique_parameters(0xF, level, 0xFFFF)->power;
     amount = amount + (f32)(level * 5);
     if (TTecCtrl::is_technique_ready() != 0) {
         amount *= technique_scale_table[15].power;

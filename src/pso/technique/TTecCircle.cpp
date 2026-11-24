@@ -164,7 +164,7 @@ void TTecCircle::render() {
 }
 
 void TTecReverser::apply_params(TechniqueParams *params, s32 level) {
-    params->pad_00 = params->pad_00 + (f32)level;
-    this->speed = params->pad_04;
-    this->lifetime = params->pad_08;
+    params->power = params->power + (f32)level;
+    this->speed = params->speed;
+    this->lifetime = params->range;
 }
