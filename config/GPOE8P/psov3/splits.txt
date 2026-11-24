@@ -1708,14 +1708,8 @@ pso/npc/TNpcPlayer_800D87A8.cpp:
 pso/effect/GroundContactSound.cpp:
 	.text       start:0x800D8830 end:0x800D8A2C
 
-pso/player/TObjPlayer_800D8A2C.cpp:
-	.text       start:0x800D8A2C end:0x800D8A78
-
-pso/enemy/saver/TObjEneSaver.cpp:
-	.text       start:0x800D8A78 end:0x800D8ACC
-
 pso/boss/volopt/TBoss3Volopt_800D8ACC.cpp:
-	.text       start:0x800D8ACC end:0x800D9560
+	.text       start:0x800D8A2C end:0x800D9560
 	.rodata     start:0x8043C728 end:0x8043C758
 	.data       start:0x80494A40 end:0x80494AE0
 	.sdata      start:0x805D2AA0 end:0x805D2AA8
