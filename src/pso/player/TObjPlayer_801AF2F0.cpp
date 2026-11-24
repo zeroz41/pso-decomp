@@ -863,7 +863,7 @@ struct Pkt_801B1B08 { u16 f0; u16 client; u32 pad; };
 
 struct Pkt_801B1C00 { u16 f0; u16 client; u32 pad; };
 extern "C" {
-void set_invisible__10TObjPlayerFv(Pkt_801B1C00 *, void *);
+void __as__31G_SetPlayerVisibility_6x22_6x23FRC31G_SetPlayerVisibility_6x22_6x23(Pkt_801B1C00 *, void *);
 }
 
 // An equipped item and the slot it sits in, kept while apply_battle_level_reset rebuilds the stats.
@@ -5203,7 +5203,7 @@ void TObjPlayer::send_local_player_invisible() {
 void handle_6x22_set_player_invisible(G_SetPlayerVisibility_6x22_6x23 *command) {
     Pkt_801B1C00 pkt;
     fn_801C0630((Ctx_801B1C8C *)&pkt);
-    set_invisible__10TObjPlayerFv(&pkt, command);
+    __as__31G_SetPlayerVisibility_6x22_6x23FRC31G_SetPlayerVisibility_6x22_6x23(&pkt, command);
     bswap_g_client_id_header(&pkt);
     if (validate_6x22_set_player_invisible((G_ClientIDHeader *)&pkt) != 0) {
         u8 *p = (u8 *)get_player_by_client_id(pkt.client);

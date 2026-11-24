@@ -1,4 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/ui/font/TFontSmallLobby_801C013C.h"
 #include "pso/player/PhotonBlastRequests.h"
 #include "pso/player/PlayerState.h"
 #include "types.h"
@@ -227,13 +229,15 @@ extern "C" TObjPlayer *get_local_player() {
     return get_player_by_client_id(local_client_id);
 }
 
-int copy_subcommand_header(void*);
 
 void TObjPlayer::clear_flag_200000() {
     clear_state_flags(0x200000);
 }
 int TObjPlayer::check_flag_4() { return check_flag(4); }
-void*TObjPlayer::set_invisible() { copy_subcommand_header(this); return this; }
+G_SetPlayerVisibility_6x22_6x23 &G_SetPlayerVisibility_6x22_6x23::operator=(const G_SetPlayerVisibility_6x22_6x23 &src) {
+    copy_subcommand_header(this, (void *)&src);
+    return *this;
+}
 void TObjPlayer::clear_flag_4000_callback() { clear_flag_4000(); }
 void TObjPlayer::clear_flag_4000() { clear_state_flags(16384); }
 void TObjPlayer::set_flag_4000() { this->set_state_flags(16384); }
@@ -431,7 +435,6 @@ void emit_sand_footstep_effect(saddr arg0);
 void emit_idle_water_splash(s32 owner, saddr position);
 void emit_photon_blast_feedback_effects(saddr owner, u16 target_id);
 extern "C" {
-int copy_subcommand_header(void*);
 void TObjPlayer__sub_801BF47C(void* p);
 int shared_count;
 int shared_flag;
@@ -764,7 +767,7 @@ void TObjPlayer__sub_801BEEAC(u8 *dst, u8 *src) {
 }
 
 void *TObjPlayer::copy_6x0d_status_effect_packet(void *command) {
-    copy_subcommand_header(this);
+    copy_subcommand_header(this, command);
     __memcpy(&((Pkt_801D2964 *)this)->pos, &((Pkt_801D2964 *)command)->pos, 8);
     return this;
 }
@@ -966,7 +969,7 @@ void TObjPlayer__sub_801BFF80(u8 *record) {
 s32 TObjPlayer__sub_801BFFA0(void* p) { return *(s32*)((char*)p + 0x0); }
 
 u8 *TObjPlayer::copy_hold_params(u8 *src) {
-    copy_subcommand_header(this);
+    copy_subcommand_header(this, src);
     this->m_flags = (s16) *(s16 *)((s8 *)src + 4);
     this->m_id = (s16) *(s16 *)((s8 *)src + 6);
     *(ByteBlock_8 *)((saddr) ((u8 *)this) + 8) = *(const ByteBlock_8 *)((saddr) src + 8);

@@ -523,7 +523,6 @@ struct TObjPlayer : public TObjChara {
     short get_vobj_state_28();
     void clear_flag_200000();
     int check_flag_4();
-    void*set_invisible();
     void clear_flag_4000_callback();
     void clear_flag_4000();
     void set_flag_4000();

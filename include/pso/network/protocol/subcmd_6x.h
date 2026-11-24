@@ -868,6 +868,7 @@ struct G_SetPlayerPositionAndAngle_6x56 {
 
 struct G_SetPlayerVisibility_6x22_6x23 {
  struct G_ClientIDHeader header;
+ G_SetPlayerVisibility_6x22_6x23 &operator=(const G_SetPlayerVisibility_6x22_6x23 &src);
 };
 
 struct G_SetPosition_6x20 {
