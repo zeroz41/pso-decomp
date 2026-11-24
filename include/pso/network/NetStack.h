@@ -158,6 +158,7 @@ s32 close_all_connections(void);
 void PP_pap_proc(PppFsm *self, PppFrame *source);
 s16 network_input_available(u16 *out);
 s16 recv_network_bytes(u8 *dst, u16 n);
+s16 send_network_bytes(u8 *src, u16 len);
 
 #ifdef __cplusplus
 }

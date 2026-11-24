@@ -149,9 +149,15 @@ void modem_script_store_field(s16 type, s16 index, u8 *src, s16 *nstr, s16 *nint
 s16 WaitStringConnect(s32 idx);
 void reset_boot_state(void);
 s16 wait_timeout_loop(ModemRequest *request);
-void cancel_alarm_b(void);
+void term_buffer_pool(void);
 s16 init_buffer_pool(void);
 void reset_buffer_pool(void);
+extern s32 modem_connect_rate; /* the rate the modem's CONNECT reply carried */
+extern u8 *lobby_buffer_pool_base;
+extern u8 *lobby_second_buffer_pool_base;
+extern u32 lobby_buffer_pool_size;
+extern u8 *lobby_modem_ring_base;
+extern u32 lobby_modem_ring_size;
 #ifdef __cplusplus
 }
 #endif

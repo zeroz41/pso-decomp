@@ -39,8 +39,8 @@ s16 recv_network_bytes(u8 *dst, u16 n) {
   return 0;
 }
 
-s32 send_network_bytes(saddr src, u16 len) {
-    if (send_network_frame(len, (u8 *)src) != 0) {
+s16 send_network_bytes(u8 *src, u16 len) {
+    if (send_network_frame(len, src) != 0) {
         return -1;
     }
     return 0;

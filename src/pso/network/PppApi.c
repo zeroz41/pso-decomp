@@ -357,7 +357,6 @@ s32 ppp_hangup(void) {
 }
 
 s32 ppp_open_sub(void) {
-    extern s32 lbl_805D7BD8;
     NetSession *g = &net_session;
     LobbyPkt_803FB7A4 pkt;
     s16 r29;
@@ -561,7 +560,7 @@ L242:
     lobby_modem_connect_state = 4;
     if (g->cb != NULL) {
         unlock_mutex(net_thread_state.mutex);
-        g->cb(0, lbl_805D7BD8);
+        g->cb(0, modem_connect_rate);
         lock_mutex(net_thread_state.mutex);
     }
     return 0;

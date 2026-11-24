@@ -21,10 +21,6 @@ extern u16 lobby_buffer_slot_count;
 extern u16 lobby_thread_pool_count;
 extern NetworkThreadSlot *lobby_thread_pool_base;
 extern LobbyBufferSlot *lobby_buffer_slots;
-extern uaddr lobby_buffer_pool_size;
-extern u32 lbl_805D7C08;
-extern u8 *lobby_buffer_pool_base;
-extern u8 *lbl_805D7C04;
 #ifdef __cplusplus
 }
 #endif

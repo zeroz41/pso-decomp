@@ -17,51 +17,46 @@
 /* The script strings are read-only: the short ones are in .sdata2. */
 #pragma readonly_strings on
 
-typedef struct RecoveredGlobal_8042839C_lbl_805D0A40 {
-    s32 value;
-    u8 remaining[0x5C];
-} RecoveredGlobal_8042839C_lbl_805D0A40;
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 
 ModemSessionState lobby_net_session_state;
-/* The session's and the buffer pool's small state (.sbss 805D7BD0-805D7C30). This compiler lays .sbss out in
- * reverse definition order, so the last address comes first. */
-s32 lobby_buffer_pool_state;
-s32 lbl_805D7C24;
-s32 lbl_805D7C20;
-saddr buffer_pool_limit;
-uaddr buffer_pool_start;
-uaddr lbl_805D7C14;
-uaddr lbl_805D7C10;
-s32 lbl_805D7C0C;
-u32 lbl_805D7C08;
-u8 *lbl_805D7C04;
-NetMutexHandle lobby_buffer_pool_alarm_handle;
-s32 lbl_805D7BFC;
-saddr lobby_buffer_pool_end;
-saddr lbl_805D7BF4;
-saddr lbl_805D7BF0;
-saddr lbl_805D7BEC;
-uaddr lobby_buffer_pool_size;
+/* The session's small state and the two modem buffers layout_buffers carves from the work area: the buffer pool
+ * (two halves of lobby_buffer_pool_size bytes) and the modem ring. This compiler lays .sbss out in reverse
+ * definition order, so the last address comes first. */
+s32 lobby_modem_ring_state;
+s32 lobby_modem_ring_pending;
+u32 lobby_modem_ring_free;
+u8 *lobby_modem_ring_end;
+u8 *lobby_modem_ring_start;
+u8 *lobby_modem_ring_tail;
+u8 *lobby_modem_ring_head;
+s32 lobby_modem_ring_count;
+u32 lobby_modem_ring_size;
+u8 *lobby_modem_ring_base;
+NetMutexHandle lobby_buffer_pool_mutex;
+u32 lobby_buffer_pool_free;
+u8 *lobby_buffer_pool_end;
+u8 *lobby_buffer_pool_start;
+u8 *lobby_buffer_pool_tail;
+u8 *lobby_buffer_pool_head;
+u32 lobby_buffer_pool_size;
 u8 *lobby_second_buffer_pool_base;
 u8 *lobby_buffer_pool_base;
 s32 lobby_modem_reply_value;
-s32 lbl_805D7BD8;
+s32 modem_connect_rate;
 u32 lobby_modem_wait_timeout_ms;
 u32 lobby_modem_wait_start_ms;
 
 s16 WaitNstrRecv(u8 *buf, s16 len);
-s16 send_network_bytes(void *, s32);
 
 
 void reset_boot_state(void) {
     term_modem_session_config(&lobby_net_session_state);
 }
 
-LAYOUT_ASSERT(RecoveredGlobal_8042839C_lbl_805D0A40_size, sizeof(RecoveredGlobal_8042839C_lbl_805D0A40) == 0x60);
 s32 init_modem_session_config(void) {
     init_modem_buffer_config(&lobby_net_session_state);
     return 0;
@@ -573,7 +568,7 @@ s16 WaitStringConnect(s32 idx) {
         }
         n = NetStringLength(config->connect_response);
         if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->connect_response, n) == 0) {
-            goto L122;
+            break;
         }
         n = NetStringLength(config->busy_response);
         if (NetCompareStringsCaseInsensitiveN(*bufp + *lenp - n, (u8 *)config->busy_response, n) == 0) {
@@ -597,7 +592,6 @@ s16 WaitStringConnect(s32 idx) {
         }
     }
 
-L122:
     if (config->numeric_result == 0) {
         goto done;
     }
@@ -627,7 +621,7 @@ L122:
     }
 
 done:
-    lbl_805D7BD8 = lobby_modem_reply_value;
+    modem_connect_rate = lobby_modem_reply_value;
     return 0;
 }
 
@@ -667,17 +661,17 @@ s16 WaitNstrRecv(u8 *buf, s16 len) {
     return 0;
 }
 
-void cancel_alarm_b(void) {
-    NetReleaseMutex(lobby_buffer_pool_alarm_handle);
+void term_buffer_pool(void) {
+    NetReleaseMutex(lobby_buffer_pool_mutex);
 }
 
 s16 init_buffer_pool(void) {
-    lbl_805D7BEC = (saddr)lobby_buffer_pool_base;
-    lbl_805D7BF0 = (saddr)lobby_buffer_pool_base;
-    lbl_805D7BF4 = (saddr)lobby_buffer_pool_base;
-    lobby_buffer_pool_end = (saddr)(lobby_buffer_pool_base + lobby_buffer_pool_size);
-    lbl_805D7BFC = lobby_buffer_pool_size;
-    if (create_mutex(&lobby_buffer_pool_alarm_handle) < 0) {
+    lobby_buffer_pool_head = lobby_buffer_pool_base;
+    lobby_buffer_pool_tail = lobby_buffer_pool_base;
+    lobby_buffer_pool_start = lobby_buffer_pool_base;
+    lobby_buffer_pool_end = lobby_buffer_pool_base + lobby_buffer_pool_size;
+    lobby_buffer_pool_free = lobby_buffer_pool_size;
+    if (create_mutex(&lobby_buffer_pool_mutex) < 0) {
         return -1;
     }
     reset_buffer_pool();
@@ -685,20 +679,20 @@ s16 init_buffer_pool(void) {
 }
 
 void reset_buffer_pool(void) {
-    lbl_805D7C0C = 0;
-    lbl_805D7C24 = 0;
-    lobby_buffer_pool_state = 0;
-    if (lbl_805D7C04 != NULL) {
-        lbl_805D7C10 = (uaddr)lbl_805D7C04;
-        lbl_805D7C14 = (uaddr)lbl_805D7C04;
-        buffer_pool_start = (uaddr)lbl_805D7C04;
-        buffer_pool_limit = (saddr)(lbl_805D7C04 + lbl_805D7C08);
-        lbl_805D7C20 = lbl_805D7C08;
+    lobby_modem_ring_count = 0;
+    lobby_modem_ring_pending = 0;
+    lobby_modem_ring_state = 0;
+    if (lobby_modem_ring_base != NULL) {
+        lobby_modem_ring_head = lobby_modem_ring_base;
+        lobby_modem_ring_tail = lobby_modem_ring_base;
+        lobby_modem_ring_start = lobby_modem_ring_base;
+        lobby_modem_ring_end = lobby_modem_ring_base + lobby_modem_ring_size;
+        lobby_modem_ring_free = lobby_modem_ring_size;
         return;
     }
-    lbl_805D7C10 = 0U;
-    lbl_805D7C14 = 0U;
-    buffer_pool_start = 0U;
-    buffer_pool_limit = 0;
-    lbl_805D7C20 = 0;
+    lobby_modem_ring_head = NULL;
+    lobby_modem_ring_tail = NULL;
+    lobby_modem_ring_start = NULL;
+    lobby_modem_ring_end = NULL;
+    lobby_modem_ring_free = 0;
 }

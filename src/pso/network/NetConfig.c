@@ -6,6 +6,7 @@
 #include "pso/network/UdpRuntime.h"
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/NetConfig.h"
+#include "pso/network/ModemSession.h"
 #include <stddef.h>
 #include "pso/network/netcfg.h"
 #include "pso/network/NetTcpState.h"
@@ -50,7 +51,6 @@ u32 net_param_word_i;
 u32 net_param_word_h;
 void *net_transport_buffer_ptr_b;
 void *net_transport_buffer_ptr_a;
-extern u8 *lobby_second_buffer_pool_base;
 
 static u32 lobby_net_config_block[4722];
 static Ipv6Header ipv6_interface_config;
@@ -340,12 +340,12 @@ u8 *layout_buffers(NetTransportParams *h, u8 *p, u8 *end) {
         lobby_buffer_pool_size = h->h;
     }
     if (h->i != 0) {
-        lbl_805D7C04 = p;
+        lobby_modem_ring_base = p;
         p += h->i;
         if (p > end) {
             return NULL;
         }
-        lbl_805D7C08 = h->i;
+        lobby_modem_ring_size = h->i;
     }
     return p;
 }

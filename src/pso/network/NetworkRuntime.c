@@ -36,7 +36,7 @@ s32 AT_TerminateRTOS(void) {
     OSRestoreInterrupts(lvl);
     pppoe_term_rtos();
     cancel_alarm_a();
-    cancel_alarm_b();
+    term_buffer_pool();
     return 0;
 }
 
