@@ -747,8 +747,6 @@ struct TObjPlayer : public TObjChara {
     void *copy_packet_pos_6x42(void *pkt);
     void bswap_u16_pair_list();
     void bswap_u16_pair();
-    int test_bit1_at_10();
-    f32 get_float_14();
     void request_heavy_attack_particles();
     void set_action_palette_state_mode(u8 mode);
     void clear_flag_128();
