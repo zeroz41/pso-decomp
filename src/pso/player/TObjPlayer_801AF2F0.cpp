@@ -200,7 +200,6 @@ typedef struct Pkt_801B0300
 
 typedef struct Pkt_801B0300 Pkt_801B0300;
 
-struct Cmd_801B0690 { u16 hdr; u16 client; s32 team; };
 
 struct Rec_801B09A4 { u8 bytes[0x42C]; };
 
@@ -5652,21 +5651,21 @@ s32 TObjPlayer::check_flag_01000000(void *player) {
 }
 
 void handle_6x90_set_player_battle_team(G_SetPlayerBattleTeam_6x90 *command) {
-    struct Cmd_801B0690 cmd;
-    u8 *p;
+    G_SetPlayerBattleTeam_6x90 cmd;
+    TObjPlayer *p;
     s32 team;
-    ((G_SetPlayerBattleTeam_6x90 *)&cmd)->init();
-    *(G_SetPlayerBattleTeam_6x90 *)&cmd = *command;
-    ((G_SetPlayerBattleTeam_6x90 *)&cmd)->bswap();
-    if (validate_6x90_set_player_battle_team((G_ClientIDHeader *)&cmd) == 0) {
+    cmd.init();
+    cmd = *command;
+    cmd.bswap();
+    if (validate_6x90_set_player_battle_team(&cmd.header) == 0) {
         return;
     }
-    p = (u8 *)get_player_by_client_id((u16)cmd.client);
+    p = get_player_by_client_id((u16)cmd.header.client_id);
     if (p == NULL) {
         return;
     }
-    team = cmd.team;
-    ((PlayerPkState *)(p + 0x828))->set_team(team);
+    team = cmd.team_number;
+    p->pk_state.set_team(team);
     if (team == 1) {
         TMainCursor__sub_801540B8((saddr) p, *(s32 *)((s8 *)p + 0xA4), 0);
     } else {
