@@ -1,4 +1,5 @@
 #include "pso/network/protocol/subcommand_validation.h"
+#include "pso/object/TObjRoomId.h"
 #include "pso/network/protocol/subcommand_validation_player.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -11,9 +12,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/PlayerScaleState.h"
 
-extern "C" {
-u16 TObjRoomId__sub_801A1DB8(u16);
-}
 
 s32 validate_attack_target_entry(void *parameters) {
     return ((u32) *(s16 *)((s8 *)parameters + 2) >> 0x1FU) ^ 1;
@@ -142,7 +140,7 @@ s32 validate_6x38_donate_to_photon_blast(G_DonateToPhotonBlast_6x38 *packet) {
     if (validate_subcommand_client(&packet->header) == 0) {
         return 0;
     }
-    return (u32) __cntlzw(TObjRoomId__sub_801A1DB8(packet->target_client_id)) >> 5;
+    return (u32) __cntlzw(get_entity_id_kind(packet->target_client_id)) >> 5;
 }
 
 s32 validate_6x37_photon_blast(G_ClientIDHeader *packet) {
@@ -156,7 +154,7 @@ s32 validate_6x33_revive_player(G_RevivePlayer_6x33 *packet) {
     if (validate_subcommand_client(&packet->header) == 0) {
         return 0;
     }
-    return (u32) __cntlzw(TObjRoomId__sub_801A1DB8(packet->client_id2)) >> 5;
+    return (u32) __cntlzw(get_entity_id_kind(packet->client_id2)) >> 5;
 }
 
 s32 validate_6xA1_revive_player_v3(G_ClientIDHeader *packet) {
@@ -212,7 +210,7 @@ s32 validate_6x2F_change_player_hp(G_ClientIDHeader *packet) {
     if (find_entity_by_id(*(u16 *)((s8 *)packet + 0xA)) == 0U) {
         return 0;
     }
-    return (u32) __cntlzw((u32) TObjRoomId__sub_801A1DB8(*(u16 *)((s8 *)packet + 0xA))) >> 5;
+    return (u32) __cntlzw((u32) get_entity_id_kind(*(u16 *)((s8 *)packet + 0xA))) >> 5;
 }
 
 s32 validate_6x2E_set_or_clear_player_flags(G_ClientIDHeader *packet) {

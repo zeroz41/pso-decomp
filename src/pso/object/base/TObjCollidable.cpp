@@ -1,4 +1,5 @@
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/object/TObjRoomId.h"
 #include "pso/object/base/HitEligibility.h"
 #include "pso/system/memory.h"
 #include "pso/object/trap/TOTrapAncient02R.h"
@@ -37,7 +38,6 @@
 #include "pso/map/FloorPopulation.h"
 
 extern "C" void *__construct_new_array(void *block, void *ctor, void *dtor, u32 size, u32 n);
-extern "C" u16 TObjRoomId__sub_801A1DB8(u16 entity_id);
 
 // The entity table, sorted by entity id (CollisionActorLookup.h).
 extern TObjCollidable *TObjPlayer__data_8050D460[0x18C];
@@ -1075,7 +1075,7 @@ s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal) {
     s32 mask;
     VecCopy(&origin, pos);
     origin.y += 10.0f;
-    room_kind = TObjRoomId__sub_801A1DB8(actor->entity_id);
+    room_kind = get_entity_id_kind(actor->entity_id);
     mask = 0x15;
     if (room_kind == 0) {
         mask = 0x55;

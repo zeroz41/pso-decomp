@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/camera/TCameraFollow.h"
+#include "pso/object/TObjRoomId.h"
 #include "pso/system/memory.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -65,7 +66,6 @@ struct VoloptCameraParams {
 
 extern "C" {
 s32 is_local_client_floor_leader();
-u16 TObjRoomId__sub_801A1DB8(u16 id);
 void TObjPlayer__sub_801BA42C(void);
 extern const char *door_vo_ship_class_name;
 }
@@ -545,7 +545,7 @@ void TBoss3Volopt::move_to_arena(s32 phase2) {
         if (phase2 != 0) {
             for (i = 0; i < registered_player_count; i++) {
                 player = TObjPlayer::get_player_data(i);
-                if (player != NULL && TObjRoomId__sub_801A1DB8(player->get_entity_id()) == 0 && player->get_area() == AREA_VOL_OPT) {
+                if (player != NULL && get_entity_id_kind(player->get_entity_id()) == 0 && player->get_area() == AREA_VOL_OPT) {
                     send_position(player, &volopt_phase2_player_positions[i], volopt_phase2_player_angles[i]);
                 }
             }

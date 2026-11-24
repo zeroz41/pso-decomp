@@ -31,6 +31,7 @@
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/boss/volopt/TObjVoloptPillar.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/object/TObjRoomId.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/byteswap.h"
@@ -61,7 +62,6 @@
 
 extern "C" {
 void TObjPlayer__sub_801BA42C(void);
-u16 TObjRoomId__sub_801A1DB8(void);
 s32 submit_cursor_candidate(void *, int);
 }
 
@@ -1374,8 +1374,7 @@ void TBoss3VoloptP02::push_players_out_of_radius() {
         if (player == NULL) {
             continue;
         }
-        player->get_entity_id();
-        if (TObjRoomId__sub_801A1DB8() != 0) {
+        if (get_entity_id_kind(player->get_entity_id()) != 0) {
             continue;
         }
         if (xz_distance_squared(&position, &player->position) <= 1225.0f) {

@@ -18,5 +18,8 @@ struct TObjRoomId : public TObjBase {
     Vec normal;
 };
 
+// The kind bits (0x5000) of an entity id, 0xFFFF for none; 0 means a player.
+u16 get_entity_id_kind(u16 entity_id);
+
 LAYOUT_ASSERT(TObjRoomId_size, sizeof(TObjRoomId) == 0x9C);
 #endif

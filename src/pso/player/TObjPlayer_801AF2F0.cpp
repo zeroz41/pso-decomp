@@ -1,4 +1,5 @@
 #include "pso/system/save/CardFileInfo.h"
+#include "pso/object/TObjRoomId.h"
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/PlayerLevelTable.h"
@@ -1098,7 +1099,6 @@ void copy_player_visual_record(void *, void *);
 u16 get_id__11TMainCursorFv(void* p);
 s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
-u16 TObjRoomId__sub_801A1DB8(u16);
 saddr TObjPlayer__sub_80116620(void *, int);
 void TObjPlayer__sub_801AF554(void *arg0, s8 arg1);
 void play_voice_pair__10TObjPlayerFPv(TObjPlayer *player);
@@ -5114,7 +5114,7 @@ void complete_deferred_player_death(void) {
         }
         ((TObjPlayer *)p)->send_respawn_position();
         aim = ((TLobby *)lobby_rule_settings)->clamp_value_below_200();
-        room = TObjRoomId__sub_801A1DB8(((TObjPlayer *)p)->get_attacker_id());
+        room = get_entity_id_kind(((TObjPlayer *)p)->get_attacker_id());
         if (aim != 0 && (room == 0 || room == 0x1000)) {
             ((TObjPlayer *)p)->update_aim_angle(aim);
         }
