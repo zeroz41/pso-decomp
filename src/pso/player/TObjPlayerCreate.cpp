@@ -29,17 +29,17 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/PlayerCharDataEntry.h"
 #include "pso/player/PlayerSyncRecord.h"
+#include "pso/object/TObjWaitEntryHairMoveSim.h"
 
 extern "C" {
 // TObjPlayer.h declares the slot as s32; the call passes the u16 entity id unextended.
 s32 sub_801AF454__10TObjPlayerFl(void *, u16);
 int copy_player_visual_record(void *dst, void *src);
-s32 fn_800FE73C(TObjPlayer *player);
 }
 
 extern u8 *TObjPlayer__shared_model_buffer;
 
-void TObjPlayer::sub_801BD318() {
+void TObjPlayer::init_model_and_idle_pose() {
     joint_matrices = TObjPlayer__shared_model_buffer + get_entity_id() * 0xC00;
     select_class_action_provider();
     sub_801AF454__10TObjPlayerFl(this, get_entity_id());
@@ -50,7 +50,7 @@ void TObjPlayer::sub_801BD318() {
 void TObjPlayer::init_body_parts(void *visual) { update_body_parts(visual); }
 void TObjPlayer::reset_body_parts() {  }
 void TObjPlayer::free_chara_making() { restore_boss6_player_snapshot(this); ((TCharaMaking *)this)->free_loaded_buffers(); }
-void TObjPlayer::update_body_parts(void *visual) { copy_player_visual_record((char*)this + 0x85c, visual); this->model_load_flags = 255; ((TCharaMaking *)this)->update_body_parts(); fn_800FE73C(this); }
+void TObjPlayer::update_body_parts(void *visual) { copy_player_visual_record((char*)this + 0x85c, visual); this->model_load_flags = 255; ((TCharaMaking *)this)->update_body_parts(); create_hair_move_sim(this); }
 
 TObjPlayer::~TObjPlayer() {
     release_child_object();
@@ -187,7 +187,7 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     this->set_luck_materials_used(record->get_luck_materials_used());
     this->init_player_data(&record->m_stats);
     this->create_lockon_cursor();
-    this->sub_801BD318();
+    this->init_model_and_idle_pose();
     this->init_control_mode(role);
     init_saved_technique_caps(record);
     init_player_substructs(reinterpret_cast<u8 *>(&record->m_config));
