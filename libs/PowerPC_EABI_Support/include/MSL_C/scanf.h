@@ -42,6 +42,7 @@ typedef struct {
 } __wInStrCtrl;
 
 int __StringRead(void* str, int ch, int behavior);
+int sscanf(const char* s, const char* format, ...);
 
 #ifdef __cplusplus
 }
