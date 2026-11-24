@@ -1407,7 +1407,7 @@ s32 TWindowSubComCard::create_entry_list_window() {
     Ent_80272CB0 *e;
     List_80272CB0 *l;
     card = (u8 *)get_character_save_record(0xFFFF);
-    hard = TLobby::open_hard_keyboard(*(void **)(((u8 *)this) + 0x20));
+    hard = TLobby::open_hard_keyboard(m_20);
     w = (saddr)create_choice_setting_window__17TWindowSubComCardFiii((const NJS_POINT2 *)get_window_layout_position(0x8C), (const NJS_POINT2 *)com_card_entry_list_size, 6);
     ((TWindowMenuInfomation *)w)->create_sub_window((const char *)TWindowSubStatusDisp::get_message_10(0x6D));
     ((TWindowMenuInfomation *)w)->update_next_entry((saddr)((void*)TWindowSubStatusDisp::get_message_10(0x6D)), (saddr)this->get_message_10(hard), 0);
@@ -1446,7 +1446,7 @@ s32 TWindowSubComCard::create_option_list_window(saddr entry_table, s32 key) {
     if (key == 0) {
         ((TWindowMenu *)win)->add_text_entry((saddr)this->get_message_10(0), 6, 0);
         ((TWindowMenu *)win)->add_text_entry((saddr)this->get_message_10(1), 6, 1);
-        ((TWindowSubComCardList *)win)->set_selected_index(TLobby::open_hard_keyboard((void *)this->m_20));
+        ((TWindowSubComCardList *)win)->set_selected_index(TLobby::open_hard_keyboard(m_20));
     } else {
         sel = ((TWindowSubComCard *)entry_table)->find_value_by_key(key);
         cs = (ChrSel_80272B60 *)TWindowSubComCard::get_chr_select();
@@ -1754,7 +1754,7 @@ u8 *TWindowSubComCard::find_entry_rest(void *arg1_arg, s32 idx) {
 void TWindowSubComCard::sub_80271F04(void *arr, s32 key, saddr val) {
     s32 i;
     if (key == 0) {
-        if (val != TLobby::open_hard_keyboard(*(void **)(((u8 *)this) + 0x20))) {
+        if (val != TLobby::open_hard_keyboard(m_20)) {
             ((u8 *)this)[0x1D] |= 1;
             ((TWindowSubComCard *)(*(void **)(((u8 *)this) + 0x20)))->set_com_param(val);
             ((TWindowMenuInfomation *)this->entry_list_window)->set_entry_string_by_id(this->get_message_10(val), 0);

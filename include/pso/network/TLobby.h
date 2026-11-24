@@ -786,7 +786,7 @@ struct TLobby : public TObject {
     static void on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id);
     static void open_city_warp_menu();
     static void open_download_list_window(int, void *);
-    static s32 open_hard_keyboard(void*);
+    static s32 open_hard_keyboard(s32 client_id);
     static void open_information_list(int, void *);
     static void open_keyboard_window();
     static void open_lobby_warp_menu();

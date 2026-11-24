@@ -71,12 +71,6 @@
 TWindowCtrl *TWindowCtrl::instance;
 u16 lbl_805D63FC;
 
-extern "C" {
-
-
-s32 open_hard_keyboard__6TLobbyFPv(s32);
-
-}
 
 struct RecoveredFields_8024A688_arg1
 {
@@ -1591,7 +1585,7 @@ void TLobby::send_card_window_state() {
     CharacterSaveRecord *card;
 
     card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
-    parameters.disabled = open_hard_keyboard__6TLobbyFPv(local_client_id) ? 1 : 0;
+    parameters.disabled = TLobby::open_hard_keyboard(local_client_id) ? 1 : 0;
     copy_choice_search_selections(card->choice_search, &parameters);
     protocol_instance->send_choice_search_parameters(parameters);
 }

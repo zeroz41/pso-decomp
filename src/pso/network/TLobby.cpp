@@ -421,7 +421,7 @@ void TLobby::send_game_character() {
     TAdSinglePlyChrSelectGC::init();
     card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
     memset(&choice_search_config, 0, sizeof(choice_search_config));
-    choice_search_config.disabled = TLobby::open_hard_keyboard((void *)(saddr)local_client_id) != 0 ? 1 : 0;
+    choice_search_config.disabled = TLobby::open_hard_keyboard(local_client_id) != 0 ? 1 : 0;
     copy_choice_search_selections(card->choice_search, &choice_search_config);
     memset(c, 0, sizeof(c));
     strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
@@ -2031,7 +2031,7 @@ void TLobby::send_selected_character() {
     CharacterSaveRecord *card;
     card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
     memset(&choice_search_config, 0, sizeof(choice_search_config));
-    choice_search_config.disabled = TLobby::open_hard_keyboard((void *)(saddr)local_client_id) != 0 ? 1 : 0;
+    choice_search_config.disabled = TLobby::open_hard_keyboard(local_client_id) != 0 ? 1 : 0;
     copy_choice_search_selections(card->choice_search, &choice_search_config);
     memset(c, 0, sizeof(c));
     strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
@@ -2741,7 +2741,7 @@ void TLobby::destroy_join_entries() {
 TPlyJoinLobbyEntry::TPlyJoinLobbyEntry() {}
 void render_idle_timeout(void) {  }
 void TLobby::bswap_6x6E_sync_game_state(void*p) { bswap_16((u16 *)p); bswap_16((u16 *)((char*)p + 0x2)); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); }
-s32 TLobby::open_hard_keyboard(void *p) { return TWindowKeyBoardHard::test_card_flag((saddr)p, 0x40000); }
+s32 TLobby::open_hard_keyboard(s32 client_id) { return TWindowKeyBoardHard::test_card_flag(client_id, 0x40000); }
 void TLobby::bswap_player_data(void *data) {
     PlayerSyncRecord *record = (PlayerSyncRecord *)data;
     s32 i;
