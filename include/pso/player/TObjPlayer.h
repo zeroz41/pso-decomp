@@ -294,7 +294,6 @@ struct TObjPlayer : public TObjChara {
     ActorParamBlock resistance_stats;
     void* m_dac;
     static void draw_area_chunk_objects();
-    static void copy_screen_to_texture(s32 mode, void *src);
     static void reset_effect_count();
     static void step_cutscene_frame(NJS_OBJECT *);
     void enter_state_8();
@@ -401,17 +400,6 @@ struct TObjPlayer : public TObjChara {
     s32 test_action_8000();
     s32 test_action_40000();
     s32 test_action_80000();
-    static void free_singleton();
-    static void init_render_target_singleton();
-    static void setup_tev_stage();
-    static void draw_if_all_ready();
-    static s32 check_all_players_ready();
-    static void draw_screen_quad(u32 arg0, s32 arg1, f32 farg0);
-    static void draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *size, s32 arg3);
-    static void reset_movie_state();
-    static s32 get_camera_flag();
-    static void set_tex_coord_gen(s32 dst, s32 func, s32 src, s32 mtx);
-    static f32 get_end_text_value(f32 x);
     int is_inactive();
     static void set_visibility_flags_by_count(void *arg0, s32 arg1);
     s16 get_atp();

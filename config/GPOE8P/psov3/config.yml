@@ -8341,7 +8341,7 @@ force_active:
   - lbl_805D4B90
   - lbl_805D4BE4
   - boss5_gryphon_camera_player_distance
-  - lbl_805D4EE0
+  - shadow_pass_requested
   - TObjEneDarkGunner__base_params_by_variant
   - TObjEneDarkGunner__attack_params_by_variant
   - TObjEneDarkGunner__resistance_params_by_variant

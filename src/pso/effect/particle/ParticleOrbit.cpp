@@ -22,7 +22,7 @@
 #include "types.h"
 #include <stdlib.h>
 #include "pso/effect/TEffIndirectSampler.h"
-#include "pso/player/TObjPlayer_80083594.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #pragma inline_depth(1)

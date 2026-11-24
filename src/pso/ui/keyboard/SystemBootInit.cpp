@@ -38,7 +38,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/PlayerLevelTable.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/system/scene/OfflineGameScene.h"

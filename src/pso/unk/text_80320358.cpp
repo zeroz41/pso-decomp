@@ -44,7 +44,7 @@ void (*mwPlyEntryAfs_hook)();
 void (*mwPlyGetNumSlFiles_hook)();
 void (*mwPlyGetSlFname_hook)();
 void (*mwPlyStartAfs_hook)();
-s32 (*mwPlyFxCnvFrmARGB8888_hook)(s32, s32, s32);
+s32 (*mwPlyFxCnvFrmARGB8888_hook)(s32, s32, void *);
 void (*mwPlyFxCnvFrmYUV422_hook)();
 void (*mwPlyFxCnvFrmY84C44_hook)();
 s32 (*mwPlyFxSetOutBufSize_hook)(s32, s32, s32);

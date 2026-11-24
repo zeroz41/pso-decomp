@@ -43,7 +43,7 @@
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/player/TObjPlayer_80083594.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
@@ -1659,7 +1659,7 @@ void TObjEneMe3Stelth::render() {
             if (stealthed != 0) {
                 TParticleCtrl::begin_effect_render();
                 if (behavior_flags & 8) {
-                    TObjPlayer::setup_tev_stage();
+                    setup_capture_blend_tev();
                     model_render_flags |= 0x8021;
                     NJS_ARGB c = me3_stelth_render_color;
                     set_constant_material(&c);

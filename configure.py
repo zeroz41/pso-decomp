@@ -829,7 +829,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -sdata 4: the 8-byte technique_ringwave_texture_list sits in .data, not .sdata.
     "pso/technique/TechniqueRingwaveList.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -sdata 4: the 8-byte NJS_TEXLISTs sit in .data, not .sdata.
-    "pso/player/TObjPlayer_80083594.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
+    "pso/render/CameraCapture.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -str reuse,readonly: the five string literals sit in .rodata; -sdata 4: the 8-byte
     # motion name list sits in .data, the 4-byte name pointer in .sdata.
     "pso/object/lobby/TObjButterflyLobby_80350958.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},

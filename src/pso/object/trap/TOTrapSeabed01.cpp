@@ -17,7 +17,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_80083594.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TUnk_804B6C24.h"

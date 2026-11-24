@@ -8,7 +8,7 @@
 #include "pso/system/movie/TMovie.h"
 #include "pso/system/movie/TMovie_80143C94.h"
 #include "pso/system/movie/TMovie_80143CE8.h"
-#include "pso/player/TObjPlayer_80083B38.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/unk/text_80320358.h"
 
 // Packs a planar 4:2:0 frame into the YUYV external frame buffer, centred,
@@ -230,5 +230,5 @@ void TMovie::calc_frame_buffer_size(saddr fb_a, saddr fb_b) {
 void flush_framebuffer(s32 movie_state, s32 sfd_player, s32 frame_info) {
     mwPlyFxSetOutBufSize_hook(sfd_player, 0x280, 0x1E0);
     mwPlyFxCnvFrmARGB8888_hook(sfd_player, frame_info, get_capture_texture_pixels());
-    DCFlushRangeNoSync(reinterpret_cast<void *>(get_capture_texture_pixels()), GXGetTexBufferSize(0x280, 0x1E0, 6, 0, 0));
+    DCFlushRangeNoSync(get_capture_texture_pixels(), GXGetTexBufferSize(0x280, 0x1E0, 6, 0, 0));
 }

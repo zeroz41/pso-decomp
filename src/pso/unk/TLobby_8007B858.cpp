@@ -34,7 +34,7 @@
 #include "pso/render/TFogCtrl.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/npc/TNpcTalkTrigger.h"
-#include "pso/player/TObjPlayer_80083B38.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/effect/TEffIndirectCtrl.h"
 #include "pso/unk/TLobby_802D3970.h"
 #include "pso/unk/TUnk_804EDAC0.h"
@@ -77,7 +77,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {TCameraCtrl::init_default_view, TCameraCtrl::reset_default_view},
     {(FloorResourceCallback)TLobby__sub_802D7A0C, TLobby::forward_npc_enemy},
     {create_reflection_target, destroy_reflection_target},
-    {TObjPlayer::init_render_target_singleton, TObjPlayer::free_singleton},
+    {init_camera_render_target, free_camera_render_target},
     {TScene::load_current_floor, TScene::free_scene_resources},
     {TSceneSora::load_sky_resources, TSceneSora__sub_80207430},
     {TRaderMapCore::load_map_resources, TRaderMapCore::unload_floor_map},
@@ -90,7 +90,7 @@ FloorResourceCallbacks lbl_8048D4C0[29] = {
     {reset_npc_proximity_target_on_floor_load, reset_npc_proximity_target_on_floor_free},
     {TLobby__sub_8007BBEC, TLobby__sub_8007BBF8},
     {reset_and_init_capture_texture, reset_and_release_capture_texture},
-    {TObjPlayer__sub_80083F38, (FloorResourceCallback)TObjPlayer__sub_80083F04},
+    {init_shadow_map_texture, release_shadow_map_texture},
     {load_indirect_dat, TEffIndirectCtrl::free_all},
     {(FloorResourceCallback)TLobby__sub_802D39BC, (FloorResourceCallback)close_trade_request__6TLobbyFPv},
     {TLobby__sub_8032BE3C, TLobby__sub_8032BE30},

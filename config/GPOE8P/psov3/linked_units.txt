@@ -1610,7 +1610,7 @@ pso/player/TObjPlayer_80052374.cpp
 pso/player/TObjPlayer_80055678.cpp
 pso/player/TObjPlayer_8007B4F8.cpp
 pso/player/TObjPlayer_80080750.cpp
-pso/player/TObjPlayer_80083594.cpp
+pso/render/CameraCapture.cpp
 pso/player/TUnk_80491460.cpp
 pso/player/TUnk_80491478.cpp
 pso/player/TObjPlayer_800BBE90.cpp

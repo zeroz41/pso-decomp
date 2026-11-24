@@ -32,7 +32,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/system/scene/TScene_800838C4.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/system/scene/TScene_8029F5B0.h"
 #include "pso/player/TObjPlayer_803DC834.h"
 #include <stddef.h>
@@ -320,7 +320,7 @@ void TObjPlayer::setup_projection_texture(Vec *, SceneSectionAngles *, u32 flags
         calc_projection_screen_offset(&x, &y);
         if (flags & 0x80) {
             push_matrix();
-            fov_y = (f32) (lbl_80465E18 * calc_camera_fov_degrees());
+            fov_y = (f32) (lbl_80465E18 * calc_camera_vertical_fov());
             if (TCameraCtrl::is_view_offset() != 0) {
                 C_MTXLightPerspective(mtx, fov_y, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - x), (f32) (0.5f - y));
             } else {

@@ -37,6 +37,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/TEF_PvrWave.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/render/CameraCapture.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -120,8 +121,6 @@ struct Model_8020533C { u8 pad0[4]; TEffIndirect *tex; s32 sampler; u8 padC[2]; 
 
 struct Lobby_8020533C { Vec v; SceneSectionAngles a; void *param; SceneMaterialNode *node; s16 scene; u8 id; };
 
-
-void render_projected_shadow_receiver(void *, void *);
 
 
 void release_indexed_entry__6TLobbyFl(Lobby_8020533C *);
@@ -1352,7 +1351,7 @@ void TScene::render_map_sections() {
     SceneMaterialSection *sec;
     s32 i;
     if (scene_material_root != NULL) {
-        TObjPlayer::draw_if_all_ready();
+        bind_shadow_map_texture();
         if (render_callback != NULL) {
             render_callback();
         }
@@ -1437,7 +1436,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 a.x = sh->angles[0] + scene_material_section->angles[0];
                 a.y = sh->angles[1] + scene_material_section->angles[1];
                 a.z = sh->angles[2] + scene_material_section->angles[2];
-                render_projected_shadow_receiver(&v, &a);
+                render_projected_shadow_receiver(&v.x, &a.x);
             }
         }
         node = resolve_indirect_node_record(this, e);
@@ -1560,7 +1559,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
       a.x = node->angles[0] + scene_material_section->angles[0];
       a.y = node->angles[1] + scene_material_section->angles[1];
       a.z = node->angles[2] + scene_material_section->angles[2];
-      render_projected_shadow_receiver(&v, &a);
+      render_projected_shadow_receiver(&v.x, &a.x);
     }
     if (map_section_render_callback != 0)
     {

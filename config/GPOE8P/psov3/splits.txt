@@ -1179,7 +1179,7 @@ pso/effect/TEffect.cpp:
 	.sbss       start:0x805D4ED8 end:0x805D4EDC
 	.sdata2     start:0x805D93B8 end:0x805D93C0
 
-pso/player/TObjPlayer_80083594.cpp:
+pso/render/CameraCapture.cpp:
 	.text       start:0x80082C30 end:0x80084864
 	.rodata     start:0x80438F08 end:0x80439370
 	.data       start:0x8048E318 end:0x8048E60C

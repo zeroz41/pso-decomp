@@ -12,7 +12,7 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/player/TObjPlayer_80083B38.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/unk/text_803DCDFC.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/memory.h"
@@ -901,7 +901,7 @@ s32 take_snapshot(void) {
     boss2_tunnel_state_flag = 0;
     filter = get_display_copy_filter();
     set_display_copy_filter(0);
-    TObjPlayer::copy_screen_to_texture(mode, &snapshot_frame_center);
+    copy_screen_to_texture(mode, &snapshot_frame_center);
     set_display_copy_filter(filter);
     render_tick();
     if (TLobby::tmp_buf_is_free() != 0) {
@@ -913,7 +913,7 @@ s32 take_snapshot(void) {
         frame->snapshot.width = 0x100;
         frame->snapshot.height = 0xC0;
         p += 8;
-        move_data((void *)(p), (const void *)((void *)get_capture_texture_pixels()), 0x18000);
+        move_data((void *)(p), get_capture_texture_pixels(), 0x18000);
         p += 0x18000;
         *p++ = 0x18;
         *p++ = 2;
@@ -988,7 +988,7 @@ s32 take_snapshot(void) {
                     size[0] = 256.0f;
                     size[1] = 192.0f;
                     TParticleCtrl::begin_effect_render();
-                    TObjPlayer::draw_textured_screen_quad(-1, pos, size, 1);
+                    draw_textured_screen_quad(-1, pos, size, 1);
                     if (graph != NULL) {
                         TDLGraph::update_graph((s32)t, (s32)limit);
                         graph->run_task();
@@ -1127,7 +1127,7 @@ void TObjBoss2Tunnel::free_buffers() {
         xfree(boss2_tunnel_snapshot_buffer);
         boss2_tunnel_snapshot_buffer = NULL;
     }
-    release_shared_capture_texture();
+    release_capture_texture();
     if (TObjBoss2Tunnel__snapshot_buffer != NULL) {
         xfree(TObjBoss2Tunnel__snapshot_buffer);
         TObjBoss2Tunnel__snapshot_buffer = NULL;
@@ -1212,7 +1212,7 @@ s32 TObjBoss2Tunnel::load_snapshot() {
     void *buf;
     if (poll_memcard_result(1) == 0) {
         if (((s32) TObjBoss2Tunnel__snapshot_state != 0) && ((s32) TObjBoss2Tunnel__snapshot_state >= 0) && ((s32) TObjBoss2Tunnel__snapshot_state < 3)) {
-            buf = (void *)get_capture_texture_pixels();
+            buf = get_capture_texture_pixels();
             if (verify_card_save_header(&file, TObjBoss2Tunnel__snapshot_buffer) == 0) {
                 memcpy(buf, file.data + 8, 0x1818C);
                 DCFlushRange(buf, 0x1818C);
@@ -1252,7 +1252,7 @@ void draw_screen_snapshot(uaddr pos) {
     }
     size[0] = 345.6f;
     size[1] = 259.2f;
-    TObjPlayer::draw_textured_screen_quad(-1, position, size, 1);
+    draw_textured_screen_quad(-1, position, size, 1);
 }
 
 void TObjBoss2Tunnel::show_message_and_wait(s32 message) {

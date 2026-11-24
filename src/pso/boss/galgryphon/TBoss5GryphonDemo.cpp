@@ -1,4 +1,4 @@
-#include "pso/player/TObjPlayer_80083594.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
@@ -53,7 +53,7 @@ TBoss5GryphonDemo::TBoss5GryphonDemo(TObject *parent, s32 *done_flag, f32 frame_
 
 void set_camera_capture_overlay_alpha(int alpha) {
     camera_capture_overlay_alpha = alpha;
-    camera_capture_flags |= 0x2;
+    camera_capture_flags |= CAPTURE_OVERLAY_REQUESTED;
 }
 
 void Boss5GryphonMotionEntry::init() {
