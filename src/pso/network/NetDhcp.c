@@ -51,7 +51,7 @@ u32 dhcp_lease_time;
 u32 dhcp_last_tick_ms;
 u32 dhcp_elapsed_ms;
 u32 dhcp_requested_lease;
-s32 lbl_805D7B54;
+s32 dhcp_request_reserved;
 u32 dhcp_xid;
 u32 dhcp_magic_cookie;
 s32 *dhcp_broadcast_out;
@@ -909,9 +909,9 @@ s32 DHCP_release(s32 session, s32 ip, s32 retries) {
     return 0;
 }
 
-s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 lease_time, void *ignored, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
+s16 dhcp_discover_and_request(s16 iface, s32 reserved, s32 lease_time, void *ignored, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
     s32 state;
-    if (DHCP_request(iface, arg1, lease_time, ignored, address, netmask, broadcast, retries) != 0) {
+    if (DHCP_request(iface, reserved, lease_time, ignored, address, netmask, broadcast, retries) != 0) {
         return -1;
     }
     do {
@@ -927,7 +927,7 @@ s16 dhcp_discover_and_request(s16 iface, s32 arg1, s32 lease_time, void *ignored
     return 0;
 }
 
-s32 DHCP_request(s16 iface, s32 arg1, s32 lease_time, void *ignored, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
+s32 DHCP_request(s16 iface, s32 reserved, s32 lease_time, void *ignored, s32 *address, s32 *netmask, s32 *broadcast, s32 retries) {
     dhcp_error = 0;
     if (dhcp_state != 0) {
         dhcp_error = 2;
@@ -940,7 +940,7 @@ s32 DHCP_request(s16 iface, s32 arg1, s32 lease_time, void *ignored, s32 *addres
     dhcp_client_addr_out = address;
     dhcp_netmask_out = netmask;
     dhcp_broadcast_out = broadcast;
-    lbl_805D7B54 = arg1;
+    dhcp_request_reserved = reserved;
     dhcp_requested_lease = lease_time;
     dhcp_max_retries = retries;
     dhcp_state = 1;
@@ -966,7 +966,7 @@ static inline void dhcp_reset_state(s16 iface) {
     dhcp_broadcast_out = 0;
     dhcp_magic_cookie = 0x63825363;
     dhcp_xid = 0;
-    lbl_805D7B54 = 0;
+    dhcp_request_reserved = 0;
     dhcp_requested_lease = 0;
     NetMemset(dhcp_hostname, 0, 0x20);
     dhcp_elapsed_ms = 0;

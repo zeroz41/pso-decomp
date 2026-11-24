@@ -12,7 +12,7 @@
 PppVjCompressionState vj_comp;
 PppVjConnectionState vj_rstate[16];
 PppVjConnectionState vj_tstate[16];
-u32 lbl_805C1890[4];
+u8 vj_new_seq[16];
 #pragma pop
 
 
@@ -42,7 +42,7 @@ s32 sl_compress_tcp(PppVjCompressionState *comp, PppFrame **m, s16 compress_cid)
     ParsedTcpHeader b;
     ParsedIpHeader a;
 
-    cp = (u8 *)lbl_805C1890;
+    cp = vj_new_seq;
     changes = 0;
     lastcs = &comp->tstate[comp->last_cs];
     cs = lastcs->next;
@@ -136,13 +136,13 @@ found:
     case 12:
         if (deltaS == deltaA && deltaS == cs->a.len - (s16)hlen) {
             changes = 11;
-            cp = (u8 *)lbl_805C1890;
+            cp = vj_new_seq;
         }
         break;
     case 8:
         if (deltaS == cs->a.len - (s16)hlen) {
             changes = 15;
-            cp = (u8 *)lbl_805C1890;
+            cp = vj_new_seq;
         }
         break;
     }
@@ -158,7 +158,7 @@ found:
     deltaA = b.checksum;
     cs->a = a;
     cs->b = b;
-    deltaS = cp - (u8 *)lbl_805C1890;
+    deltaS = cp - vj_new_seq;
     if (compress_cid == 0 || comp->last_xmit != cs->id) {
         cp = (*m = alloc_from_buffer(*m, deltaS + 4))->data;
         *cp++ = changes | 0x40;
@@ -169,7 +169,7 @@ found:
         *cp++ = (s8)changes;
     }
     cp = write_network_u16_be(cp, deltaA);
-    NetMemcpy(cp, lbl_805C1890, (s16)deltaS);
+    NetMemcpy(cp, vj_new_seq, (s16)deltaS);
     comp->out_compressed++;
     return 0x80;
 

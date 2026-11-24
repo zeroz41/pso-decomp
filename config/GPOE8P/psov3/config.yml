@@ -8251,7 +8251,7 @@ force_active:
   - vj_comp
   - vj_rstate
   - vj_tstate
-  - lbl_805C1890
+  - vj_new_seq
   - exi_send_queue
   - transport_message_queue
   - TObjDFDemo1__name
