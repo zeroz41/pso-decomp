@@ -258,7 +258,7 @@ void TTecLuker::run_task() {
     u16 entity_id;
     u16 temp_r5;
     u8 *temp_r29;
-    u8 *player;
+    TObjPlayer *player;
     u8 *owner;
     TUnk_804C4450 *tgt;
     source = (uaddr)find_entity_by_id(sourceId);
@@ -307,10 +307,10 @@ void TTecLuker::run_task() {
         if ((get_player_by_client_id(traveller) != NULL) && (get_pipe_interaction_latch(field) != 0) && (are_players_gathered_near(&pipe_pos, 0, 10.0f) != 0)) {
             offset_point_toward_camera(&pipe_pos, (Vec *)&position, 10.0f);
             spawn_particle_effect((const Vec *)&position, 0xB3);
-            player = (u8 *)get_player_by_client_id(traveller);
+            player = get_player_by_client_id(traveller);
             if (player != NULL) {
                 TObjPlayer::play_effect_default((saddr)player, (int)0xA);
-                play_sound_effect(0x40022D1A, reinterpret_cast<const Vec *>(player + 0x38), 0, 0);
+                play_sound_effect(0x40022D1A, &player->position, 0, 0);
             }
             TWindowCtrl::init_all_slots();
             phase = 2;

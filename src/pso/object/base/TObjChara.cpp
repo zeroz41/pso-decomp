@@ -4324,7 +4324,7 @@ void TObjChara::spawn_freeze_shell_effect(u32 arg1, s32 arg2) {
             }
         }
         if (arg2 != 0) {
-            play_sound_effect(0xB20F, reinterpret_cast<const Vec *>((s32)((uaddr) (((u8 *)this) + 0x38))), 0, 0);
+            play_sound_effect(0xB20F, &position, 0, 0);
         }
     }
 }

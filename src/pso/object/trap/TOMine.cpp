@@ -583,20 +583,18 @@ void TOMine::vfunc_82() {
 }
 // Slot 80: plays the floor area's mine_trap_keymachine_table sound (was named attach_to_keymachine on TOMineTrap).
 void TOMine::vfunc_80() {
-    saddr arg0 = (saddr)this;
     s32 area = get_current_floor_area();
     s32 elem = mine_trap_keymachine_table[area];
     if (elem != -1) {
-        play_sound_effect(elem, reinterpret_cast<const Vec *>(arg0 + 0x38), 0, 0);
+        play_sound_effect(elem, &position, 0, 0);
     }
 }
 // Slot 81: plays the floor area's mine_trap_effect_table sound (was named spawn_effect on TOMineTrap).
 void TOMine::vfunc_81() {
-    saddr arg0 = (saddr)this;
     s32 area = get_current_floor_area();
     s32 elem = mine_trap_effect_table[area];
     if (elem != -1) {
-        play_sound_effect(elem, reinterpret_cast<const Vec *>(arg0 + 0x38), 0, 0);
+        play_sound_effect(elem, &position, 0, 0);
     }
 }
 void TOMine::update_state() {

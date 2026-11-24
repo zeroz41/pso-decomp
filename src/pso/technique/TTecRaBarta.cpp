@@ -228,32 +228,32 @@ void TTecRaBarta::vfunc_9() {
 
     switch (this->band) {
     case 0:
-        this->m_ec = play_sound_effect(0x4002A706, reinterpret_cast<const Vec *>(this->source + 0x2FC), 0, 0);
+        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
         handle = this->m_ec;
         if (handle >= 0) {
             set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
-        this->m_ec = play_sound_effect(0x4002A706, reinterpret_cast<const Vec *>(this->source + 0x2FC), 0, 0);
+        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
         return;
     case 2:
     case 3:
-        this->m_ec = play_sound_effect(0x4002A706, reinterpret_cast<const Vec *>(this->source + 0x2FC), 0, 0);
+        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
         handle = this->m_ec;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
-        this->m_ec = play_sound_effect(0x4002A706, reinterpret_cast<const Vec *>(this->source + 0x2FC), 0, 0);
+        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
         handle = this->m_ec;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
-        this->m_ec = play_sound_effect(0x4002A706, reinterpret_cast<const Vec *>(this->source + 0x2FC), 0, 0);
+        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
         handle = this->m_ec;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x100, 0);

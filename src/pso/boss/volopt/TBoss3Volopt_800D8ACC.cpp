@@ -104,26 +104,27 @@ void play_area_se_with_particle(Vec *position) {
 extern "C" {
 
 void TBoss3Volopt__sub_800D8D88(saddr position) {
+    const Vec *sound_position = reinterpret_cast<const Vec *>(position);
     switch (get_current_floor_area()) {
     case AREA_CENTRAL_CONTROL_AREA:
     case AREA_JUNGLE_NORTH:
     case AREA_JUNGLE_EAST:
     case AREA_MOUNTAIN:
     case AREA_SEASIDE:
-        play_sound_effect(0x3AB3C, reinterpret_cast<const Vec *>(position), 0, 0);
+        play_sound_effect(0x3AB3C, sound_position, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4003AB31, reinterpret_cast<const Vec *>(position), 0, 0);
+        play_sound_effect(0x4003AB31, sound_position, 0, 0);
         break;
     case AREA_SEASIDE_NIGHT:
-        play_sound_effect(0x4003B22A, reinterpret_cast<const Vec *>(position), 0, 0);
+        play_sound_effect(0x4003B22A, sound_position, 0, 0);
         break;
     case AREA_TOWER:
-        play_sound_effect(0x4003A359, reinterpret_cast<const Vec *>(position), 0, 0);
+        play_sound_effect(0x4003A359, sound_position, 0, 0);
         break;
     default:
-        play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB20), reinterpret_cast<const Vec *>(position), 0, 0);
+        play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB20), sound_position, 0, 0);
         break;
     }
     spawn_particles_at__12TBoss3VoloptFi(position);

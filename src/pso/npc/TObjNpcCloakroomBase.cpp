@@ -27,12 +27,11 @@ const char *TObjNpcCloakroomBase__name = "TObjNpcCloakroomBase";
 BmlResource *TObjNpcCloakroomBase__static_instance;
 
 void TObjNpcCloakroomBase::play_voice() {
-    saddr arg0 = (saddr)this;
     if (get_current_floor_area() != AREA_CAVE3) {
-        play_sound_effect(0x40003804, reinterpret_cast<const Vec *>(arg0 + 0x38), 0, 0);
+        play_sound_effect(0x40003804, &position, 0, 0);
         return;
     }
-    play_sound_effect(0x40003802, reinterpret_cast<const Vec *>(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x40003802, &position, 0, 0);
 }
 
 

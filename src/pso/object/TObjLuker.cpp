@@ -416,7 +416,7 @@ void TObjLuker::run_task() {
                         p = (u8 *)get_player_by_client_id(local_client_id);
                         if (p != NULL) {
                             TObjPlayer::play_effect_default((saddr)p, 0xA);
-                            play_sound_effect(0x40022D1A, reinterpret_cast<const Vec *>(arg0 + 0x38), 0, 0);
+                            play_sound_effect(0x40022D1A, &this->position, 0, 0);
                         }
                         TWindowCtrl::init_all_slots();
                         *(s32 *)&this->m_b8 = 1;

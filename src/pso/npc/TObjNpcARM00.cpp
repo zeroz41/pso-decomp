@@ -56,8 +56,7 @@ TObjNpcARM00::TObjNpcARM00(TObject *parent, void *arg2) : TUnk_804A9F50(parent) 
 }
 
 void TObjNpcARM00::play_voice() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect(0x40003B08, reinterpret_cast<const Vec *>(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x40003B08, &position, 0, 0);
 }
 
 

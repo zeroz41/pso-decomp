@@ -342,7 +342,8 @@ const char *TObjGrassWeb__class_name = "TObjGrassWeb";
 
 typedef struct Web_800BC798 {
     u8 pad0[0x38];
-    u8 pos[0x84 - 0x38];
+    Vec pos;
+    u8 pad44[0x84 - 0x44];
     s32 timer;
     u8 pad88[0x90 - 0x88];
     s32 state;
@@ -555,7 +556,7 @@ void TObjGrass::run_task() {
             ((TObjGrass *)arg0)->sub_800BE75C();
             break;
         case 2:
-            TObjGrass::update_chase_target(arg0);
+            update_chase_target();
             break;
         case 3:
             ((TObjGrass *)arg0)->sub_800BDD70();
@@ -573,7 +574,7 @@ void TObjGrass::run_task() {
             ((TObjGrass *)arg0)->sub_800BCE44();
             break;
         case 8:
-            TObjGrass::update_dying(arg0);
+            update_dying();
             break;
         case 9:
             break;
@@ -949,8 +950,8 @@ void TObjGrass::sub_800BE75C() {
     minimap_render_dot(&o->pos, -0x5DB4, 1, 0);
 }
 
-#define arg0 ((u8 *)arg0_)
-void TObjGrass::update_chase_target(void *arg0_) {
+#define arg0 ((u8 *)this)
+void TObjGrass::update_chase_target() {
     f32 speed;
     f32 dist;
     s32 turn;
@@ -963,9 +964,9 @@ void TObjGrass::update_chase_target(void *arg0_) {
         speed *= (2.0f);
         *(f32 *)((s8 *)arg0 + 0xC8) = (2.0f) * (*(Anim_800BE4C0 **)((s8 *)arg0 + 0xD8))[*(s16 *)((s8 *)arg0 + 0xB8)].f8;
         { f32 ft = (f32)turn; ft *= (2.0f); turn = (s32)ft; }
-        play_persistent_sound(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A300), arg0, &reinterpret_cast<TObjEnemy *>(arg0)->position, 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003A300), arg0, &position, 0, 0);
     } else {
-        play_persistent_sound(((TObjEnemy *)(arg0))->remap_sound_for_area(0x4003A801), arg0, reinterpret_cast<const Vec *>(arg0 + 0x38), 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003A801), arg0, &position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
     }
     ((TObjMotion *)arg0)->advance_animation();
@@ -1594,17 +1595,17 @@ void TObjGrass::update_camera_vec_by_stage(NJS_OBJECT *) {
 
 #pragma push
 #pragma opt_common_subs off
-#define arg0 ((u8 *)arg0_)
-void TObjGrass::update_dying(void *arg0_) {
+#define arg0 ((u8 *)this)
+void TObjGrass::update_dying() {
     ((TObjBase *)arg0)->set_actor_flags(0x04040000);
     ((TObjMotion *)arg0)->advance_animation();
     switch (((TObjEnePanarms *)arg0)->phase) {
     default:
         ((TObjEnePanarms *)arg0)->phase = 0;
     case 0:
-        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), (0.0f));
+        apply_actor_gravity(this, (s32 *)(0), (0.0f));
         if (((TObjMotion *)arg0)->is_passing_frame((f32)(0.0f)) != 0) {
-            play_sound_effect(((TObjEnemy *)arg0)->remap_sound_for_area(0x4003A804), reinterpret_cast<const Vec *>(arg0 + 0x38), 0, 0);
+            play_sound_effect(remap_sound_for_area(0x4003A804), &position, 0, 0);
             ((TObjEnePanarms *)arg0)->phase = 1;
         }
         break;
@@ -1636,7 +1637,7 @@ void TObjGrass::update_dying(void *arg0_) {
                 break;
             }
             }
-            play_sound_effect(((TObjEnemy *)arg0)->remap_sound_for_area(0x4003AB0A), reinterpret_cast<const Vec *>(arg0 + 0x38), 0, 0);
+            play_sound_effect(remap_sound_for_area(0x4003AB0A), &position, 0, 0);
             TObjPlayer::spawn_dead_spot_default((saddr)(arg0 + 0x38), 0xA);
             spawn_ground_effect((const Vec *)(arg0 + 0x38), 0x1E);
         }
@@ -1712,19 +1713,19 @@ void TObjGrassWeb__sub_800BC798(Web_800BC798 *o) {
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        play_persistent_sound(0x4003A809, o, reinterpret_cast<const Vec *>(o->pos), 0, 0);
+        play_persistent_sound(0x4003A809, o, &o->pos, 0, 0);
         break;
     case AREA_BATTLE1:
     case AREA_BATTLE2:
         if (enable_v2_features == 1) {
-            play_persistent_sound(0x3051E, o, reinterpret_cast<const Vec *>(o->pos), 0, 0);
+            play_persistent_sound(0x3051E, o, &o->pos, 0, 0);
         }
         break;
     case AREA_PIONEER2_EP2:
         break;
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        play_persistent_sound(0x3A81D, o, reinterpret_cast<const Vec *>(o->pos), 0, 0);
+        play_persistent_sound(0x3A81D, o, &o->pos, 0, 0);
         break;
     }
     if (o->timer-- < 0) {
