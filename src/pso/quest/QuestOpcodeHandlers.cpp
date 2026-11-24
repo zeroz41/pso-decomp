@@ -965,8 +965,6 @@ s32 TLobby__sub_802924B4(Item_801EBF30 *, u16);
 s32 TLobby__sub_8029299C();
 s32 TLobby__sub_80292A34();
 s32 TLobby__sub_8032CDEC();
-int notify_all_battle_players__10TObjPlayerFv(void*);
-int update_4p_battle_ctrls__10TObjPlayerFv(void*);
 int update_alloc_size__6TLobbyFv(void*);
 void TObjPlayer__sub_80354CCC(u16 client_index);
 void TObjPlayer__sub_80354D14(u16 client_index);
@@ -4217,9 +4215,9 @@ void qst_op_cine_enable(void) { TCineCtrl::begin_letterbox_show(NULL); }
 void qst_op_hud_show(void) { TWindowCtrl::unsuppress_slot(*(int *)&local_client_id); TRaderMapCore::show_radar(); }
 
 void qst_op_hud_hide(void) { TWindowCtrl::suppress_slot(*(int *)&local_client_id); TRaderMapCore::hide_radar(); }
-int qst_op_pl_pkon(void* p) { return notify_all_battle_players__10TObjPlayerFv(p); }
+void qst_op_pl_pkon(void *p) { enable_pk_mode_for_all_players(); }
 
-int qst_op_pl_pkoff(void* p) { return update_4p_battle_ctrls__10TObjPlayerFv(p); }
+void qst_op_pl_pkoff(void *p) { disable_pk_mode_for_all_players(); }
 
 void qst_op_npc_chkwarp() { fn_8019608C(); }
 

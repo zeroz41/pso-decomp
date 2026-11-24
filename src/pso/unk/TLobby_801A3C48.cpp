@@ -405,7 +405,7 @@ void TLobby::free_objects() {
     clear_switch_table();
     TTecLuker::apply_all_players();
     TLobby::reset_floor_items();
-    enable_all_battle_ctrl();
+    delete_npc_players();
     if (quest_mission_manager != NULL) {
         quest_mission_manager->queue_destruction();
     }
