@@ -966,7 +966,6 @@ void apply_velocity_if_free__10TObjPlayerFPv(void *player);
 void handle_6x52_set_animation_state(saddr command);
 s32 handle_6x4F_revived__10TObjPlayerFi(s32 arg0);
 void handle_6x89_set_killer_entity_id(void *command);
-void queue_player_injured_pose(s32 player);
 s32 handle_revivable__10TObjPlayerFi(s32 arg0);
 void handle_6x4D_player_died(void *command);
 void start_action_0e__10TObjPlayerFPv(u8 *arg0);
@@ -2477,11 +2476,11 @@ void init_subobject(TObjPlayer *player) {
     }
 }
 
-extern "C" {
-
-void queue_player_injured_pose(s32 player) {
-    new TPlayerReadyCallback((TObject *)(saddr)player, ((TObjBase *)(saddr)player)->get_entity_id(), init_subobject);
+void queue_player_injured_pose(TObjPlayer *player) {
+    new TPlayerReadyCallback(player, player->get_entity_id(), init_subobject);
 }
+
+extern "C" {
 
 void TObjPlayer::update_active_state() {
     u8 *arg0 = (u8 *)this;
