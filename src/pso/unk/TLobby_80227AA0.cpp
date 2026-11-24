@@ -1,4 +1,5 @@
 #include "pso/network/protocol/GameplaySoundPacket.h"
+#include "pso/audio/AdxTalk.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/SoundEffect.h"
@@ -70,13 +71,13 @@ s32 TLobby::is_camera_state_active() {
 void TLobby::set_mode(s32 mode) {
     switch (mode) {
     case 0:
-        TLobby::on_set_mode(1);
+        adxt_set_output_mono(1);
         break;
     case 1:
-        TLobby::on_set_mode(0);
+        adxt_set_output_mono(0);
         break;
     case 2:
-        TLobby::on_set_mode(0);
+        adxt_set_output_mono(0);
         break;
     }
     sound_control_state.set_output_mode(mode);

@@ -11,14 +11,14 @@ struct AdxbDecoder {
     s16 m_02;
     s32 state;
     AdxDecoderChannel *channel;
-    s8 m_0C;
+    s8 encoding_type; // the ADX header's encoding type; above 4 is AHX, -1 for PCM formats
     s8 bits;
     s8 channels;
     s8 block_bytes; // bytes per block: ADX block size, or channels * bits / 8 for PCM
     s32 block_samples;
     s32 rate;
     s32 samples;
-    s16 m_1C;
+    s16 cutoff; // the ADX header's high-pass cutoff frequency
     u8 pad_1E[0x2];
     s32 loop_enabled;
     s16 loop_type;
@@ -48,7 +48,7 @@ struct AdxbDecoder {
     s16 m_7C;
     s16 m_7E;
     u8 *m_80;
-    s32 source_offset; // inferred: never read here, zeroed with n and bytes by set_source
+    s32 source_offset; // never read here, zeroed with n and bytes by set_source
     // Asks where the next samples go: position and room in the output buffer, samples
     // still wanted; returns the output buffer.
     s16 *(*read)(void *obj, s32 *pos, s32 *avail, s32 *remaining);
@@ -56,8 +56,8 @@ struct AdxbDecoder {
     // Told how many bytes and samples a step decoded.
     void (*done)(void *obj, s32 bytes, s32 samples);
     void *doneArg;
-    s32 m_98;
-    s32 m_9C;
+    s32 total_written; // samples handed out so far, of samples
+    s32 write_pos;     // next write position in the output buffer, below wrap_len
     s32 n;
     s32 bytes;
     s16 format;

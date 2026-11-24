@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/audio/AdxLock.h"
 #include "pso/audio/AdxbDecoder.h"
 #include "pso/audio/AdxExpand.h"
 #include "pso/audio/AudioStreamInput.h"
@@ -321,9 +322,9 @@ void AudioStreamInputState::reset_entry() {
         if (decoder != NULL) {
             decoder->clear_record();
         }
-        TLobby::init_once();
+        adx_lock();
         memset(this, 0, sizeof(AudioStreamInputState));
-        TLobby::release_ref();
+        adx_unlock();
     }
 }
 AudioStreamInputState *alloc_audio_stream_state(SjRingBuffer *source, s32 channels, SjRingBuffer **rings) {
@@ -515,11 +516,11 @@ void adxb_exec_wav_pcm16(AdxbDecoder *adxb) {
 s32 adxb_decode_header_wav(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 n;
     adxb->m_02 = 1;
-    if (TLobby__sub_803C1780(hdr, size, &n, &adxb->m_0C, &adxb->bits, &adxb->block_bytes,
+    if (TLobby__sub_803C1780(hdr, size, &n, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes,
                              &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
         return 0;
     }
-    adxb->m_1C = 0;
+    adxb->cutoff = 0;
     adxb->m_4A = 0;
     adxb->m_48 = 0;
     adxb->loop_count = 0;
@@ -538,8 +539,8 @@ s32 adxb_decode_header_wav(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     adxb->m_7C = adxb->m_48;
     adxb->m_7E = adxb->m_4A;
     adxb->m_80 = adxb->m_4C;
-    adxb->m_9C = 0;
-    adxb->m_98 = 0;
+    adxb->write_pos = 0;
+    adxb->total_written = 0;
     adxb->format = 1;
     memset(adxb->m_4C, 0, 4);
     return n;

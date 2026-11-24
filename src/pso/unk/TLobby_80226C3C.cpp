@@ -1,4 +1,5 @@
 #include <string.h>
+#include "pso/audio/AdxtInit.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AdxTalk.h"
@@ -584,7 +585,7 @@ void TLobby::shutdown_buffers() {
         xfree(lbl_805D62DC);
         lbl_805D62DC = NULL;
     }
-    TLobby::dec_ref_and_shutdown();
+    adxt_finish();
     if (lbl_805D62EC != 0U) {
         safe_free(reinterpret_cast<void *>(lbl_805D62EC));
     }
@@ -600,7 +601,7 @@ void init_adx_audio_system(void) {
     lbl_805D62D8 = xmalloc(0xA924);
     lbl_805D62DC = xmalloc(0xA000);
     TLobby__sub_803CBE20(lbl_805D62DC, 0xA000, 5);
-    TLobby::init_and_add_ref();
+    adxt_init();
     setup_adx_file_systems(NULL);
     init_runtime_threads(NULL);
     SndHooks hooks = snd_hooks;

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/audio/LscLog.h"
 #include <stdarg.h>
 #include <stdio.h>
 #include "pso/unk/TLobby.h"
@@ -10,7 +11,7 @@ LscLogCallback log_printf_callback;
 s32 lobby_log_callback_arg;
 u8 log_printf_buffer[0x100];
 
-void TLobby::log_printf(const char *fmt, ...) {
+void lsc_log_printf(const char *fmt, ...) {
     va_list ap;
     va_start(ap, fmt);
     vsprintf((char *)log_printf_buffer, fmt, ap);
@@ -19,7 +20,7 @@ void TLobby::log_printf(const char *fmt, ...) {
     }
 }
 
-void TLobby::set_callback(uaddr callback_addr, s32 context) {
+void lsc_set_log_callback(uaddr callback_addr, s32 context) {
     if (callback_addr == 0U) {
         log_printf_callback = NULL;
         lobby_log_callback_arg = 0;

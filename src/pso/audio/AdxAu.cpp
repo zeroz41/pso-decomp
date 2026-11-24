@@ -190,7 +190,7 @@ s32 adxb_decode_header_au(AdxbDecoder *adxb, u8 *hdr, s32 size) {
                 adxb->channels = channels;
                 adxb->bits = bits;
                 adxb->samples = samples;
-                adxb->m_0C = -1;
+                adxb->encoding_type = -1;
                 adxb->block_bytes = (adxb->channels * adxb->bits) / 8;
                 adxb->block_samples = 1;
             }
@@ -200,7 +200,7 @@ s32 adxb_decode_header_au(AdxbDecoder *adxb, u8 *hdr, s32 size) {
         return 0;
     }
     buf = adxb->m_4C;
-    adxb->m_1C = 0;
+    adxb->cutoff = 0;
     adxb->m_4A = 0;
     adxb->m_48 = 0;
     adxb->loop_count = 0;
@@ -219,8 +219,8 @@ s32 adxb_decode_header_au(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     adxb->m_7C = adxb->m_48;
     adxb->m_7E = adxb->m_4A;
     adxb->m_80 = buf;
-    adxb->m_9C = 0;
-    adxb->m_98 = 0;
+    adxb->write_pos = 0;
+    adxb->total_written = 0;
     adxb->format = 4;
     adxb->encoding = format;
     memset(buf, 0, 4);

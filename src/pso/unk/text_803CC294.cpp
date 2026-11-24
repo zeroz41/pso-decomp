@@ -1,4 +1,7 @@
 #include "pso/audio/AdxStreamFile.h"
+#include "pso/audio/AdxCacheControl.h"
+#include "pso/audio/AdxLock.h"
+#include "pso/audio/AdxError.h"
 #include "pso/system/Adxf.h"
 #include <string.h>
 
@@ -54,7 +57,7 @@ extern "C" {
 // ADXF_SetReqRdSct (named by its message). The linker removed it; its message opens the TU's string pool.
 void adxf_set_req_rd_sct(AdxfHandle *adxf, s32 nsct) {
     if (adxf->state == 2) {
-        TLobby::notify_error("E0041201:state is reading(ADXF_SetReqRdSct)");
+        adxerr_report("E0041201:state is reading(ADXF_SetReqRdSct)");
         return;
     }
     adxf->requested_read_sectors = nsct;
@@ -62,15 +65,15 @@ void adxf_set_req_rd_sct(AdxfHandle *adxf, s32 nsct) {
 
 inline s32 check_803CC294(s32 arg0, s32 arg1) {
     if (arg0 < 0 || arg0 >= 0x100) {
-        TLobby::notify_error("E9040828:'ptid' is range outside.");
+        adxerr_report("E9040828:'ptid' is range outside.");
         return -3;
     }
     if (afs_archive_toc_table[arg0] == NULL) {
-        TLobby::notify_error("E9040828:'ptid' is range outside.");
+        adxerr_report("E9040828:'ptid' is range outside.");
         return -3;
     }
     if (arg1 < 0 || arg1 >= afs_archive_toc_table[arg0]->f8) {
-        TLobby::notify_error("E9040828:'flid' is range outside.");
+        adxerr_report("E9040828:'flid' is range outside.");
         return -3;
     }
     return 0;
@@ -117,7 +120,7 @@ s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *dest, s32 *arg3, s32 *ar
 
 s32 ADXF_GetStat(AdxfHandle *file) {
     if (file == NULL) {
-        TLobby::notify_error("E9040832:'adxf' is NULL.(ADXF_GetStat)");
+        adxerr_report("E9040832:'adxf' is NULL.(ADXF_GetStat)");
         return -3;
     }
     return file->state;
@@ -127,7 +130,7 @@ s32 ADXF_GetStat(AdxfHandle *file) {
 // messages stay in the string pool between ADXF_GetStat's and ADXF_GetFsizeByte's.
 s32 adxf_get_num_read_sct(AdxfHandle *adxf) {
     if (adxf == NULL) {
-        TLobby::notify_error("E9040831:'adxf' is NULL.(ADXF_GetNumReadSct)");
+        adxerr_report("E9040831:'adxf' is NULL.(ADXF_GetNumReadSct)");
         return -3;
     }
     return adxf->sectors_read;
@@ -135,7 +138,7 @@ s32 adxf_get_num_read_sct(AdxfHandle *adxf) {
 
 s32 adxf_get_num_req_sct(AdxfHandle *adxf) {
     if (adxf == NULL) {
-        TLobby::notify_error("E9040830:'adxf' is NULL.(ADXF_GetNumReqSct)");
+        adxerr_report("E9040830:'adxf' is NULL.(ADXF_GetNumReqSct)");
         return -3;
     }
     return adxf->read_sector_count;
@@ -143,14 +146,14 @@ s32 adxf_get_num_req_sct(AdxfHandle *adxf) {
 
 s32 ADXF_GetFsizeByte(AdxfHandle *file) {
     if (file == NULL) {
-        TLobby::notify_error("E9040829:'adxf' is NULL.(ADXF_GetFsizeByte)");
+        adxerr_report("E9040829:'adxf' is NULL.(ADXF_GetFsizeByte)");
         return -3;
     }
     return file->byte_size;
 }
 s32 ADXF_GetFsizeSct(AdxfHandle *file) {
     if (file == NULL) {
-        TLobby::notify_error("E9040828:'adxf' is NULL.(ADXF_GetFsizeSct)");
+        adxerr_report("E9040828:'adxf' is NULL.(ADXF_GetFsizeSct)");
         return -3;
     }
     return file->sector_count;
@@ -160,7 +163,7 @@ s32 ADXF_GetFsizeSct(AdxfHandle *file) {
 // ADXF_Tell (named by its message): removed by the linker, its message stays in the string pool.
 s32 adxf_tell(AdxfHandle *adxf) {
     if (adxf == NULL) {
-        TLobby::notify_error("E9040827:'adxf' is NULL.(ADXF_Tell)");
+        adxerr_report("E9040827:'adxf' is NULL.(ADXF_Tell)");
         return -3;
     }
     return adxf->sector_position;
@@ -170,7 +173,7 @@ inline s32 stop_803CC980(AdxfHandle *adxf) {
     s32 sp8;
     hist_803CC294(5, 0, lbl_8057B7B0.stop_sequence, adxf, -1, -1);
     if (adxf == NULL) {
-        TLobby::notify_error("E9040822:'adxf' is NULL.(ADXF_Stop)");
+        adxerr_report("E9040822:'adxf' is NULL.(ADXF_Stop)");
         return -3;
     }
     if (adxf->state == 1) {
@@ -181,22 +184,22 @@ inline s32 stop_803CC980(AdxfHandle *adxf) {
         return adxf->sector_position;
     }
     if (adxf->stream == 0) {
-        TLobby::notify_error("E9040823:'adxf->stm' is NULL.(ADXF_Stop)");
+        adxerr_report("E9040823:'adxf->stm' is NULL.(ADXF_Stop)");
         return -1;
     }
-    TLobby::init_once();
+    adx_lock();
     stop_adx_stream(adxf->stream);
     get_adx_stream_position(adxf->stream, &sp8);
     adxf->sectors_read = sp8;
     if (adxf->buffer != NULL && adxf->f2 == 0) {
         if (lbl_805D75E4 == 1) {
-            TLobby::invalidate_cache(adxf->read_destination, adxf->read_buffer_size);
+            adx_invalidate_cache(adxf->read_destination, adxf->read_buffer_size);
         }
         adxf->buffer->interface->destroy(adxf->buffer);
         adxf->buffer = NULL;
     }
     adxf->state = 1;
-    TLobby::release_ref();
+    adx_unlock();
     hist_803CC294(5, 1, lbl_8057B7B0.stop_sequence, adxf, -1, -1);
     return adxf->sector_position;
 }
@@ -205,7 +208,7 @@ inline s32 stop_803CC980(AdxfHandle *adxf) {
 s32 ADXF_Seek(AdxfHandle *adxf, s32 pos, s32 type) {
     hist_803CC294(6, 0, lbl_8057B7B0.seek_sequence, adxf, pos, type);
     if (adxf == NULL) {
-        TLobby::notify_error("E9040825:'adxf' is NULL.(ADXF_Seek)");
+        adxerr_report("E9040825:'adxf' is NULL.(ADXF_Seek)");
         return -3;
     }
     if (adxf->state == 2) {
@@ -218,7 +221,7 @@ s32 ADXF_Seek(AdxfHandle *adxf, s32 pos, s32 type) {
     } else if (type == 2) {
         adxf->sector_position = adxf->sector_count + pos;
     } else {
-        TLobby::notify_error("E9040826:'type' is illigal.(ADXF_Seek)");
+        adxerr_report("E9040826:'type' is illigal.(ADXF_Seek)");
         return -3;
     }
     if (adxf->sector_position < 0) {
@@ -234,7 +237,7 @@ void TLobby__sub_803CC884(void) {
     AdxfHandle *p;
     s32 i;
     s32 sp8;
-    TLobby::init_once();
+    adx_lock();
     for (i = 0; i < 0x10; i++) {
         p = &adxf_file_handle_pool[i];
         if (p->used == 1 && p->state == 2) {
@@ -245,7 +248,7 @@ void TLobby__sub_803CC884(void) {
                 p->sector_position += p->sectors_read;
                 if (p->buffer != NULL && p->f2 == 0) {
                     if (lbl_805D75E4 == 1) {
-                        TLobby::invalidate_cache(p->read_destination, p->read_buffer_size);
+                        adx_invalidate_cache(p->read_destination, p->read_buffer_size);
                     }
                     p->buffer->interface->destroy(p->buffer);
                     p->buffer = NULL;
@@ -253,7 +256,7 @@ void TLobby__sub_803CC884(void) {
             }
         }
     }
-    TLobby::release_ref();
+    adx_unlock();
 }
 
 s32 ADXF_Stop(AdxfHandle *adxf) {
@@ -262,7 +265,7 @@ s32 ADXF_Stop(AdxfHandle *adxf) {
 
 s32 ADXF_ReadNw(AdxfHandle *file, s32 sectors, void *destination) {
     if ((uaddr)destination & 0x1F) {
-        TLobby::notify_error("E0120401:'buf' isn't 32byte alignment.(ADXF_ReadNw)");
+        adxerr_report("E0120401:'buf' isn't 32byte alignment.(ADXF_ReadNw)");
         return -3;
     }
     return ADXF_ReadNw32(file, sectors, destination);
@@ -274,22 +277,22 @@ s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
     s32 rqsct;
     hist_803CC294(4, 0, lbl_8057B7B0.read_sequence, adxf, nsct, buf);
     if (adxf == NULL) {
-        TLobby::notify_error("E9040816:'adxf' is NULL.(ADXF_ReadNw32)");
+        adxerr_report("E9040816:'adxf' is NULL.(ADXF_ReadNw32)");
         return -3;
     }
     if (nsct < 0) {
-        TLobby::notify_error("E9040817:'nsct' is negative.(ADXF_ReadNw32)");
+        adxerr_report("E9040817:'nsct' is negative.(ADXF_ReadNw32)");
         return -3;
     }
     if (buf == NULL) {
-        TLobby::notify_error("E9040818:'buf' is NULL.(ADXF_ReadNw32)");
+        adxerr_report("E9040818:'buf' is NULL.(ADXF_ReadNw32)");
         return -3;
     }
     if (adxf->state == 2) {
         return 0;
     }
     if (adxf->buffer != NULL) {
-        TLobby::notify_error("E9040821:'sj' is NULL.(ADXF_ReadNw32)");
+        adxerr_report("E9040821:'sj' is NULL.(ADXF_ReadNw32)");
         return -1;
     }
     sj = sj_ring_buffer_create(buf, nsct << 11, 0);
@@ -298,14 +301,14 @@ s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
     }
     adxf->read_destination = buf;
     adxf->read_buffer_size = nsct << 11;
-    TLobby::init_once();
+    adx_lock();
     if (lbl_805D75E4 == 1) {
-        TLobby::invalidate_cache(adxf->read_destination, adxf->read_buffer_size);
+        adx_invalidate_cache(adxf->read_destination, adxf->read_buffer_size);
     }
     if (get_adx_stream_status(adxf->stream) != 1) {
         stop_adx_stream(adxf->stream);
     }
-    TLobby::init_once();
+    adx_lock();
     adxf->read_start_sector = adxf->archive_start_sector + adxf->sector_position;
     adxf->read_sector_count = nsct < adxf->sector_count - adxf->sector_position ? nsct : adxf->sector_count - adxf->sector_position;
     adxf->sectors_read = rqsct = 0;
@@ -321,14 +324,14 @@ s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
         init_stream_position__6TLobbyFv(adxf->stream);
         rqsct = adxf->read_sector_count;
     }
-    TLobby::release_ref();
+    adx_unlock();
     if (rqsct <= 0) {
         sj->interface->destroy(sj);
     } else {
         adxf->buffer = sj;
     }
     adxf->f2 = 0;
-    TLobby::release_ref();
+    adx_unlock();
     hist_803CC294(4, 1, lbl_8057B7B0.read_sequence, adxf, nsct, buf);
     return rqsct;
 }
@@ -337,18 +340,18 @@ s32 ADXF_ReadNw32(AdxfHandle *adxf, s32 nsct, void *buf) {
 s32 adxf_read_sj32(AdxfHandle *adxf, s32 nsct, SjRingBuffer *sj) {
     s32 rqsct;
     if (adxf == NULL) {
-        TLobby::notify_error("E9040811:'adxf' is NULL.(ADXF_ReadSj32)");
+        adxerr_report("E9040811:'adxf' is NULL.(ADXF_ReadSj32)");
         return -3;
     }
     if (nsct < 0) {
-        TLobby::notify_error("E9040812:'nsct'is negative.(ADXF_ReadSj32)");
+        adxerr_report("E9040812:'nsct'is negative.(ADXF_ReadSj32)");
         return -3;
     }
     if (sj == NULL) {
-        TLobby::notify_error("E9040813:'sj'is NULL.(ADXF_ReadSj32)");
+        adxerr_report("E9040813:'sj'is NULL.(ADXF_ReadSj32)");
         return -3;
     }
-    TLobby::init_once();
+    adx_lock();
     adxf->read_start_sector = adxf->archive_start_sector + adxf->sector_position;
     adxf->read_sector_count = nsct < adxf->sector_count - adxf->sector_position ? nsct : adxf->sector_count - adxf->sector_position;
     adxf->sectors_read = rqsct = 0;
@@ -364,7 +367,7 @@ s32 adxf_read_sj32(AdxfHandle *adxf, s32 nsct, SjRingBuffer *sj) {
         init_stream_position__6TLobbyFv(adxf->stream);
         rqsct = adxf->read_sector_count;
     }
-    TLobby::release_ref();
+    adx_unlock();
     return rqsct;
 }
 
@@ -373,7 +376,7 @@ inline s32 rd32_803CD5C4(u8 *p) {
 }
 inline s32 state_803CD5C4(void) {
     if (lobby_adxf_open_file_handle == NULL) {
-        TLobby::notify_error("E9040832:'adxf' is NULL.(ADXF_GetStat)");
+        adxerr_report("E9040832:'adxf' is NULL.(ADXF_GetStat)");
         return -3;
     }
     return lobby_adxf_open_file_handle->state;
@@ -419,7 +422,7 @@ inline s32 open_803CD16C(AdxfHandle *s, s32 partition, s32 arg1) {
     h = ADXSTM_OpenFnameRange(filename, a, b, c, 0);
     s->stream = h;
     if (h == 0) {
-        TLobby::notify_error("E0110902:can't open file.(ADXF_OpenAfs)");
+        adxerr_report("E0110902:can't open file.(ADXF_OpenAfs)");
         return -1;
     }
     s->sector_count = c;
@@ -455,7 +458,7 @@ void ADXF_Close(AdxfHandle *adxf) {
         adxf_log_write_index = i + 1;
     }
     if (adxf != NULL) {
-        TLobby::init_once();
+        adx_lock();
         if ((s32)(u8)adxf->state == 2) {
             stop_803CC980(adxf);
         }
@@ -463,7 +466,7 @@ void ADXF_Close(AdxfHandle *adxf) {
             adxstm_close(adxf->stream);
         }
         memset(adxf, 0, sizeof(*adxf));
-        TLobby::release_ref();
+        adx_unlock();
         {
             s32 i = adxf_log_write_index % 256;
             LogEnt_803CD16C *e = &lbl_8057B7D0[adxf_log_write_index = i];
@@ -496,7 +499,7 @@ AdxfHandle *ADXF_OpenAfs(s32 partition, s32 file) {
         e->c = -1;
         adxf_log_write_index = i + 1;
     }
-    TLobby::init_once();
+    adx_lock();
     s = alloc_803CD16C();
     if (s != NULL) {
         if (open_803CD16C(s, partition, file) < 0) {
@@ -504,7 +507,7 @@ AdxfHandle *ADXF_OpenAfs(s32 partition, s32 file) {
             s = NULL;
         }
     }
-    TLobby::release_ref();
+    adx_unlock();
     {
         s32 i = adxf_log_write_index % 256;
         LogEnt_803CD16C *e = &lbl_8057B7D0[adxf_log_write_index = i];
@@ -523,12 +526,12 @@ inline s32 open_803CD3A8(AdxfHandle *s, const void *name, s32 mode) {
     AdxStreamFile *h;
     s32 sz;
     if (name == 0) {
-        TLobby::notify_error("E9081901:illigal parameter fname=null.(ADXF_Open)");
+        adxerr_report("E9081901:illigal parameter fname=null.(ADXF_Open)");
         return -1;
     }
     h = adxstm_open_fname_attr((const char *)name, mode, 0);
     if (h == 0) {
-        TLobby::notify_error("E0110901:can't open file.(ADXF_Open)");
+        adxerr_report("E0110901:can't open file.(ADXF_Open)");
         return -1;
     }
     s->stream = h;
@@ -555,7 +558,7 @@ AdxfHandle *ADXF_Open(const void *name, s32 mode) {
         e->c = -1;
         adxf_log_write_index = i + 1;
     }
-    TLobby::init_once();
+    adx_lock();
     s = alloc_803CD16C();
     if (s != NULL) {
         if (open_803CD3A8(s, name, mode) < 0) {
@@ -563,7 +566,7 @@ AdxfHandle *ADXF_Open(const void *name, s32 mode) {
             s = NULL;
         }
     }
-    TLobby::release_ref();
+    adx_unlock();
     {
         s32 i = adxf_log_write_index % 256;
         LogEnt_803CD16C *e = &lbl_8057B7D0[adxf_log_write_index = i];
@@ -581,11 +584,11 @@ AdxfHandle *ADXF_Open(const void *name, s32 mode) {
 // adxf_ChkPrmPt (named by its messages): inlined into ADXF_LoadPartitionNw below.
 s32 adxf_chk_prm_pt(s32 ptid, void *ptinfo) {
     if (ptid < 0 || ptid >= 0x100) {
-        TLobby::notify_error("E9040801:partition ID is range outside.(adxf_ChkPrmPt)");
+        adxerr_report("E9040801:partition ID is range outside.(adxf_ChkPrmPt)");
         return -3;
     }
     if (ptinfo == NULL) {
-        TLobby::notify_error("E9040802:'ptinfo' is NULL.(adxf_ChkPrmPt)");
+        adxerr_report("E9040802:'ptinfo' is NULL.(adxf_ChkPrmPt)");
         return -3;
     }
     return 0;
@@ -594,16 +597,16 @@ s32 adxf_chk_prm_pt(s32 ptid, void *ptinfo) {
 // ADXF_AddPartition and ADXF_LoadPartition (named by their messages): removed by the linker.
 // Only their messages are left, between adxf_ChkPrmPt's and ADXF_GetPtStat's in the string pool.
 s32 adxf_add_partition(void) {
-    TLobby::notify_error("E9040808:can't open.(ADXF_AddPartition)");
+    adxerr_report("E9040808:can't open.(ADXF_AddPartition)");
     return -1;
 }
 
 s32 adxf_load_partition(s32 broken) {
     if (broken) {
-        TLobby::notify_error("E9040810:file is broken.(ADXF_LoadPartition)");
+        adxerr_report("E9040810:file is broken.(ADXF_LoadPartition)");
         return -1;
     }
-    TLobby::notify_error("E9040809:read error.(ADXF_LoadPartition)");
+    adxerr_report("E9040809:read error.(ADXF_LoadPartition)");
     return -1;
 }
 
@@ -613,7 +616,7 @@ s32 TLobby::read_afs_toc(s32 id) {
     s32 st;
     s32 i;
     if (id != lobby_adxf_current_file_id) {
-        TLobby::notify_error("E0041303:illigal parameter 'ptid'.(ADXF_GetPtStat)");
+        adxerr_report("E0041303:illigal parameter 'ptid'.(ADXF_GetPtStat)");
         return -3;
     }
     st = state_803CD5C4();
@@ -625,13 +628,13 @@ s32 TLobby::read_afs_toc(s32 id) {
     if (e->f8 == 0) {
         s32 n;
         if (memcmp(lbl_805D75EC, "AFS", 3) != 0) {
-            TLobby::notify_error("E0040701:Illigal format(not AFS).(ADXF_GetPtStat)");
+            adxerr_report("E0040701:Illigal format(not AFS).(ADXF_GetPtStat)");
             TLobby__sub_803CD804();
             return 4;
         }
         n = rd32_803CD5C4(lbl_805D75EC + 4);
         if (n > 0x10000) {
-            TLobby::notify_error("E0040702:Illigal number of file.(ADXF_GetPtStat)");
+            adxerr_report("E0040702:Illigal number of file.(ADXF_GetPtStat)");
             TLobby__sub_803CD804();
             return 4;
         }
@@ -682,12 +685,12 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 mode, Ent_803CC
         return r;
     }
     if (lobby_adxf_current_file_id >= 0) {
-        TLobby::notify_error("E0042401:multi-load partition.(ADXF_LoadPartitionNw)");
+        adxerr_report("E0042401:multi-load partition.(ADXF_LoadPartitionNw)");
         return -1;
     }
     lobby_adxf_open_file_handle = ADXF_Open(name, mode);
     if (lobby_adxf_open_file_handle == NULL) {
-        TLobby::notify_error("E9040804:can't open file.(ADXF_LoaddPartitionNw)");
+        adxerr_report("E9040804:can't open file.(ADXF_LoaddPartitionNw)");
         return -1;
     }
     lobby_adxf_current_file_id = id;
@@ -715,23 +718,23 @@ s32 adxf_open_file__6TLobbyFiPviPv(s32 id, const char *name, s32 mode, Ent_803CC
 // the end of the string pool; the bodies follow ADXF_LoadPartitionNw.
 s32 adxf_load_pt_nw_ex(s32 ptid, const char *fname, s32 dir, Ent_803CC294 *ptinfo, void *tmpbuf, s32 tbsize) {
     if (tmpbuf == NULL) {
-        TLobby::notify_error("E1110701:'tmpbuf' is null.(ADXF_LoadPtNwEx)");
+        adxerr_report("E1110701:'tmpbuf' is null.(ADXF_LoadPtNwEx)");
         return -3;
     }
     if (tbsize <= 0) {
-        TLobby::notify_error("E1110702:'tbsize' <= 0.(ADXF_LoadPtNwEx)");
+        adxerr_report("E1110702:'tbsize' <= 0.(ADXF_LoadPtNwEx)");
         return -3;
     }
     if (adxf_chk_prm_pt(ptid, ptinfo) < 0) {
         return -3;
     }
     if (lobby_adxf_current_file_id >= 0) {
-        TLobby::notify_error("E0042401:multi-load partition.(ADXF_LoadPtNwEx)");
+        adxerr_report("E0042401:multi-load partition.(ADXF_LoadPtNwEx)");
         return -1;
     }
     lobby_adxf_open_file_handle = ADXF_Open(fname, dir);
     if (lobby_adxf_open_file_handle == NULL) {
-        TLobby::notify_error("E9040804:can't open file.(ADXF_LoadPtNwEx)");
+        adxerr_report("E9040804:can't open file.(ADXF_LoadPtNwEx)");
         return -1;
     }
     return 0;
@@ -742,14 +745,14 @@ s32 adxf_load_partition2(s32 ptid, const char *fname, s32 dir, Ent_803CC294 *pti
         return -3;
     }
     if (ADXF_Open(fname, dir) == NULL) {
-        TLobby::notify_error("E9040804:can't open file.(ADXF_LoadPartition)");
+        adxerr_report("E9040804:can't open file.(ADXF_LoadPartition)");
         return -1;
     }
     if (ptinfo->f8 == 0) {
-        TLobby::notify_error("E9040806:file is broken.(ADXF_LoadPartition)");
+        adxerr_report("E9040806:file is broken.(ADXF_LoadPartition)");
         return -1;
     }
-    TLobby::notify_error("E9040805:read error.(ADXF_LoadPartition)");
+    adxerr_report("E9040805:read error.(ADXF_LoadPartition)");
     return -1;
 }
 

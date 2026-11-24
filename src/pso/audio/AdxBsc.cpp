@@ -1,7 +1,7 @@
 // CRI adx_bsc.c: the ADXB decoder handles (ADXB_ExecHndl, the ADX block step, header decode, create/destroy).
 #include "types.h"
+#include "pso/audio/AdxError.h"
 #include <string.h>
-#include "pso/unk/TLobby_803C4698.h"
 #include "pso/unk/TLobby_803BFE50.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/unk/TLobby.h"
@@ -92,11 +92,11 @@ void adxb_exec_one_adx(AdxbDecoder *adxb) {
             AdxDecoderChannel *channel = adxb->channel;
             s16 *dst = adxb->buf;
             dst += adxb->pos;
-            channel->post_request((saddr)adxb->src, n * 2, (saddr)dst, (saddr)(dst + adxb->rOff));
+            channel->post_request((s8 *)adxb->src, n * 2, dst, dst + adxb->rOff);
             TLobby__sub_803CB4A4(channel);
         } else {
             AdxDecoderChannel *channel = adxb->channel;
-            channel->try_post_command((saddr)adxb->src, n, (saddr)(adxb->buf + adxb->pos));
+            channel->try_post_command((s8 *)adxb->src, n, adxb->buf + adxb->pos);
             TLobby__sub_803CB4A4(channel);
         }
         adxb->state = 2;
@@ -169,7 +169,7 @@ s32 AdxbDecoder::get_decoded_bytes() {
 void AdxbDecoder::reset() {
     if (state == 3) {
         channel->clear_done_state();
-        m_9C = 0;
+        write_pos = 0;
         state = 0;
     }
 }
@@ -302,12 +302,12 @@ s32 ADXB_DecodeHeaderAdx(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 sp10;
     u8 *temp_r3;
     adxb->m_02 = 1;
-    if (sub_803C4910(hdr, size, &sp10, (u8 *)&adxb->m_0C, &adxb->bits, &adxb->block_bytes, (u8 *)&adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples) < 0) {
+    if (adx_parse_header_info(hdr, size, &sp10, (u8 *)&adxb->encoding_type, &adxb->bits, &adxb->block_bytes, (u8 *)&adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples) < 0) {
         return 0;
     }
-    if (adxb->m_0C > 4) {
+    if (adxb->encoding_type > 4) {
         if (adxb->ahx_handle == NULL) {
-            TLobby::report_adx_error("E1060101 ADXB_DecodeHeaderAdx: ", "can't play AHX data by this handle");
+            adxerr_report_pair("E1060101 ADXB_DecodeHeaderAdx: ", "can't play AHX data by this handle");
             return 0;
         }
         adxb->bits = 8;
@@ -316,15 +316,15 @@ s32 ADXB_DecodeHeaderAdx(AdxbDecoder *adxb, u8 *hdr, s32 size) {
         adxb->format = 0xA;
         goto block_11;
     }
-    if (TLobby__sub_803C48C8(hdr, size, (u16 *)&adxb->m_1C) < 0) {
+    if (adx_parse_header_cutoff(hdr, size, (u16 *)&adxb->cutoff) < 0) {
         return 0;
     }
     if (adx_parse_header_loop_points(hdr, size, (u16 *)&sp18, (u16 *)&sp14) < 0) {
         return 0;
     }
-    adxb->channel->calc_adx_coeffs_at_offset(adxb->rate, adxb->m_1C);
+    adxb->channel->calc_adx_coeffs_at_offset(adxb->rate, adxb->cutoff);
     TLobby__sub_803CB570(adxb->channel, (u8 *)&sp18, (s16 *)&sp14);
-    sub_803C46DC(hdr, size, &adxb->loop_enabled, &adxb->loop_type, &adxb->loop_count, &adxb->loop_start_sample, &adxb->loop_start_byte, &adxb->loop_end_sample, &adxb->loop_end_byte);
+    adx_parse_header_loop(hdr, size, &adxb->loop_enabled, &adxb->loop_type, &adxb->loop_count, &adxb->loop_start_sample, &adxb->loop_start_byte, &adxb->loop_end_sample, &adxb->loop_end_byte);
     adxb->format = 0;
 block_11:
     temp_r3 = adxb->m_4C;
@@ -337,7 +337,7 @@ block_11:
     adxb->m_7C = adxb->m_48;
     adxb->m_7E = adxb->m_4A;
     adxb->m_80 = temp_r3;
-    adxb->m_9C = 0;
+    adxb->write_pos = 0;
     memset(temp_r3, 0, 4);
     return sp10;
 }
@@ -389,15 +389,15 @@ AdxbDecoder *AdxbDecoder::alloc_record(s32 channels, saddr buffer, s32 size, s32
 
 void adxb_default_done(void *obj, s32 bytes, s32 samples) {
     AdxbDecoder *h = (AdxbDecoder *)obj;
-    h->m_9C += samples;
-    h->m_98 += samples;
+    h->write_pos += samples;
+    h->total_written += samples;
 }
 
 s16 *adxb_default_read(void *obj, s32 *pos, s32 *avail, s32 *remaining) {
     AdxbDecoder *h = (AdxbDecoder *)obj;
-    *pos = h->m_9C;
-    *avail = h->wrap_len - h->m_9C;
-    *remaining = h->samples - h->m_98;
+    *pos = h->write_pos;
+    *avail = h->wrap_len - h->write_pos;
+    *remaining = h->samples - h->total_written;
     return h->output_buffer;
 }
 void AdxbDecoder::clear_pool() {

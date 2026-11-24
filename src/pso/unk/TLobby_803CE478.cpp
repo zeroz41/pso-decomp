@@ -21,7 +21,7 @@ extern "C" void update_file_stream_range(void *context) {
         seek_adx_stream_sector(((AixPlayer *)arg0)->stream, offset / 2048);
         set_adx_stream_end_sector(((AixPlayer *)arg0)->stream, (offset + size) / 2048);
         init_stream_position__6TLobbyFv(((AixPlayer *)arg0)->stream);
-        TLobby::update_scroll_impl();
+        adx_interrupt_lock_leave();
     }
 }
 

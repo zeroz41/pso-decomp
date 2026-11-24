@@ -708,7 +708,7 @@ force_active:
   - __as__14TRecvInfoBoardFRC14TRecvInfoBoard
   - __ct__18TSymbolChatCaptureFP7TObject
   - TLobby__sub_803C4698
-  - adx_bridge_apply_field
+  - adx_bridge_set_loop_flag
   - TLobby__sub_803CE2A0
   - svm_invoke_single_callback
   - gvm_stream_begin
@@ -5146,8 +5146,8 @@ force_active:
   - clear_counter__6TLobbyFPv
   - clear_segment_flags__20TBoss5GryphonColli_CFv
   - clear_episode1_quest_availability__FPv
-  - clear_error_callback__6TLobbyFv
-  - clear_error_callback_state__6TLobbyFv
+  - adxerr_finish
+  - adxerr_init
   - clear_field2A0__22TQuestVmDownLoadServerFP17TMCFormatSequence
   - clear_field_d8__14TOTrapChainSawFv
   - clear_log_active__15TWindowMainMenuFv
@@ -17813,8 +17813,8 @@ force_active:
   - "adx_get_data_start_offset"
   - "ADXT_SetOutPan"
   - "apply_if_v2"
-  - "check_packet_header_8001__6TLobbyFPUslPl"
-  - "set_rate_mode__6TLobbyFl"
+  - "adx_check_packet_header"
+  - "adx_talk_set_rate_mode"
   - "adxm_set_error_callback"
   - __ct__10TOMineTrapFP8TObjBasess
   - find_target_in_range__10TOMineTrapFv

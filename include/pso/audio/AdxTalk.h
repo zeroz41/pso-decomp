@@ -28,4 +28,10 @@ void inl_803C9608(void);
 }
 // --- end of C functions
 
+extern "C" {
+void adxt_set_output_mono(s32 mode);
+s32 adx_check_packet_header(u16 *p, s32 size, s32 *out);
+void adx_talk_set_rate_mode(s32 rate_mode);
+}
+
 #endif

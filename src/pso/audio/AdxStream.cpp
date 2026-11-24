@@ -1,4 +1,6 @@
 #include <string.h>
+#include "pso/audio/AdxError.h"
+#include "pso/audio/AdxLock.h"
 #include <dolphin/os/OSThread.h>
 #include "pso/unk/text_803D2F1C.h"
 #include "pso/audio/AdxStream.h"
@@ -56,7 +58,7 @@ s32 set_adx_max_read_sectors(AdxStreamFile *file, s32 sectors) {
     return 1;
 }
 
-s32 TLobby::set_range(AdxStreamFile *file, s32 threshold, s32 chunk_size) {
+s32 adxstm_set_read_range(AdxStreamFile *file, s32 threshold, s32 chunk_size) {
     file->read_threshold = threshold;
     file->read_chunk_size = chunk_size;
     return 1;
@@ -191,13 +193,13 @@ void set_adx_stream_completion(AdxStreamFile *file, AdxStreamCompletion callback
 
 void stop_adx_stream(AdxStreamFile *file) {
     file->b1 = 1;
-    TLobby::init_once();
+    adx_lock();
     CvFsHandle *handle = file->handle;
     if (handle != NULL) {
         cvFsStopTr(handle);
         file->b2 = 0;
     }
-    TLobby::release_ref();
+    adx_unlock();
 }
 
 static inline s32 get_pos_803C8A14(AdxStreamFile *s) {
@@ -240,13 +242,13 @@ s32 get_adx_stream_status(const AdxStreamFile *file) {
 void adxstm_close(AdxStreamFile *file) {
     if (file != NULL) {
         file->b1 = 1;
-        TLobby::init_once();
+        adx_lock();
         CvFsHandle *handle = file->handle;
         if (handle != NULL) {
             cvFsStopTr(handle);
             file->b2 = 0;
         }
-        TLobby::release_ref();
+        adx_unlock();
         handle = file->handle;
         if (handle != NULL) {
             cvFsClose(handle);
@@ -286,7 +288,7 @@ AdxStreamFile *ADXSTM_OpenFnameEx(const char *name, s32 arg) {
     size = cvFsGetFileSize(name);
     h = cvFsOpen(name, 0, 0);
     if (h == 0) {
-        TLobby::report_adx_error(lbl_8047C634, name);
+        adxerr_report_pair(lbl_8047C634, name);
         return NULL;
     }
     p = alloc_803C8BAC(arg, h, size);
@@ -332,7 +334,7 @@ AdxStreamFile *adxstm_open_fname_attr(const char *name, s32 mode, s32 arg) {
     }
     h = cvFsOpen(name, mode, 0);
     if (h == 0) {
-        TLobby::report_adx_error(lbl_8047C634, name);
+        adxerr_report_pair(lbl_8047C634, name);
         return NULL;
     }
     p = alloc_803C8CDC(arg, h, 0, size);
@@ -372,7 +374,7 @@ AdxStreamFile *ADXSTM_OpenFnameRangeExRt(const char *name, s32 mode, s32 off, s3
     AdxStreamFile *p;
     h = cvFsOpen(name, mode, 0);
     if (h == 0) {
-        TLobby::report_adx_error(lbl_8047C600, name);
+        adxerr_report_pair(lbl_8047C600, name);
         return NULL;
     }
     p = alloc_803C8E28(arg, h, off, nsect << 11);
@@ -412,7 +414,7 @@ AdxStreamFile *ADXSTM_OpenFnameRange(const char *name, s32 mode, s32 off, s32 ns
     AdxStreamFile *p;
     h = cvFsOpen(name, mode, 0);
     if (h == 0) {
-        TLobby::report_adx_error(lbl_8047C660, name);
+        adxerr_report_pair(lbl_8047C660, name);
         return NULL;
     }
     p = alloc_803C8F5C(arg, h, off, nsect << 11);
@@ -423,11 +425,11 @@ AdxStreamFile *ADXSTM_OpenFnameRange(const char *name, s32 mode, s32 off, s32 ns
     return p;
 }
 
-void TLobby::si_get_type_async() {
+void adxstm_finish_fs() {
     cvFsFinish();
 }
 
-s32 TLobby::clear_buffer_a00() {
+s32 adxstm_clear_requests() {
     memset(adx_stream_read_requests, 0, sizeof(adx_stream_read_requests));
     return 1;
 }

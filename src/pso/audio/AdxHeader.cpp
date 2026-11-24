@@ -1,6 +1,5 @@
 // CRI adx_dcd.c: ADX header and info decoding, ADX_GetCoefficient.
 #include "types.h"
-#include "pso/unk/TLobby_803C4698.h"
 #include "pso/audio/AdxEncoder.h"
 #include "pso/audio/AdxHeader.h"
 
@@ -22,14 +21,14 @@ s32 adx_parse_packet_header_len(u8 *hdr, s32 size, s16 *out) {
     return 0;
 }
 
-s32 sub_803C46DC(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4, s32 *o5, s32 *o6, s32 *o7) {
+s32 adx_parse_header_loop(u8 *hdr, s32 size, s32 *loop_enabled, s16 *loop_type, s16 *loop_count, s32 *loop_start_sample, s32 *loop_start_byte, s32 *loop_end_sample, s32 *loop_end_byte) {
     AdxHeader *h = (AdxHeader *)hdr;
     s32 err;
     u8 ver;
     s32 hsz;
     s32 off;
     AdxHeaderBlock *f;
-    *o2 = err = 0;
+    *loop_type = err = 0;
     if (size < 0x14) {
         err = -1;
     } else if (h->magic != 0x8000) {
@@ -59,17 +58,17 @@ s32 sub_803C46DC(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4, s32 *o5,
     if (ver == 4) {
         off = 0x20;
     }
-    *o1 = ((AdxHeaderBlock *)(hdr + off))->loop_enabled_flag;
+    *loop_enabled = ((AdxHeaderBlock *)(hdr + off))->loop_enabled_flag;
     f = (AdxHeaderBlock *)(off + (saddr)hdr);
-    *o2 = f->loop_type;
-    if (*o2 != 1) {
+    *loop_type = f->loop_type;
+    if (*loop_type != 1) {
         return -2;
     }
-    *o3 = f->loop_count;
-    *o4 = f->loop_start_sample;
-    *o5 = f->loop_start_offset;
-    *o6 = f->loop_end_sample;
-    *o7 = f->loop_end_offset;
+    *loop_count = f->loop_count;
+    *loop_start_sample = f->loop_start_sample;
+    *loop_start_byte = f->loop_start_offset;
+    *loop_end_sample = f->loop_end_sample;
+    *loop_end_byte = f->loop_end_offset;
     return 0;
 }
 
@@ -110,7 +109,7 @@ s32 adx_parse_header_loop_points(u8 *hdr, s32 size, u16 *out0, u16 *out1) {
     return 0;
 }
 
-s32 TLobby__sub_803C48C8(u8 *hdr, s32 size, u16 *out) {
+s32 adx_parse_header_cutoff(u8 *hdr, s32 size, u16 *cutoff) {
     AdxHeader *h = (AdxHeader *)hdr;
     if (size < 0x12) {
         return -1;
@@ -121,11 +120,11 @@ s32 TLobby__sub_803C48C8(u8 *hdr, s32 size, u16 *out) {
     if (h->header_offset < 0xE) {
         return -1;
     }
-    *out = h->flags;
+    *cutoff = h->cutoff;
     return 0;
 }
 
-s32 sub_803C4910(u8 *hdr, s32 size, s16 *len, u8 *out_0C, s8 *bits, s8 *block_bytes, u8 *channels, s32 *rate, s32 *samples, s32 *block_samples) {
+s32 adx_parse_header_info(u8 *hdr, s32 size, s16 *len, u8 *encoding, s8 *bits, s8 *block_bytes, u8 *channels, s32 *rate, s32 *samples, s32 *block_samples) {
     if (size < 0x10) {
         return -1;
     }
@@ -133,7 +132,7 @@ s32 sub_803C4910(u8 *hdr, s32 size, s16 *len, u8 *out_0C, s8 *bits, s8 *block_by
         return -2;
     }
     *len = ((hdr[2] << 8) | hdr[3]) + 4;
-    *out_0C = hdr[4];
+    *encoding = hdr[4];
     *block_bytes = hdr[5];
     *bits = hdr[6];
     *channels = hdr[7];

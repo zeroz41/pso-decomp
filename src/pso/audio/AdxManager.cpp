@@ -1,4 +1,5 @@
 #include <dolphin/os/OSThread.h>
+#include "pso/audio/AdxError.h"
 #include "pso/audio/AdxFsServer.h"
 #include "pso/audio/AdxManager.h"
 #include "pso/audio/AdxTalk.h"
@@ -50,7 +51,7 @@ void setup_adx_file_systems(s32 *read_mode) {
 }
 
 void fs_error_notify(s32, const char *message, void *) {
-    TLobby::notify_error(message);
+    adxerr_report(message);
 }
 
 static const char *const volatile adxgc_version_pointer = "\nADXGC Ver.1.10 Build:Jun 13 2002 19:01:41\n";
@@ -77,7 +78,7 @@ typedef void *(*AdxmThreadEntry)(void *);
 void init_runtime_threads(AdxmThreadConfig *cfg) {
     adxgc_version_pointer;
     if (adxm_init_count == 0) {
-        TLobby::init_callback_tables();
+        svm_init();
         svm_set_lock_callback(__OSCallResetFunctions, 0);
         svm_set_unlock_callback(adxm_svm_unlock_callback, 0);
         if (cfg == NULL) {
@@ -89,13 +90,13 @@ void init_runtime_threads(AdxmThreadConfig *cfg) {
         } else {
             __memcpy(&adxm_thread_config, cfg, sizeof(AdxmThreadConfig));
         }
-        OSCreateThread(&adxm_busy_wait_thread, (AdxmThreadEntry)TLobby::wait_for_lock_release, NULL,
+        OSCreateThread(&adxm_busy_wait_thread, (AdxmThreadEntry)adxm_busy_wait_loop, NULL,
                        adxm_busy_wait_stack + sizeof(adxm_busy_wait_stack), sizeof(adxm_busy_wait_stack),
                        adxm_thread_config.busy_wait_prio, 1);
         OSCreateThread(&adxm_vblank_thread, (AdxmThreadEntry)vblank_thread_loop, NULL,
                        adxm_vblank_stack + sizeof(adxm_vblank_stack), sizeof(adxm_vblank_stack),
                        adxm_thread_config.vblank_prio, 1);
-        OSCreateThread(&adxm_worker_thread, (AdxmThreadEntry)TLobby::worker_thread_loop, NULL,
+        OSCreateThread(&adxm_worker_thread, (AdxmThreadEntry)adxm_worker_thread_loop, NULL,
                        adxm_worker_stack + sizeof(adxm_worker_stack), sizeof(adxm_worker_stack),
                        adxm_thread_config.prio, 1);
         adxm_main_thread = OSGetCurrentThread();
@@ -108,23 +109,23 @@ void init_runtime_threads(AdxmThreadConfig *cfg) {
         adxm_lock_transition_flag = 0;
         OSResumeThread(&adxm_vblank_thread);
         OSResumeThread(&adxm_worker_thread);
-        svm_set_single_callback(5, TLobby::adxm_goto_mwidle_border, 0);
+        svm_set_single_callback(5, adxm_goto_mwidle_border, 0);
     }
     adxm_init_count++;
 }
 
 void adxm_set_error_callback(AdxMessageCallback callback, s32 context) {
-    TLobby::set_callback_params(callback, context);
+    svm_set_message_callback(callback, context);
 }
 
 void exec_vsync_servers(void) {
-    TLobby::run_callbacks_group2();
+    svm_exec_group2();
 }
 
-void TLobby::worker_thread_loop() {
+void adxm_worker_thread_loop() {
     while (lobby_worker_thread_run_flag == 1) {
         adxm_worker_loop_count++;
-        if (TLobby::run_worker_callbacks_slot5() == 0 || adxm_worker_idle_requested == 1) {
+        if (svm_exec_group5() == 0 || adxm_worker_idle_requested == 1) {
             if (adxm_worker_idle_requested == 1) {
                 adxm_worker_idle_requested = 0;
                 OSSetThreadPriority(&adxm_worker_thread, adxm_thread_config.prio);
@@ -143,7 +144,7 @@ void vblank_thread_loop(void) {
         VIWaitForRetrace();
         adxm_vblank_tick_count++;
         lbl_805D7540++;
-        TLobby::run_callbacks_group2();
+        svm_exec_group2();
         if (adxm_worker_thread_stopped == 0) {
             OSResumeThread(&adxm_worker_thread);
             if (adx_worker_thread_pending_callback.fn != NULL) {
@@ -154,13 +155,13 @@ void vblank_thread_loop(void) {
     adxm_vblank_thread_stopped = 1;
 }
 
-void TLobby::wait_for_lock_release() {
+void adxm_busy_wait_loop() {
     while (adxm_busy_wait_run_flag == 1) {
         adxm_busy_wait_spin_count++;
     }
     adxm_busy_wait_stopped = 1;
 }
-void TLobby::adxm_goto_mwidle_border(s32) {
+void adxm_goto_mwidle_border(s32) {
     s32 i;
     if (adxm_worker_thread_stopped == 1) {
         return;
@@ -174,7 +175,7 @@ void TLobby::adxm_goto_mwidle_border(s32) {
         }
     }
     if (i == 200000000) {
-        TLobby::set_message_and_notify("1060102: Internal Error: adxm_goto_mwidle_border");
+        svm_report_message("1060102: Internal Error: adxm_goto_mwidle_border");
     }
     OSSetThreadPriority(&adxm_worker_thread, adxm_thread_config.prio);
 }

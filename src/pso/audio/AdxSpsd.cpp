@@ -54,10 +54,10 @@ void adxb_exec_one_spsd(AdxbDecoder *adxb) {
 s32 adxb_decode_header_spsd(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     s16 len;
     adxb->m_02 = 1;
-    if (TLobby__sub_803C44C0((SpsdHeader *)hdr, size, &len, &adxb->m_0C, &adxb->bits, &adxb->block_bytes, &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
+    if (TLobby__sub_803C44C0((SpsdHeader *)hdr, size, &len, &adxb->encoding_type, &adxb->bits, &adxb->block_bytes, &adxb->channels, &adxb->rate, &adxb->samples, &adxb->block_samples, &adxb->encoding) < 0) {
         return 0;
     }
-    adxb->m_1C = 0;
+    adxb->cutoff = 0;
     adxb->m_4A = 0;
     adxb->m_48 = 0;
     adxb->loop_count = 0;
@@ -76,8 +76,8 @@ s32 adxb_decode_header_spsd(AdxbDecoder *adxb, u8 *hdr, s32 size) {
     adxb->m_7C = adxb->m_48;
     adxb->m_7E = adxb->m_4A;
     adxb->m_80 = adxb->m_4C;
-    adxb->m_9C = 0;
-    adxb->m_98 = 0;
+    adxb->write_pos = 0;
+    adxb->total_written = 0;
     adxb->format = 2;
     memset(adxb->m_4C, 0, 4);
     return len;

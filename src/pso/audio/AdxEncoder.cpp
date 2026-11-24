@@ -1,5 +1,6 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os/OSThread.h>
+#include "pso/audio/AdxLock.h"
 #include "pso/unk/TLobby.h"
 #undef PSO_SDK_COMPACT_MATH
 #include <string.h>
@@ -136,7 +137,7 @@ void TLobby__sub_803C6118(AdxEncoder *enc) {
 void TLobby__sub_803C6138(AdxEncoder *enc) {
     AdxEncChannel *c;
     if (enc != NULL) {
-        TLobby::init_once();
+        adx_lock();
         c = enc->channel[0];
         if (c != NULL && c != NULL) {
             c->used = 0;
@@ -148,7 +149,7 @@ void TLobby__sub_803C6138(AdxEncoder *enc) {
             memset(c, 0, sizeof(AdxEncChannel));
         }
         memset(enc, 0, 4);
-        TLobby::release_ref();
+        adx_unlock();
     }
 }
 
@@ -243,11 +244,11 @@ AdxEncoder *TLobby__sub_803C61C4(s32 nch, SjRingBuffer **src, SjRingBuffer *dst)
     return enc;
 }
 
-void TLobby::clear_net_buffer_1680() {
+void adx_encoder_pool_finish() {
     memset(adx_encoder_context_pool, 0, sizeof(adx_encoder_context_pool));
 }
 
-void TLobby::clear_buffer_1680() {
+void adx_encoder_pool_init() {
     memset(adx_encoder_context_pool, 0, sizeof(adx_encoder_context_pool));
 }
 

@@ -22,12 +22,11 @@ static inline void adx_expand_update_impl(void *ptr) {
     }
     if (ch->state == 2) {
         if (ch->decode_mode == 1) {
-            ch->decoded_count = decode_adx_mono_blocks((s8 *)ch->src, ch->nblk, (s16 *)ch->out_buf, ch->delay_samples,
+            ch->decoded_count = decode_adx_mono_blocks(ch->src, ch->nblk, ch->out_buf, ch->delay_samples,
                                                        ch->coef_k0, ch->coef_k1);
         } else {
-            ch->decoded_count = dispatch_receive_update__6TLobbyFv(ch->src, ch->nblk, ch->out_buf, ch->delay_samples,
-                                                                    ch->out_right_buf, &ch->delay_samples[2],
-                                                                    ch->coef_k0, ch->coef_k1);
+            ch->decoded_count = adx_decode_stereo_blocks(ch->src, ch->nblk, ch->out_buf, ch->delay_samples, ch->out_right_buf,
+                                                      &ch->delay_samples[2], ch->coef_k0, ch->coef_k1);
             decoded_blocks = (u32)ch->decoded_count;
             sign_bit = decoded_blocks >> 0x1FU;
             if ((s32)(((decoded_blocks & 1) ^ sign_bit) - sign_bit) == 1) {
@@ -59,7 +58,7 @@ static inline s32 adx_expand_is_idle_impl(const void *ptr) {
     return ((const AdxDecoderChannel *)ptr)->state == 0;
 }
 
-static inline void adx_expand_set_stereo_impl(void *ptr, s32 src, s32 nblk, s32 out_left, s32 out_right) {
+static inline void adx_expand_set_stereo_impl(void *ptr, s8 *src, s32 nblk, s16 *out_left, s16 *out_right) {
     AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
     ch->decode_mode = 2;
     ch->src = src;
@@ -68,13 +67,13 @@ static inline void adx_expand_set_stereo_impl(void *ptr, s32 src, s32 nblk, s32 
     ch->out_right_buf = out_right;
 }
 
-static inline void adx_expand_set_mono_impl(void *ptr, s32 src, s32 nblk, s32 out_buf) {
+static inline void adx_expand_set_mono_impl(void *ptr, s8 *src, s32 nblk, s16 *out_buf) {
     AdxDecoderChannel *ch = (AdxDecoderChannel *)ptr;
     ch->decode_mode = 1;
     ch->src = src;
     ch->nblk = nblk;
     ch->out_buf = out_buf;
-    ch->out_right_buf = 0;
+    ch->out_right_buf = NULL;
 }
 
 static inline s32 adx_expand_get_state_impl(const void *ptr) {
@@ -112,7 +111,7 @@ void TLobby__sub_803CB4A4(AdxDecoderChannel *channel) {
     }
 }
 
-s32 AdxDecoderChannel::post_request(s32 src, s32 nblk, s32 out_left, s32 out_right) {
+s32 AdxDecoderChannel::post_request(s8 *src, s32 nblk, s16 *out_left, s16 *out_right) {
     if (adx_expand_is_idle_impl(this)) {
         adx_expand_set_stereo_impl(this, src, nblk, out_left, out_right);
         return 1;
@@ -120,7 +119,7 @@ s32 AdxDecoderChannel::post_request(s32 src, s32 nblk, s32 out_left, s32 out_rig
     return 0;
 }
 
-s32 AdxDecoderChannel::try_post_command(s32 src, s32 nblk, s32 out_buf) {
+s32 AdxDecoderChannel::try_post_command(s8 *src, s32 nblk, s16 *out_buf) {
     if (adx_expand_is_idle_impl(this)) {
         adx_expand_set_mono_impl(this, src, nblk, out_buf);
         return 1;

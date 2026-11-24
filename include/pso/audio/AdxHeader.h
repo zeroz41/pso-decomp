@@ -26,7 +26,7 @@ struct AdxHeader {
     u16 magic;
     s16 header_offset;
     u8 pad_04[0xC];
-    u16 flags;
+    u16 cutoff; // high-pass cutoff frequency for the prediction coefficients
     u8 version;
     u8 pad_13;
     u8 pad_14[0x4];
@@ -35,9 +35,11 @@ struct AdxHeader {
 
 // --- C functions defined in AdxHeader.cpp ---
 extern "C" {
-s32 sub_803C4910(u8 *hdr, s32 size, s16 *len, u8 *out_0C, s8 *bits, s8 *block_bytes, u8 *channels, s32 *rate, s32 *samples, s32 *block_samples);
-s32 TLobby__sub_803C48C8(u8 *hdr, s32 size, u16 *out);
-s32 sub_803C46DC(u8 *hdr, s32 size, s32 *o1, s16 *o2, s16 *o3, s32 *o4, s32 *o5, s32 *o6, s32 *o7);
+// The ADX header's data offset (len), encoding type (above 4 is AHX), block layout, rate and length.
+s32 adx_parse_header_info(u8 *hdr, s32 size, s16 *len, u8 *encoding, s8 *bits, s8 *block_bytes, u8 *channels, s32 *rate, s32 *samples, s32 *block_samples);
+s32 adx_parse_header_cutoff(u8 *hdr, s32 size, u16 *cutoff);
+// The loop block of an ADX header; only loop type 1 is accepted.
+s32 adx_parse_header_loop(u8 *hdr, s32 size, s32 *loop_enabled, s16 *loop_type, s16 *loop_count, s32 *loop_start_sample, s32 *loop_start_byte, s32 *loop_end_sample, s32 *loop_end_byte);
 // The length of the packet header at hdr (type 0x8001), with its 4-byte head.
 s32 adx_parse_packet_header_len(u8 *hdr, s32 size, s16 *out);
 // The two loop point pairs of a version 4 ADX header, zero for older versions.

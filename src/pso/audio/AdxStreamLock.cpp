@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
 
-void TLobby::update_scroll_impl() {
+void adx_interrupt_lock_leave() {
     middleware_interrupt_lock_leave();
 }
 
