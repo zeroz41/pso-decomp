@@ -694,7 +694,6 @@ pso/effect/enemy/TEneEffHamon.cpp
 pso/effect/enemy/TEneParticleCtrl.cpp
 pso/render/TFogCtrl.cpp
 pso/ui/font/TFontSmallHelp.cpp
-pso/ui/font/TFontSmallLobby_801C013C.cpp
 pso/player/PhotonBlastGauge.cpp
 pso/ui/city/THunterGuildSeqOffline.cpp
 pso/ui/city/THunterGuildSeqOffline_801F3718.cpp
@@ -1141,7 +1140,6 @@ pso/network/TUdpSocket.cpp
 pso/network/TUserAns.cpp
 pso/network/TUserAns_801E0198.cpp
 pso/ui/window/TWindowActionPalette.cpp
-pso/ui/window/TWindowActionPalette_801C1890.cpp
 pso/ui/window/TWindowArea.cpp
 pso/ui/window/TWindowBreakIn.cpp
 pso/ui/window/TWindowCallBack.cpp
@@ -1192,7 +1190,6 @@ pso/ui/window/TWindowDD_80348C54.cpp
 pso/ui/window/TWindowDD_8034AF68.cpp
 pso/ui/window/TWindowDeposit.cpp
 pso/ui/window/TWindowDuelResult.cpp
-pso/player/PlayerSharedSbss.cpp
 pso/ui/window/TWindowDuelResult_801C2528.cpp
 pso/ui/window/TWindowEffectLight.cpp
 pso/ui/window/TWindowEffectParty.cpp
@@ -1376,7 +1373,6 @@ pso/item/item_pmt.cpp
 pso/system/data/pso_const_ids.cpp
 pso/system/data/pso_const_ids3.cpp
 pso/system/data/pso_const_ids4.cpp
-pso/system/data/pso_const_ids5.cpp
 pso/system/data/pso_date.cpp
 pso/network/mdm.c
 pso/network/NetDhcp.c
@@ -1595,9 +1591,6 @@ pso/object/base/TObjCollidable.cpp
 pso/player/TObjPlayer_80178150.cpp
 pso/player/TObjPlayer_801AF2F0.cpp
 pso/player/TObjPlayerCreate.cpp
-pso/player/TObjPlayer_801C00C4.cpp
-pso/player/TObjPlayer_801C0808.cpp
-pso/player/TObjPlayer_801C1FF8.cpp
 pso/player/PlayerTrapCounts.cpp
 pso/player/TObjPlayerActions.cpp
 pso/player/PlayerAttackController.cpp

@@ -4849,32 +4849,11 @@ pso/player/TObjPlayerCreate.cpp:
 	.rodata     start:0x80446F70 end:0x80446F78
 
 pso/player/TObjPlayer.cpp:
-	.text       start:0x801BDE60 end:0x801C0064
+	.text       start:0x801BDE60 end:0x801C23A8
 	.ctors      start:0x80433F8C end:0x80433F90
 	.data       start:0x804C3E38 end:0x804C3E60
 	.bss        start:0x8050E920 end:0x80511C80
-	.sbss       start:0x805D5D68 end:0x805D5D78
-
-pso/player/PlayerSharedSbss.cpp:
-	.sbss       start:0x805D5D78 end:0x805D5D90
-
-pso/system/data/pso_const_ids5.cpp:
-	.text       start:0x801C0064 end:0x801C00C4
-
-pso/player/TObjPlayer_801C00C4.cpp:
-	.text       start:0x801C00C4 end:0x801C013C
-
-pso/ui/font/TFontSmallLobby_801C013C.cpp:
-	.text       start:0x801C013C end:0x801C0808
-
-pso/player/TObjPlayer_801C0808.cpp:
-	.text       start:0x801C0808 end:0x801C1890
-
-pso/ui/window/TWindowActionPalette_801C1890.cpp:
-	.text       start:0x801C1890 end:0x801C1FF8
-
-pso/player/TObjPlayer_801C1FF8.cpp:
-	.text       start:0x801C1FF8 end:0x801C23A8
+	.sbss       start:0x805D5D68 end:0x805D5D90
 
 pso/ui/window/TWindowDuelResult_801C2528.cpp:
 	.text       start:0x801C23A8 end:0x801C25B4
