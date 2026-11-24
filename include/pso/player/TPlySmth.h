@@ -10,18 +10,10 @@ public:
     TPlySmth();
     TPlySmth &operator=(const TPlySmth &other);
 
-    void bswap() {
-        bswap_32(as(u32 *, &m_smth));
-        bswap_32(as(u32 *, &m_smth1));
-    };
+    void bswap();
 public:
     u8 m_smth[4];
     u8 m_smth1[4];
 };
-
-extern "C" {
-void __as__8TPlySmthFRC8TPlySmth(saddr dst, saddr src);
-void __ct__8TPlySmthFv(void *);
-}
 
 #endif

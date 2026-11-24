@@ -1146,13 +1146,15 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TBoss7Crawfish: one GC/1.3.2 TU (the five former parts compile identically under 1.3.2, not under 2.6);
     # its resource names are .rodata strings.
     "pso/boss/barbaray/TBoss7Crawfish.cpp": {"mw_version": "GC/1.3.2", "cflags": _switch(cflags_pso, "-str reuse,readonly")},
-    # GC/1.3: the compiler-generated TMenuList<> copy constructor.
-    "pso/network/TRegister.cpp": {"mw_version": "GC/1.3"},
-    "pso/player/TPlyGuildCardTag_801E0284.cpp": {"mw_version": "GC/1.3"},
+    # packet_classes: the packet class bodies after TProtocol (0x801DFF38-0x801E0C30) are a second
+    # object. Only 1.3-1.3.2 build it: 2.x loads the first word of the compiler-generated TMenuList<>
+    # copies before stmw, and TProtocol.cpp itself builds only under 2.5-2.7. TProtocol.o also
+    # carries weak copies of these copy constructors and bswaps, which the link drops for the strong
+    # ones here.
+    "pso/network/protocol/packet_classes.cpp": {"mw_version": "GC/1.3"},
     # fill_date_from_seconds stores the month between the days[m - 1] load and the subtraction only
     # under 1.3-2.0 (2.6 schedules the store after it).
     "pso/system/data/pso_date.cpp": {"mw_version": "GC/1.3"},
-    "pso/network/TPlyStartGame.cpp": {"mw_version": "GC/1.3"},
     # TShopItemListWindow: handle_amount_confirm compiles identical only under 1.3-2.0 (2.5/2.6
     # schedule it differently); every other function of the unit compiles the same.
     # Deferred inlining: __vt__19TShopItemListWindow sits before vfunc_11's switch table in .data

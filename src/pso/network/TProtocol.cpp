@@ -5,7 +5,6 @@
 #include "pso/network/TProtocol.h"
 #include "pso/network/protocol/protocol.h"
 #include "pso/network/PSOV3EncryptionTCP.h"
-#include "pso/network/TProtocol_801E08CC.h"
 #include "pso/player/TPlySmth.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
@@ -16,8 +15,6 @@
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/item/TItemData.h"
 #include "pso/network/TPlyMeetUserExtension.h"
-#include "pso/network/TPlyJoinLobby.h"
-#include "pso/player/TPlyCharData_801E0A04.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TMessageBox.h"
 
@@ -683,38 +680,19 @@ void TProtocol::handle_cmd_92(packet &pkt) {
     }
 }
 
-// ---- pso/unk/text_801DB998
-
-#include "pso/player/TPlySmth.h"
-
-struct Stack_801DB998 {
-    u8 sp8;
-    u8 pad_9[0x1];
-    s16 spA;
-    u8 spC[8];
-    s32 sp14;
-    u8 pad_18[0x1];
-    s8 sp19;
-    u8 pad_1A[0x2];
-    char sp1C[0x30];
-    char sp4C[0x30];
-    char sp7C[0x30];
-};
-
 void TProtocol::send_register_9c() {
-    Stack_801DB998 stack;
-    construct_cmd_9c_send_pso_regist((&stack.sp8));
-    memset(&stack.sp8, 0, 0xA4);
-    stack.sp8 = 0x9C;
-    stack.spA = 0xA4;
-    __as__8TPlySmthFRC8TPlySmth((saddr)&stack.spC, (saddr)&m_smth);
-    stack.sp14 = (s32)m_sub_version;
-    stack.sp19 = (s8)m_language;
-    strncpy(stack.sp1C, m_serial_number, 0x30);
-    strncpy(stack.sp4C, m_access_key, 0x30);
-    strncpy(stack.sp7C, m_password, 0x30);
-    bswap_cmd_9c_send_pso_regist((&stack.sp8));
-    send(&stack.sp8, 0xA4);
+    TSendPsoRegist pkt;
+    memset(&pkt, 0, sizeof(pkt));
+    pkt.header.command = 0x9C;
+    pkt.header.size = sizeof(pkt);
+    pkt.smth = m_smth;
+    pkt.sub_version = m_sub_version;
+    pkt.language = m_language;
+    strncpy(pkt.serial_number, m_serial_number, sizeof(pkt.serial_number));
+    strncpy(pkt.access_key, m_access_key, sizeof(pkt.access_key));
+    strncpy(pkt.password, m_password, sizeof(pkt.password));
+    pkt.bswap();
+    send((u8 *)&pkt, sizeof(pkt));
 }
 
 // ---- pso/network/TProtocol_801DBA58
@@ -1534,7 +1512,7 @@ void TProtocol::recv_start_lobby2(packet &pkt) {
 	m_joined_game = true;
 
 	if (m_recv_handlers.handle_67_recv_start_lobby2 != nullptr) {
-		m_recv_handlers.handle_67_recv_start_lobby2(tmp.entries, tmp.header.flags, tmp.client_id, tmp.leader_id, tmp.lobby_number, tmp.block_number, tmp.unknown1, tmp.event);
+		m_recv_handlers.handle_67_recv_start_lobby2(tmp.entries, tmp.header.flags, tmp.client_id, tmp.leader_id, tmp.lobby_number, tmp.block_number, tmp.enable_battle_mode, tmp.event);
 	}
 };
 
@@ -2042,7 +2020,7 @@ void TPlyChallenge::bswap() {
 void TSendLogin::bswap() {
     header.bswap();
     tag.bswap();
-    bswap_ply_smth_pair(&hardware_id);
+    hardware_id.bswap();
     bswap_32(&sub_version);
     extension.bswap();
 }
@@ -2125,7 +2103,7 @@ s32 __ct__16TPlyGuildCardTagFv(s32);
 
 void TSendVerifyLicense::bswap() {
     header.bswap();
-    bswap_ply_smth_pair(&hardware_id);
+    hardware_id.bswap();
     bswap_32(&sub_version);
 }
 
@@ -2266,8 +2244,13 @@ void bswap__12TChatMessageFv(saddr arg0) {
 LAYOUT_ASSERT(RegistConnectHeaderOffset, offsetof(TSendPsoRegistConnect, header) == 0);
 LAYOUT_ASSERT(RegistConnectPacketSize, sizeof(TSendPsoRegistConnect) == 0x28);
 
-void bswap_cmd_9c_send_pso_regist(void* p) { ((packet_header *)p)->bswap(); bswap_ply_smth_pair((char*)p + 0x4); bswap_32((u32 *)((char*)p + 0xc)); }
-void* construct_cmd_9c_send_pso_regist(void* p) { __ct__8TPlySmthFv((char*)p + 0x4); return p; }
+void TSendPsoRegist::bswap() {
+    header.bswap();
+    smth.bswap();
+    bswap_32(&sub_version);
+}
+
+TSendPsoRegist::TSendPsoRegist() {}
 
 void TSendPsoRegistConnect::bswap() {
     header.bswap();
@@ -2288,7 +2271,7 @@ void TPlyJoinLobbyEntry::bswap() {
     tag.bswap();
     bswap_32(&ip_addr);
     bswap_32(&client_id);
-    bswap__12TPlyCharDataFv((saddr)&char_data);
+    char_data.bswap();
 }
 
 LAYOUT_ASSERT(LobbyExitSize, sizeof(TRecvExit<true>) == 8);
@@ -2342,7 +2325,7 @@ void TRecvPsoData::bswap() {
 
 void TPlyJoinData::bswap() {
     header.bswap();
-    bswap__12TPlyCharDataFv((saddr)&char_data);
+    char_data.bswap();
     challenge.bswap();
     choice_search_config.bswap();
     for (int i = 0; i < 30; i++) {

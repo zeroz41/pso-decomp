@@ -5060,62 +5060,8 @@ pso/network/TProtocol.cpp:
 	.sdata      start:0x805D3570 end:0x805D3580
 	.sbss       start:0x805D5E18 end:0x805D5E30
 
-pso/network/TRegister.cpp:
-	.text       start:0x801DFF38 end:0x801E0110
-
-pso/network/TUserAns.cpp:
-	.text       start:0x801E0110 end:0x801E015C
-
-pso/network/TRecvPort.cpp:
-	.text       start:0x801E015C end:0x801E0198
-
-pso/network/TUserAns_801E0198.cpp:
-	.text       start:0x801E0198 end:0x801E0284
-
-pso/player/TPlyGuildCardTag_801E0284.cpp:
-	.text       start:0x801E0284 end:0x801E0350
-
-pso/network/TRecvDownload.cpp:
-	.text       start:0x801E0350 end:0x801E0384
-
-pso/network/TRecvDownloadHead.cpp:
-	.text       start:0x801E0384 end:0x801E03B8
-
-pso/network/TPlyJoinGame.cpp:
-	.text       start:0x801E03B8 end:0x801E051C
-
-pso/unk/text_801E051C.cpp:
-	.text       start:0x801E051C end:0x801E0580
-
-pso/network/TPlyStartGame.cpp:
-	.text       start:0x801E0580 end:0x801E078C
-
-pso/unk/text_801E078C.cpp:
-	.text       start:0x801E078C end:0x801E0800
-
-pso/network/TPlyRecvLogin.cpp:
-	.text       start:0x801E0800 end:0x801E08CC
-
-pso/network/TProtocol_801E08CC.cpp:
-	.text       start:0x801E08CC end:0x801E0934
-
-pso/player/TPlySmth.cpp:
-	.text       start:0x801E0934 end:0x801E09C4
-
-pso/player/TPlyGuildCardTag_801E09C4.cpp:
-	.text       start:0x801E09C4 end:0x801E0A04
-
-pso/player/TPlyCharData_801E0A04.cpp:
-	.text       start:0x801E0A04 end:0x801E0A9C
-
-pso/network/TPlyJoinLobby.cpp:
-	.text       start:0x801E0A9C end:0x801E0BB4
-
-pso/network/TTcpSocket_801E0BB4.cpp:
-	.text       start:0x801E0BB4 end:0x801E0C08
-
-pso/unk/text_801E0C08.cpp:
-	.text       start:0x801E0C08 end:0x801E0C30
+pso/network/protocol/packet_classes.cpp:
+	.text       start:0x801DFF38 end:0x801E0C30
 	.ctors      start:0x80433F94 end:0x80433F98
 	.bss        start:0x80511DE8 end:0x80511ED0
 

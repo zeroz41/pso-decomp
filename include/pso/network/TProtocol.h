@@ -36,6 +36,7 @@ extern const char *lobby_server_greeting_text;
 extern const char *port_map_copyright;
 extern u32 game_variations[16][2];
 extern void copy_packet(union packet *pkt);
+void set_lobby_count_value();
 
 class TBlockedSenders {
 public:
@@ -214,7 +215,7 @@ struct TSendClientConfig {
     o(unused7, void) \
     o(handle_64_recv_start_game3, TPlyJoinGame &join_data) \
     o(unused8, void) \
-    o(handle_67_recv_start_lobby2, TPlyJoinLobbyEntry *entries, u8 entry_count, int client_id, int leader_id, int lobby_number, int block_number, int smth, int event) \
+    o(handle_67_recv_start_lobby2, TPlyJoinLobbyEntry *entries, u8 entry_count, int client_id, int leader_id, int lobby_number, int block_number, int enable_battle_mode, int event) \
     o(handle_80_recv_generate_id, TRecvGenerateID gen_id) \
     o(unused9, void) \
     o(handle_65_recv_burst_game, TPlyJoinLobbyEntry *entries, int leader_id, int disable_udp) \

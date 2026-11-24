@@ -1663,7 +1663,7 @@ force_active:
   - class_name__22TPlyFollowParticleCtrl
   - __ct__23PlayerHandParticlesBaseFv
   - copy_guild_card_tag_triplet__FP6gc_tagP6gc_tag
-  - copy_lobby_entry__FPvPv
+  - __ct__14LobbyListEntryFRC14LobbyListEntry
   - TPlyOnCreated__name
   - TPlyPhotonChair__shared_model_resource
   - set_speed__12TMotionModelFf
@@ -4673,7 +4673,7 @@ force_active:
   - bswap_6x6E_sync_game_state__6TLobbyFPv
   - bswap__15G_GoGoBall_6x79Fv
   - bswap_6xAD_subordinate_action__20TItemEffOrgaFlowShotFv
-  - bswap__13TPlyStartGameFPv
+  - bswap__17TPlyJoinLobbyDataFv
   - bswap__17G_PickUpItem_6x59Fv
   - bswap__18G_BuyShopItem_6x5EFv
   - bswap__24G_ActivateMagEffect_6x61Fv
@@ -4690,14 +4690,14 @@ force_active:
   - bswap_fields_4_8_12__6TLobbyFv
   - bswap_fields__9TItemDataFv
   - bswap_floor_event_set__Fl
-  - bswap_game_list_entry__FPv
+  - bswap__13GameListEntryFv
   - bswap_guild_card_tag__17TWindowSubComCardFv
   - bswap_head16__10TObjPlayerFv
   - bswap_header_fields__6TLobbyFi
   - bswap_inventory__6TLobbyFPv
   - bswap_object_row_fields__FPv
   - bswap_packet_field__6TLobbyFv
-  - bswap_pair__14TPlyDispConfigFv
+  - bswap__14TPlyDispConfigFv
   - bswap_state__15TOAttackableColFv
   - bswap_stats__10TObjPlayerFv
   - bswap_u32
@@ -5408,7 +5408,7 @@ force_active:
   - copy_vec_array__11TBoss6Type2Fv
   - copy_view_params__11TCameraCtrlFP12CameraMatrixPC12CameraMatrix
   - copy_view_state__16CameraViewParamsFPC16CameraViewParams
-  - copy_with_guild_card_tag__13TPlyRecvLoginFPl
+  - __ct__22TPlyGuildCardTagPacketFRC22TPlyGuildCardTagPacket
   - countModelNodes__12TBoss1DragonFP10NJS_OBJECT
   - count_active_players__14TBoss4DarkFalzFv
   - count_balloon_slots__11TWindowCtrlFv
@@ -6379,8 +6379,8 @@ force_active:
   - copy_cmd_c4_entry__FPvPv
   - bswap_u16_pair_field__FPv
   - bswap_c0_choice_search_entry__FPv
-  - bswap_quest_list_entry__FPv
-  - __sinit_text_801E0C08_cpp
+  - bswap__14QuestListEntryFv
+  - __sinit_packet_classes_cpp
   - fn_801F6520
   - reset_download_graph__Fv
   - sub_80214058__28THunterGuildSeqOnline_ServerFv

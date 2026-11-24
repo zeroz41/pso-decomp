@@ -29,7 +29,6 @@ public:
     TPlyDispConfigSmth m_smth;
     TPlyDispConfigSmth m_smth1;
 public:
-    void bswap_pair();
     TPlyDispConfig *copy_full(TPlyDispConfig *src);
     void clear_secondary_bank();
     void clear_primary_bank();

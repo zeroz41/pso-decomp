@@ -25,7 +25,5 @@ void bswap_u16_pair_field(void *p);
 void bswap_c0_choice_search_entry(void *p);
 void bswap_change_ship_block_packet(void *p);
 s32 construct_change_ship_block_packet(s32 arg0);
-void bswap_cmd_9c_send_pso_regist(void *p);
-void *construct_cmd_9c_send_pso_regist(void *p);
 
 #endif

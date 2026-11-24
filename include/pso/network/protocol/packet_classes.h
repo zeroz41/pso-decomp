@@ -76,6 +76,7 @@ struct extended_game_command {
 
 TMenuListEntry(GameListEntry,
     GameListEntry();
+    GameListEntry(const GameListEntry &other);
     GameListEntry &operator=(const GameListEntry &other);
 
     u8 difficulty_tag;
@@ -86,12 +87,17 @@ TMenuListEntry(GameListEntry,
 );
 
 TMenuListEntry(LobbyListEntry,
+    LobbyListEntry() {}
+    LobbyListEntry(const LobbyListEntry &other);
     LobbyListEntry &operator=(const LobbyListEntry &other);
 
     u32 smth;
 );
 
 TMenuListEntry(QuestListEntry,
+    QuestListEntry() {}
+    QuestListEntry(const QuestListEntry &other);
+
     char name[32];
     char short_description[112];
 );
@@ -128,17 +134,14 @@ template <> void TPlyText<512>::bswap();
 class TPlyJoinLobbyData {
 public:
     TPlyJoinLobbyData();
+    TPlyJoinLobbyData(const TPlyJoinLobbyData &other);
 
     TPlyGuildCardTag tag;
     u32 ip_addr;
     u32 client_id;
     char name[16];
 public:
-    void bswap() {
-        tag.bswap();
-        bswap_32(&ip_addr);
-        bswap_32(&client_id);
-    };
+    void bswap();
 };
 
 class TPlyJoinLobbyEntry {
@@ -242,14 +245,18 @@ public:
     char disable_udp;
     char lobby_number;
     char block_number;
-    char unknown1;
+    char enable_battle_mode;
     char event;
-    char unknown2;
+    char enable_voice_chat;
     char unused[4];
     TPlyJoinLobbyEntry entries[12];
 public:
+    ~TPlyJoinLobby();
     void bswap();
 };
+LAYOUT_ASSERT(TPlyJoinLobbyEntrySize, sizeof(TPlyJoinLobbyEntry) == 0x43C);
+LAYOUT_ASSERT(TPlyJoinLobbyEntriesOffset, offsetof(TPlyJoinLobby, entries) == 0x10);
+LAYOUT_ASSERT(TPlyJoinLobbySize, sizeof(TPlyJoinLobby) == 0x32E0);
 
 class TPlyJoinGame {
 public:
@@ -268,66 +275,47 @@ public:
     char challenge_mode;
     u32 rare_seed;
     u8 episode;
-    u8 unknown1;
+    u8 unused1;
     u8 solo_mode;
-    u8 unknown2;
+    u8 unused2;
 public:
-    void bswap() {
-        header.bswap();
-        for (int i = 0; i < 16; ++i) {
-            for (int j = 0; j < 2; ++j) {
-                bswap_32(&variations[i][j]);
-            }
-        }
-        bswap_32(&rare_seed);
-    };
+    void bswap();
 };
 
-#define _gc_tag_packet_templ(name, members)	\
-template<bool has_gc_tag = false>		\
-struct name {					\
-	packet_header header;			\
-	members					\
-};						\
-						\
-template<>					\
-struct name<true> {				\
-	packet_header header;			\
-	TPlyGuildCardTag tag;			\
-	members					\
-}
+class TRegister {
+public:
+	TRegister();
 
-_gc_tag_packet_templ(regist,
+	packet_header header;
 	TPlySmth smth;
 	u32 sub_version;
 	u8 is_extended;
 	u8 language;
-);
-
-class TRegister : public regist<false> {
-public:
+	u16 unused;
 	char serial_number[16];
 	char access_key[16];
 public:
-	void bswap() {
-		header.bswap();
-		smth.bswap();
-		bswap_32(&sub_version);
-	};
+	void bswap();
 };
+LAYOUT_ASSERT(TRegisterSize, sizeof(TRegister) == 0x34);
 
-class TSendPsoRegist : public regist<false> {
+class TSendPsoRegist {
 public:
+	TSendPsoRegist();
+
+	packet_header header;
+	TPlySmth smth;
+	u32 sub_version;
+	u8 is_extended;
+	u8 language;
+	u16 unused;
 	char serial_number[48];
 	char access_key[48];
 	char password[48];
 public:
-	void bswap() {
-		header.bswap();
-		smth.bswap();
-		bswap_32(&sub_version);
-	};
+	void bswap();
 };
+LAYOUT_ASSERT(TSendPsoRegistSize, sizeof(TSendPsoRegist) == 0xA4);
 
 template<bool is_lobby>
 class TRecvExit {
@@ -493,20 +481,19 @@ public:
 
 class TPlyGuildCardTagPacket {
 public:
+	TPlyGuildCardTagPacket(const TPlyGuildCardTagPacket &other);
+
 	packet_header header;
 	TPlyGuildCardTag tag;
 };
 
 class TPlyRecvLogin : public TPlyGuildCardTagPacket {
 public:
+	TPlyRecvLogin(const TPlyRecvLogin &other);
+
 	TPlyClientConfig client_config;
 public:
-	void bswap() {
-		header.bswap();
-		tag.bswap();
-	};
-public:
-    s32 *copy_with_guild_card_tag(s32 *arg1);
+	void bswap();
 };
 
 class TPlyStartGame {
@@ -514,15 +501,9 @@ public:
 	packet_header header;
 	TPlyJoinLobbyData lobby_data[4];
 	TPlyMeetUserExtension extension;
-	u8 mbr_0xe8[4];
+	u8 unused[4];
 public:
-	void bswap() {
-		header.bswap();
-		for (int i = 0; i < 4; ++i) {
-			lobby_data[i].bswap();
-		}
-		extension.bswap();
-	};
+	void bswap();
 };
 
 // One player's records as the C5 packet and the 61/98 player data carry them
