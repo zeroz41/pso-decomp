@@ -10,14 +10,6 @@
 
 struct Rec_803BE528 { u8 data[0x280]; };
 
-struct Ent_803BB8F0 { u8 code; u8 flags; u8 pad[2]; s32 val; };
-
-struct Obj_803BB8F0 { Ent_803BB8F0 ents[4]; u8 pad20[2]; u8 count; };
-
-struct Obj_803BC7E4 { u8 pad[0x121]; u8 b121; u8 b122; u8 pad123[0x1C4 - 0x123]; s16 v1c4; u8 pad1c6[0x1D0 - 0x1C6]; s16 v1d0; };
-
-struct Obj_803BC884 { u8 pad[0x121]; u8 b121; u8 b122; };
-
 struct Hdr_803BD8A8 { u32 f0; u32 info; };
 
 struct Hdr_803BD93C { u32 f0; u32 info; };
@@ -55,57 +47,6 @@ struct Work_803BF884 {
     Src_803BF884 src;
 };
 
-typedef struct CTRL_SOURCE {
-    u8 midiCtrl;
-    u8 combine;
-    s32 scale;
-} CTRL_SOURCE;
-
-typedef struct CTRL_DEST {
-    CTRL_SOURCE source[4];
-    u16 oldValue;
-    u8 numSource;
-} CTRL_DEST;
-
-typedef struct SYNTH_LFO {
-    u32 time;
-    u32 period;
-    s16 value;
-    s16 lastValue;
-} SYNTH_LFO;
-
-typedef struct SYNTH_VOICE {
-    u8 pad_0[0x90];
-    u64 time;
-    u8 pad_98[0xA8 - 0x98];
-    u8 timeUsedByInput;
-    u8 pad_a9[0x121 - 0xA9];
-    u8 midi;
-    u8 midiSet;
-    u8 pad_123[0x12F - 0x123];
-    u8 b12F;
-    u8 pad_130[0x158 - 0x130];
-    u32 w158;
-    u8 pad_15c[0x1BC - 0x15C];
-    SYNTH_LFO lfo[2];
-    u8 lfoUsedByInput[2];
-    u8 pad_1d6[0x214 - 0x1D6];
-    u32 midiDirtyFlags;
-    CTRL_DEST inpVolume;
-    CTRL_DEST inpPanning;
-    CTRL_DEST inpSurroundPanning;
-    CTRL_DEST inpPitchBend;
-    CTRL_DEST inpDoppler;
-    CTRL_DEST inpModulation;
-    CTRL_DEST inpPedal;
-    CTRL_DEST inpPortamento;
-    CTRL_DEST inpPreAuxA;
-    CTRL_DEST inpReverb;
-    CTRL_DEST inpPreAuxB;
-    CTRL_DEST inpPostAuxB;
-    CTRL_DEST inpTremolo;
-} SYNTH_VOICE;
-
 extern "C" {
 extern s8 salTimeOffset;
 void hwSetTimeOffset(s8 arg0);
@@ -132,7 +73,6 @@ void AIRegisterDMACallback(void (*)(void));
 void salCallback(void);
 void dspInitCallback(void);
 void hwSetAUXProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, SND_AUX_CALLBACK auxB, void *userB);
-u8 inpTranslateExCtrl(u8 arg0);
 s32 OSDisableInterrupts(void);
 void hwIRQEnterCritical(void);
 s32 OSRestoreInterrupts(s32 level);
@@ -147,31 +87,6 @@ extern u8 salAIBufferIndex;
 extern Rec_803BE528 *salAIBufferBase;
 Rec_803BE528 *salAiGetDest(void);
 void hwDisableIrq(void);
-struct ChannelDefaults_803BADF8 { u8 pbRange; };
-struct SynthVoice_803BADF8 {
-    u8 pad0[0xF4];
-    u32 id;
-    u8 padF8[0x121 - 0xF8];
-    u8 midi;
-    u8 midiSet;
-    u8 pad123[0x1D6 - 0x123];
-    u8 pbLowerKeyRange;
-    u8 pbUpperKeyRange;
-    u8 pad1D8[0x214 - 0x1D8];
-    u32 midiDirtyFlags;
-    u8 pad218[0x404 - 0x218];
-};
-extern SynthVoice_803BADF8 *synthVoice;
-void synthKeyStateUpdate(SynthVoice_803BADF8 *svoice);
-void inpFXCopyCtrl(u8 ctrl, SynthVoice_803BADF8 *dvoice, SynthVoice_803BADF8 *svoice);
-#define lbl_8056E098 ((u8 (*)[16])inpChannelDefaults)
-#define lbl_8056E118 ((u8 *)inpFXChannelDefaults)
-u8 *inpGetChannelDefaults(u8 a, u8 b);
-extern CTRL_DEST inpAuxB[8][4];
-extern CTRL_DEST inpAuxA[8][4];
-extern u32 lbl_804F7120[];
-extern u32 lbl_804F7130[];
-void inpSetGlobalMIDIDirtyFlag(u8 a, u8 b, u32 v);
 u32 hwIsActive(s32 i);
 u16 hwGetSampleID(s32 i);
 void hwSetStreamLoopPS(s32 i, u8 v);
@@ -204,21 +119,6 @@ s32 salAddStudioInput(DSPstudioinfo *stp, SND_STUDIO_INPUT *desc);
 void hwAddInput(u8 studio, SND_STUDIO_INPUT *in_desc);
 s32 salRemoveStudioInput(DSPstudioinfo *stp, SND_STUDIO_INPUT *desc);
 void hwRemoveInput(u8 studio, SND_STUDIO_INPUT *in_desc);
-void inpResetChannelDefaults(u8 arg0, u8 arg1);
-void inpSetMidiLastNote(u8 arg0, u8 arg1, u8 arg2);
-u8 inpGetMidiLastNote(u8 midi, u8 midiSet);
-u16 inpGetVolume(SYNTH_VOICE *svoice);
-u16 inpGetPanning(SYNTH_VOICE *svoice);
-u16 inpGetSurPanning(SYNTH_VOICE *svoice);
-u16 inpGetPitchBend(SYNTH_VOICE *svoice);
-u16 inpGetDoppler(SYNTH_VOICE *svoice);
-u16 inpGetModulation(SYNTH_VOICE *svoice);
-u16 inpGetPedal(SYNTH_VOICE *svoice);
-u16 inpGetPreAuxA(SYNTH_VOICE *svoice);
-u16 inpGetReverb(SYNTH_VOICE *svoice);
-u16 inpGetPreAuxB(SYNTH_VOICE *svoice);
-u16 inpGetPostAuxB(SYNTH_VOICE *svoice);
-u16 inpGetTremolo(SYNTH_VOICE *svoice);
 extern s16 lbl_804F7168[];
 s16 sndSin(s32 angle);
 u32 synthGetTicksPerSecond(void *);
@@ -239,10 +139,6 @@ typedef struct SND_HOOKS {
 extern SND_HOOKS salHooks;
 f32* salMalloc(s32 bytes);
 void salFree(saddr arg0);
-void inpAddCtrl(Obj_803BB8F0 *ch, u8 arg1, s32 arg2, u8 x, u32 arg4);
-u16 inpGetMidiCtrl(u8 arg0, u8 channel, u8 set);
-u16 inpGetExCtrl(Obj_803BC7E4 *arg0, u8 arg1);
-void inpSetExCtrl(Obj_803BC884 *svoice, u8 arg1, s16 arg2);
 u32 hwGetPos(s32 arg0);
 void DCStoreRange(void *addr, u32 nBytes);
 void hwFlushStream(u8 *base, u32 offset, u32 len, u8 i, void *cb, void *arg);
@@ -281,11 +177,6 @@ void do_src2(void *);
 extern u32 synthInfo[];
 u32 hwFrq2Pitch(u32 frq);
 void sndSetHooks(SND_HOOKS *hooks);
-s16 varGet(SYNTH_VOICE *, u32, u32);
-extern u64 synthRealTime;
-u16 _GetInputValue(SYNTH_VOICE *svoice, CTRL_DEST *inp, u8 midi, u8 midiSet);
-void inpSetMidiCtrl(u8 ctrl, u8 channel, u8 set, u8 value);
-void inpSetMidiCtrl14(u8 ctrl, u8 channel, u8 set, u16 value);
 void *sndBSearch(void *key, void *base, s32 num, s32 len, s32 (*cmp)(void *, void *));
 }
 
@@ -335,11 +226,6 @@ typedef struct AuxChorus_803BFBF0 {
 }
 
 extern "C" {
-void inpResetMidiCtrl(u8 midi, u8 midiSet, u32 arg2);
-u16 inpGetMidiCtrl(u8 ctrl, u8 channel, u8 set);
-u16 inpGetAuxA(u8 studio, u8 index, u8 midi, u8 midiSet);
-u16 inpGetAuxB(u8 studio, u8 index, u8 midi, u8 midiSet);
-void inpInit(SYNTH_VOICE *svoice);
 void hwSetVolume(s32 v, u8 table, u32 pan, s32 span, f32 vol, f32 auxa, f32 auxb);
 void aramFreeStreamBuffer(u8 id);
 void dspResumeCallback(void);
