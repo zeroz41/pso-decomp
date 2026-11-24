@@ -16,14 +16,14 @@ u8 *create_set_object_from_row(void *);
 
 extern s32 quest_object_entries;
 
-void TLobby::assign_objects_to_slots(u8 *arg0, s32 object_count) {
+void TLobby::assign_objects_to_slots(u8 *rows, s32 object_count) {
     s16 temp_r3;
     s16 temp_r0;
     u8 *ptr;
     s32 i;
     u8 *set_object;
 
-    ptr = arg0;
+    ptr = rows;
     for (i = 0; i < object_count; i++, ptr += 0x44) {
         temp_r3 = *(s16 *)((s8 *)ptr + 2);
         if (!(temp_r3 & 8) && !(temp_r3 & 2) && (*(s16 *)((s8 *)ptr + 0) != -1) && ((temp_r3 & 0x10) || (temp_r3 & 1) || (*(s16 *)((s8 *)ptr + 0xA) == 0))) {

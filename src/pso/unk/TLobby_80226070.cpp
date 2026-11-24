@@ -169,14 +169,14 @@ int TLobby::init_sound_mode() {
     return sound_mode_value;
 }
 
-void TLobby::set_sound_output_mode(s32 arg0) {
+void TLobby::set_sound_output_mode(s32 mode) {
     s32 var_r30;
     u8 *global_state;
     global_state = TAdSinglePlyChrSelectGC::get_global_state();
     if (global_state != NULL) {
         *(s16 *)((s8 *)global_state + 0xE) = 0;
     }
-    switch (arg0) {
+    switch (mode) {
     case 0:
         var_r30 = 1;
         OSSetSoundMode(1);

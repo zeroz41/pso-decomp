@@ -284,14 +284,14 @@ int TLobby::copy_position() { return VecCopy__FP3VecPC3Vec(this); }
 
 #pragma push
 #pragma fp_contract on
-void TLobby::bswap_entry_words(s32 arg0) {
+void TLobby::bswap_entry_words(s32 entry) {
     s32 var_r31;
     saddr temp_r30;
     s32 i;
     i = 0;
     var_r31 = 0;
     do {
-        temp_r30 = arg0 + var_r31;
+        temp_r30 = entry + var_r31;
         bswap_32__FPUl((void*)temp_r30);
         bswap_32__FPUl((void*)(temp_r30 + 0x18));
         i += 1;

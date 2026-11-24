@@ -361,7 +361,7 @@ s32 TLobby::apply_table_entry(s16 source, void * _w1) {
     ((TLobby *)&quest_object_entries[source])->copy_short_fields(_w1);
     return 1;
 }
-void TLobby::copy_short_fields(void *arg1) {
-    *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)arg1 + 0);
-    *(u16 *)((s8 *)this + 2) = (u16) *(u16 *)((s8 *)arg1 + 2);
+void TLobby::copy_short_fields(void *src) {
+    *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)src + 0);
+    *(u16 *)((s8 *)this + 2) = (u16) *(u16 *)((s8 *)src + 2);
 }

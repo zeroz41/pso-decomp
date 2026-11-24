@@ -23,11 +23,11 @@ s32 get_enemy_factory_child_count(s32 arg0, s16 *arg1) {
     return 0;
 }
 
-s32 TLobby::find_floor_object_factory(s32 arg0, s16 *arg1) {
-    Ent_8020C030 *base = floor_object_factory_tables[arg0];
+s32 TLobby::find_floor_object_factory(s32 area, s16 *object_type) {
+    Ent_8020C030 *base = floor_object_factory_tables[area];
     Ent_8020C030 *p = base;
     for (; base != 0 && p->type != -1; p++) {
-        if (p->type == *arg1) {
+        if (p->type == *object_type) {
             return p->extra_object_ids;
         }
     }

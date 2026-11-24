@@ -72,14 +72,14 @@ void TLobby__sub_800722AC(s32 arg0) {
     TLobby__sub_80072724((TLobby *)&stack);
 }
 
-void TLobby::send_challenge_retry_cmd(s32 arg0) {
+void TLobby::send_challenge_retry_cmd(s32 choice) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_80072308, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_80072308, spC) == 0x4);
     LAYOUT_ASSERT(sp10_offset, offsetof(Stack_80072308, sp10) == 0x8);
     Stack_80072308 stack;
     if (is_challenge_mode() != 0) {
         TLobby__sub_800727EC((u8 *)&stack.sp8);
-        stack.sp10 = arg0;
+        stack.sp10 = choice;
         stack.spC = local_client_id;
         ((TLobby *)(&stack.sp8))->send_and_handle_60_wrapper();
     }
@@ -141,12 +141,12 @@ void handle_6x8A_show_challenge_time_records_window(G_ShowChallengeTimeRecordsWi
     challenge_task->set_challenge_record_page(command->which);
 }
 
-void TLobby::send_challenge_with_value(s32 arg0, s32 arg1) {
+void TLobby::send_challenge_with_value(s32 challenge, s32 window_mode) {
     LAYOUT_ASSERT(sp8_offset, offsetof(Stack_800724F0, sp8) == 0x0);
     LAYOUT_ASSERT(spC_offset, offsetof(Stack_800724F0, spC) == 0x4);
     Stack_800724F0 stack;
     TLobby__sub_800728FC((u8 *)&stack.sp8);
-    stack.spC = arg1;
+    stack.spC = window_mode;
     ((TLobby *)(&stack.sp8))->send_challenge_packet();
 }
 

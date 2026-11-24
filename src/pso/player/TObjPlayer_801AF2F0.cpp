@@ -6284,12 +6284,12 @@ s32 TLobby::count_members() {
     return n;
 }
 
-void TLobby::send_font_state(saddr arg0) {
+void TLobby::send_font_state(saddr player) {
     s8 sp8[8];
 
-    if ((arg0 == 0) || (((TObjChara *)arg0)->obj_isState2_324() == 0)) {
+    if ((player == 0) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
         init_packet_6x81_disable_drop_weapon_on_death((s32 *)&sp8);
-        *(s16 *)((s8 *)&sp8 + 2) = ((TObjBase *)arg0)->get_entity_id();
+        *(s16 *)((s8 *)&sp8 + 2) = ((TObjBase *)player)->get_entity_id();
         ((TFontSmallLobby *)((s32 *)&sp8))->send_font_state_msg();
     }
 }
@@ -6318,12 +6318,12 @@ void TObjPlayer::disable_drop_weapon_on_death(void *player) {
     ((TObjPlayer *)player)->set_state_flags(0x01000000);
 }
 
-void TLobby::send_field1c_packet(saddr arg0) {
+void TLobby::send_field1c_packet(saddr player) {
     s8 sp8[8];
 
-    if ((arg0 == 0) || (((TObjChara *)arg0)->obj_isState2_324() == 0)) {
+    if ((player == 0) || (((TObjChara *)player)->obj_isState2_324() == 0)) {
         init_packet_6x82_enable_drop_weapon_on_death((s32 *)&sp8);
-        *(s16 *)((s8 *)&sp8 + 2) = ((TObjBase *)arg0)->get_entity_id();
+        *(s16 *)((s8 *)&sp8 + 2) = ((TObjBase *)player)->get_entity_id();
         send_6x82_enable_drop_weapon_on_death((s32 *)&sp8);
     }
 }

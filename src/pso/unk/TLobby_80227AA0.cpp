@@ -88,8 +88,8 @@ void get_menu_field_280__6TLobbyFv(void) {
     ((TLobby *)&sound_control_state)->get_field_0x280();
 }
 
-void TLobby::set_menu_index_main(u8 *arg0) {
-    ((TLobby *)&sound_control_state)->set_menu_index((saddr)arg0);
+void TLobby::set_menu_index_main(u8 *index) {
+    ((TLobby *)&sound_control_state)->set_menu_index((saddr)index);
 }
 
 void release_sound_with_fade(s32 slot) { fade_out_sound_slot(slot, 64); }

@@ -12,9 +12,9 @@ extern s32 info_board_state_flags;
 extern u32 information_board_response_buffer;
 
 
-void TLobby::init_once_data(u32 arg0) {
+void TLobby::init_once_data(u32 buffer) {
     if ((u32) information_board_response_buffer == 0U) {
-        information_board_response_buffer = arg0;
+        information_board_response_buffer = buffer;
         info_board_state_flags &= 0xFFFFFFFD;
         if (protocol_instance != NULL) {
             protocol_instance->send_info_board_request();

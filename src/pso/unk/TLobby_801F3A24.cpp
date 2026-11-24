@@ -240,7 +240,7 @@ extern "C" {
 
 s32 reserve_enemy_set_actor_ids(void *, u32, s32);
 
-s32 TLobby::handle_msg_type2(s32 arg0) {
+s32 TLobby::handle_msg_type2(s32 floor) {
     s32 sp14;
     s32 sp10;
     s32 spC;
@@ -258,7 +258,7 @@ loop_1:
         bswap_32((u32 *)&sp10);
         bswap_32((u32 *)&spC);
         bswap_32((u32 *)&size);
-        if ((sp14 == 2) && (spC == arg0)) {
+        if ((sp14 == 2) && (spC == floor)) {
             lobby = var_r31 + 0x10;
             ((TLobby *)lobby)->bswap_enemy_set_rows(size);
             reserve_enemy_set_actor_ids(lobby, (u32) size / 72U, get_floor_area(spC));
@@ -276,7 +276,7 @@ block_6:
 }
 
 
-s32 TLobby::handle_msg_type1(s32 arg0) {
+s32 TLobby::handle_msg_type1(s32 floor) {
     s32 sp14;
     s32 sp10;
     s32 spC;
@@ -294,7 +294,7 @@ loop_1:
         bswap_32((u32 *)&sp10);
         bswap_32((u32 *)&spC);
         bswap_32((u32 *)&byte_size);
-        if ((sp14 == 1) && (spC == arg0)) {
+        if ((sp14 == 1) && (spC == floor)) {
             rows = var_r31 + 0x10;
             convert_quest_object_rows((struct QuestObjRow_801F3AD8 *)rows, byte_size);
             ((TLobby *)rows)->assign_object_ids((s32)((u32) byte_size / 68U), (void *)(get_floor_area(spC)));

@@ -78,29 +78,29 @@ inline s32 check_803CC294(s32 arg0, s32 arg1) {
     }
     return 0;
 }
-s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *dest, s32 *arg3, s32 *arg4, s32 *arg5) {
+s32 TLobby::get_afs_file_info(s32 archive, s32 file_id, char *dest, s32 *mode, s32 *offset, s32 *size) {
     s32 st;
     Ent_803CC294 *e;
     u16 *arr;
     s32 sum;
     s32 i;
     Ent_803CC294 *next;
-    st = check_803CC294(arg0, arg1);
+    st = check_803CC294(archive, file_id);
     if (st < 0) {
-        *arg3 = 0;
-        *arg4 = -1;
-        *arg5 = -1;
+        *mode = 0;
+        *offset = -1;
+        *size = -1;
         return st;
     }
-    e = afs_archive_toc_table[arg0];
+    e = afs_archive_toc_table[archive];
     while ((next = e->next) != NULL) {
         Chunk_803CC294 *c = (Chunk_803CC294 *)&e->f114;
         for (i = 0; i < e->fc; i++, c++) {
-            if (c->id == arg1) {
+            if (c->id == file_id) {
                 strncpy(dest, e->name, 0x100);
-                *arg3 = e->mode;
-                *arg4 = c->off;
-                *arg5 = c->len;
+                *mode = e->mode;
+                *offset = c->off;
+                *size = c->len;
                 return st;
             }
         }
@@ -108,13 +108,13 @@ s32 TLobby::get_afs_file_info(s32 arg0, s32 arg1, char *dest, s32 *arg3, s32 *ar
     }
     sum = e->f114;
     arr = e->arr;
-    for (i = 0; i < arg1; i++) {
+    for (i = 0; i < file_id; i++) {
         sum += arr[i];
     }
     strncpy(dest, e->name, 0x100);
-    *arg3 = e->mode;
-    *arg4 = sum;
-    *arg5 = arr[arg1];
+    *mode = e->mode;
+    *offset = sum;
+    *size = arr[file_id];
     return st;
 }
 

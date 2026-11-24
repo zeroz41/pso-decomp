@@ -2630,9 +2630,9 @@ s32 TLobby::get_valid_child() {
     }
     return 0;
 }
-s32 TLobby::validate_handle(s32 *arg0) {
-    if (TLobby__sub_802A7278(*arg0) != 0) {
-        return *arg0;
+s32 TLobby::validate_handle(s32 *handle) {
+    if (TLobby__sub_802A7278(*handle) != 0) {
+        return *handle;
     }
     return 0;
 }

@@ -809,33 +809,33 @@ s32 TLobby__sub_801C417C(void) {
     return *(s32 *)((s8 *)(*(void * *)&battle_config_ptr) + 0x24) * 0x3C;
 }
 
-void TLobby::close_and_play_effect(int client, s32 arg1) {
+void TLobby::close_and_play_effect(int client, s32 local) {
     TObjPlayer *player = get_player_by_client_id((u16)client);
     if (player != NULL) {
         send_impose_hold(player, -1);
     }
-    if (arg1 != 0) {
+    if (local != 0) {
         begin_player_keyboard_hold(local_client_id);
         request_active_window_close();
         TWindowCtrl::suppress_slot(local_client_id);
     }
 }
 
-void TLobby::handle_battle_result(int client, s32 arg1) {
+void TLobby::handle_battle_result(int client, s32 local) {
     TObjPlayer *player;
     if ((player = get_player_by_client_id((u16)client)) != NULL) {
         send_release_hold(player);
     }
-    if (arg1 != 0) {
+    if (local != 0) {
         end_player_keyboard_hold(local_client_id);
         TWindowCtrl::clear_flag();
         TWindowCtrl::unsuppress_slot(local_client_id);
     }
 }
 
-void TLobby::apply_game_settings(s32 arg0, s32 arg1) {
+void TLobby::apply_game_settings(s32 owner, s32 use_config) {
     ((TLobby *)lobby_rule_settings)->reset_settings_to_default();
-    if (arg1 != 0) {
+    if (use_config != 0) {
         s32 flag;
         TLobby::set_validated_field_0x1(lobby_rule_settings, CFG->b[0]);
         TLobby::set_field_2(lobby_rule_settings, CFG->b[1]);
@@ -902,13 +902,13 @@ void TLobby::apply_game_settings(s32 arg0, s32 arg1) {
     }
 }
 
-void TLobby::send_battle_mode_params(s8 arg0, s32 arg1, s32 arg2) {
+void TLobby::send_battle_mode_params(s8 command, s32 value, s32 extra) {
     Stack_801C3CFC stack;
     build_6x7D_set_battle_mode_data(&stack.sp8);
-    stack.spD = arg0;
+    stack.spD = command;
     stack.spC = 0;
-    stack.sp10 = arg1;
-    stack.sp14 = arg2;
+    stack.sp10 = value;
+    stack.sp14 = extra;
     ((TLobby *)(&stack.sp8))->send_set_battle_mode_data();
 }
 
@@ -991,7 +991,7 @@ void TLobby__sub_801C3A40(void) {
     }
 }
 
-void TLobby::init_battle_ctrl(s32 arg0, saddr src) {
+void TLobby::init_battle_ctrl(s32 config, saddr src) {
     uaddr player_battle_ctrl;
     if ((u32) (*(u32 *)&battle_mode_data_ptr) == 0U) {
         player_battle_ctrl = (uaddr)new TPlayerBattleCtrl(tl_00);
@@ -999,7 +999,7 @@ void TLobby::init_battle_ctrl(s32 arg0, saddr src) {
     }
     if ((u32) (*(u32 *)&battle_mode_data_ptr) != 0U) {
         strncpy((char *)((*(uaddr *)&battle_mode_data_ptr) + 0x68), (const char *)src, 0x200);
-        battle_config_ptr = arg0;
+        battle_config_ptr = config;
     }
 }
 

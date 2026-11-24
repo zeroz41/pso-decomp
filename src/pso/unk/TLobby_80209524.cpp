@@ -145,11 +145,11 @@ Hdr_8020967C *find_chunk_by_id__6TLobbyFPvi(Hdr_8020967C *arg, s32 id) {
 // ---- pso/unk/TLobby_8020970C
 
 
-void TLobby::append_swapped_u32(s32 *arg0) {
+void TLobby::append_swapped_u32(s32 *value) {
     s32 src;
 
     if (challenge_action_buffer != NULL) {
-        src = *arg0;
+        src = *value;
         bswap_32((u32 *)&src);
         move_data((void *)(challenge_action_buffer + challenge_action_size), &src, 4);
         challenge_action_size += 4;
@@ -289,7 +289,7 @@ void TLobby__sub_802099FC(Out_802099FC *arg0, s32 key) {
     }
 }
 }
-void TLobby::pick_weighted_entry(s32 *arg0, s32 *arg1) {
+void TLobby::pick_weighted_entry(s32 *key, s32 *slot) {
     Hdr_80209AEC hdr = *(Hdr_80209AEC *)item_data_table_buffer;
     Ent_80209AEC *tbl;
     u32 total;
@@ -307,15 +307,15 @@ void TLobby::pick_weighted_entry(s32 *arg0, s32 *arg1) {
     for (i = 0; i < n; i++) {
         if (tbl[i].weight != 0) {
             if (r < tbl[i].weight) {
-                *arg0 = tbl[i].b1;
-                *arg1 = tbl[i].b0;
+                *key = tbl[i].b1;
+                *slot = tbl[i].b0;
                 return;
             }
             r -= tbl[i].weight;
         }
     }
-    *arg1 = -1;
-    *arg0 = -1;
+    *slot = -1;
+    *key = -1;
 }
 
 // ---- pso/unk/TLobby_80209BD8
@@ -620,15 +620,15 @@ void TLobby__sub_8020A48C(void* p) { bswap_32((u32 *)p); bswap_32((u32 *)((char*
 #pragma dont_inline off
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
-void TLobby::copy_record_entry(saddr arg1) {
+void TLobby::copy_record_entry(saddr src) {
     saddr arg0 = (saddr)this;
-    *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(arg1);
-    *(s16 *)((s8 *)arg0 + 0x14) = (s16) *(s16 *)((s8 *)arg1 + 0x14);
-    *(s16 *)((s8 *)arg0 + 0x16) = (s16) *(s16 *)((s8 *)arg1 + 0x16);
-    *(s16 *)((s8 *)arg0 + 0x18) = (s16) *(s16 *)((s8 *)arg1 + 0x18);
-    *(s16 *)((s8 *)arg0 + 0x1A) = (s16) *(s16 *)((s8 *)arg1 + 0x1A);
-    *(s16 *)((s8 *)arg0 + 0x1C) = (s16) *(s16 *)((s8 *)arg1 + 0x1C);
-    *(s16 *)((s8 *)arg0 + 0x1E) = (s16) *(s16 *)((s8 *)arg1 + 0x1E);
+    *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(src);
+    *(s16 *)((s8 *)arg0 + 0x14) = (s16) *(s16 *)((s8 *)src + 0x14);
+    *(s16 *)((s8 *)arg0 + 0x16) = (s16) *(s16 *)((s8 *)src + 0x16);
+    *(s16 *)((s8 *)arg0 + 0x18) = (s16) *(s16 *)((s8 *)src + 0x18);
+    *(s16 *)((s8 *)arg0 + 0x1A) = (s16) *(s16 *)((s8 *)src + 0x1A);
+    *(s16 *)((s8 *)arg0 + 0x1C) = (s16) *(s16 *)((s8 *)src + 0x1C);
+    *(s16 *)((s8 *)arg0 + 0x1E) = (s16) *(s16 *)((s8 *)src + 0x1E);
 }
 
 // ---- pso/unk/TLobby_8020A568
@@ -813,13 +813,13 @@ void reserve_enemy_set_actor_ids(SpawnRecord_8020A9C4 *lobby, s32 count, s32 flo
         }
     }
 }
-void TLobby::assign_object_ids(s32 arg1, void *lobby) {
+void TLobby::assign_object_ids(s32 count, void *area) {
     s32 i;
     s32 r;
-    for (i = 0; i < arg1; i++) {
+    for (i = 0; i < count; i++) {
         ((Rec_8020AA94 *)this)[i].f8 = map_object_id_counter++ + 0x4000;
         ((Rec_8020AA94 *)this)[i].f4 = map_set_object_id_counter++;
-        r = find_floor_object_factory__6TLobbyFlPs(lobby, &((Rec_8020AA94 *)this)[i]);
+        r = find_floor_object_factory__6TLobbyFlPs(area, &((Rec_8020AA94 *)this)[i]);
         if (r >= 0) {
             map_set_object_id_counter += r;
             map_object_id_counter += r;
@@ -1066,8 +1066,8 @@ void TLobby::load_set_gsl_files() {
     }
 }
 
-s32 TLobby::set_flags_on_matching_entries(s32 arg0, s16 arg1, s16 arg2, s32 arg3) {
-    LobbyFloorRows *g = &floor_enemy_group_table[arg0];
+s32 TLobby::set_flags_on_matching_entries(s32 floor, s16 room, s16 wave, s32 flags) {
+    LobbyFloorRows *g = &floor_enemy_group_table[floor];
     FloorSavedSetRow *e;
     s32 n = 0;
     s32 i;
@@ -1075,9 +1075,9 @@ s32 TLobby::set_flags_on_matching_entries(s32 arg0, s16 arg1, s16 arg2, s32 arg3
         e = g->enemy_rows;
         if (e != 0) {
             for (i = 0; i < g->enemy_count; i++, e++) {
-                if (e->room == arg1 && e->wave == arg2) {
+                if (e->room == room && e->wave == wave) {
                     n++;
-                    e->flags |= arg3;
+                    e->flags |= flags;
                 }
             }
         }
@@ -1137,12 +1137,12 @@ s32 TLobby::init_floor_enemy_count(s32 floor, u8 *source, u32 size) {
     return 0;
 }
 
-s32 TLobby::load_object_set_entries(s32 arg0, u8 *rows, u32 byte_size) {
-    if (TLobby::load_floor_enemy_group_entries(arg0, (FloorObjectSetRow *)rows, byte_size) == 1) {
-        floor_object_set_counts[arg0] = byte_size / 68U;
+s32 TLobby::load_object_set_entries(s32 floor, u8 *rows, u32 byte_size) {
+    if (TLobby::load_floor_enemy_group_entries(floor, (FloorObjectSetRow *)rows, byte_size) == 1) {
+        floor_object_set_counts[floor] = byte_size / 68U;
         return 1;
     }
-    floor_object_set_counts[arg0] = -1;
+    floor_object_set_counts[floor] = -1;
     return 0;
 }
 

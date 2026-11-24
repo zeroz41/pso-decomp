@@ -66,7 +66,7 @@ int lobby_short_mail_entry_count;
 
 void try_close__6TLobbyFPv(void* p) { if (((TLobby *)p)->is_name_too_long() == 0) { TLobby__sub_80225A08(p); } }
 
-void TLobby::send_simple_mail(s32 arg0, void *src) {
+void TLobby::send_simple_mail(s32 target_card_id, void *message) {
     union {
         ShortMailPacketBuffer pkt;
         u8 b[0x228];
@@ -77,9 +77,9 @@ void TLobby::send_simple_mail(s32 arg0, void *src) {
         mode = TWindowSubComCard::get_keyboard_mode();
         __as__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&t.b[4], &protocol_instance->m_guildcard_tag);
         strncpy((char *)&t.b[0xC], reinterpret_cast<GuildCardEntry *>(mode)->get_name(), 0x17);
-        t.pkt.target_card_id = arg0;
+        t.pkt.target_card_id = target_card_id;
         t.b[0x23] = 0;
-        strncpy((char *)&t.b[0x20], (char *)src, 0xAB);
+        strncpy((char *)&t.b[0x20], (char *)message, 0xAB);
         t.b[0xCB] = 0;
         protocol_instance->send_simple_mail(*(TChatMessage *)&t);
     }

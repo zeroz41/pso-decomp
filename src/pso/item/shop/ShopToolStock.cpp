@@ -394,9 +394,9 @@ void clear_shop_tool_flags(void) {
     memset(shop_tool_flags, 0, 0x10);
 }
 
-void TLobby::copy_shop_item_entry(s32 arg1, s32 arg2) {
+void TLobby::copy_shop_item_entry(s32 index, s32 buffer) {
     saddr arg0 = (saddr)this;
-    *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(shop_tool_stock_buffers[arg2] + (arg1 * 0x14));
+    *(ByteBlock_14 *)(arg0) = *(const ByteBlock_14 *)(shop_tool_stock_buffers[buffer] + (index * 0x14));
 }
 void mark_shop_tool_sold_out(s32 a, s32 b) {
     E_8022444C *arr = ((E_8022444C * *)&shop_tool_stock_buffers)[b];

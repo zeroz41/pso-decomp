@@ -313,11 +313,11 @@ void TLobby::set_split_screen_name() {
     strncpy(split_screen_player_name, (const char *)arg0, 0x20);
     split_screen_player_name[0x1F] = 0;
 }
-void TLobby::update_challenge_timer(s32 arg0) {
+void TLobby::update_challenge_timer(s32 time) {
     if (is_challenge_mode_active() != 0) {
-        fabs_float((f32) (arg0 - challenge4p_mode_state.base_time));
-        challenge4p_mode_state.base_time = arg0;
-        set_challenge_time_window_timer(arg0);
+        fabs_float((f32) (time - challenge4p_mode_state.base_time));
+        challenge4p_mode_state.base_time = time;
+        set_challenge_time_window_timer(time);
     }
 }
 }
@@ -333,27 +333,27 @@ void copy_player_visual_record(void *, void *);
 void set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(void *, u8, s16);
 
 
-s32 TLobby::set_camera_height_if_valid(f32 farg0) {
+s32 TLobby::set_camera_height_if_valid(f32 multiplier) {
     if (is_challenge_mode_active() == 0) {
         return 0;
     }
-    if ((farg0 < 0.01f) || (farg0 > 10000.0f)) {
+    if ((multiplier < 0.01f) || (multiplier > 10000.0f)) {
         return 0;
     }
-    challenge4p_mode_state.exp_multiplier = farg0;
+    challenge4p_mode_state.exp_multiplier = multiplier;
     return 1;
 }
 
 extern s32 game_difficulty_selection;
 
-s32 TLobby::try_set_split_screen(s32 arg0) {
+s32 TLobby::try_set_split_screen(s32 difficulty) {
     if (is_challenge_mode_active() == 0) {
         return 0;
     }
-    game_difficulty_selection = arg0;
+    game_difficulty_selection = difficulty;
     return 1;
 }
-void TLobby::rebuild_players_for_stage(s32 arg0) {
+void TLobby::rebuild_players_for_stage(s32 stage) {
     Info_80292730 info;
     Vec pos;
     Hdr_80292730 hdr;
@@ -362,7 +362,7 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
     ChallengeStageStart *tbl;
     s32 map;
     ChallengeTechniqueLevel *e;
-    if (arg0 < 0 || arg0 >= 0x10) {
+    if (stage < 0 || stage >= 0x10) {
         return;
     }
     for (i = 0; i < 4; i++) {
@@ -376,16 +376,16 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
             delete p;
             switch (info.flags & 0xE0) {
             case 0x20:
-                tbl = get_challenge_stage_start(0, arg0);
+                tbl = get_challenge_stage_start(0, stage);
                 break;
             case 0x40:
-                tbl = get_challenge_stage_start(1, arg0);
+                tbl = get_challenge_stage_start(1, stage);
                 break;
             case 0x80:
-                tbl = get_challenge_stage_start(2, arg0);
+                tbl = get_challenge_stage_start(2, stage);
                 break;
             default:
-                tbl = get_challenge_stage_start(0, arg0);
+                tbl = get_challenge_stage_start(0, stage);
                 break;
             }
             {
@@ -424,11 +424,11 @@ s32 TLobby__sub_80292F34(s32 limit);
 s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id);
 s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot);
 
-void TLobby::clamp_and_store_layout_index(s32 arg0) {
+void TLobby::clamp_and_store_layout_index(s32 stage) {
     s32 layout_id;
     s32 var_r31;
 
-    var_r31 = arg0;
+    var_r31 = stage;
     layout_id = challenge_set_stage_count(-1);
     if ((var_r31 < 0) || (var_r31 >= layout_id)) {
         var_r31 = 0;
@@ -680,10 +680,10 @@ void TLobby::start_challenge_countdown() {
 }
 
 
-void TLobby::set_retry_selection(s32 arg0) {
+void TLobby::set_retry_selection(s32 choice) {
     s32 var_r31;
 
-    var_r31 = arg0;
+    var_r31 = choice;
     if (is_challenge_mode_active() != 0) {
         if ((var_r31 < 0) || (var_r31 > 1)) {
             var_r31 = 0;

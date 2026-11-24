@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowSubComCard_80077788.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 
-void TLobby::send_packet(s32 arg0, s32 src) {
+void TLobby::send_packet(s32 window, s32 src) {
     TPlyChoiceSearchConfig parameters;
 
     copy_choice_search_selections((ChoiceSearchSelection *)(saddr)src, &parameters);

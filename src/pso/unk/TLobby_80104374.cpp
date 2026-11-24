@@ -378,15 +378,15 @@ void normalize_drop_area(s32 *p);
 
 void TLobby::set_boss_buf_entry(int a0, int a1) { item_sync_counter_table[(unsigned short)(a1)] = a0; }
 int TLobby::get_sync_counter(u16 a0) {  return item_sync_counter_table[a0]; }
-s32 TLobby::get_item_data(u32 arg0) {
-    if (arg0 != 0U) {
+s32 TLobby::get_item_data(u32 item) {
+    if (item != 0U) {
         return get_item_icon_index();
     }
     return 0;
 }
-void TLobby::forward_message(saddr buf, uaddr arg1) {
-    if (arg1 != 0U) {
-        ((TItemData *)arg1)->format_item_name((char *)buf);
+void TLobby::forward_message(saddr buf, uaddr item) {
+    if (item != 0U) {
+        ((TItemData *)item)->format_item_name((char *)buf);
     }
 }
 void TLobby::mark_selected() { lobby_drop_flag = 1; }
@@ -472,13 +472,13 @@ void TLobby::forward_to_player(int id, void *item) {
         }
     }
 }
-void TLobby::handle_player_event(s32 client, s32 arg1) {
+void TLobby::handle_player_event(s32 client, s32 slot) {
     TObjPlayer *player;
     TItem *item;
     player = get_player_by_client_id((u16)client);
     if ((player != NULL) && ((TObjPlayer::is_locally_controlled(player) == 1) || ((player->obj_isState3_324() == 1) && ((s32) local_client_id == (s32) designated_client_id)) || ((player->is_script_controlled() == 1) && ((s32) local_client_id == (s32) designated_client_id)))) {
         item = NULL;
-        switch (arg1) {
+        switch (slot) {
         case 0:
             item = TObjPlayer::get_equipped_weapon(player);
             break;
@@ -495,7 +495,7 @@ void TLobby::handle_player_event(s32 client, s32 arg1) {
         case 5:
         case 6:
         case 7:
-            item = player->get_equipped_item(arg1 + 5);
+            item = player->get_equipped_item(slot + 5);
             break;
         default:
             break;

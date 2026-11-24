@@ -254,9 +254,9 @@ void set_dark_falz_music_request(s32 arg0) {
     }
 }
 
-void TLobby::set_target_id(s32 arg0) {
+void TLobby::set_target_id(s32 target_id) {
     if ((s32) lbl_805D6300 != 4) {
-        music_target_id = arg0;
+        music_target_id = target_id;
     }
 }
 

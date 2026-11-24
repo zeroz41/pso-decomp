@@ -5,11 +5,11 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/city/BankItemRecord.h"
 
-s32 TLobby::compare_version(void *arg1) {
+s32 TLobby::compare_version(void *other) {
     u32 b, a;
 
     a = *(u8 *)&this->m_name;
-    b = *(u8 *)((s8 *)arg1 + 0);
+    b = *(u8 *)((s8 *)other + 0);
     if (a > b) {
         return 1;
     }
@@ -17,12 +17,12 @@ s32 TLobby::compare_version(void *arg1) {
         {
             u32 b2, a2;
             a2 = *(u8 *)((s8 *)this + 1);
-            b2 = *(u8 *)((s8 *)arg1 + 1);
+            b2 = *(u8 *)((s8 *)other + 1);
             if (a2 > b2) {
                 return 1;
             }
             if (a2 == b2) {
-                if ((u8) *(u8 *)((s8 *)this + 2) > (u8) *(u8 *)((s8 *)arg1 + 2)) {
+                if ((u8) *(u8 *)((s8 *)this + 2) > (u8) *(u8 *)((s8 *)other + 2)) {
                     return 1;
                 }
             }
@@ -31,16 +31,16 @@ s32 TLobby::compare_version(void *arg1) {
     return 0;
 }
 
-s32 TLobby::compare_greater(void *arg1) {
+s32 TLobby::compare_greater(void *other) {
     u8 temp_r0;
     u8 temp_r5;
 
     temp_r5 = *(u8 *)&this->m_name;
-    temp_r0 = *(u8 *)((s8 *)arg1 + 0);
+    temp_r0 = *(u8 *)((s8 *)other + 0);
     if (temp_r5 > temp_r0) {
         return 1;
     }
-    if ((temp_r5 == temp_r0) && ((u8) *(u8 *)((s8 *)this + 1) > (u8) *(u8 *)((s8 *)arg1 + 1))) {
+    if ((temp_r5 == temp_r0) && ((u8) *(u8 *)((s8 *)this + 1) > (u8) *(u8 *)((s8 *)other + 1))) {
         return 1;
     }
     return 0;
