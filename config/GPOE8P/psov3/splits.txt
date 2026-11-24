@@ -1089,7 +1089,7 @@ pso/effect/TDuelEffectString.cpp:
 	.sdata      start:0x805D28E8 end:0x805D28F0
 	.sdata2     start:0x805D9308 end:0x805D9338
 
-pso/player/TObjPlayer_80080750.cpp:
+pso/player/TObjPlayerDemoMode.cpp:
 	.text       start:0x80080750 end:0x80080788
 	.sbss       start:0x805D4EC8 end:0x805D4ED0
 

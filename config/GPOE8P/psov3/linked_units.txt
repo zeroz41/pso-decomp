@@ -1558,7 +1558,7 @@ pso/player/TObjPlayerSet.cpp
 pso/object/base/TObjChara.cpp
 pso/boss/derolle/TBoss2BreakUp.cpp
 pso/boss/derolle/RandomAngle.cpp
-pso/player/TObjPlayer_80080750.cpp
+pso/player/TObjPlayerDemoMode.cpp
 pso/render/CameraCapture.cpp
 pso/enemy/dubchik/TDubchikShot.cpp
 pso/enemy/dubchik/TDubchikPart.cpp
