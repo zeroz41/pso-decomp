@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
 #pragma readonly_strings on
@@ -1119,7 +1118,7 @@ void TBoss3VoloptP02::update_death_sequence() {
     case -1:
         return;
     }
-    play_persistent_sound(0x4003AD21, this, 0, 0, 0);
+    play_persistent_sound(0x4003AD21, this, NULL, 0, 0);
 }
 
 #pragma push

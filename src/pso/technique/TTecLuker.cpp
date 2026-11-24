@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -309,7 +308,7 @@ void TTecLuker::run_task() {
             spawn_particle_effect((const Vec *)&position, 0xB3);
             player = get_player_by_client_id(traveller);
             if (player != NULL) {
-                TObjPlayer::play_effect_default((saddr)player, (int)0xA);
+                send_impose_hold(player, 0xA);
                 play_sound_effect(0x40022D1A, &player->position, 0, 0);
             }
             TWindowCtrl::init_all_slots();

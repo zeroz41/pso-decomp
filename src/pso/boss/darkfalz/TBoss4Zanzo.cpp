@@ -1,5 +1,4 @@
 #include "pso/player/PlayerStats.h"
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
@@ -72,7 +71,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
 #include "pso/render/model_render_state.h"

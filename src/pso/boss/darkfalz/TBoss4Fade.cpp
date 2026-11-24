@@ -5,6 +5,12 @@
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/boss/darkfalz/TBoss4Fade.h"
 #include "pso/system/task/TMainTask.h"
+void TBoss4Fade::set_fade(s32 color, f32 alpha) {
+    frames[write_index].active = 1;
+    frames[write_index].color = color;
+    frames[write_index].alpha = alpha;
+}
+
 typedef struct Quad_803594EC
 {
   void *tex;

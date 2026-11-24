@@ -1,13 +1,11 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/npc/NpcAnimationBinding.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/unk/SampledMotionPoints.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "types.h"
@@ -489,7 +487,7 @@ void TObjGrass::load_resources() {
     {
         NpcAnimationBinding binding = grass_spawn_descriptor;
         binding.motions = TObjGrass__resource_bundle->motions;
-        NpcModelRegistry::register_animated_chunk(0x35, TObjGrass__resource_bundle->models[0].model,
+        TObjNpcEnemy::register_animated_chunk(0x35, TObjGrass__resource_bundle->models[0].model,
             TObjGrass__resource_bundle->models[0].texlist, &binding, 10.0f, 0.0f);
     }
 }
@@ -964,9 +962,9 @@ void TObjGrass::update_chase_target() {
         speed *= (2.0f);
         *(f32 *)((s8 *)arg0 + 0xC8) = (2.0f) * (*(Anim_800BE4C0 **)((s8 *)arg0 + 0xD8))[*(s16 *)((s8 *)arg0 + 0xB8)].f8;
         { f32 ft = (f32)turn; ft *= (2.0f); turn = (s32)ft; }
-        play_persistent_sound(remap_sound_for_area(0x4003A300), arg0, &position, 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003A300), this, &position, 0, 0);
     } else {
-        play_persistent_sound(remap_sound_for_area(0x4003A801), arg0, &position, 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003A801), this, &position, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x200);
     }
     ((TObjMotion *)arg0)->advance_animation();

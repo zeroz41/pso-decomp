@@ -58,7 +58,7 @@ TObjBoss5Ctrl::TObjBoss5Ctrl(TObject *parent) : TObject(parent) {
                 floor_grass = (TObject *)TObjBoss5FloorGrass::create();
             }
             if (floor_stone == NULL) {
-                floor_stone = (TObject *)TObjBoss5FloorStone::create();
+                floor_stone = (TObjBoss5FloorStone *)TObjBoss5FloorStone::create();
             }
             if (pillar_controller == NULL) {
                 pillar_controller = TObjBoss5PillarCtrl::create(this);

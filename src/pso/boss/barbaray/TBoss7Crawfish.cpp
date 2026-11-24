@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -7,7 +6,6 @@
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "types.h"

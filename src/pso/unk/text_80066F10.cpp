@@ -17,12 +17,12 @@ const char *bm_obj_boss5_common_motion_names[5] = {
 BmlResourceDescriptor bm_obj_boss5_common_resource_descriptor = {
     "bm_obj_boss5_common.bml", bm_obj_boss5_common_model_names, bm_obj_boss5_common_motion_names, 8, 4
 };
-BmlResource *lbl_805D4DD8;
+BmlResource *boss5_common_bml_resource;
 NJS_TEXLIST *boss5_common_texture_list;
 void load_boss5_common_assets(void) {
     switch (TBoss8Dragon__sub_8005D700()) {
     case 0:
-        lbl_805D4DD8 = load_enemy_bml_resource(&bm_obj_boss5_common_resource_descriptor);
+        boss5_common_bml_resource = load_enemy_bml_resource(&bm_obj_boss5_common_resource_descriptor);
         boss5_common_texture_list = load_gvm_texture_file("obj_boss5_common.gvm");
         break;
     }

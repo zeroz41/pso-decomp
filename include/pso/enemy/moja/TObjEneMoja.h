@@ -5,6 +5,7 @@
 #include "pso/render/RenderFadeState.h"
 
 class TAttackTraceStrip;
+struct BmlResource;
 
 struct MojaBattleStat {
     u8 unknown_00[0x18];
@@ -75,6 +76,10 @@ struct TObjEneMoja : public TObjEnemy {
     void run_task();
 };
 LAYOUT_ASSERT(MojaSize, sizeof(TObjEneMoja)==0x40C);
+
+// The Moja model archive, shared with the town NPC TObjNpcMoja.
+extern BmlResource *moja_bml_resource;
+
 #include <stddef.h>
 #define MOJA_OFFSET(field, offset) LAYOUT_ASSERT(MojaOffset_##field, offsetof(TObjEneMoja, field)==offset)
 MOJA_OFFSET(appearance,0x374);

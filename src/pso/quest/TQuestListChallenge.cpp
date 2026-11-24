@@ -201,7 +201,6 @@ void TQuestListChallenge::create_quest_list_window() {
     }
 }
 
-
 void TQuestListChallenge::update_state() {
     typedef void (TQuestListChallenge::*Handler)();
     static Handler tbl[] = {
@@ -277,13 +276,6 @@ void reset_globals2__19TQuestListChallengeFv(void) {
     lbl_805D64A8 = 0;
     lbl_805D64AC = 0;
     TQuestListChallenge__active_instance = NULL;
-}
-
-extern void *tl_04;
-
-void *TObjNpcKenkyu__create(void *set_data) {
-    TObjControl *control = new TObjControl((TObject *)tl_04);
-    return new TObjNpcKenkyu(control, set_data);
 }
 
 extern "C" const char lbl_804507A8[] = "challenge2_mlt_stg1";

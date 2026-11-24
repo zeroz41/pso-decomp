@@ -2,7 +2,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/unk/SampledMotionPoints.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/effect/enemy/TEneParticleCtrl.h"
@@ -722,7 +722,7 @@ void initialize_saver_resources(void) {
     saver_ai_params = (f32 *)TLobby::dispatch_shared_handler_a(0x51);
     NpcAnimationBinding init = saver_init_binding_desc;
     init.motions = saver_bml_resource->motions;
-    NpcModelRegistry::register_animated_chunk((s16)0x1A, saver_bml_resource->models[0].model, saver_bml_resource->models[0].texlist, &init, saver_collision_body_part_table[0].radius, (f32)0.0f);
+    TObjNpcEnemy::register_animated_chunk((s16)0x1A, saver_bml_resource->models[0].model, saver_bml_resource->models[0].texlist, &init, saver_collision_body_part_table[0].radius, (f32)0.0f);
 }
 
 void TObjEneSaver::free_resources() {

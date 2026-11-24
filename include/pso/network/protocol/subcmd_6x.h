@@ -95,7 +95,27 @@ struct G_AttackFinished_Header_6x46 {
 struct G_Attack_6x43_6x44_6x45 {
  struct G_ClientIDHeader header;
  u16 angle_y;
- u16 unknown_a2;
+ u16 action_type; // the receiver passes it to the attack state's set_action_type
+};
+
+// The three stages of a physical attack combo (6x43, then 6x44, then 6x45),
+// one packet class each over the same fields.
+struct G_Attack_6x43 : G_Attack_6x43_6x44_6x45 {
+ void init();
+ void bswap();
+ void send();
+};
+
+struct G_Attack_6x44 : G_Attack_6x43_6x44_6x45 {
+ void init();
+ void bswap();
+ void send();
+};
+
+struct G_Attack_6x45 : G_Attack_6x43_6x44_6x45 {
+ void init();
+ void bswap();
+ void send();
 };
 
 // 6xA9/6xAA: Barba Ray (TBoss7DeRolLeC) action changes. The client swaps
@@ -528,14 +548,22 @@ struct G_ModifyTradeProposal_6xA6 {
 struct G_MoveToPosition_6x41_6x42 {
  struct G_ClientIDHeader header;
  struct VectorXZF pos;
+ // Clears the position and sets the 6x42 header.
+ void init();
+ void bswap();
+ void send();
 };
 
+// 6x69: quest NPC partner control (create, release or take over an NPC player).
 struct G_NPCControl_6x69 {
- struct G_UnusedHeader header;
- u16 param1;
- u16 param2;
- u16 command;
- u16 param3;
+ G_ClientIDHeader header;
+ u16 controller_id;  // client that runs the NPC
+ u16 npc_client_id;  // player slot of the NPC
+ s16 command;        // 0/3 create, 1 release, 2 take over all NPCs
+ s16 npc_type;       // load_npc_player_template index
+ void init();
+ void send();
+ void bswap();
 };
 
 struct G_OlgaFlowBossActions_6xA3 {
@@ -866,6 +894,9 @@ struct G_StopAtPosition_6x3E {
  s16 floor;
  s16 room;
  struct VectorXYZF pos;
+ void init();
+ void bswap();
+ void send();
 };
 
 struct G_SwitchInteraction_6x50 {
@@ -1100,6 +1131,10 @@ struct G_WalkToPosition_6x40 {
  struct G_ClientIDHeader header;
  struct VectorXZF pos;
  u32 flags;
+ // Clears the packet and sets its header (subcommand 0x40, size 4).
+ void init();
+ void bswap();
+ void send();
 };
 
 struct G_WriteSwitchFlag_6x05 {

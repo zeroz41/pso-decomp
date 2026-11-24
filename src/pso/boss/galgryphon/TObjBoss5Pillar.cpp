@@ -86,8 +86,8 @@ TObjBoss5Pillar::TObjBoss5Pillar(TObject *parent, Vec *pos) : TObject(parent) {
     this->frame_step = 1.0f;
     this->timer = 0;
     this->smoke = NULL;
-    this->models[0] = lbl_805D4DD8->models[0].model;
-    this->models[1] = lbl_805D4DD8->models[1].model;
-    this->motions[0] = lbl_805D4DD8->motions[2].motion;
-    this->motions[1] = lbl_805D4DD8->motions[3].motion;
+    this->models[0] = boss5_common_bml_resource->models[0].model;
+    this->models[1] = boss5_common_bml_resource->models[1].model;
+    this->motions[0] = boss5_common_bml_resource->motions[2].motion;
+    this->motions[1] = boss5_common_bml_resource->motions[3].motion;
 }

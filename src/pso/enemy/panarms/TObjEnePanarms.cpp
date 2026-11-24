@@ -4,7 +4,7 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800F0810.h"
@@ -1377,9 +1377,9 @@ void TObjEnePanarms::spawn_npc_pair() {
     NpcAnimationBinding binding_b = { NULL, panbara_par_motion_params, 0, 1, 10 };
     binding_b.motions = reinterpret_cast<BmlMotionEntry *>(motions);
     BmlModelEntry *models = TObjEnePanarms__entry_params_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x24, models[1].model, models[1].texlist, &binding_a, 7.5f, 0.0f);
+    TObjNpcEnemy::register_animated_chunk(0x24, models[1].model, models[1].texlist, &binding_a, 7.5f, 0.0f);
     models = TObjEnePanarms__entry_params_resource->models;
-    NpcModelRegistry::register_animated_chunk(0x25, models[2].model, models[2].texlist, &binding_b, 7.5f, 0.0f);
+    TObjNpcEnemy::register_animated_chunk(0x25, models[2].model, models[2].texlist, &binding_b, 7.5f, 0.0f);
 }
 
 int TObjEnePanarms::find_nearest_enemy_with_flag(Vec *direction, f32 range) {

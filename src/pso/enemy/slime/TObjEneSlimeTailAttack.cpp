@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -10,7 +9,7 @@
 
 struct NJS_OBJECT;
 #include "pso/enemy/slime/TObjEneSlime.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/enemy/slime/SlimeAnimationState.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/object/base/TObjChara.h"
@@ -35,7 +34,6 @@ struct NJS_OBJECT;
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -261,9 +259,9 @@ void TObjEneSlime::spawn_pair() {
     BmlResource *resource = new BmlResource(1, (BmlResourceDescriptor *)slime_pair_resource_descriptor, 0, 0, NULL);
     slime_bml_resource = resource;
     BmlModelEntry *models = resource->models;
-    NpcModelRegistry::register_chunk(0x28, models[4].model, models[4].texlist, 10.0f, 0.0f);
+    TObjNpcEnemy::register_chunk(0x28, models[4].model, models[4].texlist, 10.0f, 0.0f);
     models = static_cast<BmlResource *>(slime_bml_resource)->models;
-    NpcModelRegistry::register_chunk(0x29, models[5].model, models[5].texlist, 10.0f, 0.0f);
+    TObjNpcEnemy::register_chunk(0x29, models[5].model, models[5].texlist, 10.0f, 0.0f);
 }
 
 void TObjEneSlime::free_instance() {

@@ -3,7 +3,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/math/FloatRounding.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -230,8 +230,8 @@ void TObjEneBm5Wolf::load_resources() {
     {
     NpcAnimationBinding sp = bm5_wolf_spawn_descriptor;
     sp.motions = TObjEneBm5Wolf__bml_resource->motions;
-    NpcModelRegistry::register_animated_chunk(9, TObjEneBm5Wolf__bml_resource->models[1].model, TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
-    NpcModelRegistry::register_animated_chunk(10, TObjEneBm5Wolf__bml_resource->models[0].model, TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
+    TObjNpcEnemy::register_animated_chunk(9, TObjEneBm5Wolf__bml_resource->models[1].model, TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
+    TObjNpcEnemy::register_animated_chunk(10, TObjEneBm5Wolf__bml_resource->models[0].model, TObjEneBm5Wolf__bml_resource->models[0].texlist, &sp, TObjEneBm5Wolf__collider_params[0].radius, 0.0f);
     }
 }
 

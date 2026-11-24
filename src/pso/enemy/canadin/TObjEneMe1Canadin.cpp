@@ -1,9 +1,8 @@
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/AngleUnits.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/math/FloatRounding.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/canadin/TObjEneMe1Canadin.h"
 #include "pso/system/task/TMainTask.h"
@@ -59,7 +58,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/render/model_render_state.h"
@@ -179,7 +177,7 @@ void TObjEneMe1Canadin::load_resources() {
     s16 ids[2] = { 0x17, 0x18 };
     NpcAnimationBinding params = { bm_ene_me1_mb_resource->motions, canadin_action_table, 0, 0, 7 };
     for (i = 0; i < 2; i++) {
-        NpcModelRegistry::register_animated_chunk(ids[i], bm_ene_me1_mb_resource->models[i].model, bm_ene_me1_mb_resource->models[1].texlist, &params, 8.0f, 15.0f);
+        TObjNpcEnemy::register_animated_chunk(ids[i], bm_ene_me1_mb_resource->models[i].model, bm_ene_me1_mb_resource->models[1].texlist, &params, 8.0f, 15.0f);
     }
 }
 

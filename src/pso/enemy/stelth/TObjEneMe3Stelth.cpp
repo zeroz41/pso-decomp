@@ -17,7 +17,7 @@
 #include "pso/enemy/stelth/TObjEneMe3Stelth.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/enemy/stelth/StelthData.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -56,7 +56,6 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/technique/TTecSifta.h"
-#include "pso/npc/TObjNpcEnemy_803D8090.h"
 #include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
 #include "pso/unk/text_803DC86C.h"
 #include "pso/render/ModelDrawContext.h"
@@ -272,9 +271,9 @@ void TObjEneMe3Stelth::load_shared_resources() {
         a.motions = TObjEneMe3Stelth__bml_resource->motions;
         NpcAnimationBinding b = stelth_attack_binding_desc_b;
         b.motions = TObjEneMe3Stelth__bml_resource->motions;
-        NpcModelRegistry::register_animated_ginja(0x2B, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
+        TObjNpcEnemy::register_animated_ginja(0x2B, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
                                                   reinterpret_cast<NJS_TEXLIST *>(TObjEneMe3Stelth__bml_resource->models->texlist), &a, 8.0f, 0.0f);
-        NpcModelRegistry::register_animated_ginja(0x2D, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
+        TObjNpcEnemy::register_animated_ginja(0x2D, reinterpret_cast<NJS_OBJECT *>(TObjEneMe3Stelth__bml_resource->models->model),
                                                   reinterpret_cast<NJS_TEXLIST *>(TObjEneMe3Stelth__bml_resource->models->texlist), &b, 8.0f, 0.0f);
     }
 }

@@ -88,7 +88,7 @@ void TObjEneMe1GiGueMissile::render() {
 #pragma opt_common_subs off
 void TObjEneMe1GiGueMissile::run_task() {
     f32 frame;
-    owner = (uaddr)find_entity_by_id(owner_id);
+    owner = find_entity_by_id(owner_id);
     if (owner == 0) {
         TObject::queue_destruction();
         return;

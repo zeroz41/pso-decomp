@@ -1,5 +1,4 @@
 #include "pso/math/CurvePathPoint.h"
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/system/BmlResourceLoader.h"
@@ -75,7 +74,6 @@
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"

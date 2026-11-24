@@ -66,7 +66,7 @@ typedef struct Player_801BC948 {
 extern "C" {
 s32 get_class_index__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEF44(void *, void *);
-void clamp_and_set_unit_value__10TObjPlayerFiUci(void *, u8, s16);
+void set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(void *, u8, s16);
 void TObjPlayer__sub_801D955C(void *, s32);
 void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_801BC948 *src);
 
@@ -81,7 +81,7 @@ void init_session_technique_caps__10TObjPlayerFPvPv(Player_801BC948 *self, Src_8
     TObjPlayer__sub_801D955C(self->techs, get_class_index__10TObjPlayerFv(self));
     ((TObjPlayer *)(self->techs))->copy_all_technique_entries((void *)0x1D);
     for (i = 0; i < 0x13; i++) {
-        clamp_and_set_unit_value__10TObjPlayerFiUci(self, src->levels[i] + src->bonus[i].pad[0], i);
+        set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(self, src->levels[i] + src->bonus[i].pad[0], i);
     }
     for (i = 0; i < 5; i++) {
         TObjPlayer__sub_801BEF44(&self->recs[i], &src->recs[i]);
@@ -100,7 +100,7 @@ void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
     ((TObjPlayer *)(player + 0x428))->copy_all_technique_entries((void *)0x1D);
     i = 0;
     do {
-        clamp_and_set_unit_value__10TObjPlayerFiUci(player, ((TObjPlayer *)arg1)->get_slot_value_checked(i) + get_record_byte_at(arg1, i), (s16)i);
+        set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(player, ((TObjPlayer *)arg1)->get_slot_value_checked(i) + get_record_byte_at(arg1, i), (s16)i);
         i += 1;
     } while (i < 0x13);
 }

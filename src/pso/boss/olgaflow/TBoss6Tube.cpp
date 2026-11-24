@@ -1,5 +1,4 @@
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
@@ -22,7 +21,6 @@
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 const char *boss06_tube_dat_model_names[4] = { "boss06_light01.gj", "boss06_light02.gj", "boss06_tube01.gj", NULL };
 const char *boss06_tube_dat_motion_names[1] = { NULL };
@@ -156,7 +154,7 @@ void TBoss6Tube::update_wobble() {
 
 void TBoss6Tube::spawn_trap() {
     accelerate_scroll();
-    play_persistent_sound(0x40033520, this, 0, 0, 0);
+    play_persistent_sound(0x40033520, this, NULL, 0, 0);
 }
 
 void TBoss6Tube::update_timer() {

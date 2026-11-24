@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -43,7 +42,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 #pragma readonly_strings on
 // The record exchange_object_state reads and writes.

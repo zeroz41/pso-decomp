@@ -11,39 +11,39 @@
 
 #pragma readonly_strings on
 
-const char *TObjNpcHRM00__name = "TObjNpcHRM00";
-uaddr TObjNpcHRM00__named_object_resource;
-NJS_TEXLIST *TObjNpcHRM00__body_texture_gvm;
+const char *TObjNpcHRM00::name = "TObjNpcHRM00";
+uaddr TObjNpcHRM00::named_object_resource;
+NJS_TEXLIST *TObjNpcHRM00::body_texture_gvm;
 
-void *TObjNpcHRM00__create(void *set_data) {
+void *TObjNpcHRM00::create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcHRM00(control, set_data);
 }
 
 void TObjNpcHRM00::destroy_resources() {
-    if (TObjNpcHRM00__body_texture_gvm != NULL) {
-        release_texture_list(TObjNpcHRM00__body_texture_gvm);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TObjNpcHRM00__body_texture_gvm);
-        TObjNpcHRM00__body_texture_gvm = NULL;
+    if (body_texture_gvm != NULL) {
+        release_texture_list(body_texture_gvm);
+        TAdSinglePlyChrSelectGC::safe_free((uaddr)body_texture_gvm);
+        body_texture_gvm = NULL;
     }
-    if (TObjNpcHRM00__named_object_resource != 0) {
-        TLobby::free_nodes_with_id(TObjNpcHRM00__named_object_resource);
-        TObjNpcHRM00__named_object_resource = 0;
+    if (named_object_resource != 0) {
+        TLobby::free_nodes_with_id(named_object_resource);
+        named_object_resource = 0;
     }
 }
 
 void TObjNpcHRM00::load_resources() {
-    TObjNpcHRM00__named_object_resource = create_named_object("npc_d00_data.rel");
-    TObjNpcHRM00__body_texture_gvm = load_gvm_texture_file("n_d00_w_body.gvm");
+    named_object_resource = create_named_object("npc_d00_data.rel");
+    body_texture_gvm = load_gvm_texture_file("n_d00_w_body.gvm");
 }
 
 TObjNpcHRM00::~TObjNpcHRM00() {}
 
-TObjNpcHRM00::TObjNpcHRM00(TObject *parent, void *set_data) : TUnk_804A9F50(parent) {
-    this->m_name = TObjNpcHRM00__name;
+TObjNpcHRM00::TObjNpcHRM00(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+    this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = *(void **)TObjNpcHRM00__named_object_resource;
-    this->texlist = TObjNpcHRM00__body_texture_gvm;
+    this->model = *(void **)named_object_resource;
+    this->texlist = body_texture_gvm;
     this->setup_common();
 }

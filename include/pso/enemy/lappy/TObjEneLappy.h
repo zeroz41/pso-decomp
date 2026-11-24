@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
 
+struct BmlResource;
+
 // TObjEneLappy::lappy_flags.
 enum {
     LAPPY_NODE_VISIBLE = 0x1,   // set each frame by run_task, cleared while dying; shows model node 0x12
@@ -98,6 +100,9 @@ struct TObjEneLappy : public TObjEnemy {
 };
 
 LAYOUT_ASSERT(TObjEneLappy_size, sizeof(TObjEneLappy) == 0x3A4);
+
+// The Rappy model archive load_resources picks, shared with the town NPC TObjNpcLappy.
+extern BmlResource *rappy_bml_resource;
 
 // The rare and the normal Rappy texture archives TObjEneLappy::load_resources picks from. The unit
 // defines them after that function, which reaches each with its own lis/addi.

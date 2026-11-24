@@ -155,8 +155,6 @@ public:
     static void sync_target_pos(void *p);
     static s32 restore_target_pos(void *p);
     static s32 copy_pos_to_field688(void *p);
-    static void spawn_switch_attack(const Vec *pos);
-    static void spawn_attack_effect(const Vec *pos);
     static void capture_node_points(NJS_OBJECT *);
     void calc_velocity_from_angle();
     f32 clamp_step_in_radius(f32 a, f32 b, f32 s);
@@ -243,7 +241,6 @@ public:
     void sweep_head_fall_spheres_early();
     void render_nodes_flagged();
     void copy_vectors();
-    static void trigger_switches_in_range(TObject *floor_stone, const Vec *pos, const DragonAttackParams *params);
     static s32 calc_binomial_coefficient(s32 n, s32 k);
     static s32 eval_bezier_curve(CurvePathPoint *points, int count, int closed, Vec *out, f32 t);
     static void get_camera_offsets(Vec *target_offset, Vec *eye_offset);

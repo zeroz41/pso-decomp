@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
@@ -55,7 +54,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"

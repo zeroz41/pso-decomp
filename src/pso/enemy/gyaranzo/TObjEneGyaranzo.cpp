@@ -7,7 +7,7 @@
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/enemy/EnemyTargetCandidate.h"
-#include "pso/npc/NpcModelRegistry.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/camera/TCameraCtrl.h"
@@ -241,8 +241,8 @@ void TLobby::load_gyaranzo_resources() {
     {
         NpcAnimationBinding pos = { NULL, gyaranzo_action_table, 0, 1, 8 };
         pos.motions = gyaranzo_bml_resource->motions;
-        NpcModelRegistry::register_animated_chunk(0x20, gyaranzo_bml_resource->models[3].model, gyaranzo_bml_resource->models[3].texlist, &pos, 18.0f, 0.0f);
-        NpcModelRegistry::register_animated_chunk(0x21, gyaranzo_bml_resource->models[4].model, gyaranzo_bml_resource->models[3].texlist, &pos, 18.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(0x20, gyaranzo_bml_resource->models[3].model, gyaranzo_bml_resource->models[3].texlist, &pos, 18.0f, 0.0f);
+        TObjNpcEnemy::register_animated_chunk(0x21, gyaranzo_bml_resource->models[4].model, gyaranzo_bml_resource->models[3].texlist, &pos, 18.0f, 0.0f);
     }
 }
 #pragma pop

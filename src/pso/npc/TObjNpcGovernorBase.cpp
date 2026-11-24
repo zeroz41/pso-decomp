@@ -4,7 +4,7 @@
 #include "pso/npc/TObjNpcGovernorBase.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/npc/TUnk_804A9F50.h"
+#include "pso/npc/TObjNpcMale.h"
 
 #include "pso/npc/TObjNpcHFW00.h"
 #include "pso/unk/TLobby.h"
@@ -24,35 +24,33 @@ const char *bm_n_soutoku_i_body_motion_names[] = {NULL};
 BmlResourceDescriptor bm_n_soutoku_i_body_resource_descriptor = {
     "bm_n_soutoku_i_body.bml", bm_n_soutoku_i_body_model_names, bm_n_soutoku_i_body_motion_names, 1, 0,
 };
-const char *TObjNpcGovernorBase__name = "TObjNpcGovernorBase";
-BmlResource *TObjNpcGovernorBase__shared_resource;
+const char *TObjNpcGovernorBase::name = "TObjNpcGovernorBase";
+BmlResource *TObjNpcGovernorBase::shared_resource;
 
-
-void *TObjNpcGovernorBase__create(void *set_data) {
+void *TObjNpcGovernorBase::create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
     return new TObjNpcGovernorBase(control, set_data);
 }
 
 void TObjNpcGovernorBase::free_shared_data() {
-    if (TObjNpcGovernorBase__shared_resource != NULL) {
-        delete TObjNpcGovernorBase__shared_resource;
-        TObjNpcGovernorBase__shared_resource = NULL;
+    if (shared_resource != NULL) {
+        delete shared_resource;
+        shared_resource = NULL;
     }
 }
 
 void TObjNpcGovernorBase::load_shared_resource() {
-    TObjNpcGovernorBase__shared_resource = new BmlResource(1, &bm_n_soutoku_i_body_resource_descriptor, 0, 0, NULL);
+    shared_resource = new BmlResource(1, &bm_n_soutoku_i_body_resource_descriptor, 0, 0, NULL);
 }
 
 TObjNpcGovernorBase::~TObjNpcGovernorBase() {}
 
-
-TObjNpcGovernorBase::TObjNpcGovernorBase(TObject *parent, void *arg2) : TUnk_804A9F50(parent) {
-    ((TObject *)this)->m_name = TObjNpcGovernorBase__name;
-    ((TObjNpcGovernorBase *)this)->apply_set_data(arg2);
+TObjNpcGovernorBase::TObjNpcGovernorBase(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+    ((TObject *)this)->m_name = name;
+    this->apply_set_data(set_data);
     init_position_vectors();
-    model = TObjNpcGovernorBase__shared_resource->models->model;
-    texlist = TObjNpcGovernorBase__shared_resource->models->texlist;
-    ((TObjNpcBase *)this)->setup_common();
+    model = shared_resource->models->model;
+    texlist = shared_resource->models->texlist;
+    this->setup_common();
 }
 

@@ -1,5 +1,4 @@
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
@@ -36,7 +35,6 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_803E1A58.h"
 #include "pso/system/TLanguage_801E4874.h"

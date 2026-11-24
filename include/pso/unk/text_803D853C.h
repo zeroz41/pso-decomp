@@ -24,6 +24,9 @@ void init_debug_text_buffer(DebugTextRecord *p, s32 n, s32 x);
 // copying it into the text pool.
 void queue_debug_text(s32 position, const char *text);
 
+// Queues val with prec digits before the point (zero padded) and five after it as debug text at position.
+void print_float_padded(s32 position, s32 prec, f32 val);
+
 // Copies the top of the matrix stack into dest. NULL copies it onto itself.
 void get_current_matrix(GC_Mtx *dest);
 extern "C" {

@@ -1,4 +1,3 @@
-#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/system/BmlResource.h"
@@ -61,7 +60,6 @@ struct NJS_OBJECT;
 
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 #include "pso/effect/TBreakUpMdl.h"
 

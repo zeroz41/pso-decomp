@@ -29,6 +29,17 @@ public:
     u8 m_tech_levels[20];
 public:
     void init_inventory_items();
+    // Material usage counts, kept in the last m_present byte of inventory slots 8-12.
+    void set_luck_materials_used(u8 count);
+    void set_def_materials_used(u8 count);
+    void set_evade_materials_used(u8 count);
+    void set_mind_materials_used(u8 count);
+    void set_power_materials_used(u8 count);
+    // Set on a record saved from a disc whose game files failed the size/CRC check.
+    void mark_game_files_modified();
+    // Cast level of technique `tech` up to 14; the levels above it are kept in m_present[2] of inventory slot `tech`.
+    u8 *technique_level(s32 tech);
+    u8 *technique_level_overflow(s32 tech);
 };
 
 LAYOUT_ASSERT(PlyCharDataSize, sizeof(TPlyCharData) == 0x41C);
