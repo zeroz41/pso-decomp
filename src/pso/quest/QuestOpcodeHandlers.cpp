@@ -4379,18 +4379,18 @@ void qst_op_p_disablewarp(void) {
 
 void qst_op_p_dead(void) {
     s32 dest_reg;
-    u8 *lobby;
+    TObjPlayer *player;
     dest_reg = qst_args[0];
-    lobby = (u8 *)(((u8 *)get_player_by_client_id(qst_args[1])));
-    if ((lobby != NULL) && (((TObjPlayer *)lobby)->is_script_controlled() == 0)) {
-        if (((TObjChara *)lobby)->obj_isState3_324() != 0) {
-            if (*(s32 *)((s8 *)lobby + 0x30) & 0x800) {
+    player = get_player_by_client_id(qst_args[1]);
+    if ((player != NULL) && (player->is_script_controlled() == 0)) {
+        if (player->obj_isState3_324() != 0) {
+            if (player->actorFlags & 0x800) {
                 qst_registers[dest_reg] = 1;
                 return;
             }
             goto block_7;
         }
-        if (((TObjPlayer *)lobby)->check_player_state_flag_2() != 0) {
+        if (player->check_player_state_flag_2() != 0) {
             qst_registers[dest_reg] = 1;
             return;
         }
