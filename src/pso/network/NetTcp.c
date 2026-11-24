@@ -62,7 +62,7 @@ TcpState tcp_protocol_state;
 s32 tcp_term(void) {
     NetUnregisterTimer(tcp_slowtimo);
     NetUnregisterTimer(tcp_fasttimo);
-    term_tcp_config((void *)&tcp_protocol_state);
+    term_tcp_config(&tcp_protocol_state);
     tcp_protocol_state.count = 0;
     return 0;
 }
@@ -73,7 +73,7 @@ s32 NetTCPInit(void) {
     s16 n;
     s16 i;
     TcpTcb *e;
-    init_params((NetParamCfg *)((u8 *)&tcp_protocol_state));
+    init_params(&tcp_protocol_state);
     e = tcp_protocol_state.tcbs;
     for (i = 0; i < (n = tcp_protocol_state.count); i++) {
         e->listener = -1;

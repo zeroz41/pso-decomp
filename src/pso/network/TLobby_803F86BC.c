@@ -8,6 +8,7 @@
 #include "pso/network/TLobby_803F86BC.h"
 #include <stddef.h>
 #include "pso/network/netcfg.h"
+#include "pso/network/NetTcpState.h"
 #include "pso/network/IPv6.h"
 #include "pso/network/NetDns.h"
 #include "pso/network/NetArp.h"
@@ -98,15 +99,15 @@ void init_net_config(DnsResolverState *c) {
     c->queries = (DnsQuery *)buf;
 }
 
-void term_tcp_config(void *cfg) {
+void term_tcp_config(TcpState *cfg) {
 }
 
-void init_params(NetParamCfg *cfg) {
+void init_params(TcpState *cfg) {
     cfg->count = net_param_room_count;
-    cfg->f8 = net_param_word_e;
-    cfg->fC = net_param_word_e;
-    cfg->fA0 = 0x64;
-    cfg->buffer = net_transport_buffer_ptr_b;
+    cfg->snd_bufsize = net_param_word_e;
+    cfg->rcv_bufsize = net_param_word_e;
+    cfg->ack_ticks = 0x64;
+    cfg->tcbs = (TcpTcb *)net_transport_buffer_ptr_b;
 }
 
 void term_udp_config(void *cfg) {

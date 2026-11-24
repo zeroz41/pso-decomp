@@ -15,6 +15,7 @@ struct DnsResolverState;
 struct UdpRuntimeState;
 struct Ipv4ProtocolState;
 struct LobbyHandler;
+struct TcpState;
 
 typedef struct LobbyHandlerTable {
     s16 count;
@@ -23,22 +24,11 @@ typedef struct LobbyHandlerTable {
 LAYOUT_ASSERT(LobbyHandlerTable_size_check, sizeof(LobbyHandlerTable) == 8);
 LAYOUT_ASSERT(LobbyHandlerTable_list_offset, offsetof(LobbyHandlerTable, list) == 4);
 
-typedef struct NetParamCfg {
-    s32 buffer;          /* 0x00 */
-    s16 count;           /* 0x04 */
-    u8 pad6[2];
-    s32 f8;              /* 0x08 */
-    s32 fC;              /* 0x0C */
-    u8 pad10[0x90];
-    s16 fA0;             /* 0xA0 */
-} NetParamCfg;
-
-
 
 void term_dns_config(void *cfg);
 void init_net_config(struct DnsResolverState *cfg);
-void term_tcp_config(void *cfg);
-void init_params(NetParamCfg *cfg);
+void term_tcp_config(struct TcpState *cfg);
+void init_params(struct TcpState *cfg);
 void term_udp_config(void *cfg);
 void init_udp_control_config(struct UdpRuntimeState *cfg);
 void term_ipv6_config(void *cfg);
