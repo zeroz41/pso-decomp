@@ -856,12 +856,9 @@ struct TObjPlayer : public TObjChara {
     void set_action_type(s32 v);
     s32 get_field_1c();
     void request_heavy_attack_particles();
-    void advance_and_clamp_state();
     s32 update_if_flag8_set();
     s32 tick_countdown_timer();
     s16 get_obj_id();
-    void set_saved_attack_stage(s16 v);
-    int is_flag32_clear();
     void set_action_palette_state_mode(u8 mode);
     static void clear_flag_128(void* p);
     static s32 decrement_timer(s32 *arg0);
@@ -872,8 +869,8 @@ struct TObjPlayer : public TObjChara {
     static void init_sub_object_vectors(saddr lobby);
     int bswap_disp_config_field();
     static s32 init_inventory_items(saddr arg0);
-    s32 *get_getup_protection_ticks();
-    s32 *get_hurt_protection_ticks();
+    s32 get_getup_protection_ticks();
+    s32 get_hurt_protection_ticks();
     u8 *get_lobby_entry_ptr();
     s32 get_guild_return_yaw();
     s32 get_hospital_yaw();
