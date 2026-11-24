@@ -35,6 +35,7 @@ s32 ppp_init_hook(void);
 /* inferred: returns the secret ppp_auth_secrets holds for a peer name, or NULL */
 const char *ppp_find_auth_secret(const char *name);
 
+struct ModemSessionState;
 void init_modem_buffer_config(struct ModemSessionState *state);
 s32 open_network_transport(NetTransportOpenCfg *cfg);
 struct PppAuthState;
@@ -72,8 +73,8 @@ extern s32 net_param_word_f;
 extern s32 net_param_ring_buffer_size;
 extern u32 net_param_word_h;
 extern u32 net_param_word_i;
-extern u32 net_transport_buffer_ptr_a;
-extern u32 net_transport_buffer_ptr_b;
+extern void *net_transport_buffer_ptr_a; /* the UDP control blocks */
+extern void *net_transport_buffer_ptr_b; /* the TCP control blocks */
 #ifdef __cplusplus
 }
 #endif

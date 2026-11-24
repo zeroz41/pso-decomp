@@ -649,12 +649,12 @@ s32 AT_SetWorkArea(u8 *data, s32 size) {
     if (size < header_size) {
         return -1;
     }
-    net_transport_buffer_ptr_a = (uaddr)data;
+    net_transport_buffer_ptr_a = data;
     cur = data + params.player_count * 0x44;
     if ((uaddr)cur > end) {
         return -1;
     }
-    net_transport_buffer_ptr_b = (uaddr)cur;
+    net_transport_buffer_ptr_b = cur;
     cur += params.room_count * 0x544;
     if ((uaddr)cur > end) {
         return -1;

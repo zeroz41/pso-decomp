@@ -48,8 +48,8 @@ s32 lbl_805D7A58;
 s16 dns_resolver_timeouts[3];
 u32 net_param_word_i;
 u32 net_param_word_h;
-u32 net_transport_buffer_ptr_b;
-u32 net_transport_buffer_ptr_a;
+void *net_transport_buffer_ptr_b;
+void *net_transport_buffer_ptr_a;
 extern u8 *lobby_second_buffer_pool_base;
 
 static u32 lobby_net_config_block[4722];
@@ -107,7 +107,7 @@ void init_params(TcpState *cfg) {
     cfg->snd_bufsize = net_param_word_e;
     cfg->rcv_bufsize = net_param_word_e;
     cfg->ack_ticks = 0x64;
-    cfg->tcbs = (TcpTcb *)net_transport_buffer_ptr_b;
+    cfg->tcbs = net_transport_buffer_ptr_b;
 }
 
 void term_udp_config(void *cfg) {
@@ -115,7 +115,7 @@ void term_udp_config(void *cfg) {
 
 void init_udp_control_config(UdpRuntimeState *cfg) {
     cfg->count = net_param_player_count;
-    cfg->entries = (UdpControlBlock *)net_transport_buffer_ptr_a;
+    cfg->entries = net_transport_buffer_ptr_a;
 }
 
 void term_ipv6_config(void *cfg) {
