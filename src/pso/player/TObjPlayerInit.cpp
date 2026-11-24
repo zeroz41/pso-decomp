@@ -1,21 +1,106 @@
-#include "pso/player/PlayerRequirementStats.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/system/data/FlagWord.h"
+#include "pso/item/TItemLockCountCtrl_8011E184.h"
+#include "pso/player/TObjPlayer_801BF918.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/ui/frontend/TAdRicoRing.h"
+#include "pso/ui/window/TWindowActionPalette_801C1890.h"
+#include "pso/unk/TUnk_804ED7D0.h"
+#include "pso/unk/TUnk_804DDBF0.h"
+#include "pso/unk/TLobby.h"
+#include "pso/player/PlayerRequirementStats.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_801BC81C.h"
 #include "pso/player/TObjPlayer_801BE778.h"
-#include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801BCC30.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_801BCD28.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/player/TObjPlayer_801BF978.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
+#include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
+extern const f32 TObjPlayer__data_805DC278;
+
+void TObjPlayer::reset_state() {
+    u8 *arg0 = (u8 *)this;
+    ((FlagWord *)(arg0 + 0x858))->clear(2);
+    battle_music.reset_counter_field4();
+    protection.reset_type();
+    ((TObjPlayer *)(arg0 + 0x7CC))->reset_movement_state();
+    movement_hold.reset();
+    ((TObjPlayer *)(arg0 + 0x608))->set_vec4_const();
+    *(s32 *)&this->unk_548 = 0;
+    action_palette_state.init_tag();
+    *(s32 *)((s8 *)arg0 + 0x3D4) = 0;
+    this->clear_state_flags(0x283);
+    this->m_3f4 = 0;
+    this->target_heading = 0;
+    this->m_3ec = 0;
+    this->move_target.z = (f32) TObjPlayer__data_805DC278;
+    this->move_target.y = (f32) TObjPlayer__data_805DC278;
+    this->move_target.x = (f32) TObjPlayer__data_805DC278;
+    this->velocity.z = (f32) TObjPlayer__data_805DC278;
+    this->velocity.y = (f32) TObjPlayer__data_805DC278;
+    this->velocity.x = (f32) TObjPlayer__data_805DC278;
+    death_sink.reset();
+}
+
+extern const f32 TObjPlayer__data_805DC278;
+#pragma push
+#pragma fp_contract on
+void TObjPlayer::release_child_object() {
+    delete action_provider;
+}
+#pragma pop
+
+#pragma push
+#pragma fp_contract on
+void TObjPlayer::init_action_provider() {
+    u8 *arg0 = (u8 *)this;
+    if (TObjPlayer::get_hold_effect_count() == 1) {
+        action_provider = new TUnk_804DDBF0;
+    } else if (TObjPlayer::get_hold_effect_count() == 0) {
+        action_provider = new TUnk_804ED7D0;
+    }
+    this->m_33b = 0;
+    *(s8 *)&this->unk_33A = 0;
+    this->m_339 = 0;
+    *(s8 *)&this->unk_338 = 0;
+    this->action_state = 0;
+    this->m_36c = 0;
+    this->pad_370 = 0;
+    this->reset_entrance_id();
+    ((TObjPlayer *)(arg0 + 0x66C))->set_vec3_const();
+    *(f32 *)&this->frame_timer = (f32) TObjPlayer__data_805DC278;
+    *(s32 *)&this->state_flags = 0;
+    this->set_input_mode(0);
+    this->set_move_mode(0);
+    this->lobby_animation = -1;
+    *(f32 *)&this->m_3c4 = (f32) TObjPlayer__data_805DC278;
+    this->set_battle_flag(0);
+    this->controller_input = NULL;
+    *(s32 *)&this->inventory_objects = 0;
+    this->lock_on_cursor = NULL;
+    (*(s32 *)&this->joint_matrices) = 0;
+    this->item_node_matrices = NULL;
+    this->set_floor_index(0xF);
+    this->set_floor(0xF);
+    this->m_54c = 0;
+    *(s32 *)&this->unk_3B8 = 0;
+    *(s32 *)&this->unk_420 = 0;
+    this->controller_port = 0;
+    this->reset_state();
+    ::set_flag_400000(this);
+    if (TObjPlayer::get_player_count() == 1) {
+        set_player_pk_mode_flag(((u8 *)&this->m_828));
+    }
+}
+#pragma pop
 
 extern "C" {
 
@@ -169,5 +254,55 @@ int TObjPlayer__sub_801BEF60(void*, int);
 int TObjPlayer::is_flag_set_550(void *data) { return TObjPlayer__sub_801BEF60((char*)this + 0x550, 0); }
 void TObjPlayer::reset_pad_binding() {  }
 void TObjPlayer::release_pad_binding() {  }
+
+}
+
+extern "C" {
+
+int TObjPlayer__sub_801BEF60(void*, int);
+
+extern "C" {
+
+void TObjPlayer::init_control_mode(s32 role) {
+    if (TObjPlayer::is_locally_controlled(this) != 0) {
+        this->controller_port = (s32) (role & 3);
+        pad_binding.init(this->get_entity_id(), this->controller_port);
+        return;
+    }
+    TObjPlayer__sub_801BEF60((void *) (((u8 *)this) + 0x550), 0);
+}
+
+}
+
+}
+
+extern "C" {
+
+
+
+void TObjPlayer::init_data_table_ptr() {
+    ((TObjPlayer *)this)->create_inventory();
+    set_action_provider_variant(default_action_provider_variant());
+    this->item_node_matrices = player_shared_buffer_base[get_entity_id()];
+}
+
+
+
+void TObjPlayer::init_from_source(u8 *arg1) {
+    this->inventory_objects = 0;
+    ((TObjPlayer *)this)->create_inventory();
+    set_action_provider_variant((s16) default_action_provider_variant());
+    bind_saved_inventory_equipment(this, reinterpret_cast<TPlyInventoryItem *>(arg1 + 0x140), *(s32 *)((s8 *)arg1 + 0x13C));
+    this->item_node_matrices = player_shared_buffer_base[get_entity_id()];
+}
+
+void TObjPlayer::update_recobox(saddr player) {
+    if (is_current_area_item_enabled() != 0) {
+        ((TObjPlayer *)player)->clear_flag_20000();
+        return;
+    }
+    ((TObjPlayer *)player)->set_flag_20000();
+}
+void TObjPlayer::destroy_child() { void* m = this->inventory_objects; if (m) ((TObject *)m)->queue_destruction(); }
 
 }
