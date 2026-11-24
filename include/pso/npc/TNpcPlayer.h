@@ -93,7 +93,7 @@ struct TNpcPlayer : public TObject {
         u16 base_level;
         TechniqueFlags technique_flags;
         f32 enemy_lock_on_range;
-        f32 pad_0C;
+        f32 min_distance_from_player;  // inferred: read nowhere; 10.0 in every template, below max_distance_from_player
         f32 max_distance_from_player;
         f32 enemy_unlock_range;
         f32 block_range;
@@ -117,7 +117,7 @@ struct TNpcPlayer : public TObject {
     void send_partner_attack_stage_request();
     void partner_request_technique_cast(s32 kind);
     s32 in_combat;
-    s32 pad_20;
+    s32 zeroed_word;  // written 0 by both constructors, read nowhere
     s32 chatter_id;
     s32 init_step;
     s16 template_index;  // row of npc_player_ai_templates
@@ -141,9 +141,7 @@ struct TNpcPlayer : public TObject {
     Vec waypoint;
     Vec move_target;
     u8 _padB8[0xC];
-    s32 pad_C4;
-    s32 pad_C8;
-    s32 pad_CC;
+    s32 zeroed_words[3];  // written 0 by both constructors, read nowhere
     Vec steer_point;
     Vec goal;
     void dispatch_action(s32 action);
