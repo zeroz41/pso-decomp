@@ -11,8 +11,6 @@ static void* SaveStart = NULL;
 static void* SaveEnd   = NULL;
 static volatile BOOL Prepared;
 
-int DVDReadAbsAsyncForBS(DVDCommandBlock* block, void* addr, s32 length, s32 offset, DVDCBCallback callback);
-
 extern u32 OS_RESET_CODE AT_ADDRESS(0x800030F0);
 extern u8 OS_REBOOT_BOOL AT_ADDRESS(0x800030E2);
 extern u32 UNK_817FFFF8 AT_ADDRESS(0x817FFFF8);

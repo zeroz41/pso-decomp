@@ -5,13 +5,8 @@
 #include "MSL_C/ctype.h"
 #include "limits.h"
 
-extern unsigned int __double_max[];
 #define DBL_MAX (*(double*)__double_max)
 #define HUGE_VALF_ (*(float*)__float_huge)
-extern double copysign(double, double);
-extern double nextafter(double, double);
-extern double pow(double, double);
-extern double modf(double, double*);
 
 int ansi_fp_abs(int x) {
     int sign = x >> 31;

@@ -1,14 +1,7 @@
 #include "MSL_C/scanf.h"
 #include "MSL_C/ctype.h"
+#include "MSL_C/mbstring.h"
 #include "stdarg.h"
-
-extern unsigned long __strtoul(int base, int max_width, int (*ReadProc)(void*, int, int), void* ReadProcArg,
-                               int* chars_scanned, int* negative, int* overflow);
-extern unsigned long long __strtoull(int base, int max_width, int (*ReadProc)(void*, int, int), void* ReadProcArg,
-                                     int* chars_scanned, int* negative, int* overflow);
-extern long double __strtold(int max_width, int (*ReadProc)(void*, int, int), void* ReadProcArg, int* chars_scanned,
-                             int* overflow);
-extern int mbtowc(wchar_t* pwc, const char* s, size_t n);
 
 enum argument_options {
     normal_argument,

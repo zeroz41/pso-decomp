@@ -1,13 +1,13 @@
 
 #include "MSL_C/scanf.h"
 #include "MSL_C/ctype.h"
+#include "MSL_C/string.h"
+#include "errno.h"
 
 #define ULONG_MAX 0xFFFFFFFFul
 #define LONG_MAX 2147483647l
 #define LONG_MIN -2147483648l
-#define ERANGE 0x22
 
-extern int errno;
 
 enum scan_states {
     start = 0x01,
@@ -300,7 +300,7 @@ unsigned long strtoul(const char* str, char** end, int base) {
 
     if (overflow) {
         value = ULONG_MAX;
-        errno = 0x22;
+        errno = ERANGE;
     } else if (negative) {
         value = -value;
     }
@@ -356,7 +356,6 @@ extern unsigned int __extended_max[];
 #define DBL_MIN_10_EXP (-307)
 #define SHRT_MAX 32767
 #define SHRT_MIN (-32768)
-extern void* memset(void*, int, unsigned long);
 #define TARGET_FLOAT_BITS 64
 #define TARGET_FLOAT_BYTES (TARGET_FLOAT_BITS / 8)
 #define TARGET_FLOAT_MAX_EXP LDBL_MAX_EXP

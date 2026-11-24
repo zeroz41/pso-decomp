@@ -28,6 +28,10 @@ extern unsigned int __float_nan[];
 extern unsigned int __float_huge[];
 extern unsigned int __float_max[];
 extern unsigned int __float_epsilon[];
+extern unsigned int __double_max[];
+extern unsigned int __double_huge[];
+extern unsigned int __extended_min[];
+extern unsigned int __extended_max[];
 
 inline int __fpclassifyf(float __value)
 {

@@ -10,6 +10,13 @@ extern "C" {
 
 enum __ReadProcActions { __GetAChar, __UngetAChar, __TestForError };
 
+unsigned long __strtoul(int base, int max_width, int (*ReadProc)(void*, int, int), void* ReadProcArg,
+                       int* chars_scanned, int* negative, int* overflow);
+unsigned long long __strtoull(int base, int max_width, int (*ReadProc)(void*, int, int), void* ReadProcArg,
+                             int* chars_scanned, int* negative, int* overflow);
+long double __strtold(int max_width, int (*ReadProc)(void*, int, int), void* ReadProcArg, int* chars_scanned,
+                     int* overflow);
+
 enum __WReadProcActions { __GetAwChar, __UngetAwChar, __TestForwcsError };
 
 typedef struct {

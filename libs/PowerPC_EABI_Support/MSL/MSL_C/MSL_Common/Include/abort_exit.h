@@ -7,6 +7,7 @@ extern "C" {
 
 void exit(int status);
 void abort(void);
+void _ExitProcess(void);
 
 extern void (*__stdio_exit)(void);
 

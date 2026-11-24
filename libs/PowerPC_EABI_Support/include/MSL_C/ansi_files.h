@@ -118,6 +118,10 @@ typedef struct _files {
 
 extern files __files;
 
+int __close_console(__file_handle file);
+int __write_console(__file_handle file, unsigned char* buf, size_t* count, __idle_proc idle_fn);
+int __read_console(__file_handle file, unsigned char* buf, size_t* count, __idle_proc idle_fn);
+
 #ifdef __cplusplus
 };
 #endif

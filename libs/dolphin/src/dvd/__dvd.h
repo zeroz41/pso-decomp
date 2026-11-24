@@ -26,4 +26,6 @@ int __DVDIsBlockInWaitingQueue(struct DVDCommandBlock * block);
 
 void __fstLoad();
 
+int DVDReadAbsAsyncForBS(DVDCommandBlock* block, void* addr, s32 length, s32 offset, DVDCBCallback callback);
+
 #endif
