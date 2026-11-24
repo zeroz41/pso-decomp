@@ -4849,7 +4849,7 @@ void qst_op_npc_param() {
 
     s.technique_flags = flags;
     s.enemy_lock_on_range = qst_registers[i++];
-    s.unknown_0C = qst_registers[i++];
+    s.min_distance_from_player = qst_registers[i++];
     s.max_distance_from_player = qst_registers[i++];
     s.enemy_unlock_range = qst_registers[i++];
     s.block_range = qst_registers[i++];
