@@ -73,7 +73,7 @@ extern "C" {
 #pragma opt_common_subs off
 #pragma pop
 
-void TTecRaZonde::vfunc_8(void *) {
+void TTecRaZonde::spawn_effects(Vec *) {
     struct Self_80238C6C *self = (struct Self_80238C6C *)this;
     u32 i;
     self->emitters = (s32 *)mem_alloc(TTecRaZonde__band_profile_table[self->band].count * 4);
@@ -178,7 +178,7 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     if (collidable != NULL) {
         collidable->bodies->radius = (5.0f) + params.range;
     }
-    vfunc_8(0);
+    spawn_effects(0);
     r = (0.0f);
     ang = 0;
     for (i = 0; i < 8; i++) {

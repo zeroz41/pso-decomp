@@ -73,7 +73,7 @@ void TFireExplosion::spawn_rafoie_explosion_bursts() {
     }
 }
 
-void TTecRaFoie::vfunc_9() {
+void TTecRaFoie::play_cast_sound() {
     s32 handle;
 
     switch (band) {
@@ -107,7 +107,7 @@ void TTecRaFoie::vfunc_9() {
         break;
     }
 }
-void TTecRaFoie::vfunc_8(void *) {
+void TTecRaFoie::spawn_effects(Vec *) {
     void *emitter;
     TObjChara *chara;
     if (m_148 == 1) {
@@ -403,8 +403,8 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCir
     if (this->source != 0) {
         sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
-    vfunc_8(0);
-    vfunc_9();
+    spawn_effects(0);
+    play_cast_sound();
 }
 #pragma pop
 
@@ -419,6 +419,6 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 le
     if (collidable != NULL) {
         collidable->bodies->radius = params.range;
     }
-    vfunc_8(0);
-    vfunc_9();
+    spawn_effects(0);
+    play_cast_sound();
 }

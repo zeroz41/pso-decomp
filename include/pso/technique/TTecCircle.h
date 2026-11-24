@@ -18,8 +18,8 @@ public:
     virtual ~TTecCircle();
     virtual void apply_to_target(TObjChara *);
     virtual void tick_lifetime();
-    virtual void vfunc_8(void *);
-    virtual void vfunc_9();
+    virtual void spawn_effects(Vec *pos);
+    virtual void play_cast_sound();
     TechniqueContactList *find_area_contact(saddr);
     TechniqueContactList *collect_body_contacts(TObjCollidable *target, CollisionBody *body, void *player);
     TechniqueContactList *collect_body_contacts_for_target(saddr player);

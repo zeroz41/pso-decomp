@@ -30,190 +30,110 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 
-struct Owner_80237310
-{
-  u8 pad[0x30];
-  u32 flags;
+// Per band (TObjPlayer::get_level_tier): the particle emitters spawn_effects places; flag 0x40 scales the
+// emitter by scale, flag 0x20 attaches the technique model numbered by the high half of flags.
+struct RaBartaEmitter {
+    u32 entry;
+    u32 flags;
+    f32 scale;
 };
 
-struct Obj_80237310
-{
-  s32 f0;
-  u8 pad4[0x14];
-  void *vt;
-  Owner_80237310 *owner;
-  f32 pos[3];
-  f32 f2c;
-  f32 f30;
-  f32 f34;
-  f32 f38;
-  f32 f3c;
-  f32 f40;
-  f32 f44;
-  u8 pad48[0x64 - 0x48];
-  f32 f64;
-  u8 pad68[0x70 - 0x68];
-  f32 f70;
-  u8 pad74[0xA0 - 0x74];
-  s32 fa0;
-  s16 level;
-  s16 tier;
-  u16 fa8;
-  u8 padaa[2];
-  s32 fac;
-  f32 fb0[3];
-  f32 fbc;
-  f32 fc0;
-  s32 fc4;
-  s32 fc8;
-  u8 padcc[0xDC - 0xCC];
-  void *fdc;
+struct RaBartaEmitterSet {
+    const RaBartaEmitter *emitters;
+    u32 count;
 };
 
-typedef struct Emitter_80237494
-{
-  u32 entry;
-  u32 flags;
-  f32 scale;
-} Emitter_80237494;
-
-typedef struct Profile_80237494
-{
-  Emitter_80237494 *emitters;
-  u32 count;
-} Profile_80237494;
-
-typedef struct Rabarta_80237494
-{
-  u8 pad0[0x1C];
-  u8 *source;
-  u8 pad20[0x7A - 0x20];
-  s16 band;
-  u8 pad7c[0xF4 - 0x7C];
-  void **emitters;
-} Rabarta_80237494;
-
-struct RaBarta_802377FC {
-    u8 pad[0x78];
-    s16 level;
-    u8 pad7a[0x88 - 0x7a];
-    f32 amount;
-    u8 pad8c[0xac - 0x8c];
-    s16 per_level;
+extern const RaBartaEmitter rabarta_band_emitters_0[3] = {{473, 0, 0.0f}, {475, 0, 0.0f}, {479, 0x20060, 1.0f}};
+extern const RaBartaEmitter rabarta_band_emitters_1[3] = {{473, 0, 0.0f}, {475, 0x40, 1.2f}, {404, 0x20060, 1.2f}};
+extern const RaBartaEmitter rabarta_band_emitters_2[3] = {{473, 0, 0.0f}, {475, 0x40, 1.2f}, {405, 0x20060, 1.4f}};
+extern const RaBartaEmitter rabarta_band_emitters_3[3] = {{473, 0, 0.0f}, {406, 0, 0.0f}, {409, 0x30060, 1.6f}};
+extern const RaBartaEmitter rabarta_band_emitters_4[3] = {{473, 0, 0.0f}, {406, 0x40, 1.2f}, {410, 0x30060, 1.8f}};
+extern const RaBartaEmitter rabarta_band_emitters_5[3] = {{473, 0, 0.0f}, {407, 0, 0.0f}, {411, 0x40060, 1.0f}};
+extern const RaBartaEmitterSet rabarta_band_emitter_table[6] = {
+    {rabarta_band_emitters_0, 3}, {rabarta_band_emitters_1, 3}, {rabarta_band_emitters_2, 3},
+    {rabarta_band_emitters_3, 3}, {rabarta_band_emitters_4, 3}, {rabarta_band_emitters_5, 3},
 };
-
-extern "C" {
-
-
-
-typedef struct Obj_80237310 Obj_80237310;
-typedef struct Owner_80237310 Owner_80237310;
-
-extern "C" {
-extern const Emitter_80237494 lbl_8044D920[3] = {{473, 0, 0.0f}, {475, 0, 0.0f}, {479, 0x20060, 1.0f}};
-extern const Emitter_80237494 lbl_8044D944[3] = {{473, 0, 0.0f}, {475, 0x40, 1.2f}, {404, 0x20060, 1.2f}};
-extern const Emitter_80237494 lbl_8044D968[3] = {{473, 0, 0.0f}, {475, 0x40, 1.2f}, {405, 0x20060, 1.4f}};
-extern const Emitter_80237494 lbl_8044D98C[3] = {{473, 0, 0.0f}, {406, 0, 0.0f}, {409, 0x30060, 1.6f}};
-extern const Emitter_80237494 lbl_8044D9B0[3] = {{473, 0, 0.0f}, {406, 0x40, 1.2f}, {410, 0x30060, 1.8f}};
-extern const Emitter_80237494 lbl_8044D9D4[3] = {{473, 0, 0.0f}, {407, 0, 0.0f}, {411, 0x40060, 1.0f}};
-extern const Profile_80237494 rabarta_band_emitter_table[6] = {
-    {(Emitter_80237494 *)lbl_8044D920, 3}, {(Emitter_80237494 *)lbl_8044D944, 3}, {(Emitter_80237494 *)lbl_8044D968, 3},
-    {(Emitter_80237494 *)lbl_8044D98C, 3}, {(Emitter_80237494 *)lbl_8044D9B0, 3}, {(Emitter_80237494 *)lbl_8044D9D4, 3},
-};
-extern const Emitter_80237494 lbl_8044DA28 = {470, 0x10828, 0.0f};
+// The extra effect band 5 spawns above the point, raised by rabarta_top_effect_height.
+extern const RaBartaEmitter rabarta_top_effect = {470, 0x10828, 0.0f};
 const char *TTecRaBarta_class_name = "TTecRaBarta";
-__declspec(section ".sdata2") extern const f32 lbl_805DC8C4;
-}
-typedef struct Emitter_80237494 Emitter_80237494;
-typedef struct Profile_80237494 Profile_80237494;
-typedef struct Rabarta_80237494 Rabarta_80237494;
-void TTecRaBarta::vfunc_8(void *pos) {
-    Rabarta_80237494 *self = (Rabarta_80237494 *)this;
-  u32 i;
-  Vec point;
-  Emitter_80237494 *binding;
-  self->emitters = (void **)mem_alloc(rabarta_band_emitter_table[self->band].count * 4);
-  for (i = 0; i < rabarta_band_emitter_table[self->band].count; i++)
-  {
-    VecCopy((Vec *)&point, (const Vec *)(self->source + 0x38));
-    if (pos != 0)
-    {
-      VecCopy((Vec *)&point, (const Vec *)pos);
+__declspec(section ".sdata2") extern const f32 rabarta_top_effect_height;
+
+void TTecRaBarta::spawn_effects(Vec *pos) {
+    u32 i;
+    Vec point;
+    const RaBartaEmitter *binding;
+    emitters = (TParticleCtrl **)mem_alloc(rabarta_band_emitter_table[band].count * sizeof(TParticleCtrl *));
+    for (i = 0; i < rabarta_band_emitter_table[band].count; i++) {
+        VecCopy(&point, &((TObjBase *)source)->position);
+        if (pos != NULL) {
+            VecCopy(&point, pos);
+        }
+        emitters[i] = create_particle_emitter(&point, rabarta_band_emitter_table[band].emitters[i].entry);
+        binding = &rabarta_band_emitter_table[band].emitters[i];
+        if ((binding->flags & 0x40) && (emitters[i] != NULL)) {
+            emitters[i]->set_scale(binding->scale, binding->scale);
+        }
+        if (rabarta_band_emitter_table[band].emitters[i].flags & 0x20) {
+            u32 model = rabarta_band_emitter_table[band].emitters[i].flags >> 16;
+            if (pos && pos) {  // empty test carried over: only a two-term condition here keeps the model shift scheduled as built
+            }
+            attach_particle_model(emitters[i], get_bml_model(technique_effect_bml, model), technique_texture_list, 0, 0, 1.0f);
+        }
     }
-    self->emitters[i] = create_particle_emitter(&point, rabarta_band_emitter_table[self->band].emitters[i].entry);
-    binding = &rabarta_band_emitter_table[self->band].emitters[i];
-    if ((binding->flags & 0x40) && (self->emitters[i] != 0))
-    {
-      ((TParticleCtrl *)(self->emitters[i]))->set_scale(binding->scale, binding->scale);
+    if (band == 5) {
+        Vec top;
+        const RaBartaEmitter *effect = &rabarta_top_effect;
+        f32 height = rabarta_top_effect_height;
+        u32 model;
+        TParticleCtrl *emitter;
+        if (pos != NULL) {
+            VecCopy(&top, pos);
+        } else {
+            VecCopy(&top, &((TObjBase *)source)->position);
+        }
+        top.y += height;
+        emitter = spawn_particle_effect(&top, effect->entry);
+        model = effect->flags >> 16;
+        if (emitter != NULL) {
+            attach_particle_model(emitter, get_bml_model(technique_effect_bml, model), technique_texture_list, get_bml_motion(technique_effect_bml, 1), 0, 1.0f);
+        }
     }
-    if (rabarta_band_emitter_table[self->band].emitters[i].flags & 0x20)
-    {
-      u32 mid = rabarta_band_emitter_table[self->band].emitters[i].flags >> 16;
-      if (self && self)
-      {
-      }
-      attach_particle_model((u8 *)self->emitters[i], get_bml_model(technique_effect_bml, mid), technique_texture_list, 0, 0, (f32)(1.0f));
-    }
-  }
-  if (self->band == 5)
-  {
-    Vec point2;
-    Emitter_80237494 *b2 = (Emitter_80237494 *)&lbl_8044DA28;
-    f32 dy = lbl_805DC8C4;
-    u32 id;
-    void *emitter;
-    if (pos != 0)
-    {
-      VecCopy((Vec *)&point2, (const Vec *)pos);
-    }
-    else
-    {
-      VecCopy((Vec *)&point2, (const Vec *)(self->source + 0x38));
-    }
-    point2.y += dy;
-    emitter = spawn_particle_effect(&point2, b2->entry);
-    id = b2->flags >> 16;
-    if (emitter != 0)
-    {
-      attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, id), technique_texture_list, get_bml_motion(technique_effect_bml, 1), 0, (f32)(1.0f));
-    }
-  }
 }
 
-extern const f32 lbl_805DC8C4 = 5.0f;
+extern const f32 rabarta_top_effect_height = 5.0f;
 
-void TTecRaBarta::vfunc_9() {
+void TTecRaBarta::play_cast_sound() {
     s32 handle;
 
     switch (this->band) {
     case 0:
-        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
-        handle = this->m_ec;
+        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        handle = this->sound;
         if (handle >= 0) {
             set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
-        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
         return;
     case 2:
     case 3:
-        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
-        handle = this->m_ec;
+        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        handle = this->sound;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
-        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
-        handle = this->m_ec;
+        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        handle = this->sound;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
-        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
-        handle = this->m_ec;
+        this->sound = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
+        handle = this->sound;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x100, 0);
         }
@@ -222,16 +142,15 @@ void TTecRaBarta::vfunc_9() {
 }
 
 void TTecRaBarta::calc_parameters() {
-    RaBarta_802377FC *self = (RaBarta_802377FC *)this;
-    TechniqueParams *res = calc_technique_parameters(5, self->level, 0xFFFF);
-    ((TechniqueParams *)(&self->amount))->copy((TechniqueParams *)res);
-    if (self->level >= 0xF && TTecCtrl::is_technique_ready() == 0) {
-        self->amount = tech_high_level_linear_power_table[5].base + tech_high_level_linear_power_table[5].per_level * self->level;
+    TechniqueParams *scaled = calc_technique_parameters(5, level, 0xFFFF);
+    params.copy(scaled);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        params.power = tech_high_level_linear_power_table[5].base + tech_high_level_linear_power_table[5].per_level * level;
         return;
     }
-    self->amount = self->amount + (f32)(self->per_level * self->level);
+    params.power = params.power + (f32)(params.power_per_level * level);
     if (TTecCtrl::is_technique_ready() != 0) {
-        self->amount = self->amount * technique_scale_table[5].power;
+        params.power = params.power * technique_scale_table[5].power;
     }
 }
 
@@ -256,19 +175,6 @@ void TTecRaBarta::apply_to_target(TObjChara *target) {
     }
 }
 
-}
-
-struct Self_80237A94 {
-    u8 pad0[0x18];
-    void *vtable;
-    u8 pad1[0x7A - 0x1C];
-    s16 band;
-    u8 pad2[0xEC - 0x7C];
-    void *emitters;
-    u8 pad3[0xF4 - 0xF0];
-    void **objs;
-};
-
 void TTecRaBarta::create(void *source, void *origin, void *pos, s32 level) {
     new TTecRaBarta((saddr)source, (Vec *)origin, (Vec *)pos, level);
 }
@@ -279,35 +185,33 @@ void TTecRaBarta::create(void *source, void *origin, s32 level) {
 
 TTecRaBarta::~TTecRaBarta() {
     u32 i;
-    void *obj;
-    for (i = 0; i < rabarta_band_emitter_table[((struct Self_80237A94 *)this)->band].count; i++) {
-        obj = ((struct Self_80237A94 *)this)->objs[i];
-        if (obj != NULL) {
-            ((TObject *)obj)->queue_destruction();
+    TParticleCtrl *emitter;
+    for (i = 0; i < rabarta_band_emitter_table[band].count; i++) {
+        emitter = emitters[i];
+        if (emitter != NULL) {
+            emitter->queue_destruction();
         }
     }
-    stop_sound_request((saddr)((struct Self_80237A94 *)this)->emitters);
-    mem_free(((struct Self_80237A94 *)this)->objs);
+    stop_sound_request(sound);
+    mem_free(emitters);
 }
-
 
 void TTecRaBarta::render() {  }
 
 void TTecRaBarta::run_task() {
-    u8 *arg0 = (u8 *)this;
     if ((uaddr) this->collidable == 0U) {
-        ((TObject *)arg0)->queue_destruction();
+        queue_destruction();
         return;
     }
     this->source = (uaddr)find_entity_by_id((this->sourceId));
     if ((u32) this->source == 0U) {
-        ((TObject *)arg0)->queue_destruction();
+        queue_destruction();
         return;
     }
     this->age = this->age + 1;
     apply_technique_to_area_targets();
     if ((s32) this->age > (s16) this->params.pad_20) {
-        ((TObject *)arg0)->queue_destruction();
+        queue_destruction();
     }
 }
 
@@ -318,7 +222,7 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecC
     s32 i;
     m_name = TTecRaBarta_class_name;
     calc_parameters();
-    m_f0 = 1;
+    has_point = 1;
     VecCopy(&position, VecCopy(&target, pos));
     if (collidable != NULL) {
         collidable->bodies->radius = params.range;
@@ -327,8 +231,8 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecC
         hit_ids[i] = 0xFFFF;
     }
     hitCursor = 0;
-    vfunc_8(&position);
-    vfunc_9();
+    spawn_effects(&position);
+    play_cast_sound();
     if (this->source != 0) {
         sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
@@ -338,7 +242,7 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, Vec *pos, s32 level) : TTecC
 TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(source, origin, origin, level) {
     s32 i;
     m_name = TTecRaBarta_class_name;
-    m_f0 = 0;
+    has_point = 0;
     calc_parameters();
     if (collidable != NULL) {
         collidable->bodies->radius = params.range;
@@ -347,8 +251,8 @@ TTecRaBarta::TTecRaBarta(saddr source, Vec *origin, s32 level) : TTecCircle(sour
         hit_ids[i] = 0xFFFF;
     }
     hitCursor = 0;
-    vfunc_8(0);
-    vfunc_9();
+    spawn_effects(0);
+    play_cast_sound();
     if (this->source != 0) {
         sourceId = ((TObjBase *)this->source)->get_entity_id();
     }

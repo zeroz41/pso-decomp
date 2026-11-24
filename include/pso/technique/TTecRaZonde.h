@@ -7,7 +7,7 @@
 struct TTecRaZonde : public TTecCircle {
     TTecRaZonde(saddr source, Vec *origin, s32 level);
     virtual ~TTecRaZonde();
-    virtual void vfunc_8(void *);
+    virtual void spawn_effects(Vec *pos);
     virtual void apply_to_target(TObjChara *);
     virtual void run_task();
     u32 m_ec;

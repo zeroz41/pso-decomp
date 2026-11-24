@@ -813,6 +813,6 @@ s32 TTecCtrl::classify_distance_band(s32 technique, s32 level, u16 slot) {
     return 3;
 }
 
-void TTecCircle::vfunc_9() {  }
-void TTecCircle::vfunc_8(void *) {  }
+void TTecCircle::play_cast_sound() {  }
+void TTecCircle::spawn_effects(Vec *) {  }
 void TTecCircle::apply_to_target(TObjChara *) {  }

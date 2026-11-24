@@ -7627,13 +7627,13 @@ force_active:
   - lbl_8044A840
   - lbl_8044A84C
   - lbl_8044A858
-  - lbl_8044D920
-  - lbl_8044D944
-  - lbl_8044D968
-  - lbl_8044D98C
-  - lbl_8044D9B0
-  - lbl_8044D9D4
-  - lbl_8044DA28
+  - rabarta_band_emitters_0
+  - rabarta_band_emitters_1
+  - rabarta_band_emitters_2
+  - rabarta_band_emitters_3
+  - rabarta_band_emitters_4
+  - rabarta_band_emitters_5
+  - rabarta_top_effect
   - lbl_8044DA48
   - lbl_8044DA54
   - lbl_8044DA6C
@@ -8768,7 +8768,7 @@ force_active:
   - lbl_805DBF94
   - lbl_805DC324
   - lbl_805DC328
-  - lbl_805DC8C4
+  - rabarta_top_effect_height
   - lbl_805DCCA8
   - lbl_805DCEF0
   - lbl_805DCFAC
@@ -17675,9 +17675,9 @@ force_active:
   - check_collisions__13TObjEneBm3FlyFv
   - check_collisions__18TObjEneEpsilonBodyFv
   - check_collisions__19TObjEneEpsilonGuardFv
-  - vfunc_8__10TTecRaFoieFPv
-  - vfunc_8__11TTecRaBartaFPv
-  - vfunc_8__11TTecRaZondeFPv
+  - spawn_effects__10TTecRaFoieFP3Vec
+  - spawn_effects__11TTecRaBartaFP3Vec
+  - spawn_effects__11TTecRaZondeFP3Vec
   - vfunc_8__17TAdLicAgreementGCFv
   - close_main_menu__17TWindowMainMenu4PFv
   - vfunc_8__18TAdAgreementBaseGCFv
@@ -17714,8 +17714,8 @@ force_active:
   - play_group_chase_sound__12TObjEneBeastFv
   - play_group_chase_sound__15TObjEneDimedianFv
   - play_group_chase_sound__16TObjEneMerillLiaFv
-  - vfunc_9__10TTecRaFoieFv
-  - vfunc_9__11TTecRaBartaFv
+  - play_cast_sound__10TTecRaFoieFv
+  - play_cast_sound__11TTecRaBartaFv
   - on_target_hit__12TNeedleShootFPv
   - vfunc_9__17TAdLicAgreementGCFv
   - on_submenu_closed__17TWindowMainMenu4PFv
