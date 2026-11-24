@@ -77,7 +77,7 @@ s32 TLobby__sub_8041ED8C(TcpTcb *self, NetBufferRef *destination, u32 len, TcpCo
         self->rcv_user.kind = 0;
         set_slot_state_and_resume(idx, self->recv_done, self->fF0);
     } while (self->rcv_user.kind != 0 && self->rcv_count != 0);
-    if (self->f53C == 0) {
+    if (self->ack_now == 0) {
         self->flags &= ~1;
     }
     if (self->t_state != -1 && self->t_state != 0) {

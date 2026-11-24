@@ -45,7 +45,7 @@ s16 TLobby__sub_8041ECA4(TcpTcb *tcb);
 void TLobby__sub_8041A3CC(void);
 void TLobby__sub_8041A5B4(void);
 s32 TLobby__sub_8041A6A4(TcpTcb *tcb, s16 timer);
-s16 TLobby__sub_8041B3D4(NetworkAddress *a, NetworkAddress *b, u16 c, u16 d, s32 e, s32 f, u8 g_m);
+s16 TLobby__sub_8041B3D4(NetworkAddress *dst, NetworkAddress *src_addr, u16 sport, u16 dport, s32 seq, s32 ack, u8 flags);
 void TLobby__sub_8041E8A8(s16 idx);
 void TLobby__sub_8041D584(TcpTcb *tcb, TcpHdr *th, TcpSeqRange *blocks, s16 n);
 s32 NetTCPInit(void);
@@ -94,7 +94,7 @@ s32 NetTCPInit(void) {
     tcp_protocol_state.rexmtthresh = 3;
     tcp_protocol_state.sack_flags = 0;
     tcp_protocol_state.sack_flags |= 1;
-    tcp_protocol_state.fA2 = 2;
+    tcp_protocol_state.initial_window = 2;
     tcp_protocol_state.outflags[0] = 0x14;
     tcp_protocol_state.outflags[1] = 0;
     tcp_protocol_state.outflags[2] = 2;
@@ -348,7 +348,7 @@ s16 AT_TCP_Rawsend(TcpTcb *tp)
     }
     idle = (u32)__cntlzw(tp->snd_una - tp->snd_max) >> 5;
     if (tp->snd_max == tp->snd_una && tp->idle >= tp->rxtcur) {
-        switch (tp->f540) {
+        switch (tp->initial_window) {
         case 1:
             tp->snd_cwnd = b;
             break;
@@ -637,7 +637,7 @@ send:
             tp->snd_max = tp->snd_nxt + len;
         }
         {
-            s16 rc = dispatch_by_addr_family(m, &tp->remote, &tp->local, tp->f2D6, tp->f2DC, 6);
+            s16 rc = dispatch_by_addr_family(m, &tp->remote, &tp->local, tp->ip4_opts, tp->ip6_opts, 6);
             release_entry(m);
             if (rc < 0) {
                 return rc;
@@ -658,29 +658,9 @@ send:
     return 0;
 }
 #pragma pop
-s16 TLobby__sub_8041B3D4(NetworkAddress *a, NetworkAddress *b, u16 c, u16 d, s32 e, s32 f, u8 g_m) {
-    struct {
-        s16 s0;
-        s16 s1;
-        u32 w0;
-        u32 w1;
-        u8 b0;
-        u8 b1;
-        s16 h0;
-        s16 h1;
-        s16 h2;
-    } src;
-    struct {
-        s16 s0;
-        s16 s1;
-        u32 w0;
-        u32 w1;
-        u8 b0;
-        u8 b1;
-        s16 h0;
-        s16 h1;
-        s16 h2;
-    } hdr;
+s16 TLobby__sub_8041B3D4(NetworkAddress *dst, NetworkAddress *src_addr, u16 sport, u16 dport, s32 seq, s32 ack, u8 flags) {
+    TcpHdr src;
+    TcpHdr hdr;
     void *p1;
     void *p2;
     void *p3;
@@ -694,26 +674,26 @@ s16 TLobby__sub_8041B3D4(NetworkAddress *a, NetworkAddress *b, u16 c, u16 d, s32
     u8 buf[0x10];
 
     NetMemset(buf, 0, 0x10);
-    if (!TLobby__sub_8040DA54(a, b)) {
+    if (!TLobby__sub_8040DA54(dst, src_addr)) {
         return -1;
     }
-    src.s0 = c;
-    src.s1 = d;
-    p1 = &src.s1;
-    p2 = &src.w0;
-    src.w0 = e;
-    p3 = &src.w1;
-    p4 = &src.b0;
-    src.w1 = f;
-    p5 = &src.b1;
-    p8 = &src.h2;
-    src.b0 = 0x50;
-    p7 = &src.h1;
-    p6 = &src.h0;
-    src.b1 = g_m;
-    src.h2 = 0;
-    src.h1 = 0;
-    src.h0 = 0;
+    src.sport = sport;
+    src.dport = dport;
+    p1 = &src.dport;
+    p2 = &src.seq;
+    src.seq = seq;
+    p3 = &src.ack;
+    p4 = &src.off;
+    src.ack = ack;
+    p5 = &src.flags;
+    p8 = &src.urp;
+    src.off = 0x50;
+    p7 = &src.sum;
+    p6 = &src.win;
+    src.flags = flags;
+    src.urp = 0;
+    src.sum = 0;
+    src.win = 0;
     pkt = alloc_free_entry();
     if (pkt == NULL) {
         return -0x101;
@@ -721,20 +701,20 @@ s16 TLobby__sub_8041B3D4(NetworkAddress *a, NetworkAddress *b, u16 c, u16 d, s32
     pkt->fragment_count = 1;
     pkt->total_bytes = 0x14;
     pkt->fragments[0].length = 0x14;
-    NetMemcpy(&hdr.s0, &src.s0, 2);
-    NetMemcpy(&hdr.s1, p1, 2);
-    NetMemcpy(&hdr.w0, p2, 4);
-    NetMemcpy(&hdr.w1, p3, 4);
-    NetMemcpy(&hdr.b0, p4, 1);
-    NetMemcpy(&hdr.b1, p5, 1);
-    NetMemcpy(&hdr.h0, p6, 2);
-    ph = &hdr.h1;
+    NetMemcpy(&hdr.sport, &src.sport, 2);
+    NetMemcpy(&hdr.dport, p1, 2);
+    NetMemcpy(&hdr.seq, p2, 4);
+    NetMemcpy(&hdr.ack, p3, 4);
+    NetMemcpy(&hdr.off, p4, 1);
+    NetMemcpy(&hdr.flags, p5, 1);
+    NetMemcpy(&hdr.win, p6, 2);
+    ph = &hdr.sum;
     NetMemcpy(ph, p7, 2);
-    NetMemcpy(&hdr.h2, p8, 2);
+    NetMemcpy(&hdr.urp, p8, 2);
     set_value_and_enable(&pkt->fragments[0].buffer, (saddr)&hdr);
-    src.h1 = ((s16)TLobby__sub_8040D8F0(b, a, (s8)(6), pkt, (s16)(1)));
-    NetMemcpy(ph, &src.h1, 2);
-    if (dispatch_by_addr_family(pkt, a, b, buf + 4, buf + 4, 6) < 0) {
+    src.sum = ((s16)TLobby__sub_8040D8F0(src_addr, dst, (s8)(6), pkt, (s16)(1)));
+    NetMemcpy(ph, &src.sum, 2);
+    if (dispatch_by_addr_family(pkt, dst, src_addr, buf + 4, buf + 4, 6) < 0) {
         release_entry(pkt);
         return -1;
     }
@@ -798,7 +778,7 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, NetworkAddress *a,
     s16 idx;
     u8 *sp;
 
-    if (self->f2C4 <= self->pending) return NULL;
+    if (self->backlog <= self->pending) return NULL;
     idx = TLobby__sub_8041E780();
     if (idx < 0) return NULL;
 
@@ -819,8 +799,8 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, NetworkAddress *a,
         NetMemcpy(&dst->remote, &self->remote, sizeof(dst->remote));
     }
     NetMemcpy(&dst->local, b, sizeof(dst->local));
-    NetMemcpy(dst->f2D6, self->f2D6, 3);
-    NetMemcpy(dst->f2DC, self->f2DC, 12);
+    NetMemcpy(dst->ip4_opts, self->ip4_opts, 3);
+    NetMemcpy(dst->ip6_opts, self->ip6_opts, 12);
 
     n = AT_IP_GetMssFromDstSrc(&dst->remote, &dst->local);
     w = dst->maxseg;
@@ -846,8 +826,8 @@ extern TcpTcb *TLobby__sub_8041B774(TcpTcb *self, TcpHdr *th, NetworkAddress *a,
     dst->listener = (s16)(self - tcp_protocol_state.tcbs);
     self->pending += 1;
     dst->sack_flags = self->sack_flags;
-    dst->f53C = self->f53C;
-    dst->f540 = self->f540;
+    dst->ack_now = self->ack_now;
+    dst->initial_window = self->initial_window;
     dst->flags = self->flags;
     dst->maxseg = self->maxseg;
     return dst;
@@ -1038,7 +1018,7 @@ retry:
         ent_new->flags |= 1;
         ent_new->t_state = 3;
         ent_new->timers[2] = 0x96;
-        switch (ent_new->f540) {
+        switch (ent_new->initial_window) {
         case 1:
             ent_new->snd_cwnd = ent_new->maxseg;
             break;
@@ -1100,7 +1080,7 @@ retry:
             NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 1);
             found->t_state = 4;
             found->maxseg = TLobby__sub_8041B724(found);
-            switch (found->f540) {
+            switch (found->initial_window) {
             case 1:
                 found->snd_cwnd = found->maxseg;
                 break;
@@ -1231,7 +1211,7 @@ retry:
         NetDispatchSocketEvent(TCP_IDX(found), found->event_ctx, 3, 1);
         found->t_state = 4;
         found->maxseg = TLobby__sub_8041B724(found);
-        switch (found->f540) {
+        switch (found->initial_window) {
         case 1:
             found->snd_cwnd = found->maxseg;
             break;
@@ -1485,7 +1465,7 @@ step6:
             if (!(found->fA & 0x04)) {
                 TLobby__sub_8041F204(pkt, off, found);
             }
-            if (found->f53C == 0) {
+            if (found->ack_now == 0) {
                 if (found->ack_delay == 0) {
                     found->ack_delay = (s16)(tcp_protocol_state.ack_ticks / 100);
                 }
@@ -2061,9 +2041,9 @@ s32 TLobby__sub_8041DE1C(s16 i, s16 opt, u32 *val) {
         break;
     case 0x2001:
         if (*val != 0) {
-            tcb->f53C = 1;
+            tcb->ack_now = 1;
         } else {
-            tcb->f53C = 0;
+            tcb->ack_now = 0;
         }
         break;
     case 0x2002:
@@ -2077,7 +2057,7 @@ s32 TLobby__sub_8041DE1C(s16 i, s16 opt, u32 *val) {
         if (*val > 3) {
             return -2;
         }
-        tcb->f540 = *val;
+        tcb->initial_window = *val;
         break;
     case 0x2008:
         if (*val != 0) {
@@ -2204,8 +2184,8 @@ extern void TLobby__sub_8041E2EC(s16 idx, void *a, void *b) {
 
     e = tcp_protocol_state.tcbs;
     e += idx;
-    NetMemcpy(e->f2D6, a, sizeof(e->f2D6));
-    NetMemcpy(e->f2DC, b, sizeof(e->f2DC));
+    NetMemcpy(e->ip4_opts, a, sizeof(e->ip4_opts));
+    NetMemcpy(e->ip6_opts, b, sizeof(e->ip6_opts));
 }
 
 u16 TLobby__sub_8041EA14(void);
@@ -2434,8 +2414,8 @@ void TLobby__sub_8041E8A8(s16 idx) {
     t->snd_ssthresh = 0xFFFF;
     t->listener = -1;
     clear_position((t));
-    NetMemset(t->f2D6, 0, sizeof(t->f2D6));
-    NetMemset(t->f2DC, 0, sizeof(t->f2DC));
+    NetMemset(t->ip4_opts, 0, sizeof(t->ip4_opts));
+    NetMemset(t->ip6_opts, 0, sizeof(t->ip6_opts));
     t->sack_flags = tcp_protocol_state.sack_flags;
     p = t->sack;
     for (i = 0; i < 5; i++, p++) {
@@ -2446,9 +2426,9 @@ void TLobby__sub_8041E8A8(s16 idx) {
     t->snd_bufsize = tcp_protocol_state.snd_bufsize;
     t->rcv_bufsize = tcp_protocol_state.rcv_bufsize;
     t->event_ctx = 0;
-    t->f53C = tcp_protocol_state.f26;
+    t->ack_now = tcp_protocol_state.ack_now;
     t->ack_delay = 0;
-    t->f540 = tcp_protocol_state.fA2;
+    t->initial_window = tcp_protocol_state.initial_window;
 }
 #pragma pop
 

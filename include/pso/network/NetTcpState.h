@@ -125,15 +125,15 @@ struct TcpTcb {
     /* [0] tcp_receive, [2] tcp_send, [3] TLobby__sub_80422AB8. [1] counts the queued send requests still outstanding;
        complete_request_callback stores a queued request's status in [1] but marks [2] done. */
     TcpWait waits[4];
-    s16 f2C4;
+    s16 backlog; /* no more connections are accepted while pending is at it */
     s16 pending;
     TcpAcceptCallback accept_cb; /* callback of the waits[3] operation */
     NetSocketEventCallback accept_ctx; /* handed to the accepted TCB's event_ctx */
     NetSocketEventCallback event_ctx; /* passed to NetDispatchSocketEvent */
     s16 keepidle; /* keepalive time set by option 8; 0 uses tcp_protocol_state.keepidle */
-    u8 f2D6[3];
+    u8 ip4_opts[3]; /* dispatch_by_addr_family's IPv4 options (ttl, tos, df) */
     u8 pad2D9[3];
-    u8 f2DC[0xC];
+    u8 ip6_opts[0xC]; /* dispatch_by_addr_family's IPv6 send options */
     u8 sack_flags; /* 1 SACK enabled (option 0x2002), 2 the peer sent SACK-permitted */
     u8 pad2E9[3];
     s32 rexmit_bytes; /* bytes resent from the scoreboard: TLobby__sub_8041D398 adds each resent range, ACKs take them off */
@@ -150,8 +150,8 @@ struct TcpTcb {
     u32 rcv_bufsize; /* option 0x1002 (SO_RCVBUF) */
     s16 ack_delay;
     u8 pad53A[2];
-    u32 f53C;
-    s32 f540;
+    u32 ack_now; /* option 0x2001: ACK every data segment at once instead of delaying it */
+    s32 initial_window; /* option 0x2004: congestion window after idle, 1 or 2 segments, 3 the RFC 3390 size */
 };
 LAYOUT_ASSERT(TcpTcb_size_check, sizeof(TcpTcb) == 0x544);
 /* Offset of the byte holding f204_b7 and f204_b6 (offsetof cannot take a bit-field). */
@@ -175,7 +175,7 @@ typedef struct TcpState {
     s16 keepintvl;
     s16 keepidle;
     s16 maxidle;
-    s16 f26;
+    s16 ack_now; /* new TCBs' TcpTcb.ack_now */
     u8 opts[0x28]; /* TCP options of the segment being built */
     u8 sack_flags; /* new TCBs' TcpTcb.sack_flags */
     u8 outflags[0xB]; /* header flags to send in each t_state (BSD tcp_outflags) */
@@ -184,7 +184,7 @@ typedef struct TcpState {
     TcpSeqRange sack_opt[4]; /* SACK blocks parsed from the last segment's options */
     u8 pad98[8];
     s16 ack_ticks;
-    u8 fA2;
+    u8 initial_window; /* new TCBs' TcpTcb.initial_window */
     u8 padA3[5];
 } TcpState;
 LAYOUT_ASSERT(TcpState_size_check, sizeof(TcpState) == 0xA8);
