@@ -115,7 +115,6 @@ int submit_cursor_candidate(void*, int);
 }
 
 
-#include "pso/unk/text_800BC4C8.h"
 
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

@@ -8,7 +8,6 @@
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/text_800BC4C8.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol.h"

@@ -15,7 +15,6 @@
 
 #include "pso/boss/derolle/TBoss2PhotonBullet_80038DCC.h"
 
-#include "pso/unk/text_800BC4C8.h"
 
 #include "pso/system/vector.h"
 
