@@ -137,10 +137,10 @@ void TObjPlayer::bswap_body_dwords2() {
     bswap_32((u32 *)(arg0 + 4));
     bswap_32((u32 *)(arg0 + 8));
 }
-void *TObjPlayer::copy_pair_fields2(void *arg1) {
-    copy_subcommand_header(this, arg1);
-    *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
-    *(s32 *)((s8 *)this + 8) = (s32) *(s32 *)((s8 *)arg1 + 8);
+void *TObjPlayer::copy_pair_fields2(void *src) {
+    copy_subcommand_header(this, src);
+    *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)src + 4);
+    *(s32 *)((s8 *)this + 8) = (s32) *(s32 *)((s8 *)src + 8);
     return this;
 }
 
@@ -158,9 +158,9 @@ void TObjPlayer::bswap_cmd_u32() {
     ((G_ClientIDHeader *)this)->bswap();
     bswap_32((u32 *)(arg0 + 4));
 }
-void *TObjPlayer::copy_field_4(void *arg1) {
-    copy_subcommand_header(this, arg1);
-    *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)arg1 + 4);
+void *TObjPlayer::copy_field_4(void *src) {
+    copy_subcommand_header(this, src);
+    *(s32 *)((s8 *)this + 4) = (s32) *(s32 *)((s8 *)src + 4);
     return this;
 }
 }

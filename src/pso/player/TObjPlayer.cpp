@@ -469,9 +469,9 @@ void MaterialUsage::add_item_count_kind4(s32 class_index, u8 amount) {
     try_add_item_count(class_index, 4, amount);
 }
 
-void TObjPlayer::set_shared_count(int a0) { lbl_805D5D70 = a0; }
+void TObjPlayer::set_shared_count(int count) { lbl_805D5D70 = count; }
 
-void TObjPlayer::set_shared_flag(int a0) { shared_flag = a0; }
+void TObjPlayer::set_shared_flag(int flag) { shared_flag = flag; }
 
 #pragma defer_codegen off
 #pragma push

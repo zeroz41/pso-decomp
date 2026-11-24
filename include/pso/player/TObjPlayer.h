@@ -335,13 +335,13 @@ struct TObjPlayer : public TObjChara {
     static void*get_pmt_record_by_index(int i);
     s32 is_action_available();
     static s32 is_any_teammate_in_state();
-    static void set_shared_flag(int a0);
-    static void set_shared_count(int a0);
+    static void set_shared_flag(int flag);
+    static void set_shared_count(int count);
     void set_position(f32 a, f32 b, f32 c);
-    void set_meseta(s32 arg1);
+    void set_meseta(s32 meseta);
     void bswap_status_effect_data();
     void *copy_6x0d_status_effect_packet(void *command);
-    void copy_player_record_header(u8 *arg1);
+    void copy_player_record_header(u8 *src);
     void check_hit_by_id_431_from_packet();
     int emit_grass_footstep_particle(int position);
     void emit_photon_blast_feedback_from_packet();
@@ -1222,7 +1222,7 @@ struct TObjPlayer : public TObjChara {
     void send_respawn_position();
     void init_battle(void *data);
     void reset_area_entry_state();
-    u8 *copy_hold_params(u8 *arg1);
+    u8 *copy_hold_params(u8 *src);
     void init_cmd_6x24();
     void send_lobby_update();
     void bswap_status_effect();
@@ -1246,10 +1246,10 @@ struct TObjPlayer : public TObjChara {
     void send_swapped_packet_6x30();
     void build_6x30_change_level_packet();
     void bswap_body_dwords2();
-    void *copy_pair_fields2(void *arg1);
+    void *copy_pair_fields2(void *src);
     void bswap_and_send_body_dwords2();
     void bswap_cmd_u32();
-    void *copy_field_4(void *arg1);
+    void *copy_field_4(void *src);
     void send_use_item_cmd();
     void bswap_cmd_item_data();
     void*copy(void* source);
@@ -1348,7 +1348,7 @@ struct TObjPlayer : public TObjChara {
     void set_flag_20000();
     void clear_flag_2000000();
     int check_flag_02000000();
-    void set_position_history_entry(s32 arg1, f32 farg0, f32 farg1);
+    void set_position_history_entry(s32 index, f32 x, f32 z);
     void set_action_flag_2();
     int check_flag_48();
     int is_status_locked();
@@ -1443,7 +1443,7 @@ struct TObjPlayer : public TObjChara {
     void release_motion();
     void reset_body_parts();
     void set_regen_timer(s32 v);
-    void* get_position_history_entry(int a1, void* a2, void* a3);
+    void* get_position_history_entry(int index, void* x, void* z);
     s32 get_state_flags();
     static int default_action_provider_variant();
     void lobby_chair_phase8_nop();

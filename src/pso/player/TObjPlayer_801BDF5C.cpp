@@ -277,7 +277,7 @@ u8 TObjPlayer__sub_801BE8F4(O_801BE8F4 *self, s32 i, u32 mask) {
     return (self->entries[i].flags & mask) != 0;
 }
 
-void* TObjPlayer::get_position_history_entry(int a1, void* a2, void* a3) { *(float*)((char*)a2 + 0x0) = *(float*)((char*)this + a1 * 8 + 0x6b0); *(float*)((char*)a3 + 0x0) = *(float*)((char*)this + a1 * 8 + 0x6b4); return (char*)this + a1 * 8; }
+void* TObjPlayer::get_position_history_entry(int index, void* x, void* z) { *(float*)x = *(float*)((char*)this + index * 8 + 0x6b0); *(float*)z = *(float*)((char*)this + index * 8 + 0x6b4); return (char*)this + index * 8; }
 s32 TObjPlayer::clamp_index_to_max(s32 level) {
     s32 max_level;
 
@@ -305,12 +305,10 @@ int TObjPlayer::check_flag_02000000() {
     return check_flag(0x02000000);
 }
 
-void TObjPlayer::set_position_history_entry(s32 arg1, f32 farg0, f32 farg1) {
-    saddr arg0 = (saddr)this;
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(arg0 + (arg1 * 8));
-    *(f32 *)((s8 *)temp_r3 + 0x6B0) = farg0;
-    *(f32 *)((s8 *)temp_r3 + 0x6B4) = farg1;
+void TObjPlayer::set_position_history_entry(s32 index, f32 x, f32 z) {
+    u8 *entry = (u8 *)this + index * 8;
+    *(f32 *)(entry + 0x6B0) = x;
+    *(f32 *)(entry + 0x6B4) = z;
 }
 
 }
