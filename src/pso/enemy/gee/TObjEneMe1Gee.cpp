@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "pso/system/task/TMainTask.h"
@@ -561,7 +562,7 @@ s32 TObjEneMe1Gee::handle_message(s32 id) {
 }
 
 void TObjEneMe1Gee::play_high_appear_sound() {
-    play_persistent_sound(this->handle_message(0x3BC16), (saddr)this, (uaddr)&this->body_center, 0, 0);
+    play_persistent_sound(this->handle_message(0x3BC16), this, &this->body_center, 0, 0);
 }
 
 s32 TObjEneMe1Gee::acquire_target(f32 range) { return this->select_and_apply_target(range); }
@@ -1152,7 +1153,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
                 }
                 play_sound_effect(this->handle_message(0x3AD17), &this->body_center, 0, 0);
             } else {
-                play_persistent_sound((s32)(this->handle_message(0x3A914)), (saddr)this, (uaddr)&this->body_center, 0, 0);
+                play_persistent_sound((s32)(this->handle_message(0x3A914)), this, &this->body_center, 0, 0);
             }
             break;
         }

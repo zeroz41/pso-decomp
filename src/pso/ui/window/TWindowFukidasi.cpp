@@ -1,3 +1,6 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/system/memory.h"
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjChara.h"
 #include "pso/unk/text_803D96A8.h"
@@ -31,7 +34,6 @@
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet_80247EFC.h"
 #include <stdlib.h>
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/system/SoundEffect.h"
 #define PSO_SDK_COMPACT_MATH
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixVector.h"

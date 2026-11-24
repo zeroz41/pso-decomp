@@ -311,18 +311,18 @@ void TTecResta::play_launch_sound() {
     switch (self->band) {
     case 0:
     case 1:
-        h = play_sound_effect(0x4002AB0E, self->pos, 0, 0);
+        h = play_sound_effect(0x4002AB0E, &position, 0, 0);
         if (h >= 0) {
             set_sound_pitch_request(h, 0x100, 0);
         }
         break;
     case 2:
     case 3:
-        play_sound_effect(0x4002AB0E, self->pos, 0, 0);
+        play_sound_effect(0x4002AB0E, &position, 0, 0);
         break;
     case 4:
     case 5:
-        h = play_sound_effect(0x4002AB0E, self->pos, 0, 0);
+        h = play_sound_effect(0x4002AB0E, &position, 0, 0);
         if (h >= 0) {
             set_sound_pitch_request(h, -0x100, 0);
         }

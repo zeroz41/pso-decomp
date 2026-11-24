@@ -2,6 +2,7 @@
 #define PSO_UNK_TLOBBY_80227A2C_H
 
 #include "types.h"
+#include "pso/system/PersistentSound.h"
 #include "pso/unk/TLobby_800FD78C.h"
 
 extern "C" {
@@ -20,7 +21,6 @@ extern "C" {
 void get_menu_field_280__6TLobbyFv(void);
 int get_music_base_gain(void);
 }
-void handle_6xB2_play_sound_from_player(void *command);
 extern "C" {
 void is_sound_enabled(void);
 }
@@ -28,7 +28,6 @@ s32 is_special_sound_id(u32 x);
 extern "C" {
 void load_floor_sound_bank(s32 arg0);
 }
-s32 normalize_sound_request(u32 id, s32 arg1, saddr arg2, s32 arg3, s32 arg4);
 s32 play_packed_sound_once(u32 id, saddr arg1, s32 arg2, s32 arg3);
 void release_sound_with_fade(s32 slot);
 extern "C" {

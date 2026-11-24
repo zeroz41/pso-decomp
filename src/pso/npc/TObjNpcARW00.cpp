@@ -49,6 +49,6 @@ TObjNpcARW00::TObjNpcARW00(TObject *parent, void *arg2) : TUnk_804A8640(parent) 
 
 void TObjNpcARW00::play_voice() {
     saddr arg0 = (saddr)this;
-    play_sound_effect(0x40004C15, (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x40004C15, reinterpret_cast<const Vec *>(arg0 + 0x38), 0, 0);
 }
 

@@ -510,11 +510,6 @@ typedef struct Range_8023FBBC {
     s32 end;
 } Range_8023FBBC;
 
-typedef struct Owner_8023FBBC {
-    u8 pad[0x288];
-    s32 kind;
-} Owner_8023FBBC;
-
 SoundRequestVoice lbl_805162EC[0x28];
 u8 lbl_80517BEC[0x258];   // contents of SOUND.BIN (read by init_sound_aux_effects)
 void *lbl_80517E44[0x27];  // MusyX sdir buffers per sound bank (inferred)
@@ -538,7 +533,7 @@ void TLobby__sub_8023F754(s32 arg0, s32 arg1) {
 
 void set_sound_slot_special_scale(s32 slot, f32 scale) {
     if (slot < 0 || slot >= 32) return;
-    ((TLobby *)(&lbl_805162EC[slot]))->clamp_field9c(scale);
+    lbl_805162EC[slot].clamp_reverb(scale);
 }
 
 f32 TLobby::get_field_2a4() { return *(f32*)((char*)this + 0x2a4); }
@@ -598,18 +593,18 @@ void set_sound_slot_pitch(s32 slot, s32 pitch, s32 duration) {
     if (slot < 0 || slot >= 0x20) {
         return;
     }
-    set_voice_pitch_slide((u8 *)&lbl_805162EC[slot], (s32)((u32)pitch << 13) / 3072, duration);
+    set_voice_pitch_slide(&lbl_805162EC[slot], (s32)((u32)pitch << 13) / 3072, duration);
 }
 #pragma push
 #pragma opt_common_subs on
 #pragma opt_propagation on
 #pragma opt_dead_assignments on
-s32 alloc_looping_sound_slot(u32 id, saddr actor, const void *position, s32 base, s32 flags) {
+s32 alloc_looping_sound_slot(u32 id, const void *actor, const Vec *position, s32 base, s32 flags) {
     s32 i;
     for (i = 0; i < 32; i++) {
         if ((lbl_805162EC[i].state == -1 || lbl_805162EC[i].state == 1) &&
             lbl_805162EC[i].kind == 0 && (s32)(id >> 16) == lbl_805162EC[i].bank &&
-            (s32)(id & 0xFFFF) == lbl_805162EC[i].index && actor == (saddr)lbl_805162EC[i].actor &&
+            (s32)(id & 0xFFFF) == lbl_805162EC[i].index && reinterpret_cast<saddr>(actor) == reinterpret_cast<saddr>(lbl_805162EC[i].actor) &&
             (lbl_805162EC[i].flags & 1)) {
             TLobby__sub_802409E4(&lbl_805162EC[i]);
             lbl_805162EC[i].position = position;
@@ -629,12 +624,12 @@ found:
     lbl_805162EC[i].extra = 0;
     lbl_805162EC[i].spatial = 0;
     lbl_805162EC[i].position = position;
-    lbl_805162EC[i].actor = (void *)actor;
+    lbl_805162EC[i].actor = actor;
     lbl_805162EC[i].refresh = 5;
     return i;
 }
 
-s32 alloc_one_shot_sound_slot(u32 id, const void *position, s32 base, s32 flags) {
+s32 alloc_one_shot_sound_slot(u32 id, const Vec *position, s32 base, s32 flags) {
     s32 i;
     for (i = 0; i < 32; i++) {
         if ((lbl_805162EC[i].state == -1 || lbl_805162EC[i].state == 1) &&
@@ -668,7 +663,7 @@ found:
 #pragma opt_propagation off
 #pragma opt_dead_assignments off
 extern "C" {
-s32 resolve_sound_effect_bank(Owner_8023FBBC *owner, s32 kind, s32 bank, s32 index) {
+s32 resolve_sound_effect_bank(SoundControlState *owner, s32 kind, s32 bank, s32 index) {
     u8 *t = (u8 *)&sound_bank_file_sizes;
     s32 result = -1;
     Range_8023FBBC *r = NULL;
@@ -682,18 +677,18 @@ s32 resolve_sound_effect_bank(Owner_8023FBBC *owner, s32 kind, s32 bank, s32 ind
             { s32 off = bank * 4; u8 *a = t + 0x728; r = *(Range_8023FBBC **)(a + off); }
             break;
         case 3:
-            if (owner->kind >= 0 && owner->kind < 22) {
-                { s32 off = owner->kind * 4; u8 *a = t + 0x744; r = *(Range_8023FBBC **)(a + off); }
+            if (owner->group_state >= 0 && owner->group_state < 22) {
+                { s32 off = owner->group_state * 4; u8 *a = t + 0x744; r = *(Range_8023FBBC **)(a + off); }
             }
             break;
         case 4:
-            if (owner->kind >= 0 && owner->kind < 22) {
-                { s32 off = owner->kind * 4; u8 *a = t + 0x79C; r = *(Range_8023FBBC **)(a + off); }
+            if (owner->group_state >= 0 && owner->group_state < 22) {
+                { s32 off = owner->group_state * 4; u8 *a = t + 0x79C; r = *(Range_8023FBBC **)(a + off); }
             }
             break;
         case 6:
-            if (owner->kind >= 0 && owner->kind < 22) {
-                { s32 off = owner->kind * 4; u8 *a = t + 0x7F4; r = *(Range_8023FBBC **)(a + off); }
+            if (owner->group_state >= 0 && owner->group_state < 22) {
+                { s32 off = owner->group_state * 4; u8 *a = t + 0x7F4; r = *(Range_8023FBBC **)(a + off); }
             }
             break;
         }
@@ -932,11 +927,11 @@ s32 init_sound_aux_effects(SoundControlState *self) {
     u32 size;
 
     for (i = 0; i < 40; i++) {
-        ((TLobby *)(&lbl_805162EC[i]))->set_field0(self);
+        lbl_805162EC[i].set_field0(self);
     }
     self->tick = OSGetTick();
     self->elapsed = 0;
-    self->f280 = 0;
+    self->voice_volume_adjustment = 0;
     self->route_pos = -1;
     self->route = NULL;
     self->group_state = -1;

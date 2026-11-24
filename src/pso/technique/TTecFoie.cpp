@@ -18,37 +18,34 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 
-struct Tec_8022FB70 { u8 pad[0x20]; f32 pos[3]; u8 pad2c[0xC6 - 0x2C]; s16 band; };
-
 extern "C" {
 void TTecFoie::play_foie_cast_sound() {
-    Tec_8022FB70 *self = (Tec_8022FB70 *)this;
     s32 h;
-    switch (self->band) {
+    switch (band) {
     case 0:
-        h = play_sound_effect(0x4002A600, self->pos, 0, 0);
+        h = play_sound_effect(0x4002A600, &position, 0, 0);
         if (h >= 0) {
             set_sound_pitch_request(h, 0x100, 0);
         }
         break;
     case 1:
     case 2:
-        play_sound_effect(0x4002A600, self->pos, 0, 0);
+        play_sound_effect(0x4002A600, &position, 0, 0);
         break;
     case 3:
-        h = play_sound_effect(0x4002A600, self->pos, 0, 0);
+        h = play_sound_effect(0x4002A600, &position, 0, 0);
         if (h >= 0) {
             set_sound_pitch_request(h, -0x180, 0);
         }
         break;
     case 4:
-        h = play_sound_effect(0x4002A600, self->pos, 0, 0);
+        h = play_sound_effect(0x4002A600, &position, 0, 0);
         if (h >= 0) {
             set_sound_pitch_request(h, -0x250, 0);
         }
         break;
     case 5:
-        h = play_sound_effect(0x4002A600, self->pos, 0, 0);
+        h = play_sound_effect(0x4002A600, &position, 0, 0);
         if (h >= 0) {
             set_sound_pitch_request(h, -0x100, 0);
         }
@@ -220,7 +217,7 @@ void TTecFoie::vfunc_8(void *target_arg) {
     d.kind = 1;
     d.amount = this->power;
     target->receive(((Tec_80230004 *)this)->owner, d, ((Tec_80230004 *)this)->f8, 0, -1);
-    play_sound_effect(0x4002A828, target->pos, 0, 0);
+    play_sound_effect(0x4002A828, reinterpret_cast<const Vec *>(target->pos), 0, 0);
     queue_destruction();
 }
 

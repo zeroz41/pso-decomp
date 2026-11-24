@@ -1,3 +1,5 @@
+#include "pso/system/TLanguage_801E4874.h"
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -229,7 +231,7 @@ void TODoorJungleMain::run_task() {
             flag = 0;
             *(f32 *)&this->animation_end_frame = (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1);
         } else {
-            play_persistent_sound(0x43220, (saddr)arg0, (uaddr)&this->position, 0, 0);
+            play_persistent_sound(0x43220, arg0, &this->position, 0, 0);
         }
         if (flag != 0) {
             if (++*(s32 *)&this->m_d8 % 30 == 0) {
@@ -268,7 +270,7 @@ void TODoorJungleMain::update_door_switch_state() {
             }
         }
         if (self->count > 0 && self->count != prev) {
-            play_sound_effect(0x4C123, self->xf, 0, 0);
+            play_sound_effect(0x4C123, reinterpret_cast<const Vec *>(self->xf), 0, 0);
         }
         if (self->count == 3 && is_any_player_near((saddr)self) != 0) {
             self->flags |= 1;

@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
@@ -214,20 +215,20 @@ void TOTrapAncient01::vfunc_81() {
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_persistent_sound(0x4321A, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4321A, this, &position, 0, 0);
             break;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_persistent_sound(0x4004B211, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4004B211, this, &position, 0, 0);
             break;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_persistent_sound(0x4004B217, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4004B217, this, &position, 0, 0);
             break;
         case AREA_VR_SPACESHIP_ALPHA:
         case AREA_VR_SPACESHIP_BETA:
-            play_persistent_sound(0x4004B212, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4004B212, this, &position, 0, 0);
             break;
         }
     } else {
@@ -295,11 +296,11 @@ void TOTrapAncient01::vfunc_82() {
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        play_persistent_sound(0x4004C618, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4004C618, this, &position, 0, 0);
         break;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_persistent_sound(0x4004C610, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4004C610, this, &position, 0, 0);
         break;
     case AREA_PIONEER2_EP1:
         return;

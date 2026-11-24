@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
@@ -24,7 +25,6 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/system/SoundEffect.h"
 
 struct HitInfo_8023154C { s32 type; f32 power; };
 

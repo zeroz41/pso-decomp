@@ -1,5 +1,7 @@
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/unk/text_8023601C.h"
 #include "pso/unk/TLobby_800FD78C.h"
@@ -32,7 +34,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/system/SoundEffect.h"
 #include "pso/ui/window/WindowLayout.h"
 
 
@@ -95,7 +96,6 @@ void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 s32 is_split_screen(void);
 void *create_window_menu_default(const void *p, s32 a);
 f32 horizontal_distance_squared(void *, void *);
-s32 play_persistent_sound(int, void *, void *, int, int);
 s32 TTecLuker__sub_8023401C(void *);
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
 s32 init_fields__9TTecLukerFs(void *, int);
@@ -391,7 +391,7 @@ void TObjLuker::run_task() {
                 *(void * *)&this->m_a4 = new TUnk_804CCA0C(&this->position, this->m_a8, tl_07);
                 *(s32 *)&this->m_b4 = 0;
             }
-            play_persistent_sound(0x4002B219, arg0, (u8 *)&this->position, 0, 0);
+            play_persistent_sound(0x4002B219, arg0, reinterpret_cast<const Vec *>(&this->position), 0, 0);
             switch (this->m_b0) {
             case 0:
                 sp8 = 0;

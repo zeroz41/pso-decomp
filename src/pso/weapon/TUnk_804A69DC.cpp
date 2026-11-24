@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/GinjaMaterial.h"
@@ -20,7 +21,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80226070.h"
-#include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixStack.h"
 
 void TUnk_804A69C0::render() {

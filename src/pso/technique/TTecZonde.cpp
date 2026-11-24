@@ -99,11 +99,11 @@ void TTecZonde::vfunc_8(void *arg1_arg) {
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/TUnk_804CCD78.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/math/MatrixVector.h"
 
 struct Seg_8023C79C { f32 a[3]; f32 b[3]; f32 len; };
-struct Tgt_8023C79C { u8 pad[0x38]; f32 x, y, z; };
 struct Zonde_8023C79C {
     u8 pad0[0x18];
     void *vt;
@@ -137,7 +137,7 @@ void TTecZonde::run_task() {
     s32 j;
     s32 k;
     s32 l;
-    Tgt_8023C79C *t;
+    TObjBase *t;
     void *o;
     f32 scale;
 
@@ -150,20 +150,20 @@ void TTecZonde::run_task() {
         ((TObject *)self)->queue_destruction();
         return;
     }
-    t = (Tgt_8023C79C *)find_entity_by_id(self->f134);
+    t = static_cast<TObjBase *>(find_entity_by_id(self->f134));
     if (TTecLuker::is_parents_unqueued((uaddr)t) != 0) {
         for (i = 0; i < 14; i++) {
             s = &segs[i];
-            s->a[1] = 100.0f + t->y;
+            s->a[1] = 100.0f + t->position.y;
             if (self->level == 5 && i == 0) {
-                s->a[1] = 500.0f + t->y;
+                s->a[1] = 500.0f + t->position.y;
             }
-            s->a[0] = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->x;
-            s->a[2] = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->z;
-            s->b[0] = t->x - s->a[0];
-            s->b[1] = t->y - s->a[1];
+            s->a[0] = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->position.x;
+            s->a[2] = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->position.z;
+            s->b[0] = t->position.x - s->a[0];
+            s->b[1] = t->position.y - s->a[1];
             pb = s->b;
-            s->b[2] = t->z - s->a[2];
+            s->b[2] = t->position.z - s->a[2];
             s->len = vector_length((const Vec *)pb);
             if (0.0f != s->len) {
                 normalize_vector((Vec *)pb);
@@ -204,35 +204,35 @@ void TTecZonde::run_task() {
             break;
         }
         if (self->level != 5) {
-            new TUnk_804CCD78((Vec *)segs[0].a, (Vec *)&t->x, (TObject *)tl_07, 0x19F);
+            new TUnk_804CCD78((Vec *)segs[0].a, &t->position, (TObject *)tl_07, 0x19F);
         }
         {
             s32 h;
             switch (self->level) {
             case 0:
-                h = play_sound_effect(0x4002A408, &t->x, 0, 0);
+                h = play_sound_effect(0x4002A408, &t->position, 0, 0);
                 if (h >= 0) {
                     set_sound_pitch_request(h, 0x100, 0);
                 }
                 break;
             case 1:
-                play_sound_effect(0x4002A408, &t->x, 0, 0);
+                play_sound_effect(0x4002A408, &t->position, 0, 0);
                 break;
             case 2:
             case 3:
-                h = play_sound_effect(0x4002A408, &t->x, 0, 0);
+                h = play_sound_effect(0x4002A408, &t->position, 0, 0);
                 if (h >= 0) {
                     set_sound_pitch_request(h, -0x180, 0);
                 }
                 break;
             case 4:
-                h = play_sound_effect(0x4002A408, &t->x, 0, 0);
+                h = play_sound_effect(0x4002A408, &t->position, 0, 0);
                 if (h >= 0) {
                     set_sound_pitch_request(h, -0x250, 0);
                 }
                 break;
             case 5:
-                h = play_sound_effect(0x4002A408, &t->x, 0, 0);
+                h = play_sound_effect(0x4002A408, &t->position, 0, 0);
                 if (h >= 0) {
                     set_sound_pitch_request(h, -0x100, 0);
                 }

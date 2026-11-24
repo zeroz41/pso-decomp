@@ -326,4 +326,3 @@ void load_lobby_butterfly_bml_resource(void) {
     BmlResource *resource = new BmlResource(1, (BmlResourceDescriptor *)&bm_butterfly_lobby_resource_descriptor, 0, 0, NULL);
     lobby_butterfly_bml_resource = resource;
 }
-

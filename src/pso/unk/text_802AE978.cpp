@@ -17,4 +17,3 @@ void TAdSelectCurGC::draw_quads() {
         TWindowSubStatusDisp::get_player();
     }
 }
-

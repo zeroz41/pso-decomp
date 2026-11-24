@@ -419,4 +419,3 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 le
     vfunc_8(0);
     vfunc_9();
 }
-

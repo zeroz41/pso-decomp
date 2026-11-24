@@ -28,8 +28,6 @@ TUnk_804CC74C::~TUnk_804CC74C() {
     stop_sound_request(m_sound_handle);
 }
 
-struct Obj_8022F42C { u8 pad[0xA6]; s16 state; };
-
 TUnk_804CC74C::TUnk_804CC74C(TObjPlayer *actor, TObject *parent) : TObject(parent) {
     m_actor = actor;
     VecCopy(&m_position, &m_actor->body_center);
@@ -38,27 +36,25 @@ TUnk_804CC74C::TUnk_804CC74C(TObjPlayer *actor, TObject *parent) : TObject(paren
 }
 
 void TTecDeband::play_state_sound() {
-    Obj_8022F42C *arg0 = (Obj_8022F42C *)this;
     s32 r;
     switch (band) {
     case 0:
     case 1:
-        r = play_sound_effect(0x4002AA16, (u8 *)arg0 + 0x20, 0, 0);
+        r = play_sound_effect(0x4002AA16, &position, 0, 0);
         if (r >= 0) {
             set_sound_pitch_request(r, 0x100, 0);
         }
         break;
     case 2:
     case 3:
-        play_sound_effect(0x4002AA16, (u8 *)arg0 + 0x20, 0, 0);
+        play_sound_effect(0x4002AA16, &position, 0, 0);
         break;
     case 4:
     case 5:
-        r = play_sound_effect(0x4002AA16, (u8 *)arg0 + 0x20, 0, 0);
+        r = play_sound_effect(0x4002AA16, &position, 0, 0);
         if (r >= 0) {
             set_sound_pitch_request(r, -0x100, 0);
         }
         break;
     }
 }
-

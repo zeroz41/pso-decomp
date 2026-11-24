@@ -101,4 +101,3 @@ s32 is_room_enemy_set_cleared(s32 floor, s16 room) {
         return 1;
     }
 }
-

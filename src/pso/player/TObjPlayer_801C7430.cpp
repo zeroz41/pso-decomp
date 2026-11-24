@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerReadyCallback.h"
 #include "pso/ui/window/TWindowReturnCity.h"
@@ -1056,7 +1057,6 @@ u8 get_cast_technique_level(void *techs, s16 tech);
 s32 set_technique_level_entry(void *, s32, u8);
 int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
-s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags);
 }
 int is_android_player(void* p);
 void bswap_6x45_packet(void *p);
@@ -3517,7 +3517,7 @@ void TObjPlayer::update_photon_blast_action() {
       this->photon_blast_gauge.set_field8((int) (*((s16 *) (((s8 *) get_photon_blast_entry(((TObjPlayer *)arg0)->photon_blast_gauge.get_valid_index())) + 0x12))));
       this->photon_blast_gauge.set_field_0c(-0.2f);
     }
-      play_persistent_sound(0x4002A823, (saddr)arg0, 0, 0, 0);
+      play_persistent_sound(0x4002A823, arg0, 0, 0, 0);
       break;
     case 1:
       this->frame = (f32) ((this->frame) + this->photon_blast_gauge.get_frame_step());
@@ -3543,7 +3543,7 @@ void TObjPlayer::update_photon_blast_action() {
       this->motion_flags = (s32) ((this->motion_flags) & 0xFFFFFFBF);
       this->photon_blast_gauge.set_complete_threshold(this->get_photon_blast_complete_threshold());
     }
-      play_persistent_sound(0x4002A823, (saddr)arg0, 0, 0, 0);
+      play_persistent_sound(0x4002A823, arg0, 0, 0, 0);
       break;
     case 3:
       if (this->photon_blast_gauge.is_blast_launched() != 0)

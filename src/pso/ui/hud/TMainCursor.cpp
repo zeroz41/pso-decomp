@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -72,7 +73,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/system/SoundEffect.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/math/ScratchVectors.h"
 #define PSO_SDK_COMPACT_MATH
@@ -1327,10 +1327,10 @@ void TMainCursor::run_task() {
             this->m_1c = 1;
             if (((TMainCursor *)arg0)->init_render_flags() == 0) {
                 if (((TMainCursor *)arg0)->update() != 0) {
-                    play_sound_effect(0x3816, (u8 *)&this->m_40, 0, 1);
+                    play_sound_effect(0x3816, reinterpret_cast<const Vec *>((u8 *)&this->m_40), 0, 1);
                     return;
                 }
-                play_sound_effect(0x3111, (u8 *)&this->m_40, 0, 1);
+                play_sound_effect(0x3111, reinterpret_cast<const Vec *>((u8 *)&this->m_40), 0, 1);
             }
         }
     case 1:

@@ -85,14 +85,14 @@ void TObjDoaEx01::update_open() {
             switch (get_current_floor_area()) {
             case AREA_VR_TEMPLE_ALPHA:
             case AREA_VR_TEMPLE_BETA:
-                play_sound_effect(0x4BF0B, self->pos, 0, 0);
+                play_sound_effect(0x4BF0B, &position, 0, 0);
                 break;
             case AREA_VR_SPACESHIP_ALPHA:
             case AREA_VR_SPACESHIP_BETA:
-                play_sound_effect(0x4004AA0B, self->pos, 0, 0);
+                play_sound_effect(0x4004AA0B, &position, 0, 0);
                 break;
             default:
-                play_sound_effect(0x4004AA0B, self->pos, 0, 0);
+                play_sound_effect(0x4004AA0B, &position, 0, 0);
                 break;
             }
         }
@@ -101,14 +101,14 @@ void TObjDoaEx01::update_open() {
         switch (get_current_floor_area()) {
         case AREA_VR_TEMPLE_ALPHA:
         case AREA_VR_TEMPLE_BETA:
-            play_sound_effect(0x4BF0B, self->pos, 0, 0);
+            play_sound_effect(0x4BF0B, &position, 0, 0);
             break;
         case AREA_VR_SPACESHIP_ALPHA:
         case AREA_VR_SPACESHIP_BETA:
-            play_sound_effect(0x4004AA0B, self->pos, 0, 0);
+            play_sound_effect(0x4004AA0B, &position, 0, 0);
             break;
         default:
-            play_sound_effect(0x4004AA0B, self->pos, 0, 0);
+            play_sound_effect(0x4004AA0B, &position, 0, 0);
             break;
         }
     }
@@ -131,14 +131,14 @@ void TObjDoaEx01::update_closed() {
             switch (get_current_floor_area()) {
             case AREA_VR_TEMPLE_ALPHA:
             case AREA_VR_TEMPLE_BETA:
-                play_sound_effect(0x4BF0B, self->pos, 0, 0);
+                play_sound_effect(0x4BF0B, &position, 0, 0);
                 break;
             case AREA_VR_SPACESHIP_ALPHA:
             case AREA_VR_SPACESHIP_BETA:
-                play_sound_effect(0x4004AA0B, self->pos, 0, 0);
+                play_sound_effect(0x4004AA0B, &position, 0, 0);
                 break;
             default:
-                play_sound_effect(0x4004AA0B, self->pos, 0, 0);
+                play_sound_effect(0x4004AA0B, &position, 0, 0);
                 break;
             }
         }

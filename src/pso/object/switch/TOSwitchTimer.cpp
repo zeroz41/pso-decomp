@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "types.h"
 #include "pso/object/switch/TOSwitchTimer.h"
 #include "pso/object/switch/TSwitch.h"
@@ -90,7 +91,7 @@ void TOSwitchTimer::run_task() {
                     play_sound_effect(0x53218, 0, 0, 0);
                 }
             } else {
-                play_persistent_sound(0x53218, (saddr)this, 0, 0, 0);
+                play_persistent_sound(0x53218, this, 0, 0, 0);
             }
         }
         temp_r3_2 = *(s32 *)&this->m_94;

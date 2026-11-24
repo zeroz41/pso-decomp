@@ -1525,5 +1525,3 @@ void TObjEneSaver::state_attack() {
     minimap_render_dot(&position, -0x5DB4, 1, 0);
     submit_cursor_candidate(this, -1);
 }
-
-

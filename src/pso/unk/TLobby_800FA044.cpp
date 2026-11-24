@@ -16,4 +16,3 @@ void TLobby::add_named_entry(BmlResource *resource, const char *filename) {
     entry->flags = 4;
     entry->mode = resource;
 }
-

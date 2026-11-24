@@ -1,4 +1,5 @@
 #include "pso/system/BmlAccessors.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D96A8.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 // ---- pso/technique/TTecMegid
@@ -22,7 +23,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/system/SoundEffect.h"
 
 struct RecoveredFields_80235348_arg0
 {
@@ -159,34 +159,33 @@ extern "C" {
 void **mem_alloc(u32, s32);
 
 void TTecMegid::update_by_state() {
-    u8 *arg0 = (u8 *)this;
     s32 handle;
 
     switch (this->band) {
     case 0:
-        handle = play_sound_effect(0x4002A60B, arg0 + 0x20, 0, 0);
+        handle = play_sound_effect(0x4002A60B, &position, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A60B, arg0 + 0x20, 0, 0);
+        play_sound_effect(0x4002A60B, &position, 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A60B, arg0 + 0x20, 0, 0);
+        handle = play_sound_effect(0x4002A60B, &position, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A60B, arg0 + 0x20, 0, 0);
+        handle = play_sound_effect(0x4002A60B, &position, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A60B, arg0 + 0x20, 0, 0);
+        handle = play_sound_effect(0x4002A60B, &position, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x100, 0);
         }
@@ -290,7 +289,7 @@ void TTecMegid::vfunc_8(void *target) {
         }
         HitInfo_80235490 info = tmp;
         ((VObj_80235490 *)target)->m21((void *)source, &info, contact, 0x12, -1);
-        play_sound_effect(0x4002AD29, (u8 *)target + 0x38, 0, 0);
+        play_sound_effect(0x4002AD29, &static_cast<TObjBase *>(target)->position, 0, 0);
         if (sourceId < 12) {
             if ((get_technique_caster_flags(0x12, sourceId) & 1) == 0) {
                 queue_destruction();

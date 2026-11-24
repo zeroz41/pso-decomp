@@ -24,4 +24,3 @@ void TItemBuff::free_all_and_init() {
         var_r31 += 1;
     } while (i != 2);
 }
-

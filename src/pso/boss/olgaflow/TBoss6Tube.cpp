@@ -1,3 +1,5 @@
+#include "pso/system/TLanguage_801E4874.h"
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
@@ -154,7 +156,7 @@ void TBoss6Tube::update_wobble() {
 
 void TBoss6Tube::spawn_trap() {
     accelerate_scroll();
-    play_persistent_sound(0x40033520, (saddr)this, 0, 0, 0);
+    play_persistent_sound(0x40033520, this, 0, 0, 0);
 }
 
 void TBoss6Tube::update_timer() {

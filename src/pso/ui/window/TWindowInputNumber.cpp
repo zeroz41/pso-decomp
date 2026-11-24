@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/unk/TUnk_804CF9C8.h"
 #include "types.h"
@@ -19,7 +20,6 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/system/SoundEffect.h"
 
 const char *TWindowInputNumber__name = "TWindowInputNumber";
 // Value of one step at each digit position (1 .. 1000000).

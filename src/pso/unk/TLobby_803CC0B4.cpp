@@ -19,4 +19,3 @@ void TLobby::shutdown_cleanup() {
 void TLobby__sub_803CC114(void) {
     gcrna_initialize();
 }
-

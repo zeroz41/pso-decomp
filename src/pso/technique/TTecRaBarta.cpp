@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
@@ -145,7 +146,6 @@ struct RaBarta_802377FC {
 extern "C" {
 
 
-s32 play_sound_effect(s32, s32, s32, s32);
 
 typedef struct Obj_80237310 Obj_80237310;
 typedef struct Owner_80237310 Owner_80237310;
@@ -226,32 +226,32 @@ void TTecRaBarta::vfunc_9() {
 
     switch (this->band) {
     case 0:
-        this->m_ec = play_sound_effect(0x4002A706, this->source + 0x2FC, 0, 0);
+        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
         handle = this->m_ec;
         if (handle >= 0) {
             set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
-        this->m_ec = play_sound_effect(0x4002A706, this->source + 0x2FC, 0, 0);
+        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
         return;
     case 2:
     case 3:
-        this->m_ec = play_sound_effect(0x4002A706, this->source + 0x2FC, 0, 0);
+        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
         handle = this->m_ec;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
-        this->m_ec = play_sound_effect(0x4002A706, this->source + 0x2FC, 0, 0);
+        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
         handle = this->m_ec;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
-        this->m_ec = play_sound_effect(0x4002A706, this->source + 0x2FC, 0, 0);
+        this->m_ec = play_sound_effect(0x4002A706, &reinterpret_cast<TObjChara *>(this->source)->body_center, 0, 0);
         handle = this->m_ec;
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x100, 0);

@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/object/TObjControl.h"
 #include "pso/npc/TObjNpcARM00.h"
@@ -13,7 +14,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/system/SoundEffect.h"
 #include "pso/render/GinjaTexture.h"
 
 #pragma readonly_strings on
@@ -53,7 +53,7 @@ TObjNpcARM00::TObjNpcARM00(TObject *parent, void *arg2) : TUnk_804A9F50(parent) 
 }
 
 void TObjNpcARM00::play_voice() {
-    play_sound_effect(0x40003B08, &this->position, 0, 0);
+    play_sound_effect(0x40003B08, &position, 0, 0);
 }
 
 

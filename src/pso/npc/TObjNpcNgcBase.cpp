@@ -27,4 +27,3 @@ void fn_803594B4(TBoss4Fade *fade, s32 color, f32 alpha) {
     fade->frames[fade->write_index].color = color;
     fade->frames[fade->write_index].alpha = alpha;
 }
-

@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/AttackTargetHistory.h"
 #include "pso/boss/DragonAttackParams.h"
@@ -1305,7 +1306,7 @@ void TBoss1Dragon::play_se_at_pos(s32 id) {
 }
 
 void TBoss1Dragon::spawn_trap(s32 id) {
-    play_persistent_sound(id, (saddr)this, (uaddr)&this->sound_origin, 0, 0);
+    play_persistent_sound(id, this, &this->sound_origin, 0, 0);
 }
 
 void TBoss1Dragon::play_sound_if_in_band() {
@@ -5291,4 +5292,3 @@ void TBoss1Dragon::render_low_detail() {
 s32 TBoss1Dragon::isV2Mode() {
     return TObjEneDD::check_v2_mode() ? 1 : 0;
 }
-

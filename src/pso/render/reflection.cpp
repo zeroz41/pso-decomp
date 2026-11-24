@@ -511,4 +511,3 @@ void TSceneSora::set_scene_flag(int scene_flag) { (*(int *)&lbl_805D65F0) = scen
 void TSceneSora::copy_reflection_vec(u8 *arg0) {
     VecCopy((Vec *)(&sora_reflection_ray_direction), (const Vec *)(arg0));
 }
-

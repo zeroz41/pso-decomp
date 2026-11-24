@@ -14,4 +14,3 @@ u8 TObjPlayer::clamp_to_max(saddr arg0, u8 level, u8 arg2) {
     }
     return var_r3;
 }
-

@@ -71,4 +71,3 @@ void fn_8026A1C4(char *dst, char *src, s32 size) {
         dst[len] = 0;
     }
 }
-

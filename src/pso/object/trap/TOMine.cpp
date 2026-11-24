@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 struct game_command_header;
@@ -14,7 +15,6 @@ struct game_command_header;
 #include "pso/render/render_util.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/trap/TOMineTrapDisp.h"
 #include "pso/object/base/TObjMotion.h"
@@ -582,20 +582,18 @@ void TOMine::vfunc_82() {
 }
 // Slot 80: plays the floor area's mine_trap_keymachine_table sound (was named attach_to_keymachine on TOMineTrap).
 void TOMine::vfunc_80() {
-    saddr arg0 = (saddr)this;
     s32 area = get_current_floor_area();
     s32 elem = mine_trap_keymachine_table[area];
     if (elem != -1) {
-        play_sound_effect(elem, &this->position, 0, 0);
+        play_sound_effect(elem, &position, 0, 0);
     }
 }
 // Slot 81: plays the floor area's mine_trap_effect_table sound (was named spawn_effect on TOMineTrap).
 void TOMine::vfunc_81() {
-    saddr arg0 = (saddr)this;
     s32 area = get_current_floor_area();
     s32 elem = mine_trap_effect_table[area];
     if (elem != -1) {
-        play_sound_effect(elem, &this->position, 0, 0);
+        play_sound_effect(elem, &position, 0, 0);
     }
 }
 void TOMine::update_state() {

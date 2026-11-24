@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/object/fence/TOBarrierEnergy01.h"
@@ -153,21 +154,21 @@ void TOBarrierEnergy01::play_ambient_loop_sound() {
     switch (get_current_floor_area()) {
     case AREA_FOREST1:
     case AREA_FOREST2:
-        play_persistent_sound(0x4CB09, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4CB09, this, &position, 0, 0);
         return;
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        play_persistent_sound(0x44B08, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x44B08, this, &position, 0, 0);
         return;
     case AREA_MINE1:
     case AREA_MINE2:
-        play_persistent_sound(0x4004CB02, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4004CB02, this, &position, 0, 0);
         return;
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        play_persistent_sound(0x4004CB09, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4004CB09, this, &position, 0, 0);
         return;
     case AREA_PIONEER2_EP1:
         return;

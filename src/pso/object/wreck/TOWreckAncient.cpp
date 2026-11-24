@@ -286,7 +286,7 @@ void TOWreckAncientBrakable::run_task() {
         id = switch_id;
         if ((id >= 0) && (id < 0x100) && (is_current_floor_switch_set((u16) id) == 1)) {
             state = 1;
-            play_sound_effect(0x43C11, (u8 *)&this->position, 0, 0);
+            play_sound_effect(0x43C11, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
             spawn_particle_effect(&this->position, 0x45);
             spawn_particle_effect(&this->position, 0x46);
             spawn_debris();

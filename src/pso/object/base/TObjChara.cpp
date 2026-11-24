@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/TActorLight.h"
 #include "pso/player/TPlyDispData.h"
@@ -107,7 +108,6 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/render_util.h"
-#include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 
@@ -4312,7 +4312,7 @@ void TObjChara::spawn_freeze_shell_effect(u32 arg1, s32 arg2) {
             }
         }
         if (arg2 != 0) {
-            play_sound_effect(0xB20F, &this->position, 0, 0);
+            play_sound_effect(0xB20F, &position, 0, 0);
         }
     }
 }

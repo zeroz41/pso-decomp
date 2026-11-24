@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -11,7 +12,6 @@
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/system/SoundEffect.h"
 
 struct Stack_8026C708
 {

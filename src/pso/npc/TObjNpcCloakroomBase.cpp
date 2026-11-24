@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/object/TObjControl.h"
@@ -13,7 +14,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 
@@ -28,10 +28,10 @@ BmlResource *TObjNpcCloakroomBase__static_instance;
 
 void TObjNpcCloakroomBase::play_voice() {
     if (get_current_floor_area() != AREA_CAVE3) {
-        play_sound_effect(0x40003804, &this->position, 0, 0);
+        play_sound_effect(0x40003804, &position, 0, 0);
         return;
     }
-    play_sound_effect(0x40003802, &this->position, 0, 0);
+    play_sound_effect(0x40003802, &position, 0, 0);
 }
 
 

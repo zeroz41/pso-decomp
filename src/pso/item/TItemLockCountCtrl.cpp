@@ -27,4 +27,3 @@ TItemLockCountCtrl::TItemLockCountCtrl(TObject *parent, s32 arg2, TItemLockCount
     memset(*(void **)((s8 *)arg0 + 0x20), 0, size);
 }
 #undef arg0
-

@@ -1,3 +1,5 @@
+#include "pso/system/TLanguage_801E4874.h"
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaMaterialTextureSlot.h"
@@ -190,14 +192,14 @@ void TObjDoor::update_state() {
         }
         break;
     case 4:
-        play_persistent_sound(0x49e08, (saddr)this, (uaddr)&this->position, 0, 0);
+        play_persistent_sound(0x49e08, this, &this->position, 0, 0);
         this->frame+=(1.8f);
         if(this->frame>(motion_table[0]->frameCount-1)) {
             this->frame=(motion_table[0]->frameCount-1);this->state=5;
         }
         break;
     case 3:
-        play_persistent_sound(0x49e08, (saddr)this, (uaddr)&this->position, 0, 0);
+        play_persistent_sound(0x49e08, this, &this->position, 0, 0);
         this->frame-=1.8f;
         if(this->frame<0.0f) {this->frame=0.0f;this->state=2;}
         break;

@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/ControllerInputState.h"
@@ -18,7 +19,6 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
-#include "pso/system/SoundEffect.h"
 
 const char *lbl_805D3970 = "TWindowMenuInfomation";
 static const NJS_POINT2 lbl_8044F3A0 = {425.0f, 188.0f};

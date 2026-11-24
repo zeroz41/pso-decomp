@@ -16,4 +16,3 @@ void set_material_texture_slot(GinjaDrawRecord *draw, u32 slot) {
         }
     }
 }
-

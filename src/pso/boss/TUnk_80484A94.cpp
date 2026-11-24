@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/boss/TUnk_80484A94.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/render/NinjaUtil.h"
@@ -25,7 +26,6 @@
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags);
 }
 
 static const Vec volopt_shot_forward = {0.0f, 0.0f, 0.0f};
@@ -94,7 +94,7 @@ void TUnk_80484A94::run_task() {
         queue_destruction();
         return;
     }
-    play_persistent_sound((s32)(0x4003C11D), (saddr)this, (uaddr)&position, (s32)(0), (s32)(0));
+    play_persistent_sound((s32)(0x4003C11D), this, &position, (s32)(0), (s32)(0));
 }
 
 TUnk_80484A94::~TUnk_80484A94() {

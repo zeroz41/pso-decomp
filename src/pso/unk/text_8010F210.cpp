@@ -27,4 +27,3 @@ s32 create_load_unload_set(ItemClassLoadUnloadEntry *table) {
     }
     return 0;
 }
-

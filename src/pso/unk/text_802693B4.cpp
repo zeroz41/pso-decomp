@@ -49,4 +49,3 @@ void TWindowMessage::complete_reveal() {
         }
     }
 }
-

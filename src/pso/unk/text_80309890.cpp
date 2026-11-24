@@ -12,4 +12,3 @@ void fn_80309890(TObject *o, s32 v) {
         TChCrTagInformationStr::create(o, v);
     }
 }
-

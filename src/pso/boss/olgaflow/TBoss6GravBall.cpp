@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -256,7 +257,7 @@ void TBoss6GravBall::update_charge_effects() {
     s32 slow_pulse;
 
     push_players();
-    play_persistent_sound(0x4003C418, (saddr)this, (uaddr)&ball_position, 0, 0);
+    play_persistent_sound(0x4003C418, this, &ball_position, 0, 0);
     charge = charge_age;
     if (charge >= 0x96) {
         if (charge == 0x96) {
@@ -329,7 +330,7 @@ void TBoss6GravBall::update_state() {
             }
         }
         pull_players();
-        play_persistent_sound(0x4003B51A, (saddr)this, (uaddr)&ball_position, 0, 0);
+        play_persistent_sound(0x4003B51A, this, &ball_position, 0, 0);
         switch (owner->get_gravity_attack_state()) {
         case 0x27:
             return;

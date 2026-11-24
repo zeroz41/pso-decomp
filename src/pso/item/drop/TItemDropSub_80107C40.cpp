@@ -14,4 +14,3 @@ void TItemDropSub::create_instance(s32 arg0) {
         *(s32 *)((s8 *)TItemDropSub__instance + 0x1C) = arg0;
     }
 }
-
