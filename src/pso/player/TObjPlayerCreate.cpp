@@ -27,30 +27,29 @@
 #include "pso/player/TObjPlayerCreate.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/unk/TLobby.h"
+#include "pso/player/PlayerCharDataEntry.h"
 
 extern "C" {
+// TObjPlayer.h declares the slot as s32; the call passes the u16 entity id unextended.
 s32 sub_801AF454__10TObjPlayerFl(void *, u16);
-extern s32 TObjPlayer__shared_model_buffer;
-void TObjPlayer::sub_801BD318() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r4;
-    temp_r4 = ((TObjBase *)(arg0))->get_entity_id() * 0xC00;
-    (*(s32 *)&this->joint_matrices) = (s32) (TObjPlayer__shared_model_buffer + temp_r4);
-    this->select_class_action_provider();
-    sub_801AF454__10TObjPlayerFl(arg0, ((TObjBase *)(arg0))->get_entity_id());
-    this->init_idle_animation();
-    this->draw();
-}
-
 int copy_player_visual_record(void *dst, void *src);
 s32 fn_800FE73C(TObjPlayer *player);
+}
+
+extern u8 *TObjPlayer__shared_model_buffer;
+
+void TObjPlayer::sub_801BD318() {
+    joint_matrices = TObjPlayer__shared_model_buffer + get_entity_id() * 0xC00;
+    select_class_action_provider();
+    sub_801AF454__10TObjPlayerFl(this, get_entity_id());
+    init_idle_animation();
+    draw();
+}
 
 void TObjPlayer::init_body_parts(void *visual) { update_body_parts(visual); }
 void TObjPlayer::reset_body_parts() {  }
 void TObjPlayer::free_chara_making() { restore_boss6_player_snapshot(this); ((TCharaMaking *)this)->free_loaded_buffers(); }
 void TObjPlayer::update_body_parts(void *visual) { copy_player_visual_record((char*)this + 0x85c, visual); this->model_load_flags = 255; ((TCharaMaking *)this)->update_body_parts(); fn_800FE73C(this); }
-
-}
 
 TObjPlayer::~TObjPlayer() {
     release_child_object();
@@ -112,7 +111,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     this->init_data_table_ptr();
 }
 
-TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
+TObjPlayer::TObjPlayer(TObject *parent, void *record) : TObjChara(parent) {
     ((TObjPlayer *)((char *)this + 1544))->set_vec4_const_wrapper();
     ((TObjPlayer *)((char *)this + 1588))->wrap_update();
     battle_music.reset_and_clear();
@@ -135,33 +134,32 @@ TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
     TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
     ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
     this->m_name = lbl_805D3530;
-    this->init_from_data(arg2);
+    this->init_from_data(record);
     this->setup_control_role(4);
-    init_body_parts((char *)arg2 + 200);
-    this->load_char_data((u8 *)arg2);
-    this->update_position((saddr)arg2);
-    clear_lock_on_cursor(arg2);
-    init_model_buffer_and_actions(arg2);
-    is_flag_set_550(arg2);
-    init_session_technique_caps__10TObjPlayerFPvPv(this, arg2);
-    this->init_from_source((u8 *)arg2);
-    TObjPlayer__sub_801BCAB0(this, arg2);
-    init_battle(arg2);
-    TObjPlayer__sub_801BBB70(this, arg2);
-    this->init_class_flags((saddr)arg2);
-    TObjPlayer__sub_801BB85C(this, (u8 *)arg2);
-    this->hp = *(s16 *)((s8 *)arg2 + 0x22);
+    init_body_parts((char *)record + 200);
+    this->load_char_data((u8 *)record);
+    this->update_position((saddr)record);
+    clear_lock_on_cursor(record);
+    init_model_buffer_and_actions(record);
+    is_flag_set_550(record);
+    init_session_technique_caps__10TObjPlayerFPvPv(this, record);
+    this->init_from_source((u8 *)record);
+    TObjPlayer__sub_801BCAB0(this, record);
+    init_battle(record);
+    TObjPlayer__sub_801BBB70(this, record);
+    this->init_class_flags((saddr)record);
+    TObjPlayer__sub_801BB85C(this, (u8 *)record);
+    this->hp = *(s16 *)((s8 *)record + 0x22);
 }
 
 extern "C" {
-
 s32 TObjPlayer__sub_801BCA14(void *, void *);
 u8 get_byte_157(void *);
 u8 get_byte_13b(void *);
 u8 get_byte_11f(void *);
 u8 get_byte_103(void *);
 u8 get_byte_e7(void *);
-
+}
 
 TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record) : TObjChara(parent) {
     ((TObjPlayer *)(((u8 *)this) + 0x608))->set_vec4_const_wrapper();
@@ -211,31 +209,11 @@ TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record
     TObjPlayer::set_com_card_window((saddr)((this->get_entity_id())));
 }
 
-}
-
-struct VBase_18_dac7f3
-{
-  char pad[0x18];
-};
-
-struct VObj_18_dac7f3 : VBase_18_dac7f3 {
-    virtual s32 m0(s32);
-};
-
-struct E_801BDC98 { u8 b[0x42C]; };
-
-extern "C" {
-struct TObjPlayerCharDataArray { s32 value; u8 remaining[0x320C]; };
-extern TObjPlayerCharDataArray TObjPlayer__char_data_array;
-void create__10TObjPlayerFUll(u16, void *);
-typedef struct VBase_18_dac7f3 VBase_18_dac7f3;
-typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
-#pragma opt_pointer_analysis on
-#define PSO_VCALL_VObj_18_dac7f3_m0(_self, _arg0) (((VObj_18_dac7f3 *)(_self))->m0((_arg0)))
 
 extern const char *TObjPlayer__player_set_class_name;
 
-TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
+// C linkage: TObjPlayer_801BC194.cpp declares it unmangled.
+extern "C" TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
     TObjPlayerSet *set;
     s32 side;
 
@@ -267,46 +245,37 @@ TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
 }
 
 void TObjPlayer::create_active_players() {
-    s32 i;
-    E_801BDC98 *p;
-    i = 0;
-    p = ((E_801BDC98 *)&TObjPlayer__char_data_array);
+    s32 slot;
+    PlayerCharDataEntry *entry;
+    slot = 0;
+    entry = TObjPlayer__char_data_array;
     do {
-        if (((TObjPlayer *)p)->check_flag_at_428() != 0) {
-            create__10TObjPlayerFUll(i, p);
+        if (((TObjPlayer *)entry)->check_flag_at_428() != 0) {
+            create(slot & 0xFFFF, (saddr)entry);
         }
-        i++;
-        p++;
-    } while (i < 12);
+        slot++;
+        entry++;
+    } while (slot < 12);
 }
 
 void TObjPlayer::refresh_player_lobby_headers() {
-  s32 i;
-  u8 *player;
-  s32 *var_r29;
-  i = 0;
-  var_r29 = &TObjPlayer__char_data_array.value;
-  do
-  {
-    ((TObjPlayer *)var_r29)->init_select_txt();
-    player = (u8 *) get_player_by_client_id(i);
-    if (player != 0)
-    {
-      if (TObjPlayer::is_locally_controlled(player) != 0)
-      {
-        ((TObjPlayer *)var_r29)->copy_lobby_header((saddr) player);
-      }
-      if (player != 0)
-      {
-        PSO_VCALL_VObj_18_dac7f3_m0(player, 1);
-      }
-    }
-    i += 1;
-    var_r29 = (s32 *) (((u8 *) var_r29) + 0x42C);
-  }
-  while (i < 0xC);
-}
-
+    s32 client;
+    TObjPlayer *player;
+    PlayerCharDataEntry *entry;
+    client = 0;
+    entry = TObjPlayer__char_data_array;
+    do {
+        ((TObjPlayer *)entry)->init_select_txt();
+        player = get_player_by_client_id(client);
+        if (player != NULL) {
+            if (TObjPlayer::is_locally_controlled(player) != 0) {
+                ((TObjPlayer *)entry)->copy_lobby_header((saddr)player);
+            }
+            delete player;
+        }
+        client++;
+        entry++;
+    } while (client < 12);
 }
 
 TObjPlayer *create_remote_player_object(void *record) {
@@ -314,16 +283,10 @@ TObjPlayer *create_remote_player_object(void *record) {
     return new TObjPlayer(tl_03, record);
 }
 
-extern "C" {
-
-
 s32 TObjPlayer::create(u32 slot, saddr player) {
-    s32 temp_r31;
-    saddr var_r30;
+    TObjPlayer *created;
 
-    var_r30 = (saddr)new TObjPlayer(tl_03, slot & 0xFFFF, get_field_0_s32((void *)player), ((TObjPlayer *)player)->get_char_data());
-    ((TLobby *)(var_r30 + 0xDAC))->copy_header_struct((void*)(((TObjPlayer *)player)->get_sub_obj()));
-    return var_r30;
-}
-
+    created = new TObjPlayer(tl_03, slot & 0xFFFF, get_field_0_s32((void *)player), ((TObjPlayer *)player)->get_char_data());
+    ((TLobby *)&created->m_dac)->copy_header_struct(((TObjPlayer *)player)->get_sub_obj());
+    return (s32)created;
 }
