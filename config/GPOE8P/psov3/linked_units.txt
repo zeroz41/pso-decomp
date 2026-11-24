@@ -461,8 +461,6 @@ pso/item/TItemData_8010EDA8.cpp
 pso/item/TItemDisconnectCtrl.cpp
 pso/item/drop/TItemDrop.cpp
 pso/item/drop/TItemDropSub.cpp
-pso/item/drop/TItemDropSub_80107B74.cpp
-pso/item/drop/TItemDropSub_80107C40.cpp
 pso/item/drop/TItemDrop_80105D0C.cpp
 pso/effect/item/TItemEffArmor.cpp
 pso/effect/item/TItemEffBringer.cpp

@@ -2112,18 +2112,12 @@ pso/item/drop/TItemDrop_80105D0C.cpp:
 	.sbss       start:0x805D5458 end:0x805D5478
 	.sdata2     start:0x805DAAB8 end:0x805DAAE8
 
-pso/item/drop/TItemDropSub_80107B74.cpp:
-	.text       start:0x80107B74 end:0x80107B90
-	.sbss       start:0x805D5478 end:0x805D547C
-
 pso/item/drop/TItemDropSub.cpp:
-	.text       start:0x80107B90 end:0x80107C40
+	.text       start:0x80107B74 end:0x80107C9C
 	.rodata     start:0x8043E130 end:0x8043E140
 	.data       start:0x8049EFA0 end:0x8049EFB8
 	.sdata      start:0x805D2B80 end:0x805D2B88
-
-pso/item/drop/TItemDropSub_80107C40.cpp:
-	.text       start:0x80107C40 end:0x80107C9C
+	.sbss       start:0x805D5478 end:0x805D547C
 
 pso/effect/item/TItemEffArmor.cpp:
 	.text       start:0x80107C9C end:0x80108254
