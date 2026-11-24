@@ -142,8 +142,8 @@ void TObjPlayer__sub_801BF8F8(s32 *p) {
     }
 }
 
-void set_equip_slot_entry(saddr arg0, s32 val_ext, s32 arg2) {
-    *(s32 *)((s8 *)arg0 + (val_ext * 4)) = arg2;
+void set_equip_slot_entry(saddr slots, s32 slot, s32 item) {
+    ((s32 *)slots)[slot] = item;
 }
 
 void ContactSurfaceState::reset_flags() { word.reset(); }
