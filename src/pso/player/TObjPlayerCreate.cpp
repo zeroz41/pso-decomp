@@ -6,7 +6,6 @@
 #include "pso/player/TObjPlayer_80309D80.h"
 #include "pso/ui/font/TFontSmallLobby_801C013C.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
-#include "pso/player/TObjPlayer_801BD384.h"
 #include "pso/player/TObjPlayer_801BFAD4.h"
 #include "pso/player/TObjPlayer_801BFB1C.h"
 #include "pso/player/TObjPlayer_801BFE50.h"
@@ -25,7 +24,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_801BDD8C.h"
+#include "pso/player/TObjPlayerCreate.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/unk/TLobby.h"
 
@@ -310,12 +309,9 @@ void TObjPlayer::refresh_player_lobby_headers() {
 
 }
 
-void *create_remote_player_object(void *record) {
-    void *o;
-
+TObjPlayer *create_remote_player_object(void *record) {
     decode_remote_player_inventory(record);
-    o = (void *)new TObjPlayer(tl_03, (void *)record);
-    return o;
+    return new TObjPlayer(tl_03, record);
 }
 
 extern "C" {

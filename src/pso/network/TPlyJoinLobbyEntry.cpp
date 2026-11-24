@@ -81,7 +81,7 @@
 #include "pso/unk/TLobby_801461EC.h"
 #include "pso/unk/TTitleScene.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/player/TObjPlayer_801BDD8C.h"
+#include "pso/player/TObjPlayerCreate.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/chat/ShortMail.h"
@@ -567,7 +567,7 @@ void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0) {
             if (p != NULL) {
                 delete p;
             }
-            plr = (TObjPlayer *)create_remote_player_object(disp);
+            plr = create_remote_player_object(disp);
             strncpy(lobby_player_names[plr->get_entity_id()], plr->get_name(), 0x10);
             TLobby::open_udp_socket_for_player(disp->id);
             lobby_debug_printf_stub(lobby_debug_create_player_format, plr->get_entity_id());
@@ -2267,7 +2267,7 @@ void TLobby::make_players() {
             hdr.fAC = 0;
             hdr.f488 = 0;
             delete p;
-            q = (TObjPlayer *)create_remote_player_object(&hdr);
+            q = create_remote_player_object(&hdr);
             if (q != NULL) {
                 q->reset_motion_fields();
             }
