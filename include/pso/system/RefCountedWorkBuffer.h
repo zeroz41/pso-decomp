@@ -4,7 +4,8 @@
 #include "types.h"
 
 extern "C" {
-void TLobby__sub_803D2ED4(void);
+void ref_counted_work_buffer_init(void);
+void ref_counted_work_buffer_finish(void);
 }
 
 #endif

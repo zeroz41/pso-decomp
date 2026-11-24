@@ -445,7 +445,6 @@ struct TLobby : public TObject {
     static void update_trade_partner();
     static void close_trade_request();
     static void reset_trade_state();
-    static void dec_ref_and_clear_buffer();
     static void read_data_sync(saddr handle, s32 sector_count, saddr destination);
     s32 get_battle_ctrl_default();
     static s32 find_free_chat_log_slot();
@@ -494,8 +493,6 @@ struct TLobby : public TObject {
     static void update_trade_proposal_state();
     static s32 check_trade_items_and_show_error();
     static void apply_trade_items();
-    static void dec_ref_and_reset_tables();
-    static void init_afs_adxf_state();
     static s32 get_afs_file_info(s32 arg0, s32 arg1, char *arg2, s32 *arg3, s32 *arg4, s32 *arg5);
     static void release_used_slots();
     static s32 read_afs_toc(s32 id);
@@ -640,7 +637,6 @@ struct TLobby : public TObject {
     void assign_object_ids(s32 arg1, void *arg2);
     static s32 init_floor_enemy_count(s32 floor, u8 *source, u32 size);
     static s32 load_object_set_entries(s32 arg0, u8 *rows, u32 byte_size);
-    static s32 unhide_enemies_at(s32 arg0, s32 arg1, s32 arg2);
     s32 copy_current_entry_name(s32 len);
     void capture_chat_sensor();
     static void parse_message_tag();

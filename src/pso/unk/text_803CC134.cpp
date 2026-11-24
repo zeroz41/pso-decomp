@@ -17,7 +17,7 @@ LogEnt_803CD16C lbl_8057B7D0[256];
 u8 afs_archive_toc_table[0x400];
 AdxfHandle adxf_file_handle_pool[16];
 
-void TLobby::dec_ref_and_reset_tables() {
+void adxf_finish(void) {
     if (--lbl_805D75D0 == 0) {
         TLobby::release_used_slots();
         lobby_adxf_current_file_id = -1;
@@ -32,7 +32,7 @@ void TLobby::dec_ref_and_reset_tables() {
     }
 }
 
-void TLobby::init_afs_adxf_state() {
+void adxf_init(void) {
     adxf_build_string;
     if (lbl_805D75D0 == 0) {
         memset(adxf_file_handle_pool, 0, sizeof(adxf_file_handle_pool));

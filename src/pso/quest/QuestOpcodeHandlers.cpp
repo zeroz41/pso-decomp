@@ -46,6 +46,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/item/drop/TItemDropSub.h"
 #include "pso/network/TLobby.h"
+#include "pso/map/FloorPopulation.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/chat/SymbolChatPayload.h"
 #include "pso/network/TProtocol.h"
@@ -913,7 +914,6 @@ void try_close__6TLobbyFPv(void *p);
 int TLobby__sub_802272B4(void*);
 int TLobby__sub_8022733C(void*);
 void request_active_window_close(void);
-s32 unhide_enemies_at__6TLobbyFlll(s32, s32, s32, s32);
 }
 s32 get_field_d4(void *);
 void build_6x77_sync_quest_register(void* p);
@@ -4294,10 +4294,10 @@ void qst_op_gettime(u8 reg) {
 #pragma pop
 
 void qst_op_unhide_ene(s32 regs) {
-    s32 v0 = qst_registers[(u8)regs];
-    s32 v1 = qst_registers[(u8)++regs];
-    s32 v2 = qst_registers[(u8)++regs];
-    unhide_enemies_at__6TLobbyFlll(v0, (s16)v1, (s16)v2, regs);
+    s32 v0 = qst_registers[(u8)regs++];
+    s32 v1 = qst_registers[(u8)regs++];
+    s32 v2 = qst_registers[(u8)regs];
+    unhide_enemies_at(v0, (s16)v1, (s16)v2);
 }
 
 void qst_op_unhide_obj(s32 regs) {

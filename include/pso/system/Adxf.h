@@ -17,6 +17,8 @@ s32 ADXF_Stop(AdxfHandle *file);
 s32 ADXF_Seek(AdxfHandle *file, s32 offset, s32 origin);
 s32 ADXF_ReadNw(AdxfHandle *file, s32 sectors, void *destination);
 s32 ADXF_ReadNw32(AdxfHandle *file, s32 sectors, void *destination);
+void adxf_init(void);
+void adxf_finish(void);
 }
 
 #endif

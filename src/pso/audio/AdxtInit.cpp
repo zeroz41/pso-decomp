@@ -13,6 +13,7 @@
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AdxEncoder.h"
 #include "pso/system/RefCountedWorkBuffer.h"
+#include "pso/system/Adxf.h"
 #include "pso/audio/SjMemoryBuffer.h"
 #include "pso/audio/SjRingBuffer.h"
 #include "pso/unk/text_803CC294.h"
@@ -35,7 +36,7 @@ void adxt_finish() {
     TLobby_init_ref_count = temp_r0;
     if (temp_r0 == 0) {
         TLobby::shutdown_cleanup();
-        TLobby::dec_ref_and_reset_tables();
+        adxf_finish();
         adxstm_finish_fs();
         lsc_shutdown();
         adx_lock();
@@ -49,7 +50,7 @@ void adxt_finish() {
         adxerr_finish();
         sj_memory_buffer_shutdown();
         sj_ring_buffer_shutdown();
-        TLobby::dec_ref_and_clear_buffer();
+        ref_counted_work_buffer_finish();
         adx_unlock();
     }
 }
@@ -58,13 +59,13 @@ void adxt_init() {
     if (TLobby_init_ref_count == 0) {
         TLobby__sub_803C4698();
         adx_lock();
-        TLobby__sub_803D2ED4();
+        ref_counted_work_buffer_init();
         sj_ring_buffer_init();
         sj_memory_buffer_init();
         adxerr_init();
         adxstm_clear_requests();
         TLobby::reset_sound_buffers();
-        TLobby::init_afs_adxf_state();
+        adxf_init();
         TLobby__sub_803CC114();
         TLobby::flush_update(adxt_error_callback, NULL);
         memset(adx_stream_player_pool, 0, 0xA80);
