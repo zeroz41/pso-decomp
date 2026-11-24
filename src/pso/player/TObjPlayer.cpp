@@ -301,15 +301,11 @@ void TObjPlayer::set_input_mode(s32 v) { this->m_3d8 = v; }
 
 }
 
-struct E_801BE8F4 { u8 pad[0x18]; u32 flags; u8 pad2[0x10]; };
-
-struct O_801BE8F4 { u8 pad[0xa4]; E_801BE8F4 *entries; };
-
 extern "C" {
-u8 TObjPlayer__sub_801BE8F4(O_801BE8F4 *self, s32 i, u32 mask);
+s32 TObjPlayer__sub_801BE8F4(TObjCollidable *obj, s32 body, u32 mask);
 
-u8 TObjPlayer__sub_801BE8F4(O_801BE8F4 *self, s32 i, u32 mask) {
-    return (self->entries[i].flags & mask) != 0;
+s32 TObjPlayer__sub_801BE8F4(TObjCollidable *obj, s32 body, u32 mask) {
+    return (u8)((obj->bodies[body].flags & mask) != 0);
 }
 
 void* TObjPlayer::get_position_history_entry(int index, void* x, void* z) { *(float*)x = *(float*)((char*)this + index * 8 + 0x6b0); *(float*)z = *(float*)((char*)this + index * 8 + 0x6b4); return (char*)this + index * 8; }
@@ -998,7 +994,7 @@ extern "C" {
 
 void PlayerActionProvider::set_body_type(s32 body_type) { key.set_body_type(body_type); }
 
-u8 is_action_id_none(s32 animation_number) {
+s32 is_action_id_none(s32 animation_number) {
     return (u8) (animation_number == -1);
 }
 

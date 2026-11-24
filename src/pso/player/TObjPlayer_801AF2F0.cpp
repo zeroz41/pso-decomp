@@ -310,7 +310,8 @@ struct Src_801B4CE4 {
     s32 f334;
     u8 pad338[0x41C - 0x338];
     u8 f41C[0x428 - 0x41C];
-    u8 f428[0x730 - 0x428];
+    PlayerTechniqueState f428;
+    u8 pad4AC[0x730 - 0x4AC];
     MovementHold f730;
     u8 pad744[0x828 - 0x744];
     u8 f828[0x830 - 0x828];
@@ -511,7 +512,7 @@ void TObjPlayer__sub_801BA42C(void);
 void TObjPlayer__sub_801BBB70(TObjPlayer *player, PlayerSyncRecord *record);
 void clear_flag_4000_callback__10TObjPlayerFv(TObjPlayer *);
 InventoryItemList *__ct__17InventoryItemListFv(void *list);
-s32 TObjPlayer__sub_801BE8F4(void *, s32, s32);
+s32 TObjPlayer__sub_801BE8F4(TObjCollidable *obj, s32 body, u32 mask);
 void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 void TObjPlayer__sub_801BEEE0(void *, void *);
 void TObjPlayer__sub_801BEF30(void *, void *);
@@ -525,7 +526,7 @@ int TObjPlayer__sub_801BF488(void*);
 int TObjPlayer__sub_801BF4A0(void*);
 void set_equip_slot_entry(saddr, s32, s32);
 s32 is_action_id_none(s32);
-u8 TObjPlayer__sub_801C0124(void *, s16);
+u8 TObjPlayer__sub_801C0124(const PlayerTechniqueState *state, s16 i);
 void *__ct__12StatusEffectFv(void *);
 u32 create__18TPlayerLobbyMarkerFsSc(u16 a0 = 0, s32 a1 = 0);
 void release_all_players_control_lock(void);
@@ -3677,7 +3678,7 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     ((PlayerSyncRecord *)dst)->set_def_materials_used(((TObjPlayer *)src)->get_def_materials_used());
     ((PlayerSyncRecord *)dst)->set_luck_materials_used(((TObjPlayer *)src)->get_luck_materials_used());
     for (i = 0; i < 0x13; i++) {
-        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(src->f428, i), &dst->fB4[i], dst->f142[i].b);
+        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(&src->f428, i), &dst->fB4[i], dst->f142[i].b);
     }
     for (j = 0; j != 0xD; j++) {
         TItem *e = ((TObjPlayer *)src)->get_equipped_item(j);
