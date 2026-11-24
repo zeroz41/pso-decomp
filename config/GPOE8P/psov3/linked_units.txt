@@ -311,7 +311,7 @@ pso/boss/goldragon/TBoss8Dragon_8036AEF8.cpp
 pso/boss/dragon/TObjBoss1Crater.cpp
 pso/boss/dragon/TObjBoss1Floor.cpp
 pso/boss/derolle/TObjBoss2CeilJunk.cpp
-pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.cpp
+pso/boss/derolle/Boss2CommonResource.cpp
 pso/boss/derolle/TObjBoss2DustCtrl.cpp
 pso/boss/derolle/TObjBoss2RaftSplash.cpp
 pso/boss/derolle/TObjBoss2Tunnel.cpp
@@ -743,7 +743,6 @@ pso/unk/TLobbyBattleParamData.cpp
 pso/unk/TLobby_8001D6A0.cpp
 pso/unk/TLobby_8001EF5C.cpp
 pso/unk/TLobby_8002C140.cpp
-pso/unk/TLobby_8003A95C.cpp
 pso/unk/TLobby_8004A90C.cpp
 pso/unk/TLobby_80067410.cpp
 pso/unk/TLobby_8006F278.cpp

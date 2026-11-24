@@ -314,27 +314,25 @@ pso/boss/derolle/TBoss2Tentacle.cpp:
 	.sdata2     start:0x805D8528 end:0x805D8564
 
 pso/boss/derolle/TObjBoss2CeilJunk.cpp:
-	.text       start:0x8003A1B4 end:0x8003A81C
+	.text       start:0x8003A1B4 end:0x8003A874
+	.ctors      start:0x80433F2C end:0x80433F30
 	.rodata     start:0x80435BC0 end:0x80435C38
 	.data       start:0x804832C8 end:0x804832FC
 	.sdata      start:0x805D26E8 end:0x805D26EC
+	.sbss       start:0x805D4BE0 end:0x805D4BE4
 	.sdata2     start:0x805D8568 end:0x805D85AC
 
-pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.cpp:
-	.text       start:0x8003A81C end:0x8003A95C
-	.ctors      start:0x80433F2C end:0x80433F30
+pso/boss/derolle/Boss2CommonResource.cpp:
+	.text       start:0x8003A874 end:0x8003A95C
 	.rodata     start:0x80435C38 end:0x80435E40
 	.data       start:0x80483300 end:0x80483370
 	.bss        start:0x804FE9C8 end:0x804FE9E4
 	.sdata      start:0x805D26F0 end:0x805D26F8
-	.sbss       start:0x805D4BE0 end:0x805D4BF0
+	.sbss       start:0x805D4BE8 end:0x805D4BF0
 	.sdata2     start:0x805D85B0 end:0x805D85B4
 
-pso/unk/TLobby_8003A95C.cpp:
-	.text       start:0x8003A95C end:0x8003A9FC
-
 pso/boss/derolle/TObjBoss2DustCtrl.cpp:
-	.text       start:0x8003A9FC end:0x8003AED4
+	.text       start:0x8003A95C end:0x8003AED4
 	.rodata     start:0x80435E40 end:0x80435E70
 	.data       start:0x80483370 end:0x804833A0
 	.bss        start:0x804FE9E8 end:0x804FEE68

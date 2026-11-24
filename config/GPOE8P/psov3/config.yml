@@ -916,7 +916,6 @@ force_active:
   - TObjBgmCol__name
   - __ct__14TObjBigTuitateFP7TObjectPv
   - TObjBoss2CeilJunk__name
-  - __sinit_TObjBoss2CeilJunk_8003A81C_cpp
   - __ct__17TObjBoss2DustCtrlFP7TObject
   - TObjBoss2DustCtrl_dust_counter
   - __ct__15TObjBoss2TunnelFP7TObject
@@ -8338,7 +8337,6 @@ force_active:
   - boss1_dragon_hold_mode
   - boss1_dragon_fall_accel
   - lbl_805D4B90
-  - lbl_805D4BE4
   - boss5_gryphon_camera_player_distance
   - shadow_pass_requested
   - TObjEneDarkGunner__base_params_by_variant

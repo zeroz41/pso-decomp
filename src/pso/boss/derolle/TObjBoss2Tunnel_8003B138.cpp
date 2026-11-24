@@ -3,7 +3,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/boss/derolle/TObjBoss2RaftSplash.h"
 #include "pso/boss/derolle/TObjBoss2Dust.h"
-#include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
+#include "pso/boss/derolle/Boss2CommonResource.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject.h"
@@ -134,7 +134,7 @@ void *TObjBoss2Tunnel::create() {
     return new TObjBoss2Tunnel(tl_02);
 }
 
-void TObjBoss2Tunnel::sub_8003C648() {}
+void TObjBoss2Tunnel::free_state() {}
 
 void TObjBoss2Tunnel::set_global_flag_400() {
     TObjBoss2Tunnel__global_flags |= 0x400;

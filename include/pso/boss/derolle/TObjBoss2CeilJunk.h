@@ -13,7 +13,7 @@ struct TObjBoss2CeilJunk : public TObjBase {
     virtual ~TObjBoss2CeilJunk();
     virtual void run_task();
     virtual void render();
-    static void *create(void *position);
+    static void *create(const Vec *position);
     static void create_particle(const void *position, s32 particle_index);
 
     // prev_position holds the ground point under it and home_position.y its resting height.

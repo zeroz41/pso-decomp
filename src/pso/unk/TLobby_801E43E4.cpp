@@ -119,7 +119,7 @@ void broadcast_subcommand(void *cmd) {
 
 void TLobby::bswap_switch_activate_token() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 
-s32 TLobby::load_texture_pvm_file(const char *name, saddr arg1) {
+s32 TLobby::load_texture_pvm_file(const char *name, NJS_TEXLIST *texlist) {
     char path[0x40];
     uaddr buf;
     s32 allocated;
@@ -147,7 +147,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, saddr arg1) {
         buf = (saddr)TLobby::tmp_buf_use_req("LoadTexturePvm");
     }
     TGStream::load_sct_file((const char *)path, (u8 *)buf);
-    ret = load_gvm_texture_archive((void *)buf, (NJS_TEXLIST *)arg1);
+    ret = load_gvm_texture_archive((void *)buf, texlist);
     if (allocated != 0) {
         TAdSinglePlyChrSelectGC::safe_free(buf);
     } else {

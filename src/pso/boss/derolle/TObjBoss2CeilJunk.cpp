@@ -2,7 +2,8 @@
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
-#include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
+#include "pso/boss/derolle/Boss2CommonResource.h"
+#include "pso/player/TObjPlayer_8002E784.h"
 #include "pso/system/BmlResource.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
@@ -25,6 +26,7 @@
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
@@ -45,9 +47,8 @@ const f32 TObjBoss2CeilJunk__radius_table[6] = { 15.0f, 15.0f, 10.5f, 15.0f, 0.4
 const char *TObjBoss2CeilJunk__name = "TObjBoss2CeilJunk";
 const Color_8003A1B4 boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
 
-extern "C" {
-extern const f32 boss2_ceil_junk_water_level;
-}
+// The surface the junk splashes into: the De Rol Le arena's water level.
+const f32 boss2_ceil_junk_water_level = boss2_water_level;
 
 void TObjBoss2CeilJunk::render() {
   float new_var;
@@ -219,3 +220,7 @@ TObjBoss2CeilJunk::TObjBoss2CeilJunk(TObject *parent, const Vec *position) : TOb
     alpha = 1.0f;
 }
 #pragma pop
+
+void *TObjBoss2CeilJunk::create(const Vec *position) {
+    return new TObjBoss2CeilJunk(tl_05, position);
+}

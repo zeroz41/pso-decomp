@@ -79,7 +79,7 @@ s32 load_disc_prs_texture(saddr name, saddr texlist) {
 }
 
 s32 bind_gvm_texture_list(const char *name, NJS_TEXLIST *texlist) {
-    u8 m_texture_list[8];
+    NJS_TEXLIST loaded;
     NJS_TEXNAME *d;
     s32 i;
     s32 n;
@@ -87,8 +87,8 @@ s32 bind_gvm_texture_list(const char *name, NJS_TEXLIST *texlist) {
         return 0;
     }
     memset((void *)lbl_805D63C0, 0, 0x1800);
-    TObjPlayer__sub_803DD5E8((NJS_TEXLIST *)m_texture_list, (NJS_TEXNAME *)lbl_805D63C0, lbl_805D63C4, 0x200);
-    if (TLobby::load_texture_pvm_file(name, (saddr)m_texture_list) == -1) {
+    TObjPlayer__sub_803DD5E8(&loaded, (NJS_TEXNAME *)lbl_805D63C0, lbl_805D63C4, 0x200);
+    if (TLobby::load_texture_pvm_file(name, &loaded) == -1) {
         return 0;
     }
     n = texlist->nbTexture;

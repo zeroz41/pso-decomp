@@ -93,7 +93,7 @@ void TObjBoss7Tunnel::create() {
     new TObjBoss7Tunnel(tl_04);
 }
 
-void TObjBoss7Tunnel::sub_802F2C4C() {  }
+void TObjBoss7Tunnel::free_state() {}
 
 #pragma push
 #pragma opt_common_subs off

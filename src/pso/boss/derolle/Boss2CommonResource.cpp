@@ -1,15 +1,11 @@
+#include "pso/boss/derolle/Boss2CommonResource.h"
 #include "pso/system/BmlResource.h"
-#include "types.h"
-#include "pso/player/TObjPlayer_8002E784.h"
-#include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
-#include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
-#include "pso/system/task/TObject.h"
-#include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaTexture.h"
+
+#define ARRAY_COUNT(arr) (sizeof(arr) / sizeof((arr)[0]))
 
 const char *bm_obj_boss2_common_model_names[] = {
     "fe_boss02iwa1.gj",
@@ -37,28 +33,21 @@ const char *bm_obj_boss2_common_model_names[] = {
     NULL,
 };
 
-__declspec(section ".sdata") const char *bm_obj_boss2_common_motion_names[1] = { NULL };
+const char *bm_obj_boss2_common_motion_names[] = { NULL };
 
 BmlResourceDescriptor bm_obj_boss2_common_resource_descriptor = {
     "bm_obj_boss2_common.bml",
     bm_obj_boss2_common_model_names,
     bm_obj_boss2_common_motion_names,
-    22,
+    ARRAY_COUNT(bm_obj_boss2_common_model_names) - 1,
     0,
 };
 
 void *boss2_dermt_slot_table[7];
-f32 boss2_ceil_junk_water_level;
-s32 lbl_805D4BE4;
 BmlResource *boss2_common_resource;
 NJS_TEXLIST *boss2_common_texture_list;
-__declspec(section ".sdata2") const f32 boss2_tunnel_max_scroll_speed = 9.259259f;
-void *TObjBoss2CeilJunk::create(void *position) {
-    return new TObjBoss2CeilJunk(tl_05, (const Vec *)position);
-}
+const f32 boss2_tunnel_max_scroll_speed = 9.259259f;
 
-
-void __sinit_TObjBoss2CeilJunk_8003A81C_cpp(void) { boss2_ceil_junk_water_level = boss2_water_level; }
 void free_boss2_common_resource(void) {
     s32 i;
     for (i = 0; i < 7; i++) {
@@ -74,10 +63,8 @@ void load_boss2_common_resource(void) {
     boss2_common_resource = resource;
     boss2_common_texture_list = resource->models[6].texlist;
     if (TObjEneDD::check_v2_mode() != 0) {
-        TLobby::load_texture_pvm_file("obj_boss2_common_a.gvm", (saddr)boss2_common_texture_list);
+        TLobby::load_texture_pvm_file("obj_boss2_common_a.gvm", boss2_common_texture_list);
     } else {
-        TLobby::load_texture_pvm_file("obj_boss2_common.gvm", (saddr)boss2_common_texture_list);
+        TLobby::load_texture_pvm_file("obj_boss2_common.gvm", boss2_common_texture_list);
     }
 }
-
-__declspec(section ".ctors") static void *const __sinit_TObjBoss2CeilJunk_8003A81C_cpp_ref = (void *)__sinit_TObjBoss2CeilJunk_8003A81C_cpp;

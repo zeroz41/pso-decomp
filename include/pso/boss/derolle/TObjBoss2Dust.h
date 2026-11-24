@@ -17,5 +17,10 @@ public:
 };
 LAYOUT_ASSERT(TObjBoss2Dust_size, sizeof(TObjBoss2Dust) == 0x30);
 
+// The De Rol Le tunnel scene's hooks: init loads the boss2 common resource and builds the dust
+// strips, create spawns the tunnel and the dust controller, free releases them.
+void init_boss2_tunnel(void);
+void create_boss2_tunnel(void);
+void free_boss2_tunnel(void);
 
 #endif
