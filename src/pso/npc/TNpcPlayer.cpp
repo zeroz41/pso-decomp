@@ -1129,7 +1129,7 @@ TPlyCharData *load_npc_player_template(s32 index) {
         quest_npc_visual_pending = 0;
         copy_player_visual_record(&npc_player_visual_record, &quest_npc_visual_record);
     } else {
-        read_disc_file(npc_player_char_file_name, (void *)npc_player_char_data_buffer);
+        read_disc_file(npc_player_char_file_name, npc_player_char_data_buffer);
         copy_player_visual_record(&npc_player_visual_record, &npc_player_char_data_buffer[index]);
     }
     bswap__15disp_data_part2Fv((saddr)&npc_player_visual_record);
