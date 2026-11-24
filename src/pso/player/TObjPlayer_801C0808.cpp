@@ -15,12 +15,6 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 
 struct Pos_801D2964 { u8 bytes[0x8]; };
 
@@ -45,17 +39,11 @@ void TObjPlayer::set_code_13_3() { *(u8*)((char*)this + 0x0) = 13; *(u8*)((char*
 void TObjPlayer::update_and_send() { bswap_status_effect(); send_subcommand((u8 *)this); }
 void TObjPlayer::set_code_14_1() { *(u8*)((char*)this + 0x0) = 14; *(u8*)((char*)this + 0x1) = 1; }
 void apply_status_effect__10TObjPlayerFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); ((TObjPlayer *)((char*)p + 0x4))->bswap_status_effect_data(); }
-#pragma push
-#pragma opt_common_subs off
-#pragma pop
-void *TObjPlayer__sub_801C092C(void *arg0, void *arg1) {
-    copy_subcommand_header(arg0, arg1);
-    ((Pkt_801D2964 *)arg0)->pos = ((Pkt_801D2964 *)arg1)->pos;
-    return arg0;
+void *TObjPlayer__sub_801C092C(void *packet, void *src) {
+    copy_subcommand_header(packet, src);
+    ((Pkt_801D2964 *)packet)->pos = ((Pkt_801D2964 *)src)->pos;
+    return packet;
 }
-#pragma push
-#pragma fp_contract on
-#pragma pop
 
 void TObjPlayer::set_code_12_3() { *(u8*)((char*)this + 0x0) = 12; *(u8*)((char*)this + 0x1) = 3; }
 void TObjPlayer::reinit_update_sub4_and_send() { apply_status_effect__10TObjPlayerFPv(this); send_subcommand((u8 *)this); }
@@ -77,18 +65,14 @@ void TObjPlayer::build_6x2C_impose_hold_packet() {
     *(s8 *)((s8 *)((u8 *)this) + 1) = 5;
 }
 
-#define bswap_pkt_u16x2_u32__10TObjPlayerFPv ((s32 (*)())bswap_pkt_u16x2_u32__10TObjPlayerFPv)
-
 void TObjPlayer::bswap_and_send_packet() {
-    saddr cmd = (saddr)this;
-    bswap_pkt_u16x2_u32__10TObjPlayerFPv();
-    send_subcommand((u8 *)cmd);
+    bswap_pkt_u16x2_u32__10TObjPlayerFPv(this);
+    send_subcommand((u8 *)this);
 }
 void TObjPlayer::bswap_body_dwords() {
-    saddr arg0 = (saddr)this;
     ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)(arg0 + 4));
-    bswap_32((u32 *)(arg0 + 8));
+    bswap_32((u32 *)((char *)this + 4));
+    bswap_32((u32 *)((char *)this + 8));
 }
 void *TObjPlayer::copy_pair_fields(void *command) {
     copy_subcommand_header(this, command);
@@ -97,11 +81,11 @@ void *TObjPlayer::copy_pair_fields(void *command) {
     return this;
 }
 
-void TObjPlayer__sub_801C0C04(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 4) = 0;
-    *(s32 *)((s8 *)arg0 + 8) = 0;
-    *(s8 *)((s8 *)arg0 + 0) = 0x2E;
-    *(s8 *)((s8 *)arg0 + 1) = 3;
+void TObjPlayer__sub_801C0C04(G_SetOrClearPlayerFlags_6x2E *packet) {
+    packet->and_mask = 0;
+    packet->or_mask = 0;
+    packet->header.subcommand = 0x2E;
+    packet->header.size = 3;
 }
 
 void TObjPlayer::send_swapped_packet_6x30() { swap_endian__10TObjPlayerFi((saddr)this); send_subcommand((u8 *)this); }
@@ -132,10 +116,9 @@ void TObjPlayer::build_6x30_change_level_packet() {
 }
 
 void TObjPlayer::bswap_body_dwords2() {
-    saddr arg0 = (saddr)this;
     ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)(arg0 + 4));
-    bswap_32((u32 *)(arg0 + 8));
+    bswap_32((u32 *)((char *)this + 4));
+    bswap_32((u32 *)((char *)this + 8));
 }
 void *TObjPlayer::copy_pair_fields2(void *src) {
     copy_subcommand_header(this, src);
@@ -144,19 +127,18 @@ void *TObjPlayer::copy_pair_fields2(void *src) {
     return this;
 }
 
-void TObjPlayer__sub_801C0D7C(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 4) = -1;
-    *(s32 *)((s8 *)arg0 + 8) = -1;
-    *(s8 *)((s8 *)arg0 + 0) = 0x28;
-    *(s8 *)((s8 *)arg0 + 1) = 3;
+void TObjPlayer__sub_801C0D7C(G_FeedMag_6x28 *packet) {
+    packet->mag_item_id = -1;
+    packet->fed_item_id = -1;
+    packet->header.subcommand = 0x28;
+    packet->header.size = 3;
 }
 
 void TObjPlayer::bswap_and_send_body_dwords2() { bswap_body_dwords2(); send_subcommand((u8 *)this); }
 
 void TObjPlayer::bswap_cmd_u32() {
-    saddr arg0 = (saddr)this;
     ((G_ClientIDHeader *)this)->bswap();
-    bswap_32((u32 *)(arg0 + 4));
+    bswap_32((u32 *)((char *)this + 4));
 }
 void *TObjPlayer::copy_field_4(void *src) {
     copy_subcommand_header(this, src);
@@ -165,98 +147,31 @@ void *TObjPlayer::copy_field_4(void *src) {
 }
 }
 
-void init_6x27_use_item_cmd(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 4) = -1;
-    *(s8 *)((s8 *)arg0 + 0) = 0x27;
-    *(s8 *)((s8 *)arg0 + 1) = 2;
+void init_6x27_use_item_cmd(u8 *packet) {
+    *(s32 *)((s8 *)packet + 4) = -1;
+    *(s8 *)((s8 *)packet + 0) = 0x27;
+    *(s8 *)((s8 *)packet + 1) = 2;
 }
 
 void TObjPlayer::send_use_item_cmd() { bswap_cmd_u32(); send_subcommand((u8 *)this); }
 
-#undef bswap_pkt_u16x2_u32__10TObjPlayerFPv
-
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 struct ByteBlock_C { u8 bytes[0xc]; };
-
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 
 struct ByteBlock_14 { u8 bytes[0x14]; };
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-
 struct O_801C12C8 { u8 a; u8 b; u8 pad[2]; s32 c; s32 arr[30]; };
 
-
 void TObjPlayer::bswap_cmd_item_data() {
-    saddr arg0 = (saddr)this;
-    ((G_ClientIDHeader *)arg0)->bswap();
-    ((TItemData *)(arg0 + 4))->bswap();
+    ((G_ClientIDHeader *)this)->bswap();
+    ((TItemData *)((char *)this + 4))->bswap();
 }
 
-void*TObjPlayer::copy(void* source) { TObjPlayer__sub_801C0F10((u8 *)this, (u8 *)source); *(unsigned char*)((char*)this + 0x18) = *(unsigned char*)((char*)source + 0x18); *(unsigned char*)((char*)this + 0x19) = *(unsigned char*)((char*)source + 0x19); *(short*)((char*)this + 0x1a) = *(unsigned short*)((char*)source + 0x1a); return this; }
+void*TObjPlayer::copy(void* src) { TObjPlayer__sub_801C0F10((u8 *)this, (u8 *)src); *(unsigned char*)((char*)this + 0x18) = *(unsigned char*)((char*)src + 0x18); *(unsigned char*)((char*)this + 0x19) = *(unsigned char*)((char*)src + 0x19); *(short*)((char*)this + 0x1a) = *(unsigned short*)((char*)src + 0x1a); return this; }
 
-u8 *TObjPlayer__sub_801C0F10(u8 *arg0, u8 *source) {
-    copy_subcommand_header(arg0, source);
-    *(ByteBlock_14 *)((saddr) arg0 + 4) = *(const ByteBlock_14 *)((saddr) source + 4);
-    return arg0;
+u8 *TObjPlayer__sub_801C0F10(u8 *packet, u8 *src) {
+    copy_subcommand_header(packet, src);
+    *(ByteBlock_14 *)((saddr) packet + 4) = *(const ByteBlock_14 *)((saddr) src + 4);
+    return packet;
 }
 
 void*TObjPlayer::init_pkt_6x2B() { set_code_43_6(); *(unsigned char*)(this) = 43; *(unsigned char*)((char*)this + 0x18) = 2; *(unsigned char*)((char*)this + 0x19) = 0; *(unsigned char*)((char*)this + 0x1a) = 0; *(unsigned char*)((char*)this + 0x1b) = 0; *(unsigned char*)((char*)this + 0x1) = 7; return this; }
@@ -265,23 +180,23 @@ void TObjPlayer::set_code_43_6() { *(u8*)((char*)this + 0x0) = 43; *(u8*)((char*
 
 void TObjPlayer::send_cmd_item_data() { bswap_cmd_item_data(); send_subcommand((u8 *)this); }
 
-void bswap_fields__10TObjPlayerFi(saddr arg0) {
-    ((G_ClientIDHeader *)arg0)->bswap();
-    bswap_16((u16 *)(arg0 + 6));
-    bswap_16((u16 *)(arg0 + 4));
-    bswap_32((u32 *)(arg0 + 8));
-    bswap_32((u32 *)(arg0 + 0xC));
-    bswap_32((u32 *)(arg0 + 0x10));
-    bswap_32((u32 *)(arg0 + 0x14));
+void bswap_fields__10TObjPlayerFi(saddr packet) {
+    ((G_ClientIDHeader *)packet)->bswap();
+    bswap_16((u16 *)(packet + 6));
+    bswap_16((u16 *)(packet + 4));
+    bswap_32((u32 *)(packet + 8));
+    bswap_32((u32 *)(packet + 0xC));
+    bswap_32((u32 *)(packet + 0x10));
+    bswap_32((u32 *)(packet + 0x14));
 }
 
-u8 *TObjPlayer__sub_801C106C(u8 *arg0, u8 *source) {
-    copy_subcommand_header(arg0, source);
-    *(s16 *)((s8 *)arg0 + 4) = (s16) *(s16 *)((s8 *)source + 4);
-    *(s16 *)((s8 *)arg0 + 6) = (s16) *(s16 *)((s8 *)source + 6);
-    *(s32 *)((s8 *)arg0 + 8) = (s32) *(s32 *)((s8 *)source + 8);
-    *(ByteBlock_C *)((saddr) arg0 + 0xC) = *(const ByteBlock_C *)((saddr) source + 0xC);
-    return arg0;
+u8 *TObjPlayer__sub_801C106C(u8 *packet, u8 *src) {
+    copy_subcommand_header(packet, src);
+    *(s16 *)((s8 *)packet + 4) = (s16) *(s16 *)((s8 *)src + 4);
+    *(s16 *)((s8 *)packet + 6) = (s16) *(s16 *)((s8 *)src + 6);
+    *(s32 *)((s8 *)packet + 8) = (s32) *(s32 *)((s8 *)src + 8);
+    *(ByteBlock_C *)((saddr) packet + 0xC) = *(const ByteBlock_C *)((saddr) src + 0xC);
+    return packet;
 }
 
 void TObjPlayer::init_6x2A() {
@@ -309,19 +224,19 @@ void *TObjPlayer::copy_short_fields(void *source) {
 void TObjPlayer::init_trap_packet() {
   this->m_flags = 0;
   this->m_id = 0;
-  *((s8 *) (((s8 *) this) + 0)) = (double) 0x83;
-  *((s8 *) (((s8 *) this) + 1)) = 2;
+  *(u8 *)((s8 *)this + 0) = 0x83;
+  *(s8 *)((s8 *)this + 1) = 2;
 }
 
 void TObjPlayer::bswap_body_words_and_send() { bswap_body_words(); send_subcommand((u8 *)this); }
 
 void TObjPlayer::byteswap_data() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); { int i; for (i = 0; i < 30; i++) { bswap_32((u32 *)((char*)this + 0x8 + i * 4)); } } }
 
-u8 *TObjPlayer__sub_801C1268(u8 *arg0, u8 *source) {
-    copy_subcommand_header(arg0, source);
-    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)source + 4);
-    ((SubcmdPacketCopy6xAC *)arg0)->body = ((const SubcmdPacketCopy6xAC *)source)->body;
-    return arg0;
+u8 *TObjPlayer__sub_801C1268(u8 *packet, u8 *src) {
+    copy_subcommand_header(packet, src);
+    *(s32 *)((s8 *)packet + 4) = (s32) *(s32 *)((s8 *)src + 4);
+    ((SubcmdPacketCopy6xAC *)packet)->body = ((const SubcmdPacketCopy6xAC *)src)->body;
+    return packet;
 }
 
 void TObjPlayer::init_6xAC_packet() {
@@ -403,12 +318,12 @@ void TObjPlayer::build_6xAE_set_animation_state_packet() {
 
 void TObjPlayer::bswap_pkt_u32x5() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); bswap_32((u32 *)((char*)this + 0x10)); bswap_32((u32 *)((char*)this + 0x14)); }
 
-u8 *TObjPlayer__sub_801C1664(u8 *arg0, u8 *source) {
-    copy_subcommand_header(arg0, source);
-    *(s32 *)((s8 *)arg0 + 4) = (s32) *(s32 *)((s8 *)source + 4);
-    *(ByteBlock_C *)((saddr) arg0 + 8) = *(const ByteBlock_C *)((saddr) source + 8);
-    *(s32 *)((s8 *)arg0 + 0x14) = (s32) *(s32 *)((s8 *)source + 0x14);
-    return arg0;
+u8 *TObjPlayer__sub_801C1664(u8 *packet, u8 *src) {
+    copy_subcommand_header(packet, src);
+    *(s32 *)((s8 *)packet + 4) = (s32) *(s32 *)((s8 *)src + 4);
+    *(ByteBlock_C *)((saddr) packet + 8) = *(const ByteBlock_C *)((saddr) src + 8);
+    *(s32 *)((s8 *)packet + 0x14) = (s32) *(s32 *)((s8 *)src + 0x14);
+    return packet;
 }
 
 void TObjPlayer::init_cmd_6x20() {
@@ -433,10 +348,10 @@ G_SetPlayerFloor_6x1F &G_SetPlayerFloor_6x1F::operator=(const G_SetPlayerFloor_6
     return *this;
 }
 
-void init_6x1F_floor_packet(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 4) = 0;
-    *(s8 *)((s8 *)arg0 + 0) = 0x1F;
-    *(s8 *)((s8 *)arg0 + 1) = 2;
+void init_6x1F_floor_packet(u8 *packet) {
+    *(s32 *)((s8 *)packet + 4) = 0;
+    *(s8 *)((s8 *)packet + 0) = 0x1F;
+    *(s8 *)((s8 *)packet + 1) = 2;
 }
 
 void TObjPlayer::bswap_and_send_set_floor() { bswap_set_floor_packet(); ((game_command *)this)->send(); }
