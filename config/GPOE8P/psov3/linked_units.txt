@@ -743,7 +743,6 @@ pso/quest/challenge/ChallengeModeSdata.cpp
 pso/unk/TLobby_800726F0.cpp
 pso/unk/TLobby_8007340C.cpp
 pso/unk/TLobby_80073DAC.cpp
-pso/unk/TLobby_80077B60.cpp
 pso/unk/TLobby_8007B858.cpp
 pso/unk/TLobby_8007C550.cpp
 pso/unk/TUnk_8048E1A4.cpp
@@ -1042,7 +1041,6 @@ pso/player/TPlyCharData_801E0A04.cpp
 pso/player/TPlyDispConfigSmth.cpp
 pso/effect/particle/TPlyFollowParticleCtrl.cpp
 pso/player/TPlyGuildCardTag.cpp
-pso/player/TPlyGuildCardTag_80077BBC.cpp
 pso/player/TPlyGuildCardTag_801E0284.cpp
 pso/player/TPlyGuildCardTag_801E09C4.cpp
 pso/network/TPlyJoinGame.cpp
@@ -1816,9 +1814,7 @@ pso/unk/text_80074C20.cpp
 pso/unk/text_80074C70.cpp
 pso/unk/text_80076BC4.cpp
 pso/unk/text_80076E84.cpp
-pso/unk/text_800779A0.cpp
-pso/unk/text_80077AA4.cpp
-pso/unk/text_80077AE8.cpp
+pso/network/protocol/choice_search.cpp
 pso/unk/text_8007C0CC.cpp
 pso/effect/TDuelEffectCtrl.cpp
 pso/enemy/beast/TObjEneBeast_80092AE0.cpp

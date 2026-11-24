@@ -966,20 +966,8 @@ pso/ui/window/TWindowSubComCard_80077788.cpp:
 	.text       start:0x80077788 end:0x800779A0
 	.sbss       start:0x805D4E58 end:0x805D4E60
 
-pso/unk/text_800779A0.cpp:
-	.text       start:0x800779A0 end:0x80077AA4
-
-pso/unk/text_80077AA4.cpp:
-	.text       start:0x80077AA4 end:0x80077AE8
-
-pso/unk/text_80077AE8.cpp:
-	.text       start:0x80077AE8 end:0x80077B60
-
-pso/unk/TLobby_80077B60.cpp:
-	.text       start:0x80077B60 end:0x80077BBC
-
-pso/player/TPlyGuildCardTag_80077BBC.cpp:
-	.text       start:0x80077BBC end:0x80077BC0
+pso/network/protocol/choice_search.cpp:
+	.text       start:0x800779A0 end:0x80077BC0
 
 pso/camera/TCineCtrl.cpp:
 	.text       start:0x80077BC0 end:0x80078064
