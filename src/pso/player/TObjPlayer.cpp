@@ -239,9 +239,13 @@ short TObjPlayer::get_vobj_state_28() {
     return action_provider->get_run_action();
 }
 
+}
+
 TObjPlayer *get_local_player() {
     return get_player_by_client_id(local_client_id);
 }
+
+extern "C" {
 
 
 void TObjPlayer::clear_flag_200000() {
@@ -844,7 +848,6 @@ void TObjPlayer::set_shared_flag(int flag) { shared_flag = flag; }
 ProtectionTimer::~ProtectionTimer() {}
 #pragma pop
 
-extern "C" {
 
 s32 TObjPlayer::reset_and_return(saddr p) {
     clear_equip_slots((s32 *)p);
@@ -861,7 +864,6 @@ void TObjPlayer::clear_base() { *(s32*)((char*)this + 0x0) = 0; }
 MovementHistory::MovementHistory() { clear_movement_history(this); }
 UnitScale::UnitScale() { reset(); }
 
-}
 
 
 extern "C" {
@@ -1741,9 +1743,13 @@ PlayerAttackController *PlayerAttackController::init() {
     return this;
 }
 
+}
+
 s32 is_count_positive(s32 *count) {
     return *count > 0;
 }
+
+extern "C" {
 
 TItemData *TPlyInventoryItem::get_data() { return &m_data; }
 void PendingItemDrop::set_source_id(s32 id) { source_id = id; }
