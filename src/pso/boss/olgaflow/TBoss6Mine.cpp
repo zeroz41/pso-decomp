@@ -22,7 +22,7 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/object/ambient/TObjFish.h"
 

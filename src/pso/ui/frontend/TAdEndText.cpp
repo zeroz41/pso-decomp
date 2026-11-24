@@ -9,7 +9,7 @@
 #include "libc/ctype.h"
 
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdEndText_80307A34.h"

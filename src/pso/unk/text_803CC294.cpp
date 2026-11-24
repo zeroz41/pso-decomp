@@ -9,7 +9,7 @@
 #include "pso/audio/AdxfInternal.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/unk/text_803CC294.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/SjRingBuffer.h"
 
 struct Chunk_803CC294 { u16 id; u16 len; s32 off; };

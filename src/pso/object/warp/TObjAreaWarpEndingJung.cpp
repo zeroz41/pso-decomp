@@ -38,7 +38,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/hud/TRaderMapCore.h"

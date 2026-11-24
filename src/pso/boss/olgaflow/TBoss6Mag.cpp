@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/system/ModelNodePositionCapture.h"
 #include "pso/render/ChunkModelDraw.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/boss/olgaflow/TBoss6Mag.h"
 #include "pso/boss/olgaflow/TBoss6MagMine.h"
 #include "pso/object/base/TObjMotion.h"

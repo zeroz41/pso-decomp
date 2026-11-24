@@ -6,7 +6,7 @@
 #include "pso/unk/text_803C5B50.h"
 #include "types.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/TLoadCtrl.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/memory.h"

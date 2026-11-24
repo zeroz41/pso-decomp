@@ -9,7 +9,7 @@
 #include <string.h>
 
 #pragma readonly_strings on
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/system/THeap.h"

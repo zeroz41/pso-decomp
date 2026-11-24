@@ -20,7 +20,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/task/TObject.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyIdleTimer.h"
 #include "pso/camera/TCameraCtrl.h"
 

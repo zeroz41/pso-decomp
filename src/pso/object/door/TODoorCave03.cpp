@@ -5,7 +5,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/TProtocol.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"

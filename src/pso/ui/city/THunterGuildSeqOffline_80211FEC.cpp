@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80211FEC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/system/TMemberCheck.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"

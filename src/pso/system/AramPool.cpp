@@ -5,7 +5,7 @@
 #undef PSO_SDK_COMPACT_MATH
 #include "pso/system/AramPool.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 volatile s32 aram_dma_pending;
 

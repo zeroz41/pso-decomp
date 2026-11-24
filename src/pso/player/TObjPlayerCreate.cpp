@@ -24,7 +24,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayerCreate.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/PlayerCharDataEntry.h"
 #include "pso/player/PlayerSyncRecord.h"
 #include "pso/object/TObjWaitEntryHairMoveSim.h"

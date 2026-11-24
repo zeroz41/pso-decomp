@@ -35,7 +35,7 @@
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/client_id.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_800FD8A0.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/TObjChip.h"

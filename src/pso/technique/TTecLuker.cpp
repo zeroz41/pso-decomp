@@ -29,7 +29,7 @@
 #include "pso/item/TItemList.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/unk/TLobby_80207644.h"

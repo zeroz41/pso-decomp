@@ -41,7 +41,7 @@
 
 
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
 #include <stddef.h>

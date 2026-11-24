@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_8013292C.h"
 #include "pso/unk/TLobby_80132ED0.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 

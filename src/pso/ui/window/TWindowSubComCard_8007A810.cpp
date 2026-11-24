@@ -5,7 +5,7 @@
 #include "pso/player/TPlyGuildCardTag_8007B7EC.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include <string.h>

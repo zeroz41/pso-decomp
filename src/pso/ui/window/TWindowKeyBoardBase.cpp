@@ -12,7 +12,7 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/quest/TQuestVmDownLoadServer_803E6970.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"

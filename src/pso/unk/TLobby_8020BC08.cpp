@@ -23,7 +23,7 @@ void destroy_child_recursive__6TLobbyFPvPv(TObject *task, TObject *object) {
 }
 }
 void init_switch_table(void);
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/map/TSetManager.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 

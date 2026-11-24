@@ -19,7 +19,7 @@
 #include "pso/system/task/TObject.h"
 
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/technique/TTelepipeEffect.h"

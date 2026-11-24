@@ -21,7 +21,7 @@
 #include <dolphin/os/OSCache.h>
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/ParticleStrip.h"

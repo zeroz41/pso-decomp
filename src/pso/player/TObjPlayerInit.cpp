@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/player/LobbyPlayerActionProvider.h"
 #include "pso/player/GamePlayerActionProvider.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/PlayerClassTechniques.h"
 #include "pso/player/PlayerRequirementStats.h"
 #include "pso/system/task/TObject_80019A50.h"

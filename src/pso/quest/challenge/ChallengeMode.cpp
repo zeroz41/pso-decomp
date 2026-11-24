@@ -17,7 +17,7 @@
 #include "pso/quest/challenge/ChallengeModeState.h"
 #include "pso/quest/challenge/TChallenge.h"
 #include <stddef.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/window/TObjBagWarnWin.h"
 #include "pso/quest/TQuestListOnline.h"

@@ -7,7 +7,7 @@
 #include "pso/unk/TLobby_80105A2C.h"
 #include "pso/unk/text_8011A780.h"
 #include <stddef.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/item/TItemData.h"
 #include "pso/object/base/ObjectSetData.h"
 #include "pso/enemy/TObjEnemy.h"

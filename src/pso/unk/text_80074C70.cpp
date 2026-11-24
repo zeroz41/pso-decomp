@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 void clear_lobby_name() {
     s32 i;

@@ -8,7 +8,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_802A1180.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TUnk_804DCB64.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"

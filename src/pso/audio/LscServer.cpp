@@ -4,7 +4,7 @@
 #include "pso/audio/AdxStream.h"
 #include "pso/audio/LscServer.h"
 #include "pso/audio/AdxStreamRuntime.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include <string.h>
 
 static char lsc_repeat_filename[0x28];

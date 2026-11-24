@@ -8,7 +8,7 @@
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/object/base/ObjectSetData.h"
 #include "pso/item/TItemData.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/city/TShopEquipmentListWindow.h"
 #include "pso/item/TItem.h"

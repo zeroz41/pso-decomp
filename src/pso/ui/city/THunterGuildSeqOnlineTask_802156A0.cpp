@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/item/TItemData.h"
 

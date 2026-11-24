@@ -15,7 +15,7 @@
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/player/PlayerActionProvider.h"
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/TPlyPtclObjectLeftHand.h"
 #include "pso/player/TPlyPtclObjectRightHand.h"

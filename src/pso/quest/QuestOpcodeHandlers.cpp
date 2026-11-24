@@ -45,7 +45,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/item/drop/TItemDropSub.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/chat/SymbolChatPayload.h"
 #include "pso/network/TProtocol.h"

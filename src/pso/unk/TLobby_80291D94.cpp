@@ -13,7 +13,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TObjSoloPlayWin.h"
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
 #include "pso/quest/challenge/TChallenge4P.h"

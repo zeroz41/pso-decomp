@@ -1,6 +1,6 @@
 #include "types.h"
 #include <string.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 char lobby_name[0x18] = { 0 };
 

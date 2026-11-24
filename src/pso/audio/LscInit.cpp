@@ -2,7 +2,7 @@
 #include "pso/audio/LscStream.h"
 #include "pso/audio/LscLog.h"
 #include "pso/audio/LscInit.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include <string.h>
 
 extern "C" {

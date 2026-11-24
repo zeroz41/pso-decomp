@@ -7,7 +7,7 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

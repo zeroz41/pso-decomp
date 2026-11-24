@@ -15,7 +15,7 @@
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_803DE778.h"
 

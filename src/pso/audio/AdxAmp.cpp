@@ -3,7 +3,7 @@
 #include "pso/audio/AdxLock.h"
 #include <string.h>
 #include "pso/audio/AdxAmp.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 extern "C" {
 

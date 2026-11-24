@@ -7,7 +7,7 @@
 #include "pso/unk/text_801F4560.h"
 #include "pso/unk/text_801F469C.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

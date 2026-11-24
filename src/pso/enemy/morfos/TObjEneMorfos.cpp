@@ -39,7 +39,7 @@
 #include "pso/enemy/morfos/TObjEneMorfosArm.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"

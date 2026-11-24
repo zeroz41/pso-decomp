@@ -5,7 +5,7 @@
 #include "pso/unk/text_803D2F1C.h"
 #include "pso/audio/AdxStream.h"
 #include "pso/system/CvFsStreamHandle.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/LscStream.h"

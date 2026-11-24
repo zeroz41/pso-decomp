@@ -3,7 +3,7 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/unk/TLobby_8020E400.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
 void TLobby::bswap_player_fields() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }

@@ -112,7 +112,7 @@ Vec shadow_light_position = {0.0f, 0.0f, 0.0f};
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/trap/TOTrapAncient02.h"
 #include "pso/system/scene/TScene.h"

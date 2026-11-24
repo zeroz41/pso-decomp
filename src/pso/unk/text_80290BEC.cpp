@@ -7,7 +7,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 extern "C" {
 s32 TKeyBoardControl__sub_8000F92C();

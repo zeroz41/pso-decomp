@@ -4,7 +4,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobbyEventTheme.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"

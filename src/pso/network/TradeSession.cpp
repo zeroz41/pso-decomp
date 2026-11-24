@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"

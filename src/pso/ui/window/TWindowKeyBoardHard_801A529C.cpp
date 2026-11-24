@@ -3,7 +3,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/ui/window/TWindowKeyBoardHard_801A529C.h"
 #include "pso/network/packet_copy.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>

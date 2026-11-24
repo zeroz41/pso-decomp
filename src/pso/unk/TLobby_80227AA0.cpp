@@ -7,7 +7,7 @@
 #include "pso/audio/AdxManager.h"
 #include "pso/unk/TLobby_80227AA0.h"
 #include "pso/unk/text_8023F660.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/TLobby_8023F734.h"

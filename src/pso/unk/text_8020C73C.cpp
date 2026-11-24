@@ -2,7 +2,7 @@
 #include "pso/unk/text_8020CCF4.h"
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer_80011014.h"
 extern "C" {
 s32 set_flags_on_matching_entries__6TLobbyFlssl(s32, s32, s32, s32);

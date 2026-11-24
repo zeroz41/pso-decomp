@@ -1,7 +1,7 @@
 #define PSO_SDK_COMPACT_MATH
 #include <dolphin/os/OSThread.h>
 #include "pso/audio/AdxLock.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #undef PSO_SDK_COMPACT_MATH
 #include <string.h>
 #include "pso/audio/AdxEncoder.h"

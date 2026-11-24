@@ -71,7 +71,7 @@
 #include "pso/unk/text_8011A780.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/ui/font/TFontSmallLobby.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/object/key/TOKeyMachine01.h"

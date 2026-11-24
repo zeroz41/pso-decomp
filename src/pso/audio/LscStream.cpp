@@ -3,7 +3,7 @@
 #include "pso/audio/LscLog.h"
 #include "pso/audio/LscStream.h"
 #include "pso/audio/AdxStreamRuntime.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 void (*lsc_queue_empty_callback)(void *, void *);
 void *lsc_queue_empty_object;

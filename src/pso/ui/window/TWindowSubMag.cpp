@@ -19,7 +19,7 @@
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/item/TItemData.h"
 #include "pso/item/mag/TItemMag.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowShortListCtrl.h"

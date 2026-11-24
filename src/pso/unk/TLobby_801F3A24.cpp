@@ -14,7 +14,7 @@
 #include "pso/unk/text_8020AB50.h"
 #include "pso/unk/text_8020AD40.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"

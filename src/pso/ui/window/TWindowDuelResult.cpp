@@ -5,7 +5,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

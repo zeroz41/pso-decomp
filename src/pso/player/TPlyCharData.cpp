@@ -5,7 +5,7 @@
 #include "pso/player/TPlyDispData.h"
 #include "pso/player/TPlyInventory.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 TPlyCharData::~TPlyCharData() {}
 

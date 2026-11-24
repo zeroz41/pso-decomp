@@ -8,7 +8,7 @@
 #include "pso/unk/text_80145A94.h"
 #include "pso/system/main_loop.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "types.h"
 #include "pso/ui/frontend/TAdADXlogo.h"

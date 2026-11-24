@@ -29,7 +29,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"

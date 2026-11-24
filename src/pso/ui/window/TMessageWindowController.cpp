@@ -3,7 +3,7 @@
 #include "pso/quest/TQuestListChallenge.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/ui/window/TWindowAddition.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowMessagePage.h"

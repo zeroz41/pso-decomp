@@ -3,7 +3,7 @@
 #include "pso/audio/CriSvm.h"
 #include <stdarg.h>
 #include <stdio.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 s32 lobby_callback_tables_refcount;
 

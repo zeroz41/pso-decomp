@@ -14,7 +14,7 @@
 #include "pso/system/TLanguage.h"
 #include "pso/network/TProtocol.h"
 #include "pso/system/TGStream.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TTextureWave.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

@@ -2,7 +2,7 @@
 #include <string.h>
 #include "pso/item/shop/ShopToolStock.h"
 #include "pso/unk/text_80223B98.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/item/TItemData.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/protocol/protocol_types.h"

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "pso/unk/TLobby_80207644.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"

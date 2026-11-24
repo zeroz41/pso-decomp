@@ -14,7 +14,7 @@
 #include "pso/object/container/TObjContainerAbeEnemy.h"
 #include "pso/map/FloorArea.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/key/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/ambient/TObjFish.h"

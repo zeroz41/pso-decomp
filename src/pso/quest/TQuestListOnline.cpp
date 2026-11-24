@@ -21,7 +21,7 @@
 #include <stddef.h>
 #include "pso/network/TProtocol.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"

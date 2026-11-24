@@ -10,7 +10,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/unk/text_8036A3CC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby_80132ED0.h"

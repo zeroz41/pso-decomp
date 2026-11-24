@@ -13,7 +13,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/TObjPathObj.h"

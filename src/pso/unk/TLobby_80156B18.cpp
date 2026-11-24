@@ -3,7 +3,7 @@
 #include "pso/unk/TLobby_80156B18.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 
 void TLobby::bswap_60_header(void* p) { ((TLobby *)p)->bswap_header(); }

@@ -8,7 +8,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSnapShot_802A7D68.h"
 #include "pso/ui/hud/TLockOnCursor_8013D91C.h"

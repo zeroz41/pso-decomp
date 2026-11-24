@@ -21,7 +21,7 @@
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/ui/hud/TRaderMapCore.h"

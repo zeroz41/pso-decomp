@@ -2,7 +2,7 @@
 #include "pso/unk/text_800FA464.h"
 #include "types.h"
 #include "pso/unk/text_800FA260.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {

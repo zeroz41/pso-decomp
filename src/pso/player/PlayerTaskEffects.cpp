@@ -86,7 +86,7 @@ s32 TObjPlayer__sub_801C6DAC(u8 *target);
 
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/vector.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_801E43E4.h"

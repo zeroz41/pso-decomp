@@ -2,7 +2,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/TLobby_802230F8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/city/BankItemRecord.h"
 
 s32 TLobby::compare_version(void *arg1) {

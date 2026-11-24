@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/TProtocol.h"
 
 s32 info_board_state_flags;

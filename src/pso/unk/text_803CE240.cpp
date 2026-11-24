@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/unk/text_803CD99C.h"
 #include "pso/unk/text_803CE240.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AixPlayer.h"
 #include "pso/audio/AdxTalk.h"
 #include "pso/audio/AdxtInternal.h"

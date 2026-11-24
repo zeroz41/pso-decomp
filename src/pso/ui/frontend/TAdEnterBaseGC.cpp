@@ -36,7 +36,7 @@
 
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "pso/unk/TLobby_80132ED0.h"
 

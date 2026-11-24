@@ -12,7 +12,7 @@
 #include "pso/network/protocol/ItemDropPacket.h"
 #include "pso/enemy/TObjEnemy.h"
 #include <stddef.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/item/TItemData.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TUnk_8049F770.h"

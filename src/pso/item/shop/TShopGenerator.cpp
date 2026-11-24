@@ -17,7 +17,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_80222C28.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_80211D58.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/ui/city/TShopEquipmentSequence.h"

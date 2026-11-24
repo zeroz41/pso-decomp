@@ -10,7 +10,7 @@
 #include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
 
 struct Hdr_80071BC0 { u32 a, b; };

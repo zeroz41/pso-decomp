@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/TLobby_801D6DC4.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
 struct Obj_801D6F60 { u8 pad[0x16]; s16 v; };

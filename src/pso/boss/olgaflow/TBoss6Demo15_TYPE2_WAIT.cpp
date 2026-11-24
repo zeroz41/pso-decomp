@@ -18,7 +18,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"

@@ -2,7 +2,7 @@
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/unk/text_8020CCF4.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 void TLobby::create_objects(s32 floor) {
     s16 flags;

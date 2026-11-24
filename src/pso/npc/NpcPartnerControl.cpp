@@ -4,7 +4,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/npc/TNpcPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/technique/TTecReverser.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"

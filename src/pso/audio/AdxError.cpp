@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/audio/AdxError.h"
 #include <string.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/CriSvm.h"
 
 extern "C" {

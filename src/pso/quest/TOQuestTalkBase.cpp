@@ -3,7 +3,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraFollow.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/network/client_id.h"

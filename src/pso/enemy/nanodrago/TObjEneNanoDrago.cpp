@@ -98,7 +98,7 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 
 #pragma pop
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3VoloptMonitor.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"

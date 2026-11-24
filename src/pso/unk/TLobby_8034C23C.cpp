@@ -3,7 +3,7 @@
 #include <string.h>
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/TProtocol.h"
 

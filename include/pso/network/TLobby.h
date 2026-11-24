@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TLOBBY_H
-#define PSO_UNK_TLOBBY_H
+#ifndef PSO_NETWORK_TLOBBY_H
+#define PSO_NETWORK_TLOBBY_H
 
 #include "types.h"
 

@@ -14,7 +14,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/math/AngleLookup.h"

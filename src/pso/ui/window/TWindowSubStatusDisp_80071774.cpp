@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 
 static char no_rank_title[4] = "";

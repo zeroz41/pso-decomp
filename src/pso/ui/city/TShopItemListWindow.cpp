@@ -15,7 +15,7 @@
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/city/TShopItemListWindow.h"
 #include "pso/ui/city/TShopWindowBase.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/city/TShopGetItemWindow.h"

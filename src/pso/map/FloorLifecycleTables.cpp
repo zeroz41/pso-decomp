@@ -19,7 +19,7 @@
 #include "pso/effect/TKomorebi.h"
 #include "pso/system/TLanguage.h"
 #include "pso/object/fence/TLazerFenceSw.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/TMotorcycle.h"
 #include "pso/object/cave/TOAirconCave01.h"
 #include "pso/object/cave/TOAirconCave02.h"

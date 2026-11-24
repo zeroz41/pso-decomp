@@ -35,7 +35,7 @@
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/camera/TCameraCtrl.h"
 

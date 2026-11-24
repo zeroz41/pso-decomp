@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/unk/text_80184C2C.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 

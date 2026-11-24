@@ -2,7 +2,7 @@
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/unk/text_8020CCF4.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 s32 TLobby::link_matching_objects(s16 room, s16 wave) {
     s16 set_index;

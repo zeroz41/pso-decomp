@@ -13,7 +13,7 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TObject.h"

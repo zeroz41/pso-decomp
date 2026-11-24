@@ -12,7 +12,7 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/TWindowMenu.h"

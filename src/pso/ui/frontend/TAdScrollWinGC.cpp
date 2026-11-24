@@ -10,7 +10,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowMessageLog.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_80145A94.h"

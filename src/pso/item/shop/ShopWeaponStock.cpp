@@ -4,7 +4,7 @@
 #include "pso/item/shop/ShopWeaponStock.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/unk/text_8020EEFC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include <stdlib.h>

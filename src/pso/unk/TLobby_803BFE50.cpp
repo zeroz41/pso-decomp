@@ -6,7 +6,7 @@
 #include <stddef.h>
 #include "pso/unk/TLobby_803BFE50.h"
 #include "pso/audio/SjRingBuffer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_803C1780.h"
 #include "pso/unk/text_803D2F1C.h"
 #include <string.h>

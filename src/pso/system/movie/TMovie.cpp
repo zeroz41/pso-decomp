@@ -8,7 +8,7 @@
 #include "pso/system/movie/TMovie.h"
 #include "pso/system/movie/TMovie_80143C94.h"
 #include "pso/system/movie/TMovie_80143CE8.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/system/memory.h"

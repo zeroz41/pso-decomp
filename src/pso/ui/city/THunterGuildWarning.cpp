@@ -193,7 +193,7 @@ s32 TPlayerBattleCtrl4P::fn_80211B10(s32 id) {
 
 // ---- pso/unk/TLobby_80211C1C
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestListOnline.h"
 
 extern "C" {

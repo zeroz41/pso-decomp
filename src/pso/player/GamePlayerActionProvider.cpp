@@ -3,7 +3,7 @@
 #include "pso/player/GamePlayerActionProvider.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/PlayerActionProvider.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 

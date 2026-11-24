@@ -7,7 +7,7 @@
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/window/TWindowUserSort.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"

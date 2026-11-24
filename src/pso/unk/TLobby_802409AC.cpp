@@ -7,7 +7,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/audio/SoundRequestVoice.h"
 #include "pso/unk/GuildCardRecord.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/unk/TLobby_80242910.h"

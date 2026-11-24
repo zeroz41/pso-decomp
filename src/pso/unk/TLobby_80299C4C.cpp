@@ -15,7 +15,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/olgaflow/TBoss6EmptyWarp.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMenu.h"

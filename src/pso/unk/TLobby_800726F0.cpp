@@ -9,7 +9,7 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/system/byteswap.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMenu.h"

@@ -47,7 +47,7 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjControl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/volopt/TBoss3VoloptP01.h"

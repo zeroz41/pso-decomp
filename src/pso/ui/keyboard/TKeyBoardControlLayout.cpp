@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowKeyBoardBase.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/window/TWindowKeyBoardSoft.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 
 void TKeyBoardControl::hide() {

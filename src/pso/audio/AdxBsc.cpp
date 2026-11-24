@@ -4,7 +4,7 @@
 #include <string.h>
 #include "pso/unk/TLobby_803BFE50.h"
 #include "pso/audio/AdxStreamRuntime.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AdxbDecoder.h"
 #include "pso/audio/AdxExpand.h"
 #include "pso/audio/AdxHeader.h"

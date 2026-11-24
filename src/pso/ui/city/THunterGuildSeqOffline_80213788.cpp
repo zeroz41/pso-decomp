@@ -24,7 +24,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"

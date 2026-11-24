@@ -2,7 +2,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/audio/AdxAiff.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AdxbDecoder.h"
 #include "pso/audio/AdxExpand.h"
 #include "pso/audio/AiffHeader.h"

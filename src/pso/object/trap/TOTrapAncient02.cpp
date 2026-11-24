@@ -25,7 +25,7 @@
 #include "pso/technique/TTecMegid.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TUnk_804EDAC0.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_800FD8A0.h"

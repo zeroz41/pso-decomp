@@ -1,7 +1,7 @@
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/unk/TLobby_8020B334.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 struct VObj8020 {
     char pad[0x18];

@@ -30,7 +30,7 @@ const char *TBoss1DragonColli__name = "TBoss1DragonColli";
 
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"

@@ -8,7 +8,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_8026A14C.h"
 #include "pso/unk/text_8026A328.h"
 #include "pso/object/TObjTombstone.h"

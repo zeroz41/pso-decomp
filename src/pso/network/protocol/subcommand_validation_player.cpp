@@ -7,7 +7,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/network/protocol/subcmd_6x.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/PlayerScaleState.h"

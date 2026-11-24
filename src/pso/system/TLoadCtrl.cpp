@@ -10,7 +10,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "pso/system/vector.h"
 #include "pso/ui/hud/TNowLoading.h"

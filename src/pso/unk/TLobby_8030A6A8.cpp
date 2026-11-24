@@ -2,7 +2,7 @@
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"

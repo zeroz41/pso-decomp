@@ -6,7 +6,7 @@
 #include "pso/render/SceneFog.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/unk/TLobby_803DE778.h"

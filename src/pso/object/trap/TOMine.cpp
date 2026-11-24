@@ -28,7 +28,7 @@ struct game_command_header;
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/task/TMainTask.h"

@@ -38,7 +38,7 @@
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/text_803D853C.h"
 
 #include "pso/object/base/TObjChara.h"

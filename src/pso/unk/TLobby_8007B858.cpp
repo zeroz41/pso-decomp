@@ -9,7 +9,7 @@
 #include "pso/object/lobby/TGoGoBallGame.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/map/TSetManager.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/TProtocol.h"
 #include "pso/unk/TLobbyEventTheme.h"
 #include "pso/quest/TQuestColCtrl.h"

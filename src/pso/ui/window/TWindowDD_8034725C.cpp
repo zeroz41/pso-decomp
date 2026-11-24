@@ -14,7 +14,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80228E98.h"
 #include <string.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/task/TObject.h"

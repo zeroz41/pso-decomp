@@ -4,7 +4,7 @@
 #include "pso/system/vector.h"
 
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"

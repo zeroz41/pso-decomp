@@ -35,7 +35,7 @@
 
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "pso/ui/window/TWindowCtrl.h"
 

@@ -5,7 +5,7 @@
 #include <dolphin/os/OSCache.h>
 #include <dolphin/os/OSTime.h>
 #include "pso/system/CvFsStreamHandle.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/GcciRequests.h"
 #include "pso/system/movie/Gcci.h"
 #include "pso/system/movie/CvFsErrorBridge.h"

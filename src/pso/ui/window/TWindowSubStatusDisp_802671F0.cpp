@@ -18,7 +18,7 @@
 #include "pso/ui/window/TUnk_804CE7E8.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include <stddef.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
 #include "pso/ui/window/TWindowSubMag.h"

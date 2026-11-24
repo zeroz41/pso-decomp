@@ -42,7 +42,7 @@ const char *TObjBagWarnWin4P__name = "TObjBagWarnWin4P";
 
 #include "pso/map/FloorArea.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/city/THunterGuildWarning.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"

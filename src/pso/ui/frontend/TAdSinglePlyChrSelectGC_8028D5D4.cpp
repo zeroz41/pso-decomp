@@ -4,7 +4,7 @@
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_8028D714.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

@@ -2,7 +2,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/boss/dragon/ObjBoss1CommonResource.h"
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/GinjaTexture.h"
 

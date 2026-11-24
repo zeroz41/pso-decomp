@@ -4,7 +4,7 @@
 #include <string.h>
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/system/THeap.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/network/protocol/protocol.h"

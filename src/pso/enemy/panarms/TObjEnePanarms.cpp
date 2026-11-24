@@ -20,7 +20,7 @@
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/technique/TTecJelin.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/technique/TTecZarua.h"

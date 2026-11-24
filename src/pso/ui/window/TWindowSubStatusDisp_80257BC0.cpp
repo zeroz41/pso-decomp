@@ -2,7 +2,7 @@
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowSpritePart.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TWindowStatusGauge.h"
 #include "pso/unk/TWindowStatusGaugeFeedback.h"
 #include "pso/unk/TUnk_804CF998.h"

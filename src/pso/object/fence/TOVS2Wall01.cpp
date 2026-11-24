@@ -7,7 +7,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/object/fence/TOBarrierEnergy01.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/fence/TOVS2Wall01.h"

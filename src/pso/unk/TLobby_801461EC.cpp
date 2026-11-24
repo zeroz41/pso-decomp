@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/PppApi.h"
 #include "pso/network/NetStack.h"
 #include "pso/network/NetApi.h"

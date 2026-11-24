@@ -17,7 +17,7 @@ struct NJS_OBJECT;
 #include "pso/system/task/TObject.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/slime/TObjEneSlimeOne.h"
 #include "pso/enemy/slime/TObjEneSlimeTailAttack.h"
 #include "pso/enemy/slime/TObjEneSlimeWaterBomb.h"

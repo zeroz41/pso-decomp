@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/ambient/TObjMistCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 
 void *TLobby::create_mist_ctrl(void *parent, void *arg1) {

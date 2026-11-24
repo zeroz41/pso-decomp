@@ -1,6 +1,6 @@
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 struct VBase { char pad[0x18]; };
 struct VObj : VBase {

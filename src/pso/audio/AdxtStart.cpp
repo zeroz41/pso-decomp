@@ -2,7 +2,7 @@
 #include "pso/audio/AdxError.h"
 #include "pso/audio/AdxLock.h"
 #include "pso/audio/SjMemoryBuffer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/AdxtInternal.h"

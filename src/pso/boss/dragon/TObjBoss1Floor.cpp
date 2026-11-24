@@ -12,7 +12,7 @@
 #include "pso/unk/text_803D96A8.h"
 
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/dd/TObjEneDD.h"

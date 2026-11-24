@@ -42,7 +42,7 @@
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"

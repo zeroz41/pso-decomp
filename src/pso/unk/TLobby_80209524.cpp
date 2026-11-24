@@ -8,7 +8,7 @@
 #include "pso/unk/TLobby_80209524.h"
 #include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/map/TSetManager.h"
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/unk/text_80209584.h"

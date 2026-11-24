@@ -9,7 +9,7 @@
 #include "pso/unk/TLobby_801F2D2C.h"
 #include "pso/ui/frontend/TAdWarningBaseGC.h"
 #include "pso/system/date.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/render/TDLGraph.h"
 #include "pso/ui/Language.h"
 #include "pso/system/task/TObject.h"

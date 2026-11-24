@@ -1,7 +1,7 @@
 // CRI adx_bsps.c: the SPSD decoder (ADXB_CheckSpsd, ADXB_ExecOneSpsd, header decode and info).
 #include "types.h"
 #include <string.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AdxbDecoder.h"
 #include "pso/audio/AdxExpand.h"
 

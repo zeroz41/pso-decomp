@@ -3,7 +3,7 @@
 #include "pso/audio/AdxDecode4.h"
 #include "pso/audio/AdxExpand.h"
 #include "pso/audio/AdxHeader.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/LscStream.h"

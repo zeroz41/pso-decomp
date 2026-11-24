@@ -2,7 +2,7 @@
 #define PSO_NETWORK_TPLYJOINLOBBYENTRY_H
 
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/protocol/subcmd_6x.h"
 
 class TPlyCharData;

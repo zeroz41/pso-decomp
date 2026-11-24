@@ -8,7 +8,7 @@
 #include "pso/player/TObjPlayer_802C367C.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TPlyItem.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_802A0F3C.h"
 
 extern "C" {

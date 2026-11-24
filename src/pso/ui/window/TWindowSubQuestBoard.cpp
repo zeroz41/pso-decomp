@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowSubQuestBoardSelect.h"
 #include "pso/ui/window/TWindowSubOption.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubMagPhoton.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"

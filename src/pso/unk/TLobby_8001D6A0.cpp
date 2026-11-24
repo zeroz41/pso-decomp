@@ -12,7 +12,7 @@
 #include "pso/system/date.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

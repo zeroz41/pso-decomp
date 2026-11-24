@@ -1,6 +1,6 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/quest/challenge/TChallenge.h"
 #include "pso/quest/challenge/ChallengeModeState.h"

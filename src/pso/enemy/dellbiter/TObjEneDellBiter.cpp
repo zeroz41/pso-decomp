@@ -48,7 +48,7 @@
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/item/TItemData.h"
 #include "pso/render/RenderFadeState.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
 

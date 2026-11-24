@@ -27,7 +27,7 @@ struct NJS_OBJECT;
 #include "types.h"
 #include "pso/system/AreaSound.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/player/TObjPlayer.h"

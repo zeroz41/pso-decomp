@@ -7,7 +7,7 @@
 #include "pso/npc/TObjNpcMale.h"
 
 #include "pso/npc/TObjNpcHFW00.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"

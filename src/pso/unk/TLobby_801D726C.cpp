@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/TLobby_801D726C.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 extern "C" {
 

@@ -5,7 +5,7 @@
 
 #include "types.h"
 #include "pso/system/debug_print.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/byteswap.h"
 
 // The LZSS decoder's stream pointers, after its window and trees.

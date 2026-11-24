@@ -11,7 +11,7 @@
 #include "pso/network/TSocket.h"
 #include "pso/network/TTcpSocket.h"
 #include "pso/network/TUdpSocket.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #pragma readonly_strings on
 

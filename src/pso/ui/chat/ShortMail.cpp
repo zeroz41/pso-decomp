@@ -6,7 +6,7 @@
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/item/TItemData.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include <string.h>
 #include "pso/ui/window/TWindowCtrl.h"

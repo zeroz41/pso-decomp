@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/TLobby_80228154.h"
 #include "pso/unk/TLobby_80299C4C.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
 #include <stddef.h>

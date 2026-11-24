@@ -4,7 +4,7 @@
 #include <string.h>
 #include "pso/unk/text_803D31A4.h"
 #include "pso/unk/text_803CE240.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/LscStream.h"
 #include "pso/audio/AdxFsServer.h"
 #include "pso/audio/AdxLock.h"

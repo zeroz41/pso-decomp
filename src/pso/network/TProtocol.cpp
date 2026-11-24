@@ -9,7 +9,7 @@
 #include "pso/player/TPlySmth.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/ui/window/TWindowSubComCard_8007A810.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/protocol/packet_swaps.h"
 #include "pso/player/TPlyClientConfig.h"
 #include "pso/network/protocol/packet_classes.h"
@@ -546,7 +546,6 @@ void TProtocol::send_server_time_accepted() {
 
 // ---- pso/unk/text_801DB554
 #include "types.h"
-#include "pso/unk/TLobby.h"
 #include "pso/network/protocol/protocol.h"
 
 void TProtocol::send_6F_burst_done() {

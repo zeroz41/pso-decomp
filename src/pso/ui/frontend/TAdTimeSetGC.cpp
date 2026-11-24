@@ -29,7 +29,7 @@
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_8023F160.h"

@@ -24,7 +24,7 @@
 
 #include "pso/system/task/TObject.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer.h"
 

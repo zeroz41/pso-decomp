@@ -3,7 +3,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/collision/TObjBgmColCtrl.h"
 #include "pso/system/TLoadCtrl_80227390.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"

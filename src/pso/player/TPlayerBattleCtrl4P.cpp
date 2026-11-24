@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "pso/player/TPlayerBattleCtrl4P.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TUnk_804C3E88.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/ui/window/TWindowCtrl.h"

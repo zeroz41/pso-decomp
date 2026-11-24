@@ -16,7 +16,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/system/vector.h"

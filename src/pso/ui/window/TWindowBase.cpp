@@ -8,7 +8,7 @@
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/ui/window/TWindowLockOn.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowFukidasi.h"
 #include "pso/ui/window/TWindowSubComCard.h"

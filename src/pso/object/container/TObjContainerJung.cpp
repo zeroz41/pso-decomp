@@ -21,7 +21,7 @@
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TUnk_804B6C24.h"

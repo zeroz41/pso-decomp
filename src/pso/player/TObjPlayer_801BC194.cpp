@@ -7,7 +7,7 @@
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/player/TObjPlayer_801BC404.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TForceOperate.h"

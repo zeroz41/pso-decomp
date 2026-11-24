@@ -1,7 +1,7 @@
 #include "pso/unk/text_800FA464.h"
 #include "types.h"
 #include <string.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_800FA848.h"
 
 

@@ -32,7 +32,7 @@
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/render/MaterialShadeFade.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/map/FloorArea.h"

@@ -5,7 +5,7 @@
 #include "pso/audio/AdxTalk.h"
 #include "pso/system/movie/Mfci.h"
 #include <dolphin/os/OSInterrupt.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/CvFsStreamHandle.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"

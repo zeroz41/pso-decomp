@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowSubInformationBoard.h"
 #include "pso/ui/window/TWindowMainMenu.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowMessage.h"

@@ -4,7 +4,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/TLobby_80227A2C.h"

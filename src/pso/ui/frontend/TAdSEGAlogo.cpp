@@ -9,7 +9,7 @@
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 

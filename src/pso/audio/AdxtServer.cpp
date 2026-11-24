@@ -2,7 +2,7 @@
 #include "pso/audio/AdxError.h"
 #include <dolphin/os/OSThread.h>
 #include "pso/unk/text_803D2F1C.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxtInternal.h"
 #include "pso/audio/AudioStreamInput.h"

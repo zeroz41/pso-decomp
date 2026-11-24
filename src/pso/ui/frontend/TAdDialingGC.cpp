@@ -17,7 +17,7 @@
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_8014618C.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/ControllerInput.h"
 #include <stdio.h>
 #include "pso/unk/TLobby_801461EC.h"

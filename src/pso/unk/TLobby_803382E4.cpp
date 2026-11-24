@@ -12,7 +12,7 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803E2D70.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"

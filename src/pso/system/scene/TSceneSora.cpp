@@ -16,7 +16,7 @@
 #include "pso/system/BmlResourceLoad.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/scene/TSceneSora.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"

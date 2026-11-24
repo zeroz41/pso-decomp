@@ -25,7 +25,7 @@
 #include <string.h>
 #include "pso/network/TPacket.h"
 #include "pso/network/TGameProtocol.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/unk/TLobby_8020BFC4.h"
 #include "pso/unk/text_8020B5CC.h"

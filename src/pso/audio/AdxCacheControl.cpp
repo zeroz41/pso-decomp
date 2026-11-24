@@ -1,6 +1,6 @@
 #include "pso/audio/AdxCacheControl.h"
 #include <dolphin/os/OSCache.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 extern "C" {
 

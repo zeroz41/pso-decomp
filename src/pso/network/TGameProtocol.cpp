@@ -15,7 +15,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/network/protocol/packet_classes.h"
 #include "pso/network/protocol/GameplaySoundPacket.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/text_801E3F24.h"
 #include "pso/system/debug_print.h"

@@ -8,7 +8,7 @@
 #include "pso/object/TObjTombstone.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"

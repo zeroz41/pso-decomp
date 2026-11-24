@@ -12,7 +12,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801334D4.h"
 
 #include "pso/ui/TLevelSelect.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdSubPlyItemGC.h"

@@ -11,7 +11,7 @@
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/system/memory.h"
 #include "pso/render/NinjaUtil.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/TGStream.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

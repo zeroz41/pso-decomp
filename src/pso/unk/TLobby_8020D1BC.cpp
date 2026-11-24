@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 struct VBase_8020d1bc { char pad[0x18]; };
 struct VObj_8020d1bc : VBase_8020d1bc {

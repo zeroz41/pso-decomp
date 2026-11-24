@@ -18,7 +18,7 @@
 #include "pso/boss/darkfalz/TObjDFHorming.h"
 #include "pso/boss/darkfalz/TBoss4Thanks.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/boss/darkfalz/TObjDFDemo3.h"
 #include "pso/boss/darkfalz/TObjDFDemo4.h"
 #include "pso/boss/darkfalz/TObjDFDemo5.h"

@@ -17,7 +17,7 @@
 #include "pso/network/TSocket.h"
 #include "pso/network/TTcpSocket.h"
 #include "pso/network/TUdpSocket.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/gjSystem.h"
 

@@ -7,7 +7,7 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/npc/TNpcPlayer.h"

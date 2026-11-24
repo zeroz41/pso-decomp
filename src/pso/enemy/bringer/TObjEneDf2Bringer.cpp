@@ -123,7 +123,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/item/TItem.h"
 
 #include "pso/enemy/bringer/BringerEffects.h"

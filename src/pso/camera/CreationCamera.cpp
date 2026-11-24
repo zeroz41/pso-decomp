@@ -5,7 +5,7 @@
 #include "pso/ui/charcreate/CreationInput.h"
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CharacterCreationModels.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/charcreate/TObjCMProportion.h"

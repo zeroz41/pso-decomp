@@ -5,7 +5,7 @@
 #include "pso/system/task/TObject_8001A448.h"
 #include "pso/unk/text_80307BE8.h"
 #include "pso/system/memory.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

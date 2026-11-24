@@ -133,7 +133,7 @@ struct Obj_80343C64
 
 #include <stddef.h>
 #include <string.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"

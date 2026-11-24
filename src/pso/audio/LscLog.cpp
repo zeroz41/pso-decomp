@@ -2,7 +2,7 @@
 #include "pso/audio/LscLog.h"
 #include <stdarg.h>
 #include <stdio.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/system/MiddlewareInterruptLock.h"
 
 typedef void (*LscLogCallback)(s32, u8 *);

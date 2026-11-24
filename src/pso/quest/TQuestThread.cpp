@@ -19,7 +19,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/item/TObjItemNameSelect.h"
 #include "pso/item/TObjItemOKWindow.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_801F2D2C.h"
 #include "pso/quest/TQuestListOnline.h"
 #include "pso/quest/TQuestListVM.h"

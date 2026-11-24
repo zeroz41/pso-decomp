@@ -16,7 +16,7 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/item/TItem.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/unk/TDeathTintFade.h"
 

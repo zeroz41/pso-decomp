@@ -6,7 +6,7 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/network/client_id.h"
 

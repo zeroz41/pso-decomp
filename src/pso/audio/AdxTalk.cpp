@@ -13,7 +13,7 @@
 #include "pso/unk/TLobby_803CBF50.h"
 #include "pso/audio/GcrnaBridgeReady.h"
 #include "pso/audio/GcrnaBridgeTeardown.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxmThreadStorage.h"
 #include "pso/audio/LscStream.h"

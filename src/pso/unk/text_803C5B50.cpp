@@ -3,7 +3,7 @@
 #include "pso/audio/AdxError.h"
 #include "pso/audio/AdxLock.h"
 #include "pso/unk/text_803C5B50.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #undef PSO_SDK_COMPACT_MATH
 #include <string.h>
 #include "pso/audio/AdxEncoder.h"

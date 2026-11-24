@@ -25,7 +25,7 @@
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/technique/TTecMegid.h"
 #include "pso/object/ambient/TObjFish.h"

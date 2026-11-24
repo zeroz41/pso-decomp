@@ -1,7 +1,7 @@
 #include "pso/system/Adxf.h"
 #include "musyx/musyx.h"
 #include "pso/audio/SoundBankTables.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 // --- data head (folded from pso/audio/SoundBankTables.cpp) ---
 

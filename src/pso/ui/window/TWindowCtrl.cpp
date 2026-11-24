@@ -10,7 +10,7 @@
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TWindowSubComCard_80077788.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/network/TProtocol.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/window/TWindowFukidasi.h"

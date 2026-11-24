@@ -1,7 +1,7 @@
 // CRI adx_bau.c: the Sun/NeXT .snd (AU) decoder (ADXB_ExecOneAu: mu-law, 8 and 16 bit).
 #include "types.h"
 #include <string.h>
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/AdxbDecoder.h"
 #include "pso/audio/AdxExpand.h"
 

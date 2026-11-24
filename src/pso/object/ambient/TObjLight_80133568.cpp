@@ -17,7 +17,7 @@
 #include <stddef.h>
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/ambient/PointLight.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

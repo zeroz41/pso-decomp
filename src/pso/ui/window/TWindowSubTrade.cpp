@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 class TChCrTagPlBack;
 #include "pso/ui/window/TWindowSubTrade.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 

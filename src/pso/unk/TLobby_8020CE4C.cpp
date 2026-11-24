@@ -2,7 +2,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "types.h"
 #include "pso/unk/text_8020CCF4.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 void TLobby::assign_display_objects(EnemySetRecord *rows, s32 enemy_count) {
     s16 flags;

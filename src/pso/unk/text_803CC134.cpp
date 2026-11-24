@@ -1,7 +1,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/audio/AdxfInternal.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
  extern const char lbl_8047C7E8[46] = "\nADXF/GC Ver.6.24 Build:Jun 13 2002 19:00:56\n";
 s32 lbl_805D75D0;
 s32 lobby_adxf_current_file_id;

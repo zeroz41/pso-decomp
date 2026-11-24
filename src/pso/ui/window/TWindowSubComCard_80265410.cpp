@@ -18,7 +18,7 @@
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowDuelResult.h"
 #include "pso/ui/window/TWindowHelpItem.h"

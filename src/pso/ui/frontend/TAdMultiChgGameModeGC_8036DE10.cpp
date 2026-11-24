@@ -27,7 +27,7 @@ LAYOUT_ASSERT(RecoveredGlobal_8036E8DC_lbl_804C88C0_size, sizeof(RecoveredGlobal
 
 #include <stddef.h>
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 struct Stack_8036EA24 {

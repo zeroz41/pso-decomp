@@ -30,7 +30,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/TObjControl.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"

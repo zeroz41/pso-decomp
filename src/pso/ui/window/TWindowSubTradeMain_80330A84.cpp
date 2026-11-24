@@ -13,7 +13,7 @@
 #include "pso/network/TradeSession.h"
 #include "pso/unk/text_80076BC4.h"
 #include "pso/unk/text_802D298C.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubComCardList.h"

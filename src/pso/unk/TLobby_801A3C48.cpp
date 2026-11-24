@@ -20,7 +20,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/network/TProtocol.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"

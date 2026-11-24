@@ -19,7 +19,7 @@
 
 #include "pso/system/task/TObject.h"
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 
 #include "pso/object/base/TObjMotion.h"

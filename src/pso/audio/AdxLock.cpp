@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/audio/AdxLock.h"
 #include "pso/audio/CriSvm.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/audio/LscStream.h"
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/audio/AdxEncoder.h"

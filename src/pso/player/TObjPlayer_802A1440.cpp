@@ -3,7 +3,7 @@
 #include "pso/player/TObjPlayer_802A1440.h"
 #include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/player/TPlyCharData.h"
 
 struct P_802A1544 { u8 pad0[0x408]; s8 v[0x14]; };

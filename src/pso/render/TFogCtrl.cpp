@@ -15,7 +15,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/collision/TObjFogCollisionPoison.h"
 #include "pso/player/TObjPlayer.h"

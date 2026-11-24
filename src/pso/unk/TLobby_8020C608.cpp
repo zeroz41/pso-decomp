@@ -24,7 +24,7 @@ s32 TObjCollidable::set_flag8() {
     return 0;
 }
 
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 extern "C" {
 

@@ -4,7 +4,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/render/RenderSbssGlobals.h"

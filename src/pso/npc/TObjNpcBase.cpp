@@ -12,7 +12,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraConversation.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"

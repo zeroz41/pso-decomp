@@ -18,7 +18,7 @@
 #include "pso/unk/TUnk_804C3E88.h"
 #include "pso/player/TPlayerBattleCtrl.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/ui/hud/TRaderMapCore.h"

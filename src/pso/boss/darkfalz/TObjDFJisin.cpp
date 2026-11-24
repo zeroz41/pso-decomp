@@ -29,7 +29,7 @@ struct NJS_OBJECT;
 #include "pso/boss/darkfalz/TOBoss4.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/enemy/BattleParameters.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "dolphin/mtx.h"
 #include <stddef.h>

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/audio/AdxRnaInitBuffer.h"
-#include "pso/unk/TLobby.h"
+#include "pso/network/TLobby.h"
 
 extern "C" {
 
