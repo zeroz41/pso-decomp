@@ -1,10 +1,10 @@
 #include "types.h"
 #include "pso/unk/TUnk_804ED7D0.h"
 
-int TUnk_804ED7D0::vfunc_24() { return 0x6; }
-int TUnk_804ED7D0::vfunc_26() { return 0x7; }
-int TUnk_804ED7D0::vfunc_28() { return 0x8; }
-int TUnk_804ED7D0::vfunc_21() { return 0x9; }
+int TUnk_804ED7D0::get_knockdown_action() { return 0x6; }
+int TUnk_804ED7D0::get_hurt_action() { return 0x7; }
+int TUnk_804ED7D0::get_interact_action() { return 0x8; }
+int TUnk_804ED7D0::get_use_item_action() { return 0x9; }
 int TUnk_804ED7D0::vfunc_31() { return 0xA; }
 int TUnk_804ED7D0::vfunc_32() { return 0xB; }
 int TUnk_804ED7D0::vfunc_33() { return 0xC; }
@@ -19,7 +19,7 @@ int TUnk_804ED7D0::vfunc_40() { return 0x15; }
 int TUnk_804ED7D0::vfunc_41() { return 0x16; }
 int TUnk_804ED7D0::vfunc_42() { return 0x17; }
 int TUnk_804ED7D0::vfunc_43() { return 0x18; }
-int TUnk_804ED7D0::vfunc_27() { return 0x12; }
+int TUnk_804ED7D0::get_death_action() { return 0x12; }
 int TUnk_804ED7D0::vfunc_44() { return 0x19; }
 int TUnk_804ED7D0::vfunc_45() { return 0x1A; }
 int TUnk_804ED7D0::vfunc_46() { return 0x1B; }

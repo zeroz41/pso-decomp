@@ -2646,9 +2646,9 @@ s32 TUnk_804DDBF0::get_cell_address(s32 arg1, s32 arg2) {
 }
 
 void TUnk_804DDBF0::vfunc_14() {
-    reinterpret_cast<NJS_MOTION *>(motions[vfunc_17()].motion)->inp_fn |= 0x80;
-    reinterpret_cast<NJS_MOTION *>(motions[vfunc_18()].motion)->inp_fn |= 0x80;
-    reinterpret_cast<NJS_MOTION *>(motions[vfunc_19()].motion)->inp_fn |= 0x80;
+    reinterpret_cast<NJS_MOTION *>(motions[get_attack1_action()].motion)->inp_fn |= 0x80;
+    reinterpret_cast<NJS_MOTION *>(motions[get_attack2_action()].motion)->inp_fn |= 0x80;
+    reinterpret_cast<NJS_MOTION *>(motions[get_attack3_action()].motion)->inp_fn |= 0x80;
 }
 
 int TUnk_804DDBF0::vfunc_9(s32 a, s32 b, s32 c) {

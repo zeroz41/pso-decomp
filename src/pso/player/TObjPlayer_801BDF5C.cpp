@@ -172,51 +172,51 @@ void TObjPlayer::clear_flag_400000() {
 }
 
 short TObjPlayer::get_model_field_m25() {
-    return action_provider->vfunc_27();
+    return action_provider->get_death_action();
 }
 
 short TObjPlayer::get_action_animation() {
-    return action_provider->vfunc_24();
+    return action_provider->get_knockdown_action();
 }
 
 short TObjPlayer::call_model_m24() {
-    return action_provider->vfunc_26();
+    return action_provider->get_hurt_action();
 }
 
 short TObjPlayer::get_weapon_stat_c() {
-    return action_provider->vfunc_28();
+    return action_provider->get_interact_action();
 }
 
 short TObjPlayer::call_obj_vt26() {
-    return action_provider->vfunc_28();
+    return action_provider->get_interact_action();
 }
 
 short TObjPlayer::query_child_state() {
-    return action_provider->vfunc_21();
+    return action_provider->get_use_item_action();
 }
 
 short TObjPlayer::query_equip() {
-    return action_provider->vfunc_29();
+    return action_provider->get_photon_blast_action();
 }
 
 short TObjPlayer::get_status() {
-    return action_provider->vfunc_16();
+    return action_provider->get_technique_action();
 }
 
 short TObjPlayer::get_model_state() {
-    return action_provider->vfunc_19();
+    return action_provider->get_attack3_action();
 }
 
 short TObjPlayer::get_state() {
-    return action_provider->vfunc_18();
+    return action_provider->get_attack2_action();
 }
 
 short TObjPlayer::call_subobject_m15() {
-    return action_provider->vfunc_17();
+    return action_provider->get_attack1_action();
 }
 
 short TObjPlayer::get_vobj_state_28() {
-    return action_provider->vfunc_30();
+    return action_provider->get_run_action();
 }
 
 extern "C" TObjPlayer *get_local_player() {

@@ -21,7 +21,7 @@ void TAdDialingGC::open() {
     TLobby__sub_802A5154();
 }
 
-int TUnk_804ED7D0::vfunc_30() {
+int TUnk_804ED7D0::get_run_action() {
     s32 t = ((TObjPlayer *)this)->is_handle_valid();
     s32 r = 2;
     if (t == 2) {
