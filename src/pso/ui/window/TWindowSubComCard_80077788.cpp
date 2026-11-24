@@ -4,6 +4,8 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/protocol/choice_search.h"
 #include "pso/ui/chat/TWindowSubSymbolChat.h"
+#include "pso/system/CharacterSaveRecordLookup.h"
+#include "pso/network/protocol/packet_classes.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -13,12 +15,6 @@ struct ByteBlock_28 { u8 bytes[0x28]; };
 struct S_80077840 { u32 key; s32 val; };
 
 struct S_80077814 { u32 key; s32 val; };
-
-struct S_80077798 { s32 a; s32 b; };
-
-struct D_80077798 { s16 a; s16 b; };
-
-struct DO_80077798 { u8 pad[4]; D_80077798 e[5]; };
 
 struct S_80077980 { s32 key; s32 val; };
 
@@ -32,7 +28,6 @@ TRecvChoiceSearchOptions *choice_search_options;
 ChoiceSearchResultList *choice_search_results;
 extern "C" {
 void set_value_by_key(S_80077814 *arr, u16 key, s32 val);
-void TLobby__sub_80077798(S_80077798 *src, DO_80077798 *dst);
 void TWindowSubComCard__sub_80077980(S_80077980 *arr);
 u32 find_table_entry_id(Tbl_800777C4 *t, u16 a, u32 b);
 void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *chr_select);
@@ -40,16 +35,20 @@ void TWindowSubComCard__sub_800778B4(Out_800778B4 *arr, Tbl_800777C4 *chr_select
 int fn_80077788(void) { return 0; }
 int fn_80077790(void) { return 0; }
 
-void TLobby__sub_80077798(S_80077798 *src, DO_80077798 *dst) {
+}
+
+void copy_choice_search_selections(ChoiceSearchSelection *selections, TPlyChoiceSearchConfig *config) {
     s32 i;
-    D_80077798 *d = dst->e;
+    TPlyChoiceSearchConfig::Entry *entry = config->entries;
     for (i = 0; i < 5; i++) {
-        d->a = src->a;
-        d->b = src->b;
-        src++;
-        d++;
+        entry->parent_choice_id = selections->parent_choice_id;
+        entry->choice_id = selections->choice_id;
+        selections++;
+        entry++;
     }
 }
+
+extern "C" {
 
 u32 find_table_entry_id(Tbl_800777C4 *t, u16 a, u32 b) {
     s32 i;

@@ -93,6 +93,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/network/protocol/choice_search.h"
+#include "pso/ui/window/TWindowSubComCard_80077788.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC_8032AD30.h"
 #include "pso/quest/challenge/TChallenge.h"
@@ -185,9 +186,8 @@ extern "C" {
 void handle_quest_download_chunk__6TLobbyFv();
 void apply_lobby_markers__6TLobbyFv();
 void lobby_debug_printf_stub(const char *fmt, ...);
-s32 TLobby__sub_8013F810(void *, void *, s32, void *);
+s32 lzss_decompress(void *, void *, s32, void *);
 void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt);
-void TLobby__sub_80077798(void *, void *);
 void handle_6x70_sync_player_disp_and_inventory(PlayerSyncPacket *pkt);
 void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt);
 void handle_6x6C_sync_game_state(CompressedSyncPacket *pkt);
@@ -421,7 +421,7 @@ void TLobby::send_game_character() {
     card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
     memset(&choice_search_config, 0, sizeof(choice_search_config));
     choice_search_config.disabled = TLobby::open_hard_keyboard((void *)(saddr)local_client_id) != 0 ? 1 : 0;
-    TLobby__sub_80077798(card->choice_search, &choice_search_config);
+    copy_choice_search_selections(card->choice_search, &choice_search_config);
     memset(c, 0, sizeof(c));
     strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
     memset(b, 0, sizeof(b));
@@ -526,7 +526,7 @@ void handle_6x71_unblock_game_join(void) {
 
     if (lobby_floor_reload_pending == 0) {
         p = create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
-        ((TLobby *)&p->m_dac)->copy_header_struct(&TLobby::protocol_instance->m_guildcard_tag);
+        ((TLobby *)&p->guild_card_tag)->copy_header_struct(&TLobby::protocol_instance->m_guildcard_tag);
         p->reset_motion_fields();
         strncpy(lobby_player_names[local_client_id], p->get_name(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
@@ -538,7 +538,7 @@ void handle_6x71_unblock_game_join(void) {
                     e = (TPlyJoinLobbyEntry *)TLobby::join_entries;
                     e += i;
                     p = create_player_object(i, 4, &e->char_data);
-                    ((TLobby *)&p->m_dac)->copy_header_struct(e);
+                    ((TLobby *)&p->guild_card_tag)->copy_header_struct(e);
                     p->reset_motion_fields();
                     TLobby::open_udp_socket_for_player(i);
                     lobby_debug_printf_stub(lobby_debug_burst_player_format, i);
@@ -621,7 +621,7 @@ void handle_6x6E_sync_game_state(CompressedSyncPacket *pkt) {
       tmp = ::operator new(0x7230);
       if (tmp != 0)
       {
-        TLobby__sub_8013F810(tmp, pkt->data, pkt->total_size, buf);
+        lzss_decompress(tmp, pkt->data, pkt->total_size, buf);
         ::operator delete(tmp);
         TLobby::bswap_6x6E_sync_game_state(buf);
         apply_floor_set_flags_packet(reinterpret_cast<FloorSetFlagsHeader *>(buf->payload), buf->floor_flags_size);
@@ -651,7 +651,7 @@ void handle_6x6D_sync_game_state(CompressedSyncPacket *pkt) {
         if (buf != NULL) {
             tmp = ::operator new(0x7230);
             if (tmp != NULL) {
-                TLobby__sub_8013F810(tmp, pkt->data + 0, len, buf);
+                lzss_decompress(tmp, pkt->data + 0, len, buf);
                 ::operator delete(tmp);
             }
             ((TLobby *)buf)->apply_sync_item_state();
@@ -670,7 +670,7 @@ void handle_6x6C_sync_game_state(CompressedSyncPacket *pkt) {
         lobby_debug_printf_stub(lobby_debug_rcv_object_condition_format, pkt->total_size);
         p = (QuestObjectEntry *)::operator new(0x7230);
         if (p != NULL) {
-            r = ((u32)TLobby__sub_8013F810(p, pkt->data, n, quest_object_entries));
+            r = ((u32)lzss_decompress(p, pkt->data, n, quest_object_entries));
             ::operator delete(p);
             n = r >> 2;
             p = quest_object_entries;
@@ -692,7 +692,7 @@ void handle_6x6B_sync_game_state(CompressedSyncPacket *pkt) {
         lobby_debug_printf_stub(lobby_debug_rcv_enemy_condition_format, pkt->total_size);
         p = (EnemyStateRecord *)::operator new(0x7230);
         if (p != NULL) {
-            r = ((u32)TLobby__sub_8013F810(p, pkt->data, n, enemy_state_records));
+            r = ((u32)lzss_decompress(p, pkt->data, n, enemy_state_records));
             ::operator delete(p);
             n = r / sizeof(EnemyStateRecord);
             p = enemy_state_records;
@@ -2031,7 +2031,7 @@ void TLobby::send_selected_character() {
     card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
     memset(&choice_search_config, 0, sizeof(choice_search_config));
     choice_search_config.disabled = TLobby::open_hard_keyboard((void *)(saddr)local_client_id) != 0 ? 1 : 0;
-    TLobby__sub_80077798(card->choice_search, &choice_search_config);
+    copy_choice_search_selections(card->choice_search, &choice_search_config);
     memset(c, 0, sizeof(c));
     strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
     memset(b, 0, sizeof(b));
@@ -2068,7 +2068,7 @@ void TLobby::send_position_update() {
 void TLobby::handle_state(int checksum_ok) {
     if (checksum_ok != 0) {
         TAdSinglePlyChrSelectGC::save_online_character();
-        switch (TLobby__sub_80146740()) {
+        switch (get_post_save_lobby_action()) {
         case 0:
             protocol_instance->send_server_time_request();
             return;
@@ -2241,7 +2241,7 @@ void TLobby::make_players() {
     TObjPlayer *q;
     if (TLobby__sub_801A3E8C() != 0) {
         p = create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
-        ((TLobby *)&p->m_dac)->copy_header_struct(&protocol_instance->m_guildcard_tag);
+        ((TLobby *)&p->guild_card_tag)->copy_header_struct(&protocol_instance->m_guildcard_tag);
         p->reset_motion_fields();
         strncpy(lobby_player_names[local_client_id], p->get_name(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
@@ -2262,7 +2262,7 @@ void TLobby::make_players() {
         }
     } else if (local_client_id == designated_client_id) {
         p = create_player_object(local_client_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
-        ((TLobby *)&p->m_dac)->copy_header_struct(&protocol_instance->m_guildcard_tag);
+        ((TLobby *)&p->guild_card_tag)->copy_header_struct(&protocol_instance->m_guildcard_tag);
         p->reset_motion_fields();
         strncpy(lobby_player_names[local_client_id], p->get_name(), 0x10);
         lobby_debug_printf_stub(lobby_debug_make_player_format, local_client_id);
@@ -2326,7 +2326,7 @@ void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s3
         if (self_id == records[i].client_id) {
             if (get_player_by_client_id(self_id) == NULL) {
                 plr = create_player_object(self_id, 0, TAdSinglePlyChrSelectGC::get_char_index(0xFFFF));
-                ((TLobby *)&plr->m_dac)->copy_header_struct(&records[i]);
+                ((TLobby *)&plr->guild_card_tag)->copy_header_struct(&records[i]);
                 plr->reset_motion_fields();
                 lobby_debug_printf_stub(lobby_debug_my_player_format, self_id);
                 lobby_debug_printf_stub(lobby_list_savedata_format, sizeof(records->char_data));
@@ -2339,7 +2339,7 @@ void construct_lobby_players(Entry_8013634C *records, s32 count, int self_id, s3
         if (self_id != records[j].client_id) {
             if (get_player_by_client_id(records[j].client_id) == NULL) {
                 plr = create_player_object(records[j].client_id, 4, reinterpret_cast<TPlyCharData *>(records[j].char_data));
-                ((TLobby *)&plr->m_dac)->copy_header_struct(&records[j]);
+                ((TLobby *)&plr->guild_card_tag)->copy_header_struct(&records[j]);
                 plr->reset_motion_fields();
                 lobby_debug_printf_stub(lobby_debug_create_player_format, records[j].client_id);
             } else {
@@ -2421,7 +2421,7 @@ void TLobby::on_game_player_add(TPlyJoinLobbyEntry *entries, int leader_id, int 
         TLobby::send_6x70_player_data(e.client_id);
         if (get_player_by_client_id(e.client_id) == NULL) {
             plr = create_player_object(e.client_id, 4, reinterpret_cast<TPlyCharData *>(e.char_data));
-            ((TLobby *)&plr->m_dac)->copy_header_struct(&e);
+            ((TLobby *)&plr->guild_card_tag)->copy_header_struct(&e);
             plr->reset_motion_fields();
             TLobby::open_udp_socket_for_player(e.client_id);
             lobby_debug_printf_stub(lobby_debug_burst_player_format, e.client_id);
@@ -2492,7 +2492,7 @@ void TLobby::on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id) {
     }
     strncpy(lobby_player_names[e.client_id], e.name, 0x10);
     plr = create_player_object(e.client_id, 4, reinterpret_cast<TPlyCharData *>(e.char_data));
-    ((TLobby *)&plr->m_dac)->copy_header_struct(&e);
+    ((TLobby *)&plr->guild_card_tag)->copy_header_struct(&e);
     plr->reset_motion_fields();
     lobby_debug_printf_stub(lobby_debug_burst_player_format, e.client_id);
     ((TPlyJoinLobbyEntry *)&e)->~TPlyJoinLobbyEntry();

@@ -46,7 +46,7 @@ struct Lz_8013F99C {
 extern "C" {
 void lzss_insert_ring_node(Lz_8013FDC4 *lz, s32 r);
 void lzss_remove_ring_node(Lz_8013FCB0 *t, s32 p);
-s32 TLobby__sub_8013F810(TLobby *lz, u32 *data, s32 len, u8 *out);
+s32 lzss_decompress(TLobby *lz, u32 *data, s32 len, u8 *out);
 
 #pragma push
 #pragma opt_propagation off
@@ -55,7 +55,7 @@ s32 TLobby__sub_8013F810(TLobby *lz, u32 *data, s32 len, u8 *out);
 #define GET_8013F99C(c) (((s32 (*)(u8 *))lzss_read_byte)(c))
 #pragma push
 #pragma opt_lifetimes off
-s32 TLobby__sub_8013F810(TLobby *lz, u32 *data, s32 len, u8 *out) {
+s32 lzss_decompress(TLobby *lz, u32 *data, s32 len, u8 *out) {
     s16 r = 0xFEE;
     u32 flags = 0;
     u8 c;

@@ -135,7 +135,6 @@ void fn_80147A60(int a0);
 s16 DHCP_init(s16);
 int TLobby__sub_80145E40(void);
 int TLobby__sub_80146724(void);
-int TLobby__sub_80146740(void);
 int TLobby__sub_8014677C(void);
 s32 load_network_info(void);
 s32 TLobby__sub_80145DB4(s32 arg0);
@@ -365,7 +364,7 @@ void TLobby__sub_8014672C(s32 *arg0) {
     *(s32 *)((s8 *)arg0 + 0) = *(s32 *)((s8 *)&lbl_8050C0A8.value + 4);
 }
 
-int TLobby__sub_80146740(void) { return 0; }
+int get_post_save_lobby_action(void) { return 0; }
 
 s32 TLobby::query_task_active() {
     if ((s32) lobby_connect_active_flag != 0) {

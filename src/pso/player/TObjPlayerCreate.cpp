@@ -274,6 +274,6 @@ s32 TObjPlayer::create(u32 slot, PlayerCharDataEntry *entry) {
     TObjPlayer *created;
 
     created = new TObjPlayer(tl_03, slot & 0xFFFF, entry->get_role(), entry->get_char_data());
-    ((TLobby *)&created->m_dac)->copy_header_struct(entry->get_lobby_header());
+    ((TLobby *)&created->guild_card_tag)->copy_header_struct(entry->get_lobby_header());
     return (s32)created;
 }
