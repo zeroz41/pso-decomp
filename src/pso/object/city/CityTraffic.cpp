@@ -3,7 +3,7 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/GinjaMaterialState.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/StripBufferPair.h"

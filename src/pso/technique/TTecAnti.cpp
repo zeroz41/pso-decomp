@@ -6,7 +6,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/technique/TTecAntiEff.h"
-#include "pso/unk/TUnk_804CCA90.h"
+#include "pso/technique/TDelayedSoundEffect.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
@@ -52,23 +52,23 @@ TargetCursorList *copy_technique_target_list(TargetCursorList *d, TargetCursorLi
 }
 
 void TechniqueParams::copy(TechniqueParams *src) {
-    pad_00 = src->pad_00;
-    pad_04 = src->pad_04;
-    pad_08 = src->pad_08;
+    power = src->power;
+    speed = src->speed;
+    range = src->range;
     pad_0C = src->pad_0C;
     tp_cost = src->tp_cost;
     pad_12 = src->pad_12;
-    pad_14 = src->pad_14;
+    mental = src->mental;
     pad_16 = src->pad_16;
-    pad_18 = src->pad_18;
+    angle = src->angle;
     pad_1C = src->pad_1C;
     pad_20 = src->pad_20;
     pad_22 = src->pad_22;
     tp_cost_percent = src->tp_cost_percent;
-    pad_24 = src->pad_24;
-    pad_26 = src->pad_26;
-    pad_28 = src->pad_28;
-    pad_2A = src->pad_2A;
+    power_per_level = src->power_per_level;
+    range_step = src->range_step;
+    mental_per_level = src->mental_per_level;
+    angle_step = src->angle_step;
 }
 
 TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecPlayerInfluence(owner, pos, level) {
@@ -80,7 +80,7 @@ TTecAnti::TTecAnti(void *owner, void *pos, void *target_list, s32 level) : TTecP
     setup_params();
     t = target;
     if (t != NULL) {
-        t->bodies->radius = 5.0f + params.pad_08;
+        t->bodies->radius = 5.0f + params.range;
     }
     if (source != 0U) {
         sourceId = ((TObjBase *)(saddr)source)->get_entity_id();
@@ -133,7 +133,7 @@ void TTecAnti::apply_to_player(TObjPlayer *player) {
     DirectAttackPayload hit;
     TParticleCtrl *o;
     hit.kind = 7;
-    hit.power = params.pad_00;
+    hit.power = params.power;
     if (player->is_script_controlled() != 0) {
         return;
     }
@@ -156,7 +156,7 @@ void TTecAnti::apply_to_player(TObjPlayer *player) {
         }
     }
     if (show_effects != 0) {
-        new TUnk_804CCA90(&player->body_center, 0xF, 0x4002AD11, tl_07);
+        new TDelayedSoundEffect(&player->body_center, 0xF, 0x4002AD11, tl_07);
     }
 }
 

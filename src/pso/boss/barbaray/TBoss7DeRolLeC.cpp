@@ -122,7 +122,7 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/object/base/TObjChara.h"
 
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixOps.h"
@@ -136,14 +136,14 @@ extern TObjMotionAction de_rol_le_c_action_table[17];
 
 #include "pso/enemy/AttackTargetHistory.h"
 
-#include "pso/unk/TUnk_804F1C58.h"
+#include "pso/render/TNodeMatrixRecorder.h"
 
 #include "pso/system/BmlResource.h"
 
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_802E6CA8.h"
+#include "pso/boss/barbaray/TBoss7JointBreakUp.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/object/TObjControl.h"
 #include "pso/math/MatrixTransforms.h"
@@ -395,8 +395,8 @@ const s32 *boss7_derolle_c_crawfish_angle_sets[4] = {boss7_derolle_c_crawfish_an
 
 Boss7LoadCallback boss7_derolle_c_load_callbacks[6] = {
     {TBoss7Tentacle::load_static_resource, TBoss7Tentacle::destroy_instance},
-    {TObjPlayer__sub_802E7470, TObjPlayer__sub_802E7084},
-    {TObjPlayer__sub_802E7088, TObjPlayer__sub_802E746C},
+    {TBoss7JointBreakUp::load_static_resource, TBoss7JointBreakUp::destroy_instance},
+    {TBoss7BodyBreakUp::load_static_resource, TBoss7BodyBreakUp::destroy_instance},
     {TBoss7Crawfish::load_static_resource, TBoss7Crawfish::destroy_instance},
     {TBoss7TentacleNeedle::load_static_resource, TBoss7TentacleNeedle::destroy_instance},
     {TUnk_804F1C88::load_static_resource, TUnk_804F1C88::destroy_instance},
@@ -724,9 +724,9 @@ TBoss7DeRolLeC::TBoss7DeRolLeC(TObject *parent, void *set_data) : TObjEneDD_ST(p
         mode = 1;
         dispatch_action(mode, 4);
     }
-    node_recorder = new TUnk_804F1C58(this, static_cast<NJS_OBJECT *>(model));
+    node_recorder = new TNodeMatrixRecorder(this, static_cast<NJS_OBJECT *>(model));
     if (node_recorder != NULL) {
-        node_recorder->set_field_38(record_node_transforms);
+        node_recorder->set_node_callback(record_node_transforms);
     }
     aimed_emitter = NULL;
     emitter_points[0].x = 0.0f;
@@ -868,7 +868,7 @@ void TBoss7DeRolLeC::run_task() {
         rotate_matrix_by_node_angles(&rotation_x, 1);
         scale_current_matrix(&boss7_derolle_c_model_scale.x);
         this->reset_node_transforms();
-        node_recorder->apply_with_callback((NJS_MOTION *)current_motion, get_frame());
+        node_recorder->record_pose((NJS_MOTION *)current_motion, get_frame());
         pop_matrix();
         clear_motion_packed_rotation();
         calc_joint_positions();
@@ -3692,7 +3692,7 @@ void TBoss7DeRolLeC::render() {
                 boss7_derolle_c_hideable_node->child = boss7_derolle_c_hideable_node_child;
             }
             TObjPlayer::draw_effect();
-            this->node_recorder->draw_node_tree_if_visible();
+            this->node_recorder->draw_recorded_pose();
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();

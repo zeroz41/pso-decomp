@@ -8,7 +8,7 @@
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/effect/TAttackTrace.h"
 #include "pso/render/reflection.h"
 #include "pso/system/vector.h"
@@ -57,7 +57,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
@@ -427,7 +427,7 @@ s32 TObjEneDellBiter::check_rush_collisions() {
     DirectAttackPayload attack;
     hit = 0;
     VecCopy(&rush_body->position, &position);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     rush_body->check_object_collisions();
     if (rush_body->bodies->flags & 0x180000) {
         hit = 1;

@@ -12,7 +12,7 @@ struct TTecReverser : public TTecCircle {
     virtual ~TTecReverser();
     // Takes speed and lifetime from the parameters and adds the level to their power.
     void apply_params(TechniqueParams *params, s32 level);
-    virtual void vfunc_6(void *);
+    virtual void apply_to_target(TObjChara *);
     virtual void run_task();
     TargetCursorList targets;
     virtual void render();

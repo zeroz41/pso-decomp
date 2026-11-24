@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/render/RenderSbssGlobals.h"
+#include "pso/render/GinjaTexture.h"
 
 // Data-only unit split off the shared render/geometry small statics at 0x805D7748.
 // Plain uninitialized globals (-sdata 8) land in .sbss in source order; the
@@ -9,15 +10,15 @@ u32 sin_cos_table;
 GinjaSceneState *current_render_context;
 u32 display_heap_size;
 u32 locked_cache_heap_handle;
-u32 player_ref_entry_active_count;
-u32 lbl_805D775C;
-u32 lbl_805D7760;
-u32 record_array_count;
-u32 record_array_ptr;
+u32 active_texture_surface_count;
+s32 texture_surface_count;
+GinjaSurfaceState *texture_surfaces;
+s32 texture_state_count;
+GinjaTextureState *texture_states;
 GC_Mtx *matrix_stack_limit;
 GC_Mtx *matrix_stack_base;
 GC_Mtx *current_matrix;
-u32 lbl_805D7778;
+u32 *shape_vertex_buffer;
 u32 lbl_805D777C;
 u32 chunk_polygon_flags_or_mask;
 u32 chunk_polygon_flags_and_mask;

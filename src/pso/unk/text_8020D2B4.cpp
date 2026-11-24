@@ -159,7 +159,7 @@ void spawn_decorations_in_range(TSetManager *manager) {
         if (p->type != -1 && !(p->flags & 2) && !(p->flags & 8)
             && is_within_camera_distance(manager, &p->placement.position, tbl[p->type].creation_distance_squared) == 1) {
             p->placement.entity_id = 0xFFFF;
-            p->placement.object_type = -1;
+            p->placement.set_index = -1;
             obj = call_area_set_factory(manager, p);
             if (obj != NULL) {
                 p->object = obj;

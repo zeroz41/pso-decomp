@@ -33,8 +33,8 @@ public:
     u8 pad_114[0x4];
     s32 animation_ticks;
     s32 spin_model;
-    CharacterAppearanceFields visual_record;
-    CharacterPreview *preview_data;
+    CharacterAppearanceFields visual_record;  // copy_player_visual_record fills it
+    CharacterPreview *preview_data;  // the character being shown, while it loads and after
 };
 extern TAdChrSelPlayerGC *multi_chr_select_player_slot_table[4];
 LAYOUT_ASSERT(CharacterSelectPlayerAppearanceOffset, offsetof(TAdChrSelPlayerGC, visual_record) == 0x120);

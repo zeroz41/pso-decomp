@@ -49,5 +49,7 @@ struct NJS_TEXLIST;
 // The f512_multiplay texture list register_texture_f512_multiplay loads for the
 // game start screens; TAdGameStartSubGC::destroy_instance releases it.
 extern NJS_TEXLIST *multiplay_texture_f512_handle;
+// multiplay_texture_f512_handle as an integer.
+saddr get_multiplay_texture_list();
 
 #endif

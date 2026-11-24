@@ -8,6 +8,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/render/RenderSbssGlobals.h"
+#include "pso/render/GinjaTexture.h"
 #include <dolphin/mtx.h>
 
 struct Q_803D98E4 { f32 x, y, z, w; };
@@ -18,8 +19,6 @@ struct A_803D9DA8 { u8 pad[0xC]; u8 *p; };
 
 struct B_803D9DA8 { s32 a; u16 b; u16 c; };
 
-struct G_803D9DA8 { u8 pad[8]; s32 f8; };
-
 struct Matrix34 { f32 elements[3][4]; };
 
 struct Ent_803D9E38 { u8 *p; s32 a; s32 b; };
@@ -28,11 +27,9 @@ struct Tbl_803D9E38 { u8 pad[8]; Ent_803D9E38 arr[1]; };
 
 extern "C" {
 s32 fn_803DA12C(u8 *, s32, s32, s32);
-extern G_803D9DA8 lbl_8058D470;
 s32 TObjPlayer__sub_803D9DA8(A_803D9DA8 *texture, B_803D9DA8 *desc);
 void rotate_matrix_x(Matrix34* matrix, s32 angle);
 s32 TObjPlayer__sub_803DAD24(int, int);
-extern s32 record_array_ptr;
 
 void rotate_matrix_x(Matrix34* matrix, s32 angle) {
     Matrix34 rotation;
@@ -194,7 +191,7 @@ u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *arg1, u32 *arg2) {
             break;
         }
         default:
-            lbl_8058D470.f8 = 4;
+            texture_error.code = 4;
             return NULL;
         }
     } while (tag != 0x54525647);
@@ -203,7 +200,7 @@ u32 *find_gvrt_texture_chunk(TLobby *lobby, u32 *arg1, u32 *arg2) {
 
 s32 TObjPlayer__sub_803D9DA8(A_803D9DA8 *texture, B_803D9DA8 *desc) {
     if (fn_803DA12C(texture->p + 4, desc->b, desc->c, desc->a) != 0) {
-        lbl_8058D470.f8 = 6;
+        texture_error.code = 6;
         return -1;
     }
     return 1;
@@ -235,9 +232,9 @@ s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 idx, s32 *arg2, u32 *arg3) {
         j = idx - 1;
         temp_r29 = ((Tbl_803D9E38 *)temp_r6)->arr[j].p;
         *(s32 *)((s8 *)arg2 + 0) = *(s32 *)((s8 *)(*(s32 **)((s8 *)temp_r29 + 0xC)) + 0);
-        record_index = TObjPlayer::find_record_index((int) (*(s32 *)((s8 *)arg2 + 0)), (int) (*(u32 *)((s8 *)arg3 + 0)));
+        record_index = find_texture_by_surface_and_tlut((int) (*(s32 *)((s8 *)arg2 + 0)), (int) (*(u32 *)((s8 *)arg3 + 0)));
         if (record_index < 0) {
-            if (TObjPlayer::find_free_slot(&sp8, 0) < 0) {
+            if (find_free_texture_slot((GinjaTextureState **)&sp8, NULL) < 0) {
                 return -1;
             }
             *(s32 *)((s8 *)temp_r31 + 8) = sp8;
@@ -250,7 +247,7 @@ s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 idx, s32 *arg2, u32 *arg3) {
             TObjPlayer__sub_803DAD24((int)sp8, (saddr)temp_r4);
             goto block_7;
         }
-        temp_r0 = record_array_ptr + (record_index * 0x18);
+        temp_r0 = (saddr)&texture_states[record_index];
         sp8 = temp_r0;
         *(s32 *)((s8 *)temp_r31 + 8) = temp_r0;
         temp_r4_2 = (s32 *)(*(s32 **)((s8 *)sp8 + 0xC));

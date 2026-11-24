@@ -15,7 +15,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TUnk_804CCD78.h"
+#include "pso/technique/TTecZondeHitEffect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -41,75 +41,31 @@ struct Ent_80231C58 : EntBase_80231C58 {
     Part_80231C58 *parts;
 };
 
-struct RecoveredFields_8023C558_arg0
-{
-  u8 unknown_0[0xC4];
-  s16 field_C4;
-  u8 unknown_C6[0x6];
-  f32 field_CC;
-  u8 unknown_D0[0x20];
-  s16 field_F0;
-};
 
-
-typedef struct RecoveredFields_8023C558_arg0 RecoveredFields_8023C558_arg0;
 #pragma readonly_strings on
 
 const char *TTecGiZonde_name_ref = "TTecGiZonde";
 
 void TTecGiZonde::init_parameters() {
-    u8 *arg0 = (u8 *)this;
-  TechniqueParams *new_var;
-  new_var = calc_technique_parameters(0x7, (int) ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4, 0xFFFF);
-  ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
-  if ((((s16) ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
-  {
-    ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[7].base + (tech_high_level_linear_power_table[7].per_level * ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4));
-    return;
-  }
-  ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_F0 * ((RecoveredFields_8023C558_arg0 *) arg0)->field_C4)));
-  if (TTecCtrl::is_technique_ready())
-  {
-    ((RecoveredFields_8023C558_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8023C558_arg0 *) arg0)->field_CC * technique_scale_table[7].power);
-  }
+    TechniqueParams *scaled = calc_technique_parameters(7, level, 0xFFFF);
+    params.copy(scaled);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        params.power = (f32)(tech_high_level_linear_power_table[7].base + tech_high_level_linear_power_table[7].per_level * level);
+        return;
+    }
+    params.power = params.power + (f32)(params.power_per_level * level);
+    if (TTecCtrl::is_technique_ready()) {
+        params.power = params.power * technique_scale_table[7].power;
+    }
+
 }
 
 
-struct Elec_80238E14 { s32 type; f32 val; };
-
-struct VBase_18_9c98dd { char pad[0x18]; };
-
-struct VObj_18_9c98dd : VBase_18_9c98dd {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual s32 m21(s32, Elec_80238E14, s32, s32, s32);
-};
-
-void TTecGiZonde::vfunc_8(void *arg1_arg) {
-    u8 *arg1 = (u8 *)arg1_arg;
-    Elec_80238E14 d;
-    d.type = 3;
-    d.val = this->power;
-    ((VObj_18_9c98dd *)(arg1))->m21(this->source, d, 0, 0x7, -1);
+void TTecGiZonde::apply_to_target(TObjChara *target) {
+    DirectAttackPayload hit;
+    hit.kind = 3;
+    hit.power = this->params.power;
+    target->receive_direct_attack((void *)this->source, hit, 0, 7, -1);
 }
 
 extern "C" {
@@ -140,36 +96,36 @@ s32 TTecGiZonde::find_chain_targets() {
     switch (band) {
     case 0:
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, 0.5f);
-        new TUnk_804CCD78(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
         break;
     case 1:
         scale *= 1.2f;
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, (f32)scale);
-        new TUnk_804CCD78(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
         break;
     case 2:
         scale *= 1.4f;
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, (f32)scale);
-        new TUnk_804CCD78(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
         break;
     case 3:
         scale *= 1.2f;
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, (f32)scale);
-        new TUnk_804CCD78(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
-        new TUnk_804CCD78(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x188);
+        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x188);
         break;
     case 4:
         scale *= 1.4f;
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, (f32)scale);
-        new TUnk_804CCD78(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
-        new TUnk_804CCD78(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x188);
+        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x188);
         break;
     case 5:
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, 5.0f);
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, 0.5f);
         new TTecZondeEff(tl_07, &position, &d, 0x14000000, 20, (f32)len, 0.5f);
-        new TUnk_804CCD78(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
-        new TUnk_804CCD78(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x188);
+        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->parts[targetList.records[0].flag].pos, &position, tl_07, 0x188);
         break;
     }
     if (targetList.count == 1) {
@@ -237,7 +193,7 @@ void TTecGiZonde::deliver_chain_hits() {
     for (i = 0; i < targetList.count; i++) {
         actor = (uaddr)find_entity_by_id(targetList.records[i].id);
         if (TTecLuker::is_parents_unqueued(actor) != 0 && TObjPlayer::is_valid_and_active(actor) != 0) {
-            this->vfunc_8((void *)actor);
+            apply_to_target((TObjChara *)actor);
         }
     }
 }

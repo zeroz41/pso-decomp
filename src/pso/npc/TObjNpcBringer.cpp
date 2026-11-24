@@ -13,7 +13,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/BmlResource.h"
 #include "pso/enemy/bringer/TObjEneDf2Bringer.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 #pragma readonly_strings on
 

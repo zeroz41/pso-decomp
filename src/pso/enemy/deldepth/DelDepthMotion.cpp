@@ -4,7 +4,7 @@
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/deldepth/TObjEneDelDepth.h"
 #include "pso/enemy/deldepth/TObjEneDelDepthBomb.h"

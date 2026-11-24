@@ -8,7 +8,7 @@
 // What apply_object_set_data reads: an object set entry from 4 bytes in, so
 // entity_id, room, position, rotation and params 1-6 sit as in the .dat entry.
 struct ObjectSetData {
-    s16 object_type;
+    s16 set_index;  // the object's quest_object_entries row
     s16 floor;
     u16 entity_id;
     s16 wave;

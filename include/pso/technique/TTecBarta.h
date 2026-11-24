@@ -24,7 +24,7 @@ struct TTecBarta : public TTecShot {
     TTecBarta(saddr source, u8 *pos, u8 *target, s32 level);
     TTecBarta(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecBarta();
-    virtual void vfunc_8(void *);
+    virtual void apply_to_target(TObjChara *);
     TechniqueParticleEmitter** emitters;
     u16 hitIds[32];
     s32 hitCursor;

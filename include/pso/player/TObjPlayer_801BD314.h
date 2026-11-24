@@ -3,12 +3,4 @@
 
 #include "types.h"
 
-extern "C" {
-}
-
-// --- C functions defined in TObjPlayer_801BD314.cpp ---
-extern "C" {
-}
-// --- end of C functions
-
 #endif

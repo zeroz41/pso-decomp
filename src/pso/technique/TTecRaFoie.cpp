@@ -8,8 +8,9 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/technique/TTecRaFoie.h"
+#include "pso/technique/TechniqueEmitter.h"
 #include "pso/player/TargetCursorList.h"
-#include "pso/unk/TUnk_804CCB28.h"
+#include "pso/technique/TFireExplosion.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/TEffClitical.h"
@@ -19,42 +20,36 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjBase.h"
 #pragma readonly_strings on
 
-struct RafoieBurst { s32 entry; s32 flags; f32 scale; };
+extern "C" s32 is_split_screen();
 
-struct RafoieBurstList { const RafoieBurst *entries; u32 count; };
-
-
-extern "C" {
-
-s32 is_split_screen();
-
-
-extern const RafoieBurst lbl_8044DA48[1] = {{494, 0, 1.0f}};
-extern const RafoieBurst lbl_8044DA54[2] = {{491, 0, 1.0f}, {494, 0, 1.0f}};
-extern const RafoieBurst lbl_8044DA6C[2] = {{393, 0, 1.0f}, {494, 0, 1.0f}};
-extern const RafoieBurst lbl_8044DA84[4] = {{396, 0, 1.0f}, {494, 0, 1.0f}, {482, 0x1000, 1.0f}, {486, 0x10, 1.0f}};
-extern const RafoieBurstList rafoie_burst_table[6] = {
-    {lbl_8044DA48, 1}, {lbl_8044DA48, 1}, {lbl_8044DA48, 1},
-    {lbl_8044DA54, 2}, {lbl_8044DA6C, 2}, {lbl_8044DA84, 4},
+// Per band: the particle bursts of the explosion. Flag 0x10 bursts at the explosion's position
+// instead of 8 above it, flag 0x1000 spawns it with particle flag 0x2000.
+extern const TechniqueEmitter rafoie_bursts_low[1] = {{494, 0, 1.0f}};
+extern const TechniqueEmitter rafoie_bursts_band_3[2] = {{491, 0, 1.0f}, {494, 0, 1.0f}};
+extern const TechniqueEmitter rafoie_bursts_band_4[2] = {{393, 0, 1.0f}, {494, 0, 1.0f}};
+extern const TechniqueEmitter rafoie_bursts_band_5[4] = {{396, 0, 1.0f}, {494, 0, 1.0f}, {482, 0x1000, 1.0f}, {486, 0x10, 1.0f}};
+extern const TechniqueEmitterSet rafoie_burst_table[6] = {
+    {rafoie_bursts_low, 1}, {rafoie_bursts_low, 1}, {rafoie_bursts_low, 1},
+    {rafoie_bursts_band_3, 2}, {rafoie_bursts_band_4, 2}, {rafoie_bursts_band_5, 4},
 };
 const char *TTecRaFoie_class_name = "TTecRaFoie";
 // The colour the burst fades to (all clear).
-extern const NJS_ARGB lbl_8044DAF0 = {0.0f, 0.0f, 0.0f, 0.0f};
+extern const NJS_ARGB rafoie_fade_color = {0.0f, 0.0f, 0.0f, 0.0f};
 
-void TUnk_804CCB28::spawn_rafoie_explosion_bursts() {
+void TFireExplosion::spawn_rafoie_explosion_bursts() {
     Vec higher;
     u32 i;
     VecCopy(&higher, &position);
     higher.y = (8.0f) + position.y;
     for (i = 0; i < rafoie_burst_table[band].count; i++) {
-        const RafoieBurst *row = &rafoie_burst_table[band].entries[i];
+        const TechniqueEmitter *row = &rafoie_burst_table[band].emitters[i];
         u16 mode = 0;
         void *p;
         if (row->flags & 0x1000) {
@@ -66,12 +61,12 @@ void TUnk_804CCB28::spawn_rafoie_explosion_bursts() {
             p = spawn_particle_effect_with_flags(&higher, row->entry, mode);
         }
         if (p != NULL) {
-            ((TParticleCtrl *)p)->set_scale(rafoie_burst_table[band].entries[i].scale, rafoie_burst_table[band].entries[i].scale);
+            ((TParticleCtrl *)p)->set_scale(rafoie_burst_table[band].emitters[i].scale, rafoie_burst_table[band].emitters[i].scale);
         }
     }
 }
 
-void TTecRaFoie::vfunc_9() {
+void TTecRaFoie::play_cast_sound() {
     s32 handle;
 
     switch (band) {
@@ -105,7 +100,7 @@ void TTecRaFoie::vfunc_9() {
         break;
     }
 }
-void TTecRaFoie::vfunc_8(void *) {
+void TTecRaFoie::spawn_effects(Vec *) {
     TParticleCtrl *emitter;
     TObjChara *chara;
     if (m_148 == 1) {
@@ -134,8 +129,6 @@ void TTecRaFoie::vfunc_8(void *) {
     }
 }
 
-}
-
 #include "pso/system/scene/TScene.h"
 #include "pso/technique/TTecAnti.h"
 
@@ -149,23 +142,25 @@ void TTecRaFoie::vfunc_8(void *) {
 
 extern "C" {
 void draw_ginja_object(void);
+}
+
 #pragma push
 #pragma opt_common_subs off
 
 void TTecRaFoie::calc_area_parameters() {
-    TechniqueParams *params = calc_technique_parameters(2, level, 0xFFFF);
-    ((TechniqueParams *)&power)->copy(params);
+    TechniqueParams *scaled = calc_technique_parameters(2, level, 0xFFFF);
+    params.copy(scaled);
     if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
-        power = (f32)(tech_high_level_linear_power_table[2].base + tech_high_level_linear_power_table[2].per_level * level);
+        params.power = (f32)(tech_high_level_linear_power_table[2].base + tech_high_level_linear_power_table[2].per_level * level);
         return;
     }
-    power = power + (f32)(((TechniqueParams *)&power)->pad_24 * level);
+    params.power = params.power + (f32)(params.power_per_level * level);
     if (TTecCtrl::is_technique_ready()) {
-        power = power * technique_scale_table[2].power;
+        params.power = params.power * technique_scale_table[2].power;
     }
 }
 
-void TUnk_804CCB28::render() {
+void TFireExplosion::render() {
     f32 x;
     f32 y;
     f32 z;
@@ -215,7 +210,7 @@ void TUnk_804CCB28::render() {
     TParticleCtrl::end_effect_render();
 }
 
-void TUnk_804CCB28::run_task() {
+void TFireExplosion::run_task() {
     Vec target;
     f32 s;
     age = age + 1;
@@ -226,7 +221,7 @@ void TUnk_804CCB28::run_task() {
     if (age > 110) {
         queue_destruction();
     }
-    NJS_ARGB fade_color = lbl_8044DAF0;
+    NJS_ARGB fade_color = rafoie_fade_color;
     s = target_scale;
     target.x = s;
     target.y = s;
@@ -243,13 +238,11 @@ void TUnk_804CCB28::run_task() {
 }
 #pragma pop
 
-}
-
-TUnk_804CCB28::~TUnk_804CCB28() {
+TFireExplosion::~TFireExplosion() {
 
 }
 
-TUnk_804CCB28::TUnk_804CCB28(Vec *pos, s16 band, s16 level, TObject *parent, f32 radius) : TObject(parent) {
+TFireExplosion::TFireExplosion(Vec *pos, s16 band, s16 level, TObject *parent, f32 radius) : TObject(parent) {
     Vec raised;
     this->band = band;
     this->level = level;
@@ -273,7 +266,7 @@ TUnk_804CCB28::TUnk_804CCB28(Vec *pos, s16 band, s16 level, TObject *parent, f32
     target_scale = 1.9f;
 }
 
-TUnk_804CCB28::TUnk_804CCB28(f32 radius, const Vec *pos, s16 band, TObject *parent) : TObject(parent) {
+TFireExplosion::TFireExplosion(f32 radius, const Vec *pos, s16 band, TObject *parent) : TObject(parent) {
     Vec raised;
     this->band = band;
     level = 0;
@@ -297,11 +290,11 @@ TUnk_804CCB28::TUnk_804CCB28(f32 radius, const Vec *pos, s16 band, TObject *pare
     target_scale = 1.9f;
 }
 
-void TTecRaFoie::vfunc_6(void *target) {
+void TTecRaFoie::apply_to_target(TObjChara *target) {
     DirectAttackPayload attack;
     attack.kind = 1;
-    attack.power = power;
-    ((TObjChara *)target)->receive_direct_attack((void *)source, attack, (void *)m_b8, 2, -1);
+    attack.power = params.power;
+    target->receive_direct_attack((void *)source, attack, contact, 2, -1);
 }
 
 void TTecRaFoie::render() {  }
@@ -340,7 +333,7 @@ void TTecRaFoie::update_detonation(void *pos) {
     if (age != 10) {
         return;
     }
-    new TUnk_804CCB28((Vec *)&target, band, 10, tl_particle, (f32)level);
+    new TFireExplosion((Vec *)&target, band, 10, tl_particle, (f32)level);
     switch (band) {
     case 0:
         h = play_sound_effect(0x4002A803, &target, 0, 0);
@@ -395,13 +388,13 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, Vec *pos, s32 level) : TTecCir
     clear_target_cursor_list(&m_targets);
     m_148 = 1;
     if (collidable != NULL) {
-        collidable->bodies->radius = scope;
+        collidable->bodies->radius = params.range;
     }
     if (this->source != 0) {
         sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
-    vfunc_8(0);
-    vfunc_9();
+    spawn_effects(0);
+    play_cast_sound();
 }
 #pragma pop
 
@@ -414,8 +407,8 @@ TTecRaFoie::TTecRaFoie(saddr source, Vec *origin, TargetCursorList *list, s32 le
         sourceId = ((TObjBase *)this->source)->get_entity_id();
     }
     if (collidable != NULL) {
-        collidable->bodies->radius = scope;
+        collidable->bodies->radius = params.range;
     }
-    vfunc_8(0);
-    vfunc_9();
+    spawn_effects(0);
+    play_cast_sound();
 }

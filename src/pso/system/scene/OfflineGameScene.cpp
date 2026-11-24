@@ -59,7 +59,7 @@
 #include "pso/object/warp/TObjCityMainWarp_801867F4.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowOptionCtrl_8034C384.h"
-#include "pso/ui/window/TWindowGetComCard_8007B54C.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby_8023F734.h"
 #include "pso/ui/chat/TWindowChat_800774C0.h"
 #include "pso/network/protocol/choice_search.h"
@@ -93,7 +93,7 @@
 #include "pso/unk/TLobby_801F3A24.h"
 #include "pso/unk/text_800FA464.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/object/door/TODoorJungleMain.h"
 #include "pso/network/TProtocol.h"
 #include "pso/quest/QuestOpcodeHandlers.h"
@@ -206,7 +206,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {TKeyBoardControl__sub_80131F60, TKeyBoardControl__sub_80131F5C},
     {alloc_battle_param_tables, TLobby::free_boss4_rock},
     {reset_id_counters, free_id_counters},
-    {TObjPlayer::reset, TObjPlayer__sub_80156934},
+    {init_entity_tables, clear_entity_tables},
     {init_scene_fog_system, TFogCtrl::reset},
     {load_light_entry_file, TObjLight::free_shared_data},
     {alloc_quest_download_buffer, TLobby::free_chr_select_singleton},

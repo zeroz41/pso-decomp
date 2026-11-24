@@ -28,7 +28,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/network/client_id.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/base/TObjBase.h"
@@ -401,7 +401,7 @@ s32 TBoss3VoloptCore::check_target_collision() {
         return 0;
     }
     found = 0;
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 0x10; i++) {

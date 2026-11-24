@@ -13,7 +13,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -79,7 +79,7 @@ TUnk_804928CC *obj_ene_dd_instance;
 
 
 
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 
 #include "pso/math/MatrixVector.h"

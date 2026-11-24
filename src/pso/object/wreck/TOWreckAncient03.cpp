@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/wreck/TOWreckAncient03.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 #pragma readonly_strings on
 

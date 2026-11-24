@@ -11,7 +11,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
@@ -33,7 +33,7 @@ s32 TUnk_804909C4::check_player_hits(u16 id) {
         return 0;
     }
     owner->bodies->flags &= ~1;
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     check_object_collisions();
     check_enemy_body_collisions(this);
     owner->bodies->flags |= 1;

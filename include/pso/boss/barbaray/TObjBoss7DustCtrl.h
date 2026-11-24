@@ -18,7 +18,7 @@ public:
     // Empty; called by free_boss7_tunnel.
     static void free_strips();
     // Builds the strip shape, rotation and phase tables and resets the slot counter;
-    // called by init_scene_boss2_tunnel.
+    // called by init_boss7_tunnel.
     static void init_strips();
 };
 

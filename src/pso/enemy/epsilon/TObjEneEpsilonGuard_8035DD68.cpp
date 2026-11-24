@@ -9,12 +9,12 @@ struct NJS_OBJECT;
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/MatrixOps.h"
@@ -511,7 +511,7 @@ void TObjEneEpsilonGuard::update_effect_attack() {
         }
         TObjEneEpsilonGuard__model_desc[1].radius = 36.0f * effect_scale;
         VecCopy(&collider->position, &position);
-        TObjPlayer::init_all_slots();
+        clear_battle_param_slots();
         collider->check_object_collisions();
         if (collider->bodies->flags & 0x80000) {
             for (i = 0; i < 16; i++) {

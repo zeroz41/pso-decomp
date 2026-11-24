@@ -8,78 +8,9 @@
 #include <dolphin/mtx/GeoTypes.h>
 #include "pso/system/NinjaTypes.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/object/base/TObjCollidable.h"
 struct BmlMotionEntry;
 struct CameraAngles;
-struct CsnGroundCandidates;
-
-// One collision body of an actor (TObjCollidable::bodies points at the actor's
-// array of them); init_collision_body_parts copies a static table of these.
-struct CollisionBody {
-    Vec offset;      // from the actor's position, turned by its y rotation
-    f32 radius;      // a sphere's radius, a box's half depth (z)
-    f32 half_width;  // a box's half width (x)
-    s32 shape;       // 0 sphere, 1 box
-    u32 flags;
-    Vec center;      // offset placed in the world by refresh_collision_body_centers
-    f32 unk_28;
-};
-// *dst = *src, the copy CodeWarrior 1.3.2 generates (TBoss1DragonColli's TU).
-void copy_collision_body(CollisionBody *dst, const CollisionBody *src);
-
-class TObjCollidable : public TObjBase {
-public:
-    TObjCollidable(TObject *parent);
-    virtual ~TObjCollidable();
-    f32 get_collision_body_radius(s32);
-    virtual void reset_motion_fields();
-    CollisionBody *find_actor_body_contact(TObjCollidable *target, f32 limit);
-    void set_indexed_flags(s32, s32);
-    void clear_player_status_flag(s32, u32);
-    // actorFlags & flags.
-    s32 test_actor_flags(u32 flags);
-    s32 access_object_saved_state(void *, s16);
-    void sub_80156A68();
-    void*set_collision_body(void*);
-    void clear_collision_bodies();
-    u32 check_actor_body_contact(void *, f32);
-    void mark_enemy_body_contacts();
-    void update_enemy_collision_flags();
-    void check_object_collisions();
-    // check_object_collisions, then the same against the enemies
-    // (check_enemy_body_collisions); actors call it once per update.
-    void update_collisions();
-    void refresh_collision_body_centers();
-    // Gives it an entity id if it has none and enters it in the id-sorted
-    // entity table (unregister_object_by_id takes it out).
-    void register_object_by_id();
-    s32 unregister_object_by_id();
-    void send_object_state_update(void *);
-    // A player (client id, 0xFFFF for none) uses the action button on it.
-    virtual void interact(u16 client);
-    s32 set_flag8();
-    s32 has_interactor();
-    s32 get_cursor_action();
-    void set_shadow_flag();
-    void clear_shadow_flag();
-    // The ground polygons project_actor_to_ground last found (csnVectorUnder's
-    // cache), NULL to query without one.
-    CsnGroundCandidates *ground_cache;
-    u16 interactor;  // client id of the player interacting, 0xFFFF for none
-    u16 hit_receive_state;  // 1 allows this object to receive hits
-    CursorAction cursor_action;
-    FlagWord *body_flags;  // one word per collision body
-    FlagWord own_body_flags;  // body_flags of an actor with a single body
-    CollisionBody *bodies;
-    s32 body_count;
-};
-LAYOUT_ASSERT(TObjCollidableHitReceiveStateOffset, offsetof(TObjCollidable, hit_receive_state) == 0x96);
-
-// The actor and collision body a weapon's hit reports.
-struct ActorBodyHit {
-    TObjCollidable *target;
-    s32 body;  // index into target->bodies
-};
-void copy_actor_body_hit(ActorBodyHit *destination, const ActorBodyHit *source);
 
 // One entry of TObjMotion::action_table: what an action plays and how.
 struct TObjMotionAction {
@@ -170,6 +101,8 @@ public:
     int is_motion_held();
     // True on the frame the motion passes `frame` (not while blending).
     int is_passing_frame(f32 at_frame);
+    // True on the frame the requested action's motion passes `at_frame`.
+    int is_action_passing_frame(s32 action, f32 at_frame);
     // frame, or 0 while blending.
     // How far the root node moves forward between this frame and the next,
     // split along the actor's facing into *dx and *dz.
@@ -236,8 +169,8 @@ extern NodeFlagEntry *node_flag_cursor;
 extern Mtx34 *anim_model_matrix_array;
 // Where save_joint_matrix_callback stores the next node's matrix.
 extern Mtx34 *player_joint_matrix_write_ptr;
-// The 0x6000 bytes init_game_systems allocates for the motion data
-// TObjPlayer blends from two motions' keys (TObjPlayer::set_global_7778).
+// The 0x6000 bytes init_game_systems allocates for the vertex lists shape
+// motions interpolate (set_shape_vertex_buffer).
 extern void *motion_blend_buffer;
 
 LAYOUT_ASSERT(TObjBaseSize, sizeof(TObjBase)==0x90);

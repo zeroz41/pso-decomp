@@ -37,6 +37,8 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/effect/TEF_PvrWave.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/render/CameraCapture.h"
+#include "pso/math/BoxCollision.h"
 #include <dolphin/base/PPCArch.h>
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
@@ -89,8 +91,6 @@ SceneMaterialSection *find_scene_room_by_id(s32 id);
 s32 TScene__sub_802040D4(TScene *scene, SceneMaterialNode *node, f32 depth, f32 near_depth);
 
 
-f32 project_point_onto_line(void *, void *, void *);
-
 
 
 SceneMaterialNode* resolve_indirect_node_record(void*,SceneMaterialStatic*);
@@ -108,8 +108,6 @@ struct Model_8020533C { u8 pad0[4]; TEffIndirect *tex; s32 sampler; u8 padC[2]; 
 
 struct Lobby_8020533C { Vec v; SceneSectionAngles a; void *param; SceneMaterialNode *node; s16 scene; u8 id; };
 
-
-void render_projected_shadow_receiver(void *, void *);
 
 
 void release_indexed_entry__6TLobbyFl(Lobby_8020533C *);
@@ -1327,7 +1325,7 @@ void TScene::render_map_sections() {
     SceneMaterialSection *sec;
     s32 i;
     if (scene_material_root != NULL) {
-        TObjPlayer::draw_if_all_ready();
+        bind_shadow_map_texture();
         if (render_callback != NULL) {
             render_callback();
         }
@@ -1412,7 +1410,7 @@ void TScene::render_static_map_section(SceneMaterialSection *scene_material_sect
                 a.x = sh->angles[0] + scene_material_section->angles[0];
                 a.y = sh->angles[1] + scene_material_section->angles[1];
                 a.z = sh->angles[2] + scene_material_section->angles[2];
-                render_projected_shadow_receiver(&v, &a);
+                render_projected_shadow_receiver(&v.x, &a.x);
             }
         }
         node = resolve_indirect_node_record(this, e);
@@ -1534,7 +1532,7 @@ void TScene::render_animated_map_section(SceneMaterialSection *scene_material_se
       a.x = node->angles[0] + scene_material_section->angles[0];
       a.y = node->angles[1] + scene_material_section->angles[1];
       a.z = node->angles[2] + scene_material_section->angles[2];
-      render_projected_shadow_receiver(&v, &a);
+      render_projected_shadow_receiver(&v.x, &a.x);
     }
     if (map_section_render_callback != 0)
     {
@@ -2034,7 +2032,7 @@ s32 TScene__sub_802040D4(TScene *scene, SceneMaterialNode *node, f32 f0, f32 f1)
 }
 
 s32 TScene::is_within_view_edge(Vec *pos, Vec *dir, Vec *edge, f32 radius) {
-    struct { Vec origin, direction; } line;
+    Line line;
     Vec closest;
     if (vec3_dot(dir, edge) < 0.0f) {
         return 0;

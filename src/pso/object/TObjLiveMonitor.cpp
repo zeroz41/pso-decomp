@@ -27,7 +27,6 @@
 #include <stdlib.h>
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TLiveCameraView.h"
-#include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/render/render_util.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"

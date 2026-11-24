@@ -25,10 +25,10 @@
 
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/TObjBase.h"
 
 void TObjEneGyaranzo::run_miss_reaction() {  }
@@ -74,7 +74,7 @@ void TUnk_8049442C::explode() {
     TObjChara *target;
     owner = find_entity_by_id(owner_id);
     bodies->radius = 5.0f;
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     check_object_collisions();
     check_enemy_body_collisions(this);
     if (bodies->flags & 0x180000) {

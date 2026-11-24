@@ -11,11 +11,12 @@ class TParticleCtrl;
 
 class TObjEneRe2Flower_Bomb : public TUnk_804928CC {
 public:
+    TObjEneRe2Flower_Bomb(TObjEneRe2Flower *owner, const Vec *start, s32 heading);
     virtual ~TObjEneRe2Flower_Bomb();
     virtual s32 area_attack_deliver_direct(void *, saddr, void *, f32);
-    void *destroy_and_free(s16);
     virtual void render();
     virtual void run_task();
+    static const char *class_name;
     u16 owner_id;
     u8 pad_b2[2];
     Vec start_position;
@@ -36,8 +37,5 @@ LAYOUT_ASSERT(FlowerBombStartOffset, offsetof(TObjEneRe2Flower_Bomb, start_posit
 LAYOUT_ASSERT(FlowerBombGroundNormalOffset, offsetof(TObjEneRe2Flower_Bomb, ground_normal) == 0xD8);
 LAYOUT_ASSERT(FlowerBombContactOffset, offsetof(TObjEneRe2Flower_Bomb, contact) == 0xE4);
 LAYOUT_ASSERT(FlowerBombEffectOffset, offsetof(TObjEneRe2Flower_Bomb, effect) == 0xFC);
-
-extern "C" TObjEneRe2Flower_Bomb *TObjPlayer__sub_800C4A5C(
-    TObjEneRe2Flower_Bomb *bomb, TObjEneRe2Flower *owner, const Vec *start, s32 heading);
 
 #endif

@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TPlyGuildCardTag_8007B434.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_800F7DAC.h"

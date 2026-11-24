@@ -72,7 +72,7 @@ void TProtocol::handle_cmd_97(packet &pkt) {
 // ---- pso/network/TProtocol_801DB684
 
 #include "pso/ui/chat/TChatMessage.h"
-#include "pso/player/TPlyGuildCardTag_8007B434.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/text_801DF280.h"
 #include <stddef.h>
 

@@ -8,40 +8,36 @@ extern "C" {
 
 int clear_player_sub_object_slots(void*);
 
-void TObjPlayer::reset_particle_ctrl(s32 *arg0) {
-    *arg0 = 0;
-    ((TParticleCtrl *)arg0)->destroy_particle();
+void TObjPlayer::reset_particle_ctrl(s32 *ctrl) {
+    *ctrl = 0;
+    ((TParticleCtrl *)ctrl)->destroy_particle();
 }
 
-s32 destroy__10TObjPlayerFis(saddr arg0, s16 arg1) {
-    if (arg0 != 0) {
-        ((TParticleCtrl *)arg0)->destroy_particle();
-        if (arg1 > 0) {
-            ::operator delete((void *)arg0);
+s32 destroy__10TObjPlayerFis(saddr ctrl, s16 flags) {
+    if (ctrl != 0) {
+        ((TParticleCtrl *)ctrl)->destroy_particle();
+        if (flags > 0) {
+            ::operator delete((void *)ctrl);
         }
     }
-    return arg0;
+    return ctrl;
 }
 
 void*TObjPlayer::init_sub_objects() { TObjPlayer::init_sub_object((saddr)((char*)this + 0x8)); TObjPlayer::init_sub_object((saddr)((char*)this + 0x18)); TObjPlayer::init_sub_object((saddr)((char*)this + 0x28)); TObjPlayer::init_sub_object((saddr)((char*)this + 0x38)); TObjPlayer::init_sub_object((saddr)((char*)this + 0x48)); clear_player_sub_object_slots((char*)this + 0x58); *(int*)((char*)this + 0x4) = 0; TObjPlayer::reset_particle_ctrl((s32 *)this); return this; }
 
-s8 TObjPlayer__sub_801D6D28(void *arg0) {
-    s32 temp_r3 = *(s8 *)((s8 *)arg0 + 0x13);
-    if ((temp_r3 < 0) || (temp_r3 > 0x63)) {
+s8 TObjPlayer__sub_801D6D28(void *record) {
+    s32 level = *(s8 *)((s8 *)record + 0x13);
+    if ((level < 0) || (level > 0x63)) {
         return 0;
     }
-    return temp_r3;
+    return level;
 }
 
 void TObjPlayer::set_level(s32 lvl) {
-    u8 *arg0 = (u8 *)this;
-    s32 var_r4;
-
-    var_r4 = lvl;
-    if ((var_r4 < 0) || (var_r4 > 0x63)) {
-        var_r4 = 0;
+    if ((lvl < 0) || (lvl > 0x63)) {
+        lvl = 0;
     }
-    *(s8 *)((s8 *)arg0 + 0x13) = var_r4;
+    *(s8 *)((s8 *)this + 0x13) = lvl;
 }
 
 }

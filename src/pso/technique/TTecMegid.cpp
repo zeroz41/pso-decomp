@@ -26,66 +26,6 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
 
-struct RecoveredFields_80235348_arg0
-{
-  u8 unknown_0[0x64];
-  f32 field_64;
-  u8 unknown_68[0x8];
-  f32 field_70;
-  u8 unknown_74[0x50];
-  s16 level;
-  u8 unknown_C6[0x6];
-  f32 field_CC;
-  f32 field_D0;
-  f32 field_D4;
-  u8 unknown_D8[0x18];
-  s16 field_F0;
-};
-
-struct RecoveredFields_802308A0_arg0
-{
-  u8 unknown_0[0x70];
-  f32 field_70;
-  u8 unknown_74[0x50];
-  s16 field_C4;
-  u8 unknown_C6[0x6];
-  f32 field_CC;
-  u8 unknown_D0[0x4];
-  f32 field_D4;
-  u8 unknown_D8[0x18];
-  s16 field_F0;
-};
-
-
-struct HitInfo_80235490 { s32 type; f32 power; };
-
-struct VBase_80235490 { char pad[0x18]; };
-
-struct VObj_80235490 : VBase_80235490 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, HitInfo_80235490 *, void *, s32, s32);
-};
-
 
 struct Row_80235740 { u32 entry; u32 flags; f32 scale; };
 
@@ -198,7 +138,6 @@ void TTecMegid::update_by_state() {
 }
 #pragma pop
 
-typedef struct RecoveredFields_80235348_arg0 RecoveredFields_80235348_arg0;
 
 typedef struct Arg_802351B4 Arg_802351B4;
 typedef struct Data_802351B4 Data_802351B4;
@@ -252,49 +191,42 @@ void TTecMegid::spawn_particle_emitters() {
 }
 
 void TTecMegid::init_parameters() {
-    u8 *arg0 = (u8 *)this;
-  TechniqueParams *new_var;
-  new_var = calc_technique_parameters(0x12, (int) ((RecoveredFields_80235348_arg0 *) arg0)->level, 0xFFFF);
-  ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
-  if ((((s16) ((RecoveredFields_80235348_arg0 *) arg0)->level) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
-  {
-    ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[18].base + (tech_high_level_linear_power_table[18].per_level * ((RecoveredFields_80235348_arg0 *) arg0)->level));
-  }
-  else
-  {
-    ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_F0 * ((RecoveredFields_80235348_arg0 *) arg0)->level)));
-    if (TTecCtrl::is_technique_ready() != 0)
-    {
-      ((RecoveredFields_80235348_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_CC * technique_scale_table[18].power);
+    TechniqueParams *scaled = calc_technique_parameters(18, level, 0xFFFF);
+    params.copy(scaled);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        params.power = (f32)(tech_high_level_linear_power_table[18].base + tech_high_level_linear_power_table[18].per_level * level);
+    } else {
+        params.power = params.power + (f32)(params.power_per_level * level);
+        if (TTecCtrl::is_technique_ready() != 0) {
+            params.power = params.power * technique_scale_table[18].power;
+        }
     }
-  }
-  ((RecoveredFields_80235348_arg0 *) arg0)->field_64 = (f32) (((RecoveredFields_80235348_arg0 *) arg0)->field_D0 + ((f32) ((((s16) ((RecoveredFields_80235348_arg0 *) arg0)->level) / 5) * 2)));
-  ((RecoveredFields_80235348_arg0 *) arg0)->field_70 = (f32) ((RecoveredFields_80235348_arg0 *) arg0)->field_D4;
+    speed = params.speed + (f32)((level / 5) * 2);
+    range = params.range;
 }
 
-void TTecMegid::vfunc_8(void *target) {
+void TTecMegid::apply_to_target(TObjChara *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (hitIds[i] == ((TObjBase *)(target))->get_entity_id()) {
+        if (hitIds[i] == target->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        hitIds[hitCursor] = ((TObjBase *)(target))->get_entity_id();
+        hitIds[hitCursor] = target->get_entity_id();
         hitCursor += 1;
         if (hitCursor >= 32) {
             hitCursor = 31;
         }
-        HitInfo_80235490 tmp;
-        tmp.type = 5;
-        tmp.power = power;
-        if (((TObjBase *)(target))->get_entity_id() < 4 && ((TObjChara *)target)->obj_isState3_324() != 0) {
+        DirectAttackPayload hit;
+        hit.kind = 5;
+        hit.power = params.power;
+        if (target->get_entity_id() < 4 && target->obj_isState3_324() != 0) {
             return;
         }
-        HitInfo_80235490 info = tmp;
-        ((VObj_80235490 *)target)->m21((void *)source, &info, contact, 0x12, -1);
-        play_sound_effect(0x4002AD29, &static_cast<TObjBase *>(target)->position, 0, 0);
+        target->receive_direct_attack((void *)source, hit, contact, 0x12, -1);
+        play_sound_effect(0x4002AD29, &target->position, 0, 0);
         if (sourceId < 12) {
             if ((get_technique_caster_flags(0x12, sourceId) & 1) == 0) {
                 queue_destruction();
@@ -311,7 +243,6 @@ void TTecMegid::create_ex(saddr source, saddr pos, s32 arg2, s32 level) {
 }
 void TTecMegid::render() {  }
 
-typedef struct RecoveredFields_802308A0_arg0 RecoveredFields_802308A0_arg0;
 TTecMegid::~TTecMegid() {
     for (u32 i = 0; i < TTecMegid__emitter_bands[band].count; ++i) {
         if (emitters[i]) {

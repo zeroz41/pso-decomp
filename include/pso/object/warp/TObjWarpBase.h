@@ -20,7 +20,7 @@ struct TObjWarpBase : public TObjCollidable {
     static void free_globals();
     f32 warp_range;        // how close a player must come (the range find_warp_player_in_range tests)
     uaddr menu_window;     // the menu window open for the user; close_menu closes it
-    void *field_collider;  // the TUnk_804CC9D4 selectable field the constructor news
+    void *field_collider;  // the TTelepipeSelectField selectable field the constructor news
     u16 user_client_id;    // client id of the player using the warp, 0xFFFF for none
     u8 pad_ba[2];
 };

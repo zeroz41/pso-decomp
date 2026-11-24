@@ -9,7 +9,6 @@
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/ui/charcreate/CharacterPreview.h"
-#include "pso/boss/galgryphon/TObjBoss5Pillar_8028B714.h"
 #include "pso/ui/frontend/TAdMultiConfirmGC_802E03D0.h"
 
 #include "pso/object/base/TObjMotion.h"
@@ -146,7 +145,7 @@ TAdChrSelPlayerGC::~TAdChrSelPlayerGC() {
         joint_matrices = NULL;
     }
     if (preview_data != NULL) {
-        free_chcr_resources(preview_data, 1);
+        delete preview_data;
         preview_data = NULL;
         TAdPlyStatusGC *status = TAdPlyStatusGC::get_index();
         if (status != NULL) {
@@ -162,7 +161,7 @@ void TAdChrSelPlayerGC::run_task() {
     switch (state) {
     case 0:
         if (preview_data != NULL) {
-            free_chcr_resources(preview_data, 1);
+            delete preview_data;
             preview_data = NULL;
         }
         if (pending_state != 0) {
@@ -172,7 +171,7 @@ void TAdChrSelPlayerGC::run_task() {
         break;
     case 1:
         if (preview_data != NULL) {
-            free_chcr_resources(preview_data, 1);
+            delete preview_data;
             preview_data = NULL;
         }
         if (pending_state != 0) {
@@ -213,7 +212,7 @@ void TAdChrSelPlayerGC::run_task() {
     case 2:
         if (pending_state != 0) {
             if (preview_data != NULL) {
-                free_chcr_resources(preview_data, 1);
+                delete preview_data;
                 preview_data = NULL;
             }
             state = pending_state - 1;
@@ -226,7 +225,7 @@ void TAdChrSelPlayerGC::run_task() {
     case 3:
         if (pending_state != 0) {
             if (preview_data != NULL) {
-                free_chcr_resources(preview_data, 1);
+                delete preview_data;
                 preview_data = NULL;
             }
             state = pending_state - 1;

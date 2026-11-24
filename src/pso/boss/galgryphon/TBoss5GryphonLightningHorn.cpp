@@ -21,7 +21,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_803E18C0.h"
+#include "pso/math/BoxCollision.h"
 
 #pragma readonly_strings on
 
@@ -86,16 +86,16 @@ void TBoss5GryphonLightningHorn::apply_lightning_effect() {
             if (c != 0) {
                 get_start_position(&pos);
                 get_end_position(&wing);
-                ray.o.x = pos.x;
-                ray.o.y = c->position.y;
-                ray.o.z = pos.z;
-                ray.d.x = wing.x - pos.x;
-                ray.d.y = 0.0f;
-                ray.d.z = wing.z - pos.z;
+                ray.origin.x = pos.x;
+                ray.origin.y = c->position.y;
+                ray.origin.z = pos.z;
+                ray.direction.x = wing.x - pos.x;
+                ray.direction.y = 0.0f;
+                ray.direction.z = wing.z - pos.z;
                 project_point_onto_line(&c->position, &ray, &hit);
-                dir.x = ray.d.x;
-                dir.y = ray.d.y;
-                dir.z = ray.d.z;
+                dir.x = ray.direction.x;
+                dir.y = ray.direction.y;
+                dir.z = ray.direction.z;
                 clamp_to_segment(&pos, &dir, &hit, normalize_vector_safe(&dir));
                 TBoss5Gryphon::apply_lightning_hit(inst, &hit, 6.0f);
             }

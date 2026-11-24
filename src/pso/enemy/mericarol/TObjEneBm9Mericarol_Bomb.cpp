@@ -13,7 +13,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/MatrixOps.h"
@@ -36,7 +36,7 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, saddr des
     if (this->owner == 0) {
         return 0;
     }
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     if (static_cast<AreaAttackContact *>(recoil)->contact_flags & 1) {
         update_body_contact_flag(range);
         mask |= 0x80000;

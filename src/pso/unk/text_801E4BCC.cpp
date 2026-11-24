@@ -1,6 +1,8 @@
 #include "types.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/render/GinjaDrawUtil.h"
+#include "pso/system/NinjaTypes.h"
 struct Wave_801E4BCC {
     s32 height;
     s32 width;
@@ -54,7 +56,7 @@ void distort_texture_wave_image(Wave_801E4BCC *wave) {
             out[calc_gx_tile_index(x, y, wave->width)] = color;
         }
     }
-    ((TObjPlayer *)0)->reload_texture((saddr)(wave->output + 0x20), (u32)0x40000000, (void *)0);
+    reload_texture_num(0, (saddr)(wave->output + 0x20), NJD_TEXATTR_TYPE_MEMORY, 0);
 }
 
 }

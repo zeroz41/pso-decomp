@@ -31,7 +31,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/client_id.h"
@@ -268,7 +268,7 @@ void TOTrapAncient01::vfunc_82() {
     if (damage_timer < 0.0f) {
         bodies->radius = 15.0f;
         set_indexed_flags(0, 0x100);
-        TObjPlayer::init_all_slots();
+        clear_battle_param_slots();
         check_object_collisions();
         for (i = 0; i < 16; i++) {
             p = (TObjChara *)TObjPlayer::get_battle_param(i);

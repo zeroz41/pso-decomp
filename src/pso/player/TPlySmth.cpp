@@ -9,8 +9,8 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 #pragma dont_inline off
 extern "C" {
 
-void __as__8TPlySmthFRC8TPlySmth(saddr arg0, saddr arg1) {
-    *(ByteBlock_8 *)(arg0) = *(const ByteBlock_8 *)(arg1);
+void __as__8TPlySmthFRC8TPlySmth(saddr dst, saddr src) {
+    *(ByteBlock_8 *)(dst) = *(const ByteBlock_8 *)(src);
 }
 
 }

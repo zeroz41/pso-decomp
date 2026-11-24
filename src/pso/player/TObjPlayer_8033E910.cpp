@@ -4,7 +4,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_8033E910.h"
-#include "pso/player/TObjPlayer_80307618.h"
+#include "pso/weapon/TItemWeaponSBerillsHands.h"
 #include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/unk/TUnk_804EFA88.h"
 #include "pso/render/render_util.h"
@@ -54,7 +54,7 @@ const char *player_battle_ctrl_text_english[7] = {
 struct ByteBlock_C { u8 bytes[0xc]; };
 
 
-f32 calc_camera_fov_degrees(void);
+f32 calc_camera_vertical_fov(void);
 void set_ginja_post_texgen_count(s32 x);
 void set_ginja_post_tev_stage_count(s32 x);
 void load_current_pos_matrix(s32 arg0);
@@ -73,7 +73,7 @@ void setup_projection_tex_matrix__10TObjPlayerFv(void) {
     if (camera_ctrl_instance != NULL) {
         push_matrix();
         calc_projection_screen_offset(&spC, &sp8);
-        fovY = (f32) (0.0054931640625 * calc_camera_fov_degrees());
+        fovY = (f32) (0.0054931640625 * calc_camera_vertical_fov());
         if (TCameraCtrl::is_view_offset() != 0) {
             C_MTXLightPerspective(mtx, fovY, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
         } else {

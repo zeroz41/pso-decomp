@@ -12,7 +12,7 @@
 
 const char *TPhotonLeilla::class_name = "TPhotonLeilla";
 
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"

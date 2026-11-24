@@ -31,7 +31,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
 struct BmlResource;

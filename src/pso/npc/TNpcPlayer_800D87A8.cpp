@@ -2,7 +2,7 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 TObjCollidable *get_valid_target_player(int id) {
     TObjCollidable *player = reinterpret_cast<TObjCollidable *>(TObjPlayer::get_battle_param(id));

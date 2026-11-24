@@ -19,7 +19,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/render_util.h"
@@ -161,7 +161,7 @@ TechniqueContactList technique_contact_query_results;
 void resetTechniqueContactQuery();
 
 TechniqueContactList *find_support_technique_contact(TTecPlayerInfluence *self, TObjCollidable *target, CollisionBody *body, void *player);
-saddr find_area_technique_contact(TTecCircle *self, TObjCollidable *target, CollisionBody *body, void *player);
+TechniqueContactList *find_area_technique_contact(TTecCircle *self, TObjCollidable *target, CollisionBody *body, void *player);
 
 TechniqueContactList *find_support_technique_contact(TTecPlayerInfluence *self, TObjCollidable *target, CollisionBody *body, void *player) {
     Vec pos;
@@ -225,7 +225,7 @@ TechniqueContactList *TTecPlayerInfluence::gather_player_contacts(TObjCollidable
     return &technique_contact_query_results;
 }
 
-saddr find_area_technique_contact(TTecCircle *self, TObjCollidable *target, CollisionBody *body, void *player) {
+TechniqueContactList *find_area_technique_contact(TTecCircle *self, TObjCollidable *target, CollisionBody *body, void *player) {
     Vec pos;
     f32 range;
     TObjPlayer *pd;
@@ -239,7 +239,7 @@ saddr find_area_technique_contact(TTecCircle *self, TObjCollidable *target, Coll
     VecCopy(&pos, &self->position);
     resetTechniqueContactQuery();
     if (target == NULL) {
-        return (saddr)&technique_contact_query_results;
+        return &technique_contact_query_results;
     }
     VecCopy(&target->position, &pos);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
@@ -256,10 +256,10 @@ saddr find_area_technique_contact(TTecCircle *self, TObjCollidable *target, Coll
             }
         }
     }
-    return (saddr)&technique_contact_query_results;
+    return &technique_contact_query_results;
 }
 
-saddr TTecCircle::collect_body_contacts(TObjCollidable *target, CollisionBody *body, void *player) {
+TechniqueContactList *TTecCircle::collect_body_contacts(TObjCollidable *target, CollisionBody *body, void *player) {
     Vec pos;
     TObjCollidable *e;
     TObjPlayer *pd;
@@ -271,7 +271,7 @@ saddr TTecCircle::collect_body_contacts(TObjCollidable *target, CollisionBody *b
     VecCopy(&pos, &position);
     resetTechniqueContactQuery();
     if (target == NULL) {
-        return (saddr)&technique_contact_query_results;
+        return &technique_contact_query_results;
     }
     VecCopy(&target->position, &pos);
     if (((TObjBase *)player)->get_entity_id() < 4) {
@@ -316,14 +316,14 @@ saddr TTecCircle::collect_body_contacts(TObjCollidable *target, CollisionBody *b
             }
         }
     }
-    return (saddr)&technique_contact_query_results;
+    return &technique_contact_query_results;
 }
 
-void TTecCircle::find_area_contact(saddr player) {
-    find_area_technique_contact(this, collidable, &collisionBody, (void *)player);
+TechniqueContactList *TTecCircle::find_area_contact(saddr player) {
+    return find_area_technique_contact(this, collidable, &collisionBody, (void *)player);
 }
 
-saddr TTecCircle::collect_body_contacts_for_target(saddr player) {
+TechniqueContactList *TTecCircle::collect_body_contacts_for_target(saddr player) {
     return collect_body_contacts(collidable, &collisionBody, (void *)player);
 }
 

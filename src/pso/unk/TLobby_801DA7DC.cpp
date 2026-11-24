@@ -1,7 +1,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/player/TPlySmth.h"
-#include "pso/player/TPlyGuildCardTag_8007B434.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/TProtocol.h"
 #include "pso/network/protocol/protocol.h"

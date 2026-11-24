@@ -11,7 +11,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/TObjMapCsn.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/render_util.h"
 #include "pso/system/BmlResource.h"

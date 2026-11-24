@@ -13,7 +13,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/TObjBase.h"
 
 // Built with deferred code generation (configure.py): the functions run last to first.
@@ -26,7 +26,7 @@ TTecCircle::TTecCircle(saddr source, Vec *pos, Vec *target, s32 level) : TEffect
     this->scale.y = 1.0f;
     this->scale.z = 1.0f;
     this->m_74 = 0;
-    this->m_b8 = 0;
+    this->contact = 0;
     this->source = source;
     if (level < 0) {
         this->level = 0;
@@ -69,7 +69,7 @@ TTecCircle::TTecCircle(saddr source, saddr pos, s32 level) : TEffect() {
     this->target.x = 0.0f;
     this->target.y = 0.0f;
     this->target.z = 0.0f;
-    this->m_b8 = 0;
+    this->contact = 0;
     this->scale.x = 1.0f;
     this->scale.y = 1.0f;
     this->scale.z = 1.0f;
@@ -164,7 +164,7 @@ void TTecCircle::render() {
 }
 
 void TTecReverser::apply_params(TechniqueParams *params, s32 level) {
-    params->pad_00 = params->pad_00 + (f32)level;
-    this->speed = params->pad_04;
-    this->lifetime = params->pad_08;
+    params->power = params->power + (f32)level;
+    this->speed = params->speed;
+    this->lifetime = params->range;
 }

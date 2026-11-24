@@ -6,11 +6,11 @@
 
 struct TTecKafun : public TTecCircle {
     virtual ~TTecKafun();
-    virtual void vfunc_6(void *);
-    f32 hit_value;         // vfunc_6 passes it with hit_kind to the target
+    virtual void apply_to_target(TObjChara *);
+    f32 hit_value;         // apply_to_target passes it with hit_kind to the target
     s32 effect;            // particle effect run_task spawns at its position
     s32 second_effect;     // spawned too while has_second_effect is 1
-    s32 hit_kind;          // vfunc_6 sends 15..18 after a kind-0 hit
+    s32 hit_kind;          // apply_to_target sends 15..18 after a kind-0 hit
     s32 has_second_effect;
     virtual void render();
     virtual void run_task();

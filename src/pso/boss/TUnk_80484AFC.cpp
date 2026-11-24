@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
@@ -52,7 +52,7 @@ void TUnk_80484AFC::explode_and_destroy() {
     play_sound_effect(0x4003AD15, &position, 0, 0);
     play_sound_effect(0x4001C112, &position, 0, 0);
     bodies->radius = 15.0f;
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     this->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {

@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/render/render_util.h"
 const char *TAdGameStartLineGC__name = "TAdGameStartLineGC";
 
@@ -79,7 +80,7 @@ TAdGameStartLineGC *__ct__18TAdGameStartLineGCFP7TObject(TAdGameStartLineGC *sel
     self->m_frame = -1;
     self->m_scale_x = 3.0f;
     self->m_scale_y = 3.0f;
-    lbl_805D6C18 = (void *)TObjPlayer::get_instance();
+    lbl_805D6C18 = (void *)get_multiplay_texture_list();
     self->m_rest[0].x0 = self->m_left_x;
     self->m_rest[0].y0 = self->m_left_y;
     self->m_rest[0].x1 = 384.0f + self->m_left_x;

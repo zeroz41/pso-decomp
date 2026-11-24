@@ -16,7 +16,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/RenderFadeState.h"
@@ -31,7 +31,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/text_803E2F28.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/AngleUnits.h"
 #include "pso/unk/SampledMotionPoints.h"
@@ -52,7 +51,7 @@
 #include "pso/unk/text_802D1C84.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/player/TObjPlayer_800F0810.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecKafun.h"
 #include "pso/player/TPlyDispData.h"
@@ -687,7 +686,7 @@ void TObjEneBm9Mericarol::state_attack(s32 reason) {
             } else {
                 if (is_passing_frame(8.0f) != 0) {
                     VecCopy(&attack_body->position, &position);
-                    TObjPlayer::init_all_slots();
+                    clear_battle_param_slots();
                     attack_body->check_object_collisions();
                     if (attack_body->bodies->flags & 0x80000) {
                         for (i = 0; i < 0x10; i++) {
@@ -849,7 +848,7 @@ s32 TObjEneBm9Mericarol::check_attack_hits() {
     s32 i;
     TObjChara *p;
     ret = 0;
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     check_object_collisions();
     if (bodies->flags & 0x80000) {
         ret = 1;

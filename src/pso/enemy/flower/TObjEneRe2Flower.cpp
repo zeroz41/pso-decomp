@@ -31,7 +31,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/unk/TLobby.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_800C4B78.h"
 #include "pso/player/TObjPlayer_800F0810.h"
@@ -626,11 +626,7 @@ void TObjEneRe2Flower::state_shoot(s32 reason) {
             if (is_tower_variant() != 0 || TObjEneDD::check_v2_mode() != 0) {
                 TTecMegid::create_ex((saddr)this, (saddr)&pos, rotation_y, TObjEneDD::clamp_frame_index(*(s32 *)((s8 *)re2_flower_movement_params + 0x18)));
             } else {
-                TObjEneRe2Flower_Bomb *bomb = static_cast<TObjEneRe2Flower_Bomb *>(
-                    TObject::operator new(sizeof(TObjEneRe2Flower_Bomb)));
-                if (bomb != NULL) {
-                    TObjPlayer__sub_800C4A5C(bomb, this, &pos, rotation_y);
-                }
+                new TObjEneRe2Flower_Bomb(this, &pos, rotation_y);
             }
             play_sound_effect(remap_sound_for_variant(0x4003A10E), &node_points[0], 0, 0);
         }

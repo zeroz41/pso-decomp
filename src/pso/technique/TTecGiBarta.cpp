@@ -28,61 +28,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/object/base/TObjMotion.h"
 
-struct RecoveredFields_802308A0_arg0
-{
-  u8 unknown_0[0x70];
-  f32 field_70;
-  u8 unknown_74[0x50];
-  s16 field_C4;
-  u8 unknown_C6[0x6];
-  f32 field_CC;
-  u8 unknown_D0[0x4];
-  f32 field_D4;
-  u8 unknown_D8[0x18];
-  s16 field_F0;
-};
-
-struct HitInfo_802309AC { s32 type; f32 power; };
-
-struct VBase_802309AC { char pad[0x18]; };
-
-struct VObj_802309AC : VBase_802309AC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21(void *, HitInfo_802309AC *, void *, s32, s32);
-};
-
-struct Obj_802309AC {
-    u8 pad0[0x1C];
-    void *source;
-    u8 pad20[0xCC - 0x20];
-    f32 power;
-    u8 padD0[0xF8 - 0xD0];
-    void *contact;
-    u8 padFC[0x134 - 0xFC];
-    u16 ids[32];
-    s32 cursor;
-};
-
 
 struct Row_802304A0 { u32 entry; u32 flags; f32 scale; };
 struct Band_802304A0 { const Row_802304A0 *rows; u32 count; };
@@ -267,47 +212,38 @@ void TTecGiBarta::create_particles() {
 }
 #pragma auto_inline off
 
-typedef struct RecoveredFields_802308A0_arg0 RecoveredFields_802308A0_arg0;
 void TTecGiBarta::calc_params() {
-    u8 *arg0 = (u8 *)this;
-  TechniqueParams *new_var;
-  new_var = calc_technique_parameters(4, (int) ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4, 0xFFFF);
-  ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
-  if ((((s16) ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
-  {
-    ((RecoveredFields_802308A0_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[4].base + (tech_high_level_linear_power_table[4].per_level * ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4));
-  }
-  else
-  {
-    ((RecoveredFields_802308A0_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_802308A0_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_802308A0_arg0 *) arg0)->field_F0 * ((RecoveredFields_802308A0_arg0 *) arg0)->field_C4)));
-    if (TTecCtrl::is_technique_ready() != 0)
-    {
-      ((RecoveredFields_802308A0_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_802308A0_arg0 *) arg0)->field_CC * technique_scale_table[4].power);
+    TechniqueParams *scaled = calc_technique_parameters(4, level, 0xFFFF);
+    params.copy(scaled);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        params.power = (f32)(tech_high_level_linear_power_table[4].base + tech_high_level_linear_power_table[4].per_level * level);
+    } else {
+        params.power = params.power + (f32)(params.power_per_level * level);
+        if (TTecCtrl::is_technique_ready() != 0) {
+            params.power = params.power * technique_scale_table[4].power;
+        }
     }
-  }
-  ((RecoveredFields_802308A0_arg0 *) arg0)->field_70 = (f32) ((RecoveredFields_802308A0_arg0 *) arg0)->field_D4;
+    range = params.range;
 }
 
-void TTecGiBarta::vfunc_8(void *target) {
-    Obj_802309AC *self = (Obj_802309AC *)this;
+void TTecGiBarta::apply_to_target(TObjChara *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == ((TObjBase *)target)->get_entity_id()) {
+        if (hitIds[i] == target->get_entity_id()) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[this->hitCursor] = ((TObjBase *)target)->get_entity_id();
-        this->hitCursor += 1;
-        if (this->hitCursor >= 32) {
-            this->hitCursor = 31;
+        hitIds[hitCursor] = target->get_entity_id();
+        hitCursor += 1;
+        if (hitCursor >= 32) {
+            hitCursor = 31;
         }
-        HitInfo_802309AC tmp;
-        tmp.type = 2;
-        tmp.power = this->power;
-        HitInfo_802309AC info = tmp;
-        ((VObj_802309AC *)target)->m21(self->source, &info, *(void * *)&this->contact, 4, -1);
+        DirectAttackPayload hit;
+        hit.kind = 2;
+        hit.power = params.power;
+        target->receive_direct_attack((void *)source, hit, contact, 4, -1);
     }
 }
 

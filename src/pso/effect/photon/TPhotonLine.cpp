@@ -10,7 +10,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/object/base/TObjBase.h"
@@ -40,7 +40,7 @@ void TPhotonLine::run_task() {
         queue_destruction();
         return;
     }
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     mark_enemy_body_contacts();
     if (bodies->flags & 0x100000) {
         for (i = 0; i < 16; i++) {

@@ -1,13 +1,13 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TBreakUpMdl.h"
-#include "pso/unk/TUnk_804CCB28.h"
+#include "pso/technique/TFireExplosion.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 
 struct NJS_OBJECT;
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/render/ChunkModelDraw.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -36,7 +36,6 @@ struct NJS_OBJECT;
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
-#include "pso/unk/text_803E2F28.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 
@@ -456,7 +455,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
             if (fire_timer <= 0) {
                 TObjPlayer *player;
                 s32 i;
-                new TUnk_804CCB28(40.0f, d, 0, (TObject *)tl_07);
+                new TFireExplosion(40.0f, d, 0, (TObject *)tl_07);
                 play_sound_effect(0x4003A348, &position, 0, 0);
                 for (i = 0; i < 4; i++) {
                     player = get_player_by_client_id(i);

@@ -27,12 +27,12 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/TObjBase.h"
 
 
@@ -47,7 +47,7 @@ void TObjGyaranzoMissile::explode() {
     TObjChara *target;
     owner = find_entity_by_id(owner_id);
     bodies->radius = 6.0f;
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     check_object_collisions();
     check_enemy_body_collisions(this);
     if (bodies->flags & 0x180000) {

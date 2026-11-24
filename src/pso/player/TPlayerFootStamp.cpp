@@ -29,7 +29,7 @@
 
 // Per player class (in the order of the switch below): the footprint's
 // length, width and offset along the facing, before the height scaling.
-const Vec lbl_804707F8[12] = {
+const Vec footstamp_class_sizes[12] = {
     { 1.0f, 1.0f, 1.0f }, { 0.8f, 0.9f, 1.0f }, { 1.1f, 1.1f, 1.0f }, { 0.8f, 0.6f, 1.0f },
     { 1.0f, 1.0f, 1.0f }, { 0.8f, 0.9f, 1.0f }, { 1.7f, 1.7f, 1.0f }, { 0.9f, 0.6f, 1.0f },
     { 1.0f, 1.0f, 1.0f }, { 0.8f, 0.9f, 1.0f }, { 0.8f, 0.9f, 1.0f }, { 0.9f, 0.9f, 1.0f },
@@ -42,7 +42,7 @@ struct FootStampHeightScale {
     f32 rate;
 };
 
-const FootStampHeightScale lbl_80470888[12] = {
+const FootStampHeightScale footstamp_class_height_scales[12] = {
     { 17.5f, 0.04f }, { 16.0f, 0.05f }, { 19.75f, 0.057f }, { 15.5f, 0.04f },
     { 18.0f, 0.05f }, { 16.25f, 0.049f }, { 19.0f, 0.05f }, { 16.75f, 0.045f },
     { 17.65f, 0.035f }, { 16.0f, 0.067f }, { 18.25f, 0.057f }, { 15.75f, 0.057f },
@@ -52,7 +52,7 @@ const char *TPlayerFootStamp::class_name = "TPlayerFootStamp";
 
 NJS_TEXLIST *player_footstamp_texture_gvm_handle;
 
-void TPlayerFootStamp::sub_802B0204(s32 num) {
+void TPlayerFootStamp::select_texture(s32 num) {
     if (num < 0 || num > 1) {
         texture = 0;
     } else {
@@ -110,89 +110,89 @@ TPlayerFootStamp::TPlayerFootStamp(TObjPlayer *player, s32 side) : TObject(tl_07
     if (player->get_entity_id() < 4) {
         switch (static_cast<s8>(player->get_class_index())) {
         case 1:
-            sub_802B0204(0);
-            scale = lbl_80470888[1].rate * (player->base_stats.proportions - lbl_80470888[1].base) + 1.0f;
-            length = lbl_804707F8[1].x * scale;
-            width = lbl_804707F8[1].y * scale;
-            offset = lbl_804707F8[1].z * scale;
+            select_texture(0);
+            scale = footstamp_class_height_scales[1].rate * (player->base_stats.proportions - footstamp_class_height_scales[1].base) + 1.0f;
+            length = footstamp_class_sizes[1].x * scale;
+            width = footstamp_class_sizes[1].y * scale;
+            offset = footstamp_class_sizes[1].z * scale;
             break;
         case 2:
-            sub_802B0204(1);
-            scale = lbl_80470888[2].rate * (player->base_stats.proportions - lbl_80470888[2].base) + 1.0f;
-            length = lbl_804707F8[2].x * scale;
-            width = lbl_804707F8[2].y * scale;
-            offset = lbl_804707F8[2].z * scale;
+            select_texture(1);
+            scale = footstamp_class_height_scales[2].rate * (player->base_stats.proportions - footstamp_class_height_scales[2].base) + 1.0f;
+            length = footstamp_class_sizes[2].x * scale;
+            width = footstamp_class_sizes[2].y * scale;
+            offset = footstamp_class_sizes[2].z * scale;
             break;
         case 9:
-            sub_802B0204(1);
-            scale = lbl_80470888[3].rate * (player->base_stats.proportions - lbl_80470888[3].base) + 1.0f;
-            length = lbl_804707F8[3].x * scale;
-            width = lbl_804707F8[3].y * scale;
-            offset = lbl_804707F8[3].z * scale;
+            select_texture(1);
+            scale = footstamp_class_height_scales[3].rate * (player->base_stats.proportions - footstamp_class_height_scales[3].base) + 1.0f;
+            length = footstamp_class_sizes[3].x * scale;
+            width = footstamp_class_sizes[3].y * scale;
+            offset = footstamp_class_sizes[3].z * scale;
             break;
         case 3:
-            sub_802B0204(0);
-            scale = lbl_80470888[4].rate * (player->base_stats.proportions - lbl_80470888[4].base) + 1.0f;
-            length = lbl_804707F8[4].x * scale;
-            width = lbl_804707F8[4].y * scale;
-            offset = lbl_804707F8[4].z * scale;
+            select_texture(0);
+            scale = footstamp_class_height_scales[4].rate * (player->base_stats.proportions - footstamp_class_height_scales[4].base) + 1.0f;
+            length = footstamp_class_sizes[4].x * scale;
+            width = footstamp_class_sizes[4].y * scale;
+            offset = footstamp_class_sizes[4].z * scale;
             break;
         case 11:
-            sub_802B0204(0);
-            scale = lbl_80470888[5].rate * (player->base_stats.proportions - lbl_80470888[5].base) + 1.0f;
-            length = lbl_804707F8[5].x * scale;
-            width = lbl_804707F8[5].y * scale;
-            offset = lbl_804707F8[5].z * scale;
+            select_texture(0);
+            scale = footstamp_class_height_scales[5].rate * (player->base_stats.proportions - footstamp_class_height_scales[5].base) + 1.0f;
+            length = footstamp_class_sizes[5].x * scale;
+            width = footstamp_class_sizes[5].y * scale;
+            offset = footstamp_class_sizes[5].z * scale;
             break;
         case 4:
-            sub_802B0204(1);
-            scale = lbl_80470888[6].rate * (player->base_stats.proportions - lbl_80470888[6].base) + 1.0f;
-            length = lbl_804707F8[6].x * scale;
-            width = lbl_804707F8[6].y * scale;
-            offset = lbl_804707F8[6].z * scale;
+            select_texture(1);
+            scale = footstamp_class_height_scales[6].rate * (player->base_stats.proportions - footstamp_class_height_scales[6].base) + 1.0f;
+            length = footstamp_class_sizes[6].x * scale;
+            width = footstamp_class_sizes[6].y * scale;
+            offset = footstamp_class_sizes[6].z * scale;
             break;
         case 5:
-            sub_802B0204(1);
-            scale = lbl_80470888[7].rate * (player->base_stats.proportions - lbl_80470888[7].base) + 1.0f;
-            length = lbl_804707F8[7].x * scale;
-            width = lbl_804707F8[7].y * scale;
-            offset = lbl_804707F8[7].z * scale;
+            select_texture(1);
+            scale = footstamp_class_height_scales[7].rate * (player->base_stats.proportions - footstamp_class_height_scales[7].base) + 1.0f;
+            length = footstamp_class_sizes[7].x * scale;
+            width = footstamp_class_sizes[7].y * scale;
+            offset = footstamp_class_sizes[7].z * scale;
             break;
         case 10:
-            sub_802B0204(0);
-            scale = lbl_80470888[8].rate * (player->base_stats.proportions - lbl_80470888[8].base) + 1.0f;
-            length = lbl_804707F8[8].x * scale;
-            width = lbl_804707F8[8].y * scale;
-            offset = lbl_804707F8[8].z * scale;
+            select_texture(0);
+            scale = footstamp_class_height_scales[8].rate * (player->base_stats.proportions - footstamp_class_height_scales[8].base) + 1.0f;
+            length = footstamp_class_sizes[8].x * scale;
+            width = footstamp_class_sizes[8].y * scale;
+            offset = footstamp_class_sizes[8].z * scale;
             break;
         case 6:
-            sub_802B0204(0);
-            scale = lbl_80470888[9].rate * (player->base_stats.proportions - lbl_80470888[9].base) + 1.0f;
-            length = lbl_804707F8[9].x * scale;
-            width = lbl_804707F8[9].y * scale;
-            offset = lbl_804707F8[9].z * scale;
+            select_texture(0);
+            scale = footstamp_class_height_scales[9].rate * (player->base_stats.proportions - footstamp_class_height_scales[9].base) + 1.0f;
+            length = footstamp_class_sizes[9].x * scale;
+            width = footstamp_class_sizes[9].y * scale;
+            offset = footstamp_class_sizes[9].z * scale;
             break;
         case 7:
-            sub_802B0204(0);
-            scale = lbl_80470888[10].rate * (player->base_stats.proportions - lbl_80470888[10].base) + 1.0f;
-            length = lbl_804707F8[10].x * scale;
-            width = lbl_804707F8[10].y * scale;
-            offset = lbl_804707F8[10].z * scale;
+            select_texture(0);
+            scale = footstamp_class_height_scales[10].rate * (player->base_stats.proportions - footstamp_class_height_scales[10].base) + 1.0f;
+            length = footstamp_class_sizes[10].x * scale;
+            width = footstamp_class_sizes[10].y * scale;
+            offset = footstamp_class_sizes[10].z * scale;
             break;
         case 8:
-            sub_802B0204(0);
-            scale = lbl_80470888[11].rate * (player->base_stats.proportions - lbl_80470888[11].base) + 1.0f;
-            length = lbl_804707F8[11].x * scale;
-            width = lbl_804707F8[11].y * scale;
-            offset = lbl_804707F8[11].z * scale;
+            select_texture(0);
+            scale = footstamp_class_height_scales[11].rate * (player->base_stats.proportions - footstamp_class_height_scales[11].base) + 1.0f;
+            length = footstamp_class_sizes[11].x * scale;
+            width = footstamp_class_sizes[11].y * scale;
+            offset = footstamp_class_sizes[11].z * scale;
             break;
         case 0:
         default:
-            sub_802B0204(0);
-            scale = lbl_80470888[0].rate * (player->base_stats.proportions - lbl_80470888[0].base) + 1.0f;
-            length = lbl_804707F8[0].x * scale;
-            width = lbl_804707F8[0].y * scale;
-            offset = lbl_804707F8[0].z * scale;
+            select_texture(0);
+            scale = footstamp_class_height_scales[0].rate * (player->base_stats.proportions - footstamp_class_height_scales[0].base) + 1.0f;
+            length = footstamp_class_sizes[0].x * scale;
+            width = footstamp_class_sizes[0].y * scale;
+            offset = footstamp_class_sizes[0].z * scale;
             break;
         }
 

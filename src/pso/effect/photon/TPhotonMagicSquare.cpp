@@ -6,7 +6,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/PhotonBlastResults.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
@@ -169,3 +170,10 @@ TPhotonMagicSquare::TPhotonMagicSquare(TObject *parent, s32 palette_index, u16 o
     flash_period = 2;
     play_sound_effect(0x4002AD2E, 0, 0, 0);
 }
+
+// The magic square's slot in photon_blast_load_callback_table: it has no model to load.
+void destroy_magic_square_photon_blast_model(void) {}
+
+void create_magic_square_photon_blast_model(void) {}
+
+int TObjPlayer::check_flag_0x80() { return check_flag(128); }

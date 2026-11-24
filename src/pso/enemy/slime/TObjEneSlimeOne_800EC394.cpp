@@ -6,7 +6,7 @@
 #include "types.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/render_util.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/slime/TObjEneSlimeOne_800EC394.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
@@ -14,6 +14,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/slime/TObjEneSlimeWaterBomb.h"
 #include "pso/enemy/slime/TObjEneSlimeOne.h"
+#include "pso/enemy/slime/TObjEneSlimeTailAttack.h"
 #include "pso/player/TObjPlayer.h"
 
 struct O_800EC39C { u8 pad[0x384]; s32 state; };
@@ -26,6 +27,15 @@ void draw_chunk_model_with_shape_motion(void *child, void *motion, NJS_MOTION *s
 extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
 #include "pso/player/TObjPlayer_801D2E20.h"
+
+int TObjEneSlimeTailAttack::find_nearest_enemy_with_flag(f32 range) {
+    s32 target_id;
+    actorFlags |= 0x02000000;
+    target_id = find_nearest_hittable_enemy(this, NULL, range);
+    actorFlags &= ~0x02000000;
+    return static_cast<u16>(target_id);
+}
+
 extern "C" {
 
 s32 TObjEneSlimeOne::get_attack_target() { return variant; }

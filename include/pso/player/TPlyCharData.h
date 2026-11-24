@@ -35,6 +35,11 @@ public:
     void set_evade_materials_used(u8 count);
     void set_mind_materials_used(u8 count);
     void set_power_materials_used(u8 count);
+    u8 get_luck_materials_used();
+    u8 get_def_materials_used();
+    u8 get_evade_materials_used();
+    u8 get_mind_materials_used();
+    u8 get_power_materials_used();
     // Set on a record saved from a disc whose game files failed the size/CRC check.
     void mark_game_files_modified();
     // Cast level of technique `tech` up to 14; the levels above it are kept in m_present[2] of inventory slot `tech`.

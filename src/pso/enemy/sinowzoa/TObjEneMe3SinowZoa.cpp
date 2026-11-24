@@ -21,7 +21,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoaReal.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
@@ -59,7 +59,7 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/render_util.h"
 #include "pso/math/AngleUnits.h"
@@ -2079,24 +2079,24 @@ s32 TObjEneMe3SinowZoa::check_move_collision(const Vec *pos) {
     body->flags = 0x9D01U;
     VecCopy(&saved_position, &this->position);
     VecCopy(&this->position, pos);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     this->check_collisions();
     this->update_enemy_collision_flags();
     if (body->flags & 0x80000) {
         if (get_valid_target_player(this->current_target->get_entity_id()) == 0) {
             VecCopy(&this->position, &saved_position);
-            TObjPlayer::init_all_slots();
+            clear_battle_param_slots();
             return 1;
         }
     }
     if ((body->flags & 0x100000) && get_valid_target_player(this->entity_id) == 0) {
         VecCopy(&this->position, &saved_position);
-        TObjPlayer::init_all_slots();
+        clear_battle_param_slots();
         return 1;
     }
     r = (body->flags & 0x200000) != 0;
     VecCopy(&this->position, &saved_position);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     copy_collision_body(body, &sinow_zoa_collision_parts);
     body->flags = saved;
     return r;

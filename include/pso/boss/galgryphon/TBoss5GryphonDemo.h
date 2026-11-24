@@ -4,6 +4,9 @@
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+// Sets the alpha of the camera-capture overlay and turns the overlay on.
+extern "C" void set_camera_capture_overlay_alpha(int alpha);
+
 class TBoss5GryphonDemo : public TObject {
 public:
     TBoss5GryphonDemo(TObject *parent, s32 *done_flag, f32 frame_step);

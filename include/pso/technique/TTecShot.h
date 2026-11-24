@@ -5,7 +5,9 @@
 #include "pso/effect/TEffect.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/CsnGroundCandidates.h"
+#include "pso/technique/TechniqueParams.h"
 
+class TObjChara;
 struct CsnGroup;
 struct TechniqueContactBody;
 
@@ -24,7 +26,7 @@ public:
     virtual void render();
     virtual void vfunc_6();
     virtual void debug_print_tech_params();
-    virtual void vfunc_8(void *);
+    virtual void apply_to_target(TObjChara *);
     void advance_lifetime_or_destroy();
     void dispatch_all_technique_contacts();
     void dispatch_technique_contact(s32);
@@ -39,8 +41,7 @@ public:
     s16 band;
     u16 sourceId;
     u8 pad_CA[0x2];
-    f32 power;
-    u8 parameters[0x28];
+    TechniqueParams params;  // calc_technique_parameters for the cast's level
     TechniqueContactBody* contact;
     CollisionBody collisionBody;
     TObjCollidable *collidable;

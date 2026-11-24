@@ -13,8 +13,6 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/network/client_id.h"
 
-struct TItemData_801D8044 { u8 kind; u8 type; u8 sub; u8 pad[0x11]; };
-
 struct TObjPlayer_801D8044 {
     u8 pad0[0x428];
     u8 slots[0x4ac - 0x428];
@@ -124,7 +122,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *player, u8 kind, u8 sub) {
     return 0;
 }
 bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 kind, u8 arg) {
-    TItemData_801D8044 item;
+    TItemData item;
     TItem *w;
     switch (kind) {
     case 0:
@@ -155,73 +153,73 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
         }
         break;
     case 4:
-        ((TItemData *)(&item))->init();
-        item.kind = 3;
+        item.init();
+        item.data1.data_u8[0] = 3;
         switch (arg) {
         case 0:
-            item.type = 0;
-            item.sub = 0;
+            item.data1.data_u8[1] = 0;
+            item.data1.data_u8[2] = 0;
             break;
         case 1:
-            item.type = 0;
-            item.sub = 1;
+            item.data1.data_u8[1] = 0;
+            item.data1.data_u8[2] = 1;
             break;
         case 2:
-            item.type = 0;
-            item.sub = 2;
+            item.data1.data_u8[1] = 0;
+            item.data1.data_u8[2] = 2;
             break;
         case 3:
             if (((TObjPlayer *)self)->is_android() != 0) {
                 return 0;
             }
-            item.type = 1;
-            item.sub = 0;
+            item.data1.data_u8[1] = 1;
+            item.data1.data_u8[2] = 0;
             break;
         case 4:
             if (((TObjPlayer *)self)->is_android() != 0) {
                 return 0;
             }
-            item.type = 1;
-            item.sub = 1;
+            item.data1.data_u8[1] = 1;
+            item.data1.data_u8[2] = 1;
             break;
         case 5:
             if (((TObjPlayer *)self)->is_android() != 0) {
                 return 0;
             }
-            item.type = 1;
-            item.sub = 2;
+            item.data1.data_u8[1] = 1;
+            item.data1.data_u8[2] = 2;
             break;
         case 6:
             if (((TObjPlayer *)self)->is_android() != 0) {
                 return 0;
             }
-            item.type = 6;
-            item.sub = 0;
+            item.data1.data_u8[1] = 6;
+            item.data1.data_u8[2] = 0;
             break;
         case 7:
             if (((TObjPlayer *)self)->is_android() != 0) {
                 return 0;
             }
-            item.type = 6;
-            item.sub = 1;
+            item.data1.data_u8[1] = 6;
+            item.data1.data_u8[2] = 1;
             break;
         case 8:
-            item.type = 3;
+            item.data1.data_u8[1] = 3;
             break;
         case 9:
-            item.type = 4;
+            item.data1.data_u8[1] = 4;
             break;
         case 10:
-            item.type = 5;
+            item.data1.data_u8[1] = 5;
             break;
         case 11:
-            item.type = 7;
+            item.data1.data_u8[1] = 7;
             break;
         case 12:
             if (((TObjPlayer *)self)->is_android() != 0) {
                 return 0;
             }
-            item.type = 8;
+            item.data1.data_u8[1] = 8;
             break;
         }
         if (arg < 0xd || arg > 0x10) {
@@ -299,25 +297,25 @@ s32 TObjPlayer::can_use_palette_action_for_entry(u32 obj) {
 
 s32 TObjPlayer__sub_801D84A8(void* p) { return *(s32*)((char*)p + 0x0); }
 
-u8 *TObjPlayer__sub_801D84B0(s32 *arg0);
+u8 *TObjPlayer__sub_801D84B0(s32 *cursor_sets);
 
-u8 *TObjPlayer__sub_801D84B0(s32 *arg0) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 0) == 0) {
-        return (u8 *)arg0 + 4;
+u8 *TObjPlayer__sub_801D84B0(s32 *cursor_sets) {
+    if ((s32) *(s32 *)((s8 *)cursor_sets + 0) == 0) {
+        return (u8 *)cursor_sets + 4;
     }
-    return (u8 *)arg0 + 0x14;
+    return (u8 *)cursor_sets + 0x14;
 }
 
 u32 advance_item_id_counter(u16 client);
 
 int TObjPlayer::bswap_disp_config_field() { return bswap_16__FPUs((char*)this + 0x2); }
 s32 TObjPlayer__sub_801D84F0(void* p) { return *(s32*)((char*)p + 0x4); }
-void TObjPlayer::set_animation_from_data(saddr arg0, s32 picture) {
+void TObjPlayer::set_animation_from_data(saddr player, s32 picture) {
     void *anim_table_entry;
 
-    anim_table_entry = (void *)((TObjPlayer *)arg0)->get_anim_table_entry(picture);
-    TObjPlayer__sub_801D8664(arg0, *(s16 *)((s8 *)anim_table_entry + 0), *(s16 *)((s8 *)anim_table_entry + 2));
-    ((TUnk_804C4540 *)arg0)->set_animation_default(picture);
+    anim_table_entry = (void *)((TObjPlayer *)player)->get_anim_table_entry(picture);
+    TObjPlayer__sub_801D8664(player, *(s16 *)((s8 *)anim_table_entry + 0), *(s16 *)((s8 *)anim_table_entry + 2));
+    ((TUnk_804C4540 *)player)->set_animation_default(picture);
 }
 
 void TObjPlayer::assign_lobby_slot_if_flagged(saddr player, void *records) {

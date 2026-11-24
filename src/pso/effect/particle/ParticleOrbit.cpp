@@ -11,7 +11,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleBallistic.h"
@@ -22,7 +22,7 @@
 #include "types.h"
 #include <stdlib.h>
 #include "pso/effect/TEffIndirectSampler.h"
-#include "pso/player/TObjPlayer_80083594.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #pragma inline_depth(1)

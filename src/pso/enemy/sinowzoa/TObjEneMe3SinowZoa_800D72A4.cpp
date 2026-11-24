@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/render/TUnk_80494938.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 
 s32 TUnk_80494938::has_partial_opacity() {
     return value > 0.0f && value < 2.0f;

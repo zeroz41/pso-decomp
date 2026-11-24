@@ -93,12 +93,12 @@ struct ByteBlock_C { u8 bytes[0xC]; };
 #include <dolphin/mtx.h>
 #include <math.h>
 #include <stddef.h>
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/network/client_id.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/object/TObjControl.h"
 #include "pso/render/render_util.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 struct DragonCaptureVectors { Vec vectors[3]; };
 // The Dragon's block from TLobby::dispatch_shared_handler_a (boss1_dragon_behavior_param_ids): the powers and the

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/unk/text_801D40D4.h"
 #include "pso/player/TObjPlayer_801D84CC.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TUnk_804C4540.h"
@@ -25,13 +25,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/base/TObjBase.h"
 
-struct Stack_801D8664 {
-    s8 sp8;
-    s8 sp9;
-    s8 spA;
-    u8 rest[0x11];
-};
-
 
 extern "C" {
 s32 copy_player_visual_record(void *, void *);
@@ -50,59 +43,55 @@ struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
 
 s32 advance_item_id_counter();
 
-void process_trade_target__10TObjPlayerFiPv(saddr arg0, void *player) {
+void process_trade_target__10TObjPlayerFiPv(saddr player, TItemData *item_data) {
     void *item;
 
-    ((TObjBase *)arg0)->get_entity_id();
-    *(s32 *)((s8 *)player + 0xC) = advance_item_id_counter();
-    item = create_item((TItemData *)player);
+    ((TObjBase *)player)->get_entity_id();
+    item_data->id = advance_item_id_counter();
+    item = create_item(item_data);
     if (item != NULL) {
         s8 val = ((VObj_84_801d859c_801D84CC *)item)->m31();
         s32 val_ext = (s32)val;
-        TItem *slot_item = (TItem *)TObjPlayer::get_slot_value((s32 *)(arg0 + 0xD04), val_ext);
+        TItem *slot_item = (TItem *)TObjPlayer::get_slot_value((s32 *)(player + 0xD04), val_ext);
         if (slot_item != NULL) {
-            TObjPlayer::send_6x29_delete_item((void *)arg0, slot_item->get_item_id(), 1);
-            set_equip_slot_entry(arg0 + 0xD04, val_ext, 0);
+            TObjPlayer::send_6x29_delete_item((void *)player, slot_item->get_item_id(), 1);
+            set_equip_slot_entry(player + 0xD04, val_ext, 0);
         }
-        if (((TObjPlayer *)arg0)->pickup_item((TItem *)item) != 0U) {
-            ((TObjPlayer *)arg0)->set_flag_20000();
-            ((TObjPlayer *)arg0)->equip_item_to_slot(reinterpret_cast<TItem *>(item), 0);
-            ((TObjPlayer *)arg0)->clear_flag_20000();
+        if (((TObjPlayer *)player)->pickup_item((TItem *)item) != 0U) {
+            ((TObjPlayer *)player)->set_flag_20000();
+            ((TObjPlayer *)player)->equip_item_to_slot(reinterpret_cast<TItem *>(item), 0);
+            ((TObjPlayer *)player)->clear_flag_20000();
         }
     }
 }
-void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2) {
-    LAYOUT_ASSERT(sp8_offset, offsetof(Stack_801D8664, sp8) == 0x0);
-    LAYOUT_ASSERT(sp9_offset, offsetof(Stack_801D8664, sp9) == 0x1);
-    LAYOUT_ASSERT(spA_offset, offsetof(Stack_801D8664, spA) == 0x2);
-    Stack_801D8664 stack;
-    ((TItemData *)(&stack.sp8))->init();
-    stack.sp9 = arg1;
-    stack.sp8 = 0;
-    stack.spA = arg2;
-    process_trade_target__10TObjPlayerFiPv(arg0, &stack.sp8);
+void TObjPlayer__sub_801D8664(s32 player, s8 group, s8 kind) {
+    TItemData item_data;
+    item_data.init();
+    item_data.data1.data_u8[1] = group;
+    item_data.data1.data_u8[0] = 0;
+    item_data.data1.data_u8[2] = kind;
+    process_trade_target__10TObjPlayerFiPv(player, &item_data);
 }
 
 s32 TObjPlayer__sub_801BAC48(void *);
 }
 BmlMotionEntry **player_ending_motion_object;
-void save_render_material_state(u8 *arg0);
+void save_render_material_state(u8 *state);
 extern "C" {
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
+void translate_matrix_vec3(u8 *matrix, u8 *vec);
 s32 rotate_matrix_y(int, int);
 
 int TUnk_804C4540::set_position_from(void *pos) { return TObjBase::set_position_from(pos); }
 void TUnk_804C4540::set_animation_default(s16 index) { set_animation(index); }
 
 TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
-    TUnk_801D8A4C sp8;
-    ((TObjPlayer *)(&sp8))->init_inventory();
-    copy_player_visual_record(sp8.visual, &data->m_disp_part2);
-    TLobby::copy_data(sp8.stats, &data->m_stats);
+    TUnk_801D8A4C record;
+    copy_player_visual_record(record.visual, &data->m_disp_part2);
+    TLobby::copy_data(record.stats, &data->m_stats);
     fn_801D40D4(data->m_inventory.m_num_items,
                 data->m_inventory.get_items(),
-                reinterpret_cast<TPlyInventoryItem *>(sp8.items));
-    return new TUnk_804C4540(tl_03, &sp8);
+                reinterpret_cast<TPlyInventoryItem *>(record.items));
+    return new TUnk_804C4540(tl_03, &record);
 }
 
 void TUnk_804C4540::render() {
@@ -139,9 +128,6 @@ void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(reinterpr
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/player/TPlyInventory.h"
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 
 extern "C" {
 extern u8 *TObjPlayer__shared_model_buffer;
@@ -170,20 +156,19 @@ TUnk_804C4540::TUnk_804C4540(TObject *parent, TUnk_801D8A4C *src) : TObjPlayer(p
 
 TUnk_804C4540::~TUnk_804C4540() {}
 
-void TObjPlayer__sub_801D8A38(void* a0) { *(short*)((char*)a0 + 0x0) = 1; *(float*)((char*)a0 + 0x4) = 0.0f; }
+void TObjPlayer__sub_801D8A38(void* entry) { *(short*)((char*)entry + 0x0) = 1; *(float*)((char*)entry + 0x4) = 0.0f; }
 
-void*TObjPlayer::init_inventory() { TObjPlayer::init_inventory_items((s32)((saddr)((char*)this + 0x50))); TObjPlayer__sub_801BFF80((u8 *)((char*)this + 0xac)); TObjPlayer__sub_801D8A38((void*)((void*)((char*)this + 0xc0))); return this; }
+TUnk_801D8A4C::TUnk_801D8A4C() {
+    TObjPlayer::init_inventory_items((saddr)items);
+    TObjPlayer__sub_801BFF80(pose);
+    TObjPlayer__sub_801D8A38(&pad_C0);
+}
 
-s32 TObjPlayer::init_inventory_items(saddr arg0) {
-    s32 var_r30;
+s32 TObjPlayer::init_inventory_items(saddr items) {
     s32 i;
 
-    i = 0;
-    var_r30 = 0;
-    do {
-        ((TPlyInventoryItem *)(arg0 + var_r30))->init();
-        i += 1;
-        var_r30 += 0x1C;
-    } while (i < 2);
-    return arg0;
+    for (i = 0; i < 2; i++) {
+        ((TPlyInventoryItem *)items)[i].init();
+    }
+    return items;
 }

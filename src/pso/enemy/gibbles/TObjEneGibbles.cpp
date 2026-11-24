@@ -15,7 +15,7 @@ struct NJS_OBJECT;
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
@@ -47,7 +47,7 @@ struct NJS_OBJECT;
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_800A7764.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/render/render_util.h"
@@ -978,7 +978,7 @@ void TObjEneGibbles::slam_damage_players(s32 node) {
             v.y += 5.0f;
             spawn_particle_effect(&v, 0x64);
         }
-        for (i = 0; i < lbl_805D5868; i++) {
+        for (i = 0; i < entity_table_count; i++) {
             p = TObjPlayer::get_player_data(i);
             if (TObjPlayer::is_valid_and_active((uaddr)p) != 0 && p->get_entity_id() < 0x1000) {
                 d = horizontal_distance_squared(&p->body_center, &v);
@@ -998,7 +998,7 @@ s32 TObjEneGibbles::landing_damage_players() {
     s32 i;
     TObjPlayer *pl;
 
-    for (i = 0; i < lbl_805D5868; i++) {
+    for (i = 0; i < entity_table_count; i++) {
         pl = TObjPlayer::get_player_data(i);
         if (TObjPlayer::is_valid_and_active((uaddr)pl) != 0 && pl->get_entity_id() < 0x1000U) {
             f32 dist = horizontal_distance_squared(&pl->body_center, &position);
@@ -1028,7 +1028,7 @@ bool TObjEneGibbles::attack_from_joint_53(s32 trigger_hit_reaction, f32 power) {
         return false;
     }
     render_and_get_joint_pos(&attack_colliders[0]->position, 0x35);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     this->attack_colliders[0]->check_object_collisions();
     if (this->attack_colliders[0]->bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
@@ -1074,7 +1074,7 @@ bool TObjEneGibbles::attack_from_joint_31(s32 trigger_hit_reaction, f32 power) {
         return false;
     }
     render_and_get_joint_pos(&attack_colliders[0]->position, 0x1F);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     this->attack_colliders[0]->check_object_collisions();
     if (this->attack_colliders[0]->bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {

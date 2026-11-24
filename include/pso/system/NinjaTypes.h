@@ -89,6 +89,7 @@ struct NJS_ARGB {
 #define NJD_BITSOFF 1    // bits chunks (16-bit, no size)
 #define NJD_TINYOFF 8    // tiny chunks (32-bit)
 #define NJD_MATOFF 16    // material chunks
+#define NJD_VERTOFF 32   // vertex chunks
 #define NJD_STRIPOFF 64  // strip chunks
 #define NJD_ENDOFF 255   // end chunk
 
@@ -96,6 +97,13 @@ struct NJS_ARGB {
 #define NJD_CB_BA (NJD_BITSOFF + 0) // blend alpha: bits 13-8 = src/dst alpha instructions
 #define NJD_CB_CP (NJD_BITSOFF + 3) // cache polygon list: bits 15-8 = cache number
 #define NJD_CB_DP (NJD_BITSOFF + 4) // draw polygon list: bits 15-8 = cache number
+#define NJD_CV (NJD_VERTOFF + 2)       // vertices: position
+#define NJD_CV_D8 (NJD_VERTOFF + 3)    // position, diffuse colour
+#define NJD_CV_UF (NJD_VERTOFF + 4)    // position, user flags
+#define NJD_CV_VN (NJD_VERTOFF + 9)    // position, normal
+#define NJD_CV_VN_D8 (NJD_VERTOFF + 10) // position, normal, diffuse colour
+#define NJD_CV_VN_UF (NJD_VERTOFF + 11) // position, normal, user flags
+#define NJD_CV_VN_NF (NJD_VERTOFF + 12) // position, normal, ninja flags
 #define NJD_CS (NJD_STRIPOFF + 0)     // strip
 #define NJD_CS_UVN (NJD_STRIPOFF + 1) // strip with uv in 0-255
 #define NJD_CS_UVH (NJD_STRIPOFF + 2) // strip with uv in 0-1023
@@ -104,6 +112,15 @@ struct NJS_ARGB {
 #define NJD_FST_SHIFT 8
 #define NJD_FST_IL (0x01 << NJD_FST_SHIFT)  // ignore light
 #define NJD_FST_ENV (0x40 << NJD_FST_SHIFT) // environment mapping
+
+// Material attribute bits (texture addressing).
+#define NJD_FLAG_FLIP_U 0x40000
+#define NJD_FLAG_FLIP_V 0x20000
+#define NJD_FLAG_CLAMP_U 0x10000
+#define NJD_FLAG_CLAMP_V 0x8000
+
+// Texture attribute: the texture is in memory (not a file).
+#define NJD_TEXATTR_TYPE_MEMORY 0x40000000
 
 // Chunk model streams referenced by an NJS_OBJECT.
 struct NJS_CNK_MODEL {
@@ -209,6 +226,12 @@ struct NJS_MKEY_SA {
 struct NJS_MKEY_A1 {
     u32 keyframe;
     s32 key;
+};
+
+// A shape key: a whole vertex (or normal) array at a frame.
+struct NJS_MKEY_P {
+    u32 keyframe;
+    f32 *key;
 };
 
 // A rotation quaternion at a frame, real part first.

@@ -8,7 +8,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
-#include "pso/unk/text_801C53D4.h"
+#include "pso/player/PlayerTrapCounts.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/ui/window/TWindowChoiceSetting.h"

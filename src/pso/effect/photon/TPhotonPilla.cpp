@@ -3,7 +3,7 @@
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
@@ -30,7 +30,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/model_render_state.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/PhotonBlastResults.h"
 #include "pso/object/base/TObjBase.h"
@@ -228,7 +228,7 @@ void TPhotonPilla::spawn_laser() {
 void TPhotonPilla::apply_photon_blast_effects() {
     s32 index;
 
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     mark_enemy_body_contacts();
     if (bodies->flags & 0x100000) {
         index = 0;

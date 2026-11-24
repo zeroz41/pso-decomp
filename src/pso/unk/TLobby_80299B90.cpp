@@ -24,7 +24,7 @@ s32 init_scene_delo2(void) {
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
     }
-    init_scene_boss2_tunnel();
+    init_boss7_tunnel();
     init_area_lights();
     TLobby::create_tasks();
     create_boss7_tunnel();

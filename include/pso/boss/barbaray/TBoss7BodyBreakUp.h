@@ -10,6 +10,9 @@ class TBoss7BodyBreakUp : public TBoss7BreakUp {
 public:
     TBoss7BodyBreakUp(TObject *parent, GC_Mtx *matrices);
     virtual ~TBoss7BodyBreakUp();
+    // Its slots in TBoss7DeRolLeC's load callback table; both do nothing.
+    static void load_static_resource();
+    static void destroy_instance();
     virtual void run_task();
     virtual void render();
     GC_Mtx *matrices;   // the boss's node matrices

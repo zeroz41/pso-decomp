@@ -47,7 +47,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/network/client_id.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/render/model_render_state.h"

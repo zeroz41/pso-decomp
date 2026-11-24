@@ -14,7 +14,7 @@
 #include "pso/unk/text_80209584.h"
 #include "pso/system/byteswap.h"
 #include "pso/unk/text_802097B0.h"
-#include "pso/item/drop/TItemDrop_80105D0C.h"
+#include "pso/item/drop/TItemDrop.h"
 #include "pso/system/SubtractiveRng.h"
 #include "pso/unk/TLobby_8020A350.h"
 #include "pso/unk/TLobby_8020A568.h"
@@ -559,7 +559,7 @@ void TLobby::init_buffers(int id, u8 *quest) {
 void TLobby::free_boss4rock() {
     destroy_event_shuffle_table(challenge_event_shuffle, 1);
     challenge_event_shuffle = NULL;
-    ::operator delete(item_drop_rng);
+    delete item_drop_rng;
     item_drop_rng = 0;
 }
 
@@ -576,19 +576,12 @@ s32 map_set_enemy_id_counter;
 u8 *map_set_file_buffer;
 s32 map_set_file_buffer_size;
 void TLobby__sub_8020A2AC(void) {
-    SubtractiveRng *temp_r3;
-    SubtractiveRng *var_r0;
     static const f32 seed_scale = 4294967296.0f;
     static const f32 rand_reciprocal = 3.0517578e-05f;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         item_drop_server_seed = __cvt_fp2unsigned(seed_scale * (rand_reciprocal * (f32)rand()));
     }
-    temp_r3 = static_cast<SubtractiveRng *>(::operator new(sizeof(SubtractiveRng)));
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = temp_r3->reseed(item_drop_server_seed);
-    }
-    item_drop_rng = var_r0;
+    item_drop_rng = new SubtractiveRng(item_drop_server_seed);
     EventShuffleTable *table = static_cast<EventShuffleTable *>(::operator new(sizeof(EventShuffleTable)));
     if (table != NULL) {
         table = TLobby__sub_80209584(table, 0x20);

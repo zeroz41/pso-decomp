@@ -1,13 +1,11 @@
 #include "pso/ui/frontend/TAdGameStartBackGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/weapon/TItemWeapon.h"
-#include "pso/weapon/TUnk_804E70A8.h"
-
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/ending/TObjOnlineEndingHexLine.h"
 #include "pso/render/render_util.h"
 
 #pragma readonly_strings on
@@ -67,7 +65,7 @@ TAdGameStartBackGC::TAdGameStartBackGC(TObject *parent) : TObject(parent) {
     m_frame = -1;
     m_scale_x = 5.0f;
     m_scale_y = 5.0f;
-    game_start_background_texture_list = TObjPlayer::get_instance();
+    game_start_background_texture_list = get_multiplay_texture_list();
     m_rest.x0 = m_origin.x;
     m_rest.y0 = m_origin.y;
     m_rest.x1 = 512.0f + m_origin.x;
@@ -80,9 +78,3 @@ TAdGameStartBackGC::TAdGameStartBackGC(TObject *parent) : TObject(parent) {
     m_quad.v1 = 0.5f;
 }
 #pragma pop
-
-void TUnk_804E70A8::emit_marker_effects() {
-    u8 *arg0 = (u8 *)this;
-    *(s32 *)((s8 *)arg0 + 0x1F8) = 5;
-    ((TItemWeapon *)arg0)->clear_weapon_flags(0x800U);
-}

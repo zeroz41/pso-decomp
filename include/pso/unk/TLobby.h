@@ -130,8 +130,6 @@ struct TLobby : public TObject {
     static void update_boss1_objects();
     static void forward_floor_2CB44();
     static void init_bosses();
-    static void init_boss2_stage();
-    static void create_boss2_tunnel();
     static int is_boss_phase_reached();
     static void cleanup_pillar_demo();
     static void cleanup_boss5_pillars();

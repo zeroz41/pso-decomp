@@ -9,25 +9,25 @@ extern "C" {
 s32 get_result_entry__18TChallenge4PResultFPv(s32, s32);
 s32 can_use_palette_action_for_entry__10TObjPlayerFUl(s32, s32);
 
-void TObjPlayer::update_party_cursors(saddr arg0, s32 arg1) {
-    s32 var_r31;
+void TObjPlayer::update_party_cursors(saddr cursors, s32 result) {
+    s32 offset;
     s32 i;
-    saddr temp_r29;
+    saddr entry;
 
     i = 0;
-    var_r31 = 0;
+    offset = 0;
     do {
-        s32 call_r3 = (saddr)TObjPlayer__sub_801D84B0((s32 *)arg0);
-        temp_r29 = call_r3 + var_r31;
-        if (get_result_entry__18TChallenge4PResultFPv(arg1, i) == 0) {
-            TObjPlayer__sub_8013DEF8((u8 *)temp_r29);
-        } else if (can_use_palette_action_for_entry__10TObjPlayerFUl(temp_r29, arg1) != 0) {
-            TMainCursor__sub_8013DFC4((u8 *)temp_r29);
+        s32 base = (saddr)TObjPlayer__sub_801D84B0((s32 *)cursors);
+        entry = base + offset;
+        if (get_result_entry__18TChallenge4PResultFPv(result, i) == 0) {
+            TObjPlayer__sub_8013DEF8((u8 *)entry);
+        } else if (can_use_palette_action_for_entry__10TObjPlayerFUl(entry, result) != 0) {
+            TMainCursor__sub_8013DFC4((u8 *)entry);
         } else {
-            TObjPlayer__sub_8013DEF8((u8 *)temp_r29);
+            TObjPlayer__sub_8013DEF8((u8 *)entry);
         }
         i += 1;
-        var_r31 += 4;
+        offset += 4;
     } while (i < 4);
 }
 

@@ -25,17 +25,6 @@
 struct Entry_80239E44 { s32 a; s32 b; s32 c; s32 pad; };
 
 
-struct Rev_8023A364 {
-    u8 pad[0xcc];
-    f32 fcc;
-    f32 fd0;
-    f32 fd4;
-    u8 padd8[0xdc - 0xd8];
-    s16 fdc;
-    s16 fde;
-    s16 fe0;
-};
-
 struct List_8023A244 { uaddr objs[16]; s32 vals[16]; s32 count; };
 
 extern "C" {
@@ -50,13 +39,12 @@ s32 get_type__10TObjPlayerFPv(void *p);
 }
 
 void TTecShot::debug_print_tech_params() {
-    Rev_8023A364 *self = (Rev_8023A364 *)this;
-    debug_printf_at(0x1E0014, "POWER  : %f", self->fcc);
-    debug_printf_at(0x1E0015, "USE_TP : %d", self->fdc);
-    debug_printf_at(0x1E0016, "CH_SPD : %d", self->fde);
-    debug_printf_at(0x1E0017, "SPEED  : %f", self->fd0);
-    debug_printf_at(0x1E0018, "SCOPE  : %f", self->fd4);
-    debug_printf_at(0x1E0019, "MENTAL  : %f", self->fe0);
+    debug_printf_at(0x1E0014, "POWER  : %f", params.power);
+    debug_printf_at(0x1E0015, "USE_TP : %d", params.tp_cost);
+    debug_printf_at(0x1E0016, "CH_SPD : %d", params.pad_12);
+    debug_printf_at(0x1E0017, "SPEED  : %f", params.speed);
+    debug_printf_at(0x1E0018, "SCOPE  : %f", params.range);
+    debug_printf_at(0x1E0019, "MENTAL  : %f", params.mental);
 }
 
 void TTecShot::dispatch_all_technique_contacts() {
@@ -82,10 +70,10 @@ void TTecShot::dispatch_all_technique_contacts() {
     }
     for (i = 0; i < list->count; i++) {
         if (TObjPlayer::is_valid_and_active((int) list->objs[i]) != 0) {
-            void *p = (void *) list->objs[i];
+            TObjChara *p = (TObjChara *) list->objs[i];
             if (p != NULL) {
                 *(s32 *)((s8 *)((u8 *)this) + 0xF8) = list->vals[i];
-                this->vfunc_8(p);
+                this->apply_to_target(p);
             }
         }
     }
@@ -112,10 +100,10 @@ void TTecShot::dispatch_technique_contact(s32) {
         return;
     }
     if (TObjPlayer::is_valid_and_active((int) (*(u32 *)((s8 *)var_r31 + 0))) != 0) {
-        void *p = *(void **)((s8 *)var_r31 + 0);
+        TObjChara *p = *(TObjChara **)((s8 *)var_r31 + 0);
         if (p != NULL) {
             *(s32 *)((s8 *)((u8 *)this) + 0xF8) = (s32) *(s32 *)((s8 *)var_r31 + 0x40);
-            this->vfunc_8(p);
+            this->apply_to_target(p);
         }
     }
 }
@@ -154,7 +142,7 @@ void TTecReverser::run_task() {
     }
     entity = (uaddr)find_entity_by_id(targets.records[0].id);
     if ((((TObjBase *)entity)->is_active() == 0) && (TObjPlayer::is_valid_and_active(entity) != 0)) {
-        vfunc_6((void *)entity);
+        apply_to_target((TObjChara *)entity);
     }
     queue_destruction();
 }

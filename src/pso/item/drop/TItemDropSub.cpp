@@ -1,22 +1,36 @@
-#include "pso/item/drop/TItemDropSub_80107BF0.h"
-#include "pso/item/drop/TItemDropSub.h"
 #include "types.h"
+#include "pso/item/drop/TItemDropSub.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 
 #pragma readonly_strings on
 
-extern void * TItemDropSub__instance;
+TItemDropSub *TItemDropSub::instance;
+
+s32 TItemDropSub::get_box_drop_area() {
+    if (instance != NULL) {
+        return instance->box_drop_area;
+    }
+    return 10;
+}
 
 TItemDropSub::~TItemDropSub() {
-    TItemDropSub__instance = 0;
+    instance = NULL;
 }
 
+const char *item_drop_sub_class_name = "TItemDropSub";
 
-const char *TItemDropSub__class_name = "TItemDropSub";
-
-#define item_drop_sub ((u8 *)this)
 TItemDropSub::TItemDropSub(TObject *parent) : TObject(parent) {
-    ((TItemDropSub *)item_drop_sub)->m_name = TItemDropSub__class_name;
-    TItemDropSub__instance = item_drop_sub;
-    *(u32 *)((s8 *)item_drop_sub + 0x1C) = 10;
+    m_name = item_drop_sub_class_name;
+    instance = this;
+    box_drop_area = 10;
 }
-#undef item_drop_sub
+
+void TItemDropSub::create_instance(s32 area) {
+    if (instance == NULL) {
+        new TItemDropSub(tl_05);
+    }
+    if (instance != NULL) {
+        instance->box_drop_area = area;
+    }
+}

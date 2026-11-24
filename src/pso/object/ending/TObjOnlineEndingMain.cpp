@@ -13,7 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -342,7 +342,7 @@ void TObjOnlineEnding::close_window() {
 }
 
 void *TObjOnlineEnding::get_attack_entry(int index) {
-    return lbl_8050DAD0 + index * 8;
+    return &player_unique_pair_entries[index];
 }
 
 int TObjOnlineEnding::get_instance() {

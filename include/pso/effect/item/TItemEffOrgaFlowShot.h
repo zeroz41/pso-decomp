@@ -5,7 +5,7 @@
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/system/TrailStrip.h"
 
-// The spawn parameters TUnk_804F14A8::emit_marker_effects fills after
+// The spawn parameters TItemWeaponDarkMeteor::emit_marker_effects fills after
 // reset_defaults and hands to create.
 struct OrgaFlowShotParams : S_802E451C {
     OrgaFlowShotParams *reset_defaults();

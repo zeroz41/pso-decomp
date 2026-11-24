@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TEnemyTaskList.h"
 #include "pso/unk/TLobby_80207DA8.h"
-#include "pso/item/drop/TItemDrop_80105D0C.h"
+#include "pso/item/drop/TItemDrop.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/EventShuffleTable.h"

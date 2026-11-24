@@ -14,6 +14,7 @@
 #include "pso/player/TObjPlayer_803DC834.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/ChunkMaterialState.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/render/ModelDrawContext.h"
 
@@ -96,7 +97,7 @@ void install_depth_alpha_state() {
     depth_buffer_settings.draw_list_mask = 1;
     depth_buffer_config_copy.copy(&depth_buffer_settings);
     saved_depth_alpha_scene_state.copy(&depth_buffer_settings);
-    TObjPlayer::set_global_state((saddr)((void *)restore_saved_depth_alpha_state));
+    set_chunk_draw_end_callback(restore_saved_depth_alpha_state);
     set_ginja_draw_end_callback(restore_saved_depth_alpha_state);
 }
 

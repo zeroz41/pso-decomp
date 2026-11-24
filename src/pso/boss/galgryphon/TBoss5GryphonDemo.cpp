@@ -1,3 +1,5 @@
+#include "pso/render/CameraCapture.h"
+#include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
 #include "pso/system/vector.h"
@@ -9,7 +11,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_800666B0.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 
@@ -47,5 +48,19 @@ TBoss5GryphonDemo::TBoss5GryphonDemo(TObject *parent, s32 *done_flag, f32 frame_
         activate_camera_mode(5);
         c.play(0x238E);
         break;
+    }
+}
+
+void set_camera_capture_overlay_alpha(int alpha) {
+    camera_capture_overlay_alpha = alpha;
+    camera_capture_flags |= CAPTURE_OVERLAY_REQUESTED;
+}
+
+void Boss5GryphonMotionEntry::init() {
+    s32 i;
+    state = 0x21;
+    timer = -1;
+    for (i = 0; i < 4; i++) {
+        args.words[i] = 0;
     }
 }

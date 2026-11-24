@@ -1,5 +1,5 @@
 #include "pso/boss/derolle/TObjBoss2RaftSplash.h"
-#include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
+#include "pso/boss/derolle/Boss2CommonResource.h"
 #include "pso/boss/derolle/TObjBoss2CeilJunk.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/particle/TParticleCtrl.h"

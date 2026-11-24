@@ -3,7 +3,7 @@
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/effect/particle/ParticleFactory.h"
 
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/StripBufferPair.h"
@@ -23,7 +23,7 @@
 #include "pso/unk/text_803D8F74.h"
 
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
 #include "pso/object/base/TObjBase.h"
 
@@ -218,7 +218,7 @@ void TPhotonFarlla::render() {
 void TPhotonFarlla::collect_hit_targets() {
     s32 i;
     TObjChara *candidate;
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     mark_enemy_body_contacts();
     if (bodies->flags & 0x100000) {
         for (i = 0; i < 16; i++) {

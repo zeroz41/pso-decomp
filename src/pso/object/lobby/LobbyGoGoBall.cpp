@@ -14,7 +14,7 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TUnk_804CCA78.h"
+#include "pso/technique/TTimedSoundEffect.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/render/GinjaMaterial.h"
@@ -55,10 +55,10 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/object/lobby/LobbyGoGoBall.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_803D853C.h"
@@ -869,14 +869,14 @@ void TGoGoBallGoal::update_effects() {
                 VecCopy((Vec *)&vda, &this->pos);
                 vda.y += 7.0f;
                 spawn_particle_effect_with_flags(&vda, 0x20E, 0x40);
-                new TUnk_804CCA78(&this->pos, 5, 0x4002A90C, 0, tl_05);
+                new TTimedSoundEffect(&this->pos, 5, 0x4002A90C, 0, tl_05);
             }
         } else {
             if (this->goal_frames % 5 == 0 && this->goal_frames <= 0x32) {
                 VecCopy((Vec *)&vdb, &this->pos);
                 vdb.y += 7.0f;
                 spawn_particle_effect_with_flags(&vdb, 0x20F, 0x40);
-                new TUnk_804CCA78(&this->pos, 5, 0x4002A90C, 0, tl_05);
+                new TTimedSoundEffect(&this->pos, 5, 0x4002A90C, 0, tl_05);
             }
         }
     }

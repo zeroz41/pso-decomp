@@ -9,9 +9,8 @@
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/technique/TTecZarua.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
-#include "pso/unk/text_800DC420.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include <dolphin/mtx.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -50,7 +49,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -852,7 +851,7 @@ void TObjEneMe1GiGue::update_rush_attack() {
             this->flightHeight += 2.2f;
         }
         update_collisions();
-        if (TObjPlayer__sub_800DC478((u8 *)this, 1, 22.0f) != 0 && this->check_vector_bit(&this->position) != 0) {
+        if (is_action_passing_frame(1, 22.0f) != 0 && this->check_vector_bit(&this->position) != 0) {
             spawn_particle_effect(&this->position, 0xF0);
         }
         if (this->flightHeight >= 50.0f) {

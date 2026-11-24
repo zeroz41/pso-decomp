@@ -51,7 +51,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"

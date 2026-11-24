@@ -3,7 +3,7 @@
 #include "pso/player/PlayerLevelTable.h"
 #include "pso/item/InventoryEntryCopy.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TUnk_804C4540.h"
@@ -27,13 +27,13 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/TLevelSelect.h"
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 
-typedef struct Rec_801D8F0C { f32 a, b, c; } Rec_801D8F0C;
-
-typedef struct Rec_801D8F60 { f32 a, b, c; } Rec_801D8F60;
+// Photon blast motion frames of one weapon handle.
+struct PhotonBlastMotionTiming {
+    f32 hold_frame;
+    f32 upper_bound;
+    f32 complete_threshold;
+};
 
 extern "C" {
 s32 TObjPlayer__sub_801AFDBC(s32);
@@ -43,10 +43,10 @@ s32 TBoss4DarkFalz__sub_801D94C0(void* p);
 int load_encrypted_archive_data(const char *);
 }
 int ply_level_table;
-f32 lookup_attack_marker(s32, s16, s16, s32);
-extern Rec_801D8F0C *photon_blast_motion_timing_tables[6];
+f32 lookup_attack_marker(s32 handle, s16 falz_phase, s16 strike_count, s32 class_flags);
+extern PhotonBlastMotionTiming *photon_blast_motion_timing_tables[6];
 extern const s32 (*player_footstep_floor_table[3])[5];
-extern const Rec_8044821C *player_clamped_index_table_pointers[3];
+extern const TObjMotionAction *player_clamped_index_table_pointers[3];
 extern const Rec_8044845C *player_anim_table_pointers[3];
 extern const Rec_804484EC *player_cast_motion_record_table[6];
 extern const TPlyInventoryItem *class_starting_inventory_table[12];
@@ -55,70 +55,34 @@ extern const Vec *hospital_position_table_by_episode[];
 extern const Vec *guild_return_position_table_by_episode[];
 
 
-s32 *TObjPlayer::get_getup_protection_ticks() {
-    s32 *arg0 = (s32 *)this;
-    s32 *var_r31;
-    s32 *var_r3;
-    var_r31 = arg0;
+s32 TObjPlayer::get_getup_protection_ticks() {
     if (get_main_phase() == 0xF) {
-        var_r3 = var_r31;
-        if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
-            var_r3 = (s32 *)player_getup_protection_ticks_table_flagged;
-            var_r3 = (s32 *)player_getup_protection_ticks_table_flagged;
-            var_r3 = (s32 *)(*(saddr *)((s8 *)player_getup_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
-            return var_r3;
+        if (obj_isState3_324() != 0) {
+            return player_getup_protection_ticks_table_flagged[game_difficulty_selection];
         }
-        var_r3 = (s32 *)player_getup_protection_ticks_table;
-        var_r3 = (s32 *)player_getup_protection_ticks_table;
-        var_r3 = (s32 *)(*(saddr *)((s8 *)player_getup_protection_ticks_table + (game_difficulty_selection * 4)));
-        return var_r3;
+        return player_getup_protection_ticks_table[game_difficulty_selection];
     }
-    var_r3 = var_r31;
-    if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
-        var_r3 = (s32 *)getup_protection_ticks_table_b;
-        var_r3 = (s32 *)getup_protection_ticks_table_b;
-        var_r3 = (s32 *)(*(saddr *)((s8 *)getup_protection_ticks_table_b + (game_difficulty_selection * 4)));
-        return var_r3;
+    if (obj_isState3_324() != 0) {
+        return getup_protection_ticks_table_b[game_difficulty_selection];
     }
-    var_r3 = (s32 *)getup_protection_ticks_table_a;
-    var_r3 = (s32 *)getup_protection_ticks_table_a;
-    var_r3 = (s32 *)(*(saddr *)((s8 *)getup_protection_ticks_table_a + (game_difficulty_selection * 4)));
-    return var_r3;
+    return getup_protection_ticks_table_a[game_difficulty_selection];
 }
 
-s32 *TObjPlayer::get_hurt_protection_ticks() {
-    s32 *arg0 = (s32 *)this;
-    s32 *var_r31;
-    s32 *var_r3;
-    var_r31 = arg0;
+s32 TObjPlayer::get_hurt_protection_ticks() {
     if (get_main_phase() == 0xF) {
-        var_r3 = var_r31;
-        if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
-            var_r3 = (s32 *)hurt_protection_ticks_table;
-            var_r3 = (s32 *)hurt_protection_ticks_table;
-            var_r3 = (s32 *)(*(saddr *)((s8 *)hurt_protection_ticks_table + (game_difficulty_selection * 4)));
-            return var_r3;
+        if (obj_isState3_324() != 0) {
+            return hurt_protection_ticks_table[game_difficulty_selection];
         }
-        var_r3 = (s32 *)player_hurt_protection_ticks_table_phase15;
-        var_r3 = (s32 *)player_hurt_protection_ticks_table_phase15;
-        var_r3 = (s32 *)(*(saddr *)((s8 *)player_hurt_protection_ticks_table_phase15 + (game_difficulty_selection * 4)));
-        return var_r3;
+        return player_hurt_protection_ticks_table_phase15[game_difficulty_selection];
     }
-    var_r3 = var_r31;
-    if (((TObjChara *)var_r3)->obj_isState3_324() != 0) {
-        var_r3 = (s32 *)player_hurt_protection_ticks_table_flagged;
-        var_r3 = (s32 *)player_hurt_protection_ticks_table_flagged;
-        var_r3 = (s32 *)(*(saddr *)((s8 *)player_hurt_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
-        return var_r3;
+    if (obj_isState3_324() != 0) {
+        return player_hurt_protection_ticks_table_flagged[game_difficulty_selection];
     }
-    var_r3 = (s32 *)player_hurt_protection_ticks_table;
-    var_r3 = (s32 *)player_hurt_protection_ticks_table;
-    var_r3 = (s32 *)(*(saddr *)((s8 *)player_hurt_protection_ticks_table + (game_difficulty_selection * 4)));
-    return var_r3;
+    return player_hurt_protection_ticks_table[game_difficulty_selection];
 }
 
 s32 TObjPlayer::get_lobby_entry_yaw() {
-    return *(s32 *)((s8 *)lbl_80449254 + (TLobby::get_instance() * 4));
+    return *(s32 *)((s8 *)lobby_entry_yaw_by_episode + (TLobby::get_instance() * 4));
 }
 
 u8 *TObjPlayer::get_lobby_entry_ptr() {
@@ -126,7 +90,7 @@ u8 *TObjPlayer::get_lobby_entry_ptr() {
 }
 
 s32 TObjPlayer::get_guild_return_yaw() {
-    return *(s32 *)((s8 *)lbl_80449234 + (TLobby::get_instance() * 4));
+    return *(s32 *)((s8 *)guild_return_yaw_by_episode + (TLobby::get_instance() * 4));
 }
 
 const Vec *TObjPlayer::get_guild_return_position() {
@@ -134,7 +98,7 @@ const Vec *TObjPlayer::get_guild_return_position() {
 }
 
 s32 TObjPlayer::get_hospital_yaw() {
-    return *(s32 *)((s8 *)lbl_804491CC + (TLobby::get_instance() * 4));
+    return *(s32 *)((s8 *)hospital_yaw_by_episode + (TLobby::get_instance() * 4));
 }
 
 u8 *TObjPlayer::get_hospital_position() {
@@ -147,11 +111,11 @@ const TPlyInventoryItem *get_class_starting_inventory(s32 cls) {
 }
 
 u8 * TObjPlayer::get_cast_motion_record() {
-  s32 temp_r31;
-  s8 *new_var;
-  temp_r31 = this->get_handle_value() * 0x14;
-  new_var = ((s8 *)player_cast_motion_record_table) + (this->has_valid_handle() * 4);
-  return *(u8 **)new_var + temp_r31;
+  s32 offset;
+  s8 *table_slot;
+  offset = this->get_handle_value() * 0x14;
+  table_slot = ((s8 *)player_cast_motion_record_table) + (this->has_valid_handle() * 4);
+  return *(u8 **)table_slot + offset;
 }
 
 long TObjPlayer::get_anim_table_entry(s32 picture) {
@@ -179,59 +143,59 @@ s32 TObjPlayer::get_footstep_floor_index() {
 }
 
 f32 TObjPlayer::get_photon_blast_complete_threshold() {
-  return ((Rec_801D8F0C * *)&photon_blast_motion_timing_tables)[has_valid_handle()][get_handle_value()].c;
+    return photon_blast_motion_timing_tables[has_valid_handle()][get_handle_value()].complete_threshold;
 }
 
 f32 TObjPlayer::get_photon_blast_upper_bound() {
-  return ((Rec_801D8F60 * *)&photon_blast_motion_timing_tables)[has_valid_handle()][get_handle_value()].b;
+    return photon_blast_motion_timing_tables[has_valid_handle()][get_handle_value()].upper_bound;
 }
 
 f32 TObjPlayer::get_photon_blast_hold_frame() {
-  s32 offset = get_handle_value() * 0xC;
-  u8 *table = (u8 *)photon_blast_motion_timing_tables[has_valid_handle()];
-  return *(f32 *)(table + offset);
+    s32 offset = get_handle_value() * sizeof(PhotonBlastMotionTiming);
+    const u8 *table = (const u8 *)photon_blast_motion_timing_tables[has_valid_handle()];
+    return ((const PhotonBlastMotionTiming *)(table + offset))->hold_frame;
 }
 
 f32 TObjPlayer::get_attack_recovery_count() {
     s32 falz_phase;
     falz_phase = get_falz_phase();
-    return (f32) (s8) *(u8 *)((s8 *)((u8 *)(((u8 *)attack_recovery_count_table + (this->get_handle_value() * 3))) + falz_phase) + 0);
+    return (f32)(s8)attack_recovery_count_table[get_handle_value()][falz_phase];
 }
 
 #pragma push
 #pragma scheduling off
 f32 TObjPlayer::select_normal_attack_marker() {
-  s16 temp_r30;
+  s16 strike_count;
   s16 falz_phase;
-  s16 new_var;
+  s16 stage_strikes;
   s32 class_flags;
   class_flags = get_class_flags();
-  new_var = ((TObjPlayer *)(((u8 *)this) + 0x7CC))->get_stage_strike_count();
-  temp_r30 = new_var;
+  stage_strikes = ((TObjPlayer *)(((u8 *)this) + 0x7CC))->get_stage_strike_count();
+  strike_count = stage_strikes;
   falz_phase = this->get_falz_phase();
-  return lookup_attack_marker((s32) get_handle_value(), falz_phase, temp_r30, class_flags);
+  return lookup_attack_marker((s32) get_handle_value(), falz_phase, strike_count, class_flags);
 }
 
 #pragma pop
 
-f32 lookup_attack_marker(s32 arg0, s16 falz_phase, s16 arg2, s32 class_flags) {
-    switch (arg0) {
+f32 lookup_attack_marker(s32 handle, s16 falz_phase, s16 strike_count, s32 class_flags) {
+    switch (handle) {
     case 3:
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table_dagger + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
+        return attack_marker_table_dagger[strike_count][falz_phase];
     case 14:
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table_double_saber + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
+        return attack_marker_table_double_saber[strike_count][falz_phase];
     case 15:
         if (class_flags & CLASS_FLAG_MALE) {
-            return *(f32 *)((s8 *)((u8 *)(((u8 *)twin_sword_male_marker_table + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
+            return twin_sword_male_marker_table[strike_count][falz_phase];
         }
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)twin_sword_female_marker_table + (arg2 * 0xC))) + (falz_phase * 4)) + 0);
+        return twin_sword_female_marker_table[strike_count][falz_phase];
     default:
-        return *(f32 *)((s8 *)((u8 *)(((u8 *)attack_marker_table + (arg0 * 0xC))) + (falz_phase * 4)) + 0);
+        return attack_marker_table[handle][falz_phase];
     }
 }
 
 // .data
-Rec_801D8F0C lbl_804C46B0[19] = {
+PhotonBlastMotionTiming lbl_804C46B0[19] = {
     { 20.0f, 22.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
@@ -252,7 +216,7 @@ Rec_801D8F0C lbl_804C46B0[19] = {
     { 28.0f, 30.0f, 42.0f },
     { 30.0f, 32.0f, 46.0f },
 };
-Rec_801D8F0C lbl_804C4794[19] = {
+PhotonBlastMotionTiming lbl_804C4794[19] = {
     { 24.0f, 26.0f, 40.0f },
     { 24.0f, 26.0f, 46.0f },
     { 16.0f, 18.0f, 44.0f },
@@ -273,7 +237,7 @@ Rec_801D8F0C lbl_804C4794[19] = {
     { 26.0f, 28.0f, 44.0f },
     { 28.0f, 30.0f, 42.0f },
 };
-Rec_801D8F0C lbl_804C4878[19] = {
+PhotonBlastMotionTiming lbl_804C4878[19] = {
     { 28.0f, 30.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
@@ -294,14 +258,14 @@ Rec_801D8F0C lbl_804C4878[19] = {
     { 26.0f, 28.0f, 42.0f },
     { 28.0f, 30.0f, 42.0f },
 };
-Rec_801D8F0C *photon_blast_motion_timing_tables[6] = {
+PhotonBlastMotionTiming *photon_blast_motion_timing_tables[6] = {
     lbl_804C46B0, lbl_804C4794, lbl_804C4878,
     lbl_804C46B0, lbl_804C4794, lbl_804C4794,
 };
 const s32 (*player_footstep_floor_table[3])[5] = {
-    lbl_804479AC, lbl_80447C7C, lbl_80447F4C,
+    footstep_floor_table_default, footstep_floor_table_cast, footstep_floor_table_racast,
 };
-const Rec_8044821C *player_clamped_index_table_pointers[3] = {
+const TObjMotionAction *player_clamped_index_table_pointers[3] = {
     lbl_8044821C, lbl_804482DC, lbl_8044839C,
 };
 const Rec_8044845C *player_anim_table_pointers[3] = {
@@ -312,9 +276,9 @@ const Rec_804484EC *player_cast_motion_record_table[6] = {
     lbl_80448960, lbl_80448668, lbl_80448668,
 };
 const TPlyInventoryItem *class_starting_inventory_table[12] = {
-    lbl_80448ADC, lbl_80448B68, lbl_80448BF4, lbl_80448C80,
-    lbl_80448D0C, lbl_80448D98, lbl_80448E24, lbl_80448EB0,
-    lbl_80448F3C, lbl_80448FC8, lbl_80449054, lbl_804490E0,
+    humar_starting_inventory, hunewearl_starting_inventory, hucast_starting_inventory, ramar_starting_inventory,
+    racast_starting_inventory, racaseal_starting_inventory, fomarl_starting_inventory, fonewm_starting_inventory,
+    fonewearl_starting_inventory, hucaseal_starting_inventory, fomar_starting_inventory, ramarl_starting_inventory,
 };
 
 s32 TObjPlayer__sub_801D91B8(saddr player) {
@@ -378,27 +342,27 @@ int TBoss4DarkFalz::get_instance_count() {  return dark_falz_form_index; }
 s32 TBoss4DarkFalz__sub_801D94C0(void* p) { return *(s32*)((char*)p + 0x14); }
 
 const Vec *hospital_position_table_by_episode[2] = {
-    lbl_8044916C, lbl_8044919C,
+    hospital_positions_ep1, hospital_positions_ep2,
 };
 const Vec *guild_return_position_table_by_episode[2] = {
-    lbl_804491D4, lbl_80449204,
+    guild_return_positions_ep1, guild_return_positions_ep2,
 };
 
 // Highest technique level per class (12 classes x 19 techniques, 0xFF = not learnable), read by
-// TObjPlayer__sub_801D9514.
-static const u8 lbl_804492F8[20] = { 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0xFF, 0xFF, 0x0E, 0x0E, 0xFF, 0x0E, 0x0E, 0x04, 0xFF, 0xFF, 0x00 };
-static const u8 lbl_8044930C[20] = { 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0xFF, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x06, 0xFF, 0xFF, 0x00 };
-static const u8 lbl_80449320[20] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00 };
-static const u8 lbl_80449334[20] = { 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0xFF, 0x0E, 0xFF, 0xFF, 0x0E, 0x0E, 0x0E, 0x04, 0xFF, 0xFF, 0x00 };
-static const u8 lbl_80449348[20] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00 };
-static const u8 lbl_8044935C[20] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00 };
-static const u8 lbl_80449370[20] = { 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x06, 0x1D, 0x1D, 0x00 };
-static const u8 lbl_80449384[20] = { 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x06, 0x1D, 0x1D, 0x00 };
-static const u8 lbl_80449398[20] = { 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x06, 0x1D, 0x1D, 0x00 };
-static const u8 lbl_804493AC[20] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00 };
-static const u8 lbl_804493C0[20] = { 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x06, 0x1D, 0x1D, 0x00 };
-static const u8 lbl_804493D4[20] = { 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0xFF, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x06, 0xFF, 0xFF, 0x00 };
+// get_class_technique_cap.
+static const u8 humar_technique_caps[20] = { 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0xFF, 0xFF, 0x0E, 0x0E, 0xFF, 0x0E, 0x0E, 0x04, 0xFF, 0xFF, 0x00 };
+static const u8 hunewearl_technique_caps[20] = { 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0xFF, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x06, 0xFF, 0xFF, 0x00 };
+static const u8 hucast_technique_caps[20] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00 };
+static const u8 ramar_technique_caps[20] = { 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0x0E, 0xFF, 0x0E, 0xFF, 0xFF, 0x0E, 0x0E, 0x0E, 0x04, 0xFF, 0xFF, 0x00 };
+static const u8 racast_technique_caps[20] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00 };
+static const u8 racaseal_technique_caps[20] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00 };
+static const u8 fomarl_technique_caps[20] = { 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x06, 0x1D, 0x1D, 0x00 };
+static const u8 fonewm_technique_caps[20] = { 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x06, 0x1D, 0x1D, 0x00 };
+static const u8 fonewearl_technique_caps[20] = { 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x06, 0x1D, 0x1D, 0x00 };
+static const u8 hucaseal_technique_caps[20] = { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00 };
+static const u8 fomar_technique_caps[20] = { 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x06, 0x1D, 0x1D, 0x00 };
+static const u8 ramarl_technique_caps[20] = { 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0xFF, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x06, 0xFF, 0xFF, 0x00 };
 const u8 *class_technique_cap_table[12] = {
-    lbl_804492F8, lbl_8044930C, lbl_80449320, lbl_80449334, lbl_80449348, lbl_8044935C,
-    lbl_80449370, lbl_80449384, lbl_80449398, lbl_804493AC, lbl_804493C0, lbl_804493D4,
+    humar_technique_caps, hunewearl_technique_caps, hucast_technique_caps, ramar_technique_caps, racast_technique_caps, racaseal_technique_caps,
+    fomarl_technique_caps, fonewm_technique_caps, fonewearl_technique_caps, hucaseal_technique_caps, fomar_technique_caps, ramarl_technique_caps,
 };

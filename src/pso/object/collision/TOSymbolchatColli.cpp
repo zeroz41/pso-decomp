@@ -19,7 +19,7 @@
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 // switch_ids[i] and preset_ids[i] through one base; the array spellings give sthx per store
 struct HL_8017873C

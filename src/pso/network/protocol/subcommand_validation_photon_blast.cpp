@@ -43,7 +43,7 @@ s32 validate_6x48_cast_technique_complete(G_ClientIDHeader *packet) {
     if (validate_subcommand_client(packet) == 0) {
         return 0;
     }
-    return TObjPlayer::is_valid_technique_id(*(s16 *)((s8 *)packet + 4)) != 0 ? 1 : 0;
+    return PlayerTechniqueState::is_valid_technique_id(*(s16 *)((s8 *)packet + 4)) != 0 ? 1 : 0;
 }
 
 s32 validate_6x8D_set_technique_level_override(G_ClientIDHeader *packet) {

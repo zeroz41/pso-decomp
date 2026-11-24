@@ -8,7 +8,7 @@
 struct TTecZonde : public TTecShot {
     TTecZonde(s32 source, u8 *arg2, u8 *targets, s32 level);
     virtual ~TTecZonde();
-    virtual void vfunc_8(void *);
+    virtual void apply_to_target(TObjChara *);
     void init_parameters();
     void render();
     void run_task();

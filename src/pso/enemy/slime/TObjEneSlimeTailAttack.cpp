@@ -44,7 +44,7 @@ struct NJS_OBJECT;
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
@@ -234,7 +234,6 @@ s32 spawn_slime_in_slot(TObjEneSlime *origin, s32 index, Vec *position, Vec *vel
 // ---- folded from src/pso/player/TObjPlayer_800EBE2C.cpp ----
 
 #include "pso/render/MaterialColorFade.h"
-#include "pso/player/TObjPlayer_800EBE2C.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/player/PlayerSlots.h"
@@ -258,6 +257,7 @@ void TObjPlayer::push_material_color_override(f32 alpha, f32 r, f32 g, f32 b) {
     set_constant_material(&color);
 }
 
+// TObjPlayer::push_material_color_override with a black colour: fades what is drawn next to alpha.
 void push_material_fade(f32 alpha) {
     TObjPlayer::push_material_color_override(alpha, 0.0f, 0.0f, 0.0f);
 }

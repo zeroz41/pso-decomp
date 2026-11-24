@@ -9,9 +9,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
 #include "pso/math/FloatRounding.h"
-#include "pso/unk/text_803E1FC8.h"
-#include "pso/unk/text_803E2008.h"
-#include "pso/unk/text_803E2070.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include <stddef.h>
 #include "pso/map/FloorArea.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -101,7 +99,7 @@ void TFogCtrl::reset() {
         mem_free(fog_entry_array);
     }
     fog_entry_array = NULL;
-    fn_803E1FC8(0xFFFFFFFF);
+    set_scene_fog_color(0xFFFFFFFF);
     set_scene_fog_distances((1e+03f), (1e+04f));
     reset_scene_fog();
     TParticleCtrl::begin_effect_render();
@@ -443,7 +441,7 @@ s32 TFogCtrl::restore_fog(s32 arg1) {
 void TFogCtrl::apply_fog_entry() {
     GXFogAdjTable tbl;
     set_scene_fog_type(2);
-    fn_803E1FC8((color << 8) | (color >> 24));
+    set_scene_fog_color((color << 8) | (color >> 24));
     set_scene_fog_distances(start, end);
     if (is_split_screen() == 0) {
         if (width >= FOG_MAX) {

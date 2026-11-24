@@ -129,7 +129,7 @@ s32 load_map_decoration_rows(s32 map, s32 grp, s32 room) {
         swap_object_row_endian(&floor_decoration_rows[i]);
         floor_decoration_rows[i].flags = 0;
         floor_decoration_rows[i].placement.entity_id = 0xFFFF;
-        floor_decoration_rows[i].placement.object_type = -1;
+        floor_decoration_rows[i].placement.set_index = -1;
     }
     return 1;
 }

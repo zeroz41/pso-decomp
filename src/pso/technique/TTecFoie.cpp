@@ -56,40 +56,6 @@ void TTecFoie::play_foie_cast_sound() {
 
 }
 
-struct RecoveredFields_8022FE84_arg0
-{
-  u8 unknown_0[0x64];
-  f32 field_64;
-  u8 unknown_68[0x8];
-  f32 field_70;
-  u8 unknown_74[0x50];
-  s16 level;
-  u8 unknown_C6[0x6];
-  f32 field_CC;
-  f32 field_D0;
-  f32 field_D4;
-  u8 unknown_D8[0x18];
-  s16 field_F0;
-};
-
-struct Dmg_80230004 { s32 kind; f32 amount; };
-
-struct Base_80230004 { u8 pad[0x18]; };
-
-struct Target_80230004 : Base_80230004 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20();
-    virtual void receive(s32 owner, Dmg_80230004 d, s32 x, s32 y, s32 z);
-    u8 pad1c[0x38 - 0x1C];
-    f32 pos[3];
-};
-
-struct Tec_80230004 { u8 pad[0x1C]; s32 owner; u8 pad20[0xCC - 0x20]; f32 power; u8 padd0[0xF8 - 0xD0]; s32 f8; };
-
 struct Angles_8022FC94
 {
   s32 x;
@@ -138,7 +104,6 @@ const TTecFoieData_80230144 TTecFoie__emitter_profile_table[6] = {
 };
 const char *TTecFoie__name = "TTecFoie";
 
-typedef struct RecoveredFields_8022FE84_arg0 RecoveredFields_8022FE84_arg0;
 typedef struct Angles_8022FC94 Angles_8022FC94;
 typedef struct Binding_8022FC94 Binding_8022FC94;
 typedef struct Foie_8022FC94 Foie_8022FC94;
@@ -186,24 +151,18 @@ void TTecFoie::create_particle_emitters() {
 }
 
 void TTecFoie::init_projectile_params() {
-    u8 *arg0 = (u8 *)this;
-  TechniqueParams *new_var;
-  new_var = calc_technique_parameters(0, (int) ((RecoveredFields_8022FE84_arg0 *) arg0)->level, 0xFFFF);
-  ((TechniqueParams *)(arg0 + 0xCC))->copy((TechniqueParams *)new_var);
-  if ((((s16) ((RecoveredFields_8022FE84_arg0 *) arg0)->level) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
-  {
-    ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (tech_high_level_linear_power_table[0].base + (tech_high_level_linear_power_table[0].per_level * ((RecoveredFields_8022FE84_arg0 *) arg0)->level));
-  }
-  else
-  {
-    ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC + ((f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_F0 * ((RecoveredFields_8022FE84_arg0 *) arg0)->level)));
-    if (TTecCtrl::is_technique_ready() != 0)
-    {
-      ((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_CC * technique_scale_table[0].power);
+    TechniqueParams *scaled = calc_technique_parameters(0, level, 0xFFFF);
+    params.copy(scaled);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        params.power = (f32)(tech_high_level_linear_power_table[0].base + tech_high_level_linear_power_table[0].per_level * level);
+    } else {
+        params.power = params.power + (f32)(params.power_per_level * level);
+        if (TTecCtrl::is_technique_ready() != 0) {
+            params.power = params.power * technique_scale_table[0].power;
+        }
     }
-  }
-  ((RecoveredFields_8022FE84_arg0 *) arg0)->field_64 = (f32) (((RecoveredFields_8022FE84_arg0 *) arg0)->field_D0 + ((f32) clamp_nonnegative_int((((RecoveredFields_8022FE84_arg0 *) arg0)->level - 4))));
-  ((RecoveredFields_8022FE84_arg0 *) arg0)->field_70 = (f32) ((RecoveredFields_8022FE84_arg0 *) arg0)->field_D4;
+    speed = params.speed + (f32)clamp_nonnegative_int(level - 4);
+    range = params.range;
 }
 
 void TTecFoie::vfunc_6() {
@@ -212,13 +171,12 @@ void TTecFoie::vfunc_6() {
     spawn_particle_effect((const Vec *)(arg0 + 0x20), 0x1DD);
 }
 
-void TTecFoie::vfunc_8(void *target_arg) {
-    Target_80230004 *target = (Target_80230004 *)target_arg;
-    Dmg_80230004 d;
-    d.kind = 1;
-    d.amount = this->power;
-    target->receive(((Tec_80230004 *)this)->owner, d, ((Tec_80230004 *)this)->f8, 0, -1);
-    play_sound_effect(0x4002A828, reinterpret_cast<const Vec *>(target->pos), 0, 0);
+void TTecFoie::apply_to_target(TObjChara *target) {
+    DirectAttackPayload hit;
+    hit.kind = 1;
+    hit.power = this->params.power;
+    target->receive_direct_attack((void *)source, hit, contact, 0, -1);
+    play_sound_effect(0x4002A828, &target->position, 0, 0);
     queue_destruction();
 }
 

@@ -46,7 +46,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/mine/TOComputerMachine01_8023DD0C.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {

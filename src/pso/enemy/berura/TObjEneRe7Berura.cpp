@@ -11,7 +11,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/math/AngleUnits.h"
@@ -49,9 +49,8 @@
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/StripBufferPair.h"
-#include "pso/unk/text_803E2F28.h"
 #include "pso/object/base/TObjBase.h"
 
 #pragma defer_codegen on

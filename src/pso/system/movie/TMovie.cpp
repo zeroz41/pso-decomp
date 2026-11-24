@@ -9,7 +9,7 @@
 #include "pso/system/movie/TMovie_80143CE8.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80083B38.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/system/memory.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
@@ -76,7 +76,7 @@ u8 *initialize_movie_with_soundtrack(u8 *movie, s8 *name, s32 arg2, s32 arg3, s3
 
 s32 TMovie::stop_if_advanced() {
     if ((s32) *(s32 *)((s8 *)this + 0x58) >= 2) {
-        TObjPlayer::draw_screen_quad(-1, 0, 0.0f);
+        draw_screen_quad(-1, 0, 0.0f);
     }
     return 1;
 }
@@ -264,7 +264,7 @@ struct MovieState {
 };
 
 void TMovie__sub_80144324(MovieState *movie, const s8 *name) {
-    TObjPlayer::reset_movie_state();
+    reset_movie_state();
     memset(&movie->m_04, 0, 0xC8);
     movie->buffer = xmalloc(0x420000);
     movie->m_04 = 0;

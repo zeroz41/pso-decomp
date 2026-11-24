@@ -9,7 +9,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/TObjPlayer_801D3554.h"
-#include "pso/unk/TUnk_804CC9D4.h"
+#include "pso/technique/TTelepipeSelectField.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/unk/text_8023601C.h"
@@ -19,8 +19,8 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/TUnk_804CCA0C.h"
-#include "pso/unk/TUnk_804CC990.h"
+#include "pso/technique/TTelepipeEffect.h"
+#include "pso/technique/TTecLightCharge.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -63,19 +63,6 @@ struct Player_80233E78 { u8 pad[0x838]; Vec pipe_pos; s32 pipe_heading; u8 arriv
 struct Rec_8023402C { u16 owner; s16 floor; s32 section; Vec pos; s32 heading; };
 
 struct Pkt_802341B0 { u8 hdr[4]; Rec_8023402C rec; };
-
-struct P_802346F8 { s32 t; f32 v; };
-
-struct VBase_802346F8 { char pad[0x18]; };
-
-struct VObj_802346F8 : VBase_802346F8 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual void m5(); virtual void m6(); virtual void m7(); virtual void m8(); virtual void m9();
-    virtual void m10(); virtual void m11(); virtual void m12(); virtual void m13(); virtual void m14();
-    virtual void m15(); virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20();
-    virtual s32 m21(s32, P_802346F8, s32, s32, s32);
-};
 
 void clear_pipe_interaction_latch(void* p);
 s32 get_pipe_interaction_latch(void* p);
@@ -388,12 +375,12 @@ block_43:
 
 void TTecLuker::setup_telepipe_field() {
     s32 id = ((TObjBase *)source)->get_entity_id();
-    visual = new TUnk_804CCA0C(&pipe_pos, id, tl_07);
+    visual = new TTelepipeEffect(&pipe_pos, id, tl_07);
     phase = 1;
     if (field != NULL) {
         field->set_position_from(&pipe_pos);
     } else {
-        field = new TUnk_804CC9D4(&pipe_pos, tl_05, 0);
+        field = new TTelepipeSelectField(&pipe_pos, tl_05, 0);
     }
     if (traveller == ((TObjBase *)source)->get_entity_id()) {
         s16 room;
@@ -408,18 +395,17 @@ void TTecLuker::create(void *pos, void *target, void *level) {
     new TTecLuker((saddr)this, (Vec *)pos, (Vec *)target, (saddr)level);
 }
 
-void TTecLuker::vfunc_6(void *o_arg) {
-    VObj_802346F8 *o = (VObj_802346F8 *)o_arg;
-    P_802346F8 d;
-    d.t = 0xE;
-    d.v = 10.0f;
-    o->m21(source, d, 0, -1, -1);
+void TTecLuker::apply_to_target(TObjChara *target) {
+    DirectAttackPayload hit;
+    hit.kind = 0xE;
+    hit.power = 10.0f;
+    target->receive_direct_attack((void *)source, hit, 0, -1, -1);
 }
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_loop_invariants off
-TUnk_804CCA0C::TUnk_804CCA0C(Vec *at, u32 id, TObject *parent) : TObject(parent) {
+TTelepipeEffect::TTelepipeEffect(Vec *at, u32 id, TObject *parent) : TObject(parent) {
   Vec v;
   Vec v2;
   long long off;
@@ -472,7 +458,7 @@ TUnk_804CCA0C::TUnk_804CCA0C(Vec *at, u32 id, TObject *parent) : TObject(parent)
 }
 #pragma pop
 
-TUnk_804CCA0C::~TUnk_804CCA0C() {
+TTelepipeEffect::~TTelepipeEffect() {
     s32 i;
     for (i = 0; i < 3; i++) {
         if (TTecLuker::is_parents_unqueued((uaddr)particles[i]) != 0) {
@@ -486,7 +472,7 @@ TUnk_804CCA0C::~TUnk_804CCA0C() {
     }
 }
 
-void TUnk_804CCA0C::run_task() {
+void TTelepipeEffect::run_task() {
   f32 d;
   f32 best;
   s32 j;
@@ -739,7 +725,7 @@ void TTecLuker::apply_all_players() {
     } while (i < 4);
 }
 
-TUnk_804CC9D4::TUnk_804CC9D4(Vec *pos, TObject *parent, s32 always) : TObjCollidable(parent) {
+TTelepipeSelectField::TTelepipeSelectField(Vec *pos, TObject *parent, s32 always) : TObjCollidable(parent) {
     VecCopy(&position, pos);
     init_collision_body_parts(this, &telepipe_field_collision_body_template, 1);
     set_actor_flags(0x40000000);
@@ -749,13 +735,13 @@ TUnk_804CC9D4::TUnk_804CC9D4(Vec *pos, TObject *parent, s32 always) : TObjCollid
     always_selectable = always;
 }
 
-TUnk_804CC9D4::~TUnk_804CC9D4() {
+TTelepipeSelectField::~TTelepipeSelectField() {
     unregister_object_by_id();
     free_collision_body_parts(this);
     interacted = 0;
 }
 
-void TUnk_804CC9D4::run_task() {
+void TTelepipeSelectField::run_task() {
     if (is_split_screen() != 0) {
         if (always_selectable != 0) {
             submit_cursor_candidate(this, -1);
@@ -769,4 +755,4 @@ void TUnk_804CC9D4::run_task() {
     }
 }
 
-void TUnk_804CC9D4::interact(u16) { interacted = 1; }
+void TTelepipeSelectField::interact(u16) { interacted = 1; }

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_803E21B8.h"
+#include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/player/TObjPlayer.h"
 #define PSO_SDK_COMPACT_MATH
@@ -48,11 +48,11 @@ void draw_projected_textured_strip(ProjectedStripVertex *vertices, s32 count) {
 #pragma pop
 
 void TLobby__sub_803E2EE4(s32 blended) {
-    TObjPlayer::load_screen_space_matrix();
+    load_screen_space_matrix();
     if (blended != 0) {
         setup_blended_textured_draw();
     } else {
-        TObjPlayer::setup_render();
+        setup_opaque_textured_draw();
     }
     load_context_texture_obj();
 }

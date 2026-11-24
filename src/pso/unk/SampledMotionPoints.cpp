@@ -7,7 +7,7 @@
 #include "pso/system/vector.h"
 #include "pso/animation/MotionContext.h"
 #include "pso/math/FloatRounding.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/memory.h"
 #include "pso/system/MatrixStack.h"

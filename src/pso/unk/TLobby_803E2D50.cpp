@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_803E21B8.h"
+#include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 

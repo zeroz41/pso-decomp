@@ -1,5 +1,5 @@
 #include "pso/system/vector.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/boss/derolle/TBoss2Tentacle.h"
 
 #include "types.h"
@@ -24,7 +24,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/unk/text_803E2F28.h"
 
 static const int TBoss2Tentacle__rest_angles[] = {-2048, 2048, -4864, 4864};
 static const s32 boss2_tentacle_angle_limit_table[] = {4096, -4096, 6144, -6144};

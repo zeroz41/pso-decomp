@@ -29,7 +29,7 @@
 #include "pso/system/task/TObject.h"
 
 
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/render/GinjaModel.h"

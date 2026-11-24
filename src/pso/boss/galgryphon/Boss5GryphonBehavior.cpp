@@ -14,7 +14,7 @@
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/EnemyStateEvent.h"
@@ -86,7 +86,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"

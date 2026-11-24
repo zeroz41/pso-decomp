@@ -7,8 +7,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
-#include "pso/unk/TUnk_804A7478.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/object/base/TMotionModel.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/render/ModelDrawContext.h"
@@ -40,23 +40,23 @@ void TObjMotion::set_motion_interpolation_flag() {
     current_motion->inp_fn |= 0x80;
 }
 
-void TUnk_804A7478::stop() {
+void TMotionModel::stop() {
     state = 1;
 }
 
-void *TUnk_804A7488::get_model() {
+void *TDrawableModel::get_model() {
     return model;
 }
 
-NJS_MOTION *TUnk_804A7478::get_motion() {
+NJS_MOTION *TMotionModel::get_motion() {
     return motion;
 }
 
-f32 TUnk_804A7478::get_frame() {
+f32 TMotionModel::get_frame() {
     return frame;
 }
 
-TUnk_804A7478::~TUnk_804A7478() {
+TMotionModel::~TMotionModel() {
 }
 
 TObjMotion::TObjMotion(TObject *parent) : TObjCollidable(parent) {
@@ -491,11 +491,11 @@ int TObjMotion::is_motion_held() {
     return (motion_flags >> 4) & 1;
 }
 
-void TUnk_804A7488::draw_model() {
+void TDrawableModel::draw_model() {
     draw_chunk_object(get_model());
 }
 
-void TUnk_804A7478::play_forward() {
+void TMotionModel::play_forward() {
     f32 count;
     f32 last;
     f32 next;
@@ -522,7 +522,7 @@ void TUnk_804A7478::play_forward() {
     }
 }
 
-void TUnk_804A7478::play_backward() {
+void TMotionModel::play_backward() {
     f32 next;
     s32 cur_state;
     cur_state = state;
@@ -545,7 +545,7 @@ void TUnk_804A7478::play_backward() {
     }
 }
 
-void TUnk_804A7478::draw_model() {
+void TMotionModel::draw_model() {
     draw_model_motion(get_model(), get_motion(), get_frame());
 }
 

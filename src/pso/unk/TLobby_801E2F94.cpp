@@ -9,10 +9,9 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/TLobby_80228154.h"
-#include "pso/player/TObjPlayer_803E21B8.h"
+#include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"
 #include "pso/unk/text_801E3F24.h"
-#include "pso/player/TObjPlayer_803E20B0.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
@@ -146,7 +145,7 @@ void set_screen_center(f32 x, f32 y) {
 extern "C" {
 void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle) {  }
 
-void TWindowDD::draw_transformed_primitive(s32 a1, u32 id, s32 a3) { TObjPlayer__sub_803DAD28(id); TObjPlayer::draw_textured_vertices(this, a1, a3); }
+void TWindowDD::draw_transformed_primitive(s32 a1, u32 id, s32 a3) { TObjPlayer__sub_803DAD28(id); draw_screen_textured_strip((ScreenTexturedVertex *)this, a1, a3); }
 
 }
 
@@ -173,7 +172,7 @@ void set_line_width(int a0);
 
 void draw_color_lines(ColorLineList *l, s32 n, s32 flags, f32 scale) {
     u32 c;
-    TObjPlayer::load_screen_space_matrix();
+    load_screen_space_matrix();
     if (flags & 4) {
         setup_blended_color_draw();
     } else {
@@ -277,13 +276,13 @@ void draw_polygon_2d(NJS_POINT2COL *poly, s32 count, u32 flags, f32 depth) {
         draw_color_lines(&tmp, 2, flags, depth);
         return;
     }
-    TObjPlayer::load_screen_space_matrix();
+    load_screen_space_matrix();
     tex = flags & 8;
     if (tex) {
         if (flags & 4) {
             setup_blended_textured_draw();
         } else {
-            TObjPlayer::setup_render();
+            setup_opaque_textured_draw();
         }
     } else if (flags & 4) {
         setup_blended_color_draw();
@@ -312,7 +311,7 @@ void draw_tri_fan_3d(NJS_POINT3COL *fan, s32 n, u32 flags) {
         if (flags & 4) {
             setup_blended_textured_draw();
         } else {
-            TObjPlayer::setup_render();
+            setup_opaque_textured_draw();
         }
         load_context_texture_obj();
     } else if (flags & 4) {

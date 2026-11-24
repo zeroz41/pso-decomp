@@ -12,7 +12,7 @@
 void spawn_land_hit_effect(TObject *parent, TItem *item, Vec *start, Vec *end, s32 frames) {
     if (parent != NULL && start != NULL && end != NULL && item != NULL) {
         TItemAttacker::spawn_item_timer(new TItemEffLandHit(parent, item, start, end),
-                                        (ItemTimerCallback)TObjPlayer::invoke_menu_callback_if_set, frames);
+                                        TItemEffLandHit::on_timer_expired, frames);
     }
 }
 

@@ -17,7 +17,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/render/RenderFadeState.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/bringer/TObjEneDf2Bringer.h"
@@ -37,14 +37,12 @@
 
 
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 #include "pso/unk/SampledMotionPoints.h"
 
 
 #include "pso/math/FloatRounding.h"
-#include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 
 #include "pso/player/TObjPlayer_800D8FDC.h"
@@ -145,6 +143,7 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/player/PlayerSlots.h"
 
 #pragma defer_codegen on
+s32 TItem::get_item_id() { return (s32)this->item_id; }
 
 
 
@@ -454,7 +453,7 @@ s32 TObjEneDf2Bringer::check_rush_hits() {
     s32 i;
     u8 *eff;
     hit = 0;
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     check_object_collisions();
     check_enemy_body_collisions(this);
     if (bodies->flags & 0x180000) {

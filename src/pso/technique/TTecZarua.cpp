@@ -22,52 +22,23 @@
 
 const char *TTecZarua__name = "TTecZarua";
 
-struct Damage_802386F8 { s32 kind; f32 power; };
-
-struct VBase_802386F8 { char pad[0x18]; };
-
-struct VObj_802386F8 : VBase_802386F8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual s32 m21(s32, Damage_802386F8, s32, s32, s32, void *);
-};
-
-extern "C" {
+void TTecZarua::create_instance(void *caster, Vec *pos, TargetCursorList *targets, s32 level) {
+    new TTecZarua((saddr)caster, pos, targets, level);
 }
+
 
 void TTecZarua::calc_range() {
     u8 *arg0 = (u8 *)this;
     TechniqueParams *params = calc_technique_parameters(0xC, this->level, 0xFFFF);
     ((TechniqueParams *)(arg0 + 0x88))->copy(params);
-    this->power = (f32)(this->base_power * this->level);
+    this->params.power = (f32)(this->params.power_per_level * this->level);
 }
 
-void TTecZarua::vfunc_6(void *target_arg) {
-    u8 *self = (u8 *)this;
-    u8 *target = (u8 *)target_arg;
-    Damage_802386F8 d;
-    d.kind = 0xc;
-    d.power = this->power;
-    ((VObj_802386F8 *)target)->m21((s32)this->source, d, (s32)this->attack_context, 0xc, -1, self);
+void TTecZarua::apply_to_target(TObjChara *target) {
+    DirectAttackPayload hit;
+    hit.kind = 0xc;
+    hit.power = this->params.power;
+    target->receive_direct_attack((void *)this->source, hit, this->contact, 0xc, -1);
 }
 
 void TTecZarua::create_instance(saddr source, Vec *pos, Vec *target, saddr level) {
@@ -87,7 +58,7 @@ void TTecZarua::run_task() {
         for (i = 0; i < targets.count; i++) {
             id = (uaddr)find_entity_by_id(targets.records[i].id);
             if (TTecLuker::is_parents_unqueued(id) != 0) {
-                vfunc_6((void *)id);
+                apply_to_target((TObjChara *)id);
             }
         }
     } else {
@@ -108,7 +79,7 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, TargetCursorList *list, s32 level) 
     calc_range();
     VecCopy(&position, pos);
     if (collidable != NULL) {
-        collidable->bodies->radius = scope;
+        collidable->bodies->radius = params.range;
     }
     switch (band) {
     case 0:
@@ -142,7 +113,7 @@ TTecZarua::TTecZarua(saddr source, Vec *pos, Vec *target, s32 level) : TTecCircl
     calc_range();
     VecCopy(&position, &this->target);
     if (collidable != NULL) {
-        collidable->bodies->radius = scope;
+        collidable->bodies->radius = params.range;
     }
     switch (band) {
     case 0:

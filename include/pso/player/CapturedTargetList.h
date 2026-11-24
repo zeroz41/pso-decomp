@@ -28,7 +28,7 @@ struct CapturedTargetList {
 
 extern "C" {
 // The list's and the entry's constructors. They stay flat until the objects that build a list in place
-// (TObjPlayer::init at +0x30, TObjPlayer::build_packet_header at +0x4) have real constructors.
+// (PlayerAttackController::init at +0x30, TObjPlayer::build_packet_header at +0x4) have real constructors.
 CapturedTargetList *TObjPlayer__sub_8012AF00(CapturedTargetList *self);
 CapturedTarget *TObjPlayer__sub_8012AF50(CapturedTarget *self);
 }

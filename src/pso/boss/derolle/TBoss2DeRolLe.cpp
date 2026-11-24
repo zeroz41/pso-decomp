@@ -78,7 +78,7 @@ struct NJS_OBJECT;
 
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_8002E784.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/render/model_render_state.h"
 
 #include "pso/boss/derolle/TBoss2Fin.h"
@@ -100,7 +100,7 @@ struct NJS_OBJECT;
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 #include "pso/boss/volopt/TBoss3Volopt.h"
 
@@ -271,7 +271,6 @@ const char *boss2_de_rol_le_class_name = "TBoss2DeRolLe";
 
 #include <stddef.h>
 #include "pso/player/TObjPlayer_8002E784.h"
-#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
 #include "pso/object/TUnk_804A6F78.h"

@@ -5,11 +5,19 @@
 #include "pso/render/TUnk_80494938.h"
 #include "pso/render/RenderFadeState.h"
 
+struct BmlResource;
+
 struct NanoDragoMovementParams {
     f32 detectionRadius;
     f32 baseSpeed;
     s32 turnSpeed;
     s32 unknown[4];
+};
+
+// The record TLobby::dispatch_shared_handler_a(0x1A) returns (nano_drago_behavior_params).
+struct NanoDragoBehaviorParams {
+    f32 float_params[6]; // get_float_parameter: 0 flight speed, 1 nano_drago_single_beam_speed, 2-4 the homing beam's
+    s32 int_params[2];   // get_int_parameter: 0 nano_drago_single_beam_power, 1 nano_drago_beam_power
 };
 
 struct TObjEneNanoDrago : public TObjEnemyCustom {
@@ -27,7 +35,7 @@ struct TObjEneNanoDrago : public TObjEnemyCustom {
     void capture_beam_origins();
     void add_target_in_front_arc(TObjChara *candidate);
     void update_fade_in_state();
-    void trigger_hit_camera_shake(u32 target);
+    void trigger_hit_camera_shake(TObjChara *victim);
     void request_growth();
     void spawn_beam_particle(s32 index);
     void find_open_direction(Vec *direction);
@@ -46,6 +54,9 @@ struct TObjEneNanoDrago : public TObjEnemyCustom {
     void update_proximity_state();
     void begin_hidden_flight();
     void load_entry_params_nanodrago(s32);
+    s32 get_int_parameter(s32 index);
+    f32 get_float_parameter(s32 index);
+    void update_attack();   // mode 2: empty
     void clear_state7_flag();
     void update_growth_state();
     void update_circling_state();
@@ -71,4 +82,15 @@ struct TObjEneNanoDrago : public TObjEnemyCustom {
 };
 
 LAYOUT_ASSERT(TObjEneNanoDrago_size, sizeof(TObjEneNanoDrago) == 0x47C);
+extern BmlResource *nano_drago_entry_params_resource;
+extern NanoDragoBehaviorParams *nano_drago_behavior_params;
+// The straight beam's (TObjNanoDragoSingleBeam) parameters update_attack_parameters reads.
+extern f32 nano_drago_single_beam_speed; // the beam's speed, also its hit radius
+extern s32 nano_drago_single_beam_power; // the direct attack's power
+// The homing beam parameters update_attack_parameters reads from the attack table.
+extern f32 nano_drago_beam_speed;       // the beam's speed, also its hit radius
+extern f32 nano_drago_beam_homing;      // the beam's starting steering pull
+extern f32 nano_drago_beam_homing_gain; // added to the pull every frame in flight
+extern s32 nano_drago_beam_power;       // the direct attack's power
+
 #endif

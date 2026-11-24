@@ -66,7 +66,6 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/player/TObjPlayer_80125780.h"
-#include "pso/player/TObjPlayer_80307618.h"
 #include "pso/player/TObjPlayer_80362E60.h"
 #include "pso/weapon/TUnk_804E24F0.h"
 #include "pso/weapon/TUnk_804F28E0.h"
@@ -79,7 +78,10 @@
 #include "pso/unk/text_80129D18.h"
 #include "pso/unk/text_8012AE50.h"
 #include "pso/unk/text_8012C268.h"
-#include "pso/unk/text_80355C1C.h"
+#include "pso/weapon/TItemWeaponDarkMeteor.h"
+#include "pso/weapon/TItemWeaponNug2000Bazooka.h"
+#include "pso/weapon/TItemWeaponSBerillsHands.h"
+#include "pso/weapon/TItemWeaponTsumikiri.h"
 #include "pso/system/scene/TEnding.h"
 #include "pso/unk/text_8035D444.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
@@ -146,10 +148,9 @@
 #include "pso/item/TItemTimerEvent.h"
 #include "pso/item/TItemTexLoad.h"
 #include "pso/effect/item/TItemEffectWeapon.h"
-#include "pso/item/drop/TItemDrop_80105D0C.h"
 #include "pso/unk/TLobby_80103F5C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/item/drop/TItemDropSub_80107B74.h"
+#include "pso/item/drop/TItemDropSub.h"
 #include "pso/ui/window/TWindowSubComCard_80077788.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/TPlyPhotonChair.h"
@@ -163,7 +164,6 @@ s32 get_item_icon_index();
 void TLobby__sub_80104464(void);
 int fn_80077788(void);
 int fn_80077790(void);
-s32 TItemDropSub__sub_80107B74();
 }
 
 // This unit's .sbss, in address order.
@@ -316,8 +316,8 @@ ItemCreateFunction weapon_factory_table[170] = {
     create_common_weapon,
     TUnk_804E24F0::create,
     TObjPlayer::create_object_by_type,
-    TObjPlayer::create_nug2000_bazooka,
-    TObjPlayer__sub_80307800,
+    create_nug2000_bazooka,
+    create_s_berills_hands_weapon,
     create_sword_weapon,
     create_saber_weapon,
     TObjPlayer::create_gi_gue_bazooka,
@@ -333,7 +333,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TUnk_804F0AF8::create,
     TObjPlayer__sub_803265C0,
     create_dark_flow,
-    TObjPlayer::create_state_34_alt,
+    create_dark_meteor_weapon,
     dark_bridge_create,
     TObjPlayer::create_state_1536,
     TObjPlayer::create_rappys_fan,
@@ -427,7 +427,7 @@ void normalize_drop_area(s32 *p) {
         switch (*p) {
         case 0x10:
         case 0x11:
-            *p = TItemDropSub__sub_80107B74();
+            *p = TItemDropSub::get_box_drop_area();
             return;
         }
     }

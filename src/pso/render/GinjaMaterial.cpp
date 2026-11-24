@@ -5,13 +5,12 @@
 #include "pso/system/ModelDrawCallback.h"
 #include "pso/render/GinjaMaterialState.h"
 #include "pso/render/GinjaMaterialCache.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/render/MaterialAlphaCompare.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/GinjaParameterHandler.h"
 #include "pso/render/GinjaModelQueue.h"
-#include "pso/unk/text_803E2008.h"
 #include "pso/render/GinjaModel.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
@@ -64,7 +63,7 @@ void draw_ginja_object(void *child) {
         ginja_draw_end_callback();
     }
     if ((u32) (ginja_draw_flags & 2) != 0U) {
-        TObjPlayer::set_effect_active();
+        enable_scene_fog();
         apply_scene_fog();
     }
 }
@@ -513,7 +512,7 @@ s32 draw_ginja_model_lists(void *model_data) {
 
 void prepare_ginja_model(void) {
     if (ginja_draw_flags & 2) {
-        TObjPlayer::reset_particle_counter();
+        disable_scene_fog();
         apply_scene_fog();
     }
     for (s32 i = 0; i < 11; ++i) {
@@ -528,7 +527,7 @@ void prepare_ginja_model(void) {
 
 void end_ginja_model_draw(void) {
     if ((u32) (ginja_draw_flags & 2) != 0) {
-        TObjPlayer::set_effect_active();
+        enable_scene_fog();
         apply_scene_fog();
     }
     if ((u32) (model_render_flags & 1) == 0) {

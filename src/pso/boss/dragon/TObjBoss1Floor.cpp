@@ -31,7 +31,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
-#include "pso/system/scene/TScene_800838C4.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
@@ -57,10 +57,10 @@ void TObjBoss1Floor::render() {
         push_matrix();
         model_render_flags = 1;
         set_draw_list_mask(3);
-        TObjPlayer::draw_if_all_ready();
+        bind_shadow_map_texture();
         TObjFish::set_global_param(dragon_common_texture_list);
         floor = dragon_ground_resource->models[5].model;
-        render_projected_shadow_receiver((u8 *)floor->pos, (saddr)floor->ang);
+        render_projected_shadow_receiver(floor->pos, floor->ang);
         draw_ginja_model(floor->model);
         TScene::apply_single_screen_state();
         restore_draw_list_mask();

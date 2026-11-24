@@ -4,7 +4,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/player/GuildCardEntry.h"
 #include "pso/ui/chat/ShortMail.h"
-#include "pso/player/TPlyGuildCardTag_8007B434.h"
+#include "pso/ui/window/TWindowSubComCard_8007A810.h"
 #include "pso/item/TItemData.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"

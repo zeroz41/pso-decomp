@@ -45,7 +45,7 @@
 #include "pso/unk/text_801F43B4.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ruins/TOCapsuleAncient01.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include <stdlib.h>
 #include "pso/object/base/TObjChara.h"
 #include "pso/unk/TLobby_803DE778.h"
@@ -1307,7 +1307,7 @@ void TBoss3Volopt::push_actors_out(s32 phase2) {
     TObjPlayer *actor;
 
     center_z = (f32)((phase2 != 0) ? -5000 : 0);
-    for (i = registered_player_count + registered_enemy_count; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + registered_enemy_count; i < entity_table_count; i++) {
         actor = TObjPlayer::get_player_data(i);
         if (actor == NULL) continue;
         if (actor->bodies == NULL) continue;

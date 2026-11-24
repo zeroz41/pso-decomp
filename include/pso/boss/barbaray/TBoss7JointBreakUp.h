@@ -8,6 +8,9 @@ class TBoss7JointBreakUp : public TBoss7BreakUp {
 public:
     TBoss7JointBreakUp(TObject *parent, Vec *position, s32 index);
     virtual ~TBoss7JointBreakUp();
+    // Its slots in TBoss7DeRolLeC's load callback table; both do nothing.
+    static void load_static_resource();
+    static void destroy_instance();
     void scale_node_positions();
     virtual void run_task();
     virtual void render();

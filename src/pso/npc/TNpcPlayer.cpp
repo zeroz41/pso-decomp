@@ -34,13 +34,13 @@
 #include "pso/technique/TTecReverser.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/unk/TLobby_8013A874.h"
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/player/TObjPlayer_803E18C0.h"
+#include "pso/math/BoxCollision.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/unk/text_803D8F74.h"
@@ -49,7 +49,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/render_util.h"
 
 disp_data_part2 *npc_player_char_data_buffer;
@@ -794,7 +794,7 @@ TPlyInventoryItem *npc_player_equipment_ultimate[64] = {
 
 u16 TObjPlayer::get_npc_controller() { return npc_control.controller_client_id; }
 
-int get_registered_object_count(void) {  return registered_entity_count; }
+int get_registered_object_count(void) {  return registered_object_count; }
 
 void PhotonBlastTarget::reset() {
     entity_id = 0xFFFF;
@@ -2529,12 +2529,12 @@ s32 TNpcPlayer::partner_route_around_wall(Vec *from, Vec *to, Vec *d, Vec *out, 
         perp.x = -perp.x;
         perp.z = -perp.z;
     }
-    line.o.x = self_view->player->body_center.x;
-    line.o.y = self_view->player->body_center.y;
-    line.o.z = self_view->player->body_center.z;
-    line.d.x = perp.x;
-    line.d.y = 0.0f;
-    line.d.z = perp.z;
+    line.origin.x = self_view->player->body_center.x;
+    line.origin.y = self_view->player->body_center.y;
+    line.origin.z = self_view->player->body_center.z;
+    line.direction.x = perp.x;
+    line.direction.y = 0.0f;
+    line.direction.z = perp.z;
     project_point_onto_line(&goal, &line, &hit);
     s = 1.5f * len;
     if (s <= 20.0f) {
@@ -2757,12 +2757,12 @@ void TNpcPlayer::calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, 
     if (len2 != 0.0f) {
         normalize_vector(&second);
     }
-    line1.o.x = b->x;
-    line1.o.y = b->y;
-    line1.o.z = b->z;
-    line1.d.x = first.x;
-    line1.d.y = first.y;
-    line1.d.z = first.z;
+    line1.origin.x = b->x;
+    line1.origin.y = b->y;
+    line1.origin.z = b->z;
+    line1.direction.x = first.x;
+    line1.direction.y = first.y;
+    line1.direction.z = first.z;
     dist1 = project_point_onto_line(pos, &line1, &point1);
     center1.x = 0.5f * (a->x + b->x);
     center1.y = 0.5f * (a->y + b->y);
@@ -2771,12 +2771,12 @@ void TNpcPlayer::calc_box_escape_axis(Vec *a, Vec *b, Vec *c, Vec *d, Vec *pos, 
     if (reach1 < 0.0f) {
         reach1 = 0.5f * len1;
     }
-    line2.o.x = d->x;
-    line2.o.y = d->y;
-    line2.o.z = d->z;
-    line2.d.x = second.x;
-    line2.d.y = second.y;
-    line2.d.z = second.z;
+    line2.origin.x = d->x;
+    line2.origin.y = d->y;
+    line2.origin.z = d->z;
+    line2.direction.x = second.x;
+    line2.direction.y = second.y;
+    line2.direction.z = second.z;
     dist2 = project_point_onto_line(pos, &line2, &point2);
     center2.x = 0.5f * (a->x + b->x);
     center2.y = 0.5f * (a->y + b->y);

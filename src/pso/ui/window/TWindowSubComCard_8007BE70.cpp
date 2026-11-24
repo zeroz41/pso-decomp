@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_8007B370.h"
+#include "pso/player/GuildCardEntry.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 
 extern "C" {

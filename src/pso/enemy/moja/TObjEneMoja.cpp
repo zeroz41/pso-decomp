@@ -8,7 +8,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/npc/NpcAnimationBinding.h"
 #include "pso/player/PlayerAttackParams.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "types.h"
 #include "pso/enemy/BattleParameters.h"
 #include "pso/object/base/TObjMotion.h"
@@ -35,7 +35,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/effect/TAttackTrace.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/unk/TLobby.h"
@@ -57,7 +57,6 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/unk/text_803E2F28.h"
 #include "pso/math/ScratchVectors.h"
 #include "pso/network/client_id.h"
 #include "pso/render/model_render_state.h"
@@ -642,7 +641,7 @@ void TObjEneMoja::update_appearance_jump() {
             return;
         }
         phase = 2;
-        for (i = 0; i < lbl_805D5868; i++) {
+        for (i = 0; i < entity_table_count; i++) {
             p = TObjPlayer::get_player_data(i);
             if (p == NULL) {
                 break;
@@ -722,7 +721,7 @@ void TObjEneMoja::update_appearance_drop() {
             return;
         }
         phase = 2;
-        for (i = 0; i < lbl_805D5868; i++) {
+        for (i = 0; i < entity_table_count; i++) {
             p = TObjPlayer::get_player_data(i);
             if (p == NULL) {
                 break;
@@ -1223,7 +1222,7 @@ void TObjEneMoja::update_attack_jump() {
         move_with_wall_slide(this);
         if (is_passing_frame(20.0f) != 0) {
             phase = 2;
-            for (i = 0; i < lbl_805D5868; i++) {
+            for (i = 0; i < entity_table_count; i++) {
                 p = TObjPlayer::get_player_data(i);
                 if (p == NULL || (u16)p->get_entity_id() >= 0x1000) {
                     break;

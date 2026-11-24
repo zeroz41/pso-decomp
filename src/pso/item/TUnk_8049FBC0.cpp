@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TUnk_8049FBC0.h"
-#include "pso/player/TObjPlayer_801AEB84.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -30,11 +29,11 @@ TUnk_8049FBC0::~TUnk_8049FBC0() {}
 void TUnk_8049FBC0::apply_use_effect() {
     switch (((TItem *)this)->get_item_index()) {
     case 0:
-        ((TObjPlayer *)(this->owner))->add_stat_and_item(2);
+        ((TObjPlayer *)(this->owner))->add_power_material(2);
         break;
     case 1:
         if (check_class_equip_permission(this->owner, 0xD7) == 0) {
-            ((TObjPlayer *)(this->owner))->add_mst_and_item(2);
+            ((TObjPlayer *)(this->owner))->add_mind_material(2);
         }
         break;
     case 2:
@@ -43,20 +42,20 @@ void TUnk_8049FBC0::apply_use_effect() {
     case 3:
         this->owner->get_entity_id();
         if (calc_base_hp_bonus__FUs() < 0xFA) {
-            ((TObjPlayer *)(this->owner))->apply_speed_with_camera_scale((u8)(2));
+            ((TObjPlayer *)(this->owner))->add_hp_material((u8)(2));
         }
         break;
     case 4:
         this->owner->get_entity_id();
         if ((calc_base_tp_bonus__FUs() < 0xFA) && (check_class_equip_permission(this->owner, 0xD7) == 0)) {
-            ((TObjPlayer *)(this->owner))->set_speed_scaled_by_camera((u8)(2));
+            ((TObjPlayer *)(this->owner))->add_tp_material((u8)(2));
         }
         break;
     case 5:
         ((TObjPlayer *)(this->owner))->add_dfp_material(2);
         break;
     case 6:
-        ((TObjPlayer *)(this->owner))->apply_luck_reward(2);
+        ((TObjPlayer *)(this->owner))->add_luck_material(2);
         break;
     }
     owner->recalc_stats();

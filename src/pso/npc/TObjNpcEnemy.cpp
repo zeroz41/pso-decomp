@@ -1,7 +1,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -22,7 +22,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/GinjaTextureMatrices.h"
 

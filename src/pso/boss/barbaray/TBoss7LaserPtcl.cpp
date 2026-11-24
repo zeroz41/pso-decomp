@@ -7,6 +7,7 @@
 
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/system/task/TObject_80019A50.h"
+#include "pso/boss/barbaray/TBoss7BreakUp.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 
 #include <stddef.h>
@@ -19,12 +20,11 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/unk/text_803D96A8.h"
 
 #pragma readonly_strings on
 
-extern const f32 lbl_805DE9F0;
 
 LAYOUT_ASSERT(Laser_state_offset, offsetof(TBoss7LaserPtcl, state) == 0x1C);
 LAYOUT_ASSERT(Laser_position_offset, offsetof(TBoss7LaserPtcl, position) == 0x20);
@@ -52,7 +52,7 @@ void TUnk_804F1C88::run_task() {
     s32 i;
     hit_body.radius += 2e+01f;
     reset_global_table();
-    TObjPlayer::apply_status_effect((saddr)&hit_set);
+    collect_player_body_contacts(&hit_set);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         ActorBodyHit *hit = (ActorBodyHit *)TObjOnlineEnding::get_attack_entry(i);
         static_cast<TBoss7DeRolLeC *>(m_up)->emit_hit_effect(&hit->target->position);
@@ -166,7 +166,7 @@ s32 TBoss7LaserPtcl::is_state_2() {
 
 void TBoss7LaserPtcl::update_position() {
     displacement.x = direction.x * travel_distance;
-    displacement.y = lbl_805DE9F0 - position.y;
+    displacement.y = boss7_sea_level_y - position.y;
     displacement.z = direction.z * travel_distance;
 }
 
@@ -189,7 +189,7 @@ void calc_laser_ray_hit_point(u8 *laser, u8 *out) {
     f32 t;
     if (dst != NULL) {
         y = ray->position.y;
-        t = (10.0f - y) / (lbl_805DE9F0 - y);
+        t = (10.0f - y) / (boss7_sea_level_y - y);
         dst->x = (ray->displacement.x * t) + ray->position.x;
         dst->y = (ray->displacement.y * t) + ray->position.y;
         dst->z = (ray->displacement.z * t) + ray->position.z;

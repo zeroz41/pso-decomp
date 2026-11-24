@@ -26,7 +26,7 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby.h"

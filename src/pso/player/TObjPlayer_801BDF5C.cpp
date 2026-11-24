@@ -13,11 +13,10 @@
 #include "pso/ui/window/TWindowSnapShot_802A7D68.h"
 #include "pso/ui/hud/TLockOnCursor_8013D91C.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
-#include "pso/unk/text_80354BE4.h"
+#include "pso/player/Palettex.h"
 #include "pso/player/TPlayerFootStamp.h"
 #include "pso/ui/hud/TLockOnCursor.h"
 #include "pso/ui/window/TWindowSnapShot.h"
-#include "pso/player/TObjPlayer_801BE1C0.h"
 #include "pso/unk/text_801BE104.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/player/TPlyCharData.h"
@@ -25,22 +24,19 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/player/TPlyInventory.h"
+#include "pso/player/PhotonBlastResults.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
-#include "pso/player/TObjPlayer_801BE778.h"
-#include "pso/player/TObjPlayer_801BEB0C.h"
+#include "pso/player/PlayerSyncRecord.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/player/PlayerSlots.h"
-
-
-extern "C" {
-}
+#include "pso/player/PlayerCharDataEntry.h"
 
 u8 *TObjPlayer::create_player_instance(s32 arg0, saddr player) {
     u8 *p;
-    p = (u8 *)new TObjPlayer(tl_03, arg0 & 0xFFFF, get_field_0_s32((void *)player), ((TObjPlayer *)player)->get_char_data());
-    ((TLobby *)(p + 0xDAC))->copy_header_struct((void *)((TObjPlayer *)player)->get_sub_obj());
+    p = (u8 *)new TObjPlayer(tl_03, arg0 & 0xFFFF, ((PlayerCharDataEntry *)player)->get_role(), ((PlayerCharDataEntry *)player)->get_char_data());
+    ((TLobby *)(p + 0xDAC))->copy_header_struct(((PlayerCharDataEntry *)player)->get_lobby_header());
     ((TObjPlayer *)p)->reset_motion_fields();
     return p;
 }
@@ -98,7 +94,8 @@ extern u8 TObjPlayer__char_data_array[];
 void __destroy_arr(void *arr, void *dtor, u32 size, u32 n);
 void __register_global_object(void *obj, void *dtor, void *chain);
 void *__construct_array(void *, void *, void *, u32, u32);
-void init_char_data__10TObjPlayerFv(void *);
+void construct__19PlayerCharDataEntryFv(void *);
+void *__dt__19PlayerCharDataEntryFv(void *entry, s16 mode);
 
 }
 
@@ -112,12 +109,12 @@ u8 TObjPlayer__char_data_array[0x42C * 0xC];
 void __sinit_TObjPlayer_801BDF5C_cpp(void) {
     __construct_array(TObjPlayer__arrival_override_table, (void *)TObjPlayer__sub_801BFF80, NULL, 0x14, 0xC);
     ((TObjPlayer *)lobby_rule_settings)->reset_lobby_settings();
-    __construct_array(TObjPlayer__char_data_array, (void *)init_char_data__10TObjPlayerFv, (void *)destroy_char_data__10TObjPlayerFis, 0x42C, 0xC);
+    __construct_array(TObjPlayer__char_data_array, (void *)construct__19PlayerCharDataEntryFv, (void *)__dt__19PlayerCharDataEntryFv, 0x42C, 0xC);
     __register_global_object(NULL, (void *)TObjPlayer::destroy_char_data_array, lbl_8050EA64);
 }
 
 void TObjPlayer::destroy_char_data_array() {
-    __destroy_arr(TObjPlayer__char_data_array, (void *)destroy_char_data__10TObjPlayerFis, 0x42c, 0xc);
+    __destroy_arr(TObjPlayer__char_data_array, (void *)__dt__19PlayerCharDataEntryFv, 0x42c, 0xc);
 }
 
 
@@ -127,15 +124,7 @@ extern "C" {
 
 int subtract_photon_blast_charge(void*, f32);
 
-s32 destroy_char_data__10TObjPlayerFis(saddr arg0, s16 arg1) {
-    if (arg0 != 0) {
-        ((TPlyCharData *)(arg0 + 0xC))->~TPlyCharData();
-        if (arg1 > 0) {
-            ::operator delete((void *)arg0);
-        }
-    }
-    return arg0;
-}
+PlayerCharDataEntry::~PlayerCharDataEntry() {}
 
 void TObjPlayer::get_pos(saddr out) {
     this->get_anim_node_position(0x3A, (Vec *)out);
@@ -149,328 +138,20 @@ s32 TObjPlayer::vfunc_79() { return 0; }
 s32 TObjPlayer::check_camera_mode() {
     return (u8)((u8) (is_quest_active() == 1));
 }
-void TObjPlayer::set_regen_timer(s32 v) { this->pad_370 = v; }
-s32 TObjPlayer::get_regen_timer() { return this->pad_370; }
+void TObjPlayer::set_regen_timer(s32 v) { this->regen_timer = v; }
+s32 TObjPlayer::get_regen_timer() { return this->regen_timer; }
 int TObjPlayer::is_newman() { return (this->class_flags & CLASS_FLAG_NEWMAN) != 0; }
 int TObjPlayer::is_android() { return (this->class_flags & CLASS_FLAG_ANDROID) != 0; }
-void TObjPlayer::check_stat_flag_41c() { ((FlagWord *)((char*)this + 0x41c))->set(32); }
-void TObjPlayer::check_flag_at_41c() { ((FlagWord *)((char*)this + 0x41c))->set(4); }
-void TObjPlayer::set_flag_41c_bit1() { ((FlagWord *)((char*)this + 0x41c))->set(2); }
-void TObjPlayer::clamp_stat_41c() { ((FlagWord *)((char*)this + 0x41c))->set(8); }
+void TObjPlayer::check_stat_flag_41c() { m_41c.set(32); }
+void TObjPlayer::check_flag_at_41c() { m_41c.set(4); }
+void TObjPlayer::set_flag_41c_bit1() { m_41c.set(2); }
+void TObjPlayer::clamp_stat_41c() { m_41c.set(8); }
 
 }
 
 s8 TObjPlayer::get_rule_field_0() {
     return ((TLobby *)lobby_rule_settings)->get_rule_field_0();
 }
-
-struct Base_801BE3D8 { char pad[0x8]; };
-struct VObj_801BE3D8 : Base_801BE3D8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual int m25();
-};
-struct Base_801BE40C { char pad[0x8]; };
-struct VObj_801BE40C : Base_801BE40C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual int m22();
-};
-struct Base_801BE440 { char pad[0x8]; };
-struct VObj_801BE440 : Base_801BE440 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual int m24();
-};
-struct Base_801BE474 { char pad[0x8]; };
-struct VObj_801BE474 : Base_801BE474 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual int m26();
-};
-struct Base_801BE4A8 { char pad[0x8]; };
-struct VObj_801BE4A8 : Base_801BE4A8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual int m26();
-};
-struct Base_801BE4DC { char pad[0x8]; };
-struct VObj_801BE4DC : Base_801BE4DC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual int m19();
-};
-struct Base_801BE510 { char pad[0x8]; };
-struct VObj_801BE510 : Base_801BE510 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual int m27();
-};
-struct Base_801BE544 { char pad[0x8]; };
-struct VObj_801BE544 : Base_801BE544 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual int m14();
-};
-struct Base_801BE578 { char pad[0x8]; };
-struct VObj_801BE578 : Base_801BE578 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual int m17();
-};
-struct Base_801BE5AC { char pad[0x8]; };
-struct VObj_801BE5AC : Base_801BE5AC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual int m16();
-};
-struct Base_801BE5E0 { char pad[0x8]; };
-struct VObj_801BE5E0 : Base_801BE5E0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual int m15();
-};
-struct Base_801BE614 { char pad[0x8]; };
-struct VObj_801BE614 : Base_801BE614 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual int m28();
-};
 
 extern "C" {
 
@@ -480,63 +161,51 @@ void TObjPlayer::clear_flag_400000() {
 }
 
 short TObjPlayer::get_model_field_m25() {
-    struct VObj_801BE3D8 *o = (struct VObj_801BE3D8 *)this->action_provider;
-    return o->m25();
+    return action_provider->get_death_action();
 }
 
 short TObjPlayer::get_action_animation() {
-    struct VObj_801BE40C *o = (struct VObj_801BE40C *)this->action_provider;
-    return o->m22();
+    return action_provider->get_knockdown_action();
 }
 
 short TObjPlayer::call_model_m24() {
-    struct VObj_801BE440 *o = (struct VObj_801BE440 *)this->action_provider;
-    return o->m24();
+    return action_provider->get_hurt_action();
 }
 
 short TObjPlayer::get_weapon_stat_c() {
-    struct VObj_801BE474 *o = (struct VObj_801BE474 *)this->action_provider;
-    return o->m26();
+    return action_provider->get_interact_action();
 }
 
 short TObjPlayer::call_obj_vt26() {
-    struct VObj_801BE4A8 *o = (struct VObj_801BE4A8 *)this->action_provider;
-    return o->m26();
+    return action_provider->get_interact_action();
 }
 
 short TObjPlayer::query_child_state() {
-    struct VObj_801BE4DC *o = (struct VObj_801BE4DC *)this->action_provider;
-    return o->m19();
+    return action_provider->get_use_item_action();
 }
 
 short TObjPlayer::query_equip() {
-    struct VObj_801BE510 *o = (struct VObj_801BE510 *)this->action_provider;
-    return o->m27();
+    return action_provider->get_photon_blast_action();
 }
 
 short TObjPlayer::get_status() {
-    struct VObj_801BE544 *o = (struct VObj_801BE544 *)this->action_provider;
-    return o->m14();
+    return action_provider->get_technique_action();
 }
 
 short TObjPlayer::get_model_state() {
-    struct VObj_801BE578 *o = (struct VObj_801BE578 *)this->action_provider;
-    return o->m17();
+    return action_provider->get_attack3_action();
 }
 
 short TObjPlayer::get_state() {
-    struct VObj_801BE5AC *o = (struct VObj_801BE5AC *)this->action_provider;
-    return o->m16();
+    return action_provider->get_attack2_action();
 }
 
 short TObjPlayer::call_subobject_m15() {
-    struct VObj_801BE5E0 *o = (struct VObj_801BE5E0 *)this->action_provider;
-    return o->m15();
+    return action_provider->get_attack1_action();
 }
 
 short TObjPlayer::get_vobj_state_28() {
-    struct VObj_801BE614 *o = (struct VObj_801BE614 *)this->action_provider;
-    return o->m28();
+    return action_provider->get_run_action();
 }
 
 extern "C" TObjPlayer *get_local_player() {
@@ -561,11 +230,11 @@ void TObjPlayer::clear_flag_0x2() { this->state_flags &= 0xfffffffd; }
 
 int TObjPlayer::is_action_active() { return (this->state_flags >> 1) & 0x1; }
 void TObjPlayer__sub_801BE784(void* p, u8 v) { *(u8*)((char*)p + 0x2e7) = v; }
-u8 TObjPlayer::get_battle_mode() { return *(u8*)((char*)this + 0x33a); }
+u8 TObjPlayer::get_battle_mode() { return unk_33A[0]; }
 void TObjPlayer__sub_801BE794(void* p, u8 v) { *(u8*)((char*)p + 0x2cb) = v; }
 u8 TObjPlayer::get_byte_339() { return this->m_339; }
 void TObjPlayer__sub_801BE7A4(void* p, u8 v) { *(u8*)((char*)p + 0x2af) = v; }
-u8 TObjPlayer::get_mag_level() { return *(u8*)((char*)this + 0x338); }
+u8 TObjPlayer::get_mag_level() { return unk_338[0]; }
 void TObjPlayer__sub_801BE7B4(void* p, u8 v) { *(u8*)((char*)p + 0x293) = v; }
 u8 TObjPlayer::get_luck_materials_used() { return materials.get_luck_used(); }
 void TObjPlayer__sub_801BE7E0(void* p, u8 v) { *(u8*)((char*)p + 0x277) = v; }
@@ -609,7 +278,7 @@ u8 TObjPlayer__sub_801BE8F4(O_801BE8F4 *self, s32 i, u32 mask) {
     return (self->entries[i].flags & mask) != 0;
 }
 
-void* TObjPlayer::get_position_history_entry(int a1, void* a2, void* a3) { *(float*)((char*)a2 + 0x0) = *(float*)((char*)this + a1 * 8 + 0x6b0); *(float*)((char*)a3 + 0x0) = *(float*)((char*)this + a1 * 8 + 0x6b4); return (char*)this + a1 * 8; }
+void* TObjPlayer::get_position_history_entry(int index, void* x, void* z) { *(float*)x = *(float*)((char*)this + index * 8 + 0x6b0); *(float*)z = *(float*)((char*)this + index * 8 + 0x6b4); return (char*)this + index * 8; }
 s32 TObjPlayer::clamp_index_to_max(s32 level) {
     s32 max_level;
 
@@ -637,12 +306,10 @@ int TObjPlayer::check_flag_02000000() {
     return check_flag(0x02000000);
 }
 
-void TObjPlayer::set_position_history_entry(s32 arg1, f32 farg0, f32 farg1) {
-    saddr arg0 = (saddr)this;
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(arg0 + (arg1 * 8));
-    *(f32 *)((s8 *)temp_r3 + 0x6B0) = farg0;
-    *(f32 *)((s8 *)temp_r3 + 0x6B4) = farg1;
+void TObjPlayer::set_position_history_entry(s32 index, f32 x, f32 z) {
+    u8 *entry = (u8 *)this + index * 8;
+    *(f32 *)(entry + 0x6B0) = x;
+    *(f32 *)(entry + 0x6B4) = z;
 }
 
 }
@@ -670,16 +337,37 @@ u8 TObjPlayer__sub_801BEB3C(void* p) { return *(u8*)((char*)p + 0x2e7); }
 u8 TObjPlayer__sub_801BEB44(void* p) { return *(u8*)((char*)p + 0x2cb); }
 u8 TObjPlayer__sub_801BEB4C(void* p) { return *(u8*)((char*)p + 0x2af); }
 void TObjPlayer::set_language(s32 v) { this->language = v; }
-void TObjPlayer::reset_entrance_id() { *(s32*)((char*)this + 0x3c8) = -1; }
+void TObjPlayer::reset_entrance_id() { entrance_id = -1; }
 void TObjPlayer::set_luck_materials_used(u8 v) { materials.set_luck_used(v); }
-u8 TObjPlayer__sub_801BEB8C(void* p) { return *(u8*)((char*)p + 0x293); }
-void TObjPlayer::set_equip_flags(u8 v) { materials.set_def_used(v); }
-u8 TObjPlayer__sub_801BEBB8(void* p) { return *(u8*)((char*)p + 0x277); }
-void TObjPlayer::set_inventory_state(u8 v) { materials.set_evade_used(v); }
-u8 TObjPlayer__sub_801BEBE4(void* p) { return *(u8*)((char*)p + 0x25b); }
-void TObjPlayer::set_field_374_state(u8 v) { materials.set_mind_used(v); }
-u8 TObjPlayer__sub_801BEC10(void* p) { return *(u8*)((char*)p + 0x23f); }
-void TObjPlayer::set_field_374(u8 v) { materials.set_power_used(v); }
-u8 TObjPlayer__sub_801BEC3C(void* p) { return *(u8*)((char*)p + 0x223); }
+u8 PlayerSyncRecord::get_luck_materials_used() { return items[12].m_present[3]; }
+void TObjPlayer::set_def_materials_used(u8 v) { materials.set_def_used(v); }
+u8 PlayerSyncRecord::get_def_materials_used() { return items[11].m_present[3]; }
+void TObjPlayer::set_evade_materials_used(u8 v) { materials.set_evade_used(v); }
+u8 PlayerSyncRecord::get_evade_materials_used() { return items[10].m_present[3]; }
+void TObjPlayer::set_mind_materials_used(u8 v) { materials.set_mind_used(v); }
+u8 PlayerSyncRecord::get_mind_materials_used() { return items[9].m_present[3]; }
+void TObjPlayer::set_power_materials_used(u8 v) { materials.set_power_used(v); }
+u8 PlayerSyncRecord::get_power_materials_used() { return items[8].m_present[3]; }
 
 }
+
+
+struct O_801BEC50 { u16 a; u16 b; f32 x; f32 y; f32 z; };
+
+
+extern const f32 TObjPlayer__data_805DC278;
+int TPlyPhotonChair::is_mounted() { return (*(u32*)((char*)this + 0x334) >> 26) & 0x1; }
+
+void TObjPlayer::init_vec_record() {
+    O_801BEC50 *p = (O_801BEC50 *)this;
+    p->a = 0xFFFF;
+    p->b = 0;
+    p->x = p->y = p->z = TObjPlayer__data_805DC278;
+}
+
+void PlayerNpcControl::reset() {
+    controller_client_id = 0xFFFF;
+    state = 0;
+}
+
+s32 TObjPlayer::get_entrance_id() { return entrance_id; }

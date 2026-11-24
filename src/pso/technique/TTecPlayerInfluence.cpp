@@ -18,7 +18,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 struct Arr_80236EE8 { TParticleCtrl *w[3]; };
 
 const char *TTecPlayerInfluence::class_name = "TTecPlayerInfluence";

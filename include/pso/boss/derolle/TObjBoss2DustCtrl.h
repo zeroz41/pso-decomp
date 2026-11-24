@@ -13,13 +13,12 @@ public:
 public:
     static void create();
     // Hands each new TObjBoss2Dust the next of the 10 strips of
-    // boss2_dust_output_table, wrapping to 0 (name inferred).
+    // boss2_dust_output_table, wrapping to 0.
     static s32 next_strip_slot();
-    // Empty; called by TLobby::init_boss2_stage, which is the twin of free_boss7_tunnel
-    // (name inferred).
+    // Empty; called by free_boss2_tunnel.
     static void free_strips();
     // Builds the strip shape, rotation and phase tables and resets the slot counter;
-    // called by TLobby__sub_8003A9AC after the common resource loads (name inferred).
+    // called by init_boss2_tunnel after the common resource loads.
     static void init_strips();
 };
 

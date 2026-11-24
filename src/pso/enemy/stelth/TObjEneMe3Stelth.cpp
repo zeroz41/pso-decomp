@@ -27,7 +27,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/stelth/TObjEneMe3StelthReal.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/enemy/sinowzoa/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -45,7 +45,7 @@
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
-#include "pso/player/TObjPlayer_80083594.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
@@ -76,7 +76,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
@@ -1663,7 +1663,7 @@ void TObjEneMe3Stelth::render() {
             if (stealthed != 0) {
                 TParticleCtrl::begin_effect_render();
                 if (behavior_flags & 8) {
-                    TObjPlayer::setup_tev_stage();
+                    setup_capture_blend_tev();
                     model_render_flags |= 0x8021;
                     NJS_ARGB c = me3_stelth_render_color;
                     set_constant_material(&c);
@@ -2033,21 +2033,21 @@ s32 TObjEneMe3Stelth::check_move_collision(Vec *pos) {
     body->flags = 0x9D01;
     VecCopy(&sp, &this->position);
     VecCopy(&this->position, pos);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     this->check_collisions();
     if ((body->flags & 0x80000) && get_valid_target_player(this->current_target->get_entity_id()) == 0) {
         VecCopy(&this->position, &sp);
-        TObjPlayer::init_all_slots();
+        clear_battle_param_slots();
         return 1;
     }
     if ((body->flags & 0x100000) && get_valid_target_player(this->entity_id) == 0) {
         VecCopy(&this->position, &sp);
-        TObjPlayer::init_all_slots();
+        clear_battle_param_slots();
         return 1;
     }
     result = (body->flags & 0x200000) != 0;
     VecCopy(&this->position, &sp);
-    TObjPlayer::init_all_slots();
+    clear_battle_param_slots();
     copy_collision_body(body, &TObjEneMe3Stelth__collision_body_template);
     body->flags = saved;
     return result;

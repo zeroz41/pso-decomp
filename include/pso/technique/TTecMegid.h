@@ -9,7 +9,7 @@ struct TTecMegid : public TTecShot {
     TTecMegid(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecMegid();
     void run_task();
-    virtual void vfunc_8(void *);
+    virtual void apply_to_target(TObjChara *);
     void **emitters;   // one particle per row of the band's TTecMegid__emitter_bands entry
     u16 hitIds[32];    // entities already hit, 0xFFFF when free
     s32 hitCursor;     // next free hitIds slot, capped at 31

@@ -65,10 +65,10 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/hud/TMainCursor_8013DF5C.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/object/trap/TOMineTrap.h"
-#include "pso/unk/text_80354BE4.h"
+#include "pso/player/Palettex.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/player/TForceOperate.h"
 #include "pso/player/TObjPlayer_8022C6C4.h"
@@ -3341,9 +3341,9 @@ PhotonBlastRequest *TObjPlayer::get_photon_blast_element(s32 arg0) {
     return NULL;
 }
 
-void TObjPlayer::apply_photon_blast(u32 id, s16 kind) {
+void TObjPlayer::apply_photon_blast(u16 client_id, s16 kind) {
     if (TObjPlayer__shared_photon_blast_state != NULL) {
-        append_photon_blast_request(TObjPlayer__shared_photon_blast_state, id, kind);
+        append_photon_blast_request(TObjPlayer__shared_photon_blast_state, client_id, kind);
     }
 }
 

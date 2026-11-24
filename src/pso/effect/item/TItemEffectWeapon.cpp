@@ -16,7 +16,7 @@
 #include "pso/object/ambient/TObjLight_803DF220.h"
 #include "pso/render/model_render_state.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 
 
 #pragma readonly_strings on

@@ -10,7 +10,7 @@ struct TTecGiBarta : public TTecShot {
     TTecGiBarta(saddr source, u8 *pos, u8 *target, s32 level);
     TTecGiBarta(saddr source, Vec *pos, s32 angle, s32 level);
     virtual ~TTecGiBarta();
-    virtual void vfunc_8(void *);
+    virtual void apply_to_target(TObjChara *);
     TParticleCtrl **emitters;
     u16 hitIds[32];
     s32 hitCursor;

@@ -11,7 +11,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/task/TMainTask.h"

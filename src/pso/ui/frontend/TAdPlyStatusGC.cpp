@@ -39,7 +39,7 @@ s32 TAdSinglePlyChrSelectGC__sub_801FE800(u32 i);
 extern "C" {
 extern u32 ply_status_index;
 TAdPlyStatusGC *ply_status_gc_instance;
-CharacterPreview *ply_status_chcr_load_afs;
+CharacterPreview *ply_status_preview;
 s32 TAdPlyStatusGC__window_offset_index;
 u32 ply_status_index;
 s32 TAdPlyStatusGC__is_shown;
@@ -79,6 +79,7 @@ void TAdPlyStatusGC::render() { if (TMainTask::get_render_pass() != 1) { set_col
 #pragma dont_inline off
 struct Box_8033F3D8 { f32 v[8]; };
 struct Item_8033F3D8 { s8 valid; u8 pad[0xF]; };
+
 void draw_window_frame__11TWindowBaseFPv(void *);
 void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
     Item_8033F3D8 items[3];
@@ -88,14 +89,14 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
     s32 i;
 
     ((TWindowBase *)window_base)->draw_window_frame(arg1);
-    if (ply_status_chcr_load_afs != NULL && ply_status_chcr_load_afs->is_unloaded() != 0 && TAdPlyStatusGC__is_shown != 0 &&
-        ply_status_chcr_load_afs->get_status_sub()->textures[0].texture != NULL) {
+    if (ply_status_preview != NULL && ply_status_preview->is_unloaded() != 0 && TAdPlyStatusGC__is_shown != 0 &&
+        ply_status_preview->get_status_sub()->textures->texaddr != 0) {
         box = TAdPlyStatusGC__status_window_box;
         box.v[0] = TAdPlyStatusGC__status_window_box.v[0] + OFF_8033F3D8.x;
         box.v[2] = TAdPlyStatusGC__status_window_box.v[2] + OFF_8033F3D8.x;
         box.v[1] = TAdPlyStatusGC__status_window_box.v[1] + OFF_8033F3D8.y;
         box.v[3] = TAdPlyStatusGC__status_window_box.v[3] + OFF_8033F3D8.y;
-        TObjFish::set_global_param(ply_status_chcr_load_afs->get_status_sub());
+        TObjFish::set_global_param(ply_status_preview->get_status_sub());
         begin_screen_draw(1);
         set_draw_texture_and_color(0, -1);
         draw_textured_quad_at_depth((f32 *)&box, 0.8f);
@@ -291,7 +292,7 @@ TAdPlyStatusGC::TAdPlyStatusGC(TObject *parent, s32 window_offset_index) : TObje
     state = 0;
     prev_state = state;
     window = NULL;
-    ply_status_chcr_load_afs = 0;
+    ply_status_preview = NULL;
     TAdPlyStatusGC__window_offset_index = window_offset_index;
     TAdPlyStatusGC__is_shown = 1;
     buttons[0].kind = 2;

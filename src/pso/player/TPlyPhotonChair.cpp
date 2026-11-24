@@ -10,9 +10,12 @@
 #include "pso/ui/hud/TMainCursor_8013F104.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/TUnk_804A7488.h"
-#include "pso/unk/TUnk_804A7478.h"
+#include "pso/object/base/TDrawableModel.h"
+#include "pso/object/base/TMotionModel.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -24,8 +27,6 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/PlayerSlots.h"
 
-extern void *__vt__13TUnk_804A7478[];
-extern void *__vt__13TUnk_804A7488[];
 
 extern const char *bm_ply_photon_chair_model_names[3];
 extern const char *bm_ply_photon_chair_motion_names[3];
@@ -48,262 +49,141 @@ const NJS_ARGB TPlyPhotonChair__section_id_color_table[10] = {
     { 1.0f, 1.0f, 1.0f, 1.0f },
 };
 
-struct Quat_8035B058 { f32 w, x, y, z; };
-
-struct PBase_8035B058 { char pad[0x18]; };
-
-struct Player_8035B058 : PBase_8035B058 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63(s32, Vec *);
-};
-
-struct SBase_8035B058 { char pad[4]; };
-
-struct Sub_8035B058 : SBase_8035B058 {
-    virtual void s0();
-    virtual void s1();
-};
-
-struct Chair_8035B058 {
-    u8 pad0[0x24];
-    s32 x24;
-    u8 pad28[0x38 - 0x28];
-    Vec pos;
-    u8 pad44[0x5C - 0x44];
-    u8 rot[4];
-    s32 x60;
-    u8 pad64[4];
-    u8 x68[0x98 - 0x68];
-    Sub_8035B058 a;
-    u8 padA0[0xB4 - 0xA0];
-    Sub_8035B058 b;
-    u8 padBC[0xD0 - 0xBC];
-    u8 parts[4];
-};
-
 extern "C" {
-void TPlyPhotonChair__sub_8035B56C(void* p, f32 v);
-extern uaddr TPlyPhotonChair__shared_model_resource;
-
-
 s32 get_rader_map__11TMainCursorFv(void *, void *);
-int rotate_matrix_y(int, int);
 int TPlyPhotonChair__sub_8035B520(void* p);
 
 void TPlyPhotonChair::render() {
-    Chair_8035B058 *self = (Chair_8035B058 *)this;
-    Vec out;
-    Quat_8035B058 q;
-    Quat_8035B058 q2;
-    Player_8035B058 *pl;
-    pl = (Player_8035B058 *)get_player_by_client_id(((TPlyPhotonChair *)self)->sub_8035B530());
-    if (pl != NULL) {
-        TPlyPhotonChair::render(self->parts, &q);
+    Vec node_pos;
+    NJS_ARGB color;
+    NJS_ARGB half_color;
+    TObjPlayer *player = get_player_by_client_id(get_owner_id());
+    if (player != NULL) {
+        marker.get_color(&color);
         {
-            q2.w = q.w;
-            q2.x = 0.5f * q.x;
-            q2.y = 0.5f * q.y;
-            q2.z = 0.5f * q.z;
+            half_color.a = color.a;
+            half_color.r = 0.5f * color.r;
+            half_color.g = 0.5f * color.g;
+            half_color.b = 0.5f * color.b;
         }
-        pl->m63(2, &out);
-        self->pos.x = out.x;
-        self->pos.y = out.y - 4.6f;
-        self->pos.z = out.z;
-        copy_xyz(self->rot, (u8 *)pl + 0x5C);
-        if (((TObjPlayer *)pl)->is_inactive() != 0) {
-            save_model_draw_state(self->parts);
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(self->x24));
+        player->get_anim_node_position(2, &node_pos);
+        position.x = node_pos.x;
+        position.y = node_pos.y - 4.6f;
+        position.z = node_pos.z;
+        copy_xyz(&rotation_x, &player->rotation_x);
+        if (player->is_inactive() != 0) {
+            save_model_draw_state(&marker);
+            TObjFish::set_global_param(texlist);
             push_matrix();
-            post_translate_matrix(&self->pos.x);
-            rotate_matrix_y(0, self->x60);
-            scale_current_matrix((const f32 *)self->x68);
+            post_translate_matrix(&position.x);
+            rotate_matrix_y(NULL, rotation_y);
+            scale_current_matrix(&scale.x);
             if (TMainTask::get_render_pass() != 0) {
-                begin_constant_color_draw(self->parts, (const NJS_ARGB *)&q);
-                self->a.s1();
+                begin_constant_color_draw(&marker, &color);
+                lobby_seat.draw_model();
             } else {
-                begin_constant_color_draw(self->parts, (const NJS_ARGB *)&q2);
-                self->b.s1();
+                begin_constant_color_draw(&marker, &half_color);
+                meka_seat.draw_model();
             }
             pop_matrix();
-            restore_model_draw_state(self->parts);
+            restore_model_draw_state(&marker);
         }
     }
 }
 
 void TPlyPhotonChair::run_task() {
-    u8 *arg0 = (u8 *)this;
-    void *pl;
-    if ((pl = get_player_by_client_id((this->sub_8035B530()))) == NULL) {
-        this->queue_destruction();
+    TObjPlayer *player;
+    if ((player = get_player_by_client_id(get_owner_id())) == NULL) {
+        queue_destruction();
         return;
     }
-    if (((u32) this->m_94 == 0U) && (((TPlyPhotonChair *)pl)->is_mounted() == 0)) {
-        this->m_94 = 1U;
-        ((TPlyPhotonChair *)(arg0 + 0x98))->set_state_ready();
-        TPlyPhotonChair__sub_8035B56C((u8 *)&this->m_98, 2.0f);
-        ((TPlyPhotonChair *)(arg0 + 0xB4))->set_state_ready();
-        TPlyPhotonChair__sub_8035B56C((u8 *)&this->m_b4, 2.0f);
+    if (owner_dismounted == 0 && ((TPlyPhotonChair *)player)->is_mounted() == 0) {
+        owner_dismounted = 1;
+        lobby_seat.play_to_end();
+        lobby_seat.set_speed(2.0f);
+        meka_seat.play_to_end();
+        meka_seat.set_speed(2.0f);
     }
-    switch ((s32) this->m_94) {
+    switch ((s32)owner_dismounted) {
     case 0:
-        ((TUnk_804A7478 *)(arg0 + 0x98))->play_forward();
-        ((TUnk_804A7478 *)(arg0 + 0xB4))->play_forward();
+        lobby_seat.play_forward();
+        meka_seat.play_forward();
         return;
     case 1:
-        ((TUnk_804A7478 *)(arg0 + 0x98))->play_backward();
-        ((TUnk_804A7478 *)(arg0 + 0xB4))->play_backward();
-        if (((TUnk_804A7478 *)(arg0 + 0x98))->get_frame() <= 0.0f) {
-            this->queue_destruction();
+        lobby_seat.play_backward();
+        meka_seat.play_backward();
+        if (lobby_seat.get_frame() <= 0.0f) {
+            queue_destruction();
         }
         return;
     }
 }
 
 void TPlyPhotonChair::free_static_model() {
-    if ((u32) TPlyPhotonChair__shared_model_resource != 0U) {
-        delete (BmlResource *)TPlyPhotonChair__shared_model_resource;
-        TPlyPhotonChair__shared_model_resource = 0U;
+    if (TPlyPhotonChair__shared_model_resource != NULL) {
+        delete TPlyPhotonChair__shared_model_resource;
+        TPlyPhotonChair__shared_model_resource = NULL;
     }
 }
 
 s32 TPlyPhotonChair::load_resources() {
-    saddr var_r0;
-    var_r0 = (saddr)new BmlResource(5, &photon_chair_resource_descriptor, 0, 0, NULL);
-    (*(u8 * *)&TPlyPhotonChair__shared_model_resource) = (unsigned char *) ((void *) var_r0);
-    if ((u32) var_r0 == 0U) {
+    BmlResource *resource = new BmlResource(5, &photon_chair_resource_descriptor, 0, 0, NULL);
+    TPlyPhotonChair__shared_model_resource = resource;
+    if (resource == NULL) {
         return 0;
     }
     return 1;
 }
 
 }
-TPlyPhotonChair::~TPlyPhotonChair() {
-    ((TUnk_804A7254 *)((s8 *)this + 0xD0))->TUnk_804A7254::~TUnk_804A7254();
-    ((TUnk_804A7478 *)((s8 *)this + 0xB4))->TUnk_804A7478::~TUnk_804A7478();
-    ((TUnk_804A7478 *)((s8 *)this + 0x98))->TUnk_804A7478::~TUnk_804A7478();
-}
+TPlyPhotonChair::~TPlyPhotonChair() {}
 
-
-#define ply_photon_chair ((u8 *)this)
-TPlyPhotonChair::TPlyPhotonChair(s32 arg1, TObject *parent) : TObjBase(parent) {
-    uaddr player;
-    ((TUnk_804A7478 *)(ply_photon_chair + 0x98))->init();
-    ((TUnk_804A7478 *)(ply_photon_chair + 0xB4))->init();
-    __ct__13TUnk_804A7254Fv((ply_photon_chair + 0xD0));
-    *(s32 *)((s8 *)ply_photon_chair + 0) = (saddr)TPlyPhotonChair__class_name;
-    ((TPlyPhotonChair *)ply_photon_chair)->set_field90(arg1);
-    ((TPlyPhotonChair *)ply_photon_chair)->m_92 = 0;
-    ((TPlyPhotonChair *)ply_photon_chair)->m_94 = 0;
-    player = (uaddr)get_player_by_client_id((saddr)(((s32) (u16) arg1)));
-    if (player == 0U) {
-        ((TObject *)ply_photon_chair)->queue_destruction();
+TPlyPhotonChair::TPlyPhotonChair(s32 owner_id, TObject *parent) : TObjBase(parent) {
+    TObjPlayer *player;
+    m_name = TPlyPhotonChair__class_name;
+    set_owner_id(owner_id);
+    m_92 = 0;
+    owner_dismounted = 0;
+    player = get_player_by_client_id((u16)owner_id);
+    if (player == NULL) {
+        queue_destruction();
         return;
     }
-    get_rader_map__11TMainCursorFv(ply_photon_chair + 0xD0, (void *)&TPlyPhotonChair__section_id_color_table[(s32)((TPlyPhotonChair *)(player))->get_actor_section_id()]);
-    ((TPlyPhotonChair *)ply_photon_chair)->texlist = get_bml_texlist((BmlResource *)TPlyPhotonChair__shared_model_resource, 1);
-    ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_type((saddr)get_bml_model((BmlResource *)TPlyPhotonChair__shared_model_resource, 1));
-    ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_field_8((saddr)get_bml_motion(reinterpret_cast<BmlResource *>(TPlyPhotonChair__shared_model_resource), 1));
-    ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->sync_field10_from_child();
-    TPlyPhotonChair__sub_8035B56C(ply_photon_chair + 0x98, 1.0f);
-    ((TPlyPhotonChair *)(ply_photon_chair + 0x98))->set_state_ready();
-    ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->set_type((saddr)get_bml_model((BmlResource *)TPlyPhotonChair__shared_model_resource, 0));
-    ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->set_field_8((saddr)get_bml_motion(reinterpret_cast<BmlResource *>(TPlyPhotonChair__shared_model_resource), 0));
-    ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->sync_field10_from_child();
-    TPlyPhotonChair__sub_8035B56C(ply_photon_chair + 0xB4, 1.0f);
-    ((TPlyPhotonChair *)(ply_photon_chair + 0xB4))->set_state_ready();
+    get_rader_map__11TMainCursorFv(&marker, (void *)&TPlyPhotonChair__section_id_color_table[(s32)((TPlyPhotonChair *)player)->get_actor_section_id()]);
+    texlist = get_bml_texlist(TPlyPhotonChair__shared_model_resource, 1);
+    lobby_seat.set_model(get_bml_model(TPlyPhotonChair__shared_model_resource, 1));
+    lobby_seat.set_motion(reinterpret_cast<NJS_MOTION *>(get_bml_motion(TPlyPhotonChair__shared_model_resource, 1)));
+    lobby_seat.set_frame_count_from_motion();
+    lobby_seat.set_speed(1.0f);
+    lobby_seat.play_to_end();
+    meka_seat.set_model(get_bml_model(TPlyPhotonChair__shared_model_resource, 0));
+    meka_seat.set_motion(reinterpret_cast<NJS_MOTION *>(get_bml_motion(TPlyPhotonChair__shared_model_resource, 0)));
+    meka_seat.set_frame_count_from_motion();
+    meka_seat.set_speed(1.0f);
+    meka_seat.play_to_end();
 }
-#undef ply_photon_chair
 
-int TPlyPhotonChair__sub_8035B520(void* p) { return *(u32*)((char*)p + 0x94) == 0; }
-u16 TPlyPhotonChair::sub_8035B530() { return *(u16 *)&this->unk_90; }
-void TPlyPhotonChair::set_field90(s32 v) { *(s16 *)&this->unk_90 = v; }
-void TPlyPhotonChair::render(void* p, void* a1) { copy_argb((NJS_ARGB *)a1, (NJS_ARGB *)p); }
-void TPlyPhotonChair__sub_8035B56C(void* p, f32 v) { *(f32*)((char*)p + 0x14) = v; }
-void TPlyPhotonChair::set_state_ready() { *(s32*)((char*)this + 0x18) = 2; }
+int TPlyPhotonChair__sub_8035B520(void* p) { return ((TPlyPhotonChair *)p)->owner_dismounted == 0; }
+u16 TPlyPhotonChair::get_owner_id() { return owner_id; }
+void TPlyPhotonChair::set_owner_id(s32 owner_id) { this->owner_id = owner_id; }
+void TUnk_804A7254::get_color(NJS_ARGB *out) { copy_argb(out, &color); }
+void TMotionModel::set_speed(f32 speed) { this->speed = speed; }
+void TMotionModel::play_to_end() { state = 2; }
 
-void TPlyPhotonChair::sync_field10_from_child() {
-    void *prev;
-
-    prev = this->m_prev;
-    if (prev != NULL) {
-        *(f32 *)&this->m_up = (f32) *(u32 *)((s8 *)prev + 4);
+void TMotionModel::set_frame_count_from_motion() {
+    if (motion != NULL) {
+        frame_count = motion->nbFrame;
     }
 }
 
-void TPlyPhotonChair::set_field_8(s32 v) { *(s32 *)&this->m_prev = v; }
-void TPlyPhotonChair::set_type(s32 v) { *(s32 *)&this->m_name = v; }
+void TMotionModel::set_motion(NJS_MOTION *motion) { this->motion = motion; }
+void TDrawableModel::set_model(void *model) { this->model = model; }
 
-
-void *TUnk_804A7478::init() {
-    init_parts();
-    *(void **)((u8 *)this + 4) = __vt__13TUnk_804A7478;
-    sub_8035B610();
-    return this;
+TMotionModel::TMotionModel() {
+    reset();
 }
 
-void TUnk_804A7478::sub_8035B610() {
+void TMotionModel::reset() {
     motion = NULL;
     frame = 0.0f;
     frame_count = 0.0f;
@@ -311,14 +191,11 @@ void TUnk_804A7478::sub_8035B610() {
     state = 0;
 }
 
-u8 *TUnk_804A7488::init_parts() {
-    u8 *arg0 = (u8 *)this;
-    *(void **)((u8 *)this + 4) = __vt__13TUnk_804A7488;
-    this->sub_8035B66C();
-    return arg0;
+TDrawableModel::TDrawableModel() {
+    reset();
 }
 
-void TUnk_804A7488::sub_8035B66C() { model = NULL; }
+void TDrawableModel::reset() { model = NULL; }
 
 extern uaddr chao_npc_instance_handle;
 
@@ -330,4 +207,4 @@ void TPlyPhotonChair::free_instance() {
 }
 
 
-uaddr TPlyPhotonChair__shared_model_resource;
+BmlResource *TPlyPhotonChair__shared_model_resource;

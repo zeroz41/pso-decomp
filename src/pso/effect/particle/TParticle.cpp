@@ -24,7 +24,7 @@
 
 #include "pso/effect/TEffIndirectSampler.h"
 #include "pso/effect/particle/ParticleStrip.h"
-#include "pso/player/TObjPlayer_80083594.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803DC86C.h"
 #include "pso/math/AngleLookup.h"
@@ -196,7 +196,7 @@ void TParticle::draw_particle_refraction_quad() {
     GXSetNumTexGens(2);
     GXSetTevOp(GX_TEVSTAGE0, GX_MODULATE);
     play_indirect_effect_recipe(0x1F, 0, 1);
-    TObjPlayer::setup_tev_stage();
+    setup_capture_blend_tev();
     emit_particle_strip_vertices(v, 4);
     TParticleCtrl::reset_particles();
     reset_particle_tev();

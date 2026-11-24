@@ -6,7 +6,7 @@
 #include "pso/boss/olgaflow/TBoss6Mine.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/object/TObjControl.h"
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjChara.h"
@@ -42,7 +42,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 #pragma readonly_strings on
 // The record exchange_object_state reads and writes.

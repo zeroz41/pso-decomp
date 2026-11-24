@@ -45,7 +45,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/PlayerSlots.h"
 
 extern const char city_door_asset_de_obj_bigbeam_gj[];

@@ -7,6 +7,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/object/ending/TObjOnlineEndingHexLine.h"
 
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
@@ -88,6 +89,6 @@ TAdGameStartShineGC::TAdGameStartShineGC(TObject *parent) : TObject(parent) {
     m_alpha = 0xFF;
     m_frame = -1;
     m_visible = 0;
-    lbl_805D6E88 = TObjPlayer::get_instance();
+    lbl_805D6E88 = get_multiplay_texture_list();
 }
 #pragma pop

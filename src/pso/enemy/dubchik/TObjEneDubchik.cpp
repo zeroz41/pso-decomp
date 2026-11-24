@@ -37,7 +37,7 @@
 #include "pso/player/TUnk_80491460.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/object/TObjControl.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"

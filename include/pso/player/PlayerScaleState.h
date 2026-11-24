@@ -51,6 +51,7 @@ LAYOUT_ASSERT(PlayerScaleState_size, sizeof(PlayerScaleState) == 0x30);
 LAYOUT_ASSERT(PlayerScaleFlagsOffset, offsetof(PlayerScaleState, flags) == 4);
 LAYOUT_ASSERT(PlayerScaleCameraOffset, offsetof(PlayerScaleState, camera) == 0x18);
 
+// 6x87: shrink a player (client_id) to scalar times its size.
 struct PlayerShrinkPacket {
     void initialize();
     PlayerShrinkPacket *copy_from(const PlayerShrinkPacket &source);
@@ -61,6 +62,7 @@ struct PlayerShrinkPacket {
     f32 scalar;
 };
 
+// 6x88: restore a shrunken player (client_id) to its size.
 struct PlayerRestoreSizePacket {
     void initialize();
     PlayerRestoreSizePacket *copy_from(const PlayerRestoreSizePacket &source);

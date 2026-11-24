@@ -15,8 +15,10 @@ class TChCrLoadReq;
 class CharacterPreview {
 public:
     CharacterPreview(TObject *parent, void *visual, s32 load_slot);
-
+    ~CharacterPreview();
+    // Nonzero once no part is still pending (completion_flags all clear).
     int is_unloaded();
+
     s32 get_hair_model();
     NJS_TEXLIST *get_chara_making_data();
     s32 get_head_model();
@@ -30,7 +32,7 @@ public:
     CharacterTextureLoadSet head_textures;
     CharacterTextureLoadSet other_textures;
     CharacterTextureLoadSet body_textures;
-    s32 part_models[3];
+    s32 part_models[3];  // hair, head, attachment (TChCrLoadReq fills them)
     s32 body_model;
     u32 completion_flags;
 };
@@ -38,7 +40,5 @@ public:
 LAYOUT_ASSERT(CharacterPreview_head_textures, offsetof(CharacterPreview, head_textures) == 0x54);
 LAYOUT_ASSERT(CharacterPreview_body_model, offsetof(CharacterPreview, body_model) == 0x4A4);
 LAYOUT_ASSERT(CharacterPreview_size, sizeof(CharacterPreview) == 0x4AC);
-
-extern "C" CharacterPreview *ply_status_chcr_load_afs;
 
 #endif

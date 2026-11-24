@@ -29,7 +29,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/MatrixOps.h"

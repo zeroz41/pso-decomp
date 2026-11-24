@@ -35,7 +35,7 @@ public:
     u8 pad_3;
     s16 technique;
     s16 target_count;
-    u8 pad_8[0x2];
+    s16 pad_8;
     s16 pad_a;
     s32 state;
     FlagWord flags;
@@ -46,7 +46,16 @@ public:
     u8 learned_levels[0x14];
     u8 levels[0x14];
     u8 caps[0x14];
+
+    static s32 technique_count();
+    PhotonBlastTarget *get_target(s32 slot);
+    void set_target(s32 slot, s32 entity_id, s16 index);
+    u8 clamp_to_max(u8 level, u8 max);
+    static s32 is_valid_technique_id(s16 technique);
+    void clear_technique_level(s16 technique);
 };
+
+extern "C" void TObjPlayer__sub_801D9E10(PlayerTechniqueState *techs, s16 value);
 
 LAYOUT_ASSERT(PlayerTechniqueStateSize, sizeof(PlayerTechniqueState) == 0x84);
 LAYOUT_ASSERT(PlayerTechniqueStateLearnedLevels, offsetof(PlayerTechniqueState, learned_levels) == 0x48);

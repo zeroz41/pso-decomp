@@ -149,7 +149,7 @@ void TObjBoss7Dust::run_task() {
 
 void TObjBoss7Dust::render() { boss7_dust_draw_at(&position, strip_slot); }
 
-void init_scene_boss2_tunnel(void) { load_boss7_common_resources(); TObjBoss7Tunnel::clear_state_flags(); TObjBoss7DustCtrl::init_strips(); }
+void init_boss7_tunnel(void) { load_boss7_common_resources(); TObjBoss7Tunnel::clear_state_flags(); TObjBoss7DustCtrl::init_strips(); }
 
 void create_boss7_tunnel(void) { TObjBoss7Tunnel::create(); TObjBoss7Tunnel::create_parent_object(); TObjBoss7DustCtrl::create(); }
-void free_boss7_tunnel(void) { TObjBoss7DustCtrl::free_strips(); TObjBoss7Tunnel::sub_802F2C4C(); free_boss7_common_resources(); }
+void free_boss7_tunnel(void) { TObjBoss7DustCtrl::free_strips(); TObjBoss7Tunnel::free_state(); free_boss7_common_resources(); }

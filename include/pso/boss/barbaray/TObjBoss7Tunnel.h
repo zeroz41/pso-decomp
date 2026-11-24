@@ -62,12 +62,12 @@ public:
     // same with speed -5.
     static void create_particle(const Vec *position, s32 particle_index);
     static void release_splash_children(TParticleCtrl *particle);
-    // Clears boss2_tunnel_state_flags (init_scene_boss2_tunnel).
+    // Clears boss2_tunnel_state_flags (init_boss7_tunnel).
     static void clear_state_flags();
     // Creates the tunnel under tl_04 (fn_802F1084).
     static void create();
     // Empty (fn_802F105C).
-    static void sub_802F2C4C();
+    static void free_state();
     // Size 0x94 (create's operator new).
     s32 phase;          // index into run_task's phase handlers
     PiecewiseCurve curve; // update_phase_motion's sideways sway

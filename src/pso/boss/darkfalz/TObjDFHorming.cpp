@@ -24,7 +24,7 @@
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
@@ -212,7 +212,7 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 zone) {
     radius = dark_falz_push_zone_table[zone].radius;
     spread = dark_falz_push_zone_table[zone].spread;
     landing = &dark_falz_push_zone_table[zone].landing;
-    for (i = registered_player_count + registered_enemy_count; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + registered_enemy_count; i < entity_table_count; i++) {
         player = TObjPlayer::get_player_data(i);
         if (player == NULL) continue;
         body = player->bodies;

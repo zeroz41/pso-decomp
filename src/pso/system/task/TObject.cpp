@@ -12,7 +12,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/unk/TLobby_803382E4.h"
-#include "pso/player/TObjPlayer_80083B38.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/system/debug_print.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"

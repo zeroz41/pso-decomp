@@ -14,7 +14,7 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
+#include "pso/render/GinjaDrawUtil.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/task/TObject.h"
@@ -46,6 +46,10 @@ extern u8 debug_chunk_b_object[];
 
 
 // Built with -inline off,deferred: functions are emitted last to first, so they are written in reverse.
+
+saddr TObjMotion::get_joint_matrix(s32 joint) {
+    return (saddr)this->joint_matrices + (joint * 0x30);
+}
 
 TObjEZRopeBase::TObjEZRopeBase(TObject *parent) : TObject(parent) {
     m_name = TObjEZRopeBase__name;

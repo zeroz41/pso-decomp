@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/player/TObjPlayer_803E1A58.h"
-#include "pso/player/TObjPlayer_803E21B8.h"
+#include "pso/render/GinjaDrawUtil.h"
+#include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #define PSO_SDK_COMPACT_MATH
@@ -20,12 +20,12 @@ s32 constant_material_color;
 extern "C" {
 
 void begin_screen_draw(s32 mode) {
-    TObjPlayer::load_screen_space_matrix();
+    load_screen_space_matrix();
     if (mode != 0) {
         setup_blended_textured_draw();
         return;
     }
-    TObjPlayer::setup_render();
+    setup_opaque_textured_draw();
 }
 
 void TWindowSubStatusDisp::get_player() {

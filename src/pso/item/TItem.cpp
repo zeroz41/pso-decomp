@@ -63,7 +63,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/player/TObjPlayer_80083594.h"
+#include "pso/render/CameraCapture.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"

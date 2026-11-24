@@ -1,11 +1,12 @@
 #pragma defer_codegen on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/derolle/TObjBoss2Dust.h"
-#include "pso/boss/derolle/TObjBoss2CeilJunk_8003A81C.h"
+#include "pso/boss/derolle/Boss2CommonResource.h"
 #include "pso/system/vector.h"
 #include "pso/system/TrailStrip.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/boss/derolle/TObjBoss2DustCtrl.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"
@@ -142,3 +143,11 @@ void TObjBoss2Dust::run_task() {
         queue_destruction();
     }
 }
+
+void TObjBoss2Dust::render() { boss2_dust_draw_at(&position, strip_slot); }
+
+void init_boss2_tunnel(void) { load_boss2_common_resource(); TObjBoss2Tunnel::clear_target_flags(); TObjBoss2DustCtrl::init_strips(); }
+
+void create_boss2_tunnel(void) { TObjBoss2Tunnel::create(); TObjBoss2Tunnel::create_parent_object(); TObjBoss2DustCtrl::create(); }
+
+void free_boss2_tunnel(void) { TObjBoss2DustCtrl::free_strips(); TObjBoss2Tunnel::free_state(); free_boss2_common_resource(); }

@@ -35,4 +35,7 @@ struct TPhotonMagicSquare : public TObjBase {
 LAYOUT_ASSERT(TPhotonMagicSquare_color_offset, offsetof(TPhotonMagicSquare, color) == 0xA0);
 LAYOUT_ASSERT(TPhotonMagicSquare_origin_offset, offsetof(TPhotonMagicSquare, pos) == 0xB8);
 LAYOUT_ASSERT(TPhotonMagicSquare_size, sizeof(TPhotonMagicSquare) == 0xD0);
+
+void destroy_magic_square_photon_blast_model(void);
+void create_magic_square_photon_blast_model(void);
 #endif

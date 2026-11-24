@@ -131,8 +131,8 @@ struct TObjBoss2Tunnel : public TObject {
     static void release_splash_children(TParticleCtrl *particle);
     // Creates TObjBoss2Tunnel_parent_object under tl_07 (TObjBoss2Tunnel_8003B1FC.cpp).
     static void create_parent_object();
-    // Empty; called by TLobby::init_boss2_stage.
-    static void sub_8003C648();
+    // Empty; called by free_boss2_tunnel.
+    static void free_state();
     // Set global flag 0x1000 and clear 0x2000, and the reverse.
     static void start_sway_negative_x();
     static void start_sway_positive_x();

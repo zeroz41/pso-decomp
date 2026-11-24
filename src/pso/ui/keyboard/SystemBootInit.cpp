@@ -38,7 +38,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/PlayerLevelTable.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/system/scene/OfflineGameScene.h"
@@ -76,16 +75,16 @@
 #include "pso/unk/text_802A1154.h"
 #include "pso/unk/text_803D8030.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/unk/text_803DA754.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/unk/text_803DCDB0.h"
 #include "pso/unk/text_803DE7E0.h"
-#include "pso/unk/text_803E2F28.h"
+#include "pso/render/ChunkModelDraw.h"
 
 GXLightObj gx_default_light_obj[4];
 MainPhaseState main_phase_state;
 
-saddr record_table_buffer;
-saddr slot_table_buffer;
+GinjaTextureState *texture_state_buffer;
+GinjaSurfaceState *texture_surface_buffer;
 saddr player_matrix_stack_buffer;
 DebugTextRecord *keyboard_input_buffer;
 u8 *resource_decompress_buffer;
@@ -147,8 +146,8 @@ void shutdown_and_reset_system(void) {
     TWindowSubStatusDisp__sub_803386F0();
     reset_display_copy_filter();
     TLobby__sub_80147978();
-    xfree((void *)record_table_buffer);
-    xfree((void *)slot_table_buffer);
+    xfree(texture_state_buffer);
+    xfree(texture_surface_buffer);
     xfree(resource_decompress_buffer);
     xfree(motion_blend_buffer);
     xfree(anim_model_matrix_array);
@@ -280,15 +279,15 @@ void init_game_systems(void) {
     init_system_heap_and_global_allocator((u8 *)start, (s32)(hi - start));
     init_video_and_gx(&cfg);
     OSSetArenaLo((void *)hi);
-    record_table_buffer = (saddr)xmalloc(0x4560);
-    slot_table_buffer = (saddr)xmalloc(0x73A0);
-    init_record_and_slot_arrays(record_table_buffer, 0x2E4, (void *)slot_table_buffer, (void *)0x2E4);
+    texture_state_buffer = (GinjaTextureState *)xmalloc(0x4560);
+    texture_surface_buffer = (GinjaSurfaceState *)xmalloc(0x73A0);
+    init_texture_tables(texture_state_buffer, 0x2E4, texture_surface_buffer, 0x2E4);
     init_light_globals(0, 0);
     set_model_render_flags(0x100000);
     resource_decompress_buffer = (u8 *)xmalloc(0x80000);
     motion_blend_buffer = (void *)xmalloc(0x6000);
     anim_model_matrix_array = (Mtx34 *)xmalloc(0x14A0);
-    TObjPlayer__sub_803E492C((saddr)resource_decompress_buffer, 0x2000);
+    init_chunk_draw((saddr)resource_decompress_buffer, 0x2000);
     TKeyBoardControl::set_key_state((saddr)poll_input_devices_frame);
     player_matrix_stack_buffer = (saddr)xmalloc(0x600);
     TObjPlayer::init_matrix_stack(player_matrix_stack_buffer, 0x20);
@@ -297,7 +296,7 @@ void init_game_systems(void) {
     TObjBoss2Tunnel::enable_and_trigger();
     init_pad_rumble();
     TKeyBoardControl::init_pad_state();
-    TObjPlayer::set_global_7778((saddr)motion_blend_buffer);
+    set_shape_vertex_buffer((u32 *)motion_blend_buffer);
     keyboard_input_buffer = (DebugTextRecord *)xmalloc(0x1000);
     init_debug_text_buffer(keyboard_input_buffer, 0x80, 0x800);
     TObjNpcEnemy::set_global_count(-1);

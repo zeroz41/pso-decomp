@@ -3,7 +3,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include <dolphin/mtx.h>
-#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/ChunkModelDraw.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TObject_80019A50.h"
@@ -42,7 +42,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 
 const char *bm_boss7_crawfish_model_names[3] = { "minibaru_body.nj", "minibaru_body_b.nj", NULL };
@@ -92,7 +92,7 @@ void TBoss7Crawfish::register_attack_hits() {
     set.count = 1;
     VecCopy(&set.position, &position);
     set.facing = rotation_y;
-    TObjPlayer::apply_status_effect((saddr)&set);
+    collect_player_body_contacts(&set);
     for (i = 0; i != TObjOnlineEnding::get_instance(); i++) {
         if ((u32)hit_count < 4) {
             entry = (ActorBodyHit *)TObjOnlineEnding::get_attack_entry(i);

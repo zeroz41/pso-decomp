@@ -5,7 +5,7 @@
 #include "pso/unk/text_801C23A8.h"
 #include "pso/unk/TUnk_804C3E60.h"
 #include "pso/unk/TLobby.h"
-#include "pso/player/TPlayerBattleCtrl4P_8031012C.h"
+#include "pso/player/TPlayerBattleCtrl4P.h"
 #include "pso/ui/window/TWindowDuelResult_801C2528.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TObject.h"

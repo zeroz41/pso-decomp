@@ -5,9 +5,10 @@
 #include "types.h"
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecRaZonde.h"
+#include "pso/technique/TechniqueEmitter.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZondeEff.h"
-#include "pso/unk/TUnk_804CCB28.h"
+#include "pso/technique/TFireExplosion.h"
 #include "pso/technique/TTecCircle.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"
@@ -34,163 +35,63 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/object/base/TObjBase.h"
 
-struct RecoveredFields_80230D9C_arg0
-{
-  u8 unknown_0[0x78];
-  s16 field_78;
-  u8 unknown_7A[0xE];
-  f32 field_88;
-  u8 unknown_8C[0x20];
-  s16 field_AC;
-};
-
 #pragma fp_contract on
 
 extern "C" {
-#pragma push
-#pragma opt_common_subs off
-
-typedef struct RecoveredFields_80230D9C_arg0 RecoveredFields_80230D9C_arg0;
-
-#pragma pop
-
-
 }
 
-struct RecoveredFields_80238D10_arg0
-{
-  u8 unknown_0[0x78];
-  s16 field_78;
-  u8 unknown_7A[0xE];
-  f32 field_88;
-  u8 unknown_8C[0x20];
-  s16 field_AC;
-};
-
-struct Entry_80238C6C { s32 entry; u8 pad[8]; };
-
-struct Profile_80238C6C { struct Entry_80238C6C *entries; u32 count; };
-
-extern const Entry_80238C6C lbl_8044DB08[1] = {{147}};
-extern const Entry_80238C6C lbl_8044DB14[2] = {{170}, {173}};
-extern const Entry_80238C6C lbl_8044DB2C[2] = {{171}, {174}};
-extern const Profile_80238C6C TTecRaZonde__band_profile_table[6] = {
-    {(Entry_80238C6C *)lbl_8044DB08, 1}, {(Entry_80238C6C *)lbl_8044DB08, 1}, {(Entry_80238C6C *)lbl_8044DB08, 1},
-    {(Entry_80238C6C *)lbl_8044DB14, 2}, {(Entry_80238C6C *)lbl_8044DB14, 2}, {(Entry_80238C6C *)lbl_8044DB2C, 2},
+// Per band: the particle emitters spawn_effects places along the bolt points.
+extern const TechniqueEmitter razonde_emitters_low[1] = {{147}};
+extern const TechniqueEmitter razonde_emitters_mid[2] = {{170}, {173}};
+extern const TechniqueEmitter razonde_emitters_high[2] = {{171}, {174}};
+extern const TechniqueEmitterSet razonde_band_emitter_table[6] = {
+    {razonde_emitters_low, 1}, {razonde_emitters_low, 1}, {razonde_emitters_low, 1},
+    {razonde_emitters_mid, 2}, {razonde_emitters_mid, 2}, {razonde_emitters_high, 2},
 };
 const char *TTecRaZonde_class_name = "TTecRaZonde";
 
-struct Self_80238C6C {
-    u8 pad0[0x7A];
-    s16 band;
-    u8 pad1[0xEC - 0x7C];
-    s32 *emitters;
-    Vec points[8];
-};
-
-struct Elec_80238E14 { s32 type; f32 val; };
-
-struct VBase_18_9c98dd { char pad[0x18]; };
-
-struct VObj_18_9c98dd : VBase_18_9c98dd {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual s32 m21(s32, Elec_80238E14, s32, s32, s32);
-};
-
-extern "C" {
-
-typedef struct RecoveredFields_80238D10_arg0 RecoveredFields_80238D10_arg0;
-
-#pragma push
-#pragma opt_common_subs off
-#pragma pop
-
-void TTecRaZonde::vfunc_8(void *) {
-    struct Self_80238C6C *self = (struct Self_80238C6C *)this;
+void TTecRaZonde::spawn_effects(Vec *) {
     u32 i;
-    self->emitters = (s32 *)mem_alloc(TTecRaZonde__band_profile_table[self->band].count * 4);
-    for (i = 0; i < TTecRaZonde__band_profile_table[self->band].count; i++) {
-        self->emitters[i] = (saddr)create_particle_emitter(&self->points[i], TTecRaZonde__band_profile_table[self->band].entries[i].entry);
+    emitters = (TParticleCtrl **)mem_alloc(razonde_band_emitter_table[band].count * sizeof(TParticleCtrl *));
+    for (i = 0; i < razonde_band_emitter_table[band].count; i++) {
+        emitters[i] = create_particle_emitter(&bolt_points[i], razonde_band_emitter_table[band].emitters[i].entry);
     }
 }
 
 void TTecRaZonde::calc_damage() {
-    u8 *arg0 = (u8 *)this;
-  TechniqueParams *new_var;
-  new_var = calc_technique_parameters(8, (int) ((RecoveredFields_80238D10_arg0 *) arg0)->field_78, 0xFFFF);
-  ((TechniqueParams *)(arg0 + 0x88))->copy((TechniqueParams *)new_var);
-  if ((((s16) ((RecoveredFields_80238D10_arg0 *) arg0)->field_78) >= 0xF) && (TTecCtrl::is_technique_ready() == 0))
-  {
-    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (tech_high_level_linear_power_table[8].base + (tech_high_level_linear_power_table[8].per_level * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78));
-    return;
-  }
-  ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 + ((f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_AC * ((RecoveredFields_80238D10_arg0 *) arg0)->field_78)));
-  if (TTecCtrl::is_technique_ready() != 0)
-  {
-    ((RecoveredFields_80238D10_arg0 *) arg0)->field_88 = (f32) (((RecoveredFields_80238D10_arg0 *) arg0)->field_88 * technique_scale_table[8].power);
-  }
-}
-void TTecRaZonde::vfunc_6(void *arg1_arg) {
-    u8 *arg1 = (u8 *)arg1_arg;
-    Elec_80238E14 d;
-    d.type = 3;
-    d.val = this->power;
-    ((VObj_18_9c98dd *)(arg1))->m21(this->source, d, 0, 8, -1);
-}
+    TechniqueParams *scaled = calc_technique_parameters(8, level, 0xFFFF);
+    params.copy(scaled);
+    if (level >= 15 && TTecCtrl::is_technique_ready() == 0) {
+        params.power = (f32)(tech_high_level_linear_power_table[8].base + tech_high_level_linear_power_table[8].per_level * level);
+        return;
+    }
+    params.power = params.power + (f32)(params.power_per_level * level);
+    if (TTecCtrl::is_technique_ready()) {
+        params.power = params.power * technique_scale_table[8].power;
+    }
 
 }
+void TTecRaZonde::apply_to_target(TObjChara *target) {
+    DirectAttackPayload hit;
+    hit.kind = 3;
+    hit.power = this->params.power;
+    target->receive_direct_attack((void *)this->source, hit, 0, 8, -1);
+}
 
-struct Tec_802393D0 { u8 pad[0x20]; f32 pos[3]; u8 pad2c[0xA6 - 0x2C]; s16 band; };
-
-struct RBurst_80238F84 { s32 entry; s32 flags; f32 scale; };
-
-struct RProfile_80238F84 { RBurst_80238F84 *entries; u32 count; };
-
-extern "C" {
 void TTecRaZonde::create(void *source, void *origin, s32 level) {
     new TTecRaZonde((saddr)source, (Vec *)origin, level);
 }
 
-}
-struct Self_80238EC8 {
-    u8 pad0[0x18];
-    void *vtable;
-    u8 pad1[0x7A - 0x1C];
-    s16 band;
-    u8 pad2[0xEC - 0x7C];
-    void **objs;
-};
 TTecRaZonde::~TTecRaZonde() {
     u32 i;
-    for (i = 0; i < ((RProfile_80238F84 *)TTecRaZonde__band_profile_table)[((Self_80238EC8 *)this)->band].count; i++) {
-        if (((Self_80238EC8 *)this)->objs[i] != 0) {
-            ((TObject *)(((Self_80238EC8 *)this)->objs[i]))->queue_destruction();
-            ((Self_80238EC8 *)this)->objs[i] = 0;
+    for (i = 0; i < razonde_band_emitter_table[band].count; i++) {
+        if (emitters[i] != NULL) {
+            emitters[i]->queue_destruction();
+            emitters[i] = NULL;
         }
     }
-    mem_free(((Self_80238EC8 *)this)->objs);
+    mem_free(emitters);
 }
-
 
 void TTecRaZonde::render() {  }
 
@@ -205,12 +106,12 @@ void TTecRaZonde::run_task() {
         queue_destruction();
         return;
     }
-    for (i = 0; i < TTecRaZonde__band_profile_table[this->band].count; i++) {
+    for (i = 0; i < razonde_band_emitter_table[this->band].count; i++) {
         if (this->sourceId < 12) {
             if (i == 1) {
-                create_timed_particle_emitter((u8 *)this->source + 0x2FC, TTecRaZonde__band_profile_table[this->band].entries[i].entry, 0, 60);
+                create_timed_particle_emitter((u8 *)this->source + 0x2FC, razonde_band_emitter_table[this->band].emitters[i].entry, 0, 60);
             } else {
-                spawn_particle_effect((const Vec *)((u8 *)this->source + 0x2FC), TTecRaZonde__band_profile_table[this->band].entries[i].entry);
+                spawn_particle_effect((const Vec *)((u8 *)this->source + 0x2FC), razonde_band_emitter_table[this->band].emitters[i].entry);
             }
         }
     }
@@ -232,9 +133,9 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(sour
     m_name = TTecRaZonde_class_name;
     calc_damage();
     if (collidable != NULL) {
-        collidable->bodies->radius = (5.0f) + scope;
+        collidable->bodies->radius = (5.0f) + params.range;
     }
-    vfunc_8(0);
+    spawn_effects(0);
     r = (0.0f);
     ang = 0;
     for (i = 0; i < 8; i++) {
@@ -307,9 +208,8 @@ TTecRaZonde::TTecRaZonde(saddr source, Vec *origin, s32 level) : TTecCircle(sour
 #pragma pop
 
 void TTecResta::play_launch_sound() {
-    Tec_802393D0 *self = (Tec_802393D0 *)this;
     s32 h;
-    switch (self->band) {
+    switch (band) {
     case 0:
     case 1:
         h = play_sound_effect(0x4002AB0E, &position, 0, 0);

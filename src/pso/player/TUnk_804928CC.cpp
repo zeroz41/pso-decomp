@@ -1,5 +1,5 @@
 #include "pso/player/TUnk_804928CC.h"
-#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/object/base/ActorCollision.h"
 
 CollisionBody construct_collision_body_parts = {
     {0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f
