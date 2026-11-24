@@ -3,8 +3,21 @@
 
 #include "types.h"
 #include <dolphin/mtx.h>
+#include "pso/system/task/TObject.h"
 
 struct G_NPCControl_6x69;
+
+// Spawns a TNpcPlayer partner for every client slot an NPC holds when the party
+// area loads, and deletes the NPC players again when it is destroyed.
+class TNpcPartnerSpawner : public TObject {
+public:
+    TNpcPartnerSpawner(TObject *parent);
+    virtual ~TNpcPartnerSpawner();
+    virtual void run_task();
+
+    u32 partner_count;  // partners the constructor created
+};
+LAYOUT_ASSERT(TNpcPartnerSpawner_size, sizeof(TNpcPartnerSpawner) == 0x20);
 
 // The common partner remarks, one per remark kind; an empty text means none is set.
 struct PartnerRemark {

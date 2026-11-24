@@ -3,7 +3,6 @@
 #include <string.h>
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/npc/NpcPartnerControl.h"
-#include "pso/unk/TUnk_804F07C8.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/unk/TLobby.h"
 #include "pso/technique/TTecReverser.h"
@@ -23,8 +22,8 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-// One TU: apply_player_slot_status (jumptable after the TUnk_804F07C8 vtable in .data),
-// the party-area task, TTecReverser::is_active, the 4-player notifiers and the
+// One TU: apply_player_slot_status (jumptable after the TNpcPartnerSpawner vtable in .data),
+// TNpcPartnerSpawner, TObjBase::is_active, the 4-player notifiers and the
 // partner dialogue code share one .data block (dialogue state, vtable, jumptable).
 
 PartnerRemark npc_partner_dialogue_state[25] = { 0 };
@@ -575,21 +574,21 @@ s32 get_party_yaw() {
     return party_yaw_table[TLobby::get_instance()];
 }
 
-TUnk_804F07C8::TUnk_804F07C8(TObject *parent) : TObject(parent) {
+TNpcPartnerSpawner::TNpcPartnerSpawner(TObject *parent) : TObject(parent) {
     s32 slot;
-    u8 *player;
+    TObjPlayer *player;
     partner_count = 0;
     for (slot = 0; slot < 4; slot++) {
-        player = (u8 *)get_player_by_client_id(slot);
-        if (player == NULL || reinterpret_cast<TObjPlayer *>(player)->obj_isState3_324() == 0 || ((TObjPlayer *)player)->get_npc_controller() == 0xFFFF) {
+        player = get_player_by_client_id(slot);
+        if (player == NULL || player->obj_isState3_324() == 0 || player->get_npc_controller() == 0xFFFF) {
             continue;
         }
-        new TNpcPlayer(((TObjPlayer *)player)->get_npc_controller(), (u16)slot, ((TObjPlayer *)player)->get_npc_control_state(), tl_00);
+        new TNpcPlayer(player->get_npc_controller(), (u16)slot, player->get_npc_control_state(), tl_00);
         partner_count++;
     }
 }
 
-TUnk_804F07C8::~TUnk_804F07C8() {
+TNpcPartnerSpawner::~TNpcPartnerSpawner() {
     s32 i;
     TObjPlayer *player;
     i = 0;
@@ -606,7 +605,7 @@ TUnk_804F07C8::~TUnk_804F07C8() {
     } while (i < 4);
 }
 
-void TUnk_804F07C8::run_task() {  }
+void TNpcPartnerSpawner::run_task() {  }
 
 void apply_player_slot_status(s32 client, u32 status) {
     TObjPlayer *player;
