@@ -162,7 +162,7 @@ void tcp_drop(TcpTcb *tcp_tcb, s16 error) {
 }
 
 extern void tcp_slowtimo(void) {
-    TcpState *g = (TcpState *)&tcp_protocol_state;
+    TcpState *g = &tcp_protocol_state;
     TcpTcb *tcb;
     s16 i;
     s16 j;

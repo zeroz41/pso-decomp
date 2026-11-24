@@ -526,7 +526,7 @@ static inline PppFrame *ppp_frame_clear_length(PppFrame *frame) {
 #pragma opt_common_subs off
 #pragma opt_propagation on
 s16 ppp_fsm_send_packet(PppFsm *self, u8 code, int reply_identifier, PppFrame *payload) {
-    PppFsm *fsm = (PppFsm *)self;
+    PppFsm *fsm = self;
     PppBuffers *buffers;
     PppProtoBlocks *link = fsm->blocks;
     s32 command;
@@ -540,7 +540,7 @@ s16 ppp_fsm_send_packet(PppFsm *self, u8 code, int reply_identifier, PppFrame *p
         empty->data = (u8 *)empty + ((*(buffers = &ppp_buffers)).headroom + 0x83 & ~3);
         payload = ppp_frame_clear_length(empty);
     }
-    switch (command = (u8)code) {
+    switch (command = code) {
     case 1:
     case 5:
     case 9:
@@ -766,7 +766,7 @@ PppFrame *NetIPv4WriteHeader(ParsedIpHeader *ip, PppFrame *frame, s32 preserve_c
         NetMemcpy((u8 *)hdr + sizeof(*hdr), ip->opts, (ip->optlen < 0x2C) ? ip->optlen : 0x2C);
     }
     {
-        u32 m = (u16)n;
+        u32 m = n;
         NetMemcpy(data, hdr, m);
         if ((u16)preserve_checksum == 0) {
             sum = ip_checksum_accumulate(0, frame, n);

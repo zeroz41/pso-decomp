@@ -175,7 +175,7 @@ s32 dhcp_store_ack_options(BootpPacket *pkt) {
         *dhcp_broadcast_out = dhcp_broadcast;
         dhcp_broadcast_out = NULL;
     }
-    parse_dhcp_lease_times((u8 *)opts);
+    parse_dhcp_lease_times(opts);
     n = find_dhcp_option(opts, 0xF, &p);
     if (n != 0) {
         dhcp_set_option(3, (s16)n, p);
@@ -674,7 +674,7 @@ s16 DHCP_hostname(char *hostname) {
         dhcp_error = 1;
         return -1;
     }
-    length = NetStringLength((const char*)hostname);
+    length = NetStringLength(hostname);
     if ((u16)length < 0x20 && (u16)length != 0) {
         dhcp_set_option(0x10, (u16)length, hostname);
         return 0;

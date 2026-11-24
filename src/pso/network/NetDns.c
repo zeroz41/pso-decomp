@@ -62,7 +62,7 @@ s32 dns_encode_name(u8 *dst, char *src, s32 max);
 s32 dns_term(void) {
     s32 ret;
     s16 i;
-    DnsResolverState *m = (DnsResolverState *)&dns_resolver_state;
+    DnsResolverState *m = &dns_resolver_state;
     DnsQuery *e;
 
     ret = reset_at_timer(tick_connection_timeouts);
@@ -162,7 +162,7 @@ s16 dns_init(void) {
 #pragma push
 #pragma opt_propagation off
 s32 dns_close(s16 i) {
-    DnsResolverState *g = (DnsResolverState *)&dns_resolver_state;
+    DnsResolverState *g = &dns_resolver_state;
     DnsQuery *e;
     if (i < 0 || i > g->nqueries) { return -2; }
     e = (DnsQuery *)((u8 *)g->queries + i * 0x3C);
@@ -185,7 +185,7 @@ extern s16 dns_get_addr(s16 idx, void *buf, s16 *len, void *buf2, s16 *len2, uad
         return -2;
     }
     f = &g->queries[idx];
-    e = (DnsQuery *)f;
+    e = f;
     if (f->active == 0) {
         return -2;
     }
@@ -428,7 +428,7 @@ s16 dns_open_addr(char *name, s16 len, s32 type)
 #pragma pop
 
 s32 dns_clear_server(void) {
-    DnsResolverState *g = (DnsResolverState *)&dns_resolver_state;
+    DnsResolverState *g = &dns_resolver_state;
     s32 cnt;
     s16 i;
     NetworkAddress *r;
@@ -524,7 +524,7 @@ void tick_connection_timeouts(void) {
     s16 i;
 
     dns_expire_cache();
-    g = (DnsResolverState *)&dns_resolver_state;
+    g = &dns_resolver_state;
     c = g->ptrs;
     i = 0;
     while (i < g->nptrs) {
@@ -541,7 +541,7 @@ void tick_connection_timeouts(void) {
 
 extern void dns_tick_queries(void)
 {
-    DnsResolverState *base = (DnsResolverState *)&dns_resolver_state;
+    DnsResolverState *base = &dns_resolver_state;
     NetworkAddress *found;
     s16 *dp;
     s16 cnt;
@@ -602,8 +602,8 @@ extern void dns_resend_query(void *arg)
     s16 ret;
     s16 *dp;
 
-    base = (DnsResolverState *)&dns_resolver_state;
-    if ((found = dns_next_server((DnsResolverState *)base, (DnsQuery *)e)) == NULL) {
+    base = &dns_resolver_state;
+    if ((found = dns_next_server(base, e)) == NULL) {
         dns_complete_query(e, -0x44, 0);
         return;
     }
@@ -652,7 +652,7 @@ extern void dns_expire_cache(void) {
     DnsResolverState *base;
     DnsHost *e;
 
-    base = (DnsResolverState *)&dns_resolver_state;
+    base = &dns_resolver_state;
     e = base->hosts;
     i = 0;
     while (i < base->nhosts) {
@@ -763,7 +763,7 @@ s16 AT_DNS_UdpReceiver(s16 mode, NetworkReceivePrefix *req)
 }
 
 inline DnsQuery *find_query_by_socket(s16 id) {
-    DnsResolverState *g = (DnsResolverState *)&dns_resolver_state;
+    DnsResolverState *g = &dns_resolver_state;
     s16 n;
     DnsQuery *e;
     s16 i;
@@ -1439,7 +1439,7 @@ s32 append_to_list(DnsHost *o, DnsAddr *n) {
         o->addrs = n;
         return 0;
     }
-    for (p = o->addrs, i = 0; i < ((DnsResolverState *)&dns_resolver_state)->naddrs; i++) {
+    for (p = o->addrs, i = 0; i < dns_resolver_state.naddrs; i++) {
         if (p->next == NULL) {
             o->naddrs++;
             p->next = n;
