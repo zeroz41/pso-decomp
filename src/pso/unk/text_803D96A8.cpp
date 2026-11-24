@@ -29,7 +29,7 @@ extern "C" {
 s32 fn_803DA12C(u8 *, s32, s32, s32);
 s32 TObjPlayer__sub_803D9DA8(A_803D9DA8 *texture, B_803D9DA8 *desc);
 void rotate_matrix_x(Matrix34* matrix, s32 angle);
-s32 TObjPlayer__sub_803DAD24(int, int);
+s32 notify_texture_state_ready(int, int);
 
 void rotate_matrix_x(Matrix34* matrix, s32 angle) {
     Matrix34 rotation;
@@ -244,7 +244,7 @@ s32 TObjPlayer__sub_803D9E38(s32 *arg0, u32 idx, s32 *arg2, u32 *arg3) {
             temp_r4 = (s32 *)(*(s32 **)((s8 *)sp8 + 0xC));
             *(s32 *)((s8 *)temp_r4 + 0x24) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x24) + 1);
             *(s32 *)((s8 *)sp8 + 0x14) = (s32) *(s32 *)((s8 *)temp_r29 + 0x14);
-            TObjPlayer__sub_803DAD24((int)sp8, (saddr)temp_r4);
+            notify_texture_state_ready((int)sp8, (saddr)temp_r4);
             goto block_7;
         }
         temp_r0 = (saddr)&texture_states[record_index];

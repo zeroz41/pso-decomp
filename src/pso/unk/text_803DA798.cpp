@@ -50,12 +50,12 @@ void reset_texture_error(void) {
 }
 #pragma pop
 
-void TObjPlayer__sub_803DA808(void *buf, saddr src, u32 size) {
+void copy_texture_data_and_flush(void *buf, saddr src, u32 size) {
     move_data(buf, (const void *)src, size);
     DCFlushRange(buf, size);
 }
 
-s32 TObjPlayer__sub_803DA84C(GinjaTextureHeader *header, s32 src, s32 offsetRaw, s32 lengthRaw) {
+s32 copy_texture_pixel_range(GinjaTextureHeader *header, s32 src, s32 offsetRaw, s32 lengthRaw) {
     u32 remaining;
     u32 copyMax;
     u32 copyStart;
@@ -73,15 +73,15 @@ s32 TObjPlayer__sub_803DA84C(GinjaTextureHeader *header, s32 src, s32 offsetRaw,
     if (copyLen > copyMax) {
         copyLen = copyMax;
     }
-    TObjPlayer__sub_803DA808((void *)(copyStart + (uaddr)header->pixels), src, copyLen);
+    copy_texture_data_and_flush((void *)(copyStart + (uaddr)header->pixels), src, copyLen);
     return 0;
 }
 #pragma pop
 
 #pragma push
 #pragma peephole off
-s32 TObjPlayer__sub_803DA8B4(GinjaTextureHeader *header, s32 src) {
-    TObjPlayer__sub_803DA808(header->pixels, src, header->size);
+s32 copy_texture_pixels(GinjaTextureHeader *header, s32 src) {
+    copy_texture_data_and_flush(header->pixels, src, header->size);
     return 0;
 }
 #pragma pop
@@ -89,7 +89,7 @@ s32 TObjPlayer__sub_803DA8B4(GinjaTextureHeader *header, s32 src) {
 #pragma push
 #pragma optimize_for_size on
 #pragma use_lmw_stmw off
-s32 TObjPlayer__sub_803DA8E4(u32 id, u32 tlut_name, s32 format, s32 *slot_out) {
+s32 reference_loaded_texture(u32 id, u32 tlut_name, s32 format, s32 *slot_out) {
     GinjaTextureState *texture;
     s32 index;
     s32 shared;
@@ -111,7 +111,7 @@ s32 TObjPlayer__sub_803DA8E4(u32 id, u32 tlut_name, s32 format, s32 *slot_out) {
             texture->surface->ref_count++;
             texture->ref_count = 1;
             texture->reserved14 = texture_states[index].reserved14;
-            TObjPlayer__sub_803DAD24(texture);
+            notify_texture_state_ready(texture);
             *slot_out = slot;
             return 1;
         }
@@ -130,7 +130,7 @@ s32 TObjPlayer__sub_803DA8E4(u32 id, u32 tlut_name, s32 format, s32 *slot_out) {
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803DAA70(u32 id, u32 tlut_name, GvrTextureDesc *desc) {
+s32 create_texture_state(u32 id, u32 tlut_name, GvrTextureDesc *desc) {
     GinjaTextureState *texture;
     GinjaSurfaceState *surface;
     s32 slot;
@@ -151,7 +151,7 @@ s32 TObjPlayer__sub_803DAA70(u32 id, u32 tlut_name, GvrTextureDesc *desc) {
     } else {
         texture->tlut_name = -1;
     }
-    TObjPlayer__sub_803DAD24(texture);
+    notify_texture_state_ready(texture);
     texture->ref_count = 1;
     texture->surface->ref_count = 1;
     active_texture_surface_count += 1;
@@ -161,18 +161,18 @@ s32 TObjPlayer__sub_803DAA70(u32 id, u32 tlut_name, GvrTextureDesc *desc) {
 #pragma push
 #pragma scheduling off
 #pragma peephole off
-void TObjPlayer__sub_803DAB7C(NJS_TEXLIST *list, s32 index, s32 slot) {
+void set_texlist_texture(NJS_TEXLIST *list, s32 index, s32 slot) {
     list->textures[index].texture = texture_states + slot;
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803DAB9C(s32 slot, s32 src) {
+s32 reload_texture_slot_pixels(s32 slot, s32 src) {
     GinjaSurfaceState *surface = texture_states[slot].surface;
     if (surface == 0) {
         texture_error.code = 1;
         return -1;
     }
-    if (TObjPlayer__sub_803DA84C(&surface->header, src, 0, surface->header.size) != 0) {
+    if (copy_texture_pixel_range(&surface->header, src, 0, surface->header.size) != 0) {
         texture_error.code = 8;
         return -1;
     }
@@ -181,40 +181,40 @@ s32 TObjPlayer__sub_803DAB9C(s32 slot, s32 src) {
 
 #pragma push
 #pragma scheduling off
-void TObjPlayer__sub_803DAC1C(s32 slot) {
-    TObjPlayer__sub_803DAE98(&texture_states[slot]);
+void release_texture_slot(s32 slot) {
+    release_texture_state(&texture_states[slot]);
 }
 #pragma pop
 
 #pragma push
 #pragma optimize_for_size on
 #pragma use_lmw_stmw off
-s32 TObjPlayer__sub_803DAC48(NJS_TEXLIST *list, s32 index, u32 id, u32 tlut_name, GvrTextureDesc *desc, s32 *slot) {
-    switch (TObjPlayer__sub_803DA8E4(id, tlut_name, desc->format, slot)) {
+s32 bind_texlist_texture(NJS_TEXLIST *list, s32 index, u32 id, u32 tlut_name, GvrTextureDesc *desc, s32 *slot) {
+    switch (reference_loaded_texture(id, tlut_name, desc->format, slot)) {
     case -1:
         return -1;
     case 0:
-        *slot = TObjPlayer__sub_803DAA70(id, tlut_name, desc);
+        *slot = create_texture_state(id, tlut_name, desc);
         if (*slot < 0) {
             return -1;
         }
-        TObjPlayer__sub_803DAB7C(list, index, *slot);
+        set_texlist_texture(list, index, *slot);
         return 0;
     case 1:
-        TObjPlayer__sub_803DAB7C(list, index, *slot);
+        set_texlist_texture(list, index, *slot);
         return 1;
     }
     return 0;
 }
 #pragma pop
 
-void TObjPlayer__sub_803DAD24(GinjaTextureState *) {
+void notify_texture_state_ready(GinjaTextureState *) {
 
 }
 
 #pragma push
 #pragma scheduling off
-s32 TObjPlayer__sub_803DAD28(u32 id) {
+s32 select_texture_by_surface_id(u32 id) {
     s32 index;
     GinjaTextureState *texture;
     index = find_texture_by_surface_id(id);
@@ -228,7 +228,7 @@ s32 TObjPlayer__sub_803DAD28(u32 id) {
 }
 #pragma pop
 
-s32 TObjPlayer__sub_803DAD84(GinjaTextureState *texture, s32 src, u32 arg2) {
+s32 reload_texture_state_pixels(GinjaTextureState *texture, s32 src, u32 arg2) {
     GinjaSurfaceState *surface = texture->surface;
     if ((surface->header.flags & 0x80000000) != 0 && arg2 != 0) {
         if (TObjPlayer__sub_803DB23C(&surface->header) != 0) {
@@ -236,7 +236,7 @@ s32 TObjPlayer__sub_803DAD84(GinjaTextureState *texture, s32 src, u32 arg2) {
             return -1;
         }
     } else {
-        if (TObjPlayer__sub_803DA8B4(&surface->header, src) != 0) {
+        if (copy_texture_pixels(&surface->header, src) != 0) {
             texture_error.code = 8;
             return -1;
         }
@@ -246,9 +246,9 @@ s32 TObjPlayer__sub_803DAD84(GinjaTextureState *texture, s32 src, u32 arg2) {
     return 1;
 }
 
-s32 TObjPlayer__sub_803DAE1C(s32 index, s32 src, u32 arg2) {
+s32 reload_list_texture_pixels(s32 index, s32 src, u32 arg2) {
     reset_texture_error();
-    s32 r = TObjPlayer__sub_803DAD84(current_render_context->textures->textures[index].texture, src, arg2);
+    s32 r = reload_texture_state_pixels(current_render_context->textures->textures[index].texture, src, arg2);
     if (r < 0) {
         texture_error.entry_index = index;
     }
@@ -260,7 +260,7 @@ s32 TObjPlayer__sub_803DAE1C(s32 index, s32 src, u32 arg2) {
 #pragma scheduling off
 #pragma peephole off
 #pragma scheduling off
-s32 TObjPlayer__sub_803DAE98(GinjaTextureState *texture) {
+s32 release_texture_state(GinjaTextureState *texture) {
     GinjaSurfaceState *surface;
     if (texture->surface == NULL) {
         return -1;

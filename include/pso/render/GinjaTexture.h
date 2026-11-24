@@ -40,7 +40,7 @@ void clear_unreferenced_texture_entry(GinjaTextureState *texture);
 #ifdef __cplusplus
 extern "C" {
 #endif
-s32 TObjPlayer__sub_803DAE98(GinjaTextureState *texture);
+s32 release_texture_state(GinjaTextureState *texture);
 // Releases every loaded texture in `texlist`; -1 if one failed, else 1.
 s32 release_texture_list(NJS_TEXLIST *texlist);
 s32 find_texture_entry_by_name(const NJS_TEXLIST *texlist, const char *name);

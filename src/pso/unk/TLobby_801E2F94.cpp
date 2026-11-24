@@ -104,7 +104,7 @@ int current_line_width = 12;
 s32 lbl_805D3584 = 1;
 f32 viewport_scissor_origin_x = 320.0f;
 f32 camera_viewport_center_y = 240.0f;
-s32 TObjPlayer__sub_803DAD28(u32 id);
+s32 select_texture_by_surface_id(u32 id);
 }
 
 void set_viewport_scissor(int mode, const TileRect *r) {
@@ -146,7 +146,7 @@ void set_screen_center(f32 x, f32 y) {
 extern "C" {
 void camera_renderer_setup_nop(NJS_CAMERA *camera, s32 angle) {  }
 
-void TWindowDD::draw_transformed_primitive(s32 a1, u32 id, s32 a3) { TObjPlayer__sub_803DAD28(id); draw_screen_textured_strip((ScreenTexturedVertex *)this, a1, a3); }
+void TWindowDD::draw_transformed_primitive(s32 a1, u32 id, s32 a3) { select_texture_by_surface_id(id); draw_screen_textured_strip((ScreenTexturedVertex *)this, a1, a3); }
 
 }
 

@@ -10,7 +10,7 @@ s32 release_texture_list(NJS_TEXLIST *textures) {
     s32 result = 1;
     for (i = 0; i < textures->nbTexture; ++i) {
         if (textures->textures[i].texture != NULL &&
-            TObjPlayer__sub_803DAE98(textures->textures[i].texture) < 0) {
+            release_texture_state(textures->textures[i].texture) < 0) {
             texture_error.entry_index = i;
             result = -1;
         }

@@ -1606,11 +1606,11 @@ force_active:
   - sample_absent_vector_channel__FPv
   - sample_absent_angle_channel__FPv
   - TObjPlayer__sub_803D9C60
-  - TObjPlayer__sub_803DA808
-  - TObjPlayer__sub_803DA84C
-  - TObjPlayer__sub_803DA8B4
-  - TObjPlayer__sub_803DAA70
-  - TObjPlayer__sub_803DAD84
+  - copy_texture_data_and_flush
+  - copy_texture_pixel_range
+  - copy_texture_pixels
+  - create_texture_state
+  - reload_texture_state_pixels
   - load_texture_entry
   - apply_opaque_blend_mode__Fv
   - TObjPlayer__sub_803E500C

@@ -106,7 +106,7 @@ s32 read_gvrt_file_header(NJS_TEXLIST *list, s32 index) {
     if ((u32)id != 0xFFFFFFFF) {
         global_index = id;
     }
-    r = TObjPlayer__sub_803DAC48(list, index, global_index, tlut_name, &desc, &slot);
+    r = bind_texlist_texture(list, index, global_index, tlut_name, &desc, &slot);
     if (r != 0) {
         DVDClose(pfile);
         return r;
@@ -147,12 +147,12 @@ s32 load_texture_from_memory(NJS_TEXLIST *list, s32 index) {
     if ((u32)id != 0xFFFFFFFF) {
         global_index = id;
     }
-    r = TObjPlayer__sub_803DAC48(list, index, global_index, tlut_name, &desc, &slot);
+    r = bind_texlist_texture(list, index, global_index, tlut_name, &desc, &slot);
     if (r != 0) {
         return r;
     }
-    if (TObjPlayer__sub_803DAB9C(slot, chunk) < 0) {
-        TObjPlayer__sub_803DAC1C(slot);
+    if (reload_texture_slot_pixels(slot, chunk) < 0) {
+        release_texture_slot(slot);
         return -1;
     }
     while (TObjPlayer::is_gvm_load_ok() != 1) {
@@ -181,7 +181,7 @@ s32 create_texture_from_input(NJS_TEXLIST *list, s32 index) {
     if ((u32)id != 0xFFFFFFFF) {
         global_index = id;
     }
-    if (TObjPlayer__sub_803DAC48(list, index, global_index, tlut_name, &desc, &slot) >= 0) {
+    if (bind_texlist_texture(list, index, global_index, tlut_name, &desc, &slot) >= 0) {
         return 1;
     }
     return -1;
@@ -204,7 +204,7 @@ s32 reference_texture_by_global_index(NJS_TEXLIST *list, s32 index) {
     if ((u32)id != 0xFFFFFFFF) {
         global_index = id;
     }
-    switch (TObjPlayer__sub_803DA8E4(global_index, tlut_name, 0, &slot)) {
+    switch (reference_loaded_texture(global_index, tlut_name, 0, &slot)) {
     case -1:
         return -1;
     case 0:
@@ -217,7 +217,7 @@ s32 reference_texture_by_global_index(NJS_TEXLIST *list, s32 index) {
             texture->surface->id = global_index;
         }
         active_texture_surface_count++;
-        TObjPlayer__sub_803DAB7C(list, index, slot);
+        set_texlist_texture(list, index, slot);
         break;
     }
     return 1;
@@ -442,13 +442,13 @@ s32 load_gvm_texture_archive(void *buf, NJS_TEXLIST *list) {
         }
         data = gvm_stream_read(chunk->size - 8);
         if (r == 0) {
-            switch (TObjPlayer__sub_803DAC48(list, k, id, tlut_name, &chunk->desc, &slot)) {
+            switch (bind_texlist_texture(list, k, id, tlut_name, &chunk->desc, &slot)) {
             case -1:
                 texture_error.code = 6;
                 return -1;
             case 0:
-                if (TObjPlayer__sub_803DAB9C(slot, data) == -1) {
-                    TObjPlayer__sub_803DAC1C(slot);
+                if (reload_texture_slot_pixels(slot, data) == -1) {
+                    release_texture_slot(slot);
                     return -1;
                 }
                 do {

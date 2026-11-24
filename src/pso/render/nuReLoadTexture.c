@@ -12,5 +12,5 @@ void reload_texture_num(s32 n, saddr texaddr, u32 attr, u32 lod) {
     } else {
         OSPanic("nuReLoadTexture.c", 48, "sorry");
     }
-    TObjPlayer__sub_803DAE1C(n, src, lod);
+    reload_list_texture_pixels(n, src, lod);
 }
