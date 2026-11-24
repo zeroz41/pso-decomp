@@ -7,36 +7,6 @@
 
 #define ARRAY_HEADER_SIZE 16
 
-class __partial_array_destructor {
-  private:
-    void* p;
-    size_t size;
-    size_t n;
-    ConstructorDestructor dtor;
-
-  public:
-    size_t i;
-
-    __partial_array_destructor(void* array, size_t elementsize, size_t nelements, ConstructorDestructor destructor) {
-        p = array;
-        size = elementsize;
-        n = nelements;
-        dtor = destructor;
-        i = n;
-    }
-
-    ~__partial_array_destructor() {
-        char* ptr;
-
-        if (i < n && dtor) {
-            for (ptr = (char*)p + size * i; i > 0; i--) {
-                ptr -= size;
-                DTORCALL_COMPLETE(dtor, ptr);
-            }
-        }
-    }
-};
-
 extern void* __construct_new_array(void* block, ConstructorDestructor ctor, ConstructorDestructor dtor, size_t size,
                                    size_t n) {
     char* ptr;

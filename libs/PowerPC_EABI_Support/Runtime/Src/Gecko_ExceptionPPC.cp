@@ -3,12 +3,6 @@
 
 #pragma exceptions on
 
-typedef struct ProcessInfo {
-    __eti_init_info* exception_info;
-    char* TOC;
-    int active;
-} ProcessInfo;
-
 static ProcessInfo fragmentinfo[1];
 
 int __register_fragment(struct __eti_init_info* info, char* TOC) {

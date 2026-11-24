@@ -19,6 +19,12 @@ typedef struct DestructorChain {
     void* object;
 } DestructorChain;
 
+typedef struct ProcessInfo {
+    struct __eti_init_info* exception_info;
+    char* TOC;
+    int active;
+} ProcessInfo;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
