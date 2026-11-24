@@ -788,7 +788,6 @@ pso/unk/TLobby_801D3518.cpp
 pso/unk/TLobby_801D6BF8.cpp
 pso/unk/TLobby_801D6DC4.cpp
 pso/unk/TLobby_801D726C.cpp
-pso/unk/TLobby_801DEFC4.cpp
 pso/unk/TLobby_801E2F94.cpp
 pso/unk/TLobby_801E43E4.cpp
 pso/unk/TLobby_801F2D2C.cpp
@@ -1048,7 +1047,6 @@ pso/player/TPlayerBattleCtrl4P_801C4F70.cpp
 pso/player/TPlayerFootStamp.cpp
 pso/player/TPlyCharData.cpp
 pso/player/TPlyCharData_801E0A04.cpp
-pso/player/TPlyClientConfig.cpp
 pso/player/TPlyDispConfigSmth.cpp
 pso/effect/particle/TPlyFollowParticleCtrl.cpp
 pso/player/TPlyGuildCardTag.cpp
@@ -1061,7 +1059,6 @@ pso/network/TPlyJoinLobby.cpp
 pso/network/TPlyJoinLobbyEntry.cpp
 pso/network/TPlyJoinLobbyEntry_801DFA18.cpp
 pso/network/TPlyJoinLobby_801DF9C8.cpp
-pso/network/TPlyMeetUserExtension.cpp
 pso/player/TPlyPhotonChair.cpp
 pso/network/TPlyRecvLogin.cpp
 pso/player/TPlySmth.cpp
@@ -1091,7 +1088,6 @@ pso/network/TRecvGenerateID.cpp
 pso/network/TRecvPort.cpp
 pso/network/TRecvPsoData.cpp
 pso/network/TRecvPsoDataLong.cpp
-pso/network/TRecvPsoRegistConnect.cpp
 pso/network/TRegister.cpp
 pso/system/save/TSaveChCr.cpp
 pso/system/scene/TScene.cpp
@@ -1100,7 +1096,6 @@ pso/system/scene/TScene_801A7E40.cpp
 pso/system/scene/TScene_801FBA20.cpp
 pso/system/scene/TScene_8029F5B0.cpp
 pso/system/scene/TScene_80327B00.cpp
-pso/network/TSendDownloadHead.cpp
 pso/map/TSetManager.cpp
 pso/ui/city/TShopArmorListWindow.cpp
 pso/ui/city/TShopDeleteItemWindow.cpp

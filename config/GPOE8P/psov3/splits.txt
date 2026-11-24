@@ -5086,26 +5086,11 @@ pso/player/PlayerTechniqueState.cpp:
 	.sdata2     start:0x805DC408 end:0x805DC410
 
 pso/network/TProtocol.cpp:
-	.text       start:0x801D9E50 end:0x801DEF7C
+	.text       start:0x801D9E50 end:0x801DF280
 	.rodata     start:0x80449568 end:0x80449640
 	.data       start:0x804C4A50 end:0x804C5238
 	.sdata      start:0x805D3570 end:0x805D3580
 	.sbss       start:0x805D5E18 end:0x805D5E30
-
-pso/player/TPlyClientConfig.cpp:
-	.text       start:0x801DEF7C end:0x801DEFA4
-
-pso/network/TSendDownloadHead.cpp:
-	.text       start:0x801DEFA4 end:0x801DEFC4
-
-pso/unk/TLobby_801DEFC4.cpp:
-	.text       start:0x801DEFC4 end:0x801DF1F4
-
-pso/network/TPlyMeetUserExtension.cpp:
-	.text       start:0x801DF1F4 end:0x801DF244
-
-pso/network/TRecvPsoRegistConnect.cpp:
-	.text       start:0x801DF244 end:0x801DF280
 
 pso/unk/text_801DF280.cpp:
 	.text       start:0x801DF280 end:0x801DF8DC
