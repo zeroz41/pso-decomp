@@ -308,8 +308,6 @@ struct TObjPlayer : public TObjChara {
     static void send_6x26_unequip_item(TObjPlayer *player, u32 item_id);
     player_class_type get_class_type();
     void call_callback_1ec(saddr arg1, saddr arg2);
-    void write_ids();
-    void set_vec4_const();
     static void render_tree(void *model);
     s32 get_entrance_id();
     void *reset_lobby_settings();
@@ -515,7 +513,6 @@ struct TObjPlayer : public TObjChara {
     void clear_base();
     void*set_vec3_const_wrapper();
     u8 *construct_hurt_timer();
-    void*set_vec4_const_wrapper();
     int sub_802a7290_fwd();
     int is_handle_valid();
     static u8 get_item_count_max();
