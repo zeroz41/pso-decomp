@@ -19,6 +19,7 @@ public:
 public:
     TObjChallengeRetry(TObject *parent);
     virtual ~TObjChallengeRetry();
+    static TObjChallengeRetry *create(TObject *parent);
     void sub_8007313C();
     void handle_challenge_retry_confirm();
     void update_challenge_retry();

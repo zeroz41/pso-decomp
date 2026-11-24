@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/quest/challenge/ChallengeStageLoadouts.h"
 #include "pso/object/quest/TObjTagChallenge.h"
 #include <string.h>
 #include "pso/ui/window/TObjCHTimeWin.h"
@@ -13,6 +14,7 @@
 #include "pso/ui/window/TObjSoloPlayWin.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
 #include "pso/quest/challenge/TChallenge4P.h"
 #include "pso/system/task/TMainTask.h"
@@ -40,7 +42,6 @@ __declspec(section ".data") char lbl_804DB880[] = "theBest";
 
 extern "C" {
 s32 is_challenge_mode_active(void);
-s32 mix_seed_checked__6TLobbyFi(s32);
 void TLobby__sub_80291DF8(s32 v);
 
 void TLobby::update_screen() { if (is_challenge_mode_active() != 0) { TLobby::is_multi_ready(); } }
@@ -54,7 +55,7 @@ void TLobby__sub_80291DF8(s32 v) {
         if (v < 0x3c || v > 0xe10) {
             return;
         }
-        challenge4p_mode_state.pad_10 = mix_seed_checked__6TLobbyFi(v);
+        challenge4p_mode_state.min_clear_time = encode_challenge_time(v);
     }
 }
 
@@ -63,22 +64,22 @@ s32 TLobby::get_normalized_mode() {
     if (is_challenge_mode_active() == 0) {
         return 0;
     }
-    if ((challenge4p_mode_state.pad_2C != 1) && (challenge4p_mode_state.pad_2C != 0)) {
-        challenge4p_mode_state.pad_2C = 0;
+    if ((challenge4p_mode_state.boss_warp_disabled != 1) && (challenge4p_mode_state.boss_warp_disabled != 0)) {
+        challenge4p_mode_state.boss_warp_disabled = 0;
     }
-    return challenge4p_mode_state.pad_2C;
+    return challenge4p_mode_state.boss_warp_disabled;
 }
 void TLobby__sub_80291EAC(s32 arg0) {
     s32 var_r31;
     var_r31 = arg0;
     if (is_challenge_mode_active() == 0) {
-        challenge4p_mode_state.pad_2C = 0;
+        challenge4p_mode_state.boss_warp_disabled = 0;
         return;
     }
     if ((var_r31 != 1) && (var_r31 != 0)) {
         var_r31 = 0;
     }
-    challenge4p_mode_state.pad_2C = var_r31;
+    challenge4p_mode_state.boss_warp_disabled = var_r31;
 }
 
 }
@@ -116,7 +117,7 @@ s32 TLobby::check_ready_status() {
     var_r3 = TLobby__sub_80291F9C();
     if (var_r3 == 1) {
         var_r3 = -1;
-        if (challenge4p_mode_state.pad_28 != 0) {
+        if (challenge4p_mode_state.retry_confirmed != 0) {
             var_r3 = 1;
         }
     }
@@ -124,8 +125,8 @@ s32 TLobby::check_ready_status() {
 }
 
 s32 TLobby__sub_80291F9C(void) {
-    if (challenge4p_mode_state.pad_20 != 0) {
-        return challenge4p_mode_state.pad_24;
+    if (challenge4p_mode_state.failed != 0) {
+        return challenge4p_mode_state.retry_choice;
     }
     return 0;
 }
@@ -133,19 +134,19 @@ s32 TLobby__sub_80291F9C(void) {
 void TLobby::reset_menu_state_globals() {
     s32 i;
     if (challenge_retry_object != NULL) {
-        challenge4p_mode_state.pad_C = 0;
-        challenge4p_mode_state.pad_20 = 0;
-        challenge4p_mode_state.pad_24 = -1;
-        challenge4p_mode_state.pad_28 = 0;
-        challenge4p_mode_state.pad_30 = 0;
+        challenge4p_mode_state.base_time = 0;
+        challenge4p_mode_state.failed = 0;
+        challenge4p_mode_state.retry_choice = -1;
+        challenge4p_mode_state.retry_confirmed = 0;
+        challenge4p_mode_state.solo_play_notice_shown = 0;
         for (i = 0; i < 4; i++) {
             challenge4p_mode_state.client_died[i] = 0;
-            challenge4p_mode_state.pad_680[i] = 0;
+            challenge4p_mode_state.client_time_records[i] = 0;
         }
         challenge_retry_object->frame_count = 0;
         challenge_retry_object->pad_20 = 0;
         challenge_retry_object->pad_24 = 1;
-        TLobby__sub_8026A328();
+        free_chat_last_line();
     }
 }
 
@@ -159,11 +160,11 @@ s32 TLobby__sub_8029204C(void) {
     }
     for (i = 0; i < 4; i++) {
         if (get_player_by_client_id(i) != NULL) {
-            v = challenge4p_mode_state.pad_680[i];
+            v = challenge4p_mode_state.client_time_records[i];
             if (v == 0) {
                 return -1;
             }
-            v = TLobby::get_valid_slot(v);
+            v = decode_challenge_time(v);
             if (TLobby::is_value_out_of_range(v) != 0) {
                 return -2;
             }
@@ -193,11 +194,11 @@ void TLobby::store_challenge_seeds(s32 seed) {
     if (is_challenge_mode_active() != 0) {
         for (i = 0; i < 4; i++) {
             if (get_player_by_client_id(i) != NULL) {
-                s32 v = mix_seed_checked__6TLobbyFi(seed);
+                s32 v = encode_challenge_time(seed);
                 if (TLobby::is_value_out_of_range(seed) != 0) {
-                    v = mix_seed_checked__6TLobbyFi(0x8C9F);
+                    v = encode_challenge_time(0x8C9F);
                 }
-                challenge4p_mode_state.pad_680[i] = v;
+                challenge4p_mode_state.client_time_records[i] = v;
             }
         }
     }
@@ -205,7 +206,7 @@ void TLobby::store_challenge_seeds(s32 seed) {
 
 void TLobby__sub_80292200(s32 seed) {
     TLobby::is_value_out_of_range(seed);
-    fabs_float((f32) (seed - challenge4p_mode_state.pad_C));
+    fabs_float((f32) (seed - challenge4p_mode_state.base_time));
     TLobby::store_challenge_seeds(seed);
 }
 
@@ -216,28 +217,28 @@ s32 TLobby__sub_80292270(s32 seed, s32 card) {
     s32 r;
     if (is_challenge_mode_active() == 0 || challenge4p_mode_state.stage == -1 ||
         (u32)get_character_save_record((u16)card) == 0) {
-        challenge4p_mode_state.pad_14 = -4;
+        challenge4p_mode_state.result_rank = -4;
         return -4;
     }
-    fabs_float(seed - challenge4p_mode_state.pad_C);
+    fabs_float(seed - challenge4p_mode_state.base_time);
     if (TLobby::is_value_out_of_range(seed) != 0) {
         seed = 0x8C9F;
     }
     r = TLobby__sub_80292DA0(seed, card);
     if (r == -1) {
-        challenge4p_mode_state.pad_14 = -1;
+        challenge4p_mode_state.result_rank = -1;
         return -1;
     }
     if (r < 0) {
-        challenge4p_mode_state.pad_14 = -2;
+        challenge4p_mode_state.result_rank = -2;
         return -2;
     }
     CharacterSaveRecord *record = (CharacterSaveRecord *)get_character_save_record((u16)card);
     if ((uaddr)record != 0 && record->is_bank_full() != 0) {
-        challenge4p_mode_state.pad_14 = -3;
+        challenge4p_mode_state.result_rank = -3;
         return -3;
     }
-    challenge4p_mode_state.pad_14 = r;
+    challenge4p_mode_state.result_rank = r;
     return r;
 }
 #undef TLobby__sub_80292DA0
@@ -247,11 +248,11 @@ s32 TLobby__sub_802923C4(s32 idx, s32 value, s32 arg) {
     ChallengeRankThreshold *e;
     ChallengeRankThreshold *p;
     ChallengeRankThreshold *end;
-    if (idx < 0 || idx >= 3 || value < TWindowSubStatusDisp::calc_entry_offset(-1)) {
+    if (idx < 0 || idx >= 3 || value < challenge_set_min_time(-1)) {
         return 0;
     }
     if (idx == 0) {
-        value = TWindowSubStatusDisp::calc_layout_hash(-1);
+        value = challenge_set_max_time(-1);
     }
     e = &challenge4p_mode_state.rank_thresholds[idx];
     if (e->time != 0) {
@@ -278,7 +279,7 @@ s32 TLobby__sub_802924B4(s32 arg0, u16 slot_index) {
   s32 character_save_record;
   ChallengeRankThreshold *temp_r30;
   int new_var;
-  if ((challenge4p_mode_state.pad_14 < 0) || (challenge4p_mode_state.pad_14 > 2))
+  if ((challenge4p_mode_state.result_rank < 0) || (challenge4p_mode_state.result_rank > 2))
   {
     return 0;
   }
@@ -290,18 +291,18 @@ s32 TLobby__sub_802924B4(s32 arg0, u16 slot_index) {
   }
   if (((CharacterSaveRecord *)(character_save_record & 0xFFFFFFFFFFFFFFFFu))->register_in_free_room_slot(arg0) != 0)
   {
-    temp_r30 = &challenge4p_mode_state.rank_thresholds[challenge4p_mode_state.pad_14];
-    new_var2 = TWindowSubStatusDisp::resolve_player_slot(-1);
-    TWindowSubStatusDisp__sub_8006F134((ChallengeRecord *)(character_save_record + 0x21C4), new_var2)->award_flags |= temp_r30->award_flags;
+    temp_r30 = &challenge4p_mode_state.rank_thresholds[challenge4p_mode_state.result_rank];
+    new_var2 = resolve_challenge_record_set(-1);
+    challenge_set_rank((ChallengeRecord *)(character_save_record + 0x21C4), new_var2)->award_flags |= temp_r30->award_flags;
     return 1;
   }
   return 0;
   arg0 = arg0;
 }
 
-void TLobby::set_encoded_name_and_color(u8 *lobby, s32 arg1) {
-    TLobby::encode_name_xor((u8 *)challenge4p_mode_state.pad_50, lobby, 0xC);
-    challenge4p_mode_state.pad_18 = (s32) (arg1 | 0xFF000000);
+void set_challenge4p_rank_result(const char *title, s32 color) {
+    encode_obfuscated_string(challenge4p_mode_state.rank_result_title, title, 0xC);
+    challenge4p_mode_state.rank_result_color = color | 0xFF000000;
 }
 void TLobby::set_split_screen_name() {
     saddr arg0 = (saddr)this;
@@ -310,8 +311,8 @@ void TLobby::set_split_screen_name() {
 }
 void TLobby::update_challenge_timer(s32 arg0) {
     if (is_challenge_mode_active() != 0) {
-        fabs_float((f32) (arg0 - challenge4p_mode_state.pad_C));
-        challenge4p_mode_state.pad_C = arg0;
+        fabs_float((f32) (arg0 - challenge4p_mode_state.base_time));
+        challenge4p_mode_state.base_time = arg0;
         set_challenge_time_window_timer(arg0);
     }
 }
@@ -322,10 +323,6 @@ struct Hdr_80292730 { u32 w[2]; };
 
 struct Info_80292730 { u8 pad0[0x31]; u8 cls; u8 pad32[2]; u32 flags; u8 pad38[0x50 - 0x38]; };
 
-
-struct Entry_80292730 { s32 val; s32 id; };
-
-struct Tbl_80292730 { s32 f0; s32 f4; s32 f8; Entry_80292730 *entries; };
 
 extern "C" {
 void copy_player_visual_record(void *, void *);
@@ -339,7 +336,7 @@ s32 TLobby::set_camera_height_if_valid(f32 farg0) {
     if ((farg0 < 0.01f) || (farg0 > 10000.0f)) {
         return 0;
     }
-    challenge4p_mode_state.pad_4 = farg0;
+    challenge4p_mode_state.exp_multiplier = farg0;
     return 1;
 }
 
@@ -358,9 +355,9 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
     Hdr_80292730 hdr;
     s32 i;
     TObjPlayer *p;
-    Tbl_80292730 *tbl;
+    ChallengeStageStart *tbl;
     s32 map;
-    Entry_80292730 *e;
+    ChallengeTechniqueLevel *e;
     if (arg0 < 0 || arg0 >= 0x10) {
         return;
     }
@@ -375,23 +372,23 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
             delete p;
             switch (info.flags & 0xE0) {
             case 0x20:
-                tbl = (Tbl_80292730 *)TLobby::get_stage_table_entry(0, arg0);
+                tbl = get_challenge_stage_start(0, arg0);
                 break;
             case 0x40:
-                tbl = (Tbl_80292730 *)TLobby::get_stage_table_entry(1, arg0);
+                tbl = get_challenge_stage_start(1, arg0);
                 break;
             case 0x80:
-                tbl = (Tbl_80292730 *)TLobby::get_stage_table_entry(2, arg0);
+                tbl = get_challenge_stage_start(2, arg0);
                 break;
             default:
-                tbl = (Tbl_80292730 *)TLobby::get_stage_table_entry(0, arg0);
+                tbl = get_challenge_stage_start(0, arg0);
                 break;
             }
             {
                 TPlyCharData cd;
                 copy_player_visual_record(&cd.m_disp_part2, &info);
                 TObjPlayer::begin_action_state(&cd);
-                TNpcPlayer::send_command(info.cls, tbl->f4, reinterpret_cast<const TPlyInventoryItem *>(tbl->f8), tbl->f0, &cd);
+                TNpcPlayer::send_command(info.cls, tbl->item_count, tbl->items, tbl->level, &cd);
                 p = create_player_object(i, map, &cd);
                 if (p == NULL) {
                     return;
@@ -402,9 +399,9 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
             p->save_previous_position();
             p->reset_motion_fields();
             ((TObjPlayer *)((u8 *)p + 0x428))->set_all_technique_levels((void *)0xFF);
-            if (tbl->entries != NULL) {
-                for (e = tbl->entries; e->id != 0xFF; e++) {
-                    set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(p, e->id, e->val);
+            if (tbl->techniques != NULL) {
+                for (e = tbl->techniques; e->level != 0xFF; e++) {
+                    set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(p, e->level, e->technique);
                 }
             }
             *(s32 *)((s8 *)p + 0xD58) = 0;
@@ -428,7 +425,7 @@ void TLobby::clamp_and_store_layout_index(s32 arg0) {
     s32 var_r31;
 
     var_r31 = arg0;
-    layout_id = TWindowSubStatusDisp::get_layout_id(-1);
+    layout_id = challenge_set_stage_count(-1);
     if ((var_r31 < 0) || (var_r31 >= layout_id)) {
         var_r31 = 0;
     }
@@ -453,7 +450,7 @@ s32 TLobby__sub_8029299C(void) {
         i += 1;
     } while ((s32) i < 4);
     if (var_r31 != 0) {
-        challenge4p_mode_state.pad_20 = 1;
+        challenge4p_mode_state.failed = 1;
         return 1;
     }
     return 0;
@@ -472,7 +469,7 @@ loop_3:
     }
     var_r31 += 1;
     if (var_r31 >= 4) {
-        challenge4p_mode_state.pad_20 = 1;
+        challenge4p_mode_state.failed = 1;
         return 1;
     }
     goto loop_3;
@@ -485,8 +482,8 @@ s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot) {
     s32 i;
     ChallengeRankThreshold *e;
     saddr w;
-    lo = TWindowSubStatusDisp::calc_entry_offset(slot);
-    hi = TWindowSubStatusDisp::calc_layout_hash(slot);
+    lo = challenge_set_min_time(slot);
+    hi = challenge_set_max_time(slot);
     if (reinterpret_cast<const void *>(get_character_save_record(card)) == NULL) {
         return -4;
     }
@@ -494,7 +491,7 @@ s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot) {
         return -4;
     }
     w = get_character_save_record(card) + 0x21C4;
-    rank = TWindowSubStatusDisp__sub_8006F134((ChallengeRecord *)w, slot);
+    rank = challenge_set_rank((ChallengeRecord *)w, slot);
     e = &challenge4p_mode_state.rank_thresholds[2];
     for (i = 2; i >= 0; i--, e--) {
         if (e->time != 0 && e->time >= total) {
@@ -514,7 +511,7 @@ s32 TLobby__sub_80292AB4(s32 total, u16 card, s32 slot) {
 
 s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id) {
     u8 *win = (u8 *)get_character_save_record(card);
-    s32 layout = TWindowSubStatusDisp::get_layout_id(id);
+    s32 layout = challenge_set_stage_count(id);
     s32 *arr;
     s32 idx;
     s32 limit;
@@ -522,13 +519,13 @@ s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id) {
     if (win == NULL || challenge4p_mode_state.stage < 0 || challenge4p_mode_state.stage >= layout) {
         return 0;
     }
-    arr = TWindowSubStatusDisp__sub_8006F0D8((ChallengeRecord *)(win + 0x21C4), id);
+    arr = challenge_set_stage_times((ChallengeRecord *)(win + 0x21C4), id);
     ok = 0;
     idx = challenge4p_mode_state.stage * 4;
     if (*(s32 *)((u8 *)arr + idx) == 0) {
         ok = 1;
     } else {
-        limit = TLobby::get_valid_slot(*(s32 *)((u8 *)arr + idx));
+        limit = decode_challenge_time(*(s32 *)((u8 *)arr + idx));
         if (TLobby__sub_80292F34(limit) != 0) {
             *(s32 *)((u8 *)arr + idx) = 0;
             return 0;
@@ -540,7 +537,7 @@ s32 TLobby__sub_80292BB8(s32 seed, u16 card, s32 id) {
     if (ok == 0) {
         return 0;
     }
-    *(s32 *)((u8 *)arr + idx) = mix_seed_checked__6TLobbyFi(seed);
+    *(s32 *)((u8 *)arr + idx) = encode_challenge_time(seed);
     return 1;
 }
 
@@ -554,9 +551,9 @@ s32 count_card_layout_entries(s32 client) {
     if (win == NULL) {
         return 0;
     }
-    id = TWindowSubStatusDisp::resolve_player_slot(-1);
-    arr = TWindowSubStatusDisp__sub_8006F0D8((ChallengeRecord *)(win + 0x21C4), id);
-    layout = TWindowSubStatusDisp::get_layout_id(id);
+    id = resolve_challenge_record_set(-1);
+    arr = challenge_set_stage_times((ChallengeRecord *)(win + 0x21C4), id);
+    layout = challenge_set_stage_count(id);
     n = 0;
     for (i = 0; i < layout; i++) {
         if (arr[i] == 0) {
@@ -572,7 +569,6 @@ s32 count_card_layout_entries(s32 client) {
 
 
 extern "C" {
-s32 mix_seed__6TLobbyFUs(s32);
 s32 TLobby__sub_80292BB8(s32, u16, s32);
 
 s32 TLobby::calc_min_challenge_progress() {
@@ -580,7 +576,7 @@ s32 TLobby::calc_min_challenge_progress() {
     s32 var_r31;
     s32 i;
 
-    var_r31 = TWindowSubStatusDisp::get_layout_id(TWindowSubStatusDisp::resolve_player_slot(-1));
+    var_r31 = challenge_set_stage_count(resolve_challenge_record_set(-1));
     i = 0;
     do {
         if (get_player_by_client_id(i) != NULL) {
@@ -600,19 +596,19 @@ s32 TLobby__sub_80292DA0(s32 seed, u16 card) {
     ChallengeRecord *record;
     s32 next;
     ChallengeStageRank *e;
-    id = TWindowSubStatusDisp::resolve_player_slot(TWindowSubStatusDisp::RECORD_SET_CURRENT);
+    id = resolve_challenge_record_set(RECORD_SET_CURRENT);
     result = -4;
     TLobby__sub_80292BB8(seed, card, id);
-    total = TWindowSubStatusDisp__sub_80071988(card, id);
+    total = get_challenge_set_time(card, id);
     if (total != 0) {
         record = (ChallengeRecord *)(get_character_save_record(card) + 0x21C4);
-        total -= TLobby::get_valid_slot(TWindowSubStatusDisp__sub_8006F0D8(record, id)[challenge4p_mode_state.stage]);
+        total -= decode_challenge_time(challenge_set_stage_times(record, id)[challenge4p_mode_state.stage]);
         total += seed;
         result = TLobby__sub_80292AB4(total, card, id);
         next = result + 1;
-        e = TWindowSubStatusDisp__sub_8006F134(record, id);
-        if ((s32)TLobby::get_slot_clamped((u32)(e->rank)) < next) {
-            e->rank = mix_seed__6TLobbyFUs(next);
+        e = challenge_set_rank(record, id);
+        if ((s32)decode_challenge_count((u32)(e->rank)) < next) {
+            e->rank = encode_challenge_value(next);
         }
     }
     {
@@ -632,7 +628,7 @@ s32 TLobby::get_clamped_time_limit() {
     if (is_challenge_mode_active() == 0) {
         return 0x12C;
     }
-    valid_slot = TLobby::get_valid_slot(challenge4p_mode_state.pad_10);
+    valid_slot = decode_challenge_time(challenge4p_mode_state.min_clear_time);
     if ((valid_slot < 0x3C) || (valid_slot > 0xE10)) {
         valid_slot = 0x12C;
     }
@@ -671,9 +667,9 @@ s32 TLobby::get_challenge_mode_flag() {
 
 void TLobby::start_challenge_countdown() {
     if (is_challenge_mode_active() != 0) {
-        switch (challenge4p_mode_state.pad_28) {
+        switch (challenge4p_mode_state.retry_confirmed) {
         case 0:
-            challenge4p_mode_state.pad_28 = 1;
+            challenge4p_mode_state.retry_confirmed = 1;
             break;
         }
     }
@@ -688,7 +684,7 @@ void TLobby::set_retry_selection(s32 arg0) {
         if ((var_r31 < 0) || (var_r31 > 1)) {
             var_r31 = 0;
         }
-        challenge4p_mode_state.pad_24 = var_r31;
+        challenge4p_mode_state.retry_choice = var_r31;
     }
 }
 
@@ -780,7 +776,7 @@ void TLobby__sub_80293218(s32 client) {
         ChallengeClientRecords *r = &challenge4p_mode_state.client_records[client];
         if (r->present != 0) {
             TObjTombstoneSpot *spot = &r->records.tombstone_spot;
-            spot->phase = TWindowSubStatusDisp::resolve_player_slot(-1);
+            spot->phase = resolve_challenge_record_set(-1);
             spot->layout = challenge4p_mode_state.stage;
             spot->floor = challenge4p_mode_state.current_floor;
             VecCopy(&spot->position, &p->position);
@@ -817,7 +813,7 @@ void TLobby::spawn_player_tombstones2() {
         r = &challenge4p_mode_state.client_records[i];
         if (r->present != 0 && get_player_by_client_id(i) != NULL) {
             t = &r->records.tombstone_spot;
-            if (t->phase == TWindowSubStatusDisp::resolve_player_slot(-1) &&
+            if (t->phase == resolve_challenge_record_set(-1) &&
                 t->layout == challenge4p_mode_state.stage &&
                 t->floor == challenge4p_mode_state.current_floor) {
                 TLobby::create_tombstone(tl_07, i, t);
@@ -830,7 +826,7 @@ void TChallenge4P::create_time_window() {
     TLobby::spawn_player_tombstones2();
     create_ch_time_win(tl_07);
     ((TLobby *)tl_07)->create_new_floor_windows();
-    if (challenge4p_mode_state.pad_30 == 0) {
+    if (challenge4p_mode_state.solo_play_notice_shown == 0) {
         TObjSoloPlayWin::create(tl_07);
     }
 }
@@ -845,7 +841,7 @@ void TChallenge4P::refresh_challenge_windows() {
         challenge4p_mode_state.current_floor = -1;
         if (old != -1) {
             create_obj_tag_challenge((void *)tl_07);
-            if (challenge4p_mode_state.pad_20 == 0) {
+            if (challenge4p_mode_state.failed == 0) {
                 create_ch_time_win(tl_07);
             }
         }

@@ -10,6 +10,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
@@ -38,9 +39,7 @@
 extern "C" {
 void TLobby__sub_80072880(u8 *arg0);
 void TLobby__sub_800728FC(u8 *arg0);
-s32 TLobby__sub_8006FBE4();
 u8 is_challenge_lobby__6TLobbyFv(void);
-s32 TLobby__sub_80070DA8();
 void play_player_default_effect__6TLobbyFv(s32 _w0);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
@@ -166,7 +165,7 @@ void bswap_packet_field(s32 *value) {
 }
 extern "C" {
 s32 TLobby::is_ready_to_draw() {
-    if ((TLobby::get_flag_value_if_set() != 0) || (TLobby__sub_8006FBE4() <= 1)) {
+    if ((is_challenge_retry_menu_disabled() != 0) || (count_challenge_players() <= 1)) {
         return 0;
     }
     return 1;
@@ -240,7 +239,7 @@ void TObjChallengeRetry::update_destroy_countdown() {
     countdown = this->countdown - 1;
     this->countdown = countdown;
     if (countdown <= 0) {
-        TLobby::advance_state_if_flag_set();
+        confirm_challenge_retry();
         TLobby::send_45_and_close_windows(this);
         close_window_2c();
         sub_80072B70();
@@ -249,7 +248,7 @@ void TObjChallengeRetry::update_destroy_countdown() {
 }
 void TObjChallengeRetry::handle_loss_sequence() {
     ((TLobby *)this)->play_player_default_effect();
-    switch (TLobby__sub_80070DA8()) {
+    switch (get_challenge_failure_choice()) {
     case 0:
         play_cue_stream_file("lose.adx");
         TLobby::send_45_and_close_windows(this);
@@ -377,7 +376,6 @@ void TObjChallengeRetry::sub_8007313C() {
   }
 }
 
-void *fn_800733C4(void *arg0);
 extern const char *TObjChallengeRetry__class_name;
 void TObjChallengeRetry::run_task() {
     u8 *arg0 = (u8 *)this;
@@ -422,8 +420,8 @@ TObjChallengeRetry::TObjChallengeRetry(TObject *parent) : TObject(parent) {
     state = 0;
 }
 
-void *fn_800733C4(void *parent) {
-    return new TObjChallengeRetry((TObject *)parent);
+TObjChallengeRetry *TObjChallengeRetry::create(TObject *parent) {
+    return new TObjChallengeRetry(parent);
 }
 
 }

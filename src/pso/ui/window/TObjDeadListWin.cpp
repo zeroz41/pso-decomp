@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
@@ -68,7 +69,7 @@ void TObjDeadListWin::refresh_names() {
     u8* me;
     for (i = 0; i < 4; i++) {
         player = (u8*)get_player_by_client_id(i);
-        if (m_names[i].text[0] == 0 && player != NULL && TLobby::get_flagged_table_entry(i) != 0) {
+        if (m_names[i].text[0] == 0 && player != NULL && challenge_client_died(i) != 0) {
             strncpy(m_names[i].text, (char*)player + 0x85C, 15);
             m_names[i].terminator = 0;
         }

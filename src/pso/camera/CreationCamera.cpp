@@ -6,7 +6,7 @@
 #include "pso/ui/charcreate/CharacterAppearance.h"
 #include "pso/ui/charcreate/CharacterCreationModels.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/TLobby_8006F278.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
 #include "pso/ui/charcreate/TObjCMProportion.h"
 #include "pso/render/render_util.h"

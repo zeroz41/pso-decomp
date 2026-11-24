@@ -22,6 +22,7 @@
 #include "pso/network/TProtocol.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/unk/text_801F43B4.h"
@@ -465,12 +466,12 @@ void TQuestListOnline::close_windows() {
 }
 
 u8 TQuestListOnline::get_unlocked_tier() {
-    if (TLobby::is_flag_set() != 0) {
+    if (is_challenge_mode() != 0) {
         switch ((s32) online_quest_list_state) {
         case 0:
-            return (u8) TLobby::get_party_min_tier(0);
+            return (u8) party_min_cleared_stages(0);
         case 1:
-            return (u8) TLobby::get_party_min_tier(1);
+            return (u8) party_min_cleared_stages(1);
         default:
             return 0U;
         }

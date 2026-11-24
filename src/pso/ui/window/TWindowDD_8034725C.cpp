@@ -15,6 +15,7 @@
 #include "pso/unk/text_80228E98.h"
 #include <string.h>
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowDD_80347F34.h"
@@ -697,7 +698,7 @@ s32 TWindowDD::get_word_select_context() {
     if (TObjPlayer::get_player_count() != 0) {
         return 4;
     }
-    if (TLobby::is_flag_set() != 0) {
+    if (is_challenge_mode() != 0) {
         return 5;
     }
     return (this->m_a0 != 0 ? 1 : 0) + 2;

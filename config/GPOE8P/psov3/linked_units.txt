@@ -670,7 +670,6 @@ pso/ui/charcreate/TChCrTagName.cpp
 pso/ui/charcreate/TChCrTagOccupation.cpp
 pso/ui/charcreate/TChCrTagPlBack.cpp
 pso/ui/charcreate/TChCrTagPlGraphic.cpp
-pso/quest/challenge/TChallenge.cpp
 pso/ui/charcreate/TCharaMaking.cpp
 pso/system/save/TCheckMemoryCard.cpp
 pso/ui/city/TCheckRoomSequence.cpp
@@ -740,9 +739,7 @@ pso/unk/TLobby_8001EF5C.cpp
 pso/unk/TLobby_8002C140.cpp
 pso/unk/TLobby_8004A90C.cpp
 pso/unk/TLobby_80067410.cpp
-pso/unk/TLobby_8006F278.cpp
-pso/unk/TLobby_80070A00.cpp
-pso/quest/challenge/ChallengeModeSdata.cpp
+pso/quest/challenge/ChallengeModeQuest.cpp
 pso/unk/TLobby_800726F0.cpp
 pso/unk/TLobby_8007340C.cpp
 pso/unk/TLobby_80073DAC.cpp
@@ -1061,7 +1058,6 @@ pso/quest/TQuestListChallenge.cpp
 pso/quest/TQuestListOnline.cpp
 pso/quest/TQuestThreadBoard.cpp
 pso/quest/TQuestVmDownLoadServer.cpp
-pso/quest/TQuestVmDownLoadServer_8006FC34.cpp
 pso/quest/TQuestVmDownLoadServer_80080788.cpp
 pso/quest/TQuestVmDownLoadServer_801F9010.cpp
 pso/quest/TQuestVmDownLoadServer_803E5668.cpp
@@ -1309,7 +1305,6 @@ pso/ui/chat/TWindowSubShortMail_80246CB8.cpp
 pso/ui/chat/TWindowSubShortMail.cpp
 pso/ui/chat/TWindowSubShortMail_802A571C.cpp
 pso/ui/window/TWindowSubStatusDisp.cpp
-pso/ui/window/TWindowSubStatusDisp_8006F044.cpp
 pso/ui/window/TWindowSubStatusDisp_80071774.cpp
 pso/ui/window/TWindowSubStatusDisp_80077760.cpp
 pso/ui/window/TWindowSubStatusDisp_800FBD74.cpp
@@ -1834,8 +1829,6 @@ pso/boss/darkfalz/TObjDFDemo0.cpp
 pso/unk/text_80052420.cpp
 pso/unk/text_80066F10.cpp
 pso/unk/text_80066F5C.cpp
-pso/unk/text_8006EF80.cpp
-pso/unk/text_8006EF90.cpp
 pso/unk/text_80071A9C.cpp
 pso/unk/text_80071B30.cpp
 pso/unk/text_80072230.cpp

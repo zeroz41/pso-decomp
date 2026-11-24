@@ -2,6 +2,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/city/THunterGuildSeqOffline_80211FEC.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/system/TMemberCheck.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/system/task/TMainTask.h"
@@ -71,7 +72,7 @@ s32 THunterGuildSeqOffline::check_party_gathered() {
     if (TObjPlayer::get_player_count() != 0 && TLobby::count_members() == 1) {
         return 2;
     }
-    if (TLobby::is_flag_set() != 0 && TLobby::count_members() == 1) {
+    if (is_challenge_mode() != 0 && TLobby::count_members() == 1) {
         return 2;
     }
     for (i = 0; i < 4; i++) {

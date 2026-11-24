@@ -70,7 +70,7 @@ TAdScrollWinGC::~TAdScrollWinGC() {
         m_window->queue_destruction();
         m_window = NULL;
     }
-    fn_8026A14C();
+    clear_chat_log();
 }
 
 void TAdScrollWinGC::run_task() {

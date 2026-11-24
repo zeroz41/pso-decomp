@@ -34,7 +34,7 @@ const char *TObjBagWarnWin4P__name = "TObjBagWarnWin4P";
 
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
-#include "pso/unk/text_8006EF80.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 
 #include "pso/camera/TCameraCtrl.h"
 
@@ -144,7 +144,7 @@ s32 TObjBagWarnWin::should_show_warning(void *arg0) {
     if (TLobby__sub_80211C3C() != 3) {
         return 0;
     }
-    if (fn_8006EF80() != 0) {
+    if (get_challenge_record_window_mode() != 0) {
         return 0;
     }
     ctrl = (Ctrl_8006EC20 *)get_player_by_client_id(local_client_id);

@@ -22,6 +22,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/unk/TLobby_80291D94.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/technique/TTecDeband.h"
@@ -789,7 +790,7 @@ void TItemMag::refresh_invincibility() {
 }
 
 void TItemMag::request_action(s32 action) {
-    if ((TLobby::is_flag_set() != 0 || is_challenge_mode_active() != 0) &&
+    if ((is_challenge_mode() != 0 || is_challenge_mode_active() != 0) &&
         (action == MAG_ACTION_REVERSER || action == MAG_ACTION_RESTA)) {
         return;
     }

@@ -11,7 +11,7 @@ char *chat_last_line_buffer;
 
 
 extern void *chat_log_lines[];
-void fn_8026A14C(void) {
+void clear_chat_log() {
     s32 i;
     for (i = 0x1D; i >= 0; i--) {
         if (chat_log_lines[i] != NULL) {
@@ -24,7 +24,7 @@ void fn_8026A14C(void) {
         chat_last_line_buffer = NULL;
     }
 }
-void fn_8026A1C4(char *dst, const char *src, s32 size) {
+void copy_clipped_text(char *dst, const char *src, s32 size) {
     s32 sjis;
     const char *next;
     s32 len;

@@ -56,8 +56,6 @@ struct TObjTombstoneSpot;
 class TPlyJoinLobbyEntry;
 
 struct TLobby : public TObject {
-    // Whether a challenge-mode task is running.
-    static s32 is_flag_set();
     static int is_flag_set(void *p);
     TLobby(TObject *parent);
     virtual ~TLobby();
@@ -133,18 +131,6 @@ struct TLobby : public TObject {
     static int is_boss_phase_reached();
     static void cleanup_pillar_demo();
     static void cleanup_boss5_pillars();
-    static s32 calc_challenge_time_limit();
-    static void advance_state_if_flag_set();
-    static s32 check_challenge_time_range(s32 clear_time);
-    void set_name_string();
-    static void encode_name_xor(u8 *dst, u8 *src, s32 n);
-    static s32 get_valid_slot(int id);
-    static s32 get_slot_clamped(u32 id);
-    static void mark_solo_win_closing();
-    static s32 try_set_value(f32 farg0);
-    static s32 set_split_screen_flag(s32 arg0);
-    static s32 count_set_bits(u32 x);
-    static s32 get_party_min_tier(s32 slot);
     void copy_header_struct(void* q);
     static void set_enemy_mode_flag();
     static TObjTombstone *create_tombstone(TObject *parent, s32 client, const TObjTombstoneSpot *spot);
@@ -377,7 +363,6 @@ struct TLobby : public TObject {
     static void draw_if_ready2();
     static s32 check_ready_status();
     static void reset_menu_state_globals();
-    static void set_encoded_name_and_color(u8 *lobby, s32 arg1);
     static void update_challenge_timer(s32 arg0);
     static s32 set_camera_height_if_valid(f32 farg0);
     static s32 try_set_split_screen(s32 arg0);
@@ -482,13 +467,10 @@ struct TLobby : public TObject {
     static void make_players();
     static u8 lookup_table_value(s8 x);
     bool is_slot_match();
-    static void spawn_player_tombstones();
     static void load_ask_dictionary();
     static void drain_deferred_packets();
     s32 get_table_entry_by_index();
     static void open_challenge_window(s32 lobby, s32 challenge_id);
-    static s32 get_flagged_table_entry(s32 client);
-    static s32 get_flag_value_if_set();
     void add_status_disp_entry(s32 arg1, s32 arg2);
     static void tmp_buf_release_if_owner(const char *name);
     static s32 tmp_buf_release(const char *name);
@@ -507,10 +489,7 @@ struct TLobby : public TObject {
     s32 get_battle_ctrl_default();
     static s32 find_free_chat_log_slot();
     static void apply_menu_cursor_selection();
-    static u8 *get_stage_table_entry(s32 arg0, s32 arg1);
-    static s32 get_online_result_value();
     static void send_challenge_retry_cmd(s32 arg0);
-    void send_seed_state();
     static void send_challenge_with_value(s32 arg0, s32 arg1);
     static void send_challenge_records(u32 _w0);
     static s32 start_lobby_name_request();
@@ -577,17 +556,6 @@ struct TLobby : public TObject {
     static void send_data(const char *filename);
     static void update_alloc_size();
     static u8 get_selected_slot();
-    static void init_on_main_phase();
-    static void copy_state_block();
-    static char *get_unit_list();
-    static s32 get_state();
-    static void update_dead_list_win();
-    static void draw_if_ready();
-    static s32 check_ready_state();
-    static s32 get_max_challenge_time();
-    void set_player_name_and_color(s32 arg1);
-    static void set_selected_layout(s32 arg0);
-    static s32 calc_remaining_char_slots();
     void bswap_challenge_dead_flag();
     void send_and_handle_60_wrapper();
     void byteswap_challenge_time_packet();
@@ -814,7 +782,6 @@ struct TLobby : public TObject {
     void update_timed_wait();
     void update_battle_intro();
     // Members other code calls by their mangled names.
-    static s32 add_entry(int, int, int);
     static void add_lobby_members(TPlyJoinLobbyEntry *, int, int, int);
     static void *adxf_open(unsigned int, int);
     static s32 adxf_open_file(int, void *, int, void *);
@@ -847,7 +814,6 @@ struct TLobby : public TObject {
     static s32 create_named_entry(const char *name, void *destination, void (*callback)(void *), const void *params, void **request);
     static void *create_quest_col_apc_inw(void *, void *);
     static void create_warp_menu();
-    static s32 decode_slot(unsigned int);
     static void destroy_all_objects();
     static void destroy_child_recursive(void *, void *);
     static void destroy_join_entries();
@@ -884,13 +850,10 @@ struct TLobby : public TObject {
     static void init_player_entry(void *, void *);
     static void init_player_window_effect();
     static u8 is_challenge_lobby();
-    static s32 is_id_out_of_range(int);
     static u8 is_valid_player_index(int);
     static s32 is_valid_state(void *, int);
     static s32 load_floor_enemy_group_entries(int, void *, unsigned int);
     static u8 lookup_key_value(char);
-    static s32 mix_seed(u16);
-    static s32 mix_seed_checked(int);
     static void on_lobby_player_add(TPlyJoinLobbyEntry *entries, int leader_id);
     static void open_city_warp_menu();
     static void open_download_list_window(int, void *);
@@ -1014,5 +977,11 @@ LAYOUT_ASSERT(TLobby_size, sizeof(TLobby) == 0x1C);
 // whether placing one shows the drop effect.
 extern void *item_object_set_data;
 extern s32 item_ground_placement_enabled;
+
+// The lobby name the server sends (packet 0x8A) after start_lobby_name_request.
+extern char lobby_name[0x18];
+void receive_lobby_name(char *name);
+void clear_lobby_name();
+char *get_lobby_name();
 
 #endif

@@ -790,9 +790,6 @@ pso/ui/window/TObjBagWarnWin.cpp:
 pso/quest/challenge/ChallengeModeData.cpp:
 	.sdata2     start:0x805D90D0 end:0x805D9100
 
-pso/quest/challenge/ChallengeModeSdata.cpp:
-	.sdata      start:0x805D2850 end:0x805D2860
-
 pso/quest/challenge/ChallengeForceLoadouts.cpp:
 	.data       start:0x80488E80 end:0x8048A188
 
@@ -802,37 +799,19 @@ pso/quest/challenge/ChallengeHunterLoadouts.cpp:
 pso/quest/challenge/ChallengeRangerLoadouts.cpp:
 	.data       start:0x8048B1F8 end:0x8048C348
 
-pso/unk/text_8006EF80.cpp:
-	.text       start:0x8006EF80 end:0x8006EF90
-
-pso/unk/text_8006EF90.cpp:
-	.text       start:0x8006EF90 end:0x8006F044
-
-pso/ui/window/TWindowSubStatusDisp_8006F044.cpp:
-	.text       start:0x8006F044 end:0x8006F278
-	.rodata     start:0x80438570 end:0x804385A8
-
-pso/unk/TLobby_8006F278.cpp:
-	.text       start:0x8006F278 end:0x8006FC34
-	.rodata     start:0x804385A8 end:0x804385B0
+pso/quest/challenge/ChallengeMode.cpp:
+	.text       start:0x8006EF80 end:0x80070AB0
+	.ctors      start:0x80433F48 end:0x80433F4C
+	.rodata     start:0x80438570 end:0x804385B8
+	.data       start:0x8048C348 end:0x8048D120
 	.bss        start:0x804FF800 end:0x804FF820
+	.sdata      start:0x805D2850 end:0x805D2858
+	.sbss       start:0x805D4E28 end:0x805D4E38
 	.sdata2     start:0x805D9100 end:0x805D9108
 
-pso/quest/TQuestVmDownLoadServer_8006FC34.cpp:
-	.text       start:0x8006FC34 end:0x8006FF4C
-
-pso/quest/challenge/ChallengeMode.cpp:
-	.text       start:0x8006FF4C end:0x800709C4
-	.data       start:0x8048C348 end:0x8048D120
-	.sbss       start:0x805D4E28 end:0x805D4E38
-
-pso/quest/challenge/TChallenge.cpp:
-	.text       start:0x800709C4 end:0x80070A00
-
-pso/unk/TLobby_80070A00.cpp:
-	.text       start:0x80070A00 end:0x8007172C
-	.ctors      start:0x80433F48 end:0x80433F4C
-	.rodata     start:0x804385B0 end:0x804385C0
+pso/quest/challenge/ChallengeModeQuest.cpp:
+	.text       start:0x80070AB0 end:0x8007172C
+	.rodata     start:0x804385B8 end:0x804385C0
 	.bss        start:0x804FF820 end:0x804FF838
 	.sbss       start:0x805D4E38 end:0x805D4E40
 	.sdata2     start:0x805D9108 end:0x805D9110
@@ -842,6 +821,7 @@ pso/object/ending/TObjOnlineEnding.cpp:
 
 pso/ui/window/TWindowSubStatusDisp_80071774.cpp:
 	.text       start:0x80071774 end:0x80071A9C
+	.sdata      start:0x805D2858 end:0x805D2860
 
 pso/unk/text_80071A9C.cpp:
 	.text       start:0x80071A9C end:0x80071B30

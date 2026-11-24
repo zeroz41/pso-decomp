@@ -8,6 +8,7 @@
 #include "pso/object/switch/TSwitch.h"
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -83,7 +84,6 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/render/gjSystem.h"
-#include "pso/unk/text_8006EF90.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/unk/text_801F3774.h"
@@ -196,7 +196,7 @@ FloorResourceCallbacks offline_game_scene_callbacks[48] = {
     {fn_803000C8, TLobby__sub_803000A0},
     {prepare_adventure_maps, TLobby__sub_802075F4},
     {TLobby::clear_story_flags_and_reset_camera, TLobby::clear_story_flag_list},
-    {TLobby::init_on_main_phase, NULL},
+    {start_challenge_mode, NULL},
     {(FloorResourceCallback)TLobby__sub_80293124, TLobby::destroy_tombstone},
     {TLobby::update_keyboard_menu, TLobby::free_keyboard_soft_resources},
     {TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows},
@@ -489,7 +489,7 @@ void run_offline_transfer_frame(void) {
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     take_snapshot();
-    TLobby__sub_8006EF90();
+    run_challenge_frame();
     if (static_cast<s8>(func_801A5E54()) != 0) {
         TLobby::reset_keyboard_input();
     }

@@ -21,6 +21,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/network/TProtocol.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/system/TLoadCtrl.h"
@@ -118,12 +119,10 @@ struct Pl_801A40D8 : PlB_801A40D8 {
 
 extern "C" {
 void clear_enabled_main_warps(void);
-    extern int challenge_task_created;
 int TKeyBoardControl__sub_8000F95C(void);
 s32 is_keyboard_active();
 s32 clear_keyboard_key_state();
 int request_main_phase(int);
-s32 TLobby__sub_8006EF90();
 
 s32 cleanup__6TLobbyFv();
 s32 PPCSync();
@@ -205,7 +204,7 @@ FloorResourceCallbacks online_lobby_scene_callback_table[43] = {
 
 // Area resources reloaded on a floor change and released with the lobby scene.
 FloorResourceCallbacks lobby_area_reload_callbacks[9] = {
-    { TLobby::init_on_main_phase, NULL },
+    { start_challenge_mode, NULL },
     { TLobby::update_drop_item, NULL },
     { clear_floor_population, NULL },
     { TLobby::load_set_gsl_files, clear_map_set_data },
@@ -652,7 +651,7 @@ void TLobby::run_main_frame() {
     TAdSinglePlyChrSelectGC::run_save_load_sequence();
     TAdSinglePlyChrSelectGC::noop();
     take_snapshot();
-    TLobby__sub_8006EF90();
+    run_challenge_frame();
     if (((s32) lbl_805D55C0 == 0) && (poll_memcard_result((int) ((s8)TAdSinglePlyChrSelectGC::get_chr_select_state())) != -1)) {
         if (TAdPlayerLoadGC::probe_card_slot((s8)TAdSinglePlyChrSelectGC::get_chr_select_state()) != 0) {
             online_lobby_frame_counter = 0;

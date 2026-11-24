@@ -7,6 +7,7 @@
 #include "pso/object/warp/TObjWarpBase.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/object/warp/TObjAreaWarp.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/task/TObject.h"
@@ -740,7 +741,7 @@ s32 TObjWarpBossMulti::get_boss_warp_flag() {
 }
 
 s32 TObjWarpBossMulti::is_lobby_active() {
-    return TLobby::get_state() ? 1 : 0;
+    return is_challenge_boss_warp_disabled() ? 1 : 0;
 }
 
 s32 TObjWarpBoss::sub_8019E418() {

@@ -30,7 +30,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/unk/TLobby.h"
-#include "pso/unk/TLobby_80070A00.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "types.h"
@@ -324,11 +324,11 @@ void TObjOnlineEnding::render() {
 
 void TObjOnlineEnding::create_result_window() {
     result_window = NULL;
-    if (TLobby::is_flag_set() != 0) {
-        if (TLobby::get_online_result_value() == TWindowSubStatusDisp::get_layout_id(-1) - 1) {
+    if (is_challenge_mode() != 0) {
+        if (current_challenge_stage() == challenge_set_stage_count(RECORD_SET_CURRENT) - 1) {
             result_window = new TWindowChallengeResult(
-                reinterpret_cast<const char *>(TLobby__sub_80070ACC()),
-                TWindowSubStatusDisp__sub_800718D0(),
+                reinterpret_cast<const char *>(get_lobby_name()),
+                get_challenge_total_time(),
                 get_card_window_value());
         }
     }

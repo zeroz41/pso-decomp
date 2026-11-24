@@ -20,6 +20,7 @@
 #include "pso/system/task/TObject.h"
 
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 
 #include "pso/object/base/TObjMotion.h"
 
@@ -586,7 +587,7 @@ void TObjEnemy::award_enemy_experience(s32 client) {
         val *= 0.8f;
     }
     if (is_quest_active() == 1) {
-        if (TLobby::is_flag_set() != 0) {
+        if (is_challenge_mode() != 0) {
             val = (s32)((f32)val * TLobby__sub_800F7A7C());
         } else if (is_challenge_mode_active() != 0) {
             val = (s32)((f32)val * TLobby__sub_800F7A6C());

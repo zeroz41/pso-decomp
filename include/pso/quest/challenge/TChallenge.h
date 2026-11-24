@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct ChallengeRecord;
+
 struct TChallenge : public TObject {
     TChallenge(TObject *parent);
     virtual ~TChallenge();
@@ -19,10 +21,14 @@ struct TChallenge : public TObject {
     void wait_for_quest();
     void initialize_windows();
     static void *create();
+    static const char *class_name;
     void set_challenge_record_page(s32 mode);
     void show_challenge_record_window(s32 mode);
     void clear_challenge_record_window();
-    void open_challenge_progress_window(void *slot);
+    // slot: a ChallengeRecordSet
+    void open_challenge_progress_window(s32 slot);
+    // The stages of record set `slot` cleared in `record`, in order.
+    s32 count_cleared_stages(ChallengeRecord *record, s32 slot);
     void refresh_challenge_windows();
     void request_missing_challenge_records();
     void send_6x7c_reset();
@@ -38,6 +44,4 @@ struct TChallenge : public TObject {
 LAYOUT_ASSERT(TChallenge_size, sizeof(TChallenge) == 0x30);
 
 extern TChallenge *challenge_task;
-// The challenge-mode flag of the game being joined (command 64).
-extern s32 game_challenge_mode;
 #endif

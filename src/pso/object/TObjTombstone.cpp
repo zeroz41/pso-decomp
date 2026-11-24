@@ -9,6 +9,7 @@
 #include "pso/system/vector.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -410,7 +411,7 @@ f32 TObjTombstone::get_distance_to_local_player_xz() {
 void TObjTombstone::render() {
     if (check_height_ready() != 0) {
         update_render_flags();
-        switch (TWindowSubStatusDisp::resolve_player_slot(-1)) {
+        switch (resolve_challenge_record_set(-1)) {
         case 2:
         case 3:
             update_fade_by_distance();
@@ -614,7 +615,7 @@ s32 TObjTombstone::check_owner() {
     if (TRaderMapCore::is_not_split_screen() == 1) {
         active = is_challenge_mode_active();
     } else {
-        active = TLobby::is_flag_set();
+        active = is_challenge_mode();
     }
     if (active == 0 || (s8)this->record.floor != get_current_floor()) {
         return 1;

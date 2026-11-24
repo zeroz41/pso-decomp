@@ -9,7 +9,7 @@
 #include "types.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/unk/TLobby_8006F278.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/system/task/TMainTask.h"
 
@@ -121,7 +121,7 @@ extern "C" {
 
 extern s32 lbl_805D55C0;
 
-s32 *TObjCityMainWarp__sub_80186AF4(void);
+char *TObjCityMainWarp__sub_80186AF4(void);
 
 
 }
@@ -211,8 +211,8 @@ s32 TObjCityMainWarp::get_phase_flag() {
     return ((get_main_phase() - 0xF) == 0) ? lbl_805D55C0 : 0;
 }
 
-s32 *TObjCityMainWarp__sub_80186AF4(void) {
-    return &lobby_name_string_buffer.value;
+char *TObjCityMainWarp__sub_80186AF4(void) {
+    return area_title;
 }
 
 void TWindowMenu::set_flag70_bit10() { this->m_70 |= 0x10; }

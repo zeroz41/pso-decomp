@@ -8,9 +8,10 @@ class THeap;
 extern THeap *TAdScrollWinGC__chat_log_heap;
 extern char *chat_last_line_buffer;
 
-extern "C" {
-void fn_8026A14C(void);
-void fn_8026A1C4(char *dst, const char *src, s32 size);
-}
+// Frees every chat log line and the last-line buffer.
+void clear_chat_log();
+// Copies src into dst (size bytes with the terminator), cutting it short only between
+// control codes and whole characters.
+void copy_clipped_text(char *dst, const char *src, s32 size);
 
 #endif

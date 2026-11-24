@@ -1,6 +1,6 @@
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/quest/challenge/ChallengeStageLoadouts.h"
-#include "pso/unk/text_80071B30.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/system/vector.h"
 
 #include "types.h"
@@ -27,20 +27,18 @@ typedef ChallengeTechniqueLevel Pair_80071BC0;
 
 typedef ChallengeStageStart Tbl_80071BC0;
 
-extern "C" {
-void copy_player_visual_record(void *, void *);
-void set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(TObjPlayer *, u8, s16);
-extern s32 local_client_id;
-s32 TLobby__sub_80071B30(s32 arg0, s32 slot) {
+s32 client_cleared_stages(s32 client, s32 slot) {
     s32 *list;
     s32 n;
     s32 i;
-    ChallengeClientRecords *r = &challenge_mode_state.client_records[arg0];
+    ChallengeClientRecords *r;
+
+    r = &challenge_mode_state.client_records[client];
     if (r->present == 0) {
         return 0;
     }
-    list = TWindowSubStatusDisp__sub_8006F0D8(&r->records, slot);
-    n = TWindowSubStatusDisp::get_layout_id(slot);
+    list = challenge_set_stage_times(&r->records, slot);
+    n = challenge_set_stage_count(slot);
     for (i = 0; i < n; i++) {
         if (list[i] == 0) {
             break;
@@ -48,6 +46,11 @@ s32 TLobby__sub_80071B30(s32 arg0, s32 slot) {
     }
     return i;
 }
+
+extern "C" {
+void copy_player_visual_record(void *, void *);
+void set_technique_level_clamped__10TObjPlayerFP10TObjPlayerUci(TObjPlayer *, u8, s16);
+extern s32 local_client_id;
 void TObjPlayer::rebuild_players_for_stage(s32 stage) {
     Hdr_80071BC0 hdr;
     Vec pos;

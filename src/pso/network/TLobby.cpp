@@ -26,6 +26,7 @@
 #include "pso/network/TPacket.h"
 #include "pso/network/TGameProtocol.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/unk/TLobby_8020BFC4.h"
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/text_800C7FEC.h"
@@ -197,6 +198,7 @@ s32 TLobby__sub_801A3E8C();
 s32 init_player_join_record(void *);
 void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
+extern s32 lobby_challenge_mode;
 extern const NJS_POINT2 card_list_message_window_size[1];
 void fn_80338D58(void *list, s32 flag, const char *name, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 index);
 extern NJS_POINT2 idle_timeout_window_size[1];
@@ -1790,7 +1792,7 @@ TLobby::~TLobby() {
     player_setup_pending = 0;
     lobby_selected_game_list_index = 0;
     join_lobby_controller = NULL;
-    game_challenge_mode = 0;
+    lobby_challenge_mode = 0;
 }
 void TLobby::destroy_all_objects() {
     if (card_list_window != NULL) {
@@ -2207,7 +2209,7 @@ void TLobby::handle_game_join(void *data) {
     designated_client_id = pkt->leader_id;
     join_state_flag = pkt->disable_udp;
     TLobby::set_player_count(pkt->battle_mode);
-    game_challenge_mode = pkt->challenge_mode;
+    lobby_challenge_mode = pkt->challenge_mode;
     game_difficulty_selection = pkt->difficulty;
     event_theme_id = pkt->event;
     set_area_random_seed(pkt->rare_seed);
@@ -2718,7 +2720,7 @@ TLobby::TLobby(TObject *parent) : TObject(parent) {
     protocol_instance->m_recv_handlers.handle_D8_infoboard_packet = TLobby::handle_info_board;
     protocol_instance->m_recv_handlers.handle_DA_lobby_event_packet = TLobby::set_lobby_event_theme;
     protocol_instance->m_recv_handlers.handle_AB_quest_stats_response_packet = (recv_packet_handler_handle_AB_quest_stats_response_packet)TLobby__sub_80134A20;
-    game_challenge_mode = 0;
+    lobby_challenge_mode = 0;
 }
 saddr TLobby::get_seq_phase(int id) { return get_online_message_text(id); }
 void lobby_init_hook(void) {  }

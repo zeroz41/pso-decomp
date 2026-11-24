@@ -3,6 +3,7 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
+#include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -42,7 +43,7 @@ s32 TLobby__sub_8030A770(void) {
 s32 get_game_play_mode(void) {
     s32 n;
     s32 r;
-    if (TLobby::is_flag_set() == 1) {
+    if (is_challenge_mode() == 1) {
         return 1;
     }
     if (is_challenge_mode_active() == 1) {

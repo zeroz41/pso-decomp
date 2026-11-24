@@ -11,16 +11,6 @@ struct PageIndicator;
 class ItemListRow;
 
 struct TWindowSubStatusDisp : public TWindowBase {
-    // Challenge-mode record set: resolve_player_slot maps RECORD_SET_CURRENT to the running
-    // game's set by selected_episode and is_split_screen; get_layout_id gives the sets 9/5/9/5 stages.
-    enum RecordSet {
-        RECORD_SET_CURRENT = -1,
-        RECORD_SET_EP1,
-        RECORD_SET_EP2,
-        RECORD_SET_EP1_SPLIT,
-        RECORD_SET_EP2_SPLIT
-    };
-
     TWindowSubStatusDisp(s32 client);
     virtual ~TWindowSubStatusDisp();
     virtual void run_task();
@@ -53,9 +43,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     void clear_visible_flag();
     static s32 destroy_allocation(s32 arg0, s16 arg1);
 
-    static s32 get_status_index(u16 client_index);
-    static s32 get_status_index_or_default(u16 *arg0);
-    static char *get_status_window(u16 client);
     static void *get_message_10(s32 index);
     static void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
     static void render_forward();
@@ -115,10 +102,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s32 get_display_mode();
     static f32 round_away_from_zero(f32 farg0);
     static s32 build_status_text(s32 client_id);
-    static s32 calc_layout_hash(s32 slot);
-    static s32 calc_entry_offset(s32 slot);
-    static s32 get_layout_id(s32 slot);
-    static s32 resolve_player_slot(s32 slot);
     static void *get_entry_ptr(int a0);
     void append_entry(s32 flag, s32 arg2, s32 item, s32 arg4, s32 arg5);
     s32 update_hp_entry();
