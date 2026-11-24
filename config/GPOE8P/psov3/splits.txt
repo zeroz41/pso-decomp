@@ -5005,7 +5005,7 @@ pso/unk/text_801D34E0.cpp:
 pso/unk/TLobby_801D3518.cpp:
 	.text       start:0x801D3518 end:0x801D3554
 
-pso/player/TObjPlayer_801D3554.cpp:
+pso/player/PlayerItemDrops.cpp:
 	.text       start:0x801D3554 end:0x801D3780
 
 pso/player/TPlyItem.cpp:
