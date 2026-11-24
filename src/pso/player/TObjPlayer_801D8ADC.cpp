@@ -26,9 +26,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/object/base/TObjBase.h"
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 
 // Photon blast motion frames of one weapon handle.
 struct PhotonBlastMotionTiming {

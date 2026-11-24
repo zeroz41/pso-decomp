@@ -129,9 +129,6 @@ void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(player_en
 #include "pso/player/TPlyInventory.h"
 #include "pso/unk/text_800F9B84.h"
 
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
 
 extern "C" {
 extern u8 *TObjPlayer__shared_model_buffer;
