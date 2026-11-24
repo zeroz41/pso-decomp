@@ -1,6 +1,9 @@
+#define PSO_SDK_COMPACT_MATH
 #include "types.h"
 #include <string.h>
 #include <dolphin/os/OSAlloc.h>
+#include <dolphin/os/OSThread.h>
+#include <dolphin/card.h>
 #include "pso/ui/frontend/TAdPlayerLoadGC_803F339C.h"
 
 #pragma scheduling off
@@ -11,54 +14,15 @@
 #include "pso/system/save/McFsGc.h"
 #include "pso/unk/text_803F3BF8.h"
 
-typedef struct Ent_803F47BC {
-    char name[0x20];
-    s16 id;
-    s16 a;
-    s16 b;
-    s16 c;
-} Ent_803F47BC;
-
-typedef struct Id_803F47BC {
-    s16 id;
-    s16 a;
-    s16 b;
-    s16 c;
-    char name[0x20];
-} Id_803F47BC;
-
-typedef struct Rec_803F47BC {
-    char name[0x10E];
-    s16 kind;
-    u8 pad[0x210 - 0x110];
-} Rec_803F47BC;
-
-typedef struct Big_803F47BC {
-    s16 f0;
-    s16 cur;
-    s16 x4;
-    s16 x6;
-    Ent_803F47BC ent[6];
-    Rec_803F47BC rec[6];
-    u8 padD58[0xE5C - 0xD58];
-    char strE5C[0x19D4 - 0xE5C];
-} Big_803F47BC;
-
-typedef struct Save_803F3F64 {
-    u8 pad0[0x5840];
-    u8 data[0x23B8];
+// The "sega_network_information" card file. The payload is the encrypted NETINFO text.
+struct NetworkInfoCardFile {
+    u8 pad_0[0x5840];
+    u8 payload[0x23B8];
     u32 crc;
-    s32 size;
-    u8 tail[0x400];
-} Save_803F3F64;
+    s32 payload_size;
+    u8 trailer[0x400];
+};
 
-s32 get_or_set_network_config_mode(s32 mode);
-s32 get_or_set_network_config_backup_mode(s32 mode);
-extern NetworkInfoLoadState network_info_load_state;
-extern "C" {
-s32 CARDGetSerialNo(s32 chan, u64 *serialNo);
-s32 CARDGetUniqueCode(s32 chan, u64 *code);
-}
 extern char default_provider_name_0[];
 extern char default_provider_name_1[];
 extern char default_provider_name_2[];
@@ -71,16 +35,15 @@ extern char isao_mail_account_name[];
 extern u8 network_info_payload_buffer[];
 extern u8 network_info_trailer_buffer[];
 extern u8 network_info_trailer_backup[];
-Save_803F3F64 *network_config_buffer;
+NetworkInfoCardFile *network_config_buffer;
 s32 network_config_mode;
 s32 network_config_backup_mode;
-// The ntInf init (TLobby__sub_803F3BF8) stores the library's version banner pointer here, as mcfs does with
-// mcfs_version_ref (name inferred from that store).
+// The network library's init stores its version banner pointer here, as mcfs does with mcfs_version_ref.
 const char *ntinf_version_ref;
 s32 lobby_net_config_load_state;
 // The config buffer and its card half sit on the 32-byte boundaries 0x805D79C0 and 0x805D79E0 (the zero words
 // between are this TU's alignment pad, as card_work_area in mcfs).
-Big_803F47BC *lobby_net_config_buffer __attribute__((aligned(32)));
+NetworkInfoConfig *lobby_net_config_buffer __attribute__((aligned(32)));
 void *lobby_net_config_card_base __attribute__((aligned(32)));
 
 #pragma scheduling off
@@ -139,11 +102,11 @@ void update_network_info_load(void) {
         s->phase = 9;
     case 9:
         get_or_set_channel_flag(get_network_config_card_channel(), 1);
-        if ((void *)(&network_info_load_state)[0].caller_buffer == NULL) {
+        if (network_info_load_state.caller_buffer == NULL) {
             if (network_config_buffer != NULL) {
                 OSFreeToHeap(__OSCurrHeap, network_config_buffer);
             }
-            network_config_buffer = (Save_803F3F64 *)OSAllocFromHeap(__OSCurrHeap, get_network_info_file_size());
+            network_config_buffer = (NetworkInfoCardFile *)OSAllocFromHeap(__OSCurrHeap, get_network_info_file_size());
             if (network_config_buffer == NULL) {
                 close_card_slot(network_info_load_state.file_handle);
                 get_or_set_channel_flag(get_network_config_card_channel(), 0);
@@ -153,11 +116,11 @@ void update_network_info_load(void) {
                 break;
             }
         } else {
-            network_config_buffer = (Save_803F3F64 *)network_info_load_state.caller_buffer;
+            network_config_buffer = (NetworkInfoCardFile *)network_info_load_state.caller_buffer;
         }
-        network_info_load_state.card_result = request_card_read((s32)network_info_load_state.file_handle, network_config_buffer, (s32)(get_network_info_file_size()), 0);
+        network_info_load_state.card_result = request_card_read(network_info_load_state.file_handle, network_config_buffer, get_network_info_file_size(), 0);
         if (network_info_load_state.card_result < 0) {
-            if ((void *)(&network_info_load_state)[0].caller_buffer == NULL) {
+            if (network_info_load_state.caller_buffer == NULL) {
                 if (network_config_buffer != NULL) {
                     OSFreeToHeap(__OSCurrHeap, network_config_buffer);
                 }
@@ -176,7 +139,7 @@ void update_network_info_load(void) {
     case 10:
         network_info_load_state.card_result = take_card_read_result(get_network_config_card_channel(), &network_info_load_state.card_detail);
         if (network_info_load_state.card_result == 0) {
-            if (network_config_buffer->size <= 0 || (u32)network_config_buffer->size > 0x23B8) {
+            if (network_config_buffer->payload_size <= 0 || (u32)network_config_buffer->payload_size > 0x23B8) {
                 close_card_slot(network_info_load_state.file_handle);
                 get_or_set_channel_flag(get_network_config_card_channel(), 0);
                 unmount_card(get_network_config_card_channel());
@@ -193,7 +156,7 @@ void update_network_info_load(void) {
                 } else {
                     crc = network_config_buffer->crc;
                     network_config_buffer->crc = 0;
-                    sum = calc_crc32((saddr)network_config_buffer, 0x8000);
+                    sum = calc_crc32((u8 *)network_config_buffer, 0x8000);
                     if (sum != crc) {
                         init_network_config_defaults();
                         close_card_slot(network_info_load_state.file_handle);
@@ -202,9 +165,9 @@ void update_network_info_load(void) {
                         network_info_load_state.result = -32;
                         s->phase = 27;
                     } else {
-                        memcpy(network_info_payload_buffer, network_config_buffer->data, 0x23B8);
-                        memset((*(s16 * *)&lobby_net_config_buffer), 0, 0x19D4);
-                        network_info_load_state.card_result = decode_network_info_payload(key, network_info_payload_buffer, network_config_buffer->size, ((NetworkInfoConfig *)lobby_net_config_buffer));
+                        memcpy(network_info_payload_buffer, network_config_buffer->payload, 0x23B8);
+                        memset(lobby_net_config_buffer, 0, 0x19D4);
+                        network_info_load_state.card_result = decode_network_info_payload(key, network_info_payload_buffer, network_config_buffer->payload_size, lobby_net_config_buffer);
                         if (network_info_load_state.card_result != 0) {
                             init_network_config_defaults();
                             close_card_slot(network_info_load_state.file_handle);
@@ -214,13 +177,13 @@ void update_network_info_load(void) {
                             s->phase = 27;
                         } else {
                             if (lobby_net_config_mode != 4) {
-                                (*(s16 * *)&lobby_net_config_buffer)[1] = (*(s16 * *)&lobby_net_config_buffer)[2];
+                                lobby_net_config_buffer->cnum = lobby_net_config_buffer->mnum;
                             } else {
-                                (*(s16 * *)&lobby_net_config_buffer)[1] = (*(s16 * *)&lobby_net_config_buffer)[3];
+                                lobby_net_config_buffer->cnum = lobby_net_config_buffer->bnum;
                             }
-                            memcpy(network_info_trailer_buffer, network_config_buffer->tail, 0x400);
+                            memcpy(network_info_trailer_buffer, network_config_buffer->trailer, 0x400);
                             if (get_network_config_backup_mode() == 1) {
-                                memcpy(lobby_net_config_card_base, (*(s16 * *)&lobby_net_config_buffer), 0x19D4);
+                                memcpy(lobby_net_config_card_base, lobby_net_config_buffer, 0x19D4);
                                 memcpy(network_info_trailer_backup, network_info_trailer_buffer, 0x400);
                             }
                             network_info_load_state.result = 0;
@@ -236,7 +199,7 @@ void update_network_info_load(void) {
             network_info_load_state.result = -205;
             s->phase = 27;
         }
-        if ((void *)(&network_info_load_state)[0].caller_buffer == NULL) {
+        if (network_info_load_state.caller_buffer == NULL) {
             if (network_config_buffer != NULL) {
                 OSFreeToHeap(__OSCurrHeap, network_config_buffer);
             }
@@ -350,56 +313,56 @@ void update_network_info_exists(void) {
 void init_network_config_defaults(void) {
     s16 i;
     memset(lobby_net_config_buffer, 0, 0x19D4);
-    lobby_net_config_buffer->cur = -1;
+    lobby_net_config_buffer->cnum = -1;
     for (i = 0; i < 6; i++) {
-        lobby_net_config_buffer->ent[i].id = i;
-        lobby_net_config_buffer->ent[i].a = -1;
-        lobby_net_config_buffer->ent[i].b = -1;
-        lobby_net_config_buffer->ent[i].c = -1;
+        lobby_net_config_buffer->a[i].pan = i;
+        lobby_net_config_buffer->a[i].man = -1;
+        lobby_net_config_buffer->a[i].sgn = -1;
+        lobby_net_config_buffer->a[i].urn = -1;
         switch (i) {
         case 0:
-            strcpy(lobby_net_config_buffer->ent[i].name, default_provider_name_0);
-            strcpy(lobby_net_config_buffer->rec[i].name, default_provider_name_0);
+            strcpy(lobby_net_config_buffer->a[i].name, default_provider_name_0);
+            strcpy(lobby_net_config_buffer->b[i].pn, default_provider_name_0);
             break;
         case 1:
-            strcpy(lobby_net_config_buffer->ent[i].name, default_provider_name_1);
-            strcpy(lobby_net_config_buffer->rec[i].name, default_provider_name_1);
+            strcpy(lobby_net_config_buffer->a[i].name, default_provider_name_1);
+            strcpy(lobby_net_config_buffer->b[i].pn, default_provider_name_1);
             break;
         case 2:
-            strcpy(lobby_net_config_buffer->ent[i].name, default_provider_name_2);
-            strcpy(lobby_net_config_buffer->rec[i].name, default_provider_name_2);
+            strcpy(lobby_net_config_buffer->a[i].name, default_provider_name_2);
+            strcpy(lobby_net_config_buffer->b[i].pn, default_provider_name_2);
             break;
         case 3:
-            strcpy(lobby_net_config_buffer->ent[i].name, default_provider_name_3);
-            strcpy(lobby_net_config_buffer->rec[i].name, default_provider_name_3);
+            strcpy(lobby_net_config_buffer->a[i].name, default_provider_name_3);
+            strcpy(lobby_net_config_buffer->b[i].pn, default_provider_name_3);
             break;
         case 4:
-            strcpy(lobby_net_config_buffer->ent[i].name, default_provider_name_4);
-            strcpy(lobby_net_config_buffer->rec[i].name, default_provider_name_4);
+            strcpy(lobby_net_config_buffer->a[i].name, default_provider_name_4);
+            strcpy(lobby_net_config_buffer->b[i].pn, default_provider_name_4);
             break;
         case 5:
-            strcpy(lobby_net_config_buffer->ent[i].name, default_provider_name_5);
-            strcpy(lobby_net_config_buffer->rec[i].name, default_provider_name_5);
+            strcpy(lobby_net_config_buffer->a[i].name, default_provider_name_5);
+            strcpy(lobby_net_config_buffer->b[i].pn, default_provider_name_5);
             break;
         }
     }
-    lobby_net_config_buffer->ent[0].id = 0;
-    lobby_net_config_buffer->ent[0].a = 0;
-    strcpy(lobby_net_config_buffer->ent[0].name, isao_provider_name);
-    strcpy(lobby_net_config_buffer->rec[0].name, isao_provider_name);
-    strcpy(lobby_net_config_buffer->strE5C, isao_mail_account_name);
-    lobby_net_config_buffer->rec[0].kind = 1;
-    lobby_net_config_buffer->rec[1].kind = 1;
-    lobby_net_config_buffer->rec[2].kind = 1;
-    lobby_net_config_buffer->rec[3].kind = 1;
-    lobby_net_config_buffer->rec[4].kind = 4;
-    lobby_net_config_buffer->rec[5].kind = 4;
-    lobby_net_config_buffer->x4 = 1;
-    lobby_net_config_buffer->x6 = 4;
+    lobby_net_config_buffer->a[0].pan = 0;
+    lobby_net_config_buffer->a[0].man = 0;
+    strcpy(lobby_net_config_buffer->a[0].name, isao_provider_name);
+    strcpy(lobby_net_config_buffer->b[0].pn, isao_provider_name);
+    strcpy(lobby_net_config_buffer->c[0].mn, isao_mail_account_name);
+    lobby_net_config_buffer->b[0].at = 1;
+    lobby_net_config_buffer->b[1].at = 1;
+    lobby_net_config_buffer->b[2].at = 1;
+    lobby_net_config_buffer->b[3].at = 1;
+    lobby_net_config_buffer->b[4].at = 4;
+    lobby_net_config_buffer->b[5].at = 4;
+    lobby_net_config_buffer->mnum = 1;
+    lobby_net_config_buffer->bnum = 4;
     if (lobby_net_config_mode != 4) {
-        lobby_net_config_buffer->cur = lobby_net_config_buffer->x4;
+        lobby_net_config_buffer->cnum = lobby_net_config_buffer->mnum;
     } else {
-        lobby_net_config_buffer->cur = lobby_net_config_buffer->x6;
+        lobby_net_config_buffer->cnum = lobby_net_config_buffer->bnum;
     }
     if (get_network_config_backup_mode() == 1) {
         memcpy(lobby_net_config_card_base, lobby_net_config_buffer, 0x19D4);
@@ -514,8 +477,8 @@ u32 update_crc32(u32 crc, u8 *buf, s32 len) {
 }
 #pragma pop
 
-u32 calc_crc32(saddr buf, s32 len) {
-    return update_crc32(0xFFFFFFFF, (u8 *)buf, len) ^ 0xFFFFFFFF;
+u32 calc_crc32(u8 *buf, s32 len) {
+    return update_crc32(0xFFFFFFFF, buf, len) ^ 0xFFFFFFFF;
 }
 
 u32 crc32_table[256] = {

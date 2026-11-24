@@ -247,6 +247,7 @@ s32 CARDGetMemSize(s32 chan, u16* size);
 s32 CARDGetResultCode(s32 chan);
 s32 CARDGetSectorSize(s32 chan, u32* size);
 s32 CARDGetSerialNo(s32 chan, u64* serialNo);
+s32 CARDGetUniqueCode(s32 chan, u64* uniqueCode);
 s32 CARDGetStatus(s32 chan, s32 fileNo, CARDStat* stat);
 s32 CARDGetXferredBytes(s32 chan);
 s32 CARDMount(s32 chan, void* workArea, CARDCallback detachCallback);
