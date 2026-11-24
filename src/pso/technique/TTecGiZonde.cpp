@@ -15,7 +15,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TUnk_804CCD78.h"
+#include "pso/technique/TTecZondeHitEffect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -121,36 +121,36 @@ s32 TTecGiZonde::find_chain_targets() {
     switch (self->level) {
     case 0:
         new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, 0.5f);
-        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
         break;
     case 1:
         scale *= 1.2f;
         new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, (f32)scale);
-        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
         break;
     case 2:
         scale *= 1.4f;
         new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, (f32)scale);
-        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
         break;
     case 3:
         scale *= 1.2f;
         new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, (f32)scale);
-        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
-        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x188);
+        new TTecZondeHitEffect(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x188);
         break;
     case 4:
         scale *= 1.4f;
         new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, (f32)scale);
-        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
-        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x188);
+        new TTecZondeHitEffect(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x188);
         break;
     case 5:
         new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, 5.0f);
         new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, 0.5f);
         new TTecZondeEff(tl_07, &self->pos, &d, 0x14000000, 20, (f32)len, 0.5f);
-        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
-        new TUnk_804CCD78(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x188);
+        new TTecZondeHitEffect(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x19F);
+        new TTecZondeHitEffect(&e->parts[self->targets[0].part].pos, &self->pos, tl_07, 0x188);
         break;
     }
     if (self->count == 1) {

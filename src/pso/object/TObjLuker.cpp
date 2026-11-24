@@ -22,7 +22,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/technique/TTecLuker.h"
-#include "pso/unk/TUnk_804CCA0C.h"
+#include "pso/technique/TTelepipeEffect.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
@@ -388,7 +388,7 @@ void TObjLuker::run_task() {
         if (TTecLuker__sub_8023401C(&p->telepipe) != 0) {
             *(s16 *)&this->m_ae = 1;
             if (*(s32 *)&this->m_b4 != 0 && *(void * *)&this->m_a4 == NULL) {
-                *(void * *)&this->m_a4 = new TUnk_804CCA0C(&this->position, this->m_a8, tl_07);
+                *(void * *)&this->m_a4 = new TTelepipeEffect(&this->position, this->m_a8, tl_07);
                 *(s32 *)&this->m_b4 = 0;
             }
             play_persistent_sound(0x4002B219, arg0, &this->position, 0, 0);

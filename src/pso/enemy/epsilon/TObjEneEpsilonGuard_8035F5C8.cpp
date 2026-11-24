@@ -1,6 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804CCB28.h"
+#include "pso/technique/TFireExplosion.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 
 struct NJS_OBJECT;
@@ -455,7 +455,7 @@ void TObjEneEpsilonBody::handle_fire_state(s32 reason) {
             if (fire_timer <= 0) {
                 TObjPlayer *player;
                 s32 i;
-                new TUnk_804CCB28(40.0f, d, 0, (TObject *)tl_07);
+                new TFireExplosion(40.0f, d, 0, (TObject *)tl_07);
                 play_sound_effect(0x4003A348, &position, 0, 0);
                 for (i = 0; i < 4; i++) {
                     player = get_player_by_client_id(i);

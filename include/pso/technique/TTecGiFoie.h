@@ -9,10 +9,10 @@
 
 // One flame of Gifoie, a task TTecGiFoie creates per orbit (vtable lbl_804CC800).
 // Nothing names the class or its fields; the comments are readings of the code.
-class TUnk_804CC800 : public TObject {
+class TTecGiFoieFlame : public TObject {
 public:
-    TUnk_804CC800(Vec *pos, s32 angle, s32 band, s32 level, TObject *parent, u8 single);
-    virtual ~TUnk_804CC800();
+    TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObject *parent, u8 single);
+    virtual ~TTecGiFoieFlame();
     virtual void run_task();
 
     TParticleCtrl **pad_1C; // one particle per entry of the band's profile, or a single one
@@ -28,14 +28,14 @@ public:
     s32 pad_48;             // yaw
 };
 
-LAYOUT_ASSERT(TUnk_804CC800_size, sizeof(TUnk_804CC800) == 0x4C);
+LAYOUT_ASSERT(TTecGiFoieFlame_size, sizeof(TTecGiFoieFlame) == 0x4C);
 
 struct TTecGiFoie : public TTecCircle {
     TTecGiFoie(saddr source, Vec *origin, s32 level);
     virtual ~TTecGiFoie();
     virtual void apply_to_target(TObjChara *);
     virtual void run_task();
-    TUnk_804CC800 *orbits[3];  // one flame per orbit, orbit_counts[band] of them
+    TTecGiFoieFlame *orbits[3];  // one flame per orbit, orbit_counts[band] of them
     u16 hitIds[32];            // entity ids apply_to_target has already hit
     s32 hitCursor;
     void calc_params();

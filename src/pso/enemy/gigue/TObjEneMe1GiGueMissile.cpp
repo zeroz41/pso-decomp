@@ -1,6 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804CCB28.h"
+#include "pso/technique/TFireExplosion.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGueMissile.h"
@@ -35,7 +35,7 @@ const char *TObjEneMe1GiGueMissile__name = "TObjEneMe1GiGueMissile";
 void TObjEneMe1GiGueMissile::explode(void *pos) {
     TObjPlayer *p;
     s32 i;
-    new TUnk_804CCB28(40.0f, (const Vec *)pos, 0, tl_07);
+    new TFireExplosion(40.0f, (const Vec *)pos, 0, tl_07);
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
         if (p != NULL && horizontal_distance_squared(&p->position, (Vec *)pos) <= 1600.0f) {

@@ -88,7 +88,7 @@ TTecGiFoie::TTecGiFoie(saddr source, Vec *origin, s32 level) : TTecCircle(source
         p.x = this->position.x + v.x;
         p.y = this->position.y + v.y;
         p.z = this->position.z + v.z;
-        this->orbits[k] = new TUnk_804CC800(&p, angle, this->band, this->level, tl_07, 0);
+        this->orbits[k] = new TTecGiFoieFlame(&p, angle, this->band, this->level, tl_07, 0);
     }
     switch (this->band) {
     case 0:
@@ -190,7 +190,7 @@ void TTecGiFoie::create(void *source, void *origin, s32 level) {
     new TTecGiFoie((saddr)source, (Vec *)origin, level);
 }
 
-TUnk_804CC800::TUnk_804CC800(Vec *pos, s32 angle, s32 band, s32 level, TObject *parent, u8 single) : TObject(parent) {
+TTecGiFoieFlame::TTecGiFoieFlame(Vec *pos, s32 angle, s32 band, s32 level, TObject *parent, u8 single) : TObject(parent) {
     this->pad_46 = 0;
     this->pad_20.x = pos->x;
     this->pad_20.y = pos->y;
@@ -236,7 +236,7 @@ TUnk_804CC800::TUnk_804CC800(Vec *pos, s32 angle, s32 band, s32 level, TObject *
     }
 }
 
-TUnk_804CC800::~TUnk_804CC800() {
+TTecGiFoieFlame::~TTecGiFoieFlame() {
     u32 i;
     if (this->pad_47 != 0) {
         this->pad_1C[0]->queue_destruction();
@@ -251,7 +251,7 @@ TUnk_804CC800::~TUnk_804CC800() {
 // Flame bob height per orbit slot, scaled by the sine of the bob phase.
 static const f32 flame_bob_heights[3] = {0.0f, 3.5f, 7.0f};
 
-void TUnk_804CC800::run_task() {
+void TTecGiFoieFlame::run_task() {
     s32 rot[3];
     s32 bob;
     switch (pad_44) {

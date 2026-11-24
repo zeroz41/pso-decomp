@@ -5,8 +5,8 @@
 #include "pso/technique/TTecCircle.h"
 
 class TUnk_804C4450;
-class TUnk_804CC9D4;
-class TUnk_804CCA0C;
+class TTelepipeSelectField;
+class TTelepipeEffect;
 
 // The telepipe technique: places a pipe (field + visual) near its caster and, once a player
 // selects it, warps everyone back to the city. Field names below are inferred from use.
@@ -16,10 +16,10 @@ struct TTecLuker : public TTecCircle {
     virtual void apply_to_target(TObjChara *);
     virtual void run_task();
     TUnk_804C4450 *placement;  // the placement search a local caster starts for the pipe
-    TUnk_804CC9D4 *field;  // the selectable field at pipe_pos
+    TTelepipeSelectField *field;  // the selectable field at pipe_pos
     s16 floor;  // get_current_floor() when cast
     u16 traveller;  // the client the pipe belongs to (local_client_id or the caster)
-    TUnk_804CCA0C *visual;
+    TTelepipeEffect *visual;
     Vec pipe_pos;
     s32 phase;  // 0 placing, 1 open, 2 warping, 3 warp, 4 done
     s32 warp_frames;  // frames spent in phase 2

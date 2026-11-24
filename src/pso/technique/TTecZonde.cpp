@@ -52,7 +52,7 @@ void TTecZonde::apply_to_target(TObjChara *target) {
 
 #include "pso/technique/TTecLuker.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/TUnk_804CCD78.h"
+#include "pso/technique/TTecZondeHitEffect.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -159,7 +159,7 @@ void TTecZonde::run_task() {
             break;
         }
         if (self->level != 5) {
-            new TUnk_804CCD78((Vec *)segs[0].a, &t->position, (TObject *)tl_07, 0x19F);
+            new TTecZondeHitEffect((Vec *)segs[0].a, &t->position, (TObject *)tl_07, 0x19F);
         }
         {
             s32 h;

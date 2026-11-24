@@ -13,13 +13,13 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/unk/TUnk_804CC870.h"
+#include "pso/technique/TTecGrantsFlash.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
-#include "pso/unk/TUnk_804CC888.h"
-#include "pso/unk/TUnk_804CCA78.h"
+#include "pso/technique/TTecGrantsEffect.h"
+#include "pso/technique/TTimedSoundEffect.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
@@ -72,7 +72,7 @@ extern "C" {
 void mem_free(void *);
 }
 
-// Per level tier (TObjPlayer::get_level_tier): the particle emitters TUnk_804CC888 keeps alive and
+// Per level tier (TObjPlayer::get_level_tier): the particle emitters TTecGrantsEffect keeps alive and
 // the effects it spawns when it ends.
 // inferred names: grants_emitter_parts_<tier> and grants_effect_entries_<tier> are the rows of
 // grants_effect_emitter_table and technique_effect_entry_table for each tier.
@@ -135,7 +135,7 @@ void TTecGrants::run_task() {
     }
     entity = (uaddr)find_entity_by_id(targets.records[0].id);
     if ((TTecLuker::is_parents_unqueued(entity) != 0) && (TObjPlayer::is_valid_and_active(entity) != 0) && (m_148 == 0)) {
-        new TUnk_804CC888((u8 *)entity, level, tl_07);
+        new TTecGrantsEffect((u8 *)entity, level, tl_07);
     }
     m_148 = m_148 + 1;
     if (m_148 > 0x1E) {
@@ -159,7 +159,7 @@ void TTecGrants::apply_to_target(TObjChara *target) {
 
 void TTecGrants::render() {  }
 
-TUnk_804CC888::TUnk_804CC888(u8 *src, s32 level, TObject *parent) : TObject(parent) {
+TTecGrantsEffect::TTecGrantsEffect(u8 *src, s32 level, TObject *parent) : TObject(parent) {
     u32 i;
     VecCopy(&position, (const Vec *)(src + 0x38));
     timer = 0;
@@ -216,7 +216,7 @@ TUnk_804CC888::TUnk_804CC888(u8 *src, s32 level, TObject *parent) : TObject(pare
 
 
 
-TUnk_804CC888::~TUnk_804CC888() {
+TTecGrantsEffect::~TTecGrantsEffect() {
     u32 i;
     for (i = 0; i < grants_effect_emitter_table[tier].count; i++) {
         if (emitters[i] != NULL) {
@@ -227,14 +227,14 @@ TUnk_804CC888::~TUnk_804CC888() {
     mem_free(emitters);
 }
 
-void TUnk_804CC888::run_task() {
+void TTecGrantsEffect::run_task() {
     u32 i;
     s32 dir;
     TObjCollidable *obj;
     TParticleCtrl *r;
     timer++;
     if (timer % 5 == 0) {
-        new TUnk_804CC870(owner_id, tl_07, NULL, 1.0f);
+        new TTecGrantsFlash(owner_id, tl_07, NULL, 1.0f);
     }
     if (timer >= 30) {
         for (i = 0; i < technique_effect_entry_table[tier].count; i++) {
@@ -265,12 +265,12 @@ void TUnk_804CC888::run_task() {
             dir = -0x100;
             break;
         }
-        new TUnk_804CCA78(&position, 0xF, 0x4002A60D, dir, tl_07);
+        new TTimedSoundEffect(&position, 0xF, 0x4002A60D, dir, tl_07);
         queue_destruction();
     }
 }
 
-TUnk_804CC870::TUnk_804CC870(s32 owner_id, TObject *parent, Vec *pos, f32 start_scale) : TObject(parent) {
+TTecGrantsFlash::TTecGrantsFlash(s32 owner_id, TObject *parent, Vec *pos, f32 start_scale) : TObject(parent) {
     this->owner_id = owner_id;
     position.x = 0.0f;
     position.y = 0.0f;
@@ -293,11 +293,11 @@ TUnk_804CC870::TUnk_804CC870(s32 owner_id, TObject *parent, Vec *pos, f32 start_
     frame = 0;
 }
 
-TUnk_804CC870::~TUnk_804CC870() {
+TTecGrantsFlash::~TTecGrantsFlash() {
 
 }
 
-void TUnk_804CC870::run_task() {
+void TTecGrantsFlash::run_task() {
     TObjCollidable *entity;
     entity = find_entity_by_id(owner_id);
     if (entity != NULL) {
@@ -312,7 +312,7 @@ void TUnk_804CC870::run_task() {
     }
 }
 
-void TUnk_804CC870::render() {
+void TTecGrantsFlash::render() {
     TextureFrameSlot ctx;
     s32 id;
     if (get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2 ||

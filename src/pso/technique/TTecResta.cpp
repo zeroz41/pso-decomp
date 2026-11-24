@@ -5,7 +5,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecResta.h"
 #include "pso/technique/TTecRestaEff.h"
-#include "pso/unk/TUnk_804CCA90.h"
+#include "pso/technique/TDelayedSoundEffect.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecReverser.h"
@@ -45,7 +45,7 @@ void TTecReverser::apply_to_target(TObjChara *target) {
     hit.kind = 8;
     hit.power = params.power;
     target->receive_direct_attack((void *)source, hit, 0, -1, -1);
-    new TUnk_804CCA90(&target->position, 0x2D, 0x4002AD13, tl_07);
+    new TDelayedSoundEffect(&target->position, 0x2D, 0x4002AD13, tl_07);
 }
 
 TTecResta::TTecResta(void *owner, void *pos, s32 level) : TTecPlayerInfluence(owner, pos, level) {
@@ -152,7 +152,7 @@ void TTecResta::apply_to_player(TObjPlayer *player) {
         }
     }
     if (show_effects != 0) {
-        new TUnk_804CCA90(&player->body_center, 0x14, 0x4002A80F, tl_07);
+        new TDelayedSoundEffect(&player->body_center, 0x14, 0x4002A80F, tl_07);
     }
 }
 #pragma pop

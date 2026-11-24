@@ -6,7 +6,7 @@
 #include "pso/technique/TTecRaZonde.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecZonde.h"
-#include "pso/unk/TUnk_804CCB28.h"
+#include "pso/technique/TFireExplosion.h"
 #include "pso/technique/TTecCircle.h"
 #include "pso/system/task/TObject.h"
 #include "pso/technique/TTecCtrl.h"

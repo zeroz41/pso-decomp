@@ -16,7 +16,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/technique/TTecRaFoie.h"
-#include "pso/unk/TUnk_804CCB28.h"
+#include "pso/technique/TFireExplosion.h"
 #include "pso/technique/TTecCircle.h"
 #pragma readonly_strings on
 

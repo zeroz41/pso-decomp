@@ -21,7 +21,7 @@
 #include "pso/ui/frontend/TAdVIConfigGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TUnk_804CC9D4.h"
+#include "pso/technique/TTelepipeSelectField.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/object/warp/TObjWarpString.h"
 #include "pso/object/warp/TObjMapWarpForest.h"
@@ -227,7 +227,7 @@ TObjWarpBase::TObjWarpBase(TObject *parent, void *set_data) : TObjCollidable(par
     apply_object_set_data(set_data);
     warp_range = 10.0f;
     menu_window = 0;
-    field_collider = new TUnk_804CC9D4(&position, this, 1);
+    field_collider = new TTelepipeSelectField(&position, this, 1);
     user_client_id = 0xFFFF;
 }
 

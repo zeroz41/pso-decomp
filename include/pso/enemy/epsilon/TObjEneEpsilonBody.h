@@ -109,7 +109,7 @@ public:
     s32 target_slot;   // guard slot counter handed to select_slot_target, +1 per pick (action 2)
     f32 effect_scale;  // 0..1 x/z scale of the warp effect model (handle_warp_state, render_body_effect); action 2
                        // keeps the facing cosine toward its destination here
-    Vec fire_position;  // where action 2's fire travels to and explodes (a TUnk_804CCB28 fire explosion)
+    Vec fire_position;  // where action 2's fire travels to and explodes (a TFireExplosion fire explosion)
     Vec target_position;  // copied from the target player's position
 };
 LAYOUT_ASSERT(TObjEneEpsilonBody_size, sizeof(TObjEneEpsilonBody) == 0x514);

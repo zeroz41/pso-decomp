@@ -2482,14 +2482,14 @@ force_active:
   - __dt__13TUnk_804C4498Fv
   - __dt__13TUnk_804C8678Fv
   - __dt__11TTecAntiEffFv
-  - __dt__13TUnk_804CC870Fv
-  - __dt__13TUnk_804CC888Fv
-  - __dt__13TUnk_804CCA90Fv
+  - __dt__15TTecGrantsFlashFv
+  - __dt__16TTecGrantsEffectFv
+  - __dt__19TDelayedSoundEffectFv
   - __dt__11TActorLightFv
-  - __dt__13TUnk_804CCB28Fv
+  - __dt__14TFireExplosionFv
   - __dt__12TTecRestaEffFv
   - __dt__15TTecReverserEffFv
-  - __dt__13TUnk_804CCD78Fv
+  - __dt__18TTecZondeHitEffectFv
   - __dt__13TUnk_804DCB64Fv
   - __dt__12TEffIndirectFv
   - __dt__13TBoss7BreakUpFv
@@ -3255,12 +3255,12 @@ force_active:
   - __vt__13TUnk_804C8678
   - __vt__11TTecAntiEff
   - __vt__10TTecCircle
-  - __vt__13TUnk_804CC870
+  - __vt__15TTecGrantsFlash
   - __vt__11TActorLight
-  - __vt__13TUnk_804CCB28
+  - __vt__14TFireExplosion
   - __vt__12TTecRestaEff
   - __vt__15TTecReverserEff
-  - __vt__13TUnk_804CCD78
+  - __vt__18TTecZondeHitEffect
   - __vt__13TUnk_804DCB64
   - __vt__12TEffIndirect
   - __vt__13TBoss7BreakUp
@@ -5296,7 +5296,7 @@ force_active:
   - __ct__9TTecMegidFlP3Vecll
   - construct_gi_gue_bazooka__FPUcPUcl
   - construct_global_arrays__6TLobbyFv
-  - __ct__13TUnk_804CC870FlP7TObjectP3Vecf
+  - __ct__15TTecGrantsFlashFlP7TObjectP3Vecf
   - __ct__13TUnk_804A2C90FP7TObjectPUc
   - __ct__17TItemFollowEffectFP7TObjectP11TItemWeaponll
   - construct_lobby_players
@@ -5512,7 +5512,7 @@ force_active:
   - create_player_select_window__17TWindowSubComCardFv
   - create_quest_bgm_object__FP7TObjectUl
   - create_quest_list_window__19TQuestListChallengeFv
-  - __ct__13TUnk_804CCB28FP3VecssP7TObjectf
+  - __ct__14TFireExplosionFP3VecssP7TObjectf
   - create_resta_effect__16TObjEneMe3StelthFPv
   - create_result_window__16TObjOnlineEndingFv
   - create_result_windows__23TShopJudgmentItemWindowFv
@@ -14184,8 +14184,8 @@ force_active:
   - render__13TWeaponCasingFv
   - render__13TUnk_804B5C08Fv
   - render__15TNpcTalkTriggerFv
-  - render__13TUnk_804CC870Fv
-  - render__13TUnk_804CCB28Fv
+  - render__15TTecGrantsFlashFv
+  - render__14TFireExplosionFv
   - render__22TWindowComCardFollowerFv
   - render__13TUnk_804DCB64Fv
   - render__13TUnk_804E4BF0Fv
@@ -14877,14 +14877,14 @@ force_active:
   - run_task__13TUnk_804C8678Fv
   - run_task__11TTecAntiEffFv
   - run_task__10TTecCircleFv
-  - run_task__13TUnk_804CC870Fv
-  - run_task__13TUnk_804CC888Fv
-  - run_task__13TUnk_804CCA90Fv
+  - run_task__15TTecGrantsFlashFv
+  - run_task__16TTecGrantsEffectFv
+  - run_task__19TDelayedSoundEffectFv
   - run_task__11TActorLightFv
-  - run_task__13TUnk_804CCB28Fv
+  - run_task__14TFireExplosionFv
   - run_task__12TTecRestaEffFv
   - run_task__15TTecReverserEffFv
-  - run_task__13TUnk_804CCD78Fv
+  - run_task__18TTecZondeHitEffectFv
   - run_task__22TWindowComCardFollowerFv
   - run_task__13TUnk_804DCB64Fv
   - run_task__13TUnk_804E4788Fv
@@ -16006,7 +16006,7 @@ force_active:
   - spawn_player_hit_effects__14TBoss6PlotFalzFv
   - spawn_player_tombstones2__6TLobbyFv
   - spawn_poison_effect__9TObjCharaFl
-  - spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv
+  - spawn_rafoie_explosion_bursts__14TFireExplosionFv
   - spawn_random_effect__11TBoss4Type3Fv
   - spawn_recipe_particles__14TItemEffShieldFv
   - spawn_recoil_dust__14TObjEneBm5WolfFP3Vec

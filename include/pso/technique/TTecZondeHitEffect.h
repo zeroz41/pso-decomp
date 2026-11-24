@@ -1,15 +1,15 @@
-#ifndef PSO_UNK_TUNK_804CCD78_H
-#define PSO_UNK_TUNK_804CCD78_H
+#ifndef PSO_TECHNIQUE_TTECZONDEHITEFFECT_H
+#define PSO_TECHNIQUE_TTECZONDEHITEFFECT_H
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/vector.h"
 
 // Zonde/Gizonde hit effect: spawns a particle effect at the struck point and
 // lives for 70 frames.
-class TUnk_804CCD78 : public TObject {
+class TTecZondeHitEffect : public TObject {
 public:
-    TUnk_804CCD78(Vec *hit_pos, Vec *source_pos, TObject *parent, s32 effect_id);
-    virtual ~TUnk_804CCD78();
+    TTecZondeHitEffect(Vec *hit_pos, Vec *source_pos, TObject *parent, s32 effect_id);
+    virtual ~TTecZondeHitEffect();
     virtual void run_task();
 
     Vec m_hit_pos;
@@ -18,6 +18,6 @@ public:
     s32 m_timer;
     s32 m_effect_id;
 };
-LAYOUT_ASSERT(TUnk_804CCD78_size, sizeof(TUnk_804CCD78) == 0x40);
+LAYOUT_ASSERT(TTecZondeHitEffect_size, sizeof(TTecZondeHitEffect) == 0x40);
 
 #endif

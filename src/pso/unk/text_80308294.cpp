@@ -1,4 +1,4 @@
-#include "pso/unk/TUnk_804CCB28.h"
+#include "pso/technique/TFireExplosion.h"
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_80308294.h"
@@ -24,5 +24,5 @@ void spawn_fire_explosion_at(uaddr item_weapon, saddr a1) {
     VecCopy(&info.position, (const Vec *)a1);
     info.hits = 10;
     new TUnk_804A2548(tl_05, &info);
-    new TUnk_804CCB28(10.0f, &info.position, 0, tl_particle);
+    new TFireExplosion(10.0f, &info.position, 0, tl_particle);
 }

@@ -1,7 +1,7 @@
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/unk/TUnk_804CCB28.h"
+#include "pso/technique/TFireExplosion.h"
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/vector.h"
@@ -378,12 +378,12 @@ void prepare_freeze_special_effect(TObjPlayer *player, TObjBase *target, Vec *po
 }
 
 void weapon_fire_explosion_effect(TObjPlayer *player, TObjBase *target, Vec *pos, s32 phase) {
-    TUnk_804CCB28 *obj;
+    TFireExplosion *obj;
     if (phase == 0) {
         spawn_particle_effect(&player->body_center, 0x69);
     }
     if (phase == 1) {
-        obj = new TUnk_804CCB28(10.0f, pos, 0, tl_particle);
+        obj = new TFireExplosion(10.0f, pos, 0, tl_particle);
         if (obj != NULL) {
             obj->scale.x = 0.6f;
             obj->scale.y = 0.6f;

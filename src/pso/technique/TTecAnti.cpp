@@ -6,7 +6,7 @@
 #include "pso/technique/TechniqueParams.h"
 #include "pso/technique/TTecLuker.h"
 #include "pso/technique/TTecAntiEff.h"
-#include "pso/unk/TUnk_804CCA90.h"
+#include "pso/technique/TDelayedSoundEffect.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
@@ -156,7 +156,7 @@ void TTecAnti::apply_to_player(TObjPlayer *player) {
         }
     }
     if (show_effects != 0) {
-        new TUnk_804CCA90(&player->body_center, 0xF, 0x4002AD11, tl_07);
+        new TDelayedSoundEffect(&player->body_center, 0xF, 0x4002AD11, tl_07);
     }
 }
 

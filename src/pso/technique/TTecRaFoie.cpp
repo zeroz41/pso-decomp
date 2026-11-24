@@ -9,7 +9,7 @@
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/technique/TTecRaFoie.h"
 #include "pso/player/TargetCursorList.h"
-#include "pso/unk/TUnk_804CCB28.h"
+#include "pso/technique/TFireExplosion.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/render/render_util.h"
 #include "pso/effect/TEffClitical.h"
@@ -50,7 +50,7 @@ const char *TTecRaFoie_class_name = "TTecRaFoie";
 extern const NJS_ARGB lbl_8044DAF0 = {0.0f, 0.0f, 0.0f, 0.0f};
 }
 
-void TUnk_804CCB28::spawn_rafoie_explosion_bursts() {
+void TFireExplosion::spawn_rafoie_explosion_bursts() {
     Vec higher;
     u32 i;
     VecCopy(&higher, &position);
@@ -168,7 +168,7 @@ void TTecRaFoie::calc_area_parameters() {
     }
 }
 
-void TUnk_804CCB28::render() {
+void TFireExplosion::render() {
     f32 x;
     f32 y;
     f32 z;
@@ -218,7 +218,7 @@ void TUnk_804CCB28::render() {
     TParticleCtrl::end_effect_render();
 }
 
-void TUnk_804CCB28::run_task() {
+void TFireExplosion::run_task() {
     Vec target;
     f32 s;
     age = age + 1;
@@ -248,11 +248,11 @@ void TUnk_804CCB28::run_task() {
 
 }
 
-TUnk_804CCB28::~TUnk_804CCB28() {
+TFireExplosion::~TFireExplosion() {
 
 }
 
-TUnk_804CCB28::TUnk_804CCB28(Vec *pos, s16 band, s16 level, TObject *parent, f32 radius) : TObject(parent) {
+TFireExplosion::TFireExplosion(Vec *pos, s16 band, s16 level, TObject *parent, f32 radius) : TObject(parent) {
     Vec raised;
     this->band = band;
     this->level = level;
@@ -276,7 +276,7 @@ TUnk_804CCB28::TUnk_804CCB28(Vec *pos, s16 band, s16 level, TObject *parent, f32
     target_scale = 1.9f;
 }
 
-TUnk_804CCB28::TUnk_804CCB28(f32 radius, const Vec *pos, s16 band, TObject *parent) : TObject(parent) {
+TFireExplosion::TFireExplosion(f32 radius, const Vec *pos, s16 band, TObject *parent) : TObject(parent) {
     Vec raised;
     this->band = band;
     level = 0;
@@ -343,7 +343,7 @@ void TTecRaFoie::update_detonation(void *pos) {
     if (age != 10) {
         return;
     }
-    new TUnk_804CCB28((Vec *)&target, band, 10, tl_particle, (f32)level);
+    new TFireExplosion((Vec *)&target, band, 10, tl_particle, (f32)level);
     switch (band) {
     case 0:
         h = play_sound_effect(0x4002A803, &target, 0, 0);
