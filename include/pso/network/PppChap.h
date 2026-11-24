@@ -42,7 +42,6 @@ static inline u32 ppp_configure_option_bit(u32 bit) {
 extern "C" {
 #endif
 s32 clear_socket_slot(s16 i);
-s32 configure_mode_by_type(void *self, s16 type);
 void chap_input(PppFsm *fsm, PppFrame *source);
 void free_field_98(PppFsm *self);
 void free_field_98_and_clear(PppFsm *self);

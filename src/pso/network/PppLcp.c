@@ -662,8 +662,7 @@ void append_lcp_option(PppFrame **pbuf, LcpVals *vals, u8 type, u8 len, PppFrame
     p->len += len;
 }
 
-s32 configure_mode_by_type(void *self, s16 type) {
-    LcpSide *c = (LcpSide *)self;
+s32 configure_mode_by_type(LcpSide *c, s16 type) {
     if (type == 0) {
         c->want.mask |= 8;
         c->want.auth_proto = 0xC023;

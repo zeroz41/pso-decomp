@@ -33,6 +33,8 @@ typedef struct LcpSide {
 } LcpSide;
 LAYOUT_ASSERT(LcpSide_size_check, sizeof(LcpSide) == 0x34);
 
+s32 configure_mode_by_type(LcpSide *side, s16 type);
+
 /* The LCP options object (fsm->p30, lcp_state's opts). */
 typedef struct LcpOpts {
     LcpSide local;
