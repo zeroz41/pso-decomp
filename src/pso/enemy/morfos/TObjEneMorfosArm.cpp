@@ -61,10 +61,10 @@ TObjEneMorfosArm::~TObjEneMorfosArm() {
 
 }
 
-TObjEneMorfosArm::TObjEneMorfosArm(TObject *parent, void *owner) : TObjMotion(parent) {
+TObjEneMorfosArm::TObjEneMorfosArm(TObject *parent, TObjEneMorfos *owner) : TObjMotion(parent) {
     BmlModelEntry *resource;
     m_name = TObjEneMorfosArm__name;
-    morfos = (TObjEneMorfos *)owner;
+    morfos = owner;
     morfos_id = morfos->get_entity_id();
     VecCopy(&position, morfos->get_arm_point());
     rotation_y = morfos->get_rotation_y();
@@ -82,8 +82,8 @@ TObjEneMorfosArm::TObjEneMorfosArm(TObject *parent, void *owner) : TObjMotion(pa
 void TObjEneMorfosArm::free_global() {  }
 
 
-void *TObjEneMorfosArm::create(void *parent, void *owner) {
-    return new TObjEneMorfosArm((TObject *)parent, owner);
+TObjEneMorfosArm *TObjEneMorfosArm::create(TObject *parent, TObjEneMorfos *owner) {
+    return new TObjEneMorfosArm(parent, owner);
 }
 
 void TObjEneMorfosArm::init_global() {

@@ -153,7 +153,6 @@ __declspec(section ".data") s32 lbl_8050CE0C[2];
 s32 init_struct(u8 *arg0);
 s32 init_work(s32 arg0, u8 *arg1);
 s32 get_network_config_buffer_size(s32 mode);
-s8 func_801A5E54();
 char lbl_8050CE14[0x20];
 char lbl_8050CE34[0x20];
 u8 lbl_8050CE54[0x114];
@@ -177,7 +176,7 @@ loop_1:
     }
     var_r31 += 1;
     TLobby::send_and_handle();
-    if (func_801A5E54() != 0) {
+    if (static_cast<s8>(func_801A5E54()) != 0) {
         return 1;
     }
     if (query_link_status() == 1) {
@@ -259,7 +258,7 @@ s32 connect_pppoe(s32 *out_value) {
             cancel = 1;
             result = 0x10;
         }
-        if (func_801A5E54() != 0) {
+        if (static_cast<s8>(func_801A5E54()) != 0) {
             cancel = 1;
             result = 0x11;
         }
@@ -875,7 +874,7 @@ s32 connect_modem(s32 idx, s16 id) {
                 cancel = 1;
                 result = 0x10;
             }
-            if (func_801A5E54() != 0) {
+            if (static_cast<s8>(func_801A5E54()) != 0) {
                 cancel = 1;
                 result = 0x11;
             }

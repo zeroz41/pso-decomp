@@ -1,3 +1,4 @@
+#include "pso/render/GinjaTexture.h"
 #include "pso/render/ColorLineList.h"
 #include <stdlib.h>
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -140,7 +141,6 @@ struct Rect_802455CC { f32 x, y, w, h; u8 pad10[0x20 - 0x10]; f32 px, py, sx, sy
 
 s32 play_sound_effect(s32, s32, s32, s32);
 int TWindowSubComCard__sub_80244774(void);
-f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *window_sub_com_card);
 void fn_802449E0(u8 *object);
 int TWindowFukidasi__sub_8024695C(void *p);
 
@@ -151,18 +151,18 @@ int TWindowSubComCard__sub_80244774(void) {  return lbl_805D3614; }
 
 uaddr TWindowSubComCard::get_field_20() { return this->m_20; }
 
-f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *window_sub_com_card) {
-    f32 v = window_sub_com_card->calc_offset();
+f32 TWindowBase::get_transition_progress() {
+    f32 v = get_close_progress();
     if (v < 1.0f) {
         return v;
     }
-    return window_sub_com_card->get_normalized_progress();
+    return get_normalized_progress();
 }
 
-f32 TWindowSubComCard::calc_offset() {
+f32 TWindowBase::get_close_progress() {
     s16 close_ticks;
 
-    close_ticks = *(s16 *)((s8 *)this + 0x22);
+    close_ticks = closing_tick;
     if (close_ticks != 0) {
         return 1.0f - ((f32) close_ticks / 4.5f);
     }
@@ -171,12 +171,12 @@ f32 TWindowSubComCard::calc_offset() {
 
 #pragma push
 #pragma opt_common_subs off
-f32 TWindowSubComCard::get_normalized_progress() {
+f32 TWindowBase::get_normalized_progress() {
     s32 progress_ticks;
-    if (this->m_2c & 0x2000) {
+    if (window_flags & 0x2000) {
         return 1.0f;
     }
-    progress_ticks = this->m_5c;
+    progress_ticks = open_tick;
     if ((f32) progress_ticks >= 7.5f) {
         return 1.0f;
     }
@@ -252,7 +252,7 @@ void TWindowBase::request_close() {
 s32 TWindowBase::is_window_reveal_complete() {
     return (f32) this->open_tick >= 7.5f;
 }
-saddr hud_texlist;
+NJS_TEXLIST *hud_texlist;
 u16 window_ui_theme_index;
 s16 lbl_805D63F6;
 void draw_window_scanlines(u8 *arg0, u8 *arg1);
@@ -412,7 +412,7 @@ void draw_selection_bar(WindowDrawContext *context, u8 *entry, s32 active) {
     z = -1.0f / (0.22424999f + context->depth);
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(2, -1);
     q.x0 = x - 2.0f;
     q.y0 = y;
@@ -467,9 +467,6 @@ void TWindowSubComCard__sub_802452DC(s32 texture) {
 
 }
 
-struct ProjectedStripVertex { f32 x, y, z, u, v; u32 color; };
-extern "C" void draw_projected_textured_strip(ProjectedStripVertex *v, s32 n);
-
 #pragma push
 #pragma fp_contract on
 extern "C" {
@@ -498,37 +495,37 @@ void TWindowSubComCard__sub_80245320(TexturedQuad *q, Rect_802455CC *r) {
     color = ((u8)alpha << 24) | 0xFFFFFF;
     v[0].x = q->x0;
     v[0].y = q->y0;
-    v[0].z = z;
+    v[0].w = z;
     v[0].u = q->u0;
     v[0].v = q->v0;
     v[0].color = 0xFFFFFF;
     v[1].x = q->x0;
     v[1].y = q->y1;
-    v[1].z = z;
+    v[1].w = z;
     v[1].u = q->u0;
     v[1].v = q->v1;
     v[1].color = 0xFFFFFF;
     v[2].x = mx;
     v[2].y = q->y0;
-    v[2].z = z;
+    v[2].w = z;
     v[2].u = mu;
     v[2].v = q->v0;
     v[2].color = color;
     v[3].x = mx;
     v[3].y = q->y1;
-    v[3].z = z;
+    v[3].w = z;
     v[3].u = mu;
     v[3].v = q->v1;
     v[3].color = color;
     v[4].x = q->x1;
     v[4].y = q->y0;
-    v[4].z = z;
+    v[4].w = z;
     v[4].u = q->u1;
     v[4].v = q->v0;
     v[4].color = 0xFFFFFF;
     v[5].x = q->x1;
     v[5].y = q->y1;
-    v[5].z = z;
+    v[5].w = z;
     v[5].u = q->u1;
     v[5].v = q->v1;
     v[5].color = 0xFFFFFF;
@@ -543,7 +540,7 @@ void TWindowSubComCard__sub_802454E4(s32 texture) {
     }
     set_additive_blend();
     set_tev_swap_channels(3, 3, 3, 3);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_texture_num(texture);
     TLobby__sub_803E2EE4(1);
 }
@@ -623,7 +620,7 @@ void TWindowBase::draw_quest_message_frame(void *c_arg) {
   f32 rem;
   f32 half;
   begin_screen_draw(1);
-  TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(void * *)&hud_texlist));
+  TObjFish::set_global_param(hud_texlist);
   set_draw_texture_and_color(1, -1);
   if (((struct QFrameWindow_80245808 *)this)->height < 64.0f)
   {
@@ -816,7 +813,7 @@ void TWindowBase::draw_window_frame(void *r) {
   f32 dy;
   f32 rem;
   begin_screen_draw(1);
-  TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(*(void * *)&hud_texlist));
+  TObjFish::set_global_param(hud_texlist);
   set_draw_texture_and_color(1, ((Rect_80245F98 *)r)->color);
   n = (s32) ((Card_80245F98 *)this)->f4C;
   n += (4 - (n & 3)) & 3;
@@ -983,14 +980,12 @@ extern const char lbl_8044E720[];
 extern const char lbl_8044E734[];
 extern const char lbl_8044E748[];
 extern const char lbl_8044E758[];
-extern s32 f256_hyouji_texlist[];
 extern "C" {
-void release_texture_list(void*);
 
 void TWindowCtrlMain::free_window() {
-    if ((u32) hud_texlist != 0U) {
-        release_texture_list((void*)hud_texlist);
-        hud_texlist = 0U;
+    if (hud_texlist != NULL) {
+        release_texture_list(hud_texlist);
+        hud_texlist = NULL;
     }
 }
 }
@@ -1009,9 +1004,9 @@ void load_hud_palette_textures(void) {
     TLanguage::draw_string((void *)lbl_8044E734, (void *)palette, 0x4A);
     TLanguage::draw_string((void *)lbl_8044E748, (void *)palette, 0x43);
     TLobby::tmp_buf_release("TWindowBase");
-    load_disc_prs_texture((saddr)lbl_8044E758, (saddr)f256_hyouji_texlist);
-    hud_texlist = (uaddr)f256_hyouji_texlist;
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>((void *)f256_hyouji_texlist));
+    load_disc_prs_texture((saddr)lbl_8044E758, reinterpret_cast<saddr>(&f256_hyouji_texlist));
+    hud_texlist = &f256_hyouji_texlist;
+    TObjFish::set_global_param(&f256_hyouji_texlist);
     TLanguage::set_entry_index(0, 0x40);
     TLanguage::set_entry_index(1, 0x41);
     TLanguage::set_entry_index(2, 0x42);

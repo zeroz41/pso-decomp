@@ -11,7 +11,7 @@ struct TObjNpcHHM00 : public TObjNpcMale {
     static void load_resources();
     static void *create(void *set_data);
     static const char *name;
-    static uaddr model_object;
+    static void **model_object;
     static NJS_TEXLIST *body_texture_gvm_handle;
 };
 

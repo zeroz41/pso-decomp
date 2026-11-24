@@ -25,7 +25,7 @@ public:
     s32 is_ginja;   // the node models are Ginja models (else chunk models)
     TBreakUpMdlData(long model, long motion, f32 frame);
     TBreakUpMdlData(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame);
-    TBreakUpMdlData(long model);
+    TBreakUpMdlData(NJS_OBJECT *model);
     virtual ~TBreakUpMdlData();
     void alloc_breakup_piece_records(NJS_OBJECT *model);
     s32 collect_node_positions(NJS_OBJECT *node, s32 index);

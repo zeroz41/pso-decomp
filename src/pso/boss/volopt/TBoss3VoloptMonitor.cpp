@@ -6,7 +6,6 @@
 #include "pso/boss/volopt/TBoss3VoloptCore.h"
 #include "pso/boss/volopt/TBoss3VoloptMonitor.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
@@ -132,7 +131,7 @@ static BmlResource *volopt_monitor_resources;
 static NJS_TEXLIST *volopt_monitor_textures;
 static s32 volopt_monitor_last_tick;
 
-static void *volopt_monitor_screen_meshes[4];
+static GinjaModel *volopt_monitor_screen_meshes[4];
 s8 volopt_target_slot_used[VOLOPT_MONITOR_SLOTS];
 Vec volopt_slot_positions[VOLOPT_MONITOR_SLOTS];
 
@@ -200,7 +199,7 @@ void TBoss3VoloptMonitor::init_params() {
     referenceHp = hp;
     set_param(0x2E);
     update_prev_position();
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     anim_frame = 8.0f * (3.0517578e-05f * (f32)rand());
     anim_timer = 3.0f * (3.0517578e-05f * (f32)rand());
     add_flags_2e4(4);
@@ -218,9 +217,9 @@ void TBoss3VoloptMonitor::load_resources() {
     volopt_monitor_textures = &volopt_monitor_texture_table;
     volopt_monitor_resources = boss3_volopt_resources;
     clear_texlist_names(&volopt_monitor_texture_table);
-    TLobby::load_texture_pvm_file("fe_obj_vo_momitor.gvm", (saddr)volopt_monitor_textures);
+    TLobby::load_texture_pvm_file("fe_obj_vo_momitor.gvm", volopt_monitor_textures);
     for (i = 0; i < 4; i++) {
-        volopt_monitor_screen_meshes[i] = ((void **)(saddr)get_bml_model((BmlResource *)volopt_monitor_resources, volopt_monitor_models[2][i]))[1];
+        volopt_monitor_screen_meshes[i] = static_cast<GinjaModel *>(get_bml_model(volopt_monitor_resources, volopt_monitor_models[2][i])->model);
     }
     volopt_monitor_stats = (BossStats *)TLobby::register_boss(0x23);
     volopt_monitor_stats_b = TLobby::dispatch_shared_handler_b(0x23);
@@ -259,7 +258,7 @@ void TBoss3VoloptMonitor::run_task() {
     dispatch_state();
     update_prev_position();
     if (test_actor_flags(0x800) == 0) {
-        ((TBoss3VoloptHiraisin *)this)->copy_position();
+        copy_position();
         submit_cursor_candidate(this, -1);
         minimap_render_dot(&position, -0x5DB4, 1, 0);
     }

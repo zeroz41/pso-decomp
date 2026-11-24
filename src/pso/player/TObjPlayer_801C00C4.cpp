@@ -3,13 +3,7 @@
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/player/TObjPlayer.h"
 
-struct O_801C010C { u8 pad[0x5c]; u8 arr[1]; };
-
-struct O_801C0124 { u8 pad[0x48]; u8 arr[1]; };
-
 extern "C" {
-u8 TObjPlayer__sub_801C010C(O_801C010C *self, s16 i);
-u8 TObjPlayer__sub_801C0124(O_801C0124 *self, s16 i);
 void set_field_0_s32(void*, s32);
 
 void TObjPlayer::forward_801C210C(void *p, int v) { set_field_0_s32(p, v); }
@@ -25,14 +19,14 @@ int TObjPlayer::get_hold_effect_count() {  return player_action_provider_selecto
 int TUnk_804DDD28::vfunc_7(s32, s32) { return 0; }
 BmlMotionEntry *TUnk_804DDD28::vfunc_76() { return NULL; }
 
-u8 TObjPlayer__sub_801C010C(O_801C010C *self, s16 i) {
-    return self->arr[i];
+u8 TObjPlayer__sub_801C010C(const PlayerTechniqueState *state, s32 technique) {
+    return state->levels[(s16)technique];
 }
 
 void PlayerTechniqueState::set_technique_id(s16 v) { technique = v; }
 
-u8 TObjPlayer__sub_801C0124(O_801C0124 *self, s16 i) {
-    return self->arr[i];
+u8 TObjPlayer__sub_801C0124(const PlayerTechniqueState *state, s16 i) {
+    return state->learned_levels[i];
 }
 
 u8 TObjPlayer::get_item_count_max() { return 255; }

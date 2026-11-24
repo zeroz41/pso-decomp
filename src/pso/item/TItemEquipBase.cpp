@@ -29,8 +29,6 @@ s32 get_attack_params_atp_min(AttackParams *params);
 s32 get_attack_params_atp_max(AttackParams *params);
 s32 get_ata__12AttackParamsFv(AttackParams *params);
 void *resolve_hittable_target(u16 actor_id, s32 collider);
-s32 add_actor_hp_bonus(void *actor, s32 amount);
-s32 add_actor_tp_bonus(void *actor, s32 amount);
 }
 
 void play_target_impact_effect(s32 unused0, s32 unused1, u16 actor_id, s16 collider) {

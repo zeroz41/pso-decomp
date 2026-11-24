@@ -63,11 +63,11 @@ void TObjEneRe2Flower::state_die(s32 reason) {
                 effect_pos.z = lbl_805D9FC4 * cos_table_lookup(rotation_y);
                 vec3_add_to(&effect_pos, &position);
                 if (is_tower_variant() != 0) {
-                    TObjPlayer::apply_effect_variant_a((saddr)&effect_pos, 0x32);
+                    TObjPlayer::apply_effect_variant_a(&effect_pos, 0x32);
                     fn_800D911C(&effect_pos);
                     appear_fade.init_death_params();
                 } else {
-                    TObjPlayer__sub_800D9290((saddr)&effect_pos, 0x32);
+                    TObjPlayer__sub_800D9290(&effect_pos, 0x32);
                     spawn_ground_effect(&effect_pos, 0x46);
                 }
             }

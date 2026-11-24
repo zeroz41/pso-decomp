@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 
+class TObjBase;
 class TUnk_804C349C;
 class TObjPlayer;
 struct BmlResource;
@@ -57,6 +58,9 @@ struct PhotonBlastRequest {
     PhotonBlastRequest();
     ~PhotonBlastRequest();
     void reset();
+    void update_children();
+    void check_flag_at_4();
+    static int get_max_children(const PhotonBlastRequest *request);
     u16 get_client_id();
     s16 get_kind();
     void set_kind(s16 kind);
@@ -100,7 +104,7 @@ struct PhotonBlastLoadCallback {
 // Chains the requests whose players are in self's room into one photon blast
 // sequence (a TUnk_804C349C), unless another player's sequence is still running.
 void admit_photon_blast_sequence(PhotonBlastRequest *requests, TObjPlayer *self);
-void apply_photon_blast_action_hold(s32 unused, s32 duration, s32 owner_client_id);
+void apply_photon_blast_action_hold(TUnk_804C349C *unused, s32 duration, s32 owner_client_id);
 
 // The photon blast entry of the scene load callback table.
 void load_photon_blast_resources(void);

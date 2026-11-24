@@ -61,7 +61,7 @@ void TUnk_80484AFC::explode_and_destroy() {
             if (target == NULL) {
                 break;
             }
-            if (obj_is_hit_receivable((u8 *)target) != 0) {
+            if (obj_is_hit_receivable(reinterpret_cast<const TObjCollidable *>(target)) != 0) {
                 target->receive_direct_attack(m_up, attack, NULL, -1, -1);
             }
         }

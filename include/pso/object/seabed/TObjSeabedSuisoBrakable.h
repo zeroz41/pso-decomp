@@ -32,8 +32,8 @@ struct TObjSeabedSuisoBrakable : public TORockCaveBrakable {
     static NJS_OBJECT *get_model13_node(int index);
     static void notify_break(NJS_OBJECT *node);
     static AnimationMotion *get_bml_motion_by_index(s32 index);
-    static NJS_TEXLIST *get_texlist(int index);  // the one texture list, whatever the index
-    static void *get_model(int index);
+    static NJS_TEXLIST *get_texlist(int index); // the one texture list, whatever the index
+    static NJS_OBJECT *get_model(int index);
 
     static const char *class_name;
     static BmlResource *bml_resource;

@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlResourceLoader.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlAccessors.h"
@@ -29,7 +30,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/vector.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -76,7 +77,7 @@ void TBoss6Rock::load_resources() {
     for (i = 0; i < 32; i++) {
         TBoss6Rock__instance_table[i] = NULL;
     }
-    boss6_rock_damage = *(f32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x2C) + 0xC);
+    boss6_rock_damage = TLobby::dispatch_shared_handler_a(0x2C)->values.floats[3];
     if (boss6_rock_damage < 1) {
         boss6_rock_damage = 20;
     }
@@ -89,7 +90,7 @@ void TBoss6Rock::free_data() {
     }
     if (boss6_rock_texture_list != NULL) {
         release_texture_list(boss6_rock_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)boss6_rock_texture_list);
+        safe_free(boss6_rock_texture_list);
         boss6_rock_texture_list = NULL;
     }
 }
@@ -334,18 +335,14 @@ void TBoss6Rock::randomize_motion() {
 }
 
 void TBoss6Rock::create_map_csn() {
-    RockKindParams *new_var;
+    const RockKindParams *e;
     MapCsnSetData set;
-    u8 *new_var2;
-    RockKindParams *e;
     do { } while (0);
     if (map_csn == 0) {
         VecCopy(&set.position, &rock_point);
         copy_xyz(&set.rotation_x, (void *)boss6_rock_set_rotation);
-        new_var2 = (u8 *)((RockKindParams *)&boss6_rock_kind_params);
-        new_var2 = (kind_index * 0x14) + new_var2;
-        new_var = (RockKindParams *)new_var2;
-        e = new_var;
+        e = boss6_rock_kind_params;
+        e += kind_index;
         set.params[0] = 2;
         set.params[1] = 0;
         set.scale.z = e->width;

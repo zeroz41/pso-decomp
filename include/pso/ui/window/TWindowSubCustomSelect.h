@@ -5,6 +5,8 @@
 #include "types.h"
 #include "pso/ui/window/TWindowAddition.h"
 
+struct WindowScrollBar;
+
 struct TWindowSubCustomSelect : public TWindowAddition {
     TWindowSubCustomSelect(s32 client);
     virtual ~TWindowSubCustomSelect();
@@ -16,12 +18,12 @@ struct TWindowSubCustomSelect : public TWindowAddition {
     u32 m_74;
     uaddr m_78;
     uaddr m_7c;
-    u32 m_80;
+    WindowScrollBar *scroll_bar;
     void handle_cancel();
     void handle_decide();
     void update_list_scroll();
     void handle_grid_navigation();
-    void draw_cursor(u8 *window_sub_custom_equip);
+    void draw_cursor(WindowDrawContext *context);
     void draw_palette_cells(WindowDrawContext *ctx);
     virtual void run_task();
     int is_active();

@@ -12,13 +12,13 @@ extern "C" {
 int rotate_matrix_x(void*, void*);
 
 void TUnk_804A1098::emit_marker_effects() {
-    s32 origin;
+    Vec sp8;
     void *tec_gi_barta;
 
     if (is_mode_two_and_ready() != 0) {
-        if (get_joint_position(0, &origin) != 0) {
+        if (get_joint_position(0, &sp8) != 0) {
             tec_gi_barta = this->owner;
-            TTecGiBarta::create_ex(tec_gi_barta, &origin, *(saddr *)((s8 *)tec_gi_barta + 0x60), ((TItemWeapon *)this)->get_tp());
+            TTecGiBarta::create_ex(tec_gi_barta, &sp8, (*(saddr *)((s8 *)tec_gi_barta + 0x60)), (((TItemWeapon *)this)->get_tp()));
             roll_technique();
         }
     } else {

@@ -56,7 +56,7 @@ public:
     virtual int test_flag_256();
     s16 retreat_timer;      // frames left of mode 4's backing away (beast_update_group_chase)
     u16 pad_376;            // cleared by every beast ctor, read nowhere
-    s32 in_group;           // is_action_available() when it starts idling; it then takes its group root's target
+    s32 in_group;           // has_group() when it starts idling; it then takes its group root's target
     s32 child_count;        // countChildren(); idling evens it out against the next beast's
     f32 corpse_offset_y;    // render raises the model by it; the corpse sinks by corpse_sink_speed a frame
     f32 corpse_sink_speed;

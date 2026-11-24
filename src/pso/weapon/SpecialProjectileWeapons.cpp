@@ -1,3 +1,4 @@
+#include "pso/item/TItemMenuCtrl_80115AF0.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/weapon/SpecialProjectileWeapons_80124760.h"

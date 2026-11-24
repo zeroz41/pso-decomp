@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/map/CsnGroundQuery.h"
@@ -22,7 +23,6 @@
 #include <stdlib.h>
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 
 
@@ -70,11 +70,10 @@
 #pragma readonly_strings on
 
 // TObjPlayer member defined in TObjControl.cpp with no declaration in TObjPlayer.h.
-extern "C" void link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
 
-void **merill_lia_rock_stats_table;
-void **merill_lia_rock_buffer;
-void **merill_lia_rock_aux_buffer;
+player_stats **merill_lia_rock_stats_table;
+AttackParams **merill_lia_rock_buffer;
+ActorParamBlock **merill_lia_rock_aux_buffer;
 MerillLiaBehaviorParams **merill_lia_behavior_params;
 BmlResource *merill_lia_bml_resource;
 
@@ -152,11 +151,11 @@ TObjEneMerillLia::TObjEneMerillLia(TObject *parent, void *setData) : TUnk_804934
     set_animation(requested_action);
     set_requested_action(requested_action);
     init_collision_body_parts(this, &merill_lia_collision_bodies[subtype], 1);
-    bind_enemy_combat_stats(reinterpret_cast<player_stats *>(merill_lia_rock_stats_table[subtype]), reinterpret_cast<AttackParams *>(merill_lia_rock_buffer[subtype]), reinterpret_cast<ActorParamBlock *>(merill_lia_rock_aux_buffer[subtype]));
+    bind_enemy_combat_stats(merill_lia_rock_stats_table[subtype], merill_lia_rock_buffer[subtype], merill_lia_rock_aux_buffer[subtype]);
     movementParameters = &merill_lia_movement_params[subtype];
     referenceHp = hp;
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     register_object_by_id();
     m_2ac = (s32)(182.04445f * (360.0f * random_ratio()));
     resetTimer = 0xF;
@@ -202,9 +201,9 @@ void TObjEneMerillLia::load_resources() {
     merill_lia_collision_bodies[0].radius = 7.0f;
     merill_lia_collision_bodies[1].radius = 7.0f;
     merill_lia_collision_bodies[2].radius = 8.0f;
-    merill_lia_rock_stats_table = (void **)mem_alloc(8);
-    merill_lia_rock_buffer = (void **)mem_alloc(8);
-    merill_lia_rock_aux_buffer = (void **)mem_alloc(8);
+    merill_lia_rock_stats_table = static_cast<player_stats **>(mem_alloc(2 * sizeof(*merill_lia_rock_stats_table)));
+    merill_lia_rock_buffer = static_cast<AttackParams **>(mem_alloc(2 * sizeof(*merill_lia_rock_buffer)));
+    merill_lia_rock_aux_buffer = static_cast<ActorParamBlock **>(mem_alloc(2 * sizeof(*merill_lia_rock_aux_buffer)));
     merill_lia_behavior_params = (MerillLiaBehaviorParams **)mem_alloc(8);
     merill_lia_rock_stats_table[0] = TLobby::register_boss(75);
     merill_lia_rock_stats_table[1] = TLobby::register_boss(76);
@@ -304,7 +303,7 @@ void TObjEneMerillLia::run_task() {
         break;
     }
     update_prev_position();
-    ((TBoss3VoloptHiraisin *)this)->copy_position();
+    copy_position();
     submit_cursor_candidate(this, -1);
     frame_timer += 1.0f;
 }
@@ -534,7 +533,7 @@ void TObjEneMerillLia::beast_update_group_chase() {
         if (targetId < 0x1000) {
             TObjPlayer *p = get_player_by_client_id(targetId);
             if (p != NULL && p->get_floor() == get_current_floor()) {
-                target = (u8 *)p;
+                target = p;
                 break;
             }
             target = NULL;
@@ -581,7 +580,7 @@ void TObjEneMerillLia::beast_idle_update() {
     if (phase != 1) {
         phase = 1;
         link_into_group_chain();
-        in_group = ((TObjPlayer *)this)->is_action_available();
+        in_group = has_group();
     }
     child_count = countChildren();
     {
@@ -589,11 +588,11 @@ void TObjEneMerillLia::beast_idle_update() {
         if (other != NULL) {
             s32 diff = other->child_count - child_count;
             if (diff > 1) {
-                link_chain_nodes__10TObjPlayerFPvPvPv(this, other, this);
+                link_chain_nodes(other, this);
                 child_count++;
                 other->child_count--;
             } else if (diff < -1) {
-                link_chain_nodes__10TObjPlayerFPvPvPv(this, this, other);
+                link_chain_nodes(this, other);
                 child_count--;
                 other->child_count++;
             }
@@ -704,7 +703,7 @@ void TObjEneMerillLia::beast_update_hurt() {
     pos.x = pos.x + velocity.x;
     pos.z = pos.z + velocity.z;
     if (check_path_obstructed(this, &pos) == 0) {
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         velocity.x *= 0.5f;
         velocity.z *= 0.5f;
     } else {
@@ -829,7 +828,7 @@ void TObjEneMerillLia::search_target() {
             player_floor = p->get_floor();
             if (player_floor == floor) {
                 if (xz_distance_squared(&p->position, &position) < notice_range * notice_range) {
-                    target = (u8 *)p;
+                    target = p;
                     mode = 0;
                     phase = 0;
                 }
@@ -1031,7 +1030,7 @@ void TObjEneMerillLia::spawn_death_effect() {
     pop_matrix();
     vec3_add_to(&stack, &position);
     ::spawn_ground_effect(&stack, 0x23);
-    TObjPlayer__sub_800D92BC((saddr)&stack, 0xF);
+    TObjPlayer__sub_800D92BC(&stack, 0xF);
 }
 
 void TObjEneMerillLia::play_dig_sound() {

@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "types.h"
 #include <stdio.h>
 #include <string.h>
@@ -30,7 +31,7 @@ void TParticleCtrl::free_all() {
     }
     if (TParticleCtrl::texture_list != NULL) {
         release_texture_list(TParticleCtrl::texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TParticleCtrl::texture_list);
+        safe_free(TParticleCtrl::texture_list);
         TParticleCtrl::texture_list = NULL;
     }
 }

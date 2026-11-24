@@ -31,17 +31,17 @@ extern TWindowHelpItem::CallbackWords __ptmf_null;
 void TWindowHelpItem::update_cursor_selection() {
     this->m_60 = (u8) (this->m_60 | 1);
     if ((s32) this->m_a4 != -1) {
-        this->m_68 = (s32) this->m_70;
+        active_item = reinterpret_cast<TItemData *>(m_70);
         this->m_9c = (s32) this->m_a4;
         return;
     }
     if ((s32) this->m_a0 != -1) {
-        this->m_68 = (s32) this->m_6c;
+        active_item = reinterpret_cast<TItemData *>(m_6c);
         this->m_9c = (s32) this->m_a0;
         return;
     }
     this->m_60 = (u8) (this->m_60 & 0xFE);
-    this->m_68 = 0;
+    active_item = NULL;
     this->m_9c = -1;
 }
 
@@ -95,7 +95,7 @@ TWindowHelpItem::TWindowHelpItem(void *pos, s32 idx) : TWindowBase((u8 *)&window
     this->save_position();
     this->m_60 = 0;
     m_64 = new PageIndicator(0, 3, client_index);
-    this->m_68 = 0;
+    active_item = NULL;
     this->m_6c = 0;
     this->m_70 = 0;
     this->m_9c = -1;

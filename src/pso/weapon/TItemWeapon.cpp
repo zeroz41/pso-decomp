@@ -232,10 +232,10 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     hit_callback = 0;
     shot_callback = (WeaponShotCallback)create_gun_shot;
     this->gun_point_joint = parameters->gun_point_joint;
-    set_weapon_trail_joints((saddr)this, 0, parameters->trail_joints[0], parameters->trail_joints[1]);
-    set_weapon_trail_joints((saddr)this, 1, parameters->trail_joints[2], parameters->trail_joints[3]);
-    set_weapon_trail_joints((saddr)this, 2, -1, -1);
-    set_weapon_trail_joints((saddr)this, 3, -1, -1);
+    set_weapon_trail_joints(this, 0, parameters->trail_joints[0], parameters->trail_joints[1]);
+    set_weapon_trail_joints(this, 1, parameters->trail_joints[2], parameters->trail_joints[3]);
+    set_weapon_trail_joints(this, 2, -1, -1);
+    set_weapon_trail_joints(this, 3, -1, -1);
     memset(trails, 0, 0x10);
     weapon_flags = 0;
     shot_speed = 19.0f;
@@ -303,11 +303,9 @@ void TItemWeapon::set_weapon_flags(u32 mask) { weapon_flags |= mask; }
 void TItemWeapon::clear_weapon_flags(u32 mask) { weapon_flags &= ~mask; }
 void TItemWeapon::set_flag_8() { set_weapon_flags(8); }
 
-void set_weapon_trail_joints(saddr weapon, s32 trail, s32 start_joint, s32 end_joint) {
-    u8 *temp_r3;
-    temp_r3 = (u8 *)(weapon + trail);
-    *(s8 *)((s8 *)temp_r3 + 0x19C) = start_joint;
-    *(s8 *)((s8 *)temp_r3 + 0x1A0) = end_joint;
+void set_weapon_trail_joints(TItemWeapon *weapon, s32 trail, s32 start_joint, s32 end_joint) {
+    weapon->trail_start_joints[trail] = start_joint;
+    weapon->trail_end_joints[trail] = end_joint;
 }
 
 void TObjPlayer::set_model_param(s16 v) { *(s16 *)&this->unk_118 = v; }

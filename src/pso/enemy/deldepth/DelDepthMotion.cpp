@@ -43,25 +43,25 @@ void DelDepthMotion::set_motion(s32 arg1) {
             actor->set_requested_action((s16)id);
         }
     } else if (id < 0xA) {
-        saddr data = (saddr)TObjEneDelDepth::get_data();
+        BmlResource *data = TObjEneDelDepth::get_data();
         DelDepthMotionBinding *e = &deldepth_part_motion_bindings[motion] - 6;
-        model = (void *)get_bml_model((BmlResource *)data, 1);
-        texture = (saddr)get_bml_texlist((BmlResource *)data, 1);
-        animation = (AnimationMotion *)get_bml_motion((BmlResource *)data, e->motion);
+        model = get_bml_model(data, 1);
+        texture = get_bml_texlist(data, 1);
+        animation = get_bml_motion(data, e->motion);
         endFrame = animation->frameCount;
         speed = e->speed;
         frame = 0.0f;
     } else {
-        saddr data = (saddr)TObjEneDelDepth::get_data();
+        BmlResource *data = TObjEneDelDepth::get_data();
         DelDepthPairBinding *e = &deldepth_pair_motion_bindings[motion] - 10;
         DelDepthModelMotion *q;
-        model = (void *)get_bml_model((BmlResource *)data, e->first.model);
-        texture = (saddr)get_bml_texlist((BmlResource *)data, e->first.model);
-        animation = (AnimationMotion *)get_bml_motion((BmlResource *)data, e->first.motion);
+        model = get_bml_model(data, e->first.model);
+        texture = get_bml_texlist(data, e->first.model);
+        animation = get_bml_motion(data, e->first.motion);
         q = &e->second;
-        secondModel = (void *)get_bml_model((BmlResource *)data, q->model);
-        secondTexture = (saddr)get_bml_texlist((BmlResource *)data, q->model);
-        secondAnimation = (AnimationMotion *)get_bml_motion((BmlResource *)data, q->motion);
+        secondModel = get_bml_model(data, q->model);
+        secondTexture = get_bml_texlist(data, q->model);
+        secondAnimation = get_bml_motion(data, q->motion);
         endFrame = secondAnimation->frameCount;
         speed = e->speed;
         frame = 0.0f;
@@ -111,21 +111,21 @@ void DelDepthMotion::draw_model_part() {
     temp_r0 = motion;
     if (temp_r0 != -1) {
         if (temp_r0 < 6) {
-            TObjFish::set_global_param(get_bml_texlist((BmlResource *)((saddr)TObjEneDelDepth::get_data()), 0));
+            TObjFish::set_global_param(get_bml_texlist(TObjEneDelDepth::get_data(), 0));
             actor->draw();
             return;
         }
         if (temp_r0 < 0xA) {
-            TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture));
+            TObjFish::set_global_param(texture);
             set_motion_packed_rotation();
             draw_model_motion(model, animation, frame);
             clear_motion_packed_rotation();
             return;
         }
         set_motion_packed_rotation();
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texture));
+        TObjFish::set_global_param(texture);
         draw_model_motion(model, animation, frame);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(secondTexture));
+        TObjFish::set_global_param(secondTexture);
         draw_model_motion(secondModel, secondAnimation, frame);
         clear_motion_packed_rotation();
     }

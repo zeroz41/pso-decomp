@@ -1,5 +1,6 @@
 #ifndef PSO_WEAPON_TUNK_804A6200_H
 #define PSO_WEAPON_TUNK_804A6200_H
+#include "pso/weapon/WeaponCanopyScale.h"
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
@@ -13,7 +14,7 @@ public:
     virtual void update_attack();
     virtual ~TUnk_804A6200();
     TUnk_804A6200(TObject *parent, u8 *item);
-    WeaponVector scale;  // canopy scale (scale_current_matrix)
+    WeaponCanopyScale scale;  // canopy scale (scale_current_matrix)
 };
 
 extern "C" TItem *TObjPlayer__sub_8012F298(u8 *item);

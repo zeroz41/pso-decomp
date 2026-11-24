@@ -27,7 +27,7 @@ const char *TOCapsuleMachine01_class_name = "TOCapsuleMachine01";
 BmlResource *TOCapsuleMachine01__model_resource;
 s32 lbl_805D58C4;
 s32 TOCapsuleMachine01__last_update_frame_tick;
-void *capsule_machine_ginja_mesh_handle;
+GinjaModel *capsule_machine_ginja_mesh_handle;
 
 // Scrolls the capsule's light mesh once per frame, however many capsules
 // stand on the floor.
@@ -68,7 +68,7 @@ void TOCapsuleMachine01::alloc_and_load_resource() {
     NJS_OBJECT *root;
     TOCapsuleMachine01__model_resource = resource;
     root = (NJS_OBJECT *)resource->models[0].model;
-    capsule_machine_ginja_mesh_handle = root->child->sibling->child->sibling->model;
+    capsule_machine_ginja_mesh_handle = static_cast<GinjaModel *>(root->child->sibling->child->sibling->model);
     TOCapsuleMachine01__last_update_frame_tick = 0;
 }
 

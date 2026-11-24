@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #include "types.h"
@@ -342,12 +343,12 @@ void TLanguage__sub_802A0204(void) {
 void TLobby::free_chr_select_slots() {
     if (lbl_805D6608 != NULL) {
         release_texture_list(lbl_805D6608);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)lbl_805D6608);
+        safe_free(lbl_805D6608);
         lbl_805D6608 = NULL;
     }
     if (lbl_805D6604 != NULL) {
         release_texture_list(lbl_805D6604);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)lbl_805D6604);
+        safe_free(lbl_805D6604);
         lbl_805D6604 = NULL;
     }
     if (door_labo_bml_resource != NULL) {
@@ -417,12 +418,12 @@ void TLanguage__sub_8029FF0C(void) {
 void TLobby::free_global_buffers() {
     if (TODoorFourLightSeabedU__texture_list != NULL) {
         release_texture_list(TODoorFourLightSeabedU__texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TODoorFourLightSeabedU__texture_list);
+        safe_free(TODoorFourLightSeabedU__texture_list);
         TODoorFourLightSeabedU__texture_list = NULL;
     }
     if (seabed_four_light_door_textures != NULL) {
         release_texture_list(seabed_four_light_door_textures);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)seabed_four_light_door_textures);
+        safe_free(seabed_four_light_door_textures);
         seabed_four_light_door_textures = NULL;
     }
     if (seabed_four_light_door_bml_resource != NULL) {
@@ -481,12 +482,12 @@ const FourLightNodeTable door_labo_link_table = {{1, -1, -1, -1, 4, -1, -1, -1}}
 void TAdSinglePlyChrSelectGC::free_all_resources() {
     if (labo_door_red_textures != NULL) {
         release_texture_list(labo_door_red_textures);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)labo_door_red_textures);
+        safe_free(labo_door_red_textures);
         labo_door_red_textures = NULL;
     }
     if (TODoorLabo__green_texture_list != NULL) {
         release_texture_list(TODoorLabo__green_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TODoorLabo__green_texture_list);
+        safe_free(TODoorLabo__green_texture_list);
         TODoorLabo__green_texture_list = NULL;
     }
     if (TODoorLabo__bml_resource != NULL) {
@@ -551,12 +552,12 @@ void TODoorLabo::load_resources() {
 void TODoorLabo::free_resources() {
     if (TODoorLaboNormal__red_texture_list != NULL) {
         release_texture_list(TODoorLaboNormal__red_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TODoorLaboNormal__red_texture_list);
+        safe_free(TODoorLaboNormal__red_texture_list);
         TODoorLaboNormal__red_texture_list = NULL;
     }
     if (TODoorLaboNormal__green_texture_list != NULL) {
         release_texture_list(TODoorLaboNormal__green_texture_list);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TODoorLaboNormal__green_texture_list);
+        safe_free(TODoorLaboNormal__green_texture_list);
         TODoorLaboNormal__green_texture_list = NULL;
     }
     if (TODoorLabo__model_archive != NULL) {

@@ -1,3 +1,4 @@
+#include "pso/player/PlayerState.h"
 #include "pso/player/TPlayerReadyCallback.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/system/memory.h"
@@ -7,18 +8,11 @@
 #include "pso/player/TPlayerLobbyMarker.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/ui/window/TWindowActionPalette.h"
-#include "pso/player/TObjPlayer_801BF8EC.h"
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/player/TObjPlayer_801BF918.h"
 #include "pso/player/TPlyDispData.h"
-#include "pso/player/TObjPlayer_801BF978.h"
 #include "pso/unk/text_80072004.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
-#include "pso/player/TObjPlayer_801BFAD4.h"
-#include "pso/player/TObjPlayer_801BFB1C.h"
-#include "pso/player/TObjPlayer_801BFE50.h"
-#include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/unk/TUnk_804DDD28.h"
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/unk/TLobby.h"
@@ -132,11 +126,11 @@ Vec *PlayerScaleState::get_scale() { return &scale; }
 
 s16 PlayerAnimationState::get_action_id() { return action_id; }
 
-u8 TObjPlayer__sub_801BF918(u8 *arg0) {
+s32 TObjPlayer__sub_801BF918(u8 *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 4) == 2);
 }
 
-void TObjPlayer__sub_801BF914(void) {  }
+Vec *TObjPlayer__sub_801BF914(Vec *position) { return position; }
 
 void TObjPlayer__sub_801BF8F8(s32 *p) {
     s32 i;
@@ -505,10 +499,10 @@ s32 TObjPlayer::reset_and_return(saddr p) {
     return p;
 }
 
-void TObjPlayer__sub_801BFB4C(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 8) = (f32) TObjPlayer__data_805DC278;
-    *(f32 *)((s8 *)arg0 + 4) = (f32) TObjPlayer__data_805DC278;
-    *(f32 *)((s8 *)arg0 + 0) = (f32) TObjPlayer__data_805DC278;
+void TObjPlayer__sub_801BFB4C(Vec *position) {
+    position->z = TObjPlayer__data_805DC278;
+    position->y = TObjPlayer__data_805DC278;
+    position->x = TObjPlayer__data_805DC278;
 }
 
 void TObjPlayer::clear_base() { *(s32*)((char*)this + 0x0) = 0; }
@@ -580,9 +574,7 @@ void PlayerScaleState::set_scale(f32 scale) {
     this->scale.x = scale;
 }
 
-
 PlayerCameraOffsets::PlayerCameraOffsets() {}
-
 
 PlayerCameraOffset::PlayerCameraOffset() {
     z = TObjPlayer__data_805DC278;

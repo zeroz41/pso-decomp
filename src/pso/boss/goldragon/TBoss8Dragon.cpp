@@ -1,5 +1,9 @@
+#include "pso/system/SubtractiveRng.h"
+#include "pso/system/memory.h"
 #include "pso/math/CurvePathPoint.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/SoundEffect.h"
+#include "pso/system/memory.h"
 #include "pso/boss/DragonAttackParams.h"
 #include "pso/system/BmlResourceLoader.h"
 #include "pso/system/BmlResource.h"
@@ -38,6 +42,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/player/PlayerStats.h"
 #include "pso/ui/hud/TMainCursor.h"
 
 #include <stddef.h>
@@ -55,7 +60,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowCtrl.h"
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/vector.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -96,7 +100,7 @@ extern "C" {
 f32 newton_sqrtf(f32);
 
 }
-u8 *boss8_dragon_part_hp_stats[5];
+AttackParams *boss8_dragon_part_hp_stats[5];
 Boss8DragonParams *boss8_dragon_behavior_params[3];
 Vec boss8_dragon_node_origin;
 Vec boss8_dragon_breath_local_points[3];
@@ -263,7 +267,6 @@ extern CurvePathPoint TBoss8Dragon__dive_height_curve[3];
 extern "C" {
 extern f32 boss8_dragon_fall_accel;
 void subtractive_rng_seed(void *, s32);
-f32 calc_random_ratio__10TObjPlayerFv(void *);
 // Slot 87: per-action event dispatch through a table of handler members.
 }
 extern "C" {
@@ -450,7 +453,7 @@ void TBoss8Dragon::load_resources() {
     boss8_dragon_capture_flags = 0;
     boss8_dragon_main_instance = 0;
     for (i = 0; i < 5; i++) {
-        boss8_dragon_part_hp_stats[i] = (u8 *)TLobby::dispatch_shared_handler_b(TBoss8Dragon__camera_offset_index_table[i]);
+        boss8_dragon_part_hp_stats[i] = TLobby::dispatch_shared_handler_b(TBoss8Dragon__camera_offset_index_table[i]);
     }
     for (j = 0; j < 3; j++) {
         boss8_dragon_behavior_params[j] = (Boss8DragonParams *)TLobby::dispatch_shared_handler_a(boss8_dragon_behavior_param_ids[j]);
@@ -468,7 +471,7 @@ void *TBoss8Dragon::create(void *set_data) {
 
 void TBoss8Dragon::free_static() {
     if (boss8_dragon_capture_model != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)boss8_dragon_capture_model);
+        safe_free(boss8_dragon_capture_model);
         boss8_dragon_capture_model = NULL;
     }
     if (boss8_dragon_resource != NULL) {
@@ -483,7 +486,6 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     u32 record[4];
     s32 i;
     s32 j;
-    u8 *q;
     Boss8DragonParams *cfg;
 
     __ct__14SubtractiveRngFv(this->randomState);
@@ -509,7 +511,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->requested_action = 0;
     this->set_animation(this->requested_action);
     this->set_requested_action(this->requested_action);
-    reset_hp(TLobby::register_boss(0x12), reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[0]]), TLobby::register_object(0x12));
+    reset_hp(TLobby::register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[0]], TLobby::register_object(0x12));
     this->set_state_flag_1();
     this->movementParameters = boss8_dragon_movement_params;
     initialize_enemy_state(0x4C);
@@ -549,8 +551,7 @@ TBoss8Dragon::TBoss8Dragon(TObject *parent, void *set_data) : TObjEneDD_ST(paren
     this->hpThreshold = 0;
     cfg = boss8_dragon_behavior_params[2];
     this->finalHpThreshold = cfg->values[2] * this->hpmax / 100.0f;
-    q = *(u8 **)((s8 *)this + 0x2B0);
-    *(f32 *)((s8 *)q + 0x10) = 10.0f;
+    stat_block->proportions = 10.0f;
     update_damage_threshold();
     this->tail = new TBoss8DragonEffTail(this, &this->node_positions[15]);
     this->attack_history = new AreaAttackHistory(4);
@@ -737,7 +738,7 @@ void TBoss8Dragon::run_task() {
     if (teammate_state == 0) {
         this->sub_tasks.run_tasks();
     }
-    project_sound_origin_from_camera((saddr)&this->position, (u8 *)&this->sound_origin, 0.4f);
+    project_sound_origin_from_camera(&this->position, &this->sound_origin, 0.4f);
     if (!(this->flags & 0x100)) {
         for (i = 0; i < 4; i++) {
             this->renderFadeStates[i].update();
@@ -845,14 +846,14 @@ void TBoss8Dragon::update_body_colliders() {
     update_local_colliders_from_world(this, pts);
     for (i = 0; i < 7; i++) {
         if (bodies[i].offset.y >= 30.0f) {
-            set_collider_contact_high((u8 *)&bodies[i]);
+            set_collider_contact_high(&bodies[i]);
         } else {
-            set_collider_contact_low((u8 *)&bodies[i]);
+            set_collider_contact_low(&bodies[i]);
         }
     }
     if (this->mode != 9) {
-        set_collider_contact_high((u8 *)&bodies[3]);
-        set_collider_contact_high((u8 *)&bodies[4]);
+        set_collider_contact_high(&bodies[3]);
+        set_collider_contact_high(&bodies[4]);
     }
     bodies[0].unk_28 = boss8_dragon_behavior_params[0]->ints[2];
     bodies[1].unk_28 = boss8_dragon_behavior_params[0]->ints[1];
@@ -1157,19 +1158,19 @@ s32 TBoss8Dragon::advance_air_turn() {
 
 #pragma pop
 void TBoss8Dragon::reload_boss_stats() {
-    this->reload_stats_keep_hp_tp(TLobby::register_boss(0x12), reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[0]]), TLobby::register_object(0x12));
+    this->reload_stats_keep_hp_tp(TLobby::register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[0]], TLobby::register_object(0x12));
 }
 
 void TBoss8Dragon::reset_tail_hp() {
-    this->reset_hp(NULL, reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[1]), NULL);
+    this->reset_hp(NULL, boss8_dragon_part_hp_stats[1], NULL);
 }
 
 void TBoss8Dragon::reload_stats_for_phase() {
-    this->reload_stats_keep_hp_tp(TLobby::register_boss(0x12), reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[2]]), TLobby::register_object(0x12));
+    this->reload_stats_keep_hp_tp(TLobby::register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[2]], TLobby::register_object(0x12));
 }
 
 void TBoss8Dragon::reload_impact_stats() {
-    this->reload_stats_keep_hp_tp(TLobby::register_boss(0x12), reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[3]]), TLobby::register_object(0x12));
+    this->reload_stats_keep_hp_tp(TLobby::register_boss(0x12), boss8_dragon_part_hp_stats[boss8_dragon_attack_stat_indices[3]], TLobby::register_object(0x12));
 }
 
 void handle_6xA8_gol_dragon_boss_actions(void *data) {
@@ -1360,10 +1361,10 @@ void TBoss8Dragon::apply_foot_step_attack(int side) {
         a = &this->node_positions[3];
         b = &this->node_positions[4];
     }
-    this->reset_hp(NULL, reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[0]), NULL);
+    this->reset_hp(NULL, boss8_dragon_part_hp_stats[0], NULL);
     this->emit_effect(a, &params, this->attack_history);
     this->emit_effect(b, &params, this->attack_history);
-    this->reset_hp(NULL, reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[0]), NULL);
+    this->reset_hp(NULL, boss8_dragon_part_hp_stats[0], NULL);
     spawn_particle_effect_with_flags(b, this->particle_ids[4], 0x40);
 }
 
@@ -1381,9 +1382,9 @@ void TBoss8Dragon::apply_landing_attack() {
 }
 
 void TBoss8Dragon::apply_head_fall_attack() {
-    this->reset_hp(NULL, reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[4]), NULL);
+    this->reset_hp(NULL, boss8_dragon_part_hp_stats[4], NULL);
     this->get_state_flags(&boss8_dragon_head_fall_attack_params);
-    this->reset_hp(NULL, reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[0]), NULL);
+    this->reset_hp(NULL, boss8_dragon_part_hp_stats[0], NULL);
 }
 
 #pragma push
@@ -1409,7 +1410,7 @@ void TBoss8Dragon::sweep_body_attack_spheres(f32 a, f32 b, f32 c) {
     pos.x = sn * d + pos.x;
     pos.z = cs * d + pos.z;
     spawn_particle_effect_with_flags(&pos, this->particle_ids[4], 0x40);
-    this->reset_hp(NULL, reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[4]), NULL);
+    this->reset_hp(NULL, boss8_dragon_part_hp_stats[4], NULL);
     c = c - a;
     d = b - a;
     a *= 2.0f;
@@ -1426,7 +1427,7 @@ void TBoss8Dragon::sweep_body_attack_spheres(f32 a, f32 b, f32 c) {
         draw_chunk_object(debug_cylinder_object);
         pop_matrix();
     }
-    this->reset_hp(NULL, reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[0]), NULL);
+    this->reset_hp(NULL, boss8_dragon_part_hp_stats[0], NULL);
 }
 
 #pragma pop
@@ -1449,7 +1450,7 @@ void TBoss8Dragon::sweep_death_body_attack() {
     DragonAttackParams e;
     Vec v;
     s32 i;
-    reset_hp(NULL, reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[4]), NULL);
+    reset_hp(NULL, boss8_dragon_part_hp_stats[4], NULL);
     fill_value_array(this->attack_history);
     TBoss1Dragon__sub_80027A80(&e, &boss8_dragon_head_fall_attack_params);
     VecCopy(&v, &this->node_positions[12]);
@@ -1469,7 +1470,7 @@ void TBoss8Dragon::sweep_death_body_attack() {
     for (i = 0; i < 4; i++) {
         emit_effect(pts[i], &e, this->attack_history);
     }
-    reset_hp(NULL, reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[0]), NULL);
+    reset_hp(NULL, boss8_dragon_part_hp_stats[0], NULL);
 }
 
 void TBoss8Dragon::apply_trail_attack() {  }
@@ -1574,7 +1575,6 @@ void TBoss8Dragon::select_freeze_target() {
 }
 
 #pragma push
-#pragma fp_contract on
 void TBoss8Dragon::freeze_player_at_self() {
     TObjPlayer *player = get_player_by_client_id(this->target_client_id);
     if (player != NULL) {
@@ -2519,15 +2519,15 @@ void TBoss8Dragon::update_spinning_projectile_attack(s32 event) {
                     player = get_player_by_client_id((u16)((this->action_frames >> 1) % 4));
                     if (player->is_alive() != 0) {
                         VecCopy(&pos, &player->position);
-                        pos.x += 100.0f * (calc_random_ratio__10TObjPlayerFv(this->randomState) - 0.5f);
-                        pos.z += 100.0f * (calc_random_ratio__10TObjPlayerFv(this->randomState) - 0.5f);
+                        pos.x += 100.0f * (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - 0.5f);
+                        pos.z += 100.0f * (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - 0.5f);
                         found = 1;
                     }
                 }
                 if (found == 0) {
-                    pos.x = 700.0f * (calc_random_ratio__10TObjPlayerFv(this->randomState) - 0.5f);
+                    pos.x = 700.0f * (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - 0.5f);
                     pos.y = 0.0f;
-                    pos.z = 700.0f * (calc_random_ratio__10TObjPlayerFv(this->randomState) - 0.5f);
+                    pos.z = 700.0f * (calc_random_ratio__10TObjPlayerFv(reinterpret_cast<SubtractiveRng *>(this->randomState)) - 0.5f);
                 }
                 new TBoss8DragonEffBullet(&sub_tasks, &breath_origin, &pos, this->attack_kind, ((TObjBase *)this)->get_entity_id());
             }
@@ -3477,9 +3477,9 @@ void TBoss8Dragon::update_death_state(s32 event) {
                 VecCopy(&v, &boss8_dragon_death_impact_point_a);
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
                 vec3_add_to(&v, &position);
-                reset_hp(NULL, reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[4]), NULL);
+                reset_hp(NULL, boss8_dragon_part_hp_stats[4], NULL);
                 emit_effect(&v, &e, 0);
-                reset_hp(NULL, reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[0]), NULL);
+                reset_hp(NULL, boss8_dragon_part_hp_stats[0], NULL);
                 spawn_particle_effect_with_flags(&v, this->particle_ids[2], (s32)(0x40));
                 if (this->particle_ids[3] != -1) {
                     spawn_particle_effect_with_flags(&position, this->particle_ids[3], 0x40);
@@ -3491,9 +3491,9 @@ void TBoss8Dragon::update_death_state(s32 event) {
                 VecCopy(&v, &boss8_dragon_death_impact_point_b);
                 rotate_xz_pair_by_angle(&v.x, &v.z, this->rotation_y);
                 vec3_add_to(&v, &position);
-                reset_hp(NULL, reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[4]), NULL);
+                reset_hp(NULL, boss8_dragon_part_hp_stats[4], NULL);
                 emit_effect(&v, &e, 0);
-                reset_hp(NULL, reinterpret_cast<AttackParams *>(boss8_dragon_part_hp_stats[0]), NULL);
+                reset_hp(NULL, boss8_dragon_part_hp_stats[0], NULL);
                 spawn_particle_effect_with_flags(&v, this->particle_ids[2], (s32)(0x40));
                 if (this->particle_ids[3] != -1) {
                     spawn_particle_effect_with_flags(&position, this->particle_ids[3], 0x40);
@@ -4522,7 +4522,7 @@ void TBoss8Dragon::update_movement() {
 
 void TBoss8Dragon::move_to_on_ground(Vec *target) {
     Vec saved;
-    u8 shot[0xC];
+    Vec shot;
     Vec delta;
     f32 dist;
     VecCopy(&saved, &this->position);
@@ -4530,8 +4530,8 @@ void TBoss8Dragon::move_to_on_ground(Vec *target) {
     delta.y = 0.0f;
     delta.z = target->z - (&this->position)->z;
     dist = normalize_vector_xz((Vec *)&delta);
-    this->calc_shot_position(shot, delta.x, delta.z, dist);
-    this->try_move_actor_xz_on_ground(shot);
+    this->calc_shot_position(&shot, delta.x, delta.z, dist);
+    this->try_move_actor_xz_on_ground(&shot);
     (&this->position)->y = saved.y;
     if (this->is_near_other_part() != 0) {
         VecCopy(&this->position, &saved);
@@ -4548,8 +4548,8 @@ void TBoss8Dragon::apply_ground_movement(Vec *step) {
     VecCopy(&a, &this->position);
     VecCopy(&c, step);
     t = normalize_vector_xz((Vec *)&c);
-    this->calc_shot_position((u8 *)&b, (f32)c.x, (f32)c.z, (f32)t);
-    this->try_move_actor_xz_on_ground((u8 *)&b);
+    this->calc_shot_position(&b, (f32)c.x, (f32)c.z, (f32)t);
+    this->try_move_actor_xz_on_ground(&b);
     this->position.y = a.y;
     if ((this->push_apart_from_parts() != 0) && (this->is_near_other_part() != 0)) {
         VecCopy(&this->position, &a);

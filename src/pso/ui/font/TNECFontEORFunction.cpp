@@ -5,6 +5,8 @@
 #include "pso/unk/text_80144AC8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -73,30 +75,14 @@ struct MenuGlyphEntry {
     u8 y;
 };
 
-// The text cursor point and the glyph quad drawn from it: same eight floats as
-// the small-font GlyphQuad (x, y, right, bottom, u, v, u2, v2).
-struct MenuTextQuad {
-    f32 x;
-    f32 y;
-    f32 right;
-    f32 bottom;
-    f32 u;
-    f32 v;
-    f32 u2;
-    f32 v2;
-};
 
 extern "C" {
-void set_glyph_quad_extents(u8 adv, MenuTextQuad *quad);
-u32 get_font_char_advance(u16 c);
-u16 map_char_to_font_code(u16 c);
-char *parse_text_control_codes(char *p, s32 *mb, s32 *color);
 void DCStoreRange(void *, u32);
 u32 calc_text_width(char *s);
 u32 calc_fullwidth_text_width(char *s);
 void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f32 scale);
 
-char *parse_text_control_codes(char *p, s32 *mb, s32 *color) {
+const char *parse_text_control_codes(const char *p, s32 *mb, s32 *color) {
     while (*p == '\t') {
         switch (*++p) {
         case 'J':
@@ -124,11 +110,11 @@ char *parse_text_control_codes(char *p, s32 *mb, s32 *color) {
 
 #pragma push
 #pragma fp_contract on
-void set_glyph_quad_extents(u8 adv, MenuTextQuad *quad) {
-    quad->right = quad->x + (f32) adv;
-    quad->bottom = 18.0f + quad->y;
-    quad->u2 = ((f32) adv / 256.0f) + quad->u;
-    quad->v2 = 0.0703125f + quad->v;
+void set_glyph_quad_extents(u8 advance, TexturedQuad *quad) {
+    quad->x1 = quad->x0 + advance;
+    quad->y1 = 18.0f + quad->y0;
+    quad->u1 = (advance / 256.0f) + quad->u0;
+    quad->v1 = 0.0703125f + quad->v0;
 }
 #pragma pop
 
@@ -432,11 +418,11 @@ u8 TWindowSubStatusDisp::calc_gauge_scale(u16 glyph, void *quad, s32 color) {
 
     cached_glyph = TWindowSubStatusDisp::find_cached_glyph(glyph);
     MenuGlyphEntry *entry = (MenuGlyphEntry *)cached_glyph;
-    MenuTextQuad *pos = (MenuTextQuad *)quad;
+    TexturedQuad *pos = static_cast<TexturedQuad *>(quad);
     entry->epoch = menu_font_upload_epoch;
     set_draw_texture_and_color(entry->page, color);
-    pos->u = (f32) ((f32) entry->x / 256.0f);
-    pos->v = (f32) ((f32) entry->y / 256.0f);
+    pos->u0 = (f32) ((f32) entry->x / 256.0f);
+    pos->v0 = (f32) ((f32) entry->y / 256.0f);
     return entry->width;
 }
 
@@ -446,10 +432,9 @@ void TWindowSubStatusDisp::set_gauge_param(s32 gauge_param) {
 
 void TWindowSubStatusDisp::end_render_forward() { get_player(); }
 void TWindowSubStatusDisp::reset_gauge(void* p) { begin_screen_draw((saddr)((void*)1)); TWindowSubStatusDisp::set_gauge_param((saddr)p); set_draw_texture_and_color((saddr)((void*)0), (saddr)((void*)-1)); }
-typedef struct MenuTextQuad MenuTextQuad;
 void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f32 scale) {
   s32 mb = 0;
-  MenuTextQuad pos;
+  TexturedQuad quad;
   s32 c;
   unsigned char hi;
   u8 lo;
@@ -463,14 +448,14 @@ void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f3
   {
     mb = 1;
   }
-  pos.x = x;
-  pos.y = y;
+  quad.x0 = x;
+  quad.y0 = y;
   set_default_alpha_blend();
   TWindowSubStatusDisp::reset_gauge((void*)(0));
   flags &= 1;
   while ((*s) != 0)
   {
-    s = parse_text_control_codes((char *) s, &mb, 0);
+    s = parse_text_control_codes(s, &mb, 0);
     c = *((u8 *) s);
     if (((s8) c) == 0)
     {
@@ -482,18 +467,18 @@ void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f3
     {
       if (flags != 0)
       {
-        pos.x += 9.0f;
+        quad.x0 += 9.0f;
       }
       else
       {
-        pos.x = x;
-        pos.y += 20.0f;
+        quad.x0 = x;
+        quad.y0 += 20.0f;
       }
     }
     else
       if (c == 0x20)
     {
-      pos.x += 9.0f;
+      quad.x0 += 9.0f;
     }
     else
     {
@@ -509,10 +494,10 @@ void draw_menu_font_string(const char *s, s32 color, u32 flags, f32 x, f32 y, f3
       }
       code = (hi << 8) & 0xFF00;
       code = code | lo;
-      w = TWindowSubStatusDisp::calc_gauge_scale(((u16 (*)(u32)) map_char_to_font_code)(code), &pos, color);
-      set_glyph_quad_extents(w, &pos);
-      draw_textured_quad_at_depth((f32 *)&pos, scale);
-      pos.x += (f32) w;
+      w = TWindowSubStatusDisp::calc_gauge_scale(((u16 (*)(u32)) map_char_to_font_code)(code), &quad, color);
+      set_glyph_quad_extents(w, &quad);
+      draw_textured_quad_at_depth(&quad.x0, scale);
+      quad.x0 += (f32) w;
     }
   }
   TWindowSubStatusDisp::end_render_forward();

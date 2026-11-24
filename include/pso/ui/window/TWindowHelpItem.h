@@ -18,11 +18,15 @@ struct TWindowHelpItem : public TWindowBase
     void init_text(void *);
     void sub_80255E24();
     void set_flag60_bit4();
+    void set_flag60_bit8();
+    void clear_flag60_bit8();
+    TItemData *get_mag_state();
+    s32 update_mag_status_gauges();
     void update_help_item(s32 mode);
     u8 m_60;
     u8 _pad61[0x3];
     PageIndicator *m_64;
-    uaddr m_68;
+    TItemData *active_item;
     u32 m_6c;
     uaddr m_70;
     u8 _pad74[0x14];
@@ -69,6 +73,7 @@ struct TWindowHelpItem : public TWindowBase
 
 LAYOUT_ASSERT(TWindowHelpItem_size_check, sizeof(TWindowHelpItem) == 0xBC);
 LAYOUT_ASSERT(HelpItem_name_offset, offsetof(TWindowHelpItem, m_name) == 0);
+LAYOUT_ASSERT(HelpItem_active_item_offset, offsetof(TWindowHelpItem, active_item) == 0x68);
 LAYOUT_ASSERT(HelpItem_page_offset, offsetof(TWindowHelpItem, m_64) == 0x64);
 LAYOUT_ASSERT(HelpItem_callback_offset, offsetof(TWindowHelpItem, m_callback) == 0xB0);
 LAYOUT_ASSERT(HelpItem_callback_size, sizeof(TWindowHelpItem::CallbackWords) == 12);

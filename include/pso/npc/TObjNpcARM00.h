@@ -12,7 +12,7 @@ struct TObjNpcARM00 : public TObjNpcMale {
     static void load_resources();
     static void *create(void *set_data);
     static const char *name;
-    static uaddr model_resource;
+    static void **model_resource;
     static NJS_TEXLIST *texture_list;
 };
 

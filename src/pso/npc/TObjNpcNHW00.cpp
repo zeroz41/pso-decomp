@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "types.h"
 #include "pso/npc/TObjNpcNHW00.h"
 #include "pso/object/TObjControl.h"
@@ -12,7 +13,7 @@
 #pragma readonly_strings on
 
 const char *TObjNpcNHW00::name = "TObjNpcNHW00";
-uaddr TObjNpcNHW00::shared_named_model_object;
+void **TObjNpcNHW00::shared_named_model_object;
 NJS_TEXLIST *TObjNpcNHW00::texture_gvm_handle;
 
 void *TObjNpcNHW00::create(void *set_data) {
@@ -23,17 +24,17 @@ void *TObjNpcNHW00::create(void *set_data) {
 void TObjNpcNHW00::free_static_resources() {
     if (texture_gvm_handle != NULL) {
         release_texture_list(texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)texture_gvm_handle);
+        safe_free(texture_gvm_handle);
         texture_gvm_handle = NULL;
     }
-    if (shared_named_model_object != 0) {
-        TLobby::free_nodes_with_id(shared_named_model_object);
-        shared_named_model_object = 0;
+    if (shared_named_model_object != NULL) {
+        TLobby::free_nodes_with_id(reinterpret_cast<uaddr>(shared_named_model_object));
+        shared_named_model_object = NULL;
     }
 }
 
 void TObjNpcNHW00::load_resources() {
-    shared_named_model_object = create_named_object("npc_b00_data.rel");
+    shared_named_model_object = static_cast<void **>(create_named_object("npc_b00_data.rel"));
     texture_gvm_handle = load_gvm_texture_file("n_b00_body.gvm");
 }
 
@@ -43,7 +44,7 @@ TObjNpcNHW00::TObjNpcNHW00(TObject *parent, void *set_data) : TObjNpcFemale(pare
     this->m_name = name;
     this->apply_set_data(set_data);
     init_position_vectors();
-    this->model = *(void **)shared_named_model_object;
+    this->model = *shared_named_model_object;
     this->texlist = texture_gvm_handle;
     this->setup_common();
 }

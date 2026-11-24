@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/system/memory.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/system/ResourceFile.h"
@@ -47,7 +48,6 @@ struct Obj_800771E4 { u8 pad0[0x28]; Ent_800771E4 e[12]; };
 extern "C" {
     extern int selected_symbol_chat_preset;
 extern s32 local_client_id;
-s32 play_sound_effect(s32, u32, s16, s32);
 
 void TWindowSubSymbolChat::send_selected_symbol_chat(s32 *arg0) {
     G_SymbolChat_6x07 packet;
@@ -261,7 +261,7 @@ void TWindowSubSymbolChat::load_symbol_chat_data() {
     e = w->e;
     data = (saddr)load_disc_file("symbolchat.dat");
     move_data((void *)(e), (const void *)((const void *)data), (u32)0x420);
-    TAdSinglePlyChrSelectGC::safe_free(data);
+    safe_free(reinterpret_cast<void *>(data));
     for (i = 0; i < 6; i++) {
         ((TWindowSubSymbolChat *)(&e[i]))->bswap_entry();
         t = (saddr)get_symbol_chat_preset(i);

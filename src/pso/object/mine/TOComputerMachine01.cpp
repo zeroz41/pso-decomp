@@ -26,7 +26,7 @@ CollisionBody computer_machine01_collision_body = {
 const char *TOComputerMachine01::class_name = "TOComputerMachine01";
 BmlResource *TOComputerMachine01::model_resource;
 s32 TOComputerMachine01::last_scroll_frame;
-void *TOComputerMachine01::screen_meshes[4];
+GinjaModel *TOComputerMachine01::screen_meshes[4];
 
 s32 TOComputerMachine01::update_object_view_visibility(f32 range, f32 radius) {
     if (xz_distance_squared(&position, (Vec *)&camera_ctrl_instance->pos.x) < radius * radius) {
@@ -88,10 +88,10 @@ void TOComputerMachine01::load_resources() {
     BmlResource *resource = new BmlResource(1, &bm_fs_obj_kenkyu_com_resource_descriptor, 0, 0, NULL);
     model_resource = resource;
     screen = ((NJS_OBJECT *)resource->models->model)->child;
-    screen_meshes[3] = screen->model;
-    screen_meshes[2] = screen->sibling->model;
-    screen_meshes[1] = screen->sibling->sibling->model;
-    screen_meshes[0] = screen->sibling->sibling->sibling->model;
+    screen_meshes[3] = static_cast<GinjaModel *>(screen->model);
+    screen_meshes[2] = static_cast<GinjaModel *>(screen->sibling->model);
+    screen_meshes[1] = static_cast<GinjaModel *>(screen->sibling->sibling->model);
+    screen_meshes[0] = static_cast<GinjaModel *>(screen->sibling->sibling->sibling->model);
     last_scroll_frame = 0;
 }
 

@@ -1,3 +1,4 @@
+#include "pso/system/SubtractiveRng.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -60,7 +61,6 @@ const s32 live_camera_view_ids[2] = { 0xF44E8, 0xF44E9 };
 extern "C" {
 s32 is_split_screen();
 extern void *tl_05;
-f32 calc_random_ratio__10TObjPlayerFv(SubtractiveRng *rng);
 s32 get_current_floor();
 extern TObject *tl_particlemodel;
 }

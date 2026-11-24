@@ -4,10 +4,12 @@
 #include "types.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 
+struct NJS_POINT2;
+
 struct TWindowSubItemList : public TWindowMenuIconLine {
     TWindowSubItemList(u8 *parent, s32 client);
     virtual ~TWindowSubItemList();
-    void sub_8027ACF8(u8 *);
+    void draw_blinking_selection(WindowDrawContext *context);
     void render();
     void run_task();
     void select_cursor_entry();
@@ -28,7 +30,7 @@ struct TWindowSubItemList : public TWindowMenuIconLine {
 LAYOUT_ASSERT(TWindowSubItemList_size, sizeof(TWindowSubItemList) == 0x90);
 
 extern "C" {
-TWindowSubItemList *create_sub_item_list_window(saddr parent, const f32 *position, s32 client);
+TWindowSubItemList *create_sub_item_list_window(const NJS_POINT2 *anchor, const NJS_POINT2 *position, s32 client);
 }
 
 #endif

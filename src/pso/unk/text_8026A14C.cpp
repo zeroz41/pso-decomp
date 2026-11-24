@@ -1,3 +1,4 @@
+#include "pso/ui/font/TNECFontEORFunction.h"
 #include "types.h"
 #include <string.h>
 #include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
@@ -23,9 +24,9 @@ void fn_8026A14C(void) {
         chat_last_line_buffer = NULL;
     }
 }
-void fn_8026A1C4(char *dst, char *src, s32 size) {
+void fn_8026A1C4(char *dst, const char *src, s32 size) {
     s32 sjis;
-    char *next;
+    const char *next;
     s32 len;
     s32 n;
     s8 c;

@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -29,7 +30,6 @@ NJS_TEXLIST *menu_selection_cursor_texture_list;
 
 extern "C" {
 extern const s32 current_language;
-void play_sound_effect(int, int, int, int);
 void copy_vec2__FPvPv(NJS_POINT2 *target, const NJS_POINT2 *source);
 
 void TAdSelectCurGC::run_task() {

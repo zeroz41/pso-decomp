@@ -13,7 +13,7 @@ public:
     virtual void render(WindowDrawContext *context);
     virtual void calc_bar_width();
 
-    TWindowStatusGaugeFeedback *init_layout_entry_copy(LayoutEntryCopyRecord *source, s32 client);
+    TWindowStatusGaugeFeedback(LayoutEntryCopyRecord *source, s32 client);
 
     s16 shown;
     s16 timer;

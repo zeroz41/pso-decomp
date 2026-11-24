@@ -1,3 +1,4 @@
+#include "pso/system/ControllerInput.h"
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/text_80421620.h"
 #include "pso/unk/TLobby_801461EC.h"
@@ -52,7 +53,6 @@ struct at_ip_addr {
 
 void func_80019A68();
 void controller_stuff();
-char func_801A5E54();
 void render_tick();
 void func_803DCDFC();
 extern "C" {
@@ -277,7 +277,7 @@ int TTcpSocket::open() {
 					if (m_stat_val < 4) {
 						if (!get_link_status()) {
 							return -3;
-						} else if (func_801A5E54()) {
+						} else if (static_cast<s8>(func_801A5E54())) {
 							return -2;
 						} else {
 							main_task.begin_frame();
@@ -301,7 +301,6 @@ int TTcpSocket::open() {
 
 extern "C" {
 s32 get_csn_group_flags(s32);
-s8 func_801A5E54__Fv();
 s16 TLobby__sub_8040A698(s16, void *, void *, int, void *, int);
 }
 
@@ -366,7 +365,7 @@ int TSocket::resolve_domain(char *domain) {
                 }
                 func_803DCDFC__Fv();
                 controller_stuff();
-                if (func_801A5E54__Fv() != 0) {
+                if (static_cast<s8>(func_801A5E54()) != 0) {
                     break;
                 }
                 main_task.begin_frame();

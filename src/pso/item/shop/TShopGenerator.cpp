@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/render/NinjaUtil.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
 #include "pso/system/MatrixOps.h"
@@ -71,7 +72,6 @@ const char *TShopGenerator__class_name = "TShopGenerator";
 s32 TShopGenerator__slot_active_table[4];
 
 extern "C" {
-f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
@@ -86,7 +86,7 @@ bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *self, u8 *player, f32
 #pragma opt_dead_assignments off
 bool TShopGenerator::is_player_in_service_range(u8 *arg1, f32 farg0) {
     f32 to_self[3];
-    if (xyz_distance_squared((arg1 + 0x38), ((u8 *)&this->position)) > (farg0 * farg0)) {
+    if (xyz_distance_squared(&reinterpret_cast<const TObjBase *>(arg1)->position, &position) > (farg0 * farg0)) {
         return 0;
     }
     f32 facing[3] = {0.0f, 0.0f, -1.0f};

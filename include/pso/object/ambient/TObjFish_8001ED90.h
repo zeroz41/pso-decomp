@@ -11,9 +11,6 @@ struct AnimationMotion;
 // --- C functions defined in pso/unk/TLobby_8001EF5C.cpp (was TObjFish_8001ED90.cpp) ---
 extern "C" {
 int fn_8001ED90(void *p);
-// The index-th motion and texture list of a loaded BML archive.
-AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
-
 }
 // --- end of C functions
 

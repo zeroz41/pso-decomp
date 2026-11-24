@@ -2,6 +2,7 @@
 #define PSO_PLAYER_TOBJPLAYER_801542CC_H
 
 #include "pso/object/base/CollisionActorLookup.h"
+#include "pso/map/CsnGroundQuery.h"
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 
@@ -21,9 +22,6 @@ u16 register_entity_by_id(void *ov);
 // The actor with this entity id if it can be hit on that collision body now,
 // else NULL.
 TObjChara *resolve_hittable_target(u16 actor_id, s16 collider);
-// Drops pos onto the ground under it (from 10 units up, through the actor's
-// ground cache when it has one); 1 if found, the ground normal in *normal.
-s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal);
 // The radius of the actor's collision body, or a default without bodies.
 f32 get_collision_body_radius__14TObjCollidableFl(TObjCollidable *actor, s32 body);
 void reset_global_table(void);

@@ -1,3 +1,4 @@
+#include "pso/ui/font/TNECFontEORFunction.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/system/ResourceFile.h"
@@ -16,7 +17,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/system/memory.h"
 #include <string.h>
 #include "pso/ui/window/WindowLayout.h"
 
@@ -48,7 +49,6 @@ struct KbRec_8025D264 {
 };
 
 extern "C" {
-void set_glyph_quad_extents(u8, void *);
 s32 map_char_to_font_code(u16);
 u8 get_font_char_advance(s32);
 struct Stack_8025E6DC {
@@ -601,9 +601,9 @@ void TWindowKeyBoardBase::sub_8025DBDC(s32 arg1) {
         rb = n * 2;
         if (n == 0) break;
         if (arg1 == 0 && n == 1) { c = *q; if (c == 'n' || c == 'N') return; }
-        if (m_b4 & 8) { ret = dispatch_request_0f__19TWindowKeyBoardSoftFll(q, scratch); } else { ret = dispatch_request_0x10__19TWindowKeyBoardSoftFll(q, scratch); }
+        if (composition_flags & 8) { ret = dispatch_request_0f__19TWindowKeyBoardSoftFll(q, scratch); } else { ret = dispatch_request_0x10__19TWindowKeyBoardSoftFll(q, scratch); }
         if (ret != 0 && n > 1 && q[0] == q[1]) {
-            if (m_b4 & 8) {
+            if (composition_flags & 8) {
                 *(u16 *)((s8*)m_text2.buffer + m_text2.cursor * 2 - rb) = 0x8362;
             } else {
                 *(u16 *)((s8*)m_text2.buffer + m_text2.cursor * 2 - rb) = 0x82C1;
@@ -632,9 +632,9 @@ void TWindowKeyBoardBase::sub_8025DBDC(s32 arg1) {
 }
 
 void fn_8025DE10(WindowDrawContext *context, NJS_POINT2 *cursor) {
-    ColorLineVertex pos[4];
-    ColorLineList d;
-    u32 col[4];
+    NJS_POINT2 pos[4];
+    NJS_POINT2COL d;
+    NJS_COLOR col[4];
     f32 bottom;
     f32 depth;
 
@@ -642,14 +642,14 @@ void fn_8025DE10(WindowDrawContext *context, NJS_POINT2 *cursor) {
         return;
     }
     depth = 0.1794f + context->depth;
-    d.verts = pos;
-    d.colors = col;
+    d.p = pos;
+    d.col = col;
     d.tex = NULL;
-    d.count = 4;
-    d.colors[0] = 0xFF0080;
-    d.colors[1] = 0xFF0080;
-    d.colors[2] = 0xFF0080;
-    d.colors[3] = 0xFF0080;
+    d.num = 4;
+    d.col[0].color = 0xFF0080;
+    d.col[1].color = 0xFF0080;
+    d.col[2].color = 0xFF0080;
+    d.col[3].color = 0xFF0080;
     pos[0].x = cursor->x;
     pos[0].y = cursor->y;
     pos[1].x = 5.0f + pos[0].x;
@@ -659,14 +659,14 @@ void fn_8025DE10(WindowDrawContext *context, NJS_POINT2 *cursor) {
     pos[2].y = bottom;
     pos[3].x = pos[0].x;
     pos[3].y = bottom;
-    draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&d), 4, 6, depth);
+    draw_polygon_2d(&d, 4, 6, depth);
 }
 
 void TWindowKeyBoardBase::draw_text_glyphs(WindowDrawContext *context, NJS_POINT2 *cursor) {
     TexturedQuad q;
-    ColorLineVertex pos[4];
-    ColorLineList d;
-    u32 col[4];
+    NJS_POINT2 pos[4];
+    NJS_POINT2COL d;
+    NJS_COLOR col[4];
     f32 depth;
     u8 adv;
     u8 n;
@@ -678,10 +678,10 @@ void TWindowKeyBoardBase::draw_text_glyphs(WindowDrawContext *context, NJS_POINT
         return;
     }
     depth = 0.0598f + context->depth;
-    d.verts = pos;
-    d.colors = col;
+    d.p = pos;
+    d.col = col;
     d.tex = NULL;
-    d.count = 4;
+    d.num = 4;
     while (*p != 0) {
         ci = (p == reinterpret_cast<char *>(current_candidate)) ? 1 : 2;
         n = p[1];
@@ -705,10 +705,10 @@ void TWindowKeyBoardBase::draw_text_glyphs(WindowDrawContext *context, NJS_POINT
                 q.y0 = cursor->y;
                 set_glyph_quad_extents(adv, &q);
                 context->transform_quad(&q);
-                d.colors[0] = lbl_804CFA84[ci];
-                d.colors[1] = d.colors[0];
-                d.colors[2] = d.colors[0];
-                d.colors[3] = d.colors[0];
+                d.col[0].color = lbl_804CFA84[ci];
+                d.col[1].color = d.col[0].color;
+                d.col[2].color = d.col[0].color;
+                d.col[3].color = d.col[0].color;
                 pos[0].x = q.x0;
                 pos[0].y = q.y0;
                 pos[1].x = q.x1;
@@ -717,7 +717,7 @@ void TWindowKeyBoardBase::draw_text_glyphs(WindowDrawContext *context, NJS_POINT
                 pos[2].y = q.y1;
                 pos[3].x = q.x0;
                 pos[3].y = q.y1;
-                draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&d), 4, 6, depth);
+                draw_polygon_2d(&d, 4, 6, depth);
                 cursor->x += (f32)(s32)adv;
             }
         }
@@ -727,22 +727,22 @@ void TWindowKeyBoardBase::draw_text_glyphs(WindowDrawContext *context, NJS_POINT
 void TWindowKeyBoardBase::draw_composition_background(WindowDrawContext *box, NJS_POINT2 *cursor, u16 *text, u32 count) {
     TWindowKeyBoardBase * self = this;
     TexturedQuad q;
-    ColorLineVertex pos[4];
-    ColorLineList d;
-    u32 col[4];
+    NJS_POINT2 pos[4];
+    NJS_POINT2COL d;
+    NJS_COLOR col[4];
     f32 depth;
     u16 ch;
     u8 adv;
 
     depth = 0.0598f + box->depth;
-    d.verts = pos;
-    d.colors = col;
+    d.p = pos;
+    d.col = col;
     d.tex = NULL;
-    d.count = 4;
-    d.colors[0] = lbl_804CFA84[2];
-    d.colors[1] = d.colors[0];
-    d.colors[2] = d.colors[0];
-    d.colors[3] = d.colors[0];
+    d.num = 4;
+    d.col[0].color = lbl_804CFA84[2];
+    d.col[1].color = d.col[0].color;
+    d.col[2].color = d.col[0].color;
+    d.col[3].color = d.col[0].color;
     while ((s32)*text != 0 && count-- != 0) {
         ch = *text++;
         adv = get_font_char_advance(map_char_to_font_code(ch));
@@ -765,7 +765,7 @@ void TWindowKeyBoardBase::draw_composition_background(WindowDrawContext *box, NJ
             pos[2].y = q.y1;
             pos[3].x = q.x0;
             pos[3].y = q.y1;
-            draw_polygon_2d(reinterpret_cast<NJS_POINT2COL *>(&d), 4, 6, depth);
+            draw_polygon_2d(&d, 4, 6, depth);
             cursor->x += (f32)adv;
         }
     }
@@ -941,7 +941,7 @@ TWindowKeyBoardBase::TWindowKeyBoardBase() : TWindowBase((u8 *)&TWindowKeyBoardB
     ((TWindowKeyBoardBase *)self)->init_keyboard_text_field(0, 0);
     m_text2.init(0, 0);
     active_text = &m_text;
-    *(s32 *)&((TWindowKeyBoardBase *)self)->m_b4 = 0;
+    *(s32 *)&((TWindowKeyBoardBase *)self)->composition_flags = 0;
     *(s16 *)&((TWindowKeyBoardBase *)self)->m_62 = 0;
     *(s8 *)&((TWindowKeyBoardBase *)self)->m_65 = -1;
     candidate_buffer = 0;
@@ -969,7 +969,7 @@ void TLobby::load_ask_dictionary() {
     aram = ARAlloc(aligned);
     data = (saddr)load_disc_file(lbl_8044F098);
     TLobby::aram_transfer_sync(3, data, aram, aligned);
-    TAdSinglePlyChrSelectGC::safe_free(data);
+    safe_free(reinterpret_cast<void *>(data));
     aram_dma_setup(aram, size, 3, 1, 0x2710);
     start_askdic();
 }

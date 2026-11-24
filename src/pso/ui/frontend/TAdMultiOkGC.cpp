@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/ui/frontend/TAdMultiOkGC.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_8023E480.h"
@@ -16,7 +17,6 @@ __declspec(section ".data") MultiConfirmTextureList multi_confirm_texture_descri
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 extern "C" {
-s32 play_sound_effect(int, void *, int, int);
 saddr multi_confirm_texture_list;
 }
 

@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/Adxf.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/system/BmlAccessors.h"
@@ -86,7 +87,7 @@ TChCrLoadAfsTextureReq::~TChCrLoadAfsTextureReq() {
     this->finish_request();
     for (i = 0; i < this->count; i++) {
         if (this->buffers[i] != 0) {
-            TAdSinglePlyChrSelectGC::safe_free(this->buffers[i]);
+            safe_free(reinterpret_cast<void *>(this->buffers[i]));
             this->buffers[i] = 0;
         }
     }

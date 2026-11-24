@@ -9,7 +9,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/player/TUnk_804E71A0.h"
-#include "pso/player/TObjPlayer_801A5AEC.h"
+#include "pso/system/ControllerInput.h"
 #include "pso/unk/text_803DCDFC.h"
 #include "pso/unk/text_800FA464.h"
 #include "pso/render/GinjaView.h"
@@ -31,7 +31,7 @@ void TKeyBoardControl::run_main_frame() {
     main_task.render();
     main_task.render_screen_overlay();
     process_async_file_reads();
-    if (func_801A5E54__Fv() != 0) {
+    if (static_cast<s8>(func_801A5E54()) != 0) {
         TKeyBoardControl__sub_8000F92C();
     }
     if (TQuestVmDownLoadServer::is_ready() != 0) {

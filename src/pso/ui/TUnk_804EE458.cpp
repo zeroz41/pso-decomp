@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/render/model_render_state.h"
@@ -40,7 +41,6 @@ void TUnk_804EE458::draw_record_with_camera(s32 record, s32 camera) {
 
 extern "C" {
 
-s32 play_sound_effect(int, int, int, int);
 
 
 s32 TAdTrialAgreementGC__sub_80335958(TUnk_804EE458 *controller) {

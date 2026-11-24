@@ -5,16 +5,15 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 
 struct PageIndicator;
+struct NJS_POINT2;
 
 struct TWindowSubShortCutList : public TWindowMenuIconLine {
     TWindowSubShortCutList(u8 *parent, s32 index);
     virtual ~TWindowSubShortCutList();
-    void set_cursor_index(s16);
-    void set_flag70_bit10();
     virtual void render();
     PageIndicator *storage;
     void refresh_entries();
-    void *create(void *index);
+    static TWindowSubShortCutList *create(const NJS_POINT2 *position, s32 index);
     virtual void run_task();
     void draw_entry(s32 index, s32 status_style, s32 arg3, s32 item);
 };

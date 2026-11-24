@@ -1,10 +1,13 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/ui/window/WindowScrollBar.h"
+#include "pso/ui/window/TWindowSubCustomEquip.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowActionPalette.h"
+#include "pso/ui/window/WindowSpritePart.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubCustomSelect.h"
@@ -18,26 +21,14 @@
 
 #pragma readonly_strings on
 
-struct Stack_80277638 {
-    f32 sp8;
-    f32 spC;
-};
-
 struct Ent_80277AEC { u16 id; u8 pad[0xA]; };
 
 struct Sub_80277AEC { u8 pad[0x34]; s32 flags; };
 
 struct Big_80277AEC { u8 pad[0x85C]; Sub_80277AEC sub; };
 
-struct Stack_80277368
-{
-  f32 sp8;
-  f32 spC;
-};
-
 struct Ent_802776D0 { u16 id; u16 sub; };
 
-extern s32 hud_texlist;
 
 // inferred: window_sub_custom_select_layout_entries, the layout table
 // TWindowSubCustomSelect__window_settings points at (two sprite parts and a value entry).
@@ -59,12 +50,9 @@ WindowDescriptor TWindowSubCustomSelect__window_settings = {
 };
 
 extern "C" {
-s32 draw_window_scrollbar(int, int, void *);
-void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(void *, void *, s32, f32);
 s32 play_sound_effect(s32, s32, s32, s32);
 void *reset_selection__20TWindowSubStatusDispFv(void *, NJS_POINT2 *);
 const char *TWindowSubCustomSelect__class_name = "TWindowSubCustomSelect";
-s32 clamp_list_scroll_offset(void *, void *, void *);
 s32 can_use_palette_action__10TObjPlayerFPvUcUc(s32, u8, u8);
 
 void TWindowSubCustomSelect::handle_cancel() {
@@ -80,12 +68,10 @@ void TWindowSubCustomSelect::handle_decide() {
     ((TWindowSubStatusDisp *)(this->m_7c))->set_entry_state(2);
 }
 
-typedef struct Stack_80277368 Stack_80277368;
 #pragma fp_contract on
 void TWindowSubCustomSelect::update_list_scroll() {
   u8 *arg0 = (u8 *) this;
-  Stack_80277368 stack;
-  u8 *new_var;
+  NJS_POINT2 range;
   f32 *new_var3;
   f32 tgt;
   float new_var2;
@@ -94,9 +80,9 @@ void TWindowSubCustomSelect::update_list_scroll() {
   tgt -= 81.0f;
   new_var3 = &this->scroll_offset[1];
   *new_var3 = (*new_var3) + (tgt - (this->scroll_offset[1]));
-  stack.sp8 = 0.0f;
-  stack.spC = ((this->frame_size[1]) - 10.0f) - 16.0f;
-  clamp_list_scroll_offset(*((u8 **) (((s8 *) arg0) + 0x80)), (new_var = arg0) + 0x68, &stack.sp8);
+  range.x = 0.0f;
+  range.y = ((this->frame_size[1]) - 10.0f) - 16.0f;
+  scroll_bar->clamp_offset(scroll_offset, &range);
 }
 
 void TWindowSubCustomSelect::handle_grid_navigation() {
@@ -143,11 +129,11 @@ void TWindowSubCustomSelect::handle_grid_navigation() {
 
 #pragma push
 #pragma fp_contract on
-void TWindowSubCustomSelect::draw_cursor(u8 *window_sub_custom_equip) {
-    Stack_80277638 stack;
-    stack.sp8 = (58.0f * (f32) (s8) this->m_70) + 1.0f;
-    stack.spC = (51.0f * (f32) (s8) this->m_71) + (-5.0f);
-    draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(window_sub_custom_equip, &stack.sp8, this->m_74, 0.4f);
+void TWindowSubCustomSelect::draw_cursor(WindowDrawContext *context) {
+    NJS_POINT2 position;
+    position.x = (58.0f * (f32) (s8) this->m_70) + 1.0f;
+    position.y = (51.0f * (f32) (s8) this->m_71) + (-5.0f);
+    TWindowSubCustomEquip::draw_cursor_sprite(0.4f, context, &position, m_74);
 }
 #pragma pop
 
@@ -159,9 +145,9 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
     Ent_802776D0 *e;
     s16 id;
     s16 sub;
-    u8 *w1;
-    u8 *w0;
-    u8 *w2;
+    WindowSpritePart *icon;
+    WindowSpritePart *background;
+    TUnk_804CF9C8 *label;
     f32 y;
     f32 fx;
     f32 fy;
@@ -180,39 +166,36 @@ void TWindowSubCustomSelect::draw_palette_cells(WindowDrawContext *ctx) {
         if (47.0f + (8.0f + y) < ctx->clip_y0 || 8.0f + y > ctx->clip_y1) {
             continue;
         }
-        w1 = (u8 *)this->get_array_entry(1);
-        w0 = (u8 *)this->get_array_entry(0);
-        w2 = (u8 *)this->get_array_entry(2);
-        *(f32 *)((s8 *)w1 + 8) = 12.0f + fx;
-        *(f32 *)((s8 *)w1 + 0xC) = 10.0f + fy;
-        *(f32 *)((s8 *)w0 + 8) = 9.0f + fx;
-        *(f32 *)((s8 *)w0 + 0xC) = 8.0f + fy;
+        icon = static_cast<WindowSpritePart *>(get_array_entry(1));
+        background = static_cast<WindowSpritePart *>(get_array_entry(0));
+        label = static_cast<TUnk_804CF9C8 *>(get_array_entry(2));
+        icon->x = 12.0f + fx;
+        icon->y = 10.0f + fy;
+        background->x = 9.0f + fx;
+        background->y = 8.0f + fy;
         id = e->id;
         sub = e->sub;
         if (can_use_palette_action__10TObjPlayerFPvUcUc(p, id, sub) != 0) {
-            *(s32 *)((s8 *)w1 + 0x2C) = -1;
+            icon->color = -1;
         } else {
-            *(s32 *)((s8 *)w1 + 0x2C) = 0xFF404040;
+            icon->color = 0xFF404040;
         }
-        draw_action_palette_icon((Icon_80243630 *)w1, id, sub);
-        update_palette_item_count_label((TWindowHelpItem *)w2, (Icon_80243630 *)w1, (u16)id, (u16)sub, (s32)this->client_index);
-        draw_visible_window_entries(
-            this,
-            reinterpret_cast<const WindowLayoutEntries *>(&*(u8 *)((s8 *)this + 0x24)),
-            ctx);
+        draw_action_palette_icon(icon, id, sub);
+        update_palette_item_count_label(label, icon, id, sub, client_index);
+        draw_visible_window_entries(this, &entry_list, ctx);
     }
 }
 #pragma pop
 
 void TWindowSubCustomSelect::render() {
     TWindowSubCustomSelect *window_sub_custom_select = this;
-    saddr draw_context;
-    draw_context = reinterpret_cast<saddr>(window_sub_custom_select->get_draw_context());
-    ((TWindowBase *)window_sub_custom_select)->draw_window_frame((void *)draw_context);
-    window_sub_custom_select->draw_palette_cells(reinterpret_cast<WindowDrawContext *>(draw_context));
-    window_sub_custom_select->draw_cursor((u8 *)draw_context);
-    ((TWindowSubStatusDisp *)((void *)(window_sub_custom_select->m_7c)))->forward_render((void *)(draw_context));
-    draw_window_scrollbar(window_sub_custom_select->m_80, draw_context, (u8 *)window_sub_custom_select + 0x68);
+    WindowDrawContext *draw_context;
+    draw_context = window_sub_custom_select->get_draw_context();
+    ((TWindowBase *)window_sub_custom_select)->draw_window_frame(draw_context);
+    window_sub_custom_select->draw_palette_cells(draw_context);
+    window_sub_custom_select->draw_cursor(draw_context);
+    ((TWindowSubStatusDisp *)((void *)(window_sub_custom_select->m_7c)))->forward_render(draw_context);
+    draw_window_scrollbar(window_sub_custom_select->scroll_bar, draw_context, window_sub_custom_select->scroll_offset);
 }
 
 void TWindowSubCustomSelect::run_task() {
@@ -236,7 +219,7 @@ void TWindowSubCustomSelect::run_task() {
     update_list_scroll();
     if ((f32) *(s32 *)&this->open_tick >= 7.5f) {
         ((TWindowSubStatusDisp *)(*(saddr *)&this->m_7c))->update_subwindow();
-        ((TWindowSubStatusDisp *)(*(saddr *)&this->m_80))->increment_counter();
+        scroll_bar->increment_counter();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowBase *)arg0)->update_window_entry_list(reinterpret_cast<const WindowLayoutEntries *>((u8 *)&this->entry_list));
@@ -244,7 +227,7 @@ void TWindowSubCustomSelect::run_task() {
 }
 
 TWindowSubCustomSelect::~TWindowSubCustomSelect() {
-    TWindowSubStatusDisp::destroy_allocation((saddr)(*(void **)((s8 *)this + 0x80)), (s16)1);
+    TWindowSubStatusDisp::destroy_allocation(reinterpret_cast<saddr>(scroll_bar), (s16)1);
     TWindowSubStatusDisp::destroy_status_display((saddr)(*(void **)((s8 *)this + 0x7C)), (s16)1);
 }
 const u32 custom_select_organic_action_table[40] = {
@@ -303,8 +286,7 @@ TWindowSubCustomSelect::TWindowSubCustomSelect(s32 client)
     *(void **)((s8 *)this + 0x7C) = o;
     pos.x = 196.0f;
     pos.y = 51.0f * (f32)(s8)m_72 + 18.0f;
-    o = new WindowScrollBar(&pos);
-    *(void **)((s8 *)this + 0x80) = o;
+    scroll_bar = new WindowScrollBar(&pos);
 }
 #pragma pop
 

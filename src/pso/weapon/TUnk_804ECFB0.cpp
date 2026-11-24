@@ -1,3 +1,4 @@
+#include "pso/object/base/TObjChara.h"
 #include "types.h"
 #include <stddef.h>
 #include "pso/weapon/TUnk_804ECFB0.h"
@@ -25,7 +26,7 @@ void TUnk_804ECFB0::update_weapon() {
         if (lost > 0) {
             half = lost / 2;
             TObjectV8047c128_subtract_hp((u8 *)owner, (s16)half);
-            add_actor_tp((u8 *)owner, (s16)half);
+            add_actor_tp((TObjChara *)owner, (s16)half);
         }
     }
     pad_1f8 = pad_1f8 + 1;

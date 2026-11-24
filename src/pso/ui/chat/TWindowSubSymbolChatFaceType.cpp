@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/system/SoundEffect.h"
@@ -64,7 +65,6 @@ extern "C" {
 
 void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *, f32 *, f32, f32);
 extern s32 actor_frame_tick;
-extern s32 hud_texlist;
 
 typedef struct Stack_80283F38 Stack_80283F38;
 
@@ -124,7 +124,7 @@ void TWindowSubSymbolChatFaceType__sub_80283C84(Ctx_80283C84 *ctx, f32 *pos, f32
     x = ctx->x + pos[0];
     y = ctx->y + pos[1];
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(2, alpha | 0xFF0000 | 0xFFFF);
     left = x + amp;
     top = y + amp;

@@ -211,7 +211,7 @@ void find_tool_pmt_base_id(s32 arg0, u8 *arg1) {
 
 f32 TObjPlayer::get_drop_random_float(u32 arg0) {
     if (item_mgr != NULL) {
-        return ((f32 (*)(u8 *, u32))roll_table_ratio__9TItemDropFPvUi)((u8 *)item_mgr, arg0);
+        return static_cast<TItemDrop *>(item_mgr)->roll_table_ratio(arg0);
     }
     return 3.0517578e-05f * (f32) rand();
 }

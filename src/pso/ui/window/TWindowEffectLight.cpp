@@ -1,7 +1,9 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/TWindowEffectLight.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/render_util.h"
+#include "pso/ui/window/WindowDrawContext.h"
 
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -18,13 +20,8 @@
 
 #pragma readonly_strings on
 
-struct Quad_802AD1CC { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
-
-struct Light_802AD1CC { u8 pad0[0x1C]; f32 x; f32 y; };
-
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
-extern s32 hud_texlist;
 const char *TWindowEffectLight__name = "TWindowEffectLight";
 extern saddr tl_window;
 
@@ -40,8 +37,8 @@ void *TWindowEffectLight::create(void *position, s16 effect_kind, u32 player_id)
 
 TWindowEffectLight::TWindowEffectLight(void *position, s16 arg2, u32 id) : TObject((TObject *)tl_window) {
     this->m_name = TWindowEffectLight__name;
-    copy_vec2((((u8 *)this) + 0x1C), position);
-    WindowDrawContext::adjust_pos_for_split_screen((NJS_POINT2 *)(((u8 *)this) + 0x1C), TCameraCtrl::get_split_screen_view_index(id));
+    copy_vec2(&x, position);
+    WindowDrawContext::adjust_pos_for_split_screen(reinterpret_cast<NJS_POINT2 *>(&x), TCameraCtrl::get_split_screen_view_index(id));
     effect_kind = arg2;
     age = -1;
     player_id = id;
@@ -63,7 +60,7 @@ void TWindowEffectLight::render() {
     TCameraCtrl::restore_full_screen_view();
     set_additive_blend();
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     {
       switch (this->effect_kind)
       {
@@ -98,7 +95,7 @@ void TWindowEffectLight::render() {
 }
 
 void TWindowEffectLight::draw_outline_quad(s32 color) {
-    Quad_802AD1CC q;
+    TexturedQuad q;
     f32 s;
     f32 w;
     f32 h;
@@ -108,10 +105,10 @@ void TWindowEffectLight::draw_outline_quad(s32 color) {
         s *= 0.7f;
     }
     set_draw_texture_and_color(2, color);
-    q.x0 = ((Light_802AD1CC *)this)->x - 25.0f * s;
-    q.y0 = ((Light_802AD1CC *)this)->y - 21.5f * s;
-    q.x1 = ((Light_802AD1CC *)this)->x + 25.0f * s;
-    q.y1 = ((Light_802AD1CC *)this)->y + 21.5f * s;
+    q.x0 = x - 25.0f * s;
+    q.y0 = y - 21.5f * s;
+    q.x1 = x + 25.0f * s;
+    q.y1 = y + 21.5f * s;
     q.u0 = 0.79296875f;
     q.v0 = 0.60546875f;
     q.u1 = 0.98828125f;
@@ -120,7 +117,7 @@ void TWindowEffectLight::draw_outline_quad(s32 color) {
 }
 
 void TWindowEffectLight::sub_802AD040(f32 f) {
-    Quad_802AD1CC q;
+    TexturedQuad q;
     f32 h;
     f32 dx;
     s32 color = ((TWindowEffectLight *)this)->calc_alpha() | 0xFFFFFF;
@@ -129,20 +126,20 @@ void TWindowEffectLight::sub_802AD040(f32 f) {
     dx = 0.5f * (f - 20.0f);
     h = 10.0f * s;
 
-    q.x0 = ((Light_802AD1CC *)this)->x - dx - h;
-    q.y0 = ((Light_802AD1CC *)this)->y - h;
-    q.x1 = ((Light_802AD1CC *)this)->x - dx;
-    q.y1 = ((Light_802AD1CC *)this)->y + h;
+    q.x0 = x - dx - h;
+    q.y0 = y - h;
+    q.x1 = x - dx;
+    q.y1 = y + h;
     q.u0 = 0.9140625f;
     q.v0 = 0.5f;
     q.u1 = 0.953125f;
     q.v1 = 0.578125f;
     draw_textured_quad_at_depth((f32 *)&q, 0.5f);
 
-    q.x0 = ((Light_802AD1CC *)this)->x + dx;
-    q.y0 = ((Light_802AD1CC *)this)->y - h;
+    q.x0 = x + dx;
+    q.y0 = y - h;
     q.x1 = q.x0 + h;
-    q.y1 = ((Light_802AD1CC *)this)->y + h;
+    q.y1 = y + h;
     q.u0 = 0.953125f;
     q.v0 = 0.5f;
     q.u1 = 0.9921875f;
@@ -150,10 +147,10 @@ void TWindowEffectLight::sub_802AD040(f32 f) {
     draw_textured_quad_at_depth((f32 *)&q, 0.5f);
 
     if (f > 20.0f) {
-        q.x0 = ((Light_802AD1CC *)this)->x - dx;
-        q.y0 = ((Light_802AD1CC *)this)->y - h;
-        q.x1 = ((Light_802AD1CC *)this)->x + dx;
-        q.y1 = ((Light_802AD1CC *)this)->y + h;
+        q.x0 = x - dx;
+        q.y0 = y - h;
+        q.x1 = x + dx;
+        q.y1 = y + h;
         q.u0 = 0.953125f;
         q.v0 = 0.5f;
         q.u1 = 0.953125f;

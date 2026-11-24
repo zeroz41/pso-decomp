@@ -2,6 +2,7 @@
 #define PSO_UI_WINDOW_TWINDOWSOUNDBALANCE_H
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/ui/window/TWindowBase.h"
 
 struct SoundBalanceSettings {
@@ -11,7 +12,7 @@ struct SoundBalanceSettings {
 };
 
 struct TWindowSoundBalance : public TWindowBase {
-    TWindowSoundBalance(saddr arg1);
+    TWindowSoundBalance(const NJS_POINT2 *position);
     virtual ~TWindowSoundBalance();
     int is_active();
     virtual void render();
@@ -25,7 +26,7 @@ struct TWindowSoundBalance : public TWindowBase {
     void handle_lr_input();
     void sub_8027095C();
     virtual void run_task();
-    void apply_balance(void *window_key_board_soft);
+    void apply_balance(WindowDrawContext *context);
     void handle_cancel();
     u8 unk_66[0x2];
 };

@@ -1,6 +1,7 @@
 #ifndef PSO_EFFECT_PHOTON_TPHOTONYOULLA_H
 #define PSO_EFFECT_PHOTON_TPHOTONYOULLA_H
 
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/effect/photon/PhotonBlastSummon.h"
 

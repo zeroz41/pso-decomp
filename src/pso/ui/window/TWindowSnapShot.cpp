@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/system/TGStream.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -62,7 +63,6 @@ struct SnapShotWindowLayout {
     TextLayoutRecord rec_1;
 };
 
-extern s32 hud_texlist;
 
 SnapShotWindowLayout window_snapshot_layout_entries = {
     2, 1,

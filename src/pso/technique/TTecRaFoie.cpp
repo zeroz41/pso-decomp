@@ -108,7 +108,7 @@ void TTecRaFoie::vfunc_9() {
     }
 }
 void TTecRaFoie::vfunc_8(void *) {
-    void *emitter;
+    TParticleCtrl *emitter;
     TObjChara *chara;
     if (m_148 == 1) {
         if (is_split_screen() != 0) {
@@ -116,7 +116,7 @@ void TTecRaFoie::vfunc_8(void *) {
         } else {
             emitter = spawn_particle_effect(&target, 0x1A);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 9), technique_texture_list, 0, 1, 1.0f);
+                attach_particle_model(emitter, get_bml_model(technique_effect_bml, 9), technique_texture_list, 0, 1, 1.0f);
             }
         }
         spawn_particle_effect(&target, 0x3A);
@@ -130,7 +130,7 @@ void TTecRaFoie::vfunc_8(void *) {
             spawn_particle_effect(&point, 0x39);
             emitter = spawn_particle_effect(&point, 0x1A);
             if (emitter != NULL) {
-                attach_particle_model((u8 *)emitter, get_bml_model(technique_effect_bml, 9), technique_texture_list, 0, 1, 1.0f);
+                attach_particle_model(emitter, get_bml_model(technique_effect_bml, 9), technique_texture_list, 0, 1, 1.0f);
             }
         }
     }
@@ -378,8 +378,8 @@ void TTecRaFoie::update_detonation(void *pos) {
     queue_destruction();
 }
 
-void TTecRaFoie::create(void *origin, void *pos, s32 level) {
-    new TTecRaFoie((saddr)this, (Vec *)origin, (Vec *)pos, level);
+void TTecRaFoie::create(TObject *source, Vec *origin, Vec *pos, s32 level) {
+    new TTecRaFoie((saddr)source, origin, pos, level);
 }
 
 void TTecRaFoie::create_ex(void *source, void *origin, void *targets, s32 level) {

@@ -20,7 +20,7 @@ void queue_destroy_event_descendants(TObject* root) {
     while (root->m_down != 0 && p != 0) {
         cur = p;
         p = p->m_next;
-        if (((TUnk_804B6C24 *)cur)->check_value_equals((saddr)TSetEvtDestroy_name) != 0) {
+        if (cur->check_value_equals(TSetEvtDestroy_name) != 0) {
             cur->queue_destruction();
         } else {
             queue_destroy_event_descendants(cur);
@@ -113,7 +113,7 @@ void shuffle_event_entries(EventShuffleTable *event_shuffle_table) {
     EventShuffleTable *s = event_shuffle_table;
     s32 i = 0;
     for (; i < s->count; i++) {
-        s32 k = item_drop_rng_below(reinterpret_cast<saddr>(s->rngState), s->count);
+        s32 k = item_drop_rng_below(s->rngState, s->count);
         s32 t = s->entries[i];
         s->entries[i] = s->entries[k];
         s->entries[k] = t;

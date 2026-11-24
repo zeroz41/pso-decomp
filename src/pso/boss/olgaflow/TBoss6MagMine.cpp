@@ -298,7 +298,7 @@ TBoss6MagMine::TBoss6MagMine(TObject *parent, Boss6MagMineSetData *set_data) : T
     target = 0;
     bind_enemy_combat_stats(TLobby::register_boss(0x2D), TLobby::dispatch_shared_handler_b(0x2D), TLobby::register_object(0x2D));
     referenceHp = hp;
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     set_param(0);
     params = (f32 *)TLobby::dispatch_shared_handler_a(0x2D);
     attack_power = (s32)params[1];

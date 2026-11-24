@@ -223,7 +223,7 @@ TBoss2Joint::TBoss2Joint(TObject *parent, u16 entity_id, s32 set_index, const Ve
                          saddr rim_material)
     : TObjEneDD(parent) {
     m_name = TBoss2Joint__name;
-    init_common_from((u8 *)parent);
+    init_common_from(static_cast<TObjBase *>(parent));
     this->entity_id = entity_id;
     this->set_index = set_index;
     this->anchor = anchor;

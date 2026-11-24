@@ -238,7 +238,7 @@ void scroll_item_model_uvs(NJS_OBJECT *object, s32 du, s32 dv, u16 mesh);
 s32 feed_item_to_mag(TItem *mag, TItem *item);
 void give_item_to_client(u16 client, TItemData *data);
 void replace_item_with_new_code(const TItemData *data, TItem *item);
-s32 is_point_on_screen(const f32 *pos, f32 range, f32 radius);
+s32 is_point_on_screen(const Vec *pos, f32 range, f32 radius);
 s32 is_default_camera();
 s16 calc_base_tp_bonus(u16 client);
 s16 calc_base_hp_bonus(u16 client);

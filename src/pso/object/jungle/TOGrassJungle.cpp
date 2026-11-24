@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/render/GinjaMaterial.h"
@@ -31,7 +32,7 @@ void *TOGrassJungle::create(void *set_data) {
 void TOGrassJungle::release_static_instance() {
     if (TOGrassJungle__grass_gvm_texture != NULL) {
         release_texture_list(TOGrassJungle__grass_gvm_texture);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)TOGrassJungle__grass_gvm_texture);
+        safe_free(TOGrassJungle__grass_gvm_texture);
         TOGrassJungle__grass_gvm_texture = NULL;
     }
     if (TOGrassJungle__bml_resource != NULL) {

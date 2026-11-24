@@ -2,6 +2,8 @@
 #define PSO_PLAYER_TPLAYERBATTLECTRL4P_H
 #include "pso/system/task/TObject.h"
 
+class TWindowBase;
+
 class TPlayerBattleCtrl4P : public TObject {
 private:
     TPlayerBattleCtrl4P(TObject *parent);
@@ -47,9 +49,9 @@ public:
     u8* rule_data;
     void* intro_window;
     void* menu_window;
-    void* player_windows[4];
+    TWindowBase *player_windows[4];
     char intro_text[0x200];
-    u8 timed_event_flags[8];
+    s8 timed_event_flags[8];
     s32 frame_timer;
     s32 battle_duration;
     s32 player_refresh_timer;
@@ -60,8 +62,8 @@ public:
     s32 timed_event_state;
     s32 player_active[4];
     s32 player_teams[4];
-    u8 unknown_284[4];
-    s16 player_order[4];
+    s32 battle_ctrl_default;
+    u16 player_order[4];
     u8 unknown_290[4];
     const char** message_table;
     s32 phase;

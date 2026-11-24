@@ -2,6 +2,7 @@
 #define PSO_UNK_TEXT_803D96A8_H
 
 #include "types.h"
+#include <dolphin/mtx.h>
 struct Vec;
 
 struct TLobby;
@@ -13,7 +14,7 @@ u32 *find_gvrt_texture_chunk(TLobby *arg0, u32 *arg1, u32 *arg2);
 s32 pop_matrices(s32 arg0);
 void apply_quat_rotation(f32 w, f32 *xyz);
 // dst = src * dst; a 0 dst or src stands for the top of the matrix stack.
-void premultiply_matrix(uaddr dst, uaddr src);
+void premultiply_matrix(MtxP dest, const f32 (*source)[4]);
 extern "C" {
 // Both return TRUE (pop_matrix FALSE when the stack is already empty).
 s32 push_matrix(void);

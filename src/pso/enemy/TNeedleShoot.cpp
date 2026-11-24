@@ -33,24 +33,24 @@ void TNeedleShoot::clear_technique_contacts() {
     technique_contact_list.count = 0;
 }
 
-s32 TNeedleShoot::is_hit_receivable_target(TechniqueContactActor *target) {
+s32 TNeedleShoot::is_hit_receivable_target(TObjCollidable *target) {
     if (target == NULL) {
         return FALSE;
     }
-    return obj_is_hit_receivable((u8 *)target) ? TRUE : FALSE;
+    return obj_is_hit_receivable(target) ? TRUE : FALSE;
 }
 
 TechniqueContactList *TNeedleShoot::collect_contacts(TObjBase *src) {
     Vec a;
     Vec d;
     Vec *sd;
-    TObjPlayer *p;
+    TObjCollidable *p;
     s32 i;
-    TechniqueContactBody *r;
+    CollisionBody *r;
     VecCopy(&a, &pos);
     clear_technique_contacts();
     if (collider == 0) return &technique_contact_list;
-    sd = (Vec *)get_shoot_data();
+    sd = get_shoot_data();
     d.x = a.x - sd->x;
     d.y = a.y - sd->y;
     d.z = a.z - sd->z;
@@ -65,16 +65,16 @@ TechniqueContactList *TNeedleShoot::collect_contacts(TObjBase *src) {
         if (p == 0) continue;
         if ((p->actorFlags & 0x20000000) || (p->actorFlags & 0x10000000)) {
             if ((u16)p->get_entity_id() == (u16)src->get_entity_id()) continue;
-            r = (TechniqueContactBody *)collider->find_actor_body_contact((u8 *)p, 10000.0f);
+            r = collider->find_actor_body_contact(p, 10000.0f);
             if (r == 0) continue;
             technique_contact_list.bodies[technique_contact_list.count] = r;
-            technique_contact_list.actors[technique_contact_list.count] = (TechniqueContactActor *)p;
+            technique_contact_list.actors[technique_contact_list.count] = p;
             if (++technique_contact_list.count >= 0x10) {
                 technique_contact_list.count = 0xF;
                 break;
             }
         } else if ((p->actorFlags & 0x40000000) && !(p->actorFlags & 0x80000000)) {
-            if (collider->find_actor_body_contact((u8 *)p, 10000.0f) != 0) return 0;
+            if (collider->find_actor_body_contact(p, 10000.0f) != 0) return 0;
         }
     }
     return &technique_contact_list;
@@ -85,12 +85,12 @@ TechniqueContactList *TNeedleShoot::collect_contacts_from_game_mode(TObjBase *sr
     Vec d;
     s32 i;
     Vec *sd;
-    TObjPlayer *p;
-    TechniqueContactBody *r;
+    TObjCollidable *p;
+    CollisionBody *r;
     VecCopy(&a, &pos);
     clear_technique_contacts();
     if (collider == 0) return &technique_contact_list;
-    sd = (Vec *)get_shoot_data();
+    sd = get_shoot_data();
     d.x = a.x - sd->x;
     d.y = a.y - sd->y;
     d.z = a.z - sd->z;
@@ -105,10 +105,10 @@ TechniqueContactList *TNeedleShoot::collect_contacts_from_game_mode(TObjBase *sr
         if (p == 0) continue;
         if (p->actorFlags & 0x20000000) {
             if ((u16)p->get_entity_id() != (u16)src->get_entity_id()) {
-                r = (TechniqueContactBody *)collider->find_actor_body_contact((u8 *)p, 10000.0f);
+                r = collider->find_actor_body_contact(p, 10000.0f);
                 if (r != 0) {
                     technique_contact_list.bodies[technique_contact_list.count] = r;
-                    technique_contact_list.actors[technique_contact_list.count] = (TechniqueContactActor *)p;
+                    technique_contact_list.actors[technique_contact_list.count] = p;
                     if (++technique_contact_list.count >= 0x10) {
                         technique_contact_list.count = 0xF;
                         break;
@@ -116,7 +116,7 @@ TechniqueContactList *TNeedleShoot::collect_contacts_from_game_mode(TObjBase *sr
                 }
             }
         } else if ((p->actorFlags & 0x40000000) && !(p->actorFlags & 0x80000000)) {
-            if (collider->find_actor_body_contact((u8 *)p, 10000.0f) != 0) return 0;
+            if (collider->find_actor_body_contact(p, 10000.0f) != 0) return 0;
         }
     }
     return &technique_contact_list;
@@ -126,14 +126,14 @@ TechniqueContactList *TNeedleShoot::collect_technique_contacts(TObjBase *src) {
     Vec a;
     Vec d;
     Vec *sd;
-    TObjBase *p;
+    TObjCollidable *p;
     s32 i;
     s32 n;
-    TechniqueContactBody *r;
+    CollisionBody *r;
     VecCopy(&a, &pos);
     clear_technique_contacts();
     if (collider == 0) return &technique_contact_list;
-    sd = (Vec *)get_shoot_data();
+    sd = get_shoot_data();
     d.x = a.x - sd->x;
     d.y = a.y - sd->y;
     d.z = a.z - sd->z;
@@ -149,11 +149,11 @@ TechniqueContactList *TNeedleShoot::collect_technique_contacts(TObjBase *src) {
             p = TObjPlayer::get_player_data(i);
             if (p == 0) continue;
             if ((u16)p->get_entity_id() == (u16)src->get_entity_id()) continue;
-            r = (TechniqueContactBody *)collider->find_actor_body_contact((u8 *)p, 10000.0f);
+            r = collider->find_actor_body_contact(p, 10000.0f);
             if (r == 0) continue;
             if ((p->actorFlags & 0x20000000) || (p->actorFlags & 0x10000000)) {
                 technique_contact_list.bodies[technique_contact_list.count] = r;
-                technique_contact_list.actors[technique_contact_list.count] = (TechniqueContactActor *)p;
+                technique_contact_list.actors[technique_contact_list.count] = p;
                 if (++technique_contact_list.count >= 0x10) {
                     technique_contact_list.count = 0xF;
                     break;
@@ -166,11 +166,11 @@ TechniqueContactList *TNeedleShoot::collect_technique_contacts(TObjBase *src) {
             p = find_entity_by_id(j);
             if (p == 0) continue;
             if ((u16)p->get_entity_id() == (u16)src->get_entity_id()) continue;
-            r = (TechniqueContactBody *)collider->find_actor_body_contact((u8 *)p, 10000.0f);
+            r = collider->find_actor_body_contact(p, 10000.0f);
             if (r == 0) continue;
             if (p->actorFlags & 0x10000000) {
                 technique_contact_list.bodies[technique_contact_list.count] = r;
-                technique_contact_list.actors[technique_contact_list.count] = (TechniqueContactActor *)p;
+                technique_contact_list.actors[technique_contact_list.count] = p;
                 if (++technique_contact_list.count >= 0x10) {
                     technique_contact_list.count = 0xF;
                     break;
@@ -186,11 +186,11 @@ TechniqueContactList *TNeedleShoot::collect_technique_contacts(TObjBase *src) {
 #pragma global_optimizer off
 void TNeedleShoot::check_target_hit(s32) {
     TechniqueContactList *list;
-    if (collider == 0) {
+    if (this->collider == 0) {
         TObject::queue_destruction();
         return;
     }
-    switch (contact_mode) {
+    switch (this->contact_mode) {
     case 1:
         list = collect_technique_contacts(owner);
         break;
@@ -204,12 +204,12 @@ void TNeedleShoot::check_target_hit(s32) {
     }
     }
     if (list == NULL) {
-        on_wall_hit();
+        this->on_wall_hit();
     } else if (is_hit_receivable_target(list->actors[0])) {
-        TechniqueContactActor *target = list->actors[0];
+        TObjCollidable *target = list->actors[0];
         if (target != NULL) {
-            TechniqueContactBody *body = list->bodies[0];
-            on_target_hit((contact_body = body, static_cast<TechniqueContactActor *>(target)));
+            CollisionBody *body = list->bodies[0];
+            this->on_target_hit((this->contact_body = body, static_cast<TObjCollidable *>(target)));
         }
     }
 }
@@ -281,7 +281,7 @@ TNeedleShoot::~TNeedleShoot() {
     if (this->collider != NULL) { free_collision_body_parts(this->collider); this->collider = 0; }
 }
 
-TNeedleShoot::TNeedleShoot(s32 owner, Vec *from, Vec *to) : TObject(tl_06) {
+TNeedleShoot::TNeedleShoot(TObjBase *owner, Vec *from, Vec *to) : TObject(tl_06) {
     f32 dx;
     f32 dz;
     f32 dy;
@@ -327,4 +327,4 @@ TNeedleShoot::TNeedleShoot(s32 owner, Vec *from, Vec *to) : TObject(tl_06) {
 
 void TNeedleShoot::on_wall_hit() { TObject::queue_destruction(); }
 void TNeedleShoot::queue_destruction() { TObject::queue_destruction(); }
-void TNeedleShoot::on_target_hit(void *) {  }
+void TNeedleShoot::on_target_hit(TObjCollidable *) {  }

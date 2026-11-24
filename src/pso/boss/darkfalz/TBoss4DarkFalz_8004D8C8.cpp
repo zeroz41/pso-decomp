@@ -8,7 +8,6 @@
  * TU's static initializer after every function of that TU (weak inline copies follow their first
  * caller under -inline off and -inline off,deferred alike). */
 
-extern "C" u16 obj_getArrU16_FC(void *obj, s32 i);
 
 void TBoss4Type3::get_defeat_params(u16 *a, u16 *b, u16 *out) {
     s32 i;

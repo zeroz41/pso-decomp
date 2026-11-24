@@ -1,3 +1,4 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8025B050.h"
 #include "pso/ui/window/PageIndicator.h"
 #include "types.h"
@@ -239,7 +240,6 @@ extern "C" void sub_802534B0__15TWindowHelpItemFv(void *);
 extern "C" u8 lbl_8044EDB8[];
 extern "C" u8 lbl_8044EDC0[];
 extern "C" u8 localized_alphabet_list[];
-extern "C" u8 hud_texlist[];
 extern "C" u8 lbl_805DCDC8[];
 extern "C" u8 lbl_805DCDCC[];
 extern "C" u8 lbl_805DCDD0[];

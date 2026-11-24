@@ -21,6 +21,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/BattleParameters.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
@@ -244,7 +245,7 @@ TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     target = 0;
     bind_enemy_combat_stats(TLobby::register_boss(0x38), TLobby::dispatch_shared_handler_b(0x38), TLobby::register_object(0x38));
     referenceHp = drained_hp = hp;
-    ((TBoss3Volopt *)this)->reset_photon_effect();
+    register_by_id();
     set_param(0x2F);
     anim = 0;
     anim_looped = 0;
@@ -266,7 +267,7 @@ TBoss4Type3::TBoss4Type3(TObject *parent, TBoss4FormSetData *set_data) : TObjEne
     node_tables.init(boss4_type3_model_node_specs, 2);
     prev_hp = hp;
     radius_shown = 0;
-    radius_hidden = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x24);
+    radius_hidden = TLobby::dispatch_shared_handler_a(0x38)->values.integers[3];
     fade = 1.0f;
     fade_timer = 0;
     prev_node = 0x10;
@@ -1146,7 +1147,7 @@ void TBoss4Type3::update_homing() {
         }
         camera_mode = 0;
     }
-    n = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x20);
+    n = TLobby::dispatch_shared_handler_a(0x38)->values.integers[2];
     if (n < 1 || n > 8) {
         n = 4;
     }
@@ -1205,7 +1206,7 @@ void TBoss4Type3::update_light_magic() {
         }
     }
     if (state_timer == 0x45) {
-        level = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x18);
+        level = TLobby::dispatch_shared_handler_a(0x38)->values.integers[0];
         for (i = 0; i < 4; i++) {
             if (is_player_in_boss_area(i) != 0) {
                 TargetCursorList targets;
@@ -1248,7 +1249,7 @@ void TBoss4Type3::update_dark_magic() {
     s32 i;
     f32 s;
     if (state_timer == 0x46) {
-        level = *(s32 *)((u8 *)TLobby::dispatch_shared_handler_a(0x38) + 0x1C);
+        level = TLobby::dispatch_shared_handler_a(0x38)->values.integers[1];
         for (i = 0; i < TLobby::get_game_mode(); i++) {
             player = get_player_by_client_id(i);
             if (is_player_in_boss_area(i) != 0) {

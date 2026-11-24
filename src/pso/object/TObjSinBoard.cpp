@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/save/CardFileInfo.h"
 #include "pso/render/GinjaTextureInput.h"
@@ -37,7 +38,7 @@ extern "C" {
 
 const char *TObjSinBoard__class_name = "TObjSinBoard";
 
-u32 TObjSinBoard__texture_buffer;
+void *TObjSinBoard__texture_buffer;
 NJS_TEXNAME TObjSinBoard__texture_name;
 __declspec(section ".data") NJS_TEXLIST signboard_texture_list;
 GinjaTextureInput TObjSinBoard__texture_surface;
@@ -90,18 +91,18 @@ void load_memcard_file(void) {
         TLobby::run_frame();
     }
     if (verify_card_save_header(&hdr, buf) != 0) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+        safe_free(buf);
         return;
     }
     fn_80197FD0(hdr.data, hdr.size);
-    TAdSinglePlyChrSelectGC::safe_free((uaddr)buf);
+    safe_free(buf);
 }
 
 void TLobby__sub_80197F74(void) {}
 
 void TLobby::free_global_buffer() {
     if (TObjSinBoard__texture_buffer != 0) {
-        TAdSinglePlyChrSelectGC::safe_free(TObjSinBoard__texture_buffer);
+        safe_free(TObjSinBoard__texture_buffer);
         TObjSinBoard__texture_buffer = 0;
         if (signboard_texture_list.textures->texture != NULL) {
             release_texture_list(&signboard_texture_list);
@@ -112,15 +113,15 @@ void TLobby::free_global_buffer() {
 void clear_signboard_texture_buffer_pointer(void) { TObjSinBoard__texture_buffer = 0; }
 
 void fn_80197FD0(const void *image, u32 size) {
-    uaddr t = (uaddr)TQuestVmDownLoadServer::alloc(size);
-    TObjSinBoard__texture_buffer = t;
-    if (t != 0) {
-        move_data((void *)(t), (const void *)(image), size);
+    void *buffer = TQuestVmDownLoadServer::alloc(size);
+    TObjSinBoard__texture_buffer = buffer;
+    if (buffer != NULL) {
+        move_data(buffer, image, size);
         signboard_texture_list.textures = &TObjSinBoard__texture_name;
         signboard_texture_list.nbTexture = 1;
-        TObjSinBoard__texture_surface.set_render_rect(reinterpret_cast<void *>(TObjSinBoard__texture_buffer), 0, 0, 0);
+        TObjSinBoard__texture_surface.set_render_rect(TObjSinBoard__texture_buffer, 0, 0, 0);
         set_texture_name(&TObjSinBoard__texture_name, &TObjSinBoard__texture_surface, 0, 0x40000000);
-        load_texture_if_valid((uaddr)&signboard_texture_list);
+        load_texture_if_valid(&signboard_texture_list);
     }
 }
 

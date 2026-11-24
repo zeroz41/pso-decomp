@@ -27,4 +27,6 @@ public:
 };
 LAYOUT_ASSERT(TTokenList_size, sizeof(TTokenList) == 0x10A8);
 
+void trim_whitespace(char *text);
+
 #endif

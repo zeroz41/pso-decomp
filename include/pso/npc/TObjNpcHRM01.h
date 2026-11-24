@@ -11,7 +11,7 @@ struct TObjNpcHRM01 : public TObjNpcMale {
     static void load_resources();
     static void *create(void *set_data);
     static const char *name;
-    static uaddr shared_object_resource;
+    static void **shared_object_resource;
     static NJS_TEXLIST *body_texture_gvm_handle;
 };
 

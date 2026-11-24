@@ -1,3 +1,4 @@
+#include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/balclaw/TObjEneBalClawBody.h"
@@ -145,7 +146,7 @@ void TObjEnemyCustom::update_wander_state() {
     case 1:
         advance_animation();
         if (target != NULL) {
-            f32 distance = update_enemy_wander_move(this, ((TObjChara *)target)->body_center, 1,
+            f32 distance = update_enemy_wander_move(this, target->body_center, 1,
                                                     ((EnemyMoveParams *)movementParameters)->min_distance);
             EnemyMoveParams *params = (EnemyMoveParams *)movementParameters;
             if (params->max_distance < distance || distance < params->min_distance) {
@@ -171,9 +172,9 @@ void TObjEnemyCustom::update() {
         enemy_turn_toward_dest(((EnemyMoveParams *)movementParameters)->turn_speed);
         advance_animation();
         if (is_passing_frame(10.0f) != 0) {
-            if (((TObjChara *)target)->select_melee_contact_body(this, 1.0f) != 0) {
-                ((TObjChara *)target)->receive_physical_attack(this, 1.0f);
-                ((TObjChara *)target)->apply_knockback_from_attacker((u8 *)this, 3.0f);
+            if (target->select_melee_contact_body(this, 1.0f) != 0) {
+                target->receive_physical_attack(this, 1.0f);
+                target->apply_knockback_from_attacker((u8 *)this, 3.0f);
             }
         }
         update_collisions();
@@ -232,7 +233,7 @@ void TObjEnemyCustom::update_knockback_state() {
         state = 1;
     case 1:
         advance_animation();
-        move_with_wall_slide((u8 *)this);
+        move_with_wall_slide(this);
         velocity.x *= 0.5f;
         velocity.z *= 0.5f;
         apply_actor_gravity(this, NULL, 0.0f);
@@ -272,7 +273,7 @@ void TObjEnemyCustom::update_dying_state() {
         apply_actor_gravity(this, NULL, 0.0f);
         update_collisions();
         if (this->frame < 0.5f * (30.0f * this->play_speed)) {
-            move_with_wall_slide((u8 *)this);
+            move_with_wall_slide(this);
             velocity.x *= 0.5f;
             velocity.z *= 0.5f;
         }
@@ -439,7 +440,7 @@ BOOL TObjEnemyCustom::find_target_in_range(f32 radius) {
         return select_nearest_target(radius);
     }
     targetId = find_nearest_visible_player(this, NULL, radius);
-    target = (u8 *)get_player_by_client_id(targetId);
+    target = get_player_by_client_id(targetId);
     return has_target();
 }
 
@@ -459,7 +460,7 @@ BOOL TObjEnemyCustom::select_nearest_target(f32 radius) {
                        ? player
                        : enemy;
     }
-    target = (u8 *)find_active_entity_by_id(targetId);
+    target = static_cast<TObjChara *>(find_active_entity_by_id(targetId));
     if (target != NULL) {
         return TRUE;
     }
@@ -519,7 +520,7 @@ void TObjEneDubchik::target_nearest_player(f32 radius) {
     }
     for (i = 0; i < count; i++) {
         entity = (TObjEnemyCustom *)TObjPlayer::get_player_data(i);
-        if (entity != this && entity != NULL && target != (u8 *)entity) {
+        if (entity != this && entity != NULL && target != entity) {
             distance = xz_distance_squared(&entity->body_center, &body_center);
             if (distance < best_distance) {
                 best_distance = distance;
@@ -528,7 +529,7 @@ void TObjEneDubchik::target_nearest_player(f32 radius) {
         }
     }
     targetId = best;
-    target = (u8 *)find_active_entity_by_id(targetId);
+    target = static_cast<TObjChara *>(find_active_entity_by_id(targetId));
 }
 
 u16 TObjEnemyCustom::pick_random_nearby_player(f32 radius) {

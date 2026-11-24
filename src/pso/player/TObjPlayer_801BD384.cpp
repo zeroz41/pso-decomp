@@ -1,15 +1,13 @@
+#include "pso/player/PlayerState.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/data/FlagWord.h"
-#include "pso/player/TObjPlayer_801BF978.h"
+#include "pso/player/TPlyDispConfig.h"
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/player/TObjPlayer_80309D80.h"
 #include "pso/ui/font/TFontSmallLobby_801C013C.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/player/TObjPlayer_801BD384.h"
-#include "pso/player/TObjPlayer_801BFAD4.h"
-#include "pso/player/TObjPlayer_801BFB1C.h"
-#include "pso/player/TObjPlayer_801BFE50.h"
 #include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
@@ -89,7 +87,7 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
     ((TObjPlayer *)((char *)this + 1996))->init();
     TObjPlayer__sub_801C1A00(((char *)this + 2088));
     init_player_telepipe_record((void *)((char *)this + 2096));
-    TObjPlayer__sub_801BFB4C((u8 *)((char *)this + 2124));
+    TObjPlayer__sub_801BFB4C(&m_84c);
     __ct__8FlagWordFv(((char *)this + 2136));
     TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
     ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();
@@ -120,7 +118,7 @@ TObjPlayer::TObjPlayer(TObject *parent, void *arg2) : TObjChara(parent) {
     ((TObjPlayer *)((char *)this + 1996))->init();
     TObjPlayer__sub_801C1A00(((char *)this + 2088));
     init_player_telepipe_record((void *)((char *)this + 2096));
-    TObjPlayer__sub_801BFB4C((u8 *)((char *)this + 2124));
+    TObjPlayer__sub_801BFB4C(&m_84c);
     __ct__8FlagWordFv(((char *)this + 2136));
     TObjPlayer::reset_and_return((saddr)(((char *)this + 3332)));
     ((TObjPlayer *)((char *)this + 3500))->clear_header_struct();

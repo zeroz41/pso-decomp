@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/object/base/TObjChara.h"
+#include <stddef.h>
 
 // What a photon blast passes to the line it fires.
 struct PhotonLineParams {
@@ -31,5 +32,11 @@ public:
     u8 pad_36A[0xE];
 };
 
+LAYOUT_ASSERT(PhotonLineParamsSize, sizeof(PhotonLineParams) == 0x20);
 LAYOUT_ASSERT(TPhotonLine_size, sizeof(TPhotonLine) == 0x378);
+LAYOUT_ASSERT(PhotonLineVelocityOffset, offsetof(TPhotonLine, vel) == 0x334);
+LAYOUT_ASSERT(PhotonLineScaleOffset, offsetof(TPhotonLine, power) == 0x344);
+LAYOUT_ASSERT(PhotonLineOwnerOffset, offsetof(TPhotonLine, owner) == 0x350);
+LAYOUT_ASSERT(PhotonLineHitIdsOffset, offsetof(TPhotonLine, hit_ids) == 0x354);
+LAYOUT_ASSERT(PhotonLineHitCountOffset, offsetof(TPhotonLine, hit_count) == 0x368);
 #endif

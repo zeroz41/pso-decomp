@@ -19,34 +19,9 @@ class TObjChara;
 struct TObjPlayer;
 struct ControllerInputContext;
 
-struct DragonModelVector { f32 x, y, z; };
-struct DragonModelAngles { s32 x, y, z; };
-struct DragonModelNode {
-    u32 flags;
-    void* model;
-    DragonModelVector position;
-    DragonModelAngles rotation;
-    DragonModelVector scale;
-    DragonModelNode* child;
-    DragonModelNode* sibling;
-    f32 unknown34;
-};
+struct NJS_OBJECT;
 
 struct DragonEffectResource { saddr particle_ids[8]; };
-
-struct DragonPositionKey { s32 frame; DragonModelVector value; };
-struct DragonMotionData { DragonPositionKey *positionKeys; };
-struct DragonMotion { DragonMotionData *data; u32 frameCount; };
-struct DragonMotionEntry { u32 unknown00; DragonMotion* motion; };
-struct DragonAnimationEntry { u32 unknown00; s32 motionIndex; u8 unknown08[8]; };
-
-// One model of the Dragon's resource: [0] the body the ctor clones, [1] the one render_shadows draws.
-struct DragonModelEntry { u8 unknown00[8]; DragonModelNode *root; NJS_TEXLIST *texlist; };
-struct DragonResource { u8 unknown00[0x42C]; DragonModelEntry *models; DragonMotionEntry *motions; };
-LAYOUT_ASSERT(DragonPositionKeySize, sizeof(DragonPositionKey) == 0x10);
-
-struct NJS_OBJECT;
-extern "C" void copy_model_node(NJS_OBJECT *dst, NJS_OBJECT *src);
 
 struct TBoss1Dragon : public TObjEneDD_ST {
     TBoss1Dragon(TObject *parent, void *set_data);
@@ -72,8 +47,8 @@ struct TBoss1Dragon : public TObjEneDD_ST {
     void apply_poison_status();
     void refresh_target();
     static s32 isV2Mode();
-    static DragonModelNode* cloneModelHierarchy(DragonModelNode* source, DragonModelNode* output, void* model);
-    static s32 countModelNodes(DragonModelNode* source);
+    static NJS_OBJECT* cloneModelHierarchy(NJS_OBJECT* source, NJS_OBJECT* output, void* model);
+    static s32 countModelNodes(NJS_OBJECT* source);
     void updateFacingPosition();
     void handleFallState(u32 reason);
     void apply_foot_attack_pair_1();
@@ -285,8 +260,6 @@ void handle_6x12_dragon_boss_actions(TObjPlayer *packet);
 #include <stddef.h>
 #define DRAGON_OFFSET(member, offset) \
     LAYOUT_ASSERT(DragonOffset_##member, offsetof(TBoss1Dragon, member) == offset)
-LAYOUT_ASSERT(DragonModelNodeSize, sizeof(DragonModelNode) == 0x38);
-LAYOUT_ASSERT(DragonModelNodeChild, offsetof(DragonModelNode, child) == 0x2C);
 DRAGON_OFFSET(target_id, 0x38C);
 DRAGON_OFFSET(breath_origin, 0x40C);
 DRAGON_OFFSET(breath_effect_position, 0x424);

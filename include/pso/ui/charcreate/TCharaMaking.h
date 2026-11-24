@@ -19,9 +19,6 @@ void TCharaMaking__sub_8028E790(void);
 s32 calc_section_id_from_name(s8 *name);
 }
 
-struct CharacterClassAppearance;
-struct CharacterTextureList;
-
 struct TCharaMaking : public TObject {
     TCharaMaking(TObject *parent);
     virtual ~TCharaMaking();
@@ -38,7 +35,6 @@ struct TCharaMaking : public TObject {
     virtual void run_task();
     static void *create(void *parent, void *arg1);
     static s32 update_main_menu(saddr arg0);
-    void build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source);
 };
 
 LAYOUT_ASSERT(TCharaMaking_size, sizeof(TCharaMaking) == 0x24);

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/object/TObjControl.h"
 #include "pso/boss/goldragon/TBoss8DragonEffBreath.h"
 
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
@@ -14,7 +15,6 @@
 extern "C" {
 const char *TBoss8DragonEffBreath__name = "TBoss8DragonEffBreath";
 s32 vec3_add_to(void *, void *);
-u8 *get_enemy_entity(u16 arg0);
 
 void TBoss8DragonEffBreath::render() {  }
 

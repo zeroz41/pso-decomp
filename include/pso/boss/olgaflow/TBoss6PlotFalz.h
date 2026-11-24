@@ -22,13 +22,6 @@ struct TBoss6Type2;
 
 class TBoss6Demo15_TYPE2_WAIT;
 
-// An Olga Flow parameter record (TLobby::dispatch_shared_handler_a 0x2B-0x2F): six floats then six
-// ints. TBoss6Type1::load_params_from_table reads 0x2B, TBoss6Type2::load_battle_params 0x2C/0x2E/0x2F.
-struct Boss6ParamRecord {
-    f32 floats[6];
-    s32 ints[6];
-};
-
 // The 0x40-byte enemy set entry the constructor was given, kept with kind cleared; spawn_type1/2
 // copy it (copy_set_entry) and renumber it for the bodies (TBoss4DarkFalzSetEntry layout).
 struct TBoss6PlotFalzSetEntry {
@@ -39,6 +32,18 @@ struct TBoss6PlotFalzSetEntry {
     s16 room;
     u8 pad_0A[0x36];
 };
+
+struct TBoss6PlotFalz;
+
+// The plot owner, copied set entry and variant passed to both body factories.
+struct Boss6BodySpawnParams {
+    TBoss6PlotFalz *owner;
+    TBoss6PlotFalzSetEntry set_entry;
+    u8 variant;
+};
+
+LAYOUT_ASSERT(Boss6BodySpawnParamsSetEntryOffset, offsetof(Boss6BodySpawnParams, set_entry) == 0x4);
+LAYOUT_ASSERT(Boss6BodySpawnParamsVariantOffset, offsetof(Boss6BodySpawnParams, variant) == 0x44);
 
 struct TBoss6PlotFalz : public TObjEnemy {
     TBoss6PlotFalz(TObject *parent, void *set_data);

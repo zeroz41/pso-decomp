@@ -33,6 +33,7 @@ public:
     NJS_OBJECT object;
 };
 
+LAYOUT_ASSERT(DragonTrailGridVertex_size, sizeof(Unk_8002DB7C::Vertex) == 0x18);
 LAYOUT_ASSERT(Unk_8002DB7C_size, sizeof(Unk_8002DB7C) == 0x68);
 
 f32 apply_default_velocity_scale(Vec *vector);

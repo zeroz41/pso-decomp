@@ -1,3 +1,4 @@
+#include "pso/system/memory.h"
 #include "pso/object/door/TODoorAncient06.h"
 
 #include "pso/system/task/TMainTask.h"
@@ -6,7 +7,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/object/door/TODoorAncient07.h"
 #include "pso/system/TLanguage_801E4874.h"
-#include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -111,9 +111,9 @@ void TODoorAncient06::load_resources() {
         copy_model_node(&model_nodes[0], bml_resource->models[0].model);
         model_nodes[0].child = NULL;
         model_nodes[0].evalflags |= NJD_EVAL_BREAK;
-        copy_model_node(&model_nodes[1], ((NJS_OBJECT *)bml_resource->models[0].model)->child);
+        copy_model_node(&model_nodes[1], bml_resource->models[0].model->child);
         model_nodes[1].sibling = NULL;
-        copy_model_node(&model_nodes[2], ((NJS_OBJECT *)bml_resource->models[0].model)->child->sibling);
+        copy_model_node(&model_nodes[2], bml_resource->models[0].model->child->sibling);
     }
 }
 

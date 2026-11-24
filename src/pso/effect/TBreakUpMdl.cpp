@@ -48,10 +48,10 @@ void BreakUpParamRow::copy(BreakUpParamRow *src) {
 }
 
 
-TBreakUpMdlData::TBreakUpMdlData(long model) {
-    alloc_breakup_piece_records((NJS_OBJECT *)model);
+TBreakUpMdlData::TBreakUpMdlData(NJS_OBJECT *model) {
+    alloc_breakup_piece_records(model);
     push_matrix_from(&identity_matrix);
-    build_node_records((NJS_OBJECT *)model, 0);
+    build_node_records(model, 0);
     pop_matrix();
     is_ginja = 0;
 }

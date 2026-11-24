@@ -24,6 +24,12 @@ struct StripBufferPair {
     StripUvRef *strips;
     s16 *uvs;
     u8 pad_10[0x4];
+
+private:
+    void collect_model_strips_by_texture(NJS_OBJECT *node, s32 texture_filter);
+    void collect_plist_strips_by_texture(s16 *plist, s32 texture_filter);
+    void count_model_strips_by_texture(NJS_OBJECT *node, s32 texture_filter);
+    void count_plist_strips_by_texture(s16 *plist, s32 texture_filter);
 };
 
 LAYOUT_ASSERT(StripBufferPairSize, sizeof(StripBufferPair) == 0x14);

@@ -1,8 +1,10 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "pso/ui/window/WindowSpritePart.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowActionPalette.h"
+#include "pso/unk/TUnk_804CF9C8.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -39,7 +41,6 @@ LAYOUT_ASSERT(palette_resources_offset, offsetof(TWindowActionPalette, resources
 LAYOUT_ASSERT(palette_state_offset, offsetof(TWindowActionPalette, state) == 0x6C);
 LAYOUT_ASSERT(palette_scale_offset, offsetof(TWindowActionPalette, scale) == 0x70);
 LAYOUT_ASSERT(palette_size, sizeof(TWindowActionPalette) == 0x78);
-LAYOUT_ASSERT(icon_kind_offset, offsetof(Icon_80243630, kind) == 0x34);
 
 #pragma push
 #pragma readonly_strings on
@@ -60,11 +61,9 @@ u16 get_entry_by_index__20TWindowActionPaletteFPll(int, int);
 s32 is_palettex_activated(u16 client_index);
 s32 TObjPlayer__sub_80354C7C(u16);
 extern u32 __vt__20TWindowActionPalette[6];
-f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
 s32 TWindowSubComCard__sub_802454E4(int);
-extern s32 hud_texlist;
 }
 
 const PaletteItemKind lbl_8044E5E8[13] = {
@@ -243,10 +242,10 @@ void TWindowActionPalette::draw_frame(saddr arg1) {
     Ctx_80243B6C *ctx = (Ctx_80243B6C *)arg1;
     f32 scale;
     f32 depth;
-    scale = TWindowSubComCard__sub_80244784((TWindowSubComCard *)this);
+    scale = get_transition_progress();
     depth = (-1.0f) / this->draw_depth;
     begin_screen_draw(1);
-    TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(hud_texlist));
+    TObjFish::set_global_param(hud_texlist);
     set_draw_texture_and_color(2, ctx->tex);
     if (is_split_screen() == 0) {
         r1.x0 = 640.0f - 71.0f * scale;
@@ -299,18 +298,18 @@ void TWindowActionPalette::draw_frame(saddr arg1) {
 
 void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
     TObjPlayer *player;
-    Icon_80243630 *help;
+    WindowSpritePart *help;
     gc_tag *cursor;
 
     player = get_player_by_client_id(client_index);
     if (player != NULL) {
-        help = (Icon_80243630 *)get_array_entry(lbl_805DCA10[idx]);
+        help = static_cast<WindowSpritePart *>(get_array_entry(lbl_805DCA10[idx]));
         if (player->is_action_channel_available((s32)lbl_805DCA14[idx]) != 0) {
             help->color = -1;
         } else {
             help->color = 0xFF404040;
         }
-        update_palette_item_count_label((TWindowHelpItem *)get_array_entry(lbl_805DCA18[idx]), help, mode, slot, client_index);
+        update_palette_item_count_label(static_cast<TUnk_804CF9C8 *>(get_array_entry(lbl_805DCA18[idx])), help, mode, slot, client_index);
         cursor = &resources[idx];
         if (mode != get_action_palette_tag_mode(cursor) || get_action_palette_tag_slot(cursor) != slot) {
             set_action_palette_tag_mode(cursor, mode);
@@ -322,7 +321,7 @@ void TWindowActionPalette::update_slot_sprites(int idx, u16 mode, u16 slot) {
 
 void TWindowActionPalette::update_slot_icon(int idx, u16 mode, u16 slot) {
     if (get_player_by_client_id(client_index) != NULL) {
-        Icon_80243630 *icon = (Icon_80243630 *)get_array_entry(4);
+        WindowSpritePart *icon = static_cast<WindowSpritePart *>(get_array_entry(4));
         if (TObjPlayer__sub_80354C7C((u16)client_index) != 0) {
             icon->color = -1;
         } else {
@@ -388,7 +387,7 @@ void spawn_action_palette_slot_light(TWindowActionPalette *palette, s32 slot) {
 }
 #pragma pop
 
-void draw_action_palette_icon(Icon_80243630 *icon, u16 group, u16 index) {
+void draw_action_palette_icon(WindowSpritePart *icon, u16 group, u16 index) {
     UV_80243630 *row;
     switch (group) {
     case 0:
@@ -445,11 +444,11 @@ void draw_action_palette_icon(Icon_80243630 *icon, u16 group, u16 index) {
 
 #pragma push
 #pragma fp_contract on
-void update_palette_item_count_label(TWindowHelpItem *window_help_item, Icon_80243630 *icon, u16 group, u16 index, s32 client_id) {
+void update_palette_item_count_label(TUnk_804CF9C8 *label, WindowSpritePart *icon, u16 group, u16 index, s32 client_id) {
     s32 v;
     u32 p;
     if (group != 4) {
-        window_help_item->set_flag0_bit2();
+        reinterpret_cast<TWindowHelpItem *>(label)->set_flag0_bit2();
         return;
     }
     if (index >= 0xD) {
@@ -463,15 +462,15 @@ void update_palette_item_count_label(TWindowHelpItem *window_help_item, Icon_802
         v = TWindowHelpItem::get_help_value(index, client_id);
     }
     if (v <= 0) {
-        window_help_item->set_flag0_bit2();
+        reinterpret_cast<TWindowHelpItem *>(label)->set_flag0_bit2();
         return;
     }
-    ((TWindowSubStatusDisp *)window_help_item)->clear_visible_flag();
-    *(s32 *)((s8 *)window_help_item + 0x1C) = icon->color;
-    *(s32 *)((s8 *)window_help_item + 0x20) = v;
-    draw_right_aligned_number(window_help_item);
-    *(f32 *)((s8 *)window_help_item + 0x8) = (icon->x - -25.0f) + 0.5f * *(f32 *)((s8 *)window_help_item + 0x10);
-    *(f32 *)((s8 *)window_help_item + 0xC) = icon->y - -28.0f;
+    reinterpret_cast<TWindowSubStatusDisp *>(label)->clear_visible_flag();
+    label->style = icon->color;
+    label->value = v;
+    draw_right_aligned_number(label);
+    label->x = (icon->x - -25.0f) + 0.5f * label->width;
+    label->y = icon->y - -28.0f;
 }
 #pragma pop
 

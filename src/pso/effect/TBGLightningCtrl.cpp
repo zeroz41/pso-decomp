@@ -2,6 +2,7 @@
 #pragma defer_codegen on
 #pragma fp_contract on
 #pragma readonly_strings on
+#include "pso/system/memory.h"
 #include "types.h"
 #include <stdlib.h>
 #include "pso/system/task/TMainTask.h"
@@ -163,7 +164,7 @@ void load_bg_lightning(void) { bg_lightning_texture_handle = load_gvm_texture_fi
 void TBGLightningCtrl::destroy_instance() {
     if (bg_lightning_texture_handle != NULL) {
         release_texture_list(bg_lightning_texture_handle);
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)bg_lightning_texture_handle);
+        safe_free(bg_lightning_texture_handle);
         bg_lightning_texture_handle = NULL;
     }
 }

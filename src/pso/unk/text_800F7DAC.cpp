@@ -20,13 +20,6 @@
 #include "pso/render/ModelDrawContext.h"
 
 
-struct Quad_800F7E28 {
-    f32 *pos;
-    u32 *col;
-    s32 start;
-    s32 count;
-};
-
 extern "C" {
 
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
@@ -41,32 +34,32 @@ TScreenFadeController *screen_fade_controller;
 #pragma defer_codegen on
 
 void TScreenFade::render() {
-    Quad_800F7E28 q;
-    u32 col[4];
-    f32 pos[8];
+    NJS_POINT2COL q;
+    NJS_COLOR col[4];
+    NJS_POINT2 pos[4];
 
     TCameraCtrl::restore_full_screen_view();
     set_color_blending_mode(0, 8);
     set_color_blending_mode(1, 6);
-    q.pos = pos;
+    q.p = pos;
     q.col = col;
-    q.start = 0;
-    q.count = 4;
+    q.tex = NULL;
+    q.num = 4;
     color[3] = (s32)alpha;
-    q.pos[0] = (0.0f);
-    q.pos[1] = (0.0f);
-    q.col[0] = packed_color;
-    q.pos[2] = (6.4e+02f);
-    q.pos[3] = (0.0f);
-    q.col[1] = packed_color;
-    q.pos[4] = (6.4e+02f);
-    q.pos[5] = (4.8e+02f);
-    q.col[2] = packed_color;
-    q.pos[6] = (0.0f);
-    q.pos[7] = (4.8e+02f);
-    q.col[3] = packed_color;
+    q.p[0].x = (0.0f);
+    q.p[0].y = (0.0f);
+    q.col[0].color = fade_color.color;
+    q.p[1].x = (6.4e+02f);
+    q.p[1].y = (0.0f);
+    q.col[1].color = fade_color.color;
+    q.p[2].x = (6.4e+02f);
+    q.p[2].y = (4.8e+02f);
+    q.col[2].color = fade_color.color;
+    q.p[3].x = (0.0f);
+    q.p[3].y = (4.8e+02f);
+    q.col[3].color = fade_color.color;
     if ((0.0f) != (f32)color[3]) {
-        draw_polygon_2d((NJS_POINT2COL *)&q, 4, 0x16, (-1e+01f));
+        draw_polygon_2d(&q, 4, 0x16, (-1e+01f));
     }
     TCameraCtrl::restore_saved_view();
 }
@@ -289,32 +282,32 @@ void TScreenFadeController::run_task() {
 }
 
 void TScreenFadeController::render() {
-    Quad_800F7E28 q;
-    u32 col[4];
-    f32 pos[8];
+    NJS_POINT2COL q;
+    NJS_COLOR col[4];
+    NJS_POINT2 pos[4];
 
     TCameraCtrl::restore_full_screen_view();
     set_color_blending_mode(0, 8);
     set_color_blending_mode(1, 6);
-    q.pos = pos;
+    q.p = pos;
     q.col = col;
-    q.start = 0;
-    q.count = 4;
+    q.tex = NULL;
+    q.num = 4;
     color[3] = (s32)alpha;
-    q.pos[0] = (0.0f);
-    q.pos[1] = (0.0f);
-    q.col[0] = packed_color;
-    q.pos[2] = (6.4e+02f);
-    q.pos[3] = (0.0f);
-    q.col[1] = packed_color;
-    q.pos[4] = (6.4e+02f);
-    q.pos[5] = (4.8e+02f);
-    q.col[2] = packed_color;
-    q.pos[6] = (0.0f);
-    q.pos[7] = (4.8e+02f);
-    q.col[3] = packed_color;
+    q.p[0].x = (0.0f);
+    q.p[0].y = (0.0f);
+    q.col[0].color = packed_color;
+    q.p[1].x = (6.4e+02f);
+    q.p[1].y = (0.0f);
+    q.col[1].color = packed_color;
+    q.p[2].x = (6.4e+02f);
+    q.p[2].y = (4.8e+02f);
+    q.col[2].color = packed_color;
+    q.p[3].x = (0.0f);
+    q.p[3].y = (4.8e+02f);
+    q.col[3].color = packed_color;
     if ((0.0f) != (f32)color[3]) {
-        draw_polygon_2d((NJS_POINT2COL *)&q, 4, 0x16, (-1e+01f));
+        draw_polygon_2d(&q, 4, 0x16, (-1e+01f));
     }
     TCameraCtrl::restore_saved_view();
 }

@@ -1,5 +1,6 @@
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/effect/TBreakUpMdl.h"
 #include "pso/unk/TUnk_804CCB28.h"
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 
@@ -47,9 +48,9 @@ struct NJS_OBJECT;
 // Per-colour value {9, 7, 10, 11} (get_immune_special_kind).
 
 
-u8 *epsilon_body_boss_stat_handle;
-u8 *epsilon_body_shared_handler_b;
-u8 *epsilon_body_registered_object_handle;
+player_stats *epsilon_body_boss_stat_handle;
+AttackParams *epsilon_body_shared_handler_b;
+ActorParamBlock *epsilon_body_registered_object_handle;
 EpsilonBodySharedParams *epsilon_body_shared_params;
 extern "C" {
 void draw_line_list(VoloptLineList *, s32, u32);
@@ -80,7 +81,7 @@ CollisionBody epsilon_body_collision_bodies[2] = {
 VoloptLineColor epsilon_body_debug_line_colors[2] = {{0x80, 0xFF, 0x40, 0x40}, {0x80, 0xFF, 0x40, 0x40}};
 VoloptLineList TObjEneEpsilonGuard__debug_line_list = {epsilon_body_debug_line_points, epsilon_body_debug_line_colors, 0, 4};
 
-const TBoss3VoloptBreakupParams epsilon_guard_destroy_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
+const BreakUpParamRow epsilon_guard_destroy_breakup_params = { 0x14, 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f };
 // Body colour per color_index, copied into the guard parts.
 const NJS_ARGB epsilon_body_colors[4] = {
     {255.0f, 255.0f, 0.0f, 0.0f},
@@ -117,7 +118,7 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     set_motion_list(epsilon_bml_resource->motions);
     set_animation(requested_action);
     set_requested_action(requested_action);
-    reset_hp(reinterpret_cast<player_stats *>(epsilon_body_boss_stat_handle), reinterpret_cast<AttackParams *>(epsilon_body_shared_handler_b), reinterpret_cast<ActorParamBlock *>(epsilon_body_registered_object_handle));
+    reset_hp(epsilon_body_boss_stat_handle, epsilon_body_shared_handler_b, epsilon_body_registered_object_handle);
     set_state_flag_4();
     movementParameters = &epsilon_body_movement_params;
     wall_reach = 10.0f;
@@ -868,7 +869,8 @@ void TObjEneEpsilonBody::action_destroy(s32 reason) {
             action_timer++;
             if (action_timer >= 0x14) {
                 set_intangible();
-                TBoss3Volopt::create_breakup_mdl((saddr)epsilon_body_breakup_model, (saddr)&epsilon_guard_destroy_breakup_params, texlist, (saddr)&body_center, (s32)rotation_y);
+                TBoss3Volopt::create_breakup_mdl(epsilon_body_breakup_model, &epsilon_guard_destroy_breakup_params,
+                                   texlist, &body_center, rotation_y);
                 play_sound_effect(0x4003AD4C, &body_center, 0, 0);
                 trigger_dell_biter_events(&body_center);
                 flags |= 1;
@@ -879,8 +881,6 @@ void TObjEneEpsilonBody::action_destroy(s32 reason) {
     }
 }
 #pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
 void TObjEneEpsilonBody::render() {
     s32 detail;
     s32 i;

@@ -1,4 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
+#include "pso/system/memory.h"
 #include "types.h"
 #include "pso/ui/charcreate/CharacterLoadBuffer.h"
 #include "pso/ui/charcreate/TChCrLoadAfs.h"
@@ -90,7 +91,7 @@ void TLobby__sub_8028D7D0(s32 i) {
 
 void TLobby::free_single_player_chr_select() {
     if ((chr_select_load_buffer_base != NULL) && (chr_select_load_buffer != NULL)) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)((void*)chr_select_load_buffer)));
+        safe_free(chr_select_load_buffer);
         chr_select_load_buffer = NULL;
     }
 }
@@ -106,7 +107,7 @@ void TLobby::alloc_download_server() {
 
 void TLobby::free_chr_select_singleton() {
     if (chr_select_load_buffer_base != NULL) {
-        TAdSinglePlyChrSelectGC::safe_free((uaddr)((void*)((void*)chr_select_load_buffer_base)));
+        safe_free(chr_select_load_buffer_base);
         chr_select_load_buffer_base = NULL;
     }
 }

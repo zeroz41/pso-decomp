@@ -25,7 +25,7 @@ void restore_boss6_player_snapshot(TObjPlayer *player) {
         if (snapshot->active != 0) {
             snapshot->active = 0;
             if (TBoss6PlotFalz::is_state_1f(player) != 0) {
-                copy_texlist((NJS_TEXLIST *)player->body_textures, &snapshot->look.body_textures);
+                copy_texlist(&player->body_textures, &snapshot->look.body_textures);
                 copy_texlist((NJS_TEXLIST *)player->head_textures, &snapshot->look.head_textures);
                 copy_texlist((NJS_TEXLIST *)player->attachment_textures, &snapshot->look.attachment_textures);
                 player->model = snapshot->look.model;
@@ -46,7 +46,7 @@ void capture_boss6_player_snapshots() {
         snapshot->active = 0;
         player = get_player_by_client_id(i);
         if (player != NULL && TBoss6PlotFalz::is_state_1f(player) != 0) {
-            copy_texlist(&snapshot->look.body_textures, (NJS_TEXLIST *)player->body_textures);
+            copy_texlist(&snapshot->look.body_textures, &player->body_textures);
             copy_texlist(&snapshot->look.head_textures, (NJS_TEXLIST *)player->head_textures);
             copy_texlist(&snapshot->look.attachment_textures, (NJS_TEXLIST *)player->attachment_textures);
             snapshot->look.model = player->model;

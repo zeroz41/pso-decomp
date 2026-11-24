@@ -1,9 +1,9 @@
+#include "pso/math/ClampedStep.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/weapon/TUnk_804A4D70.h"
 #include "pso/item/TItem.h"
-#include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -58,20 +58,20 @@ void TUnk_804A4D70::vfunc_60() {
 
 void TUnk_804A4D70::update_idle() {
     if (get_item_index() == 5) {
-        TItemEffOrgaFlowShot::approach_value(&scale.z, 0.2f, 0.0f);
+        ::approach_value(&scale.z, 0.2f, 0.0f);
         if (scale.z <= 0.0f) {
-            TItemEffOrgaFlowShot::approach_value(&first_translation.y, -0.2f, -1.055f);
-            TItemEffOrgaFlowShot::approach_value(&second_translation.y, 0.15f, 0.75f);
+            ::approach_value(&first_translation.y, -0.2f, -1.055f);
+            ::approach_value(&second_translation.y, 0.15f, 0.75f);
         }
     }
 }
 
 void TUnk_804A4D70::update_attack() {
     if (get_item_index() == 5) {
-        TItemEffOrgaFlowShot::approach_value(&first_translation.y, 0.5f, 0.0f);
-        TItemEffOrgaFlowShot::approach_value(&second_translation.y, -0.25f, 0.0f);
+        ::approach_value(&first_translation.y, 0.5f, 0.0f);
+        ::approach_value(&second_translation.y, -0.25f, 0.0f);
         if (0.0f <= first_translation.y) {
-            TItemEffOrgaFlowShot::approach_value(&scale.z, 0.5f, 1.0f);
+            ::approach_value(&scale.z, 0.5f, 1.0f);
         }
     }
 }

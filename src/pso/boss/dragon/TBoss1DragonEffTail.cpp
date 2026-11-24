@@ -47,7 +47,7 @@ void TBoss1DragonEffTail::run_task() {
         body = &this->bodies[i];
         VecCopy(&body->center, node);
         matrix_mult_vec(NULL, node++, &body->offset);
-        update_collider_contact_by_height((u8 *)body, 30.0f);
+        update_collider_contact_by_height(body, 30.0f);
     }
     pop_matrix();
     if (this->sweep_side == 1) {
