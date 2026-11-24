@@ -429,7 +429,7 @@ s16 verify_ipcp_config_ack(PppFsm *fsm, PppHeader *msg, PppFrame *expected) {
 s16 recv_ipcp_config_request(PppFsm *self, PppHeader *src, PppFrame *bits) {
     u32 sh;
     void *buf;
-    unsigned int new_var;
+    unsigned int code;
     IpcpConfig *base;
     s32 n;
     s16 r;
@@ -459,7 +459,7 @@ s16 recv_ipcp_config_request(PppFsm *self, PppHeader *src, PppFrame *bits) {
             k = res;
         }
         if (res != 4) {
-            sh = (hdr[0] < 8) ? hdr[0] : (((new_var = hdr[0]) >= 0x80 && new_var < 0x90) ? new_var - 0x78 : 0);
+            sh = (hdr[0] < 8) ? hdr[0] : (((code = hdr[0]) >= 0x80 && code < 0x90) ? code - 0x78 : 0);
             base->peer.got.flags |= 1 << sh;
         }
         append_ipcp_option((PppFrame **)&buf, &base->peer.got, hdr[0], hdr[1], &bits);

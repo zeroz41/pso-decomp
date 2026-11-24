@@ -1652,15 +1652,15 @@ s16 NetIPv6GetLinkLocalAddress(void *out, s16 idx) {
 }
 
 s16 *get_valid_entry(s16 iface) {
-    s16 *temp_r3;
+    s16 *state;
     if ((iface < 0) || (iface >= ipv6_address_routing_state.count)) {
         return NULL;
     }
-    temp_r3 = (s16 *)&ipv6_address_routing_state.ifaces[iface];
-    if ((s16) *temp_r3 != 1) {
+    state = (s16 *)&ipv6_address_routing_state.ifaces[iface];
+    if ((s16) *state != 1) {
         return NULL;
     }
-    return temp_r3;
+    return state;
 }
 
 s32 NetIPv6MakeSolicitedNodeMulticastAddress(u8 *dst, u8 *addr) {

@@ -248,7 +248,7 @@ s16 NetIPv6SendUnspecifiedSourceNeighborSolicitation(u8 *addr, s16 idx) {
 
 s16 NetIPv6SendRouterSolicitation(s16 iface) {
     NetIPv6SendParameters params;
-    s16 temp_r31;
+    s16 result;
     NetPacket *free_entry;
 
     free_entry = alloc_free_entry();
@@ -261,9 +261,9 @@ s16 NetIPv6SendRouterSolicitation(s16 iface) {
     if (NetIPv6GetLinkLocalAddress(&params.source, iface) < 0) {
         NetMemset(&params.source, 0, 0x10);
     }
-    temp_r31 = NetIPv6EmitRouterSolicitation(free_entry, &params, iface);
+    result = NetIPv6EmitRouterSolicitation(free_entry, &params, iface);
     release_entry(free_entry);
-    return temp_r31;
+    return result;
 }
 
 inline u8 *find_neighbor_slot(Ipv6NdState *g, u8 *addr) {
@@ -1281,14 +1281,14 @@ s16 NetIPv6SendMulticastNeighborProbe(Ipv6NdNeighbor *e) {
     s16 ret;
     Ipv6NdRouter *router;
     NetPacket *pkt;
-    Ipv6NdPending *temp_r3_2;
-    Ipv6NdPending *temp_r3_4;
+    Ipv6NdPending *pending;
+    Ipv6NdPending *queued;
 
     pkt = alloc_free_entry();
     if (pkt == NULL) {
-        temp_r3_2 = e->pending;
-        if (temp_r3_2 != NULL) {
-            temp_r3_2->used = 0;
+        pending = e->pending;
+        if (pending != NULL) {
+            pending->used = 0;
             e->pending = NULL;
         }
         if (e->flags & 0x80) {
@@ -1308,8 +1308,8 @@ s16 NetIPv6SendMulticastNeighborProbe(Ipv6NdNeighbor *e) {
     }
     pkt->fragment_count = 0;
     pkt->total_bytes = 0;
-    temp_r3_4 = e->pending;
-    if (temp_r3_4 != NULL && NetIPv6IsOwnAddress(&temp_r3_4->params, e->iface) != 0) {
+    queued = e->pending;
+    if (queued != NULL && NetIPv6IsOwnAddress(&queued->params, e->iface) != 0) {
         NetMemcpy(&params.source, &e->pending->params, 0x10);
     } else {
         NetIPv6GetLinkLocalAddress(&params, e->iface);
@@ -1327,14 +1327,14 @@ s16 NetIPv6SendUnicastNeighborProbe(Ipv6NdNeighbor *e) {
     s16 ret;
     Ipv6NdRouter *router;
     NetPacket *pkt;
-    Ipv6NdPending *temp_r3_2;
-    Ipv6NdPending *temp_r3_4;
+    Ipv6NdPending *pending;
+    Ipv6NdPending *queued;
 
     pkt = alloc_free_entry();
     if (pkt == NULL) {
-        temp_r3_2 = e->pending;
-        if (temp_r3_2 != NULL) {
-            temp_r3_2->used = 0;
+        pending = e->pending;
+        if (pending != NULL) {
+            pending->used = 0;
             e->pending = NULL;
         }
         if (e->flags & 0x80) {
@@ -1354,8 +1354,8 @@ s16 NetIPv6SendUnicastNeighborProbe(Ipv6NdNeighbor *e) {
     }
     pkt->fragment_count = 0;
     pkt->total_bytes = 0;
-    temp_r3_4 = e->pending;
-    if (temp_r3_4 != NULL && NetIPv6IsOwnAddress(&temp_r3_4->params, e->iface) != 0) {
+    queued = e->pending;
+    if (queued != NULL && NetIPv6IsOwnAddress(&queued->params, e->iface) != 0) {
         NetMemcpy(&params.source, &e->pending->params, 0x10);
     } else {
         NetIPv6GetLinkLocalAddress(&params, e->iface);
@@ -1369,7 +1369,7 @@ s16 NetIPv6SendUnicastNeighborProbe(Ipv6NdNeighbor *e) {
 s16 NetIPv6EmitNeighborSolicitation(NetPacket *pkt, u8 *target, NetIPv6SendParameters *params, s16 iface, u8 *lladdr) {
     NetIcmpv6NeighborSolicitation message;
     NetSourceLinkLayerOption option;
-    s16 temp_r3;
+    s16 addr_len;
     s16 length;
     s16 r;
     s16 NetIPv6IsOwnLinkLocalAddress(u8 *, s16); /* declared s16 here; the definition returns s32 */
@@ -1385,9 +1385,9 @@ s16 NetIPv6EmitNeighborSolicitation(NetPacket *pkt, u8 *target, NetIPv6SendParam
         if (r < 0) {
             return r;
         }
-        temp_r3 = NetIPv6GetInterfaceLinkLayerAddress((saddr)&option.address, 0x20, iface);
-        if (temp_r3 > 0) {
-            length = temp_r3 + 2;
+        addr_len = NetIPv6GetInterfaceLinkLayerAddress((saddr)&option.address, 0x20, iface);
+        if (addr_len > 0) {
+            length = addr_len + 2;
             option.type = 1;
             option.length_units = (u8)(length >> 3);
             pkt->total_bytes += length;
@@ -1418,15 +1418,15 @@ s16 NetIPv6EmitNeighborSolicitation(NetPacket *pkt, u8 *target, NetIPv6SendParam
 s16 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *addr, s16 id) {
     NetIcmpv6RouterSolicitation message;
     NetSourceLinkLayerOption option;
-    s16 temp_r3;
+    s16 addr_len;
     s16 length;
     if ((NetIPv6IsMulticast(addr->destination.bytes)) == 0) {
         return -0x10E;
     }
     if ((NetIPv6IsUnspecified(addr->source.bytes)) == 0) {
-        temp_r3 = NetIPv6GetInterfaceLinkLayerAddress((saddr)&option.address, 0x20, id);
-        if (temp_r3 > 0) {
-            length = temp_r3 + 2;
+        addr_len = NetIPv6GetInterfaceLinkLayerAddress((saddr)&option.address, 0x20, id);
+        if (addr_len > 0) {
+            length = addr_len + 2;
             option.type = 1;
             option.length_units = (u8) (length >> 3);
             net_packet->total_bytes += length;

@@ -581,12 +581,8 @@ s32 init_bba_exi_adapter(void *arg) {
 #pragma pop
 
 void start_exi_send(u8 *data, s32 len, ExiSendCompletionCallback callback) {
-    s32 var_r3;
-    s32 var_r4;
     exi_send_data = data;
-    var_r3 = 0;
     exi_send_size = len;
-    var_r4 = 0;
     exi_send_started_flag = 1;
     exi_send_callback = callback;
     exi_start_send_dma(0, NULL);

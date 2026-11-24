@@ -115,7 +115,7 @@ inline void remove_iface_route(Ipv4RoutingState *g, u32 dst, u32 gateway) {
 extern s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c)
 {
   s16 n;
-  u32 new_var;
+  u32 addr;
   Ipv4RoutingState *tbl;
   Ipv4Iface *new_var2;
   Ipv4Iface *e;
@@ -143,10 +143,10 @@ extern s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c)
     for (i = 0; (node != NULL) && (i < n); i++)
     {
       m = node->mask;
-      new_var = node->addr;
-      if ((m & new_var) == (m & dst))
+      addr = node->addr;
+      if ((m & addr) == (m & dst))
       {
-        *out = new_var;
+        *out = addr;
         return 0;
       }
       node = node->next;
@@ -429,7 +429,7 @@ Ipv4Route *AT_IP4_RouteSearch(u32 dst, u32 src) {
 s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
 {
   Ipv4RoutingState *tbl = &ipv4_address_routing_state;
-  u32 new_var;
+  u32 route_dst;
   u16 f;
   s16 i;
   s16 found = 0;
@@ -445,8 +445,8 @@ s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
     {
       continue;
     }
-    new_var = e->dst;
-    if (new_var == 0)
+    route_dst = e->dst;
+    if (route_dst == 0)
     {
       a4 |= 2;
       found = 1;
@@ -455,7 +455,7 @@ s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
     f = (u16) a4;
     if (a4 & 4)
     {
-      if (((!e->flags) & 4) || (new_var != a1))
+      if (((!e->flags) & 4) || (route_dst != a1))
       {
         continue;
       }
@@ -467,7 +467,7 @@ s32 route4_redirect(u32 a1, u32 new_gateway, u32 a3, u32 a4, u32 old_gateway)
     {
       continue;
     }
-    if ((a1 & e->mask) != (new_var & a3))
+    if ((a1 & e->mask) != (route_dst & a3))
     {
       continue;
     }
@@ -735,12 +735,12 @@ s16 *get_active_entry_by_index(s16 iface) {
 #pragma pop
 
 s16 compare_ipv4_addr(s32 lhs, s32 rhs) {
-    s32 temp_r0;
-    temp_r0 = lhs - rhs;
-    if (temp_r0 < 0) {
+    s32 diff;
+    diff = lhs - rhs;
+    if (diff < 0) {
         return -1;
     }
-    if (temp_r0 > 0) {
+    if (diff > 0) {
         return 1;
     }
     return 0;

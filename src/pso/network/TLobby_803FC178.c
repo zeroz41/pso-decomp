@@ -132,13 +132,8 @@ s32 PP_chap_local(PppProtoBlocks *blocks) {
 
 void chap_input(PppFsm *self, PppFrame *source) {
     PppHeader hdr;
-    u8 temp_r0;
-    u8 temp_r0_2;
-    u8 temp_r0_3;
-    PppProtoBlocks *temp_r30;
-    PppProtoBlocks *temp_r30_2;
-    PppProtoBlocks *temp_r30_3;
-    PppProtoBlocks *temp_r30_4;
+    u8 flags;
+    PppProtoBlocks *blocks;
 
     if (fsm_read_header(&hdr, &source) != -1) {
         hdr.len -= 4;
@@ -150,48 +145,48 @@ void chap_input(PppFsm *self, PppFrame *source) {
         case 2:
             if (chap_recv_response(self, &hdr, source) == 0) {
                 if (lobby_session_flags & 2) {
-                    temp_r30 = self->blocks;
+                    blocks = self->blocks;
                     lobby_timer_stop(&self->timer);
-                    temp_r0 = self->flags & 0xFFFFFFEF;
-                    self->flags = temp_r0;
-                    if (!(temp_r0 & 0x10)) {
+                    flags = self->flags & 0xFFFFFFEF;
+                    self->flags = flags;
+                    if (!(flags & 0x10)) {
                         self->state = 5;
                     }
-                    temp_r30->auth_pending = (u8) (temp_r30->auth_pending & 0xFFFFFFEF);
-                    temp_r30->auth_pending = (u8) (temp_r30->auth_pending & 0xFFFFFFDF);
-                    start_ipcp_after_auth(temp_r30);
+                    blocks->auth_pending = (u8) (blocks->auth_pending & 0xFFFFFFEF);
+                    blocks->auth_pending = (u8) (blocks->auth_pending & 0xFFFFFFDF);
+                    start_ipcp_after_auth(blocks);
                     return;
                 }
-                temp_r30_2 = self->blocks;
+                blocks = self->blocks;
                 lobby_timer_stop(&self->timer);
-                temp_r0_2 = self->flags & 0xFFFFFFDF;
-                self->flags = temp_r0_2;
-                if (!(temp_r0_2 & 0x10)) {
+                flags = self->flags & 0xFFFFFFDF;
+                self->flags = flags;
+                if (!(flags & 0x10)) {
                     self->state = 5;
                 }
-                temp_r30_2->auth_pending = (u8) (temp_r30_2->auth_pending & 0xFFFFFFDF);
-                start_ipcp_after_auth(temp_r30_2);
+                blocks->auth_pending = (u8) (blocks->auth_pending & 0xFFFFFFDF);
+                start_ipcp_after_auth(blocks);
                 return;
             }
             break;
         case 3:
             lobby_timer_stop(&self->timer);
-            temp_r30_3 = self->blocks;
+            blocks = self->blocks;
             lobby_timer_stop(&self->timer);
-            temp_r0_3 = self->flags & 0xFFFFFFEF;
-            self->flags = temp_r0_3;
-            if (!(temp_r0_3 & 0x10)) {
+            flags = self->flags & 0xFFFFFFEF;
+            self->flags = flags;
+            if (!(flags & 0x10)) {
                 self->state = 5;
             }
-            temp_r30_3->auth_pending = (u8) (temp_r30_3->auth_pending & 0xFFFFFFEF);
-            temp_r30_3->auth_pending = (u8) (temp_r30_3->auth_pending & 0xFFFFFFDF);
-            start_ipcp_after_auth(temp_r30_3);
+            blocks->auth_pending = (u8) (blocks->auth_pending & 0xFFFFFFEF);
+            blocks->auth_pending = (u8) (blocks->auth_pending & 0xFFFFFFDF);
+            start_ipcp_after_auth(blocks);
             return;
         case 4:
             lobby_timer_stop(&self->timer);
-            temp_r30_4 = self->blocks;
-            update_connection_state(&temp_r30_4->chap);
-            update_connection_state(&temp_r30_4->lcp);
+            blocks = self->blocks;
+            update_connection_state(&blocks->chap);
+            update_connection_state(&blocks->lcp);
             self->abort = 1;
             ppp_auth_failed = 1;
             break;

@@ -77,15 +77,15 @@ s16 build_ethernet_frame_header(void *frame, void *dst_mac, void *src_mac, u16 t
   u8 c;
   u16 t;
   u16 x;
-  u8 *new_var;
+  u8 *eth;
   u16 l;
   s16 r;
-  new_var = ((u8 *)frame);
-  NetMemcpy(new_var, dst_mac, 6);
-  NetMemcpy(new_var + 6, src_mac, 6);
+  eth = ((u8 *)frame);
+  NetMemcpy(eth, dst_mac, 6);
+  NetMemcpy(eth + 6, src_mac, 6);
   t = type;
   NetMemcpy(((u8 *)frame) + 0xC, &t, 2);
-  p = new_var + 0xE;
+  p = eth + 0xE;
   c = 0x11;
   NetMemcpy(p, &c, 1);
   NetMemcpy(p + 1, &code, 1);
@@ -350,20 +350,20 @@ s16 write_empty_tlv_header(u8 **p, PppoeSlot *e) {
 s16 write_pppoe_ac_name_tag(u8 **cursor, PppoeSlot *slot) {
     s16 sp12;
     s16 sp10;
-    s16 temp_r3;
+    s16 name_len;
     if (slot->names.name[0] == 0) {
         return 0;
     }
     sp12 = 0x102;
     NetMemcpy(*cursor, (&sp12), 2);
     *cursor += 2;
-    temp_r3 = NetStringLength((char *)slot->names.name);
-    sp10 = temp_r3;
+    name_len = NetStringLength((char *)slot->names.name);
+    sp10 = name_len;
     NetMemcpy(*cursor, (&sp10), 2);
     *cursor += 2;
-    NetMemcpy(*cursor, (char *)slot->names.name, (temp_r3));
-    *cursor += temp_r3;
-    return temp_r3 + 4;
+    NetMemcpy(*cursor, (char *)slot->names.name, (name_len));
+    *cursor += name_len;
+    return name_len + 4;
 }
 #pragma pop
 

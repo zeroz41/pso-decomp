@@ -2332,7 +2332,6 @@ s16 tcp_alloc_tcb(void)
   TcpTcb *best = NULL;
   s16 idx;
   s16 count;
-  TcpTcb *new_var;
   TcpTcb *entries;
   s16 i = 0;
   idx = g_m->freed;
@@ -2345,7 +2344,7 @@ s16 tcp_alloc_tcb(void)
     {
       idx = 0;
     }
-    rec = (new_var = entries) + idx;
+    rec = entries + idx;
     if (rec->state == 0)
     {
       NetMemset(rec, 0, sizeof(TcpTcb));

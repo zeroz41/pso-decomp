@@ -710,7 +710,7 @@ s16 AT_DNS_UdpReceiver(s16 mode, NetworkReceivePrefix *req)
 {
   DnsResolverState *base = &dns_resolver_state;
   DnsQuery *e;
-  s16 new_var;
+  s16 reply_len;
   DnsBuffer *s;
   s32 pad[2];
   s16 dns_parse_reply(DnsQuery *); /* declared s16 here; the definition returns s32 */
@@ -727,8 +727,8 @@ s16 AT_DNS_UdpReceiver(s16 mode, NetworkReceivePrefix *req)
   {
     return 1;
   }
-  new_var = req->len;
-  if (new_var > base->buffer_size)
+  reply_len = req->len;
+  if (reply_len > base->buffer_size)
   {
     return 1;
   }
@@ -746,7 +746,7 @@ s16 AT_DNS_UdpReceiver(s16 mode, NetworkReceivePrefix *req)
 
   }
 
-  e->reply->len = new_var;
+  e->reply->len = reply_len;
   if (dns_parse_reply(e) < 0)
   {
     e->reply->used = 0;
@@ -896,7 +896,7 @@ s16 dns_parse_reply(DnsQuery *self)
   DnsQuery *s;
   DnsBuffer *p;
   u8 *hdr;
-  u8 *new_var;
+  u8 *qname;
   u16 cnt;
   s16 n;
   u16 t;
@@ -954,8 +954,8 @@ s16 dns_parse_reply(DnsQuery *self)
     n = t;
     while (n > 0)
     {
-      new_var = cur;
-      r = dns_expand_name(s, new_var, len, 0) + DNS_QUESTION_FIXED_SIZE;
+      qname = cur;
+      r = dns_expand_name(s, qname, len, 0) + DNS_QUESTION_FIXED_SIZE;
       len -= r;
       cur += (s16) r;
       n--;
@@ -1203,8 +1203,8 @@ s32 close_and_reset_connection(DnsQuery *self) {
     DnsBuffer *message;
     DnsBuffer *reply;
     s32 temp_r3;
-    s32 var_r31;
-    var_r31 = close_query_socket(self, self->socket);
+    s32 result;
+    result = close_query_socket(self, self->socket);
     lock_at_sem();
     message = self->msg;
     if (message != NULL) {
@@ -1229,7 +1229,7 @@ s32 close_and_reset_connection(DnsQuery *self) {
         self->waiter = -1;
     }
     unlock_at_sem();
-    return var_r31;
+    return result;
 }
 
 void reset_connection_requests(DnsPtr *o, s16 status) {
@@ -1285,7 +1285,6 @@ void dns_free_host(DnsHost *self, s16 x)
   DnsAddr *e;
   s16 j;
   DnsAddr *p;
-  DnsHost *new_var;
   DnsQuery *q;
   self->state = 0;
   j = 0;
@@ -1302,11 +1301,11 @@ void dns_free_host(DnsHost *self, s16 x)
     e->next = (void *) 0;
   }
 
-  (new_var = self)->addrs = (void *) 0;
+  self->addrs = (void *) 0;
   q = base->queries;
   for (j = 0; j < base->nqueries; j++, q++)
   {
-    if (q->req.lookup.host == new_var)
+    if (q->req.lookup.host == self)
     {
       q->status = -0x42;
       q->outstanding = 0;
@@ -1625,7 +1624,7 @@ extern s16 dns_decode_name(u8 *dst, u8 *src, s16 max) {
 
 s16 dns_name_length(void *arg)
 {
-  int new_var;
+  int label_len;
   u8 *s;
   s16 i;
   s8 c;
@@ -1640,16 +1639,16 @@ s16 dns_name_length(void *arg)
       return --i;
     }
     n = c;
-    new_var = n;
-    if (((((s32) i) + new_var) + 1) <= 0xff)
+    label_len = n;
+    if (((((s32) i) + label_len) + 1) <= 0xff)
     {
-      s += new_var;
+      s += label_len;
     }
     else
     {
       return 0xff;
     }
-    i = new_var + i;
+    i = label_len + i;
     i++;
   }
 
@@ -1657,72 +1656,72 @@ s16 dns_name_length(void *arg)
 }
 
 s32 dns_compare_addr(DnsAddr *node, DnsAddr *rec) {
-    s32 var_r5;
-    u8 *var_r3;
+    s32 addr_len;
+    u8 *addr;
     u8 *right;
     switch (node->rtype) {
     case DNS_TYPE_A:
         if ((u16) rec->rtype != DNS_TYPE_A) {
-            var_r3 = (u8 *)((void *)-1);
+            addr = (u8 *)((void *)-1);
             return -1;
         }
         switch ((s32) node->addr.family) {
         case 4:
             if ((u32) rec->addr.family != 4U) {
-                var_r3 = (u8 *)((void *)-1);
+                addr = (u8 *)((void *)-1);
                 return -1;
             }
-            var_r3 = node->addr.address;
+            addr = node->addr.address;
             right = rec->addr.address;
-            var_r5 = 4;
-            return NetMemcmp(var_r3, right, 4);
+            addr_len = 4;
+            return NetMemcmp(addr, right, 4);
         case 6:
             if ((u32) rec->addr.family != 6U) {
-                var_r3 = (u8 *)((void *)-1);
+                addr = (u8 *)((void *)-1);
                 return -1;
             }
-            var_r3 = node->addr.address;
+            addr = node->addr.address;
             right = rec->addr.address;
-            var_r5 = 0x10;
-            return NetMemcmp(var_r3, right, 0x10);
+            addr_len = 0x10;
+            return NetMemcmp(addr, right, 0x10);
         default:
         case 0:
-            var_r3 = (u8 *)((void *)-1);
+            addr = (u8 *)((void *)-1);
             return -1;
         }
         break;
     case DNS_TYPE_AAAA:
         if ((u16) rec->rtype != DNS_TYPE_AAAA) {
-            var_r3 = (u8 *)((void *)-1);
+            addr = (u8 *)((void *)-1);
             return -1;
         }
         switch ((s32) node->addr.family) {
         case 4:
             if ((u32) rec->addr.family != 4U) {
-                var_r3 = (u8 *)((void *)-1);
+                addr = (u8 *)((void *)-1);
                 return -1;
             }
-            var_r3 = node->addr.address;
+            addr = node->addr.address;
             right = rec->addr.address;
-            var_r5 = 4;
-            return NetMemcmp(var_r3, right, 4);
+            addr_len = 4;
+            return NetMemcmp(addr, right, 4);
         case 6:
             if ((u32) rec->addr.family != 6U) {
-                var_r3 = (u8 *)((void *)-1);
+                addr = (u8 *)((void *)-1);
                 return -1;
             }
-            var_r3 = node->addr.address;
+            addr = node->addr.address;
             right = rec->addr.address;
-            var_r5 = 0x10;
-            return NetMemcmp(var_r3, right, 0x10);
+            addr_len = 0x10;
+            return NetMemcmp(addr, right, 0x10);
         default:
         case 0:
-            var_r3 = (u8 *)((void *)-1);
+            addr = (u8 *)((void *)-1);
             return -1;
         }
         break;
     default:
-        var_r3 = (u8 *)((void *)-1);
+        addr = (u8 *)((void *)-1);
         return -1;
     }
 }
