@@ -7,7 +7,7 @@
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleLookup.h"
 

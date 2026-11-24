@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TUnk_804A2C90.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/system/task/TMainTask.h"
 
 void TUnk_804A2C90::update_weapon() {

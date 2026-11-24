@@ -5,7 +5,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/unk/text_8011B620.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"

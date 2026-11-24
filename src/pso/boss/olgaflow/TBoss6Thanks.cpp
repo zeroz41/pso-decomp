@@ -35,6 +35,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/animation/ActorAnimationState.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 
 
 LAYOUT_ASSERT(Thanks_state, offsetof(TBoss6Thanks,state)==0x1c);
@@ -296,5 +297,5 @@ void TUnk_804F1EC8::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     get_weapon_color__11TItemWeaponFPv(color, this);
     copy_argb(&desc->color, (NJS_ARGB *)color);
     desc->model = second_model;
-    desc->wall_effect = (void *)TObjPlayer::forward_item_effect_callback;
+    desc->wall_effect = (void *)spawn_wall_hit_particles;
 }

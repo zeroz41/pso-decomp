@@ -15970,7 +15970,7 @@ force_active:
   - spawn_ground_splash__13TBoss5GryphonFv
   - spawn_hamon_effects__17TObjEneDarkGunnerFllf
   - spawn_hit_effects__11TBoss6Type2Fv
-  - spawn_hit_particle_trio__10TObjPlayerFv
+  - spawn_hit_particle_trio__FP3Vec
   - spawn_hit_particles__10TObjPlayerFiPv
   - spawn_hit_particles_at__10TObjPlayerFiii
   - spawn_hit_particles_at_vec__10TObjPlayerFiii

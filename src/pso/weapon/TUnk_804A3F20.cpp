@@ -2,7 +2,7 @@
 #include "pso/weapon/TUnk_804A403C.h"
 #include "pso/weapon/TUnk_804A3F20.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 

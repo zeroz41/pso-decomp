@@ -3,7 +3,7 @@
 #include "pso/weapon/TUnk_804A6AD8.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/system/MatrixStack.h"

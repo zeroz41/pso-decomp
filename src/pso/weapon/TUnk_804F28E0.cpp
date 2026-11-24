@@ -9,6 +9,7 @@
 #include "pso/weapon/TUnk_804F28E0.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 
 extern "C" {
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
@@ -28,7 +29,7 @@ void TUnk_804F28E0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     desc->model = second_model;
     desc->hits = 4;
     desc->scale = 2.0f;
-    desc->wall_effect = (void *)TObjPlayer::forward_item_effect_callback;
+    desc->wall_effect = (void *)spawn_wall_hit_particles;
 }
 
 void TUnk_804F28E0::emit_marker_effects() {

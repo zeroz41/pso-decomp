@@ -5,6 +5,7 @@
 #include "pso/weapon/TItemWeaponMechgun.h"
 #include "pso/unk/text_80120D50.h"
 #include "pso/item/TItem.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 
 extern "C" {
 
@@ -17,7 +18,6 @@ void TUnk_804A3260::vfunc_60() {
 }
 
 extern s32 tl_05;
-void spawn_weapon_impact_effect();
 }
 void TUnk_804A3260::emit_marker_effects() {
     if (launch_shot((u8 *)&muzzle[0], 0, 0, 1) != 0) {
@@ -49,7 +49,7 @@ void TUnk_804A3260::reserved_53() {
 
 TUnk_804A3260::TUnk_804A3260(saddr parent, u8 *item) : TItemWeapon((TObject *)((void *)parent), item) {
     this->set_weapon_flags(0x203);
-    *(void (**)())((s8 *)this + 0x1EC) = &spawn_weapon_impact_effect;
+    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
     this->effectJoint = -1;
     this->effectAngle = 0;
     this->effectScaleJoint = -1;

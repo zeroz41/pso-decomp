@@ -5,7 +5,7 @@
 #include "pso/unk/text_80120D50.h"
 #include "pso/unk/text_8012C268.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/item/TItem.h"
 #include "pso/system/MatrixOps.h"
