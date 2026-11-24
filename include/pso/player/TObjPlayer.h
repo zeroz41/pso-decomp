@@ -791,8 +791,6 @@ struct TObjPlayer : public TObjChara {
     static s32 validate_and_clear_slot(void *techs, s16 tech);
     static s32 is_invalid_slot(u8 level);
     static s32 is_valid_technique_slot(u8 slot);
-    static void render_model_tree(void *model);
-    static void render_matrix_chain(void *model);
     static void free_if_valid(saddr texlist);
     static void play_effect_if_v2(s32 pitch);
     static s32 get_level_tier(s32 arg0);
