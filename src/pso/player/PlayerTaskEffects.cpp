@@ -61,7 +61,6 @@ void handle_6x88_restore_shrunken_player(const PlayerRestoreSizePacket* input);
 
 
 extern "C" {
-BOOL fn_801C6F2C(u8 *arg0);
 s32 draw_chunk_object();
 s32 TObjPlayer__sub_801C6DAC(u8 *target);
 }
@@ -109,7 +108,6 @@ s32 TObjPlayer__sub_801C6DAC(u8 *target);
 
 extern "C" {
 }
-void update_player_appear_fade(u8 *arg0);
 void reset_player_appearance_opacity(void *a0);
 void save_render_material_state(u8 *arg0);
 
@@ -191,8 +189,8 @@ void BattleMusicState::clear_target_lock_flag() { ((FlagWord *)&flags)->clear(1)
 void BattleMusicState::set_lock_timer(s32 v) { timer = v; }
 
 
-BOOL fn_801C6F2C(u8 *arg0) {
-    return *(s32 *)((s8 *)arg0 + 4) == 1;
+BOOL PlayerAppearFade::is_fading() {
+    return state == FADING_IN;
 }
 
 
@@ -659,57 +657,57 @@ void TObjPlayer::write_ids() { set_model_render_flags((saddr)this->m_name); set_
 
 void reset_player_appearance_opacity(void* a0) { *(float*)((char*)a0 + 0x1c) = 1.0f; }
 
-void TObjPlayer::enter_battle_state() {
-    saddr player;
+void PlayerAppearFade::begin() {
+    TObjPlayer *player;
 
-    player = (saddr)get_player_by_client_id(*(u16 *)((s8 *)this + 0));
-    if ((player != 0) && (fn_801C6F2C((u8 *)this) == 0)) {
-        *(s32 *)((s8 *)this + 4) = 0;
-        ((TObjPlayer *)player)->deactivate_body_collision();
-        *(s16 *)((s8 *)this + 2) = 4;
+    player = get_player_by_client_id(client_id);
+    if ((player != NULL) && (is_fading() == 0)) {
+        state = WAITING;
+        player->deactivate_body_collision();
+        delay = 4;
     }
 }
 
 #pragma push
 #pragma opt_common_subs off
-void update_player_appear_fade(u8 *arg0) {
-    f32 var_f31;
-    u8 *player;
-    player = (u8 *)(get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0)));
+void PlayerAppearFade::update() {
+    f32 alpha;
+    TObjPlayer *player;
+    player = get_player_by_client_id(client_id);
     if (player != NULL) {
-        switch (*(s32 *)((s8 *)arg0 + 4)) {
-        case 2:
+        switch (state) {
+        case SHOWN:
         default:
             break;
-        case 0:
-            if ((((TObjPlayer *)player)->is_inactive() != 0) && (((TObjPlayer *)player)->check_flag_40000() == 0) && (((TObjPlayer *)player)->check_flag_04000000() != 0) && (is_on_current_floor__10TObjPlayerFi((TObjPlayer *)player) != 0)) {
-                if (--*(s16 *)((s8 *)arg0 + 2) < 0) {
+        case WAITING:
+            if ((player->is_inactive() != 0) && (player->check_flag_40000() == 0) && (player->check_flag_04000000() != 0) && (is_on_current_floor__10TObjPlayerFi(player) != 0)) {
+                if (--delay < 0) {
                     if (TCameraCtrl::get_mode() != 0) {
-                        ((TObjPlayer *)player)->render_material_state.alpha = 1.0f;
-                        *(s32 *)((s8 *)arg0 + 4) = 2;
+                        player->render_material_state.alpha = 1.0f;
+                        state = SHOWN;
                         return;
                     }
-                    *(s32 *)((s8 *)arg0 + 4) = 1;
-                    ((TObjPlayer *)player)->activate_body_collision();
-                    if (((TObjCollidable *)player)->test_actor_flags(0x800) == 0) {
-                        TObjPlayer::spawn_appearance_effect((int) (*(u16 *)((s8 *)arg0 + 0)));
+                    state = FADING_IN;
+                    player->activate_body_collision();
+                    if (player->test_actor_flags(0x800) == 0) {
+                        TObjPlayer::spawn_appearance_effect((int) client_id);
                     }
-                    ((TObjPlayer *)player)->render_material_state.alpha = 0.0f;
-                    ((TObjPlayer *)player)->refresh_equipment_slot();
+                    player->render_material_state.alpha = 0.0f;
+                    player->refresh_equipment_slot();
                     return;
                 }
             }
             break;
-        case 1:
-            var_f31 = ((TObjPlayer *)player)->render_material_state.alpha;
-            var_f31 += 0.1f;
-            if (var_f31 >= 1.0f) {
-                var_f31 = 1.0f;
-                *(s32 *)((s8 *)arg0 + 4) = 2;
-                ((TObjPlayer *)player)->set_visible_flag();
-                ((TObjPlayer *)player)->activate_body_collision();
+        case FADING_IN:
+            alpha = player->render_material_state.alpha;
+            alpha += 0.1f;
+            if (alpha >= 1.0f) {
+                alpha = 1.0f;
+                state = SHOWN;
+                player->set_visible_flag();
+                player->activate_body_collision();
             }
-            ((TObjPlayer *)player)->render_material_state.alpha = var_f31;
+            player->render_material_state.alpha = alpha;
             break;
         }
     }

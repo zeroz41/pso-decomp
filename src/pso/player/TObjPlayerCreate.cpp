@@ -223,12 +223,12 @@ void TObjPlayer::init_action_provider() {
 void TObjPlayer::init_battle(void *record) {
     assign_owner_ids();
     ::set_flag_400000(this);
-    ((TObjPlayer *)((u8 *)this + 0x634))->enter_battle_state();
+    appear_fade.begin();
 }
 
 void TObjPlayer::reset_area_entry_state() {
     follow_particles.create_hand_particles(this);
-    ((TObjPlayer *)((u8 *)this + 0x634))->enter_battle_state();
+    appear_fade.begin();
     if (this->is_locally_controlled() != 0) {
         TObjPlayer::for_each_player_slot(update_photon_chair__10TObjPlayerFv);
     }
@@ -242,7 +242,7 @@ void TObjPlayer::destroy_owned_object() {
 }
 
 void TObjPlayer::assign_owner_ids() {
-    TObjPlayer__sub_801BF9E0((u8 *)this + 0x634, get_entity_id());
+    TObjPlayer__sub_801BF9E0(&appear_fade, get_entity_id());
     follow_particles.set_owner(this);
     chair_seat.set_owner_id(get_entity_id());
 }

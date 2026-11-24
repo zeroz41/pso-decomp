@@ -18,7 +18,6 @@ LAYOUT_ASSERT(TForceOperate_size, sizeof(TForceOperate) == 0x24);
 
 void reset_player_appearance_opacity(void *a0);
 void save_render_material_state(u8 *state);
-void update_player_appear_fade(u8 *arg0);
 extern "C" {
 }
 

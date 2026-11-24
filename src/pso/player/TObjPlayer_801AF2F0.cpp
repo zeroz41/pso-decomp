@@ -1651,7 +1651,7 @@ call3:
         }
         if ((TObjPlayer__sub_801BF918((u8 *)&this->appear_fade) != 0) && (this->is_body_collision_inactive() != 0) && (this->test_action_mask(4) != 0)) {
             ::set_flag_400000(this);
-            ((TObjPlayer *)&this->appear_fade)->enter_battle_state();
+            appear_fade.begin();
         }
         run_action_state_phase(this->mode, 8);
         return;
@@ -2908,7 +2908,7 @@ void TObjPlayer::update_position_history() {
 }
 
 void TObjPlayer::update_status_effects() {
-  update_player_appear_fade(((u8 *)&this->appear_fade));
+  appear_fade.update();
   update_target_lock();
   if ((this->is_actor_cadence_frame(3)) != 0)
   {
@@ -5465,7 +5465,7 @@ void TObjPlayer::refresh_equipment_slot() {
 }
 
 void TObjPlayer::update_photon_chair() {
-    ((TObjPlayer *)&this->appear_fade)->enter_battle_state();
+    appear_fade.begin();
     if (this->obj_isState2_324() != 0) {
         this->clear_flag_400000();
     }

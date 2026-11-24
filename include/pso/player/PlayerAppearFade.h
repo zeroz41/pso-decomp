@@ -3,13 +3,23 @@
 
 #include "types.h"
 
-// TObjPlayer + 0x634: the fade-in of a player who appears. update_player_appear_fade counts
-// delay down in state 0 and starts the fade (state 1), raises the alpha by 0.1 a frame in
-// state 1 and ends in state 2 (shown).
+// TObjPlayer + 0x634: the fade-in of a player who appears. update counts delay down in
+// WAITING and starts the fade, raises the alpha by 0.1 a frame in FADING_IN and ends in
+// SHOWN. The body stays hidden and without collision until the fade starts.
 struct PlayerAppearFade {
+    enum State {
+        WAITING = 0,
+        FADING_IN = 1,
+        SHOWN = 2,
+    };
+
     u16 client_id;
     s16 delay;
     s32 state;
+
+    void begin();
+    void update();
+    BOOL is_fading();
 };
 
 #endif

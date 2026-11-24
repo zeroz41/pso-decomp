@@ -25,6 +25,7 @@ struct PhotonBlastRequestSlot;
 #include "pso/player/PlayerAttackController.h"
 #include "pso/player/PlayerTelepipe.h"
 #include "pso/player/PlayerTrapCounts.h"
+#include "pso/player/PlayerAppearFade.h"
 #include "pso/player/BattleMusicState.h"
 #include "pso/player/ContactSurfaceState.h"
 #include "pso/player/MovementHold.h"

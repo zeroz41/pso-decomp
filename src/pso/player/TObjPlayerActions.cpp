@@ -1122,7 +1122,7 @@ void TObjPlayer::update_off_floor_state() {
     this->clear_state_flags(4);
     this->update_active_state();
     ::set_flag_400000((TObjPlayer *)this);
-    ((TObjPlayer *)(((u8 *)this) + 0x634))->enter_battle_state();
+    appear_fade.begin();
     return;
   }
   switch (this->phase)
