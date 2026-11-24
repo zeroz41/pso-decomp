@@ -55,7 +55,7 @@ void subtract_network_queue_timeout(s32 elapsed_ms);
 void set_lobby_map_state_code(s32 code);
 NetSendChunk *get_next_send_chunk(void);
 s32 AT_SetWorkArea(u8 *data, s32 size);
-u32 compute_range_end(NetTransportParams *params, s32 base, u32 limit);
+u8 *compute_range_end(NetTransportParams *params, u8 *base, u8 *limit);
 
 /* CodeWarrior emits these .sbss globals in reverse order of definition. */
 s16 net_slot_id = -1;
@@ -609,15 +609,15 @@ s32 open_network_transport(NetTransportOpenCfg *cfg) {
 #pragma push
 #pragma opt_common_subs off
 /* Places the send ring at base; returns its end, or 0 (and clears the ring) if it passes limit. */
-u32 compute_range_end(NetTransportParams *params, s32 base, u32 limit) {
-    u32 end;
-    send_ring_buffer_base = (u8 *)base;
+u8 *compute_range_end(NetTransportParams *params, u8 *base, u8 *limit) {
+    u8 *end;
+    send_ring_buffer_base = base;
     lobby_ring_buffer_size = params->ring_buffer_size;
     end = base + lobby_ring_buffer_size;
     if (end > limit) {
         send_ring_buffer_base = NULL;
         lobby_ring_buffer_size = 0;
-        return 0U;
+        return NULL;
     }
     return end;
 }
@@ -627,11 +627,11 @@ u32 compute_range_end(NetTransportParams *params, s32 base, u32 limit) {
 #pragma opt_common_subs off
 s32 AT_SetWorkArea(u8 *data, s32 size) {
     NetTransportParams params;
-    uaddr end;
+    u8 *end;
     u8 *cur;
     s32 header_size;
-    uaddr after_tables;
-    end = (uaddr)(data + size);
+    u8 *after_tables;
+    end = data + size;
     header_size = AT_GetInitParam(&params);
     if (size < 0) {
         return -1;
@@ -641,19 +641,19 @@ s32 AT_SetWorkArea(u8 *data, s32 size) {
     }
     net_udp_socket_storage = data;
     cur = data + params.udp_socket_count * 0x44;
-    if ((uaddr)cur > end) {
+    if (cur > end) {
         return -1;
     }
     net_tcp_socket_storage = cur;
     cur += params.tcp_socket_count * 0x544;
-    if ((uaddr)cur > end) {
+    if (cur > end) {
         return -1;
     }
-    after_tables = (uaddr)layout_buffers(&params, cur, (u8 *)end);
-    if (after_tables == 0) {
+    after_tables = layout_buffers(&params, cur, end);
+    if (after_tables == NULL) {
         return -1;
     }
-    if (params.with_ppp != 0 && compute_range_end(&params, after_tables, end) == 0) {
+    if (params.with_ppp != 0 && compute_range_end(&params, after_tables, end) == NULL) {
         return -1;
     }
     return 0;
