@@ -18,7 +18,6 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
-#include "pso/unk/text_80232B24.h"
 #include "pso/unk/TUnk_804CC888.h"
 #include "pso/unk/TUnk_804CCA78.h"
 #include "pso/unk/TLobby_80226070.h"
@@ -61,30 +60,13 @@ NJS_TEXLIST lbl_804CC868 = { lbl_80516140, 1 };
 
 // ---- pso/unk/text_80232B7C
 
-struct Part_80232EC0 { s32 id; u32 flags; u8 pad8[4]; };
+struct GrantsEmitterPart { s32 id; u32 flags; u8 pad_08[4]; };
 
-struct Profile_80232EC0 { const Part_80232EC0 *parts; u32 count; };
+struct GrantsEmitterSet { const GrantsEmitterPart *parts; u32 count; };
 
-struct Obj_80232E0C {
-    u8 pad0[0x18];
-    void *vt;
-    void **items;
-    s32 f20;
-    s32 kind;
-};
+struct GrantsEffectEntry { s32 effect; u32 flags; s32 pad_08; };
 
-struct SEnt_80232C50 { s32 a; u32 flags; s32 c; };
-
-struct SGrp_80232C50 { const SEnt_80232C50 *ents; u32 count; };
-
-struct Ctl_80232C50 {
-    u8 pad0[0x24];
-    s32 kind;
-    u8 pad28[4];
-    s16 timer;
-    u16 id;
-    u8 pos[4];
-};
+struct GrantsEffectSet { const GrantsEffectEntry *ents; u32 count; };
 
 extern "C" {
 void mem_free(void *);
@@ -94,42 +76,30 @@ void mem_free(void *);
 // the effects it spawns when it ends.
 // inferred names: grants_emitter_parts_<tier> and grants_effect_entries_<tier> are the rows of
 // grants_effect_emitter_table and technique_effect_entry_table for each tier.
-static const Part_80232EC0 grants_emitter_parts_0[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
-static const SEnt_80232C50 grants_effect_entries_0[3] = { { 0x1D3, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1CB, 0, 0 } };
-static const Part_80232EC0 grants_emitter_parts_1[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
-static const SEnt_80232C50 grants_effect_entries_1[3] = { { 0x1D3, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1D5, 0, 0 } };
-static const Part_80232EC0 grants_emitter_parts_2[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
-static const SEnt_80232C50 grants_effect_entries_2[3] = { { 0x1D3, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1CC, 0, 0 } };
-static const Part_80232EC0 grants_emitter_parts_3[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
-static const SEnt_80232C50 grants_effect_entries_3[3] = { { 0x1C0, 0, 0 }, { 0x1D4, 0, 0 }, { 0x10F, 0, 0 } };
-static const Part_80232EC0 grants_emitter_parts_4[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
-static const SEnt_80232C50 grants_effect_entries_4[3] = { { 0x1C0, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1A4, 0, 0 } };
-static const Part_80232EC0 grants_emitter_parts_5[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
-static const SEnt_80232C50 grants_effect_entries_5[4] = { { 0x1C2, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1C9, 0, 0 }, { 0x1DA, 0, 0 } };
+static const GrantsEmitterPart grants_emitter_parts_0[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
+static const GrantsEffectEntry grants_effect_entries_0[3] = { { 0x1D3, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1CB, 0, 0 } };
+static const GrantsEmitterPart grants_emitter_parts_1[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
+static const GrantsEffectEntry grants_effect_entries_1[3] = { { 0x1D3, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1D5, 0, 0 } };
+static const GrantsEmitterPart grants_emitter_parts_2[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
+static const GrantsEffectEntry grants_effect_entries_2[3] = { { 0x1D3, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1CC, 0, 0 } };
+static const GrantsEmitterPart grants_emitter_parts_3[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
+static const GrantsEffectEntry grants_effect_entries_3[3] = { { 0x1C0, 0, 0 }, { 0x1D4, 0, 0 }, { 0x10F, 0, 0 } };
+static const GrantsEmitterPart grants_emitter_parts_4[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
+static const GrantsEffectEntry grants_effect_entries_4[3] = { { 0x1C0, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1A4, 0, 0 } };
+static const GrantsEmitterPart grants_emitter_parts_5[3] = { { 0xB4, 0 }, { 0xB5, 0 }, { 0xB6, 0 } };
+static const GrantsEffectEntry grants_effect_entries_5[4] = { { 0x1C2, 0, 0 }, { 0x1D4, 0, 0 }, { 0x1C9, 0, 0 }, { 0x1DA, 0, 0 } };
 
-const Profile_80232EC0 grants_effect_emitter_table[6] = {
+const GrantsEmitterSet grants_effect_emitter_table[6] = {
     { grants_emitter_parts_0, 3 }, { grants_emitter_parts_1, 3 }, { grants_emitter_parts_2, 3 },
     { grants_emitter_parts_3, 3 }, { grants_emitter_parts_4, 3 }, { grants_emitter_parts_5, 3 },
 };
 
-const SGrp_80232C50 technique_effect_entry_table[6] = {
+const GrantsEffectSet technique_effect_entry_table[6] = {
     { grants_effect_entries_0, 3 }, { grants_effect_entries_1, 3 }, { grants_effect_entries_2, 3 },
     { grants_effect_entries_3, 3 }, { grants_effect_entries_4, 3 }, { grants_effect_entries_5, 4 },
 };
 
 const char *tec_grants_class_name = "TTecGrants";
-
-struct Task_80232EC0 {
-    u8 pad0[0x18];
-    void **vt;
-    uaddr *emitters;
-    s32 sound;
-    s32 tier;
-    s32 level;
-    s16 x2c;
-    u16 owner;
-    u8 pos[0xC];
-};
 
 extern "C" {
 void *mem_alloc(u32 size);
@@ -191,50 +161,50 @@ void TTecGrants::render() {  }
 
 TUnk_804CC888::TUnk_804CC888(u8 *src, s32 level, TObject *parent) : TObject(parent) {
     u32 i;
-    VecCopy((Vec *)(((Task_80232EC0 *)this)->pos), (const Vec *)(src + 0x38));
-    ((Task_80232EC0 *)this)->x2c = 0;
-    ((Task_80232EC0 *)this)->owner = ((TObjBase *)(src))->get_entity_id();
-    ((Task_80232EC0 *)this)->level = level;
-    if (((Task_80232EC0 *)this)->level < 0) {
-        ((Task_80232EC0 *)this)->level = 0;
+    VecCopy(&position, (const Vec *)(src + 0x38));
+    timer = 0;
+    owner_id = ((TObjBase *)(src))->get_entity_id();
+    this->level = level;
+    if (this->level < 0) {
+        this->level = 0;
     } else if (level >= 0x1E) {
-        ((Task_80232EC0 *)this)->level = 0x1E;
+        this->level = 0x1E;
     }
-    ((Task_80232EC0 *)this)->tier = TObjPlayer::get_level_tier(((Task_80232EC0 *)this)->level);
-    ((Task_80232EC0 *)this)->emitters = (uaddr *)mem_alloc(grants_effect_emitter_table[((Task_80232EC0 *)this)->tier].count * sizeof(uaddr));
-    for (i = 0; i < grants_effect_emitter_table[((Task_80232EC0 *)this)->tier].count; i++) {
-        ((Task_80232EC0 *)this)->emitters[i] = (uaddr)spawn_continuous_particle_effect_with_flags(((Task_80232EC0 *)this)->pos, grants_effect_emitter_table[((Task_80232EC0 *)this)->tier].parts[i].id, 0x10);
-        if (((Task_80232EC0 *)this)->emitters[i] != 0) {
-            ((TParticleCtrl *)(((Task_80232EC0 *)this)->emitters[i]))->set_owner_id(((Task_80232EC0 *)this)->owner);
+    tier = TObjPlayer::get_level_tier(this->level);
+    emitters = (TParticleCtrl **)mem_alloc(grants_effect_emitter_table[tier].count * sizeof(TParticleCtrl *));
+    for (i = 0; i < grants_effect_emitter_table[tier].count; i++) {
+        emitters[i] = spawn_continuous_particle_effect_with_flags(&position, grants_effect_emitter_table[tier].parts[i].id, 0x10);
+        if (emitters[i] != NULL) {
+            emitters[i]->set_owner_id(owner_id);
         }
     }
-    switch (((Task_80232EC0 *)this)->tier) {
+    switch (tier) {
     case 0:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, reinterpret_cast<const Vec *>(((Task_80232EC0 *)this)->pos), 0, 0);
-        if (((Task_80232EC0 *)this)->sound >= 0) {
-            set_sound_pitch_request(((Task_80232EC0 *)this)->sound, 0x100, 0);
+        sound = play_sound_effect(0x4002A90C, &position, 0, 0);
+        if (sound >= 0) {
+            set_sound_pitch_request(sound, 0x100, 0);
         }
         break;
     case 1:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, reinterpret_cast<const Vec *>(((Task_80232EC0 *)this)->pos), 0, 0);
+        sound = play_sound_effect(0x4002A90C, &position, 0, 0);
         break;
     case 2:
     case 3:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, reinterpret_cast<const Vec *>(((Task_80232EC0 *)this)->pos), 0, 0);
-        if (((Task_80232EC0 *)this)->sound >= 0) {
-            set_sound_pitch_request(((Task_80232EC0 *)this)->sound, -0x180, 0);
+        sound = play_sound_effect(0x4002A90C, &position, 0, 0);
+        if (sound >= 0) {
+            set_sound_pitch_request(sound, -0x180, 0);
         }
         break;
     case 4:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, reinterpret_cast<const Vec *>(((Task_80232EC0 *)this)->pos), 0, 0);
-        if (((Task_80232EC0 *)this)->sound >= 0) {
-            set_sound_pitch_request(((Task_80232EC0 *)this)->sound, -0x250, 0);
+        sound = play_sound_effect(0x4002A90C, &position, 0, 0);
+        if (sound >= 0) {
+            set_sound_pitch_request(sound, -0x250, 0);
         }
         break;
     case 5:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, reinterpret_cast<const Vec *>(((Task_80232EC0 *)this)->pos), 0, 0);
-        if (((Task_80232EC0 *)this)->sound >= 0) {
-            set_sound_pitch_request(((Task_80232EC0 *)this)->sound, -0x100, 0);
+        sound = play_sound_effect(0x4002A90C, &position, 0, 0);
+        if (sound >= 0) {
+            set_sound_pitch_request(sound, -0x100, 0);
         }
         break;
     }
@@ -248,13 +218,13 @@ TUnk_804CC888::TUnk_804CC888(u8 *src, s32 level, TObject *parent) : TObject(pare
 
 TUnk_804CC888::~TUnk_804CC888() {
     u32 i;
-    for (i = 0; i < grants_effect_emitter_table[((Obj_80232E0C *)this)->kind].count; i++) {
-        if (((Obj_80232E0C *)this)->items[i] != NULL) {
-            ((TObject *)(((Obj_80232E0C *)this)->items[i]))->queue_destruction();
+    for (i = 0; i < grants_effect_emitter_table[tier].count; i++) {
+        if (emitters[i] != NULL) {
+            emitters[i]->queue_destruction();
         }
     }
-    stop_sound_request(((Obj_80232E0C *)this)->f20);
-    mem_free(((Obj_80232E0C *)this)->items);
+    stop_sound_request(sound);
+    mem_free(emitters);
 }
 
 void TUnk_804CC888::run_task() {
@@ -262,26 +232,26 @@ void TUnk_804CC888::run_task() {
     s32 dir;
     TObjCollidable *obj;
     TParticleCtrl *r;
-    ((Ctl_80232C50 *)this)->timer++;
-    if (((Ctl_80232C50 *)this)->timer % 5 == 0) {
-        new TUnk_804CC870(((Ctl_80232C50 *)this)->id, tl_07, NULL, 1.0f);
+    timer++;
+    if (timer % 5 == 0) {
+        new TUnk_804CC870(owner_id, tl_07, NULL, 1.0f);
     }
-    if (((Ctl_80232C50 *)this)->timer >= 30) {
-        for (i = 0; i < technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].count; i++) {
-            obj = find_entity_by_id(((Ctl_80232C50 *)this)->id);
+    if (timer >= 30) {
+        for (i = 0; i < technique_effect_entry_table[tier].count; i++) {
+            obj = find_entity_by_id(owner_id);
             if (obj != NULL) {
-                const SEnt_80232C50 *e = &technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i];
+                const GrantsEffectEntry *e = &technique_effect_entry_table[tier].ents[i];
                 if (e->flags & 0x20) {
-                    r = spawn_particle_effect(&obj->position, e->a);
+                    r = spawn_particle_effect(&obj->position, e->effect);
                     if (r != NULL) {
-                        attach_particle_model(r, get_bml_model(technique_effect_bml, technique_effect_entry_table[((Ctl_80232C50 *)this)->kind].ents[i].flags >> 16), technique_texture_list, NULL, 1, 1.0f);
+                        attach_particle_model(r, get_bml_model(technique_effect_bml, technique_effect_entry_table[tier].ents[i].flags >> 16), technique_texture_list, NULL, 1, 1.0f);
                     }
                 } else {
-                    spawn_particle_effect(&obj->position, e->a);
+                    spawn_particle_effect(&obj->position, e->effect);
                 }
             }
         }
-        switch (((Ctl_80232C50 *)this)->kind) {
+        switch (tier) {
         case 0:
         case 1:
             dir = 0x100;
@@ -295,8 +265,8 @@ void TUnk_804CC888::run_task() {
             dir = -0x100;
             break;
         }
-        new TUnk_804CCA78((Vec *)((Ctl_80232C50 *)this)->pos, 0xF, 0x4002A60D, dir, tl_07);
-        ((TObject *)((Ctl_80232C50 *)this))->queue_destruction();
+        new TUnk_804CCA78(&position, 0xF, 0x4002A60D, dir, tl_07);
+        queue_destruction();
     }
 }
 
