@@ -5361,7 +5361,7 @@ force_active:
   - copy_from__19StarLightParametersFP19StarLightParameters
   - copy_from__23MagNodeOscillationStateFP23MagNodeOscillationState
   - set_parameters__15TEffStarLight2DFP19StarLightParameters
-  - copy_gauge_warn_vec__10TObjPlayerFv
+  - pop_fade_color__23TEquippedWeaponDrawTaskFv
   - copy_global_value_block__6TLobbyFv
   - copy_from__18TextureUvAnimationFP18TextureUvAnimation
   - copy_matrix__22TObjTombstoneDropRatesFPC22TObjTombstoneDropRates
@@ -8414,7 +8414,7 @@ force_active:
   - lbl_805D6DA0
   - lbl_805D6DC8
   - boss6_rock_damage
-  - lbl_805D6FB8
+  - equipped_weapon_draw_queue
   - network_wait_icon_frame
   - lbl_805D7020
   - lbl_805D718C
@@ -13846,7 +13846,7 @@ force_active:
   - append_to__20TObjEneBm5GibonUNodeFPP20TObjEneBm5GibonUNodePP20TObjEneBm5GibonUNode
   - push_material_color_override__10TObjPlayerFffff
   - push_material_fade__Ff
-  - push_model_fade_color__10TObjPlayerFv
+  - push_fade_color__23TEquippedWeaponDrawTaskFP8NJS_ARGB
   - push_nearby_players__15TBoss3VoloptP01Fv
   - push_players_away__11TBoss6Type2FPC3Vecf
   - push_players_out_of_radius__15TBoss3VoloptP02Fv
@@ -14688,7 +14688,7 @@ force_active:
   - rotate_title_background_quad__FlPUcPUclf
   - route_around_object__10TNpcPlayerFP3Vec
   - run_active_state__18TObjEneBalClawClawFv
-  - run_and_return_arg__10TObjPlayerFl
+  - __ct__21EquippedItemDrawQueueFv
   - run_confirm_message_loop__15TObjBoss2TunnelFv
   - run_default_state__13TBoss5GryphonFv
   - run_demo_task__16TObjEneNanoDragoFv

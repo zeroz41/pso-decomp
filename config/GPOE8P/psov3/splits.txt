@@ -9845,7 +9845,7 @@ pso/effect/item/TItemEffectWeapon.cpp:
 	.sbss       start:0x805D6FB0 end:0x805D6FB8
 	.sdata2     start:0x805E0280 end:0x805E0288
 
-pso/player/TObjPlayer_80363BE0.cpp:
+pso/player/EquippedItemDraw.cpp:
 	.text       start:0x80363AF4 end:0x803642D8
 	.rodata     start:0x80479FF8 end:0x8047A008
 	.data       start:0x804F29F8 end:0x804F2A28

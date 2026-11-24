@@ -1,3 +1,4 @@
+#include "pso/player/TEquippedWeaponDrawTask.h"
 #include "pso/system/MatrixStack.h"
 #include "types.h"
 #include "pso/object/TActorLight.h"
@@ -821,7 +822,7 @@ void TItemWeapon::render_equipped() {
     s32 count;
     if (((uaddr) this->owner != 0U) && (test_weapon_flags(0xCU) == 0xCU) && (test_weapon_flags(0x80U) == 0U)) {
         if (test_weapon_flags(0x800U) != 0U) {
-            TObjPlayer::push_id_to_list(get_item_id());
+            TEquippedWeaponDrawTask::queue_weapon(get_item_id());
             return;
         }
         this->reserved_53();

@@ -1,3 +1,4 @@
+#include "pso/player/TEquippedWeaponDrawTask.h"
 #include "types.h"
 #include <string.h>
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -5,7 +6,6 @@
 #include "pso/system/data/FlagWord.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_801211F0.h"
-#include "pso/player/TObjPlayer_80363BE0.h"
 #include "pso/unk/text_80120150.h"
 #include "pso/unk/text_803DC86C.h"
 #include "pso/object/base/TObjMotion.h"
@@ -69,9 +69,9 @@ void TItemWeapon::draw_weapon_model() {
             } else {
                 set_chunk_model_node_callback(apply_weapon_node_material);
             }
-            TObjPlayer::save_model_render_state();
+            TEquippedWeaponDrawTask::save_model_render_state();
             model_render_flags &= 0xFFFFFFEF;
-            TObjPlayer::set_model_fade_alpha((f32)this->get_owner_alpha());
+            TEquippedWeaponDrawTask::set_fade_alpha((f32)this->get_owner_alpha());
             if (this->has_no_defer_render() != 0) {
                 model_render_flags |= 0x8011;
                 set_color_blend_mode(1, 4, 5, 0);
@@ -105,8 +105,8 @@ void TItemWeapon::draw_weapon_model() {
             TItem::end_effect_render();
             this->end_particle_tev();
             this->end_shield_tev();
-            TObjPlayer::warn_if_gauge_low();
-            TObjPlayer::restore_model_render_state();
+            TEquippedWeaponDrawTask::end_fade();
+            TEquippedWeaponDrawTask::restore_model_render_state();
             if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                 this->sub_80121208(NULL);
             } else {

@@ -1,3 +1,5 @@
+#include "pso/player/TEquippedWeaponDrawTask.h"
+#include "pso/player/TEquippedItemDrawTask.h"
 #include "pso/enemy/EnemyStateRecord.h"
 #include "pso/network/client_id.h"
 #include "pso/item/TItemIdCounters.h"
@@ -705,8 +707,8 @@ void TMainTask::cleanup_game_objects() {
 
     TEnding__sub_8008C9F8();
     TItemLoad::create();
-    TObjPlayer::spawn_cleanup_helper(tl_particlemodel);
-    TObjPlayer::create_cleanup_object(tl_item_equip);
+    TEquippedWeaponDrawTask::create(tl_particlemodel);
+    TEquippedItemDrawTask::create(tl_item_equip);
     main_phase = get_main_phase();
     area = get_current_floor_area();
     floor = get_current_floor();

@@ -15,7 +15,9 @@ struct EquippedItemDrawQueue {
     u32 item_ids[32];
     s32 count;
 
+    EquippedItemDrawQueue();
     void reset();
+    void push(s32 id);
 };
 
 LAYOUT_ASSERT(EquippedDrawIdsOffset, offsetof(EquippedItemDrawQueue, item_ids) == 0x30);

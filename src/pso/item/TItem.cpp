@@ -1,3 +1,5 @@
+#include "pso/player/TEquippedWeaponDrawTask.h"
+#include "pso/player/TEquippedItemDrawTask.h"
 #include "pso/system/memory.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/network/protocol/protocol_types.h"
@@ -319,16 +321,16 @@ void init_item_system() {
     item_registry_sorted_entries = (TItem **)mem_alloc(0x1000);
     memset(item_registry_sorted_entries, 0, 0x1000);
     item_id_counters = new TItemIdCounters;
-    TObjPlayer::alloc_and_init_object_b4();
-    TObjPlayer::alloc_and_run_object();
+    TEquippedWeaponDrawTask::create_queue();
+    TEquippedItemDrawTask::create_queue();
     TObjPlayer::init_game_resources();
     advance_item_system_generation();
 }
 
 void free_item_system() {
     TObjPlayer::free_item_globals();
-    TObjPlayer::free_static_buffer();
-    TObjPlayer::free_global_805D6FB8();
+    TEquippedItemDrawTask::destroy_queue();
+    TEquippedWeaponDrawTask::destroy_queue();
     if (item_id_counters != NULL) {
         delete item_id_counters;
         item_id_counters = NULL;
