@@ -40,4 +40,8 @@ public:
 
 LAYOUT_ASSERT(AramPool_size, sizeof(AramPool) == 0x30);
 
+// Set while the ARAM transfer started by TLobby::aram_dma_blocking and friends is in flight; their DMA
+// callback clears it.
+extern volatile s32 aram_dma_pending;
+
 #endif

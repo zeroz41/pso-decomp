@@ -6,7 +6,6 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/TLobbyBattleParamData.h"
-#include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
@@ -25,7 +24,6 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/system/AramPool.h"
 
 #pragma readonly_strings on
 
@@ -36,134 +34,6 @@ ActorParamBlock *get_entry__6TLobbyFii(int a0, int a1);
 
 extern "C" {
 extern s32 auto_reply_flags;
-
-void AramPool::transfer(void *src, void *dst, u32 size, u32 from_aram) {
-    if (from_aram == 0) {
-        TLobby::aram_transfer_sync(0, (uaddr)src, ((AramBlock *)dst)->addr, size);
-        return;
-    }
-    TLobby::aram_read_sync(0, ((AramBlock *)src)->addr, (saddr)dst, size);
-}
-
-void AramPool::merge_free_blocks() {
-    AramBlock *cur;
-    AramBlock *n;
-    cur = m_free_list->next;
-    while ((n = cur->next) != 0) {
-        if (n->addr == cur->addr + cur->size) {
-            cur->next = n->next;
-            cur->size = cur->size + n->size;
-            if (n->next != 0) {
-                n->next->prev = cur;
-            }
-            n->clear();
-        } else {
-            cur = n;
-        }
-    }
-}
-
-AramBlock *AramPool::find_unused_block() {
-    u32 i;
-    if (m_blocks != 0) {
-        for (i = 1; i < m_block_count; i++) {
-            if (m_blocks[i].size == 0) {
-                return &m_blocks[i];
-            }
-        }
-    }
-    return 0;
-}
-
-void AramPool::free(AramBlock *block) {
-    AramBlock *prev;
-    AramBlock *cur;
-    for (prev = m_free_list; (cur = prev->next) != 0; prev = cur) {
-        if (block->addr < cur->addr) {
-            prev->next = block;
-            block->next = cur;
-            block->prev = prev;
-            cur->prev = block;
-            merge_free_blocks();
-            return;
-        }
-    }
-}
-
-AramBlock *AramPool::alloc(u32 size) {
-    u32 sz = (size + 0x1F) & ~0x1F;
-    AramBlock *prev;
-    AramBlock *cur;
-    AramBlock *n;
-    for (prev = m_free_list; (cur = prev->next) != 0; prev = cur) {
-        if (cur->size >= sz) {
-            if (cur->size == sz) {
-                prev->next = cur->next;
-                if (cur->next != 0) {
-                    cur->next->prev = prev;
-                }
-                cur->next = 0;
-                cur->prev = 0;
-                return cur;
-            }
-            if (cur->size > sz) {
-                n = find_unused_block();
-                if (n != 0) {
-                    n->next = 0;
-                    n->prev = 0;
-                    n->addr = cur->addr;
-                    n->size = sz;
-                    cur->addr += sz;
-                    cur->size -= sz;
-                    return n;
-                }
-            }
-        }
-    }
-    return 0;
-}
-
-AramPool::~AramPool() {
-    if (m_blocks != NULL) {
-        xfree(m_blocks);
-        m_blocks = NULL;
-    }
-}
-
-AramPool::AramPool(s32 aram_addr, s32 size, s32 max_blocks) {
-    s32 rounded;
-    AramBlock *head;
-    AramBlock *first;
-
-    m_blocks = (AramBlock *)fn_803DE864(max_blocks, sizeof(AramBlock));
-    if (m_blocks != NULL) {
-        m_block_count = max_blocks;
-        rounded = (size + 0x1F) & ~0x1F;
-        m_size = rounded;
-        head = m_blocks;
-        m_free_list = head;
-        first = head + 1;
-        m_free_list->next = first;
-        m_free_list->prev = 0;
-        m_free_list->addr = 0;
-        m_free_list->size = 0;
-        first->next = 0;
-        first->prev = m_blocks;
-        first->addr = aram_addr;
-        first->size = rounded;
-    }
-}
-
-void TLobby__sub_8001D9DC(void) {
-    aram_dma_pending = 0;
-}
-
-void AramBlock::clear() {
-    prev = 0;
-    next = 0;
-    size = 0;
-    addr = 0;
-}
 
 void TLobby::sync_auto_reply_state() {
     if ((auto_reply_flags & 4) || (auto_reply_flags & 1) != ((auto_reply_flags >> 1) & 1)) {

@@ -9,7 +9,6 @@ struct ActorParamBlock;
 union BattleMovementParams;
 
 extern "C" {
-void TLobby__sub_8001D9DC(void);
 void TLobby__sub_8001DBD8(s32 _w0);
 void TLobby__sub_8001DC04(void *p);
 void TLobby__sub_8001DE30(void *a0);
