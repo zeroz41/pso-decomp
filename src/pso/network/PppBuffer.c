@@ -23,7 +23,7 @@ s32 init_net_subsystem_block(void) {
     return 0;
 }
 
-s32 TLobby__sub_80401ABC(PppFrame *self_m, void* dst, s32 n)
+s32 TLobby__sub_80401ABC(u8* self_m, void* dst, s32 n)
 {
     void NetMemcpy(void*, const void*, s16);
     s32 m; u16 cap; u32 t;
@@ -31,10 +31,10 @@ s32 TLobby__sub_80401ABC(PppFrame *self_m, void* dst, s32 n)
     if (dst == NULL) {
         return 0;
     }
-    cap = self_m->len;
+    cap = ((PppFrame *)self_m)->len;
     t = (cap < (u16)n) ? cap : n;
     m = t;
-    NetMemcpy(dst, self_m->data, m);
+    NetMemcpy(dst, ((PppFrame *)self_m)->data, m);
     return m;
 }
 

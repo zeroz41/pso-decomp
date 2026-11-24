@@ -1160,7 +1160,7 @@ s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 arg2, NetIP
     NetBufferRef cur;
     Ipv6NdNeighbor *e;
     u8 *p6;
-    void netbuf_copy_by_ref(void *, void *, int);
+    void netbuf_copy_by_ref(NetBufferRef *, void *, int);
     s16 TLobby__sub_804136AC(s16 pkt); /* declared s16 here; the definition returns s32 */
     s16 TLobby__sub_80413934(void *, s16); /* declared s16 here; the definition is s32 (u8 *, s16) */
     if (NetIPv6IsMulticast(address) != 0) {

@@ -95,7 +95,7 @@ void TLobby__sub_803FE600(O_803FE600 *o); /* PppFsm.c */
 s16 TLobby__sub_803FED78(PppFsm *self); /* PppIpcp.c */
 struct LcpConfig;
 s16 apply_lcp_config_to_sides(PppFsm *state, struct LcpConfig *config); /* PppLcp.c */
-s32 TLobby__sub_80401ABC(PppFrame *self_m, void *dst, s32 n); /* PppBuffer.c */
+s32 TLobby__sub_80401ABC(u8 *self_m, void *dst, s32 n); /* PppBuffer.c */
 
 void TLobby__sub_803FE820(saddr arg0);
 s16 TLobby__sub_803FF304(PppFsm *fsm);
