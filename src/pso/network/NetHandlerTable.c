@@ -46,7 +46,7 @@ extern LobbyHandlerTable lobby_handler_table_desc; /* defined at the end of the 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 
-s16 TLobby__sub_8040A2BC(Fn_8040881C *fns, s16 kind);
+s16 TLobby__sub_8040A2BC(NetLinkDriverFn *fns, s16 kind);
 s32 TLobby__sub_80409AD8(void);
 
 /* Inline the helpers below; this applies to the rest of the file. */
@@ -128,7 +128,7 @@ s32 clear_table_entry_locked(s16 arg0) {
     return ret;
 }
 
-s16 TLobby__sub_80409A3C(Fn_8040881C *fns, s16 kind) {
+s16 TLobby__sub_80409A3C(NetLinkDriverFn *fns, s16 kind) {
     s16 id;
     lock_mutex(network_dispatch_state.lock_handle);
     id = TLobby__sub_8040A2BC(fns, kind);
@@ -417,7 +417,7 @@ s16 is_socket_flag_set(s16 i) {
 }
 #pragma pop
 
-extern s16 TLobby__sub_8040A2BC(Fn_8040881C *fns, s16 kind) {
+extern s16 TLobby__sub_8040A2BC(NetLinkDriverFn *fns, s16 kind) {
     LobbyHandler *e;
     s16 i;
 
@@ -428,7 +428,7 @@ extern s16 TLobby__sub_8040A2BC(Fn_8040881C *fns, s16 kind) {
     case 1:
         e = lobby_handler_table_desc.list;
         if (e->active == 0) {
-            NetMemcpy(&e->get_interface_id, fns, 11 * sizeof(Fn_8040881C));
+            NetMemcpy(&e->get_interface_id, fns, 11 * sizeof(NetLinkDriverFn));
             e->flags = kind;
             e->active = 1;
             return 0;
@@ -437,7 +437,7 @@ extern s16 TLobby__sub_8040A2BC(Fn_8040881C *fns, s16 kind) {
     default:
         for (i = 1, e = lobby_handler_table_desc.list + 1; i < lobby_handler_table_desc.count; i++, e++) {
             if (e->active == 0) {
-                NetMemcpy(&e->get_interface_id, fns, 11 * sizeof(Fn_8040881C));
+                NetMemcpy(&e->get_interface_id, fns, 11 * sizeof(NetLinkDriverFn));
                 e->flags = kind;
                 e->active = 1;
                 return i;

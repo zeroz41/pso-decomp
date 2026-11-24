@@ -28,23 +28,23 @@ s32 TLobby__sub_803FD404(s16 ch, u8 *addr);
 s32 TLobby__sub_803FD60C(s16 ch, u8 *dst);
 
 s16 TLobby__sub_803FD10C(void) {
-    Fn_8040881C fns[11];
+    NetLinkDriverFn fns[11];
     s16 r;
     s16 i;
     s16 *p;
 
     init_buffer_desc_b(&lobby_net_buffer_desc_b);
-    fns[0] = (Fn_8040881C)TLobby__sub_803FD60C;
-    fns[1] = (Fn_8040881C)TLobby__sub_803FD5A4;
-    fns[2] = (Fn_8040881C)clear_socket_slot;
-    fns[3] = (Fn_8040881C)get_checked_status_value;
-    fns[4] = (Fn_8040881C)TLobby__sub_803FD4FC;
-    fns[5] = (Fn_8040881C)TLobby__sub_803FD4D8;
-    fns[6] = (Fn_8040881C)TLobby__sub_803FD4B4;
-    fns[7] = (Fn_8040881C)TLobby__sub_803FD490;
-    fns[8] = (Fn_8040881C)TLobby__sub_803FD404;
-    fns[9] = (Fn_8040881C)TLobby__sub_803FD310;
-    fns[10] = (Fn_8040881C)TLobby__sub_803FD21C;
+    fns[0] = (NetLinkDriverFn)TLobby__sub_803FD60C;
+    fns[1] = (NetLinkDriverFn)TLobby__sub_803FD5A4;
+    fns[2] = (NetLinkDriverFn)clear_socket_slot;
+    fns[3] = (NetLinkDriverFn)get_checked_status_value;
+    fns[4] = (NetLinkDriverFn)TLobby__sub_803FD4FC;
+    fns[5] = (NetLinkDriverFn)TLobby__sub_803FD4D8;
+    fns[6] = (NetLinkDriverFn)TLobby__sub_803FD4B4;
+    fns[7] = (NetLinkDriverFn)TLobby__sub_803FD490;
+    fns[8] = (NetLinkDriverFn)TLobby__sub_803FD404;
+    fns[9] = (NetLinkDriverFn)TLobby__sub_803FD310;
+    fns[10] = (NetLinkDriverFn)TLobby__sub_803FD21C;
     r = TLobby__sub_80409A3C(fns, 2);
     if (r < 0) {
         return r;

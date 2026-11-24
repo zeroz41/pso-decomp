@@ -58,7 +58,7 @@ s32 TLobby__sub_8040878C(void) {
 }
 
 s16 init_net_sockets(void) {
-    Fn_8040881C fns[11];
+    NetLinkDriverFn fns[11];
     s16 r;
     s16 first;
     s16 cnt;
@@ -72,17 +72,17 @@ s16 init_net_sockets(void) {
     NetMemset(*pe, 0, ethernet_state.nlinks * sizeof(EthLink));
     NetMemset(ethernet_state.sockets, 0, ethernet_state.nsockets * sizeof(EthSocket));
     NetMemset(ethernet_state.slots, 0, ethernet_state.nslots * sizeof(EthFrameSlot));
-    fns[0] = (Fn_8040881C)TLobby__sub_8040970C;
-    fns[1] = (Fn_8040881C)TLobby__sub_804094B8;
-    fns[2] = (Fn_8040881C)TLobby__sub_804093EC;
-    fns[3] = (Fn_8040881C)TLobby__sub_8040939C;
-    fns[4] = (Fn_8040881C)TLobby__sub_804092FC;
-    fns[5] = (Fn_8040881C)TLobby__sub_8040920C;
-    fns[6] = (Fn_8040881C)TLobby__sub_80409130;
-    fns[7] = (Fn_8040881C)TLobby__sub_80408FD8;
-    fns[8] = (Fn_8040881C)TLobby__sub_80408F2C;
-    fns[9] = (Fn_8040881C)forward_socket_op_by_handle;
-    fns[10] = (Fn_8040881C)send_ethernet_frame;
+    fns[0] = (NetLinkDriverFn)TLobby__sub_8040970C;
+    fns[1] = (NetLinkDriverFn)TLobby__sub_804094B8;
+    fns[2] = (NetLinkDriverFn)TLobby__sub_804093EC;
+    fns[3] = (NetLinkDriverFn)TLobby__sub_8040939C;
+    fns[4] = (NetLinkDriverFn)TLobby__sub_804092FC;
+    fns[5] = (NetLinkDriverFn)TLobby__sub_8040920C;
+    fns[6] = (NetLinkDriverFn)TLobby__sub_80409130;
+    fns[7] = (NetLinkDriverFn)TLobby__sub_80408FD8;
+    fns[8] = (NetLinkDriverFn)TLobby__sub_80408F2C;
+    fns[9] = (NetLinkDriverFn)forward_socket_op_by_handle;
+    fns[10] = (NetLinkDriverFn)send_ethernet_frame;
     first = -1;
     cnt = ethernet_state.ndrivers;
     d = ethernet_state.drivers;

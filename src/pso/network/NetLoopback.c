@@ -27,7 +27,7 @@ void init_loopback(void) {
 
 s16 register_loopback_handlers(void)
 {
-    Fn_8040881C tbl[11];
+    NetLinkDriverFn tbl[11];
     u8* base;
     LoopbackState* p;
     s16 r;
@@ -36,17 +36,17 @@ s16 register_loopback_handlers(void)
 
     base = (u8*)&network_loopback_state;
     p = (LoopbackState*)base;
-    tbl[0] = (Fn_8040881C)fill_reply_buffer;
-    tbl[1] = (Fn_8040881C)alloc_conn_slot;
-    tbl[2] = (Fn_8040881C)clear_conn_slot;
-    tbl[3] = (Fn_8040881C)get_slot_offset_or_default;
-    tbl[4] = (Fn_8040881C)TLobby__sub_80415508;
-    tbl[5] = (Fn_8040881C)TLobby__sub_804154E4;
-    tbl[6] = (Fn_8040881C)TLobby__sub_804154C0;
-    tbl[7] = (Fn_8040881C)TLobby__sub_8041549C;
-    tbl[8] = (Fn_8040881C)release_loopback_slot;
-    tbl[9] = (Fn_8040881C)forward_loopback_packet;
-    tbl[10] = (Fn_8040881C)send_loopback_frame;
+    tbl[0] = (NetLinkDriverFn)fill_reply_buffer;
+    tbl[1] = (NetLinkDriverFn)alloc_conn_slot;
+    tbl[2] = (NetLinkDriverFn)clear_conn_slot;
+    tbl[3] = (NetLinkDriverFn)get_slot_offset_or_default;
+    tbl[4] = (NetLinkDriverFn)TLobby__sub_80415508;
+    tbl[5] = (NetLinkDriverFn)TLobby__sub_804154E4;
+    tbl[6] = (NetLinkDriverFn)TLobby__sub_804154C0;
+    tbl[7] = (NetLinkDriverFn)TLobby__sub_8041549C;
+    tbl[8] = (NetLinkDriverFn)release_loopback_slot;
+    tbl[9] = (NetLinkDriverFn)forward_loopback_packet;
+    tbl[10] = (NetLinkDriverFn)send_loopback_frame;
 
     r = TLobby__sub_80409A3C(tbl, 1);
     if (r < 0) {

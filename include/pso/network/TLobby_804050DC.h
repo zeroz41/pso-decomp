@@ -19,7 +19,7 @@ typedef struct Ipv4ProtocolState Ipv4ProtocolState;
 typedef struct N_80405298 N_80405298;
 typedef struct In_8040D95C In_8040D95C;
 typedef struct Out_8040D95C Out_8040D95C;
-typedef void (*Fn_8040881C)(void); /* a link-layer driver entry (NetHandlerTable.c) */
+typedef void (*NetLinkDriverFn)(void); /* one of the 11 entries of a link-layer driver (NetHandlerTable.c) */
 /* A raw IPv4 socket: ipv4_input hands it every packet of its protocol. */
 struct Ipv4RawSocket {
     u8 tag[3];                  /* 0x00: "IP4" */
@@ -83,7 +83,7 @@ s16 ipv4_iface_for_address(u32 ip);
 s32 TLobby__sub_8040DD68(void);
 s32 shutdown_ipv4_routing(void);
 s32 NetIPv6Shutdown(void);
-s16 TLobby__sub_80409A3C(Fn_8040881C *fns, s16 kind);
+s16 TLobby__sub_80409A3C(NetLinkDriverFn *fns, s16 kind);
 void lobby_timer_stop(void *arg0);
 s16 AT_IP_GetMssFromDstSrc(u8 *remote, u8 *local);
 void netbuf_copy_by_ref(NetBufferRef *a, void *b, s32 v);
