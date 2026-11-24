@@ -1,6 +1,0 @@
-#ifndef PSO_ITEM_DROP_TITEMDROPSUB_80107BF0_H
-#define PSO_ITEM_DROP_TITEMDROPSUB_80107BF0_H
-
-#include "types.h"
-
-#endif

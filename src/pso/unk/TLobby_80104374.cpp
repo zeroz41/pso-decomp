@@ -145,7 +145,7 @@
 #include "pso/effect/item/TItemEffectWeapon.h"
 #include "pso/unk/TLobby_80103F5C.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/item/drop/TItemDropSub_80107B74.h"
+#include "pso/item/drop/TItemDropSub.h"
 #include "pso/ui/window/TWindowSubComCard_80077788.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/player/TPlyPhotonChair.h"
@@ -159,7 +159,6 @@ s32 get_item_icon_index();
 void TLobby__sub_80104464(void);
 int fn_80077788(void);
 int fn_80077790(void);
-s32 TItemDropSub__sub_80107B74();
 }
 
 // This unit's .sbss, in address order.
@@ -423,7 +422,7 @@ void normalize_drop_area(s32 *p) {
         switch (*p) {
         case 0x10:
         case 0x11:
-            *p = TItemDropSub__sub_80107B74();
+            *p = TItemDropSub::get_box_drop_area();
             return;
         }
     }
