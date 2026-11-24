@@ -223,7 +223,7 @@ void TOVS2Wall01::break_wall() {
     } while (index <= 0xF);
     spawn_particle_effect(&position, 0x45);
     spawn_particle_effect(&position, 0x46);
-    play_sound_effect(0x4004BC05, (void *)&position, 0, 0);
+    play_sound_effect(0x4004BC05, &position, 0, 0);
 }
 
 f32 TOVS2Wall01::take_hit(TObjBase *attacker) {

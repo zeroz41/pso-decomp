@@ -44,4 +44,3 @@ void TLobby::set_info_board_text() {
     info_board_state_flags |= 1;
 }
 void TLobby::reset_info_board() { (*(int *)&info_board_state_flags) = 0; (*(int *)&information_board_response_buffer) = 0; }
-

@@ -16,7 +16,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixOps.h"
 
- extern const char TObjRain__class_name_string[9] = "TObjRain"; 
+ extern const char TObjRain__class_name_string[9] = "TObjRain";
 NJS_POINT3 TObjRain__streak_points[2] = {
     {0.0f, 0.0f, 0.0f},
     {0.0f, 9.0f, 0.0f},

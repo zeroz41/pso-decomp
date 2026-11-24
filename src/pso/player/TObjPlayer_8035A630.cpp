@@ -47,4 +47,3 @@ void TObjPlayer::draw_node_tree(void *arg1) {
         var_r30 = *(void **)((s8 *)var_r30 + 0x30);
     } while (var_r30 != NULL);
 }
-

@@ -144,7 +144,7 @@ void TBoss6Demo15_TYPE2_WAIT::run_task() {
             emitter->set_position(&position);
         }
         check_any_player_near();
-        play_persistent_sound(0x4003A126, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4003A126, this, &position, 0, 0);
         if (plot->get_scene_state() != 4) {
             queue_destruction();
         }

@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/npc/NpcModelRegistry.h"
@@ -439,7 +440,7 @@ void TObjEneBm9Mericarol::init_size_tier_and_offsets() {
 s32 TObjEneBm9Mericarol::get_phase() { return phase; }
 
 void TObjEneBm9Mericarol::play_move_sound() {
-    play_persistent_sound((s32)(remap_sound_for_area(0x3A810)), (saddr)this, (uaddr)&position, (s32)(0), (s32)(0));
+    play_persistent_sound((s32)(remap_sound_for_area(0x3A810)), this, &position, (s32)(0), (s32)(0));
 }
 
 void TObjEneBm9Mericarol::state_hidden(s32 reason) {
@@ -1320,7 +1321,7 @@ void TObjEneBm9Mericarol::play_step_effect() {
         if (surface_mask != 0) {
             play_ground_step_sound(this, &position);
         } else {
-            play_persistent_sound(remap_sound_for_area(0x3B211), (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(remap_sound_for_area(0x3B211), this, &position, 0, 0);
         }
         if (is_passing_frame(5.0f) != 0 || is_passing_frame(15.0f) != 0 ||
             is_passing_frame(25.0f) != 0) {

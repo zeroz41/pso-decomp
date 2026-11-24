@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/GinjaMaterial.h"

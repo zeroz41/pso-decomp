@@ -25,4 +25,3 @@ void TChCrEffTag::draw_chcr_tag_frame() {
     position.x = arg0->f20;
     TChCrEffWall::draw_default_sprite(0x35, &position, -3.0625f);
 }
-

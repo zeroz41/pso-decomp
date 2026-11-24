@@ -110,20 +110,20 @@ void TBoss3Volopt__sub_800D8D88(saddr position) {
     case AREA_JUNGLE_EAST:
     case AREA_MOUNTAIN:
     case AREA_SEASIDE:
-        play_sound_effect(0x3AB3C, (void *)position, 0, 0);
+        play_sound_effect(0x3AB3C, reinterpret_cast<const Vec *>(position), 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4003AB31, (void *)position, 0, 0);
+        play_sound_effect(0x4003AB31, reinterpret_cast<const Vec *>(position), 0, 0);
         break;
     case AREA_SEASIDE_NIGHT:
-        play_sound_effect(0x4003B22A, (void *)position, 0, 0);
+        play_sound_effect(0x4003B22A, reinterpret_cast<const Vec *>(position), 0, 0);
         break;
     case AREA_TOWER:
-        play_sound_effect(0x4003A359, (void *)position, 0, 0);
+        play_sound_effect(0x4003A359, reinterpret_cast<const Vec *>(position), 0, 0);
         break;
     default:
-        play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB20), (void *)position, 0, 0);
+        play_sound_effect(TBoss3Volopt::remap_area_sound_id(0x4003AB20), reinterpret_cast<const Vec *>(position), 0, 0);
         break;
     }
     spawn_particles_at__12TBoss3VoloptFi(position);

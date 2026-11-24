@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "types.h"
 #include "pso/render/render_util.h"
 #include <stdlib.h>
@@ -120,7 +121,7 @@ void TOMonumentAncient02::run_task() {
         }
         break;
     case 2:
-        play_persistent_sound(sound_id, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(sound_id, this, &position, 0, 0);
         break;
     }
 }

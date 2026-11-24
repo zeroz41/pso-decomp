@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/unk/TLobby_80299C4C.h"
@@ -220,7 +221,6 @@ void TObjChallenge4PRetry::countdown_and_destroy() {
 }
 
 void TKeyBoardControl__sub_8000F950(void);
-s32 play_sound_effect(s32, s32, s32, s32);
 s32 TLobby__sub_80291F9C();
 }
 

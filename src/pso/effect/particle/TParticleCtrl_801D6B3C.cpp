@@ -21,4 +21,3 @@ void TParticleCtrl::destroy_particle() {
         ((TObject *)(*(void * *)&this->m_flags))->queue_destruction();
     }
 }
-

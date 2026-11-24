@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
@@ -557,12 +558,12 @@ void TObjEneEpsilonGuard::update_guard_state() {
             update_effect_attack();
         }
         if (flags & 0x20) {
-            play_persistent_sound(0x4003A846, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4003A846, this, &position, 0, 0);
             return;
         }
         state = mode;
         if ((state != 4) && (state != 5)) {
-            play_persistent_sound(0x4003AD43, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4003AD43, this, &position, 0, 0);
         }
     }
 }

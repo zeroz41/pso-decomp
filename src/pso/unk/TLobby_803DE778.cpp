@@ -25,4 +25,3 @@ void move_words(void *dst, const void *src, s32 count) {
     memmove(dst, src, count * sizeof(u32));
 }
 #pragma pop
-

@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/NinjaTypes.h"
 #include "pso/weapon/TItemWeapon.h"
@@ -180,7 +181,7 @@ void TItemEffPGModel::run_task() {
             color.a = opacity - 0.06666667f;
         }
     }
-    play_persistent_sound(0x4001A343, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(0x4001A343, this, &position, 0, 0);
 }
 
 void TItemEffPGModel::render() {

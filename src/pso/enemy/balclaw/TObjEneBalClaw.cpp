@@ -219,4 +219,3 @@ s32 TObjEneBalClaw::is_target_in_attack_range() {
 void TObjEneBalClaw::clear_attack_flag() {
     behavior_flags &= ~0x10000;
 }
-

@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -9,7 +10,6 @@
 #include "pso/system/task/TObject.h"
 extern "C" {
 __declspec(section ".data") u32 TObjLight__support_charge_effect_ids[2] = {0x1F4, 0x1F5};
-s32 play_sound_effect(int, void *, int, int);
 void stop_sound_request(s32 idx);
 }
 

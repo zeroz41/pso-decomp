@@ -5040,7 +5040,7 @@ force_active:
   - check_team_balance__6TLobbyFPvi
   - check_timeout__6TLobbyFPv
   - check_trigger__11TOFenceBaseFv
-  - check_trigger_flag__15TOTrapAncient01Fll
+  - check_trigger_flag__15TOTrapAncient01FPC3Vecl
   - check_type_and_enabled__FPC6gc_tagUcUc
   - check_valid_state__6TLobbyFi
   - check_vector_bit__15TObjEneMe1GiGueFP3Vec

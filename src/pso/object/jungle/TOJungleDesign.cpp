@@ -105,4 +105,3 @@ void TOJungleDesign::load_shared_resource() {
     BmlResource *archive = new BmlResource(1, (BmlResourceDescriptor *)&bm_obj_jungle_tree_resource_descriptor, 0, 0, NULL);
     TOJungleDesign__shared_model_resource = archive;
 }
-

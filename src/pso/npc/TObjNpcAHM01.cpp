@@ -57,7 +57,7 @@ TObjNpcAHM01::TObjNpcAHM01(TObject *parent, void *arg2) : TUnk_804A9F50(parent) 
 
 void TObjNpcAHM01::play_voice() {
     saddr arg0 = (saddr)this;
-    play_sound_effect(0x40004C15, (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x40004C15, reinterpret_cast<const Vec *>(arg0 + 0x38), 0, 0);
 }
 
 s32 TObjNpcBase::is_target_in_attack_range() { return 0; }

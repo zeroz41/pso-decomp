@@ -71,4 +71,3 @@ u16 get_client_split_screen_slot(u16 client) {
 #pragma push
 #pragma scheduling off
 #pragma pop
-

@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/TEffClitical.h"
@@ -276,7 +277,6 @@ struct Task_80232EC0 {
 
 extern "C" {
 void *mem_alloc(u32 size);
-s32 play_sound_effect(s32, void *, s32, s32);
 }
 TUnk_804CC888::TUnk_804CC888(u8 *src, s32 level, TObject *parent) : TObject(parent) {
     u32 i;
@@ -299,29 +299,29 @@ TUnk_804CC888::TUnk_804CC888(u8 *src, s32 level, TObject *parent) : TObject(pare
     }
     switch (((Task_80232EC0 *)this)->tier) {
     case 0:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, ((Task_80232EC0 *)this)->pos, 0, 0);
+        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, reinterpret_cast<const Vec *>(((Task_80232EC0 *)this)->pos), 0, 0);
         if (((Task_80232EC0 *)this)->sound >= 0) {
             set_sound_pitch_request(((Task_80232EC0 *)this)->sound, 0x100, 0);
         }
         break;
     case 1:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, ((Task_80232EC0 *)this)->pos, 0, 0);
+        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, reinterpret_cast<const Vec *>(((Task_80232EC0 *)this)->pos), 0, 0);
         break;
     case 2:
     case 3:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, ((Task_80232EC0 *)this)->pos, 0, 0);
+        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, reinterpret_cast<const Vec *>(((Task_80232EC0 *)this)->pos), 0, 0);
         if (((Task_80232EC0 *)this)->sound >= 0) {
             set_sound_pitch_request(((Task_80232EC0 *)this)->sound, -0x180, 0);
         }
         break;
     case 4:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, ((Task_80232EC0 *)this)->pos, 0, 0);
+        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, reinterpret_cast<const Vec *>(((Task_80232EC0 *)this)->pos), 0, 0);
         if (((Task_80232EC0 *)this)->sound >= 0) {
             set_sound_pitch_request(((Task_80232EC0 *)this)->sound, -0x250, 0);
         }
         break;
     case 5:
-        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, ((Task_80232EC0 *)this)->pos, 0, 0);
+        ((Task_80232EC0 *)this)->sound = play_sound_effect(0x4002A90C, reinterpret_cast<const Vec *>(((Task_80232EC0 *)this)->pos), 0, 0);
         if (((Task_80232EC0 *)this)->sound >= 0) {
             set_sound_pitch_request(((Task_80232EC0 *)this)->sound, -0x100, 0);
         }

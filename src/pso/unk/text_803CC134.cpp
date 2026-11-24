@@ -47,4 +47,3 @@ void TLobby::init_afs_adxf_state() {
     }
     lbl_805D75D0++;
 }
-

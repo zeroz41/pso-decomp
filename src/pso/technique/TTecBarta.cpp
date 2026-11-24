@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -112,37 +113,35 @@ const char *TTecBarta__class_name = "TTecBarta";
 extern "C" {
 s32 get_type__10TObjPlayerFPv(void *);
 List_8022BD74 *find_area_contact__10TTecCircleFl(Tec_8022BD74 *, void *);
-s32 play_sound_effect(s32, s32, s32, s32);
 
 void TTecBarta::update_technique_by_state() {
-    u8 *arg0 = (u8 *)this;
     s32 handle;
 
     switch (this->band) {
     case 0:
-        handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A604, &position, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, 0x100, 0);
         }
         return;
     case 1:
-        play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
+        play_sound_effect(0x4002A604, &position, 0, 0);
         return;
     case 2:
     case 3:
-        handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A604, &position, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x180, 0);
         }
         break;
     case 4:
-        handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A604, &position, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x250, 0);
         }
         break;
     case 5:
-        handle = play_sound_effect(0x4002A604, (saddr)(arg0 + 0x20), 0, 0);
+        handle = play_sound_effect(0x4002A604, &position, 0, 0);
         if (handle >= 0) {
             set_sound_pitch_request(handle, -0x100, 0);
         }

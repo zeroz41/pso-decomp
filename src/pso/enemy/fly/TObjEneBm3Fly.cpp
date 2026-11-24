@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
 #include "types.h"
@@ -429,12 +430,12 @@ u16 TObjEneBm3Fly::get_active_id() {
 }
 
 void TObjEneBm3Fly::play_pitched_cue() {
-    play_persistent_sound(this->remap_sound_for_area(0x40039E22), (saddr)this, (uaddr)&this->position, 0, 0);
+    play_persistent_sound(this->remap_sound_for_area(0x40039E22), this, &this->position, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x400);
 }
 
 void TObjEneBm3Fly::play_orbit_flight_sound() {
-    play_persistent_sound(this->remap_sound_for_area(0x4003AB23), (saddr)this, (uaddr)&this->position, 0, 0);
+    play_persistent_sound(this->remap_sound_for_area(0x4003AB23), this, &this->position, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x400);
 }
 

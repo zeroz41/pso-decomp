@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -574,7 +575,7 @@ void TObjEneSlimeOne::run_task() {
             submit_cursor_candidate(this, -1);
         }
         animation->advance();
-        play_persistent_sound(0x4003B21C, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4003B21C, this, &position, 0, 0);
         update_trail_position();
         clear_child_flag();
         if ((s32)this->state != 13) {

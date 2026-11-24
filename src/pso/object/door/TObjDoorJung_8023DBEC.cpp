@@ -30,4 +30,3 @@ void set_ginja_model_texture_slot(void *model, u32 slot) {
         set_material_texture_slot(mesh->secondary, slot);
     }
 }
-

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/camera/TCameraFollow.h"
+#include "pso/system/PersistentSound.h"
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer_80011014.h"
@@ -68,7 +69,6 @@ struct VoloptShutterNode {
 };
 
 extern "C" {
-s32 play_persistent_sound(u32 id, TObject *source, f32 *pos, s32, s32);
 s32 is_local_client_floor_leader();
 u16 TObjRoomId__sub_801A1DB8(u16 id);
 void TObjPlayer__sub_801BA42C(void);

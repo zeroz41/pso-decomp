@@ -1,3 +1,6 @@
+#include "pso/ui/window/TWindowCtrlMain_8024674C.h"
+#include "pso/system/memory.h"
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/TObjChara.h"
 #include "pso/unk/text_803D96A8.h"
@@ -133,7 +136,6 @@ struct Fuki_802523CC { u8 pad0[0x40]; f32 x; };
 struct Slice_802523CC { f32 x; u8 pad4[8]; f32 width; u8 pad10[4]; f32 lean; u8 pad18[8]; f32 u; u8 pad24[4]; f32 uw; };
 struct Ctx_802523CC { u8 pad0[0x20]; f32 pivot; u8 pad24[4]; f32 scale; };
 Ent_802511E4 * find_entity_by_id(u16);
-s32 play_sound_effect(int, int, int, int);
 void TWindowSubSymbolChat__sub_802483F0(int a0, void *a1);
 s32 draw_resolved_window__15TWindowFukidasiFllll(Fuki_80250F70 *, f32 *, f32 *, s32);
 }

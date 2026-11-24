@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -158,9 +159,9 @@ void TLoadingCur::run_task() {
     update_camera_facing_offset();
     if (0.0f != x || 0.0f != y) {
         if (is_split_screen() != 0) {
-            play_persistent_sound(0x53C10, reinterpret_cast<saddr>(this), reinterpret_cast<uaddr>(&pos), 0, 1);
+            play_persistent_sound(0x53C10, this, &pos, 0, 1);
         } else {
-            play_persistent_sound(0x53C10, reinterpret_cast<saddr>(this), reinterpret_cast<uaddr>(&pos), 0, 0);
+            play_persistent_sound(0x53C10, this, &pos, 0, 0);
         }
     }
 }

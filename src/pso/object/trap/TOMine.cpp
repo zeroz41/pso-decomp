@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 struct game_command_header;
@@ -171,7 +172,6 @@ struct VObj_18_1da615 : VBase_18_1da615 {
     virtual s32 m23(void *, f32);
 };
 extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
 void TOMineTrap__sub_80170CD4(void* p);
 f32 atan2_float(f32 y, f32 x);
 f32 vec3_add_to(void *, void *);
@@ -587,7 +587,7 @@ void TOMine::vfunc_80() {
     s32 area = get_current_floor_area();
     s32 elem = mine_trap_keymachine_table[area];
     if (elem != -1) {
-        play_sound_effect(elem, arg0 + 0x38, 0, 0);
+        play_sound_effect(elem, reinterpret_cast<const Vec *>(arg0 + 0x38), 0, 0);
     }
 }
 // Slot 81: plays the floor area's mine_trap_effect_table sound (was named spawn_effect on TOMineTrap).
@@ -596,7 +596,7 @@ void TOMine::vfunc_81() {
     s32 area = get_current_floor_area();
     s32 elem = mine_trap_effect_table[area];
     if (elem != -1) {
-        play_sound_effect(elem, arg0 + 0x38, 0, 0);
+        play_sound_effect(elem, reinterpret_cast<const Vec *>(arg0 + 0x38), 0, 0);
     }
 }
 void TOMine::update_state() {

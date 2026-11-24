@@ -882,12 +882,8 @@ struct TLobby : public TObject {
     static s32 pop_sound_groups(void *p, s32 arg1);
     s32 validate_and_set_selection(s32 arg1);
     static u16 update_crc16_ccitt(u16 crc, u8 c);
-    void set_field0(void *owner);
-    void clamp_field9c(f32 scale);
     void update_random_flip_flag();
-    void clamp_params();
     s32 init_sound_voice(s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-    s32 get_field_308();
     static void send_find_user_self_tag(s32 gc_num);
     static void find_and_load_com_card(u32 arg0);
     static void*get_com_card_entry(int a0);
@@ -1077,7 +1073,6 @@ struct TLobby : public TObject {
     static void set_slot_position(int, int);
     static void set_validated_field_0x1(void *, u8);
     static void show_seq_phase_message(int);
-    static void update(void *);
     static void update();
     static void update_and_reset(u8 *quest);
     static void update_block_jump_list();

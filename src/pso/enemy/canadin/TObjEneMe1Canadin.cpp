@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/AngleUnits.h"
 #include "pso/system/EnemyBmlResource.h"
@@ -1592,7 +1593,7 @@ void TObjEneMe1Canadin::state_self_destruct(s32 msg) {
         } else {
             this->alt_model_color = 0xFF000000;
         }
-        play_persistent_sound(0x4003B71D, (saddr)this, (uaddr)&this->body_center, 0, 0);
+        play_persistent_sound(0x4003B71D, this, &this->body_center, 0, 0);
         this->check_collisions();
         break;
     }

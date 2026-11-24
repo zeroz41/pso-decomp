@@ -22,4 +22,3 @@ void PlayerNpcControl::reset() {
 }
 
 s32 TObjPlayer::get_entrance_id() { return *(s32*)((char*)this + 0x3c8); }
-

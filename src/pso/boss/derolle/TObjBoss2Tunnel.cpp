@@ -34,7 +34,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/render_util.h"
 #include "pso/system/ControllerInputState.h"
-#include "pso/boss/derolle/TObjBoss2Tunnel_8007EA74.h"
+#include "pso/network/protocol/GameplaySoundPacket.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.h"
 #include "pso/map/FloorArea.h"
 #include "pso/map/CsnQuery.h"
@@ -222,14 +222,6 @@ struct SnapshotFrameBuffer {
     ScreenSnapshot snapshot;
     u8 pad_1818C[0x14];
     u8 save_image[0x1E000];
-};
-// 6xB2: play a sound at a player (bswap_6xB2_play_sound swaps it).
-struct G_PlaySound_6xB2 {
-    G_ClientIDHeader header;
-    u8 floor;
-    u8 unused;
-    u16 client_id;
-    u32 sound_id;
 };
 extern "C" {
 extern s32 lbl_805D49B4;

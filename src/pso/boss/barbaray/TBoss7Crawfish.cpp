@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -114,7 +115,7 @@ void TBoss7Crawfish::register_attack_hits() {
 }
 
 void TBoss7Crawfish::play_persistent_sound_at_position(s32 sound_id) {
-    play_persistent_sound(sound_id, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(sound_id, this, &position, 0, 0);
 }
 
 void TBoss7Crawfish::spawn_effect(s32 sound_id) {

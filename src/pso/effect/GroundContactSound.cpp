@@ -1,6 +1,6 @@
 #include "pso/effect/GroundContactSound.h"
+#include "pso/system/PersistentSound.h"
 #include "pso/map/FloorArea.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/SoundEffect.h"
 #include "types.h"
@@ -12,14 +12,14 @@ void play_ground_step_sound(TObject *owner, Vec *pos) {
     case AREA_JUNGLE_EAST:
     case AREA_MOUNTAIN:
     case AREA_SEASIDE:
-        play_persistent_sound(0x3A842, (saddr)owner, (uaddr)pos, 0, 0);
+        play_persistent_sound(0x3A842, owner, pos, 0, 0);
         break;
     case AREA_SEASIDE_NIGHT:
-        play_persistent_sound(0x4003B22D, (saddr)owner, (uaddr)pos, 0, 0);
+        play_persistent_sound(0x4003B22D, owner, pos, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_persistent_sound(0x4003A835, (saddr)owner, (uaddr)pos, 0, 0);
+        play_persistent_sound(0x4003A835, owner, pos, 0, 0);
         break;
     }
 }
