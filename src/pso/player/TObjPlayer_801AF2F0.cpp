@@ -686,7 +686,7 @@ void send_6x2F_change_player_hp(s32 id, s32 client, s32 hp);
 void dispatch_status_effect_msg__10TObjPlayerFUiPv(uaddr player, Pair_801B2AE8 *msg);
 void send_code_13_3__10TObjPlayerFii(saddr player, saddr effect);
 void *clear_negative_status_effects__10TObjPlayerFi(void *dst, void *src);
-s32 calc_scaled_value__10TObjPlayerFii(s32 player, s32 value);
+s32 calc_scaled_value__10TObjPlayerFii(TObjPlayer *player, s32 value);
 s32 build_player_class_stat_template(saddr player, saddr out);
 void prepare_guild_return__10TObjPlayerFPv(void *player);
 void handle_6x34(void);
@@ -1459,7 +1459,7 @@ void TObjPlayer::draw_head_attachments() {
         }
         TCharaMaking::enable_making();
         f32 alpha = this->render_material_state.get_alpha();
-        TCharaMaking__draw_colored_hair(alpha, (s32)this->hair_model,
+        TCharaMaking__draw_colored_hair(alpha, (saddr)this->hair_model,
             (CharacterAppearanceFields *)this->name, special_color);
         TCharaMaking::clear_flag_bit0();
         set_default_alpha_blend();
@@ -1802,11 +1802,11 @@ void TObjPlayer::equip_item_to_slot(TItem *item, s32 slot) {
     }
     TItem *current = (TItem *)get_slot_value(equipped_items, slot);
     if (current == NULL) {
-        set_equip_slot_entry((s32)equipped_items, slot, (s32)item);
+        set_equip_slot_entry((saddr)equipped_items, slot, (saddr)item);
         item->equip();
     } else if (current != item) {
         unequip_item(current);
-        set_equip_slot_entry((s32)equipped_items, slot, (s32)item);
+        set_equip_slot_entry((saddr)equipped_items, slot, (saddr)item);
         item->equip();
     }
     if (test_action_mask(2) != 0) {
@@ -1851,7 +1851,7 @@ void handle_6x26_unequip_item(G_UnequipItem_6x26 *command) {
 
 
 void TObjPlayer::unequip_item(TItem *item) {
-    set_equip_slot_entry((s32)equipped_items, item->get_attach_slot(), 0);
+    set_equip_slot_entry((saddr)equipped_items, item->get_attach_slot(), 0);
     item->unequip();
     if (item->get_item_type() == 1 && item->get_item_group() == 1) {
         unequip_all_units();
@@ -4730,8 +4730,8 @@ void TObjPlayer::apply_speed_scale(int actor, f32 farg0) {
     ((TObjMotion *)actor)->set_override_speed(scale);
 }
 
-s32 calc_scaled_value__10TObjPlayerFii(s32 player, s32 value) {
-    if (((TObjPlayer *)player)->is_flag30_10_set() != 0) {
+s32 calc_scaled_value__10TObjPlayerFii(TObjPlayer *player, s32 value) {
+    if (player->is_flag30_10_set() != 0) {
         return (s32) (player_angle_per_degree * (player_degrees_per_turn * (player_rand_unit * (f32) rand())));
     }
     return value;
