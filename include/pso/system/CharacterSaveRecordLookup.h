@@ -38,7 +38,11 @@ struct CharacterSaveRecord {
     u8 guild_card[0x229C - 0x1510];
     // The character's name as stored, obfuscated; read it with decode_obfuscated_string.
     char name[12];
-    u8 pad_22A8[0x2370 - 0x22A8];
+    u8 pad_22A8[0x2354 - 0x22A8];
+    // Split-screen battles finished in each place (first to fourth), and battles left early.
+    u16 battle_place_counts[4];
+    u16 battle_disconnect_count;
+    u8 pad_235E[0x2370 - 0x235E];
 };
 
 // In split screen the record of player `client` (0xFFFF: the first player), otherwise the active

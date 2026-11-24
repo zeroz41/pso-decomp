@@ -111,7 +111,7 @@ const char *TPlayerBattleCtrl4P__message_table_language0[7] = {
     "\x91\xBC\x82\xCC\x90\x6C\x82\xC6\x82\xCC\x89\xF1\x90\xFC\x82\xAA\n\x82\xAB\x82\xEA\x82\xDC\x82\xB5\x82\xBD\n\n\x83\x72\x83\x57\x83\x85\x83\x41\x83\x8B\x83\x8D\x83\x72\x81\x5B\x82\xD6\n\x93\x5D\x91\x97\x82\xB5\x82\xDC\x82\xB7\x81\x42\nPress start button.", // 他の人との回線が きれました  ビジュアルロビーへ 転送します。 Press start button.
     "\x8D\xA1\x89\xF1\x82\xCD\x83\x60\x81\x5B\x83\x80\x90\xED\x82\xC5\x82\xB7\x81\x42\n\x82\x60\x83\x60\x81\x5B\x83\x80\n  %s\n  %s\n\x82\x61\x83\x60\x81\x5B\x83\x80\n  %s\n  %s\n", // 今回はチーム戦です。 Ａチーム   %s   %s Ｂチーム   %s   %s
 };
-const char *lbl_804E7D4C[7] = {
+const char *TPlayerBattleCtrl4P__message_table_language1[7] = {
     "Do you want to \nfight the same\nrules?",
     "Yes",
     "No",
@@ -143,7 +143,7 @@ TPlayerBattleCtrl4P::TPlayerBattleCtrl4P(TObject *parent) : TObject(parent) {
     this->intro_window = 0;
     this->menu_window = 0;
     clear_player_windows();
-    p = lbl_804E7D4C;
+    p = TPlayerBattleCtrl4P__message_table_language1;
     if (current_language == LANGUAGE_JAPANESE) {
         p = TPlayerBattleCtrl4P__message_table_language0;
     }
@@ -639,7 +639,7 @@ void TPlayerBattleCtrl4P::update() {
     do {
         player = (uaddr)get_player_by_client_id(j);
         if (player != 0U) {
-            clear_trap_counts((s8 *)(player + 0x7C4));
+            clear_trap_counts(((TObjPlayer *)player)->trap_counts);
         }
         j += 1;
     } while (j < 4);
@@ -946,7 +946,7 @@ s32 TPlayerBattleCtrl4P::is_battle_decided() {
             ok = 1;
             if (player_active[i] == 0) {
                 ok = 0;
-            } else if (*(s32 *)((s8 *)p + 0x30) & 0x800) {
+            } else if (((TObjPlayer *)p)->actorFlags & 0x800) {
                 if (TLobby__sub_801D7100(lobby_rule_settings) == 1) {
                     ok = 0;
                 } else if (TLobby__sub_801D7100(lobby_rule_settings) == 2 && ((TPlayerBattleCtrl4P *)(p + 0x754))->get_state() == 0) {
@@ -1037,65 +1037,65 @@ s32 TPlayerBattleCtrl4P::set_state() {
 }
 
 void TPlayerBattleCtrl4P::record_results() {
-    void *obj;
-    s8 *base;
-    s32 outer;
+    CharacterSaveRecord *record;
+    BattleRanking *rankings;
+    s32 i;
     s32 off;
-    s8 *entry;
-    outer = 0;
-    base = (s8 *)&split_screen_battle_rankings;
+    BattleRanking *entry;
+    i = 0;
+    rankings = split_screen_battle_rankings;
     off = 0;
     do {
-        entry = base + off;
-        if (get_player_by_client_id(*(u16 *)((s8 *)entry + 0)) != NULL) {
-            obj = (void *)get_character_save_record(*(u16 *)((s8 *)entry + 0));
-            if (obj != NULL) {
-                s16 field2 = *(s16 *)((s8 *)entry + 2);
+        entry = (BattleRanking *)((u8 *)rankings + off);
+        if (get_player_by_client_id(entry->client_id) != NULL) {
+            record = (CharacterSaveRecord *)get_character_save_record(entry->client_id);
+            if (record != NULL) {
+                s16 place = entry->place;
                 if (are_split_screen_battle_players_tied() == 0) {
-                    switch (field2) {
+                    switch (place) {
                     case 0:
                         {
-                            s32 inc = (s32)(u16)*(u16 *)((s8 *)obj + 0x2354) + 1;
+                            s32 count = record->battle_place_counts[0] + 1;
                             s32 lim = 0xFFFF;
-                            if (inc < lim) lim = inc;
-                            *(u16 *)((s8 *)obj + 0x2354) = lim;
+                            if (count < lim) lim = count;
+                            record->battle_place_counts[0] = lim;
                         }
                         break;
                     case 1:
                         {
-                            s32 inc = (s32)(u16)*(u16 *)((s8 *)obj + 0x2356) + 1;
+                            s32 count = record->battle_place_counts[1] + 1;
                             s32 lim = 0xFFFF;
-                            if (inc < lim) lim = inc;
-                            *(u16 *)((s8 *)obj + 0x2356) = lim;
+                            if (count < lim) lim = count;
+                            record->battle_place_counts[1] = lim;
                         }
                         break;
                     case 2:
                         {
-                            s32 inc = (s32)(u16)*(u16 *)((s8 *)obj + 0x2358) + 1;
+                            s32 count = record->battle_place_counts[2] + 1;
                             s32 lim = 0xFFFF;
-                            if (inc < lim) lim = inc;
-                            *(u16 *)((s8 *)obj + 0x2358) = lim;
+                            if (count < lim) lim = count;
+                            record->battle_place_counts[2] = lim;
                         }
                         break;
                     case 3:
                         {
-                            s32 inc = (s32)(u16)*(u16 *)((s8 *)obj + 0x235A) + 1;
+                            s32 count = record->battle_place_counts[3] + 1;
                             s32 lim = 0xFFFF;
-                            if (inc < lim) lim = inc;
-                            *(u16 *)((s8 *)obj + 0x235A) = lim;
+                            if (count < lim) lim = count;
+                            record->battle_place_counts[3] = lim;
                         }
                         break;
                     }
                 }
                 {
-                    s32 v = *(u16 *)((s8 *)obj + 0x235C) - 1;
-                    *(u16 *)((s8 *)obj + 0x235C) = (u16) (v & ((s32) (-v & ~v) >> 0x1F));
+                    s32 count = record->battle_disconnect_count - 1;
+                    record->battle_disconnect_count = count > 0 ? count : 0;
                 }
             }
         }
-        outer += 1;
-        off += 8;
-    } while (outer < 4);
+        i++;
+        off += sizeof(BattleRanking);
+    } while (i < 4);
     TAdSinglePlyChrSelectGC__sub_801FCE6C();
 }
 
