@@ -62,10 +62,6 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/CapturedTargetList.h"
-#include "pso/ui/charcreate/PaletteCursorAction.h"
-#include "pso/system/CharacterSaveRecordLookup.h"
-#include "pso/network/protocol/subcommand_validation.h"
-#include "pso/math/ScratchVectors.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/system/SoundEffect.h"
 
@@ -920,7 +916,10 @@ s32 test_flags_any(void *, int);
 s32 TObjPlayer__sub_80082300(void *);
 s32 copy_attack_targets(void *, void *);
 s32 publish_actor_light_scalars(u32, f32, f32);
+s32 canSetMenuCursorAction(void *, void *, s32, u8);
 void TMainCursor__sub_8013DFC4(u8 *arg0);
+u8 get_cursor_palette_mode(void *);
+s32 approach_angle_adaptive(s32, s32);
 s32 lerp_angle_half__Fll(s32, s32);
 void *resolve_hittable_target(u16 actorId, s16 collider);
 s32 get_type__10TObjPlayerFPv(void *);
@@ -1056,6 +1055,7 @@ u8 get_cast_technique_level(void *techs, s16 tech);
 s32 set_technique_level_entry(void *, s32, u8);
 int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
+u8 * get_character_save_record(u16);
 }
 int is_android_player(void* p);
 void reset_player_appearance_opacity(void *a0);
@@ -1073,10 +1073,13 @@ s32 is_palettex_activated(u16);
 s32 dispatch_weapon_special_effect(void *, int, int, int);
 s32 fn_8036B798(void *);
 s32 fn_8036B7C0(void *);
+s32 validate_6x55_intra_map_warp(G_ClientIDHeader *);
+f32 cos_table_lookup(s32);
 
 extern const char *TOMineTrap__data_805D3080;
 const f64 lbl_80447128 = 0.1;
 const f64 lbl_80447148 = 10430.38043493439;
+extern f32 scratch_vec[];
 extern f32 player_feedback_light_color[];
 extern void *player_slot_table[];
 extern const char *lbl_805D3530;
@@ -2439,6 +2442,15 @@ void handle_6x89_set_killer_entity_id(void *command) {
     }
 }
 }
+s32 validate_6x45_attack(G_ClientIDHeader *packet);
+s32 validate_6x44_attack(G_ClientIDHeader *packet);
+s32 validate_6x43_attack(G_ClientIDHeader *packet);
+s32 validate_6x42_move_to_position(G_ClientIDHeader *packet);
+s32 validate_6x40_walk_to_position(G_ClientIDHeader *packet);
+s32 validate_6x3F_set_position(G_ClientIDHeader *packet);
+s32 validate_6x3E_stop_at_position(G_ClientIDHeader *packet);
+s32 validate_6x37_photon_blast(G_ClientIDHeader *packet);
+s32 validate_6x33_revive_player(G_ClientIDHeader *packet);
 void init_subobject(TObjPlayer *player) {
     if (player != NULL) {
         player->run_action_state_phase(0xF, 0);
@@ -3767,7 +3779,7 @@ void TObjPlayer::update_cursor(s32 parameter) {
     TLockOnCursor *cursor;
 
     cursor = this->lock_on_cursor;
-    if ((cursor != NULL) && (canSetMenuCursorAction((PaletteCursorOverride *)&cursor->palette_override, this, 3, (u8) parameter) != 0)) {
+    if ((cursor != NULL) && (canSetMenuCursorAction(&cursor->palette_override, this, 3, (u8) parameter) != 0)) {
         set_action_palette_tag_mode(&lock_on_cursor->palette_override, 3);
         set_action_palette_tag_slot(&lock_on_cursor->palette_override, static_cast<u8>(parameter));
         TMainCursor__sub_8013DFC4((u8 *)&this->lock_on_cursor->palette_override);
@@ -4432,11 +4444,11 @@ void TObjPlayer::start_attack_preparation() {
         *(s16 *)(arg0 + 0x328) = 1;
         this->set_state_flags(0x80);
         ((TObjPlayer *)(arg0 + 0x384))->request_heavy_attack_particles();
-        scratch_vec.y = scratch_vec.x = 0.0f;
-        player_feedback_light_color[0] = scratch_vec.z = 1.0f;
+        scratch_vec[1] = scratch_vec[0] = 0.0f;
+        player_feedback_light_color[0] = scratch_vec[2] = 1.0f;
         player_feedback_light_color[2] = player_feedback_light_color[1] = 0.8f;
         player_feedback_light_color[3] = 1.0f;
-        new TActorLight(0.2f, (NJS_ARGB *)player_feedback_light_color, &scratch_vec, 8, this, tl_07);
+        new TActorLight(0.2f, (NJS_ARGB *)player_feedback_light_color, (Vec *)scratch_vec, 8, this, tl_07);
         publish_actor_light_scalars(((TObjBase *)arg0)->get_entity_id(), 1.0f, 0.5f);
         this->play_sound_if_on_floor(0x1AD1C);
         break;
@@ -4444,11 +4456,11 @@ void TObjPlayer::start_attack_preparation() {
         *(s16 *)(arg0 + 0x328) = 1;
         this->set_state_flags(0x80);
         dispatch_weapon_special_effect(arg0, 0, 0, 0);
-        scratch_vec.y = scratch_vec.x = 0.0f;
-        player_feedback_light_color[0] = scratch_vec.z = 1.0f;
+        scratch_vec[1] = scratch_vec[0] = 0.0f;
+        player_feedback_light_color[0] = scratch_vec[2] = 1.0f;
         player_feedback_light_color[2] = player_feedback_light_color[1] = 0.8f;
         player_feedback_light_color[3] = 1.0f;
-        new TActorLight(0.2f, (NJS_ARGB *)player_feedback_light_color, &scratch_vec, 8, this, tl_07);
+        new TActorLight(0.2f, (NJS_ARGB *)player_feedback_light_color, (Vec *)scratch_vec, 8, this, tl_07);
         publish_actor_light_scalars(((TObjBase *)arg0)->get_entity_id(), 1.0f, 0.5f);
         this->play_sound_if_on_floor(0x1AD1D);
         break;
@@ -4471,8 +4483,6 @@ void TObjPlayer::setup_attack_stage() {
         }
         break;
     }
-}
-
 }
 
 struct TargetCollider {
@@ -4608,7 +4618,6 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
     return hit;
 }
 
-extern "C" {
 void handle_6x46_attack_finished(s32 command) {
     u16 packet[0x18];
     Player_801CE928 *pl;
