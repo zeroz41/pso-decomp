@@ -30,8 +30,6 @@
 #include "pso/object/TObjWaitEntryHairMoveSim.h"
 
 extern "C" {
-// TObjPlayer.h declares the slot as s32; the call passes the u16 entity id unextended.
-s32 sub_801AF454__10TObjPlayerFl(void *, u16);
 int copy_player_visual_record(void *dst, void *src);
 }
 
@@ -40,7 +38,7 @@ extern u8 *TObjPlayer__shared_model_buffer;
 void TObjPlayer::init_model_and_idle_pose() {
     joint_matrices = TObjPlayer__shared_model_buffer + get_entity_id() * 0xC00;
     select_class_action_provider();
-    sub_801AF454__10TObjPlayerFl(this, get_entity_id());
+    load_action_motions(get_entity_id());
     init_idle_animation();
     draw();
 }

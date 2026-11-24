@@ -192,102 +192,6 @@ s32 is_item_equipped(TItem *item);
 s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out, s32 key);
 }
 
-struct Base_801AF3C4 { char pad[0x8]; };
-
-struct VObj_801AF3C4 : Base_801AF3C4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual s32 m75(s32);
-};
-
-struct B_801AF454 { u8 pad[8]; };
-
-struct V_801AF454 : B_801AF454 {
-    virtual void m0(); virtual void m1(); virtual void m2();
-    virtual void m3(u16 x);
-};
-
-struct O_801AF454 { u8 pad[0x380]; V_801AF454 *obj; };
-
-typedef struct Player_801CD72C {
-    u8 pad0[0x424];
-    void *cursor;
-    u8 techs[4];
-} Player_801CD72C;
-
 typedef struct Msg_801CD6BC {
     u8 pad0[2];
     u16 id;
@@ -296,21 +200,6 @@ typedef struct Msg_801CD6BC {
 } Msg_801CD6BC;
 
 struct L_801AF554 { u8 f0[2]; s16 f2; s8 f4; };
-
-struct VBase_801AFCF4 { u8 pad[8]; };
-
-struct VObj_801AFCF4 : VBase_801AFCF4 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4(s32, s32, s32);
-};
-
-struct Player_801AFCF4 {
-    u8 pad[0x380];
-    VObj_801AFCF4 *obj;
-};
 
 struct Pkt_801B01AC {
     u8 hdr[2];
@@ -659,56 +548,6 @@ struct Plr_801B6A5C {
 
 struct Color_801B6964 { f32 r, g, b, a; };
 
-struct VBase_18_c0d9f3
-{
-  char pad[0x18];
-};
-
-struct VObj_18_c0d9f3 : VBase_18_c0d9f3 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual s32 m17(s32);
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual s32 m33();
-    virtual s32 m34();
-    virtual s32 m35();
-    virtual s32 m36();
-    virtual s32 m37();
-    virtual s32 m38();
-    virtual s32 m39();
-    virtual s32 m40();
-    virtual s32 m41();
-};
-
 typedef struct Msg_801B6C30 {
     u8 pad0[2];
     s16 f2;
@@ -727,10 +566,6 @@ typedef struct Player_801B6C30 {
 } Player_801B6C30;
 
 struct Buf1C { u8 pad[0x1C]; };
-
-typedef struct VBase_18_c0d9f3 VBase_18_c0d9f3;
-
-typedef struct VObj_18_c0d9f3 VObj_18_c0d9f3;
 
 struct Player_801B6C30;
 
@@ -837,11 +672,6 @@ typedef struct Msg_801B9E0C {
     s32 c;
 } Msg_801B9E0C;
 
-typedef struct Player_801B9E0C {
-    u8 pad0[0xD00];
-    void *inv;
-} Player_801B9E0C;
-
 struct UnequipItemPacket {
     u16 header;
     u16 client;
@@ -859,36 +689,6 @@ typedef struct Msg_801BA060 {
     s32 c;
     s32 d;
 } Msg_801BA060;
-
-typedef struct Player_801BA060 {
-    u8 pad0[0xD00];
-    void *inv;
-} Player_801BA060;
-
-struct VBase_801B9F40 { char pad[0x18]; };
-
-struct VObj_801B9F40 : VBase_801B9F40 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16();
-    virtual void m17(s32);
-    virtual void m18();
-    virtual void m19(); virtual void m20(); virtual void m21(); virtual void m22();
-    virtual void m23(); virtual void m24(); virtual void m25(); virtual void m26();
-    virtual void m27(); virtual void m28(); virtual void m29(); virtual void m30();
-    virtual s8 m31();
-};
-
-struct Player_801B9F40 { u8 pad[0xD04]; u8 slots[4]; };
-
-struct RecoveredGlobal_802A1154_main_task {
-    s32 value;
-    u8 remaining[0x30];
-};
-
-LAYOUT_ASSERT(RecoveredGlobal_802A1154_main_task_size, sizeof(RecoveredGlobal_802A1154_main_task) == 0x34);
 
 struct RecoveredGlobal_8000F7FC_lbl_80515F48 {
     s32 value;
@@ -6651,9 +6451,9 @@ s32 TObjPlayer::get_language() {
 
 s32 TObjPlayer::get_controller_port() { return this->controller_port; }
 
-void TObjPlayer::set_action_provider_variant(s16 arg1) {
-    if (arg1 != ((TObjPlayer *)(((Player_801AFCF4 *)this)->obj))->sub_802a7290_fwd() && fn_8000F740(&main_phase_state) != 0) {
-        ((Player_801AFCF4 *)this)->obj->m4(this->get_entity_id(), ((TObjPlayer *)((Player_801AFCF4 *)this))->has_valid_handle(), arg1);
+void TObjPlayer::set_action_provider_variant(s16 variant) {
+    if (variant != ((TObjPlayer *)action_provider)->sub_802a7290_fwd() && fn_8000F740(&main_phase_state) != 0) {
+        action_provider->vfunc_6(get_entity_id(), has_valid_handle(), variant);
         this->apply_motion_entry();
     }
 }
@@ -6950,18 +6750,18 @@ f32 TObjPlayer::get_battle_value(u16 client, s16 technique) {
     return get_class_technique_boost(get_class_index(), technique);
 }
 
-void TObjPlayer::sub_801AF454(s32 x) {
-    if (((O_801AF454 *)this)->obj) {
-        ((O_801AF454 *)this)->obj->m3(x);
+void TObjPlayer::load_action_motions(u16 entity_id) {
+    if (action_provider) {
+        action_provider->vfunc_5(entity_id);
     }
 }
 
 void TObjPlayer::update_facing_from_lock() {
-    if (((VObj_801AF3C4 *)*(void **)((s8 *)this + 0x380))->m8() != 0) {
-        this->set_motion_list(reinterpret_cast<BmlMotionEntry *>(((VObj_801AF3C4 *)*(void **)((s8 *)this + 0x380))->m75(1)));
+    if (action_provider->vfunc_10() != 0) {
+        set_motion_list(reinterpret_cast<BmlMotionEntry *>(action_provider->get_state_table(1)));
         return;
     }
-    this->set_motion_list(reinterpret_cast<BmlMotionEntry *>(((VObj_801AF3C4 *)*(void **)((s8 *)this + 0x380))->m75(0)));
+    set_motion_list(reinterpret_cast<BmlMotionEntry *>(action_provider->get_state_table(0)));
 }
 
 s32 calc_stat_threshold__10TObjPlayerFPv(void *player) {
