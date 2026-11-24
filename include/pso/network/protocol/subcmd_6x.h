@@ -869,8 +869,11 @@ struct G_SetTechniqueLevelOverride_6x8D {
 };
 
 struct G_SetTelepipeState_6x68 {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;
  struct TelepipeState state;
+ G_SetTelepipeState_6x68();
+ void bswap();
+ void send();
 };
 
 struct G_ShieldAttack_6x4A {

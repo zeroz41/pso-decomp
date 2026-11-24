@@ -24,6 +24,7 @@
 #define PSO_PROTOCOL_TYPES_H
 
 #include "types.h"
+#include <dolphin/mtx.h>
 #include "pso/item/TItemData.h"
 
 struct VectorXZF {
@@ -147,10 +148,13 @@ struct VectorXYZF {
 
 struct TelepipeState {
  u16 owner_client_id;
- u16 floor;
+ s16 floor;
  u32 room_id;
- struct VectorXYZF pos;
+ Vec pos;
  u32 angle_y;
+ void send_telepipe_packet();
+ void reset();
+ void init_fields(u16 owner);
 };
 
 struct VectorXYZI {

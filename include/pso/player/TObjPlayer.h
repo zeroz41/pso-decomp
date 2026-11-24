@@ -262,7 +262,7 @@ struct TObjPlayer : public TObjChara {
     PlayerAttackController attack_state;  // the attack accuracy/damage-scale block
     void* m_828;
     u8 _pad82C[0x4];
-    PlayerTelepipe telepipe;  // TTecLuker::init_fields, send_telepipe_packet
+    PlayerTelepipe telepipe;  // TTecLuker::init_fields, TelepipeState::send_telepipe_packet
     Vec marker_position;  // above the head (copy_offset_position), where the lobby marker is drawn
     void* m_858;
     char name[0x1C];

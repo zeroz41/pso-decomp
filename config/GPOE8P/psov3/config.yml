@@ -4729,7 +4729,7 @@ force_active:
   - byteswap_6x75_packet__6TLobbyFv
   - byteswap_entry__20TWindowSubSymbolChatFv
   - bswap__17G_NPCControl_6x69Fv
-  - byteswap_telepipe_packet__9TTecLukerFv
+  - bswap__23G_SetTelepipeState_6x68Fv
   - c2r$433
   - cache_fish_params__11TBoss6Type2Fv
   - cached_blend_factor_table
@@ -7190,7 +7190,7 @@ force_active:
   - init_target_offsets__16TObjEneDellBiterFv
   - init_target_vector__11TMainCursorFiii
   - init_tech_params__9TTecJelinFv
-  - init_telepipe_packet_header__FPv
+  - __ct__23G_SetTelepipeState_6x68Fv
   - init_layout__17WindowDrawContextFPfPfPfUlf
   - init_texture_table__22TChCrLoadAfsTextureReqFv
   - init_timer__13TObjCHTimeWinFv
@@ -14629,7 +14629,7 @@ force_active:
   - reset_state__6TLobbyFi
   - start_burrow__16TObjEneMerillLiaFv
   - reset_state_fields__9TObjEneDDFv
-  - reset_telepipe_record
+  - reset__13TelepipeStateFv
   - reset_view_flags__11TCameraCtrlFv
   - reset_viewport_scissor__11TCameraCtrlFv
   - reset_visual_state__15TBoss3VoloptP02Fv
@@ -15362,7 +15362,7 @@ force_active:
   - send_state_if_dirty__17TWindowSubComCardFv
   - send_state_sync__12TBoss1DragonFv
   - send_subordinate_actions__11TBoss6Type2Flllll
-  - send_swapped_telepipe_packet__9TTecLukerFv
+  - send__23G_SetTelepipeState_6x68Fv
   - send_switch_changed__11TOKeyCave01Fl
   - send_switch_changed__14TOKeyAncient03Fl
   - send_switch_changed__14TOKeyMachine01Fl

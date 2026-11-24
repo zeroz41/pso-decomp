@@ -97,7 +97,6 @@ s32 is_split_screen(void);
 void *create_window_menu_default(const void *p, s32 a);
 s32 TTecLuker__sub_8023401C(void *);
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
-s32 init_fields__9TTecLukerFs(void *, int);
 extern s32 lbl_805D55C0;
 
 void TObjLuker::hide_part(u16 part) {
@@ -298,22 +297,22 @@ typedef struct Luker_801A1260 Luker_801A1260;
 void TObjLuker::transfer_to_town() {
     u8 *arg0_ = (u8 *)this;
   Luker_801A1260 *arg0 = (Luker_801A1260 *) arg0_;
-  u8 *self;
-  u8 *local;
+  TObjPlayer *self;
+  TObjPlayer *local;
   s32 i;
-  u8 *p;
+  TObjPlayer *p;
   s32 flag;
-  self = (u8 *)get_player_by_client_id(arg0->owner);
-  local = (u8 *)get_player_by_client_id(local_client_id);
+  self = get_player_by_client_id(arg0->owner);
+  local = get_player_by_client_id(local_client_id);
   if ((((get_main_phase() == 0xF) && (lbl_805D55C0 != 0)) || (self == 0)) || (local == 0))
   {
     return;
   }
-  floor_transition_state.set_next_floor(*((s16 *) (((s8 *) self) + 0x832)), get_floor_map_terrain(*((s16 *) (((s8 *) self) + 0x832))));
+  floor_transition_state.set_next_floor(self->telepipe.state.floor, get_floor_map_terrain(self->telepipe.state.floor));
   mark_area_change_pending();
   for (i = 0; i < 4; i++)
   {
-    p = (u8 *)get_player_by_client_id(i);
+    p = get_player_by_client_id(i);
     if (p != 0)
     {
       flag = 0x830 * 0;
@@ -322,41 +321,41 @@ void TObjLuker::transfer_to_town() {
         flag = 1;
       }
       else
-        if (((TObjChara *)p)->obj_isState3_324() != 0)
+        if (p->obj_isState3_324() != 0)
       {
         flag = 1;
       }
       if (flag != 0)
       {
-        ((TTecLuker *)(p + 0x848))->set_state(arg0->owner);
-        send_6x21_inter_level_warp((TObjPlayer *)p, floor_transition_state.get_next_floor());
-        ((TObjMotion *)p)->set_room((s16) (*((s32 *) (((s8 *) self) + 0x834))));
+        ((TTecLuker *)&p->telepipe.flags)->set_state(arg0->owner);
+        send_6x21_inter_level_warp(p, floor_transition_state.get_next_floor());
+        p->set_room((s16) self->telepipe.state.room_id);
       }
     }
   }
   if (local != 0)
   {
-    ((TTecLuker *)(local + 0x848))->set_state(arg0->owner);
+    ((TTecLuker *)&local->telepipe.flags)->set_state(arg0->owner);
     if (((Ctrl_801A0E38 *)get_player_by_client_id(arg0->owner)) != 0)
     {
-      ((TObjMotion *)local)->set_room((s16) (*((s32 *) (((s8 *) self) + 0x834))));
+      local->set_room((s16) self->telepipe.state.room_id);
     }
-    send_6x21_inter_level_warp((TObjPlayer *)local, floor_transition_state.get_next_floor());
+    send_6x21_inter_level_warp(local, floor_transition_state.get_next_floor());
   }
   if (is_split_screen() != 0)
   {
-    self = (u8 *)get_player_by_client_id(arg0->partner);
+    self = get_player_by_client_id(arg0->partner);
     if (self != 0)
     {
-      init_fields__9TTecLukerFs(self + 0x830, arg0->partner);
-      ((TTecLuker *)(self + 0x830))->send_telepipe_packet();
+      self->telepipe.state.init_fields(arg0->partner);
+      self->telepipe.state.send_telepipe_packet();
     }
   }
   else
     if (local_client_id == arg0->owner)
   {
-    init_fields__9TTecLukerFs(local + 0x830, arg0->owner);
-    ((TTecLuker *)(local + 0x830))->send_telepipe_packet();
+    local->telepipe.state.init_fields(arg0->owner);
+    local->telepipe.state.send_telepipe_packet();
   }
 }
 
