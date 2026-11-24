@@ -80,36 +80,36 @@ int set_palette_entry__20TWindowActionPaletteFlllll(void*);
 
 void TObjPlayer::init_battle_selection() { TAdSinglePlyChrSelectGC::get_char_index((uaddr)(65535)); ((int (*)(void))update_battle__10TObjPlayerFi)(); }
 
-void export_player_record__10TObjPlayerFPvPv(TPlyCharData *record, u8 *arg1) {
+void export_player_record__10TObjPlayerFPvPv(TPlyCharData *record, TObjPlayer *player) {
     u8 *overflow;
     s32 i;
-    ((TObjPlayer *)arg1)->set_flag_80000();
-    copy_player_visual_record(&record->m_disp_part2, arg1 + 0x85C);
-    record->m_inventory.m_num_items = reinterpret_cast<TObjPlayer *>(arg1)->query_state_if_present(record->m_inventory.get_items());
-    ((TObjPlayer *)arg1)->inventory_objects->set_flag_and_update((TObjPlayer *)arg1);
-    clamp_stats__10TObjPlayerFiPv(arg1, &record->m_stats, (void *) (TObjPlayer::get_class_stat_entry((u8 *)arg1)));
-    record->m_inventory.m_hp_materials_used = ((TObjPlayer *)arg1)->get_hp_material_points();
-    record->m_inventory.m_tp_materials_used = ((TObjPlayer *)arg1)->get_tp_materials_clamped();
-    record->set_power_materials_used(((TObjPlayer *)arg1)->get_power_materials_used());
-    record->set_mind_materials_used(((TObjPlayer *)arg1)->get_mind_materials_used());
-    record->set_evade_materials_used(((TObjPlayer *)arg1)->get_evade_materials_used());
-    record->set_def_materials_used(((TObjPlayer *)arg1)->get_def_materials_used());
-    record->set_luck_materials_used(((TObjPlayer *)arg1)->get_luck_materials_used());
-    copy_disp_config(&record->m_config, &((TObjPlayer *)arg1)->action_palettes);
+    player->set_flag_80000();
+    copy_player_visual_record(&record->m_disp_part2, player->name);
+    record->m_inventory.m_num_items = player->query_state_if_present(record->m_inventory.get_items());
+    player->inventory_objects->set_flag_and_update(player);
+    clamp_stats__10TObjPlayerFiPv(player, &record->m_stats, (void *) (TObjPlayer::get_class_stat_entry((u8 *)player)));
+    record->m_inventory.m_hp_materials_used = player->get_hp_material_points();
+    record->m_inventory.m_tp_materials_used = player->get_tp_materials_clamped();
+    record->set_power_materials_used(player->get_power_materials_used());
+    record->set_mind_materials_used(player->get_mind_materials_used());
+    record->set_evade_materials_used(player->get_evade_materials_used());
+    record->set_def_materials_used(player->get_def_materials_used());
+    record->set_luck_materials_used(player->get_luck_materials_used());
+    copy_disp_config(&record->m_config, &player->action_palettes);
     for (i = 0; i < 0x13; i++) {
         overflow = record->technique_level_overflow(i);
-        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(arg1 + 0x428, i),
+        TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(&player->technique_state, i),
             record->technique_level(i), overflow);
     }
     record->m_inventory.m_language = current_language;
     if (game_files_modified() != 0) {
         record->mark_game_files_modified();
     }
-    ((TObjPlayer *)arg1)->apply_pending_action((saddr)record);
-    ((TObjPlayer *)arg1)->copy_mag_level_to_record((u8 *)record);
-    ((TObjPlayer *)arg1)->copy_byte_339_to_record((u8 *)record);
-    ((TObjPlayer *)arg1)->copy_battle_mode((u8 *)record);
-    ((TObjPlayer *)arg1)->clear_flag_80000();
+    player->apply_pending_action((saddr)record);
+    player->copy_mag_level_to_record((u8 *)record);
+    player->copy_byte_339_to_record((u8 *)record);
+    player->copy_battle_mode((u8 *)record);
+    player->clear_flag_80000();
 }
 
 void TObjPlayer::set_action_state(u8 v) { *(u8*)((char*)this + 0x173) = v; }
