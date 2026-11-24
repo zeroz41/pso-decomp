@@ -145,12 +145,12 @@ s16 apply_lcp_config_to_sides(PppFsm *state, LcpConfig *config) {
             p->want.mask &= ~0x20;
         }
         p->want.magic = v;
-        if (msg->fE == 0) {
+        if (msg->no_pfc == 0) {
             p->mask |= 0x80;
         } else {
             p->mask &= ~0x80;
         }
-        if (msg->f4 == 0) {
+        if (msg->no_acfc == 0) {
             p->mask |= 0x100;
         } else {
             p->mask &= ~0x100;
@@ -164,13 +164,13 @@ s16 apply_lcp_config_to_sides(PppFsm *state, LcpConfig *config) {
         }
         q->want.magic = w;
         q = p + 1;
-        if (msg->fE == 0) {
+        if (msg->no_pfc == 0) {
             q->mask |= 0x80;
         } else {
             q->mask &= ~0x80;
         }
         q = p + 1;
-        if (msg->f4 == 0) {
+        if (msg->no_acfc == 0) {
             q->mask |= 0x100;
         } else {
             q->mask &= ~0x100;

@@ -95,7 +95,7 @@ typedef struct ModemConfig {
 typedef struct NetSession {
     u16 flags;                  /* NetConnectCfg.flags; bit 2: no modem */
     s16 h2;                     /* 0x02 */
-    s16 h4;                     /* 0x04 */
+    s16 wait;                   /* 0x04: NetConnectCfg.wait */
     u8 pad6[2];
     s32 connect_ms;             /* 0x08: when PPP started (state 3); is_timed_out gives up 60 s later */
     char *user;                 /* 0x0C */
@@ -110,26 +110,26 @@ typedef struct NetSession {
     s16 h84;
     u8 pad86[2];
     ModemRequest req;           /* 0x88: NetConnectCfg.h24 .. prefix */
-    s16 h98;                    /* 0x98: NetConnectCfg.h34 .. h40; the low 7 bits select the authentication */
+    s16 auth_mode;                  /* 0x98: NetConnectCfg.auth_mode .. vj_disabled; the low 7 bits select the authentication */
     s16 mtu;                    /* 0x9A: 0 = the default (lobby_net_buffer_desc_b) */
     s32 start_tick;             /* 0x9C */
-    u16 uA0;
-    u16 uA2;
-    s16 hA4;
+    u16 no_acfc;
+    u16 no_pfc;
+    s16 vj_disabled;
     u8 padA6[2];
-    s32 wA8;                    /* 0xA8: NetConnectCfg.w44 .. w58 */
-    s32 wAC;
-    s32 wB0;
-    s32 wB4;
-    s32 wB8;
-    s32 wBC;
-    u8 bufC0[8];                /* 0xC0: NetConnectCfg.b5C */
-    u8 bufC8[8];                /* 0xC8: NetConnectCfg.b64 */
+    s32 addr_local;                 /* 0xA8: ipcp_configure_all_options' addresses, from NetConnectCfg */
+    s32 addr_peer;
+    s32 dns_local_primary;
+    s32 dns_local_secondary;
+    s32 dns_peer_primary;
+    s32 dns_peer_secondary;
+    u8 local_interface_id[8];      /* 0xC0: the IPv6CP interface identifiers */
+    u8 peer_interface_id[8];
 } NetSession;
 LAYOUT_ASSERT(NetSession_size_check, sizeof(NetSession) == 0xD0);
 LAYOUT_ASSERT(NetSession_modem_offset, offsetof(NetSession, modem) == 0x1C);
 LAYOUT_ASSERT(NetSession_request_offset, offsetof(NetSession, req) == 0x88);
-LAYOUT_ASSERT(NetSession_auth_offset, offsetof(NetSession, h98) == 0x98);
+LAYOUT_ASSERT(NetSession_auth_offset, offsetof(NetSession, auth_mode) == 0x98);
 LAYOUT_ASSERT(ModemConfig_size, sizeof(ModemConfig) == 0x60);
 
 /* TLobby_80428374.c: the modem session (dial-script expansion, timed waits) and the buffer pool's bounds. */

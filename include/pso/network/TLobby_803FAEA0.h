@@ -12,7 +12,7 @@ typedef struct NetConnectCfg {
     s16 h2;
     s16 wait;
     u8 pad_6[2];
-    char *wC;
+    char *user;
     char *password;
     char *phone_number;
     void *callback;
@@ -29,21 +29,21 @@ typedef struct NetConnectCfg {
     s16 h2C;
     u8 pad_2E[2];
     char *prefix;
-    s16 h34;
+    s16 auth_mode;
     s16 mtu;
     s32 start_tick;
-    s16 h3C;
-    s16 h3E;
-    s16 h40;
+    s16 no_acfc;
+    s16 no_pfc;
+    s16 vj_disabled;
     u8 pad_42[2];
-    s32 w44;
-    s32 w48;
-    s32 w4C;
-    s32 w50;
-    s32 w54;
-    s32 w58;
-    u8 b5C[8];
-    u8 b64[8];
+    s32 addr_local;
+    s32 addr_peer;
+    s32 dns_local_primary;
+    s32 dns_local_secondary;
+    s32 dns_peer_primary;
+    s32 dns_peer_secondary;
+    u8 local_interface_id[8];
+    u8 peer_interface_id[8];
 } NetConnectCfg;
 
 /* Link state filled by NetGetLinkStatus (state 0 down, 4 up, 5/8 failed, 6 disconnecting). */

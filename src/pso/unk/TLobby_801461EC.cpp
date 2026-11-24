@@ -223,7 +223,7 @@ s32 connect_pppoe(s32 *out_value) {
     }
     cfg.flags = 5;
     cfg.wait = 0;
-    cfg.wC = (char *)&lbl_8050CCE8 + 0x7C;
+    cfg.user = (char *)&lbl_8050CCE8 + 0x7C;
     cfg.password = (char *)&lbl_8050CCE8 + 0xFC;
     cfg.callback = 0;
     cfg.h2 = 4;
@@ -239,18 +239,18 @@ s32 connect_pppoe(s32 *out_value) {
     cfg.h24 = 0;
     cfg.h26 = 0;
     cfg.prefix = 0;
-    cfg.h34 = 4;
+    cfg.auth_mode = 4;
     cfg.mtu = 1500;
     cfg.start_tick = 0x12345678;
-    cfg.h3C = 0;
-    cfg.h3E = 0;
-    cfg.h40 = 1;
-    cfg.w44 = 0;
-    cfg.w48 = 0;
-    cfg.w4C = 0;
-    cfg.w50 = 0;
-    cfg.w54 = 0;
-    cfg.w58 = 0;
+    cfg.no_acfc = 0;
+    cfg.no_pfc = 0;
+    cfg.vj_disabled = 1;
+    cfg.addr_local = 0;
+    cfg.addr_peer = 0;
+    cfg.dns_local_primary = 0;
+    cfg.dns_local_secondary = 0;
+    cfg.dns_peer_primary = 0;
+    cfg.dns_peer_secondary = 0;
     NetControl(1, 10);
     ppp_start(&cfg);
     state = -1;
@@ -822,7 +822,7 @@ s32 connect_modem(s32 idx, s16 id) {
     copy_name_buffer(&modem);
     cfg.flags = 1;
     cfg.wait = 0;
-    cfg.wC = lobby_account_entries[2].host;
+    cfg.user = lobby_account_entries[2].host;
     if (*TLobby__sub_80146D44() == 0) {
         cfg.password = get_ppp_password_buffer();
     } else {
@@ -851,18 +851,18 @@ s32 connect_modem(s32 idx, s16 id) {
         cfg.h26 = 0;
         cfg.prefix = 0;
     }
-    cfg.h34 = 4;
+    cfg.auth_mode = 4;
     cfg.mtu = 1500;
     cfg.start_tick = 0x12345678;
-    cfg.h3C = 0;
-    cfg.h3E = 0;
-    cfg.h40 = 1;
-    cfg.w44 = 0;
-    cfg.w48 = 0;
-    cfg.w4C = 0;
-    cfg.w50 = 0;
-    cfg.w54 = 0;
-    cfg.w58 = 0;
+    cfg.no_acfc = 0;
+    cfg.no_pfc = 0;
+    cfg.vj_disabled = 1;
+    cfg.addr_local = 0;
+    cfg.addr_peer = 0;
+    cfg.dns_local_primary = 0;
+    cfg.dns_local_secondary = 0;
+    cfg.dns_peer_primary = 0;
+    cfg.dns_peer_secondary = 0;
     ppp_start(&cfg);
     connect_pending_flags |= 4;
     state = -1;

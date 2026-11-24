@@ -41,20 +41,20 @@ typedef struct LcpOpts {
 LAYOUT_ASSERT(LcpOpts_size_check, sizeof(LcpOpts) == 0x68);
 
 /* The LCP settings apply_lcp_config_to_sides copies into the wanted options of both sides. auth_mode goes to
-   configure_mode_by_type; f4 == 0 asks for option 8 and fE == 0 for option 7. Callers pass it at the head of a
+   configure_mode_by_type. Callers pass it at the head of a
    larger connect record. */
 typedef struct LcpConfig {
     u32 accm;
     union {
-        s16 f4;
-        u16 f4_u;
+        s16 no_acfc; /* 0: ask for Address-and-Control-Field-Compression (option 8) */
+        u16 no_acfc_u;
     };
     u16 auth_mode;
     u32 magic;
     u16 mru;
     union {
-        s16 fE;
-        u16 fE_u;
+        s16 no_pfc;  /* 0: ask for Protocol-Field-Compression (option 7) */
+        u16 no_pfc_u;
     };
 } LcpConfig;
 LAYOUT_ASSERT(LcpConfig_size_check, sizeof(LcpConfig) == 0x10);

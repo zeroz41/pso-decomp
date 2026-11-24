@@ -280,26 +280,26 @@ s16 NetApplyConnectionConfig(NetConnectCfg *cfg) {
     g->flags = cfg->flags;
     g->h2 = cfg->h2;
     lbl_805D7A7C = cfg->h2;
-    g->h4 = cfg->wait;
-    g->user = cfg->wC;
+    g->wait = cfg->wait;
+    g->user = cfg->user;
     g->password = cfg->password;
     g->phone_number = cfg->phone_number;
     g->cb = (void (*)(s16, s32))cfg->callback;
     NetMemcpy(&g->h7C, &cfg->h18, 0xA);
     NetMemcpy(&g->req, &cfg->h24, sizeof(ModemRequest));
-    NetMemcpy(&g->h98, &cfg->h34, 0x10);
+    NetMemcpy(&g->auth_mode, &cfg->auth_mode, 0x10);
     if (g->mtu == 0)
     {
       g->mtu = lobby_net_buffer_desc_b.size;
     }
-    g->wA8 = cfg->w44;
-    g->wAC = cfg->w48;
-    g->wB0 = cfg->w4C;
-    g->wB4 = cfg->w50;
-    g->wB8 = cfg->w54;
-    g->wBC = cfg->w58;
-    NetMemcpy(g->bufC0, cfg->b5C, 8);
-    NetMemcpy(g->bufC8, cfg->b64, 8);
+    g->addr_local = cfg->addr_local;
+    g->addr_peer = cfg->addr_peer;
+    g->dns_local_primary = cfg->dns_local_primary;
+    g->dns_local_secondary = cfg->dns_local_secondary;
+    g->dns_peer_primary = cfg->dns_peer_primary;
+    g->dns_peer_secondary = cfg->dns_peer_secondary;
+    NetMemcpy(g->local_interface_id, cfg->local_interface_id, 8);
+    NetMemcpy(g->peer_interface_id, cfg->peer_interface_id, 8);
     lobby_modem_error = 0;
     lobby_modem_connect_state = 1;
     lbl_805D7A88 = 1;
@@ -474,19 +474,19 @@ L242:
     ppp_auth_protocol = 0;
     if (g->flags & 4) {
         pkt.lcp.accm = -1;
-        pkt.lcp.f4 = 1;
+        pkt.lcp.no_acfc = 1;
         pkt.lcp.mru = 0x5AE;
         mode = 1;
-        pkt.lcp.fE = 1;
+        pkt.lcp.no_pfc = 1;
     } else {
         pkt.lcp.accm = 0xA0000;
         /* These session inputs are loaded as unsigned halfwords. */
-        pkt.lcp.f4_u = g->uA0;
+        pkt.lcp.no_acfc_u = g->no_acfc;
         pkt.lcp.mru = g->mtu;
-        pkt.lcp.fE_u = g->uA2;
-        mode = g->hA4;
+        pkt.lcp.no_pfc_u = g->no_pfc;
+        mode = g->vj_disabled;
     }
-    pkt.lcp.auth_mode = g->h98;
+    pkt.lcp.auth_mode = g->auth_mode;
     pkt.lcp.magic = g->start_tick;
     pkt.user = g->user;
     pkt.password = g->password;
@@ -495,12 +495,12 @@ L242:
     }
     h2 = g->h2;
     if (h2 == 6 || h2 == 0) {
-        ipv6cp_set_interface_identifiers(0, g->bufC0, g->bufC8);
+        ipv6cp_set_interface_identifiers(0, g->local_interface_id, g->peer_interface_id);
     }
-    ipcp_configure_all_options(mode, g->wA8, g->wAC, g->wB0, g->wB4, g->wB8, g->wBC);
+    ipcp_configure_all_options(mode, g->addr_local, g->addr_peer, g->dns_local_primary, g->dns_local_secondary, g->dns_peer_primary, g->dns_peer_secondary);
     ppp_opened_count = 0;
     ok = 0;
-    switch (g->h98 & 0x7f) {
+    switch (g->auth_mode & 0x7f) {
     default:
         ok = 1;
         break;
