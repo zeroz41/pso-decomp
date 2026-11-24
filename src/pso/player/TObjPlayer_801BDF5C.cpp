@@ -32,10 +32,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/PlayerCharDataEntry.h"
 
-
-extern "C" {
-}
-
 u8 *TObjPlayer::create_player_instance(s32 arg0, saddr player) {
     u8 *p;
     p = (u8 *)new TObjPlayer(tl_03, arg0 & 0xFFFF, ((PlayerCharDataEntry *)player)->get_role(), ((PlayerCharDataEntry *)player)->get_char_data());
@@ -52,14 +48,14 @@ TObjPlayer *create_player_object(s32 slot, s32 role, TPlyCharData *record) {
 extern "C" {
 
 
-uaddr TObjPlayer__shared_photon_blast_state;
+PhotonBlastRequestTable *TObjPlayer__shared_photon_blast_state;
 s32 lobby_player_count;
 extern uaddr TObjPlayer__shared_model_buffer;
 
 void TObjPlayer::free_shared_data() {
-    if ((u32) TObjPlayer__shared_photon_blast_state != 0U) {
-        delete (PhotonBlastRequestTable *)TObjPlayer__shared_photon_blast_state;
-        TObjPlayer__shared_photon_blast_state = 0U;
+    if (TObjPlayer__shared_photon_blast_state != NULL) {
+        delete TObjPlayer__shared_photon_blast_state;
+        TObjPlayer__shared_photon_blast_state = NULL;
     }
     if (player_shared_buffer_base != NULL) {
         mem_free(player_shared_buffer_base);
@@ -78,8 +74,8 @@ void TObjPlayer::alloc_shared_buffers() {
     if (player_shared_buffer_base == NULL) {
         player_shared_buffer_base = static_cast<PlayerJointMatrixSet *>(mem_alloc(12 * sizeof(PlayerJointMatrixSet)));
     }
-    if ((u32) TObjPlayer__shared_photon_blast_state == 0U) {
-        TObjPlayer__shared_photon_blast_state = (uaddr)new PhotonBlastRequestTable;
+    if (TObjPlayer__shared_photon_blast_state == NULL) {
+        TObjPlayer__shared_photon_blast_state = new PhotonBlastRequestTable;
     }
 }
 
