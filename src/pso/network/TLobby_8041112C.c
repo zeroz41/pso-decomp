@@ -576,7 +576,7 @@ extern s32 copy_ipv6_interface_addresses(s16 id, NetBufferRef *self, s32 len, u8
         len -= 0x1C;
     }
     if (link_get_address_length(id, *(s16 *)(ent + offsetof(Ipv6Iface, handle))) <= 6) {
-        link_get_address(id, *(s16 *)(ent + offsetof(Ipv6Iface, handle)), (saddr)out);
+        link_get_address(id, *(s16 *)(ent + offsetof(Ipv6Iface, handle)), out);
     }
     return i;
 }
@@ -1601,7 +1601,7 @@ inline Ipv6Iface *ipv6_active_iface(s16 id) {
     return e;
 }
 
-s16 NetIPv6GetInterfaceLinkLayerAddress(s32 dst, s16 dst_size, s16 id) {
+s16 NetIPv6GetInterfaceLinkLayerAddress(void *dst, s16 dst_size, s16 id) {
     Ipv6Iface *e;
     s16 r;
 

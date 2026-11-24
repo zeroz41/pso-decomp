@@ -79,7 +79,7 @@ LAYOUT_ASSERT(Ipv6NdMtuEvent_size_check, sizeof(Ipv6NdMtuEvent) == 8);
 
 s16 NetIPv6SendRouterSolicitation(s16 iface);
 s16 NetIPv6ParseRedirectOptions(NetPacketFragment *frag, s32 n, NetIcmpv6Redirect *msg, void *opts, s16 *optlen, s16 iface);
-s16 NetIPv6ApplyNeighborAdvertisement(NetIcmpv6NeighborAdvertisement *msg, u8 *lladdr, s16 lladdr_len, s32 src, s32 address,
+s16 NetIPv6ApplyNeighborAdvertisement(NetIcmpv6NeighborAdvertisement *msg, u8 *lladdr, s16 lladdr_len, u8 *src, u8 *address,
                                       s16 iface);
 s16 NetIPv6UpdateDefaultRouter(NetIcmpv6RouterAdvertisement *ra, u8 *src, s16 iface);
 s16 NetIPv6ParseRouterSolicitationOptions(NetPacketFragment *opts, u32 len, u8 *src, s16 iface);

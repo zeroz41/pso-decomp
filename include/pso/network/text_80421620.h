@@ -50,6 +50,7 @@ s32 tcp_delete(s32 a);
 s32 tcp_abort(s32 a);
 s32 tcp_bind(s32 a, void *addr, u16 port);
 s16 tcp_create(void);
+s16 if_get(s16 iface, void *hdr_src, s32 len, void *buf);
 #ifdef __cplusplus
 }
 #endif

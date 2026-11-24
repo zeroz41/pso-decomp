@@ -720,9 +720,9 @@ s32 ppp_link_event(s16 command) {
 }
 
 s16 ppp_output_frame(PppFrame *);
-s16 ppp_output_datagram(saddr self, s16 type) {
-    PppFrame *sv = (PppFrame *)self;
-    PppFrame *me = (PppFrame *)self;
+s16 ppp_output_datagram(PppFrame *self, s16 type) {
+    PppFrame *sv = self;
+    PppFrame *me = self;
     s32 ty = type;
     PppProtoBlocks *G;
     PppFrame *t;
@@ -1206,8 +1206,8 @@ void init_msg(NetBufferRef *ref, void *data) {
     ref->kind = 4;
 }
 
-void init_packet_header(NetBufferRef *ref, s32 value) {
-    ref->value = value;
+void init_packet_header(NetBufferRef *ref, void *data) {
+    ref->data = data;
     ref->kind = 3;
 }
 

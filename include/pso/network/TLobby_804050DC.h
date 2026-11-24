@@ -103,7 +103,7 @@ s32 arp_free_interface(s16 id);
 s16 link_packet_length(void *pkt);
 s32 link_packet_copy(void *self, void *arr_);
 u8 *netbuf_ref_data(NetBufferRef *self);
-s16 ppp_output_datagram(saddr self, s16 type);
+s16 ppp_output_datagram(PppFrame *self, s16 type);
 s16 dispatch_handler_by_index(s16 idx, s32 handle, void *addr, void *pkt);
 s16 dispatch_by_addr_family(NetPacket *pkt, NetworkAddress *dst, NetworkAddress *src, u8 *ip4_opts, void *ip6_opts, u8 proto);
 s16 AT_IP_SetSrcFromDst(NetworkAddress *src, NetworkAddress *dst);
@@ -137,7 +137,7 @@ s16 forward_net_op_5args(s16 handler, s16 socket, s16 htype, s16 ptype, s16 hlen
 s16 link_update_multicast(s16 idx, s32 handle, s32 op, void *addr);
 s16 link_update_address(s16 idx, s32 handle, s32 op, void *addr);
 s16 link_get_interface_id(s16 idx, void *dst);
-s32 link_get_address(s16, s32, s32);
+s32 link_get_address(s16 idx, s32 handle, void *dst);
 s16 link_get_address_length(s16, s32);
 /* ICMP (src/pso/network/NetIcmp.c). */
 s16 icmp_input(u8 *self, u32 d, u32 c);

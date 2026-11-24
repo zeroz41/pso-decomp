@@ -539,7 +539,7 @@ s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *address, s16
             return -1;
         }
     }
-    return NetIPv6ApplyNeighborAdvertisement(&msg, lladdr, lladlen, (saddr)src, (saddr)address, id);
+    return NetIPv6ApplyNeighborAdvertisement(&msg, lladdr, lladlen, src, address, id);
 }
 
 s16 NetIPv6FindTargetLinkLayerAddressOption(NetPacketFragment *o, s32 len, u8 **out, s16 *outlen) {
@@ -602,7 +602,7 @@ inline Ipv6NdRouter *forget_router(Ipv6NdState *g, void *name) {
     return hit;
 }
 
-s16 NetIPv6ApplyNeighborAdvertisement(NetIcmpv6NeighborAdvertisement *msg, u8 *name, s16 len, s32 src, s32 address, s16 id) {
+s16 NetIPv6ApplyNeighborAdvertisement(NetIcmpv6NeighborAdvertisement *msg, u8 *name, s16 len, u8 *src, u8 *address, s16 id) {
     Ipv6NdAddrEvent a;
     Ipv6NdAddrEvent b;
     Ipv6NdState *g = &ipv6_neighbor_discovery_state;
@@ -847,7 +847,7 @@ s16 NetIPv6AnswerNeighborSolicitation(void *self, void *a, void *b, s16 iface) {
         NetMemcpy(params.destination.bytes, a, 0x10);
     }
     if (NetIPv6IsMulticast(b)) {
-        n = NetIPv6GetInterfaceLinkLayerAddress((saddr)(opt + 2), 0x20, iface);
+        n = NetIPv6GetInterfaceLinkLayerAddress(opt + 2, 0x20, iface);
         if (n > 0) {
             len = n + 2;
             opt[0] = 2;
@@ -1379,7 +1379,7 @@ s16 NetIPv6EmitNeighborSolicitation(NetPacket *pkt, u8 *target, NetIPv6SendParam
         if (r < 0) {
             return r;
         }
-        addr_len = NetIPv6GetInterfaceLinkLayerAddress((saddr)&option.address, 0x20, iface);
+        addr_len = NetIPv6GetInterfaceLinkLayerAddress(&option.address, 0x20, iface);
         if (addr_len > 0) {
             length = addr_len + 2;
             option.type = 1;
@@ -1418,7 +1418,7 @@ s16 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *
         return -0x10E;
     }
     if ((NetIPv6IsUnspecified(addr->source.bytes)) == 0) {
-        addr_len = NetIPv6GetInterfaceLinkLayerAddress((saddr)&option.address, 0x20, id);
+        addr_len = NetIPv6GetInterfaceLinkLayerAddress(&option.address, 0x20, id);
         if (addr_len > 0) {
             length = addr_len + 2;
             option.type = 1;

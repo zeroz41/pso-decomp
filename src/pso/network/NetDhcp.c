@@ -27,7 +27,6 @@ typedef struct Req_804250A8 {
 } Req_804250A8;
 
 
-s16 if_get(s16 iface, void *hdr_src, s32 len, void *buf);
 s16 if_config(s16 iface, void *req);
 DhcpClientBuffers dhcp_buffers;
 extern u8 dhcp_domain_name[0x100]; /* defined at the end of the file */

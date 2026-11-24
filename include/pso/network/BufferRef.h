@@ -19,7 +19,7 @@ LAYOUT_ASSERT(NetBufferRef_kind_check, offsetof(NetBufferRef, kind) == 4);
 extern "C" {
 #endif
 void set_value_and_enable(NetBufferRef *ref, void *data);
-void init_packet_header(NetBufferRef *ref, s32 value);
+void init_packet_header(NetBufferRef *ref, void *data);
 void init_msg(NetBufferRef *ref, void *data);
 
 /* Advances a buffer reference by n bytes (TLobby_804050DC.c). */

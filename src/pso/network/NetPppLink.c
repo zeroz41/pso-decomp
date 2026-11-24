@@ -82,7 +82,7 @@ s32 ppp_link_send_packet(s16 ch, s32 mode, s32 addr, u8 *packet) {
         pkt->data = (u8 *)ppp_buffers.ip_out + ((ppp_buffers.headroom + 0x83) & 0xFFFFFFFC);
         pkt->len = len;
         link_packet_copy(pkt->data, packet);
-        ppp_output_datagram((saddr) pkt, lobby_net_buffer_desc_b.protocols[ch].type);
+        ppp_output_datagram(pkt, lobby_net_buffer_desc_b.protocols[ch].type);
     }
     unlock_mutex(net_thread_state.mutex);
     return 0;
@@ -107,7 +107,7 @@ s32 ppp_link_forward_packet(s16 ch, s32 addr, u8 *packet) {
         pkt->data = (u8 *)ppp_buffers.ip_out + ((ppp_buffers.headroom + 0x83) & 0xFFFFFFFC);
         pkt->len = len;
         link_packet_copy(pkt->data, packet);
-        ppp_output_datagram((saddr) pkt, lobby_net_buffer_desc_b.protocols[ch].type);
+        ppp_output_datagram(pkt, lobby_net_buffer_desc_b.protocols[ch].type);
     }
     unlock_mutex(net_thread_state.mutex);
     return 0;

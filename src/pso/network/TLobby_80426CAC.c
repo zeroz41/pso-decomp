@@ -555,7 +555,7 @@ s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
             break;
         }
         p->timeout = 0;
-        skip_pppoe_tags((saddr)p, sub, id);
+        skip_pppoe_tags(p, sub, id);
         if (p->state == 4) {
             p->state = 5;
             ret = pppoe_send_discovery(p);
@@ -575,7 +575,7 @@ s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
     return ret;
 }
 
-s32 skip_pppoe_tags(s32 slot, u8 *tags, u16 tags_len) {
+s32 skip_pppoe_tags(PppoeSlot *slot, u8 *tags, u16 tags_len) {
     u8 *p = tags;
     u16 len = tags_len;
     u16 a;

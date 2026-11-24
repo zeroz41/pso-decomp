@@ -165,7 +165,7 @@ typedef struct Ipv4IfaceAddrRecord {
     u8 pad10[0xC];
 } Ipv4IfaceAddrRecord;
 LAYOUT_ASSERT(Ipv4IfaceAddrRecord_size_check, sizeof(Ipv4IfaceAddrRecord) == 0x1C);
-extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, s32 buf) {
+extern s32 copy_ipv4_interface_addresses(s16 idx, NetBufferRef *out, s16 len, void *buf) {
     Ipv4RoutingState *g = &ipv4_address_routing_state;
     Ipv4Iface *ifc;
     s16 n;

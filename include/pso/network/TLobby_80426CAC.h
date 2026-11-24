@@ -20,7 +20,7 @@ s16 build_ethernet_frame_header(void *frame, void *dst_mac, void *src_mac, u16 t
 s16 pppoe_open(PppoeNames *names);
 typedef struct PppoeSlot PppoeSlot;
 s16 write_pppoe_ac_name_tag(u8 **cursor, PppoeSlot *slot);
-s32 skip_pppoe_tags(s32 slot, u8 *tags, u16 len);
+s32 skip_pppoe_tags(PppoeSlot *slot, u8 *tags, u16 len);
 s16 get_pppoe_session_id(s16 slot);
 s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen);
 s16 pppoe_send_session_frame(s16 slot, u8 *frame, u16 len);

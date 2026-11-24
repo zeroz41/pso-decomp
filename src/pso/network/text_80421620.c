@@ -75,9 +75,8 @@ void tcp_set_ip_options(int, void *, void *); /* declared here with an s32 1st a
 s32 AT_TCP_Connect(int, void *, s16); /* declared here with an s32 return and 1st argument; the definition is s16 (s16, void *, s16) */
 s32 tcp_connect(s32 a, IpAddr_80422B8C *addr, u16 port, IpAddr_80422B8C *opt);
 s32 tcp_pcbbind(int, void *, u16);
-s16 copy_ipv4_interface_addresses(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, s32) */
+s16 copy_ipv4_interface_addresses(s16, void *, int, void *); /* declared s16 here; the definition is s32 (s16, NetBufferRef *, s16, void *) */
 s16 copy_ipv6_interface_addresses(s16, void *, int, void *);
-s16 if_get(s16 iface, s32 hdr_src, s32 len, saddr buf);
 s32 OSDisableInterrupts();
 s32 OSRestoreInterrupts(int);
 s32 avetcp_term(void) {
@@ -329,7 +328,7 @@ s16 udp_send(s32 h, NetworkAddress *src, NetworkAddress *dst, u16 port, UdpSendO
         }
         pkt->total_bytes += bufs[i - 1].len;
         pkt->fragments[pkt->fragment_count].length = bufs[i - 1].len;
-        init_packet_header((NetBufferRef *)&pkt->fragments[pkt->fragment_count].buffer, (saddr)bufs[i - 1].buff);
+        init_packet_header((NetBufferRef *)&pkt->fragments[pkt->fragment_count].buffer, bufs[i - 1].buff);
         pkt->fragment_count++;
     }
     if (pkt->total_bytes > 0x7FE3) {
@@ -416,7 +415,7 @@ void deliver_to_receive_callback(NetworkReceiveCallback cb, NetworkReceivePrefix
             return;
         }
         buf = hdr->buf;
-        init_packet_header(&pkt, (saddr)buf);
+        init_packet_header(&pkt, buf);
         for (i = 1; len > 0; i++) {
             if (len > o->fragments[i].length) {
                 chunk = o->fragments[i].length;
@@ -471,7 +470,7 @@ s16 tcp_receive(s32 a, TcpCompletion cb, s32 len, void *buf) {
         unlock_mutex(g->lock_handle);
         return -9;
     }
-    init_packet_header(&destination, (saddr)buf);
+    init_packet_header(&destination, buf);
     NetMemset(&s->waits[0].flags, 0, 8);
     s->waits[0].flags |= 1;
     if (s->flags & 0x40) {
@@ -585,7 +584,7 @@ s16 tcp_send(s32 a, TcpCompletion notify, char bufnum, struct send_buffs *sb) {
             unlock_mutex(network_dispatch_state.lock_handle);
             return -2;
         }
-        init_packet_header(&((NetPacketFragment *)(cur + offsetof(NetPacket, fragments)))->buffer, (saddr)p->buff);
+        init_packet_header(&((NetPacketFragment *)(cur + offsetof(NetPacket, fragments)))->buffer, p->buff);
         ((NetPacketFragment *)(cur + offsetof(NetPacket, fragments)))->length = p->len;
         entry->total_bytes += ((NetPacketFragment *)(cur + offsetof(NetPacket, fragments)))->length;
         cur += sizeof(NetPacketFragment);
@@ -878,7 +877,7 @@ void NetDispatchSocketEvent(s16 v, NetSocketEventCallback cb, s32 type, s16 code
     }
 }
 
-s16 if_get(s16 iface, s32 hdr_src, s32 len, saddr buf) {
+s16 if_get(s16 iface, void *hdr_src, s32 len, void *buf) {
     NetBufferRef ref;
     s16 first;
     s16 second;
@@ -889,12 +888,12 @@ s16 if_get(s16 iface, s32 hdr_src, s32 len, saddr buf) {
     total = 0;
     lock_mutex(network_dispatch_state.lock_handle);
     init_packet_header(&ref, hdr_src);
-    first = copy_ipv4_interface_addresses(iface, &ref, (int)len, (void *)buf);
+    first = copy_ipv4_interface_addresses(iface, &ref, (int)len, buf);
     if (first > 0) {
         total = first;
         len -= first * 0x1C;
     }
-    second = copy_ipv6_interface_addresses(iface, &ref, (int)len, (void *)buf);
+    second = copy_ipv6_interface_addresses(iface, &ref, (int)len, buf);
     if (second > 0) {
         total += second;
     }

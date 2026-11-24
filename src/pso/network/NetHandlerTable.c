@@ -31,7 +31,7 @@ struct LobbyHandler {
     s32 (*close)(s16);                             /* 0x0C: call_entry_callback; frees the channel */
     s16 (*get_mtu)(s32);                           /* 0x10: invoke_socket_callback; Ethernet 1500 */
     s16 (*get_lladdr_len)(s32);                    /* 0x14: link_get_address_length; Ethernet 6 */
-    s32 (*get_lladdr)(s32, s32);                   /* 0x18: link_get_address; copies the MAC */
+    s32 (*get_lladdr)(s32, void *);                /* 0x18: link_get_address; copies the MAC */
     s16 (*alias_ctl)(s32, s32, void *);            /* 0x1C: link_update_address; 1 adds, 2 removes an ARP alias */
     s16 (*multicast_ctl)(s32, s32, void *);        /* 0x20: link_update_multicast; 1 joins, 2 leaves a multicast group */
     s32 (*release_frame)(s32, s32);                /* 0x24: dispatch_handler_by_id; frees a received frame; link_input calls it
@@ -255,9 +255,9 @@ s16 link_update_address(s16 idx, s32 def, s32 op, void *tex) {
     return fn(def, op, tex);
 }
 
-s32 link_get_address(s16 idx, s32 handle, s32 dst) {
+s32 link_get_address(s16 idx, s32 handle, void *dst) {
     LobbyHandler *e;
-    s32 (*fn)(s32, s32);
+    s32 (*fn)(s32, void *);
 
     if (idx < 0 || idx > lobby_handler_table_desc.count) {
         return -0x10F;
