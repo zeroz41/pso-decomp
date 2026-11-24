@@ -1,9 +1,5 @@
 
 
-#define cbForReadAsync dvdfs_cbForReadAsync
-#define cbForReadSync dvdfs_cbForReadSync
-#define currentDirectory lbl_805D7138
-#define entryToPath dvdfs_entryToPath
 
 #include <dolphin.h>
 #include <dolphin/dvd.h>

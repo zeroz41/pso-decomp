@@ -1,5 +1,4 @@
 #pragma defer_codegen on
-#define __count_trailing_zerol ansi_fp___count_trailing_zerol
 
 #include "MSL_C/ansi_fp.h"
 #include "MSL_C/MSL_Common/float.h"

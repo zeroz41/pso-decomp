@@ -1,7 +1,5 @@
 
 
-#define SetExiInterruptMask EXIBios_SetExiInterruptMask
-#define UnlockedHandler EXIBios_UnlockedHandler
 
 #include <string.h>
 #include <dolphin.h>

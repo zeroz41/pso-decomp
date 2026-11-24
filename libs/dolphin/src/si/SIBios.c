@@ -1,16 +1,5 @@
 
 
-#define Alarm lbl_805D1F80
-#define AlarmHandler SIBios_AlarmHandler
-#define CompleteTransfer SIBios_CompleteTransfer
-#define RDSTHandler lbl_805D20A0
-#define SIDecodeType SIBios_SIDecodeType
-#define SIEnablePollingInterrupt SIBios_SIEnablePollingInterrupt
-#define SIGetResponseRaw SIBios_SIGetResponseRaw
-#define TypeCallback lbl_805D2060
-#define XferTime lbl_805D2040
-#define __SITransfer SIBios___SITransfer
-#define __PADFixBits lbl_805D7CE8
 
 #include <dolphin.h>
 #include <dolphin/os.h>

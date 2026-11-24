@@ -1,6 +1,3 @@
-#define __FileWrite printf___FileWrite
-#define __StringWrite printf___StringWrite
-#define round_decimal printf_round_decimal
 
 #include "MSL_C/printf.h"
 #include "MSL_C/ansi_fp.h"

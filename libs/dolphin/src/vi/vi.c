@@ -1,28 +1,6 @@
 
 
-#define CurrTiming lbl_805D71E0
-#define FBSet lbl_805D71E8
-#define HorVer lbl_805448D8
-#define PostCB lbl_805D71B4
-#define PreCB lbl_805D71B0
 #define __VIRetraceHandler vi___VIRetraceHandler
-#define changeMode lbl_805D71C0
-#define changed lbl_805D71C8
-#define flushFlag lbl_805D71A4
-#define getCurrentFieldEvenOdd vi_getCurrentFieldEvenOdd
-#define getTiming vi_getTiming
-#define regs lbl_805447E8
-#define retraceCount lbl_805D71A0
-#define retraceQueue lbl_805D71A8
-#define setFbbRegs vi_setFbbRegs
-#define setVerticalRegs vi_setVerticalRegs
-#define shdwChangeMode lbl_805D71D0
-#define shdwChanged lbl_805D71D8
-#define shdwRegs lbl_80544860
-#define encoderType lbl_805D71B8
-#define displayOffsetH lbl_805D71BC
-#define displayOffsetV lbl_805D71BE
-#define message lbl_805D71EC
 
 #include <dolphin/vi.h>
 #include <dolphin/gx.h>

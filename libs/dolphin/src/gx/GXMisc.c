@@ -1,11 +1,5 @@
 
 
-#define DrawDone lbl_805D7300
-#define DrawDoneCB lbl_805D72FC
-#define FinishQueue lbl_805D7304
-#define GXFinishInterruptHandler GXMisc_GXFinishInterruptHandler
-#define GXTokenInterruptHandler GXMisc_GXTokenInterruptHandler
-#define TokenCB lbl_805D72F8
 
 #include <stddef.h>
 #include <dolphin/base/PPCArch.h>

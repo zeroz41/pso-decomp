@@ -1,13 +1,5 @@
 
 
-#define DoMount CARDMount_DoMount
-#define DoUnmount CARDMount_DoUnmount
-#define IsCard CARDMount_IsCard
-#define LatencyTable lbl_804F4DE0
-#define SectorSizeTable lbl_804F4DC0
-#define __CARDBlock lbl_80544980
-#define __CARDDefaultApiCallback fn_80380B74
-#define __CARDVendorID lbl_805D4580
 
 #include <dolphin.h>
 #include <dolphin/card.h>

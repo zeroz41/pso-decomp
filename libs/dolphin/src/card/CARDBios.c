@@ -1,15 +1,6 @@
 
 
 
-#define OnReset CARDBios_OnReset
-#define ResetFunctionInfo lbl_804F4C50
-#define Retry CARDBios_Retry
-#define TimeoutHandler CARDBios_TimeoutHandler
-#define UnlockedCallback CARDBios_UnlockedCallback
-#define __CARDBlock lbl_80544980
-#define __CARDDefaultApiCallback fn_80380B74
-#define __CARDDiskNone lbl_80544BA0
-#define __CARDStart CARDBios___CARDStart
 
 #include <dolphin.h>
 #include <dolphin/os.h>

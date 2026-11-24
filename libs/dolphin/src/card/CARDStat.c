@@ -1,6 +1,5 @@
 
 
-#define UpdateIconOffsets CARDStat_UpdateIconOffsets
 
 #include <dolphin.h>
 #include <dolphin/os.h>

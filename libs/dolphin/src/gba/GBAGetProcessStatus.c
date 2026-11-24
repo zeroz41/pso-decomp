@@ -1,4 +1,3 @@
-#define __GBA lbl_805D2200
 
 #include "gba/__gba.h"
 

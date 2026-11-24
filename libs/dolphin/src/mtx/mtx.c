@@ -1,6 +1,5 @@
 
 
-#define Unit01 lbl_805D4528
 
 #include <dolphin.h>
 #include <dolphin/mtx.h>

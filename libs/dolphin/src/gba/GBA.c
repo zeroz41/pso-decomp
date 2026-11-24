@@ -1,9 +1,4 @@
 
-#define OnReset GBA_OnReset
-#define ResetFunctionInfo lbl_804FDC38
-#define SecParams lbl_805D2100
-#define __GBA lbl_805D2200
-#define __GBAReset lbl_805D7CF8
 
 #include "gba/__gba.h"
 

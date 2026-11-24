@@ -1,13 +1,5 @@
 
 
-#define __ARChecksize fn_8037F374
-#define __ARHandler ar___ARHandler
-#define __AR_BlockLength lbl_805D7270
-#define __AR_Callback lbl_805D7258
-#define __AR_FreeBlocks lbl_805D726C
-#define __AR_Size lbl_805D725C
-#define __AR_StackPointer lbl_805D7268
-#define __AR_init_flag lbl_805D7274
 
 #include <macros.h>
 #include <dolphin/ar.h>

@@ -1,8 +1,5 @@
 
 
-#define EraseCallback CARDDir_EraseCallback
-#define WriteCallback CARDDir_WriteCallback
-#define __CARDBlock lbl_80544980
 
 #include <dolphin.h>
 #include <dolphin/card.h>

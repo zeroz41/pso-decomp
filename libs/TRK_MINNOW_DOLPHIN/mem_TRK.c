@@ -1,7 +1,6 @@
 #ifndef PSO_SDK_COMPACT_MATH
 #define PSO_SDK_COMPACT_MATH 1
 #endif
-#define TRK_fill_mem mem_TRK_TRK_fill_mem
 
 #include "PowerPC_EABI_Support/MetroTRK/trk.h"
 

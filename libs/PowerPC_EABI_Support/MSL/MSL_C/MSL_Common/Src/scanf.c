@@ -1,4 +1,3 @@
-#define parse_format scanf_parse_format
 
 #include "MSL_C/scanf.h"
 #include "MSL_C/ctype.h"

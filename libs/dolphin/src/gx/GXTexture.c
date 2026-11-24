@@ -1,6 +1,5 @@
 
 
-#define __SetSURegs GXTexture___SetSURegs
 
 #include <dolphin/gx.h>
 #include <dolphin/os.h>

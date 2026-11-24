@@ -1,12 +1,6 @@
 #ifndef PSO_SDK_COMPACT_MATH
 #define PSO_SDK_COMPACT_MATH 1
 #endif
-#define TRKExceptionHandler targimpl_TRKExceptionHandler
-#define TRKSuppAccessFile Runtime_TRKSuppAccessFile
-#define TRK_ppc_memcpy targimpl_TRK_ppc_memcpy
-#define TRKvalue128_temp lbl_805470AC
-#define gTRKMemMap lbl_8047B928
-#define gTRKStepStatus lbl_804F54E4
 
 #include "PowerPC_EABI_Support/MetroTRK/trk.h"
 
@@ -153,7 +147,7 @@ DSError TRKValidMemory32(const void* addr, size_t length,
 static asm void TRK_ppc_memcpy(register void* dest, register const void* src,
                                register int n, register u32 param_4,
                                register u32 param_5) {
-#include "orig_asm/TRK_MINNOW_DOLPHIN/targimpl/targimpl_TRK_ppc_memcpy.inc"
+#include "orig_asm/TRK_MINNOW_DOLPHIN/targimpl/TRK_ppc_memcpy.inc"
 }
 
 #pragma dont_inline on
@@ -454,7 +448,7 @@ asm void TRKInterruptHandler() {
 }
 
 static asm void TRKExceptionHandler(u16) {
-#include "orig_asm/TRK_MINNOW_DOLPHIN/targimpl/targimpl_TRKExceptionHandler.inc"
+#include "orig_asm/TRK_MINNOW_DOLPHIN/targimpl/TRKExceptionHandler.inc"
 }
 
 void TRKPostInterruptEvent(void)

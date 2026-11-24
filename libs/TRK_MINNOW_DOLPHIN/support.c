@@ -1,6 +1,4 @@
 #define _MATH_H_
-#define TRKRequestSend Runtime_TRKRequestSend
-#define TRKSuppAccessFile Runtime_TRKSuppAccessFile
 
 #include "PowerPC_EABI_Support/MetroTRK/trk.h"
 

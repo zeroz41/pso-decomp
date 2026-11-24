@@ -1,36 +1,5 @@
 
 
-#define AnalogMode lbl_805D4560
-#define Type lbl_80544930
-#define CmdProbeDevice lbl_80544970
-#define CheckingBits lbl_805D7204
-#define CmdCalibrate lbl_805D4570
-#define CmdReadOrigin lbl_805D456C
-#define EnabledBits lbl_805D71F4
-#define Initialized lbl_805D71F0
-#define MakeStatus lbl_805D4568
-#define OnReset Pad_OnReset
-#define Origin lbl_80544940
-#define PADOriginCallback Pad_PADOriginCallback
-#define PADOriginUpdateCallback Pad_PADOriginUpdateCallback
-#define PADProbeCallback Pad_PADProbeCallback
-#define PADReceiveCheckCallback Pad_PADReceiveCheckCallback
-#define PADTypeAndStatusCallback Pad_PADTypeAndStatusCallback
-#define PendingBits lbl_805D7208
-#define RecalibrateBits lbl_805D71FC
-#define ResetFunctionInfo lbl_804F4AC8
-#define ResettingBits lbl_805D71F8
-#define ResettingChan lbl_805D4558
-#define SPEC0_MakeStatus Pad_SPEC0_MakeStatus
-#define SPEC1_MakeStatus Pad_SPEC1_MakeStatus
-#define SPEC2_MakeStatus Pad_SPEC2_MakeStatus
-#define SamplingCallback lbl_805D720C
-#define SamplingHandler Pad_SamplingHandler
-#define Spec lbl_805D4564
-#define UpdateOrigin Pad_UpdateOrigin
-#define WaitingBits lbl_805D7200
-#define XPatchBits lbl_805D455C
-#define __PADFixBits lbl_805D7CE8
 #include <dolphin.h>
 #include <dolphin/pad.h>
 #include <dolphin/si.h>

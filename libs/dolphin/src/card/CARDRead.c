@@ -1,8 +1,5 @@
 
 
-#define ReadCallback CARDRead_ReadCallback
-#define __CARDBlock lbl_80544980
-#define __CARDDefaultApiCallback fn_80380B74
 
 #include <dolphin.h>
 #include <dolphin/os.h>

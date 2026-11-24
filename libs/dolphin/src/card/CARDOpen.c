@@ -1,6 +1,5 @@
 
 
-#define __CARDDiskNone lbl_80544BA0
 
 #include <dolphin.h>
 #include <dolphin/card.h>

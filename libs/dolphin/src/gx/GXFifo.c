@@ -1,18 +1,5 @@
 
 
-#define BreakPointCB lbl_805D72EC
-#define CPGPLinked lbl_805D72E4
-#define CPUFifo lbl_805D72D8
-#define GPFifo lbl_805D72DC
-#define GXCPInterruptHandler GXFifo_GXCPInterruptHandler
-#define GXOverflowSuspendInProgress lbl_805D72E8
-#define __GXCurrentThread lbl_805D72E0
-#define __GXFifoLink GXFifo___GXFifoLink
-#define __GXFifoReadDisable GXFifo___GXFifoReadDisable
-#define __GXFifoReadEnable GXFifo___GXFifoReadEnable
-#define __GXOverflowCount lbl_805D72F0
-#define __GXWriteFifoIntEnable GXFifo___GXWriteFifoIntEnable
-#define __GXWriteFifoIntReset GXFifo___GXWriteFifoIntReset
 
 #include <stddef.h>
 #include <dolphin/base/PPCArch.h>
