@@ -551,7 +551,8 @@ struct G_ModifyTradeProposal_6xA6 {
  struct G_ClientIDHeader header;
  u8 what;
  u8 result;
- u16 unknown_a1;
+ // what 7: the member who left trade range.
+ s16 out_of_range_client_id;
  u32 item_id;
  u32 amount;
  void bswap();

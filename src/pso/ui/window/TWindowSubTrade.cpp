@@ -21,7 +21,6 @@ class TChCrTagPlBack;
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/network/TradeSession.h"
-#include "pso/unk/text_802D298C.h"
 
 
 #include "pso/ui/window/TWindowMenu.h"
@@ -55,12 +54,12 @@ TWindowSubTrade::TWindowSubTrade(TWindowMainMenu *parent, s32 client) : TObject(
     this->m_player_list = NULL;
     this->m_message_window = NULL;
     this->m_confirm_prompt = NULL;
-    claim_trade_sub_window((uaddr)this);
+    claim_trade_sub_window(this);
     this->m_1c = 0;
 }
 
 TWindowSubTrade::~TWindowSubTrade() {
-    release_trade_sub_window((uaddr)this);
+    release_trade_sub_window(this);
     TLobby::check_flags_and_proceed();
     if (this->m_confirm_prompt != NULL) {
         ((TWindowMessageYesNo *)(this->m_confirm_prompt))->close();

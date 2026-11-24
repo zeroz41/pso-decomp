@@ -9,10 +9,8 @@
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubEquip_80263AB0.h"
 #include "pso/ui/window/TWindowSubTradeMain_802D2808.h"
-#include "pso/ui/window/TWindowSubTradeMain_80330A84.h"
 #include "pso/network/TradeSession.h"
 #include "pso/unk/text_80076BC4.h"
-#include "pso/unk/text_802D298C.h"
 #include "pso/network/TLobby.h"
 #include "pso/ui/window/TWindowHelpItem.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -165,7 +163,7 @@ TWindowSubTradeMain::TWindowSubTradeMain(TWindowMainMenu *parent, s32 client) : 
     this->displayed_item = -1;
     fn_8024AB54(client_id);
     TWindowCtrl__sub_8024ADAC(client_id);
-    claim_trade_main_window((uaddr)this);
+    claim_trade_main_window(this);
     snapshot_trade_inventories();
     parent_menu->hide_for_subwindow();
     chat = new TWindowChat(this, &submission);
@@ -179,7 +177,7 @@ TWindowSubTradeMain::TWindowSubTradeMain(TWindowMainMenu *parent, s32 client) : 
 TWindowSubTradeMain::~TWindowSubTradeMain() {
     Plr_803310BC *player;
 
-    release_trade_main_window((uaddr)this);
+    release_trade_main_window(this);
     TLobby::check_flags_and_proceed();
     void *tmp_player;
     if ((tmp_player = (void *)get_player_by_client_id(this->client_id)) != 0U) {
@@ -323,7 +321,7 @@ void TWindowSubTradeMain::run_task() {
         entry = ((TWindowMenuIconLine *)o->list)->get_cursor_value();
         n = get_trade_list_items()->get_item_count(entry);
         if (n <= 1) {
-            TWindowSubTradeMain::draw_request((void *)entry, (void *)1);
+            TWindowSubTradeMain::draw_request(entry, 1);
             o->state = 9;
             break;
         }
@@ -337,7 +335,7 @@ void TWindowSubTradeMain::run_task() {
         }
         if (((TWindowInputNumber *)(o->number))->is_confirmed() != 0) {
             n = ((TWindowInputNumber *)(o->number))->get_value();
-            TWindowSubTradeMain::draw_request((void *)(((TWindowMenuIconLine *)o->list)->get_cursor_value()), (void *)n);
+            TWindowSubTradeMain::draw_request(((TWindowMenuIconLine *)o->list)->get_cursor_value(), n);
             o->state = 9;
         }
         break;
@@ -395,7 +393,7 @@ void TWindowSubTradeMain::run_task() {
         entry = ((TWindowMenuIconLine *)o->request)->get_cursor_value();
         n = get_trade_window_state()->get_item_count(entry);
         if (n <= 1) {
-            TWindowSubTradeMain::draw_offer((void *)entry, (void *)1);
+            TWindowSubTradeMain::draw_offer(entry, 1);
             o->state = 0x10;
             break;
         }
@@ -409,7 +407,7 @@ void TWindowSubTradeMain::run_task() {
         }
         if (((TWindowInputNumber *)(o->number))->is_confirmed() != 0) {
             n = ((TWindowInputNumber *)(o->number))->get_value();
-            TWindowSubTradeMain::draw_offer((void *)(((TWindowMenuIconLine *)o->request)->get_cursor_value()), (void *)n);
+            TWindowSubTradeMain::draw_offer(((TWindowMenuIconLine *)o->request)->get_cursor_value(), n);
             o->state = 0x10;
         }
         break;
@@ -912,9 +910,7 @@ void TWindowSubTradeMain::forward_to_child(s32 trade_state) {
     }
 }
 
-extern "C" {
-void TWindowSubTradeMain__sub_80330A84(void* p) { *(u8*)((char*)p + 0x1c) = 30; }
-}
+void TWindowSubTradeMain::show_trade_status() { state = 30; }
 
 void TWindowSubTradeMain::finish() {
     parent_menu->on_submenu_closed();

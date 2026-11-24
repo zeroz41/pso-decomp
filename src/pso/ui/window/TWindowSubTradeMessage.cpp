@@ -3,7 +3,7 @@
 #include "pso/ui/window/TWindowSubTradeMessage.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/unk/text_802D298C.h"
+#include "pso/network/TradeSession.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/window/WindowLayout.h"
@@ -51,7 +51,7 @@ void TWindowSubTradeMessage::run_task() {
 }
 
 TWindowSubTradeMessage::~TWindowSubTradeMessage() {
-    clear_trade_message_controller_if_owner((uaddr)this);
+    clear_trade_message_controller_if_owner(this);
     if (messageWindow != 0) {
         messageWindow->close();
         messageWindow=0;
@@ -63,6 +63,6 @@ TWindowSubTradeMessage::TWindowSubTradeMessage(TWindowMainMenu *parent, s32 inde
     parentWindow=parent;
     playerIndex=index;
     messageWindow=0;
-    set_trade_message_controller((saddr)this);
+    set_trade_message_controller(this);
     state=0;
 }

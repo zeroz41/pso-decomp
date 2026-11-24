@@ -6895,13 +6895,13 @@ force_active:
   - handle_team_select__6TLobbyFv
   - handle_third_reward__18TChallenge4PResultFv
   - handle_toggle_input__24TWindowSubSymbolChatHelpFv
-  - handle_trade_final_confirmation__FPv
+  - handle_trade_final_confirmation__FP26G_ModifyTradeProposal_6xA6
   - handle_trade_item_amount__FP26G_ModifyTradeProposal_6xA6
   - handle_trade_item_move__FP26G_ModifyTradeProposal_6xA6
   - handle_trade_member_out_of_range
-  - handle_trade_offer_confirmation__FPv
-  - handle_trade_partner_cancel__FPv
-  - handle_trade_request_reply__FPv
+  - handle_trade_offer_confirmation__FP26G_ModifyTradeProposal_6xA6
+  - handle_trade_partner_cancel__FP26G_ModifyTradeProposal_6xA6
+  - handle_trade_request_reply__FP26G_ModifyTradeProposal_6xA6
   - handle_trade_request_state_a__FP26G_ModifyTradeProposal_6xA6
   - handle_trade_request_state_b__FP26G_ModifyTradeProposal_6xA6
   - handle_trade_state_cancel__FP26G_ModifyTradeProposal_6xA6
@@ -6949,7 +6949,7 @@ force_active:
   - hwSetITDMode
   - hwSetTimeOffset
   - idle__12TQuestListVMFv
-  - ignore_trade_proposal_event__Fv
+  - ignore_trade_proposal_event__FP26G_ModifyTradeProposal_6xA6
   - illGillActions
   - illGillChargeEffectPosition1
   - illGillChargeEffectPosition2

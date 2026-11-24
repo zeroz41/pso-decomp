@@ -212,6 +212,8 @@ struct TTradeList {
     TItemData items[32];
 
     void bswap();
+    // Fills the list with the local player's offer, addressed to the trade partner.
+    void build_from_trade_window();
 };
 
 // AA: a quest statistic the client reports to the server.
