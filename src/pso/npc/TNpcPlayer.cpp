@@ -50,28 +50,23 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/render/render_util.h"
 
 disp_data_part2 *npc_player_char_data_buffer;
 s32 quest_npc_visual_pending;
 
 extern "C" {
 
-f32 horizontal_distance_squared(void *, void *);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void * __ct__12TPlyCharDataFv(void *self);
-void deliver_partner_chatter(TNpcPlayer *self);
-void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out);
-s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2);
-s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, void *pos, u16 id, f32 range);
+s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range);
 bool is_target_line_clear__10TNpcPlayerFPvUs(u8 *arg0, u32 id);
 s32 try_update_target_flag__10TNpcPlayerFPvi(void *arg0, s32 arg1);
-s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2);
-void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self);
 void set_technique_seed_level(PlayerTechniqueState *techniques, s16 technique, u8 level);
-void reset_partner_counter(saddr counters, s32 index);
-void increment_partner_counter(saddr counters, s32 index);
-int get_partner_counter(saddr counters, s32 index);
-s32 npc_counter_reset_if_reached(saddr counters, s32 index);
+void reset_partner_counter(PartnerCounters *counters, s32 index);
+void increment_partner_counter(PartnerCounters *counters, s32 index);
+s16 get_partner_counter(PartnerCounters *counters, s32 index);
+s32 npc_counter_reset_if_reached(PartnerCounters *counters, s32 index, s32 limit);
 void init_6x45_attack_packet(u8 *cmd);
 void init_6x44_attack_packet(u8 *cmd);
 void init_6x43_attack_packet(u8 *cmd);
@@ -103,12 +98,9 @@ const char *TNpcPlayer::name = "TNpcPlayer";
 // of this file, which no compiler-generated __sinit reproduces.
 __declspec(section ".ctors") static void *const npc_player_global_initializer = (void *)__sinit_TNpcPlayer_cpp;
 
-s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out);
-s32 partner_find_wall_segment(saddr arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4);
-void partner_observe_surroundings(TNpcPlayer *npc_player);
 int is_partner_counter_reached(s16 *table, s32 idx, s32 value);
 void set_partner_counter(saddr counters, s32 index, s16 value);
-s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2);
+s32 clamp_partner_counter(PartnerCounters *counters, s32 index, s32 limit);
 void bswap_6x45_packet(void* p);
 void bswap_6x44_packet(void* p);
 void bswap_6x43_packet(void* p);
@@ -989,9 +981,9 @@ void NpcPlayerView::set_target(u32 id, s32 collider) {
 
 NpcPlayerView *NpcPlayerView::target_list() { return this; }
 
-s32 clamp_partner_counter(saddr arg0, s32 arg1, s16 arg2) {
-    if (((s32 (*)(void))is_partner_counter_reached)() != 0) {
-        *(s16 *)((s8 *)(arg0 + (arg1 * 2)) + 0) = arg2;
+s32 clamp_partner_counter(PartnerCounters *counters, s32 index, s32 limit) {
+    if (is_partner_counter_reached(counters->count, index, limit) != 0) {
+        counters->count[index] = limit;
         return 1;
     }
     return 0;
@@ -1024,16 +1016,16 @@ int is_partner_counter_reached(s16 *table, s32 idx, s32 value) {
     return value <= table[idx] ? 1 : 0;
 }
 
-s32 npc_counter_reset_if_reached(saddr counters, s32 index) {
-    if (((s32 (*)(void))is_partner_counter_reached)() != 0) {
-        *(s16 *)((s8 *)(counters + (index * 2)) + 0) = 0;
+s32 npc_counter_reset_if_reached(PartnerCounters *counters, s32 index, s32 limit) {
+    if (is_partner_counter_reached(counters->count, index, limit) != 0) {
+        counters->count[index] = 0;
         return 1;
     }
     return 0;
 }
 
-int get_partner_counter(saddr counters, s32 index) {
-    return *(s16 *)((s8 *)(counters + (index * 2)) + 0);
+s16 get_partner_counter(PartnerCounters *counters, s32 index) {
+    return counters->count[index];
 }
 
 u16 NpcPlayerView::get_client_id() { return client_id; }
@@ -1042,14 +1034,12 @@ u32 NpcPlayerView::get_target_id() { return target_id; }
 
 s32 NpcPlayerView::get_target_collider() { return target_collider; }
 
-void increment_partner_counter(saddr counters, s32 index) {
-    saddr temp_r5;
-    temp_r5 = index * 2;
-    *(s16 *)((s8 *)(counters + temp_r5) + 0) = *(s16 *)((s8 *)(counters + temp_r5) + 0) + 1;
+void increment_partner_counter(PartnerCounters *counters, s32 index) {
+    counters->count[index]++;
 }
 
-void reset_partner_counter(saddr counters, s32 index) {
-    *(s16 *)((s8 *)(counters + (index * 2)) + 0) = 0;
+void reset_partner_counter(PartnerCounters *counters, s32 index) {
+    counters->count[index] = 0;
 }
 
 void set_technique_seed_level(PlayerTechniqueState *techniques, s16 technique, u8 level) {
@@ -1296,17 +1286,17 @@ void TNpcPlayer::run_task() {
         init_state();
         if (!(leader_view->player->actorFlags & 0x800)) {
             if (self_view->player->actorFlags & 0x800) {
-                if (((s32 (*)(void *, int, int))clamp_partner_counter)(partner_counters.count, 3, 0x400) != 0) {
+                if (clamp_partner_counter(&partner_counters, 3, 0x400) != 0) {
                     request_chatter(5);
-                } else if (((s32 (*)(void *, int, int))is_partner_counter_reached)(partner_counters.count, 3, 0) != 0) {
+                } else if (is_partner_counter_reached(partner_counters.count, 3, 0) != 0) {
                     request_chatter(4);
                 }
-                increment_partner_counter((saddr)partner_counters.count, 3);
+                increment_partner_counter(&partner_counters, 3);
                 change_ai_state(0);
             } else {
-                reset_partner_counter((saddr)partner_counters.count, 3);
+                reset_partner_counter(&partner_counters, 3);
                 update_condition_flags();
-                ((s32 (*)(void *))partner_observe_surroundings)(this);
+                partner_observe_surroundings();
                 decide_action();
                 update_follow_target();
             }
@@ -1344,7 +1334,7 @@ void TNpcPlayer::decide_action() {
                 return;
             }
             ai_flags = temp_r3 & 0xFFFFFDFF;
-            if (((f32 (*)(void *, void *))horizontal_distance_squared)(&goal, &self_view->player->position) < 900.0f) {
+            if (horizontal_distance_squared(&goal, &self_view->player->position) < 900.0f) {
                 change_ai_state(8);
                 return;
             }
@@ -1393,7 +1383,7 @@ void TNpcPlayer::decide_action() {
                 }
             }
         } else if (select_recovery_action(1) != 0) {
-            ((s32 (*)(void *, int))reset_partner_counter)((void *) (partner_counters.count), 8);
+            reset_partner_counter(&partner_counters, 8);
             temp_r3_3 = ai_flags;
             if (temp_r3_3 & 0x200) {
                 request_chatter(0x13);
@@ -1405,7 +1395,7 @@ void TNpcPlayer::decide_action() {
                 }
             } else {
                 ai_flags = temp_r3_3 & 0xFFFFFDFF;
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&goal, &self_view->player->position) < 900.0f) {
+                if (horizontal_distance_squared(&goal, &self_view->player->position) < 900.0f) {
                     change_ai_state(8);
                 } else if (escort_leader != 0) {
                     if (attack_delay == 0) {
@@ -1440,8 +1430,8 @@ void TNpcPlayer::decide_action() {
 }
 
 s32 TNpcPlayer::update_follow_target() {
-    if (((s32 (*)())needs_movement__10TNpcPlayerFPvPvi)() != 0) {
-        ((s32 (*)(void *))select_path_waypoint__10TNpcPlayerFv)(this);
+    if (needs_movement() != 0) {
+        select_path_waypoint();
         if (check_movement_progress() != 0) {
             VecCopy(&move_target, &steer_point);
             if ((u32) ai_state != 2U) {
@@ -1460,7 +1450,7 @@ s32 TNpcPlayer::update_follow_target() {
 
 s32 TNpcPlayer::check_return_to_leader() {
     NpcPlayerView *t;
-    u8 *o;
+    TObjChara *o;
     f32 r2;
 
     t = self_view->target_list();
@@ -1476,12 +1466,12 @@ s32 TNpcPlayer::check_return_to_leader() {
     if (leader_distance_sq >= r2) {
         ai_flags |= 0x100;
         if (t->target_count != 0) {
-            ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 5);
-            if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 5, 3) != 0) {
-                o = (u8 *)find_active_entity_by_id(t->targets[0].entity_id);
+            increment_partner_counter(&partner_counters, 5);
+            if (npc_counter_reset_if_reached(&partner_counters, 5, 3) != 0) {
+                o = (TObjChara *)find_active_entity_by_id(t->targets[0].entity_id);
                 ai_flags &= ~0x8000;
                 if (o != 0) {
-                    if (((f32 (*)(void *, void *))horizontal_distance_squared)(o + 0x38, &self_view->player->position) < ai_params.block_range * ai_params.block_range) {
+                    if (horizontal_distance_squared(&o->position, &self_view->player->position) < ai_params.block_range * ai_params.block_range) {
                         ai_flags |= 0x8080;
                     }
                 }
@@ -1503,8 +1493,8 @@ s32 TNpcPlayer::choose_attack_target() {
     view = self_view->target_list();
     if (view->target_count >= 3) {
         ai_flags |= 0x2000;
-        ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 6);
-        if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 6, 100) != 0) {
+        increment_partner_counter(&partner_counters, 6);
+        if (npc_counter_reset_if_reached(&partner_counters, 6, 100) != 0) {
             if (self_view->get_condition() & 8) {
                 request_chatter(1);
             } else {
@@ -1522,7 +1512,7 @@ s32 TNpcPlayer::choose_attack_target() {
                 goal.x = tgt->position.x;
                 goal.y = self_view->player->body_center.y;
                 goal.z = tgt->position.z;
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&goal, &self_view->player->position) < (10.0f + ai_params.attack_range) * (10.0f + ai_params.attack_range)) {
+                if (horizontal_distance_squared(&goal, &self_view->player->position) < (10.0f + ai_params.attack_range) * (10.0f + ai_params.attack_range)) {
                     ai_flags |= 0x1000;
                 }
                 ai_flags &= ~0x40;
@@ -1585,12 +1575,12 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
     }
     tgt = self->self_view->target_list();
     if (arg1 != 0 && tgt->target_count != 0 && (flags & 2)) {
-        ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 5);
-        if (((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 5, 0x1E) != 0) {
+        increment_partner_counter(&self->partner_counters, 5);
+        if (npc_counter_reset_if_reached(&self->partner_counters, 5, 0x1E) != 0) {
             ent = (TObjBase *)find_active_entity_by_id(tgt->targets[0].entity_id);
             self->ai_flags &= ~0x8000;
             if (ent != NULL) {
-                if (((f32 (*)(void *, void *))horizontal_distance_squared)(&ent->position, &self->self_view->player->position) < self->ai_params.block_range * self->ai_params.block_range) {
+                if (horizontal_distance_squared(&ent->position, &self->self_view->player->position) < self->ai_params.block_range * self->ai_params.block_range) {
                     VecCopy(&self->goal, &ent->position);
                     self->ai_flags |= 0x8080;
                     return 1;
@@ -1622,11 +1612,11 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
                     return 1;
                 }
             } else {
-                if (((s16 (*)(void *, int))get_partner_counter)(self->partner_counters.count, 8) == 0) {
+                if (get_partner_counter(&self->partner_counters, 8) == 0) {
                     self->request_chatter(0x14);
                 }
-                ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 8);
-                ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 8, 0x5DC);
+                increment_partner_counter(&self->partner_counters, 8);
+                npc_counter_reset_if_reached(&self->partner_counters, 8, 0x5DC);
             }
         } else if (self->self_view->get_condition() & 0x10) {
             if (self->self_view->can_recover(1, 1) != 0) {
@@ -1691,11 +1681,11 @@ s32 TNpcPlayer::select_recovery_action(s32 arg1) {
                     return 1;
                 }
             } else {
-                if (((s16 (*)(void *, int))get_partner_counter)(self->partner_counters.count, 8) == 0) {
+                if (get_partner_counter(&self->partner_counters, 8) == 0) {
                     self->request_chatter(0x14);
                 }
-                ((s32 (*)(void *, s32))increment_partner_counter)(self->partner_counters.count, 8);
-                ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(self->partner_counters.count, 8, 0x5DC);
+                increment_partner_counter(&self->partner_counters, 8);
+                npc_counter_reset_if_reached(&self->partner_counters, 8, 0x5DC);
             }
         } else if (self->self_view->get_condition() & 0x10) {
             if (self->self_view->can_recover(1, 1) != 0) {
@@ -1714,7 +1704,7 @@ void TNpcPlayer::deliver_partner_action() {
     f32 len;
 
     if ((ai_flags & 4) && !(partner_chatter_flags & 2)) {
-        deliver_partner_chatter(this);
+        deliver_partner_chatter();
     }
     if (self_view->player->test_action_mask(2) == 0) {
         return;
@@ -1722,13 +1712,13 @@ void TNpcPlayer::deliver_partner_action() {
     switch (ai_state) {
     case 0:
         VecCopy(&move_target, VecCopy(&steer_point, &goal));
-        increment_partner_counter((saddr)partner_counters.count, 4);
-        if ((s16)get_partner_counter((saddr)partner_counters.count, 4) == 5401) {
+        increment_partner_counter(&partner_counters, 4);
+        if (get_partner_counter(&partner_counters, 4) == 5401) {
             ai_flags &= ~4;
             chatter_id = 25;
             set_partner_counter((saddr)partner_counters.count, 4, 0);
         }
-        if (clamp_partner_counter((saddr)partner_counters.count, 4, 5400) != 0) {
+        if (clamp_partner_counter(&partner_counters, 4, 5400) != 0) {
             request_chatter(11);
         }
         break;
@@ -1763,15 +1753,15 @@ void TNpcPlayer::deliver_partner_action() {
         break;
     }
     if (ai_state != 2) {
-        reset_partner_counter((saddr)partner_counters.count, 1);
-        reset_partner_counter((saddr)partner_counters.count, 5);
+        reset_partner_counter(&partner_counters, 1);
+        reset_partner_counter(&partner_counters, 5);
         ai_flags &= ~0x8000;
     }
     if (ai_state != 1) {
         ai_flags &= ~8;
     }
     if (ai_state != 0) {
-        reset_partner_counter((saddr)partner_counters.count, 4);
+        reset_partner_counter(&partner_counters, 4);
     }
 }
 #pragma pop
@@ -1904,89 +1894,89 @@ void TNpcPlayer::update_condition_flags() {
     leader_view->check_moved();
     leader_view->update_conditions();
     if (leader_view->get_condition() & 2) {
-        if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 0xA) == 0) {
+        if (get_partner_counter(&partner_counters, 0xA) == 0) {
             request_chatter(9);
         }
-        ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 0xA);
+        increment_partner_counter(&partner_counters, 0xA);
     } else {
-        ((s32 (*)(void *, s32))reset_partner_counter)(partner_counters.count, 0xA);
+        reset_partner_counter(&partner_counters, 0xA);
     }
     if (leader_view->scan_targets(30.0f) != 0) {
         if (leader_view->get_condition() & 8) {
-            if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 9) == 0) {
+            if (get_partner_counter(&partner_counters, 9) == 0) {
                 request_chatter(0xC);
             }
-            ((s32 (*)(void *, s32))increment_partner_counter)(partner_counters.count, 8);
-            ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 9, 0x2BC);
+            increment_partner_counter(&partner_counters, 8);
+            npc_counter_reset_if_reached(&partner_counters, 9, 0x2BC);
             return;
         }
-        ((s32 (*)(void *, s32))reset_partner_counter)(partner_counters.count, 9);
+        reset_partner_counter(&partner_counters, 9);
     }
 }
 
 #pragma push
 #pragma fp_contract on
-void partner_observe_surroundings(TNpcPlayer *npc_player) {
+void TNpcPlayer::partner_observe_surroundings() {
     f32 x;
     s32 temp_r3_2;
     TObjPlayer *obj_player;
     TObjPlayer *temp_r3;
     NpcPlayerView *temp_r3_3;
-    obj_player = npc_player->leader_view->player;
-    npc_player->leader_distance_sq = horizontal_distance_squared(&obj_player->position, &npc_player->self_view->player->position);
-    if (npc_player->escort_leader != 0) {
-        ((s32 (*)(void *, s32, f32))try_update_target_flag__10TNpcPlayerFPvi)(npc_player->self_view, npc_player->leader_view->get_client_id(), npc_player->ai_params.enemy_lock_on_range);
+    obj_player = leader_view->player;
+    leader_distance_sq = horizontal_distance_squared(&obj_player->position, &self_view->player->position);
+    if (escort_leader != 0) {
+        ((s32 (*)(void *, s32, f32))try_update_target_flag__10TNpcPlayerFPvi)(self_view, leader_view->get_client_id(), ai_params.enemy_lock_on_range);
     } else {
-        npc_player->self_view->scan_targets(npc_player->ai_params.enemy_lock_on_range);
+        self_view->scan_targets(ai_params.enemy_lock_on_range);
     }
-    npc_player->self_view->update_conditions();
-    x = npc_player->goal.x;
-    temp_r3 = npc_player->self_view->player;
-    npc_player->self_view->goal_angle = (s32)(10430.38043493439 * atan2_float(x - temp_r3->position.x, npc_player->goal.z - temp_r3->position.z));
-    npc_player->self_view->probe_obstacles();
-    if (npc_player->self_view->update_hp_change() != 0) {
-        if (npc_player->self_view->get_condition() & 0x40) {
-            npc_player->request_chatter(0xE);
-        } else if (npc_player->self_view->get_condition() & 0x80) {
-            npc_player->request_chatter(0xF);
-        } else if (npc_player->self_view->get_condition() & 0x200) {
-            if (npc_player->ai_state != 8U) {
-                temp_r3_2 = npc_player->ai_flags;
+    self_view->update_conditions();
+    x = goal.x;
+    temp_r3 = self_view->player;
+    self_view->goal_angle = (s32)(10430.38043493439 * atan2_float(x - temp_r3->position.x, goal.z - temp_r3->position.z));
+    self_view->probe_obstacles();
+    if (self_view->update_hp_change() != 0) {
+        if (self_view->get_condition() & 0x40) {
+            request_chatter(0xE);
+        } else if (self_view->get_condition() & 0x80) {
+            request_chatter(0xF);
+        } else if (self_view->get_condition() & 0x200) {
+            if (ai_state != 8U) {
+                temp_r3_2 = ai_flags;
                 if (temp_r3_2 & 0x10000) {
-                    npc_player->ai_flags = temp_r3_2 & 0xFFFEFFFF;
+                    ai_flags = temp_r3_2 & 0xFFFEFFFF;
                 } else {
-                    npc_player->request_chatter(0x11);
+                    request_chatter(0x11);
                 }
             }
         } else {
-            npc_player->request_chatter(0x10);
+            request_chatter(0x10);
         }
     }
-    if (npc_player->self_view->check_moved() == 0) {
-        if (npc_player->ai_state == 1U) {
-            if (npc_player->self_view->get_status() & 0x80) {
-                npc_player->stuck_frames = 0;
-                npc_player->still_frames = 0;
+    if (self_view->check_moved() == 0) {
+        if (ai_state == 1U) {
+            if (self_view->get_status() & 0x80) {
+                stuck_frames = 0;
+                still_frames = 0;
                 return;
             }
-            npc_player->still_frames = (s8)(npc_player->still_frames + 1);
-            if (npc_player->still_frames > 0x1E) {
-                npc_player->still_frames = 0x1E;
+            still_frames = (s8)(still_frames + 1);
+            if (still_frames > 0x1E) {
+                still_frames = 0x1E;
             }
-            npc_player->stuck_frames = (s8)(npc_player->stuck_frames + 1);
+            stuck_frames = (s8)(stuck_frames + 1);
         }
     } else {
-        temp_r3_3 = npc_player->self_view;
+        temp_r3_3 = self_view;
         VecCopy(&temp_r3_3->last_position, &temp_r3_3->player->prev_position);
-        npc_player->stuck_frames = 0;
-        npc_player->still_frames = 0;
+        stuck_frames = 0;
+        still_frames = 0;
     }
 }
 #pragma pop
 
 #pragma push
 #pragma fp_contract on
-void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
+void TNpcPlayer::select_path_waypoint() {
     Vec midpoint;
     Vec hit;
     Vec route;
@@ -1997,148 +1987,148 @@ void select_path_waypoint__10TNpcPlayerFv(TNpcPlayer *self) {
     f32 half;
     s32 clear;
 
-    actor = self->self_view->player;
-    dir.x = self->goal.x - actor->body_center.x;
-    dir.y = self->goal.y - actor->body_center.y;
-    dir.z = self->goal.z - actor->body_center.z;
+    actor = self_view->player;
+    dir.x = goal.x - actor->body_center.x;
+    dir.y = goal.y - actor->body_center.y;
+    dir.z = goal.z - actor->body_center.z;
     len = ((f32 (*)(void *))vector_length)(&dir);
     if (0.0f != len) {
         normalize_vector(&dir);
     }
-    actor = self->self_view->player;
+    actor = self_view->player;
     half = len / 2.0f;
     midpoint.x = half * dir.x + actor->body_center.x;
     midpoint.y = half * dir.y + actor->body_center.y;
     midpoint.z = half * dir.z + actor->body_center.z;
-    if (((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_find_wall_segment)(self, &actor->body_center, &self->goal, &hit, &normal) != 0) {
+    if (partner_find_wall_segment(&actor->body_center, &goal, &hit, &normal) != 0) {
         Vec shortcut = {0.0f, 0.0f, 0.0f};
-        clear = ((s32 (*)(void *, Vec *, Vec *, Vec *, Vec *, Vec *))partner_route_around_wall)(self, &self->self_view->player->body_center, &hit, &normal, &route, &shortcut);
-        if (!(self->ai_flags & 1)) {
+        clear = partner_route_around_wall(&self_view->player->body_center, &hit, &normal, &route, &shortcut);
+        if (!(ai_flags & 1)) {
             if (clear != 0) {
-                VecCopy(&self->waypoint, &shortcut);
+                VecCopy(&waypoint, &shortcut);
             } else {
-                VecCopy(&self->waypoint, &route);
-                self->waypoint.y = self->goal.y;
+                VecCopy(&waypoint, &route);
+                waypoint.y = goal.y;
                 Vec clipped;
-                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->goal, &self->waypoint, &clipped) != 0) {
-                    VecCopy(&self->waypoint, &clipped);
+                if (partner_clip_path_point(&goal, &waypoint, &clipped) != 0) {
+                    VecCopy(&waypoint, &clipped);
                 }
             }
-            self->waypoint_dir.x = self->goal.x - self->waypoint.x;
-            self->waypoint_dir.y = 0.0f;
-            self->waypoint_dir.z = self->goal.z - self->waypoint.z;
-            if (0.0f != ((f32 (*)(void *))vector_length)(&self->waypoint_dir)) {
-                normalize_vector(&self->waypoint_dir);
+            waypoint_dir.x = goal.x - waypoint.x;
+            waypoint_dir.y = 0.0f;
+            waypoint_dir.z = goal.z - waypoint.z;
+            if (0.0f != ((f32 (*)(void *))vector_length)(&waypoint_dir)) {
+                normalize_vector(&waypoint_dir);
             }
-            self->ai_flags |= 1;
+            ai_flags |= 1;
         }
         if (clear != 0) {
-            self->detour_frames = 0;
-            if (self->ai_flags & 2) {
+            detour_frames = 0;
+            if (ai_flags & 2) {
                 Vec d1;
-                actor = self->self_view->player;
-                d1.x = self->steer_point.x - actor->position.x;
+                actor = self_view->player;
+                d1.x = steer_point.x - actor->position.x;
                 d1.y = 0.0f;
-                d1.z = self->steer_point.z - actor->position.z;
+                d1.z = steer_point.z - actor->position.z;
                 if (((f32 (*)(void *))vector_length)(&d1) <= 1.5f) {
-                    VecCopy(&self->steer_point, &shortcut);
-                    self->ai_flags &= ~2;
+                    VecCopy(&steer_point, &shortcut);
+                    ai_flags &= ~2;
                 }
             } else {
-                VecCopy(&self->steer_point, &shortcut);
+                VecCopy(&steer_point, &shortcut);
             }
-        } else if (self->ai_flags & 2) {
+        } else if (ai_flags & 2) {
             Vec d2;
-            actor = self->self_view->player;
-            d2.x = self->steer_point.x - actor->position.x;
+            actor = self_view->player;
+            d2.x = steer_point.x - actor->position.x;
             d2.y = 0.0f;
-            d2.z = self->steer_point.z - actor->position.z;
+            d2.z = steer_point.z - actor->position.z;
             if (((f32 (*)(void *))vector_length)(&d2) <= 5.0f) {
                 Vec clipped2;
-                if (((s32 (*)(void *, Vec *, Vec *, Vec *))partner_clip_path_point)(self, &self->self_view->player->body_center, &route, &clipped2) != 0) {
-                    VecCopy(&self->steer_point, &clipped2);
+                if (partner_clip_path_point(&self_view->player->body_center, &route, &clipped2) != 0) {
+                    VecCopy(&steer_point, &clipped2);
                 } else {
-                    VecCopy(&self->steer_point, &route);
+                    VecCopy(&steer_point, &route);
                 }
-                self->ai_flags &= ~2;
-                self->detour_frames = 0;
+                ai_flags &= ~2;
+                detour_frames = 0;
             }
-            self->detour_frames++;
-            if (self->detour_frames >= 100) {
-                self->detour_frames = 100;
+            detour_frames++;
+            if (detour_frames >= 100) {
+                detour_frames = 100;
             }
         } else {
             Vec d3;
-            self->detour_frames = 0;
-            actor = self->self_view->player;
-            d3.x = self->steer_point.x - actor->position.x;
+            detour_frames = 0;
+            actor = self_view->player;
+            d3.x = steer_point.x - actor->position.x;
             d3.y = 0.0f;
-            d3.z = self->steer_point.z - actor->position.z;
-            self->steer_point.x = self->waypoint.x;
-            self->steer_point.y = self->waypoint.y;
-            self->steer_point.z = self->waypoint.z;
+            d3.z = steer_point.z - actor->position.z;
+            steer_point.x = waypoint.x;
+            steer_point.y = waypoint.y;
+            steer_point.z = waypoint.z;
             if (((f32 (*)(void *))vector_length)(&d3) < 1.0f) {
-                self->detour_frames = 0;
-                self->steer_point.x = 40.0f * self->waypoint_dir.x + self->waypoint.x;
-                self->steer_point.y = 40.0f * self->waypoint_dir.y + self->waypoint.y;
-                self->steer_point.z = 40.0f * self->waypoint_dir.z + self->waypoint.z;
-                self->ai_flags |= 2;
-                self->ai_flags &= ~1;
+                detour_frames = 0;
+                steer_point.x = 40.0f * waypoint_dir.x + waypoint.x;
+                steer_point.y = 40.0f * waypoint_dir.y + waypoint.y;
+                steer_point.z = 40.0f * waypoint_dir.z + waypoint.z;
+                ai_flags |= 2;
+                ai_flags &= ~1;
             }
         }
         return;
     }
-    if (self->self_view->get_status() & 0x20) {
-        if (self->route_around_object((Vec *)(&route)) != 0 && self->stuck_frames < 30) {
-            VecCopy(&self->steer_point, &route);
+    if (self_view->get_status() & 0x20) {
+        if (route_around_object((Vec *)(&route)) != 0 && stuck_frames < 30) {
+            VecCopy(&steer_point, &route);
         } else {
-            if (self->still_frames > 15) {
-                self->stuck_frames = 0;
+            if (still_frames > 15) {
+                stuck_frames = 0;
             }
-            VecCopy(&self->steer_point, &midpoint);
+            VecCopy(&steer_point, &midpoint);
         }
-    } else if (self->self_view->get_status() & 0x80) {
-        VecCopy(&self->steer_point, &midpoint);
-    } else if (self->stuck_frames >= 15 && self->stuck_frames < 30) {
+    } else if (self_view->get_status() & 0x80) {
+        VecCopy(&steer_point, &midpoint);
+    } else if (stuck_frames >= 15 && stuck_frames < 30) {
         Vec d4;
         Vec detour;
-        NpcPlayerView *view = self->self_view;
+        NpcPlayerView *view = self_view;
         actor = view->player;
         d4.x = actor->position.x - view->last_position.x;
         d4.y = actor->position.y - view->last_position.y;
         d4.z = actor->position.z - view->last_position.z;
-        ((void (*)(void *, Vec *, Vec *, Vec *, Vec *))partner_compute_stalled_detour)(self, &actor->position, &self->goal, &d4, &detour);
-        VecCopy(&self->steer_point, &detour);
+        partner_compute_stalled_detour(&actor->position, &goal, &d4, &detour);
+        VecCopy(&steer_point, &detour);
     } else {
-        if (self->still_frames > 15) {
-            self->stuck_frames = 0;
+        if (still_frames > 15) {
+            stuck_frames = 0;
         }
-        VecCopy(&self->steer_point, &midpoint);
+        VecCopy(&steer_point, &midpoint);
     }
-    self->ai_flags &= ~1;
-    self->detour_frames = 0;
+    ai_flags &= ~1;
+    detour_frames = 0;
 }
 #pragma pop
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
-s32 needs_movement__10TNpcPlayerFPvPvi(TNpcPlayer *self, void *_w1, int _w2) {
-    f32 temp_f1;
-    f32 var_f31;
-    if (self->ai_flags & 0x10) {
+s32 TNpcPlayer::needs_movement() {
+    f32 distance_sq;
+    f32 range;
+    if (ai_flags & 0x10) {
         return 1;
     }
-    var_f31 = 12.0f + self->ai_params.max_distance_from_player;
-    if (var_f31 >= 40.0f) {
-        var_f31 = 40.0f;
+    range = 12.0f + ai_params.max_distance_from_player;
+    if (range >= 40.0f) {
+        range = 40.0f;
     }
-    temp_f1 = ((f32 (*)(void *, void *, int))horizontal_distance_squared)(&self->goal, &self->self_view->player->position, _w2);
-    self->escort_distance_sq = temp_f1;
-    if (temp_f1 >= (var_f31 * var_f31)) {
+    distance_sq = horizontal_distance_squared(&goal, &self_view->player->position);
+    escort_distance_sq = distance_sq;
+    if (distance_sq >= (range * range)) {
         return 1;
     }
-    self->ai_flags = self->ai_flags & 0xFFFFFEFF;
+    ai_flags = ai_flags & 0xFFFFFEFF;
     return 0;
 }
 #pragma pop
@@ -2160,22 +2150,22 @@ void TNpcPlayer::render() {  }
 #pragma fp_contract on
 s32 TNpcPlayer::check_movement_progress() {
     s8 temp_r3;
-    if (((f32 (*)(void *, void *))horizontal_distance_squared)(&move_target, &steer_point) <= 100.0f) {
+    if (horizontal_distance_squared(&move_target, &steer_point) <= 100.0f) {
         return 0;
     }
     temp_r3 = stuck_frames;
     if (temp_r3 > 0x1E) {
         stuck_frames = 0x1EU;
         ai_flags = ai_flags | 0x4000;
-        if (((s16 (*)(void *, int))get_partner_counter)(partner_counters.count, 7) == 0) {
+        if (get_partner_counter(&partner_counters, 7) == 0) {
             request_chatter(7);
         }
-        ((s32 (*)(void *, int))increment_partner_counter)(partner_counters.count, 7);
-        ((s32 (*)(void *, int, int))npc_counter_reset_if_reached)(partner_counters.count, 7, 0x12C);
+        increment_partner_counter(&partner_counters, 7);
+        npc_counter_reset_if_reached(&partner_counters, 7, 0x12C);
         return 0;
     }
     if ((temp_r3 == 0) && (ai_flags & 0x4000)) {
-        ((s32 (*)(void *, int))reset_partner_counter)(partner_counters.count, 7);
+        reset_partner_counter(&partner_counters, 7);
         request_chatter(0x18);
         ai_flags = ai_flags & 0xFFFFBFFF;
     }
@@ -2449,7 +2439,7 @@ s32 NpcPlayerView::scan_nearby_enemies(Vec *pos, f32 range) {
     return found;
 }
 
-s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, void *pos, u16 id, f32 range) {
+s32 find_parts_in_range__10TNpcPlayerFPvPvif(NpcPlayerView *view, Vec *pos, u16 id, f32 range) {
     TObjCollidable *actor;
     s32 found;
     s32 i;
@@ -2558,12 +2548,12 @@ s32 NpcPlayerView::probe_obstacles() {
     return 0;
 }
 
-s32 partner_find_wall_segment(saddr arg0, saddr from, saddr to, saddr arg3, saddr arg4) {
+s32 TNpcPlayer::partner_find_wall_segment(Vec *from, Vec *to, Vec *point, Vec *normal) {
     CsnHit *hit;
-    hit = csnVector((const Vec *)from, (const Vec *)to, 0x2100);
+    hit = csnVector(from, to, 0x2100);
     if (hit != NULL) {
-        VecCopy((Vec *)arg3, &hit->contact->point);
-        VecCopy((Vec *)arg4, &hit->contact->normal);
+        VecCopy(point, &hit->contact->point);
+        VecCopy(normal, &hit->contact->normal);
         return 1;
     }
     return 0;
@@ -2572,7 +2562,7 @@ s32 partner_find_wall_segment(saddr arg0, saddr from, saddr to, saddr arg3, sadd
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off
-s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2) {
+s32 TNpcPlayer::partner_route_around_wall(Vec *from, Vec *to, Vec *d, Vec *out, Vec *out2) {
     Line line;
     Vec dir;
     Vec perp;
@@ -2595,13 +2585,13 @@ s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec 
         perp.x = -perp.x;
         perp.z = -perp.z;
     }
-    line.o.x = self->self_view->player->body_center.x;
-    line.o.y = self->self_view->player->body_center.y;
-    line.o.z = self->self_view->player->body_center.z;
+    line.o.x = self_view->player->body_center.x;
+    line.o.y = self_view->player->body_center.y;
+    line.o.z = self_view->player->body_center.z;
     line.d.x = perp.x;
     line.d.y = 0.0f;
     line.d.z = perp.z;
-    project_point_onto_line(&self->goal, &line, &hit);
+    project_point_onto_line(&goal, &line, &hit);
     s = 1.5f * len;
     if (s <= 20.0f) {
         s = 20.0f;
@@ -2609,14 +2599,14 @@ s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec 
     out->x = perp.x * s + from->x;
     out->y = from->y;
     out->z = perp.z * s + from->z;
-    VecCopy(&tmp, &self->leader_view->player->body_center);
+    VecCopy(&tmp, &leader_view->player->body_center);
     if (csnVector(&tmp, &hit, 0x2100) != NULL) {
         hit.x = 5.0f * perp.x + hit.x;
         hit.z = 5.0f * perp.z + hit.z;
         return 0;
     }
-    v.x = self->leader_view->player->body_center.x - hit.x;
-    v.z = self->leader_view->player->body_center.z - hit.z;
+    v.x = leader_view->player->body_center.x - hit.x;
+    v.z = leader_view->player->body_center.z - hit.z;
     v.y = 0.0f;
     if (0.0f != vector_length(&v)) {
         normalize_vector(&v);
@@ -2630,7 +2620,7 @@ s32 partner_route_around_wall(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec 
 
 #pragma push
 #pragma fp_contract on
-void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d, Vec *out) {
+void TNpcPlayer::partner_compute_stalled_detour(Vec *from, Vec *to, Vec *d, Vec *out) {
     Vec dir;
     Vec save;
     Vec a;
@@ -2662,7 +2652,7 @@ void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d
     } else {
         VecCopy(&dir, &a);
     }
-    if (self->stuck_frames >= 0x14) {
+    if (stuck_frames >= 0x14) {
         out->x = -((20.0f * dir.x) - from->x);
         out->y = from->y;
         out->z = -((20.0f * dir.z) - from->z);
@@ -2677,16 +2667,15 @@ void partner_compute_stalled_detour(TNpcPlayer *self, Vec *from, Vec *to, Vec *d
 #pragma push
 #pragma fp_contract on
 s32 TNpcPlayer::route_around_object(Vec *out) {
-    TNpcPlayer * self = this;
     CollisionBody info;
     Vec perp;
     Vec to;
     Vec toSelf;
     f32 r;
-    copy_collision_body(&info, &self->self_view->obstacle_body);
+    copy_collision_body(&info, &self_view->obstacle_body);
     if (info.shape == 0 || info.shape == 0 ||
         (info.half_width <= 12.0f && info.shape == 1 && info.half_width == info.radius)) {
-        TObjPlayer *t = self->self_view->player;
+        TObjPlayer *t = self_view->player;
         r = 20.0f + info.radius;
         to.x = t->position.x - info.center.x;
         to.y = 0.0f;
@@ -2697,9 +2686,9 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
         if (0.0f != vector_length(&perp)) {
             normalize_vector(&perp);
         }
-        toSelf.x = self->goal.x - info.center.x;
+        toSelf.x = goal.x - info.center.x;
         toSelf.y = 0.0f;
-        toSelf.z = self->goal.z - info.center.z;
+        toSelf.z = goal.z - info.center.z;
         if (0.0f != vector_length(&toSelf)) {
             normalize_vector(&toSelf);
         }
@@ -2719,7 +2708,7 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
         out->x = r * perp.x + info.center.x;
         out->y = r * perp.y + info.center.y;
         out->z = r * perp.z + info.center.z;
-        if (self->stuck_frames > 10) {
+        if (stuck_frames > 10) {
             out->x = info.center.x - r * perp.x;
             out->y = info.center.y - r * perp.y;
             out->z = info.center.z - r * perp.z;
@@ -2740,7 +2729,7 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
         a.x *= info.radius;
         b.z *= info.half_width;
         push_matrix_from(identity_matrix);
-        rotate_matrix_y(0, self->self_view->obstacle_angle + 0x4000);
+        rotate_matrix_y(0, self_view->obstacle_angle + 0x4000);
         matrix_mult_vec(0, &a, &a);
         matrix_mult_vec(0, &b, &b);
         pop_matrices(1);
@@ -2756,28 +2745,28 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
         c3.x = info.center.x - b.x;
         c3.y = info.center.y - b.y;
         c3.z = info.center.z - b.z;
-        dir.x = self->leader_view->player->position.x - info.center.x;
-        dir.y = self->leader_view->player->position.y - info.center.y;
-        dir.z = self->leader_view->player->position.z - info.center.z;
+        dir.x = leader_view->player->position.x - info.center.x;
+        dir.y = leader_view->player->position.y - info.center.y;
+        dir.z = leader_view->player->position.z - info.center.z;
         if (0.0f != vector_length(&dir)) {
             normalize_vector(&dir);
         }
-        self->calc_box_escape_axis(&c0, &c1, &c2, &c3, &self->self_view->player->position, &axis, &dist);
+        calc_box_escape_axis(&c0, &c1, &c2, &c3, &self_view->player->position, &axis, &dist);
         VecCopy(&esc, &axis);
         if (vec3_dot(&dir, &esc) < 0.0f) {
             esc.x = -esc.x;
             esc.z = -esc.z;
         }
         r = dist;
-        out->x = r * esc.x + self->self_view->player->position.x;
-        out->y = r * esc.y + self->self_view->player->body_center.y;
-        out->z = r * esc.z + self->self_view->player->position.z;
-        if (partner_clip_path_point(self, &self->self_view->player->body_center.x, &out->x, &clip.x) != 0) {
+        out->x = r * esc.x + self_view->player->position.x;
+        out->y = r * esc.y + self_view->player->body_center.y;
+        out->z = r * esc.z + self_view->player->position.z;
+        if (partner_clip_path_point(&self_view->player->body_center, out, &clip) != 0) {
             out->x = clip.x;
             out->y = clip.y;
             out->z = clip.z;
         }
-        if (self->stuck_frames > 15) {
+        if (stuck_frames > 15) {
             alt.x = esc.z;
             alt.y = 0.0f;
             alt.z = esc.x;
@@ -2785,9 +2774,9 @@ s32 TNpcPlayer::route_around_object(Vec *out) {
                 alt.x = -alt.x;
                 alt.z = -alt.z;
             }
-            out->x = r * alt.x + self->self_view->player->position.x;
-            out->y = self->self_view->player->body_center.y;
-            out->z = r * alt.z + self->self_view->player->position.z;
+            out->x = r * alt.x + self_view->player->position.x;
+            out->y = self_view->player->body_center.y;
+            out->z = r * alt.z + self_view->player->position.z;
         }
     }
     return 1;
@@ -2877,82 +2866,64 @@ bool TNpcPlayer::is_small_obstacle(f32 size) {
 
 #pragma push
 #pragma fp_contract on
-s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out) {
+s32 TNpcPlayer::partner_clip_path_point(Vec *from, Vec *to, Vec *out) {
     Vec dir;
     CsnHit *hit;
-    hit = csnVector((const Vec *)from, (const Vec *)to, 0x2100);
+    hit = csnVector(from, to, 0x2100);
     if (hit != NULL) {
-        dir.x = to[0] - from[0];
+        dir.x = to->x - from->x;
         dir.y = 0.0f;
-        dir.z = to[2] - from[2];
+        dir.z = to->z - from->z;
         if (0.0f != vector_length(&dir)) {
             normalize_vector(&dir);
         }
-        VecCopy((Vec *)out, &hit->contact->point);
-        out[0] = -((10.0f * dir.x) - out[0]);
-        out[1] = -((10.0f * dir.y) - out[1]);
-        out[2] = -((10.0f * dir.z) - out[2]);
+        VecCopy(out, &hit->contact->point);
+        out->x = -((10.0f * dir.x) - out->x);
+        out->y = -((10.0f * dir.y) - out->y);
+        out->z = -((10.0f * dir.z) - out->z);
         return 1;
     }
     return 0;
 }
 #pragma pop
 
-void TNpcPlayer::request_chatter(u32 arg1) {
-    u8 *arg0 = (u8 *)this;
-  u32 *new_var;
-  int new_var2;
-  new_var = (u32 *) (((s8 *) arg0) + 0x24);
-  if (((s32) (*((s32 *) (((s8 *) arg0) + 0x84)))) != 0)
-  {
-    if (arg1 != 4U)
-    {
-      if (arg1 == 0x11U)
-      {
+void TNpcPlayer::request_chatter(u32 id) {
+    if (escort_leader != 0 && (id == 4 || id == 0x11)) {
         return;
-      }
-      goto block_4;
     }
-  }
-  else
-  {
-    new_var2 = 0x24;
-    block_4:
-    reset_partner_counter((saddr)(arg0 + 0x5C), 0);
-    if (arg1 != ((u32) (*((u32 *) (((s8 *) arg0) + new_var2)))))
-    {
-      *new_var = arg1;
-      *((s32 *) (((s8 *) arg0) + 0x80)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x80))) | 4);
+    reset_partner_counter(&partner_counters, 0);
+    if (id != chatter_id) {
+        chatter_id = id;
+        ai_flags |= 4;
     }
-  }
 }
 
-void deliver_partner_chatter(TNpcPlayer *self) {
+void TNpcPlayer::deliver_partner_chatter() {
     u32 id;
     char *text;
-    if (self->chatter_id >= 0x19) {
-        self->ai_flags &= ~4;
-        self->chatter_id = 0x19;
+    if (chatter_id >= 0x19) {
+        ai_flags &= ~4;
+        chatter_id = 0x19;
         return;
     }
     if (TObjPlayer::is_any_teammate_in_state() != 0) {
         return;
     }
-    id = self->self_view->player->get_entity_id();
+    id = self_view->player->get_entity_id();
     if (id != 0xFFFF) {
-        text = (char *)get_partner_custom_text(self->chatter_id, id);
+        text = (char *)get_partner_custom_text(chatter_id, id);
         if (text != 0) {
             TWindowCtrl::open(id, (saddr)text, 0x1B);
         } else {
-            text = npc_partner_dialogue_state[self->chatter_id].text;
+            text = npc_partner_dialogue_state[chatter_id].text;
             if (text[0] != 0) {
                 TWindowCtrl::open(id, (saddr)text, 0x1B);
             }
         }
     }
-    self->ai_flags &= ~4;
-    if (((s32 (*)(void *, s32, s32))npc_counter_reset_if_reached)(self->partner_counters.count, 0, 0x190) != 0) {
-        self->chatter_id = 0x19;
+    ai_flags &= ~4;
+    if (npc_counter_reset_if_reached(&partner_counters, 0, 0x190) != 0) {
+        chatter_id = 0x19;
     }
 }
 
