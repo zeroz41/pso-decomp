@@ -9,6 +9,11 @@
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/TLobby_8013A874.h"
 
+// These packet classes were built by an older compiler than TProtocol.cpp. Their copy
+// constructors are the implicit ones, but the game links them as strong definitions from
+// this object, ahead of TProtocol's weak copies. The copies of classes whose members are
+// arrays of classes are defined and called by their linker names: a written copy
+// constructor would default-construct those array members first.
 extern "C" {
 QuestListEntry *__ct__14QuestListEntryFRC14QuestListEntry(QuestListEntry *dst, const QuestListEntry *src);
 LobbyListEntry *__ct__14LobbyListEntryFRC14LobbyListEntry(LobbyListEntry *dst, const LobbyListEntry *src);
@@ -28,6 +33,8 @@ template <> void TPlyText<288>::bswap() {
     header.bswap();
 }
 
+// The menu list copies are strong here too, so the lists are specialized with byte storage
+// for their entries: typed entry arrays would be default-constructed by the copy constructor.
 template <> class TMenuList<QuestListEntry, 30, 0> {
 public:
     TMenuList(const TMenuList &other);
