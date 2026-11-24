@@ -198,7 +198,6 @@ s32 TLobby__sub_801A3E8C();
 s32 init_player_join_record(void *);
 void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
-extern s32 lobby_challenge_mode;
 extern const NJS_POINT2 card_list_message_window_size[1];
 void fn_80338D58(void *list, s32 flag, const char *name, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 index);
 extern NJS_POINT2 idle_timeout_window_size[1];
