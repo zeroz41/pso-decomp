@@ -95,7 +95,7 @@ void export_player_record__10TObjPlayerFPvPv(TPlyCharData *record, u8 *arg1) {
     record->set_evade_materials_used(((TObjPlayer *)arg1)->get_evade_materials_used());
     record->set_def_materials_used(((TObjPlayer *)arg1)->get_def_materials_used());
     record->set_luck_materials_used(((TObjPlayer *)arg1)->get_luck_materials_used());
-    copy_disp_config(&record->m_config, arg1 + 0x500);
+    copy_disp_config(&record->m_config, &((TObjPlayer *)arg1)->action_palettes);
     for (i = 0; i < 0x13; i++) {
         overflow = record->technique_level_overflow(i);
         TObjPlayer::split_capped_value(TObjPlayer__sub_801C0124(arg1 + 0x428, i),

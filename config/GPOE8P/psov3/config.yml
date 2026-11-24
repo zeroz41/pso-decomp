@@ -1546,7 +1546,7 @@ force_active:
   - __ct__13TUnk_804A4C78FP7TObjectPUc
   - __ct__21TItemShootRocketPunchFP22TItemWeaponRocketPunchPC3VecPC3Vecf
   - __ct__13TUnk_804A5930FP7TObjectPUc
-  - copy_disp_config_palette__FPvPv
+  - copy_disp_config_palette__FP18TPlyDispConfigSmthP18TPlyDispConfigSmth
   - collect_body_contacts__FP16CollisionBodySetll
   - set_battle_param_slot__Fii
   - copy_collision_box__FP12CollisionBoxPC12CollisionBox
@@ -1662,7 +1662,7 @@ force_active:
   - TPlyCharData__global_destructor_registration
   - class_name__22TPlyFollowParticleCtrl
   - __ct__23PlayerHandParticlesBaseFv
-  - copy_guild_card_tag_triplet__FPvPv
+  - copy_guild_card_tag_triplet__FP6gc_tagP6gc_tag
   - copy_lobby_entry__FPvPv
   - TPlyOnCreated__name
   - TPlyPhotonChair__shared_model_resource

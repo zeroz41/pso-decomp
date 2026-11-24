@@ -5,7 +5,11 @@
 #include "pso/unk/TLobby.h"
 #include "pso/network/protocol/subcmd_6x.h"
 
+class TPlyCharData;
+class TPlyDispConfig;
+class TPlyDispConfigSmth;
 class TProtocol;
+struct gc_tag;
 struct TAdScrollWinGC;
 struct TKeyBoardControl;
 struct TLobby;
@@ -31,22 +35,22 @@ void lobby_init_hook(void);
 void render_idle_timeout(void);
 void init_6x6F_quest_flags_packet(G_SetQuestFlags_V2_V3_6x6F *packet);
 void init_6x72_resume_packet(G_DoneLoadingIntoGame_6x72 *packet);
-void *copy_disp_config(void *dst, void *src);
-void *copy_disp_config_palette(void *p, void *a1);
+TPlyDispConfig *copy_disp_config(TPlyDispConfig *dst, TPlyDispConfig *src);
+TPlyDispConfigSmth *copy_disp_config_palette(TPlyDispConfigSmth *dst, TPlyDispConfigSmth *src);
+void copy_gc_tag(gc_tag *dst, gc_tag *src);
 
 extern "C" {
+TPlyCharData *copy_player_data__9TProtocolFPvPv(TPlyCharData *dst, TPlyCharData *src);
 u8 *init_idle_timeout_timer(u8 *timer, saddr parent);
 void queue_join_entry_exit_on_input(void *self);
 void show_join_entry_message(s32 id);
 void show_dialog_value_line(saddr text);
 void *__ct__17TPlyJoinLobbyDataFv(void *self);
-void copy_gc_tag(void *dst, void *src);
 void *__ct__13GameListEntryFv(void *entry);
 void *__ct__18TPlyJoinLobbyEntryFv(void *self);
 void *__dt__18TPlyJoinLobbyEntryFv(void *self, s16 del);
 void bswap_and_send_extended_subcommand(void *p, u32 size);
 void bswap_extended_subcommand_header(void *p);
-u8 *copy_player_data__9TProtocolFPvPv(u8 *arg0, u8 *arg1);
 }
 void handle_6x6F_set_quest_flags_v2(saddr pkt);
 void handle_6x71_unblock_game_join(void);

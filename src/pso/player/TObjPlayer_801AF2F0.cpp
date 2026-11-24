@@ -1462,7 +1462,7 @@ void TObjPlayer::init_action_palette_defaults(saddr player) {
 }
 
 void TObjPlayer::init_player_substructs(u8 *data) {
-    copy_disp_config(&action_palettes, data);
+    copy_disp_config(&action_palettes, (TPlyDispConfig *)data);
     TObjPlayer::init_action_palette_defaults((saddr)this);
 }
 

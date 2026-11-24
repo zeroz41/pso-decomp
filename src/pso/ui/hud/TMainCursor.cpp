@@ -8,6 +8,7 @@
 #include "pso/unk/TUnk_804A7260.h"
 #include "pso/unk/TLOC_ListClear.h"
 #include "pso/ui/hud/TMainCursor.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/TLOC_End.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/unk/TLOC_Start.h"
@@ -322,10 +323,6 @@ int find_action_slot_for_target__11TMainCursorFllll(void*);
 
 }
 
-extern "C" {
-
-int copy_gc_tag(void* a0 = 0);
-}
 extern const f32 lbl_805DB0C4;
 
 
@@ -1757,7 +1754,7 @@ void TMainCursor::set_target_index(s16 v) { this->m_flags = v; }
 
 void TMainCursor::update_cursor_pos() { ((TMainCursor *)((char*)this + 0x14))->copy_from((char*)this + 0xc); }
 
-void*TMainCursor::copy_from(void* a1) { copy_gc_tag(this); this->m_flags = *(unsigned short*)((char*)a1 + 0x4); this->m_id = *(short*)((char*)a1 + 0x6); return this; }
+void*TMainCursor::copy_from(void* a1) { copy_gc_tag((gc_tag *)this, (gc_tag *)a1); this->m_flags = *(unsigned short*)((char*)a1 + 0x4); this->m_id = *(short*)((char*)a1 + 0x6); return this; }
 
 void TUnk_8013EF0C::reset() {
     candidate_part_index = 0;

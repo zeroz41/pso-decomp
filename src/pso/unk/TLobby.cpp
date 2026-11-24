@@ -173,14 +173,12 @@ typedef struct LobbyServerAddress {
 } LobbyServerAddress;
 struct H_8013A348 { u8 b[12]; };
 struct S_8013A348 { u8 pad[0x28]; struct H_8013A348 h[5]; };
+struct ByteBlock_8 { u8 bytes[0x8]; };
 struct ByteBlock_10 { u8 bytes[0x10]; };
-struct ByteBlock_20 { u8 bytes[0x20]; };
+struct ByteBlock_24 { u8 bytes[0x24]; };
 struct ByteBlock_50 { u8 bytes[0x50]; };
 struct ByteBlock_348 { u8 bytes[0x348]; };
-struct ByteBlock_24 { u8 bytes[0x24]; };
 struct ByteBlock_14 { u8 bytes[0x14]; };
-struct P8_8013A5D4 { u32 w[2]; };
-struct Rec_8013A5D4 { P8_8013A5D4 f0; u32 f8; u32 fc; P8_8013A5D4 f10; P8_8013A5D4 f18; u8 f20[0x41c]; };
 
 extern "C" {
 void handle_quest_download_chunk__6TLobbyFv();
@@ -2830,49 +2828,51 @@ void init_6x72_resume_packet(G_DoneLoadingIntoGame_6x72 *packet) {
     packet->header.size = sizeof(G_DoneLoadingIntoGame_6x72) / 4;
 }
 void *TLobby::copy_member_record(void *to, void *from) {
-    Rec_8013A5D4 *dst = (Rec_8013A5D4 *)to;
-    Rec_8013A5D4 *src = (Rec_8013A5D4 *)from;
-    dst->f0 = src->f0;
-    dst->f8 = src->f8;
-    dst->fc = src->fc;
-    dst->f10 = src->f10;
-    dst->f18 = src->f18;
-    copy_player_data__9TProtocolFPvPv(dst->f20, src->f20);
+    TPlyJoinLobbyEntry *dst = (TPlyJoinLobbyEntry *)to;
+    TPlyJoinLobbyEntry *src = (TPlyJoinLobbyEntry *)from;
+    *(ByteBlock_8 *)&dst->tag = *(ByteBlock_8 *)&src->tag;
+    dst->ip_addr = src->ip_addr;
+    dst->client_id = src->client_id;
+    *(ByteBlock_10 *)dst->name = *(ByteBlock_10 *)src->name;
+    copy_player_data__9TProtocolFPvPv(&dst->char_data, &src->char_data);
     return dst;
 }
 
-u8 *copy_player_data__9TProtocolFPvPv(u8 *dst, u8 *src) {
-    u8 *temp_r4;
-    u8 *temp_r4_2;
-    u8 *temp_r5;
-    u8 *temp_r6;
-    *(u8 *)((s8 *)dst + 0) = (u8) *(u8 *)((s8 *)src + 0);
-    *(u8 *)((s8 *)dst + 1) = (u8) *(u8 *)((s8 *)src + 1);
-    *(u8 *)((s8 *)dst + 2) = (u8) *(u8 *)((s8 *)src + 2);
-    *(u8 *)((s8 *)dst + 3) = (u8) *(u8 *)((s8 *)src + 3);
-    *(ByteBlock_348 *)((saddr) dst + 4) = *(const ByteBlock_348 *)((saddr) src + 4);
-    temp_r6 = (dst + 0x348);
-    temp_r4 = (src + 0x348);
-    *(ByteBlock_24 *)((saddr) temp_r6 + 4) = *(const ByteBlock_24 *)((saddr) temp_r4 + 4);
-    *(ByteBlock_50 *)((dst + 0x36C) + 4) = *(const ByteBlock_50 *)((src + 0x36C) + 4);
-    copy_disp_config(dst + 0x3C0, src + 0x3C0);
-    temp_r5 = (dst + 0x404);
-    temp_r4_2 = (src + 0x404);
-    *(ByteBlock_14 *)((saddr) temp_r5 + 4) = *(const ByteBlock_14 *)((saddr) temp_r4_2 + 4);
+TPlyCharData *copy_player_data__9TProtocolFPvPv(TPlyCharData *dst, TPlyCharData *src) {
+    dst->m_inventory.m_num_items = src->m_inventory.m_num_items;
+    dst->m_inventory.m_hp_materials_used = src->m_inventory.m_hp_materials_used;
+    dst->m_inventory.m_tp_materials_used = src->m_inventory.m_tp_materials_used;
+    dst->m_inventory.m_language = src->m_inventory.m_language;
+    *(ByteBlock_348 *)dst->m_inventory.m_items = *(ByteBlock_348 *)src->m_inventory.m_items;
+    *(ByteBlock_24 *)&dst->m_stats = *(ByteBlock_24 *)&src->m_stats;
+    *(ByteBlock_50 *)&dst->m_disp_part2 = *(ByteBlock_50 *)&src->m_disp_part2;
+    copy_disp_config(&dst->m_config, &src->m_config);
+    *(ByteBlock_14 *)dst->m_tech_levels = *(ByteBlock_14 *)src->m_tech_levels;
     return dst;
 }
 
-void *copy_disp_config(void *dst, void *src) {
-    copy_disp_config_palette(dst, src);
-    ((void (*)(void *, void *))copy_disp_config_palette)((void *)((char *)dst + 36), (void *)((char *)src + 36));
+TPlyDispConfig *copy_disp_config(TPlyDispConfig *dst, TPlyDispConfig *src) {
+    copy_disp_config_palette(&dst->m_smth, &src->m_smth);
+    copy_disp_config_palette(&dst->m_smth1, &src->m_smth1);
     return dst;
 }
 
-void* copy_disp_config_palette(void* p, void* a1) { *(void**)(p) = *(void**)((char*)a1 + 0x0); copy_gc_tag((void *)((void*)((char*)p + 0x4)), (void *)((void*)((char*)a1 + 0x4))); copy_gc_tag((void *)((void*)((char*)p + 0x8)), (void *)((void*)((char*)a1 + 0x8))); copy_gc_tag((void *)((void*)((char*)p + 0xc)), (void *)((void*)((char*)a1 + 0xc))); copy_gc_tag((void *)((void*)((char*)p + 0x10)), (void *)((void*)((char*)a1 + 0x10))); copy_gc_tag((void *)((void*)((char*)p + 0x14)), (void *)((void*)((char*)a1 + 0x14))); copy_gc_tag((void *)((void*)((char*)p + 0x18)), (void *)((void*)((char*)a1 + 0x18))); copy_gc_tag((void *)((void*)((char*)p + 0x1c)), (void *)((void*)((char*)a1 + 0x1c))); copy_gc_tag((void *)((void*)((char*)p + 0x20)), (void *)((void*)((char*)a1 + 0x20))); return p; }
-void copy_gc_tag(void *dst, void *src) {
-    *(u8 *)((s8 *)dst + 0) = (u8) *(u8 *)((s8 *)src + 0);
-    *(u8 *)((s8 *)dst + 1) = (u8) *(u8 *)((s8 *)src + 1);
-    *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
+TPlyDispConfigSmth *copy_disp_config_palette(TPlyDispConfigSmth *dst, TPlyDispConfigSmth *src) {
+    dst->m_mbr_0x0 = src->m_mbr_0x0;
+    copy_gc_tag(&dst->m_tags[0], &src->m_tags[0]);
+    copy_gc_tag(&dst->m_tags[1], &src->m_tags[1]);
+    copy_gc_tag(&dst->m_tags[2], &src->m_tags[2]);
+    copy_gc_tag(&dst->m_tags[3], &src->m_tags[3]);
+    copy_gc_tag(&dst->m_tags1[0], &src->m_tags1[0]);
+    copy_gc_tag(&dst->m_tags1[1], &src->m_tags1[1]);
+    copy_gc_tag(&dst->m_tags1[2], &src->m_tags1[2]);
+    copy_gc_tag(&dst->m_tags1[3], &src->m_tags1[3]);
+    return dst;
+}
+void copy_gc_tag(gc_tag *dst, gc_tag *src) {
+    dst->tag0 = src->tag0;
+    dst->tag1 = src->tag1;
+    *(s16 *)&dst->tag2 = *(s16 *)&src->tag2;
 }
 
 #pragma pop
@@ -2920,33 +2920,27 @@ void EnemyStateRecord::bswap() {
     bswap_16(&drop_id);
     bswap_16(reinterpret_cast<u16 *>(&damage));
 }
-u8 *copy_join_lobby_entry(u8 *dst, u8 *src) {
-    __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(dst, src);
-    *(s32 *)((s8 *)dst + 8) = (s32) *(s32 *)((s8 *)src + 8);
-    *(s32 *)((s8 *)dst + 0xC) = (s32) *(s32 *)((s8 *)src + 0xC);
-    *(ByteBlock_10 *)((saddr) dst + 0x10) = *(const ByteBlock_10 *)((saddr) src + 0x10);
-    copy_char_data((dst + 0x20), (src + 0x20));
-    return dst;
+u8 *copy_join_lobby_entry(u8 *to, u8 *from) {
+    TPlyJoinLobbyEntry *dst = (TPlyJoinLobbyEntry *)to;
+    TPlyJoinLobbyEntry *src = (TPlyJoinLobbyEntry *)from;
+    __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(&dst->tag, &src->tag);
+    dst->ip_addr = src->ip_addr;
+    dst->client_id = src->client_id;
+    *(ByteBlock_10 *)dst->name = *(ByteBlock_10 *)src->name;
+    copy_char_data(&dst->char_data, &src->char_data);
+    return to;
 }
 
-u8 *copy_char_data(u8 *dst, u8 *src) {
-    u8 *temp_r4;
-    u8 *temp_r4_2;
-    u8 *temp_r5;
-    u8 *temp_r6;
-    *(u8 *)((s8 *)dst + 0) = (u8) *(u8 *)((s8 *)src + 0);
-    *(u8 *)((s8 *)dst + 1) = (u8) *(u8 *)((s8 *)src + 1);
-    *(u8 *)((s8 *)dst + 2) = (u8) *(u8 *)((s8 *)src + 2);
-    *(u8 *)((s8 *)dst + 3) = (u8) *(u8 *)((s8 *)src + 3);
-    *(ByteBlock_348 *)((saddr) dst + 4) = *(const ByteBlock_348 *)((saddr) src + 4);
-    temp_r6 = (dst + 0x348);
-    temp_r4 = (src + 0x348);
-    *(ByteBlock_24 *)((saddr) temp_r6 + 4) = *(const ByteBlock_24 *)((saddr) temp_r4 + 4);
-    *(ByteBlock_50 *)((dst + 0x36C) + 4) = *(const ByteBlock_50 *)((src + 0x36C) + 4);
-    ((TPlyCharData *)dst)->m_config.copy_full(&((TPlyCharData *)src)->m_config);
-    temp_r5 = (dst + 0x404);
-    temp_r4_2 = (src + 0x404);
-    *(ByteBlock_14 *)((saddr) temp_r5 + 4) = *(const ByteBlock_14 *)((saddr) temp_r4_2 + 4);
+TPlyCharData *copy_char_data(TPlyCharData *dst, TPlyCharData *src) {
+    dst->m_inventory.m_num_items = src->m_inventory.m_num_items;
+    dst->m_inventory.m_hp_materials_used = src->m_inventory.m_hp_materials_used;
+    dst->m_inventory.m_tp_materials_used = src->m_inventory.m_tp_materials_used;
+    dst->m_inventory.m_language = src->m_inventory.m_language;
+    *(ByteBlock_348 *)dst->m_inventory.m_items = *(ByteBlock_348 *)src->m_inventory.m_items;
+    *(ByteBlock_24 *)&dst->m_stats = *(ByteBlock_24 *)&src->m_stats;
+    *(ByteBlock_50 *)&dst->m_disp_part2 = *(ByteBlock_50 *)&src->m_disp_part2;
+    dst->m_config.copy_full(&src->m_config);
+    *(ByteBlock_14 *)dst->m_tech_levels = *(ByteBlock_14 *)src->m_tech_levels;
     return dst;
 }
 
@@ -2970,16 +2964,18 @@ TPlyDispConfigSmth *TPlyDispConfigSmth::copy(TPlyDispConfigSmth *src) {
     copy_guild_card_tag_triplet(&m_tags1[3], &src->m_tags1[3]);
     return this;
 }
-void copy_guild_card_tag_triplet(void *dst, void *src) {
-    *(u8 *)((s8 *)dst + 0) = (u8) *(u8 *)((s8 *)src + 0);
-    *(u8 *)((s8 *)dst + 1) = (u8) *(u8 *)((s8 *)src + 1);
-    *(s16 *)((s8 *)dst + 2) = (s16) *(s16 *)((s8 *)src + 2);
+void copy_guild_card_tag_triplet(gc_tag *dst, gc_tag *src) {
+    dst->tag0 = src->tag0;
+    dst->tag1 = src->tag1;
+    *(s16 *)&dst->tag2 = *(s16 *)&src->tag2;
 }
-void __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *dst, void *src) {
-    *(u8 *)((s8 *)dst + 0) = (u8) *(u8 *)((s8 *)src + 0);
-    *(u8 *)((s8 *)dst + 1) = (u8) *(u8 *)((s8 *)src + 1);
-    *(u16 *)((s8 *)dst + 2) = (u16) *(u16 *)((s8 *)src + 2);
-    *(s32 *)((s8 *)dst + 4) = (s32) *(s32 *)((s8 *)src + 4);
+void __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *to, void *from) {
+    TPlyGuildCardTag *dst = (TPlyGuildCardTag *)to;
+    TPlyGuildCardTag *src = (TPlyGuildCardTag *)from;
+    dst->m_tag0 = src->m_tag0;
+    dst->m_tag1 = src->m_tag1;
+    dst->m_tag2 = src->m_tag2;
+    dst->m_guildcard_number = src->m_guildcard_number;
 }
 void set_item_drop_server_seed(int a0) { item_drop_server_seed = a0; }
 void set_area_random_seed(int a0) { area_random_seed = a0; }
