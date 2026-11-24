@@ -13,26 +13,22 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 
-extern "C" {
-extern const char *bm_n_trunk_i_body_motion_names[1];
-extern const char *bm_n_trunk_i_body_model_names[2];
 const char *bm_n_trunk_i_body_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_n_trunk_i_body_model_names[2] = { "n_trunk_i_body.nj", NULL };
 BmlResourceDescriptor bm_n_trunk_i_body_resource_descriptor = { "bm_n_trunk_i_body.bml", bm_n_trunk_i_body_model_names, bm_n_trunk_i_body_motion_names, 1, 0 };
 const char *TObjNpcCloakroomBase::name = "TObjNpcCloakroomBase";
 BmlResource *TObjNpcCloakroomBase::static_instance;
-s32 play_sound_effect(s32, s32, s32, s32);
 
 void TObjNpcCloakroomBase::play_voice() {
-    saddr arg0 = (saddr)this;
     if (get_current_floor_area() != AREA_CAVE3) {
-        play_sound_effect(0x40003804, arg0 + 0x38, 0, 0);
+        play_sound_effect(0x40003804, &position, 0, 0);
         return;
     }
-    play_sound_effect(0x40003802, arg0 + 0x38, 0, 0);
+    play_sound_effect(0x40003802, &position, 0, 0);
 }
 
 void *TObjNpcCloakroomBase::create(void *set_data) {
@@ -51,16 +47,15 @@ void TObjNpcCloakroomBase::load_shared_resource() {
     static_instance = new BmlResource(1, &bm_n_trunk_i_body_resource_descriptor, 0, 0, NULL);
 }
 
-}
 TObjNpcCloakroomBase::~TObjNpcCloakroomBase() {}
 
-TObjNpcCloakroomBase::TObjNpcCloakroomBase(TObject *parent, void *arg2) : TObjNpcFemale(parent) {
-    *(s32 *)((s8 *)this + 0) = (saddr) name;
-    ((TObjNpcCloakroomBase *)this)->apply_set_data(arg2);
+TObjNpcCloakroomBase::TObjNpcCloakroomBase(TObject *parent, void *set_data) : TObjNpcFemale(parent) {
+    this->m_name = name;
+    this->apply_set_data(set_data);
     init_position_vectors();
     model = static_instance->models->model;
     texlist = static_instance->models->texlist;
-    ((TObjNpcBase *)this)->setup_common();
+    this->setup_common();
 }
 
 f32 TObjNpcCloakroomBase::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {

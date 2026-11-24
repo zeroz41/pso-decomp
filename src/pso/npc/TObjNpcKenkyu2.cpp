@@ -20,10 +20,7 @@ void *TObjNpcKenkyu2::create(void *set_data) {
     return new TObjNpcKenkyu2(control, set_data);
 }
 
-extern const char *bm_npc_kenkyu2_model_names[2];
 extern const char *bm_npc_kenkyu2_motion_names[1];
-
-
 
 void TObjNpcKenkyu2::free_static_model() {
     if (shared_model_resource != NULL) {
@@ -38,13 +35,13 @@ void TObjNpcKenkyu2::load_shared_resource() {
 
 TObjNpcKenkyu2::~TObjNpcKenkyu2() {}
 
-TObjNpcKenkyu2::TObjNpcKenkyu2(TObject *parent, void *arg2) : TObjNpcMale(parent) {
-    *(s32 *)((s8 *)this + 0) = (saddr) name;
-    ((TObjNpcKenkyu2 *)this)->apply_set_data(arg2);
+TObjNpcKenkyu2::TObjNpcKenkyu2(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+    this->m_name = name;
+    this->apply_set_data(set_data);
     init_position_vectors();
     model = get_bml_model(shared_model_resource, 0);
     texlist = get_bml_texlist(shared_model_resource, 0);
-    ((TObjNpcBase *)this)->setup_common();
+    this->setup_common();
 }
 
 __declspec(section ".data") const char *bm_npc_kenkyu2_model_names[2] = { "kenkyu2_body.nj", NULL };

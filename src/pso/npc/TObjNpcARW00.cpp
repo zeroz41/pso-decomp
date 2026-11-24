@@ -11,6 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/render/GinjaTexture.h"
 
 void *TObjNpcARW00::create(void *set_data) {
     TObjControl *control = new TObjControl(tl_04);
@@ -19,10 +20,8 @@ void *TObjNpcARW00::create(void *set_data) {
 
 const char *TObjNpcARW00::name = "TObjNpcARW00";
 
-extern "C" {
 uaddr TObjNpcARW00::static_model;
 NJS_TEXLIST *TObjNpcARW00::gvm_texture_handle;
-void release_texture_list(void*);
 
 void TObjNpcARW00::free_resources() {
     if (gvm_texture_handle != NULL) {
@@ -41,21 +40,18 @@ void TObjNpcARW00::load_resources() {
     gvm_texture_handle = load_gvm_texture_file("n_f00_w_body.gvm");
 }
 
-}
 TObjNpcARW00::~TObjNpcARW00() {}
 
-
-TObjNpcARW00::TObjNpcARW00(TObject *parent, void *arg2) : TObjNpcFemale(parent) {
-    *(s32 *)((s8 *)this + 0) = (saddr) name;
-    ((TObjNpcARW00 *)this)->apply_set_data(arg2);
+TObjNpcARW00::TObjNpcARW00(TObject *parent, void *set_data) : TObjNpcFemale(parent) {
+    this->m_name = name;
+    this->apply_set_data(set_data);
     init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&static_model);
-    ((TObjNpcARW00 *)this)->texlist = gvm_texture_handle;
-    ((TObjNpcBase *)this)->setup_common();
+    this->model = *(void **)static_model;
+    this->texlist = gvm_texture_handle;
+    this->setup_common();
 }
 
 void TObjNpcARW00::play_voice() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect(0x40004C15, (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x40004C15, &position, 0, 0);
 }
 

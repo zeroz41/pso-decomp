@@ -21,9 +21,6 @@ void *TObjNpcKenkyu::create(void *set_data) {
     return new TObjNpcKenkyu(control, set_data);
 }
 
-extern "C" {
-extern const char *bm_npc_kenkyu_motion_names[1];
-extern const char *bm_npc_kenkyu_model_names[2];
 const char *bm_npc_kenkyu_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_npc_kenkyu_model_names[2] = { "kenkyu_body.nj", NULL };
 BmlResourceDescriptor bm_npc_kenkyu_resource_descriptor = { "bm_npc_kenkyu.bml", bm_npc_kenkyu_model_names, bm_npc_kenkyu_motion_names, 1, 0 };
@@ -40,15 +37,14 @@ void TObjNpcKenkyu::load_shared_resource() {
     static_model = new BmlResource(1, &bm_npc_kenkyu_resource_descriptor, 0, 0, NULL);
 }
 
-}
 TObjNpcKenkyu::~TObjNpcKenkyu() {}
 
-TObjNpcKenkyu::TObjNpcKenkyu(TObject *parent, void *arg2) : TObjNpcMale(parent) {
-    *(s32 *)((s8 *)this + 0) = (saddr) name;
-    ((TObjNpcKenkyu *)this)->apply_set_data(arg2);
+TObjNpcKenkyu::TObjNpcKenkyu(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+    this->m_name = name;
+    this->apply_set_data(set_data);
     init_position_vectors();
     model = get_bml_model(static_model, 0);
     texlist = get_bml_texlist(static_model, 0);
-    ((TObjNpcBase *)this)->setup_common();
+    this->setup_common();
 }
 

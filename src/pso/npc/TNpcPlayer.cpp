@@ -50,12 +50,10 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer_80011014.h"
 
-extern "C" {
-
-
 disp_data_part2 *npc_player_char_data_buffer;
 s32 quest_npc_visual_pending;
 
+extern "C" {
 
 f32 horizontal_distance_squared(void *, void *);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
@@ -88,6 +86,8 @@ void __register_global_object(void *obj, void *dtor, void *link);
 extern int registered_entity_count;
 
 void copy_player_visual_record(void *, void *);
+void __sinit_TNpcPlayer_cpp();
+}
 
 disp_data_part2 npc_player_visual_record;
 u32 npc_player_ply_char_data_global[3];
@@ -103,9 +103,8 @@ const char *TNpcPlayer::name = "TNpcPlayer";
 // npc_player_char_data is constructed by __sinit_TNpcPlayer_cpp, spelled out below because
 // the original's static initializer precedes the out-of-line helpers at the end
 // of this file, which no compiler-generated __sinit reproduces.
-void __sinit_TNpcPlayer_cpp();
 __declspec(section ".ctors") static void *const npc_player_global_initializer = (void *)__sinit_TNpcPlayer_cpp;
-}
+
 s32 partner_clip_path_point(void *self, f32 *from, f32 *to, f32 *out);
 s32 partner_find_wall_segment(saddr arg0, saddr arg1, saddr arg2, saddr arg3, saddr arg4);
 void partner_observe_surroundings(TNpcPlayer *npc_player);

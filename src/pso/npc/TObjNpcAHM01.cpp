@@ -14,6 +14,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
+#include "pso/render/GinjaTexture.h"
 
 #pragma readonly_strings on
 
@@ -25,9 +26,6 @@ void *TObjNpcAHM01::create(void *set_data) {
 const char *TObjNpcAHM01::name = "TObjNpcAHM01";
 uaddr TObjNpcAHM01::shared_object;
 NJS_TEXLIST *TObjNpcAHM01::texture_handle;
-
-extern "C" {
-void release_texture_list(void*);
 
 void TObjNpcAHM01::free_resources() {
     if (texture_handle != NULL) {
@@ -46,21 +44,19 @@ void TObjNpcAHM01::load_resources() {
     texture_handle = load_gvm_texture_file("n_c01_e_body.gvm");
 }
 
-}
 TObjNpcAHM01::~TObjNpcAHM01() {}
 
-TObjNpcAHM01::TObjNpcAHM01(TObject *parent, void *arg2) : TObjNpcMale(parent) {
-    *(s32 *)((s8 *)this + 0) = (saddr) name;
-    ((TObjNpcAHM01 *)this)->apply_set_data(arg2);
+TObjNpcAHM01::TObjNpcAHM01(TObject *parent, void *set_data) : TObjNpcMale(parent) {
+    this->m_name = name;
+    this->apply_set_data(set_data);
     init_position_vectors();
-    *(s32 *)((s8 *)this + 0x34) = (s32) *(*(s32 * *)&shared_object);
-    ((TObjNpcAHM01 *)this)->texlist = texture_handle;
-    ((TObjNpcBase *)this)->setup_common();
+    this->model = *(void **)shared_object;
+    this->texlist = texture_handle;
+    this->setup_common();
 }
 
 void TObjNpcAHM01::play_voice() {
-    saddr arg0 = (saddr)this;
-    play_sound_effect(0x40004C15, (void *)(arg0 + 0x38), 0, 0);
+    play_sound_effect(0x40004C15, &position, 0, 0);
 }
 
 s32 TObjNpcBase::is_target_in_attack_range() { return 0; }
