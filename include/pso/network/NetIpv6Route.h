@@ -185,7 +185,7 @@ s32 release_packet_fragments(NetPacket *a);
 void tick_entry_timers(void);
 void update_timeout_entries(void);
 void NetIPv6ApplyNeighborDiscoveryDefaults(Ipv6NdState *nd);
-s16 NetIPv6IsReachable(u8 *dst, saddr src);
+s16 NetIPv6IsReachable(u8 *dst, u8 *src);
 s16 NetIPv6GetLinkLocalAddress(void *out, s16 idx);
 s16 NetIPv6InterfaceNeedsResolution(s16 i);
 s16 NetIPv6IsLoopbackInterface(s16 i);

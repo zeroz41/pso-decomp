@@ -974,8 +974,8 @@ release:
     return ret;
 }
 
-s16 NetIPv6IsReachable(u8 *dst, saddr src) {
-    if (NetIPv6LookupRoute(dst, (void *)src) != NULL) {
+s16 NetIPv6IsReachable(u8 *dst, u8 *src) {
+    if (NetIPv6LookupRoute(dst, src) != NULL) {
         return 1;
     }
     return 0;

@@ -94,7 +94,7 @@ s16 AT_IP_IsReachable(NetworkAddress *dst, NetworkAddress *src) {
     case 4:
         return AT_IP4_IsReachable(dst->ipv4, src->ipv4);
     case 6:
-        return NetIPv6IsReachable(dst->address, (saddr)src->address);
+        return NetIPv6IsReachable(dst->address, src->address);
     default:
     case 0:
         return -2;
