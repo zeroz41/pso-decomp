@@ -402,7 +402,6 @@ struct TLobby : public TObject {
     static void handle_flag2_request();
     static void load_now_loading_texture();
     static void update_pulse_colors(s32 request);
-    static void *create_object(void *tbl);
     static void free_global_object();
     static void update_menu_cursor_selection();
     static void init_once(TRecvInfoBoard *info_board);

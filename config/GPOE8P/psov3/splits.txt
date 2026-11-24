@@ -9119,7 +9119,7 @@ pso/effect/enemy/TEneParticleCtrl.cpp:
 	.data       start:0x804EF458 end:0x804EF4C0
 	.sdata      start:0x805D4258 end:0x805D4260
 
-pso/unk/TLobby_80338E9C.cpp:
+pso/ui/window/TWindowMenuTeamStatus.cpp:
 	.text       start:0x80338D58 end:0x80338F9C
 	.rodata     start:0x80477C00 end:0x80477C20
 	.data       start:0x804EF4C0 end:0x804EF4FC

@@ -867,7 +867,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # "TEneParticleCtrl" sits in .rodata at 0x80477BE8
     "pso/effect/enemy/TEneParticleCtrl.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # "TWindowMenuTeamStatus" sits in .rodata at 0x80477C00
-    "pso/unk/TLobby_80338E9C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/window/TWindowMenuTeamStatus.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # class-name strings sit in .rodata before the double literals (0x80443B68)
     "pso/object/city/CityTraffic.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # .data holds the ten season-object vtables in the ascending text order of their key

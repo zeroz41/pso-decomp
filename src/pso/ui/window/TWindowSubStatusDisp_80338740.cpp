@@ -10,27 +10,27 @@
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include <string.h>
 
-extern "C" {
-void TWindowSubStatusDisp__sub_80338740(u8 *arg0, s32 arg1, saddr src, s8 arg3, s8 arg4, s8 arg5, s8 arg6, s8 arg7, s32 arg_sp8) {
-    saddr num;
-    if (arg1 != 0) {
-        *(s8 *)((s8 *)arg0 + 0x1C) = 0x18;
+void fill_game_list_row(void *row, s32 locked, const char *name, s8 player_count, s8 max_players, s8 difficulty, s8 mark, s8 level, s32 index) {
+    saddr len;
+    if (locked != 0) {
+        *(s8 *)((s8 *)row + 0x1C) = 0x18;
     } else {
-        *(s8 *)((s8 *)arg0 + 0x1C) = 0x33;
+        *(s8 *)((s8 *)row + 0x1C) = 0x33;
     }
-    num = (s32)measure_string_len((const char *)((void *)src));
-    *(s32 *)((s8 *)arg0 + 0x24) = (saddr)mem_alloc((num + 1));
-    strncpy((char *)(*(saddr *)((s8 *)arg0 + 0x24)), (const char *)src, (int)num);
-    *(s8 *)((s8 *)num + (*(s32 *)((s8 *)arg0 + 0x24))) = 0;
-    *(s8 *)((s8 *)arg0 + 0x1D) = arg7;
-    *(s8 *)((s8 *)arg0 + 0x1E) = arg6;
-    *(s8 *)((s8 *)arg0 + 0x1F) = arg5;
-    *(s8 *)((s8 *)arg0 + 0x20) = arg3;
-    *(s8 *)((s8 *)arg0 + 0x21) = arg4;
-    *(s32 *)((s8 *)arg0 + 0x18) = arg_sp8;
-    *(u16 *)((s8 *)arg0 + 0) = (u16) (*(u16 *)((s8 *)arg0 + 0) | 5);
+    len = (s32)measure_string_len(name);
+    *(s32 *)((s8 *)row + 0x24) = (saddr)mem_alloc((len + 1));
+    strncpy((char *)(*(saddr *)((s8 *)row + 0x24)), name, (int)len);
+    *(s8 *)((s8 *)len + (*(s32 *)((s8 *)row + 0x24))) = 0;
+    *(s8 *)((s8 *)row + 0x1D) = level;
+    *(s8 *)((s8 *)row + 0x1E) = mark;
+    *(s8 *)((s8 *)row + 0x1F) = difficulty;
+    *(s8 *)((s8 *)row + 0x20) = player_count;
+    *(s8 *)((s8 *)row + 0x21) = max_players;
+    *(s32 *)((s8 *)row + 0x18) = index;
+    *(u16 *)((s8 *)row + 0) = (u16) (*(u16 *)((s8 *)row + 0) | 5);
 }
 
+extern "C" {
 void TWindowSubStatusDisp__sub_803387F8(void *arg0, s8 arg1) {
     (saddr)TWindowSubStatusDisp::get_message_10(arg1 + 0x113);
 }

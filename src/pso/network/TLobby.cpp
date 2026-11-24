@@ -79,6 +79,7 @@
 #include "pso/network/client_id.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/network/NetworkWaitIcon.h"
+#include "pso/ui/window/TWindowMenuTeamStatus.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
@@ -198,7 +199,6 @@ s32 TLobby__sub_801A3E8C();
 s32 init_player_join_record(void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const NJS_POINT2 card_list_message_window_size[1];
-void fn_80338D58(void *list, s32 flag, const char *name, s32 player_count, s32 max_players, s32 difficulty, s32 mark, s32 level, s32 index);
 extern NJS_POINT2 idle_timeout_window_size[1];
 void render_shadows__7TObjectFv();
 void handle_chat_message__11TWindowCtrlFPc(char *);
@@ -2155,19 +2155,19 @@ void TLobby::open_information_list(int count, void *entries) {
 
 void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected) {
     static void *tbl = (void *)lobby_msg_information_counter;
-    void *w;
+    TWindowMenuTeamStatus *w;
     s32 i;
 
     if (TLobby::list_window != 0) {
         TLobby::list_window->queue_destruction();
         TLobby::list_window = 0;
     }
-    w = TLobby::create_object(tbl);
+    w = TWindowMenuTeamStatus::create(tbl);
     for (i = 0; i < count; i++) {
         GameMenuEntry *e = &entries[i];
         s32 flags = e->flags;
-        s8 mark = 0;
-        s32 level;
+        s32 mark = 0;
+        s8 level;
         if (flags & 0x10) {
             mark = 2;
         }
@@ -2181,10 +2181,10 @@ void handle_game_list(s32 count, GameMenuEntry *entries, GameMenuEntry *selected
         if (flags & 0x80) {
             level = 2;
         }
-        fn_80338D58(w, flags & 2, e->name, (s8)e->num_players, 4, (s8)(e->difficulty_tag - 0x22), mark, level, i);
+        w->add_entry(flags & 2, e->name, e->num_players, 4, e->difficulty_tag - 0x22, mark, level, i);
     }
-    ((TWindowMenuIconLine *)w)->calc_content_extent();
-    TLobby::list_window = (TWindowMenuIconLine *)w;
+    w->calc_content_extent();
+    TLobby::list_window = w;
     memset(selected_game_name, 0, 0x11);
     strncpy(selected_game_name, selected->name, 0x11);
 }

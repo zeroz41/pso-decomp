@@ -841,7 +841,7 @@ pso/unk/TLobby_80335E7C.cpp
 pso/ui/charcreate/TChCrTagOccHeader.cpp
 pso/unk/text_803369C8.cpp
 pso/unk/TLobby_803382E4.cpp
-pso/unk/TLobby_80338E9C.cpp
+pso/ui/window/TWindowMenuTeamStatus.cpp
 pso/unk/TLobby_8034C18C.cpp
 pso/unk/TLobby_8034C23C.cpp
 pso/unk/TLobby_8035D540.cpp
