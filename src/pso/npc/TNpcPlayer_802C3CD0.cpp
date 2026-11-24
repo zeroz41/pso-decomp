@@ -142,7 +142,7 @@ void TObjPlayer::export_state_to_record(TPlyCharData *record) {
     set_hp_clamped(hp);
     set_tp(tp);
     record->m_inventory.m_language = get_language();
-    if (TObjPlayer__sub_802A1018() != 0) {
+    if (game_files_modified() != 0) {
         record->mark_game_files_modified();
     }
     apply_pending_action((saddr)record);
