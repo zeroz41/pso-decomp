@@ -174,21 +174,10 @@ struct Stats_801B96BC { s16 atp; s16 pad2[0x11]; };
 
 struct Out_801B96BC { s16 a; s16 b; };
 
-struct Self_801B96BC {
-    u8 pad0[0x2B0];
-    u8 *f2B0;
-    u8 pad2B4[0x318 - 0x2B4];
-    saddr f318;
-    saddr f31C;
-    u8 pad320[0xD00 - 0x320];
-    TPlyItem *fD00;
-    u8 fD04[4];
-};
-
 extern "C" {
-s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming);
+s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, s16 *out, u8 *incoming);
 s32 is_item_equipped(TItem *item);
-s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out, s32 key);
+s32 preview_unequip_stats__10TObjPlayerFv(TObjPlayer *self, Out_801B96BC *out, s32 key);
 }
 
 typedef struct Msg_801CD6BC {
@@ -1816,7 +1805,7 @@ void TObjPlayer::equip_item_to_slot(TItem *item, s32 slot) {
     } else {
         slot = item->get_attach_slot();
     }
-    TItem *current = (TItem *)get_slot_value((s32 *)equipped_items, slot);
+    TItem *current = (TItem *)get_slot_value(equipped_items, slot);
     if (current == NULL) {
         set_equip_slot_entry((s32)equipped_items, slot, (s32)item);
         item->equip();
@@ -1895,7 +1884,7 @@ void TObjPlayer::unequip_all_units() {
 
 #pragma push
 #pragma fp_contract on
-s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming) {
+s32 preview_equip_stats__10TObjPlayerFv(TObjPlayer *player, s16 *out, u8 *incoming) {
     Base_801B9954 b;
     Attack_801B9954 a;
     Defense_801B9954 d;
@@ -1905,9 +1894,9 @@ s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming) {
     f32 rate;
     if (incoming != NULL && out != NULL) {
     prev = NULL;
-    TLobby::copy_data(&b, *(void **)(player + 0x2B0));
-    ((TLobby *)(&a))->copy_from(*(void **)(player + 0x318));
-    ((TLobby *)(&d))->copy_entry(*(void **)(player + 0x31C));
+    TLobby::copy_data(&b, player->stat_block);
+    ((TLobby *)(&a))->copy_from(player->attack_params);
+    ((TLobby *)(&d))->copy_entry(player->param_block);
     switch (incoming[0]) {
     case 0:
         prev = TObjPlayer::get_equipped_weapon(player);
@@ -1920,14 +1909,14 @@ s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming) {
         }
         break;
     case 2:
-        prev = (TItem *)((TObjPlayer *)player)->activate_d04_slot();
+        prev = (TItem *)player->activate_d04_slot();
         break;
     }
     if (prev != NULL) {
         prev->subtract_equip_stats(&a, (s16 *)&d, (s16 *)&b);
         if (prev->get_item_type() == 1 && prev->get_item_group() == 1) {
             for (slot = 9; slot <= 12; slot++) {
-                TItem *unit = (TItem *)TObjPlayer::get_slot_value(player + 0xD04, slot);
+                TItem *unit = (TItem *)TObjPlayer::get_slot_value(player->equipped_items, slot);
                 if (unit != NULL) {
                     unit->subtract_equip_stats(&a, (s16 *)&d, (s16 *)&b);
                 }
@@ -1942,7 +1931,7 @@ s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming) {
     b.field[5] = clamp_s32(b.field[5], 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[5]);
     b.field[6] = clamp_s32(b.field[6], 0, ((s16 *)TObjPlayer::get_class_stat_entry((u8 *)player))[6]);
     set_params__10TObjPlayerFPvPvPviPv(out, player, reinterpret_cast<player_stats *>(&b), reinterpret_cast<AttackParams *>(&a), reinterpret_cast<ActorParamBlock *>(&d));
-    rate = ((TObjChara *)player)->get_status_effect_amount(2);
+    rate = player->get_status_effect_amount(2);
     {
         s16 range;
         slot = b.field[0];
@@ -1953,7 +1942,7 @@ s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming) {
         range = get_attack_params_atp_max(&a) - get_attack_params_atp_min(&a);
         out[0] = atp + (s32)((f32)range * rate + (f32)range);
     }
-    rate = ((TObjChara *)player)->get_status_effect_amount(3);
+    rate = player->get_status_effect_amount(3);
     out[1] = (s32)((f32)out[1] * rate + (f32)out[1]);
     return 1;
     }
@@ -1963,7 +1952,7 @@ s32 preview_equip_stats__10TObjPlayerFv(u8 *player, s16 *out, u8 *incoming) {
 
 #pragma push
 #pragma fp_contract on
-s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out, s32 key) {
+s32 preview_unequip_stats__10TObjPlayerFv(TObjPlayer *self, Out_801B96BC *out, s32 key) {
     u8 a[0x34];
     Stats_801B96BC c;
     u8 b[0x20];
@@ -1972,7 +1961,7 @@ s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out
     s32 base;
     f32 k;
     s16 d;
-    void *node_3423 = self->fD00->start_inventory_update(key);
+    void *node_3423 = self->inventory_objects->start_inventory_update(key);
     if (node_3423 == 0U) {
         return 0;
     }
@@ -1980,23 +1969,23 @@ s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out
     if (owner == NULL) {
         return 0;
     }
-    if (is_item_equipped(owner) == 0 && ((TObjPlayer *)self)->get_equipped_item(owner->get_attach_slot()) == NULL) {
+    if (is_item_equipped(owner) == 0 && self->get_equipped_item(owner->get_attach_slot()) == NULL) {
         return 1;
     }
-    ((TLobby *)a)->copy_from((void *)self->f318);
-    ((TLobby *)b)->copy_entry((void *)self->f31C);
-    TLobby::copy_data(&c, self->f2B0);
+    ((TLobby *)a)->copy_from(self->attack_params);
+    ((TLobby *)b)->copy_entry(self->param_block);
+    TLobby::copy_data(&c, self->stat_block);
     owner->subtract_equip_stats(a, (s16 *)b, (s16 *)&c);
     if (owner->get_item_type() == 1 && owner->get_item_group() == 1) {
         for (i = 9; i <= 12; i++) {
-            TItem *s = (TItem *)TObjPlayer::get_slot_value((s32 *)self->fD04, i);
+            TItem *s = (TItem *)TObjPlayer::get_slot_value(self->equipped_items, i);
             if (s != NULL) {
                 s->subtract_equip_stats(a, (s16 *)b, (s16 *)&c);
             }
         }
     }
     set_params__10TObjPlayerFPvPvPviPv(out, self, (player_stats *)&c, (AttackParams *)a, (ActorParamBlock *)b);
-    k = ((TObjChara *)self)->get_status_effect_amount(2);
+    k = self->get_status_effect_amount(2);
     i = c.atp;
     {
         s16 sl = i;
@@ -2005,7 +1994,7 @@ s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out
     d = get_attack_params_atp_max(a) - get_attack_params_atp_min(a);
     out->a = base + (s32)((f32)d * k + (f32)d);
     {
-        f32 k2 = ((TObjChara *)self)->get_status_effect_amount(3);
+        f32 k2 = self->get_status_effect_amount(3);
         out->b = (f32)out->b * k2 + (f32)out->b;
     }
     return 2;
@@ -2506,15 +2495,15 @@ void TObjPlayer::request_inventory_item(TItemData* item) {
 
 void handle_6x2B_create_inventory_item(G_CreateInventoryItem_PC_V3_BB_6x2B *command) {
     Pkt_801B8344 pkt;
-    saddr player;
+    TObjPlayer *player;
     s32 kind;
     u8 *item;
     ((TObjPlayer *)(&pkt))->init_pkt_6x2B();
     ((TObjPlayer *)(&pkt))->copy(command);
     ((TObjPlayer *)(&pkt))->bswap_cmd_item_data();
     if (validate_6x2B_create_inventory_item((G_ClientIDHeader *)&pkt) != 0) {
-        player = (saddr)get_player_by_client_id(pkt.client);
-        if ((player != 0) && (((TObjPlayer *)player)->is_in_lobby() == 0)) {
+        player = (TObjPlayer *)get_player_by_client_id(pkt.client);
+        if ((player != NULL) && (player->is_in_lobby() == 0)) {
             if ((u32)(pkt.size * 4) == 0x18) {
                 kind = 0;
                 ((TItemData *)pkt.item)->convert_from_version(0);
@@ -2524,11 +2513,11 @@ void handle_6x2B_create_inventory_item(G_CreateInventoryItem_PC_V3_BB_6x2B *comm
             }
             ((TItemData *)pkt.item)->decode_from_network();
             item = ((u8 * (*)(s32 *))create_item)((s32 *)pkt.item);
-            if ((item != NULL) && (((TObjPlayer *)player)->pickup_item((TItem *)item) != 0U) && (kind == 2) && (pkt.f19 != 0) && (TObjPlayer::get_slot_value((s32 *)(player + 0xD04), ((TItem *)item)->get_attach_slot()) == 0U)) {
-                set_equip_slot_entry((saddr)(player + 0xD04), ((TItem *)item)->get_attach_slot(), (saddr)item);
-                ((TObjPlayer *)player)->set_flag_20000();
+            if ((item != NULL) && (player->pickup_item((TItem *)item) != 0U) && (kind == 2) && (pkt.f19 != 0) && (TObjPlayer::get_slot_value(player->equipped_items, ((TItem *)item)->get_attach_slot()) == 0U)) {
+                set_equip_slot_entry((saddr)player->equipped_items, ((TItem *)item)->get_attach_slot(), (saddr)item);
+                player->set_flag_20000();
                 ((TItem *)item)->equip();
-                ((TObjPlayer *)player)->clear_flag_20000();
+                player->clear_flag_20000();
             }
         }
     }
@@ -2577,7 +2566,7 @@ void TObjPlayer::bind_saved_inventory_equipment(TObjPlayer *player, TPlyInventor
 void TObjPlayer::equip_saved_item_if_slot_empty(TObjPlayer *player, TPlyInventoryItem *record) {
     TItem *item = create_item(&record->m_data);
     if (item != NULL && player->pickup_item(item) != 0 && (record->m_flags & 8) &&
-        TObjPlayer::get_slot_value(reinterpret_cast<s32 *>(player->equipped_items), item->get_attach_slot()) == 0U) {
+        TObjPlayer::get_slot_value(player->equipped_items, item->get_attach_slot()) == 0U) {
         set_equip_slot_entry((saddr)player->equipped_items, item->get_attach_slot(), (saddr)item);
         player->set_flag_20000();
         item->equip();
@@ -3074,7 +3063,7 @@ void TObjPlayer::check_level_up() {
                 ((TObjPlayer *)(&gain))->reset_sub_status_disp();
                 j = 0;
                 do {
-                    removed_item = (u8 *)TObjPlayer::get_slot_value((s32 *)this->equipped_items, j);
+                    removed_item = (u8 *)TObjPlayer::get_slot_value(this->equipped_items, j);
                     if ((((s32 (*)(void))can_destroy_with_parents__10TObjPlayerFUi)() != 0) && (is_item_equipped((TItem *)removed_item) != 0)) {
                         ((TItem *)removed_item)->remove_equip_stats(1);
                     }
@@ -3085,7 +3074,7 @@ void TObjPlayer::check_level_up() {
                 init_shield_params(&after, (u8 *)this, this->stat_block, this->attack_params, param_block);
                 i = 0;
                 do {
-                    added_item = (u8 *)TObjPlayer::get_slot_value((s32 *)this->equipped_items, i);
+                    added_item = (u8 *)TObjPlayer::get_slot_value(this->equipped_items, i);
                     if ((((s32 (*)(void))can_destroy_with_parents__10TObjPlayerFUi)() != 0) && (is_item_equipped((TItem *)added_item) != 0)) {
                         ((TItem *)added_item)->add_equip_stats(1);
                     }
