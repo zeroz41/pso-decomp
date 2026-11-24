@@ -1435,9 +1435,19 @@ def param_names(files: Iterable[tuple[str, list]], counted: Container[str]) -> d
 _PARTNER_LINE = re.compile(r":\d+\)$")
 
 
-def identity(f: Finding) -> tuple[str, str]:
-    """What a finding is matched by between revisions: (key, text), less a partner's line (other edits move it)."""
-    return (f.key, _PARTNER_LINE.sub(")", f.text)) if f.key == "param_name_split" else (f.key, f.text)
+def identity(f: Finding) -> tuple[str, str, str]:
+    """What a finding is matched by between revisions: (key, text, the line it is on), less a partner's line (other
+    edits move it). The line makes a moved finding cancel and a new one count: `(saddr)this` reads the same on every
+    line that has it."""
+    text = _PARTNER_LINE.sub(")", f.text) if f.key == "param_name_split" else f.text
+    return f.key, text, f.context
+
+
+def _in_context(found: Iterable[Finding], text: str) -> list[Finding]:
+    """found, each with the source line it is on, whitespace collapsed."""
+    lines = text.split("\n")
+    return [dataclasses.replace(f, context=" ".join(lines[f.line - 1].split()) if 0 < f.line <= len(lines) else "")
+            for f in found]
 
 
 # Checks a parser judges in one file: key -> (path, text, blanked: _Blanked) -> [(line, finding text)].
@@ -1482,6 +1492,7 @@ class Finding:
     key: str
     text: str
     line: int
+    context: str = ""   # the source line, set when two revisions are compared (identity())
 
 
 _CAST_TYPE = r"\(\s*(?:const\s+)?([A-Za-z_]\w*)\s*\*\s*\)\s*"
@@ -1503,7 +1514,6 @@ _USING = re.compile(r"\busing\s+([A-Za-z_]\w*)\s*=\s*(?:(?:struct|class|union)\s
 @dataclass
 class FileScan:
     counts: collections.Counter                 # catalog key -> count (zkit's method)
-    texts: collections.Counter                  # (key, matched text) -> count
     this_casts: list[tuple[str, str, int]]      # (owner class, cast type, line)
     subobject_calls: list[tuple[str, int]]      # (call text, line)
     classes: dict[str, set[str]]                # class declared here -> its direct bases
@@ -1596,7 +1606,6 @@ def scan_file(rel: str, text: str, keep: bool = False) -> FileScan:
     blanked = _Blanked(text)
     found = catalog_findings(rel, text, blanked)
     counts = collections.Counter(f.key for f in found)
-    texts = collections.Counter((f.key, f.text) for f in found)
     code = blanked.code
 
     this_casts, subobject_calls = [], []
@@ -1645,7 +1654,7 @@ def scan_file(rel: str, text: str, keep: bool = False) -> FileScan:
     var_casts = [(c.declared, c.cast, c.text, blanked.line(c.offset)) for c in typed_casts(blanked)
                  if c.depth == 1 and c.declared_depth == 1 and not c.address and not c.member and c.name != "this"
                  and c.declared and c.declared != c.cast] if "*)" in text or "_cast" in text else []
-    return FileScan(counts, texts, this_casts, subobject_calls, dict(classes), aliases, bodies,
+    return FileScan(counts, this_casts, subobject_calls, dict(classes), aliases, bodies,
                     found if keep else None, c_functions, signatures(blanked), *plain_structs(blanked),
                     var_casts=var_casts)
 
@@ -2193,13 +2202,6 @@ def tree_report(repo: Repo, rev: str, top: int) -> dict:
                             sorted(per_file.items(), key=lambda item: -item[1])[:top] if n]}
 
 
-def _multiset(scans: Iterable[FileScan]) -> collections.Counter:
-    out = collections.Counter()
-    for scan in scans:
-        out.update(scan.texts)
-    return out
-
-
 def _placed(counts: collections.Counter, found: list[tuple[str, Finding]]) -> list[tuple[str, Finding]]:
     """The findings in `found` (taken in path and line order) that account for `counts`, a multiset of identities."""
     left, out = collections.Counter(counts), []
@@ -2263,22 +2265,24 @@ def compare(repo: Repo, base: str, head: str) -> dict:
     for found in base_own.values():
         base_totals.update(f.key for f in found)
 
-    # Added and removed: the change's findings as a multiset of (category, text), so code that only moves
-    # (between functions or files) cancels out. Findings across files can change in files the change did not
+    # Added and removed: the change's findings as a multiset of (category, text, line), so code that only moves
+    # (between functions or files) cancels out, and debt that reads the same as debt the change removed elsewhere
+    # does not. Findings across files can change in files the change did not
     # touch (a class gained or lost a base, a class's other copy went away), so they are compared over the whole
     # tree.
-    after = _multiset(head_scans[rel] for rel in head_text)
-    before = _multiset(base_changed.values())
-    for rel, found in head_own.items():
-        after.update(map(identity, found))
-    for rel, found in base_own.items():
-        before.update(map(identity, found))
+    head_found = {rel: _in_context(head_scans[rel].found, head_text[rel]) for rel in head_text}
+    base_found = {rel: _in_context(scan.found, base_text[rel]) for rel, scan in base_changed.items()}
+    head_own = {rel: _in_context(found, head_files.get(rel, "")) for rel, found in head_own.items()}
+    base_own = {rel: _in_context(found, base_files.get(rel, "")) for rel, found in base_own.items()}
+    after = collections.Counter(identity(f) for side in (head_found, head_own) for found in side.values() for f in found)
+    before = collections.Counter(identity(f) for side in (base_found, base_own) for found in side.values()
+                                 for f in found)
     rise = after - before
     fall = before - after
     added, removed = collections.Counter(), collections.Counter()
-    for (key, _), n in rise.items():
+    for (key, *_), n in rise.items():
         added[key] += n
-    for (key, _), n in fall.items():
+    for (key, *_), n in fall.items():
         removed[key] += n
 
     # Where they are: the rise on lines head added (and in files a cross-file finding moved in), the fall on lines
@@ -2287,13 +2291,13 @@ def compare(repo: Repo, base: str, head: str) -> dict:
     risen, fallen = [], []
     for rel in head_text:
         lines = {n for _, add in hunks.get(rel, ()) for n in add}
-        risen += [(rel, f) for f in head_scans[rel].found + head_own.get(rel, []) if f.line in lines]
+        risen += [(rel, f) for f in head_found[rel] + head_own.get(rel, []) if f.line in lines]
     for rel, found in head_own.items():
         if rel not in head_text:
             risen += [(rel, f) for f in found]
     for rel, scan in base_changed.items():
         lines = {n for gone, _ in hunks.get(rel, ()) for n in gone}
-        fallen += [(rel, f) for f in scan.found + base_own.get(rel, []) if f.line in lines]
+        fallen += [(rel, f) for f in base_found[rel] + base_own.get(rel, []) if f.line in lines]
     replaced = collections.Counter((rel, _hunk(hunks, rel, f.line, 0), f.key) for rel, f in _placed(fall, fallen))
     placed = _placed(rise, risen)
     # A cross-file finding can appear on a line the change kept (its partner changed): list it there.

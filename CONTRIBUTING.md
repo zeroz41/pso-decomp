@@ -86,8 +86,10 @@ CI runs the same script on every pull request and adds the result to the CI comm
 change moved, with what it removed and added, and every check by category in a collapsed table under it. It never
 fails a pull request. Aim to remove more than you add and to add
 nothing on the lines you write. Every check is a rule: a pattern on the text, a file name, or a relation read from
-the declarations, `symbols.txt` and `splits.txt`, so a finding is never a guess. Code that only moves between files
-or functions counts as neither added nor removed.
+the declarations, `symbols.txt` and `splits.txt`, so a finding is never a guess. A finding is matched with the line
+it is on: a line that only moves between files or functions, or a rename within the lines a hunk rewrites, counts
+as neither added nor removed, while a finding on a new line is added even when its text matches debt removed
+elsewhere.
 
 **Debt**, the total:
 
