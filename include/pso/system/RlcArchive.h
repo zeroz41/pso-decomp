@@ -28,7 +28,7 @@ LAYOUT_ASSERT(RlcDirectoryEntry_size, sizeof(RlcDirectoryEntry) == 8);
 LAYOUT_ASSERT(RlcHeader_size, sizeof(RlcHeader) == 0x20);
 
 // An RLC archive read whole from a disc file (name inferred from its RlcHeader/RlcDirectoryEntry reads and
-// TGStream::read_whole_file); TWindowSnapShot keeps one in shared_snapshot_capture. Its vtable
+// TGStream::read_whole_file); the player motion data is loaded into player_motion_archive. Its vtable
 // (0x804DD098) holds only the destructor. CW places the vptr after the members
 // declared before the first virtual, here at 0x3C.
 class RlcArchive {
@@ -58,12 +58,10 @@ public:
     void set_mode(s32 v);
     s32 get_buffer_size();
     s32 has_resource_size();
-    saddr get_size();
-    saddr get_field_8();
+    RlcHeader *get_header();
+    u8 *get_buffer();
 };
 
 LAYOUT_ASSERT(RlcArchive_size, sizeof(RlcArchive) == 0x40);
-
-extern RlcArchive *shared_snapshot_capture;
 
 #endif

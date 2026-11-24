@@ -15380,7 +15380,7 @@ force_active:
   - send_switch_changed__8TOKeyColFl
   - send_switch_on__12TOSwitchItemFv
   - send_trade_busy_reply__Fl
-  - send_type2_event__6TLobbyFlll
+  - read_player_motion__FlPvl
   - send_walk_request__10TNpcPlayerFv
   - sensor_ancient01_model_resource
   - sensor_general_shared_bml_archive
@@ -15574,7 +15574,7 @@ force_active:
   - set_selected_card__17TWindowSubComCardFl
   - set_selection_index__18TObjItemNameSelectFi
   - set_slot_min_clamped_value__16TObjEneMe3StelthFlf
-  - set_slot_position__6TLobbyFii
+  - get_player_motion_entry__FlP21PlayerMotionAramEntry
   - set_sound_effect_gain__19TWindowSoundBalanceFs
   - set_speed_params__12TObjEneLappyFl
   - set_split_screen_name__6TLobbyFi

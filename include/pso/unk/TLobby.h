@@ -395,7 +395,6 @@ struct TLobby : public TObject {
     static void free_chr_select_slots();
     static void free_dialog_global();
     static void free_dialing_gc();
-    static int get_max_players();
     s32 get_valid_child();
     static s32 validate_handle(s32 *arg0);
     s32 calc_cell_offset(s32 arg1, s32 arg2);
@@ -407,8 +406,6 @@ struct TLobby : public TObject {
     s32 send_packet(s32 arg1, s32 arg2, s32 size, s32 arg4);
     s32 get_param();
     s32 get_field_04();
-    static void alloc_snapshot_buffer();
-    static void send_type2_event(s32 arg0, s32 arg1, s32 arg2);
     static void *create_mist_ctrl(void *parent, void *arg1);
     void set_trade_field_4(s32 arg1);
     void update_both_halves();
@@ -1058,7 +1055,6 @@ struct TLobby : public TObject {
     static void set_menu_mode_2();
     static void set_player_count(int);
     static void set_section_id(void *, u8);
-    static void set_slot_position(int, int);
     static void set_validated_field_0x1(void *, u8);
     static void show_seq_phase_message(int);
     static void update();

@@ -142,7 +142,7 @@ s32 RlcArchive::start_capture(saddr file) {
     loaded = 1;
     return 1;
 }
-int TWindowSnapShot::get_width() { return 32; }
+int get_rlc_header_size() { return 32; }
 void RlcArchive::set_mode(s32 v) { error = v; }
 s32 RlcArchive::get_buffer_size() { return file_size; }
 s32 RlcArchive::has_resource_size() { return (u8)(file_size != 0); }
