@@ -73,7 +73,13 @@ typedef struct SND_AUX_CHORUS {
     u32 period;
 } SND_AUX_CHORUS;
 
+typedef struct SND_HOOKS {
+    void *(*malloc)(u32 addr);
+    void (*free)(void *addr);
+} SND_HOOKS;
+
 extern "C" {
+void sndSetHooks(SND_HOOKS *hooks);
 void sndSetAuxProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, u8 midiA, SND_SEQID seqIDA,
                                   SND_AUX_CALLBACK auxB, void *userB, u8 midiB, SND_SEQID seqIDB);
 void sndAuxCallbackReverbHI(u8 reason, SND_AUX_INFO *info, void *user);

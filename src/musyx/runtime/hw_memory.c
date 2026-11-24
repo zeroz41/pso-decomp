@@ -1,4 +1,4 @@
-#include "musyx/runtime/musyx_runtime_b.h"
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 

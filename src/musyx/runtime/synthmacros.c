@@ -155,7 +155,7 @@ void mcmdPlayMacro(SynthVoice *svoice, SynthMacroStep *step) {
 #pragma push
 #pragma opt_common_subs on
 void mcmdStartSample(SynthVoice *svoice, SynthMacroStep *step) {
-    static SampleInfo newsmp;
+    static SAMPLE_INFO newsmp;
     u16 smp;
     smp = step->para[0] >> 8;
 
@@ -177,15 +177,15 @@ void mcmdStartSample(SynthVoice *svoice, SynthMacroStep *step) {
         break;
     }
 
-    if (newsmp.offset >= newsmp.count) {
-        newsmp.offset = newsmp.count - 1;
+    if (newsmp.offset >= newsmp.length) {
+        newsmp.offset = newsmp.length - 1;
     }
 
     hwInitSamplePlayback(svoice->id & 0xFF, smp, &newsmp, (svoice->cFlags & 0x100) == 0,
                          ((u32)svoice->prio << 24) | ((u32)svoice->age >> 15), svoice->id,
                          (svoice->cFlags & 0x80000000000) == 0, svoice->itdMode);
 
-    svoice->sInfo = newsmp.key;
+    svoice->sInfo = newsmp.info;
 
     if (svoice->playFrq != -1) {
         DoSetPitch(svoice);

@@ -664,7 +664,7 @@ s32 smpcmp(void *key, void *entry) {
 #pragma bool off
 #pragma dont_inline off
 #pragma inline_depth(4)
-s32 dataGetSample(s16 sid, SampleInfo *newsmp) {
+s32 dataGetSample(s16 sid, SAMPLE_INFO *newsmp) {
     static SynthSDirData key;
     long i;
 
@@ -675,16 +675,16 @@ s32 dataGetSample(s16 sid, SampleInfo *newsmp) {
                                                       smpcmp)) != NULL) {
             if (dgs_result->ref_cnt != 0xFFFF) {
                 dgs_sheader = &dgs_result->header;
-                newsmp->key = dgs_sheader->info;
-                newsmp->addr = dgs_result->addr;
+                newsmp->info = dgs_sheader->info;
+                newsmp->addr = (void *)dgs_result->addr;
                 newsmp->offset = 0;
-                newsmp->loopStart = dgs_sheader->loopOffset;
-                newsmp->count = dgs_sheader->length & 0xffffff;
-                newsmp->loopLen = dgs_sheader->loopLength;
-                newsmp->format = dgs_sheader->length >> 24;
+                newsmp->loop = dgs_sheader->loopOffset;
+                newsmp->length = dgs_sheader->length & 0xffffff;
+                newsmp->loopLength = dgs_sheader->loopLength;
+                newsmp->compType = dgs_sheader->length >> 24;
 
                 if (dgs_result->extraData) {
-                    newsmp->coef = (uaddr)&(dataSmpSDirs[i].data)->id + dgs_result->extraData;
+                    newsmp->extraData = (void *)((uaddr)&(dataSmpSDirs[i].data)->id + dgs_result->extraData);
                 }
                 return 0;
             }

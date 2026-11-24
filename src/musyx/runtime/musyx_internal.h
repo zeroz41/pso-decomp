@@ -13,9 +13,9 @@ extern "C" {
 typedef Ent_803BA228 FX_TAB;
 #endif
 
-#if !defined(MUSYX_RUNTIME_A_H) && !defined(MUSYX_RUNTIME_B_H)
+#if !defined(MUSYX_RUNTIME_A_H)
 struct SoundReverb;
-void ReverbHICallback(void *left, void *right, void *surround, struct SoundReverb *rev);
+void ReverbHICallback(void *left, void *right, void *surround, SoundReverb *rv);
 
 typedef struct SndParaEntry {
     u8 type;
@@ -313,17 +313,6 @@ typedef struct SynthSampleHeader {
     u32 loopLength;
 } SynthSampleHeader;
 
-typedef struct SampleInfo {
-    u32 key;
-    u32 addr;
-    u32 coef;
-    u32 offset;
-    u32 count;
-    u32 loopStart;
-    u32 loopLen;
-    u8 format;
-} SampleInfo;
-
 typedef struct SynthSDirData {
     u16 id;
     u16 ref_cnt;
@@ -455,38 +444,88 @@ void hwDisableHRTF(void);
 void hwSetAUXProcessingCallbacks(u8 studio, SND_AUX_CALLBACK auxA, void *userA, SND_AUX_CALLBACK auxB, void *userB);
 void hwActivateStudio(u8 studio, u32 isMaster, SND_STUDIO_TYPE type);
 void hwDeactivateStudio(u8 studio);
-u32 hwIsActive(s32 voice);
-void hwOff(s32 voice);
+u32 hwIsActive(s32 v);
+void hwOff(s32 vid);
 void hwAddInput(u8 studio, SND_STUDIO_INPUT *in_desc);
 void hwRemoveInput(u8 studio, SND_STUDIO_INPUT *in_desc);
-#if defined(MUSYX_STREAM_IMPL)
-void hwSetVolume(u32 v, u8 table, f32 vol, u32 pan, u32 span, f32 auxa, f32 auxb);
-#else
-void hwSetVolume(s32 voice, u32 volumeCurve, u32 pan, s32 surroundPan, f32 direct, f32 auxiliaryA, f32 auxiliaryB);
-#endif
-uaddr hwGetStreamPlayBuffer(u8 streamHandle);
-void hwInitSamplePlayback(u32 voice, u16 smpID, void *newsmp, u32 setDefAdsr, u32 prio, u32 callbackUserValue,
-                          u32 setSRC, u8 itdMode);
-void hwSetPitch(s32 voice, u16 speed);
-void hwStart(s32 voice, u8 studio);
-void hwKeyOff(s32 voice);
-void hwFlushStream(u8 *base, u32 offset, u32 len, u8 streamHandle, void *cb, void *arg);
+void hwSetVolume(s32 v, u8 table, f32 vol, u32 pan, s32 span, f32 auxa, f32 auxb);
+uaddr hwGetStreamPlayBuffer(u8 hwStreamHandle);
+void hwInitSamplePlayback(s32 v, u16 smpID, SAMPLE_INFO *newsmp, u32 set_defadsr, s32 prio, s32 callbackUserValue, u32 setSRC, u8 itdMode);
+void hwSetPitch(s32 v, u16 speed);
+void hwStart(s32 v, u8 studio);
+void hwKeyOff(s32 v);
+void hwFlushStream(u8 *base, u32 offset, u32 len, u8 hwStreamHandle, void *cb, void *arg);
 void hwSetStreamLoopPS(s32 voice, u8 ps);
 u8 hwInitStream(u32 size);
-void hwExitStream(u8 streamHandle);
-void hwSetPriority(s32 voice, s32 prio);
+void hwExitStream(u8 id);
+void hwSetPriority(s32 v, s32 prio);
 u8 hwGetTimeOffset(void);
 void hwFrameDone(void);
 void hwSetMesgCallback(SND_MESSAGE_CALLBACK callback);
 void *hwTransAddr(void *samples);
 void hwSyncSampleMem(void);
 void hwSaveSample(SynthSampleHeader **header, uaddr *data);
-void hwRemoveSample(SynthSampleHeader *header, u32 aramAddr);
+void hwRemoveSample(SynthSampleHeader *header, u32 data);
 void hwInitSampleMem(void *self, void *p);
-void hwSetADSR(u8 voice, void *adsr, s32 mode);
-void hwSetSRCType(u32 voice, u8 salSRCType);
-void hwSetPolyPhaseFilter(u32 voice, u8 salCoefSel);
+void hwSetADSR(s32 v, void *_adsr, u8 mode);
+void hwSetSRCType(s32 v, u8 salSRCType);
+void hwSetPolyPhaseFilter(s32 v, u8 salCoefSel);
 u32 hwFrq2Pitch(u32 frq);
+void hwSetITDMode(s32 v, u8 mode);
+void hwSetTimeOffset(s8 offset);
+s32 hwGetVirtualSampleID(s32 voice);
+s32 hwInit(uaddr frq, s32 numVoices, s32 numStudios, u32 flags);
+void snd_handle_irq(void);
+void hwInitIrq(void);
+void hwIRQEnterCritical(void);
+void hwIRQLeaveCritical(void);
+
+extern s8 salTimeOffset;
+extern SND_HOOKS salHooks;
+extern u8 salMaxStudioNum;
+extern u8 salNumVoices;
+extern u8 salAuxFrame;
+extern u8 salFrame;
+
+extern u8 salAIBufferIndex;
+extern u8 *salAIBufferBase;
+extern void (*userCallback)(void);
+extern volatile u32 salDspIsDone;
+extern volatile u32 salDspInitIsDone;
+extern volatile u32 salLogicIsWaiting;
+extern volatile u32 salLogicActive;
+extern volatile u32 salLastTick;
+extern volatile u16 hwIrqLevel;
+extern volatile s32 oldState;
+void salCallback(void);
+void dspInitCallback(void);
+void dspResumeCallback(void);
+u32 salInitAi(void (*callback)(void), u32 unk, u32 *outFreq);
+void salStartAi(void);
+void *salAiGetDest(void);
+u32 salInitDsp(u32 flags);
+void salCtrlDsp(saddr dest);
+u32 salGetStartDelay(void);
+
+extern u16 dspCmdFirstSize;
+extern u16 *dspCmdList;
+extern u32 dspHRTFOn;
+u32 salInitDspCtrl(u8 numVoices, u8 numStudios, u32 defaultStudioDPL2);
+void salActivateStudio(u8 studio, u32 isMaster, SND_STUDIO_TYPE type);
+void salDeactivateStudio(u8 i);
+void salBuildCommandList(s16 *dest, u32 nsDelay);
+void salActivateVoice(DSPvoice *dsp_vptr, u8 studio);
+void salDeactivateVoice(DSPvoice *dsp_vptr);
+s32 salAddStudioInput(DSPstudioinfo *stp, SND_STUDIO_INPUT *desc);
+s32 salRemoveStudioInput(DSPstudioinfo *stp, SND_STUDIO_INPUT *desc);
+void salHandleAuxProcessing(void);
+void salCalcVolume(u8 voltab_index, SAL_VOLINFO *vi, f32 vol, u32 pan, u32 span, f32 auxa, f32 auxb, u32 itd, u32 dpl2);
+
+void aramInit(u32 length);
+s32 aramStoreData(u8 *src, u32 size);
+void aramRemoveData(s32 addr, s32 size);
+u8 aramAllocateStreamBuffer(u32 len);
+void aramFreeStreamBuffer(u8 id);
 
 void salApplyMatrix(const SND_FMATRIX *mat, const SND_FVECTOR *in, SND_FVECTOR *out);
 f32 salNormalizeVector(SND_FVECTOR *vec);
@@ -508,15 +547,15 @@ void sndStreamFree(u32 stid);
 u32 sndStreamActivate(u32 stid);
 void sndStreamDeactivate(u32 stid);
 
-s32 synthFXSetCtrl(u32 id, u8 ctrl, u8 value);
-s32 synthFXSetCtrl14(u32 id, u8 ctrl, u16 value);
+s32 synthFXSetCtrl(u32 vid, u8 ctrl, u8 value);
+s32 synthFXSetCtrl14(u32 vid, u8 ctrl, u16 value);
 s32 synthSendKeyOff(int id);
 u32 synthFXStart(u16 fid, u8 vol, u8 pan, u8 studio, u32 itd);
-void synthVolume(u8 vol, u16 time, u8 vGroup, s8 seq, s32 fade);
+void synthVolume(u8 volume, u16 time, u8 vGroup, s8 seqMode, s32 seqId);
 u32 vidGetInternalId(u32 vid);
 void streamOutputModeChanged(void);
 u32 seqGetPrivateId(u32 seqId);
-s32 voiceKillSound(u32 id);
+s32 voiceKillSound(u32 voiceid);
 void synthAddJob(SynthVoice *svoice, s32 jobType, u32 deltaTime);
 u32 StartKeymap(u16 keymapID, s16 prio, u8 maxVoices, u16 allocId, u8 key, u8 vol, u8 panning, u8 midi, u8 midiSet,
                 u8 section, u16 step, u16 trackid, u32 vidFlag, u8 vGroup, u8 studio, u32 itd);
@@ -531,17 +570,21 @@ void synthFXCloneMidiSetup(SynthVoice *dst, SynthVoice *src);
 void synthKeyStateUpdate(SynthVoice *svoice);
 void synthForceLowPrecisionUpdate(SynthVoice *svoice);
 void synthInitPortamento(SynthVoice *svoice);
-void synthStartSynthJobHandling(SynthVoice *svoice);
+void synthStartSynthJobHandling(SynthVoice *voice);
+s32 synthGetTicksPerSecond(SynthVoice *svoice);
+void synthHandle(u32 deltaTime);
+void vsSampleUpdates(void);
+void s3dHandle(void);
 
 void vidInit(void);
 SynthVidList *get_vidlist(u32 key);
-void vidRemoveVoiceReferences(SynthVoice *svoice);
+void vidRemoveVoiceReferences(SynthVoice *p);
 u32 vidMakeRoot(SynthVoice *svoice);
 u32 vidMakeNew(SynthVoice *svoice, u32 isMaster);
 void voiceRemovePriority(SynthVoice *svoice);
 void voiceSetPriority(SynthVoice *svoice, u8 prio);
 u32 voiceAllocate(u8 priority, u8 maxVoices, u16 allocId, u8 fxFlag);
-void voiceFree(SynthVoice *svoice);
+void voiceFree(SynthVoice *o);
 void synthInitAllocationAids(void);
 u32 voiceBlock(u8 prio);
 void voiceUnblock(s32 voice);
@@ -567,7 +610,7 @@ s32 dataRemoveFX(u16 gid);
 s32 dataInsertMacro(u16 mid, void *macroaddr);
 s32 dataRemoveMacro(u16 mid);
 uaddr dataGetMacro(u16 mid);
-s32 dataGetSample(s16 sid, SampleInfo *newsmp);
+s32 dataGetSample(s16 sid, SAMPLE_INFO *newsmp);
 saddr dataGetCurve(s16 cid);
 SynthKeymap *dataGetKeymap(u16 cid);
 SynthLayer *dataGetLayer(u16 cid, u16 *n);
@@ -583,17 +626,17 @@ u32 seqPlaySong(u16 sgid, u16 sid, void *arrfile, SynthPlayPara *para, u8 irq_ca
 u32 sndSeqPlayEx(u16 sgid, u16 sid, void *arrfile, SynthPlayPara *para, s32 studio);
 
 void *sndBSearch(void *key, void *base, s32 num, s32 len, s32 (*cmp)(void *, void *));
-void sndConvertMs(void *time);
+void sndConvertMs(u32 *time);
 s32 sndPitchUpOne(s32 current);
 u32 sndGetPitch(u8 note, u32 r);
 s16 sndSin(u16 angle);
 u16 sndRand(void);
-void sndConvertTicks(void *ticks, void *svoice);
+void sndConvertTicks(u32 *ticks, SynthVoice *svoice);
 u32 sndConvert2Ms(u32 time);
 u32 sndFXCheck(u32 id);
 f32 floorf(f32 x);
 void s3dKillEmitterByFXID(FX_TAB *fxTab, u32 num);
-void seqKillInstancesByGroupID(u16 gid);
+void seqKillInstancesByGroupID(u16 sgid);
 #if !defined(MUSYX_SEQ_IMPL)
 u32 seqStartPlay(SynthSeqPage *norm, SynthSeqPage *drum, SynthMidiSetup *midiSetup, u32 *song, SynthPlayPara *para,
                  s32 studio, u16 sgid);
@@ -644,8 +687,8 @@ u8 inpGetMidiLastNote(u8 midi, u8 midiSet);
 SynthChannelDefaults *inpGetChannelDefaults(u8 midi, u8 midiSet);
 void inpAddCtrl(CtrlDest *dest, u8 ctrl, s32 scale, u8 comb, u32 isVar);
 void inpSetGlobalMIDIDirtyFlag(u8 chan, u8 midiSet, u32 flag);
-void inpResetMidiCtrl(u8 ch, u8 set, u32 coldReset);
-void inpResetChannelDefaults(u8 channel, u8 set);
+void inpResetMidiCtrl(u8 midi, u8 midiSet, u32 coldReset);
+void inpResetChannelDefaults(u8 midi, u8 midiSet);
 u16 inpGetTremolo(SynthVoice *svoice);
 u16 inpGetPanning(SynthVoice *svoice);
 u16 inpGetSurPanning(SynthVoice *svoice);
@@ -661,15 +704,14 @@ u16 inpGetPedal(SynthVoice *svoice);
 u16 inpGetAuxA(u8 studio, u8 index, u8 midi, u8 midiSet);
 u16 inpGetAuxB(u8 studio, u8 index, u8 midi, u8 midiSet);
 
-u32 aramGetStreamBufferAddress(u8 channel, u32 *outLen);
+u32 aramGetStreamBufferAddress(u8 i, u32 *out);
 void hwSetVirtualSampleLoopBuffer(s32 voice, uaddr addr, u32 len);
 u16 hwGetSampleID(s32 voice);
 u8 hwGetSampleType(s32 voice);
 u32 hwGetVirtualSampleState(s32 voice);
-u32 hwGetPos(s32 voice);
-s32 hwGetVirtualSampleID(u8 voice);
-u32 hwVoiceInStartup(s32 voice);
-void hwBreak(u32 voice);
+u32 hwGetPos(s32 v);
+u32 hwVoiceInStartup(s32 v);
+void hwBreak(s32 vid);
 
 f32 *salMalloc(s32 bytes);
 void salFree(saddr addr);

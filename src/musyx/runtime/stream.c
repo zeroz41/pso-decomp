@@ -1,4 +1,3 @@
-#define MUSYX_STREAM_IMPL
 #include <dolphin/os/OSCache.h>
 #include "musyx/runtime/musyx_internal.h"
 

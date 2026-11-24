@@ -667,7 +667,7 @@ void ZeroOffsetHandler(u32 i) {
         auxb = (preVol * (f32)inpGetPreAuxB(sv) * (1.f / 16383.f)) +
                (postVol * (f32)inpGetPostAuxB(sv) * (1.f / 16383.f));
         sv->curOutputVolume = (u16)(postVol * 32767.f);
-        hwSetVolume(i, sv->volTable, sv->lastPan, sv->lastSPan, postVol, auxa, auxb);
+        hwSetVolume(i, sv->volTable, postVol, sv->lastPan, sv->lastSPan, auxa, auxb);
     }
     if (sv->age != 0) {
         if ((s32)(sv->age -= sv->ageSpeed * lowDeltaTime) < 0) {
@@ -1111,7 +1111,7 @@ u32 synthHWMessageHandler(u32 mesg, u32 voiceID) {
     switch (mesg) {
     case 0:
         if (synthVoice[(u8)voiceID].block == 0) {
-            vsSampleEndNotify(hwGetVirtualSampleID(voiceID));
+            vsSampleEndNotify(hwGetVirtualSampleID((u8)voiceID));
             if (voiceID == synthVoice[(u8)voiceID].id) {
                 macSampleEndNotify(&synthVoice[(u8)voiceID]);
             }
@@ -1124,7 +1124,7 @@ u32 synthHWMessageHandler(u32 mesg, u32 voiceID) {
         ret = vsSampleStartNotify(voiceID);
         break;
     case 3:
-        vsSampleEndNotify(hwGetVirtualSampleID(voiceID));
+        vsSampleEndNotify(hwGetVirtualSampleID((u8)voiceID));
         break;
     }
     return ret;

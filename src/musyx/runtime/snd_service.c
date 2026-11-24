@@ -1,4 +1,4 @@
-#include "musyx/runtime/musyx_runtime_b.h"
+#include "musyx/runtime/musyx_internal.h"
 
 extern "C" {
 
@@ -76,7 +76,7 @@ u16 sndRand(void) {
     return lbl_805D4630 >> 6;
 }
 
-s16 sndSin(s32 angle) {
+s16 sndSin(u16 angle) {
     s16 *tbl = lbl_804F7168;
     u32 t = angle & 0xFFF;
     if (t < 0x400U) {
@@ -114,12 +114,12 @@ void *sndBSearch(void *key, void *base, s32 num, s32 len, s32 (*cmp)(void *, voi
     return 0;
 }
 
-void sndConvertMs(s32 *time) {
+void sndConvertMs(u32 *time) {
     *time <<= 8;
 }
 
-void sndConvertTicks(u32 *ticks, saddr seqId) {
-    *ticks = ((*ticks << 16) / synthGetTicksPerSecond((void *)seqId) * 1000) >> 5;
+void sndConvertTicks(u32 *ticks, SynthVoice *svoice) {
+    *ticks = ((*ticks << 16) / synthGetTicksPerSecond(svoice) * 1000) >> 5;
 }
 
 u32 sndConvert2Ms(u32 time) {
