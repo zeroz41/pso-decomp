@@ -471,7 +471,7 @@ void play_effect(int client) {
     TObjPlayer *player = get_player_by_client_id((u16)client);
 
     if (player != NULL && player->obj_isState2_324() == 0) {
-        TObjPlayer::play_effect_default((saddr)player, -1);
+        send_impose_hold(player, -1);
     }
 }
 
@@ -479,7 +479,7 @@ void send_code_45_to_player(int client) {
     TObjPlayer *player = get_player_by_client_id((u16)client);
 
     if (player != NULL && player->obj_isState2_324() == 0) {
-        TObjPlayer::send_code_45_1((saddr)player);
+        send_release_hold(player);
     }
 }
 

@@ -170,9 +170,9 @@ void send_giveup_to_all_players__6TLobbyFv(void) {
     s32 client;
 
     for (client = 0; client < 4; client++) {
-        saddr player = (saddr)get_player_by_client_id(client);
-        if ((player != 0) && (((TObjPlayer *)player)->check_player_flag1() != 0)) {
-            TObjPlayer::send_code_45_1(player);
+        TObjPlayer *player = get_player_by_client_id(client);
+        if ((player != NULL) && (player->check_player_flag1() != 0)) {
+            send_release_hold(player);
         }
         TWindowCtrl::unsuppress_slot(client);
         TWindowCtrl::enable_client_main_menu(client);
@@ -185,14 +185,14 @@ void play_all_players_effect__6TLobbyFPv(void* a0) { TWindowCtrl::disable_client
 
 void play_effect_all_players__6TLobbyFPv(void*) {
     s32 i;
-    saddr player;
+    TObjPlayer *player;
 
     i = 0;
     do {
-        player = (saddr)get_player_by_client_id(i);
-        if (player != 0) {
-            if (((TObjPlayer *)player)->check_player_flag1() == 0) {
-                TObjPlayer::play_effect_default(player, -1);
+        player = get_player_by_client_id(i);
+        if (player != NULL) {
+            if (player->check_player_flag1() == 0) {
+                send_impose_hold(player, -1);
             }
         }
         i += 1;

@@ -402,7 +402,7 @@ void TOTrapAncient01::release_trapped_player() {
             player = get_player_by_client_id(((TObjBase *)target)->get_entity_id());
             if (player != NULL) {
                 if (player->check_player_flag1() != 0) {
-                    TObjPlayer::send_code_45_1((saddr)player);
+                    send_release_hold(player);
                 }
                 obj_clear_flag30_20000(player);
             }
@@ -411,7 +411,7 @@ void TOTrapAncient01::release_trapped_player() {
         player = get_player_by_client_id(local_client_id);
         if (player != NULL) {
             if (player->check_player_flag1() != 0) {
-                TObjPlayer::send_code_45_1((saddr)player);
+                send_release_hold(player);
             }
             obj_clear_flag30_20000(player);
         }
