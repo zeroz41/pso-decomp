@@ -491,9 +491,9 @@ void prepare_guild_return__10TObjPlayerFPv(void *player);
 void handle_6x34(void);
 int is_flag_400_set__10TObjPlayerFPv(void* p);
 void enable_action_input__10TObjPlayerFPv(void* p);
-int get_result_entry__18TChallenge4PResultFPv(void* p);
-int get_field_340__18TChallenge4PResultFPv(void* p);
-int get_player_result__18TChallenge4PResultFPv(void* p);
+u8 get_result_entry__18TChallenge4PResultFPv(void *p, s32 bit);
+void get_field_340__18TChallenge4PResultFPv(void *p, s32 bit);
+void get_player_result__18TChallenge4PResultFPv(void *p, s32 bit);
 void handle_6x32_medical_center_revive_all_players(void);
 void submit_target_to_player_cursor(void *target, s32 id);
 void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst);
@@ -520,10 +520,10 @@ void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
 s32 TObjPlayer__sub_801BF3A0(void *, void *);
 s32 copy_vec_at_18__10TObjPlayerFv(void *, void *);
 s32 set_material_index__18TPlayerLobbyMarkerFUc(u32 a0 = 0, s32 a1 = 0);
-int TObjPlayer__sub_801BF460(void*);
-int TObjPlayer__sub_801BF47C(void*);
-int TObjPlayer__sub_801BF488(void*);
-int TObjPlayer__sub_801BF4A0(void*);
+u8 TObjPlayer__sub_801BF460(s32 *bits, s32 bit);
+void TObjPlayer__sub_801BF47C(void *p);
+void TObjPlayer__sub_801BF488(s32 *bits, s32 bit);
+void TObjPlayer__sub_801BF4A0(s32 *bits, s32 bit);
 void set_equip_slot_entry(saddr, s32, s32);
 s32 is_action_id_none(s32);
 u8 TObjPlayer__sub_801C0124(const PlayerTechniqueState *state, s16 i);
@@ -3262,7 +3262,7 @@ void TObjPlayer::select_contextual_pickup_action() {
                             TItem *item = (TItem *)find_entity_by_id(cursor->get_id());
                             if (this->can_pickup_item_by_id(item) != 0) {
                                 if ((((s32 (*)(void *))is_flag_400_set__10TObjPlayerFPv)(this)) != 0) {
-                                    ((s32 (*)(void *, s32))get_field_340__18TChallenge4PResultFPv)(this, 1);
+                                    get_field_340__18TChallenge4PResultFPv(this, 1);
                                 }
                             } else {
                                 type = 0;
@@ -3416,7 +3416,7 @@ s32 TObjPlayer::get_camera_field() {
     return 0;
 }
 
-void TObjPlayer::reset_equip_slots() { pad_binding.disable_buttons(0x406); ((int (*)(void*, void*))get_player_result__18TChallenge4PResultFPv)(this, (void*)0); ((int (*)(void*, void*))get_player_result__18TChallenge4PResultFPv)(this, (void*)1); ((int (*)(void*, void*))get_player_result__18TChallenge4PResultFPv)(this, (void*)2); ((int (*)(void*, void*))get_player_result__18TChallenge4PResultFPv)(this, (void*)3); this->set_state_flags(256); }
+void TObjPlayer::reset_equip_slots() { pad_binding.disable_buttons(0x406); get_player_result__18TChallenge4PResultFPv(this, 0); get_player_result__18TChallenge4PResultFPv(this, 1); get_player_result__18TChallenge4PResultFPv(this, 2); get_player_result__18TChallenge4PResultFPv(this, 3); this->set_state_flags(256); }
 
 void TObjPlayer::init_parts() { pad_binding.enable_buttons(0x406); ((TChallenge4PResult *)this)->get_player_rank(); this->clear_state_flags(256); }
 
@@ -4143,13 +4143,13 @@ s32 TObjPlayer::handle_palette_button_input() {
     return 0;
 }
 
-int get_player_result__18TChallenge4PResultFPv(void* p) { return TObjPlayer__sub_801BF4A0((char*)p + 0x340); }
+void get_player_result__18TChallenge4PResultFPv(void *p, s32 bit) { TObjPlayer__sub_801BF4A0((s32 *)((char*)p + 0x340), bit); }
 
-int get_field_340__18TChallenge4PResultFPv(void* p) { return TObjPlayer__sub_801BF488((char*)p + 0x340); }
+void get_field_340__18TChallenge4PResultFPv(void *p, s32 bit) { TObjPlayer__sub_801BF488((s32 *)((char*)p + 0x340), bit); }
 
-int TChallenge4PResult::get_player_rank() { return TObjPlayer__sub_801BF47C((char*)this + 0x340); }
+void TChallenge4PResult::get_player_rank() { TObjPlayer__sub_801BF47C((char*)this + 0x340); }
 
-int get_result_entry__18TChallenge4PResultFPv(void* p) { return TObjPlayer__sub_801BF460((char*)p + 0x340); }
+u8 get_result_entry__18TChallenge4PResultFPv(void *p, s32 bit) { return TObjPlayer__sub_801BF460((s32 *)((char*)p + 0x340), bit); }
 
 s32 TObjPlayer::dispatch_palette_action(u32 act) {
     switch (act) {
@@ -4315,9 +4315,9 @@ int TObjPlayer::try_use_item_by_type(int kind, int group, int subgroup) {
     return obj->all_parents_unqueued_for_destruction() != 0 ? 1 : 0;
 }
 
-void TObjPlayer::disable_action_input() { this->set_state_flags(1024); ((int (*)(void*, void*))get_player_result__18TChallenge4PResultFPv)(this, (void*)1); ((int (*)(void*, void*))get_player_result__18TChallenge4PResultFPv)(this, (void*)2); ((int (*)(void*, void*))get_player_result__18TChallenge4PResultFPv)(this, (void*)3); }
+void TObjPlayer::disable_action_input() { this->set_state_flags(1024); get_player_result__18TChallenge4PResultFPv(this, 1); get_player_result__18TChallenge4PResultFPv(this, 2); get_player_result__18TChallenge4PResultFPv(this, 3); }
 
-void TObjPlayer::disable_primary_action_input() { this->set_state_flags(1024); ((int (*)(void*, void*))get_player_result__18TChallenge4PResultFPv)(this, (void*)1); }
+void TObjPlayer::disable_primary_action_input() { this->set_state_flags(1024); get_player_result__18TChallenge4PResultFPv(this, 1); }
 
 void enable_action_input__10TObjPlayerFPv(void* p) { ((TObjPlayer *)p)->clear_state_flags(1024); ((TChallenge4PResult *)p)->get_player_rank(); }
 
