@@ -1616,14 +1616,14 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
     ("avetcp", 0x803F7678, "GC/1.2.5n", cflags_middleware, {
         # -str reuse,readonly: the test account's literals sit in .sdata2 ("test", 805E1100) and .rodata ("hogehoge", 8047FD28).
         "pso/network/NetAuthSecrets.c": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
-        "pso/network/TLobby_803F86BC.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/NetConfig.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetworkRuntime.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         # -str reuse,readonly: its one string literal, the IPv6CP protocol name "IPv6cp", sits in .sdata2 (805E1150).
         "pso/network/NetworkThreadRuntime.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
-        "pso/network/TLobby_803FAEA0.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/PppApi.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         # -str reuse,readonly: CHAP's messages "Request timeout", "Request retry exceeded" and "Wellcome!!" sit in .rodata (8047FDE0).
-        "pso/network/TLobby_803FC178.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
-        "pso/network/TLobby_803FCF44.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        "pso/network/PppChap.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
+        "pso/network/Ppp.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetPppLink.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/PppFsm.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/PppIpcp.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
@@ -1634,8 +1634,8 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/network/PppPap.c": {"cflags": _switch(cflags_middleware, "-opt nocse", "-str reuse,readonly")},
         "pso/network/PppControl.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/PppVj.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        # TLobby_804048E8.c was built with CSE: its VJ compressor matches only with it, init_net_list as BSD writes it.
-        "pso/network/TLobby_804050DC.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
+        # PppVjCompress.c was built with CSE: its VJ compressor matches only with it, init_net_list as BSD writes it.
+        "pso/network/PppFraming.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         # NetArp.c was built with CSE: every function matches with it, arp_handle_packet only with it.
         "pso/network/NetEthernet.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetHandlerTable.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
@@ -1646,7 +1646,7 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/network/NetIpv4.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetIpv4Route.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
         "pso/network/NetIpv6.c": {"cflags": _switch(cflags_middleware, "-opt nocse")},
-        # TLobby_8041112C.c was built with CSE: every function matches with it, NetIPv6GetAddressScopeClass only in
+        # NetIpv6Route.c was built with CSE: every function matches with it, NetIPv6GetAddressScopeClass only in
         # its inline-helper form, and seven functions needed opt_common_subs pragma scopes under -opt nocse.
         # NetLoopback.c was built with CSE: every function matches with it, send_loopback_frame only with it.
         # NetBufferPool.c was built with CSE: its free (0x8041579C) and alloc (0x80415954) only match with it.

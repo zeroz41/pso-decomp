@@ -1,19 +1,19 @@
 /* PPP connection control: the connect records (.bss 805C0638), the calls the session layer (803FB7A4) makes
  * and the modem wrappers (a C library, built with GC/1.2.5n). PppControl is an inferred name. */
 #include "types.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/PppChap.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include "pso/network/PppLcp.h"
 #include "pso/network/PppIpcp.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/NetworkTransport.h"
 
 #include <stddef.h>
 #include "pso/network/NetStackTypes.h"
-#include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/PppApi.h"
 
 s16 configure_and_open_network_transport(int a, int b, int c, int d, int e, char *modem_name, int no_modem);
 

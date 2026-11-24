@@ -2,10 +2,10 @@
  * slot tables over the Dolphin OS, their setup and teardown, the time helpers. The thread helpers, sleeping on an
  * alarm, the string helpers and the IPv6CP option helpers are the next file, NetworkThreadRuntime.c. */
 #include "types.h"
-#include "pso/network/TLobby_803F86BC.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/NetConfig.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/PppChap.h"
 #include "string.h"
 #include "dolphin/os/OSThread.h"
 #include "dolphin/os/OSAlarm.h"
@@ -14,9 +14,9 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/NetworkRuntimeSlots.h"
 #include "pso/network/NetworkPacketPool.h"
-#include "pso/network/TLobby_80428374.h"
-#include "pso/network/TLobby_80426CAC.h"
-#include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/ModemSession.h"
+#include "pso/network/NetPppoe.h"
+#include "pso/network/PppApi.h"
 
 NetworkAlarmSlot lobby_alarm_slot_table[0x40];
 NetworkMutexSlot network_mutex_slot_table[8];

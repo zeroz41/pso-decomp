@@ -2,23 +2,23 @@
 #include "pso/network/SocketEvents.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
 #include "pso/network/BufferRef.h"
 #include "pso/network/IPv6.h"
 
 #include "types.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 
 #include <stddef.h>
 
 #include "pso/network/IPv6Send.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/NetTcpState.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/NetApi.h"
 
 /* This file's functions. */
 s32 abort_tcp_connection(s16 id);

@@ -1,14 +1,12 @@
-/* The AVE-TCP net buffer setup (build_avetcp_net_buffer, which logs under the name "avetcp") and
- * PP_doppp_active (a C library, built with GC/1.2.5n). A file of its own: CHAP (TLobby_803FC178.c) defines
- * the .bss object chap_state before the functions that use it, while this code loads that address afresh at
- * each use. No name evidence for the module, so the file keeps its address name. */
+/* The CHAP challenge this side sends (a random-length run of the tick count followed by the name "avetcp") and
+ * PP_doppp_active, which marks the PPP link for an active open (a C library, built with GC/1.2.5n). */
 #include "types.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/PppChap.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/NetworkTransport.h"
 
 #include <stddef.h>
@@ -68,7 +66,7 @@ s32 PP_doppp_active(PppFsm *fsm) {
     return 0;
 }
 
-/* CHAP's protocol name and the message it reports when authentication fails, which TLobby_803FC178.c's CHAP code
+/* CHAP's protocol name and the message it reports when authentication fails, which PppChap.c's CHAP code
  * uses. They follow this file's "avetcp" in .sdata2, so this file defines them: literals of the CHAP file, which
  * links first, would come before it. Names from their contents. */
 const char chap_protocol_name[] = "Chap";

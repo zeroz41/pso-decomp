@@ -43,7 +43,7 @@ typedef struct Ipv6cpConfig {
 LAYOUT_ASSERT(Ipv6cpConfig_peer_offset, offsetof(Ipv6cpConfig, peer) == 0x34);
 struct PppFsm;
 struct PppHeader;
-/* The network stack's thread (net_thread_state, TLobby_804048E8.c): the mutex the stack's callers hold, the thread running
+/* The network stack's thread (net_thread_state, PppVjCompress.c): the mutex the stack's callers hold, the thread running
  * run_net_thread_loop (start_network_thread) and how long that loop sleeps between polls. */
 typedef struct NetThreadState {
     NetMutexHandle mutex;

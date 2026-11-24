@@ -1,15 +1,15 @@
 /* The network stack's session control (a C library, built with GC/1.2.5n): bringing the stack up and down, the
  * login name, the connection configuration record and its status, PPP authentication and the session timeout. */
 #include "types.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/PppLcp.h"
 #include "pso/network/PppIpcp.h"
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/TLobby_80428374.h"
-#include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/ModemSession.h"
+#include "pso/network/PppApi.h"
 #include "pso/network/NetPppLink.h"
 
 s16 ppp_get_link_status(NetLinkStatus *status);

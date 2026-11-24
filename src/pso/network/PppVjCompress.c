@@ -1,8 +1,8 @@
 /* The network stack's connection list (a C library, built with GC/1.2.5n): the list header and its two pools of
  * 0x8C-byte nodes, the second chained into a free list. */
 #include "types.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/NetArp.h"
 #include "pso/network/PppBuffer.h"
 #include "pso/network/NetworkRuntime.h"

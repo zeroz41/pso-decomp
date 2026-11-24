@@ -1,10 +1,10 @@
-#ifndef PSO_NETWORK_TLOBBY_803F86BC_H
-#define PSO_NETWORK_TLOBBY_803F86BC_H
+#ifndef PSO_NETWORK_NETCONFIG_H
+#define PSO_NETWORK_NETCONFIG_H
 
 #include "types.h"
 #include "pso/network/NetworkRuntime.h"
 
-/* TLobby_803F86BC.c: the network stack's configuration (thread pool, buffer slots and buffer pools). */
+/* NetConfig.c: the network stack's configuration (thread pool, buffer slots and buffer pools). */
 
 /* A buffer slot: `addr` is the buffer alloc_buffer_slot hands out, `active` the size in use (0 = free). */
 typedef struct LobbyBufferSlot {

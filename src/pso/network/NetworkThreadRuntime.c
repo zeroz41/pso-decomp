@@ -3,10 +3,10 @@
  * control protocol. Split from NetworkRuntime.c: signal_alarm_queue addresses the alarm table as an extern while
  * the functions before it pool the tables as their own file's data. */
 #include "types.h"
-#include "pso/network/TLobby_803F86BC.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/NetConfig.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/PppChap.h"
 #include "string.h"
 #include <ctype.h>
 #include "dolphin/os/OSThread.h"
@@ -17,8 +17,8 @@
 #include "pso/network/PppFsm.h"
 #include "pso/network/NetworkRuntimeSlots.h"
 #include "pso/network/NetworkPacketPool.h"
-#include "pso/network/TLobby_80428374.h"
-#include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/ModemSession.h"
+#include "pso/network/PppApi.h"
 
 
 #include "pso/network/PppBuffer.h"

@@ -18,7 +18,7 @@ LAYOUT_ASSERT(IPv6Address_size_check, sizeof(IPv6Address) == 16);
 LAYOUT_ASSERT(IPv6NeighborSolicitation_size_check, sizeof(IPv6NeighborSolicitation) == 24);
 LAYOUT_ASSERT(IPv6NeighborSolicitation_target_check, offsetof(IPv6NeighborSolicitation, target) == 8);
 
-/* ipv6_address_routing_state and its tables (TLobby_8041112C.c). */
+/* ipv6_address_routing_state and its tables (NetIpv6Route.c). */
 typedef struct Ipv6AddrNode Ipv6AddrNode;
 struct Ipv6AddrNode {
     s16 in_use;

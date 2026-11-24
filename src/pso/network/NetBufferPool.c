@@ -4,7 +4,7 @@
 #include "pso/network/BufferRef.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/netcfg.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/NetIpv6Route.h"
 
 /* Inline the helpers below; this applies to the rest of the file. */
 #pragma dont_inline off

@@ -1,15 +1,15 @@
 /* PPP IPCP, the protocol that names itself "IPcp" (805E1170), and its state object (.bss 805C0328) (a C
  * library, built with GC/1.2.5n). */
 #include "types.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/PppChap.h"
+#include "pso/network/Ppp.h"
 #include "pso/network/PppFsm.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include "pso/network/PppIpcp.h"
 /* This file's functions. */
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/NetworkTransport.h"
 
 extern IpcpState ipcp_state;
@@ -19,7 +19,7 @@ extern IpcpState ipcp_state;
 #include "pso/network/NetStackTypes.h"
 
 #include "pso/network/PppBuffer.h"
-#include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/PppApi.h"
 
 /* The empty option set each IPCP side starts from (.rodata 8047FE18). */
 const IpcpOptions ipcp_default_options = {0};

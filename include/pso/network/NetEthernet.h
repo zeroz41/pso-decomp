@@ -1,6 +1,6 @@
 #ifndef PSO_NETWORK_NETETHERNET_H
 #define PSO_NETWORK_NETETHERNET_H
-/* The Ethernet layer (ethernet_state, src/pso/network/TLobby_804050DC.c): its drivers, one link per driver (registered
+/* The Ethernet layer (ethernet_state, src/pso/network/PppFraming.c): its drivers, one link per driver (registered
  * with the dispatcher by init_net_sockets), the EtherTypes bound on the links and the received-frame buffers.
  * init_net_func_table sets the counts and the arrays. */
 #include "types.h"
@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-/* A driver (the BBA's, TLobby_80426CAC.c).  dev is the driver's index. */
+/* A driver (the BBA's, NetPppoe.c).  dev is the driver's index. */
 typedef struct EthDriver {
     s16 (*init)(s16 dev);
     s16 (*open)(s16 dev, u16 type);                  /* 0x04: receive frames of an EtherType */

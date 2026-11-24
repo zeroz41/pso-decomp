@@ -1,6 +1,6 @@
 #ifndef PSO_NETWORK_NETDNS_H
 #define PSO_NETWORK_NETDNS_H
-/* The DNS resolver (dns_resolver_state, src/pso/network/TLobby_804050DC.c).  init_net_config sets its limits and
+/* The DNS resolver (dns_resolver_state, src/pso/network/PppFraming.c).  init_net_config sets its limits and
  * carves its pools out of one static block; dns_init clears them. */
 #include "types.h"
 #include "pso/network/UdpRuntime.h"

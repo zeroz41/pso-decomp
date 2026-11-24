@@ -1,5 +1,5 @@
-#ifndef PSO_NETWORK_TLOBBY_80429598_H
-#define PSO_NETWORK_TLOBBY_80429598_H
+#ifndef PSO_NETWORK_ETH_H
+#define PSO_NETWORK_ETH_H
 
 #include "types.h"
 
@@ -7,7 +7,7 @@ struct OSContext;
 
 typedef void (*ExiSendCompletionCallback)(u8 status);
 
-// --- C functions defined in TLobby_80429598.c ---
+// --- C functions defined in eth.c ---
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -1,6 +1,6 @@
 #ifndef PSO_NETWORK_NETPPPLINK_H
 #define PSO_NETWORK_NETPPPLINK_H
-/* The PPP link as the dispatcher sees it (lobby_net_buffer_desc_b, src/pso/network/TLobby_803FCF44.c).
+/* The PPP link as the dispatcher sees it (lobby_net_buffer_desc_b, src/pso/network/Ppp.c).
  * ppp_link_init registers it; ppp_link_attach_protocol binds an EtherType on it; ppp_link_input copies each
  * received packet into a free buffer and passes it to the protocol bound for its type. */
 #include "types.h"

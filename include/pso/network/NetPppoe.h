@@ -1,5 +1,5 @@
-#ifndef PSO_NETWORK_TLOBBY_80426CAC_H
-#define PSO_NETWORK_TLOBBY_80426CAC_H
+#ifndef PSO_NETWORK_NETPPPOE_H
+#define PSO_NETWORK_NETPPPOE_H
 
 #include "types.h"
 
@@ -9,7 +9,7 @@ typedef struct PppoeNames {
     u8 service[0x100];
 } PppoeNames;
 
-// --- C functions defined in TLobby_80426CAC.c (the PPPoE discovery client) ---
+// --- C functions defined in NetPppoe.c (the PPPoE discovery client) ---
 #ifdef __cplusplus
 extern "C" {
 #endif

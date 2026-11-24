@@ -1,11 +1,11 @@
 /* MD5 (RFC 1321's MD5Init, MD5Update, MD5Final and MD5Transform), used by CHAP (a C library, built with GC/1.2.5n). */
 #include "types.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/PppChap.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/NetworkTransport.h"
 
 #include "pso/network/NetStackTypes.h"

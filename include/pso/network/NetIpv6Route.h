@@ -1,12 +1,12 @@
-#ifndef PSO_NETWORK_TLOBBY_8041112C_H
-#define PSO_NETWORK_TLOBBY_8041112C_H
+#ifndef PSO_NETWORK_NETIPV6ROUTE_H
+#define PSO_NETWORK_NETIPV6ROUTE_H
 
 #include "types.h"
 #include "pso/network/IPv6Send.h"
 #include "pso/network/UdpRuntime.h"
 #include <stddef.h>
 
-/* TLobby_8041112C.c: IPv6 neighbour discovery, routing and packet fragments. */
+/* NetIpv6Route.c: IPv6 neighbour discovery, routing and packet fragments. */
 typedef struct Ipv6NdPending Ipv6NdPending;
 typedef struct Ipv6NdNeighbor Ipv6NdNeighbor;
 typedef struct Ipv6NdRouter Ipv6NdRouter;

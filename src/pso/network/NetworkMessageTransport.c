@@ -11,7 +11,7 @@
 
 #include "types.h"
 #include "pso/network/EthernetReceiveFilter.h"
-#include "pso/network/TLobby_80429598.h"
+#include "pso/network/eth.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

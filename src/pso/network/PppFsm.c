@@ -1,11 +1,11 @@
 /* The PPP option-negotiation state machine that LCP, IPCP and PAP drive (a C library, built with GC/1.2.5n). PppFsm is an inferred name; no string names this module. */
 #include "types.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/PppChap.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/NetworkTransport.h"
 
 #include "pso/network/NetStackTypes.h"
@@ -13,7 +13,7 @@
 #include "pso/network/PppBuffer.h"
 #include "pso/network/PppLcp.h"
 #include "pso/network/PppFsm.h"
-#include "pso/network/TLobby_803FAEA0.h"
+#include "pso/network/PppApi.h"
 #include "pso/network/IPv4Header.h"
 
 void update_countdown_state(PppFsm *);

@@ -1,5 +1,5 @@
-#ifndef PSO_NETWORK_TLOBBY_80428374_H
-#define PSO_NETWORK_TLOBBY_80428374_H
+#ifndef PSO_NETWORK_MODEMSESSION_H
+#define PSO_NETWORK_MODEMSESSION_H
 
 #include "types.h"
 #include <stddef.h>
@@ -45,7 +45,7 @@ LAYOUT_ASSERT(ModemSessionState_size, sizeof(ModemSessionState) == 0x60);
 LAYOUT_ASSERT(ModemSessionState_fields_offset, offsetof(ModemSessionState, fields) == 0x10);
 LAYOUT_ASSERT(ModemSessionState_line_offset, offsetof(ModemSessionState, line) == 0x20);
 LAYOUT_ASSERT(ModemSessionState_config_offset, offsetof(ModemSessionState, config) == 0x4C);
-/* The modem script interpreter's state (TLobby_80428374.c); init_modem_buffer_config sets its buffers. */
+/* The modem script interpreter's state (ModemSession.c); init_modem_buffer_config sets its buffers. */
 extern ModemSessionState lobby_net_session_state;
 
 typedef struct ModemRequest {
@@ -89,7 +89,7 @@ typedef struct ModemConfig {
     char *init_command; /* "AT+MS=V34\r" by default (connect_modem) */
 } ModemConfig;
 
-/* The session (net_session, TLobby_803FAEA0.c): NetApplyConnectionConfig copies the connection request (NetConnectCfg)
+/* The session (net_session, PppApi.c): NetApplyConnectionConfig copies the connection request (NetConnectCfg)
  * into it and ppp_open_sub connects with it. A dial script substitutes %t, %u and %p with phone_number, user and
  * password. */
 typedef struct NetSession {
@@ -132,7 +132,7 @@ LAYOUT_ASSERT(NetSession_request_offset, offsetof(NetSession, req) == 0x88);
 LAYOUT_ASSERT(NetSession_auth_offset, offsetof(NetSession, auth_mode) == 0x98);
 LAYOUT_ASSERT(ModemConfig_size, sizeof(ModemConfig) == 0x60);
 
-/* TLobby_80428374.c: the modem session (dial-script expansion, timed waits) and the buffer pool's bounds. */
+/* ModemSession.c: the modem session (dial-script expansion, timed waits) and the buffer pool's bounds. */
 #ifdef __cplusplus
 extern "C" {
 #endif

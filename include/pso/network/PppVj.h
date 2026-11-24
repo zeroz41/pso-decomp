@@ -1,10 +1,10 @@
-#ifndef PSO_NETWORK_TLOBBY_804048E8_H
-#define PSO_NETWORK_TLOBBY_804048E8_H
+#ifndef PSO_NETWORK_PPPVJ_H
+#define PSO_NETWORK_PPPVJ_H
 
 #include "types.h"
 #include "pso/network/NetworkRuntime.h"
 
-/* TLobby_804048E8.c: the stack's connection list (node pools). */
+/* PppVjCompress.c: the stack's connection list (node pools). */
 
 
 /* An IPv4 header decoded by NetIPv4ReadHeader. */

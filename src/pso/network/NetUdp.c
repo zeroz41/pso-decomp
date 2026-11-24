@@ -4,10 +4,10 @@
 #include "pso/network/netcfg.h"
 #include "pso/network/UdpRuntime.h"
 #include "types.h"
-#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/NetStack.h"
 #include "pso/network/BufferRef.h"
 #include "pso/network/NetTcpState.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/NetApi.h"
 
 UdpRuntimeState udp_runtime_state;
 

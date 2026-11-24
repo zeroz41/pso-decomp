@@ -63,7 +63,7 @@ struct NetThreadState;
 void init_thread_poll_config(struct NetThreadState *t);
 void lcp_connect_hook(void);
 s32 get_transport_input_count(s16 *out);
-/* The stored start-up parameters (TLobby_803F86BC.c), one per NetTransportParams field. */
+/* The stored start-up parameters (NetConfig.c), one per NetTransportParams field. */
 extern s16 net_param_a;
 extern s16 net_param_b;
 extern u16 net_param_player_count;

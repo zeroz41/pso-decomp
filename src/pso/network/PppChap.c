@@ -1,13 +1,13 @@
 #include "types.h"
-#include "pso/network/TLobby_803FAEA0.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/PppApi.h"
+#include "pso/network/PppChap.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
 /* This file's functions. */
 void init_net_state_a(void);
 s32 init_net_state_b(void);
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/NetworkTransport.h"
 
 

@@ -1,5 +1,5 @@
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/TLobby_80426CAC.h"
+#include "pso/network/NetPppoe.h"
 #include "pso/network/ModemRuntime.h"
 #include "pso/network/NetworkMessageTransport.h"
 #include "pso/network/NetworkRuntime.h"

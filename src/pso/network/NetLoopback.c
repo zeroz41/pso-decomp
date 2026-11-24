@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/netcfg.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 
 s32 send_loopback_frame(s16 idx, s16 mode, u8 *addr, void *pkt);
 s32 forward_loopback_packet(s32 id, s32 unused, u8 *arr);

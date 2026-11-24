@@ -1,11 +1,11 @@
-#ifndef PSO_NETWORK_TEXT_80421620_H
-#define PSO_NETWORK_TEXT_80421620_H
+#ifndef PSO_NETWORK_NETAPI_H
+#define PSO_NETWORK_NETAPI_H
 
 #include "pso/network/TcpSendQueue.h"
 #include "pso/network/NetworkReceiveCallback.h"
 #include "pso/network/NetworkTimer.h"
 
-/* text_80421620.c: stack start-up and shutdown. */
+/* NetApi.c: stack start-up and shutdown. */
 #ifdef __cplusplus
 extern "C" {
 #endif

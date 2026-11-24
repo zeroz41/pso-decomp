@@ -11601,7 +11601,7 @@ pso/network/NetworkTransport.c:
 	.sbss       start:0x805D79F8 end:0x805D7A40
 	.sdata2     start:0x805E1108 end:0x805E1150
 
-pso/network/TLobby_803F86BC.c:
+pso/network/NetConfig.c:
 	.text       start:0x803F86BC end:0x803F8E08
 	.bss        start:0x805AEEB0 end:0x805BE070
 	.sdata      start:0x805D47F8 end:0x805D4818
@@ -11619,18 +11619,18 @@ pso/network/NetworkThreadRuntime.c:
 	.sbss       start:0x805D7A70 end:0x805D7A78
 	.sdata2     start:0x805E1150 end:0x805E1158
 
-pso/network/TLobby_803FAEA0.c:
+pso/network/PppApi.c:
 	.text       start:0x803FAEA0 end:0x803FC178
 	.bss        start:0x805BFF68 end:0x805C0180
 	.sbss       start:0x805D7A78 end:0x805D7A98
 
-pso/network/TLobby_803FC178.c:
+pso/network/PppChap.c:
 	.text       start:0x803FC178 end:0x803FCF44
 	.rodata     start:0x8047FDE0 end:0x8047FE18
 	.bss        start:0x805C0180 end:0x805C0310
 	.sbss       start:0x805D7A98 end:0x805D7AA0
 
-pso/network/TLobby_803FCF44.c:
+pso/network/Ppp.c:
 	.text       start:0x803FCF44 end:0x803FD0C0
 	.sdata2     start:0x805E1158 end:0x805E1170
 
@@ -11684,12 +11684,12 @@ pso/network/PppVj.c:
 	.text       start:0x80403F4C end:0x804048E8
 	.sbss       start:0x805D7AC0 end:0x805D7AC8
 
-pso/network/TLobby_804048E8.c:
+pso/network/PppVjCompress.c:
 	.text       start:0x804048E8 end:0x804050DC
 	.data       start:0x804FD650 end:0x804FD690
 	.bss        start:0x805C06D8 end:0x805C18B0
 
-pso/network/TLobby_804050DC.c:
+pso/network/PppFraming.c:
 	.text       start:0x804050DC end:0x80407358
 	.bss        start:0x805C18B0 end:0x805C1AB0
 	.sbss       start:0x805D7AC8 end:0x805D7AF8
@@ -11733,7 +11733,7 @@ pso/network/NetIpv6.c:
 	.data       start:0x804FD6E0 end:0x804FD7D8
 	.bss        start:0x805C1B78 end:0x805C1BB8
 
-pso/network/TLobby_8041112C.c:
+pso/network/NetIpv6Route.c:
 	.text       start:0x8041112C end:0x8041509C
 	.data       start:0x804FD7D8 end:0x804FD890
 	.bss        start:0x805C1BB8 end:0x805C1BE0
@@ -11770,7 +11770,7 @@ pso/network/NetUdp.c:
 	.text       start:0x80420C5C end:0x80421620
 	.bss        start:0x805C1DF0 end:0x805C1E00
 
-pso/network/text_80421620.c:
+pso/network/NetApi.c:
 	.text       start:0x80421620 end:0x80423298
 	.rodata     start:0x8047FF10 end:0x80480138
 	.sbss       start:0x805D7B00 end:0x805D7B08
@@ -11795,18 +11795,18 @@ pso/network/NetworkMessageTransport.c:
 	.sbss       start:0x805D7BB0 end:0x805D7BD0
 	.sdata2     start:0x805E1190 end:0x805E1198
 
-pso/network/TLobby_80426CAC.c:
+pso/network/NetPppoe.c:
 	.text       start:0x80426CAC end:0x80428374
 	.bss        start:0x805CFC20 end:0x805D0A40
 
-pso/network/TLobby_80428374.c:
+pso/network/ModemSession.c:
 	.text       start:0x80428374 end:0x80429598
 	.rodata     start:0x80480138 end:0x804801F8
 	.bss        start:0x805D0A40 end:0x805D0AA0
 	.sbss       start:0x805D7BD0 end:0x805D7C2C
 	.sdata2     start:0x805E1198 end:0x805E11F0
 
-pso/network/TLobby_80429598.c:
+pso/network/eth.c:
 	.text       start:0x80429598 end:0x8042BF48
 	.data       start:0x804FD9D8 end:0x804FDA20
 	.bss        start:0x805D0AA0 end:0x805D1D20

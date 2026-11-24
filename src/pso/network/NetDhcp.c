@@ -8,10 +8,10 @@
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/NetDhcp.h"
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/text_80421620.h"
+#include "pso/network/NetApi.h"
 #include "types.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include <stddef.h>
 #include "pso/network/BufferRef.h"
 

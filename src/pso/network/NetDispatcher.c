@@ -2,14 +2,14 @@
 #include "pso/network/SocketEvents.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/NetworkRuntimeSlots.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
 #include "pso/network/BufferRef.h"
 #include "pso/network/IPv6.h"
 
 #include "types.h"
-#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/Ppp.h"
 
 
 #include <stddef.h>

@@ -5,7 +5,7 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/UdpRuntime.h"
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/TLobby_803F86BC.h"
+#include "pso/network/NetConfig.h"
 #include <stddef.h>
 #include "pso/network/netcfg.h"
 #include "pso/network/NetTcpState.h"
@@ -14,8 +14,8 @@
 #include "pso/network/NetArp.h"
 #include "pso/network/NetIpv4.h"
 #include "pso/network/NetEthernet.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 #include "pso/network/NetworkMessageTransport.h"
 
 typedef struct Big_803F8AD8 {

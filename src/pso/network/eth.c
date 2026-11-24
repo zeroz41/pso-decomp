@@ -1,8 +1,8 @@
-/* The network stack's EXI Ethernet adapter driver (a C library, built with GC/1.2.5n): register reads and writes
+/* ETHLIB, the Broadband Adapter's Ethernet driver (a C library, built with GC/1.2.5n): register reads and writes
  * over EXI, the receive/send DMA chain and its buffers, the MAC address, the multicast filter and the link status. */
 #define PSO_SDK_COMPACT_MATH
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/TLobby_80429598.h"
+#include "pso/network/eth.h"
 #include "pso/network/ModemRuntime.h"
 #include "pso/network/NetworkMessageTransport.h"
 

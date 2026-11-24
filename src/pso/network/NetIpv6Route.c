@@ -2,8 +2,8 @@
 #include "pso/network/SocketEvents.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804048E8.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/PppVj.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
 #include "pso/network/BufferRef.h"
@@ -11,9 +11,9 @@
 #include "pso/network/NetIPv6NeighborDiscovery.h"
 
 #include "types.h"
-#include "pso/network/TLobby_803FCF44.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/Ppp.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 
 #include <stddef.h>
 

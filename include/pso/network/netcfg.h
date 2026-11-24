@@ -1,6 +1,6 @@
 #ifndef PSO_NETWORK_NETCFG_H
 #define PSO_NETWORK_NETCFG_H
-/* The network stack's configuration (src/pso/network/TLobby_803F86BC.c). The stack is a C library built with
+/* The network stack's configuration (src/pso/network/NetConfig.c). The stack is a C library built with
  * GC/1.2.5n, separate from the game's C++: each function here fills one of its configuration records with
  * counts, sizes and static buffers. Record and field names are ours (no symbols survive). */
 #include "types.h"

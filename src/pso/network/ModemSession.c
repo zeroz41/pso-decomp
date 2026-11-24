@@ -2,17 +2,17 @@
  * expansion and its quoted-string parser, timed waits on the modem, and the buffer pool's bounds. */
 #include "pso/network/NetworkRuntimeSlots.h"
 #include "pso/network/NetworkTransport.h"
-#include "pso/network/TLobby_80428374.h"
+#include "pso/network/ModemSession.h"
 #include "pso/network/ModemRuntime.h"
 #include "pso/network/NetworkMessageTransport.h"
 
 #include "types.h"
-#include "pso/network/TLobby_803F86BC.h"
-#include "pso/network/TLobby_803FAEA0.h"
-#include "pso/network/TLobby_803FC178.h"
+#include "pso/network/NetConfig.h"
+#include "pso/network/PppApi.h"
+#include "pso/network/PppChap.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/NetStack.h"
 
 /* The script strings are read-only: the short ones are in .sdata2. */
 #pragma readonly_strings on

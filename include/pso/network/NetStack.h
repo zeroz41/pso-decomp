@@ -1,5 +1,5 @@
-#ifndef PSO_NETWORK_TLOBBY_804050DC_H
-#define PSO_NETWORK_TLOBBY_804050DC_H
+#ifndef PSO_NETWORK_NETSTACK_H
+#define PSO_NETWORK_NETSTACK_H
 
 #include "types.h"
 #include "pso/network/NetworkReceiveCallback.h"
@@ -14,7 +14,7 @@
 #include "pso/network/PppFsm.h"
 #include "pso/network/NetEthernet.h"
 
-/* TLobby_804050DC.c: connection records, the DNS resolver tables and socket start-up. */
+/* PppFraming.c: connection records, the DNS resolver tables and socket start-up. */
 typedef struct Ipv4RawSocket Ipv4RawSocket;
 typedef struct Ipv4ProtocolState Ipv4ProtocolState;
 typedef void (*NetLinkDriverFn)(void); /* one of the 11 entries of a link-layer driver (NetHandlerTable.c) */
@@ -119,7 +119,7 @@ s16 AT_IP4_SrcAddrSel(u32 *out, u32 dst, s16 c);
 s16 ipv6_output(NetPacket *pkt, void *dst, void *src, NetIPv6SendOptions *opts, u8 proto);
 extern NetPacketPool lobby_udp_socket_table;
 /* Shared by the modules cut out of this unit; each is defined in the file named in its comment. */
-u16 packet_ones_complement_sum(struct NetPacket *, s16); /* TLobby_804050DC.c */
+u16 packet_ones_complement_sum(struct NetPacket *, s16); /* PppFraming.c */
 s32 dispatch_slot_a(s16, s32);                       /* NetArp.c */
 s32 dispatch_slot_b(s16, s32);                       /* NetArp.c */
 s16 forward_net_op(s16, u8 *, u8 *);                 /* NetArp.c */

@@ -1,12 +1,12 @@
-#ifndef PSO_NETWORK_TLOBBY_803FC178_H
-#define PSO_NETWORK_TLOBBY_803FC178_H
+#ifndef PSO_NETWORK_PPPCHAP_H
+#define PSO_NETWORK_PPPCHAP_H
 
 #include "types.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/PppMd5.h"
 #include "pso/network/PppFsm.h"
 
-/* TLobby_803FC178.c: PPP (LCP/IPCP/CHAP/PAP, MD5), the connection state machine and the stack's buffer streams. */
+/* PppChap.c: PPP (LCP/IPCP/CHAP/PAP, MD5), the connection state machine and the stack's buffer streams. */
 typedef struct PppChapAuthenticationState PppChapAuthenticationState;
 typedef struct PppHeader PppHeader;
 struct PppChapAuthenticationState {

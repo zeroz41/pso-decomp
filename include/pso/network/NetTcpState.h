@@ -39,7 +39,7 @@ typedef struct TcpHdr {
     u16 urp;
 } TcpHdr;
 LAYOUT_ASSERT(TcpHdr_size_check, sizeof(TcpHdr) == 0x14);
-/* A user call blocked on (or with a callback for) a TCB operation (text_80421620.c). */
+/* A user call blocked on (or with a callback for) a TCB operation (NetApi.c). */
 typedef struct TcpWait {
     u8 flags; /* 1 active, 2 a thread waits, 4 done, 8 callback mode */
     u8 count;

@@ -6,7 +6,7 @@
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
-#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/NetStack.h"
 
 s32 dix_clear_links(void);
 s16 init_net_sockets(void);

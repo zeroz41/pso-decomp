@@ -1,16 +1,16 @@
-#ifndef PSO_NETWORK_TLOBBY_803FCF44_H
-#define PSO_NETWORK_TLOBBY_803FCF44_H
+#ifndef PSO_NETWORK_PPP_H
+#define PSO_NETWORK_PPP_H
 
 #include "types.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/NetPppLink.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_803FC178.h"
-#include "pso/network/TLobby_804048E8.h"
+#include "pso/network/PppChap.h"
+#include "pso/network/PppVj.h"
 #include "pso/network/PppMd5.h"
 
-/* Shared by the PPP files split out of TLobby_803FCF44.c: NetPppLink.c, PppFsm.c, PppIpcp.c, PppLcp.c, PppBuffer.c,
- * PppMd5.c, NetByteOrder.c, PppPap.c, PppControl.c and PppVj.c (CHAP is TLobby_803FC178.c). */
+/* Shared by the PPP files split out of Ppp.c: NetPppLink.c, PppFsm.c, PppIpcp.c, PppLcp.c, PppBuffer.c,
+ * PppMd5.c, NetByteOrder.c, PppPap.c, PppControl.c and PppVj.c (CHAP is PppChap.c). */
 struct PppFsm;
 struct PppHeader;
 typedef struct PppPapAuthenticationState PppPapAuthenticationState;

@@ -4,8 +4,8 @@
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/NetworkDispatch.h"
 #include "pso/network/netcfg.h"
-#include "pso/network/TLobby_804050DC.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/NetStack.h"
+#include "pso/network/NetIpv6Route.h"
 
 
 

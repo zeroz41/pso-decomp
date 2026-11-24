@@ -1,5 +1,5 @@
-#ifndef PSO_NETWORK_TLOBBY_803FAEA0_H
-#define PSO_NETWORK_TLOBBY_803FAEA0_H
+#ifndef PSO_NETWORK_PPPAPI_H
+#define PSO_NETWORK_PPPAPI_H
 
 #include "types.h"
 #include "pso/network/NetStackTypes.h"
@@ -110,7 +110,7 @@ LAYOUT_ASSERT(PppProtoBlocks_rx_drops_offset, offsetof(PppProtoBlocks, rx_drops)
 LAYOUT_ASSERT(PppProtoBlocks_rx_err_drops_offset, offsetof(PppProtoBlocks, rx_err_drops) == 0x140);
 LAYOUT_ASSERT(PppProtoBlocks_rx_alloc_drops_offset, offsetof(PppProtoBlocks, rx_alloc_drops) == 0x142);
 
-/* TLobby_803FAEA0.c: session control (stack up/down, login name, connection configuration, timeout). */
+/* PppApi.c: session control (stack up/down, login name, connection configuration, timeout). */
 #ifdef __cplusplus
 extern "C" {
 #endif

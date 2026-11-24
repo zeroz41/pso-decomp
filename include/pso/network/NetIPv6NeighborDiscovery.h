@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/network/IPv6Send.h"
-#include "pso/network/TLobby_8041112C.h"
+#include "pso/network/NetIpv6Route.h"
 
 /* ICMPv6 type 0x88. flags: 0x80 router, 0x40 solicited, 0x20 override. */
 typedef struct NetIcmpv6NeighborAdvertisement {

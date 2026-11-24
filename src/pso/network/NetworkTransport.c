@@ -8,12 +8,12 @@
 #include "pso/network/NetPppLink.h"
 #include "pso/network/NetStackTypes.h"
 #include "pso/network/netcfg.h"
-#include "pso/network/TLobby_80426CAC.h"
-#include "pso/network/TLobby_80428374.h"
+#include "pso/network/NetPppoe.h"
+#include "pso/network/ModemSession.h"
 
 #include "types.h"
 #include "pso/network/NetworkRuntime.h"
-#include "pso/network/TLobby_804050DC.h"
+#include "pso/network/NetStack.h"
 
 /* The CHAP and PAP buffers init_net_buffer_table and init_net_block_620_params hand out (PppAuthState, PppPapState). */
 typedef struct PppAuthBuffers {

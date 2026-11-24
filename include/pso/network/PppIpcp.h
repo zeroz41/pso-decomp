@@ -2,7 +2,7 @@
 #define PSO_NETWORK_PPPIPCP_H
 
 #include "types.h"
-#include "pso/network/TLobby_803FCF44.h"
+#include "pso/network/Ppp.h"
 
 /* One set of IPCP option values. Bit n of flags marks option n (n < 8) or option 0x78 + n (n < 0x20) as in use. */
 typedef struct IpcpOptions {
