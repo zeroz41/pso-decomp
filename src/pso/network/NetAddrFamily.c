@@ -41,9 +41,7 @@ s16 dispatch_by_addr_family(NetPacket *pkt, NetworkAddress *dst, NetworkAddress 
     }
 }
 
-u16 TLobby__sub_8040D8F0(u8 *arg0, u8 *arg1, s8 proto, NetPacket *pkt, s16 flag) {
-    NetworkAddress *src = (NetworkAddress *)arg0;
-    NetworkAddress *dst = (NetworkAddress *)arg1;
+u16 TLobby__sub_8040D8F0(NetworkAddress *src, NetworkAddress *dst, s8 proto, NetPacket *pkt, s16 flag) {
     switch (src->family) {
     case 4:
         return calc_pseudo_header_checksum(src->ipv4, dst->ipv4, proto, pkt, flag);
@@ -92,14 +90,12 @@ s16 AT_IP_SetSrcFromDst(NetworkAddress *src, NetworkAddress *dst) {
     }
 }
 
-s16 TLobby__sub_8040DA54(u8 *dst, u8 *src) {
-    NetworkAddress *a = (NetworkAddress *)dst;
-    NetworkAddress *b = (NetworkAddress *)src;
-    switch (a->family) {
+s16 TLobby__sub_8040DA54(NetworkAddress *dst, NetworkAddress *src) {
+    switch (dst->family) {
     case 4:
-        return AT_IP4_IsReachable(a->ipv4, b->ipv4);
+        return AT_IP4_IsReachable(dst->ipv4, src->ipv4);
     case 6:
-        return TLobby__sub_80413230(a->address, (saddr)b->address);
+        return TLobby__sub_80413230(dst->address, (saddr)src->address);
     default:
     case 0:
         return -2;
@@ -136,8 +132,7 @@ s16 is_multicast_address(NetworkAddress *addr, s16 arg1) {
     }
 }
 
-s16 is_addr_unspecified(u8 *arg0) {
-    NetworkAddress *addr = (NetworkAddress *)arg0;
+s16 is_addr_unspecified(NetworkAddress *addr) {
     switch (addr->family) {
     case 0:
         return 1;
@@ -168,20 +163,18 @@ s16 compare_sockaddr(NetworkAddress *a, NetworkAddress *b) {
     }
 }
 
-s16 AT_IP_GetMssFromDstSrc(u8 *remote, u8 *local) {
-    NetworkAddress *a = (NetworkAddress *)remote;
-    NetworkAddress *b = (NetworkAddress *)local;
+s16 AT_IP_GetMssFromDstSrc(NetworkAddress *remote, NetworkAddress *local) {
     s16 mtu;
     u32 family;
     Ipv4Route *rt4;
     Ipv6Route *rt;
-    family = a->family;
-    if (b->family != family) {
+    family = remote->family;
+    if (local->family != family) {
         return -2;
     }
     switch ((s32)family) {
     case 4:
-        rt4 = AT_IP4_RouteSearch(a->ipv4, b->ipv4);
+        rt4 = AT_IP4_RouteSearch(remote->ipv4, local->ipv4);
         if (rt4 == NULL) {
             return -6;
         }
@@ -191,7 +184,7 @@ s16 AT_IP_GetMssFromDstSrc(u8 *remote, u8 *local) {
         }
         return mtu - 0x28;
     case 6:
-        rt = TLobby__sub_80413264(a->address, b->address);
+        rt = TLobby__sub_80413264(remote->address, local->address);
         if (rt == NULL) {
             return -6;
         }

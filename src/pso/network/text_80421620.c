@@ -748,7 +748,7 @@ s32 tcp_abort(s32 a) {
     return r;
 }
 
-s32 TLobby__sub_80422AB8(s16 idx, TcpAcceptCallback cb, s16 code, s32 name, s32 local_port, s32 remote_port) {
+s32 TLobby__sub_80422AB8(s16 idx, TcpAcceptCallback cb, s16 code, NetworkAddress *name, s32 local_port, s32 remote_port) {
     TcpTcb *s = tcp_protocol_state.tcbs;
     s16 i2;
     s16 v;

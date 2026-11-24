@@ -11,7 +11,6 @@
 
 typedef struct Hdr_80420DE4 { u16 src; u16 dst; u16 len; u16 sum; } Hdr_80420DE4;
 
-s16 TLobby__sub_8040D8F0(void *, void *, int, void *, int);
 UdpRuntimeState udp_runtime_state;
 
 s32 reset_stack_module(void) {
@@ -82,7 +81,7 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 ifac
     frag = &pkt->fragments[1];
     set_value_and_enable(&header, (saddr)&hdr);
     netbuf_copy_by_ref(&header, &frag->buffer, 8);
-    if (hdr.sum != 0 && (u16)TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 0) != 0) {
+    if (hdr.sum != 0 && TLobby__sub_8040D8F0(src, dst, 0x11, pkt, 0) != 0) {
         return -1;
     }
     g = &udp_runtime_state;
@@ -92,14 +91,14 @@ s16 udp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst, s16 ifac
         if (e->active == 0) {
             goto next;
         }
-        if (is_addr_unspecified((u8 *)&e->remoteAddress) != 0) {
+        if (is_addr_unspecified(&e->remoteAddress) != 0) {
             if (e->remoteAddress.family != 0 && e->remoteAddress.family != src->family) {
                 goto next;
             }
         } else if (compare_sockaddr(&e->remoteAddress, src) != 0) {
             goto next;
         }
-        if (is_addr_unspecified((u8 *)&e->localAddress) != 0) {
+        if (is_addr_unspecified(&e->localAddress) != 0) {
             if (e->localAddress.family != 0 && e->localAddress.family != dst->family) {
                 goto next;
             }
@@ -140,7 +139,7 @@ s16 AT_UDP_Send(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst
     if (e->active == 0) {
         return -4;
     }
-    if (is_addr_unspecified((u8 *)&e->remoteAddress) == 0) {
+    if (is_addr_unspecified(&e->remoteAddress) == 0) {
         dst = &e->remoteAddress;
     }
     if (e->localAddress.family != 0) {
@@ -154,7 +153,7 @@ s16 AT_UDP_Send(s16 id, NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst
     } else {
         e->destinationPort = port;
     }
-    if (TLobby__sub_8040DA54((u8 *)dst, (u8 *)src) == 0) {
+    if (TLobby__sub_8040DA54(dst, src) == 0) {
         NetDispatchSocketEvent(id, e->eventCallback, 2, 0x80);
         return -6;
     }

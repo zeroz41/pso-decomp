@@ -4,6 +4,7 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
 #include "pso/network/TLobby_804050DC.h"
+#include "pso/network/NetTcpState.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
@@ -76,7 +77,6 @@ inline u16 ip_header_checksum(void *p, s16 n)
 s16 ipv4_input(u8 *ip, s16 len, s16 iface)
 {
   saddr fragment_input(u8 *self, u16 hdr_len, s16 frag_len, u8 ttl, u32 ident, NetworkAddress *src, u16 frag_off, u8 more, s16 iface);
-  s16 tcp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
   u16 total_len;
   u16 hlen;
   NetPacket *pkt;

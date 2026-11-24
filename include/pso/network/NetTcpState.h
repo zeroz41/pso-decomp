@@ -5,6 +5,7 @@
 #include "pso/network/TcpSendQueue.h"
 #include "pso/network/IPv6Send.h"
 #include "pso/network/SocketEvents.h"
+#include "pso/network/UdpRuntime.h"
 
 typedef struct TcpTcb TcpTcb;
 
@@ -119,14 +120,14 @@ struct TcpTcb {
     u16 maxseg;
     u16 peer_mss; /* MSS from the peer's option 2; 536 until one arrives */
     TcpHdr hdr; /* template for outgoing segments: sport is the local port, dport the remote one */
-    u8 remote[0x14];
-    u8 local[0x14];
+    NetworkAddress remote;
+    NetworkAddress local;
     /* [0] tcp_receive, [2] tcp_send, [3] TLobby__sub_80422AB8. [1] counts the queued send requests still outstanding;
        complete_request_callback stores a queued request's status in [1] but marks [2] done. */
     TcpWait waits[4];
     s16 f2C4;
     s16 pending;
-    void (*accept_cb)(s16, s16, s32, s32); /* callback of the waits[3] operation */
+    TcpAcceptCallback accept_cb; /* callback of the waits[3] operation */
     NetSocketEventCallback accept_ctx; /* handed to the accepted TCB's event_ctx */
     NetSocketEventCallback event_ctx; /* passed to NetDispatchSocketEvent */
     s16 keepidle; /* keepalive time set by option 8; 0 uses tcp_protocol_state.keepidle */
@@ -213,6 +214,7 @@ s32 TLobby__sub_8041FFF8(u32 len, TcpTcb *self);
    (as buffer references, no copy; BSD tcp_output's m_copy). The fragments are stored last first. Returns -1 when off
    is past the queued data, or (while f204_b7 is set) when len is 0 or the ring is empty. */
 s32 tcp_gather_send_data(u32 off, u32 len, NetPacket *pkt, TcpTcb *tp);
+s16 tcp_input(NetPacket *pkt, NetworkAddress *remote, NetworkAddress *local);
 s32 TLobby__sub_80420BD0(NetPacket *req, TcpTcb *s, TcpCompletion done);
 #ifdef __cplusplus
 }

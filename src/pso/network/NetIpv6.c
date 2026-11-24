@@ -4,6 +4,7 @@
 #include "pso/network/NetworkRuntime.h"
 #include "pso/network/TLobby_804048E8.h"
 #include "pso/network/TLobby_804050DC.h"
+#include "pso/network/NetTcpState.h"
 #include "pso/network/TLobby_803FC178.h"
 #include "pso/network/NetworkPacketPool.h"
 #include "pso/network/netcfg.h"
@@ -118,7 +119,6 @@ inline NetPacket *make_input_packet(u8 *ip, s16 total_len, u8 *payload, s32 payl
 #pragma opt_loop_invariants off
 #pragma opt_strength_reduction off
 s32 ipv6_input(u8 *ip, int len, s16 id) {
-    s16 tcp_input(NetPacket *pkt, NetworkAddress *src, NetworkAddress *dst); /* the definition takes (u8 *, u8 *, u8 *) */
     NetworkAddress src_addr;
     NetworkAddress dst_addr;
     NetIcmpv6Header error;
