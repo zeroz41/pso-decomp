@@ -3,6 +3,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/TLobbyEventTheme.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
@@ -97,7 +98,7 @@ void TObjCurtainLobby::free_resources() {
 void TObjCurtainLobby::load_resources() {
     void *resource = new BmlResource(5, &bm_obj_lobby_curtain_resource_descriptor, 0, 0, NULL);
     model_resource = (BmlResource *)resource;
-    lobby_texlist = TLobby::get_lobby_texlist();
+    lobby_texlist = get_lobby_main_texlist();
 }
 
 TObjCurtainLobby::~TObjCurtainLobby() {}

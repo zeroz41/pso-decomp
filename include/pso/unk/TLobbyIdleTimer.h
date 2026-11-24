@@ -4,7 +4,6 @@
 #include "pso/system/task/TObject.h"
 
 // The lobby idle timer: TLobby::update_idle_timeout warns when the idle limit is near and ends the session at it.
-// The name is inferred from that role.
 class TLobbyIdleTimer : public TObject {
 public:
     virtual ~TLobbyIdleTimer();

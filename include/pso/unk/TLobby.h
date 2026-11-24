@@ -414,7 +414,6 @@ struct TLobby : public TObject {
     static saddr get_card_window_field();
     void set_info_board_text();
     static void reset_info_board();
-    static NJS_TEXLIST *get_lobby_texlist();
     static void *create_dialing_message_window(void *arg0, void *delay);
     static void free_singleton_805D7018();
     static void clear_session_buffer();

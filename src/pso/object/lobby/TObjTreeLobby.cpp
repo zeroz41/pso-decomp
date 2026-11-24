@@ -61,7 +61,7 @@ TObjTreeLobby::~TObjTreeLobby() {}
 void TObjTreeLobby::load_resources() {
     void *resource = new BmlResource(5, &bm_obj_lobby_tree_resource_descriptor, 0, 0, NULL);
     model_resource = (BmlResource *)resource;
-    lobby_texlist = TLobby::get_lobby_texlist();
+    lobby_texlist = get_lobby_main_texlist();
 }
 
 void TObjTreeLobby::free_resources() {

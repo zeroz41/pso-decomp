@@ -13,7 +13,7 @@
 TLobbyEventTheme *TLobbyEventTheme::instance;
 NJS_TEXLIST *lobby_main_texture_gvm;
 
-void TLobbyEventTheme::sub_80351DF8(s32 theme) {}
+void TLobbyEventTheme::update_theme(s32 theme) {}
 
 s32 TLobby::get_filtered_event_theme() {
     switch (event_theme_id) {
@@ -41,7 +41,7 @@ s32 TLobbyEventTheme::started() {
     return 0;
 }
 
-NJS_TEXLIST *TLobby::get_lobby_texlist() { return lobby_main_texture_gvm; }
+NJS_TEXLIST *get_lobby_main_texlist() { return lobby_main_texture_gvm; }
 
 void TLobbyEventTheme::run_task() {
     s32 current = TLobby::get_filtered_event_theme();
@@ -55,7 +55,7 @@ void TLobbyEventTheme::run_task() {
         }
         theme = current;
     }
-    sub_80351DF8(current);
+    update_theme(current);
 }
 
 void TLobbyEventTheme::create() {
