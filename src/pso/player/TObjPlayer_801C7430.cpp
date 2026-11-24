@@ -3826,13 +3826,13 @@ inline void tail_801CCD38(Player_801CCD38 *p, s32 t, s8 lvl) {
     case 13:
     case 15:
     case 16:
-        ((PlayerTechniqueState *)(p->techs))->set_technique_state(calc_technique_parameters(t, lvl, ((TObjBase *)p)->get_entity_id())->duration);
+        ((PlayerTechniqueState *)(p->techs))->set_technique_state(calc_technique_parameters(t, lvl, ((TObjBase *)p)->get_entity_id())->pad_20);
         p->f328 = 4;
         launch_technique(t, lvl, (TObjPlayer *)p);
         return;
     }
     if (((TObjPlayer *)p)->check_flag_4() == 0 && p->f10 == tl_03) {
-        ((PlayerTechniqueState *)(p->techs))->set_technique_state(calc_technique_parameters(t, lvl, ((TObjBase *)p)->get_entity_id())->duration);
+        ((PlayerTechniqueState *)(p->techs))->set_technique_state(calc_technique_parameters(t, lvl, ((TObjBase *)p)->get_entity_id())->pad_20);
         p->f328 = 4;
         launch_technique(t, lvl, (TObjPlayer *)p);
     }

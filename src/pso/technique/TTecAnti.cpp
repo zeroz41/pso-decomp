@@ -62,7 +62,7 @@ void TechniqueParams::copy(TechniqueParams *src) {
     pad_16 = src->pad_16;
     pad_18 = src->pad_18;
     pad_1C = src->pad_1C;
-    duration = src->duration;
+    pad_20 = src->pad_20;
     pad_22 = src->pad_22;
     tp_cost_percent = src->tp_cost_percent;
     power_per_level = src->power_per_level;

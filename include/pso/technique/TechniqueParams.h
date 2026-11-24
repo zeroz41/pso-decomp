@@ -16,7 +16,7 @@ struct TechniqueParams {
     s16 pad_16;
     s32 pad_18;      // degrees; some techniques turn it into angle units (65536 / 360)
     s32 pad_1C;
-    s16 duration;    // frames an area lasts (RaBarta); lowered every 5 or 10 levels, at least 10
+    s16 pad_20;      // frames an area lasts (RaBarta); lowered every 5 or 10 levels, at least 10
     u8 pad_22;
     u8 tp_cost_percent;  // percent of a level added to tp_cost
     s16 power_per_level;  // added to power once per level
