@@ -11,29 +11,24 @@
 #pragma auto_inline off
 #pragma dont_inline off
 
-typedef struct PppoeNames {
-    u8 name[0x100];
-    u8 service[0x100];
-} PppoeNames;
-
 struct PppoeSlot {
     s16 state;
     u16 id;
-    s16 m_4;
-    s16 m_6;
+    s16 reused;            /* the slot was taken over from a closed (state 6) session */
+    s16 retries;           /* resends left before the current discovery step gives up */
     s32 timeout;
     s32 last;
-    u8 m_10[6];
-    u8 m_16[6];
-    u16 m_1C;
-    u16 m_1E;
-    u8 *m_20;
-    u8 *m_24;
-    u16 m_28;
+    u8 local_mac[6];
+    u8 broadcast_mac[6];   /* the PADI destination */
+    u16 service_name_ok;   /* the offer carried the wanted Service-Name (or none was asked for) */
+    u16 ac_name_ok;        /* the offer carried the wanted AC-Name (or none was asked for) */
+    u8 *ac_mac;            /* the access concentrator's MAC, in the offer */
+    u8 *ac_cookie;         /* AC-Cookie tag (0x104) to echo, in the offer */
+    u16 ac_cookie_len;
     u8 pad2A[2];
-    u8 *m_2C;
-    u16 m_30;
-    u8 m_32[8];
+    u8 *relay_session_id;  /* Relay-Session-Id tag (0x110) to echo */
+    u16 relay_session_id_len;
+    u8 host_uniq[8];       /* Host-Uniq tag (0x103): the slot address and the open time */
     PppoeNames names;
     u8 frame[0x5EA];
     u16 frame_len;
@@ -78,16 +73,8 @@ s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len);
 #define arg0 ((s32)argp)
 #undef arg0
 
-s16 build_ethernet_frame_header(void *frame, void *src, void *mac, u16 type, u8 flag, u16 a, u16 len);
-s32 skip_pppoe_tags(s32 arg0, u8 *arg1, u16 arg2);
-s16 get_pppoe_session_id(s16 slot);
-s16 pppoe_recv_packet(void *buf, u16 bufLen, u16 *outLen);
 
-typedef struct Unk804271E8Blk {
-    u32 w[0x80];
-} Unk804271E8Blk;
-
-s16 build_ethernet_frame_header(void *frame, void *src, void *mac, u16 type, u8 flag, u16 a, u16 len) {
+s16 build_ethernet_frame_header(void *frame, void *dst_mac, void *src_mac, u16 type, u8 code, u16 session, u16 len) {
   u8 *p;
   u8 c;
   u16 t;
@@ -96,15 +83,15 @@ s16 build_ethernet_frame_header(void *frame, void *src, void *mac, u16 type, u8 
   u16 l;
   s16 r;
   new_var = ((u8 *)frame);
-  NetMemcpy(new_var, src, 6);
-  NetMemcpy(new_var + 6, mac, 6);
+  NetMemcpy(new_var, dst_mac, 6);
+  NetMemcpy(new_var + 6, src_mac, 6);
   t = type;
   NetMemcpy(((u8 *)frame) + 0xC, &t, 2);
   p = new_var + 0xE;
   c = 0x11;
   NetMemcpy(p, &c, 1);
-  NetMemcpy(p + 1, &flag, 1);
-  x = a;
+  NetMemcpy(p + 1, &code, 1);
+  x = session;
   NetMemcpy(p + 2, &x, 2);
   l = len;
   NetMemcpy(p + 4, &l, 2);
@@ -144,7 +131,7 @@ inline s16 put_host_uniq(u8 **p, PppoeSlot *e) {
     len = 8;
     NetMemcpy(*p, &len, 2);
     *p += 2;
-    NetMemcpy(*p, e->m_32, 8);
+    NetMemcpy(*p, e->host_uniq, 8);
     *p += 8;
     ret = 12;
     return ret;
@@ -154,16 +141,16 @@ inline s16 put_ac_cookie(u8 **p, PppoeSlot *e) {
     u16 type;
     u16 len;
     s16 n = 0;
-    if (e->m_24 != NULL) {
+    if (e->ac_cookie != NULL) {
         type = 0x104;
         NetMemcpy(*p, &type, 2);
         *p += 2;
-        len = e->m_28;
+        len = e->ac_cookie_len;
         NetMemcpy(*p, &len, 2);
         *p += 2;
-        NetMemcpy(*p, e->m_24, e->m_28);
-        n = e->m_28 + 4;
-        *p += e->m_28;
+        NetMemcpy(*p, e->ac_cookie, e->ac_cookie_len);
+        n = e->ac_cookie_len + 4;
+        *p += e->ac_cookie_len;
     }
     return n;
 }
@@ -172,16 +159,16 @@ inline s16 put_relay_session_id(u8 **p, PppoeSlot *e) {
     u16 type;
     u16 len;
     s16 n = 0;
-    if (e->m_2C != NULL) {
+    if (e->relay_session_id != NULL) {
         type = 0x110;
         NetMemcpy(*p, &type, 2);
         *p += 2;
-        len = e->m_30;
+        len = e->relay_session_id_len;
         NetMemcpy(*p, &len, 2);
         *p += 2;
-        NetMemcpy(*p, e->m_2C, e->m_30);
-        n = e->m_30 + 4;
-        *p += e->m_30;
+        NetMemcpy(*p, e->relay_session_id, e->relay_session_id_len);
+        n = e->relay_session_id_len + 4;
+        *p += e->relay_session_id_len;
     }
     return n;
 }
@@ -231,7 +218,7 @@ s16 TLobby__sub_80426D80(PppoeSlot *e) {
     case 1:
         n = TLobby__sub_804270C0(e);
         if (n >= 0) {
-            src = e->m_16;
+            src = e->broadcast_mac;
             type = 0x8863;
             flag = 9;
             break;
@@ -241,7 +228,7 @@ s16 TLobby__sub_80426D80(PppoeSlot *e) {
     case 3:
         n = TLobby__sub_80426EB8(e);
         if (n >= 0) {
-            src = e->m_20;
+            src = e->ac_mac;
             type = 0x8863;
             flag = 0x19;
             break;
@@ -255,7 +242,7 @@ s16 TLobby__sub_80426D80(PppoeSlot *e) {
         p = e->frame + 0x14;
         n = put_end_of_list3(&p);
         if (n >= 0) {
-            src = e->m_20;
+            src = e->ac_mac;
             type = 0x8863;
             n = 2 + 2;
             flag = 0xA7;
@@ -267,7 +254,7 @@ s16 TLobby__sub_80426D80(PppoeSlot *e) {
         n = -1;
         goto out;
     }
-    n = build_ethernet_frame_header((e->frame), src, e->m_10, type, flag, e->id, n);
+    n = build_ethernet_frame_header((e->frame), src, e->local_mac, type, flag, e->id, n);
     e->frame_len = n;
 out:
     return n;
@@ -335,7 +322,7 @@ s16 TLobby__sub_804270C0(PppoeSlot *self) {
     w[4] = 8;
     NetMemcpy(p, &w[4], 2);
     p += 2;
-    NetMemcpy(p, self->m_32, 8);
+    NetMemcpy(p, self->host_uniq, 8);
     p += 8;
     w[0] = 0;
     NetMemcpy(p, &w[0], 2);
@@ -398,87 +385,85 @@ inline s16 build_padt(PppoeSlot *e) {
 inline void restart_timer(PppoeSlot *e, s16 retries, s32 timeout) {
     get_time_ms(&e->last);
     e->timeout = timeout;
-    e->m_6 = retries;
+    e->retries = retries;
 }
 
 void TLobby__sub_80427378(PppoeSlot *self) {
-    void *v = self;
     u16 a;
     u16 q;
     u8 *w;
     u8 buf[8];
-    u8 *s = v;
     u8 *p;
     s32 tm;
     s16 cnt;
     s16 r;
 
-    switch (*(s16 *)s) {
+    switch (self->state) {
     case 0:
-        if (*(s16 *)(s + 6) > 0) {
+        if (self->retries > 0) {
             r = TLobby__sub_80426440();
             if (r >= 0) {
                 u16 h;
-                if (*(s16 *)(s + 4)) {
-                    p = s + 0x24e;
+                if (self->reused) {
+                    p = self->frame + 0x14;
                     q = 0xC021;
                     NetMemcpy(p, &q, 2);
                     p[2] = 5;
                     p[3] = 1;
                     a = 4;
                     NetMemcpy(p + 4, &a, 2);
-                    *(s16 *)(s + 0x824) = build_ethernet_frame_header(s + 0x23a, *(void **)(s + 0x20), s + 0x10, 0x8864, 0, *(u16 *)(s + 2), 6);
-                    post_send_message(s + 0x23a, *(u16 *)(s + 0x824));
+                    self->frame_len = build_ethernet_frame_header(self->frame, self->ac_mac, self->local_mac, 0x8864, 0, self->id, 6);
+                    post_send_message(self->frame, self->frame_len);
                     w = p;
                     r = write_empty_tlv_header(&w, self);
                     if (r < 0) {
                         r = -1;
                     }
                     if (r >= 0) {
-                        *(s16 *)(s + 0x824) = build_ethernet_frame_header(s + 0x23a, *(void **)(s + 0x20), s + 0x10, 0x8863, 0xa7, *(u16 *)(s + 2), r);
-                        post_send_message(s + 0x23a, *(u16 *)(s + 0x824));
+                        self->frame_len = build_ethernet_frame_header(self->frame, self->ac_mac, self->local_mac, 0x8863, 0xa7, self->id, r);
+                        post_send_message(self->frame, self->frame_len);
                     }
                 }
-                *(u16 *)(s + 2) = 0;
-                r = TLobby__sub_80426D80((void *)s);
+                self->id = 0;
+                r = TLobby__sub_80426D80(self);
                 if (r < 0) {
                     return;
                 }
-                h = *(u16 *)(s + 0x824);
-                post_send_message(s + 0x23a, h);
-                *(s16 *)s = 1;
-                get_time_ms((s32 *)(s + 0xc));
-                *(s32 *)(s + 8) = 0xbb8;
-                *(s16 *)(s + 6) = 2;
+                h = self->frame_len;
+                post_send_message(self->frame, h);
+                self->state = 1;
+                get_time_ms(&self->last);
+                self->timeout = 0xbb8;
+                self->retries = 2;
                 return;
             }
-            tm = *(s32 *)(s + 8);
-            cnt = *(s16 *)(s + 6) - 1;
-            get_time_ms((s32 *)(s + 0xc));
-            *(s32 *)(s + 8) = tm;
-            *(s16 *)(s + 6) = cnt;
+            tm = self->timeout;
+            cnt = self->retries - 1;
+            get_time_ms(&self->last);
+            self->timeout = tm;
+            self->retries = cnt;
         } else {
-            *(s32 *)(s + 8) = 0;
-            *(s16 *)s = -1;
+            self->timeout = 0;
+            self->state = -1;
         }
         break;
     case 1:
     case 3:
-        if (*(s16 *)(s + 6) > 0) {
+        if (self->retries > 0) {
             u16 h;
-            r = TLobby__sub_80426D80((void *)s);
+            r = TLobby__sub_80426D80(self);
             if (r >= 0) {
-                h = *(u16 *)(s + 0x824);
-                post_send_message(s + 0x23a, h);
+                h = self->frame_len;
+                post_send_message(self->frame, h);
             }
-            tm = *(s32 *)(s + 8) * 2;
-            cnt = *(s16 *)(s + 6) - 1;
-            get_time_ms((s32 *)(s + 0xc));
-            *(s32 *)(s + 8) = tm;
-            *(s16 *)(s + 6) = cnt;
+            tm = self->timeout * 2;
+            cnt = self->retries - 1;
+            get_time_ms(&self->last);
+            self->timeout = tm;
+            self->retries = cnt;
         } else {
-            *(s32 *)(s + 8) = 0;
-            *(s16 *)s = 5;
+            self->timeout = 0;
+            self->state = 5;
         }
         break;
     case 2:
@@ -521,20 +506,20 @@ s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
             break;
         }
         p->timeout = 0;
-        NetMemcpy((u8 *)p + 0x826, frame, frame_len);
-        *(u16 *)((u8 *)p + 0xe10) = frame_len;
-        ret = TLobby__sub_80427988(p, (u8 *)p + 0x83a, id);
+        NetMemcpy(p->rx_frame, frame, frame_len);
+        p->rx_frame_len = frame_len;
+        ret = TLobby__sub_80427988(p, p->rx_frame + 0x14, id);
         if (ret <= 0) {
             break;
         }
-        *(u8 **)((u8 *)p + 0x20) = (u8 *)p + 0x82c;
+        p->ac_mac = p->rx_frame + 6;
         p->state = 2;
         ret = TLobby__sub_80426D80(p);
         if (ret < 0) {
             break;
         }
         {
-            u16 sz = *(u16 *)((u8 *)p + 0x824);
+            u16 sz = p->frame_len;
             t = post_send_message(p->frame, sz);
         }
         ret = t;
@@ -577,7 +562,7 @@ s16 handle_pppoe_discovery_frame(u8 *frame, u16 frame_len) {
             p->state = 5;
             ret = TLobby__sub_80426D80(p);
             if (ret >= 0) {
-                u16 sz = *(u16 *)((u8 *)p + 0x824);
+                u16 sz = p->frame_len;
                 ret = post_send_message(p->frame, sz);
             }
             break;
@@ -630,8 +615,8 @@ s16 TLobby__sub_8042787C(PppoeSlot *e, u8 *p, u16 len) {
         case 0x103:
             break;
         case 0x110:
-            e->m_2C = data;
-            e->m_30 = tag_len;
+            e->relay_session_id = data;
+            e->relay_session_id_len = tag_len;
             break;
         case 0x201:
             result = -1;
@@ -656,13 +641,13 @@ s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len) {
     u16 type;
     u16 tag_len;
     u8 *data;
-    e->m_1C = 1;
+    e->service_name_ok = 1;
     if (e->names.service[0] != 0) {
-        e->m_1C = 0;
+        e->service_name_ok = 0;
     }
-    e->m_1E = 1;
+    e->ac_name_ok = 1;
     if (e->names.name[0] != 0) {
-        e->m_1E = 0;
+        e->ac_name_ok = 0;
     }
     cur = p;
     while (len != 0) {
@@ -675,23 +660,23 @@ s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len) {
         switch (type) {
         case 0x101:
             if (e->names.service[0] != 0 && NetMemcmp(e->names.service, data, tag_len) == 0) {
-                e->m_1C = 1;
+                e->service_name_ok = 1;
             }
             break;
         case 0x102:
             if (e->names.name[0] != 0 && NetMemcmp(e->names.name, data, tag_len) == 0) {
-                e->m_1E = 1;
+                e->ac_name_ok = 1;
             }
             break;
         case 0x103:
             break;
         case 0x104:
-            e->m_24 = data;
-            e->m_28 = tag_len;
+            e->ac_cookie = data;
+            e->ac_cookie_len = tag_len;
             break;
         case 0x110:
-            e->m_2C = data;
-            e->m_30 = tag_len;
+            e->relay_session_id = data;
+            e->relay_session_id_len = tag_len;
             break;
         case 0x201:
             result = -1;
@@ -707,7 +692,7 @@ s16 TLobby__sub_80427988(PppoeSlot *e, u8 *p, u16 len) {
         len -= tag_len + 4;
     }
 done:
-    if (result == 0 && e->m_1C != 0 && e->m_1E != 0) {
+    if (result == 0 && e->service_name_ok != 0 && e->ac_name_ok != 0) {
         result = 1;
     }
     return result;
@@ -739,7 +724,7 @@ PppoeSlot *TLobby__sub_80427B6C(u8 *p, u16 len) {
             ret = NULL;
             for (; i < 1; e++, i++) {
                 ret = e;
-                if (NetMemcmp(data, ret->m_32, 8) == 0) {
+                if (NetMemcmp(data, ret->host_uniq, 8) == 0) {
                     break;
                 }
             }
@@ -880,9 +865,9 @@ s16 TLobby__sub_80427F48(s16 slot, u8 *frame, u16 len) {
     NetMemcpy(hdr + 2, &session, 2);
     length = len;
     NetMemcpy(hdr + 4, &length, 2);
-    dst = e->m_20;
+    dst = e->ac_mac;
     type = 0x8864;
-    src = e->m_10;
+    src = e->local_mac;
     NetMemcpy(frame, dst, 6);
     NetMemcpy(frame + 6, src, 6);
     NetMemcpy(frame + 0xC, &type, 2);
@@ -943,7 +928,7 @@ s32 TLobby__sub_80428094(s16 slot) {
     return 0;
 }
 
-s16 TLobby__sub_804281DC(void *self) {
+s16 TLobby__sub_804281DC(PppoeNames *names) {
     PppoeSlot *tbl;
     PppoeSlot *p;
     PppoeSlot *e;
@@ -976,22 +961,22 @@ s16 TLobby__sub_804281DC(void *self) {
     if (TLobby__sub_80426660((u8 *)&tbl[1]) < 0) {
         return -1;
     }
-    *(Unk804271E8Blk *)((u8 *)e + 0x3A) = *(Unk804271E8Blk *)self;
-    e->m_4 = set;
+    e->names = *names;
+    e->reused = set;
     stamp = (saddr)e;
     get_time_ms(&now);
-    NetMemcpy((u8 *)e + 0x32, &stamp, 4);
-    NetMemcpy((u8 *)e + 0x36, &now, 4);
-    NetMemcpy((u8 *)e + 0x10, (u8 *)&tbl[1], 6);
-    NetMemcpy((u8 *)e + 0x16, (u8 *)&tbl[1] + 6, 6);
-    *(u32 *)((u8 *)e + 0x24) = 0;
-    *(u32 *)((u8 *)e + 0x2C) = 0;
-    e->m_6 = 0;
+    NetMemcpy(e->host_uniq, &stamp, 4);
+    NetMemcpy(e->host_uniq + 4, &now, 4);
+    NetMemcpy(e->local_mac, (u8 *)&tbl[1], 6);
+    NetMemcpy(e->broadcast_mac, (u8 *)&tbl[1] + 6, 6);
+    e->ac_cookie = NULL;
+    e->relay_session_id = NULL;
+    e->retries = 0;
     e->timeout = 0;
     e->state = 0;
     get_time_ms(&e->last);
     e->timeout = 200;
-    e->m_6 = 50;
+    e->retries = 50;
     return slot;
 }
 

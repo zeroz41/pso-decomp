@@ -55,7 +55,6 @@ void run_net_thread_loop(void);
 void subtract_network_queue_timeout(s32 elapsed_ms);
 void set_lobby_map_state_code(s32 code);
 NetSendChunk *get_next_send_chunk(void);
-s16 TLobby__sub_804281DC(void *);
 s32 AT_SetWorkArea(u8 *data, s32 size);
 s32 AT_GetInitParam(NetTransportParams *arg0);
 void TLobby__sub_803F76F0(void);
@@ -109,7 +108,7 @@ static ModemFieldSlot modem_script_fields[4];
 static char modem_script_strings[4][0x80];
 static const char *modem_script_subst[6];
 static NetworkPacketBufferStorage network_packet_buffer_storage;
-static u8 pppoe_discovery_name_storage[2][256];
+static PppoeNames pppoe_discovery_name_storage;
 static const char modem_no_carrier_response[] = "NO CARRIER";
 static const char modem_no_dialtone_response[] = "NO DIALTONE";
 static const char modem_initialization_script[] = "send \"AT&FE0\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATS0=1\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATW2\\r\"\nwait \"OK\\r\\n\",3\nsend \"ATX3&C1&D2\\r\"\nwait \"OK\\r\\n\",3\n";
@@ -578,7 +577,7 @@ after_close:
 }
 
 s32 open_network_transport(NetTransportOpenCfg *cfg) {
-    u8 *buf = pppoe_discovery_name_storage[0];
+    PppoeNames *names = &pppoe_discovery_name_storage;
     char *name;
     s32 ret;
     if (send_ring_buffer_base == NULL) {
@@ -586,9 +585,9 @@ s32 open_network_transport(NetTransportOpenCfg *cfg) {
     }
     if (cfg->use_pppoe != 0) {
         network_pppoe_transport_enabled = 1;
-        buf[0] = 0;
-        buf[0x100] = 0;
-        net_slot_id = TLobby__sub_804281DC(buf);
+        names->name[0] = 0;
+        names->service[0] = 0;
+        net_slot_id = TLobby__sub_804281DC(names);
         if (net_slot_id < 0) {
             return 2;
         }
