@@ -398,7 +398,6 @@ struct TObjPlayer : public TObjChara {
     s16 get_atp();
     s16 get_atp_range();
     static void update_effect_sequence(NJS_OBJECT *);
-    static void toggle_particle_effect();
     static void apply_effect_variant_a(const Vec *point, s32 delay);
     static void apply_effect_variant_b(const Vec *point, s32 delay);
     static void spawn_dead_spot_default(const Vec *point, s32 delay);
@@ -858,7 +857,6 @@ struct TObjPlayer : public TObjChara {
     static TItem *create_set_vtable_state(u8 *arg0);
     static TItem *create_state_80125154(u8 *arg0);
     static TItem *create_configured_state(u8 *arg0);
-    static void spawn_faust_wall_explosion(s32 id, saddr arg1);
     static TItem *create_state_vt2678(u8 *arg0);
     static TItem *create_obj_80125F60(u8 *arg0);
     static TItem *create_substate_b(u8 *arg0);
