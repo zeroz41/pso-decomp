@@ -19,6 +19,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/system/SoundEffect.h"
 
 
 void TBoss5GryphonTornado::get_target_direction(Vec *dir) {
@@ -43,7 +44,6 @@ static const s32 gryphon_tornado_particle_ids[3] = {0x203, 0x204, 0x205};
 const char *TBoss5GryphonTornado__class_name = "TBoss5GryphonTornado";
 extern "C" {
 
-void play_persistent_sound(s32, void *, Vec *, s32, s32);
 const s32 *gryphon_tornado_particle_id_table;
 
 void TBoss5GryphonTornado::render() {  }

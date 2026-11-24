@@ -52,7 +52,6 @@
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/model_render_state.h"
 #include "pso/system/SoundEffect.h"
@@ -561,7 +560,7 @@ s32 TObjEneMe1Gee::handle_message(s32 id) {
 }
 
 void TObjEneMe1Gee::play_high_appear_sound() {
-    play_persistent_sound(this->handle_message(0x3BC16), (saddr)this, (uaddr)&this->body_center, 0, 0);
+    play_persistent_sound(this->handle_message(0x3BC16), this, &this->body_center, 0, 0);
 }
 
 s32 TObjEneMe1Gee::acquire_target(f32 range) { return this->select_and_apply_target(range); }
@@ -1152,7 +1151,7 @@ void TObjEneMe1Gee::state_ranged_attack(s32 mode) {
                 }
                 play_sound_effect(this->handle_message(0x3AD17), &this->body_center, 0, 0);
             } else {
-                play_persistent_sound((s32)(this->handle_message(0x3A914)), (saddr)this, (uaddr)&this->body_center, 0, 0);
+                play_persistent_sound((s32)(this->handle_message(0x3A914)), this, &this->body_center, 0, 0);
             }
             break;
         }

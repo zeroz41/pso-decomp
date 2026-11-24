@@ -39,7 +39,6 @@ struct TBoss3VoloptOrbitSpeeds {
 };
 
 extern "C" {
-s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags);
 void set_matrix_identity(s32 matrix, f32 scale);
 void rotate_vector_by_matrix(saddr matrix, Vec *src, Vec *dst);
 }
@@ -555,7 +554,7 @@ void TBoss3VoloptCore::update_orbit_state() {
             drop_angle = orbit_angle;
             this->update_if_active(9);
         }
-        play_persistent_sound((s32)(0x4003BC05), (saddr)this, (uaddr)&position.x, (s32)(0), (s32)(0));
+        play_persistent_sound(0x4003BC05, this, &position, 0, 0);
         break;
     case -1:
         break;
@@ -664,7 +663,7 @@ void TBoss3VoloptCore::update_topple_state() {
         }
         break;
     case 3:
-        play_persistent_sound((s32)(0x4003BC05), (saddr)this, (uaddr)&position.x, (s32)(0), (s32)(0));
+        play_persistent_sound(0x4003BC05, this, &position, 0, 0);
         advance_animation();
         orbit_angle -= get_orbit_speed(0);
         sweep_angle -= get_orbit_speed(0);

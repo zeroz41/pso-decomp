@@ -74,7 +74,6 @@
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
@@ -1075,7 +1074,7 @@ void TBoss8Dragon::play_effect_sound(s32 sound_id) {
 }
 
 void TBoss8Dragon::spawn_trap(s32 id) {
-    play_persistent_sound(id, (saddr)this, (uaddr)&this->sound_origin, 0, 0);
+    play_persistent_sound(id, this, &this->sound_origin, 0, 0);
 }
 
 void TBoss8Dragon::try_spawn_trap() {

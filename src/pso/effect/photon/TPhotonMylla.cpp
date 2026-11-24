@@ -27,7 +27,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/render/MaterialAlphaCompare.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/effect/photon/TPhotonYoulla.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/base/CollisionActorLookup.h"
@@ -145,7 +145,7 @@ void TPhotonMylla::run_task() {
         }
     }
     if (visible != 0) {
-        play_persistent_sound(0x4002462F, (saddr)this, 0, 0, 0);
+        play_persistent_sound(0x4002462F, this, 0, 0, 0);
     }
 }
 #pragma pop

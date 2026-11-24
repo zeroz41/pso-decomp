@@ -60,7 +60,6 @@
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-s32 play_persistent_sound(s32, void *, void *, s16, s32);
 void TObjPlayer__sub_801BA42C(void);
 u16 TObjRoomId__sub_801A1DB8(void);
 s32 submit_cursor_candidate(void *, int);

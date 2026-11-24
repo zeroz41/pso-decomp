@@ -6,7 +6,6 @@
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/text_803D853C.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "types.h"
@@ -114,7 +113,7 @@ void TBoss7Crawfish::register_attack_hits() {
 }
 
 void TBoss7Crawfish::play_persistent_sound_at_position(s32 sound_id) {
-    play_persistent_sound(sound_id, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(sound_id, this, &position, 0, 0);
 }
 
 void TBoss7Crawfish::spawn_effect(s32 sound_id) {

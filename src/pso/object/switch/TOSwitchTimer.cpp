@@ -3,7 +3,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/SoundEffect.h"
@@ -93,7 +92,7 @@ void TOSwitchTimer::run_task() {
                     play_sound_effect(0x53218, 0, 0, 0);
                 }
             } else {
-                play_persistent_sound(0x53218, (saddr)this, 0, 0, 0);
+                play_persistent_sound(0x53218, this, 0, 0, 0);
             }
         }
         temp_r3_2 = *(s32 *)&this->m_94;

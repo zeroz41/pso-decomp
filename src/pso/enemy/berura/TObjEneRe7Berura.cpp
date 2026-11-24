@@ -45,7 +45,6 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/model_render_state.h"
 #include "pso/render/render_util.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/StripBufferPair.h"
@@ -774,7 +773,7 @@ void TObjEneRe7Berura::update_emerge_state(s32 reason) {
                 }
                 node1_color = grey | ((grey << 0x10) | 0xFF000000 | (grey << 8));
             }
-            play_persistent_sound(remap_sound_for_area(0x4003C61E), (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(remap_sound_for_area(0x4003C61E), this, &position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x100);
             break;
         }
@@ -1205,7 +1204,7 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 reason) {
         update_ground_contact();
         check_collisions();
         set_sound_pitch_request(
-            play_persistent_sound(remap_sound_for_area(0x4003C61E), (saddr)this, (uaddr)&position, 0, 0),
+            play_persistent_sound(remap_sound_for_area(0x4003C61E), this, &position, 0, 0),
             0x400, 0);
         break;
     case 5:

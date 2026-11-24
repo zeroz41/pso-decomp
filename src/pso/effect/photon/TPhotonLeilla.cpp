@@ -31,7 +31,7 @@ const char *TPhotonLeilla::class_name = "TPhotonLeilla";
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/object/base/CollisionActorLookup.h"
 
@@ -120,7 +120,7 @@ void TPhotonLeilla::run_task() {
         }
     }
     if (visible != 0) {
-        play_persistent_sound(0x4002462F, (saddr)this, 0, 0, 0);
+        play_persistent_sound(0x4002462F, this, 0, 0, 0);
     }
 }
 

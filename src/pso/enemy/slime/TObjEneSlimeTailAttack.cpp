@@ -34,7 +34,6 @@ struct NJS_OBJECT;
 #include <stddef.h>
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -574,7 +573,7 @@ void TObjEneSlimeOne::run_task() {
             submit_cursor_candidate(this, -1);
         }
         animation->advance();
-        play_persistent_sound(0x4003B21C, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4003B21C, this, &position, 0, 0);
         update_trail_position();
         clear_child_flag();
         if ((s32)this->state != 13) {

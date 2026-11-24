@@ -95,7 +95,7 @@ void release_sound_with_fade(s32 slot) { fade_out_sound_slot(slot, 64); }
 
 void TLobby__sub_80227D38(void) { TLobby::fade_voice_channels(0); }
 
-s32 normalize_sound_request(u32 id, s32 actor, saddr position, s32 arg3, s32 arg4) {
+s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 arg3, s32 arg4) {
     s32 r;
     s32 m;
     s32 flags;
@@ -130,7 +130,7 @@ s32 normalize_sound_request(u32 id, s32 actor, saddr position, s32 arg3, s32 arg
     }
     m = id & 0xBFFF00FF;
     if (((s32 (*)(void))is_sound_enabled)() == 1) {
-        h = alloc_looping_sound_slot(m, actor, (const void *)position, r, flags);
+        h = alloc_looping_sound_slot(m, (saddr)actor, position, r, flags);
         if (is_special_sound_id(m) != 0) {
             set_sound_slot_special_scale(h, 1.0f);
         }

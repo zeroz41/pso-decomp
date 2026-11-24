@@ -33,7 +33,6 @@
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/object/base/TObjBase.h"
@@ -429,12 +428,12 @@ u16 TObjEneBm3Fly::get_active_id() {
 }
 
 void TObjEneBm3Fly::play_pitched_cue() {
-    play_persistent_sound(this->remap_sound_for_area(0x40039E22), (saddr)this, (uaddr)&this->position, 0, 0);
+    play_persistent_sound(this->remap_sound_for_area(0x40039E22), this, &this->position, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x400);
 }
 
 void TObjEneBm3Fly::play_orbit_flight_sound() {
-    play_persistent_sound(this->remap_sound_for_area(0x4003AB23), (saddr)this, (uaddr)&this->position, 0, 0);
+    play_persistent_sound(this->remap_sound_for_area(0x4003AB23), this, &this->position, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x400);
 }
 

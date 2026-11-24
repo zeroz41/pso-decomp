@@ -177,7 +177,6 @@ extern "C" __declspec(section ".data") f32 *lappy_variant_speed_ptr_table[2];
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/enemy/dd/TObjEneDD_800B9AF8.h"
 // Kept here: the owner headers (TObjPlayer_80011014.h, text_800FD930.h)
 // give get_entity_id a u16 and is_item_light_interaction_blocked a bool
@@ -634,7 +633,7 @@ void TObjEneLappy::update_moving() {
                     spawn_particle_effect(&position, 0xF3);
                     dust_timer = 2;
                 }
-                play_persistent_sound(remap_sound_for_area(0x3AF12), (saddr)this, (uaddr)&position, 0, 0);
+                play_persistent_sound(remap_sound_for_area(0x3AF12), this, &position, 0, 0);
                 goto block_47;
             }
 block_47:

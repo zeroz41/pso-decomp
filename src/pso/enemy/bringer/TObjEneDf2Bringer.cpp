@@ -136,7 +136,6 @@ TObjMotionAction bringer_motion_actions[11] = {
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/render/model_render_state.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/render/StripBufferPair.h"
 #include "pso/system/task/TMainTask.h"
@@ -580,7 +579,7 @@ s32 TObjEneDf2Bringer::attack_visible_players() {
 }
 
 void TObjEneDf2Bringer::play_move_sound() {
-    play_persistent_sound(remap_sound_for_area(0x4003B708), (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(remap_sound_for_area(0x4003B708), this, &position, 0, 0);
 }
 
 s32 TObjEneDf2Bringer::acquire_target(f32 range) {
@@ -927,7 +926,7 @@ void TObjEneDf2Bringer::update_rush_state(s32 reason) {
                 play_sound_effect(remap_sound_for_area(0x4003B40E), &position, 0, 0);
                 TObjPlayer::play_effect_if_v2(-0x200);
             }
-            play_persistent_sound(remap_sound_for_area(0x4003AD09), (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(remap_sound_for_area(0x4003AD09), this, &position, 0, 0);
             break;
         case 2:
             counter++;
@@ -1062,7 +1061,7 @@ void TObjEneDf2Bringer::update_stagger_state(s32 reason) {
         }
         update_ground_contact();
         check_collisions();
-        play_persistent_sound(remap_sound_for_area(0x4003AD0F), (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003AD0F), this, &position, 0, 0);
         return;
     case 5:
         if (emitter != NULL) {

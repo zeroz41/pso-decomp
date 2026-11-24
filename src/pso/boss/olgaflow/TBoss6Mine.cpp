@@ -42,7 +42,6 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 #pragma readonly_strings on
 // The record exchange_object_state reads and writes.
@@ -241,7 +240,7 @@ void TBoss6Mine::state_2() {
         this->state_frames = 0;
         this->state = 3;
     }
-    play_persistent_sound(0x4003B21C, (saddr)this, (uaddr)&this->position, 0, 0);
+    play_persistent_sound(0x4003B21C, this, &this->position, 0, 0);
 }
 
 void TBoss6Mine::state_1() {

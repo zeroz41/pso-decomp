@@ -60,7 +60,6 @@ struct NJS_OBJECT;
 
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 
 #include "pso/effect/TBreakUpMdl.h"
 
@@ -1606,7 +1605,7 @@ void TBoss2DeRolLe::update_projectile_spawns() {
         loop_sound_frames = 0;
     }
     if (loop_sound_frames <= 0x10) {
-        play_persistent_sound(0x4003AD00, (saddr)this, (uaddr)&sound_origins[2], 0, 0);
+        play_persistent_sound(0x4003AD00, this, &sound_origins[2], 0, 0);
         loop_sound_frames = loop_sound_frames + 1;
     }
 }
@@ -1618,7 +1617,7 @@ extern "C" s32 play_sound(s32 id, Vec *position) {
 }
 
 s32 TBoss2DeRolLe::spawn_trap(s32 id, void *owner, Vec *pos) {
-    return play_persistent_sound(id, (saddr)owner, (uaddr)pos, 0, 0);
+    return play_persistent_sound(id, owner, pos, 0, 0);
 }
 
 #pragma push

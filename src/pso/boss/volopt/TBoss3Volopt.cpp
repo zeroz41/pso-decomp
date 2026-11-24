@@ -47,6 +47,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/object/base/TObjBase.h"
+#include "pso/system/SoundEffect.h"
 #pragma readonly_strings on
 
 // Camera offsets for the follow camera, from TLobby's shared parameter tables.
@@ -68,7 +69,6 @@ struct VoloptShutterNode {
 };
 
 extern "C" {
-s32 play_persistent_sound(u32 id, TObject *source, f32 *pos, s32, s32);
 s32 is_local_client_floor_leader();
 u16 TObjRoomId__sub_801A1DB8(u16 id);
 void TObjPlayer__sub_801BA42C(void);

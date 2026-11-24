@@ -31,7 +31,6 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/render/model_render_state.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -316,7 +315,7 @@ void TObjEneBalClawClaw::update_chase() {
             reset_active_state();
             break;
         }
-        play_persistent_sound(0x4003B235, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4003B235, this, &position, 0, 0);
         update_enemy_wander_move(this, ((TObjChara *)target)->body_center, 1, ((EnemyMoveParams *)movementParameters)->min_distance);
         turn_toward_direction(((EnemyMoveParams *)movementParameters)->turn_speed, &velocity);
         advance_animation();
@@ -349,7 +348,7 @@ void TObjEneBalClawClaw::update_damage() {
         velocity.z *= 0.9f;
         apply_actor_gravity(this, NULL, 0.0f);
         update_collisions();
-        play_persistent_sound(0x4003B235, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4003B235, this, &position, 0, 0);
         if (action_flags != 8) {
             actorFlags &= ~0x200;
             behavior_flags &= ~1;

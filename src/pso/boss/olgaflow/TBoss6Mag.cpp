@@ -39,7 +39,6 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/effect/particle/ParticleFactory.h"
 
 // The particle effect each emitter slot plays, and the node it follows (-1 for the mag's position).
@@ -236,7 +235,7 @@ void TBoss6Mag::spawn_trap_by_stat() {
             sound_id = 0x6B518;
         }
     }
-    play_persistent_sound(sound_id, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(sound_id, this, &position, 0, 0);
 }
 
 void TBoss6Mag::render_body_effects() {

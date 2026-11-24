@@ -35,7 +35,6 @@
 #include "pso/enemy/recon/TObjEneRecobox.h"
 #include "pso/enemy/recon/TObjEneReconBomb.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
@@ -862,11 +861,11 @@ s32 TObjEneRecon::acquire_target(f32 range) {
 }
 
 void TObjEneRecon::spawn_trap_a() {
-    play_persistent_sound(TObjEneRecobox::remap_area_sound_id(0x4003AD07), (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(TObjEneRecobox::remap_area_sound_id(0x4003AD07), this, &position, 0, 0);
 }
 
 void TObjEneRecon::spawn_trap_b() {
-    play_persistent_sound(TObjEneRecobox::remap_area_sound_id(0x4003B206), (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(TObjEneRecobox::remap_area_sound_id(0x4003B206), this, &position, 0, 0);
 }
 
 u16 TObjEneRecon::get_attack_target_id() {

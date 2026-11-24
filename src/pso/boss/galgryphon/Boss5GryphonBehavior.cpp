@@ -86,7 +86,6 @@
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
-#include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
@@ -855,7 +854,7 @@ void TBoss5Gryphon::play_se(s32 se_id) {
 }
 
 void TBoss5Gryphon::spawn_ancient_trap(s32 id) {
-    play_persistent_sound(id, (saddr)this, (uaddr)&sound_origin, 0, 0);
+    play_persistent_sound(id, this, &sound_origin, 0, 0);
 }
 
 void TBoss5Gryphon::play_walk_footsteps() {
