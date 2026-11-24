@@ -14,15 +14,6 @@
 #include "pso/system/save/McFsGc.h"
 #include "pso/unk/text_803F3BF8.h"
 
-// The "sega_network_information" card file. The payload is the encrypted NETINFO text.
-struct NetworkInfoCardFile {
-    u8 pad_0[0x5840];
-    u8 payload[0x23B8];
-    u32 crc;
-    s32 payload_size;
-    u8 trailer[0x400];
-};
-
 extern char default_provider_name_0[];
 extern char default_provider_name_1[];
 extern char default_provider_name_2[];
@@ -41,8 +32,8 @@ s32 network_config_backup_mode;
 // The network library's init stores its version banner pointer here, as mcfs does with mcfs_version_ref.
 const char *ntinf_version_ref;
 s32 lobby_net_config_load_state;
-// The config buffer and its card half sit on the 32-byte boundaries 0x805D79C0 and 0x805D79E0 (the zero words
-// between are this TU's alignment pad, as card_work_area in mcfs).
+// The config buffer pointer and its card half each sit on a 32-byte boundary (the zero words between are this
+// TU's alignment pad, as card_work_area in mcfs).
 NetworkInfoConfig *lobby_net_config_buffer __attribute__((aligned(32)));
 void *lobby_net_config_card_base __attribute__((aligned(32)));
 

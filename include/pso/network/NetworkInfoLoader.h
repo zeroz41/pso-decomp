@@ -22,6 +22,17 @@ LAYOUT_ASSERT(NetworkInfoDetailOffset, offsetof(NetworkInfoLoadState, card_detai
 
 extern NetworkInfoLoadState network_info_load_state;
 
+// The "sega_network_information" card file. The payload is the encrypted NETINFO text.
+struct NetworkInfoCardFile {
+    u8 pad_0[0x5840];
+    u8 payload[0x23B8];
+    u32 crc;
+    s32 payload_size;
+    u8 trailer[0x400];
+};
+LAYOUT_ASSERT(NetworkInfoCardFileExtent, sizeof(NetworkInfoCardFile) == 0x8000);
+
+
 s32 take_network_info_request_result(s32 *card_result, s32 *card_detail);
 void update_network_info_load(void);
 s32 request_network_info_exists(s32 channel);
