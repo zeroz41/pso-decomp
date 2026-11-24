@@ -226,16 +226,6 @@ struct pkt_801B1674 {
 
 struct Rec_801B09A4 { u8 bytes[0x42C]; };
 
-struct Pl_801B0B88 {
-    u8 pad0[0x424];
-    saddr f424;
-    u8 f428[0x754 - 0x428];
-    u8 f754[0x7c4 - 0x754];
-    s8 trap_counts[4];
-    u8 f7C8[0xd00 - 0x7c8];
-    TPlyItem *fD00;
-};
-
 struct pkt_801B1FA4 {
     u8 hdr[2];
     u16 slot;
@@ -1016,7 +1006,6 @@ extern const f32 lbl_805DC2AC;
 struct Pkt_801B1B08 { u16 f0; u16 client; u32 pad; };
 
 struct Pkt_801B1C00 { u16 f0; u16 client; u32 pad; };
-struct Pl_801B0B88;
 extern "C" {
 void set_invisible__10TObjPlayerFv(Pkt_801B1C00 *, void *);
 }
@@ -5024,88 +5013,74 @@ void dispatch_status_effect_msg__10TObjPlayerFUiPv(uaddr player, Pair_801B2AE8 *
     }
 }
 
-void TObjPlayer::remove_status_effect(unsigned int arg0_, void *arg1_) {
-    u8 *arg0 = (u8 *)arg0_;
-    u8 *raw = (u8 *)arg1_;
-    s32 *arg1 = (s32 *)raw;
-    f32 temp_f31;
-    f32 temp_f31_2;
-    f32 temp_f31_3;
-    f32 temp_f31_4;
-    f32 temp_f31_5;
-    s32 temp_r0;
-    f32 v;
+void TObjPlayer::remove_status_effect(unsigned int actor, void *effect) {
+    TObjChara *chara = (TObjChara *)actor;
+    f32 amount;
+    f32 base;
 
-    temp_r0 = *arg1;
-    switch (temp_r0) {
+    switch (*(s32 *)effect) {
     case 0:
-        ((TObjChara *)arg0)->actorFlags = (s32) (((TObjChara *)arg0)->actorFlags & 0xFFFFFFFC);
-        temp_f31 = -((TObjChara *)arg0)->get_status_effect_amount(0);
-        v = ((TObjChara *)arg0)->get_base_evp();
-        v *= temp_f31;
-        ((TObjChara *)arg0)->adjust_evp((s32) v);
-        ((TObjChara *)arg0)->status_effects[0].clear();
+        chara->actorFlags = (s32) (chara->actorFlags & 0xFFFFFFFC);
+        amount = -chara->get_status_effect_amount(0);
+        base = chara->get_base_evp();
+        base *= amount;
+        chara->adjust_evp((s32) base);
+        chara->status_effects[0].clear();
         return;
     case 1:
-        ((TObjChara *)arg0)->actorFlags = (s32) (((TObjChara *)arg0)->actorFlags & 0xFFFFFFC3);
-        temp_f31_2 = -((TObjChara *)arg0)->get_status_effect_amount(1);
-        v = ((TObjChara *)arg0)->get_base_evp();
-        v *= temp_f31_2;
-        ((TObjChara *)arg0)->adjust_evp((s32) v);
-        ((TObjChara *)arg0)->status_effects[1].clear();
+        chara->actorFlags = (s32) (chara->actorFlags & 0xFFFFFFC3);
+        amount = -chara->get_status_effect_amount(1);
+        base = chara->get_base_evp();
+        base *= amount;
+        chara->adjust_evp((s32) base);
+        chara->status_effects[1].clear();
         return;
     case 2:
-        temp_f31_3 = -((TObjChara *)arg0)->get_status_effect_amount(2);
-        v = ((TObjChara *)arg0)->get_base_atp();
-        v *= temp_f31_3;
-        ((TObjChara *)arg0)->adjust_atp((s32) v);
-        temp_f31_4 = -((TObjChara *)arg0)->get_status_effect_amount(2);
-        v = ((TObjChara *)arg0)->get_base_atp_range();
-        v *= temp_f31_4;
-        ((TObjChara *)arg0)->adjust_atp_range((s32) v);
-        ((TObjChara *)arg0)->status_effects[2].clear();
+        amount = -chara->get_status_effect_amount(2);
+        base = chara->get_base_atp();
+        base *= amount;
+        chara->adjust_atp((s32) base);
+        amount = -chara->get_status_effect_amount(2);
+        base = chara->get_base_atp_range();
+        base *= amount;
+        chara->adjust_atp_range((s32) base);
+        chara->status_effects[2].clear();
         return;
     case 3:
-        temp_f31_5 = -((TObjChara *)arg0)->get_status_effect_amount(3);
-        v = ((TObjChara *)arg0)->get_base_dfp();
-        v *= temp_f31_5;
-        ((TObjChara *)arg0)->adjust_dfp((s32) v);
-        ((TObjChara *)arg0)->status_effects[3].clear();
+        amount = -chara->get_status_effect_amount(3);
+        base = chara->get_base_dfp();
+        base *= amount;
+        chara->adjust_dfp((s32) base);
+        chara->status_effects[3].clear();
         return;
     }
 }
 
 void TObjPlayer::cancel_status_effects() {
-#define arg0 ((u8 *)((Pl_801B0B88 *)this))
-    f32 temp_f31;
-    f32 temp_f31_2;
-    f32 temp_f31_3;
-    f32 temp_f31_4;
-    f32 temp_f31_5;
-    f32 v;
-    ((TObjChara *)arg0)->actorFlags = (s32) (((TObjChara *)arg0)->actorFlags & 0xFFFFFFFC);
-    temp_f31 = -((TObjChara *)arg0)->get_status_effect_amount(0);
-    v = ((TObjChara *)arg0)->get_base_evp();
-    ((TObjChara *)arg0)->adjust_evp((s32) (v * temp_f31));
-    ((TObjChara *)arg0)->status_effects[0].clear();
-    ((TObjChara *)arg0)->actorFlags = (s32) (((TObjChara *)arg0)->actorFlags & 0xFFFFFFC3);
-    temp_f31_2 = -((TObjChara *)arg0)->get_status_effect_amount(1);
-    v = ((TObjChara *)arg0)->get_base_evp();
-    ((TObjChara *)arg0)->adjust_evp((s32) (v * temp_f31_2));
-    ((TObjChara *)arg0)->status_effects[1].clear();
-    temp_f31_3 = -((TObjChara *)arg0)->get_status_effect_amount(2);
-    v = ((TObjChara *)arg0)->get_base_atp();
-    ((TObjChara *)arg0)->adjust_atp((s32) (v * temp_f31_3));
-    temp_f31_4 = -((TObjChara *)arg0)->get_status_effect_amount(2);
-    v = ((TObjChara *)arg0)->get_base_atp_range();
-    ((TObjChara *)arg0)->adjust_atp_range((s32) (v * temp_f31_4));
-    ((TObjChara *)arg0)->status_effects[2].clear();
-    temp_f31_5 = -((TObjChara *)arg0)->get_status_effect_amount(3);
-    v = ((TObjChara *)arg0)->get_base_dfp();
-    ((TObjChara *)arg0)->adjust_dfp((s32) (v * temp_f31_5));
-    ((TObjChara *)arg0)->status_effects[3].clear();
+    f32 amount;
+    f32 base;
+    this->actorFlags = (s32) (this->actorFlags & 0xFFFFFFFC);
+    amount = -this->get_status_effect_amount(0);
+    base = this->get_base_evp();
+    this->adjust_evp((s32) (base * amount));
+    this->status_effects[0].clear();
+    this->actorFlags = (s32) (this->actorFlags & 0xFFFFFFC3);
+    amount = -this->get_status_effect_amount(1);
+    base = this->get_base_evp();
+    this->adjust_evp((s32) (base * amount));
+    this->status_effects[1].clear();
+    amount = -this->get_status_effect_amount(2);
+    base = this->get_base_atp();
+    this->adjust_atp((s32) (base * amount));
+    amount = -this->get_status_effect_amount(2);
+    base = this->get_base_atp_range();
+    this->adjust_atp_range((s32) (base * amount));
+    this->status_effects[2].clear();
+    amount = -this->get_status_effect_amount(3);
+    base = this->get_base_dfp();
+    this->adjust_dfp((s32) (base * amount));
+    this->status_effects[3].clear();
 }
-#undef arg0
 
 s32 is_flag30_8_set__10TObjPlayerFi(saddr actor) {
     if (((TObjPlayer *)actor)->reset_volopt_state() != 0) {
@@ -5795,19 +5770,19 @@ s32 TTecCtrl::is_technique_ready() {
 void TLobby::apply_battle_rules_to_players() {
     s32 i;
     s32 *q;
-    Pl_801B0B88 *p;
+    TObjPlayer *p;
     saddr j;
     TItem *weapon;
     s32 lv;
     q = ((s32 *)&lobby_rule_settings);
     for (i = 0; i < 0xC; i++) {
-        p = (Pl_801B0B88 *)get_player_by_client_id(i);
+        p = (TObjPlayer *)get_player_by_client_id(i);
         if (p == NULL) {
             continue;
         }
-        ((TLobby *)(p->f754))->update_all_children();
+        ((TLobby *)&p->m_754)->update_all_children();
         if (((TLobby *)q)->get_rule_field_0() == 1) {
-            ((TObjPlayer *)p)->set_state_flag_6043();
+            p->set_state_flag_6043();
             if (TObjPlayer::is_locally_controlled(p) != 0) {
                 lobby_player_count = 1;
             }
@@ -5818,22 +5793,22 @@ void TLobby::apply_battle_rules_to_players() {
         case 1:
         case 2:
         case 3:
-            ((TPlyItem *)(p->fD00))->set_globals_and_update(reinterpret_cast<TObjPlayer *>(p), 0);
-            ((TPlyItem *)(p->fD00))->set_globals_and_update(reinterpret_cast<TObjPlayer *>(p), 1);
+            p->inventory_objects->set_globals_and_update(p, 0);
+            p->inventory_objects->set_globals_and_update(p, 1);
             break;
         }
         switch (fn_801D719C(q)) {
         case 1:
-            ((TPlyItem *)(p->fD00))->set_globals_and_update(reinterpret_cast<TObjPlayer *>(p), 2);
+            p->inventory_objects->set_globals_and_update(p, 2);
             break;
         }
-        if ((weapon = TObjPlayer::get_equipped_weapon(p)) != NULL && weapon->check_equip_requirements((TObjPlayer *)p, (s16 *)0) == 0) {
-            reinterpret_cast<TObjPlayer *>(p)->unequip_item(weapon);
+        if ((weapon = TObjPlayer::get_equipped_weapon(p)) != NULL && weapon->check_equip_requirements(p, (s16 *)0) == 0) {
+            p->unequip_item(weapon);
         }
         switch (fn_801D7168(q)) {
         case 1:
         case 2:
-            ((TPlyItem *)(p->fD00))->set_globals_and_update(reinterpret_cast<TObjPlayer *>(p), 3);
+            p->inventory_objects->set_globals_and_update(p, 3);
             break;
         }
         if (fn_801D7134(q) == 1) {
@@ -5843,48 +5818,48 @@ void TLobby::apply_battle_rules_to_players() {
         }
         switch (TLobby__sub_801D7100(q)) {
         case 2:
-            fn_801C19E0(p->f754, fn_801D6DB0(q));
+            fn_801C19E0(&p->m_754, fn_801D6DB0(q));
             break;
         }
         switch (((TLobby *)q)->clamp_rule_value_2()) {
         case 1:
-            ((TObjPlayer *)p)->sub_801BEE2C(0);
-            ((TObjPlayer *)p)->sub_801BEE24(0);
-            ((TObjPlayer *)p)->apply_battle_level_reset(((TLobby *)q)->clamp_player_index());
+            p->sub_801BEE2C(0);
+            p->sub_801BEE24(0);
+            p->apply_battle_level_reset(((TLobby *)q)->clamp_player_index());
             break;
         }
         lv = TLobby__sub_801D6DDC(q);
         switch (fn_801D7204(q)) {
         case 1:
-            ((TObjPlayer *)(p->f428))->copy_all_technique_entries((void *)0xFF);
-            ((TObjPlayer *)(p->f428))->set_all_technique_levels((void *)0xFF);
+            ((TObjPlayer *)&p->technique_state)->copy_all_technique_entries((void *)0xFF);
+            ((TObjPlayer *)&p->technique_state)->set_all_technique_levels((void *)0xFF);
             break;
         case 2:
-            ((TObjPlayer *)(p->f428))->copy_all_technique_entries((void *)0x1D);
-            update_all_units__10TObjPlayerFll(p->f428, lv);
+            ((TObjPlayer *)&p->technique_state)->copy_all_technique_entries((void *)0x1D);
+            update_all_units__10TObjPlayerFll(&p->technique_state, lv);
             break;
         }
-        ((TObjPlayer *)p)->set_flag_drop_weapon_on_death();
+        p->set_flag_drop_weapon_on_death();
         switch (((TLobby *)q)->normalize_battle_rule_value_b()) {
         case 1:
             TObjPlayer::disable_drop_weapon_on_death(p);
             break;
         }
         if (((TLobby *)q)->normalize_battle_rule_value() == 1 && TObjPlayer::is_locally_controlled(p) != 0) {
-            ((TObjPlayer *)(p->f424))->set_flags_bit2();
+            ((TObjPlayer *)p->lock_on_cursor)->set_flags_bit2();
         }
         if (TLobby__sub_801D6FFC(q) != 0) {
-            ((TObjPlayer *)p)->set_meseta(0);
+            p->set_meseta(0);
         }
         if (((TLobby *)q)->clamp_value_below_2() == 1) {
-            fn_801C5420((s32 *)p->f7C8, TObjPlayer__sub_801D6D28(q));
+            fn_801C5420((s32 *)&p->m_7c8, TObjPlayer__sub_801D6D28(q));
         }
         if (TLobby__sub_801D6F94(q) == 1) {
-            TLobby__sub_801D4C28((TPlyItem *)p->fD00, reinterpret_cast<TObjPlayer *>(p), 3, 9);
+            TLobby__sub_801D4C28(p->inventory_objects, p, 3, 9);
         }
-        ((TObjPlayer *)p)->set_flag_4096();
+        p->set_flag_4096();
         TObjPlayer::recover_full(p);
-        ((TObjPlayer *)p)->cancel_status_effects();
+        p->cancel_status_effects();
         ((TObjPlayer *)(&lobby_char_slot_array[i]))->copy_lobby_header((saddr)p);
     }
 }
