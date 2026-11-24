@@ -1144,7 +1144,7 @@ pso/technique/TTecKafun.cpp
 pso/technique/TTecLuker.cpp
 pso/technique/TTecLuker_801A1880.cpp
 pso/technique/TTecMegid.cpp
-pso/technique/TTecMegid_80235B24.cpp
+pso/technique/TechniqueSoundEffects.cpp
 pso/technique/TTecPlayerInfluence.cpp
 pso/technique/TTecRaBarta.cpp
 pso/technique/TTecRaFoie.cpp
@@ -2240,7 +2240,6 @@ pso/map/area/AreaMachine01.cpp
 pso/map/area/AreaMachine02.cpp
 pso/map/area/AreaVersus01.cpp
 pso/map/area/AreaVersus02.cpp
-pso/unk/TUnk_804CCA78.cpp
 
 pso/ui/window/WindowHelpItemCallbackEntries.cpp
 pso/quest/QuestOpcodeHandlersData.cpp

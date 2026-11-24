@@ -6142,13 +6142,9 @@ pso/technique/TTecMegid.cpp:
 	.sdata      start:0x805D37E8 end:0x805D37F0
 	.sdata2     start:0x805DC880 end:0x805DC888
 
-pso/unk/TUnk_804CCA78.cpp:
-	.text       start:0x802359E4 end:0x80235B24
-	.data       start:0x804CCA78 end:0x804CCA90
-
-pso/technique/TTecMegid_80235B24.cpp:
-	.text       start:0x80235B24 end:0x80235C44
-	.data       start:0x804CCA90 end:0x804CCAA8
+pso/technique/TechniqueSoundEffects.cpp:
+	.text       start:0x802359E4 end:0x80235C44
+	.data       start:0x804CCA78 end:0x804CCAA8
 
 pso/object/TActorLight.cpp:
 	.text       start:0x80235C44 end:0x80236D60
