@@ -8,6 +8,7 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/npc/TNpcPlayer.h"
+#include "pso/technique/TechniqueId.h"
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/memory.h"
@@ -72,8 +73,13 @@ u32 npc_player_ply_char_data_global[3];
 u32 npc_player_char_data[263];
 disp_data_part2 quest_npc_visual_record;
 
-// Combat action ids by tier, read by TNpcPlayer::update_combat_action.
-static const s32 npc_player_combat_action_table[3][2] = {{0, 1}, {3, 4}, {6, 8}};
+// Attack techniques by tier (Foie, Barta, Zonde) and by whether the partner is
+// surrounded, read by TNpcPlayer::update_combat_action.
+static const s32 npc_player_combat_action_table[3][2] = {
+    {TECHNIQUE_FOIE, TECHNIQUE_GIFOIE},
+    {TECHNIQUE_BARTA, TECHNIQUE_GIBARTA},
+    {TECHNIQUE_ZONDE, TECHNIQUE_RAZONDE},
+};
 
 const char *npc_player_char_file_name = "npcplayerchar.dat";
 const char *TNpcPlayer::name = "TNpcPlayer";
@@ -1271,19 +1277,19 @@ void TNpcPlayer::decide_action() {
     }
     switch (in_combat) {
     case 0:
-        if (self_view->get_status() & 2) {
+        if (self_view->get_status() & NPC_STATUS_ENEMIES_IN_RANGE) {
             in_combat = 1;
             change_ai_state(0);
             return;
         }
-        ai_flags = ai_flags & 0xFFFFFEFF;
+        ai_flags = ai_flags & ~NPC_AI_RETURNING_TO_LEADER;
         if (select_recovery_action(1) != 0) {
-            if (ai_flags & 0x200) {
+            if (ai_flags & NPC_AI_SELF_NEEDS_RECOVERY) {
                 request_chatter(0x13);
                 change_ai_state(8);
                 return;
             }
-            ai_flags &= ~0x200;
+            ai_flags &= ~NPC_AI_SELF_NEEDS_RECOVERY;
             if (horizontal_distance_squared(&goal, &self_view->player->position) < 900.0f) {
                 change_ai_state(8);
                 return;
@@ -1298,7 +1304,7 @@ void TNpcPlayer::decide_action() {
         return;
     case 1:
         aggression = 1.0f;
-        if (ai_flags & 0x8000) {
+        if (ai_flags & NPC_AI_DOUBLE_AGGRESSION) {
             aggression = 2.0f;
         }
         if ((self_view->player->can_perform_physical_action() != 0) && (attack_delay == 0)) {
@@ -1319,10 +1325,10 @@ void TNpcPlayer::decide_action() {
             if (select_recovery_action(0) != 0) {
                 request_chatter(0x13);
                 change_ai_state(8);
-                ai_flags = ai_flags & 0xFFFFFF7F;
+                ai_flags = ai_flags & ~NPC_AI_ATTACK_BLOCKER;
             } else {
-                if (ai_flags & 0x80) {
-                    ai_flags &= ~0x80;
+                if (ai_flags & NPC_AI_ATTACK_BLOCKER) {
+                    ai_flags &= ~NPC_AI_ATTACK_BLOCKER;
                     if (attack_delay == 0) {
                         change_ai_state(2);
                     }
@@ -1333,16 +1339,16 @@ void TNpcPlayer::decide_action() {
             }
         } else if (select_recovery_action(1) != 0) {
             partner_counters.reset(8);
-            if (ai_flags & 0x200) {
+            if (ai_flags & NPC_AI_SELF_NEEDS_RECOVERY) {
                 request_chatter(0x13);
                 change_ai_state(8);
-            } else if (ai_flags & 0x80) {
-                ai_flags &= ~0x280;
+            } else if (ai_flags & NPC_AI_ATTACK_BLOCKER) {
+                ai_flags &= ~(NPC_AI_SELF_NEEDS_RECOVERY | NPC_AI_ATTACK_BLOCKER);
                 if (attack_delay == 0) {
                     change_ai_state(2);
                 }
             } else {
-                ai_flags &= ~0x200;
+                ai_flags &= ~NPC_AI_SELF_NEEDS_RECOVERY;
                 if (horizontal_distance_squared(&goal, &self_view->player->position) < 900.0f) {
                     change_ai_state(8);
                 } else if (escort_leader != 0) {
@@ -1355,13 +1361,13 @@ void TNpcPlayer::decide_action() {
                 }
             }
         } else if ((choose_attack_target() != 0) && (attack_delay == 0)) {
-            if (ai_flags & 0x1000) {
+            if (ai_flags & NPC_AI_TARGET_IN_REACH) {
                 change_ai_state(2);
-                ai_flags = ai_flags & 0xFFFFEFFF;
+                ai_flags = ai_flags & ~NPC_AI_TARGET_IN_REACH;
             } else {
                 change_ai_state(1);
             }
-            ai_flags = ai_flags & 0xFFFFEFFF;
+            ai_flags = ai_flags & ~NPC_AI_TARGET_IN_REACH;
         } else {
             if (escort_leader != 0) {
                 calc_follow_goal();
@@ -1370,7 +1376,7 @@ void TNpcPlayer::decide_action() {
             }
             change_ai_state(1);
         }
-        if (!(self_view->get_status() & 2)) {
+        if (!(self_view->get_status() & NPC_STATUS_ENEMIES_IN_RANGE)) {
             in_combat = 0;
         }
         return;
@@ -1390,7 +1396,7 @@ s32 TNpcPlayer::update_follow_target() {
         }
         return 1;
     }
-    if ((ai_flags & 0x20) && ((u32) ai_state != 8U)) {
+    if ((ai_flags & NPC_AI_MOVE_STATE) && ((u32) ai_state != 8U)) {
         change_ai_state(0);
     }
     return 0;
@@ -1403,34 +1409,34 @@ s32 TNpcPlayer::check_return_to_leader() {
 
     t = self_view->target_list();
     r2 = ai_params.enemy_unlock_range * ai_params.enemy_unlock_range;
-    if (leader_view->get_status() & 2) {
-        ai_flags &= ~0x100;
+    if (leader_view->get_status() & NPC_STATUS_ENEMIES_IN_RANGE) {
+        ai_flags &= ~NPC_AI_RETURNING_TO_LEADER;
         return 0;
     }
-    if (self_view->get_condition() & 8) {
-        ai_flags |= 0x100;
+    if (self_view->get_condition() & NPC_CONDITION_HP_LOW) {
+        ai_flags |= NPC_AI_RETURNING_TO_LEADER;
         return 1;
     }
     if (leader_distance_sq >= r2) {
-        ai_flags |= 0x100;
+        ai_flags |= NPC_AI_RETURNING_TO_LEADER;
         if (t->target_count != 0) {
             partner_counters.increment(5);
             if (partner_counters.reset_if_reached(5, 3) != 0) {
                 o = (TObjChara *)find_active_entity_by_id(t->targets[0].entity_id);
-                ai_flags &= ~0x8000;
+                ai_flags &= ~NPC_AI_DOUBLE_AGGRESSION;
                 if (o != 0) {
                     if (horizontal_distance_squared(&o->position, &self_view->player->position) < ai_params.block_range * ai_params.block_range) {
-                        ai_flags |= 0x8080;
+                        ai_flags |= NPC_AI_DOUBLE_AGGRESSION | NPC_AI_ATTACK_BLOCKER;
                     }
                 }
             }
         }
         return 1;
     }
-    if (ai_flags & 0x100) {
+    if (ai_flags & NPC_AI_RETURNING_TO_LEADER) {
         return 1;
     }
-    ai_flags &= ~0x100;
+    ai_flags &= ~NPC_AI_RETURNING_TO_LEADER;
     return 0;
 }
 
@@ -1440,17 +1446,17 @@ s32 TNpcPlayer::choose_attack_target() {
     TObjBase *tgt;
     view = self_view->target_list();
     if (view->target_count >= 3) {
-        ai_flags |= 0x2000;
+        ai_flags |= NPC_AI_SURROUNDED;
         partner_counters.increment(6);
         if (partner_counters.reset_if_reached(6, 100) != 0) {
-            if (self_view->get_condition() & 8) {
+            if (self_view->get_condition() & NPC_CONDITION_HP_LOW) {
                 request_chatter(1);
             } else {
                 request_chatter(0);
             }
         }
     } else {
-        ai_flags &= ~0x2000;
+        ai_flags &= ~NPC_AI_SURROUNDED;
     }
     if (view->target_count != 0) {
         for (i = 0; i < view->target_count; i++) {
@@ -1461,14 +1467,14 @@ s32 TNpcPlayer::choose_attack_target() {
                 goal.y = self_view->player->body_center.y;
                 goal.z = tgt->position.z;
                 if (horizontal_distance_squared(&goal, &self_view->player->position) < (10.0f + ai_params.attack_range) * (10.0f + ai_params.attack_range)) {
-                    ai_flags |= 0x1000;
+                    ai_flags |= NPC_AI_TARGET_IN_REACH;
                 }
-                ai_flags &= ~0x40;
+                ai_flags &= ~NPC_AI_NO_CLEAR_TARGET;
                 return 1;
             }
         }
         request_chatter(8);
-        ai_flags |= 0x40;
+        ai_flags |= NPC_AI_NO_CLEAR_TARGET;
     }
     return 0;
 }
@@ -1481,7 +1487,7 @@ s32 TNpcPlayer::calc_follow_goal() {
     f32 z;
     TObjPlayer *obj_player;
     if (escort_leader != 0) {
-        if (ai_params.technique_flags & 0x80) {
+        if (ai_params.technique_flags & TECHNIQUE_FLAGS_NO_BACKOFF) {
             keep_distance = ai_params.escort_keep_distance;
             if (escort_distance_sq <= (keep_distance * keep_distance)) {
                 obj_player = self_view->player;
@@ -1512,10 +1518,10 @@ s32 TNpcPlayer::select_recovery_action(s32 check_leader) {
     u8 flags = 0;
     NpcPlayerView *tgt;
     TObjBase *ent;
-    if (self_view->get_status() & 4) {
+    if (self_view->get_status() & NPC_STATUS_NEEDS_RECOVERY) {
         flags |= 1;
     }
-    if (check_leader != 0 && (leader_view->get_status() & 4) && escort_leader == 0) {
+    if (check_leader != 0 && (leader_view->get_status() & NPC_STATUS_NEEDS_RECOVERY) && escort_leader == 0) {
         flags |= 2;
     }
     tgt = self_view->target_list();
@@ -1523,36 +1529,36 @@ s32 TNpcPlayer::select_recovery_action(s32 check_leader) {
         partner_counters.increment(5);
         if (partner_counters.reset_if_reached(5, 0x1E) != 0) {
             ent = (TObjBase *)find_active_entity_by_id(tgt->targets[0].entity_id);
-            ai_flags &= ~0x8000;
+            ai_flags &= ~NPC_AI_DOUBLE_AGGRESSION;
             if (ent != NULL) {
                 if (horizontal_distance_squared(&ent->position, &self_view->player->position) < ai_params.block_range * ai_params.block_range) {
                     VecCopy(&goal, &ent->position);
-                    ai_flags |= 0x8080;
+                    ai_flags |= NPC_AI_DOUBLE_AGGRESSION | NPC_AI_ATTACK_BLOCKER;
                     return 1;
                 }
             }
         }
     }
     if (flags == 3) {
-        ai_flags |= 0x200;
-        if (self_view->get_condition() & 2) {
+        ai_flags |= NPC_AI_SELF_NEEDS_RECOVERY;
+        if (self_view->get_condition() & NPC_CONDITION_STATUS_AILMENT) {
             if (self_view->can_recover(2, 1) != 0) {
-                if (self_view->get_condition() & 0x20) {
+                if (self_view->get_condition() & NPC_CONDITION_HAS_RECOVERY_ITEM) {
                     recovery_action = 2;
                     return 1;
                 }
-                if (!(ai_params.technique_flags & 0x40)) {
+                if (!(ai_params.technique_flags & TECHNIQUE_FLAGS_NONE)) {
                     recovery_action = 2;
                     return 1;
                 }
             }
-        } else if (self_view->get_condition() & 8) {
+        } else if (self_view->get_condition() & NPC_CONDITION_HP_LOW) {
             if (self_view->can_recover(0, 1) != 0) {
-                if (self_view->get_condition() & 0x20) {
+                if (self_view->get_condition() & NPC_CONDITION_HAS_RECOVERY_ITEM) {
                     recovery_action = 0;
                     return 1;
                 }
-                if (!(ai_params.technique_flags & 0x40)) {
+                if (!(ai_params.technique_flags & TECHNIQUE_FLAGS_NONE)) {
                     recovery_action = 0;
                     return 1;
                 }
@@ -1563,7 +1569,7 @@ s32 TNpcPlayer::select_recovery_action(s32 check_leader) {
                 partner_counters.increment(8);
                 partner_counters.reset_if_reached(8, 0x5DC);
             }
-        } else if (self_view->get_condition() & 0x10) {
+        } else if (self_view->get_condition() & NPC_CONDITION_TP_LOW) {
             if (self_view->can_recover(1, 1) != 0) {
                 recovery_action = 1;
                 return 1;
@@ -1573,29 +1579,29 @@ s32 TNpcPlayer::select_recovery_action(s32 check_leader) {
         }
     }
     if (flags == 2) {
-        if (self_view->get_status() & 2) {
+        if (self_view->get_status() & NPC_STATUS_ENEMIES_IN_RANGE) {
             return 0;
         }
         VecCopy(&goal, &leader_view->player->body_center);
-        ai_flags |= 0x20;
-        if (leader_view->get_condition() & 2) {
+        ai_flags |= NPC_AI_MOVE_STATE;
+        if (leader_view->get_condition() & NPC_CONDITION_STATUS_AILMENT) {
             if (self_view->can_recover(2, 0) != 0) {
-                if (self_view->get_condition() & 0x20) {
+                if (self_view->get_condition() & NPC_CONDITION_HAS_RECOVERY_ITEM) {
                     recovery_action = 2;
                     return 1;
                 }
-                if (!(ai_params.technique_flags & 0x40)) {
+                if (!(ai_params.technique_flags & TECHNIQUE_FLAGS_NONE)) {
                     recovery_action = 2;
                     return 1;
                 }
             }
-        } else if (leader_view->get_condition() & 0x800) {
+        } else if (leader_view->get_condition() & NPC_CONDITION_HP_CRITICAL) {
             if (self_view->can_recover(0, 0) != 0) {
-                if (self_view->get_condition() & 0x20) {
+                if (self_view->get_condition() & NPC_CONDITION_HAS_RECOVERY_ITEM) {
                     recovery_action = 0;
                     return 1;
                 }
-                if (!(ai_params.technique_flags & 0x40)) {
+                if (!(ai_params.technique_flags & TECHNIQUE_FLAGS_NONE)) {
                     recovery_action = 0;
                     return 1;
                 }
@@ -1603,25 +1609,25 @@ s32 TNpcPlayer::select_recovery_action(s32 check_leader) {
         }
     }
     if (flags == 1) {
-        ai_flags |= 0x200;
-        if (self_view->get_condition() & 2) {
+        ai_flags |= NPC_AI_SELF_NEEDS_RECOVERY;
+        if (self_view->get_condition() & NPC_CONDITION_STATUS_AILMENT) {
             if (self_view->can_recover(2, 1) != 0) {
-                if (self_view->get_condition() & 0x20) {
+                if (self_view->get_condition() & NPC_CONDITION_HAS_RECOVERY_ITEM) {
                     recovery_action = 2;
                     return 1;
                 }
-                if (!(ai_params.technique_flags & 0x40)) {
+                if (!(ai_params.technique_flags & TECHNIQUE_FLAGS_NONE)) {
                     recovery_action = 2;
                     return 1;
                 }
             }
-        } else if (self_view->get_condition() & 8) {
+        } else if (self_view->get_condition() & NPC_CONDITION_HP_LOW) {
             if (self_view->can_recover(0, 1) != 0) {
-                if (self_view->get_condition() & 0x20) {
+                if (self_view->get_condition() & NPC_CONDITION_HAS_RECOVERY_ITEM) {
                     recovery_action = 0;
                     return 1;
                 }
-                if (!(ai_params.technique_flags & 0x40)) {
+                if (!(ai_params.technique_flags & TECHNIQUE_FLAGS_NONE)) {
                     recovery_action = 0;
                     return 1;
                 }
@@ -1632,7 +1638,7 @@ s32 TNpcPlayer::select_recovery_action(s32 check_leader) {
                 partner_counters.increment(8);
                 partner_counters.reset_if_reached(8, 0x5DC);
             }
-        } else if (self_view->get_condition() & 0x10) {
+        } else if (self_view->get_condition() & NPC_CONDITION_TP_LOW) {
             if (self_view->can_recover(1, 1) != 0) {
                 recovery_action = 1;
                 return 1;
@@ -1648,7 +1654,7 @@ void TNpcPlayer::deliver_partner_action() {
     Vec d;
     f32 len;
 
-    if ((ai_flags & 4) && !(partner_chatter_flags & 2)) {
+    if ((ai_flags & NPC_AI_CHATTER_PENDING) && !(partner_chatter_flags & 2)) {
         deliver_partner_chatter();
     }
     if (self_view->player->test_action_mask(2) == 0) {
@@ -1659,7 +1665,7 @@ void TNpcPlayer::deliver_partner_action() {
         VecCopy(&move_target, VecCopy(&steer_point, &goal));
         partner_counters.increment(4);
         if (partner_counters.get(4) == 5401) {
-            ai_flags &= ~4;
+            ai_flags &= ~NPC_AI_CHATTER_PENDING;
             chatter_id = 25;
             partner_counters.set(4, 0);
         }
@@ -1678,13 +1684,13 @@ void TNpcPlayer::deliver_partner_action() {
         if (self_view->player->actorFlags & 0x100000) {
             send_walk_request();
         } else if (len <= ai_params.max_distance_from_player) {
-            if (!(ai_flags & 8)) {
+            if (!(ai_flags & NPC_AI_RUNNING)) {
                 send_walk_request();
             } else {
                 send_run_request();
             }
         } else {
-            ai_flags |= 8;
+            ai_flags |= NPC_AI_RUNNING;
             send_run_request();
         }
         break;
@@ -1700,10 +1706,10 @@ void TNpcPlayer::deliver_partner_action() {
     if (ai_state != 2) {
         partner_counters.reset(1);
         partner_counters.reset(5);
-        ai_flags &= ~0x8000;
+        ai_flags &= ~NPC_AI_DOUBLE_AGGRESSION;
     }
     if (ai_state != 1) {
-        ai_flags &= ~8;
+        ai_flags &= ~NPC_AI_RUNNING;
     }
     if (ai_state != 0) {
         partner_counters.reset(4);
@@ -1752,18 +1758,18 @@ void TNpcPlayer::update_combat_action() {
     if (self_view->player->can_perform_physical_action() == 0) {
         return;
     }
-    if (!(ai_params.technique_flags & 0x40) && !(self_view->get_condition() & 0x10)) {
+    if (!(ai_params.technique_flags & TECHNIQUE_FLAGS_NONE) && !(self_view->get_condition() & NPC_CONDITION_TP_LOW)) {
         fl = ai_params.technique_flags;
-        if (fl & 4) {
+        if (fl & TECHNIQUE_FLAGS_FOIE_GIFOIE) {
             tier = 0;
-        } else if (fl & 8) {
+        } else if (fl & TECHNIQUE_FLAGS_BARTA_GIBARTA) {
             tier = 1;
-        } else if (fl & 0x10) {
+        } else if (fl & TECHNIQUE_FLAGS_ZONDE_RAZONDE) {
             tier = 2;
         } else {
             tier = 0;
         }
-        if ((ai_flags & 0x2000) && (self_view->get_condition() & 0x1000)) {
+        if ((ai_flags & NPC_AI_SURROUNDED) && (self_view->get_condition() & NPC_CONDITION_HP_HURT_IN_COMBAT)) {
             alt = 1;
         } else {
             alt = 0;
@@ -1782,7 +1788,7 @@ void TNpcPlayer::update_combat_action() {
         if (diff / mx <= 0.2f && 0.0f != mx) {
             request_chatter(3);
         }
-        ai_flags &= ~0x2000;
+        ai_flags &= ~NPC_AI_SURROUNDED;
         if (TObjPlayer::try_camera_action((saddr)self_view->player, id) != 0) {
             partner_request_technique_cast(id);
             return;
@@ -1796,9 +1802,9 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
     TObjPlayer *player;
 
     player = self_view->player;
-    if (kind == 15 || kind == 16) {
+    if (kind == TECHNIQUE_RESTA || kind == TECHNIQUE_ANTI) {
         request_chatter(0x16);
-    } else if (kind == 0 || kind == 3 || kind == 6) {
+    } else if (kind == TECHNIQUE_FOIE || kind == TECHNIQUE_BARTA || kind == TECHNIQUE_ZONDE) {
         request_chatter(0x17);
     } else {
         request_chatter(2);
@@ -1807,9 +1813,9 @@ void TNpcPlayer::request_technique_cast(s32 kind) {
         cmd.header.client_id = self_view->get_client_id();
         cmd.params.technique_number = kind;
         cmd.params.target_count = 1;
-        if (kind == 15 || kind == 16) {
-            if (kind == 15) {
-                ai_flags |= 0x10000;
+        if (kind == TECHNIQUE_RESTA || kind == TECHNIQUE_ANTI) {
+            if (kind == TECHNIQUE_RESTA) {
+                ai_flags |= NPC_AI_CAST_RESTA;
             }
             cmd.params.level = get_cast_technique_level(&player->technique_state, kind);
             cmd.targets[0].set_entity_id(leader_view->get_client_id());
@@ -1838,7 +1844,7 @@ void TNpcPlayer::init_state() {
 void TNpcPlayer::update_condition_flags() {
     leader_view->check_moved();
     leader_view->update_conditions();
-    if (leader_view->get_condition() & 2) {
+    if (leader_view->get_condition() & NPC_CONDITION_STATUS_AILMENT) {
         if (partner_counters.get(0xA) == 0) {
             request_chatter(9);
         }
@@ -1847,7 +1853,7 @@ void TNpcPlayer::update_condition_flags() {
         partner_counters.reset(0xA);
     }
     if (leader_view->scan_targets(30.0f) != 0) {
-        if (leader_view->get_condition() & 8) {
+        if (leader_view->get_condition() & NPC_CONDITION_HP_LOW) {
             if (partner_counters.get(9) == 0) {
                 request_chatter(0xC);
             }
@@ -1879,14 +1885,14 @@ void TNpcPlayer::partner_observe_surroundings() {
     self_view->goal_angle = (s32)(10430.38043493439 * atan2_float(x - self_player->position.x, goal.z - self_player->position.z));
     self_view->probe_obstacles();
     if (self_view->update_hp_change() != 0) {
-        if (self_view->get_condition() & 0x40) {
+        if (self_view->get_condition() & NPC_CONDITION_BIG_DAMAGE) {
             request_chatter(0xE);
-        } else if (self_view->get_condition() & 0x80) {
+        } else if (self_view->get_condition() & NPC_CONDITION_MEDIUM_DAMAGE) {
             request_chatter(0xF);
-        } else if (self_view->get_condition() & 0x200) {
+        } else if (self_view->get_condition() & NPC_CONDITION_HEALED) {
             if (ai_state != 8U) {
-                if (ai_flags & 0x10000) {
-                    ai_flags &= ~0x10000;
+                if (ai_flags & NPC_AI_CAST_RESTA) {
+                    ai_flags &= ~NPC_AI_CAST_RESTA;
                 } else {
                     request_chatter(0x11);
                 }
@@ -1946,7 +1952,7 @@ void TNpcPlayer::select_path_waypoint() {
     if (partner_find_wall_segment(&actor->body_center, &goal, &hit, &normal) != 0) {
         Vec shortcut = {0.0f, 0.0f, 0.0f};
         clear = partner_route_around_wall(&self_view->player->body_center, &hit, &normal, &route, &shortcut);
-        if (!(ai_flags & 1)) {
+        if (!(ai_flags & NPC_AI_DETOUR_WAYPOINT)) {
             if (clear != 0) {
                 VecCopy(&waypoint, &shortcut);
             } else {
@@ -1963,11 +1969,11 @@ void TNpcPlayer::select_path_waypoint() {
             if (0.0f != vector_length(&waypoint_dir)) {
                 normalize_vector(&waypoint_dir);
             }
-            ai_flags |= 1;
+            ai_flags |= NPC_AI_DETOUR_WAYPOINT;
         }
         if (clear != 0) {
             detour_frames = 0;
-            if (ai_flags & 2) {
+            if (ai_flags & NPC_AI_DETOUR_OVERSHOOT) {
                 Vec d1;
                 actor = self_view->player;
                 d1.x = steer_point.x - actor->position.x;
@@ -1975,12 +1981,12 @@ void TNpcPlayer::select_path_waypoint() {
                 d1.z = steer_point.z - actor->position.z;
                 if (vector_length(&d1) <= 1.5f) {
                     VecCopy(&steer_point, &shortcut);
-                    ai_flags &= ~2;
+                    ai_flags &= ~NPC_AI_DETOUR_OVERSHOOT;
                 }
             } else {
                 VecCopy(&steer_point, &shortcut);
             }
-        } else if (ai_flags & 2) {
+        } else if (ai_flags & NPC_AI_DETOUR_OVERSHOOT) {
             Vec d2;
             actor = self_view->player;
             d2.x = steer_point.x - actor->position.x;
@@ -1993,7 +1999,7 @@ void TNpcPlayer::select_path_waypoint() {
                 } else {
                     VecCopy(&steer_point, &route);
                 }
-                ai_flags &= ~2;
+                ai_flags &= ~NPC_AI_DETOUR_OVERSHOOT;
                 detour_frames = 0;
             }
             detour_frames++;
@@ -2015,13 +2021,13 @@ void TNpcPlayer::select_path_waypoint() {
                 steer_point.x = 40.0f * waypoint_dir.x + waypoint.x;
                 steer_point.y = 40.0f * waypoint_dir.y + waypoint.y;
                 steer_point.z = 40.0f * waypoint_dir.z + waypoint.z;
-                ai_flags |= 2;
-                ai_flags &= ~1;
+                ai_flags |= NPC_AI_DETOUR_OVERSHOOT;
+                ai_flags &= ~NPC_AI_DETOUR_WAYPOINT;
             }
         }
         return;
     }
-    if (self_view->get_status() & 0x20) {
+    if (self_view->get_status() & NPC_STATUS_OBSTACLE_AHEAD) {
         if (route_around_object(&route) != 0 && stuck_frames < 30) {
             VecCopy(&steer_point, &route);
         } else {
@@ -2048,7 +2054,7 @@ void TNpcPlayer::select_path_waypoint() {
         }
         VecCopy(&steer_point, &midpoint);
     }
-    ai_flags &= ~1;
+    ai_flags &= ~NPC_AI_DETOUR_WAYPOINT;
     detour_frames = 0;
 }
 #pragma pop
@@ -2059,7 +2065,7 @@ void TNpcPlayer::select_path_waypoint() {
 s32 TNpcPlayer::needs_movement() {
     f32 distance_sq;
     f32 range;
-    if (ai_flags & 0x10) {
+    if (ai_flags & NPC_AI_ATTACK_STATE) {
         return 1;
     }
     range = 12.0f + ai_params.max_distance_from_player;
@@ -2071,7 +2077,7 @@ s32 TNpcPlayer::needs_movement() {
     if (distance_sq >= (range * range)) {
         return 1;
     }
-    ai_flags = ai_flags & 0xFFFFFEFF;
+    ai_flags = ai_flags & ~NPC_AI_RETURNING_TO_LEADER;
     return 0;
 }
 #pragma pop
@@ -2099,7 +2105,7 @@ s32 TNpcPlayer::check_movement_progress() {
     stuck = stuck_frames;
     if (stuck > 0x1E) {
         stuck_frames = 0x1EU;
-        ai_flags = ai_flags | 0x4000;
+        ai_flags = ai_flags | NPC_AI_STUCK;
         if (partner_counters.get(7) == 0) {
             request_chatter(7);
         }
@@ -2107,10 +2113,10 @@ s32 TNpcPlayer::check_movement_progress() {
         partner_counters.reset_if_reached(7, 0x12C);
         return 0;
     }
-    if ((stuck == 0) && (ai_flags & 0x4000)) {
+    if ((stuck == 0) && (ai_flags & NPC_AI_STUCK)) {
         partner_counters.reset(7);
         request_chatter(0x18);
-        ai_flags = ai_flags & 0xFFFFBFFF;
+        ai_flags = ai_flags & ~NPC_AI_STUCK;
     }
     return 1;
 }
@@ -2129,7 +2135,7 @@ s32 NpcPlayerView::check_moved() {
     d.y = pos->y - prev->y;
     d.z = pos->z - prev->z;
     if (vector_length(&d) > 0.4f) {
-        status = status | 1;
+        status = status | NPC_STATUS_MOVED;
         return 1;
     }
     return 0;
@@ -2139,7 +2145,7 @@ s32 NpcPlayerView::can_recover(s32 kind, s32 allow_item) {
     switch (kind) {
     case 0:
         if ((allow_item != 0) && (player->find_inventory_item_id(3, 0) != -1)) {
-            condition = condition | 0x20;
+            condition = condition | NPC_CONDITION_HAS_RECOVERY_ITEM;
             return 1;
         }
         if (TObjPlayer::try_camera_action((saddr)player, 0xF) != 0) {
@@ -2148,7 +2154,7 @@ s32 NpcPlayerView::can_recover(s32 kind, s32 allow_item) {
         break;
     case 1:
         if (player->find_inventory_item_id(3, 1) != -1) {
-            condition = condition | 0x20;
+            condition = condition | NPC_CONDITION_HAS_RECOVERY_ITEM;
             return 1;
         }
         break;
@@ -2159,7 +2165,7 @@ s32 NpcPlayerView::can_recover(s32 kind, s32 allow_item) {
         break;
     case 3:
         if (player->find_inventory_item_id(3, 6) != -1) {
-            condition = condition | 0x20;
+            condition = condition | NPC_CONDITION_HAS_RECOVERY_ITEM;
             return 1;
         }
         if (TObjPlayer::try_camera_action((saddr)player, 0x11) != 0) {
@@ -2172,7 +2178,7 @@ s32 NpcPlayerView::can_recover(s32 kind, s32 allow_item) {
 
 s32 NpcPlayerView::scan_targets(f32 range) {
     if (scan_nearby_enemies(&player->position, range) != 0) {
-        status = status | 2;
+        status = status | NPC_STATUS_ENEMIES_IN_RANGE;
         return 1;
     }
     return 0;
@@ -2183,7 +2189,7 @@ s32 try_update_target_flag__10TNpcPlayerFPvi(NpcPlayerView *view, s32 id) {
 
     obj_player = view->player;
     if (((s32 (*)(void *, void *, s32, TObjPlayer *))find_parts_in_range__10TNpcPlayerFPvPvif)(view, &obj_player->position, id, obj_player) != 0) {
-        view->status = view->status | 2;
+        view->status = view->status | NPC_STATUS_ENEMIES_IN_RANGE;
         return 1;
     }
     return 0;
@@ -2202,34 +2208,34 @@ s32 NpcPlayerView::update_conditions() {
     if (status & 2) {
         if (hp_ratio <= 0.25f) {
             changed = 1;
-            condition = condition | 8;
-            status = status | 4;
+            condition = condition | NPC_CONDITION_HP_LOW;
+            status = status | NPC_STATUS_NEEDS_RECOVERY;
         }
         if (hp_ratio <= 0.75f) {
             changed = 1;
-            condition = condition | 0x1000;
+            condition = condition | NPC_CONDITION_HP_HURT_IN_COMBAT;
         }
     } else if (hp_ratio <= 0.75f) {
         changed = 1;
-        condition = condition | 8;
-        status = status | 4;
+        condition = condition | NPC_CONDITION_HP_LOW;
+        status = status | NPC_STATUS_NEEDS_RECOVERY;
     }
     if (hp_ratio <= 0.1f) {
         changed = 1;
-        condition = condition | 0x800;
-        status = status | 4;
+        condition = condition | NPC_CONDITION_HP_CRITICAL;
+        status = status | NPC_STATUS_NEEDS_RECOVERY;
     }
     actorFlags = player->actorFlags;
     if ((actorFlags & 1) || (actorFlags & 2) || (actorFlags & 0x10)) {
         changed = 1;
-        condition = condition | 2;
-        status = status | 4;
+        condition = condition | NPC_CONDITION_STATUS_AILMENT;
+        status = status | NPC_STATUS_NEEDS_RECOVERY;
     }
     actor_tp = (f32)get_actor_tp((u8 *)player);
     tp_max = (f32)obj_getS16_2BA((u8 *)player);
     if (((actor_tp / tp_max) <= 0.2f) && (0.0f != tp_max)) {
-        status = status | 4;
-        condition = condition | 0x10;
+        status = status | NPC_STATUS_NEEDS_RECOVERY;
+        condition = condition | NPC_CONDITION_TP_LOW;
     }
     return changed;
 }
@@ -2249,14 +2255,14 @@ s32 NpcPlayerView::update_hp_change() {
     damage = (s16)(prev_hp - actor_hp);
     if (prev_hp >= (s32)(actor_hp - 1)) {
         if ((f32)damage > (0.3f * (f32)hpmax)) {
-            condition = condition | 0x40;
+            condition = condition | NPC_CONDITION_BIG_DAMAGE;
         } else if ((f32)damage > (0.2f * (f32)hpmax)) {
-            condition = condition | 0x80;
+            condition = condition | NPC_CONDITION_MEDIUM_DAMAGE;
         } else if ((f32)damage > (0.01f * (f32)hpmax)) {
-            condition = condition | 0x100;
+            condition = condition | NPC_CONDITION_SMALL_DAMAGE;
         }
     } else {
-        condition = condition | 0x200;
+        condition = condition | NPC_CONDITION_HEALED;
     }
     last_hp = actor_hp;
     return damage ? 1 : 0;
@@ -2474,7 +2480,7 @@ s32 NpcPlayerView::probe_obstacles() {
                     if (!(contact->flags & 8) && !(contact->flags & 0x100) && !(contact->flags & 0x200)) {
                         copy_collision_body(&obstacle_body, contact);
                         obstacle_angle = actor->rotation_y;
-                        status |= 0x20;
+                        status |= NPC_STATUS_OBSTACLE_AHEAD;
                         return 1;
                     }
                 } else if (actor->actorFlags & 0x20000000) {
@@ -2835,7 +2841,7 @@ void TNpcPlayer::request_chatter(u32 id) {
     partner_counters.reset(0);
     if (id != chatter_id) {
         chatter_id = id;
-        ai_flags |= 4;
+        ai_flags |= NPC_AI_CHATTER_PENDING;
     }
 }
 
@@ -2843,7 +2849,7 @@ void TNpcPlayer::deliver_partner_chatter() {
     u32 id;
     char *text;
     if (chatter_id >= 0x19) {
-        ai_flags &= ~4;
+        ai_flags &= ~NPC_AI_CHATTER_PENDING;
         chatter_id = 0x19;
         return;
     }
@@ -2862,7 +2868,7 @@ void TNpcPlayer::deliver_partner_chatter() {
             }
         }
     }
-    ai_flags &= ~4;
+    ai_flags &= ~NPC_AI_CHATTER_PENDING;
     if (partner_counters.reset_if_reached(0, 0x190) != 0) {
         chatter_id = 0x19;
     }
@@ -2876,7 +2882,7 @@ void TNpcPlayer::handle_action(s32 action) {
         item = self_view->player->find_inventory_item_id(3, 0);
         if (item != -1) {
             try_send_6x27_use_item(self_view->player, item);
-            ai_flags = ai_flags | 0x10000;
+            ai_flags = ai_flags | NPC_AI_CAST_RESTA;
         }
         break;
     case 1:
@@ -2897,26 +2903,26 @@ void TNpcPlayer::handle_action(s32 action) {
 
 void TNpcPlayer::change_ai_state(u32 state) {
     ai_state = state;
-    ai_flags = ai_flags & 0xFFFFEFFF;
+    ai_flags = ai_flags & ~NPC_AI_TARGET_IN_REACH;
     switch (state) {
     case 0:
-        ai_flags = ai_flags & 0xFFFFFFCF;
+        ai_flags = ai_flags & ~(NPC_AI_MOVE_STATE | NPC_AI_ATTACK_STATE);
         VecCopy(&goal, &self_view->player->body_center);
         return;
     case 1:
-        ai_flags = ai_flags & 0xFFFFFFEF;
-        ai_flags = ai_flags | 0x20;
+        ai_flags = ai_flags & ~NPC_AI_ATTACK_STATE;
+        ai_flags = ai_flags | NPC_AI_MOVE_STATE;
         return;
     case 2:
-        ai_flags = ai_flags & 0xFFFFFFDF;
-        ai_flags = ai_flags | 0x10;
+        ai_flags = ai_flags & ~NPC_AI_MOVE_STATE;
+        ai_flags = ai_flags | NPC_AI_ATTACK_STATE;
         return;
     case 8:
         VecCopy(&goal, &self_view->player->body_center);
         return;
     case 16:
-        ai_flags = ai_flags & 0xFFFFFFEF;
-        ai_flags = ai_flags | 0x20;
+        ai_flags = ai_flags & ~NPC_AI_ATTACK_STATE;
+        ai_flags = ai_flags | NPC_AI_MOVE_STATE;
     default:
         return;
     }
@@ -2925,34 +2931,34 @@ void TNpcPlayer::change_ai_state(u32 state) {
 void TNpcPlayer::dispatch_action(s32 action) {
     switch (action) {
     case 0:
-        if (self_view->get_condition() & 0x20) {
+        if (self_view->get_condition() & NPC_CONDITION_HAS_RECOVERY_ITEM) {
             handle_action(action);
         } else {
-            request_technique_cast(0xF);
+            request_technique_cast(TECHNIQUE_RESTA);
         }
-        if (ai_flags & 0x200) {
+        if (ai_flags & NPC_AI_SELF_NEEDS_RECOVERY) {
             request_chatter(0x13);
         }
         return;
     case 1:
-        if (self_view->get_condition() & 0x20) {
+        if (self_view->get_condition() & NPC_CONDITION_HAS_RECOVERY_ITEM) {
             handle_action(action);
             return;
         }
         break;
     case 2:
-        if (self_view->get_condition() & 0x20) {
+        if (self_view->get_condition() & NPC_CONDITION_HAS_RECOVERY_ITEM) {
             handle_action(action);
             return;
         }
-        request_technique_cast(0x10);
+        request_technique_cast(TECHNIQUE_ANTI);
         return;
     case 3:
-        if (self_view->get_condition() & 0x20) {
+        if (self_view->get_condition() & NPC_CONDITION_HAS_RECOVERY_ITEM) {
             handle_action(action);
             return;
         }
-        request_technique_cast(0x11);
+        request_technique_cast(TECHNIQUE_REVERSER);
         break;
     }
 }
