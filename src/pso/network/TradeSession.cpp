@@ -25,7 +25,7 @@
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/ui/window/TWindowSubTradeMain_802D2808.h"
 #include <stddef.h>
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_801D40D4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/player/TPlyDispData.h"

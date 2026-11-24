@@ -4,7 +4,7 @@
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/npc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer_802C367C.h"
 #include "pso/player/TPlyCharData.h"
 #include "pso/player/TPlyItem.h"

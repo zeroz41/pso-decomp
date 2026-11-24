@@ -17,7 +17,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"

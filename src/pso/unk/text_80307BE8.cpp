@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerSlots.h"
 

@@ -22,7 +22,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
 #include "pso/object/trap/TOTrap.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/effect/item/TItemWpnCardEffect.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/weapon/TItemWeapon.h"

@@ -31,7 +31,7 @@
 #include "pso/ui/window/TWindowInputNumber.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/ui/ItemListRow.h"
 #include "pso/ui/window/TWindowMainMenu.h"

@@ -12,7 +12,7 @@
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/network/client_id.h"
 #include "pso/object/trap/TOTrapAncient01.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/PlayerSlots.h"
 #define PSO_SDK_COMPACT_MATH

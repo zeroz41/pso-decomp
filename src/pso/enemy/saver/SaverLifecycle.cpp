@@ -53,7 +53,7 @@
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
 #include "pso/math/MatrixTransforms.h"

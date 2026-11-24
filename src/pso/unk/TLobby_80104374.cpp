@@ -41,7 +41,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/city/TShopEquipmentSellWindow_801047B4.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/item/TItemDisconnectCtrl.h"
 #include "pso/item/TItemLoad.h"

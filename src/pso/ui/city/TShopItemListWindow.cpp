@@ -37,7 +37,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/object/base/TObjBase.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/city/TShopItemTecSequence.h"
 #include "pso/ui/window/TWindowShop.h"
 #include "pso/ui/window/WindowLayout.h"

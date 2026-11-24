@@ -66,7 +66,7 @@ struct NJS_OBJECT;
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/effect/GroundContactSound.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/enemy/TObjEnemyCustom.h"

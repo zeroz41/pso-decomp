@@ -13,7 +13,7 @@
 #include "pso/boss/darkfalz/TOBoss4Tower.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"

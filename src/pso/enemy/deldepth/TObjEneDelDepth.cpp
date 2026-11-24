@@ -48,7 +48,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/MatrixStack.h"

@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/vector.h"
 #include "pso/ui/font/TFontSmallTask.h"
 #include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"

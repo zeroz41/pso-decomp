@@ -47,7 +47,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/BoxCollision.h"
 #include "pso/render/GinjaDrawUtil.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"

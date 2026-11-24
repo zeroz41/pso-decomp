@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 
 void toggle_help_window_on_button(uaddr object, s32 client_index) {

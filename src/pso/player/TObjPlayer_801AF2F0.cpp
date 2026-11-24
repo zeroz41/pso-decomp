@@ -123,7 +123,7 @@
 #include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/render/CameraCapture.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/TLobby_801C25B4.h"

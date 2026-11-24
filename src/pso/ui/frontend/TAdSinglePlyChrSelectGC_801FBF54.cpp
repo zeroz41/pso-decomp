@@ -38,7 +38,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/unk/TLobby_801461EC.h"

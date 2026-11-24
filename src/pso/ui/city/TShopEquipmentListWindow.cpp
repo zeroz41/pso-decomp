@@ -28,7 +28,7 @@
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/item/shop/ShopWeaponStock.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/unk/text_8011A780.h"

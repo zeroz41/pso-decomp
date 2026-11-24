@@ -3,7 +3,7 @@
 #include "pso/map/FloorPopulation.h"
 #include "types.h"
 #include "pso/unk/TLobby.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 extern "C" {
 s32 set_flags_on_matching_entries__6TLobbyFlssl(s32, s32, s32, s32);
 }

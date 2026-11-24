@@ -11,7 +11,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/MatrixTransforms.h"
 

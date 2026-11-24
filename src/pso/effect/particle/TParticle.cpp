@@ -25,7 +25,7 @@
 #include "pso/effect/TEffIndirectSampler.h"
 #include "pso/effect/particle/ParticleStrip.h"
 #include "pso/render/CameraCapture.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_803DC86C.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_803D8F74.h"

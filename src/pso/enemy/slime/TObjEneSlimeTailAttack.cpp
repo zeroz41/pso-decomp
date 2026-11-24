@@ -42,7 +42,7 @@ struct NJS_OBJECT;
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/TObjControl.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 #include "pso/object/base/ActorCollision.h"
 #include "pso/map/CsnQuery.h"

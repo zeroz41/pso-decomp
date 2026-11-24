@@ -22,7 +22,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/object/door/TObjDoorKey.h"
 #include "pso/object/fence/WallHitPacket.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include <stdio.h>
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"

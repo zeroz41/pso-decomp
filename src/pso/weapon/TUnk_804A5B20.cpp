@@ -8,7 +8,7 @@
 #include "pso/technique/TTecSlicer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/weapon/SlicerLaunchState.h"

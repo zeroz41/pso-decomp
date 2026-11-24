@@ -6,7 +6,7 @@
 #include "pso/enemy/recon/TObjEneReconBomb.h"
 #include "pso/system/vector.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/render/render_util.h"
 #include "pso/math/MatrixTransforms.h"

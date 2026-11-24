@@ -36,7 +36,7 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/unk/TLobby_801E2F94.h"
 #include "pso/unk/text_801E3F24.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <stdlib.h>
 #include <string.h>

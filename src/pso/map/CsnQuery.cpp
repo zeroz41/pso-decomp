@@ -9,7 +9,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_8007A7B8.h"
 #include "pso/unk/text_8007A7A0.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/ScratchVectors.h"

@@ -7,7 +7,7 @@
 #include "pso/boss/galgryphon/TObjBoss5FloorGrass.h"
 #include "pso/boss/galgryphon/TObjBoss5FloorStone.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarCtrl.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 #pragma readonly_strings on
 #pragma fp_contract on

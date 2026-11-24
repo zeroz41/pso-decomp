@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
 
 s32 TWindowSubStatusDisp::calc_layout_hash(s32 slot) {

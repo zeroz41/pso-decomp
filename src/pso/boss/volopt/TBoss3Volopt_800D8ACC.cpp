@@ -16,7 +16,7 @@
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/TBreakUpMdl.h"
 

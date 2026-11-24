@@ -6,7 +6,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 extern "C" {
 extern const char TObjParticle__class_name_string[] = "TObjParticle";

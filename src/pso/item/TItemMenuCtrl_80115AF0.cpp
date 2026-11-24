@@ -6,7 +6,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/item/TItemEffectWeapon.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/effect/TEffStarLight2D.h"
 
 extern "C" {

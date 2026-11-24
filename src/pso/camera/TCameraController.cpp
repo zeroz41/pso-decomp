@@ -11,7 +11,7 @@
 #include "pso/render/GinjaView.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/vector.h"
 #include "pso/math/MatrixVector.h"

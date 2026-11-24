@@ -50,7 +50,7 @@
 #include "pso/map/area/AreaScene.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/ui/window/TWindowActionPalette_801C1890.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/TLobby_801D726C.h"
 #include "pso/unk/text_8020B5CC.h"

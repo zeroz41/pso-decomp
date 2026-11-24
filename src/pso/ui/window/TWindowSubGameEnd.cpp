@@ -12,7 +12,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"

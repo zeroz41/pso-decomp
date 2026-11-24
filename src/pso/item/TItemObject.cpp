@@ -14,7 +14,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

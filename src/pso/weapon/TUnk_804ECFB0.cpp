@@ -8,7 +8,7 @@
 #include "pso/item/TUnk_804A05E8.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 
 

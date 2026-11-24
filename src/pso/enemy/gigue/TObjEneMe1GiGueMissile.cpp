@@ -22,7 +22,7 @@
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/render/render_util.h"
 #include "pso/object/base/TObjChara.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

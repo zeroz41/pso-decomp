@@ -12,7 +12,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/npc/TObjNpcEnemy.h"

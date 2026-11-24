@@ -11,7 +11,7 @@
 #include "pso/render/GinjaTexture.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_801E2F94.h"
 
 #pragma readonly_strings on

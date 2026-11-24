@@ -26,7 +26,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/effect/item/TItemEffCane.h"
 

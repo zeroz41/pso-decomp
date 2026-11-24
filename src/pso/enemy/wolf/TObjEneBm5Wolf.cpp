@@ -37,7 +37,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/fly/TObjEneBm3FlyNest.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/ambient/TObjCGrass.h"
 #include "pso/render/BlobShadow.h"
 #include "pso/render/render_util.h"

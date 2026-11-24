@@ -38,7 +38,7 @@
 
 #include "pso/unk/text_803D8F74.h"
 
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 #include "pso/system/MatrixOps.h"
 

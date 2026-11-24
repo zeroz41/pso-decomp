@@ -6,7 +6,7 @@
 #include "pso/unk/TUnk_804C3F48.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/player/TObjPlayer_801BDF5C.h"
 #include "pso/player/PlayerSlots.h"

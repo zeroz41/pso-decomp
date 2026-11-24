@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include "pso/object/switch/TOChatSensor.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/network/protocol/subcmd_6x.h"
 #include "pso/network/protocol/SubcommandHandlers.h"
 struct Stack_801781D8 {

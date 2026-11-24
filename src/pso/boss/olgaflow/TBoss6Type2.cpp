@@ -58,7 +58,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"

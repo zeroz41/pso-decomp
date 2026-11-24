@@ -10,7 +10,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/object/TObjTombstone.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_8026A14C.h"
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"

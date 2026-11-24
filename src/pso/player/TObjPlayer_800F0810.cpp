@@ -7,7 +7,7 @@
 #include "pso/render/render_util.h"
 
 #include "pso/enemy/dd/TObjEneDD_ST.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 /* Ninja chunk strips, model and object used to override the material of the next drawn model. */
 struct AltChunkStrips {

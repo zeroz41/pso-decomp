@@ -16,7 +16,7 @@
 #include <dolphin/gx/GXGeometry.h>
 #include <dolphin/gx/GXLighting.h>
 #include "pso/system/vector.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/render/CameraCapture.h"
 #include "pso/render/ScreenPrimitiveDraw.h"

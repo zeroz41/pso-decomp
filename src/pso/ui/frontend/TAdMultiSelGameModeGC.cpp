@@ -27,7 +27,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 extern "C" {
 saddr TAdMultiSelGameModeGC__data_805D69F0;

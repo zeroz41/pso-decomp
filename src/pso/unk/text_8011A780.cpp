@@ -20,7 +20,7 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/item/TItemIdCounters.h"
 #include "pso/unk/TLobby_801F3A24.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/protocol/subcmd_6x.h"

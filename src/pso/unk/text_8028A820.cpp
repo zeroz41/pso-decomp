@@ -4,7 +4,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_8028A820.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 extern BmlResourceDescriptor bm_obj_door_ruins_resource_descriptor;
 extern BmlResourceDescriptor bm_obj_door_space_resource_descriptor;
 void load_green_door_resources(void) {

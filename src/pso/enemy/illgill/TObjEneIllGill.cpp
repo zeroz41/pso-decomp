@@ -41,7 +41,7 @@
 #include "pso/math/ScratchVectors.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/hud/TRaderMapCore.h"

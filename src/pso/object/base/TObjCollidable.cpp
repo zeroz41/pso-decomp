@@ -13,7 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/math/BoxCollision.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/object/base/TObjMotion.h"

@@ -20,7 +20,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
 #include "pso/player/TObjPlayer_8002E784.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>

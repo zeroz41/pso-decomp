@@ -4,7 +4,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/ChunkModelDraw.h"
 #include "pso/system/MatrixStack.h"

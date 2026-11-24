@@ -45,7 +45,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/render/BlobShadow.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/render/render_util.h"

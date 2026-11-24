@@ -30,7 +30,7 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/unk/TLobby.h"
 #include "pso/enemy/flower/TObjEneRe2Flower_800C4B78.h"

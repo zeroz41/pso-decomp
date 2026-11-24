@@ -22,7 +22,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
 
 #include <stddef.h>

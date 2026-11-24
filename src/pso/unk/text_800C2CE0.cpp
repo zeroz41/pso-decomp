@@ -4,7 +4,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/SoundEffect.h"
 
 #include "pso/object/base/TObjChara.h"

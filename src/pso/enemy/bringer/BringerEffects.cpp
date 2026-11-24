@@ -19,7 +19,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"

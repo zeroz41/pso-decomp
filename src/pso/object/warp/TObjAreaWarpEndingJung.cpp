@@ -85,7 +85,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/object/warp/TObjCityMainWarp_801867F4.h"
 #include "pso/ui/window/WindowLayout.h"

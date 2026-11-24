@@ -54,7 +54,7 @@
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/task/TMainTask.h"

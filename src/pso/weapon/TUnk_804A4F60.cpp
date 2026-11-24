@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "pso/weapon/TUnk_804A4F60.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/technique/TTecBarta.h"
 #include "pso/technique/TTecFoie.h"
 #include "pso/map/FloorArea.h"

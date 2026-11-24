@@ -33,7 +33,7 @@ struct NJS_OBJECT;
 #include "pso/render/model_render_state.h"
 #include "pso/system/MatrixStack.h"
 
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/object/base/TObjBase.h"

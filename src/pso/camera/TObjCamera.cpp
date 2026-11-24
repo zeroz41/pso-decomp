@@ -10,7 +10,7 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/MatrixOps.h"

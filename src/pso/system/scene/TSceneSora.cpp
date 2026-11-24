@@ -28,7 +28,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 
 struct Ent_80207478 { s32 f0; char *name; };

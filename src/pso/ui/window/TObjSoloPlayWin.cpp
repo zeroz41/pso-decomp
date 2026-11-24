@@ -8,7 +8,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"

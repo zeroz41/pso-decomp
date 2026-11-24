@@ -118,7 +118,7 @@
 #include "pso/object/ambient/TObjGrass.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_800C7FEC.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/quest/challenge/ChallengeModeState.h"
 extern "C" {

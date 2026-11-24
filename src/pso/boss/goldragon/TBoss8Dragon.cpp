@@ -298,7 +298,7 @@ u16 boss8_dragon_control_client_id;
 // (from _802F3EE4)
 // (from _802F4324)
 extern "C" {
-BOOL is_split_screen(void); // TObjPlayer_80011014.h, whose other prototypes clash here
+BOOL is_split_screen(void); // TObjCharaHelpers.h, whose other prototypes clash here
 }
 void set_tev_swap_channels(u8 r, u8 g, u8 b, u8 a);
 void init_tev_swap();

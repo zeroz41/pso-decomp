@@ -70,7 +70,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/camera/TCameraFollow.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Sorcerer_801E3F14.h"

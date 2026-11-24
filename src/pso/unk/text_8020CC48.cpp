@@ -4,7 +4,7 @@
 #include "pso/map/FloorPopulation.h"
 
 #include "types.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 extern "C" {
 s32 find_enemy_factory_entry(const volatile EnemySetRecord *row, EnemyFactoryEntry *out) {

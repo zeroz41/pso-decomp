@@ -5,7 +5,7 @@
 #include "pso/render/TDLGraph.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"

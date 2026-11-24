@@ -40,7 +40,7 @@
 #include "pso/technique/TTecSifta.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/AngleUnits.h"
 #include "pso/render/render_util.h"

@@ -103,7 +103,7 @@ s32 TObjPlayer__sub_801C6DAC(u8 *target);
 #include "pso/effect/TEffect.h"
 #include "pso/ui/hud/TMainCursor_8013DF5C.h"
 #include "pso/network/client_id.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 
 extern "C" {

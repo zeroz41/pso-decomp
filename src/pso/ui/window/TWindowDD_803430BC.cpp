@@ -11,7 +11,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/ui/window/TWindowDD_WS_Word.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/window/TWindowDD_80342428.h"
 #include "pso/ui/window/TWindowDD_803424EC.h"

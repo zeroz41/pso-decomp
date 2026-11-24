@@ -16,7 +16,7 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 const char *fs_obj_hanyousu_body1_model_names[] = {"fs_obj_hanyousu_body1.gj", NULL};
 const char *fs_obj_hanyousu_body1_motion_names[] = {NULL};

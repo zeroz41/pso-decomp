@@ -12,7 +12,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/SoundEffect.h"
 

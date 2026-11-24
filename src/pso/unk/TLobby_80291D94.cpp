@@ -25,7 +25,7 @@
 #include "pso/object/TObjTombstone.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"

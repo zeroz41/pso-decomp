@@ -21,7 +21,7 @@
 #include "pso/object/door/TODoorAncient01.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixStack.h"

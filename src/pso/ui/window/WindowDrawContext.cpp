@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowCtrlMain_8024EEF8.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 WindowDrawContext *shared_window_draw_context;
 // Window offsets per player viewport for two, three and four split-screen views (camera ids 2-4).

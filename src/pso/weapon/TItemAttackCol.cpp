@@ -20,7 +20,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/system/task/TObject.h"

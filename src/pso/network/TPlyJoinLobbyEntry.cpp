@@ -80,7 +80,7 @@
 #include "pso/object/warp/TObjLaboMapWarp_80185248.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_801461EC.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TTitleScene.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/player/TObjPlayerCreate.h"

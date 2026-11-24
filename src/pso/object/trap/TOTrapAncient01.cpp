@@ -30,7 +30,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/camera/TCameraCtrl.h"

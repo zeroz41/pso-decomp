@@ -23,7 +23,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_803DE778.h"
 #include "pso/unk/text_803DD5E0.h"
 

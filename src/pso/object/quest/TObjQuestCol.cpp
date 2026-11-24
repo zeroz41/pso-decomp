@@ -31,7 +31,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/npc/NpcPartnerControl.h"

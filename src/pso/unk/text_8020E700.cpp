@@ -7,7 +7,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobby_8020E400.h"
 #include "pso/item/TItemData.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include <stdlib.h>
 
 #pragma readonly_strings on

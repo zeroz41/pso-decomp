@@ -7,7 +7,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/model_render_state.h"

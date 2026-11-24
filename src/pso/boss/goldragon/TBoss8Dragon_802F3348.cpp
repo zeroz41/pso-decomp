@@ -14,7 +14,7 @@
 #include "pso/object/base/TObjBase.h"
 
 extern "C" {
-// TObjPlayer_80011014.h declares these, but its calc_random_ratio prototype takes no rng.
+// TObjCharaHelpers.h declares these, but its calc_random_ratio prototype takes no rng.
 BOOL is_split_screen(void);
 }
 

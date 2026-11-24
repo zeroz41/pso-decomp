@@ -12,7 +12,7 @@
 #include "pso/item/TUnk_804A0648.h"
 #include "pso/item/TUnk_804A0668.h"
 #include "pso/item/TUnk_804A0688.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/item/TItemLockCountCtrl.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/weapon/TItemWeapon.h"

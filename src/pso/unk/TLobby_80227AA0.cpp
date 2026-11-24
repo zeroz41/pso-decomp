@@ -10,7 +10,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/unk/TLobby_8023F734.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
     extern int music_stream_base_gain;
 int get_music_base_gain(void) {  return music_stream_base_gain; }

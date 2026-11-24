@@ -2,7 +2,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz_802AABEC.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 
 s32 TBoss6PlotFalz::is_flag_set() {

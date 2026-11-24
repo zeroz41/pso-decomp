@@ -15,7 +15,7 @@
 #include "pso/enemy/morfos/TObjEneMorfos.h"
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 
 #pragma readonly_strings on

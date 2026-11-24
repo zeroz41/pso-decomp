@@ -37,7 +37,7 @@
 #include "pso/unk/TLobby.h"
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/unk/TLobby_80226070.h"
 #include "pso/math/MatrixVector.h"

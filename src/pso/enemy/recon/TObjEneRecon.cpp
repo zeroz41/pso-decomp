@@ -14,7 +14,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/effect/particle/TParticleCtrl.h"

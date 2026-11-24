@@ -9,7 +9,7 @@
 #include "pso/technique/TechniqueContact.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/GinjaDrawUtil.h"

@@ -27,7 +27,7 @@
 #include "pso/player/PlayerSlots.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/base/CollisionActorLookup.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 
 static const f32 lbl_805DC888[1] = {1.0f};

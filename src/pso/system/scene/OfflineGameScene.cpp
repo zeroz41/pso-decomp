@@ -14,7 +14,7 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/door/TObjDoor.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC.h"

@@ -4,7 +4,7 @@
 #include "pso/boss/olgaflow/TBoss6Type2.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 
 // One client's look as the Olga Flow fight starts; free_chara_making puts it back.

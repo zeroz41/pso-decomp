@@ -6,7 +6,7 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"

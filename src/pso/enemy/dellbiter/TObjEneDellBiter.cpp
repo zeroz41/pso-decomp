@@ -72,7 +72,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007E418.h"
 #include "pso/render/render_util.h"
 #include "pso/render/model_render_state.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"

@@ -48,7 +48,7 @@
 #include "pso/ui/TLevelSelect.h"
 #include "pso/effect/GroundContactSound.h"
 #include "pso/math/ScratchVectors.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"

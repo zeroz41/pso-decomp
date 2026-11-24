@@ -1,5 +1,5 @@
-#ifndef PSO_PLAYER_TOBJPLAYER_80011014_H
-#define PSO_PLAYER_TOBJPLAYER_80011014_H
+#ifndef PSO_OBJECT_BASE_TOBJCHARAHELPERS_H
+#define PSO_OBJECT_BASE_TOBJCHARAHELPERS_H
 
 #include "pso/enemy/EnemyTargeting.h"
 #include "pso/object/base/HitEligibility.h"

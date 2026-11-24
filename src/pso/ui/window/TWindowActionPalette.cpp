@@ -22,7 +22,7 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/unk/WindowLayoutRecord.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include <stddef.h>

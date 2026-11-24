@@ -25,7 +25,7 @@
 #include "pso/technique/TTecCtrl.h"
 #include "pso/unk/TLobby_8001EF5C.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 
 struct InwardOrbitDir { s32 x, y, z; };

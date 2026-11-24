@@ -26,7 +26,7 @@
 
 #include "pso/unk/WindowLayoutRecord.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/window/WindowLayout.h"
 #include <stdlib.h>

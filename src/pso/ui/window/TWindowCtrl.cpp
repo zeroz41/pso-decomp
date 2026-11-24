@@ -54,7 +54,7 @@
 #include "pso/system/ControllerInput.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal_8002ADD8.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_8030C340.h"
 #include "pso/ui/window/TWindowBreakIn.h"
 #include "pso/object/TObjLuker.h"

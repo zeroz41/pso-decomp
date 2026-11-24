@@ -82,7 +82,7 @@
 #include "pso/npc/TNpcPlayer_800D87A8.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/unk/TUnk_804EDAC0.h"
 #include "pso/object/base/TObjBase.h"

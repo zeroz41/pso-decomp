@@ -45,7 +45,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/network/client_id.h"
 #include "pso/camera/CameraHelpers.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/object/base/TObjBase.h"
 

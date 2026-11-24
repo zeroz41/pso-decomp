@@ -11,7 +11,7 @@
 #include "pso/unk/text_8023601C.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/ActorCollision.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleOrbit.h"
 #include "pso/effect/particle/TParticleRadial.h"

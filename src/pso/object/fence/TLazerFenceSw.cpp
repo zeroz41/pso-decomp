@@ -35,7 +35,7 @@ struct NJS_TEXLIST;
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/render/ModelDrawContext.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/TLanguage_801E4874.h"
 
 

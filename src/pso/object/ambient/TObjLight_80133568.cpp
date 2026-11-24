@@ -23,7 +23,7 @@
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803DD5E0.h"

@@ -13,7 +13,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"

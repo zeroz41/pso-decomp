@@ -10,7 +10,7 @@
 #include "pso/item/TItemHeapObject.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 
 struct VBase_18_f15a7b { char pad[0x18]; };
 

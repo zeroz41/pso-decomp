@@ -88,7 +88,7 @@ struct Type3MotionView { s32 kind, next, motions[3]; };
 #include "pso/network/client_id.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TargetCursorList.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/model_render_state.h"

@@ -20,7 +20,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include <stdlib.h>
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"

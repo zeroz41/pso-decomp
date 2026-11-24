@@ -95,7 +95,7 @@
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerSlots.h"
-// TObjPlayer_80011014.h declares these too, but its calc_random_ratio prototype takes no rng.
+// TObjCharaHelpers.h declares these too, but its calc_random_ratio prototype takes no rng.
 extern "C" {
 f64 atan2_float(f32, f32);
 f32 newton_sqrtf(f32);

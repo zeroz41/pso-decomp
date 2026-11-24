@@ -11,7 +11,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/AngleLookup.h"

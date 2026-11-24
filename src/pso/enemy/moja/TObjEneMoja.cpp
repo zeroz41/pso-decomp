@@ -51,7 +51,7 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/math/MatrixTransforms.h"
 
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/object/ambient/TObjLight_80133568.h"

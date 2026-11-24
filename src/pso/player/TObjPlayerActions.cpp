@@ -61,7 +61,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/CapturedTargetList.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/ui/hud/TMainCursor_8013DF5C.h"
 #include "pso/object/base/ActorCollision.h"

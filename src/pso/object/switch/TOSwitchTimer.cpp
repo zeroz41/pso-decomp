@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/switch/TOSwitchTimer.h"
 #include "pso/object/switch/TSwitch.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer.h"

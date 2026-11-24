@@ -15,7 +15,7 @@
 #include "pso/unk/TLobby.h"
 #include <stdio.h>
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/ui/window/TWindowCtrlMain_8024CB7C.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"

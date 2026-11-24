@@ -26,7 +26,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/window/TWindowSubComCard.h"

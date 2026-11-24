@@ -46,7 +46,7 @@ struct NJS_OBJECT;
 #include "pso/object/base/CollisionActorLookup.h"
 #include "pso/boss/volopt/TBoss3Volopt_800D8ACC.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"

@@ -6,7 +6,7 @@
 #include "pso/render/ColorLineList.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/math/AngleLookup.h"
 #include <stdlib.h>
 #include "pso/render/render_util.h"
