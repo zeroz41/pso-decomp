@@ -2,8 +2,6 @@
 #include "pso/npc/TObjNpcFemale.h"
 #include "pso/object/base/TObjMotion.h"
 
-extern u32 lbl_805D5D78;
-
 const TObjMotionAction TObjNpcFemale::action_table[2] = {
     {MOTION_MODE_LOOP, -1, 0, 0.9f, 1},
     {MOTION_MODE_LOOP, -1, 2, 1.4f, ACTION_INTERPOLATE | 2},
@@ -24,7 +22,7 @@ void TObjNpcFemale::free_resources() {
     }
 }
 
-void TObjNpcFemale::load_resources() { shared_resource = lbl_805D5D78; }
+void TObjNpcFemale::load_resources() { shared_resource = town_npc_shared_resource; }
 
 TObjNpcFemale::~TObjNpcFemale() {}
 

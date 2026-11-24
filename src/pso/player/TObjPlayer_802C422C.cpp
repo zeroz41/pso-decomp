@@ -10,6 +10,7 @@
 #include "pso/ui/Language.h"
 #include "pso/player/TPlyItem.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/unk/TLobby_802A0F3C.h"
 
 extern "C" {
 
@@ -74,7 +75,6 @@ s32 TObjPlayer__sub_8013A748(void *, void *);
 void is_slot_within_limit__10TObjPlayerFllUc(u8 id, s16 i, u8 v);
 s32 clamp_stats__10TObjPlayerFiPv(void *, void *, void *);
 u8 TObjPlayer__sub_801C0124(void *, s16);
-s32 TObjPlayer__sub_802A1018();
 int init_action_config__10TObjPlayerFv(void*);
 int set_palette_entry__20TWindowActionPaletteFlllll(void*);
 
@@ -102,7 +102,7 @@ void export_player_record__10TObjPlayerFPvPv(TPlyCharData *record, u8 *arg1) {
             record->technique_level(i), overflow);
     }
     record->m_inventory.m_language = current_language;
-    if (TObjPlayer__sub_802A1018() != 0) {
+    if (game_files_modified() != 0) {
         record->mark_game_files_modified();
     }
     ((TObjPlayer *)arg1)->apply_pending_action((saddr)record);
