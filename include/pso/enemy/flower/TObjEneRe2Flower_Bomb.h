@@ -16,6 +16,7 @@ public:
     virtual s32 area_attack_deliver_direct(void *, saddr, void *, f32);
     virtual void render();
     virtual void run_task();
+    static const char *class_name;
     u16 owner_id;
     u8 pad_b2[2];
     Vec start_position;

@@ -29,7 +29,7 @@
 extern "C" s32 is_area_attack_target_eligible(saddr, s32);
 
 extern const DragonAttackParams flower_bomb_attack = { 0xF, 2.0f, 2.0f, { 0.0f, 1 } };
-const char *TObjEneRe2Flower_Bomb__class_name = "TObjEneRe2Flower_Bomb";
+const char *TObjEneRe2Flower_Bomb::class_name = "TObjEneRe2Flower_Bomb";
 
 // The bomb's first function: its 30.0 opens this file's literal pool at
 // 0x805DA000, while the Flower file's pool already holds 30.0 at 0x805D9FEC.
@@ -162,7 +162,7 @@ TObjEneRe2Flower_Bomb::TObjEneRe2Flower_Bomb(TObjEneRe2Flower *owner, const Vec 
     : TUnk_804928CC(owner, owner) {
     f32 s;
     f32 c;
-    m_name = TObjEneRe2Flower_Bomb__class_name;
+    m_name = class_name;
     bodies->radius = flower_bomb_attack.radius;
     this->heading = heading;
     owner_id = owner->get_entity_id();
