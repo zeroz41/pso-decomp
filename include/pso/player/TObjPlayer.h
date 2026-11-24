@@ -260,8 +260,7 @@ struct TObjPlayer : public TObjChara {
     u8 _pad82C[0x4];
     void* telepipe;  // the player's telepipe record (TTecLuker::init_fields, send_telepipe_packet)
     u8 _pad834[0x18];
-    void* m_84c;
-    u8 _pad850[0x8];
+    Vec marker_position;  // above the head (copy_offset_position), where the lobby marker is drawn
     void* m_858;
     char name[0x1C];
     u8 m_878;

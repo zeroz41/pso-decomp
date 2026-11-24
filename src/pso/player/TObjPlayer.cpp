@@ -500,10 +500,10 @@ s32 TObjPlayer::reset_and_return(saddr p) {
     return p;
 }
 
-void TObjPlayer__sub_801BFB4C(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 8) = (f32) TObjPlayer__data_805DC278;
-    *(f32 *)((s8 *)arg0 + 4) = (f32) TObjPlayer__data_805DC278;
-    *(f32 *)((s8 *)arg0 + 0) = (f32) TObjPlayer__data_805DC278;
+void TObjPlayer__sub_801BFB4C(Vec *position) {
+    position->z = TObjPlayer__data_805DC278;
+    position->y = TObjPlayer__data_805DC278;
+    position->x = TObjPlayer__data_805DC278;
 }
 
 void TObjPlayer::clear_base() { *(s32*)((char*)this + 0x0) = 0; }
