@@ -65,7 +65,7 @@ void init_lcp_protocol(PppProtoBlocks *conn)
   const LcpVals *tbl = &lcp_default_values;
   proto->name = "Lcp";
   proto->proto = 0xC021;
-  proto->h6 = 0xFFE;
+  proto->code_mask = 0xFFE;
   proto->tx_counter_index = 0;
   proto->max_request_attempts = 20;
   proto->max_peer_attempts = 10;

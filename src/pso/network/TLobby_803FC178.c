@@ -81,7 +81,7 @@ void TLobby__sub_803FC318(PppProtoBlocks *connection) {
         timer = &fsm->timer;
         ppp_chap_authentication_state.proto.name = chap_protocol_name;
         ppp_chap_authentication_state.proto.proto = 0xC223;
-        ppp_chap_authentication_state.proto.h6 = 0x70;
+        ppp_chap_authentication_state.proto.code_mask = 0x70;
         ppp_chap_authentication_state.proto.tx_counter_index = 3;
         ppp_chap_authentication_state.proto.max_terminate_attempts = 0;
         ppp_chap_authentication_state.proto.max_request_attempts = chap_state.max_request_attempts;

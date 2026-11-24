@@ -51,16 +51,16 @@ s32 TLobby__sub_804048E8(PppVjCompressionState *comp, PppFrame **m, s16 compress
     hlen = TLobby__sub_803FEA88(&a, m);
     if (a.proto != 6 || a.frag != 0 || a.mf != 0) {
         if (a.proto != 6) {
-            comp->n10++;
+            comp->out_not_tcp++;
         } else {
-            comp->n14++;
+            comp->out_not_compressible++;
         }
         *m = NetIPv4WriteHeader(&a, *m, 1);
         return 0x40;
     }
     hlen += TLobby__sub_804053B8(&b, m);
     if (b.syn || b.fin || b.rst || !b.ack_flag) {
-        comp->n14++;
+        comp->out_not_compressible++;
         *m = TLobby__sub_8040555C(&b, *m, NULL);
         *m = NetIPv4WriteHeader(&a, *m, 1);
         return 0x40;
@@ -75,9 +75,9 @@ s32 TLobby__sub_804048E8(PppVjCompressionState *comp, PppFrame **m, s16 compress
         }
         lcs = cs;
         cs = cs->next;
-        comp->n20++;
+        comp->searches++;
     }
-    comp->n24++;
+    comp->misses++;
     comp->last_cs = lcs->id;
     goto uncompressed;
 
@@ -171,7 +171,7 @@ found:
     }
     cp = write_network_u16_be(cp, deltaA);
     NetMemcpy(cp, lbl_805C1890, (s16)deltaS);
-    comp->n1C++;
+    comp->out_compressed++;
     return 0x80;
 
 uncompressed:
@@ -179,7 +179,7 @@ uncompressed:
     cs->a = a;
     cs->b = b;
     comp->last_xmit = cs->id;
-    comp->n18++;
+    comp->out_uncompressed++;
     *m = TLobby__sub_8040555C(&b, *m, NULL);
     *m = NetIPv4WriteHeader(&a, *m, 1);
     return 0x70;

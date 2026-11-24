@@ -70,16 +70,17 @@ typedef struct PppVjCompressionState {
     u8 cur;
     u8 flags;
     u8 padE[2];
-    s32 n10;
-    s32 n14;
-    s32 n18;
-    s32 n1C;
-    s32 n20;
-    s32 n24;
-    s32 n28;
-    s32 n2C;
-    s32 n30;
-    s32 n34;
+    /* Statistics, as in RFC 1144's slcompress (sls_searches .. sls_tossed). */
+    s32 out_not_tcp;
+    s32 out_not_compressible;
+    s32 out_uncompressed;
+    s32 out_compressed;
+    s32 searches;
+    s32 misses;
+    s32 in_uncompressed;
+    s32 in_compressed;
+    s32 in_errors;
+    s32 in_tossed;
 } PppVjCompressionState;
 LAYOUT_ASSERT(PppVjCompressionState_size, sizeof(PppVjCompressionState) == 0x38);
 

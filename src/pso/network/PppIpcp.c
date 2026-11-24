@@ -117,7 +117,7 @@ void TLobby__sub_803FEF4C(PppProtoBlocks *connection) {
     fsm = &connection->ipcp;
     config = &state->config;
     protocol->proto = 0x8021;
-    protocol->h6 = 0xfe;
+    protocol->code_mask = 0xfe;
     protocol->tx_counter_index = 2;
     protocol->max_request_attempts = 0x14;
     protocol->max_peer_attempts = 10;

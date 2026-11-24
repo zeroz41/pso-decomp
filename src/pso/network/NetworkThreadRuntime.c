@@ -285,7 +285,7 @@ void TLobby__sub_803F9FAC(PppProtoBlocks *connection) {
 
     base->name = "IPv6cp";
     base->proto = 0x8057;
-    base->h6 = 0xFE;
+    base->code_mask = 0xFE;
     base->tx_counter_index = 4;
     base->max_request_attempts = 5;
     base->max_peer_attempts = 5;

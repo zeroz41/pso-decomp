@@ -75,7 +75,7 @@ void pap_init(PppProtoBlocks *blocks) {
         timer = &fsm->timer;
         p->name = "Pap";
         p->proto = 0xC023;
-        p->h6 = 0xE;
+        p->code_mask = 0xE;
         p->tx_counter_index = 1;
         p->max_terminate_attempts = 0;
         /* The settings follow the options and name buffers in BSS. */

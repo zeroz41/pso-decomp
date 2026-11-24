@@ -18,7 +18,7 @@ typedef s16 (*PppFsmCheck)(PppFsm *fsm, struct PppHeader *hdr, struct PppFrame *
 struct PppFsmProtocol {
     const char *name;
     u16 proto;                  /* 0x04: 0xC023 PAP */
-    u16 h6;
+    u16 code_mask;              /* bit N: code N is the protocol's (LCP 0xFFE = codes 1-11, IPCP 1-7, PAP 1-3); never read */
     u8 tx_counter_index;
     u8 max_request_attempts; /* 0x09: copied to PppFsm.max_request_attempts */
     u8 max_peer_attempts; /* 0x0A: copied to PppFsm.max_peer_attempts */

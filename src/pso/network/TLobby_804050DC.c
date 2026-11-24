@@ -178,15 +178,15 @@ s32 TLobby__sub_804053B8(ParsedTcpHeader *record, PppFrame **pp)
 {
   struct Hdr_804053B8
   {
-    u16 h0;
-    u16 h2;
-    u32 h4;
-    u32 h8;
-    u8 hc;
-    u8 hd;
-    u16 he;
-    u16 h10;
-    u16 h12;
+    u16 src_port;   /* the TCP header (RFC 793) */
+    u16 dst_port;
+    u32 seq;
+    u32 ack;
+    u8 data_offset; /* in the high 4 bits, in words */
+    u8 flags;
+    u16 window;
+    u16 checksum;
+    u16 urgent;
   } hdr;
   u8 *p;
   u16 size;
@@ -199,12 +199,12 @@ s32 TLobby__sub_804053B8(ParsedTcpHeader *record, PppFrame **pp)
   u32 n;
   ret = ppp_buffer_read(pp, &hdr, 0x14);
   (void) (&pad);
-  record->src_port = hdr.h0;
-  record->dst_port = hdr.h2;
-  record->seq = hdr.h4;
-  record->ack = hdr.h8;
-  flags = hdr.hd;
-  cb = hdr.hc;
+  record->src_port = hdr.src_port;
+  record->dst_port = hdr.dst_port;
+  record->seq = hdr.seq;
+  record->ack = hdr.ack;
+  flags = hdr.flags;
+  cb = hdr.data_offset;
   record->urg = flags & 0x20;
   record->ack_flag = flags & 0x10;
   record->psh = flags & 0x8;
@@ -212,9 +212,9 @@ s32 TLobby__sub_804053B8(ParsedTcpHeader *record, PppFrame **pp)
   record->syn = flags & 0x2;
   record->fin = flags & 0x1;
   cb = (cb & 0xf0) >> 2;
-  record->window = hdr.he;
-  record->checksum = hdr.h10;
-  record->urgent = hdr.h12;
+  record->window = hdr.window;
+  record->checksum = hdr.checksum;
+  record->urgent = hdr.urgent;
   record->mss = 0;
   record->option_len = cb - 0x14;
   if ((((u16) ret) < 0x14) || (0x14 > cb))

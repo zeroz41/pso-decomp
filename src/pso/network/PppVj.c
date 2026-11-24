@@ -26,7 +26,7 @@ s16 TLobby__sub_80403F4C(PppVjCompressionState *o, PppFrame **spp) {
     TLobby__sub_804053B8(&b, spp);
     c = a.proto;
     if (c > o->max) {
-        o->n30++;
+        o->in_errors++;
         if (o == NULL) {
             return 0;
         }
@@ -41,7 +41,7 @@ s16 TLobby__sub_80403F4C(PppVjCompressionState *o, PppFrame **spp) {
     e->b = b;
     *spp = TLobby__sub_8040555C(&b, *spp, NULL);
     *spp = NetIPv4WriteHeader(&a, *spp, 1);
-    o->n28++;
+    o->in_uncompressed++;
     return (s16)(s64)get_field_4(*spp);
 }
 
@@ -85,9 +85,9 @@ s16 TLobby__sub_804040E0(PppVjCompressionState *comp, PppFrame **src) {
     s32 v;
     s16 len;
 
-    comp->n2C++;
+    comp->in_compressed++;
     if ((u16)get_field_4(*src) < 3) {
-        comp->n30++;
+        comp->in_errors++;
         return 0;
     }
     changes = vj_next_byte(src);
@@ -99,11 +99,11 @@ s16 TLobby__sub_804040E0(PppVjCompressionState *comp, PppFrame **src) {
         comp->flags &= ~1;
         comp->cur = v;
     } else if (comp->flags & 1) {
-        comp->n34++;
+        comp->in_tossed++;
         return 0;
     }
     if (comp->cur > comp->max) {
-        comp->n34++;
+        comp->in_tossed++;
         return 0;
     }
     th = &(cs = &comp->rstate[comp->cur])->b;
@@ -189,7 +189,7 @@ s16 TLobby__sub_804040E0(PppVjCompressionState *comp, PppFrame **src) {
     return len;
 
 bad:
-    comp->n30++;
+    comp->in_errors++;
     if (comp == NULL) {
         return 0;
     }
