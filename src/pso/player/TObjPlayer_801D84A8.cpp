@@ -300,25 +300,25 @@ s32 TObjPlayer::can_use_palette_action_for_entry(u32 obj) {
 
 s32 TObjPlayer__sub_801D84A8(void* p) { return *(s32*)((char*)p + 0x0); }
 
-u8 *TObjPlayer__sub_801D84B0(s32 *arg0);
+u8 *TObjPlayer__sub_801D84B0(s32 *cursor_sets);
 
-u8 *TObjPlayer__sub_801D84B0(s32 *arg0) {
-    if ((s32) *(s32 *)((s8 *)arg0 + 0) == 0) {
-        return (u8 *)arg0 + 4;
+u8 *TObjPlayer__sub_801D84B0(s32 *cursor_sets) {
+    if ((s32) *(s32 *)((s8 *)cursor_sets + 0) == 0) {
+        return (u8 *)cursor_sets + 4;
     }
-    return (u8 *)arg0 + 0x14;
+    return (u8 *)cursor_sets + 0x14;
 }
 
 u32 advance_item_id_counter(u16 client);
 
 int TObjPlayer::bswap_disp_config_field() { return bswap_16__FPUs((char*)this + 0x2); }
 s32 TObjPlayer__sub_801D84F0(void* p) { return *(s32*)((char*)p + 0x4); }
-void TObjPlayer::set_animation_from_data(saddr arg0, s32 picture) {
+void TObjPlayer::set_animation_from_data(saddr player, s32 picture) {
     void *anim_table_entry;
 
-    anim_table_entry = (void *)((TObjPlayer *)arg0)->get_anim_table_entry(picture);
-    TObjPlayer__sub_801D8664(arg0, *(s16 *)((s8 *)anim_table_entry + 0), *(s16 *)((s8 *)anim_table_entry + 2));
-    ((TUnk_804C4540 *)arg0)->set_animation_default(picture);
+    anim_table_entry = (void *)((TObjPlayer *)player)->get_anim_table_entry(picture);
+    TObjPlayer__sub_801D8664(player, *(s16 *)((s8 *)anim_table_entry + 0), *(s16 *)((s8 *)anim_table_entry + 2));
+    ((TUnk_804C4540 *)player)->set_animation_default(picture);
 }
 
 extern s32 local_client_id;

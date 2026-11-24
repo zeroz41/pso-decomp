@@ -111,11 +111,11 @@ const TPlyInventoryItem *get_class_starting_inventory(s32 cls) {
 }
 
 u8 * TObjPlayer::get_cast_motion_record() {
-  s32 temp_r31;
-  s8 *new_var;
-  temp_r31 = this->get_handle_value() * 0x14;
-  new_var = ((s8 *)player_cast_motion_record_table) + (this->has_valid_handle() * 4);
-  return *(u8 **)new_var + temp_r31;
+  s32 offset;
+  s8 *table_slot;
+  offset = this->get_handle_value() * 0x14;
+  table_slot = ((s8 *)player_cast_motion_record_table) + (this->has_valid_handle() * 4);
+  return *(u8 **)table_slot + offset;
 }
 
 long TObjPlayer::get_anim_table_entry(s32 picture) {
@@ -165,15 +165,15 @@ f32 TObjPlayer::get_attack_recovery_count() {
 #pragma push
 #pragma scheduling off
 f32 TObjPlayer::select_normal_attack_marker() {
-  s16 temp_r30;
+  s16 strike_count;
   s16 falz_phase;
-  s16 new_var;
+  s16 stage_strikes;
   s32 class_flags;
   class_flags = get_class_flags();
-  new_var = ((TObjPlayer *)(((u8 *)this) + 0x7CC))->get_stage_strike_count();
-  temp_r30 = new_var;
+  stage_strikes = ((TObjPlayer *)(((u8 *)this) + 0x7CC))->get_stage_strike_count();
+  strike_count = stage_strikes;
   falz_phase = this->get_falz_phase();
-  return lookup_attack_marker((s32) get_handle_value(), falz_phase, temp_r30, class_flags);
+  return lookup_attack_marker((s32) get_handle_value(), falz_phase, strike_count, class_flags);
 }
 
 #pragma pop

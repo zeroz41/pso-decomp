@@ -127,21 +127,19 @@ void queue_physical_attack_input(PlayerAttackController *self, TObjPlayer *obj, 
 }
 
 s32 TObjPlayer::update_if_flag8_set() {
-    saddr arg0 = (saddr)this;
-    if (((int (*)(void*, int))test_flags_any)((void*)(arg0 + 0xC), 8) != 0) {
+    if (((int (*)(void*, int))test_flags_any)((void*)((saddr)this + 0xC), 8) != 0) {
         return tick_countdown_timer();
     }
     return 0;
 }
 
 s32 TObjPlayer::tick_countdown_timer() {
-    u8 *arg0 = (u8 *)this;
     s32 remaining;
 
-    remaining = *(s32 *)((s8 *)arg0 + 0x1C) - 1;
-    *(s32 *)((s8 *)arg0 + 0x1C) = remaining;
+    remaining = *(s32 *)((s8 *)this + 0x1C) - 1;
+    *(s32 *)((s8 *)this + 0x1C) = remaining;
     if (remaining < 0) {
-        ((FlagWord *)(arg0 + 0xC))->set(1);
+        ((FlagWord *)((u8 *)this + 0xC))->set(1);
         return 1;
     }
     return 0;
