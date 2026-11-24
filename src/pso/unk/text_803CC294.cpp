@@ -430,7 +430,7 @@ inline s32 open_803CD16C(AdxfHandle *s, s32 partition, s32 arg1) {
     return 0;
 }
 
-void TLobby::release_used_slots() {
+void ADXF_CloseAll(void) {
     s32 i;
     AdxfHandle *p;
     for (i = 0; i < 0x10; i++) {

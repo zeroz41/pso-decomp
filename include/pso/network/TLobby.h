@@ -491,7 +491,6 @@ struct TLobby : public TObject {
     static s32 check_trade_items_and_show_error();
     static void apply_trade_items();
     static s32 get_afs_file_info(s32 archive, s32 file_id, char *dest, s32 *mode, s32 *offset, s32 *size);
-    static void release_used_slots();
     static s32 read_afs_toc(s32 id);
 
     static void update_alloc_size();

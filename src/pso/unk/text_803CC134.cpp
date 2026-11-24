@@ -1,7 +1,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/audio/AdxfInternal.h"
-#include "pso/network/TLobby.h"
+#include "pso/system/Adxf.h"
  extern const char lbl_8047C7E8[46] = "\nADXF/GC Ver.6.24 Build:Jun 13 2002 19:00:56\n";
 s32 lbl_805D75D0;
 s32 lobby_adxf_current_file_id;
@@ -19,7 +19,7 @@ AdxfHandle adxf_file_handle_pool[16];
 
 void adxf_finish(void) {
     if (--lbl_805D75D0 == 0) {
-        TLobby::release_used_slots();
+        ADXF_CloseAll();
         lobby_adxf_current_file_id = -1;
         lobby_adxf_open_file_handle = 0;
         lobby_afs_toc_entry_index = 0;
