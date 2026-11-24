@@ -3,33 +3,31 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/player/TUnk_804A2548.h"
+#include "pso/weapon/TExplosionCollider.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemAttackCol.h"
-#include "pso/unk/text_801255EC.h"
 #include "pso/item/TItem.h"
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/player/TObjPlayer_80125780.h"
 #include "pso/render/GinjaMaterial.h"
-#include "pso/weapon/TUnk_804A2564.h"
+#include "pso/weapon/TItemWeaponPanzerFaust.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 
 // Built with -inline off,deferred: functions are written last to first.
 
-void spawn_faust_explosion(uaddr a0, const Vec &pos);
+void spawn_faust_explosion(TItemWeapon *weapon, const Vec &pos);
 
 TItem *create_panzer_faust(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804A2564(tl_05, item);
+        return new TItemWeaponPanzerFaust(tl_05, item);
     }
     return NULL;
 }
 
-TUnk_804A2564::TUnk_804A2564(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponPanzerFaust::TItemWeaponPanzerFaust(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     pad_200 = 0.1f;
     pad_1fc = 0.1f;
     pad_1f8 = 0.1f;
@@ -45,19 +43,19 @@ TUnk_804A2564::TUnk_804A2564(TObject *parent, u8 *item) : TItemWeapon(parent, it
     }
 }
 
-TUnk_804A2564::~TUnk_804A2564() {}
+TItemWeaponPanzerFaust::~TItemWeaponPanzerFaust() {}
 
-void TUnk_804A2564::on_equipped() { reload_timer = 0; }
+void TItemWeaponPanzerFaust::on_equipped() { reload_timer = 0; }
 
-void TUnk_804A2564::update_weapon() {
+void TItemWeaponPanzerFaust::update_weapon() {
     if (reload_timer > 0) {
         reload_timer--;
     }
 }
 
-void TUnk_804A2564::emit_marker_effects() { reload_timer = 60; }
+void TItemWeaponPanzerFaust::emit_marker_effects() { reload_timer = 60; }
 
-void TUnk_804A2564::vfunc_60() {
+void TItemWeaponPanzerFaust::vfunc_60() {
     NJS_OBJECT *child;
 
     if (TObjPlayer::get_player_list() == 1) {
@@ -78,23 +76,23 @@ void TUnk_804A2564::vfunc_60() {
     }
 }
 
-void TUnk_804A2564::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
+void TItemWeaponPanzerFaust::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     desc->hit_effect = (void *)spawn_faust_hit_explosion;
-    desc->wall_effect = (void *)TObjPlayer::spawn_faust_wall_explosion;
+    desc->wall_effect = (void *)spawn_faust_wall_explosion;
     desc->spin[0] = -0x4000;
     desc->flags |= descriptor_flags;
     desc->particle = 0x1bb;
     desc->trail_particle = 0x1bc;
 }
 
-void spawn_faust_explosion(uaddr a0, const Vec &pos) {
-    if (((TItem *)a0)->get_item_index() == 1) {
+void spawn_faust_explosion(TItemWeapon *weapon, const Vec &pos) {
+    if (weapon->get_item_index() == 1) {
         Desc_8011E5C4 info;
         TObjPlayer__sub_802E449C(&info);
-        ((TItemWeapon *)a0)->fill_status_info(&info);
+        weapon->fill_status_info(&info);
         VecCopy(&info.position, &pos);
         info.hits = 10;
-        new TUnk_804A2548(tl_05, &info);
+        new TExplosionCollider(tl_05, &info);
         create_timed_particle_emitter(&info, 0x17F, 0, 10);
     } else {
         Vec v = pos;
@@ -102,34 +100,27 @@ void spawn_faust_explosion(uaddr a0, const Vec &pos) {
     }
 }
 
-struct Elem_80125628 { u8 pad[0x1c]; u8 f1c[0x2c - 0x1c]; };
-
-struct Obj_80125628 { u8 pad[0xa4]; Elem_80125628 *elems; };
-
-struct Ctx_80125628 { Obj_80125628 *obj; s32 idx; };
-
-void spawn_faust_hit_explosion(s32 id, saddr hit) {
-    Ctx_80125628 *ctx = (Ctx_80125628 *)hit;
-    u32 p = (uaddr)find_item_by_id(id);
-    if (p != 0U) {
-        spawn_faust_explosion(p, *(const Vec *)ctx->obj->elems[ctx->idx].f1c);
+void spawn_faust_hit_explosion(s32 id, ActorBodyHit *hit) {
+    TItem *item = find_item_by_id(id);
+    if (item != NULL) {
+        spawn_faust_explosion((TItemWeapon *)item, hit->target->bodies[hit->body].center);
     }
 }
 
-void TObjPlayer::spawn_faust_wall_explosion(s32 id, saddr pos) {
-    u32 item = (uaddr)find_item_by_id(id);
-    if (item != 0U) {
-        spawn_faust_explosion(item, *(const Vec *)pos);
+void spawn_faust_wall_explosion(s32 id, Vec *pos) {
+    TItem *item = find_item_by_id(id);
+    if (item != NULL) {
+        spawn_faust_explosion((TItemWeapon *)item, *pos);
     }
 }
 
-TUnk_804A2548::TUnk_804A2548(TObject *parent, S_802E451C *params) : TUnk_804E355C(parent, params) {
+TExplosionCollider::TExplosionCollider(TObject *parent, S_802E451C *params) : TUnk_804E355C(parent, params) {
     pad_C4 = 50.0f;
 }
 
-TUnk_804A2548::~TUnk_804A2548() {}
+TExplosionCollider::~TExplosionCollider() {}
 
-void TUnk_804A2548::run_task() {
+void TExplosionCollider::run_task() {
     f32 radius;
 
     if (has_game_join_id() != 0) {

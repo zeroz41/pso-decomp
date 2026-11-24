@@ -12,7 +12,7 @@
 #include "pso/weapon/TUnk_804F0AF8.h"
 #include "pso/weapon/TUnk_804F0908.h"
 #include "pso/weapon/TUnk_804F0810.h"
-#include "pso/player/TUnk_804A2548.h"
+#include "pso/weapon/TExplosionCollider.h"
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/render/MaterialColorFade.h"

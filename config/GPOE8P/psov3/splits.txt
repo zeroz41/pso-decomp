@@ -2536,7 +2536,7 @@ pso/weapon/TUnk_804A2450.cpp:
 	.data       start:0x804A2450 end:0x804A2548
 	.sdata2     start:0x805DAD48 end:0x805DAD4C
 
-pso/player/TUnk_804A2548.cpp:
+pso/weapon/TItemWeaponPanzerFaust.cpp:
 	.text       start:0x801254D8 end:0x8012599C
 	.data       start:0x804A2548 end:0x804A265C
 	.sdata2     start:0x805DAD50 end:0x805DAD64

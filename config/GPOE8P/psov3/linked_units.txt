@@ -1615,7 +1615,7 @@ pso/render/TexturedVertexDraw.cpp
 pso/render/ShapeMotionDraw.cpp
 pso/player/TPlyItem.cpp
 pso/render/MaterialShadeFade.cpp
-pso/player/TUnk_804A2548.cpp
+pso/weapon/TItemWeaponPanzerFaust.cpp
 pso/weapon/TUnk_804A5D28.cpp
 pso/network/TradeSession.cpp
 pso/network/protocol/subcommand_validation_actions.cpp

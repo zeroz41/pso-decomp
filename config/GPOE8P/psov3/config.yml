@@ -15956,9 +15956,9 @@ force_active:
   - spawn_decorations_in_range__FP11TSetManager
   - spawn_effects__19TBoss3VoloptMonitorFv
   - spawn_falling_rocks__9TBoss6MagFv
-  - spawn_faust_explosion__FUlRC3Vec
-  - spawn_faust_hit_explosion__Fll
-  - spawn_faust_wall_explosion__10TObjPlayerFll
+  - spawn_faust_explosion__FP11TItemWeaponRC3Vec
+  - spawn_faust_hit_explosion__FlP12ActorBodyHit
+  - spawn_faust_wall_explosion__FlP3Vec
   - spawn_fire_explosion__10TObjPlayerFUll
   - spawn_fire_explosion_at_item__10TObjPlayerFll
   - spawn_fire_explosion_for_item__10TObjPlayerFll

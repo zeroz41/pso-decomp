@@ -12,7 +12,7 @@
 #include "pso/weapon/TUnk_804F0AF8.h"
 #include "pso/weapon/TUnk_804F0908.h"
 #include "pso/weapon/TUnk_804F0810.h"
-#include "pso/player/TUnk_804A2548.h"
+#include "pso/weapon/TExplosionCollider.h"
 #include "pso/weapon/TItemAttackCol.h"
 #include "pso/effect/item/TItemEffPG.h"
 #include "pso/render/MaterialColorFade.h"
@@ -131,7 +131,7 @@ void TObjPlayer::spawn_fire_explosion(uaddr item_weapon, saddr a1) {
     ((TItemWeapon *)item_weapon)->fill_status_info(&info);
     VecCopy(&info.position, (const Vec *)a1);
     info.hits = 10;
-    new TUnk_804A2548(tl_05, &info);
+    new TExplosionCollider(tl_05, &info);
     new TFireExplosion(10.0f, &info.position, 0, tl_particle);
 }
 

@@ -1,0 +1,15 @@
+#ifndef PSO_WEAPON_TEXPLOSIONCOLLIDER_H
+#define PSO_WEAPON_TEXPLOSIONCOLLIDER_H
+#include "types.h"
+#include "pso/item/TUnk_804E355C.h"
+
+class TExplosionCollider : public TUnk_804E355C {
+public:
+    TExplosionCollider(TObject *parent, S_802E451C *params);
+    virtual ~TExplosionCollider();
+    virtual void run_task();
+    f32 pad_C4; // run_task grows body.radius up to it, then destroys the collider
+};
+LAYOUT_ASSERT(TExplosionCollider_size, sizeof(TExplosionCollider) == 0xC8);
+
+#endif

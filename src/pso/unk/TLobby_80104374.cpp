@@ -63,7 +63,7 @@
 #include "pso/item/mag/TItemMag.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/effect/item/TItemEffPG.h"
-#include "pso/player/TObjPlayer_80125780.h"
+#include "pso/weapon/TItemWeaponPanzerFaust.h"
 #include "pso/weapon/TItemWeaponSRankCard.h"
 #include "pso/weapon/TUnk_804E24F0.h"
 #include "pso/weapon/TUnk_804F28E0.h"

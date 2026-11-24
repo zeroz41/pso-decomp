@@ -577,8 +577,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/weapon/TUnk_804F0908.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/weapon/TUnk_804F0AF8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/effect/item/TItemEffPG.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
-    # vtables come out TUnk_804A2548 then TUnk_804A2564: written last to first, deferred.
-    "pso/player/TUnk_804A2548.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # vtables come out TExplosionCollider then TItemWeaponPanzerFaust: written last to first, deferred.
+    "pso/weapon/TItemWeaponPanzerFaust.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # vtables come out TUnk_804A5D10 then TUnk_804A5D28: written last to first, deferred.
     "pso/weapon/TUnk_804A5D28.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # __vt__18TWindowSubShortCut (804D19D8) comes out before the run_task jump
