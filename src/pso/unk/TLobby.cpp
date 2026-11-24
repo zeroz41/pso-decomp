@@ -58,6 +58,7 @@
 #include "pso/player/TPlyGuildCardTag_8013ABCC.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/quest/TQuestListVM.h"
+#include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/unk/TLobby_8013AD38.h"
 #include "pso/ui/frontend/TAdEnterPasswordGC.h"
 #include "pso/system/THeap.h"
@@ -195,7 +196,6 @@ void import_sync_records__6TLobbyFPs(void *, u16);
 s32 TLobby__sub_801A3E8C();
 s32 init_player_join_record(void *);
 void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(void *, void *, void *, void *, void *, void *, void *);
-u8 * get_character_save_record(u32);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const NJS_POINT2 card_list_message_window_size[1];
 void fn_80338D58(void *list, s32 flag, const char *name, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 index);
@@ -418,12 +418,12 @@ void TLobby::send_game_character() {
     char c[0xAC];
     TPlyChallenge challenge;
     u8 e[0x204];
-    u8 *card;
+    CharacterSaveRecord *card;
     TAdSinglePlyChrSelectGC::init();
-    card = get_character_save_record(0xFFFF);
+    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
     memset(&choice_search_config, 0, sizeof(choice_search_config));
     choice_search_config.disabled = TLobby::open_hard_keyboard((void *)(saddr)local_client_id) != 0 ? 1 : 0;
-    TLobby__sub_80077798(card + 0x22EC, &choice_search_config);
+    TLobby__sub_80077798(card->choice_search, &choice_search_config);
     memset(c, 0, sizeof(c));
     strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
     memset(b, 0, sizeof(b));
@@ -434,16 +434,16 @@ void TLobby::send_game_character() {
         strncpy((char *)e + 4, (char *)TLobby::get_card_window_area(), 0x200);
     }
     memset(&challenge, 0, sizeof(challenge));
-    challenge.challenge = *(ChallengeRecord *)(card + 0x21C4);
-    challenge.battle_place_count_1 = *(u16 *)(card + 0x21A8);
-    challenge.battle_place_count_2 = *(u16 *)(card + 0x21AA);
-    challenge.battle_place_count_3 = *(u16 *)(card + 0x21AC);
-    challenge.battle_place_count_4 = *(u16 *)(card + 0x21AE);
-    challenge.battle_disconnect_count = *(u16 *)(card + 0x21B0);
-    challenge.pad_10E = *(u16 *)(card + 0x21B2);
-    challenge.pad_110 = *(u16 *)(card + 0x21B4);
-    challenge.pad_114 = *(u32 *)(card + 0x21B8);
-    challenge.pad_118 = *(u32 *)(card + 0x21BC);
+    challenge.challenge = card->challenge;
+    challenge.battle_place_count_1 = card->online_battle.place_counts[0];
+    challenge.battle_place_count_2 = card->online_battle.place_counts[1];
+    challenge.battle_place_count_3 = card->online_battle.place_counts[2];
+    challenge.battle_place_count_4 = card->online_battle.place_counts[3];
+    challenge.battle_disconnect_count = card->online_battle.disconnect_count;
+    challenge.battle_reserved_count_1 = card->online_battle.reserved_counts[0];
+    challenge.battle_reserved_count_2 = card->online_battle.reserved_counts[1];
+    challenge.battle_reserved_value_1 = card->online_battle.reserved_values[0];
+    challenge.battle_reserved_value_2 = card->online_battle.reserved_values[1];
     send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &challenge, &choice_search_config, b, e, c);
 }
 void TLobby::update_idle_timeout(void *object) {
@@ -2029,11 +2029,11 @@ void TLobby::send_selected_character() {
     char c[0xAC];
     TPlyChallenge challenge;
     u8 e[0x204];
-    u8 *card;
-    card = get_character_save_record(0xFFFF);
+    CharacterSaveRecord *card;
+    card = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
     memset(&choice_search_config, 0, sizeof(choice_search_config));
     choice_search_config.disabled = TLobby::open_hard_keyboard((void *)(saddr)local_client_id) != 0 ? 1 : 0;
-    TLobby__sub_80077798(card + 0x22EC, &choice_search_config);
+    TLobby__sub_80077798(card->choice_search, &choice_search_config);
     memset(c, 0, sizeof(c));
     strncpy(c, (char *)TLobby::get_card_window_field(), 0xAC);
     memset(b, 0, sizeof(b));
@@ -2044,16 +2044,16 @@ void TLobby::send_selected_character() {
         strncpy((char *)e + 4, (char *)TLobby::get_card_window_area(), 0x200);
     }
     memset(&challenge, 0, sizeof(challenge));
-    challenge.challenge = *(ChallengeRecord *)(card + 0x21C4);
-    challenge.battle_place_count_1 = *(u16 *)(card + 0x21A8);
-    challenge.battle_place_count_2 = *(u16 *)(card + 0x21AA);
-    challenge.battle_place_count_3 = *(u16 *)(card + 0x21AC);
-    challenge.battle_place_count_4 = *(u16 *)(card + 0x21AE);
-    challenge.battle_disconnect_count = *(u16 *)(card + 0x21B0);
-    challenge.pad_10E = *(u16 *)(card + 0x21B2);
-    challenge.pad_110 = *(u16 *)(card + 0x21B4);
-    challenge.pad_114 = *(u32 *)(card + 0x21B8);
-    challenge.pad_118 = *(u32 *)(card + 0x21BC);
+    challenge.challenge = card->challenge;
+    challenge.battle_place_count_1 = card->online_battle.place_counts[0];
+    challenge.battle_place_count_2 = card->online_battle.place_counts[1];
+    challenge.battle_place_count_3 = card->online_battle.place_counts[2];
+    challenge.battle_place_count_4 = card->online_battle.place_counts[3];
+    challenge.battle_disconnect_count = card->online_battle.disconnect_count;
+    challenge.battle_reserved_count_1 = card->online_battle.reserved_counts[0];
+    challenge.battle_reserved_count_2 = card->online_battle.reserved_counts[1];
+    challenge.battle_reserved_value_1 = card->online_battle.reserved_values[0];
+    challenge.battle_reserved_value_2 = card->online_battle.reserved_values[1];
     send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(protocol_instance, (void *)TAdSinglePlyChrSelectGC::get_char_index(0xFFFF), &challenge, &choice_search_config, b, e, c);
 }
 void TLobby::queue_static_object_destruction() {

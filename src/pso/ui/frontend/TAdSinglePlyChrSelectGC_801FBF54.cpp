@@ -305,92 +305,92 @@ s32 TAdSinglePlyChrSelectGC::is_ready() {
 }
 
 u16 TAdSinglePlyChrSelectGC::get_card_window_field(int client) {
-    void *character_save_record;
+    CharacterSaveRecord *character_save_record;
 
-    character_save_record = (void *)get_character_save_record((u16)client);
+    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
     if (character_save_record != NULL) {
-        return *(u16 *)((s8 *)character_save_record + 0x235A);
+        return character_save_record->battle_place_counts[3];
     }
     return 0U;
 }
 
 u16 TAdSinglePlyChrSelectGC::get_card_window_status(int client) {
-    void *character_save_record;
+    CharacterSaveRecord *character_save_record;
 
-    character_save_record = (void *)get_character_save_record((u16)client);
+    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
     if (character_save_record != NULL) {
-        return *(u16 *)((s8 *)character_save_record + 0x2358);
+        return character_save_record->battle_place_counts[2];
     }
     return 0U;
 }
 extern "C" {
 
 u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client) {
-    void *character_save_record;
+    CharacterSaveRecord *character_save_record;
 
-    character_save_record = (void *)get_character_save_record((u16)client);
+    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
     if (character_save_record != NULL) {
-        return *(u16 *)((s8 *)character_save_record + 0x2356);
+        return character_save_record->battle_place_counts[1];
     }
     return 0U;
 }
 
 u16 TAdSinglePlyChrSelectGC::get_card_state(int client) {
-    void *character_save_record;
+    CharacterSaveRecord *character_save_record;
 
-    character_save_record = (void *)get_character_save_record((u16)client);
+    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
     if (character_save_record != NULL) {
-        return *(u16 *)((s8 *)character_save_record + 0x2354);
+        return character_save_record->battle_place_counts[0];
     }
     return 0U;
 }
 
 u16 TAdSinglePlyChrSelectGC::get_card_flag(int client) {
-    void *character_save_record;
+    CharacterSaveRecord *character_save_record;
 
-    character_save_record = (void *)get_character_save_record((u16)client);
+    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
     if (character_save_record != NULL) {
-        return *(u16 *)((s8 *)character_save_record + 0x21B0);
+        return character_save_record->online_battle.disconnect_count;
     }
     return 0U;
 }
 
 u16 TAdSinglePlyChrSelectGC::get_card_field(int client) {
-    void *character_save_record;
+    CharacterSaveRecord *character_save_record;
 
-    character_save_record = (void *)get_character_save_record((u16)client);
+    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
     if (character_save_record != NULL) {
-        return *(u16 *)((s8 *)character_save_record + 0x21AE);
+        return character_save_record->online_battle.place_counts[3];
     }
     return 0U;
 }
 
 u16 TAdSinglePlyChrSelectGC::get_card_status(int client) {
-    void *character_save_record;
+    CharacterSaveRecord *character_save_record;
 
-    character_save_record = (void *)get_character_save_record((u16)client);
+    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
     if (character_save_record != NULL) {
-        return *(u16 *)((s8 *)character_save_record + 0x21AC);
+        return character_save_record->online_battle.place_counts[2];
     }
     return 0U;
 }
 
 u16 TAdSinglePlyChrSelectGC::get_card_value(int client) {
-    void *character_save_record;
+    CharacterSaveRecord *character_save_record;
 
-    character_save_record = (void *)get_character_save_record((u16)client);
+    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
     if (character_save_record != NULL) {
-        return *(u16 *)((s8 *)character_save_record + 0x21AA);
+        return character_save_record->online_battle.place_counts[1];
     }
     return 0U;
 }
 
 u16 TAdSinglePlyChrSelectGC::get_card_field_21a8(int client) {
-    void *character_save_record;
+    CharacterSaveRecord *character_save_record;
 
-    character_save_record = (void *)get_character_save_record((u16)client);
+    character_save_record = (CharacterSaveRecord *)get_character_save_record((u16)client);
     if (character_save_record != NULL) {
-        return *(u16 *)((s8 *)character_save_record + 0x21A8);
+        return character_save_record->online_battle.place_counts[0];
     }
     return 0U;
 }

@@ -535,11 +535,11 @@ struct TPlyChallenge {
 	u16 battle_place_count_3;
 	u16 battle_place_count_4;
 	u16 battle_disconnect_count;
-	u16 pad_10E;
-	u16 pad_110;
-	u16 pad_112;
-	u32 pad_114;
-	u32 pad_118;
+	u16 battle_reserved_count_1;  // BattleRecord::reserved_counts
+	u16 battle_reserved_count_2;
+	u16 battle_reserved_count_3;
+	u32 battle_reserved_value_1;  // BattleRecord::reserved_values
+	u32 battle_reserved_value_2;
 	void bswap();
 };
 LAYOUT_ASSERT(TPlyChallengeSize, sizeof(TPlyChallenge) == 0x11C);

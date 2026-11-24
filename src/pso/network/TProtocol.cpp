@@ -2034,11 +2034,11 @@ void TPlyChallenge::bswap() {
     bswap_16(&battle_place_count_3);
     bswap_16(&battle_place_count_4);
     bswap_16(&battle_disconnect_count);
-    bswap_16(&pad_10E);
-    bswap_16(&pad_110);
-    bswap_16(&pad_112);
-    bswap_32(&pad_114);
-    bswap_32(&pad_118);
+    bswap_16(&battle_reserved_count_1);
+    bswap_16(&battle_reserved_count_2);
+    bswap_16(&battle_reserved_count_3);
+    bswap_32(&battle_reserved_value_1);
+    bswap_32(&battle_reserved_value_2);
 }
 void TSendLogin::bswap() {
     header.bswap();
