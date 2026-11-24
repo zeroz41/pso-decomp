@@ -213,7 +213,7 @@ s32 loopback_shutdown(void);
 s32 init_ipv6_all_routers_multicast_address(u8 *address, s8 scope);
 u8 init_ipv6_all_nodes_multicast_address(u8 *address, s8 scope);
 s16 NetIPv6ParseNeighborSolicitationOptions(NetPacketFragment *self, s32 n, void *out, s16 iface);
-s16 NetIPv6AnswerNeighborSolicitation(void *self, void *a, void *b, s16 iface);
+s16 NetIPv6AnswerNeighborSolicitation(IPv6NeighborSolicitation *ns, void *a, void *b, s16 iface);
 s16 NetIPv6EmitRouterSolicitation(NetPacket *net_packet, NetIPv6SendParameters *addr, s16 id);
 s16 NetIPv6GetInterfaceLinkLayerAddress(void *dst, s16 dst_size, s16 id);
 s16 NetIPv6SendNeighborAdvertisement(NetPacket *pkt, u8 *address, u8 flags, NetIPv6SendParameters *params, s16 iface);

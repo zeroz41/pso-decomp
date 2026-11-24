@@ -815,7 +815,7 @@ extern s16 NetIPv6ParseNeighborSolicitationOptions(NetPacketFragment *self, s32 
   return 0;
 }
 
-s16 NetIPv6AnswerNeighborSolicitation(void *self, void *a, void *b, s16 iface) {
+s16 NetIPv6AnswerNeighborSolicitation(IPv6NeighborSolicitation *ns, void *a, void *b, s16 iface) {
     u8 opt[0x28];
     NetIPv6SendParameters params;
     Ipv6NdAddrEvent event;
@@ -824,7 +824,6 @@ s16 NetIPv6AnswerNeighborSolicitation(void *self, void *a, void *b, s16 iface) {
     s16 n;
     s16 len;
     s16 r;
-    IPv6NeighborSolicitation *ns = (IPv6NeighborSolicitation *)self;
 
     flags = 0;
     if (NetIPv6IsTentativeAddress(ns->target.bytes, iface)) {
