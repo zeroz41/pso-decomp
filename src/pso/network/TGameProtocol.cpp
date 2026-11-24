@@ -35,6 +35,7 @@
 #include "pso/unk/text_80072230.h"
 #include "pso/unk/text_8011A780.h"
 #include "pso/unk/text_801F3774.h"
+#include "pso/npc/NpcPartnerControl.h"
 
 struct TBoss3Volopt;
 struct TLobby;
@@ -121,7 +122,6 @@ extern "C" void handle_6x64();
 extern "C" void handle_6x65();
 void handle_6x66_use_star_atomizer(u8 *arg0);
 extern "C" void handle_6x68_set_telepipe_state();
-extern "C" void handle_6x69_npc_control();
 extern "C" void handle_6x6B_sync_game_state();
 extern "C" void handle_6x6C_sync_game_state();
 extern "C" void handle_6x6D_sync_game_state();

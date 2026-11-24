@@ -59,5 +59,3 @@ void TObjNpcAHM01::play_voice() {
     play_sound_effect(0x40004C15, &position, 0, 0);
 }
 
-s32 TObjNpcBase::is_target_in_attack_range() { return 0; }
-

@@ -331,7 +331,6 @@ struct TObjPlayer : public TObjChara {
     static void*get_item_pmt_record(int type, int id);
     static void*get_pmt_record_by_type_id(int type, int id);
     static void*get_pmt_record_by_index(int i);
-    static s32 is_hit_receivable_target(saddr arg0, uaddr arg1);
     s32 is_action_available();
     static s32 is_any_teammate_in_state();
     static void set_shared_flag(int a0);
@@ -923,6 +922,8 @@ struct TObjPlayer : public TObjChara {
     void clear_30_slots();
     static void setup_effect_slots(s32 arg0, saddr arg1);
     static void begin_action_from_char_select();
+    void export_character_data(TPlyCharData *character);
+    void export_state_to_record(TPlyCharData *record);
     void copy_battle_mode(u8 *player);
     void copy_byte_339_to_record(u8 *player);
     void copy_mag_level_to_record(u8 *player);
@@ -1094,7 +1095,6 @@ struct TObjPlayer : public TObjChara {
     void set_flag_8_if_check_passes();
     u8 *construct_freeze_shell(u8 *arg1, u8 *arg2);
     static void create_tec_zonde(void *source, void *origin, void *targets, s32 level);
-    TechniqueContactList *collect_technique_contacts(void *src);
     static void new_child_object(u16 arg0);
     void create_item_eff_cane(TItem* item, s32 attachment, s32 effect_id);
     void spawn_cane_effect(TItem* item, s32 attachment);

@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/unk/TScreenFadeOut.h"
-#include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include "pso/unk/TUnk_804C8678.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include "pso/ui/window/TWindowDuelResult.h"
@@ -208,7 +207,7 @@ TPlayerBattleCtrl4P::TPlayerBattleCtrl4P(TObject *parent) : TObject(parent) {
     for (i = 0; i < 4; i++) {
         saddr pl = (saddr)get_player_by_client_id(i);
         if (pl != 0) {
-            export_character_data__10TObjPlayerFPvPv(reinterpret_cast<TObjPlayer *>(pl), reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC::get_char_index((u32)i)));
+            reinterpret_cast<TObjPlayer *>(pl)->export_character_data(reinterpret_cast<TPlyCharData *>(TAdSinglePlyChrSelectGC::get_char_index((u32)i)));
         }
     }
     TPlayerBattleCtrl4P__instance = this;

@@ -874,6 +874,9 @@ struct G_StopAtPosition_6x3E {
  s16 floor;
  s16 room;
  struct VectorXYZF pos;
+ void init();
+ void bswap();
+ void send();
 };
 
 struct G_SwitchInteraction_6x50 {

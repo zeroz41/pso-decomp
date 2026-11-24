@@ -23,6 +23,7 @@
 #include "pso/ui/window/TWindowMessageScroll.h"
 #include "pso/unk/TLobby_8026B06C.h"
 #include "pso/npc/NpcPartnerControl.h"
+#include "pso/npc/TNpcPlayer_8014DADC.h"
 #include "pso/quest/BattleRules.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/item/TObjItemNameSelect.h"
@@ -876,7 +877,6 @@ void init__9TItemDataFv(Item_801EE77C *);
 s32 advance_item_id_counter(u16);
 f32 xz_distance_squared(Vec *, Vec *);
 f32 xyz_distance_squared(u8 *point_a, u8 *point_b);
-int TNpcPlayer__sub_8014DC30(void*);
 void *find_entity_by_id(u16 id);
 void TOMineTrap__sub_80171368(f32);
 int clear_enabled_main_warps(void*);
@@ -1327,8 +1327,6 @@ void qst_op_get_time_played(s32 reg) {
 }
 void update_gba_joyboot_transfer();
 s32 update_challenge_result_player_locks();
-void quest_player_face_actor(u16, u16);
-void quest_player_look_at_partner(u16);
 void qst_op_get_lang_setting(void) {
     qst_registers[qst_args[0]] = current_language;
 }
@@ -1870,59 +1868,59 @@ int qst_op_set_screen_bw(void* p) { return TLobby__sub_801F3568(p); }
 int qst_op_set_motion_blur() { return set_camera_capture_overlay_alpha((void*)(143)); }
 
 void qst_op_restore_tp(s32 reg) {
-    TLobby__sub_8034DAA0((int) (qst_registers[(u8)reg]), 0xB);
+    apply_player_slot_status(qst_registers[(u8)reg], 0xB);
 }
 
 void qst_op_restore_hp(s32 reg) {
-    TLobby__sub_8034DAA0((int) (qst_registers[(u8)reg]), 0xA);
+    apply_player_slot_status(qst_registers[(u8)reg], 0xA);
 }
 
 void qst_op_set_slot_zalure(s32 slot_reg) {
-    TLobby__sub_8034DAA0((int) (qst_registers[(u8)slot_reg]), 9);
+    apply_player_slot_status(qst_registers[(u8)slot_reg], 9);
 }
 
 void qst_op_set_slot_jellen(s32 slot_reg) {
-    TLobby__sub_8034DAA0((int) (qst_registers[(u8)slot_reg]), 8);
+    apply_player_slot_status(qst_registers[(u8)slot_reg], 8);
 }
 
 void qst_op_set_slot_deband(s32 slot_reg) {
-    TLobby__sub_8034DAA0((int) (qst_registers[(u8)slot_reg]), 7);
+    apply_player_slot_status(qst_registers[(u8)slot_reg], 7);
 }
 
 void qst_op_set_slot_shifta(s32 slot_reg) {
-    TLobby__sub_8034DAA0((int) (qst_registers[(u8)slot_reg]), 6);
+    apply_player_slot_status(qst_registers[(u8)slot_reg], 6);
 }
 
 void qst_op_set_slot_confuse(s32 slot_reg) {
-    TLobby__sub_8034DAA0((int) (qst_registers[(u8)slot_reg]), 5);
+    apply_player_slot_status(qst_registers[(u8)slot_reg], 5);
 }
 
 void qst_op_set_slot_slow(s32 slot_reg) {
-    TLobby__sub_8034DAA0((int) (qst_registers[(u8)slot_reg]), 4);
+    apply_player_slot_status(qst_registers[(u8)slot_reg], 4);
 }
 
 void qst_op_set_slot_freeze(s32 slot_reg) {
-    TLobby__sub_8034DAA0((int) (qst_registers[(u8)slot_reg]), 3);
+    apply_player_slot_status(qst_registers[(u8)slot_reg], 3);
 }
 
 void qst_op_set_slot_shock(s32 slot_reg) {
-    TLobby__sub_8034DAA0((int) (qst_registers[(u8)slot_reg]), 2);
+    apply_player_slot_status(qst_registers[(u8)slot_reg], 2);
 }
 
 void qst_op_set_slot_paralyze(s32 slot_reg) {
-    TLobby__sub_8034DAA0((int) (qst_registers[(u8)slot_reg]), 1);
+    apply_player_slot_status(qst_registers[(u8)slot_reg], 1);
 }
 
 void qst_op_set_slot_poison(s32 slot_reg) {
-    TLobby__sub_8034DAA0((int) (qst_registers[(u8)slot_reg]), 0);
+    apply_player_slot_status(qst_registers[(u8)slot_reg], 0);
 }
 
 void qst_op_clear_slot_invincible(s32 slot_reg) {
-    TNpcPlayer::reset_player_lobby_model(qst_registers[(u8)slot_reg]);
+    reset_player_lobby_model(qst_registers[(u8)slot_reg]);
 }
 
 void qst_op_set_slot_invincible(s32 slot_reg, s32 value_reg) {
-    TNpcPlayer::update_player_field(qst_registers[(u8)slot_reg], qst_registers[(u8)value_reg]);
+    update_player_field(qst_registers[(u8)slot_reg], qst_registers[(u8)value_reg]);
 }
 
 struct Move_801E989C {
@@ -1954,11 +1952,11 @@ void qst_op_run_to_coord(u8 regs) {
 }
 
 void qst_op_stop_animation(s32 reg) {
-    TNpcPlayer::end_camera_pan_for_client(qst_registers[(u8)reg]);
+    end_camera_pan_for_client(qst_registers[(u8)reg]);
 }
 
 void qst_op_use_animation(s32 slot_reg, s32 anim_reg) {
-    TNpcPlayer::apply_to_battle_player_slot(qst_registers[(u8)slot_reg], qst_registers[(u8)anim_reg]);
+    apply_to_battle_player_slot(qst_registers[(u8)slot_reg], qst_registers[(u8)anim_reg]);
 }
 void TLobby::reset_random_enemies_mode(TObject *) { TLobby::clear_counter(); evt2_random_enemies_mode = 0; TKeyBoardControl__sub_8000F950(); }
 
@@ -3268,7 +3266,7 @@ void qst_op_prepare_npc_visual(saddr label) {
     }
 }
 
-int qst_op_enable_npc_visual(void* p) { return TNpcPlayer__sub_8014DC30(p); }
+void qst_op_enable_npc_visual(void *p) { enable_quest_npc_visual(); }
 
 void qst_op_set_shrink_cam2(u8 regs) {
     Vec pos;
@@ -3391,7 +3389,7 @@ void qst_op_go_floor(s32 a, s32 b) {
     if (player != NULL && local_client_id == qst_registers[(u8)a]) {
         floor_transition_state.set_next_floor(qst_registers[(u8)b], get_floor_map_terrain(qst_registers[(u8)b]));
         mark_area_change_pending();
-        TNpcPlayer::send_inter_level_warp_all(floor_transition_state.get_next_floor());
+        send_inter_level_warp_all(floor_transition_state.get_next_floor());
         send_6x21_inter_level_warp(player, floor_transition_state.get_next_floor());
     }
 }
@@ -4477,7 +4475,7 @@ void qst_op_p_move(u8 regs) {
     pos.z = (f32) qst_registers[i++];
     yaw = (s32) (182.04445f * (f32) qst_registers[i++]);
     id = qst_registers[i++];
-    TNpcPlayer::send_stop_at_position(id, &pos, yaw);
+    send_stop_at_position(id, &pos, yaw);
 }
 
 void qst_op_p_look_at(void) {
@@ -4629,15 +4627,15 @@ int qst_op_p_col(void* p) { return TObjHashiVersus2__sub_801912A4(p); }
 int qst_op_p_noncol(void* p) { return TObjHashiVersus2__sub_801912B0(p); }
 
 void qst_op_enable_movement1(void) {
-    TNpcPlayer::send_code_45_to_player((u16) qst_args[0]);
+    send_code_45_to_player((u16) qst_args[0]);
 }
 
 void qst_op_disable_movement1(void) {
-    TNpcPlayer::play_effect((u16) qst_args[0]);
+    play_effect((u16) qst_args[0]);
 }
-void qst_op_npc_talk(void) { TNpcPlayer::enable_partner_chatter(); }
+void qst_op_npc_talk(void) { enable_partner_chatter(); }
 
-void qst_op_npc_nont(void) { TNpcPlayer::disable_partner_chatter(); }
+void qst_op_npc_nont(void) { disable_partner_chatter(); }
 
 void qst_op_npc_kill(void) {
     quest_remove_npc_player(((u16) qst_args[0]));
@@ -4667,11 +4665,11 @@ void qst_op_cam_zmin(void *p) { begin_conversation_camera(); }
 void qst_op_cam_quake(void) { TCameraCtrl::set_shake_preset(2); }
 
 void qst_op_npc_play(void) {
-    TNpcPlayer::send_npc_control_6x69((s32) (u16) qst_args[0]);
+    send_npc_control_6x69((s32) (u16) qst_args[0]);
 }
 
 void qst_op_npc_stop(void) {
-    TNpcPlayer::send_npc_stop_6x69((s32) (u16) qst_args[0]);
+    send_npc_stop_6x69((s32) (u16) qst_args[0]);
 }
 void qst_op_npc_crp_id(u8 first) {
     f32 pos[3];
@@ -4689,7 +4687,7 @@ void qst_op_npc_crp_id(u8 first) {
     slot = qst_registers[i++];
     appearance = qst_registers[i++];
     TLobby::free_luker_object();
-    TNpcPlayer::create_companion(leader, slot, appearance, pos, heading);
+    create_companion(leader, slot, appearance, pos, heading);
     TLobby::clear_quest_vm_flag();
 }
 
@@ -4707,7 +4705,7 @@ void qst_op_npc_crp(u8 first) {
     leader = qst_registers[i++];
     appearance = qst_registers[i++];
     TLobby::free_luker_object();
-    TNpcPlayer::create_default_companion(leader, appearance, (u8 *)pos, heading);
+    create_default_companion(leader, appearance, (u8 *)pos, heading);
     TLobby::clear_quest_vm_flag();
 }
 
@@ -4794,7 +4792,7 @@ void qst_op_npc_crppk(u8 regs) {
     b = qst_registers[i++];
     c = qst_registers[i];
     TLobby::free_luker_object();
-    TNpcPlayer::send_npc_control_create(a, c, b, (u8 *)&v, angle);
+    send_npc_control_create(a, c, b, (u8 *)&v, angle);
     TLobby::clear_quest_vm_flag();
 }
 
@@ -4802,7 +4800,7 @@ void qst_op_npc_crtpk(void) {
     s32 a = qst_args[0];
     s32 b = qst_args[1];
     TLobby::free_luker_object();
-    TNpcPlayer::send_npc_control_notify_players(a & 0xFFFF, 1, b);
+    send_npc_control_notify_players(a & 0xFFFF, 1, b);
     TLobby::clear_quest_vm_flag();
 }
 
@@ -4877,7 +4875,7 @@ void qst_op_npc_crt(void) {
     npc_addr = (s32 *)qst_args;
     npc_type = qst_args[1];
     npc_addr = (s32 *)((u8 *)((s32 *)(uaddr) (u16) qst_args[0]));
-    TNpcPlayer::send_npc_create((saddr)npc_addr, (s32)npc_type);
+    send_npc_create((saddr)npc_addr, (s32)npc_type);
     TLobby::clear_quest_vm_flag();
 }
 

@@ -20,7 +20,6 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/system/BmlResource.h"
 #include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/npc/TObjNpcEnemy_803D8090.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/MatrixOps.h"

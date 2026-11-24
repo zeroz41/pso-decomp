@@ -3,11 +3,7 @@
 
 #include "types.h"
 
-// --- C functions defined in TNpcPlayer_8014DADC.cpp ---
-extern "C" {
-void TNpcPlayer__sub_8014DC30(void);
-int TNpcPlayer__sub_8014DC3C(void *p);
-}
-// --- end of C functions
+// Sets quest_npc_visual_pending for the quest opcode that shows the quest NPCs.
+void enable_quest_npc_visual();
 
 #endif

@@ -56,6 +56,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/player/CapturedTargetList.h"
+#include "pso/npc/NpcPartnerControl.h"
 
 
 #pragma readonly_strings on
@@ -918,9 +919,9 @@ void TMainCursor__sub_8013DFC4(u8 *arg0);
 u8 get_cursor_palette_mode(void *);
 s32 approach_angle_adaptive(s32, s32);
 s32 lerp_angle_half__Fll(s32, s32);
-void init_6x45_attack_packet(u8 *arg0);
-void init_6x44_attack_packet(u8 *arg0);
-void init_6x43_attack_packet(u8 *arg0);
+void init_6x45_attack_packet(u8 *cmd);
+void init_6x44_attack_packet(u8 *cmd);
+void init_6x43_attack_packet(u8 *cmd);
 void *resolve_hittable_target(u16 actorId, s16 collider);
 s32 get_type__10TObjPlayerFPv(void *);
 s32 play_weapon_hit_sound(void *);
@@ -1858,7 +1859,7 @@ void TObjPlayer::update_warp_relocation() {
             }
             if (TObjPlayer::is_locally_controlled(this) != 0) {
                 calc_circle_offset_pos(this->rotation_y + 0x8000, this->get_position_ptr(), (Vec *)&pos, 10.0f);
-                TNpcPlayer::send_6x3e_to_all_players(&pos, this->rotation_y);
+                send_6x3e_to_all_players(&pos, this->rotation_y);
                 reset_cameras_to_actor(this, 1);
             }
         }
@@ -5473,9 +5474,9 @@ void handle_6x3F_set_position(void *command) {
 void handle_6x3E_stop_at_position(void *command) {
     Msg_801D0634 m;
     Player_801D0724 *p;
-    ((TNpcPlayer *)(&m))->init_6x3E_packet();
+    ((G_StopAtPosition_6x3E *)(&m))->init();
     ((void (*)(void *, void *))TObjPlayer__sub_801D25AC)(&m, command);
-    ((TNpcPlayer *)(&m))->bswap_6x3E();
+    ((G_StopAtPosition_6x3E *)(&m))->bswap();
     if (validate_6x3E_stop_at_position((G_ClientIDHeader *)&m) == 0) {
         return;
     }
@@ -5532,7 +5533,7 @@ void TObjPlayer::send_6x3E_stop_at_position() {
     s32 t;
     if ((arg0 == NULL) || (((TObjChara *)arg0)->obj_isState2_324() == 0)) {
         t = ((TObjCollidable *)arg0)->test_actor_flags(0x100000) != 0 ? 1 : 0;
-        ((TNpcPlayer *)(&m))->init_6x3E_packet();
+        ((G_StopAtPosition_6x3E *)(&m))->init();
         m.f2 = ((TObjBase *)arg0)->get_entity_id();
         m.f4 = t;
         m.f6 = this->rotation_y;
@@ -5541,7 +5542,7 @@ void TObjPlayer::send_6x3E_stop_at_position() {
         m.f8 = ((TObjPlayer *)arg0)->get_floor();
         m.fa = ((TObjBase *)arg0)->get_room();
         VecCopy__FP3VecPC3Vec(m.vec, arg0->vec);
-        ((TNpcPlayer *)(&m))->send_6x3E();
+        ((G_StopAtPosition_6x3E *)(&m))->send();
     }
 }
 

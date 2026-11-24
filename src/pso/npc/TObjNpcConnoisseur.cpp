@@ -57,7 +57,7 @@ BmlResourceDescriptor *tekker_descriptor_selector_table[10] = {
 };
 const char *TObjNpcConnoisseur::name = "TObjNpcConnoisseur";
 
-s32 lbl_805D5748;
+s32 TObjNpcConnoisseur::section_id;
 BmlResource *TObjNpcConnoisseur::instance;
 
 void TObjNpcConnoisseur::destroy_instance() {
@@ -68,8 +68,8 @@ void TObjNpcConnoisseur::destroy_instance() {
 }
 
 void TObjNpcConnoisseur::load_section_motion() {
-    lbl_805D5748 = leader_selection.get_section_id();
-    instance = new BmlResource(1, (BmlResourceDescriptor *)tekker_descriptor_selector_table[lbl_805D5748], 0, 0, NULL);
+    section_id = leader_selection.get_section_id();
+    instance = new BmlResource(1, (BmlResourceDescriptor *)tekker_descriptor_selector_table[section_id], 0, 0, NULL);
 }
 
 TObjNpcConnoisseur::~TObjNpcConnoisseur() {}

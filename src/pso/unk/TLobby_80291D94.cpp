@@ -1,6 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/quest/TObjTagChallenge.h"
-#include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include <string.h>
 #include "pso/ui/window/TObjCHTimeWin.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
@@ -767,7 +766,7 @@ void setup_split_screen(void) {
             player = (uaddr)get_player_by_client_id(i);
             char_index = (u32)TAdSinglePlyChrSelectGC::get_char_index(i);
             if ((player != 0U) && (char_index != 0U)) {
-                export_character_data__10TObjPlayerFPvPv(reinterpret_cast<TObjPlayer *>(player), reinterpret_cast<TPlyCharData *>(char_index));
+                reinterpret_cast<TObjPlayer *>(player)->export_character_data(reinterpret_cast<TPlyCharData *>(char_index));
             }
             i += 1;
         } while (i != 4U);

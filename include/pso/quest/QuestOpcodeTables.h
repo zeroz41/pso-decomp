@@ -294,7 +294,7 @@ void qst_op_ba_player_take_damage_score(s32 a);
 void qst_op_ba_player_give_damage_score(s32 a);
 void qst_op_set_cmode_base_time(s32 reg);
 void qst_op_prepare_npc_visual(saddr label);
-int qst_op_enable_npc_visual(void *p);
+void qst_op_enable_npc_visual(void *p);
 void qst_op_set_shrink_cam2(u8 regs);
 void qst_op_set_shrink_cam1(u8 regs);
 void qst_op_unshrink(s32 slot_reg);

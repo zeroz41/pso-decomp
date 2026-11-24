@@ -13,6 +13,7 @@ struct TObjNpcConnoisseur : public TObjNpcMale {
     static void load_section_motion();
     static void *create(void *set_data);
     static const char *name;
+    static s32 section_id;
     static BmlResource *instance;
 };
 
