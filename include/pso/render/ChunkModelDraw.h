@@ -46,12 +46,12 @@ extern "C" {
 void draw_model_motion(void *model, void *motion, f32 frame);
 }
 void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDrawCallback draw_model);
-void draw_object_tree_recursive(void *arg);
+void draw_object_tree_recursive(NJS_OBJECT *node);
 // Motions sample packed (16-bit) rotation keys while set.
 extern s32 motion_packed_rotation_mode;
 void set_motion_packed_rotation();
 void clear_motion_packed_rotation();
-void traverse_animated_node_tree(void *arg);
+void traverse_animated_node_tree(NJS_OBJECT *node);
 
 // ShapeMotionDraw.cpp: shape motions (per-node vertex and normal keys).
 // Bits of the current chunk draw (set_chunk_render_flags, and the strip marks

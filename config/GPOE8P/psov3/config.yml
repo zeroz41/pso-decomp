@@ -5882,7 +5882,7 @@ force_active:
   - draw_number_value__15TWindowHelpItemFPvPflll
   - draw_object_tree__11TObjDoaEx01Fl
   - draw_object_tree__14TOTrapSeabed01FPUc
-  - draw_object_tree_recursive__FPv
+  - draw_object_tree_recursive__FP10NJS_OBJECT
   - draw_outline_quad__18TWindowEffectLightFl
   - draw_palette_cells__22TWindowSubCustomSelectFP17WindowDrawContext
   - draw_photon_blast_fan
@@ -16548,7 +16548,7 @@ force_active:
   - translate_key_char__19TWindowKeyBoardHardFUcPUs
   - translate_view_negated__11TCameraCtrlFfff
   - trap_ancient02_collision_body
-  - traverse_animated_node_tree__FPv
+  - traverse_animated_node_tree__FP10NJS_OBJECT
   - trigger_activate_sound__11TOKeyCave01Fv
   - trigger_activate_sound__11TObjDoorKeyFv
   - trigger_activate_sound__13TLazerFenceSwFv

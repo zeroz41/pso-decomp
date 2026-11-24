@@ -21,7 +21,7 @@ s32 motion_packed_rotation_mode;
 
 void draw_blend_motion_tree(NJS_OBJECT *model, NJS_MOTION_LINK *motion, f32 blend_factor, ModelDrawCallback draw_model) {
     bind_motion_blend_channels(motion, blend_factor);
-    if ((s32) motion_packed_rotation_mode != 0) {
+    if (motion_packed_rotation_mode != 0) {
         select_motion_context(1);
         current_motion_context->sample_angle_keys = motion_angle_sampler_table[3];
         select_motion_context(0);
@@ -31,8 +31,7 @@ void draw_blend_motion_tree(NJS_OBJECT *model, NJS_MOTION_LINK *motion, f32 blen
     draw_object_tree_recursive(model);
 }
 
-void draw_object_tree_recursive(void *object) {
-    NJS_OBJECT *node = (NJS_OBJECT *)object;
+void draw_object_tree_recursive(NJS_OBJECT *node) {
     void *model;
     do {
         push_matrix();
@@ -85,8 +84,7 @@ void draw_motion_tree(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame, ModelDra
     }
     traverse_animated_node_tree(model);
 }
-void traverse_animated_node_tree(void *object) {
-    NJS_OBJECT *node = (NJS_OBJECT *)object;
+void traverse_animated_node_tree(NJS_OBJECT *node) {
     void *model;
     do {
         push_matrix();
