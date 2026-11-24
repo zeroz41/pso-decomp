@@ -64,4 +64,3 @@ void TTecDeband::play_state_sound() {
         break;
     }
 }
-

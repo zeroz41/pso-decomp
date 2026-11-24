@@ -839,7 +839,7 @@ void TGoGoBallGoal::update_effects() {
             VecCopy((Vec *)&v6, &this->pos);
             v6.y += 7.0f;
             spawn_particle_effect_with_flags(&v6, 0x20D, 0x40);
-            play_sound_effect(0x4001A82E, (u8 *)&this->pos, 0, 0);
+            play_sound_effect(0x4001A82E, reinterpret_cast<const Vec *>((u8 *)&this->pos), 0, 0);
         }
     } else if (gogo_ball_configuration.ball_type == 2) {
         (this->goal_frames)++;
@@ -850,7 +850,7 @@ void TGoGoBallGoal::update_effects() {
                 v2a.y += 7.0f;
                 spawn_particle_effect_with_flags(&v2a, 0x45, 0x40);
                 spawn_particle_effect_with_flags(&v2a, 0x189, 0x40);
-                play_sound_effect(0x4001C112, (u8 *)&this->pos, 0, 0);
+                play_sound_effect(0x4001C112, reinterpret_cast<const Vec *>((u8 *)&this->pos), 0, 0);
             }
         } else {
             if (this->goal_frames == 1) {
@@ -859,7 +859,7 @@ void TGoGoBallGoal::update_effects() {
                 v2b.y += 7.0f;
                 spawn_particle_effect_with_flags(&v2b, 0x45, 0x40);
                 spawn_particle_effect_with_flags(&v2b, 0x189, 0x40);
-                play_sound_effect(0x4001C112, (u8 *)&this->pos, 0, 0);
+                play_sound_effect(0x4001C112, reinterpret_cast<const Vec *>((u8 *)&this->pos), 0, 0);
             }
         }
     } else if (gogo_ball_configuration.ball_type != 0) {

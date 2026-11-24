@@ -1576,4 +1576,3 @@ s32 TObjEneDellBiter::render_model_if_visible() {
     }
     return 0;
 }
-

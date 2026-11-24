@@ -1678,17 +1678,17 @@ void TBoss5Gryphon::update_demo_state(u32 event) {
                     spawn_particle_effect_with_flags(&pos, this->effect_ids[0], 0x40);
                 }
                 if (is_passing_frame((f32)gryphon_two_hundred_ninety) != 0) {
-                    play_sound_effect(0x40032A00, (void *) (0), 0, 0);
+                    play_sound_effect(0x40032A00, NULL, 0, 0);
                     start_pad_rumble_all(0xA0, 0x3C);
                 }
                 if ((is_passing_frame(100.0f) != 0) || (is_passing_frame((f32)gryphon_four_hundred_five) != 0)) {
-                    play_sound_effect(0x40033409, (void *) (0), 0, 0);
+                    play_sound_effect(0x40033409, NULL, 0, 0);
                 }
                 if (is_passing_frame((f32)gryphon_two_hundred_ten) != 0) {
-                    play_sound_effect(0x40032D0D, (void *) (0), 0, 0);
+                    play_sound_effect(0x40032D0D, NULL, 0, 0);
                 }
                 if (is_passing_frame((f32)gryphon_four_hundred_fifty_five) != 0) {
-                    play_sound_effect(0x40033409, (void *) (0), 0, 0);
+                    play_sound_effect(0x40033409, NULL, 0, 0);
                     start_pad_rumble_all(0x80, 7);
                 }
                 if (is_passing_frame((f32)gryphon_two_hundred_sixty_five) != 0) {
@@ -3886,4 +3886,3 @@ void TBoss5Gryphon::render_demo() {
 }
 
 #pragma pop
-

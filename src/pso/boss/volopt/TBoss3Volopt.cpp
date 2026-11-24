@@ -482,7 +482,7 @@ void TBoss3Volopt::dispatch_mode() {
         break;
     case 1:
         update_intro_cutscene();
-        play_persistent_sound(0x4003C600, this, 0, 0, 0);
+        play_persistent_sound(0x4003C600, this, NULL, 0, 0);
         break;
     case 2:
         update_phase1();
@@ -499,7 +499,7 @@ void TBoss3Volopt::dispatch_mode() {
         break;
     case 3:
         update_phase2_intro();
-        play_persistent_sound(0x4003C601, this, 0, 0, 0);
+        play_persistent_sound(0x4003C601, this, NULL, 0, 0);
         break;
     case 4:
         update_phase2();
@@ -972,7 +972,7 @@ void TBoss3Volopt::update_intro_cutscene() {
         first.play(0x271C);
         state = 1;
     case 1:
-        play_persistent_sound(0x4003B202, this, 0, 0, 0);
+        play_persistent_sound(0x4003B202, this, NULL, 0, 0);
         if (--state_timer <= 0) {
             state_timer = 0x3C;
             state = 2;
@@ -1022,7 +1022,7 @@ void TBoss3Volopt::update_phase1() {
     s32 i;
     f32 radius;
     s32 angle;
-    play_persistent_sound(0x4003C600, this, 0, 0, 0);
+    play_persistent_sound(0x4003C600, this, NULL, 0, 0);
     switch (state) {
     case 0:
         state = 1;
@@ -1064,7 +1064,7 @@ void TBoss3Volopt::update_phase1() {
         pos.y = 50.0f * (3.0517578e-05f * (f32)rand()) + 10.0f;
         pos.z = radius * sin_table_lookup(angle);
         spawn_particle_effect(&pos, 0xFB);
-        play_persistent_sound(0x4003AD21, this, 0, 0, 0);
+        play_persistent_sound(0x4003AD21, this, NULL, 0, 0);
         break;
     case 4:
         new TUnk_804848B8(this, NULL);
@@ -1163,7 +1163,7 @@ void TBoss3Volopt::update_phase2() {
             next_action = 5;
             new TUnk_80483B88;
         }
-        play_persistent_sound(0x4003C601, this, 0, 0, 0);
+        play_persistent_sound(0x4003C601, this, NULL, 0, 0);
         break;
     case -1:
         break;

@@ -181,10 +181,10 @@ void TBoss6Demo21_TYPE2_DEAD::run_task() {
         break;
     }
     if (timer >= 0x12C && timer <= 0x1AC) {
-        play_persistent_sound(0x4003352E, this, 0, 0, 0);
+        play_persistent_sound(0x4003352E, this, NULL, 0, 0);
     }
     if (timer >= 0x1D7 && timer <= 0x23A) {
-        play_persistent_sound(0x32D2F, this, 0, 0, 0);
+        play_persistent_sound(0x32D2F, this, NULL, 0, 0);
     }
     switch (timer) {
     case 0xAE:
@@ -349,4 +349,3 @@ TBoss6Demo21_TYPE2_DEAD::TBoss6Demo21_TYPE2_DEAD(TBoss6PlotFalz *plot, const Vec
 TBoss6Demo21_TYPE2_DEAD *TBoss6Demo21_TYPE2_DEAD::create(TBoss6PlotFalz *plot, const Vec *target) {
     return new TBoss6Demo21_TYPE2_DEAD(plot, target);
 }
-

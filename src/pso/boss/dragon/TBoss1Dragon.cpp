@@ -5292,4 +5292,3 @@ void TBoss1Dragon::render_low_detail() {
 s32 TBoss1Dragon::isV2Mode() {
     return TObjEneDD::check_v2_mode() ? 1 : 0;
 }
-

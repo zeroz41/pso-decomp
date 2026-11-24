@@ -363,4 +363,3 @@ void TLobby::copy_short_fields(void *arg1) {
     *(s16 *)&this->m_name = (s16) *(s16 *)((s8 *)arg1 + 0);
     *(u16 *)((s8 *)this + 2) = (u16) *(u16 *)((s8 *)arg1 + 2);
 }
-

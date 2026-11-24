@@ -21,4 +21,3 @@ void fn_8026AC50(void) {
     delete TAdScrollWinGC__chat_log_heap;
     TAdScrollWinGC__chat_log_heap = NULL;
 }
-

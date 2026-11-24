@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/ParticleFactory.h"
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/unk/text_8023601C.h"
 #include "pso/unk/TLobby_800FD78C.h"
@@ -117,7 +118,7 @@ void TObjLuker::show_part(u16 arg1) {
     temp_r3 = (u8 *)(*(u8 **)((s8 *)temp_r31 + 0x90));
     if (temp_r3 != NULL) {
         if (*(u16 *)((s8 *)temp_r3 + 4) & 4) {
-            play_sound_effect(0x53703, 0, 0, 0);
+            play_sound_effect(0x53703, NULL, 0, 0);
         }
         ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->clear_update_suspension();
         ((TObject *)(*(u8 **)((s8 *)temp_r31 + 0x90)))->allow_rendering();
@@ -415,7 +416,7 @@ void TObjLuker::run_task() {
                         p = get_player_by_client_id(local_client_id);
                         if (p != NULL) {
                             send_impose_hold(p, 0xA);
-                            play_sound_effect(0x40022D1A, arg0 + 0x38, 0, 0);
+                            play_sound_effect(0x40022D1A, &this->position, 0, 0);
                         }
                         TWindowCtrl::init_all_slots();
                         *(s32 *)&this->m_b8 = 1;

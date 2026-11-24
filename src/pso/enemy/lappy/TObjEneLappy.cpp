@@ -1,3 +1,4 @@
+#include "pso/system/TLanguage_801E4874.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -1144,6 +1145,3 @@ TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) 
     }
     clear_lobby_object_state();
 }
-
-
-

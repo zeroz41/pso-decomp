@@ -765,7 +765,7 @@ void TObjJungleKamome::update() {
         ((s32 (*)(void *, int))rotate_matrix_y)(&m, this->rotation_y);
         translate_matrix_vec3((u8 *)&m, (u8 *)&this->path_position);
         ((s32 (*)(void *, void *, void *))matrix_mult_vec)(&m, &v, &v);
-        play_sound_effect(0x4BC04, (u8 *)&this->position, 0x7F, 0);
+        play_sound_effect(0x4BC04, &this->position, 0x7F, 0);
         this->cry_delay = (s32) (((3e+01f) * ((4.0f) * ((3.0517578e-05f) * (f32) rand()))) + (1.5e+02f));
     }
 }

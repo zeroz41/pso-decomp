@@ -22,7 +22,6 @@ extern "C" {
 void get_menu_field_280__6TLobbyFv(void);
 int get_music_base_gain(void);
 }
-void handle_6xB2_play_sound_from_player(void *command);
 extern "C" {
 void is_sound_enabled(void);
 }

@@ -1350,4 +1350,3 @@ f32 TObjEneMe1GiGue::receive_weapon_special_attack(void *attacker, void *weapon)
     }
     return damage;
 }
-

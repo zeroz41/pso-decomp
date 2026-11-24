@@ -991,7 +991,7 @@ void TObjEneDarkGunner::run_miss_reaction() {
     u8 *self = (u8 *)this;
     ((TObjBase *)self)->clear_actor_flags((s32)(0x100U));
     spawn_particle_effect(&body_center, 0xD7);
-    play_sound_effect(0x4003B22D, (u8 *)&this->position, 0, 0);
+    play_sound_effect(0x4003B22D, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
 }
 
 void TObjEneDarkGunner::update_state_machine() {

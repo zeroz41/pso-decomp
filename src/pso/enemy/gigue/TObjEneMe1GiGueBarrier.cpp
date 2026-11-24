@@ -66,9 +66,9 @@ void TObjEneMe1GiGueBarrier::run_task() {
             phase = 1;
             requested_action = 1;
             if (get_current_floor_area() == AREA_TOWER) {
-                play_sound_effect(0x4003A316, (u8 *)&position, 0, 0);
+                play_sound_effect(0x4003A316, reinterpret_cast<const Vec *>((u8 *)&position), 0, 0);
             } else {
-                play_sound_effect(0x3A346, (u8 *)&position, 0, 0);
+                play_sound_effect(0x3A346, reinterpret_cast<const Vec *>((u8 *)&position), 0, 0);
             }
         }
         break;

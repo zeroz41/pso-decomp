@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 // One TU: TObjFogCollision, TObjFogCollisionSwitch, TObjFogCollisionPoison and the per-client
 // TObjFogCollision_Manager. Built with -inline deferred, so functions are written in reverse

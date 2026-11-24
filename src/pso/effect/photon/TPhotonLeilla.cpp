@@ -120,7 +120,7 @@ void TPhotonLeilla::run_task() {
         }
     }
     if (visible != 0) {
-        play_persistent_sound(0x4002462F, this, 0, 0, 0);
+        play_persistent_sound(0x4002462F, this, NULL, 0, 0);
     }
 }
 

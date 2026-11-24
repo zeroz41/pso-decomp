@@ -1,3 +1,4 @@
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -271,7 +272,7 @@ void TODoorJungleMain::update_door_switch_state() {
             }
         }
         if (self->count > 0 && self->count != prev) {
-            play_sound_effect(0x4C123, self->xf, 0, 0);
+            play_sound_effect(0x4C123, reinterpret_cast<const Vec *>(self->xf), 0, 0);
         }
         if (self->count == 3 && is_any_player_near((saddr)self) != 0) {
             self->flags |= 1;

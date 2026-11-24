@@ -246,4 +246,3 @@ TTecShot::TTecShot(saddr source, Vec *pos, s32 angle, s32 level) : TEffect() {
 }
 
 void TTecShot::vfunc_8(void *) {  }
-

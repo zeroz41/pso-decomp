@@ -1,3 +1,4 @@
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"

@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer.h"
@@ -223,20 +224,20 @@ SndEnt_8022675C lbl_805145F0[40];
 u8 lbl_80514C30[0x20];
 f32 lbl_80514C50[4];
 
-s32 check_sound_admission(const Vec *src, s32 flags) {
+s32 check_sound_admission(const Vec *position, s32 flags) {
     s32 var_r3;
 
     if (flags & 0x2000) {
         var_r3 = 0;
     } else {
-        var_r3 = check_sound_admission_range(src);
+        var_r3 = check_sound_admission_range(position);
     }
     if (var_r3 == -0x100) {
         return 0;
     }
     return 1;
 }
-s32 play_persistent_sound(s32 id, const void *actor, const Vec *src, s32 volume, s32 flags) {
+s32 play_persistent_sound(s32 id, const void *actor, const Vec *position, s32 volume, s32 flags) {
     s32 idx = -1;
     s32 i;
     s32 ok;
@@ -256,30 +257,30 @@ s32 play_persistent_sound(s32 id, const void *actor, const Vec *src, s32 volume,
         }
     }
     if (idx >= 0) {
-        if (src != 0) {
-            ok = check_sound_admission(src, lbl_805145F0[idx].flags);
+        if (position != NULL) {
+            ok = check_sound_admission(position, lbl_805145F0[idx].flags);
         } else {
             ok = fn_802264B8(idx, 1);
         }
         last_sound_effect_slot = idx;
         if (ok != 0) {
             e = &lbl_805145F0[idx];
-            e->src = src;
+            e->src = position;
             e->volume = volume;
             e->timer = 5;
             idx = normalize_sound_request(id, e->actor, e->src, e->volume, flags);
         }
         return idx;
     }
-    if (check_sound_admission(src, flags) != 0) {
-        idx = normalize_sound_request(id, actor, src, volume, flags);
+    if (check_sound_admission(position, flags) != 0) {
+        idx = normalize_sound_request(id, actor, position, volume, flags);
         last_sound_effect_slot = idx;
         if (idx >= 0) {
             lbl_805145F0[idx].flags &= lbl_805DC748;
             if (flags & 1) {
                 lbl_805145F0[idx].flags |= 0x2000;
             }
-            lbl_805145F0[idx].src = src;
+            lbl_805145F0[idx].src = position;
             lbl_805145F0[idx].volume = volume;
             lbl_805145F0[idx].id = id;
             lbl_805145F0[idx].actor = actor;
@@ -292,7 +293,7 @@ s32 play_persistent_sound(s32 id, const void *actor, const Vec *src, s32 volume,
     return idx;
 }
 extern "C" {
-s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
+s32 play_sound_effect(s32 id, const Vec *position, s32 volume, s32 flags) {
     s32 i;
     s32 idx;
     Vec *pos;
@@ -310,23 +311,23 @@ s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
         }
     }
     if (idx < 0) {
-        idx = play_packed_sound_once(id, (saddr)src, a2, flags);
+        idx = play_packed_sound_once(id, (saddr)position, volume, flags);
     }
     if (idx >= 0) {
-        if (src != NULL) {
+        if (position != NULL) {
             pos = &lbl_805145F0[idx].pos;
-            VecCopy((Vec *)pos, (const Vec *)src);
+            VecCopy(pos, position);
             ((void (*)(s32, Vec *))TLobby__sub_80227AF8)(idx, pos);
         }
         lbl_805145F0[idx].flags &= lbl_805DC748;
         if (flags & 1) {
             lbl_805145F0[idx].flags |= 0x2000;
         }
-        lbl_805145F0[idx].src = src;
+        lbl_805145F0[idx].src = position;
         lbl_805145F0[idx].timer = 0x96;
-        lbl_805145F0[idx].volume = a2;
+        lbl_805145F0[idx].volume = volume;
         lbl_805145F0[idx].id = id;
-        lbl_805145F0[idx].actor = 0;
+        lbl_805145F0[idx].actor = NULL;
         if (fn_802264B8(idx, 0) == 1) {
             last_sound_effect_slot = idx;
             lbl_805145F0[idx].flags |= 0x600;

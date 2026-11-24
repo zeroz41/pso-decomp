@@ -201,4 +201,3 @@ void *TObjEneReconBomb::create(void *parent, void *recon, void *pos) {
 }
 
 void TObjEneReconBomb::load_resources() { recon_bomb_bml_resource = TObjEneRecobox::get_bml_resource(); }
-

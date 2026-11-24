@@ -502,7 +502,7 @@ void TObjEneMe3Stelth::attack_and_unequip() {
             }
         }
     }
-    play_sound_effect(0x3AA37, (u8 *)&position, 0, 0);
+    play_sound_effect(0x3AA37, reinterpret_cast<const Vec *>((u8 *)&position), 0, 0);
 }
 void TObjEneMe3Stelth::vfunc_108() {  }
 s32 TObjEneMe3Stelth::check_target_in_range() {
@@ -1046,7 +1046,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
                             this->state_step = 3;
                             this->state_values[0] = (this->destination_distance - 20.0f) / 12.857143f;
                             this->set_invulnerable();
-                            play_sound_effect(0x3A835, (u8 *)&this->position, 0, 0);
+                            play_sound_effect(0x3A835, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
                         } else {
                             this->state_step = 5;
                         }
@@ -1077,7 +1077,7 @@ void TObjEneMe3Stelth::state_f_attack(s32 reason) {
                         this->current_target->apply_knockback_from_attacker((u8 *)this, 3.0f);
                     }
                 }
-                play_sound_effect(0x3A838, (u8 *)&this->position, 0, 0);
+                play_sound_effect(0x3A838, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
             }
             this->state_values[0] *= 0.85f;
             this->move_with_wall_slide_on_ground(this->destination_direction.x, this->destination_direction.z, this->state_values[0]);
@@ -1226,7 +1226,7 @@ void TObjEneMe3Stelth::state_backstep(s32 reason) {
             if ((this->frame + this->play_speed) >= 15.0f) {
                 this->state_step = 1;
                 this->set_invulnerable();
-                play_sound_effect(0x3A835, (u8 *)&this->position, 0, 0);
+                play_sound_effect(0x3A835, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
             }
             this->update_ground_contact();
             this->check_collisions();
@@ -1385,7 +1385,7 @@ void TObjEneMe3Stelth::state_knockback(s32 reason) {
         this->requested_action = 4;
         this->advance_animation();
         this->set_active();
-        play_sound_effect(0x3A839, (u8 *)&this->position, 0, 0);
+        play_sound_effect(0x3A839, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
         break;
     case 3:
         if (this->get_flag_b4() != 0) {
@@ -1431,7 +1431,7 @@ void TObjEneMe3Stelth::state_death(s32 reason) {
         case 0:
             advance_animation();
             if (is_passing_frame(18.0f) != 0 || is_passing_frame(28.0f) != 0) {
-                play_sound_effect(0x3A836, (u8 *)&position, 0, 0);
+                play_sound_effect(0x3A836, reinterpret_cast<const Vec *>((u8 *)&position), 0, 0);
             }
             if (get_flag_b4() != 0) {
                 state_step = 1;
@@ -1458,7 +1458,7 @@ void TObjEneMe3Stelth::state_death(s32 reason) {
                 v.x += 20.0f * sin_table_lookup(rotation_y);
                 v.z += 20.0f * cos_table_lookup(rotation_y);
                 trigger_dell_biter_events(&v);
-                play_sound_effect(0x3AD3A, (u8 *)&position, 0, 0);
+                play_sound_effect(0x3AD3A, reinterpret_cast<const Vec *>((u8 *)&position), 0, 0);
             }
             update_ground_contact();
             break;

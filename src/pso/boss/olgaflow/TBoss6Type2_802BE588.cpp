@@ -528,7 +528,7 @@ void TBoss6Type2::update_charge_timer() {
     } else if (progress > 1.0f) {
         state_progress = 1.0f;
     }
-    play_persistent_sound(0x4006A30B, this, 0, 0, 0);
+    play_persistent_sound(0x4006A30B, this, NULL, 0, 0);
     if (--state_timer < 0) {
         berserk = 0;
         state_progress = 0.0f;

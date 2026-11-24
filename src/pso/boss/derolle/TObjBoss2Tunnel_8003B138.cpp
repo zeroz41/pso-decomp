@@ -439,7 +439,7 @@ void TObjBoss2Tunnel::run_task() {
                 brake_end = brake_pos;
                 play_sound_effect(0x4003A80E, 0, 0, 0);
             } else {
-                play_persistent_sound(0x4003B20C, this, 0, 0, 0);
+                play_persistent_sound(0x4003B20C, this, NULL, 0, 0);
             }
         } else {
             f32 lim;
@@ -471,7 +471,7 @@ void TObjBoss2Tunnel::run_task() {
         break;
     }
     if (state == 1 || state == 2) {
-        play_persistent_sound(0x4003B20C, this, 0, 0, 0);
+        play_persistent_sound(0x4003B20C, this, NULL, 0, 0);
     }
     update_particles();
     if (TObjBoss2Tunnel__global_flags & 2) {

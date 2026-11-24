@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
@@ -63,7 +64,6 @@ struct Part_802312E4 { s32 id; u32 flags; f32 scale; };
 struct Profile_802312E4 { const Part_802312E4 *parts; u32 count; };
 
 void * find_entity_by_id(u16);
-s32 play_sound_effect(s32, void *, s32, s32);
 void matrix_mult_vec(void *, void *, void *);
 
 const char *TTecGiFoie__name = "TTecGiFoie";

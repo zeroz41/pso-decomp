@@ -73,7 +73,7 @@ void TUnk_804CF9E0::update() {
     f32 temp_f30;
     if (this->target != this->current) {
         if (this->flags & 8) {
-            play_persistent_sound(0x44E03, this, 0, 0, 0);
+            play_persistent_sound(0x44E03, this, NULL, 0, 0);
         }
         target = this->target;
         temp_f30 = target - this->current;

@@ -232,7 +232,7 @@ void TObjEnvSoundEx::run_task() {
             play_persistent_sound(sound_id, this, &position, 0, 0);
             break;
         case 2:
-            play_persistent_sound(sound_id, this, 0, (s32)volume, 2);
+            play_persistent_sound(sound_id, this, NULL, (s32)volume, 2);
             break;
         }
     } else {
@@ -248,7 +248,7 @@ void TObjEnvSoundEx::run_task() {
                 play_persistent_sound(sound_id, this, &position, 0, 0);
                 break;
             case 2:
-                play_persistent_sound(sound_id, this, 0, (s32)volume, 2);
+                play_persistent_sound(sound_id, this, NULL, (s32)volume, 2);
                 break;
             }
         }
@@ -312,7 +312,7 @@ void TObjEnvSoundGlobal::run_task() {
         play_persistent_sound((s32)self->sound, this, &position, 0, 0);
         break;
     case 2:
-        play_persistent_sound((s32)self->sound, this, 0, (s32)self->param, 2);
+        play_persistent_sound((s32)self->sound, this, NULL, (s32)self->param, 2);
         break;
     }
 }

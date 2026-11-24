@@ -572,7 +572,7 @@ void TObjGrass::run_task() {
             ((TObjGrass *)arg0)->sub_800BCE44();
             break;
         case 8:
-            TObjGrass::update_dying(arg0);
+            update_dying();
             break;
         case 9:
             break;
@@ -1593,17 +1593,17 @@ void TObjGrass::update_camera_vec_by_stage(NJS_OBJECT *) {
 
 #pragma push
 #pragma opt_common_subs off
-#define arg0 ((u8 *)arg0_)
-void TObjGrass::update_dying(void *arg0_) {
+#define arg0 ((u8 *)this)
+void TObjGrass::update_dying() {
     ((TObjBase *)arg0)->set_actor_flags(0x04040000);
     ((TObjMotion *)arg0)->advance_animation();
     switch (((TObjEnePanarms *)arg0)->phase) {
     default:
         ((TObjEnePanarms *)arg0)->phase = 0;
     case 0:
-        apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), (0.0f));
+        apply_actor_gravity(this, (s32 *)(0), (0.0f));
         if (((TObjMotion *)arg0)->is_passing_frame((f32)(0.0f)) != 0) {
-            play_sound_effect(((TObjEnemy *)arg0)->remap_sound_for_area(0x4003A804), arg0 + 0x38, 0, 0);
+            play_sound_effect(remap_sound_for_area(0x4003A804), &position, 0, 0);
             ((TObjEnePanarms *)arg0)->phase = 1;
         }
         break;
@@ -1635,7 +1635,7 @@ void TObjGrass::update_dying(void *arg0_) {
                 break;
             }
             }
-            play_sound_effect(((TObjEnemy *)arg0)->remap_sound_for_area(0x4003AB0A), arg0 + 0x38, 0, 0);
+            play_sound_effect(remap_sound_for_area(0x4003AB0A), &position, 0, 0);
             TObjPlayer::spawn_dead_spot_default((saddr)(arg0 + 0x38), 0xA);
             spawn_ground_effect((const Vec *)(arg0 + 0x38), 0x1E);
         }

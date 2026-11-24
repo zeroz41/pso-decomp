@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
@@ -10,7 +11,6 @@
 
 extern "C" {
 
-s32 play_sound_effect(s32, s32, s32, s32);
 
 
 void TUnk_804A3070::emit_marker_effects() {
@@ -18,7 +18,7 @@ void TUnk_804A3070::emit_marker_effects() {
         if (is_mode_two_and_ready() != 0) {
             ((TItemWeapon *)this)->drain_owner_hp_fraction(0.07f);
             ((TItemWeapon *)this)->launch_rare_weapon_special(0, 1, 3.5f);
-            play_sound_effect(0x4001A341, (saddr)this->owner + 0x38, 0, 0);
+            play_sound_effect(0x4001A341, &owner->position, 0, 0);
             return;
         }
         ((TItemWeapon *)this)->update_active_game_effect();

@@ -1691,7 +1691,7 @@ void TBoss6Type2::drop_random_rocks(s32 force) {
     }
     TBoss6Type2__sub_80356E50((saddr)buf, cnt, force);
     mem_free(buf);
-    play_sound_effect(0x4006AB1D, (void *)&boss6_arena_center, 0, 1);
+    play_sound_effect(0x4006AB1D, &boss6_arena_center, 0, 1);
 }
 
 void TBoss6Type2::spawn_rocks_around_players() {
@@ -1725,7 +1725,7 @@ void TBoss6Type2::spawn_rocks_around_players() {
         TBoss6RockChase::spawn(this, &q);
         n++;
     }
-    play_sound_effect(0x4006AB1D, (void *)&boss6_arena_center, 0, 1);
+    play_sound_effect(0x4006AB1D, &boss6_arena_center, 0, 1);
 }
 
 void TBoss6Type2::create_dpbs() {

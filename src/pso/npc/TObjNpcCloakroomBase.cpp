@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/system/BmlResource.h"
 #include "types.h"
 #include "pso/object/TObjControl.h"
