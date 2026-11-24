@@ -12,6 +12,7 @@ class TAdChrSelPlayerGC;
 class TPlyCharData;
 struct CharacterFile;
 struct CharacterSaveRecord;
+struct TItemData;
 
 struct TAdChrSelASlotGC;
 class TAdSelectCurGC;
@@ -74,7 +75,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static u16 get_card_status(int client);
     static u16 get_card_value(int client);
     static u16 get_card_field_21a8(int client);
-    s32 append_inventory_item(saddr arg1);
+    s32 append_inventory_item(TItemData *item);
     static s32 load_player_by_slot(s32 chan);
     static s32 verify_system_file(void* _w0);
     static s32 load_save_from_card();
@@ -157,7 +158,7 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 is_entry_equal(void *, void *);
     static s32 count_char_diffs(void *, void *);
     static s32 save_character_to_card();
-    static s32 forward_to_global_instance(int);
+    static s32 forward_to_global_instance(TItemData *item);
     static s32 increment_frame();
     static s32 get_player_count();
     static s32 save_online_character();

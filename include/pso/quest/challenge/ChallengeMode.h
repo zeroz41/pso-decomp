@@ -5,6 +5,7 @@
 #include "pso/quest/challenge/ChallengeModeState.h"
 
 struct ChallengeStageStart;
+struct TItemData;
 
 // The challenge-mode session (challenge_mode_state) and the quest opcodes that drive it.
 
@@ -80,7 +81,7 @@ void apply_challenge_rank_title();
 // The challenge rank title of a character record, decoded for display.
 extern char challenge_rank_title[0xC];
 char *decode_active_challenge_title();
-s32 award_challenge_item(int item);
+s32 award_challenge_item(TItemData *item);
 s32 count_free_inventory_slots();
 
 // Players dying, the retry menu and the boss warp.

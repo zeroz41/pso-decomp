@@ -398,13 +398,13 @@ u16 TAdSinglePlyChrSelectGC::get_card_field_21a8(int client) {
 s32 *TAdSinglePlyChrSelectGC__sub_80202B38(void *self, s32 i);
 }
 
-s32 TAdSinglePlyChrSelectGC::append_inventory_item(saddr arg1) {
+s32 TAdSinglePlyChrSelectGC::append_inventory_item(TItemData *item) {
 #define arg0 ((u8 *)this)
     u8 n = *arg0;
 
     if (n < 0x1E) {
         ((TAdSinglePlyChrSelectGC *)arg0)->clear_inventory_slot_by_index(n);
-        memcpy(TAdSinglePlyChrSelectGC__sub_80202B38(arg0, n), (void *)arg1, 0x14);
+        memcpy(TAdSinglePlyChrSelectGC__sub_80202B38(arg0, n), item, sizeof(TItemData));
         *arg0 += 1;
         return 1;
     }
@@ -682,9 +682,9 @@ void TAdSinglePlyChrSelectGC::render_frame() {
 }
 
 
-s32 TAdSinglePlyChrSelectGC::forward_to_global_instance(int arg0) {
+s32 TAdSinglePlyChrSelectGC::forward_to_global_instance(TItemData *item) {
     if ((void *) selected_character_data != NULL) {
-        ((TAdSinglePlyChrSelectGC *)selected_character_data)->append_inventory_item(arg0);
+        ((TAdSinglePlyChrSelectGC *)selected_character_data)->append_inventory_item(item);
         return 1;
     }
     return 0;

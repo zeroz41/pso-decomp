@@ -223,7 +223,7 @@ void set_challenge_base_time(s32 time) {
     }
 }
 
-s32 award_challenge_item(int item) {
+s32 award_challenge_item(TItemData *item) {
     ChallengeRankThreshold *threshold;
     ChallengeRecord *record;
     ChallengeStageRank *rank;

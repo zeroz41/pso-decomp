@@ -3881,7 +3881,7 @@ force_active:
   - append_file_number__24TMessageWindowControllerFv
   - append_float_value__6TLobbyFi
   - append_int_param__6TLobbyFi
-  - append_inventory_item__23TAdSinglePlyChrSelectGCFl
+  - append_inventory_item__23TAdSinglePlyChrSelectGCFP9TItemData
   - append_next_char__16KeyboardKeyStateFv
   - append_next_char_global__16KeyboardKeyStateFv
   - append_quest_name__24TMessageWindowControllerFv

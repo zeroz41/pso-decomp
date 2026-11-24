@@ -743,12 +743,6 @@ struct Tag_801EB10C {
     char text[0x200];
 };
 
-struct Item_801EBF30 {
-    u8 data[12];
-    s32 id;
-    u32 f10;
-};
-
 
 struct Pkt_801ED300 {
     u8 cmd;
@@ -943,7 +937,7 @@ s32 TLobby__sub_8029204C();
 s32 TLobby__sub_80292200(int);
 void TLobby__sub_80292268(void *, void *, s32);
 s32 TLobby__sub_80292270(s32, s32);
-s32 TLobby__sub_802924B4(Item_801EBF30 *, u16);
+s32 TLobby__sub_802924B4(TItemData *, u16);
 s32 TLobby__sub_8029299C();
 s32 TLobby__sub_80292A34();
 s32 TLobby__sub_8032CDEC();
@@ -2841,14 +2835,14 @@ void qst_op_ba_set_box_drop_area(s32 reg) {
 }
 
 void qst_op_item_create_cmode(u8 regs, u8 dst) {
-    Item_801EBF30 item;
-    ((s32 (*)(void *))init__9TItemDataFv)((void *)(&item));
-    item.data[0] = qst_registers[(u8)regs++];
-    item.data[1] = qst_registers[(u8)regs++];
-    item.data[2] = qst_registers[(u8)regs++];
-    item.data[3] = qst_registers[(u8)regs++];
-    item.data[4] = qst_registers[(u8)regs++];
-    item.data[5] = qst_registers[(u8)regs];
+    TItemData item;
+    item.init();
+    item.data1.data_u8[0] = qst_registers[(u8)regs++];
+    item.data1.data_u8[1] = qst_registers[(u8)regs++];
+    item.data1.data_u8[2] = qst_registers[(u8)regs++];
+    item.data1.data_u8[3] = qst_registers[(u8)regs++];
+    item.data1.data_u8[4] = qst_registers[(u8)regs++];
+    item.data1.data_u8[5] = qst_registers[(u8)regs];
     item.id = advance_item_id_counter(local_client_id);
     if (is_split_screen() == 1) {
         if (TLobby__sub_802924B4(&item, 0) != 0) {
@@ -2857,7 +2851,7 @@ void qst_op_item_create_cmode(u8 regs, u8 dst) {
             qst_registers[dst] = 0;
         }
     } else {
-        if (award_challenge_item((int)&item) != 0) {
+        if (award_challenge_item(&item) != 0) {
             qst_registers[dst] = 1;
         } else {
             qst_registers[dst] = 0;
@@ -2946,10 +2940,10 @@ void qst_op_set_cmode_rank_threshold(u8 regs, u8 dst) {
 }
 extern "C" {
 s32 TObjItemOKWindow__sub_801F3268(void);
-void TItemData__sub_8010CA08(Item_801EBF30 *, saddr, s32);
+void TItemData__sub_8010CA08(TItemData *, saddr, s32);
 }
 void qst_op_award_item_give(u8 reg) {
-    Item_801EBF30 item;
+    TItemData item;
     u8 t = TObjItemNameSelect::get_selected_value();
     TItemData__sub_8010CA08(&item, TObjItemOKWindow__sub_801F3268(), t);
     if (is_split_screen() == 1) {
@@ -2959,7 +2953,7 @@ void qst_op_award_item_give(u8 reg) {
             qst_registers[reg] = 0;
         }
     } else {
-        if (award_challenge_item((int)&item) != 0) {
+        if (award_challenge_item(&item) != 0) {
             qst_registers[reg] = 1;
         } else {
             qst_registers[reg] = 0;
@@ -2998,7 +2992,7 @@ void qst_op_get_mag_levels(s32 i) {
 }
 
 void qst_op_give_s_rank_weapon() {
-    Item_801EBF30 item;
+    TItemData item;
     u8 r = qst_args[1];
     s32 a = qst_args[2];
     u16 id = qst_args[0];
@@ -3006,8 +3000,8 @@ void qst_op_give_s_rank_weapon() {
         TObjPlayer *player = get_player_by_client_id(id);
         if (player != NULL) {
             TItemData__sub_8010CA08(&item, a, (u8)qst_registers[r]);
-            if (((TItemData *)(&item))->isValidGroundDrop() == 1 && player->can_inventory_accept_item((u8 *)((Item_801EEE68 *)&item)) > 0) {
-                player->request_inventory_item((TItemData*)((Item_801EEE68 *)&item));
+            if (item.isValidGroundDrop() == 1 && player->can_inventory_accept_item((u8 *)&item) > 0) {
+                player->request_inventory_item(&item);
             }
         }
     }
