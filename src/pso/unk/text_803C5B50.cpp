@@ -63,7 +63,7 @@ s32 lbl_805D7548;
 void TLobby__sub_803C5D24(AdxtPlayer *player) {
     LscStream *lsc;
     lsc = player->lsc_stream;
-    TLobby__sub_803C9DB4((u8 *)player);
+    TLobby__sub_803C9DB4(player);
     TLobby::init_once();
     start_stream_playback(player, player->input_ring);
     player->input_sj->interface->reset(player->input_sj);

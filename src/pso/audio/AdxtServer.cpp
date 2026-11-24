@@ -50,39 +50,12 @@ s32 trigger_sub_task__6TLobbyFv(saddr, s32);
 s32 audio_stream_get_output_samples(u8 *lobby);
 
 }
-void stop_audio_stream(u8 *arg0);
 extern "C" {
-
-struct Strm_803CAB38 {
-    u8 f0;
-    s8 f1;
-    u8 f2;
-    s8 f3;
-    AudioStreamInputState *input_state;
-    AdxStreamFile *file;
-    saddr fc;
-    u8 pad10[0x28];
-    s32 f38;
-    s16 f3c_pad;
-    s16 f3e_pad;
-    s16 f40;
-    s16 f42;
-    s16 f44;
-    s16 pad46;
-    s32 f48;
-    s32 pad4c;
-    s32 f50;
-    u8 pad54[0x20];
-    void *f74;
-    u8 pad78[0x14];
-    s32 f8c;
-    s32 f90;
-};
 
 s32 TLobby__sub_803BFE58(int);
 s32 TLobby__sub_803BFEE8(int);
 s32 audio_stream_get_format(int);
-void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, s32 arg2);
+void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, void *context);
 s32 audio_stream_get_state(int);
 s32 run_step_4430__6TLobbyFv(int, int);
 s32 TLobby__sub_803CBF0C(int, int);
@@ -92,7 +65,7 @@ s32 TLobby__sub_803CBFB0(int, int);
 struct Conn_803CAEB4;
 void TLobby__sub_803CAEB4(Conn_803CAEB4 *arg0);
 
-void adxt_stat_decinfo(Strm_803CAB38 *self);
+void adxt_stat_decinfo(AdxtPlayer *self);
 s32 TLobby__sub_803CBFF0(int);
 s32 lbl_805D7578;
 s32 lbl_805D757C;
@@ -169,7 +142,7 @@ void TLobby__sub_803CA8B4(AdxtPlayer *self) {
     if (stat == 3) {
         prep_803CA8B4(self);
     } else if (stat == 1) {
-        adxt_stat_decinfo((Strm_803CAB38 *)self);
+        adxt_stat_decinfo(self);
     } else if (stat == 2) {
         dec_803CA8B4(self);
     } else if (stat == 4) {
@@ -188,8 +161,7 @@ void TLobby__sub_803CA8B4(AdxtPlayer *self) {
 
 #define SBF50 TLobby__sub_803CBF50
 
-void adxt_stat_decinfo(Strm_803CAB38 *self) {
-#define arg0 ((u8 *)self)
+void adxt_stat_decinfo(AdxtPlayer *self) {
     AudioStreamInputState *input_state = self->input_state;
     s32 k;
     s32 n1;
@@ -197,91 +169,90 @@ void adxt_stat_decinfo(Strm_803CAB38 *self) {
 
     if (audio_stream_get_state(reinterpret_cast<saddr>(input_state)) == 2) {
         s32 v = reinterpret_cast<TLobby *>(input_state)->send_with_offset4();
-        if (v > self->f3) {
-            TLobby::format_number_pair(v, self->f3, buf, 0x10);
+        if (v > self->max_channels) {
+            TLobby::format_number_pair(v, self->max_channels, buf, 0x10);
             TLobby::report_adx_error("E9081001 adxt_stat_decinfo: can't play this number of channels", buf);
-            stop_audio_stream(arg0);
+            stop_audio_stream(self);
             return;
         }
         n1 = reinterpret_cast<TLobby *>(input_state)->notify_field_4();
         k = TLobby__sub_803BFEE8(reinterpret_cast<saddr>(input_state));
         if (k > 0) {
-            self->f48 = (n1 / self->f38) * 3;
+            self->reserved_48 = (n1 / self->server_freq) * 3;
         } else {
-            self->f48 = ((n1 / self->f38) * 3) / 2;
+            self->reserved_48 = ((n1 / self->server_freq) * 3) / 2;
         }
         {
             s32 a = reinterpret_cast<TLobby *>(input_state)->notify_field_4_alt() * 2;
-            self->f48 = a * ((self->f48 + a) / a);
+            self->reserved_48 = a * ((self->reserved_48 + a) / a);
         }
-        reinterpret_cast<TLobby *>(input_state)->set_network_result(self->f48);
+        reinterpret_cast<TLobby *>(input_state)->set_network_result(self->reserved_48);
         if (k > 0) {
-            if ((s32) self->f2 == 2) {
-                self->f50 = 0;
+            if ((s32) self->source_type == 2) {
+                self->reserved_50 = 0;
             } else {
                 s32 x = TLobby__sub_803BFE58(reinterpret_cast<saddr>(input_state));
                 s32 pages;
-                self->f50 = 0x800 - x % 0x800;
+                self->reserved_50 = 0x800 - x % 0x800;
                 pages = (x + 0x7FF) / 0x800;
-                self->f50 = self->f50 % 0x800;
-                self->f8c = pages;
-                set_adx_stream_end_sector(self->file, pages);
-                set_adx_stream_completion(self->file, TLobby__sub_803CB194, arg0);
+                self->reserved_50 = self->reserved_50 % 0x800;
+                self->total_pages = pages;
+                set_adx_stream_end_sector(self->stream_file, pages);
+                set_adx_stream_completion(self->stream_file, TLobby__sub_803CB194, self);
             }
             s32 e = input_state->get_loop_end_sample();
-            self->f90 = e;
+            self->loop_end_sample = e;
             input_state->set_notify_sample_count(e);
             input_state->set_notify_bytes(0);
             input_state->set_notify_count(0);
-            audio_stream_set_notify_callback(reinterpret_cast<u8 *>(input_state), (saddr)adxt_trap_entry_update__6TLobbyFPv, (saddr)arg0);
+            audio_stream_set_notify_callback(reinterpret_cast<u8 *>(input_state), (saddr)adxt_trap_entry_update__6TLobbyFPv, self);
         } else {
-            if (self->file != NULL) {
-                set_adx_stream_end_sector(self->file, 0x7FFFFFFF);
+            if (self->stream_file != NULL) {
+                set_adx_stream_end_sector(self->stream_file, 0x7FFFFFFF);
             }
             input_state->set_notify_sample_count(reinterpret_cast<TLobby *>(input_state)->send_packet_by_id());
             input_state->set_notify_bytes(0);
             input_state->set_notify_count(0);
-            audio_stream_set_notify_callback(reinterpret_cast<u8 *>(input_state), (saddr)TLobby__sub_803CAEB4, (saddr)arg0);
+            audio_stream_set_notify_callback(reinterpret_cast<u8 *>(input_state), (saddr)TLobby__sub_803CAEB4, self);
         }
         k = reinterpret_cast<TLobby *>(input_state)->notify_field_4();
         n1 = reinterpret_cast<TLobby *>(input_state)->send_with_offset4();
         s32 pid = reinterpret_cast<TLobby *>(input_state)->send_packet_by_id();
         s32 p2 = reinterpret_cast<TLobby *>(input_state)->send_packet_by_id_2();
-        TLobby__sub_803CBF30(self->fc, p2);
-        TLobby__sub_803CBF90(self->fc, k);
-        TLobby__sub_803CBFB0(self->fc, n1);
-        TLobby__sub_803CBF0C(self->fc, pid);
-        trigger_sub_task__6TLobbyFv(self->fc, self->f40);
+        TLobby__sub_803CBF30(self->rna_handle, p2);
+        TLobby__sub_803CBF90(self->rna_handle, k);
+        TLobby__sub_803CBFB0(self->rna_handle, n1);
+        TLobby__sub_803CBF0C(self->rna_handle, pid);
+        trigger_sub_task__6TLobbyFv(self->rna_handle, self->output_vol);
         if (reinterpret_cast<TLobby *>(self->input_state)->send_with_offset4() == 1) {
-            if (self->f42 == -0x80) {
-                SBF50(self->fc, 0, 0);
+            if (self->out_pan[0] == -0x80) {
+                SBF50(self->rna_handle, 0, 0);
             } else {
-                SBF50(self->fc, 0, self->f42);
+                SBF50(self->rna_handle, 0, self->out_pan[0]);
             }
         } else {
-            if (self->f42 == -0x80) {
-                SBF50(self->fc, 0, -0xF);
+            if (self->out_pan[0] == -0x80) {
+                SBF50(self->rna_handle, 0, -0xF);
             } else {
-                SBF50(self->fc, 0, self->f42);
+                SBF50(self->rna_handle, 0, self->out_pan[0]);
             }
-            if (self->f44 == -0x80) {
-                SBF50(self->fc, 1, 0xF);
+            if (self->out_pan[1] == -0x80) {
+                SBF50(self->rna_handle, 1, 0xF);
             } else {
-                SBF50(self->fc, 1, self->f44);
+                SBF50(self->rna_handle, 1, self->out_pan[1]);
             }
         }
-        if (self->f74 != NULL) {
-            ((TLobby *)(self->f74))->set_packet_flags(k);
+        if (self->amp != NULL) {
+            ((TLobby *)(self->amp))->set_packet_flags(k);
         }
         if (audio_stream_get_format(reinterpret_cast<saddr>(input_state)) == 2) {
             s32 o = reinterpret_cast<TLobby *>(input_state)->get_offset_58();
-            run_step_4430__6TLobbyFv(self->fc, o);
+            run_step_4430__6TLobbyFv(self->rna_handle, o);
         }
-        TLobby::dispatch_packet((GcrnaStream *)(self->fc), 1);
-        self->f1 = 2;
+        TLobby::dispatch_packet((GcrnaStream *)(self->rna_handle), 1);
+        self->stat = 2;
     }
 }
-#undef arg0
 #undef SBF50
 
 typedef struct Conn_803CAEB4 Conn_803CAEB4;

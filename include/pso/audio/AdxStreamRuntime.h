@@ -31,7 +31,7 @@ s16 TLobby__sub_803C96B0(u8 *arg0);
 s32 TLobby__sub_803C9740(u8 *arg0);
 s32 TLobby__sub_803C97B8(u8 *arg0);
 s8 TLobby__sub_803C9CB0(u8 *arg0);
-void TLobby__sub_803C9DB4(u8 *arg0);
+void TLobby__sub_803C9DB4(AdxtPlayer *player);
 void TLobby__sub_803CB194(void *context);
 void TLobby__sub_803CB4A4(u8 *arg0);
 void TLobby__sub_803CB570(u8 *arg0, u8 *arg1, s16 *arg2);
@@ -48,7 +48,6 @@ void ADXT_EntryAfs(u8 *arg0, s32 arg1, s32 arg2);
 extern "C" {
 void inl_803C9608(void);
 }
-void stop_audio_stream(u8 *arg0);
 void update_active_stream_reads(void);
 
 // --- C functions of the ADX stream, talk and manager files (AdxStream.cpp to AdxManager.cpp) ---
@@ -68,7 +67,7 @@ s16 TLobby__sub_803C96B0(u8 *arg0);
 s32 TLobby__sub_803C9740(u8 *arg0);
 s32 TLobby__sub_803C97B8(u8 *arg0);
 s8 TLobby__sub_803C9CB0(u8 *arg0);
-void TLobby__sub_803C9DB4(u8 *arg0);
+void TLobby__sub_803C9DB4(AdxtPlayer *player);
 void TLobby__sub_803CB194(void *context);
 void TLobby__sub_803CB4A4(u8 *arg0);
 void TLobby__sub_803CB570(u8 *arg0, u8 *arg1, s16 *arg2);

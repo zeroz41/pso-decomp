@@ -119,7 +119,7 @@ void TLobby__sub_803C3A04(u8 *arg0);
 void TLobby__sub_803C3984(u8 *arg0);
 s32 TLobby__sub_803C3B44(u8 *adxb_decoder);
 void audio_stream_get_format(u8 *arg0);
-void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, s32 arg2);
+void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, void *context);
 s32 audio_stream_get_output_samples(u8 *lobby);
 void TLobby__sub_803C39CC(u8 *arg0);
 void audio_stream_start(u8 *lobby);
@@ -195,9 +195,9 @@ void AudioStreamInputState::set_notify_count(s32 samples) {
 void AudioStreamInputState::set_notify_sample_count(s32 samples) {
     notify_samples = samples;
 }
-void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, s32 arg2) {
+void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, void *context) {
     *(s32 *)((s8 *)arg0 + 0x48) = arg1;
-    *(s32 *)((s8 *)arg0 + 0x4C) = arg2;
+    *(void **)((s8 *)arg0 + 0x4C) = context;
 }
 void AudioStreamInputState::set_decoded_samples(s32 samples) {
     decoded_samples = samples;

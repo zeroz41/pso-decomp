@@ -12,7 +12,7 @@
 
 void ADXT_StartMemIdx(AdxtPlayer *player, u8 *table_data, s32 entry_index) {
     SjRingBuffer *ring_handle;
-    stop_audio_stream((u8 *)player);
+    stop_audio_stream(player);
     if (entry_index >= ((AdxtMemTableEntry *)table_data)[0].length || entry_index < 0) {
         return;
     }
@@ -30,7 +30,7 @@ void ADXT_StartMemIdx(AdxtPlayer *player, u8 *table_data, s32 entry_index) {
 }
 
 void ADXT_StartFname(AdxtPlayer *player, const char *name) {
-    stop_audio_stream((u8 *)player);
+    stop_audio_stream(player);
     TLobby::init_once();
     if ((player->stream_file = ADXSTM_OpenFnameEx(name, (saddr)player->input_ring)) == 0) {
         TLobby::release_ref();

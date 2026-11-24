@@ -57,7 +57,6 @@ void TLobby__sub_8022733C(void);
 s32 TLobby__sub_803C5D00(void *);
 s32 TLobby__sub_803C97B8(u8 *arg0);
 }
-void stop_audio_stream(u8 *arg0);
 extern saddr lbl_804CB850[];
 void set_dark_falz_music_request(s32 arg0);
 void stop_cue_stream(void);
@@ -103,7 +102,7 @@ extern "C" {
 
 void TLobby::release_bgm_resource() {
     if ((s32) lbl_805D6330 != 0) {
-        stop_audio_stream((u8 *)(*(saddr *)((s8 *)lbl_804CB850 + 4)));
+        stop_audio_stream((AdxtPlayer *)lbl_804CB850[1]);
         lbl_805D6330 = 0;
         TLobby::init_layout_positions();
     }
@@ -261,7 +260,7 @@ void TLobby::set_target_id(s32 arg0) {
 
 void stop_cue_stream(void) {
     if ((u32) lbl_804CB850[2] != 0U) {
-        stop_audio_stream((u8 *)lbl_804CB850[2]);
+        stop_audio_stream((AdxtPlayer *)lbl_804CB850[2]);
     }
 }
 
@@ -510,7 +509,7 @@ void TWindowOptionCtrl__sub_802273B4(s32 arg0) {
 void TLobby::stop_audio_streams() {
     s32 i;
     for (i = 0; i < 2; i++) {
-        stop_audio_stream((u8 *)lbl_804CB850[i]);
+        stop_audio_stream((AdxtPlayer *)lbl_804CB850[i]);
         music_fade_volumes[i] = 0.0f;
     }
     music_fade_frames_remaining = 0;
@@ -569,7 +568,7 @@ void update_music_fade(void) {
         }
         if (--music_fade_frames_remaining <= 0) {
             s32 st;
-            stop_audio_stream((u8 *)lbl_804CB850[1 - music_fade_slot_index]);
+            stop_audio_stream((AdxtPlayer *)lbl_804CB850[1 - music_fade_slot_index]);
             st = TLobby__sub_803C9CB0(lbl_804CB850[music_fade_slot_index]);
             if (st == 0 || st == 5) {
                 lbl_805D62E4 = 0;

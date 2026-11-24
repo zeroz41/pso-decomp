@@ -473,69 +473,53 @@ s8 TLobby__sub_803C9CB0(u8 *arg0) {
   return (s8) new_var2;
 }
 }
-void stop_audio_stream(u8 *arg0);
 #pragma push
 #pragma fp_contract on
-void stop_audio_stream(u8 *arg0) {
-    AdxtPlayer *player = reinterpret_cast<AdxtPlayer *>(arg0);
-    void **temp_r3;
-    void **temp_r3_2;
-    void **temp_r3_3;
-    u8 *temp_r4;
-    u8 *temp_r4_2;
-    u8 *temp_r4_3;
+void stop_audio_stream(AdxtPlayer *player) {
     if (player->stream_file != NULL) {
         stop_adx_stream(player->stream_file);
         adxstm_close(player->stream_file);
-        temp_r3 = *(void ***)((s8 *)arg0 + 0x14);
-        if (temp_r3 != NULL) {
-            temp_r4 = (u8 *)(*temp_r3);
-            (*(s32 (**)(void *, void *))((s8 *)temp_r4 + 0x14))(temp_r3, temp_r4);
+        if (player->input_sj != NULL) {
+            player->input_sj->interface->reset(player->input_sj);
         }
         player->stream_file = NULL;
     }
     TLobby::init_once();
-    if ((s32) *(u8 *)((s8 *)arg0 + 2) == 4) {
-        lsc_stop((LscStream*) (*(saddr *)((s8 *)arg0 + 0x94)));
-        temp_r3_2 = *(void ***)((s8 *)arg0 + 0x14);
-        if (temp_r3_2 != NULL) {
-            temp_r4_2 = (u8 *)(*temp_r3_2);
-            (*(s32 (**)(void *, void *))((s8 *)temp_r4_2 + 0x14))(temp_r3_2, temp_r4_2);
+    if ((s32)player->source_type == 4) {
+        lsc_stop(player->lsc_stream);
+        if (player->input_sj != NULL) {
+            player->input_sj->interface->reset(player->input_sj);
         }
     }
     TLobby::init_once();
-    TLobby::dispatch_packet(*(GcrnaStream **)((s8 *)arg0 + 0xC), 0);
-    TLobby__sub_803CC030(*(GcrnaStream **)((s8 *)arg0 + 0xC), 0);
-    ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->reset_flag();
-    if ((s32) *(u8 *)((s8 *)arg0 + 2) == 2) {
-        temp_r3_3 = *(void ***)((s8 *)arg0 + 0x14);
-        if (temp_r3_3 != NULL) {
-            temp_r4_3 = (u8 *)(*temp_r3_3);
-            (*(s32 (**)(void *, void *))((s8 *)temp_r4_3 + 0xC))(temp_r3_3, temp_r4_3);
+    TLobby::dispatch_packet(*(GcrnaStream **)((s8 *)player + 0xC), 0);
+    TLobby__sub_803CC030(*(GcrnaStream **)((s8 *)player + 0xC), 0);
+    ((TLobby *)player->input_state)->reset_flag();
+    if ((s32)player->source_type == 2) {
+        if (player->input_sj != NULL) {
+            player->input_sj->interface->destroy(player->input_sj);
         }
     }
-    *(void ***)((s8 *)arg0 + 0x14) = NULL;
-    *(s8 *)((s8 *)arg0 + 1) = 0;
+    player->input_sj = NULL;
+    player->stat = 0;
     TLobby::release_ref();
     TLobby::release_ref();
 }
 #pragma pop
 
 
-void TLobby__sub_803C9DB4(u8 *arg0) {
-    void **temp_r3;
+void TLobby__sub_803C9DB4(AdxtPlayer *player) {
     TLobby::init_once();
-    TLobby::dispatch_packet(*(GcrnaStream **)((s8 *)arg0 + 0xC), 0);
-    TLobby__sub_803CC030(*(GcrnaStream **)((s8 *)arg0 + 0xC), 0);
-    ((TLobby *)(*(saddr *)((s8 *)arg0 + 4)))->reset_flag();
-    if ((s32) *(u8 *)((s8 *)arg0 + 2) == 2) {
-        temp_r3 = *(void ***)((s8 *)arg0 + 0x14);
-        if (temp_r3 != NULL) {
-            (*(s32 (**)(void *))((s8 *)((unsigned char *) (*temp_r3)) + 0xC))(temp_r3);
+    TLobby::dispatch_packet(*(GcrnaStream **)((s8 *)player + 0xC), 0);
+    TLobby__sub_803CC030(*(GcrnaStream **)((s8 *)player + 0xC), 0);
+    ((TLobby *)player->input_state)->reset_flag();
+    if ((s32)player->source_type == 2) {
+        if (player->input_sj != NULL) {
+            player->input_sj->interface->destroy(player->input_sj);
         }
     }
-    *(void ***)((s8 *)arg0 + 0x14) = NULL;
-    *(s8 *)((s8 *)arg0 + 1) = 0;
+    player->input_sj = NULL;
+    player->stat = 0;
     TLobby::release_ref();
 }
 

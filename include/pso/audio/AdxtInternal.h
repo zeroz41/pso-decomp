@@ -90,6 +90,8 @@ LAYOUT_ASSERT(AdxtPlayer_played_samples_offset, offsetof(AdxtPlayer, played_samp
 
 typedef void (*AdxtStopHook)(void);
 
+void stop_audio_stream(AdxtPlayer *player);
+
 extern "C" {
 void configure_audio_stream_output(AdxtPlayer *player);
 void start_stream_playback(AdxtPlayer *player, SjRingBuffer *sj);
