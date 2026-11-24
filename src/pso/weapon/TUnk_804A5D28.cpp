@@ -2,7 +2,6 @@
 #include "pso/math/ClampedStep.h"
 #include "types.h"
 #include "pso/item/TItemEquipBase.h"
-#include "pso/player/TObjPlayer_8012E760.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/render/GinjaMaterial.h"

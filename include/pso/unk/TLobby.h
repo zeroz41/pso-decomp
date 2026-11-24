@@ -1003,4 +1003,11 @@ LAYOUT_ASSERT(TLobby_size, sizeof(TLobby) == 0x1C);
 extern void *item_object_set_data;
 extern s32 item_ground_placement_enabled;
 
+// 1 when the local player stands on another floor than the current one (never in split screen).
+s32 is_local_player_off_current_floor();
+
+extern "C" {
+void fn_801058E8(void *p);
+}
+
 #endif

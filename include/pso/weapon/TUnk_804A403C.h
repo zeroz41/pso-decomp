@@ -20,4 +20,8 @@ extern "C" {
 void TObjPlayer__sub_80128A74(s32 a, uaddr b, s32 c, s32 d);
 }
 
+extern "C" {
+void TObjPlayer__sub_80128A70(void);
+}
+
 #endif

@@ -6,7 +6,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/weapon/TUnk_804A5B20.h"
-#include "pso/player/TObjPlayer_8012D8E4.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerAttackController.h"
 #include "pso/object/base/TObjBase.h"

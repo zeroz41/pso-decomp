@@ -1,7 +1,6 @@
 #include "pso/math/ClampedStep.h"
 #include "types.h"
 #include "pso/weapon/TUnk_804A5B20.h"
-#include "pso/player/TObjPlayer_8012D8E4.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/ui/hud/TRaderMapCore.h"

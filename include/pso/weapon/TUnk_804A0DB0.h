@@ -16,4 +16,6 @@ public:
     Vec scale;  // scale_current_matrix of model 1; y drops to 0.1 on the special, regrows
 };
 
+void belra_cannon_return_timer(void *arg0);
+
 #endif

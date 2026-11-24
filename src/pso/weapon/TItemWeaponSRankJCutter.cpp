@@ -7,7 +7,7 @@
 #include "pso/weapon/TItemAttacker.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/PlayerAttackController.h"
-#include "pso/player/TObjPlayer_80128A70.h"
+#include "pso/weapon/TUnk_804A403C.h"
 #include "pso/object/base/TObjBase.h"
 #define SLICER_LAUNCH_STATE_OUT_OF_LINE
 #include "pso/weapon/SlicerLaunchState.h"

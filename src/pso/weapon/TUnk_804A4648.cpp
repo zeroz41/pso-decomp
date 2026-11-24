@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_80128A70.h"
+#include "pso/weapon/TUnk_804A403C.h"
 #include "pso/weapon/TUnk_804A4648.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/item/TItemEffNeedle.h"

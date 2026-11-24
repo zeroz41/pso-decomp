@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_80126460.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/system/task/TObject.h"
 #include "pso/weapon/TUnk_804A2A58.h"

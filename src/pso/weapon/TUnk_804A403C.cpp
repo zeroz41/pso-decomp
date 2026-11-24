@@ -5,7 +5,6 @@
 #include "pso/weapon/shoot/TUnk_804A4020.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
-#include "pso/player/TObjPlayer_80128A70.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/MatrixOps.h"

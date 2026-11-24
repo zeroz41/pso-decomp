@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/weapon/TUnk_804A0DB0.h"
-#include "pso/player/TObjPlayer_80122014.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/system/MatrixStack.h"

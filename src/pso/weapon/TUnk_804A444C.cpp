@@ -2,7 +2,7 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80128A70.h"
+#include "pso/weapon/TUnk_804A403C.h"
 #include "pso/weapon/TUnk_804A444C.h"
 #include "pso/unk/text_80129AB0.h"
 #include "pso/unk/text_8011B620.h"

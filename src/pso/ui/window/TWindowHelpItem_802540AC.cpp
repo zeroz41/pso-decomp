@@ -7,7 +7,7 @@
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowHelpItem_802531A0.h"
 #include "pso/ui/window/TWindowHelpItem_802540AC.h"
-#include "pso/player/TObjPlayer_800A7764.h"
+#include "pso/enemy/dimedian/TObjEneDimedian.h"
 #include "pso/unk/text_80253974.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/window/TWindowHelpItem.h"

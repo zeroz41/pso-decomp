@@ -81,4 +81,11 @@ struct TItemProShield : public TItemEquipBase {
 };
 
 LAYOUT_ASSERT(TItemProShield_size, sizeof(TItemProShield) == 0x1A0);
+
+extern "C" {
+// 1 when a player of the other sex (class_flags bit 0 or 1) stands on the same floor
+// within 20 units of client `idx`.
+s32 is_opposite_sex_player_near(u16 idx);
+}
+
 #endif

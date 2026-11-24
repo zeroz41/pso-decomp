@@ -7,7 +7,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80071774.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
-#include "pso/player/TObjPlayer_800A7764.h"
+#include "pso/enemy/dimedian/TObjEneDimedian.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/window/TWindowSubStatusDisp_8027FD88.h"
 #include "pso/object/base/TObjChara.h"

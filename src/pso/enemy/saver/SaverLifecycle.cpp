@@ -32,7 +32,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 
 #include "pso/system/vector.h"
-#include "pso/player/TObjPlayer_800A7764.h"
+#include "pso/enemy/dimedian/TObjEneDimedian.h"
 
 #include "pso/render/MaterialShadeFade.h"
 

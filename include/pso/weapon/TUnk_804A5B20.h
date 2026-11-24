@@ -23,4 +23,6 @@ public:
 
 TItem *create_slicer_weapon(u8 *item);
 
+void enlarge_flight_cutter_slicer(void *arg0);
+
 #endif
