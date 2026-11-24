@@ -16,39 +16,32 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/BmlResource.h"
+#include "pso/enemy/moja/TObjEneMoja.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/render/GinjaTextureMatrices.h"
+#include "pso/unk/text_803D8F74.h"
 
-extern "C" {
-
-
-void init_collision_body_parts(void *, void *, s32);
-s32 rotate_matrix_y(s32, s32);
-extern u8 *moja_bml_resource;
-extern s32 model_render_flags;
-}
 
 TObjMotionAction moja_action_table[2] = {
     {1, 0, 0, 0.5f, 1},
     {1, 0, 1, 0.6f, 1},
 };
-void *lbl_804AABD8[11] = {
-    (void *)0x0, (void *)0x40f00000, (void *)0x0, (void *)0x40e00000,
-    (void *)0x0, (void *)0x0, (void *)0x30203, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
-const char *TObjNpcMoja__name = "TObjNpcMoja";
+CollisionBody TObjNpcMoja::collision_body_parts = {{0.0f, 7.5f, 0.0f}, 7.0f, 0.0f, 0, 0x30203, {0.0f, 0.0f, 0.0f}, 0.0f};
+const char *TObjNpcMoja::name = "TObjNpcMoja";
 
 TObjNpcMoja::TObjNpcMoja(TObject *parent, void *set_data) : TObjNpcBase(parent) {
-    m_name = TObjNpcMoja__name;
+    m_name = name;
     apply_set_data(set_data);
     init_position_vectors();
     apply_set_params(0, 1);
-    *(s32 *)((u8 *)this + 0x34) = (saddr)get_bml_model((BmlResource *)moja_bml_resource, 0);
-    *(s32 *)((u8 *)this + 0x24) = (saddr)get_bml_texlist((BmlResource *)moja_bml_resource, 0);
-    init_motion(moja_action_table, (BmlMotionEntry *)*(saddr *)(moja_bml_resource + 0x430), *(s16 *)((u8 *)this + 0xB8));
+    model = get_bml_model(moja_bml_resource, 0);
+    texlist = get_bml_texlist(moja_bml_resource, 0);
+    init_motion(moja_action_table, moja_bml_resource->motions, requested_action);
     movementParameters = &npc_movement_parameters;
     set_motion_params(&npc_default_battle_stats);
-    init_collision_body_parts(this, lbl_804AABD8, 1);
-    ((TObjPlayer *)this)->register_object_by_id();
+    init_collision_body_parts(this, &collision_body_parts, 1);
+    register_object_by_id();
     update_prev_position();
     ((TBoss3VoloptHiraisin *)this)->copy_position();
 }
@@ -67,9 +60,9 @@ void TObjNpcMoja::render() {
         push_matrix_from(0);
         translate_matrix_vec3((u8 *)0, (u8 *)&position);
         rotate_matrix_y(0, rotation_y);
-        ((TObjMotion *)this)->draw();
+        draw();
         pop_matrix();
-        model_render_flags &= 0xFFFFFFFE;
+        model_render_flags &= ~1;
         draw_ground_shadow(0, 0);
     }
 }

@@ -160,7 +160,7 @@ EnemyFactoryEntry enemy_factories_floor_01[8] = {
     { 0x0042, TObjEneBm3FlyNest::create, 250000.0f, 30 },
     { 0x0043, TObjEneBm5Wolf::create, 250000.0f, 0 },
     { 0x0044, TObjEneBeast::create, 250000.0f, 0 },
-    { 0x0045, TObjNpcLappy__create, 250000.0f, 0 },
+    { 0x0045, TObjNpcLappy::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy::create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
@@ -171,7 +171,7 @@ EnemyFactoryEntry enemy_factories_floor_02[9] = {
     { 0x0042, TObjEneBm3FlyNest::create, 250000.0f, 30 },
     { 0x0043, TObjEneBm5Wolf::create, 250000.0f, 0 },
     { 0x0044, TObjEneBeast::create, 250000.0f, 0 },
-    { 0x0045, TObjNpcLappy__create, 250000.0f, 0 },
+    { 0x0045, TObjNpcLappy::create, 250000.0f, 0 },
     { 0x0046, TObjNpcMoja::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy::create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
@@ -418,7 +418,7 @@ EnemyFactoryEntry enemy_factories_floors_23_24_25_26_27[12] = {
     { 0x00DA, TObjEneMe1GiGue::create, 250000.0f, 0 },
     { 0x00F6, TObjNpcNgcBase::create_delta_w, 250000.0f, 0 },
     { 0x00FD, TObjNpcNgcBase::create_nctrunk, 250000.0f, 0 },
-    { 0x0045, TObjNpcLappy__create, 250000.0f, 0 },
+    { 0x0045, TObjNpcLappy::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy::create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
@@ -431,7 +431,7 @@ EnemyFactoryEntry enemy_factories_floor_34[9] = {
     { 0x00D9, TObjEneMe1Gee::create, 250000.0f, 0 },
     { 0x0033, TObjNpcEnemy::create, 250000.0f, 0 },
     { 0x00FD, TObjNpcNgcBase::create_nctrunk, 250000.0f, 0 },
-    { 0x0045, TObjNpcLappy__create, 250000.0f, 0 },
+    { 0x0045, TObjNpcLappy::create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
 
