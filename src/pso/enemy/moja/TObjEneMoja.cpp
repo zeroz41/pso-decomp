@@ -405,7 +405,7 @@ void TObjEneMoja::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else {
-            TParticleCtrl::toggle_particle_effect();
+            toggle_particle_effect();
             if (vis == 1) {
                 this->draw();
             } else {

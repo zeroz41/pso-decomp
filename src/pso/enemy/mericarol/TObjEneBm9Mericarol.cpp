@@ -1221,7 +1221,7 @@ void TObjEneBm9Mericarol::render() {
     TObjEneDD::clear_global_flag_400();
     translate_matrix(0, 0.0f, draw_offset_y, 0.0f);
     mericarol_node_counter = 0;
-    TParticleCtrl::toggle_particle_effect();
+    toggle_particle_effect();
     if (!(flags & 0x10)) {
         plist = ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->child->sibling->sibling->sibling->model)->polygon_list;
         saved = plist[5];
@@ -1297,7 +1297,7 @@ void TObjEneBm9Mericarol::draw_color_variant() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         TObjEneDD::clear_global_flag_400();
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         set_alpha_ref_override(0);
         draw_chunk_object(model);
         restore_alpha_ref();

@@ -431,7 +431,7 @@ void TBoss4Type3::advance_afterimage() {
 }
 
 void TBoss4Type3::draw() {
-    TParticleCtrl::toggle_particle_effect();
+    toggle_particle_effect();
     push_matrix();
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);

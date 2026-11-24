@@ -1402,7 +1402,7 @@ void TObjEneRe7Berura::render() {
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         model_render_flags &= ~0x810;
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         for (i = 0; i < 2; i++) {
             if (arm_flags[i] & 1) {
                 TObjEneRe7Berura__detached_part_states[i].hide();
@@ -1515,7 +1515,7 @@ void TObjEneRe7Berura::render_demo() {
             Vec v = { 2.0f, 1.0f, 2.0f };
             draw_ground_shadow(&v, 0);
         }
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);

@@ -399,7 +399,7 @@ void TBoss3VoloptP02::render() {
         }
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         select_actor_lighting(this);
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);

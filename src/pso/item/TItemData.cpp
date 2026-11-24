@@ -149,7 +149,7 @@ extern "C" {
 void deserialize_mag__9TItemDataFPvPv(Raw_8010D614 *src, Mag_8010D614 *dst);
 extern const u8 lbl_805DAB68 = 0x40;
 }
-saddr get_item_stat_boost_record(s32 arg0, s32 type, s32 id);
+saddr get_item_stat_boost_record(s32 item_type, s32 type, s32 id);
 extern "C" {
 
 extern "C" {
@@ -1471,7 +1471,7 @@ struct Pmt_8010DF9C
   u8 pad_e[2];
   u8 level;
 };
-f32 get_item_price_coefficient(u8 arg0, u8 arg1);
+f32 get_item_price_coefficient(u8 type, u8 sub);
 s32 TItemData::calc_price() {
   Item_8010DF9C *item = (Item_8010DF9C *) this;
   Pmt_8010DF9C *pmt;

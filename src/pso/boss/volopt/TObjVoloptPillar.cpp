@@ -64,7 +64,7 @@ void TObjVoloptPillar::render() {
     f32 scale;
     if (update_object_view_visibility(400.0f, 40.0f) != 0) {
         select_actor_lighting(this);
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         push_matrix();
         post_translate_matrix(&position.x);
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(volopt_pillar_textures));

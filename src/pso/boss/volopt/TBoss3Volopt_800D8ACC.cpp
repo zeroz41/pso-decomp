@@ -26,12 +26,12 @@ BmlResourceDescriptor corpse_mark_resource_descriptor = { "bm_ene_common_all.bml
 BmlResource *player_corpse_mark_resource;
 s32 player_particle_effect_enabled;
 
-void TParticleCtrl::toggle_particle_effect() {
+void toggle_particle_effect() {
     if (player_particle_effect_enabled != 0) {
-        end_effect_render();
+        TParticleCtrl::end_effect_render();
         return;
     }
-    begin_effect_render();
+    TParticleCtrl::begin_effect_render();
 }
 
 void disable_player_particle_effect(void) { player_particle_effect_enabled = 0; }

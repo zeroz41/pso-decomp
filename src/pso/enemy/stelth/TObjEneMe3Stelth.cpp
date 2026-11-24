@@ -1602,7 +1602,7 @@ void TObjEneMe3Stelth::render() {
         update_secondary_light();
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         copy_argb(&saved_model_draw_color, &model_material_color);
@@ -1753,7 +1753,7 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
     flag = is_alternate_variant();
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         if (flag != 0) {
             NJS_TEXNAME *textures = reinterpret_cast<NJS_TEXLIST *>(texlist)->textures;
             s32 i;

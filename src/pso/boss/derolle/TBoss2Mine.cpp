@@ -381,7 +381,7 @@ void TBoss2Mine::render() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
     saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
-    TParticleCtrl::toggle_particle_effect();
+    toggle_particle_effect();
     set_node_offsets();
     push_matrix();
     post_translate_matrix(&position.x);

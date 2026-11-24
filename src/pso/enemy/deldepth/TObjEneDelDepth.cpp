@@ -285,7 +285,7 @@ void TObjEneDelDepth::render() {
     if (o->opacity < 1.0f) {
         setup_draw_material_default(o->opacity);
     }
-    TParticleCtrl::toggle_particle_effect();
+    toggle_particle_effect();
     push_matrix();
     Vec v = o->position;
     v.y += o->drawOffsetY;

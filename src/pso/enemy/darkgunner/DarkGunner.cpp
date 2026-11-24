@@ -871,7 +871,7 @@ void TObjEneDarkGunner::render() {
         view = classify_actor_view_detail(150.0f, 400.0f, 15.0f);
         if (view != 0) {
             select_actor_lighting(this);
-            TParticleCtrl::toggle_particle_effect();
+            toggle_particle_effect();
             drawn = 1;
             push_matrix();
             saved_model_render_flags = model_render_flags;

@@ -4707,7 +4707,7 @@ void TBoss8Dragon::draw_with_fade(Vec *pos, s32 view) {
         rotate_matrix_x(0, this->rotation_x);
         rotate_matrix_z(0, this->rotation_z);
         scale_current_matrix(&this->scale.x);
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         if (this->flags & 0x80) {
             set_tev_swap_channels(3, 3, 3, 3);
         }

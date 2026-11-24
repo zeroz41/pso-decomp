@@ -56,7 +56,7 @@ void TObjEneRe7BeruraPunch::render() {
             }
         }
         TObjEneDD::draw_oriented_shadow(&position, &ground_normal, 0, NULL);
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         push_matrix();
         post_translate_matrix(&this->position.x);
         translate_matrix(0, 0.0f, this->height, 0.0f);

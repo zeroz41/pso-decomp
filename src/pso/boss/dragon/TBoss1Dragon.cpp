@@ -5212,7 +5212,7 @@ void TBoss1Dragon::render() {
             rotate_matrix_z(0, this->rotation_z);
             scale_matrix(0, (2.0f), (2.0f), (2.0f));
             set_chunk_model_node_callback(dragon_capture_node_points);
-            TParticleCtrl::toggle_particle_effect();
+            toggle_particle_effect();
             TObjMotion::draw();
             TParticleCtrl::end_effect_render();
             set_chunk_model_node_callback(NULL);

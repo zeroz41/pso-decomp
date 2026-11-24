@@ -262,7 +262,7 @@ void TObjEneShark::render() {
       v27 = b;
       *((s16 *) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) (*((u8 **) (((s8 *) model) + 0x2C)))) + 0x30)))) + 0x30)))) + 4)))) + 4)))) + 6)) = -1;
     }
-    TParticleCtrl::toggle_particle_effect();
+    toggle_particle_effect();
     shark_render_node_index = 0;
     set_chunk_model_node_callback(TObjPlayer::update_particle_by_phase);
     if (appearing == 1)

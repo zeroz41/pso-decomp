@@ -3708,7 +3708,7 @@ void TBoss5Gryphon::render_with_fade(s32 fade_index) {
     rotate_matrix_x(0, this->rotation_x);
     rotate_matrix_z(0, this->rotation_z);
     scale_matrix(0, 2.0f, 2.0f, 2.0f);
-    TParticleCtrl::toggle_particle_effect();
+    toggle_particle_effect();
     draw();
     TParticleCtrl::end_effect_render();
     current_scene_light->sub_801337F8();

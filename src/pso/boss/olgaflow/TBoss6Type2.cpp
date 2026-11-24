@@ -2283,7 +2283,7 @@ void TBoss6Type2::render_body_effects() {
     s32 settled;
 
     sum_offsets();
-    TParticleCtrl::toggle_particle_effect();
+    toggle_particle_effect();
     push_matrix();
     post_translate_matrix((const f32 *)&position);
     rotate_matrix_y(NULL, rotation_y);

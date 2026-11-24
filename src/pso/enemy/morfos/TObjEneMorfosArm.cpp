@@ -38,7 +38,7 @@ void TObjEneMorfosArm::render() {
     post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(this->texlist));
-    TParticleCtrl::toggle_particle_effect();
+    toggle_particle_effect();
     draw();
     TParticleCtrl::end_effect_render();
     pop_matrix();

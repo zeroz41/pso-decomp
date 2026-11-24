@@ -292,7 +292,7 @@ void TObjEneBm5GibonU::render_debug() {
             frame = (f32)motion->frameCount;
         }
         translate_matrix(0, 0.0f, 0.0f, -10.0f);
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         set_motion_packed_rotation();
         draw_model_motion(model, motion, frame);
         clear_motion_packed_rotation();
@@ -388,7 +388,7 @@ void TObjEneBm5GibonU::render() {
             TObjEneBm5GibonU__render_joint_y_rotation = -(turn_offset / 2);
             set_chunk_model_node_callback(TObjEneBm5GibonU::advance_anim_frame);
             TObjEneDD::clear_global_flag_400();
-            TParticleCtrl::toggle_particle_effect();
+            toggle_particle_effect();
             if (fade != 0) {
                 if (defer_render() == 0) {
                     if (vis == 1) {

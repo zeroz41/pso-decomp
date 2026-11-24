@@ -1036,7 +1036,7 @@ void TObjEneBm3FlyNest::render() {
                 }
                 rotate_matrix_y(0, rotation_y);
                 TObjEneDD::clear_global_flag_400();
-                TParticleCtrl::toggle_particle_effect();
+                toggle_particle_effect();
                 if (res == 1) {
                     draw();
                 } else {
@@ -1102,7 +1102,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         translate_matrix(0, 0.0f, -5.0f, 0.0f);
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         set_motion_packed_rotation();
         draw_model_motion(this->model, motion, motion_frame);
         clear_motion_packed_rotation();

@@ -355,7 +355,7 @@ void TObjEneMerillLia::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_chunk_object(model);
         } else {
-            TParticleCtrl::toggle_particle_effect();
+            toggle_particle_effect();
             visible = 1;
             fading = 0;
             if (mode == 0xD) {

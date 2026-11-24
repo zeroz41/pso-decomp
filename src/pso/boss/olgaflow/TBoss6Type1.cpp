@@ -2145,7 +2145,7 @@ void TBoss6Type1::render() {
 }
 
 void TBoss6Type1::draw_model() {
-    TParticleCtrl::toggle_particle_effect();
+    toggle_particle_effect();
     push_matrix();
     Vec pos = *&position;
     pos.y = pos.y + sway_offset;

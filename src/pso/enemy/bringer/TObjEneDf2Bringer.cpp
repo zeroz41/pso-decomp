@@ -1333,7 +1333,7 @@ void TObjEneDf2Bringer::render() {
         TObjEneDf2Bringer__render_point_cursor = node_points;
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         fade = &renderFadeStates[view];
         show = 1;
         fade->update();
@@ -1399,7 +1399,7 @@ void TObjEneDf2Bringer::render_demo() {
     if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         Vec v = { 1.0f, 1.0f, 3.0f };
         draw_ground_shadow(&v, 0);
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
         push_matrix();
         post_translate_matrix(&position.x);

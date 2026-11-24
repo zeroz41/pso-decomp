@@ -403,7 +403,7 @@ void TObjEneGyaranzo::render() {
             hide_broken_parts();
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(texlist));
             select_actor_lighting(this);
-            TParticleCtrl::toggle_particle_effect();
+            toggle_particle_effect();
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(0, rotation_y);

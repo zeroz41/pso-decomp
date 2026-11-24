@@ -377,7 +377,7 @@ void TObjEneDolmOlm::render() {
             break;
         }
         }
-        TParticleCtrl::toggle_particle_effect();
+        toggle_particle_effect();
         TObjEneDolmOlm__effect_render_state = 0;
         set_chunk_model_node_callback(TObjEneDolmOlm::toggle_effect_render);
         if (appearing == 1) {
