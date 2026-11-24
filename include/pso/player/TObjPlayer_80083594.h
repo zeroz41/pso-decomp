@@ -3,6 +3,10 @@
 
 #include "types.h"
 
+// Alpha of the camera-capture overlay and the capture state bits.
+extern u8 camera_capture_overlay_alpha;
+extern u8 camera_capture_flags;
+
 void load_projected_texture_matrix(f32 aspect);
 void setup_particle_tev(s32 arg0);
 // Undoes setup_particle_tev (not in split screen).

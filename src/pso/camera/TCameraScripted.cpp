@@ -4,7 +4,7 @@
 #include "pso/item/drop/TItemDrop_800F93F0.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/player/TObjPlayer_800666B0.h"
+#include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/memory.h"

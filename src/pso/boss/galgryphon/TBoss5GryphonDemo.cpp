@@ -1,3 +1,5 @@
+#include "pso/player/TObjPlayer_80083594.h"
+#include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
 #include "pso/system/vector.h"
@@ -9,7 +11,6 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/task/TObject.h"
-#include "pso/player/TObjPlayer_800666B0.h"
 #include "pso/camera/CameraHelpers.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
 
@@ -50,17 +51,9 @@ TBoss5GryphonDemo::TBoss5GryphonDemo(TObject *parent, s32 *done_flag, f32 frame_
     }
 }
 
-#include "types.h"
-#include "pso/player/TObjPlayer_800666B0.h"
-#include "pso/boss/galgryphon/TBoss5GryphonShockWave.h"
-#include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
-
-extern "C" {
-
-    extern unsigned char camera_capture_overlay_alpha;
-    extern unsigned char camera_capture_flags;
-void set_camera_capture_overlay_alpha(int a0) { camera_capture_overlay_alpha = a0; camera_capture_flags = (camera_capture_flags | 0x2); }
-
+void set_camera_capture_overlay_alpha(int alpha) {
+    camera_capture_overlay_alpha = alpha;
+    camera_capture_flags |= 0x2;
 }
 
 void Boss5GryphonMotionEntry::init() {
