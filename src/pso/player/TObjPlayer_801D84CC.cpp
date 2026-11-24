@@ -76,7 +76,6 @@ void TObjPlayer__sub_801D8664(s32 player, s8 group, s8 kind) {
 
 }
 BmlMotionEntry **player_ending_motion_object;
-void save_render_material_state(u8 *state);
 extern "C" {
 void translate_matrix_vec3(u8 *matrix, u8 *vec);
 s32 rotate_matrix_y(int, int);
@@ -100,13 +99,13 @@ void TUnk_804C4540::render() {
         push_matrix();
         translate_matrix_vec3(0, (u8 *)&position);
         rotate_matrix_y(0, rotation_y);
-        save_render_material_state((u8 *)&render_material_state);
+        render_material_state.save();
         apply_material_color_override();
         TObjFish::set_global_param(&body_textures);
         set_motion_packed_rotation();
         draw_saving_joints_checked();
         clear_motion_packed_rotation();
-        ((TObjPlayer *)&render_material_state)->write_ids();
+        render_material_state.restore();
         draw_head_attachments();
         pop_matrix();
         sub_801BAC48();

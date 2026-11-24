@@ -105,10 +105,6 @@ s32 TObjPlayer__sub_801C6DAC(u8 *target);
 #include "pso/object/base/TObjCharaHelpers.h"
 
 
-extern "C" {
-}
-void reset_player_appearance_opacity(void *a0);
-void save_render_material_state(u8 *arg0);
 
 // The marker colours, indexed by TPlayerLobbyMarker::get_material_index().
 extern const NJS_ARGB player_lobby_marker_color_table[13] = {
@@ -641,18 +637,27 @@ void BattleMusicState::clear_target_lock() { ((FlagWord *)&flags)->set(1); TLobb
 
 void BattleMusicState::reset_ring() { ((FlagWord *)&flags)->clear(1); set_lock_timer(-1); TLobby::set_target_id(0); }
 
-void TObjPlayer::set_vec4_const() { *(float*)((char*)this + 0x1c) = 1.0f; *(float *)&this->m_20 = 1.0f; *(float *)&this->texlist = 1.0f; *(float *)&this->room = 1.0f; }
-
-void save_render_material_state(u8 *state) {
-    *(s32 *)((s8 *)state + 0) = (s32) model_render_flags;
-    *(s32 *)((s8 *)state + 4) = (s32) chunk_polygon_flags_and_mask;
-    *(s32 *)((s8 *)state + 8) = (s32) chunk_polygon_flags_or_mask;
-    copy_argb((NJS_ARGB *)(state + 0xC), &model_material_color);
+void RenderMaterialState::reset_fade_color() {
+    fade_color.a = 1.0f;
+    fade_color.r = 1.0f;
+    fade_color.g = 1.0f;
+    fade_color.b = 1.0f;
 }
 
-void TObjPlayer::write_ids() { set_model_render_flags((saddr)this->m_name); set_chunk_material_override_pair((saddr)(*(void**)((char*)this + 0x4)), (saddr)this->m_prev); set_constant_material((const NJS_ARGB *)(((char*)this + 0xc))); }
+void RenderMaterialState::save() {
+    render_flags = model_render_flags;
+    polygon_and_mask = chunk_polygon_flags_and_mask;
+    polygon_or_mask = chunk_polygon_flags_or_mask;
+    copy_argb(&color, &model_material_color);
+}
 
-void reset_player_appearance_opacity(void* a0) { *(float*)((char*)a0 + 0x1c) = 1.0f; }
+void RenderMaterialState::restore() {
+    set_model_render_flags(render_flags);
+    set_chunk_material_override_pair(polygon_and_mask, polygon_or_mask);
+    set_constant_material(&color);
+}
+
+void RenderMaterialState::reset_opacity() { fade_color.a = 1.0f; }
 
 void PlayerAppearFade::begin() {
     TObjPlayer *player;
@@ -680,7 +685,7 @@ void PlayerAppearFade::update() {
             if ((player->is_inactive() != 0) && (player->check_flag_40000() == 0) && (player->check_flag_04000000() != 0) && (is_on_current_floor__10TObjPlayerFi(player) != 0)) {
                 if (--delay < 0) {
                     if (TCameraCtrl::get_mode() != 0) {
-                        player->render_material_state.alpha = 1.0f;
+                        player->render_material_state.fade_color.a = 1.0f;
                         state = SHOWN;
                         return;
                     }
@@ -689,14 +694,14 @@ void PlayerAppearFade::update() {
                     if (player->test_actor_flags(0x800) == 0) {
                         TObjPlayer::spawn_appearance_effect((int) client_id);
                     }
-                    player->render_material_state.alpha = 0.0f;
+                    player->render_material_state.fade_color.a = 0.0f;
                     player->refresh_equipment_slot();
                     return;
                 }
             }
             break;
         case FADING_IN:
-            alpha = player->render_material_state.alpha;
+            alpha = player->render_material_state.fade_color.a;
             alpha += 0.1f;
             if (alpha >= 1.0f) {
                 alpha = 1.0f;
@@ -704,7 +709,7 @@ void PlayerAppearFade::update() {
                 player->set_visible_flag();
                 player->activate_body_collision();
             }
-            player->render_material_state.alpha = alpha;
+            player->render_material_state.fade_color.a = alpha;
             break;
         }
     }

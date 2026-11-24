@@ -245,7 +245,6 @@ struct TObjPlayer : public TObjChara {
     PlayerAnimationState anim_state;
     PlayerDeathSink death_sink;
     RenderMaterialState render_material_state;
-    u8 unk_628[0xC];
     PlayerAppearFade appear_fade;
     BattleMusicState battle_music;
     ProtectionTimer protection;  // frames the player cannot be hurt

@@ -1152,10 +1152,10 @@ void TObjPlayer::render_shadows() {
             f = classify_actor_view_detail(player_view_detail_near, player_view_detail_far, player_front_distance);
             clear_actor_flags((u32)0x08000000);
             draw_body((s32)f);
-            save_render_material_state((u8 *)&render_material_state);
+            render_material_state.save();
             apply_material_color_override();
             sub_801BAC48();
-            ((TObjPlayer *)&render_material_state)->write_ids();
+            render_material_state.restore();
         }
         TParticleCtrl::end_effect_render();
         clear_shadow_flag();
@@ -1173,11 +1173,11 @@ void TObjPlayer::render_body_pass(f32 f) {
         draw_body((s32)f);
         model_render_flags &= ~1;
     }
-    save_render_material_state((u8 *)&render_material_state);
+    render_material_state.save();
     apply_material_color_override();
     set_draw_list_mask(1);
     sub_801BAC48();
-    ((TObjPlayer *)&render_material_state)->write_ids();
+    render_material_state.restore();
     restore_scene_lighting();
 }
 
@@ -1204,11 +1204,11 @@ void TObjPlayer::render() {
                     draw_body((s32)detail);
                     model_render_flags &= ~1;
                 }
-                save_render_material_state((u8 *)&render_material_state);
+                render_material_state.save();
                 apply_material_color_override();
                 set_draw_list_mask(1);
                 sub_801BAC48();
-                ((TObjPlayer *)&render_material_state)->write_ids();
+                render_material_state.restore();
                 restore_scene_lighting();
             }
         } else {
@@ -1216,19 +1216,19 @@ void TObjPlayer::render() {
             set_motion_packed_rotation();
             draw(get_frame());
             clear_motion_packed_rotation();
-            save_render_material_state((u8 *)&render_material_state);
+            render_material_state.save();
             apply_material_color_override();
             sub_801BAC48();
-            ((TObjPlayer *)&render_material_state)->write_ids();
+            render_material_state.restore();
         }
     } else {
         set_motion_packed_rotation();
         draw(get_frame());
         clear_motion_packed_rotation();
-        save_render_material_state((u8 *)&render_material_state);
+        render_material_state.save();
         apply_material_color_override();
         sub_801BAC48();
-        ((TObjPlayer *)&render_material_state)->write_ids();
+        render_material_state.restore();
     }
 }
 
@@ -1244,7 +1244,7 @@ void TObjPlayer::draw_body(s32 detail) {
         scale = scale_state.get_scale();
         scale_matrix(0, scale->x, scale->y, scale->z);
     }
-    save_render_material_state((u8 *)&render_material_state);
+    render_material_state.save();
     set_model_render_flags(8);
     apply_material_color_override();
     if (m_flags & 0x400) {
@@ -1263,7 +1263,7 @@ void TObjPlayer::draw_body(s32 detail) {
     }
     clear_motion_packed_rotation();
     draw_head_attachments();
-    ((TObjPlayer *)&render_material_state)->write_ids();
+    render_material_state.restore();
     pop_matrix();
     if (scale_state.is_scaled() != 0) {
         draw_projected_shadow(scale_state.get_scale(), 0);
@@ -3818,7 +3818,7 @@ void TObjPlayer::apply_material_color_override() {
         set_default_alpha_blend();
         model_render_flags |= 0x810;
         set_chunk_material_override_pair(-1, 0x800);
-        set_constant_material((const NJS_ARGB *)(((saddr)this + 0x624)));
+        set_constant_material(&this->render_material_state.fade_color);
     }
 }
 

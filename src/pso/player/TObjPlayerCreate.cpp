@@ -152,7 +152,7 @@ void TObjPlayer::reset_state() {
     protection.reset_type();
     attack_state.reset();
     movement_hold.reset();
-    ((TObjPlayer *)((u8 *)this + 0x608))->set_vec4_const();
+    render_material_state.reset_fade_color();
     death_fade = NULL;
     action_palette_state.init_tag();
     freeze_escape_step = 0;
@@ -530,7 +530,6 @@ extern const char *TObjPlayer_name;
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) {
-    ((TObjPlayer *)((char *)this + 1544))->set_vec4_const_wrapper();
     appear_fade.init();
     battle_music.reset_and_clear();
     ((TObjPlayer *)((char *)this + 1604))->construct_hurt_timer();
@@ -561,7 +560,6 @@ TObjPlayer::TObjPlayer(TObject *parent, TUnk_801D8A4C *src) : TObjChara(parent) 
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(parent) {
-    ((TObjPlayer *)((char *)this + 1544))->set_vec4_const_wrapper();
     appear_fade.init();
     battle_music.reset_and_clear();
     ((TObjPlayer *)((char *)this + 1604))->construct_hurt_timer();
@@ -602,7 +600,6 @@ TObjPlayer::TObjPlayer(TObject *parent, PlayerSyncRecord *record) : TObjChara(pa
 }
 
 TObjPlayer::TObjPlayer(TObject *parent, s32 slot, s32 role, TPlyCharData *record) : TObjChara(parent) {
-    ((TObjPlayer *)(((u8 *)this) + 0x608))->set_vec4_const_wrapper();
     appear_fade.init();
     battle_music.reset_and_clear();
     ((TObjPlayer *)(((u8 *)this) + 0x644))->construct_hurt_timer();

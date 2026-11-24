@@ -274,7 +274,7 @@ void VectorXZF::bswap() {
     bswap_32((u32 *)&z);
 }
 
-f32 RenderMaterialState::get_alpha() { return alpha; }
+f32 RenderMaterialState::get_alpha() { return fade_color.a; }
 
 s32 TObjPlayer::is_flag_20000_set() { return check_flag(0x20000); }
 

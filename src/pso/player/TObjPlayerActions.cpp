@@ -1065,7 +1065,7 @@ void TObjPlayer::run_lobby_animation_state_phase(s16 phase) {
   }
 }
 
-void TObjPlayer::init_effects() { clear_flag_20000(); clear_state_flags((s32)(5)); activate_body_collision(); set_indexed_flags((saddr)((void*)0), (saddr)((void*)1)); reset_player_appearance_opacity(((char*)this + 0x608)); }
+void TObjPlayer::init_effects() { clear_flag_20000(); clear_state_flags((s32)(5)); activate_body_collision(); set_indexed_flags((saddr)((void*)0), (saddr)((void*)1)); render_material_state.reset_opacity(); }
 
 void TObjPlayer__deactivate_off_floor_body(void* p) { ((TObjPlayer *)p)->deactivate_body_collision(); }
 
@@ -1124,7 +1124,7 @@ void TObjPlayer::update_off_floor_state() {
   switch (this->phase)
   {
     case 0:
-      var_f31 = this->render_material_state.alpha;
+      var_f31 = this->render_material_state.fade_color.a;
       var_f31 = var_f31 - 0.1f;
       if (var_f31 < 0.0f)
     {
@@ -1134,7 +1134,7 @@ void TObjPlayer::update_off_floor_state() {
       this->set_actor_flags(0x02000000);
       this->clear_player_status_flag(0, 1);
     }
-      this->render_material_state.alpha = var_f31;
+      this->render_material_state.fade_color.a = var_f31;
     case 1:
       return;
   }
@@ -1227,7 +1227,7 @@ void TObjPlayer::start_action_21() {
     run_action_state_phase(this->mode, 6);
     cleanup_idle_entry();
     clear_player_status_flag(0, 1);
-    this->render_material_state.alpha = 0.0f;
+    this->render_material_state.fade_color.a = 0.0f;
     refresh_equipment_slot();
     this->update_actor_ground_y();
     if (this->is_locally_controlled() != 0) {
@@ -1314,7 +1314,7 @@ void send_6x55_intra_map_warp(u16 id, const Vec *destination, s32 yaw) {
     }
 }
 
-void TObjPlayer::init_flags_vec4() { set_indexed_flags((saddr)((void*)0), (saddr)((void*)1)); ((TObjPlayer *)((char*)this + 0x608))->set_vec4_const(); }
+void TObjPlayer::init_flags_vec4() { set_indexed_flags((saddr)((void*)0), (saddr)((void*)1)); render_material_state.reset_fade_color(); }
 
 void TObjPlayer::update_warp_relocation() {
     Vec pos;
@@ -1324,7 +1324,7 @@ void TObjPlayer::update_warp_relocation() {
 
     switch (this->phase) {
     case 0:
-        var_f31 = this->render_material_state.alpha;
+        var_f31 = this->render_material_state.fade_color.a;
         var_f31 -= 0.1f;
         if (var_f31 < 0.0f) {
             var_f31 = 0.0f;
@@ -1343,7 +1343,7 @@ void TObjPlayer::update_warp_relocation() {
                 reset_cameras_to_actor(this, 1);
             }
         }
-        this->render_material_state.alpha = var_f31;
+        this->render_material_state.fade_color.a = var_f31;
         break;
     case 1:
         if (this->is_inactive() != 0) {
@@ -1366,13 +1366,13 @@ void TObjPlayer::update_warp_relocation() {
         break;
     case 3:
         this->clear_flag_4000();
-        var_f2 = this->render_material_state.alpha;
+        var_f2 = this->render_material_state.fade_color.a;
         var_f2 += 0.1f;
         if (var_f2 >= 1.0f) {
             var_f2 = 1.0f;
             this->phase = 4;
         }
-        this->render_material_state.alpha = var_f2;
+        this->render_material_state.fade_color.a = var_f2;
         break;
     }
 }

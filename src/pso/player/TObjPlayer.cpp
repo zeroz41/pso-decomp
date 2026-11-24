@@ -908,7 +908,7 @@ void PlayerAppearFade::reset() {
     delay = 0;
 }
 
-void*TObjPlayer::set_vec4_const_wrapper() { set_vec4_const(); return this; }
+RenderMaterialState::RenderMaterialState() { reset_fade_color(); }
 PlayerDeathSink::PlayerDeathSink() { reset(); }
 PlayerAnimationState::PlayerAnimationState() { reset(); }
 void PlayerAnimationState::reset() {
