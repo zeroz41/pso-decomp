@@ -19,9 +19,6 @@ struct TSceneSora : public TObjBase {
     static void load_sky_resources();
     f32 motion_step;
     f32 m_a0;
-    s32 get_state();
-    static void set_scene_flag(int scene_flag);
-    static void copy_reflection_vec(u8 *arg0);
     static TSceneSora *instance;
     static s32 sky_active_flag; // 0 while something else draws the sky
 };

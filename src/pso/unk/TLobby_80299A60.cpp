@@ -6,7 +6,7 @@
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/unk/TUnk_804DC7C4.h"
+#include "pso/render/FloorReflection.h"
 
 extern "C" {
 s32 load_floor_sound_bank();
@@ -29,7 +29,7 @@ s32 TLobby::init_particle_model() {
     init_area_lights();
     TLobby::create_tasks();
     if (is_split_screen() == 0) {
-        new TUnk_804DC7C4(tl_particlemodel);
+        new TFloorReflection(tl_particlemodel);
     }
     TBoss6EmptyWarp::create();
     return 1;

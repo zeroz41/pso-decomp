@@ -86,11 +86,10 @@ void euler_yxz_to_quaternion(u8 *arg0, u8 *arg1) {
 
 #pragma push
 
-void translate_matrix(uaddr arg0, f32 x, f32 y, f32 z) {
-    MtxP m = (MtxP)arg0;
-    if (m == NULL) {
-        m = *current_matrix;
+void translate_matrix(MtxP matrix, f32 x, f32 y, f32 z) {
+    if (matrix == NULL) {
+        matrix = *current_matrix;
     }
-    matrix_apply_translation(m, x, y, z);
+    matrix_apply_translation(matrix, x, y, z);
 }
 #pragma pop
