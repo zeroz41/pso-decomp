@@ -22,9 +22,9 @@ void *__GXCurrentBP;
 
 static void __GXFifoReadEnable(void);
 static void __GXFifoReadDisable(void);
-static void __GXFifoLink(u8 arg0);
-static void __GXWriteFifoIntEnable(u8 arg0, u8 arg1);
-static void __GXWriteFifoIntReset(u8 arg0, u8 arg1);
+static void __GXFifoLink(u8 en);
+static void __GXWriteFifoIntEnable(u8 hiWatermarkEn, u8 loWatermarkEn);
+static void __GXWriteFifoIntReset(u8 hiWatermarkClr, u8 loWatermarkClr);
 
 #if DEBUG
 static char __data_0[] = "[GXOverflowHandler]";

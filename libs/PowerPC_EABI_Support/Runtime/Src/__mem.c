@@ -1,21 +1,21 @@
 #include <stddef.h>
 
-__declspec(section ".init") void* memcpy(void* dst, const void* src, size_t size) {
+__declspec(section ".init") void* memcpy(void* dst, const void* src, size_t n) {
     const unsigned char* s;
     unsigned char* d;
 
     if ((unsigned long)src >= (unsigned long)dst) {
         s = (const unsigned char*)src - 1;
         d = (unsigned char*)dst - 1;
-        size++;
-        while (--size != 0) {
+        n++;
+        while (--n != 0) {
             *++d = *++s;
         }
     } else {
-        s = (const unsigned char*)src + size;
-        d = (unsigned char*)dst + size;
-        size++;
-        while (--size != 0) {
+        s = (const unsigned char*)src + n;
+        d = (unsigned char*)dst + n;
+        n++;
+        while (--n != 0) {
             *--d = *--s;
         }
     }
@@ -80,8 +80,8 @@ __declspec(section ".init") void __fill_mem(void* dst, int val, size_t n) {
     return;
 }
 
-__declspec(section ".init") void* memset(void* dst, int val, size_t size) {
-    __fill_mem(dst, val, size);
+__declspec(section ".init") void* memset(void* dst, int val, size_t n) {
+    __fill_mem(dst, val, n);
 
     return dst;
 }

@@ -67,7 +67,7 @@ void __ARQServiceQueueLo(void)
 	}
 }
 
-void __ARQCallbackHack(uaddr unused) { }
+void __ARQCallbackHack(u32 pointerToARQRequest) { }
 
 void __ARQInterruptServiceRoutine()
 {

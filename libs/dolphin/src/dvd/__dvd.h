@@ -14,7 +14,7 @@ extern unsigned long __DVDLongFileNameFlag;
 void __DVDFSInit();
 
 void __DVDInitWA(void);
-void __DVDInterruptHandler(short unused, struct OSContext * context);
+void __DVDInterruptHandler(short interrupt, struct OSContext * context);
 void __DVDLowSetWAType(u32 type, u32 location);
 
 void __DVDClearWaitingQueue();

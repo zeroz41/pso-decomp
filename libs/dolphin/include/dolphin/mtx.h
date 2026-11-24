@@ -14,7 +14,7 @@ extern "C" {
 
 void PSMTXIdentity(GC_Mtx mtx);
 void PSMTXCopy(const GC_Mtx src, GC_Mtx dest);
-void PSMTXConcat(const GC_Mtx A, const GC_Mtx B, GC_Mtx concat);
+void PSMTXConcat(const GC_Mtx mA, const GC_Mtx mB, GC_Mtx mAB);
 
 void PSMTXTranspose(const GC_Mtx src, GC_Mtx xPose);
 u32 PSMTXInverse(const GC_Mtx src, GC_Mtx inv);
@@ -32,7 +32,7 @@ void PSMTXScaleApply(const GC_Mtx src, GC_Mtx dest, f32 xS, f32 yS, f32 zS);
 void PSMTXQuat(GC_Mtx mtx, const PSQuaternion* quat);
 
 void PSVECNormalize(const Vec* src, Vec* dst);
-f32 PSVECDistance(const Vec* a, const Vec* b);
+f32 PSVECDistance(const Vec* vec1, const Vec* vec2);
 void PSMTXMultVec(const GC_Mtx m, const Vec* src, Vec* dst);
 
 void PSMTXMultVec(const GC_Mtx, const Vec*, Vec*);
