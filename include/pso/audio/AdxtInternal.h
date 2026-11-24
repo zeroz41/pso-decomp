@@ -34,7 +34,7 @@ struct AdxtPlayer {
     s8 max_channels;               /* 0x03 */
     AudioStreamInputState *input_state; /* 0x04 */
     AdxStreamFile *stream_file;    /* 0x08 */
-    saddr rna_handle;              /* 0x0C */
+    GcrnaStream *rna_handle;       /* 0x0C */
     SjRingBuffer *input_ring;      /* 0x10 */
     SjRingBuffer *input_sj;        /* 0x14 */
     SjRingBuffer *output_rings[2]; /* 0x18 */
@@ -91,6 +91,7 @@ LAYOUT_ASSERT(AdxtPlayer_played_samples_offset, offsetof(AdxtPlayer, played_samp
 typedef void (*AdxtStopHook)(void);
 
 void stop_audio_stream(AdxtPlayer *player);
+void set_field_40_and_notify(AdxtPlayer *player, s32 volume);
 
 extern "C" {
 void configure_audio_stream_output(AdxtPlayer *player);

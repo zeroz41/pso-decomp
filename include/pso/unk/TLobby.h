@@ -504,10 +504,7 @@ struct TLobby : public TObject {
     static void init_and_add_ref();
     static void run_step_60c8();
     void apply_field();
-    static s32 run_step_4430();
-    void trigger_sub_task();
     static void run_sequence();
-    static s32 query_available_size(TLobby *rna);
     static void dispatch_packet(struct GcrnaStream *stream, s32 enabled);
     static GcrnaStream *run_step_5210(SjRingBuffer **inputs, s32 channels);
     static void flush_update(GcrnaErrorCallback callback, void *context);
@@ -516,8 +513,6 @@ struct TLobby : public TObject {
     s32 get_scroll_offset();
     static void update_scroll_impl();
     static void set_callback(uaddr arg0, s32 arg1);
-    u32 get_packet_size();
-    u32 get_available_size();
     static s32 aram_dma_blocking(s32 owner, s32 aram, saddr dest, s32 length);
     static s32 aram_read_sync(s32 owner, s32 aram, saddr dest, s32 length);
     static s32 aram_transfer_sync(s32 owner, uaddr source, s32 aram, s32 length);
@@ -807,7 +802,6 @@ struct TLobby : public TObject {
     void set_field98(s8 arg1);
     s16 get_field_60();
     void set_field_6d(s8 arg1);
-    void set_field_40_and_notify(s32 arg1);
     s32 apply_if_v2();
     static void set_rate_mode(s32 rate_mode);
     void apply_sync_item_state();

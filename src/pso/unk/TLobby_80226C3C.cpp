@@ -83,7 +83,7 @@ void set_cue_stream_gain(s32 arg0) {
         var_r4 = -0x3E7;
     }
     if ((u32) lbl_804CB850[2] != 0U) {
-        ((TLobby *)lbl_804CB850[2])->set_field_40_and_notify(var_r4);
+        set_field_40_and_notify((AdxtPlayer *)lbl_804CB850[2], var_r4);
     }
 }
 
@@ -94,9 +94,9 @@ void set_music_streams_volume(s32 total) {
         var_r31 = -0x3E7;
     }
     if ((s32) lbl_805D6330 == 0) {
-        ((TLobby *)lbl_804CB850[0])->set_field_40_and_notify(var_r31);
+        set_field_40_and_notify((AdxtPlayer *)lbl_804CB850[0], var_r31);
     }
-    ((TLobby *)lbl_804CB850[1])->set_field_40_and_notify(var_r31);
+    set_field_40_and_notify((AdxtPlayer *)lbl_804CB850[1], var_r31);
 }
 extern "C" {
 
@@ -123,7 +123,7 @@ void TLoadCtrl__sub_80226DA0(s32 index) {
         read_disc_file_sectors(bgm_stream_files[index],
                                (lbl_805D6330 = 1, buf = lbl_80514C60[0]));
         ADXT_StartMemIdx((AdxtPlayer *)lbl_804CB850[1], (u8 *)buf, 0);
-        ((TLobby *)lbl_804CB850[1])->set_field_40_and_notify(get_music_base_gain());
+        set_field_40_and_notify((AdxtPlayer *)lbl_804CB850[1], get_music_base_gain());
         TLobby__sub_803C94DC((u8 *)lbl_804CB850[1], 0);
     }
 }
@@ -564,7 +564,7 @@ void update_music_fade(void) {
             } else {
                 v = -999;
             }
-            ((TLobby *)lbl_804CB850[i])->set_field_40_and_notify(v);
+            set_field_40_and_notify((AdxtPlayer *)lbl_804CB850[i], v);
         }
         if (--music_fade_frames_remaining <= 0) {
             s32 st;

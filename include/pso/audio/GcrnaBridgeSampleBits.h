@@ -3,8 +3,10 @@
 
 #include "types.h"
 
+struct GcrnaStream;
+
 extern "C" {
-void TLobby__sub_803CBF30(void);
+void TLobby__sub_803CBF30(GcrnaStream *stream, s32 sample_bits);
 }
 
 #endif

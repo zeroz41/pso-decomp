@@ -11,6 +11,10 @@
 
 #include "types.h"
 #include "pso/audio/GcrnaStream.h"
+#include "pso/audio/GcrnaBridgePanId.h"
+#include "pso/audio/GcrnaBridgeSampleBits.h"
+#include "pso/audio/GcrnaBridgeStatus.h"
+#include "pso/unk/TLobby_803CBF50.h"
 #include "pso/unk/text_803D31A4.h"
 
 struct Pair_803C8678 { u32 a, b; };
@@ -38,14 +42,9 @@ extern "C" {
 void adxt_trap_entry_update__6TLobbyFPv(Obj_803CB20C *arg0);
 
 extern s32 lbl_805D7540;
-s32 TLobby__sub_803CC030(int, int);
-s32 dispatch_packet__6TLobbyFv(int, int);
 void TLobby__sub_803CB194(void *context);
 void audio_stream_start(u8 *lobby);
-s32 TLobby__sub_803CBF50(saddr, s32, s32);
 void TLobby__sub_803CA8B4(AdxtPlayer *);
-
-s32 trigger_sub_task__6TLobbyFv(saddr, s32);
 
 s32 audio_stream_get_output_samples(u8 *lobby);
 
@@ -57,16 +56,10 @@ s32 TLobby__sub_803BFEE8(int);
 s32 audio_stream_get_format(int);
 void audio_stream_set_notify_callback(u8 *arg0, s32 arg1, void *context);
 s32 audio_stream_get_state(int);
-s32 run_step_4430__6TLobbyFv(int, int);
-s32 TLobby__sub_803CBF0C(int, int);
-s32 TLobby__sub_803CBF30(int, int);
-s32 TLobby__sub_803CBF90(int, int);
-s32 TLobby__sub_803CBFB0(int, int);
 struct Conn_803CAEB4;
 void TLobby__sub_803CAEB4(Conn_803CAEB4 *arg0);
 
 void adxt_stat_decinfo(AdxtPlayer *self);
-s32 TLobby__sub_803CBFF0(int);
 s32 lbl_805D7578;
 s32 lbl_805D757C;
 s32 lbl_805D7580;
@@ -85,14 +78,14 @@ inline void prep_803CA8B4(AdxtPlayer *self) {
             }
         }
         if (i == n) {
-            TLobby::dispatch_packet((GcrnaStream *)(self->rna_handle), 0);
+            TLobby::dispatch_packet(self->rna_handle, 0);
             self->stat = 4;
         }
     }
 }
 // Inferred: CRI adxt_stat_playing (start playback once enough is decoded; pad the end with silence).
 inline void dec_803CA8B4(AdxtPlayer *self) {
-    saddr rna = self->rna_handle;
+    GcrnaStream *rna = self->rna_handle;
     AudioStreamInputState *sjd = self->input_state;
     s32 i;
     s32 avail;
@@ -101,7 +94,7 @@ inline void dec_803CA8B4(AdxtPlayer *self) {
     s32 nch;
     SjRingBuffer *sj;
     SjChunk ck;
-    avail = TLobby::query_available_size((TLobby *)rna);
+    avail = query_available_size(rna);
     size = TLobby__sub_803CBFF0(rna);
     if (avail >= self->reserved_48 * 2 || size <= reinterpret_cast<TLobby *>(sjd)->notify_field_4_alt() ||
         audio_stream_get_state(reinterpret_cast<saddr>(self->input_state)) == 3) {
@@ -128,8 +121,8 @@ inline void dec_803CA8B4(AdxtPlayer *self) {
 }
 // Inferred: CRI adxt_stat_playend (stop the RNA once its queue is empty).
 inline void end_803CA8B4(AdxtPlayer *self) {
-    lbl_805D7578 = TLobby::query_available_size((TLobby *)self->rna_handle);
-    if (TLobby::query_available_size((TLobby *)self->rna_handle) <= 0) {
+    lbl_805D7578 = query_available_size(self->rna_handle);
+    if (query_available_size(self->rna_handle) <= 0) {
         TLobby__sub_803CC030(self->rna_handle, 0);
         self->stat = 5;
     }
@@ -160,6 +153,7 @@ void TLobby__sub_803CA8B4(AdxtPlayer *self) {
 #pragma pop
 
 #define SBF50 TLobby__sub_803CBF50
+
 
 void adxt_stat_decinfo(AdxtPlayer *self) {
     AudioStreamInputState *input_state = self->input_state;
@@ -223,7 +217,7 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
         TLobby__sub_803CBF90(self->rna_handle, k);
         TLobby__sub_803CBFB0(self->rna_handle, n1);
         TLobby__sub_803CBF0C(self->rna_handle, pid);
-        trigger_sub_task__6TLobbyFv(self->rna_handle, self->output_vol);
+        trigger_sub_task(self->rna_handle, self->output_vol);
         if (reinterpret_cast<TLobby *>(self->input_state)->send_with_offset4() == 1) {
             if (self->out_pan[0] == -0x80) {
                 SBF50(self->rna_handle, 0, 0);
@@ -247,9 +241,9 @@ void adxt_stat_decinfo(AdxtPlayer *self) {
         }
         if (audio_stream_get_format(reinterpret_cast<saddr>(input_state)) == 2) {
             s32 o = reinterpret_cast<TLobby *>(input_state)->get_offset_58();
-            run_step_4430__6TLobbyFv(self->rna_handle, o);
+            run_step_4430(self->rna_handle, o);
         }
-        TLobby::dispatch_packet((GcrnaStream *)(self->rna_handle), 1);
+        TLobby::dispatch_packet(self->rna_handle, 1);
         self->stat = 2;
     }
 }
