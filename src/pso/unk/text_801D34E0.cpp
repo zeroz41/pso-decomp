@@ -1,8 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_801D34E0.h"
+#include "pso/render/render_util.h"
 extern "C" {
-void *TObjMapWarp__sub_80141CA4(void *);
-s32 delete_object_if_delete_flag(s32 arg0, s16 del);
 void *__register_global_object(void *, void *, void *);
 u8 lbl_805D5DD8[8];
 extern u8 lbl_80511DD8[];

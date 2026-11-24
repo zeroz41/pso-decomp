@@ -130,7 +130,7 @@ extern u8 identity_matrix[];
 void init_telepipe_packet_header(void* p);
 void create_quest_telepipe_for_client(u16 client);
 void write_telepipe_record(u8 *arg0, u16 arg1, s16 arg2, u8 *arg3, s32 arg4);
-s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
+s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range);
 int fn_80235078(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x0) == 2);
 }

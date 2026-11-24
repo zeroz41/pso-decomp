@@ -34,6 +34,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/ui/window/WindowLayout.h"
+#include "pso/render/render_util.h"
 
 
 #pragma readonly_strings on
@@ -76,7 +77,7 @@ struct Luker_801A1768 {
     s32 fB8;
 };
 
-struct Plr_801A0F34 { u8 pad[0x30]; s32 flags; u8 pad34[4]; u8 pos[0xc]; };
+struct Plr_801A0F34 { u8 pad[0x30]; s32 flags; u8 pad34[4]; Vec pos; };
 
 struct Ctrl_801A0E38;
 struct Obj_801A0DB4;
@@ -94,7 +95,6 @@ extern "C" {
 void close_windows__9TObjLukerFPv(Obj_801A0DB4 *self);
 s32 is_split_screen(void);
 void *create_window_menu_default(const void *p, s32 a);
-f32 horizontal_distance_squared(void *, void *);
 s32 TTecLuker__sub_8023401C(void *);
 s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0);
 s32 init_fields__9TTecLukerFs(void *, int);
@@ -182,14 +182,14 @@ void TObjLuker::open_destination_windows() {
     }
 }
 }
-s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
+s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range);
 extern s32 local_client_id;
-s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
+s32 are_players_gathered_near(const Vec *center, s32 *confirming_view, f32 range) {
     s32 ret;
     s32 flag;
     s32 i;
     Plr_801A0F34 *p;
-    void *pos;
+    Vec *pos;
     ret = 1;
     flag = 0;
     if (is_split_screen() == 0) {
@@ -200,12 +200,12 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
     do {
         p = (Plr_801A0F34 *)get_player_by_client_id(i);
         if (p != NULL) {
-            pos = p->pos;
+            pos = &p->pos;
             if (!(p->flags & 0x800)) {
                 if (((TObjPlayer *)p)->is_controls_locked() == 1) {
                     ret = 0;
                 }
-                if (horizontal_distance_squared(arg0, pos) > range) {
+                if (horizontal_distance_squared(center, pos) > range) {
                     ret = 0;
                 }
                 flag = 0;
@@ -215,7 +215,7 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
         }
             i++;
     } while (i < 4);
-    if (arg1 == NULL) {
+    if (confirming_view == NULL) {
         return ret;
     }
     if (ret != 0 && flag == 0) {
@@ -226,8 +226,8 @@ s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range) {
             if (p != NULL &&
                 test_pressed_buttons_packed(&controller_input_state.controllers[((TObjPlayer *)p)->get_controller_port()], 4) != 0) {
                 found = 1;
-                if (arg1 != NULL) {
-                    *arg1 = j;
+                if (confirming_view != NULL) {
+                    *confirming_view = j;
                 }
                 break;
             }
@@ -251,7 +251,7 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
         for (saddr i = 0; i < 4; i++) {
             p = (uaddr)get_player_by_client_id(i);
             if (p != 0U) {
-                if (horizontal_distance_squared((void *)(arg0 + 0x38), (void *)(p + 0x38)) < (farg0 * farg0)) {
+                if (horizontal_distance_squared((const Vec *)(arg0 + 0x38), (const Vec *)(p + 0x38)) < (farg0 * farg0)) {
                     found = 1;
                     if ((p != 0U) && (((TObjPlayer *)p)->is_controls_locked() == 0)) {
                         ((TObjLuker *)arg0)->show_part((((TObjBase *)(p))->get_entity_id()));
@@ -269,7 +269,7 @@ s32 is_player_in_range__9TObjLukerFv(saddr arg0, f32 farg0) {
         }
     } else {
         p = (uaddr)get_player_by_client_id(local_client_id);
-        if ((p != 0U) && (horizontal_distance_squared((void *)(p + 0x38), (void *)(arg0 + 0x38)) < (farg0 * farg0))) {
+        if ((p != 0U) && (horizontal_distance_squared((const Vec *)(p + 0x38), (const Vec *)(arg0 + 0x38)) < (farg0 * farg0))) {
             found = 1;
         }
         if (found != 0) {
@@ -397,7 +397,7 @@ void TObjLuker::run_task() {
                 if (is_player_in_range__9TObjLukerFv((s32)((saddr) arg0), 10.0f) != 0) {
                     flag = 0;
                     if (is_split_screen() != 0) {
-                        if (are_players_gathered_near((u8 *)&this->position, &sp8, 10.0f) != 0) {
+                        if (are_players_gathered_near(&this->position, &sp8, 10.0f) != 0) {
                             flag = 1;
                             this->m_aa = this->m_a8;
                         }
