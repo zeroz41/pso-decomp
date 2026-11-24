@@ -2,6 +2,7 @@
 #include "pso/system/MatrixStack.h"
 #include "types.h"
 #include "pso/object/TActorLight.h"
+#include "pso/item/item_pmt.h"
 
 struct NJS_OBJECT;
 #include <string.h>
@@ -721,7 +722,7 @@ void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attac
                 damage = (s32)damage_dealt;
                 owner->gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(owner, damage));
                 apply_camera_shake__10TObjPlayerFiii((saddr)owner, (saddr)target, damage);
-                ((TObjPlayer *)(&stack.sp8))->reset_status_block();
+                ((ItemSoundRequest *)(&stack.sp8))->clear();
                 stack.sp8 = get_item_group();
                 stack.sp9 = get_item_index();
                 stack.spC = (u8 *)owner;
@@ -741,7 +742,7 @@ void TItemWeapon::perform_action() {
     if (((TItemWeapon *)self)->is_active_in_game() && !((TItem *)self)->is_hidden() && is_current_area_item_enabled()) {
         self->rotation_y=self->owner->rotation_y;
         self->stage=((TItemWeapon *)self)->get_attack_stage();
-        ((TObjPlayer *)(&packet))->reset_status_block();
+        ((ItemSoundRequest *)(&packet))->clear();
         packet.kind=((TItem *)self)->get_item_group();
         packet.variant=((TItem *)self)->get_item_index();
         packet.player=self->owner;

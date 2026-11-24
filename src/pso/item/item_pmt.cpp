@@ -608,3 +608,11 @@ void load_items() {
     load_item_pmt();
     item_mgr = TItemDrop::create_drop(NULL);
 }
+
+void ItemSoundRequest::clear() {
+    group = 0;
+    player = NULL;
+    pad_8 = 0;
+    target = NULL;
+    collider = 0;
+}

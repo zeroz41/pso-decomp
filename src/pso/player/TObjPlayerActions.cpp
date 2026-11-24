@@ -82,6 +82,7 @@
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/PlayerSubcommandHandlers.h"
+#include "pso/item/item_pmt.h"
 
 
 #pragma readonly_strings on
@@ -4039,7 +4040,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
             }
             hit = 1;
             WeaponHitSound sound;
-            ((TObjPlayer *)&sound)->reset_status_block();
+            ((ItemSoundRequest *)&sound)->clear();
             TItem *item = get_equipped_weapon(this);
             if (item != NULL) {
                 sound.kind = item->get_item_group();
@@ -4069,7 +4070,7 @@ int TObjPlayer::deliver_attack_hits(f32 damage_scale) {
                         apply_camera_shake__10TObjPlayerFiii(this, target, damage);
                         hit = 1;
                         WeaponHitSound sound;
-                        ((TObjPlayer *)&sound)->reset_status_block();
+                        ((ItemSoundRequest *)&sound)->clear();
                         TItem *item = get_equipped_weapon(this);
                         if (item != NULL) {
                             sound.kind = item->get_item_group();

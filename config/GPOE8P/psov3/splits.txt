@@ -2394,14 +2394,11 @@ pso/weapon/shoot/TItemShoot.cpp:
 	.sdata2     start:0x805DAC60 end:0x805DAC6C
 
 pso/item/item_pmt.cpp:
-	.text       start:0x8011C000 end:0x8011CEC0
+	.text       start:0x8011C000 end:0x8011CEDC
 	.rodata     start:0x8043E7A8 end:0x8043E7D8
 	.sdata      start:0x805D2C78 end:0x805D2C7C
 	.sbss       start:0x805D54F0 end:0x805D5500
 	.sdata2     start:0x805DAC70 end:0x805DAC78
-
-pso/player/TObjPlayer_8011CEC0.cpp:
-	.text       start:0x8011CEC0 end:0x8011CEDC
 
 pso/item/TItemTexLoad.cpp:
 	.text       start:0x8011CEDC end:0x8011D414

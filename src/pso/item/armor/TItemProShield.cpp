@@ -22,8 +22,9 @@
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/render/render_util.h"
 #include "pso/player/PlayerSlots.h"
+#include "pso/item/item_pmt.h"
 
-// What play_shield_sound_cue reads (TObjPlayer::reset_status_block clears it).
+// What play_shield_sound_cue reads (ItemSoundRequest::clear clears it).
 struct ShieldSoundCue {
     s8 group;
     u8 index;
@@ -110,7 +111,7 @@ void TItemProShield::perform_action() {
     if (owner != NULL) {
         if (is_hidden() == 0) {
             create_shield_effect(tl_05, get_owner_client(), effect_entry);
-            ((TObjPlayer *)&cue)->reset_status_block();
+            ((ItemSoundRequest *)&cue)->clear();
             cue.group = get_item_group();
             cue.index = get_item_index();
             cue.owner = owner;

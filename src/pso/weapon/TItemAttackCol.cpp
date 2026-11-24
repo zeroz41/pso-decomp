@@ -33,6 +33,7 @@
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/map/CsnQuery.h"
+#include "pso/item/item_pmt.h"
 
 struct VBase_18_f2ea1e { char pad[0x18]; };
 
@@ -323,7 +324,7 @@ s32 TUnk_804E355C::resolve_attack_col_hit(ActorBodyHit *hit) {
         TObjPlayer::calc_photon_blast_charge((void *)player, damage);
         ((VObj_18_f2ea1e *)(player))->m73();
         apply_camera_shake__10TObjPlayerFiii((saddr)player, (saddr)target, (s32)damage);
-        ((TObjPlayer *)(&stack.sp8))->reset_status_block();
+        ((ItemSoundRequest *)(&stack.sp8))->clear();
         stack.sp8 = ((TItem *)item)->get_item_group();
         stack.sp9 = ((TItem *)item)->get_item_index();
         stack.spC = player;
