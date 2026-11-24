@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8036AEF8.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/system/memory.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
@@ -20,23 +19,8 @@ struct Obj_8036B1AC {
 };
 
 extern "C" {
-extern s32 lbl_804F3610[];
 s32 lbl_805D7000;
 void TLobby__sub_8036B1AC(Obj_8036B1AC *payload);
-
-s32 **TBoss8Dragon__sub_8036AEF8(s32 **arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *arg0 = lbl_804F3610;
-        if (arg1 > 0) {
-            ::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
-
-void TBoss8Dragon__sub_8036AF40(s32 **arg0) {
-    *arg0 = lbl_804F3610;
-}
 
 #pragma push
 #pragma fp_contract on

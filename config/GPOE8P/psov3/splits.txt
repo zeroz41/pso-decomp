@@ -10009,14 +10009,11 @@ pso/boss/olgaflow/TBoss6EffHyoui.cpp:
 	.sdata2     start:0x805E0380 end:0x805E0384
 
 pso/network/PSOV3Encryption.cpp:
-	.text       start:0x8036AC14 end:0x8036AE2C
+	.text       start:0x8036AC14 end:0x8036AF50
 	.data       start:0x804F3610 end:0x804F3640
 
-pso/network/PSOV3Encryption_8036AE2C.cpp:
-	.text       start:0x8036AE2C end:0x8036AEF8
-
 pso/boss/goldragon/TBoss8Dragon_8036AEF8.cpp:
-	.text       start:0x8036AEF8 end:0x8036B204
+	.text       start:0x8036AF50 end:0x8036B204
 	.sbss       start:0x805D7000 end:0x805D7004
 	.sdata2     start:0x805E0388 end:0x805E03A4
 
