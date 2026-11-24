@@ -1205,4 +1205,3 @@ s32 TLobby__sub_803F6270(u16 *arg0) {
     return 0;
 }
 #pragma pop
-

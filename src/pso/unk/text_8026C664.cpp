@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/window/WindowDrawContext.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
@@ -133,7 +134,6 @@ void decay_page_arrow_offset(PageIndicator *o) {
 
 
 extern "C" {
-void play_sound_effect(s32, s32, s32, s32);
 
 s32 handle_list_page_flip_input(PageIndicator *page_indicator) {
     void *pad;

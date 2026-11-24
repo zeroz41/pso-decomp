@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 // One TU: TObjFogCollision, TObjFogCollisionSwitch, TObjFogCollisionPoison and the per-client
 // TObjFogCollision_Manager. Built with -inline deferred, so functions are written in reverse
@@ -324,37 +325,38 @@ TObjFogCollision_Manager *TObjFogCollisionPoison__instances[12];
 
 extern "C" {
 s32 send_6x2F_change_player_hp(s32, u16, s16);
-s32 play_sound_effect(s32, s32, s32, s32);
 }
 
 void TObjFogCollisionPoison__sub_801535D0(s32 arg0) {
+    const TObjBase *actor = reinterpret_cast<const TObjBase *>(arg0);
     switch (get_current_floor_area()) {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_sound_effect(0x4004C115, arg0 + 0x38, 0, 0);
+        play_sound_effect(0x4004C115, &actor->position, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_sound_effect(0x4004C123, arg0 + 0x38, 0, 0);
+        play_sound_effect(0x4004C123, &actor->position, 0, 0);
         break;
     default:
-        play_sound_effect(0x4004C11B, arg0 + 0x38, 0, 0);
+        play_sound_effect(0x4004C11B, &actor->position, 0, 0);
         break;
     }
 }
 
 void TObjFogCollisionPoison__sub_80153520(s32 actor) {
+    const TObjBase *source = reinterpret_cast<const TObjBase *>(actor);
     switch (get_current_floor_area()) {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_persistent_sound(0x4004BC16, actor, actor + 0x38, 0, 0);
+        play_persistent_sound(0x4004BC16, source, &source->position, 0, 0);
         break;
     case AREA_SEABED_UPPER:
     case AREA_SEABED_LOWER:
-        play_persistent_sound(0x4004BC24, actor, actor + 0x38, 0, 0);
+        play_persistent_sound(0x4004BC24, source, &source->position, 0, 0);
         break;
     default:
-        play_persistent_sound(0x4004BC1C, actor, actor + 0x38, 0, 0);
+        play_persistent_sound(0x4004BC1C, source, &source->position, 0, 0);
         break;
     }
 }

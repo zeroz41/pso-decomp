@@ -1,4 +1,5 @@
 #include "pso/effect/photon/TPhotonRainbow.h"
+#include "pso/system/PersistentSound.h"
 #include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/photon/TPhotonLeilla.h"
@@ -120,7 +121,7 @@ void TPhotonLeilla::run_task() {
         }
     }
     if (visible != 0) {
-        play_persistent_sound(0x4002462F, (saddr)this, 0, 0, 0);
+        play_persistent_sound(0x4002462F, this, NULL, 0, 0);
     }
 }
 

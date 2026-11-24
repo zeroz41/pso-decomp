@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -360,7 +361,7 @@ void TObjEneBalClawBody::update_chase() {
             body->reset_enemy_state();
             break;
         }
-        play_persistent_sound(0x4003B235, (saddr)body, (uaddr)&body->position, 0, 0);
+        play_persistent_sound(0x4003B235, body, &body->position, 0, 0);
         body->velocity.y = 0.0f;
         {
             update_enemy_wander_move(body, ((TObjChara *)body->target)->body_center, 1, ((EnemyMoveParams *)body->movementParameters)->min_distance);
@@ -449,7 +450,7 @@ void TObjEneBalClawBody::run_death_sequence() {
             body->velocity.y = body->hover_height / 11.666666f;
             body->state = 2;
         }
-        play_sound_effect(0x4003AD37, (u8 *)&body->position, 0, 0);
+        play_sound_effect(0x4003AD37, reinterpret_cast<const Vec *>((u8 *)&body->position), 0, 0);
         break;
     case 1:
         body->advance_animation();

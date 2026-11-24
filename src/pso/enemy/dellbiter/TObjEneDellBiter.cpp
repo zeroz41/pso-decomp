@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/boss/goldragon/TBoss8Dragon_80065C90.h"
@@ -529,7 +530,7 @@ void TObjEneDellBiter::play_step_effect() {
             play_ground_step_sound(this, &position);
             return;
         }
-        play_persistent_sound(this->remap_sound_for_area((saddr)((void *)0x40039E13)), (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(this->remap_sound_for_area((saddr)((void *)0x40039E13)), this, &position, 0, 0);
         spawn_particle_effect(&position, 0xF0);
     }
 }
@@ -1577,4 +1578,3 @@ s32 TObjEneDellBiter::render_model_if_visible() {
     }
     return 0;
 }
-

@@ -1,4 +1,5 @@
 #include "pso/player/PlayerStats.h"
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/BmlResource.h"
@@ -751,7 +752,7 @@ void TBoss4Type2::jisin_update() {
         create_jisin(this, angle);
     }
     if (action_timer <= 0x1E) {
-        play_persistent_sound(0x4003AD16, (saddr)this, (uaddr)&position, 0, 1);
+        play_persistent_sound(0x4003AD16, this, &position, 0, 1);
     }
     if (--action_timer < 0) {
         change_action(8);
@@ -819,7 +820,7 @@ void TBoss4Type2::beam_update() {
             }
         }
         if (anim_frame >= 8.0f && anim_frame <= 17.0f) {
-            play_persistent_sound(0x4003B512, (saddr)this, (uaddr)&position, 0, 1);
+            play_persistent_sound(0x4003B512, this, &position, 0, 1);
         }
     }
     if (action_timer == 0x26) {
@@ -978,7 +979,7 @@ void TBoss4Type2::tenchu_update() {
         }
     }
     if (action_timer > 6) {
-        play_persistent_sound(0x4003AD16, (saddr)this, (uaddr)&position, 0, 1);
+        play_persistent_sound(0x4003AD16, this, &position, 0, 1);
     }
     if (--action_timer < 0) {
         change_action(stop_action);

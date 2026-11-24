@@ -1,6 +1,7 @@
 #include "pso/math/CurvePathPoint.h"
 #include "pso/system/ResourceFile.h"
 #include "pso/system/GbaDownloadRuntime.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/system/CharacterSaveRecordLookup.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -932,7 +933,6 @@ s32 is_room_enemy_set_cleared(int, int, void *);
 void unhide_room_set_objects(s32 a, s16 b, s16 c, s32 d);
 s32 TCheckRoomSequence__delete_bank_item(u8 *item, s32 slot);
 void try_close__6TLobbyFPv(void *p);
-s32 play_sound_effect(int, int, int, int);
 int TLobby__sub_802272B4(void*);
 int TLobby__sub_8022733C(void*);
 void request_active_window_close(void);

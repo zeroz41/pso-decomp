@@ -1,3 +1,7 @@
+#include "pso/network/protocol/GameplaySoundPacket.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/PlayerSlots.h"
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/audio/AdxManager.h"
 #include "pso/unk/TLobby_80227AA0.h"
@@ -22,9 +26,6 @@ void TLobby__sub_80227AA8(s32 tracks) {
 #include "pso/player/PlayerSlots.h"
 
 extern "C" {
-s32 play_sound_effect(s32, s32, s32, s32);
-s32 bswap_6xB2_play_sound();
-
 void TLobby__sub_80227AF8(s32 arg0, s32 arg1) { TLobby__sub_8023F754(arg0, arg1); }
 }
 
@@ -44,18 +45,17 @@ void apply_clamped_field_27c__6TLobbyFv(f32 value) {
     ((TLobby *)(&sound_control_state))->set_clamped_field27c(value);
 }
 
-void handle_6xB2_play_sound_from_player(void *command) {
-    s32 player;
-
-    bswap_6xB2_play_sound();
-    if ((s8) *(u8 *)((s8 *)command + 4) == get_current_floor_area()) {
-        if (*(s16 *)((s8 *)command + 6) == 0xFFFF) {
-            play_sound_effect(*(s32 *)((s8 *)command + 8), 0, 0, 0);
+void handle_6xB2_play_sound_from_player(game_command_header *header) {
+    G_PlaySound_6xB2 *command = reinterpret_cast<G_PlaySound_6xB2 *>(header);
+    bswap_6xB2_play_sound(command);
+    if (command->floor == get_current_floor_area()) {
+        if (reinterpret_cast<const s16 &>(command->client_id) == 0xFFFF) {
+            play_sound_effect(command->sound_id, 0, 0, 0);
             return;
         }
-        player = (saddr)get_player_by_client_id(local_client_id);
-        if (player != 0) {
-            play_sound_effect(*(s32 *)((s8 *)command + 8), player + 0x38, 0, 0);
+        TObjPlayer *player = get_player_by_client_id(local_client_id);
+        if (player != NULL) {
+            play_sound_effect(command->sound_id, &player->position, 0, 0);
         }
     }
 }
@@ -95,7 +95,7 @@ void release_sound_with_fade(s32 slot) { fade_out_sound_slot(slot, 64); }
 
 void TLobby__sub_80227D38(void) { TLobby::fade_voice_channels(0); }
 
-s32 normalize_sound_request(u32 id, s32 actor, saddr position, s32 arg3, s32 arg4) {
+s32 normalize_sound_request(u32 id, const void *actor, const Vec *position, s32 arg3, s32 arg4) {
     s32 r;
     s32 m;
     s32 flags;
@@ -130,7 +130,7 @@ s32 normalize_sound_request(u32 id, s32 actor, saddr position, s32 arg3, s32 arg
     }
     m = id & 0xBFFF00FF;
     if (((s32 (*)(void))is_sound_enabled)() == 1) {
-        h = alloc_looping_sound_slot(m, actor, (const void *)position, r, flags);
+        h = alloc_looping_sound_slot(m, actor, position, r, flags);
         if (is_special_sound_id(m) != 0) {
             set_sound_slot_special_scale(h, 1.0f);
         }
@@ -174,7 +174,7 @@ s32 play_packed_sound_once(u32 id, saddr position, s32 arg2, s32 arg3) {
     }
     m = id & 0xBFFF00FF;
     if (((s32 (*)(void))is_sound_enabled)() == 1) {
-        h = alloc_one_shot_sound_slot(m, (const void *)position, r, flags);
+        h = alloc_one_shot_sound_slot(m, reinterpret_cast<const Vec *>(position), r, flags);
         if (is_special_sound_id(m) != 0) {
             set_sound_slot_special_scale(h, 1.0f);
         }

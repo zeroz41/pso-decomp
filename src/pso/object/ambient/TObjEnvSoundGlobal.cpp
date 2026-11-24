@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/network/FloorEventCommand.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -174,10 +175,10 @@ void TObjEnvSound::run_task() {
         case 0:
             break;
         case 1:
-            play_persistent_sound((s32)this->m_98, (saddr)arg0, (uaddr)(arg0 + 0x38), 0, 0);
+            play_persistent_sound((s32)this->m_98, arg0, &position, 0, 0);
             return;
         case 2:
-            play_persistent_sound((s32)this->m_98, (saddr)arg0, (uaddr)(arg0 + 0x38), (s32)this->m_94, 2);
+            play_persistent_sound((s32)this->m_98, arg0, &position, (s32)this->m_94, 2);
             break;
         }
     }
@@ -229,10 +230,10 @@ void TObjEnvSoundEx::run_task() {
         case 0:
             break;
         case 1:
-            play_persistent_sound(sound_id, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(sound_id, this, &position, 0, 0);
             break;
         case 2:
-            play_persistent_sound(sound_id, (saddr)this, 0, (s32)volume, 2);
+            play_persistent_sound(sound_id, this, NULL, (s32)volume, 2);
             break;
         }
     } else {
@@ -245,10 +246,10 @@ void TObjEnvSoundEx::run_task() {
             case 0:
                 break;
             case 1:
-                play_persistent_sound(sound_id, (saddr)this, (uaddr)&position, 0, 0);
+                play_persistent_sound(sound_id, this, &position, 0, 0);
                 break;
             case 2:
-                play_persistent_sound(sound_id, (saddr)this, 0, (s32)volume, 2);
+                play_persistent_sound(sound_id, this, NULL, (s32)volume, 2);
                 break;
             }
         }
@@ -309,10 +310,10 @@ void TObjEnvSoundGlobal::run_task() {
     case 0:
         break;
     case 1:
-        play_persistent_sound((s32)self->sound, (saddr)self, (uaddr)self->pos, 0, 0);
+        play_persistent_sound((s32)self->sound, self, reinterpret_cast<const Vec *>(self->pos), 0, 0);
         break;
     case 2:
-        play_persistent_sound((s32)self->sound, (saddr)self, (u32)(0), (s32)self->param, 2);
+        play_persistent_sound((s32)self->sound, self, NULL, (s32)self->param, 2);
         break;
     }
 }

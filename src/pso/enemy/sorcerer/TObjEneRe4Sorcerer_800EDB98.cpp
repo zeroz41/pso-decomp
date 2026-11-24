@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #pragma defer_codegen on
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
@@ -730,14 +731,14 @@ s32 TObjEneRe4Sorcerer::cast_resta() {
 
 void TObjEneRe4Sorcerer::create_effect() {
     if (attack_cycle == 0) {
-        play_persistent_sound(remap_sound_for_area(0x4003A812), (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(remap_sound_for_area(0x4003A812), this, &position, 0, 0);
         return;
     }
-    play_persistent_sound(remap_sound_for_area(0x4003AB13), (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(remap_sound_for_area(0x4003AB13), this, &position, 0, 0);
 }
 
 void TObjEneRe4Sorcerer::sub_800EF214() {
-    play_persistent_sound(this->remap_sound_for_area(0x4003A81D), (saddr)this, (uaddr)&this->position, 0, 0);
+    play_persistent_sound(this->remap_sound_for_area(0x4003A81D), this, &this->position, 0, 0);
 }
 
 void TObjEneRe4Sorcerer::dispatch_action(u32 state, s32 reason) {
@@ -1226,7 +1227,7 @@ void TObjEneRe4Sorcerer::update_cure_state(s32 reason) {
                 this->requested_action = 4;
                 this->state_step = 3;
             }
-            play_persistent_sound(this->remap_sound_for_area(0x4003A814), (saddr)this, (uaddr)&this->position, 0, 0);
+            play_persistent_sound(this->remap_sound_for_area(0x4003A814), this, &this->position, 0, 0);
             break;
         case 2:
         case 3:

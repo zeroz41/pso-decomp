@@ -57,4 +57,3 @@ void TObjPlayer::init_action_provider() {
     }
 }
 #pragma pop
-

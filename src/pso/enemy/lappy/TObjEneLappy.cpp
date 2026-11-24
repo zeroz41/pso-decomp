@@ -1,3 +1,5 @@
+#include "pso/system/TLanguage_801E4874.h"
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/enemy/EnemyTargeting.h"
@@ -632,7 +634,7 @@ void TObjEneLappy::update_moving() {
                     spawn_particle_effect(&position, 0xF3);
                     dust_timer = 2;
                 }
-                play_persistent_sound(remap_sound_for_area(0x3AF12), (saddr)this, (uaddr)&position, 0, 0);
+                play_persistent_sound(remap_sound_for_area(0x3AF12), this, &position, 0, 0);
                 goto block_47;
             }
 block_47:
@@ -1143,6 +1145,3 @@ TObjEneLappy::TObjEneLappy(TObject *parent, void *set_data) : TObjEnemy(parent) 
     }
     clear_lobby_object_state();
 }
-
-
-

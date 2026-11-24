@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/system/EnemyBmlResource.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -774,7 +775,7 @@ void TObjEneRe7Berura::update_emerge_state(s32 reason) {
                 }
                 node1_color = grey | ((grey << 0x10) | 0xFF000000 | (grey << 8));
             }
-            play_persistent_sound(remap_sound_for_area(0x4003C61E), (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(remap_sound_for_area(0x4003C61E), this, &position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x100);
             break;
         }
@@ -1205,7 +1206,7 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 reason) {
         update_ground_contact();
         check_collisions();
         set_sound_pitch_request(
-            play_persistent_sound(remap_sound_for_area(0x4003C61E), (saddr)this, (uaddr)&position, 0, 0),
+            play_persistent_sound(remap_sound_for_area(0x4003C61E), this, &position, 0, 0),
             0x400, 0);
         break;
     case 5:

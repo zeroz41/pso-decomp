@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6EffHyoui.h"
@@ -105,7 +106,7 @@ void TBoss6Type2::reset_state_timers() {
 }
 
 void TBoss6Type2::update_info_stat() {
-    play_persistent_sound(0x4006A612, (saddr)this, (uaddr)&position, 0, 1);
+    play_persistent_sound(0x4006A612, this, &position, 0, 1);
     if (--state_timer < 0) {
         play_sound_effect(0x40069E13, &position, 0, 1);
         set_action_state(2);
@@ -443,7 +444,7 @@ void TBoss6Type2::update_chg_to_bsk() {
     } else if (ratio > 1.0f) {
         state_progress = 1.0f;
     }
-    play_persistent_sound(0x4006A30B, (saddr)this, (uaddr)&position, 0, 1);
+    play_persistent_sound(0x4006A30B, this, &position, 0, 1);
     if (--state_timer < 0) {
         berserk = 1;
         state_progress = 1.0f;
@@ -478,7 +479,7 @@ void TBoss6Type2::act_bsk_again() {
 void TBoss6Type2::update_attack_timer() {
     TObjPlayer *player;
 
-    play_persistent_sound(0x4006A30B, (saddr)this, (uaddr)&position, 0, 1);
+    play_persistent_sound(0x4006A30B, this, &position, 0, 1);
     if (--state_timer < 0) {
         if (check_target() != 0) {
             if (is_target_valid() == 0) {
@@ -529,7 +530,7 @@ void TBoss6Type2::update_charge_timer() {
     } else if (progress > 1.0f) {
         state_progress = 1.0f;
     }
-    play_persistent_sound(0x4006A30B, ((saddr) this), (0U), 0, 0);
+    play_persistent_sound(0x4006A30B, this, NULL, 0, 0);
     if (--state_timer < 0) {
         berserk = 0;
         state_progress = 0.0f;

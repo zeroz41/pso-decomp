@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -194,7 +195,7 @@ void TBoss6Demo20_TYPE2_APPEAR::run_task() {
         play_sound_effect(0x40031C2B, 0, 0, 0);
         break;
     }
-    play_persistent_sound(0x4003C627, (saddr)this, 0, 0, 0);
+    play_persistent_sound(0x4003C627, this, 0, 0, 0);
     switch (timer) {
     case 0xB9:
         spawn_particle_effect_with_flags(&effect_positions[3], 0x220, 0x40);

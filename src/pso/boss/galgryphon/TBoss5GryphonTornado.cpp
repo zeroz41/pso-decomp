@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/boss/galgryphon/Boss5GryphonBehavior.h"
@@ -43,7 +44,6 @@ static const s32 gryphon_tornado_particle_ids[3] = {0x203, 0x204, 0x205};
 const char *TBoss5GryphonTornado__class_name = "TBoss5GryphonTornado";
 extern "C" {
 
-void play_persistent_sound(s32, void *, Vec *, s32, s32);
 const s32 *gryphon_tornado_particle_id_table;
 
 void TBoss5GryphonTornado::render() {  }

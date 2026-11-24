@@ -126,7 +126,7 @@ TTecReverser::TTecReverser(saddr arg1, saddr origin, saddr targets, saddr level)
     ((TechniqueParams *)(tec_reverser + 0x88))->copy(&technique_param_table[17]);
     ((TTecReverser *)tec_reverser)->apply_params((TechniqueParams *)(tec_reverser + 0x88), level);
     copy_technique_target_list(&((TTecReverser *)tec_reverser)->targets, (TargetCursorList *)targets);
-    play_sound_effect(0x4002A812, tec_reverser + 0x20, 0, 0);
+    play_sound_effect(0x4002A812, &position, 0, 0);
     if (((TTecReverser *)tec_reverser)->source != 0U) {
         ((TTecReverser *)tec_reverser)->sourceId = ((TObjBase *)(saddr)((TTecReverser *)tec_reverser)->source)->get_entity_id();
     }

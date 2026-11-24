@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/camera/CameraHelpers.h"
 #include "pso/system/vector.h"
@@ -343,7 +344,7 @@ void TBoss4DarkFalz::start_demo1() {
 
 void TBoss4DarkFalz::spawn_ancient_trap() {
     if (get_live_minion_count() > 0) {
-        play_persistent_sound(0x4003A30A, (saddr)this, 0, -0x20, 2);
+        play_persistent_sound(0x4003A30A, this, 0, -0x20, 2);
     }
 }
 
@@ -408,7 +409,7 @@ void TBoss4DarkFalz::start_effect() {
     state_timer = 0;
 }
 void TBoss4DarkFalz::spawn_trap() {
-    play_persistent_sound(0x4003A30A, (saddr)this, 0, -0x18, 2);
+    play_persistent_sound(0x4003A30A, this, 0, -0x18, 2);
 }
 void TBoss4DarkFalz::check_timeout() {
     if ((is_timer_expired() != 0) || (sub_8004B07C() != 0)) {

@@ -8,4 +8,3 @@ void TObjPlayer::init_item_data(s32 arg1) {
     *(s8 *)((s8 *)this + 0) = 4;
     *(s32 *)((s8 *)this + 0x10) = arg1;
 }
-

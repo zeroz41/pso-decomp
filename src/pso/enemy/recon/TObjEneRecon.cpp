@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/base/CollisionActorLookup.h"
@@ -862,11 +863,11 @@ s32 TObjEneRecon::acquire_target(f32 range) {
 }
 
 void TObjEneRecon::spawn_trap_a() {
-    play_persistent_sound(TObjEneRecobox::remap_area_sound_id(0x4003AD07), (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(TObjEneRecobox::remap_area_sound_id(0x4003AD07), this, &position, 0, 0);
 }
 
 void TObjEneRecon::spawn_trap_b() {
-    play_persistent_sound(TObjEneRecobox::remap_area_sound_id(0x4003B206), (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(TObjEneRecobox::remap_area_sound_id(0x4003B206), this, &position, 0, 0);
 }
 
 u16 TObjEneRecon::get_attack_target_id() {

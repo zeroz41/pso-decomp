@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "pso/render/GinjaTexture.h"
@@ -341,7 +342,7 @@ void TUnk_804B2578::sub_80168398() {
         break;
     }
     if (id != 0) {
-        play_persistent_sound(id, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(id, this, &position, 0, 0);
     }
 }
 

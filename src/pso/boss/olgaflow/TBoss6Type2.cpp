@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/system/BmlResource.h"
@@ -701,7 +702,7 @@ void TBoss6Type2::run_task() {
     update_head_aim();
     copy_vec_array();
     if ((s32) this->berserk != 0) {
-        play_persistent_sound(0x4006B00C, (saddr)this, (uaddr)&position, 0, 0);
+        play_persistent_sound(0x4006B00C, this, &position, 0, 0);
     }
     update_countdown();
     update_possess_target();
@@ -1692,7 +1693,7 @@ void TBoss6Type2::drop_random_rocks(s32 force) {
     }
     TBoss6Type2__sub_80356E50((saddr)buf, cnt, force);
     mem_free(buf);
-    play_sound_effect(0x4006AB1D, (void *)&boss6_arena_center, 0, 1);
+    play_sound_effect(0x4006AB1D, &boss6_arena_center, 0, 1);
 }
 
 void TBoss6Type2::spawn_rocks_around_players() {
@@ -1726,7 +1727,7 @@ void TBoss6Type2::spawn_rocks_around_players() {
         TBoss6RockChase::spawn(this, &q);
         n++;
     }
-    play_sound_effect(0x4006AB1D, (void *)&boss6_arena_center, 0, 1);
+    play_sound_effect(0x4006AB1D, &boss6_arena_center, 0, 1);
 }
 
 void TBoss6Type2::create_dpbs() {

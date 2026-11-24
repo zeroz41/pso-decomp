@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "pso/enemy/EnemyMovement.h"
 #include "pso/object/TActorLight.h"
 #include "pso/player/TPlyDispData.h"
@@ -631,7 +632,6 @@ void * find_entity_by_id(s32 id);
 s32 project_actor_to_ground(TObjCollidable *actor, Vec *pos, Vec *normal);
 s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
 int bswap_16__FPUs(void*);
-s32 play_sound_effect(s32, s32, s32, s32);
 u32 __nw__7TObjectFUl(s32);
 s32 vec3_add_to(void *, void *);
 void matrix_mult_vec(s32, void *, void *);
@@ -4255,7 +4255,7 @@ void TObjChara::spawn_poison_effect(s32 play_sound) {
             effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
-            play_sound_effect(0xCD0B, (saddr)&this->position, 0, 0);
+            play_sound_effect(0xCD0B, &this->position, 0, 0);
         }
     }
 }
@@ -4268,7 +4268,7 @@ void TObjChara::spawn_paralysis_feedback_effect(s32 play_sound) {
             effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
-            play_sound_effect(0xB20C, (saddr)&this->position, 0, 0);
+            play_sound_effect(0xB20C, &this->position, 0, 0);
         }
     }
 }
@@ -4281,7 +4281,7 @@ void TObjChara::spawn_slow_effect(s32 play_sound) {
             effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
-            play_sound_effect(0xB20D, (saddr)&this->position, 0, 0);
+            play_sound_effect(0xB20D, &this->position, 0, 0);
         }
     }
 }
@@ -4294,7 +4294,7 @@ void TObjChara::spawn_confusion_feedback_effect(s32 play_sound) {
             effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
-            play_sound_effect(0xB20E, (saddr)&this->position, 0, 0);
+            play_sound_effect(0xB20E, &this->position, 0, 0);
         }
     }
 }
@@ -4307,7 +4307,7 @@ void TObjChara::play_shock_feedback(s32 play_sound) {
             effect->set_owner_id(((TObjBase *)this)->get_entity_id());
         }
         if (play_sound != 0) {
-            play_sound_effect(0xB210, (saddr)&this->position, 0, 0);
+            play_sound_effect(0xB210, &this->position, 0, 0);
         }
     }
 }
@@ -4324,7 +4324,7 @@ void TObjChara::spawn_freeze_shell_effect(u32 arg1, s32 arg2) {
             }
         }
         if (arg2 != 0) {
-            play_sound_effect(0xB20F, (s32)((uaddr) (((u8 *)this) + 0x38)), 0, 0);
+            play_sound_effect(0xB20F, &position, 0, 0);
         }
     }
 }

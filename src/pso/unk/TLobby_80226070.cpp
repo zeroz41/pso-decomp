@@ -1,3 +1,4 @@
+#include "pso/system/SoundEffect.h"
 #include "types.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TObjPlayer.h"
@@ -30,11 +31,11 @@ void TObjPlayer::play_effect_if_v2(s32 pitch) {
 struct SndEnt_8022675C {
     s32 flags;
     s32 id;
-    Vec *src;
+    const Vec *src;
     Vec pos;
     s16 timer; // frames left: 0x96 when played, 5 to fade out; the same id is not replayed while >= 0x94
     s16 x1a;
-    s32 x1c;
+    const void *identity;
     u8 pad[8];
 };
 
@@ -209,7 +210,7 @@ s32 fn_802264B8(s32 slot, s32) {
     if (lbl_805145F0[slot].flags & 0x2000) {
         r = 0;
     } else {
-        r = check_sound_admission_range((const Vec *)lbl_805145F0[slot].src);
+        r = check_sound_admission_range(lbl_805145F0[slot].src);
     }
     if (r == -0x100) {
         lbl_805145F0[slot].flags |= 0x100;
@@ -225,22 +226,21 @@ u8 lbl_80514C30[0x20];
 f32 lbl_80514C50[4];
 
 extern "C" {
-s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags);
 
-s32 TOTrapAncient01::check_trigger_flag(saddr src, s32 flags) {
+s32 TOTrapAncient01::check_trigger_flag(const Vec *position, s32 flags) {
     s32 var_r3;
 
     if (flags & 0x2000) {
         var_r3 = 0;
     } else {
-        var_r3 = check_sound_admission_range((const Vec *)src);
+        var_r3 = check_sound_admission_range(position);
     }
     if (var_r3 == -0x100) {
         return 0;
     }
     return 1;
 }
-s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags) {
+s32 play_persistent_sound(s32 id, const void *identity, const Vec *position, s32 adjustment, s32 flags) {
     s32 idx = -1;
     s32 i;
     s32 ok;
@@ -260,33 +260,33 @@ s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags) {
         }
     }
     if (idx >= 0) {
-        if (src != 0) {
-            ok = TOTrapAncient01::check_trigger_flag(src, lbl_805145F0[idx].flags);
+        if (position != NULL) {
+            ok = TOTrapAncient01::check_trigger_flag(position, lbl_805145F0[idx].flags);
         } else {
             ok = fn_802264B8(idx, 1);
         }
         last_sound_effect_slot = idx;
         if (ok != 0) {
             e = &lbl_805145F0[idx];
-            e->src = (Vec *)src;
-            e->x1a = a3;
+            e->src = position;
+            e->x1a = adjustment;
             e->timer = 5;
-            idx = normalize_sound_request((u32)id, (s32)e->x1c, (saddr)e->src, (s32)e->x1a, (s32)flags);
+            idx = normalize_sound_request(id, e->identity, e->src, e->x1a, flags);
         }
         return idx;
     }
-    if (TOTrapAncient01::check_trigger_flag(src, flags) != 0) {
-        idx = normalize_sound_request(id, actor, src, a3, flags);
+    if (TOTrapAncient01::check_trigger_flag(position, flags) != 0) {
+        idx = normalize_sound_request(id, identity, position, adjustment, flags);
         last_sound_effect_slot = idx;
         if (idx >= 0) {
             lbl_805145F0[idx].flags &= lbl_805DC748;
             if (flags & 1) {
                 lbl_805145F0[idx].flags |= 0x2000;
             }
-            lbl_805145F0[idx].src = (Vec *)src;
-            lbl_805145F0[idx].x1a = a3;
+            lbl_805145F0[idx].src = position;
+            lbl_805145F0[idx].x1a = adjustment;
             lbl_805145F0[idx].id = id;
-            lbl_805145F0[idx].x1c = actor;
+            lbl_805145F0[idx].identity = identity;
             lbl_805145F0[idx].timer = 5;
             lbl_805145F0[idx].flags |= 0x1600;
         } else {
@@ -295,7 +295,7 @@ s32 play_persistent_sound(s32 id, saddr actor, uaddr src, s32 a3, s32 flags) {
     }
     return idx;
 }
-s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
+s32 play_sound_effect(s32 id, const Vec *position, s32 adjustment, s32 flags) {
     s32 i;
     s32 idx;
     Vec *pos;
@@ -313,23 +313,23 @@ s32 play_sound_effect(s32 id, Vec *src, s32 a2, s32 flags) {
         }
     }
     if (idx < 0) {
-        idx = play_packed_sound_once(id, (saddr)src, a2, flags);
+        idx = play_packed_sound_once(id, (saddr)position, adjustment, flags);
     }
     if (idx >= 0) {
-        if (src != NULL) {
+        if (position != NULL) {
             pos = &lbl_805145F0[idx].pos;
-            VecCopy((Vec *)pos, (const Vec *)src);
+            VecCopy(pos, position);
             ((void (*)(s32, Vec *))TLobby__sub_80227AF8)(idx, pos);
         }
         lbl_805145F0[idx].flags &= lbl_805DC748;
         if (flags & 1) {
             lbl_805145F0[idx].flags |= 0x2000;
         }
-        lbl_805145F0[idx].src = src;
+        lbl_805145F0[idx].src = position;
         lbl_805145F0[idx].timer = 0x96;
-        lbl_805145F0[idx].x1a = a2;
+        lbl_805145F0[idx].x1a = adjustment;
         lbl_805145F0[idx].id = id;
-        lbl_805145F0[idx].x1c = 0;
+        lbl_805145F0[idx].identity = NULL;
         if (fn_802264B8(idx, 0) == 1) {
             last_sound_effect_slot = idx;
             lbl_805145F0[idx].flags |= 0x600;

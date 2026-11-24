@@ -1,4 +1,5 @@
 #include "pso/technique/TTecZondeEff.h"
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
@@ -442,20 +443,20 @@ void TOTrapAncient02::vfunc_84() {
         case AREA_CAVE1:
         case AREA_CAVE2:
         case AREA_CAVE3:
-            play_persistent_sound(0x4461B, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4461B, this, &position, 0, 0);
             return;
         case AREA_MINE1:
         case AREA_MINE2:
-            play_persistent_sound(0x4004C612, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4004C612, this, &position, 0, 0);
             return;
         case AREA_RUINS1:
         case AREA_RUINS2:
         case AREA_RUINS3:
-            play_persistent_sound(0x4004C618, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4004C618, this, &position, 0, 0);
             return;
         case AREA_VR_SPACESHIP_ALPHA:
         case AREA_VR_SPACESHIP_BETA:
-            play_persistent_sound(0x4004C610, (saddr)this, (uaddr)&position, 0, 0);
+            play_persistent_sound(0x4004C610, this, &position, 0, 0);
         case AREA_PIONEER2_EP1:
             return;
         case AREA_FOREST1:

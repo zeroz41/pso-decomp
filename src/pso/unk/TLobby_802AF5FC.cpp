@@ -8,4 +8,3 @@ void *TLobby::create_mist_ctrl(void *parent, void *arg1) {
     o = (void *)new TObjMistCtrl((saddr)parent, (uaddr)arg1);
     return o;
 }
-

@@ -304,4 +304,3 @@ void TODummyKeyCave01Sound::run_task() {
         ((TObject *)arg0)->queue_destruction();
     }
 }
-

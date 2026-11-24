@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #include "pso/effect/particle/ParticleFactory.h"
 
@@ -1545,7 +1546,7 @@ void TBoss7DeRolLeC::sub_802EC32C() {}
 void TBoss7DeRolLeC::play_sound_at(s32 id, Vec *pos) { play_sound_effect(id, pos, 0, 0); }
 
 void TBoss7DeRolLeC::play_persistent_sound_at(s32 id, Vec *pos) {
-    play_persistent_sound(id, (saddr)this, (uaddr)pos, 0, 0);
+    play_persistent_sound(id, this, pos, 0, 0);
 }
 
 void TBoss7DeRolLeC::dispatch_action(u32 state, s32 reason) {

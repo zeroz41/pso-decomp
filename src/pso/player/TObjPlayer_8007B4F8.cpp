@@ -20,4 +20,3 @@ void TObjPlayer::set_com_card_window(s32 client) {
         }
     }
 }
-

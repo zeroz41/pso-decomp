@@ -9,4 +9,3 @@ s32 TObjOnlineEnding::get_card_window_value() {
     }
     return (s16)(*(s16 *)((s8 *)(get_character_save_record(0xFFFF)) + 0x2228));
 }
-

@@ -10,4 +10,3 @@ int TObjEneSlimeTailAttack::find_nearest_enemy_with_flag(f32 range) {
     *(s32 *)&(this->actorFlags) = (s32) (*(s32 *)&(this->actorFlags) & 0xFDFFFFFF);
     return static_cast<u16>(target_id);
 }
-

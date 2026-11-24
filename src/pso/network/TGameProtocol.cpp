@@ -14,6 +14,7 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 #include "pso/network/protocol/packet_classes.h"
+#include "pso/network/protocol/GameplaySoundPacket.h"
 #include "pso/unk/TLobby.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/text_801E3F24.h"
@@ -349,7 +350,7 @@ PsoCommandHandler pso_command_dispatch_table[] = {
     {0xA8, 0x0004, (PsoCommandFn)handle_6xA8_gol_dragon_boss_actions},
     {0xA9, 0x0004, (PsoCommandFn)handle_6xA9_barba_ray_boss_actions},
     {0xAA, 0x0004, (PsoCommandFn)handle_6xAA_barba_ray_boss_actions},
-    {0xB2, 0x0007, (PsoCommandFn)handle_6xB2_play_sound_from_player},
+    {0xB2, 0x0007, handle_6xB2_play_sound_from_player},
     {0x00, 0x0000, NULL},
 };
 

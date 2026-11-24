@@ -231,18 +231,18 @@ void TObjDoorKey::trigger_activate_sound() {
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        play_sound_effect(0x42D0A, ((u8 *)this) + 0x38, 0, 0);
+        play_sound_effect(0x42D0A, reinterpret_cast<const Vec *>(((u8 *)this) + 0x38), 0, 0);
         break;
     case AREA_VR_TEMPLE_ALPHA:
     case AREA_VR_TEMPLE_BETA:
-        play_sound_effect(0x4C601, ((u8 *)this) + 0x38, 0, 0);
+        play_sound_effect(0x4C601, reinterpret_cast<const Vec *>(((u8 *)this) + 0x38), 0, 0);
         break;
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
-        play_sound_effect(0x4004C601, ((u8 *)this) + 0x38, 0, 0);
+        play_sound_effect(0x4004C601, reinterpret_cast<const Vec *>(((u8 *)this) + 0x38), 0, 0);
         break;
     default:
-        play_sound_effect(0x4C60A, ((u8 *)this) + 0x38, 0, 0);
+        play_sound_effect(0x4C60A, reinterpret_cast<const Vec *>(((u8 *)this) + 0x38), 0, 0);
         break;
     }
     this->m_e8 = 1;

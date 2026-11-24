@@ -469,7 +469,7 @@ void TObjEneDelDepth::update_surface() {
     if ((this->progress += 0.033333335f) > 1.0f) {
         if (find_nearest_visible_player(reinterpret_cast<TObjChara *>(this), NULL, 200.0f) != 0xFFFF) {
             this->set_action_state(3);
-            play_sound_effect(0x4003A822, (u8 *)&this->position, 0, 0);
+            play_sound_effect(0x4003A822, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
         } else {
             this->set_action_state(2);
         }
@@ -653,7 +653,7 @@ void TObjEneDelDepth::enter_state8() {
     this->actorFlags = (s32) (this->actorFlags | 0x04000000);
     this->attackTimer = 8;
     this->motionController->set_motion(0xA);
-    play_sound_effect(0x4003A820, (u8 *)&this->position, 0, 0);
+    play_sound_effect(0x4003A820, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
     this->set_draw_mode(1);
 }
 
@@ -671,7 +671,7 @@ void TObjEneDelDepth::update_state() {
 void TObjEneDelDepth::enter_appear_state() {
     this->actorFlags = (s32) (this->actorFlags | 0x04000000);
     this->attackTimer = 0x14;
-    play_sound_effect(0x4003A820, (void *) ((u8 *)&this->position), 0, 0);
+    play_sound_effect(0x4003A820, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
     this->motionController->set_motion(0xB);
     this->set_draw_mode(1);
 }
@@ -680,7 +680,7 @@ void TObjEneDelDepth::try_enter_appear() {
     if (this->motionController->is_state_complete() == 1) {
         this->actorFlags = (s32) (this->actorFlags | 0x04000000);
         this->set_action_state(3);
-        play_sound_effect(0x4003A822, (u8 *)&this->position, 0, 0);
+        play_sound_effect(0x4003A822, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
     }
 }
 
@@ -832,7 +832,7 @@ void TObjEneDelDepth::update_bomb_drop() {
         }
         pop_matrix();
         clear_motion_packed_rotation();
-        play_sound_effect(0x4003A81D, (u8 *)&this->position, 0, 0);
+        play_sound_effect(0x4003A81D, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
         TObjEneDelDepthBomb::create(this, this, (Vec *)&out, TObjEneDelDepth__tune_params->techniqueLevel);
     }
     if (--this->timer <= 0) {
@@ -896,7 +896,7 @@ void TObjEneDelDepth::start_attack_motion() {
     this->drawScale.z = 1.0f;
     this->drawScale.y = 1.0f;
     this->drawScale.x = 1.0f;
-    play_sound_effect(0x4003A321, (void *) ((u8 *)&this->position), 0, 0);
+    play_sound_effect(0x4003A321, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
     if (this->motionController->get_type() < 6) {
         this->motionController->set_motion(4);
     } else {
@@ -924,7 +924,7 @@ void TObjEneDelDepth::update_ai_state() {
                 return;
             }
             this->set_action_state(3);
-            play_sound_effect(0x4003A822, (u8 *)&this->position, 0, 0);
+            play_sound_effect(0x4003A822, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
         }
     }
 }
@@ -954,7 +954,7 @@ void TObjEneDelDepth::update_death_fade() {
     case 0:
         if (--this->timer <= 0) {
             this->actionPhase = 1;
-            play_sound_effect(0x4003A321, (u8 *)&this->position, 0, 0);
+            play_sound_effect(0x4003A321, reinterpret_cast<const Vec *>((u8 *)&this->position), 0, 0);
             this->timer = 5;
         }
         break;

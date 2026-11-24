@@ -2158,5 +2158,3 @@ void TBoss6Type1::draw_model() {
     pop_matrix();
     TParticleCtrl::end_effect_render();
 }
-
-

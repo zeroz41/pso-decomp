@@ -1,3 +1,4 @@
+#include "pso/system/PersistentSound.h"
 #include "pso/system/BmlAccessors.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/object/ambient/TObjFish_8001ED90.h"
@@ -236,7 +237,7 @@ void TBoss6Mag::spawn_trap_by_stat() {
             sound_id = 0x6B518;
         }
     }
-    play_persistent_sound(sound_id, (saddr)this, (uaddr)&position, 0, 0);
+    play_persistent_sound(sound_id, this, &position, 0, 0);
 }
 
 void TBoss6Mag::render_body_effects() {
@@ -1074,4 +1075,3 @@ void TBoss6Mag::set_target_nodes(u32 flags, s32 variant) { target_attribute_mask
 void TBoss6Mag::set_action_field_0x408(u16 client_id) { chase_target.client_id = client_id; }
 
 void TBoss6Mag::set_on_shoulder(s32 on_shoulder) { chase_target.on_shoulder = on_shoulder; }
-
