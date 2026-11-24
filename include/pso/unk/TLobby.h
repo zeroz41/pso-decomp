@@ -982,11 +982,8 @@ struct TLobby : public TObject {
     static void handle_state(int);
     static void handle_state_init(void *);
     static void handle_team_select();
-    static void handle_trade_item_amount(void *);
-    static void handle_trade_item_move(void *);
     static void handle_trade_request_state_a(void *);
     static void handle_trade_request_state_b(void *);
-    static void handle_trade_state_cancel(void *);
     static void handle_verify_result(unsigned int);
     static void handle_warp_menu_input();
     static void increment_ref_and_set_flag(void *);

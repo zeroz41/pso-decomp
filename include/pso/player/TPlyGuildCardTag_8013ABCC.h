@@ -5,7 +5,7 @@
 
 extern "C" {
 void TPlyGuildCardTag__sub_8013ACA4(void *arg0, void *arg1);
-void TQuestListOnline__sub_8013ACF4(s32 arg0);
+void TQuestListOnline__sub_8013ACF4(s32 state);
 void __ct__16TPlyGuildCardTagFRC16TPlyGuildCardTag(void *arg0, void *arg1);
 void fn_8013ACE4(int a0);
 }

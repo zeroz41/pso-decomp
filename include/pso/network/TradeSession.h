@@ -14,6 +14,8 @@ extern u8 trade_proposal_state;
 extern s32 trade_proposal_delay;
 extern uaddr trade_main_window;
 
+struct G_ModifyTradeProposal_6xA6;
+
 typedef void (*TradeProposalHandler)(void* packet);
 extern "C" TradeProposalHandler trade_proposal_state_handlers[10][8];
 
@@ -22,9 +24,12 @@ s32 format_trade_out_of_range_message(s32 client_id);
 void handle_6xA6_modify_trade_proposal(u8 *message_window);
 void handle_6xA7(void);
 void handle_trade_final_confirmation(void *packet);
+void handle_trade_item_amount(G_ModifyTradeProposal_6xA6 *proposal);
+void handle_trade_item_move(G_ModifyTradeProposal_6xA6 *proposal);
 void handle_trade_offer_confirmation(void *packet);
 void handle_trade_partner_cancel(void *packet);
 void handle_trade_request_reply(void *packet);
+void handle_trade_state_cancel(G_ModifyTradeProposal_6xA6 *proposal);
 void ignore_trade_proposal_event(void);
 extern "C" {
 void reset__6TLobbyFi(saddr text_handle);

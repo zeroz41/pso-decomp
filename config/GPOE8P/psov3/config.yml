@@ -6897,15 +6897,15 @@ force_active:
   - handle_third_reward__18TChallenge4PResultFv
   - handle_toggle_input__24TWindowSubSymbolChatHelpFv
   - handle_trade_final_confirmation__FPv
-  - handle_trade_item_amount__6TLobbyFPv
-  - handle_trade_item_move__6TLobbyFPv
+  - handle_trade_item_amount__FP26G_ModifyTradeProposal_6xA6
+  - handle_trade_item_move__FP26G_ModifyTradeProposal_6xA6
   - handle_trade_member_out_of_range
   - handle_trade_offer_confirmation__FPv
   - handle_trade_partner_cancel__FPv
   - handle_trade_request_reply__FPv
   - handle_trade_request_state_a__6TLobbyFPv
   - handle_trade_request_state_b__6TLobbyFPv
-  - handle_trade_state_cancel__6TLobbyFPv
+  - handle_trade_state_cancel__FP26G_ModifyTradeProposal_6xA6
   - handle_type3__9TItemDropFPvPv
   - handle_verify_result__6TLobbyFUi
   - handle_warp_menu_input__6TLobbyFv

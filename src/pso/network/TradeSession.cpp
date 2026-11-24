@@ -705,8 +705,7 @@ void handle_trade_member_out_of_range(O_802D3384 *self) {
     }
 }
 
-extern "C" {
-void handle_trade_state_cancel__6TLobbyFPv(G_ModifyTradeProposal_6xA6 *proposal) {
+void handle_trade_state_cancel(G_ModifyTradeProposal_6xA6 *proposal) {
     switch (proposal->result) {
     case 3:
         break;
@@ -714,7 +713,6 @@ void handle_trade_state_cancel__6TLobbyFPv(G_ModifyTradeProposal_6xA6 *proposal)
         TLobby::protocol_instance->send_cancel_trade();
         break;
     }
-}
 }
 void handle_trade_partner_cancel(void *packet) {
     switch (*(u8 *)((s8 *)packet + 5)) {
@@ -772,8 +770,7 @@ void handle_trade_offer_confirmation(void *packet) {
     }
 }
 
-extern "C" {
-void handle_trade_item_amount__6TLobbyFPv(G_ModifyTradeProposal_6xA6 *proposal) {
+void handle_trade_item_amount(G_ModifyTradeProposal_6xA6 *proposal) {
     s32 t = proposal->result;
     switch (t) {
     case 0:
@@ -789,10 +786,8 @@ void handle_trade_item_amount__6TLobbyFPv(G_ModifyTradeProposal_6xA6 *proposal) 
         break;
     }
 }
-}
 
-extern "C" {
-void handle_trade_item_move__6TLobbyFPv(G_ModifyTradeProposal_6xA6 *proposal) {
+void handle_trade_item_move(G_ModifyTradeProposal_6xA6 *proposal) {
     s32 t = proposal->result;
     switch (t) {
     case 0:
@@ -807,7 +802,6 @@ void handle_trade_item_move__6TLobbyFPv(G_ModifyTradeProposal_6xA6 *proposal) {
     case 2:
         break;
     }
-}
 }
 
 extern "C" {
@@ -946,11 +940,11 @@ TradeProposalHandler trade_proposal_state_handlers[10][8] = {
     { (TradeProposalHandler)handle_state_init__6TLobbyFPv, 0, 0, 0, 0, 0, 0, 0 },
     { (TradeProposalHandler)handle_trade_request_reply, 0, 0, 0, 0, 0, (TradeProposalHandler)update_status_message__6TLobbyFPv, (TradeProposalHandler)handle_trade_member_out_of_range },
     { 0, 0, 0, 0, 0, (TradeProposalHandler)handle_trade_request_state_b__6TLobbyFPv, 0, (TradeProposalHandler)handle_trade_request_state_a__6TLobbyFPv },
-    { (TradeProposalHandler)ignore_trade_proposal_event, (TradeProposalHandler)handle_trade_item_move__6TLobbyFPv, (TradeProposalHandler)handle_trade_item_amount__6TLobbyFPv, (TradeProposalHandler)handle_trade_offer_confirmation, (TradeProposalHandler)handle_trade_final_confirmation, (TradeProposalHandler)handle_trade_partner_cancel, 0, (TradeProposalHandler)handle_trade_member_out_of_range },
-    { (TradeProposalHandler)ignore_trade_proposal_event, (TradeProposalHandler)handle_trade_item_move__6TLobbyFPv, (TradeProposalHandler)handle_trade_item_amount__6TLobbyFPv, (TradeProposalHandler)handle_trade_offer_confirmation, (TradeProposalHandler)handle_trade_final_confirmation, (TradeProposalHandler)handle_trade_partner_cancel, 0, (TradeProposalHandler)handle_trade_member_out_of_range },
+    { (TradeProposalHandler)ignore_trade_proposal_event, (TradeProposalHandler)handle_trade_item_move, (TradeProposalHandler)handle_trade_item_amount, (TradeProposalHandler)handle_trade_offer_confirmation, (TradeProposalHandler)handle_trade_final_confirmation, (TradeProposalHandler)handle_trade_partner_cancel, 0, (TradeProposalHandler)handle_trade_member_out_of_range },
+    { (TradeProposalHandler)ignore_trade_proposal_event, (TradeProposalHandler)handle_trade_item_move, (TradeProposalHandler)handle_trade_item_amount, (TradeProposalHandler)handle_trade_offer_confirmation, (TradeProposalHandler)handle_trade_final_confirmation, (TradeProposalHandler)handle_trade_partner_cancel, 0, (TradeProposalHandler)handle_trade_member_out_of_range },
     { (TradeProposalHandler)ignore_trade_proposal_event, (TradeProposalHandler)ignore_trade_proposal_event, (TradeProposalHandler)ignore_trade_proposal_event, (TradeProposalHandler)handle_trade_offer_confirmation, (TradeProposalHandler)handle_trade_final_confirmation, (TradeProposalHandler)handle_trade_partner_cancel, 0, (TradeProposalHandler)ignore_trade_proposal_event },
     { (TradeProposalHandler)ignore_trade_proposal_event, 0, 0, 0, (TradeProposalHandler)handle_trade_final_confirmation, (TradeProposalHandler)handle_trade_partner_cancel, 0, (TradeProposalHandler)ignore_trade_proposal_event },
-    { (TradeProposalHandler)ignore_trade_proposal_event, 0, 0, 0, (TradeProposalHandler)handle_trade_final_confirmation, (TradeProposalHandler)handle_trade_state_cancel__6TLobbyFPv, 0, (TradeProposalHandler)ignore_trade_proposal_event },
-    { (TradeProposalHandler)ignore_trade_proposal_event, 0, 0, 0, (TradeProposalHandler)handle_trade_final_confirmation, (TradeProposalHandler)handle_trade_state_cancel__6TLobbyFPv, 0, (TradeProposalHandler)ignore_trade_proposal_event },
-    { (TradeProposalHandler)ignore_trade_proposal_event, 0, 0, 0, 0, (TradeProposalHandler)handle_trade_state_cancel__6TLobbyFPv, 0, (TradeProposalHandler)ignore_trade_proposal_event },
+    { (TradeProposalHandler)ignore_trade_proposal_event, 0, 0, 0, (TradeProposalHandler)handle_trade_final_confirmation, (TradeProposalHandler)handle_trade_state_cancel, 0, (TradeProposalHandler)ignore_trade_proposal_event },
+    { (TradeProposalHandler)ignore_trade_proposal_event, 0, 0, 0, (TradeProposalHandler)handle_trade_final_confirmation, (TradeProposalHandler)handle_trade_state_cancel, 0, (TradeProposalHandler)ignore_trade_proposal_event },
+    { (TradeProposalHandler)ignore_trade_proposal_event, 0, 0, 0, 0, (TradeProposalHandler)handle_trade_state_cancel, 0, (TradeProposalHandler)ignore_trade_proposal_event },
 };
