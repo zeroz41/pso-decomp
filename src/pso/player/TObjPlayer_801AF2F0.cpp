@@ -2081,8 +2081,6 @@ void handle_6x2A_drop_item(G_DropItem_6x2A *command) {
         }
     }
 }
-extern "C" {
-
 void TObjPlayer::drop_items_on_death() {
     PendingItemDrop *record;
     s32 count;
@@ -2121,6 +2119,7 @@ void TObjPlayer::drop_items_on_death() {
         set_action_flag_2();
     }
 }
+extern "C" {
 
 s32 try_buy_item(saddr player, void *item) {
     if (((TObjPlayer *)player)->can_pickup_item((TItemData *)item) == 0) {
@@ -2131,6 +2130,7 @@ s32 try_buy_item(saddr player, void *item) {
         return 0;
     }
     return 2;
+}
 }
 
 #pragma push
@@ -2147,7 +2147,6 @@ s32 TObjPlayer::try_add_sale_meseta(s32 item_id, s32 amount, s32 count) {
 #pragma pop
 
 void delete_item(TObjPlayer *player, s32 id, s32 count) { TObjPlayer::send_6x29_delete_item(player, id, count); }
-}
 
 void TObjPlayer::request_inventory_item(TItemData* item) {
     TObjPlayer* player = this;

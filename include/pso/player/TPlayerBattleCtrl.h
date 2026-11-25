@@ -68,16 +68,14 @@ void TLobby__sub_801C2C34(void *arg0);
 void TLobby__sub_801C38A4(void);
 }
 void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
-extern "C" {
 void free_char_slots(void);
-}
 s32 get_battle_time_limit_frames(void);
 void clear_battle_player_ready_flags(void);
 extern "C" {
 void fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);
+}
 void handle_6x7E(void);
 void handle_6x7F_battle_scores(saddr command);
-}
 void record_local_battle_placement(void *arg0);
 extern "C" {
 void send_6x7D_set_battle_mode_data(void *arg0);

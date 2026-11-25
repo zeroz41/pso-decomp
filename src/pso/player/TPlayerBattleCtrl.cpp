@@ -263,17 +263,12 @@ struct CalcPlayerRankingsTeam { s32 v[2]; };
 typedef struct CheckTeamBalanceCount { s32 v[2]; } CheckTeamBalanceCount;
 
 extern "C" {
-void handle_6x7E(void);
 void TLobby__sub_801C38A4(void);
 void TLobby__sub_801B09A4(void);
 
 
 void request_active_window_close(void);
-}
-s32 get_battle_time_limit_frames(void);
-extern "C" {
 void __destroy_new_array(void *, void *);
-void free_char_slots(void);
 int TKeyBoardControl__sub_8000F828(void);
 void TAdSinglePlyChrSelectGC__sub_801C5120(void);
 void TAdSinglePlyChrSelectGC__sub_801C5158(void);
@@ -316,7 +311,6 @@ void TAdSinglePlyChrSelectGC__sub_801C50F0(u16);
 u16 TAdSinglePlyChrSelectGC__sub_801C50FC();
 void TAdSinglePlyChrSelectGC__sub_801C5108(u16);
 u16 TAdSinglePlyChrSelectGC__sub_801C5114();
-void handle_6x7F_battle_scores(saddr command);
 void play_area_music(char *name);
 }
 

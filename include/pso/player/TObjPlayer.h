@@ -1291,11 +1291,9 @@ extern s16 demo_camera_index;
 // The player object of each client id (NULL while the slot is empty).
 extern TObjPlayer *player_slot_table[12];
 
-extern "C" {
 void send_6x25_equip_item(TObjPlayer *player, s32 item_id, s32 slot);
 void assign_inventory_item_ids(TObjPlayer *player, TPlyInventoryItem *records, s32 count);
 void rebuild_player_inventory(TObjPlayer *player);
-}
 
 // Clears the player's control-lock flag (0x200); run on every player slot.
 void release_control_lock(TObjPlayer *player);
