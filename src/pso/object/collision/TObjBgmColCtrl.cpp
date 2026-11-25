@@ -88,8 +88,8 @@ TObjBgmCol::TObjBgmCol(TObject *parent, void *arg2) : TObjBase(parent) {
 #define bgm_col this
     *(saddr *)((s8 *)bgm_col + 0) = (saddr) bgm_col_name;
     bgm_col->apply_object_set_data(arg2);
-    bgm_col->m_90 = 1;
-    bgm_col->m_98 = (f32) bgm_col->scale.x;
+    bgm_col->player_outside = 1;
+    bgm_col->trigger_radius = (f32) bgm_col->scale.x;
     bgm_col->m_9c = (s32) (bgm_col->set_params[0] % 6);
     if ((s32) bgm_col->m_9c < 0) {
         bgm_col->m_9c = 0;
@@ -128,18 +128,18 @@ void TObjBgmCol::run_task() {
 s32 TObjBgmCol::check() {
     f32 temp_f0;
 
-    temp_f0 = this->m_98;
+    temp_f0 = this->trigger_radius;
     if (is_within_distance(temp_f0 * temp_f0) != 0) {
-        if ((s32) this->m_90 != 0) {
-            this->m_90 = 0;
+        if ((s32) this->player_outside != 0) {
+            this->player_outside = 0;
             return 1;
         }
         return 0;
     }
-    if ((s32) this->m_90 != 0) {
+    if ((s32) this->player_outside != 0) {
         return 2;
     }
-    this->m_90 = 1;
+    this->player_outside = 1;
     return 3;
 }
 

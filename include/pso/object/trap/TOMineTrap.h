@@ -19,8 +19,8 @@ struct TOMineTrap : public TOMine {
     virtual const char *get_name();
     virtual void run_task();
     u8 _pad37C[0x2];
-    u16 m_37e;
-    s32 m_380;
+    u16 trap_number;
+    s32 owner_message_shown;
     u16 get_trap_type();
     // Names inferred: the mode, the trap number 6x80 packets match, the instance flag set_instance writes.
     s16 get_mode();

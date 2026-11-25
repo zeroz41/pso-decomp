@@ -8,7 +8,7 @@ struct TOMineTrapDisp : public TOMineDisp {
     TOMineTrapDisp(TObject *parent, u16 client, u16 owner);
     virtual ~TOMineTrapDisp();
     virtual void run_task();
-    u16 m_ac;
+    u16 owner_id;
     u8 unk_AE[0x2];
 };
 
