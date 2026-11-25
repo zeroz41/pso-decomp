@@ -10,8 +10,7 @@
 #include <dolphin/pad.h>
 #include <dolphin/gx.h>
 #undef PSO_SDK_COMPACT_MATH
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/keyboard/SystemBootInitInternal.h"
 #include "pso/ui/keyboard/TKeyBoardControl_80131C58.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"

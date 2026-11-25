@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/network/TLobby.h"

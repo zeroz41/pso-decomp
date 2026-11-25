@@ -34,6 +34,8 @@ public:
     u32 transition_flags;
     TObject *transition_children[3];
 };
+
+void hide_title_layers_and_release(TTitleScene *scene);
 LAYOUT_ASSERT(TTitleScene_size, sizeof(TTitleScene) == 0x4C);
 
 LAYOUT_ASSERT(TTitleScene_title_layer_offset, offsetof(TTitleScene, title_layer) == 0x1C);

@@ -4,11 +4,9 @@
 #include "types.h"
 #include "pso/unk/SharedMemory.h"
 
-extern "C" {
 s32 set_shared_memory_data(u8 *source, u32 size);
 void launch_iwanaga_dol(DolHeader *dol_image, s32 arg1);
 void init_shared_memory();
 s32 set_disc_error_message(s32 index, const char *text);
-}
 
 #endif

@@ -25,7 +25,7 @@
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/unk/TLobby_801F3A24.h"

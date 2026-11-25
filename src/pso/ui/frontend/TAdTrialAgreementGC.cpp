@@ -1,6 +1,6 @@
 #include "pso/system/save/CardFileInfo.h"
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"

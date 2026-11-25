@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/network/TProtocol.h"
 #include "pso/enemy/dd/TObjEneDD.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8001D6A0.h"
 #include "pso/unk/TLobbyBattleParamData.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80228CC0.h"

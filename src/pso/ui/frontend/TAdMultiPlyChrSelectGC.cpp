@@ -28,7 +28,7 @@
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/text_802A1144.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdChrSelPlyPlateGC.h"

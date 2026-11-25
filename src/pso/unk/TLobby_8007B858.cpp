@@ -22,7 +22,7 @@
 
 #include "types.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/camera/TCameraScripted.h"
 #include "pso/unk/TLobby_802D79EC.h"

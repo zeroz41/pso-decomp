@@ -1,4 +1,5 @@
 #include "pso/system/RelModuleBuffer.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/render/gjSystem.h"
@@ -32,7 +33,8 @@ extern "C" {
 void fn_801449F0(void);
 
 s32 DVDCheckDisk();
-s32 set_queued_main_phase(s32);
+}
+extern "C" {
 s8 get_opening_movie_purpose();
 }
 

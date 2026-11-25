@@ -113,4 +113,7 @@ struct TMainCursor : public TObject {
 };
 
 LAYOUT_ASSERT(TMainCursor_size, sizeof(TMainCursor) == 0x68);
+
+s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist);
+s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist);
 #endif

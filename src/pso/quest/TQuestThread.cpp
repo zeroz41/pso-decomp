@@ -43,7 +43,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "stdio.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_800F8A18.h"
 #include "pso/item/TItemData_8010EDA8.h"

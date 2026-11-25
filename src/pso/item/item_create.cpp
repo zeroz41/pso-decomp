@@ -151,7 +151,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/item/drop/TItemDropSub.h"
 #include "pso/network/protocol/choice_search.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/player/TPlyPhotonChair.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/player/PlayerSlots.h"

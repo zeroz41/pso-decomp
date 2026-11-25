@@ -10,7 +10,7 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 #pragma readonly_strings on
 

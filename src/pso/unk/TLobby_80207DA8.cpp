@@ -19,7 +19,7 @@
 #include "pso/unk/FloorMapNames.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/byteswap.h"
 #include <string.h>
 #include "pso/unk/TLobby_800F8AA8.h"

@@ -24,7 +24,7 @@
 
 #include "pso/object/base/TObjMotion.h"
 
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 #include "pso/unk/TLobby_800F7744.h"
 

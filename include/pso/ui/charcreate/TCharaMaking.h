@@ -18,9 +18,9 @@ s32 validate_player_visual_record(void *record);
 
 extern "C" {
 void TCharaMaking__sub_8028E790(void);
+}
 // The section id a character name hashes to.
 s32 calc_section_id_from_name(s8 *name);
-}
 
 struct TCharaMaking : public TObject {
     TCharaMaking(TObject *parent);

@@ -43,7 +43,7 @@ extern const f32 view_detail_near_depth = 155.0f;
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/object/ambient/TObjLight.h"
 
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 
 #include "pso/ui/TLevelSelect.h"

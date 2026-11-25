@@ -4,7 +4,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/quest/TQuestListChallenge.h"
 #include "pso/quest/TQuestListOffline.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/city/TShopWindowBase.h"

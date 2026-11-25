@@ -79,8 +79,6 @@ void get_isao_trial_params(const char **number, const char **domain, const char 
     pages[11] = "file:/isao/case11/menu.htm";
 }
 
-extern "C" {
-
 #pragma push
 #pragma optimize_for_size off
 s32 set_shared_memory_data(u8 *arg0, u32 arg1) {
@@ -176,17 +174,19 @@ s32 set_disc_error_message(s32 arg0, const char *arg1) {
     return ret;
 }
 #pragma pop
+extern "C" {
 
 s32 EXIGetType(int, int, void *);
+}
 u32 lbl_805D7CC8;
 
 s32 get_network_adapter_type(s32 *arg0) {
     s32 sp8;
-    if ((u32) lbl_805D7CC8 == 2U) {
+    if (lbl_805D7CC8 == 2U) {
         *arg0 = 2;
         goto block_18;
     }
-    if ((u32) lbl_805D7CC8 == 5U) {
+    if (lbl_805D7CC8 == 5U) {
         *arg0 = 5;
         goto block_18;
     }
@@ -217,6 +217,7 @@ s32 get_network_adapter_type(s32 *arg0) {
 block_18:
     return 0;
 }
+extern "C" {
 
 s32 fn_8042EF48(s8 arg0) {
     if ((s32) shared_memory_ready == 0) {

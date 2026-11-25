@@ -4,7 +4,7 @@
 #include "pso/render/render_util.h"
 #include "pso/render/GinjaTexture.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowSubStatusDisp_800FBD74.h"
 #include "libc/ctype.h"
 

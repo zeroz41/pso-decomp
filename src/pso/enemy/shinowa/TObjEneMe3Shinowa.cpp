@@ -56,7 +56,7 @@
 #include "pso/enemy/deldepth/DelDepthData.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/technique/TTecDeband.h"
 #include "pso/map/CsnGroundQuery.h"
 #include "pso/render/model_render_state.h"

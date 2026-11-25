@@ -7,7 +7,7 @@
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 FloorMapSelection floor_map_registry[18];
 

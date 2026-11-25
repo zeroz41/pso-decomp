@@ -80,9 +80,6 @@ QuestDownloadRecord quest_download_file_header;
 SubtractiveRng quest_download_cipher_state;
 __declspec(section ".data") u32 download_rng_seed_pair[2];
 extern "C" {
-s32 get_memcard_free_files(s32);
-}
-extern "C" {
 s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size);
 }
 extern TObject *tl_03;

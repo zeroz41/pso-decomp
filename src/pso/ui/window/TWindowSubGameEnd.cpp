@@ -5,7 +5,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/task/TMainTask.h"
 
 #include "pso/ui/city/THunterGuildSeqOffline.h"

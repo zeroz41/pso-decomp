@@ -15,7 +15,7 @@
 #include "pso/object/door/TODoorFourLightSeabed.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/map/FloorArea.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/door/TODoorBase.h"

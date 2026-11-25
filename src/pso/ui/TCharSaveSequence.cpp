@@ -13,6 +13,8 @@
 #include "pso/ui/TCharSaveSequence.h"
 #include <string.h>
 #include "pso/object/ambient/TObjLight_80133568.h"
+#include "pso/map/area/AreaScene.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #pragma push
 
 #include "types.h"
@@ -29,7 +31,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -80,12 +82,10 @@ s8 func_801A5E54__Fv();
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern "C" {
-s32 run_load_callback_table(void *, int);
 s32 reset_controller_input_state();
 s32 __ct__15TWindowCtrlMainFv(u32);
+}
 
-extern u8 lobby_rule_settings[];
-CharacterSaveRecord *get_selected_save_record(CharacterFile *);
 
 void TAdSinglePlyChrSelectGC::reset_quest_id() {
     single_ply_quest_download_server = 0xFFFF;
@@ -356,6 +356,7 @@ void TCharSaveSequence::set_char_slots(s32 message, s32 sub_message) {
         message_window->append_line(get_message_text(sub_message), 8);
     }
 }
+extern "C" {
 void TAdSinglePlyChrSelectGC__sub_8033B244(TObject *) { request_queued_main_phase(); }
 void TAdSinglePlyChrSelectGC__sub_8033B264(void) {
     main_task.delete_layer_children();
@@ -363,6 +364,7 @@ void TAdSinglePlyChrSelectGC__sub_8033B264(void) {
     TLobby::set_and_notify(0);
     TLobby::call_funcs_reverse((void *)&character_select_scene_resource_callbacks, 0x30);
     render_tick();
+}
 }
 
 void TAdSinglePlyChrSelectGC::run_frame() {
@@ -390,7 +392,6 @@ void TAdSinglePlyChrSelectGC::run_frame() {
         }
     }
     render_tick();
-}
 }
 
 struct RecoveredGlobal_8033B264_lbl_804EF728;

@@ -3,7 +3,7 @@
 #include "pso/system/scene/EndingWallTextures.h"
 #include "pso/ui/frontend/TAdEndText.h"
 #include "pso/system/scene/TEndingPicStage.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/scene/TScene.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"

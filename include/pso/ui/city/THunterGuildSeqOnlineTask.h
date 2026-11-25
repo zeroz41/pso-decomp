@@ -19,4 +19,7 @@ extern const char *THunterGuildSeqOnline_Client__name;
 
 void handle_6x73_exit_quest(void);
 
+// Clears the online quest download windows and download state.
+void reset_globals(void);
+
 #endif

@@ -6,7 +6,7 @@
 #include <string.h>
 #include "pso/object/base/CollisionBodySet.h"
 #include "pso/item/TItem.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/system/memory.h"

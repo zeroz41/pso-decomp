@@ -54,7 +54,7 @@
 #include "pso/unk/TLobby_801D726C.h"
 #include "pso/unk/text_8020B5CC.h"
 #include "pso/unk/text_8020BC50.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/WindowLayout.h"
 #include <dolphin/os/OSTime.h>
 #include "pso/ui/window/TWindowSubComCard_80265410.h"

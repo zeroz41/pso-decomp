@@ -19,7 +19,7 @@
 #include "pso/system/ControllerInputState.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/network/client_id.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/object/switch/TSwitch.h"
 #include "pso/system/MatrixStack.h"

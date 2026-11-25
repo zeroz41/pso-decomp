@@ -4,9 +4,9 @@
 #include "pso/unk/text_8020E700.h"
 #include "pso/unk/text_80223B98.h"
 #include "pso/ui/font/TFontSmallTask.h"
+#include "pso/ui/city/TShopGetItemWindow_8021EEE4.h"
 
 extern s32 game_difficulty_selection;
-extern s32 shop_section_id;
 extern s32 shop_difficulty_tier;
 extern s32 lbl_805D6244;
 

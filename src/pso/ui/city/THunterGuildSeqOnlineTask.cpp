@@ -31,7 +31,7 @@
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include <string.h>
 #include "pso/player/PlayerSlots.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/window/WindowLayout.h"
 #include "pso/network/client_id.h"
@@ -316,6 +316,7 @@ void copy_quest_list_data__16TQuestListOnlineFv(OnlineQuestMenu &menu) {
         set_quest_list_online_state(1);
     }
 }
+}
 
 void TQuestListOnline::release_resources() {
     if (quest_list_online_bin_download_state.buffer != NULL) {
@@ -369,4 +370,3 @@ void TQuestListOnline::init_download_buffers() {
 }
 
 void reset_globals(void) { TQuestListOnline__download_window = NULL; TQuestListOnline__quest_info_window = NULL; TQuestListOnline__download_barrier_window = NULL; quest_download_active = 0; memset(&quest_list_online_dat_download_state, 0, sizeof(OnlineQuestDownloadState)); memset(&quest_list_online_bin_download_state, 0, sizeof(OnlineQuestDownloadState)); TQuestListOnline__bin_download_complete = 0; TQuestListOnline__dat_download_complete = 0; quest_download_received_bytes = 0; quest_download_graph_current_bytes = 0; }
-}

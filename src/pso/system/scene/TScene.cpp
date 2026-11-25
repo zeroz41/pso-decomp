@@ -29,7 +29,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/vector.h"
 #include "pso/render/NinjaUtil.h"
 #include <string.h>

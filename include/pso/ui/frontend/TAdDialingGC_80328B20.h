@@ -8,7 +8,7 @@ struct TAdDialingGC;
 
 extern "C" {
 void TAdDialingGC__sub_80328B20(TAdDialingGC *screen);
-void draw_dialing_rectangle(const NJS_POINT2 *origin, const NJS_POINT2 *size);
 }
+void draw_dialing_rectangle(const NJS_POINT2 *origin, const NJS_POINT2 *size);
 
 #endif

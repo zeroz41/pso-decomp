@@ -7,7 +7,7 @@
 #include "pso/render/render_util.h"
 #include "pso/render/ScreenPrimitiveDraw.h"
 #include "pso/system/task/TMainTask.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 
 extern "C" {

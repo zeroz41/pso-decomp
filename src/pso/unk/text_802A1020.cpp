@@ -19,6 +19,7 @@
 #include "pso/ui/Language.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 typedef struct Entry_802A1020 {
     const char *file;
@@ -28,11 +29,9 @@ typedef struct Entry_802A1020 {
 
 s32 opening_movie_selector = 1;
 extern "C" {
-s32 switch_to_fallback_main_phase();
-s32 request_queued_main_phase();
 void request_main_phase(s32 arg0);
-void set_fallback_main_phase(s32 arg0);
-void set_queued_main_phase(s32 queued_main_phase);
+}
+extern "C" {
 u8 *__ct__6TMovieFP7TObjectPSclll(void *, void *, const char *, void (*)(s32), s32, s32, s32);
 }
 void process_async_file_reads(void);

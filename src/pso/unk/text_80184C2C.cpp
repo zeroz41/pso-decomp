@@ -4,7 +4,7 @@
 #include "pso/unk/text_80184C2C.h"
 #include "pso/network/TLobby.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 int city_season_flags[6];
 const s32 lobby_event_theme_id_table[6] = {4, 3, 1, 5, 2, 6};

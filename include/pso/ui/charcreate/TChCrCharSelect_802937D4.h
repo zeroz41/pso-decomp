@@ -3,8 +3,6 @@
 
 #include "types.h"
 
-extern "C" {
 int get_char_select_class_id(int a0);
-}
 
 #endif

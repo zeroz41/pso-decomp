@@ -6,7 +6,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/network/client_id.h"
 #include "types.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/system/byteswap.h"

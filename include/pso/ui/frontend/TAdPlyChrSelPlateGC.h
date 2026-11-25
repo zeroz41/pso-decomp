@@ -53,6 +53,6 @@ struct ChrSelPlateLayout {
 LAYOUT_ASSERT(ChrSelPlateLayout_size, sizeof(ChrSelPlateLayout) == 0x10);
 
 // Draws one plate quad of `plate`'s size at `pos` in `color`, `depth` steps in front.
-extern "C" void draw_selection_plate(TAdPlyChrSelPlateGC *plate, NJS_POINT2 *pos, NJS_COLOR color, u32 depth);
+void draw_selection_plate(TAdPlyChrSelPlateGC *plate, NJS_POINT2 *pos, NJS_COLOR color, u32 depth);
 
 #endif

@@ -28,19 +28,19 @@ extern "C" {
 void draw_compass_sprite(const NJS_SPRITE *sprite, s32 index, s32 color, s32 flags, f32 depth);
 void draw_creation_sprite_offset(s32 sprite_id, const vec2f* position, const vec2f* scale,
                                  f32 depth, f32 alpha);
+}
 void draw_ui_sprite_tinted(s32 sprite_id, vec2f* position, vec2f* scale, UISpriteTint* tint,
                            f32 depth);
 void draw_ui_sprite_shaded(s32 sprite_id, const vec2f* position, const vec2f* scale,
                           f32 depth, f32 alpha, f32 brightness);
 void draw_ui_sprite_scaled(s32 sprite_id, const vec2f* position, const vec2f* scale,
                           f32 depth, f32 alpha);
-}
 void draw_ui_sprite_opaque(s32 sprite_id, const vec2f* position, const vec2f* scale,
                            f32 depth);
 // The UI scale TObjCMMainMenu::get_scale returns.
 extern f32 ui_sprite_scale;
-extern "C" {
 void draw_ui_sprite(s32 sprite_id, const vec2f* position, f32 depth, f32 alpha);
+extern "C" {
 // Points *table at the cell table of sprite *id; ids from 143 on index the language's own table.
 void TCharaMaking__resolve_creation_sprite_table(NJS_TEXANIM** table, s32* id);
 void fn_80291138(void);

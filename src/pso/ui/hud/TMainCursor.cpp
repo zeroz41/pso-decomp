@@ -10,7 +10,7 @@
 #include "pso/ui/hud/TMainCursor.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/TLOC_End.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLOC_Start.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
@@ -151,9 +151,6 @@ void *lbl_804A71C4[6] = {
 
 extern "C" {
 f32 vec3_dot(void *, void *);
-s32 target_in_vertical_cone(Vec *p, Vec *q, s32 yaw, f32 range, f32 dist);
-s32 target_in_xz_cone(Vec *p, Vec *q, Vec *r, s32 yaw, f32 range, f32 dist);
-
 }
 
 struct ActionCursor_8013C924 {
@@ -1431,13 +1428,9 @@ void LockOnActionSlot::reset_state() {
     target_records.clear();
 }
 
-extern "C" {
-
 void copy_action_entry(void *arg0, void *arg1) {
     *(s16 *)((s8 *)arg0 + 0) = (s16) *(s16 *)((s8 *)arg1 + 0);
     *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
-}
-
 }
 
 s32 TMainCursor::sort_actions_by_priority() {

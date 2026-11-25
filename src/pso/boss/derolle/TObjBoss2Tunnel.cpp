@@ -9,7 +9,7 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007C5C0.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"

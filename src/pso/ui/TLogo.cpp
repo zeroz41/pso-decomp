@@ -29,13 +29,16 @@
 #include "pso/object/ambient/TObjLight_80133568.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/system/ControllerInput.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
+#include "pso/map/area/AreaScene.h"
 
 
 extern "C" {
-s32 set_fallback_main_phase(int);
 void request_main_phase(s32 arg0);
-s32 switch_to_fallback_main_phase();
+}
+extern "C" {
 s8 func_801A5E54__Fv();
+}
 
 const char *TLogo__class_name = "TLogo";
 
@@ -51,7 +54,6 @@ void (*logo_load_callback_table[18])(void) = {
     TWindowCtrlMain__sub_8024D838, TWindowCtrlMain::free_all_windows,
     load_adx_logo_texture, free_adx_logo_texture,
 };
-}
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
 extern int sega_logo_done_flag;

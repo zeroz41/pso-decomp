@@ -8,9 +8,9 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/network/TLobby.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 extern "C" {
-s32 switch_to_fallback_main_phase();
 void request_main_phase(s32 arg0);
 }
 void process_async_file_reads(void);

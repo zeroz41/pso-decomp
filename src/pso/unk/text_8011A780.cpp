@@ -3,7 +3,7 @@
 #include "pso/network/protocol/ItemDropPacket.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_801036CC.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_80105A2C.h"
 #include "pso/unk/text_8011A780.h"
 #include <stddef.h>

@@ -29,7 +29,7 @@ struct NJS_OBJECT;
 #include "pso/unk/text_803D96A8.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/vector.h"
 #include "pso/render/TObjEnemyColorFade.h"
 #include <stddef.h>

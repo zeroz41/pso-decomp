@@ -17,10 +17,8 @@ LAYOUT_ASSERT(CharacterSelectionRequestSize, sizeof(CharacterSelectionRequest) =
 LAYOUT_ASSERT(CharacterSelectionRequestPlayerOffset, offsetof(CharacterSelectionRequest, player_ids) == 0x10);
 LAYOUT_ASSERT(CharacterSelectionRequestCountOffset, offsetof(CharacterSelectionRequest, count) == 0x20);
 
-extern "C" {
 extern CharacterSelectionRequest chr_select_request_buffer;
 void copy_selected_characters(const CharacterSelectionRequest *request);
 void copy_character_selection_request(CharacterSelectionRequest *destination, const CharacterSelectionRequest *source);
-}
 
 #endif

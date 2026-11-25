@@ -722,6 +722,7 @@ s32 TCheckRoomSequence__delete_bank_item(u8 *item, s32 slot) {
     }
     return 0;
 }
+}
 
 void TCheckRoomSequence::remove_bank_item_amount(int idx, int amount, int slot) {
     BankItemRecord *recs = bank_item_records_by_slot[slot];
@@ -836,7 +837,6 @@ void copy_bank_to_card_window(s32 slot) {
             move_data((void *)((w->items)), (const void *)(bank_item_records_by_slot[slot]), 0x12C0);
         }
     }
-}
 }
 #pragma pop
 

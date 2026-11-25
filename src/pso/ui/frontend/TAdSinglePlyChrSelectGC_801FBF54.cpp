@@ -43,8 +43,7 @@
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/ControllerInput.h"
 #include "pso/object/base/TObjCharaHelpers.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/TLobby_801461EC.h"
 #include "pso/player/PlayerSlots.h"
 CharacterFile *card_character_save_buffer;
@@ -153,10 +152,6 @@ s32 TAdSinglePlyChrSelectGC__sub_80202B1C(s32, s32);
 u8 TAdSinglePlyChrSelectGC__sub_80202B30();
 void TAdSinglePlyChrSelectGC__sub_80203210(void *p);
 int fn_8020325C(void *arg0);
-}
-extern "C" {
-CharacterFileSlot *get_selected_character_slot(CharacterFile *self);
-CharacterSaveRecord *get_selected_save_record(CharacterFile *self);
 }
 extern "C" {
 s32 TLobby__sub_8030A770();

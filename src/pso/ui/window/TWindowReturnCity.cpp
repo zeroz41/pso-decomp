@@ -14,7 +14,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/unk/TLobby_80207644.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 #include "pso/player/PlayerSlots.h"
 #include "pso/player/TObjPlayer.h"

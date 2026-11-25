@@ -49,14 +49,14 @@ struct SavedSymbolChatPresets {
 
 LAYOUT_ASSERT(SavedSymbolChatPresetsEntriesOffset, offsetof(SavedSymbolChatPresets, entries) == 0x15A0);
 
-extern "C" {
 SymbolChatPreset *get_symbol_chat_preset(s32 index);
 s32 is_symbol_chat_preset_in_use(const SymbolChatPreset *preset);
+extern "C" {
 int TWindowSubSymbolChat__sub_80076FE0(const SymbolChatPreset *preset);
 void TWindowSubSymbolChat__sub_800771B0(SymbolChatPreset *preset, s32 index);
 s32 TWindowSubSymbolChat__sub_800771C4(const SymbolChatPreset *preset, s32 index);
+}
 extern SymbolChatPreset symbol_chat_receive_buffer;
 extern u8 pending_symbol_chat_count;
-}
 
 #endif

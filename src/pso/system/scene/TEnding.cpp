@@ -13,7 +13,7 @@
 #include "pso/network/TLobby.h"
 #include "pso/ui/frontend/TAdRicoRingCtrl.h"
 #include "pso/ui/frontend/TAdEndText.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 u32 ending_frame_counter;
 s32 ending_scene_active;

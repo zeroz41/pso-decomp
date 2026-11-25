@@ -73,7 +73,7 @@ LAYOUT_ASSERT(CharacterSaveRecord_size, sizeof(CharacterSaveRecord) == 0x2370);
 
 // In split screen the record of player `client` (0xFFFF: the first player), otherwise the active
 // character's record.
-extern "C" saddr get_character_save_record(u32 client);
+saddr get_character_save_record(u32 client);
 
 // The decoded challenge rank title of the record get_character_save_record(0xFFFF) returns, in a
 // shared buffer.

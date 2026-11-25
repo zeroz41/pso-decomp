@@ -38,7 +38,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/TLobby_802268F4.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 static const ParticleAngles radial_particle_zero_angles = { 0, 0, 0 };
 

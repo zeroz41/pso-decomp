@@ -32,7 +32,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/system/task/TObject.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"
 #include "pso/ui/window/TWindowSubStatusDisp_80248BE8.h"
 #include "pso/ui/window/WindowLayout.h"

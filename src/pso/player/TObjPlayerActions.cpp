@@ -53,7 +53,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/enemy/TObjEneBeastBase.h"
 #include "pso/weapon/WeaponSpecialSelection.h"
 #include "pso/player/PhotonBlastResults.h"

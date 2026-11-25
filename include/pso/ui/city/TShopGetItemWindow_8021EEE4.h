@@ -9,4 +9,7 @@ struct TObjPlayer;
 void calc_item_count(TObjPlayer *player, s32 *count);
 void init_shop_world_context(void);
 
+// Section ID the shop stock is rolled for (0..9).
+extern s32 shop_section_id;
+
 #endif

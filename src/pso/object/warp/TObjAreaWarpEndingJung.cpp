@@ -84,7 +84,7 @@
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/ControllerInput.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/object/warp/TObjCityMainWarp_801867F4.h"
@@ -602,7 +602,7 @@ void TObjAreaWarp::handle_area_selection() {
 
 void TObjAreaWarp::confirm_area_transfer(TObjPlayer *player) {
     floor_transition_state.set_next_floor((int) (this->dest_floor), (int) (get_floor_map_terrain(this->dest_floor)));
-    ((s32 (*)(void))mark_area_change_pending)();
+    mark_area_change_pending();
     send_inter_level_warp_all(floor_transition_state.get_next_floor());
     send_6x21_inter_level_warp(player, (floor_transition_state.get_next_floor()));
     ((s32 (*)(s32, u32, s16, s32))play_sound_effect)(0x40003205, 0U, 0, 0);

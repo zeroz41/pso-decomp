@@ -188,8 +188,8 @@ force_active:
   - network_config_buffer
   - network_info_payload_buffer
   - network_config_backup_mode
-  - mount_memcard
-  - open_or_create_memcard_file
+  - mount_memcard__Fl
+  - open_or_create_memcard_file__FlPCcPvUl
   - __ct__19TAdPlyPltAnimCtrlGCFP7TObject
   - TAdPlyPltAnimCtrlGC__sub_80355168
   - tcp_fasttimo
@@ -230,7 +230,7 @@ force_active:
   - __dt__17CharacterFileSlotFv
   - TAdSinglePlyChrSelectGC__sub_801FCCB4
   - TAdSinglePlyChrSelectGC__sub_801FCCC0
-  - get_selected_character_slot
+  - get_selected_character_slot__FP13CharacterFile
   - TAdSinglePlyChrSelectGC__sub_801FDC14
   - TAdSinglePlyChrSelectGC__sub_801FE380
   - TAdSinglePlyChrSelectGC__sub_801FEBBC
@@ -590,8 +590,8 @@ force_active:
   - TJudgmentSequence__sub_80215BF8
   - pad_slot_state_buffer
   - keyboard_polling_disabled
-  - poll_input_devices_frame
-  - reset_main_phase_state
+  - poll_input_devices_frame__Fv
+  - reset_main_phase_state__Fv
   - process_raw_key__16KeyboardKeyStateFP16KeyboardKeyStateUcPUl
   - reset_port_if_connected__16KeyboardKeyStateFUc
   - TKeyBoardControl__sub_80290D10
@@ -732,7 +732,7 @@ force_active:
   - TLogo__sub_8013F800
   - TLogo__sub_8013F808
   - TMainCursor__ct
-  - copy_action_entry
+  - copy_action_entry__FPvPv
   - set_published_target_dist__19LockOnNearestTargetFf
   - get_candidate_target_dist__19LockOnNearestTargetFv
   - set_published_target_id__19LockOnNearestTargetFUs
@@ -745,8 +745,8 @@ force_active:
   - set_client_id__11CursorOwnerFUs
   - TMainCursor__sub_8013E8A0
   - TMainCursor__sub_8013F22C
-  - clear_bodies_collision_flag
-  - set_bodies_collision_flag
+  - clear_bodies_collision_flag__FP20TargetCandidateEntryl
+  - set_bodies_collision_flag__FP20TargetCandidateEntryl
   - TMainCursor__sub_80154288
   - TMainTask_name
   - slot_flags__17TMedicalCenterMes
@@ -5382,7 +5382,7 @@ force_active:
   - copy_pos_with_height_offset__18TObjEneMe3SinowZoaFv
   - copy_position__15TObjEneSlimeOneFv
   - copy_positions_to_parts__11TBoss4Type3Fv
-  - copy_character_selection_request
+  - copy_character_selection_request__FP25CharacterSelectionRequestPC25CharacterSelectionRequest
   - copy_from__21BmlResourceDescriptorFRC21BmlResourceDescriptor
   - copy_ring_buffer_window__15TObjBoss2TunnelFv
   - copy_rotation_to_current_matrix__FPA3_A4_Cf
@@ -6930,7 +6930,7 @@ force_active:
   - heaven_punisher_strike_locks__25TItemWeaponHeavenPunisherFv
   - hide__5TItemFv
   - hide_part__9TObjLukerFUs
-  - hide_title_layers_and_release
+  - hide_title_layers_and_release__FP11TTitleScene
   - hit_object_in_radius__23TObjNanoDragoSingleBeamFP9TObjCharaP14TObjCollidable
   - hit_target_in_range__23TObjEneMorfosGroundShotFP9TObjCharaP14TObjCollidable
   - hold_captured_player__12TBoss1DragonFv
@@ -16413,8 +16413,8 @@ force_active:
   - synthMasterFaderActiveFlags
   - synthMasterFaderPauseActiveFlags
   - target_cursor_color_table
-  - target_in_vertical_cone
-  - target_in_xz_cone
+  - target_in_vertical_cone__FP3VecP3Veclff
+  - target_in_xz_cone__FP3VecP3VecP3Veclff
   - tcp_socket_table
   - team_matchup_message_buffer
   - class_name__10TTecDeband

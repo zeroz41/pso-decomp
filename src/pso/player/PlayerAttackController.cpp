@@ -33,7 +33,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/ui/hud/TMainCursor_8013E7B8.h"

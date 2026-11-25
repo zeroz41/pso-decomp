@@ -34,6 +34,7 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/map/area/AreaScene.h"
 #include "pso/render/GinjaTexture.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 
 
@@ -231,11 +232,16 @@ int lobby_game_mode_state;
 NJS_TEXLIST *lobby_title_texture_list;
     extern int lbl_805D68C8;
 u64 call_funcs_reverse__6TLobbyFPvUi(void *, int);
-void hide_title_layers_and_release(TTitleScene *scene);
+}
+extern "C" {
 int TKeyBoardControl__sub_8000F828(void);
-void set_fallback_main_phase(int);
+}
+extern "C" {
 
 void TWindowOptionCtrl__sub_802273B4(s32 arg0);
+}
+
+// Read as const here: Language.h's non-const declaration changes the load scheduling.
 extern const s32 current_language;
 
 void TLobby::queue_destruction_and_cleanup(TObject *fade) {
@@ -278,6 +284,7 @@ void TTitleScene::set_flag_and_clear_download() {
         transition_controller->clear_update_suspension();
     }
 }
+extern "C" {
 
 void TLobby__sub_803361FC(void) {  }
 void TTitleScene::open_keyboard() { lobby_game_mode_state = 3; request_main_phase(19); }
@@ -293,6 +300,7 @@ void TLobby__sub_803362A4(TTitleScene *scene) {
             (scene->*handler)();
         }
     }
+}
 }
 void TTitleScene::render() {  }
 
@@ -398,7 +406,6 @@ void TLobby::destroy_global_object() {
         release_texture_list(lobby_title_texture_list);
         lobby_title_texture_list = NULL;
     }
-}
 }
 
 void initialize_lobby_title_scene(void) {

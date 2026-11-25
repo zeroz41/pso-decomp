@@ -36,7 +36,7 @@ void TShopItemTecSequence__sub_80220538(void);
 void TShopItemTecSequence__sub_80220560(void);
 void close__20TShopItemTecSequenceFPv(TShopWindowBase *window);
 void select_and_advance__20TShopItemTecSequenceFPv(TShopWindowBase *window);
-void set_judgment_target_flag(TShopJudgmentItemWindow *window, TItemData *item);
 }
+void set_judgment_target_flag(TShopJudgmentItemWindow *window, TItemData *item);
 
 #endif

@@ -76,12 +76,14 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel_8007CF0C.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/font/TFontSmallTask.h"
+#include "pso/map/area/AreaScene.h"
 #include "pso/unk/TLobby_800F8AA8.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/network/client_id.h"
 #include "pso/npc/NpcPartnerControl.h"
 #include "pso/object/base/ActorCollision.h"
 #include "pso/player/PlayerActionProvider.h"
+#include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 
 
 struct Pair_801A3CFC { s32 f0; s32 f4; };
@@ -120,18 +122,24 @@ struct Pl_801A40D8 : PlB_801A40D8 {
 extern "C" {
 void clear_enabled_main_warps(void);
 int TKeyBoardControl__sub_8000F95C(void);
+// The run_*_frame callers test this as an int, while SystemBootInit defines it bool.
 s32 is_keyboard_active();
 s32 clear_keyboard_key_state();
 int request_main_phase(int);
+}
+void set_fallback_main_phase(s32 phase);
+void set_queued_main_phase(s32 phase);
+extern "C" {
 
 s32 PPCSync();
 extern s32 lbl_805D5718;
 s32 unlock_main_warp_destination();
 s32 load_area_scene_and_init(void *);
-s32 run_load_callback_table(void *, s32);
+}
+extern "C" {
 void TLobby__sub_801A3E94(void);
-s32 set_fallback_main_phase(int);
-int set_queued_main_phase(int);
+}
+extern "C" {
 s32 TLobby__sub_80146908();
 void TLobby__sub_801A3CF8(void);
 int TLobby__sub_801A3E8C(void);
@@ -147,7 +155,6 @@ void TRaderMapCore__sub_801F95CC(void);
 void TWindowDD__sub_80344114(void);
 void TQuestThread__sub_801F5D88(void);
 void TLobby__sub_8029B2A4(void);
-void reset_globals(void);
 }
 void clear_received_symbol_chat(void);
 

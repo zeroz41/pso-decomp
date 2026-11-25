@@ -96,7 +96,7 @@
 #include "pso/player/TPlyItem.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TForceOperate.h"
@@ -4339,7 +4339,7 @@ void complete_deferred_player_death(TDeathTintFade *fade) {
             }
             ((TObjPlayer *)p)->prepare_hospital_return();
             floor_transition_state.set_next_floor(0, get_floor_map_terrain(0));
-            ((s32 (*)(void))mark_area_change_pending)();
+            mark_area_change_pending();
             send_inter_level_warp_all(floor_transition_state.get_next_floor());
             return;
         }

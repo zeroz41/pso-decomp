@@ -31,7 +31,7 @@ struct TWindowSubItem;
 #include "pso/ui/window/TWindowSubTechnique.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/unk/TWindowStatusCategoryMenu.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80263A20.h"
 #include "pso/player/TObjPlayer.h"

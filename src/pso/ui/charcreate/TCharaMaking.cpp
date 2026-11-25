@@ -15,7 +15,7 @@
 #include "pso/ui/charcreate/TChCrLoadReq.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/charcreate/TCharaMaking_8028E3F4.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_8028D5D4.h"
@@ -125,6 +125,7 @@ CharacterAppearanceFields *creation_player_character;
 TObjCMMainMenu *creation_main_menu_obj;
 extern "C" {
 s32 release_texture_list(void *);
+}
 
 
 s32 TCharaMaking::query_state() {
@@ -144,7 +145,6 @@ s32 calc_section_id_from_name(s8 *name) {
     sum %= 10;
     if (sum < 0 || sum >= 10) sum = 0;
     return sum;
-}
 }
 #pragma push
 #pragma fp_contract on
@@ -402,6 +402,7 @@ s32 TCharaMaking__sub_8028E3A0(f32 *arg0) {
 
 extern "C" {
 s32 TLobby__sub_801E3E9C(s32, const void *, void *, s32);
+}
 
 s32 TCharaMaking::is_end() {
     if ((get_main_phase() == 0xF) || (is_quest_active() != 0)) {
@@ -426,8 +427,6 @@ s32 character_display_index(uaddr appearance_record) {
         return 0x12 - appearance[offsetof(CharacterAppearanceFields, extraModel)];
     }
     return appearance[offsetof(CharacterAppearanceFields, classId)];
-}
-
 }
 void CharacterTextureLoadSet::build_appearance_texture_names(CharacterAppearanceFields *appearance, CharacterClassAppearance *definition, CharacterTextureList *source) {
     if (source->count <= 8) {

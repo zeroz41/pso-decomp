@@ -60,7 +60,9 @@ s32 creation_resource_ready_state;
 extern "C" {
 s32 is_entry_equal__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 s32 creation_motion_group(CharacterAppearanceFields *);
+}
 void load_creation_shape_rel(TCMCharacter *character);
+extern "C" {
 void TCharaMaking__sub_8028E3A0();
 s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 
@@ -237,6 +239,7 @@ const char *TCMCharacter__name = "TCMCharacter";
 __declspec(section ".rodata") CreationModelPart lbl_80451CD0 = {0, 0};
 #pragma pop
 __declspec(section ".data") CreationModelNodeState creation_empty_model_node = {0,0};
+}
 
 struct Sel_802902CC {
     u8 pad0[4];
@@ -246,8 +249,6 @@ struct Sel_802902CC {
     saddr d[3];
     saddr e[3];
 };
-
-}
 extern CreationShapeBlend creation_shape_blend;
 s32 scan_creation_resources(void *arg0);
 uaddr relocate_data_block_pointers(uaddr arg0, u32 arg1);

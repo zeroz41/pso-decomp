@@ -3,6 +3,8 @@
 #include "pso/network/TLobby.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/item/TItemData.h"
+#include "pso/ui/city/TShopGetItemWindow_8021EEE4.h"
+#include "pso/ui/city/TShopItemListWindow.h"
 
 struct AppraisalScoreEntry {
     s8 roll;
@@ -41,9 +43,6 @@ ItemAppraisalRules *item_appraisal_rules;
 s32 item_appraisal_favored_weapon;
 s32 item_appraisal_score;
 extern "C" {
-struct SectionIdFavoredGrindTable { s32 value; u8 remaining[0x24]; };
-extern SectionIdFavoredGrindTable section_id_favored_grind_table;
-extern s32 shop_section_id;
 void shuffle_shop_pool_n_times(void *, s32);
 void push_shop_pool_entry(void *, u8);
 
@@ -189,9 +188,10 @@ void adjust_appraisal_special(Obj_8021599C *obj) {
 }
 
 bool TLobby::is_slot_match() {
-    return *(u8 *)((s8 *)this + 1) == *(s32 *)((s8 *)&section_id_favored_grind_table.value + (shop_section_id * 4));
+    return *(u8 *)((s8 *)this + 1) == section_id_favored_grind_table[shop_section_id];
 }
 s32 is_slot_match__6TLobbyFv();
+}
 
 
 void update_item_appraisal(saddr arg0) {
@@ -209,6 +209,5 @@ void TLobby::free_window() {
         TLobby::free_nodes_with_id((uaddr)((void*)item_appraisal_rules));
         item_appraisal_rules = 0U;
     }
-}
 }
 void load_judge_item(void) { item_appraisal_rules = static_cast<ItemAppraisalRules *>(create_named_object("JudgeItem.rel")); }

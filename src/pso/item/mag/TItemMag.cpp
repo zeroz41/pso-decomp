@@ -21,7 +21,7 @@
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/TAdRicoRing_8001BEE8.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/network/TLobby.h"
 #include "pso/quest/challenge/ChallengeMode.h"
 #include "pso/unk/TLobby_80291D94.h"

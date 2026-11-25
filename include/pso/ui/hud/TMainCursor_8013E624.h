@@ -6,10 +6,8 @@
 
 struct TMainCursor;
 
-extern "C" {
 void set_cursor_action_palette_mode(TMainCursor *cursor, u8 mode);
 void set_cursor_palette_slot(ActionPaletteTag *tag, u8 slot);
 void set_cursor_palette_mode(ActionPaletteTag *tag, u8 mode);
-}
 
 #endif

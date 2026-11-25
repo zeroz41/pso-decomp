@@ -10,7 +10,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/charcreate/CreationInput.h"
 #include "pso/unk/TLobby_80132ED0.h"

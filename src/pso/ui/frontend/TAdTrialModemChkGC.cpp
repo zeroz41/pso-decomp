@@ -6,7 +6,7 @@
 #include "pso/unk/text_80145A94.h"
 
 #include "pso/network/TLobby.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 #pragma readonly_strings on
 

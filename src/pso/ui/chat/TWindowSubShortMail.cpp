@@ -28,7 +28,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_8027FD88.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/ui/chat/ShortMail.h"
 #include "pso/ui/window/TWindowSubComCard_802A5748.h"

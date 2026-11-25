@@ -5,6 +5,12 @@
 #include "types.h"
 
 class TPlyCharData;
+struct CharacterFile;
+struct CharacterFileSlot;
+struct CharacterSaveRecord;
+
+CharacterFileSlot *get_selected_character_slot(CharacterFile *file);
+CharacterSaveRecord *get_selected_save_record(CharacterFile *file);
 
 extern "C" {
 u16 TAdSinglePlyChrSelectGC__sub_801FC36C(int client);

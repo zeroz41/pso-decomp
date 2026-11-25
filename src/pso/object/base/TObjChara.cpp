@@ -44,7 +44,7 @@
 
 #include "pso/object/base/TObjChara.h"
 
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 
 
 #include "pso/item/TItem.h"

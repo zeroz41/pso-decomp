@@ -20,7 +20,7 @@
 #include "pso/object/base/TObjCharaHelpers.h"
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/boss/darkfalz/TBoss4Thanks_8035C8F0.h"
-#include "pso/ui/keyboard/TKeyBoardControl_8000F824.h"
+#include "pso/ui/keyboard/SystemBootInit.h"
 #include "pso/unk/text_8035C9E8.h"
 #include "pso/item/TItem.h"
 #include "pso/item/armor/TItemProShield.h"
