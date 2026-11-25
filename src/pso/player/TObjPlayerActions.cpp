@@ -95,19 +95,8 @@ struct ByteBlock_C { u8 bytes[0xc]; };
 #pragma dont_inline off
 struct ByteBlock_8 { u8 bytes[0x8]; };
 #pragma pop
-struct Target_801D1DDC { u16 id; s16 part; };
 
-struct Packet_801D1DDC {
-    u8 command, size;
-    u16 player;
-    s8 kind, flags;
-    s16 count, gauge, unused;
-    struct Target_801D1DDC targets[10];
-};
 
-struct E_801D1FA4 { u8 d[4]; };
-
-struct Obj_801D1FA4 { u16 a; u16 b; s16 n0; s16 n; u8 pad[4]; E_801D1FA4 e[1]; };
 
 
 struct Vec_801D24F4 { u8 bytes[0xC]; };
@@ -141,14 +130,12 @@ u16 get_action_palette_mode(void *, s32);
 s32 get_run_action__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 void update_player_action_palette(TObjPlayer *player, u8 slot);
-u8 TObjPlayer__sub_801D2004(u8 *arg0);
 void TObjPlayer__sub_801D2448(void* p);
 u8 *TObjPlayer__sub_801D2BB8(u8 *arg0, u8 *arg1);
 u8 get_cast_technique_level(void *techs, s16 tech);
 }
 int is_android_player(void* p);
 void remove_photon_blast_participant(s32 id);
-void send_photon_blast_targets_packet(u8 *player);
 void send_6x46_attack_finished(u8 *arg0);
 u8 get_6x46_strike_packet_size(saddr arg0);
 void emit_heavy_attack_particles(saddr owner, u16 target_id);
@@ -2575,7 +2562,7 @@ void handle_6x49_execute_photon_blast(G_ExecutePhotonBlast_Header_6x49 *command)
     TObjPlayer *p;
     G_ExecutePhotonBlast_6x49 cmd;
     cmd = *(G_ExecutePhotonBlast_6x49 *)command;
-    ((TObjPlayer *)(&cmd))->byteswap_6x49_packet();
+    cmd.bswap_received();
     if (validate_6x49_execute_photon_blast(&cmd) != 0) {
         p = get_player_by_client_id(cmd.header.client_id);
         if (p != NULL && p->test_action_mask(0x8000) == 0 && is_current_area_item_enabled() != 0) {
@@ -2629,7 +2616,7 @@ void TObjPlayer::prepare_photon_blast_action() {
             for (i = 0; i < n; i++) {
                 copy_tech_params(dst++, src++);
             }
-            ((s32 (*)(void *))send_photon_blast_targets_packet)(&cmd);
+            cmd.send();
         }
     }
 }
@@ -5072,17 +5059,20 @@ void G_PhotonBlast_6x37::send() {
     send_subcommand(this);
 }
 
-void TObjPlayer::byteswap_6x49_packet() {
-    struct Packet_801D1DDC *pkt = (struct Packet_801D1DDC *)this;
+void G_ExecutePhotonBlast_6x49::bswap_received() {
     s32 i;
-    ((G_ClientIDHeader *)pkt)->bswap();
-    ((TObjPlayer *)(&pkt->kind))->swap_endian_shorts();
-    for (i = 0; i < pkt->count; i++) {
-        ((PhotonBlastTarget *)&pkt->targets[i])->bswap();
+    header.bswap();
+    params.bswap();
+    for (i = 0; i < params.target_count; i++) {
+        targets[i].bswap();
     }
 }
 
-void TObjPlayer::swap_endian_shorts() { bswap_16((u16 *)((char*)this + 0x2)); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
+void G_ExecutePhotonBlastParams_6x49::bswap() {
+    bswap_16((u16 *)&target_count);
+    bswap_16((u16 *)&pb_meter_value);
+    bswap_16((u16 *)&unused2);
+}
 
 #pragma push
 #pragma inline_depth(1)
@@ -5112,24 +5102,23 @@ G_ExecutePhotonBlastParams_6x49::G_ExecutePhotonBlastParams_6x49() {
     photon_blast = 0;
 }
 
-void send_photon_blast_targets_packet(u8 *player) {
-    *(s8 *)((s8 *)player + 1) = (s8) ((((u32)TObjPlayer__sub_801D2004((u8 *)(player))) >> 2U) & 0x3F);
-    ((TObjPlayer *)player)->byteswap_pb_targets_packet();
-    send_subcommand(player);
+void G_ExecutePhotonBlast_6x49::send() {
+    header.size = (get_size() >> 2) & 0x3F;
+    bswap();
+    send_subcommand(this);
 }
 
-void TObjPlayer::byteswap_pb_targets_packet() {
-    Obj_801D1FA4 *arg0 = (Obj_801D1FA4 *)this;
+void G_ExecutePhotonBlast_6x49::bswap() {
     s32 i;
-    ((G_ClientIDHeader *)arg0)->bswap();
-    for (i = 0; i < *(s16 *)&this->m_id; i++) {
-        ((PhotonBlastTarget *)&arg0->e[i])->bswap();
+    header.bswap();
+    for (i = 0; i < params.target_count; i++) {
+        targets[i].bswap();
     }
-    ((TObjPlayer *)((u8 *)arg0 + 4))->swap_endian_shorts();
+    params.bswap();
 }
 
-u8 TObjPlayer__sub_801D2004(u8 *arg0) {
-    return (u8) (0x34 - ((0xA - *(s16 *)((s8 *)arg0 + 6)) * 4));
+u8 G_ExecutePhotonBlast_6x49::get_size() {
+    return sizeof(G_ExecutePhotonBlast_6x49) - (10 - params.target_count) * sizeof(PhotonBlastTarget);
 }
 
 void G_RevivePlayer_6x33::bswap() {

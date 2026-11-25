@@ -701,9 +701,6 @@ struct TObjPlayer : public TObjChara {
     void clear_flag_200();
     void set_flag_200();
     void set_float_param(s16 value);
-    void byteswap_6x49_packet();
-    void swap_endian_shorts();
-    void byteswap_pb_targets_packet();
     void bswap_field4_sub();
     void*build_packet_header();
     void *copy_6x40_walk_to_position_packet(void *pkt);

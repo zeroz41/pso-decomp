@@ -38,6 +38,7 @@ LAYOUT_ASSERT(G_CastTechnique_6x47Size, sizeof(G_CastTechnique_6x47) == 0x30);
 // checks them).
 struct G_ExecutePhotonBlastParams_6x49 {
     G_ExecutePhotonBlastParams_6x49();
+    void bswap();
 
     s8 photon_blast; // -1, or which of the six
     s8 unused1;
@@ -50,6 +51,14 @@ struct G_ExecutePhotonBlastParams_6x49 {
 struct G_ExecutePhotonBlast_6x49 {
     G_ExecutePhotonBlast_6x49();
     G_ExecutePhotonBlast_6x49 &operator=(G_ExecutePhotonBlast_6x49 &src);
+    // (name inferred) the receive-side swap: the parameters first, so target_count is native for the loop.
+    void bswap_received();
+    // Bytes actually sent: the header, the parameters and target_count targets.
+    u8 get_size();
+    // Send-side swap: the targets while target_count is still native, then the parameters.
+    void bswap();
+    // Sets the header size, byte-swaps and sends the packet.
+    void send();
 
     G_ClientIDHeader header;
     G_ExecutePhotonBlastParams_6x49 params;
