@@ -1,26 +1,14 @@
 #include "types.h"
-#include "pso/player/TPlyDispConfigSmth.h"
+#include "pso/player/TPlyDispConfig.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/byteswap.h"
 
-extern "C" {
-
-s32 bswap_32__FPUl();
-
-void bswap__18TPlyDispConfigSmthFv(s32 config) {
-    s32 off;
-    saddr entry;
+void TPlyDispConfigSmth::bswap() {
     s32 i;
 
-    bswap_32__FPUl();
-    i = 0;
-    off = 0;
-    do {
-        entry = config + off;
-        ((TObjPlayer *)(entry + 4))->bswap_disp_config_field();
-        ((TObjPlayer *)(entry + 0x14))->bswap_disp_config_field();
-        i += 1;
-        off += 4;
-    } while (i < 4);
-}
-
+    bswap_32(&bank);
+    for (i = 0; i < 4; i++) {
+        ((TObjPlayer *)&m_tags[i])->bswap_disp_config_field();
+        ((TObjPlayer *)&m_tags1[i])->bswap_disp_config_field();
+    }
 }
