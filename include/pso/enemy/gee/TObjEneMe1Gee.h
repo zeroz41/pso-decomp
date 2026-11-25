@@ -10,19 +10,7 @@ struct NJS_OBJECT;
 #include <dolphin/mtx.h>
 
 struct BmlResource;
-struct BmlMotionEntry;
-struct TObjMotionAction;
 class TParticleCtrl;
-
-// The motion-binding block TLobby::spawn_npc_enemy takes (same layout as
-// DelDepthAnimationBinding).
-struct GeeAnimationBinding {
-    BmlMotionEntry *motions;
-    TObjMotionAction *actions;
-    u32 unknown_08;
-    u16 actionCount;
-    u16 unknown_0E;
-};
 
 // What TObjEnemy::movementParameters points at for the Gee.
 struct GeeMovementParameters {
