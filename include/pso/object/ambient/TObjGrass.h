@@ -28,16 +28,16 @@ struct TObjGrass : public TObjEnemy {
     void sub_800BDD70();
     void sub_800BD4D8();
     void sub_800BCE44();
-    Vec m_374;
-    Vec m_380;
-    Vec m_38c;
+    Vec camera_vec;
+    Vec render_vec;
+    Vec origin_vec;
     f32 m_398;
     s16 m_39c;
     s16 m_39e;
     u32 m_3a0;
     s32 m_3a4;
-    s32 m_3a8;
-    s32 m_3ac;
+    s32 view_detail;
+    s32 fading_in;
     TObjEnemyColorFade fade;
     TAttackTraceStrip *savers[2];  // attack traces; same type and role as TObjEneDubchik::saver (inferred name)
     void update_dying();
@@ -45,7 +45,7 @@ struct TObjGrass : public TObjEnemy {
     void update();
     void update_web_attack();
     void update_chase_target();
-    static void update_ai(void *arg0);
+    static void update_ai(void *object);
     virtual void render();
     virtual void run_task();
     static void *create(void *set_data);
