@@ -139,10 +139,10 @@ struct Win_80281840 { u8 pad[0x24]; s32 ctrl; u8 pad2[0x34 - 0x28]; Sub_80281840
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
+void *TWindowSubSymbolChat::instance;
 extern "C" {
 s32 add__20TWindowSubSymbolChatFlllll(int, int, int, int, int, int);
 u8 *create_chat_symbol_window__20TWindowSubSymbolChatFll(void *, s32);
-void * TWindowSubSymbolChat::instance;
 s8 TWindowSubSymbolChat__data_805D6494;
 s32 TWindowSubSymbolChat__data_805D6498;
 s32 TWindowSubSymbolChat__data_805D649C;
