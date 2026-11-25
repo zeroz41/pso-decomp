@@ -16,6 +16,7 @@ public:
     TChCrEffTagStr *label;
     virtual ~TChCrEffTag();
     void draw_chcr_tag_frame();
+    void draw_chcr_tag_heading_frame();
     virtual void render();
 public:
     void refresh_label();

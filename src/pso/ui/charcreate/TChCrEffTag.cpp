@@ -5,16 +5,32 @@
 #include <stddef.h>
 #include "pso/math/TMath.h"
 #include "pso/ui/charcreate/TObjCMMainMenu.h"
+#include "pso/ui/UISprite.h"
+#include "pso/ui/charcreate/TChCrEffWall.h"
+
+void TChCrEffTag::draw_chcr_tag_heading_frame() {
+    vec2f pos;
+    pos.x = 62.0f;
+    pos.y = 67.0f;
+    TChCrEffWall::draw_default_sprite(0x36, &pos, -2.75f);
+}
+void TChCrEffTag::draw_chcr_tag_frame() {
+    vec2f position;
+    vec2f scale;
+    position.y = 37.0f;
+    position.x = 0.0f;
+    scale.x = width / 32.0f;
+    scale.y = 1.0f;
+    draw_ui_sprite_opaque(0x34, &position, &scale, -3.0625f);
+    position.x = width;
+    TChCrEffWall::draw_default_sprite(0x35, &position, -3.0625f);
+}
 
 const char *TChCrEffTag__name = "TChCrEffTag";
 s32 TChCrEffTag::selected_heading = -1;
 static const saddr lbl_804652A4[] = {0xA4, 0xA5, 0xA6, 0x9B, 0x9C, 0x9D, 0x9E, 0x9F, 0xA0, 0xA1, 0xA2, 0xA3};
 
-extern "C" {
-
-int draw_chcr_tag_heading_frame(void*);
-
-void TChCrEffTag::render() { set_depth_buffer_settings_1(); draw_chcr_tag_frame(); draw_chcr_tag_heading_frame(this); restore_saved_depth_alpha_state(); }
+void TChCrEffTag::render() { set_depth_buffer_settings_1(); draw_chcr_tag_frame(); draw_chcr_tag_heading_frame(); restore_saved_depth_alpha_state(); }
 void TChCrEffTag::refresh_label() {
     vec2f pos;
     s32 heading;
@@ -31,8 +47,6 @@ void TChCrEffTag::refresh_label() {
     }
 }
 
-
-}
 #pragma push
 #pragma fp_contract on
 void TChCrEffTag::run_task()

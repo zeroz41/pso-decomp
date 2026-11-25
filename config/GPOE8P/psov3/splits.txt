@@ -7227,16 +7227,12 @@ pso/ui/frontend/TAdBackGC.cpp:
 	.sbss       start:0x805D65B0 end:0x805D65B4
 	.sdata2     start:0x805DDC58 end:0x805DDC6C
 
-pso/unk/text_8029A97C.cpp:
-	.text       start:0x8029A97C end:0x8029AA34
-	.sdata2     start:0x805DDC70 end:0x805DDC90
-
 pso/ui/charcreate/TChCrEffTag.cpp:
-	.text       start:0x8029AA34 end:0x8029ACF8
+	.text       start:0x8029A97C end:0x8029ACF8
 	.rodata     start:0x80465298 end:0x804652E0
 	.data       start:0x804DBF40 end:0x804DBF58
 	.sdata      start:0x805D3D08 end:0x805D3D10
-	.sdata2     start:0x805DDC90 end:0x805DDCAC
+	.sdata2     start:0x805DDC70 end:0x805DDCAC
 
 pso/ui/charcreate/TChCrEffWall.cpp:
 	.text       start:0x8029ACF8 end:0x8029AED0
