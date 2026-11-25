@@ -18,6 +18,8 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/TWindowStatusGaugeFeedback.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/player/PlayerSlots.h"
 #include <string.h>
 #include "pso/map/FloorArea.h"
@@ -78,20 +80,6 @@ WindowDescriptor simple_status_window_layout = {
     {153.0f, 50.0f}, 50100.0f, &simple_status_window_layout_entries, 0xB28,
 };
 
-struct VtBase4_8026f71c_more_8026f8cc_0 { void *vtable; };
-
-struct VObj3_8026f71c_more_8026f8cc_0 : VtBase4_8026f71c_more_8026f8cc_0 { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); };
-
-struct Base_8026F77C_more_8026f8cc_0 { char pad[0x18]; };
-
-struct VObj_8026F77C_more_8026f8cc_0 : Base_8026F77C_more_8026f8cc_0 {
-    virtual void m0();virtual void m1();virtual void m2();virtual void m3();
-    virtual void m4();virtual void m5();virtual void m6();virtual void m7();
-    virtual void m8();virtual void m9();virtual void m10();virtual void m11();
-    virtual void m12();virtual void m13();
-    virtual int m14();
-};
-
 struct VObj_8026ff0c;
 
 struct VObj_8026ff0c {
@@ -148,86 +136,78 @@ s32 draw_textured_quad_at_depth(TexturedQuad *, f32);
 void set_draw_texture_and_color(s32 idx, s32 color);
 
 void TWindowSimpleStatus::start_hp_text_color_transition() {
-    u8 *array_entry;
-    array_entry = (u8 *)(((saddr)this->get_array_entry(4)));
-    *(f32 *)((s8 *)array_entry + 0x20) = 0.0f;
-    *(f32 *)((s8 *)array_entry + 0x24) = 0.0f;
-    start_text_color_transition(array_entry, (s32)(0xFF008CFCU), 1.0f);
+    TWindowStatusGaugeFeedback *gauge = (TWindowStatusGaugeFeedback *)get_array_entry(4);
+    gauge->maximum = 0.0f;
+    gauge->target = 0.0f;
+    start_text_color_transition(gauge, 0xFF008CFC, 1.0f);
 }
 
 void TWindowSimpleStatus::init_gauge_entry() {
-    VObj3_8026f71c_more_8026f8cc_0 *array_entry;
-    f32 temp_f0;
-
-    array_entry = (VObj3_8026f71c_more_8026f8cc_0 *) get_array_entry(3);
-    temp_f0 = 0.0f;
-    *(f32 *)((s8 *)array_entry + 0x20) = temp_f0;
-    *(f32 *)((s8 *)array_entry + 0x24) = temp_f0;
-    array_entry->m3();
-    start_text_color_transition(array_entry, 0xFF00FF15, 1.0f);
+    TWindowStatusGaugeFeedback *gauge = (TWindowStatusGaugeFeedback *)get_array_entry(3);
+    gauge->maximum = 0.0f;
+    gauge->target = 0.0f;
+    gauge->calc_bar_width();
+    start_text_color_transition(gauge, 0xFF00FF15, 1.0f);
 }
 
 void TWindowSimpleStatus::update_status_entry() {
-    void *temp_r31;
-    VObj_8026F77C_more_8026f8cc_0 *player;
-
-    player = (VObj_8026F77C_more_8026f8cc_0 *) get_player_by_client_id(get_width());
+    TObjPlayer *player = get_player_by_client_id(get_width());
     if (player != NULL) {
-        temp_r31 = get_array_entry(2);
-        *(s32 *)((s8 *)temp_r31 + 0x20) = player->m14() + 1;
+        TWindowLayoutNumber *level = (TWindowLayoutNumber *)get_array_entry(2);
+        level->value = player->get_actor_level_index() + 1;
     }
 }
 
 s32 TWindowSimpleStatus::update_hp_gauge() {
     s32 rgb;
-    s32 var_r31;
-    void *array_entry;
-    void *player;
+    s32 color;
+    TWindowStatusGaugeFeedback *gauge;
+    TObjPlayer *player;
 
     player = get_player_by_client_id(get_width());
     if (player == NULL) {
         start_hp_text_color_transition();
         return 0xFF008CFC;
     }
-    array_entry = get_array_entry(4);
-    *(f32 *)((s8 *)array_entry + 0x20) = (f32) ((TObjChara *)player)->get_tpmax();
-    *(f32 *)((s8 *)array_entry + 0x24) = (f32) *(s16 *)((s8 *)player + 0x32E);
-    if (*(f32 *)((s8 *)array_entry + 0x24) > (0.2f * *(f32 *)((s8 *)array_entry + 0x20))) {
-        var_r31 = -1;
+    gauge = (TWindowStatusGaugeFeedback *)get_array_entry(4);
+    gauge->maximum = (f32)player->get_tpmax();
+    gauge->target = (f32)player->tp;
+    if (gauge->target > (0.2f * gauge->maximum)) {
+        color = -1;
         rgb = 0xFF008CFC;
     } else {
         rgb = -0x3EEC;
-        var_r31 = -0x3EEC;
+        color = -0x3EEC;
     }
-    start_text_color_transition(array_entry, rgb, 11.1f);
-    return var_r31;
+    start_text_color_transition(gauge, rgb, 11.1f);
+    return color;
 }
 
 s32 TWindowSimpleStatus::update_hp_entry() {
-    s32 var_r30;
+    s32 color;
     s32 rgb;
-    u8 *array_entry;
-    u8 *player;
-    player = (u8 *)get_player_by_client_id(get_width());
+    TWindowStatusGaugeFeedback *gauge;
+    TObjPlayer *player;
+    player = get_player_by_client_id(get_width());
     if (player == NULL) {
         this->init_gauge_entry();
         return 0xFF00FF15;
     }
-    array_entry = (u8 *)(((u8 *)get_array_entry(3)));
-    *(f32 *)((s8 *)array_entry + 0x20) = (f32) ((TObjChara *)player)->get_hpmax();
-    if (*(f32 *)((s8 *)array_entry + 0x24) > (f32) *(s16 *)((s8 *)player + 0x32C)) {
-        *(s32 *)((s8 *)this + 0x60) = 4;
+    gauge = (TWindowStatusGaugeFeedback *)get_array_entry(3);
+    gauge->maximum = (f32)player->get_hpmax();
+    if (gauge->target > (f32)player->hp) {
+        this->shake_ticks = 4;
     }
-    *(f32 *)((s8 *)array_entry + 0x24) = (f32) *(s16 *)((s8 *)player + 0x32C);
-    if (*(f32 *)((s8 *)array_entry + 0x24) > (0.2f * *(f32 *)((s8 *)array_entry + 0x20))) {
-        var_r30 = -1;
+    gauge->target = (f32)player->hp;
+    if (gauge->target > (0.2f * gauge->maximum)) {
+        color = -1;
         rgb = 0xFF00FF15;
     } else {
         rgb = 0xFFF2FF19;
-        var_r30 = 0xFFF2FF19;
+        color = 0xFFF2FF19;
     }
-    start_text_color_transition(array_entry, rgb, 11.1f);
-    return var_r30;
+    start_text_color_transition(gauge, rgb, 11.1f);
+    return color;
 }
 
 void TWindowSimpleStatus::update_status_icons(void *ofs) {
@@ -341,8 +321,8 @@ void TWindowSimpleStatus::apply_random_shake() {
     s32 ang;
     f32 dist;
 
-    if (this->m_60 != 0) {
-        (this->m_60)--;
+    if (this->shake_ticks != 0) {
+        (this->shake_ticks)--;
         ang = (s32)(65536.0f * (3.0517578e-05f * (f32)rand()));
         dist = 5.0f * (3.0517578e-05f * (f32)rand());
         this->frame_position[0] += dist * cos_table_lookup(ang);
@@ -560,7 +540,7 @@ TWindowSimpleStatus::TWindowSimpleStatus(void *position, s32 client, u8 *descrip
     : TWindowBase(descriptor, (s16)client, (u8 *)position) {
     m_name = TWindowSimpleStatus__name;
     client_index = (s16)client;
-    m_60 = 0;
+    shake_ticks = 0;
     m_58 = -1.0f;
     for (s32 i = 0; i < 5; i++) {
         w[i] = NULL;

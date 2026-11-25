@@ -18,7 +18,7 @@ struct TWindowSimpleStatus : public TWindowBase {
     void update_hp_tp_level();
     s32 get_width();
     virtual void render();
-    u32 m_60;
+    u32 shake_ticks; // frames apply_random_shake still shakes the window; set when HP drops
     virtual void run_task();
     static TWindowSimpleStatus *create(void *position, s32 client);
     TWindowBase *w[5]; // child windows; the dtor closes the first four
