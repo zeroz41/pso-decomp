@@ -22,7 +22,6 @@
 #include "pso/object/base/TObjMotion.h"
 #include <stdlib.h>
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/unk/text_8011085C.h"
 #include "pso/object/base/TObjBase.h"
 #include "pso/player/PlayerSlots.h"
 #include "pso/system/scene/TScene.h"
@@ -92,14 +91,14 @@ void TItemTimerEvent::check_battle_ctrl(int client) {
 }
 
 void TItemTimerEvent::start_event_by_index(u16 client_id) {
-    if (((void *) (*(u8 * *)&item_timer_event_instance) != NULL) && (client_id < 0xCU)) {
-        fn_801108C8((*(u8 * *)&item_timer_event_instance), client_id);
+    if ((item_timer_event_instance != NULL) && (client_id < 0xCU)) {
+        item_timer_event_instance->lock(client_id);
     }
 }
 
 void TItemTimerEvent::clear_timer_slot(u16 client_id) {
-    if (((void *) (*(u8 * *)&item_timer_event_instance) != NULL) && (client_id < 0xCU)) {
-        fn_8011085C((*(u8 * *)&item_timer_event_instance), client_id);
+    if ((item_timer_event_instance != NULL) && (client_id < 0xCU)) {
+        item_timer_event_instance->unlock(client_id);
     }
 }
 

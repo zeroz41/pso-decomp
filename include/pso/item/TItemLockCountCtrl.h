@@ -9,13 +9,18 @@ typedef void (*TItemLockCountCallback)(int);
 
 class TItemLockCountCtrl : public TObject {
 public:
- s32 m_1c;
- void* m_20;
- TItemLockCountCallback m_24;
- TItemLockCountCallback m_28;
+    s32 count;                             // slots (clients) the hold counts cover
+    s32 *lock_counts;                      // one hold count per slot
+    TItemLockCountCallback on_first_lock;  // called with the slot when its count leaves 0
+    TItemLockCountCallback on_last_unlock; // called with the slot when its count returns to 0
 public:
-    TItemLockCountCtrl(TObject *parent, s32 count, TItemLockCountCallback arg3, TItemLockCountCallback arg4);
+    TItemLockCountCtrl(TObject *parent, s32 count, TItemLockCountCallback on_first_lock,
+                       TItemLockCountCallback on_last_unlock);
     virtual ~TItemLockCountCtrl();
+    // Releases one hold on slot index; the last release calls on_last_unlock.
+    void unlock(s32 index);
+    // Takes a hold on slot index; the first hold calls on_first_lock.
+    void lock(s32 index);
 public:
     static void free_all();
     static void init_effect_table();

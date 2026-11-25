@@ -1704,7 +1704,6 @@ pso/unk/text_80103674.cpp
 pso/unk/text_8010EF14.cpp
 pso/unk/text_8010F168.cpp
 pso/unk/text_8010F210.cpp
-pso/unk/text_8011085C.cpp
 pso/unk/text_8011A780.cpp
 pso/system/Lzss.cpp
 pso/unk/text_80145A44.cpp

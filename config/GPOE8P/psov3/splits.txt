@@ -2117,11 +2117,8 @@ pso/item/TItemLoad.cpp:
 	.sdata      start:0x805D2BE8 end:0x805D2BF8
 	.sbss       start:0x805D5480 end:0x805D54A8
 
-pso/unk/text_8011085C.cpp:
-	.text       start:0x8011085C end:0x80110938
-
 pso/item/TItemLockCountCtrl.cpp:
-	.text       start:0x80110938 end:0x80110A18
+	.text       start:0x8011085C end:0x80110A18
 	.rodata     start:0x8043E510 end:0x8043E528
 	.data       start:0x8049F460 end:0x8049F478
 	.sdata      start:0x805D2BF8 end:0x805D2C00
