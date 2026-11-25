@@ -27,6 +27,7 @@
 #include "pso/system/vector.h"
 #include <stddef.h>
 #include "pso/network/protocol/protocol_types.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/boss/galgryphon/Boss5GryphonMotionEntry.h"
 #include "pso/network/protocol/cast_packets.h"
 #include "pso/quest/challenge/ChallengeRecord.h"
@@ -524,11 +525,34 @@ struct G_GolDragonBossActions_6xA8 {
  void init();
 };
 
+// The velocity the hit packets carry: copied as two words and byte-swapped by
+// its own helper, not by VectorXZF::bswap.
+struct PacketVelocityXZ {
+ f32 xz[2];
+ void bswap();
+};
+
 struct G_HitByEnemy_6x4B_6x4C {
  struct G_ClientIDHeader header;
- u16 angle;
+ s16 angle;
  s16 current_hp;
- struct VectorXZF velocity;
+ struct PacketVelocityXZ velocity;
+};
+
+// 6x4B (hurt) and 6x4C (knocked down) share the hit fields; each has its own
+// packet class.
+struct G_HitByEnemy_6x4B : G_HitByEnemy_6x4B_6x4C {
+ void bswap();
+ G_HitByEnemy_6x4B &operator=(G_HitByEnemy_6x4B &src);
+ void init();
+ void send();
+};
+
+struct G_HitByEnemy_6x4C : G_HitByEnemy_6x4B_6x4C {
+ void bswap();
+ void init();
+ void send();
+ G_HitByEnemy_6x4C &operator=(G_HitByEnemy_6x4C &src);
 };
 
 struct G_UpdateEnemyState_6x0A {
@@ -779,7 +803,11 @@ struct G_PlayerCameraShutterSound_6x9E {
 
 struct G_PlayerDied_6x4D {
  struct G_ClientIDHeader header;
- u32 death_flags;
+ FlagWord death_flags;
+ G_PlayerDied_6x4D();
+ void bswap();
+ void send();
+ G_PlayerDied_6x4D &operator=(G_PlayerDied_6x4D &src);
 };
 
 struct G_PlayerRevivable_6x4E {

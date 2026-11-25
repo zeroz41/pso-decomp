@@ -545,6 +545,8 @@ struct TObjPlayer : public TObjChara {
     void clear_quest_control_flag();
     s32 check_quest_control_flag();
     s32 interpolate_angle(s32 from_angle, s32 to_angle, s32 *step);
+    // Turns the player toward its chair seat and moves it along its velocity.
+    void turn_toward_chair_seat();
     void update_state_group();
     void start_action_18();
     void start_action();
@@ -717,15 +719,6 @@ struct TObjPlayer : public TObjChara {
     void set_anim_flag();
     void clear_flag_200();
     void set_float_param(s16 value);
-    void init_field_4();
-    void *init_6x4D_packet();
-    void init_and_send();
-    void bswap_head_pair();
-    void init_6x4C_packet();
-    void send_head_pair_packet();
-    void read_swapped_fields();
-    void reset_action_state();
-    void handle_recv_state();
     void byteswap_6x49_packet();
     void swap_endian_shorts();
     void byteswap_pb_targets_packet();
@@ -744,7 +737,6 @@ struct TObjPlayer : public TObjChara {
     void *copy_6x40_walk_to_position_packet(void *pkt);
     void set_field_d4_and_flag_200(f32 value);
     void set_action_flag();
-    void bswap_field_u32();
     void *copy_packet_pos_6x42(void *pkt);
     void bswap_u16_pair_list();
     void bswap_u16_pair();
