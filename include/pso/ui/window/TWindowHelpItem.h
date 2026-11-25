@@ -118,7 +118,7 @@ struct TWindowHelpItem : public TWindowBase
     virtual void render();
     virtual void run_task();
     void show_item_description();
-    void show_item_by_id(int id);
+    void show_item_by_id(saddr id);
     void update_tech_disk_details();
     void update_tech_disk_stats();
     void idle_update();

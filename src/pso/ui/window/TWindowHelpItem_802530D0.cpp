@@ -117,7 +117,7 @@ int fn_8026C7C0(void*);
 void fn_80255A38(TWindowHelpItem *item);
 }
 extern u8 *text_language_group_table;
-s32 format_item_description(u8 *item);
+saddr format_item_description(u8 *item);
 void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
 
 const char *window_help_item_class_name = "TWindowHelpItem";
@@ -218,7 +218,7 @@ void TWindowHelpItem::set_flag0_bit20() { *(u16*)(this + 0x0) |= 0x20; }
 
 s32 TWindowHelpItem__sub_80255DDC(void* p) { return *(s32*)((char*)p + 0x1c); }
 
-s32 get_help_text_string(s32 id) {
+saddr get_help_text_string(s32 id) {
     return *(s32 *)((s8 *)(*(saddr *)((s8 *)text_language_group_table + 0x18)) + (id * 4));
 }
 
@@ -327,7 +327,7 @@ void TWindowHelpItem::set_displayed_item_colored(uaddr displayed_item_colored) {
     set_displayed_item_data((void*)displayed_item_colored, (void*)var_r5);
 }
 
-void TWindowHelpItem::show_item_by_id(int id) {
+void TWindowHelpItem::show_item_by_id(saddr id) {
     TItem *item;
     if (id == -1) {
         set_items_and_refresh(NULL, (void *)-1);
