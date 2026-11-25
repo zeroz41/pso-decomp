@@ -348,7 +348,6 @@ struct TObjPlayer : public TObjChara {
     void copy_player_record_header(u8 *src);
     void check_hit_by_id_431_from_packet();
     void emit_photon_blast_feedback_from_packet();
-    int copy_vec_at_18();
     u16 get_attacker_id();
     void set_attacker_id(u16 id);
     s32 is_local_player();
@@ -509,7 +508,7 @@ struct TObjPlayer : public TObjChara {
     short get_vobj_state_28();
     void clear_flag_200000();
     int check_flag_4();
-    void clear_flag_4000_callback();
+    static void clear_flag_4000_callback(TObjPlayer *player);
     void clear_flag_4000();
     void set_flag_4000();
     s32 is_flag_4000_set();
@@ -653,7 +652,7 @@ struct TObjPlayer : public TObjChara {
     void update_active_instance(int index);
     static f32 calc_photon_blast_charge(void *player, s32 damage);
     void send_6x37_photon_blast();
-    s32 check_conditions();
+    s32 check_conditions(s16 blast);
     void exit_photon_blast_action();
     void update_photon_blast_action();
     void update_band_state();
@@ -1131,7 +1130,7 @@ struct TObjPlayer : public TObjChara {
     int check_flag_48();
     int is_status_locked();
     int is_status_flag_200();
-    int start_freeze_self();
+    static void start_freeze_self(TObjPlayer *player);
     void set_floor_index(s32 v);
     GC_Mtx *item_node_matrices;
     void revive_or_spawn_marker();

@@ -989,17 +989,17 @@ struct G_SetPlayerInvisible_6x22 {
  struct G_ClientIDHeader header;
  void init();
  void send();
+ G_SetPlayerInvisible_6x22 &operator=(const G_SetPlayerInvisible_6x22 &src);
 };
 
 struct G_SetPlayerVisible_6x23 {
  struct G_ClientIDHeader header;
  void init();
  void send();
-};
-
-struct G_SetPlayerVisibility_6x22_6x23 {
- struct G_ClientIDHeader header;
- G_SetPlayerVisibility_6x22_6x23 &operator=(const G_SetPlayerVisibility_6x22_6x23 &src);
+ G_SetPlayerVisible_6x23 &operator=(const G_SetPlayerVisible_6x23 &src) {
+  copy_subcommand_header(this, &src);
+  return *this;
+ }
 };
 
 struct G_SetPosition_6x20 {

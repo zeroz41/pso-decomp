@@ -255,11 +255,11 @@ void TObjPlayer::clear_flag_200000() {
     clear_state_flags(0x200000);
 }
 int TObjPlayer::check_flag_4() { return check_flag(4); }
-G_SetPlayerVisibility_6x22_6x23 &G_SetPlayerVisibility_6x22_6x23::operator=(const G_SetPlayerVisibility_6x22_6x23 &src) {
+G_SetPlayerInvisible_6x22 &G_SetPlayerInvisible_6x22::operator=(const G_SetPlayerInvisible_6x22 &src) {
     copy_subcommand_header(this, &src);
     return *this;
 }
-void TObjPlayer::clear_flag_4000_callback() { clear_flag_4000(); }
+void TObjPlayer::clear_flag_4000_callback(TObjPlayer *player) { player->clear_flag_4000(); }
 void TObjPlayer::clear_flag_4000() { clear_state_flags(16384); }
 void TObjPlayer::set_flag_4000() { this->set_state_flags(16384); }
 void TObjPlayer::set_battle_flag(s32 v) { this->m_3b4 = v; }
@@ -354,8 +354,8 @@ void set_flag_400000(TObjPlayer *player) {
 int TObjPlayer::check_flag_48() { return check_flag(48); }
 int TObjPlayer::is_status_locked() { return this->actorFlags & 0x10000; }
 int TObjPlayer::is_status_flag_200() { return this->actorFlags & 0x200; }
-int end_player_camera_pan(TObjPlayer *player) { return player->end_camera_pan(); }
-int TObjPlayer::start_freeze_self() { return start_freeze(); }
+void end_player_camera_pan(TObjPlayer *player) { player->end_camera_pan(); }
+void TObjPlayer::start_freeze_self(TObjPlayer *player) { player->start_freeze(); }
 void TObjPlayer::set_floor(s32 v) { this->current_floor = v; }
 void TObjPlayer::set_floor_index(s32 v) { current_area = v; }
 
@@ -420,16 +420,12 @@ extern "C" {
 void TObjPlayer__sub_801BEEE0(void* p, void* q);
 void TObjPlayer__sub_801BEF30(void* p, void* q);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
-Vec *TObjPlayer__sub_801BF31C(PlayerFollowParticles *particles);
-void TObjPlayer__sub_801BF3A0(PlayerFollowParticles *particles, const Vec *point);
-int VecCopy__FP3VecPC3Vec(void*);
 u8 TObjPlayer__sub_801BF460(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF488(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1);
 void emit_idle_water_effect(PlayerFollowParticles *particles);
 void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 }
-Vec *get_surface_contact_point(PlayerFollowParticles *particles);
 void emit_grass_footstep_effect(PlayerFollowParticles *particles);
 void emit_water_footstep_effect(PlayerFollowParticles *particles);
 void emit_sand_footstep_effect(PlayerFollowParticles *particles);
@@ -644,9 +640,9 @@ void TPlayerLobbyMarker::set_material_index(u8 v) { this->material_index = v; }
 
 int ContactSurfaceState::has_water_ground_flag() { return test_flags_any(&word.bits, 4); }
 
-int TObjPlayer::copy_vec_at_18() { return VecCopy__FP3VecPC3Vec((char*)this + 0x18); }
+void PlayerFollowParticles::set_grass_contact_point(const Vec *point) { VecCopy(&contact_points[1], point); }
 
-void TObjPlayer__sub_801BF3A0(PlayerFollowParticles *particles, const Vec *point) { VecCopy(&particles->contact_points[2], point); }
+void PlayerFollowParticles::set_surface_contact_point(const Vec *point) { VecCopy(&contact_points[2], point); }
 
 void emit_photon_blast_feedback_effects(saddr owner, u16 target_id) {
     TObjPlayer::check_hit_by_id(owner, target_id, 5);
@@ -659,20 +655,20 @@ void TObjPlayer::emit_photon_blast_feedback_from_packet() {
     emit_photon_blast_feedback_effects((saddr)((s8 *)arg0 + 4), *arg0);
 }
 
-Vec *TObjPlayer__sub_801BF31C(PlayerFollowParticles *particles) { return &particles->contact_points[1]; }
+Vec *PlayerFollowParticles::get_grass_contact_point() { return &contact_points[1]; }
 
 TParticleCtrl *PlayerHandParticles::emit_grass_footstep_particle(const Vec *position) { return emit_player_particle(this, position, 570); }
 
 void emit_grass_footstep_effect(PlayerFollowParticles *particles) {
-    particles->hands.emit_grass_footstep_particle(TObjPlayer__sub_801BF31C(particles));
+    particles->hands.emit_grass_footstep_particle(particles->get_grass_contact_point());
 }
 
 void emit_water_footstep_effect(PlayerFollowParticles *particles) {
-    emit_water_step_particles(&particles->hands, get_surface_contact_point(particles));
+    emit_water_step_particles(&particles->hands, particles->get_surface_contact_point());
 }
 
 void emit_sand_footstep_effect(PlayerFollowParticles *particles) {
-    emit_sand_step_particles(&particles->hands, get_surface_contact_point(particles));
+    emit_sand_step_particles(&particles->hands, particles->get_surface_contact_point());
 }
 
 void TObjPlayer::check_hit_by_id_431_from_packet() {
@@ -684,10 +680,10 @@ int PlayerHandParticles::emit_movement_effect(u16 target_id) { return TObjPlayer
 
 int PlayerFollowParticles::emit_movement_effect() { return hands.emit_movement_effect(owner_id); }
 
-Vec *get_surface_contact_point(PlayerFollowParticles *particles) { return &particles->contact_points[2]; }
+Vec *PlayerFollowParticles::get_surface_contact_point() { return &contact_points[2]; }
 
 void emit_idle_water_effect(PlayerFollowParticles *particles) {
-    emit_idle_water_splash(&particles->hands, get_surface_contact_point(particles));
+    emit_idle_water_splash(&particles->hands, particles->get_surface_contact_point());
 }
 
 #pragma push

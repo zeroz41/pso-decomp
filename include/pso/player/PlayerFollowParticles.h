@@ -51,6 +51,10 @@ struct PlayerFollowParticles {
     int emit_movement_effect();
     int emit_deband_support();
     TParticleCtrl *emit_zalure_support();
+    Vec *get_grass_contact_point();
+    Vec *get_surface_contact_point();
+    void set_grass_contact_point(const Vec *point);
+    void set_surface_contact_point(const Vec *point);
 };
 
 LAYOUT_ASSERT(PlayerFollowParticles_size, sizeof(PlayerFollowParticles) == 0x30);

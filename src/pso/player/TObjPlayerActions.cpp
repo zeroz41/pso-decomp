@@ -2820,7 +2820,7 @@ void TObjPlayer::send_6x37_photon_blast() {
     }
 }
 
-s32 TObjPlayer::check_conditions() {
+s32 TObjPlayer::check_conditions(s16 blast) {
     if ((this->test_actor_flags(0x20006) != 0) || (this->test_action_mask(0x11E) == 0) || (this->photon_blast_gauge.has_ready_flag() == 0) || (this->photon_blast_gauge.check_flag_clear() == 0) || ((this->is_locally_controlled() != 0) && ((is_controls_locked() != 0) || (this->get_camera_field() == 0))) || (this->reset_volopt_state() == 0)) {
         return 0;
     }
