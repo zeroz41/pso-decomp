@@ -49,7 +49,6 @@ extern "C" {
 
 s32 play_weapon_hit_sound(void *);
 
-void apply_camera_shake__10TObjPlayerFiii(s32 player, saddr target, s32 damage);
 
 
 // The collider render() is drawing, and how many of its model's nodes have been drawn.
@@ -220,7 +219,7 @@ s32 TItemAttackColBase::resolve_attack_col_hit(ActorBodyHit *hit) {
         }
         damage = (s32) var_f31;
         player->gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(player, damage));
-        apply_camera_shake__10TObjPlayerFiii((saddr)player, (saddr)target, (s32)damage);
+        player->apply_camera_shake(target, damage);
         ((ItemSoundRequest *)(&stack.sp8))->clear();
         stack.sp8 = ((TItem *)item)->get_item_group();
         stack.sp9 = ((TItem *)item)->get_item_index();

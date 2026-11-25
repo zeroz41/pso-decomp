@@ -598,7 +598,6 @@ struct Item_8011F760 { u8 pad[0x10]; s32 count; };
 
 extern "C" {
 s32 play_weapon_hit_sound(void *);
-void apply_camera_shake__10TObjPlayerFiii(s32 player, saddr target, s32 damage);
 void play_weapon_owner_sounds(void*);
 
 s32 add_weapon_grind(TItemWeapon *weapon, s32 amount);
@@ -665,7 +664,7 @@ void TItemWeapon::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attac
                 }
                 damage = (s32)damage_dealt;
                 owner->gain_photon_blast_charge(TObjPlayer::calc_photon_blast_charge(owner, damage));
-                apply_camera_shake__10TObjPlayerFiii((saddr)owner, (saddr)target, damage);
+                owner->apply_camera_shake(target, damage);
                 ((ItemSoundRequest *)(&stack.sp8))->clear();
                 stack.sp8 = get_item_group();
                 stack.sp9 = get_item_index();

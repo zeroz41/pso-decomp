@@ -827,9 +827,6 @@ void set_mine_trap_damage(f32);
 int clear_enabled_main_warps(void*);
 int set_hashi_versus2_flag(void*);
 int clear_hashi_versus2_flag(void*);
-s32 foreach_player__10TObjPlayerFv(s32 *);
-s32 prepare_guild_return__10TObjPlayerFPv(void *player, s32);
-s32 enable_action_input__10TObjPlayerFPv();
 }
 void play_cue_stream_file(const char *name);
 extern "C" {
@@ -4089,7 +4086,7 @@ void qst_op_p_talk_guild(void) {
 void qst_op_p_return_guild(void) {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        prepare_guild_return__10TObjPlayerFPv(player, 0);
+        player->prepare_guild_return(0);
     }
 }
 
@@ -4262,7 +4259,7 @@ void qst_op_p_action_enable(void) {
 
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        enable_action_input__10TObjPlayerFPv();
+        player->enable_action_input();
         player->action_enable_if_present();
     }
 }
@@ -4309,12 +4306,12 @@ void qst_op_p_setpos(void) {
 }
 
 void qst_op_p_enablewarp(void) {
-    foreach_player__10TObjPlayerFv((s32 *)(&clear_player_flag_4096.value));
+    TObjPlayer::foreach_player((void (*)(TObjPlayer *))&clear_player_flag_4096.value);
 }
 
 void qst_op_p_disablewarp(void) {
     TTecLuker::apply_all_players();
-    foreach_player__10TObjPlayerFv((s32 *)((void *) set_player_flag_4096));
+    TObjPlayer::foreach_player((void (*)(TObjPlayer *))set_player_flag_4096);
 }
 
 void qst_op_p_dead(void) {
