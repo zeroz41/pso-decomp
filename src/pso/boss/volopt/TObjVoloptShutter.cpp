@@ -9,11 +9,9 @@
 #include "pso/render/GinjaTextureMatrices.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixStack.h"
 
-extern "C" {
-void rotate_matrix_y(s32 matrix, s32 angle);
-}
 
 static const char *TObjVoloptShutter_name = "TObjVoloptShutter";
 
@@ -64,7 +62,7 @@ void TObjVoloptShutter::render() {
     TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(volopt_shutter_global_param));
     push_matrix();
     model_render_flags &= ~0x400;
-    rotate_matrix_y(0, rotation_y);
+    rotate_matrix_y(NULL, rotation_y);
     push_matrix();
     translate_matrix(0, 0.0f, 0.0f, offset_z);
     draw_chunk_model(volopt_shutter_model_b);
