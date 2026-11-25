@@ -1,3 +1,5 @@
+#include "pso/ui/window/WindowTextEntry.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/ui/window/TWindowCtrlMain_8024674C.h"
 #include "types.h"
 #include "pso/ui/window/WindowLayoutEntries.h"
@@ -39,7 +41,7 @@ s32 draw_right_aligned_number(void *);
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp);
 
 }
-void set_status_entry_target(void *arg0, s32 arg1);
+void set_status_entry_target(void *entry, s32 value);
 #pragma readonly_strings on
 
 struct StatusWindowLayout {
@@ -87,45 +89,45 @@ WindowDescriptor status_window_settings = {
 
 
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) {
-    u8 *pl;
+    TObjChara *pl;
     u8 *e;
-    u8 *a;
-    u8 *b;
-    u8 *c;
-    u8 *d;
+    TWindowLayoutNumber *a;
+    TWindowLayoutNumber *b;
+    WindowTextEntry *c;
+    WindowTextEntry *d;
     s32 v;
-    pl = (u8 *)get_player_by_client_id(((TWindowSimpleStatus *)window_sub_status_disp)->get_width());
+    pl = (TObjChara *)get_player_by_client_id(((TWindowSimpleStatus *)window_sub_status_disp)->get_width());
     if (pl != NULL) {
-        a = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(7);
-        b = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(9);
-        c = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(6);
-        d = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(8);
-        *(s32 *)((s8 *)b + 0x20) = ((TObjChara *)pl)->get_hpmax();
-        *(s32 *)((s8 *)a + 0x20) = *(s16 *)((s8 *)pl + 0x32C);
+        a = static_cast<TWindowLayoutNumber *>(((TWindowBase *)window_sub_status_disp)->get_array_entry(7));
+        b = static_cast<TWindowLayoutNumber *>(((TWindowBase *)window_sub_status_disp)->get_array_entry(9));
+        c = static_cast<WindowTextEntry *>(((TWindowBase *)window_sub_status_disp)->get_array_entry(6));
+        d = static_cast<WindowTextEntry *>(((TWindowBase *)window_sub_status_disp)->get_array_entry(8));
+        b->value = pl->get_hpmax();
+        a->value = pl->hp;
         v = ((TWindowSubStatusDisp *)window_sub_status_disp)->update_hp_entry();
-        *(s32 *)((s8 *)a + 0x1C) = v;
-        *(s32 *)((s8 *)c + 0x24) = v;
-        *(s32 *)((s8 *)b + 0x1C) = v;
-        *(s32 *)((s8 *)d + 0x24) = v;
+        a->style = v;
+        c->color = v;
+        b->style = v;
+        d->color = v;
         draw_right_aligned_number(b);
         draw_right_aligned_number(a);
-        *(f32 *)((s8 *)a + 8) = *(f32 *)((s8 *)b + 8) - *(f32 *)((s8 *)b + 0x10) - 12.0f;
-        *(f32 *)((s8 *)d + 8) = *(f32 *)((s8 *)a + 8);
-        a = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(0xB);
-        b = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(0xD);
-        c = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(0xA);
-        d = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(0xC);
-        *(s32 *)((s8 *)b + 0x20) = obj_getS16_2BA(pl);
-        *(s32 *)((s8 *)a + 0x20) = *(s16 *)((s8 *)pl + 0x32E);
+        a->x = b->x - b->width - 12.0f;
+        d->x = a->x;
+        a = static_cast<TWindowLayoutNumber *>(((TWindowBase *)window_sub_status_disp)->get_array_entry(0xB));
+        b = static_cast<TWindowLayoutNumber *>(((TWindowBase *)window_sub_status_disp)->get_array_entry(0xD));
+        c = static_cast<WindowTextEntry *>(((TWindowBase *)window_sub_status_disp)->get_array_entry(0xA));
+        d = static_cast<WindowTextEntry *>(((TWindowBase *)window_sub_status_disp)->get_array_entry(0xC));
+        b->value = obj_getS16_2BA((u8 *)pl);
+        a->value = pl->tp;
         v = ((TWindowSubStatusDisp *)window_sub_status_disp)->update_hp_gauge();
-        *(s32 *)((s8 *)a + 0x1C) = v;
-        *(s32 *)((s8 *)c + 0x24) = v;
-        *(s32 *)((s8 *)b + 0x1C) = v;
-        *(s32 *)((s8 *)d + 0x24) = v;
+        a->style = v;
+        c->color = v;
+        b->style = v;
+        d->color = v;
         draw_right_aligned_number(b);
         draw_right_aligned_number(a);
-        *(f32 *)((s8 *)a + 8) = *(f32 *)((s8 *)b + 8) - *(f32 *)((s8 *)b + 0x10) - 12.0f;
-        *(f32 *)((s8 *)d + 8) = *(f32 *)((s8 *)a + 8);
+        a->x = b->x - b->width - 12.0f;
+        d->x = a->x;
         ((TWindowSubStatusDisp *)window_sub_status_disp)->update_status_entry();
         e = (u8 *)((TWindowBase *)window_sub_status_disp)->get_array_entry(0xE);
         set_status_entry_target(e, ((TObjPlayer *)pl)->get_photon_blast_charge());
@@ -133,6 +135,7 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) 
 }
 
 void TWindowStatus::draw_background(u8 *ctx) {
+    WindowDrawContext *context = (WindowDrawContext *)ctx;
     static const f32 pos[2] = {44.0f, 30.5f};
     TexturedQuad q;
     f32 w;
@@ -144,7 +147,7 @@ void TWindowStatus::draw_background(u8 *ctx) {
     }
     begin_screen_draw(1);
     TObjFish::set_global_param(hud_texlist);
-    set_draw_texture_and_color(0xB, *(s32 *)((s8 *)ctx + 0x34));
+    set_draw_texture_and_color(0xB, context->color);
     { f32 r = get_transition_progress();
     s = -1.0f / (0.0598f + this->draw_depth);
     q.x0 = -(69.0f * (w = 1.0f - r)); }
@@ -156,15 +159,15 @@ void TWindowStatus::draw_background(u8 *ctx) {
     q.u1 = 0.73046875f;
     q.v1 = 0.625f;
     draw_textured_quad_at_depth(&q, s);
-    q.x0 = *(f32 *)((s8 *)ctx + 0);
-    q.y0 = *(f32 *)((s8 *)ctx + 4);
+    q.x0 = context->x;
+    q.y0 = context->y;
     q.x1 = 228.0f + q.x0;
     q.y1 = 76.0f + q.y0;
     q.u0 = 0.0f;
     q.v0 = 0.0f;
     q.u1 = 0.890625f;
     q.v1 = 0.296875f;
-    ((WindowDrawContext *)ctx)->transform_quad(&q);
+    context->transform_quad(&q);
     draw_textured_quad_at_depth(&q, s);
     TWindowSubStatusDisp::get_player();
     if (TWindowSubComCard__sub_80245558(ctx, ctx + 0x10, ctx + 0x18) != 0) {

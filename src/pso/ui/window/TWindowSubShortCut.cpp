@@ -246,4 +246,4 @@ s32 TWindowSubShortCut::open_confirm_message() {
     return dialog;
 }
 
-int TWindowSubQuestBoardSelect::is_shortcut_active() { return this->m_60 & 0x4; }
+int TWindowSubQuestBoardSelect::is_shortcut_active() { return this->state_flags & 0x4; }

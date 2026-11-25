@@ -32,7 +32,7 @@ struct TWindowOptionCtrl : public TObject {
     static void set_params(void *arg0, s16 arg1, s16 arg2);
     void apply_selection_change();
     void init_selection_indices();
-    void apply_and_close(s32 arg1);
+    void apply_and_close(s32 bgm_index);
     s32 handle_input(s32 language);
     // The cursor position of the entry at m_88.
     s32 update_selected_item();
@@ -41,7 +41,7 @@ struct TWindowOptionCtrl : public TObject {
     static s32 get_option_field_C();
     static const char *text_or_default(const char *text);
     static saddr create_serial_info_window(const NJS_POINT2 *pos, s32 kind);
-    static saddr open_yes_no_window(saddr arg0, s32 arg1, s32 index);
+    static saddr open_yes_no_window(saddr parent, s32 message_id, s32 index);
     saddr create_option_menu();
     saddr create_sub_menu_window();
     saddr create_snap_shot_window();

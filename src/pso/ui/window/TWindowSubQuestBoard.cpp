@@ -44,9 +44,9 @@ int set_card_window_flags__19TWindowKeyBoardHardFPvll(void*, int, int);
 
 const char *TWindowSubQuestBoard::class_name = "TWindowSubQuestBoard";
 
-int TWindowSubQuestBoardSelect::is_cancelled() { return this->m_60 & 0x2; }
+int TWindowSubQuestBoardSelect::is_cancelled() { return this->state_flags & 0x2; }
 
-int TWindowSubQuestBoardSelect::is_open() { return this->m_60 & 0x1; }
+int TWindowSubQuestBoardSelect::is_open() { return this->state_flags & 0x1; }
 
 u8 TWindowSubQuestBoardSelect::get_page_index() { return this->slot; }
 

@@ -8,16 +8,22 @@ struct GuildCardRecord;
 #include "pso/ui/window/TWindowBase.h"
 
 struct PageIndicator;
+struct NumberedTimesLayout;
+struct RankTimeRecordsLayout;
+struct RecordSummaryLayout;
+struct ResistanceLayout;
+struct StatPageLayout;
+struct SummaryPageLayout;
 class ItemListRow;
 
 struct TWindowSubStatusDisp : public TWindowBase {
     static void * window_layout[5];
-    static void * numbered_times_layout[72];
-    static void * rank_time_records_layout[114];
-    static void * record_summary_layout[114];
-    static void * resistance_layout[212];
-    static void * stat_page_layout[254];
-    static void * summary_page_layout[135];
+    static NumberedTimesLayout numbered_times_layout;
+    static RankTimeRecordsLayout rank_time_records_layout;
+    static RecordSummaryLayout record_summary_layout;
+    static ResistanceLayout resistance_layout;
+    static StatPageLayout stat_page_layout;
+    static SummaryPageLayout summary_page_layout;
     TWindowSubStatusDisp(s32 client);
     virtual ~TWindowSubStatusDisp();
     virtual void run_task();
@@ -78,7 +84,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     s16 get_stat();
     s16 get_value();
     void set_all_values(s32 meseta);
-    void set_animated_target(s32 meseta, f32 farg0);
+    void set_animated_target(s32 meseta, f32 frames);
     static void update_palette_sprite();
     void set_string(uaddr string);
     void set_text(uaddr arg1, s32 string, s32 arg3);
@@ -94,9 +100,9 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static f32 get_base_y(f32 width);
     void update_entry_color();
     void set_entry_state(s8 entry_state);
-    void draw_entry_tab(void *arg1);
+    void draw_entry_tab(void *context);
     void update(void* a1);
-    static s32 deleting_destructor(s32 arg0, s16 arg1);
+    static s32 deleting_destructor(s32 object, s16 delete_flag);
     void forward_render(void *level);
     int update_subwindow();
     void fill_card_text_entries(GuildCardRecord *record);
@@ -114,7 +120,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static void *get_entry_ptr(int a0);
     void append_entry(s32 flag, s32 arg2, s32 item, s32 arg4, s32 arg5);
     s32 update_hp_entry();
-    static s32 destroy_status_display(saddr arg0, s16 arg1);
+    static s32 destroy_status_display(saddr window, s16 delete_flag);
     u8 *construct_type1_heading(s32 title, s32 client_index);
     void update_entry_visibility();
     s32 update_hp_gauge();

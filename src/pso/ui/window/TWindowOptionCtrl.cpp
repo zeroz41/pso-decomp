@@ -494,10 +494,10 @@ saddr TWindowOptionCtrl::create_option_menu() {
     return check_box_window;
 }
 
-saddr TWindowOptionCtrl::open_yes_no_window(saddr arg0, s32 arg1, s32 index) {
+saddr TWindowOptionCtrl::open_yes_no_window(saddr parent, s32 message_id, s32 index) {
   saddr window;
-  window = (saddr)TWindowMessageYesNo::create((void *)(arg0), 6, (void *)(arg0 * 0), 0);
-  ((TWindowMessageYesNo *)window)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0xF, arg1)), get_window_layout_position(index), 470.0f);
+  window = (saddr)TWindowMessageYesNo::create((void *)(parent), 6, (void *)(parent * 0), 0);
+  ((TWindowMessageYesNo *)window)->open_yes_no_prompt_with_text((s32)(get_localized_text_entry(0xF, message_id)), get_window_layout_position(index), 470.0f);
   ((TWindowMessageYesNo *)window)->set_menu_selected_index(1);
   return window;
 }
@@ -547,11 +547,11 @@ s32 TWindowOptionCtrl::handle_input(s32 language) {
     return 0;
 }
 
-void TWindowOptionCtrl::apply_and_close(s32 arg1) {
+void TWindowOptionCtrl::apply_and_close(s32 bgm_index) {
     TLobby::stop_audio_streams();
     TLobby::stop_audio_streams();
     TLobby::close_option_window();
-    play_area_music(get_bgm_filename(arg1));
+    play_area_music(get_bgm_filename(bgm_index));
     this->flags = (u8) (this->flags | 2);
 }
 

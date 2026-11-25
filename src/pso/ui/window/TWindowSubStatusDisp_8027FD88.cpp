@@ -1,3 +1,5 @@
+#include "pso/unk/WindowLayoutRecord.h"
+#include "pso/unk/TWindowLayoutNumber.h"
 #include "pso/player/TPlyDispData.h"
 #include "pso/ui/window/WindowTextEntry.h"
 #include "pso/ui/window/PageIndicator.h"
@@ -23,289 +25,315 @@
 #include "pso/player/PlayerRequirementStats.h"
 
 const char *TWindowSubStatusDisp__class_name = "TWindowSubStatusDisp";
-void *TWindowSubStatusDisp::summary_page_layout[135] = {
-    (void *)0x12, (void *)0x1, (void *)0x3, (void *)0x0,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x43520000, (void *)0x0,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)"Lv",
-    (void *)0x4, (void *)0x43868000, (void *)0x0, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x1, (void *)0x3,
-    (void *)0x0, (void *)0x41a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x0,
-    (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x7, (void *)0x43878000, (void *)0x41a00000,
-    (void *)0x42000000, (void *)0x42000000, (void *)0x0, (void *)0x0,
-    (void *)0x3f800000, (void *)0x3f800000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)0x0, (void *)0x4, (void *)0x3,
-    (void *)0x0, (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x43000000,
-    (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)":", (void *)0x4, (void *)0x43670000, (void *)0x42700000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
-    (void *)0x3, (void *)0x43670000, (void *)0x42700000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)"pt", (void *)0x3,
-    (void *)0x0, (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x43000000,
-    (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)":", (void *)0x4, (void *)0x43670000, (void *)0x42a00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
-    (void *)0x3, (void *)0x43670000, (void *)0x42a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)"pt", (void *)0x3,
-    (void *)0x0, (void *)0x42c80000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x43000000,
-    (void *)0x42c80000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)":", (void *)0x4, (void *)0x43670000, (void *)0x42c80000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
-    (void *)0x3, (void *)0x43670000, (void *)0x42c80000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0,
+struct SummaryPageLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    ValueLayoutRecord rec_2;
+    TextLayoutRecord rec_3;
+    TextLayoutRecord rec_4;
+    DirectSpritePartLayoutRecord rec_5;
+    TextLayoutRecord rec_6;
+    TextLayoutRecord rec_7;
+    ValueLayoutRecord rec_8;
+    TextLayoutRecord rec_9;
+    TextLayoutRecord rec_10;
+    TextLayoutRecord rec_11;
+    ValueLayoutRecord rec_12;
+    TextLayoutRecord rec_13;
+    TextLayoutRecord rec_14;
+    TextLayoutRecord rec_15;
+    ValueLayoutRecord rec_16;
+    TextLayoutRecord rec_17;
 };
-void *TWindowSubStatusDisp::stat_page_layout[254] = {
-    (void *)0x24, (void *)0x1, (void *)0x3, (void *)0x0,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x42600000, (void *)0x0,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)":",
-    (void *)0x4, (void *)0x42e20000, (void *)0x0, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x42e60000, (void *)0x0, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)"(", (void *)0x4, (void *)0x432b0000,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x432b0000, (void *)0x0,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)")",
-    (void *)0x3, (void *)0x0, (void *)0x41a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x42600000, (void *)0x41a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)":", (void *)0x4, (void *)0x42e20000,
-    (void *)0x41a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x42e60000, (void *)0x41a00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)"(",
-    (void *)0x4, (void *)0x432b0000, (void *)0x41a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x432b0000, (void *)0x41a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)")", (void *)0x3, (void *)0x0,
-    (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x42600000, (void *)0x42200000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)":",
-    (void *)0x4, (void *)0x42e20000, (void *)0x42200000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x42e60000, (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)"(", (void *)0x4, (void *)0x432b0000,
-    (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x432b0000, (void *)0x42200000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)")",
-    (void *)0x3, (void *)0x0, (void *)0x42700000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x42600000, (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)":", (void *)0x4, (void *)0x42e20000,
-    (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x42e60000, (void *)0x42700000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)"(",
-    (void *)0x4, (void *)0x432b0000, (void *)0x42700000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x432b0000, (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)")", (void *)0x3, (void *)0x0,
-    (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x42600000, (void *)0x42a00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)":",
-    (void *)0x4, (void *)0x42e20000, (void *)0x42a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x42e60000, (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)"(", (void *)0x4, (void *)0x432b0000,
-    (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x432b0000, (void *)0x42a00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)")",
-    (void *)0x3, (void *)0x0, (void *)0x42c80000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x42600000, (void *)0x42c80000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)":", (void *)0x4, (void *)0x42e20000,
-    (void *)0x42c80000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x42e60000, (void *)0x42c80000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)"(",
-    (void *)0x4, (void *)0x432b0000, (void *)0x42c80000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x432b0000, (void *)0x42c80000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)")",
+
+SummaryPageLayout TWindowSubStatusDisp::summary_page_layout = {
+    18, 1,
+    {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {210.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, "Lv"},
+    {4, {269.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, 1},
+    {3, {0.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {0.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {7, {271.0f, 20.0f}, {32.0f, 32.0f}, 0.0f, 0.0f, 1.0f, 1.0f, 0.5f, 0xFFFFFFFF, NULL, 0, 4},
+    {3, {0.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {128.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {231.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {231.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, "pt"},
+    {3, {0.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {128.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {231.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {231.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, "pt"},
+    {3, {0.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {128.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {231.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {231.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
 };
-void *TWindowSubStatusDisp::resistance_layout[212] = {
-    (void *)0x1e, (void *)0x1, (void *)0x3, (void *)0x0,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x42600000, (void *)0x0,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)":",
-    (void *)0x4, (void *)0x42e20000, (void *)0x0, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x42e60000, (void *)0x0, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)"(", (void *)0x4, (void *)0x432b0000,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x432b0000, (void *)0x0,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)")",
-    (void *)0x3, (void *)0x0, (void *)0x41a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x42600000, (void *)0x41a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)":", (void *)0x4, (void *)0x42e20000,
-    (void *)0x41a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x42e60000, (void *)0x41a00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)"(",
-    (void *)0x4, (void *)0x432b0000, (void *)0x41a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x432b0000, (void *)0x41a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)")", (void *)0x3, (void *)0x0,
-    (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x42600000, (void *)0x42200000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)":",
-    (void *)0x4, (void *)0x42e20000, (void *)0x42200000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x42e60000, (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)"(", (void *)0x4, (void *)0x432b0000,
-    (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x432b0000, (void *)0x42200000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)")",
-    (void *)0x3, (void *)0x0, (void *)0x42700000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x42600000, (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)":", (void *)0x4, (void *)0x42e20000,
-    (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x42e60000, (void *)0x42700000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)"(",
-    (void *)0x4, (void *)0x432b0000, (void *)0x42700000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x432b0000, (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)")", (void *)0x3, (void *)0x0,
-    (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x42600000, (void *)0x42a00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)":",
-    (void *)0x4, (void *)0x42e20000, (void *)0x42a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x42e60000, (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)"(", (void *)0x4, (void *)0x432b0000,
-    (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x432b0000, (void *)0x42a00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)")",
+
+struct StatPageLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    ValueLayoutRecord rec_2;
+    TextLayoutRecord rec_3;
+    ValueLayoutRecord rec_4;
+    TextLayoutRecord rec_5;
+    TextLayoutRecord rec_6;
+    TextLayoutRecord rec_7;
+    ValueLayoutRecord rec_8;
+    TextLayoutRecord rec_9;
+    ValueLayoutRecord rec_10;
+    TextLayoutRecord rec_11;
+    TextLayoutRecord rec_12;
+    TextLayoutRecord rec_13;
+    ValueLayoutRecord rec_14;
+    TextLayoutRecord rec_15;
+    ValueLayoutRecord rec_16;
+    TextLayoutRecord rec_17;
+    TextLayoutRecord rec_18;
+    TextLayoutRecord rec_19;
+    ValueLayoutRecord rec_20;
+    TextLayoutRecord rec_21;
+    ValueLayoutRecord rec_22;
+    TextLayoutRecord rec_23;
+    TextLayoutRecord rec_24;
+    TextLayoutRecord rec_25;
+    ValueLayoutRecord rec_26;
+    TextLayoutRecord rec_27;
+    ValueLayoutRecord rec_28;
+    TextLayoutRecord rec_29;
+    TextLayoutRecord rec_30;
+    TextLayoutRecord rec_31;
+    ValueLayoutRecord rec_32;
+    TextLayoutRecord rec_33;
+    ValueLayoutRecord rec_34;
+    TextLayoutRecord rec_35;
 };
-void *TWindowSubStatusDisp::record_summary_layout[114] = {
-    (void *)0x10, (void *)0x1, (void *)0x3, (void *)0x0,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x41a00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
-    (void *)0x3, (void *)0x42600000, (void *)0x41a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)":", (void *)0x4,
-    (void *)0x430a0000, (void *)0x41a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x0,
-    (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x42600000, (void *)0x42200000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)":",
-    (void *)0x4, (void *)0x430a0000, (void *)0x42200000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x0, (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)0x0, (void *)0x3, (void *)0x42600000,
-    (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)":", (void *)0x4, (void *)0x430a0000, (void *)0x42700000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
-    (void *)0x3, (void *)0x0, (void *)0x42a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x3,
-    (void *)0x42600000, (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)":", (void *)0x4, (void *)0x430a0000,
-    (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x42c80000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x0, (void *)0x0,
-    (void *)0x3, (void *)0x43060000, (void *)0x42c80000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x0, (void *)":", (void *)0x4,
-    (void *)0x43580000, (void *)0x42c80000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x0, (void *)0x0,
+
+StatPageLayout TWindowSubStatusDisp::stat_page_layout = {
+    36, 1,
+    {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {113.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {115.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, "("},
+    {4, {171.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {171.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
+    {3, {0.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {113.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {115.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, "("},
+    {4, {171.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {171.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
+    {3, {0.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {113.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {115.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, "("},
+    {4, {171.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {171.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
+    {3, {0.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {113.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {115.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, "("},
+    {4, {171.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {171.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
+    {3, {0.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {113.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {115.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, "("},
+    {4, {171.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {171.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
+    {3, {0.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {113.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {115.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, "("},
+    {4, {171.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {171.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
 };
-void *TWindowSubStatusDisp::rank_time_records_layout[114] = {
-    (void *)0x10, (void *)0x1, (void *)0x3, (void *)0x0,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x41a00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x2, (void *)0x0,
-    (void *)0x3, (void *)0x42d40000, (void *)0x41a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x2, (void *)":", (void *)0x3,
-    (void *)0x42e80000, (void *)0x41a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x2, (void *)0x0, (void *)0x3, (void *)0x0,
-    (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x2,
-    (void *)0x0, (void *)0x3, (void *)0x42d40000, (void *)0x42200000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x2, (void *)":",
-    (void *)0x3, (void *)0x42e80000, (void *)0x42200000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x2, (void *)0x0, (void *)0x3,
-    (void *)0x0, (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x2, (void *)0x0, (void *)0x3, (void *)0x42d40000,
-    (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x2,
-    (void *)":", (void *)0x3, (void *)0x42e80000, (void *)0x42700000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x2, (void *)0x0,
-    (void *)0x3, (void *)0x0, (void *)0x42a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x2, (void *)0x0, (void *)0x3,
-    (void *)0x42d40000, (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x2, (void *)":", (void *)0x3, (void *)0x42e80000,
-    (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x2,
-    (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x42c80000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x2, (void *)0x0,
-    (void *)0x3, (void *)0x42d40000, (void *)0x42c80000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x2, (void *)":", (void *)0x3,
-    (void *)0x42e80000, (void *)0x42c80000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x2, (void *)0x0,
+
+struct ResistanceLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    ValueLayoutRecord rec_2;
+    TextLayoutRecord rec_3;
+    ValueLayoutRecord rec_4;
+    TextLayoutRecord rec_5;
+    TextLayoutRecord rec_6;
+    TextLayoutRecord rec_7;
+    ValueLayoutRecord rec_8;
+    TextLayoutRecord rec_9;
+    ValueLayoutRecord rec_10;
+    TextLayoutRecord rec_11;
+    TextLayoutRecord rec_12;
+    TextLayoutRecord rec_13;
+    ValueLayoutRecord rec_14;
+    TextLayoutRecord rec_15;
+    ValueLayoutRecord rec_16;
+    TextLayoutRecord rec_17;
+    TextLayoutRecord rec_18;
+    TextLayoutRecord rec_19;
+    ValueLayoutRecord rec_20;
+    TextLayoutRecord rec_21;
+    ValueLayoutRecord rec_22;
+    TextLayoutRecord rec_23;
+    TextLayoutRecord rec_24;
+    TextLayoutRecord rec_25;
+    ValueLayoutRecord rec_26;
+    TextLayoutRecord rec_27;
+    ValueLayoutRecord rec_28;
+    TextLayoutRecord rec_29;
 };
-void *TWindowSubStatusDisp::numbered_times_layout[72] = {
-    (void *)0xa, (void *)0x1, (void *)0x3, (void *)0x0,
-    (void *)0x0, (void *)0x3f000000, (void *)0xffffffff, (void *)0x0,
-    (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x41a00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x2, (void *)0x0,
-    (void *)0x3, (void *)0x0, (void *)0x42200000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x2, (void *)0x0, (void *)0x3,
-    (void *)0x0, (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x2, (void *)0x0, (void *)0x3, (void *)0x0,
-    (void *)0x42a00000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x2,
-    (void *)0x0, (void *)0x3, (void *)0x0, (void *)0x42c80000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x2, (void *)0x0,
-    (void *)0x3, (void *)0x43200000, (void *)0x41a00000, (void *)0x3f000000,
-    (void *)0xffffffff, (void *)0x2, (void *)0x0, (void *)0x3,
-    (void *)0x43200000, (void *)0x42200000, (void *)0x3f000000, (void *)0xffffffff,
-    (void *)0x2, (void *)0x0, (void *)0x3, (void *)0x43200000,
-    (void *)0x42700000, (void *)0x3f000000, (void *)0xffffffff, (void *)0x2,
-    (void *)0x0, (void *)0x3, (void *)0x43200000, (void *)0x42a00000,
-    (void *)0x3f000000, (void *)0xffffffff, (void *)0x2, (void *)0x0,
+
+ResistanceLayout TWindowSubStatusDisp::resistance_layout = {
+    30, 1,
+    {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {113.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {115.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, "("},
+    {4, {171.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {171.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
+    {3, {0.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {113.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {115.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, "("},
+    {4, {171.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {171.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
+    {3, {0.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {113.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {115.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, "("},
+    {4, {171.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {171.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
+    {3, {0.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {113.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {115.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, "("},
+    {4, {171.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {171.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
+    {3, {0.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {113.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {115.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, "("},
+    {4, {171.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {171.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, ")"},
 };
+
+struct RecordSummaryLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    TextLayoutRecord rec_2;
+    ValueLayoutRecord rec_3;
+    TextLayoutRecord rec_4;
+    TextLayoutRecord rec_5;
+    ValueLayoutRecord rec_6;
+    TextLayoutRecord rec_7;
+    TextLayoutRecord rec_8;
+    ValueLayoutRecord rec_9;
+    TextLayoutRecord rec_10;
+    TextLayoutRecord rec_11;
+    ValueLayoutRecord rec_12;
+    TextLayoutRecord rec_13;
+    TextLayoutRecord rec_14;
+    ValueLayoutRecord rec_15;
+};
+
+RecordSummaryLayout TWindowSubStatusDisp::record_summary_layout = {
+    16, 1,
+    {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {0.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {138.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {0.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {138.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {0.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {138.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {0.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {56.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {138.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+    {3, {0.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {134.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, ":"},
+    {4, {216.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 0, 0},
+};
+
+struct RankTimeRecordsLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    TextLayoutRecord rec_2;
+    TextLayoutRecord rec_3;
+    TextLayoutRecord rec_4;
+    TextLayoutRecord rec_5;
+    TextLayoutRecord rec_6;
+    TextLayoutRecord rec_7;
+    TextLayoutRecord rec_8;
+    TextLayoutRecord rec_9;
+    TextLayoutRecord rec_10;
+    TextLayoutRecord rec_11;
+    TextLayoutRecord rec_12;
+    TextLayoutRecord rec_13;
+    TextLayoutRecord rec_14;
+    TextLayoutRecord rec_15;
+};
+
+RankTimeRecordsLayout TWindowSubStatusDisp::rank_time_records_layout = {
+    16, 1,
+    {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {0.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {106.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 2, ":"},
+    {3, {116.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {0.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {106.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 2, ":"},
+    {3, {116.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {0.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {106.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 2, ":"},
+    {3, {116.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {0.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {106.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 2, ":"},
+    {3, {116.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {0.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {106.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 2, ":"},
+    {3, {116.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+};
+
+struct NumberedTimesLayout {
+    u32 cols;
+    u32 rows;
+    TextLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    TextLayoutRecord rec_2;
+    TextLayoutRecord rec_3;
+    TextLayoutRecord rec_4;
+    TextLayoutRecord rec_5;
+    TextLayoutRecord rec_6;
+    TextLayoutRecord rec_7;
+    TextLayoutRecord rec_8;
+    TextLayoutRecord rec_9;
+};
+
+NumberedTimesLayout TWindowSubStatusDisp::numbered_times_layout = {
+    10, 1,
+    {3, {0.0f, 0.0f}, 0.5f, 0xFFFFFFFF, 0, NULL},
+    {3, {0.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {0.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {0.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {0.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {0.0f, 100.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {160.0f, 20.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {160.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {160.0f, 60.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+    {3, {160.0f, 80.0f}, 0.5f, 0xFFFFFFFF, 2, NULL},
+};
+
 void *TWindowSubStatusDisp::window_layout[5] = {
     (void *)0x439c0000, (void *)0x43200000, (void *)0x47438200, (void *)0x0,
     (void *)0x3,
-};
-
-struct VBase_18_eecf68 { char pad[0x18]; };
-
-struct VObj_18_eecf68 : VBase_18_eecf68 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual s32 m14();
-};
-
-struct En_80280F14 { u8 pad[0x20]; s32 v; };
-
-
-struct Wn_80280F14 { u8 pad[0x20]; s16 f20; };
-
-struct VBase_80280FD0 { char pad[0x18]; };
-
-struct VObj_80280FD0 : VBase_80280FD0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual s32 m10();
 };
 
 typedef struct Stats_80280B1C {
@@ -320,7 +348,7 @@ typedef struct Entry_80280B1C {
 extern "C" {
 s32 is_battle_mode_running();
 }
-void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
+void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags);
 s32 get_class_name_text(s32);
 extern "C" {
 s32 build_player_class_stat_template(saddr player, saddr out);
@@ -447,7 +475,7 @@ void TWindowSubStatusDisp::vt0() {
     }
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(TWindowSubStatusDisp::summary_page_layout),
+        &TWindowSubStatusDisp::summary_page_layout,
         this->client_index);
     e = (void *)get_array_entry(6);
     set_text_entry_string((u8 *)e, (saddr)TWindowSubStatusDisp::get_message_10(0x80), 0x20);
@@ -461,7 +489,7 @@ void TWindowSubStatusDisp::vt0() {
     if (pl != NULL) {
         st = (s8 *)(pl + 0x85C);
         if (st != NULL) {
-            v = ((VObj_80280FD0 *)pl)->m10();
+            v = (s32)((TObjPlayer *)pl)->get_name();
             set_text_entry_string((u8 *)((void *)get_array_entry(0)), v, 0x20);
             v = get_class_name_text(st[0x31]);
             set_text_entry_string((u8 *)((void *)get_array_entry(3)), v, 0);
@@ -474,22 +502,22 @@ void TWindowSubStatusDisp::vt0() {
     }
 }
 
-void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0) {
-    VObj_18_eecf68 *p;
+void vt11__20TWindowSubStatusDispFv(TWindowBase *window) {
+    TObjPlayer *p;
     player_stats *q;
-    En_80280F14 *e;
-    p = (VObj_18_eecf68 *)get_player_by_client_id(arg0->f20);
+    TWindowLayoutNumber *e;
+    p = get_player_by_client_id(window->client_index);
     if (p != NULL) {
-        q = ((TObjPlayer *)p)->get_stats();
+        q = p->get_stats();
         if (q != NULL) {
-            e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(2));
-            e->v = p->m14() + 1;
-            e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(0x10));
-            e->v = q->meseta;
-            e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(8));
-            e->v = q->exp;
-            e = ((En_80280F14 *)(void *)((TWindowBase *)arg0)->get_array_entry(0xC));
-            e->v = ((TObjPlayer *)p)->get_next_level_exp() - q->exp;
+            e = static_cast<TWindowLayoutNumber *>(window->get_array_entry(2));
+            e->value = p->get_actor_level_index() + 1;
+            e = static_cast<TWindowLayoutNumber *>(window->get_array_entry(0x10));
+            e->value = q->meseta;
+            e = static_cast<TWindowLayoutNumber *>(window->get_array_entry(8));
+            e->value = q->exp;
+            e = static_cast<TWindowLayoutNumber *>(window->get_array_entry(0xC));
+            e->value = p->get_next_level_exp() - q->exp;
         }
     }
 }
@@ -501,7 +529,7 @@ void TWindowSubStatusDisp::vt1() {
     }
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(TWindowSubStatusDisp::stat_page_layout),
+        &TWindowSubStatusDisp::stat_page_layout,
         this->client_index);
     e = (void *)get_array_entry(0);
     set_text_entry_string((u8 *)e, (saddr)TWindowSubStatusDisp::get_message_10(0x83), 0x20);
@@ -566,7 +594,7 @@ void TWindowSubStatusDisp::vt2() {
     }
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(TWindowSubStatusDisp::resistance_layout),
+        &TWindowSubStatusDisp::resistance_layout,
         this->client_index);
     entry = ((saddr)(void *)get_array_entry(0));
     set_text_entry_string((u8 *)entry, ((saddr)TWindowSubStatusDisp::get_message_10(0x89)), 0x20);
@@ -582,28 +610,29 @@ void TWindowSubStatusDisp::vt2() {
 
 void TWindowSubStatusDisp::vt13() {
     saddr player;
-    void *entry_2;
-    void *entry_8;
-    void *entry_e;
-    void *entry_14;
-    void *entry_1a;
+    TWindowLayoutNumber *entry_2;
+    TWindowLayoutNumber *entry_8;
+    TWindowLayoutNumber *entry_e;
+    TWindowLayoutNumber *entry_14;
+    TWindowLayoutNumber *entry_1a;
 
     player = (saddr)get_player_by_client_id(this->client_index);
     if (player != 0) {
-        entry_2 = (void *)this->get_array_entry(2);
-        *(s32 *)((s8 *)entry_2 + 0x20) = (s32) ((TWindowSubStatusDisp *)player)->get_stat();
-        entry_8 = (void *)this->get_array_entry(8);
-        *(s32 *)((s8 *)entry_8 + 0x20) = (s32) ((TObjPlayer *)player)->get_class_id();
-        entry_e = (void *)this->get_array_entry(0xE);
-        *(s32 *)((s8 *)entry_e + 0x20) = (s32) ((TObjPlayer *)player)->get_item_index();
-        entry_14 = (void *)this->get_array_entry(0x14);
-        *(s32 *)((s8 *)entry_14 + 0x20) = (s32) ((TWindowSubStatusDisp *)player)->get_field_2F8();
-        entry_1a = (void *)this->get_array_entry(0x1A);
-        *(s32 *)((s8 *)entry_1a + 0x20) = (s32) ((TWindowSubStatusDisp *)player)->get_item_type();
+        entry_2 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(2));
+        entry_2->value = (s32) ((TWindowSubStatusDisp *)player)->get_stat();
+        entry_8 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(8));
+        entry_8->value = (s32) ((TObjPlayer *)player)->get_class_id();
+        entry_e = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0xE));
+        entry_e->value = (s32) ((TObjPlayer *)player)->get_item_index();
+        entry_14 = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0x14));
+        entry_14->value = (s32) ((TWindowSubStatusDisp *)player)->get_field_2F8();
+        entry_1a = static_cast<TWindowLayoutNumber *>(this->get_array_entry(0x1A));
+        entry_1a->value = (s32) ((TWindowSubStatusDisp *)player)->get_item_type();
     }
 }
 
 void TWindowSubStatusDisp::vt3() {
+    TWindowLayoutNumber *number;
     s32 card_flag;
     u8 *entry;
     if ((f32) this->open_tick > 7.5f) {
@@ -611,7 +640,7 @@ void TWindowSubStatusDisp::vt3() {
     }
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(TWindowSubStatusDisp::record_summary_layout),
+        &TWindowSubStatusDisp::record_summary_layout,
         this->client_index);
     entry = ((u8 *)(void *)get_array_entry(0));
     set_text_entry_string(entry, (saddr)TWindowSubStatusDisp::get_message_10(0x8E), 0);
@@ -625,14 +654,14 @@ void TWindowSubStatusDisp::vt3() {
     set_text_entry_string(entry, get_localized_text_entry(0x10, 9), 0);
     entry = ((u8 *)(void *)get_array_entry(0xD));
     set_text_entry_string(entry, get_localized_text_entry(0x10, 0xE), 0);
-    entry = ((u8 *)(void *)get_array_entry(3));
-    *(s32 *)((s8 *)entry + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_field_21a8((u16) this->client_index);
-    entry = ((u8 *)(void *)get_array_entry(6));
-    *(s32 *)((s8 *)entry + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_value((u16) this->client_index);
-    entry = ((u8 *)(void *)get_array_entry(9));
-    *(s32 *)((s8 *)entry + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_status((u16) this->client_index);
-    entry = ((u8 *)(void *)get_array_entry(0xC));
-    *(s32 *)((s8 *)entry + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_field((u16) this->client_index);
+    number = static_cast<TWindowLayoutNumber *>(get_array_entry(3));
+    number->value = (s32) TAdSinglePlyChrSelectGC::get_card_field_21a8((u16) this->client_index);
+    number = static_cast<TWindowLayoutNumber *>(get_array_entry(6));
+    number->value = (s32) TAdSinglePlyChrSelectGC::get_card_value((u16) this->client_index);
+    number = static_cast<TWindowLayoutNumber *>(get_array_entry(9));
+    number->value = (s32) TAdSinglePlyChrSelectGC::get_card_status((u16) this->client_index);
+    number = static_cast<TWindowLayoutNumber *>(get_array_entry(0xC));
+    number->value = (s32) TAdSinglePlyChrSelectGC::get_card_field((u16) this->client_index);
     card_flag = TAdSinglePlyChrSelectGC::get_card_flag((u16) this->client_index);
     if (is_battle_mode_running() != 0) {
         card_flag -= 1;
@@ -643,13 +672,14 @@ void TWindowSubStatusDisp::vt3() {
 void TWindowSubStatusDisp::vt14() {  }
 
 void TWindowSubStatusDisp::vt7() {
+    TWindowLayoutNumber *number;
     u8 *entry;
     if ((f32) this->open_tick > 7.5f) {
         this->open_tick = 7;
     }
     init_window_layout_entries(
         &this->entry_list,
-        reinterpret_cast<const void *>(TWindowSubStatusDisp::record_summary_layout),
+        &TWindowSubStatusDisp::record_summary_layout,
         this->client_index);
     entry = (u8 *)(void *)get_array_entry(0);
     set_text_entry_string(entry, (saddr)TWindowSubStatusDisp::get_message_10(0x8F), 0);
@@ -663,14 +693,14 @@ void TWindowSubStatusDisp::vt7() {
     set_text_entry_string(entry, get_localized_text_entry(0x10, 9), 0);
     ((TWindowHelpItem *)((void *)get_array_entry(0xD)))->set_flag0_bit2();
     ((TWindowHelpItem *)((void *)get_array_entry(0xE)))->set_flag0_bit2();
-    entry = (u8 *)(void *)get_array_entry(3);
-    *(s32 *)((s8 *)entry + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_state((u16) this->client_index);
-    entry = (u8 *)(void *)get_array_entry(6);
-    *(s32 *)((s8 *)entry + 0x20) = (s32) TAdSinglePlyChrSelectGC__sub_801FC36C((u16) this->client_index);
-    entry = (u8 *)(void *)get_array_entry(9);
-    *(s32 *)((s8 *)entry + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_window_status((u16) this->client_index);
-    entry = (u8 *)(void *)get_array_entry(0xC);
-    *(s32 *)((s8 *)entry + 0x20) = (s32) TAdSinglePlyChrSelectGC::get_card_window_field((u16) this->client_index);
+    number = static_cast<TWindowLayoutNumber *>(get_array_entry(3));
+    number->value = (s32) TAdSinglePlyChrSelectGC::get_card_state((u16) this->client_index);
+    number = static_cast<TWindowLayoutNumber *>(get_array_entry(6));
+    number->value = (s32) TAdSinglePlyChrSelectGC__sub_801FC36C((u16) this->client_index);
+    number = static_cast<TWindowLayoutNumber *>(get_array_entry(9));
+    number->value = (s32) TAdSinglePlyChrSelectGC::get_card_window_status((u16) this->client_index);
+    number = static_cast<TWindowLayoutNumber *>(get_array_entry(0xC));
+    number->value = (s32) TAdSinglePlyChrSelectGC::get_card_window_field((u16) this->client_index);
     ((TWindowHelpItem *)((void *)get_array_entry(0xF)))->set_flag0_bit2();
 }
 
@@ -685,7 +715,7 @@ void TWindowSubStatusDisp::vt4() {
     if ((f32)(s32)open_tick > 7.5f) {
         open_tick = 7;
     }
-    init_window_layout_entries(&entry_list, reinterpret_cast<const void *>(TWindowSubStatusDisp::rank_time_records_layout), client_index);
+    init_window_layout_entries(&entry_list, &TWindowSubStatusDisp::rank_time_records_layout, client_index);
     page_indicator->get_type();
     s32 slot = page == 2 ? RECORD_SET_EP1_SPLIT : RECORD_SET_EP1;
     WindowTextEntry *title = (WindowTextEntry *)get_array_entry(0);
@@ -809,7 +839,7 @@ void vt5__20TWindowSubStatusDispFv(u8 *window_base) {
   }
   init_window_layout_entries(
       reinterpret_cast<WindowLayoutEntries *>(window_base + 0x24),
-      reinterpret_cast<const void *>(TWindowSubStatusDisp::numbered_times_layout),
+      &TWindowSubStatusDisp::numbered_times_layout,
       *((s16 *) (((s8 *) window_base) + 0x20)));
   new_var = window_base;
   type = ((TWindowSubStatusDisp *)new_var)->get_display_mode();

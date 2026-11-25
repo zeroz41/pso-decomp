@@ -76,7 +76,7 @@ void fn_80266378(s32 rows);
 
 u8 * init_shop_judgment_window(void* p);
 }
-void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
+void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags);
 const f64 lbl_8044F330 = 0.0;
 // The TWindowMenu layout table (one type-3 text record; fn_80266378 sets the row count) and
 // the window descriptor the TWindowMenu constructor passes to TWindowAddition.

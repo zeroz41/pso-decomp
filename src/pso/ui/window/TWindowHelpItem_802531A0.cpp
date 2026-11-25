@@ -34,7 +34,7 @@ void text_builder_append();
 }
 extern u8 lbl_804CF4E4[];
 extern TWindowHelpItem::CallbackWords TWindowHelpItem__description_update_callback;
-void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
+void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags);
 extern u8 window_help_item_layout_entries[];
 extern TWindowHelpItem::CallbackWords item_help_description_idle_callback;
 s32 format_item_description(u8 *item);

@@ -58,7 +58,7 @@ s32 fn_80252CBC(void);
 s32 measure_message_text_width(int, f32);
 }
 
-void set_text_entry_string(u8 *arg0, uaddr str, s32 arg2);
+void set_text_entry_string(u8 *text_entry, uaddr str, s32 flags);
 extern "C" {
 f32 vec3_dot(void *, void *);
 void rotate_matrix_y(s32, s32);
