@@ -191,37 +191,6 @@ struct Obj_800182A0;
 
 struct RecoveredGlobal_8001806C_lbl_8058D490;
 
-struct Part_8001745C {
-    Vec pos;
-    f32 radius;
-    u8 pad10[0x8];
-    u32 flags;
-    u8 pad1C[0x10];
-};
-
-struct Target_8001745C {
-    u8 pad0[0x30];
-    u32 flags30;
-    u8 pad34[0x4];
-    Vec pos;
-    u8 pad44[0x1C];
-    s32 rotY;
-    u8 pad64[0x40];
-    Part_8001745C *parts;
-    s32 nparts;
-};
-
-struct Player_8001745C {
-    u8 pad0[0x38];
-    Vec pos;
-    u8 pad44[0x1C];
-    s32 rotY;
-    u8 pad64[0x2A8 - 0x64];
-    Target_8001745C *target;
-    u8 pad2AC[0x318 - 0x2AC];
-    u32 f318;
-};
-
 struct Obj_80018660;
 
 
@@ -965,7 +934,7 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading) {
     rotate_matrix_y(0, heading);
     rotate_vector_by_matrix(0, &stack, &stack);
     pop_matrix();
-    *(f32 *)((s8 *)enemy + 0x308) = stack.x;
+    enemy->velocity.x = stack.x;
     enemy->velocity.z = stack.z;
 }
 
@@ -1054,7 +1023,7 @@ f32 TObjEnemy::enemy_wander_home(f32 speed, f32 range_x, f32 range_z, s32 turn) 
         v.z *= range_z;
         vec3_add_to(&v, &this->home_position);
         select_enemy_destination(this, v, 1);
-        *(f32 *)((s8 *)this + 0x308) = this->velocity.z = (0.0f);
+        this->velocity.x = this->velocity.z = (0.0f);
         this->m_2ac = 0;
     } else {
         this->enemy_turn_toward_dest(turn);
@@ -1131,33 +1100,32 @@ s32 TObjChara::is_target_in_attack_range() {
     Vec v;
     Vec base;
     Vec out;
-    Target_8001745C *t;
+    TObjChara *t;
     s32 i;
     s32 ang;
     f32 range;
     f32 dist;
     f32 prod;
-    Player_8001745C *p = (Player_8001745C *)this;
-    if (p->target != NULL && p->f318 != 0 &&
-        ((TObject *)(p->target))->all_parents_unqueued_for_destruction() != 0 &&
-        ((u8 * (*)(u16))find_entity_by_id)(((TObjBase *)(p->target))->get_entity_id()) != NULL) {
-        t = p->target;
-        if (!(t->flags30 & 0x800)) {
-            if (t->parts != NULL) {
-                VecCopy(&base, &t->pos);
-                for (i = 0; i < p->target->nparts; i++) {
-                    if (!(p->target->parts[i].flags & 0x02000000)) {
-                        VecCopy(&v, &p->target->parts[i].pos);
+    if (target != NULL && attack_params != NULL &&
+        target->all_parents_unqueued_for_destruction() != 0 &&
+        ((u8 * (*)(u16))find_entity_by_id)(target->get_entity_id()) != NULL) {
+        t = target;
+        if (!(t->actorFlags & 0x800)) {
+            if (t->bodies != NULL) {
+                VecCopy(&base, &t->position);
+                for (i = 0; i < target->body_count; i++) {
+                    if (!(target->bodies[i].flags & 0x02000000)) {
+                        VecCopy(&v, &target->bodies[i].offset);
                         push_matrix_from(identity_matrix);
-                        rotate_matrix_y(0, p->target->rotY);
+                        rotate_matrix_y(0, target->rotation_y);
                         rotate_vector_by_matrix(0, &v, &v);
                         pop_matrix();
                         vec3_add_to(&v, &base);
-                        subtract_vector(&v, &p->pos);
+                        subtract_vector(&v, &position);
                         dist = v.x * v.x + v.z * v.z;
-                        range = (p->target->parts[i].radius + ((TObjChara *)p)->get_attack_range()) * (p->target->parts[i].radius + ((TObjChara *)p)->get_attack_range());
+                        range = (target->bodies[i].radius + get_attack_range()) * (target->bodies[i].radius + get_attack_range());
                         ang = ((s32)angle_difference_abs(this->rotation_y, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(v.x, v.z))));
-                        if (dist < range && ang < ((TObjChara *)p)->get_attack_angle()) {
+                        if (dist < range && ang < get_attack_angle()) {
                             return 1;
                         }
                     }
@@ -1165,17 +1133,17 @@ s32 TObjChara::is_target_in_attack_range() {
             } else {
                 dist = calc_xz_distance_sq(this, reinterpret_cast<const TObjBase *>(t), &out);
                 ang = ((s32)angle_difference_abs(this->rotation_y, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(out.x, out.z))));
-                if (p->target->parts != NULL) {
-                    prod = (p->target->parts->radius + ((TObjChara *)p)->get_attack_range()) * (p->target->parts->radius + ((TObjChara *)p)->get_attack_range());
+                if (target->bodies != NULL) {
+                    prod = (target->bodies->radius + get_attack_range()) * (target->bodies->radius + get_attack_range());
                 } else {
-                    prod = ((TObjChara *)p)->get_attack_range() * ((TObjChara *)p)->get_attack_range();
+                    prod = get_attack_range() * get_attack_range();
                 }
-                if (dist <= prod && ang <= ((TObjChara *)p)->get_attack_angle()) {
+                if (dist <= prod && ang <= get_attack_angle()) {
                     return 1;
                 }
             }
         } else {
-            p->target = NULL;
+            target = NULL;
         }
     }
     return 0;
@@ -1444,11 +1412,12 @@ s32 TObjChara::select_melee_contact_body(void *source, f32 factor) {
     f32 r2;
     f32 dist;
     f32 r;
+    TObjChara *attacker = (TObjChara *)source;
     if (source != NULL) {
     if (bodies != NULL) {
         push_matrix();
         set_matrix_identity(0);
-        ((void (*)(s32, f32, f32, f32))translate_matrix)(0, -((TObjChara *)source)->position.x, -((TObjChara *)source)->position.y, -((TObjChara *)source)->position.z);
+        ((void (*)(s32, f32, f32, f32))translate_matrix)(0, -attacker->position.x, -attacker->position.y, -attacker->position.z);
         post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         for (i = 0; i < body_count; i++) {
@@ -1457,9 +1426,9 @@ s32 TObjChara::select_melee_contact_body(void *source, f32 factor) {
                 matrix_mult_vec(0, &point, &point);
             }
             dist = point.x * point.x + point.z * point.z;
-            r = (bodies[i].radius + ((TObjChara *)source)->get_attack_range()) * (bodies[i].radius + ((TObjChara *)source)->get_attack_range());
-            diff = angle_difference_abs(((TObjChara *)source)->rotation_y, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(point.x, point.z)));
-            if (dist < r && diff < ((TObjChara *)source)->get_attack_angle()) {
+            r = (bodies[i].radius + attacker->get_attack_range()) * (bodies[i].radius + attacker->get_attack_range());
+            diff = angle_difference_abs(attacker->rotation_y, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(point.x, point.z)));
+            if (dist < r && diff < attacker->get_attack_angle()) {
                 selected = i;
                 break;
             }
@@ -1470,12 +1439,12 @@ s32 TObjChara::select_melee_contact_body(void *source, f32 factor) {
         }
     } else {
         VecCopy(&point, &position);
-        subtract_vector(&point, &((TObjChara *)source)->position);
+        subtract_vector(&point, &attacker->position);
         dist2 = point.x * point.x + point.z * point.z;
-        r2 = ((TObjChara *)source)->get_attack_range() * ((TObjChara *)source)->get_attack_range();
+        r2 = attacker->get_attack_range() * attacker->get_attack_range();
         r2 = r2 * r2;
-        diff = angle_difference_abs(((TObjChara *)source)->rotation_y, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(point.x, point.z)));
-        if (r2 < dist2 || ((TObjChara *)source)->get_attack_angle() < diff) {
+        diff = angle_difference_abs(attacker->rotation_y, (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(point.x, point.z)));
+        if (r2 < dist2 || attacker->get_attack_angle() < diff) {
             return 0;
         }
     }
@@ -2082,9 +2051,9 @@ void TObjChara::apply_knockback_from_attacker(u8 *attacker, f32) {
     f32 scale;
     if (this->obj_isState2_324() != 1 && this->test_actor_flags(0x04000000) == 0) {
     VecCopy(&diff, &((TObjBase *)attacker)->position);
-    ((s32 (*)(void *, void *))subtract_vector)(&diff, ((u8 *)this) + 0x38);
+    subtract_vector(&diff, &position);
     if ((diff.x * diff.x) + (diff.z * diff.z) < (1e-05f)) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x308) = (0.0f);
+        velocity.x = (0.0f);
         this->velocity.z = (0.0f);
         return;
     }
@@ -2093,7 +2062,7 @@ void TObjChara::apply_knockback_from_attacker(u8 *attacker, f32) {
         scale = 0.0f;
     }
     normalize_vector_safe(&diff);
-    *(f32 *)((s8 *)((u8 *)this) + 0x308) = -scale * diff.x;
+    velocity.x = -scale * diff.x;
     this->velocity.z = -scale * diff.z;
     }
 }
@@ -2983,13 +2952,13 @@ void apply_actor_gravity(TObjEnemy *enemy, s32 *ground_position, f32 hover_heigh
         VecCopy((Vec *)ground_position, &position);
     }
     if (grounded != 0) {
-        ((TObjEnemy *)enemy)->velocity.y += (-0.10888889f);
-        *(f32 *)((s8 *)enemy + 0x3C) = (f32) (*(f32 *)((s8 *)enemy + 0x3C) + ((TObjEnemy *)enemy)->velocity.y);
+        enemy->velocity.y += (-0.10888889f);
+        enemy->position.y += enemy->velocity.y;
         y = position.y + hover_height;
         position.y = y;
-        if (*(f32 *)((s8 *)enemy + 0x3C) <= y) {
-            *(f32 *)((s8 *)enemy + 0x3C) = y;
-            ((TObjEnemy *)enemy)->velocity.y = 0.0f;
+        if (enemy->position.y <= y) {
+            enemy->position.y = y;
+            enemy->velocity.y = 0.0f;
             enemy->actorFlags = (s32) (enemy->actorFlags | 0x800000);
             return;
         }
@@ -3547,7 +3516,7 @@ void TObjChara::apply_anti_technique(s32 level) {
             this->status_effects[1].clear();
         }
     }
-    *(u32 *)(((u8 *)this) + 0x330) = this->actorFlags & 0x3F;
+    low_game_flags = actorFlags & 0x3F;
     clear_actor_flags(0x4000);
     this->status_effects[4].clear();
 }

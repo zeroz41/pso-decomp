@@ -899,14 +899,14 @@ void TObjPlayer::update_warp_relocation() {
     case 1:
         if (this->is_inactive() != 0) {
             this->phase = 2;
-            *(s32 *)((s8 *)((u8 *)this) + 0x658) = 4;
+            intra_map_warp.timer = 4;
         }
         break;
     case 4:
         break;
     case 2:
-        temp = *(s32 *)((s8 *)((u8 *)this) + 0x658) - 1;
-        *(s32 *)((s8 *)((u8 *)this) + 0x658) = temp;
+        temp = intra_map_warp.timer - 1;
+        intra_map_warp.timer = temp;
         if (temp <= 0) {
             this->phase = 3;
             activate_body_collision();
@@ -1692,9 +1692,9 @@ void TObjPlayer::prepare_death() {
 }
 
 void TObjPlayer::set_death_marker_pos() {
-    *(f32 *)((s8 *)(this->bodies) + 0x1C) = (f32) this->position.x;
-    *(f32 *)((s8 *)(this->bodies) + 0x20) = (f32) (8.0f + this->position.y);
-    *(f32 *)((s8 *)(this->bodies) + 0x24) = (f32) this->position.z;
+    bodies->center.x = position.x;
+    bodies->center.y = 8.0f + position.y;
+    bodies->center.z = position.z;
     this->set_actor_flags(0x800U);
 }
 
@@ -1836,7 +1836,7 @@ void TObjPlayer::begin_fall_reaction() {
     f32 z;
     G_HitByEnemy_6x4C pkt;
     z = this->velocity.z;
-    x = *(f32 *)((s8 *)this + 0x308);
+    x = this->velocity.x;
     if (newton_sqrtf(x * x + z * z) > 1e-05f) {
         this->rotation_y = (s32) ((s32) (lbl_80447148 * atan2_float(x, z)) + 0x8000);
     }
