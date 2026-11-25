@@ -2,6 +2,7 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/unk/TLobby_8007B858.h"
 #include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/unk/TScreenFadeController.h"
 #include "pso/ui/city/THunterGuildSeqOnlineTask.h"
 #include "pso/system/TLanguage.h"
@@ -129,7 +130,6 @@ void TTecLuker__sub_80234F08(void);
 void TTecLuker__sub_80234F48(void);
 s32 activate_triggered_floor_events();
 s32 restore_floor_telepipes();
-s32 __ct__15TWindowCtrlMainFv();
 
 
 // Session resources, loaded front to back by TLobby::run_lobby_load_tables and released
@@ -175,7 +175,6 @@ FloorResourceCallbacks lbl_8048D5A8[4] = {
 };
 
 void TLobby::create_tasks() {
-    uaddr tmp;
     create_area_fog_ctrl();
     if (is_split_screen() == 0) {
         new TCameraCapturePass(tl_particlemodel, 1);
@@ -188,10 +187,7 @@ void TLobby::create_tasks() {
     TSceneSora::create_instance();
     TSetManager::create();
     activate_triggered_floor_events();
-    tmp = (uaddr)TObject::operator new(0x1C);
-    if (tmp != 0U) {
-        __ct__15TWindowCtrlMainFv();
-    }
+    new TWindowCtrlMain();
     new TWindowCtrl(tl_00);
     new TScreenFadeController(tl_fade);
     TLobby::set_fade_params(0);

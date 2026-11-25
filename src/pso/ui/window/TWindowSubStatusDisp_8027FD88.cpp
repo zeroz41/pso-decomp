@@ -11,7 +11,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_80228F5C.h"
 #include "pso/enemy/dimedian/TObjEneDimedian.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8027FD88.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/ui/window/TWindowHelpItem.h"
@@ -498,21 +497,21 @@ void TWindowSubStatusDisp::vt0() {
     }
 }
 
-void vt11__20TWindowSubStatusDispFv(TWindowBase *window) {
+void TWindowSubStatusDisp::vt11() {
     TObjPlayer *p;
     player_stats *q;
     TWindowLayoutNumber *e;
-    p = get_player_by_client_id(window->client_index);
+    p = get_player_by_client_id(client_index);
     if (p != NULL) {
         q = p->get_stats();
         if (q != NULL) {
-            e = static_cast<TWindowLayoutNumber *>(window->get_array_entry(2));
+            e = static_cast<TWindowLayoutNumber *>(get_array_entry(2));
             e->value = p->get_actor_level_index() + 1;
-            e = static_cast<TWindowLayoutNumber *>(window->get_array_entry(0x10));
+            e = static_cast<TWindowLayoutNumber *>(get_array_entry(0x10));
             e->value = q->meseta;
-            e = static_cast<TWindowLayoutNumber *>(window->get_array_entry(8));
+            e = static_cast<TWindowLayoutNumber *>(get_array_entry(8));
             e->value = q->exp;
-            e = static_cast<TWindowLayoutNumber *>(window->get_array_entry(0xC));
+            e = static_cast<TWindowLayoutNumber *>(get_array_entry(0xC));
             e->value = p->get_next_level_exp() - q->exp;
         }
     }
@@ -821,56 +820,45 @@ void TWindowSubStatusDisp::vt4() {
 
 void TWindowSubStatusDisp::vt15() {  }
 
-void vt5__20TWindowSubStatusDispFv(u8 *window_base) {
-  s32 type;
-  s32 n;
-  WindowTextEntry *e;
-  s32 r;
-  u8 *new_var;
-  int new_var2;
-  s32 i;
-  if (((f32) (*((s32 *) (((s8 *) window_base) + 0x5C)))) > 7.5f)
-  {
-    *((s32 *) (((s8 *) window_base) + 0x5C)) = 7;
-  }
-  init_window_layout_entries(
-      reinterpret_cast<WindowLayoutEntries *>(window_base + 0x24),
-      &TWindowSubStatusDisp::numbered_times_layout,
-      *((s16 *) (((s8 *) window_base) + 0x20)));
-  new_var = window_base;
-  type = ((TWindowSubStatusDisp *)new_var)->get_display_mode();
-  e = (WindowTextEntry *)((TWindowBase *)window_base)->get_array_entry(0);
-  set_text_entry_string(e, (saddr)TWindowSubStatusDisp::get_message_10(status_disp_vt5_message_ids[type]), 0);
-  n = challenge_set_stage_count(type);
-  i = 0;
-  do
-  {
-    e = (WindowTextEntry *)((TWindowBase *)window_base)->get_array_entry(i + 1);
-    new_var2 = n > i;
-    if (!new_var2)
-    {
-      e->flags |= 2;
+void TWindowSubStatusDisp::vt5() {
+    s32 type;
+    s32 stage_count;
+    WindowTextEntry *e;
+    s32 time;
+    s32 i;
+    int stage_in_set;
+    if ((f32) this->open_tick > 7.5f) {
+        this->open_tick = 7;
     }
-    else
-    {
-      r = get_challenge_stage_time(i, *((s16 *) (((s8 *) window_base) + 0x20)), type);
-      if (r == 0)
-      {
-        e->flags |= 2;
-      }
-      else
-      {
-        e->flags &= ~2;
-        text_builder_reset();
-        append_padded_number(i + 1, 2);
-        text_builder_append((u8 *)":");
-        TWindowSubStatusDisp::append_play_time(r);
-        set_text_entry_string(e, get_shared_text_buffer(), 0x20);
-      }
-    }
-    i++;
-  }
-  while (i < 9);
+    init_window_layout_entries(
+        &this->entry_list,
+        &TWindowSubStatusDisp::numbered_times_layout,
+        this->client_index);
+    type = get_display_mode();
+    e = (WindowTextEntry *)get_array_entry(0);
+    set_text_entry_string(e, (saddr)TWindowSubStatusDisp::get_message_10(status_disp_vt5_message_ids[type]), 0);
+    stage_count = challenge_set_stage_count(type);
+    i = 0;
+    do {
+        e = (WindowTextEntry *)get_array_entry(i + 1);
+        stage_in_set = stage_count > i;
+        if (!stage_in_set) {
+            e->flags |= 2;
+        } else {
+            time = get_challenge_stage_time(i, this->client_index, type);
+            if (time == 0) {
+                e->flags |= 2;
+            } else {
+                e->flags &= ~2;
+                text_builder_reset();
+                append_padded_number(i + 1, 2);
+                text_builder_append((u8 *)":");
+                TWindowSubStatusDisp::append_play_time(time);
+                set_text_entry_string(e, get_shared_text_buffer(), 0x20);
+            }
+        }
+        i++;
+    } while (i < 9);
 }
 
 void TWindowSubStatusDisp::vt16() {  }

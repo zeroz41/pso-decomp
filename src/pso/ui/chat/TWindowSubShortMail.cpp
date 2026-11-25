@@ -26,7 +26,6 @@
 #include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "pso/object/warp/TObjCityMainWarp.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
-#include "pso/ui/window/TWindowSubStatusDisp_8027FD88.h"
 #include "pso/system/task/TObject.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/ui/keyboard/SystemBootInit.h"
