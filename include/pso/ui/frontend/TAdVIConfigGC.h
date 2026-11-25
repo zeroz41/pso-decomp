@@ -18,13 +18,13 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     void enable_progressive_mode();
     static void disable_progressive_mode();
     virtual void run_task();
-    void set_field_2c(s32 v);
+    void set_default_choice(s32 v);
     void open_player_names_window();
     s32 get_field_14();
     void update_visibility();
-    virtual void vfunc_6();
-    virtual void vfunc_7();
-    virtual saddr vfunc_10();
+    virtual void on_accept();
+    virtual void on_cancel();
+    virtual saddr get_message_text();
     static void *destroy(void *, s16);
 };
 

@@ -122,9 +122,9 @@ force_active:
   - state__10TAdADXlogo
   - texture__10TAdADXlogo
   - TAdADXlogo_name
-  - TAdBackTxtGC__name
+  - name__12TAdBackTxtGC
   - TAdBackTxtGC_backtext_tex_list
-  - TAdChrMoveEffectGC__class_name
+  - class_name__18TAdChrMoveEffectGC
   - TAdChrMoveEffectGC__sub_80349194
   - build_slot_entry__16TAdChrSelASlotGCFllPv
   - build_slot_entry__16TAdChrSelBSlotGCFllPv
@@ -133,12 +133,12 @@ force_active:
   - show_card_damaged_message__16TAdChrSelBSlotGCFv
   - show_card_incompatible_message__16TAdChrSelBSlotGCFv
   - show_unsupported_device_message__16TAdChrSelBSlotGCFv
-  - TAdChrSelSlotGC__name
+  - name__15TAdChrSelSlotGC
   - sub_802C754C__15TAdChrSelSlotGCFl
   - TAdDialingGC__sub_803284F8
-  - TAdDialingMessageWindow__name
-  - TAdDrawLineCtrl__class_name
-  - TAdDrawLineTask__class_name
+  - name__23TAdDialingMessageWindow
+  - class_name__15TAdDrawLineCtrl
+  - class_name__15TAdDrawLineTask
   - init_positions__20TContainerAncient01RFv
   - spawn_effect__19TContainerAncient01FPC3Vecl
   - start_anim__11TAdRicoRingFf
@@ -155,25 +155,25 @@ force_active:
   - enqueue__20TDeferredRenderQueueFP7TObject
   - input_state__22TAdEnterSerialAccessGC
   - keyboard_control__22TAdEnterSerialAccessGC
-  - TAdEnterSerialAccessGC__name
+  - name__22TAdEnterSerialAccessGC
   - set_access_key__22TAdEnterSerialAccessGCFPCc
   - set_raw_serial__22TAdEnterSerialAccessGCFPCc
   - update_text_input__22TAdEnterSerialAccessGCFl
   - update_access_key_input__22TAdEnterSerialAccessGCFv
   - update_serial_input__22TAdEnterSerialAccessGCFv
   - TAdEnterSerialAccessGC_serial_buffer
-  - TAdEp3Exist__name
+  - name__11TAdEp3Exist
   - TAdEp3Exist__sub_8036F0AC
   - prs_read_src_byte__9PrsReaderFv
   - prs_release_window__10PrsDecoderFv
-  - TAdFadeGC__name
-  - TAdFloorLoadPrtGC__class_name
+  - name__9TAdFadeGC
+  - class_name__17TAdFloorLoadPrtGC
   - emitter_angles__17TAdFloorLoadPrtGC
-  - TAdGuideTxtGC__class_name
-  - TAdLdQuestPrtGC__class_name
-  - TAdLoadNetworkGC__object_offset_table
+  - class_name__13TAdGuideTxtGC
+  - class_name__15TAdLdQuestPrtGC
+  - object_offset_table__16TAdLoadNetworkGC
   - __ct__19TAdMcSelectCursorGCFP7TObject
-  - TAdMcSelectCursorGC__texture_entry
+  - texture_entry__19TAdMcSelectCursorGC
   - TAdMultiChgGameModeGC__sub_8036DE10
   - open_message_window__20TAdSystemFileCheckGCFl
   - TAdMultiPlyChrSelectGC__ct
@@ -220,7 +220,7 @@ force_active:
   - is_shown__14TAdPlyStatusGC
   - TAdPlyStatusGC__status_window_box
   - TAdPlyStatusGC__sub_8033F8B0
-  - TAdRayGC__name
+  - name__8TAdRayGC
   - ray_texture_list__8TAdRayGC
   - TAdRayGC_ray_quad_table
   - set_draw_depth__14TAdSelectCurGCFf
@@ -8299,8 +8299,8 @@ force_active:
   - class_name__18TWindowMessagePage
   - name__20TObjBoss5PillarSmoke
   - name__19TObjBoss5PillarCtrl
-  - TChCrLoadGmNjReq__name
-  - TChCrLoadReq__name
+  - class_name__16TChCrLoadGmNjReq
+  - name__12TChCrLoadReq
   - cm_hex_tile_name
   - name__14TBoss6PlotFalz
   - name__15TBoss6EmptyWarp
@@ -8308,7 +8308,7 @@ force_active:
   - lbl_805D3FB0
   - name__16TBoss8DragonDemo
   - me1_gi_gue_barrier_name
-  - TAdDialingGC__name
+  - name__12TAdDialingGC
   - boss6_mag_name
   - lbl_805D42D8
   - class_name__10TItemEffPG
@@ -16328,7 +16328,7 @@ force_active:
   - set_body_flag__15TObjEneDelDepthFv
   - state_fade_in__18TObjEneMe3SinowZoaFl
   - update_stealth_fade__18TObjEneMe3SinowZoaFv
-  - sub_8032C0B4__14TAdYesNoBaseGCFv
+  - create_message_window__14TAdYesNoBaseGCFv
   - create_message_window__16TAdWarningBaseGCFv
   - init__18TItemWpnCardEffectFv
   - update_state_effects__9TBoss6MagFv
@@ -17373,9 +17373,9 @@ force_active:
   - check_retreat_trigger__19TObjEneMe1GeeLeaderFv
   - has_no_members__19TObjEneMe1GeeLeaderFv
   - is_message_ready__12TQuestListVMFv
-  - vfunc_10__13TAdVIConfigGCFv
-  - vfunc_10__16TAdPsoPassSaveGCFv
-  - vfunc_10__20TAdSnAkPassConfirmGCFv
+  - get_message_text__13TAdVIConfigGCFv
+  - get_message_text__16TAdPsoPassSaveGCFv
+  - get_message_text__20TAdSnAkPassConfirmGCFv
   - state_activate__19TObjEneMe1GeeLeaderFl
   - state_rise__19TObjEneMe1GeeLeaderFl
   - state_dead__19TObjEneMe1GeeLeaderFl
@@ -17577,13 +17577,13 @@ force_active:
   - on_wall_hit__12TNeedleShootFv
   - apply_saved_state__12TODoorCave01FPsl
   - display_shop_message__12TQuestListVMFll
-  - vfunc_6__13TAdVIConfigGCFv
+  - on_accept__13TAdVIConfigGCFv
   - apply_camera_params__18TCameraWatchPlayerFl
   - apply_saved_state__14TOTrapSeabed01FPsl
   - apply_saved_state__15TOAttackableColFPsl
   - apply_saved_state__15TODoorAncient08FPsl
   - apply_saved_state__15TODoorAncient09FPsl
-  - vfunc_6__16TAdPsoPassSaveGCFv
+  - on_accept__16TAdPsoPassSaveGCFv
   - apply_saved_state__16TODoorJungleMainFPsl
   - vfunc_6__17TAdExNetConfirmGCFv
   - vfunc_6__17TAdLicAgreementGCFv
@@ -17592,7 +17592,7 @@ force_active:
   - vfunc_6__18TAdTrialModemChkGCFv
   - apply_saved_state__19TContainerAncient01FPsl
   - apply_saved_state__19TOMonumentAncient02FPsl
-  - vfunc_6__20TAdSnAkPassConfirmGCFv
+  - on_accept__20TAdSnAkPassConfirmGCFv
   - apply_saved_state__20TContainerAncient01RFPsl
   - apply_saved_state__20TODoorFourLightRuinsFPsl
   - apply_saved_state__20TODoorFourLightSpaceFPsl
@@ -17603,14 +17603,14 @@ force_active:
   - apply_to_target__9TTecZaruaFP9TObjChara
   - apply_enemy_state__15TBoss3VoloptP02FPl
   - apply_to_player__10TTecDebandFP10TObjPlayer
-  - vfunc_7__13TAdVIConfigGCFv
-  - vfunc_7__16TAdPsoPassSaveGCFv
+  - on_cancel__13TAdVIConfigGCFv
+  - on_cancel__16TAdPsoPassSaveGCFv
   - vfunc_7__17TAdExNetConfirmGCFv
   - vfunc_7__17TAdLicAgreementGCFv
   - vfunc_7__18TAdAgreementBaseGCFv
   - vfunc_7__18TAdTrialModemChkGCFv
   - apply_to_player__19TTecPlayerInfluenceFP10TObjPlayer
-  - vfunc_7__20TAdSnAkPassConfirmGCFv
+  - on_cancel__20TAdSnAkPassConfirmGCFv
   - apply_to_player__8TTecAntiFP10TObjPlayer
   - apply_to_player__9TTecRestaFP10TObjPlayer
   - apply_to_player__9TTecSiftaFP10TObjPlayer
@@ -17654,7 +17654,7 @@ force_active:
   - vfunc_8__17TAdLicAgreementGCFv
   - close_main_menu__17TWindowMainMenu4PFv
   - vfunc_8__18TAdAgreementBaseGCFv
-  - vfunc_8__20TAdSnAkPassConfirmGCFv
+  - on_yes_chosen__20TAdSnAkPassConfirmGCFv
   - update_attack_trail__12TObjEneBeastFv
   - update_attack_trail__12TObjEneSharkFv
   - update_attack_trail__14TObjEneDolmOlmFv
@@ -17692,7 +17692,7 @@ force_active:
   - on_target_hit__12TNeedleShootFP14TObjCollidable
   - vfunc_9__17TAdLicAgreementGCFv
   - on_submenu_closed__17TWindowMainMenu4PFv
-  - vfunc_9__20TAdSnAkPassConfirmGCFv
+  - on_no_chosen__20TAdSnAkPassConfirmGCFv
   - on_target_hit__20TObjEneMe1Gee_NEEDLEFP14TObjCollidable
   - on_target_hit__22TObjEneMe1GiGueMissileFP14TObjCollidable
   - voiceRemovePriority
