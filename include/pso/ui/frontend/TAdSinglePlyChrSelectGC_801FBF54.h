@@ -40,7 +40,7 @@ s32 buffer_init(void);
 void game_state_load(void);
 extern "C" {
 }
-int get_split_screen_character_save_record(int a0);
+CharacterSaveRecord *get_split_screen_character_save_record(int client);
 s32 init_buffer(void);
 void init_fresh_character_card(void);
 void init_fresh_character_slot(s32 slot);

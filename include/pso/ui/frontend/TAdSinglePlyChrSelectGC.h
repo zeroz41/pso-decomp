@@ -24,6 +24,12 @@ class TAdFadeGC;
 
 struct GuildCardSaveData;
 
+// The split-screen players' buffers: a TPlyCharData and a save record for each of players 0-3.
+struct CharacterBufferTable {
+    TPlyCharData *char_data[4];
+    CharacterSaveRecord *records[4];
+};
+
 // The 0x11C bytes of the system card file (the part after the card header).
 struct SystemSaveData {
     s32 fields_equal(SystemSaveData *other);
@@ -214,14 +220,14 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     static s32 verify_save_checksum(int keep_on_mismatch);
     static void verify_save_checksum();
     static s32 write_encrypted_save();
-    static void alloc_char_records(void *table);
+    static void alloc_char_records(CharacterBufferTable *table);
     static s32 check_ready();
     static s32 check_slot_swap_allowed(void *src_file, int src_slot, void *dst_file, int dst_slot);
     static s32 check_system_load_result();
     static void clear_entry(int i);
     static s32 compare_save_headers(CharacterSaveRecord *record_a, CharacterSaveRecord *record_b, CharacterFile *file_a, CharacterFile *file_b);
     static void decrypt_char_data(void *file);
-    static void free_char_data_slots(void *table);
+    static void free_char_data_slots(CharacterBufferTable *table);
     static TPlyCharData *get_entry(int i);
     static int get_serial_seed();
     static s32 is_entry_valid(CharacterFile *self, int i);
