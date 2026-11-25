@@ -4,9 +4,9 @@
 struct TObjPlayer;
 class TPlayerLobbyMarker : public TObject {
 public:
-    TPlayerLobbyMarker(TObject *parent, s16 player_id, s8 material_index);
+    TPlayerLobbyMarker(TObject *parent, u16 player_id, u8 material_index);
     // Creates the marker under player `client`'s object; NULL when that player does not exist.
-    static TPlayerLobbyMarker *create(s16 client, s8 material_index);
+    static TPlayerLobbyMarker *create(u16 client, u8 material_index);
     virtual void run_task();
     virtual void render();
     virtual ~TPlayerLobbyMarker();

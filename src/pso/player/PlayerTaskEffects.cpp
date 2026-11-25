@@ -127,19 +127,11 @@ const char *TForceOperate::class_name = "TForceOperate";
 
 #pragma defer_codegen on
 
-extern "C" {
-extern void *__vt__18TPlayerLobbyMarker[6];
-void __ct__7TObjectFP7TObject(TObject *object, TObject *parent);
-
-TPlayerLobbyMarker *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(TPlayerLobbyMarker *marker, TObject *parent, s16 player_id, s8 material_index) {
-    __ct__7TObjectFP7TObject(marker, parent);
-    *(void ***)((u8 *)marker + 0x18) = __vt__18TPlayerLobbyMarker;
-    *(s8 *)&marker->material_index = material_index;
-    *(s8 *)&marker->flags = 0;
-    *(s16 *)&marker->player_id = player_id;
-    marker->rotation = 0;
-    return marker;
-}
+TPlayerLobbyMarker::TPlayerLobbyMarker(TObject *parent, u16 player_id, u8 material_index) : TObject(parent) {
+    this->material_index = material_index;
+    flags = 0;
+    this->player_id = player_id;
+    rotation = 0;
 }
 
 
@@ -215,8 +207,8 @@ BOOL PlayerRef::resolve() {
 }
 
 
-TPlayerLobbyMarker *TPlayerLobbyMarker::create(s16 client, s8 material_index) {
-    TObjPlayer *player = get_player_by_client_id((u16)client);
+TPlayerLobbyMarker *TPlayerLobbyMarker::create(u16 client, u8 material_index) {
+    TObjPlayer *player = get_player_by_client_id(client);
     if (player == NULL) {
         return NULL;
     }

@@ -348,7 +348,7 @@ void TLobby::apply_lobby_markers() {
         for (j = 0; j < 12; j++) {
             u8 *p = (u8*)get_player_by_client_id(j);
             if (p != NULL && *(u32*)(p + 0xDB0) == e->key) {
-                ((TObjPlayer *)p)->set_lobby_marker((u8)e->val);
+                ((TObjPlayer *)p)->set_lobby_marker(e->val);
             }
         }
     }

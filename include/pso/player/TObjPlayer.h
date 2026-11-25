@@ -902,7 +902,7 @@ struct TObjPlayer : public TObjChara {
     void update_battle_control_if_unlocked();
     void update_facing_from_lock();
     f32 get_battle_value(u16 client, s16 technique);
-    u32 set_lobby_marker(s32 material);
+    TPlayerLobbyMarker *set_lobby_marker(u8 material);
     s32 are_traps_full();
     s32 is_alive_and_ready();
     void refill_traps();

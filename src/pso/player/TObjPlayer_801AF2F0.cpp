@@ -140,6 +140,7 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/player/TObjPlayer_801D6C4C.h"
 #include "pso/player/Palettex.h"
+#include "pso/player/TPlayerLobbyMarker.h"
 
 #pragma readonly_strings on
 
@@ -511,7 +512,6 @@ void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 void TObjPlayer__sub_801BEEE0(void *, void *);
 void TObjPlayer__sub_801BEF30(void *, void *);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
-s32 set_material_index__18TPlayerLobbyMarkerFUc(u32 a0 = 0, s32 a1 = 0);
 u8 TObjPlayer__sub_801BF460(s32 *bits, s32 bit);
 void TObjPlayer__sub_801BF47C(void *p);
 void TObjPlayer__sub_801BF488(s32 *bits, s32 bit);
@@ -520,7 +520,6 @@ void set_equip_slot_entry(saddr, s32, s32);
 s32 is_action_id_none(s32);
 u8 TObjPlayer__sub_801C0124(const PlayerTechniqueState *state, s16 i);
 void *__ct__12StatusEffectFv(void *);
-u32 create__18TPlayerLobbyMarkerFsSc(u16 a0 = 0, s32 a1 = 0);
 void release_all_players_control_lock(void);
 s16 TObjPlayer__sub_801CFBFC(u8 *arg0);
 
@@ -5998,19 +5997,16 @@ s32 TObjPlayer::is_action_available() {
 
 bool TObjPlayer__sub_801AF694(TObjPlayer *player, s32 kind) { return player->trap_counts.is_empty(kind); }
 
-u32 TObjPlayer::set_lobby_marker(s32 material) {
-    u32 temp;
-
+TPlayerLobbyMarker *TObjPlayer::set_lobby_marker(u8 material) {
     if (TFontSmallLobby::is_lobby_floor_15() == 0) {
-        return 0U;
+        return NULL;
     }
-    temp = *(u32 *)((s8 *)this + 0x3B8);
-    if (temp == 0U) {
-        *(u32 *)((s8 *)this + 0x3B8) = create__18TPlayerLobbyMarkerFsSc(this->get_entity_id(), material);
+    if (lobby_marker == NULL) {
+        lobby_marker = TPlayerLobbyMarker::create(get_entity_id(), material);
     } else {
-        set_material_index__18TPlayerLobbyMarkerFUc(temp, material);
+        lobby_marker->set_material_index(material);
     }
-    return *(u32 *)((s8 *)this + 0x3B8);
+    return lobby_marker;
 }
 
 void TObjPlayer::reset_pose() { this->clear_actor_flags((uaddr)((void*)2048)); update_rotation(); }
