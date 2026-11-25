@@ -194,16 +194,16 @@ void THunterGuildSeqOnline_Server::sub_802145F8() {
                 if (is_quest_active() != 0) {
                     if (TQuestThread::get_register(quest_mission_manager, 0xFF) != 0) {
                         display_guild_message(0xB, 1);
-                        if (THunterGuildSeqOffline__quest_result_callbacks[1] != -1) {
-                            quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[1]);
+                        if (quest_result_callbacks[1] != -1) {
+                            quest_thread = TQuestThread::create_in_root(quest_result_callbacks[1]);
                         }
                         set_state(4);
                         return;
                     }
                     if (TQuestThread::get_register(quest_mission_manager, 0xFD) != 0) {
                         display_guild_message(0x12, 1);
-                        if (THunterGuildSeqOffline__quest_result_callbacks[0] != -1) {
-                            quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[0]);
+                        if (quest_result_callbacks[0] != -1) {
+                            quest_thread = TQuestThread::create_in_root(quest_result_callbacks[0]);
                         }
                         set_state(5);
                         return;
@@ -267,8 +267,8 @@ void THunterGuildSeqOnline_Server::sub_80214254() {
             choice_menu = NULL;
             display_guild_message(9, 1);
             pad_34 = 1;
-            if ((s32) THunterGuildSeqOffline__quest_result_callbacks[2] != -1) {
-                quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[2]);
+            if ((s32) quest_result_callbacks[2] != -1) {
+                quest_thread = TQuestThread::create_in_root(quest_result_callbacks[2]);
             }
             set_state(0xC);
             break;
@@ -464,14 +464,14 @@ void THunterGuildSeqOnline_Client::sub_80213980() {
         if (is_quest_active() != 0) {
             if (TQuestThread::get_register(quest_mission_manager, 0xFF) != 0) {
                 display_guild_message(0xB, 1);
-                if (THunterGuildSeqOffline__quest_result_callbacks[1] != -1) {
-                    quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[1]);
+                if (quest_result_callbacks[1] != -1) {
+                    quest_thread = TQuestThread::create_in_root(quest_result_callbacks[1]);
                 }
                 set_state(4);
             } else if (TQuestThread::get_register(quest_mission_manager, 0xFD) != 0) {
                 display_guild_message(0x12, 1);
-                if (THunterGuildSeqOffline__quest_result_callbacks[0] != -1) {
-                    quest_thread = TQuestThread::create_in_root(THunterGuildSeqOffline__quest_result_callbacks[0]);
+                if (quest_result_callbacks[0] != -1) {
+                    quest_thread = TQuestThread::create_in_root(quest_result_callbacks[0]);
                 }
                 set_state(5);
             } else {
