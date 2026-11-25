@@ -87,7 +87,7 @@ TWindowMainMenu::TWindowMainMenu(TObject *parent, s32 client) : TObject(parent) 
     s32 i;
     m_name = TWindowMainMenu__name;
     client_index = client;
-    m_4c = 0;
+    state_flags = 0;
     submenu_depth = 0;
     selected_slot = 0;
     description_item_id = 0x1F;
@@ -125,7 +125,7 @@ void TWindowMainMenu::handle_menu_selection() {
     s32 id;
     TWindowMenuMainMenu *node;
     TWindowMainMenuEntry *submenu;
-    if ((m_4c & 1) && !(m_4c & 4) && (node = menu_window) != NULL) {
+    if ((state_flags & 1) && !(state_flags & 4) && (node = menu_window) != NULL) {
         selected_slot = node->get_selected_slot();
         id = node->get_selected_item_type();
         update_description_text(id);

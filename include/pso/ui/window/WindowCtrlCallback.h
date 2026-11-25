@@ -2,9 +2,9 @@
 #define PSO_UI_WINDOW_WINDOWCTRLCALLBACK_H
 
 #include "types.h"
-struct TWindowCtrl;
-typedef void (TWindowCtrl::*PlayerWindowCommand)();
-typedef s32 (TWindowCtrl::*PlayerWindowQuery)();
+struct TWindowCtrlPlayer;
+typedef void (TWindowCtrlPlayer::*PlayerWindowCommand)();
+typedef s32 (TWindowCtrlPlayer::*PlayerWindowQuery)();
 
 LAYOUT_ASSERT(PlayerWindowCommandSize, sizeof(PlayerWindowCommand) == 0xC);
 LAYOUT_ASSERT(PlayerWindowQuerySize, sizeof(PlayerWindowQuery) == 0xC);

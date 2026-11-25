@@ -1775,7 +1775,7 @@ force_active:
   - TWindowCtrlMain__sub_8024CE34
   - TWindowCtrlMain__sub_8024D2A4
   - TWindowCtrlSub__name
-  - update_countdown__11TWindowCtrlFv
+  - update_countdown__17TWindowCtrlPlayerFv
   - TWindowCtrl__sub_8026D4E8
   - __sinit_TWindowDD_80340A78_cpp
   - __ct__19TWindowDD_WS_StringFPfPfUll
@@ -15641,7 +15641,7 @@ force_active:
   - shop_weapon_stock_target_counts
   - should_show_warning__14TObjBagWarnWinFPv
   - show__5TItemFv
-  - show_active_window__11TWindowCtrlFv
+  - show_active_window__17TWindowCtrlPlayerFv
   - show_already_healthy__22TMedicalCenterSequenceFv
   - show_ctrl_and_play_effect__6TLobbyFPv
   - show_declined__22TMedicalCenterSequenceFv
@@ -16728,7 +16728,7 @@ force_active:
   - update_chase_target__14TObjEneIllGillFv
   - update_chase_target__9TObjGrassFv
   - update_chat_parts__12TWindowTimerFv
-  - update_child_window_visibility__11TWindowCtrlFv
+  - update_child_window_visibility__17TWindowCtrlPlayerFv
   - clear_slots__18PhotonBlastRequestFv
   - update_chime_countdown__13TObjWarnChimeFv
   - update_circling_state__16TObjEneNanoDragoFv
@@ -17002,7 +17002,7 @@ force_active:
   - update_mag_help__13TWindowSubMagFv
   - update_mail_count__19TWindowSubShortMailFv
   - update_main_menu__12TCharaMakingFl
-  - update_main_menu_request__11TWindowCtrlFv
+  - update_main_menu_request__17TWindowCtrlPlayerFv
   - update_make_team_menu__6TLobbyFv
   - update_max_hp_phase__12TBoss1DragonFv
   - update_mc_select__22TQuestVmDownLoadServerFv
@@ -17172,7 +17172,7 @@ force_active:
   - update_shop_close__22THunterGuildSeqOfflineFPv
   - update_short_action__8TItemMagFv
   - update_short_list__6TLobbyFv
-  - update_short_list_request__11TWindowCtrlFv
+  - update_short_list_request__17TWindowCtrlPlayerFv
   - update_shown__14TAdPlyStatusGCFv
   - update_shutter_slide__17TObjVoloptShutterFv
   - update_shutter_state__17TObjVoloptShutterFv
@@ -17282,7 +17282,7 @@ force_active:
   - update_target_follow__11TCameraCtrlFv
   - update_target_from_state__11TCameraCtrlFv
   - update_target_from_state__13TBoss5GryphonFv
-  - update_target_info_window__11TWindowCtrlFv
+  - update_target_info_window__17TWindowCtrlPlayerFv
   - update_target_position__9TBoss4UroFv
   - update_target_smoothing__11TCameraCtrlFv
   - update_target_y__11TWindowMenuFv
@@ -17303,7 +17303,7 @@ force_active:
   - update_title_tex_positions__13TAdTitleTexGCFv
   - update_toggle_state__18TObjLiveCameraCtrlFv
   - update_topple_state__16TBoss3VoloptCoreFv
-  - update_trade_window_visibility__11TWindowCtrlFv
+  - update_trade_window_visibility__17TWindowCtrlPlayerFv
   - update_trail_quads__16TAdGuideButtonGCFv
   - update_trails__11TItemWeaponFv
   - update_transition__11TItemMagSubFv

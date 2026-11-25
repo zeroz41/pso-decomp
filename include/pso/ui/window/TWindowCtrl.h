@@ -110,17 +110,6 @@ struct TWindowCtrl : public TObject {
     static s32 get_flag_bit4();
     static s32 get_flag_bit5();
     static s32 get_display_flag();
-    int is_enabled();
-    s32 is_visible();
-    s32 get_active_menu();
-    void update_short_list_request();
-    void show_active_window();
-    void update_main_menu_request();
-    void update_target_info_window();
-    void update_child_window_visibility();
-    void update_trade_window_visibility();
-    void run_all_updates();
-    void update_countdown();
     static TWindowMessageLog *get_field44();
     static void set_flag_active();
     static void clear_flag_8();
@@ -135,25 +124,6 @@ struct TWindowCtrl : public TObject {
     int is_flag_2_set();
     void set_flag1e_bit8();
     void clear_flag1e_bit8();
-    void set_radar_dirty_flag();
-    void clear_flag_bit0();
-    // Mark chat balloon slot 0 taken or free (see TWindowFukidasi::alloc_nearest_free_slot).
-    void reserve_balloon_slot_0();
-    void release_balloon_slot_0();
-    void disable_main_menu();
-    void enable_main_menu();
-    void hide_lock_on_window();
-    void show_lock_on_window();
-    void begin_keyboard_hold();
-    void end_keyboard_hold();
-    void hide_status_window();
-    void show_status_window();
-    s32 has_get_com_card_window();
-    s32 is_main_menu_disabled();
-    s32 is_lock_on_window_hidden();
-    s32 is_status_window_hidden();
-    void start_countdown();
-    s32 is_countdown_done();
 };
 
 LAYOUT_ASSERT(WindowCtrlTradeRequestOffset, offsetof(TWindowCtrl, trade_request) == 0x40);
