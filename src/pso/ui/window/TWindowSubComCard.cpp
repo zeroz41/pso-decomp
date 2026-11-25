@@ -1577,7 +1577,7 @@ void TWindowSubComCard::update_selection(TWindowMenu *list_window, TWindowComCar
         selected_value = list_window->get_selected_value();
         if (selected_value != *last_selected) {
             *last_selected = selected_value;
-            card_window->sub_80249920(selected_value, cards);
+            card_window->set_display_entry(selected_value, cards);
         }
     }
 }

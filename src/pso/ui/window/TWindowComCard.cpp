@@ -148,7 +148,7 @@ void TWindowComCard::set_display_value(s32 card_index, s32 cards) {
     }
 }
 
-void TWindowComCard::sub_80249920(s32 card_index, s32 records) {
+void TWindowComCard::set_display_entry(s32 card_index, s32 records) {
     saddr temp = records + (card_index * 0x90);
     if (temp != 0) {
         update_com_card_display(&entry_list, (void *)temp);
