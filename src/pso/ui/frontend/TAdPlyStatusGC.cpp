@@ -73,14 +73,14 @@ void TAdPlyStatusGC::render() { if (TMainTask::get_render_pass() != 1) { set_col
 struct Box_8033F3D8 { f32 v[8]; };
 struct Item_8033F3D8 { s8 valid; u8 pad[0xF]; };
 
-void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
+void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *context) {
     Item_8033F3D8 items[3];
     Box_8033F3D8 box;
     NJS_POINT2 pts[3];
     NJS_POINT2 pts2[3];
     s32 i;
 
-    ((TWindowBase *)window_base)->draw_window_frame(arg1);
+    ((TWindowBase *)window_base)->draw_window_frame(context);
     if (ply_status_preview != NULL && ply_status_preview->is_unloaded() != 0 && TAdPlyStatusGC::is_shown != 0 &&
         ply_status_preview->get_status_sub()->textures->texaddr != 0) {
         box = TAdPlyStatusGC__status_window_box;
@@ -95,7 +95,7 @@ void draw_status_window__14TAdPlyStatusGCFPvPv(void *window_base, void *arg1) {
         TWindowSubStatusDisp::get_player();
     }
     ((TAdPlyStatusGC *)items)->format_status_strings();
-    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(arg1), 1, 1, 0.8f, 100000.0f);
+    set_text_draw_params(reinterpret_cast<WindowDrawContext *>(context), 1, 1, 0.8f, 100000.0f);
     for (i = 0; i < 3; i++) {
         pts[i].x = ply_status_window_points_first[i].x + OFF_8033F3D8.x;
         pts[i].y = ply_status_window_points_first[i].y + OFF_8033F3D8.y;

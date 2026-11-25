@@ -27,7 +27,7 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
     s32 var_r29;
     WindowSpritePart *part_flags;
     WindowSpritePart *parts_entry;
-    WindowSpritePart *temp_r3_3;
+    WindowSpritePart *window_sprite_part;
     u16 temp_r8;
     u32 temp_r4;
     const SymbolChatPart *part;
@@ -52,11 +52,11 @@ s32 TWindowSubSymbolChatPartsSet::select_symbol_chat_record(s8 *arg1, s32 *arg2)
         do {
             part_flags = get_parts_entry(this, i);
             parts_entry = get_parts_entry((saddr)i);
-            temp_r3_3 = TWindowSubSymbolChatPartsSet__sub_802482B8(this, i);
+            window_sprite_part = TWindowSubSymbolChatPartsSet__sub_802482B8(this, i);
             i += 1;
             part_flags->flags |= 2;
             parts_entry->flags |= 2;
-            temp_r3_3->flags |= 2;
+            window_sprite_part->flags |= 2;
         } while (i < 4);
         selection_mode = 2;
         return 0;
@@ -96,7 +96,7 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *arg1) {
   s32 sel;
   WindowSpritePart *parts_entry;
   WindowSpritePart *temp_r31;
-  WindowSpritePart *temp_r3;
+  WindowSpritePart *window_sprite_part;
   SymbolChatPreset *instance;
   result_out = arg1;
   m_94 = 2.0f;
@@ -115,11 +115,11 @@ void TWindowSubSymbolChatPartsSet::init_symbol_layout(s32 *arg1) {
   {
     parts_entry = TWindowSubSymbolChatPartsSet::get_parts_entry(this, sel);
     temp_r31 = this->get_parts_entry((saddr)sel);
-    temp_r3 = TWindowSubSymbolChatPartsSet__sub_802482B8(this, sel);
+    window_sprite_part = TWindowSubSymbolChatPartsSet__sub_802482B8(this, sel);
     sel += 1;
     parts_entry->flags |= 2;
     temp_r31->flags |= 2;
-    temp_r3->flags |= 2;
+    window_sprite_part->flags |= 2;
   }
   while (sel < 4);
   instance = reinterpret_cast<SymbolChatPreset *>(TWindowSubSymbolChat::get_instance());
