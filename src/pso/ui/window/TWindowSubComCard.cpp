@@ -157,7 +157,6 @@ void TWindowSubComCard__sub_8007AF10(s32 client_id);
 s32 TLobby__sub_8024259C();
 }
 extern "C" {
-void TWindowSubComCard__sub_80249144(void *window_choice_setting);
 u32 TWindowSubComCard__sub_80272640(void *);
 u32 TWindowSubComCard__sub_80272A98(void *);
 u32 TWindowSubComCard__sub_8027337C();
@@ -792,7 +791,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x2B:
-        TWindowSubComCard__sub_80249144((void *)this->entry_list_window);
+        ((TWindowChoiceSetting *)this->entry_list_window)->sub_80249144();
         this->m_64 = this->create_option_list_window(choice_selections, (s32)((int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry())));
         this->state = 0x2CU;
     case 0x2C:
@@ -893,7 +892,7 @@ void TWindowSubComCard::run_task() {
         }
         break;
     case 0x37:
-        TWindowSubComCard__sub_80249144((void *)this->entry_list_window);
+        ((TWindowChoiceSetting *)this->entry_list_window)->sub_80249144();
         option_record = (CharacterSaveRecord *)get_character_save_record(0xFFFF);
         this->m_64 = this->create_option_list_window(option_record->choice_search, (s32)((int) (((TWindowMenuInfomation *)(this->entry_list_window))->update_selected_entry())));
         this->state = 0x38U;
@@ -1355,7 +1354,7 @@ u32 TWindowSubComCard::sub_80272DE0() {
     saddr w;
     Ent_80272CB0 *e;
     List_80272CB0 *l;
-    w = (saddr)create_choice_setting_window__17TWindowSubComCardFiii((const NJS_POINT2 *)get_window_layout_position(0x8C), (const NJS_POINT2 *)com_card_choice_list_size, 6);
+    w = (saddr)TWindowChoiceSetting::create_choice_setting_window((const NJS_POINT2 *)get_window_layout_position(0x8C), (const NJS_POINT2 *)com_card_choice_list_size, 6);
     ((TWindowMenuInfomation *)w)->create_sub_window((const char *)get_message_text(0x49));
     l = (List_80272CB0 *)this->chr_select;
     idx = 0;
@@ -1385,7 +1384,7 @@ s32 TWindowSubComCard::create_entry_list_window() {
     List_80272CB0 *l;
     card = (u8 *)get_character_save_record(0xFFFF);
     hard = TLobby::open_hard_keyboard(client_id);
-    w = (saddr)create_choice_setting_window__17TWindowSubComCardFiii((const NJS_POINT2 *)get_window_layout_position(0x8C), (const NJS_POINT2 *)com_card_entry_list_size, 6);
+    w = (saddr)TWindowChoiceSetting::create_choice_setting_window((const NJS_POINT2 *)get_window_layout_position(0x8C), (const NJS_POINT2 *)com_card_entry_list_size, 6);
     ((TWindowMenuInfomation *)w)->create_sub_window((const char *)TWindowSubStatusDisp::get_message_10(0x6D));
     ((TWindowMenuInfomation *)w)->update_next_entry((saddr)((void*)TWindowSubStatusDisp::get_message_10(0x6D)), (saddr)this->get_message_10(hard), 0);
     l = *(List_80272CB0 **)(((u8 *)this) + 0x58);

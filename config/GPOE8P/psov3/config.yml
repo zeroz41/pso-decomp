@@ -1825,7 +1825,7 @@ force_active:
   - class_name__21TWindowSubComCardList
   - TWindowSubComCard__sub_8007AC7C
   - TWindowSubComCard__sub_80245A10
-  - TWindowSubComCard__sub_80249220
+  - sub_80249220__20TWindowChoiceSettingFPC10NJS_POINT2l
   - TWindowSubComCard__sub_80272640
   - TWindowSubComCard__sub_802728CC
   - TWindowSubComCard__sub_80272A98

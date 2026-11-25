@@ -11,6 +11,10 @@ struct TWindowChoiceSetting : public TWindowMenuInfomation {
     void sub_80249078();
     s16 get_field_74();
     void begin_scroll(f32 height);
+    void sub_80249144();
+    static TWindowChoiceSetting *create_choice_setting_window(
+        const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 rows);
+    static void sub_80249220(const NJS_POINT2 *extent, s32 rows);
     virtual void render();
     u16 m_80;
     virtual void run_task();
@@ -21,9 +25,6 @@ LAYOUT_ASSERT(TWindowChoiceSetting_size, sizeof(TWindowChoiceSetting) == 0x84);
 extern "C" {
 void TWindowMenuInfomation__ct(TWindowMenuInfomation *window, u32 rows);
 void fn_80268C5C(const NJS_POINT2 *extent, s32 rows);
-TWindowChoiceSetting *create_choice_setting_window__17TWindowSubComCardFiii(
-    const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 rows);
-void render__21TWindowMenuInfomationFv(u8 *arg0);
 }
 TWindowMenuInfomation *create_information_counter_window(s32 rows);
 

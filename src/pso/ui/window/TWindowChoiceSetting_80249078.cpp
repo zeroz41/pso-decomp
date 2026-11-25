@@ -42,8 +42,6 @@ void TWindowChoiceSetting::sub_80249078() {
 }
 #pragma pop
 
-extern "C" {
-
 void TWindowChoiceSetting::begin_scroll(f32 height) {
     u16 flags = m_80;
     if (flags & 1) {
@@ -53,33 +51,29 @@ void TWindowChoiceSetting::begin_scroll(f32 height) {
     }
 }
 
-void TWindowSubComCard__sub_80249144(void *window_choice_setting) {
-    u16 temp_r4;
+void TWindowChoiceSetting::sub_80249144() {
+    u16 flags;
     void *e;
-    temp_r4 = ((TWindowChoiceSetting *)window_choice_setting)->m_80;
-    if (!(temp_r4 & 1)) {
-        ((TWindowChoiceSetting *)window_choice_setting)->m_80 = (u16) (temp_r4 | 1);
-        e = (void *)(((TWindowBase *)window_choice_setting)->get_array_entry((s32)((TWindowChoiceSetting *)window_choice_setting)->get_field_74()));
-        ((TWindowChoiceSetting *)window_choice_setting)->target_size[1] = 20.0f + *(f32 *)((s8 *)e + 0x14);
-        if (((TWindowChoiceSetting *)window_choice_setting)->window_flags & 0x40) {
-            ((TWindowChoiceSetting *)window_choice_setting)->target_size[1] += 6.0f;
+    flags = m_80;
+    if (!(flags & 1)) {
+        m_80 = (u16)(flags | 1);
+        e = get_array_entry(get_field_74());
+        target_size[1] = 20.0f + *(f32 *)((s8 *)e + 0x14);
+        if (window_flags & 0x40) {
+            target_size[1] += 6.0f;
         }
-        *(s32 *)((s8 *)window_choice_setting + 0x50) = 3;
+        tween_ticks = 3;
     }
 }
 
-void TWindowSubComCard__sub_80249220(const NJS_POINT2 *extent, s32 rows);
-
-TWindowChoiceSetting *create_choice_setting_window__17TWindowSubComCardFiii(
+TWindowChoiceSetting *TWindowChoiceSetting::create_choice_setting_window(
     const NJS_POINT2 *position, const NJS_POINT2 *extent, s32 rows) {
-    TWindowSubComCard__sub_80249220(extent, rows);
+    sub_80249220(extent, rows);
     return new TWindowChoiceSetting(const_cast<NJS_POINT2 *>(position), rows);
 }
 
-void TWindowSubComCard__sub_80249220(const NJS_POINT2 *extent, s32 rows) {
+void TWindowChoiceSetting::sub_80249220(const NJS_POINT2 *extent, s32 rows) {
     fn_80268C5C(extent, rows);
-}
-
 }
 
 void TWindowChoiceSetting::render() {
