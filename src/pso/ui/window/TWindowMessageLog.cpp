@@ -227,10 +227,10 @@ void chat_log_add_line(const char *text) {
 
 void append_text_space(void);
 
-void post_chat_log_message(u16 id, s32 *shared_text_buffer) {
+void post_chat_log_message(u16 id, const char *text) {
     char *str;
     if ((s32) id == (s32) local_client_id) {
-        cache_last_chat_line((uaddr)shared_text_buffer);
+        cache_last_chat_line((uaddr)text);
     }
     str = TWindowMessageLog::get_active_photon_object(id);
     text_builder_reset();
@@ -240,13 +240,13 @@ void post_chat_log_message(u16 id, s32 *shared_text_buffer) {
         text_builder_append((u8 *)">");
         append_text_space();
     }
-    text_builder_append((u8 *)shared_text_buffer);
-    shared_text_buffer = (s32 *) get_shared_text_buffer();
-    chat_log_add_line((const char *)shared_text_buffer);
+    text_builder_append((u8 *)text);
+    text = (const char *)get_shared_text_buffer();
+    chat_log_add_line(text);
     {
         TWindowMessageLog *log = TWindowCtrl::get_field44();
         if (log != NULL) {
-            log->append_line((saddr) shared_text_buffer);
+            log->append_line((saddr)text);
         }
     }
 }

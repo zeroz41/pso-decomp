@@ -77,12 +77,6 @@ struct Ply_8024AA08 { u8 pad[0xDB0]; u32 f; };
 
 extern "C" {
 
-s32 post_chat_log_message();
-
-}
-
-extern "C" {
-
 
 }
 
@@ -645,7 +639,7 @@ saddr TWindowCtrl::open(u16 id, const char *text, s32 flags) {
         return 0;
     }
     if (flags & 0x40) {
-        post_chat_log_message();
+        post_chat_log_message(id, text);
     }
     temp_r3 = (saddr)instance->show_chat_balloon(id, flags, text, static_cast<s32>(local_client_id));
     if (temp_r3 == 0) {
