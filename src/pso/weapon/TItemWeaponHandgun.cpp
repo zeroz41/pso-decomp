@@ -1,38 +1,38 @@
 #include "types.h"
-#include "pso/weapon/TUnk_804A2C90.h"
+#include "pso/weapon/TItemWeaponHandgun.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/item/TItemEffLandHit.h"
 #include "pso/system/task/TMainTask.h"
 
-void TUnk_804A2C90::update_weapon() {
+void TItemWeaponHandgun::update_weapon() {
     if (get_item_index() == 6) {
         refresh_owner_stats();
     }
 }
 
-TUnk_804A2D88::TUnk_804A2D88(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponSuppressedGun::TItemWeaponSuppressedGun(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
 }
 
-TItem *create_suppressed_gun_weapon(u8 *item) {
+TItem *TItemWeaponSuppressedGun::create(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804A2D88(tl_05, item);
+        return new TItemWeaponSuppressedGun(tl_05, item);
     }
     return NULL;
 }
 
-TUnk_804A2C90::TUnk_804A2C90(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponHandgun::TItemWeaponHandgun(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
     if (item[2] >= 5U) {
         set_color_node(-1);
     }
 }
 
-TItem *create_handgun_weapon(u8 *item) {
+TItem *TItemWeaponHandgun::create(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804A2C90(tl_05, item);
+        return new TItemWeaponHandgun(tl_05, item);
     }
     return NULL;
 }
 
-TUnk_804A2C90::~TUnk_804A2C90() {}
+TItemWeaponHandgun::~TItemWeaponHandgun() {}

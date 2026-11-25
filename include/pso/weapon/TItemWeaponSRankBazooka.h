@@ -1,11 +1,11 @@
 #ifndef PSO_WEAPON_TITEMWEAPONSRANKBAZOOKA_H
 #define PSO_WEAPON_TITEMWEAPONSRANKBAZOOKA_H
 #include "types.h"
-#include "pso/weapon/TUnk_804A4948.h"
+#include "pso/weapon/TItemWeaponSRank.h"
 
 // The S-rank bazooka-type weapon class: after a shot
 // (vfunc_62) update_weapon slides the barrel back and returns it.
-class TItemWeaponSRankBazooka : public TUnk_804A4948 {
+class TItemWeaponSRankBazooka : public TItemWeaponSRank {
 public:
     virtual void transform_model_node();
     virtual void update_weapon();

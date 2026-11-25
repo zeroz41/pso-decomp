@@ -22,7 +22,7 @@ void TItemWeaponSRankPsychogun::draw_held_model() {
 
 TItemWeaponSRankPsychogun::~TItemWeaponSRankPsychogun() {}
 
-TItemWeaponSRankPsychogun::TItemWeaponSRankPsychogun(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+TItemWeaponSRankPsychogun::TItemWeaponSRankPsychogun(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     set_weapon_flags(547);
     shot_callback = (WeaponShotCallback)create_gun_shot;
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;

@@ -13,7 +13,7 @@ void TItemWeaponSRankWand::vfunc_62() {
     }
 }
 
-TItemWeaponSRankWand::TItemWeaponSRankWand(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {}
+TItemWeaponSRankWand::TItemWeaponSRankWand(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {}
 
 
 TItem *TItemWeaponSRankWand::create(u8 *item) {

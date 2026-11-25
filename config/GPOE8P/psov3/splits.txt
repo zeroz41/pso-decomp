@@ -2374,7 +2374,7 @@ pso/weapon/TItemWeapon.cpp:
 	.data       start:0x804A06C8 end:0x804A07C0
 	.sdata2     start:0x805DACA8 end:0x805DACB4
 
-pso/weapon/TUnk_804A07C0.cpp:
+pso/weapon/TItemWeaponSpecialGun.cpp:
 	.text       start:0x80121278 end:0x80121370
 	.data       start:0x804A07C0 end:0x804A08B8
 
@@ -2614,7 +2614,7 @@ pso/weapon/TItemWeaponMonkeyKingBar.cpp:
 	.data       start:0x804A3928 end:0x804A3A20
 	.sdata2     start:0x805DADE0 end:0x805DADEC
 
-pso/weapon/TUnk_804A3A20.cpp:
+pso/weapon/TItemWeaponSRankBlade.cpp:
 	.text       start:0x801282C0 end:0x801283BC
 	.data       start:0x804A3A20 end:0x804A3B20
 
@@ -2626,7 +2626,7 @@ pso/weapon/TItemWeaponSRankClaw.cpp:
 	.text       start:0x801284F0 end:0x80128630
 	.data       start:0x804A3C20 end:0x804A3D20
 
-pso/weapon/TUnk_804A3D20.cpp:
+pso/weapon/TItemWeaponSRankGun.cpp:
 	.text       start:0x80128630 end:0x80128728
 	.data       start:0x804A3D20 end:0x804A3E20
 
@@ -2683,7 +2683,7 @@ pso/weapon/TItemWeaponSRankWindmill.cpp:
 	.text       start:0x8012A224 end:0x8012A470
 	.data       start:0x804A4848 end:0x804A4948
 
-pso/weapon/TUnk_804A4948.cpp:
+pso/weapon/TItemWeaponSRank.cpp:
 	.text       start:0x8012A470 end:0x8012AA0C
 	.data       start:0x804A4948 end:0x804A4A88
 	.sdata2     start:0x805DAE60 end:0x805DAE68
@@ -2693,7 +2693,7 @@ pso/weapon/TItemWeaponLavisCannon.cpp:
 	.data       start:0x804A4A88 end:0x804A4B80
 	.sdata2     start:0x805DAE68 end:0x805DAE74
 
-pso/weapon/TUnk_804A4B80.cpp:
+pso/weapon/TItemWeaponHeavenPunisher.cpp:
 	.text       start:0x8012ABCC end:0x8012AF98
 	.data       start:0x804A4B80 end:0x804A4C78
 

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/weapon/TUnk_804A4948.h"
+#include "pso/weapon/TItemWeaponSRank.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemEquipBase.h"
@@ -52,14 +52,14 @@ s32 resolve_hittable_target(s32, s32);
 }
 
 
-TItem *TObjPlayer::create_srank_common_weapon(u8 *item) {
+TItem *TItemWeaponSRank::create(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804A4948(tl_05, item);
+        return new TItemWeaponSRank(tl_05, item);
     }
     return NULL;
 }
 
-TUnk_804A4948::TUnk_804A4948(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponSRank::TItemWeaponSRank(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(2);
     kind = get_item_index();
     switch (kind) {
@@ -114,9 +114,9 @@ TUnk_804A4948::TUnk_804A4948(TObject *parent, u8 *item) : TItemWeapon(parent, it
     }
 }
 
-TUnk_804A4948::~TUnk_804A4948() {}
+TItemWeaponSRank::~TItemWeaponSRank() {}
 
-void TUnk_804A4948::on_equipped() {
+void TItemWeaponSRank::on_equipped() {
     switch (kind) {
     case 3:
         new TUnk_804A0648(effect_objects, get_owner_client(), 0x5A);
@@ -127,7 +127,7 @@ void TUnk_804A4948::on_equipped() {
     }
 }
 
-void TUnk_804A4948::emit_marker_effects() {
+void TItemWeaponSRank::emit_marker_effects() {
   u8 *self_bytes = (u8 *)this;
   Vec gun_point;
   s32 weapon_kind;
@@ -149,7 +149,7 @@ void TUnk_804A4948::emit_marker_effects() {
       }
       if (((TItemWeapon *)self_bytes)->is_mode_two_and_ready() != 0)
       {
-        ((TUnk_804A4948 *)self_bytes)->send_srank_stat_extra_to_locks();
+        ((TItemWeaponSRank *)self_bytes)->send_srank_stat_extra_to_locks();
         return;
       }
       ((TItemWeapon *)self_bytes)->update_active_game_effect();
@@ -166,7 +166,7 @@ void TUnk_804A4948::emit_marker_effects() {
   }
 }
 
-void TUnk_804A4948::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body) {
+void TItemWeaponSRank::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 attack_kind, f32 scale, s32 body) {
     TObjPlayer *player;
     if (get_mode() == 2) {
         player = owner;
@@ -189,7 +189,7 @@ void TUnk_804A4948::deliver_hit(TObjPlayer *attacker, TObjChara *target, s32 att
 }
 
 
-void TUnk_804A4948::send_srank_stat_extra(uaddr target, s32 body) {
+void TItemWeaponSRank::send_srank_stat_extra(uaddr target, s32 body) {
     StatExtraTargetView *obj = (StatExtraTargetView *)target;
     u32 sender;
     StatExtraParam t1;
@@ -213,7 +213,7 @@ void TUnk_804A4948::send_srank_stat_extra(uaddr target, s32 body) {
         }
     }
 }
-void TUnk_804A4948::send_srank_stat_extra_to_locks() {
+void TItemWeaponSRank::send_srank_stat_extra_to_locks() {
   CapturedTargetList *st;
   s32 i;
   CapturedTarget *e;

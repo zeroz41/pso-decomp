@@ -153,7 +153,7 @@ void TItemWeaponSRankPunch::draw_held_model() {
 
 TItemWeaponSRankPunch::~TItemWeaponSRankPunch() {}
 
-TItemWeaponSRankPunch::TItemWeaponSRankPunch(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+TItemWeaponSRankPunch::TItemWeaponSRankPunch(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     this->effect_flags.set(32);
     set_weapon_flags(515);
     impact_callback = (WeaponHitCallback)TObjPlayer::notify_hit_target;

@@ -25,7 +25,7 @@ void TItemWeaponSRankNeedle::emit_marker_effects() {
     launch_shot((u8 *)&pos, 4, needle_spread_angles[4], 1);
 }
 
-TItemWeaponSRankNeedle::TItemWeaponSRankNeedle(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+TItemWeaponSRankNeedle::TItemWeaponSRankNeedle(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     set_weapon_flags(2);
     hit_callback = (WeaponHitCallback)spawn_target_needle;
     impact_callback = (WeaponHitCallback)spawn_needle_wall_impact;

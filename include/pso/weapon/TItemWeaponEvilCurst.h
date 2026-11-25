@@ -1,12 +1,12 @@
-#ifndef PSO_WEAPON_TUNK_804A204C_H
-#define PSO_WEAPON_TUNK_804A204C_H
+#ifndef PSO_WEAPON_TITEMWEAPONEVILCURST_H
+#define PSO_WEAPON_TITEMWEAPONEVILCURST_H
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-class TUnk_804A204C : public TItemWeapon {
+class TItemWeaponEvilCurst : public TItemWeapon {
 public:
-    TUnk_804A204C(TObject *parent, u8 *item);
-    virtual ~TUnk_804A204C();
+    TItemWeaponEvilCurst(TObject *parent, u8 *item);
+    virtual ~TItemWeaponEvilCurst();
     virtual void on_equipped();
     virtual void transform_model_node();
     virtual void draw_held_model();
@@ -19,6 +19,6 @@ public:
     s32 swing_angle;      // the model's swing about y, drawn by transform_model_node
     s32 floor_area;       // floor update_weapon last spawned its star light on
 };
-LAYOUT_ASSERT(TUnk_804A204C_size, sizeof(TUnk_804A204C) == 0x208);
+LAYOUT_ASSERT(TItemWeaponEvilCurst_size, sizeof(TItemWeaponEvilCurst) == 0x208);
 
 #endif

@@ -19,7 +19,7 @@ void TItemWeaponSRankMechgun::draw_held_model() {
     sample_dual_muzzles(&shot_origins[0], &shot_origins[1]);
 }
 
-TItemWeaponSRankMechgun::TItemWeaponSRankMechgun(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+TItemWeaponSRankMechgun::TItemWeaponSRankMechgun(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     set_weapon_flags(515);
     impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
 }

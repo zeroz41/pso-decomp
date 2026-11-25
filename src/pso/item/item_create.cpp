@@ -84,43 +84,43 @@
 #include "pso/system/scene/TEnding.h"
 #include "pso/unk/text_8035D444.h"
 #include "pso/weapon/SpecialProjectileWeapons.h"
-#include "pso/weapon/TUnk_804A204C.h"
+#include "pso/weapon/TItemWeaponEvilCurst.h"
 #include "pso/weapon/TItemWeaponMechgun.h"
-#include "pso/weapon/TUnk_804A07C0.h"
-#include "pso/weapon/TUnk_804A0CB8.h"
+#include "pso/weapon/TItemWeaponSpecialGun.h"
+#include "pso/weapon/TItemWeaponBelraCannon.h"
 #include "pso/weapon/TItemWeaponGuldMilla.h"
 #include "pso/weapon/TItemWeaponDagger.h"
 #include "pso/weapon/TItemWeaponHildebluesCane.h"
 #include "pso/weapon/TItemWeaponFlowerBouquet.h"
-#include "pso/weapon/TUnk_804A1478.h"
+#include "pso/weapon/TItemWeaponWand.h"
 #include "pso/weapon/TItemWeaponStrikerOfChao.h"
 #include "pso/weapon/TItemWeaponWokOfAkikosShop.h"
-#include "pso/weapon/TUnk_804A1C38.h"
+#include "pso/weapon/TItemWeaponClaw.h"
 #include "pso/weapon/TItemWeaponSorcerersCane.h"
-#include "pso/weapon/TUnk_804A1F20.h"
+#include "pso/weapon/TItemWeaponDelsabersBuster.h"
 #include "pso/weapon/TItemWeaponFlameVisit.h"
 #include "pso/weapon/TItemWeaponFrozenShooter.h"
-#include "pso/weapon/TUnk_804A2C90.h"
+#include "pso/weapon/TItemWeaponHandgun.h"
 #include "pso/weapon/TItemWeaponAgito.h"
 #include "pso/weapon/TItemWeaponLavisBlade.h"
 #include "pso/weapon/TItemWeaponMagicalPiece.h"
-#include "pso/weapon/TUnk_804A3738.h"
-#include "pso/weapon/TUnk_804A4238.h"
-#include "pso/weapon/TUnk_804A4338.h"
+#include "pso/weapon/TItemWeaponYamigarasu.h"
+#include "pso/weapon/TItemWeaponSRankJCutter.h"
+#include "pso/weapon/TItemWeaponSRankSlicer.h"
 #include "pso/weapon/TItemWeaponLavisCannon.h"
 #include "pso/weapon/TItemWeaponPartisan.h"
 #include "pso/weapon/TItemWeaponPsychoWand.h"
 #include "pso/weapon/TItemWeaponRod.h"
-#include "pso/weapon/TUnk_804A5550.h"
+#include "pso/weapon/TItemWeaponSaber.h"
 #include "pso/weapon/TItemWeaponSambaMaracas.h"
 #include "pso/weapon/TItemWeaponSBeatsBlade.h"
 #include "pso/weapon/TItemWeaponSoulEater.h"
-#include "pso/weapon/TUnk_804A5930.h"
+#include "pso/weapon/TItemWeaponSealedJSword.h"
 #include "pso/weapon/TItemWeaponSlicer.h"
 #include "pso/weapon/TItemWeaponShot.h"
 #include "pso/weapon/TItemWeaponStingTip.h"
 #include "pso/weapon/TItemWeaponMadamsParasol.h"
-#include "pso/weapon/TUnk_804A62F8.h"
+#include "pso/weapon/TItemWeaponSword.h"
 #include "pso/weapon/TItemWeaponTwinPsychogun.h"
 #include "pso/weapon/TItemWeaponCane.h"
 #include "pso/weapon/TItemWeaponYasminkov9000M.h"
@@ -136,7 +136,7 @@
 #include "pso/weapon/TItemWeaponGuardianna.h"
 #include "pso/weapon/TItemWeaponNeisClaw.h"
 #include "pso/weapon/TItemWeaponRikasClaw.h"
-#include "pso/weapon/TUnk_804F26E0.h"
+#include "pso/weapon/TItemWeaponSRankKnuckle.h"
 #include "pso/unk/text_80103674.h"
 #include "pso/unk/text_8010F168.h"
 #include "pso/item/TItemBuff.h"
@@ -208,6 +208,15 @@
 #include "pso/weapon/TItemWeaponTheSighOfAGod.h"
 #include "pso/weapon/TItemWeaponTwinBlaze.h"
 #include "pso/weapon/TItemWeaponWindmill.h"
+#include "pso/weapon/TItemWeaponBaranzLauncher.h"
+#include "pso/weapon/TItemWeaponDrillLauncher.h"
+#include "pso/weapon/TItemWeaponFist.h"
+#include "pso/weapon/TItemWeaponFlightCutter.h"
+#include "pso/weapon/TItemWeaponSRank.h"
+#include "pso/weapon/TItemWeaponSRankBlade.h"
+#include "pso/weapon/TItemWeaponSRankGun.h"
+#include "pso/weapon/TItemWeaponSRankHarisen.h"
+#include "pso/weapon/TItemWeaponTwinkleStar.h"
 
 // ---- TLobby_80104374.cpp
 
@@ -228,21 +237,21 @@ int lobby_drop_flag;
 // Weapon item factories, indexed by the weapon type byte (get_weapon_factory_for_item); 0 = none.
 ItemCreateFunction weapon_factory_table[170] = {
     NULL,
-    create_saber_weapon,
-    create_sword_weapon,
+    TItemWeaponSaber::create,
+    TItemWeaponSword::create,
     TItemWeaponDagger::create,
     TItemWeaponPartisan::create,
     TItemWeaponSlicer::create,
-    create_handgun_weapon,
+    TItemWeaponHandgun::create,
     TItemWeaponRifle::create,
     create_mechgun_weapon,
     TItemWeaponShot::create,
     TItemWeaponCane::create,
     TItemWeaponRod::create,
-    create_wand_weapon,
-    create_claw_weapon,
+    TItemWeaponWand::create,
+    TItemWeaponClaw::create,
     create_common_weapon,
-    create_knuckle_weapon,
+    TItemWeaponFist::create,
     TItemWeaponAgito::create,
     TItemWeaponSoulEater::create,
     TItemWeaponSpreadNeedle::create,
@@ -253,7 +262,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponSorcerersCane::create,
     TItemWeaponSBeatsBlade::create,
     TItemWeaponPArmsBlade::create,
-    create_delsabers_buster_weapon,
+    TItemWeaponDelsabersBuster::create,
     TItemWeaponBringersRifle::create,
     TItemWeaponEggBlaster::create,
     TItemWeaponPsychoWand::create,
@@ -265,10 +274,10 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponStingTip::create,
     TItemWeaponMagicalPiece::create,
     TItemWeaponTechnicalCrozier::create,
-    create_suppressed_gun_weapon,
+    TItemWeaponSuppressedGun::create,
     create_common_weapon,
     TItemWeaponHarisenBattleFan::create,
-    yamigarasu_create,
+    TItemWeaponYamigarasu::create,
     create_common_weapon,
     create_common_weapon,
     TItemWeaponElysion::create,
@@ -278,7 +287,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponDoubleCannon::create,
     TItemWeaponHugeBattleFan::create,
     create_photon_field_weapon,
-    sealed_j_sword_create,
+    TItemWeaponSealedJSword::create,
     create_common_weapon,
     create_common_weapon,
     TObjPlayer::create_twin_chakram,
@@ -290,25 +299,25 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponImperialPick::create,
     create_photon_field_weapon,
     TItemWeaponPartisan::create,
-    TObjPlayer::create_variant_2_5a28,
+    TItemWeaponFlightCutter::create,
     TItemWeaponFlightFan::create,
     TItemWeaponSlicer::create,
-    TObjPlayer__sub_80121318,
-    TObjPlayer__sub_80121318,
-    create_handgun_weapon,
+    TItemWeaponSpecialGun::create,
+    TItemWeaponSpecialGun::create,
+    TItemWeaponHandgun::create,
     TItemWeaponFrozenShooter::create,
-    TObjPlayer__sub_80121318,
+    TItemWeaponSpecialGun::create,
     TObjPlayer::create_trade_action_state,
     TItemWeaponSambaMaracas::create,
     TItemWeaponTwinPsychogun::create,
-    create_drill_launcher,
+    TItemWeaponDrillLauncher::create,
     TItemWeaponGuldMilla::create,
     create_mechgun_weapon,
-    create_belra_cannon,
+    TItemWeaponBelraCannon::create,
     create_panzer_faust,
     create_common_weapon,
     TItemWeaponWindmill::create,
-    TUnk_804A204C::create,
+    TItemWeaponEvilCurst::create,
     TItemWeaponFlowerCane::create,
     TItemWeaponHildebearsCane::create,
     TItemWeaponHildebluesCane::create,
@@ -319,7 +328,7 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponBroom::create,
     TItemWeaponProphetsOfMotav::create,
     TItemWeaponTheSighOfAGod::create,
-    TObjPlayer::create_state_0,
+    TItemWeaponTwinkleStar::create,
     TItemWeaponPlantainFan::create,
     TItemWeaponTwinBlaze::create,
     TItemWeaponMarinasBag::create,
@@ -329,8 +338,8 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponPlantainHugeFan::create,
     TItemWeaponChameleonScythe::create,
     TItemWeaponYasminkov3000R::create,
-    TObjPlayer__sub_80121318,
-    create_baranz_launcher,
+    TItemWeaponSpecialGun::create,
+    TItemWeaponBaranzLauncher::create,
     TItemWeaponBranchOfPakupaku::create,
     TItemWeaponHeartOfPoumn::create,
     TItemWeaponYasminkov2000H::create,
@@ -339,30 +348,30 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponMaserBeam::create,
     create_common_weapon,
     TItemWeaponFlowerBouquet::create,
-    TObjPlayer::create_srank_common_weapon,
-    TObjPlayer::create_srank_common_weapon,
-    TObjPlayer__sub_80128308,
-    TObjPlayer::create_srank_common_weapon,
+    TItemWeaponSRank::create,
+    TItemWeaponSRank::create,
+    TItemWeaponSRankBlade::create,
+    TItemWeaponSRank::create,
     create_s_rank_slicer_weapon,
-    TObjPlayer::create_shoot_model_callback,
-    TObjPlayer::create_shoot_model_callback,
+    TItemWeaponSRankGun::create,
+    TItemWeaponSRankGun::create,
     TItemWeaponSRankMechgun::create,
     TItemWeaponSRankShot::create,
-    TObjPlayer::create_srank_common_weapon,
-    TObjPlayer::create_srank_common_weapon,
+    TItemWeaponSRank::create,
+    TItemWeaponSRank::create,
     TItemWeaponSRankWand::create,
-    TObjPlayer::create_srank_common_weapon,
+    TItemWeaponSRank::create,
     TItemWeaponSRankClaw::create,
     TItemWeaponSRankBazooka::create,
     TItemWeaponSRankNeedle::create,
     TItemWeaponSRankScythe::create,
-    TObjPlayer::create_srank_common_weapon,
-    TObjPlayer::create_srank_common_weapon,
+    TItemWeaponSRank::create,
+    TItemWeaponSRank::create,
     TItemWeaponSRankPsychogun::create,
     TItemWeaponSRankPunch::create,
     TItemWeaponSRankWindmill::create,
-    TObjPlayer::create_shot_state,
-    TObjPlayer::create_srank_common_weapon,
+    TItemWeaponSRankHarisen::create,
+    TItemWeaponSRank::create,
     create_s_rank_j_cutter_weapon,
     TItemWeaponMusashi::create,
     create_common_weapon,
@@ -370,8 +379,8 @@ ItemCreateFunction weapon_factory_table[170] = {
     TItemWeaponCard::create,
     create_nug2000_bazooka,
     create_s_berills_hands_weapon,
-    create_sword_weapon,
-    create_saber_weapon,
+    TItemWeaponSword::create,
+    TItemWeaponSaber::create,
     TItemWeaponGiGueBazooka::create,
     create_guardianna,
     TItemWeaponCard::create,
@@ -392,11 +401,11 @@ ItemCreateFunction weapon_factory_table[170] = {
     create_common_weapon,
     alloc_and_init_obj_effect,
     TItemWeaponCard::create,
-    TObjPlayer__sub_80128308,
+    TItemWeaponSRankBlade::create,
     TItemWeaponSRankLauncher::create,
     TItemWeaponSRankCard::create,
-    create_s_rank_knuckle,
-    TObjPlayer::create_srank_common_weapon,
+    TItemWeaponSRankKnuckle::create,
+    TItemWeaponSRank::create,
 };
 // Tool item factories, indexed by the tool type byte (TLobby__sub_8010440C).
 ItemCreateFunction item_tool_factory_table[24] = {

@@ -5,7 +5,7 @@
 #include "pso/weapon/TItemWeaponSRankWindmill.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
-#include "pso/weapon/TUnk_804A4948.h"
+#include "pso/weapon/TItemWeaponSRank.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/task/TMainTask.h"
 
@@ -59,7 +59,7 @@ void TItemWeaponSRankWindmill::update_weapon() {
 
 TItemWeaponSRankWindmill::~TItemWeaponSRankWindmill() {}
 
-TItemWeaponSRankWindmill::TItemWeaponSRankWindmill(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+TItemWeaponSRankWindmill::TItemWeaponSRankWindmill(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     set_weapon_flags(35);
     blade_angle = 0;
     blade_speed = 3276;

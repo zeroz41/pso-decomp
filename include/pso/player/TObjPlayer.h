@@ -837,13 +837,8 @@ struct TObjPlayer : public TObjChara {
     // A weapon shot callback: news the shoot model that draws the shot.
     static saddr create_item_shoot_model(void *weapon, const Vec *origin, const Vec *end, f32 frames);
     static TItem *create_twin_chakram(u8 *item);
-    static TItem *create_shoot_model_callback(u8 *item);
-    static TItem *create_shot_state(u8 *item);
-    static TItem *create_srank_common_weapon(u8 *item);
-    static TItem *create_variant_2_5a28(u8 *item);
     static void spawn_weapon_casing(saddr parent, uaddr item, uaddr pos, uaddr velocity, uaddr angle);
     static void launch_weapon_casing(saddr parent, uaddr item, s32 joint, uaddr velocity, uaddr angle);
-    static TItem *create_state_0(u8 *item);
     static void clear_photon_blast_slots();
     void place_on_area_entry();
     void release_child_object();

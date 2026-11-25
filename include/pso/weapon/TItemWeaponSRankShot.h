@@ -1,9 +1,9 @@
 #ifndef PSO_WEAPON_TITEMWEAPONSRANKSHOT_H
 #define PSO_WEAPON_TITEMWEAPONSRANKSHOT_H
 #include "types.h"
-#include "pso/weapon/TUnk_804A4948.h"
+#include "pso/weapon/TItemWeaponSRank.h"
 
-class TItemWeaponSRankShot : public TUnk_804A4948 {
+class TItemWeaponSRankShot : public TItemWeaponSRank {
 public:
     TItemWeaponSRankShot(TObject *parent, u8 *item);
     static TItem *create(u8 *item);

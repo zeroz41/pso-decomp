@@ -8,7 +8,7 @@
 
 void TItemWeaponSRankClaw::draw_held_model() { draw_weapon_at_joint((saddr)this, (s8)49); update_trail_slot(0); update_trail_slot(1); }
 
-TItemWeaponSRankClaw::TItemWeaponSRankClaw(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+TItemWeaponSRankClaw::TItemWeaponSRankClaw(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     set_weapon_flags(1);
 }
 

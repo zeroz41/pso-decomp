@@ -1,13 +1,14 @@
-#ifndef PSO_WEAPON_TUNK_804A2164_H
-#define PSO_WEAPON_TUNK_804A2164_H
+#ifndef PSO_WEAPON_TITEMWEAPONDRILLLAUNCHER_H
+#define PSO_WEAPON_TITEMWEAPONDRILLLAUNCHER_H
 #include "types.h"
 #include "pso/weapon/TItemWeapon.h"
 
-// Made by create_drill_launcher.
-class TUnk_804A2164 : public TItemWeapon {
+// Made by TItemWeaponDrillLauncher::create.
+class TItemWeaponDrillLauncher : public TItemWeapon {
 public:
-    TUnk_804A2164(TObject *parent, u8 *item);
-    virtual ~TUnk_804A2164();
+    TItemWeaponDrillLauncher(TObject *parent, u8 *item);
+    static TItem *create(u8 *item);
+    virtual ~TItemWeaponDrillLauncher();
     virtual void transform_model_node();
     virtual void emit_marker_effects();
     virtual void update_weapon();

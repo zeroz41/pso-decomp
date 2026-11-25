@@ -50,7 +50,7 @@ void TItemWeaponSRankLauncher::update_attack() {
 }
 
 
-TItemWeaponSRankLauncher::TItemWeaponSRankLauncher(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+TItemWeaponSRankLauncher::TItemWeaponSRankLauncher(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     set_weapon_flags(2);
     muzzle_offset = 0.0f;
 }

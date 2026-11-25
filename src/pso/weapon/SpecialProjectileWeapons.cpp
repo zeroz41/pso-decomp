@@ -4,11 +4,11 @@
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/weapon/SpecialProjectileWeapons_80124760.h"
 #include "pso/technique/TTecMegid.h"
-#include "pso/weapon/TUnk_804A204C.h"
+#include "pso/weapon/TItemWeaponEvilCurst.h"
 #include "pso/item/TItemFollowStarLight.h"
 #include "pso/item/TUnk_804A0668.h"
 #include "pso/weapon/shoot/TUnk_804A2148.h"
-#include "pso/weapon/TUnk_804A2164.h"
+#include "pso/weapon/TItemWeaponDrillLauncher.h"
 #include "types.h"
 #include "pso/system/data/FlagWord.h"
 #include "pso/weapon/shoot/TItemShoot.h"
@@ -61,7 +61,7 @@ s32 draw_weapon_at_joint(void *, s32, void *);
 }
 
 
-void TUnk_804A204C::emit_marker_effects() {
+void TItemWeaponEvilCurst::emit_marker_effects() {
     s32 joint_position;
     void *owner;
     if (is_mode_two_and_ready() != 0) {
@@ -75,7 +75,7 @@ void TUnk_804A204C::emit_marker_effects() {
     }
 }
 
-void TUnk_804A204C::update_weapon() {
+void TItemWeaponEvilCurst::update_weapon() {
     s32 floor;
     if (swing_direction == 1) {
         swing_angle += 0xAAA;
@@ -99,7 +99,7 @@ void TUnk_804A204C::update_weapon() {
     }
 }
 
-void TUnk_804A204C::transform_model_node() {
+void TItemWeaponEvilCurst::transform_model_node() {
     switch (((u32)TObjPlayer::get_player_list())) {
     case 1:
         rotate_matrix_y(0, swing_angle);
@@ -122,7 +122,7 @@ void TUnk_804A204C::transform_model_node() {
     }
 }
 
-void TUnk_804A204C::draw_held_model() {
+void TItemWeaponEvilCurst::draw_held_model() {
     s32 joint_position;
     NJS_OBJECT *model_link;
     NJS_OBJECT *effect_model;
@@ -152,7 +152,7 @@ void TUnk_804A204C::draw_held_model() {
     }
 }
 
-void TUnk_804A204C::on_equipped() {
+void TItemWeaponEvilCurst::on_equipped() {
     floor_area = -1;
     if (effect_objects != NULL) {
         new TUnk_804A0668(effect_objects, get_owner_client(), 0x5A);
@@ -161,11 +161,11 @@ void TUnk_804A204C::on_equipped() {
     roll_technique();
 }
 
-TUnk_804A204C::~TUnk_804A204C() {
+TItemWeaponEvilCurst::~TItemWeaponEvilCurst() {
 
 }
 
-TUnk_804A204C::TUnk_804A204C(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponEvilCurst::TItemWeaponEvilCurst(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     effect_flags.set(32);
     set_weapon_flags(35);
     set_technique_roll_range(12);
@@ -174,9 +174,9 @@ TUnk_804A204C::TUnk_804A204C(TObject *parent, u8 *item) : TItemWeapon(parent, it
     floor_area = -1;
 }
 
-TItem *TUnk_804A204C::create(u8 *item) {
+TItem *TItemWeaponEvilCurst::create(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804A204C(tl_05, item);
+        return new TItemWeaponEvilCurst(tl_05, item);
     }
     return NULL;
 }

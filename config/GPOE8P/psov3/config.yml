@@ -1538,14 +1538,14 @@ force_active:
   - copy_ezrope_segment
   - __ct__26TItemWeaponWokOfAkikosShopFP7TObjectPUc
   - __dt__20TItemFollowStarLightFv
-  - __ct__13TUnk_804A204CFP7TObjectPUc
+  - __ct__20TItemWeaponEvilCurstFP7TObjectPUc
   - __ct__23TItemWeaponDoubleCannonFP7TObjectPUc
   - TObjPlayer__sub_80125FD8
   - __ct__21TItemWeaponLavisBladeFP7TObjectPUc
   - TObjPlayer__sub_8012AF50
   - __ct__21TItemWeaponPArmsBladeFP7TObjectPUc
   - __ct__21TItemShootRocketPunchFP22TItemWeaponRocketPunchPC3VecPC3Vecf
-  - __ct__13TUnk_804A5930FP7TObjectPUc
+  - __ct__23TItemWeaponSealedJSwordFP7TObjectPUc
   - copy_disp_config_palette__FP18TPlyDispConfigSmthP18TPlyDispConfigSmth
   - collect_body_contacts__FP16CollisionBodySetll
   - set_battle_param_slot__Fii
@@ -2409,38 +2409,38 @@ force_active:
   - __dt__13TUnk_8049FEB8Fv
   - __dt__13TUnk_8049FED0Fv
   - __dt__13TUnk_8049FF88Fv
-  - __dt__13TUnk_804A07C0Fv
+  - __dt__21TItemWeaponSpecialGunFv
   - __dt__22TItemWeaponPlantainFanFv
   - __dt__13TUnk_804A0AA8Fv
   - __dt__25TItemWeaponHildebearsCaneFv
-  - __dt__13TUnk_804A0CB8Fv
+  - __dt__22TItemWeaponBelraCannonFv
   - __dt__24TItemWeaponHugeBattleFanFv
   - __dt__20TItemWeaponGuldMillaFv
   - __dt__17TItemWeaponDaggerFv
   - __dt__25TItemWeaponHildebluesCaneFv
   - __dt__24TItemWeaponFlowerBouquetFv
   - __dt__16TItemWeaponBroomFv
-  - __dt__13TUnk_804A1478Fv
+  - __dt__15TItemWeaponWandFv
   - __dt__23TItemWeaponPanthersClawFv
   - __dt__24TItemWeaponBringersRifleFv
   - __dt__20TItemWeaponChainSawdFv
   - __dt__27TItemWeaponBranchOfPakupakuFv
   - __dt__24TItemWeaponStrikerOfChaoFv
   - __dt__26TItemWeaponWokOfAkikosShopFv
-  - __dt__13TUnk_804A1C38Fv
+  - __dt__15TItemWeaponClawFv
   - __dt__23TItemWeaponMeteorCudgelFv
   - __dt__24TItemWeaponSorcerersCaneFv
-  - __dt__13TUnk_804A1F20Fv
-  - __dt__13TUnk_804A204CFv
+  - __dt__26TItemWeaponDelsabersBusterFv
+  - __dt__20TItemWeaponEvilCurstFv
   - __dt__13TUnk_804A2148Fv
-  - __dt__13TUnk_804A2164Fv
+  - __dt__24TItemWeaponDrillLauncherFv
   - __dt__23TItemWeaponDoubleCannonFv
   - __dt__22TItemWeaponDragonsClawFv
   - __dt__21TItemWeaponEggBlasterFv
   - __dt__20TItemWeaponTwinBlazeFv
   - __dt__21TItemWeaponFlowerCaneFv
-  - __dt__13TUnk_804A2A58Fv
-  - __dt__13TUnk_804A2B98Fv
+  - __dt__25TItemWeaponBaranzLauncherFv
+  - __dt__15TItemWeaponFistFv
   - __dt__26TItemWeaponChameleonScytheFv
   - __dt__16TItemWeaponAgitoFv
   - __dt__21TItemWeaponLavisBladeFv
@@ -2450,10 +2450,10 @@ force_active:
   - __dt__23TItemWeaponHeartOfPoumnFv
   - __dt__24TItemWeaponMonkeyKingBarFv
   - __dt__13TUnk_804A4020Fv
-  - __dt__13TUnk_804A4238Fv
-  - __dt__13TUnk_804A4338Fv
+  - __dt__23TItemWeaponSRankJCutterFv
+  - __dt__22TItemWeaponSRankSlicerFv
   - __dt__22TItemWeaponLavisCannonFv
-  - __dt__13TUnk_804A4B80Fv
+  - __dt__25TItemWeaponHeavenPunisherFv
   - __dt__21TItemWeaponPArmsBladeFv
   - __dt__23TItemWeaponImperialPickFv
   - __dt__21TItemWeaponRabbitWandFv
@@ -2461,14 +2461,14 @@ force_active:
   - __dt__16TItemWeaponRifleFv
   - __dt__21TItemShootRocketPunchFv
   - __dt__22TItemWeaponRocketPunchFv
-  - __dt__13TUnk_804A5550Fv
+  - __dt__16TItemWeaponSaberFv
   - __dt__23TItemWeaponSambaMaracasFv
   - __dt__22TItemWeaponSBeatsBladeFv
-  - __dt__13TUnk_804A5A28Fv
+  - __dt__23TItemWeaponFlightCutterFv
   - __dt__13TWeaponCasingFv
   - __dt__23TItemWeaponSpreadNeedleFv
   - __dt__19TItemWeaponStingTipFv
-  - __dt__13TUnk_804A62F8Fv
+  - __dt__16TItemWeaponSwordFv
   - __dt__27TItemWeaponTechnicalCrozierFv
   - __dt__20TItemWeaponFlightFanFv
   - __dt__24TItemWeaponTheSighOfAGodFv
@@ -3217,13 +3217,13 @@ force_active:
   - __vt__23TItemWeaponPanthersClaw
   - __vt__23TItemWeaponMeteorCudgel
   - __vt__20TItemFollowStarLight
-  - __vt__13TUnk_804A204C
+  - __vt__20TItemWeaponEvilCurst
   - __vt__13TUnk_804A2148
-  - __vt__13TUnk_804A2164
+  - __vt__24TItemWeaponDrillLauncher
   - __vt__26TItemWeaponChameleonScythe
   - __vt__24TItemWeaponMonkeyKingBar
   - __vt__22TItemWeaponLavisCannon
-  - __vt__13TUnk_804A4B80
+  - __vt__25TItemWeaponHeavenPunisher
   - __vt__21TItemWeaponPArmsBlade
   - __vt__23TItemWeaponImperialPick
   - __vt__21TItemWeaponRabbitWand
@@ -3231,14 +3231,14 @@ force_active:
   - __vt__16TItemWeaponRifle
   - __vt__21TItemShootRocketPunch
   - __vt__22TItemWeaponRocketPunch
-  - __vt__13TUnk_804A5550
+  - __vt__16TItemWeaponSaber
   - __vt__23TItemWeaponSambaMaracas
   - __vt__22TItemWeaponSBeatsBlade
-  - __vt__13TUnk_804A5A28
+  - __vt__23TItemWeaponFlightCutter
   - __vt__13TWeaponCasing
   - __vt__23TItemWeaponSpreadNeedle
   - __vt__19TItemWeaponStingTip
-  - __vt__13TUnk_804A62F8
+  - __vt__16TItemWeaponSword
   - __vt__27TItemWeaponTechnicalCrozier
   - __vt__20TItemWeaponFlightFan
   - __vt__24TItemWeaponTheSighOfAGod
@@ -3750,7 +3750,7 @@ force_active:
   - update_appear__18TObjEneBalClawClawFv
   - action__18TObjEneEpsilonBodyFl
   - action_destroy__19TObjEneEpsilonGuardFl
-  - activate_effect__13TUnk_804A4B80Fl
+  - activate_effect__25TItemWeaponHeavenPunisherFl
   - activate_effect__20TItemWeaponTsumikiriFl
   - activate_effect__8TItemMagFl
   - activate_switch_attacks__10TObjPlayerFii
@@ -5297,15 +5297,15 @@ force_active:
   - construct_gi_gue_bazooka__FPUcPUcl
   - construct_global_arrays__6TLobbyFv
   - __ct__15TTecGrantsFlashFlP7TObjectP3Vecf
-  - __ct__13TUnk_804A2C90FP7TObjectPUc
+  - __ct__18TItemWeaponHandgunFP7TObjectPUc
   - __ct__17TItemFollowEffectFP7TObjectP11TItemWeaponll
   - construct_lobby_players
   - construct_panzer_faust__FPUcPUcl
   - __ct__17TLightGlareSwitchFPvP7TObject
   - __ct__16TPlacementSearchFP7TObjectP8TObjBasePC3Vecl
   - construct_rappys_fan__20TItemWeaponRappysFanFlPv
-  - __ct__13TUnk_804A4238FP7TObjectPUc
-  - __ct__13TUnk_804A4338FP7TObjectPUc
+  - __ct__23TItemWeaponSRankJCutterFP7TObjectPUc
+  - __ct__22TItemWeaponSRankSlicerFP7TObjectPUc
   - __ct__11TTecAntiEffFP3VecP3VecUsP7TObject
   - __ct__12TTecRestaEffFP3VeclP7TObject
   - __ct__15TItemWeaponShotFP7TObjectPUc
@@ -5930,7 +5930,7 @@ force_active:
   - drawing__11TItemMagSub
   - drawn_node__11TItemMagSub
   - drill_launcher_create_shot__Flllf
-  - __ct__13TUnk_804A2164FP7TObjectPUc
+  - __ct__24TItemWeaponDrillLauncherFP7TObjectPUc
   - drill_launcher_return_timer__FPv
   - drop_item__9TItemDropFiii
   - dspInitCallback
@@ -5955,15 +5955,15 @@ force_active:
   - emit_grass_footstep_particle__19PlayerHandParticlesFPC3Vec
   - emit_jellen_support_effect__19PlayerHandParticlesFv
   - emit_marker_effects__24TItemWeaponHugeBattleFanFv
-  - emit_marker_effects__13TUnk_804A204CFv
-  - emit_marker_effects__13TUnk_804A2164Fv
-  - emit_marker_effects__13TUnk_804A4238Fv
-  - emit_marker_effects__13TUnk_804A4338Fv
+  - emit_marker_effects__20TItemWeaponEvilCurstFv
+  - emit_marker_effects__24TItemWeaponDrillLauncherFv
+  - emit_marker_effects__23TItemWeaponSRankJCutterFv
+  - emit_marker_effects__22TItemWeaponSRankSlicerFv
   - emit_marker_effects__22TItemWeaponLavisCannonFv
-  - emit_marker_effects__13TUnk_804A4B80Fv
+  - emit_marker_effects__25TItemWeaponHeavenPunisherFv
   - emit_marker_effects__22TItemWeaponRocketPunchFv
   - emit_marker_effects__23TItemWeaponSambaMaracasFv
-  - emit_marker_effects__13TUnk_804A5A28Fv
+  - emit_marker_effects__23TItemWeaponFlightCutterFv
   - emit_marker_effects__23TItemWeaponSpreadNeedleFv
   - emit_marker_effects__27TItemWeaponTechnicalCrozierFv
   - emit_marker_effects__20TItemWeaponFlightFanFv
@@ -6931,7 +6931,7 @@ force_active:
   - hashi_versus2_collision_bodies
   - heal_general_collision_body_part
   - heaven_punisher_ct__FPvll
-  - heaven_punisher_strike_locks__13TUnk_804A4B80Fv
+  - heaven_punisher_strike_locks__25TItemWeaponHeavenPunisherFv
   - hide__5TItemFv
   - hide_part__9TObjLukerFUs
   - hide_title_layers_and_release
@@ -7061,7 +7061,7 @@ force_active:
   - init_follow_target__10TNpcPlayerFv
   - init_forward__19TItemDisconnectCtrlFv
   - init_fresh_character_slot__Fl
-  - __ct__13TUnk_804A62F8FP7TObjectPUc
+  - __ct__16TItemWeaponSwordFP7TObjectPUc
   - init_from_table_entry__9TObjGrassFl
   - init_gauge_entry__20TWindowSubStatusDispFv
   - init_geometry__13TUnk_804B2578Fv
@@ -7174,7 +7174,7 @@ force_active:
   - __ct__18TItemWeaponMusashiFP7TObjectPUc
   - init_state_90__11TBoss6Type1Fv
   - init_state__10TNpcPlayerFv
-  - __ct__13TUnk_804A5550FP7TObjectPUc
+  - __ct__16TItemWeaponSaberFP7TObjectPUc
   - __ct__23TItemWeaponMeteorCudgelFP7TObjectPUc
   - init_state__11TBoss6Type1Fv
   - init_state__13TObjEneMe1GeeFv
@@ -7196,7 +7196,7 @@ force_active:
   - init_timer__18TChallenge4PResultFv
   - init_timer_event__13TUnk_804A0608Fv
   - __ct__22TItemWeaponRocketPunchFP7TObjectPUc
-  - __ct__13TUnk_804A5A28FP7TObjectPUc
+  - __ct__23TItemWeaponFlightCutterFP7TObjectPUc
   - __ct__21TItemWeaponSRedsBladeFP7TObjectPUc
   - init_vertex_table__17TObjEneBm3FlyNestFv
   - __ct__30TItemWeaponPartisanOfLightningFP7TObjectPUc
@@ -14553,7 +14553,7 @@ force_active:
   - request_transition__18TAdEnterPasswordGCFPv
   - request_transition__8TFogCtrlFll
   - draw_held_model__23TItemWeaponPanthersClawFv
-  - draw_held_model__13TUnk_804A204CFv
+  - draw_held_model__20TItemWeaponEvilCurstFv
   - draw_held_model__21TItemWeaponPArmsBladeFv
   - draw_held_model__22TItemWeaponRocketPunchFv
   - draw_held_model__23TItemWeaponSambaMaracasFv
@@ -15353,8 +15353,8 @@ force_active:
   - send_run_request__10TNpcPlayerFv
   - send_selected_character__6TLobbyFv
   - get_recent_symbol_chat__18TSymbolChatCaptureFUsP17SymbolChatPayload
-  - send_srank_stat_extra__13TUnk_804A4948FUll
-  - send_srank_stat_extra_to_locks__13TUnk_804A4948Fv
+  - send_srank_stat_extra__16TItemWeaponSRankFUll
+  - send_srank_stat_extra_to_locks__16TItemWeaponSRankFv
   - send__17G_NPCControl_6x69Fv
   - send_state__12TODoorCave01FPv
   - send_state_change__15TOAttackableColFUs
@@ -15569,7 +15569,7 @@ force_active:
   - set_speed__15PlayerMoveSpeedFf
   - set_state3__10TBoss4ZakoFv
   - set_state4_if_ready__14TBoss6PlotFalzFv
-  - __ct__13TUnk_804A6010FP7TObjectPUc
+  - __ct__22TItemWeaponTwinkleStarFP7TObjectPUc
   - set_state_0x34__11TBoss6Type2Fv
   - set_state_2__13TBoss5GryphonFv
   - set_state__15TObjEneSlimeOneFl
@@ -17330,11 +17330,11 @@ force_active:
   - update_warp_state__12TObjWarpBossFv
   - update_water_bomb_timer__15TObjEneSlimeOneFv
   - update_weapon__24TItemWeaponHugeBattleFanFv
-  - update_weapon__13TUnk_804A204CFv
-  - update_weapon__13TUnk_804A2164Fv
-  - update_weapon__13TUnk_804A5550Fv
+  - update_weapon__20TItemWeaponEvilCurstFv
+  - update_weapon__24TItemWeaponDrillLauncherFv
+  - update_weapon__16TItemWeaponSaberFv
   - update_weapon__19TItemWeaponStingTipFv
-  - update_weapon__13TUnk_804A62F8Fv
+  - update_weapon__16TItemWeaponSwordFv
   - update_weapon__25TItemWeaponYasminkov7000VFv
   - update_weapon_attack__14TObjEneIllGillFv
   - update_web_attack__9TObjGrassFv
@@ -17456,7 +17456,7 @@ force_active:
   - refresh_target__19TObjEneEpsilonGuardFv
   - vfunc_28__20TOTrapChainSawDamageFv
   - vfunc_29__14TOTrapChainSawFv
-  - vfunc_57__13TUnk_804A204CFv
+  - vfunc_57__20TItemWeaponEvilCurstFv
   - vfunc_57__26TItemWeaponChameleonScytheFv
   - vfunc_57__24TItemWeaponTheSighOfAGodFv
   - run_idle_action__12TObjEneLappyFv
@@ -17480,8 +17480,8 @@ force_active:
   - run_attack_action__12TObjEneSaverFv
   - transform_model_node__24TItemWeaponHugeBattleFanFv
   - transform_model_node__23TItemWeaponMeteorCudgelFv
-  - transform_model_node__13TUnk_804A204CFv
-  - transform_model_node__13TUnk_804A2164Fv
+  - transform_model_node__20TItemWeaponEvilCurstFv
+  - transform_model_node__24TItemWeaponDrillLauncherFv
   - transform_model_node__26TItemWeaponChameleonScytheFv
   - transform_model_node__24TItemWeaponMonkeyKingBarFv
   - transform_model_node__22TItemWeaponLavisCannonFv
@@ -17492,7 +17492,7 @@ force_active:
   - transform_model_node__22TItemWeaponRocketPunchFv
   - transform_model_node__22TItemWeaponSBeatsBladeFv
   - transform_model_node__19TItemWeaponStingTipFv
-  - transform_model_node__13TUnk_804A62F8Fv
+  - transform_model_node__16TItemWeaponSwordFv
   - transform_model_node__20TItemWeaponFlightFanFv
   - transform_model_node__15TItemWeaponCaneFv
   - transform_model_node__25TItemWeaponYasminkov7000VFv

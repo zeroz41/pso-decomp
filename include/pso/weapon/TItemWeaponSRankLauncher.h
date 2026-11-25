@@ -1,9 +1,9 @@
 #ifndef PSO_WEAPON_TITEMWEAPONSRANKLAUNCHER_H
 #define PSO_WEAPON_TITEMWEAPONSRANKLAUNCHER_H
 #include "types.h"
-#include "pso/weapon/TUnk_804A4948.h"
+#include "pso/weapon/TItemWeaponSRank.h"
 
-class TItemWeaponSRankLauncher : public TUnk_804A4948 {
+class TItemWeaponSRankLauncher : public TItemWeaponSRank {
 public:
     TItemWeaponSRankLauncher(TObject *parent, u8 *item);
     static TItem *create(u8 *item); // weapon_factory_table entry

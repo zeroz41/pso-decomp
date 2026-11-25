@@ -1,9 +1,9 @@
 #include "pso/effect/particle/ParticleFactory.h"
 #include "types.h"
-#include "pso/weapon/TUnk_804A2A58.h"
+#include "pso/weapon/TItemWeaponBaranzLauncher.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80126740.h"
-#include "pso/weapon/TUnk_804A2B98.h"
+#include "pso/weapon/TItemWeaponFist.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/armor/TItemProShield.h"
@@ -17,14 +17,14 @@
 // ---- pso/unk/text_80126740
 
 
-void TUnk_804A2B98::on_unequipped() {
+void TItemWeaponFist::on_unequipped() {
     owner->attack_state.set_evp(1.0f);
 }
 
 // ---- pso/player/TObjPlayer_801267C4
 
 
-void TUnk_804A2B98::on_equipped() {
+void TItemWeaponFist::on_equipped() {
     f32 scale;
     u8 item_index;
 
@@ -66,7 +66,7 @@ s32 reflect_matrix_in_plane(s32, f32 *, f32);
 s32 knuckle_second_hand_pass;
 
 extern s32 knuckle_marker_joint_table[];
-void TUnk_804A2B98::transform_model_node() {
+void TItemWeaponFist::transform_model_node() {
     Stack_8012685C stack;
     if ((TObjPlayer::get_player_list() == 0) && (get_item_index() == 3) && ((s32) knuckle_second_hand_pass != 0)) {
         stack.sp10 = 0.0f;
@@ -79,7 +79,7 @@ void TUnk_804A2B98::transform_model_node() {
     }
 }
 
-void TUnk_804A2B98::emit_marker_effects() {
+void TItemWeaponFist::emit_marker_effects() {
   u8 buf[16];
   s32 k;
   s16 stage;
@@ -109,7 +109,7 @@ s32 knuckle_marker_joint_table[18] = {
 };
 
 
-void TUnk_804A2B98::draw_held_model() {
+void TItemWeaponFist::draw_held_model() {
     saddr arg0 = (saddr)this;
     if (get_item_index() == 3) {
         knuckle_second_hand_pass = 0;
@@ -119,17 +119,17 @@ void TUnk_804A2B98::draw_held_model() {
     }
 }
 
-TUnk_804A2B98::TUnk_804A2B98(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponFist::TItemWeaponFist(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(577);
 }
 
-TItem *create_knuckle_weapon(u8 *item) {
+TItem *TItemWeaponFist::create(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804A2B98(tl_05, item);
+        return new TItemWeaponFist(tl_05, item);
     }
     return NULL;
 }
 
-TUnk_804A2B98::~TUnk_804A2B98() {
+TItemWeaponFist::~TItemWeaponFist() {
 
 }

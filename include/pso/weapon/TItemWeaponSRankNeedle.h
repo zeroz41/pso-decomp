@@ -1,9 +1,9 @@
 #ifndef PSO_WEAPON_TITEMWEAPONSRANKNEEDLE_H
 #define PSO_WEAPON_TITEMWEAPONSRANKNEEDLE_H
 #include "types.h"
-#include "pso/weapon/TUnk_804A4948.h"
+#include "pso/weapon/TItemWeaponSRank.h"
 
-class TItemWeaponSRankNeedle : public TUnk_804A4948 {
+class TItemWeaponSRankNeedle : public TItemWeaponSRank {
 public:
     TItemWeaponSRankNeedle(TObject *parent, u8 *item);
     static TItem *create(u8 *item);

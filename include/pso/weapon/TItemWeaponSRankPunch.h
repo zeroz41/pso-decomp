@@ -1,10 +1,10 @@
 #ifndef PSO_WEAPON_TITEMWEAPONSRANKPUNCH_H
 #define PSO_WEAPON_TITEMWEAPONSRANKPUNCH_H
 #include "types.h"
-#include "pso/weapon/TUnk_804A4948.h"
+#include "pso/weapon/TItemWeaponSRank.h"
 #include "pso/system/data/FlagWord.h"
 
-class TItemWeaponSRankPunch : public TUnk_804A4948 {
+class TItemWeaponSRankPunch : public TItemWeaponSRank {
 public:
     TItemWeaponSRankPunch(TObject *parent, u8 *item);
     static TItem *create(u8 *item);

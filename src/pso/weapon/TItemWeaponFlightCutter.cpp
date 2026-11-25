@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/weapon/TUnk_804A5A28.h"
+#include "pso/weapon/TItemWeaponFlightCutter.h"
 #include "pso/item/TItem.h"
 #include "pso/technique/TTecSlicer.h"
 #include "pso/weapon/TItemAttacker.h"
@@ -14,7 +14,7 @@
 
 void enlarge_flight_cutter_slicer(void *arg0);
 
-void TUnk_804A5A28::emit_marker_effects() {
+void TItemWeaponFlightCutter::emit_marker_effects() {
     SlicerLaunchState tec;
 
     init_slicer_launch_state(&tec);
@@ -35,15 +35,15 @@ void TUnk_804A5A28::emit_marker_effects() {
     TItemAttacker::spawn_item_timer(TTecSlicer::create(&tec), (ItemTimerCallback)enlarge_flight_cutter_slicer, 3);
 }
 
-TUnk_804A5A28::~TUnk_804A5A28() {}
+TItemWeaponFlightCutter::~TItemWeaponFlightCutter() {}
 
-TUnk_804A5A28::TUnk_804A5A28(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+TItemWeaponFlightCutter::TItemWeaponFlightCutter(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(2);
 }
 
-TItem *TObjPlayer::create_variant_2_5a28(u8 *item) {
+TItem *TItemWeaponFlightCutter::create(u8 *item) {
     if (item != NULL) {
-        return new TUnk_804A5A28(tl_05, item);
+        return new TItemWeaponFlightCutter(tl_05, item);
     }
     return NULL;
 }

@@ -62,7 +62,7 @@ void TItemWeaponSRankScythe::update_attack() {
 #pragma pop
 
 
-TItemWeaponSRankScythe::TItemWeaponSRankScythe(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+TItemWeaponSRankScythe::TItemWeaponSRankScythe(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     rotation = 0;
 }
 

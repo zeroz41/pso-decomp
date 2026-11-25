@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/weapon/TUnk_804A4B80.h"
+#include "pso/weapon/TItemWeaponHeavenPunisher.h"
 #include "pso/network/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
@@ -16,7 +16,7 @@ extern "C" {
 u32 *copy_attack_targets(u32 *dst, u32 *src);
 extern saddr tl_05;
 
-void TUnk_804A4B80::activate_effect(s32 effect_variant) {
+void TItemWeaponHeavenPunisher::activate_effect(s32 effect_variant) {
   if (owner != NULL)
   {
     if (is_current_area_item_enabled() != 0)
@@ -37,7 +37,7 @@ void TUnk_804A4B80::activate_effect(s32 effect_variant) {
   }
 }
 
-void TUnk_804A4B80::heaven_punisher_strike_locks() {
+void TItemWeaponHeavenPunisher::heaven_punisher_strike_locks() {
     Vec muzzle;
     s32 v;
     s32 i;
@@ -54,7 +54,7 @@ void TUnk_804A4B80::heaven_punisher_strike_locks() {
     }
 }
 
-void TUnk_804A4B80::emit_marker_effects() {
+void TItemWeaponHeavenPunisher::emit_marker_effects() {
     Vec origin;
     s32 effect;
     if (is_mode_two_and_ready() != 0) {
@@ -92,11 +92,11 @@ extern "C" {
 void __ct__11TItemWeaponFP7TObjectPUc(void *, s32, s32);
 }
 
-extern s32 __vt__13TUnk_804A4B80[];
+extern s32 __vt__25TItemWeaponHeavenPunisher[];
 
 void *heaven_punisher_ct(void *weapon, s32 parent, s32 item) {
     __ct__11TItemWeaponFP7TObjectPUc(weapon, parent, item);
-    *(s32 **)((s8 *)weapon + 0x18) = __vt__13TUnk_804A4B80;
+    *(s32 **)((s8 *)weapon + 0x18) = __vt__25TItemWeaponHeavenPunisher;
     TObjPlayer__sub_8012AF00((CapturedTargetList *)((char *)weapon + 504));
     ((TItemWeapon *)weapon)->set_weapon_flags(34);
     return weapon;
@@ -116,7 +116,7 @@ TItem *create_heaven_punisher(u8 *item) {
 }
 
 
-TUnk_804A4B80::~TUnk_804A4B80() {}
+TItemWeaponHeavenPunisher::~TItemWeaponHeavenPunisher() {}
 
 extern "C" {
 void *__construct_array(void *, void *, void *, u32, u32);

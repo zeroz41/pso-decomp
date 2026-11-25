@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/weapon/TUnk_804A4238.h"
+#include "pso/weapon/TItemWeaponSRankJCutter.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/technique/TTecSlicer.h"
 #include "pso/weapon/TItemAttacker.h"
@@ -14,7 +14,7 @@
 
 void enlarge_s_rank_j_cutter_blade(void *arg0);
 
-void TUnk_804A4238::emit_marker_effects() {
+void TItemWeaponSRankJCutter::emit_marker_effects() {
     SlicerLaunchState tec;
     TObjPlayer__sub_80128A70();
     init_slicer_launch_state(&tec);
@@ -35,15 +35,15 @@ void TUnk_804A4238::emit_marker_effects() {
     TItemAttacker::spawn_item_timer(TTecSlicer::create(&tec), (ItemTimerCallback)enlarge_s_rank_j_cutter_blade, 3);
 }
 
-TUnk_804A4238::~TUnk_804A4238() {}
+TItemWeaponSRankJCutter::~TItemWeaponSRankJCutter() {}
 
-TUnk_804A4238::TUnk_804A4238(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+TItemWeaponSRankJCutter::TItemWeaponSRankJCutter(TObject *parent, u8 *item) : TItemWeaponSRank(parent, item) {
     set_weapon_flags(2);
 }
 
 TItem *create_s_rank_j_cutter_weapon(u8 *owner) {
     if (owner != NULL) {
-        return new TUnk_804A4238(tl_05, owner);
+        return new TItemWeaponSRankJCutter(tl_05, owner);
     }
     return NULL;
 }
