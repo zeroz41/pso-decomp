@@ -167,49 +167,49 @@ void TODoorFourLightBase::render_lights() {
     TParticleCtrl::end_effect_render();
 }
 
-void TODoorFourLightBase::draw_node_tree(u8 *arg1) {
-    saddr temp_r31;
-    NJS_OBJECT *node;
-    NJS_OBJECT *var_r30;
-    var_r30 = (NJS_OBJECT *)arg1;
+void TODoorFourLightBase::draw_node_tree(u8 *node_data) {
+    saddr flags;
+    NJS_OBJECT *child;
+    NJS_OBJECT *current;
+    current = (NJS_OBJECT *)node_data;
     do {
-        temp_r31 = var_r30->evalflags;
-        if (temp_r31 & 0x100000) {
+        flags = current->evalflags;
+        if (flags & 0x100000) {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_lit_textures()));
         } else {
             TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(get_unlit_textures()));
         }
-        if (var_r30->evalflags & 0x200000) {
+        if (current->evalflags & 0x200000) {
             TParticleCtrl::begin_effect_render();
         } else {
             TParticleCtrl::end_effect_render();
         }
         push_matrix();
-        if (!(temp_r31 & 1)) {
-            post_translate_matrix(var_r30->pos);
+        if (!(flags & 1)) {
+            post_translate_matrix(current->pos);
         }
-        if (!(temp_r31 & 2)) {
-            rotate_matrix_by_node_angles(var_r30->ang, temp_r31 & 0x20);
+        if (!(flags & 2)) {
+            rotate_matrix_by_node_angles(current->ang, flags & 0x20);
         }
-        if (!(temp_r31 & 4)) {
-            scale_current_matrix(var_r30->scl);
+        if (!(flags & 4)) {
+            scale_current_matrix(current->scl);
         }
-        if (!(temp_r31 & 8)) {
-            draw_ginja_model(var_r30->model);
+        if (!(flags & 8)) {
+            draw_ginja_model(current->model);
         }
-        if (!(temp_r31 & 0x10)) {
-            node = var_r30->child;
-            if (node != NULL) {
-                draw_node_tree((u8 *)node);
+        if (!(flags & 0x10)) {
+            child = current->child;
+            if (child != NULL) {
+                draw_node_tree((u8 *)child);
             }
         }
         pop_matrix();
-        var_r30 = var_r30->sibling;
-    } while (var_r30 != NULL);
+        current = current->sibling;
+    } while (current != NULL);
 }
 
 void TODoorFourLightBase::update_door_switch_state() {
-    s16 sp8;
+    s16 saved_state;
     switch (this->lock_mode) {
     case 1:
         this->play_door_sound();
@@ -249,10 +249,10 @@ void TODoorFourLightBase::update_door_switch_state() {
             this->play_door_sound();
             this->door_flags |= 1;
         }
-        if (found == 0 && this->set_entry != NULL && this->access_object_saved_state(&sp8, 1) == 1) {
-            sp8 = 1;
-            this->send_object_state_update(&sp8);
-            this->access_object_saved_state(&sp8, 0);
+        if (found == 0 && this->set_entry != NULL && this->access_object_saved_state(&saved_state, 1) == 1) {
+            saved_state = 1;
+            this->send_object_state_update(&saved_state);
+            this->access_object_saved_state(&saved_state, 0);
         }
         break;
     }
@@ -301,19 +301,15 @@ void TODoorFourLightBase::clamp_light_index() {
 
 void load_seabed_four_light_door_resources(void) {
     s32 area;
-    saddr var_r0;
-    saddr var_r0_2;
     area = get_current_floor_area();
     switch (area) {
     case AREA_SEABED_UPPER:
-        var_r0 = (saddr)new BmlResource(5, &bm_o_door_seabed01_resource_descriptor, 0, 0, NULL);
-        door_labo_bml_resource = (BmlResource *)var_r0;
+        door_labo_bml_resource = new BmlResource(5, &bm_o_door_seabed01_resource_descriptor, 0, 0, NULL);
         seabed_door_lit_textures = LoadPvmFileTls("fs_obj_doorx4_atui_green.GVM");
         seabed_door_unlit_textures = LoadPvmFileTls("fs_obj_doorx4_atui.GVM");
         return;
     case AREA_SEABED_LOWER:
-        var_r0_2 = (saddr)new BmlResource(5, &bm_o_door_seabed01_resource_descriptor, 0, 0, NULL);
-        door_labo_bml_resource = (BmlResource *)var_r0_2;
+        door_labo_bml_resource = new BmlResource(5, &bm_o_door_seabed01_resource_descriptor, 0, 0, NULL);
         seabed_door_lit_textures = LoadPvmFileTls("fs_obj_doorx4_atui_green_02.GVM");
         seabed_door_unlit_textures = LoadPvmFileTls("fs_obj_doorx4_atui_02.GVM");
         return;
@@ -374,19 +370,15 @@ s32 TODoorFourLightSeabed::get_lit_textures() {
 
 void load_seabed_u_four_light_door_resources(void) {
     s32 area;
-    saddr var_r0;
-    saddr var_r0_2;
     area = get_current_floor_area();
     switch (area) {
     case AREA_SEABED_UPPER:
-        var_r0 = (saddr)new BmlResource(5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, NULL);
-        seabed_four_light_door_bml_resource = (BmlResource *)var_r0;
+        seabed_four_light_door_bml_resource = new BmlResource(5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, NULL);
         seabed_four_light_door_textures = LoadPvmFileTls("fs_obj_doorx4_u_green.GVM");
         door_four_light_seabed_u_texture_list = LoadPvmFileTls("fs_obj_doorx4_u.GVM");
         return;
     case AREA_SEABED_LOWER:
-        var_r0_2 = (saddr)new BmlResource(5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, NULL);
-        seabed_four_light_door_bml_resource = (BmlResource *)var_r0_2;
+        seabed_four_light_door_bml_resource = new BmlResource(5, &bm_o_door_seabed01_u_resource_descriptor, 0, 0, NULL);
         seabed_four_light_door_textures = LoadPvmFileTls("fs_obj_doorx4_usui_green_02.GVM");
         door_four_light_seabed_u_texture_list = LoadPvmFileTls("fs_obj_doorx4_usui_02.GVM");
         return;

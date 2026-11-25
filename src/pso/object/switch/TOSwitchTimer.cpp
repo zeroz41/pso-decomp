@@ -49,7 +49,7 @@ void TOSwitchTimer::send_switch_states() {
     LAYOUT_ASSERT(sp1A_offset, offsetof(Stack_801781D8, sp1A) == 0x12);
     LAYOUT_ASSERT(sp1C_offset, offsetof(Stack_801781D8, sp1C) == 0x14);
     Stack_801781D8 stack;
-    u16 *var_r30;
+    u16 *target_switch;
     s32 i;
     if ((u32) this->mode == 0U) {
         if ((u16) this->trigger_switch < 0x100U) {
@@ -61,18 +61,18 @@ void TOSwitchTimer::send_switch_states() {
             clear_floor_switch_flag((this->trigger_switch), (this->floor));
         }
     } else {
-        var_r30 = target_switches;
+        target_switch = target_switches;
         i = 0;
         do {
-            if ((u16) *var_r30 < 0x100U) {
+            if ((u16) *target_switch < 0x100U) {
                 ((TOChatSensor *)(&stack.sp8))->init_packet_type();
                 stack.spC = this->floor;
-                stack.spE = *var_r30;
+                stack.spE = *target_switch;
                 stack.sp10 = 1;
                 ((TOChatSensor *)(&stack.sp8))->send_state();
             }
             i += 1;
-            var_r30 = (u16 *)((u8 *)var_r30 + (2));
+            target_switch = (u16 *)((u8 *)target_switch + (2));
         } while (i != 3);
     }
 }
@@ -135,15 +135,15 @@ void TOSwitchTimer::render() {
 }
 
 void TOSwitchTimer::run_task() {
-    s32 temp_r3_2;
-    u32 temp_r3;
+    s32 previous_timer;
+    u32 switch_set;
 
     switch (this->state) {
     case 0:
-        temp_r3 = is_current_floor_switch_set(this->trigger_switch);
-        if ((s32) this->trigger_state != (s32) temp_r3) {
-            this->trigger_state = temp_r3;
-            if (temp_r3 == 1) {
+        switch_set = is_current_floor_switch_set(this->trigger_switch);
+        if ((s32) this->trigger_state != (s32) switch_set) {
+            this->trigger_state = switch_set;
+            if (switch_set == 1) {
                 this->state = 1;
                 this->timer = 0;
                 if ((u32) this->mode == 0U) {
@@ -162,9 +162,9 @@ void TOSwitchTimer::run_task() {
                 play_persistent_sound(0x53218, this, NULL, 0, 0);
             }
         }
-        temp_r3_2 = this->timer;
-        this->timer = (temp_r3_2 + 1);
-        if (temp_r3_2 == (s32) this->duration) {
+        previous_timer = this->timer;
+        this->timer = (previous_timer + 1);
+        if (previous_timer == (s32) this->duration) {
             send_switch_states();
             this->state = 0;
         }
@@ -173,8 +173,8 @@ void TOSwitchTimer::run_task() {
 }
 
 
-void *TOSwitchTimer::create(void *arg0) {
-    void *o = (void *)new TOSwitchTimer((saddr)tl_05, (saddr)arg0);
+void *TOSwitchTimer::create(void *set_data) {
+    void *o = (void *)new TOSwitchTimer((saddr)tl_05, (saddr)set_data);
     return o;
 }
 
