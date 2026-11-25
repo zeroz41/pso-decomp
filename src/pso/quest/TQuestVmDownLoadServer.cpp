@@ -53,9 +53,7 @@ TQuestVmDownLoadServer *TQuestVmDownLoadServer__instance;
 
 extern TObject *tl_00;
 
-struct StatusWindowPos { f32 a; f32 b; };extern "C" {
-
-}
+struct StatusWindowPos { f32 a; f32 b; };
 extern s32 lbl_805D55C0;
 extern uaddr lobby_player_construction_window;
 extern s32 lbl_805D49B4;

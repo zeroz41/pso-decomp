@@ -62,11 +62,6 @@ s32 online_quest_list_state;
 
 
 
-extern "C" {
-
-
-
-}
 
 
 
