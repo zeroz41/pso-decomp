@@ -49,4 +49,8 @@ public:
 };
 LAYOUT_ASSERT(TIndirectEffectDrawTask_size, sizeof(TIndirectEffectDrawTask) == 0x24);
 
+// The battle-control texts TPlayerBattleCtrl's constructor picks by language.
+extern const char *player_battle_ctrl_text_japanese[7];
+extern const char *player_battle_ctrl_text_english[7];
+
 #endif
