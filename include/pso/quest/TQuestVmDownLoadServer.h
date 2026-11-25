@@ -6,6 +6,8 @@
 #include "types.h"
 
 class TMCFormatSequence;
+class TRecvDownload;
+class TRecvDownloadHead;
 struct Hdr_803EA384;
 struct QuestSymbolLookupResult;
 struct QuestDownloadItemNode;
@@ -52,8 +54,8 @@ public:
     static void reset_download_state();
     static void free_download_buffers();
     static void free_buffers();
-    void begin_file_download();
-    void receive_file_chunk();
+    static void begin_file_download(TRecvDownloadHead &download_head);
+    static void receive_file_chunk(TRecvDownload &download);
     static s32 verify_checksum(const void *data, s32 size);
     void close_window();
     void update_mc_select();

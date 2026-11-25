@@ -14,6 +14,7 @@
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/network/protocol/packet_classes.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/system/task/TObject.h"
@@ -192,8 +193,8 @@ void TQuestVmDownLoadServer::free_buffers() {
     TQuestVmDownLoadServer__received_file_bytes = 0;
     TQuestVmDownLoadServer::reset_download();
 }
-void TQuestVmDownLoadServer::begin_file_download() {
-    u8 *self_bytes = (u8 *)this;
+void TQuestVmDownLoadServer::begin_file_download(TRecvDownloadHead &download_head) {
+    u8 *self_bytes = (u8 *)&download_head;
     char buf[0x10];
     char *ext;
     QuestDownloadRecord *s;
@@ -256,8 +257,8 @@ void TQuestVmDownLoadServer::begin_file_download() {
         }
     }
 }
-void TQuestVmDownLoadServer::receive_file_chunk() {
-    u8 *self_bytes = (u8 *)this;
+void TQuestVmDownLoadServer::receive_file_chunk(TRecvDownload &download) {
+    u8 *self_bytes = (u8 *)&download;
     u8 *dst;
     s32 *flag;
     s32 v;
@@ -278,7 +279,7 @@ void TQuestVmDownLoadServer::receive_file_chunk() {
         } else {
             return;
         }
-        memcpy(dst + (self_bytes[1] << 10), (u8 *)&this->m_down, *(u32 *)(self_bytes + 0x414));
+        memcpy(dst + (self_bytes[1] << 10), download.data, *(u32 *)(self_bytes + 0x414));
         TQuestVmDownLoadServer__received_file_bytes += *(u32 *)(self_bytes + 0x414);
         TDLGraph::update_graph(TQuestVmDownLoadServer__received_file_bytes, TQuestVmDownLoadServer__total_download_bytes);
         if (*(u32 *)(self_bytes + 0x414) < 0x400) {
