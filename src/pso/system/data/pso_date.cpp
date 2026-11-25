@@ -6,6 +6,9 @@
 #include "pso/system/date.h"
 #include "dolphin/os/OSReset.h"
 #include "dolphin/os/OSTime.h"
+#define PSO_SDK_COMPACT_MATH
+#include <dolphin/vi.h>
+#undef PSO_SDK_COMPACT_MATH
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -73,17 +76,17 @@ void fill_date_from_seconds(u32 secs, DateStamp *out) {
 
 u8 calc_day_in_cycle(s32 *date) {
     u32 seconds;
-    u32 var_r4;
+    u32 cycle_seconds;
     DateToSeconds((DateStamp *)date, (int *)&seconds);
     if (seconds >= 0x5CB417D1U) {
-        var_r4 = seconds - 0x5CB417D1U;
-        var_r4 = var_r4 % 0x26EE7FU;
+        cycle_seconds = seconds - 0x5CB417D1U;
+        cycle_seconds = cycle_seconds % 0x26EE7FU;
     } else {
-        var_r4 = 0x5CB417D1U - seconds;
-        var_r4 = var_r4 % 0x26EE7FU;
-        var_r4 = 0x26EE7FU - var_r4;
+        cycle_seconds = 0x5CB417D1U - seconds;
+        cycle_seconds = cycle_seconds % 0x26EE7FU;
+        cycle_seconds = 0x26EE7FU - cycle_seconds;
     }
-    return (u8) (var_r4 / 86400U);
+    return (u8) (cycle_seconds / 86400U);
 }
 
 u8 calc_day_of_week(u16 year, u8 month, u8 day) {
@@ -109,7 +112,6 @@ void DateToSeconds(DateStamp *ds, int *out) {
     d += ds->day - 1;
     *out = ds->second + ((ds->minute + ((ds->hour + d * 0x18) * 0x3C))) * 0x3C;
 }
-void end_ginja_model_draw();
 #pragma pop
 
 int getDateStamp(DateStamp* out) {
@@ -129,10 +131,6 @@ int getDateStamp(DateStamp* out) {
 #include "pso/render/GinjaMotionDraw.h"
 
 extern "C" {
-
-int VIWaitForRetrace(void);
-int VIFlush(void);
-int VISetBlack(int);
 
 void fn_801E2C50(void) {  }
 }
