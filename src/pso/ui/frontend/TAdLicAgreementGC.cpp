@@ -13,10 +13,10 @@ void TAdLicAgreementGC::render() {
     check_main_task_state();
 }
 
-void TAdLicAgreementGC::vfunc_9() { TAdMultiChgGameModeGC::set_game_mode(); }
-void TAdLicAgreementGC::vfunc_8() { TAdMultiChgGameModeGC::request_scene_change(); }
-void TAdLicAgreementGC::vfunc_7() { ((TAdMultiChgGameModeGC *)this)->set_mode_1c(); }
-void TAdLicAgreementGC::vfunc_6() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
+void TAdLicAgreementGC::on_cancel() { TAdMultiChgGameModeGC::set_game_mode(); }
+void TAdLicAgreementGC::on_decline() { TAdMultiChgGameModeGC::request_scene_change(); }
+void TAdLicAgreementGC::on_agree() { ((TAdMultiChgGameModeGC *)this)->set_mode_1c(); }
+void TAdLicAgreementGC::on_closing() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
 
 void TAdLicAgreementGC::run_task() {
     update_state();

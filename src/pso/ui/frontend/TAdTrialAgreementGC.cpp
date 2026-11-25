@@ -37,9 +37,9 @@ void TAdTrialAgreementGC::render() {
     check_main_task_state();
 }
 
-void TAdTrialAgreementGC::vfunc_8() { request_main_phase((saddr)((void*)0)); }
-void TAdTrialAgreementGC::vfunc_7() { TAdMultiChgGameModeGC::request_scene_change(); }
-void TAdTrialAgreementGC::vfunc_6() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
+void TAdTrialAgreementGC::on_decline() { request_main_phase((saddr)((void*)0)); }
+void TAdTrialAgreementGC::on_agree() { TAdMultiChgGameModeGC::request_scene_change(); }
+void TAdTrialAgreementGC::on_closing() { if (scroll_window != NULL) { scroll_window->close_window(); scroll_window = NULL; } }
 void TAdTrialAgreementGC::wait_for_load() {
 loop_1:
     if ((TAdPlayerLoadGC::probe_card_slot(0) != 0) && (poll_memcard_result(0) != 0)) {
@@ -85,7 +85,7 @@ TAdTrialAgreementGC::TAdTrialAgreementGC(TObject *parent) : TAdAgreementBaseGC(p
     m_name = TAdTrialAgreementGC::name;
     scroll_window = NULL;
     if (TAdTrialAgreementGC::check_card_file((saddr)this) != 0) {
-        vfunc_7();
+        on_agree();
         queue_destruction();
         return;
     }

@@ -12,10 +12,10 @@ struct TAdEp3Exist : public TObject {
     TAdEp3Exist(TObject *parent);
     virtual ~TAdEp3Exist();
     static void draw_message_window(void *window, void *frame_context);
-    virtual void *vfunc_6();     // creates the message callback window
+    virtual void *create_callback_window();     // creates the message callback window
     TAdScrollWinGC *scroll_window; // 0x1C: the scrolling text window
     TAdSelectCurGC *cursor;      // 0x20: the one-entry cursor
-    void *callback_window;       // 0x24: vfunc_6's window
+    void *callback_window;       // 0x24: create_callback_window's window
     s32 state;                   // 0x28: the run_task switch
     s32 prev_state;              // 0x2C: state when run_task began; a change restarts frames
     s32 next_state;              // 0x30: entered when the closing state's frames run out

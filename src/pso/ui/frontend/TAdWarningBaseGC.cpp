@@ -44,7 +44,7 @@ TAdWarningBaseGC::~TAdWarningBaseGC() {
     }
 }
 
-void TAdWarningBaseGC::vfunc_8() {
+void TAdWarningBaseGC::update_state() {
     ControllerInputContext *a;
     ControllerInputContext *b;
     prev_state = state;
@@ -76,7 +76,7 @@ void TAdWarningBaseGC::vfunc_8() {
         }
         break;
     case 4:
-        vfunc_6();
+        on_close();
         break;
     }
     if (prev_state != state) {
@@ -86,11 +86,11 @@ void TAdWarningBaseGC::vfunc_8() {
 
 saddr TAdWarningBaseGC::create_message_window() {
     saddr r = (saddr)create_message_window_for_size((NJS_POINT2 *)lbl_80477334, (NJS_POINT2 *)lbl_8047733C);
-    ((TWindowMessage *)r)->append_line(vfunc_7(), 3);
+    ((TWindowMessage *)r)->append_line(get_message_text(), 3);
     return r;
 }
 
-void TAdWarningBaseGC::vfunc_9() {
+void TAdWarningBaseGC::render_dialog() {
     if (TMainTask::get_render_pass() == 1) { return;
     }
 }

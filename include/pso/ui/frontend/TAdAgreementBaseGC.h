@@ -9,10 +9,10 @@ class TAdSelectCurGC;
 struct TAdAgreementBaseGC : public TObject {
     TAdAgreementBaseGC(TObject *parent);
     virtual ~TAdAgreementBaseGC();
-    virtual void vfunc_6();
-    virtual void vfunc_7();
-    virtual void vfunc_8();
-    virtual void vfunc_9();
+    virtual void on_closing();
+    virtual void on_agree();
+    virtual void on_decline();
+    virtual void on_cancel();
     virtual void *create_agreement_callback();
     virtual void update_state();
     virtual void check_main_task_state();
@@ -27,15 +27,5 @@ struct TAdAgreementBaseGC : public TObject {
 };
 
 LAYOUT_ASSERT(TAdAgreementBaseGC_size, sizeof(TAdAgreementBaseGC) == 0x38);
-
-extern "C" {
-void fn_80329BAC(void *p);
-}
-
-// --- C functions defined in TAdAgreementBaseGC.cpp ---
-extern "C" {
-void fn_80329BAC(void *p);
-}
-// --- end of C functions
 
 #endif

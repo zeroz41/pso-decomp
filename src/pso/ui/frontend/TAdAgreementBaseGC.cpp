@@ -48,7 +48,7 @@ void TAdAgreementBaseGC::draw_agreement_text(void *window, void *frame_context) 
 }
 #pragma pop
 
-void TAdAgreementBaseGC::vfunc_9() { state = 4; }
+void TAdAgreementBaseGC::on_cancel() { state = 4; }
 
 void *TAdAgreementBaseGC::create_agreement_callback() {
     return TAdEnterSerialAccessGC::create_callback((void *)&lbl_804770BC, (void *)&lbl_804770C4, TAdAgreementBaseGC::draw_agreement_text);
@@ -84,7 +84,7 @@ void TAdAgreementBaseGC::update_state() {
             ((TWindowBase *)callback_window)->close();
             callback_window = NULL;
         }
-        vfunc_6();
+        on_closing();
         count = frames + 1;
         frames = count;
         if ((f32) count > 4.5f) {
@@ -92,13 +92,13 @@ void TAdAgreementBaseGC::update_state() {
         }
         break;
     case 3:
-        vfunc_7();
+        on_agree();
         break;
     case 4:
-        vfunc_8();
+        on_decline();
         break;
     case 5:
-        vfunc_9();
+        on_cancel();
         break;
     }
     if (prev_state != state) {
@@ -126,11 +126,11 @@ TAdAgreementBaseGC::TAdAgreementBaseGC(TObject *parent) : TObject(parent) {
     cursor = new TAdSelectCurGC(tl_clipout, agreement_item_rect_table, &lbl_804770A0);
     cursor->append_entry((void *)&agreement_item_rect_table[0]);
     cursor->append_entry((void *)&agreement_item_rect_table[1]);
-    fn_80329BAC(cursor);
+    cursor->set_wait_directions_released();
     cursor->set_selection_index(1);
 }
 
-void TAdAgreementBaseGC::vfunc_6() {  }
-void TAdAgreementBaseGC::vfunc_7() {  }
-void TAdAgreementBaseGC::vfunc_8() {  }
-void fn_80329BAC(void* p) { *(s32*)((char*)p + 0xb8) = 1; }
+void TAdAgreementBaseGC::on_closing() {  }
+void TAdAgreementBaseGC::on_agree() {  }
+void TAdAgreementBaseGC::on_decline() {  }
+void TAdSelectCurGC::set_wait_directions_released() { wait_directions_released = 1; }

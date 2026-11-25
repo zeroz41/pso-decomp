@@ -17571,7 +17571,7 @@ force_active:
   - deliver_attack_hits__14TOTrapSeabed01Ff
   - apply_to_target__10TTecGrantsFP9TObjChara
   - apply_to_target__10TTecRaFoieFP9TObjChara
-  - vfunc_6__11TAdEp3ExistFv
+  - create_callback_window__11TAdEp3ExistFv
   - apply_to_target__11TTecRaBartaFP9TObjChara
   - apply_to_target__11TTecRaZondeFP9TObjChara
   - on_wall_hit__12TNeedleShootFv
@@ -17585,11 +17585,11 @@ force_active:
   - apply_saved_state__15TODoorAncient09FPsl
   - on_accept__16TAdPsoPassSaveGCFv
   - apply_saved_state__16TODoorJungleMainFPsl
-  - vfunc_6__17TAdExNetConfirmGCFv
-  - vfunc_6__17TAdLicAgreementGCFv
+  - on_close__17TAdExNetConfirmGCFv
+  - on_closing__17TAdLicAgreementGCFv
   - open_main_menu__17TWindowMainMenu4PFv
-  - vfunc_6__18TAdAgreementBaseGCFv
-  - vfunc_6__18TAdTrialModemChkGCFv
+  - on_closing__18TAdAgreementBaseGCFv
+  - on_close__18TAdTrialModemChkGCFv
   - apply_saved_state__19TContainerAncient01FPsl
   - apply_saved_state__19TOMonumentAncient02FPsl
   - on_accept__20TAdSnAkPassConfirmGCFv
@@ -17605,10 +17605,10 @@ force_active:
   - apply_to_player__10TTecDebandFP10TObjPlayer
   - on_cancel__13TAdVIConfigGCFv
   - on_cancel__16TAdPsoPassSaveGCFv
-  - vfunc_7__17TAdExNetConfirmGCFv
-  - vfunc_7__17TAdLicAgreementGCFv
-  - vfunc_7__18TAdAgreementBaseGCFv
-  - vfunc_7__18TAdTrialModemChkGCFv
+  - get_message_text__17TAdExNetConfirmGCFv
+  - on_agree__17TAdLicAgreementGCFv
+  - on_agree__18TAdAgreementBaseGCFv
+  - get_message_text__18TAdTrialModemChkGCFv
   - apply_to_player__19TTecPlayerInfluenceFP10TObjPlayer
   - on_cancel__20TAdSnAkPassConfirmGCFv
   - apply_to_player__8TTecAntiFP10TObjPlayer
@@ -17651,9 +17651,9 @@ force_active:
   - spawn_effects__10TTecRaFoieFP3Vec
   - spawn_effects__11TTecRaBartaFP3Vec
   - spawn_effects__11TTecRaZondeFP3Vec
-  - vfunc_8__17TAdLicAgreementGCFv
+  - on_decline__17TAdLicAgreementGCFv
   - close_main_menu__17TWindowMainMenu4PFv
-  - vfunc_8__18TAdAgreementBaseGCFv
+  - on_decline__18TAdAgreementBaseGCFv
   - on_yes_chosen__20TAdSnAkPassConfirmGCFv
   - update_attack_trail__12TObjEneBeastFv
   - update_attack_trail__12TObjEneSharkFv
@@ -17690,7 +17690,7 @@ force_active:
   - play_cast_sound__10TTecRaFoieFv
   - play_cast_sound__11TTecRaBartaFv
   - on_target_hit__12TNeedleShootFP14TObjCollidable
-  - vfunc_9__17TAdLicAgreementGCFv
+  - on_cancel__17TAdLicAgreementGCFv
   - on_submenu_closed__17TWindowMainMenu4PFv
   - on_no_chosen__20TAdSnAkPassConfirmGCFv
   - on_target_hit__20TObjEneMe1Gee_NEEDLEFP14TObjCollidable

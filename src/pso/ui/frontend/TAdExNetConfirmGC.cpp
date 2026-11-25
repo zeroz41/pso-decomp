@@ -18,20 +18,20 @@
 const char *lbl_805D4200 = "TAdExNetConfirmGC";
 
 void TAdExNetConfirmGC::render() {
-    vfunc_9();
+    render_dialog();
 }
 
-saddr TAdExNetConfirmGC::vfunc_7() {
+saddr TAdExNetConfirmGC::get_message_text() {
     if (is_confirmed() != 0) {
         return get_localized_text_entry(0x22, 1);
     }
     return get_localized_text_entry(0x22, 0);
 }
 
-void TAdExNetConfirmGC::vfunc_6() { TAdMultiChgGameModeGC::request_scene_change(); }
+void TAdExNetConfirmGC::on_close() { TAdMultiChgGameModeGC::request_scene_change(); }
 
 void TAdExNetConfirmGC::run_task() {
-    vfunc_8();
+    update_state();
 }
 
 TAdExNetConfirmGC::~TAdExNetConfirmGC() {

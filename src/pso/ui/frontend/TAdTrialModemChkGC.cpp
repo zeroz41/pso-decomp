@@ -24,14 +24,14 @@ void TAdTrialModemChkGC::check_modem_result() {
 void TAdTrialModemChkGC__sub_803354E8(void) { TLobby::stop_audio_streams(); }
 
 void TAdTrialModemChkGC::render() {
-    vfunc_9();
+    render_dialog();
 }
 
-saddr TAdTrialModemChkGC::vfunc_7() { return get_localized_text_entry(35, 0); }
-void TAdTrialModemChkGC::vfunc_6() { request_main_phase(0); }
+saddr TAdTrialModemChkGC::get_message_text() { return get_localized_text_entry(35, 0); }
+void TAdTrialModemChkGC::on_close() { request_main_phase(0); }
 
 void TAdTrialModemChkGC::run_task() {
-    vfunc_8();
+    update_state();
 }
 
 

@@ -30,7 +30,7 @@ const char *TAdEp3Exist::name = "TAdEp3Exist";
 const f32 lbl_8047B8C4[2] = { 85.0f, 384.0f };
 const f32 lbl_8047B8CC[2] = { 470.0f, 32.0f };
 
-void *TAdEp3Exist::vfunc_6() {
+void *TAdEp3Exist::create_callback_window() {
     return TAdEnterSerialAccessGC::create_callback((void *)lbl_8047B8C4, (void *)lbl_8047B8CC, draw_message_window);
 }
 
@@ -58,7 +58,7 @@ void TAdEp3Exist::run_task() {
     prev_state = state;
     switch (state) {
     case 0:
-        callback_window = vfunc_6();
+        callback_window = create_callback_window();
         state = 1;
         break;
     case 1:
@@ -147,6 +147,6 @@ TAdEp3Exist::TAdEp3Exist(TObject *parent) : TObject(parent) {
     scroll_window = new TAdScrollWinGC(this, 3, (s32)get_localized_text_entry(0x2C, 9));
     cursor = new TAdSelectCurGC(tl_clipout, (const NJS_POINT2 *)lbl_8047B8A8, (const NJS_POINT2 *)lbl_8047B8B0);
     cursor->append_entry((void *)lbl_8047B8A8);
-    fn_80329BAC(cursor);
+    cursor->set_wait_directions_released();
     cursor->set_selection_index(0);
 }
