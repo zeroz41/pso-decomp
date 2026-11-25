@@ -344,7 +344,7 @@ void TRaderMapCore::load_map_resources() {
 void TRaderMapCore::unload_floor_map() {
     NJS_TEXLIST *texlist;
     u8 *map_data;
-    map_data = TRaderMapCore::floor_map_resource;
+    map_data = (u8 *)TRaderMapCore::floor_map_resource;
     if (map_data != NULL) {
         save_floor_discovery(get_current_floor(), map_data);
     }
