@@ -33,7 +33,7 @@ void TWindowDD__sub_80342428(TWindowDD *window_dd) {
   if (is_word_select_cancel_input(window_dd) != 0)
   {
     TWindowDD::play_se();
-    TWindowDD::apply_entry_layout(window_dd);
+    window_dd->apply_entry_layout();
   }
 }
 }

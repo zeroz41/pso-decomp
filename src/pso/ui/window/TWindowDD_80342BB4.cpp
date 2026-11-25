@@ -18,7 +18,7 @@ void TWindowDD::update_dispatch() {
     }
     if (is_word_select_cancel_input(this) != 0) {
         TWindowDD::play_sound();
-        TWindowDD::apply_entry_layout(this);
+        apply_entry_layout();
     }
 }
 
@@ -33,7 +33,7 @@ void TWindowDD::update_layout() {
     }
     if (is_word_select_cancel_input(this) != 0) {
         TWindowDD::play_se();
-        TWindowDD::apply_entry_layout(this);
+        apply_entry_layout();
     }
 }
 

@@ -37,7 +37,7 @@ void TWindowDD::update() {
     }
     if (is_word_select_cancel_input(this) != 0) {
         TWindowDD::play_se();
-        TWindowDD::apply_entry_layout(this);
+        apply_entry_layout();
     }
 }
 

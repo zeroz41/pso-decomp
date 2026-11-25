@@ -97,7 +97,7 @@ struct TWindowDD : public TObject
     TWindowDD_WS_Word *init_last_child();
     s32 setup_entry(s16 id);
     s32 get_current_child_index();
-    static TWindowDDStateEntry *get_entry(void *window, int index);
+    TWindowDDStateEntry *get_state_entry(s32 state);
     void init_entry_field_64(s32 arg1);
     static void refresh_sub(void* p, void* a1);
     static void apply_input(void* p, void* a1);
@@ -144,10 +144,11 @@ struct TWindowDD : public TObject
     void handle_confirm_input();
     void update_selection_state();
     static void update_draw(void *p);
-    static void enter_state_16(void *window_dd);
-    static void apply_entry_layout(void *window_dd);
-    static void update_state(void *window_dd);
-    static s32 update_close_flag(void *window_dd);
+    void enter_state_16();
+    void apply_entry_layout();
+    void update_state();
+    s32 update_close_flag();
+    void handle_input();
 };
 
 #include <stddef.h>

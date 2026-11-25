@@ -487,7 +487,7 @@ s32 TWindowDD::get_current_child_index() {
 
 extern const f32 TWindowDD__data_805DFC10;
 
-TWindowDDStateEntry *TWindowDD::get_entry(void *window, int index) { return &word_select_state_table[index]; }
+TWindowDDStateEntry *TWindowDD::get_state_entry(s32 state) { return &word_select_state_table[state]; }
 
 void TWindowDD__sub_80347F48(TWindowDD *window_dd) {
     TWindowDD_WS_String *next;
