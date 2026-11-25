@@ -13,7 +13,7 @@ s32 async_file_read_state;
 u8 *async_file_read_sector_buffer;
 AdxfHandle *lobby_download_state_ptr;
 s32 lobby_list_next_id;
-s32 game_heap;
+THeap *game_heap;
 u8 *async_file_read_texture_buffer;
 void process_async_file_reads(void) {
     switch (async_file_read_state) {

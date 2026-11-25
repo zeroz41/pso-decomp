@@ -5,6 +5,7 @@
 #include <stddef.h>
 
 struct AdxfHandle;
+class THeap;
 struct BmlResource;
 struct NJS_TEXLIST;
 
@@ -42,6 +43,8 @@ extern s32 async_file_read_state;
 extern u8 *async_file_read_sector_buffer;
 extern AdxfHandle *lobby_download_state_ptr;
 extern s32 lobby_list_next_id;
+// The heap TLobby::init_download_state creates for game allocations.
+extern THeap *game_heap;
 }
 
 void process_async_file_reads();
