@@ -26,6 +26,7 @@
 #include "pso/system/vector.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TPlayerBattleCtrl.h"
+#include "pso/player/TPlayerBattleCtrl4P.h"
 
 static const ChrSelPlateLayout chr_sel_b_slot_plate_layout = { 180.0f, 38.0f, { 0xBC, 0x98, 0x36, 0x00 }, 0 };
 // Plate positions of the four entries
@@ -42,9 +43,8 @@ PlayerSlotLabel chr_select_b_slot_entry;
 
 extern "C" {
 s32 start_memcard_format(s32, s32, s32, s32, s32);
-s32 are_split_screen_battle_players_tied(void);
-extern TAdChrSelASlotGC *TAdChrSel__global_slot_data;
 }
+extern TAdChrSelASlotGC *TAdChrSel__global_slot_data;
 
 void TAdChrSelBSlotGC::render() {
     if (TMainTask::get_render_pass() == 1) { return;
