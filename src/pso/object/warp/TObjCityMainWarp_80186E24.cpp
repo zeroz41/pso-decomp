@@ -17,6 +17,7 @@
 extern "C" {
 
 void request_active_window_close(void);
+}
 
 void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
 
@@ -62,6 +63,4 @@ void update_challenge_warp_window(TObjCityMainWarpChallenge *warp) {
         TWindowCtrl::unsuppress_slot(local_client_id);
         break;
     }
-}
-
 }

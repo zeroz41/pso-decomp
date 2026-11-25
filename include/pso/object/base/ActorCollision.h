@@ -58,18 +58,18 @@ extern "C" {
 CollisionBody *init_collision_body_parts(TObjCollidable *actor, const CollisionBody *bodies, s32 count);
 }
 void free_collision_body_parts(TObjCollidable *actor);
-extern "C" {
 void check_enemy_body_collisions(TObjCollidable *actor);
 // Enters the actor in the id-sorted entity table; returns its entity id.
 u16 register_entity_by_id(TObjCollidable *actor);
+extern "C" {
 // The actor with this entity id if it can be hit on that collision body now,
 // else NULL.
 TObjChara *resolve_hittable_target(u16 actor_id, s16 collider);
+}
 // The eight world corners of a box body of an actor at origin turned by
 // facing; 1 when written to *out.
 s32 build_collision_box_corners(Vec origin, s32 facing, CollisionBody *body, CollisionBox *out);
 // Empties player_unique_pair_entries.
 void reset_global_table(void);
-}
 
 #endif

@@ -23,8 +23,8 @@ s32 get_current_floor(void);
 BOOL is_split_screen(void);
 void main(void);
 f32 newton_sqrtf(f32 x);
-void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3);
 }
+void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3);
 
 // 1 when csnLookAt finds a wall between the body centre and `target` (a far target is
 // pulled in to 300 units along the same heading), else 0.

@@ -61,13 +61,17 @@ LAYOUT_ASSERT(TPlayerBattleCtrl_size, sizeof(TPlayerBattleCtrl) == 0x278);
 extern "C" {
 u8 is_battle_mode_running(void);
 s32 TLobby__sub_801C2678(void);
+}
 s32 is_duel_ranking_empty(void);
+extern "C" {
 void TLobby__sub_801C2C34(void *arg0);
 void TLobby__sub_801C38A4(void);
-void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
-void free_char_slots(void);
-s32 get_battle_time_limit_frames(void);
 }
+void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
+extern "C" {
+void free_char_slots(void);
+}
+s32 get_battle_time_limit_frames(void);
 void clear_battle_player_ready_flags(void);
 extern "C" {
 void fn_801C4CE0(TPlayerBattleCtrl *player_battle_ctrl);

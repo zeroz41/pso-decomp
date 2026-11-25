@@ -3,6 +3,6 @@
 
 struct TObjCityMainWarpChallenge;
 
-extern "C" void update_challenge_warp_window(TObjCityMainWarpChallenge *warp);
+void update_challenge_warp_window(TObjCityMainWarpChallenge *warp);
 
 #endif

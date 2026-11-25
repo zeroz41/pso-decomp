@@ -169,9 +169,7 @@ void PhotonBlastGauge::draw_party_label(TObjChara *target, u16 effect) {
     }
 }
 
-extern "C" {
 void add_photon_blast_chain_charge(PhotonBlastGauge *gauge, f32 amount);
-}
 
 s32 PhotonBlastGauge::subtract_photon_blast_charge(f32 amount) {
     f32 charge = this->charge;
@@ -193,7 +191,6 @@ s32 PhotonBlastGauge::subtract_photon_blast_charge(f32 amount) {
     return 1;
 }
 
-extern "C" {
 void add_photon_blast_chain_charge(PhotonBlastGauge *gauge, f32 amount) {
     f32 charge = gauge->charge;
     if (charge < 100.0f) {
@@ -209,7 +206,6 @@ void add_photon_blast_chain_charge(PhotonBlastGauge *gauge, f32 amount) {
             gauge->set_charge_capped();
         }
     }
-}
 }
 
 void PhotonBlastGauge::add_photon_blast_charge(f32 amount) {

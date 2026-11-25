@@ -6,8 +6,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_802C422C.h"
 
-extern "C" {
-
 int init_new_character_data(void *data) {
     TPlyCharData *record = (TPlyCharData *)data;
     record->m_inventory.m_num_items = 0;
@@ -93,5 +91,4 @@ void init_character_stats_for_level(s32 cls, TPlyCharData *c, s32 level) {
 
 void init_new_character_stats(TPlyCharData *character) {
     init_character_stats_for_level(character->m_disp_part2.char_class, character, 0);
-}
 }

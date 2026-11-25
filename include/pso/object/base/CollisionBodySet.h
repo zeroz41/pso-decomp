@@ -14,10 +14,10 @@ struct CollisionBodySet {
     s32 facing;
 };
 
-extern "C" CollisionBody *refresh_actor_body_spheres(CollisionBodySet source, CollisionBodySet destination);
+CollisionBody *refresh_actor_body_spheres(CollisionBodySet source, CollisionBodySet destination);
 // 1 if source's bodies at pos touch another registered non-player actor's;
 // that body is copied to *out.
-extern "C" s32 test_player_overlap_with_players(TObjCollidable *actor, TObjCollidable *source, Vec *pos, CollisionBody *out);
-extern "C" s32 test_player_body_overlap_at(TObjMapWarp *warp, TObjCollidable *player, const Vec *position);
+s32 test_player_overlap_with_players(TObjCollidable *actor, TObjCollidable *source, Vec *pos, CollisionBody *out);
+s32 test_player_body_overlap_at(TObjMapWarp *warp, TObjCollidable *player, const Vec *position);
 
 #endif

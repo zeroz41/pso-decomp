@@ -86,11 +86,13 @@ extern "C" {
 u8 is_battle_mode_running(void);
 s32 TLobby__sub_801C2678(void);
 u8 TLobby__sub_801D7100(void *);
+}
 extern u8 lobby_rule_settings[];
 s32 is_duel_ranking_empty(void);
 extern u8 player_battle_ctrl_text_japanese[];
 extern u8 player_battle_ctrl_text_english[];
 struct SendBattleModeDataS801C295C { s32 f0; s8 f4; s8 pad[0x13]; };
+extern "C" {
 
 void build_6x7D_set_battle_mode_data(void *p);
 }
@@ -267,7 +269,9 @@ void TLobby__sub_801B09A4(void);
 
 
 void request_active_window_close(void);
+}
 s32 get_battle_time_limit_frames(void);
+extern "C" {
 void __destroy_new_array(void *, void *);
 void free_char_slots(void);
 int TKeyBoardControl__sub_8000F828(void);
@@ -291,18 +295,15 @@ s32 fn_801D72B0(void *, int);
 
 extern s32 battle_intro_value_table[];
 
-extern "C" {
-
-
-
-
-
 extern char battle_intro_message_buffer[];
+extern "C" {
 
 
 void reset_map(void);
 void TLobby__sub_8020BC50(void);
+}
 void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
+extern "C" {
 
 
 void TKeyBoardControl__sub_8000F950(void);

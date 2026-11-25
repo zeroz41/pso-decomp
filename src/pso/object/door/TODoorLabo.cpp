@@ -91,7 +91,6 @@ TODoorFourLightBase::~TODoorFourLightBase() {
 
 }
 
-extern "C" {
 void TODoorFourLightBase::render() {
     if (update_object_view_visibility(view_range, model_radius) != 1) {
         return;
@@ -337,8 +336,6 @@ void free_seabed_four_light_door_resources() {
         delete (BmlResource *)door_labo_bml_resource;
         door_labo_bml_resource = NULL;
     }
-}
-
 }
 const char *door_four_light_seabed_class_name = "TODoorFourLightSeabed";
 const FourLightNodeTable door_four_light_seabed_index_table = {{2, 4, 9, 11, 3, 5, 10, 12}};

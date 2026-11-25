@@ -37,8 +37,8 @@ PhotonBlastRequest *find_free_photon_blast_request(PhotonBlastRegistry *registry
 // Clears flag 4 and sets flag 8 on the photon blast gauge of each requesting player.
 void release_photon_blast_requests(PhotonBlastRegistry *registry);
 
-extern "C" {
 void append_photon_blast_request(PhotonBlastRegistry *registry, u16 client_id, s16 kind);
+extern "C" {
 void TObjPlayer__sub_80312E98(PhotonBlastRegistry *registry, s32 client_id);
 }
 

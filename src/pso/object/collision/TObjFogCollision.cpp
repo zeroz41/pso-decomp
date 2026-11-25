@@ -40,20 +40,17 @@ const char *fog_collision_name = "TObjFogCollision";
 const char *fog_collision_switch_name = "TObjFogCollisionSwitch";
 const char *fog_collision_poison_name = "TObjFogCollisionPoison";
 
-extern "C" {
-
-
 void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
+extern "C" {
 u8 is_current_floor_switch_set(u16);
 
 s32 is_split_screen();
+}
 
 // Function definitions in reverse address order (-inline deferred emits them reversed).
 void *TObjFogCollision::create(void *set) {
     void *o = (void *)new TObjFogCollision(tl_05, set);
     return o;
-}
-
 }
 TObjFogCollision::TObjFogCollision(TObject *parent, void *set) : TObjBase(parent) {
     ((TObject *)this)->m_name = fog_collision_name;

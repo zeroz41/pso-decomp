@@ -91,6 +91,7 @@ struct Ent_8017B9B0 { s16 a; s16 b; };
 extern "C" {
 
 void TOVS2Wall01__sub_8017B9AC(void *) {  }
+}
 
 void handle_6x86_hit_destructible_object(game_command_header *command) {
     WallHitPacket *wall_hit_packet = reinterpret_cast<WallHitPacket *>(command);
@@ -166,8 +167,6 @@ void TOVS2Wall01::save_and_send_state(u16 arg1) {
         pkt.remaining_hits = hits_left;
         pkt.send();
     }
-}
-
 }
 
 // ---- TOVS2Wall01 (vfunc_6, spawn_debris)

@@ -485,7 +485,6 @@ void TObjPlayer__sub_801BEEAC(MovementHold *dst, MovementHold *src);
 void TObjPlayer__sub_801BEEE0(void *, void *);
 void TObjPlayer__sub_801BEF30(void *, void *);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
-void set_equip_slot_entry(saddr, s32, s32);
 void *__ct__12StatusEffectFv(void *);
 s16 TObjPlayer__sub_801CFBFC(u8 *arg0);
 
@@ -505,10 +504,7 @@ u8 fn_801D7204(s32 *);
 s32 TObjPlayer__sub_801D91B8(void *, void *);
 s32 validate_6xAE_set_animation_state(void *);
 s32 fn_8000F740(void *);
-void run_palettex_callback(u16);
 s32 is_palettex_activated(u16);
-s32 is_local_client(u16 client_index);
-void reset_client_quest_slot_table(void);
 s32 fn_8036B748(void *);
 s32 fn_8036B770(void *);
 void *__construct_array(void *, void *, void *, u32, u32);

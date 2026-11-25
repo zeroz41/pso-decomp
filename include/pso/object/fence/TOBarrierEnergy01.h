@@ -25,6 +25,6 @@ public:
 
 LAYOUT_ASSERT(TOBarrierEnergy01_size, sizeof(TOBarrierEnergy01) == 0xD4);
 struct G_UpdateObjectState_6x0B;
-extern "C" G_UpdateObjectState_6x0B *init_collision_subcommand_header(G_UpdateObjectState_6x0B *packet);
+G_UpdateObjectState_6x0B *init_collision_subcommand_header(G_UpdateObjectState_6x0B *packet);
 
 #endif

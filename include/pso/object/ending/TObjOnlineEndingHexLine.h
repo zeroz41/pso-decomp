@@ -43,7 +43,7 @@ LAYOUT_ASSERT(EndingHexProgressOffset, offsetof(TObjOnlineEndingHexLine, progres
 
 void copy_ending_hex_point(EndingHexPoint *point, const EndingHexPoint *source);
 extern EndingHexLineParams online_ending_hex_line_state;
-extern "C" void reset_hex_line_params(void);
+void reset_hex_line_params(void);
 
 struct NJS_TEXLIST;
 // The f512_multiplay texture list register_texture_f512_multiplay loads for the

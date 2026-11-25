@@ -26,6 +26,7 @@ static const f32 fomar_technique_boosts[19] = {
 
 extern "C" {
 s8 TObjPlayer__sub_801AFDBC(s8 cls);
+}
 extern u8 *class_technique_cap_table[12];
 
 // Technique boost row per character class (12 classes).
@@ -37,9 +38,11 @@ const f32 *class_technique_boost_table[12] = {
 f32 get_class_technique_boost(s8 cls, s16 technique) {
     return class_technique_boost_table[TObjPlayer__sub_801AFDBC(cls)][technique];
 }
+extern "C" {
 
 u8 get_class_technique_cap(s8 cls, s16 technique) {
     return class_technique_cap_table[TObjPlayer__sub_801AFDBC(cls)][technique];
+}
 }
 
 void init_class_technique_caps(PlayerTechniqueState *techs, s8 cls) {
@@ -49,5 +52,4 @@ void init_class_technique_caps(PlayerTechniqueState *techs, s8 cls) {
         techs->levels[i] = get_class_technique_cap(cls, i);
         i++;
     }
-}
 }

@@ -671,12 +671,12 @@ force_active:
   - TLobby__sub_801A3CF8
   - TLobby__sub_801A3E94
   - set_floor_transition_ready
-  - is_duel_ranking_empty
+  - is_duel_ranking_empty__Fv
   - TLobby__sub_801C2C34
   - TLobby__sub_801C38A4
-  - update_battle_exit_sequence
+  - update_battle_exit_sequence__FP17TPlayerBattleCtrl
   - TLobby__sub_801C3AF4
-  - get_battle_time_limit_frames
+  - get_battle_time_limit_frames__Fv
   - TLobby__sub_801E3CF0
   - is_message_source_exhausted
   - append_message_char__FSc
@@ -1532,9 +1532,9 @@ force_active:
   - TObjPlayer__sub_800E85BC
   - begin_alt_model_draw__Fv
   - prepend_alt_model__FP14AltChunkObjectl
-  - copy_ezrope_collider
-  - copy_ezrope_end
-  - copy_ezrope_segment
+  - copy_ezrope_collider__FP18TObjEZRopeColliderP18TObjEZRopeCollider
+  - copy_ezrope_end__FP13TObjEZRopeEndP13TObjEZRopeEnd
+  - copy_ezrope_segment__FP17TObjEZRopeSegmentP17TObjEZRopeSegment
   - __ct__26TItemWeaponWokOfAkikosShopFP7TObjectPUc
   - __dt__20TItemFollowStarLightFv
   - __ct__20TItemWeaponEvilCurstFP7TObjectPUc
@@ -4706,7 +4706,7 @@ force_active:
   - build_6xAD_olga_flow_subordinate_boss_actions__FPv
   - build_beam_points__21TeneFakeTecThunderEffFv
   - build_box_triangles__10TObjMapCsnFv
-  - build_collision_box_corners
+  - build_collision_box_corners__F3VeclP13CollisionBodyP12CollisionBox
   - build_dead_list_window__15TObjDeadListWinFv
   - build_default_save_file__23TAdSinglePlyChrSelectGCFv
   - build_door_collision_triangles__18TObjCityDoor_LobbyFv
@@ -6354,7 +6354,7 @@ force_active:
   - load_unload_set_shuffle_order
   - load_unload_set_init_order
   - remove_poison_immunity__Fi
-  - init_6x91_subcommand
+  - init_6x91_subcommand__FP31G_UpdateAttackableColState_6x91
   - fn_801811FC
   - fn_80181204
   - fn_801908F8

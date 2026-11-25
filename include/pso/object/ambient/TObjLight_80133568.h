@@ -23,15 +23,13 @@ void init_map_lights(LightEntry *entry);
 void set_scene_light_color(f32 r, f32 g, f32 b);
 // Lights the scene with a directional light along `dir` and an ambient intensity.
 void set_light(const Vec *dir, const NJS_ARGB *color, f32 ambient);
-extern "C" {
 // Every caller passes 4 as the second argument; the body never reads it.
 void init_menu_scene_lights(LightEntry *entry, s32);
-}
 void load_light_entry_file(void);
-extern "C" {
 void publish_actor_light_scalars(u32 id, f32 intensity, f32 ambient);
 void publish_light_direction_color(u32 id, void *dir, void *color);
 void register_actor_light(s32 id, TObjLight *light);
+extern "C" {
 void restore_scene_lighting(void);
 void select_actor_lighting(TObjBase *obj);
 }

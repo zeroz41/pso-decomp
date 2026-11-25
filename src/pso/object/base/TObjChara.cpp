@@ -132,9 +132,11 @@ struct Layout_80019038 {
 };
 extern "C" {
 void create_hit_effect__10TObjPlayerFPv(void *);
+}
 extern s32 registered_player_count;
 extern s32 registered_enemy_count;
 void show_meseta_label(saddr player, u32 arg1, s32 arg2, s32 arg3);
+extern "C" {
 void send_6x2F_change_player_hp(u16, u16, s16);
 void dispatch_weapon_special_effect(void *, void *, void *, s32);
 }

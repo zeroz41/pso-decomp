@@ -43,7 +43,7 @@ void TObjCityMainWarp::update_state() {
             player = find_local_city_warp_player(this, warp_range);
             if (player != NULL) {
                 TObjCityMainWarp::notify_player_warp(this, local_client_id);
-                this->dest_floor = (s32) city_main_warp_destination_id;
+                this->dest_floor = city_main_warp_destination_id;
                 this->confirm_area_transfer(player);
                 *(s16 *)((s8 *)this + 0xE0) = 2;
             }

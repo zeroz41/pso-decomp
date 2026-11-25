@@ -40,7 +40,7 @@ public:
 LAYOUT_ASSERT(TObjFogCollisionPoison_Ticker_size, sizeof(TObjFogCollisionPoison_Ticker) == 0x2C);
 extern "C" {
 void TObjFogCollisionPoison__sub_801533BC(void);
-void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
 }
+void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2);
 
 #endif
