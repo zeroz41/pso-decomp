@@ -4785,7 +4785,7 @@ force_active:
   - calc_params__11TTecGiBartaFv
   - calc_params__13TBoss5GryphonFP23Boss5GryphonMotionEntryP22Boss5GryphonActionStep
   - calc_photon_blast_power__20TPhotonBlastSequenceFlf
-  - calc_player_rankings__6TLobbyFPv
+  - calc_player_rankings__17TPlayerBattleCtrlFv
   - calc_position__13TObjEneMe1GeeFP3Vec
   - calc_preview_last_index__12TChCrLoadReqFll
   - calc_preview_offset__12TChCrLoadReqFlll
@@ -5033,7 +5033,7 @@ force_active:
   - check_system_file_status__23TAdSinglePlyChrSelectGCFv
   - check_target__17TObjEneMe1CanadinFv
   - check_target_collision__16TBoss3VoloptCoreFv
-  - check_team_balance__6TLobbyFPvi
+  - check_team_balance__17TPlayerBattleCtrlFl
   - check_timeout__6TLobbyFPv
   - check_trigger__11TOFenceBaseFv
   - check_sound_admission__FPC3Vecl
@@ -16823,7 +16823,7 @@ force_active:
   - update_drop__18TObjEneBalClawClawFv
   - update_drop__20TBoss3VoloptHiraisinFv
   - update_duel_end_effect
-  - update_duel_result__6TLobbyFPv
+  - update_duel_result__17TPlayerBattleCtrlFv
   - update_duel_start_countdown__15TDuelEffectCtrlFv
   - update_dust_spawn__15TObjBoss7TunnelFv
   - update_dying__9TObjGrassFv

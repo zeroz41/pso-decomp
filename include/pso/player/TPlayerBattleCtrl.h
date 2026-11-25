@@ -24,6 +24,9 @@ public:
     s32 check_all_battle_flags();
     s32 check_battle_end();
     s32 check_all_players_ready();
+    s32 check_team_balance(s32 check_rule);
+    s32 calc_player_rankings();
+    void update_duel_result();
     virtual void run_task();
     s32 state_1c;
     s32 state_20;

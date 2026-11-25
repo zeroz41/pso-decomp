@@ -650,9 +650,7 @@ struct TLobby : public TObject {
     static void bswap_header_fields(void *header);
     static void bswap_inventory(void*);
     static void bswap_player_data(void *data);
-    static s32 calc_player_rankings(void *);
     static s32 change_file_extension(char *dest, char *filename, char *ext);
-    static s32 check_team_balance(void *, int);
     static void close_all_windows(void *);
     static void close_all_windows();
     static void close_and_send_text_list();
@@ -773,7 +771,6 @@ struct TLobby : public TObject {
     static void update_block_jump_list();
     static void update_card_list_window();
     static void update_com_card_window();
-    static void update_duel_result(void *);
     static void update_game_list_menu();
     static void update_idle_timeout(void *);
     static void update_make_team_menu();

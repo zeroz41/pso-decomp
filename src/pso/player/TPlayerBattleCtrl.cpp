@@ -142,7 +142,6 @@ extern "C" {
 void build_6x7D_set_battle_mode_data(void *);
 
 struct UpdateTimedWaitLobby;
-s32 calc_player_rankings__6TLobbyFPv(UpdateTimedWaitLobby *);
 
 }
 
@@ -314,7 +313,6 @@ void obj_clear_flag30_20000(void *actor);
 extern "C" {
 
 
-void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl);
 
 
 
@@ -326,7 +324,6 @@ void TLobby__sub_8020BC50(void);
 void update_battle_exit_sequence(TPlayerBattleCtrl *ctrl);
 
 
-s32 check_team_balance__6TLobbyFPvi(UpdateTimedWaitLobby *self, s32 arg1);
 void TKeyBoardControl__sub_8000F950(void);
 extern s32 evt2_random_enemies_mode;
 void TAdSinglePlyChrSelectGC__sub_801C50C0(u16);
@@ -412,7 +409,7 @@ void update_player_battle_ctrl_state(void *player_battle_ctrl) {
         ((TPlayerBattleCtrl *)player_battle_ctrl)->update_timed_wait();
         return;
     case 3:
-        TLobby::update_duel_result((u8 *)player_battle_ctrl);
+        ((TPlayerBattleCtrl *)player_battle_ctrl)->update_duel_result();
         return;
     case 4:
         ((TPlayerBattleCtrl *)player_battle_ctrl)->end_battle_mode_cleanup();
@@ -534,7 +531,7 @@ void TPlayerBattleCtrl::update_timed_wait() {
         start_duel_battle();
         ((UpdateTimedWaitLobby *)this)->state = 1;
     case 1:
-        if (TLobby::check_team_balance((UpdateTimedWaitLobby *)(((UpdateTimedWaitLobby *)this)), 1) != 0) {
+        if (check_team_balance(1) != 0) {
             send_battle_mode_params(5, 0, 0);
             return;
         }
@@ -560,26 +557,26 @@ void TPlayerBattleCtrl::update_timed_wait() {
             send_battle_mode_state();
             ((UpdateTimedWaitLobby *)this)->timer60 = 90;
         }
-        TLobby::calc_player_rankings((UpdateTimedWaitLobby *)(((UpdateTimedWaitLobby *)this)));
+        calc_player_rankings();
         break;
     case -1:
         break;
     }
 }
 
-void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl) {
+void TPlayerBattleCtrl::update_duel_result() {
     void *p;
     void *q;
-    switch (ctrl->state_20) {
+    switch (state_20) {
     case 0:
-        ctrl->init();
+        init();
         lbl_805D5DA8 = 0;
         lbl_805D5DAC = 0;
-        new TDuelEffectCtrl((TObject *)ctrl, 1);
-        ctrl->timer = 0x78;
+        new TDuelEffectCtrl((TObject *)this, 1);
+        timer = 0x78;
         TWindowCtrl::close_timer_window();
         TWindowCtrl::suppress_slot(local_client_id);
-        ctrl->state_20 = 1;
+        state_20 = 1;
         p = (void *)(saddr)get_local_player();
         if (p != NULL) {
             ((TObjPlayer *)p)->release_attached_resource();
@@ -590,10 +587,10 @@ void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl) {
         if (p != NULL) {
             ((TObjPlayer *)p)->release_attached_resource();
         }
-        if (--ctrl->timer <= 0) {
-            ctrl->send_battle_mode_state();
-            ctrl->timer = 0x5A;
-            ctrl->state_20 = 2;
+        if (--timer <= 0) {
+            send_battle_mode_state();
+            timer = 0x5A;
+            state_20 = 2;
         }
         break;
     case 2:
@@ -601,9 +598,9 @@ void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl) {
         if (p != NULL) {
             ((TObjPlayer *)p)->release_attached_resource();
         }
-        if (--ctrl->timer <= 0) {
-            ctrl->timeout = 0x1C2;
-            ctrl->state_20 = 3;
+        if (--timer <= 0) {
+            timeout = 0x1C2;
+            state_20 = 3;
         }
         break;
     case 3:
@@ -611,23 +608,23 @@ void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl) {
         if (p != NULL) {
             ((TObjPlayer *)p)->release_attached_resource();
         }
-        if (ctrl->check_timeout((ctrl->timeout)--) != 0 || ctrl->timeout <= 0) {
-            TLobby::clear_counter(ctrl);
-            TLobby::calc_player_rankings((UpdateTimedWaitLobby *)ctrl);
-            record_local_battle_placement(ctrl);
+        if (check_timeout((timeout)--) != 0 || timeout <= 0) {
+            TLobby::clear_counter(this);
+            calc_player_rankings();
+            record_local_battle_placement(this);
             if (duel_result_table[0].client_id == local_client_id) {
                 play_duel_result_stream("win.adx", 0x96);
             } else {
                 play_duel_result_stream("lose.adx", 0x96);
             }
-            ctrl->state_20 = 4;
+            state_20 = 4;
         }
         break;
     case 4:
-        if (ctrl->window_54 != NULL) {
-            ((TWindowBase *)(ctrl->window_54))->close();
+        if (window_54 != NULL) {
+            ((TWindowBase *)(window_54))->close();
         }
-        ctrl->window_54 = new TWindowDuelResult(local_client_id);
+        window_54 = new TWindowDuelResult(local_client_id);
         q = (void *)(saddr)get_local_player();
         if (q != NULL) {
             if (((TObjPlayer *)q)->check_player_flag1() == 0) {
@@ -635,14 +632,14 @@ void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl) {
             }
             ((TObjPlayer *)q)->release_attached_resource();
         }
-        ctrl->state_20 = 5;
+        state_20 = 5;
         break;
     case 5:
         if (controller_input_state.controllers[0].pressed_buttons & 2) {
             TLobby::handle_battle_result((u16)local_client_id, 1);
-            ((TWindowBase *)(ctrl->window_54))->close();
-            ctrl->window_54 = NULL;
-            ctrl->state_20 = 6;
+            ((TWindowBase *)(window_54))->close();
+            window_54 = NULL;
+            state_20 = 6;
             p = (void *)(saddr)get_local_player();
             if (p != NULL && (static_cast<TObjPlayer *>(p)->actorFlags & 0x800)) {
                 static_cast<TObjPlayer *>(p)->reset_pose();
@@ -650,43 +647,43 @@ void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl) {
         }
         break;
     case 6:
-        if (TLobby::check_team_balance((UpdateTimedWaitLobby *)((UpdateTimedWaitLobby *)ctrl), 0) != 0) {
+        if (check_team_balance(0) != 0) {
             send_battle_mode_params(5, 1, 0);
         } else {
             q = (void *)(saddr)get_local_player();
             if (local_client_id == designated_client_id && TWindowCtrl::has_player_active_menu(local_client_id) == 0) {
-                if (ctrl->window_4c == NULL) {
-                    ctrl->window_4c = TWindowMessage::create(get_window_layout_position(0x53), (const f32 *)lbl_80446FA4, 1);
-                    if (ctrl->window_4c != NULL) {
-                        ((TWindowMessage *)(ctrl->window_4c))->append_line(((s32 *)ctrl->text)[0], 0x80);
+                if (window_4c == NULL) {
+                    window_4c = TWindowMessage::create(get_window_layout_position(0x53), (const f32 *)lbl_80446FA4, 1);
+                    if (window_4c != NULL) {
+                        ((TWindowMessage *)(window_4c))->append_line(((s32 *)text)[0], 0x80);
                     }
                 }
-                if (ctrl->window_50 == NULL) {
-                    ctrl->window_50 = create_window_menu_default(get_window_layout_position(0x54), 3);
-                    ((TWindowMenu *)(ctrl->window_50))->add_text_entry(((s32 *)ctrl->text)[1], 6, 1);
-                    ((TWindowMenu *)(ctrl->window_50))->add_text_entry(((s32 *)ctrl->text)[2], 6, 2);
-                    ((TWindowMenu *)(ctrl->window_50))->add_text_entry(((s32 *)ctrl->text)[3], 6, 3);
-                    ((TWindowMenu *)(ctrl->window_50))->calc_window_size();
-                    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(ctrl->window_50));
-                    ((TWindowMenu *)(ctrl->window_50))->set_ready_flag();
+                if (window_50 == NULL) {
+                    window_50 = create_window_menu_default(get_window_layout_position(0x54), 3);
+                    ((TWindowMenu *)(window_50))->add_text_entry(((s32 *)text)[1], 6, 1);
+                    ((TWindowMenu *)(window_50))->add_text_entry(((s32 *)text)[2], 6, 2);
+                    ((TWindowMenu *)(window_50))->add_text_entry(((s32 *)text)[3], 6, 3);
+                    ((TWindowMenu *)(window_50))->calc_window_size();
+                    align_menu_entry_positions(reinterpret_cast<TWindowMenu *>(window_50));
+                    ((TWindowMenu *)(window_50))->set_ready_flag();
                 }
-                if (ctrl->window_50 != NULL) {
-                    if (((TWindowMenu *)(ctrl->window_50))->is_decided() != 0) {
-                        switch (((TWindowMenu *)(ctrl->window_50))->get_selected_value()) {
+                if (window_50 != NULL) {
+                    if (((TWindowMenu *)(window_50))->is_decided() != 0) {
+                        switch (((TWindowMenu *)(window_50))->get_selected_value()) {
                         case 1:
-                            send_6x7D_set_battle_mode_data(ctrl);
-                            ctrl->state_20 = 9;
+                            send_6x7D_set_battle_mode_data(this);
+                            state_20 = 9;
                             break;
                         case 2:
-                            ctrl->state_20 = 7;
+                            state_20 = 7;
                             break;
                         case 3:
                             send_battle_mode_params(4, 0, 0);
-                            ctrl->state_20 = 9;
+                            state_20 = 9;
                             break;
                         }
-                    } else if (((TWindowMenu *)(ctrl->window_50))->is_cancelled() != 0) {
-                        ctrl->state_20 = 7;
+                    } else if (((TWindowMenu *)(window_50))->is_cancelled() != 0) {
+                        state_20 = 7;
                     }
                 }
                 if (q != NULL && ((TObjPlayer *)q)->check_player_flag1() == 0) {
@@ -698,41 +695,41 @@ void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl) {
         }
         break;
     case 7:
-        if (ctrl->window_4c != NULL) {
-            ((TWindowBase *)(ctrl->window_4c))->close();
-            ctrl->window_4c = NULL;
+        if (window_4c != NULL) {
+            ((TWindowBase *)(window_4c))->close();
+            window_4c = NULL;
         }
-        if (ctrl->window_50 != NULL) {
-            ((TWindowBase *)(ctrl->window_50))->close();
-            ctrl->window_50 = NULL;
+        if (window_50 != NULL) {
+            ((TWindowBase *)(window_50))->close();
+            window_50 = NULL;
         }
         p = (void *)(saddr)get_local_player();
         if (p != NULL && ((TObjPlayer *)p)->check_player_flag1() != 0) {
             TLobby::handle_battle_result((u16)local_client_id, 1);
         }
-        ctrl->state_20 = 8;
+        state_20 = 8;
     case 8:
-        if (TLobby::check_team_balance((UpdateTimedWaitLobby *)((UpdateTimedWaitLobby *)ctrl), 0) != 0) {
+        if (check_team_balance(0) != 0) {
             send_battle_mode_params(5, 1, 0);
         } else {
             p = (void *)get_player_by_client_id(local_client_id);
             if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 && (controller_input_state.controllers[0].pressed_buttons & 6)) {
-                ctrl->state_20 = 6;
+                state_20 = 6;
             }
         }
         break;
     case -1:
-        if (ctrl->window_4c != NULL) {
-            ((TWindowBase *)(ctrl->window_4c))->close();
-            ctrl->window_4c = NULL;
+        if (window_4c != NULL) {
+            ((TWindowBase *)(window_4c))->close();
+            window_4c = NULL;
         }
-        if (ctrl->window_50 != NULL) {
-            ((TWindowBase *)(ctrl->window_50))->close();
-            ctrl->window_50 = NULL;
+        if (window_50 != NULL) {
+            ((TWindowBase *)(window_50))->close();
+            window_50 = NULL;
         }
-        if (ctrl->window_54 != NULL) {
-            ((TWindowBase *)(ctrl->window_54))->close();
-            ctrl->window_54 = NULL;
+        if (window_54 != NULL) {
+            ((TWindowBase *)(window_54))->close();
+            window_54 = NULL;
         }
         p = (void *)(saddr)get_local_player();
         if (p != NULL) {
@@ -744,18 +741,18 @@ void update_duel_result__6TLobbyFPv(TPlayerBattleCtrl *ctrl) {
     case 9:
         break;
     }
-    if (ctrl->state_20 == 6 || ctrl->state_20 == 8) {
+    if (state_20 == 6 || state_20 == 8) {
         p = (void *)(saddr)get_local_player();
         if (p != NULL && ((TObjPlayer *)p)->is_controls_locked() == 0 && TWindowCtrl::has_player_active_menu(local_client_id) == 0 && (controller_input_state.controllers[0].pressed_buttons & 0x400)) {
-            if (ctrl->window_4c != NULL) {
-                ((TWindowBase *)(ctrl->window_4c))->close();
-                ctrl->window_4c = NULL;
+            if (window_4c != NULL) {
+                ((TWindowBase *)(window_4c))->close();
+                window_4c = NULL;
             }
-            if (ctrl->window_50 != NULL) {
-                ((TWindowBase *)(ctrl->window_50))->close();
-                ctrl->window_50 = NULL;
+            if (window_50 != NULL) {
+                ((TWindowBase *)(window_50))->close();
+                window_50 = NULL;
             }
-            ctrl->state_20 = 4;
+            state_20 = 4;
         }
     }
 }
@@ -885,14 +882,14 @@ void send_battle_mode_params(s8 command, s32 value, s32 extra) {
     ((TLobby *)(&stack.sp8))->send_set_battle_mode_data();
 }
 
-s32 check_team_balance__6TLobbyFPvi(UpdateTimedWaitLobby *self, s32 arg1) {
+s32 TPlayerBattleCtrl::check_team_balance(s32 check_rule) {
     s32 i;
     s32 t;
     uaddr pl;
     if (TLobby::get_game_mode() <= 1) {
         return 1;
     }
-    if (arg1 != 0 && ((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
+    if (check_rule != 0 && ((TLobby *)lobby_rule_settings)->get_rule_field_a() == 1) {
         CheckTeamBalanceCount cnt = lbl_80446FAC[0];
         i = 0;
         do {
@@ -1078,7 +1075,7 @@ void copy_battle_ranking(BattleRanking *dst, BattleRanking *src) {
     dst->score = src->score;
 }
 
-s32 calc_player_rankings__6TLobbyFPv(UpdateTimedWaitLobby *) {
+s32 TPlayerBattleCtrl::calc_player_rankings() {
     s32 n;
     s32 i;
     s32 j;
@@ -1265,7 +1262,7 @@ void TPlayerBattleCtrl::init_battle_round() {
     ((PlayerSubObjectSlots *)(temp_r3 + 0x7AC))->set_score(0);
   }
   *((s32 *) (((s8 *) this) + 0x60)) = 0x5A;
-  TLobby::calc_player_rankings((UpdateTimedWaitLobby *)this);
+  calc_player_rankings();
   for (i = 0; i < 4; i++)
   {
     battle_team_table[i] = 1;
@@ -1415,7 +1412,7 @@ void TPlayerBattleCtrl::show_score_results() {
     s32 i;
     TObjPlayer *p;
     TLobby::clear_counter(this);
-    TLobby::calc_player_rankings((UpdateTimedWaitLobby *)this);
+    calc_player_rankings();
     TWindowCtrl::append_message_all("SCORE");
     for (i = 0; i < 4; i++) {
         e = &duel_result_table[i];
