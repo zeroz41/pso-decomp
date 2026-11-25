@@ -176,10 +176,10 @@ void TObjPlayer::set_regen_timer(s32 v) { this->regen_timer = v; }
 s32 TObjPlayer::get_regen_timer() { return this->regen_timer; }
 int TObjPlayer::is_newman() { return (this->class_flags & CLASS_FLAG_NEWMAN) != 0; }
 int TObjPlayer::is_android() { return (this->class_flags & CLASS_FLAG_ANDROID) != 0; }
-void TObjPlayer::check_stat_flag_41c() { m_41c.set(32); }
-void TObjPlayer::check_flag_at_41c() { m_41c.set(4); }
-void TObjPlayer::set_flag_41c_bit1() { m_41c.set(2); }
-void TObjPlayer::clamp_stat_41c() { m_41c.set(8); }
+void TObjPlayer::check_stat_flag_41c() { pending_actions.set(32); }
+void TObjPlayer::check_flag_at_41c() { pending_actions.set(4); }
+void TObjPlayer::set_flag_41c_bit1() { pending_actions.set(2); }
+void TObjPlayer::clamp_stat_41c() { pending_actions.set(8); }
 
 }
 
@@ -234,11 +234,11 @@ short TObjPlayer::get_state() {
     return action_provider->get_attack2_action();
 }
 
-short TObjPlayer::call_subobject_m15() {
+short TObjPlayer::get_attack1_action() {
     return action_provider->get_attack1_action();
 }
 
-short TObjPlayer::get_vobj_state_28() {
+short TObjPlayer::get_run_action() {
     return action_provider->get_run_action();
 }
 

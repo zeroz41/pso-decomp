@@ -856,7 +856,7 @@ void TObjPlayer__sub_801BB85C(TObjPlayer *player, u8 *record) {
     u32 state = record[0x143] | (record[0x15F] << 8);
     state |= (record[0x17B] << 16) & 0xFF0000;
     state |= record[0x197] << 24;
-    ((TTecLuker *)&player->m_41c)->set_state(state);
+    ((TTecLuker *)&player->pending_actions)->set_state(state);
 }
 
 void TObjPlayer::reset_motion_fields() {
@@ -4387,7 +4387,7 @@ void prepare_guild_return__10TObjPlayerFPv(void *player) {
 #pragma scheduling off
 #pragma scheduling on
 #pragma scheduling off
-void recover_player_full(void *player) { ((TObjPlayer *)player)->recover_full(); }
+void TObjPlayer::recover_player_full(TObjPlayer *player) { player->recover_full(); }
 #pragma pop
 
 #pragma push
@@ -4932,7 +4932,7 @@ int TObjPlayer::check_flag_40000() {
     return check_flag(0x40000);
 }
 
-void TObjPlayer::for_each_player_slot(void (*callback)(void *)) {
+void TObjPlayer::for_each_player_slot(void (*callback)(TObjPlayer *)) {
     s32 i;
     TObjPlayer **p;
     p = player_slot_table;
@@ -4986,9 +4986,9 @@ s16 TObjPlayer::get_mode_animation(u32 mode) {
     case 3:
         return TObjPlayer__sub_801CFBFC((u8 *)this);
     case 4:
-        return this->get_vobj_state_28();
+        return this->get_run_action();
     case 5:
-        return this->call_subobject_m15();
+        return this->get_attack1_action();
     case 6:
         return this->get_state();
     case 7:
@@ -5251,10 +5251,10 @@ void TObjPlayer::refresh_equipment_slot() {
     }
 }
 
-void TObjPlayer::update_photon_chair() {
-    appear_fade.begin();
-    if (this->obj_isState2_324() != 0) {
-        this->clear_flag_400000();
+void TObjPlayer::update_photon_chair(TObjPlayer *player) {
+    player->appear_fade.begin();
+    if (player->obj_isState2_324() != 0) {
+        player->clear_flag_400000();
     }
 }
 

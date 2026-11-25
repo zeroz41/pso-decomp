@@ -152,7 +152,6 @@ void TObjPlayer::init_from_data(PlayerSyncRecord *record) {
 
 extern "C" {
 // Defined with the player's main code (TObjPlayer.cpp, TObjPlayer_801AF2F0.cpp).
-void update_photon_chair__10TObjPlayerFv(void *player);
 void TObjPlayer__sub_801BEF44(StatusEffect *dst, StatusEffect *src);
 }
 
@@ -233,7 +232,7 @@ void TObjPlayer::reset_area_entry_state() {
     follow_particles.create_hand_particles(this);
     appear_fade.begin();
     if (this->is_locally_controlled() != 0) {
-        TObjPlayer::for_each_player_slot(update_photon_chair__10TObjPlayerFv);
+        TObjPlayer::for_each_player_slot(update_photon_chair);
     }
 }
 

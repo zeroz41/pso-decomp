@@ -77,10 +77,10 @@ void TPlyCharData::copy_from_player(TObjPlayer *player) {
     if (game_files_modified() != 0) {
         mark_game_files_modified();
     }
-    player->apply_pending_action((saddr)this);
-    player->copy_mag_level_to_record((u8 *)this);
-    player->copy_byte_339_to_record((u8 *)this);
-    player->copy_battle_mode((u8 *)this);
+    player->apply_pending_action(this);
+    player->copy_mag_level_to_record(this);
+    player->copy_byte_339_to_record(this);
+    player->copy_battle_mode(this);
     player->clear_flag_80000();
 }
 

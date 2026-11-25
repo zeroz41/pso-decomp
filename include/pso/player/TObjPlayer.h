@@ -250,7 +250,7 @@ struct TObjPlayer : public TObjChara {
     u8 unk_408[0x4];
     f32 m_40c;
     Vec ground_normal;
-    FlagWord m_41c;
+    FlagWord pending_actions;  // (name inferred) action bits apply_pending_action copies into the save record
     u8 unk_420[0x4];
     TLockOnCursor *lock_on_cursor;  // created by create_lockon_cursor for local players
     PlayerTechniqueState technique_state;
@@ -504,8 +504,8 @@ struct TObjPlayer : public TObjChara {
     short get_status();
     short get_model_state();
     short get_state();
-    short call_subobject_m15();
-    short get_vobj_state_28();
+    short get_attack1_action();
+    short get_run_action();
     void clear_flag_200000();
     int check_flag_4();
     static void clear_flag_4000_callback(TObjPlayer *player);
@@ -798,10 +798,10 @@ struct TObjPlayer : public TObjChara {
     static void begin_action_from_char_select();
     void export_character_data(TPlyCharData *character);
     void export_state_to_record(TPlyCharData *record);
-    void copy_battle_mode(u8 *player);
-    void copy_byte_339_to_record(u8 *player);
-    void copy_mag_level_to_record(u8 *player);
-    void apply_pending_action(saddr arg1);
+    void copy_battle_mode(TPlyCharData *record);
+    void copy_byte_339_to_record(TPlyCharData *record);
+    void copy_mag_level_to_record(TPlyCharData *record);
+    void apply_pending_action(TPlyCharData *record);
     static s32 sync_char_select_state();
     static void init_battle_selection();
     void set_action_state(s16 state, s16 value);
@@ -917,7 +917,7 @@ struct TObjPlayer : public TObjChara {
     static int get_key_machine_global_state(void* p);
     void set_flag_drop_weapon_on_death();
     static void disable_drop_weapon_on_death(void *player);
-    void update_photon_chair();
+    static void update_photon_chair(TObjPlayer *player);
     void refresh_equipment_slot();
     void clear_stealth_suit_flags();
     void set_stealth_suit_flags();
@@ -1163,9 +1163,11 @@ struct TObjPlayer : public TObjChara {
     static void send_6x29_delete_item(TObjPlayer *player, s32 item_id, s32 count);
     static s32 fill_player_record(void *, void *);
     s32 foreach_player();
-    static void begin_action_state(void *);
+    static s32 begin_action_state(TPlyCharData *character);
     // Calls callback with each occupied entry of the player table.
-    static void for_each_player_slot(void (*callback)(void *));
+    static void for_each_player_slot(void (*callback)(TObjPlayer *));
+    // Restores the player to full health and clears its status effects.
+    static void recover_player_full(TObjPlayer *player);
     void send_object_id_packet();
     void update_action_state();
     s32 reset_volopt_state();
@@ -1366,6 +1368,9 @@ void send_6x25_equip_item(TObjPlayer *player, s32 item_id, s32 slot);
 void assign_inventory_item_ids(TObjPlayer *player, TPlyInventoryItem *records, s32 count);
 void rebuild_player_inventory(TObjPlayer *player);
 }
+
+// Clears the player's control-lock flag (0x200); run on every player slot.
+void release_control_lock(TObjPlayer *player);
 
 // Empty; pickup_item calls it as an item joins the inventory, with the slot it takes.
 void on_inventory_item_added(TItem *item, s32 slot);

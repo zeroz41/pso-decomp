@@ -66,10 +66,10 @@ void TObjPlayer::export_character_data(TPlyCharData *character) {
     set_hp_clamped(hp);
     set_tp(tp);
     character->m_inventory.m_language = get_language();
-    apply_pending_action((saddr)character);
-    copy_mag_level_to_record((u8 *)character);
-    copy_byte_339_to_record((u8 *)character);
-    copy_battle_mode((u8 *)character);
+    apply_pending_action(character);
+    copy_mag_level_to_record(character);
+    copy_byte_339_to_record(character);
+    copy_battle_mode(character);
     clear_flag_80000();
 }
 
@@ -142,9 +142,9 @@ void TObjPlayer::export_state_to_record(TPlyCharData *record) {
     if (game_files_modified() != 0) {
         record->mark_game_files_modified();
     }
-    apply_pending_action((saddr)record);
-    copy_mag_level_to_record((u8 *)record);
-    copy_byte_339_to_record((u8 *)record);
-    copy_battle_mode((u8 *)record);
+    apply_pending_action(record);
+    copy_mag_level_to_record(record);
+    copy_byte_339_to_record(record);
+    copy_battle_mode(record);
     clear_flag_80000();
 }

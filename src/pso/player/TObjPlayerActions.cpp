@@ -432,7 +432,8 @@ int is_flag_400_set__10TObjPlayerFPv(void *p);
 void enable_action_input__10TObjPlayerFPv(void *p);
 u16 TObjPlayer__sub_801B5AF8(void *, s32);
 s32 is_action_id_none(int);
-s32 get_vobj_state_28__10TObjPlayerFv(void *);
+// start_action sees TObjPlayer::get_run_action as returning int (it narrows the result itself).
+s32 get_run_action__10TObjPlayerFv(void *);
 void TObjPlayer__sub_801BEEE0(void *p, void *q);
 void TObjPlayer__sub_801C7874(TObjPlayer *player);
 void handle_6xB1(void);
@@ -2737,8 +2738,6 @@ f32 TObjPlayer::calc_photon_blast_charge(void *player, s32 damage) {
     return (f32) damage / (15.0f * (1.0f + (f32) ((TObjPlayer *)player)->clamp_nested_index()));
 }
 
-void release_control_lock(void *player);
-
 void release_all_players_control_lock(void) {
     TObjPlayer::for_each_player_slot(release_control_lock);
 }
@@ -4118,7 +4117,7 @@ void TObjPlayer::enter_attack_stage1() {
     clear_velocity(this);
     this->attack_state.begin(this, 0, 0);
     this->setup_attack_stage();
-    this->set_action_state(5, this->call_subobject_m15());
+    this->set_action_state(5, this->get_attack1_action());
     apply_speed_scale((f32) (((f32 (*)(void *))get_action_rate_entry)(this) * this->attack_state.get_attack_speed()));
 }
 
@@ -4287,7 +4286,7 @@ void TObjPlayer::start_action() {
     this->action_state = 4;
     run_action_state_phase(this->mode, 6);
     move_speed.flags.reset();
-    action = get_vobj_state_28__10TObjPlayerFv(this);
+    action = get_run_action__10TObjPlayerFv(this);
     if (is_matching_id(action) != 0) {
         set_action_flag();
     }
@@ -5025,7 +5024,7 @@ short TObjPlayer::query_child_state2() {
 
 }
 
-void release_control_lock(void *player) { ((TObjPlayer *)player)->clear_flag_200(); }
+void release_control_lock(TObjPlayer *player) { player->clear_flag_200(); }
 
 extern "C" {
 
