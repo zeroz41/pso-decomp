@@ -6613,7 +6613,7 @@ force_active:
   - get_drop_random_float__10TObjPlayerFUl
   - get_drop_table_mode_flags
   - get_ending_ab_wall_texture_list__Fv
-  - get_entity_distance_or_default__11TWindowCtrlFiPvUs
+  - get_entity_distance_or_default__11TWindowCtrlFP10TObjPlayerUs
   - get_entry__6TLobbyFii
   - get_entry__8TFogCtrlFi
   - get_entry_by_index__12TObjNpcEnemyFs

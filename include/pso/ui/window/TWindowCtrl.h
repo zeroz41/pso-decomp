@@ -16,6 +16,7 @@ struct TWindowSimpleStatus;
 struct TWindowGetComCard;
 class TWindowChat;
 struct TWindowCtrlPlayer;
+struct TObjPlayer;
 struct TWindowBreakIn;
 
 class TWindowFukidasi;
@@ -68,6 +69,7 @@ struct TWindowCtrl : public TObject {
     static char *skip_name_prefix(void *self, char *s);
     void get_speaker_balloon_anchor(u16 speaker, f32 *height, char **name);
     s32 find_farthest_balloon_slot(u16 speaker);
+    f32 get_entity_distance_or_default(TObjPlayer *local, u16 id);
     TWindowFukidasi *acquire_balloon_slot(u16 speaker, s32 flags, s32 client);
     s32 count_balloon_slots();
     TWindowFukidasi *show_chat_balloon(u16 player, s32 flags, const char *text, s32 client);

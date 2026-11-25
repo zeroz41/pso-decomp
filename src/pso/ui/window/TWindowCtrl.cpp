@@ -65,42 +65,11 @@ TWindowCtrl *TWindowCtrl::instance;
 u16 lbl_805D63FC;
 
 
-struct RecoveredFields_8024A688_arg1
-{
-  u8 unknown_0[0x38];
-  f32 field_38;
-  f32 field_3C;
-  f32 field_40;
-};
-
-struct RecoveredFields_8024A688_temp_r3
-{
-  u8 unknown_0[0x38];
-  f32 field_38;
-  f32 field_3C;
-  f32 field_40;
-};
-
-struct Ctrl_8024A928 { u8 pad[0x84]; void *slots[4]; };
-
-
-
 struct Obj_8024AA08 { u8 pad[4]; u32 f4; };
 
 struct Ply_8024AA08 { u8 pad[0xDB0]; u32 f; };
 
-extern "C" {
 
-
-
-f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredFields_8024A688_arg1 *arg1, u16 arg2);
-
-
-
-
-}
-
-struct Ctrl_8024B1A0 { u8 pad[0x1C]; u16 flags; };
 
 
 
@@ -1084,23 +1053,23 @@ s32 TWindowCtrl::count_balloon_slots() {
 s32 TWindowCtrl::find_farthest_balloon_slot(u16 speaker) {
     s32 i;
     s32 result;
-    RecoveredFields_8024A688_arg1 *local;
+    TObjPlayer *local;
     f32 farthest;
     f32 d;
     TWindowFukidasi *b;
     u16 id;
 
-    local = (RecoveredFields_8024A688_arg1 *)get_player_by_client_id(local_client_id);
+    local = get_player_by_client_id(local_client_id);
     if (local == NULL) {
         return 4;
     }
     result = 4;
-    farthest = ((f32 (*)(void *, RecoveredFields_8024A688_arg1 *, u16))get_entity_distance_or_default__11TWindowCtrlFiPvUs)(this, local, speaker);
+    farthest = get_entity_distance_or_default(local, speaker);
     for (i = 0; i < 4; i++) {
         b = balloons[i];
         if (b != NULL) {
             id = b->get_speaker_id();
-            d = ((f32 (*)(void *, RecoveredFields_8024A688_arg1 *, u16))get_entity_distance_or_default__11TWindowCtrlFiPvUs)(this, local, id);
+            d = get_entity_distance_or_default(local, id);
             if (!(farthest > d)) {
                 farthest = d;
                 result = i;
@@ -1112,24 +1081,22 @@ s32 TWindowCtrl::find_farthest_balloon_slot(u16 speaker) {
 
 
 
-f32 get_entity_distance_or_default__11TWindowCtrlFiPvUs(s32 arg0, RecoveredFields_8024A688_arg1 *arg1, u16 id) {
-  f32 temp_f2;
-  f32 temp_f3;
-  f32 temp_f4;
-  u8 *entity;
-  if (id == ((-1) & 0xFFFF))
-  {
-    return 1000000.0f;
-  }
-  entity = (u8 *) find_entity_by_id(id);
-  if (entity == 0)
-  {
-    return 1000000.0f;
-  }
-  temp_f4 = arg1->field_38 - ((RecoveredFields_8024A688_temp_r3 *) entity)->field_38;
-  temp_f3 = arg1->field_3C - ((RecoveredFields_8024A688_temp_r3 *) entity)->field_3C;
-  temp_f2 = arg1->field_40 - ((RecoveredFields_8024A688_temp_r3 *) entity)->field_40;
-  return (temp_f2 * temp_f2) + ((temp_f4 * temp_f4) + (temp_f3 * temp_f3));
+f32 TWindowCtrl::get_entity_distance_or_default(TObjPlayer *local, u16 id) {
+    f32 dz;
+    f32 dy;
+    f32 dx;
+    TObjCollidable *entity;
+    if (id == 0xFFFF) {
+        return 1000000.0f;
+    }
+    entity = find_entity_by_id(id);
+    if (entity == NULL) {
+        return 1000000.0f;
+    }
+    dx = local->position.x - entity->position.x;
+    dy = local->position.y - entity->position.y;
+    dz = local->position.z - entity->position.z;
+    return (dz * dz) + ((dx * dx) + (dy * dy));
 }
 
 
