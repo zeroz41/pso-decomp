@@ -6,11 +6,13 @@
 #include <dolphin/mtx.h>
 #include <stddef.h>
 
+class TParticleCtrl;
+
 class TObjDFRecover : public TObject {
 public:
     u8 _pad1C[0xC];
     s32 countdown;
- void *effect;
+    TParticleCtrl *effect;
     s32 phase;
     u16 target_id;
     u8 _pad36[2];

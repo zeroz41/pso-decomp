@@ -167,9 +167,9 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     TObjPlayer *player;
     void *head;
     void *hair;
-    s32 head_textures;
+    NJS_TEXLIST *head_textures;
     uaddr attachment;
-    s32 attachment_textures;
+    NJS_TEXLIST *attachment_textures;
     void *body;
     NJS_TEXLIST *body_textures;
 
@@ -184,9 +184,9 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
         return;
     }
     body = player->model;
-    head_textures = (saddr)player->head_textures;
+    head_textures = (NJS_TEXLIST *)player->head_textures;
     head = player->head_model;
-    attachment_textures = (saddr)player->attachment_textures;
+    attachment_textures = (NJS_TEXLIST *)player->attachment_textures;
     hair = player->hair_model;
     attachment = player->attachment_model;
     body_textures = &player->body_textures;
@@ -199,7 +199,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
     if (attachment != 0U) {
         push_matrix();
         post_translate_matrix(&dark_falz_part_node_position.x);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(attachment_textures));
+        TObjFish::set_global_param(attachment_textures);
         draw_chunk_object((void *)attachment);
         pop_matrix();
     }
@@ -207,7 +207,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
         TCharaMaking::enable_making();
         push_matrix();
         post_translate_matrix(&dark_falz_head_node_position.x);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(head_textures));
+        TObjFish::set_global_param(head_textures);
         draw_chunk_object(head);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
@@ -219,7 +219,7 @@ void TObjPlayer::draw_player_model_by_id(s32 client_id, f32 alpha) {
         TCharaMaking::enable_making();
         push_matrix();
         post_translate_matrix(&dark_falz_head_node_position.x);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(head_textures));
+        TObjFish::set_global_param(head_textures);
         TCharaMaking__draw_colored_hair(alpha, (saddr)hair, (CharacterAppearanceFields *)player->name, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
@@ -270,9 +270,9 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     TObjPlayer *player;
     void *head;
     void *hair;
-    s32 head_textures;
+    NJS_TEXLIST *head_textures;
     uaddr attachment;
-    s32 attachment_textures;
+    NJS_TEXLIST *attachment_textures;
     void *body;
     NJS_TEXLIST *body_textures;
     if (0.0f == alpha) {
@@ -285,9 +285,9 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     if (player == NULL || player->model_load_flags != 0) {
         return;
     }
-    head_textures = (saddr)player->head_textures;
+    head_textures = (NJS_TEXLIST *)player->head_textures;
     head = player->head_model;
-    attachment_textures = (saddr)player->attachment_textures;
+    attachment_textures = (NJS_TEXLIST *)player->attachment_textures;
     hair = player->hair_model;
     attachment = player->attachment_model;
     body_textures = &player->body_textures;
@@ -301,14 +301,14 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     TObjDFTenchuFuru::unregister_callback();
     if (attachment != 0) {
         push_matrix_from(df_captured_matrix_pair[1]);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(attachment_textures));
+        TObjFish::set_global_param(attachment_textures);
         draw_chunk_object((void *)attachment);
         pop_matrix();
     }
     if (head != NULL) {
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(head_textures));
+        TObjFish::set_global_param(head_textures);
         draw_chunk_object(head);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
@@ -319,7 +319,7 @@ void TObjPlayer::draw_player_model_by_client(u16 client_id, saddr motion, f32 fr
     if (hair != NULL) {
         TCharaMaking::enable_making();
         push_matrix_from(df_captured_matrix_pair[0]);
-        TObjFish::set_global_param(reinterpret_cast<NJS_TEXLIST *>(head_textures));
+        TObjFish::set_global_param(head_textures);
         TCharaMaking__draw_colored_hair(alpha, (saddr)hair, (CharacterAppearanceFields *)player->name, 0);
         pop_matrix();
         TCharaMaking::clear_flag_bit0();
@@ -432,7 +432,7 @@ void TObjDFRecover::run_task() {
     Vec position;
     s32 current_phase;
     TObjPlayer *target;
-    uaddr effect_address;
+    TParticleCtrl *emitter;
     u16 id;
     if (TBoss4DarkFalz::is_state_ready() == 0) {
         queue_destruction();
@@ -449,19 +449,19 @@ void TObjDFRecover::run_task() {
     switch (current_phase) {
     case 0:
         if (countdown <= 0) {
-            effect_address = (uaddr)create_particle_emitter(&position, 0xEB);
-            effect = (void*)effect_address;
-            if (effect_address == 0U) {
+            emitter = create_particle_emitter(&position, 0xEB);
+            effect = emitter;
+            if (emitter == NULL) {
                 queue_destruction();
                 return;
             }
-            ((TParticleCtrl *)effect)->set_flags(0x40);
+            effect->set_flags(0x40);
             countdown = 0xA;
             phase = 1;
         }
         break;
     case 1:
-        ((TParticleCtrl *)effect)->set_position(&position);
+        effect->set_position(&position);
         if (countdown <= 0) {
             TParticleCtrl::release(effect);
             effect = NULL;
